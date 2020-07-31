@@ -21,21 +21,12 @@ function clickerDiClick() {
 	console.log( "You are an exceptional clicker!" );
 }
 
-const ReffedButton = React.forwardRef( ( props, ref ) => {
-	return <Button { ...props } buttonRef={ ref } />;
-} );
-
 const buttonRef = React.createRef();
+const buttonStyledLinkRef = React.createRef();
 
 const focusButtonRef = () => {
 	buttonRef.current.focus();
 };
-
-const ReffedButtonStyledLink = React.forwardRef( ( props, ref ) => {
-	return <ButtonStyledLink { ...props } buttonRef={ ref } />;
-} );
-
-const buttonStyledLinkRef = React.createRef();
 
 const focusLinkRef = () => {
 	buttonStyledLinkRef.current.focus();
@@ -60,11 +51,9 @@ const buttonGrouping = <Fragment>
 	<ButtonStyledLink variant="secondary" small={ true } href={ "#" }>Secondary small link</ButtonStyledLink>
 
 	<h3>With Ref!</h3>
-	<ReffedButton variant="secondary" ref={ buttonRef } small={ true } onClick={ clickerDiClick }>This Button has a Ref!</ReffedButton>
+	<Button variant="secondary" buttonRef={ buttonRef } small={ true } onClick={ clickerDiClick }>This Button has a Ref!</Button>
 	<button onClick={ focusButtonRef }>focus test</button>
-	<ReffedButtonStyledLink variant="secondary" ref={ buttonStyledLinkRef } small={ true } href={ "#" }>
-		This ButtonStyledLink has a Ref!
-	</ReffedButtonStyledLink>
+	<ButtonStyledLink variant="secondary" buttonRef={ buttonStyledLinkRef } small={ true } href={ "#" }>This ButtonStyledLink has a Ref!</ButtonStyledLink>
 	<button onClick={ focusLinkRef }>focus test</button>
 
 	<h3>"buy" variant (or "upsell")</h3>
