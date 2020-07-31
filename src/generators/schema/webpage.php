@@ -125,16 +125,6 @@ class WebPage extends Abstract_Schema_Piece {
 	 * @return array $data The WebPage data with the potential action added.
 	 */
 	private function add_potential_action( $data ) {
-		if ( $this->context->schema_page_type !== 'WebPage' ) {
-			/*
-			 * Could also be an array containing WebPage
-			 * If not array at all, OR it is an array but does not contain webpage, just return the data
-			 */
-			if( ! is_array( $this->context->schema_page_type ) || ! in_array( 'WebPage', $this->context->schema_page_type, true ) ) {
-				return $data;
-			}
-		}
-
 		/**
 		 * Filter: 'wpseo_schema_webpage_potential_action_target' - Allows filtering of the schema WebPage potentialAction target.
 		 *

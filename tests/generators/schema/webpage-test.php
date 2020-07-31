@@ -469,7 +469,7 @@ class WebPage_Test extends TestCase {
 			0,
 			0,
 			0,
-			0
+			1
 		);
 
 		$expected = [
@@ -481,6 +481,14 @@ class WebPage_Test extends TestCase {
 				'@id' => 'https://example.com/#website',
 			],
 			'inLanguage' => 'the-language',
+			'potentialAction' => [
+				[
+					'@type'  => 'ReadAction',
+					'target' => [
+						'https://example.com/the-post/',
+					],
+				],
+			],
 		];
 
 		$this->assertEquals( $expected, $this->instance->generate() );
@@ -502,7 +510,7 @@ class WebPage_Test extends TestCase {
 			1,
 			1,
 			1,
-			0
+			1
 		);
 
 		$expected = [
@@ -516,6 +524,14 @@ class WebPage_Test extends TestCase {
 				'@id' => 'https://example.com/#website',
 			],
 			'inLanguage'    => 'the-language',
+			'potentialAction' => [
+				[
+					'@type'  => 'ReadAction',
+					'target' => [
+						'https://example.com/the-post/',
+					],
+				],
+			],
 		];
 
 		$this->assertEquals( $expected, $this->instance->generate() );
