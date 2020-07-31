@@ -265,14 +265,14 @@ class WPSEO_Metabox_Test extends WPSEO_UnitTestCase {
 			],
 			[
 				'field_name'     => 'schema_page_type',
-				'field_value'    => 'about-page',
-				'expected_value' => 'about-page',
+				'field_value'    => 'AboutPage',
+				'expected_value' => 'AboutPage',
 				'message'        => 'Test schema page type with valid value.',
 			],
 			[
 				'field_name'     => 'schema_article_type',
-				'field_value'    => 'satirical-article',
-				'expected_value' => 'satirical-article',
+				'field_value'    => 'SatiricalArticle',
+				'expected_value' => 'SatiricalArticle',
 				'message'        => 'Test schema article type with valid value.',
 			],
 			[
