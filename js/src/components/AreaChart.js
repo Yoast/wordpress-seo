@@ -1,7 +1,6 @@
 /* External dependencies */
 import PropTypes from "prop-types";
 import { Fragment } from "@wordpress/element";
-import { __ } from "@wordpress/i18n";
 
 /**
  * Renders a SVG area chart.
@@ -12,6 +11,7 @@ import { __ } from "@wordpress/i18n";
  * @param {string} fillColor   The SVG chart area background color in HEX format.
  * @param {string} strokeColor The SVG chart line color in HEX format.
  * @param {number} strokeWidth The SVG chart line width.
+ * @param {string} className   The CSS class name for the chart.
  *
  * @returns {wp.Element} The SVG area chart component.
  */
@@ -23,6 +23,10 @@ const AreaChart = ( {
 	strokeColor,
 	strokeWidth,
 	className,
+	mapChartDataToTableData,
+	dataTableCaption,
+	dataTableHeaderLabels,
+	isDataTableVisuallyHidden,
 } ) => {
 	const maximumXFromData = Math.max( ...data.map( point => point.x ) );
 	const maximumYFromData = Math.max( ...data.map( point => point.y ) );
@@ -42,21 +46,6 @@ const AreaChart = ( {
 
 	// Add points to close the polygon used for the area background.
 	const polygonPoints = `0,${ chartHeight + strokeWidth } ` + polylinePoints + ` ${ width },${ chartHeight + strokeWidth }`;
-
-	const tableHeadersLabels = [
-		__( "Twelve months ago", "wordpress-seo" ),
-		__( "Eleven months ago", "wordpress-seo" ),
-		__( "Ten months ago", "wordpress-seo" ),
-		__( "Nine months ago", "wordpress-seo" ),
-		__( "Eight months ago", "wordpress-seo" ),
-		__( "Seven months ago", "wordpress-seo" ),
-		__( "Six months ago", "wordpress-seo" ),
-		__( "Five months ago", "wordpress-seo" ),
-		__( "Four months ago", "wordpress-seo" ),
-		__( "Three months ago", "wordpress-seo" ),
-		__( "Two months ago", "wordpress-seo" ),
-		__( "Last month", "wordpress-seo" ),
-	];
 
 	return (
 		<Fragment>
@@ -79,27 +68,32 @@ const AreaChart = ( {
 					points={ polylinePoints }
 				/>
 			</svg>
-			<table>
-				<caption>Title</caption>
-				<thead>
-					<tr>
-						{
-							tableHeadersLabels.map( ( label, index ) => {
-								return <th key={ index }>{ label }</th>;
-							} )
-						}
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						{
-							data.map( ( point, index ) => {
-								return <td key={ index }>{ point.y }</td>;
-							} )
-						}
-					</tr>
-				</tbody>
-			</table>
+			{
+				mapChartDataToTableData &&
+				<table
+					className={ isDataTableVisuallyHidden ? "screen-reader-text" : null }
+				>
+					<caption>{ dataTableCaption }</caption>
+					<thead>
+						<tr>
+							{
+								dataTableHeaderLabels.map( ( label, index ) => {
+									return <th key={ index }>{ label }</th>;
+								} )
+							}
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							{
+								data.map( ( point, index ) => {
+									return <td key={ index }>{ mapChartDataToTableData( point.y ) }</td>;
+								} )
+							}
+						</tr>
+					</tbody>
+				</table>
+			}
 		</Fragment>
 	);
 };
@@ -117,6 +111,10 @@ AreaChart.propTypes = {
 	strokeColor: PropTypes.string,
 	strokeWidth: PropTypes.number,
 	className: PropTypes.string,
+	mapChartDataToTableData: PropTypes.func,
+	dataTableCaption: PropTypes.string.isRequired,
+	dataTableHeaderLabels: PropTypes.array,
+	isDataTableVisuallyHidden: PropTypes.bool,
 };
 
 AreaChart.defaultProps = {
@@ -124,6 +122,9 @@ AreaChart.defaultProps = {
 	strokeColor: "#000000",
 	strokeWidth: 1,
 	className: "",
+	mapChartDataToTableData: null,
+	dataTableHeaderLabels: [],
+	isDataTableVisuallyHidden: true,
 };
 
 export default AreaChart;
