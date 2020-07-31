@@ -25,10 +25,20 @@ const ReffedButton = React.forwardRef( ( props, ref ) => {
 	return <Button { ...props } buttonRef={ ref } />;
 } );
 
-const ref = React.createRef();
+const buttonRef = React.createRef();
 
-const focusRef = () => {
-	ref.current.focus();
+const focusButtonRef = () => {
+	buttonRef.current.focus();
+};
+
+const ReffedButtonStyledLink = React.forwardRef( ( props, ref ) => {
+	return <ButtonStyledLink { ...props } buttonRef={ ref } />;
+} );
+
+const buttonStyledLinkRef = React.createRef();
+
+const focusLinkRef = () => {
+	buttonStyledLinkRef.current.focus();
 };
 
 const buttonGrouping = <Fragment>
@@ -50,8 +60,12 @@ const buttonGrouping = <Fragment>
 	<ButtonStyledLink variant="secondary" small={ true } href={ "#" }>Secondary small link</ButtonStyledLink>
 
 	<h3>With Ref!</h3>
-	<ReffedButton variant="secondary" ref={ ref } small={ true } onClick={ clickerDiClick }>This Button has a Ref!</ReffedButton>
-	<button onClick={ focusRef }>focus test</button>
+	<ReffedButton variant="secondary" ref={ buttonRef } small={ true } onClick={ clickerDiClick }>This Button has a Ref!</ReffedButton>
+	<button onClick={ focusButtonRef }>focus test</button>
+	<ReffedButtonStyledLink variant="secondary" ref={ buttonStyledLinkRef } small={ true } href={ "#" }>
+		This ButtonStyledLink has a Ref!
+	</ReffedButtonStyledLink>
+	<button onClick={ focusLinkRef }>focus test</button>
 
 	<h3>"buy" variant (or "upsell")</h3>
 	<Button variant="upsell" onClick={ clickerDiClick }>Buy button</Button>
