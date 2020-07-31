@@ -426,13 +426,16 @@ class Meta_Tags_Context extends Abstract_Presentation {
 		}
 
 		$type = 'Article';
+		
+		/*
+		 * If `None` is set (either on the indexable or as a default), set type to 'None'.
+		 * This simplifies is_needed checks downstream.
+		 */
 		if ( $additional_type === 'None' ) {
-			/*
-			 * If `None` is set (either on the indexable or as a default), only return 'None'.
-			 * This simplifies is_needed checks downstream.
-			 */
-			$type = 'None';
-		} elseif ( $additional_type !== $type ) {
+			$type = $additional_type;
+		}
+
+		if ( $additional_type !== $type ) {
 			$type = [ $type, $additional_type ];
 		}
 
