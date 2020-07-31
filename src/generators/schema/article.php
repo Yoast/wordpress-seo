@@ -49,7 +49,7 @@ class Article extends Abstract_Schema_Piece {
 	 * @return array $data Article data.
 	 */
 	public function generate() {
-		$data          = [
+		$data = [
 			'@type'            => $this->context->schema_article_type,
 			'@id'              => $this->context->canonical . Schema_IDs::ARTICLE_HASH,
 			'isPartOf'         => [ '@id' => $this->context->canonical . Schema_IDs::WEBPAGE_HASH ],
