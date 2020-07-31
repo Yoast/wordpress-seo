@@ -94,8 +94,8 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 		 * - 'noindex-tax-' . $tax->name         => false;
 		 * - 'display-metabox-tax-' . $tax->name => false;
 		 *
-		 * - 'schema-page-type-' . $pt->name     => 'web-page';
-		 * - 'schema-article-type-' . $pt->name  => 'article';
+		 * - 'schema-page-type-' . $pt->name     => 'WebPage';
+		 * - 'schema-article-type-' . $pt->name  => 'Article';
 		 */
 	];
 
@@ -269,8 +269,8 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 				$enriched_defaults[ 'noindex-' . $pt->name ]                 = false;
 				$enriched_defaults[ 'display-metabox-pt-' . $pt->name ]      = true;
 				$enriched_defaults[ 'post_types-' . $pt->name . '-maintax' ] = 0; // Select box.
-				$enriched_defaults[ 'schema-page-type-' . $pt->name ]        = 'web-page';
-				$enriched_defaults[ 'schema-article-type-' . $pt->name ]     = ( $pt->name === 'post' ) ? 'article' : 'none';
+				$enriched_defaults[ 'schema-page-type-' . $pt->name ]        = 'WebPage';
+				$enriched_defaults[ 'schema-article-type-' . $pt->name ]     = ( $pt->name === 'post' ) ? 'Article' : 'None';
 
 				if ( ! $pt->_builtin && WPSEO_Post_Type::has_archive( $pt ) ) {
 					$enriched_defaults[ 'title-ptarchive-' . $pt->name ]    = $archive . ' %%page%% %%sep%% %%sitename%%'; // Text field.

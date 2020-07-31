@@ -2,6 +2,7 @@ import { Component } from "@wordpress/element";
 import { __, _n, sprintf } from "@wordpress/i18n";
 import { Alert, Select, FieldGroup } from "@yoast/components";
 import PropTypes from "prop-types";
+import { Fragment } from "@wordpress/element";
 import linkHiddenFields, { linkFieldsShape } from "./higherorder/linkHiddenField";
 
 /**
@@ -51,20 +52,21 @@ class SchemaSettings extends Component {
 	 */
 	render() {
 		return (
-			<FieldGroup
-				label={ __( "Schema settings", "wordpress-seo" ) }
-				linkTo="https://yoa.st/404"
-				linkText={ __( "Learn more about the schema settings", "wordpress-seo" ) }
-				description={ sprintf(
-					/* translators: %1$s expands to an indexable object's name, e.g. Posts or Pages. */
-					__(
-						"Choose how your %1$s should be described by default in your site's schema.org markup. " +
-						"You can change these settings for individual %1$s.",
-						"wordpress-seo"
-					),
-					this.props.postTypeName,
-				) }
-			>
+			<Fragment>
+				<FieldGroup
+					label={ __( "Schema settings", "wordpress-seo" ) }
+					linkTo="https://yoa.st/404"
+					linkText={ __( "Learn more about the schema settings", "wordpress-seo" ) }
+					description={ sprintf(
+						/* translators: %1$s expands to an indexable object's name, e.g. Posts or Pages. */
+						__(
+							"Choose how your %1$s should be described by default in your site's schema.org markup. " +
+							"You can change these settings for individual %1$s.",
+							"wordpress-seo"
+						),
+						this.props.postTypeName,
+					) }
+				/>
 				{ this.shouldShowAlert() && <Alert type="warning">
 					{ sprintf(
 						/* translators: %1$s expands to an indexable object's name, e.g. Posts or Pages. */
@@ -94,7 +96,7 @@ class SchemaSettings extends Component {
 					onChange={ this.props.articleType.onChange }
 					selected={ this.props.articleType.value }
 				/> }
-			</FieldGroup>
+			</Fragment>
 		);
 	}
 }

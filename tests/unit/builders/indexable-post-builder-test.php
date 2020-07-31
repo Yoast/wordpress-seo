@@ -152,8 +152,8 @@ class Indexable_Post_Builder_Test extends TestCase {
 				'_yoast_wpseo_twitter-title'         => [ 'twitter_title' ],
 				'_yoast_wpseo_twitter-image'         => [ 'twitter_image' ],
 				'_yoast_wpseo_twitter-description'   => [ 'twitter_description' ],
-				'_yoast_wpseo_schema_page_type'      => [ 'faq-page' ],
-				'_yoast_wpseo_schema_article_type'   => [ 'news-article' ],
+				'_yoast_wpseo_schema_page_type'      => [ 'FAQPage' ],
+				'_yoast_wpseo_schema_article_type'   => [ 'NewsArticle' ],
 			]
 		);
 		Monkey\Functions\expect( 'maybe_unserialize' )->andReturnFirstArg();
@@ -228,8 +228,8 @@ class Indexable_Post_Builder_Test extends TestCase {
 		Monkey\Functions\expect( 'get_current_blog_id' )->once()->andReturn( 1 );
 		$this->indexable->orm->expects( 'set' )->with( 'blog_id', 1 );
 
-		$this->indexable->orm->expects( 'set' )->once()->with( 'schema_page_type', 'faq-page' );
-		$this->indexable->orm->expects( 'set' )->once()->with( 'schema_article_type', 'news-article' );
+		$this->indexable->orm->expects( 'set' )->once()->with( 'schema_page_type', 'FAQPage' );
+		$this->indexable->orm->expects( 'set' )->once()->with( 'schema_article_type', 'NewsArticle' );
 
 		$this->seo_meta_repository->expects( 'find_by_post_id' )->once()->with( 1 )->andReturn(
 			(object) [
@@ -518,8 +518,8 @@ class Indexable_Post_Builder_Test extends TestCase {
 				'_yoast_wpseo_opengraph-description' => [ 'open_graph_description' ],
 				'_yoast_wpseo_twitter-title'         => [ 'twitter_title' ],
 				'_yoast_wpseo_twitter-description'   => [ 'twitter_description' ],
-				'_yoast_wpseo_schema_page_type'      => [ 'web-page' ],
-				'_yoast_wpseo_schema_article_type'   => [ 'article' ],
+				'_yoast_wpseo_schema_page_type'      => [ 'WebPage' ],
+				'_yoast_wpseo_schema_article_type'   => [ 'Article' ],
 			]
 		);
 		Monkey\Functions\expect( 'maybe_unserialize' )->andReturnFirstArg();

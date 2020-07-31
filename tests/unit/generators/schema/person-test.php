@@ -440,7 +440,7 @@ class Person_Test extends TestCase {
 		$this->instance->context->indexable->object_sub_type = 'post';
 
 		$this->instance->helpers->schema->article
-			->expects( 'is_article_post_type' )
+			->expects( 'is_author_supported' )
 			->with( $this->instance->context->indexable->object_sub_type )
 			->andReturn( true );
 

@@ -30,6 +30,13 @@ const getSchemaTypeOptions = ( schemaTypeOptions, defaultType, postTypeName ) =>
 };
 
 /**
+ * Gets the ArticleType hidden input.
+ *
+ * @returns {Object} The ArticleType input.
+ */
+const getArticleTypeInput = () => document.getElementById( articleTypeInputId );
+
+/**
  * Gets the default ArticleType from the hidden input.
  *
  * @returns {string} The default ArticleType.
@@ -80,35 +87,18 @@ const setPageType = ( pageType ) => {
 };
 
 /**
- * Function to get props based on the postType.
+ * Function to get the article props.
  *
- * @param {bool} isPost Whether it's a post or a page.
- *
- * @returns {object} Props for this postType.
+ * @returns {object} The article props.
  */
-const getPostBasedProps = ( isPost ) => {
-	if ( isPost ) {
-		const { articleTypeOptions } = window.wpseoScriptData.metabox.schema;
-		return {
-			showArticleTypeInput: true,
-			helpTextTitle: __( "Yoast SEO automatically describes your posts using schema.org", "wordpress-seo" ),
-			helpTextDescription: __(
-				"This helps search engines understand your website and your content. You can change some of your settings for this post below.",
-				"wordpress-seo"
-			),
-			schemaArticleTypeChange: setArticleType,
-			schemaArticleTypeSelected: getArticleType(),
-			schemaArticleTypeOptions: getSchemaTypeOptions( articleTypeOptions, getDefaultArticleType(), window.wpseoAdminL10n.postTypeNamePlural ),
-		};
-	}
+const getArticleProps = () => {
+	const { articleTypeOptions } = window.wpseoScriptData.metabox.schema;
 
 	return {
-		showArticleTypeInput: false,
-		helpTextTitle: __( "Yoast SEO automatically describes your pages using schema.org", "wordpress-seo" ),
-		helpTextDescription: __(
-			"This helps search engines understand your website and your content. You can change some of your settings for this page below.",
-			"wordpress-seo"
-		),
+		showArticleTypeInput: true,
+		schemaArticleTypeChange: setArticleType,
+		schemaArticleTypeSelected: getArticleType(),
+		schemaArticleTypeOptions: getSchemaTypeOptions( articleTypeOptions, getDefaultArticleType(), window.wpseoAdminL10n.postTypeNamePlural ),
 	};
 };
 
@@ -141,32 +131,39 @@ const getLocationBasedProps = ( location ) => {
  * @returns {React.Component} The SchemaTab.
  */
 const SchemaTabContainer = () => {
-	const isPost = window.wpseoAdminL10n.postType !== "page";
+	const isArticleAvailable = getArticleTypeInput() !== null;
 	const { pageTypeOptions } = window.wpseoScriptData.metabox.schema;
 
-	const baseProps = {
+	let baseProps = {
 		articleTypeLabel: __( "Article type", "wordpress-seo" ),
 		pageTypeLabel: __( "Page type", "wordpress-seo" ),
 		schemaPageTypeChange: setPageType,
 		schemaPageTypeSelected: getPageType(),
 		postTypeName: window.wpseoAdminL10n.postTypeNamePlural,
 		schemaPageTypeOptions: getSchemaTypeOptions( pageTypeOptions, getDefaultPageType(), window.wpseoAdminL10n.postTypeNamePlural ),
+		showArticleTypeInput: false,
+		helpTextTitle: __( "Yoast SEO automatically describes your pages using schema.org", "wordpress-seo" ),
+		helpTextDescription: __(
+			"This helps search engines understand your website and your content. You can change some of your settings for this page below.",
+			"wordpress-seo"
+		),
 	};
+	if ( isArticleAvailable ) {
+		baseProps = {
+			...baseProps,
+			...getArticleProps(),
+		};
+	}
 
 	return (
 		<LocationConsumer>
 			{ location => {
 				const props = {
 					...baseProps,
-					...getPostBasedProps( isPost ),
 					...getLocationBasedProps( location ),
 				};
 
-				return (
-					<SchemaTab
-						{ ...props }
-					/>
-				);
+				return <SchemaTab { ...props } />;
 			} }
 		</LocationConsumer>
 	);
