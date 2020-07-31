@@ -30,7 +30,7 @@ class Article extends Abstract_Schema_Piece {
 		}
 
 		// If we cannot output an author, we shouldn't output an Article.
-		if ( $this->helpers->schema->article->is_author_supported( $this->context->indexable->object_sub_type ) === false ) {
+		if ( ! $this->helpers->schema->article->is_author_supported( $this->context->indexable->object_sub_type ) ) {
 			return false;
 		}
 
