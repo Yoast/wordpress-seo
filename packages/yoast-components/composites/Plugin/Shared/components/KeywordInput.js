@@ -10,7 +10,8 @@ import { addFocusStyle, SvgIcon, InputField } from "@yoast/components";
 import { getDirectionalStyle } from "@yoast/helpers";
 import { colors } from "@yoast/style-guide";
 
-const errorColor = colors.$color_red;
+const errorColor = colors.$color_bad;
+const backgroundErrorColor = colors.$palette_error_background;
 const greyColor = colors.$color_grey_text_light;
 
 const KeywordInputContainer = styled.div`
@@ -41,7 +42,11 @@ const KeywordField = styled( InputField )`
 
 	&.has-error {
 		border-color: ${ errorColor } !important;
-		box-shadow: 0 0 2px ${ errorColor } !important;
+		background-color: ${ backgroundErrorColor } !important;
+
+		&:focus {
+			box-shadow: 0 0 2px ${ errorColor } !important;
+		}
 	}
 `;
 
@@ -74,7 +79,7 @@ BorderlessButton.propTypes = {
 BorderlessButton.defaultProps = {
 	type: "button",
 	focusColor: colors.$color_button_text_hover,
-	focusBackgroundColor: colors.$color_white,
+	focusBackgroundColor: "transparent",
 	focusBorderColor: colors.$color_blue,
 };
 
@@ -187,7 +192,7 @@ class KeywordInput extends React.Component {
 	 * @returns {ReactElement} The KeywordField react component including its label and eventual error message.
 	 */
 	render() {
-		const { id, showLabel, keyword, onRemoveKeyword, onBlurKeyword, onFocusKeyword } = this.props;
+		const { id, showLabel, keyword, onRemoveKeyword, onBlurKeyword, onFocusKeyword, hasError } = this.props;
 		const showErrorMessage = this.checkKeywordInput( keyword );
 
 		// The aria label should not be shown if there is a visible label.
@@ -205,7 +210,7 @@ class KeywordInput extends React.Component {
 						aria-label={ showAriaLabel ? this.props.label : null }
 						type="text"
 						id={ id }
-						className={ showErrorMessage ? "has-error" : null }
+						className={ ( showErrorMessage || hasError ) ? "has-error" : null }
 						onChange={ this.handleChange }
 						onFocus={ onFocusKeyword }
 						onBlur={ onBlurKeyword }
@@ -238,6 +243,7 @@ KeywordInput.propTypes = {
 	onFocusKeyword: PropTypes.func,
 	label: PropTypes.string.isRequired,
 	helpLink: PropTypes.node,
+	hasError: PropTypes.bool,
 };
 
 KeywordInput.defaultProps = {
@@ -247,6 +253,7 @@ KeywordInput.defaultProps = {
 	onBlurKeyword: noop,
 	onFocusKeyword: noop,
 	helpLink: null,
+	hasError: false,
 };
 
 export default KeywordInput;
