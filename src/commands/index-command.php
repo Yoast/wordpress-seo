@@ -8,13 +8,14 @@
 namespace Yoast\WP\SEO\Commands;
 
 use WP_CLI;
+use WP_CLI\Utils;
 use Yoast\WP\Lib\Model;
+use Yoast\WP\SEO\Actions\Indexation\Indexable_Complete_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexation\Indexable_General_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexation\Indexable_Post_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexation\Indexable_Post_Type_Archive_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexation\Indexable_Prepare_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexation\Indexable_Term_Indexation_Action;
-use Yoast\WP\SEO\Actions\Indexation\Indexable_Complete_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexation\Indexation_Action_Interface;
 use Yoast\WP\SEO\Main;
 
@@ -195,7 +196,7 @@ class Index_Command implements Command_Interface {
 		$total = $indexation_action->get_total_unindexed();
 		if ( $total > 0 ) {
 			$limit    = $indexation_action->get_limit();
-			$progress = \WP_CLI\Utils\make_progress_bar( 'Indexing ' . $name, $total );
+			$progress = Utils\make_progress_bar( 'Indexing ' . $name, $total );
 			do {
 				$indexables = $indexation_action->index();
 				$count      = \count( $indexables );

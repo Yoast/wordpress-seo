@@ -13,6 +13,7 @@ use Yoast\WP\SEO\Integrations\Integration_Interface;
  * Breadcrumbs block class
  */
 abstract class Dynamic_Block implements Integration_Interface {
+
 	/**
 	 * @var string the name of the block.
 	 */
@@ -41,16 +42,19 @@ abstract class Dynamic_Block implements Integration_Interface {
 	 * Registers the block.
 	 */
 	public function register_block() {
-		\register_block_type( 'yoast-seo/' . $this->block_name, [
-			'editor_script'   => $this->script,
-			'render_callback' => [ $this, 'present' ],
-			'attributes' => [
-				'className' => [
-					'default' => '',
-					'type'    => 'string',
+		\register_block_type(
+			'yoast-seo/' . $this->block_name,
+			[
+				'editor_script'   => $this->script,
+				'render_callback' => [ $this, 'present' ],
+				'attributes'      => [
+					'className' => [
+						'default' => '',
+						'type'    => 'string',
+					],
 				],
-			],
-		] );
+			]
+		);
 	}
 
 	/**

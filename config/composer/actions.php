@@ -58,20 +58,44 @@ class Actions {
 		$io = $event->getIO();
 
 		$choices = [
-			'1' => [ 'label' => 'Check staged files for coding standard warnings & errors.', 'command' => 'check-staged-cs' ],
-			'2' => [ 'label' => 'Check current branch\'s changed files for coding standard warnings & errors.', 'command' => 'check-branch-cs' ],
-			'3' => [ 'label' => 'Check for all coding standard errors.', 'command' => 'check-cs' ],
-			'4' => [ 'label' => 'Check for all coding standard warnings & errors.', 'command' => 'check-cs-warnings' ],
-			'5' => [ 'label' => 'Fix auto-fixable coding standards.', 'command' => 'fix-cs' ],
-			'6' => [ 'label' => '[Premium] Check for coding standard warnings and errors.', 'command' => 'premium-check-cs' ],
-			'7' => [ 'label' => '[Premium] Fix auto-fixable coding standards.', 'command' => 'premium-fix-cs' ],
-			'8' => [ 'label' => 'Load coding standards configuration.', 'command' => 'config-yoastcs' ],
+			'1' => [
+				'label'   => 'Check staged files for coding standard warnings & errors.',
+				'command' => 'check-staged-cs',
+			],
+			'2' => [
+				'label'   => 'Check current branch\'s changed files for coding standard warnings & errors.',
+				'command' => 'check-branch-cs',
+			],
+			'3' => [
+				'label'   => 'Check for all coding standard errors.',
+				'command' => 'check-cs',
+			],
+			'4' => [
+				'label'   => 'Check for all coding standard warnings & errors.',
+				'command' => 'check-cs-warnings',
+			],
+			'5' => [
+				'label'   => 'Fix auto-fixable coding standards.',
+				'command' => 'fix-cs',
+			],
+			'6' => [
+				'label'   => '[Premium] Check for coding standard warnings and errors.',
+				'command' => 'premium-check-cs',
+			],
+			'7' => [
+				'label'   => '[Premium] Fix auto-fixable coding standards.',
+				'command' => 'premium-fix-cs',
+			],
+			'8' => [
+				'label'   => 'Load coding standards configuration.',
+				'command' => 'config-yoastcs',
+			],
 		];
 
 		$args = $event->getArguments();
 		if ( empty( $args ) ) {
 			foreach ( $choices as $choice => $data ) {
-				$io->write( sprintf( '%d. %s', $choice, $data['label'] ) );
+				$io->write( \sprintf( '%d. %s', $choice, $data['label'] ) );
 			}
 
 			$choice = $io->ask( 'What do you want to do? ' );
@@ -185,7 +209,6 @@ class Actions {
 		self::check_cs_for_changed_files( $args[0] );
 	}
 
-
 	/**
 	 * Runs PHPCS on changed files compared to some git reference.
 	 *
@@ -232,7 +255,7 @@ class Actions {
 	/**
 	 * Filter files on extension.
 	 *
-	 * @param array  $files		List of files.
+	 * @param array  $files     List of files.
 	 * @param string $extension Extension to filter on.
 	 *
 	 * @return array Filtered list of files.
@@ -241,7 +264,7 @@ class Actions {
 		return \array_filter(
 			$files,
 			function( $file ) use ( $extension ) {
-				return \substr( $file, ( 0 - strlen( $extension ) ) ) === $extension;
+				return \substr( $file, ( 0 - \strlen( $extension ) ) ) === $extension;
 			}
 		);
 	}

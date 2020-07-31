@@ -15,7 +15,7 @@ class Indexation_Permalink_Warning_Presenter extends Indexation_Warning_Presente
 	/**
 	 * Represents the reason that the permalink settings are changed.
 	 */
-	const REASON_PERMALINK_SETTINGS   = 'permalink_settings_changed';
+	const REASON_PERMALINK_SETTINGS = 'permalink_settings_changed';
 
 	/**
 	 * Represents the reason that the category base is changed.
@@ -60,11 +60,11 @@ class Indexation_Permalink_Warning_Presenter extends Indexation_Warning_Presente
 	 */
 	protected function get_text_for_reason( $reason ) {
 		switch ( $reason ) {
-			case static::REASON_CATEGORY_BASE_PREFIX :
+			case static::REASON_CATEGORY_BASE_PREFIX:
 				$text = \esc_html__( 'Because of a change in your category URL setting, some of your SEO data need to be reprocessed.', 'wordpress-seo' );
 				break;
 
-			case static::REASON_PERMALINK_SETTINGS :
+			case static::REASON_PERMALINK_SETTINGS:
 			default:
 				$text = \esc_html__( 'Because of a change in your permalink structure, some of your SEO data need to be reprocessed.', 'wordpress-seo' );
 				break;
