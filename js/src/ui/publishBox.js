@@ -124,7 +124,10 @@ export function initialize() {
 	$( "#content-score" ).on( "click", "[href='#yoast-readability-analysis-collapsible-metabox']", function( event ) {
 		event.preventDefault();
 
-		scrollToCollapsible( "#yoast-readability-analysis-collapsible-metabox" );
+		// Pretend to click on the readability tab to make it focused.
+		document.querySelector( "#wpseo-meta-tab-readability" ).click();
+
+		scrollToCollapsible( "#wpseo-meta-section-readability" );
 	} );
 
 	// Target only the link and use event delegation, as this link doesn't exist on dom ready yet.
