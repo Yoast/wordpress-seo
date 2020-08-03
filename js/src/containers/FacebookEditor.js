@@ -6,6 +6,7 @@ import { validateFacebookImage } from "@yoast/helpers";
 
 /* Internal dependencies */
 import FacebookWrapper from "../components/social/FacebookWrapper";
+import getL10nObject from "../analysis/getL10nObject";
 
 const socialMediumName = "Facebook";
 
@@ -86,7 +87,7 @@ export default compose( [
 			imageWarnings: getFacebookWarnings(),
 			authorName: getAuthorName(),
 			siteUrl: getSiteUrl(),
-			isPremium: !! window.wpseoAdminL10n.isPremium,
+			isPremium: !! getL10nObject().isPremium,
 			titleInputPlaceholder,
 			descriptionInputPlaceholder,
 			socialMediumName,
