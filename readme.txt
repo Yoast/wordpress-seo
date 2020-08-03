@@ -4,7 +4,6 @@ Donate link: https://yoa.st/1up
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
-Requires at least: 5.3
 Tested up to: 5.5
 Stable tag: 14.6.1
 Requires PHP: 5.6.20
@@ -233,7 +232,8 @@ Bugfixes:
  * Fixes a bug where the indexable indexation process could not be started again without a page reload on the tools page if it failed.
  * Fixes a bug where `wpseoShortcodePluginL10n` was not defined.
  * Fixes a bug where a fatal error would occur in sitemaps on sites where the home URL and site URL were different. Because the cause of this was a missing style sheet, the content of the sitemaps was still there, which means Google and other search engines could still reach the sitemaps and no SEO harm was done.
- * Fixes a bug where the SEO and Readability scores were no longer shown in the publishbox in the classic editor.
+ * Fixes a bug where the SEO and Readability scores were no longer shown in the publish box in the classic editor.
+ * Fixes a bug where clicking the Readability score link in the classic editor would trigger an error.
  
 Other:
 
