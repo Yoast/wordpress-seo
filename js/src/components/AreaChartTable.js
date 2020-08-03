@@ -1,5 +1,6 @@
 /* External dependencies */
 import PropTypes from "prop-types";
+import { __ } from "@wordpress/i18n";
 
 /**
  * Renders a table for an accessible representation of the SVG area chart.
@@ -19,6 +20,11 @@ const AreaChartTable = ( {
 	dataTableHeaderLabels,
 	isDataTableVisuallyHidden,
 } ) => {
+	// All the data table headers must have text.
+	if ( data.length !== dataTableHeaderLabels.length ) {
+		return <p>{ __( "The number of headers and header labels don't match.", "wordpress-seo" ) }</p>;
+	}
+
 	return (
 		<div
 			className={ isDataTableVisuallyHidden ? "screen-reader-text" : null }
