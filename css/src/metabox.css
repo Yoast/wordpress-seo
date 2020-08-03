@@ -737,5 +737,8 @@ div.interface-pinned-items button.components-button.is-pressed[aria-label="Yoast
   background-image: var(--yoast-svg-icon-schema);
   background-size: cover;
 }
+.wpseo-metabox-menu ul li.active a .wpseo-schema-icon {
+  background-image: var(--yoast-svg-icon-schema-active);
+}
 
 /*# sourceMappingURL=metabox.css.map */
