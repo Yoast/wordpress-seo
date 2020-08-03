@@ -5,6 +5,8 @@
  * @package WPSEO\Admin\Formatter
  */
 
+use Yoast\WP\SEO\Config\Schema_Types;
+
 /**
  * This class forces needed methods for the metabox localization.
  */
@@ -46,6 +48,7 @@ class WPSEO_Metabox_Formatter {
 	private function get_defaults() {
 		$analysis_seo         = new WPSEO_Metabox_Analysis_SEO();
 		$analysis_readability = new WPSEO_Metabox_Analysis_Readability();
+		$schema_types         = new Schema_Types();
 
 		return [
 			'author_name'               => get_the_author_meta( 'display_name' ),
@@ -77,6 +80,10 @@ class WPSEO_Metabox_Formatter {
 			'showSocial'                => [
 				'facebook' => WPSEO_Options::get( 'opengraph', false ),
 				'twitter'  => WPSEO_Options::get( 'twitter', false ),
+			],
+			'schema'                    => [
+				'pageTypeOptions'    => $schema_types->get_page_type_options(),
+				'articleTypeOptions' => $schema_types->get_article_type_options(),
 			],
 
 			/**

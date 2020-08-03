@@ -176,8 +176,9 @@ class Meta_Tags_Context_Test extends TestCase {
 	 */
 	public function test_generate_schema_page_type_with_page_for_posts() {
 		$this->instance->indexable = (object) [
-			'object_id'   => 1337,
-			'object_type' => 'post',
+			'object_id'        => 1337,
+			'object_type'      => 'post',
+			'schema_page_type' => 'WebPage',
 		];
 
 		Functions\expect( 'get_option' )
@@ -186,7 +187,55 @@ class Meta_Tags_Context_Test extends TestCase {
 
 		$actual = $this->instance->generate_schema_page_type();
 
-		$this->assertSame( 'CollectionPage', $actual );
+		$this->assertEquals( [ 'WebPage', 'CollectionPage' ], $actual );
+	}
+
+	/**
+	 * Tests the schema page type with an additional type.
+	 *
+	 * @covers ::generate_schema_page_type
+	 */
+	public function test_generate_schema_page_type_with_additional_type() {
+		$this->instance->indexable = (object) [
+			'object_id'        => 1337,
+			'object_type'      => 'post',
+			'schema_page_type' => 'QAPage',
+		];
+
+		Functions\expect( 'get_option' )
+			->with( 'page_for_posts' )
+			->andReturn( 1338 );
+
+		$actual = $this->instance->generate_schema_page_type();
+
+		$this->assertEquals( [ 'WebPage', 'QAPage' ], $actual );
+	}
+
+	/**
+	 * Tests the schema page type with an additional type through the site-wide default.
+	 *
+	 * @covers ::generate_schema_page_type
+	 */
+	public function test_generate_schema_page_type_with_additional_type_site_wide_default() {
+		$this->instance->indexable = (object) [
+			'object_id'        => 1337,
+			'object_type'      => 'post',
+			'object_sub_type'  => 'super-custom-post',
+			'schema_page_type' => null,
+		];
+
+		$this->options->expects( 'get' )
+			->once()
+			->with( 'schema-page-type-super-custom-post' )
+			->andReturn( 'QAPage' );
+
+		Functions\expect( 'get_option' )
+			->with( 'page_for_posts' )
+			->andReturn( 1338 );
+
+		$actual = $this->instance->generate_schema_page_type();
+
+		$this->assertEquals( [ 'WebPage', 'QAPage' ], $actual );
 	}
 
 	/**
@@ -196,8 +245,9 @@ class Meta_Tags_Context_Test extends TestCase {
 	 */
 	public function test_generate_schema_page_for_a_post() {
 		$this->instance->indexable = (object) [
-			'object_id'   => 1337,
-			'object_type' => 'post',
+			'object_id'        => 1337,
+			'object_type'      => 'post',
+			'schema_page_type' => 'WebPage',
 		];
 
 		Functions\expect( 'get_option' )
@@ -206,7 +256,7 @@ class Meta_Tags_Context_Test extends TestCase {
 
 		$actual = $this->instance->generate_schema_page_type();
 
-		$this->assertSame( 'WebPage', $actual );
+		$this->assertEquals( [ 'WebPage' ], $actual );
 	}
 
 	/**

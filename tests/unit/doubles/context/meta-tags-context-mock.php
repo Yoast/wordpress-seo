@@ -80,9 +80,14 @@ class Meta_Tags_Context_Mock extends Meta_Tags_Context {
 	public $breadcrumbs_enabled;
 
 	/**
-	 * @var string
+	 * @var string|string[]
 	 */
 	public $schema_page_type;
+
+	/**
+	 * @var string|string[]
+	 */
+	public $schema_article_type;
 
 	/**
 	 * @var string
