@@ -193,6 +193,7 @@ class Indexation_Integration implements Integration_Interface {
 		$this->is_on_yoast_tools_page = $this->yoast_tools_page_conditional->is_met();
 		$this->indexation_action_type = ( $this->is_on_yoast_tools_page ) ? Indexation_Warning_Presenter::ACTION_TYPE_RUN_HERE : Indexation_Warning_Presenter::ACTION_TYPE_LINK_TO;
 
+		$this->hide_notice_listener();
 		if ( $this->is_indexation_warning_hidden() === false ) {
 			$this->add_admin_notice();
 		}
@@ -351,5 +352,22 @@ class Indexation_Integration implements Integration_Interface {
 		];
 
 		\wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'indexation', 'yoastIndexationData', $data );
+	}
+
+	/**
+	 * Hides the notice when the url query contains an argument that hides the notice.
+	 */
+	protected function hide_notice_listener() {
+		if ( ! isset( $_GET['yoast_seo_hide'] ) ) {
+			return;
+		}
+
+		if ( $_GET['yoast_seo_hide'] !== 'indexation_warning' ) {
+			return;
+		}
+
+		\check_admin_referer( 'wpseo-ignore' );
+
+		$this->options_helper->set( 'ignore_indexation_warning', true );
 	}
 }
