@@ -72,34 +72,4 @@ class Indexation_Permalink_Warning_Presenter extends Indexation_Warning_Presente
 		 */
 		return (string) \apply_filters( 'wpseo_indexables_indexation_alert', $text, $reason );
 	}
-
-	/**
-	 * Generates the button/link for dismissing the notice.
-	 *
-	 * @return string The action.
-	 */
-	public function get_dismiss_button() {
-		/* translators: 1: Button/anchor start tag to dismiss the warning, 2: Button/anchor closing tag. */
-		$dismiss_button = \esc_html__( '%1$sHide this notice%2$s (everything will continue to function normally)', 'wordpress-seo' );
-
-		if ( $this->action_type === static::ACTION_TYPE_LINK_TO ) {
-			return \sprintf(
-				$dismiss_button,
-				\sprintf(
-					'<a href="%s" class="button-link">',
-					\esc_url( \wp_nonce_url( \add_query_arg( 'yoast_seo_hide', 'indexation_warning' ), 'wpseo-ignore' ) )
-				),
-				'</a>'
-			);
-		}
-
-		return \sprintf(
-			$dismiss_button,
-			\sprintf(
-				'<button type="button" id="yoast-indexation-dismiss-button" class="button-link hide-if-no-js" data-nonce="%s">',
-				\esc_js( \wp_create_nonce( 'wpseo-ignore' ) )
-			),
-			'</button>'
-		);
-	}
 }
