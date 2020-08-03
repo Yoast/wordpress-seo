@@ -73,7 +73,8 @@ class Indexation_Warning_Presenter extends Abstract_Presenter {
 
 		if ( $this->show_indexation_incomplete_alert() ) {
 			$output .= $this->get_incomplete_indexation_alert();
-		} else {
+		}
+		else {
 			$output .= $this->get_base_alert();
 		}
 
