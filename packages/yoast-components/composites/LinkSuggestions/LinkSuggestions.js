@@ -7,7 +7,6 @@ import Clipboard from "clipboard";
 import interpolateComponents from "interpolate-components";
 import { speak } from "@wordpress/a11y";
 import styled from "styled-components";
-import { isEqual } from "lodash-es";
 
 /* Internal dependencies */
 import { makeOutboundLink } from "@yoast/helpers";
@@ -21,9 +20,15 @@ const LinkSuggestionsWrapper = styled.div`
 const noRelevantPostsMessage = __(
 	"We could not find any relevant articles on your website that you could link to from your post.", "yoast-components" );
 
-const moreCopyMessage = __(
-	"Once you add a bit more copy, we'll give you a list of related " +
-	"content here to which you could link in your post.", "yoast-components" );
+// Translators: Text between {{a}} and {{/a}} will be a link to an article about site structure.
+const articleLinkString = __(
+	"{{a}}Read our article about site structure{{/a}} " +
+	"to learn more about how internal linking can help improve your SEO.", "yoast-components" );
+
+// Translators: Text between {{a}} and {{/a}} will be a link to an article about cornerstone content.
+const cornerstoneLinkString = __( "Consider linking to these {{a}}cornerstone articles:{{/a}}", "yoast-components" );
+
+const nonCornerstoneLinkString = __( "Consider linking to these articles:", "yoast-components" );
 
 /**
  * Represents the Suggestions component.
@@ -84,34 +89,21 @@ class LinkSuggestions extends React.Component {
 	}
 
 	/**
-	 * Renders the component for when there are no link suggestions.
+	 * Renders the component for when there are no link suggestions. If there is not enough text to calculate Prominent Words
+	 * or if no Prominent Words could be found, an "Add a bit more copy" message is returned. Otherwise we return a message
+	 * that no relevant posts are found.
 	 *
 	 * @returns {React.Element} The rendered empty list
 	 */
 	renderEmptyList() {
-		// Translators: Text between {{a}} and {{/a}} will be a link to an article about site structure.
-		const articleLinkString = __(
-			"Read {{a}}our article about site structure{{/a}} " +
-			"to learn more about how internal linking can help improve your SEO.", "yoast-components" );
-
-		const articleLink = interpolateComponents( {
-			mixedString: articleLinkString,
-			components: {
-				// eslint-disable-next-line jsx-a11y/anchor-has-content
-				a: <HelpTextLink href="https://yoa.st/site-structure-metabox" />,
-			},
-		} );
-
-		/*
-		If there is not enough text to calculate Prominent Words an "Add a bit more copy" message is returned.
-		Otherwise we return a message that no relevant posts are found.
-		*/
-		const renderMessage = isEqual( this.props.prominentWords, [] ) ? moreCopyMessage : noRelevantPostsMessage;
+		let lengthMessage = this.props.customMessages.lengthMessage;
+		lengthMessage = lengthMessage === "" ? noRelevantPostsMessage : lengthMessage;
 
 		return (
 			<div>
-				<p>{ renderMessage }</p>
-				<p>{ articleLink }</p>
+				<p>{ lengthMessage }</p>
+				<p>{ this.props.customMessages.metaMessage }</p>
+				<p>{ this.getArticleLink() }</p>
 			</div>
 		);
 	}
@@ -125,20 +117,6 @@ class LinkSuggestions extends React.Component {
 		const suggestions = this.props.suggestions;
 		const maximumSuggestions = this.props.maxSuggestions;
 
-		// Translators: Text between {{a}} and {{/a}} will be a link to an article about site structure.
-		const articleLinkString = __(
-			"This is a list of related content to which you could link in your post. " +
-			"{{a}}Read our article about site structure{{/a}} " +
-			"to learn more about how internal linking can help improve your SEO.", "yoast-components" );
-
-		const articleLink = interpolateComponents( {
-			mixedString: articleLinkString,
-			components: {
-				// eslint-disable-next-line jsx-a11y/anchor-has-content
-				a: <HelpTextLink href="https://yoa.st/site-structure-metabox" />,
-			},
-		} );
-
 		if ( suggestions.length === 0 ) {
 			return this.renderEmptyList();
 		}
@@ -151,9 +129,10 @@ class LinkSuggestions extends React.Component {
 
 		return (
 			<LinkSuggestionsWrapper>
-				<p>{ articleLink }</p>
 				{ cornerStoneSuggestions }
 				{ defaultSuggestions }
+				<p>{ this.getArticleLink() }</p>
+				<p>{ this.props.customMessages.metaMessage }</p>
 			</LinkSuggestionsWrapper>
 		);
 	}
@@ -170,17 +149,15 @@ class LinkSuggestions extends React.Component {
 			return null;
 		}
 
-		// Translators: Text between {{a}} and {{/a}} will be a link to an article about cornerstone content.
-		const articleLinkString = __( "Consider linking to these {{a}}cornerstone articles:{{/a}}", "yoast-components" );
-		const articleLink = interpolateComponents( {
-			mixedString: articleLinkString,
+		const cornerstoneLink = interpolateComponents( {
+			mixedString: cornerstoneLinkString,
 			components: {
 				// eslint-disable-next-line jsx-a11y/anchor-has-content
 				a: <HelpTextLink href="https://yoa.st/metabox-ls-help-cornerstone" />,
 			},
 		} );
 
-		return this.getSuggestionsList( articleLink, suggestions );
+		return this.getSuggestionsList( cornerstoneLink, suggestions );
 	}
 
 	/**
@@ -195,7 +172,22 @@ class LinkSuggestions extends React.Component {
 			return null;
 		}
 
-		return this.getSuggestionsList( __( "Consider linking to these articles:", "yoast-components" ), suggestions );
+		return this.getSuggestionsList( nonCornerstoneLinkString, suggestions );
+	}
+
+	/**
+	 * Returns the message with a link to the Internal Linking article on yoast.com.
+	 *
+	 * @returns {React.Element} The values to use.
+	 */
+	getArticleLink() {
+		return interpolateComponents( {
+			mixedString: articleLinkString,
+			components: {
+				// eslint-disable-next-line jsx-a11y/anchor-has-content
+				a: <HelpTextLink href="https://yoa.st/site-structure-metabox" />,
+			},
+		} );
 	}
 
 	/**
@@ -233,12 +225,16 @@ class LinkSuggestions extends React.Component {
 
 LinkSuggestions.propTypes = {
 	suggestions: PropTypes.array.isRequired,
-	prominentWords: PropTypes.array.isRequired,
 	maxSuggestions: PropTypes.number,
+	customMessages: PropTypes.object,
 };
 
 LinkSuggestions.defaultProps = {
 	maxSuggestions: 10,
+	customMessages: {
+		lengthMessage: "",
+		metaMessage: "",
+	},
 };
 
 export default LinkSuggestions;

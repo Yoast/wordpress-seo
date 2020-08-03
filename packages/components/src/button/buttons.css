@@ -1,7 +1,9 @@
 .yoast .yoast-button {
-	display: inline-block;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
 	position: relative;
-	padding: 11px 13px 13px;
+	padding: 10px 12px 12px;
 	text-decoration: none;
 	border-radius: 4px;
 	border: 1px solid rgba(0, 0, 0, 0.2);
@@ -27,9 +29,14 @@
 	border: 0;
 }
 
-.yoast .yoast-button:active { /* 'Pressed' button state */
+.yoast .yoast-button:not(:disabled):active { /* 'Pressed' button state */
 	box-shadow: none;
 	top: 2px;
+}
+
+.yoast .yoast-button:disabled {
+	opacity: 0.5;
+	cursor: default;
 }
 
 .yoast .yoast-button--primary {
@@ -43,7 +50,7 @@
 	border: 1px solid rgba(0, 0, 0, 0.2);
 }
 
-.yoast .yoast-button--primary:hover,
+.yoast .yoast-button--primary:not(:disabled):hover,
 .yoast .yoast-button--primary:active {
 	color: var(--yoast-color-white);
 	background-color: var(--yoast-color-primary-darker);
@@ -64,7 +71,7 @@
 	color: var(--yoast-color-dark);
 }
 
-.yoast .yoast-button--secondary:hover,
+.yoast .yoast-button--secondary:not(:disabled):hover,
 .yoast .yoast-button--secondary:active {
 	color: var(--yoast-color-dark);
 	background-color: var(--yoast-color-secondary-darker);
@@ -72,18 +79,15 @@
 }
 
 .yoast .yoast-button--buy {
-	display: inline-flex;
-	align-items: center;
 	color: var(--yoast-color-dark);
 	background-color: var(--yoast-color-sale);
-	justify-content: center;
 }
 
 .yoast .yoast-button--buy:visited {
 	color: var(--yoast-color-dark);
 }
 
-.yoast .yoast-button--buy:hover,
+.yoast .yoast-button--buy:not(:disabled):hover,
 .yoast .yoast-button--buy:active {
 	color: var(--yoast-color-dark);
 	background-color: var(--yoast-color-sale-darker)
@@ -96,11 +100,23 @@
 	height: 16px;
 	/*Negative margin to compensate the icon white space within its viewbox.*/
 	margin: 0 -2px 0 6px;
-	background: var(--yoast-svg-icon-caret-right) center center no-repeat;
+	background-color: currentColor;
+	-webkit-mask-image: var(--yoast-svg-icon-caret-right);
+	mask-image: var(--yoast-svg-icon-caret-right);
 }
 
 html[dir=rtl] .yoast .yoast-button--buy {
 	flex-direction: row-reverse;
+}
+
+.yoast .yoast-button--small {
+	font-size: 13px;
+	padding: 5px 8px 8px;
+}
+
+.yoast .yoast-button--small .yoast-button--buy__caret {
+	width: 4px;
+	height: 10px;
 }
 
 .yoast-remove, .yoast-hide {

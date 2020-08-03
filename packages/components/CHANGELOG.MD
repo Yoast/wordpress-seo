@@ -4,6 +4,27 @@ All notable changes to this project will be documented in this file. Releases wi
 
 We follow [Semantic Versioning](http://semver.org/).
 
+## 2.6.0 August 3rd, 2020
+### Enhancements
+* Adds the means to put a button inline with a select2 element.
+* Adds a small class for the buttons and a disabled status for the secondary button.
+* Adds a box shadow and border to the toggle switch.
+* Adds a disabled state for the toggle items.
+* Adds a "small" prop (boolean) to the Button and ButtonStyledLink components for a variant with a lower profile.
+* Yoast styled buttons are now available in preset variants, such as `primary`, `secondary`, `buy`, etc.
+* Yoast styled links (identically styled to the buttons) are now available in preset variants, such as `primary`, `secondary`, `buy`, etc.
+* Updates the input fields, text areas, dropdowns,  buttons, title separator and toggle switches in the settings pages to the new styling.
+
+### Bugfixes
+* Fixes a bug where the insights would cause a horizontal scrollbar in the Yoast sidebar.
+
+### Other
+* Flips the order of the labels for inverse toggles. To make sure the active state is always on the right.
+* Refactors the code to use another term than 'prominent words', 'keyword suggestions' or 'relevant words'.
+* Removes the standard WordPress checkmark from our checkmarks.
+* Removes internal linking feature flag from the feature branch. Previously hidden functionality will now be the default.
+* Deprecates the WordList component. A console warning has been added to the component.
+
 ## 2.5.0 July 20th, 2020
 ### Enhancements
 * Adds `type="button"` to all buttons to make sure the default submit behavior is prevented.

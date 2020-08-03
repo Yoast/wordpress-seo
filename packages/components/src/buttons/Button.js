@@ -41,6 +41,7 @@ export function addBaseStyle( component ) {
 		text-align: ${ getDirectionalStyle( "left", "right" ) };
 		overflow: visible;
 		min-height: ${ `${ settings.minHeight }px` };
+		transition: var(--yoast-transition-default);
 
 		svg {
 			// Safari 10
@@ -93,7 +94,7 @@ export function addHoverStyle( component ) {
 		&:hover {
 			color: ${ props => props.hoverColor };
 			background-color: ${ props => props.hoverBackgroundColor };
-			border-color: ${ props => props.hoverBorderColor };
+			border-color: var(--yoast-color-border--default);
 		}
 	`;
 }
@@ -158,7 +159,6 @@ BaseButton.propTypes = {
 	boxShadowColor: PropTypes.string,
 	hoverColor: PropTypes.string,
 	hoverBackgroundColor: PropTypes.string,
-	hoverBorderColor: PropTypes.string,
 	activeColor: PropTypes.string,
 	activeBackgroundColor: PropTypes.string,
 	activeBorderColor: PropTypes.string,
@@ -176,7 +176,6 @@ BaseButton.defaultProps = {
 	boxShadowColor: colors.$color_button_border,
 	hoverColor: colors.$color_button_text_hover,
 	hoverBackgroundColor: colors.$color_button_hover,
-	hoverBorderColor: colors.$color_button_border_hover,
 	activeColor: colors.$color_button_text_hover,
 	activeBackgroundColor: colors.$color_button,
 	activeBorderColor: colors.$color_button_border_active,

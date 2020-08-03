@@ -1,21 +1,21 @@
-import { SET_PROMINENT_WORDS } from "../../actions/insights";
+import { SET_WORDS_FOR_INSIGHTS } from "../../actions/insights";
 import { insightsReducer } from "../insights";
 
 jest.mock( "../prominentWords", () => {
 	return {
-		prominentWordsReducer: jest.fn( () => {
-			return { name: "prominentWordsReducer" };
+		wordsForInsightsReducer: jest.fn( () => {
+			return { name: "wordsForInsightsReducer" };
 		} ),
 	};
 } );
 
-describe( "insightsReducer with a SET_PROMINENT_WORDS action ", () => {
+describe( "insightsReducer with a SET_WORDS_FOR_INSIGHTS action ", () => {
 	it( "returns the correct reducers", () => {
 		const state = {};
 		const action = {
-			type: SET_PROMINENT_WORDS,
+			type: SET_WORDS_FOR_INSIGHTS,
 		};
-		const expected = { prominentWords: { name: "prominentWordsReducer" } };
+		const expected = { prominentWords: { name: "wordsForInsightsReducer" } };
 
 		const actual = insightsReducer( state, action );
 		expect( actual ).toEqual( expected );
