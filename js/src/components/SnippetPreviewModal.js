@@ -2,7 +2,7 @@
 import { Fragment, Component } from "@wordpress/element";
 import { Button, Modal } from "@wordpress/components";
 import { __ } from "@wordpress/i18n";
-import styled, { createGlobalStyle } from "styled-components";
+import styled from "styled-components";
 
 /* Yoast dependencies */
 import { ButtonSection } from "yoast-components";

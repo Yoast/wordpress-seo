@@ -153,7 +153,6 @@ class KeyphrasesTable extends Component {
 												__( "Keyphrase volume in the last 12 months on a scale from 0 to 100.", "wordpress-seo" )
 											}
 											dataTableHeaderLabels={ areaChartDataTableHeaderLabels }
-											// isDataTableVisuallyHidden={ false }
 										/>
 									</td>
 									{

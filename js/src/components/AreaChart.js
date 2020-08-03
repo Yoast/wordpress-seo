@@ -2,16 +2,23 @@
 import PropTypes from "prop-types";
 import { Fragment } from "@wordpress/element";
 
+/* Internal dependencies */
+import AreaChartTable from "./AreaChartTable";
+
 /**
  * Renders a SVG area chart.
  *
- * @param {array}  data        Array of objects with X and Y coordinates for the SVG chart points.
- * @param {number} width       The SVG chart width.
- * @param {number} height      The SVG chart height.
- * @param {string} fillColor   The SVG chart area background color in HEX format.
- * @param {string} strokeColor The SVG chart line color in HEX format.
- * @param {number} strokeWidth The SVG chart line width.
- * @param {string} className   The CSS class name for the chart.
+ * @param {array}    data                      Array of objects with X and Y coordinates for the SVG chart points.
+ * @param {number}   width                     The SVG chart width.
+ * @param {number}   height                    The SVG chart height.
+ * @param {string}   fillColor                 The SVG chart area background color in HEX format.
+ * @param {string}   strokeColor               The SVG chart line color in HEX format.
+ * @param {number}   strokeWidth               The SVG chart line width.
+ * @param {string}   className                 The CSS class name for the chart.
+ * @param {Function} mapChartDataToTableData   Function to adapt the chart points to meaningful data for the table.
+ * @param {string}   dataTableCaption          The data table caption text.
+ * @param {array}    dataTableHeaderLabels     The text to be used for the data table headers.
+ * @param {boolean}  isDataTableVisuallyHidden Whether the data table is viually hidden.
  *
  * @returns {wp.Element} The SVG area chart component.
  */
@@ -70,29 +77,13 @@ const AreaChart = ( {
 			</svg>
 			{
 				mapChartDataToTableData &&
-				<table
-					className={ isDataTableVisuallyHidden ? "screen-reader-text" : null }
-				>
-					<caption>{ dataTableCaption }</caption>
-					<thead>
-						<tr>
-							{
-								dataTableHeaderLabels.map( ( label, index ) => {
-									return <th key={ index }>{ label }</th>;
-								} )
-							}
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							{
-								data.map( ( point, index ) => {
-									return <td key={ index }>{ mapChartDataToTableData( point.y ) }</td>;
-								} )
-							}
-						</tr>
-					</tbody>
-				</table>
+				<AreaChartTable
+					data={ data }
+					mapChartDataToTableData={ mapChartDataToTableData }
+					dataTableCaption={ dataTableCaption }
+					dataTableHeaderLabels={ dataTableHeaderLabels }
+					isDataTableVisuallyHidden={ isDataTableVisuallyHidden }
+				/>
 			}
 		</Fragment>
 	);
@@ -113,7 +104,7 @@ AreaChart.propTypes = {
 	className: PropTypes.string,
 	mapChartDataToTableData: PropTypes.func,
 	dataTableCaption: PropTypes.string.isRequired,
-	dataTableHeaderLabels: PropTypes.array,
+	dataTableHeaderLabels: PropTypes.array.isRequired,
 	isDataTableVisuallyHidden: PropTypes.bool,
 };
 
@@ -123,7 +114,6 @@ AreaChart.defaultProps = {
 	strokeWidth: 1,
 	className: "",
 	mapChartDataToTableData: null,
-	dataTableHeaderLabels: [],
 	isDataTableVisuallyHidden: true,
 };
 
