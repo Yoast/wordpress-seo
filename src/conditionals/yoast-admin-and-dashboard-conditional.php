@@ -31,6 +31,7 @@ class Yoast_Admin_And_Dashboard_Conditional implements Conditional {
 			'index.php',
 			'plugins.php',
 			'update-core.php',
+			'options-permalink.php',
 		];
 
 		return \in_array( $pagenow, $target_pages, true );

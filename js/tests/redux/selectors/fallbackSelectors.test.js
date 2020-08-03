@@ -17,8 +17,32 @@ const testState = {
 		data: {
 			snippetPreviewImageURL: "featured.png",
 		},
+		replacementVariables: [
+			{
+				name: "title",
+				value: "Not Hello World!",
+			},
+			{
+				name: "term_title",
+				value: "A term title",
+			},
+		],
 	},
 };
+
+let windowSpy;
+
+beforeEach(
+	() => {
+		windowSpy = jest.spyOn( global, "window", "get" );
+	}
+);
+
+afterEach(
+	() => {
+	  windowSpy.mockRestore();
+	}
+);
 
 describe( getTitleFallback, () => {
 	it( "returns the snippit title as a fallback", () => {
@@ -49,7 +73,21 @@ describe( getImageFallback, () => {
 		expect( actual ).toEqual( expected );
 	} );
 
-	it( "returns the siteWide image as a fallback", () => {
+	it( "returns the siteWide image as a fallback when og is active", () => {
+		windowSpy.mockImplementation(
+			() => (
+				{
+					wpseoScriptData: {
+						metabox: {
+							showSocial: {
+								facebook: true,
+							},
+						},
+					},
+				}
+			)
+		);
+
 		const state = {
 			 ...testState,
 			snippetEditor: {
@@ -61,6 +99,36 @@ describe( getImageFallback, () => {
 		const actual = getImageFallback( state );
 
 		const expected = "site-wide.png";
+
+		expect( actual ).toEqual( expected );
+	} );
+
+	it( "does not return the siteWide image as a fallback when og is disabled", () => {
+		windowSpy.mockImplementation(
+			() => (
+				{
+					wpseoScriptData: {
+						metabox: {
+							showSocial: {
+								facebook: false,
+							},
+						},
+					},
+				}
+			)
+		);
+
+		const state = {
+			 ...testState,
+			snippetEditor: {
+				data: {
+					snippetPreviewImageURL: undefined,
+				},
+			},
+		};
+		const actual = getImageFallback( state );
+
+		const expected = "";
 
 		expect( actual ).toEqual( expected );
 	} );

@@ -56,7 +56,7 @@ class Title_Presenter extends Abstract_Indexable_Tag_Presenter {
 		 * @param Indexable_Presentation $presentation The presentation of an indexable.
 		 */
 		$title = \apply_filters( 'wpseo_title', $title, $this->presentation );
-		$title = $this->helpers->string->strip_all_tags( \stripslashes( $title ) );
+		$title = $this->helpers->string->strip_all_tags( $title );
 		return \trim( $title );
 	}
 }

@@ -155,7 +155,7 @@ ul.wpseo-metabox-tabs li.active {
 }
 
 .wpseo-metabox-menu ul li a {
-  color: var( --yoast-color-label );
+  color:  #0073aa;
   display: flex;
   align-items: center;
   border: 1px solid rgba( 0,0,0,0.2 );
@@ -193,13 +193,12 @@ ul.wpseo-metabox-tabs li.active {
   z-index: 13;
   background-color: #ffffff;
   border-bottom: 2px transparent;
-  clip-path: inset(-5px -5px 0px -5px);
   box-shadow: none;
 }
 
 .wpseo-metabox-menu ul li.active a {
   height: 36px;
-  color: #a4286a;
+  color: #444;
 }
 
 .wpseo-metabox-menu ul li.active span.wpseo-buy-premium {

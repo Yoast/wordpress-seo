@@ -51,9 +51,9 @@ class KeywordInput extends Component {
 	 * @returns {wp.Element} The component.
 	 */
 	render() {
-		return <Fragment>
-			<LocationConsumer>
-				{ location => (
+		return <LocationConsumer>
+			{ context => (
+				<Fragment>
 					<KeywordInputContainer>
 						{
 							this.props.displayNoKeyphraseMessage &&
@@ -62,7 +62,7 @@ class KeywordInput extends Component {
 							</p>
 						}
 						<KeywordInputComponent
-							id={ `focus-keyword-input-${ location }` }
+							id={ `focus-keyword-input-${ context }` }
 							onChange={ this.props.onFocusKeywordChange }
 							keyword={ this.props.keyword }
 							label={ __( "Focus keyphrase", "wordpress-seo" ) }
@@ -83,15 +83,15 @@ class KeywordInput extends Component {
 						{
 							this.props.isSEMrushIntegrationActive &&
 							<SEMrushModal
-								location={ location }
+								location={ context }
 								keyphrase={ this.props.keyword }
 							/>
 						}
 					</KeywordInputContainer>
-				) }
-			</LocationConsumer>
-			<Slot name="YoastAfterKeyphraseInput" />
-		</Fragment>;
+					<Slot name={ `YoastAfterKeywordInput${ context.charAt( 0 ).toUpperCase() + context.slice( 1 ) }` } />
+				</Fragment>
+			) }
+		</LocationConsumer>;
 	}
 }
 
