@@ -4,7 +4,7 @@ Donate link: https://yoa.st/1up
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
-Requires at least: 5.3
+Requires at least: 5.4
 Tested up to: 5.5
 Stable tag: 14.6.1
 Requires PHP: 5.6.20
