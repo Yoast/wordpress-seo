@@ -140,13 +140,13 @@
     "redux-thunk": "^2.2.0",
     "select2": "^4.0.5",
     "styled-components": "^4.2.0",
-    "yoast-components": "^5.8.0",
-    "yoastseo": "^1.79.0"
+    "yoast-components": "^5.8.0-rc.1",
+    "yoastseo": "^1.79.0-rc.0"
   },
   "browserslist": [
     "extends @yoast/browserslist-config"
   ],
   "yoast": {
-    "pluginVersion": "14.7-RC4"
+    "pluginVersion": "14.7-RC5"
   }
 }
