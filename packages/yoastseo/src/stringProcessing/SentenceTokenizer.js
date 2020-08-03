@@ -188,7 +188,8 @@ export default class SentenceTokenizer {
 	}
 
 	/**
-	 * Checks if the token is a valid sentence start.
+	 * Checks if the token is a valid sentence ending. A valid sentence ending is either a full stop or another
+	 * delimiter such as "?", "!", etc.
 	 *
 	 * @param {Object} token The token to validate.
 	 * @returns {boolean} Returns true if the token is valid sentence ending, false if it is not.
@@ -403,7 +404,7 @@ export default class SentenceTokenizer {
 
 					/* Don't split if:
 					 * - The next character is a number. For example: IPv4-numbers.
-					 * - If the block end is preceded by a valid sentence ending, but not followed by a valid sentence beginning.
+					 * - The block end is preceded by a valid sentence ending, but not followed by a valid sentence beginning.
 					 */
 					if (
 						hasNextSentence && this.isNumber( nextCharacters[ 0 ] ) ||
@@ -415,8 +416,7 @@ export default class SentenceTokenizer {
 
 					/*
 					 * Split if:
-					 * - The block end is preceed by a sentence ending and (1) the next character is a valid sentence beginning
-					 * or (2) the next token is a valid sentence start.
+					 * - The block end is preceded by a sentence ending and followed by a valid sentence beginning.
 					 */
 					if (
 						this.isSentenceEnding( previousToken ) &&
