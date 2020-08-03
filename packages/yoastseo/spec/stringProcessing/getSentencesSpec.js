@@ -302,8 +302,7 @@ describe( "Get sentences from text", function() {
 				input: "This is a sentence (with blockends). this is still one sentence.",
 				expected: [ "This is a sentence (with blockends). this is still one sentence." ],
 			},
-			// Second sentence starts with lower-case letter, but unlike a full stop, a ? is an unambiguosu sentence ending
-
+			// Second sentence starts with lower-case letter, but unlike a full stop, a "?" is an unambiguous sentence ending.
 			{
 				input: "This is a sentence (with blockends)? this is still one sentence.",
 				expected: [ "This is a sentence (with blockends)?", "this is still one sentence." ],
@@ -329,8 +328,8 @@ describe( "Get sentences from text", function() {
 				expected: [ "This is a sentence (with blockends?)", "This is a second sentence." ],
 			},
 			{
-				input: "This is a sentence (with blockends) This is a second sentence.",
-				expected: [ "This is a sentence (with blockends) This is a second sentence." ],
+				input: "This is a sentence (with blockends) This is still one sentence.",
+				expected: [ "This is a sentence (with blockends) This is still one sentence." ],
 			},
 			{
 				input: "This is a sentence (with blockends). This is a second sentence.",
