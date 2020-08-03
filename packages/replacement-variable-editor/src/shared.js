@@ -3,10 +3,20 @@ import { getDirectionalStyle } from "@yoast/helpers";
 import { colors } from "@yoast/style-guide";
 import { Button, VariableEditorInputContainer } from "@yoast/components";
 
+const greyPlaceholderColor = "#707070";
+
 export const TitleInputContainer = styled( VariableEditorInputContainer )`
 	.public-DraftStyleDefault-block {
 		// Don't use properties that trigger hasLayout in IE11.
 		line-height: 24px;
+	}
+
+	.public-DraftEditorPlaceholder-root {
+		color: ${greyPlaceholderColor};
+	}
+
+	.public-DraftEditorPlaceholder-hasFocus {
+		color: ${greyPlaceholderColor};
 	}
 `;
 
@@ -16,12 +26,12 @@ export const DescriptionInputContainer = styled( VariableEditorInputContainer )`
 	line-height: 24px;
 
 	.public-DraftEditorPlaceholder-root {
-		color: ${colors.$color_grey_text};
+		color: ${greyPlaceholderColor};
 		position: absolute;
 	}
 
 	.public-DraftEditorPlaceholder-hasFocus {
-		color: ${colors.$color_grey_text};
+		color: ${greyPlaceholderColor};
 		position: absolute;
 	}
 `;
