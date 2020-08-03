@@ -197,10 +197,13 @@ class KeywordInput extends React.Component {
 	 *
 	 * @param {boolean} showMultipleKeyphrasesErrorMessage Whether or not the multiple keyphrases error message has to be shown.
 	 *
-	 * @returns {ReactElement} The input label.
+	 * @returns {ReactElement} The error list.
 	 */
 	renderErrorMessages( showMultipleKeyphrasesErrorMessage ) {
-		const { errorMessages } = this.props;
+		const errorMessages = [ ...this.props.errorMessages ];
+		if ( showMultipleKeyphrasesErrorMessage && this.props.keyword !== "" ) {
+			errorMessages.push( __( "Are you trying to use multiple keyphrases? You should add them separately below.", "yoast-components" ) );
+		}
 		return (
 			<ErrorList>
 				{ errorMessages.map( ( message, index ) =>
@@ -211,14 +214,6 @@ class KeywordInput extends React.Component {
 						{ message }
 					</ErrorText>
 				) }
-				{ ( showMultipleKeyphrasesErrorMessage && this.props.keyword !== "" ) &&
-					<ErrorText
-						key={ "-1" }
-						role="alert"
-					>
-						{ __( "Are you trying to use multiple keyphrases? You should add them separately below.", "yoast-components" ) }
-					</ErrorText>
-				}
 			</ErrorList>
 		);
 	}
@@ -240,7 +235,7 @@ class KeywordInput extends React.Component {
 		return (
 			<KeywordInputContainer>
 				{ showLabel && this.renderLabel() }
-				{ ( showMultipleKeyphrasesErrorMessage || hasError ) &&  this.renderErrorMessages( showMultipleKeyphrasesErrorMessage ) }
+				{ ( showMultipleKeyphrasesErrorMessage || hasError ) && this.renderErrorMessages( showMultipleKeyphrasesErrorMessage ) }
 				<YoastInputButtonContainer
 					className={ showRemoveKeywordButton ? "has-remove-keyword-button" : null }
 				>
