@@ -4,6 +4,15 @@ All notable changes to this project will be documented in this file. Releases wi
 
 We follow [Semantic Versioning](http://semver.org/).
 
+## 2.7.0 August 17th, 2020
+### Enhancements
+* Adds a new active schema tab icon.
+* Adds an optional buttonRef prop to the Button and ButtonStyledLink, which will be set as a ref on the html button and anchor element, respectively.
+* Makes the FieldGroup component available by exporting it. The FieldGroup is a reusable wrapper with a title/label, an optional HelpIcon and an optional Description.
+
+### Other
+* Makes the Select name property optional.
+
 ## 2.6.0 August 3rd, 2020
 ### Enhancements
 * Adds the means to put a button inline with a select2 element.
