@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file. Releases without a changelog entry contain only minor changes that are irrelevant for users of this library.
 We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwards.
 
+## 1.80.0 August 17th, 2020
+### Enhancements
+* Makes it possible to tokenize sentences in Hebrew, Arabic, Farsi and Urdu.
+* Improves keyphrase recognition for Arabic and Hebrew.
+* Adds function words for Arabic and Hebrew.
+* Adds Sentence beginning assessment for Indonesian.
+* Adds Transition words assessment for Indonesian.
+* Adds Passive voice assessment for Indonesian.
+* Adds Flesch reading ease assessment for Portuguese.
+* Adds passive voice assessment for Portuguese.
+* Fixes inconsistency in feedback strings that are produced by the Keyphrase in SEO Title assessment.
+
 ## 1.79.0 August 3rd, 2020
 ### Enhancements
 * Adds some irregular plural forms of Italian words to function words and morphologyData file, including specs and a function to call the exception list.
