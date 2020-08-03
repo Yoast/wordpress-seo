@@ -362,7 +362,7 @@ class Indexation_Integration implements Integration_Interface {
 	/**
 	 * Hides the notice when the url query contains an argument that hides the notice.
 	 */
-	protected function hide_notice_listener()	{
+	protected function hide_notice_listener() {
 		if ( ! isset( $_GET['yoast_seo_hide'] ) ) {
 			return;
 		}

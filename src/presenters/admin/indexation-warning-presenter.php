@@ -73,8 +73,7 @@ class Indexation_Warning_Presenter extends Abstract_Presenter {
 
 		if ( $this->show_indexation_incomplete_alert() ) {
 			$output .= $this->get_incomplete_indexation_alert();
-		}
-		else {
+		} else {
 			$output .= $this->get_base_alert();
 		}
 
@@ -171,12 +170,12 @@ class Indexation_Warning_Presenter extends Abstract_Presenter {
 	 */
 	protected function get_estimate() {
 		if ( $this->total_unindexed > 2500 ) {
-			$estimate  = '<p>';
+			$estimate = '<p>';
 			$estimate .= \esc_html__( 'We estimate this could take a long time, due to the size of your site. As an alternative to waiting, you could:', 'wordpress-seo' );
 			$estimate .= '<ul class="ul-disc">';
 			$estimate .= '<li>';
 			$estimate .= \sprintf(
-				/* translators: 1: Expands to Yoast SEO, 2: Button start tag for the reminder, 3: Button closing tag */
+			/* translators: 1: Expands to Yoast SEO, 2: Button start tag for the reminder, 3: Button closing tag */
 				\esc_html__( 'Wait for a week or so, until %1$s automatically processes most of your content in the background. %2$sRemind me in a week.%3$s', 'wordpress-seo' ),
 				'Yoast SEO',
 				\sprintf(
@@ -229,7 +228,7 @@ class Indexation_Warning_Presenter extends Abstract_Presenter {
 	 */
 	public function get_dismiss_button() {
 		/* translators: 1: Button/anchor start tag to dismiss the warning, 2: Button/anchor closing tag. */
-		$dismiss_button = \esc_html__('%1$sHide this notice%2$s (everything will continue to function normally)', 'wordpress-seo' );
+		$dismiss_button = \esc_html__( '%1$sHide this notice%2$s (everything will continue to function normally)', 'wordpress-seo' );
 
 		if ( $this->action_type === static::ACTION_TYPE_LINK_TO ) {
 			return \sprintf(
@@ -246,7 +245,7 @@ class Indexation_Warning_Presenter extends Abstract_Presenter {
 			$dismiss_button,
 			\sprintf(
 				'<button type="button" id="yoast-indexation-dismiss-button" class="button-link hide-if-no-js" data-nonce="%s">',
-				\esc_js(\wp_create_nonce('wpseo-ignore'))
+				\esc_js( \wp_create_nonce( 'wpseo-ignore' ) )
 			),
 			'</button>'
 		);
