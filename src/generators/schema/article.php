@@ -24,11 +24,17 @@ class Article extends Abstract_Schema_Piece {
 			return false;
 		}
 
+		// If we cannot output a publisher, we shouldn't output an Article.
 		if ( $this->context->site_represents === false ) {
 			return false;
 		}
 
-		if ( $this->helpers->schema->article->is_article_post_type( $this->context->indexable->object_sub_type ) ) {
+		// If we cannot output an author, we shouldn't output an Article.
+		if ( ! $this->helpers->schema->article->is_author_supported( $this->context->indexable->object_sub_type ) ) {
+			return false;
+		}
+
+		if ( $this->context->schema_article_type !== 'None' ) {
 			$this->context->main_schema_id = $this->context->canonical . Schema_IDs::ARTICLE_HASH;
 
 			return true;
@@ -43,8 +49,8 @@ class Article extends Abstract_Schema_Piece {
 	 * @return array $data Article data.
 	 */
 	public function generate() {
-		$data          = [
-			'@type'            => 'Article',
+		$data = [
+			'@type'            => $this->context->schema_article_type,
 			'@id'              => $this->context->canonical . Schema_IDs::ARTICLE_HASH,
 			'isPartOf'         => [ '@id' => $this->context->canonical . Schema_IDs::WEBPAGE_HASH ],
 			'author'           => [ '@id' => $this->helpers->schema->id->get_user_schema_id( $this->context->post->post_author, $this->context ) ],

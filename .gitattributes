@@ -6,9 +6,7 @@
 .cache export-ignore
 .github export-ignore
 config export-ignore
-deploy_keys export-ignore
 grunt export-ignore
-scripts export-ignore
 svn-assets export-ignore
 tests export-ignore
 .babelrc export-ignore
@@ -21,7 +19,6 @@ tests export-ignore
 Gruntfile.js export-ignore
 package.json export-ignore
 phpcs.xml.dist export-ignore
-phpmd.xml export-ignore
 phpunit-integration.xml.dist export-ignore
 phpunit.xml.dist export-ignore
 README.md export-ignore
