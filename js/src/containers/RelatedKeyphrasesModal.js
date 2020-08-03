@@ -12,7 +12,7 @@ export default compose( [
 		const {
 			setSEMrushNoKeyphraseMessage,
 			setSEMrushOpenModal,
-			setSEMrushDismissModal
+			setSEMrushDismissModal,
 		} = dispatch( "yoast-seo/editor" );
 
 		return {
