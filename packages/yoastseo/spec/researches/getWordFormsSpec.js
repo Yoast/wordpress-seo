@@ -305,59 +305,6 @@ describe( "A test for getting word forms from the text, based on the stems of a 
 } );
 
 describe( "A test for creating basic morphology forms in supported languages", () => {
-	it( "returns all possible prefixed forms for Hebrew keyphrases", () => {
-		const attributes = {
-			keyword: "בראשית לארץ",
-			locale: "he_IL",
-		};
-		const testPaper = new Paper( "", attributes );
-		const researcher = new Researcher( testPaper );
-
-		expect( getWordForms( testPaper, researcher ) ).toEqual(
-			{
-				keyphraseForms: [
-					[
-						"בראשית",
-						"בבראשית",
-						"הבראשית",
-						"ובראשית",
-						"כבראשית",
-						"לבראשית",
-						"מבראשית",
-						"שבראשית",
-						"ראשית",
-						"הראשית",
-						"וראשית",
-						"כראשית",
-						"לראשית",
-						"מראשית",
-						"שראשית",
-					],
-					[
-						"לארץ",
-						"בלארץ",
-						"הלארץ",
-						"ולארץ",
-						"כלארץ",
-						"ללארץ",
-						"מלארץ",
-						"שלארץ",
-						"ארץ",
-						"בארץ",
-						"הארץ",
-						"וארץ",
-						"כארץ",
-						"מארץ",
-						"שארץ",
-					],
-				],
-				synonymsForms: [],
-			}
-		);
-	} );
-} );
-
-describe( "A test for creating basic morphology forms in supported languages", () => {
 	it( "returns all possible prefixed forms for Arabic keyphrases", () => {
 		const attributes = {
 			keyword: "لتجاهل الرسالة",
