@@ -227,7 +227,7 @@ class Indexation_Warning_Presenter extends Abstract_Presenter {
 	 *
 	 * @return string The action.
 	 */
-	public function get_dismiss_button() {
+	protected function get_dismiss_button() {
 		/* translators: 1: Button/anchor start tag to dismiss the warning, 2: Button/anchor closing tag. */
 		$dismiss_button = \esc_html__( '%1$sHide this notice%2$s (everything will continue to function normally)', 'wordpress-seo' );
 
