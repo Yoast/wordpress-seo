@@ -141,6 +141,8 @@ class Indexable_Post_Builder_Test extends TestCase {
 				'_yoast_wpseo_twitter-title'         => [ 'twitter_title' ],
 				'_yoast_wpseo_twitter-image'         => [ 'twitter_image' ],
 				'_yoast_wpseo_twitter-description'   => [ 'twitter_description' ],
+				'_yoast_wpseo_schema_page_type'      => [ 'FAQPage' ],
+				'_yoast_wpseo_schema_article_type'   => [ 'NewsArticle' ],
 			]
 		);
 		Monkey\Functions\expect( 'maybe_unserialize' )->andReturnFirstArg();
@@ -214,6 +216,8 @@ class Indexable_Post_Builder_Test extends TestCase {
 		$this->indexable->orm->expects( 'set' )->with( 'blog_id', 1 );
 
 		$this->link_builder->expects( 'build' )->with( $this->indexable, 'The content of the post' );
+		$this->indexable->orm->expects( 'set' )->once()->with( 'schema_page_type', 'FAQPage' );
+		$this->indexable->orm->expects( 'set' )->once()->with( 'schema_article_type', 'NewsArticle' );
 
 		$this->image
 			->expects( 'get_featured_image_id' )

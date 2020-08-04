@@ -4,8 +4,7 @@ Donate link: https://yoa.st/1up
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
-Requires at least: 5.3
-Tested up to: 5.4.1
+Tested up to: 5.5
 Stable tag: 14.6.1
 Requires PHP: 5.6.20
 
@@ -212,31 +211,34 @@ Your question has most likely been answered on our knowledge base: [kb.yoast.com
 = 14.7 =
 Release Date: August 4th, 2020
 
+Say hi to Yoast SEO 14.7, chock-full of enhancements to help you with your site's SEO. Have you heard about the addition of XML sitemaps in WordPress 5.5? The Yoast SEO plugin is completely prepared for this. We also have some great news for users of the Web Stories plugin. Read more about those changes in [our release post](https://yoa.st/release-14-7)!
+
 Enhancements:
 
  * Adds support for adding metadata to Web Stories (the `web-story` post type) from the [Web Stories](https://github.com/google/web-stories-wp) plugin. Props to [swissspidy](https://github.com/swissspidy)
- * Shows a more specific notification when the permalinks are reset or when the category base setting is changed.
+ * Shows a more specific notification about why the reindexing of SEO data is needed when the permalinks are reset or when the category base setting is changed.
  * Redirects requests to the WordPress sitemaps to the appropriate Yoast sitemap, if the Yoast sitemaps are enabled.
  * Adds the option for users to opt-in to allow Yoast to track some data about their site. 
- * Improves the styling of the warning when no person is selected in the Person/Company schema selector. 
- * Optimizes script loading by removing `ver` parameters from scripts and styles when they're not needed.
+ * Optimizes script loading by removing `ver` parameters from scripts and styles when they're not needed. 
  * Adds the Yoast logo to the Yoast block categories.
  * Compatibility with WordPress 5.5: makes sure Yoast structured data blocks are found on more keywords and have examples in the block inserter.
 
 Bugfixes:
 
- * Ensures the indexation spots the indexables without a permalink.
+ * Fixes a bug where a fatal error would occur in sitemaps on sites where the home URL and site URL were different. Because the cause of this was a missing style sheet, the content of the sitemaps was still there, which means Google and other search engines could still reach the sitemaps and no SEO harm was done.
+ * Fixes a bug where reindexing would not be done for indexables without a permalink.
  * Fixes a bug where an indexable's permalink remained unchanged when the categories prefix option was changed.
  * Fixes a bug where an inline link that opens in a new window would render `undefined` in the aria-label.
- * Fixes a bug where the indexable indexation process could not be started again without a page reload on the tools page if it failed.
- * Fixes a bug where `wpseoShortcodePluginL10n` was not defined.
- * Fixes a bug where a fatal error would occur in sitemaps on sites where the home URL and site URL were different. Because the cause of this was a missing style sheet, the content of the sitemaps was still there, which means Google and other search engines could still reach the sitemaps and no SEO harm was done.
+ * Fixes a bug where the indexables indexing process could not be started again without a page reload on the tools page if it failed.
+ * Fixes a bug where a console error would be thrown because `wpseoShortcodePluginL10n` was not defined.
+ * Fixes a bug where the SEO and Readability scores were no longer shown in the publish box in the classic editor.
+ * Fixes a bug where clicking the Readability score link in the classic editor would trigger an error.
  
 Other:
 
  * Enables the cornerstone content toggle for taxonomies.
  * Adds the option to filter our Schema by `@type`.
- * Removes the setting to show the date in the Google Preview, the date will now always be shown in post-type previews.
+ * Removes the setting to show the date in the Google Preview. The date will now always be shown in post-type previews.
  * Moves the running of the SEO data indexing process to the Yoast Tools page.
 
 = 14.6.1 =

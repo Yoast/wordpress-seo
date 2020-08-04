@@ -95,6 +95,7 @@ class Edit {
 				authorName: this._localizedData.author_name,
 				siteName: this._localizedData.site_name,
 				contentImage: this._localizedData.first_content_image,
+				twitterCardType: this._localizedData.twitterCardType,
 			},
 			snippetEditor: {
 				baseUrl: this._args.snippetEditorBaseUrl,
