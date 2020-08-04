@@ -145,12 +145,11 @@ class Post_Helper {
 			->where( 'post_parent', $post_parent );
 
 		if ( $has_public_posts !== null ) {
-			$query->where_not_equal( 'has_public_posts', $has_public_posts );
+			$query->where_raw( '( has_public_posts IS NULL OR has_public_posts <> %s )', [ $has_public_posts ] );
 		}
 		else {
 			$query->where_not_null( 'has_public_posts' );
 		}
-
 		$results = $query->find_array();
 
 		if ( empty( $results ) ) {
