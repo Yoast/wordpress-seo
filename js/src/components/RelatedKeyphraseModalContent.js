@@ -39,6 +39,7 @@ export default function RelatedKeyphraseModalContent( { isLoading, keyphrase, re
 			<KeyphrasesTable
 				keyphrase={ keyphrase }
 				relatedKeyphrases={ relatedKeyphrases }
+				countryCode={ countryCode }
 				renderAction={ renderAction }
 				data={ data }
 			/>

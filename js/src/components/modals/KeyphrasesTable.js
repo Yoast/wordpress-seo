@@ -49,8 +49,9 @@ class KeyphrasesTable extends Component {
 	 * @returns {React.Element} The Related Keyphrases table.
 	 */
 	render() {
-		const { keyphrase, relatedKeyphrases, data, renderAction } = this.props;
-		const url = "https://www.semrush.com/analytics/keywordoverview/?q=" + encodeURIComponent( keyphrase );
+		const { keyphrase, relatedKeyphrases, countryCode, data, renderAction } = this.props;
+		const url = "https://www.semrush.com/analytics/keywordoverview/?q=" + encodeURIComponent( keyphrase ) +
+			"&db=" + encodeURIComponent( countryCode );
 
 		return (
 			data && ! isEmpty( data ) && <Fragment>
@@ -142,6 +143,7 @@ KeyphrasesTable.propTypes = {
 	data: PropTypes.object,
 	keyphrase: PropTypes.string,
 	relatedKeyphrases: PropTypes.array,
+	countryCode: PropTypes.string,
 	renderAction: PropTypes.func,
 };
 
@@ -149,6 +151,7 @@ KeyphrasesTable.defaultProps = {
 	data: {},
 	keyphrase: "",
 	relatedKeyphrases: [],
+	countryCode: "us",
 	renderAction: null,
 };
 
