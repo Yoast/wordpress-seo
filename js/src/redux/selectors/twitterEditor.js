@@ -34,7 +34,7 @@ export const getTwitterImageUrl = state => get( state, "twitterEditor.image.url"
  *
  * @returns {String} Twitter image type.
  */
-export const getTwitterImageType = state => get( state, "twitterEditor.image.type", true );
+export const getTwitterImageType = state => get( state, "settings.socialPreviews.twitterCardType", "summary" );
 
 /**
  * Gets the Twitter image src from the state.
