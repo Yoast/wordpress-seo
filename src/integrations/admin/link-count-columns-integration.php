@@ -198,7 +198,7 @@ class Link_Count_Columns_Integration implements Integration_Interface {
 			return $pieces;
 		}
 
-		return $this->build_sort_query_pieces( $pieces, $query, 'internal_link_count' );
+		return $this->build_sort_query_pieces( $pieces, $query, 'link_count' );
 	}
 
 	/**
@@ -224,10 +224,10 @@ class Link_Count_Columns_Integration implements Integration_Interface {
 			$order = 'ASC';
 		}
 
-		$table = Model::get_table_name( 'SEO_Links' );
+		$table = Model::get_table_name( 'Indexable' );
 
-		$pieces['join']   .= " LEFT JOIN $table AS yst_links ON yst_links.object_id = {$this->wpdb->posts}.ID ";
-		$pieces['orderby'] = "yst_links.$field $order, FIELD( {$this->wpdb->posts}.post_status, 'publish' ) $order, {$pieces['orderby']}";
+		$pieces['join']   .= " LEFT JOIN $table AS yoast_indexable ON yoast_indexable.object_id = {$this->wpdb->posts}.ID AND yoast_indexable.object_type = 'post' ";
+		$pieces['orderby'] = "yoast_indexable.$field $order, FIELD( {$this->wpdb->posts}.post_status, 'publish' ) $order, {$pieces['orderby']}";
 
 		return $pieces;
 	}

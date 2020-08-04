@@ -86,7 +86,9 @@ class Post_Link_Indexing_Action extends Abstract_Link_Indexing_Action {
 		return $this->wpdb->prepare( "
 			SELECT $select
 			FROM {$this->wpdb->posts}
-			WHERE ID NOT IN (SELECT object_id FROM $indexable_table WHERE link_count IS NOT NULL) AND post_status = 'publish' AND post_type IN ($placeholders)
+			WHERE ID NOT IN (
+				SELECT object_id FROM $indexable_table WHERE link_count IS NOT NULL AND object_type = 'post'
+			) AND post_status = 'publish' AND post_type IN ($placeholders)
 			$limit_query
 		", $replacements );
 	}

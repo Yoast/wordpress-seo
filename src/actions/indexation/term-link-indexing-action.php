@@ -86,7 +86,9 @@ class Term_Link_Indexing_Action extends Abstract_Link_Indexing_Action {
 		return $this->wpdb->prepare( "
 			SELECT $select
 			FROM {$this->wpdb->term_taxonomy}
-			WHERE term_id NOT IN (SELECT object_id FROM $indexable_table WHERE link_count IS NOT NULL) AND taxonomy IN ($placeholders)
+			WHERE term_id NOT IN (
+				SELECT object_id FROM $indexable_table WHERE link_count IS NOT NULL AND object_type = 'term'
+			) AND taxonomy IN ($placeholders)
 			$limit_query
 		", $replacements );
 	}

@@ -103,7 +103,9 @@ class Term_Link_Indexing_Action_Test extends TestCase {
 		$expected_query = "
 			SELECT COUNT(term_id)
 			FROM wp_term_taxonomy
-			WHERE term_id NOT IN (SELECT object_id FROM wp_yoast_indexable WHERE link_count IS NOT NULL) AND taxonomy IN (%s, %s)
+			WHERE term_id NOT IN (
+				SELECT object_id FROM wp_yoast_indexable WHERE link_count IS NOT NULL AND object_type = 'term'
+			) AND taxonomy IN (%s, %s)
 			$empty_string
 		";
 
@@ -163,7 +165,9 @@ class Term_Link_Indexing_Action_Test extends TestCase {
 		$expected_query = "
 			SELECT COUNT(term_id)
 			FROM wp_term_taxonomy
-			WHERE term_id NOT IN (SELECT object_id FROM wp_yoast_indexable WHERE link_count IS NOT NULL) AND taxonomy IN (%s, %s)
+			WHERE term_id NOT IN (
+				SELECT object_id FROM wp_yoast_indexable WHERE link_count IS NOT NULL AND object_type = 'term'
+			) AND taxonomy IN (%s, %s)
 			$empty_string
 		";
 
@@ -196,12 +200,14 @@ class Term_Link_Indexing_Action_Test extends TestCase {
 			->once()
 			->andReturn( [ 'category', 'tag' ] );
 
-		$expected_query = '
+		$expected_query = "
 			SELECT term_id, description
 			FROM wp_term_taxonomy
-			WHERE term_id NOT IN (SELECT object_id FROM wp_yoast_indexable WHERE link_count IS NOT NULL) AND taxonomy IN (%s, %s)
+			WHERE term_id NOT IN (
+				SELECT object_id FROM wp_yoast_indexable WHERE link_count IS NOT NULL AND object_type = 'term'
+			) AND taxonomy IN (%s, %s)
 			LIMIT %d
-		';
+		";
 
 		$this->wpdb
 			->expects( 'prepare' )
@@ -242,12 +248,14 @@ class Term_Link_Indexing_Action_Test extends TestCase {
 			->once()
 			->andReturn( [ 'category', 'tag' ] );
 
-		$expected_query = '
+		$expected_query = "
 			SELECT term_id, description
 			FROM wp_term_taxonomy
-			WHERE term_id NOT IN (SELECT object_id FROM wp_yoast_indexable WHERE link_count IS NOT NULL) AND taxonomy IN (%s, %s)
+			WHERE term_id NOT IN (
+				SELECT object_id FROM wp_yoast_indexable WHERE link_count IS NOT NULL AND object_type = 'term'
+			) AND taxonomy IN (%s, %s)
 			LIMIT %d
-		';
+		";
 
 		$this->wpdb
 			->expects( 'prepare' )
