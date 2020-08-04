@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 /* Internal dependencies */
 import SemRushLoading from "./modals/SemRushLoading";
 import SemRushLimitReached from "./modals/SemRushLimitReached";
-import SemRushCountrySelector from "./modals/SemRushCountrySelector";
+import SEMrushCountrySelector from "./modals/SEMrushCountrySelector";
 import KeyphrasesTable from "./modals/KeyphrasesTable";
 import SemRushUpsellAlert from "./modals/SemRushUpsellAlert";
 import SemRushRequestFailed from "./modals/SemRushRequestFailed";
@@ -30,7 +30,7 @@ export default function RelatedKeyphraseModalContent( { isLoading, keyphrase, re
 			<SemRushUpsellAlert />
 			<SemRushLimitReached />
 			<SemRushRequestFailed />
-			<SemRushCountrySelector
+			<SEMrushCountrySelector
 				countryCode={ countryCode }
 				setDatabase={ setDatabase }
 				newRequest={ newRequest }

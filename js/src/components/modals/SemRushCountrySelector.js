@@ -156,7 +156,7 @@ const countries = [
 /**
  * The SEMrush Country Selector component.
  */
-class SemRushCountrySelector extends Component {
+class SEMrushCountrySelector extends Component {
 	/**
 	 * Constructs the CountrySelector.
 	 *
@@ -250,14 +250,14 @@ class SemRushCountrySelector extends Component {
 	}
 }
 
-SemRushCountrySelector.propTypes = {
+SEMrushCountrySelector.propTypes = {
 	keyphrase: PropTypes.string,
 	countryCode: PropTypes.string,
 	setDatabase: PropTypes.func.isRequired,
 	newRequest: PropTypes.func.isRequired,
 };
 
-SemRushCountrySelector.defaultProps = {
+SEMrushCountrySelector.defaultProps = {
 	keyphrase: "",
 	countryCode: "us",
 };
@@ -271,9 +271,9 @@ SemRushCountrySelector.defaultProps = {
  */
 const CountrySelectorWithErrorBoundary = ( props ) => (
 	<ErrorBoundary>
-		<SemRushCountrySelector { ...props } />
+		<SEMrushCountrySelector { ...props } />
 	</ErrorBoundary>
 );
 
-export { CountrySelectorWithErrorBoundary as SemRushCountrySelector };
-export default SemRushCountrySelector;
+export { CountrySelectorWithErrorBoundary as SEMrushCountrySelector };
+export default SEMrushCountrySelector;
