@@ -5,7 +5,7 @@
 export default function() {
 	return [
 		// Articles (those which are not prefixes):
-		"قَلِيْل", "بَعْض", "وَاحِد",
+		"قليل", "بعض", "واحد",
 		// Numbers 1-10:
 		"واحد", "إثنان", "ثلاثة", "أربعة", "خمسة", "ستة", "سبعة", "ثمانية", "تسعة", "عشرة",
 		// Demonstrative pronouns:
