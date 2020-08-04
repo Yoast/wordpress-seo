@@ -203,17 +203,17 @@ class SemRushCountrySelector extends Component {
 	}
 
 	/**
-	 * Makes a new request to SEMrush and updates the country_code value in the database.
+	 * Makes a new request to SEMrush and updates the semrush_country_code value in the database.
 	 *
 	 * @returns {void}
 	 */
 	newRequest() {
-		this.props.newRequest( this.props.currentDatabase, this.props.keyphrase, "OAuthToken1" );
+		this.props.newRequest( this.props.countryCode, this.props.keyphrase, "OAuthToken1" );
 
 		apiFetch( {
 			path: "yoast/v1/semrush/country_code",
 			method: "POST",
-			data: { country_code: this.props.currentDatabase },
+			data: { countryCode: this.props.countryCode },
 		} );
 	}
 
@@ -233,8 +233,8 @@ class SemRushCountrySelector extends Component {
 					>
 						<select
 							id={ id }
-							name="database"
-							defaultValue={ this.props.currentDatabase }
+							name="semrush-country-code"
+							defaultValue={ this.props.countryCode }
 						>
 							{ countries.map( Option ) }
 						</select>
@@ -251,14 +251,14 @@ class SemRushCountrySelector extends Component {
 
 SemRushCountrySelector.propTypes = {
 	keyphrase: PropTypes.string,
-	currentDatabase: PropTypes.string,
+	countryCode: PropTypes.string,
 	setDatabase: PropTypes.func.isRequired,
 	newRequest: PropTypes.func.isRequired,
 };
 
 SemRushCountrySelector.defaultProps = {
 	keyphrase: "",
-	currentDatabase: "us",
+	countryCode: "us",
 };
 
 /**

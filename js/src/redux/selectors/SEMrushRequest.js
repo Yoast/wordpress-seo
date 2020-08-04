@@ -72,5 +72,5 @@ export function getSEMrushRequestOAuthToken( state ) {
  * @returns {string} Current database.
  */
 export function getSEMrushSelectedDatabase( state ) {
-	return state.SEMrushRequest.database;
+	return state.SEMrushRequest.countryCode;
 }

@@ -10,7 +10,7 @@ const INITIAL_STATE = {
 	isRequestPending: false,
 	OAuthToken: "",
 	keyphrase: "",
-	database: "us",
+	countryCode: "us",
 	isSuccess: false,
 	response: null,
 	limitReached: false,
@@ -31,7 +31,7 @@ function SEMrushRequestReducer( state = INITIAL_STATE, action ) {
 				isRequestPending: true,
 				OAuthToken: action.OAuthToken,
 				keyphrase: action.keyphrase,
-				database: action.database,
+				countryCode: action.countryCode,
 				isSuccess: false,
 				response: null,
 			};
@@ -59,7 +59,7 @@ function SEMrushRequestReducer( state = INITIAL_STATE, action ) {
 		case CHANGE_DATABASE:
 			return {
 				...state,
-				database: action.database,
+				countryCode: action.countryCode,
 			};
 		default:
 			return state;

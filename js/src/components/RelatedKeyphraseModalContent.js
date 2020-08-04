@@ -22,7 +22,7 @@ import SemRushRequestFailed from "./modals/SemRushRequestFailed";
  * @returns {wp.Element} The SEMrush related keyphrases modal content.
  */
 export default function RelatedKeyphraseModalContent( { isLoading, keyphrase, relatedKeyphrases,
-	renderAction, currentDatabase, setDatabase, newRequest, data } ) {
+	renderAction, countryCode, setDatabase, newRequest, data } ) {
 	// Return table etc. All content based on props etc.
 	return (
 		<Fragment>
@@ -31,7 +31,7 @@ export default function RelatedKeyphraseModalContent( { isLoading, keyphrase, re
 			<SemRushLimitReached />
 			<SemRushRequestFailed />
 			<SemRushCountrySelector
-				currentDatabase={ currentDatabase }
+				countryCode={ countryCode }
 				setDatabase={ setDatabase }
 				newRequest={ newRequest }
 				keyphrase={ keyphrase }
@@ -45,7 +45,6 @@ export default function RelatedKeyphraseModalContent( { isLoading, keyphrase, re
 			<h2>Content debug info</h2>
 			<p>
 				The keyphrase is: { keyphrase }<br />
-				The current database is: { currentDatabase }
 			</p>
 		</Fragment>
 	);
@@ -56,7 +55,7 @@ RelatedKeyphraseModalContent.propTypes = {
 	keyphrase: PropTypes.string,
 	relatedKeyphrases: PropTypes.array,
 	renderAction: PropTypes.func,
-	currentDatabase: PropTypes.string.isRequired,
+	countryCode: PropTypes.string.isRequired,
 	setDatabase: PropTypes.func.isRequired,
 	newRequest: PropTypes.func.isRequired,
 	data: PropTypes.object,

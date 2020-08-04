@@ -9,7 +9,7 @@ export default compose( [
 	withSelect( ( select ) => {
 		return {
 			keyphrase: select( "yoast-seo/editor" ).getFocusKeyphrase(),
-			currentDatabase: select( "yoast-seo/editor" ).getSEMrushSelectedDatabase(),
+			countryCode: select( "yoast-seo/editor" ).getSEMrushSelectedDatabase(),
 			OAuthToken: select( "yoast-seo/editor" ).getSEMrushRequestOAuthToken(),
 			requestLimitReached: select( "yoast-seo/editor" ).getSEMrushRequestLimitReached(),
 			response: select( "yoast-seo/editor" ).getSEMrushRequestResponse(),
@@ -26,8 +26,8 @@ export default compose( [
 			"yoast-seo/editor"
 		);
 		return {
-			setDatabase: ( database ) => {
-				setSEMrushChangeDatabase( database );
+			setDatabase: ( countryCode ) => {
+				setSEMrushChangeDatabase( countryCode );
 			},
 			newRequest: ( database, keyphrase, OAuthToken ) => {
 				setSEMrushNewRequest( database, keyphrase, OAuthToken );
