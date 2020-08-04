@@ -225,7 +225,6 @@ class SemRushCountrySelector extends Component {
 	render() {
 		return (
 			<Fragment>
-				<p>current database selected is: { this.props.currentDatabase }</p>
 				<div>
 					<FieldGroup
 						htmlFor={ id }
