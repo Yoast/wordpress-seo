@@ -29,7 +29,7 @@ Option.propTypes = {
 };
 
 /**
- * List of all available databases for the SEMrush API
+ * List of all available database countries for the SEMrush API.
  * See: https://www.semrush.com/api-analytics/#databases
  * @type {*[]}
  */
@@ -199,7 +199,7 @@ class SEMrushCountrySelector extends Component {
 	 */
 	onChangeHandler() {
 		const selection = this.select2.select2( "data" ).map( option => option.id )[ 0 ];
-		this.props.setDatabase( selection );
+		this.props.setCountry( selection );
 	}
 
 	/**
@@ -253,7 +253,7 @@ class SEMrushCountrySelector extends Component {
 SEMrushCountrySelector.propTypes = {
 	keyphrase: PropTypes.string,
 	countryCode: PropTypes.string,
-	setDatabase: PropTypes.func.isRequired,
+	setCountry: PropTypes.func.isRequired,
 	newRequest: PropTypes.func.isRequired,
 };
 

@@ -3,7 +3,7 @@ import {
 	SET_REQUEST_FAILED,
 	SET_REQUEST_SUCCEEDED,
 	NEW_REQUEST,
-	CHANGE_DATABASE,
+	CHANGE_COUNTRY,
 } from "../actions/SEMrushRequest";
 
 const INITIAL_STATE = {
@@ -56,7 +56,7 @@ function SEMrushRequestReducer( state = INITIAL_STATE, action ) {
 				...state,
 				limitReached: true,
 			};
-		case CHANGE_DATABASE:
+		case CHANGE_COUNTRY:
 			return {
 				...state,
 				countryCode: action.countryCode,

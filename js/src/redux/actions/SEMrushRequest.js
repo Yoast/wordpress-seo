@@ -1,4 +1,4 @@
-export const CHANGE_DATABASE = "CHANGE_DATABASE";
+export const CHANGE_COUNTRY = "CHANGE_COUNTRY";
 export const SET_REQUEST_STARTED = "SET_REQUEST_STARTED";
 export const SET_REQUEST_SUCCEEDED = "SET_REQUEST_SUCCEEDED";
 export const SET_REQUEST_FAILED = "SET_REQUEST_FAILED";
@@ -63,15 +63,15 @@ export function setSEMrushSetRequestLimitReached() {
 }
 
 /**
- * Sets the country code of the database in the dropdown menu.
+ * Sets the country of the database in the dropdown menu.
  *
  * @param {string} countryCode The country code of the database to be set.
  *
  * @returns {Object} Action object.
  */
-export function setSEMrushChangeDatabase( countryCode ) {
+export function setSEMrushChangeCountry( countryCode ) {
 	return {
-		type: CHANGE_DATABASE,
+		type: CHANGE_COUNTRY,
 		countryCode,
 	};
 }

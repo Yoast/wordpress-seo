@@ -9,7 +9,7 @@ export default compose( [
 	withSelect( ( select ) => {
 		return {
 			keyphrase: select( "yoast-seo/editor" ).getFocusKeyphrase(),
-			countryCode: select( "yoast-seo/editor" ).getSEMrushSelectedDatabase(),
+			countryCode: select( "yoast-seo/editor" ).getSEMrushSelectedCountry(),
 			OAuthToken: select( "yoast-seo/editor" ).getSEMrushRequestOAuthToken(),
 			requestLimitReached: select( "yoast-seo/editor" ).getSEMrushRequestLimitReached(),
 			response: select( "yoast-seo/editor" ).getSEMrushRequestResponse(),
@@ -19,18 +19,16 @@ export default compose( [
 		};
 	} ),
 	withDispatch( ( dispatch ) => {
-		const { setSEMrushChangeDatabase,
-			setSEMrushNewRequest, setSEMrushRequestSucceeded, setSEMrushRequestFailed,
-			setSEMrushSetRequestLimitReached, addSEMrushKeyphrase, removeSEMrushKeyphrase,
-			setSEMrushKeyphraseLimitReached } = dispatch(
-			"yoast-seo/editor"
-		);
+		const { setSEMrushChangeCountry, setSEMrushNewRequest, setSEMrushRequestSucceeded,
+			setSEMrushRequestFailed, setSEMrushSetRequestLimitReached, addSEMrushKeyphrase,
+			removeSEMrushKeyphrase, setSEMrushKeyphraseLimitReached } =
+			dispatch( "yoast-seo/editor" );
 		return {
-			setDatabase: ( countryCode ) => {
-				setSEMrushChangeDatabase( countryCode );
+			setCountry: ( countryCode ) => {
+				setSEMrushChangeCountry( countryCode );
 			},
-			newRequest: ( database, keyphrase, OAuthToken ) => {
-				setSEMrushNewRequest( database, keyphrase, OAuthToken );
+			newRequest: ( countryCode, keyphrase, OAuthToken ) => {
+				setSEMrushNewRequest( countryCode, keyphrase, OAuthToken );
 			},
 			setRequestSucceeded: ( response ) => {
 				setSEMrushRequestSucceeded( response );

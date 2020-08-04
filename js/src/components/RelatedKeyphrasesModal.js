@@ -91,7 +91,7 @@ class RelatedKeyphrasesModal extends Component {
 							<h2>Modal debug info</h2>
 							<p>
 								The location is: { location }<br />
-								The current database is: { countryCode }
+								The current database country is: { countryCode }
 							</p>
 
 						</ModalContainer>

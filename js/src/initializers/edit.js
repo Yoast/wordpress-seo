@@ -32,7 +32,7 @@ import PrePublish from "../containers/PrePublish";
 import DocumentSidebar from "../containers/DocumentSidebar";
 import PostPublish from "../containers/PostPublish";
 import SEMrushRelatedKeyphrases from "../containers/RelatedKeyphrases";
-import { setSEMrushChangeDatabase } from "../redux/actions";
+import { setSEMrushChangeCountry } from "../redux/actions";
 
 const PLUGIN_NAMESPACE = "yoast-seo";
 
@@ -107,7 +107,7 @@ class Edit {
 			},
 		} ) );
 
-		this._store.dispatch( setSEMrushChangeDatabase( this._localizedData.countryCode ) );
+		this._store.dispatch( setSEMrushChangeCountry( this._localizedData.countryCode ) );
 	}
 
 	/**
