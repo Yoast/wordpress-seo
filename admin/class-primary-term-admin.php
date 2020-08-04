@@ -20,6 +20,7 @@ class WPSEO_Primary_Term_Admin implements WPSEO_WordPress_Integration {
 
 		add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_assets' ] );
 
+		add_filter( 'post_link_category', [ $this, 'set_link_category' ], 9, 3 );
 		add_action( 'save_post', [ $this, 'save_primary_terms' ] );
 	}
 
@@ -133,6 +134,32 @@ class WPSEO_Primary_Term_Admin implements WPSEO_WordPress_Integration {
 		];
 		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'post-edit', 'wpseoPrimaryCategoryL10n', $data );
 	}
+
+	/**
+	 * Filters post_link_category to change the category to the chosen category by the user.
+	 *
+	 * @param stdClass $category   The category that is now used for the post link.
+	 * @param array    $categories This parameter is not used.
+	 * @param WP_Post  $post       The post in question.
+	 *
+	 * @return array|null|object|WP_Error The category we want to use for the post link.
+	 */
+	public function post_link_category( $category, $categories = null, $post = null ) {
+		$post = get_post( $post );
+		if ( $post === null ) {
+			return $category;
+		}
+
+		$this->save_primary_terms( $post->ID );
+
+		$primary_category = $this->get_primary_category( $post );
+		if ( $primary_category !== false && $primary_category !== $category->cat_ID ) {
+			$category = get_category( $primary_category );
+		}
+
+		return $category;
+	}
+
 
 	/**
 	 * Saves all selected primary terms.
