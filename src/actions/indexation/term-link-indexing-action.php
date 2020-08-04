@@ -20,7 +20,7 @@ class Term_Link_Indexing_Action extends Abstract_Link_Indexing_Action {
 	 *
 	 * @var string
 	 */
-	const UNINDEXED_COUNT_TRANSIENT = 'wpseo-unindexed-term-link-count';
+	const UNINDEXED_COUNT_TRANSIENT = 'wpseo_unindexed_term_link_count';
 
 	/**
 	 * The post type helper.
