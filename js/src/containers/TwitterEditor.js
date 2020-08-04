@@ -53,10 +53,18 @@ const getMedia = () => {
 				warnings: validateTwitterImage( image ),
 			} );
 		} );
-		wpDataDispatch( "yoast-seo/editor" ).loadTwitterPreviewData();
 	}
 
 	return media;
+};
+
+/**
+ * Lazy function to open the media instance.
+ *
+ * @returns {void}
+ */
+const openMedia = () => {
+	return getMedia().open();
 };
 
 export default compose( [
@@ -77,6 +85,7 @@ export default compose( [
 			getReplaceVars,
 			getSiteUrl,
 			getAuthorName,
+			getTwitterIsLoading,
 		} = select( "yoast-seo/editor" );
 		return {
 			imageUrl: getTwitterImageUrl(),
@@ -92,6 +101,7 @@ export default compose( [
 			siteUrl: getSiteUrl(),
 			isPremium: !! getL10nObject().isPremium,
 			isLarge: getTwitterImageType() !== "summary",
+			isLoading: getTwitterIsLoading(),
 			titleInputPlaceholder,
 			descriptionInputPlaceholder,
 			socialMediumName,
@@ -103,15 +113,15 @@ export default compose( [
 			setTwitterPreviewTitle,
 			setTwitterPreviewDescription,
 			clearTwitterPreviewImage,
+			loadTwitterPreviewData,
 		} = dispatch( "yoast-seo/editor" );
 
 		return {
-			onSelectImageClick: () => {
-				getMedia().open();
-			},
+			onSelectImageClick: openMedia,
 			onRemoveImageClick:	clearTwitterPreviewImage,
 			onDescriptionChange: setTwitterPreviewDescription,
 			onTitleChange: setTwitterPreviewTitle,
+			onLoad: loadTwitterPreviewData,
 		};
 	} ),
 ] )( TwitterWrapper );

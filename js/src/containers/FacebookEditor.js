@@ -53,10 +53,18 @@ const getMedia = () => {
 				warnings: validateFacebookImage( image ),
 			} );
 		} );
-		wpDataDispatch( "yoast-seo/editor" ).loadFacebookPreviewData();
 	}
 
 	return media;
+};
+
+/**
+ * Lazy function to open the media instance.
+ *
+ * @returns {void}
+ */
+const openMedia = () => {
+	return getMedia().open();
 };
 
 export default compose( [
@@ -73,6 +81,7 @@ export default compose( [
 			getReplaceVars,
 			getSiteUrl,
 			getAuthorName,
+			getFacebookIsLoading,
 		} = select( "yoast-seo/editor" );
 
 		return {
@@ -88,6 +97,7 @@ export default compose( [
 			authorName: getAuthorName(),
 			siteUrl: getSiteUrl(),
 			isPremium: !! getL10nObject().isPremium,
+			isLoading: getFacebookIsLoading(),
 			titleInputPlaceholder,
 			descriptionInputPlaceholder,
 			socialMediumName,
@@ -99,14 +109,14 @@ export default compose( [
 			setFacebookPreviewTitle,
 			setFacebookPreviewDescription,
 			clearFacebookPreviewImage,
+			loadFacebookPreviewData,
 		} = dispatch( "yoast-seo/editor" );
 		return {
-			onSelectImageClick: () => {
-				getMedia().open();
-			},
+			onSelectImageClick: openMedia,
 			onRemoveImageClick: clearFacebookPreviewImage,
 			onDescriptionChange: setFacebookPreviewDescription,
 			onTitleChange: setFacebookPreviewTitle,
+			onLoad: loadFacebookPreviewData,
 		};
 	} ),
 ] )( FacebookWrapper );
