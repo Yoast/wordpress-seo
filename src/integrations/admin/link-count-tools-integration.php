@@ -105,10 +105,10 @@ class Link_Count_Tools_Integration implements Integration_Interface {
 		$data = [
 			'amount'  => $this->get_total_unindexed(),
 			'ids'     => [
-				'modal'        => 'yoast-link-indexing-modal',
-				'count'        => '#yoast-link-indexing-current-count',
-				'progress'     => '#yoast-link-indexing-progress-bar',
-				'tool'         => '#yoast-link-indexing',
+				'modal'    => 'yoast-link-indexing-modal',
+				'count'    => '#yoast-link-indexing-current-count',
+				'progress' => '#yoast-link-indexing-progress-bar',
+				'message'  => '#yoast-link-indexing',
 			],
 			'restApi' => [
 				'root'      => \esc_url_raw( \rest_url() ),

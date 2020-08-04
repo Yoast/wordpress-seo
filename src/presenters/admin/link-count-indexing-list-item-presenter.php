@@ -37,11 +37,11 @@ class Link_Count_Indexing_List_Item_Presenter extends Abstract_Presenter {
 		$list_item = '<li><strong>' . esc_html__( 'Text link counter', 'wordpress-seo' ) . '</strong><br/>';
 
 		if ( $this->total_unindexed === 0 ) {
-			$list_item .= '<span class="yoast-check">' . esc_html__( 'Good job! All the links in your texts have been counted.', 'wordpress-seo' ) . '</span>';
+			$list_item .= '<span class="wpseo-checkmark-ok-icon"></span>' . esc_html__( 'Good job! All the links in your texts have been counted.', 'wordpress-seo' );
 		}
 		else {
 			$list_item .= sprintf(
-				'<span id="yoast-link-indexing"><button class="yoast-button yoast-button--secondary yoast-open-indexation" data-title="%1$s" data-settings="yoastLinkIndexingData">%1$s</button></span>',
+				'<span id="yoast-link-indexing"><button type="button" class="button yoast-open-indexation" data-title="%1$s" data-settings="yoastLinkIndexingData">%1$s</button></span>',
 				esc_attr__( 'Count links in your texts', 'wordpress-seo' )
 			);
 		}
