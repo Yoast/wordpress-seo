@@ -63,7 +63,7 @@ describe( KeywordInput, () => {
 		expect( wrapper.find( "li[role=\"alert\"]" ).length ).toBe( 0 );
 	} );
 
-	it( "displays the error message for comma-separated words", () => {
+	it( "does not displays the error message for comma-separated words", () => {
 		const wrapper = Enzyme.mount(
 			<KeywordInput
 				id="test-id"
@@ -73,6 +73,28 @@ describe( KeywordInput, () => {
 				onRemoveKeyword={ () => {} }
 				label="test label"
 				ariaLabel="test"
+			/>
+		);
+		wrapper.find( "input" ).simulate( "change", {
+			target: {
+				value: "Keyword1, Keyword2",
+			},
+		} );
+		expect( wrapper.find( "li[role=\"alert\"]" ).length ).toBe( 0 );
+	} );
+
+	it( "does displays the error message if submitted as prop", () => {
+		const wrapper = Enzyme.mount(
+			<KeywordInput
+				id="test-id"
+				onChange={ ( value ) => {
+					wrapper.setProps( { keyword: value } );
+				} }
+				onRemoveKeyword={ () => {} }
+				label="test label"
+				ariaLabel="test"
+				hasError={ true }
+				errorMessages={ [ "Testing error message" ] }
 			/>
 		);
 		wrapper.find( "input" ).simulate( "change", {
