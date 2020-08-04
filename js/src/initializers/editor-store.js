@@ -23,6 +23,7 @@ export default function initEditorStore() {
 			authorName: window.wpseoScriptData.metabox.author_name,
 			siteName: window.wpseoScriptData.metabox.site_name,
 			contentImage: window.wpseoScriptData.metabox.first_content_image,
+			twitterCardType: window.wpseoScriptData.metabox.twitterCardType,
 		},
 		snippetEditor: {
 			baseUrl: window.wpseoScriptData.metabox.base_url,

@@ -86,10 +86,10 @@ jobs:
         - nvm install lts/*
         - curl -o- -L https://yarnpkg.com/install.sh | bash
         - export PATH=$HOME/.yarn/bin:$PATH
-        - openssl aes-256-cbc -K $encrypted_06a9c1b95cfa_key -iv $encrypted_06a9c1b95cfa_iv -in ./config/travis/deploy_keys/travis_dist_id_rsa.enc -out ./config/travis/deploy_keys/travis_dist_id_rsa -d
-        - chmod 600 ./config/travis/deploy_keys/travis_dist_id_rsa
+        - openssl aes-256-cbc -K $encrypted_e268719177eb_key -iv $encrypted_e268719177eb_iv -in config/travis/deploy_keys/id_rsa_yoast_dist.enc -out config/travis/deploy_keys/id_rsa_yoast_dist -d
+        - chmod 600 config/travis/deploy_keys/id_rsa_yoast_dist
         - eval $(ssh-agent -s)
-        - ssh-add ./config/travis/deploy_keys/travis_dist_id_rsa
+        - ssh-add config/travis/deploy_keys/id_rsa_yoast_dist
 
       # If the commit was tagged, create an artifact and push it to the distribution github
       deploy:
