@@ -4,22 +4,21 @@ export const SET_REQUEST_SUCCEEDED = "SET_REQUEST_SUCCEEDED";
 export const SET_REQUEST_FAILED = "SET_REQUEST_FAILED";
 export const SET_REQUEST_LIMIT_REACHED = "SET_LIMIT_REACHED";
 export const NEW_REQUEST = "NEW_REQUEST";
+export const NO_DATA_FOUND = "NO_DATA_FOUND";
 
 /**
  * An action creator for starting a new request.
  *
  * @param {Object} database The database for the SEMrush request.
  * @param {string} keyphrase The keyphrase for the SEMrush request.
- * @param {string} OAuthToken The token for the SEMrush request.
  *
  * @returns {Object} Action object.
  */
-export function setSEMrushNewRequest( database, keyphrase, OAuthToken ) {
+export function setSEMrushNewRequest( database, keyphrase ) {
 	return {
 		type: NEW_REQUEST,
 		database,
 		keyphrase,
-		OAuthToken,
 	};
 }
 
@@ -73,5 +72,21 @@ export function setSEMrushChangeDatabase( database ) {
 	return {
 		type: CHANGE_DATABASE,
 		database,
+	};
+}
+
+/**
+ * An action creator for when no data is returned from SEMrush.
+ *
+ * @param {string} database The country database.
+ * @param {string} keyphrase The keyphrase.
+ *
+ * @returns {Object} Action object.
+ */
+export function setSEMrushNoResultsFound( database, keyphrase ) {
+	return {
+		type: NO_DATA_FOUND,
+		database,
+		keyphrase,
 	};
 }

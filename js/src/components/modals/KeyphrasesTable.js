@@ -96,9 +96,9 @@ class KeyphrasesTable extends Component {
 					</thead>
 					<tbody>
 						{
-							data.data.rows.map( ( row, index ) => {
+							data.results.rows.map( ( row, index ) => {
 								const relatedKeyphrase = row[ 0 ];
-								const chartPoints = this.transformTrendDataToChartPoints( row[ 2 ] );
+								const chartPoints = this.transformTrendDataToChartPoints( row[ 5 ] );
 
 								return <tr key={ index }>
 									<td>{ relatedKeyphrase }</td>

@@ -1,6 +1,9 @@
 /* External dependencies */
 import PropTypes from "prop-types";
-import { Fragment, Component } from "@wordpress/element";
+import { Component, Fragment } from "@wordpress/element";
+import apiFetch from "@wordpress/api-fetch";
+import { addQueryArgs } from "@wordpress/url";
+
 /* Internal dependencies */
 import ErrorBoundary from "@yoast/components/src/internal/ErrorBoundary";
 import FieldGroup from "@yoast/components/src/field-group/FieldGroup";
@@ -168,10 +171,11 @@ class SemRushCountrySelector extends Component {
 		if ( typeof window.jQuery().select2 === "undefined" ) {
 			throw new Error( "No Select2 found." );
 		}
+
 		super( props );
 
 		this.onChangeHandler = this.onChangeHandler.bind( this );
-		this.newRequest = this.newRequest.bind( this );
+		this.relatedKeyphrasesRequest = this.relatedKeyphrasesRequest.bind( this );
 	}
 
 	/**
@@ -199,16 +203,97 @@ class SemRushCountrySelector extends Component {
 	onChangeHandler() {
 		// It is easier to query the select for the selected options than keep track of them in this component as well.
 		const selection = this.select2.select2( "data" ).map( option => option.id )[ 0 ];
+
 		this.props.setDatabase( selection );
 	}
 
 	/**
-	 * Makes a new request to SEMrush.
+	 * Sends a new related keyphrases request to SEMrush.
 	 *
 	 * @returns {void}
 	 */
-	newRequest() {
-		this.props.newRequest( this.props.currentDatabase, this.props.keyphrase, "OAuthToken1" );
+	async relatedKeyphrasesRequest() {
+		const { keyphrase, currentDatabase, newRequest } = this.props;
+
+		newRequest( currentDatabase, keyphrase );
+
+		const response = await this.doRequest( keyphrase, currentDatabase );
+
+		if ( response.status === 200 ) {
+			this.handleSuccessResponse( response );
+
+			return;
+		}
+
+		this.handleFailedResponse( response );
+	}
+
+	/**
+	 * Handles a success response.
+	 *
+	 * @param {Object} response The response object.
+	 *
+	 * @returns {void}
+	 */
+	handleSuccessResponse( response ) {
+		const {
+			keyphrase,
+			currentDatabase,
+			setNoResultsFound,
+			setRequestSucceeded,
+		} = this.props;
+
+		if ( response.results.rows.length === 0 ) {
+			// No results found.
+			setNoResultsFound( keyphrase, currentDatabase );
+
+			return;
+		}
+
+		setRequestSucceeded( response );
+	}
+
+	/**
+	 * Handles a failed response.
+	 *
+	 * @param {Object} response The response object.
+	 *
+	 * @returns {void}
+	 */
+	handleFailedResponse( response ) {
+		const { setRequestLimitReached, setRequestFailed } = this.props;
+
+		if ( "error" in response === false ) {
+			return;
+		}
+
+		if ( response.error.includes( "TOTAL LIMIT EXCEEDED" ) ) {
+			setRequestLimitReached();
+
+			return;
+		}
+
+		setRequestFailed( response );
+	}
+
+	/**
+	 * Performs the related keyphrases API request.
+	 *
+	 * @param {string} keyphrase The keyphrase to send to SEMrush.
+	 * @param {string} database The database country code to send to SEMrush.
+	 *
+	 * @returns {Object} The response object.
+	 */
+	async doRequest( keyphrase, database ) {
+		return await apiFetch( {
+			path: addQueryArgs(
+				"/yoast/v1/semrush/related_keyphrases",
+				{
+					keyphrase,
+					database,
+				}
+			),
+		} );
 	}
 
 	/**
@@ -235,8 +320,9 @@ class SemRushCountrySelector extends Component {
 						</select>
 						<button
 							className="yoast-button yoast-button--secondary"
-							onClick={ this.newRequest }
-						>Change Country</button>
+							onClick={ this.relatedKeyphrasesRequest }
+						>Change Country
+						</button>
 					</FieldGroup>
 				</div>
 			</Fragment>
@@ -249,6 +335,10 @@ SemRushCountrySelector.propTypes = {
 	currentDatabase: PropTypes.string,
 	setDatabase: PropTypes.func.isRequired,
 	newRequest: PropTypes.func.isRequired,
+	setNoResultsFound: PropTypes.func.isRequired,
+	setRequestSucceeded: PropTypes.func.isRequired,
+	setRequestLimitReached: PropTypes.func.isRequired,
+	setRequestFailed: PropTypes.func.isRequired,
 };
 
 SemRushCountrySelector.defaultProps = {

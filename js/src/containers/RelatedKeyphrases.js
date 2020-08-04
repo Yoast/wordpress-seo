@@ -10,27 +10,33 @@ export default compose( [
 		return {
 			keyphrase: select( "yoast-seo/editor" ).getFocusKeyphrase(),
 			currentDatabase: select( "yoast-seo/editor" ).getSEMrushSelectedDatabase(),
-			OAuthToken: select( "yoast-seo/editor" ).getSEMrushRequestOAuthToken(),
 			requestLimitReached: select( "yoast-seo/editor" ).getSEMrushRequestLimitReached(),
 			response: select( "yoast-seo/editor" ).getSEMrushRequestResponse(),
 			isSuccess: select( "yoast-seo/editor" ).getSEMrushRequestIsSuccess(),
 			isPending: select( "yoast-seo/editor" ).getSEMrushIsRequestPending(),
 			keyphraseLimitReached: select( "yoast-seo/editor" ).getSEMrushLimitReached(),
+			requestHasData: select( "yoast-seo/editor" ).getSEMrushRequestHasData(),
 		};
 	} ),
 	withDispatch( ( dispatch ) => {
-		const { setSEMrushChangeDatabase,
-			setSEMrushNewRequest, setSEMrushRequestSucceeded, setSEMrushRequestFailed,
-			setSEMrushSetRequestLimitReached, addSEMrushKeyphrase, removeSEMrushKeyphrase,
-			setSEMrushKeyphraseLimitReached } = dispatch(
-			"yoast-seo/editor"
-		);
+		const {
+			setSEMrushChangeDatabase,
+			setSEMrushNewRequest,
+			setSEMrushRequestSucceeded,
+			setSEMrushRequestFailed,
+			setSEMrushSetRequestLimitReached,
+			addSEMrushKeyphrase,
+			removeSEMrushKeyphrase,
+			setSEMrushKeyphraseLimitReached,
+			setSEMrushNoResultsFound,
+		} = dispatch( "yoast-seo/editor" );
+
 		return {
 			setDatabase: ( database ) => {
 				setSEMrushChangeDatabase( database );
 			},
-			newRequest: ( database, keyphrase, OAuthToken ) => {
-				setSEMrushNewRequest( database, keyphrase, OAuthToken );
+			newRequest: ( database, keyphrase ) => {
+				setSEMrushNewRequest( database, keyphrase );
 			},
 			setRequestSucceeded: ( response ) => {
 				setSEMrushRequestSucceeded( response );
@@ -49,6 +55,9 @@ export default compose( [
 			},
 			setKeyphraseLimitReached: () => {
 				setSEMrushKeyphraseLimitReached();
+			},
+			setNoResultsFound: ( database, keyphrase ) => {
+				setSEMrushNoResultsFound( database, keyphrase );
 			},
 		};
 	} ),
