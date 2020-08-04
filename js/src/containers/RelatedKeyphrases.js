@@ -3,7 +3,7 @@ import { withDispatch, withSelect } from "@wordpress/data";
 import { compose } from "@wordpress/compose";
 
 /* Internal dependencies */
-import RelatedKeyphraseModalContent from "../components/RelatedKeyphraseModalContent";
+import RelatedKeyphrasesModalContent from "../components/RelatedKeyphrasesModalContent";
 
 export default compose( [
 	withSelect( ( select ) => {
@@ -50,4 +50,4 @@ export default compose( [
 			},
 		};
 	} ),
-] )( RelatedKeyphraseModalContent );
+] )( RelatedKeyphrasesModalContent );
