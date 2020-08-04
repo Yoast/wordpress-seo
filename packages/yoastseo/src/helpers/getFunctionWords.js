@@ -26,6 +26,8 @@ import swedishFunctionWordsFactory from "../researches/swedish/functionWords.js"
 const swedishFunctionWords = swedishFunctionWordsFactory();
 import indonesianFunctionWordsFactory from "../researches/indonesian/functionWords.js";
 const indonesianFunctionWords = indonesianFunctionWordsFactory();
+import hebrewFunctionWordsFactory from "../researches/hebrew/functionWords.js";
+const hebrewFunctionWords = hebrewFunctionWordsFactory();
 import arabicFunctionWordsFactory from "../researches/arabic/functionWords.js";
 const arabicFunctionWords = arabicFunctionWordsFactory();
 
@@ -47,6 +49,7 @@ export default function() {
 		pl: polishFunctionWords,
 		sv: swedishFunctionWords,
 		id: indonesianFunctionWords,
+		he: hebrewFunctionWords,
 		ar: arabicFunctionWords,
 	};
 }
