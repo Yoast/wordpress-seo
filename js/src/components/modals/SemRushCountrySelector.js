@@ -213,7 +213,8 @@ class SemRushCountrySelector extends Component {
 		apiFetch( {
 			path: "yoast/v1/semrush/country_code",
 			method: "POST",
-			data: { countryCode: this.props.countryCode },
+			// eslint-disable-next-line camelcase
+			data: { country_code: this.props.countryCode },
 		} );
 	}
 
