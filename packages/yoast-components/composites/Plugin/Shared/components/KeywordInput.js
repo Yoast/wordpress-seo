@@ -2,7 +2,6 @@
 import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
-import { __ } from "@wordpress/i18n";
 import noop from "lodash/noop";
 
 /* Yoast dependencies */
@@ -129,7 +128,6 @@ class KeywordInput extends React.Component {
 		super( props );
 
 		this.handleChange = this.handleChange.bind( this );
-		this.displayErrorMessage = this.displayErrorMessage.bind( this );
 	}
 
 	/**
@@ -141,23 +139,6 @@ class KeywordInput extends React.Component {
 	 */
 	checkKeywordInput( keywordText ) {
 		return keywordText.includes( "," );
-	}
-
-	/**
-	 * Displays the error message
-	 *
-	 * @param {boolean} showErrorMessage Whether or not the error message has to be shown.
-	 *
-	 * @returns {ReactElement} ErrorText The error message element.
-	 */
-	displayErrorMessage( showErrorMessage ) {
-		if ( showErrorMessage && this.props.keyword !== "" ) {
-			return (
-				<ErrorText role="alert">
-					{ __( "Are you trying to use multiple keyphrases? You should add them separately below.", "yoast-components" ) }
-				</ErrorText>
-			);
-		}
 	}
 
 	/**
@@ -195,15 +176,10 @@ class KeywordInput extends React.Component {
 	/**
 	 * Renders the input's error message list.
 	 *
-	 * @param {boolean} showMultipleKeyphrasesErrorMessage Whether or not the multiple keyphrases error message has to be shown.
-	 *
 	 * @returns {ReactElement} The error list.
 	 */
-	renderErrorMessages( showMultipleKeyphrasesErrorMessage ) {
+	renderErrorMessages() {
 		const errorMessages = [ ...this.props.errorMessages ];
-		if ( showMultipleKeyphrasesErrorMessage && this.props.keyword !== "" ) {
-			errorMessages.push( __( "Are you trying to use multiple keyphrases? You should add them separately below.", "yoast-components" ) );
-		}
 		return (
 			<ErrorList>
 				{ errorMessages.map( ( message, index ) =>
@@ -225,8 +201,6 @@ class KeywordInput extends React.Component {
 	 */
 	render() {
 		const { id, showLabel, keyword, onRemoveKeyword, onBlurKeyword, onFocusKeyword, hasError } = this.props;
-		const showMultipleKeyphrasesErrorMessage = this.checkKeywordInput( keyword );
-
 		// The aria label should not be shown if there is a visible label.
 		const showAriaLabel = ! showLabel;
 
@@ -235,7 +209,7 @@ class KeywordInput extends React.Component {
 		return (
 			<KeywordInputContainer>
 				{ showLabel && this.renderLabel() }
-				{ ( showMultipleKeyphrasesErrorMessage || hasError ) && this.renderErrorMessages( showMultipleKeyphrasesErrorMessage ) }
+				{ hasError && this.renderErrorMessages() }
 				<YoastInputButtonContainer
 					className={ showRemoveKeywordButton ? "has-remove-keyword-button" : null }
 				>
@@ -243,7 +217,7 @@ class KeywordInput extends React.Component {
 						aria-label={ showAriaLabel ? this.props.label : null }
 						type="text"
 						id={ id }
-						className={ ( showMultipleKeyphrasesErrorMessage || hasError ) ? "has-error" : null }
+						className={ hasError ? "has-error" : null }
 						onChange={ this.handleChange }
 						onFocus={ onFocusKeyword }
 						onBlur={ onBlurKeyword }
