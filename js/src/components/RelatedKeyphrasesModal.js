@@ -76,7 +76,7 @@ class RelatedKeyphrasesModal extends Component {
 					<Modal
 						title={ __( "Related keyphrases", "wordpress-seo" ) }
 						onRequestClose={ this.onModalClose }
-						className="yoast-gutenberg-modal yoast-related-keyphrases-modal"
+						className="yoast yoast-gutenberg-modal yoast-related-keyphrases-modal"
 						icon={ <YoastIcon /> }
 					>
 						<ModalContainer
