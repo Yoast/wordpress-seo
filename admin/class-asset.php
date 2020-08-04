@@ -142,10 +142,11 @@ class WPSEO_Admin_Asset {
 	 */
 	private $defaults = [
 		'deps'      => [],
-		'version'   => WPSEO_VERSION,
 		'in_footer' => true,
 		'rtl'       => true,
 		'media'     => 'all',
+		'version'   => '',
+		'suffix'    => '',
 	];
 
 	/**
@@ -173,7 +174,7 @@ class WPSEO_Admin_Asset {
 		$this->media     = $args['media'];
 		$this->in_footer = $args['in_footer'];
 		$this->rtl       = $args['rtl'];
-		$this->suffix    = isset( $args['suffix'] ) ? $args['suffix'] : '';
+		$this->suffix    = $args['suffix'];
 	}
 
 	/**
@@ -209,7 +210,11 @@ class WPSEO_Admin_Asset {
 	 * @return string
 	 */
 	public function get_version() {
-		return $this->version;
+		if ( ! empty( $this->version ) ) {
+			return $this->version;
+		}
+
+		return null;
 	}
 
 	/**

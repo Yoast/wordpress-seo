@@ -2,6 +2,7 @@
 import { Fragment, Component } from "@wordpress/element";
 import { Button, Modal } from "@wordpress/components";
 import { __ } from "@wordpress/i18n";
+import styled from "styled-components";
 
 /* Yoast dependencies */
 import { ButtonSection } from "yoast-components";
@@ -9,6 +10,12 @@ import { ButtonSection } from "yoast-components";
 /* Internal dependencies */
 import SnippetEditorWrapper from "../containers/SnippetEditor";
 import YoastIcon from "../../../images/Yoast_icon_kader.svg";
+
+const ModalContentSpacer = styled.div`
+	@media screen and (min-width: 782px) {
+		width: 640px;
+	}
+`;
 
 class SnippetPreviewModal extends Component {
 	constructor( props ) {
@@ -48,7 +55,9 @@ class SnippetPreviewModal extends Component {
 						className="yoast-gutenberg-modal"
 						icon={ <YoastIcon /> }
 					>
-						<SnippetEditorWrapper showCloseButton={ false } hasPaperStyle={ false } />
+						<ModalContentSpacer>
+							<SnippetEditorWrapper showCloseButton={ false } hasPaperStyle={ false } />
+						</ModalContentSpacer>
 						<Button isSecondary={ true } onClick={ this.closeModal }>
 							{ __( "Close", "wordpress-seo" ) }
 						</Button>

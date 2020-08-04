@@ -20,9 +20,7 @@ module.exports = {
 			"<%= files.php %>",
 		],
 		tasks: [
-			"phplint",
-			"phpcs",
-			"checktextdomain",
+			"check:php",
 		],
 	},
 	js: {
@@ -33,6 +31,22 @@ module.exports = {
 		tasks: [
 			"build:js",
 			"eslint:plugin",
+		],
+	},
+	jsTests: {
+		files: [
+			"<%= files.jsTests %>",
+		],
+		tasks: [
+			"eslint:tests",
+		],
+	},
+	css: {
+		files: [
+			"<%= files.css %>",
+		],
+		tasks: [
+			"build:css",
 		],
 	},
 };

@@ -28,7 +28,15 @@ class CreateIndexableSubpagesIndex extends Migration {
 	 * @return void
 	 */
 	public function up() {
-		$this->change_column( $this->get_table_name(), 'post_status', 'string', [ 'null' => true, 'limit' => 20 ] );
+		$this->change_column(
+			$this->get_table_name(),
+			'post_status',
+			'string',
+			[
+				'null'  => true,
+				'limit' => 20,
+			]
+		);
 		$this->add_index(
 			$this->get_table_name(),
 			[ 'post_parent', 'object_type', 'post_status', 'object_id' ],
@@ -42,7 +50,15 @@ class CreateIndexableSubpagesIndex extends Migration {
 	 * @return void
 	 */
 	public function down() {
-		$this->change_column( $this->get_table_name(), 'post_status', 'string', [ 'null' => true, 'limit' => 191 ] );
+		$this->change_column(
+			$this->get_table_name(),
+			'post_status',
+			'string',
+			[
+				'null'  => true,
+				'limit' => 191,
+			]
+		);
 		$this->remove_index(
 			$this->get_table_name(),
 			[ 'post_parent', 'object_type', 'post_status', 'object_id' ],

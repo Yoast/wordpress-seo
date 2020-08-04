@@ -9,10 +9,16 @@ export default compose( [
 		};
 	} ),
 	withDispatch( ( dispatch ) => {
-		const { setSEMrushOpenModal, setSEMrushDismissModal } = dispatch(
-			"yoast-seo/editor"
-		);
+		const {
+			setSEMrushNoKeyphraseMessage,
+			setSEMrushOpenModal,
+			setSEMrushDismissModal,
+		} = dispatch( "yoast-seo/editor" );
+
 		return {
+			onOpenWithNoKeyphrase: () => {
+				setSEMrushNoKeyphraseMessage();
+			},
 			onOpen: ( location ) => {
 				setSEMrushOpenModal( location );
 			},

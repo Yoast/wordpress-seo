@@ -97,11 +97,7 @@ export function createLinkFormat( { url, opensInNewWindow, noFollow, sponsored, 
 	let relAttributes = [];
 
 	if ( opensInNewWindow ) {
-		// translators: accessibility label for external links, where the argument is the link text
-		const label = sprintf( __( "%s (opens in a new tab)", "wordpress-seo" ), text );
-
 		format.attributes.target = "_blank";
-		format.attributes[ "aria-label" ] = label;
 
 		relAttributes.push( "noreferrer noopener" );
 	}
