@@ -1,7 +1,7 @@
 /* External dependencies */
 import PropTypes from "prop-types";
 import { Component, Fragment } from "@wordpress/element";
-import apiFetch from '@wordpress/api-fetch';
+import apiFetch from "@wordpress/api-fetch";
 /* Internal dependencies */
 import ErrorBoundary from "@yoast/components/src/internal/ErrorBoundary";
 import FieldGroup from "@yoast/components/src/field-group/FieldGroup";
