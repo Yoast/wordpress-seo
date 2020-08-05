@@ -208,6 +208,32 @@ Your question has most likely been answered on our knowledge base: [kb.yoast.com
 
 == Changelog ==
 
+= 14.8 =
+Release Date: August 18th, 2020
+
+Bugfixes:
+
+* Fixes a bug where the Yoast Dashboard widget may trigger an error when other plugins or temporary conditions make the Yoast API response fail. [#15797](https://github.com/Yoast/wordpress-seo/pull/15797)
+
+Enhancements:
+
+* Adds a new schema tab to our metabox. This tab allows the user to change their schema settings on posts, pages and custom post types.
+* Adds a new section to the search appearance settings. This section allows the user to change their schema defaults for posts, pages and custom post types.
+* Updates the progress-bar in the indexation to the new styling.
+* Improves accuracy for the following assessments for languages written right-to-left: sentence length, keyphrase in introduction, keyphrase distribution, keyphrase density, keyphrase in meta description. 
+* Improves all keyphrase-based assessments for Arabic by allowing keyphrases to be recognized in text when preceded by a prefix (e.g., "ل" or "ب") and filtering function words. 
+* Fixes inconsistency in feedback strings that are produced by the Keyphrase in SEO Title assessment. 
+* Adds the Sentence beginnings assessment for Indonesian. 
+* Adds Transition words assessment for Indonesian. 
+* Adds Passive voice assessment for Indonesian. 
+* Adds Flesch reading ease assessment for Portuguese. 
+* Adds passive voice assessment for Portuguese. 
+
+Other:
+
+* Sets minimum WP version to 5.4
+* Optimizes the logic involved in default filters for our options. This should lead to a very small increase in performance as well as avoiding an edge case where the default filter would be removed.
+
 = 14.7 =
 Release Date: August 5th, 2020
 
@@ -240,50 +266,6 @@ Other:
  * Adds the option to filter our Schema by `@type`.
  * Removes the setting to show the date in the Google Preview. The date will now always be shown in post-type previews.
  * Moves the running of the SEO data indexing process to the Yoast Tools page.
-
-= 14.6.1 =
-Release Date: July 21st, 2020
-
-Other:
-
-* Reverts the change for social media titles to pick the post/page/term title, as this could inadvertently lead to low quality titles for some archives and other page types.
-
-Bugfixes:
-
-* Fixes a bug where the where all methods were removed from `xmlrpc.php` due to incorrect usage of `add_action` as opposed to `add_filter`.
-
-= 14.6 =
-Release Date: July 21st, 2020
-
-We have a new release for you: Yoast SEO 14.6. This release has some pretty cool enhancements. For example, we’ve added another helpful indicator in the editor that shows you your scores for a particular post quickly. Read more about those changes in [our release post](https://yoa.st/release-14-6)!
-
-Enhancements:
-
-* Improves the editing experience in the Social tab, and gives it a dab of fresh paint.
-* In the sharing metadata used for Facebook, Twitter, Pinterest, LinkedIn and many other sites, we now output the post title instead of the SEO title. This prevents the brand name from being added in most cases, which is better on those platforms. You can still set a specific sharing title on the Social tab of the Yoast SEO post settings.
-* Makes the plugin icon in the editor reflect the SEO and Readability score.
-* Improves keyphrase counting in Indonesian by not counting '-' as a word boundary.
-* Improves the feedback text for the keyphrase in title assessment to make clear that an exact keyphrase match is necessary.
-* Improves the recognition of keywords in the slug if they contain a hyphen (for example: re-duplicated, on-the-go).
-* Improves the transition words analysis for Russian.
-* `Noindex`es the `xmlrpc.php` file and all possible ways to request it, removing them from Google’s search results.
-* For privacy reasons, no longer shows whether an email address is already subscribed to the newsletter.
-
-Bugfixes:
-
-* Fixes a bug where the comment count would be output for Articles that did not accept comments. Props to [gr8shivam](https://github.com/gr8shivam).
-* Fixes a bug where the social previews did not reflect the `og:image` tag correctly in situations where the first image in the content was used as a fallback.
-* Fixes a bug where slashes in titles and open graph titles were removed before they were used as a replacement variable. Props to [Jon Christopher](https://github.com/jchristopher).
-* Fixes a bug where a `get_plugins()` undefined error would be thrown if there was already a `plugin.php` loaded via the `init` hook by another plugin. Props to [Krishna Kant](https://github.com/lushkant).
-* Fixes a bug where there was no border on the bottom of metabox tabs without any collapsible sections.
-* Fixes a bug where "array_merge(): Argument #1 is not an array" issues could appear under specific circumstances. Props to [chteuchteu](https://github.com/chteuchteu).
-
-Other:
-
-* Removes functions, class variables and classes that were deprecated prior to version 11.5.
-* Adds a quick cache, which caches the result for 1 minute, so we don't do the same call the my.yoast.com twice on a pageload.
-* Introduces the --skip-confirmation argument to run our wp-cli reindex command without confirmation prompt.
-* Yoast SEO had many scripts that relied on many localized objects. In an effort to improve maintainability we have combined all those objects into one: wpseoScriptData. wpseoPostScraperL10n and wpseoTermScraperL10n remain available for backward compatibility. Plugins that tap into our objects will need to update their code.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).
