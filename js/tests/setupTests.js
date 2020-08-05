@@ -18,6 +18,17 @@ setLocaleData( {
 	},
 }, "wordpress-seo" );
 
+// For the yoast-components imports.
+setLocaleData( {
+	"": {
+		domain: "yoast-components",
+		lang: "en",
+		/* eslint-disable */
+		plural_forms: "nplurals=2; plural=(n != 1);",
+		/* eslint-enable */
+	},
+}, "yoast-components" );
+
 
 /* Setup react to be used like in WordPress. */
 global.React = React;
