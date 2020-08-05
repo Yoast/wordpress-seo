@@ -10,7 +10,6 @@ export default compose( [
 		return {
 			keyphrase: select( "yoast-seo/editor" ).getFocusKeyphrase(),
 			countryCode: select( "yoast-seo/editor" ).getSEMrushSelectedCountry(),
-			OAuthToken: select( "yoast-seo/editor" ).getSEMrushRequestOAuthToken(),
 			requestLimitReached: select( "yoast-seo/editor" ).getSEMrushRequestLimitReached(),
 			response: select( "yoast-seo/editor" ).getSEMrushRequestResponse(),
 			isSuccess: select( "yoast-seo/editor" ).getSEMrushRequestIsSuccess(),

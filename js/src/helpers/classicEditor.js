@@ -6,6 +6,9 @@ import getL10nObject from "../analysis/getL10nObject";
 const registeredComponents = [];
 let containerRef = null;
 
+/**
+ * The RegisteredComponentsContainer.
+ */
 class RegisteredComponentsContainer extends wpComponent {
 	/**
 	 * Constructs a container for registered components.

@@ -205,25 +205,34 @@ class SEMrushCountrySelector extends Component {
 	}
 
 	/**
+	 * Stores the country code via a REST API call.
+	 *
+	 * @param {string} countryCode The country code to store.
+	 *
+	 * @returns {void}
+	 */
+	storeCountryCode( countryCode ) {
+		apiFetch( {
+			path: "yoast/v1/semrush/country_code",
+			method: "POST",
+			// eslint-disable-next-line camelcase
+			data: { country_code: countryCode },
+		} );
+	}
+
+	/**
 	 * Sends a new related keyphrases request to SEMrush and updates the semrush_country_code value in the database.
 	 *
 	 * @returns {void}
 	 */
 	async relatedKeyphrasesRequest() {
-		const { keyphrase, countrCode, newRequest } = this.props;
+		const { keyphrase, countryCode, newRequest } = this.props;
 
-		newRequest( countrCode, keyphrase );
+		newRequest( countryCode, keyphrase );
 
-		const response = await this.doRequest( keyphrase, countrCode );
+		this.storeCountryCode( countryCode );
 
-		// Store country code
-		apiFetch( {
-			path: "yoast/v1/semrush/country_code",
-			method: "POST",
-			// eslint-disable-next-line camelcase
-			data: { country_code: this.props.countryCode },
-		} );
-
+		const response = await this.doRequest( keyphrase, countryCode );
 
 		if ( response.status === 200 ) {
 			this.handleSuccessResponse( response );
@@ -244,14 +253,14 @@ class SEMrushCountrySelector extends Component {
 	handleSuccessResponse( response ) {
 		const {
 			keyphrase,
-			currentDatabase,
+			countryCode,
 			setNoResultsFound,
 			setRequestSucceeded,
 		} = this.props;
 
 		if ( response.results.rows.length === 0 ) {
 			// No results found.
-			setNoResultsFound( keyphrase, currentDatabase );
+			setNoResultsFound( keyphrase, countryCode );
 
 			return;
 		}
@@ -286,17 +295,18 @@ class SEMrushCountrySelector extends Component {
 	 * Performs the related keyphrases API request.
 	 *
 	 * @param {string} keyphrase The keyphrase to send to SEMrush.
-	 * @param {string} database The database country code to send to SEMrush.
+	 * @param {string} countryCode The database country code to send to SEMrush.
 	 *
 	 * @returns {Object} The response object.
 	 */
-	async doRequest( keyphrase, database ) {
+	async doRequest( keyphrase, countryCode ) {
 		return await apiFetch( {
 			path: addQueryArgs(
 				"/yoast/v1/semrush/related_keyphrases",
 				{
 					keyphrase,
-					database,
+					// eslint-disable-next-line camelcase
+					country_code: countryCode,
 				}
 			),
 		} );

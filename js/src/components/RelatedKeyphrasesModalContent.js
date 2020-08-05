@@ -80,15 +80,13 @@ export default function RelatedKeyphraseModalContent( props ) {
 	return (
 		<Fragment>
 			<SemRushUpsellAlert />
-			<SemRushLimitReached />
-			<SemRushRequestFailed />
 			{ getUserMessage( props ) }
+
 			<SEMrushCountrySelector
 				countryCode={ countryCode }
 				setCountry={ setCountry }
 				newRequest={ newRequest }
 				keyphrase={ keyphrase }
-				newRequest={ newRequest }
 				setRequestFailed={ setRequestFailed }
 				setNoResultsFound={ setNoResultsFound }
 				setRequestSucceeded={ setRequestSucceeded }
