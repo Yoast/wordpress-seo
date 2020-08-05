@@ -22,7 +22,4 @@ UX designer:
 #### Design files
 <!-- Paste link to design files (in Sketch Cloud) -->
 
-#### Component specs
-https://github.com/Yoast/design/wiki
-
 ### Additional info or requirements

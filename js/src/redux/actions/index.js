@@ -5,3 +5,5 @@ export * from "./primaryTaxonomies";
 export * from "./snippetEditor";
 export * from "./activeMarker";
 export * from "./markerPauseStatus";
+export * from "./twitterEditor";
+export * from "./facebookEditor";

@@ -1,0 +1,744 @@
+@import url(../src/icons.css);
+@import "../../node_modules/draft-js-mention-plugin/lib/plugin.css";
+/*!rtl:begin:ignore*/
+@import "../../node_modules/draft-js/dist/Draft.css";
+/*!rtl:end:ignore*/
+
+#wpseo_meta {
+  box-sizing: border-box;
+}
+
+#wpseo_meta *, #wpseo_meta *:before, #wpseo_meta *:after {
+  box-sizing: inherit;
+}
+
+.DraftEditor-root [data-block] {
+  margin: 0;
+}
+
+/* Hide the taxonomy metabox rich editor when it's first inserted in the form. */
+#edittag > #wp-description-wrap {
+  display: none;
+}
+
+#wp-description-wrap .wp-editor-area {
+  border: 0;
+}
+
+/* Give the original textarea enough height to mitigate content flash. */
+.term-description-wrap td > textarea#description {
+  min-height: 530px;
+}
+
+/**
+ * Lines below came from metabox-tabs.css
+ *
+ * Metabox Tabs
+ */
+ul.wpseo-metabox-tabs {
+  display: none;
+  margin-top: 6px;
+  margin-bottom: 0;
+}
+
+/* Contain floated list items and have overflow visible for the active tab */
+ul.wpseo-metabox-tabs:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.wpseo-metabox-tabs-div {
+  margin: 0 5px 5px;
+}
+
+.wpseo-metabox-tabs-div ul {
+  list-style: none;
+}
+
+#wpseo-meta-section-addons {
+  padding: 0 5px 5px;
+}
+
+#wpseo-meta-section-addons .wpseo-metabox-tabs-div {
+  margin: 0;
+}
+
+ul.wpseo-metabox-tabs li.active {
+  background-color: #fdfdfd;
+}
+
+.wpseo-meta-section,
+.wpseo-meta-section-react {
+  display: none;
+  max-width: 600px;
+  width: 100%;
+  min-height: 100%;
+  height: auto;
+  vertical-align: top;
+  border: 1px solid rgba( 0,0,0,0.2 );
+}
+
+.wpseo-meta-section.active,
+.wpseo-meta-section-react.active {
+  background: #fff;
+  position: relative;
+  /* 1 higher than the active menu item: .wpseo-metabox-menu.active */
+  z-index: 12;
+}
+
+.wpseo-meta-section.active {
+  display: inline-block;
+}
+
+.wpseo-meta-section-react.active {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.wpseo-meta-section-content {
+  padding: 16px;
+}
+
+.wpseo-metabox-content {
+  max-width: 800px;
+  padding-top: 16px;
+}
+
+.wpseo-metabox-menu {
+  padding: 0;
+  background-color: #fff;
+}
+
+.wpseo-metabox-menu ul {
+  margin: 0 1px 0 0;
+  padding: 0 0 0 16px;
+  display: flex;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  flex-flow: wrap-reverse;
+}
+
+.wpseo-metabox-menu ul li:nth-child(1) {
+  z-index: 10;
+}
+
+.wpseo-metabox-menu ul li:nth-child(2) {
+  z-index: 9;
+}
+
+.wpseo-metabox-menu ul li:nth-child(3) {
+  z-index: 8;
+}
+
+.wpseo-metabox-menu ul li:nth-child(4) {
+  z-index: 7;
+}
+
+.wpseo-metabox-menu ul li:nth-child(5) {
+  z-index: 6;
+}
+
+.wpseo-metabox-menu ul li:nth-child(6) {
+  z-index: 5;
+}
+
+.wpseo-metabox-menu ul li {
+  box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.1);
+  height: 32px;
+  /* Negative margins are to not have double borders. */
+  margin-left: -1px;
+  margin-bottom: -1px;
+  text-align: center;
+  position: relative;
+  background-color: #f8f8f8;
+}
+
+.wpseo-metabox-menu ul li a {
+  color:  #0073aa;
+  display: flex;
+  align-items: center;
+  border: 1px solid rgba( 0,0,0,0.2 );
+  border-bottom: 2px transparent;
+}
+
+.wpseo-metabox-menu ul li a:focus {
+  box-shadow: inherit;
+}
+
+.wpseo-metabox-menu ul li .yst-traffic-light {
+  height: 20px;
+  width: initial;
+  /* all the other icons are 20x20 so we need to compensate */
+  margin-right: 10px;
+  margin-left: 4px;
+}
+
+.wpseo-metabox-menu ul li span.dashicons {
+  margin-right: 8px;
+}
+
+.wpseo-metabox-menu ul li span.wpseo-buy-premium {
+  color: #a4286a;
+}
+
+.wpseo-metabox-menu ul li span.wpseo-buy-premium:hover {
+  color: #832055;
+}
+
+.wpseo-metabox-menu ul li.active {
+  height: 36px;
+  /* 4 px is the difference in height with the inactive tabs. */
+  margin-top: -4px;
+  z-index: 13;
+  background-color: #ffffff;
+  border-bottom: 2px transparent;
+  box-shadow: none;
+}
+
+.wpseo-metabox-menu ul li.active a {
+  height: 36px;
+  color: #444;
+}
+
+.wpseo-metabox-menu ul li.active span.wpseo-buy-premium {
+  color: #a4286a;
+  border-color: #a4286a;
+}
+
+.wpseo-metabox-menu ul li.active span.wpseo-buy-premium:hover {
+  color: #832055;
+  border-color: #832055;
+}
+
+.wpseo-metabox-menu a {
+  height: 32px;
+  padding: 0 8px;
+  text-decoration: none;
+}
+
+/* Floated to reset white space between list items */
+ul.wpseo-metabox-tabs li {
+  float: left;
+  margin-right: 5px;
+  margin-bottom: -1px;
+  padding: 0;
+  border: 1px solid #dfdfdf;
+  border-bottom: 0 none;
+}
+
+ul.wpseo-metabox-tabs li .wpseo-keyword {
+  display: inline-block;
+  vertical-align: top;
+  max-width: 8em;
+  max-width: 8rem;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.wpseotab {
+  display: none;
+  padding: 16px;
+  border: 1px solid #ddd;
+  background-color: #fdfdfd;
+}
+
+.wpseotab .wpseo-cornerstone-checkbox {
+  margin-right: 0.5em;
+}
+
+.wpseotab.content {
+  padding: 20px 15px;
+}
+
+.wpseotab.active {
+  display: block;
+}
+
+/* Tab links. */
+.wpseo-metabox-tabs .wpseo_tablink {
+  display: inline-block;
+  vertical-align: top;
+  padding: 5px 12px 6px 12px;
+  text-decoration: none;
+}
+
+/* Bigger right padding only for the content tab and the main keyword tabs */
+.wpseo-metabox-tabs .wpseo_content_tab a {
+  padding-right: 12px;
+}
+
+.wpseo-metabox-tabs .wpseo-score-icon {
+  margin-left: 0;
+}
+
+#wpseo-meta-section-social .wpseo-metabox-tabs .wpseo_tablink {
+  padding: 5px 7px;
+}
+
+.wpseo-metabox-tabs .wpseo_tablink .dashicons {
+  width: 16px;
+  height: 16px;
+  font-size: 16px;
+}
+
+.wpseo-metabox-sidebar .dashicons {
+  width: 30px;
+  height: 30px;
+  font-size: 30px;
+}
+
+.wpseo-metabox-tabs-div div.wpseo-tabs-panel {
+  overflow: auto;
+  padding: 0.5em 0.9em;
+  border: 1px solid;
+}
+
+#wpseo_meta .inside {
+  margin: 0;
+}
+
+#wpseo_meta .inside::after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+#wpseo_meta .postbox .inside .wpseotab {
+  font-size: 13px !important;
+}
+
+/* Basic styling for social, advanced, and add-ons tabs content. */
+.wpseo-form {
+  /* By default, labels are set to display block. */
+  /* Radio buttons and checkboxes labels are set to display inline-block. */
+  /* Default vertical spacing between blocks of controls. */
+  /* First form controls in a tab need a smaller top margin. */
+  /* Radio buttons. */
+  /* Descriptions and error messages below the fields. */
+}
+
+.wpseo-form input,
+.wpseo-form label,
+.wpseo-form textarea,
+.wpseo-form .select2-container,
+.wpseo-form p.error-message {
+  max-width: 600px;
+}
+
+.wpseo-form fieldset {
+  padding-top: 5px;
+}
+
+.wpseo-form legend {
+  font-weight: 600;
+}
+
+.wpseo-form label {
+  display: block;
+  font-weight: 600;
+}
+
+.wpseo-form input[type="radio"] + label,
+.wpseo-form input[type="checkbox"] + label {
+  display: inline-block;
+  font-weight: 400;
+}
+
+.wpseo-form label,
+.wpseo-form fieldset {
+  margin-top: 2em;
+  margin-bottom: 0.5em;
+}
+
+.wpseo-form input[type="checkbox"],
+.wpseo-form input[type="checkbox"] + label {
+  margin-top: 2em;
+  margin-bottom: 0;
+  font-size: 1em;
+  /* 1em = 13px. Necessary for proper calculation of margins in em. */
+}
+
+.wpseo-form label:first-child,
+.wpseo-form fieldset:first-child,
+.wpseo-form input[type="checkbox"]:first-child,
+.wpseo-form input[type="checkbox"]:first-child + label {
+  margin-top: 10px;
+}
+
+.wpseo-form input[type="radio"] {
+  margin-top: 0;
+}
+
+.wpseo-form input[type="radio"] + label {
+  margin: 0 1em 0 0;
+}
+
+.wpseo-form p.error-message {
+  margin: 0.5em 0;
+}
+
+.wpseo-form select[multiple] {
+  margin-top: 0;
+}
+
+.yoast-metabox__description {
+  max-width: 600px;
+}
+
+/* Descriptions and error messages below the fields. */
+.yoast-metabox__description {
+  margin: 0.5em 0;
+}
+
+.wpseo_image_upload_button {
+  margin-left: 3px;
+}
+
+.good,
+.warn,
+.wrong {
+  font-weight: 600;
+}
+
+.good {
+  color: green;
+}
+
+.warn {
+  color: maroon;
+}
+
+.wrong {
+  color: #dc3232;
+}
+
+#current_seo_title span {
+  padding: 2px 5px;
+  background-color: lightyellow;
+}
+
+#focuskwresults ul {
+  margin: 0;
+}
+
+#focuskwresults p,
+#focuskwresults li {
+  font-size: 13px;
+}
+
+#focuskwresults li {
+  margin: 0 0 0 20px;
+  list-style-type: disc;
+}
+
+.wpseo_hidden {
+  display: none;
+}
+
+.wpseo_msg {
+  margin: 5px 0 10px 0;
+  padding: 0 5px;
+  border: 1px solid #e6db55;
+  background-color: lightYellow;
+}
+
+ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
+  border: 1px dashed #dfdfdf;
+  border-bottom: none;
+}
+
+.wpseo-tab-add-keyword .wpseo-add-keyword.button {
+  height: auto;
+  padding: 5px 12px 5px 10px;
+  vertical-align: top;
+  font-size: inherit;
+  line-height: inherit;
+  font-weight: bold;
+  box-shadow: none;
+  background: none;
+  text-decoration: none;
+}
+
+.wpseo-tab-add-keyword .wpseo-add-keyword.button:focus {
+  box-shadow: 0 0 0 1px #5b9dd9, 0 0 2px 1px rgba(30, 140, 190, 0.8);
+}
+
+.wpseo-tab-add-keyword .wpseo-add-keyword.button:active {
+  transform: none;
+}
+
+.wpseo-add-keyword-plus {
+  display: inline-block;
+  vertical-align: top;
+  margin: -1px 3px 0 0;
+  font-size: 20px;
+}
+
+#wpseo-add-keyword-popup-title {
+  margin: 1em 0;
+  font-size: 1.3em;
+}
+
+/**
+ * Edit Snippet Button focus style.
+ *
+ * This should be abstracted and applied to all buttons.
+ * Or, maybe, take advantage of the `.button` CSS class in WordPress.
+ */
+.snippet-editor__button.snippet-editor__edit-button:focus {
+  border-color: #5b9dd9;
+  outline: none;
+  color: #23282d;
+  background-color: #fafafa;
+  box-shadow: 0 0 3px rgba(0, 115, 170, 0.8);
+}
+
+.wpseo-admin-page .subsubsub li {
+  display: inline;
+  max-width: none;
+}
+
+.yoast-seo-help-container {
+  float: left;
+  width: 100%;
+  max-width: none;
+}
+
+.yoast-seo-help-container .yoast-help-panel {
+  margin: 0.5em 0 !important;
+}
+
+.wpseo_content_wrapper p.search-box {
+  margin: 10px 0 5px 0;
+}
+
+.wpseo-metabox-tabs .active a {
+  color: #333;
+}
+
+#wpseotab .ui-widget-content .ui-state-hover {
+  border: 1px solid #dfdfdf;
+  color: #333;
+  background: #f1f1f1;
+}
+
+.yst-traffic-light {
+  width: 19px;
+  height: 30px;
+  margin: 0 0 0 5px;
+}
+
+.yst-traffic-light .traffic-light-color {
+  display: none;
+}
+
+.yst-traffic-light.init .traffic-light-init {
+  display: inline;
+}
+
+.yst-traffic-light.bad .traffic-light-red {
+  display: inline;
+}
+
+.yst-traffic-light.ok .traffic-light-orange {
+  display: inline;
+}
+
+.yst-traffic-light.good .traffic-light-green {
+  display: inline;
+}
+
+.yst-traffic-light.na .traffic-light-empty {
+  display: inline;
+}
+
+/**
+* Content and SEO score in publish bar
+*/
+.yoast-seo-score .yoast-logo.svg {
+  float: left;
+  width: 18px;
+  margin-right: 7px;
+  height: 18px;
+  background: var(--yoast-svg-icon-yoast) no-repeat;
+  background-size: 18px;
+}
+
+.yoast-seo-score .yoast-logo.svg.good {
+  background-image: var(--yoast-svg-icon-yoast-good);
+}
+
+.yoast-seo-score .yoast-logo.svg.ok {
+  background-image: var(--yoast-svg-icon-yoast-ok);
+}
+
+.yoast-seo-score .yoast-logo.svg.bad {
+  background-image: var(--yoast-svg-icon-yoast-bad);
+}
+
+.yoast-seo-score .yoast-logo.svg.na {
+  background-image: var(--yoast-svg-icon-yoast);
+}
+
+.yoast-seo-score .yoast-logo.svg.noindex {
+  background-image: var(--yoast-svg-icon-yoast);
+}
+
+.term-php .wpseo-taxonomy-metabox-postbox > h2 {
+  margin: 0;
+  padding: 8px 12px;
+  border-bottom: 1px solid #eee;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+#TB_window #TB_ajaxContent p {
+  padding: 5px 0 0 0;
+  margin: 5px 0 0 0;
+}
+
+#TB_window #TB_ajaxContent ul {
+  margin: 5px 0 10px 0;
+}
+
+#TB_window #TB_ajaxContent li {
+  list-style: none;
+  margin: 5px 0 0 0;
+}
+
+#TB_window #TB_ajaxContent li::before {
+  content: '+';
+  margin: 0 10px 0 0;
+  font-weight: bold;
+}
+
+.yoast-section__heading-icon-list {
+  background-image: var(--yoast-svg-icon-list);
+}
+
+.yoast-section__heading-icon-key {
+  background-image: var(--yoast-svg-icon-key);
+}
+
+.yoast-section__heading-icon-edit {
+  background-image: var(--yoast-svg-icon-edit);
+}
+
+.yoast-tooltip.yoast-tooltip-hidden::before,
+.yoast-tooltip.yoast-tooltip-hidden::after {
+  display: none;
+}
+
+/* Workaround for VoiceOver bug see issue #5857 */
+.screen-reader-text.wpseo-generic-tab-textual-score,
+.screen-reader-text.wpseo-keyword-tab-textual-score {
+  display: block;
+}
+
+.yoast-notice-go-premium {
+  border-left-color: #a4286a;
+  background: #f1f1f1;
+  margin: 0;
+}
+
+.editor-styles-wrapper mark.annotation-text-yoast {
+  background-color: #e1bee7;
+}
+
+@media screen and (max-width: 782px) {
+  /* The Go Premium dashicon must stay unchanged in the responsive view. */
+  .wpseo-metabox-buy-premium .wpseo-buy-premium {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
+    padding: 0;
+  }
+  .yoast-help-panel {
+    max-width: none !important;
+  }
+  #wpseo-crawl-issues-table-form .subsubsub {
+    float: none;
+    max-width: calc( 100vw - 20px);
+  }
+  #wpseo-crawl-issues-table-form .yoast-help-button {
+    margin-top: 3px;
+  }
+  /* Necessary to override a WP rule. */
+  .wpseotab select[multiple] {
+    height: auto !important;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .wpseotab.content {
+    padding: 16px 0;
+  }
+}
+
+.wpseo-score-icon-container {
+  height: 20px;
+  width: 20px;
+  margin-right: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.yoast-seo-sidebar-panel div {
+	line-height: 2;
+}
+
+.yoast-seo-sidebar-panel div svg {
+	vertical-align: middle;
+}
+
+ul.yoast-seo-social-share-buttons li {
+	display: inline-block;
+	margin-right: 8px;
+	width: 32px;
+	height: 32px;
+}
+
+ul.yoast-seo-social-share-buttons svg {
+	width: 32px;
+	height: 32px;
+}
+
+ul.yoast-seo-social-share-buttons a {
+	width: 32px;
+	height: 32px;
+	display: inline-block;
+}
+
+div.interface-pinned-items button.components-button[aria-label="Yoast SEO"] > svg,
+div.interface-pinned-items button.components-button[aria-label="Yoast SEO Premium"] > svg,
+.edit-post-pinned-plugins button.components-button[aria-label="Yoast SEO"] > svg,
+.edit-post-pinned-plugins button.components-button[aria-label="Yoast SEO Premium"] > svg {
+	max-width: 28px;
+	max-height: 28px;
+	width: 28px;
+	height: 28px;
+}
+
+div.interface-pinned-items button.components-button.is-pressed[aria-label="Yoast SEO"] > svg path,
+div.interface-pinned-items button.components-button.is-pressed[aria-label="Yoast SEO Premium"] > svg path {
+	fill: #ffffff;
+}
+.wpseo-schema-icon {
+  height: 16px;
+  width: 16px;
+  margin-right: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: var(--yoast-svg-icon-schema);
+  background-size: cover;
+}
+.wpseo-metabox-menu ul li.active a .wpseo-schema-icon {
+  background-image: var(--yoast-svg-icon-schema-active);
+}
+
+/*# sourceMappingURL=metabox.css.map */

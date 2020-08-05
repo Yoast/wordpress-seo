@@ -140,12 +140,12 @@ module.exports = function( grunt ) {
 		},
 
 		"composer-install-production": {
-			command: "composer install --prefer-dist --optimize-autoloader --no-dev",
+			command: "composer install --prefer-dist --optimize-autoloader --no-dev --no-scripts",
 		},
 
 		"remove-prefixed-sources": {
-			command: "composer remove league/oauth2-client j4mie/idiorm pimple/pimple ruckusing/ruckusing-migrations psr/log " +
-			"symfony/dependency-injection --update-no-dev --optimize-autoloader",
+			command: "composer remove league/oauth2-client pimple/pimple psr/log " +
+			"symfony/dependency-injection --update-no-dev --optimize-autoloader --no-scripts",
 		},
 
 		"composer-install": {
@@ -187,52 +187,35 @@ module.exports = function( grunt ) {
 		},
 
 		"php-lint": {
-			command: "find -L . " +
-				"-path ./vendor -prune -o " +
-				"-path ./vendor_prefixed -prune -o " +
-				"-path ./node_modules -prune -o " +
-				"-path ./artifact -prune -o " +
-				"-name '*.php' -print0 | xargs -0 -n 1 -P 4 php -l",
+			command: "composer lint-branch",
 		},
 
 		phpcs: {
-			command: "php ./vendor/squizlabs/php_codesniffer/scripts/phpcs",
+			command: "composer check-branch-cs",
 		},
 
 		"unlink-monorepo": {
 			command: "yarn unlink-monorepo",
 		},
 
-		"install-monorepo": {
-			command: "yarn add yoastseo@rc && yarn add yoast-components@rc",
+		"yarn-add-yoast-components-rc": {
+			command: "yarn add yoast-components@rc",
+		},
+
+		"yarn-add-yoast-components": {
+			command: "yarn add yoast-components",
+		},
+
+		"yarn-add-yoastseo-rc": {
+			command: "yarn add yoastseo@rc",
+		},
+
+		"yarn-add-yoastseo": {
+			command: "yarn add yoastseo",
 		},
 
 		"get-monorepo-versions": {
 			command: "yarn list --pattern 'yoastseo|yoast-components' --depth=0",
-		},
-
-		"git-add-version-bump-files": {
-			command: "git add package.json wp-seo-main.php wp-seo.php",
-		},
-
-		"git-commit-version-bump-files": {
-			command: "git commit -m 'Bump version for RC'",
-		},
-
-		"git-push-origin-head": {
-			command: "git push origin HEAD",
-		},
-
-		"git-checkout-trunk": {
-			command: "git checkout trunk",
-		},
-
-		"git-merge-into-trunk": {
-			command: "git merge <%= branchForRC %>",
-		},
-
-		"git-checkout-release-branch": {
-			command: "git checkout <%= branchForRC %>",
 		},
 
 		"check-for-uncommitted-changes": {

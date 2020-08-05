@@ -4,6 +4,7 @@ global.jQuery = {};
 import Data from "../src/analysis/data.js";
 
 const wpData = {};
+// eslint-disable-next-line require-jsdoc
 const refresh = () => {
 	return true;
 };
@@ -18,9 +19,13 @@ const mockSelect = jest.fn();
 // Mocks the getEditedPostAttribute function.
 const mockGetEditedPostAttribute = jest.fn().mockImplementation( value => value );
 
+// Mocks the getEditedPostContent function.
+const mockGetEditedPostContent = jest.fn().mockReturnValue( "" );
+
 // Ensures mockSelect.getEditedPostAttribute is a function.
 mockSelect.mockReturnValue( {
 	getEditedPostAttribute: mockGetEditedPostAttribute,
+	getEditedPostContent: mockGetEditedPostContent,
 	getActiveMarker: () => null,
 } );
 
@@ -28,6 +33,7 @@ data._wpData.select = mockSelect;
 
 describe( "setRefresh", () => {
 	it( "sets the refresh function", () => {
+		// eslint-disable-next-line require-jsdoc
 		const expected = () => {
 			return "refresh";
 		};
@@ -88,6 +94,7 @@ describe( "collectGutenbergData", () => {
 	it( "collects the GutenbergData", () => {
 		const expected = {
 			content: "content",
+			contentImage: "",
 			title: "title",
 			slug: "slug",
 			excerpt: "excerpt",

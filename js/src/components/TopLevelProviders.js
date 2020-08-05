@@ -12,9 +12,9 @@ import { LocationProvider } from "../components/contexts/location";
  * @param {object}       store    The redux store.
  * @param {object}       theme    The styled-components theme.
  * @param {string}       location The place where the wrapped component is rendered.
- * @param {ReactElement} children The element that should be wrapped.
+ * @param {wp.Element} children The element that should be wrapped.
  *
- * @returns {ReactElement} The wrapped element.
+ * @returns {wp.Element} The wrapped element.
  */
 const TopLevelProviders = ( { store, theme, location, children } ) => {
 	return (

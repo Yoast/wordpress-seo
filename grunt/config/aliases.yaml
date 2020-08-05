@@ -1,7 +1,21 @@
 # Grunt aliases
 ---
 'build':
-  - 'build-default'
+  - 'build:js'
+  - 'build:css'
+  - 'build:images'
+  - 'build:i18n'
+
+'build-watch':
+  - 'shell:composer-install'
+  - 'build:js'
+  - 'build:css'
+  - 'watch'
+
+# Grunt command to only build CSS and JS
+'build:dev':
+  - 'build:js'
+  - 'build:css'
 
 # Build JavaScript from assets to production
 'build:js':
@@ -9,11 +23,11 @@
   - 'copy:js-dependencies'
   - 'webpack:buildDev'
 
-# Build CSS from SCSS to production
+# Build CSS for development
 'build:css':
   - 'clean:build-assets-css'
   - 'copy:css-dependencies'
-  - 'sass:build'
+  - 'copy:css-files'
   - 'postcss:build'
   - 'rtlcss:build'
 
@@ -103,47 +117,37 @@ clean:build-assets:
   - 'ensure-pre-release-branch'
   - 'ensure-rc-dependencies'
   - 'update-readme'
-  - 'bump-the-rc-version'
+  - 'bump-rc-version'
+  - 'sync-gutenberg-version'
   - 'artifact'
   - 'github-pre-release'
   - 'notify-slack:rc'
   - 'check-deploy-allowed'
   - 'wp_deploy:trunk'
   - 'verify-zip-size'
-  - 'shell:git-checkout-trunk'
   - 'celebrate'
 
 'ensure-clean-branch':
   - 'shell:check-for-uncommitted-changes'
 
-'ensure-rc-dependencies':
-  - 'shell:unlink-monorepo'
-  - 'shell:install-monorepo'
-  - 'shell:get-monorepo-versions'
-  - 'prompt:monorepoVersions'
-  - 'shell:composer-install'
-  - 'shell:composer-update-yoast-dependencies'
-
-'bump-the-rc-version':
-  - 'bump-rc-version'
-  - 'shell:git-add-version-bump-files'
-  - 'shell:git-commit-version-bump-files'
-  - 'shell:git-push-origin-head'
-  - 'shell:git-checkout-trunk'
-  - 'shell:git-merge-into-trunk'
-  - 'shell:git-push-origin-head'
-  - 'shell:git-checkout-release-branch'
-
 # Get the project ready for release
 release:
   - 'clean:build-assets'
   - 'build:images'
-  - 'build:css'
   - 'release:js'
+  - 'release:css'
   - 'build:i18n'
 'release:js':
   - 'copy:js-dependencies'
   - 'webpack:buildProd'
+
+# Build CSS for production
+'release:css':
+  - 'clean:build-assets-css'
+  - 'copy:css-dependencies'
+  - 'copy:css-files'
+  - 'postcss:release'
+  - 'rtlcss:build'
 
 'deploy:master':
   - 'update-version'

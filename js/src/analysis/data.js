@@ -6,6 +6,9 @@ import {
 	updateData,
 } from "../redux/actions/snippetEditor";
 import {
+	setContentImage,
+} from "../redux/actions/settings";
+import {
 	excerptFromContent,
 	fillReplacementVariables,
 	mapCustomFields,
@@ -20,7 +23,7 @@ const $ = global.jQuery;
 /**
  * Represents the data.
  */
-class Data {
+export default class Data {
 	/**
 	 * Sets the wp data, Yoast SEO refresh function and data object.
 	 *
@@ -164,7 +167,8 @@ class Data {
 		}
 
 		// When no custom slug is provided we should use the generated_slug attribute.
-		return this.getPostAttribute( "slug" ) || generatedSlug;
+		const slug = this.getPostAttribute( "slug" ) || generatedSlug;
+		return decodeURIComponent( slug );
 	}
 
 	/**
@@ -181,6 +185,7 @@ class Data {
 			// eslint-disable-next-line camelcase
 			excerpt_only: this.getExcerpt( false ),
 			snippetPreviewImageURL: this.getFeaturedImage() || this.getContentImage(),
+			contentImage: this.getContentImage(),
 		};
 	}
 
@@ -255,6 +260,11 @@ class Data {
 		// Handle snippet preview image change.
 		if ( this._data.snippetPreviewImageURL !== newData.snippetPreviewImageURL ) {
 			this._store.dispatch( updateData( { snippetPreviewImageURL: newData.snippetPreviewImageURL } ) );
+		}
+
+		// Handle content image change.
+		if ( this._data.contentImage !== newData.contentImage ) {
+			this._store.dispatch( setContentImage( newData.contentImage ) );
 		}
 	}
 
@@ -381,4 +391,3 @@ class Data {
 		return this._data;
 	}
 }
-module.exports = Data;

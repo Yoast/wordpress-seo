@@ -3,10 +3,9 @@ Contributors: yoast, joostdevalk, tacoverdo, omarreiss, atimmer, jipmoors
 Donate link: https://yoa.st/1up
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
-Tags: SEO, XML sitemap, Content analysis, Readability
-Requires at least: 5.2
-Tested up to: 5.3.2
-Stable tag: 13.2
+Tags: SEO, XML sitemap, Content analysis, Readability, Schema
+Tested up to: 5.5
+Stable tag: 14.7
 Requires PHP: 5.6.20
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -77,7 +76,7 @@ You should also check out these other products by Yoast:
 
 * **[Yoast Local SEO](https://yoa.st/1uu)** to optimize all website that serve a local audience, like certain small businesses, or businesses with multiple locations.
 * **[Yoast Video SEO](https://yoa.st/1uw)** to make sure Google understands what you video is about, thus increasing your chances to rank in video results.
-* **[Yoast News SEO](https://yoa.st/1uv)** for websites that are in Google News and want to optimize all news articles for the best indexation and ranking.
+* **[Yoast News SEO](https://yoa.st/1uv)** for news publishers who want to improve their visibility and performance in Google News.
 * **[WooCommerce SEO](https://yoa.st/3rh)** for all online shops that want to perform better in search engines and on social platforms.
 
 They work with the FREE version of Yoast SEO already, and these premium extensions of course come with support too.
@@ -131,16 +130,16 @@ The sitemap index and individual sitemaps are updated automatically as you add o
 
 It is straightforward to add your website to Google Search Console. 
 1. Create a Google Search Console account and login into your account.
-1. Click ‘Add a property’ under the search drop-down.
-1. Enter your website URL in the box and click ‘Continue’.
-1. Click the arrow next to ‘HTML tag’ to expand the option.
-1. Copy the meta tag.
-1. Log in to your WordPress website.
-1. Click on ‘SEO’ in the dashboard.
-1. Click on ‘General’.
-1. Click on the ‘Webmaster Tools’ tab.
-1. Paste the code in the Google field and click ‘Save Changes’.
-1. Go back to Google Search Console and click ‘Verify’.
+2. Click ‘Add a property’ under the search drop-down.
+3. Enter your website URL in the box and click ‘Continue’.
+4. Click the arrow next to ‘HTML tag’ to expand the option.
+5. Copy the meta tag.
+6. Log in to your WordPress website.
+7. Click on ‘SEO’ in the dashboard.
+8. Click on ‘General’.
+9. Click on the ‘Webmaster Tools’ tab.
+10. Paste the code in the Google field and click ‘Save Changes’.
+11. Go back to Google Search Console and click ‘Verify’.
 
 If you want more details steps, please visit [our article on our knowledge base](https://yoa.st/3qu).
 
@@ -148,18 +147,18 @@ If you want more details steps, please visit [our article on our knowledge base]
 
 The steps below are a temporary solution as manual edits made to theme files may be overwritten with future theme updates. Please contact the theme developer for a permanent solution. We’ve written an article about the [importance of breadcrumbs for SEO](https://yoa.st/3qv). 
 
-To implement the [breadcrumbs]https://yoa.st/3qw) function in Yoast SEO, you will have to edit your theme. We recommend that prior to any editing of the theme files, a backup is taken. Your host provider can help you take a backup.
+To implement the [breadcrumbs](https://yoa.st/3qw) function in Yoast SEO, you will have to edit your theme. We recommend that prior to any editing of the theme files, a backup is taken. Your host provider can help you take a backup.
 Copy the following code into your theme where you want the breadcrumbs to be. If you are not sure, you will need to experiment with placement:
 
 ```
 <?php
-*if* ( function_exists(‘yoast_breadcrumb’) ) {
-  yoast_breadcrumb( ‘<p id=“breadcrumbs”>’,’</p>’ );
+if ( function_exists( 'yoast_breadcrumb' ) ) {
+    yoast_breadcrumb( '<p id="breadcrumbs">','</p>' );
 }
 ?>
 ```
 
-Common places where you could place your breadcrumbs are inside your `single.php` and/or `page.php` file just above the page’s title. Another option that makes it really easy in some themes is by just pasting the code in `header.php`at the very end.
+Common places where you could place your breadcrumbs are inside your `single.php` and/or `page.php` file just above the page’s title. Another option that makes it really easy in some themes is by just pasting the code in `header.php` at the very end.
 
 In most non-WooTheme themes, this code snippet should not be added to your `functions.php` file. 
 Alternatively, you can manually add the breadcrumb shortcode to individual posts or pages: `[wpseo_breadcrumb]`
@@ -209,33 +208,82 @@ Your question has most likely been answered on our knowledge base: [kb.yoast.com
 
 == Changelog ==
 
-= 13.3 =
-Release Date: March 17th, 2020
+= 14.7 =
+Release Date: August 5th, 2020
+
+Say hi to Yoast SEO 14.7, chock-full of enhancements to help you with your site's SEO. Have you heard about the addition of XML sitemaps in WordPress 5.5? The Yoast SEO plugin is completely prepared for this. We also have some great news for users of the Web Stories plugin. Read more about those changes in [our release post](https://yoa.st/release-14-7)!
 
 Enhancements:
 
-* Adds a `potentialAction` entity to the `WebPage` and `Article` Schema pieces.
-
-Other:
-
-* Changes the cURL Health Check to `critical` instead of `recommended`.
-
-= 13.2 =
-Release Date: March 3rd, 2020
-
-In Yoast SEO 13.2, you’ll find a number of checks moved to the WordPress Site Health tool. Site Health was introduced in WordPress 5.2 as a way to help site owners and managers get a sense of how their site is doing, technically speaking. Find out more about these changes in [our 13.2 release post](https://yoa.st/release-13-2)!
-
-Enhancements:
-
-* Adds the capability to view Site Health to the SEO Manager role.
-* Adds a cURL minimal version check to Site Health.
-* Moves the "The postname is present in your permalink"-notification from the SEO Dashboard to Site Health.
-* Moves the "You are using the default WordPress tagline"-notification from the SEO Dashboard to Site Health.
-* Moves the "Your site is indexable"-notification and widget from the SEO dashboard to Site Health.
-* Improves the usability of the "Your site is indexable" Site Health check.
-* Adds error handling for the "Your site is indexable" status request.
-* Adds an ID to the FAQ sections in the Schema output.
+ * Adds support for adding metadata to Web Stories (the `web-story` post type) from the [Web Stories](https://github.com/google/web-stories-wp) plugin. Props to [swissspidy](https://github.com/swissspidy)
+ * Shows a more specific notification about why the reindexing of SEO data is needed when the permalinks are reset or when the category base setting is changed.
+ * Redirects requests to the WordPress sitemaps to the appropriate Yoast sitemap, if the Yoast sitemaps are enabled.
+ * Adds the option for users to opt-in to allow Yoast to track some data about their site. 
+ * Optimizes script loading by removing `ver` parameters from scripts and styles when they're not needed. 
+ * Adds the Yoast logo to the Yoast block categories.
+ * Compatibility with WordPress 5.5: makes sure Yoast structured data blocks are found on more keywords and have examples in the block inserter.
 
 Bugfixes:
 
-* Removes the "Check headers"-tool from the Yoast Admin bar menu, as it is no longer available.
+ * Fixes a bug where a fatal error would occur in sitemaps on sites where the home URL and site URL were different. Because the cause of this was a missing style sheet, the content of the sitemaps was still there, which means Google and other search engines could still reach the sitemaps and no SEO harm was done.
+ * Fixes a bug where reindexing would not be done for indexables without a permalink.
+ * Fixes a bug where an indexable's permalink remained unchanged when the categories prefix option was changed.
+ * Fixes a bug where an inline link that opens in a new window would render `undefined` in the aria-label.
+ * Fixes a bug where the indexables indexing process could not be started again without a page reload on the tools page if it failed.
+ * Fixes a bug where a console error would be thrown because `wpseoShortcodePluginL10n` was not defined.
+ * Fixes a bug where the SEO and Readability scores were no longer shown in the publish box in the classic editor.
+ * Fixes a bug where clicking the Readability score link in the classic editor would trigger an error.
+ 
+Other:
+
+ * Enables the cornerstone content toggle for taxonomies.
+ * Adds the option to filter our Schema by `@type`.
+ * Removes the setting to show the date in the Google Preview. The date will now always be shown in post-type previews.
+ * Moves the running of the SEO data indexing process to the Yoast Tools page.
+
+= 14.6.1 =
+Release Date: July 21st, 2020
+
+Other:
+
+* Reverts the change for social media titles to pick the post/page/term title, as this could inadvertently lead to low quality titles for some archives and other page types.
+
+Bugfixes:
+
+* Fixes a bug where the where all methods were removed from `xmlrpc.php` due to incorrect usage of `add_action` as opposed to `add_filter`.
+
+= 14.6 =
+Release Date: July 21st, 2020
+
+We have a new release for you: Yoast SEO 14.6. This release has some pretty cool enhancements. For example, we’ve added another helpful indicator in the editor that shows you your scores for a particular post quickly. Read more about those changes in [our release post](https://yoa.st/release-14-6)!
+
+Enhancements:
+
+* Improves the editing experience in the Social tab, and gives it a dab of fresh paint.
+* In the sharing metadata used for Facebook, Twitter, Pinterest, LinkedIn and many other sites, we now output the post title instead of the SEO title. This prevents the brand name from being added in most cases, which is better on those platforms. You can still set a specific sharing title on the Social tab of the Yoast SEO post settings.
+* Makes the plugin icon in the editor reflect the SEO and Readability score.
+* Improves keyphrase counting in Indonesian by not counting '-' as a word boundary.
+* Improves the feedback text for the keyphrase in title assessment to make clear that an exact keyphrase match is necessary.
+* Improves the recognition of keywords in the slug if they contain a hyphen (for example: re-duplicated, on-the-go).
+* Improves the transition words analysis for Russian.
+* `Noindex`es the `xmlrpc.php` file and all possible ways to request it, removing them from Google’s search results.
+* For privacy reasons, no longer shows whether an email address is already subscribed to the newsletter.
+
+Bugfixes:
+
+* Fixes a bug where the comment count would be output for Articles that did not accept comments. Props to [gr8shivam](https://github.com/gr8shivam).
+* Fixes a bug where the social previews did not reflect the `og:image` tag correctly in situations where the first image in the content was used as a fallback.
+* Fixes a bug where slashes in titles and open graph titles were removed before they were used as a replacement variable. Props to [Jon Christopher](https://github.com/jchristopher).
+* Fixes a bug where a `get_plugins()` undefined error would be thrown if there was already a `plugin.php` loaded via the `init` hook by another plugin. Props to [Krishna Kant](https://github.com/lushkant).
+* Fixes a bug where there was no border on the bottom of metabox tabs without any collapsible sections.
+* Fixes a bug where "array_merge(): Argument #1 is not an array" issues could appear under specific circumstances. Props to [chteuchteu](https://github.com/chteuchteu).
+
+Other:
+
+* Removes functions, class variables and classes that were deprecated prior to version 11.5.
+* Adds a quick cache, which caches the result for 1 minute, so we don't do the same call the my.yoast.com twice on a pageload.
+* Introduces the --skip-confirmation argument to run our wp-cli reindex command without confirmation prompt.
+* Yoast SEO had many scripts that relied on many localized objects. In an effort to improve maintainability we have combined all those objects into one: wpseoScriptData. wpseoPostScraperL10n and wpseoTermScraperL10n remain available for backward compatibility. Plugins that tap into our objects will need to update their code.
+
+= Earlier versions =
+For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).

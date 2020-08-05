@@ -1,0 +1,618 @@
+/* This file is meant to be used exclusively for the Configuration Wizard. */
+/* WordPress-specific styling to be used only for single-page apps like the Onboarding Wizard. */
+.screen-reader-text {
+  position: absolute !important;
+  clip: rect(1px, 1px, 1px, 1px);
+  clip-path: inset(50%);
+  width: 1px;
+  height: 1px;
+  border: 0;
+  padding: 0;
+  overflow: hidden;
+  word-wrap: normal !important;
+}
+
+body {
+  background: #f1f1f1;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+  line-height: 1.375;
+  /* 22px based on default browser font size 16px. */
+}
+
+a {
+  color: #0073aa;
+  outline: 0;
+  -webkit-transition-property: border, background, color;
+  transition-property: border, background, color;
+  -webkit-transition-duration: .05s;
+  transition-duration: .05s;
+  -webkit-transition-timing-function: ease-in-out;
+  transition-timing-function: ease-in-out;
+}
+
+a:hover,
+a:active {
+  color: #00a0d2;
+}
+
+a:focus {
+  color: #124964;
+  -webkit-box-shadow: 0 0 0 1px #5b9dd9, 0 0 2px 1px rgba(30, 140, 190, 0.8);
+  box-shadow: 0 0 0 1px #5b9dd9, 0 0 2px 1px rgba(30, 140, 190, 0.8);
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.yoast-wizard-body {
+  box-sizing: border-box;
+  width: 80%;
+  max-width: 60em;
+  margin: 1rem auto 4rem;
+}
+
+@media screen and (max-width: 768px) {
+  .yoast-wizard-body {
+    width: auto;
+    margin: 0;
+  }
+}
+
+.yoast-wizard__logo {
+  margin: 0 auto;
+  display: block;
+}
+
+.yoast-wizard {
+  text-align: left;
+  min-height: 20px;
+  background: #fff;
+  padding: 2em;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+@media screen and (max-width: 768px) {
+  .yoast-wizard {
+    padding: 1em 1em 2em;
+  }
+}
+
+.yoast-wizard--header {
+  text-align: center;
+}
+
+.yoast-wizard--header--page-title {
+  color: #a4286a;
+  margin: 0 0 -16px;
+  font-size: 1.25em;
+  letter-spacing: 0.03em;
+  line-height: 2.5;
+  font-weight: normal;
+  padding: 0 8px;
+}
+
+@media screen and (max-width: 768px) {
+  .yoast-wizard--header--page-title {
+    font-size: 1.5em;
+    line-height: 1.25;
+  }
+}
+
+.yoast-wizard--navigation {
+  display: flex;
+  justify-content: space-between;
+}
+
+.yoast-wizard--button {
+  margin: 1em -8px 0;
+  padding: 8px;
+  background: none;
+  color: #0073aa;
+  border: none;
+  font: inherit;
+  cursor: pointer;
+}
+
+.yoast-wizard--button:after {
+  content: "";
+  display: block;
+  height: 0;
+  border-bottom: 1px solid #0073aa;
+}
+
+.yoast-wizard--button:focus {
+  outline: 1px solid #5b9dd9;
+  box-shadow: 0 0 2px 1px rgba(30, 140, 190, 0.8);
+}
+
+@media screen and (max-width: 768px) {
+  .yoast-wizard--step__active {
+    width: 38px;
+    overflow: hidden;
+  }
+  .yoast-wizard--step__active div {
+    display: inline-block !important;
+    vertical-align: middle;
+  }
+  .yoast-wizard--step__active div > span > span {
+    display: block !important;
+    margin-left: -7px;
+    padding-right: 99px !important;
+  }
+}
+
+.yoast-wizard--step__inactive div {
+  pointer-events: none;
+}
+
+@media screen and (max-width: 768px) {
+  .yoast-wizard--step__inactive {
+    display: none !important;
+  }
+}
+
+.yoast-wizard--step--container:focus {
+  outline: none;
+}
+
+.yoast-wizard--step--container h1 {
+  color: #a4286a;
+  margin: 0;
+  font-size: 2.25em;
+  letter-spacing: 0.03em;
+  line-height: 3.68rem;
+  font-weight: 100;
+}
+
+@media screen and (max-width: 768px) {
+  .yoast-wizard--step--container h1 {
+    font-size: 2em;
+    line-height: 1.25;
+  }
+}
+
+.yoast-wizard--step--container h2 {
+  color: #a4286a;
+  font-size: 1.375em;
+  font-weight: 100;
+}
+
+.yoast-wizard--stepper {
+  width: 100%;
+  margin: auto;
+}
+
+.yoast-wizard-overlay {
+  z-index: 10;
+  opacity: 0.2;
+  background-color: #000;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  color: #fff;
+  text-align: center;
+  width: 100%;
+}
+
+.yoast-wizard-overlay-loader {
+  position: relative;
+}
+
+.yoast-wizard-container {
+  border: 1px solid #ccc;
+  text-align: left;
+  min-height: 20px;
+  position: relative;
+  box-shadow: rgba(0, 0, 0, 0.15) 0 3px 10px, rgba(0, 0, 0, 0.2) 0 3px 10px;
+}
+
+.yoast-wizard-container--no-navigation {
+  margin-top: 40px;
+}
+
+.yoast-wizard-container--no-navigation .yoast-wizard {
+  padding-top: 3em;
+}
+
+@media screen and (max-width: 768px) {
+  .yoast-wizard-container {
+    box-shadow: none;
+  }
+}
+
+.yoast-wizard-container fieldset {
+  border: 0;
+  margin: 1em 0;
+}
+
+.yoast-wizard-text-input {
+  font-size: 14px;
+  padding-bottom: 0.5em;
+}
+
+.yoast-wizard-text-input-label {
+  cursor: pointer;
+  display: block;
+  margin: 0.5em 0 0;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.yoast-wizard-text-input [type="text"] {
+  width: 100%;
+  max-width: 450px;
+  box-sizing: border-box;
+}
+
+.yoast-wizard-field-description {
+  font-weight: bold;
+}
+
+.yoast-wizard input {
+  line-height: 140%;
+  font-size: 14px;
+  margin: 0.5em 0;
+  padding: 5px;
+}
+
+.yoast-wizard label {
+  cursor: pointer;
+}
+
+.yoast-wizard input[type="radio"] {
+  margin: 0.3em 0.7em 0.3em 0;
+  vertical-align: middle;
+}
+
+.yoast-wizard-input__explanation {
+  color: #555;
+  margin-top: 0;
+  font-style: italic;
+}
+
+.yoast-wizard-input-radio {
+  font-size: 14px;
+}
+
+.yoast-wizard-input-radio-option label {
+  padding-top: 2px;
+}
+
+.yoast-wizard-input-radio-separator {
+  padding: 0;
+}
+
+.yoast-wizard-input-radio-separator input {
+  /* visually hide the radio buttons but keep them accessible */
+  position: absolute;
+  left: -9999em;
+  width: 1px;
+  height: 1px;
+}
+
+.yoast-wizard-input-radio-separator input + label {
+  float: left;
+  width: 30px !important;
+  margin: 0 5px 0.5em 0 !important;
+  padding: 9px 6px;
+  border: 1px solid #ccc;
+  /* Don't change: these mimic Google's font and font size for titles */
+  font-family: Arial, Helvetica, sans-serif !important;
+  font-size: 18px !important;
+  line-height: 24px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.yoast-wizard-input-radio-separator input:checked + label {
+  border: 3px solid #a4286a;
+  background-color: #fff;
+  padding: 7px 4px;
+}
+
+.yoast-wizard-input-radio-separator input:focus + label {
+  outline: 2px solid #5b9dd9;
+}
+
+/* Responsive videos. */
+/* Other common aspect ratios: 75% = 4:3, 66.66% = 3:2, 62.5% = 8:5 */
+.yoast-video-container-max-width {
+  max-width: 560px;
+}
+
+.yoast-video-container {
+  position: relative;
+  padding-bottom: 56.25%;
+  /* 16:9 */
+  height: 0;
+  overflow: hidden;
+}
+
+.yoast-video-container iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.yoast-wizard-notice__error {
+  margin-bottom: 15px;
+  padding: 12px;
+  border-left: 4px solid #dc3232;
+  background: #fff;
+  box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.1);
+}
+
+.yoast-wizard-content-container {
+  max-width: 560px;
+}
+
+.yoast-wizard-content-container.yoast-wizard-content-container__is-full-width {
+  max-width: none;
+}
+
+#wizard {
+  overflow: hidden;
+}
+
+.yoast-wizard {
+  padding-top: 2em;
+  /* Higher specificity to override WP styles. */
+}
+
+.yoast-wizard input[type="text"],
+.yoast-wizard input[type="email"] {
+  min-width: 250px;
+}
+
+.yoast-wizard input[type="text"] + div,
+.yoast-wizard input[type="email"] + div {
+  margin-right: 1em;
+}
+
+.yoast-wizard-body {
+  max-width: 80em;
+}
+
+.yoast-wizard--navigation {
+  border-top: 1px solid #a4286a;
+  margin-top: 2em;
+  padding-top: 1em;
+}
+
+.yoast-wizard-return-link-container {
+  text-align: center;
+}
+
+.wp-core-ui .yoast-wizard-return-link.button {
+  display: inline-flex;
+  align-items: center;
+  height: 36px;
+  border-color: transparent;
+  margin: 0 0 1em;
+  padding: 0 16px 0 10px;
+  border-radius: 2px;
+  background: #fff;
+  color: #646d78;
+  text-align: center;
+  text-transform: uppercase;
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px;
+  transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
+}
+
+.wp-core-ui .yoast-wizard-return-link.button:hover {
+  background: #ebebeb;
+  border-color: transparent;
+}
+
+.wp-core-ui .yoast-wizard-return-link.button:focus {
+  outline: none;
+  box-shadow: 0 0 0 1px #5b9dd9, 0 0 2px 1px rgba(30, 140, 190, 0.8);
+}
+
+.wp-core-ui .yoast-wizard-return-link.button:active {
+  background: #ebebeb;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 10px, rgba(0, 0, 0, 0.23) 0px 3px 10px;
+  transform: none;
+}
+
+.wp-core-ui .yoast-wizard-return-link.button .dashicons {
+  margin-right: 8px;
+}
+
+.yoast-wizard-mailchimp-message-error {
+  color: #dc3232;
+}
+
+.yoast-wizard-mailchimp-message-success {
+  color: #008a00;
+}
+
+.yoast-wizard-input {
+  padding-bottom: 0.5em;
+}
+
+.yoast-wizard-input__select {
+  margin: 1em 0;
+  font-size: 14px;
+}
+
+.yoast-wizard-image-upload-container__image {
+  max-width: 151px;
+}
+
+.yoast-wizard-image-upload-container-buttons {
+  margin-top: 1em;
+}
+
+.yoast-wizard-image-upload-container-buttons__remove {
+  margin-left: 1em;
+}
+
+.yoast-wizard-image-upload-container-description {
+  display: block;
+}
+
+.yoast-wizard--emphasis {
+  font-weight: bold;
+}
+
+.yoast-wizard--navigation {
+  margin-top: 2em;
+  padding-top: 1em;
+  border-top: 1px solid #a4286a;
+}
+
+.yoast-wizard--rows {
+  display: flex;
+  flex-direction: column;
+}
+
+.yoast-wizard--columns {
+  display: flex;
+}
+
+.yoast-wizard--columns .yoast-wizard-text-input-field {
+  max-width: 100%;
+}
+
+.yoast-wizard--columns__even > div {
+  flex-basis: 50%;
+}
+
+.yoast-wizard--columns > div {
+  margin-left: 1em;
+}
+
+.yoast-wizard--columns > div:first-child {
+  margin-left: 0;
+}
+
+.yoast-wizard--columns .yoast-wizard--heading {
+  margin: 0;
+  color: #a4286a;
+}
+
+.yoast-wizard--columns > .yoast-wizard--column__push_right {
+  order: 2;
+}
+
+.yoast-wizard--columns > .yoast-wizard--column__push_left {
+  order: 1;
+  margin-left: 0;
+  margin-right: 1em;
+}
+
+.yoast-wizard--columns > .yoast-wizard--column__push_left #plugin-training-image-link:focus {
+  outline: 3px auto #0073aa;
+  box-shadow: none;
+}
+
+.yoast-wizard--choice > .yoast-wizard--rows {
+  height: 100%;
+}
+
+.yoast-wizard--choice div {
+  align-self: flex-start;
+}
+
+.yoast-wizard--choice p {
+  margin-top: 0.3em;
+  height: 100%;
+}
+
+.yoast-wizard--box {
+  border: 1px solid #a4286a;
+  padding: 1em;
+}
+
+.yoast-wizard--box > div:first-child {
+  flex-basis: 100px;
+}
+
+.yoast-wizard-newsletter {
+  margin-bottom: 2em;
+}
+
+.yoast-wizard-newsletter--header svg {
+  fill: #a4286a;
+  top: 4px;
+  position: relative;
+  margin-right: 6px;
+}
+
+.yoast-wizard-newsletter--decoration {
+  width: 100%;
+  max-width: 490px;
+}
+
+.yoast-wizard-newsletter--decoration img {
+  width: 490px;
+  max-width: 100%;
+  /* Compensate for Header spacing */
+  margin-top: -3em;
+}
+
+@media screen and (max-width: 80em) {
+  .yoast-wizard--columns {
+    display: block;
+  }
+  .yoast-wizard--columns > div {
+    margin-left: 0;
+  }
+  .yoast-wizard--columns > .yoast-wizard--column__push_left {
+    margin-right: 0;
+    margin-top: 2em;
+  }
+  .yoast-wizard--box {
+    display: flex;
+    margin-top: 1em;
+  }
+  .yoast-wizard--box:first-child {
+    margin-top: 0;
+  }
+  .yoast-wizard--box > div {
+    margin-left: 1em;
+  }
+  .yoast-wizard .hide-on-tablet {
+    display: none;
+  }
+}
+
+.yoast-wizard--suggestion {
+  border-top: 1px solid #a4286a;
+  padding-top: 2em;
+  margin-bottom: 2em;
+}
+
+@media screen and (max-width: 50rem) {
+  .yoast-wizard .hide-on-mobile {
+    display: none;
+  }
+  .yoast-wizard--box {
+    display: block;
+  }
+  .yoast-wizard--box > div {
+    margin-left: 0;
+  }
+  .yoast-wizard--video-frame {
+    position: relative;
+    padding-bottom: 56.25%;
+    /* 16:9 */
+    height: 0;
+  }
+  .yoast-wizard--video-frame iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+/*# sourceMappingURL=yoast-components.css.map */

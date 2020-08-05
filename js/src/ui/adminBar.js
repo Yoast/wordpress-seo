@@ -5,12 +5,8 @@
  *
  * @returns {void}
  */
-function updateAdminBar( indicator ) {
+export function update( indicator ) {
 	jQuery( ".adminbar-seo-score" )
 		.attr( "class", "wpseo-score-icon adminbar-seo-score " + indicator.className )
 		.find( ".adminbar-seo-score-text" ).text( indicator.screenReaderText );
 }
-
-module.exports = {
-	update: updateAdminBar,
-};

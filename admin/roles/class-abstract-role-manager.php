@@ -27,11 +27,10 @@ abstract class WPSEO_Abstract_Role_Manager implements WPSEO_Role_Manager {
 	 * @return void
 	 */
 	public function register( $role, $display_name, $template = null ) {
-		$this->roles[ $role ] =
-			(object) [
-				'display_name' => $display_name,
-				'template'     => $template,
-			];
+		$this->roles[ $role ] = (object) [
+			'display_name' => $display_name,
+			'template'     => $template,
+		];
 	}
 
 	/**

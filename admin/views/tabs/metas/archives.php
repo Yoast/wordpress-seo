@@ -12,7 +12,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 }
 
 // To improve readability, this tab has been divided into separate blocks, included below.
-require dirname( __FILE__ ) . '/archives/help.php';
+require __DIR__ . '/archives/help.php';
 
 $wpseo_archives = [
 	[
@@ -38,7 +38,7 @@ $editor_specific_replace_vars = new WPSEO_Admin_Editor_Specific_Replace_Vars();
 foreach ( $wpseo_archives as $wpseo_archive_index => $wpseo_archive ) {
 	$wpseo_archive_presenter = new WPSEO_Paper_Presenter(
 		$wpseo_archive['title'],
-		dirname( __FILE__ ) . '/' . $wpseo_archive['view_file'],
+		__DIR__ . '/' . $wpseo_archive['view_file'],
 		[
 			'collapsible'                  => true,
 			'expanded'                     => ( $wpseo_archive_index === 0 ),

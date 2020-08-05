@@ -1,0 +1,224 @@
+<?php
+/**
+ * Meta value object.
+ *
+ * @package Yoast\YoastSEO\Surfaces\Values
+ */
+
+namespace Yoast\WP\SEO\Surfaces\Values;
+
+use Exception;
+use WPSEO_Replace_Vars;
+use Yoast\WP\SEO\Context\Meta_Tags_Context;
+use Yoast\WP\SEO\Integrations\Front_End_Integration;
+use Yoast\WP\SEO\Presenters\Abstract_Indexable_Presenter;
+use Yoast\WP\SEO\Presenters\Rel_Next_Presenter;
+use Yoast\WP\SEO\Presenters\Rel_Prev_Presenter;
+use Yoast\WP\SEO\Surfaces\Helpers_Surface;
+use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
+
+/**
+ * Class Meta
+ *
+ * @property array       $breadcrumbs                       The breadcrumbs array for the current page.
+ * @property bool        $breadcrumbs_enabled               Whether breadcrumbs are enabled or not.
+ * @property string      $canonical                         The canonical URL for the current page.
+ * @property string      $company_name                      The company name from the Knowledge graph settings.
+ * @property int         $company_logo_id                   The attachment ID for the company logo.
+ * @property string      $description                       The meta description for the current page, if set.
+ * @property array       $googlebot                         The meta robots values we specifically output for Googlebot on this page.
+ * @property string      $main_schema_id                    Schema ID that points to the main Schema thing on the page, usually the webpage or article Schema piece.
+ * @property string      $meta_description                  The meta description for the current page, if set.
+ * @property string      $open_graph_article_author         The article:author value.
+ * @property string      $open_graph_article_modified_time  The article:modified_time value.
+ * @property string      $open_graph_article_published_time The article:published_time value.
+ * @property string      $open_graph_article_publisher      The article:publisher value.
+ * @property string      $open_graph_description            The og:description.
+ * @property bool        $open_graph_enabled                Whether OpenGraph is enabled on this site.
+ * @property string      $open_graph_fb_app_id              The Facebook App ID.
+ * @property array       $open_graph_images                 The array of images we have for this page.
+ * @property string      $open_graph_locale                 The og:locale for the current page.
+ * @property string      $open_graph_publisher              The OpenGraph publisher reference.
+ * @property string      $open_graph_site_name              The og:site_name.
+ * @property string      $open_graph_title                  The og:title.
+ * @property string      $open_graph_type                   The og:type.
+ * @property string      $open_graph_url                    The og:url.
+ * @property string      $page_type                         The Schema page type.
+ * @property array       $robots                            An array of the robots values set for the current page.
+ * @property string      $rel_next                          The next page in the series, if any.
+ * @property string      $rel_prev                          The previous page in the series, if any.
+ * @property array       $schema                            The entire Schema array for the current page.
+ * @property string      $schema_page_type                  The Schema page type.
+ * @property string      $site_name                         The site name from the Yoast SEO settings.
+ * @property string      $site_represents                   Whether the site represents a 'person' or a 'company'.
+ * @property array|false $site_represents_reference         The schema reference ID for what this site represents.
+ * @property string      $site_url                          The site's main URL.
+ * @property int         $site_user_id                      If the site represents a 'person', this is the ID of the accompanying user profile.
+ * @property string      $title                             The SEO title for the current page.
+ * @property string      $twitter_card                      The Twitter card type for the current page.
+ * @property string      $twitter_creator                   The Twitter card author for the current page.
+ * @property string      $twitter_description               The Twitter card description for the current page.
+ * @property string      $twitter_image                     The Twitter card image for the current page.
+ * @property string      $twitter_site                      The Twitter card site reference for the current page.
+ * @property string      $twitter_title                     The Twitter card title for the current page.
+ * @property string      $wordpress_site_name               The site name from the WordPress settings.
+ */
+class Meta {
+
+	/**
+	 * @var ContainerInterface
+	 */
+	protected $container;
+
+	/**
+	 * The meta tags context.
+	 *
+	 * @var Meta_Tags_Context
+	 */
+	protected $context;
+
+	/**
+	 * The front end integration.
+	 *
+	 * @var Front_End_Integration
+	 */
+	protected $front_end;
+
+	/**
+	 * The helpers surface.
+	 *
+	 * @var Helpers_Surface
+	 */
+	protected $helpers;
+
+	/**
+	 * The replace vars helper
+	 *
+	 * @var WPSEO_Replace_Vars
+	 */
+	protected $replace_vars;
+
+	/**
+	 * Create a meta value object.
+	 *
+	 * @param Meta_Tags_Context  $context   The indexable presentation.
+	 * @param ContainerInterface $container The DI container.
+	 */
+	public function __construct(
+		Meta_Tags_Context $context,
+		ContainerInterface $container
+	) {
+		$this->container = $container;
+		$this->context   = $context;
+
+		$this->helpers      = $this->container->get( Helpers_Surface::class );
+		$this->replace_vars = $this->container->get( WPSEO_Replace_Vars::class );
+		$this->front_end    = $this->container->get( Front_End_Integration::class );
+	}
+
+	/**
+	 * Returns the output as would be presented in the head.
+	 *
+	 * @return string The HTML output of the head.
+	 */
+	public function get_head() {
+		$presenters = $this->front_end->get_presenters( $this->context->page_type );
+
+		if ( $this->context->page_type === 'Date_Archive' ) {
+			$callback   = function ( $presenter ) {
+				return ! \is_a( $presenter, Rel_Next_Presenter::class )
+					&& ! \is_a( $presenter, Rel_Prev_Presenter::class );
+			};
+			$presenters = \array_filter( $presenters, $callback );
+		}
+
+		$output = '';
+
+		/** This filter is documented in src/integrations/front-end-integration.php */
+		$presentation = \apply_filters( 'wpseo_frontend_presentation', $this->context->presentation, $this->context );
+		foreach ( $presenters as $presenter ) {
+			$presenter->presentation = $presentation;
+			$presenter->helpers      = $this->helpers;
+			$presenter->replace_vars = $this->replace_vars;
+
+			$presenter_output = $presenter->present();
+			if ( ! empty( $presenter_output ) ) {
+				$output .= $presenter_output . \PHP_EOL;
+			}
+		}
+
+		return \trim( $output );
+	}
+
+	/**
+	 * Magic getter for presenting values through the appropriate presenter, if it exists.
+	 *
+	 * @param string $name The property to get.
+	 *
+	 * @return mixed The value, as presented by teh appropriate presenter.
+	 *
+	 * @throws Exception If an invalid property is accessed.
+	 */
+	public function __get( $name ) {
+		/** This filter is documented in src/integrations/front-end-integration.php */
+		$presentation = \apply_filters( 'wpseo_frontend_presentation', $this->context->presentation, $this->context );
+
+		if ( ! isset( $presentation->{$name} ) ) {
+			if ( isset( $this->context->{$name} ) ) {
+				$this->{$name} = $this->context->{$name};
+				return $this->{$name};
+			}
+			return null;
+		}
+
+		$presenter_namespace = 'Yoast\WP\SEO\Presenters\\';
+		$parts               = \explode( '_', $name );
+		if ( $parts[0] === 'twitter' ) {
+			$presenter_namespace .= 'Twitter\\';
+			$parts                = \array_slice( $parts, 1 );
+		}
+		elseif ( $parts[0] === 'open' && $parts[1] === 'graph' ) {
+			$presenter_namespace .= 'Open_Graph\\';
+			$parts                = \array_slice( $parts, 2 );
+		}
+
+		$presenter_class = $presenter_namespace . \implode( '_', \array_map( 'ucfirst', $parts ) ) . '_Presenter';
+
+		if ( \class_exists( $presenter_class ) ) {
+			/**
+			 * @var Abstract_Indexable_Presenter
+			 */
+			$presenter               = new $presenter_class();
+			$presenter->presentation = $presentation;
+			$presenter->helpers      = $this->helpers;
+			$presenter->replace_vars = $this->replace_vars;
+			$value                   = $presenter->get();
+		}
+		else {
+			$value = $presentation->{$name};
+		}
+
+		$this->{$name} = $value;
+		return $this->{$name};
+	}
+
+	/**
+	 * Magic isset for ensuring properties on the presentation are recognised.
+	 *
+	 * @param string $name The property to get.
+	 *
+	 * @return bool Whether or not the requested property exists.
+	 */
+	public function __isset( $name ) {
+		return isset( $this->context->presentation->{$name} );
+	}
+
+	/**
+	 * Strips all nested dependencies from the debug info.
+	 *
+	 * @return array
+	 */
+	public function __debugInfo() {
+		return [ 'context' => $this->context ];
+	}
+}

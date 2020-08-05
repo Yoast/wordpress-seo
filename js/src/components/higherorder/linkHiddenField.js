@@ -1,5 +1,5 @@
 /* External dependencies */
-import React from "react";
+import { Component } from "@wordpress/element";
 import PropTypes from "prop-types";
 
 /**
@@ -12,7 +12,7 @@ import PropTypes from "prop-types";
  */
 const linkHiddenFields = ( mapFieldsFromProps ) => {
 	return ( WrappedComponent ) => {
-		class LinkHiddenFields extends React.Component {
+		class LinkHiddenFields extends Component {
 			constructor( props ) {
 				super( props );
 

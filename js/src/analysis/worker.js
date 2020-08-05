@@ -19,7 +19,7 @@ import isKeywordAnalysisActive from "./isKeywordAnalysisActive";
  * @returns {AnalysisWorkerWrapper} The analysis worker.
  */
 export function createAnalysisWorker() {
-	const url = get( window, [ "wpseoAnalysisWorkerL10n", "url" ], "wp-seo-analysis-worker.js" );
+	const url = get( window, [ "wpseoScriptData", "analysis", "worker", "url" ], "analysis-worker.js" );
 	return new AnalysisWorkerWrapper( createWorker( url ) );
 }
 
@@ -36,8 +36,8 @@ export function getAnalysisConfiguration( customConfiguration = {} ) {
 		contentAnalysisActive: isContentAnalysisActive(),
 		keywordAnalysisActive: isKeywordAnalysisActive(),
 		defaultQueryParams: getDefaultQueryParams(),
-		logLevel: get( window, [ "wpseoAnalysisWorkerL10n", "log_level" ], "ERROR" ),
-		enabledFeatures: get( window, [ "wpseoAnalysisWorkerL10n", "enabled_features" ], [] ),
+		logLevel: get( window, [ "wpseoScriptData", "analysis", "worker", "log_level" ], "ERROR" ),
+		enabledFeatures: get( window, [ "wpseoScriptData", "analysis", "worker", "enabled_features" ], [] ),
 	};
 
 	configuration = merge( configuration, customConfiguration );

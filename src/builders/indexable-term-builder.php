@@ -1,34 +1,65 @@
 <?php
 /**
- * Post Builder for the indexables.
+ * Term Builder for the indexables.
  *
  * @package Yoast\YoastSEO\Builders
  */
 
 namespace Yoast\WP\SEO\Builders;
 
+use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
 use Yoast\WP\SEO\Models\Indexable;
 
 /**
  * Formats the term meta to indexable format.
  */
 class Indexable_Term_Builder {
+	use Indexable_Social_Image_Trait;
+
+	/**
+	 * Holds the taxonomy helper instance.
+	 *
+	 * @var Taxonomy_Helper
+	 */
+	private $taxonomy;
+
+	/**
+	 * Indexable_Term_Builder constructor.
+	 *
+	 * @param Taxonomy_Helper $taxonomy The taxonomy helper.
+	 */
+	public function __construct( Taxonomy_Helper $taxonomy ) {
+		$this->taxonomy = $taxonomy;
+	}
 
 	/**
 	 * Formats the data.
 	 *
-	 * @param int                            $term_id   ID of the term to save data for.
-	 * @param \Yoast\WP\SEO\Models\Indexable $indexable The indexable to format.
+	 * @param int       $term_id   ID of the term to save data for.
+	 * @param Indexable $indexable The indexable to format.
 	 *
-	 * @return \Yoast\WP\SEO\Models\Indexable The extended indexable.
+	 * @return bool|Indexable The extended indexable. False when unable to build.
 	 */
-	public function build( $term_id, Indexable $indexable ) {
-		$term      = \get_term( $term_id );
-		$taxonomy  = $term->taxonomy;
-		$term_meta = \WPSEO_Taxonomy_Meta::get_term_meta( $term_id, $taxonomy );
+	public function build( $term_id, $indexable ) {
+		$term = \get_term( $term_id );
 
-		$indexable->permalink       = \get_term_link( $term_id, $taxonomy );
-		$indexable->object_sub_type = $taxonomy;
+		if ( $term === null || \is_wp_error( $term ) ) {
+			return false;
+		}
+
+		$term_link = \get_term_link( $term, $term->taxonomy );
+
+		if ( \is_wp_error( $term_link ) ) {
+			return false;
+		}
+
+		$term_meta = $this->taxonomy->get_term_meta( $term );
+
+		$indexable->object_id       = $term_id;
+		$indexable->object_type     = 'term';
+		$indexable->object_sub_type = $term->taxonomy;
+		$indexable->permalink       = $term_link;
+		$indexable->blog_id         = \get_current_blog_id();
 
 		$indexable->primary_focus_keyword_score = $this->get_keyword_score(
 			$this->get_meta_value( 'wpseo_focuskw', $term_meta ),
@@ -36,13 +67,23 @@ class Indexable_Term_Builder {
 		);
 
 		$indexable->is_robots_noindex = $this->get_noindex_value( $this->get_meta_value( 'wpseo_noindex', $term_meta ) );
+		$indexable->is_public         = ( $indexable->is_robots_noindex === null ) ? null : ! $indexable->is_robots_noindex;
+
+		$this->reset_social_images( $indexable );
 
 		foreach ( $this->get_indexable_lookup() as $meta_key => $indexable_key ) {
-			$indexable->{ $indexable_key } = $this->get_meta_value( $meta_key, $term_meta );
+			$indexable->{$indexable_key} = $this->get_meta_value( $meta_key, $term_meta );
 		}
 
+		if ( empty( $indexable->breadcrumb_title ) ) {
+			$indexable->breadcrumb_title = $term->name;
+		}
+
+		$this->handle_social_images( $indexable );
+
+		$indexable->is_cornerstone = $this->get_meta_value( 'wpseo_is_cornerstone', $term_meta );
+
 		// Not implemented yet.
-		$indexable->is_cornerstone         = false;
 		$indexable->is_robots_nofollow     = null;
 		$indexable->is_robots_noarchive    = null;
 		$indexable->is_robots_noimageindex = null;
@@ -99,12 +140,14 @@ class Indexable_Term_Builder {
 			'wpseo_desc'                  => 'description',
 			'wpseo_content_score'         => 'readability_score',
 			'wpseo_bctitle'               => 'breadcrumb_title',
-			'wpseo_opengraph-title'       => 'og_title',
-			'wpseo_opengraph-description' => 'og_description',
-			'wpseo_opengraph-image'       => 'og_image',
+			'wpseo_opengraph-title'       => 'open_graph_title',
+			'wpseo_opengraph-description' => 'open_graph_description',
+			'wpseo_opengraph-image'       => 'open_graph_image',
+			'wpseo_opengraph-image-id'    => 'open_graph_image_id',
 			'wpseo_twitter-title'         => 'twitter_title',
 			'wpseo_twitter-description'   => 'twitter_description',
 			'wpseo_twitter-image'         => 'twitter_image',
+			'wpseo_twitter-image-id'      => 'twitter_image_id',
 		];
 	}
 
@@ -117,7 +160,7 @@ class Indexable_Term_Builder {
 	 * @return null|string The meta value.
 	 */
 	protected function get_meta_value( $meta_key, $term_meta ) {
-		if ( ! \array_key_exists( $meta_key, $term_meta ) ) {
+		if ( ! $term_meta || ! \array_key_exists( $meta_key, $term_meta ) ) {
 			return null;
 		}
 
@@ -127,5 +170,24 @@ class Indexable_Term_Builder {
 		}
 
 		return $value;
+	}
+
+	/**
+	 * Finds an alternative image for the social image.
+	 *
+	 * @param Indexable $indexable The indexable.
+	 *
+	 * @return array|bool False when not found, array with data when found.
+	 */
+	protected function find_alternative_image( Indexable $indexable ) {
+		$content_image = $this->image->get_term_content_image( $indexable->object_id );
+		if ( $content_image ) {
+			return [
+				'image'  => $content_image,
+				'source' => 'first-content-image',
+			];
+		}
+
+		return false;
 	}
 }

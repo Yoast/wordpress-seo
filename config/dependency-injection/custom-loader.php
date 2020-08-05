@@ -7,13 +7,13 @@
 
 namespace Yoast\WP\SEO\Dependency_Injection;
 
+use ReflectionException;
 use Symfony\Component\Config\FileLocator;
+use Symfony\Component\Config\Resource\GlobResource;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
 use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
-use Symfony\Component\Config\Resource\GlobResource;
-use Symfony\Component\DependencyInjection\ChildDefinition;
-use Symfony\Component\DependencyInjection\Definition;
 
 /**
  * This class is mostly a direct copy-paste of the symfony PhpFileLoader class.
@@ -24,7 +24,7 @@ class Custom_Loader extends PhpFileLoader {
 	/**
 	 * Custom_Loader constructor.
 	 *
-	 * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container The ContainerBuilder to load classes for.
+	 * @param ContainerBuilder $container The ContainerBuilder to load classes for.
 	 */
 	public function __construct( ContainerBuilder $container ) {
 		parent::__construct( $container, new FileLocator( __DIR__ . '/../..' ) );
@@ -56,12 +56,10 @@ class Custom_Loader extends PhpFileLoader {
 	/**
 	 * Registers a set of classes as services using PSR-4 for discovery.
 	 *
-	 * @param \Symfony\Component\DependencyInjection\Definition $prototype A definition to use as template.
-	 * @param string                                            $namespace The namespace prefix of classes
-	 *                                                                     in the scanned directory.
-	 * @param string                                            $resource  The directory to look for classes,
-	 *                                                                     glob-patterns allowed.
-	 * @param string                                            $exclude   A globed path of files to exclude.
+	 * @param Definition $prototype A definition to use as template.
+	 * @param string     $namespace The namespace prefix of classes in the scanned directory.
+	 * @param string     $resource  The directory to look for classes, glob-patterns allowed.
+	 * @param string     $exclude   A globed path of files to exclude.
 	 *
 	 * @throws InvalidArgumentException If invalid arguments are supplied.
 	 *
@@ -77,6 +75,7 @@ class Custom_Loader extends PhpFileLoader {
 
 		$classes = $this->findClasses( $namespace, $resource, $exclude );
 		// Prepare for deep cloning.
+		// phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.serialize_serialize -- Reason: There's no way for user input to get in between serialize and unserialize.
 		$serialized_prototype = \serialize( $prototype );
 		$interfaces           = [];
 		$singly_implemented   = [];
@@ -86,6 +85,7 @@ class Custom_Loader extends PhpFileLoader {
 				$interfaces[] = $class;
 			}
 			else {
+				// phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.serialize_unserialize -- Reason: There's no way for user input to get in between serialize and unserialize.
 				$this->setDefinition( $class, $definition = \unserialize( $serialized_prototype ) );
 				if ( $error_message !== null ) {
 					$definition->addError( $error_message );
@@ -100,33 +100,8 @@ class Custom_Loader extends PhpFileLoader {
 		foreach ( $interfaces as $interface ) {
 			if ( ! empty( $singly_implemented[ $interface ] ) ) {
 				$this->container->setAlias( $interface, $singly_implemented[ $interface ] )
-								->setPublic( false );
+					->setPublic( false );
 			}
-		}
-	}
-
-	/**
-	 * Registers a definition in the container with its instanceof-conditionals.
-	 *
-	 * @param string                                            $id         The ID of the definition.
-	 * @param \Symfony\Component\DependencyInjection\Definition $definition The definition.
-	 *
-	 * @throws InvalidArgumentException If invalid arguments were supplied.
-	 *
-	 * @return void
-	 */
-	protected function setDefinition( $id, Definition $definition ) {
-		$this->container->removeBindings( $id );
-
-		// @codingStandardsIgnoreLine WordPress.NamingConventions.ValidVariableName.NotSnakeCaseMemberVar This is from an inherited class not abiding by that standard.
-		if ( $this->isLoadingInstanceof ) {
-			if ( ! $definition instanceof ChildDefinition ) {
-				throw new InvalidArgumentException( \sprintf( 'Invalid type definition "%s": ChildDefinition expected, "%s" given.', $id, \get_class( $definition ) ) );
-			}
-			$this->instanceof[ $id ] = $definition;
-		}
-		else {
-			$this->container->setDefinition( $id, ( $definition instanceof ChildDefinition ) ? $definition : $definition->setInstanceofConditionals( $this->instanceof ) );
 		}
 	}
 
@@ -186,7 +161,7 @@ class Custom_Loader extends PhpFileLoader {
 
 			try {
 				$r = $this->container->getReflectionClass( $class );
-			} catch ( \ReflectionException $e ) {
+			} catch ( ReflectionException $e ) {
 				$classes[ $class ] = \sprintf(
 					'While discovering services from namespace "%s", an error was thrown when processing the class "%s": "%s".',
 					$namespace,

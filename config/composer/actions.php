@@ -8,6 +8,7 @@
 namespace Yoast\WP\SEO\Composer;
 
 use Composer\Script\Event;
+use Exception;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Yoast\WP\SEO\Dependency_Injection\Container_Compiler;
 
@@ -23,7 +24,7 @@ class Actions {
 	 *
 	 * @codeCoverageIgnore
 	 *
-	 * @param \Composer\Script\Event $event Composer event that triggered this script.
+	 * @param Event $event Composer event that triggered this script.
 	 *
 	 * @return void
 	 */
@@ -49,13 +50,77 @@ class Actions {
 	}
 
 	/**
+	 * Provides a coding standards option choice.
+	 *
+	 * @param Event $event Composer event.
+	 */
+	public static function check_coding_standards( Event $event ) {
+		$io = $event->getIO();
+
+		$choices = [
+			'1' => [
+				'label'   => 'Check staged files for coding standard warnings & errors.',
+				'command' => 'check-staged-cs',
+			],
+			'2' => [
+				'label'   => 'Check current branch\'s changed files for coding standard warnings & errors.',
+				'command' => 'check-branch-cs',
+			],
+			'3' => [
+				'label'   => 'Check for all coding standard errors.',
+				'command' => 'check-cs',
+			],
+			'4' => [
+				'label'   => 'Check for all coding standard warnings & errors.',
+				'command' => 'check-cs-warnings',
+			],
+			'5' => [
+				'label'   => 'Fix auto-fixable coding standards.',
+				'command' => 'fix-cs',
+			],
+			'6' => [
+				'label'   => '[Premium] Check for coding standard warnings and errors.',
+				'command' => 'premium-check-cs',
+			],
+			'7' => [
+				'label'   => '[Premium] Fix auto-fixable coding standards.',
+				'command' => 'premium-fix-cs',
+			],
+			'8' => [
+				'label'   => 'Load coding standards configuration.',
+				'command' => 'config-yoastcs',
+			],
+		];
+
+		$args = $event->getArguments();
+		if ( empty( $args ) ) {
+			foreach ( $choices as $choice => $data ) {
+				$io->write( \sprintf( '%d. %s', $choice, $data['label'] ) );
+			}
+
+			$choice = $io->ask( 'What do you want to do? ' );
+		}
+		else {
+			$choice = $args[0];
+		}
+
+		if ( isset( $choices[ $choice ] ) ) {
+			$event_dispatcher = $event->getComposer()->getEventDispatcher();
+			$event_dispatcher->dispatchScript( $choices[ $choice ]['command'] );
+		}
+		else {
+			$io->write( 'Unknown choice.' );
+		}
+	}
+
+	/**
 	 * Compiles the dependency injection container.
 	 *
 	 * Used the composer compile-dependency-injection-container command.
 	 *
 	 * @codeCoverageIgnore
 	 *
-	 * @param \Composer\Script\Event $event Composer event that triggered this script.
+	 * @param Event $event Composer event that triggered this script.
 	 *
 	 * @return void
 	 */
@@ -90,13 +155,47 @@ class Actions {
 	}
 
 	/**
+	 * Runs lint on the staged files.
+	 *
+	 * Used the composer lint-files command.
+	 *
+	 * @codeCoverageIgnore
+	 *
+	 * @return void
+	 */
+	public static function lint_staged() {
+		self::lint_changed_files( '--staged' );
+	}
+
+	/**
+	 * Runs lint on the staged files.
+	 *
+	 * Used the composer lint-files command.
+	 *
+	 * @codeCoverageIgnore
+	 *
+	 * @param Event $event Composer event that triggered this script.
+	 *
+	 * @return void
+	 */
+	public static function lint_branch( Event $event ) {
+		$args = $event->getArguments();
+		if ( empty( $args ) ) {
+			self::lint_changed_files( 'trunk' );
+
+			return;
+		}
+		self::lint_changed_files( $args[0] );
+	}
+
+	/**
 	 * Runs PHPCS on the staged files.
 	 *
 	 * Used the composer check-staged-cs command.
 	 *
 	 * @codeCoverageIgnore
 	 *
-	 * @param \Composer\Script\Event $event Composer event that triggered this script.
+	 * @param Event $event Composer event that triggered this script.
 	 *
 	 * @return void
 	 */
@@ -104,6 +203,7 @@ class Actions {
 		$args = $event->getArguments();
 		if ( empty( $args ) ) {
 			self::check_cs_for_changed_files( 'trunk' );
+
 			return;
 		}
 		self::check_cs_for_changed_files( $args[0] );
@@ -120,18 +220,135 @@ class Actions {
 	 */
 	private static function check_cs_for_changed_files( $compare ) {
 		\exec( 'git diff --name-only --diff-filter=d ' . \escapeshellarg( $compare ), $files );
-		$files = \array_filter(
-			$files,
-			function ( $file ) {
-				return \substr( $file, -4 ) === '.php';
-			}
-		);
 
-		if ( empty( $files ) ) {
-			echo 'No files to compare! Exiting.';
+		$php_files = self::filter_files( $files, '.php' );
+		if ( empty( $php_files ) ) {
+			echo 'No files to compare! Exiting.' . PHP_EOL;
+
 			return;
 		}
 
-		\system( 'composer check-cs -- ' . \implode( ' ', \array_map( 'escapeshellarg', $files ) ) );
+		\system( 'composer check-cs -- ' . \implode( ' ', \array_map( 'escapeshellarg', $php_files ) ) );
+	}
+	/**
+	 * Runs lint on changed files compared to some git reference.
+	 *
+	 * @param string $compare The git reference.
+	 *
+	 * @codeCoverageIgnore
+	 *
+	 * @return void
+	 */
+	private static function lint_changed_files( $compare ) {
+		\exec( 'git diff --name-only --diff-filter=d ' . \escapeshellarg( $compare ), $files );
+
+		$php_files = self::filter_files( $files, '.php' );
+		if ( empty( $php_files ) ) {
+			echo 'No files to compare! Exiting.' . PHP_EOL;
+
+			return;
+		}
+
+		\system( 'composer lint-files -- ' . \implode( ' ', \array_map( 'escapeshellarg', $php_files ) ) );
+	}
+
+	/**
+	 * Filter files on extension.
+	 *
+	 * @param array  $files     List of files.
+	 * @param string $extension Extension to filter on.
+	 *
+	 * @return array Filtered list of files.
+	 */
+	private static function filter_files( $files, $extension ) {
+		return \array_filter(
+			$files,
+			function( $file ) use ( $extension ) {
+				return \substr( $file, ( 0 - \strlen( $extension ) ) ) === $extension;
+			}
+		);
+	}
+
+	/**
+	 * Generates a migration.
+	 *
+	 * @param Event $event Composer event that triggered this script.
+	 *
+	 * @return void
+	 *
+	 * @throws Exception If no migration name is provided.
+	 */
+	public static function generate_migration( Event $event ) {
+		$args = $event->getArguments();
+		if ( empty( $args[0] ) ) {
+			throw new Exception( 'You must provide an argument with the migration name.' );
+		}
+		$name      = $args[0];
+		$timestamp = \gmdate( 'YmdHis', \time() );
+
+		// Camelcase the name.
+		$name  = \preg_replace( '/\\s+/', '_', $name );
+		$parts = \explode( '_', $name );
+		$name  = '';
+		foreach ( $parts as $word ) {
+			$name .= \ucfirst( $word );
+		}
+
+		$correct_class_name_regex = '/^[a-zA-Z_\\x7f-\\xff][a-zA-Z0-9_\\x7f-\\xff]*$/';
+		if ( ! \preg_match( $correct_class_name_regex, $name ) ) {
+			throw new Exception( "$name is not a valid migration name." );
+		}
+		if ( \class_exists( $name ) ) {
+			throw new Exception( "A class with the name $name already exists." );
+		}
+
+		$file_name = $timestamp . '_' . $name . '.php';
+
+		$template = <<<TPL
+<?php
+/**
+ * Yoast SEO Plugin File.
+ *
+ * @package Yoast\WP\SEO\Config\Migrations
+ */
+
+namespace Yoast\WP\SEO\Config\Migrations;
+
+use Yoast\WP\Lib\Migrations\Migration;
+
+/**
+ * {$name} class.
+ */
+class {$name} extends Migration {
+
+	/**
+	 * The plugin this migration belongs to.
+	 *
+	 * @var string
+	 */
+	public static \$plugin = 'free';
+
+	/**
+	 * Migration up.
+	 *
+	 * @return void
+	 */
+	public function up() {
+
+	}
+
+	/**
+	 * Migration down.
+	 *
+	 * @return void
+	 */
+	public function down() {
+
+	}
+}
+
+TPL;
+
+		\file_put_contents( __DIR__ . '/../../src/config/migrations/' . $file_name, $template );
 	}
 }

@@ -20,9 +20,7 @@ module.exports = {
 			"<%= files.php %>",
 		],
 		tasks: [
-			"phplint",
-			"phpcs",
-			"checktextdomain",
+			"check:php",
 		],
 	},
 	js: {
@@ -35,8 +33,18 @@ module.exports = {
 			"eslint:plugin",
 		],
 	},
-	sass: {
-		files: "<%= paths.sass %>**/*.scss",
+	jsTests: {
+		files: [
+			"<%= files.jsTests %>",
+		],
+		tasks: [
+			"eslint:tests",
+		],
+	},
+	css: {
+		files: [
+			"<%= files.css %>",
+		],
 		tasks: [
 			"build:css",
 		],

@@ -93,7 +93,12 @@ class Yoast_Form {
 				$hidden_fields_cb = 'settings_fields';
 			}
 
-			echo '<form action="' . esc_url( $action_url ) . '" method="post" id="wpseo-conf"' . $enctype . ' accept-charset="' . esc_attr( get_bloginfo( 'charset' ) ) . '">';
+			echo '<form action="' .
+				esc_url( $action_url ) .
+				'" method="post" id="wpseo-conf"' .
+				$enctype . ' accept-charset="' .
+				esc_attr( get_bloginfo( 'charset' ) ) .
+				'" novalidate="novalidate">';
 			call_user_func( $hidden_fields_cb, $option_long_name );
 		}
 		$this->set_option( $option );
@@ -333,8 +338,8 @@ class Yoast_Form {
 		'<label class="', $class, '"><b class="switch-yoast-seo-jaws-a11y">&nbsp;</b>',
 		'<input type="checkbox" aria-labelledby="', esc_attr( $var . '-label' ), '" id="', esc_attr( $var ), '" name="', esc_attr( $this->option_name ), '[', esc_attr( $var ), ']" value="on"', checked( $val, 'on', false ), disabled( $this->is_control_disabled( $var ), true, false ), '/>',
 		'<span aria-hidden="true">
-			<span>', esc_html( $off_button ) ,'</span>
-			<span>', esc_html( $on_button ) ,'</span>
+			<span>', esc_html( $off_button ), '</span>
+			<span>', esc_html( $on_button ), '</span>
 			<a></a>
 		 </span>
 		 </label><div class="clear"></div></div>';
@@ -351,6 +356,7 @@ class Yoast_Form {
 	 * @param array|string $attr  Extra attributes to add to the input field. Can be class, disabled, autocomplete.
 	 */
 	public function textinput( $var, $label, $attr = [] ) {
+		$type = 'text';
 		if ( ! is_array( $attr ) ) {
 			$attr = [
 				'class'    => $attr,
@@ -358,12 +364,16 @@ class Yoast_Form {
 			];
 		}
 
-		$defaults   = [
+		$defaults = [
 			'placeholder' => '',
 			'class'       => '',
 		];
-		$attr       = wp_parse_args( $attr, $defaults );
-		$val        = $this->get_field_value( $var, '' );
+		$attr     = wp_parse_args( $attr, $defaults );
+		$val      = $this->get_field_value( $var, '' );
+		if ( isset( $attr['type'] ) && $attr['type'] === 'url' ) {
+			$val  = urldecode( $val );
+			$type = 'url';
+		}
 		$attributes = isset( $attr['autocomplete'] ) ? ' autocomplete="' . esc_attr( $attr['autocomplete'] ) . '"' : '';
 		if ( isset( $attr['disabled'] ) && $attr['disabled'] ) {
 			$attributes .= ' disabled';
@@ -383,7 +393,7 @@ class Yoast_Form {
 		Yoast_Input_Validation::set_error_descriptions();
 		$aria_attributes .= Yoast_Input_Validation::get_the_aria_describedby_attribute( $var );
 
-		echo '<input' . $attributes . $aria_attributes . ' class="textinput ' . esc_attr( $attr['class'] ) . '" placeholder="' . esc_attr( $attr['placeholder'] ) . '" type="text" id="', esc_attr( $var ), '" name="', esc_attr( $this->option_name ), '[', esc_attr( $var ), ']" value="', esc_attr( $val ), '"', disabled( $this->is_control_disabled( $var ), true, false ), '/>', '<br class="clear" />';
+		echo '<input' . $attributes . $aria_attributes . ' class="textinput ' . esc_attr( $attr['class'] ) . '" placeholder="' . esc_attr( $attr['placeholder'] ) . '" type="' . $type . '" id="', esc_attr( $var ), '" name="', esc_attr( $this->option_name ), '[', esc_attr( $var ), ']" value="', esc_attr( $val ), '"', disabled( $this->is_control_disabled( $var ), true, false ), '/>', '<br class="clear" />';
 		echo Yoast_Input_Validation::get_the_error_description( $var );
 	}
 
@@ -686,7 +696,7 @@ class Yoast_Form {
 			$key_esc = esc_attr( $key );
 			$for     = $var_esc . '-' . $key_esc;
 			echo '<input type="radio" id="' . $for . '" name="' . esc_attr( $this->option_name ) . '[' . $var_esc . ']" value="' . $key_esc . '" ' . checked( $val, $key_esc, false ) . disabled( $this->is_control_disabled( $var ), true, false ) . ' />',
-			'<label for="', $for, '">', esc_html( $value ), $screen_reader_text_html,'</label>';
+			'<label for="', $for, '">', esc_html( $value ), $screen_reader_text_html, '</label>';
 		}
 
 		echo '<a></a></div></fieldset><div class="clear"></div></div>' . PHP_EOL . PHP_EOL;
@@ -781,27 +791,5 @@ class Yoast_Form {
 		}
 
 		return '<p class="disabled-note">' . esc_html__( 'This feature has been disabled by the network admin.', 'wordpress-seo' ) . '</p>';
-	}
-
-	/* ********************* DEPRECATED METHODS ********************* */
-
-	/**
-	 * Retrieve options based on whether we're on multisite or not.
-	 *
-	 * @since 1.2.4
-	 * @since 2.0   Moved to this class.
-	 * @deprecated 8.4
-	 * @codeCoverageIgnore
-	 *
-	 * @return array The option's value.
-	 */
-	public function get_option() {
-		_deprecated_function( __METHOD__, 'WPSEO 8.4' );
-
-		if ( is_network_admin() ) {
-			return get_site_option( $this->option_name );
-		}
-
-		return get_option( $this->option_name );
 	}
 }

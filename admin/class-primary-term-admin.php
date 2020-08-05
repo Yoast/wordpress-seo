@@ -21,9 +21,6 @@ class WPSEO_Primary_Term_Admin implements WPSEO_WordPress_Integration {
 		add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_assets' ] );
 
 		add_action( 'save_post', [ $this, 'save_primary_terms' ] );
-
-		$primary_term = new WPSEO_Frontend_Primary_Category();
-		$primary_term->register_hooks();
 	}
 
 	/**
@@ -134,7 +131,7 @@ class WPSEO_Primary_Term_Admin implements WPSEO_WordPress_Integration {
 		$data = [
 			'taxonomies' => $mapped_taxonomies,
 		];
-		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'primary-category', 'wpseoPrimaryCategoryL10n', $data );
+		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'post-edit', 'wpseoPrimaryCategoryL10n', $data );
 	}
 
 	/**
