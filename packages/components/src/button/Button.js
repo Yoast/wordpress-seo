@@ -8,6 +8,7 @@ const buttonClasses = "yoast-button yoast-button--";
 // A map from variant to icon span className, with iconAfter or iconBefore as a key.
 const variantToIcon = {
 	buy: { iconAfter: "yoast-button--buy__caret" },
+	edit: { iconBefore: "yoast-button--edit" },
 
 	// Aliases
 	upsell: { iconAfter: "yoast-button--buy__caret" },
@@ -26,6 +27,7 @@ const variantToClassName = {
 	purple: buttonClasses + "primary",
 	grey: buttonClasses + "secondary",
 	yellow: buttonClasses + "buy",
+	edit: buttonClasses + "primary",
 };
 
 /**

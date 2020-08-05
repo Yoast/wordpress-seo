@@ -70,6 +70,10 @@ const buttonGrouping = <Fragment>
 	<ButtonStyledLink variant="hide" href="#">Hide Link</ButtonStyledLink>
 	<ButtonStyledLink variant="remove" href="#">Remove Link</ButtonStyledLink>
 
+	<h3>"edit" variant</h3>
+	<Button variant="edit" onClick={ clickerDiClick }>Edit button</Button>
+	<ButtonStyledLink variant="edit" href="#">Edit Link</ButtonStyledLink>
+
 	<h3>CloseButton (not a variant due its different characteristics)</h3>
 	<CloseButton onClick={ clickerDiClick } />
 </Fragment>;
