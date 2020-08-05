@@ -15,8 +15,8 @@ import SocialForm from "../social/SocialForm";
 const TwitterWrapper = ( props ) => {
 	useEffect( () => {
 		if ( props.isLoading === true ) {
-			// Set a timeout because the editor inits asynchronously and we need to load the data after the component is fully loaded.
-			setTimeout( props.onLoad, 50 );
+			// Load on the next cycle because the editor inits asynchronously and we need to load the data after the component is fully loaded.
+			setTimeout( props.onLoad );
 		}
 	} );
 
