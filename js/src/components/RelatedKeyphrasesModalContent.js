@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 /* Internal dependencies */
 import SemRushLoading from "./modals/SemRushLoading";
 import SemRushLimitReached from "./modals/SemRushLimitReached";
-import SemRushCountrySelector from "./modals/SemRushCountrySelector";
+import SEMrushCountrySelector from "./modals/SEMrushCountrySelector";
 import KeyphrasesTable from "./modals/KeyphrasesTable";
 import SemRushUpsellAlert from "./modals/SemRushUpsellAlert";
 import SemRushRequestFailed from "./modals/SemRushRequestFailed";
@@ -67,9 +67,9 @@ export default function RelatedKeyphraseModalContent( props ) {
 		response,
 		keyphrase,
 		newRequest,
-		setDatabase,
+		setCountry,
 		renderAction,
-		currentDatabase,
+		countryCode,
 		setRequestFailed,
 		setNoResultsFound,
 		relatedKeyphrases,
@@ -80,13 +80,15 @@ export default function RelatedKeyphraseModalContent( props ) {
 	return (
 		<Fragment>
 			<SemRushUpsellAlert />
+			<SemRushLimitReached />
+			<SemRushRequestFailed />
 			{ getUserMessage( props ) }
-
-			<SemRushCountrySelector
+			<SEMrushCountrySelector
+				countryCode={ countryCode }
+				setCountry={ setCountry }
+				newRequest={ newRequest }
 				keyphrase={ keyphrase }
 				newRequest={ newRequest }
-				setDatabase={ setDatabase }
-				currentDatabase={ currentDatabase }
 				setRequestFailed={ setRequestFailed }
 				setNoResultsFound={ setNoResultsFound }
 				setRequestSucceeded={ setRequestSucceeded }
@@ -96,6 +98,7 @@ export default function RelatedKeyphraseModalContent( props ) {
 			<KeyphrasesTable
 				keyphrase={ keyphrase }
 				relatedKeyphrases={ relatedKeyphrases }
+				countryCode={ countryCode }
 				renderAction={ renderAction }
 				data={ response }
 			/>
@@ -103,7 +106,6 @@ export default function RelatedKeyphraseModalContent( props ) {
 			<h2>Content debug info</h2>
 			<p>
 				The keyphrase is: { keyphrase }<br />
-				The current database is: { currentDatabase }
 			</p>
 		</Fragment>
 	);
@@ -113,8 +115,8 @@ RelatedKeyphraseModalContent.propTypes = {
 	keyphrase: PropTypes.string,
 	relatedKeyphrases: PropTypes.array,
 	renderAction: PropTypes.func,
-	currentDatabase: PropTypes.string.isRequired,
-	setDatabase: PropTypes.func.isRequired,
+	countryCode: PropTypes.string.isRequired,
+	setCountry: PropTypes.func.isRequired,
 	newRequest: PropTypes.func.isRequired,
 	setRequestSucceeded: PropTypes.func.isRequired,
 	setRequestLimitReached: PropTypes.func.isRequired,

@@ -54,14 +54,14 @@ export function getSEMrushRequestKeyphrase( state ) {
 }
 
 /**
- * Gets the currently selected database.
+ * Gets the currently selected country.
  *
  * @param {Object} state    The state.
  *
- * @returns {string} Current database.
+ * @returns {string} Current country.
  */
-export function getSEMrushSelectedDatabase( state ) {
-	return state.SEMrushRequest.database;
+export function getSEMrushSelectedCountry( state ) {
+	return state.SEMrushRequest.countryCode;
 }
 
 /**

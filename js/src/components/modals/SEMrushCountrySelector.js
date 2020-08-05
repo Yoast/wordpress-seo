@@ -31,7 +31,7 @@ Option.propTypes = {
 };
 
 /**
- * List of all available databases for the SEMrush API
+ * List of all available database countries for the SEMrush API.
  * See: https://www.semrush.com/api-analytics/#databases
  * @type {*[]}
  */
@@ -158,7 +158,7 @@ const countries = [
 /**
  * The SEMrush Country Selector component.
  */
-class SemRushCountrySelector extends Component {
+class SEMrushCountrySelector extends Component {
 	/**
 	 * Constructs the CountrySelector.
 	 *
@@ -188,7 +188,7 @@ class SemRushCountrySelector extends Component {
 		this.select2.select2( {
 			theme: "default yoast-select2--inline",
 			dropdownCssClass: "yoast-select__dropdown",
-			dropdownParent: jQuery( ".yoast-related-keyphrases-modal" ),
+			dropdownParent: jQuery( ".yoast-related-keyphrases-modal__content" ),
 		} );
 		this.select2.on( "change.select2", this.onChangeHandler );
 	}
@@ -196,28 +196,34 @@ class SemRushCountrySelector extends Component {
 	/**
 	 * Handler for the onChange event.
 	 *
-	 * @param {object} event The event that was fired.
-	 *
 	 * @returns {void}
 	 */
 	onChangeHandler() {
-		// It is easier to query the select for the selected options than keep track of them in this component as well.
 		const selection = this.select2.select2( "data" ).map( option => option.id )[ 0 ];
 
-		this.props.setDatabase( selection );
+		this.props.setCountry( selection );
 	}
 
 	/**
-	 * Sends a new related keyphrases request to SEMrush.
+	 * Sends a new related keyphrases request to SEMrush and updates the semrush_country_code value in the database.
 	 *
 	 * @returns {void}
 	 */
 	async relatedKeyphrasesRequest() {
-		const { keyphrase, currentDatabase, newRequest } = this.props;
+		const { keyphrase, countrCode, newRequest } = this.props;
 
-		newRequest( currentDatabase, keyphrase );
+		newRequest( countrCode, keyphrase );
 
-		const response = await this.doRequest( keyphrase, currentDatabase );
+		const response = await this.doRequest( keyphrase, countrCode );
+
+		// Store country code
+		apiFetch( {
+			path: "yoast/v1/semrush/country_code",
+			method: "POST",
+			// eslint-disable-next-line camelcase
+			data: { country_code: this.props.countryCode },
+		} );
+
 
 		if ( response.status === 200 ) {
 			this.handleSuccessResponse( response );
@@ -304,8 +310,7 @@ class SemRushCountrySelector extends Component {
 	render() {
 		return (
 			<Fragment>
-				<p>current database selected is: { this.props.currentDatabase }</p>
-				<div className="yoast">
+				<div>
 					<FieldGroup
 						htmlFor={ id }
 						label="Show results for:"
@@ -313,8 +318,8 @@ class SemRushCountrySelector extends Component {
 					>
 						<select
 							id={ id }
-							name="database"
-							defaultValue={ this.props.currentDatabase }
+							name="semrush-country-code"
+							defaultValue={ this.props.countryCode }
 						>
 							{ countries.map( Option ) }
 						</select>
@@ -330,10 +335,10 @@ class SemRushCountrySelector extends Component {
 	}
 }
 
-SemRushCountrySelector.propTypes = {
+SEMrushCountrySelector.propTypes = {
 	keyphrase: PropTypes.string,
-	currentDatabase: PropTypes.string,
-	setDatabase: PropTypes.func.isRequired,
+	countryCode: PropTypes.string,
+	setCountry: PropTypes.func.isRequired,
 	newRequest: PropTypes.func.isRequired,
 	setNoResultsFound: PropTypes.func.isRequired,
 	setRequestSucceeded: PropTypes.func.isRequired,
@@ -341,9 +346,9 @@ SemRushCountrySelector.propTypes = {
 	setRequestFailed: PropTypes.func.isRequired,
 };
 
-SemRushCountrySelector.defaultProps = {
-	currentDatabase: "us",
+SEMrushCountrySelector.defaultProps = {
 	keyphrase: "",
+	countryCode: "us",
 };
 
 /**
@@ -355,9 +360,9 @@ SemRushCountrySelector.defaultProps = {
  */
 const CountrySelectorWithErrorBoundary = ( props ) => (
 	<ErrorBoundary>
-		<SemRushCountrySelector { ...props } />
+		<SEMrushCountrySelector { ...props } />
 	</ErrorBoundary>
 );
 
-export { CountrySelectorWithErrorBoundary as SemRushCountrySelector };
-export default SemRushCountrySelector;
+export { CountrySelectorWithErrorBoundary as SEMrushCountrySelector };
+export default SEMrushCountrySelector;

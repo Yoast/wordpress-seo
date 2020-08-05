@@ -3,14 +3,14 @@ import {
 	SET_REQUEST_FAILED,
 	SET_REQUEST_SUCCEEDED,
 	NEW_REQUEST,
-	CHANGE_DATABASE,
+	CHANGE_COUNTRY,
 	NO_DATA_FOUND,
 } from "../actions/SEMrushRequest";
 
 const INITIAL_STATE = {
 	isRequestPending: false,
 	keyphrase: "",
-	database: "us",
+	countryCode: "us",
 	isSuccess: false,
 	response: null,
 	limitReached: false,
@@ -31,7 +31,7 @@ function SEMrushRequestReducer( state = INITIAL_STATE, action ) {
 				...state,
 				isRequestPending: true,
 				keyphrase: action.keyphrase,
-				database: action.database,
+				countryCode: action.countryCode,
 				isSuccess: false,
 				response: null,
 			};
@@ -60,10 +60,10 @@ function SEMrushRequestReducer( state = INITIAL_STATE, action ) {
 				limitReached: true,
 				hasData: false,
 			};
-		case CHANGE_DATABASE:
+		case CHANGE_COUNTRY:
 			return {
 				...state,
-				database: action.database,
+				countryCode: action.countryCode,
 			};
 		case NO_DATA_FOUND:
 			return {
