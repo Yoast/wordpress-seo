@@ -1,7 +1,8 @@
 import { Button } from "@yoast/components/src/button/Button";
 import styled from "styled-components";
 import { __, sprintf } from "@wordpress/i18n";
-import { setPostSettingsModalIsOpen } from "../redux/actions";
+import { withDispatch } from "@wordpress/data";
+import PropTypes from "prop-types";
 
 /**
  * Container for the button.
@@ -16,42 +17,39 @@ const ButtonContainer = styled.div`
 `;
 
 /**
- * Function to open the PostSettingsModal.
- *
- * @returns {object} Object for opening the PostSettingsModal.
- */
-const openPostSettingsModal = () => setPostSettingsModalIsOpen( true );
-
-/**
- * Returns a button with an edit icon that opens the modal when clicked.
- *
- * @returns {*} A button with an edit icon that opens the modal when clicked.
- */
-const EditIconButton = () => (
-	<Button
-		variant="edit"
-		onClick={ openPostSettingsModal }
-	>
-		{
-			/* Translators: %s translates to the Post Label in singular form */
-			sprintf( __( "Open %s settings", "wordpress-seo" ), window.wpseoAdminL10n.postTypeNameSingular.toLowerCase() )
-		}
-	</Button>
-);
-
-/**
  * Returns a button in a div that can be used to open the modal.
  *
  * Warning: contains styling that is specific for the Sidebar.
  *
  * @returns {*} A button wrapped in a div.
  */
-const OpenPostSettingsModal = () => (
+const OpenPostSettingsModal = ( { openPostSettingsModal } ) => (
 	<ButtonContainer
 		className="yoast"
 	>
-		<EditIconButton />
+		<Button
+			variant="edit"
+			onClick={ openPostSettingsModal }
+		>
+			{
+				/* Translators: %s translates to the Post Label in singular form */
+				sprintf( __( "Open %s settings", "wordpress-seo" ), window.wpseoAdminL10n.postTypeNameSingular.toLowerCase() )
+			}
+		</Button>
 	</ButtonContainer>
 );
 
-export default OpenPostSettingsModal;
+OpenPostSettingsModal.propTypes = {
+	openPostSettingsModal: PropTypes.func.isRequired,
+};
+
+export default withDispatch( dispatch => {
+	const {
+		setPostSettingsModalIsOpen,
+	} = dispatch( "yoast-seo/editor" );
+
+	return {
+		openPostSettingsModal: () => setPostSettingsModalIsOpen( true ),
+	};
+} )( OpenPostSettingsModal );
+
