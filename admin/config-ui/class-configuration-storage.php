@@ -51,6 +51,8 @@ class WPSEO_Configuration_Storage {
 			new WPSEO_Config_Field_Company_Logo(),
 			new WPSEO_Config_Field_Person(),
 			new WPSEO_Config_Field_Post_Type_Visibility(),
+			new WPSEO_Config_Field_Tracking_Intro(),
+			new WPSEO_Config_Field_Tracking(),
 		];
 
 		$post_type_factory = new WPSEO_Config_Factory_Post_Type();

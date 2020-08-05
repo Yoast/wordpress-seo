@@ -15,7 +15,7 @@ if ( ! function_exists( 'add_filter' ) ) {
  * {@internal Nobody should be able to overrule the real version number as this can cause
  *            serious issues with the options, so no if ( ! defined() ).}}
  */
-define( 'WPSEO_VERSION', '14.6.1' );
+define( 'WPSEO_VERSION', '14.7-RC7' );
 
 
 if ( ! defined( 'WPSEO_PATH' ) ) {
@@ -180,6 +180,11 @@ function _wpseo_activate() {
 	else {
 		$wpseo_rewrite = new WPSEO_Rewrite();
 		$wpseo_rewrite->schedule_flush();
+	}
+
+	// Reset tracking to be disabled by default.
+	if ( ! WPSEO_Utils::is_yoast_seo_premium() ) {
+		WPSEO_Options::set( 'tracking', false );
 	}
 
 	do_action( 'wpseo_register_roles' );

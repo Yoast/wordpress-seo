@@ -45,6 +45,10 @@
       "\\.(css|less)$": "<rootDir>/js/tests/__mocks__/styleMock.js",
       "find-with-regex": "<rootDir>/node_modules/find-with-regex/lib/index.js"
     },
+    "moduleDirectories": [
+      "<rootDir>/node_modules",
+      "node_modules"
+    ],
     "snapshotSerializers": [
       "enzyme-to-json/serializer"
     ],
@@ -104,15 +108,15 @@
   },
   "dependencies": {
     "@babel/runtime": "7.0.0-beta.55",
-    "@yoast/analysis-report": "^1.7.0",
-    "@yoast/components": "^2.5.0",
-    "@yoast/configuration-wizard": "^2.7.0",
+    "@yoast/analysis-report": "^1.8.0",
+    "@yoast/components": "^2.6.0",
+    "@yoast/configuration-wizard": "^2.8.0",
     "@yoast/feature-flag": "^0.5.2",
     "@yoast/helpers": "^0.13.0",
-    "@yoast/replacement-variable-editor": "^1.0.0",
-    "@yoast/search-metadata-previews": "^2.7.0",
-    "@yoast/social-metadata-forms": "^1.0.0",
-    "@yoast/style-guide": "^0.12.0",
+    "@yoast/replacement-variable-editor": "^1.1.0",
+    "@yoast/search-metadata-previews": "^2.8.0",
+    "@yoast/social-metadata-forms": "^1.1.0",
+    "@yoast/style-guide": "^0.13.0",
     "a11y-speak": "git+https://github.com/Yoast/a11y-speak.git#master",
     "babel-polyfill": "^6.26.0",
     "classnames": "^2.2.6",
@@ -136,13 +140,13 @@
     "redux-thunk": "^2.2.0",
     "select2": "^4.0.5",
     "styled-components": "^4.2.0",
-    "yoast-components": "^5.7.0",
-    "yoastseo": "^1.78.0"
+    "yoast-components": "^5.8.0",
+    "yoastseo": "^1.79.0"
   },
   "browserslist": [
     "extends @yoast/browserslist-config"
   ],
   "yoast": {
-    "pluginVersion": "14.6.1"
+    "pluginVersion": "14.7"
   }
 }
