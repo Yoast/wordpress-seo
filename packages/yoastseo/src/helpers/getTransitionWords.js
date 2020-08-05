@@ -51,6 +51,9 @@ import twoPartTransitionWordsIndonesian from "../researches/indonesian/twoPartTr
 
 import getLanguage from "./getLanguage.js";
 
+import transitionWordsArabicFactory from "../researches/arabic/transitionWords.js";
+const transitionWordsArabic = transitionWordsArabicFactory().allWords;
+import twoPartTransitionWordsArabic from "../researches/arabic/twoPartTransitionWords.js";
 
 /**
  * Returns transition words for a specific locale.
@@ -120,6 +123,11 @@ export default function( locale ) {
 			return {
 				transitionWords: transitionWordsIndonesian,
 				twoPartTransitionWords: twoPartTransitionWordsIndonesian,
+			};
+		case "ar":
+			return {
+				transitionWords: transitionWordsArabic,
+				twoPartTransitionWords: twoPartTransitionWordsArabic,
 			};
 		default:
 		case "en":
