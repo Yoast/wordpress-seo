@@ -1,7 +1,8 @@
 /* global wpseoAdminL10n */
 
 /* External dependencies */
-import { Component } from "@wordpress/element";
+import { Component, Fragment } from "@wordpress/element";
+import { Slot } from "@wordpress/components";
 import { __ } from "@wordpress/i18n";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
@@ -28,7 +29,7 @@ class KeywordInput extends Component {
 	/**
 	 * Renders a help link.
 	 *
-	 * @returns {ReactElement} The help link component.
+	 * @returns {wp.Element} The help link component.
 	 */
 	static renderHelpLink() {
 		return (
@@ -46,31 +47,34 @@ class KeywordInput extends Component {
 	/**
 	 * Renders the component.
 	 *
-	 * @returns {ReactElement} The component.
+	 * @returns {wp.Element} The component.
 	 */
 	render() {
 		return <LocationConsumer>
 			{ context => (
-				<KeywordInputContainer>
-					<KeywordInputComponent
-						id={ `focus-keyword-input-${ context }` }
-						onChange={ this.props.onFocusKeywordChange }
-						keyword={ this.props.keyword }
-						label={ __( "Focus keyphrase", "wordpress-seo" ) }
-						helpLink={ KeywordInput.renderHelpLink() }
-						onBlurKeyword={ this.props.onBlurKeyword }
-						onFocusKeyword={ this.props.onFocusKeyword }
-					/>
-					{
-						this.props.keyword.length > 191 &&
-						<Alert type="warning">
-							{ __(
-								"Your keyphrase is too long. It can be a maximum of 191 characters.",
-								"wordpress-seo"
-							) }
-						</Alert>
-					}
-				</KeywordInputContainer>
+				<Fragment>
+					<KeywordInputContainer>
+						<KeywordInputComponent
+							id={ `focus-keyword-input-${ context }` }
+							onChange={ this.props.onFocusKeywordChange }
+							keyword={ this.props.keyword }
+							label={ __( "Focus keyphrase", "wordpress-seo" ) }
+							helpLink={ KeywordInput.renderHelpLink() }
+							onBlurKeyword={ this.props.onBlurKeyword }
+							onFocusKeyword={ this.props.onFocusKeyword }
+						/>
+						{
+							this.props.keyword.length > 191 &&
+							<Alert type="warning">
+								{ __(
+									"Your keyphrase is too long. It can be a maximum of 191 characters.",
+									"wordpress-seo"
+								) }
+							</Alert>
+						}
+					</KeywordInputContainer>
+					<Slot name={ `YoastAfterKeywordInput${ context.charAt( 0 ).toUpperCase() + context.slice( 1 ) }` } />
+				</Fragment>
 			) }
 		</LocationConsumer>;
 	}

@@ -1,7 +1,10 @@
 import { get } from "lodash";
 
 /**
- * Gets the fallback title from: state.analysisData.snippet.title.
+ * Gets the fallback title that is equal to the site title.
+ *
+ * This is stored in:
+ * state.snippetEditor.replacementVariables's value where the name is title.
  *
  * @param {Object} state The state object.
  *
@@ -19,6 +22,17 @@ export const getTitleFallback = state => get( state, "analysisData.snippet.title
 export const getDescriptionFallback = state => get( state, "analysisData.snippet.description", "" );
 
 /**
+ * Gets the first image from the content in Gutenberg.
+ *
+ * @param {Object} state The state object.
+ *
+ * @returns {string} The first content image src.
+ */
+export const getContentImage = state => {
+	return get( state, "socialPreviews.contentImage", "" );
+};
+
+/**
  * Gets the fallback image from:
  * state.settings.socialPreviews.sitewideImage
  * or
@@ -28,11 +42,13 @@ export const getDescriptionFallback = state => get( state, "analysisData.snippet
  *
  * @returns {string} The sidewide image url.
  */
-export const getImageFallback = state => get(
-	state,
-	"settings.socialPreviews.sitewideImage",
-	get( state, "snippetEditor.data.snippetPreviewImageURL", "" )
-);
+export const getImageFallback = state => {
+	const featuredImage = get( state, "snippetEditor.data.snippetPreviewImageURL", "" );
+	const contentImage = get( state, "settings.socialPreviews.contentImage", "" );
+	const siteWideImage = get( window.wpseoScriptData, "metabox.showSocial.facebook" ) && get( state, "settings.socialPreviews.sitewideImage", "" );
+
+	return featuredImage || contentImage || siteWideImage || "";
+};
 
 /**
  * Gets the site base URL from the analysisdata state. Then cuts it after the first "/".

@@ -4,9 +4,9 @@ import { Component, forwardRef } from "@wordpress/element";
  * Higher order that maps an onChange that only returns a value to an "Event" object,
  * just as a native element would return.
  *
- * @param {React.Component} WrappedComponent The component to be wrapped.
+ * @param {wp.Component} WrappedComponent The component to be wrapped.
  *
- * @returns {React.Component} Higher order component.
+ * @returns {wp.Component} Higher order component.
  */
 export default ( WrappedComponent ) => {
 	/**
@@ -43,7 +43,7 @@ export default ( WrappedComponent ) => {
 		/**
 		 * Renders the Wrapper component, and intercepts props that shouldn't be passed down.
 		 *
-		 * @returns {React.Element} The rendered component.
+		 * @returns {wp.Element} The rendered component.
 		 */
 		render() {
 			// Extract props that shouldn't be passed down.

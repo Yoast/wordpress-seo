@@ -11,7 +11,7 @@ import Portal from "./Portal";
  * @param {Object} store  The Redux store.
  * @param {Object} theme  The theme to use.
  *
- * @returns {null|ReactElement} The element.
+ * @returns {null|wp.Element} The element.
  */
 export default function MetaboxPortal( { target, store, theme } ) {
 	return (

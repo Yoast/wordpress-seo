@@ -16,7 +16,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	/**
 	 * Whether or not the social tab is enabled for this metabox.
 	 *
-	 * @var boolean
+	 * @var bool
 	 */
 	private $social_is_enabled;
 
@@ -304,6 +304,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 	/**
 	 * Outputs the meta box.
+	 *
+	 * @param WP_Post $post The post.
 	 */
 	public function meta_box() {
 		wp_nonce_field( 'yoast_free_metabox', 'yoast_free_metabox_nonce' );
@@ -321,7 +323,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: $this->get_product_title is considered safe.
 		printf( '<div class="wpseo-metabox-menu"><ul role="tablist" class="yoast-aria-tabs" aria-label="%s">', $this->get_product_title() );
 
-		$content_sections = $this->get_content_sections();
+		$content_sections = $this->get_content_sections( $post->post_type );
 
 		foreach ( $content_sections as $content_section ) {
 			if ( $content_section->name === 'premium' ) {
@@ -343,9 +345,11 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	/**
 	 * Returns the relevant metabox sections for the current view.
 	 *
+	 * @param string $post_type The post type.
+	 *
 	 * @return WPSEO_Metabox_Section[]
 	 */
-	private function get_content_sections() {
+	private function get_content_sections( $post_type ) {
 		$content_sections = [];
 
 		$content_sections[] = $this->get_seo_meta_section();
@@ -353,6 +357,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		if ( $this->analysis_readability->is_enabled() ) {
 			$content_sections[] = $this->get_readability_meta_section();
 		}
+
+		$content_sections[] = $this->get_schema_meta_section( $post_type );
 
 		// Whether social is enabled.
 		if ( $this->social_is_enabled ) {
@@ -403,6 +409,22 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 
 		return new WPSEO_Metabox_Section_React('content', $label, '', [] );
+	}
+
+	/**
+	 * Returns the metabox section for the schema tab.
+	 *
+	 * @param string $post_type The post type.
+	 *
+	 * @return WPSEO_Metabox_Section_React
+	 */
+	private function get_schema_meta_section( $post_type ) {
+		$content = $this->get_tab_content( 'schema', $post_type );
+		return new WPSEO_Metabox_Section_React(
+			'schema',
+			'<span class="wpseo-schema-icon"></span>' . __( 'Schema', 'wordpress-seo' ),
+			$content
+		);
 	}
 
 	/**
@@ -467,13 +489,14 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	/**
 	 * Retrieves the contents for the metabox tab.
 	 *
-	 * @param string $tab_name Tab for which to retrieve the field definitions.
+	 * @param string $tab_name  Tab for which to retrieve the field definitions.
+	 * @param string $post_type The post type. Defaults to post.
 	 *
 	 * @return string
 	 */
-	private function get_tab_content( $tab_name ) {
+	private function get_tab_content( $tab_name, $post_type = 'post' ) {
 		$content = '';
-		foreach ( WPSEO_Meta::get_meta_field_defs( $tab_name ) as $key => $meta_field ) {
+		foreach ( WPSEO_Meta::get_meta_field_defs( $tab_name, $post_type ) as $key => $meta_field ) {
 			$content .= $this->do_meta_box( $meta_field, $key );
 		}
 
@@ -512,6 +535,11 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			$description      = '<p id="' . $esc_form_key . '-desc" class="yoast-metabox__description">' . $meta_field_def['description'] . '</p>';
 		}
 
+		// Add a hide_on_pages option that returns nothing when the field is rendered on a page.
+		if ( isset( $meta_field_def['hide_on_pages'] ) && $meta_field_def['hide_on_pages'] && get_post_type() === 'page' ) {
+			return '';
+		}
+
 		switch ( $meta_field_def['type'] ) {
 			case 'text':
 				$ac = '';
@@ -540,7 +568,11 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				break;
 
 			case 'hidden':
-				$content .= '<input type="hidden" id="' . $esc_form_key . '" name="' . $esc_form_key . '" value="' . esc_attr( $meta_value ) . '"/>' . "\n";
+				$default = '';
+				if ( isset( $meta_field_def['default'] ) ) {
+					$default = sprintf( ' data-default="%s"', esc_attr( $meta_field_def['default'] ) );
+				}
+				$content .= '<input type="hidden" id="' . $esc_form_key . '" name="' . $esc_form_key . '" value="' . esc_attr( $meta_value ) . '"' . $default . '/>' . "\n";
 				break;
 			case 'select':
 				if ( isset( $meta_field_def['options'] ) && is_array( $meta_field_def['options'] ) && $meta_field_def['options'] !== [] ) {
@@ -723,9 +755,11 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		$meta_boxes = apply_filters( 'wpseo_save_metaboxes', [] );
 		$meta_boxes = array_merge(
-			$meta_boxes, WPSEO_Meta::get_meta_field_defs( 'general', $post->post_type ),
+			$meta_boxes,
+			WPSEO_Meta::get_meta_field_defs( 'general', $post->post_type ),
 			WPSEO_Meta::get_meta_field_defs( 'advanced' ),
-			$social_fields
+			$social_fields,
+			WPSEO_Meta::get_meta_field_defs( 'schema', $post->post_type )
 		);
 
 		foreach ( $meta_boxes as $key => $meta_box ) {
@@ -847,7 +881,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$used_keywords_assessment_location = new WPSEO_Admin_Asset_Analysis_Worker_Location( $asset_manager->flatten_version( WPSEO_VERSION ), 'used-keywords-assessment' );
 
 		$script_data = [
-			'analysis' => [
+			'analysis'         => [
 				'plugins' => [
 					'replaceVars' => [
 						'no_parent_text'           => __( '(no parent)', 'wordpress-seo' ),
@@ -861,7 +895,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 						'wpseo_shortcode_tags'          => $this->get_valid_shortcode_tags(),
 					],
 				],
-				'worker' => [
+				'worker'  => [
 					'url'                     => $analysis_worker_location->get_url( $analysis_worker_location->get_asset(), WPSEO_Admin_Asset::TYPE_JS ),
 					'keywords_assessment_url' => $used_keywords_assessment_location->get_url( $used_keywords_assessment_location->get_asset(), WPSEO_Admin_Asset::TYPE_JS ),
 					'log_level'               => WPSEO_Utils::get_analysis_worker_log_level(),
@@ -869,13 +903,13 @@ class WPSEO_Metabox extends WPSEO_Meta {
 					'enabled_features'        => WPSEO_Utils::retrieve_enabled_features(),
 				],
 			],
-			'media' => [
+			'media'            => [
 				// @todo replace this translation with JavaScript translations.
 				'choose_image' => __( 'Use Image', 'wordpress-seo' ),
 			],
-			'metabox' => $this->get_metabox_script_data(),
+			'metabox'          => $this->get_metabox_script_data(),
 			'userLanguageCode' => WPSEO_Language_Utils::get_language( WPSEO_Language_Utils::get_user_locale() ),
-			'isPost' => true,
+			'isPost'           => true,
 		];
 
 		if ( post_type_supports( get_post_type(), 'thumbnail' ) ) {
@@ -1029,7 +1063,13 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$custom_fields = get_post_custom( $post->ID );
 
 		foreach ( $custom_fields as $custom_field_name => $custom_field ) {
+			// Skip private custom fields.
 			if ( substr( $custom_field_name, 0, 1 ) === '_' ) {
+				continue;
+			}
+
+			// Skip custom field values that are serialized.
+			if ( is_serialized( $custom_field[0] ) ) {
 				continue;
 			}
 
@@ -1078,30 +1118,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	}
 
 	/* ********************* DEPRECATED METHODS ********************* */
-
-	/**
-	 * Outputs the page analysis score in the Publish Box.
-	 *
-	 * @deprecated 9.6
-	 * @codeCoverageIgnore
-	 *
-	 * @return void
-	 */
-	public function publish_box() {
-		_deprecated_function( __METHOD__, 'WPSEO 9.6' );
-	}
-
-	/**
-	 * Sets up all the functionality related to the prominence of the page analysis functionality.
-	 *
-	 * @deprecated 9.6
-	 * @codeCoverageIgnore
-	 *
-	 * @return void
-	 */
-	public function setup_page_analysis() {
-		_deprecated_function( __METHOD__, 'WPSEO 9.6' );
-	}
 
 	/**
 	 * Outputs a tab in the Yoast SEO Metabox.

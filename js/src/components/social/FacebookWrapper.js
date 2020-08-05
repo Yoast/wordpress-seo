@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import { Fragment } from "@wordpress/element";
 import { Slot } from "@wordpress/components";
 import PropTypes from "prop-types";
 

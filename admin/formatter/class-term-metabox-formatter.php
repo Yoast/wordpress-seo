@@ -53,14 +53,14 @@ class WPSEO_Term_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 		// Todo: a column needs to be added on the termpages to add a filter for the keyword, so this can be used in the focus keyphrase doubles.
 		if ( is_object( $this->term ) && property_exists( $this->term, 'taxonomy' ) ) {
 			$values = [
-				'search_url'               => $this->search_url(),
-				'post_edit_url'            => $this->edit_url(),
-				'base_url'                 => $this->base_url_for_js(),
-				'taxonomy'                 => $this->term->taxonomy,
-				'keyword_usage'            => $this->get_focus_keyword_usage(),
-				'title_template'           => $this->get_title_template(),
-				'metadesc_template'        => $this->get_metadesc_template(),
-				'social_preview_image_url' => $this->get_image_url(),
+				'search_url'          => $this->search_url(),
+				'post_edit_url'       => $this->edit_url(),
+				'base_url'            => $this->base_url_for_js(),
+				'taxonomy'            => $this->term->taxonomy,
+				'keyword_usage'       => $this->get_focus_keyword_usage(),
+				'title_template'      => $this->get_title_template(),
+				'metadesc_template'   => $this->get_metadesc_template(),
+				'first_content_image' => $this->get_image_url(),
 			];
 		}
 

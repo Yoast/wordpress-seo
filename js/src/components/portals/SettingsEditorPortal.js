@@ -1,6 +1,5 @@
 import PropTypes from "prop-types";
 import SettingsReplacementVariableEditor from "../SettingsReplacementVariableEditor";
-import React from "react";
 import {
 	replacementVariablesShape,
 	recommendedReplacementVariablesShape,
@@ -18,7 +17,7 @@ import Portal from "./Portal";
  * @param {string} descriptionTarget The id of the description field.
  * @param {boolean} hasPaperStyle Whether the editor should be styled as a paper.
  *
- * @returns {null|ReactElement} The element.
+ * @returns {null|wp.Element} The element.
  */
 export default function SettingsEditorPortal( {
 	target,

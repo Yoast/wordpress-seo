@@ -77,7 +77,6 @@ ul.wpseo-metabox-tabs li.active {
   height: auto;
   vertical-align: top;
   border: 1px solid rgba( 0,0,0,0.2 );
-  border-bottom: 0;
 }
 
 .wpseo-meta-section.active,
@@ -95,6 +94,10 @@ ul.wpseo-metabox-tabs li.active {
 .wpseo-meta-section-react.active {
   display: block;
   margin-bottom: 10px;
+}
+
+.wpseo-meta-section-content {
+  padding: 16px;
 }
 
 .wpseo-metabox-content {
@@ -152,10 +155,15 @@ ul.wpseo-metabox-tabs li.active {
 }
 
 .wpseo-metabox-menu ul li a {
-  color: #0073aa;
+  color:  #0073aa;
   display: flex;
   align-items: center;
-  border: 1px solid #ddd;
+  border: 1px solid rgba( 0,0,0,0.2 );
+  border-bottom: 2px transparent;
+}
+
+.wpseo-metabox-menu ul li a:focus {
+  box-shadow: inherit;
 }
 
 .wpseo-metabox-menu ul li .yst-traffic-light {
@@ -182,13 +190,15 @@ ul.wpseo-metabox-tabs li.active {
   height: 36px;
   /* 4 px is the difference in height with the inactive tabs. */
   margin-top: -4px;
-  z-index: 11;
+  z-index: 13;
   background-color: #ffffff;
+  border-bottom: 2px transparent;
+  box-shadow: none;
 }
 
 .wpseo-metabox-menu ul li.active a {
   height: 36px;
-  color: #a4286a;
+  color: #444;
 }
 
 .wpseo-metabox-menu ul li.active span.wpseo-buy-premium {
@@ -552,28 +562,28 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
   width: 18px;
   margin-right: 7px;
   height: 18px;
-  background: var(--svg-icon-yoast) no-repeat;
+  background: var(--yoast-svg-icon-yoast) no-repeat;
   background-size: 18px;
 }
 
 .yoast-seo-score .yoast-logo.svg.good {
-  background-image: var(--svg-icon-yoast-good);
+  background-image: var(--yoast-svg-icon-yoast-good);
 }
 
 .yoast-seo-score .yoast-logo.svg.ok {
-  background-image: var(--svg-icon-yoast-ok);
+  background-image: var(--yoast-svg-icon-yoast-ok);
 }
 
 .yoast-seo-score .yoast-logo.svg.bad {
-  background-image: var(--svg-icon-yoast-bad);
+  background-image: var(--yoast-svg-icon-yoast-bad);
 }
 
 .yoast-seo-score .yoast-logo.svg.na {
-  background-image: var(--svg-icon-yoast);
+  background-image: var(--yoast-svg-icon-yoast);
 }
 
 .yoast-seo-score .yoast-logo.svg.noindex {
-  background-image: var(--svg-icon-yoast);
+  background-image: var(--yoast-svg-icon-yoast);
 }
 
 .term-php .wpseo-taxonomy-metabox-postbox > h2 {
@@ -605,15 +615,15 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 }
 
 .yoast-section__heading-icon-list {
-  background-image: var(--svg-icon-list);
+  background-image: var(--yoast-svg-icon-list);
 }
 
 .yoast-section__heading-icon-key {
-  background-image: var(--svg-icon-key);
+  background-image: var(--yoast-svg-icon-key);
 }
 
 .yoast-section__heading-icon-edit {
-  background-image: var(--svg-icon-edit);
+  background-image: var(--yoast-svg-icon-edit);
 }
 
 .yoast-tooltip.yoast-tooltip-hidden::before,
@@ -675,6 +685,60 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.yoast-seo-sidebar-panel div {
+	line-height: 2;
+}
+
+.yoast-seo-sidebar-panel div svg {
+	vertical-align: middle;
+}
+
+ul.yoast-seo-social-share-buttons li {
+	display: inline-block;
+	margin-right: 8px;
+	width: 32px;
+	height: 32px;
+}
+
+ul.yoast-seo-social-share-buttons svg {
+	width: 32px;
+	height: 32px;
+}
+
+ul.yoast-seo-social-share-buttons a {
+	width: 32px;
+	height: 32px;
+	display: inline-block;
+}
+
+div.interface-pinned-items button.components-button[aria-label="Yoast SEO"] > svg,
+div.interface-pinned-items button.components-button[aria-label="Yoast SEO Premium"] > svg,
+.edit-post-pinned-plugins button.components-button[aria-label="Yoast SEO"] > svg,
+.edit-post-pinned-plugins button.components-button[aria-label="Yoast SEO Premium"] > svg {
+	max-width: 28px;
+	max-height: 28px;
+	width: 28px;
+	height: 28px;
+}
+
+div.interface-pinned-items button.components-button.is-pressed[aria-label="Yoast SEO"] > svg path,
+div.interface-pinned-items button.components-button.is-pressed[aria-label="Yoast SEO Premium"] > svg path {
+	fill: #ffffff;
+}
+.wpseo-schema-icon {
+  height: 16px;
+  width: 16px;
+  margin-right: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: var(--yoast-svg-icon-schema);
+  background-size: cover;
+}
+.wpseo-metabox-menu ul li.active a .wpseo-schema-icon {
+  background-image: var(--yoast-svg-icon-schema-active);
 }
 
 /*# sourceMappingURL=metabox.css.map */

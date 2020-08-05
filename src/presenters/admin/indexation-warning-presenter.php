@@ -17,6 +17,16 @@ use Yoast\WP\SEO\Presenters\Abstract_Presenter;
 class Indexation_Warning_Presenter extends Abstract_Presenter {
 
 	/**
+	 * Represents the link to action type.
+	 */
+	const ACTION_TYPE_LINK_TO = 'link_to';
+
+	/**
+	 * Represents the run here action type.
+	 */
+	const ACTION_TYPE_RUN_HERE = 'run_here';
+
+	/**
 	 * The number of objects that needs to be indexed.
 	 *
 	 * @var int
@@ -24,21 +34,33 @@ class Indexation_Warning_Presenter extends Abstract_Presenter {
 	protected $total_unindexed;
 
 	/**
+	 * Determines if the action is a link or a button.
+	 *
+	 * The link links to the Yoast Tools page.
+	 * The button will run the action on the current page.
+	 *
+	 * @var string
+	 */
+	protected $action_type;
+
+	/**
 	 * The options helper.
 	 *
 	 * @var Options_Helper
 	 */
-	private $options_helper;
+	protected $options_helper;
 
 	/**
 	 * Indexation_Warning_Presenter constructor.
 	 *
 	 * @param int            $total_unindexed The number of objects that needs to be indexed.
 	 * @param Options_Helper $options_helper  The options helper.
+	 * @param string         $action_type     The action type.
 	 */
-	public function __construct( $total_unindexed, Options_Helper $options_helper ) {
+	public function __construct( $total_unindexed, Options_Helper $options_helper, $action_type ) {
 		$this->total_unindexed = $total_unindexed;
 		$this->options_helper  = $options_helper;
+		$this->action_type     = $action_type;
 	}
 
 	/**
@@ -58,15 +80,7 @@ class Indexation_Warning_Presenter extends Abstract_Presenter {
 
 		$output .= '<hr />';
 		$output .= '<p>';
-		$output .= \sprintf(
-			/* translators: 1: Button start tag to dismiss the warning, 2: Button closing tag. */
-			\esc_html__( '%1$sHide this notice%2$s (everything will continue to function normally)', 'wordpress-seo' ),
-			\sprintf(
-				'<button type="button" id="yoast-indexation-dismiss-button" class="button-link hide-if-no-js" data-nonce="%s">',
-				\esc_js( \wp_create_nonce( 'wpseo-ignore' ) )
-			),
-			'</button>'
-		);
+		$output .= $this->get_dismiss_button();
 		$output .= '</p>';
 		$output .= '</div>';
 
@@ -96,18 +110,13 @@ class Indexation_Warning_Presenter extends Abstract_Presenter {
 		);
 		$output .= '</p>';
 		$output .= $this->get_estimate();
-		$output .= \sprintf(
-			'<button type="button" class="button yoast-open-indexation" data-title="<strong>%1$s</strong>">%2$s</button>',
-			/* translators: 1: Expands to Yoast. */
-			\sprintf( \esc_html__( '%1$s indexing status', 'wordpress-seo' ), 'Yoast' ),
-			\esc_html__( 'Start processing and speed up your site now', 'wordpress-seo' )
-		);
+		$output .= $this->get_action( \__( 'Start processing and speed up your site now', 'wordpress-seo' ) );
 
 		return $output;
 	}
 
 	/**
-	 * Retrieves the incompleted indexation alert.
+	 * Retrieves the incomplete indexation alert.
 	 *
 	 * @return string The generated alert.
 	 */
@@ -125,14 +134,34 @@ class Indexation_Warning_Presenter extends Abstract_Presenter {
 		$output .= \esc_html__( 'It looks like an indexing process was run earlier, but didn\'t complete. There is still some content which hasn\'t been indexed yet. Don\'t worry, you can pick up where you left off.', 'wordpress-seo' );
 		$output .= '</p>';
 		$output .= $this->get_estimate();
-		$output .= \sprintf(
-			'<button type="button" class="button yoast-open-indexation" data-title="<strong>%1$s</strong>">%2$s</button>',
-			/* translators: 1: Expands to Yoast. */
-			\sprintf( \esc_html__( '%1$s indexing status', 'wordpress-seo' ), 'Yoast' ),
-			\esc_html__( 'Continue processing and speed up your site now', 'wordpress-seo' )
-		);
+		$output .= $this->get_action( \__( 'Continue processing and speed up your site now', 'wordpress-seo' ) );
 
 		return $output;
+	}
+
+	/**
+	 * Generates the action, which is either a button or a link.
+	 *
+	 * @param string $text The text of the action.
+	 *
+	 * @return string The action.
+	 */
+	protected function get_action( $text ) {
+		switch ( $this->action_type ) {
+			case static::ACTION_TYPE_LINK_TO:
+				return \sprintf(
+					'<a class="button" href="%1$s">%2$s</a>',
+					\admin_url( 'admin.php?page=wpseo_tools#start-indexation-yoastIndexationData' ),
+					\esc_html( $text )
+				);
+			default:
+				return \sprintf(
+					'<button type="button" class="button yoast-open-indexation" data-title="<strong>%1$s</strong>" data-settings="yoastIndexationData">%2$s</button>',
+					/* translators: 1: Expands to Yoast. */
+					\sprintf( \esc_html__( '%1$s indexing status', 'wordpress-seo' ), 'Yoast' ),
+					\esc_html( $text )
+				);
+		}
 	}
 
 	/**
@@ -140,14 +169,14 @@ class Indexation_Warning_Presenter extends Abstract_Presenter {
 	 *
 	 * @return string The message.
 	 */
-	private function get_estimate() {
+	protected function get_estimate() {
 		if ( $this->total_unindexed > 2500 ) {
-			$estimate  = '<p>';
+			$estimate = '<p>';
 			$estimate .= \esc_html__( 'We estimate this could take a long time, due to the size of your site. As an alternative to waiting, you could:', 'wordpress-seo' );
 			$estimate .= '<ul class="ul-disc">';
 			$estimate .= '<li>';
 			$estimate .= \sprintf(
-				/* translators: 1: Expands to Yoast SEO, 2: Button start tag for the reminder, 3: Button closing tag */
+			/* translators: 1: Expands to Yoast SEO, 2: Button start tag for the reminder, 3: Button closing tag */
 				\esc_html__( 'Wait for a week or so, until %1$s automatically processes most of your content in the background. %2$sRemind me in a week.%3$s', 'wordpress-seo' ),
 				'Yoast SEO',
 				\sprintf(
@@ -191,5 +220,35 @@ class Indexation_Warning_Presenter extends Abstract_Presenter {
 		}
 
 		return $indexation_started <= ( \time() - \MONTH_IN_SECONDS );
+	}
+
+	/**
+	 * Generates the button/link for dismissing the notice.
+	 *
+	 * @return string The action.
+	 */
+	protected function get_dismiss_button() {
+		/* translators: 1: Button/anchor start tag to dismiss the warning, 2: Button/anchor closing tag. */
+		$dismiss_button = \esc_html__( '%1$sHide this notice%2$s (everything will continue to function normally)', 'wordpress-seo' );
+
+		if ( $this->action_type === static::ACTION_TYPE_LINK_TO ) {
+			return \sprintf(
+				$dismiss_button,
+				\sprintf(
+					'<a href="%s" class="button-link">',
+					\esc_url( \wp_nonce_url( \add_query_arg( 'yoast_seo_hide', 'indexation_warning' ), 'wpseo-ignore' ) )
+				),
+				'</a>'
+			);
+		}
+
+		return \sprintf(
+			$dismiss_button,
+			\sprintf(
+				'<button type="button" id="yoast-indexation-dismiss-button" class="button-link hide-if-no-js" data-nonce="%s">',
+				\esc_js( \wp_create_nonce( 'wpseo-ignore' ) )
+			),
+			'</button>'
+		);
 	}
 }

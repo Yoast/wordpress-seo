@@ -8,12 +8,13 @@
 namespace Yoast\WP\SEO\Repositories;
 
 use Psr\Log\LoggerInterface;
+use wpdb;
+use Yoast\WP\Lib\Model;
 use Yoast\WP\Lib\ORM;
 use Yoast\WP\SEO\Builders\Indexable_Builder;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Loggers\Logger;
 use Yoast\WP\SEO\Models\Indexable;
-use Yoast\WP\Lib\Model;
 
 /**
  * Class Indexable_Repository
@@ -49,24 +50,33 @@ class Indexable_Repository {
 	protected $logger;
 
 	/**
+	 * The WordPress database.
+	 *
+	 * @var wpdb
+	 */
+	protected $wpdb;
+
+	/**
 	 * Returns the instance of this class constructed through the ORM Wrapper.
 	 *
 	 * @param Indexable_Builder              $builder              The indexable builder.
 	 * @param Current_Page_Helper            $current_page         The current post helper.
 	 * @param Logger                         $logger               The logger.
 	 * @param Indexable_Hierarchy_Repository $hierarchy_repository The hierarchy repository.
+	 * @param wpdb                           $wpdb                 The WordPress database instance.
 	 */
 	public function __construct(
 		Indexable_Builder $builder,
 		Current_Page_Helper $current_page,
 		Logger $logger,
-		Indexable_Hierarchy_Repository $hierarchy_repository
-
+		Indexable_Hierarchy_Repository $hierarchy_repository,
+		wpdb $wpdb
 	) {
 		$this->builder              = $builder;
 		$this->current_page         = $current_page;
 		$this->logger               = $logger;
 		$this->hierarchy_repository = $hierarchy_repository;
+		$this->wpdb                 = $wpdb;
 	}
 
 	/**
@@ -382,6 +392,26 @@ class Indexable_Repository {
 	}
 
 	/**
+	 * Returns all subpages with a given post_parent.
+	 *
+	 * @param int   $post_parent The post parent.
+	 * @param array $exclude_ids The ids to exclude.
+	 *
+	 * @return Indexable[] array of indexables.
+	 */
+	public function get_subpages_by_post_parent( $post_parent, $exclude_ids = [] ) {
+		$query = $this->query()
+			->where( 'post_parent', $post_parent )
+			->where( 'object_type', 'post' )
+			->where( 'post_status', 'publish' );
+
+		if ( ! empty( $exclude_ids ) ) {
+			$query->where_not_in( 'object_id', $exclude_ids );
+		}
+		return $query->find_many();
+	}
+
+	/**
 	 * Ensures that the given indexable has a permalink.
 	 *
 	 * @param Indexable $indexable The indexable.
@@ -391,7 +421,11 @@ class Indexable_Repository {
 	protected function ensure_permalink( $indexable ) {
 		if ( $indexable && $indexable->permalink === null ) {
 			$indexable->permalink = $this->get_permalink_for_indexable( $indexable );
-			$indexable->save();
+
+			// Only save if changed.
+			if ( $indexable->permalink !== null ) {
+				$indexable->save();
+			}
 		}
 		return $indexable;
 	}

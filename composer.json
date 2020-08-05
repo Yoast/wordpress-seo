@@ -27,7 +27,6 @@
 		"yoast/license-manager": "1.6.0",
 		"yoast/i18n-module": "^3.1.1",
 		"pimple/pimple": "^3.2",
-		"ruckusing/ruckusing-migrations": "^1.1",
 		"psr/log": "^1.0",
 		"league/oauth2-client": "^2.4",
 		"symfony/dependency-injection": "^3.4"
@@ -40,7 +39,9 @@
 		"brain/monkey": "^2.4",
 		"phpunit/phpunit": "^5.7",
 		"atanamo/php-codeshift": "^1.0",
-		"symfony/config": "^3.4"
+		"symfony/config": "^3.4",
+		"php-parallel-lint/php-parallel-lint": "^1.2.0",
+		"php-parallel-lint/php-console-highlighter": "^0.5"
 	},
 	"minimum-stability": "dev",
 	"prefer-stable": true,
@@ -59,7 +60,6 @@
 	"autoload-dev": {
 		"classmap": [
 			"tests/",
-			"integration-tests/",
 			"config/"
 		]
 	},
@@ -70,20 +70,42 @@
 		"integration-test": [
 			"@php ./vendor/phpunit/phpunit/phpunit -c phpunit-integration.xml.dist"
 		],
+		"lint": [
+			"@php ./vendor/php-parallel-lint/php-parallel-lint/parallel-lint . -e php --exclude vendor --exclude vendor_prefixed --exclude node_modules --exclude .git"
+		],
+		"lint-files": [
+			"@php ./vendor/php-parallel-lint/php-parallel-lint/parallel-lint"
+		],
+		"lint-branch": [
+			"Yoast\\WP\\SEO\\Composer\\Actions::lint_branch"
+		],
+		"lint-staged": [
+			"Yoast\\WP\\SEO\\Composer\\Actions::lint_staged"
+		],
+		"premium-lint": [
+			"@php ./vendor/php-parallel-lint/php-parallel-lint/parallel-lint ./wp-seo-premium.php ./tests/unit/load/wp-seo-premium.php ./premium/ ./tests/integration/premium/ ./tests/unit/premium/ -e php"
+		],
 		"config-yoastcs": [
 			"@php ./vendor/squizlabs/php_codesniffer/scripts/phpcs --config-set installed_paths ../../../vendor/wp-coding-standards/wpcs,../../../vendor/yoast/yoastcs,../../../vendor/phpcompatibility/php-compatibility,../../../vendor/phpcompatibility/phpcompatibility-paragonie,../../../vendor/phpcompatibility/phpcompatibility-wp",
 			"@php ./vendor/squizlabs/php_codesniffer/scripts/phpcs --config-set default_standard Yoast"
 		],
+		"cs": [
+			"Yoast\\WP\\SEO\\Composer\\Actions::check_coding_standards"
+		],
 		"check-cs": [
+			"@check-cs-warnings -n"
+		],
+		"check-cs-errors": [
+			"echo You can now just use check-cs, running that command now.",
+			"composer check-cs"
+		],
+		"check-cs-warnings": [
 			"@php ./vendor/squizlabs/php_codesniffer/scripts/phpcs"
 		],
 		"premium-check-cs": [
 			"@before-premium-cs",
 			"@php ./vendor/squizlabs/php_codesniffer/bin/phpcs --runtime-set ignore_warnings_on_exit 1",
 			"@after-premium-cs"
-		],
-		"check-cs-errors": [
-			"@check-cs -n"
 		],
 		"check-staged-cs": [
 			"Yoast\\WP\\SEO\\Composer\\Actions::check_staged_cs"
@@ -108,17 +130,12 @@
 		],
 		"after-premium-cs": [
 			"composer require --dev yoast/yoastcs:~0.4.3 --update-with-dependencies --no-suggest --no-interaction --no-scripts",
-			"@php ./scripts/maybe-restore-composer-lock.php",
+			"@php ./config/composer/scripts/maybe-restore-composer-lock.php",
 			"composer config-yoastcs"
 		],
 		"prefix-dependencies": [
-			"composer prefix-ruckusing",
 			"composer prefix-oauth2-client",
-			"composer prefix-symfony",
-			"touch ./vendor_prefixed/dependencies-prefixed.txt"
-		],
-		"prefix-ruckusing": [
-			"@php ./vendor/humbug/php-scoper/bin/php-scoper add-prefix --prefix=YoastSEO_Vendor --output-dir=./vendor_prefixed/ruckusing --config=config/php-scoper/ruckusing.inc.php --force --quiet"
+			"composer prefix-symfony"
 		],
 		"prefix-oauth2-client": [
 			"@php ./vendor/humbug/php-scoper/bin/php-scoper add-prefix --prefix=YoastSEO_Vendor --output-dir=./vendor_prefixed/league/oauth2-client --config=config/php-scoper/oauth2-client.inc.php --force --quiet",
@@ -144,7 +161,7 @@
 			"composer compile-di"
 		],
 		"generate-migration": [
-			"./vendor/bin/ruckus.php db:generate"
+			"Yoast\\WP\\SEO\\Composer\\Actions::generate_migration"
 		]
 	}
 }

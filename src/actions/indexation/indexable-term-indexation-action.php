@@ -8,15 +8,20 @@
 namespace Yoast\WP\SEO\Actions\Indexation;
 
 use wpdb;
+use Yoast\WP\Lib\Model;
 use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
 use Yoast\WP\SEO\Models\Indexable;
-use Yoast\WP\Lib\Model;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
 /**
  * Indexable_Term_Indexation_Action class.
  */
 class Indexable_Term_Indexation_Action implements Indexation_Action_Interface {
+
+	/**
+	 * The transient cache key.
+	 */
+	const TRANSIENT_CACHE_KEY = 'wpseo_total_unindexed_terms';
 
 	/**
 	 * The post type helper.
@@ -53,11 +58,16 @@ class Indexable_Term_Indexation_Action implements Indexation_Action_Interface {
 	}
 
 	/**
-	 * The total number of unindexed terms.
+	 * Gets the total number of unindexed terms.
 	 *
 	 * @return int|false The amount of unindexed terms. False if the query fails.
 	 */
 	public function get_total_unindexed() {
+		$transient = \get_transient( static::TRANSIENT_CACHE_KEY );
+		if ( $transient !== false ) {
+			return (int) $transient;
+		}
+
 		$query = $this->get_query( true );
 
 		$result = $this->wpdb->get_var( $query );
@@ -65,6 +75,8 @@ class Indexable_Term_Indexation_Action implements Indexation_Action_Interface {
 		if ( \is_null( $result ) ) {
 			return false;
 		}
+
+		\set_transient( static::TRANSIENT_CACHE_KEY, $result, \DAY_IN_SECONDS );
 
 		return (int) $result;
 	}
@@ -82,6 +94,8 @@ class Indexable_Term_Indexation_Action implements Indexation_Action_Interface {
 		foreach ( $term_ids as $term_id ) {
 			$indexables[] = $this->repository->find_by_id_and_type( (int) $term_id, 'term' );
 		}
+
+		\delete_transient( static::TRANSIENT_CACHE_KEY );
 
 		return $indexables;
 	}
@@ -114,7 +128,6 @@ class Indexable_Term_Indexation_Action implements Indexation_Action_Interface {
 	 */
 	protected function get_query( $count, $limit = 1 ) {
 		$public_taxonomies = $this->taxonomy->get_public_taxonomies();
-		$placeholders      = \implode( ', ', \array_fill( 0, \count( $public_taxonomies ), '%s' ) );
 		$indexable_table   = Model::get_table_name( 'Indexable' );
 		$replacements      = $public_taxonomies;
 
@@ -132,7 +145,13 @@ class Indexable_Term_Indexation_Action implements Indexation_Action_Interface {
 			"
 			SELECT $select
 			FROM {$this->wpdb->term_taxonomy}
-			WHERE term_id NOT IN (SELECT object_id FROM $indexable_table WHERE object_type = 'term') AND taxonomy IN ($placeholders)
+			WHERE term_id NOT IN (
+				SELECT object_id
+				FROM $indexable_table
+				WHERE object_type = 'term'
+				AND permalink_hash IS NOT NULL
+			)
+			AND taxonomy IN (" . \implode( ', ', \array_fill( 0, \count( $public_taxonomies ), '%s' ) ) . ")
 			$limit_query",
 			$replacements
 		);

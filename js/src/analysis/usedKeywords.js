@@ -22,7 +22,7 @@ var $ = jQuery;
  *
  * @returns {void}
  */
-function UsedKeywords( ajaxAction, options, refreshAnalysis, scriptUrl ) {
+export default function UsedKeywords( ajaxAction, options, refreshAnalysis, scriptUrl ) {
 	this._scriptUrl = scriptUrl;
 	this._options = {
 		usedKeywords: options.keyword_usage,
@@ -115,5 +115,3 @@ UsedKeywords.prototype.updateKeywordUsage = function( keyword, response ) {
 		}
 	}
 };
-
-module.exports = UsedKeywords;

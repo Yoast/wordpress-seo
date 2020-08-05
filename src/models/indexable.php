@@ -26,7 +26,6 @@ use Yoast\WP\Lib\Model;
  * @property string  $permalink
  * @property string  $permalink_hash
  * @property string  $canonical
- * @property int     $content_score
  *
  * @property boolean $is_robots_noindex
  * @property boolean $is_robots_nofollow
@@ -77,6 +76,8 @@ use Yoast\WP\Lib\Model;
  *
  * @property string  $schema_page_type
  * @property string  $schema_article_type
+ *
+ * @property bool    $has_ancestors
  */
 class Indexable extends Model {
 
@@ -121,7 +122,6 @@ class Indexable extends Model {
 		'object_id',
 		'author_id',
 		'post_parent',
-		'content_score',
 		'primary_focus_keyword_score',
 		'readability_score',
 		'link_count',

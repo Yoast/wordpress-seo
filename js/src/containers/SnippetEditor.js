@@ -1,6 +1,6 @@
-import React from "react";
 import { connect } from "react-redux";
 import { SnippetEditor } from "@yoast/search-metadata-previews";
+import { Fragment } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { dispatch as wpDataDispatch } from "@wordpress/data";
 
@@ -46,7 +46,7 @@ export const mapEditorDataToPreview = function( data, context ) {
 };
 
 const SnippetEditorWrapper = ( props ) => (
-	<React.Fragment>
+	<Fragment>
 		<SnippetPreviewSection
 			icon="eye"
 			hasPaperStyle={ props.hasPaperStyle }
@@ -57,7 +57,7 @@ const SnippetEditorWrapper = ( props ) => (
 				mapEditorDataToPreview={ mapEditorDataToPreview }
 			/>
 		</SnippetPreviewSection>
-	</React.Fragment>
+	</Fragment>
 );
 
 /**

@@ -106,7 +106,7 @@ class Breadcrumbs_Presenter extends Abstract_Indexable_Presenter {
 		/**
 		 * Filter: 'wpseo_breadcrumb_output' - Allow changing the HTML output of the Yoast SEO breadcrumbs class.
 		 *
-		 * @param Indexable_Presentation $this->presentation The presentation of an indexable.
+		 * @param Indexable_Presentation $presentation The presentation of an indexable.
 		 *
 		 * @api string $output The HTML output.
 		 */

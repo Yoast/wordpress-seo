@@ -14,7 +14,7 @@ module.exports = {
 				postCSSImport(),
 			],
 		},
-		src: "<%= files.css %>",
+		src: "css/dist/*.css",
 	},
 	release: {
 		options: {
@@ -25,6 +25,6 @@ module.exports = {
 				cssNano(),
 			],
 		},
-		src: "<%= files.css %>",
+		src: "css/dist/*.css",
 	},
 };

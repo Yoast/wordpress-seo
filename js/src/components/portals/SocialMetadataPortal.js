@@ -8,7 +8,7 @@ import Portal from "./Portal";
  *
  * @param {string} target A target element ID in which to render the portal.
  *
- * @returns {React.Component} The social metadata collapsibles.
+ * @returns {wp.Element} The social metadata collapsibles.
  */
 export default function SocialMetadataPortal( { target } ) {
 	const isFacebookEnabled = window.wpseoScriptData.metabox.showSocial.facebook;

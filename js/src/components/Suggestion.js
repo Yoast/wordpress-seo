@@ -1,13 +1,16 @@
-import React from "react";
+import { Component } from "@wordpress/element";
 import PropTypes from "prop-types";
 import ArrowForwardIcon from "material-ui/svg-icons/navigation/arrow-forward";
 import RaisedURLNewWindowButton from "./RaisedURLNewWindowButton";
 
-class Suggestion extends React.Component {
+/**
+ * Renders suggestions for next steps in the config wizard.
+ */
+class Suggestion extends Component {
 	/**
 	 * @summary Renders the Suggestion component.
 	 *
-	 * @returns {JSX.Element} Rendered Component.
+	 * @returns {wp.Element} Rendered Component.
 	 */
 	render() {
 		const buttonProps = {};

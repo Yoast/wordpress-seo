@@ -1,12 +1,11 @@
 /* External dependencies */
-import React from "react";
 import { __ } from "@wordpress/i18n";
+import { registerBlockType } from "@wordpress/blocks";
 
 /* Internal dependencies */
 import Faq from "./components/FAQ";
 import legacy from "./legacy";
 
-const { registerBlockType } = window.wp.blocks;
 
 const attributes = {
 	questions: {
@@ -19,7 +18,7 @@ const attributes = {
 
 export default () => {
 	registerBlockType( "yoast/faq-block", {
-		title: __( "FAQ", "wordpress-seo" ),
+		title: __( "Yoast FAQ", "wordpress-seo" ),
 		description: __( "List your Frequently Asked Questions in an SEO-friendly way. You can only use one FAQ block per post.", "wordpress-seo" ),
 		icon: "editor-ul",
 		category: "yoast-structured-data-blocks",
@@ -27,7 +26,18 @@ export default () => {
 			__( "FAQ", "wordpress-seo" ),
 			__( "Frequently Asked Questions", "wordpress-seo" ),
 			__( "Schema", "wordpress-seo" ),
+			__( "SEO", "wordpress-seo" ),
+			__( "Structured Data", "wordpress-seo-premium" ),
 		],
+		example: {
+			attributes: {
+				questions: [
+					{ id: Faq.generateId( "faq-question" ), question: [], answer: [] },
+					{ id: Faq.generateId( "faq-question" ), question: [], answer: [] },
+					{ id: Faq.generateId( "faq-question" ), question: [], answer: [] },
+				],
+			},
+		},
 		// Allow only one FAQ block per post.
 		supports: {
 			multiple: false,

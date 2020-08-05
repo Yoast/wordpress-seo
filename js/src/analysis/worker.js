@@ -19,7 +19,7 @@ import isKeywordAnalysisActive from "./isKeywordAnalysisActive";
  * @returns {AnalysisWorkerWrapper} The analysis worker.
  */
 export function createAnalysisWorker() {
-	const url = get( window, [ "wpseoScriptData", "analysis", "worker", "url" ], "wp-seo-analysis-worker.js" );
+	const url = get( window, [ "wpseoScriptData", "analysis", "worker", "url" ], "analysis-worker.js" );
 	return new AnalysisWorkerWrapper( createWorker( url ) );
 }
 

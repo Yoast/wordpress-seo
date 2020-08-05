@@ -44,6 +44,13 @@ class Loader {
 	protected $commands = [];
 
 	/**
+	 * The registered migrations.
+	 *
+	 * @var string[]
+	 */
+	protected $migrations = [];
+
+	/**
 	 * The dependency injection container.
 	 *
 	 * @var ContainerInterface
@@ -104,6 +111,23 @@ class Loader {
 	}
 
 	/**
+	 * Registers a migration.
+	 *
+	 * @param string $plugin  The plugin the migration belongs to.
+	 * @param string $version The version of the migration.
+	 * @param string $class   The class name of the migration to be loaded.
+	 *
+	 * @return void
+	 */
+	public function register_migration( $plugin, $version, $class ) {
+		if ( ! \array_key_exists( $plugin, $this->migrations ) ) {
+			$this->migrations[ $plugin ] = [];
+		}
+
+		$this->migrations[ $plugin ][ $version ] = $class;
+	}
+
+	/**
 	 * Loads all registered classes if their conditionals are met.
 	 *
 	 * @return void
@@ -123,6 +147,21 @@ class Loader {
 		if ( \defined( 'WP_CLI' ) && \WP_CLI ) {
 			$this->load_commands();
 		}
+	}
+
+	/**
+	 * Returns all registered migrations.
+	 *
+	 * @param string $plugin The plugin to get the migrations for.
+	 *
+	 * @return string[]|false The registered migrations. False if no migrations were registered.
+	 */
+	public function get_migrations( $plugin ) {
+		if ( ! \array_key_exists( $plugin, $this->migrations ) ) {
+			return false;
+		}
+
+		return $this->migrations[ $plugin ];
 	}
 
 	/**
