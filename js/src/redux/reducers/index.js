@@ -14,8 +14,6 @@ import snippetEditor from "./snippetEditor";
 import warning from "./warning";
 import SEMrushModal from "./SEMrushModal";
 import SEMrushRequest from "./SEMrushRequest";
-import SEMrushKeyphrases from "./SEMrushKeyphrases";
-
 
 export default {
 	analysis,
@@ -34,5 +32,4 @@ export default {
 	warning,
 	SEMrushModal,
 	SEMrushRequest,
-	SEMrushKeyphrases,
 };
