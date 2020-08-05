@@ -185,15 +185,13 @@ class SEMrushCountrySelector extends Component {
 		this.select2.select2( {
 			theme: "default yoast-select2--inline",
 			dropdownCssClass: "yoast-select__dropdown",
-			dropdownParent: jQuery( ".yoast-related-keyphrases-modal" ),
+			dropdownParent: jQuery( ".yoast-related-keyphrases-modal__content" ),
 		} );
 		this.select2.on( "change.select2", this.onChangeHandler );
 	}
 
 	/**
 	 * Handler for the onChange event.
-	 *
-	 * @param {object} event The event that was fired.
 	 *
 	 * @returns {void}
 	 */
