@@ -23,6 +23,39 @@ function hasError( response ) {
 }
 
 /**
+ * Gets a user message based on the passed props' values.
+ *
+ * @param {Object} props The props to use.
+ *
+ * @returns {wp.Element} The user message.
+ */
+function getUserMessage( props ) {
+	const {
+		isPending,
+		requestLimitReached,
+		isSuccess,
+		response,
+		requestHasData,
+	} = props;
+
+	if ( isPending ) {
+		return <SemRushLoading />;
+	}
+
+	if ( requestLimitReached ) {
+		return <SemRushLimitReached />;
+	}
+
+	if ( ! isSuccess && hasError( response ) ) {
+		return <SemRushRequestFailed />;
+	}
+
+	if ( ! requestHasData ) {
+	   return <p> { __( "Sorry, there's no data available for that keyphrase/country combination.", "wordpress-seo" ) } </p>;
+	}
+}
+
+/**
  * Renders the SEMrush related keyphrases modal content.
  *
  * @param {Object} props The props to use within the content.
@@ -31,51 +64,42 @@ function hasError( response ) {
  */
 export default function RelatedKeyphraseModalContent( props ) {
 	const {
-		isPending,
-		isSuccess,
+		response,
 		keyphrase,
-		relatedKeyphrases,
+		newRequest,
+		setDatabase,
 		renderAction,
 		currentDatabase,
-		setDatabase,
-		newRequest,
-		requestLimitReached,
+		setRequestFailed,
+		setNoResultsFound,
+		relatedKeyphrases,
 		setRequestSucceeded,
 		setRequestLimitReached,
-		setRequestFailed,
-		response,
-		setNoResultsFound,
-		requestHasData,
 	} = props;
 
-	// Return table etc. All content based on props etc.
 	return (
 		<Fragment>
-			{ isPending && <SemRushLoading /> }
 			<SemRushUpsellAlert />
-			{ requestLimitReached && <SemRushLimitReached /> }
-			{ ! isSuccess && hasError( response ) && <SemRushRequestFailed /> }
-			{ ! requestLimitReached && ! requestHasData &&
-			  <p> { __( "Sorry, there's no data available for that keyphrase/country combination.", "wordpress-seo" ) } </p>
-			}
+			{ getUserMessage( props ) }
+
 			<SemRushCountrySelector
-				{ ...{
-					keyphrase,
-					currentDatabase,
-					setDatabase,
-					newRequest,
-					setRequestSucceeded,
-					setRequestLimitReached,
-					setRequestFailed,
-					setNoResultsFound,
-				} }
+				keyphrase={ keyphrase }
+				newRequest={ newRequest }
+				setDatabase={ setDatabase }
+				currentDatabase={ currentDatabase }
+				setRequestFailed={ setRequestFailed }
+				setNoResultsFound={ setNoResultsFound }
+				setRequestSucceeded={ setRequestSucceeded }
+				setRequestLimitReached={ setRequestLimitReached }
 			/>
+
 			<KeyphrasesTable
 				keyphrase={ keyphrase }
 				relatedKeyphrases={ relatedKeyphrases }
 				renderAction={ renderAction }
 				data={ response }
 			/>
+
 			<h2>Content debug info</h2>
 			<p>
 				The keyphrase is: { keyphrase }<br />
@@ -86,11 +110,6 @@ export default function RelatedKeyphraseModalContent( props ) {
 }
 
 RelatedKeyphraseModalContent.propTypes = {
-	isLoading: PropTypes.bool,
-	isPending: PropTypes.bool.isRequired,
-	isSuccess: PropTypes.bool.isRequired,
-	requestLimitReached: PropTypes.bool.isRequired,
-	requestHasData: PropTypes.bool.isRequired,
 	keyphrase: PropTypes.string,
 	relatedKeyphrases: PropTypes.array,
 	renderAction: PropTypes.func,
@@ -105,7 +124,6 @@ RelatedKeyphraseModalContent.propTypes = {
 };
 
 RelatedKeyphraseModalContent.defaultProps = {
-	isLoading: true,
 	keyphrase: "",
 	relatedKeyphrases: [],
 	renderAction: null,

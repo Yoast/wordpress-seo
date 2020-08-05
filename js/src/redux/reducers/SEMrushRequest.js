@@ -34,7 +34,6 @@ function SEMrushRequestReducer( state = INITIAL_STATE, action ) {
 				database: action.database,
 				isSuccess: false,
 				response: null,
-
 			};
 		case SET_REQUEST_SUCCEEDED:
 			// The status code should be 200 OK here.
