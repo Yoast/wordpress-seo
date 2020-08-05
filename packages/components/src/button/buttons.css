@@ -111,8 +111,8 @@
 	flex-shrink: 0;
 	display: inline-block;
 	background-color: currentColor;
-	-webkit-mask-image: var(--yoast-svg-icon-edit-new);
-	mask-image: var(--yoast-svg-icon-edit-new);
+	-webkit-mask-image: var(--yoast-svg-icon-edit);
+	mask-image: var(--yoast-svg-icon-edit);
 	margin-right: 8px;
 }
 
