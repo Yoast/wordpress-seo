@@ -5,8 +5,8 @@ We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwa
 
 ## 1.80.0 August 17th, 2020
 ### Enhancements
-* Makes it possible to tokenize sentences in Hebrew, Arabic, Farsi and Urdu.
-* Improves keyphrase recognition for Arabic and Hebrew.
+* Makes it possible to tokenize sentences in languages that are written right-to-left (e.g., Hebrew, Arabic, Farsi and Urdu).
+* Improves keyphrase recognition for Arabic.
 * Adds function words for Arabic and Hebrew.
 * Adds Sentence beginning assessment for Indonesian.
 * Adds Transition words assessment for Indonesian.
