@@ -61,7 +61,7 @@ class RelatedKeyphrasesModal extends Component {
 	 * @returns {React.Element} The RelatedKeyPhrasesModal modal component.
 	 */
 	render() {
-		const { keyphrase, location, maxRelatedKeyphrasesEntered, whichModalOpen, countryCode } = this.props;
+		const { keyphrase, location, maxRelatedKeyphrasesEntered, whichModalOpen } = this.props;
 
 		return (
 			<Fragment>
@@ -91,7 +91,6 @@ class RelatedKeyphrasesModal extends Component {
 							<h2>Modal debug info</h2>
 							<p>
 								The location is: { location }<br />
-								The current database country is: { countryCode }
 							</p>
 
 						</ModalContainer>
@@ -111,7 +110,6 @@ RelatedKeyphrasesModal.propTypes = {
 		"metabox",
 		"sidebar",
 	] ),
-	countryCode: PropTypes.string,
 	onOpen: PropTypes.func.isRequired,
 	onOpenWithNoKeyphrase: PropTypes.func.isRequired,
 	onClose: PropTypes.func.isRequired,
@@ -122,7 +120,6 @@ RelatedKeyphrasesModal.defaultProps = {
 	location: "",
 	maxRelatedKeyphrasesEntered: false,
 	whichModalOpen: "none",
-	countryCode: "us",
 };
 
 export default RelatedKeyphrasesModal;
