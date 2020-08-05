@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 /* Internal dependencies */
 import SemRushLoading from "./modals/SemRushLoading";
 import SemRushLimitReached from "./modals/SemRushLimitReached";
-import SemRushCountrySelector from "./modals/SemRushCountrySelector";
+import SEMrushCountrySelector from "./modals/SEMrushCountrySelector";
 import KeyphrasesTable from "./modals/KeyphrasesTable";
 import SemRushUpsellAlert from "./modals/SemRushUpsellAlert";
 import SemRushRequestFailed from "./modals/SemRushRequestFailed";
@@ -21,8 +21,8 @@ import SemRushRequestFailed from "./modals/SemRushRequestFailed";
  *
  * @returns {wp.Element} The SEMrush related keyphrases modal content.
  */
-export default function RelatedKeyphraseModalContent( { isLoading, keyphrase, relatedKeyphrases,
-	renderAction, currentDatabase, setDatabase, newRequest, data } ) {
+export default function RelatedKeyphrasesModalContent( { isLoading, keyphrase, relatedKeyphrases,
+	renderAction, countryCode, setCountry, newRequest, data } ) {
 	// Return table etc. All content based on props etc.
 	return (
 		<Fragment>
@@ -30,39 +30,39 @@ export default function RelatedKeyphraseModalContent( { isLoading, keyphrase, re
 			<SemRushUpsellAlert />
 			<SemRushLimitReached />
 			<SemRushRequestFailed />
-			<SemRushCountrySelector
-				currentDatabase={ currentDatabase }
-				setDatabase={ setDatabase }
+			<SEMrushCountrySelector
+				countryCode={ countryCode }
+				setCountry={ setCountry }
 				newRequest={ newRequest }
 				keyphrase={ keyphrase }
 			/>
 			<KeyphrasesTable
 				keyphrase={ keyphrase }
 				relatedKeyphrases={ relatedKeyphrases }
+				countryCode={ countryCode }
 				renderAction={ renderAction }
 				data={ data }
 			/>
 			<h2>Content debug info</h2>
 			<p>
 				The keyphrase is: { keyphrase }<br />
-				The current database is: { currentDatabase }
 			</p>
 		</Fragment>
 	);
 }
 
-RelatedKeyphraseModalContent.propTypes = {
+RelatedKeyphrasesModalContent.propTypes = {
 	isLoading: PropTypes.bool,
 	keyphrase: PropTypes.string,
 	relatedKeyphrases: PropTypes.array,
 	renderAction: PropTypes.func,
-	currentDatabase: PropTypes.string.isRequired,
-	setDatabase: PropTypes.func.isRequired,
+	countryCode: PropTypes.string.isRequired,
+	setCountry: PropTypes.func.isRequired,
 	newRequest: PropTypes.func.isRequired,
 	data: PropTypes.object,
 };
 
-RelatedKeyphraseModalContent.defaultProps = {
+RelatedKeyphrasesModalContent.defaultProps = {
 	isLoading: true,
 	keyphrase: "",
 	relatedKeyphrases: [],
