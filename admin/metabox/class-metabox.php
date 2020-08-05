@@ -304,8 +304,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 	/**
 	 * Outputs the meta box.
-	 *
-	 * @param WP_Post $post The post.
 	 */
 	public function meta_box() {
 		wp_nonce_field( 'yoast_free_metabox', 'yoast_free_metabox_nonce' );
@@ -315,6 +313,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			echo new Meta_Fields_Presenter( $this->post,'advanced' );
 		}
 
+		echo new Meta_Fields_Presenter( $this->post,'schema', $this->post->post_type );
+
 		if ( $this->social_is_enabled ) {
 			echo new Meta_Fields_Presenter( $this->post,'social' );
 		}
@@ -323,82 +323,34 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: $this->get_product_title is considered safe.
 		printf( '<div class="wpseo-metabox-menu"><ul role="tablist" class="yoast-aria-tabs" aria-label="%s">', $this->get_product_title() );
 
-		$content_sections = $this->get_content_sections( $post->post_type );
+		$tabs = $this->get_tabs();
 
-		foreach ( $content_sections as $content_section ) {
-			if ( $content_section->name === 'premium' ) {
+		foreach ( $tabs as $tab ) {
+			if ( $tab->name === 'premium' ) {
 				continue;
 			}
 
-			$content_section->display_link();
+			$tab->display_link();
 		}
 
 		echo '</ul></div>';
 
-		foreach ( $content_sections as $content_section ) {
-			$content_section->display_content();
+		foreach ( $tabs as $tab ) {
+			$tab->display_content();
 		}
 
 		echo '</div>';
 	}
 
 	/**
-	 * Returns the relevant metabox sections for the current view.
+	 * Returns the relevant metabox tabs for the current view.
 	 *
 	 * @param string $post_type The post type.
 	 *
 	 * @return WPSEO_Metabox_Section[]
 	 */
-	private function get_content_sections( $post_type ) {
-		$content_sections = [];
-
-		$content_sections[] = $this->get_seo_meta_section();
-
-		if ( $this->analysis_readability->is_enabled() ) {
-			$content_sections[] = $this->get_readability_meta_section();
-		}
-
-		$content_sections[] = $this->get_schema_meta_section( $post_type );
-
-		// Whether social is enabled.
-		if ( $this->social_is_enabled ) {
-			$content_sections[] = $this->get_social_meta_section();
-		}
-
-		$content_sections = array_merge( $content_sections, $this->get_additional_meta_sections() );
-
-		return $content_sections;
-	}
-
-	/**
-	 * Returns the social section for the social previews.
-	 *
-	 * @return WPSEO_Metabox_Section
-	 */
-	private function get_social_meta_section() {
-		$link_content = '<span class="dashicons dashicons-share"></span>' . __( 'Social', 'wordpress-seo' );
-		$react_target = '<div id="wpseo-section-social"></div>';
-
-		return new WPSEO_Metabox_Section_React(
-			'social',
-			$link_content,
-			'',
-			[
-				'html_after' => $react_target,
-			]
-		);
-	}
-
-	/**
-	 * Returns the metabox section for the seo analysis.
-	 *
-	 * @return WPSEO_Metabox_Section
-	 */
-	private function get_seo_meta_section() {
-		$label = __( 'SEO', 'wordpress-seo' );
-		if ( $this->analysis_seo->is_enabled() ) {
-			$label = '<span class="wpseo-score-icon-container" id="wpseo-seo-score-icon"></span>' . $label;
-		}
+	private function get_tabs() {
+		$tabs = [];
 
 //		/**
 //		 * Filter: 'wpseo_content_meta_section_content' - Allow filtering the metabox content before outputting.
@@ -407,42 +359,45 @@ class WPSEO_Metabox extends WPSEO_Meta {
 //		 */
 //		apply_filters_deprecated( 'wpseo_content_meta_section_content', [''], '14.3' );
 
+		$label = __( 'SEO', 'wordpress-seo' );
+		if ( $this->analysis_seo->is_enabled() ) {
+			$label = '<span class="wpseo-score-icon-container" id="wpseo-seo-score-icon"></span>' . $label;
+		}
+		$tabs[] = new WPSEO_Metabox_Section_React('content', $label, '', [] );
 
-		return new WPSEO_Metabox_Section_React('content', $label, '', [] );
-	}
+		if ( $this->analysis_readability->is_enabled() ) {
+			$tabs[] = new WPSEO_Metabox_Section_Readability();
+		}
 
-	/**
-	 * Returns the metabox section for the schema tab.
-	 *
-	 * @param string $post_type The post type.
-	 *
-	 * @return WPSEO_Metabox_Section_React
-	 */
-	private function get_schema_meta_section( $post_type ) {
-		$content = $this->get_tab_content( 'schema', $post_type );
-		return new WPSEO_Metabox_Section_React(
+		$tabs[] = new WPSEO_Metabox_Section_React(
 			'schema',
 			'<span class="wpseo-schema-icon"></span>' . __( 'Schema', 'wordpress-seo' ),
-			$content
+			''
 		);
+
+		if ( $this->social_is_enabled ) {
+			$tabs[] = new WPSEO_Metabox_Section_React(
+				'social',
+				'<span class="dashicons dashicons-share"></span>' . __( 'Social', 'wordpress-seo' ),
+				'',
+				[
+					'html_after' => '<div id="wpseo-section-social"></div>',
+				]
+			);
+		}
+
+		$tabs = array_merge( $tabs, $this->get_additional_tabs() );
+
+		return $tabs;
 	}
 
 	/**
-	 * Returns the metabox section for the readability analysis.
-	 *
-	 * @return WPSEO_Metabox_Section
-	 */
-	private function get_readability_meta_section() {
-		return new WPSEO_Metabox_Section_Readability();
-	}
-
-	/**
-	 * Returns the metabox sections that have been added by other plugins.
+	 * Returns the metabox tabs that have been added by other plugins.
 	 *
 	 * @return WPSEO_Metabox_Section_Additional[]
 	 */
-	protected function get_additional_meta_sections() {
-		$sections = [];
+	protected function get_additional_tabs() {
+		$tabs = [];
 
 		/**
 		 * Private filter: 'yoast_free_additional_metabox_sections'.
@@ -451,10 +406,10 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		 *
 		 * @since 11.9
 		 *
-		 * @param array[] $sections {
+		 * @param array[] $tabs {
 		 *     An array of arrays with tab specifications.
 		 *
-		 *     @type array $section {
+		 *     @type array $tab {
 		 *          A tab specification.
 		 *
 		 *          @type string $name         The name of the tab. Used in the HTML IDs, href and aria properties.
@@ -469,38 +424,21 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		 *     }
 		 * }
 		 */
-		$requested_sections = apply_filters( 'yoast_free_additional_metabox_sections', [] );
+		$requested_tabs = apply_filters( 'yoast_free_additional_metabox_sections', [] );
 
-		foreach ( $requested_sections as $section ) {
-			if ( is_array( $section ) && array_key_exists( 'name', $section ) && array_key_exists( 'link_content', $section ) && array_key_exists( 'content', $section ) ) {
-				$options    = array_key_exists( 'options', $section ) ? $section['options'] : [];
-				$sections[] = new WPSEO_Metabox_Section_Additional(
-					$section['name'],
-					$section['link_content'],
-					$section['content'],
+		foreach ( $requested_tabs as $tab ) {
+			if ( is_array( $tab ) && array_key_exists( 'name', $tab ) && array_key_exists( 'link_content', $tab ) && array_key_exists( 'content', $tab ) ) {
+				$options    = array_key_exists( 'options', $tab ) ? $tab['options'] : [];
+				$tabs[] = new WPSEO_Metabox_Section_Additional(
+					$tab['name'],
+					$tab['link_content'],
+					$tab['content'],
 					$options
 				);
 			}
 		}
 
-		return $sections;
-	}
-
-	/**
-	 * Retrieves the contents for the metabox tab.
-	 *
-	 * @param string $tab_name  Tab for which to retrieve the field definitions.
-	 * @param string $post_type The post type. Defaults to post.
-	 *
-	 * @return string
-	 */
-	private function get_tab_content( $tab_name, $post_type = 'post' ) {
-		$content = '';
-		foreach ( WPSEO_Meta::get_meta_field_defs( $tab_name, $post_type ) as $key => $meta_field ) {
-			$content .= $this->do_meta_box( $meta_field, $key );
-		}
-
-		return $content;
+		return $tabs;
 	}
 
 	/**
