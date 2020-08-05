@@ -6,7 +6,6 @@ import facebookEditor from "./facebookEditor";
 import focusKeyword from "./focusKeyword";
 import marksButtonStatus from "./markerButtons";
 import isMarkerPaused from "./markerPauseStatus";
-import postSettingsModal from "./postSettingsModal";
 import preferences from "./preferences";
 import primaryTaxonomies from "./primaryTaxonomies";
 import settings from "./settings";
@@ -23,7 +22,6 @@ export default {
 	focusKeyword,
 	marksButtonStatus,
 	isMarkerPaused,
-	postSettingsModal,
 	preferences,
 	primaryTaxonomies,
 	settings,
