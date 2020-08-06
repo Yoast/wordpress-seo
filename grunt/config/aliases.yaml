@@ -6,6 +6,17 @@
   - 'build:images'
   - 'build:i18n'
 
+'build-watch':
+  - 'shell:composer-install'
+  - 'build:js'
+  - 'build:css'
+  - 'watch'
+
+# Grunt command to only build CSS and JS
+'build:dev':
+  - 'build:js'
+  - 'build:css'
+
 # Build JavaScript from assets to production
 'build:js':
   - 'clean:build-assets-js'
@@ -106,7 +117,7 @@ clean:build-assets:
   - 'ensure-pre-release-branch'
   - 'ensure-rc-dependencies'
   - 'update-readme'
-  - 'bump-rc-version-and-commit'
+  - 'bump-rc-version'
   - 'sync-gutenberg-version'
   - 'artifact'
   - 'github-pre-release'

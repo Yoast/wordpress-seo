@@ -1,6 +1,6 @@
-import React from "react";
 import { connect } from "react-redux";
 import { SnippetEditor } from "@yoast/search-metadata-previews";
+import { Fragment } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { dispatch as wpDataDispatch } from "@wordpress/data";
 
@@ -45,8 +45,15 @@ export const mapEditorDataToPreview = function( data, context ) {
 	return applyReplaceUsingPlugin( data );
 };
 
+/**
+ * Wraps a Snippet editor with a Snippet preview section.
+ *
+ * @param {object} props The props.
+ *
+ * @returns {wp.Element} The component.
+ */
 const SnippetEditorWrapper = ( props ) => (
-	<React.Fragment>
+	<Fragment>
 		<SnippetPreviewSection
 			icon="eye"
 			hasPaperStyle={ props.hasPaperStyle }
@@ -57,7 +64,7 @@ const SnippetEditorWrapper = ( props ) => (
 				mapEditorDataToPreview={ mapEditorDataToPreview }
 			/>
 		</SnippetPreviewSection>
-	</React.Fragment>
+	</Fragment>
 );
 
 /**

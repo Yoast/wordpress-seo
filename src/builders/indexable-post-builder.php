@@ -9,6 +9,7 @@ namespace Yoast\WP\SEO\Builders;
 
 use Exception;
 use WPSEO_Meta;
+use WPSEO_Utils;
 use Yoast\WP\SEO\Helpers\Post_Helper;
 use Yoast\WP\SEO\Loggers\Logger;
 use Yoast\WP\SEO\Models\Indexable;
@@ -145,6 +146,9 @@ class Indexable_Post_Builder {
 		$indexable->is_public        = $this->is_public( $indexable );
 		$indexable->has_public_posts = $this->has_public_posts( $indexable );
 		$indexable->blog_id          = \get_current_blog_id();
+
+		$indexable->schema_page_type    = $this->get_meta_value( $post_id, 'schema_page_type' );
+		$indexable->schema_article_type = $this->get_meta_value( $post_id, 'schema_article_type' );
 
 		return $indexable;
 	}
@@ -464,7 +468,7 @@ class Indexable_Post_Builder {
 
 		if ( ! empty( $image ) ) {
 			$indexable->open_graph_image      = $image['url'];
-			$indexable->open_graph_image_meta = \wp_json_encode( $image );
+			$indexable->open_graph_image_meta = WPSEO_Utils::format_json_encode( $image );
 		}
 	}
 }

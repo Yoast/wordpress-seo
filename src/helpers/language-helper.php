@@ -20,8 +20,8 @@ class Language_Helper {
 	 * @return boolean Whether word form recognition is active for the used language.
 	 */
 	public function is_word_form_recognition_active( $language ) {
-		$supported_languages = [ 'de', 'en', 'es', 'fr', 'it', 'nl', 'ru' ];
+		$supported_languages = [ 'de', 'en', 'es', 'fr', 'it', 'nl', 'ru', 'id', 'pt' ];
 
-		return in_array( $language, $supported_languages, true );
+		return \in_array( $language, $supported_languages, true );
 	}
 }

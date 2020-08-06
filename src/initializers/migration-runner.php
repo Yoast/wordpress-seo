@@ -123,7 +123,7 @@ class Migration_Runner implements Initializer_Interface {
 			$migrated_versions = $this->adapter->get_migrated_versions();
 			$to_do_versions    = \array_diff( $all_versions, $migrated_versions );
 
-			\sort( $to_do_versions, SORT_STRING );
+			\sort( $to_do_versions, \SORT_STRING );
 
 			foreach ( $to_do_versions as $version ) {
 				$class = $migrations[ $version ];

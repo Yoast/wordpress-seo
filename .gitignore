@@ -45,6 +45,7 @@ tmp/
 *.bak
 *.log
 *.[Cc]ache
+!.cache
 *.cpr
 *.orig
 *.php.in

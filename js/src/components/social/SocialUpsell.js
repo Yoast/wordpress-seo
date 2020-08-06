@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import { Fragment } from "@wordpress/element";
 import styled from "styled-components";
 import interpolateComponents from "interpolate-components";
 import PropTypes from "prop-types";
@@ -7,7 +7,6 @@ import { Alert } from "@yoast/components";
 import { makeOutboundLink } from "@yoast/helpers";
 
 const PremiumInfoText = styled( Alert )`
-	margin-top: 16px;
 	p {
 		margin: 0;
 	}
@@ -27,7 +26,7 @@ const upgradeText = sprintf(
  * @param {Object} props The properties passed to this component.
  * @param {string} props.socialMedium The socialmedium platform.
  *
- * @returns {Component} The FacebookView Component.
+ * @returns {wp.Element} The FacebookView Component.
  */
 const SocialUpsell = ( props ) => {
 	const previewText = sprintf(

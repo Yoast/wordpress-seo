@@ -1,5 +1,4 @@
 /* External dependencies */
-import React from "react";
 import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
 import { isShallowEqualObjects } from "@wordpress/is-shallow-equal";
@@ -44,7 +43,7 @@ export default class Question extends Component {
 	 * @param {Object}   props      The received props.
 	 * @param {function} props.open Opens the media upload dialog.
 	 *
-	 * @returns {ReactElement} The media upload button.
+	 * @returns {wp.Element} The media upload button.
 	 */
 	getMediaUploadButton( props ) {
 		return (

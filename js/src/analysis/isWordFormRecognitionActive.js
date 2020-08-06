@@ -1,4 +1,4 @@
-var getL10nObject = require( "./getL10nObject" );
+import getL10nObject from "./getL10nObject";
 
 import { get } from "lodash-es";
 
@@ -10,7 +10,7 @@ import { get } from "lodash-es";
 function isWordFormRecognitionActive() {
 	const l10nObject = getL10nObject();
 
-	return get( l10nObject, "wordFormRecognitionActive", 0 ) === 1;
+	return get( l10nObject, "wordFormRecognitionActive", false );
 }
 
 export default isWordFormRecognitionActive;

@@ -11,8 +11,7 @@ use wpdb;
 use Yoast\WP\SEO\Config\Migration_Status;
 
 /**
- *
- * Based on Idiorm
+ * Based on Idiorm.
  *
  * URL: http://github.com/j4mie/idiorm/
  *
@@ -46,24 +45,24 @@ use Yoast\WP\SEO\Config\Migration_Status;
  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
- *
  * The methods documented below are magic methods that conform to PSR-1.
  * This documentation exposes these methods to doc generators and IDEs.
  *
  * @see http://www.php-fig.org/psr/psr-1/
  */
 class ORM implements \ArrayAccess {
+	/*
+	 * --- CLASS CONSTANTS ---
+	 */
 
-	// ----------------------- //
-	// --- CLASS CONSTANTS --- //
-	// ----------------------- //
-	// WHERE and HAVING condition array keys.
 	const CONDITION_FRAGMENT = 0;
+
 	const CONDITION_VALUES = 1;
 
-	// --------------------------- //
-	// --- INSTANCE PROPERTIES --- //
-	// --------------------------- //
+	/*
+	 * --- INSTANCE PROPERTIES ---
+	 */
+
 	/**
 	 * Holds the class name. Wrapped find_one and find_many classes will return an instance or instances of this class.
 	 *
@@ -102,7 +101,7 @@ class ORM implements \ArrayAccess {
 	/**
 	 * Are we using the default result column or have these been manually changed?
 	 *
-	 * @var boolean
+	 * @var bool
 	 */
 	protected $_using_default_result_columns = true;
 
@@ -116,14 +115,14 @@ class ORM implements \ArrayAccess {
 	/**
 	 * Should the query include a DISTINCT keyword?
 	 *
-	 * @var boolean
+	 * @var bool
 	 */
 	protected $_distinct = false;
 
 	/**
 	 * Is this a raw query?
 	 *
-	 * @var boolean
+	 * @var bool
 	 */
 	protected $_is_raw_query = false;
 
@@ -207,7 +206,7 @@ class ORM implements \ArrayAccess {
 	/**
 	 * Is this a new object (has create() been called)?
 	 *
-	 * @var boolean
+	 * @var bool
 	 */
 	protected $_is_new = false;
 
@@ -219,9 +218,10 @@ class ORM implements \ArrayAccess {
 	 */
 	protected $_instance_id_column = null;
 
-	// ---------------------- //
-	// --- STATIC METHODS --- //
-	// ---------------------- //
+	/*
+	 * --- STATIC METHODS ---
+	 */
+
 	/**
 	 * Factory method, return an instance of this class bound to the supplied
 	 * table name.
@@ -275,9 +275,12 @@ class ORM implements \ArrayAccess {
 			$wpdb->show_errors = false;
 		}
 
-		$parameters = \array_filter( $parameters, function( $parameter ) {
-			return $parameter !== null;
-		} );
+		$parameters = \array_filter(
+			$parameters,
+			function( $parameter ) {
+				return $parameter !== null;
+			}
+		);
 		if ( ! empty( $parameters ) ) {
 			$query = $wpdb->prepare( $query, $parameters );
 		}
@@ -289,9 +292,10 @@ class ORM implements \ArrayAccess {
 		return $result;
 	}
 
-	// ------------------------ //
-	// --- INSTANCE METHODS --- //
-	// ------------------------ //
+	/*
+	 * --- INSTANCE METHODS ---
+	 */
+
 	/**
 	 * "Private" constructor; shouldn't be called directly.
 	 * Use the ORM::for_table factory method instead.
@@ -521,7 +525,7 @@ class ORM implements \ArrayAccess {
 	protected function _call_aggregate_db_function( $sql_function, $column ) {
 		$alias        = \strtolower( $sql_function );
 		$sql_function = \strtoupper( $sql_function );
-		if ( '*' !== $column ) {
+		if ( $column !== '*' ) {
 			$column = $this->_quote_identifier( $column );
 		}
 		$result_columns        = $this->_result_columns;
@@ -805,11 +809,12 @@ class ORM implements \ArrayAccess {
 		// Add table alias if present.
 		if ( ! \is_null( $table_alias ) ) {
 			$table_alias = $this->_quote_identifier( $table_alias );
-			$table       .= " {$table_alias}";
+			$table      .= " {$table_alias}";
 		}
 		// Build the constraint.
 		if ( \is_array( $constraint ) ) {
 			list( $first_column, $operator, $second_column ) = $constraint;
+
 			$first_column  = $this->_quote_identifier( $first_column );
 			$second_column = $this->_quote_identifier( $second_column );
 			$constraint    = "{$first_column} {$operator} {$second_column}";
@@ -833,12 +838,13 @@ class ORM implements \ArrayAccess {
 		// Add table alias if present.
 		if ( ! \is_null( $table_alias ) ) {
 			$table_alias = $this->_quote_identifier( $table_alias );
-			$table       .= " {$table_alias}";
+			$table      .= " {$table_alias}";
 		}
 		$this->_values = \array_merge( $this->_values, $parameters );
 		// Build the constraint.
 		if ( \is_array( $constraint ) ) {
 			list( $first_column, $operator, $second_column ) = $constraint;
+
 			$first_column  = $this->_quote_identifier( $first_column );
 			$second_column = $this->_quote_identifier( $second_column );
 			$constraint    = "{$first_column} {$operator} {$second_column}";
@@ -1067,10 +1073,13 @@ class ORM implements \ArrayAccess {
 		if ( ! \is_array( $values ) ) {
 			$values = [ $values ];
 		}
-		\array_push( $this->{$conditions_class_property_name}, [
-			self::CONDITION_FRAGMENT => $fragment,
-			self::CONDITION_VALUES   => $values,
-		] );
+		\array_push(
+			$this->{$conditions_class_property_name},
+			[
+				self::CONDITION_FRAGMENT => $fragment,
+				self::CONDITION_VALUES   => $values,
+			]
+		);
 
 		return $this;
 	}
@@ -1716,16 +1725,19 @@ class ORM implements \ArrayAccess {
 		}
 
 		// Build and return the full SELECT statement by concatenating the results of calling each separate builder method.
-		return $this->_join_if_not_empty( ' ', [
-			$this->_build_select_start(),
-			$this->_build_join(),
-			$this->_build_where(),
-			$this->_build_group_by(),
-			$this->_build_having(),
-			$this->_build_order_by(),
-			$this->_build_limit(),
-			$this->_build_offset(),
-		] );
+		return $this->_join_if_not_empty(
+			' ',
+			[
+				$this->_build_select_start(),
+				$this->_build_join(),
+				$this->_build_where(),
+				$this->_build_group_by(),
+				$this->_build_having(),
+				$this->_build_order_by(),
+				$this->_build_limit(),
+				$this->_build_offset(),
+			]
+		);
 	}
 
 	/**
@@ -2090,11 +2102,11 @@ class ORM implements \ArrayAccess {
 		foreach ( $key as $field => $value ) {
 			$this->_data[ $field ]         = $value;
 			$this->_dirty_fields[ $field ] = $value;
-			if ( false === $expr and isset( $this->_expr_fields[ $field ] ) ) {
+			if ( $expr === false && isset( $this->_expr_fields[ $field ] ) ) {
 				unset( $this->_expr_fields[ $field ] );
 			}
 			else {
-				if ( true === $expr ) {
+				if ( $expr === true ) {
 					$this->_expr_fields[ $field ] = true;
 				}
 			}
@@ -2168,7 +2180,8 @@ class ORM implements \ArrayAccess {
 				$this->_data[ $column ] = $wpdb->insert_id;
 			}
 		}
-		$this->_dirty_fields = $this->_expr_fields = [];
+		$this->_dirty_fields = [];
+		$this->_expr_fields  = [];
 
 		return $success;
 	}
@@ -2221,6 +2234,7 @@ class ORM implements \ArrayAccess {
 	 * @return string The insert query.
 	 */
 	protected function _build_insert() {
+		$query        = [];
 		$query[]      = 'INSERT INTO';
 		$query[]      = $this->_quote_identifier( $this->_table_name );
 		$field_list   = \array_map( [ $this, '_quote_identifier' ], \array_keys( $this->_dirty_fields ) );
@@ -2255,18 +2269,22 @@ class ORM implements \ArrayAccess {
 	public function delete_many() {
 		// Build and return the full DELETE statement by concatenating
 		// the results of calling each separate builder method.
-		$query = $this->_join_if_not_empty( ' ', [
-			'DELETE FROM',
-			$this->_quote_identifier( $this->_table_name ),
-			$this->_build_where(),
-		] );
+		$query = $this->_join_if_not_empty(
+			' ',
+			[
+				'DELETE FROM',
+				$this->_quote_identifier( $this->_table_name ),
+				$this->_build_where(),
+			]
+		);
 
 		return self::_execute( $query, $this->_values );
 	}
 
-	// --------------------- //
-	// ---  ArrayAccess  --- //
-	// --------------------- //
+	/*
+	 * ---  ArrayAccess  ---
+	 */
+
 	/**
 	 * Checks whether the data has the key.
 	 *
@@ -2312,9 +2330,10 @@ class ORM implements \ArrayAccess {
 		unset( $this->_dirty_fields[ $key ] );
 	}
 
-	// --------------------- //
-	// --- MAGIC METHODS --- //
-	// --------------------- //
+	/*
+	 * --- MAGIC METHODS ---
+	 */
+
 	/**
 	 * Handles magic get via offset.
 	 *

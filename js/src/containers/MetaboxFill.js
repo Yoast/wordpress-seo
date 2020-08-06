@@ -12,6 +12,8 @@ import { connect } from "react-redux";
 function mapStateToProps( state, ownProps ) {
 	const settings = {
 		...state.preferences,
+		// Because cornerstone is only applicable to posts, not terms. Despite the general setting.
+		isCornerstoneActive: state.preferences.isCornerstoneActive,
 		// Because this value is initiated as an empty string.
 		displayAdvancedTab: !! window.wpseoAdminL10n.displayAdvancedTab,
 	};

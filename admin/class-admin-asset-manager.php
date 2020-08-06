@@ -248,6 +248,8 @@ class WPSEO_Admin_Asset_Manager {
 				'src'  => 'network-admin-' . $flat_version,
 				'deps' => [
 					'jquery',
+					'wp-element',
+					'wp-i18n',
 					self::PREFIX . 'commons',
 				],
 			],
@@ -269,18 +271,38 @@ class WPSEO_Admin_Asset_Manager {
 				'in_footer' => false,
 			],
 			[
-				'name'      => 'post-edit',
-				'src'       => 'post-edit-' . $flat_version,
-				'deps' => [
-					'jquery',
+				'name'      => 'block-editor',
+				'src'       => 'block-editor-' . $flat_version,
+				'deps'      => [
 					'wp-annotations',
-					'wp-api',
-					'wp-api-fetch',
 					'wp-components',
 					'wp-compose',
-					'wp-data',
-					'wp-element',
 					'wp-edit-post',
+					'wp-element',
+					self::PREFIX . 'components',
+				],
+				'in_footer' => false,
+			],
+			[
+				'name'      => 'classic-editor',
+				'src'       => 'classic-editor-' . $flat_version,
+				'deps'      => [
+					'wp-components',
+					'wp-compose',
+					'wp-element',
+					self::PREFIX . 'components',
+				],
+				'in_footer' => false,
+			],
+			[
+				'name'      => 'post-edit',
+				'src'       => 'post-edit-' . $flat_version,
+				'deps'      => [
+					'jquery',
+					'wp-api',
+					'wp-api-fetch',
+					'wp-blocks',
+					'wp-data',
 					'wp-i18n',
 					'wp-is-shallow-equal',
 					'wp-sanitize',
@@ -288,7 +310,6 @@ class WPSEO_Admin_Asset_Manager {
 					'wp-util',
 					self::PREFIX . 'redux',
 					self::PREFIX . 'analysis',
-					self::PREFIX . 'components',
 					self::PREFIX . 'commons',
 					self::PREFIX . 'select2',
 					self::PREFIX . 'select2-translations',
@@ -311,6 +332,7 @@ class WPSEO_Admin_Asset_Manager {
 					self::PREFIX . 'redux',
 					self::PREFIX . 'analysis',
 					self::PREFIX . 'components',
+					self::PREFIX . 'classic-editor',
 					self::PREFIX . 'commons',
 					self::PREFIX . 'select2',
 					self::PREFIX . 'select2-translations',
@@ -345,7 +367,6 @@ class WPSEO_Admin_Asset_Manager {
 					self::PREFIX . 'select2',
 				],
 				'version' => '4.0.3',
-				'suffix'  => '',
 			],
 			[
 				'name' => 'configuration-wizard',
@@ -399,7 +420,7 @@ class WPSEO_Admin_Asset_Manager {
 			],
 			[
 				'name' => 'api',
-				'src'  => 'api-client' . $flat_version,
+				'src'  => 'api-client-' . $flat_version,
 				'deps' => [
 					'wp-api',
 					'jquery',
@@ -443,6 +464,7 @@ class WPSEO_Admin_Asset_Manager {
 					self::PREFIX . 'analysis',
 					self::PREFIX . 'styled-components',
 					self::PREFIX . 'commons',
+					self::PREFIX . 'draft-js',
 					'wp-a11y',
 					'wp-dom-ready',
 				],
@@ -483,6 +505,10 @@ class WPSEO_Admin_Asset_Manager {
 					'wp-element',
 					'wp-i18n',
 				],
+			],
+			[
+				'name' => 'draft-js',
+				'src'  => 'draft-js-' . $flat_version,
 			],
 		];
 	}
@@ -580,6 +606,9 @@ class WPSEO_Admin_Asset_Manager {
 			[
 				'name' => 'search-appearance',
 				'src'  => 'search-appearance-' . $flat_version,
+				'deps' => [
+					self::PREFIX . 'monorepo',
+				],
 			],
 			[
 				'name' => 'monorepo',

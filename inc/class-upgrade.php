@@ -6,6 +6,7 @@
  */
 
 use Yoast\WP\Lib\Model;
+use Yoast\WP\SEO\Integrations\Admin\Indexation_Integration;
 
 /**
  * This code handles the option upgrades.
@@ -58,6 +59,7 @@ class WPSEO_Upgrade {
 			'14.0.3-RC0' => 'upgrade_1403',
 			'14.1-RC0'   => 'upgrade_141',
 			'14.2-RC0'   => 'upgrade_142',
+			'14.5-RC0'   => 'upgrade_145',
 		];
 
 		array_walk( $routines, [ $this, 'run_upgrade_routine' ], $version );
@@ -771,6 +773,27 @@ class WPSEO_Upgrade {
 	}
 
 	/**
+	 * Performs the 14.5 upgrade.
+	 */
+	private function upgrade_145() {
+		add_action( 'init', [ $this, 'set_indexation_completed_option_for_145' ] );
+	}
+
+	/**
+	 * Checks if the indexable indexation is completed.
+	 * If so, sets the `indexables_indexation_completed` option to `true`,
+	 * else to `false`.
+	 */
+	public function set_indexation_completed_option_for_145() {
+		/**
+		 * @var Indexation_Integration
+		 */
+		$indexation_integration = YoastSEO()->classes->get( Indexation_Integration::class );
+
+		WPSEO_Options::set( 'indexables_indexation_completed', $indexation_integration->get_total_unindexed() === 0 );
+	}
+
+	/**
 	 * Cleans up the private taxonomies from the indexables table for the upgrade routine to 14.1.
 	 */
 	public function clean_up_private_taxonomies_for_141() {
@@ -787,10 +810,13 @@ class WPSEO_Upgrade {
 			return;
 		}
 
-		$placeholders    = \implode( ', ', \array_fill( 0, \count( $private_taxonomies ), '%s' ) );
 		$indexable_table = Model::get_table_name( 'Indexable' );
 		$query           = $wpdb->prepare(
-			"DELETE FROM $indexable_table WHERE object_type = 'term' AND object_sub_type IN ($placeholders)",
+			"DELETE FROM $indexable_table
+			WHERE object_type = 'term'
+			AND object_sub_type IN ("
+				. \implode( ', ', \array_fill( 0, \count( $private_taxonomies ), '%s' ) )
+				. ')',
 			$private_taxonomies
 		);
 		$wpdb->query( $query );

@@ -7,16 +7,28 @@
 
 namespace Yoast\WP\SEO\Integrations\Watchers;
 
+use Yoast\WP\Lib\Model;
+use Yoast\WP\SEO\Actions\Indexation\Indexable_Post_Indexation_Action;
+use Yoast\WP\SEO\Actions\Indexation\Indexable_Post_Type_Archive_Indexation_Action;
+use Yoast\WP\SEO\Actions\Indexation\Indexable_Term_Indexation_Action;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
+use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
-use Yoast\WP\Lib\Model;
+use Yoast\WP\SEO\Presenters\Admin\Indexation_Permalink_Warning_Presenter;
 use Yoast\WP\SEO\WordPress\Wrapper;
 
 /**
  * Handles updates to the permalink_structure for the Indexables table.
  */
 class Indexable_Permalink_Watcher implements Integration_Interface {
+
+	/**
+	 * Represents the options helper.
+	 *
+	 * @var Options_Helper
+	 */
+	protected $options_helper;
 
 	/**
 	 * The post type helper.
@@ -36,9 +48,11 @@ class Indexable_Permalink_Watcher implements Integration_Interface {
 	 * Indexable_Permalink_Watcher constructor.
 	 *
 	 * @param Post_Type_Helper $post_type The post type helper.
+	 * @param Options_Helper   $options   The options helper.
 	 */
-	public function __construct( Post_Type_Helper $post_type ) {
-		$this->post_type = $post_type;
+	public function __construct( Post_Type_Helper $post_type, Options_Helper $options ) {
+		$this->post_type      = $post_type;
+		$this->options_helper = $options;
 	}
 
 	/**
@@ -106,21 +120,33 @@ class Indexable_Permalink_Watcher implements Integration_Interface {
 	 *
 	 * @param string      $type    The type of the indexable.
 	 * @param null|string $subtype The subtype. Can be null.
+	 * @param string      $reason  The reason that the permalink has been changed.
 	 */
-	public function reset_permalink_indexables( $type, $subtype = null ) {
+	public function reset_permalink_indexables( $type, $subtype = null, $reason = Indexation_Permalink_Warning_Presenter::REASON_PERMALINK_SETTINGS ) {
 		$where = [ 'object_type' => $type ];
 
 		if ( $subtype ) {
 			$where['object_sub_type'] = $subtype;
 		}
 
-		Wrapper::get_wpdb()->update(
+		$result = Wrapper::get_wpdb()->update(
 			Model::get_table_name( 'Indexable' ),
 			[
-				'permalink' => null,
+				'permalink'      => null,
+				'permalink_hash' => null,
 			],
 			$where
 		);
+
+		if ( $result > 0 ) {
+			$this->options_helper->set( 'indexables_indexation_reason', $reason );
+			$this->options_helper->set( 'ignore_indexation_warning', false );
+			$this->options_helper->set( 'indexation_warning_hide_until', false );
+
+			delete_transient( Indexable_Post_Indexation_Action::TRANSIENT_CACHE_KEY );
+			delete_transient( Indexable_Post_Type_Archive_Indexation_Action::TRANSIENT_CACHE_KEY );
+			delete_transient( Indexable_Term_Indexation_Action::TRANSIENT_CACHE_KEY );
+		}
 	}
 
 	/**

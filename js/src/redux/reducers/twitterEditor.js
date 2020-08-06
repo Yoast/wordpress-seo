@@ -10,9 +10,10 @@ import {
  * Initial state
  */
 const initialState = {
+	isLoading: true,
 	title: "",
 	description: "",
-	errors: [],
+	warnings: [],
 	image: {
 		url: "",
 		id: "",
@@ -30,18 +31,28 @@ const initialState = {
 const twitterReducer = ( state = initialState, action ) => {
 	switch ( action.type ) {
 		case LOAD_TWITTER_PREVIEW:
-			return { ...state, title: action.title, description: action.description, image: { id: action.id, url: action.imageUrl } };
+			return {
+				...state,
+				isLoading: false,
+				title: action.title,
+				description: action.description,
+				image: { id: action.id, url: action.imageUrl },
+			};
 		case SET_TWITTER_TITLE :
 			return { ...state, title: action.title };
 		case SET_TWITTER_DESCRIPTION :
 			return { ...state, description: action.description };
 		case SET_TWITTER_IMAGE :
-			return { ...state, image: { ...action.image } };
+			return { ...state, image: { id: action.image.id, url: action.image.url }, warnings: action.image.warnings };
 		case CLEAR_TWITTER_IMAGE :
-			return { ...state, image: {
-				url: "",
-				id: "",
-			} };
+			return {
+				...state,
+				image: {
+					url: "",
+					id: "",
+				},
+				warnings: [],
+			};
 	  default:
 			return state;
 	}

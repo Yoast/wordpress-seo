@@ -264,7 +264,8 @@ class Person extends Abstract_Schema_Piece {
 		// Article post from the same user as the site represents.
 		if (
 			$this->context->indexable->object_type === 'post'
-			&& $this->helpers->schema->article->is_article_post_type( $this->context->indexable->object_sub_type )
+			&& $this->helpers->schema->article->is_author_supported( $this->context->indexable->object_sub_type )
+			&& $this->context->schema_article_type !== 'None'
 		) {
 			return $this->context->site_user_id === $this->context->indexable->author_id;
 		}

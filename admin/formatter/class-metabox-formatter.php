@@ -5,6 +5,9 @@
  * @package WPSEO\Admin\Formatter
  */
 
+use Yoast\WP\SEO\Config\Schema_Types;
+use Yoast\WP\SEO\Helpers\Options_Helper;
+
 /**
  * This class forces needed methods for the metabox localization.
  */
@@ -46,6 +49,8 @@ class WPSEO_Metabox_Formatter {
 	private function get_defaults() {
 		$analysis_seo         = new WPSEO_Metabox_Analysis_SEO();
 		$analysis_readability = new WPSEO_Metabox_Analysis_Readability();
+		$schema_types         = new Schema_Types();
+		$options              = new Options_Helper();
 
 		return [
 			'author_name'               => get_the_author_meta( 'display_name' ),
@@ -70,13 +75,19 @@ class WPSEO_Metabox_Formatter {
 			'cornerstoneActive'         => WPSEO_Options::get( 'enable_cornerstone_content', false ) ? 1 : 0,
 			'intl'                      => $this->get_content_analysis_component_translations(),
 			'isRtl'                     => is_rtl(),
+			'isPremium'                 => WPSEO_Utils::is_yoast_seo_premium(),
 			'addKeywordUpsell'          => $this->get_add_keyword_upsell_translations(),
 			'wordFormRecognitionActive' => YoastSEO()->helpers->language->is_word_form_recognition_active( WPSEO_Language_Utils::get_language( get_locale() ) ),
 			'siteIconUrl'               => get_site_icon_url(),
-			'showSocial' => [
+			'showSocial'                => [
 				'facebook' => WPSEO_Options::get( 'opengraph', false ),
-				'twitter' => WPSEO_Options::get( 'twitter', false ),
+				'twitter'  => WPSEO_Options::get( 'twitter', false ),
 			],
+			'schema'                    => [
+				'pageTypeOptions'    => $schema_types->get_page_type_options(),
+				'articleTypeOptions' => $schema_types->get_article_type_options(),
+			],
+			'twitterCardType'           => $options->get( 'twitter_card_type' ),
 
 			/**
 			 * Filter to determine if the markers should be enabled or not.
@@ -234,6 +245,7 @@ class WPSEO_Metabox_Formatter {
 
 		$file = plugin_dir_path( WPSEO_FILE ) . 'languages/wordpress-seo-' . $locale . '.json';
 		if ( file_exists( $file ) ) {
+			// phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- Retrieving a local file.
 			$file = file_get_contents( $file );
 			if ( is_string( $file ) && $file !== '' ) {
 				return json_decode( $file, true );

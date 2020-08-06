@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import { Fragment, useEffect } from "@wordpress/element";
 import { Slot } from "@wordpress/components";
 import PropTypes from "prop-types";
 
@@ -13,6 +13,13 @@ import SocialForm from "../social/SocialForm";
  * @returns {Component} Renders the FacebookWrapper React Component.
  */
 const FacebookWrapper = ( props ) => {
+	useEffect( () => {
+		if ( props.isLoading === true ) {
+			// Load on the next cycle because the editor inits asynchronously and we need to load the data after the component is fully loaded.
+			setTimeout( props.onLoad );
+		}
+	} );
+
 	return (
 		<Fragment>
 			{
@@ -29,6 +36,8 @@ const FacebookWrapper = ( props ) => {
 
 FacebookWrapper.propTypes = {
 	isPremium: PropTypes.bool.isRequired,
+	isLoading: PropTypes.bool.isRequired,
+	onLoad: PropTypes.func.isRequired,
 };
 
 export default FacebookWrapper;

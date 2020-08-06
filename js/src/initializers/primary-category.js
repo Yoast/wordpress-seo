@@ -9,7 +9,7 @@ import {
 
 /* Internal dependencies */
 import PrimaryTaxonomyFilter from "../components/PrimaryTaxonomyFilter";
-import isGutenbergDataAvailable from "../helpers/isGutenbergDataAvailable";
+import isBlockEditor from "../helpers/isBlockEditor";
 
 const PLUGIN_NAMESPACE = "yoast-seo";
 
@@ -252,7 +252,7 @@ export default function initPrimaryCategory( $ ) {
 	 * @returns {void}
 	 */
 	function registerCategorySelectorFilter() {
-		if ( ! isGutenbergDataAvailable() ) {
+		if ( ! isBlockEditor() ) {
 			return;
 		}
 
@@ -296,13 +296,11 @@ export default function initPrimaryCategory( $ ) {
 		} );
 	};
 
-	$( function() {
-		// Initialize our templates
-		primaryTermUITemplate = wp.template( "primary-term-ui" );
-		primaryTermScreenReaderTemplate = wp.template( "primary-term-screen-reader" );
+	// Initialize our templates
+	primaryTermUITemplate = wp.template( "primary-term-ui" );
+	primaryTermScreenReaderTemplate = wp.template( "primary-term-screen-reader" );
 
-		$( _.values( taxonomies ) ).initYstSEOPrimaryCategory();
+	$( _.values( taxonomies ) ).initYstSEOPrimaryCategory();
 
-		registerCategorySelectorFilter();
-	} );
+	registerCategorySelectorFilter();
 }
