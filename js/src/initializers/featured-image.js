@@ -4,7 +4,7 @@
 /* jshint -W097 */
 /* jshint -W003 */
 import a11ySpeak from "a11y-speak";
-import { isGutenbergDataAvailable } from "../helpers/isGutenbergAvailable";
+import isBlockEditor from "../helpers/isBlockEditor";
 
 /**
  * @summary Initializes the featured image integration.
@@ -138,72 +138,70 @@ export default function initFeaturedImageIntegration( $ ) {
 		return typeof featuredImageId === "number" && featuredImageId > 0;
 	}
 
-	$( document ).ready( function() {
-		var featuredImage = wp.media.featuredImage.frame();
+	var featuredImage = wp.media.featuredImage.frame();
 
-		if ( typeof YoastSEO === "undefined" ) {
+	if ( typeof YoastSEO === "undefined" ) {
+		return;
+	}
+
+	featuredImagePlugin = new FeaturedImagePlugin( YoastSEO.app );
+
+	$postImageDiv = $( "#postimagediv" );
+	$postImageDivHeading = $postImageDiv.find( ".hndle" );
+
+	featuredImage.on( "select", function() {
+		var selectedImageHTML, selectedImage, alt;
+
+		checkFeaturedImage( featuredImage );
+
+		selectedImage = featuredImage.state().get( "selection" ).first();
+
+		alt = selectedImage.get( "alt" );
+
+		selectedImageHTML = "<img" +
+			' src="' + selectedImage.get( "url" ) + '"' +
+			' width="' + selectedImage.get( "width" ) + '"' +
+			' height="' + selectedImage.get( "height" ) + '"' +
+			' alt="' + alt +
+			'"/>';
+
+		featuredImagePlugin.setFeaturedImage( selectedImageHTML );
+	} );
+
+	$postImageDiv.on( "click", "#remove-post-thumbnail", function() {
+		featuredImagePlugin.removeFeaturedImage();
+		removeOpengraphWarning();
+	} );
+
+	$featuredImageElement = $( "#set-post-thumbnail > img" );
+	if ( "undefined" !== typeof $featuredImageElement.prop( "src" ) ) {
+		featuredImagePlugin.setFeaturedImage( $( "#set-post-thumbnail " ).html() );
+	}
+
+	// Fallback for Gutenberg, as the featured image id does not exist there.
+	if ( ! isBlockEditor() ) {
+		return;
+	}
+
+	let imageData;
+	let previousImageData;
+	wp.data.subscribe( () => {
+		const featuredImageId = wp.data.select( "core/editor" ).getEditedPostAttribute( "featured_media" );
+
+		if ( ! isValidMediaId( featuredImageId ) ) {
 			return;
 		}
 
-		featuredImagePlugin = new FeaturedImagePlugin( YoastSEO.app );
+		imageData = wp.data.select( "core" ).getMedia( featuredImageId );
 
-		$postImageDiv = $( "#postimagediv" );
-		$postImageDivHeading = $postImageDiv.find( ".hndle" );
-
-		featuredImage.on( "select", function() {
-			var selectedImageHTML, selectedImage, alt;
-
-			checkFeaturedImage( featuredImage );
-
-			selectedImage = featuredImage.state().get( "selection" ).first();
-
-			alt = selectedImage.get( "alt" );
-
-			selectedImageHTML = "<img" +
-				' src="' + selectedImage.get( "url" ) + '"' +
-				' width="' + selectedImage.get( "width" ) + '"' +
-				' height="' + selectedImage.get( "height" ) + '"' +
-				' alt="' + alt +
-				'"/>';
-
-			featuredImagePlugin.setFeaturedImage( selectedImageHTML );
-		} );
-
-		$postImageDiv.on( "click", "#remove-post-thumbnail", function() {
-			featuredImagePlugin.removeFeaturedImage();
-			removeOpengraphWarning();
-		} );
-
-		$featuredImageElement = $( "#set-post-thumbnail > img" );
-		if ( "undefined" !== typeof $featuredImageElement.prop( "src" ) ) {
-			featuredImagePlugin.setFeaturedImage( $( "#set-post-thumbnail " ).html() );
-		}
-
-		// Fallback for Gutenberg, as the featured image id does not exist there.
-		if ( ! isGutenbergDataAvailable() ) {
+		if ( typeof imageData === "undefined" ) {
 			return;
 		}
 
-		let imageData;
-		let previousImageData;
-		wp.data.subscribe( () => {
-			const featuredImageId = wp.data.select( "core/editor" ).getEditedPostAttribute( "featured_media" );
-
-			if ( ! isValidMediaId( featuredImageId ) ) {
-				return;
-			}
-
-			imageData = wp.data.select( "core" ).getMedia( featuredImageId );
-
-			if ( typeof imageData === "undefined" ) {
-				return;
-			}
-
-			if ( imageData !== previousImageData ) {
-				previousImageData = imageData;
-				const featuredImageHTML = `<img src="${imageData.source_url}" alt="${imageData.alt_text}" >`;
-				featuredImagePlugin.setFeaturedImage( featuredImageHTML );
-			}
-		} );
+		if ( imageData !== previousImageData ) {
+			previousImageData = imageData;
+			const featuredImageHTML = `<img src="${imageData.source_url}" alt="${imageData.alt_text}" >`;
+			featuredImagePlugin.setFeaturedImage( featuredImageHTML );
+		}
 	} );
 }
