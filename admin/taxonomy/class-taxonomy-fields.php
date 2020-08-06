@@ -211,7 +211,7 @@ class WPSEO_Taxonomy_Fields {
 	protected function filter_hidden_fields( array $fields ) {
 		foreach ( $fields as $field_name => $field_options ) {
 			if ( ! empty( $field_options['hide'] ) ) {
-				unset( $field_groups[ $field_group ][ $field_name ] );
+				unset( $fields[ $field_name ] );
 			}
 		}
 
