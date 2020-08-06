@@ -27,27 +27,6 @@ class WPSEO_Taxonomy_Metabox {
 	private $taxonomy;
 
 	/**
-	 * Renders the taxonomy field.
-	 *
-	 * @var WPSEO_Taxonomy_Fields_Presenter
-	 */
-	private $taxonomy_tab_content;
-
-	/**
-	 * Renders the taxonomy social fields.
-	 *
-	 * @var WPSEO_Taxonomy_Social_Fields
-	 */
-	private $taxonomy_social_fields;
-
-	/**
-	 * This class adds the Social tab to the Yoast SEO metabox and makes sure the settings are saved.
-	 *
-	 * @var WPSEO_Social_Admin
-	 */
-	private $social_admin;
-
-	/**
 	 * Whether or not the social tab is enabled for this metabox.
 	 *
 	 * @var bool
@@ -77,7 +56,6 @@ class WPSEO_Taxonomy_Metabox {
 	public function __construct( $taxonomy, $term ) {
 		$this->term                 = $term;
 		$this->taxonomy             = $taxonomy;
-		$this->taxonomy_tab_content = new WPSEO_Taxonomy_Fields_Presenter( $this->term );
 		$this->social_is_enabled = WPSEO_Options::get( 'opengraph', false ) || WPSEO_Options::get( 'twitter', false );
 
 		$seo_analysis = new WPSEO_Metabox_Analysis_SEO();
