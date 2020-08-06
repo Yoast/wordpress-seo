@@ -96,7 +96,7 @@ class WPSEO_Ryte implements WPSEO_WordPress_Integration {
 		if ( ! is_array( $schedules ) ) {
 			$schedules = [];
 		}
-	
+
 		/*
 		 * Starting with version 5.4, WordPress does have a default weekly cron
 		 * schedule. See https://core.trac.wordpress.org/changeset/47062.

@@ -271,17 +271,38 @@ class WPSEO_Admin_Asset_Manager {
 				'in_footer' => false,
 			],
 			[
+				'name'      => 'block-editor',
+				'src'       => 'block-editor-' . $flat_version,
+				'deps'      => [
+					'wp-annotations',
+					'wp-components',
+					'wp-compose',
+					'wp-edit-post',
+					'wp-element',
+					self::PREFIX . 'components',
+				],
+				'in_footer' => false,
+			],
+			[
+				'name'      => 'classic-editor',
+				'src'       => 'classic-editor-' . $flat_version,
+				'deps'      => [
+					'wp-components',
+					'wp-compose',
+					'wp-element',
+					self::PREFIX . 'components',
+				],
+				'in_footer' => false,
+			],
+			[
 				'name'      => 'post-edit',
 				'src'       => 'post-edit-' . $flat_version,
 				'deps'      => [
 					'jquery',
-					'wp-annotations',
 					'wp-api',
 					'wp-api-fetch',
-					'wp-components',
-					'wp-compose',
+					'wp-blocks',
 					'wp-data',
-					'wp-element',
 					'wp-i18n',
 					'wp-is-shallow-equal',
 					'wp-sanitize',
@@ -289,7 +310,6 @@ class WPSEO_Admin_Asset_Manager {
 					'wp-util',
 					self::PREFIX . 'redux',
 					self::PREFIX . 'analysis',
-					self::PREFIX . 'components',
 					self::PREFIX . 'commons',
 					self::PREFIX . 'select2',
 					self::PREFIX . 'select2-translations',
@@ -312,6 +332,7 @@ class WPSEO_Admin_Asset_Manager {
 					self::PREFIX . 'redux',
 					self::PREFIX . 'analysis',
 					self::PREFIX . 'components',
+					self::PREFIX . 'classic-editor',
 					self::PREFIX . 'commons',
 					self::PREFIX . 'select2',
 					self::PREFIX . 'select2-translations',
@@ -346,7 +367,6 @@ class WPSEO_Admin_Asset_Manager {
 					self::PREFIX . 'select2',
 				],
 				'version' => '4.0.3',
-				'suffix'  => '',
 			],
 			[
 				'name' => 'configuration-wizard',
@@ -586,6 +606,9 @@ class WPSEO_Admin_Asset_Manager {
 			[
 				'name' => 'search-appearance',
 				'src'  => 'search-appearance-' . $flat_version,
+				'deps' => [
+					self::PREFIX . 'monorepo',
+				],
 			],
 			[
 				'name' => 'monorepo',

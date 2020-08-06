@@ -38,9 +38,16 @@ module.exports = function( grunt ) {
 		async function() {
 			const done = this.async();
 
-			// Open a text editor to get the changelog.
-			const changelog = await getUserInput( { initialContent: grunt.option( "changelog" ) } );
 			const pluginVersion = grunt.file.readJSON( "package.json" ).yoast.pluginVersion;
+
+			let initialContent = `Changes compared to ${grunt.config.get( "previousPluginVersion" )}:\n`;
+			// For the first RC use the full changelog, for follow-up RCs only use the changes.
+			if ( pluginVersion.substr( pluginVersion.length - 3 ) === "RC1" ) {
+				initialContent = `Changes in this RC (${pluginVersion}):\n`;
+			}
+
+			// Open a text editor to get the changelog.
+			const changelog = await getUserInput( { initialContent } );
 
 			/* eslint-disable camelcase */
 			const releaseData = {

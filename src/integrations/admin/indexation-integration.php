@@ -16,10 +16,12 @@ use Yoast\WP\SEO\Actions\Indexation\Indexable_Term_Indexation_Action;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
 use Yoast\WP\SEO\Conditionals\Yoast_Admin_And_Dashboard_Conditional;
+use Yoast\WP\SEO\Conditionals\Yoast_Tools_Page_Conditional;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Presenters\Admin\Indexation_List_Item_Presenter;
 use Yoast\WP\SEO\Presenters\Admin\Indexation_Modal_Presenter;
+use Yoast\WP\SEO\Presenters\Admin\Indexation_Permalink_Warning_Presenter;
 use Yoast\WP\SEO\Presenters\Admin\Indexation_Warning_Presenter;
 use Yoast\WP\SEO\Routes\Indexable_Indexation_Route;
 
@@ -78,6 +80,29 @@ class Indexation_Integration implements Integration_Interface {
 	protected $asset_manager;
 
 	/**
+	 * Holds the Yoast tools page conditional.
+	 *
+	 * @var Yoast_Tools_Page_Conditional
+	 */
+	protected $yoast_tools_page_conditional;
+
+	/**
+	 * Holds whether or not the current page is the Yoast tools page.
+	 *
+	 * @var bool
+	 */
+	protected $is_on_yoast_tools_page;
+
+	/**
+	 * Holds the indexation action type.
+	 *
+	 * Can be Indexation_Warning_Presenter::ACTION_TYPE_LINK_TO or Indexation_Warning_Presenter::ACTION_TYPE_RUN_HERE.
+	 *
+	 * @var string
+	 */
+	protected $indexation_action_type;
+
+	/**
 	 * The total amount of unindexed objects.
 	 *
 	 * @var int
@@ -105,6 +130,8 @@ class Indexation_Integration implements Integration_Interface {
 	 * @param Indexable_Complete_Indexation_Action          $complete_indexation_action   The complete indexation action.
 	 * @param Options_Helper                                $options_helper               The options helper.
 	 * @param WPSEO_Admin_Asset_Manager                     $asset_manager                The admin asset manager.
+	 * @param Yoast_Tools_Page_Conditional                  $yoast_tools_page_conditional The yoast tools page
+	 *                                                                                    conditional.
 	 */
 	public function __construct(
 		Indexable_Post_Indexation_Action $post_indexation,
@@ -113,7 +140,8 @@ class Indexation_Integration implements Integration_Interface {
 		Indexable_General_Indexation_Action $general_indexation,
 		Indexable_Complete_Indexation_Action $complete_indexation_action,
 		Options_Helper $options_helper,
-		WPSEO_Admin_Asset_Manager $asset_manager
+		WPSEO_Admin_Asset_Manager $asset_manager,
+		Yoast_Tools_Page_Conditional $yoast_tools_page_conditional
 	) {
 		$this->post_indexation              = $post_indexation;
 		$this->term_indexation              = $term_indexation;
@@ -122,6 +150,7 @@ class Indexation_Integration implements Integration_Interface {
 		$this->complete_indexation_action   = $complete_indexation_action;
 		$this->options_helper               = $options_helper;
 		$this->asset_manager                = $asset_manager;
+		$this->yoast_tools_page_conditional = $yoast_tools_page_conditional;
 	}
 
 	/**
@@ -138,8 +167,10 @@ class Indexation_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function enqueue_scripts() {
-		// We aren't able to determine whether or not anything needs to happen at register_hooks as post types aren't registered yet.
-		// So we do most of our add_action calls here.
+		/*
+		 * We aren't able to determine whether or not anything needs to happen at register_hooks,
+		 * as post types aren't registered yet. So we do most of our add_action calls here.
+		 */
 		if ( $this->get_total_unindexed() === 0 ) {
 			$this->complete_indexation_action->complete();
 
@@ -159,46 +190,18 @@ class Indexation_Integration implements Integration_Interface {
 			return;
 		}
 
-		$this->options_helper->set( 'indexables_indexation_completed', false );
+		$this->is_on_yoast_tools_page = $this->yoast_tools_page_conditional->is_met();
+		$this->indexation_action_type = ( $this->is_on_yoast_tools_page ) ? Indexation_Warning_Presenter::ACTION_TYPE_RUN_HERE : Indexation_Warning_Presenter::ACTION_TYPE_LINK_TO;
 
-		\add_action( 'admin_footer', [ $this, 'render_indexation_modal' ], 20 );
+		$this->hide_notice_listener();
 		if ( $this->is_indexation_warning_hidden() === false ) {
-			\add_action( 'admin_notices', [ $this, 'render_indexation_warning' ], 10 );
+			$this->add_admin_notice();
 		}
 
-		$this->asset_manager->enqueue_script( 'indexation' );
-		$this->asset_manager->enqueue_style( 'admin-css' );
-
-		$data = [
-			'amount'  => $this->get_total_unindexed(),
-			'ids'     => [
-				'count'    => '#yoast-indexation-current-count',
-				'progress' => '#yoast-indexation-progress-bar',
-			],
-			'restApi' => [
-				'root'      => \esc_url_raw( \rest_url() ),
-				'endpoints' => [
-					'prepare'  => Indexable_Indexation_Route::FULL_PREPARE_ROUTE,
-					'posts'    => Indexable_Indexation_Route::FULL_POSTS_ROUTE,
-					'terms'    => Indexable_Indexation_Route::FULL_TERMS_ROUTE,
-					'archives' => Indexable_Indexation_Route::FULL_POST_TYPE_ARCHIVES_ROUTE,
-					'general'  => Indexable_Indexation_Route::FULL_GENERAL_ROUTE,
-					'complete' => Indexable_Indexation_Route::FULL_COMPLETE_ROUTE,
-				],
-				'nonce'     => \wp_create_nonce( 'wp_rest' ),
-			],
-			'message' => [
-				'indexingCompleted' => '<span class="wpseo-checkmark-ok-icon"></span>' . \esc_html__( 'Good job! You\'ve sped up your site.', 'wordpress-seo' ),
-				'indexingFailed'    => \__( 'Something went wrong while optimizing the SEO data of your site. Please try again later.', 'wordpress-seo' ),
-			],
-			'l10n'    => [
-				'calculationInProgress' => \__( 'Optimization in progress...', 'wordpress-seo' ),
-				'calculationCompleted'  => \__( 'Optimization completed.', 'wordpress-seo' ),
-				'calculationFailed'     => \__( 'Optimization failed, please try again later.', 'wordpress-seo' ),
-			],
-		];
-
-		\wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'indexation', 'yoastIndexationData', $data );
+		// Only enqueue indexation assets when the action is a button.
+		if ( $this->is_on_yoast_tools_page ) {
+			$this->enqueue_indexation_assets();
+		}
 	}
 
 	/**
@@ -207,8 +210,8 @@ class Indexation_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function render_indexation_warning() {
-		if ( current_user_can( 'manage_options' ) ) {
-			echo new Indexation_Warning_Presenter( $this->get_total_unindexed(), $this->options_helper );
+		if ( \current_user_can( 'manage_options' ) ) {
+			echo new Indexation_Warning_Presenter( $this->get_total_unindexed(), $this->options_helper, $this->indexation_action_type );
 		}
 	}
 
@@ -218,7 +221,7 @@ class Indexation_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function render_indexation_modal() {
-		if ( current_user_can( 'manage_options' ) ) {
+		if ( \current_user_can( 'manage_options' ) ) {
 			\add_thickbox();
 
 			echo new Indexation_Modal_Presenter( $this->get_total_unindexed() );
@@ -231,8 +234,19 @@ class Indexation_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function render_indexation_list_item() {
-		if ( current_user_can( 'manage_options' ) ) {
+		if ( \current_user_can( 'manage_options' ) ) {
 			echo new Indexation_List_Item_Presenter( $this->get_total_unindexed() );
+		}
+	}
+
+	/**
+	 * Renders the indexation permalink warning.
+	 *
+	 * @return void
+	 */
+	public function render_indexation_permalink_warning() {
+		if ( \current_user_can( 'manage_options' ) ) {
+			echo new Indexation_Permalink_Warning_Presenter( $this->get_total_unindexed(), $this->options_helper, $this->indexation_action_type );
 		}
 	}
 
@@ -265,6 +279,19 @@ class Indexation_Integration implements Integration_Interface {
 	}
 
 	/**
+	 * Adds the admin notice to show a specific indexation warning.
+	 */
+	protected function add_admin_notice() {
+		if ( $this->options_helper->get( 'indexables_indexation_reason', '' ) !== '' ) {
+			\add_action( 'admin_notices', [ $this, 'render_indexation_permalink_warning' ], 10 );
+
+			return;
+		}
+
+		\add_action( 'admin_notices', [ $this, 'render_indexation_warning' ], 10 );
+	}
+
+	/**
 	 * Returns if the indexation warning is temporarily hidden.
 	 *
 	 * @return bool True if hidden.
@@ -280,6 +307,67 @@ class Indexation_Integration implements Integration_Interface {
 		}
 
 		$hide_until = (int) $this->options_helper->get( 'indexation_warning_hide_until' );
+
 		return ( $hide_until !== 0 && $hide_until >= \time() );
+	}
+
+	/**
+	 * Enqueues the indexation script and style and renders the indexation modal.
+	 */
+	protected function enqueue_indexation_assets() {
+		\add_action( 'admin_footer', [ $this, 'render_indexation_modal' ], 20 );
+
+		$this->asset_manager->enqueue_script( 'indexation' );
+		$this->asset_manager->enqueue_style( 'admin-css' );
+
+		$data = [
+			'amount'  => $this->get_total_unindexed(),
+			'ids'     => [
+				'count'    => '#yoast-indexation-current-count',
+				'progress' => '#yoast-indexation-progress-bar',
+				'modal'    => 'yoast-indexation-wrapper',
+				'message'  => '#yoast-indexation',
+			],
+			'restApi' => [
+				'root'      => \esc_url_raw( \rest_url() ),
+				'endpoints' => [
+					'prepare'  => Indexable_Indexation_Route::FULL_PREPARE_ROUTE,
+					'posts'    => Indexable_Indexation_Route::FULL_POSTS_ROUTE,
+					'terms'    => Indexable_Indexation_Route::FULL_TERMS_ROUTE,
+					'archives' => Indexable_Indexation_Route::FULL_POST_TYPE_ARCHIVES_ROUTE,
+					'general'  => Indexable_Indexation_Route::FULL_GENERAL_ROUTE,
+					'complete' => Indexable_Indexation_Route::FULL_COMPLETE_ROUTE,
+				],
+				'nonce'     => \wp_create_nonce( 'wp_rest' ),
+			],
+			'message' => [
+				'indexingCompleted' => '<span class="wpseo-checkmark-ok-icon"></span>' . \esc_html__( 'Good job! You\'ve sped up your site.', 'wordpress-seo' ),
+				'indexingFailed'    => \__( 'Something went wrong while optimizing the SEO data of your site. Please try again later.', 'wordpress-seo' ),
+			],
+			'l10n'    => [
+				'calculationInProgress' => \__( 'Optimization in progress...', 'wordpress-seo' ),
+				'calculationCompleted'  => \__( 'Optimization completed.', 'wordpress-seo' ),
+				'calculationFailed'     => \__( 'Optimization failed, please try again later.', 'wordpress-seo' ),
+			],
+		];
+
+		\wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'indexation', 'yoastIndexationData', $data );
+	}
+
+	/**
+	 * Hides the notice when the url query contains an argument that hides the notice.
+	 */
+	protected function hide_notice_listener() {
+		if ( ! isset( $_GET['yoast_seo_hide'] ) ) {
+			return;
+		}
+
+		if ( $_GET['yoast_seo_hide'] !== 'indexation_warning' ) {
+			return;
+		}
+
+		\check_admin_referer( 'wpseo-ignore' );
+
+		$this->options_helper->set( 'ignore_indexation_warning', true );
 	}
 }
