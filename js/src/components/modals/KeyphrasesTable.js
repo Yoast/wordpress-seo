@@ -28,10 +28,12 @@ class KeyphrasesTable extends Component {
 		super( props );
 
 		this.transformTrendDataToChartPoints = this.transformTrendDataToChartPoints.bind( this );
+		this.getAreaChartDataTableHeaderLabels = this.getAreaChartDataTableHeaderLabels.bind( this );
+		this.mapAreaChartDataToTableData = this.mapAreaChartDataToTableData.bind( this );
 	}
 
 	/**
-	 * Transform the SEMrush Trend data to x/y points for the SVG area chart.
+	 * Transforms the SEMrush Trend data to x/y points for the SVG area chart.
 	 *
 	 * @param {Object} trend Comma separated list of Trend values for a single keyphrase..
 	 *
@@ -41,6 +43,39 @@ class KeyphrasesTable extends Component {
 		const trendArray = trend.split( "," );
 
 		return trendArray.map( ( value, index ) => ( { x: index, y: parseFloat( value ) } ) );
+	}
+
+	/**
+	 * Gets the labels for the data table headers.
+	 *
+	 * @returns {Array} The data table header labels.
+	 */
+	getAreaChartDataTableHeaderLabels() {
+		return [
+			__( "Twelve months ago", "wordpress-seo" ),
+			__( "Eleven months ago", "wordpress-seo" ),
+			__( "Ten months ago", "wordpress-seo" ),
+			__( "Nine months ago", "wordpress-seo" ),
+			__( "Eight months ago", "wordpress-seo" ),
+			__( "Seven months ago", "wordpress-seo" ),
+			__( "Six months ago", "wordpress-seo" ),
+			__( "Five months ago", "wordpress-seo" ),
+			__( "Four months ago", "wordpress-seo" ),
+			__( "Three months ago", "wordpress-seo" ),
+			__( "Two months ago", "wordpress-seo" ),
+			__( "Last month", "wordpress-seo" ),
+		];
+	}
+
+	/**
+	 * Adapts the chart y axis data to a more meaningful format for the alternative representation in the data table.
+	 *
+	 * @param {number} y The raw y axis data of the chart.
+	 *
+	 * @returns {number} The formatted y axis data.
+	 */
+	mapAreaChartDataToTableData( y ) {
+		return Math.round( y * 100 );
 	}
 
 	/**
@@ -100,6 +135,7 @@ class KeyphrasesTable extends Component {
 							data.results.rows.map( ( row, index ) => {
 								const relatedKeyphrase = row[ 0 ];
 								const chartPoints = this.transformTrendDataToChartPoints( row[ 5 ] );
+								const areaChartDataTableHeaderLabels = this.getAreaChartDataTableHeaderLabels();
 
 								return <tr key={ index }>
 									<td>{ relatedKeyphrase }</td>
@@ -113,6 +149,11 @@ class KeyphrasesTable extends Component {
 											strokeColor="#498afc"
 											fillColor="#ade3fc"
 											className="yoast-related-keyphrases-modal__chart"
+											mapChartDataToTableData={ this.mapAreaChartDataToTableData }
+											dataTableCaption={
+												__( "Keyphrase volume in the last 12 months on a scale from 0 to 100.", "wordpress-seo" )
+											}
+											dataTableHeaderLabels={ areaChartDataTableHeaderLabels }
 										/>
 									</td>
 									{
