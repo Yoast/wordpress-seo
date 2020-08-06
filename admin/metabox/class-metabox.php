@@ -21,18 +21,18 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	private $social_is_enabled;
 
 	/**
-	 * Whether or not the SEO analysis is enabled.
+	 * Helper to determine whether or not the SEO analysis is enabled.
 	 *
-	 * @var bool
+	 * @var WPSEO_Metabox_Analysis_SEO
 	 */
-	protected $seo_analysis_is_enabled;
+	protected $seo_analysis;
 
 	/**
-	 * Whether or not the readability analysis is enabled.
+	 * Helper to determine whether or not the readability analysis is enabled.
 	 *
-	 * @var bool
+	 * @var WPSEO_Metabox_Analysis_Readability
 	 */
-	protected $readability_analysis_is_enabled;
+	protected $readability_analysis;
 
 	/**
 	 * The metabox editor object.
@@ -73,10 +73,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		$this->social_is_enabled = WPSEO_Options::get( 'opengraph', false ) || WPSEO_Options::get( 'twitter', false );
 
-		$seo_analysis = new WPSEO_Metabox_Analysis_SEO();
-		$this->seo_analysis_is_enabled = $seo_analysis->is_enabled();
-		$readability_analysis = new WPSEO_Metabox_Analysis_Readability();
-		$this->readability_analysis_is_enabled = $readability_analysis->is_enabled();
+		$this->seo_analysis = new WPSEO_Metabox_Analysis_SEO();
+		$this->readability_analysis = new WPSEO_Metabox_Analysis_Readability();
 	}
 
 	/**
@@ -370,12 +368,12 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$tabs = [];
 
 		$label = __( 'SEO', 'wordpress-seo' );
-		if ( $this->seo_analysis_is_enabled ) {
+		if ( $this->seo_analysis->is_enabled() ) {
 			$label = '<span class="wpseo-score-icon-container" id="wpseo-seo-score-icon"></span>' . $label;
 		}
 		$tabs[] = new WPSEO_Metabox_Section_React( 'content', $label );
 
-		if ( $this->readability_analysis_is_enabled ) {
+		if ( $this->readability_analysis->is_enabled() ) {
 			$tabs[] = new WPSEO_Metabox_Section_Readability();
 		}
 
@@ -760,11 +758,11 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * @return bool Whether the given meta value key is disabled.
 	 */
 	public function is_meta_value_disabled( $key ) {
-		if ( $key === 'linkdex' && ! $this->seo_analysis_is_enabled ) {
+		if ( $key === 'linkdex' && ! $this->seo_analysis->is_enabled() ) {
 			return true;
 		}
 
-		if ( $key === 'content_score' && ! $this->readability_analysis_is_enabled ) {
+		if ( $key === 'content_score' && ! $this->readability_analysis->is_enabled() ) {
 			return true;
 		}
 

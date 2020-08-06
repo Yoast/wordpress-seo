@@ -34,18 +34,18 @@ class WPSEO_Taxonomy_Metabox {
 	private $social_is_enabled;
 
 	/**
-	 * Whether or not the SEO analysis is enabled.
+	 * Helper to determine whether or not the SEO analysis is enabled.
 	 *
-	 * @var bool
+	 * @var WPSEO_Metabox_Analysis_SEO
 	 */
-	protected $seo_analysis_is_enabled;
+	protected $seo_analysis;
 
 	/**
-	 * Whether or not the readability analysis is enabled.
+	 * Helper to determine whether or not the readability analysis is enabled.
 	 *
-	 * @var bool
+	 * @var WPSEO_Metabox_Analysis_Readability
 	 */
-	protected $readability_analysis_is_enabled;
+	protected $readability_analysis;
 
 	/**
 	 * The constructor.
@@ -58,10 +58,8 @@ class WPSEO_Taxonomy_Metabox {
 		$this->taxonomy             = $taxonomy;
 		$this->social_is_enabled = WPSEO_Options::get( 'opengraph', false ) || WPSEO_Options::get( 'twitter', false );
 
-		$seo_analysis = new WPSEO_Metabox_Analysis_SEO();
-		$this->seo_analysis_is_enabled = $seo_analysis->is_enabled();
-		$readability_analysis = new WPSEO_Metabox_Analysis_Readability();
-		$this->readability_analysis_is_enabled = $readability_analysis->is_enabled();
+		$this->seo_analysis = new WPSEO_Metabox_Analysis_SEO();
+		$this->readability_analysis = new WPSEO_Metabox_Analysis_Readability();
 	}
 
 	/**
@@ -89,6 +87,7 @@ class WPSEO_Taxonomy_Metabox {
 	protected function render_hidden_fields() {
 		$fields_presenter = new WPSEO_Taxonomy_Fields_Presenter( $this->term );
 		$field_definitions = new WPSEO_Taxonomy_Fields();
+
 		echo $fields_presenter->html( $field_definitions->get( 'content' ) );
 		if ( WPSEO_Capability_Utils::current_user_can( 'wpseo_edit_advanced_metadata' ) || WPSEO_Options::get( 'disableadvanced_meta' ) === false ) {
 			echo $fields_presenter->html( $field_definitions->get( 'settings' ) );
@@ -133,13 +132,13 @@ class WPSEO_Taxonomy_Metabox {
 		$tabs = [];
 
 		$label        = __( 'SEO', 'wordpress-seo' );
-		if ( $this->seo_analysis_is_enabled ) {
+		if ( $this->seo_analysis->is_enabled() ) {
 			$label = '<span class="wpseo-score-icon-container" id="wpseo-seo-score-icon"></span>' . $label;
 		}
 
 		$tabs[] = new WPSEO_Metabox_Section_React( 'content', $label );
 
-		if ( $this->readability_analysis_is_enabled ) {
+		if ( $this->readability_analysis->is_enabled() ) {
 			$tabs[] = new WPSEO_Metabox_Section_Readability();
 		}
 
