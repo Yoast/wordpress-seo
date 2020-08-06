@@ -132,25 +132,26 @@ class WPSEO_Admin_Init {
 	}
 
 	/**
-	 * Determines whether a suggested plugins notification needs to be displayed.
+	 * Determines whether a update notification needs to be displayed.
 	 *
 	 * @return void
 	 */
 	public function yoast_plugin_update_notification() {
 		$notification_center = Yoast_Notification_Center::get();
-		$notification     = $this->get_yoast_seo_update_notification();
+		$notification        = $this->get_yoast_seo_update_notification();
+		$dismissal_key 	     = $notification->get_dismissal_key();
 
+		$last_dismissed_version = get_user_option( $dismissal_key );
+		if ( ! $last_dismissed_version || (float) $last_dismissed_version < (float) WPSEO_VERSION ) {
+			Yoast_Notification_Center::restore_notification( $notification );
+		}
 		$notification_center->add_notification( $notification );
 	}
 
 	/**
-	 * Build Yoast SEO suggested plugins notification.
+	 * Build Yoast SEO update notification.
 	 *
-	 * @param string $name            The plugin name to use for the unique ID.
-	 * @param array  $plugin          The plugin to retrieve the data from.
-	 * @param string $dependency_name The name of the dependency.
-	 *
-	 * @return Yoast_Notification The notification containing the suggested plugin.
+	 * @return Yoast_Notification The notification for the present version
 	 */
 	private function get_yoast_seo_update_notification() {
 		$file = plugin_dir_path( WPSEO_FILE ) . 'release-info.json';
@@ -165,7 +166,7 @@ class WPSEO_Admin_Init {
 						) .
 						'</strong>' .
 						$release_info->release_description;
-		$data = (object)[ 'version' => $release_info->version ];
+		$data = (object) [ 'dismiss_value' => $release_info->version ];
 
 		return new Yoast_Notification(
 			$info_message,
@@ -173,7 +174,7 @@ class WPSEO_Admin_Init {
 				'id'            => 'wpseo-plugin-updated',
 				'type'          => Yoast_Notification::UPDATED,
 				'data_json'		=> $data,
-				'dismissal_key' => 'wpseo-plugin-updated-' . $release_info->version,
+				'dismissal_key' => 'wpseo-plugin-updated',
 			]
 		);
 	}
