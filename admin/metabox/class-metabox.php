@@ -14,25 +14,25 @@ use Yoast\WP\SEO\Presenters\Admin\Meta_Fields_Presenter;
 class WPSEO_Metabox extends WPSEO_Meta {
 
 	/**
-	 * Whether or not the social tab is enabled for this metabox.
+	 * Whether or not the social tab is enabled.
 	 *
 	 * @var bool
 	 */
 	private $social_is_enabled;
 
 	/**
-	 * An instance of the Metabox Analysis SEO class.
+	 * Whether or not the SEO analysis is enabled.
 	 *
-	 * @var WPSEO_Metabox_Analysis_SEO
+	 * @var bool
 	 */
-	protected $analysis_seo;
+	protected $seo_analysis_is_enabled;
 
 	/**
-	 * An instance of the Metabox Analysis Readability class.
+	 * Whether or not the readability analysis is enabled.
 	 *
-	 * @var WPSEO_Metabox_Analysis_Readability
+	 * @var bool
 	 */
-	protected $analysis_readability;
+	protected $readability_analysis_is_enabled;
 
 	/**
 	 * The metabox editor object.
@@ -73,8 +73,10 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		$this->social_is_enabled = WPSEO_Options::get( 'opengraph', false ) || WPSEO_Options::get( 'twitter', false );
 
-		$this->analysis_seo         = new WPSEO_Metabox_Analysis_SEO();
-		$this->analysis_readability = new WPSEO_Metabox_Analysis_Readability();
+		$seo_analysis = new WPSEO_Metabox_Analysis_SEO();
+		$this->seo_analysis_is_enabled = $seo_analysis->is_enabled();
+		$readability_analysis = new WPSEO_Metabox_Analysis_Readability();
+		$this->readability_analysis_is_enabled = $readability_analysis->is_enabled();
 	}
 
 	/**
@@ -377,12 +379,12 @@ class WPSEO_Metabox extends WPSEO_Meta {
 //		apply_filters_deprecated( 'wpseo_content_meta_section_content', [''], '14.3' );
 
 		$label = __( 'SEO', 'wordpress-seo' );
-		if ( $this->analysis_seo->is_enabled() ) {
+		if ( $this->seo_analysis_is_enabled ) {
 			$label = '<span class="wpseo-score-icon-container" id="wpseo-seo-score-icon"></span>' . $label;
 		}
-		$tabs[] = new WPSEO_Metabox_Section_React('content', $label, '', [] );
+		$tabs[] = new WPSEO_Metabox_Section_React('content', $label );
 
-		if ( $this->analysis_readability->is_enabled() ) {
+		if ( $this->readability_analysis_is_enabled ) {
 			$tabs[] = new WPSEO_Metabox_Section_Readability();
 		}
 
@@ -767,11 +769,11 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * @return bool Whether the given meta value key is disabled.
 	 */
 	public function is_meta_value_disabled( $key ) {
-		if ( $key === 'linkdex' && ! $this->analysis_seo->is_enabled() ) {
+		if ( $key === 'linkdex' && ! $this->seo_analysis_is_enabled ) {
 			return true;
 		}
 
-		if ( $key === 'content_score' && ! $this->analysis_readability->is_enabled() ) {
+		if ( $key === 'content_score' && ! $this->readability_analysis_is_enabled ) {
 			return true;
 		}
 
