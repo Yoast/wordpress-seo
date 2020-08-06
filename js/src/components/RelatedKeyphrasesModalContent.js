@@ -116,11 +116,6 @@ export default function RelatedKeyphraseModalContent( props ) {
 				renderAction={ renderAction }
 				data={ response }
 			/>
-
-			<h2>Content debug info</h2>
-			<p>
-				The keyphrase is: { keyphrase }<br />
-			</p>
 		</Fragment>
 	);
 }

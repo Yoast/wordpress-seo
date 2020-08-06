@@ -88,11 +88,6 @@ class RelatedKeyphrasesModal extends Component {
 
 							<Slot name="YoastRelatedKeyphrases" />
 
-							<h2>Modal debug info</h2>
-							<p>
-								The location is: { location }<br />
-							</p>
-
 						</ModalContainer>
 					</Modal>
 				}
