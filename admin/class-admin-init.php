@@ -36,6 +36,7 @@ class WPSEO_Admin_Init {
 
 		add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_dismissible' ] );
 		add_action( 'admin_init', [ $this, 'yoast_plugin_suggestions_notification' ], 15 );
+		add_action( 'admin_init', [ $this, 'yoast_plugin_update_notification' ] );
 		add_action( 'admin_init', [ $this, 'unsupported_php_notice' ], 15 );
 		add_action( 'admin_init', [ $this->asset_manager, 'register_assets' ] );
 		add_action( 'admin_init', [ $this, 'show_hook_deprecation_warnings' ] );
@@ -126,6 +127,53 @@ class WPSEO_Admin_Init {
 			[
 				'id'   => 'wpseo-suggested-plugin-' . $name,
 				'type' => Yoast_Notification::WARNING,
+			]
+		);
+	}
+
+	/**
+	 * Determines whether a suggested plugins notification needs to be displayed.
+	 *
+	 * @return void
+	 */
+	public function yoast_plugin_update_notification() {
+		$notification_center = Yoast_Notification_Center::get();
+		$notification     = $this->get_yoast_seo_update_notification();
+
+		$notification_center->add_notification( $notification );
+	}
+
+	/**
+	 * Build Yoast SEO suggested plugins notification.
+	 *
+	 * @param string $name            The plugin name to use for the unique ID.
+	 * @param array  $plugin          The plugin to retrieve the data from.
+	 * @param string $dependency_name The name of the dependency.
+	 *
+	 * @return Yoast_Notification The notification containing the suggested plugin.
+	 */
+	private function get_yoast_seo_update_notification() {
+		$file = plugin_dir_path( WPSEO_FILE ) . 'release-info.json';
+		$release_info = json_decode( file_get_contents( $file ) );
+
+		$info_message = '<strong>' .
+						sprintf(
+							/* translators: %1$s expands to Yoast SEO, %2$s expands to the plugin version, */
+							__( 'New in %1$s %2$s: ', 'wordpress-seo' ),
+							'Yoast SEO',
+							$release_info->version
+						) .
+						'</strong>' .
+						$release_info->release_description;
+		$data = (object)[ 'version' => $release_info->version ];
+
+		return new Yoast_Notification(
+			$info_message,
+			[
+				'id'            => 'wpseo-plugin-updated',
+				'type'          => Yoast_Notification::UPDATED,
+				'data_json'		=> $data,
+				'dismissal_key' => 'wpseo-plugin-updated-' . $release_info->version,
 			]
 		);
 	}
