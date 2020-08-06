@@ -15,10 +15,12 @@ class WPSEO_Taxonomy_Fields {
 	/**
 	 * Returns the taxonomy fields.
 	 *
+	 * @param $field_group The field group.
+	 *
 	 * @return array
 	 */
 	public function get( $field_group ) {
-		$fields= [
+		$fields = [
 			'content'  => $this->get_content_fields(),
 			'settings' => $this->get_settings_fields(),
 			'social'   => $this->get_social_fields(),
@@ -129,28 +131,28 @@ class WPSEO_Taxonomy_Fields {
 
 		if ( WPSEO_Options::get( 'opengraph', false ) === true ) {
 			$fields = [
-				'opengraph-title'       =>  [
+				'opengraph-title'       => [
 					'label'       => '',
 					'description' => '',
 					'type'        => 'hidden',
 					'options'     => '',
 					'hide'        => false,
 				],
-				'opengraph-description' =>  [
+				'opengraph-description' => [
 					'label'       => '',
 					'description' => '',
 					'type'        => 'hidden',
 					'options'     => '',
 					'hide'        => false,
 				],
-				'opengraph-image'       =>  [
+				'opengraph-image'       => [
 					'label'       => '',
 					'description' => '',
 					'type'        => 'hidden',
 					'options'     => '',
 					'hide'        => false,
 				],
-				'opengraph-image-id'    =>  [
+				'opengraph-image-id'    => [
 					'label'       => '',
 					'description' => '',
 					'type'        => 'hidden',
@@ -164,28 +166,28 @@ class WPSEO_Taxonomy_Fields {
 			$fields = array_merge(
 				$fields,
 				[
-					'twitter-title'       =>  [
+					'twitter-title'       => [
 						'label'       => '',
 						'description' => '',
 						'type'        => 'hidden',
 						'options'     => '',
 						'hide'        => false,
 					],
-					'twitter-description' =>  [
+					'twitter-description' => [
 						'label'       => '',
 						'description' => '',
 						'type'        => 'hidden',
 						'options'     => '',
 						'hide'        => false,
 					],
-					'twitter-image'       =>  [
+					'twitter-image'       => [
 						'label'       => '',
 						'description' => '',
 						'type'        => 'hidden',
 						'options'     => '',
 						'hide'        => false,
 					],
-					'twitter-image-id'    =>  [
+					'twitter-image-id'    => [
 						'label'       => '',
 						'description' => '',
 						'type'        => 'hidden',
@@ -208,7 +210,7 @@ class WPSEO_Taxonomy_Fields {
 	 */
 	protected function filter_hidden_fields( array $fields ) {
 		foreach ( $fields as $field_name => $field_options ) {
-			if ( !empty ( $field_options['hide'] ) ) {
+			if ( ! empty( $field_options['hide'] ) ) {
 				unset( $field_groups[ $field_group ][ $field_name ] );
 			}
 		}

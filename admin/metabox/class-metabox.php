@@ -364,19 +364,10 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	/**
 	 * Returns the relevant metabox tabs for the current view.
 	 *
-	 * @param string $post_type The post type.
-	 *
 	 * @return WPSEO_Metabox_Section[]
 	 */
 	private function get_tabs() {
 		$tabs = [];
-
-//		/**
-//		 * Filter: 'wpseo_content_meta_section_content' - Allow filtering the metabox content before outputting.
-//		 *
-//		 * @api string $post_content The metabox content string.
-//		 */
-//		apply_filters_deprecated( 'wpseo_content_meta_section_content', [''], '14.3' );
 
 		$label = __( 'SEO', 'wordpress-seo' );
 		if ( $this->seo_analysis_is_enabled ) {

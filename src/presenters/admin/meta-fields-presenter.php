@@ -29,10 +29,11 @@ class Meta_Fields_Presenter extends Abstract_Presenter {
 	 *
 	 * @param \WP_Post $post        The metabox post.
 	 * @param string   $field_group The key under which a group of fields is grouped.
+	 * @param string   $post_type   The post type.
 	 */
 	public function __construct( $post, $field_group, $post_type = 'post' ) {
 		$this->post = $post;
-		$this->meta_fields =  WPSEO_Meta::get_meta_field_defs( $field_group, $post_type );
+		$this->meta_fields = WPSEO_Meta::get_meta_field_defs( $field_group, $post_type );
 	}
 
 	/**
