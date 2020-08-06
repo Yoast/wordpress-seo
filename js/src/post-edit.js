@@ -4,22 +4,43 @@ import initPostScraper from "./initializers/post-scraper";
 import initFeaturedImageIntegration from "./initializers/featured-image";
 import initAdminMedia from "./initializers/admin-media";
 import initAdmin from "./initializers/admin";
+import initEditorStore from "./initializers/editor-store";
+import domReady from "@wordpress/dom-ready";
 
 // Backwards compatibility globals.
 window.wpseoPostScraperL10n = window.wpseoScriptData.metabox;
 window.wpseoShortcodePluginL10n = window.wpseoScriptData.analysis.plugins.shortcodes;
 
-initTabs( jQuery );
+window.YoastSEO = window.YoastSEO || {};
 
-if ( typeof wpseoPrimaryCategoryL10n !== "undefined" ) {
-	initPrimaryCategory( jQuery );
-}
+domReady( () => {
+	// Initialize the tab behavior of the metabox.
+	initTabs( jQuery );
 
-initPostScraper( jQuery );
+	// Initialize the primary category integration.
+	if ( typeof wpseoPrimaryCategoryL10n !== "undefined" ) {
+		initPrimaryCategory( jQuery );
+	}
 
-if ( window.wpseoScriptData && typeof window.wpseoScriptData.featuredImage !== "undefined" ) {
-	initFeaturedImageIntegration( jQuery );
-}
+	// Initialize the editor store.
+	const store = initEditorStore();
 
-initAdminMedia( jQuery );
-initAdmin( jQuery );
+	// Initialize the editor integration
+	window.yoast.initEditorIntegration( store );
+	const editorData = new window.yoast.EditorData( () => {}, store );
+	editorData.initialize( window.wpseoScriptData.analysis.plugins.replaceVars.replace_vars );
+
+	// Initialize the post scraper.
+	initPostScraper( jQuery, store, editorData );
+
+	// Initialize the featured image integration.
+	if ( window.wpseoScriptData && typeof window.wpseoScriptData.featuredImage !== "undefined" ) {
+		initFeaturedImageIntegration( jQuery );
+	}
+
+	// Initialize the media library for our social settings.
+	initAdminMedia( jQuery );
+
+	// Initialize global admin scripts.
+	initAdmin( jQuery );
+} );

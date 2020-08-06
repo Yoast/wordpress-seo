@@ -1,9 +1,8 @@
 // Mock the jQuery global before importing data.
 global.jQuery = {};
 
-import Data from "../src/analysis/data.js";
+import BlockEditorData from "../src/analysis/blockEditorData.js";
 
-const wpData = {};
 // eslint-disable-next-line require-jsdoc
 const refresh = () => {
 	return true;
@@ -11,25 +10,25 @@ const refresh = () => {
 const store = {
 	dispatch: jest.fn(),
 };
-const data = new Data( wpData, refresh, store );
-
-// Mocks the select function and .
-const mockSelect = jest.fn();
 
 // Mocks the getEditedPostAttribute function.
 const mockGetEditedPostAttribute = jest.fn().mockImplementation( value => value );
 
-// Mocks the getEditedPostContent function.
-const mockGetEditedPostContent = jest.fn().mockReturnValue( "" );
-
 // Ensures mockSelect.getEditedPostAttribute is a function.
-mockSelect.mockReturnValue( {
-	getEditedPostAttribute: mockGetEditedPostAttribute,
-	getEditedPostContent: mockGetEditedPostContent,
-	getActiveMarker: () => null,
+jest.mock( "@wordpress/data", () => {
+	return {
+		select: () => {
+			return {
+				getEditedPostAttribute: mockGetEditedPostAttribute,
+				getEditedPostContent: jest.fn().mockReturnValue( "" ),
+				getActiveMarker: () => null,
+			};
+		},
+		subscribe: () => {},
+	};
 } );
 
-data._wpData.select = mockSelect;
+const data = new BlockEditorData( refresh, store );
 
 describe( "setRefresh", () => {
 	it( "sets the refresh function", () => {

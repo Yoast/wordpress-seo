@@ -1,7 +1,7 @@
 import { initializeData } from "../src/initializers/edit.js";
 import ClassicEditorData from "../src/analysis/classicEditorData.js";
-import Data from "../src/analysis/data.js";
-import isGutenbergDataAvailable from "../src/helpers/isGutenbergDataAvailable";
+import BlockEditorData from "../src/analysis/blockEditorData.js";
+import isBlockEditor from "../src/helpers/isBlockEditor";
 
 jest.mock( "react-dom" );
 jest.mock( "../src/analysis/classicEditorData.js", () => {
@@ -20,7 +20,7 @@ jest.mock( "../src/analysis/data.js", () => {
 	} );
 } );
 
-jest.mock( "../src/helpers/isGutenbergDataAvailable", () => {
+jest.mock( "../src/helpers/isBlockEditor", () => {
 	return jest.fn();
 } );
 
@@ -31,11 +31,11 @@ describe( "initializeData", () => {
 				locale: "en_EN",
 			},
 		};
-		isGutenbergDataAvailable.mockImplementation( () => {
+		isBlockEditor.mockImplementation( () => {
 			return true;
 		} );
 		initializeData( {}, {}, {} );
-		expect( Data ).toHaveBeenCalledTimes( 1 );
+		expect( BlockEditorData ).toHaveBeenCalledTimes( 1 );
 	} );
 } );
 
@@ -65,7 +65,7 @@ describe( "initialize", () => {
 				locale: "en_EN",
 			},
 		};
-		isGutenbergDataAvailable.mockImplementation( () => {
+		isBlockEditor.mockImplementation( () => {
 			return false;
 		} );
 		initializeData( {}, {}, {} );

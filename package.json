@@ -108,6 +108,7 @@
   },
   "dependencies": {
     "@babel/runtime": "7.0.0-beta.55",
+    "@wordpress/dom-ready": "^2.10.0",
     "@yoast/analysis-report": "^1.9.0-rc.0",
     "@yoast/components": "^2.7.0-rc.0",
     "@yoast/configuration-wizard": "^2.9.0-rc.0",
