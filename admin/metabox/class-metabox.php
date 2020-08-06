@@ -306,6 +306,16 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * Outputs the meta box.
 	 */
 	public function meta_box() {
+		$this->render_hidden_fields();
+		$this->render_tabs();
+	}
+
+	/**
+	 * Renders the metabox hidden fields.
+	 *
+	 * @return void
+	 */
+	protected function render_hidden_fields() {
 		wp_nonce_field( 'yoast_free_metabox', 'yoast_free_metabox_nonce' );
 
 		echo new Meta_Fields_Presenter( $this->post, 'general' );
@@ -318,7 +328,14 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		if ( $this->social_is_enabled ) {
 			echo new Meta_Fields_Presenter( $this->post,'social' );
 		}
+	}
 
+	/**
+	 * Renders the metabox tabs.
+	 *
+	 * @return void
+	 */
+	protected function render_tabs() {
 		echo '<div class="wpseo-metabox-content">';
 		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: $this->get_product_title is considered safe.
 		printf( '<div class="wpseo-metabox-menu"><ul role="tablist" class="yoast-aria-tabs" aria-label="%s">', $this->get_product_title() );
