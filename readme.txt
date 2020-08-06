@@ -219,7 +219,6 @@ Enhancements:
 
 * Adds a new schema tab to our metabox. This tab allows the user to change their schema settings on posts, pages and custom post types.
 * Adds a new section to the search appearance settings. This section allows the user to change their schema defaults for posts, pages and custom post types.
-* Updates the progress-bar in the indexation to the new styling.
 * Improves accuracy for the following assessments for languages written right-to-left: sentence length, keyphrase in introduction, keyphrase distribution, keyphrase density, keyphrase in meta description. 
 * Improves all keyphrase-based assessments for Arabic by allowing keyphrases to be recognized in text when preceded by a prefix (e.g., "ل" or "ب") and filtering function words. 
 * Fixes inconsistency in feedback strings that are produced by the Keyphrase in SEO Title assessment. 
