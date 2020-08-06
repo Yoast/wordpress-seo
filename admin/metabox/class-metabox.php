@@ -373,7 +373,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		if ( $this->seo_analysis_is_enabled ) {
 			$label = '<span class="wpseo-score-icon-container" id="wpseo-seo-score-icon"></span>' . $label;
 		}
-		$tabs[] = new WPSEO_Metabox_Section_React('content', $label );
+		$tabs[] = new WPSEO_Metabox_Section_React( 'content', $label );
 
 		if ( $this->readability_analysis_is_enabled ) {
 			$tabs[] = new WPSEO_Metabox_Section_Readability();

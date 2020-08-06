@@ -15,7 +15,7 @@ class WPSEO_Taxonomy_Fields {
 	/**
 	 * Returns the taxonomy fields.
 	 *
-	 * @param $field_group The field group.
+	 * @param $field_group string The field group.
 	 *
 	 * @return array
 	 */
