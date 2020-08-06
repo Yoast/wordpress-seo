@@ -12,9 +12,11 @@ class WPSEO_Taxonomy_Settings_Fields extends WPSEO_Taxonomy_Fields {
 	/**
 	 * Returns array with the fields for the General tab.
 	 *
+	 * @deprecated 14.9
 	 * @return array Fields to be used on the General tab.
 	 */
 	public function get() {
+		_deprecated_function( __METHOD__, '14.9', 'WPSEO_Taxonomy_Fields::get' );
 		return [];
 	}
 }

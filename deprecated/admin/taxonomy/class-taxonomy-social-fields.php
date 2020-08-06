@@ -12,9 +12,11 @@ class WPSEO_Taxonomy_Social_Fields extends WPSEO_Taxonomy_Fields {
 	/**
 	 * Returning the fields for the social media tab.
 	 *
+	 * @deprecated 14.9
 	 * @return array
 	 */
 	public function get() {
+		_deprecated_function( __METHOD__, '14.9', 'WPSEO_Taxonomy_Fields::get' );
 		return [];
 	}
 }
