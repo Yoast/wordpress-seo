@@ -328,6 +328,12 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		if ( $this->social_is_enabled ) {
 			echo new Meta_Fields_Presenter( $this->post,'social' );
 		}
+
+		/**
+		 * Filter: 'wpseo_content_meta_section_content' - Allow filtering the metabox content before outputting.
+		 * @api string $post_content The metabox content string.
+		 */
+		echo apply_filters( 'wpseo_content_meta_section_content', '' );
 	}
 
 	/**
