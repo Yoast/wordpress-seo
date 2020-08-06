@@ -81,17 +81,6 @@ class WPSEO_Ryte implements WPSEO_WordPress_Integration {
 	 * @return void
 	 */
 	public function maybe_add_weekly_schedule() {
-		$schedules = wp_get_schedules();
-
-		/*
-		 * Starting with version 5.4, WordPress does have a default weekly cron
-		 * schedule. See https://core.trac.wordpress.org/changeset/47062.
-		 * We need to add a custom one only if the default one doesn't exist.
-		 */
-		if ( isset( $schedules['weekly'] ) ) {
-			return;
-		}
-
 		// If there's no default cron weekly schedule, add a custom one.
 		add_filter( 'cron_schedules', [ $this, 'add_weekly_schedule' ] );
 	}
@@ -106,6 +95,15 @@ class WPSEO_Ryte implements WPSEO_WordPress_Integration {
 	public function add_weekly_schedule( $schedules ) {
 		if ( ! is_array( $schedules ) ) {
 			$schedules = [];
+		}
+
+		/*
+		 * Starting with version 5.4, WordPress does have a default weekly cron
+		 * schedule. See https://core.trac.wordpress.org/changeset/47062.
+		 * We need to add a custom one only if the default one doesn't exist.
+		 */
+		if ( isset( $schedules['weekly'] ) ) {
+			return $schedules;
 		}
 
 		$schedules['weekly'] = [
