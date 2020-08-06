@@ -37,10 +37,8 @@ class Post_Helper {
 	 *
 	 * @codeCoverageIgnore It only sets dependencies.
 	 */
-	public function __construct(
-		String_Helper $string
-	) {
-		$this->string     = $string;
+	public function __construct( String_Helper $string ) {
+		$this->string = $string;
 	}
 
 	/**
