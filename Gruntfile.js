@@ -29,10 +29,10 @@ module.exports = function( grunt ) {
 			 * @returns {string} Config path.
 			 */
 			get config() {
-				return this.grunt + "config/";
+				return this.grunt + "tasks/";
 			},
 			css: "css/dist/",
-			grunt: "grunt/",
+			grunt: "config/grunt/",
 			images: "images/",
 			js: "js/src/",
 			languages: "languages/",
@@ -137,7 +137,7 @@ module.exports = function( grunt ) {
 				"register-prompt": "grunt-prompt",
 				"notify-slack": "notify-slack",
 			},
-			customTasksDir: "grunt/custom",
+			customTasksDir: "config/grunt/custom-tasks",
 		},
 	} );
 };
