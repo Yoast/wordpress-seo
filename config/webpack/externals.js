@@ -37,6 +37,7 @@ const wordpressPackages = [
 	"@wordpress/i18n",
 	"@wordpress/is-shallow-equal",
 	"@wordpress/keycodes",
+	"@wordpress/plugins",
 	"@wordpress/rich-text",
 	"@wordpress/server-side-render",
 	"@wordpress/url",
