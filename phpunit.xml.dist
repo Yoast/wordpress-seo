@@ -1,7 +1,7 @@
 <phpunit
 	backupGlobals="false"
 	backupStaticAttributes="false"
-	bootstrap="tests/bootstrap.php"
+	bootstrap="tests/unit/bootstrap.php"
 	colors="true"
 	convertErrorsToExceptions="true"
 	convertNoticesToExceptions="true"
@@ -16,7 +16,7 @@
 	>
 	<testsuites>
 		<testsuite name="main">
-			<directory suffix="-test.php">./tests/</directory>
+			<directory suffix="-test.php">./tests/unit/</directory>
 		</testsuite>
 	</testsuites>
 

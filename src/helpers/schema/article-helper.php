@@ -35,4 +35,15 @@ class Article_Helper {
 
 		return \in_array( $post_type, $post_types, true );
 	}
+
+	/**
+	 * Checks whether author is supported for the passed object sub type.
+	 *
+	 * @param string $object_sub_type The sub type of the object to check author support for.
+	 *
+	 * @return bool True if author is supported for the passed object sub type.
+	 */
+	public function is_author_supported( $object_sub_type ) {
+		return \post_type_supports( $object_sub_type, 'author' );
+	}
 }

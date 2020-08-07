@@ -11,6 +11,7 @@ namespace Yoast\WP\SEO\Presenters;
  * Class Url_List_Presenter
  */
 class Url_List_Presenter extends Abstract_Presenter {
+
 	/**
 	 * @var array A list of arrays containing titles and urls.
 	 */
@@ -24,11 +25,11 @@ class Url_List_Presenter extends Abstract_Presenter {
 	/**
 	 * Url_List_Presenter constructor.
 	 *
-	 * @param array  $links A list of arrays containing titles and urls.
+	 * @param array  $links      A list of arrays containing titles and urls.
 	 * @param string $class_name Classname for the url list.
 	 */
 	public function __construct( $links, $class_name = 'yoast-url-list' ) {
-		$this->links = $links;
+		$this->links      = $links;
 		$this->class_name = $class_name;
 	}
 

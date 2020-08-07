@@ -295,9 +295,12 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 	/**
 	 * Outputs the meta box.
+	 *
+	 * @param WP_Post $post The post.
 	 */
-	public function meta_box() {
-		$content_sections = $this->get_content_sections();
+	public function meta_box( $post ) {
+
+		$content_sections = $this->get_content_sections( $post->post_type );
 
 		echo '<div class="wpseo-metabox-content">';
 		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: $this->get_product_title is considered safe.
@@ -323,9 +326,11 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	/**
 	 * Returns the relevant metabox sections for the current view.
 	 *
+	 * @param string $post_type The post type.
+	 *
 	 * @return WPSEO_Metabox_Section[]
 	 */
-	private function get_content_sections() {
+	private function get_content_sections( $post_type ) {
 		$content_sections = [];
 
 		$content_sections[] = $this->get_seo_meta_section();
@@ -333,6 +338,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		if ( $this->analysis_readability->is_enabled() ) {
 			$content_sections[] = $this->get_readability_meta_section();
 		}
+
+		$content_sections[] = $this->get_schema_meta_section( $post_type );
 
 		// Whether social is enabled.
 		if ( $this->social_is_enabled ) {
@@ -405,6 +412,22 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	}
 
 	/**
+	 * Returns the metabox section for the schema tab.
+	 *
+	 * @param string $post_type The post type.
+	 *
+	 * @return WPSEO_Metabox_Section_React
+	 */
+	private function get_schema_meta_section( $post_type ) {
+		$content = $this->get_tab_content( 'schema', $post_type );
+		return new WPSEO_Metabox_Section_React(
+			'schema',
+			'<span class="wpseo-schema-icon"></span>' . __( 'Schema', 'wordpress-seo' ),
+			$content
+		);
+	}
+
+	/**
 	 * Returns the metabox section for the readability analysis.
 	 *
 	 * @return WPSEO_Metabox_Section
@@ -466,13 +489,14 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	/**
 	 * Retrieves the contents for the metabox tab.
 	 *
-	 * @param string $tab_name Tab for which to retrieve the field definitions.
+	 * @param string $tab_name  Tab for which to retrieve the field definitions.
+	 * @param string $post_type The post type. Defaults to post.
 	 *
 	 * @return string
 	 */
-	private function get_tab_content( $tab_name ) {
+	private function get_tab_content( $tab_name, $post_type = 'post' ) {
 		$content = '';
-		foreach ( WPSEO_Meta::get_meta_field_defs( $tab_name ) as $key => $meta_field ) {
+		foreach ( WPSEO_Meta::get_meta_field_defs( $tab_name, $post_type ) as $key => $meta_field ) {
 			$content .= $this->do_meta_box( $meta_field, $key );
 		}
 
@@ -511,6 +535,11 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			$description      = '<p id="' . $esc_form_key . '-desc" class="yoast-metabox__description">' . $meta_field_def['description'] . '</p>';
 		}
 
+		// Add a hide_on_pages option that returns nothing when the field is rendered on a page.
+		if ( isset( $meta_field_def['hide_on_pages'] ) && $meta_field_def['hide_on_pages'] && get_post_type() === 'page' ) {
+			return '';
+		}
+
 		switch ( $meta_field_def['type'] ) {
 			case 'text':
 				$ac = '';
@@ -539,7 +568,11 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				break;
 
 			case 'hidden':
-				$content .= '<input type="hidden" id="' . $esc_form_key . '" name="' . $esc_form_key . '" value="' . esc_attr( $meta_value ) . '"/>' . "\n";
+				$default = '';
+				if ( isset( $meta_field_def['default'] ) ) {
+					$default = sprintf( ' data-default="%s"', esc_attr( $meta_field_def['default'] ) );
+				}
+				$content .= '<input type="hidden" id="' . $esc_form_key . '" name="' . $esc_form_key . '" value="' . esc_attr( $meta_value ) . '"' . $default . '/>' . "\n";
 				break;
 			case 'select':
 				if ( isset( $meta_field_def['options'] ) && is_array( $meta_field_def['options'] ) && $meta_field_def['options'] !== [] ) {
@@ -725,7 +758,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			$meta_boxes,
 			WPSEO_Meta::get_meta_field_defs( 'general', $post->post_type ),
 			WPSEO_Meta::get_meta_field_defs( 'advanced' ),
-			$social_fields
+			$social_fields,
+			WPSEO_Meta::get_meta_field_defs( 'schema', $post->post_type )
 		);
 
 		foreach ( $meta_boxes as $key => $meta_box ) {
@@ -828,6 +862,13 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$asset_manager->enqueue_style( 'select2' );
 		$asset_manager->enqueue_style( 'monorepo' );
 
+		$is_block_editor = WP_Screen::get()->is_block_editor();
+		if ( $is_block_editor ) {
+			$asset_manager->enqueue_script( 'block-editor' );
+		}
+		else {
+			$asset_manager->enqueue_script( 'classic-editor' );
+		}
 		$asset_manager->enqueue_script( 'post-edit' );
 		$asset_manager->enqueue_style( 'admin-css' );
 
@@ -876,6 +917,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			'metabox'          => $this->get_metabox_script_data(),
 			'userLanguageCode' => WPSEO_Language_Utils::get_language( WPSEO_Language_Utils::get_user_locale() ),
 			'isPost'           => true,
+			'isBlockEditor'    => $is_block_editor,
 		];
 
 		if ( post_type_supports( get_post_type(), 'thumbnail' ) ) {

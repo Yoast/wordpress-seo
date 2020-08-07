@@ -56,7 +56,8 @@ $knowledge_graph_help = new WPSEO_Admin_Help_Panel(
 		if ( empty( $yoast_seo_company_name ) || empty( $yoast_seo_company_logo ) ) :
 			?>
 			<div id="knowledge-graph-company-warning"></div>
-		<?php endif;
+			<?php
+		endif;
 
 		$yform->textinput( 'company_name', __( 'Organization name', 'wordpress-seo' ), [ 'autocomplete' => 'organization' ] );
 		$yform->media_input( 'company_logo', __( 'Organization logo', 'wordpress-seo' ) );

@@ -3,6 +3,13 @@
 @import "../../node_modules/draft-js/dist/Draft.css";
 /*rtl:end:ignore*/
 
+.yoast-schema-settings-container {
+	margin-top: 18px;
+}
+.yoast-schema-settings-container:first-child {
+	margin-top: 0px;
+}
+
 .draftJsMentionPlugin__mention__29BEd, .draftJsMentionPlugin__mention__29BEd:visited {
   color: #575f67;
   cursor: pointer;
