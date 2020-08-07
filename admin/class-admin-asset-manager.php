@@ -318,23 +318,6 @@ class WPSEO_Admin_Asset_Manager {
 				],
 			],
 			[
-				'name' => 'primary-category',
-				'src'  => 'wp-seo-metabox-category-' . $flat_version,
-				'deps' => [
-					'jquery',
-					'wp-url',
-					'wp-util',
-					'wp-element',
-					'wp-i18n',
-					'wp-components',
-					'wp-data',
-					'wp-url',
-					self::PREFIX . 'analysis',
-					self::PREFIX . 'components',
-					self::PREFIX . 'commons',
-				],
-			],
-			[
 				'name'    => 'select2',
 				'src'     => 'select2/select2.full',
 				'suffix'  => '.min',
