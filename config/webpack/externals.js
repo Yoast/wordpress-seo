@@ -51,23 +51,22 @@ const wordpressPackages = [
 const { dependencies } = require( '../../package' );
 const legacyYoastPackages = [ 'yoast-components' ];
 
-const YOAST_NAMESPACE = '@yoast/';
+const YOAST_PACKAGE_NAMESPACE = '@yoast/';
 
 // Fetch all packages from the dependencies list.
 const yoastPackages = Object.keys( dependencies )
 	.filter(
 		( packageName ) =>
-			packageName.startsWith( YOAST_NAMESPACE ) ||
+			packageName.startsWith( YOAST_PACKAGE_NAMESPACE ) ||
 			legacyYoastPackages.includes( packageName )
-	)
-	.map( ( packageName ) => packageName.replace( YOAST_NAMESPACE, '' ) );
+	);
 
 /**
  * Convert packages to externals configuration.
  */
 // Yoast Packages.
 const yoastExternals = yoastPackages.reduce( ( memo, packageName ) => {
-	let useablePackageName = packageName;
+	let useablePackageName = packageName.replace( YOAST_PACKAGE_NAMESPACE, '' );
 
 	// Handle the difference between yoast-components and @yoast/components.
 	useablePackageName = ( useablePackageName === 'components' ) ? 'components-new' : useablePackageName;
@@ -95,4 +94,5 @@ module.exports = {
 	externals,
 	yoastExternals,
 	wordpressExternals,
+	YOAST_PACKAGE_NAMESPACE
 }

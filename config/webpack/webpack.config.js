@@ -8,6 +8,7 @@ const BundleAnalyzerPlugin = require( "webpack-bundle-analyzer" ).BundleAnalyzer
 const MiniCssExtractPlugin = require( "mini-css-extract-plugin" );
 
 const { externals, yoastExternals, wordpressExternals } = require( './externals' );
+const { YOAST_PACKAGE_NAMESPACE } = require( './externals' );
 
 const root = path.join( __dirname, "../../" );
 const mainEntry = mapValues( paths.entry, entry => {
@@ -248,12 +249,14 @@ module.exports = function( env ) {
 	for (const [key, value] of Object.entries(yoastExternals)) {
 		const yoastExternalsExcludingCurrent = Object.assign({}, yoastExternals);
 		// Remove the current external to avoid self-reference.
-		delete yoastExternalsExcludingCurrent[value];
+		delete yoastExternalsExcludingCurrent[key];
+
+		const packageName = key.replace( YOAST_PACKAGE_NAMESPACE, '' );
 
 		config.push({
 			...base,
 			entry: {
-				[key]: "./js/src/externals/yoast/" + key + ".js",
+				[packageName]: "./js/src/externals/yoast/" + packageName + ".js",
 			},
 			output: {
 				path: path.resolve(),
