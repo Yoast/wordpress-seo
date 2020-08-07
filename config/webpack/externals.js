@@ -24,6 +24,7 @@ const externals = {
  * WordPress dependencies.
  */
 const wordpressPackages = [
+	"@wordpress/a11y",
 	"@wordpress/api-fetch",
 	"@wordpress/block-editor",
 	"@wordpress/blocks",
@@ -31,9 +32,10 @@ const wordpressPackages = [
 	"@wordpress/compose",
 	"@wordpress/data",
 	"@wordpress/dom",
+	"@wordpress/dom-ready",
+	"@wordpress/edit-post",
 	"@wordpress/element",
 	"@wordpress/html-entities",
-	"@wordpress/edit-post",
 	"@wordpress/i18n",
 	"@wordpress/is-shallow-equal",
 	"@wordpress/keycodes",
@@ -41,8 +43,6 @@ const wordpressPackages = [
 	"@wordpress/rich-text",
 	"@wordpress/server-side-render",
 	"@wordpress/url",
-	"@wordpress/dom-ready",
-	"@wordpress/a11y",
 ];
 
 /**
