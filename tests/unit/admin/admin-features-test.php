@@ -45,6 +45,17 @@ class Admin_Features_Test extends TestCase {
 	}
 
 	/**
+	 * Loads the yoast seo functions.
+	 */
+	public function setUp() {
+		parent::setUp();
+
+		if ( ! function_exists( 'YoastSEO' ) ) {
+			require_once WPSEO_PATH . 'src/functions.php';
+		}
+	}
+
+	/**
 	 * Test that admin_features returns the correct array when we're editing/creating a post.
 	 *
 	 * @covers ::get_admin_features
