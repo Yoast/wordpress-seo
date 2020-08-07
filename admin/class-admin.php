@@ -74,7 +74,7 @@ class WPSEO_Admin {
 		WPSEO_Sitemaps_Cache::register_clear_on_option_update( 'wpseo' );
 		WPSEO_Sitemaps_Cache::register_clear_on_option_update( 'home' );
 
-		if ( WPSEO_Utils::is_yoast_seo_page() ) {
+		if ( YoastSEO()->helpers->current_page->is_yoast_seo_page() ) {
 			add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_assets' ] );
 		}
 
