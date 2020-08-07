@@ -123,6 +123,7 @@ import ProgressBar from "./ui/progressBar";
 						.html( "<p>" + settings.message.indexingCompleted + "</p>" )
 						.show()
 						.addClass( "notice-success" )
+						.removeClass( "notice-error" )
 						.removeClass( "notice-warning" );
 					$( settings.ids.message ).html( settings.message.indexingCompleted );
 
@@ -142,6 +143,7 @@ import ProgressBar from "./ui/progressBar";
 					$( settings.ids.message ).html( settings.message.indexingFailed );
 
 					tb_remove();
+					indexationInProgress = false;
 				} );
 			}
 		} );
@@ -179,7 +181,9 @@ import ProgressBar from "./ui/progressBar";
 		if ( window.location.hash && window.location.hash.startsWith( "#start-indexation-" ) ) {
 			$( ".yoast-open-indexation" ).each( function() {
 				if ( window.location.hash.endsWith( $( this ).data( "settings" ) ) ) {
-					$( this ).click();
+					$( () => {
+						$( this ).click();
+					} );
 				}
 			} );
 		}

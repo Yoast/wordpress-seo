@@ -15,7 +15,7 @@ if ( ! function_exists( 'add_filter' ) ) {
  * {@internal Nobody should be able to overrule the real version number as this can cause
  *            serious issues with the options, so no if ( ! defined() ).}}
  */
-define( 'WPSEO_VERSION', '14.7-RC1' );
+define( 'WPSEO_VERSION', '14.8-RC1' );
 
 
 if ( ! defined( 'WPSEO_PATH' ) ) {
@@ -180,6 +180,11 @@ function _wpseo_activate() {
 	else {
 		$wpseo_rewrite = new WPSEO_Rewrite();
 		$wpseo_rewrite->schedule_flush();
+	}
+
+	// Reset tracking to be disabled by default.
+	if ( ! WPSEO_Utils::is_yoast_seo_premium() ) {
+		WPSEO_Options::set( 'tracking', false );
 	}
 
 	do_action( 'wpseo_register_roles' );
@@ -481,8 +486,6 @@ if ( ! wp_installing() && ( $spl_autoload_exists && $filter_exists ) ) {
 		add_action( 'plugins_loaded', 'wpseo_cli_init', 20 );
 	}
 
-	add_filter( 'phpcompat_whitelist', 'yoast_free_phpcompat_whitelist' );
-
 	add_action( 'init', [ 'WPSEO_Replace_Vars', 'setup_statics_once' ] );
 }
 
@@ -609,32 +612,6 @@ function yoast_wpseo_self_deactivate() {
 			unset( $_GET['activate'] );
 		}
 	}
-}
-
-/**
- * Excludes specific files from php-compatibility-checker.
- *
- * @since 9.4
- *
- * @param array $ignored Array of ignored directories/files.
- *
- * @return array Array of ignored directories/files.
- */
-function yoast_free_phpcompat_whitelist( $ignored ) {
-	$path = '*/' . basename( WPSEO_PATH ) . '/';
-
-	// To prevent: (warning) File has mixed line endings; this may cause incorrect results.
-	$ignored[] = $path . 'vendor/ruckusing/lib/Ruckusing/FrameworkRunner.php';
-	$ignored[] = $path . 'vendor_prefixed/ruckusing/lib/Ruckusing/FrameworkRunner.php';
-
-	/*
-	 * To prevent: (error) Extension 'sqlite' is removed since PHP 5.4.
-	 * Ignoring because we are not using the sqlite functionality.
-	 */
-	$ignored[] = $path . 'vendor/ruckusing/lib/Ruckusing/Adapter/Sqlite3/Base.php';
-	$ignored[] = $path . 'vendor_prefixed/ruckusing/lib/Ruckusing/Adapter/Sqlite3/Base.php';
-
-	return $ignored;
 }
 
 /* ********************* DEPRECATED METHODS ********************* */

@@ -4,9 +4,8 @@ Donate link: https://yoa.st/1up
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
-Requires at least: 5.3
-Tested up to: 5.4.1
-Stable tag: 14.6.1
+Tested up to: 5.5
+Stable tag: 14.7
 Requires PHP: 5.6.20
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -209,60 +208,64 @@ Your question has most likely been answered on our knowledge base: [kb.yoast.com
 
 == Changelog ==
 
-= 14.7 =
-Release Date: August 4th, 2020
-
-Enhancements:
-
- * Shows a more specific notification when the permalinks are reset or when the category base setting is changed.
+= 14.8 =
+Release Date: August 18th, 2020
 
 Bugfixes:
 
- * Ensures the indexation spots the indexables without a permalink.
- * Fixes a bug where an indexable's permalink remained unchanged when the categories prefix option was changed.
+* Fixes a bug where the Yoast Dashboard widget may trigger an error when other plugins or temporary conditions make the Yoast API response fail. [#15797](https://github.com/Yoast/wordpress-seo/pull/15797)
 
+Enhancements:
+
+* Adds a new schema tab to our metabox. This tab allows the user to change their schema settings on posts, pages and custom post types.
+* Adds a new section to the search appearance settings. This section allows the user to change their schema defaults for posts, pages and custom post types.
+* Updates the progress-bar in the indexation to the new styling.
+* Improves accuracy for the following assessments for languages written right-to-left: sentence length, keyphrase in introduction, keyphrase distribution, keyphrase density, keyphrase in meta description. 
+* Improves all keyphrase-based assessments for Arabic by allowing keyphrases to be recognized in text when preceded by a prefix (e.g., "ل" or "ب") and filtering function words. 
+* Fixes inconsistency in feedback strings that are produced by the Keyphrase in SEO Title assessment. 
+* Adds the Sentence beginnings assessment for Indonesian. 
+* Adds Transition words assessment for Indonesian. 
+* Adds Passive voice assessment for Indonesian. 
+* Adds Flesch reading ease assessment for Portuguese. 
+* Adds passive voice assessment for Portuguese. 
+
+Other:
+
+* Sets minimum WP version to 5.4
+* Optimizes the logic involved in default filters for our options. This should lead to a very small increase in performance as well as avoiding an edge case where the default filter would be removed.
+
+= 14.7 =
+Release Date: August 5th, 2020
+
+Say hi to Yoast SEO 14.7, chock-full of enhancements to help you with your site's SEO. Have you heard about the addition of XML sitemaps in WordPress 5.5? The Yoast SEO plugin is completely prepared for this. We also have some great news for users of the Web Stories plugin. Read more about those changes in [our release post](https://yoa.st/release-14-7)!
+
+Enhancements:
+
+ * Adds support for adding metadata to Web Stories (the `web-story` post type) from the [Web Stories](https://github.com/google/web-stories-wp) plugin. Props to [swissspidy](https://github.com/swissspidy)
+ * Shows a more specific notification about why the reindexing of SEO data is needed when the permalinks are reset or when the category base setting is changed.
+ * Redirects requests to the WordPress sitemaps to the appropriate Yoast sitemap, if the Yoast sitemaps are enabled.
+ * Adds the option for users to opt-in to allow Yoast to track some data about their site. 
+ * Optimizes script loading by removing `ver` parameters from scripts and styles when they're not needed. 
+ * Adds the Yoast logo to the Yoast block categories.
+ * Compatibility with WordPress 5.5: makes sure Yoast structured data blocks are found on more keywords and have examples in the block inserter.
+
+Bugfixes:
+
+ * Fixes a bug where a fatal error would occur in sitemaps on sites where the home URL and site URL were different. Because the cause of this was a missing style sheet, the content of the sitemaps was still there, which means Google and other search engines could still reach the sitemaps and no SEO harm was done.
+ * Fixes a bug where reindexing would not be done for indexables without a permalink.
+ * Fixes a bug where an indexable's permalink remained unchanged when the categories prefix option was changed.
+ * Fixes a bug where an inline link that opens in a new window would render `undefined` in the aria-label.
+ * Fixes a bug where the indexables indexing process could not be started again without a page reload on the tools page if it failed.
+ * Fixes a bug where a console error would be thrown because `wpseoShortcodePluginL10n` was not defined.
+ * Fixes a bug where the SEO and Readability scores were no longer shown in the publish box in the classic editor.
+ * Fixes a bug where clicking the Readability score link in the classic editor would trigger an error.
+ 
 Other:
 
  * Enables the cornerstone content toggle for taxonomies.
-
-= 14.6.1 =
-Release Date: July 21st, 2020
-
-Other:
-
-* Reverts the change for social media titles to pick the post/page/term title, as this could inadvertently lead to low quality titles for some archives and other page types.
-
-Bugfixes:
-
-* Fixes a bug where the where all methods were removed from `xmlrpc.php` due to incorrect usage of `add_action` as opposed to `add_filter`.
-
-= 14.6 =
-Release Date: July 21st, 2020
-
-We have a new release for you: Yoast SEO 14.6. This release has some pretty cool enhancements. For example, we’ve added another helpful indicator in the editor that shows you your scores for a particular post quickly. Read more about those changes in [our release post](https://yoa.st/release-14-6)!
-
-Enhancements:
-
-* Improves the editing experience in the Social tab, and gives it a dab of fresh paint.
-* In the sharing metadata used for Facebook, Twitter, Pinterest, LinkedIn and many other sites, we now output the post title instead of the SEO title. This prevents the brand name from being added in most cases, which is better on those platforms. You can still set a specific sharing title on the Social tab of the Yoast SEO post settings.
-* Makes the plugin icon in the editor reflect the SEO and Readability score.
-* Improves keyphrase counting in Indonesian by not counting '-' as a word boundary.
-* Improves the feedback text for the keyphrase in title assessment to make clear that an exact keyphrase match is necessary.
-* Improves the recognition of keywords in the slug if they contain a hyphen (for example: re-duplicated, on-the-go).
-* Improves the transition words analysis for Russian.
-* `Noindex`es the `xmlrpc.php` file and all possible ways to request it, removing them from Google’s search results.
-
-Bugfixes:
-
-* Fixes a bug where the comment count would be output for Articles that did not accept comments. Props to [gr8shivam](https://github.com/gr8shivam).
-* Fixes a bug where the social previews did not reflect the `og:image` tag correctly in situations where the first image in the content was used as a fallback.
-* Fixes a bug where slashes in titles and open graph titles were removed before they were used as a replacement variable. Props to [Jon Christopher](https://github.com/jchristopher).
-* Fixes a bug where a `get_plugins()` undefined error would be thrown if there was already a `plugin.php` loaded via the `init` hook by another plugin. Props to [Krishna Kant](https://github.com/lushkant).
-* Fixes a bug where there was no border on the bottom of metabox tabs without any collapsible sections.
-
-Other:
-
-* Removes functions, class variables and classes that were deprecated prior to version 11.5.
+ * Adds the option to filter our Schema by `@type`.
+ * Removes the setting to show the date in the Google Preview. The date will now always be shown in post-type previews.
+ * Moves the running of the SEO data indexing process to the Yoast Tools page.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).

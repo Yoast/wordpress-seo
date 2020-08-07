@@ -12,8 +12,7 @@ import {
 	refreshSnippetEditor,
 } from "../../redux/actions/snippetEditor";
 
-import { isGutenbergDataAvailable } from "../../helpers/isGutenbergAvailable";
-
+import isBlockEditor from "../../helpers/isBlockEditor";
 
 var modifiableFields = [
 	"content",
@@ -142,7 +141,7 @@ YoastReplaceVarPlugin.prototype.registerEvents = function() {
  * @returns {void}
  */
 YoastReplaceVarPlugin.prototype.subscribeToGutenberg = function() {
-	if ( ! isGutenbergDataAvailable() ) {
+	if ( ! isBlockEditor() ) {
 		return;
 	}
 	const fetchedParents = { 0: "" };
@@ -592,7 +591,7 @@ YoastReplaceVarPlugin.prototype.parentReplace = function( data ) {
 		data = data.replace( /%%parent_title%%/, this.getParentTitleReplacement( parent ) );
 	}
 
-	if ( isGutenbergDataAvailable() && ! isUndefined( this._currentParentPageTitle ) ) {
+	if ( isBlockEditor() && ! isUndefined( this._currentParentPageTitle ) ) {
 		data = data.replace( /%%parent_title%%/, this._currentParentPageTitle );
 	}
 

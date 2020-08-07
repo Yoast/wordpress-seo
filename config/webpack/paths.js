@@ -9,7 +9,9 @@ const cssDistPath = path.resolve( "css", "dist" );
 const entry = {
 	"admin-global": "./admin-global.js",
 	"api-client": "./api-client.js",
+	"block-editor": "./block-editor.js",
 	"bulk-editor": "./bulk-editor.js",
+	"classic-editor": "./classic-editor.js",
 	"configuration-wizard": "./configuration-wizard.js",
 	"dashboard-widget": "./dashboard-widget.js",
 	"edit-page": "./edit-page.js",

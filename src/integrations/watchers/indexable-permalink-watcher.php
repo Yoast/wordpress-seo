@@ -8,6 +8,9 @@
 namespace Yoast\WP\SEO\Integrations\Watchers;
 
 use Yoast\WP\Lib\Model;
+use Yoast\WP\SEO\Actions\Indexation\Indexable_Post_Indexation_Action;
+use Yoast\WP\SEO\Actions\Indexation\Indexable_Post_Type_Archive_Indexation_Action;
+use Yoast\WP\SEO\Actions\Indexation\Indexable_Term_Indexation_Action;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
@@ -139,6 +142,10 @@ class Indexable_Permalink_Watcher implements Integration_Interface {
 			$this->options_helper->set( 'indexables_indexation_reason', $reason );
 			$this->options_helper->set( 'ignore_indexation_warning', false );
 			$this->options_helper->set( 'indexation_warning_hide_until', false );
+
+			delete_transient( Indexable_Post_Indexation_Action::TRANSIENT_CACHE_KEY );
+			delete_transient( Indexable_Post_Type_Archive_Indexation_Action::TRANSIENT_CACHE_KEY );
+			delete_transient( Indexable_Term_Indexation_Action::TRANSIENT_CACHE_KEY );
 		}
 	}
 

@@ -48,6 +48,10 @@ class DashboardWidget extends Component {
 		wpseoApi.get( "statistics", ( response ) => {
 			const statistics = {};
 
+			if ( ! response || ! response.seo_scores ) {
+				return;
+			}
+
 			statistics.seoScores = response.seo_scores.map( ( score ) => ( {
 				value: parseInt( score.count, 10 ),
 				color: DashboardWidget.getColorFromScore( score.seo_rank ),

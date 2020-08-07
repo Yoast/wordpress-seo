@@ -15,7 +15,7 @@ class Indexation_Permalink_Warning_Presenter extends Indexation_Warning_Presente
 	/**
 	 * Represents the reason that the permalink settings are changed.
 	 */
-	const REASON_PERMALINK_SETTINGS   = 'permalink_settings_changed';
+	const REASON_PERMALINK_SETTINGS = 'permalink_settings_changed';
 
 	/**
 	 * Represents the reason that the category base is changed.
@@ -36,15 +36,7 @@ class Indexation_Permalink_Warning_Presenter extends Indexation_Warning_Presente
 		$output .= $this->get_action( \__( 'Start processing and speed up your site now', 'wordpress-seo' ) );
 		$output .= '<hr />';
 		$output .= '<p>';
-		$output .= \sprintf(
-			/* translators: 1: Button start tag to dismiss the warning, 2: Button closing tag. */
-			\esc_html__( '%1$sHide this notice%2$s (everything will continue to function normally)', 'wordpress-seo' ),
-			\sprintf(
-				'<button type="button" id="yoast-indexation-dismiss-button" class="button-link hide-if-no-js" data-nonce="%s">',
-				\esc_js( \wp_create_nonce( 'wpseo-ignore' ) )
-			),
-			'</button>'
-		);
+		$output .= $this->get_dismiss_button();
 		$output .= '</p>';
 		$output .= '</div>';
 
@@ -59,13 +51,12 @@ class Indexation_Permalink_Warning_Presenter extends Indexation_Warning_Presente
 	 * @return string The text to show as reason.
 	 */
 	protected function get_text_for_reason( $reason ) {
-		$text = '';
 		switch ( $reason ) {
-			case static::REASON_CATEGORY_BASE_PREFIX :
+			case static::REASON_CATEGORY_BASE_PREFIX:
 				$text = \esc_html__( 'Because of a change in your category URL setting, some of your SEO data need to be reprocessed.', 'wordpress-seo' );
 				break;
 
-			case static::REASON_PERMALINK_SETTINGS :
+			case static::REASON_PERMALINK_SETTINGS:
 			default:
 				$text = \esc_html__( 'Because of a change in your permalink structure, some of your SEO data need to be reprocessed.', 'wordpress-seo' );
 				break;

@@ -193,6 +193,7 @@ class Indexation_Integration implements Integration_Interface {
 		$this->is_on_yoast_tools_page = $this->yoast_tools_page_conditional->is_met();
 		$this->indexation_action_type = ( $this->is_on_yoast_tools_page ) ? Indexation_Warning_Presenter::ACTION_TYPE_RUN_HERE : Indexation_Warning_Presenter::ACTION_TYPE_LINK_TO;
 
+		$this->hide_notice_listener();
 		if ( $this->is_indexation_warning_hidden() === false ) {
 			$this->add_admin_notice();
 		}
@@ -209,7 +210,7 @@ class Indexation_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function render_indexation_warning() {
-		if ( current_user_can( 'manage_options' ) ) {
+		if ( \current_user_can( 'manage_options' ) ) {
 			echo new Indexation_Warning_Presenter( $this->get_total_unindexed(), $this->options_helper, $this->indexation_action_type );
 		}
 	}
@@ -220,7 +221,7 @@ class Indexation_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function render_indexation_modal() {
-		if ( current_user_can( 'manage_options' ) ) {
+		if ( \current_user_can( 'manage_options' ) ) {
 			\add_thickbox();
 
 			echo new Indexation_Modal_Presenter( $this->get_total_unindexed() );
@@ -233,7 +234,7 @@ class Indexation_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function render_indexation_list_item() {
-		if ( current_user_can( 'manage_options' ) ) {
+		if ( \current_user_can( 'manage_options' ) ) {
 			echo new Indexation_List_Item_Presenter( $this->get_total_unindexed() );
 		}
 	}
@@ -244,7 +245,9 @@ class Indexation_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function render_indexation_permalink_warning() {
-		echo new Indexation_Permalink_Warning_Presenter( $this->get_total_unindexed(), $this->options_helper, $this->indexation_action_type );
+		if ( \current_user_can( 'manage_options' ) ) {
+			echo new Indexation_Permalink_Warning_Presenter( $this->get_total_unindexed(), $this->options_helper, $this->indexation_action_type );
+		}
 	}
 
 	/**
@@ -266,7 +269,7 @@ class Indexation_Integration implements Integration_Interface {
 	 */
 	public function get_total_unindexed() {
 		if ( \is_null( $this->total_unindexed ) ) {
-			$this->total_unindexed = $this->post_indexation->get_total_unindexed();
+			$this->total_unindexed  = $this->post_indexation->get_total_unindexed();
 			$this->total_unindexed += $this->term_indexation->get_total_unindexed();
 			$this->total_unindexed += $this->general_indexation->get_total_unindexed();
 			$this->total_unindexed += $this->post_type_archive_indexation->get_total_unindexed();
@@ -306,13 +309,6 @@ class Indexation_Integration implements Integration_Interface {
 		$hide_until = (int) $this->options_helper->get( 'indexation_warning_hide_until' );
 
 		return ( $hide_until !== 0 && $hide_until >= \time() );
-	}
-
-	/**
-	 * Sets the indexation to complete.
-	 */
-	protected function set_complete() {
-		$this->options_helper->set( 'indexables_indexation_reason', '' );
 	}
 
 	/**
@@ -356,5 +352,22 @@ class Indexation_Integration implements Integration_Interface {
 		];
 
 		\wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'indexation', 'yoastIndexationData', $data );
+	}
+
+	/**
+	 * Hides the notice when the url query contains an argument that hides the notice.
+	 */
+	protected function hide_notice_listener() {
+		if ( ! isset( $_GET['yoast_seo_hide'] ) ) {
+			return;
+		}
+
+		if ( $_GET['yoast_seo_hide'] !== 'indexation_warning' ) {
+			return;
+		}
+
+		\check_admin_referer( 'wpseo-ignore' );
+
+		$this->options_helper->set( 'ignore_indexation_warning', true );
 	}
 }

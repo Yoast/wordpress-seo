@@ -26,7 +26,18 @@ export default () => {
 			__( "FAQ", "wordpress-seo" ),
 			__( "Frequently Asked Questions", "wordpress-seo" ),
 			__( "Schema", "wordpress-seo" ),
+			__( "SEO", "wordpress-seo" ),
+			__( "Structured Data", "wordpress-seo-premium" ),
 		],
+		example: {
+			attributes: {
+				questions: [
+					{ id: Faq.generateId( "faq-question" ), question: [], answer: [] },
+					{ id: Faq.generateId( "faq-question" ), question: [], answer: [] },
+					{ id: Faq.generateId( "faq-question" ), question: [], answer: [] },
+				],
+			},
+		},
 		// Allow only one FAQ block per post.
 		supports: {
 			multiple: false,
