@@ -143,7 +143,7 @@ class Breadcrumbs_Generator implements Generator_Interface {
 					$crumb = $this->get_user_crumb( $crumb, $ancestor );
 					break;
 				case 'date-archive':
-					$crumb = $this->get_date_archive_crumb( $crumb, $ancestor );
+					$crumb = $this->get_date_archive_crumb( $crumb );
 					break;
 			}
 			return $crumb;
@@ -255,12 +255,11 @@ class Breadcrumbs_Generator implements Generator_Interface {
 	/**
 	 * Returns the modified date archive crumb.
 	 *
-	 * @param array     $crumb    The crumb.
-	 * @param Indexable $ancestor The indexable.
+	 * @param array $crumb The crumb.
 	 *
 	 * @return array The crumb.
 	 */
-	private function get_date_archive_crumb( $crumb, $ancestor ) {
+	private function get_date_archive_crumb( $crumb ) {
 		$prefix = $this->options->get( 'breadcrumbs-archiveprefix' );
 
 		if ( \is_day() ) {
