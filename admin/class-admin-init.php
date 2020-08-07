@@ -141,7 +141,13 @@ class WPSEO_Admin_Init {
 
 		$file = plugin_dir_path( WPSEO_FILE ) . 'release-info.json';
 		$release_json = file_get_contents( $file );
-		$release_info = json_decode( $release_json );
+		/**
+		 * Filter: 'wpseo_update_notice_content' - Allow filtering of the content
+		 * of the update notice read from the release-info.json file.
+		 *
+		 * @api object The object from the release-info.json file.
+		 */
+		$release_info = apply_filters( 'wpseo_update_notice_content', json_decode( $release_json ) );
 
 		// Remove if file is not present, malformed or for a different version.
 		if ( is_null( $release_info )
