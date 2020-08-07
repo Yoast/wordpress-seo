@@ -51,16 +51,16 @@ function getUserMessage( props ) {
 	}
 
 	if ( ! requestHasData ) {
-	   return <p> { __( "Sorry, there's no data available for that keyphrase/country combination.", "wordpress-seo" ) } </p>;
+		return <p>{ __( "Sorry, there's no data available for that keyphrase/country combination.", "wordpress-seo" ) }</p>;
 	}
 }
 
 /**
- * Whether the request limit is reached or the request has failed.
+ * Determines whether the request limit is reached or the request has failed.
  *
  * @param {Object} props The props to use.
  *
- * @returns {*|boolean} true When limit is reached or request has failed.
+ * @returns {*|boolean} Whether the request limit is reached or the request has failed.
  */
 function isLimitReachedOrRequestFailed( props ) {
 	const { requestLimitReached, isSuccess, response } = props;
