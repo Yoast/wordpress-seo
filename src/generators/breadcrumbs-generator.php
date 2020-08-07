@@ -154,6 +154,10 @@ class Breadcrumbs_Generator implements Generator_Interface {
 			$crumbs[0]['text'] = $breadcrumbs_home;
 		}
 
+		if ( $this->current_page_helper->is_paged() ) {
+			$crumbs[]['text'] = $this->get_pagination_text();
+		}
+
 		/**
 		 * Filter: 'wpseo_breadcrumb_links' - Allow the developer to filter the Yoast SEO breadcrumb links, add to them, change order, etc.
 		 *
@@ -273,6 +277,24 @@ class Breadcrumbs_Generator implements Generator_Interface {
 		}
 
 		return $crumb;
+	}
+
+	/**
+	 * Returns the text for the pagination crumb.
+	 *
+	 * @return string The crumb.
+	 */
+	private function get_pagination_text() {
+		$page_number = \get_query_var( 'paged', 1 );
+		if ( $page_number <= 1 ) {
+			return '';
+		}
+
+		return sprintf(
+			/* translators: %s expands to the current page number */
+			__( 'Page %s', 'wordpress-seo' ),
+			$page_number
+			);
 	}
 
 	/**
