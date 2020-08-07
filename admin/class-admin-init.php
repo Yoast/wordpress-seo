@@ -174,15 +174,24 @@ class WPSEO_Admin_Init {
 	private function get_yoast_seo_update_notification( $release_info ) {
 		$info_message = '<strong>' .
 				sprintf(
-				/* translators: %1$s expands to Yoast SEO, %2$s expands to the plugin version, */
+				/* translators: %1$s expands to Yoast SEO, %2$s expands to the plugin version. */
 					__( 'New in %1$s %2$s: ', 'wordpress-seo' ),
 					'Yoast SEO',
 					$release_info->version
 				) .
 				'</strong>' .
 				$release_info->release_description;
+		if ( ! empty( $release_info->shortlink ) ) {
+			$link = esc_url( WPSEO_Shortlinker::get( $release_info->shortlink ) );
+			$info_message .= ' <a href="' . esc_url( $link ) . '" target="_blank">' .
+							 sprintf(
+							 	/* translators: %s expands to the plugin version. */
+							 	__( 'Read all about version %s here', 'wordpress-seo' ),
+								$release_info->version
+							 ) .
+							 '</a>';
+		}
 		$data         = (object) [ 'dismiss_value' => $release_info->version ];
-
 
 		return new Yoast_Notification(
 			$info_message,
