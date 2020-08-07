@@ -8,7 +8,7 @@ import getMorphologyData from "../specHelpers/getMorphologyData";
 const morphologyData = getMorphologyData( "en" );
 
 describe( "relevantWords research", function() {
-	it( "returns no prominent words for texts under 300 words", function() {
+	it( "returns no prominent words for texts under 100 words", function() {
 		const paper = new Paper( "texte et texte et texte et texte" );
 
 		const researcher = new Researcher( paper );
@@ -25,24 +25,7 @@ describe( "relevantWords research", function() {
 		expect( words ).toEqual( expected );
 	} );
 
-	it( "returns no prominent words for texts between 300 and 400 words without title and metadescription", function() {
-		const paper = new Paper( "texte" + " et texte".repeat( 180 ) );
-
-		const researcher = new Researcher( paper );
-		researcher.addResearchData( "morphology", morphologyData );
-
-		const expected = {
-			prominentWords: [],
-			hasMetaDescription: false,
-			hasTitle: false,
-		};
-
-		const words = prominentWordsResearch( paper, researcher );
-
-		expect( words ).toEqual( expected );
-	} );
-
-	it( "does return prominent words for texts between 300 and 400 words with a title", function() {
+	it( "does return prominent words for texts with more than 300 words", function() {
 		const paper = new Paper( "texte" + " et texte".repeat( 180 ), { title: "Title" } );
 
 		const researcher = new Researcher( paper );

@@ -8,6 +8,7 @@ const buttonClasses = "yoast-button yoast-button--";
 // A map from variant to icon span className, with iconAfter or iconBefore as a key.
 const variantToIcon = {
 	buy: { iconAfter: "yoast-button--buy__caret" },
+	edit: { iconBefore: "yoast-button--edit" },
 
 	// Aliases
 	upsell: { iconAfter: "yoast-button--buy__caret" },
@@ -26,16 +27,24 @@ const variantToClassName = {
 	purple: buttonClasses + "primary",
 	grey: buttonClasses + "secondary",
 	yellow: buttonClasses + "buy",
+	edit: buttonClasses + "primary",
 };
 
 /**
  * A function that looks up the correct className that belongs to a certain variant.
  *
  * @param {string} variant The variant for which to lookup the className.
+ * @param {Boolean} small  Whether or we should return the small variant of a button.
  *
  * @returns {string} The className that contains the css for the requested variant.
  */
-const getClassName = variant => variantToClassName[ variant ];
+const getClassName = ( variant, small ) => {
+	let className = variantToClassName[ variant ];
+	if ( small ) {
+		className += " yoast-button--small";
+	}
+	return className;
+};
 
 /**
  * A function that looks up the correct icons that belong to a certain variant.
@@ -66,7 +75,9 @@ export const Button = ( props ) => {
 		children,
 		className,
 		variant,
+		small,
 		type,
+		buttonRef,
 		...restProps
 	} = props;
 
@@ -75,7 +86,8 @@ export const Button = ( props ) => {
 	const iconAfter = variantIcons && variantIcons.iconAfter;
 
 	return <button
-		className={ className || getClassName( variant ) }
+		ref={ buttonRef }
+		className={ className || getClassName( variant, small ) }
 		type={ type }
 		{ ...restProps }
 	>
@@ -89,6 +101,8 @@ Button.propTypes = {
 	onClick: PropTypes.func,
 	type: PropTypes.string,
 	className: PropTypes.string,
+	buttonRef: PropTypes.object,
+	small: PropTypes.bool,
 	variant: PropTypes.oneOf( Object.keys( variantToClassName ) ),
 	children: PropTypes.oneOfType(
 		[
@@ -102,8 +116,10 @@ Button.defaultProps = {
 	className: "",
 	type: "button",
 	variant: "primary",
+	small: false,
 	children: null,
 	onClick: null,
+	buttonRef: null,
 };
 
 /**
@@ -123,6 +139,8 @@ export const ButtonStyledLink = ( props ) => {
 		children,
 		className,
 		variant,
+		small,
+		buttonRef,
 		...restProps
 	} = props;
 
@@ -131,7 +149,8 @@ export const ButtonStyledLink = ( props ) => {
 	const iconAfter = variantIcons && variantIcons.iconAfter;
 
 	return <a
-		className={ className || getClassName( variant ) }
+		className={ className || getClassName( variant, small ) }
+		ref={ buttonRef }
 		{ ...restProps }
 	>
 		{ ! ! iconBefore && <span className={ iconBefore } /> }
@@ -143,7 +162,9 @@ export const ButtonStyledLink = ( props ) => {
 ButtonStyledLink.propTypes = {
 	href: PropTypes.string.isRequired,
 	variant: PropTypes.oneOf( Object.keys( variantToClassName ) ),
+	small: PropTypes.bool,
 	className: PropTypes.string,
+	buttonRef: PropTypes.object,
 	children: PropTypes.oneOfType(
 		[
 			PropTypes.node,
@@ -155,5 +176,7 @@ ButtonStyledLink.propTypes = {
 ButtonStyledLink.defaultProps = {
 	className: "",
 	variant: "primary",
+	small: false,
 	children: null,
+	buttonRef: null,
 };

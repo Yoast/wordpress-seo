@@ -3,6 +3,30 @@
 All notable changes to this project will be documented in this file. Releases without a changelog entry contain only minor changes that are irrelevant for users of this library.
 We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwards.
 
+## 1.80.0 August 17th, 2020
+### Enhancements
+* Makes it possible to tokenize sentences in languages that are written right-to-left (e.g., Hebrew, Arabic, Farsi and Urdu).
+* Improves keyphrase recognition for Arabic.
+* Adds function words for Arabic and Hebrew.
+* Adds Sentence beginning assessment for Indonesian.
+* Adds Transition words assessment for Indonesian.
+* Adds Passive voice assessment for Indonesian.
+* Adds Flesch reading ease assessment for Portuguese.
+* Adds passive voice assessment for Portuguese.
+* Fixes inconsistency in feedback strings that are produced by the Keyphrase in SEO Title assessment.
+
+## 1.79.0 August 3rd, 2020
+### Enhancements
+* Adds some irregular plural forms of Italian words to function words and morphologyData file, including specs and a function to call the exception list.
+* Adds a check for whether the word belongs to stemming exceptions to the Russian stemmer.
+* Adds an exception check for irregular Italian diminutives to the Italian stemmer.
+* Adds a check for exception lists of full forms and words with multiple stems to the Russian stemmer.
+* Adds specs for irregular verbs for the Italian full forms exception list.
+* Adds check for French verbs on -ions before stemming the verb suffix -ons and does not stem -ons if the word ends on -ions (for these words, the suffix is most likely -s, not -ons).
+* Adds Indonesian function words.
+* Changes the `getProminentWordsForInternalLinking` research so that it only runs for texts over 400 words or texts over 300 words with a title and/or a metadescription specified.
+* Changes the output of the research so that it not only returns the list of prominent words but also information about the presence of metadescription and title, as well as the length of text. This information is later used to return a customized message to the user, within the internal linking suggestions container.
+
 ## 1.78.0 July 20th, 2020
 ### Enhancements
 * Adds word form support for Portuguese.
