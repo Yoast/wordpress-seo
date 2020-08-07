@@ -38,6 +38,7 @@ module.exports = function( grunt ) {
 			languages: "languages/",
 			logs: "logs/",
 			svnCheckoutDir: ".wordpress-svn",
+			assets: "svn-assets",
 			vendor: "vendor/",
 		},
 		files: {
