@@ -29,7 +29,7 @@ module.exports = function( grunt ) {
 			 * @returns {string} Config path.
 			 */
 			get config() {
-				return this.grunt + "tasks/";
+				return this.grunt + "task-config/";
 			},
 			css: "css/dist/",
 			grunt: "config/grunt/",
