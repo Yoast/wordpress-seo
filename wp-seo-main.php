@@ -282,9 +282,6 @@ add_action( 'plugins_loaded', 'wpseo_load_textdomain' );
 function wpseo_init() {
 	require_once WPSEO_PATH . 'inc/wpseo-functions.php';
 	require_once WPSEO_PATH . 'inc/wpseo-functions-deprecated.php';
-	if ( version_compare( PHP_VERSION, '5.6.0', '>=' ) ) {
-		require_once WPSEO_PATH . 'src/functions.php';
-	}
 
 	// Make sure our option and meta value validation routines and default values are always registered and available.
 	WPSEO_Options::get_instance();
