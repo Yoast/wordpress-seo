@@ -12,7 +12,9 @@ use Mockery;
 use Yoast\WP\SEO\Generators\Breadcrumbs_Generator;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Helpers\Pagination_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
+use Yoast\WP\SEO\Helpers\Url_Helper;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Context\Meta_Tags_Context_Mock;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
@@ -50,7 +52,7 @@ class Breadcrumbs_Generator_Test extends TestCase {
 	private $current_page;
 
 	/**
-	 * The post type helper
+	 * The post type helper.
 	 *
 	 * @var Post_Type_Helper
 	 */
@@ -78,16 +80,32 @@ class Breadcrumbs_Generator_Test extends TestCase {
 	private $indexable;
 
 	/**
+	 * The URL helper.
+	 *
+	 * @var Url_Helper
+	 */
+	private $url_helper;
+
+	/**
+	 * The pagination helper.
+	 *
+	 * @var Pagination_Helper
+	 */
+	private $pagination_helper;
+
+	/**
 	 * @inheritDoc
 	 */
 	public function setUp() {
 		parent::setUp();
 
-		$this->repository       = Mockery::mock( Indexable_Repository::class );
-		$this->options          = Mockery::mock( Options_Helper::class );
-		$this->current_page     = Mockery::mock( Current_Page_Helper::class );
-		$this->post_type_helper = Mockery::mock( Post_Type_Helper::class );
-		$this->instance         = new Breadcrumbs_Generator( $this->repository, $this->options, $this->current_page, $this->post_type_helper );
+		$this->repository        = Mockery::mock( Indexable_Repository::class );
+		$this->options           = Mockery::mock( Options_Helper::class );
+		$this->current_page      = Mockery::mock( Current_Page_Helper::class );
+		$this->post_type_helper  = Mockery::mock( Post_Type_Helper::class );
+		$this->url_helper        = Mockery::mock( Url_Helper::class );
+		$this->pagination_helper = Mockery::mock( Pagination_Helper::class );
+		$this->instance          = new Breadcrumbs_Generator( $this->repository, $this->options, $this->current_page, $this->post_type_helper, $this->url_helper, $this->pagination_helper );
 
 		$this->indexable                   = Mockery::mock( Indexable_Mock::class );
 		$this->indexable->object_id        = 1;
@@ -105,6 +123,7 @@ class Breadcrumbs_Generator_Test extends TestCase {
 	 * @covers ::__construct
 	 * @covers ::generate
 	 * @covers ::should_have_blog_crumb
+	 * @covers ::get_pagination_text
 	 *
 	 * @dataProvider generate_provider
 	 *
@@ -188,6 +207,10 @@ class Breadcrumbs_Generator_Test extends TestCase {
 			->once()
 			->andReturn( $page_type );
 
+		$this->current_page
+			->expects( 'is_paged' )
+			->once()
+			->andReturnFalse();
 
 		$expected = [
 			[
