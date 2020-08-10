@@ -10,6 +10,7 @@ namespace Yoast\WP\SEO\Generators;
 use Yoast\WP\SEO\Context\Meta_Tags_Context;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Helpers\Pagination_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Helpers\Url_Helper;
 use Yoast\WP\SEO\Models\Indexable;
@@ -56,6 +57,13 @@ class Breadcrumbs_Generator implements Generator_Interface {
 	private $url_helper;
 
 	/**
+	 * The pagination helper.
+	 *
+	 * @var Pagination_Helper;
+	 */
+	private $pagination_helper;
+
+	/**
 	 * Breadcrumbs_Generator constructor.
 	 *
 	 * @param Indexable_Repository $repository          The repository.
@@ -63,19 +71,22 @@ class Breadcrumbs_Generator implements Generator_Interface {
 	 * @param Current_Page_Helper  $current_page_helper The current page helper.
 	 * @param Post_Type_Helper     $post_type_helper    The post type helper.
 	 * @param Url_Helper           $url_helper          The URL helper.
+	 * @param Pagination_Helper    $pagination_helper   The pagination helper.
 	 */
 	public function __construct(
 		Indexable_Repository $repository,
 		Options_Helper $options,
 		Current_Page_Helper $current_page_helper,
 		Post_Type_Helper $post_type_helper,
-		Url_Helper $url_helper
+		Url_Helper $url_helper,
+		Pagination_Helper $pagination_helper
 	) {
 		$this->repository          = $repository;
 		$this->options             = $options;
 		$this->current_page_helper = $current_page_helper;
 		$this->post_type_helper    = $post_type_helper;
 		$this->url_helper          = $url_helper;
+		$this->pagination_helper   = $pagination_helper;
 	}
 
 	/**
@@ -165,8 +176,8 @@ class Breadcrumbs_Generator implements Generator_Interface {
 			$crumbs[0]['text'] = $breadcrumbs_home;
 		}
 
-		if ( $this->current_page_helper->is_paged() ) {
-			$crumbs[]['text'] = $this->get_pagination_text();
+		if ( $this->current_page_helper->is_paged() || \end( $indexables )->number_of_pages > 1 ) {
+			$crumbs[]['text'] = $this->get_pagination_text( \end( $indexables ) );
 		}
 
 		/**
@@ -302,7 +313,8 @@ class Breadcrumbs_Generator implements Generator_Interface {
 	 * @return string The crumb.
 	 */
 	private function get_pagination_text() {
-		$page_number = \get_query_var( 'paged', 1 );
+		$page_number = $this->pagination_helper->get_current_page_number();
+
 		if ( $page_number <= 1 ) {
 			return '';
 		}
@@ -311,7 +323,7 @@ class Breadcrumbs_Generator implements Generator_Interface {
 			/* translators: %s expands to the current page number */
 			__( 'Page %s', 'wordpress-seo' ),
 			$page_number
-			);
+		);
 	}
 
 	/**

@@ -71,7 +71,11 @@ class Pagination_Helper {
 	 *
 	 * @return string The paginated URL.
 	 */
-	public function get_paginated_url( $url, $page, $add_pagination_base = true, $pagination_query_name = 'page' ) {
+	public function get_paginated_url( $url, $page = null, $add_pagination_base = true, $pagination_query_name = 'page' ) {
+		if ( $page === null ) {
+			$page = $this->get_current_page_number();
+		}
+
 		$wp_rewrite = $this->wp_rewrite_wrapper->get();
 
 		if ( $wp_rewrite->using_permalinks() ) {
@@ -117,5 +121,27 @@ class Pagination_Helper {
 		$wp_query = $this->wp_query_wrapper->get_main_query();
 
 		return (int) $wp_query->get( 'page' );
+	}
+
+	/**
+	 * Returns the current page number.
+	 *
+	 * @return int The current page number.
+	 */
+	public function get_current_page_number() {
+		// Get the page number for an archive page.
+		$page_number = \get_query_var( 'paged', 1 );
+
+		if ( $page_number <= 1 ) {
+
+			// Get the page number for a page in a paginated post.
+			$page_number = \get_query_var( 'page', 1 );
+
+			if ( $page_number <= 1 ) {
+				return '';
+			}
+		}
+
+		return $page_number;
 	}
 }
