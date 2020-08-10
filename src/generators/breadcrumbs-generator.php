@@ -293,12 +293,14 @@ class Breadcrumbs_Generator implements Generator_Interface {
 			$crumb['url']  = $home_url . \get_the_date( 'Y/m/d' ) . '/';
 			$day           = \esc_html( \get_the_date() );
 			$crumb['text'] = $prefix . ' ' . $day;
-		} elseif ( \is_month() ) {
+		}
+		elseif ( \is_month() ) {
 			$crumb['url']  = $home_url . \get_the_date( 'Y/m' ) . '/';
 			$month         = \esc_html( \trim( \single_month_title( ' ', false ) ) );
 			$crumb['text'] = $prefix . ' ' . $month;
 
-		} elseif ( \is_year() ) {
+		}
+		elseif ( \is_year() ) {
 			$year          = \get_the_date( 'Y' );
 			$crumb['url']  = $home_url . $year . '/';
 			$crumb['text'] = $prefix . ' ' . $year;
