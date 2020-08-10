@@ -138,6 +138,7 @@ class WPSEO_Admin_Init {
 	 */
 	public function yoast_plugin_update_notification() {
 		$notification_center = Yoast_Notification_Center::get();
+		$current_version     = WPSEO_Options::get( 'version', WPSEO_VERSION );
 
 		$file = plugin_dir_path( WPSEO_FILE ) . 'release-info.json';
 		$release_json = file_get_contents( $file );
@@ -152,7 +153,7 @@ class WPSEO_Admin_Init {
 		// Remove if file is not present, malformed or for a different version.
 		if ( is_null( $release_info )
 			|| empty( $release_info->version )
-			|| (float) $release_info->version !== (float) WPSEO_VERSION
+			|| (float) $release_info->version !== (float) $current_version
 		 	|| empty( $release_info->release_description )
 		) {
 			$notification_center->remove_notification_by_id( 'wpseo-plugin-updated' );
@@ -164,7 +165,7 @@ class WPSEO_Admin_Init {
 
 		// Restore notification if it was dismissed in a previous minor version.
 		$last_dismissed_version = get_user_option( $dismissal_key );
-		if ( ! $last_dismissed_version || (float) $last_dismissed_version < (float) WPSEO_VERSION ) {
+		if ( ! $last_dismissed_version || (float) $last_dismissed_version < (float) $current_version ) {
 			Yoast_Notification_Center::restore_notification( $notification );
 		}
 		$notification_center->add_notification( $notification );
