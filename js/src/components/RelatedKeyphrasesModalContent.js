@@ -2,6 +2,7 @@
 import { Fragment } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import PropTypes from "prop-types";
+import { isEmpty } from "lodash-es";
 
 /* Internal dependencies */
 import SemRushLoading from "./modals/SemRushLoading";
@@ -19,7 +20,7 @@ import SemRushRequestFailed from "./modals/SemRushRequestFailed";
  * @returns {boolean} Whether or not the error property is present.
  */
 function hasError( response ) {
-	return response && "error" in response;
+	return ! isEmpty( response ) && "error" in response;
 }
 
 /**
@@ -60,10 +61,11 @@ function getUserMessage( props ) {
  *
  * @param {Object} props The props to use.
  *
- * @returns {*|boolean} Whether the request limit is reached or the request has failed.
+ * @returns {boolean} Whether the request limit is reached or the request has failed.
  */
 function isLimitReachedOrRequestFailed( props ) {
 	const { requestLimitReached, isSuccess, response } = props;
+
 	return requestLimitReached || ! isSuccess && hasError( response );
 }
 
