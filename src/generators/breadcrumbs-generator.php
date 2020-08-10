@@ -11,6 +11,7 @@ use Yoast\WP\SEO\Context\Meta_Tags_Context;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
+use Yoast\WP\SEO\Helpers\Url_Helper;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
@@ -48,23 +49,33 @@ class Breadcrumbs_Generator implements Generator_Interface {
 	private $post_type_helper;
 
 	/**
+	 * The URL helper
+	 *
+	 * @var Url_Helper;
+	 */
+	private $url_helper;
+
+	/**
 	 * Breadcrumbs_Generator constructor.
 	 *
 	 * @param Indexable_Repository $repository          The repository.
 	 * @param Options_Helper       $options             The options helper.
 	 * @param Current_Page_Helper  $current_page_helper The current page helper.
 	 * @param Post_Type_Helper     $post_type_helper    The post type helper.
+	 * @param Url_Helper           $url_helper          The URL helper.
 	 */
 	public function __construct(
 		Indexable_Repository $repository,
 		Options_Helper $options,
 		Current_Page_Helper $current_page_helper,
-		Post_Type_Helper $post_type_helper
+		Post_Type_Helper $post_type_helper,
+		Url_Helper $url_helper
 	) {
 		$this->repository          = $repository;
 		$this->options             = $options;
 		$this->current_page_helper = $current_page_helper;
 		$this->post_type_helper    = $post_type_helper;
+		$this->url_helper          = $url_helper;
 	}
 
 	/**
@@ -264,16 +275,22 @@ class Breadcrumbs_Generator implements Generator_Interface {
 	 * @return array The crumb.
 	 */
 	private function get_date_archive_crumb( $crumb ) {
-		$prefix = $this->options->get( 'breadcrumbs-archiveprefix' );
+		$home_url = $this->url_helper->home();
+		$prefix   = $this->options->get( 'breadcrumbs-archiveprefix' );
 
-		if ( \is_day() ) {
-			$crumb['text'] = $prefix . ' ' . \esc_html( \get_the_date() );
-		}
-		elseif ( \is_month() ) {
-			$crumb['text'] = $prefix . ' ' . \esc_html( \trim( \single_month_title( ' ', false ) ) );
-		}
-		elseif ( \is_year() ) {
-			$crumb['text'] = $prefix . ' ' . \esc_html( \get_query_var( 'year' ) );
+		if ( \is_day() ) { # Doesn't work: outputs basic.wordpress.test/July 24th, 2020
+			$crumb['url']  = $home_url . \get_the_date( 'Y/m/d' ) . '/';
+			$day           = \esc_html( \get_the_date() );
+			$crumb['text'] = $prefix . ' ' . $day;
+		} elseif ( \is_month() ) {
+			$crumb['url']  = $home_url . \get_the_date( 'Y/m' ) . '/';
+			$month         = \esc_html( \trim( \single_month_title( ' ', false ) ) );
+			$crumb['text'] = $prefix . ' ' . $month;
+
+		} elseif ( \is_year() ) {
+			$year          = \get_the_date( 'Y' );
+			$crumb['url']  = $home_url . $year . '/';
+			$crumb['text'] = $prefix . ' ' . $year;
 		}
 
 		return $crumb;
