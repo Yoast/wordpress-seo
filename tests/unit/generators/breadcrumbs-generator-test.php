@@ -331,7 +331,6 @@ class Breadcrumbs_Generator_Test extends TestCase {
 				->andReturnTrue();
 		}
 
-
 		if ( $scenario === 'show-custom-post-type' ) {
 			$this->indexable->object_sub_type = 'custom';
 		}
