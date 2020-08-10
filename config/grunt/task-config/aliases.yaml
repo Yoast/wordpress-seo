@@ -115,7 +115,6 @@ clean:build-assets:
 'create-rc':
   - 'ensure-clean-branch'
   - 'ensure-pre-release-branch'
-  - 'ensure-rc-dependencies'
   - 'update-readme'
   - 'bump-rc-version'
   - 'sync-gutenberg-version'
