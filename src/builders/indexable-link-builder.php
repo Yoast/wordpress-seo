@@ -254,7 +254,7 @@ class Indexable_Link_Builder {
 		}
 
 		if ( $is_image && $model->target_post_id ) {
-			list( , $width, $height ) = \wp_get_attachment_image_src( $model->target_post_id );
+			list( , $width, $height ) = \wp_get_attachment_image_src( $model->target_post_id, 'full' );
 			$model->width  = $width;
 			$model->height = $height;
 			$model->size   = \filesize( \get_attached_file( $model->target_post_id ) );
