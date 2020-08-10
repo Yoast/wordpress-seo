@@ -10,7 +10,7 @@ export const NO_DATA_FOUND = "NO_DATA_FOUND";
  * An action creator for starting a new request.
  *
  * @param {Object} countryCode The country code of the database for the SEMrush request.
- * @param {string} keyphrase The keyphrase for the SEMrush request.
+ * @param {string} keyphrase   The keyphrase for the SEMrush request.
  *
  * @returns {Object} Action object.
  */
@@ -79,7 +79,7 @@ export function setSEMrushChangeCountry( countryCode ) {
  * An action creator for when no data is returned from SEMrush.
  *
  * @param {string} countryCode The country code of the database to be set.
- * @param {string} keyphrase The keyphrase.
+ * @param {string} keyphrase   The keyphrase.
  *
  * @returns {Object} Action object.
  */

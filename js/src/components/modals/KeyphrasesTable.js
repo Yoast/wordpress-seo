@@ -134,8 +134,8 @@ class KeyphrasesTable extends Component {
 						{
 							data.results.rows.map( ( row, index ) => {
 								const relatedKeyphrase = row[ 0 ];
-								const areaChartDataTableHeaderLabels = this.getAreaChartDataTableHeaderLabels();
 								const chartPoints = this.transformTrendDataToChartPoints( row[ 5 ] );
+								const areaChartDataTableHeaderLabels = this.getAreaChartDataTableHeaderLabels();
 
 								return <tr key={ index }>
 									<td>{ relatedKeyphrase }</td>

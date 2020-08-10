@@ -1,10 +1,11 @@
 /* External dependencies */
 import PropTypes from "prop-types";
-import { Component, Fragment } from "@wordpress/element";
+import { Component } from "@wordpress/element";
 import apiFetch from "@wordpress/api-fetch";
 import { addQueryArgs } from "@wordpress/url";
+import { __ } from "@wordpress/i18n";
 
-/* Internal dependencies */
+/* Yoast dependencies */
 import ErrorBoundary from "@yoast/components/src/internal/ErrorBoundary";
 import FieldGroup from "@yoast/components/src/field-group/FieldGroup";
 
@@ -18,7 +19,7 @@ const id = "semrush-country-selector";
 /**
  * Renders a HTML option based on a name and value.
  *
- * @param {string} name The name of the option.
+ * @param {string} name  The name of the option.
  * @param {string} value The value of the option.
  *
  * @returns {React.Component} An HTML option.
@@ -294,7 +295,7 @@ class SEMrushCountrySelector extends Component {
 	/**
 	 * Performs the related keyphrases API request.
 	 *
-	 * @param {string} keyphrase The keyphrase to send to SEMrush.
+	 * @param {string} keyphrase   The keyphrase to send to SEMrush.
 	 * @param {string} countryCode The database country code to send to SEMrush.
 	 *
 	 * @returns {Object} The response object.
@@ -315,32 +316,29 @@ class SEMrushCountrySelector extends Component {
 	/**
 	 * Renders the SEMrush Country Selector.
 	 *
-	 * @returns {React.Element} The SEMrush Country Selector.
+	 * @returns {wp.Element} The SEMrush Country Selector.
 	 */
 	render() {
 		return (
-			<Fragment>
-				<div>
-					<FieldGroup
-						htmlFor={ id }
-						label="Show results for:"
-						wrapperClassName="yoast-field-group"
-					>
-						<select
-							id={ id }
-							name="semrush-country-code"
-							defaultValue={ this.props.countryCode }
-						>
-							{ countries.map( Option ) }
-						</select>
-						<button
-							className="yoast-button yoast-button--secondary"
-							onClick={ this.relatedKeyphrasesRequest }
-						>Change Country
-						</button>
-					</FieldGroup>
-				</div>
-			</Fragment>
+			<FieldGroup
+				htmlFor={ id }
+				label={ __( "Show results for:", "wordpress-seo" ) }
+				wrapperClassName="yoast-field-group"
+			>
+				<select
+					id={ id }
+					name="semrush-country-code"
+					defaultValue={ this.props.countryCode }
+				>
+					{ countries.map( Option ) }
+				</select>
+				<button
+					className="yoast-button yoast-button--secondary"
+					onClick={ this.relatedKeyphrasesRequest }
+				>
+					{ __( "Change Country", "wordpress-seo" ) }
+				</button>
+			</FieldGroup>
 		);
 	}
 }

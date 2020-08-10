@@ -143,7 +143,7 @@ class SEMrush_Route implements Route_Interface {
 					'validate_callback' => [ $this, 'has_valid_keyphrase' ],
 					'required'          => true,
 				],
-				'country_code'  => [
+				'country_code' => [
 					'required' => true,
 				],
 			],

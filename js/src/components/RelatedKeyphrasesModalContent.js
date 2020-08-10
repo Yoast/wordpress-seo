@@ -51,8 +51,20 @@ function getUserMessage( props ) {
 	}
 
 	if ( ! requestHasData ) {
-	   return <p> { __( "Sorry, there's no data available for that keyphrase/country combination.", "wordpress-seo" ) } </p>;
+		return <p>{ __( "Sorry, there's no data available for that keyphrase/country combination.", "wordpress-seo" ) }</p>;
 	}
+}
+
+/**
+ * Determines whether the request limit is reached or the request has failed.
+ *
+ * @param {Object} props The props to use.
+ *
+ * @returns {*|boolean} Whether the request limit is reached or the request has failed.
+ */
+function isLimitReachedOrRequestFailed( props ) {
+	const { requestLimitReached, isSuccess, response } = props;
+	return requestLimitReached || ! isSuccess && hasError( response );
 }
 
 /**
@@ -79,19 +91,23 @@ export default function RelatedKeyphraseModalContent( props ) {
 
 	return (
 		<Fragment>
-			<SemRushUpsellAlert />
-			{ getUserMessage( props ) }
+			{ ! isLimitReachedOrRequestFailed( props ) && (
+				<Fragment>
+					<SemRushUpsellAlert />
+					<SEMrushCountrySelector
+						countryCode={ countryCode }
+						setCountry={ setCountry }
+						newRequest={ newRequest }
+						keyphrase={ keyphrase }
+						setRequestFailed={ setRequestFailed }
+						setNoResultsFound={ setNoResultsFound }
+						setRequestSucceeded={ setRequestSucceeded }
+						setRequestLimitReached={ setRequestLimitReached }
+					/>
+				</Fragment>
+			) }
 
-			<SEMrushCountrySelector
-				countryCode={ countryCode }
-				setCountry={ setCountry }
-				newRequest={ newRequest }
-				keyphrase={ keyphrase }
-				setRequestFailed={ setRequestFailed }
-				setNoResultsFound={ setNoResultsFound }
-				setRequestSucceeded={ setRequestSucceeded }
-				setRequestLimitReached={ setRequestLimitReached }
-			/>
+			{ getUserMessage( props ) }
 
 			<KeyphrasesTable
 				keyphrase={ keyphrase }
@@ -100,11 +116,6 @@ export default function RelatedKeyphraseModalContent( props ) {
 				renderAction={ renderAction }
 				data={ response }
 			/>
-
-			<h2>Content debug info</h2>
-			<p>
-				The keyphrase is: { keyphrase }<br />
-			</p>
 		</Fragment>
 	);
 }

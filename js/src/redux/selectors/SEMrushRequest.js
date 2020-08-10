@@ -56,7 +56,7 @@ export function getSEMrushRequestKeyphrase( state ) {
 /**
  * Gets the currently selected country.
  *
- * @param {Object} state    The state.
+ * @param {Object} state The state.
  *
  * @returns {string} Current country.
  */
@@ -67,7 +67,7 @@ export function getSEMrushSelectedCountry( state ) {
 /**
  * Checks whether the last successful request has a dataset.
  *
- * @param {Object} state    The state.
+ * @param {Object} state The state.
  *
  * @returns {boolean} Whether or not there was a dataset in the last successful request.
  */
