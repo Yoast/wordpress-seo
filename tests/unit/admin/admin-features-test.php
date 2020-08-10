@@ -45,6 +45,20 @@ class Admin_Features_Test extends TestCase {
 	}
 
 	/**
+	 * Loads the yoast seo functions.
+	 */
+	public function setUp() {
+		parent::setUp();
+
+		if ( ! function_exists( 'YoastSEO' ) ) {
+			require_once WPSEO_PATH . 'src/functions.php';
+
+			Monkey\Functions\expect( 'get_current_blog_id' )->andReturn( 1 );
+			Monkey\Functions\expect( 'update_option' )->once();
+		}
+	}
+
+	/**
 	 * Test that admin_features returns the correct array when we're editing/creating a post.
 	 *
 	 * @covers ::get_admin_features

@@ -376,7 +376,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 
 			if ( empty( $front_page ) ) {
 				$front_page = [
-					'loc' => WPSEO_Utils::home_url(),
+					'loc' => YoastSEO()->helpers->url->home(),
 				];
 			}
 
@@ -431,7 +431,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		if ( $post_type === 'post' ) {
 
 			if ( get_option( 'show_on_front' ) === 'posts' ) {
-				return WPSEO_Utils::home_url();
+				return YoastSEO()->helpers->url->home();
 			}
 
 			$pt_archive_page_id = (int) get_option( 'page_for_posts' );
@@ -663,7 +663,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	protected function get_home_url() {
 		_deprecated_function( __METHOD__, 'WPSEO 11.5', 'WPSEO_Utils::home_url' );
 
-		return WPSEO_Utils::home_url();
+		return YoastSEO()->helpers->url->home();
 	}
 
 	/**
