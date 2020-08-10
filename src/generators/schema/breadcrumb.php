@@ -47,7 +47,7 @@ class Breadcrumb extends Abstract_Schema_Piece {
 		$list_elements = [];
 
 		// In case of pagination, replace the last breadcrumb, because it only contains "Page [number]" and has no URL.
-		if ( $this->helpers->current_page->is_paged() ) {
+		if ( $this->helpers->current_page->is_paged() || ( $this->context->indexable->number_of_pages > 1 ) ) {
 			\array_pop( $breadcrumbs );
 
 			$breadcrumbs[] = [
