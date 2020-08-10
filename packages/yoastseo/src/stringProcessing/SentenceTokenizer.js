@@ -174,10 +174,10 @@ export default class SentenceTokenizer {
 	}
 
 	/**
-	 * Checks if the token is a valid sentence ending.
+	 * Checks if the token is a valid sentence start.
 	 *
 	 * @param {Object} token The token to validate.
-	 * @returns {boolean} Returns true if the token is valid ending, false if it is not.
+	 * @returns {boolean} Returns true if the token is valid sentence start, false if it is not.
 	 */
 	isSentenceStart( token ) {
 		return ( ! isUndefined( token ) && (
@@ -185,6 +185,20 @@ export default class SentenceTokenizer {
 			"html-end" === token.type ||
 			"block-start" === token.type
 		) );
+	}
+
+	/**
+	 * Checks if the token is a valid sentence ending. A valid sentence ending is either a full stop or another
+	 * delimiter such as "?", "!", etc.
+	 *
+	 * @param {Object} token The token to validate.
+	 * @returns {boolean} Returns true if the token is valid sentence ending, false if it is not.
+	 */
+	isSentenceEnding( token ) {
+		return (
+			! isUndefined( token ) &&
+			( token.type === "full-stop" || token.type === "sentence-delimiter" )
+		);
 	}
 
 	/**
@@ -325,6 +339,7 @@ export default class SentenceTokenizer {
 		tokenArray.forEach( ( token, i ) => {
 			let hasNextSentence, nextCharacters, tokenizeResults;
 			const nextToken = tokenArray[ i + 1 ];
+			const previousToken = tokenArray[ i - 1 ];
 			const secondToNextToken = tokenArray[ i + 2 ];
 
 			switch ( token.type ) {
@@ -386,12 +401,27 @@ export default class SentenceTokenizer {
 					// For a new sentence we need to check the next two characters.
 					hasNextSentence = nextCharacters.length >= 2;
 					nextSentenceStart = hasNextSentence ? nextCharacters[ 0 ] : "";
-					// If the next character is a number, never split. For example: IPv4-numbers.
-					if ( hasNextSentence && this.isNumber( nextCharacters[ 0 ] ) ) {
+
+					/* Don't split if:
+					 * - The next character is a number. For example: IPv4-numbers.
+					 * - The block end is preceded by a valid sentence ending, but not followed by a valid sentence beginning.
+					 */
+					if (
+						hasNextSentence && this.isNumber( nextCharacters[ 0 ] ) ||
+						( this.isSentenceEnding( previousToken ) &&
+							( ! ( this.isValidSentenceBeginning( nextSentenceStart ) || this.isSentenceStart( nextToken ) ) ) )
+					) {
 						break;
 					}
 
-					if ( ( hasNextSentence && this.isValidSentenceBeginning( nextSentenceStart ) ) || this.isSentenceStart( nextToken ) ) {
+					/*
+					 * Split if:
+					 * - The block end is preceded by a sentence ending and followed by a valid sentence beginning.
+					 */
+					if (
+						this.isSentenceEnding( previousToken ) &&
+						( this.isValidSentenceBeginning( nextSentenceStart ) || this.isSentenceStart( nextToken ) )
+					) {
 						tokenSentences.push( currentSentence );
 						currentSentence = "";
 					}

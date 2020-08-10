@@ -45,7 +45,7 @@ const expectedResults = {
 		isApplicable: true,
 		score: 9,
 		resultText: "<a href='https://yoa.st/33m' target='_blank'>Keyphrase in subheading</a>: " +
-			"1 of your higher-level subheadings reflects the topic of your copy. Good job!",
+			"1 of your H2 and H3 subheadings reflects the topic of your copy. Good job!",
 	},
 	textCompetingLinks: {
 		isApplicable: true,
