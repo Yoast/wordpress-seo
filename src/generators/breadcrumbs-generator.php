@@ -35,21 +35,21 @@ class Breadcrumbs_Generator implements Generator_Interface {
 	private $options;
 
 	/**
-	 * The current page helper
+	 * The current page helper.
 	 *
 	 * @var Current_Page_Helper
 	 */
 	private $current_page_helper;
 
 	/**
-	 * The post type helper
+	 * The post type helper.
 	 *
 	 * @var Post_Type_Helper
 	 */
 	private $post_type_helper;
 
 	/**
-	 * The URL helper
+	 * The URL helper.
 	 *
 	 * @var Url_Helper;
 	 */
@@ -278,7 +278,7 @@ class Breadcrumbs_Generator implements Generator_Interface {
 		$home_url = $this->url_helper->home();
 		$prefix   = $this->options->get( 'breadcrumbs-archiveprefix' );
 
-		if ( \is_day() ) { # Doesn't work: outputs basic.wordpress.test/July 24th, 2020
+		if ( \is_day() ) {
 			$crumb['url']  = $home_url . \get_the_date( 'Y/m/d' ) . '/';
 			$day           = \esc_html( \get_the_date() );
 			$crumb['text'] = $prefix . ' ' . $day;

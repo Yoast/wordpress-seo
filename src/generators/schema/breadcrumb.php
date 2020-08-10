@@ -60,8 +60,6 @@ class Breadcrumb extends Abstract_Schema_Piece {
 				return false;
 			}
 		}
-
-
 		// Create the last breadcrumb.
 		$last_breadcrumb = \array_pop( $breadcrumbs );
 		$breadcrumbs[]   = $this->format_last_breadcrumb( $last_breadcrumb );
