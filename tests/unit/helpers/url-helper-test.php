@@ -195,6 +195,119 @@ class Url_Helper_Test extends TestCase {
 	}
 
 	/**
+	 * Tests if an url is relative with a relative url given as argument.
+	 *
+	 * @covers ::is_relative
+	 */
+	public function test_if_url_is_relative() {
+		$this->assertTrue( $this->instance->is_relative( '/relative.html' ) );
+	}
+
+	/**
+	 * Tests if an url is relative with a relative url given as argument.
+	 *
+	 * @covers ::is_relative
+	 */
+	public function test_if_url_is_relative_with_non_relative_url_given() {
+		$this->assertFalse( $this->instance->is_relative( 'https://relative.html' ) );
+	}
+
+	/**
+	 * Tests if an url is relative with a protocol-less url given as argument.
+	 *
+	 * @covers ::is_relative
+	 */
+	public function test_if_url_is_relative_with_protocol_less_url_given() {
+		$this->assertFalse( $this->instance->is_relative( '//relative.html' ) );
+	}
+
+	/**
+	 * Tests the home url with a path given.
+	 *
+	 * @covers ::home
+	 */
+	public function test_home_with_path_given() {
+		Monkey\Functions\expect( 'home_url' )
+			->with( 'path' )
+			->andReturn( 'https://example.org/path' );
+
+		$this->assertEquals( 'https://example.org/path', $this->instance->home( 'path' ) );
+	}
+
+	/**
+	 * Tests the home url with no path given and home url is site root.
+	 *
+	 * @covers ::home
+	 */
+	public function test_home_with_home_at_site_root() {
+		Monkey\Functions\expect( 'home_url' )
+			->andReturn( 'https://example.org' );
+
+		Monkey\Functions\expect( 'wp_parse_url' )
+			->with( 'https://example.org/', PHP_URL_PATH )
+			->andReturn( null );
+
+		Monkey\Functions\expect( 'trailingslashit' )
+			->with( 'https://example.org' )
+			->andReturn( 'https://example.org/' );
+
+		$this->assertEquals( 'https://example.org/', $this->instance->home() );
+	}
+
+	/**
+	 * Tests the home url with no path given and home url is site root.
+	 *
+	 * @covers ::home
+	 */
+	public function test_home_with_home_at_site_root_already_slashed() {
+		Monkey\Functions\expect( 'home_url' )
+			->andReturn( 'https://example.org/' );
+
+		Monkey\Functions\expect( 'wp_parse_url' )
+			->with( 'https://example.org/', PHP_URL_PATH )
+			->andReturn( '/' );
+
+		$this->assertEquals( 'https://example.org/', $this->instance->home() );
+	}
+
+	/**
+	 * Tests the home url with the home in a subdirectory.
+	 *
+	 * @covers ::home
+	 */
+	public function test_home_with_home_in_subdirectory() {
+		Monkey\Functions\expect( 'home_url' )
+			->andReturn( 'https://example.org' );
+
+		Monkey\Functions\expect( 'wp_parse_url' )
+			->with( 'https://example.org/', PHP_URL_PATH )
+			->andReturn( 'https://example.org/subdirectory' );
+
+		Monkey\Functions\expect( 'user_trailingslashit' )
+			->with( 'https://example.org' )
+			->andReturn( 'https://example.org/' );
+
+		$this->assertEquals( 'https://example.org/', $this->instance->home() );
+	}
+
+
+	/**
+	 * Tests the home url with the home in a subdirectory.
+	 *
+	 * @covers ::home
+	 */
+	public function test_home() {
+		Monkey\Functions\expect( 'home_url' )
+			->andReturn( 'https://example.org' );
+
+		Monkey\Functions\expect( 'wp_parse_url' )
+			->with( 'https://example.org/', PHP_URL_PATH )
+			->andReturn( false );
+
+		$this->assertEquals( 'https://example.org', $this->instance->home() );
+	}
+
+	/**
 	 * Tests the get_link_type function.
 	 *
 	 * @covers ::get_link_type

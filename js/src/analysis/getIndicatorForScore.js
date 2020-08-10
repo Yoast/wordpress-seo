@@ -13,7 +13,7 @@ import {
  * @returns {boolean} Whether or not the page has presenters.
  */
 var hasPresenter = function() {
-	var app = YoastSEO.app;
+	var app = YoastSEO.app || {};
 
 	return ( ! isUndefined( app.seoAssessorPresenter ) || ! isUndefined( app.contentAssessorPresenter ) );
 };

@@ -520,7 +520,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 					break;
 
 				case 'schema-page-type-':
-					if ( isset( $dirty[ $key ] ) ) {
+					if ( isset( $dirty[ $key ] ) && is_string( $dirty[ $key ] ) ) {
 						if ( array_key_exists( $dirty[ $key ], Schema_Types::PAGE_TYPES ) ) {
 							$clean[ $key ] = $dirty[ $key ];
 						}
@@ -532,7 +532,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 					}
 					break;
 				case 'schema-article-type-':
-					if ( isset( $dirty[ $key ] ) ) {
+					if ( isset( $dirty[ $key ] ) && is_string( $dirty[ $key ] ) ) {
 						if ( array_key_exists( $dirty[ $key ], Schema_Types::ARTICLE_TYPES ) ) {
 							$clean[ $key ] = $dirty[ $key ];
 						}
