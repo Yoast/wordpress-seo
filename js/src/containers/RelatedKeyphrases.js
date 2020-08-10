@@ -15,14 +15,16 @@ export default compose( [
 			response: select( "yoast-seo/editor" ).getSEMrushRequestResponse(),
 			isSuccess: select( "yoast-seo/editor" ).getSEMrushRequestIsSuccess(),
 			isPending: select( "yoast-seo/editor" ).getSEMrushIsRequestPending(),
-			keyphraseLimitReached: select( "yoast-seo/editor" ).getSEMrushLimitReached(),
 		};
 	} ),
 	withDispatch( ( dispatch ) => {
-		const { setSEMrushChangeCountry, setSEMrushNewRequest, setSEMrushRequestSucceeded,
-			setSEMrushRequestFailed, setSEMrushSetRequestLimitReached, addSEMrushKeyphrase,
-			removeSEMrushKeyphrase, setSEMrushKeyphraseLimitReached } =
-			dispatch( "yoast-seo/editor" );
+		const {
+			setSEMrushChangeCountry,
+			setSEMrushNewRequest,
+			setSEMrushRequestSucceeded,
+			setSEMrushRequestFailed,
+			setSEMrushSetRequestLimitReached,
+		 } = dispatch( "yoast-seo/editor" );
 		return {
 			setCountry: ( countryCode ) => {
 				setSEMrushChangeCountry( countryCode );
@@ -38,15 +40,6 @@ export default compose( [
 			},
 			setRequestLimitReached: () => {
 				setSEMrushSetRequestLimitReached();
-			},
-			addRelatedKeyphrase: ( keyphrase ) => {
-				addSEMrushKeyphrase( keyphrase );
-			},
-			removeRelatedKeyphrase: ( keyphrase ) => {
-				removeSEMrushKeyphrase( keyphrase );
-			},
-			setKeyphraseLimitReached: () => {
-				setSEMrushKeyphraseLimitReached();
 			},
 		};
 	} ),
