@@ -177,7 +177,7 @@ class Breadcrumbs_Generator implements Generator_Interface {
 		}
 
 		if ( $this->current_page_helper->is_paged() || \end( $indexables )->number_of_pages > 1 ) {
-			$crumbs[]['text'] = $this->get_pagination_text( \end( $indexables ) );
+			$crumbs[]['text'] = $this->get_pagination_text();
 		}
 
 		/**
