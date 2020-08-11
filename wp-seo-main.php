@@ -405,19 +405,6 @@ function wpseo_cli_init() {
 			[ 'before_invoke' => 'WPSEO_CLI_Premium_Requirement::enforce' ]
 		);
 	}
-
-	// Only add the namespace if the required base class exists (WP-CLI 1.5.0+).
-	// This is optional and only adds the description of the root `yoast`
-	// command.
-	if ( class_exists( 'WP_CLI\Dispatcher\CommandNamespace' ) ) {
-		WP_CLI::add_command( 'yoast', 'WPSEO_CLI_Yoast_Command_Namespace' );
-		if ( WPSEO_Utils::is_yoast_seo_premium() ) {
-			WP_CLI::add_command( 'yoast redirect', 'WPSEO_CLI_Redirect_Command_Namespace' );
-		}
-		else {
-			WP_CLI::add_command( 'yoast redirect', 'WPSEO_CLI_Redirect_Upsell_Command_Namespace' );
-		}
-	}
 }
 
 /* ***************************** BOOTSTRAP / HOOK INTO WP *************************** */

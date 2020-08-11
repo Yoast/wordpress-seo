@@ -6,7 +6,6 @@
 .cache export-ignore
 .github export-ignore
 config export-ignore
-grunt export-ignore
 svn-assets export-ignore
 tests export-ignore
 .babelrc export-ignore

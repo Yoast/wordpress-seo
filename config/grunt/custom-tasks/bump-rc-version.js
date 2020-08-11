@@ -1,4 +1,4 @@
-const { flattenVersionForFile } = require( "../../config/webpack/paths" );
+const { flattenVersionForFile } = require( "../../webpack/paths" );
 
 /**
  * Grunt task to bump the RC version.

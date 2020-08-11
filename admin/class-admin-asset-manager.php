@@ -339,18 +339,6 @@ class WPSEO_Admin_Asset_Manager {
 				],
 			],
 			[
-				'name' => 'recalculate',
-				'src'  => 'recalculate-' . $flat_version,
-				'deps' => [
-					'jquery',
-					'jquery-ui-core',
-					'jquery-ui-progressbar',
-					self::PREFIX . 'jed',
-					self::PREFIX . 'analysis',
-					self::PREFIX . 'commons',
-				],
-			],
-			[
 				'name'    => 'select2',
 				'src'     => 'select2/select2.full',
 				'suffix'  => '.min',
