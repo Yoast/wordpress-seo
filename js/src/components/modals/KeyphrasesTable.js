@@ -90,7 +90,7 @@ class KeyphrasesTable extends Component {
 
 		return (
 			data && ! isEmpty( data ) && <Fragment>
-				<table className="yoast-table">
+				<table className="yoast yoast-table">
 					<thead>
 						<tr>
 							<th
@@ -127,7 +127,7 @@ class KeyphrasesTable extends Component {
 									</span>
 								</HelpLink>
 							</th>
-							{ renderAction && <td /> }
+							{ renderAction && <td className="yoast-table--nobreak" /> }
 						</tr>
 					</thead>
 					<tbody>
@@ -157,7 +157,7 @@ class KeyphrasesTable extends Component {
 										/>
 									</td>
 									{
-										renderAction && <td>
+										renderAction && <td className="yoast-table--nobreak">
 											{ renderAction( relatedKeyphrase, relatedKeyphrases ) }
 										</td>
 									}
