@@ -109,7 +109,7 @@ import ProgressBar from "./ui/progressBar";
 
 				// If the div with the warning was removed, insert it again, so that a success/error alert can be shown.
 				if ( ! $( "#yoast-indexation-warning" ).length ) {
-					jQuery( '<div id="yoast-indexation-warning" class="notice"</div>' ).insertAfter( "#wpseo-title" ).hide();
+					jQuery( '<div id="yoast-indexation-warning" class="notice"></div>' ).insertAfter( "#wpseo-title" ).hide();
 				}
 
 				startIndexation( settings, progressBar ).then( () => {

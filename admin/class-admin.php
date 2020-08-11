@@ -51,10 +51,6 @@ class WPSEO_Admin {
 			add_filter( 'wpseo_accessible_post_types', [ 'WPSEO_Post_Type', 'filter_attachment_post_type' ] );
 		}
 
-		if ( filter_input( INPUT_GET, 'page' ) === 'wpseo_tools' && filter_input( INPUT_GET, 'tool' ) === null ) {
-			new WPSEO_Recalculate_Scores();
-		}
-
 		add_filter( 'plugin_action_links_' . WPSEO_BASENAME, [ $this, 'add_action_link' ], 10, 2 );
 
 		add_action( 'admin_enqueue_scripts', [ $this, 'config_page_scripts' ] );
@@ -117,7 +113,6 @@ class WPSEO_Admin {
 		$integrations = array_merge(
 			$integrations,
 			$this->get_admin_features(),
-			$this->initialize_seo_links(),
 			$this->initialize_cornerstone_content()
 		);
 
@@ -367,42 +362,6 @@ class WPSEO_Admin {
 		return [
 			'cornerstone_filter' => new WPSEO_Cornerstone_Filter(),
 		];
-	}
-
-	/**
-	 * Initializes the seo link watcher.
-	 *
-	 * @returns WPSEO_WordPress_Integration[]
-	 */
-	protected function initialize_seo_links() {
-		$integrations = [];
-
-		if ( ! WPSEO_Options::get( 'enable_text_link_counter' ) ) {
-			return $integrations;
-		}
-
-		$integrations[] = new WPSEO_Link_Cleanup_Transient();
-
-		if ( ! WPSEO_Link_Table_Accessible::is_accessible() ) {
-			WPSEO_Link_Table_Accessible::cleanup();
-		}
-
-		if ( ! WPSEO_Meta_Table_Accessible::is_accessible() ) {
-			WPSEO_Meta_Table_Accessible::cleanup();
-		}
-
-		if ( ! WPSEO_Link_Table_Accessible::is_accessible() || ! WPSEO_Meta_Table_Accessible::is_accessible() ) {
-			return $integrations;
-		}
-
-		$integrations[] = new WPSEO_Link_Columns( new WPSEO_Meta_Storage() );
-		$integrations[] = new WPSEO_Link_Reindex_Dashboard();
-		$integrations[] = new WPSEO_Link_Notifier();
-
-		// Adds a filter to exclude the attachments from the link count.
-		add_filter( 'wpseo_link_count_post_types', [ 'WPSEO_Post_Type', 'filter_attachment_post_type' ] );
-
-		return $integrations;
 	}
 
 	/**
