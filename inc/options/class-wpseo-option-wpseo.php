@@ -132,7 +132,6 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 	 * @todo [JRF => testers] Check if the extra actions below would run into problems if an option
 	 *       is updated early on and if so, change the call to schedule these for a later action on add/update
 	 *       instead of running them straight away.
-	 *
 	 */
 	protected function __construct() {
 		parent::__construct();
@@ -273,7 +272,8 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 				case 'ms_defaults_set':
 					if ( isset( $dirty[ $key ] ) ) {
 						$clean[ $key ] = WPSEO_Utils::validate_bool( $dirty[ $key ] );
-					} elseif ( isset( $old[ $key ] ) ) {
+					}
+					elseif ( isset( $old[ $key ] ) ) {
 						$clean[ $key ] = WPSEO_Utils::validate_bool( $old[ $key ] );
 					}
 					break;
