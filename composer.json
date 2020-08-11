@@ -55,9 +55,6 @@
 			"vendor_prefixed/",
 			"src/",
 			"lib/"
-		],
-		"files": [
-			"src/functions.php"
 		]
 	},
 	"autoload-dev": {

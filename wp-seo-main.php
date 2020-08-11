@@ -79,6 +79,7 @@ elseif ( ! class_exists( 'WPSEO_Options' ) ) { // Still checking since might be 
 if ( function_exists( 'spl_autoload_register' ) ) {
 	spl_autoload_register( 'wpseo_auto_load' );
 }
+require_once WPSEO_PATH . 'src/functions.php';
 
 /* ********************* DEFINES DEPENDING ON AUTOLOADED CODE ********************* */
 
