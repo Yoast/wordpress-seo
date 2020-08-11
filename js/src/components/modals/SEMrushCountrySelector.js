@@ -1,8 +1,11 @@
 /* External dependencies */
 import PropTypes from "prop-types";
-import { Component, Fragment } from "@wordpress/element";
+import { Component } from "@wordpress/element";
 import apiFetch from "@wordpress/api-fetch";
-/* Internal dependencies */
+import { addQueryArgs } from "@wordpress/url";
+import { __ } from "@wordpress/i18n";
+
+/* Yoast dependencies */
 import ErrorBoundary from "@yoast/components/src/internal/ErrorBoundary";
 import FieldGroup from "@yoast/components/src/field-group/FieldGroup";
 
@@ -16,7 +19,7 @@ const id = "semrush-country-selector";
 /**
  * Renders a HTML option based on a name and value.
  *
- * @param {string} name The name of the option.
+ * @param {string} name  The name of the option.
  * @param {string} value The value of the option.
  *
  * @returns {React.Component} An HTML option.
@@ -169,10 +172,11 @@ class SEMrushCountrySelector extends Component {
 		if ( typeof window.jQuery().select2 === "undefined" ) {
 			throw new Error( "No Select2 found." );
 		}
+
 		super( props );
 
 		this.onChangeHandler = this.onChangeHandler.bind( this );
-		this.newRequest = this.newRequest.bind( this );
+		this.relatedKeyphrasesRequest = this.relatedKeyphrasesRequest.bind( this );
 	}
 
 	/**
@@ -197,53 +201,144 @@ class SEMrushCountrySelector extends Component {
 	 */
 	onChangeHandler() {
 		const selection = this.select2.select2( "data" ).map( option => option.id )[ 0 ];
+
 		this.props.setCountry( selection );
 	}
 
 	/**
-	 * Makes a new request to SEMrush and updates the semrush_country_code value in the database.
+	 * Stores the country code via a REST API call.
+	 *
+	 * @param {string} countryCode The country code to store.
 	 *
 	 * @returns {void}
 	 */
-	newRequest() {
-		this.props.newRequest( this.props.countryCode, this.props.keyphrase, "OAuthToken1" );
-
+	storeCountryCode( countryCode ) {
 		apiFetch( {
 			path: "yoast/v1/semrush/country_code",
 			method: "POST",
 			// eslint-disable-next-line camelcase
-			data: { country_code: this.props.countryCode },
+			data: { country_code: countryCode },
+		} );
+	}
+
+	/**
+	 * Sends a new related keyphrases request to SEMrush and updates the semrush_country_code value in the database.
+	 *
+	 * @returns {void}
+	 */
+	async relatedKeyphrasesRequest() {
+		const { keyphrase, countryCode, newRequest } = this.props;
+
+		newRequest( countryCode, keyphrase );
+
+		this.storeCountryCode( countryCode );
+
+		const response = await this.doRequest( keyphrase, countryCode );
+
+		if ( response.status === 200 ) {
+			this.handleSuccessResponse( response );
+
+			return;
+		}
+
+		this.handleFailedResponse( response );
+	}
+
+	/**
+	 * Handles a success response.
+	 *
+	 * @param {Object} response The response object.
+	 *
+	 * @returns {void}
+	 */
+	handleSuccessResponse( response ) {
+		const {
+			keyphrase,
+			countryCode,
+			setNoResultsFound,
+			setRequestSucceeded,
+		} = this.props;
+
+		if ( response.results.rows.length === 0 ) {
+			// No results found.
+			setNoResultsFound( keyphrase, countryCode );
+
+			return;
+		}
+
+		setRequestSucceeded( response );
+	}
+
+	/**
+	 * Handles a failed response.
+	 *
+	 * @param {Object} response The response object.
+	 *
+	 * @returns {void}
+	 */
+	handleFailedResponse( response ) {
+		const { setRequestLimitReached, setRequestFailed } = this.props;
+
+		if ( "error" in response === false ) {
+			return;
+		}
+
+		if ( response.error.includes( "TOTAL LIMIT EXCEEDED" ) ) {
+			setRequestLimitReached();
+
+			return;
+		}
+
+		setRequestFailed( response );
+	}
+
+	/**
+	 * Performs the related keyphrases API request.
+	 *
+	 * @param {string} keyphrase   The keyphrase to send to SEMrush.
+	 * @param {string} countryCode The database country code to send to SEMrush.
+	 *
+	 * @returns {Object} The response object.
+	 */
+	async doRequest( keyphrase, countryCode ) {
+		return await apiFetch( {
+			path: addQueryArgs(
+				"/yoast/v1/semrush/related_keyphrases",
+				{
+					keyphrase,
+					// eslint-disable-next-line camelcase
+					country_code: countryCode,
+				}
+			),
 		} );
 	}
 
 	/**
 	 * Renders the SEMrush Country Selector.
 	 *
-	 * @returns {React.Element} The SEMrush Country Selector.
+	 * @returns {wp.Element} The SEMrush Country Selector.
 	 */
 	render() {
 		return (
-			<Fragment>
-				<div>
-					<FieldGroup
-						htmlFor={ id }
-						label="Show results for:"
-						wrapperClassName="yoast-field-group"
-					>
-						<select
-							id={ id }
-							name="semrush-country-code"
-							defaultValue={ this.props.countryCode }
-						>
-							{ countries.map( Option ) }
-						</select>
-						<button
-							className="yoast-button yoast-button--secondary"
-							onClick={ this.newRequest }
-						>Change Country</button>
-					</FieldGroup>
-				</div>
-			</Fragment>
+			<FieldGroup
+				htmlFor={ id }
+				label={ __( "Show results for:", "wordpress-seo" ) }
+				wrapperClassName="yoast-field-group"
+			>
+				<select
+					id={ id }
+					name="semrush-country-code"
+					defaultValue={ this.props.countryCode }
+				>
+					{ countries.map( Option ) }
+				</select>
+				<button
+					className="yoast-button yoast-button--secondary"
+					onClick={ this.relatedKeyphrasesRequest }
+				>
+					{ __( "Change Country", "wordpress-seo" ) }
+				</button>
+			</FieldGroup>
 		);
 	}
 }
@@ -253,6 +348,10 @@ SEMrushCountrySelector.propTypes = {
 	countryCode: PropTypes.string,
 	setCountry: PropTypes.func.isRequired,
 	newRequest: PropTypes.func.isRequired,
+	setNoResultsFound: PropTypes.func.isRequired,
+	setRequestSucceeded: PropTypes.func.isRequired,
+	setRequestLimitReached: PropTypes.func.isRequired,
+	setRequestFailed: PropTypes.func.isRequired,
 };
 
 SEMrushCountrySelector.defaultProps = {

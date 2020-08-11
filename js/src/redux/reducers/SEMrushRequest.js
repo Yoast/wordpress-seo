@@ -4,16 +4,17 @@ import {
 	SET_REQUEST_SUCCEEDED,
 	NEW_REQUEST,
 	CHANGE_COUNTRY,
+	NO_DATA_FOUND,
 } from "../actions/SEMrushRequest";
 
 const INITIAL_STATE = {
 	isRequestPending: false,
-	OAuthToken: "",
 	keyphrase: "",
 	countryCode: "us",
 	isSuccess: false,
 	response: null,
 	limitReached: false,
+	hasData: true,
 };
 /**
  * A reducer for the SEMrush request.
@@ -29,7 +30,6 @@ function SEMrushRequestReducer( state = INITIAL_STATE, action ) {
 			return {
 				...state,
 				isRequestPending: true,
-				OAuthToken: action.OAuthToken,
 				keyphrase: action.keyphrase,
 				countryCode: action.countryCode,
 				isSuccess: false,
@@ -42,6 +42,7 @@ function SEMrushRequestReducer( state = INITIAL_STATE, action ) {
 				isRequestPending: false,
 				isSuccess: true,
 				response: action.response,
+				hasData: true,
 			};
 		case SET_REQUEST_FAILED:
 			// The status code should be an error code here.
@@ -50,16 +51,27 @@ function SEMrushRequestReducer( state = INITIAL_STATE, action ) {
 				isRequestPending: false,
 				isSuccess: false,
 				response: action.response,
+				hasData: false,
 			};
 		case SET_REQUEST_LIMIT_REACHED:
 			return {
 				...state,
+				isRequestPending: false,
 				limitReached: true,
+				hasData: false,
 			};
 		case CHANGE_COUNTRY:
 			return {
 				...state,
 				countryCode: action.countryCode,
+			};
+		case NO_DATA_FOUND:
+			return {
+				...state,
+				isSuccess: true,
+				isRequestPending: false,
+				hasData: false,
+				response: null,
 			};
 		default:
 			return state;

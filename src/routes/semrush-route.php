@@ -143,7 +143,7 @@ class SEMrush_Route implements Route_Interface {
 					'validate_callback' => [ $this, 'has_valid_keyphrase' ],
 					'required'          => true,
 				],
-				'database'  => [
+				'country_code' => [
 					'required' => true,
 				],
 			],
@@ -207,7 +207,7 @@ class SEMrush_Route implements Route_Interface {
 	/**
 	 * Gets the related keyphrases based on the passed keyphrase and database code.
 	 *
-	 * @param WP_REST_Request $request The request. This request should have a keyphrase and database param set.
+	 * @param WP_REST_Request $request The request. This request should have a keyphrase and country_code param set.
 	 *
 	 * @return WP_REST_Response The response.
 	 */
@@ -216,7 +216,7 @@ class SEMrush_Route implements Route_Interface {
 			->phrases_action
 			->get_related_keyphrases(
 				$request['keyphrase'],
-				$request['database']
+				$request['country_code']
 			);
 
 		return new WP_REST_Response( $data, $data->status );

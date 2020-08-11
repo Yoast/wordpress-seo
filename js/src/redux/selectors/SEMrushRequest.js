@@ -54,23 +54,23 @@ export function getSEMrushRequestKeyphrase( state ) {
 }
 
 /**
- * Gets the current OAuth token of the request.
- *
- * @param {Object} state The state.
- *
- * @returns {string} Current request OAuth token.
- */
-export function getSEMrushRequestOAuthToken( state ) {
-	return state.SEMrushRequest.OAuthToken;
-}
-
-/**
  * Gets the currently selected country.
  *
- * @param {Object} state    The state.
+ * @param {Object} state The state.
  *
  * @returns {string} Current country.
  */
 export function getSEMrushSelectedCountry( state ) {
 	return state.SEMrushRequest.countryCode;
+}
+
+/**
+ * Checks whether the last successful request has a dataset.
+ *
+ * @param {Object} state The state.
+ *
+ * @returns {boolean} Whether or not there was a dataset in the last successful request.
+ */
+export function getSEMrushRequestHasData( state ) {
+	return state.SEMrushRequest.hasData;
 }

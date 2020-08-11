@@ -1,6 +1,8 @@
 /* External dependencies */
 import { Fragment } from "@wordpress/element";
+import { __ } from "@wordpress/i18n";
 import PropTypes from "prop-types";
+import { isEmpty } from "lodash-es";
 
 /* Internal dependencies */
 import SemRushLoading from "./modals/SemRushLoading";
@@ -11,122 +13,132 @@ import SemRushUpsellAlert from "./modals/SemRushUpsellAlert";
 import SemRushRequestFailed from "./modals/SemRushRequestFailed";
 
 /**
+ * Determines whether the error property is present in the passed response object.
+ *
+ * @param {Object} response The response object.
+ *
+ * @returns {boolean} Whether or not the error property is present.
+ */
+function hasError( response ) {
+	return ! isEmpty( response ) && "error" in response;
+}
+
+/**
+ * Gets a user message based on the passed props' values.
+ *
+ * @param {Object} props The props to use.
+ *
+ * @returns {wp.Element} The user message.
+ */
+function getUserMessage( props ) {
+	const {
+		isPending,
+		requestLimitReached,
+		isSuccess,
+		response,
+		requestHasData,
+	} = props;
+
+	if ( isPending ) {
+		return <SemRushLoading />;
+	}
+
+	if ( requestLimitReached ) {
+		return <SemRushLimitReached />;
+	}
+
+	if ( ! isSuccess && hasError( response ) ) {
+		return <SemRushRequestFailed />;
+	}
+
+	if ( ! requestHasData ) {
+		return <p>{ __( "Sorry, there's no data available for that keyphrase/country combination.", "wordpress-seo" ) }</p>;
+	}
+}
+
+/**
+ * Determines whether the request limit is reached or the request has failed.
+ *
+ * @param {Object} props The props to use.
+ *
+ * @returns {boolean} Whether the request limit is reached or the request has failed.
+ */
+function isLimitReachedOrRequestFailed( props ) {
+	const { requestLimitReached, isSuccess, response } = props;
+
+	return requestLimitReached || ! isSuccess && hasError( response );
+}
+
+/**
  * Renders the SEMrush related keyphrases modal content.
  *
- * @param {bool}   isLoading         Whether the data from SEMrush are loading.
- * @param {string} keyphrase         The main keyphrase set bu the user.
- * @param {string} relatedKeyphrases The related keyphrases set by the user.
- * @param {string} renderAction      The url to link to in the notice.
- * @param {object} data              The data returned by the SEMrush response.
+ * @param {Object} props The props to use within the content.
  *
  * @returns {wp.Element} The SEMrush related keyphrases modal content.
  */
-export default function RelatedKeyphrasesModalContent( { isLoading, keyphrase, relatedKeyphrases,
-	renderAction, countryCode, setCountry, newRequest, data } ) {
-	// Return table etc. All content based on props etc.
+export default function RelatedKeyphraseModalContent( props ) {
+	const {
+		response,
+		keyphrase,
+		newRequest,
+		setCountry,
+		renderAction,
+		countryCode,
+		setRequestFailed,
+		setNoResultsFound,
+		relatedKeyphrases,
+		setRequestSucceeded,
+		setRequestLimitReached,
+	} = props;
+
 	return (
 		<Fragment>
-			{ isLoading && <SemRushLoading /> }
-			<SemRushUpsellAlert />
-			<SemRushLimitReached />
-			<SemRushRequestFailed />
-			<SEMrushCountrySelector
-				countryCode={ countryCode }
-				setCountry={ setCountry }
-				newRequest={ newRequest }
-				keyphrase={ keyphrase }
-			/>
+			{ ! isLimitReachedOrRequestFailed( props ) && (
+				<Fragment>
+					<SemRushUpsellAlert />
+					<SEMrushCountrySelector
+						countryCode={ countryCode }
+						setCountry={ setCountry }
+						newRequest={ newRequest }
+						keyphrase={ keyphrase }
+						setRequestFailed={ setRequestFailed }
+						setNoResultsFound={ setNoResultsFound }
+						setRequestSucceeded={ setRequestSucceeded }
+						setRequestLimitReached={ setRequestLimitReached }
+					/>
+				</Fragment>
+			) }
+
+			{ getUserMessage( props ) }
+
 			<KeyphrasesTable
 				keyphrase={ keyphrase }
 				relatedKeyphrases={ relatedKeyphrases }
 				countryCode={ countryCode }
 				renderAction={ renderAction }
-				data={ data }
+				data={ response }
 			/>
-			<h2>Content debug info</h2>
-			<p>
-				The keyphrase is: { keyphrase }<br />
-			</p>
 		</Fragment>
 	);
 }
 
-RelatedKeyphrasesModalContent.propTypes = {
-	isLoading: PropTypes.bool,
+RelatedKeyphraseModalContent.propTypes = {
 	keyphrase: PropTypes.string,
 	relatedKeyphrases: PropTypes.array,
 	renderAction: PropTypes.func,
 	countryCode: PropTypes.string.isRequired,
 	setCountry: PropTypes.func.isRequired,
 	newRequest: PropTypes.func.isRequired,
-	data: PropTypes.object,
+	setRequestSucceeded: PropTypes.func.isRequired,
+	setRequestLimitReached: PropTypes.func.isRequired,
+	setRequestFailed: PropTypes.func.isRequired,
+	setNoResultsFound: PropTypes.func.isRequired,
+	response: PropTypes.object,
 };
 
-RelatedKeyphrasesModalContent.defaultProps = {
-	isLoading: true,
+RelatedKeyphraseModalContent.defaultProps = {
 	keyphrase: "",
 	relatedKeyphrases: [],
 	renderAction: null,
-	data: {
-		data: {
-			columnNames: [
-				"Keyword",
-				"Search Volume",
-				"Trends",
-			],
-			rows: [
-				[
-					"and you and you and you and you",
-					"50",
-					"0.14,0.14,0.71,0.14,0.43,0.14,0.14,0.14,0.14,0.29,1.00,0.29",
-				],
-				[
-					"more information",
-					"1300",
-					"0.63,0.63,0.81,0.63,0.81,0.81,0.81,1.00,1.00,0.81,1.00,1.00",
-				],
-				[
-					"my we",
-					"320",
-					"0.19,0.24,0.36,0.19,0.24,0.24,0.30,0.24,0.30,0.44,1.00,0.55",
-				],
-				[
-					"please see our website",
-					"70",
-					"0.11,0.22,0.11,0.00,0.11,0.22,0.78,0.11,0.44,1.00,0.00,0.11",
-				],
-				[
-					"search what you see",
-					"90",
-					"0.20,0.20,0.20,0.80,0.20,0.60,0.20,0.40,1.00,0.20,0.20,0.20",
-				],
-				[
-					"to your information",
-					"30",
-					"0.20,0.20,0.40,0.20,0.60,0.60,0.20,0.20,0.40,1.00,1.00,0.20",
-				],
-				[
-					"you and you",
-					"210",
-					"0.24,0.24,0.24,0.19,0.19,0.24,0.19,0.29,0.44,0.54,0.81,1.00",
-				],
-				[
-					"about this",
-					"260",
-					"0.81,0.81,0.81,0.81,0.81,0.81,0.66,0.81,0.81,1.00,0.81,0.81",
-				],
-				[
-					"for your information 3",
-					"30",
-					"0.00,0.29,0.14,0.00,0.00,0.14,0.14,1.00,1.00,0.14,0.14,0.29",
-				],
-				[
-					"you can you can",
-					"40",
-					"0.11,1.00,0.11,0.11,0.78,1.00,0.11,0.11,0.11,0.11,0.11,0.11",
-				],
-			],
-		},
-		status: 200,
-	},
+	response: {},
 };
