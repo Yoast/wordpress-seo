@@ -176,7 +176,7 @@ class Breadcrumbs_Generator implements Generator_Interface {
 			$crumbs[0]['text'] = $breadcrumbs_home;
 		}
 
-		$crumbs = $this->add_paged_crumb( $crumbs, \end( $indexables ) );
+		$crumbs = $this->add_paged_crumb( $crumbs, $context->indexable );
 
 		/**
 		 * Filter: 'wpseo_breadcrumb_links' - Allow the developer to filter the Yoast SEO breadcrumb links, add to them, change order, etc.
@@ -363,22 +363,19 @@ class Breadcrumbs_Generator implements Generator_Interface {
 	 * @returns array The breadcrumbs.
 	 */
 	protected function add_paged_crumb( array $crumbs, $current_indexable ) {
-		if ( ! $current_indexable ) {
-			return $crumbs;
-		}
+		$is_simple_page = $this->current_page_helper->is_simple_page();
 
 		// If we're not on a paged page do nothing.
-		if ( ! $this->current_page_helper->is_simple_page() && ! $this->current_page_helper->is_paged() ) {
+		if ( ! $is_simple_page && ! $this->current_page_helper->is_paged() ) {
 			return $crumbs;
 		}
 
 		// If we're not on a paginated post do nothing.
-		if ( $this->current_page_helper->is_simple_page() && $current_indexable->number_of_pages === null ) {
+		if ( $is_simple_page && $current_indexable->number_of_pages === null ) {
 			return $crumbs;
 		}
 
 		$current_page_number = $this->pagination_helper->get_current_page_number();
-
 		if ( $current_page_number <= 1 ) {
 			return $crumbs;
 		}

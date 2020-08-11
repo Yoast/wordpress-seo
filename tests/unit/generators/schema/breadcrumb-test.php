@@ -16,6 +16,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * Class Breadcrumb_Test
  *
  * @group generators
+ * @group breadcrumbs
  * @group schema
  *
  * @coversDefaultClass \Yoast\WP\SEO\Generators\Schema\Breadcrumb

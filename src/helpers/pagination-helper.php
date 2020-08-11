@@ -36,8 +36,6 @@ class Pagination_Helper {
 	 *
 	 * @param WP_Rewrite_Wrapper $wp_rewrite_wrapper The rewrite wrapper.
 	 * @param WP_Query_Wrapper   $wp_query_wrapper   The query wrapper.
-	 *
-	 * @codeCoverageIgnore
 	 */
 	public function __construct(
 		WP_Rewrite_Wrapper $wp_rewrite_wrapper,
