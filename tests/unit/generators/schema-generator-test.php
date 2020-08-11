@@ -364,6 +364,122 @@ class Schema_Generator_Test extends TestCase {
 	}
 
 	/**
+	 * Tests that a type array with 1 entry gets put without the array.
+	 *
+	 * @covers ::__construct
+	 * @covers ::generate
+	 * @covers ::get_graph_pieces
+	 * @covers ::validate_type
+	 */
+	public function test_validate_type_singular_array() {
+		$this->context->blocks = [];
+
+		$this->current_page
+			->expects( 'is_home_static_page' )
+			->twice()
+			->andReturnTrue();
+
+		$this->current_page
+			->expects( 'is_front_page' )
+			->andReturnTrue();
+
+		Monkey\Filters\expectApplied( 'wpseo_schema_website' )
+			->once()
+			->andReturn( [
+				'@type'           => [ 'WebSite' ] ,
+				'@id'             => '#website',
+				'url'             => null,
+				'name'            => '',
+				'description'     => 'description',
+				'potentialAction' => [
+					[
+						'@type'       => 'SearchAction',
+						'target'      => '?s={search_term_string}',
+						'query-input' => 'required name=search_term_string',
+					],
+				],
+				'inLanguage'      => 'English',
+			] );
+
+		$this->assertEquals(
+			[
+				'@type'           => 'WebSite',
+				'@id'             => '#website',
+				'url'             => null,
+				'name'            => '',
+				'description'     => 'description',
+				'potentialAction' => [
+					[
+						'@type'       => 'SearchAction',
+						'target'      => '?s={search_term_string}',
+						'query-input' => 'required name=search_term_string',
+					],
+				],
+				'inLanguage'      => 'English',
+			],
+			$this->instance->generate( $this->context )['@graph'][0]
+		);
+	}
+
+	/**
+	 * Tests that a type array duplicates get squashed.
+	 *
+	 * @covers ::__construct
+	 * @covers ::generate
+	 * @covers ::get_graph_pieces
+	 * @covers ::validate_type
+	 */
+	public function test_validate_type_unique_array() {
+		$this->context->blocks = [];
+
+		$this->current_page
+			->expects( 'is_home_static_page' )
+			->twice()
+			->andReturnTrue();
+
+		$this->current_page
+			->expects( 'is_front_page' )
+			->andReturnTrue();
+
+		Monkey\Filters\expectApplied( 'wpseo_schema_website' )
+			->once()
+			->andReturn( [
+				'@type'           => [ 'WebSite', 'WebSite', 'Something', 'Something', 'Something' ] ,
+				'@id'             => '#website',
+				'url'             => null,
+				'name'            => '',
+				'description'     => 'description',
+				'potentialAction' => [
+					[
+						'@type'       => 'SearchAction',
+						'target'      => '?s={search_term_string}',
+						'query-input' => 'required name=search_term_string',
+					],
+				],
+				'inLanguage'      => 'English',
+			] );
+
+		$this->assertEquals(
+			[
+				'@type'           => [ 'WebSite', 'Something' ],
+				'@id'             => '#website',
+				'url'             => null,
+				'name'            => '',
+				'description'     => 'description',
+				'potentialAction' => [
+					[
+						'@type'       => 'SearchAction',
+						'target'      => '?s={search_term_string}',
+						'query-input' => 'required name=search_term_string',
+					],
+				],
+				'inLanguage'      => 'English',
+			],
+			$this->instance->generate( $this->context )['@graph'][0]
+		);
+	}
+
+	/**
 	 * The generated schema that is applicable for almost every test scenario in this file.
 	 *
 	 * @return array The schema.
