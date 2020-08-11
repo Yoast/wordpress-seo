@@ -68,7 +68,7 @@ abstract class Abstract_Link_Indexing_Action implements Indexation_Action_Interf
 	public function get_total_unindexed() {
 		$transient = \get_transient( static::UNINDEXED_COUNT_TRANSIENT );
 
-		if ( $transient ) {
+		if ( $transient !== false ) {
 			return (int) $transient;
 		}
 
