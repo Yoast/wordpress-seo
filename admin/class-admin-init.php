@@ -161,10 +161,9 @@ class WPSEO_Admin_Init {
 		}
 
 		$notification  = $this->get_yoast_seo_update_notification( $release_info );
-		$dismissal_key = $notification->get_dismissal_key();
 
 		// Restore notification if it was dismissed in a previous minor version.
-		$last_dismissed_version = get_user_option( $dismissal_key );
+		$last_dismissed_version = get_user_option( $notification->get_dismissal_key() );
 		if ( ! $last_dismissed_version || (float) $last_dismissed_version < (float) $current_version ) {
 			Yoast_Notification_Center::restore_notification( $notification );
 		}
@@ -172,7 +171,7 @@ class WPSEO_Admin_Init {
 	}
 
 	/**
-	 * Build Yoast SEO update notification.
+	 * Builds Yoast SEO update notification.
 	 *
 	 * @param object $release_info The release information.
 	 *
@@ -188,6 +187,7 @@ class WPSEO_Admin_Init {
 				) .
 				'</strong>' .
 				$release_info->release_description;
+
 		if ( ! empty( $release_info->shortlink ) ) {
 			$link = esc_url( WPSEO_Shortlinker::get( $release_info->shortlink ) );
 			$info_message .= ' <a href="' . esc_url( $link ) . '" target="_blank">' .
@@ -198,14 +198,13 @@ class WPSEO_Admin_Init {
 							 ) .
 							 '</a>';
 		}
-		$data         = (object) [ 'dismiss_value' => WPSEO_Options::get( 'version', WPSEO_VERSION ) ];
 
 		return new Yoast_Notification(
 			$info_message,
 			[
 				'id'            => 'wpseo-plugin-updated',
 				'type'          => Yoast_Notification::UPDATED,
-				'data_json'     => $data,
+				'data_json'     => [ 'dismiss_value' => WPSEO_Options::get( 'version', WPSEO_VERSION ) ],
 				'dismissal_key' => 'wpseo-plugin-updated',
 			]
 		);
