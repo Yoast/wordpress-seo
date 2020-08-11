@@ -1,5 +1,5 @@
-const getUserInput = require( "../tools/get-user-input" );
-const parseVersion = require( "../tools/parse-version" );
+const getUserInput = require( "../lib/get-user-input" );
+const parseVersion = require( "../lib/parse-version" );
 const _isEmpty = require( "lodash/isEmpty" );
 
 /**

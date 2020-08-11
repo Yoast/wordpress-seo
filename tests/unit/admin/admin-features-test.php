@@ -52,6 +52,9 @@ class Admin_Features_Test extends TestCase {
 
 		if ( ! function_exists( 'YoastSEO' ) ) {
 			require_once WPSEO_PATH . 'src/functions.php';
+
+			Monkey\Functions\expect( 'get_current_blog_id' )->andReturn( 1 );
+			Monkey\Functions\expect( 'update_option' )->once();
 		}
 	}
 

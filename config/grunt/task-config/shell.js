@@ -198,22 +198,6 @@ module.exports = function( grunt ) {
 			command: "yarn unlink-monorepo",
 		},
 
-		"yarn-add-yoast-components-rc": {
-			command: "yarn add yoast-components@rc",
-		},
-
-		"yarn-add-yoast-components": {
-			command: "yarn add yoast-components",
-		},
-
-		"yarn-add-yoastseo-rc": {
-			command: "yarn add yoastseo@rc",
-		},
-
-		"yarn-add-yoastseo": {
-			command: "yarn add yoastseo",
-		},
-
 		"get-monorepo-versions": {
 			command: "yarn list --pattern 'yoastseo|yoast-components' --depth=0",
 		},
