@@ -530,7 +530,7 @@ class WPSEO_Admin_Asset_Manager {
 					self::PREFIX . 'feature-flag',
 					self::PREFIX . 'helpers',
 					self::PREFIX . 'style-guide',
-					self::PREFIX . 'configuration-wizard',
+					self::PREFIX . 'configuration-wizard-package',
 					self::PREFIX . 'analysis-report',
 					self::PREFIX . 'components-modern',
 					self::PREFIX . 'replacement-variable-editor',
