@@ -11,8 +11,13 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
-$yform          = Yoast_Form::get_instance();
-$home_path 		= is_writable( get_home_path() ) ? get_home_path() : $_SERVER['DOCUMENT_ROOT'] . '/';
+$yform     = Yoast_Form::get_instance();
+$home_path = get_home_path();
+
+if ( ! is_writable( $home_path ) && ! empty( $_SERVER['DOCUMENT_ROOT'] ) ) {
+	$home_path = $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR;
+}
+
 $robots_file    = $home_path . 'robots.txt';
 $ht_access_file = $home_path . '.htaccess';
 
