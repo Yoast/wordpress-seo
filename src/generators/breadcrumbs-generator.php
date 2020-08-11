@@ -176,9 +176,7 @@ class Breadcrumbs_Generator implements Generator_Interface {
 			$crumbs[0]['text'] = $breadcrumbs_home;
 		}
 
-		if ( $this->current_page_helper->is_paged() || \end( $indexables )->number_of_pages > 1 ) {
-			$crumbs[]['text'] = $this->get_pagination_text();
-		}
+		$crumbs = $this->add_paged_crumb( $crumbs, \end( $indexables ) );
 
 		/**
 		 * Filter: 'wpseo_breadcrumb_links' - Allow the developer to filter the Yoast SEO breadcrumb links, add to them, change order, etc.
@@ -285,20 +283,19 @@ class Breadcrumbs_Generator implements Generator_Interface {
 	 *
 	 * @return array The crumb.
 	 */
-	private function get_date_archive_crumb( $crumb ) {
+	protected function get_date_archive_crumb( $crumb ) {
 		$home_url = $this->url_helper->home();
 		$prefix   = $this->options->get( 'breadcrumbs-archiveprefix' );
 
 		if ( \is_day() ) {
-			$crumb['url']  = $home_url . \get_the_date( 'Y/m/d' ) . '/';
 			$day           = \esc_html( \get_the_date() );
+			$crumb['url']  = $home_url . \get_the_date( 'Y/m/d' ) . '/';
 			$crumb['text'] = $prefix . ' ' . $day;
 		}
 		elseif ( \is_month() ) {
-			$crumb['url']  = $home_url . \get_the_date( 'Y/m' ) . '/';
 			$month         = \esc_html( \trim( \single_month_title( ' ', false ) ) );
+			$crumb['url']  = $home_url . \get_the_date( 'Y/m' ) . '/';
 			$crumb['text'] = $prefix . ' ' . $month;
-
 		}
 		elseif ( \is_year() ) {
 			$year          = \get_the_date( 'Y' );
@@ -307,25 +304,6 @@ class Breadcrumbs_Generator implements Generator_Interface {
 		}
 
 		return $crumb;
-	}
-
-	/**
-	 * Returns the text for the pagination crumb.
-	 *
-	 * @return string The crumb.
-	 */
-	private function get_pagination_text() {
-		$page_number = $this->pagination_helper->get_current_page_number();
-
-		if ( $page_number <= 1 ) {
-			return '';
-		}
-
-		return sprintf(
-			/* translators: %s expands to the current page number */
-			__( 'Page %s', 'wordpress-seo' ),
-			$page_number
-		);
 	}
 
 	/**
@@ -374,5 +352,45 @@ class Breadcrumbs_Generator implements Generator_Interface {
 		}
 
 		return $parent;
+	}
+
+	/**
+	 * Adds a crumb for the current page, if we're on an archive page or paginated post.
+	 *
+	 * @param array     $crumbs            The array of breadcrumbs.
+	 * @param Indexable $current_indexable The current indexable.
+	 *
+	 * @returns array The breadcrumbs.
+	 */
+	protected function add_paged_crumb( array $crumbs, $current_indexable ) {
+		if ( ! $current_indexable ) {
+			return $crumbs;
+		}
+
+		// If we're not on a paged page do nothing.
+		if ( ! $this->current_page_helper->is_simple_page() && ! $this->current_page_helper->is_paged() ) {
+			return $crumbs;
+		}
+
+		// If we're not on a paginated post do nothing.
+		if ( $this->current_page_helper->is_simple_page() && $current_indexable->number_of_pages === null ) {
+			return $crumbs;
+		}
+
+		$current_page_number = $this->pagination_helper->get_current_page_number();
+
+		if ( $current_page_number <= 1 ) {
+			return $crumbs;
+		}
+
+		$crumbs[] = [
+			'text' => sprintf(
+				/* translators: %s expands to the current page number */
+				__( 'Page %s', 'wordpress-seo' ),
+				$current_page_number
+			),
+		];
+
+		return $crumbs;
 	}
 }
