@@ -323,11 +323,8 @@ function wpseo_init() {
 	$wpseo_ryte = new WPSEO_Ryte();
 	$wpseo_ryte->register_hooks();
 
-	// When namespaces are not available, stop further execution.
-	if ( version_compare( PHP_VERSION, '5.6.0', '>=' ) ) {
-		// Initializes the Yoast indexables for the first time.
-		YoastSEO();
-	}
+	// Initializes the Yoast indexables for the first time.
+	YoastSEO();
 }
 
 /**
