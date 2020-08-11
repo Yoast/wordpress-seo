@@ -107,7 +107,6 @@ module.exports = {
 					"frontend/**",
 					"images/**",
 					"inc/**",
-					"cli/**",
 					"js/vendor/**/*.js",
 					"js/dist/**/*.js",
 					"languages/**",
