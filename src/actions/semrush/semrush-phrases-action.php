@@ -61,7 +61,7 @@ class SEMrush_Phrases_Action {
 				'params' => [
 					'phrase'         => $keyphrase,
 					'database'       => $database,
-					'export_columns' => 'Ph,Nq,Cp,Co,Nr,Td,Rr',
+					'export_columns' => 'Ph,Nq,Td',
 					'display_limit'  => 10,
 					'display_offset' => 0,
 					'display_sort'   => 'nq_desc',
