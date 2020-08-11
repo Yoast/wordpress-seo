@@ -57,11 +57,8 @@ class Admin_Features_Test extends TestCase {
 		$helper_surface = Mockery::mock( Helpers_Surface::class );
 		$helper_surface->current_page = $current_page_helper;
 
-		$main = Mockery::mock( Main::class );
-		$main->helpers = $helper_surface;
-
 		Monkey\Functions\expect( 'YoastSEO' )
-			->andReturn( $main );
+			->andReturn( (object) [ 'helpers' => $helper_surface ] );
 	}
 
 	/**
