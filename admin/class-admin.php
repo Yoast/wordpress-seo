@@ -113,7 +113,6 @@ class WPSEO_Admin {
 		$integrations = array_merge(
 			$integrations,
 			$this->get_admin_features(),
-			$this->initialize_seo_links(),
 			$this->initialize_cornerstone_content()
 		);
 
@@ -363,42 +362,6 @@ class WPSEO_Admin {
 		return [
 			'cornerstone_filter' => new WPSEO_Cornerstone_Filter(),
 		];
-	}
-
-	/**
-	 * Initializes the seo link watcher.
-	 *
-	 * @returns WPSEO_WordPress_Integration[]
-	 */
-	protected function initialize_seo_links() {
-		$integrations = [];
-
-		if ( ! WPSEO_Options::get( 'enable_text_link_counter' ) ) {
-			return $integrations;
-		}
-
-		$integrations[] = new WPSEO_Link_Cleanup_Transient();
-
-		if ( ! WPSEO_Link_Table_Accessible::is_accessible() ) {
-			WPSEO_Link_Table_Accessible::cleanup();
-		}
-
-		if ( ! WPSEO_Meta_Table_Accessible::is_accessible() ) {
-			WPSEO_Meta_Table_Accessible::cleanup();
-		}
-
-		if ( ! WPSEO_Link_Table_Accessible::is_accessible() || ! WPSEO_Meta_Table_Accessible::is_accessible() ) {
-			return $integrations;
-		}
-
-		$integrations[] = new WPSEO_Link_Columns( new WPSEO_Meta_Storage() );
-		$integrations[] = new WPSEO_Link_Reindex_Dashboard();
-		$integrations[] = new WPSEO_Link_Notifier();
-
-		// Adds a filter to exclude the attachments from the link count.
-		add_filter( 'wpseo_link_count_post_types', [ 'WPSEO_Post_Type', 'filter_attachment_post_type' ] );
-
-		return $integrations;
 	}
 
 	/**

@@ -14,7 +14,6 @@ use Yoast\WP\SEO\Actions\Indexation\Indexable_Post_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexation\Indexable_Post_Type_Archive_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexation\Indexable_Prepare_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexation\Indexable_Term_Indexation_Action;
-use Yoast\WP\SEO\Actions\Indexation\Indexation_Action_Interface;
 use Yoast\WP\SEO\Conditionals\No_Conditionals;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Main;
@@ -280,24 +279,5 @@ class Indexable_Indexation_Route extends Abstract_Indexation_Route {
 	 */
 	public function can_index() {
 		return \current_user_can( 'edit_posts' );
-	}
-
-	/**
-	 * Runs an indexation action and returns the response.
-	 *
-	 * @param Indexation_Action_Interface $indexation_action The indexation action.
-	 * @param string                      $url               The url of the indexation route.
-	 *
-	 * @return WP_REST_Response The response.
-	 */
-	protected function run_indexation_action( Indexation_Action_Interface $indexation_action, $url ) {
-		$indexables = $indexation_action->index();
-
-		$next_url = false;
-		if ( \count( $indexables ) >= $indexation_action->get_limit() ) {
-			$next_url = \rest_url( $url );
-		}
-
-		return $this->respond_with( $indexables, $next_url );
 	}
 }

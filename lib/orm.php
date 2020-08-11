@@ -2154,8 +2154,9 @@ class ORM implements \ArrayAccess {
 			if ( empty( $values ) && empty( $this->_expr_fields ) ) {
 				return true;
 			}
-			$query = $this->_build_update();
-			$id    = $this->id( true );
+			$query = \join( ' ', [ $this->_build_update(), $this->_add_id_column_conditions() ] );
+
+			$id = $this->id( true );
 			if ( \is_array( $id ) ) {
 				$values = \array_merge( $values, \array_values( $id ) );
 			}
@@ -2187,11 +2188,37 @@ class ORM implements \ArrayAccess {
 	}
 
 	/**
+	 * Updates many records in the database.
+	 *
+	 * @return int|bool The number of rows changed if the query was succesful. False otherwise.
+	 */
+	public function update_many() {
+		// Remove any expression fields as they are already baked into the query.
+		$values = \array_values( \array_diff_key( $this->_dirty_fields, $this->_expr_fields ) );
+
+		// UPDATE.
+		// If there are no dirty values, do nothing.
+		if ( empty( $values ) && empty( $this->_expr_fields ) ) {
+			return true;
+		}
+
+		$query = $this->_join_if_not_empty( ' ', [
+			$this->_build_update(),
+			$this->_build_where(),
+		] );
+
+		$success             = self::_execute( $query, \array_merge( $values, $this->_values ) );
+		$this->_dirty_fields = $this->_expr_fields = [];
+
+		return $success;
+	}
+
+	/**
 	 * Adds a WHERE clause for every column that belongs to the primary key.
 	 *
-	 * @param array $query The query.
+	 * @return string The where part of the query.
 	 */
-	public function _add_id_column_conditions( &$query ) {
+	public function _add_id_column_conditions() {
 		$query[] = 'WHERE';
 		$keys    = \is_array( $this->_get_id_column_name() ) ? $this->_get_id_column_name() : [ $this->_get_id_column_name() ];
 		$first   = true;
@@ -2205,6 +2232,8 @@ class ORM implements \ArrayAccess {
 			$query[] = $this->_quote_identifier( $key );
 			$query[] = '= %s';
 		}
+
+		return \join( ' ', $query );
 	}
 
 	/**
@@ -2223,7 +2252,6 @@ class ORM implements \ArrayAccess {
 			$field_list[] = "{$this->_quote_identifier($key)} = {$value}";
 		}
 		$query[] = \join( ', ', $field_list );
-		$this->_add_id_column_conditions( $query );
 
 		return \join( ' ', $query );
 	}
@@ -2255,8 +2283,7 @@ class ORM implements \ArrayAccess {
 	 * @return string The delete query.
 	 */
 	public function delete() {
-		$query = [ 'DELETE FROM', $this->_quote_identifier( $this->_table_name ) ];
-		$this->_add_id_column_conditions( $query );
+		$query = [ 'DELETE FROM', $this->_quote_identifier( $this->_table_name ), $this->_add_id_column_conditions() ];
 
 		return self::_execute( \join( ' ', $query ), \is_array( $this->id( true ) ) ? \array_values( $this->id( true ) ) : [ $this->id( true ) ] );
 	}
