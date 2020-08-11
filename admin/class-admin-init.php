@@ -198,7 +198,7 @@ class WPSEO_Admin_Init {
 							 ) .
 							 '</a>';
 		}
-		$data         = (object) [ 'dismiss_value' => $release_info->version ];
+		$data         = (object) [ 'dismiss_value' => WPSEO_Options::get( 'version', WPSEO_VERSION ) ];
 
 		return new Yoast_Notification(
 			$info_message,
