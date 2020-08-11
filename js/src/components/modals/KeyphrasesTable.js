@@ -157,7 +157,7 @@ class KeyphrasesTable extends Component {
 										/>
 									</td>
 									{
-										renderAction && <td>
+										renderAction && <td className="yoast-table--nobreak">
 											{ renderAction( relatedKeyphrase, relatedKeyphrases ) }
 										</td>
 									}
