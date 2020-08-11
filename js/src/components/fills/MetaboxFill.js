@@ -17,7 +17,6 @@ import AdvancedSettings from "../AdvancedSettings";
 import SocialMetadataPortal from "../portals/SocialMetadataPortal";
 import SchemaTabContainer from "../../containers/SchemaTab";
 import SEMrushRelatedKeyphrases from "../../containers/RelatedKeyphrases";
-import Portal from "../portals/Portal";
 
 /**
  * Creates the Metabox component.
