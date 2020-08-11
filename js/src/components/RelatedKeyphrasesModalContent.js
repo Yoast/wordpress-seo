@@ -57,19 +57,6 @@ function getUserMessage( props ) {
 }
 
 /**
- * Determines whether the request limit is reached or the request has failed.
- *
- * @param {Object} props The props to use.
- *
- * @returns {boolean} Whether the request limit is reached or the request has failed.
- */
-function isLimitReachedOrRequestFailed( props ) {
-	const { requestLimitReached, isSuccess, response } = props;
-
-	return requestLimitReached || ! isSuccess && hasError( response );
-}
-
-/**
  * Renders the SEMrush related keyphrases modal content.
  *
  * @param {Object} props The props to use within the content.
@@ -84,6 +71,7 @@ export default function RelatedKeyphraseModalContent( props ) {
 		setCountry,
 		renderAction,
 		countryCode,
+		requestLimitReached,
 		setRequestFailed,
 		setNoResultsFound,
 		relatedKeyphrases,
@@ -93,7 +81,7 @@ export default function RelatedKeyphraseModalContent( props ) {
 
 	return (
 		<Fragment>
-			{ ! isLimitReachedOrRequestFailed( props ) && (
+			{ ! requestLimitReached && (
 				<Fragment>
 					<SemRushUpsellAlert />
 					<SEMrushCountrySelector
@@ -126,6 +114,7 @@ RelatedKeyphraseModalContent.propTypes = {
 	keyphrase: PropTypes.string,
 	relatedKeyphrases: PropTypes.array,
 	renderAction: PropTypes.func,
+	requestLimitReached: PropTypes.bool,
 	countryCode: PropTypes.string.isRequired,
 	setCountry: PropTypes.func.isRequired,
 	newRequest: PropTypes.func.isRequired,
@@ -140,5 +129,6 @@ RelatedKeyphraseModalContent.defaultProps = {
 	keyphrase: "",
 	relatedKeyphrases: [],
 	renderAction: null,
+	requestLimitReached: false,
 	response: {},
 };
