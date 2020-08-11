@@ -467,7 +467,7 @@ class WPSEO_Replace_Vars {
 		static $replacement;
 
 		if ( ! isset( $replacement ) ) {
-			$sitename = WPSEO_Utils::get_site_name();
+			$sitename = YoastSEO()->helpers->site->get_site_name();
 			if ( $sitename !== '' ) {
 				$replacement = $sitename;
 			}

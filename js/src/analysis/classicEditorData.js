@@ -16,7 +16,6 @@ import {
 } from "../helpers/replacementVariableHelpers";
 import * as tmceHelper from "../lib/tinymce";
 
-const { tmceId } = tmceHelper;
 const $ = jQuery;
 
 /**
@@ -26,21 +25,19 @@ export default class ClassicEditorData {
 	/**
 	 * Sets the wp data, Yoast SEO refresh function and data object.
 	 *
-	 * @param {Function} refresh          The YoastSEO refresh function.
-	 * @param {Object} store              The YoastSEO Redux store.
-	 * @param {Object} settings           The settings for this classic editor data
-	 *                                    object.
-	 * @param {string} settings.tinyMceId The ID of the tinyMCE editor.
+	 * @param {Function} refresh   The YoastSEO refresh function.
+	 * @param {Object}   store     The YoastSEO Redux store.
+	 * @param {string}   tinyMceId ID of the tinyMCE editor.
 	 *
 	 * @returns {void}
 	 */
-	constructor( refresh, store, settings = { tinyMceId: tmceId } ) {
+	constructor( refresh, store, tinyMceId = "content" ) {
 		this._refresh = refresh;
 		this._store = store;
 		this._initialData = {};
 		// This will be used for the comparison whether the title, description and slug are dirty.
 		this._previousData = {};
-		this._settings = settings;
+		this._tinyMceId = tinyMceId;
 		this.updateReplacementData = this.updateReplacementData.bind( this );
 		this.refreshYoastSEO = this.refreshYoastSEO.bind( this );
 	}
@@ -89,7 +86,7 @@ export default class ClassicEditorData {
 			this.setImageInSnippetPreview( newUrl );
 		} );
 
-		tmceHelper.addEventHandler( this._settings.tinyMceId, [ "init" ], () => {
+		tmceHelper.addEventHandler( this._tinyMceId, [ "init" ], () => {
 			const contentImage = this.getContentImage();
 			const url = this.getFeaturedImage() || contentImage || null;
 
@@ -98,7 +95,7 @@ export default class ClassicEditorData {
 			this.setImageInSnippetPreview( url );
 		} );
 
-		tmceHelper.addEventHandler( this._settings.tinyMceId, [ "change" ], debounce( () => {
+		tmceHelper.addEventHandler( this._tinyMceId, [ "change" ], debounce( () => {
 			if ( this.featuredImageIsSet ) {
 				return;
 			}
@@ -228,7 +225,7 @@ export default class ClassicEditorData {
 	 * @returns {string} The content of the document.
 	 */
 	getContent() {
-		const tinyMceId = this._settings.tinyMceId;
+		const tinyMceId = this._tinyMceId;
 
 		return removeMarks( tmceHelper.getContentTinyMce( tinyMceId ) );
 	}

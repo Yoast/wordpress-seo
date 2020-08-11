@@ -152,6 +152,8 @@ class Indexable_Post_Builder_Test extends TestCase {
 				'_yoast_wpseo_twitter-title'         => [ 'twitter_title' ],
 				'_yoast_wpseo_twitter-image'         => [ 'twitter_image' ],
 				'_yoast_wpseo_twitter-description'   => [ 'twitter_description' ],
+				'_yoast_wpseo_schema_page_type'      => [ 'FAQPage' ],
+				'_yoast_wpseo_schema_article_type'   => [ 'NewsArticle' ],
 			]
 		);
 		Monkey\Functions\expect( 'maybe_unserialize' )->andReturnFirstArg();
@@ -225,6 +227,9 @@ class Indexable_Post_Builder_Test extends TestCase {
 
 		Monkey\Functions\expect( 'get_current_blog_id' )->once()->andReturn( 1 );
 		$this->indexable->orm->expects( 'set' )->with( 'blog_id', 1 );
+
+		$this->indexable->orm->expects( 'set' )->once()->with( 'schema_page_type', 'FAQPage' );
+		$this->indexable->orm->expects( 'set' )->once()->with( 'schema_article_type', 'NewsArticle' );
 
 		$this->seo_meta_repository->expects( 'find_by_post_id' )->once()->with( 1 )->andReturn(
 			(object) [
@@ -473,7 +478,7 @@ class Indexable_Post_Builder_Test extends TestCase {
 	public function test_build_set_link_count_log_exception() {
 		$this->indexable      = Mockery::mock( Indexable::class );
 		$this->indexable->orm = Mockery::mock( ORM::class );
-		$this->indexable->orm->expects( 'set' )->times( 43 );
+		$this->indexable->orm->expects( 'set' )->times( 45 );
 		$this->indexable->orm->expects( 'offsetExists' )->zeroOrMoreTimes()->andReturnTrue();
 		$this->indexable->orm->expects( 'get' )->times( 11 )->andReturnArg( 0 );
 
@@ -513,6 +518,8 @@ class Indexable_Post_Builder_Test extends TestCase {
 				'_yoast_wpseo_opengraph-description' => [ 'open_graph_description' ],
 				'_yoast_wpseo_twitter-title'         => [ 'twitter_title' ],
 				'_yoast_wpseo_twitter-description'   => [ 'twitter_description' ],
+				'_yoast_wpseo_schema_page_type'      => [ 'WebPage' ],
+				'_yoast_wpseo_schema_article_type'   => [ 'Article' ],
 			]
 		);
 		Monkey\Functions\expect( 'maybe_unserialize' )->andReturnFirstArg();

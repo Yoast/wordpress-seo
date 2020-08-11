@@ -17,6 +17,7 @@ import { ThemeProvider } from "styled-components";
 import UserSelectPortal from "../components/portals/UserSelectPortal";
 import CompanyInfoMissingPortal from "../components/portals/CompanyInfoMissingPortal";
 import LocalSEOUpsellPortal from "../components/portals/LocalSEOUpsellPortal";
+import SchemaSettings from "../containers/SchemaSettings";
 
 /**
  * @summary Initializes the search appearance settings script.
@@ -59,6 +60,8 @@ export default function initSearchAppearance() {
 	const editorElements = document.querySelectorAll( "[data-react-replacevar-editor]" );
 	const singleFieldElements = document.querySelectorAll( "[data-react-replacevar-field]" );
 
+	const schemaSettingsElements = document.querySelectorAll( "[data-schema-settings]" );
+
 	const element = document.createElement( "div" );
 	document.body.appendChild( element );
 
@@ -96,6 +99,7 @@ export default function initSearchAppearance() {
 							backgroundUrl={ brushstrokeBackgroundURL }
 						/>
 					) }
+					<SchemaSettings targets={ schemaSettingsElements } />
 				</Fragment>
 			</ThemeProvider>
 		</Provider>,

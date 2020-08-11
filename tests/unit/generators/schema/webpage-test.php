@@ -99,7 +99,7 @@ class WebPage_Test extends TestCase {
 		];
 
 		// Set some values that are used in multiple tests.
-		$this->meta_tags_context->schema_page_type    = 'WebPage';
+		$this->meta_tags_context->schema_page_type    = [ 'WebPage' ];
 		$this->meta_tags_context->canonical           = 'https://example.com/the-post/';
 		$this->meta_tags_context->title               = 'the-title';
 		$this->meta_tags_context->description         = '';
@@ -181,11 +181,6 @@ class WebPage_Test extends TestCase {
 				}
 			);
 
-		$this->meta_tags_context
-			->expects( 'generate_schema_page_type' )
-			->once()
-			->andReturn( $schema_page_type );
-
 		Monkey\Filters\expectApplied( 'wpseo_schema_webpage_potential_action_target' )
 			->with( [ $this->meta_tags_context->canonical ] )
 			->times( $calls_to_filter )
@@ -215,7 +210,7 @@ class WebPage_Test extends TestCase {
 
 		$this->setup_generate_test(
 			false,
-			'WebPage',
+			[ 'WebPage' ],
 			1,
 			1,
 			1,
@@ -235,7 +230,7 @@ class WebPage_Test extends TestCase {
 	public function test_generate_on_front_page_site_does_not_represents_reference() {
 		$this->setup_generate_test(
 			true,
-			'WebPage',
+			[ 'WebPage' ],
 			1,
 			1,
 			1,
@@ -243,7 +238,7 @@ class WebPage_Test extends TestCase {
 		);
 
 		$expected = [
-			'@type'           => 'WebPage',
+			'@type'           => [ 'WebPage' ],
 			'@id'             => 'https://example.com/the-post/#webpage',
 			'url'             => 'https://example.com/the-post/',
 			'name'            => 'the-title',
@@ -276,7 +271,7 @@ class WebPage_Test extends TestCase {
 
 		$this->setup_generate_test(
 			true,
-			'WebPage',
+			[ 'WebPage' ],
 			1,
 			1,
 			1,
@@ -284,7 +279,7 @@ class WebPage_Test extends TestCase {
 		);
 
 		$expected = [
-			'@type'           => 'WebPage',
+			'@type'           => [ 'WebPage' ],
 			'@id'             => 'https://example.com/the-post/#webpage',
 			'url'             => 'https://example.com/the-post/',
 			'name'            => 'the-title',
@@ -324,7 +319,7 @@ class WebPage_Test extends TestCase {
 
 		$this->setup_generate_test(
 			false,
-			'WebPage',
+			[ 'WebPage' ],
 			1,
 			1,
 			1,
@@ -332,7 +327,7 @@ class WebPage_Test extends TestCase {
 		);
 
 		$expected = [
-			'@type'           => 'WebPage',
+			'@type'           => [ 'WebPage' ],
 			'@id'             => 'https://example.com/the-post/#webpage',
 			'url'             => 'https://example.com/the-post/',
 			'name'            => 'the-title',
@@ -371,7 +366,7 @@ class WebPage_Test extends TestCase {
 
 		$this->setup_generate_test(
 			false,
-			'WebPage',
+			[ 'WebPage' ],
 			1,
 			1,
 			1,
@@ -385,7 +380,7 @@ class WebPage_Test extends TestCase {
 			->andReturn( 'the-user-schema-id' );
 
 		$expected = [
-			'@type'           => 'WebPage',
+			'@type'           => [ 'WebPage' ],
 			'@id'             => 'https://example.com/the-post/#webpage',
 			'url'             => 'https://example.com/the-post/',
 			'name'            => 'the-title',
@@ -419,7 +414,7 @@ class WebPage_Test extends TestCase {
 
 		$this->setup_generate_test(
 			false,
-			'WebPage',
+			[ 'WebPage' ],
 			1,
 			1,
 			1,
@@ -433,7 +428,7 @@ class WebPage_Test extends TestCase {
 			->andReturnArg( 0 );
 
 		$expected = [
-			'@type'           => 'WebPage',
+			'@type'           => [ 'WebPage' ],
 			'@id'             => 'https://example.com/the-post/#webpage',
 			'url'             => 'https://example.com/the-post/',
 			'name'            => 'the-title',
@@ -474,7 +469,7 @@ class WebPage_Test extends TestCase {
 			0,
 			0,
 			0,
-			0
+			1
 		);
 
 		$expected = [
@@ -486,6 +481,14 @@ class WebPage_Test extends TestCase {
 				'@id' => 'https://example.com/#website',
 			],
 			'inLanguage' => 'the-language',
+			'potentialAction' => [
+				[
+					'@type'  => 'ReadAction',
+					'target' => [
+						'https://example.com/the-post/',
+					],
+				],
+			],
 		];
 
 		$this->assertEquals( $expected, $this->instance->generate() );
@@ -507,7 +510,7 @@ class WebPage_Test extends TestCase {
 			1,
 			1,
 			1,
-			0
+			1
 		);
 
 		$expected = [
@@ -521,6 +524,14 @@ class WebPage_Test extends TestCase {
 				'@id' => 'https://example.com/#website',
 			],
 			'inLanguage'    => 'the-language',
+			'potentialAction' => [
+				[
+					'@type'  => 'ReadAction',
+					'target' => [
+						'https://example.com/the-post/',
+					],
+				],
+			],
 		];
 
 		$this->assertEquals( $expected, $this->instance->generate() );
@@ -559,7 +570,7 @@ class WebPage_Test extends TestCase {
 					'breadcrumbs_enabled' => false,
 				],
 				'expected'       => [
-					'@type'           => 'WebPage',
+					'@type'           => [ 'WebPage' ],
 					'@id'             => 'https://example.com/the-post/#webpage',
 					'url'             => 'https://example.com/the-post/',
 					'name'            => 'the-title',
@@ -584,7 +595,7 @@ class WebPage_Test extends TestCase {
 					'breadcrumbs_enabled' => false,
 				],
 				'expected'       => [
-					'@type'              => 'WebPage',
+					'@type'              => [ 'WebPage' ],
 					'@id'                => 'https://example.com/the-post/#webpage',
 					'url'                => 'https://example.com/the-post/',
 					'name'               => 'the-title',
@@ -610,7 +621,7 @@ class WebPage_Test extends TestCase {
 					'breadcrumbs_enabled' => true,
 				],
 				'expected'       => [
-					'@type'           => 'WebPage',
+					'@type'           => [ 'WebPage' ],
 					'@id'             => 'https://example.com/the-post/#webpage',
 					'url'             => 'https://example.com/the-post/',
 					'name'            => 'the-title',

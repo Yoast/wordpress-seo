@@ -235,16 +235,14 @@ export default function initTabs( jQuery ) {
 	/* eslint-disable-next-line camelcase */
 	window.wpseo_init_tabs = wpseoInitTabs;
 
-	jQuery( document ).ready( function() {
-		// Set up the first tab and panel within the main tabs.
-		jQuery( ".wpseo-meta-section" ).each( function( index, el ) {
-			jQuery( el ).find( ".wpseo-metabox-tabs li:first" ).addClass( "active" );
-			jQuery( el ).find( ".wpseotab:first" ).addClass( "active" );
-		} );
-
-		// Initialize both the main tabs and the tabs within the main tabs.
-		window.wpseo_init_tabs();
-
-		wpseoAriaTabsInit();
+	// Set up the first tab and panel within the main tabs.
+	jQuery( ".wpseo-meta-section" ).each( function( index, el ) {
+		jQuery( el ).find( ".wpseo-metabox-tabs li:first" ).addClass( "active" );
+		jQuery( el ).find( ".wpseotab:first" ).addClass( "active" );
 	} );
+
+	// Initialize both the main tabs and the tabs within the main tabs.
+	window.wpseo_init_tabs();
+
+	wpseoAriaTabsInit();
 }

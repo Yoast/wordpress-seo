@@ -107,8 +107,16 @@ class Schema_Generator_Test extends TestCase {
 			[ $helpers ]
 		)->shouldAllowMockingProtectedMethods()->makePartial();
 
-		$this->context            = Mockery::mock( Meta_Tags_Context_Mock::class )->makePartial();
-		$this->context->blocks    = [
+		$this->context         = Mockery::mock( Meta_Tags_Context_Mock::class, [
+			$helpers->options,
+			Mockery::mock( \Yoast\WP\SEO\Helpers\Url_Helper::class ),
+			Mockery::mock( \Yoast\WP\SEO\Helpers\Image_Helper::class ),
+			Mockery::mock( \Yoast\WP\SEO\Helpers\Schema\ID_Helper::class ),
+			Mockery::mock( \WPSEO_Replace_Vars::class ),
+			Mockery::mock( \Yoast\WP\SEO\Helpers\Site_Helper::class ),
+			Mockery::mock( \Yoast\WP\SEO\Helpers\User_Helper::class ),
+		] )->shouldAllowMockingProtectedMethods();
+		$this->context->blocks = [
 			'yoast/faq-block' => [
 				[
 					'blockName' => 'FAQ Block',
@@ -128,6 +136,10 @@ class Schema_Generator_Test extends TestCase {
 				],
 			],
 		];
+
+		$this->context->shouldReceive( 'is_prototype' )->andReturnFalse();
+		$this->context->shouldReceive( 'generate_schema_page_type' )->andReturn( 'WebPage' );
+
 		$this->context->indexable = Mockery::mock( Indexable_Mock::class );
 	}
 
@@ -159,6 +171,8 @@ class Schema_Generator_Test extends TestCase {
 	 * @covers ::get_graph_pieces
 	 */
 	public function test_generate_with_no_blocks() {
+		$this->context->indexable->object_sub_type = 'super-custom-post-type';
+
 		$this->current_page
 			->expects( 'is_home_static_page' )
 			->twice()
@@ -377,7 +391,7 @@ class Schema_Generator_Test extends TestCase {
 					'@type'           => [ null, 'FAQPage' ],
 					'@id'             => '#webpage',
 					'url'             => null,
-					'name'            => '',
+					'name'            => null,
 					'isPartOf'        => [
 						'@id' => '#website',
 					],

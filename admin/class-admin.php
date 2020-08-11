@@ -51,10 +51,6 @@ class WPSEO_Admin {
 			add_filter( 'wpseo_accessible_post_types', [ 'WPSEO_Post_Type', 'filter_attachment_post_type' ] );
 		}
 
-		if ( filter_input( INPUT_GET, 'page' ) === 'wpseo_tools' && filter_input( INPUT_GET, 'tool' ) === null ) {
-			new WPSEO_Recalculate_Scores();
-		}
-
 		add_filter( 'plugin_action_links_' . WPSEO_BASENAME, [ $this, 'add_action_link' ], 10, 2 );
 
 		add_action( 'admin_enqueue_scripts', [ $this, 'config_page_scripts' ] );
@@ -74,7 +70,7 @@ class WPSEO_Admin {
 		WPSEO_Sitemaps_Cache::register_clear_on_option_update( 'wpseo' );
 		WPSEO_Sitemaps_Cache::register_clear_on_option_update( 'home' );
 
-		if ( WPSEO_Utils::is_yoast_seo_page() ) {
+		if ( YoastSEO()->helpers->current_page->is_yoast_seo_page() ) {
 			add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_assets' ] );
 		}
 

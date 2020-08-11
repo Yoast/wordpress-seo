@@ -17,6 +17,9 @@ const ModalContentSpacer = styled.div`
 	}
 `;
 
+/**
+ * Modal containing the Snippet preview.
+ */
 class SnippetPreviewModal extends Component {
 	constructor( props ) {
 		super( props );
