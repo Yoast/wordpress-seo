@@ -137,8 +137,8 @@ class WPSEO_Admin_Init {
 	 * @return void
 	 */
 	public function yoast_plugin_update_notification() {
-		$notification_center = Yoast_Notification_Center::get();
-		$current_version     = WPSEO_Options::get( 'version', WPSEO_VERSION );
+		$notification_center   = Yoast_Notification_Center::get();
+		$current_minor_version = $this->get_major_minor_version( WPSEO_Options::get( 'version', WPSEO_VERSION ) );
 
 		$file = plugin_dir_path( WPSEO_FILE ) . 'release-info.json';
 		$release_json = file_get_contents( $file );
@@ -153,21 +153,34 @@ class WPSEO_Admin_Init {
 		// Remove if file is not present, malformed or for a different version.
 		if ( is_null( $release_info )
 			|| empty( $release_info->version )
-			|| (float) $release_info->version !== (float) $current_version
+			|| version_compare( $this->get_major_minor_version( $release_info->version ), $current_minor_version, '!=' )
 		 	|| empty( $release_info->release_description )
 		) {
 			$notification_center->remove_notification_by_id( 'wpseo-plugin-updated' );
 			return;
 		}
 
-		$notification  = $this->get_yoast_seo_update_notification( $release_info );
+		$notification = $this->get_yoast_seo_update_notification( $release_info );
 
 		// Restore notification if it was dismissed in a previous minor version.
 		$last_dismissed_version = get_user_option( $notification->get_dismissal_key() );
-		if ( ! $last_dismissed_version || (float) $last_dismissed_version < (float) $current_version ) {
+		if ( ! $last_dismissed_version
+			 || version_compare( $this->get_major_minor_version( $last_dismissed_version ), $current_minor_version, '<' )
+		) {
 			Yoast_Notification_Center::restore_notification( $notification );
 		}
 		$notification_center->add_notification( $notification );
+	}
+
+	/**
+	 * Helper to truncate the version string up to the minor number
+	 *
+	 * @param string $version The version string to extract the major.minor number from.
+	 * @return string The version string up to the minor number.
+	 */
+	private function get_major_minor_version( $version ) {
+		$version_parts = preg_split( '/[^0-9]+/', $version, 3 );
+		return join( '.', array_slice( $version_parts, 0, 2 ) );
 	}
 
 	/**
