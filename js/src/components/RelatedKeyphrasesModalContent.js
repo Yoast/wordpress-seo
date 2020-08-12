@@ -12,6 +12,8 @@ import KeyphrasesTable from "./modals/KeyphrasesTable";
 import SemRushUpsellAlert from "./modals/SemRushUpsellAlert";
 import SemRushRequestFailed from "./modals/SemRushRequestFailed";
 
+import getL10nObject from "../analysis/getL10nObject";
+
 /**
  * Determines whether the error property is present in the passed response object.
  *
@@ -79,11 +81,13 @@ export default function RelatedKeyphraseModalContent( props ) {
 		setRequestLimitReached,
 	} = props;
 
+	const l10nObject = getL10nObject();
+
 	return (
 		<Fragment>
 			{ ! requestLimitReached && (
 				<Fragment>
-					<SemRushUpsellAlert />
+					{ ! l10nObject.isPremium && <SemRushUpsellAlert /> }
 					<SEMrushCountrySelector
 						countryCode={ countryCode }
 						setCountry={ setCountry }
