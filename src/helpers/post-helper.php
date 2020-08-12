@@ -28,7 +28,7 @@ class Post_Helper {
 	 *
 	 * @var Indexable_Repository
 	 */
-	protected $indexable_repository;
+	private $repository;
 
 	/**
 	 * Post_Helper constructor.
@@ -44,12 +44,12 @@ class Post_Helper {
 	/**
 	 * Sets the indexable repository. Done to avoid circular dependencies.
 	 *
-	 * @param Indexable_Repository $indexable_repository The indexable repository.
+	 * @param Indexable_Repository $repository The indexable repository.
 	 *
 	 * @required
 	 */
-	public function set_indexable_repository( Indexable_Repository $indexable_repository ) {
-		$this->indexable_repository = $indexable_repository;
+	public function set_indexable_repository( Indexable_Repository $repository ) {
+		$this->repository = $repository;
 	}
 
 	/**
@@ -135,12 +135,30 @@ class Post_Helper {
 	 * @return bool Whether the update was successful.
 	 */
 	public function update_has_public_posts_on_attachments( $post_parent, $has_public_posts ) {
-		return $this->indexable_repository->query()
-			->set( 'has_public_posts', $has_public_posts )
+		$query = $this->repository->query()
+			->select( 'id' )
 			->where( 'object_type', 'post' )
 			->where( 'object_sub_type', 'attachment' )
 			->where( 'post_status', 'inherit' )
-			->where( 'post_parent', $post_parent )
+			->where( 'post_parent', $post_parent );
+
+		if ( $has_public_posts !== null ) {
+			$query->where_raw( '( has_public_posts IS NULL OR has_public_posts <> %s )', [ $has_public_posts ] );
+		}
+		else {
+			$query->where_not_null( 'has_public_posts' );
+		}
+		$results = $query->find_array();
+
+		if ( empty( $results ) ) {
+			return true;
+		}
+
+		$updated = $this->repository->query()
+			->set( 'has_public_posts', $has_public_posts )
+			->where_id_in( \wp_list_pluck( $results, 'id' ) )
 			->update_many();
+
+		return $updated !== false;
 	}
 }
