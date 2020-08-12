@@ -400,7 +400,7 @@ class WPSEO_Sitemaps {
 		 *
 		 * @param array  $links Array of sitemap links
 		 */
-		$links = apply_filters( 'sitemap_index_links', $links );
+		$links = apply_filters( 'wpseo_sitemap_index_links', $links );
 
 		if ( empty( $links ) ) {
 			$this->bad_sitemap = true;
