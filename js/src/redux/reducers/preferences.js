@@ -10,12 +10,16 @@ import isWordFormRecognitionActive from "../../analysis/isWordFormRecognitionAct
  * @returns {Object} The default state.
  */
 function getDefaultState() {
+	const displayAdvancedTab = !! window.wpseoAdminL10n.displayAdvancedTab;
+
 	return {
 		isContentAnalysisActive: isContentAnalysisActive(),
 		isKeywordAnalysisActive: isKeywordAnalysisActive(),
 		isWordFormRecognitionActive: isUndefined( window.wpseoPremiumMetaboxData ) && isWordFormRecognitionActive(),
 		isCornerstoneActive: isCornerstoneActive(),
 		shouldUpsell: isUndefined( window.wpseoPremiumMetaboxData ),
+		displayAdvancedTab: displayAdvancedTab,
+		displaySchemaSettings: displayAdvancedTab && !! window.wpseoScriptData.isPost,
 	};
 }
 

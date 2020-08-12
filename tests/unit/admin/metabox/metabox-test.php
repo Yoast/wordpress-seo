@@ -32,6 +32,11 @@ class Metabox_Test extends TestCase {
 		global $_SERVER;
 		$_SERVER['HTTP_USER_AGENT'] = 'User Agent';
 
+		Monkey\Functions\expect( 'current_user_can' )
+			->with( 'wpseo_manage_options' )
+			->once()
+			->andReturnTrue();
+
 		$this->instance = new Metabox_Double();
 	}
 
