@@ -60,6 +60,8 @@ class SchemaSettings extends Component {
 	 *
 	 * @param {string} fieldName      The name of the field to which this option belongs
 	 * @param {string} focussedOption The name of the focussed option.
+	 *
+	 * @returns {void}
 	 */
 	handleOptionFocus( fieldName, focussedOption ) {
 		this.setState( {
