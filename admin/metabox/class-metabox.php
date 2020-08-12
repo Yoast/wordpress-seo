@@ -867,6 +867,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			$post_edit_handle = 'post-edit-classic';
 		}
 		$asset_manager->enqueue_script( $post_edit_handle );
+		$asset_manager->enqueue_style( 'admin-css' );
 
 		$yoast_components_l10n = new WPSEO_Admin_Asset_Yoast_Components_L10n();
 		$yoast_components_l10n->localize_script( WPSEO_Admin_Asset_Manager::PREFIX . $post_edit_handle );
