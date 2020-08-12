@@ -13,7 +13,7 @@ import SidebarItem from "../SidebarItem";
 import SnippetPreviewModal from "../SnippetPreviewModal";
 import TopLevelProviders from "../TopLevelProviders";
 import SchemaTabContainer from "../../containers/SchemaTab";
-import PostSettingsModal from "../PostSettingsModal";
+import PostSettingsModal from "../modals/PostSettingsModal";
 
 /**
  * Creates the SidebarFill component.

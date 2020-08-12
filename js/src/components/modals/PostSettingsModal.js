@@ -2,8 +2,7 @@ import { Button } from "@yoast/components/src/button/Button";
 import styled from "styled-components";
 import { __, sprintf } from "@wordpress/i18n";
 import { useState, useCallback } from "@wordpress/element";
-import { Modal } from "@wordpress/components";
-import YoastIcon from "../../../images/Yoast_SEO_Icon.svg";
+import Modal from "./Modal";
 
 /**
  * Container for the button.
@@ -37,11 +36,10 @@ const PostSettingsModal = () => {
 			{ isOpen && (
 				<Modal
 					title="Yoast SEO post settings"
-					icon={ <YoastIcon /> }
 					onRequestClose={ closeModal }
-					className="yoast yoast-gutenberg-modal"
+					additionalClassName="yoast-post-settings-modal"
 				>
-					Mooie content wah.
+					Here comes the content.
 				</Modal>
 			) }
 			<Button
