@@ -129,7 +129,7 @@ class Pagination_Helper {
 			return $page_number;
 		}
 
-		// Get the page number for a page in a paginated post
+		// Get the page number for a page in a paginated post.
 		return \get_query_var( 'page', 1 );
 	}
 }
