@@ -139,8 +139,14 @@ class WPSEO_Admin_Init {
 	public function yoast_plugin_update_notification() {
 		$notification_center   = Yoast_Notification_Center::get();
 		$current_minor_version = $this->get_major_minor_version( WPSEO_Options::get( 'version', WPSEO_VERSION ) );
-
 		$file = plugin_dir_path( WPSEO_FILE ) . 'release-info.json';
+
+		// Remove if file is not present.
+		if ( ! file_exists( $file ) ) {
+			$notification_center->remove_notification_by_id( 'wpseo-plugin-updated' );
+			return;
+		}
+
 		$release_json = file_get_contents( $file );
 		/**
 		 * Filter: 'wpseo_update_notice_content' - Allow filtering of the content
@@ -150,7 +156,7 @@ class WPSEO_Admin_Init {
 		 */
 		$release_info = apply_filters( 'wpseo_update_notice_content', json_decode( $release_json ) );
 
-		// Remove if file is not present, malformed or for a different version.
+		// Remove if file is malformed or for a different version.
 		if ( is_null( $release_info )
 			|| empty( $release_info->version )
 			|| version_compare( $this->get_major_minor_version( $release_info->version ), $current_minor_version, '!=' )
