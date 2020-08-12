@@ -11,9 +11,8 @@ import SEMrushCountrySelector from "./modals/SEMrushCountrySelector";
 import KeyphrasesTable from "./modals/KeyphrasesTable";
 import SemRushUpsellAlert from "./modals/SemRushUpsellAlert";
 import SemRushRequestFailed from "./modals/SemRushRequestFailed";
-
-import getL10nObject from "../analysis/getL10nObject";
 import SemRushMaxRelatedKeyphrases from "./modals/SemRushMaxRelatedKeyphrases";
+import getL10nObject from "../analysis/getL10nObject";
 
 /**
  * Determines whether the error property is present in the passed response object.
