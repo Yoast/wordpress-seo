@@ -198,19 +198,22 @@ class Schema_Generator implements Generator_Interface {
 			return $piece;
 		}
 
-		if ( \is_array( $piece['@type'] ) ) {
-			/*
-			 * Ensure the types are unique.
-			 * Use array_values to reset the indices (e.g. no 0, 2 because 1 was a duplicate).
-			 */
-			$piece['@type'] = \array_values( \array_unique( $piece['@type'] ) );
-
-			// Use the first value if there is only 1 type.
-			if ( \count( $piece['@type'] ) === 1 ) {
-				$piece['@type'] = \reset( $piece['@type'] );
-			}
+		// If it is not an array, we can return immediately.
+		if ( ! \is_array( $piece['@type'] ) ) {
+			return $piece;
 		}
+		
+		/*
+		 * Ensure the types are unique.
+		 * Use array_values to reset the indices (e.g. no 0, 2 because 1 was a duplicate).
+		 */
+		$piece['@type'] = \array_values( \array_unique( $piece['@type'] ) );
 
+		// Use the first value if there is only 1 type.
+		if ( \count( $piece['@type'] ) === 1 ) {
+			$piece['@type'] = \reset( $piece['@type'] );
+		}
+		
 		return $piece;
 	}
 
