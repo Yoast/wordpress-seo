@@ -11,6 +11,8 @@ import SEMrushCountrySelector from "./modals/SEMrushCountrySelector";
 import KeyphrasesTable from "./modals/KeyphrasesTable";
 import SemRushUpsellAlert from "./modals/SemRushUpsellAlert";
 import SemRushRequestFailed from "./modals/SemRushRequestFailed";
+import SemRushMaxRelatedKeyphrases from "./modals/SemRushMaxRelatedKeyphrases";
+import getL10nObject from "../analysis/getL10nObject";
 
 /**
  * Determines whether the error property is present in the passed response object.
@@ -57,6 +59,17 @@ function getUserMessage( props ) {
 }
 
 /**
+ * Determines whether the maximum amount of related keyphrases has been reached.
+ *
+ * @param {array} relatedKeyphrases The related keyphrases. Can be empty.
+ *
+ * @returns {boolean} Whether or not the maximum limit has been reached.
+ */
+function hasMaximumRelatedKeyphrases( relatedKeyphrases ) {
+	return relatedKeyphrases && relatedKeyphrases.length >= 4;
+}
+
+/**
  * Renders the SEMrush related keyphrases modal content.
  *
  * @param {Object} props The props to use within the content.
@@ -79,11 +92,14 @@ export default function RelatedKeyphraseModalContent( props ) {
 		setRequestLimitReached,
 	} = props;
 
+	const isPremium = getL10nObject().isPremium;
+
 	return (
 		<Fragment>
 			{ ! requestLimitReached && (
 				<Fragment>
-					<SemRushUpsellAlert />
+					{ ! isPremium && <SemRushUpsellAlert /> }
+					{ isPremium && hasMaximumRelatedKeyphrases( relatedKeyphrases ) && <SemRushMaxRelatedKeyphrases /> }
 					<SEMrushCountrySelector
 						countryCode={ countryCode }
 						setCountry={ setCountry }

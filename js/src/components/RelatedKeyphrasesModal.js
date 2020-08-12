@@ -10,7 +10,6 @@ import { BaseButton } from "@yoast/components";
 /* Internal dependencies */
 import { ModalContainer } from "./modals/Container";
 import YoastIcon from "../../../images/Yoast_icon_kader.svg";
-import SemRushMaxRelatedKeyphrases from "./modals/SemRushMaxRelatedKeyphrases";
 
 /**
  * Redux container for the RelatedKeyPhrasesModal modal.
@@ -61,7 +60,7 @@ class RelatedKeyphrasesModal extends Component {
 	 * @returns {React.Element} The RelatedKeyPhrasesModal modal component.
 	 */
 	render() {
-		const { keyphrase, location, maxRelatedKeyphrasesEntered, whichModalOpen } = this.props;
+		const { keyphrase, location, whichModalOpen } = this.props;
 
 		return (
 			<Fragment>
@@ -82,10 +81,6 @@ class RelatedKeyphrasesModal extends Component {
 						<ModalContainer
 							className="yoast-gutenberg-modal__content yoast-related-keyphrases-modal__content"
 						>
-							{ maxRelatedKeyphrasesEntered && (
-								<SemRushMaxRelatedKeyphrases />
-							) }
-
 							<Slot name="YoastRelatedKeyphrases" />
 
 						</ModalContainer>
@@ -99,7 +94,6 @@ class RelatedKeyphrasesModal extends Component {
 RelatedKeyphrasesModal.propTypes = {
 	keyphrase: PropTypes.string,
 	location: PropTypes.string,
-	maxRelatedKeyphrasesEntered: PropTypes.bool,
 	whichModalOpen: PropTypes.oneOf( [
 		"none",
 		"metabox",
@@ -113,7 +107,6 @@ RelatedKeyphrasesModal.propTypes = {
 RelatedKeyphrasesModal.defaultProps = {
 	keyphrase: "",
 	location: "",
-	maxRelatedKeyphrasesEntered: false,
 	whichModalOpen: "none",
 };
 
