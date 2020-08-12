@@ -27,12 +27,12 @@ class SchemaSettings extends Component {
 		this.initialPageType = props.pageType.value;
 		this.initialArticleType = props.articleType ? props.articleType.value : "none";
 
-		// eslint-disable camelcase
+		/* eslint-disable camelcase */
 		this.state = {
 			schema_page_type: this.initialPageType,
 			schema_article_type: this.initialArticleType,
 		};
-		// eslint-enable camelcase
+		/* eslint-enable camelcase */
 
 		this.handleOptionFocus = this.handleOptionFocus.bind( this );
 	}
