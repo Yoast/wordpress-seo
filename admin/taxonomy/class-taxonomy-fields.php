@@ -20,13 +20,21 @@ class WPSEO_Taxonomy_Fields {
 	 * @return array
 	 */
 	public function get( $field_group ) {
-		$fields = [
-			'content'  => $this->get_content_fields(),
-			'settings' => $this->get_settings_fields(),
-			'social'   => $this->get_social_fields(),
-		];
+		$fields = [];
 
-		return  $this->filter_hidden_fields( $fields[ $field_group ] );
+		switch ( $field_group ) {
+			case 'content':
+				$fields = $this->get_content_fields();
+				break;
+			case 'settings':
+				$fields = $this->get_settings_fields();
+				break;
+			case 'social':
+				$fields = $this->get_social_fields();
+				break;
+		}
+
+		return  $this->filter_hidden_fields( $fields );
 	}
 
 	/**

@@ -31,7 +31,7 @@ class WPSEO_Taxonomy_Metabox {
 	 *
 	 * @var bool
 	 */
-	private $social_is_enabled;
+	private $is_social_enabled;
 
 	/**
 	 * Helper to determine whether or not the SEO analysis is enabled.
@@ -56,7 +56,7 @@ class WPSEO_Taxonomy_Metabox {
 	public function __construct( $taxonomy, $term ) {
 		$this->term                 = $term;
 		$this->taxonomy             = $taxonomy;
-		$this->social_is_enabled = WPSEO_Options::get( 'opengraph', false ) || WPSEO_Options::get( 'twitter', false );
+		$this->is_social_enabled = WPSEO_Options::get( 'opengraph', false ) || WPSEO_Options::get( 'twitter', false );
 
 		$this->seo_analysis = new WPSEO_Metabox_Analysis_SEO();
 		$this->readability_analysis = new WPSEO_Metabox_Analysis_Readability();
@@ -93,7 +93,7 @@ class WPSEO_Taxonomy_Metabox {
 			echo $fields_presenter->html( $field_definitions->get( 'settings' ) );
 		}
 
-		if ( $this->social_is_enabled ) {
+		if ( $this->is_social_enabled ) {
 			echo $fields_presenter->html( $field_definitions->get( 'social' ) );
 		}
 	}
@@ -142,7 +142,7 @@ class WPSEO_Taxonomy_Metabox {
 			$tabs[] = new WPSEO_Metabox_Section_Readability();
 		}
 
-		if ( $this->social_is_enabled ) {
+		if ( $this->is_social_enabled ) {
 			$tabs[] = new WPSEO_Metabox_Section_React(
 				'social',
 				'<span class="dashicons dashicons-share"></span>' . __( 'Social', 'wordpress-seo' ),

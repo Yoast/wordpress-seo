@@ -8,7 +8,7 @@
 /**
  * This class parses all the values for the social tab in the Yoast SEO settings metabox.
  */
-class WPSEO_Taxonomy_Social_Fields extends WPSEO_Taxonomy_Fields {
+class WPSEO_Taxonomy_Social_Fields {
 	/**
 	 * Returning the fields for the social media tab.
 	 *
@@ -17,6 +17,8 @@ class WPSEO_Taxonomy_Social_Fields extends WPSEO_Taxonomy_Fields {
 	 */
 	public function get() {
 		_deprecated_function( __METHOD__, '14.9', 'WPSEO_Taxonomy_Fields::get' );
-		return [];
+
+		$fields =  new WPSEO_Taxonomy_Fields();
+		return $fields->get( 'social' );
 	}
 }
