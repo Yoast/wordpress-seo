@@ -202,7 +202,7 @@ class Schema_Generator implements Generator_Interface {
 		if ( ! \is_array( $piece['@type'] ) ) {
 			return $piece;
 		}
-		
+
 		/*
 		 * Ensure the types are unique.
 		 * Use array_values to reset the indices (e.g. no 0, 2 because 1 was a duplicate).
@@ -213,7 +213,7 @@ class Schema_Generator implements Generator_Interface {
 		if ( \count( $piece['@type'] ) === 1 ) {
 			$piece['@type'] = \reset( $piece['@type'] );
 		}
-		
+
 		return $piece;
 	}
 
