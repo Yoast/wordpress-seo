@@ -8,7 +8,6 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { KeywordInput as KeywordInputComponent } from "yoast-components";
 import styled from "styled-components";
-import { Alert } from "@yoast/components";
 
 /* Internal dependencies */
 import { setFocusKeyword } from "../../redux/actions/focusKeyword";
@@ -68,6 +67,14 @@ class KeywordInput extends Component {
 			errors.push( __( "Please enter a focus keyphrase first to get related keyphrases", "wordpress-seo" ) );
 		}
 
+		if ( this.props.keyword.includes( "," ) ) {
+			errors.push(  __( "Are you trying to use multiple keyphrases? You should add them separately below.", "wordpress-seo" )  );
+		}
+
+		if ( this.props.keyword.length > 191 ) {
+			errors.push(  __( "Your keyphrase is too long. It can be a maximum of 191 characters.",	"wordpress-seo"	)  );
+		}
+
 		return errors;
 	}
 
@@ -94,15 +101,6 @@ class KeywordInput extends Component {
 							hasError={ errors.length > 0 }
 							errorMessages={ errors }
 						/>
-						{
-							this.props.keyword.length > 191 &&
-							<Alert type="warning">
-								{ __(
-									"Your keyphrase is too long. It can be a maximum of 191 characters.",
-									"wordpress-seo"
-								) }
-							</Alert>
-						}
 						{
 							this.props.isSEMrushIntegrationActive &&
 							<SEMrushModal
