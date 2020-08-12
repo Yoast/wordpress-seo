@@ -220,11 +220,14 @@ Enhancements:
 * Improves all keyphrase-based assessments for Arabic by filtering function words and by allowing keyphrases to be recognized in a text when preceded by a prefix (e.g., "ل" or "ب").
 * Adds the following assessments for Indonesian: sentence beginnings, transition words, and passive voice.
 * Adds the following assessments for Portuguese: Flesch reading ease and passive voice.
-
+* Cleans up schema @type values:
+	* If it's an array with multiple values, only output unique values.
+	* If it's a single value, output it as a string instead of an array.
 
 Bugfixes:
 
 * Fixes a bug where the Yoast Dashboard widget would trigger an error when other plugins or temporary conditions would make the Yoast API response fail.
+* Fixes a bug where block editor dependencies would be loaded unnecessarily on classic editor, causing issues with NextGEN gallery. 
 
 Other:
 
