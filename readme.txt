@@ -211,23 +211,20 @@ Your question has most likely been answered on our knowledge base: [kb.yoast.com
 = 14.8 =
 Release Date: August 18th, 2020
 
-Bugfixes:
-
-* Fixes a bug where the Yoast Dashboard widget may trigger an error when other plugins or temporary conditions make the Yoast API response fail. [#15797](https://github.com/Yoast/wordpress-seo/pull/15797)
-
 Enhancements:
 
-* Adds a new schema tab to our metabox. This tab allows the user to change their schema settings on posts, pages and custom post types.
-* Adds a new section to the search appearance settings. This section allows the user to change their schema defaults for posts, pages and custom post types.
-* Updates the progress-bar in the indexation to the new styling.
-* Improves accuracy for the following assessments for languages written right-to-left: sentence length, keyphrase in introduction, keyphrase distribution, keyphrase density, keyphrase in meta description. 
-* Improves all keyphrase-based assessments for Arabic by allowing keyphrases to be recognized in text when preceded by a prefix (e.g., "ل" or "ب") and filtering function words. 
-* Fixes inconsistency in feedback strings that are produced by the Keyphrase in SEO Title assessment. 
-* Adds the Sentence beginnings assessment for Indonesian. 
-* Adds Transition words assessment for Indonesian. 
-* Adds Passive voice assessment for Indonesian. 
-* Adds Flesch reading ease assessment for Portuguese. 
-* Adds passive voice assessment for Portuguese. 
+* Adds a Schema tab to the metabox. This tab allows the user to change their Schema settings on posts, pages and custom post types.
+* Adds a new section to the Search Appearance settings. This section allows the user to change their schema defaults for posts, pages and custom post types.
+* Fixes an inconsistency in the feedback strings that are produced by the keyphrase in SEO title assessment.
+* Improves the accuracy of the following assessments for right-to-left languages: sentence length, keyphrase in introduction, keyphrase distribution, keyphrase density, and keyphrase in meta description.
+* Improves all keyphrase-based assessments for Arabic by filtering function words and by allowing keyphrases to be recognized in a text when preceded by a prefix (e.g., "ل" or "ب").
+* Adds the following assessments for Indonesian: sentence beginnings, transition words, and passive voice.
+* Adds the following assessments for Portuguese: Flesch reading ease and passive voice.
+
+
+Bugfixes:
+
+* Fixes a bug where the Yoast Dashboard widget would trigger an error when other plugins or temporary conditions would make the Yoast API response fail.
 
 Other:
 

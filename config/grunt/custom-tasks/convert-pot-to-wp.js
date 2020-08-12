@@ -60,7 +60,7 @@ function convertTranslationToPHP( translation, textdomain ) {
 			php += TAB + `/* ${extracted} */${NEWLINE}`;
 		}
 
-		if ( ! _isEmpty( comments.translator ) ) {
+		if ( ! _isEmpty( comments.translator ) && original !== "" ) {
 			php += TAB + `/* translators: ${comments.translator} */${NEWLINE}`
 		}
 	}
