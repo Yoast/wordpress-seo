@@ -28,6 +28,17 @@ const KeywordInputContainer = styled.div`
  */
 class KeywordInput extends Component {
 	/**
+	 * The constructor.
+	 *
+	 * @param {Object} props The props to use in the component.
+	 */
+	constructor( props ) {
+		super( props );
+
+		this.validate = this.validate.bind( this );
+	}
+
+	/**
 	 * Renders a help link.
 	 *
 	 * @returns {wp.Element} The help link component.
@@ -46,21 +57,32 @@ class KeywordInput extends Component {
 	}
 
 	/**
+	 * Validates the keyword input.
+	 *
+	 * @returns {array} The detected errors.
+	 */
+	validate() {
+		const errors = [];
+
+		if ( this.props.keyword.length === 0 && this.props.displayNoKeyphraseMessage ) {
+			errors.push( __( "Please enter a focus keyphrase first to get related keyphrases", "wordpress-seo" ) );
+		}
+
+		return errors;
+	}
+
+	/**
 	 * Renders the component.
 	 *
 	 * @returns {wp.Element} The component.
 	 */
 	render() {
+		const errors = this.validate();
+
 		return <LocationConsumer>
 			{ context => (
 				<Fragment>
 					<KeywordInputContainer>
-						{
-							this.props.displayNoKeyphraseMessage &&
-							<p role="alert">
-								{ __( "Please enter a focus keyphrase first to get related keyphrases", "wordpress-seo" ) }
-							</p>
-						}
 						<KeywordInputComponent
 							id={ `focus-keyword-input-${ context }` }
 							onChange={ this.props.onFocusKeywordChange }
@@ -69,7 +91,8 @@ class KeywordInput extends Component {
 							helpLink={ KeywordInput.renderHelpLink() }
 							onBlurKeyword={ this.props.onBlurKeyword }
 							onFocusKeyword={ this.props.onFocusKeyword }
-							hasError={ this.props.displayNoKeyphraseMessage }
+							hasError={ errors.length > 0 }
+							errorMessages={ errors }
 						/>
 						{
 							this.props.keyword.length > 191 &&
