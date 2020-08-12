@@ -9,6 +9,7 @@ We follow [Semantic Versioning](http://semver.org/).
 * Adds a new active schema tab icon.
 * Adds an optional buttonRef prop to the Button and ButtonStyledLink, which will be set as a ref on the html button and anchor element, respectively.
 * Makes the FieldGroup component available by exporting it. The FieldGroup is a reusable wrapper with a title/label, an optional HelpIcon and an optional Description.
+* Opens the 'ultimate guide to keyword research' link from the WordOccurrenceInsights component in a new tab.
 
 ### Other
 * Makes the Select name property optional.
