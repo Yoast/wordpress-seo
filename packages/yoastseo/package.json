@@ -106,7 +106,6 @@
       "/spec/fullTextTests/testTexts",
       "/spec/morphology/spanish/stemmerCoverage/generateStems.js",
       "/spec/morphology/spanish/stemmerCoverage/goldStandardStems.json",
-      "/spec/morphology/spanish/stemmerCoverage/goldStandardStems.json",
       "/spec/morphology/french/stemmerCoverage/generateStems.js",
       "/spec/morphology/french/stemmerCoverage/goldStandardStems.json",
       "/spec/morphology/french/stemmerCoverage/sampleVocabulary.json",
