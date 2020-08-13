@@ -915,7 +915,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				'choose_image' => __( 'Use Image', 'wordpress-seo' ),
 			],
 			'metabox'          => $this->get_metabox_script_data(),
-			'userLanguageCode' => WPSEO_Language_Utils::get_language( WPSEO_Language_Utils::get_user_locale() ),
+			'userLanguageCode' => WPSEO_Language_Utils::get_language( \get_user_locale() ),
 			'isPost'           => true,
 			'isBlockEditor'    => $is_block_editor,
 		];

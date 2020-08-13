@@ -44,14 +44,13 @@ class WPSEO_Language_Utils {
 	 * Can be removed when support for WordPress 4.6 will be dropped, in favor
 	 * of WordPress get_user_locale() that already fallbacks to the site's locale.
 	 *
+	 * @deprecated 14.9
+	 *
 	 * @return string The locale.
 	 */
 	public static function get_user_locale() {
-		if ( function_exists( 'get_user_locale' ) ) {
-			return get_user_locale();
-		}
-
-		return get_locale();
+		_deprecated_function( __METHOD__, 'WPSEO 14.9', 'get_user_locale' );
+		return get_user_locale();
 	}
 
 	/**

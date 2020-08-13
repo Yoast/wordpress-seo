@@ -51,7 +51,7 @@ class WPSEO_Add_Keyword_Modal {
 	public function get_translations_for_js() {
 		$translations = $this->get_translations();
 		return [
-			'locale' => WPSEO_Language_Utils::get_user_locale(),
+			'locale' => \get_user_locale(),
 			'intl'   => $translations,
 		];
 	}
