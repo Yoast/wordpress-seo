@@ -46,6 +46,16 @@ class Breadcrumb extends Abstract_Schema_Piece {
 		$breadcrumbs   = $this->context->presentation->breadcrumbs;
 		$list_elements = [];
 
+		// In case of pagination, replace the last breadcrumb, because it only contains "Page [number]" and has no URL.
+		if ( $this->helpers->current_page->is_paged() || ( $this->context->indexable->number_of_pages > 1 ) ) {
+			\array_pop( $breadcrumbs );
+
+			$breadcrumbs[] = [
+				'url'  => $this->context->canonical,
+				'text' => $this->context->title,
+			];
+		}
+
 		// Only output breadcrumbs that are not hidden.
 		$breadcrumbs = \array_filter( $breadcrumbs, [ $this, 'not_hidden' ] );
 
@@ -60,19 +70,9 @@ class Breadcrumb extends Abstract_Schema_Piece {
 				return false;
 			}
 		}
-
-
 		// Create the last breadcrumb.
 		$last_breadcrumb = \array_pop( $breadcrumbs );
 		$breadcrumbs[]   = $this->format_last_breadcrumb( $last_breadcrumb );
-
-		// Add a paginated state if the current page is paged.
-		if ( $this->helpers->current_page->is_paged() ) {
-			$breadcrumbs[] = [
-				'url'  => $this->context->canonical,
-				'text' => $this->context->title,
-			];
-		}
 
 		// Create intermediate breadcrumbs.
 		foreach ( $breadcrumbs as $index => $breadcrumb ) {
