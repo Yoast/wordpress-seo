@@ -2,7 +2,7 @@
 /**
  * WPSEO plugin file.
  *
- * @package WPSEO\Deprecated
+ * @package WPSEO\Deprecated\Frontend
  */
 
 use Yoast\WP\SEO\Helpers\Woocommerce_Helper;
