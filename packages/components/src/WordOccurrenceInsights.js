@@ -30,8 +30,8 @@ const getKeywordResearchArticleLink = () => {
 	return interpolateComponents( {
 		mixedString: keywordsResearchLinkTranslation,
 		components: {
-			// eslint-disable-next-line jsx-a11y/anchor-has-content
-			a: <a href="https://yoa.st/keyword-research-metabox" />,
+			// eslint-disable-next-line jsx-a11y/anchor-has-content, react/jsx-no-target-blank
+			a: <a href="https://yoa.st/keyword-research-metabox" target="_blank" />,
 		},
 	} );
 };
