@@ -218,14 +218,7 @@ class Indexable_Post_Builder_Test extends TestCase {
 		$this->set_indexable_set_expectations( $this->indexable, $indexable_expectations );
 
 		// Reset social images method (social image trait).
-		$this->indexable->orm->expects( 'set' )->with( 'open_graph_image', null );
-		$this->indexable->orm->expects( 'set' )->with( 'open_graph_image_id', null );
-		$this->indexable->orm->expects( 'set' )->with( 'open_graph_image_source', null );
-		$this->indexable->orm->expects( 'set' )->with( 'open_graph_image_meta', null );
-
-		$this->indexable->orm->expects( 'set' )->with( 'twitter_image', null );
-		$this->indexable->orm->expects( 'set' )->with( 'twitter_image_id', null );
-		$this->indexable->orm->expects( 'set' )->with( 'twitter_image_source', null );
+		$this->instance->expects( 'reset_social_images' )->with( $this->indexable );
 
 		// Handle images method (social image trait).
 		$this->indexable->orm->expects( 'get' )->with( 'open_graph_image' )->andReturn( 'open_graph_image' );
