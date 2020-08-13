@@ -294,7 +294,7 @@ class WPSEO_Admin_Asset_Manager {
 					'wp-plugins',
 					'wp-rich-text',
 					self::PREFIX . 'components-modern',
-					self::PREFIX . 'components-legacy',
+					self::PREFIX . 'legacy-components',
 					self::PREFIX . 'search-metadata-previews',
 					self::PREFIX . 'social-metadata-forms',
 					self::PREFIX . 'analysis',
@@ -311,7 +311,7 @@ class WPSEO_Admin_Asset_Manager {
 					'wp-element',
 					self::PREFIX . 'redux',
 					self::PREFIX . 'components-modern',
-					self::PREFIX . 'components-legacy',
+					self::PREFIX . 'legacy-components',
 					self::PREFIX . 'search-metadata-previews',
 					self::PREFIX . 'social-metadata-forms',
 					self::PREFIX . 'analysis',
@@ -399,7 +399,7 @@ class WPSEO_Admin_Asset_Manager {
 					self::PREFIX . 'classic-editor',
 					self::PREFIX . 'commons',
 					self::PREFIX . 'components-modern',
-					self::PREFIX . 'components-legacy',
+					self::PREFIX . 'legacy-components',
 					self::PREFIX . 'replacement-variable-editor',
 					self::PREFIX . 'search-metadata-previews',
 					self::PREFIX . 'social-metadata-forms',
@@ -434,7 +434,7 @@ class WPSEO_Admin_Asset_Manager {
 					'wp-i18n',
 					'wp-api',
 					self::PREFIX . 'helpers',
-					self::PREFIX . 'components-legacy',
+					self::PREFIX . 'legacy-components',
 					self::PREFIX . 'commons',
 				],
 			],
@@ -551,7 +551,7 @@ class WPSEO_Admin_Asset_Manager {
 					self::PREFIX . 'replacement-variable-editor',
 					self::PREFIX . 'search-metadata-previews',
 					self::PREFIX . 'social-metadata-forms',
-					self::PREFIX . 'components-legacy',
+					self::PREFIX . 'legacy-components',
 				],
 			],
 			[
@@ -570,7 +570,7 @@ class WPSEO_Admin_Asset_Manager {
 			],
 			[
 				// The `yoast-components` package.
-				'name' => 'components-legacy',
+				'name' => 'legacy-components',
 				'src'  => 'yoast/yoast-components-' . $flat_version,
 				'deps' => [
 					'lodash',
