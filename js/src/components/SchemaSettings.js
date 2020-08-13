@@ -25,7 +25,7 @@ class SchemaSettings extends Component {
 
 		// Save the initial value for the alert check.
 		this.initialPageType = props.pageType.value;
-		this.initialArticleType = props.articleType ? props.articleType.value : "none";
+		this.initialArticleType = props.articleType ? props.articleType.value : "None";
 
 		/* eslint-disable camelcase */
 		this.state = {
@@ -58,14 +58,14 @@ class SchemaSettings extends Component {
 	 * Changes the state appropriately whenever an option is highlighted in a specific field.
 	 * This is needed because we need to show an alert when the select is "dirty", which is before the onBlur event sometimes.
 	 *
-	 * @param {string} fieldName      The name of the field to which this option belongs
-	 * @param {string} focussedOption The name of the focussed option.
+	 * @param {string} fieldName     The name of the field to which this option belongs
+	 * @param {string} focusedOption The name of the focused option.
 	 *
 	 * @returns {void}
 	 */
-	handleOptionFocus( fieldName, focussedOption ) {
+	handleOptionFocus( fieldName, focusedOption ) {
 		this.setState( {
-			[ fieldName ]: focussedOption,
+			[ fieldName ]: focusedOption,
 		} );
 	}
 
