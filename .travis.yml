@@ -165,8 +165,7 @@ install:
     fi
   - |
     if [[ "$PHPCS" == "1" && "$IS_PREMIUM" != "1" ]]; then
-        composer config-yoastcs
-      fi
+      composer config-yoastcs
     fi
   - |
     if [[ "$CHECKJS" == "1" ]]; then
