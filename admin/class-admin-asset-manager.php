@@ -353,7 +353,7 @@ class WPSEO_Admin_Asset_Manager {
 				'src'       => 'post-edit-' . $flat_version,
 				'deps'      => [
 					'jquery',
-					'lodash'
+					'lodash',
 					'wp-api',
 					'wp-api-fetch',
 					'wp-data',
