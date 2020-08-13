@@ -92,6 +92,7 @@ function getBlocks( text ) {
 	htmlBlockTokenizer.onText( text );
 	htmlBlockTokenizer.end();
 
+	/* eslint-disable complexity */
 	forEach( tokens, function( token, i ) {
 		var nextToken = tokens[ i + 1 ];
 
@@ -147,6 +148,7 @@ function getBlocks( text ) {
 				blockEndTag = "";
 				break;
 		}
+		/* eslint-enable complexity */
 
 		// Handles HTML with too many closing tags.
 		if ( depth < 0 ) {
