@@ -1,3 +1,8 @@
+/**
+ * Retrieves a list that identify characters that break a word.
+ *
+ * @returns {string[]} List of word boundaries.
+ */
 export default function() {
 	return [
 		// Whitespace is always a word boundary.
@@ -6,5 +11,6 @@ export default function() {
 		"\u00a0",
 		" ",
 
-		".", ",", "'", "(", ")", "\"", "+", "-", ";", "!", "?", ":", "/", "»", "«", "‹", "›", "<", ">" ];
-};
+		".", ",", "'", "(", ")", "\"", "+", "-", ";", "!", "?", ":", "/", "»", "«", "‹", "›", "<", ">",
+	];
+}
