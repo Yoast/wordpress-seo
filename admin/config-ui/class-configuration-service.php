@@ -146,9 +146,7 @@ class WPSEO_Configuration_Service {
 		$this->components->set_storage( $this->storage );
 
 		// @todo: check if this is really needed, since the switch happens only in the API.
-		if ( function_exists( 'restore_current_locale' ) ) {
-			restore_current_locale();
-		}
+		restore_current_locale();
 	}
 
 	/**
