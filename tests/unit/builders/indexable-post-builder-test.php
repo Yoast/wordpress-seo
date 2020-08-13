@@ -126,6 +126,18 @@ class Indexable_Post_Builder_Test extends TestCase {
 	}
 
 	/**
+	 * Mocks the 'set' method of the given indexable's ORM object with the key value pairs in `$expectations`.
+	 *
+	 * @param Mockery\MockInterface|Indexable $indexable_mock The indexable mock object.
+	 * @param array                           $expectations   The expectation of the 'set' method of the mock object.
+	 */
+	private function set_indexable_set_expectations( $indexable_mock, $expectations ) {
+		foreach ( $expectations as $key => $value ) {
+			$indexable_mock->orm->expects( 'set' )->with( $key, $value );
+		}
+	}
+
+	/**
 	 * Tests building a basic post indexable from postmeta.
 	 *
 	 * @covers ::build
@@ -158,78 +170,93 @@ class Indexable_Post_Builder_Test extends TestCase {
 		);
 		Monkey\Functions\expect( 'maybe_unserialize' )->andReturnFirstArg();
 
+		$indexable_expectations = [
+			'object_id'                   => 1,
+			'object_type'                 => 'post',
+			'object_sub_type'             => 'post',
+			'permalink'                   => 'https://permalink',
+			'canonical'                   => 'https://canonical',
+			'title'                       => 'title',
+			'breadcrumb_title'            => 'breadcrumb_title',
+			'description'                 => 'description',
+			'open_graph_title'            => 'open_graph_title',
+			'open_graph_image'            => 'open_graph_image',
+			'open_graph_image_id'         => 'open_graph_image_id',
+			'open_graph_image_source'     => 'set-by-user',
+			'open_graph_description'      => 'open_graph_description',
+			'twitter_title'               => 'twitter_title',
+			'twitter_image'               => 'twitter_image',
+			'twitter_image_id'            => null,
+			'twitter_image_source'        => 'set-by-user',
+			'twitter_description'         => 'twitter_description',
+			'is_cornerstone'              => true,
+			'is_robots_noindex'           => true,
+			'is_robots_nofollow'          => true,
+			'is_robots_noarchive'         => false,
+			'is_robots_noimageindex'      => false,
+			'is_robots_nosnippet'         => false,
+			'primary_focus_keyword'       => 'focuskeyword',
+			'primary_focus_keyword_score' => 100,
+			'readability_score'           => 50,
+			'link_count'                  => 5,
+			'incoming_link_count'         => 2,
+			'number_of_pages'             => null,
+			'is_public'                   => null,
+			'post_status'                 => 'publish',
+			'is_protected'                => false,
+			'author_id'                   => 1,
+			'post_parent'                 => 0,
+			'has_public_posts'            => false,
+			'blog_id'                     => 1,
+			'schema_page_type'            => 'FAQPage',
+			'schema_article_type'         => 'NewsArticle',
+		];
+
 		$this->indexable      = Mockery::mock( Indexable::class );
 		$this->indexable->orm = Mockery::mock( ORM::class );
-		$this->indexable->orm->expects( 'set' )->with( 'object_id', 1 );
-		$this->indexable->orm->expects( 'set' )->with( 'object_type', 'post' );
-		$this->indexable->orm->expects( 'set' )->with( 'object_sub_type', 'post' );
-		$this->indexable->orm->expects( 'set' )->with( 'permalink', 'https://permalink' );
-		$this->indexable->orm->expects( 'set' )->with( 'canonical', 'https://canonical' );
-		$this->indexable->orm->expects( 'set' )->with( 'title', 'title' );
-		$this->indexable->orm->expects( 'set' )->with( 'breadcrumb_title', 'breadcrumb_title' );
-		$this->indexable->orm->expects( 'set' )->with( 'description', 'description' );
 
-		$this->indexable->orm->expects( 'set' )->with( 'open_graph_title', 'open_graph_title' );
-		$this->indexable->orm->expects( 'set' )->with( 'open_graph_image', 'open_graph_image' );
+		$this->set_indexable_set_expectations( $this->indexable, $indexable_expectations );
+
+		// Reset social images method (social image trait).
 		$this->indexable->orm->expects( 'set' )->with( 'open_graph_image', null );
-		$this->indexable->orm->expects( 'set' )->with( 'open_graph_image_id', 'open_graph_image_id' );
 		$this->indexable->orm->expects( 'set' )->with( 'open_graph_image_id', null );
-		$this->indexable->orm->expects( 'set' )->with( 'open_graph_image_id', 1 );
 		$this->indexable->orm->expects( 'set' )->with( 'open_graph_image_source', null );
-		$this->indexable->orm->expects( 'set' )->with( 'open_graph_image_source', 'featured-image' );
 		$this->indexable->orm->expects( 'set' )->with( 'open_graph_image_meta', null );
-		$this->indexable->orm->expects( 'set' )->with( 'open_graph_description', 'open_graph_description' );
 
-		$this->indexable->orm->expects( 'set' )->with( 'twitter_title', 'twitter_title' );
-		$this->indexable->orm->expects( 'set' )->with( 'twitter_image', 'twitter_image' );
 		$this->indexable->orm->expects( 'set' )->with( 'twitter_image', null );
-		$this->indexable->orm->expects( 'set' )->with( 'twitter_image', 'twitter_image.jpg' );
-		$this->indexable->orm->expects( 'set' )->times( 2 )->with( 'twitter_image_id', null );
-		$this->indexable->orm->expects( 'set' )->with( 'twitter_image_id', 1 );
+		$this->indexable->orm->expects( 'set' )->with( 'twitter_image_id', null );
 		$this->indexable->orm->expects( 'set' )->with( 'twitter_image_source', null );
-		$this->indexable->orm->expects( 'set' )->with( 'twitter_image_source', 'featured-image' );
-		$this->indexable->orm->expects( 'set' )->with( 'twitter_description', 'twitter_description' );
-		$this->indexable->orm->expects( 'set' )->with( 'is_cornerstone', true );
-		$this->indexable->orm->expects( 'set' )->with( 'is_robots_noindex', true );
-		$this->indexable->orm->expects( 'set' )->with( 'is_robots_nofollow', true );
-		$this->indexable->orm->expects( 'set' )->with( 'is_robots_noarchive', false );
-		$this->indexable->orm->expects( 'set' )->with( 'is_robots_noimageindex', false );
-		$this->indexable->orm->expects( 'set' )->with( 'is_robots_nosnippet', false );
-		$this->indexable->orm->expects( 'set' )->with( 'primary_focus_keyword', 'focuskeyword' );
-		$this->indexable->orm->expects( 'set' )->with( 'primary_focus_keyword_score', 100 );
-		$this->indexable->orm->expects( 'set' )->with( 'readability_score', 50 );
-		$this->indexable->orm->expects( 'set' )->with( 'link_count', 5 );
-		$this->indexable->orm->expects( 'set' )->with( 'incoming_link_count', 2 );
-		$this->indexable->orm->expects( 'set' )->with( 'number_of_pages', null );
-		$this->indexable->orm->expects( 'set' )->with( 'is_public', null );
-		$this->indexable->orm->expects( 'set' )->with( 'post_status', 'publish' );
-		$this->indexable->orm->expects( 'set' )->with( 'is_protected', false );
-		$this->indexable->orm->expects( 'set' )->with( 'author_id', 1 );
-		$this->indexable->orm->expects( 'set' )->with( 'post_parent', 0 );
-		$this->indexable->orm->expects( 'set' )->with( 'has_public_posts', false );
 
-		$this->indexable->orm->expects( 'get' )->once()->with( 'open_graph_image' );
-		$this->indexable->orm->expects( 'get' )->times( 3 )->with( 'open_graph_image_id' );
-		$this->indexable->orm->expects( 'get' )->twice()->with( 'open_graph_image_source' );
-		$this->indexable->orm->expects( 'get' )->twice()->with( 'twitter_image' );
-		$this->indexable->orm->expects( 'get' )->times( 3 )->with( 'twitter_image_id' );
-		$this->indexable->orm->expects( 'get' )->once()->with( 'object_sub_type' );
-		$this->indexable->orm->expects( 'get' )->with( 'object_id' );
+		// Handle images method (social image trait).
+		$this->indexable->orm->expects( 'get' )->with( 'open_graph_image' )->andReturn( 'open_graph_image' );
+		$this->indexable->orm->expects( 'get' )->with( 'twitter_image' )->andReturn( 'twitter_image' );
+		$this->indexable->orm->expects( 'get' )->with( 'open_graph_image_source' )->andReturn( 'set-by-user' );
+		$this->indexable->orm->expects( 'get' )->with( 'twitter_image_source' )->andReturn( 'set-by-user' );
+		$this->indexable->orm->expects( 'get' )->with( 'open_graph_image_id' )->andReturn( 'open_graph_image_id' );
+		$this->indexable->orm->expects( 'get' )->with( 'twitter_image_id' )->andReturn( 'twitter_image_id' );
+		$this->indexable->orm->expects( 'get' )->with( 'object_sub_type' )->andReturn( 'object_sub_type' );
 
+		$this->twitter_image->expects( 'get_by_id' )->with( 'twitter_image_id' )->andReturn( null );
+		$this->indexable->orm->expects( 'set' )->with( 'twitter_image', null );
 
-		$this->indexable->orm->expects( 'get' )->once()->with( 'is_protected' )->andReturnFalse();
+		$this->indexable->orm->expects( 'get' )->with( 'open_graph_image_id' )->andReturn( 'open_graph_image_id' );
+		$this->indexable->orm->expects( 'get' )->with( 'twitter_image_id' )->andReturn( 'twitter_image_id' );
+
+		// Set open graph image meta data method.
+		$this->open_graph_image->expects( 'get_image_by_id' )->with( 'open_graph_image_id' )->andReturn( null );
+
+		// Is public method.
+		$this->indexable->orm->expects( 'get' )->with( 'is_protected' )->andReturnFalse();
 		$this->indexable->orm->expects( 'get' )->twice()->with( 'is_robots_noindex' )->andReturn( null );
-		$this->indexable->orm->expects( 'get' )->twice()->with( 'object_sub_type' )->andReturn( 'post' );
-		$this->indexable->orm->expects( 'get' )->once()->with( 'post_status' )->andReturn( 'publish' );
+		$this->indexable->orm->expects( 'get' )->with( 'object_sub_type' )->andReturn( 'post' );
+		$this->indexable->orm->expects( 'get' )->with( 'post_status' )->andReturn( 'publish' );
 
+		// Breadcrumb title.
 		$this->indexable->orm->expects( 'offsetExists' )->once()->with( 'breadcrumb_title' )->andReturnTrue();
 		$this->indexable->orm->expects( 'get' )->once()->with( 'breadcrumb_title' )->andReturnTrue();
 
+		// Blog ID.
 		Monkey\Functions\expect( 'get_current_blog_id' )->once()->andReturn( 1 );
-		$this->indexable->orm->expects( 'set' )->with( 'blog_id', 1 );
-
-		$this->indexable->orm->expects( 'set' )->once()->with( 'schema_page_type', 'FAQPage' );
-		$this->indexable->orm->expects( 'set' )->once()->with( 'schema_article_type', 'NewsArticle' );
 
 		$this->seo_meta_repository->expects( 'find_by_post_id' )->once()->with( 1 )->andReturn(
 			(object) [
@@ -237,16 +264,6 @@ class Indexable_Post_Builder_Test extends TestCase {
 				'incoming_link_count' => 2,
 			]
 		);
-
-		$this->image
-			->expects( 'get_featured_image_id' )
-			->once()
-			->andReturn( 1 );
-
-		$this->twitter_image
-			->expects( 'get_by_id' )
-			->once()
-			->andReturn( 'twitter_image.jpg' );
 
 		$this->post->expects( 'get_post' )
 			->once()
