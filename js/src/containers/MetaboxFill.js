@@ -10,15 +10,8 @@ import { connect } from "react-redux";
  * @returns {Object} The props for the Metabox component.
  */
 function mapStateToProps( state, ownProps ) {
-	const settings = {
-		...state.preferences,
-		// Because cornerstone is only applicable to posts, not terms. Despite the general setting.
-		isCornerstoneActive: state.preferences.isCornerstoneActive,
-		// Because this value is initiated as an empty string.
-		displayAdvancedTab: !! window.wpseoAdminL10n.displayAdvancedTab,
-	};
 	return {
-		settings,
+		settings: state.preferences,
 		store: ownProps.store,
 	};
 }
