@@ -41,6 +41,13 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	protected $editor;
 
 	/**
+	 * Whether or not the advanced metadata is enabled.
+	 *
+	 * @var bool
+	 */
+	protected $is_advanced_metadata_enabled;
+
+	/**
 	 * Class constructor.
 	 */
 	public function __construct() {
@@ -59,7 +66,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$this->editor = new WPSEO_Metabox_Editor();
 		$this->editor->register_hooks();
 
-		$this->social_is_enabled = WPSEO_Options::get( 'opengraph', false ) || WPSEO_Options::get( 'twitter', false );
+		$this->social_is_enabled            = WPSEO_Options::get( 'opengraph', false ) || WPSEO_Options::get( 'twitter', false );
+		$this->is_advanced_metadata_enabled = WPSEO_Capability_Utils::current_user_can( 'wpseo_edit_advanced_metadata' ) || WPSEO_Options::get( 'disableadvanced_meta' ) === false;
 
 		$this->analysis_seo         = new WPSEO_Metabox_Analysis_SEO();
 		$this->analysis_readability = new WPSEO_Metabox_Analysis_Readability();
@@ -339,7 +347,9 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			$content_sections[] = $this->get_readability_meta_section();
 		}
 
-		$content_sections[] = $this->get_schema_meta_section( $post_type );
+		if ( $this->is_advanced_metadata_enabled ) {
+			$content_sections[] = $this->get_schema_meta_section( $post_type );
+		}
 
 		// Whether social is enabled.
 		if ( $this->social_is_enabled ) {
@@ -390,7 +400,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		$html_after = '';
 
-		if ( WPSEO_Capability_Utils::current_user_can( 'wpseo_edit_advanced_metadata' ) || WPSEO_Options::get( 'disableadvanced_meta' ) === false ) {
+		if ( $this->is_advanced_metadata_enabled ) {
 			$html_after = $this->get_tab_content( 'advanced' );
 		}
 

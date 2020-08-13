@@ -75,7 +75,7 @@ const Content = ( props ) => (
 			onChange={ props.schemaArticleTypeChange }
 			selected={ props.schemaArticleTypeSelected }
 		/> }
-		<p>{ footerWithLink( props.postTypeName ) }</p>
+		{ props.displayFooter && <p>{ footerWithLink( props.postTypeName ) }</p> }
 	</Fragment>
 );
 
@@ -92,6 +92,7 @@ Content.propTypes = {
 	helpTextTitle: PropTypes.string.isRequired,
 	helpTextDescription: PropTypes.string.isRequired,
 	postTypeName: PropTypes.string.isRequired,
+	displayFooter: PropTypes.bool,
 };
 
 Content.defaultProps = {
@@ -100,6 +101,7 @@ Content.defaultProps = {
 	schemaArticleTypeChange: () => {},
 	schemaArticleTypeSelected: null,
 	schemaArticleTypeOptions: null,
+	displayFooter: false,
 };
 
 /**
@@ -138,12 +140,14 @@ SchemaTab.propTypes = {
 	helpTextDescription: PropTypes.string.isRequired,
 	isMetabox: PropTypes.bool.isRequired,
 	postTypeName: PropTypes.string.isRequired,
+	displayFooter: PropTypes.bool,
 };
 
 SchemaTab.defaultProps = {
 	showArticleTypeInput: false,
 	articleTypeLabel: "",
 	additionalHelpTextLink: "",
+	displayFooter: false,
 };
 
 export default SchemaTab;

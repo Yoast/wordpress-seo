@@ -84,6 +84,7 @@ class WPSEO_Metabox_Formatter {
 				'twitter'  => WPSEO_Options::get( 'twitter', false ),
 			],
 			'schema'                    => [
+				'displayFooter'      => WPSEO_Capability_Utils::current_user_can( 'wpseo_manage_options' ),
 				'pageTypeOptions'    => $schema_types->get_page_type_options(),
 				'articleTypeOptions' => $schema_types->get_article_type_options(),
 			],
