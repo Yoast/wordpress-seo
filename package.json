@@ -121,14 +121,11 @@
     "@yoast/style-guide": "^0.13.0",
     "a11y-speak": "git+https://github.com/Yoast/a11y-speak.git#master",
     "babel-polyfill": "^6.26.0",
-    "classnames": "^2.2.6",
-    "dom-scroll-into-view": "^2.0.1",
     "draft-js": "^0.10.5",
     "draft-js-mention-plugin": "^3.0.4",
     "find-with-regex": "~1.0.2",
     "interpolate-components": "^1.1.0",
     "jed": "^1.1.1",
-    "lodash": "^4.17.15",
     "marked": "^0.6.1",
     "material-ui": "^0.20.0",
     "moment": "2.22.2",
@@ -149,6 +146,6 @@
     "extends @yoast/browserslist-config"
   ],
   "yoast": {
-    "pluginVersion": "14.8-RC1"
+    "pluginVersion": "14.8-RC2"
   }
 }

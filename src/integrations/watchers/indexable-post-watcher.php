@@ -10,6 +10,7 @@ namespace Yoast\WP\SEO\Integrations\Watchers;
 use Exception;
 use WP_Post;
 use Yoast\WP\SEO\Builders\Indexable_Builder;
+use Yoast\WP\SEO\Builders\Indexable_Link_Builder;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
 use Yoast\WP\SEO\Helpers\Author_Archive_Helper;
 use Yoast\WP\SEO\Helpers\Post_Helper;
@@ -18,6 +19,7 @@ use Yoast\WP\SEO\Loggers\Logger;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Repositories\Indexable_Hierarchy_Repository;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
+use Yoast\WP\SEO\Repositories\SEO_Links_Repository;
 use YoastSEO_Vendor\Psr\Log\LogLevel;
 
 /**
@@ -45,6 +47,13 @@ class Indexable_Post_Watcher implements Integration_Interface {
 	 * @var Indexable_Hierarchy_Repository
 	 */
 	private $hierarchy_repository;
+
+	/**
+	 * The link builder.
+	 *
+	 * @var Indexable_Link_Builder
+	 */
+	protected $link_builder;
 
 	/**
 	 * The author archive helper.
@@ -80,6 +89,7 @@ class Indexable_Post_Watcher implements Integration_Interface {
 	 * @param Indexable_Repository           $repository           The repository to use.
 	 * @param Indexable_Builder              $builder              The post builder to use.
 	 * @param Indexable_Hierarchy_Repository $hierarchy_repository The hierarchy repository to use.
+	 * @param Indexable_Link_Builder         $link_builder         The link builder.
 	 * @param Author_Archive_Helper          $author_archive       The author archive helper.
 	 * @param Post_Helper                    $post                 The post helper.
 	 * @param Logger                         $logger               The logger.
@@ -88,6 +98,7 @@ class Indexable_Post_Watcher implements Integration_Interface {
 		Indexable_Repository $repository,
 		Indexable_Builder $builder,
 		Indexable_Hierarchy_Repository $hierarchy_repository,
+		Indexable_Link_Builder $link_builder,
 		Author_Archive_Helper $author_archive,
 		Post_Helper $post,
 		Logger $logger
@@ -95,6 +106,7 @@ class Indexable_Post_Watcher implements Integration_Interface {
 		$this->repository           = $repository;
 		$this->builder              = $builder;
 		$this->hierarchy_repository = $hierarchy_repository;
+		$this->link_builder         = $link_builder        ;
 		$this->author_archive       = $author_archive;
 		$this->post                 = $post;
 		$this->logger               = $logger;
@@ -135,6 +147,7 @@ class Indexable_Post_Watcher implements Integration_Interface {
 		$this->update_has_public_posts( $indexable );
 
 		$this->hierarchy_repository->clear_ancestors( $indexable->id );
+		$this->link_builder->delete( $indexable );
 		$indexable->delete();
 	}
 

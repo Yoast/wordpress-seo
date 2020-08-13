@@ -300,7 +300,7 @@ export default function initTermScraper( $, store, editorData ) {
 		app = new App( args );
 
 		// Expose globals.
-		window.YoastSEO = {};
+		window.YoastSEO = window.YoastSEO || {};
 		window.YoastSEO.app = app;
 		window.YoastSEO.store = store;
 		window.YoastSEO.analysis = {};

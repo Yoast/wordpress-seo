@@ -15,7 +15,7 @@ if ( ! function_exists( 'add_filter' ) ) {
  * {@internal Nobody should be able to overrule the real version number as this can cause
  *            serious issues with the options, so no if ( ! defined() ).}}
  */
-define( 'WPSEO_VERSION', '14.8-RC1' );
+define( 'WPSEO_VERSION', '14.8-RC2' );
 
 
 if ( ! defined( 'WPSEO_PATH' ) ) {
@@ -79,6 +79,7 @@ elseif ( ! class_exists( 'WPSEO_Options' ) ) { // Still checking since might be 
 if ( function_exists( 'spl_autoload_register' ) ) {
 	spl_autoload_register( 'wpseo_auto_load' );
 }
+require_once WPSEO_PATH . 'src/functions.php';
 
 /* ********************* DEFINES DEPENDING ON AUTOLOADED CODE ********************* */
 
@@ -196,14 +197,6 @@ function _wpseo_activate() {
 	// Clear cache so the changes are obvious.
 	WPSEO_Utils::clear_cache();
 
-	// Create the text link storage table.
-	$link_installer = new WPSEO_Link_Installer();
-	$link_installer->install();
-
-	// Trigger reindex notification.
-	$notifier = new WPSEO_Link_Notifier();
-	$notifier->manage_notification();
-
 	// Schedule cronjob when it doesn't exists on activation.
 	$wpseo_ryte = new WPSEO_Ryte();
 	$wpseo_ryte->activate_hooks();
@@ -319,13 +312,6 @@ function wpseo_init() {
 	// Init it here because the filter must be present on the frontend as well or it won't work in the customizer.
 	new WPSEO_Customizer();
 
-	/*
-	 * Initializes the link watcher for both the frontend and backend.
-	 * Required to process scheduled items properly.
-	 */
-	$link_watcher = new WPSEO_Link_Watcher_Loader();
-	$link_watcher->load();
-
 	$integrations   = [];
 	$integrations[] = new WPSEO_Slug_Change_Watcher();
 
@@ -337,15 +323,8 @@ function wpseo_init() {
 	$wpseo_ryte = new WPSEO_Ryte();
 	$wpseo_ryte->register_hooks();
 
-	// When namespaces are not available, stop further execution.
-	if ( version_compare( PHP_VERSION, '5.6.0', '>=' ) ) {
-		require_once WPSEO_PATH . 'src/functions.php';
-
-		// Initializes the Yoast indexables for the first time.
-		YoastSEO();
-
-		// require_once WPSEO_PATH . 'src/loaders/oauth.php'; Temporarily disabled.
-	}
+	// Initializes the Yoast indexables for the first time.
+	YoastSEO();
 }
 
 /**
@@ -364,7 +343,6 @@ function wpseo_init_rest_api() {
 	$statistics_service = new WPSEO_Statistics_Service( new WPSEO_Statistics() );
 
 	$endpoints   = [];
-	$endpoints[] = new WPSEO_Link_Reindex_Post_Endpoint( new WPSEO_Link_Reindex_Post_Service() );
 	$endpoints[] = new WPSEO_Endpoint_Indexable( new WPSEO_Indexable_Service() );
 	$endpoints[] = new WPSEO_Endpoint_File_Size( new WPSEO_File_Size_Service() );
 	$endpoints[] = new WPSEO_Endpoint_Statistics( $statistics_service );
@@ -426,19 +404,6 @@ function wpseo_cli_init() {
 			'WPSEO_CLI_Redirect_Follow_Command',
 			[ 'before_invoke' => 'WPSEO_CLI_Premium_Requirement::enforce' ]
 		);
-	}
-
-	// Only add the namespace if the required base class exists (WP-CLI 1.5.0+).
-	// This is optional and only adds the description of the root `yoast`
-	// command.
-	if ( class_exists( 'WP_CLI\Dispatcher\CommandNamespace' ) ) {
-		WP_CLI::add_command( 'yoast', 'WPSEO_CLI_Yoast_Command_Namespace' );
-		if ( WPSEO_Utils::is_yoast_seo_premium() ) {
-			WP_CLI::add_command( 'yoast redirect', 'WPSEO_CLI_Redirect_Command_Namespace' );
-		}
-		else {
-			WP_CLI::add_command( 'yoast redirect', 'WPSEO_CLI_Redirect_Upsell_Command_Namespace' );
-		}
 	}
 }
 
