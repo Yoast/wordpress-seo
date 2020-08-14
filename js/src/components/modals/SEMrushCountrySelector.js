@@ -194,8 +194,7 @@ class SEMrushCountrySelector extends Component {
 		this.select2.on( "change.select2", this.onChangeHandler );
 
 		//	Fire a new request when the modal is first opened
-		if ( ! this.props.response )
-		{
+		if ( ! this.props.response ) {
 			this.relatedKeyphrasesRequest();
 		}
 	}
