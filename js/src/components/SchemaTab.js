@@ -122,11 +122,7 @@ const SchemaTab = ( props ) => {
 	}
 
 	return (
-		<SidebarCollapsible
-			title={ __( "Schema", "wordpress-seo" ) }
-		>
-			<Content { ...props } />
-		</SidebarCollapsible>
+		<Content { ...props } />
 	);
 };
 
