@@ -131,17 +131,6 @@ class KeywordInput extends React.Component {
 	}
 
 	/**
-	 * Checks the keyword input for comma-separated words.
-	 *
-	 * @param {string} keywordText The text of the input.
-	 *
-	 * @returns {boolean} Returns true if a comma was found.
-	 */
-	checkKeywordInput( keywordText ) {
-		return keywordText.includes( "," );
-	}
-
-	/**
 	 * Handles changes in the KeywordInput, sets the state if a change has been made.
 	 *
 	 * @param {SyntheticEvent} event The onChange event.
