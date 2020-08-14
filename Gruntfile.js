@@ -29,15 +29,16 @@ module.exports = function( grunt ) {
 			 * @returns {string} Config path.
 			 */
 			get config() {
-				return this.grunt + "config/";
+				return this.grunt + "task-config/";
 			},
 			css: "css/dist/",
-			grunt: "grunt/",
+			grunt: "config/grunt/",
 			images: "images/",
 			js: "js/src/",
 			languages: "languages/",
 			logs: "logs/",
 			svnCheckoutDir: ".wordpress-svn",
+			assets: "svn-assets",
 			vendor: "vendor/",
 		},
 		files: {
@@ -137,7 +138,7 @@ module.exports = function( grunt ) {
 				"register-prompt": "grunt-prompt",
 				"notify-slack": "notify-slack",
 			},
-			customTasksDir: "grunt/custom",
+			customTasksDir: "config/grunt/custom-tasks",
 		},
 	} );
 };

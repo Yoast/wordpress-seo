@@ -25,7 +25,16 @@ class SchemaSettings extends Component {
 
 		// Save the initial value for the alert check.
 		this.initialPageType = props.pageType.value;
-		this.initialArticleType = props.articleType ? props.articleType.value : "none";
+		this.initialArticleType = props.articleType ? props.articleType.value : "None";
+
+		/* eslint-disable camelcase */
+		this.state = {
+			schema_page_type: this.initialPageType,
+			schema_article_type: this.initialArticleType,
+		};
+		/* eslint-enable camelcase */
+
+		this.handleOptionFocus = this.handleOptionFocus.bind( this );
 	}
 
 	/**
@@ -34,15 +43,30 @@ class SchemaSettings extends Component {
 	 * @returns {boolean} True if a value differs from the initial value.
 	 */
 	shouldShowAlert() {
-		if ( this.props.pageType && this.props.pageType.value !== this.initialPageType ) {
+		if ( this.state.schema_page_type !== this.initialPageType ) {
 			return true;
 		}
 
-		if ( this.props.articleType && this.props.articleType.value !== this.initialArticleType ) {
+		if ( this.state.schema_article_type !== this.initialArticleType ) {
 			return true;
 		}
 
 		return false;
+	}
+
+	/**
+	 * Changes the state appropriately whenever an option is highlighted in a specific field.
+	 * This is needed because we need to show an alert when the select is "dirty", which is before the onBlur event sometimes.
+	 *
+	 * @param {string} fieldName     The name of the field to which this option belongs
+	 * @param {string} focusedOption The name of the focused option.
+	 *
+	 * @returns {void}
+	 */
+	handleOptionFocus( fieldName, focusedOption ) {
+		this.setState( {
+			[ fieldName ]: focusedOption,
+		} );
 	}
 
 	/**
@@ -87,6 +111,7 @@ class SchemaSettings extends Component {
 					label={ __( "Default Page type", "wordpress-seo" ) }
 					onChange={ this.props.pageType.onChange }
 					selected={ this.props.pageType.value }
+					onOptionFocus={ this.handleOptionFocus }
 				/>
 				{ this.props.articleType && <Select
 					id={ `schema-article-type-${ this.props.postType }` }
@@ -94,6 +119,7 @@ class SchemaSettings extends Component {
 					options={ this.props.articleTypeOptions }
 					label={ __( "Default Article type", "wordpress-seo" ) }
 					onChange={ this.props.articleType.onChange }
+					onOptionFocus={ this.handleOptionFocus }
 					selected={ this.props.articleType.value }
 				/> }
 			</Fragment>

@@ -22,7 +22,6 @@ const entry = {
 	"network-admin": "./network-admin.js",
 	"post-edit": "./post-edit.js",
 	"quick-edit-handler": "./quick-edit-handler.js",
-	"recalculate": "./recalculate.js",
 	"reindex-links": "./reindex-links.js",
 	"settings": "./settings.js",
 	"structured-data-blocks": "./structured-data-blocks.js",
