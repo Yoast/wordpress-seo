@@ -9,7 +9,7 @@ import { addFocusStyle, SvgIcon, InputField } from "@yoast/components";
 import { getDirectionalStyle } from "@yoast/helpers";
 import { colors } from "@yoast/style-guide";
 
-const errorColor = colors.$color_bad;
+const errorColor = colors.$color_semrush_error;
 const backgroundErrorColor = colors.$palette_error_background;
 const greyColor = colors.$color_grey_text_light;
 
