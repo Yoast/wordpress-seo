@@ -137,7 +137,7 @@ PostDataCollector.prototype.getTitle = function() {
 PostDataCollector.prototype.getUrl = function() {
 	const editorSelectors = select( "core/editor" );
 	if ( editorSelectors ) {
-		return editorSelectors.getCurrentPostAttribute( 'slug' );
+		return editorSelectors.getCurrentPostAttribute( "slug" );
 	}
 
 	var url = "";
