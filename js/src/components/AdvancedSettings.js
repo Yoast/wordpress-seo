@@ -195,7 +195,7 @@ class AdvancedSettings extends Component {
 	 */
 	render() {
 		return (
-			<MetaboxCollapsible id={ "collapsible-advanced-settings" } title={ __( "Advanced", "wordpress-seo" ) }>
+			<Fragment>
 				<MetaRobotsNoIndex />
 				{ isPost() && <MetaRobotsNoFollow /> }
 				{ isPost() && <MetaRobotsAdvanced /> }
@@ -203,7 +203,7 @@ class AdvancedSettings extends Component {
 					! window.wpseoAdminL10n.breadcrumbsDisabled && <BreadCrumbsTitle />
 				}
 				<CanonicalURL />
-			</MetaboxCollapsible>
+			</Fragment>
 		);
 	}
 }
