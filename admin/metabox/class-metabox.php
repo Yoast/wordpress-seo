@@ -905,11 +905,17 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			$post_id = (int) WPSEO_Utils::validate_int( $post );
 
 			$this->post = get_post( $post_id );
+
+			return $this->post;
 		}
 
 		if ( isset( $GLOBALS['post'] ) ) {
 			$this->post = $GLOBALS['post'];
+
+			return $this->post;
 		}
+
+		return [];
 	}
 
 	/**
