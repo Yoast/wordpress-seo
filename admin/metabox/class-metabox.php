@@ -263,6 +263,10 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			$values['cornerstoneActive'] = false;
 		}
 
+		if ( $values['semrushIntegrationActive'] && $post->post_type === 'attachment' ) {
+			$values['semrushIntegrationActive'] = 0;
+		}
+
 		return $values;
 	}
 
