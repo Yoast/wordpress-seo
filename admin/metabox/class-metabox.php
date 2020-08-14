@@ -904,14 +904,12 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		if ( ! empty( $post ) ) {
 			$post_id = (int) WPSEO_Utils::validate_int( $post );
 
-			return get_post( $post_id );
+			$this->post = get_post( $post_id );
 		}
 
 		if ( isset( $GLOBALS['post'] ) ) {
-			return $GLOBALS['post'];
+			$this->post = $GLOBALS['post'];
 		}
-
-		return [];
 	}
 
 	/**
