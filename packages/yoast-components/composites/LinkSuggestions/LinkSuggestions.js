@@ -20,8 +20,6 @@ const LinkSuggestionsWrapper = styled.div`
 const noRelevantPostsMessage = __(
 	"We could not find any relevant articles on your website that you could link to from your post.", "yoast-components" );
 
-const listIntroMessage = __( "This is a list of related content to which you could link in your post.", "yoast-components" );
-
 // Translators: Text between {{a}} and {{/a}} will be a link to an article about site structure.
 const articleLinkString = __(
 	"{{a}}Read our article about site structure{{/a}} " +
@@ -131,11 +129,10 @@ class LinkSuggestions extends React.Component {
 
 		return (
 			<LinkSuggestionsWrapper>
-				<p>{ listIntroMessage }</p>
-				<p>{ this.props.customMessages.metaMessage }</p>
-				<p>{ this.getArticleLink() }</p>
 				{ cornerStoneSuggestions }
 				{ defaultSuggestions }
+				<p>{ this.getArticleLink() }</p>
+				<p>{ this.props.customMessages.metaMessage }</p>
 			</LinkSuggestionsWrapper>
 		);
 	}
