@@ -180,7 +180,7 @@ class SEMrushCountrySelector extends Component {
 	}
 
 	/**
-	 * Creates a select2 component from the select and listen to the change action.
+	 * Creates a select2 component from the select, listens to the change action and fires the first SEMrush request.
 	 *
 	 * @returns {void}
 	 */
