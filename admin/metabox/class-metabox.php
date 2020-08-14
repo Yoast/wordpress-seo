@@ -323,6 +323,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		wp_nonce_field( 'yoast_free_metabox', 'yoast_free_metabox_nonce' );
 
 		echo new Meta_Fields_Presenter( $this->get_metabox_post(), 'general' );
+
 		if ( $this->is_advanced_metadata_enabled ) {
 			echo new Meta_Fields_Presenter( $this->get_metabox_post(),'advanced' );
 		}
