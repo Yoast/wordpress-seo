@@ -47,7 +47,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 *
 	 * @var WP_Post
 	 */
-	protected $post;
+	protected $post = null;
 
 
 	/**
@@ -58,8 +58,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			add_action( 'add_meta_boxes', [ $this, 'internet_explorer_metabox' ] );
 			return;
 		}
-
-		$this->post = $this->get_metabox_post();
 
 		add_action( 'add_meta_boxes', [ $this, 'add_meta_box' ] );
 		add_action( 'admin_enqueue_scripts', [ $this, 'enqueue' ] );
@@ -257,20 +255,20 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	public function get_metabox_script_data() {
 		$permalink = '';
 
-		if ( is_object( $this->post ) ) {
-			$permalink = get_sample_permalink( $this->post->ID );
+		if ( is_object( $this->get_metabox_post() ) ) {
+			$permalink = get_sample_permalink( $this->get_metabox_post()->ID );
 			$permalink = $permalink[0];
 		}
 
 		$post_formatter = new WPSEO_Metabox_Formatter(
-			new WPSEO_Post_Metabox_Formatter( $this->post, [], $permalink )
+			new WPSEO_Post_Metabox_Formatter( $this->get_metabox_post(), [], $permalink )
 		);
 
 		$values = $post_formatter->get_values();
 
 		/** This filter is documented in admin/filters/class-cornerstone-filter.php. */
 		$post_types = apply_filters( 'wpseo_cornerstone_post_types', WPSEO_Post_Type::get_accessible_post_types() );
-		if ( $values['cornerstoneActive'] && ! in_array( $this->post->post_type, $post_types, true ) ) {
+		if ( $values['cornerstoneActive'] && ! in_array( $this->get_metabox_post()->post_type, $post_types, true ) ) {
 			$values['cornerstoneActive'] = false;
 		}
 
@@ -295,7 +293,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * @return string String describing the current scope.
 	 */
 	private function determine_scope() {
-		if ( $this->post->post_type === 'page' ) {
+		if ( $this->get_metabox_post()->post_type === 'page' ) {
 			return 'page';
 		}
 
@@ -318,15 +316,15 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	protected function render_hidden_fields() {
 		wp_nonce_field( 'yoast_free_metabox', 'yoast_free_metabox_nonce' );
 
-		echo new Meta_Fields_Presenter( $this->post, 'general' );
+		echo new Meta_Fields_Presenter( $this->get_metabox_post(), 'general' );
 		if ( WPSEO_Capability_Utils::current_user_can( 'wpseo_edit_advanced_metadata' ) || WPSEO_Options::get( 'disableadvanced_meta' ) === false ) {
-			echo new Meta_Fields_Presenter( $this->post,'advanced' );
+			echo new Meta_Fields_Presenter( $this->get_metabox_post(),'advanced' );
 		}
 
-		echo new Meta_Fields_Presenter( $this->post,'schema', $this->post->post_type );
+		echo new Meta_Fields_Presenter( $this->get_metabox_post(), 'schema', $this->get_metabox_post()->post_type );
 
 		if ( $this->social_is_enabled ) {
-			echo new Meta_Fields_Presenter( $this->post,'social' );
+			echo new Meta_Fields_Presenter( $this->get_metabox_post(),'social' );
 		}
 
 		/**
@@ -469,7 +467,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	public function do_meta_box( $meta_field_def, $key = '' ) {
 		$content      = '';
 		$esc_form_key = esc_attr( WPSEO_Meta::$form_prefix . $key );
-		$meta_value   = WPSEO_Meta::get_value( $key, $this->post->ID );
+		$meta_value   = WPSEO_Meta::get_value( $key, $this->get_metabox_post()->ID );
 
 		$class = '';
 		if ( isset( $meta_field_def['class'] ) && $meta_field_def['class'] !== '' ) {
@@ -891,13 +889,16 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * @returns WP_Post|array
 	 */
 	protected function get_metabox_post() {
+		if ( $this->post !== null ) {
+			return $this->post;
+		}
+
 		$post = filter_input( INPUT_GET, 'post' );
 		if ( ! empty( $post ) ) {
 			$post_id = (int) WPSEO_Utils::validate_int( $post );
 
 			return get_post( $post_id );
 		}
-
 
 		if ( isset( $GLOBALS['post'] ) ) {
 			return $GLOBALS['post'];
@@ -940,11 +941,11 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		];
 
 		foreach ( $vars_to_cache as $var ) {
-			$cached_replacement_vars[ $var ] = wpseo_replace_vars( '%%' . $var . '%%', $this->post );
+			$cached_replacement_vars[ $var ] = wpseo_replace_vars( '%%' . $var . '%%', $this->get_metabox_post() );
 		}
 
 		// Merge custom replace variables with the WordPress ones.
-		return array_merge( $cached_replacement_vars, $this->get_custom_replace_vars( $this->post ) );
+		return array_merge( $cached_replacement_vars, $this->get_custom_replace_vars( $this->get_metabox_post() ) );
 	}
 
 	/**
@@ -956,7 +957,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$recommended_replace_vars = new WPSEO_Admin_Recommended_Replace_Vars();
 
 		// What is recommended depends on the current context.
-		$post_type = $recommended_replace_vars->determine_for_post( $this->post );
+		$post_type = $recommended_replace_vars->determine_for_post( $this->get_metabox_post() );
 
 		return $recommended_replace_vars->get_recommended_replacevars_for( $post_type );
 	}
