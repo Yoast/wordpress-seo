@@ -1,6 +1,5 @@
 import { filter } from "lodash-es";
 import getWords from "../../../stringProcessing/getWords.js";
-import flatten from "lodash-es/flatten";
 
 // Verb-form lists per language
 import getPassiveVerbsRussianFactory from "../../russian/passiveVoice/participlesShortenedList.js";
@@ -109,7 +108,7 @@ const determineSentenceIsPassiveArabic = function( sentence ) {
 		}
 	}
 
-	return flatten( passiveVerbs ).length !== 0;
+	return passiveVerbs.length !== 0;
 };
 
 /**
