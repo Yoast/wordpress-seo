@@ -109,6 +109,7 @@ export default function RelatedKeyphraseModalContent( props ) {
 						setNoResultsFound={ setNoResultsFound }
 						setRequestSucceeded={ setRequestSucceeded }
 						setRequestLimitReached={ setRequestLimitReached }
+						response={ response }
 					/>
 				</Fragment>
 			) }

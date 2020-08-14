@@ -192,6 +192,12 @@ class SEMrushCountrySelector extends Component {
 			dropdownParent: jQuery( ".yoast-related-keyphrases-modal__content" ),
 		} );
 		this.select2.on( "change.select2", this.onChangeHandler );
+
+		//Fire a new request when the modal is first opened
+		if ( !this.props.response )
+		{
+			this.relatedKeyphrasesRequest();
+		}
 	}
 
 	/**
@@ -346,6 +352,7 @@ class SEMrushCountrySelector extends Component {
 SEMrushCountrySelector.propTypes = {
 	keyphrase: PropTypes.string,
 	countryCode: PropTypes.string,
+	response: PropTypes.object,
 	setCountry: PropTypes.func.isRequired,
 	newRequest: PropTypes.func.isRequired,
 	setNoResultsFound: PropTypes.func.isRequired,
@@ -357,6 +364,7 @@ SEMrushCountrySelector.propTypes = {
 SEMrushCountrySelector.defaultProps = {
 	keyphrase: "",
 	countryCode: "us",
+	response: "",
 };
 
 /**
