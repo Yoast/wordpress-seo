@@ -44,7 +44,8 @@ module.exports = function( grunt ) {
         const enableSlack = grunt.option( 'enableSlack' ) || options.enableSlack;
         const enableGithubRelease = grunt.option( 'enableGithubRelease') || options.enableGithubRelease;
         
-        
+        grunt.log.writeln("enableGithubRelease:" + enableGithubRelease);
+
         const GithubRepository = process.env.GITHUB_REPOSITORY || ''
         if (GithubRepository === ''){
             owner = grunt.option( 'owner' ) || options.githubOwner;
