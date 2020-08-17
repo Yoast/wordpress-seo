@@ -55,13 +55,13 @@ const ErrorList = styled.ul`
     list-style-type: disc;
     list-style-position: inside;
     margin: 0;
+    margin-left: 1.5em;
 `;
 
 const ErrorText = styled.li`
     color: ${ inputErrorColor };
     margin: 0 0 0.5em 0;
-    text-indent: -1.5em;
-    padding-left: 1.5em;
+    list-style-position: outside;
 `;
 
 const BorderlessButton = addFocusStyle(
