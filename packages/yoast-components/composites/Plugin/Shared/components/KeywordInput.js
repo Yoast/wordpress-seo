@@ -12,6 +12,7 @@ import { colors } from "@yoast/style-guide";
 const errorColor = colors.$color_bad;
 const backgroundErrorColor = colors.$palette_error_background;
 const greyColor = colors.$color_grey_text_light;
+const inputErrorColor = colors.$palette_error_text;
 
 const KeywordInputContainer = styled.div`
 	display: flex;
@@ -50,15 +51,16 @@ const KeywordField = styled( InputField )`
 `;
 
 const ErrorList = styled.ul`
-	color: ${ errorColor };
-	list-style-type: disc;
-	list-style-position: inside;
-	margin: 0;
+    color: ${ inputErrorColor };
+    list-style-type: disc;
+    list-style-position: outside;
+    margin: 0;
+    margin-left: 1.2em;
 `;
 
 const ErrorText = styled.li`
-	color: ${ errorColor };
-	margin: 0 0 0.5em 0;
+    color: ${ inputErrorColor };
+    margin: 0 0 0.5em 0;
 `;
 
 const BorderlessButton = addFocusStyle(
@@ -128,17 +130,6 @@ class KeywordInput extends React.Component {
 		super( props );
 
 		this.handleChange = this.handleChange.bind( this );
-	}
-
-	/**
-	 * Checks the keyword input for comma-separated words.
-	 *
-	 * @param {string} keywordText The text of the input.
-	 *
-	 * @returns {boolean} Returns true if a comma was found.
-	 */
-	checkKeywordInput( keywordText ) {
-		return keywordText.includes( "," );
 	}
 
 	/**
