@@ -22,15 +22,6 @@ class WPSEO_Post_Type_Sitemap_Provider_Double extends WPSEO_Post_Type_Sitemap_Pr
 	}
 
 	/**
-	 * Sets the classifier.
-	 *
-	 * @param object $classifier The classifier for a link.
-	 */
-	public function set_classifier( $classifier ) {
-		self::$classifier = $classifier;
-	}
-
-	/**
 	 * Retrieves a list with the excluded post ids.
 	 *
 	 * @param string $post_type Post type.

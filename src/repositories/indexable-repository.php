@@ -412,6 +412,21 @@ class Indexable_Repository {
 	}
 
 	/**
+	 * Updates the incoming link count for an indexable without first fetching it.
+	 *
+	 * @param int $indexable_id The indexable ID.
+	 * @param int $count        The incoming link count.
+	 *
+	 * @return bool Whether or not the update was succeful.
+	 */
+	public function update_incoming_link_count( $indexable_id, $count ) {
+		return (bool) $this->query()
+			->set( 'incoming_link_count', $count )
+			->where( 'id', $indexable_id )
+			->update_many();
+	}
+
+	/**
 	 * Ensures that the given indexable has a permalink.
 	 *
 	 * @param Indexable $indexable The indexable.

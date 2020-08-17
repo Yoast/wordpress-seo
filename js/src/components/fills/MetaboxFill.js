@@ -106,7 +106,7 @@ export default function MetaboxFill( { settings, store, theme } ) {
 					<AdvancedSettings />
 				</TopLevelProviders>
 			</SidebarItem> }
-			{ !! window.wpseoScriptData.isPost && <SidebarItem renderPriority={ 50 }>
+			{ settings.displaySchemaSettings && <SidebarItem renderPriority={ 50 }>
 				<TopLevelProviders
 					store={ store }
 					theme={ theme }

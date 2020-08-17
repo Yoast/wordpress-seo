@@ -44,9 +44,6 @@ class WPSEO_Database_Proxy_Test extends WPSEO_UnitTestCase {
 				'PRIMARY KEY (id)',
 			]
 		);
-
-		$installer = new WPSEO_Link_Installer();
-		$installer->install();
 	}
 
 	/**
