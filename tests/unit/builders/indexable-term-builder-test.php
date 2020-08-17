@@ -5,6 +5,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Builders;
 use Brain\Monkey;
 use Mockery;
 use Yoast\WP\Lib\ORM;
+use Yoast\WP\SEO\Builders\Indexable_Link_Builder;
 use Yoast\WP\SEO\Builders\Indexable_Term_Builder;
 use Yoast\WP\SEO\Helpers\Image_Helper;
 use Yoast\WP\SEO\Helpers\Open_Graph\Image_Helper as OG_Image_Helper;
@@ -38,8 +39,9 @@ class Indexable_Term_Builder_Test extends TestCase {
 	 */
 	public function test_build() {
 		$term = (object) [
-			'taxonomy' => 'category',
-			'term_id'  => 1,
+			'taxonomy'    => 'category',
+			'term_id'     => 1,
+			'description' => 'description',
 		];
 
 		Monkey\Functions\expect( 'get_term' )->once()->with( 1 )->andReturn( $term );
@@ -134,8 +136,10 @@ class Indexable_Term_Builder_Test extends TestCase {
 					'wpseo_twitter-description'   => 'twitter_description',
 				]
 			);
+		$link_builder = Mockery::mock( Indexable_Link_Builder::class );
+		$link_builder->expects( 'build' )->with( $indexable_mock, 'description' );
 
-		$builder = new Indexable_Term_Builder( $taxonomy );
+		$builder = new Indexable_Term_Builder( $taxonomy, $link_builder );
 
 		$builder->set_social_image_helpers(
 			$image,
@@ -157,7 +161,7 @@ class Indexable_Term_Builder_Test extends TestCase {
 			->with( 1 )
 			->andReturn( null );
 
-		$builder = new Indexable_Term_Builder( Mockery::mock( Taxonomy_Helper::class ) );
+		$builder = new Indexable_Term_Builder( Mockery::mock( Taxonomy_Helper::class ), Mockery::mock( Indexable_Link_Builder::class ) );
 
 		$this->assertFalse( $builder->build( 1, false ) );
 	}
@@ -173,7 +177,7 @@ class Indexable_Term_Builder_Test extends TestCase {
 			->with( 1 )
 			->andReturn( Mockery::mock( '\WP_Error' ) );
 
-		$builder = new Indexable_Term_Builder( Mockery::mock( Taxonomy_Helper::class ) );
+		$builder = new Indexable_Term_Builder( Mockery::mock( Taxonomy_Helper::class ), Mockery::mock( Indexable_Link_Builder::class ) );
 
 		$this->assertFalse( $builder->build( 1, false ) );
 	}
@@ -195,7 +199,7 @@ class Indexable_Term_Builder_Test extends TestCase {
 			->with( $term, 'tax' )
 			->andReturn( Mockery::mock( '\WP_Error' ) );
 
-		$builder = new Indexable_Term_Builder( Mockery::mock( Taxonomy_Helper::class ) );
+		$builder = new Indexable_Term_Builder( Mockery::mock( Taxonomy_Helper::class ), Mockery::mock( Indexable_Link_Builder::class ) );
 
 		$this->assertFalse( $builder->build( 1, false ) );
 	}

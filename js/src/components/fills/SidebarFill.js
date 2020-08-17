@@ -96,7 +96,7 @@ export default function SidebarFill( { settings, store, theme } ) {
 						<CollapsibleCornerstone />
 					</TopLevelProviders>
 				</SidebarItem> }
-				{ !! window.wpseoScriptData.isPost && <SidebarItem renderPriority={ 40 }>
+				{ settings.displaySchemaSettings && <SidebarItem renderPriority={ 40 }>
 					<TopLevelProviders
 						store={ store }
 						theme={ theme }

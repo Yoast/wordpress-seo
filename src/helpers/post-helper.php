@@ -9,6 +9,7 @@ namespace Yoast\WP\SEO\Helpers;
 
 use WP_Post;
 use Yoast\WP\Lib\Model;
+use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
 /**
  * Class Redirect_Helper
@@ -23,6 +24,13 @@ class Post_Helper {
 	private $string;
 
 	/**
+	 * Represents the indexables repository.
+	 *
+	 * @var Indexable_Repository
+	 */
+	private $repository;
+
+	/**
 	 * Post_Helper constructor.
 	 *
 	 * @param String_Helper $string The string helper.
@@ -31,6 +39,17 @@ class Post_Helper {
 	 */
 	public function __construct( String_Helper $string ) {
 		$this->string = $string;
+	}
+
+	/**
+	 * Sets the indexable repository. Done to avoid circular dependencies.
+	 *
+	 * @param Indexable_Repository $repository The indexable repository.
+	 *
+	 * @required
+	 */
+	public function set_indexable_repository( Indexable_Repository $repository ) {
+		$this->repository = $repository;
 	}
 
 	/**
@@ -116,17 +135,30 @@ class Post_Helper {
 	 * @return bool Whether the update was successful.
 	 */
 	public function update_has_public_posts_on_attachments( $post_parent, $has_public_posts ) {
-		$orm_wrapper = Model::of_type( 'Indexable' );
+		$query = $this->repository->query()
+			->select( 'id' )
+			->where( 'object_type', 'post' )
+			->where( 'object_sub_type', 'attachment' )
+			->where( 'post_status', 'inherit' )
+			->where( 'post_parent', $post_parent );
 
-		// Debatable way to get the table name in an update format.
-		$query = $orm_wrapper->set( 'has_public_posts', $has_public_posts )->get_update_sql();
-		$query = \str_replace( 'WHERE `id` = %s', '', $query );
+		if ( $has_public_posts !== null ) {
+			$query->where_raw( '( has_public_posts IS NULL OR has_public_posts <> %s )', [ $has_public_posts ] );
+		}
+		else {
+			$query->where_not_null( 'has_public_posts' );
+		}
+		$results = $query->find_array();
 
-		// Execute a raw query here to be able to find & set in one, i.e. more performant.
-		return $orm_wrapper
-			->raw_execute(
-				$query . 'WHERE `object_type` = \'post\' AND `object_sub_type` = \'attachment\' AND `post_status` = \'inherit\' AND `post_parent` = %s',
-				[ $has_public_posts, $post_parent ]
-			);
+		if ( empty( $results ) ) {
+			return true;
+		}
+
+		$updated = $this->repository->query()
+			->set( 'has_public_posts', $has_public_posts )
+			->where_id_in( \wp_list_pluck( $results, 'id' ) )
+			->update_many();
+
+		return $updated !== false;
 	}
 }

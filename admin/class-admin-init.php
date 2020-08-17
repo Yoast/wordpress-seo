@@ -36,6 +36,7 @@ class WPSEO_Admin_Init {
 
 		add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_dismissible' ] );
 		add_action( 'admin_init', [ $this, 'yoast_plugin_suggestions_notification' ], 15 );
+		add_action( 'admin_init', [ $this, 'yoast_plugin_update_notification' ] );
 		add_action( 'admin_init', [ $this, 'unsupported_php_notice' ], 15 );
 		add_action( 'admin_init', [ $this->asset_manager, 'register_assets' ] );
 		add_action( 'admin_init', [ $this, 'show_hook_deprecation_warnings' ] );
@@ -126,6 +127,104 @@ class WPSEO_Admin_Init {
 			[
 				'id'   => 'wpseo-suggested-plugin-' . $name,
 				'type' => Yoast_Notification::WARNING,
+			]
+		);
+	}
+
+	/**
+	 * Determines whether a update notification needs to be displayed.
+	 *
+	 * @return void
+	 */
+	public function yoast_plugin_update_notification() {
+		$notification_center   = Yoast_Notification_Center::get();
+		$current_minor_version = $this->get_major_minor_version( WPSEO_Options::get( 'version', WPSEO_VERSION ) );
+		$file = plugin_dir_path( WPSEO_FILE ) . 'release-info.json';
+
+		// Remove if file is not present.
+		if ( ! file_exists( $file ) ) {
+			$notification_center->remove_notification_by_id( 'wpseo-plugin-updated' );
+			return;
+		}
+
+		$release_json = file_get_contents( $file );
+		/**
+		 * Filter: 'wpseo_update_notice_content' - Allow filtering of the content
+		 * of the update notice read from the release-info.json file.
+		 *
+		 * @api object The object from the release-info.json file.
+		 */
+		$release_info = apply_filters( 'wpseo_update_notice_content', json_decode( $release_json ) );
+
+		// Remove if file is malformed or for a different version.
+		if ( is_null( $release_info )
+			|| empty( $release_info->version )
+			|| version_compare( $this->get_major_minor_version( $release_info->version ), $current_minor_version, '!=' )
+		 	|| empty( $release_info->release_description )
+		) {
+			$notification_center->remove_notification_by_id( 'wpseo-plugin-updated' );
+			return;
+		}
+
+		$notification = $this->get_yoast_seo_update_notification( $release_info );
+
+		// Restore notification if it was dismissed in a previous minor version.
+		$last_dismissed_version = get_user_option( $notification->get_dismissal_key() );
+		if ( ! $last_dismissed_version
+			 || version_compare( $this->get_major_minor_version( $last_dismissed_version ), $current_minor_version, '<' )
+		) {
+			Yoast_Notification_Center::restore_notification( $notification );
+		}
+		$notification_center->add_notification( $notification );
+	}
+
+	/**
+	 * Helper to truncate the version string up to the minor number
+	 *
+	 * @param string $version The version string to extract the major.minor number from.
+	 * @return string The version string up to the minor number.
+	 */
+	private function get_major_minor_version( $version ) {
+		$version_parts = preg_split( '/[^0-9]+/', $version, 3 );
+		return join( '.', array_slice( $version_parts, 0, 2 ) );
+	}
+
+	/**
+	 * Builds Yoast SEO update notification.
+	 *
+	 * @param object $release_info The release information.
+	 *
+	 * @return Yoast_Notification The notification for the present version
+	 */
+	private function get_yoast_seo_update_notification( $release_info ) {
+		$info_message = '<strong>' .
+				sprintf(
+				/* translators: %1$s expands to Yoast SEO, %2$s expands to the plugin version. */
+					__( 'New in %1$s %2$s: ', 'wordpress-seo' ),
+					'Yoast SEO',
+					$release_info->version
+				) .
+				'</strong>' .
+				$release_info->release_description;
+
+		if ( ! empty( $release_info->shortlink ) ) {
+			$link = esc_url( WPSEO_Shortlinker::get( $release_info->shortlink ) );
+			$info_message .= ' <a href="' . esc_url( $link ) . '" target="_blank">' .
+							 sprintf(
+							 	/* translators: %s expands to the plugin version. */
+							 	__( 'Read all about version %s here', 'wordpress-seo' ),
+								$release_info->version
+							 ) .
+							 '</a>';
+		}
+
+		return new Yoast_Notification(
+			$info_message,
+			[
+				'id'            => 'wpseo-plugin-updated',
+				'type'          => Yoast_Notification::UPDATED,
+				'data_json'     => [ 'dismiss_value' => WPSEO_Options::get( 'version', WPSEO_VERSION ) ],
+				'dismissal_key' => 'wpseo-plugin-updated',
 			]
 		);
 	}
