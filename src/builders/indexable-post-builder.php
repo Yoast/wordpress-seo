@@ -91,6 +91,11 @@ class Indexable_Post_Builder {
 			$indexable->permalink = \wp_get_attachment_url( $post_id );
 		}
 
+		$unpublished_status = ['draft', 'pending', 'auto-draft', 'future'];
+
+		if ( in_array( $post->post_status, $unpublished_status ) ) {
+			$indexable->permalink = null;
+		}
 
 		$indexable->primary_focus_keyword_score = $this->get_keyword_score(
 			$this->get_meta_value( $post_id, 'focuskw' ),
