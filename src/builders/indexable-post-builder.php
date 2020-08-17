@@ -91,7 +91,6 @@ class Indexable_Post_Builder {
 			$indexable->permalink = \wp_get_attachment_url( $post_id );
 		}
 
-		// Save the permalink as an empty string 
 		if ( in_array( $post->post_status, ['draft', 'pending', 'auto-draft', 'future'] ) ) {
 			$indexable->permalink = '';
 		}
