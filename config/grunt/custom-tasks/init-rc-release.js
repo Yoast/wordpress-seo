@@ -85,7 +85,7 @@ module.exports = function( grunt ) {
         
         grunt.option( 'type' , type);
        
-        grunt.config( "github-do-release.seo-free-rc-pre-release.options.enable", enableGithubRelease);
+        grunt.config( "add-github-release.seo-free-rc-pre-release.options.enable", enableGithubRelease);
         grunt.config( "deploy-to-wordpress.trunk.options.enable", enableSvnDeploy);
         
         grunt.config.data.branchForRC = branchForRC;
