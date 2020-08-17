@@ -9,9 +9,10 @@ import { addFocusStyle, SvgIcon, InputField } from "@yoast/components";
 import { getDirectionalStyle } from "@yoast/helpers";
 import { colors } from "@yoast/style-guide";
 
-const errorColor = colors.$color_semrush_error;
+const errorColor = colors.$color_bad;
 const backgroundErrorColor = colors.$palette_error_background;
 const greyColor = colors.$color_grey_text_light;
+const inputErrorColor = colors.$palette_error_text;
 
 const KeywordInputContainer = styled.div`
 	display: flex;
@@ -50,15 +51,15 @@ const KeywordField = styled( InputField )`
 `;
 
 const ErrorList = styled.ul`
-	color: ${ errorColor };
-	list-style-type: disc;
+    color: ${ inputErrorColor };
+    list-style-type: disc;
     list-style-position: inside;
     margin: 0;
 `;
 
 const ErrorText = styled.li`
-	color: ${ errorColor };
-	margin: 0 0 0.5em 0;
+    color: ${ inputErrorColor };
+    margin: 0 0 0.5em 0;
     text-indent: -1.5em;
     padding-left: 1.5em;
 `;
