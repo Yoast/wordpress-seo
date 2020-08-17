@@ -1,20 +1,7 @@
 import { Button } from "@yoast/components/src/button/Button";
-import styled from "styled-components";
 import { __, sprintf } from "@wordpress/i18n";
 import { useState, useCallback } from "@wordpress/element";
 import Modal from "./Modal";
-
-/**
- * Container for the button.
- *
- * Sets the flex-direction to column to make the button full-width.
- */
-const Container = styled.div`
-	padding: 16px;
-	display: flex;
-	flex-direction: column;
-	border-bottom: 1px solid rgba( 0,0,0,0.2 );
-`;
 
 /**
  * Returns a button in a div that can be used to open the modal.
@@ -30,8 +17,8 @@ const PostSettingsModal = () => {
 	const openModal = useCallback( () => changeIsOpen( true ), [] );
 
 	return (
-		<Container
-			className="yoast"
+		<div
+			className="yoast yoast-post-settings-modal__button-container"
 		>
 			{ isOpen && (
 				<Modal
@@ -51,7 +38,7 @@ const PostSettingsModal = () => {
 					sprintf( __( "Open %s settings", "wordpress-seo" ), window.wpseoAdminL10n.postTypeNameSingular.toLowerCase() )
 				}
 			</Button>
-		</Container>
+		</div>
 	);
 };
 
