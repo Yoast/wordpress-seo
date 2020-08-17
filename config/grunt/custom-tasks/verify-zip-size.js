@@ -23,8 +23,12 @@ module.exports = function( grunt ) {
 			// From the resulting array, get the first value (the second value is the RC number).
 			const strippedVersion = parsedVersion[ 0 ];
 
-			const enableSlack = grunt.config.data.enableSlack || grunt.option( 'enableSlack' ) || options.enableSlack
-			grunt.config.data.enableSlack = enableSlack;
+			//check  if grunt.config.data.enableSlack is already set, if not set it to the commandline value if that exist.
+			if (typeof grunt.config.data.enableSlack === 'undefined') {
+				const enableSlackArg = grunt.option( 'enableSlack' ) 
+            	grunt.config.data.enableSlack = (typeof enableSlackArg === 'undefined' ) ? options.enableSlack: enableSlackArg ;
+			}
+						
 			// Max filesize has been determined to be 5 MB (5242880 bytes).
 			const maximumSize = 5242880;
 

@@ -47,10 +47,6 @@ module.exports = function( grunt ) {
         const enableGithubReleaseArg = grunt.option( 'enableGithubRelease') 
         const enableGithubRelease = (typeof enableGithubReleaseArg === 'undefined' ) ? options.enableGithubRelease: enableGithubReleaseArg;
 
-        grunt.verbose.writeln("enableSlack:" + enableSlack);
-        grunt.verbose.writeln("enableSvnDeploy:" + enableSvnDeploy);
-        grunt.verbose.writeln("enableGithubRelease:" + enableGithubRelease);
-
         const GithubRepository = process.env.GITHUB_REPOSITORY || ''
         if (GithubRepository === ''){
             owner = grunt.option( 'owner' ) || options.githubOwner;
@@ -98,11 +94,11 @@ module.exports = function( grunt ) {
         grunt.config.data.alternativeBranchPush = options.alternativeBranchPush
         
 
-        grunt.log.writeln("plugin-version:" + grunt.option( 'plugin-version'));
-        grunt.log.writeln("enableSvnDeploy:" + grunt.option( 'enableSvnDeploy'));
-        grunt.log.writeln("enableSlack:" + grunt.option( 'enableSlack' ));
-        grunt.log.writeln("type:" + grunt.option( 'type' ));
-
+        grunt.verbose.writeln("plugin-version:" + grunt.option( 'plugin-version'));
+        grunt.verbose.writeln("type:" + grunt.option( 'type' ));
+        grunt.verbose.writeln("enableSlack:" + enableSlack);
+        grunt.verbose.writeln("enableSvnDeploy:" + enableSvnDeploy);
+        grunt.verbose.writeln("enableGithubRelease:" + enableGithubRelease);
 
     },
     
