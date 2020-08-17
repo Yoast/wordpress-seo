@@ -32,6 +32,7 @@ module.exports = function( grunt ) {
                 githubRepo: '',
                 alternativeBranch: 'CI-test',
                 alternativeBranchPush: false,
+                enableGithubRelease: false,
         });
         
 
@@ -40,9 +41,10 @@ module.exports = function( grunt ) {
         const version = grunt.option( "plugin-version" );
         const type = grunt.option( 'type' ) || options.type;
         const enableSvnDeploy = grunt.option( 'enableSvnDeploy' ) || options.enableSvnDeploy;
-
         const enableSlack = grunt.option( 'enableSlack' ) || options.enableSlack;
-
+        const enableGithubRelease = grunt.option( 'enableGithubRelease') || options.enableGithubRelease;
+        
+        
         const GithubRepository = process.env.GITHUB_REPOSITORY || ''
         if (GithubRepository === ''){
             owner = grunt.option( 'owner' ) || options.githubOwner;
@@ -76,12 +78,10 @@ module.exports = function( grunt ) {
 
         const branchForRC =  grunt.option( 'branchForRC' ) || type + "/" + version ;
 
-        //grunt.option( 'branchForRC', branchForRC);
-        //grunt.option( 'enableSvnDeploy', enableSvnDeploy); enableSvnDeploy
-        //grunt.option( 'enableSlack' , enableSlack);
+        
         grunt.option( 'type' , type);
        
-        grunt.config( "github-do-release.seo-free-rc-pre-release.options.enable", options.enableGithubRelease);
+        grunt.config( "github-do-release.seo-free-rc-pre-release.options.enable", enableGithubRelease);
         grunt.config( "deploy-to-wordpress.trunk.options.enable", enableSvnDeploy);
         
         grunt.config.data.branchForRC = branchForRC;
