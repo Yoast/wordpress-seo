@@ -26,6 +26,8 @@ import swedishFunctionWordsFactory from "../researches/swedish/functionWords.js"
 const swedishFunctionWords = swedishFunctionWordsFactory();
 import indonesianFunctionWordsFactory from "../researches/indonesian/functionWords.js";
 const indonesianFunctionWords = indonesianFunctionWordsFactory();
+import arabicFunctionWordsFactory from "../researches/arabic/functionWords.js";
+const arabicFunctionWords = arabicFunctionWordsFactory();
 
 /**
  * Returns the function words for all languages.
@@ -45,5 +47,6 @@ export default function() {
 		pl: polishFunctionWords,
 		sv: swedishFunctionWords,
 		id: indonesianFunctionWords,
+		ar: arabicFunctionWords,
 	};
 }

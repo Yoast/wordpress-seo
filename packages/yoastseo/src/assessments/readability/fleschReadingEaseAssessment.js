@@ -5,7 +5,7 @@ import getLanguageAvailability from "../../helpers/getLanguageAvailability";
 import { createAnchorOpeningTag } from "../../helpers/shortlinker";
 import AssessmentResult from "../../values/AssessmentResult";
 
-const availableLanguages = [ "en", "nl", "de", "it", "ru", "fr", "es" ];
+const availableLanguages = [ "en", "nl", "de", "it", "ru", "fr", "es", "pt" ];
 
 /**
  * Assessment to check how readable the text is, based on the Flesch reading ease test.

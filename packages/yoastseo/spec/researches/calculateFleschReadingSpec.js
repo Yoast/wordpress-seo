@@ -73,6 +73,20 @@ describe( "A test that uses the French Flesch Reading", function() {
 	} );
 } );
 
+describe( "A test that uses the Portuguese Flesch Reading", function() {
+	it( "returns a score", function() {
+		var mockPaper = new Paper( "Um texto coeso é aquele em que os parágrafos são ligados harmonicamente.", { locale: "pt_PT" } );
+		expect( fleschFunction( mockPaper ) ).toBe( 46.3 );
+	} );
+} );
+
+describe( "A test that uses the Portuguese Flesch Reading", function() {
+	it( "returns a score", function() {
+		var mockPaper = new Paper( "O processo de venda na internet começa com um estranho.", { locale: "pt_PT" } );
+		expect( fleschFunction( mockPaper ) ).toBe( 77.9 );
+	} );
+} );
+
 describe( "A test that returns 0 after sentence formatting", function() {
 	it( "returns a score of 0", function() {
 		var mockPaper = new Paper( "()" );

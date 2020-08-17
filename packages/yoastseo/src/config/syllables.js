@@ -11,8 +11,9 @@ import it from './syllables/it.json';
 import ru from './syllables/ru.json';
 import fr from './syllables/fr.json';
 import es from './syllables/es.json';
+import pt from './syllables/pt.json';
 
-let languages = { de, nl, en, it, ru, fr, es };
+let languages = { de, nl, en, it, ru, fr, es, pt };
 
 export default function( locale = "en_US" ) {
 	let language = getLanguage( locale );

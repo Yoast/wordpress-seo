@@ -75,6 +75,7 @@ export const Button = ( props ) => {
 		variant,
 		small,
 		type,
+		buttonRef,
 		...restProps
 	} = props;
 
@@ -83,6 +84,7 @@ export const Button = ( props ) => {
 	const iconAfter = variantIcons && variantIcons.iconAfter;
 
 	return <button
+		ref={ buttonRef }
 		className={ className || getClassName( variant, small ) }
 		type={ type }
 		{ ...restProps }
@@ -97,6 +99,7 @@ Button.propTypes = {
 	onClick: PropTypes.func,
 	type: PropTypes.string,
 	className: PropTypes.string,
+	buttonRef: PropTypes.object,
 	small: PropTypes.bool,
 	variant: PropTypes.oneOf( Object.keys( variantToClassName ) ),
 	children: PropTypes.oneOfType(
@@ -114,6 +117,7 @@ Button.defaultProps = {
 	small: false,
 	children: null,
 	onClick: null,
+	buttonRef: null,
 };
 
 /**
@@ -134,6 +138,7 @@ export const ButtonStyledLink = ( props ) => {
 		className,
 		variant,
 		small,
+		buttonRef,
 		...restProps
 	} = props;
 
@@ -143,6 +148,7 @@ export const ButtonStyledLink = ( props ) => {
 
 	return <a
 		className={ className || getClassName( variant, small ) }
+		ref={ buttonRef }
 		{ ...restProps }
 	>
 		{ ! ! iconBefore && <span className={ iconBefore } /> }
@@ -156,6 +162,7 @@ ButtonStyledLink.propTypes = {
 	variant: PropTypes.oneOf( Object.keys( variantToClassName ) ),
 	small: PropTypes.bool,
 	className: PropTypes.string,
+	buttonRef: PropTypes.object,
 	children: PropTypes.oneOfType(
 		[
 			PropTypes.node,
@@ -169,4 +176,5 @@ ButtonStyledLink.defaultProps = {
 	variant: "primary",
 	small: false,
 	children: null,
+	buttonRef: null,
 };

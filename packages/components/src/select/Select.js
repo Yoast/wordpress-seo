@@ -13,13 +13,14 @@ import "./select.css";
 const selectOption = PropTypes.shape( { name: PropTypes.string, value: PropTypes.string } );
 const selectProps = {
 	id: PropTypes.string.isRequired,
-	name: PropTypes.string.isRequired,
+	name: PropTypes.string,
 	options: PropTypes.arrayOf( selectOption ).isRequired,
 	selected: PropTypes.oneOfType( [ PropTypes.arrayOf( PropTypes.string ), PropTypes.string ] ),
 	onChange: PropTypes.func,
 	...FieldGroupProps,
 };
 const selectDefaultProps = {
+	name: "",
 	selected: [],
 	onChange: () => {},
 	...FieldGroupDefaultProps,
@@ -107,8 +108,8 @@ class MultiSelect extends React.Component {
 
 		return (
 			<FieldGroup
-				htmlFor={ id }
 				{ ...fieldGroupProps }
+				htmlFor={ id }
 			>
 				<select
 					multiple="multiple"
@@ -158,6 +159,7 @@ export class Select extends React.Component {
 	constructor( props ) {
 		super( props );
 		this.onBlurHandler = this.onBlurHandler.bind( this );
+		this.onInputHandler = this.onInputHandler.bind( this );
 	}
 
 	/**
@@ -175,6 +177,19 @@ export class Select extends React.Component {
 	}
 
 	/**
+	 * Passes the target's name and input value to the onOptionFocus function if it exists.
+	 *
+	 * NOTE: Please do not pass functions to props.onOptionFocus that would induce a context change in the DOM (navigation, focus changes).
+	 *       This is an a11y concern, because it disorients keyboard and screenreader users.
+	 *
+	 * @param {Event} event The event triggered by an Input.
+	 *
+	 * @returns {void}
+	 */
+	onInputHandler( event ) {
+		this.props.onOptionFocus( event.target.name, event.target.value );
+	}
+	/**
 	 * Render function for component.
 	 *
 	 * @returns {void}
@@ -185,6 +200,7 @@ export class Select extends React.Component {
 			selected,
 			options,
 			name,
+			onOptionFocus,
 			...fieldGroupProps
 		} = this.props;
 
@@ -193,14 +209,15 @@ export class Select extends React.Component {
 
 		return (
 			<FieldGroup
-				htmlFor={ id }
 				{ ...fieldGroupProps }
+				htmlFor={ id }
 			>
 				<select
 					id={ id }
 					name={ name }
 					defaultValue={ selection }
 					onBlur={ this.onBlurHandler }
+					onInput={ onOptionFocus ? this.onInputHandler : null }
 				>
 					{ options.map( Option ) }
 				</select>
@@ -209,5 +226,11 @@ export class Select extends React.Component {
 	}
 }
 
-Select.propTypes = selectProps;
-Select.defaultProps = selectDefaultProps;
+Select.propTypes = {
+	...selectProps,
+	onOptionFocus: PropTypes.func,
+};
+Select.defaultProps = {
+	...selectDefaultProps,
+	onOptionFocus: null,
+};

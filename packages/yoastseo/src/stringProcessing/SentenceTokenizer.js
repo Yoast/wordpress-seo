@@ -8,8 +8,12 @@ import { normalize as normalizeQuotes } from "../stringProcessing/quotes.js";
 
 // All characters that indicate a sentence delimiter.
 const fullStop = ".";
-// The \u2026 character is an ellipsis
-const sentenceDelimiters = "?!;\u2026";
+/*
+ * \u2026 - ellipsis
+ * \u06D4 - Urdu full stop
+ * \u061f - Arabic question mark
+ */
+const sentenceDelimiters = "?!;\u2026\u06d4\u061f";
 
 const fullStopRegex = new RegExp( "^[" + fullStop + "]$" );
 const sentenceDelimiterRegex = new RegExp( "^[" + sentenceDelimiters + "]$" );
@@ -129,6 +133,30 @@ export default class SentenceTokenizer {
 	}
 
 	/**
+	 * Checks whether a character is from a language that's written from right to left.
+	 * These languages don't have capital letter forms. Therefore any letter from these languages is a
+	 * potential sentence beginning.
+	 *
+	 * @param {string} letter The letter to check.
+	 *
+	 * @returns {boolean} Whether the letter is from an LTR language.
+	 */
+	isLetterfromRTLLanguage( letter ) {
+		const ltrLetterRanges = [
+			// Hebrew characters.
+			/^[\u0590-\u05fe]+$/i,
+			// Arabic characters (used for Arabic, Farsi, Urdu).
+			/^[\u0600-\u06FF]+$/i,
+			// Additional Farsi characters.
+			/^[\uFB8A\u067E\u0686\u06AF]+$/i,
+		];
+
+		return (
+			ltrLetterRanges.some( ltrLetterRange => ltrLetterRange.test( letter ) )
+		);
+	}
+
+	/**
 	 * Checks if the sentenceBeginning beginning is a valid beginning.
 	 *
 	 * @param {string} sentenceBeginning The beginning of the sentence to validate.
@@ -137,6 +165,7 @@ export default class SentenceTokenizer {
 	isValidSentenceBeginning( sentenceBeginning ) {
 		return (
 			this.isCapitalLetter( sentenceBeginning ) ||
+			this.isLetterfromRTLLanguage( sentenceBeginning ) ||
 			this.isNumber( sentenceBeginning ) ||
 			this.isQuotation( sentenceBeginning ) ||
 			this.isPunctuation( sentenceBeginning ) ||

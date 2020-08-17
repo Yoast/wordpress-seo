@@ -21,6 +21,17 @@ function clickerDiClick() {
 	console.log( "You are an exceptional clicker!" );
 }
 
+const buttonRef = React.createRef();
+const buttonStyledLinkRef = React.createRef();
+
+const focusButtonRef = () => {
+	buttonRef.current.focus();
+};
+
+const focusLinkRef = () => {
+	buttonStyledLinkRef.current.focus();
+};
+
 const buttonGrouping = <Fragment>
 	<h3>"primary" variant (default)</h3>
 	<Button onClick={ clickerDiClick } title="Testing whether other props are also passed, like this tooltip">Default button</Button>
@@ -38,6 +49,12 @@ const buttonGrouping = <Fragment>
 	<Button variant="secondary" small={ true }  disabled={ true } onClick={ clickerDiClick }>Secondary small disabled button</Button>
 	<ButtonStyledLink variant="secondary" href={ "#" }>Secondary link</ButtonStyledLink>
 	<ButtonStyledLink variant="secondary" small={ true } href={ "#" }>Secondary small link</ButtonStyledLink>
+
+	<h3>With Ref!</h3>
+	<Button variant="secondary" buttonRef={ buttonRef } small={ true } onClick={ clickerDiClick }>This Button has a Ref!</Button>
+	<button onClick={ focusButtonRef }>focus test</button>
+	<ButtonStyledLink variant="secondary" buttonRef={ buttonStyledLinkRef } small={ true } href={ "#" }>This ButtonStyledLink has a Ref!</ButtonStyledLink>
+	<button onClick={ focusLinkRef }>focus test</button>
 
 	<h3>"buy" variant (or "upsell")</h3>
 	<Button variant="upsell" onClick={ clickerDiClick }>Buy button</Button>

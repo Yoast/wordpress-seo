@@ -355,6 +355,16 @@ describe( "A test for building keyword and synonyms stems for a paper", function
 	} );
 } );
 
+describe( "A test for filtering function words in supported languages", function() {
+	// Function word: هذه
+	const forms = buildStems( "هذه المعلومات", "ar", false );
+	expect( forms ).toEqual(
+		new TopicPhrase(
+			[ new StemOriginalPair( "المعلومات", "المعلومات" ) ],
+			false )
+	);
+} );
+
 describe( "A test for topic phrase objects", function() {
 	const testTopicPhrase = new TopicPhrase(
 		[
