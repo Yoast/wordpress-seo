@@ -7,6 +7,7 @@ import russianDetermineStem from "../morphology/russian/stem";
 import italianDetermineStem from "../morphology/italian/stem";
 import portugueseDetermineStem from "../morphology/portuguese/stem";
 import indonesianDetermineStem from "../morphology/indonesian/stem";
+import polishDetermineStem from "../morphology/polish/stem";
 import arabicDetermineStem from "../morphology/arabic/stem";
 
 /**
@@ -25,6 +26,7 @@ export default function() {
 		it: italianDetermineStem,
 		pt: portugueseDetermineStem,
 		id: indonesianDetermineStem,
+		pl: polishDetermineStem,
 		ar: arabicDetermineStem,
 	};
 }

@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file. Releases without a changelog entry contain only minor changes that are irrelevant for users of this library.
 We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwards.
 
+## 1.81.0 August 31st, 2020
+### Enhancements
+* Adds more Polish function words.
+* Adds word form functionality for Polish.
+* Makes feedback string in the keyphrase in subheadings assessment more explicit.
+* Improves keyphrase recognition for Hebrew.
+* Adds function words for Hebrew.
+
+### Bugfixes
+* Fixes a bug where closing parentheses would always be regarded as sentence endings in RTL languages.
+* Fixes a bug where closing parentheses would always be regarded as sentence endings when followed by an upper-case letter.
+
 ## 1.80.0 August 17th, 2020
 ### Enhancements
 * Makes it possible to tokenize sentences in languages that are written right-to-left (e.g., Hebrew, Arabic, Farsi and Urdu).
