@@ -42,8 +42,11 @@ module.exports = function( grunt ) {
         const type = grunt.option( 'type' ) || options.type;
         const enableSvnDeploy = grunt.option( 'enableSvnDeploy' ) || options.enableSvnDeploy;
         const enableSlack = grunt.option( 'enableSlack' ) || options.enableSlack;
-        const enableGithubRelease = grunt.option( 'enableGithubRelease') || options.enableGithubRelease;
+        //const enableGithubRelease = grunt.option( 'enableGithubRelease') || options.enableGithubRelease;
         
+        const enableGithubReleaseArg = grunt.option( 'enableGithubRelease') 
+        const enableGithubRelease = (typeof enableGithubReleaseArg === 'undefined' ) ? options.enableGithubRelease: enableGithubReleaseArg;
+
         grunt.log.writeln("enableGithubRelease:" + enableGithubRelease);
 
         const GithubRepository = process.env.GITHUB_REPOSITORY || ''
