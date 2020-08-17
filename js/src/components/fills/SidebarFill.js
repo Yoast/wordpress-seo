@@ -13,7 +13,7 @@ import SidebarItem from "../SidebarItem";
 import SnippetPreviewModal from "../SnippetPreviewModal";
 import TopLevelProviders from "../TopLevelProviders";
 import SchemaTabContainer from "../../containers/SchemaTab";
-import OpenPostSettingsModal from "../OpenPostSettingsModal";
+import PostSettingsModal from "../modals/PostSettingsModal";
 
 /**
  * Creates the SidebarFill component.
@@ -45,7 +45,7 @@ export default function SidebarFill( { settings, store, theme } ) {
 						theme={ theme }
 						location={ "sidebar" }
 					>
-						<OpenPostSettingsModal />
+						<PostSettingsModal />
 					</TopLevelProviders>
 				</SidebarItem>
 				{ settings.isKeywordAnalysisActive && <SidebarItem renderPriority={ 8 }>
