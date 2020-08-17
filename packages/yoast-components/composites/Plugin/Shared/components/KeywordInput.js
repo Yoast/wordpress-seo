@@ -53,15 +53,14 @@ const KeywordField = styled( InputField )`
 const ErrorList = styled.ul`
     color: ${ inputErrorColor };
     list-style-type: disc;
-    list-style-position: inside;
+    list-style-position: outside;
     margin: 0;
-    margin-left: 1.5em;
+    margin-left: 1.2em;
 `;
 
 const ErrorText = styled.li`
     color: ${ inputErrorColor };
     margin: 0 0 0.5em 0;
-    list-style-position: outside;
 `;
 
 const BorderlessButton = addFocusStyle(
