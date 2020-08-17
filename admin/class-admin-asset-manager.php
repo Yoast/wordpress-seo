@@ -292,6 +292,7 @@ class WPSEO_Admin_Asset_Manager {
 					'wp-compose',
 					'wp-element',
 					self::PREFIX . 'components',
+					'wp-api-fetch',
 				],
 				'in_footer' => false,
 			],
