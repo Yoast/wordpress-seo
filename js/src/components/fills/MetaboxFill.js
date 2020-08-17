@@ -49,7 +49,7 @@ export default function MetaboxFill( { settings, store, theme } ) {
 						isSEMrushIntegrationActive={ settings.isSEMrushIntegrationActive }
 					/>
 				</TopLevelProviders>
-				{ ! window.wpseoScriptData.isPremium && <Fill name="YoastRelatedKeyphrases">
+				{ ! window.wpseoScriptData.metabox.isPremium && <Fill name="YoastRelatedKeyphrases">
 					<SEMrushRelatedKeyphrases />
 				</Fill> }
 			</SidebarItem> }
