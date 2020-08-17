@@ -91,10 +91,9 @@ class Indexable_Post_Builder {
 			$indexable->permalink = \wp_get_attachment_url( $post_id );
 		}
 
-		$unpublished_status = ['draft', 'pending', 'auto-draft', 'future'];
-
-		if ( in_array( $post->post_status, $unpublished_status ) ) {
-			$indexable->permalink = null;
+		// Save the permalink as an empty string 
+		if ( in_array( $post->post_status, ['draft', 'pending', 'auto-draft', 'future'] ) ) {
+			$indexable->permalink = '';
 		}
 
 		$indexable->primary_focus_keyword_score = $this->get_keyword_score(
