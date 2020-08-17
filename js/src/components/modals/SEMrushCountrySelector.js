@@ -363,7 +363,7 @@ SEMrushCountrySelector.propTypes = {
 SEMrushCountrySelector.defaultProps = {
 	keyphrase: "",
 	countryCode: "us",
-	response: "",
+	response: {},
 };
 
 /**
