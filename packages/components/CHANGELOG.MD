@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file. Releases wi
 
 We follow [Semantic Versioning](http://semver.org/).
 
+## 2.8.0 August 31st, 2020
+### Enhancements
+* Adds a button with an edit icon.
+
 ## 2.7.0 August 17th, 2020
 ### Enhancements
 * Adds a new active schema tab icon.
