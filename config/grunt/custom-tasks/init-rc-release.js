@@ -47,8 +47,8 @@ module.exports = function( grunt ) {
         const enableGithubReleaseArg = grunt.option( 'enableGithubRelease') 
         const enableGithubRelease = (typeof enableGithubReleaseArg === 'undefined' ) ? options.enableGithubRelease: enableGithubReleaseArg;
 
-        grunt.verbose.writeln("enableGithubRelease:" + enableSlack);
-        grunt.verbose.writeln("enableGithubRelease:" + enableSvnDeploy);
+        grunt.verbose.writeln("enableSlack:" + enableSlack);
+        grunt.verbose.writeln("enableSvnDeploy:" + enableSvnDeploy);
         grunt.verbose.writeln("enableGithubRelease:" + enableGithubRelease);
 
         const GithubRepository = process.env.GITHUB_REPOSITORY || ''
