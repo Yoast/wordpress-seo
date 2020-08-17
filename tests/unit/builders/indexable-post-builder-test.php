@@ -182,12 +182,10 @@ class Indexable_Post_Builder_Test extends TestCase {
 			'open_graph_title'            => 'open_graph_title',
 			'open_graph_image'            => 'open_graph_image',
 			'open_graph_image_id'         => 'open_graph_image_id',
-			'open_graph_image_source'     => 'set-by-user',
 			'open_graph_description'      => 'open_graph_description',
 			'twitter_title'               => 'twitter_title',
 			'twitter_image'               => 'twitter_image',
 			'twitter_image_id'            => null,
-			'twitter_image_source'        => 'set-by-user',
 			'twitter_description'         => 'twitter_description',
 			'is_cornerstone'              => true,
 			'is_robots_noindex'           => true,
@@ -201,7 +199,7 @@ class Indexable_Post_Builder_Test extends TestCase {
 			'link_count'                  => 5,
 			'incoming_link_count'         => 2,
 			'number_of_pages'             => null,
-			'is_public'                   => null,
+			'is_public'                   => 0,
 			'post_status'                 => 'publish',
 			'is_protected'                => false,
 			'author_id'                   => 1,
@@ -217,36 +215,20 @@ class Indexable_Post_Builder_Test extends TestCase {
 
 		$this->set_indexable_set_expectations( $this->indexable, $indexable_expectations );
 
-		// Reset social images method (social image trait).
+		// Mock social images method (from the social image trait).
 		$this->instance->expects( 'reset_social_images' )->with( $this->indexable );
-
-		// Handle images method (social image trait).
-		$this->indexable->orm->expects( 'get' )->with( 'open_graph_image' )->andReturn( 'open_graph_image' );
-		$this->indexable->orm->expects( 'get' )->with( 'twitter_image' )->andReturn( 'twitter_image' );
-		$this->indexable->orm->expects( 'get' )->with( 'open_graph_image_source' )->andReturn( 'set-by-user' );
-		$this->indexable->orm->expects( 'get' )->with( 'twitter_image_source' )->andReturn( 'set-by-user' );
-		$this->indexable->orm->expects( 'get' )->with( 'open_graph_image_id' )->andReturn( 'open_graph_image_id' );
-		$this->indexable->orm->expects( 'get' )->with( 'twitter_image_id' )->andReturn( 'twitter_image_id' );
-		$this->indexable->orm->expects( 'get' )->with( 'object_sub_type' )->andReturn( 'object_sub_type' );
-
-		$this->twitter_image->expects( 'get_by_id' )->with( 'twitter_image_id' )->andReturn( null );
-		$this->indexable->orm->expects( 'set' )->with( 'twitter_image', null );
-
-		$this->indexable->orm->expects( 'get' )->with( 'open_graph_image_id' )->andReturn( 'open_graph_image_id' );
-		$this->indexable->orm->expects( 'get' )->with( 'twitter_image_id' )->andReturn( 'twitter_image_id' );
-
-		// Set open graph image meta data method.
-		$this->open_graph_image->expects( 'get_image_by_id' )->with( 'open_graph_image_id' )->andReturn( null );
+		$this->instance->expects( 'handle_social_images' )->with( $this->indexable );
 
 		// Is public method.
 		$this->indexable->orm->expects( 'get' )->with( 'is_protected' )->andReturnFalse();
-		$this->indexable->orm->expects( 'get' )->twice()->with( 'is_robots_noindex' )->andReturn( null );
+		$this->indexable->orm->expects( 'get' )->with( 'is_robots_noindex' )->andReturn( true );
+
+		// Has public posts.
 		$this->indexable->orm->expects( 'get' )->with( 'object_sub_type' )->andReturn( 'post' );
-		$this->indexable->orm->expects( 'get' )->with( 'post_status' )->andReturn( 'publish' );
 
 		// Breadcrumb title.
-		$this->indexable->orm->expects( 'offsetExists' )->once()->with( 'breadcrumb_title' )->andReturnTrue();
-		$this->indexable->orm->expects( 'get' )->once()->with( 'breadcrumb_title' )->andReturnTrue();
+		$this->indexable->orm->expects( 'offsetExists' )->with( 'breadcrumb_title' )->andReturnTrue();
+		$this->indexable->orm->expects( 'get' )->with( 'breadcrumb_title' )->andReturnTrue();
 
 		// Blog ID.
 		Monkey\Functions\expect( 'get_current_blog_id' )->once()->andReturn( 1 );
