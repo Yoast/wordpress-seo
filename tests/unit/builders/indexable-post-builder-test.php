@@ -228,7 +228,7 @@ class Indexable_Post_Builder_Test extends TestCase {
 
 		// Breadcrumb title.
 		$this->indexable->orm->expects( 'offsetExists' )->with( 'breadcrumb_title' )->andReturnTrue();
-		$this->indexable->orm->expects( 'get' )->with( 'breadcrumb_title' )->andReturnTrue();
+		$this->indexable->orm->expects( 'get' )->with( 'breadcrumb_title' )->andReturn( 'breadcrumb_title' );
 
 		// Blog ID.
 		Monkey\Functions\expect( 'get_current_blog_id' )->once()->andReturn( 1 );
