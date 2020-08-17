@@ -159,6 +159,7 @@ export class Select extends React.Component {
 	constructor( props ) {
 		super( props );
 		this.onBlurHandler = this.onBlurHandler.bind( this );
+		this.onInputHandler = this.onInputHandler.bind( this );
 	}
 
 	/**
@@ -176,6 +177,19 @@ export class Select extends React.Component {
 	}
 
 	/**
+	 * Passes the target's name and input value to the onOptionFocus function if it exists.
+	 *
+	 * NOTE: Please do not pass functions to props.onOptionFocus that would induce a context change in the DOM (navigation, focus changes).
+	 *       This is an a11y concern, because it disorients keyboard and screenreader users.
+	 *
+	 * @param {Event} event The event triggered by an Input.
+	 *
+	 * @returns {void}
+	 */
+	onInputHandler( event ) {
+		this.props.onOptionFocus( event.target.name, event.target.value );
+	}
+	/**
 	 * Render function for component.
 	 *
 	 * @returns {void}
@@ -186,6 +200,7 @@ export class Select extends React.Component {
 			selected,
 			options,
 			name,
+			onOptionFocus,
 			...fieldGroupProps
 		} = this.props;
 
@@ -202,6 +217,7 @@ export class Select extends React.Component {
 					name={ name }
 					defaultValue={ selection }
 					onBlur={ this.onBlurHandler }
+					onInput={ onOptionFocus ? this.onInputHandler : null }
 				>
 					{ options.map( Option ) }
 				</select>
@@ -210,5 +226,11 @@ export class Select extends React.Component {
 	}
 }
 
-Select.propTypes = selectProps;
-Select.defaultProps = selectDefaultProps;
+Select.propTypes = {
+	...selectProps,
+	onOptionFocus: PropTypes.func,
+};
+Select.defaultProps = {
+	...selectDefaultProps,
+	onOptionFocus: null,
+};
