@@ -124,14 +124,14 @@ class WPSEO_Primary_Term_Admin implements WPSEO_WordPress_Integration {
 
 		$asset_manager = new WPSEO_Admin_Asset_Manager();
 		$asset_manager->enqueue_style( 'primary-category' );
-		$asset_manager->enqueue_script( 'primary-category' );
 
 		$mapped_taxonomies = $this->get_mapped_taxonomies_for_js( $taxonomies );
 
 		$data = [
 			'taxonomies' => $mapped_taxonomies,
 		];
-		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'primary-category', 'wpseoPrimaryCategoryL10n', $data );
+		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'post-edit', 'wpseoPrimaryCategoryL10n', $data );
+		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'post-edit-classic', 'wpseoPrimaryCategoryL10n', $data );
 	}
 
 	/**
