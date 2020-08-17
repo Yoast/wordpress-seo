@@ -1,4 +1,26 @@
 /**
+ * Copyright (c) 2015 Mouaffak A. Sarhan
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
+/**
  *
  * @param word
  * @param morphologyData
@@ -91,22 +113,19 @@ const processTwoLetters = function( word, morphologyData ) {
 	return word;
 };
 
-const processWordsWithLastWeakLetterOrHamza = function( word, morphologyData ) {
-	const regexRemoveLastWeakLetterOrHamza = morphologyData.externalStemmer.regexRemoveLastWeakLetterOrHamza;
-	const wordAfterRemovingLastWeakLetterOrHamza = word.replace( new RegExp( regexRemoveLastWeakLetterOrHamza[0] ),
-		regexRemoveLastWeakLetterOrHamza[ 1 ] );
-	if ( wordAfterRemovingLastWeakLetterOrHamza !== word ) {
-		word = checkWordsWithRemovedLastWeakLetter( wordAfterRemovingLastWeakLetterOrHamza, morphologyData );
-		return word;
-	}
-};
-
-const processWordsWithMiddleWeakLetterOrHamza = function( word, morphologyData ) {
-	const regexRemoveMiddleWeakLetterOrHamza = morphologyData.externalStemmer.regexRemoveLastWeakLetterOrHamza;
-	const wordAfterRemovingLastWeakLetterOrHamza = word.replace( new RegExp( regexRemoveLastWeakLetterOrHamza[0] ),
-		regexRemoveLastWeakLetterOrHamza[ 1 ] );
-	if ( wordAfterRemovingLastWeakLetterOrHamza !== word ) {
-		word = checkWordsWithRemovedLastWeakLetter( wordAfterRemovingLastWeakLetterOrHamza, morphologyData );
+/**
+ *
+ * @param word
+ * @param morphologyData
+ * @param replacementPattern
+ * @param functionToRunToGetRoot
+ * @returns {*}
+ */
+const processWordsWithWeakLetterOrHamza = function( word, morphologyData, replacementPattern, functionToRunToGetRoot ) {
+	const wordAfterRemovingWeakLetterOrHamza = word.replace( new RegExp( replacementPattern[ 0 ] ),
+		replacementPattern[ 1 ] );
+	if ( wordAfterRemovingWeakLetterOrHamza !== word ) {
+		word = functionToRunToGetRoot( wordAfterRemovingWeakLetterOrHamza, morphologyData );
 		return word;
 	}
 };
@@ -130,21 +149,19 @@ const processThreeLetters = function( word, morphologyData ) {
 	}
 
 	// If the last letter is a weak letter or a hamza, remove it and check if the root is a word with the last weak letter or hamza removed.
-	const wordAfterLastWeakLetterOrHamzaCheck = processWordsWithLastWeakLetterOrHamza( word, morphologyData );
+	const wordAfterLastWeakLetterOrHamzaCheck = processWordsWithWeakLetterOrHamza( word, morphologyData,
+		morphologyData.externalStemmer.regexRemoveLastWeakLetterOrHamza, checkWordsWithRemovedLastWeakLetter );
 	if ( wordAfterLastWeakLetterOrHamzaCheck !== word ) {
-		return word;
+		return wordAfterLastWeakLetterOrHamzaCheck;
 	}
-}
+
 	// If the second letter is a waw, yeh, alef or a hamza, remove it and check if the root is a word with the middle weak letter removed.
-	const regexRemoveMiddleWeakLetterOrHamza = morphologyData.externalStemmer.regexRemoveMiddleWeakLetterOrHamza;
-	const wordAfterRemovingMiddleWeakLetterOrHamza = word.replace( new RegExp( regexRemoveMiddleWeakLetterOrHamza[ 0 ] ),
-		regexRemoveMiddleWeakLetterOrHamza[ 1 ] );
-	if ( wordAfterRemovingMiddleWeakLetterOrHamza !== word ) {
-		const wordAfterMiddleWeakLetterCheck = checkWordsWithRemovedMiddleWeakLetter( wordAfterRemovingMiddleWeakLetterOrHamza, morphologyData );
-		if ( wordAfterMiddleWeakLetterCheck !== word ) {
-			return wordAfterMiddleWeakLetterCheck;
-		}
+	const wordAfterMiddleWeakLetterOrHamzaCheck = processWordsWithWeakLetterOrHamza( word, morphologyData,
+		morphologyData.externalStemmer.regexRemoveMiddleWeakLetterOrHamza, checkWordsWithRemovedMiddleWeakLetter );
+	if ( wordAfterMiddleWeakLetterOrHamzaCheck !== word ) {
+		return wordAfterMiddleWeakLetterOrHamzaCheck;
 	}
+
 	// If the second letter has a hamza, and it's not on a alif, then it must be returned to the alif.
 	const regexReplaceMiddleLetterWithAlif = morphologyData.externalStemmer.regexReplaceMiddleLetterWithAlif;
 	const wordAfterReplacingMiddleLetterWithAlif = word.replace( new RegExp( regexReplaceMiddleLetterWithAlif[ 0 ] ),
