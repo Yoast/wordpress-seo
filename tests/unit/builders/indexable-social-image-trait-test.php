@@ -62,11 +62,22 @@ class Indexable_Social_Image_Trait_Test extends TestCase {
 
 		$this->instance = Mockery::mock( Indexable_Social_Image_Trait_Double::class )->makePartial();
 
-		$this->twitter_image = Mockery::mock( Twitter\Image_Helper::class );
+		$this->twitter_image    = Mockery::mock( Twitter\Image_Helper::class );
 		$this->open_graph_image = Mockery::mock( Open_Graph\Image_Helper::class );
-		$this->image = Mockery::mock( Image_Helper::class );
+		$this->image            = Mockery::mock( Image_Helper::class );
 
 		$this->instance->set_social_image_helpers( $this->image, $this->open_graph_image, $this->twitter_image );
+	}
+
+	/**
+	 * Tests setting the social image helpers.
+	 */
+	public function test_set_social_image_helpers() {
+		$this->instance->set_social_image_helpers( $this->image, $this->open_graph_image, $this->twitter_image );
+
+		self::assertAttributeInstanceOf( Twitter\Image_Helper::class, 'twitter_image', $this->instance );
+		self::assertAttributeInstanceOf( Open_Graph\Image_Helper::class, 'open_graph_image', $this->instance );
+		self::assertAttributeInstanceOf( Image_Helper::class, 'image', $this->instance );
 	}
 
 	/**
@@ -126,13 +137,13 @@ class Indexable_Social_Image_Trait_Test extends TestCase {
 		$this->indexable->orm->expects( 'set' )
 			->with( 'open_graph_image', 'http://basic.wordpress.test/wp-content/uploads/2020/07/WordPress5.jpg' );
 		$this->indexable->orm->expects( 'set' )
-			->with( 'open_graph_image_meta', \json_encode( $image_meta, ( JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES ) ) );
+			->with( 'open_graph_image_meta', \json_encode( $image_meta, ( JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES ) ) );
 
 		// We expect twitter image meta to be set.
 		$this->indexable->orm->expects( 'set' )
 			->with( 'twitter_image', 'http://basic.wordpress.test/wp-content/uploads/2020/07/WordPress6.jpg' );
 
-		// Since the image is already set by the user, we do not expect to search for an alternative image.
+		// Since both images are already set by the user, we do not expect to search for an alternative image.
 		$this->instance->expects( 'find_alternative_image' )
 			->never();
 
@@ -141,13 +152,13 @@ class Indexable_Social_Image_Trait_Test extends TestCase {
 
 	/**
 	 * Tests that social images are correctly set on the indexable
-	 * when one image is not set by the user.
+	 * when the Twitter image is not set by the user.
 	 *
 	 * @covers ::handle_social_images
 	 * @covers ::set_open_graph_image_meta_data
 	 * @covers ::set_alternative_image
 	 */
-	public function test_handle_social_images_when_an_image_is_not_set_by_user() {
+	public function test_handle_social_images_when_twitter_image_is_not_set_by_user() {
 		$this->indexable      = Mockery::mock( Indexable::class );
 		$this->indexable->orm = Mockery::mock( ORM::class );
 
@@ -177,7 +188,7 @@ class Indexable_Social_Image_Trait_Test extends TestCase {
 		$this->indexable->orm->expects( 'set' )
 			->with( 'open_graph_image', 'http://basic.wordpress.test/wp-content/uploads/2020/07/WordPress5.jpg' );
 		$this->indexable->orm->expects( 'set' )
-			->with( 'open_graph_image_meta', \json_encode( $image_meta, ( JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES ) ) );
+			->with( 'open_graph_image_meta', \json_encode( $image_meta, ( JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES ) ) );
 
 		$alternative_image = [
 			'image_id' => 'featured-image-id',
@@ -203,6 +214,161 @@ class Indexable_Social_Image_Trait_Test extends TestCase {
 
 		$this->indexable->orm->expects( 'set' )
 			->with( 'twitter_image_id', 'featured-image-id' );
+
+		$this->instance->handle_social_images_double( $this->indexable );
+	}
+
+	/**
+	 * Tests that social images are correctly set on the indexable
+	 * when the Open Graph image is not set by the user.
+	 *
+	 * @covers ::handle_social_images
+	 * @covers ::set_open_graph_image_meta_data
+	 * @covers ::set_alternative_image
+	 */
+	public function test_handle_social_images_when_og_image_is_not_set_by_user() {
+		$this->indexable      = Mockery::mock( Indexable::class );
+		$this->indexable->orm = Mockery::mock( ORM::class );
+
+		$this->twitter_image_set_by_user();
+		$this->no_open_graph_image();
+
+		// We expect the twitter source to be 'set-by-user'.
+		$this->indexable->orm->expects( 'set' )
+			->with( 'twitter_image_source', 'set-by-user' );
+		$this->indexable->orm->expects( 'set' )
+			->never()
+			->with( 'open_graph_image_source', 'set-by-user' );
+
+		// We expect twitter image to be set.
+		$this->indexable->orm->expects( 'set' )
+			->with( 'twitter_image', 'http://basic.wordpress.test/wp-content/uploads/2020/07/WordPress6.jpg' );
+
+		$alternative_image = [
+			'image_id' => 'featured-image-id',
+			'source'   => 'featured-image',
+		];
+
+		// We expect to find an alternative image.
+		$this->instance->expects( 'find_alternative_image' )
+			->once()
+			->with( $this->indexable )
+			->andReturn( $alternative_image );
+
+		// We expect the open graph image to be set to this alternative image.
+		$this->indexable->orm->expects( 'set' )
+			->with( 'open_graph_image_source', 'featured-image' );
+
+		$this->indexable->orm->expects( 'set' )
+			->with( 'open_graph_image_id', 'featured-image-id' );
+
+		$this->instance->handle_social_images_double( $this->indexable );
+	}
+
+	/**
+	 * Tests that social images are correctly set on the indexable
+	 * when the Twitter image id is not set by the user.
+	 *
+	 * @covers ::handle_social_images
+	 * @covers ::set_open_graph_image_meta_data
+	 * @covers ::set_alternative_image
+	 */
+	public function test_handle_social_images_when_twitter_image_id_is_not_set_by_user() {
+		$this->indexable      = Mockery::mock( Indexable::class );
+		$this->indexable->orm = Mockery::mock( ORM::class );
+
+		$image_meta = [
+			"width"  => 640,
+			"height" => 480,
+			"url"    => "http://basic.wordpress.test/wp-content/uploads/2020/07/WordPress5.jpg",
+			"path"   => "/var/www/html/wp-content/uploads/2020/07/WordPress5.jpg",
+			"size"   => "full",
+			"id"     => 13,
+			"alt"    => "",
+			"pixels" => 307200,
+			"type"   => "image/jpeg"
+		];
+
+		$this->no_twitter_image();
+		$this->open_graph_image_set_by_user( $image_meta );
+
+		// We expect the open graph source to be 'set-by-user'.
+		$this->indexable->orm->expects( 'set' )
+			->with( 'open_graph_image_source', 'set-by-user' );
+		$this->indexable->orm->expects( 'set' )
+			->never()
+			->with( 'twitter_image_source', 'set-by-user' );
+
+		// We expect the open graph image and meta data to be set.
+		$this->indexable->orm->expects( 'set' )
+			->with( 'open_graph_image', 'http://basic.wordpress.test/wp-content/uploads/2020/07/WordPress5.jpg' );
+		$this->indexable->orm->expects( 'set' )
+			->with( 'open_graph_image_meta', \json_encode( $image_meta, ( JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES ) ) );
+
+		$alternative_image = [
+			'image'  => 'featured-image.jpeg',
+			'source' => 'featured-image',
+		];
+
+		// We expect to find an alternative image.
+		$this->instance->expects( 'find_alternative_image' )
+			->once()
+			->with( $this->indexable )
+			->andReturn( $alternative_image );
+
+		// We expect the twitter image to be set to this alternative image.
+		$this->indexable->orm->expects( 'set' )
+			->with( 'twitter_image', 'featured-image.jpeg' );
+
+		$this->indexable->orm->expects( 'set' )
+			->with( 'twitter_image_source', 'featured-image' );
+
+		$this->instance->handle_social_images_double( $this->indexable );
+	}
+
+	/**
+	 * Tests that social images are correctly set on the indexable
+	 * when the Open Graph image id is not set.
+	 *
+	 * @covers ::handle_social_images
+	 * @covers ::set_open_graph_image_meta_data
+	 * @covers ::set_alternative_image
+	 */
+	public function test_handle_social_images_when_og_image_id_is_not_set_by_user() {
+		$this->indexable      = Mockery::mock( Indexable::class );
+		$this->indexable->orm = Mockery::mock( ORM::class );
+
+		$this->twitter_image_set_by_user();
+		$this->no_open_graph_image();
+
+		// We expect the twitter source to be 'set-by-user'.
+		$this->indexable->orm->expects( 'set' )
+			->with( 'twitter_image_source', 'set-by-user' );
+		$this->indexable->orm->expects( 'set' )
+			->never()
+			->with( 'open_graph_image_source', 'set-by-user' );
+
+		// We expect twitter image to be set.
+		$this->indexable->orm->expects( 'set' )
+			->with( 'twitter_image', 'http://basic.wordpress.test/wp-content/uploads/2020/07/WordPress6.jpg' );
+
+		$alternative_image = [
+			'image'  => 'featured-image.jpeg',
+			'source' => 'featured-image',
+		];
+
+		// We expect to find an alternative image.
+		$this->instance->expects( 'find_alternative_image' )
+			->once()
+			->with( $this->indexable )
+			->andReturn( $alternative_image );
+
+		// We expect the open graph image to be set to this alternative image.
+		$this->indexable->orm->expects( 'set' )
+			->with( 'open_graph_image_source', 'featured-image' );
+
+		$this->indexable->orm->expects( 'set' )
+			->with( 'open_graph_image', 'featured-image.jpeg' );
 
 		$this->instance->handle_social_images_double( $this->indexable );
 	}
@@ -242,6 +408,23 @@ class Indexable_Social_Image_Trait_Test extends TestCase {
 
 		$this->indexable->orm->shouldReceive( 'get' )
 			->with( 'twitter_image_source' )
+			->andReturn( null );
+	}
+
+	/**
+	 * Mocks a missing Open Graph image.
+	 */
+	private function no_open_graph_image() {
+		$this->indexable->orm->shouldReceive( 'get' )
+			->with( 'open_graph_image' )
+			->andReturn( null );
+
+		$this->indexable->orm->shouldReceive( 'get' )
+			->with( 'open_graph_image_id' )
+			->andReturn( null );
+
+		$this->indexable->orm->shouldReceive( 'get' )
+			->with( 'open_graph_image_source' )
 			->andReturn( null );
 	}
 
