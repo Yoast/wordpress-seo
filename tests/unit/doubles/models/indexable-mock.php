@@ -98,4 +98,8 @@ class Indexable_Mock extends Indexable {
 	public $has_public_posts;
 
 	public $has_ancestors;
+
+	public $schema_page_type;
+
+	public $schema_article_type;
 }

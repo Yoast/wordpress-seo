@@ -390,18 +390,61 @@ class Meta_Tags_Context extends Abstract_Presentation {
 				$type = 'CollectionPage';
 				break;
 			default:
-				$type = 'WebPage';
-				if ( (int) \get_option( 'page_for_posts' ) === $this->indexable->object_id ) {
-					$type = 'CollectionPage';
+				$additional_type = $this->indexable->schema_page_type;
+				if ( \is_null( $additional_type ) ) {
+					$additional_type = $this->options->get( 'schema-page-type-' . $this->indexable->object_sub_type );
 				}
+
+				$type = [ 'WebPage', $additional_type ];
+
+				// Is this indexable set as a page for posts, e.g. in the wordpress reading settings as a static homepage?
+				if ( (int) \get_option( 'page_for_posts' ) === $this->indexable->object_id ) {
+					$type[] = 'CollectionPage';
+				}
+
+				// Ensure we get only unique values, and remove the index.
+				$type = \array_values( \array_unique( $type ) );
 		}
 
 		/**
 		 * Filter: 'wpseo_schema_webpage_type' - Allow changing the WebPage type.
 		 *
-		 * @api string $type The WebPage type.
+		 * @api string|array $type The WebPage type.
 		 */
 		return \apply_filters( 'wpseo_schema_webpage_type', $type );
+	}
+
+	/**
+	 * Returns the schema article type.
+	 *
+	 * @return string|array The schema article type.
+	 */
+	public function generate_schema_article_type() {
+		$additional_type = $this->indexable->schema_article_type;
+		if ( \is_null( $additional_type ) ) {
+			$additional_type = $this->options->get( 'schema-article-type-' . $this->indexable->object_sub_type );
+		}
+
+		$type = 'Article';
+
+		/*
+		 * If `None` is set (either on the indexable or as a default), set type to 'None'.
+		 * This simplifies is_needed checks downstream.
+		 */
+		if ( $additional_type === 'None' ) {
+			$type = $additional_type;
+		}
+
+		if ( $additional_type !== $type ) {
+			$type = [ $type, $additional_type ];
+		}
+
+		/**
+		 * Filter: 'wpseo_schema_webpage_type' - Allow changing the WebPage type.
+		 *
+		 * @api string|array $type The Article type.
+		 */
+		return \apply_filters( 'wpseo_schema_article_type', $type );
 	}
 
 	/**

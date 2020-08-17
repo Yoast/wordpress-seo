@@ -16,6 +16,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * Class Breadcrumb_Test
  *
  * @group generators
+ * @group breadcrumbs
  * @group schema
  *
  * @coversDefaultClass \Yoast\WP\SEO\Generators\Schema\Breadcrumb
@@ -231,13 +232,18 @@ class Breadcrumb_Test extends TestCase {
 
 		$this->meta_tags_context->presentation->breadcrumbs = $breadcrumb_data;
 
+		$this->current_page
+			->expects( 'is_paged' )
+			->once()
+			->andReturnFalse();
+
 		$actual = $this->instance->generate();
 
 		$this->assertEquals( false, $actual );
 	}
 
 	/**
-	 * Generate method should break on broken breadcrumbs.
+	 * Tests the generate method when the page is paginated (as detected through 'is_paged').
 	 *
 	 * @covers ::generate
 	 * @covers ::not_hidden
@@ -245,7 +251,7 @@ class Breadcrumb_Test extends TestCase {
 	 * @covers ::create_breadcrumb
 	 * @covers ::format_last_breadcrumb
 	 */
-	public function test_generate_when_page_is_paginated() {
+	public function test_generate_when_page_is_paginated_through_is_paged() {
 		$breadcrumb_data = [
 			[
 				'url'  => 'https://wordpress.example.com/',
@@ -256,12 +262,106 @@ class Breadcrumb_Test extends TestCase {
 				'text' => 'Test post',
 				'id'   => '123',
 			],
+			[
+				'text' => 'Page 2',
+			],
 		];
 
 		$this->meta_tags_context->presentation->breadcrumbs = $breadcrumb_data;
 		$this->meta_tags_context->title                     = 'Page title';
 
 		$this->current_page->expects( 'is_paged' )->andReturnTrue();
+
+		$this->html
+			->expects( 'smart_strip_tags' )
+			->with( 'Home' )
+			->once()
+			->andReturnArg( 0 );
+
+		$this->html
+			->expects( 'smart_strip_tags' )
+			->with( 'Test post' )
+			->once()
+			->andReturnArg( 0 );
+
+		$this->html
+			->expects( 'smart_strip_tags' )
+			->with( 'Page title' )
+			->once()
+			->andReturnArg( 0 );
+
+		$expected = [
+			'@type'           => 'BreadcrumbList',
+			'@id'             => 'https://wordpress.example.com/canonical#breadcrumb',
+			'itemListElement' => [
+				[
+					'@type'    => 'ListItem',
+					'position' => 1,
+					'item'     => [
+						'@type' => 'WebPage',
+						'@id'   => 'https://wordpress.example.com/',
+						'url'   => 'https://wordpress.example.com/',
+						'name'  => 'Home',
+					],
+				],
+				[
+					'@type'    => 'ListItem',
+					'position' => 2,
+					'item'     => [
+						'@type' => 'WebPage',
+						'@id'   => 'https://wordpress.example.com/post-title',
+						'url'   => 'https://wordpress.example.com/post-title',
+						'name'  => 'Test post',
+					],
+				],
+				[
+					'@type'    => 'ListItem',
+					'position' => 3,
+					'item'     => [
+						'@type' => 'WebPage',
+						'@id'   => 'https://wordpress.example.com/canonical',
+						'url'   => 'https://wordpress.example.com/canonical',
+						'name'  => 'Page title',
+					],
+				],
+			],
+		];
+
+		$actual = $this->instance->generate();
+
+		$this->assertEquals( $expected, $actual );
+	}
+
+	/**
+	 * Tests the generate method when the page is paginated (as detected through 'number_of_pages').
+	 *
+	 * @covers ::generate
+	 * @covers ::not_hidden
+	 * @covers ::is_broken
+	 * @covers ::create_breadcrumb
+	 * @covers ::format_last_breadcrumb
+	 */
+	public function test_generate_when_page_is_paginated_through_number_of_pages() {
+		$breadcrumb_data = [
+			[
+				'url'  => 'https://wordpress.example.com/',
+				'text' => 'Home',
+			],
+			[
+				'url'  => 'https://wordpress.example.com/post-title',
+				'text' => 'Test post',
+				'id'   => '123',
+			],
+			[
+				'text' => 'Page 2',
+			],
+		];
+
+		$this->meta_tags_context->presentation->breadcrumbs  = $breadcrumb_data;
+		$this->meta_tags_context->title                      = 'Page title';
+		$this->meta_tags_context->indexable->number_of_pages = 3;
+
+		$this->current_page->expects( 'is_paged' )->andReturnFalse();
 
 		$this->html
 			->expects( 'smart_strip_tags' )

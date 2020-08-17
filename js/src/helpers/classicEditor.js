@@ -7,7 +7,7 @@ const registeredComponents = [];
 let containerRef = null;
 
 /**
- * The RegisteredComponentsContainer.
+ * Container used to render registerd components when wp.plugins is not available.
  */
 class RegisteredComponentsContainer extends wpComponent {
 	/**

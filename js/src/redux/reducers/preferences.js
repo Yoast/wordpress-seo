@@ -1,4 +1,4 @@
-import { isUndefined } from "lodash-es";
+import { isUndefined, get } from "lodash-es";
 import isContentAnalysisActive from "../../analysis/isContentAnalysisActive";
 import isKeywordAnalysisActive from "../../analysis/isKeywordAnalysisActive";
 import isCornerstoneActive from "../../analysis/isCornerstoneContentActive";
@@ -11,6 +11,8 @@ import isSEMrushIntegrationActive from "../../analysis/isSEMrushIntegrationActiv
  * @returns {Object} The default state.
  */
 function getDefaultState() {
+	const displayAdvancedTab = !! window.wpseoAdminL10n.displayAdvancedTab;
+
 	return {
 		isContentAnalysisActive: isContentAnalysisActive(),
 		isKeywordAnalysisActive: isKeywordAnalysisActive(),
@@ -18,6 +20,9 @@ function getDefaultState() {
 		isCornerstoneActive: isCornerstoneActive(),
 		isSEMrushIntegrationActive: isSEMrushIntegrationActive(),
 		shouldUpsell: isUndefined( window.wpseoPremiumMetaboxData ),
+		displayAdvancedTab: displayAdvancedTab,
+		displaySchemaSettings: displayAdvancedTab && !! window.wpseoScriptData.isPost,
+		displaySchemaSettingsFooter: get( window, "wpseoScriptData.metabox.schema.displayFooter", false ),
 	};
 }
 

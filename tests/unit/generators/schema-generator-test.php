@@ -107,8 +107,16 @@ class Schema_Generator_Test extends TestCase {
 			[ $helpers ]
 		)->shouldAllowMockingProtectedMethods()->makePartial();
 
-		$this->context            = Mockery::mock( Meta_Tags_Context_Mock::class )->makePartial();
-		$this->context->blocks    = [
+		$this->context         = Mockery::mock( Meta_Tags_Context_Mock::class, [
+			$helpers->options,
+			Mockery::mock( \Yoast\WP\SEO\Helpers\Url_Helper::class ),
+			Mockery::mock( \Yoast\WP\SEO\Helpers\Image_Helper::class ),
+			Mockery::mock( \Yoast\WP\SEO\Helpers\Schema\ID_Helper::class ),
+			Mockery::mock( \WPSEO_Replace_Vars::class ),
+			Mockery::mock( \Yoast\WP\SEO\Helpers\Site_Helper::class ),
+			Mockery::mock( \Yoast\WP\SEO\Helpers\User_Helper::class ),
+		] )->shouldAllowMockingProtectedMethods();
+		$this->context->blocks = [
 			'yoast/faq-block' => [
 				[
 					'blockName' => 'FAQ Block',
@@ -128,6 +136,10 @@ class Schema_Generator_Test extends TestCase {
 				],
 			],
 		];
+
+		$this->context->shouldReceive( 'is_prototype' )->andReturnFalse();
+		$this->context->shouldReceive( 'generate_schema_page_type' )->andReturn( 'WebPage' );
+
 		$this->context->indexable = Mockery::mock( Indexable_Mock::class );
 	}
 
@@ -159,6 +171,8 @@ class Schema_Generator_Test extends TestCase {
 	 * @covers ::get_graph_pieces
 	 */
 	public function test_generate_with_no_blocks() {
+		$this->context->indexable->object_sub_type = 'super-custom-post-type';
+
 		$this->current_page
 			->expects( 'is_home_static_page' )
 			->twice()
@@ -350,6 +364,122 @@ class Schema_Generator_Test extends TestCase {
 	}
 
 	/**
+	 * Tests that a type array with 1 entry gets put without the array.
+	 *
+	 * @covers ::__construct
+	 * @covers ::generate
+	 * @covers ::get_graph_pieces
+	 * @covers ::validate_type
+	 */
+	public function test_validate_type_singular_array() {
+		$this->context->blocks = [];
+
+		$this->current_page
+			->expects( 'is_home_static_page' )
+			->twice()
+			->andReturnTrue();
+
+		$this->current_page
+			->expects( 'is_front_page' )
+			->andReturnTrue();
+
+		Monkey\Filters\expectApplied( 'wpseo_schema_website' )
+			->once()
+			->andReturn( [
+				'@type'           => [ 'WebSite' ] ,
+				'@id'             => '#website',
+				'url'             => null,
+				'name'            => '',
+				'description'     => 'description',
+				'potentialAction' => [
+					[
+						'@type'       => 'SearchAction',
+						'target'      => '?s={search_term_string}',
+						'query-input' => 'required name=search_term_string',
+					],
+				],
+				'inLanguage'      => 'English',
+			] );
+
+		$this->assertEquals(
+			[
+				'@type'           => 'WebSite',
+				'@id'             => '#website',
+				'url'             => null,
+				'name'            => '',
+				'description'     => 'description',
+				'potentialAction' => [
+					[
+						'@type'       => 'SearchAction',
+						'target'      => '?s={search_term_string}',
+						'query-input' => 'required name=search_term_string',
+					],
+				],
+				'inLanguage'      => 'English',
+			],
+			$this->instance->generate( $this->context )['@graph'][0]
+		);
+	}
+
+	/**
+	 * Tests that a type array duplicates get squashed.
+	 *
+	 * @covers ::__construct
+	 * @covers ::generate
+	 * @covers ::get_graph_pieces
+	 * @covers ::validate_type
+	 */
+	public function test_validate_type_unique_array() {
+		$this->context->blocks = [];
+
+		$this->current_page
+			->expects( 'is_home_static_page' )
+			->twice()
+			->andReturnTrue();
+
+		$this->current_page
+			->expects( 'is_front_page' )
+			->andReturnTrue();
+
+		Monkey\Filters\expectApplied( 'wpseo_schema_website' )
+			->once()
+			->andReturn( [
+				'@type'           => [ 'WebSite', 'WebSite', 'Something', 'Something', 'Something' ] ,
+				'@id'             => '#website',
+				'url'             => null,
+				'name'            => '',
+				'description'     => 'description',
+				'potentialAction' => [
+					[
+						'@type'       => 'SearchAction',
+						'target'      => '?s={search_term_string}',
+						'query-input' => 'required name=search_term_string',
+					],
+				],
+				'inLanguage'      => 'English',
+			] );
+
+		$this->assertEquals(
+			[
+				'@type'           => [ 'WebSite', 'Something' ],
+				'@id'             => '#website',
+				'url'             => null,
+				'name'            => '',
+				'description'     => 'description',
+				'potentialAction' => [
+					[
+						'@type'       => 'SearchAction',
+						'target'      => '?s={search_term_string}',
+						'query-input' => 'required name=search_term_string',
+					],
+				],
+				'inLanguage'      => 'English',
+			],
+			$this->instance->generate( $this->context )['@graph'][0]
+		);
+	}
+
+	/**
 	 * The generated schema that is applicable for almost every test scenario in this file.
 	 *
 	 * @return array The schema.
@@ -377,7 +507,7 @@ class Schema_Generator_Test extends TestCase {
 					'@type'           => [ null, 'FAQPage' ],
 					'@id'             => '#webpage',
 					'url'             => null,
-					'name'            => '',
+					'name'            => null,
 					'isPartOf'        => [
 						'@id' => '#website',
 					],

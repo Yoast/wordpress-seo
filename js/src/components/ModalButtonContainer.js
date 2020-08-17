@@ -2,6 +2,13 @@ import ModalIntl from "./modals/Modal";
 import IntlProvider from "./IntlProvider";
 import PropTypes from "prop-types";
 
+/**
+ * The ModalButtonContainer Component.
+ *
+ * @param {Object} props The props to use.
+ *
+ * @returns {wp.element} The component.
+ */
 const ModalButtonContainer = ( props ) => {
 	return (
 		<IntlProvider messages={ props.intl }>

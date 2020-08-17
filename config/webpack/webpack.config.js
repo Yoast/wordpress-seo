@@ -48,6 +48,7 @@ const wordpressExternals = {
 	"@wordpress/i18n": "window.wp.i18n",
 	"@wordpress/is-shallow-equal": "window.wp.isShallowEqual",
 	"@wordpress/keycodes": "window.wp.keycodes",
+	"@wordpress/plugins": "window.wp.plugins",
 	"@wordpress/rich-text": "window.wp.richText",
 	"@wordpress/server-side-render": "window.wp.serverSideRender",
 	"@wordpress/url": "window.wp.url",

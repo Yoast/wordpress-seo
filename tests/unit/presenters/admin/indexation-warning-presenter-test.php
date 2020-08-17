@@ -75,6 +75,13 @@ class Indexation_Warning_Presenter_Test extends TestCase {
 		Monkey\Functions\expect( 'admin_url' )
 			->andReturn( 'https://example.com/wp-admin/admin.php?page=wpseo_tools' );
 
+		Monkey\Functions\expect( 'wp_nonce_url' )
+			->with( '\'https://example.com/wp-admin/admin.php?page=wpseo_tools&yoast_seo_hide=indexation_warning\'' )
+			->andReturn( 'https://example.com/wp-admin/admin.php?page=wpseo_tools&yoast_seo_hide=indexation_warning&wp_nonce=123456' );
+		Monkey\Functions\expect( 'add_query_arg' )
+			->with( 'yoast_seo_hide', 'indexation_warning' )
+			->andReturn( 'https://example.com/wp-admin/admin.php?page=wpseo_tools&yoast_seo_hide=indexation_warning' );
+
 		$presenter = new Indexation_Warning_Presenter( 12, $this->options, Indexation_Warning_Presenter::ACTION_TYPE_LINK_TO );
 
 		$expected  = '<div id="yoast-indexation-warning" class="notice notice-success"><p>';
@@ -82,7 +89,7 @@ class Indexation_Warning_Presenter_Test extends TestCase {
 		$expected .= '<p>To build your index, Yoast SEO needs to process all of your content.</p>';
 		$expected .= '<p>We estimate this will take less than a minute.</p>';
 		$expected .= '<a class="button" href="https://example.com/wp-admin/admin.php?page=wpseo_tools">Start processing and speed up your site now</a>';
-		$expected .= '<hr /><p><button type="button" id="yoast-indexation-dismiss-button" class="button-link hide-if-no-js" data-nonce="123456789">Hide this notice</button> ';
+		$expected .= '<hr /><p><a href="https://example.com/wp-admin/admin.php?page=wpseo_tools&yoast_seo_hide=indexation_warning&wp_nonce=123456" class="button-link">Hide this notice</a> ';
 		$expected .= '(everything will continue to function normally)</p></div>';
 
 		$this->assertEquals( $expected, $presenter->present() );
