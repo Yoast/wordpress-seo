@@ -31,6 +31,13 @@
   - 'postcss:build'
   - 'rtlcss:build'
 
+
+'github-pre-release':
+  - 'add-github-release:seo-free-rc-pre-release' 
+
+'test':
+  - 'noud-shell:test-shell-command'
+ 
 # Build internationalisation features
 'build:i18n':
   - 'clean:language-files'
@@ -110,6 +117,23 @@ clean:build-assets:
   - 'copy:composer-files'
   - 'remove-vendor-prefixed-folder'
   - 'shell:remove-vendor-prefixed-uses'
+
+'release-rc-test':
+    - 'init-rc-release:default'
+    - 'ensure-clean-branch'
+    - 'ensure-pre-release-branch'
+    - 'update-readme'
+    - 'bump-rc-version'
+    - 'sync-gutenberg-version'
+    - 'artifact'
+    - 'add-github-release:seo-free-rc-pre-release' 
+    - 'send-slack-notify:rc'
+    - 'check-deploy-allowed'
+    - 'deploy-to-wordpress:trunk'
+    - 'verify-zip-size'
+    - 'celebrate'
+
+
 
 # Get the project ready for release-candidate
 'create-rc':

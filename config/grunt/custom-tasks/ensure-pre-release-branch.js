@@ -1,6 +1,22 @@
 const execSync = require( "child_process" ).execSync;
 
 /**
+ * helper function
+ * @param {array} 
+ * @returns {bool}
+ */
+
+if (!String.prototype.isInList) {
+	String.prototype.isInList = function() {
+	   let value = this.valueOf();
+	   for (let i = 0, l = arguments.length; i < l; i += 1) {
+		  if (arguments[i] === value) return true;
+	   }
+	   return false;
+	}
+ }
+
+/**
  * Ensures that the release or hotfix branch is checked out.
  *
  * @param {Object} grunt The grunt helper object.
@@ -24,6 +40,10 @@ module.exports = function( grunt ) {
 				grunt.fail.fatal( "Missing --type argument (release or hotfix)" );
 			}
 
+			// Check here if type match release | hotfix
+			if (! type.isInList('release', 'hotfix')){
+				grunt.fail.fatal( "wrong --type argument (release or hotfix)" );
+			}
 			// Fetch all existing branches.
 			grunt.config( "gitfetch.fetchall.options.all", true );
 			grunt.task.run( "gitfetch:fetchall" );
@@ -59,26 +79,7 @@ module.exports = function( grunt ) {
 			}
 
 			// If there is a remote branch, check it out and pull the changes in.
-			if ( existsRemotely && ! existsLocally ) {
-				// First switch to either trunk or master to make sure we branch from the correct base branch.
-				grunt.config( "gitcheckout.rcBranch.options", {
-					branch: branchForRC,
-				} );
-				grunt.task.run( "gitcheckout:rcBranch" );
-
-				// Pull the release or hotfix branch to make sure you have the latest commits.
-				grunt.config( "gitpull.pullReleaseBranch.options", {
-					branch: branchForRC,
-				} );
-				grunt.task.run( "gitpull:pullReleaseBranch" );
-
-				// All good!
-				grunt.log.ok( "Switched to the " + branchForRC + " branch." );
-
-				return;
-			}
-
-			if ( existsLocally && existsRemotely ) {
+			if ( existsRemotely ) {
 				// Checkout the release or hotfix branch.
 				grunt.config( "gitcheckout.rcBranch.options", {
 					branch: branchForRC,
@@ -95,14 +96,19 @@ module.exports = function( grunt ) {
 
 				return;
 			}
-
 			// If the release or hotfix branch doesn't exist yet, we need to create the branch.
 			grunt.config( "gitcheckout.newBranch.options", {
 				branch: branchForRC,
 				create: true,
 			} );
 			grunt.task.run( "gitcheckout:newBranch" );
-
+			// don't we need to push it to remote here just to be sure?
+			/*
+			grunt.config( "gitpush.newBranch.options", {
+				branch: branchForRC,
+			} );
+			grunt.task.run( "gitpush:newBranch" );
+            */
 			grunt.log.ok( "Switched to the " + branchForRC + " branch." );
 		}
 	);

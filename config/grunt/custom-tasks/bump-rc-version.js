@@ -8,10 +8,15 @@ const { flattenVersionForFile } = require( "../../webpack/paths" );
  * @returns {void}
  */
 module.exports = function( grunt ) {
-	grunt.registerTask(
+	grunt.registerMultiTask(
 		"bump-rc-version",
 		"Bumps the versions to the next RC and commits the changes to the current branch.",
 		function() {
+			let options = this.options({
+				doGithubPush: true,
+				alternativeBranch: grunt.config.data.alternativeBranch ||'ci-rc-test',
+				alternativeBranchPush: grunt.config.data.alternativeBranchPush || false,
+			});
 			// Parse the command line options.
 			const pluginVersionArgument = grunt.option( "plugin-version" );
 			const releaseTypeArgument = grunt.option( "type" );
@@ -24,6 +29,8 @@ module.exports = function( grunt ) {
 			if ( ! releaseTypeArgument ) {
 				grunt.fail.fatal( "Missing --type argument" );
 			}
+
+			const branchForRC = grunt.config.data.branchForRC || releaseTypeArgument + "/" + pluginVersionArgument;
 
 			/*
 			 * Whenever a merge conflict occurs after the version has bumped when the branch is merged
@@ -95,11 +102,22 @@ module.exports = function( grunt ) {
 				grunt.config( "gitadd.versionBump.files", { src: grunt.config.get( 'files.versionFiles' ) } );
 				grunt.task.run( "gitadd:versionBump" );
 
+				//git push --set-upstream origin hotfix/14.9
+
 				grunt.config( "gitcommit.versionBump.options.message", "Update the plugin version to " + grunt.config.data.pluginVersion );
 				grunt.task.run( "gitcommit:versionBump" );
 
-				grunt.config( "gitpush.versionBump.options", { remote: "origin", upstream: true } );
-				grunt.task.run( "gitpush:versionBump" );
+				const verbose = grunt.config.get( 'verbose' ) || true
+
+				if (options.doGithubPush ){
+					if (options.alternativeBranchPush){
+						grunt.config( "gitpush.versionBump.options", { remote: "origin", branch: branchForRC + ":" + options.alternativeBranch, force: true } );
+					} else {
+						//grunt.config( "gitpush.versionBump.options", { remote: "origin", upstream: true  } );
+						grunt.config( "gitpush.versionBump.options", { remote: "origin", upstream: true, branch: branchForRC } );
+					}
+					grunt.task.run( "gitpush:versionBump" );
+				}
 			}
 		}
 	);
