@@ -138,7 +138,7 @@ const processWordsWithWeakLetterOrHamza = function( word, morphologyData, replac
 const processThreeLetters = function( word, morphologyData ) {
 	const characters = morphologyData.externalStemmer.characters;
 
-	if ( morphologyData.externalStemmer.threeLetterRoots.contains( word ) ) {
+	if ( morphologyData.externalStemmer.threeLetterRoots.includes( word ) ) {
 		return word;
 	}
 	// If the first letter is an 'Ç', 'Ä'  or 'Æ'
@@ -155,7 +155,7 @@ const processThreeLetters = function( word, morphologyData ) {
 		return wordAfterLastWeakLetterOrHamzaCheck;
 	}
 
-	// If the second letter is a waw, yeh, alef or a hamza, remove it and check if the root is a word with the middle weak letter removed.
+	// If the second letter is a waw, yeh, alef or a yeh_hamza, remove it and check if the root is a word with the middle weak letter removed.
 	const wordAfterMiddleWeakLetterOrHamzaCheck = processWordsWithWeakLetterOrHamza( word, morphologyData,
 		morphologyData.externalStemmer.regexRemoveMiddleWeakLetterOrHamza, checkWordsWithRemovedMiddleWeakLetter );
 	if ( wordAfterMiddleWeakLetterOrHamzaCheck !== word ) {
@@ -178,7 +178,7 @@ const processThreeLetters = function( word, morphologyData ) {
 		regexRemoveShaddaAndDuplicateLastLetter[ 1 ] );
 
 	// Check whether the modified word is a root.
-	if ( morphologyData.externalStemmer.threeLetterRoots.contains( word ) ) {
+	if ( morphologyData.externalStemmer.threeLetterRoots.includes( word ) ) {
 		return word;
 	}
 
