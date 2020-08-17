@@ -21,10 +21,13 @@
  */
 
 /**
+ * Check if the word is on the list of words which had the last weak letter removed. If it is, add back the
+ * removed last letter and return the root.
  *
- * @param word
- * @param morphologyData
- * @returns {*}
+ * @param {string}	word			The two-letter word to check.
+ * @param {Object}	morphologyData	The Arabic morphology data.
+ *
+ * @returns {string}	The word with the last weak letter added back or the original word.
  */
 const checkWordsWithRemovedLastWeakLetter = function( word, morphologyData ) {
 	const externalStemmer = morphologyData.externalStemmer;
@@ -46,10 +49,13 @@ const checkWordsWithRemovedLastWeakLetter = function( word, morphologyData ) {
 };
 
 /**
+ * Check if the word is on the list of words which had the first weak letter removed. If it is, add back the
+ * removed weak letter and return the root.
  *
- * @param word
- * @param morphologyData
- * @returns {*}
+ * @param {string}	word			The two-letter word to check.
+ * @param {Object}	morphologyData	The Arabic morphology data.
+ *
+ * @returns {string}	The word with the first weak letter added back or the original word.
  */
 const checkWordsWithRemovedFirstWeakLetter = function( word, morphologyData ) {
 	const externalStemmer = morphologyData.externalStemmer;
@@ -65,10 +71,13 @@ const checkWordsWithRemovedFirstWeakLetter = function( word, morphologyData ) {
 };
 
 /**
+ * Check if the word is on the list of words which had the middle weak letter removed. If it is, add back the
+ * removed weak letter and return the root.
  *
- * @param word
- * @param morphologyData
- * @returns {string|*}
+ * @param {string}	word			The two-letter word to check.
+ * @param {Object}	morphologyData	The Arabic morphology data.
+ *
+ * @returns {string}	The word with the middle weak letter added back or the original word.
  */
 const checkWordsWithRemovedMiddleWeakLetter = function( word, morphologyData ) {
 	const externalStemmer = morphologyData.externalStemmer;
@@ -85,11 +94,14 @@ const checkWordsWithRemovedMiddleWeakLetter = function( word, morphologyData ) {
 
 
 /**
+ * Find the root of two-letter words.
  *
- * @param word
- * @param morphologyData
+ * @param {string}	word			The two-letter word to process.
+ * @param {Object}	morphologyData	The Arabic morphology data.
+ *
+ * @returns {string}	The stemmed word.
  */
-const processTwoLetters = function( word, morphologyData ) {
+const processTwoLetterWords = function( word, morphologyData ) {
 	// If the input consists of two letters, then this could be either
 	// - because it is a root consisting of two letters (though I can't think of any!)
 	// - because a letter was deleted as it is duplicated or a weak middle or last letter.
@@ -114,28 +126,34 @@ const processTwoLetters = function( word, morphologyData ) {
 };
 
 /**
+ * Remove the middle or last weak letter or hamza in a three letter word, and find its root by checking an exception list of
+ * roots with the middle or last weak letter/hamza removed.
  *
- * @param word
- * @param morphologyData
- * @param replacementPattern
- * @param functionToRunToGetRoot
- * @returns {*}
+ * @param {string}		word					The three-letter word to check.
+ * @param {Object}		morphologyData			The Arabic morphology data.
+ * @param {string[]}	replacementPattern		The regex to match the word with and the modification that should be done to the string.
+ * @param {function}	functionToRunToGetRoot	The function to run to get the root of the modified word.
+ *
+ * @returns {string}	The stemmed word.
  */
 const processWordsWithWeakLetterOrHamza = function( word, morphologyData, replacementPattern, functionToRunToGetRoot ) {
 	const wordAfterRemovingWeakLetterOrHamza = word.replace( new RegExp( replacementPattern[ 0 ] ),
 		replacementPattern[ 1 ] );
 	if ( wordAfterRemovingWeakLetterOrHamza !== word ) {
 		word = functionToRunToGetRoot( wordAfterRemovingWeakLetterOrHamza, morphologyData );
-		return word;
 	}
+	return word;
 };
 
 /**
+ * Get the root/stem of three letter words.
  *
- * @param word
- * @param morphologyData
+ * @param {string}	word			The three-letter word to check.
+ * @param {Object}	morphologyData	The Arabic morphology data.
+ *
+ * @returns {string}	The stemmed word.
  */
-const processThreeLetters = function( word, morphologyData ) {
+const processThreeLetterWords = function( word, morphologyData ) {
 	const characters = morphologyData.externalStemmer.characters;
 
 	if ( morphologyData.externalStemmer.threeLetterRoots.contains( word ) ) {
@@ -187,9 +205,10 @@ const processThreeLetters = function( word, morphologyData ) {
 
 /**
  * Stems Arabic words.
- * @param word
- * @param morphologyData
- * @returns {*}
+ * @param {string}	word			The word to stem.
+ * @param {Object}	morphologyData	The Arabic morphology data.
+ *
+ * @returns {string}	The stemmed word.
  */
 export default function stem( word, morphologyData ) {
 	// Remove diacritics that serve as phonetic guides and are not usually used in regular writing.
@@ -198,7 +217,7 @@ export default function stem( word, morphologyData ) {
 
 	// Check if the word consists of two letters and find its root.
 	if ( word.length === 2 ) {
-		const wordAfterTwoLetterProcessing = processTwoLetters( word, morphologyData );
+		const wordAfterTwoLetterProcessing = processTwoLetterWords( word, morphologyData );
 		if ( wordAfterTwoLetterProcessing !== word ) {
 			return wordAfterTwoLetterProcessing;
 		}
@@ -211,7 +230,7 @@ export default function stem( word, morphologyData ) {
 			return word;
 		}
 		// If it is not a root, process it to find its root.
-		const wordAfterThreeLetterProcessing = processThreeLetters( word, morphologyData );
+		const wordAfterThreeLetterProcessing = processThreeLetterWords( word, morphologyData );
 		if ( wordAfterThreeLetterProcessing !== word ) {
 			return wordAfterThreeLetterProcessing;
 		}
