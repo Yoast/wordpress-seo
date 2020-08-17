@@ -91,18 +91,37 @@ const processTwoLetters = function( word, morphologyData ) {
 	return word;
 };
 
+const processWordsWithLastWeakLetterOrHamza = function( word, morphologyData ) {
+	const regexRemoveLastWeakLetterOrHamza = morphologyData.externalStemmer.regexRemoveLastWeakLetterOrHamza;
+	const wordAfterRemovingLastWeakLetterOrHamza = word.replace( new RegExp( regexRemoveLastWeakLetterOrHamza[0] ),
+		regexRemoveLastWeakLetterOrHamza[ 1 ] );
+	if ( wordAfterRemovingLastWeakLetterOrHamza !== word ) {
+		word = checkWordsWithRemovedLastWeakLetter( wordAfterRemovingLastWeakLetterOrHamza, morphologyData );
+		return word;
+	}
+};
+
+const processWordsWithMiddleWeakLetterOrHamza = function( word, morphologyData ) {
+	const regexRemoveMiddleWeakLetterOrHamza = morphologyData.externalStemmer.regexRemoveLastWeakLetterOrHamza;
+	const wordAfterRemovingLastWeakLetterOrHamza = word.replace( new RegExp( regexRemoveLastWeakLetterOrHamza[0] ),
+		regexRemoveLastWeakLetterOrHamza[ 1 ] );
+	if ( wordAfterRemovingLastWeakLetterOrHamza !== word ) {
+		word = checkWordsWithRemovedLastWeakLetter( wordAfterRemovingLastWeakLetterOrHamza, morphologyData );
+		return word;
+	}
+};
+
 /**
  *
  * @param word
  * @param morphologyData
  */
 const processThreeLetters = function( word, morphologyData ) {
-	if ( morphologyData.externalStemmer.threeLetterRoots.contains( word ) ) {
-
-	}
-
-
 	const characters = morphologyData.externalStemmer.characters;
+
+	if ( morphologyData.externalStemmer.threeLetterRoots.contains( word ) ) {
+		return word;
+	}
 	// If the first letter is an 'Ç', 'Ä'  or 'Æ'
 	// Then change it to a 'Ã'
 	if ( word.charAt( 0 ) === characters.alef || word.charAt( 0 ) === characters.waw_hamza ||
@@ -111,15 +130,11 @@ const processThreeLetters = function( word, morphologyData ) {
 	}
 
 	// If the last letter is a weak letter or a hamza, remove it and check if the root is a word with the last weak letter or hamza removed.
-	const regexRemoveLastWeakLetterOrHamza = morphologyData.externalStemmer.regexRemoveLastWeakLetterOrHamza;
-	const wordAfterRemovingLastWeakLetterOrHamza = word.replace( new RegExp( regexRemoveLastWeakLetterOrHamza[ 0 ] ),
-		regexRemoveLastWeakLetterOrHamza[ 1 ] );
-	if ( wordAfterRemovingLastWeakLetterOrHamza !== word ) {
-		const wordAfterLastWeakLetterCheck = checkWordsWithRemovedLastWeakLetter( wordAfterRemovingLastWeakLetterOrHamza, morphologyData );
-		if ( wordAfterLastWeakLetterCheck !== word ) {
-			return wordAfterLastWeakLetterCheck;
-		}
+	const wordAfterLastWeakLetterOrHamzaCheck = processWordsWithLastWeakLetterOrHamza( word, morphologyData );
+	if ( wordAfterLastWeakLetterOrHamzaCheck !== word ) {
+		return word;
 	}
+}
 	// If the second letter is a waw, yeh, alef or a hamza, remove it and check if the root is a word with the middle weak letter removed.
 	const regexRemoveMiddleWeakLetterOrHamza = morphologyData.externalStemmer.regexRemoveMiddleWeakLetterOrHamza;
 	const wordAfterRemovingMiddleWeakLetterOrHamza = word.replace( new RegExp( regexRemoveMiddleWeakLetterOrHamza[ 0 ] ),
@@ -141,25 +156,16 @@ const processThreeLetters = function( word, morphologyData ) {
 	} word = wordAfterReplacingMiddleLetterWithAlif;
 
 	// If the last letter is a shadda, remove it and duplicate the last letter.
-	if ( word.endsWith( characters.shadda ) ) {
-		root = input.substring(0, 1);
-		root = root + input.substring(1, 2);
+	const regexRemoveShaddaAndDuplicateLastLetter = morphologyData.externalStemmer.regexRemoveShaddaAndDuplicateLastLetter;
+	word = word.replace( new RegExp( regexRemoveShaddaAndDuplicateLastLetter[ 0 ] ),
+		regexRemoveShaddaAndDuplicateLastLetter[ 1 ] );
+
+	// Check whether the modified word is a root.
+	if ( morphologyData.externalStemmer.threeLetterRoots.contains( word ) ) {
+		return word;
 	}
 
-	// if word is a root, then flags.rootFound is true
-	if (root.length() == 0) {
-		if (tri_roots.contains(input)) {
-			flags.rootFound = true;
-			return input;
-		}
-	}
-	// check for the root that we just derived
-	else if (tri_roots.contains(root)) {
-		flags.rootFound = true;
-		return root;
-	}
-
-	return input;
+	return word;
 };
 
 /**
@@ -173,8 +179,7 @@ export default function stem( word, morphologyData ) {
 	const regexRemovingDiacritics = morphologyData.externalStemmer.regexRemovingDiacritics;
 	word.replace( new RegExp( regexRemovingDiacritics ), "" );
 
-	// Check if the word consists of two letters
-	// And find its root
+	// Check if the word consists of two letters and find its root.
 	if ( word.length === 2 ) {
 		const wordAfterTwoLetterProcessing = processTwoLetters( word, morphologyData );
 		if ( wordAfterTwoLetterProcessing !== word ) {
@@ -182,7 +187,13 @@ export default function stem( word, morphologyData ) {
 		}
 	}
 
+	// Check if the word consists of three letters.
 	if ( word.length === 3 ) {
+		// Check if it is a root.
+		if ( morphologyData.externalStemmer.threeLetterRoots.includes( word ) ) {
+			return word;
+		}
+		// If it is not a root, process it to find its root.
 		const wordAfterThreeLetterProcessing = processThreeLetters( word, morphologyData );
 		if ( wordAfterThreeLetterProcessing !== word ) {
 			return wordAfterThreeLetterProcessing;
