@@ -258,6 +258,168 @@ class Indexable_Post_Builder_Test extends TestCase {
 	}
 
 	/**
+	 * Tests find_alternative_image when the post is an attachment.
+	 *
+	 * @covers ::find_alternative_image
+	 */
+	public function test_find_alternative_image_from_attachment() {
+		$this->indexable      = Mockery::mock( Indexable::class );
+		$this->indexable->orm = Mockery::mock( ORM::class );
+
+		$this->indexable->orm->allows( 'get' )
+			->with( 'object_sub_type' )
+			->andReturn( 'attachment' );
+
+		$this->indexable->orm->allows( 'get' )
+			->with( 'object_id' )
+			->andReturn( 123 );
+
+		$this->image->allows( 'is_valid_attachment' )
+			->with( 123 )
+			->andReturn( true );
+
+		$actual = $this->instance->find_alternative_image( $this->indexable );
+
+		$expected = [
+			'image_id' => 123,
+			'source'   => 'attachment-image'
+		];
+
+		$this->assertEquals( $expected, $actual );
+	}
+
+	/**
+	 * Tests find_alternative_image when a featured image is set on the post.
+	 *
+	 * @covers ::find_alternative_image
+	 */
+	public function test_find_alternative_image_from_featured_image() {
+		$this->indexable      = Mockery::mock( Indexable::class );
+		$this->indexable->orm = Mockery::mock( ORM::class );
+
+		$this->indexable->orm->allows( 'get' )
+			->with( 'object_sub_type' )
+			->andReturn( 'post' );
+
+		$this->indexable->orm->allows( 'get' )
+			->with( 'object_id' )
+			->andReturn( 123 );
+
+		$this->image->allows( 'get_featured_image_id' )
+			->with( 123 )
+			->andReturn( 456 );
+
+		$actual = $this->instance->find_alternative_image( $this->indexable );
+
+		$expected = [
+			'image_id' => 456,
+			'source'   => 'featured-image'
+		];
+
+		$this->assertEquals( $expected, $actual );
+	}
+
+	/**
+	 * Tests find_alternative_image when a gallery image is set on the post,
+	 * but not a featured image.
+	 *
+	 * @covers ::find_alternative_image
+	 */
+	public function test_find_alternative_image_from_gallery() {
+		$this->indexable      = Mockery::mock( Indexable::class );
+		$this->indexable->orm = Mockery::mock( ORM::class );
+
+		$this->indexable->orm->allows( 'get' )
+			->with( 'object_sub_type' )
+			->andReturn( 'post' );
+
+		$this->indexable->orm->allows( 'get' )
+			->with( 'object_id' )
+			->andReturn( 123 );
+
+		$this->image->allows( 'get_featured_image_id' )
+			->with( 123 )
+			->andReturn( false );
+
+		$image_meta = [
+			"width"  => 640,
+			"height" => 480,
+			"url"    => "http://basic.wordpress.test/wp-content/uploads/2020/07/WordPress5.jpg",
+			"path"   => "/var/www/html/wp-content/uploads/2020/07/WordPress5.jpg",
+			"size"   => "full",
+			"id"     => 13,
+			"alt"    => "",
+			"pixels" => 307200,
+			"type"   => "image/jpeg"
+		];
+
+		$this->image->allows( 'get_gallery_image' )
+			->with( 123 )
+			->andReturn( $image_meta );
+
+		$actual = $this->instance->find_alternative_image( $this->indexable );
+
+		$expected = [
+			'image' => $image_meta,
+			'source'   => 'gallery-image'
+		];
+
+		$this->assertEquals( $expected, $actual );
+	}
+
+	/**
+	 * Tests find_alternative_image when a gallery image is set on the post,
+	 * but not a featured image.
+	 *
+	 * @covers ::find_alternative_image
+	 */
+	public function test_find_alternative_image_from_post_content() {
+		$this->indexable      = Mockery::mock( Indexable::class );
+		$this->indexable->orm = Mockery::mock( ORM::class );
+
+		$this->indexable->orm->allows( 'get' )
+			->with( 'object_sub_type' )
+			->andReturn( 'post' );
+
+		$this->indexable->orm->allows( 'get' )
+			->with( 'object_id' )
+			->andReturn( 123 );
+
+		$this->image->allows( 'get_featured_image_id' )
+			->with( 123 )
+			->andReturn( false );
+
+		$this->image->allows( 'get_gallery_image' )
+			->with( 123 )
+			->andReturn( false );
+
+		$image_meta = [
+			"width"  => 640,
+			"height" => 480,
+			"url"    => "http://basic.wordpress.test/wp-content/uploads/2020/07/WordPress5.jpg",
+			"path"   => "/var/www/html/wp-content/uploads/2020/07/WordPress5.jpg",
+			"size"   => "full",
+			"id"     => 13,
+			"alt"    => "",
+			"pixels" => 307200,
+			"type"   => "image/jpeg"
+		];
+
+		$this->image->allows( 'get_post_content_image' )
+			->with( 123 )
+			->andReturn( $image_meta );
+
+		$actual = $this->instance->find_alternative_image( $this->indexable );
+
+		$expected = [
+			'image' => $image_meta,
+			'source'   => 'first-content-image'
+		];
+
+		$this->assertEquals( $expected, $actual );
+	}
+
+	/**
 	 * Tests is_public for when the post is protected.
 	 *
 	 * @covers ::is_public
