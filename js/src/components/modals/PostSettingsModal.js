@@ -9,24 +9,6 @@ import TwitterContainer from "../../containers/TwitterEditor";
 import SchemaTabContainer from "../../containers/SchemaTab";
 import AdvancedSettings from "../AdvancedSettings";
 
-/**
- * Container for the button.
- *
- * Sets the flex-direction to column to make the button full-width.
- */
-const ButtonAndModalContainer = styled.div`
-	padding: 16px;
-	display: flex;
-	flex-direction: column;
-	border-bottom: var(--yoast-border-default);
-	width: 100%;
-`;
-
-const ContentContainer = styled.div`
-	padding: 16px;
-	border-top: var(--yoast-border-default);
-`;
-
 const ModalContent = [
 	{ title: "Google preview", content: <SnippetEditor hasPaperStyle={ false } /> },
 	{ title: "Facebook preview", content: <FacebookContainer /> },
@@ -61,7 +43,7 @@ const DrawerContainer = ( { children } ) => {
 								color: "#A4286A",
 							} }
 						>
-							{ <ContentContainer>{ child.content }</ContentContainer> }
+							{ <div className="yoast-collapsible-content">{ child.content }</div> }
 						</Collapsible>
 					);
 				} )
