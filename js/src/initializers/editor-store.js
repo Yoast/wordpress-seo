@@ -33,7 +33,9 @@ export default function initEditorStore() {
 				recommendedReplacementVariables: window.wpseoScriptData.analysis.plugins.replaceVars.recommended_replace_vars,
 				siteIconUrl: window.wpseoScriptData.metabox.siteIconUrl,
 			},
-		} ),
+		} )
+	);
+	store.dispatch(
 		setSEMrushChangeCountry( window.wpseoScriptData.metabox.countryCode )
 	);
 
