@@ -5,7 +5,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
 Tested up to: 5.5
-Stable tag: 14.7
+Stable tag: 14.8
 Requires PHP: 5.6.20
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -75,7 +75,7 @@ The [Yoast SEO Premium plugin](https://yoa.st/1v8) is well worth your investment
 You should also check out these other products by Yoast:
 
 * **[Yoast Local SEO](https://yoa.st/1uu)** to optimize all website that serve a local audience, like certain small businesses, or businesses with multiple locations.
-* **[Yoast Video SEO](https://yoa.st/1uw)** to make sure Google understands what you video is about, thus increasing your chances to rank in video results.
+* **[Yoast Video SEO](https://yoa.st/1uw)** to make sure Google understands what your video is about, thus increasing your chances to rank in video results.
 * **[Yoast News SEO](https://yoa.st/1uv)** for news publishers who want to improve their visibility and performance in Google News.
 * **[WooCommerce SEO](https://yoa.st/3rh)** for all online shops that want to perform better in search engines and on social platforms.
 
@@ -211,27 +211,29 @@ Your question has most likely been answered on our knowledge base: [kb.yoast.com
 = 14.8 =
 Release Date: August 18th, 2020
 
-Bugfixes:
-
-* Fixes a bug where the Yoast Dashboard widget may trigger an error when other plugins or temporary conditions make the Yoast API response fail. [#15797](https://github.com/Yoast/wordpress-seo/pull/15797)
+Get ready for a brand new version of Yoast SEO! In this version you'll find new Schema functionality, an improved readability analysis for Portuguese & Indonesian, and improved keyword recognition for right-to-left languages. Read more about those changes in [our release post](https://yoa.st/release-14-8)!
 
 Enhancements:
 
-* Adds a new schema tab to our metabox. This tab allows the user to change their schema settings on posts, pages and custom post types.
-* Adds a new section to the search appearance settings. This section allows the user to change their schema defaults for posts, pages and custom post types.
-* Updates the progress-bar in the indexation to the new styling.
-* Improves accuracy for the following assessments for languages written right-to-left: sentence length, keyphrase in introduction, keyphrase distribution, keyphrase density, keyphrase in meta description. 
-* Improves all keyphrase-based assessments for Arabic by allowing keyphrases to be recognized in text when preceded by a prefix (e.g., "ل" or "ب") and filtering function words. 
-* Fixes inconsistency in feedback strings that are produced by the Keyphrase in SEO Title assessment. 
-* Adds the Sentence beginnings assessment for Indonesian. 
-* Adds Transition words assessment for Indonesian. 
-* Adds Passive voice assessment for Indonesian. 
-* Adds Flesch reading ease assessment for Portuguese. 
-* Adds passive voice assessment for Portuguese. 
+* Adds a Schema section to the metabox and sidebar. This section allows the user to change their Schema settings on posts, pages and custom post types.
+* Adds a new section to the Search Appearance settings. This section allows the user to change their Schema defaults for posts, pages and custom post types.
+* Fixes an inconsistency in the feedback strings that are produced by the keyphrase in SEO title assessment.
+* Improves the accuracy of the following assessments for right-to-left languages: sentence length, keyphrase in introduction, keyphrase distribution, keyphrase density, and keyphrase in meta description.
+* Improves all keyphrase-based assessments for Arabic by filtering function words and by allowing keyphrases to be recognized in a text when preceded by a prefix (e.g., "ل" or "ب").
+* Adds the following assessments for Indonesian: sentence beginnings, transition words and passive voice.
+* Adds the following assessments for Portuguese: Flesch reading ease and passive voice.
+* Cleans up Schema @type values:
+	* If it's an array with multiple values, only output unique values.
+	* If it's a single value, output it as a string instead of an array.
+
+Bugfixes:
+
+* Fixes a bug where the Yoast Dashboard widget would trigger an error when other plugins or temporary conditions would make the Yoast API response fail.
+* Fixes a bug where block editor dependencies would be loaded unnecessarily on classic editor, causing issues with NextGEN gallery. Posts with NextGEN galleries that have been broken due to this bug will need to be re-saved.
 
 Other:
 
-* Sets minimum WP version to 5.4
+* Sets the minimum WP version to 5.4.
 * Optimizes the logic involved in default filters for our options. This should lead to a very small increase in performance as well as avoiding an edge case where the default filter would be removed.
 
 = 14.7 =

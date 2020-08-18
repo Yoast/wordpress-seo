@@ -329,6 +329,10 @@ class Indexable_Repository {
 	 * @return Indexable[] An array of indexables.
 	 */
 	public function find_by_multiple_ids_and_type( $object_ids, $object_type, $auto_create = true ) {
+		if ( empty( $object_ids ) ) {
+			return [];
+		}
+
 		/**
 		 * Represents an array of indexable objects.
 		 *
@@ -409,6 +413,21 @@ class Indexable_Repository {
 			$query->where_not_in( 'object_id', $exclude_ids );
 		}
 		return $query->find_many();
+	}
+
+	/**
+	 * Updates the incoming link count for an indexable without first fetching it.
+	 *
+	 * @param int $indexable_id The indexable ID.
+	 * @param int $count        The incoming link count.
+	 *
+	 * @return bool Whether or not the update was succeful.
+	 */
+	public function update_incoming_link_count( $indexable_id, $count ) {
+		return (bool) $this->query()
+			->set( 'incoming_link_count', $count )
+			->where( 'id', $indexable_id )
+			->update_many();
 	}
 
 	/**

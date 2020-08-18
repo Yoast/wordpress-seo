@@ -16,7 +16,7 @@ import Results from "./Results";
 import getIndicatorForScore from "../../analysis/getIndicatorForScore";
 import { getIconForScore } from "./mapResults";
 import KeywordSynonyms from "../modals/KeywordSynonyms";
-import Modal from "../modals/Modal";
+import Modal from "../modals/SeoAnalysisModal";
 import MultipleKeywords from "../modals/MultipleKeywords";
 import { LocationConsumer } from "../contexts/location";
 import AnalysisUpsell from "../AnalysisUpsell";

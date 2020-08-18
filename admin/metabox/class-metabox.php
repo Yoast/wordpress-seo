@@ -41,6 +41,13 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	protected $editor;
 
 	/**
+	 * Whether or not the advanced metadata is enabled.
+	 *
+	 * @var bool
+	 */
+	protected $is_advanced_metadata_enabled;
+
+	/**
 	 * Class constructor.
 	 */
 	public function __construct() {
@@ -59,7 +66,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$this->editor = new WPSEO_Metabox_Editor();
 		$this->editor->register_hooks();
 
-		$this->social_is_enabled = WPSEO_Options::get( 'opengraph', false ) || WPSEO_Options::get( 'twitter', false );
+		$this->social_is_enabled            = WPSEO_Options::get( 'opengraph', false ) || WPSEO_Options::get( 'twitter', false );
+		$this->is_advanced_metadata_enabled = WPSEO_Capability_Utils::current_user_can( 'wpseo_edit_advanced_metadata' ) || WPSEO_Options::get( 'disableadvanced_meta' ) === false;
 
 		$this->analysis_seo         = new WPSEO_Metabox_Analysis_SEO();
 		$this->analysis_readability = new WPSEO_Metabox_Analysis_Readability();
@@ -339,7 +347,9 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			$content_sections[] = $this->get_readability_meta_section();
 		}
 
-		$content_sections[] = $this->get_schema_meta_section( $post_type );
+		if ( $this->is_advanced_metadata_enabled ) {
+			$content_sections[] = $this->get_schema_meta_section( $post_type );
+		}
 
 		// Whether social is enabled.
 		if ( $this->social_is_enabled ) {
@@ -390,7 +400,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		$html_after = '';
 
-		if ( WPSEO_Capability_Utils::current_user_can( 'wpseo_edit_advanced_metadata' ) || WPSEO_Options::get( 'disableadvanced_meta' ) === false ) {
+		if ( $this->is_advanced_metadata_enabled ) {
 			$html_after = $this->get_tab_content( 'advanced' );
 		}
 
@@ -863,17 +873,15 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$asset_manager->enqueue_style( 'monorepo' );
 
 		$is_block_editor = WP_Screen::get()->is_block_editor();
-		if ( $is_block_editor ) {
-			$asset_manager->enqueue_script( 'block-editor' );
+		$post_edit_handle = 'post-edit';
+		if ( ! $is_block_editor ) {
+			$post_edit_handle = 'post-edit-classic';
 		}
-		else {
-			$asset_manager->enqueue_script( 'classic-editor' );
-		}
-		$asset_manager->enqueue_script( 'post-edit' );
+		$asset_manager->enqueue_script( $post_edit_handle );
 		$asset_manager->enqueue_style( 'admin-css' );
 
 		$yoast_components_l10n = new WPSEO_Admin_Asset_Yoast_Components_L10n();
-		$yoast_components_l10n->localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'post-edit' );
+		$yoast_components_l10n->localize_script( WPSEO_Admin_Asset_Manager::PREFIX . $post_edit_handle );
 
 		/**
 		 * Removes the emoji script as it is incompatible with both React and any
@@ -881,8 +889,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		 */
 		remove_action( 'admin_print_scripts', 'print_emoji_detection_script' );
 
-		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'post-edit', 'wpseoAdminL10n', WPSEO_Utils::get_admin_l10n() );
-		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'post-edit', 'wpseoFeaturesL10n', WPSEO_Utils::retrieve_enabled_features() );
+		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . $post_edit_handle, 'wpseoAdminL10n', WPSEO_Utils::get_admin_l10n() );
+		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . $post_edit_handle, 'wpseoFeaturesL10n', WPSEO_Utils::retrieve_enabled_features() );
 
 		$analysis_worker_location          = new WPSEO_Admin_Asset_Analysis_Worker_Location( $asset_manager->flatten_version( WPSEO_VERSION ) );
 		$used_keywords_assessment_location = new WPSEO_Admin_Asset_Analysis_Worker_Location( $asset_manager->flatten_version( WPSEO_VERSION ), 'used-keywords-assessment' );
@@ -929,7 +937,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			];
 		}
 
-		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'post-edit', 'wpseoScriptData', $script_data );
+		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . $post_edit_handle, 'wpseoScriptData', $script_data );
 	}
 
 	/**

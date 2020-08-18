@@ -11,9 +11,15 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
-$yform          = Yoast_Form::get_instance();
-$robots_file    = get_home_path() . 'robots.txt';
-$ht_access_file = get_home_path() . '.htaccess';
+$yform     = Yoast_Form::get_instance();
+$home_path = get_home_path();
+
+if ( ! is_writable( $home_path ) && ! empty( $_SERVER['DOCUMENT_ROOT'] ) ) {
+	$home_path = $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR;
+}
+
+$robots_file    = $home_path . 'robots.txt';
+$ht_access_file = $home_path . '.htaccess';
 
 if ( isset( $_POST['create_robots'] ) ) {
 	if ( ! current_user_can( 'edit_files' ) ) {
@@ -102,7 +108,7 @@ if ( isset( $msg ) && ! empty( $msg ) ) {
 echo '<h2>robots.txt</h2>';
 
 if ( ! file_exists( $robots_file ) ) {
-	if ( is_writable( get_home_path() ) ) {
+	if ( is_writable( $home_path ) ) {
 		echo '<form action="', esc_url( $action_url ), '" method="post" id="robotstxtcreateform">';
 		wp_nonce_field( 'wpseo_create_robots', '_wpnonce', true, true );
 		echo '<p>';

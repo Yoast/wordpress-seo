@@ -5,6 +5,8 @@
  * @package WPSEO\XML_Sitemaps
  */
 
+use Yoast\WP\SEO\Models\SEO_Links;
+
 /**
  * Sitemap provider for author archives.
  */
@@ -18,11 +20,11 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	protected static $image_parser;
 
 	/**
-	 * Holds instance of classifier for a link.
+	 * Holds the parsed home url.
 	 *
-	 * @var object
+	 * @var array
 	 */
-	protected static $classifier;
+	protected static $parsed_home_url;
 
 	/**
 	 * Determines whether images should be included in the XML sitemap.
@@ -59,16 +61,16 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	}
 
 	/**
-	 * Get the Classifier for a link.
+	 * Gets the parsed home url.
 	 *
-	 * @return WPSEO_Link_Type_Classifier
+	 * @return array The home url, as parsed by wp_parse_url.
 	 */
-	protected function get_classifier() {
-		if ( ! isset( self::$classifier ) ) {
-			self::$classifier = new WPSEO_Link_Type_Classifier( home_url() );
+	protected function get_parsed_home_url() {
+		if ( ! isset( self::$parsed_home_url ) ) {
+			self::$parsed_home_url = wp_parse_url( home_url() );
 		}
 
-		return self::$classifier;
+		return self::$parsed_home_url;
 	}
 
 	/**
@@ -114,7 +116,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 
 				$sql = "
 				SELECT post_modified_gmt
-				    FROM ( SELECT @rownum:=0 ) init 
+				    FROM ( SELECT @rownum:=0 ) init
 				    JOIN {$wpdb->posts} USE INDEX( type_status_date )
 				    WHERE post_status IN ('" . implode( "','", $post_statuses ) . "')
 				      AND post_type = %s
@@ -376,7 +378,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 
 			if ( empty( $front_page ) ) {
 				$front_page = [
-					'loc' => WPSEO_Utils::home_url(),
+					'loc' => YoastSEO()->helpers->url->home(),
 				];
 			}
 
@@ -431,7 +433,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		if ( $post_type === 'post' ) {
 
 			if ( get_option( 'show_on_front' ) === 'posts' ) {
-				return WPSEO_Utils::home_url();
+				return YoastSEO()->helpers->url->home();
 			}
 
 			$pt_archive_page_id = (int) get_option( 'page_for_posts' );
@@ -611,13 +613,17 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		 * @param object $post Post object for the URL.
 		 */
 		$url['loc'] = apply_filters( 'wpseo_xml_sitemap_post_url', get_permalink( $post ), $post );
+		$link_type  = YoastSEO()->helpers->url->get_link_type(
+			wp_parse_url( $url['loc'] ),
+			$this->get_parsed_home_url()
+		);
 
 		/*
 		 * Do not include external URLs.
 		 *
 		 * {@link https://wordpress.org/plugins/page-links-to/} can rewrite permalinks to external URLs.
 		 */
-		if ( $this->get_classifier()->classify( $url['loc'] ) === WPSEO_Link::TYPE_EXTERNAL ) {
+		if ( $link_type === SEO_Links::TYPE_EXTERNAL ) {
 			return false;
 		}
 
@@ -663,7 +669,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	protected function get_home_url() {
 		_deprecated_function( __METHOD__, 'WPSEO 11.5', 'WPSEO_Utils::home_url' );
 
-		return WPSEO_Utils::home_url();
+		return YoastSEO()->helpers->url->home();
 	}
 
 	/**
