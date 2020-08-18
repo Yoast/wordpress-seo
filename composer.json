@@ -48,7 +48,6 @@
 	"autoload": {
 		"classmap": [
 			"admin/",
-			"frontend/",
 			"inc/",
 			"deprecated/",
 			"vendor_prefixed/",
