@@ -79,14 +79,6 @@ class Actions {
 				'command' => 'fix-cs',
 			],
 			'6' => [
-				'label'   => '[Premium] Check for coding standard warnings and errors.',
-				'command' => 'premium-check-cs',
-			],
-			'7' => [
-				'label'   => '[Premium] Fix auto-fixable coding standards.',
-				'command' => 'premium-fix-cs',
-			],
-			'8' => [
 				'label'   => 'Load coding standards configuration.',
 				'command' => 'config-yoastcs',
 			],
