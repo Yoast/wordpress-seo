@@ -43,14 +43,13 @@ $excluded_files = [
 ];
 
 $excluded_directories = [
-	'models',
-	'loaders',
-	'wordpress',
+	'deprecated',
 	'generated',
-	'orm',
-	'backwards-compatibility',
-	'surfaces/values',
+	'loaders',
+	'models',
 	'presenters',
+	'surfaces/values',
+	'wordpress',
 ];
 
 $excluded = \implode( ',', \array_merge( $excluded_directories, $excluded_files ) );
