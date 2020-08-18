@@ -1,4 +1,3 @@
-import MetaboxCollapsible from "./MetaboxCollapsible";
 import { __, sprintf } from "@wordpress/i18n";
 import { MultiSelect, Select } from "@yoast/components";
 import { RadioButtonGroup } from "@yoast/components";

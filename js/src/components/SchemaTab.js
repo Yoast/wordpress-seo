@@ -5,7 +5,6 @@ import interpolateComponents from "interpolate-components";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { schemaTypeOptionsPropType } from "./SchemaSettings";
-import SidebarCollapsible from "./SidebarCollapsible";
 
 const SchemaContainer = styled.div`
 	padding: 16px;

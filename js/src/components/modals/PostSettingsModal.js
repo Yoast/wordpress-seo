@@ -85,7 +85,7 @@ const DrawerContainer = ( { children } ) => {
 };
 
 DrawerContainer.propTypes = {
-	children: PropTypes.oneOfType( [ PropTypes.node, PropTypes.arrayOf( PropTypes.node ) ] ).isRequired,
+	children: PropTypes.arrayOf( PropTypes.object ).isRequired,
 };
 
 /**

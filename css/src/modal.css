@@ -406,14 +406,8 @@
 
 /* Set overflow-y to scroll and hide the scrollbar on FireFox. */
 .yoast-post-settings-modal .yoast-content-container {
-	overflow-y: scroll;
-	scrollbar-width: none;
+	overflow-y: auto;
 	border-bottom: var(--yoast-border-default);
-}
-
-/* Hide the scrollbar on webkit based browsers. */
-.yoast-post-settings-modal .yoast-content-container::-webkit-scrollbar {
-	display: none;
 }
 
 /* Remove the border-top from the first collapsible. This created a double border. */
