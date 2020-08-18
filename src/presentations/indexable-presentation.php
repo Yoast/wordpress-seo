@@ -298,32 +298,27 @@ class Indexable_Presentation extends Abstract_Presentation {
 	/**
 	 * Generates the robots value for the googlebot tag.
 	 *
+	 * @deprecated 14.9 Values merged into the robots meta tag.
+	 *
 	 * @return array The robots value with opt-in snippets.
 	 */
 	public function generate_googlebot() {
+		_deprecated_function( __METHOD__, 'WPSEO 14.9' );
+
 		return [];
 	}
 
 	/**
 	 * Generates the value for the bingbot tag.
 	 *
+	 * @deprecated 14.9 Values merged into the robots meta tag.
+	 *
 	 * @return array The robots value with opt-in snippets.
 	 */
 	public function generate_bingbot() {
+		_deprecated_function( __METHOD__, 'WPSEO 14.9' );
+
 		return [];
-	}
-
-	/**
-	 * Generates a snippet opt-in robots value.
-	 *
-	 * @return array The googlebot value.
-	 */
-	private function generate_snippet_opt_in() {
-		if ( \in_array( 'noindex', $this->robots, true ) ) {
-			return [];
-		}
-
-		return \array_filter( \array_merge( $this->robots, [ 'max-snippet:-1', 'max-image-preview:large', 'max-video-preview:-1' ] ) );
 	}
 
 	/**
