@@ -12,6 +12,10 @@ const wordsToStem = [
 	[ "بأ", "وبأ" ],
 	// Two letter word with the middle letter (yah) removed.
 	[ "غض", "غيض" ],
+	// Three letter word that is a root.
+	[ "أسن", "أسن" ],
+	// Four letter word that is a root.
+	[ "أبزم", "أبزم" ],
 ];
 
 describe( "Test for stemming Arabic words", () => {

@@ -204,6 +204,60 @@ const processThreeLetterWords = function( word, morphologyData ) {
 };
 
 /**
+ * Check if a word matches a specific pattern of letters, and if it does, modify the word to get the root.
+ *
+ * @param {string}	word			The word to check.
+ * @param {Object}	morphologyData	The Arabic morphology data
+ * @returns {string}				The root of the original word if no root was found.
+ */
+const checkPatterns = function( word, morphologyData ) {
+	const characters = morphologyData.externalStemmer.characters;
+	// If the first letter is a hamza, change it to an alif
+	const regexReplaceFirstHamzaWithAlif = morphologyData.externalStemmer.regexReplaceFirstHamzaWithAlif;
+	word = word.replace( new RegExp( regexReplaceFirstHamzaWithAlif[ 0 ] ),
+		regexReplaceFirstHamzaWithAlif[ 1 ] );
+
+	// Try and find a pattern that matches the word
+	for ( const pattern of morphologyData.externalStemmer.patterns ) {
+		if ( pattern.length === word.length ) {
+			let numberSameLetters = 0;
+			for ( let i = 0; i < word.length; i++ ) {
+				if ( pattern.charAt( i ) === word.charAt( i ) &&
+					pattern.charAt( i ) !== characters.feh &&
+					pattern.charAt( i ) !== characters.aen &&
+					pattern.charAt( i ) !== characters.lam ) {
+					numberSameLetters++;
+				}
+			}
+
+			// Test to see if the word matches the pattern ÇÝÚáÇ.
+			if ( word.length() === 6 && word.charAt( 3 ) === word.charAt( 5 ) && numberSameLetters === 2 ) {
+				const wordAfterProcessing = processThreeLetterWords( word.substring( 1, 4 ), morphologyData );
+				if ( wordAfterProcessing !== word ) {
+					return wordAfterProcessing;
+				}
+			}
+			// Test to see if the word matches another pattern, and if it does get the root.
+			if ( word.length - 3 <= numberSameLetters ) {
+				const root = "";
+				for ( let i = 0; i < word.length; i++ ) {
+					if ( pattern.charAt( i ) === characters.feh ||
+						pattern.charAt( i ) === characters.aen ||
+						pattern.charAt( i ) === characters.lam ) {
+						root.concat( word.charAt( i ) );
+					}
+				}
+				const rootAfterProcessing = processThreeLetterWords( root, morphologyData );
+				if ( rootAfterProcessing !== root ) {
+					return rootAfterProcessing;
+				}
+			}
+		}
+	}
+	return word;
+};
+
+/**
  * Stems Arabic words.
  * @param {string}	word			The word to stem.
  * @param {Object}	morphologyData	The Arabic morphology data.
@@ -234,6 +288,18 @@ export default function stem( word, morphologyData ) {
 		if ( wordAfterThreeLetterProcessing !== word ) {
 			return wordAfterThreeLetterProcessing;
 		}
+	}
+	// If the word consists of four letters, check if it is on the list of four-letter roots.
+	if ( word.length === 4 ) {
+		if ( morphologyData.externalStemmer.fourLetterRoots.includes( word ) ) {
+			return word;
+		}
+	}
+
+	// If the root still hasn't been found, check if the word matches a pattern and get its root if it does.
+	const wordAfterCheckingPatterns = checkPatterns( word, morphologyData );
+	if ( wordAfterCheckingPatterns !== word ) {
+		return wordAfterCheckingPatterns;
 	}
 
 	return word;
