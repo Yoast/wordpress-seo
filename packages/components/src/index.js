@@ -16,7 +16,6 @@ export * from "./tables";
 // Referenced index.js explicitly due to case-sensitive path conflicts.
 export * from "./toggle/index.js";
 export * from "./checkbox/index.js";
-export * from "./modal/index.js";
 
 export {
 	StyledSection,

@@ -24,6 +24,34 @@
 	width: 100%;
 }
 
+.yoast-gutenberg-modal .yoast-icon {
+	background-color: var(--yoast-color-primary);
+	mask-image: var(--yoast-svg-icon-yoast);
+	-webkit-mask-image: var(--yoast-svg-icon-yoast);
+	mask-size: 100% 100%;
+	-webkit-mask-size: 100% 100%;
+	display: inline-block;
+	width: 20px;
+	height: 20px;
+	margin-right: 8px;
+}
+
+/* Styling for the PostSettingsModal */
+.yoast-post-settings-modal {
+	width: 880px;
+	height: 100%;
+	max-width: calc(100% - 48px - 48px);
+	max-height: calc(100% - 48px - 48px);
+}
+
+/* The PostSettingsModal should be full width for mobile devices */
+@media only screen and (max-width: 600px){
+	.yoast-post-settings-modal {
+		max-height: 100%;
+		max-width: 100%;
+	}
+}
+
 .yoast-tabs .yoast-modal__content {
 	display: grid;
 	grid-template-areas: "heading heading" "menu content" "menu footer";
