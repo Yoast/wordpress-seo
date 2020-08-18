@@ -373,3 +373,20 @@
 		margin-top: 0;
 	}
 }
+
+.yoast-related-keyphrases-modal {
+	max-width: 712px;
+}
+
+.yoast-related-keyphrases-modal__button.yoast-related-keyphrases-modal__button {
+	margin-top: 8px;
+}
+
+.yoast-gutenberg-modal .yoast-related-keyphrases-modal__content {
+	min-height: 66vh;
+	position: relative;
+}
+
+.yoast-related-keyphrases-modal__chart {
+	display: block;
+}
