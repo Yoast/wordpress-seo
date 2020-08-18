@@ -89,6 +89,22 @@ DrawerContainer.propTypes = {
 };
 
 /**
+ * Return the singular post type name of the current post.
+ *
+ * Only differentiates between posts and pages since all CPT should display post as well.
+ *
+ * @returns {string} Either page for pages or post for all other types.
+ */
+const getPostTypeName = () => {
+	const postTypeName = window.wpseoAdminL10n.postTypeNameSingular.toLowerCase();
+	if ( postTypeName === "page" ) {
+		return postTypeName;
+	}
+
+	return "post";
+};
+
+/**
  * Returns a button in a div that can be used to open the modal.
  *
  * Warning: contains styling that is specific for the Sidebar.
@@ -100,6 +116,8 @@ const PostSettingsModal = ( { settings } ) => {
 
 	const closeModal = useCallback( () => changeIsOpen( false ), [] );
 	const openModal = useCallback( () => changeIsOpen( true ), [] );
+
+	const postTypeName = getPostTypeName();
 
 	return (
 		<div
@@ -117,12 +135,20 @@ const PostSettingsModal = ( { settings } ) => {
 					<div className="yoast-notice-container">
 						<hr />
 						<div className="yoast-button-container">
-							<p>Make sure to save your post for changes to take effect</p>
+							<p>
+								{
+									/* Translators: %s translates to the Post Label in singular form */
+									sprintf( __( "Make sure to save your %s for changes to take effect", "wordpress-seo" ), postTypeName )
+								}
+							</p>
 							<Button
 								className="yoast-button yoast-button--primary yoast-button--post-settings-modal"
 								onClick={ closeModal }
 							>
-								Return to your post
+								{
+									/* Translators: %s translates to the Post Label in singular form */
+									sprintf( __( "Return to your %s", "wordpress-seo" ), postTypeName )
+								}
 							</Button>
 						</div>
 					</div>
@@ -134,7 +160,7 @@ const PostSettingsModal = ( { settings } ) => {
 			>
 				{
 					/* Translators: %s translates to the Post Label in singular form */
-					sprintf( __( "Open %s settings", "wordpress-seo" ), window.wpseoAdminL10n.postTypeNameSingular.toLowerCase() )
+					sprintf( __( "Open %s settings", "wordpress-seo" ), postTypeName )
 				}
 			</Button>
 		</div>
