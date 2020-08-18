@@ -13,6 +13,7 @@ use Yoast\WP\Lib\Model;
 use Yoast\WP\Lib\ORM;
 use Yoast\WP\SEO\Builders\Indexable_Builder;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
+use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Loggers\Logger;
 use Yoast\WP\SEO\Models\Indexable;
 
@@ -57,26 +58,36 @@ class Indexable_Repository {
 	protected $wpdb;
 
 	/**
+	 * Represents the indexable helper.
+	 *
+	 * @var Indexable_Helper
+	 */
+	protected $indexable_helper;
+
+	/**
 	 * Returns the instance of this class constructed through the ORM Wrapper.
 	 *
-	 * @param Indexable_Builder              $builder              The indexable builder.
-	 * @param Current_Page_Helper            $current_page         The current post helper.
-	 * @param Logger                         $logger               The logger.
+	 * @param Indexable_Builder $builder The indexable builder.
+	 * @param Current_Page_Helper $current_page The current post helper.
+	 * @param Logger $logger The logger.
 	 * @param Indexable_Hierarchy_Repository $hierarchy_repository The hierarchy repository.
-	 * @param wpdb                           $wpdb                 The WordPress database instance.
+	 * @param wpdb $wpdb The WordPress database instance.
+	 * @param Indexable_Helper $indexable_helper
 	 */
 	public function __construct(
 		Indexable_Builder $builder,
 		Current_Page_Helper $current_page,
 		Logger $logger,
 		Indexable_Hierarchy_Repository $hierarchy_repository,
-		wpdb $wpdb
+		wpdb $wpdb,
+		Indexable_Helper $indexable_helper
 	) {
 		$this->builder              = $builder;
 		$this->current_page         = $current_page;
 		$this->logger               = $logger;
 		$this->hierarchy_repository = $hierarchy_repository;
 		$this->wpdb                 = $wpdb;
+		$this->indexable_helper     = $indexable_helper;
 	}
 
 	/**
@@ -462,7 +473,7 @@ class Indexable_Repository {
 	 */
 	protected function ensure_permalink( $indexable ) {
 		if ( $indexable && $indexable->permalink === null ) {
-			$indexable->permalink = $this->get_permalink_for_indexable( $indexable );
+			$indexable->permalink = $this->indexable_helper->get_permalink_for_indexable( $indexable );
 
 			// Only save if changed.
 			if ( $indexable->permalink !== null ) {
@@ -470,39 +481,5 @@ class Indexable_Repository {
 			}
 		}
 		return $indexable;
-	}
-
-	/**
-	 * Retrieves the permalink for an indexable.
-	 *
-	 * @param Indexable $indexable The indexable.
-	 *
-	 * @return string|null The permalink.
-	 */
-	protected function get_permalink_for_indexable( $indexable ) {
-		switch ( true ) {
-			case $indexable->object_type === 'post':
-			case $indexable->object_type === 'home-page':
-				if ( $indexable->object_sub_type === 'attachment' ) {
-					return \wp_get_attachment_url( $indexable->object_id );
-				}
-				return \get_permalink( $indexable->object_id );
-			case $indexable->object_type === 'term':
-				$term = \get_term( $indexable->object_id );
-
-				if ( $term === null || \is_wp_error( $term ) ) {
-					return null;
-				}
-
-				return \get_term_link( $term, $term->taxonomy );
-			case $indexable->object_type === 'system-page' && $indexable->object_sub_type === 'search-page':
-				return \get_search_link();
-			case $indexable->object_type === 'post-type-archive':
-				return \get_post_type_archive_link( $indexable->object_sub_type );
-			case $indexable->object_type === 'user':
-				return \get_author_posts_url( $indexable->object_id );
-		}
-
-		return null;
 	}
 }

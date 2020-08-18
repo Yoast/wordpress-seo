@@ -8,7 +8,9 @@
 namespace Yoast\WP\SEO\Tests\Unit\Integrations\Watchers;
 
 use Mockery;
+use Yoast\WP\SEO\Builders\Indexable_Hierarchy_Builder;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
+use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Integrations\Watchers\Indexable_Ancestor_Watcher;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
@@ -41,13 +43,34 @@ class Indexable_Ancestor_Watcher_Test extends TestCase {
 	protected $instance;
 
 	/**
+	 * Represents the indexable hierarchy builder.
+	 *
+	 * @var Mockery\MockInterface|Indexable_Hierarchy_Builder
+	 */
+	protected $indexable_hierarchy_builder;
+
+	/**
+	 * Represents the indexable helper.
+	 *
+	 * @var Mockery\MockInterface|Indexable_Helper
+	 */
+	protected $indexable_helper;
+
+	/**
 	 * @inheritDoc
 	 */
 	public function setUp() {
 		parent::setUp();
 
-		$this->indexable_repository = Mockery::mock( Indexable_Repository::class );
-		$this->instance             = new Indexable_Ancestor_Watcher( $this->indexable_repository );
+		$this->indexable_repository        = Mockery::mock( Indexable_Repository::class );
+		$this->indexable_hierarchy_builder = Mockery::mock( Indexable_Hierarchy_Builder::class );
+		$this->indexable_helper            = Mockery::mock( Indexable_Helper::class );
+
+		$this->instance = new Indexable_Ancestor_Watcher(
+			$this->indexable_repository,
+			$this->indexable_hierarchy_builder,
+			$this->indexable_helper
+		);
 	}
 
 	/**
@@ -88,6 +111,8 @@ class Indexable_Ancestor_Watcher_Test extends TestCase {
 	 */
 	public function test_construct() {
 		$this->assertAttributeInstanceOf( Indexable_Repository::class, 'indexable_repository', $this->instance );
+		$this->assertAttributeInstanceOf( Indexable_Hierarchy_Builder::class, 'indexable_hierarchy_builder', $this->instance );
+		$this->assertAttributeInstanceOf( Indexable_Helper::class, 'indexable_helper', $this->instance );
 	}
 
 	/**
@@ -127,10 +152,17 @@ class Indexable_Ancestor_Watcher_Test extends TestCase {
 
 		$indexable->object_type = 'post';
 
-		$child_indexable                 = Mockery::mock( Indexable_Mock::class );
-		$child_indexable->permalink      = 'https://example.org/child-permalink';
-		$child_indexable->permalink_hash = 'hash';
+		$child_indexable            = Mockery::mock( Indexable_Mock::class );
+		$child_indexable->permalink = 'https://example.org/old-child-permalink';
 		$child_indexable->expects( 'save' )->once();
+
+		$this->indexable_hierarchy_builder->expects( 'build' )->with( $child_indexable );
+
+		$this->indexable_helper
+			->expects( 'get_permalink_for_indexable' )
+			->once()
+			->with( $child_indexable )
+			->andReturn( 'https://example.org/child-permalink' );
 
 		$this->indexable_repository
 			->expects( 'get_children' )
@@ -140,5 +172,4 @@ class Indexable_Ancestor_Watcher_Test extends TestCase {
 
 		$this->assertTrue( $this->instance->clear_ancestors( $indexable, $indexable_before ) );
 	}
-
 }

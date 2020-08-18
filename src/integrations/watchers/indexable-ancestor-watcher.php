@@ -8,7 +8,9 @@
 namespace Yoast\WP\SEO\Integrations\Watchers;
 
 use Yoast\WP\SEO\Builders\Indexable_Builder;
+use Yoast\WP\SEO\Builders\Indexable_Hierarchy_Builder;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
+use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Repositories\Indexable_Hierarchy_Repository;
@@ -24,12 +26,34 @@ class Indexable_Ancestor_Watcher implements Integration_Interface {
 	protected $indexable_repository;
 
 	/**
+	 * Represents the indexable hierarchy builder.
+	 *
+	 * @var Indexable_Hierarchy_Builder
+	 */
+	protected $indexable_hierarchy_builder;
+
+	/**
+	 * Represents the indexable helper.
+	 *
+	 * @var Indexable_Helper
+	 */
+	protected $indexable_helper;
+
+	/**
 	 * Sets the needed dependencies.
 	 *
-	 * @param Indexable_Repository $indexable_repository The indexable repository.
+	 * @param Indexable_Repository        $indexable_repository        The indexable repository.
+	 * @param Indexable_Hierarchy_Builder $indexable_hierarchy_builder The hierarchy builder.
+	 * @param Indexable_Helper            $indexable_helper            The indexable helper.
 	 */
-	public function __construct( Indexable_Repository $indexable_repository ) {
-		$this->indexable_repository = $indexable_repository;
+	public function __construct(
+		Indexable_Repository $indexable_repository,
+		Indexable_Hierarchy_Builder $indexable_hierarchy_builder,
+		Indexable_Helper $indexable_helper
+	) {
+		$this->indexable_repository        = $indexable_repository;
+		$this->indexable_hierarchy_builder = $indexable_hierarchy_builder;
+		$this->indexable_helper            = $indexable_helper;
 	}
 
 	/**
@@ -65,8 +89,9 @@ class Indexable_Ancestor_Watcher implements Integration_Interface {
 
 		$children = $this->indexable_repository->get_children( $indexable );
 		foreach ( $children as $child ) {
-			$child->permalink      = null;
-			$child->permalink_hash = null;
+			$this->indexable_hierarchy_builder->build( $child );
+
+			$child->permalink = $this->indexable_helper->get_permalink_for_indexable( $child );
 			$child->save();
 		}
 
