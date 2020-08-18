@@ -4,7 +4,6 @@ import { Component, Fragment } from "@wordpress/element";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import styled from "styled-components";
-import { Modal } from "@wordpress/components";
 import { __, sprintf } from "@wordpress/i18n";
 import { YoastSeoIcon } from "@yoast/components";
 import { colors } from "@yoast/style-guide";
@@ -17,11 +16,11 @@ import Results from "./Results";
 import getIndicatorForScore from "../../analysis/getIndicatorForScore";
 import { getIconForScore } from "./mapResults";
 import KeywordSynonyms from "../modals/KeywordSynonyms";
+import Modal from "../modals/SeoAnalysisModal";
 import MultipleKeywords from "../modals/MultipleKeywords";
 import { LocationConsumer } from "../contexts/location";
 import AnalysisUpsell from "../AnalysisUpsell";
 import { ModalContainer, ModalIcon } from "../modals/Container";
-import YoastIcon from "../../../../images/Yoast_icon_kader.svg";
 import SynonymSlot from "../slots/SynonymSlot";
 
 const AnalysisHeader = styled.span`
@@ -36,63 +35,6 @@ const AnalysisHeader = styled.span`
  */
 class SeoAnalysis extends Component {
 	/**
-	 * Constructs the SeoAnalysis component.
-	 *
-	 * @param {Object} props The component properties.
-	 *
-	 * @returns {void}
-	 */
-	constructor( props ) {
-		super( props );
-
-		this.state = {
-			isKeyphrasesModalOpen: false,
-			isSynonymsModalOpen: false,
-		};
-
-		this.openKeyphrasesModal  = this.openKeyphrasesModal.bind( this );
-		this.closeKeyphrasesModal = this.closeKeyphrasesModal.bind( this );
-		this.openSynonymsModal    = this.openSynonymsModal.bind( this );
-		this.closeSynonymsModal   = this.closeSynonymsModal.bind( this );
-	}
-
-	/**
-	 * Opens the Keyphrases modal.
-	 *
-	 * @returns {void}
-	 */
-	openKeyphrasesModal() {
-		this.setState( { isKeyphrasesModalOpen: true } );
-	}
-
-	/**
-	 * Closes the Keyphrases modal.
-	 *
-	 * @returns {void}
-	 */
-	closeKeyphrasesModal() {
-		this.setState( { isKeyphrasesModalOpen: false } );
-	}
-
-	/**
-	 * Opens the Synonyms modal.
-	 *
-	 * @returns {void}
-	 */
-	openSynonymsModal() {
-		this.setState( { isSynonymsModalOpen: true } );
-	}
-
-	/**
-	 * Closes the Synonyms modal.
-	 *
-	 * @returns {void}
-	 */
-	closeSynonymsModal() {
-		this.setState( { isSynonymsModalOpen: false } );
-	}
-
-	/**
 	 * Renders the keyword synonyms upsell modal.
 	 *
 	 * @param {string} location The location of the upsell component. Used to determine the shortlinks in the component.
@@ -100,6 +42,25 @@ class SeoAnalysis extends Component {
 	 * @returns {wp.Element} A modalButtonContainer component with the modal for a keyword synonyms upsell.
 	 */
 	renderSynonymsUpsell( location ) {
+		const modalProps = {
+			classes: {
+				openButton: "wpseo-keyword-synonyms button-link",
+			},
+			labels: {
+				open: "+ " + __( "Add synonyms", "wordpress-seo" ),
+				modalAriaLabel: sprintf(
+					/* translators: %s expands to 'Yoast SEO Premium'. */
+					__( "Get %s", "wordpress-seo" ),
+					"Yoast SEO Premium"
+				),
+				heading: sprintf(
+					/* translators: %s expands to 'Yoast SEO Premium'. */
+					__( "Get %s", "wordpress-seo" ),
+					"Yoast SEO Premium"
+				),
+			},
+		};
+
 		// Defaults to metabox.
 		let link    = wpseoAdminL10n[ "shortlinks.upsell.metabox.focus_keyword_synonyms_link" ];
 		let buyLink = wpseoAdminL10n[ "shortlinks.upsell.metabox.focus_keyword_synonyms_button" ];
@@ -110,38 +71,14 @@ class SeoAnalysis extends Component {
 		}
 
 		return (
-			<Fragment>
-				<button
-					type="button"
-					onClick={ this.openSynonymsModal }
-					className="wpseo-keyword-synonyms button-link"
-				>
-					{ "+ " + __( "Add synonyms", "wordpress-seo" ) }
-				</button>
-				{ this.state.isSynonymsModalOpen &&
-					<Modal
-						title={
-							sprintf(
-								/* translators: %s expands to 'Yoast SEO Premium'. */
-								__( "Get %s", "wordpress-seo" ),
-								"Yoast SEO Premium"
-							)
-						}
-						onRequestClose={ this.closeSynonymsModal }
-						className="yoast-gutenberg-modal"
-						icon={ <YoastIcon /> }
-					>
-						<ModalContainer>
-							<ModalIcon icon={ YoastSeoIcon } />
-							<h2>{ __( "Would you like to add keyphrase synonyms?", "wordpress-seo" ) }</h2>
-							<KeywordSynonyms
-								link={ link }
-								buyLink={ buyLink }
-							/>
-						</ModalContainer>
-					</Modal>
-				}
-			</Fragment>
+			<Modal { ...modalProps }>
+				<ModalContainer>
+					<ModalIcon icon={ YoastSeoIcon } />
+					<h2>{ __( "Would you like to add keyphrase synonyms?", "wordpress-seo" ) }</h2>
+
+					<KeywordSynonyms link={ link } buyLink={ buyLink } />
+				</ModalContainer>
+			</Modal>
 		);
 	}
 
@@ -153,6 +90,25 @@ class SeoAnalysis extends Component {
 	 * @returns {wp.Element} A modalButtonContainer component with the modal for a multiple keywords upsell.
 	 */
 	renderMultipleKeywordsUpsell( location ) {
+		const modalProps = {
+			classes: {
+				openButton: "wpseo-multiple-keywords button-link",
+			},
+			labels: {
+				open: "+ " + __( "Add related keyphrase", "wordpress-seo" ),
+				modalAriaLabel: sprintf(
+					/* translators: %s expands to 'Yoast SEO Premium'. */
+					__( "Get %s", "wordpress-seo" ),
+					"Yoast SEO Premium"
+				),
+				heading: sprintf(
+					/* translators: %s expands to 'Yoast SEO Premium'. */
+					__( "Get %s", "wordpress-seo" ),
+					"Yoast SEO Premium"
+				),
+			},
+		};
+
 		// Defaults to metabox
 		let link    = wpseoAdminL10n[ "shortlinks.upsell.metabox.focus_keyword_additional_link" ];
 		let buyLink = wpseoAdminL10n[ "shortlinks.upsell.metabox.focus_keyword_additional_button" ];
@@ -163,38 +119,16 @@ class SeoAnalysis extends Component {
 		}
 
 		return (
-			<Fragment>
-				<button
-					type="button"
-					onClick={ this.openKeyphrasesModal }
-					className="wpseo-multiple-keywords button-link"
-				>
-					{ "+ " + __( "Add related keyphrase", "wordpress-seo" ) }
-				</button>
-				{ this.state.isKeyphrasesModalOpen &&
-					<Modal
-						title={
-							sprintf(
-								/* translators: %s expands to 'Yoast SEO Premium'. */
-								__( "Get %s", "wordpress-seo" ),
-								"Yoast SEO Premium"
-							)
-						}
-						onRequestClose={ this.closeKeyphrasesModal }
-						className="yoast-gutenberg-modal"
-						icon={ <YoastIcon /> }
-					>
-						<ModalContainer>
-							<ModalIcon icon={ YoastSeoIcon } />
-							<h2>{ __( "Would you like to add a related keyphrase?", "wordpress-seo" ) }</h2>
-							<MultipleKeywords
-								link={ link }
-								buyLink={ buyLink }
-							/>
-						</ModalContainer>
-					</Modal>
-				}
-			</Fragment>
+			<Modal { ...modalProps }>
+				<ModalContainer>
+					<ModalIcon icon={ YoastSeoIcon } />
+					<h2>{ __( "Would you like to add a related keyphrase?", "wordpress-seo" ) }</h2>
+					<MultipleKeywords
+						link={ link }
+						buyLink={ buyLink }
+					/>
+				</ModalContainer>
+			</Modal>
 		);
 	}
 
