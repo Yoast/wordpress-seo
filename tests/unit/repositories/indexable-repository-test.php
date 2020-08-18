@@ -302,4 +302,67 @@ class Indexable_Repository_Test extends TestCase {
 		$this->assertAttributeEquals( '\Yoast\WP\SEO\Models\Indexable', 'class_name', $query );
 		$this->assertInstanceOf( ORM::class, $query );
 	}
+
+	/**
+	 * Tests retrieval of the child indexables with no children found for indexable.
+	 *
+	 * @covers ::get_children
+	 */
+	public function test_get_children_no_ids_found() {
+		$indexable = Mockery::mock( Indexable_Mock::class );
+
+		$this->hierarchy_repository
+			->expects( 'find_children' )
+			->with( $indexable )
+			->andReturn( [] );
+
+		$this->assertSame( [], $this->instance->get_children( $indexable ) );
+	}
+
+	/**
+	 * Tests retrieval of the child indexables with no children found for indexable.
+	 *
+	 * @covers ::get_children
+	 */
+	public function test_get_children() {
+		$indexable = Mockery::mock( Indexable_Mock::class );
+		$indexable->object_type = 'post';
+
+		$indexable->expects( 'save' )->once();
+
+		$this->hierarchy_repository
+			->expects( 'find_children' )
+			->with( $indexable )
+			->andReturn( [ 1, 2, 3 ] );
+
+		$orm_object = Mockery::mock();
+
+		$this->instance
+			->expects( 'query' )
+			->andReturn( $orm_object );
+
+		$orm_object
+			->expects( 'where_in' )
+			->with( 'id', [ 1, 2, 3 ] )
+			->once()
+			->andReturnSelf();
+
+		$orm_object
+			->expects( 'order_by_expr' )
+			->once()
+			->with( 'FIELD(id,1,2,3)' )
+			->andReturnSelf();
+
+		$orm_object
+			->expects( 'find_many' )
+			->once()
+			->andReturn( [ $indexable ] );
+
+		$permalink = 'https://example.org/permalink';
+
+		Monkey\Functions\expect( 'get_permalink' )
+			->andReturn( $permalink );
+
+		$this->assertSame( [ $indexable ], $this->instance->get_children( $indexable ) );
+	}
 }

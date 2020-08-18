@@ -51,14 +51,16 @@ class Indexable_Ancestor_Watcher implements Integration_Interface {
 	 *
 	 * @param Indexable $indexable        The indexable.
 	 * @param Indexable $indexable_before The old indexable.
+	 *
+	 * @return bool When clearing has been done.
 	 */
-	public function clear_ancestors( $indexable, Indexable $indexable_before ) {
+	public function clear_ancestors( $indexable, $indexable_before ) {
 		if ( ! in_array( $indexable->object_type, [ 'post', 'term' ], true ) ) {
-			return;
+			return false;
 		}
 
 		if ( $indexable->permalink === $indexable_before->permalink ) {
-			return;
+			return false;
 		}
 
 		$children = $this->indexable_repository->get_children( $indexable );
@@ -67,5 +69,7 @@ class Indexable_Ancestor_Watcher implements Integration_Interface {
 			$child->permalink_hash = null;
 			$child->save();
 		}
+
+		return true;
 	}
 }
