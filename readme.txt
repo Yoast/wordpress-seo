@@ -5,7 +5,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
 Tested up to: 5.5
-Stable tag: 14.7
+Stable tag: 14.8
 Requires PHP: 5.6.20
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -216,13 +216,13 @@ Get ready for a brand new version of Yoast SEO! In this version you'll find new 
 Enhancements:
 
 * Adds a Schema section to the metabox and sidebar. This section allows the user to change their Schema settings on posts, pages and custom post types.
-* Adds a new section to the Search Appearance settings. This section allows the user to change their schema defaults for posts, pages and custom post types.
+* Adds a new section to the Search Appearance settings. This section allows the user to change their Schema defaults for posts, pages and custom post types.
 * Fixes an inconsistency in the feedback strings that are produced by the keyphrase in SEO title assessment.
 * Improves the accuracy of the following assessments for right-to-left languages: sentence length, keyphrase in introduction, keyphrase distribution, keyphrase density, and keyphrase in meta description.
 * Improves all keyphrase-based assessments for Arabic by filtering function words and by allowing keyphrases to be recognized in a text when preceded by a prefix (e.g., "ل" or "ب").
-* Adds the following assessments for Indonesian: sentence beginnings, transition words, and passive voice.
+* Adds the following assessments for Indonesian: sentence beginnings, transition words and passive voice.
 * Adds the following assessments for Portuguese: Flesch reading ease and passive voice.
-* Cleans up schema @type values:
+* Cleans up Schema @type values:
 	* If it's an array with multiple values, only output unique values.
 	* If it's a single value, output it as a string instead of an array.
 
@@ -233,7 +233,7 @@ Bugfixes:
 
 Other:
 
-* Sets minimum WP version to 5.4
+* Sets the minimum WP version to 5.4.
 * Optimizes the logic involved in default filters for our options. This should lead to a very small increase in performance as well as avoiding an edge case where the default filter would be removed.
 
 = 14.7 =
