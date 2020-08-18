@@ -2,7 +2,7 @@
 var timeGrunt = require( "time-grunt" );
 var path = require( "path" );
 var loadGruntConfig = require( "load-grunt-config" );
-const { flattenVersionForFile } = require( "./webpack/paths" );
+const { flattenVersionForFile } = require( "./config/webpack/paths" );
 require( "dotenv" ).config();
 
 module.exports = function( grunt ) {
@@ -38,6 +38,7 @@ module.exports = function( grunt ) {
 			languages: "languages/",
 			logs: "logs/",
 			svnCheckoutDir: ".wordpress-svn",
+			assets: "svn-assets",
 			vendor: "vendor/",
 		},
 		files: {

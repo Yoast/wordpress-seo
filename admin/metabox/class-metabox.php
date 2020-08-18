@@ -41,6 +41,13 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	protected $editor;
 
 	/**
+	 * Whether or not the advanced metadata is enabled.
+	 *
+	 * @var bool
+	 */
+	protected $is_advanced_metadata_enabled;
+
+	/**
 	 * Class constructor.
 	 */
 	public function __construct() {
@@ -59,7 +66,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$this->editor = new WPSEO_Metabox_Editor();
 		$this->editor->register_hooks();
 
-		$this->social_is_enabled = WPSEO_Options::get( 'opengraph', false ) || WPSEO_Options::get( 'twitter', false );
+		$this->social_is_enabled            = WPSEO_Options::get( 'opengraph', false ) || WPSEO_Options::get( 'twitter', false );
+		$this->is_advanced_metadata_enabled = WPSEO_Capability_Utils::current_user_can( 'wpseo_edit_advanced_metadata' ) || WPSEO_Options::get( 'disableadvanced_meta' ) === false;
 
 		$this->analysis_seo         = new WPSEO_Metabox_Analysis_SEO();
 		$this->analysis_readability = new WPSEO_Metabox_Analysis_Readability();
@@ -295,9 +303,12 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 	/**
 	 * Outputs the meta box.
+	 *
+	 * @param WP_Post $post The post.
 	 */
-	public function meta_box() {
-		$content_sections = $this->get_content_sections();
+	public function meta_box( $post ) {
+
+		$content_sections = $this->get_content_sections( $post->post_type );
 
 		echo '<div class="wpseo-metabox-content">';
 		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: $this->get_product_title is considered safe.
@@ -323,15 +334,21 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	/**
 	 * Returns the relevant metabox sections for the current view.
 	 *
+	 * @param string $post_type The post type.
+	 *
 	 * @return WPSEO_Metabox_Section[]
 	 */
-	private function get_content_sections() {
+	private function get_content_sections( $post_type ) {
 		$content_sections = [];
 
 		$content_sections[] = $this->get_seo_meta_section();
 
 		if ( $this->analysis_readability->is_enabled() ) {
 			$content_sections[] = $this->get_readability_meta_section();
+		}
+
+		if ( $this->is_advanced_metadata_enabled ) {
+			$content_sections[] = $this->get_schema_meta_section( $post_type );
 		}
 
 		// Whether social is enabled.
@@ -383,7 +400,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		$html_after = '';
 
-		if ( WPSEO_Capability_Utils::current_user_can( 'wpseo_edit_advanced_metadata' ) || WPSEO_Options::get( 'disableadvanced_meta' ) === false ) {
+		if ( $this->is_advanced_metadata_enabled ) {
 			$html_after = $this->get_tab_content( 'advanced' );
 		}
 
@@ -401,6 +418,22 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			[
 				'html_after' => $html_after,
 			]
+		);
+	}
+
+	/**
+	 * Returns the metabox section for the schema tab.
+	 *
+	 * @param string $post_type The post type.
+	 *
+	 * @return WPSEO_Metabox_Section_React
+	 */
+	private function get_schema_meta_section( $post_type ) {
+		$content = $this->get_tab_content( 'schema', $post_type );
+		return new WPSEO_Metabox_Section_React(
+			'schema',
+			'<span class="wpseo-schema-icon"></span>' . __( 'Schema', 'wordpress-seo' ),
+			$content
 		);
 	}
 
@@ -466,13 +499,14 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	/**
 	 * Retrieves the contents for the metabox tab.
 	 *
-	 * @param string $tab_name Tab for which to retrieve the field definitions.
+	 * @param string $tab_name  Tab for which to retrieve the field definitions.
+	 * @param string $post_type The post type. Defaults to post.
 	 *
 	 * @return string
 	 */
-	private function get_tab_content( $tab_name ) {
+	private function get_tab_content( $tab_name, $post_type = 'post' ) {
 		$content = '';
-		foreach ( WPSEO_Meta::get_meta_field_defs( $tab_name ) as $key => $meta_field ) {
+		foreach ( WPSEO_Meta::get_meta_field_defs( $tab_name, $post_type ) as $key => $meta_field ) {
 			$content .= $this->do_meta_box( $meta_field, $key );
 		}
 
@@ -511,6 +545,11 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			$description      = '<p id="' . $esc_form_key . '-desc" class="yoast-metabox__description">' . $meta_field_def['description'] . '</p>';
 		}
 
+		// Add a hide_on_pages option that returns nothing when the field is rendered on a page.
+		if ( isset( $meta_field_def['hide_on_pages'] ) && $meta_field_def['hide_on_pages'] && get_post_type() === 'page' ) {
+			return '';
+		}
+
 		switch ( $meta_field_def['type'] ) {
 			case 'text':
 				$ac = '';
@@ -539,7 +578,11 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				break;
 
 			case 'hidden':
-				$content .= '<input type="hidden" id="' . $esc_form_key . '" name="' . $esc_form_key . '" value="' . esc_attr( $meta_value ) . '"/>' . "\n";
+				$default = '';
+				if ( isset( $meta_field_def['default'] ) ) {
+					$default = sprintf( ' data-default="%s"', esc_attr( $meta_field_def['default'] ) );
+				}
+				$content .= '<input type="hidden" id="' . $esc_form_key . '" name="' . $esc_form_key . '" value="' . esc_attr( $meta_value ) . '"' . $default . '/>' . "\n";
 				break;
 			case 'select':
 				if ( isset( $meta_field_def['options'] ) && is_array( $meta_field_def['options'] ) && $meta_field_def['options'] !== [] ) {
@@ -725,7 +768,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			$meta_boxes,
 			WPSEO_Meta::get_meta_field_defs( 'general', $post->post_type ),
 			WPSEO_Meta::get_meta_field_defs( 'advanced' ),
-			$social_fields
+			$social_fields,
+			WPSEO_Meta::get_meta_field_defs( 'schema', $post->post_type )
 		);
 
 		foreach ( $meta_boxes as $key => $meta_box ) {
@@ -828,11 +872,15 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$asset_manager->enqueue_style( 'select2' );
 		$asset_manager->enqueue_style( 'monorepo' );
 
-		$asset_manager->enqueue_script( 'post-edit' );
+		$post_edit_handle = 'post-edit';
+		if ( ! WP_Screen::get()->is_block_editor() ) {
+			$post_edit_handle = 'post-edit-classic';
+		}
+		$asset_manager->enqueue_script( $post_edit_handle );
 		$asset_manager->enqueue_style( 'admin-css' );
 
 		$yoast_components_l10n = new WPSEO_Admin_Asset_Yoast_Components_L10n();
-		$yoast_components_l10n->localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'post-edit' );
+		$yoast_components_l10n->localize_script( WPSEO_Admin_Asset_Manager::PREFIX . $post_edit_handle );
 
 		/**
 		 * Removes the emoji script as it is incompatible with both React and any
@@ -840,8 +888,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		 */
 		remove_action( 'admin_print_scripts', 'print_emoji_detection_script' );
 
-		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'post-edit', 'wpseoAdminL10n', WPSEO_Utils::get_admin_l10n() );
-		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'post-edit', 'wpseoFeaturesL10n', WPSEO_Utils::retrieve_enabled_features() );
+		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . $post_edit_handle, 'wpseoAdminL10n', WPSEO_Utils::get_admin_l10n() );
+		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . $post_edit_handle, 'wpseoFeaturesL10n', WPSEO_Utils::retrieve_enabled_features() );
 
 		$analysis_worker_location          = new WPSEO_Admin_Asset_Analysis_Worker_Location( $asset_manager->flatten_version( WPSEO_VERSION ) );
 		$used_keywords_assessment_location = new WPSEO_Admin_Asset_Analysis_Worker_Location( $asset_manager->flatten_version( WPSEO_VERSION ), 'used-keywords-assessment' );
@@ -887,7 +935,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			];
 		}
 
-		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'post-edit', 'wpseoScriptData', $script_data );
+		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . $post_edit_handle, 'wpseoScriptData', $script_data );
 	}
 
 	/**

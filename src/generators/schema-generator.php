@@ -105,6 +105,7 @@ class Schema_Generator implements Generator_Interface {
 				 */
 				$graph_piece = \apply_filters( 'wpseo_schema_' . $identifier, $graph_piece, $context );
 				$graph_piece = $this->type_filter( $graph_piece, $identifier, $context );
+				$graph_piece = $this->validate_type( $graph_piece );
 
 				if ( \is_array( $graph_piece ) ) {
 					$graph[] = $graph_piece;
@@ -145,7 +146,7 @@ class Schema_Generator implements Generator_Interface {
 	private function type_filter( $graph_piece, $identifier, Meta_Tags_Context $context ) {
 		$types = $this->get_type_from_piece( $graph_piece );
 		foreach ( $types as $type ) {
-			$type = strtolower( $type );
+			$type = \strtolower( $type );
 
 			// Prevent running the same filter twice. This makes sure we run f/i. for 'author' and for 'person'.
 			if ( $type && $type !== $identifier ) {
@@ -172,12 +173,48 @@ class Schema_Generator implements Generator_Interface {
 	 */
 	private function get_type_from_piece( $piece ) {
 		if ( isset( $piece['@type'] ) ) {
-			if ( is_array( $piece['@type'] ) ) {
+			if ( \is_array( $piece['@type'] ) ) {
 				return $piece['@type'];
 			}
 			return [ $piece['@type'] ];
 		}
 		return [];
+	}
+
+	/**
+	 * Validates a graph piece's type.
+	 *
+	 * When the type is an array:
+	 *   - Ensure the values are unique.
+	 *   - Only 1 value? Use that value without the array wrapping.
+	 *
+	 * @param array $piece The graph piece.
+	 *
+	 * @return array The graph piece.
+	 */
+	private function validate_type( $piece ) {
+		if ( ! isset( $piece['@type'] ) ) {
+			// No type to validate.
+			return $piece;
+		}
+
+		// If it is not an array, we can return immediately.
+		if ( ! \is_array( $piece['@type'] ) ) {
+			return $piece;
+		}
+
+		/*
+		 * Ensure the types are unique.
+		 * Use array_values to reset the indices (e.g. no 0, 2 because 1 was a duplicate).
+		 */
+		$piece['@type'] = \array_values( \array_unique( $piece['@type'] ) );
+
+		// Use the first value if there is only 1 type.
+		if ( \count( $piece['@type'] ) === 1 ) {
+			$piece['@type'] = \reset( $piece['@type'] );
+		}
+
+		return $piece;
 	}
 
 	/**

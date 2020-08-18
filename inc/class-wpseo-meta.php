@@ -6,6 +6,8 @@
  * @since   1.5.0
  */
 
+use Yoast\WP\SEO\Config\Schema_Types;
+use Yoast\WP\SEO\Helpers\Schema\Article_Helper;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
 /**
@@ -103,18 +105,18 @@ class WPSEO_Meta {
 	 */
 	public static $meta_fields = [
 		'general'  => [
-			'focuskw' => [
+			'focuskw'        => [
 				'type'  => 'hidden',
 				'title' => '',
 			],
-			'title' => [
+			'title'          => [
 				'type'          => 'hidden',
 				'title'         => '', // Translation added later.
 				'default_value' => '',
 				'description'   => '', // Translation added later.
 				'help'          => '', // Translation added later.
 			],
-			'metadesc' => [
+			'metadesc'       => [
 				'type'          => 'hidden',
 				'title'         => '', // Translation added later.
 				'default_value' => '',
@@ -123,13 +125,13 @@ class WPSEO_Meta {
 				'description'   => '', // Translation added later.
 				'help'          => '', // Translation added later.
 			],
-			'linkdex' => [
+			'linkdex'        => [
 				'type'          => 'hidden',
 				'title'         => 'linkdex',
 				'default_value' => '0',
 				'description'   => '',
 			],
-			'content_score' => [
+			'content_score'  => [
 				'type'          => 'hidden',
 				'title'         => 'content_score',
 				'default_value' => '0',
@@ -193,6 +195,19 @@ class WPSEO_Meta {
 			],
 		],
 		'social'   => [],
+		'schema'   => [
+			'schema_page_type'    => [
+				'type'    => 'hidden',
+				'title'   => '',
+				'options' => Schema_Types::PAGE_TYPES,
+			],
+			'schema_article_type' => [
+				'type'          => 'hidden',
+				'title'         => '',
+				'hide_on_pages' => true,
+				'options'       => Schema_Types::ARTICLE_TYPES,
+			],
+		],
 		/* Fields we should validate & save, but not show on any form. */
 		'non_form' => [
 			'linkdex' => [
@@ -249,7 +264,6 @@ class WPSEO_Meta {
 	 * @return void
 	 */
 	public static function init() {
-
 		foreach ( self::$social_networks as $option => $network ) {
 			if ( WPSEO_Options::get( $option, false ) === true ) {
 				foreach ( self::$social_fields as $box => $type ) {
@@ -362,6 +376,23 @@ class WPSEO_Meta {
 				if ( empty( $post->ID ) || ( ! empty( $post->ID ) && self::get_value( 'redirect', $post->ID ) === '' ) ) {
 					unset( $field_defs['redirect'] );
 				}
+				break;
+
+			case 'schema':
+				if ( ! WPSEO_Capability_Utils::current_user_can( 'wpseo_edit_advanced_metadata' ) && WPSEO_Options::get( 'disableadvanced_meta' ) ) {
+					return [];
+				}
+
+				$field_defs['schema_page_type']['default'] = WPSEO_Options::get( 'schema-page-type-' . $post_type );
+
+				$article_helper = new Article_Helper();
+				if ( $post_type !== 'page' && $article_helper->is_author_supported( $post_type ) ) {
+					$field_defs['schema_article_type']['default'] = WPSEO_Options::get( 'schema-article-type-' . $post_type );
+				}
+				else {
+					unset( $field_defs['schema_article_type'] );
+				}
+
 				break;
 		}
 
@@ -610,25 +641,40 @@ class WPSEO_Meta {
 			}
 		}
 
-		$custom = get_post_custom( $postid ); // Array of strings or empty array.
+		$custom    = get_post_custom( $postid ); // Array of strings or empty array.
+		$table_key = self::$meta_prefix . $key;
 
-		if ( isset( $custom[ self::$meta_prefix . $key ][0] ) ) {
-			$unserialized = maybe_unserialize( $custom[ self::$meta_prefix . $key ][0] );
-			if ( $custom[ self::$meta_prefix . $key ][0] === $unserialized ) {
-				return $custom[ self::$meta_prefix . $key ][0];
+		// Populate the field_def using the field_index lookup array.
+		$field_def = [];
+		if ( isset( self::$fields_index[ $table_key ] ) ) {
+			$field_def = self::$meta_fields[ self::$fields_index[ $table_key ]['subset'] ][ self::$fields_index[ $table_key ]['key'] ];
+		}
+
+		// Check if we have a custom post meta entry.
+		if ( isset( $custom[ $table_key ][0] ) ) {
+			$unserialized = maybe_unserialize( $custom[ $table_key ][0] );
+
+			// Check if it is already unserialized.
+			if ( $custom[ $table_key ][0] === $unserialized ) {
+				return $custom[ $table_key ][0];
 			}
 
-			if ( isset( self::$fields_index[ self::$meta_prefix . $key ] ) ) {
-				$field_def = self::$meta_fields[ self::$fields_index[ self::$meta_prefix . $key ]['subset'] ][ self::$fields_index[ self::$meta_prefix . $key ]['key'] ];
-				if ( isset( $field_def['serialized'] ) && $field_def['serialized'] === true ) {
-					// Ok, serialize value expected/allowed.
-					return $unserialized;
-				}
+			// Check whether we need to unserialize it.
+			if ( isset( $field_def['serialized'] ) && $field_def['serialized'] === true ) {
+				// Ok, serialize value expected/allowed.
+				return $unserialized;
 			}
 		}
 
 		// Meta was either not found or found, but object/array while not allowed to be.
 		if ( isset( self::$defaults[ self::$meta_prefix . $key ] ) ) {
+			// Update the default value to the current post type.
+			switch ( $key ) {
+				case 'schema_page_type':
+				case 'schema_article_type':
+					return '';
+			}
+
 			return self::$defaults[ self::$meta_prefix . $key ];
 		}
 

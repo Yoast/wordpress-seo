@@ -298,6 +298,31 @@ class WPSEO_Admin_Asset_Manager {
 				'in_footer' => false,
 			],
 			[
+				'name'      => 'post-edit-classic',
+				'src'       => 'post-edit-' . $flat_version,
+				'deps'      => [
+					'jquery',
+					'wp-api',
+					'wp-api-fetch',
+					'wp-components',
+					'wp-compose',
+					'wp-data',
+					'wp-element',
+					'wp-i18n',
+					'wp-is-shallow-equal',
+					'wp-sanitize',
+					'wp-url',
+					'wp-util',
+					self::PREFIX . 'redux',
+					self::PREFIX . 'analysis',
+					self::PREFIX . 'components',
+					self::PREFIX . 'commons',
+					self::PREFIX . 'select2',
+					self::PREFIX . 'select2-translations',
+				],
+				'in_footer' => false,
+			],
+			[
 				'name' => 'term-edit',
 				'src'  => 'term-edit-' . $flat_version,
 				'deps' => [
@@ -586,6 +611,9 @@ class WPSEO_Admin_Asset_Manager {
 			[
 				'name' => 'search-appearance',
 				'src'  => 'search-appearance-' . $flat_version,
+				'deps' => [
+					self::PREFIX . 'monorepo',
+				],
 			],
 			[
 				'name' => 'monorepo',

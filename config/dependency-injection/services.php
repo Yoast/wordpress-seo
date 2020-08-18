@@ -12,9 +12,9 @@ use WPSEO_Admin_Asset_Manager;
 use WPSEO_Breadcrumbs;
 use WPSEO_Frontend;
 use WPSEO_Replace_Vars;
-use Yoast_Notification_Center;
 use Yoast\WP\Lib\Migrations\Adapter;
 use Yoast\WP\SEO\WordPress\Wrapper;
+use Yoast_Notification_Center;
 use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**

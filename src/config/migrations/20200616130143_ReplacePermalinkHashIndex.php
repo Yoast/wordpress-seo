@@ -40,7 +40,7 @@ class ReplacePermalinkHashIndex extends Migration {
 			'permalink_hash',
 			'string',
 			[
-				'null' => true,
+				'null'  => true,
 				'limit' => 40,
 			]
 		);
@@ -102,7 +102,7 @@ class ReplacePermalinkHashIndex extends Migration {
 			'permalink_hash',
 			'string',
 			[
-				'null' => true,
+				'null'  => true,
 				'limit' => 191,
 			]
 		);
