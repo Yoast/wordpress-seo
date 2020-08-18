@@ -19,6 +19,12 @@
   "jest": {
     "testRegex": ".*Test.js$",
     "testURL": "http://localhost",
+    "transform": {
+      "^.+\\.jsx?$": "babel-jest"
+    },
+    "transformIgnorePatterns": [
+      "/node_modules/(?!yoastseo|lodash-es).+\\.js$"
+    ],
     "setupTestFrameworkScriptFile": "<rootDir>/jest/setupTests.js",
     "moduleNameMapper": {
       "\\.css$": "<rootDir>/jest/CSSStub.js"
