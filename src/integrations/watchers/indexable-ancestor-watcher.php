@@ -1,21 +1,22 @@
 <?php
 /**
- * Author watcher to save the meta data to an Indexable.
+ * Ancestor watcher to update the ancestor's children.
  *
  * @package Yoast\YoastSEO\Watchers
  */
 
 namespace Yoast\WP\SEO\Integrations\Watchers;
 
-use Yoast\WP\SEO\Builders\Indexable_Builder;
 use Yoast\WP\SEO\Builders\Indexable_Hierarchy_Builder;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
 use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Models\Indexable;
-use Yoast\WP\SEO\Repositories\Indexable_Hierarchy_Repository;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
+/**
+ * Watches an ancestor to save the meta information when updated.
+ */
 class Indexable_Ancestor_Watcher implements Integration_Interface {
 
 	/**
@@ -71,15 +72,15 @@ class Indexable_Ancestor_Watcher implements Integration_Interface {
 	}
 
 	/**
-	 * Removes the ancestors when the permalink for the given indexable has been changed.
+	 * If an indexable's permalink has changed, updates its children in the hierarchy table and resets the children's permalink.
 	 *
 	 * @param Indexable $indexable        The indexable.
 	 * @param Indexable $indexable_before The old indexable.
 	 *
-	 * @return bool When clearing has been done.
+	 * @return bool True if the children were reset.
 	 */
 	public function clear_ancestors( $indexable, $indexable_before ) {
-		if ( ! in_array( $indexable->object_type, [ 'post', 'term' ], true ) ) {
+		if ( ! \in_array( $indexable->object_type, [ 'post', 'term' ], true ) ) {
 			return false;
 		}
 

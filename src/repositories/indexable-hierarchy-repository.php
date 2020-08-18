@@ -96,7 +96,7 @@ class Indexable_Hierarchy_Repository {
 	}
 
 	/**
-	 * Finds the children for given indexable.
+	 * Finds the children for a given indexable.
 	 *
 	 * @param Indexable $indexable The indexable to find the children for.
 	 *
