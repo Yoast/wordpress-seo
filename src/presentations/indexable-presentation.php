@@ -232,10 +232,25 @@ class Indexable_Presentation extends Abstract_Presentation {
 	 * @return array The base robots value.
 	 */
 	protected function get_base_robots() {
-		return [
-			'index'  => ( $this->model->is_robots_noindex === true ) ? 'noindex' : 'index',
+		$noindex = $this->model->is_robots_noindex === true;
+
+		$robots = [
+			'index'  => ( $noindex ) ? 'noindex' : 'index',
 			'follow' => ( $this->model->is_robots_nofollow === true ) ? 'nofollow' : 'follow',
 		];
+
+		if ( $noindex === false ) {
+			$robots = \array_filter( \array_merge(
+				$robots,
+				[
+					'max-snippet'       => 'max-snippet:-1',
+					'max-image-preview' => 'max-image-preview:large',
+					'max-video-preview' => 'max-video-preview:-1',
+				]
+			) );
+		}
+
+		return $robots;
 	}
 
 	/**
@@ -292,7 +307,7 @@ class Indexable_Presentation extends Abstract_Presentation {
 	 * @return array The robots value with opt-in snippets.
 	 */
 	public function generate_googlebot() {
-		return $this->generate_snippet_opt_in();
+		return [];
 	}
 
 	/**
@@ -301,7 +316,7 @@ class Indexable_Presentation extends Abstract_Presentation {
 	 * @return array The robots value with opt-in snippets.
 	 */
 	public function generate_bingbot() {
-		return $this->generate_snippet_opt_in();
+		return [];
 	}
 
 	/**
