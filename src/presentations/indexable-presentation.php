@@ -232,25 +232,13 @@ class Indexable_Presentation extends Abstract_Presentation {
 	 * @return array The base robots value.
 	 */
 	protected function get_base_robots() {
-		$noindex = $this->model->is_robots_noindex === true;
-
-		$robots = [
-			'index'  => ( $noindex ) ? 'noindex' : 'index',
-			'follow' => ( $this->model->is_robots_nofollow === true ) ? 'nofollow' : 'follow',
+		return [
+			'index'             => ( $this->model->is_robots_noindex === true ) ? 'noindex' : 'index',
+			'follow'            => ( $this->model->is_robots_nofollow === true ) ? 'nofollow' : 'follow',
+			'max-snippet'       => 'max-snippet:-1',
+			'max-image-preview' => 'max-image-preview:large',
+			'max-video-preview' => 'max-video-preview:-1',
 		];
-
-		if ( $noindex === false ) {
-			$robots = \array_filter( \array_merge(
-				$robots,
-				[
-					'max-snippet'       => 'max-snippet:-1',
-					'max-image-preview' => 'max-image-preview:large',
-					'max-video-preview' => 'max-video-preview:-1',
-				]
-			) );
-		}
-
-		return $robots;
 	}
 
 	/**
@@ -261,6 +249,12 @@ class Indexable_Presentation extends Abstract_Presentation {
 	 * @return array The filtered meta robots values.
 	 */
 	protected function filter_robots( $robots ) {
+		if ( $robots['index'] === 'noindex' ) {
+			$robots['max-snippet']       = null;
+			$robots['max-image-preview'] = null;
+			$robots['max-video-preview'] = null;
+		}
+
 		$robots_string = \implode( ', ', $robots );
 
 		/**
