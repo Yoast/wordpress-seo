@@ -28,7 +28,8 @@
     cursor: pointer;
 }
 .yoast-field-group__radiobutton input[type='radio']:checked {
-    border-color: var(--yoast-color-primary);
+	border-color: var(--yoast-color-primary);
+	background-color: inherit;
 }
 
 .yoast-field-group__radiobutton input[type='radio']:checked:after {
