@@ -27,6 +27,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 	protected $defaults = [
 		// Non-form fields, set via (ajax) function.
 		'tracking'                                 => null,
+		'license_server_version'                   => false,
 		'ms_defaults_set'                          => false,
 		'ignore_search_engines_discouraged_notice' => false,
 		'ignore_indexation_warning'                => false,
@@ -127,11 +128,10 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 	/**
 	 * Add the actions and filters for the option.
 	 *
-	 * @todo [JRF => testers] Check if the extra actions below would run into problems if an option
-	 * is updated early on and if so, change the call to schedule these for a later action on add/update
-	 * instead of running them straight away.
-	 *
 	 * @return \WPSEO_Option_Wpseo
+	 * @todo [JRF => testers] Check if the extra actions below would run into problems if an option
+	 *       is updated early on and if so, change the call to schedule these for a later action on add/update
+	 *       instead of running them straight away.
 	 */
 	protected function __construct() {
 		parent::__construct();
@@ -245,6 +245,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 					$clean[ $key ] = WPSEO_VERSION;
 					break;
 				case 'previous_version':
+				case 'license_server_version':
 					if ( isset( $dirty[ $key ] ) ) {
 						$clean[ $key ] = $dirty[ $key ];
 					}
@@ -434,7 +435,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 
 		foreach ( $value_change as $key ) {
 			if ( isset( $option_value[ $key ] )
-				&& in_array( $option_value[ $key ], $target_values, true )
+				 && in_array( $option_value[ $key ], $target_values, true )
 			) {
 				$option_value[ $key ] = true;
 			}
