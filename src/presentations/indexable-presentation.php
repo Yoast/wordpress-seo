@@ -26,8 +26,6 @@ use Yoast\WP\SEO\Models\Indexable;
  * @property string $title
  * @property string $meta_description
  * @property array  $robots
- * @property array  $bingbot
- * @property array  $googlebot
  * @property string $canonical
  * @property string $rel_next
  * @property string $rel_prev
