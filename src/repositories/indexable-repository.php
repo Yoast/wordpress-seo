@@ -329,6 +329,10 @@ class Indexable_Repository {
 	 * @return Indexable[] An array of indexables.
 	 */
 	public function find_by_multiple_ids_and_type( $object_ids, $object_type, $auto_create = true ) {
+		if ( empty( $object_ids ) ) {
+			return [];
+		}
+
 		/**
 		 * Represents an array of indexable objects.
 		 *

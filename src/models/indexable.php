@@ -193,6 +193,9 @@ class Indexable extends Model {
 		if ( isset( $permalink_parts['host'] ) ) {
 			$permalink .= $permalink_parts['host'];
 		}
+		if ( isset( $permalink_parts['port'] ) ) {
+			$permalink .= ':' . $permalink_parts['port'];
+		}
 		if ( isset( $permalink_parts['path'] ) ) {
 			$permalink .= $permalink_parts['path'];
 		}
