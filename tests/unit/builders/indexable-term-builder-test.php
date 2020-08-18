@@ -32,6 +32,76 @@ class Indexable_Term_Builder_Test extends TestCase {
 	protected $mocked_options = [ 'wpseo', 'wpseo_titles', 'wpseo_social', 'wpseo_ms' ];
 
 	/**
+	 * The instance under test.
+	 *
+	 * @var Mockery\Mock|Indexable_Term_Builder
+	 */
+	private $instance;
+
+	/**
+	 * The taxonomy helper mock.
+	 *
+	 * @var Mockery\MockInterface|Taxonomy_Helper
+	 */
+	private $taxonomy;
+
+	/**
+	 * The image helper mock.
+	 *
+	 * @var Mockery\MockInterface|Image_Helper
+	 */
+	private $image;
+
+	/**
+	 * The open graph image helper mock.
+	 *
+	 * @var Mockery\MockInterface|OG_Image_Helper
+	 */
+	private $open_graph_image;
+
+	/**
+	 * The twitter image helper mock.
+	 *
+	 * @var Mockery\MockInterface|Twitter_Image_Helper
+	 */
+	private $twitter_image;
+
+	/**
+	 * Sets up the tests.
+	 */
+	public function setUp() {
+		parent::setUp();
+
+		$this->taxonomy = Mockery::mock( Taxonomy_Helper::class );
+
+		$this->instance = Mockery::mock( Indexable_Term_Builder::class, [ $this->taxonomy ] )
+			->shouldAllowMockingProtectedMethods()
+			->makePartial();
+
+		$this->image            = Mockery::mock( Image_Helper::class );
+		$this->open_graph_image = Mockery::mock( OG_Image_Helper::class );
+		$this->twitter_image    = Mockery::mock( Twitter_Image_Helper::class );
+
+		$this->instance->set_social_image_helpers(
+			$this->image,
+			$this->open_graph_image,
+			$this->twitter_image
+		);
+	}
+
+	/**
+	 * Mocks the 'set' method of the given indexable's ORM object with the key value pairs in `$expectations`.
+	 *
+	 * @param Mockery\MockInterface|Indexable $indexable_mock The indexable mock object.
+	 * @param array                           $expectations   The expectation of the 'set' method of the mock object.
+	 */
+	private function set_indexable_set_expectations( $indexable_mock, $expectations ) {
+		foreach ( $expectations as $key => $value ) {
+			$indexable_mock->orm->expects( 'set' )->with( $key, $value );
+		}
+	}
+
+	/**
 	 * Tests the formatting of the indexable data.
 	 *
 	 * @covers ::build
@@ -46,71 +116,7 @@ class Indexable_Term_Builder_Test extends TestCase {
 		Monkey\Functions\expect( 'get_term_link' )->once()->with( $term, 'category' )->andReturn( 'https://example.org/category/1' );
 		Monkey\Functions\expect( 'is_wp_error' )->twice()->andReturn( false );
 
-		$indexable_mock      = Mockery::mock( Indexable::class );
-		$indexable_mock->orm = Mockery::mock( ORM::class );
-		$indexable_mock->orm->expects( 'set' )->with( 'object_id', 1 );
-		$indexable_mock->orm->expects( 'set' )->with( 'object_type', 'term' );
-		$indexable_mock->orm->expects( 'set' )->with( 'object_sub_type', 'category' );
-		$indexable_mock->orm->expects( 'set' )->with( 'permalink', 'https://example.org/category/1' );
-		$indexable_mock->orm->expects( 'set' )->with( 'canonical', 'https://canonical-term' );
-		$indexable_mock->orm->expects( 'set' )->with( 'title', 'title' );
-		$indexable_mock->orm->expects( 'set' )->with( 'breadcrumb_title', 'breadcrumb_title' );
-		$indexable_mock->orm->expects( 'set' )->with( 'description', 'description' );
-		$indexable_mock->orm->expects( 'set' )->with( 'open_graph_title', 'open_graph_title' );
-		$indexable_mock->orm->expects( 'set' )->with( 'open_graph_image', 'open_graph_image' );
-		$indexable_mock->orm->expects( 'set' )->with( 'open_graph_image', null );
-		$indexable_mock->orm->expects( 'set' )->with( 'open_graph_image', 'image.jpg' );
-		$indexable_mock->orm->expects( 'set' )->with( 'open_graph_image_id', 'open_graph_image_id' );
-		$indexable_mock->orm->expects( 'set' )->with( 'open_graph_image_id', null );
-		$indexable_mock->orm->expects( 'set' )->with( 'open_graph_image_source', null );
-		$indexable_mock->orm->expects( 'set' )->with( 'open_graph_image_source', 'first-content-image' );
-		$indexable_mock->orm->expects( 'set' )->with( 'open_graph_image_meta', null );
-		$indexable_mock->orm->expects( 'set' )->with( 'open_graph_description', 'open_graph_description' );
-		$indexable_mock->orm->expects( 'set' )->with( 'twitter_title', 'twitter_title' );
-		$indexable_mock->orm->expects( 'set' )->with( 'twitter_image', 'twitter_image' );
-		$indexable_mock->orm->expects( 'set' )->with( 'twitter_image', null );
-		$indexable_mock->orm->expects( 'set' )->with( 'twitter_image', 'image.jpg' );
-		$indexable_mock->orm->expects( 'set' )->times( 2 )->with( 'twitter_image_id', null );
-		$indexable_mock->orm->expects( 'set' )->with( 'twitter_image_source', null );
-		$indexable_mock->orm->expects( 'set' )->with( 'twitter_image_source', 'first-content-image' );
-		$indexable_mock->orm->expects( 'set' )->with( 'twitter_description', 'twitter_description' );
-		$indexable_mock->orm->expects( 'set' )->with( 'is_cornerstone', false );
-		$indexable_mock->orm->expects( 'set' )->with( 'is_robots_noindex', true );
-		$indexable_mock->orm->expects( 'set' )->with( 'is_robots_nofollow', null );
-		$indexable_mock->orm->expects( 'set' )->with( 'is_robots_noarchive', null );
-		$indexable_mock->orm->expects( 'set' )->with( 'is_robots_noimageindex', null );
-		$indexable_mock->orm->expects( 'set' )->with( 'is_robots_nosnippet', null );
-		$indexable_mock->orm->expects( 'set' )->with( 'primary_focus_keyword', 'focuskeyword' );
-		$indexable_mock->orm->expects( 'set' )->with( 'primary_focus_keyword_score', 75 );
-		$indexable_mock->orm->expects( 'set' )->with( 'readability_score', 50 );
-
-		$indexable_mock->orm->expects( 'get' )->once()->with( 'open_graph_image' );
-		$indexable_mock->orm->expects( 'get' )->twice()->with( 'open_graph_image_id' );
-		$indexable_mock->orm->expects( 'get' )->twice()->with( 'open_graph_image_source' );
-		$indexable_mock->orm->expects( 'get' )->twice()->with( 'twitter_image' );
-		$indexable_mock->orm->expects( 'get' )->times( 3 )->with( 'twitter_image_id' );
-		$indexable_mock->orm->expects( 'get' )->with( 'object_id' );
-
-		$indexable_mock->orm->expects( 'offsetExists' )->once()->with( 'breadcrumb_title' )->andReturnTrue();
-		$indexable_mock->orm->expects( 'get' )->once()->with( 'breadcrumb_title' )->andReturnTrue();
-
-		$indexable_mock->orm->expects( 'get' )->twice()->with( 'is_robots_noindex' )->andReturn( true );
-		$indexable_mock->orm->expects( 'set' )->once()->with( 'is_public', false );
-
-		Monkey\Functions\expect( 'get_current_blog_id' )->once()->andReturn( 1 );
-		$indexable_mock->orm->expects( 'set' )->with( 'blog_id', 1 );
-
-		$image            = Mockery::mock( Image_Helper::class );
-		$open_graph_image = Mockery::mock( OG_Image_Helper::class );
-		$twitter_image    = Mockery::mock( Twitter_Image_Helper::class );
-
-		$image
-			->expects( 'get_term_content_image' )
-			->once()
-			->andReturn( 'image.jpg' );
-
-		$taxonomy = Mockery::mock( Taxonomy_Helper::class );
-		$taxonomy->expects( 'get_term_meta' )
+		$this->taxonomy->expects( 'get_term_meta' )
 			->once()
 			->with( $term )
 			->andReturn(
@@ -131,19 +137,57 @@ class Indexable_Term_Builder_Test extends TestCase {
 					'wpseo_opengraph-description' => 'open_graph_description',
 					'wpseo_twitter-title'         => 'twitter_title',
 					'wpseo_twitter-image'         => 'twitter_image',
+					'wpseo_twitter-image-id'      => 'twitter_image_id',
 					'wpseo_twitter-description'   => 'twitter_description',
 				]
 			);
 
-		$builder = new Indexable_Term_Builder( $taxonomy );
+		$indexable_mock      = Mockery::mock( Indexable::class );
+		$indexable_mock->orm = Mockery::mock( ORM::class );
 
-		$builder->set_social_image_helpers(
-			$image,
-			$open_graph_image,
-			$twitter_image
-		);
+		$indexable_expectations = [
+			'object_id'                   => 1,
+			'object_type'                 => 'term',
+			'object_sub_type'             => 'category',
+			'permalink'                   => 'https://example.org/category/1',
+			'canonical'                   => 'https://canonical-term',
+			'title'                       => 'title',
+			'breadcrumb_title'            => 'breadcrumb_title',
+			'description'                 => 'description',
+			'open_graph_title'            => 'open_graph_title',
+			'open_graph_image'            => 'open_graph_image',
+			'open_graph_image_id'         => 'open_graph_image_id',
+			'open_graph_description'      => 'open_graph_description',
+			'twitter_title'               => 'twitter_title',
+			'twitter_image'               => 'twitter_image',
+			'twitter_image_id'            => 'twitter_image_id',
+			'twitter_description'         => 'twitter_description',
+			'is_cornerstone'              => false,
+			'is_robots_noindex'           => true,
+			'is_robots_nofollow'          => null,
+			'is_robots_noarchive'         => null,
+			'is_robots_noimageindex'      => null,
+			'is_robots_nosnippet'         => null,
+			'primary_focus_keyword'       => 'focuskeyword',
+			'primary_focus_keyword_score' => 75,
+			'readability_score'           => 50,
+		];
 
-		$builder->build( 1, $indexable_mock );
+		$this->set_indexable_set_expectations( $indexable_mock, $indexable_expectations );
+
+		$this->instance->expects( 'reset_social_images' )->with( $indexable_mock );
+		$this->instance->expects( 'handle_social_images' )->with( $indexable_mock );
+
+		$indexable_mock->orm->expects( 'offsetExists' )->once()->with( 'breadcrumb_title' )->andReturnTrue();
+		$indexable_mock->orm->expects( 'get' )->once()->with( 'breadcrumb_title' )->andReturnTrue();
+
+		$indexable_mock->orm->expects( 'get' )->twice()->with( 'is_robots_noindex' )->andReturn( true );
+		$indexable_mock->orm->expects( 'set' )->once()->with( 'is_public', false );
+
+		Monkey\Functions\expect( 'get_current_blog_id' )->once()->andReturn( 1 );
+		$indexable_mock->orm->expects( 'set' )->with( 'blog_id', 1 );
+
+		$this->instance->build( 1, $indexable_mock );
 	}
 
 	/**
@@ -157,9 +201,7 @@ class Indexable_Term_Builder_Test extends TestCase {
 			->with( 1 )
 			->andReturn( null );
 
-		$builder = new Indexable_Term_Builder( Mockery::mock( Taxonomy_Helper::class ) );
-
-		$this->assertFalse( $builder->build( 1, false ) );
+		$this->assertFalse( $this->instance->build( 1, false ) );
 	}
 
 	/**
@@ -173,9 +215,7 @@ class Indexable_Term_Builder_Test extends TestCase {
 			->with( 1 )
 			->andReturn( Mockery::mock( '\WP_Error' ) );
 
-		$builder = new Indexable_Term_Builder( Mockery::mock( Taxonomy_Helper::class ) );
-
-		$this->assertFalse( $builder->build( 1, false ) );
+		$this->assertFalse( $this->instance->build( 1, false ) );
 	}
 
 	/**
@@ -195,8 +235,6 @@ class Indexable_Term_Builder_Test extends TestCase {
 			->with( $term, 'tax' )
 			->andReturn( Mockery::mock( '\WP_Error' ) );
 
-		$builder = new Indexable_Term_Builder( Mockery::mock( Taxonomy_Helper::class ) );
-
-		$this->assertFalse( $builder->build( 1, false ) );
+		$this->assertFalse( $this->instance->build( 1, false ) );
 	}
 }
