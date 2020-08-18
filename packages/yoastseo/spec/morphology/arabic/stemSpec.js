@@ -47,7 +47,8 @@ const wordsToStem = [
 	// [ "بئر", "بار" ],
 	// Three letter words that ends in a shadda, duplicate the second character and the root is in threeLetterRoots list
 	[ "ودّ", "ودد" ],
-	[ "تقي", "" ],
+	// Four letter word that is in the list of four-letter roots.
+	[ "أبزم", "أبزم" ],
 ];
 
 describe( "Test for stemming Arabic words", () => {
