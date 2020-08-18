@@ -11,7 +11,7 @@ import { ClipboardButton } from "@wordpress/components";
 import styled from "styled-components";
 
 /* Internal dependencies */
-import PrimaryTaxonomyPicker from "./PrimaryTaxonomyPicker";
+import PrimaryTaxonomyPicker from "../containers/PrimaryTaxonomyPicker";
 
 let taxonomyData = null,
 	taxonomiesWithPrimaryTermSupport = null;
