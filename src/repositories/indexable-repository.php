@@ -392,6 +392,29 @@ class Indexable_Repository {
 	}
 
 	/**
+	 * Returns all children of a given indexable.
+	 *
+	 * @param Indexable $indexable The indexable to find the children of.
+	 *
+	 * @return Indexable[] All children of the given indexable.
+	 */
+	public function get_children( Indexable $indexable ) {
+		$indexable_ids = $this->hierarchy_repository->find_children( $indexable );
+
+		if ( empty( $indexable_ids ) ) {
+			return [];
+		}
+
+		$indexables = $this
+			->query()
+			->where_in( 'id', $indexable_ids )
+			->order_by_expr( 'FIELD(id,' . \implode( ',', $indexable_ids ) . ')' )
+			->find_many();
+
+		return \array_map( [ $this, 'ensure_permalink' ], $indexables );
+	}
+
+	/**
 	 * Returns all subpages with a given post_parent.
 	 *
 	 * @param int   $post_parent The post parent.
