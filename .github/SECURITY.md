@@ -17,10 +17,10 @@ Please do not discuss any vulnerabilities (even resolved ones) without express c
 ### Submit your report
 When you've found a security issue that abides by the rules and scope of this project, please submit the report to us via security@yoast.com. In your mail, make sure to include:
 
-- The calculation of the CVSS (using the CVSS calculator)
-- The impact of the issue
-- A detailed guide on how to reproduce the issue
-- Provide the email address you used to create a MyYoast-account (if applicable)
+- the calculation of the CVSS (using the [CVSS calculator](https://www.first.org/cvss/calculator/3.0));
+- the impact of the issue;
+- a detailed guide on how to reproduce the issue;
+- the email address you used to create a MyYoast-account (if applicable).
 
 ### After your submission
 We will make a best effort to meet the following response targets for security reports:
