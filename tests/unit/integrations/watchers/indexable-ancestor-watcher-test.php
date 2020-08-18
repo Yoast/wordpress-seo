@@ -84,7 +84,7 @@ class Indexable_Ancestor_Watcher_Test extends TestCase {
 
 		$indexable->object_type = 'user';
 
-		$this->assertFalse( $this->instance->clear_ancestors( $indexable, $indexable_before ) );
+		$this->assertFalse( $this->instance->reset_children( $indexable, $indexable_before ) );
 	}
 
 	/**
@@ -101,7 +101,7 @@ class Indexable_Ancestor_Watcher_Test extends TestCase {
 
 		$indexable->object_type = 'post';
 
-		$this->assertFalse( $this->instance->clear_ancestors( $indexable, $indexable_before ) );
+		$this->assertFalse( $this->instance->reset_children( $indexable, $indexable_before ) );
 	}
 
 	/**
@@ -135,7 +135,7 @@ class Indexable_Ancestor_Watcher_Test extends TestCase {
 	public function test_register_hooks() {
 		$this->instance->register_hooks();
 
-		$this->assertNotFalse( \has_action( 'wpseo_save_indexable', [ $this->instance, 'clear_ancestors' ] ) );
+		$this->assertNotFalse( \has_action( 'wpseo_save_indexable', [ $this->instance, 'reset_children' ] ) );
 	}
 
 	/**
@@ -170,6 +170,6 @@ class Indexable_Ancestor_Watcher_Test extends TestCase {
 			->with( $indexable )
 			->andReturn( [ $child_indexable ] );
 
-		$this->assertTrue( $this->instance->clear_ancestors( $indexable, $indexable_before ) );
+		$this->assertTrue( $this->instance->reset_children( $indexable, $indexable_before ) );
 	}
 }

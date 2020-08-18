@@ -61,7 +61,7 @@ class Indexable_Ancestor_Watcher implements Integration_Interface {
 	 * @inheritDoc
 	 */
 	public function register_hooks() {
-		\add_action( 'wpseo_save_indexable', [ $this, 'clear_ancestors' ], \PHP_INT_MAX, 2 );
+		\add_action( 'wpseo_save_indexable', [ $this, 'reset_children' ], \PHP_INT_MAX, 2 );
 	}
 
 	/**
@@ -79,7 +79,7 @@ class Indexable_Ancestor_Watcher implements Integration_Interface {
 	 *
 	 * @return bool True if the children were reset.
 	 */
-	public function clear_ancestors( $indexable, $indexable_before ) {
+	public function reset_children( $indexable, $indexable_before ) {
 		if ( ! \in_array( $indexable->object_type, [ 'post', 'term' ], true ) ) {
 			return false;
 		}
