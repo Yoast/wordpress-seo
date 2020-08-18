@@ -24,6 +24,13 @@
         <exclude name="WordPress.Functions.DontExtract" /><!-- TODO audit usage & replace -->
         <exclude name="Squiz.Commenting.FunctionCommentThrowTag.WrongNumber" /><!-- TODO Remove this once we're on 0.5. See https://github.com/squizlabs/PHP_CodeSniffer/issues/650 for more info. -->
         <exclude name="Generic.Arrays.DisallowShortArraySyntax"/>
+
+        <!-- See https://github.com/Yoast/wordpress-seo/pull/15713 - We discovered that WP_Filesystem can lead to unexpected behaviour. -->
+   	 	<exclude name="WordPress.WP.AlternativeFunctions.file_system_read_fopen" />
+   	 	<exclude name="WordPress.WP.AlternativeFunctions.file_system_read_fwrite" />
+   	 	<exclude name="WordPress.WP.AlternativeFunctions.file_system_read_fclose" />
+   	 	<exclude name="WordPress.WP.AlternativeFunctions.file_system_read_fread" />
+   	 	<exclude name="WordPress.WP.AlternativeFunctions.file_system_read_file_put_contents" />
     </rule>
 
     <!-- Demand short arrays. -->
