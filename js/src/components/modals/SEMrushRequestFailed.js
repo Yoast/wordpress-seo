@@ -9,7 +9,7 @@ import { Alert } from "@yoast/components";
  *
  * @returns {wp.Element} The SEMrush request failed modal content.
  */
-const SemRushRequestFailed = () => {
+const SEMrushRequestFailed = () => {
 	return (
 		<Alert type="error">
 			{ __(
@@ -20,4 +20,4 @@ const SemRushRequestFailed = () => {
 	);
 };
 
-export default SemRushRequestFailed;
+export default SEMrushRequestFailed;

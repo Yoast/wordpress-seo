@@ -9,7 +9,7 @@ import { Alert } from "@yoast/components";
  *
  * @returns {wp.Element} The Maximum related keyphrases alert.
  */
-const SemRushMaxRelatedKeyphrases = () => {
+const SEMrushMaxRelatedKeyphrases = () => {
 	return (
 		<Alert type="warning">
 			{
@@ -27,4 +27,4 @@ const SemRushMaxRelatedKeyphrases = () => {
 	);
 };
 
-export default SemRushMaxRelatedKeyphrases;
+export default SEMrushMaxRelatedKeyphrases;

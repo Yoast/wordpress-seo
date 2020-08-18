@@ -9,7 +9,7 @@ import { SvgIcon } from "@yoast/components";
  *
  * @returns {wp.Element} The SEMrush loading content.
  */
-const SemRushLoading = () => {
+const SEMrushLoading = () => {
 	return (
 		<p className="yoast-related-keyphrases-modal__loading-message">
 			{
@@ -26,4 +26,4 @@ const SemRushLoading = () => {
 	);
 };
 
-export default SemRushLoading;
+export default SEMrushLoading;
