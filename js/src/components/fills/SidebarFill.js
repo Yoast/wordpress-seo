@@ -14,7 +14,7 @@ import SidebarItem from "../SidebarItem";
 import SnippetPreviewModal from "../SnippetPreviewModal";
 import TopLevelProviders from "../TopLevelProviders";
 import SchemaTabContainer from "../../containers/SchemaTab";
-import PostSettingsModal from "../modals/PostSettingsModal";
+import PostSettingsModal from "../../containers/PostSettingsModal";
 import SidebarCollapsible from "../SidebarCollapsible";
 
 /**

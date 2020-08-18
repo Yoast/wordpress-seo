@@ -8,19 +8,49 @@ import FacebookContainer from "../../containers/FacebookEditor";
 import TwitterContainer from "../../containers/TwitterEditor";
 import SchemaTabContainer from "../../containers/SchemaTab";
 import AdvancedSettings from "../AdvancedSettings";
+import PropTypes from "prop-types";
 
-const ModalContent = [
-	{ title: "Google preview", content: <SnippetEditor hasPaperStyle={ false } /> },
-	{ title: "Facebook preview", content: <FacebookContainer /> },
-	{ title: "Twitter preview", content: <TwitterContainer /> },
-	{ title: "Schema", content: <SchemaTabContainer /> },
-	{ title: "Advanced", content: <AdvancedSettings /> },
+/**
+ * Returns the ModalContent.
+ *
+ * We need this in a function since the scripData is not available earlier.
+ *
+ * @param {object} settings An object with settings from the store.
+ *
+ * @returns {array} An array of objects that can be used to render the PostSettingsModal.
+ */
+const modalContent = ( settings ) => [
+	{
+		title: __( "Google preview", "wordpress-seo" ),
+		content: <SnippetEditor hasPaperStyle={ false } />,
+		shouldRender: true,
+	},
+	{
+		title: __( "Facebook preview", "wordpress-seo" ),
+		content: <FacebookContainer />,
+		shouldRender: window.wpseoScriptData.metabox.showSocial.facebook,
+	},
+	{
+		title: __( "Twitter preview", "wordpress-seo" ),
+		content: <TwitterContainer />,
+		shouldRender: window.wpseoScriptData.metabox.showSocial.twitter,
+	},
+	{
+		title: __( "Schema", "wordpress-seo" ),
+		content: <SchemaTabContainer />,
+		shouldRender: settings.displaySchemaSettings,
+	},
+	{
+		title: __( "Advanced", "wordpress-seo" ),
+		content: <AdvancedSettings />,
+		shouldRender: settings.displayAdvancedTab,
+	},
 ];
 
 /**
  * Renders the Modal content.
  *
- * @param {object} props Functional component props.
+ * @param {object} props Children of the PostSettingsModal.
  *
  * @returns {*} Functional component that renders the content of the modal.
  */
@@ -32,24 +62,30 @@ const DrawerContainer = ( { children } ) => {
 					const isOpen = index === 0;
 
 					return (
-						<Collapsible
-							key={ index }
-							initialIsOpen={ isOpen }
-							title={ child.title }
-							headingProps={ {
-								level: 2,
-								fontSize: "1rem",
-								fontWeight: "normal",
-								color: "#A4286A",
-							} }
-						>
-							{ <div className="yoast-collapsible-content">{ child.content }</div> }
-						</Collapsible>
+						 child.shouldRender && (
+							<Collapsible
+								key={ index }
+								initialIsOpen={ isOpen }
+								title={ child.title }
+								headingProps={ {
+									level: 2,
+									fontSize: "1rem",
+									fontWeight: "normal",
+									color: "#A4286A",
+								} }
+							>
+								{ <div className="yoast-collapsible-content">{ child.content }</div> }
+							</Collapsible>
+						 )
 					);
 				} )
 			}
 		</div>
 	);
+};
+
+DrawerContainer.propTypes = {
+	children: PropTypes.oneOfType( [ PropTypes.node, PropTypes.arrayOf( PropTypes.node ) ] ).isRequired,
 };
 
 /**
@@ -59,7 +95,7 @@ const DrawerContainer = ( { children } ) => {
  *
  * @returns {*} A button wrapped in a div.
  */
-const PostSettingsModal = () => {
+const PostSettingsModal = ( { settings } ) => {
 	const [ isOpen, changeIsOpen ] = useState( false );
 
 	const closeModal = useCallback( () => changeIsOpen( false ), [] );
@@ -76,7 +112,7 @@ const PostSettingsModal = () => {
 					additionalClassName="yoast-collapsible-modal yoast-post-settings-modal"
 				>
 					<DrawerContainer>
-						{ ModalContent }
+						{ modalContent( settings ) }
 					</DrawerContainer>
 					<div className="yoast-notice-container">
 						<hr />
@@ -103,6 +139,10 @@ const PostSettingsModal = () => {
 			</Button>
 		</div>
 	);
+};
+
+PostSettingsModal.propTypes = {
+	settings: PropTypes.object.isRequired,
 };
 
 export default PostSettingsModal;
