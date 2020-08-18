@@ -1,6 +1,6 @@
 /* External dependencies */
 import { Fragment, Component } from "@wordpress/element";
-import { Modal, Slot } from "@wordpress/components";
+import { Slot } from "@wordpress/components";
 import { __ } from "@wordpress/i18n";
 import PropTypes from "prop-types";
 
@@ -9,6 +9,7 @@ import { BaseButton } from "@yoast/components";
 
 /* Internal dependencies */
 import { ModalContainer } from "./modals/Container";
+import Modal from "./modals/Modal";
 import YoastIcon from "../../../images/Yoast_icon_kader.svg";
 
 /**
@@ -75,8 +76,8 @@ class RelatedKeyphrasesModal extends Component {
 					<Modal
 						title={ __( "Related keyphrases", "wordpress-seo" ) }
 						onRequestClose={ this.onModalClose }
-						className="yoast yoast-gutenberg-modal yoast-related-keyphrases-modal"
 						icon={ <YoastIcon /> }
+						additionalClassName="yoast-related-keyphrases-modal"
 					>
 						<ModalContainer
 							className="yoast-gutenberg-modal__content yoast-related-keyphrases-modal__content"
