@@ -96,7 +96,7 @@ module.exports = function( grunt ) {
         
 
         grunt.verbose.writeln("plugin-version:" + grunt.option( 'plugin-version'));
-        grunt.verbose.writeln("type:" + grunt.option( 'type' ));
+        //grunt.verbose.writeln("type:" + grunt.option( 'type' ));
         grunt.verbose.writeln("enableSlack:" + enableSlack);
         grunt.verbose.writeln("enableSvnDeploy:" + enableSvnDeploy);
         grunt.verbose.writeln("enableGithubRelease:" + enableGithubRelease);
