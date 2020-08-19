@@ -190,7 +190,6 @@ class Indexable_Post_Builder_Test extends TestCase {
 				'_yoast_wpseo_meta-robots-nofollow'  => [ '1' ],
 				'_yoast_wpseo_title'                 => [ 'title' ],
 				'_yoast_wpseo_metadesc'              => [ 'description' ],
-				'_yoast_wpseo_bctitle'               => [ 'breadcrumb_title' ],
 				'_yoast_wpseo_opengraph-title'       => [ 'open_graph_title' ],
 				'_yoast_wpseo_opengraph-image'       => [ 'open_graph_image' ],
 				'_yoast_wpseo_opengraph-image-id'    => [ 'open_graph_image_id' ],
@@ -261,8 +260,11 @@ class Indexable_Post_Builder_Test extends TestCase {
 		$this->indexable->orm->expects( 'get' )->with( 'object_sub_type' )->andReturn( 'post' );
 
 		// Breadcrumb title.
-		$this->indexable->orm->expects( 'offsetExists' )->with( 'breadcrumb_title' )->andReturnTrue();
-		$this->indexable->orm->expects( 'get' )->with( 'breadcrumb_title' )->andReturn( 'breadcrumb_title' );
+		$this->indexable->orm->expects( 'set' )->with( 'breadcrumb_title', null );
+		$this->indexable->orm->expects( 'offsetExists' )->with( 'breadcrumb_title' )->andReturnFalse();
+
+		Monkey\Functions\expect( 'get_the_title' )->with( 1 )->andReturn( 'breadcrumb_title' );
+		Monkey\Functions\expect( 'wp_strip_all_tags' )->with( 'breadcrumb_title', true )->andReturn( 'breadcrumb_title' );
 
 		// Blog ID.
 		Monkey\Functions\expect( 'get_current_blog_id' )->once()->andReturn( 1 );
