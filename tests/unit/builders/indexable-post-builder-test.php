@@ -155,6 +155,23 @@ class Indexable_Post_Builder_Test extends TestCase {
 	}
 
 	/**
+	 * Tests that the set_indexable_repository method sets the indexable repository.
+	 *
+	 * @covers ::set_indexable_repository
+	 */
+	public function test_set_indexable_repository() {
+		$instance = new Indexable_Post_Builder(
+			$this->seo_meta_repository,
+			$this->post,
+			$this->logger
+		);
+
+		$instance->set_indexable_repository( $this->indexable_repository );
+
+		$this->assertAttributeInstanceOf( Indexable_Repository::class, 'indexable_repository', $instance );
+	}
+
+	/**
 	 * Tests building a basic post indexable from postmeta.
 	 *
 	 * @covers ::build
