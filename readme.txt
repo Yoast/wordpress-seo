@@ -13,10 +13,6 @@ This plugin enables Yoast SEO Support for WpGraphQL.
 == Description ==
 This plugin enables Yoast SEO Support for WpGraphQ
 
-## Please note version 14 of the Yoast Plugin is a major update.
-
-If you are stuck on version of Yoast before V14 then use v3 of this plugin.
-
 This is an extension to the WPGraphQL plugin (https://github.com/wp-graphql/wp-graphql) that returns Yoast SEO data.
 
 == Installation ==
@@ -254,3 +250,6 @@ To query for the site configuration data you can query from the root.
   }
 }
 ```
+
+== Upgrade Notice ==
+## Please note version 14 of the Yoast Plugin is a major update so is now required to run this plugin

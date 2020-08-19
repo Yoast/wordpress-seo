@@ -1,14 +1,14 @@
 <?php
 
 /**
- * Plugin Name:     WPGraphql Yoast Seo
+ * Plugin Name:     WPGraphql SEO
  * Plugin URI:      https://github.com/ashhitch/wp-graphql-yoast-seo
  * Description:     A WPGraphQL Extension that adds support for Yoast SEO
  * Author:          Ash Hitchcock
  * Author URI:      https://www.ashleyhitchcock.com
  * Text Domain:     wp-graphql-yoast-seo
  * Domain Path:     /languages
- * Version:         4.5.1
+ * Version:         4.5.2
  *
  * @package         WP_Graphql_YOAST_SEO
  */
