@@ -467,7 +467,7 @@ class WPSEO_Replace_Vars {
 		static $replacement;
 
 		if ( ! isset( $replacement ) ) {
-			$sitename = WPSEO_Utils::get_site_name();
+			$sitename = YoastSEO()->helpers->site->get_site_name();
 			if ( $sitename !== '' ) {
 				$replacement = $sitename;
 			}
@@ -545,7 +545,7 @@ class WPSEO_Replace_Vars {
 		$replacement = null;
 
 		if ( is_string( $this->args->post_title ) && $this->args->post_title !== '' ) {
-			$replacement = stripslashes( $this->args->post_title );
+			$replacement = $this->args->post_title;
 		}
 
 		return $replacement;

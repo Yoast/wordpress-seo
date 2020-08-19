@@ -17,7 +17,7 @@ import buildDurationString from "./utils/8.2";
  *
  * @param {Object} step The how-to step.
  *
- * @returns {React.Component} The component to be rendered.
+ * @returns {wp.Element} The component to be rendered.
  */
 function LegacyHowToStep( step ) {
 	return (
@@ -46,7 +46,7 @@ function LegacyHowToStep( step ) {
  *
  * @param {Object} props the attributes of the How-to block.
  *
- * @returns {React.Component} The component representing a How-to block.
+ * @returns {wp.Element} The component representing a How-to block.
  */
 export default function LegacyHowTo( props ) {
 	const {

@@ -436,22 +436,4 @@ class WPSEO_Taxonomy {
 
 		add_action( "{$this->taxonomy}_term_edit_form_top", [ $this, 'custom_category_description_editor' ] );
 	}
-
-	/* ********************* DEPRECATED METHODS ********************* */
-
-	/**
-	 * Adds shortcode support to category descriptions.
-	 *
-	 * @deprecated 7.9.0
-	 * @codeCoverageIgnore
-	 *
-	 * @param string $desc String to add shortcodes in.
-	 *
-	 * @return string Content with shortcodes filtered out.
-	 */
-	public function custom_category_descriptions_add_shortcode_support( $desc ) {
-		_deprecated_function( __FUNCTION__, 'WPSEO 7.9.0' );
-
-		return '';
-	}
 }

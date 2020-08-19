@@ -1,4 +1,4 @@
-import React from "react";
+import { Component } from "@wordpress/element";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { Toggle } from "@yoast/components";
@@ -12,11 +12,11 @@ const Cornerstone = styled.div`
 /**
  * The CornerstoneToggle Component.
  */
-class CornerstoneToggle extends React.Component {
+class CornerstoneToggle extends Component {
 	/**
 	 * Renders the CornerstoneToggle component.
 	 *
-	 * @returns {ReactElement} the CornerstoneToggle component.
+	 * @returns {wp.Element} the CornerstoneToggle component.
 	 */
 	render() {
 		return (

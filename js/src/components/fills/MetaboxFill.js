@@ -15,6 +15,7 @@ import SidebarItem from "../SidebarItem";
 import TopLevelProviders from "../TopLevelProviders";
 import AdvancedSettings from "../AdvancedSettings";
 import SocialMetadataPortal from "../portals/SocialMetadataPortal";
+import SchemaTabContainer from "../../containers/SchemaTab";
 
 /**
  * Creates the Metabox component.
@@ -23,7 +24,7 @@ import SocialMetadataPortal from "../portals/SocialMetadataPortal";
  * @param {Object} store    The Redux store.
  * @param {Object} theme    The theme to use.
  *
- * @returns {ReactElement} The Metabox component.
+ * @returns {wp.Element} The Metabox component.
  */
 export default function MetaboxFill( { settings, store, theme } ) {
 	return (
@@ -99,6 +100,15 @@ export default function MetaboxFill( { settings, store, theme } ) {
 					<AdvancedSettings />
 				</TopLevelProviders>
 			</SidebarItem> }
+			{ settings.displaySchemaSettings && <SidebarItem renderPriority={ 50 }>
+				<TopLevelProviders
+					store={ store }
+					theme={ theme }
+					location={ "metabox" }
+				>
+					<SchemaTabContainer />
+				</TopLevelProviders>
+			</SidebarItem> }
 			<TopLevelProviders
 				renderPriority={ -1 }
 				store={ store }
@@ -116,3 +126,4 @@ MetaboxFill.propTypes = {
 	store: PropTypes.object.isRequired,
 	theme: PropTypes.object.isRequired,
 };
+

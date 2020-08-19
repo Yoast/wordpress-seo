@@ -1,18 +1,6 @@
 import { SET_MARKER_STATUS } from "../actions/markerButtons";
 
-const INITIAL_STATE = null;
-
-/**
- * Sets the marker status.
- *
- * @param {Object} state The state.
- * @param {Object} action The action.
- *
- * @returns {Object} The marks button status.
- */
-function setMarkerStatus( state, action ) {
-	return action.marksButtonStatus;
-}
+const INITIAL_STATE = "disabled";
 
 /**
  * A reducer for the active keyword.
@@ -25,7 +13,7 @@ function setMarkerStatus( state, action ) {
 function markerStatusReducer( state = INITIAL_STATE, action ) {
 	switch ( action.type ) {
 		case SET_MARKER_STATUS:
-			return setMarkerStatus( state, action );
+			return action.marksButtonStatus;
 		default:
 			return state;
 	}

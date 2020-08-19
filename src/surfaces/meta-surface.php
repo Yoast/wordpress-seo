@@ -187,8 +187,26 @@ class Meta_Surface {
 			return false;
 		}
 
-
 		return $this->build_meta( $this->context_memoizer->get( $indexable, 'Post_Type' ) );
+	}
+
+	/**
+	 * Returns the meta tags context for a number of posts.
+	 *
+	 * @param int[] $ids The IDs of the posts.
+	 *
+	 * @return Meta[]|false The meta values. False if none could be found.
+	 */
+	public function for_posts( $ids ) {
+		$indexables = $this->repository->find_by_multiple_ids_and_type( $ids, 'post' );
+
+		if ( empty( $indexables ) ) {
+			return false;
+		}
+
+		return \array_map( function( $indexable ) {
+			return $this->build_meta( $this->context_memoizer->get( $indexable, 'Post_Type' ) );
+		}, $indexables );
 	}
 
 	/**

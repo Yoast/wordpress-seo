@@ -48,10 +48,8 @@
 	"autoload": {
 		"classmap": [
 			"admin/",
-			"frontend/",
 			"inc/",
 			"deprecated/",
-			"cli/",
 			"vendor_prefixed/",
 			"src/",
 			"lib/"
@@ -60,7 +58,6 @@
 	"autoload-dev": {
 		"classmap": [
 			"tests/",
-			"integration-tests/",
 			"config/"
 		]
 	},
@@ -71,26 +68,34 @@
 		"integration-test": [
 			"@php ./vendor/phpunit/phpunit/phpunit -c phpunit-integration.xml.dist"
 		],
-        "lint": [
-            "@php ./vendor/php-parallel-lint/php-parallel-lint/parallel-lint . -e php --exclude vendor --exclude vendor_prefixed --exclude node_modules --exclude .git"
-        ],
-        "premium-lint": [
-            "@php ./vendor/php-parallel-lint/php-parallel-lint/parallel-lint ./wp-seo-premium.php ./tests/load/wp-seo-premium.php ./premium/ ./integration-tests/premium/ ./tests/premium/ -e php"
-        ],
+		"lint": [
+			"@php ./vendor/php-parallel-lint/php-parallel-lint/parallel-lint . -e php --exclude vendor --exclude vendor_prefixed --exclude node_modules --exclude .git"
+		],
+		"lint-files": [
+			"@php ./vendor/php-parallel-lint/php-parallel-lint/parallel-lint"
+		],
+		"lint-branch": [
+			"Yoast\\WP\\SEO\\Composer\\Actions::lint_branch"
+		],
+		"lint-staged": [
+			"Yoast\\WP\\SEO\\Composer\\Actions::lint_staged"
+		],
 		"config-yoastcs": [
 			"@php ./vendor/squizlabs/php_codesniffer/scripts/phpcs --config-set installed_paths ../../../vendor/wp-coding-standards/wpcs,../../../vendor/yoast/yoastcs,../../../vendor/phpcompatibility/php-compatibility,../../../vendor/phpcompatibility/phpcompatibility-paragonie,../../../vendor/phpcompatibility/phpcompatibility-wp",
 			"@php ./vendor/squizlabs/php_codesniffer/scripts/phpcs --config-set default_standard Yoast"
 		],
-		"check-cs": [
-			"@php ./vendor/squizlabs/php_codesniffer/scripts/phpcs"
+		"cs": [
+			"Yoast\\WP\\SEO\\Composer\\Actions::check_coding_standards"
 		],
-		"premium-check-cs": [
-			"@before-premium-cs",
-			"@php ./vendor/squizlabs/php_codesniffer/bin/phpcs --runtime-set ignore_warnings_on_exit 1",
-			"@after-premium-cs"
+		"check-cs": [
+			"@check-cs-warnings -n"
 		],
 		"check-cs-errors": [
-			"@check-cs -n"
+			"echo You can now just use check-cs, running that command now.",
+			"composer check-cs"
+		],
+		"check-cs-warnings": [
+			"@php ./vendor/squizlabs/php_codesniffer/scripts/phpcs"
 		],
 		"check-staged-cs": [
 			"Yoast\\WP\\SEO\\Composer\\Actions::check_staged_cs"
@@ -101,27 +106,9 @@
 		"fix-cs": [
 			"@php ./vendor/squizlabs/php_codesniffer/scripts/phpcbf"
 		],
-		"premium-fix-cs": [
-			"@before-premium-cs",
-			"@php ./vendor/squizlabs/php_codesniffer/bin/phpcbf || true",
-			"@after-premium-cs"
-		],
-		"before-premium-cs": [
-			"composer require --dev yoast/yoastcs:~2.0.0 --update-with-dependencies --no-suggest --no-interaction  --no-scripts",
-			"composer config-yoastcs-premium"
-		],
-		"config-yoastcs-premium": [
-			"Dealerdirect\\Composer\\Plugin\\Installers\\PHPCodeSniffer\\Plugin::run"
-		],
-		"after-premium-cs": [
-			"composer require --dev yoast/yoastcs:~0.4.3 --update-with-dependencies --no-suggest --no-interaction --no-scripts",
-			"@php ./scripts/maybe-restore-composer-lock.php",
-			"composer config-yoastcs"
-		],
 		"prefix-dependencies": [
 			"composer prefix-oauth2-client",
-			"composer prefix-symfony",
-			"touch ./vendor_prefixed/dependencies-prefixed.txt"
+			"composer prefix-symfony"
 		],
 		"prefix-oauth2-client": [
 			"@php ./vendor/humbug/php-scoper/bin/php-scoper add-prefix --prefix=YoastSEO_Vendor --output-dir=./vendor_prefixed/league/oauth2-client --config=config/php-scoper/oauth2-client.inc.php --force --quiet",

@@ -4,7 +4,7 @@ import sortComponentsByRenderPriority from "../../helpers/sortComponentsByRender
 /**
  * Renders the metabox portal.
  *
- * @returns {null|ReactElement} The element.
+ * @returns {null|wp.Element} The element.
  */
 export default function MetaboxSlot() {
 	return (

@@ -29,7 +29,7 @@ class KeywordInput extends Component {
 	/**
 	 * Renders a help link.
 	 *
-	 * @returns {ReactElement} The help link component.
+	 * @returns {wp.Element} The help link component.
 	 */
 	static renderHelpLink() {
 		return (
@@ -47,12 +47,12 @@ class KeywordInput extends Component {
 	/**
 	 * Renders the component.
 	 *
-	 * @returns {ReactElement} The component.
+	 * @returns {wp.Element} The component.
 	 */
 	render() {
-		return <Fragment>
-			<LocationConsumer>
-				{ context => (
+		return <LocationConsumer>
+			{ context => (
+				<Fragment>
 					<KeywordInputContainer>
 						<KeywordInputComponent
 							id={ `focus-keyword-input-${ context }` }
@@ -73,10 +73,10 @@ class KeywordInput extends Component {
 							</Alert>
 						}
 					</KeywordInputContainer>
-				) }
-			</LocationConsumer>
-			<Slot name="YoastAfterKeyphraseInput" />
-		</Fragment>;
+					<Slot name={ `YoastAfterKeywordInput${ context.charAt( 0 ).toUpperCase() + context.slice( 1 ) }` } />
+				</Fragment>
+			) }
+		</LocationConsumer>;
 	}
 }
 

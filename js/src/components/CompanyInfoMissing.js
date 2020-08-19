@@ -2,7 +2,6 @@
 import { sprintf } from "@wordpress/i18n";
 import interpolateComponents from "interpolate-components";
 import PropTypes from "prop-types";
-import React from "react";
 
 /* Yoast dependencies */
 import { Alert } from "@yoast/components";
@@ -17,7 +16,7 @@ const OutboundLink = makeOutboundLink();
  *
  * @param {Object} props The properties to use.
  *
- * @returns {React.Component} The Alert component.
+ * @returns {wp.Element} The Alert component.
  */
 const CompanyInfoMissing = ( props ) => {
 	return <Alert type={ props.type }>

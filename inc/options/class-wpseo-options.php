@@ -6,7 +6,7 @@
  */
 
 /**
- * Overal Option Management class.
+ * Overall Option Management class.
  *
  * Instantiates all the options and offers a number of utility methods to work with the options.
  */
@@ -596,17 +596,5 @@ class WPSEO_Options {
 	public static function fill_cache() {
 		_deprecated_function( __METHOD__, 'WPSEO 12.8.1', '::clear_cache' );
 		static::clear_cache();
-	}
-
-	/**
-	 * Correct the inadvertent removal of the fallback to default values from the breadcrumbs.
-	 *
-	 * @since 1.5.2.3
-	 *
-	 * @deprecated 7.0
-	 * @codeCoverageIgnore
-	 */
-	public static function bring_back_breadcrumb_defaults() {
-		_deprecated_function( __METHOD__, 'WPSEO 7.0' );
 	}
 }

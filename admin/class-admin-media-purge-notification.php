@@ -27,7 +27,7 @@ class WPSEO_Admin_Media_Purge_Notification implements WPSEO_WordPress_Integratio
 		add_filter( 'wpseo_option_tab-metas_media', [ $this, 'output_hidden_setting' ] );
 
 		// Dismissing is just setting the relevancy to false, which cancels out any functionality.
-		if ( WPSEO_Utils::is_yoast_seo_page() && filter_input( INPUT_GET, 'dismiss' ) === $this->notification_id ) {
+		if ( YoastSEO()->helpers->current_page->is_yoast_seo_page() && filter_input( INPUT_GET, 'dismiss' ) === $this->notification_id ) {
 			WPSEO_Options::set( 'is-media-purge-relevant', false );
 		}
 	}

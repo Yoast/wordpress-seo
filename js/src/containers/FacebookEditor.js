@@ -2,12 +2,11 @@
 import { compose } from "@wordpress/compose";
 import { withDispatch, withSelect, dispatch as wpDataDispatch } from "@wordpress/data";
 import { __, sprintf } from "@wordpress/i18n";
-import domReady from "@wordpress/dom-ready";
+import { validateFacebookImage } from "@yoast/helpers";
 
 /* Internal dependencies */
 import FacebookWrapper from "../components/social/FacebookWrapper";
-
-const isPremium = window.wpseoAdminL10n.isPremium;
+import getL10nObject from "../analysis/getL10nObject";
 
 const socialMediumName = "Facebook";
 
@@ -26,34 +25,47 @@ const descriptionInputPlaceholder  = sprintf(
 );
 
 /**
- * Container that holds the media object.
+ * The cached instance of the media object.
+ *
+ * @type {wp.media} The media object
+ */
+let media = null;
+
+/**
+ * Lazy function to get the media object and hook the right action dispatchers.
  *
  * @returns {void}
  */
-const MediaWrapper = () => {};
-
-MediaWrapper.get = () => {
-	if ( ! MediaWrapper.media ) {
-		MediaWrapper.media = window.wp.media();
-	}
-
-	return MediaWrapper.media;
-};
-
-if ( window.wpseoScriptData.metabox.showSocial.facebook ) {
-	// Listens for the selection of an image. Then gets the right data and dispatches the data to the store.
-	domReady( () => {
-		const media = MediaWrapper.get();
+const getMedia = () => {
+	if ( ! media ) {
+		media = window.wp.media();
+		// Listens for the selection of an image. Then gets the right data and dispatches the data to the store.
 		media.on( "select", () => {
 			const selected = media.state().get( "selection" ).first();
+			const image = {
+				type: selected.attributes.subtype,
+				width: selected.attributes.width,
+				height: selected.attributes.height,
+			};
 			wpDataDispatch( "yoast-seo/editor" ).setFacebookPreviewImage( {
 				url: selected.attributes.url,
 				id: selected.attributes.id,
+				warnings: validateFacebookImage( image ),
 			} );
 		} );
-		wpDataDispatch( "yoast-seo/editor" ).loadFacebookPreviewData();
-	} );
-}
+	}
+
+	return media;
+};
+
+/**
+ * Lazy function to open the media instance.
+ *
+ * @returns {void}
+ */
+const openMedia = () => {
+	return getMedia().open();
+};
 
 export default compose( [
 	withSelect( select => {
@@ -69,6 +81,7 @@ export default compose( [
 			getReplaceVars,
 			getSiteUrl,
 			getAuthorName,
+			getFacebookIsLoading,
 		} = select( "yoast-seo/editor" );
 
 		return {
@@ -83,7 +96,8 @@ export default compose( [
 			imageWarnings: getFacebookWarnings(),
 			authorName: getAuthorName(),
 			siteUrl: getSiteUrl(),
-			isPremium: !! isPremium,
+			isPremium: !! getL10nObject().isPremium,
+			isLoading: getFacebookIsLoading(),
 			titleInputPlaceholder,
 			descriptionInputPlaceholder,
 			socialMediumName,
@@ -95,14 +109,14 @@ export default compose( [
 			setFacebookPreviewTitle,
 			setFacebookPreviewDescription,
 			clearFacebookPreviewImage,
+			loadFacebookPreviewData,
 		} = dispatch( "yoast-seo/editor" );
 		return {
-			onSelectImageClick: () => {
-				MediaWrapper.get().open();
-			},
+			onSelectImageClick: openMedia,
 			onRemoveImageClick: clearFacebookPreviewImage,
 			onDescriptionChange: setFacebookPreviewDescription,
 			onTitleChange: setFacebookPreviewTitle,
+			onLoad: loadFacebookPreviewData,
 		};
 	} ),
 ] )( FacebookWrapper );

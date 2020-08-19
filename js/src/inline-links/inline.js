@@ -11,7 +11,6 @@ import { __, sprintf } from "@wordpress/i18n";
 import { withSpokenMessages, Popover } from "@wordpress/components";
 import { prependHTTP } from "@wordpress/url";
 import { create, insert, isCollapsed, applyFormat } from "@wordpress/rich-text";
-import { __experimentalLinkControl as LinkControl } from "@wordpress/block-editor";
 
 /**
  * Internal dependencies
@@ -233,6 +232,16 @@ function InlineLinkUI( {
 			title: sponsoredLabel,
 		},
 	];
+
+	/*
+	 * We need to import this right here, since we can only know for sure
+	 * that we are in the block editor when rendering this component.
+	 *
+	 * We can't tell WordPress that "wp-block-editor" script is a dependency
+	 * when loading this JavaScript, since we cannot tell if the edit
+	 * page is using the classic or block editor.
+	 */
+	const { __experimentalLinkControl: LinkControl } = window.wp.blockEditor;
 
 	return (
 		<Popover

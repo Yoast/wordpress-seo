@@ -1,7 +1,6 @@
 /* global wpseoDashboardWidgetL10n, wpseoApi, jQuery */
 // External dependencies.
-import React from "react";
-import ReactDOM from "react-dom";
+import { Component, render } from "@wordpress/element";
 import { ArticleList as WordpressFeed } from "@yoast/components";
 import { colors } from "@yoast/style-guide";
 import { SiteSEOReport as SeoAssessment } from "@yoast/analysis-report";
@@ -13,7 +12,7 @@ import { setYoastComponentsL10n } from "./helpers/i18n";
 /**
  * The Yoast dashboardwidget component used on the WordPress admin dashboard.
  */
-class DashboardWidget extends React.Component {
+class DashboardWidget extends Component {
 	/**
 	 * Creates the components and initializes its state.
 	 */
@@ -48,6 +47,10 @@ class DashboardWidget extends React.Component {
 	getStatistics() {
 		wpseoApi.get( "statistics", ( response ) => {
 			const statistics = {};
+
+			if ( ! response || ! response.seo_scores ) {
+				return;
+			}
 
 			statistics.seoScores = response.seo_scores.map( ( score ) => ( {
 				value: parseInt( score.count, 10 ),
@@ -91,7 +94,7 @@ class DashboardWidget extends React.Component {
 	/**
 	 * Returns the SEO Assessment sub-component.
 	 *
-	 * @returns {ReactElement} The SEO Assessment component.
+	 * @returns {wp.Element} The SEO Assessment component.
 	 */
 	getSeoAssessment() {
 		if ( this.state.statistics === null ) {
@@ -108,7 +111,7 @@ class DashboardWidget extends React.Component {
 	/**
 	 * Returns the yoast.com feed sub-component.
 	 *
-	 * @returns {ReactElement} The yoast.com feed component.
+	 * @returns {wp.Element} The yoast.com feed component.
 	 */
 	getYoastFeed() {
 		if ( this.state.feed === null ) {
@@ -127,7 +130,7 @@ class DashboardWidget extends React.Component {
 	/**
 	 * Renders the component.
 	 *
-	 * @returns {ReactElement} The component.
+	 * @returns {wp.Element} The component.
 	 */
 	render() {
 		const contents = [
@@ -148,5 +151,5 @@ const element = document.getElementById( "yoast-seo-dashboard-widget" );
 if ( element ) {
 	setYoastComponentsL10n();
 
-	ReactDOM.render( <DashboardWidget />, element );
+	render( <DashboardWidget />, element );
 }

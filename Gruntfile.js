@@ -2,7 +2,7 @@
 var timeGrunt = require( "time-grunt" );
 var path = require( "path" );
 var loadGruntConfig = require( "load-grunt-config" );
-const { flattenVersionForFile } = require( "./webpack/paths" );
+const { flattenVersionForFile } = require( "./config/webpack/paths" );
 require( "dotenv" ).config();
 
 module.exports = function( grunt ) {
@@ -29,20 +29,21 @@ module.exports = function( grunt ) {
 			 * @returns {string} Config path.
 			 */
 			get config() {
-				return this.grunt + "config/";
+				return this.grunt + "task-config/";
 			},
 			css: "css/dist/",
-			grunt: "grunt/",
+			grunt: "config/grunt/",
 			images: "images/",
 			js: "js/src/",
 			languages: "languages/",
 			logs: "logs/",
 			svnCheckoutDir: ".wordpress-svn",
+			assets: "svn-assets",
 			vendor: "vendor/",
 		},
 		files: {
 			css: [
-				"css/dist/*.css",
+				"css/src/*.css",
 			],
 			cssMap: [
 				"css/dist/*.css.map",
@@ -58,6 +59,8 @@ module.exports = function( grunt ) {
 				"admin/**/*.php",
 				"frontend/**/*.php",
 				"inc/**/*.php",
+				"src/**/*.php",
+				"config/**/*.php",
 			],
 			versionFiles: [
 				"package.json",
@@ -135,7 +138,7 @@ module.exports = function( grunt ) {
 				"register-prompt": "grunt-prompt",
 				"notify-slack": "notify-slack",
 			},
-			customTasksDir: "grunt/custom",
+			customTasksDir: "config/grunt/custom-tasks",
 		},
 	} );
 };

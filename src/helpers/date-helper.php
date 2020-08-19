@@ -60,4 +60,13 @@ class Date_Helper {
 	public function format( $date, $format = \DATE_W3C ) {
 		return $this->date->format( $date, $format );
 	}
+
+	/**
+	 * Returns the current time measured in the number of seconds since the Unix Epoch (January 1 1970 00:00:00 GMT).
+	 *
+	 * @return int The current time measured in the number of seconds since the Unix Epoch (January 1 1970 00:00:00 GMT).
+	 */
+	public function current_time() {
+		return \time();
+	}
 }

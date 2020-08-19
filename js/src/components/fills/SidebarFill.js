@@ -12,6 +12,7 @@ import SeoAnalysis from "../contentAnalysis/SeoAnalysis";
 import SidebarItem from "../SidebarItem";
 import SnippetPreviewModal from "../SnippetPreviewModal";
 import TopLevelProviders from "../TopLevelProviders";
+import SchemaTabContainer from "../../containers/SchemaTab";
 
 /**
  * Creates the SidebarFill component.
@@ -20,7 +21,7 @@ import TopLevelProviders from "../TopLevelProviders";
  * @param {Object} store    The Redux store.
  * @param {Object} theme    The theme to use.
  *
- * @returns {ReactElement} The Sidebar component.
+ * @returns {wp.Element} The Sidebar component.
  *
  * @constructor
  */
@@ -84,8 +85,16 @@ export default function SidebarFill( { settings, store, theme } ) {
 					>
 						<CollapsibleCornerstone />
 					</TopLevelProviders>
-				</SidebarItem>
-				}
+				</SidebarItem> }
+				{ settings.displaySchemaSettings && <SidebarItem renderPriority={ 40 }>
+					<TopLevelProviders
+						store={ store }
+						theme={ theme }
+						location={ "sidebar" }
+					>
+						<SchemaTabContainer />
+					</TopLevelProviders>
+				</SidebarItem> }
 			</Fill>
 		</Fragment>
 	);
