@@ -102,6 +102,16 @@ class Indexable_Term_Builder_Test extends TestCase {
 	}
 
 	/**
+	 * Tests the constructor.
+	 *
+	 * @covers ::__construct
+	 */
+	public function test_constructor() {
+		$instance = new Indexable_Term_Builder( $this->taxonomy );
+		$this->assertAttributeInstanceOf( Taxonomy_Helper::class, 'taxonomy', $instance );
+	}
+
+	/**
 	 * Tests the formatting of the indexable data.
 	 *
 	 * @covers ::build
