@@ -14,9 +14,9 @@ import HelpLink from "../HelpLink";
 const GetMoreInsightsLink = makeOutboundLink();
 
 /**
- * The Related Keyphrases table component.
+ * The SEMrushKeyphrasesTable component.
  */
-class KeyphrasesTable extends Component {
+class SEMrushKeyphrasesTable extends Component {
 	/**
 	 * Constructs the Related Keyphrases table.
 	 *
@@ -180,7 +180,7 @@ class KeyphrasesTable extends Component {
 	}
 }
 
-KeyphrasesTable.propTypes = {
+SEMrushKeyphrasesTable.propTypes = {
 	data: PropTypes.object,
 	keyphrase: PropTypes.string,
 	relatedKeyphrases: PropTypes.array,
@@ -188,7 +188,7 @@ KeyphrasesTable.propTypes = {
 	renderAction: PropTypes.func,
 };
 
-KeyphrasesTable.defaultProps = {
+SEMrushKeyphrasesTable.defaultProps = {
 	data: {},
 	keyphrase: "",
 	relatedKeyphrases: [],
@@ -196,4 +196,4 @@ KeyphrasesTable.defaultProps = {
 	renderAction: null,
 };
 
-export default KeyphrasesTable;
+export default SEMrushKeyphrasesTable;

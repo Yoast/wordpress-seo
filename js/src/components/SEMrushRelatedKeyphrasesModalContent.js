@@ -8,7 +8,7 @@ import { isEmpty } from "lodash-es";
 import SEMrushLoading from "./modals/SEMrushLoading";
 import SEMrushLimitReached from "./modals/SEMrushLimitReached";
 import SEMrushCountrySelector from "./modals/SEMrushCountrySelector";
-import KeyphrasesTable from "./modals/KeyphrasesTable";
+import SEMrushKeyphrasesTable from "./modals/SEMrushKeyphrasesTable";
 import SEMrushUpsellAlert from "./modals/SEMrushUpsellAlert";
 import SEMrushRequestFailed from "./modals/SEMrushRequestFailed";
 import SEMrushMaxRelatedKeyphrases from "./modals/SEMrushMaxRelatedKeyphrases";
@@ -116,7 +116,7 @@ export default function RelatedKeyphraseModalContent( props ) {
 
 			{ getUserMessage( props ) }
 
-			<KeyphrasesTable
+			<SEMrushKeyphrasesTable
 				keyphrase={ keyphrase }
 				relatedKeyphrases={ relatedKeyphrases }
 				countryCode={ countryCode }
