@@ -26,7 +26,7 @@ const modalContent = ( preferences ) => [
 	{
 		title: __( "Facebook preview", "wordpress-seo" ),
 		content: <FacebookContainer />,
-		shouldRender: preferences.displayTwitter,
+		shouldRender: preferences.displayFacebook,
 	},
 	{
 		title: __( "Twitter preview", "wordpress-seo" ),
