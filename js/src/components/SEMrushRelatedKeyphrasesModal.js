@@ -38,7 +38,7 @@ class SEMrushRelatedKeyphrasesModal extends Component {
 	onModalOpen() {
 		// Add not-logged in logic here.
 
-		if ( ! this.props.keyphrase ) {
+		if ( ! this.props.keyphrase.trim() ) {
 			this.props.onOpenWithNoKeyphrase();
 			return;
 		}

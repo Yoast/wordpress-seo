@@ -10,8 +10,8 @@ import { KeywordInput as KeywordInputComponent } from "yoast-components";
 import styled from "styled-components";
 
 /* Internal dependencies */
-import { setFocusKeyword } from "../../redux/actions/focusKeyword";
-import { setMarkerPauseStatus } from "../../redux/actions/markerPauseStatus";
+import { setFocusKeyword } from "../../redux/actions";
+import { setMarkerPauseStatus } from "../../redux/actions";
 import HelpLink from "../HelpLink";
 import { LocationConsumer } from "../contexts/location";
 import SEMrushModal from "../../containers/SEMrushRelatedKeyphrasesModal";
@@ -63,7 +63,7 @@ class KeywordInput extends Component {
 	validate() {
 		const errors = [];
 
-		if ( this.props.keyword.length === 0 && this.props.displayNoKeyphraseMessage ) {
+		if ( this.props.keyword.trim().length === 0 && this.props.displayNoKeyphraseMessage ) {
 			errors.push( __( "Please enter a focus keyphrase first to get related keyphrases", "wordpress-seo" ) );
 		}
 
