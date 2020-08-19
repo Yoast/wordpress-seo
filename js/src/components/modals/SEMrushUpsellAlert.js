@@ -12,7 +12,7 @@ const PremiumLandingPageLink = makeOutboundLink();
  *
  * @returns {wp.Element} The Yoast SEO Premium upsell alert.
  */
-const SemRushUpsellAlert = () => {
+const SEMrushUpsellAlert = () => {
 	return (
 		<Alert type="info">
 			{
@@ -40,4 +40,4 @@ const SemRushUpsellAlert = () => {
 	);
 };
 
-export default SemRushUpsellAlert;
+export default SEMrushUpsellAlert;

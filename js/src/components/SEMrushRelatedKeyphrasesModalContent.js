@@ -5,13 +5,13 @@ import PropTypes from "prop-types";
 import { isEmpty } from "lodash-es";
 
 /* Internal dependencies */
-import SemRushLoading from "./modals/SemRushLoading";
-import SemRushLimitReached from "./modals/SemRushLimitReached";
+import SEMrushLoading from "./modals/SEMrushLoading";
+import SEMrushLimitReached from "./modals/SEMrushLimitReached";
 import SEMrushCountrySelector from "./modals/SEMrushCountrySelector";
-import KeyphrasesTable from "./modals/KeyphrasesTable";
-import SemRushUpsellAlert from "./modals/SemRushUpsellAlert";
-import SemRushRequestFailed from "./modals/SemRushRequestFailed";
-import SemRushMaxRelatedKeyphrases from "./modals/SemRushMaxRelatedKeyphrases";
+import SEMrushKeyphrasesTable from "./modals/SEMrushKeyphrasesTable";
+import SEMrushUpsellAlert from "./modals/SEMrushUpsellAlert";
+import SEMrushRequestFailed from "./modals/SEMrushRequestFailed";
+import SEMrushMaxRelatedKeyphrases from "./modals/SEMrushMaxRelatedKeyphrases";
 import getL10nObject from "../analysis/getL10nObject";
 
 /**
@@ -42,15 +42,15 @@ function getUserMessage( props ) {
 	} = props;
 
 	if ( isPending ) {
-		return <SemRushLoading />;
+		return <SEMrushLoading />;
 	}
 
 	if ( requestLimitReached ) {
-		return <SemRushLimitReached />;
+		return <SEMrushLimitReached />;
 	}
 
 	if ( ! isSuccess && hasError( response ) ) {
-		return <SemRushRequestFailed />;
+		return <SEMrushRequestFailed />;
 	}
 
 	if ( ! requestHasData ) {
@@ -98,8 +98,8 @@ export default function RelatedKeyphraseModalContent( props ) {
 		<Fragment>
 			{ ! requestLimitReached && (
 				<Fragment>
-					{ ! isPremium && <SemRushUpsellAlert /> }
-					{ isPremium && hasMaximumRelatedKeyphrases( relatedKeyphrases ) && <SemRushMaxRelatedKeyphrases /> }
+					{ ! isPremium && <SEMrushUpsellAlert /> }
+					{ isPremium && hasMaximumRelatedKeyphrases( relatedKeyphrases ) && <SEMrushMaxRelatedKeyphrases /> }
 					<SEMrushCountrySelector
 						countryCode={ countryCode }
 						setCountry={ setCountry }
@@ -116,7 +116,7 @@ export default function RelatedKeyphraseModalContent( props ) {
 
 			{ getUserMessage( props ) }
 
-			<KeyphrasesTable
+			<SEMrushKeyphrasesTable
 				keyphrase={ keyphrase }
 				relatedKeyphrases={ relatedKeyphrases }
 				countryCode={ countryCode }

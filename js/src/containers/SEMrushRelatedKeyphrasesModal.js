@@ -1,6 +1,6 @@
 import { withDispatch, withSelect } from "@wordpress/data";
 import { compose } from "@wordpress/compose";
-import RelatedKeyphrasesModal from "../components/RelatedKeyphrasesModal";
+import SEMrushRelatedKeyphrasesModal from "../components/SEMrushRelatedKeyphrasesModal";
 
 export default compose( [
 	withSelect( ( select ) => {
@@ -27,4 +27,4 @@ export default compose( [
 			},
 		};
 	} ),
-] )( RelatedKeyphrasesModal );
+] )( SEMrushRelatedKeyphrasesModal );
