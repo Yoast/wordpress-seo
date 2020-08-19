@@ -5,3 +5,4 @@
 .prettierrc
 .distignore
 .gitignore
+yarn.lock
