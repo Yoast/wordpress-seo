@@ -31,12 +31,8 @@
   - 'postcss:build'
   - 'rtlcss:build'
 
-
 'github-pre-release':
   - 'add-github-release:seo-free-rc-pre-release' 
-
-'test':
-  - 'noud-shell:test-shell-command'
  
 # Build internationalisation features
 'build:i18n':

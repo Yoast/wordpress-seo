@@ -81,11 +81,12 @@ module.exports = function( grunt ) {
         const branchForRC =  grunt.option( 'branchForRC' ) || type + "/" + version ;
 
         
-        grunt.option( 'type' , type);
+        //grunt.option( 'type' , type);
        
         grunt.config( "add-github-release.seo-free-rc-pre-release.options.enable", enableGithubRelease);
         grunt.config( "deploy-to-wordpress.trunk.options.enable", enableSvnDeploy);
-        
+       
+        grunt.config.data.type = type,
         grunt.config.data.branchForRC = branchForRC;
         grunt.config.data.enableSlack = enableSlack;
         grunt.config.data.owner = owner;

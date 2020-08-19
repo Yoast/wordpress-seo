@@ -16,21 +16,22 @@ module.exports = function( grunt ) {
 				doGithubPush: true,
 				alternativeBranch: grunt.config.data.alternativeBranch ||'ci-rc-test',
 				alternativeBranchPush: grunt.config.data.alternativeBranchPush || false,
+				branchForRC: grunt.config.data.branchForRC,
+				type: grunt.config.data.type,
+
 			});
 			// Parse the command line options.
 			const pluginVersionArgument = grunt.option( "plugin-version" );
-			const releaseTypeArgument = grunt.option( "type" );
+			//const releaseTypeArgument = grunt.option( "type" );
 
 			// Check if arguments were passed.
 			if ( ! pluginVersionArgument ) {
 				grunt.fail.fatal( "Missing --plugin-version argument" );
 			}
 
-			if ( ! releaseTypeArgument ) {
-				grunt.fail.fatal( "Missing --type argument" );
-			}
+			
 
-			const branchForRC = grunt.config.data.branchForRC || releaseTypeArgument + "/" + pluginVersionArgument;
+			const branchForRC = grunt.config.data.branchForRC || options.type + "/" + pluginVersionArgument;
 
 			/*
 			 * Whenever a merge conflict occurs after the version has bumped when the branch is merged
@@ -38,8 +39,10 @@ module.exports = function( grunt ) {
 			 * To avoid an additional bump (RC1 -> RC2) when continuing the process, this flag should
 			 * be used: --no-version-bump.
 			 */
-			const gruntFlags = grunt.option.flags();
-			const noBump = -1 !== gruntFlags.indexOf( '--no-version-bump' );
+			//const gruntFlags = grunt.option.flags();
+			//const noBump = -1 !== gruntFlags.indexOf( '--no-version-bump' );
+
+			const noBump = grunt.option( "no-version-bump" ) || false;
 
 			// Retrieve the current plugin version from package.json.
 			const packageJson = grunt.file.readJSON( "package.json" );
