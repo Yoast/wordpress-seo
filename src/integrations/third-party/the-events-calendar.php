@@ -15,7 +15,7 @@ use Yoast\WP\SEO\Integrations\Integration_Interface;
 /**
  * Class Jetpack
  */
-class The_Events_Calendar implements Integration_Interface {
+class TheEventsCalendar implements Integration_Interface {
 
 	/**
 	 * @inheritDoc
