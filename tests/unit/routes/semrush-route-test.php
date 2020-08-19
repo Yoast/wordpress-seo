@@ -13,7 +13,7 @@ use Yoast\WP\SEO\Actions\Semrush\SEMrush_Login_Action;
 use Yoast\WP\SEO\Actions\Semrush\SEMrush_Options_Action;
 use Yoast\WP\SEO\Actions\SEMrush\SEMrush_Phrases_Action;
 use Yoast\WP\SEO\Routes\SEMrush_Route;
-use Yoast\WP\SEO\Tests\TestCase;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
  * Class SEMrush_Route_Test.
@@ -138,7 +138,7 @@ class SEMrush_Route_Test extends TestCase {
 							'validate_callback' => [ $this->instance, 'has_valid_keyphrase' ],
 							'required'          => true,
 						],
-						'database'  => [
+						'country_code'  => [
 							'required' => true,
 						],
 					],
@@ -263,7 +263,7 @@ class SEMrush_Route_Test extends TestCase {
 
 		$request
 			->expects( 'offsetGet' )
-			->with( 'database' )
+			->with( 'country_code' )
 			->andReturn( 'us' );
 
 		$this->phrases_action
