@@ -454,6 +454,24 @@ class Indexable_Post_Builder_Test extends TestCase {
 	}
 
 	/**
+	 * Tests counting the number of pages in a paginated post when there are multiple pages.
+	 *
+	 * @covers ::get_number_of_pages_for_post
+	 */
+	public function test_get_number_of_pages_for_post_multiple_pages() {
+		$post = (object) [
+			'post_content'  => 'The content of the post <!--nextpage--> page 2 <!--nextpage--> page 3',
+			'post_type'     => 'post',
+			'post_status'   => 'publish',
+			'post_password' => '',
+			'post_author'   => '1',
+			'post_parent'   => '0',
+		];
+
+		$this->assertSame( 3, $this->instance->get_number_of_pages_for_post( $post ) );
+	}
+
+	/**
 	 * Tests is_public for when the post is protected.
 	 *
 	 * @covers ::is_public

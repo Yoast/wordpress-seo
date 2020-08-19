@@ -37,6 +37,13 @@ class Indexable_Post_Builder_Double extends Indexable_Post_Builder {
 	/**
 	 * @inheritDoc
 	 */
+	public function get_number_of_pages_for_post( $post ) {
+		return parent::get_number_of_pages_for_post( $post );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
 	public function find_alternative_image( $indexable ) {
 		return parent::find_alternative_image( $indexable );
 	}
