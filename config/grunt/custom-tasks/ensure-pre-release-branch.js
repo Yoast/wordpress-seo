@@ -17,16 +17,13 @@ module.exports = function( grunt ) {
 				type: 'release',	
 			});
 			
-
 			const version = grunt.option( "plugin-version" );
-			//const type = grunt.option( "type" );
 
 			// If no version is specified, abort the task.
 			if ( ! version ) {
 				grunt.fail.fatal( "Missing --plugin-version argument (i.e. x.x.x)" );
 			}
 
-			
 			// Fetch all existing branches.
 			grunt.config( "gitfetch.fetchall.options.all", true );
 			grunt.task.run( "gitfetch:fetchall" );
@@ -84,13 +81,6 @@ module.exports = function( grunt ) {
 				create: true,
 			} );
 			grunt.task.run( "gitcheckout:newBranch" );
-			// don't we need to push it to remote here just to be sure?
-			/*
-			grunt.config( "gitpush.newBranch.options", {
-				branch: branchForRC,
-			} );
-			grunt.task.run( "gitpush:newBranch" );
-            */
 			grunt.log.ok( "Switched to the " + branchForRC + " branch." );
 		}
 	);

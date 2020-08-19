@@ -75,7 +75,7 @@ module.exports = function( grunt ) {
 
         // Check here if type match release | hotfix
         if (! type.isInList('release', 'hotfix')){
-            grunt.fail.fatal( "wrong --type argument (release or hotfix)" );
+            grunt.fail.fatal( "wrong --type argument is not one of: release, hotfix" );
         }
 
         const branchForRC =  grunt.option( 'branchForRC' ) || type + "/" + version ;

@@ -14,24 +14,21 @@ module.exports = function( grunt ) {
 		function() {
 			let options = this.options({
 				doGithubPush: true,
-				alternativeBranch: grunt.config.data.alternativeBranch ||'ci-rc-test',
-				alternativeBranchPush: grunt.config.data.alternativeBranchPush || false,
-				branchForRC: grunt.config.data.branchForRC,
-				type: grunt.config.data.type,
+				alternativeBranch: 'ci-rc-test',
+				alternativeBranchPush: false,
+				branchForRC: '',
+				type: 'release',
 
 			});
 			// Parse the command line options.
 			const pluginVersionArgument = grunt.option( "plugin-version" );
-			//const releaseTypeArgument = grunt.option( "type" );
 
 			// Check if arguments were passed.
 			if ( ! pluginVersionArgument ) {
 				grunt.fail.fatal( "Missing --plugin-version argument" );
 			}
 
-			
-
-			const branchForRC = grunt.config.data.branchForRC || options.type + "/" + pluginVersionArgument;
+			const branchForRC = options.branchForRC || options.type + "/" + pluginVersionArgument;
 
 			/*
 			 * Whenever a merge conflict occurs after the version has bumped when the branch is merged
