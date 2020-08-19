@@ -35,6 +35,7 @@ use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
  * @property Helpers\Taxonomy_Helper       $taxonomy
  * @property Helpers\Url_Helper            $url
  * @property Helpers\User_Helper           $user
+ * @property Helpers\Woocommerce_Helper    $woocommerce
  */
 class Helpers_Surface {
 

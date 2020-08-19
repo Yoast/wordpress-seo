@@ -48,7 +48,6 @@
 	"autoload": {
 		"classmap": [
 			"admin/",
-			"frontend/",
 			"inc/",
 			"deprecated/",
 			"vendor_prefixed/",
@@ -81,9 +80,6 @@
 		"lint-staged": [
 			"Yoast\\WP\\SEO\\Composer\\Actions::lint_staged"
 		],
-		"premium-lint": [
-			"@php ./vendor/php-parallel-lint/php-parallel-lint/parallel-lint ./wp-seo-premium.php ./tests/unit/load/wp-seo-premium.php ./premium/ ./tests/integration/premium/ ./tests/unit/premium/ -e php"
-		],
 		"config-yoastcs": [
 			"@php ./vendor/squizlabs/php_codesniffer/scripts/phpcs --config-set installed_paths ../../../vendor/wp-coding-standards/wpcs,../../../vendor/yoast/yoastcs,../../../vendor/phpcompatibility/php-compatibility,../../../vendor/phpcompatibility/phpcompatibility-paragonie,../../../vendor/phpcompatibility/phpcompatibility-wp",
 			"@php ./vendor/squizlabs/php_codesniffer/scripts/phpcs --config-set default_standard Yoast"
@@ -101,11 +97,6 @@
 		"check-cs-warnings": [
 			"@php ./vendor/squizlabs/php_codesniffer/scripts/phpcs"
 		],
-		"premium-check-cs": [
-			"@before-premium-cs",
-			"@php ./vendor/squizlabs/php_codesniffer/bin/phpcs --runtime-set ignore_warnings_on_exit 1",
-			"@after-premium-cs"
-		],
 		"check-staged-cs": [
 			"Yoast\\WP\\SEO\\Composer\\Actions::check_staged_cs"
 		],
@@ -114,23 +105,6 @@
 		],
 		"fix-cs": [
 			"@php ./vendor/squizlabs/php_codesniffer/scripts/phpcbf"
-		],
-		"premium-fix-cs": [
-			"@before-premium-cs",
-			"@php ./vendor/squizlabs/php_codesniffer/bin/phpcbf || true",
-			"@after-premium-cs"
-		],
-		"before-premium-cs": [
-			"composer require --dev yoast/yoastcs:~2.0.0 --update-with-dependencies --no-suggest --no-interaction  --no-scripts",
-			"composer config-yoastcs-premium"
-		],
-		"config-yoastcs-premium": [
-			"Dealerdirect\\Composer\\Plugin\\Installers\\PHPCodeSniffer\\Plugin::run"
-		],
-		"after-premium-cs": [
-			"composer require --dev yoast/yoastcs:~0.4.3 --update-with-dependencies --no-suggest --no-interaction --no-scripts",
-			"@php ./config/composer/scripts/maybe-restore-composer-lock.php",
-			"composer config-yoastcs"
 		],
 		"prefix-dependencies": [
 			"composer prefix-oauth2-client",
