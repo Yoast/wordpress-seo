@@ -13,11 +13,10 @@ module.exports = function( grunt ) {
 		"ensure-pre-release-branch",
 		"Ensures that the release or hotfix branch is checked out",
 		function() {
-			/*
 			const options = this.options({
 				type: 'release',	
 			});
-			*/
+			
 
 			const version = grunt.option( "plugin-version" );
 			//const type = grunt.option( "type" );
