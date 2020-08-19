@@ -4,7 +4,7 @@ module.exports = {
             doGithubPush: true,
             alternativeBranch: '<%= alternativeBranch %>',
             alternativeBranchPush: '<%= alternativeBranchPush %>',
-            branchForRC: '<= branchForRC %>',
+            branchForRC: '<%= branchForRC %>',
             type: '<%= type %>',
         },
     },
