@@ -391,7 +391,6 @@
 	left: 0;
 	width: 100%;
 	margin-top: auto;
-	background: white;
 }
 
 /**
@@ -402,6 +401,7 @@
  */
 .yoast-post-settings-modal .yoast-notice-container > hr {
 	margin-top: -1px;
+	margin-bottom: 0;
 }
 
 /* Set overflow-y to scroll and hide the scrollbar on FireFox. */
@@ -424,7 +424,15 @@
 }
 
 .yoast-post-settings-modal .yoast-button-container p {
+	color: var(--yoast-color-label-help);
 	padding-right: 24px;
+	align-self: center;
+}
+
+.yoast-post-settings-modal .yoast-button-container button {
+	flex-shrink: 0;
+	max-height: 45px;
+	align-self: center;
 }
 
 /* Responsive CSS for the mobile PostSettingsModal */

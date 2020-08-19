@@ -13,13 +13,11 @@ import PropTypes from "prop-types";
 /**
  * Returns the ModalContent.
  *
- * We need this in a function since the scripData is not available earlier.
- *
- * @param {object} settings An object with settings from the store.
+ * @param {object} preferences An object with settings from the store.
  *
  * @returns {array} An array of objects that can be used to render the PostSettingsModal.
  */
-const modalContent = ( settings ) => [
+const modalContent = ( preferences ) => [
 	{
 		title: __( "Google preview", "wordpress-seo" ),
 		content: <SnippetEditor hasPaperStyle={ false } />,
@@ -28,22 +26,22 @@ const modalContent = ( settings ) => [
 	{
 		title: __( "Facebook preview", "wordpress-seo" ),
 		content: <FacebookContainer />,
-		shouldRender: window.wpseoScriptData.metabox.showSocial.facebook,
+		shouldRender: preferences.displayTwitter,
 	},
 	{
 		title: __( "Twitter preview", "wordpress-seo" ),
 		content: <TwitterContainer />,
-		shouldRender: window.wpseoScriptData.metabox.showSocial.twitter,
+		shouldRender: preferences.displayTwitter,
 	},
 	{
 		title: __( "Schema", "wordpress-seo" ),
 		content: <SchemaTabContainer />,
-		shouldRender: settings.displaySchemaSettings,
+		shouldRender: preferences.displaySchemaSettings,
 	},
 	{
 		title: __( "Advanced", "wordpress-seo" ),
 		content: <AdvancedSettings />,
-		shouldRender: settings.displayAdvancedTab,
+		shouldRender: preferences.displayAdvancedTab,
 	},
 ];
 
@@ -67,12 +65,6 @@ const DrawerContainer = ( { children } ) => {
 								key={ index }
 								initialIsOpen={ isOpen }
 								title={ child.title }
-								headingProps={ {
-									level: 2,
-									fontSize: "1rem",
-									fontWeight: "normal",
-									color: "#A4286A",
-								} }
 							>
 								{ <div className="yoast-collapsible-content">{ child.content }</div> }
 							</Collapsible>
@@ -111,7 +103,7 @@ const getPostTypeName = () => {
  *
  * @returns {*} A button wrapped in a div.
  */
-const PostSettingsModal = ( { settings } ) => {
+const PostSettingsModal = ( { preferences } ) => {
 	const [ isOpen, changeIsOpen ] = useState( false );
 
 	const closeModal = useCallback( () => changeIsOpen( false ), [] );
@@ -130,7 +122,7 @@ const PostSettingsModal = ( { settings } ) => {
 					additionalClassName="yoast-collapsible-modal yoast-post-settings-modal"
 				>
 					<DrawerContainer>
-						{ modalContent( settings ) }
+						{ modalContent( preferences ) }
 					</DrawerContainer>
 					<div className="yoast-notice-container">
 						<hr />
@@ -168,7 +160,7 @@ const PostSettingsModal = ( { settings } ) => {
 };
 
 PostSettingsModal.propTypes = {
-	settings: PropTypes.object.isRequired,
+	preferences: PropTypes.object.isRequired,
 };
 
 export default PostSettingsModal;

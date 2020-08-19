@@ -7,6 +7,6 @@ export default withSelect( select => {
 	} = select( "yoast-seo/editor" );
 
 	return {
-		settings: getPreferences(),
+		preferences: getPreferences(),
 	};
 } )( PostSettingsModal );
