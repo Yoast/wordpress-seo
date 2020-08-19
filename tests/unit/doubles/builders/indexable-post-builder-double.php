@@ -58,6 +58,13 @@ class Indexable_Post_Builder_Double extends Indexable_Post_Builder {
 	/**
 	 * @inheritDoc
 	 */
+	public function get_keyword_score( $keyword, $score ) {
+		return parent::get_keyword_score( $keyword, $score );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
 	public function find_alternative_image( $indexable ) {
 		return parent::find_alternative_image( $indexable );
 	}
