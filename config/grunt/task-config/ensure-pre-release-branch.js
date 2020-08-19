@@ -1,7 +1,7 @@
 module.exports = {
 	"default": {
         options: {
-            type: "<%= type =>",
+            type: '<%= type %>',
         },
     },
 }
