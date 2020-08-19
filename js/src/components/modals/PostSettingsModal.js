@@ -90,7 +90,14 @@ DrawerContainer.propTypes = {
 const PostSettingsModal = ( { preferences, postTypeName } ) => {
 	const [ isOpen, changeIsOpen ] = useState( false );
 
-	const closeModal = useCallback( () => changeIsOpen( false ), [] );
+	const closeModal = useCallback( ( event ) => {
+		// Prevent the modal from closing when the media library opens over the modal.
+		if ( event.type === "blur" && event.relatedTarget.className === "media-modal wp-core-ui" ) {
+			return;
+		}
+
+		changeIsOpen( false );
+	}, [] );
 	const openModal = useCallback( () => changeIsOpen( true ), [] );
 
 	return (
