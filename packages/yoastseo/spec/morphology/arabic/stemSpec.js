@@ -44,11 +44,13 @@ const wordsToStem = [
 	// The current stem is بور, as بر is also detected in wordsWithMiddleWawRemoved list. For words found in the list, و (waw) is added to the root.
 	// [ "بار", "بر" ],
 	// Three letter words with ئ/ؤ (yeh_hamza/waw_hamza) as their second letter and end in ر/ز/ن (noon/zai/reh),
-	// Change ئ/ؤ (yeh_hamza/waw_hamza) to ا (alef)
+	// Change ئ/ؤ (yeh_hamza/waw_hamza) to ا (alef), otherwise ئ/ؤ is changed to أ (alef_hamza_above)
 	// The current stem is ين, it is because يئن is matched first by this regex regexRemoveMiddleWeakLetterOrHamza.
 	// [ "يئن", "يان" ],
 	// The current stem is بور, as بر is also detected in wordsWithMiddleWawRemoved list. For words found in the list, و (waw) is added to the root.
 	// [ "بئر", "بار" ],
+	[ "مؤن", "مان" ],
+	[ "بؤس", "بأس" ],
 	// Three letter words that ends in a shadda, duplicate the second character and the root is in threeLetterRoots list
 	[ "ودّ", "ودد" ],
 	// Four letter word that is in the list of four-letter roots.
