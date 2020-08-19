@@ -97,7 +97,9 @@ export default function MetaboxFill( { settings, store, theme } ) {
 					theme={ theme }
 					location={ "metabox" }
 				>
-					<AdvancedSettings />
+					<MetaboxCollapsible id={ "collapsible-advanced-settings" } title={ __( "Advanced", "wordpress-seo" ) }>
+						<AdvancedSettings />
+					</MetaboxCollapsible>
 				</TopLevelProviders>
 			</SidebarItem> }
 			{ settings.displaySchemaSettings && <SidebarItem renderPriority={ 50 }>
