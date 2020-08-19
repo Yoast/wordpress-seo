@@ -138,6 +138,23 @@ class Indexable_Post_Builder_Test extends TestCase {
 	}
 
 	/**
+	 * Tests the constructor.
+	 *
+	 * @covers ::__construct
+	 */
+	public function test_constructor() {
+		$instance = new Indexable_Post_Builder(
+			$this->seo_meta_repository,
+			$this->post,
+			$this->logger
+		);
+
+		$this->assertAttributeInstanceOf( SEO_Meta_Repository::class, 'seo_meta_repository', $instance );
+		$this->assertAttributeInstanceOf( Post_Helper::class, 'post', $instance );
+		$this->assertAttributeInstanceOf( Logger::class, 'logger', $instance );
+	}
+
+	/**
 	 * Tests building a basic post indexable from postmeta.
 	 *
 	 * @covers ::build
