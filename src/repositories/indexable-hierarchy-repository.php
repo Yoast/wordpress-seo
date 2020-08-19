@@ -96,6 +96,29 @@ class Indexable_Hierarchy_Repository {
 	}
 
 	/**
+	 * Finds the children for a given indexable.
+	 *
+	 * @param Indexable $indexable The indexable to find the children for.
+	 *
+	 * @return array Array with indexable ids for the children.
+	 */
+	public function find_children( Indexable $indexable ) {
+		$children = $this->query()
+			->select( 'indexable_id' )
+			->where( 'ancestor_id', $indexable->id )
+			->find_array();
+
+		if ( empty( $children ) ) {
+			return [];
+		}
+
+		$callback = function( $child ) {
+			return $child['indexable_id'];
+		};
+		return \array_map( $callback, $children );
+	}
+
+	/**
 	 * Starts a query for this repository.
 	 *
 	 * @return ORM
