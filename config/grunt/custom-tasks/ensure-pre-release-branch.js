@@ -1,55 +1,36 @@
 const execSync = require( "child_process" ).execSync;
 
 /**
- * helper function
- * @param {array} 
- * @returns {bool}
- */
-
-if (!String.prototype.isInList) {
-	String.prototype.isInList = function() {
-	   let value = this.valueOf();
-	   for (let i = 0, l = arguments.length; i < l; i += 1) {
-		  if (arguments[i] === value) return true;
-	   }
-	   return false;
-	}
- }
-
-/**
  * Ensures that the release or hotfix branch is checked out.
  *
  * @param {Object} grunt The grunt helper object.
  * @returns {void}
  */
 module.exports = function( grunt ) {
-	grunt.registerTask(
+	grunt.registerMultiTask(
 		"ensure-pre-release-branch",
 		"Ensures that the release or hotfix branch is checked out",
 		function() {
+			const options = this.options({
+				type: grunt.config.data.type,
+				
+			});
+			
 			const version = grunt.option( "plugin-version" );
-			const type = grunt.option( "type" );
+			//const type = grunt.option( "type" );
 
 			// If no version is specified, abort the task.
 			if ( ! version ) {
 				grunt.fail.fatal( "Missing --plugin-version argument (i.e. x.x.x)" );
 			}
 
-			// If no type is specified, abort the task.
-			if ( ! type ) {
-				grunt.fail.fatal( "Missing --type argument (release or hotfix)" );
-			}
-
-			// Check here if type match release | hotfix
-			if (! type.isInList('release', 'hotfix')){
-				grunt.fail.fatal( "wrong --type argument (release or hotfix)" );
-			}
+			
 			// Fetch all existing branches.
 			grunt.config( "gitfetch.fetchall.options.all", true );
 			grunt.task.run( "gitfetch:fetchall" );
 
-			const basebranch = type === "hotfix" ? "master" : "trunk";
-			const branchForRC = type + "/" + version;
+			const basebranch = options.type === "hotfix" ? "master" : "trunk";
+			const branchForRC = options.type + "/" + version;
 
 			// Set a grunt branchForRC variable.
 			grunt.config.data.branchForRC = branchForRC;
