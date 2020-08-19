@@ -16,7 +16,7 @@ import TopLevelProviders from "../TopLevelProviders";
 import AdvancedSettings from "../AdvancedSettings";
 import SocialMetadataPortal from "../portals/SocialMetadataPortal";
 import SchemaTabContainer from "../../containers/SchemaTab";
-import SEMrushRelatedKeyphrases from "../../containers/RelatedKeyphrases";
+import SEMrushRelatedKeyphrases from "../../containers/SEMrushRelatedKeyphrases";
 
 /**
  * Creates the Metabox component.

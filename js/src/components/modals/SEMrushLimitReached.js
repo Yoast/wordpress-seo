@@ -5,14 +5,14 @@ import { Fragment } from "@wordpress/element";
 /* Yoast dependencies */
 import { makeOutboundLink } from "@yoast/helpers";
 
-const UpdateSemRushPlanLink = makeOutboundLink();
+const UpdateSEMrushPlanLink = makeOutboundLink();
 
 /**
  * Creates the content for the SEMrush limit exceeded modal.
  *
  * @returns {wp.Element} The SEMrush limit exceeded modal content.
  */
-const SemRushLimitReached = () => {
+const SEMrushLimitReached = () => {
 	return (
 		<Fragment>
 			<p>
@@ -24,7 +24,7 @@ const SemRushLimitReached = () => {
 					)
 				}
 			</p>
-			<UpdateSemRushPlanLink
+			<UpdateSEMrushPlanLink
 				href={ window.wpseoAdminL10n[ "shortlinks.semrush.prices" ] }
 				className="yoast-button-upsell"
 			>
@@ -36,9 +36,9 @@ const SemRushLimitReached = () => {
 					)
 				}
 				<span aria-hidden="true" className="yoast-button-upsell__caret" />
-			</UpdateSemRushPlanLink>
+			</UpdateSEMrushPlanLink>
 		</Fragment>
 	);
 };
 
-export default SemRushLimitReached;
+export default SEMrushLimitReached;

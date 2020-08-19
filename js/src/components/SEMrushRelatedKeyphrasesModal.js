@@ -15,7 +15,7 @@ import YoastIcon from "../../../images/Yoast_icon_kader.svg";
 /**
  * Redux container for the RelatedKeyPhrasesModal modal.
  */
-class RelatedKeyphrasesModal extends Component {
+class SEMrushRelatedKeyphrasesModal extends Component {
 	/**
 	 * Constructs the RelatedKeyPhrasesModal component.
 	 *
@@ -92,7 +92,7 @@ class RelatedKeyphrasesModal extends Component {
 	}
 }
 
-RelatedKeyphrasesModal.propTypes = {
+SEMrushRelatedKeyphrasesModal.propTypes = {
 	keyphrase: PropTypes.string,
 	location: PropTypes.string,
 	whichModalOpen: PropTypes.oneOf( [
@@ -105,10 +105,10 @@ RelatedKeyphrasesModal.propTypes = {
 	onClose: PropTypes.func.isRequired,
 };
 
-RelatedKeyphrasesModal.defaultProps = {
+SEMrushRelatedKeyphrasesModal.defaultProps = {
 	keyphrase: "",
 	location: "",
 	whichModalOpen: "none",
 };
 
-export default RelatedKeyphrasesModal;
+export default SEMrushRelatedKeyphrasesModal;
