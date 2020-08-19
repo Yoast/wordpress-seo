@@ -1,6 +1,6 @@
 import { withSelect, withDispatch } from "@wordpress/data";
 import { compose } from "@wordpress/compose";
-import Results from "../Results";
+import Results from "../components/contentAnalysis/Results";
 
 export default compose( [
 	withSelect( select => {

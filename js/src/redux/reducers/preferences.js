@@ -23,6 +23,7 @@ function getDefaultState() {
 		displaySchemaSettingsFooter: window.wpseoScriptData.metabox.schema.displayFooter,
 		displayFacebook: window.wpseoScriptData.metabox.showSocial.facebook,
 		displayTwitter: window.wpseoScriptData.metabox.showSocial.twitter,
+		postTypeNameSingular: window.wpseoAdminL10n.postTypeNameSingular,
 	};
 }
 

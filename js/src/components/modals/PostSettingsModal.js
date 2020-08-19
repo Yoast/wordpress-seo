@@ -81,35 +81,17 @@ DrawerContainer.propTypes = {
 };
 
 /**
- * Return the singular post type name of the current post.
- *
- * Only differentiates between posts and pages since all CPT should display post as well.
- *
- * @returns {string} Either page for pages or post for all other types.
- */
-const getPostTypeName = () => {
-	const postTypeName = window.wpseoAdminL10n.postTypeNameSingular.toLowerCase();
-	if ( postTypeName === "page" ) {
-		return postTypeName;
-	}
-
-	return "post";
-};
-
-/**
  * Returns a button in a div that can be used to open the modal.
  *
  * Warning: contains styling that is specific for the Sidebar.
  *
  * @returns {*} A button wrapped in a div.
  */
-const PostSettingsModal = ( { preferences } ) => {
+const PostSettingsModal = ( { preferences, postTypeName } ) => {
 	const [ isOpen, changeIsOpen ] = useState( false );
 
 	const closeModal = useCallback( () => changeIsOpen( false ), [] );
 	const openModal = useCallback( () => changeIsOpen( true ), [] );
-
-	const postTypeName = getPostTypeName();
 
 	return (
 		<div
@@ -161,6 +143,7 @@ const PostSettingsModal = ( { preferences } ) => {
 
 PostSettingsModal.propTypes = {
 	preferences: PropTypes.object.isRequired,
+	postTypeName: PropTypes.string.isRequired,
 };
 
 export default PostSettingsModal;
