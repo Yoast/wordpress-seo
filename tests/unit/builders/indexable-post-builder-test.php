@@ -505,6 +505,24 @@ class Indexable_Post_Builder_Test extends TestCase {
 	}
 
 	/**
+	 * Tests that get_robots_noindex transforms a meta value of 2 to `false`.
+	 *
+	 * @covers ::get_robots_noindex
+	 */
+	public function test_get_robots_noindex_noindex() {
+		$this->assertFalse($this->instance->get_robots_noindex( 2 ) );
+	}
+
+	/**
+	 * Tests that get_robots_noindex transforms an invalid meta value of 2 to `null`.
+	 *
+	 * @covers ::get_robots_noindex
+	 */
+	public function test_get_robots_noindex_invalid() {
+		$this->assertNull( $this->instance->get_robots_noindex( 'invalid' ) );
+	}
+
+	/**
 	 * Tests is_public for when the post is protected.
 	 *
 	 * @covers ::is_public

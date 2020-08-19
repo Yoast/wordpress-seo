@@ -44,6 +44,13 @@ class Indexable_Post_Builder_Double extends Indexable_Post_Builder {
 	/**
 	 * @inheritDoc
 	 */
+	public function get_robots_noindex( $value ) {
+		return parent::get_robots_noindex( $value );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
 	public function find_alternative_image( $indexable ) {
 		return parent::find_alternative_image( $indexable );
 	}
