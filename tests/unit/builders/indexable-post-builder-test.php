@@ -454,6 +454,39 @@ class Indexable_Post_Builder_Test extends TestCase {
 	}
 
 	/**
+	 * Tests find_alternative_image when a gallery image is set on the post,
+	 * but not a featured image.
+	 *
+	 * @covers ::find_alternative_image
+	 */
+	public function test_find_alternative_image_no_image() {
+		$this->indexable      = Mockery::mock( Indexable::class );
+		$this->indexable->orm = Mockery::mock( ORM::class );
+
+		$this->indexable->orm->allows( 'get' )
+			->with( 'object_sub_type' )
+			->andReturn( 'post' );
+
+		$this->indexable->orm->allows( 'get' )
+			->with( 'object_id' )
+			->andReturn( 123 );
+
+		$this->image->allows( 'get_featured_image_id' )
+			->with( 123 )
+			->andReturn( false );
+
+		$this->image->allows( 'get_gallery_image' )
+			->with( 123 )
+			->andReturn( false );
+
+		$this->image->allows( 'get_post_content_image' )
+			->with( 123 )
+			->andReturn( false );
+
+		$this->assertFalse( $this->instance->find_alternative_image( $this->indexable ) );
+	}
+
+	/**
 	 * Tests counting the number of pages in a paginated post when there are multiple pages.
 	 *
 	 * @covers ::get_number_of_pages_for_post
