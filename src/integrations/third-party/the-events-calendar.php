@@ -13,7 +13,7 @@ use Yoast\WP\SEO\Conditionals\Open_Graph_Conditional;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 
 /**
- * Class Jetpack
+ * Class TheEventsCalendar
  */
 class TheEventsCalendar implements Integration_Interface {
 
