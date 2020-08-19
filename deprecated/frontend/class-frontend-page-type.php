@@ -2,69 +2,84 @@
 /**
  * WPSEO plugin file.
  *
- * @package WPSEO\Frontend
+ * @package WPSEO\Deprecated\Frontend
  */
 
 /**
  * Represents the classifier for determine the type of the currently opened page.
+ *
+ * @deprecated 14.9
+ * @codeCoverageIgnore
  */
 class WPSEO_Frontend_Page_Type {
 
 	/**
 	 * Checks if the currently opened page is a simple page.
 	 *
+	 * @deprecated 14.9
+	 * @codeCoverageIgnore
+	 *
 	 * @return bool Whether the currently opened page is a simple page.
 	 */
 	public static function is_simple_page() {
-		return self::get_simple_page_id() > 0;
+		_deprecated_function( __METHOD__, 'WPSEO 14.9' );
+
+		return false;
 	}
 
 	/**
 	 * Returns the id of the currently opened page.
 	 *
+	 * @deprecated 14.9
+	 * @codeCoverageIgnore
+	 *
 	 * @return int The id of the currently opened page.
 	 */
 	public static function get_simple_page_id() {
-		if ( is_singular() ) {
-			return get_the_ID();
-		}
+		_deprecated_function( __METHOD__, 'WPSEO 14.9' );
 
-		if ( self::is_posts_page() ) {
-			return get_option( 'page_for_posts' );
-		}
-
-		/**
-		 * Filter: Allow changing the default page id.
-		 *
-		 * @api int $page_id The default page id.
-		 */
-		return apply_filters( 'wpseo_frontend_page_type_simple_page_id', 0 );
+		return 0;
 	}
 
 	/**
 	 * Determine whether this is the homepage and shows posts.
 	 *
+	 * @deprecated 14.9
+	 * @codeCoverageIgnore
+	 *
 	 * @return bool Whether or not the current page is the homepage that displays posts.
 	 */
 	public static function is_home_posts_page() {
-		return ( is_home() && get_option( 'show_on_front' ) === 'posts' );
+		_deprecated_function( __METHOD__, 'WPSEO 14.9' );
+
+		return false;
 	}
 
 	/**
 	 * Determine whether this is the static frontpage.
 	 *
+	 * @deprecated 14.9
+	 * @codeCoverageIgnore
+	 *
 	 * @return bool Whether or not the current page is a static frontpage.
 	 */
 	public static function is_home_static_page() {
-		return ( is_front_page() && get_option( 'show_on_front' ) === 'page' && is_page( get_option( 'page_on_front' ) ) );
+		_deprecated_function( __METHOD__, 'WPSEO 14.9' );
+
+		return false;
 	}
 
 	/**
 	 * Determine whether this is the statically set posts page, when it's not the frontpage.
 	 *
+	 * @deprecated 14.9
+	 * @codeCoverageIgnore
+	 *
 	 * @return bool Whether or not it's a non-frontpage, statically set posts page.
 	 */
 	public static function is_posts_page() {
-		return ( is_home() && get_option( 'show_on_front' ) === 'page' );
+		_deprecated_function( __METHOD__, 'WPSEO 14.9' );
+
+		return false;
 	}
 }
