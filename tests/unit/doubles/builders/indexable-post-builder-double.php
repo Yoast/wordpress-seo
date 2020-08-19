@@ -51,6 +51,13 @@ class Indexable_Post_Builder_Double extends Indexable_Post_Builder {
 	/**
 	 * @inheritDoc
 	 */
+	public function get_permalink( $post_type, $post_id ) {
+		return parent::get_permalink( $post_type, $post_id );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
 	public function find_alternative_image( $indexable ) {
 		return parent::find_alternative_image( $indexable );
 	}

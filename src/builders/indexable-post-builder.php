@@ -93,13 +93,7 @@ class Indexable_Post_Builder {
 		$indexable->object_id       = $post_id;
 		$indexable->object_type     = 'post';
 		$indexable->object_sub_type = $post->post_type;
-		if ( $post->post_type !== 'attachment' ) {
-			$indexable->permalink = \get_permalink( $post_id );
-		}
-		else {
-			$indexable->permalink = \wp_get_attachment_url( $post_id );
-		}
-
+		$indexable->permalink       = $this->get_permalink( $post->post_type, $post_id );
 
 		$indexable->primary_focus_keyword_score = $this->get_keyword_score(
 			$this->get_meta_value( $post_id, 'focuskw' ),
@@ -149,6 +143,22 @@ class Indexable_Post_Builder {
 		$indexable->schema_article_type = $this->get_meta_value( $post_id, 'schema_article_type' );
 
 		return $indexable;
+	}
+
+	/**
+	 * Retrieves the permalink for a post with the given post type and ID.
+	 *
+	 * @param string  $post_type The post type.
+	 * @param integer $post_id   The post ID.
+	 *
+	 * @return false|string|\WP_Error The permalink.
+	 */
+	protected function get_permalink( $post_type, $post_id ) {
+		if ( $post_type !== 'attachment' ) {
+			return \get_permalink( $post_id );
+		}
+
+		return \wp_get_attachment_url( $post_id );
 	}
 
 	/**

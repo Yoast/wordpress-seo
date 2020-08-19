@@ -523,6 +523,40 @@ class Indexable_Post_Builder_Test extends TestCase {
 	}
 
 	/**
+	 * Tests the get_permalink method.
+	 *
+	 * @covers ::get_permalink
+	 */
+	public function test_get_permalink() {
+		$permalink = 'https://example.org/permalink';
+		$post_type = 'post';
+		$post_id   = 4;
+
+		Monkey\Functions\expect( 'get_permalink' )
+			->with( $post_id )
+			->andReturn( $permalink );
+
+		$this->assertSame( $permalink, $this->instance->get_permalink( $post_type, $post_id ) );
+	}
+
+	/**
+	 * Tests the get_permalink method when the post is an attachment.
+	 *
+	 * @covers ::get_permalink
+	 */
+	public function test_get_permalink_attachment() {
+		$permalink = 'https://example.org/permalink-of-attachment';
+		$post_type = 'attachment';
+		$post_id   = 4;
+
+		Monkey\Functions\expect( 'wp_get_attachment_url' )
+			->with( $post_id )
+			->andReturn( $permalink );
+
+		$this->assertSame( $permalink, $this->instance->get_permalink( $post_type, $post_id ) );
+	}
+
+	/**
 	 * Tests is_public for when the post is protected.
 	 *
 	 * @covers ::is_public
