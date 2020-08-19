@@ -1,3 +1,5 @@
+const { options } = require("marked");
+
 const execSync = require( "child_process" ).execSync;
 
 /**
@@ -11,11 +13,12 @@ module.exports = function( grunt ) {
 		"ensure-pre-release-branch",
 		"Ensures that the release or hotfix branch is checked out",
 		function() {
+			/*
 			const options = this.options({
-				type: grunt.config.data.type,
-				
+				type: 'release',	
 			});
-			
+			*/
+
 			const version = grunt.option( "plugin-version" );
 			//const type = grunt.option( "type" );
 
@@ -28,7 +31,6 @@ module.exports = function( grunt ) {
 			// Fetch all existing branches.
 			grunt.config( "gitfetch.fetchall.options.all", true );
 			grunt.task.run( "gitfetch:fetchall" );
-
 			const basebranch = options.type === "hotfix" ? "master" : "trunk";
 			const branchForRC = options.type + "/" + version;
 
