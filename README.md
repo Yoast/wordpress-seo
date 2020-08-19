@@ -32,8 +32,9 @@ This is an extension to the WPGraphQL plugin (https://github.com/wp-graphql/wp-g
 
 ## Quick Install
 
-1. Install & activate [WPGraphQL](https://www.wpgraphql.com/)
-2. Clone or download the zip of this repository into your WordPress plugin directory & activate the **WP GraphQL Yoast SEO** plugin
+- Install from the [WordPress Plugin Directory](https://wordpress.org/plugins/add-wpgraphql-seo/)
+- Clone or download the zip of this repository into your WordPress plugin directory & activate the **WP GraphQL Yoast SEO** plugin
+- Install & activate [WPGraphQL](https://www.wpgraphql.com/)
 
 ## Composer
 

@@ -248,4 +248,4 @@ To query for the site configuration data you can query from the root.
 ```
 
 == Upgrade Notice ==
-## Please note version 14 of the Yoast Plugin is a major update so is now required to run this plugin
+Please note version 14 of the Yoast Plugin is a major update so is now required to run this plugin
