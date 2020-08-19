@@ -49,7 +49,6 @@
 		"classmap": [
 			"admin/",
 			"inc/",
-			"deprecated/",
 			"vendor_prefixed/",
 			"src/",
 			"lib/"
