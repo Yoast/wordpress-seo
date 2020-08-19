@@ -3,10 +3,6 @@
 namespace Yoast\WP\SEO\Tests\Unit\Doubles\Builders;
 
 use Yoast\WP\SEO\Builders\Indexable_Post_Builder;
-use Yoast\WP\SEO\Helpers\Post_Helper;
-use Yoast\WP\SEO\Loggers\Logger;
-use Yoast\WP\SEO\Models\Indexable;
-use Yoast\WP\SEO\Repositories\SEO_Meta_Repository;
 
 /**
  * Class Indexable_Post_Builder_Double.

@@ -396,8 +396,8 @@ class Indexable_Post_Builder_Test extends TestCase {
 		$actual = $this->instance->find_alternative_image( $this->indexable );
 
 		$expected = [
-			'image' => $image_meta,
-			'source'   => 'gallery-image'
+			'image'  => $image_meta,
+			'source' => 'gallery-image'
 		];
 
 		$this->assertEquals( $expected, $actual );
@@ -448,8 +448,8 @@ class Indexable_Post_Builder_Test extends TestCase {
 		$actual = $this->instance->find_alternative_image( $this->indexable );
 
 		$expected = [
-			'image' => $image_meta,
-			'source'   => 'first-content-image'
+			'image'  => $image_meta,
+			'source' => 'first-content-image'
 		];
 
 		$this->assertEquals( $expected, $actual );
@@ -512,7 +512,7 @@ class Indexable_Post_Builder_Test extends TestCase {
 	 * @covers ::get_robots_noindex
 	 */
 	public function test_get_robots_noindex_noindex() {
-		$this->assertFalse($this->instance->get_robots_noindex( 2 ) );
+		$this->assertFalse( $this->instance->get_robots_noindex( 2 ) );
 	}
 
 	/**
