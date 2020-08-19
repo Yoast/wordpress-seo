@@ -183,12 +183,12 @@ const processThreeLetterWords = function( word, morphologyData ) {
 	const regexReplaceMiddleLetterWithAlif = morphologyData.externalStemmer.regexReplaceMiddleLetterWithAlif;
 	const wordAfterReplacingMiddleLetterWithAlif = word.replace( new RegExp( regexReplaceMiddleLetterWithAlif[ 0 ] ),
 		regexReplaceMiddleLetterWithAlif[ 1 ] );
-	if ( wordAfterReplacingMiddleLetterWithAlif === word ) {
-		const regexReplaceMiddleLetterWithAlifWithHamza = morphologyData.externalStemmer.regexReplaceMiddleLetterWithAlifWithHamza;
-		word = word.replace( new RegExp( regexReplaceMiddleLetterWithAlifWithHamza[ 0 ] ),
-			regexReplaceMiddleLetterWithAlifWithHamza[ 1 ] );
-	} word = wordAfterReplacingMiddleLetterWithAlif;
-
+	if ( wordAfterReplacingMiddleLetterWithAlif !== word ) {
+		word = wordAfterReplacingMiddleLetterWithAlif;
+	}
+	const regexReplaceMiddleLetterWithAlifWithHamza = morphologyData.externalStemmer.regexReplaceMiddleLetterWithAlifWithHamza;
+	word = word.replace( new RegExp( regexReplaceMiddleLetterWithAlifWithHamza[ 0 ] ),
+		regexReplaceMiddleLetterWithAlifWithHamza[ 1 ] );
 	// If the last letter is a shadda, remove it and duplicate the last letter.
 	const regexRemoveShaddaAndDuplicateLastLetter = morphologyData.externalStemmer.regexRemoveShaddaAndDuplicateLastLetter;
 	word = word.replace( new RegExp( regexRemoveShaddaAndDuplicateLastLetter[ 0 ] ),
@@ -487,6 +487,7 @@ export default function stem( word, morphologyData ) {
 		return root;
 	}
 	// If the root still hasn't been found, check if the word matches a pattern and get its root if it does.
+
 	const wordAfterCheckingPatterns = checkPatterns( word, morphologyData );
 	if ( wordAfterCheckingPatterns !== word ) {
 		return wordAfterCheckingPatterns;
