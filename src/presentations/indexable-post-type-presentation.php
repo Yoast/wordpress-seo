@@ -293,6 +293,16 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 			]
 		);
 
+		// No snippet means max snippet can be omitted.
+		if ( $this->model->is_robots_nosnippet === true ) {
+			$robots['max-snippet'] = null;
+		}
+
+		// No image index means max image preview can be omitted.
+		if ( $this->model->is_robots_noimageindex === true ) {
+			$robots['max-image-preview'] = null;
+		}
+
 		// When the post specific index is not set, look to the post status and default of the post type.
 		if ( $this->model->is_robots_noindex === null ) {
 			$post_status_private = \get_post_status( $this->model->object_id ) === 'private';

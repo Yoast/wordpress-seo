@@ -98,6 +98,10 @@ class WPSEO_Meta_Columns {
 			$post_ids = array_keys( $posts );
 		}
 
+		if ( empty( $post_ids ) ) {
+			return;
+		}
+
 		if ( isset( $posts[0] ) && ! is_a( $posts[0], WP_Post::class ) ) {
 			// Prime the post caches as core would to avoid duplicate queries.
 			// This needs to be done as this executes before core does.
