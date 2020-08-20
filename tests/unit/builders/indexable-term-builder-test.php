@@ -350,8 +350,8 @@ class Indexable_Term_Builder_Test extends TestCase {
 	 */
 	public function test_get_meta_value() {
 		$term_meta = [
-			'wpseo_focuskw'               => 'focuskeyword',
-			'wpseo_title'                 => '',
+			'wpseo_focuskw' => 'focuskeyword',
+			'wpseo_title'   => '',
 		];
 
 		$this->assertSame( 'focuskeyword', $this->instance->get_meta_value( 'wpseo_focuskw', $term_meta ) );
@@ -365,8 +365,8 @@ class Indexable_Term_Builder_Test extends TestCase {
 	 */
 	public function test_get_meta_value_non_existing_meta_key() {
 		$term_meta = [
-			'wpseo_focuskw'               => 'focuskeyword',
-			'wpseo_title'                 => '',
+			'wpseo_focuskw' => 'focuskeyword',
+			'wpseo_title'   => '',
 		];
 
 		$this->assertNull( $this->instance->get_meta_value( 'wpseo_desc', $term_meta ) );
@@ -380,8 +380,8 @@ class Indexable_Term_Builder_Test extends TestCase {
 	 */
 	public function test_get_meta_value_empty_value() {
 		$term_meta = [
-			'wpseo_focuskw'               => 'focuskeyword',
-			'wpseo_title'                 => '',
+			'wpseo_focuskw' => 'focuskeyword',
+			'wpseo_title'   => '',
 		];
 
 		$this->assertNull( $this->instance->get_meta_value( 'wpseo_title', $term_meta ) );

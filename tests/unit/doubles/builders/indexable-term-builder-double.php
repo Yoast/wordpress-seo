@@ -3,7 +3,6 @@
 namespace Yoast\WP\SEO\Tests\Unit\Doubles;
 
 use Yoast\WP\SEO\Builders\Indexable_Term_Builder;
-use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
 use Yoast\WP\SEO\Models\Indexable;
 
 /**

@@ -378,15 +378,15 @@ class Indexable_Post_Builder_Test extends TestCase {
 			->andReturn( false );
 
 		$image_meta = [
-			"width"  => 640,
-			"height" => 480,
-			"url"    => "http://basic.wordpress.test/wp-content/uploads/2020/07/WordPress5.jpg",
-			"path"   => "/var/www/html/wp-content/uploads/2020/07/WordPress5.jpg",
-			"size"   => "full",
-			"id"     => 13,
-			"alt"    => "",
-			"pixels" => 307200,
-			"type"   => "image/jpeg"
+			'width'  => 640,
+			'height' => 480,
+			'url'    => 'http://basic.wordpress.test/wp-content/uploads/2020/07/WordPress5.jpg',
+			'path'   => '/var/www/html/wp-content/uploads/2020/07/WordPress5.jpg',
+			'size'   => 'full',
+			'id'     => 13,
+			'alt'    => '',
+			'pixels' => 307200,
+			'type'   => 'image/jpeg',
 		];
 
 		$this->image->allows( 'get_gallery_image' )
@@ -397,7 +397,7 @@ class Indexable_Post_Builder_Test extends TestCase {
 
 		$expected = [
 			'image'  => $image_meta,
-			'source' => 'gallery-image'
+			'source' => 'gallery-image',
 		];
 
 		$this->assertEquals( $expected, $actual );
@@ -430,15 +430,15 @@ class Indexable_Post_Builder_Test extends TestCase {
 			->andReturn( false );
 
 		$image_meta = [
-			"width"  => 640,
-			"height" => 480,
-			"url"    => "http://basic.wordpress.test/wp-content/uploads/2020/07/WordPress5.jpg",
-			"path"   => "/var/www/html/wp-content/uploads/2020/07/WordPress5.jpg",
-			"size"   => "full",
-			"id"     => 13,
-			"alt"    => "",
-			"pixels" => 307200,
-			"type"   => "image/jpeg"
+			'width'  => 640,
+			'height' => 480,
+			'url'    => 'http://basic.wordpress.test/wp-content/uploads/2020/07/WordPress5.jpg',
+			'path'   => '/var/www/html/wp-content/uploads/2020/07/WordPress5.jpg',
+			'size'   => 'full',
+			'id'     => 13,
+			'alt'    => '',
+			'pixels' => 307200,
+			'type'   => 'image/jpeg'
 		];
 
 		$this->image->allows( 'get_post_content_image' )
