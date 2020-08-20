@@ -82,8 +82,6 @@ module.exports = function( grunt ) {
 				grunt.config( "gitadd.versionBump.files", { src: grunt.config.get( 'files.versionFiles' ) } );
 				grunt.task.run( "gitadd:versionBump" );
 
-				//git push --set-upstream origin hotfix/14.9
-
 				grunt.config( "gitcommit.versionBump.options.message", "Update the plugin version to " + grunt.config.data.pluginVersion );
 				grunt.task.run( "gitcommit:versionBump" );
 
