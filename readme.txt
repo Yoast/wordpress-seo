@@ -1,6 +1,6 @@
-=== WpGraphQL Yoast SEO Addon ===
+=== WPGraphQL Yoast SEO Addon ===
 Contributors: ash_hitch
-Tags: SEO, Yoast, WpGraphQL, GraphQL, Headless WordPress, Decoupled WordPress, JAMStack
+Tags: SEO, Yoast, WPGraphQL, GraphQL, Headless WordPress, Decoupled WordPress, JAMStack
 Requires at least: 5.0
 Tested up to: 5.4
 Requires PHP: 7.1
@@ -8,13 +8,30 @@ Stable tag: 4.5.4
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
-This plugin enables Yoast SEO Support for WpGraphQL.
+This plugin enables Yoast SEO Support for WPGraphQL.
 
 == Description ==
 
-This plugin enables Yoast SEO Support for WpGraphQL
+This plugin enables Yoast SEO Support for WPGraphQL
 
 This is an extension to the WPGraphQL plugin (https://github.com/wp-graphql/wp-graphql) that returns Yoast SEO data.
+
+**Currently returning SEO data for:**
+
+- Pages
+- Posts
+- Custom post types
+- Products (WooCommerce)
+- Categories
+- Custom taxonomies
+- WooCommerce Products
+- Yoast Configuration
+  - Webmaster verification
+  - Social profiles
+  - Schemas
+  - Breadcrumbs
+
+  > Please Note: Yoast and WPGraphQL and their logos are copyright to their respective owners.
 
 == Installation ==
 
@@ -24,7 +41,7 @@ This is an extension to the WPGraphQL plugin (https://github.com/wp-graphql/wp-g
 
 To query for the Yoast Data simply add the seo object to your query:
 
-```
+`
 {
   pages(first: 10) {
     edges {
@@ -145,11 +162,12 @@ To query for the Yoast Data simply add the seo object to your query:
       }
     }
   }
-}```
+}
+`
 
 To query for the site configuration data you can query from the root.
 
-```
+`
 {
   posts {
 
@@ -245,7 +263,7 @@ To query for the site configuration data you can query from the root.
     }
   }
 }
-```
+`
 
 == Upgrade Notice ==
 Please note version 14 of the Yoast Plugin is a major update so is now required to run this plugin

@@ -19,6 +19,7 @@ This is an extension to the WPGraphQL plugin (https://github.com/wp-graphql/wp-g
 - Pages
 - Posts
 - Custom post types
+- Products (WooCommerce)
 - Categories
 - Custom taxonomies
 - WooCommerce Products
@@ -298,3 +299,5 @@ This can be used in production, however it is still under active development, br
 ## Contributors (PRs and Issues)
 
 ![contributors.svg](./contributors.svg)
+
+> Please Note: Yoast and WPGraphQL and their logos are copyright to their respective owners.
