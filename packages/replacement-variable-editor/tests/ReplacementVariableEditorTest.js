@@ -66,6 +66,7 @@ describe( "suggestionsFilter", () => {
 			content: "Dummy content",
 			onChange: () => {},
 			ariaLabelledBy: "id",
+			theme: { isRtl: false },
 		};
 
 		replacementVariablesEditor = new ReplacementVariableEditorStandaloneInnerComponent( props );
