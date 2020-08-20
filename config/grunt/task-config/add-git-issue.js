@@ -1,7 +1,7 @@
 module.exports = {
 	options: {
-        githubOwner:  'noud-github',
-        githubRepo: '<%= pluginSlug %>',
+        githubOwner:  '<%= githubOwner %>',
+        githubRepo: '<%= githubRepo %>',
     },
     "default": {
         
