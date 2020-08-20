@@ -44,7 +44,6 @@ const wordsToStem = [
 	// Three letter words with و/ي (yeh/waw) as their second letter and the root is in the exception list after و/ي (yeh/waw) removal
 	[ "أيد", "أيد" ],
 	[ "أوز", "أوز" ],
-	[ "جاب", "جب" ],
 	// Three letter words with و/ي/ا/ئ (yeh_hamza/alef/yeh/waw) as their second letter
 	// And the root is NOT in the exception list after the deletion of و/ي/ا/ئ (yeh_hamza/alef/yeh/waw)
 	[ "موظ", "مظ" ],
@@ -65,6 +64,8 @@ const wordsToStem = [
 	[ "ودّ", "ودد" ],
 	// Three letter words that ends in a shadda, duplicate the second character and the root is NOT in threeLetterRoots list
 	[ "ألّ", "ألل" ],
+	// Four letter word that is in the list of four-letter roots.
+	[ "أبزم", "أبزم" ],
 	// Words that start with أ/إ/آ (alef_madda/alef_hamza_above/alef_hamza_below), the أ/إ/آ is changed to ا
 	[ "آفة", "افة" ],
 	[ "آلهات", "لهت" ],
@@ -72,10 +73,42 @@ const wordsToStem = [
 	[ "إنطباع", "طبع" ],
 	// Words that match one of the patterns
 	[ "تبادل", "بدل" ],
-	// Words that match pattern ÇÝÚáÇ
+	// Words that match pattern ÇÝÚáÇ or افعيلال/افعلال
 	[ "ابيضاض", "بيض" ],
-	// Four letter word that is in the list of four-letter roots.
-	[ "أبزم", "أبزم" ],
+	// Words with a definite article
+	[ "بالضبط", "ضبط" ],
+	[ "كالقمر", "قمر" ],
+	[ "والشمس", "شمس" ],
+	// Words with a definite article whose root matched one of the patterns
+	[ "الضارب", "ضرب" ],
+	[ "للزهور", "زهر" ],
+	// Words with a definite article and a suffix
+	[ "الجدولين", "جدول" ],
+	[ "الزينة", "زين" ],
+	// Three letter words plus prefix waw
+	[ "وموظ", "مظ" ],
+	[ "وغبي", "غبي" ],
+	// Four letter words plus prefix waw
+	[ "وضفدع", "ضفدع" ],
+	[ "وبعبع", "بعبع" ],
+	// Words which match a pattern and have prefix waw
+	[ "وتمثّل", "مثّل" ],
+	[ "وتشاور", "شور" ],
+	// Words with suffix and prefix waw
+	[ "وفتيات", "فتي" ],
+	[ "ومنزلنا", "نزل" ],
+	// Words with prefix and prefix waw
+	[ "وتتلقّى", "لقّى" ],
+	[ "وكرجل", "رجل" ],
+	// Words with suffix and the word matches one of the pattern
+	[ "ملابسك", "لبس" ],
+	// Words with suffix
+	[ "بؤسهم", "بأس" ],
+	[ "توته", "تت" ],
+	[ "جمعكم", "جمع" ],
+	// Words with prefix
+	[ "ستنجب", "نجب" ],
+	[ "فنجبت", "نجب" ],
 ];
 
 describe( "Test for stemming Arabic words", () => {
