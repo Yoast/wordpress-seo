@@ -278,4 +278,50 @@ class Indexable_Term_Builder_Test extends TestCase {
 	public function test_get_noindex_value_invalid() {
 		$this->assertNull( $this->instance->get_noindex_value( 'invalid' ) );
 	}
+
+	/**
+	 * Tests that an alternative image is found in the content, if one exists.
+	 */
+	public function test_find_alternative_image_content_image() {
+		$indexable_mock      = Mockery::mock( Indexable::class );
+		$indexable_mock->orm = Mockery::mock( ORM::class );
+		$object_id           = 123;
+
+		$indexable_mock->orm->expects( 'get' )
+			->with( 'object_id' )
+			->andReturn( $object_id );
+
+		$image = 'http://basic.wordpress.test/wp-content/uploads/2020/07/WordPress5.jpg';
+
+		$this->image->expects( 'get_term_content_image' )
+			->with( $object_id )
+			->andReturn( $image );
+
+		$expected = [
+			'image'  => $image,
+			'source' => 'first-content-image'
+		];
+		$actual   = $this->instance->find_alternative_image( $indexable_mock );
+
+		$this->assertSame( $expected, $actual );
+	}
+
+	/**
+	 * Tests that an alternative image is found in the content, if one exists.
+	 */
+	public function test_find_alternative_image_no_content_image() {
+		$indexable_mock      = Mockery::mock( Indexable::class );
+		$indexable_mock->orm = Mockery::mock( ORM::class );
+		$object_id           = 123;
+
+		$indexable_mock->orm->expects( 'get' )
+			->with( 'object_id' )
+			->andReturn( $object_id );
+
+		$this->image->expects( 'get_term_content_image' )
+			->with( $object_id )
+			->andReturn( null );
+
+		$this->assertFalse( $this->instance->find_alternative_image( $indexable_mock ) );
+	}
 }
