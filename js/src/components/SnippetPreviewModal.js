@@ -49,7 +49,7 @@ class SnippetPreviewModal extends Component {
 
 	/**
 	 * Returns the SnippetPreviewModal.
-	 * 
+	 *
 	 * @returns {Component} The SnippetPreviewModal.
 	 */
 	render() {
