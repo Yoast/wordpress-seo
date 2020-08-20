@@ -15,6 +15,7 @@ module.exports = function( grunt ) {
 		function() {
 			const options = this.options({
 				type: 'release',	
+				branchForRC: '',
 			});
 			
 			const version = grunt.option( "plugin-version" );
@@ -28,10 +29,11 @@ module.exports = function( grunt ) {
 			grunt.config( "gitfetch.fetchall.options.all", true );
 			grunt.task.run( "gitfetch:fetchall" );
 			const basebranch = options.type === "hotfix" ? "master" : "trunk";
-			const branchForRC = options.type + "/" + version;
+			//const branchForRC = options.type + "/" + version;
+			const branchForRC = options.branchForRC
 
 			// Set a grunt branchForRC variable.
-			grunt.config.data.branchForRC = branchForRC;
+			//grunt.config.data.branchForRC = branchForRC;
 
 			// First switch to either trunk or master to make sure we branch from the correct base branch.
 			grunt.config( "gitcheckout.baseBranch.options", {
