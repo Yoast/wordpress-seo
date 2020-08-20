@@ -209,7 +209,7 @@ Your question has most likely been answered on our knowledge base: [kb.yoast.com
 == Changelog ==
 
 == 14.9 =
-Release Date: September 1th, 2020
+Release Date: September 1st, 2020
 
 Bugfixes:
 
