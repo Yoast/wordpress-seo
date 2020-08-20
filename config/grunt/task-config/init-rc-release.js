@@ -9,6 +9,7 @@ module.exports = {
             enableGithubRelease: true,
             alternativeBranch: 'CI-test',
             alternativeBranchPush: true,
+            noBump: false,
        }
     },
 }

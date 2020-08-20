@@ -98,11 +98,13 @@ module.exports = function( grunt ) {
         grunt.config.data.alternativeBranch = options.alternativeBranch;
         grunt.config.data.alternativeBranchPush = options.alternativeBranchPush
         
-        grunt.verbose.writeln("plugin currend version:" + grunt.config.data.pluginVersion);
-        grunt.verbose.writeln("plugin-version:" + grunt.option( 'plugin-version'));
-        grunt.verbose.writeln("enableSlack:" + enableSlack);
-        grunt.verbose.writeln("enableSvnDeploy:" + enableSvnDeploy);
-        grunt.verbose.writeln("enableGithubRelease:" + enableGithubRelease);
+        grunt.verbose.writeln("githubowner: " + owner);
+        grunt.verbose.writeln("githubrepo: " + repo);
+        grunt.verbose.writeln("plugin currend version: " + grunt.config.data.pluginVersion);
+        grunt.verbose.writeln("plugin-version: " + grunt.option( 'plugin-version'));
+        grunt.verbose.writeln("enableSlack: " + enableSlack);
+        grunt.verbose.writeln("enableSvnDeploy: " + enableSvnDeploy);
+        grunt.verbose.writeln("enableGithubRelease: " + enableGithubRelease);
 
     },
     
