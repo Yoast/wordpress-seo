@@ -107,15 +107,15 @@ const processTwoLetterWords = function( word, morphologyData ) {
 	}
 
 	const wordAfterLastWeakLetterCheck = checkWordsWithRemovedLastWeakLetter( word, morphologyData );
-	if ( wordAfterLastWeakLetterCheck !== word ) {
+	if ( wordAfterLastWeakLetterCheck ) {
 		return wordAfterLastWeakLetterCheck;
 	}
 	const wordAfterFirstWeakLetterCheck = checkWordsWithRemovedFirstWeakLetter( word, morphologyData );
-	if ( wordAfterFirstWeakLetterCheck !== word ) {
+	if ( wordAfterFirstWeakLetterCheck ) {
 		return wordAfterFirstWeakLetterCheck;
 	}
 	const wordAfterMiddleWeakLetterCheck = checkWordsWithRemovedMiddleWeakLetter( word, morphologyData );
-	if ( wordAfterMiddleWeakLetterCheck !== word ) {
+	if ( wordAfterMiddleWeakLetterCheck ) {
 		return wordAfterMiddleWeakLetterCheck;
 	}
 
@@ -137,6 +137,7 @@ const processWordsWithWeakLetterOrHamza = function( word, morphologyData, replac
 	const wordAfterRemovingWeakLetterOrHamza = word.replace( new RegExp( replacementPattern[ 0 ] ),
 		replacementPattern[ 1 ] );
 	if ( wordAfterRemovingWeakLetterOrHamza !== word ) {
+		// If the weak letter or hamza was removed, check whether the word is on a list of words with middle/last weak letter removed.
 		return functionToRunToGetRoot( wordAfterRemovingWeakLetterOrHamza, morphologyData );
 	}
 };
@@ -181,7 +182,7 @@ const processThreeLetterWords = function( word, morphologyData ) {
 	const wordAfterReplacingMiddleLetterWithAlif = word.replace( new RegExp( regexReplaceMiddleLetterWithAlif[ 0 ] ),
 		regexReplaceMiddleLetterWithAlif[ 1 ] );
 	if ( wordAfterReplacingMiddleLetterWithAlif === word ) {
-		word = word = word.replace( new RegExp( regexReplaceMiddleLetterWithAlifWithHamza[ 0 ] ),
+		word = word.replace( new RegExp( regexReplaceMiddleLetterWithAlifWithHamza[ 0 ] ),
 			regexReplaceMiddleLetterWithAlifWithHamza[ 1 ] );
 	} else {
 		word = wordAfterReplacingMiddleLetterWithAlif;
@@ -237,6 +238,7 @@ const checkFirstPatternAndGetRoot = function( word, numberSameLetters, morpholog
  */
 const checkSecondPatternAndGetRoot = function( word, pattern, numberSameLetters, morphologyData ) {
 	const characters = morphologyData.externalStemmer.characters;
+	// If the word length minus three is equal to or less than the number of same letters found in the checkPatterns function.
 	if ( word.length - 3 <= numberSameLetters ) {
 		let root = "";
 		for ( let i = 0; i < word.length; i++ ) {
@@ -289,6 +291,7 @@ const checkPatterns = function( word, morphologyData ) {
 			}
 		}
 	}
+	// If a pattern was not matched but the word was modified, return the modified word.
 	if ( wordAfterModification !== word ) {
 		return { word: wordAfterModification, rootFound: false };
 	}
@@ -474,6 +477,7 @@ const processWordWithDefiniteArticle = function( word, morphologyData ) {
 				return outputAfterTryingToFindRoot;
 			} wordAfterRemovingDefiniteArticle = outputAfterTryingToFindRoot.word;
 		}
+		// If the word after removing the definite article is longer than three words, return it even if no root was found.
 		if ( wordAfterRemovingDefiniteArticle > 3 ) {
 			return { word: wordAfterRemovingDefiniteArticle, rootFound: false };
 		}
@@ -523,16 +527,20 @@ export default function stem( word, morphologyData ) {
 	// If the root still hasn't been found, check if the word matches a pattern and get its root if it does.
 	const outputAfterCheckingPatterns = checkPatterns( word, morphologyData );
 	if ( outputAfterCheckingPatterns ) {
+		// Return the root if it was found in the checkPatterns function
 		if ( outputAfterCheckingPatterns.rootFound === true ) {
 			return outputAfterCheckingPatterns.word;
+			// If the checkPatterns function modified the word but did not find the root, replace the word with the modified word.
 		} word = outputAfterCheckingPatterns.word;
 	}
 
 	// If the root still hasn't been found, remove the definite article and try to find the root.
 	const outputAfterProcessingDefiniteArticle = processWordWithDefiniteArticle( word, morphologyData );
 	if ( outputAfterProcessingDefiniteArticle ) {
+		// Return the root if it was found after removing the definite article.
 		if ( outputAfterProcessingDefiniteArticle.rootFound === true ) {
 			return outputAfterProcessingDefiniteArticle.word;
+			// If the definite article was removed but the root was not found, replace the word with the stemmed word.
 		} word = outputAfterCheckingPatterns.word;
 	}
 
