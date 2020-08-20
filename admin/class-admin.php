@@ -51,10 +51,6 @@ class WPSEO_Admin {
 			add_filter( 'wpseo_accessible_post_types', [ 'WPSEO_Post_Type', 'filter_attachment_post_type' ] );
 		}
 
-		if ( filter_input( INPUT_GET, 'page' ) === 'wpseo_tools' && filter_input( INPUT_GET, 'tool' ) === null ) {
-			new WPSEO_Recalculate_Scores();
-		}
-
 		add_filter( 'plugin_action_links_' . WPSEO_BASENAME, [ $this, 'add_action_link' ], 10, 2 );
 
 		add_action( 'admin_enqueue_scripts', [ $this, 'config_page_scripts' ] );
@@ -74,7 +70,7 @@ class WPSEO_Admin {
 		WPSEO_Sitemaps_Cache::register_clear_on_option_update( 'wpseo' );
 		WPSEO_Sitemaps_Cache::register_clear_on_option_update( 'home' );
 
-		if ( WPSEO_Utils::is_yoast_seo_page() ) {
+		if ( YoastSEO()->helpers->current_page->is_yoast_seo_page() ) {
 			add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_assets' ] );
 		}
 
@@ -117,7 +113,6 @@ class WPSEO_Admin {
 		$integrations = array_merge(
 			$integrations,
 			$this->get_admin_features(),
-			$this->initialize_seo_links(),
 			$this->initialize_cornerstone_content()
 		);
 
@@ -268,8 +263,6 @@ class WPSEO_Admin {
 	 *
 	 * These are used with the Facebook author, rel="author" and Twitter cards implementation.
 	 *
-	 * @link https://developers.google.com/search/docs/data-types/social-profile
-	 *
 	 * @param array $contactmethods Currently set contactmethods.
 	 *
 	 * @return array $contactmethods with added contactmethods.
@@ -308,6 +301,7 @@ class WPSEO_Admin {
 	 */
 	private function localize_admin_global_script() {
 		return [
+			'isRtl'                   => is_rtl(),
 			'variable_warning'        => sprintf(
 				/* translators: %1$s: '%%term_title%%' variable used in titles and meta's template that's not compatible with the given template, %2$s: expands to 'HelpScout beacon' */
 				__( 'Warning: the variable %1$s cannot be used in this template. See the %2$s for more info.', 'wordpress-seo' ),
@@ -315,7 +309,6 @@ class WPSEO_Admin {
 				'HelpScout beacon'
 			),
 			'dismiss_about_url'       => $this->get_dismiss_url( 'wpseo-dismiss-about' ),
-			'dismiss_tagline_url'     => $this->get_dismiss_url( 'wpseo-dismiss-tagline-notice' ),
 			/* translators: %s: expends to Yoast SEO */
 			'help_video_iframe_title' => sprintf( __( '%s video tutorial', 'wordpress-seo' ), 'Yoast SEO' ),
 			'scrollable_table_hint'   => __( 'Scroll to see the table content.', 'wordpress-seo' ),
@@ -372,61 +365,6 @@ class WPSEO_Admin {
 	}
 
 	/**
-	 * Initializes the seo link watcher.
-	 *
-	 * @returns WPSEO_WordPress_Integration[]
-	 */
-	protected function initialize_seo_links() {
-		$integrations = [];
-
-		$link_table_compatibility_notifier = new WPSEO_Link_Compatibility_Notifier();
-		$link_table_accessible_notifier    = new WPSEO_Link_Table_Accessible_Notifier();
-
-		if ( ! WPSEO_Options::get( 'enable_text_link_counter' ) ) {
-			$link_table_compatibility_notifier->remove_notification();
-
-			return $integrations;
-		}
-
-		$integrations[] = new WPSEO_Link_Cleanup_Transient();
-
-		// Only use the link module for PHP 5.3 and higher and show a notice when version is wrong.
-		if ( version_compare( phpversion(), '5.3', '<' ) ) {
-			$link_table_compatibility_notifier->add_notification();
-
-			return $integrations;
-		}
-
-		$link_table_compatibility_notifier->remove_notification();
-
-		// When the table doesn't exists, just add the notification and return early.
-		if ( ! WPSEO_Link_Table_Accessible::is_accessible() ) {
-			WPSEO_Link_Table_Accessible::cleanup();
-		}
-
-		if ( ! WPSEO_Meta_Table_Accessible::is_accessible() ) {
-			WPSEO_Meta_Table_Accessible::cleanup();
-		}
-
-		if ( ! WPSEO_Link_Table_Accessible::is_accessible() || ! WPSEO_Meta_Table_Accessible::is_accessible() ) {
-			$link_table_accessible_notifier->add_notification();
-
-			return $integrations;
-		}
-
-		$link_table_accessible_notifier->remove_notification();
-
-		$integrations[] = new WPSEO_Link_Columns( new WPSEO_Meta_Storage() );
-		$integrations[] = new WPSEO_Link_Reindex_Dashboard();
-		$integrations[] = new WPSEO_Link_Notifier();
-
-		// Adds a filter to exclude the attachments from the link count.
-		add_filter( 'wpseo_link_count_post_types', [ 'WPSEO_Post_Type', 'filter_attachment_post_type' ] );
-
-		return $integrations;
-	}
-
-	/**
 	 * Retrieves an instance of the HelpScout beacon class for Yoast SEO.
 	 *
 	 * @return WPSEO_HelpScout The instance of the HelpScout beacon.
@@ -459,43 +397,5 @@ class WPSEO_Admin {
 			$helpscout_settings['products'],
 			$helpscout_settings['ask_consent']
 		);
-	}
-
-	/* ********************* DEPRECATED METHODS ********************* */
-
-	/**
-	 * Cleans stopwords out of the slug, if the slug hasn't been set yet.
-	 *
-	 * @deprecated 7.0
-	 * @codeCoverageIgnore
-	 *
-	 * @return void
-	 */
-	public function remove_stopwords_from_slug() {
-		_deprecated_function( __METHOD__, 'WPSEO 7.0' );
-	}
-
-	/**
-	 * Filter the stopwords from the slug.
-	 *
-	 * @deprecated 7.0
-	 * @codeCoverageIgnore
-	 *
-	 * @return void
-	 */
-	public function filter_stopwords_from_slug() {
-		_deprecated_function( __METHOD__, 'WPSEO 7.0' );
-	}
-
-	/**
-	 * Initializes WHIP to show a notice for outdated PHP versions.
-	 *
-	 * @deprecated 8.1
-	 * @codeCoverageIgnore
-	 *
-	 * @return void
-	 */
-	public function check_php_version() {
-		// Intentionally left empty.
 	}
 }

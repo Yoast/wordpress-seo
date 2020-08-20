@@ -1,5 +1,4 @@
 // External dependencies.
-import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { StyledSection, StyledHeading, StyledSectionBase } from "@yoast/components";
@@ -9,8 +8,7 @@ const Section = styled( StyledSection )`
 	max-width: 640px;
 	
 	&${ StyledSectionBase } {
-		padding-left: 0;
-		padding-right: 0;
+		padding: 0;
 
 		& ${ StyledHeading } {
 			${ getRtlStyle( "padding-left", "padding-right" ) }: 20px;
@@ -23,12 +21,12 @@ const Section = styled( StyledSection )`
  * Creates the Snippet Preview Section.
  *
  * @param {Object}         props               The component props.
- * @param {ReactComponent} props.children      The component's children.
+ * @param {wp.Element}     props.children      The component's children.
  * @param {string}         props.title         The heading title.
  * @param {string}         props.icon          The heading icon.
  * @param {bool}           props.hasPaperStyle Whether the section should have a paper style.
  *
- * @returns {ReactElement} Snippet Preview Section.
+ * @returns {wp.Element} Snippet Preview Section.
  */
 const SnippetPreviewSection = ( { children, title, icon, hasPaperStyle } ) => {
 	return (

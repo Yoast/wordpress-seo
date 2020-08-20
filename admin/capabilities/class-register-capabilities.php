@@ -35,10 +35,11 @@ class WPSEO_Register_Capabilities implements WPSEO_WordPress_Integration {
 		$manager->register( 'wpseo_edit_advanced_metadata', [ 'wpseo_editor', 'wpseo_manager' ] );
 
 		$manager->register( 'wpseo_manage_options', [ 'administrator', 'wpseo_manager' ] );
+		$manager->register( 'view_site_health_checks', [ 'wpseo_manager' ] );
 	}
 
 	/**
-	 * Revokes the 'wpseo_manage_options' capability from administrator users if it should only
+	 * Revokes the 'wpseo_manage_options' capability from administrator users if it should
 	 * only be granted to network administrators.
 	 *
 	 * @param array   $allcaps An array of all the user's capabilities.

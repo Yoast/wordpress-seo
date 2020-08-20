@@ -5,6 +5,9 @@
  * @package WPSEO\Internal
  */
 
+use Yoast\WP\Lib\Model;
+use Yoast\WP\SEO\Integrations\Admin\Indexation_Integration;
+
 /**
  * This code handles the option upgrades.
  */
@@ -19,39 +22,42 @@ class WPSEO_Upgrade {
 		WPSEO_Options::maybe_set_multisite_defaults( false );
 
 		$routines = [
-			'1.5.0'     => 'upgrade_15',
-			'2.0'       => 'upgrade_20',
-			'2.1'       => 'upgrade_21',
-			'2.2'       => 'upgrade_22',
-			'2.3'       => 'upgrade_23',
-			'3.0'       => 'upgrade_30',
-			'3.3'       => 'upgrade_33',
-			'3.6'       => 'upgrade_36',
-			'4.0'       => 'upgrade_40',
-			'4.4'       => 'upgrade_44',
-			'4.7'       => 'upgrade_47',
-			'4.9'       => 'upgrade_49',
-			'5.0'       => 'upgrade_50',
-			'5.1'       => 'upgrade_50_51',
-			'5.5'       => 'upgrade_55',
-			'5.6'       => 'upgrade_56',
-			'6.1'       => 'upgrade_61',
-			'6.3'       => 'upgrade_63',
-			'7.0-RC0'   => 'upgrade_70',
-			'7.1-RC0'   => 'upgrade_71',
-			'7.3-RC0'   => 'upgrade_73',
-			'7.4-RC0'   => 'upgrade_74',
-			'7.5.3'     => 'upgrade_753',
-			'7.7-RC0'   => 'upgrade_77',
-			'7.7.2-RC0' => 'upgrade_772',
-			'9.0-RC0'   => 'upgrade_90',
-			'10.0-RC0'  => 'upgrade_100',
-			'11.1-RC0'  => 'upgrade_111',
+			'1.5.0'      => 'upgrade_15',
+			'2.0'        => 'upgrade_20',
+			'2.1'        => 'upgrade_21',
+			'2.2'        => 'upgrade_22',
+			'2.3'        => 'upgrade_23',
+			'3.0'        => 'upgrade_30',
+			'3.3'        => 'upgrade_33',
+			'3.6'        => 'upgrade_36',
+			'4.0'        => 'upgrade_40',
+			'4.4'        => 'upgrade_44',
+			'4.7'        => 'upgrade_47',
+			'4.9'        => 'upgrade_49',
+			'5.0'        => 'upgrade_50',
+			'5.5'        => 'upgrade_55',
+			'6.3'        => 'upgrade_63',
+			'7.0-RC0'    => 'upgrade_70',
+			'7.1-RC0'    => 'upgrade_71',
+			'7.3-RC0'    => 'upgrade_73',
+			'7.4-RC0'    => 'upgrade_74',
+			'7.5.3'      => 'upgrade_753',
+			'7.7-RC0'    => 'upgrade_77',
+			'7.7.2-RC0'  => 'upgrade_772',
+			'9.0-RC0'    => 'upgrade_90',
+			'10.0-RC0'   => 'upgrade_100',
+			'11.1-RC0'   => 'upgrade_111',
 			/** Reset notifications because we removed the AMP Glue plugin notification */
-			'12.1-RC0'  => 'clean_all_notifications',
-			'12.3-RC0'  => 'upgrade_123',
-			'12.4-RC0'  => 'upgrade_124',
-			'12.8-RC0'  => 'upgrade_128',
+			'12.1-RC0'   => 'clean_all_notifications',
+			'12.3-RC0'   => 'upgrade_123',
+			'12.4-RC0'   => 'upgrade_124',
+			'12.8-RC0'   => 'upgrade_128',
+			'13.2-RC0'   => 'upgrade_132',
+			'14.0.3-RC0' => 'upgrade_1403',
+			'14.1-RC0'   => 'upgrade_141',
+			'14.2-RC0'   => 'upgrade_142',
+			'14.5-RC0'   => 'upgrade_145',
+			'14.9-RC0'   => 'upgrade_149',
 		];
 
 		array_walk( $routines, [ $this, 'run_upgrade_routine' ], $version );
@@ -76,7 +82,7 @@ class WPSEO_Upgrade {
 		 */
 		do_action( 'wpseo_run_upgrade', $version );
 
-		$this->finish_up();
+		$this->finish_up( $version );
 	}
 
 	/**
@@ -107,8 +113,15 @@ class WPSEO_Upgrade {
 
 	/**
 	 * Runs the needed cleanup after an update, setting the DB version to latest version, flushing caches etc.
+	 *
+	 * @param string $previous_version The previous version.
+	 *
+	 * @return void
 	 */
-	protected function finish_up() {
+	protected function finish_up( $previous_version = null ) {
+		if ( $previous_version ) {
+			WPSEO_Options::set( 'previous_version', $previous_version );
+		}
 		WPSEO_Options::set( 'version', WPSEO_VERSION );
 
 		// Just flush rewrites, always, to at least make them work after an upgrade.
@@ -352,29 +365,8 @@ class WPSEO_Upgrade {
 	private function upgrade_50() {
 		global $wpdb;
 
-		$link_installer = new WPSEO_Link_Installer();
-		$link_installer->install();
-
-		// Trigger reindex notification.
-		$notifier = new WPSEO_Link_Notifier();
-		$notifier->manage_notification();
-
 		// Deletes the post meta value, which might created in the RC.
 		$wpdb->query( 'DELETE FROM ' . $wpdb->postmeta . ' WHERE meta_key = "_yst_content_links_processed"' );
-	}
-
-	/**
-	 * Updates the internal_link_count column to support improved functionality.
-	 *
-	 * @param string $version The current version to compare with.
-	 */
-	private function upgrade_50_51( $version ) {
-		global $wpdb;
-
-		if ( version_compare( $version, '5.0', '>=' ) ) {
-			$count_storage = new WPSEO_Meta_Storage();
-			$wpdb->query( 'ALTER TABLE ' . $count_storage->get_table_name() . ' MODIFY internal_link_count int(10) UNSIGNED NULL DEFAULT NULL' );
-		}
 	}
 
 	/**
@@ -388,41 +380,6 @@ class WPSEO_Upgrade {
 		// Register capabilities.
 		do_action( 'wpseo_register_capabilities' );
 		WPSEO_Capability_Manager_Factory::get()->add();
-	}
-
-	/**
-	 * Updates legacy license page options to the latest version.
-	 */
-	private function upgrade_56() {
-		global $wpdb;
-
-		// Make sure License Server checks are on the latest server version by default.
-		update_option( 'wpseo_license_server_version', WPSEO_License_Page_Manager::VERSION_BACKWARDS_COMPATIBILITY );
-
-		// Make sure incoming link count entries are at least 0, not NULL.
-		$count_storage = new WPSEO_Meta_Storage();
-		$wpdb->query( 'UPDATE ' . $count_storage->get_table_name() . ' SET incoming_link_count = 0 WHERE incoming_link_count IS NULL' );
-	}
-
-	/**
-	 * Updates the links for the link count when there is a difference between the site and home url.
-	 * We've used the site url instead of the home url.
-	 *
-	 * @return void
-	 */
-	private function upgrade_61() {
-		// When the home url is the same as the site url, just do nothing.
-		if ( home_url() === site_url() ) {
-			return;
-		}
-
-		global $wpdb;
-
-		$link_storage = new WPSEO_Link_Storage();
-		$wpdb->query( 'DELETE FROM ' . $link_storage->get_table_name() );
-
-		$meta_storage = new WPSEO_Meta_Storage();
-		$wpdb->query( 'DELETE FROM ' . $meta_storage->get_table_name() );
 	}
 
 	/**
@@ -689,6 +646,172 @@ class WPSEO_Upgrade {
 
 		Yoast_Notification_Center::get()->remove_notification_by_id( 'wpseo-dismiss-page_comments-notice' );
 		Yoast_Notification_Center::get()->remove_notification_by_id( 'wpseo-dismiss-wordpress-upgrade' );
+	}
+
+	/**
+	 * Performs the 13.2 upgrade.
+	 */
+	private function upgrade_132() {
+		Yoast_Notification_Center::get()->remove_notification_by_id( 'wpseo-dismiss-tagline-notice' );
+		Yoast_Notification_Center::get()->remove_notification_by_id( 'wpseo-dismiss-permalink-notice' );
+		Yoast_Notification_Center::get()->remove_notification_by_id( 'wpseo-dismiss-onpageorg' );
+
+		// Transfers the onpage option value to the ryte option.
+		$ryte_option   = get_option( 'wpseo_ryte' );
+		$onpage_option = get_option( 'wpseo_onpage' );
+		if ( ! $ryte_option && $onpage_option ) {
+			update_option( 'wpseo_ryte', $onpage_option );
+			delete_option( 'wpseo_onpage' );
+		}
+
+		// Changes onpage_indexability to ryte_indexability.
+		$wpseo_option = get_option( 'wpseo' );
+		if ( isset( $wpseo_option['onpage_indexability'] ) && ! isset( $wpseo_option['ryte_indexability'] ) ) {
+			$wpseo_option['ryte_indexability'] = $wpseo_option['onpage_indexability'];
+			unset( $wpseo_option['onpage_indexability'] );
+			update_option( 'wpseo', $wpseo_option );
+		}
+
+		if ( wp_next_scheduled( 'wpseo_ryte_fetch' ) ) {
+			wp_clear_scheduled_hook( 'wpseo_ryte_fetch' );
+		}
+
+		/*
+		 * Re-register capabilities to add the new `view_site_health_checks`
+		 * capability to the SEO Manager role.
+		 */
+		do_action( 'wpseo_register_capabilities' );
+		WPSEO_Capability_Manager_Factory::get()->add();
+	}
+
+	/**
+	 * Perform the 14.0.3 upgrade.
+	 */
+	private function upgrade_1403() {
+		WPSEO_Options::set( 'ignore_indexation_warning', false );
+	}
+
+	/**
+	 * Performs the 14.1 upgrade.
+	 */
+	private function upgrade_141() {
+		/*
+		 * These notifications are retrieved from storage on the `init` hook with
+		 * priority 1. We need to remove them after they're retrieved.
+		 */
+		add_action( 'init', [ $this, 'remove_notifications_for_141' ] );
+		add_action( 'init', [ $this, 'clean_up_private_taxonomies_for_141' ] );
+
+		$this->reset_permalinks_of_attachments_for_141();
+	}
+
+	/**
+	 * Performs the 14.2 upgrade.
+	 *
+	 * Removes the yoast-acf-analysis notice when it's still in the database.
+	 */
+	private function upgrade_142() {
+		add_action( 'init', [ $this, 'remove_acf_notification_for_142' ] );
+	}
+
+	/**
+	 * Performs the 14.5 upgrade.
+	 */
+	private function upgrade_145() {
+		add_action( 'init', [ $this, 'set_indexation_completed_option_for_145' ] );
+	}
+
+	/**
+	 * Performs the 14.9 upgrade.
+	 */
+	private function upgrade_149() {
+		$version = get_option( 'wpseo_license_server_version', WPSEO_License_Page_Manager::VERSION_BACKWARDS_COMPATIBILITY );
+		WPSEO_Options::set( 'license_server_version', $version );
+		delete_option( 'wpseo_license_server_version' );
+	}
+
+	/**
+	 * Checks if the indexable indexation is completed.
+	 * If so, sets the `indexables_indexation_completed` option to `true`,
+	 * else to `false`.
+	 */
+	public function set_indexation_completed_option_for_145() {
+		/**
+		 * @var Indexation_Integration
+		 */
+		$indexation_integration = YoastSEO()->classes->get( Indexation_Integration::class );
+
+		WPSEO_Options::set( 'indexables_indexation_completed', $indexation_integration->get_total_unindexed() === 0 );
+	}
+
+	/**
+	 * Cleans up the private taxonomies from the indexables table for the upgrade routine to 14.1.
+	 */
+	public function clean_up_private_taxonomies_for_141() {
+		global $wpdb;
+
+		// If migrations haven't been completed succesfully the following may give false errors. So suppress them.
+		$show_errors       = $wpdb->show_errors;
+		$wpdb->show_errors = false;
+
+		// Clean up indexables of private taxonomies.
+		$private_taxonomies = \get_taxonomies( [ 'public' => false ], 'names' );
+
+		if ( empty( $private_taxonomies ) ) {
+			return;
+		}
+
+		$indexable_table = Model::get_table_name( 'Indexable' );
+		$query           = $wpdb->prepare(
+			"DELETE FROM $indexable_table
+			WHERE object_type = 'term'
+			AND object_sub_type IN ("
+				. \implode( ', ', \array_fill( 0, \count( $private_taxonomies ), '%s' ) )
+				. ')',
+			$private_taxonomies
+		);
+		$wpdb->query( $query );
+
+		$wpdb->show_errors = $show_errors;
+	}
+
+	/**
+	 * Resets the permalinks of attachments to `null` in the indexable table for the upgrade routine to 14.1.
+	 */
+	private function reset_permalinks_of_attachments_for_141() {
+		global $wpdb;
+
+		// If migrations haven't been completed succesfully the following may give false errors. So suppress them.
+		$show_errors       = $wpdb->show_errors;
+		$wpdb->show_errors = false;
+
+		// Reset the permalinks of the attachments in the indexable table.
+		$indexable_table = Model::get_table_name( 'Indexable' );
+		$query           = "UPDATE $indexable_table SET permalink = NULL WHERE object_type = 'post' AND object_sub_type = 'attachment'";
+		$wpdb->query( $query );
+
+		$wpdb->show_errors = $show_errors;
+	}
+
+	/**
+	 * Removes notifications from the Notification center for the 14.1 upgrade.
+	 *
+	 * @return void
+	 */
+	public function remove_notifications_for_141() {
+		Yoast_Notification_Center::get()->remove_notification_by_id( 'wpseo-dismiss-recalculate' );
+		Yoast_Notification_Center::get()->remove_notification_by_id( 'wpseo-dismiss-blog-public-notice' );
+		Yoast_Notification_Center::get()->remove_notification_by_id( 'wpseo-links-table-not-accessible' );
+		Yoast_Notification_Center::get()->remove_notification_by_id( 'wpseo-post-type-archive-notification' );
+	}
+
+	/**
+	 * Removes the wpseo-suggested-plugin-yoast-acf-analysis notification from the Notification center for the 14.2 upgrade.
+	 *
+	 * @return void
+	 */
+	public function remove_acf_notification_for_142() {
+		Yoast_Notification_Center::get()->remove_notification_by_id( 'wpseo-suggested-plugin-yoast-acf-analysis' );
 	}
 
 	/**

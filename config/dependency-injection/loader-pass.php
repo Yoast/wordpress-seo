@@ -7,14 +7,16 @@
 
 namespace Yoast\WP\SEO\Dependency_Injection;
 
+use ReflectionClass;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
-use Symfony\Component\DependencyInjection\Reference;
-use Yoast\WP\SEO\Conditionals\Conditional;
+use Yoast\WP\Lib\Migrations\Migration;
+use Yoast\WP\SEO\Commands\Command_Interface;
+use Yoast\WP\SEO\Initializers\Initializer_Interface;
+use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Loader;
-use Yoast\WP\SEO\WordPress\Initializer;
-use Yoast\WP\SEO\WordPress\Integration;
+use Yoast\WP\SEO\Routes\Route_Interface;
 
 /**
  * A pass is a step in the compilation process of the container.
@@ -28,7 +30,7 @@ class Loader_Pass implements CompilerPassInterface {
 	 * Checks all definitions to ensure all classes implementing the Integration interface
 	 * are registered with the Loader class.
 	 *
-	 * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container The container.
+	 * @param ContainerBuilder $container The container.
 	 */
 	public function process( ContainerBuilder $container ) {
 		if ( ! $container->hasDefinition( Loader::class ) ) {
@@ -36,10 +38,7 @@ class Loader_Pass implements CompilerPassInterface {
 		}
 
 		$loader_definition = $container->getDefinition( Loader::class );
-		$loader_definition->setArgument( 0, new Reference( 'service_container' ) );
-		$loader_definition->setPublic( true );
-
-		$definitions = $container->getDefinitions();
+		$definitions       = $container->getDefinitions();
 
 		foreach ( $definitions as $definition ) {
 			$this->process_definition( $definition, $loader_definition );
@@ -49,24 +48,35 @@ class Loader_Pass implements CompilerPassInterface {
 	/**
 	 * Processes a definition in the container.
 	 *
-	 * @param \Symfony\Component\DependencyInjection\Definition $definition        The definition to process.
-	 * @param \Symfony\Component\DependencyInjection\Definition $loader_definition The loader definition.
+	 * @param Definition $definition        The definition to process.
+	 * @param Definition $loader_definition The loader definition.
 	 */
 	private function process_definition( Definition $definition, Definition $loader_definition ) {
 		$class = $definition->getClass();
 
-		if ( \is_subclass_of( $class, Initializer::class ) ) {
+		if ( \is_subclass_of( $class, Initializer_Interface::class ) ) {
 			$loader_definition->addMethodCall( 'register_initializer', [ $class ] );
-			$definition->setPublic( true );
 		}
 
-		if ( \is_subclass_of( $class, Integration::class ) ) {
+		if ( \is_subclass_of( $class, Integration_Interface::class ) ) {
 			$loader_definition->addMethodCall( 'register_integration', [ $class ] );
-			$definition->setPublic( true );
 		}
 
-		if ( \is_subclass_of( $class, Conditional::class ) ) {
-			$definition->setPublic( true );
+		if ( \is_subclass_of( $class, Route_Interface::class ) ) {
+			$loader_definition->addMethodCall( 'register_route', [ $class ] );
+		}
+
+		if ( \is_subclass_of( $class, Command_Interface::class ) ) {
+			$loader_definition->addMethodCall( 'register_command', [ $class ] );
+		}
+
+		if ( \is_subclass_of( $class, Migration::class ) ) {
+			$reflect = new ReflectionClass( $class );
+			$path    = $reflect->getFileName();
+			$file    = \basename( $path, '.php' );
+			$version = \explode( '_', $file )[0];
+			$plugin  = $class::$plugin;
+			$loader_definition->addMethodCall( 'register_migration', [ $plugin, $version, $class ] );
 		}
 	}
 }

@@ -54,7 +54,7 @@ if ( $tool_page === '' ) {
 		$attr = ( ! empty( $tool['attr'] ) ) ? $tool['attr'] : '';
 
 		echo '<li>';
-		echo '<strong><a href="', esc_url( $href ), '" ', esc_attr( $attr ) , '>', esc_html( $tool['title'] ), '</a></strong><br/>';
+		echo '<strong><a href="', esc_url( $href ), '" ', esc_attr( $attr ), '>', esc_html( $tool['title'] ), '</a></strong><br/>';
 		echo esc_html( $tool['desc'] );
 		echo '</li>';
 	}
@@ -65,9 +65,6 @@ if ( $tool_page === '' ) {
 	do_action( 'wpseo_tools_overview_list_items' );
 
 	echo '</ul>';
-
-	echo '<input type="hidden" id="wpseo_recalculate_nonce" name="wpseo_recalculate_nonce" value="' . esc_attr( wp_create_nonce( 'wpseo_recalculate' ) ) . '" />';
-
 }
 else {
 	echo '<a href="', esc_url( admin_url( 'admin.php?page=wpseo_tools' ) ), '">', esc_html__( '&laquo; Back to Tools page', 'wordpress-seo' ), '</a>';

@@ -11,15 +11,6 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
-if ( ! function_exists( 'initialize_wpseo_front' ) ) {
-	/**
-	 * Wraps frontend class.
-	 */
-	function initialize_wpseo_front() {
-		WPSEO_Frontend::get_instance();
-	}
-}
-
 if ( ! function_exists( 'yoast_breadcrumb' ) ) {
 	/**
 	 * Template tag for breadcrumbs.
@@ -195,13 +186,16 @@ add_filter( 'icl_wpml_config_array', 'wpseo_wpml_config' );
  * Yoast SEO breadcrumb shortcode.
  * [wpseo_breadcrumb]
  *
+ * @deprecated 14.0
+ * @codeCoverageIgnore
+ *
  * @return string
  */
 function wpseo_shortcode_yoast_breadcrumb() {
-	return yoast_breadcrumb( '', '', false );
-}
+	_deprecated_function( __FUNCTION__, 'WPSEO 14.0' );
 
-add_shortcode( 'wpseo_breadcrumb', 'wpseo_shortcode_yoast_breadcrumb' );
+	return '';
+}
 
 if ( ! extension_loaded( 'ctype' ) || ! function_exists( 'ctype_digit' ) ) {
 	/**

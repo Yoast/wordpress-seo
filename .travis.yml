@@ -1,5 +1,6 @@
-language: php
+os: linux
 dist: xenial
+language: php
 
 services:
   - mysql
@@ -26,15 +27,15 @@ jobs:
     - php: 7.2
       env: PHPCS=1 CHECKJS=1 SECURITY=1 TRAVIS_NODE_VERSION=lts/* AUTO_CHECKOUT_MONOREPO_BRANCH=1
     - php: 7.3
-      env: WP_VERSION=latest PHPLINT=1 WP_MULTISITE=1 COVERAGE=1
+      env: WP_VERSION=latest WP_MULTISITE=1 COVERAGE=1
     - php: 5.6
-      env: WP_VERSION=5.2 WP_MULTISITE=1 PHPLINT=1 PHPUNIT=1
+      env: WP_VERSION=5.4 WP_MULTISITE=1 PHPLINT=1 PHPUNIT=1
       # Use 'trusty' to test against MySQL 5.6, 'xenial' contains 5.7 by default.
       dist: trusty
     - php: 7.3
       env: WP_VERSION=master PHPUNIT=1
     - php: 7.4
-      env: WP_VERSION=latest PHPUNIT=1
+      env: WP_VERSION=latest PHPUNIT=1 PHPLINT=1
     - php: "nightly"
       env: PHPLINT=1
     - stage: 🚀 deployment
@@ -64,6 +65,12 @@ jobs:
       php: 7.2
       install:
         - yarn global add grunt-cli
+        - |
+          if [[ ( $TRAVIS_BRANCH =~ ^feature\/* || $TRAVIS_BRANCH =~ ^release\/* || $TRAVIS_BRANCH = "trunk" ) && "$TRAVIS_EVENT_TYPE" = "push" ]]; then
+            git clone https://github.com/yoast/javascript /tmp/javascript
+            echo '{"monorepo-location":"/tmp/javascript"}' > .yoast
+            AUTO_CHECKOUT_MONOREPO_BRANCH=1 yarn link-monorepo
+          fi
         - yarn install
       before_script: skip
       script:
@@ -74,21 +81,21 @@ jobs:
           fi
         - grunt artifact
         - grunt composer-artifact
-      if: ( tag IS present OR branch =~ /^feature\// OR branch = trunk ) AND type != pull_request
+      if: ( tag IS present OR branch =~ /^feature\// OR branch =~ /^release\// OR branch = trunk ) AND type != pull_request
       before_install:
         - nvm install lts/*
         - curl -o- -L https://yarnpkg.com/install.sh | bash
         - export PATH=$HOME/.yarn/bin:$PATH
-        - openssl aes-256-cbc -K $encrypted_06a9c1b95cfa_key -iv $encrypted_06a9c1b95cfa_iv -in ./deploy_keys/travis_dist_id_rsa.enc -out ./deploy_keys/travis_dist_id_rsa -d
-        - chmod 600 ./deploy_keys/travis_dist_id_rsa
+        - openssl aes-256-cbc -K $encrypted_e268719177eb_key -iv $encrypted_e268719177eb_iv -in config/travis/deploy_keys/id_rsa_yoast_dist.enc -out config/travis/deploy_keys/id_rsa_yoast_dist -d
+        - chmod 600 config/travis/deploy_keys/id_rsa_yoast_dist
         - eval $(ssh-agent -s)
-        - ssh-add ./deploy_keys/travis_dist_id_rsa
+        - ssh-add config/travis/deploy_keys/id_rsa_yoast_dist
 
       # If the commit was tagged, create an artifact and push it to the distribution github
       deploy:
         skip_cleanup: true
         provider: script
-        script: bash scripts/deploy_to_dist.sh ${TRAVIS_TAG:-$TRAVIS_BRANCH} wordpress-seo
+        script: bash config/travis/deploy_to_dist.sh ${TRAVIS_TAG:-$TRAVIS_BRANCH} wordpress-seo
         on:
           repo: $TRAVIS_REPO_SLUG
           all_branches: true
@@ -103,11 +110,13 @@ cache:
   yarn: true
   directories:
     - $HOME/.composer/cache
+    - .cache
     - node_modules
 
 before_install:
   - export SECURITYCHECK_DIR=/tmp/security-checker
   - if [[ -z "$CC_TEST_REPORTER_ID" ]]; then COVERAGE="0"; fi
+  - if [[ -d "premium" ]]; then IS_PREMIUM=1; fi
   - if [[ "$COVERAGE" != "1" ]]; then phpenv config-rm xdebug.ini || echo 'No xdebug config.'; fi
   - |
     if [[ "$CHECKJS" == "1" ]]; then
@@ -135,18 +144,27 @@ install:
       composer require phpunit/phpcov ^3.1
     fi
   - |
-    if [[ "$PHPCS" == "1" || "$PHPUNIT" == "1" || "$COVERAGE" == "1" ]]; then
+    if [[ $TRAVIS_PHP_VERSION == "nightly" && "$PHPLINT" == "1" ]]; then
+      composer install --no-interaction --ignore-platform-reqs --no-scripts --no-suggest
+    elif [[ "$PHPUNIT" == "1" || "$COVERAGE" == "1" || "$PHPCS" == "1" || "$PHPLINT" == "1" ]]; then
       # Run composer update as we have dev dependencies locked at PHP ^7.0 versions.
       composer update
       composer install --no-interaction
       composer du
+      if [[ "$IS_PREMIUM" == "1" ]]; then
+        if [[ "$PHPCS" == "1" || "$PHPLINT" == "1" ]]; then
+          cd premium
+          composer install --no-interaction
+          cd -
+        fi
+      fi
     elif [[ "$TRAVIS_BUILD_STAGE_NAME" == "🚀 deployment" ]]; then
       composer update
       composer install --no-dev --no-interaction
       composer du
     fi
   - |
-    if [[ "$PHPCS" == "1" ]]; then
+    if [[ "$PHPCS" == "1" && "$IS_PREMIUM" != "1" ]]; then
       composer config-yoastcs
     fi
   - |
@@ -233,15 +251,23 @@ script:
   - |
     if [[ "$PHPLINT" == "1" ]]; then
       travis_fold start "PHP.check" && travis_time_start
-      find -L . -path ./vendor -prune -o -path ./node_modules -prune -o -name '*.php' -print0 | xargs -0 -n 1 -P 4 php -l
+      if [[ "$IS_PREMIUM" == "1" ]]; then
+        cd premium
+        composer lint
+        cd -
+      else
+        composer lint
+      fi
       travis_time_finish && travis_fold end "PHP.check"
     fi
   # PHP CS
   - |
     if [[ "$PHPCS" == "1" ]]; then
       travis_fold start "PHP.code-style" && travis_time_start
-      if [[ -d "premium" ]]; then
-        composer premium-check-cs -- -n
+      if [[ "$IS_PREMIUM" == "1" ]]; then
+        cd premium
+        composer check-cs
+        cd -
       else
         vendor/bin/phpcs -qn
       fi

@@ -140,6 +140,7 @@ abstract class WPSEO_Health_Check {
 	 */
 	public function get_test_result() {
 		$this->run();
+		$this->add_yoast_signature();
 
 		return [
 			'label'       => $this->label,

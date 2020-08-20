@@ -156,14 +156,16 @@ abstract class WPSEO_Plugin_Importer {
 	protected function detect() {
 		global $wpdb;
 
-		$meta_keys    = wp_list_pluck( $this->clone_keys, 'old_key' );
-		$placeholders = implode( ', ', array_fill( 0, count( $meta_keys ), '%s' ) );
-		$result       = $wpdb->get_var(
+		$meta_keys = wp_list_pluck( $this->clone_keys, 'old_key' );
+		$result    = $wpdb->get_var(
 			$wpdb->prepare(
-				"SELECT COUNT(*) AS `count` FROM {$wpdb->postmeta} WHERE meta_key IN ( $placeholders )",
+				"SELECT COUNT(*) AS `count`
+					FROM {$wpdb->postmeta}
+					WHERE meta_key IN ( " . implode( ', ', array_fill( 0, count( $meta_keys ), '%s' ) ) . ' )',
 				$meta_keys
 			)
 		);
+
 		if ( $result === '0' ) {
 			return false;
 		}

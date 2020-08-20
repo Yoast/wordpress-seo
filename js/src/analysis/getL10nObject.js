@@ -1,20 +1,11 @@
-import { isUndefined } from "lodash-es";
+import { get } from "lodash-es";
 
 /**
  * Returns the l10n object for the current page, either term or post.
  *
  * @returns {Object} The l10n object for the current page.
  */
-function getL10nObject() {
-	var l10nObject = null;
-
-	if ( ! isUndefined( window.wpseoPostScraperL10n ) ) {
-		l10nObject = window.wpseoPostScraperL10n;
-	} else if ( ! isUndefined( window.wpseoTermScraperL10n ) ) {
-		l10nObject = window.wpseoTermScraperL10n;
-	}
-
-	return l10nObject;
+export default function getL10nObject() {
+	// Returns the metabox object from wpseoScriptData if that exists. Else; return "null-object".
+	return get( window, "wpseoScriptData.metabox", { intl: {}, isRtl: false } );
 }
-
-module.exports = getL10nObject;

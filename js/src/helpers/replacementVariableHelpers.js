@@ -4,13 +4,18 @@
 import {
 	forEach,
 	omit,
+	get,
+	identity,
 } from "lodash-es";
 
 /* Internal dependencies */
 import { updateReplacementVariable } from "../redux/actions/snippetEditor";
 import { firstToUpperCase } from "./stringHelpers";
 
-export const nonReplaceVars = [ "slug", "content" ];
+import analysis from "yoastseo";
+const { stripHTMLTags: stripFullTags } = analysis.string;
+
+export const nonReplaceVars = [ "slug", "content", "contentImage", "snippetPreviewImageURL" ];
 
 /**
  * Fills the redux store with the newly acquired data.
@@ -227,3 +232,49 @@ export function excerptFromContent( content, limit = 156 ) {
 	// Caps to the last space to have a full last word.
 	return content.substring( 0, content.lastIndexOf( " " ) );
 }
+
+/**
+ * Runs the legacy replaceVariables function on the data in the snippet preview.
+ *
+ * @param {Object} data             The snippet preview data object.
+ * @param {string} data.title       The snippet preview title.
+ * @param {string} data.url         The snippet preview url: baseUrl with the slug.
+ * @param {string} data.description The snippet preview description.
+ *
+ * @returns {Object} Returns the data object in which the placeholders have been replaced.
+ */
+const legacyReplaceUsingPlugin = function( data ) {
+	const replaceVariables = get( window, [ "YoastSEO", "wp", "replaceVarsPlugin", "replaceVariables" ], identity );
+
+	return {
+		url: data.url,
+		title: stripFullTags( replaceVariables( data.title ) ),
+		description: stripFullTags( replaceVariables( data.description ) ),
+	};
+};
+
+/**
+ * Apply replaceVariables function on the data in the snippet preview.
+ *
+ * @param {Object} data             The snippet preview data object.
+ * @param {string} data.title       The snippet preview title.
+ * @param {string} data.url         The snippet preview url: baseUrl with the slug.
+ * @param {string} data.description The snippet preview description.
+ *
+ * @returns {Object} Returns the data object in which the placeholders have been replaced.
+ */
+export const applyReplaceUsingPlugin = function( data ) {
+	// If we do not have pluggable loaded, apply just our own replace variables.
+	const pluggable = get( window, [ "YoastSEO", "app", "pluggable" ], false );
+	if ( ! pluggable || ! get( window, [ "YoastSEO", "app", "pluggable", "loaded" ], false ) ) {
+		return legacyReplaceUsingPlugin( data );
+	}
+
+	const applyModifications = pluggable._applyModifications.bind( pluggable );
+
+	return {
+		url: data.url,
+		title: stripFullTags( applyModifications( "data_page_title", data.title ) ),
+		description: stripFullTags( applyModifications( "data_meta_desc", data.description ) ),
+	};
+};

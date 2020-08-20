@@ -1,11 +1,16 @@
 /* External dependencies */
-import React from "react";
+import PropTypes from "prop-types";
 
-/* Internal dependencies */
-import withYoastSidebarPriority from "./higherorder/withYoastSidebarPriority";
+const SidebarItem = ( { children } ) => {
+	return (
+		<div>{ children }</div>
+	);
+};
 
-const SidebarItem = withYoastSidebarPriority( ( { children } ) => {
-	return <div>{ children }</div>;
-} );
+SidebarItem.propTypes = {
+	// eslint-disable-next-line react/no-unused-prop-types
+	renderPriority: PropTypes.number.isRequired,
+	children: PropTypes.node.isRequired,
+};
 
 export default SidebarItem;

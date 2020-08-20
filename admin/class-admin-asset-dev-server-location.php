@@ -58,7 +58,7 @@ final class WPSEO_Admin_Asset_Dev_Server_Location implements WPSEO_Admin_Asset_L
 			return $this->get_default_url( $asset, $type );
 		}
 
-		$path = sprintf( '%s%s.js', $asset->get_src(), $asset->get_suffix() );
+		$path = sprintf( 'js/dist/%s%s.js', $asset->get_src(), $asset->get_suffix() );
 
 		return trailingslashit( $this->url ) . $path;
 	}

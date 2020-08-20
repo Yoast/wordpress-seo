@@ -113,7 +113,7 @@ class Yoast_Feature_Toggles {
 			(object) [
 				/* translators: %s: Ryte */
 				'name'            => sprintf( __( '%s integration', 'wordpress-seo' ), 'Ryte' ),
-				'setting'         => 'onpage_indexability',
+				'setting'         => 'ryte_indexability',
 				'label'           => sprintf(
 					/* translators: 1: Ryte, 2: Yoast SEO */
 					__( '%1$s will check weekly if your site is still indexable by search engines and %2$s will notify you when this is not the case.', 'wordpress-seo' ),
@@ -133,15 +133,37 @@ class Yoast_Feature_Toggles {
 				'order'   => 80,
 			],
 			(object) [
-				'name'    => __( 'Security: no advanced settings for authors', 'wordpress-seo' ),
+				'name'    => __( 'Security: no advanced or schema settings for authors', 'wordpress-seo' ),
 				'setting' => 'disableadvanced_meta',
 				'label'   => sprintf(
 					/* translators: 1: Yoast SEO, 2: translated version of "Off" */
-					__( 'The advanced section of the %1$s meta box allows a user to remove posts from the search results or change the canonical. These are things you might not want any author to do. That\'s why, by default, only editors and administrators can do this. Setting to "%2$s" allows all users to change these settings.', 'wordpress-seo' ),
+					__( 'The advanced section of the %1$s meta box allows a user to remove posts from the search results or change the canonical. The settings in the schema tab allows a user to change schema meta data for a post. These are things you might not want any author to do. That\'s why, by default, only editors and administrators can do this. Setting to "%2$s" allows all users to change these settings.', 'wordpress-seo' ),
 					'Yoast SEO',
 					__( 'Off', 'wordpress-seo' )
 				),
 				'order'   => 90,
+			],
+			(object) [
+				'name'            => __( 'Usage tracking', 'wordpress-seo' ),
+				'label'           => __( 'Usage tracking', 'wordpress-seo' ),
+				'setting'         => 'tracking',
+				'read_more_label' => sprintf(
+				/* translators: 1: Yoast SEO */
+					__( 'Allow us to track some data about your site to improve our plugin.', 'wordpress-seo' ),
+					'Yoast SEO'
+				),
+				'read_more_url'   => 'https://yoa.st/usage-tracking',
+				'order'           => 95,
+			],
+			(object) [
+				'name'    => __( 'REST API: Head endpoint', 'wordpress-seo' ),
+				'setting' => 'enable_headless_rest_endpoints',
+				'label'   => sprintf(
+					/* translators: 1: Yoast SEO */
+					__( 'This %1$s REST API endpoint gives you all the metadata you need for a specific URL. This will make it very easy for headless WordPress sites to use %1$s for all their SEO meta output.', 'wordpress-seo' ),
+					'Yoast SEO'
+				),
+				'order'   => 100,
 			],
 		];
 

@@ -1,0 +1,270 @@
+@import url(../src/icons.css);
+@import "../../node_modules/yoast-components/css/accessibility.scss";
+.yoast-notification {
+	padding: 0 12px;
+	border-left: 4px solid #fff;
+	background: #fff;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.yoast-container {
+	position: relative;
+	max-width: 1280px;
+	margin: 20px 0 1px;
+	padding: 20px 20px 0;
+	border: 1px solid #e5e5e5;
+	background-color: #fdfdfd;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+}
+
+.yoast-notifications > h2:first-child {
+	margin: 0;
+	padding: 9px 0 4px 0;
+	font-size: 23px;
+	font-weight: 400;
+	line-height: 29px;
+}
+
+.yoast-notifications .yoast-container h3 {
+	margin: -20px -20px 0;
+	padding: 1em;
+	border-bottom: 1px solid #ccc;
+	background-color: #fdfdfd;
+	font-size: 1.4em;
+}
+
+.yoast-container .container {
+	max-width: 980px;
+}
+
+.yoast-container .yoast-notification-holder {
+	display: flex;
+	position: relative;
+}
+
+.restore .dashicons,
+.dismiss .dashicons {
+	font-size: 20px;
+	width: 20px;
+	height: 20px;
+}
+
+.yoast-bottom-spacing {
+	margin-bottom: 20px;
+}
+
+/* These selectors need a higher specificity than .wp-core-ui .button */
+.yoast-notifications .button.restore,
+.yoast-notifications .button.dismiss {
+	position: absolute;
+	right: 0;
+	width: 52px;
+	height: 100%;
+	line-height: inherit;
+	padding: 0;
+	outline: none;
+	cursor: pointer;
+	background: transparent;
+	border: none;
+	box-shadow: none;
+	border-radius: 0;
+}
+
+.yoast-notifications .button.restore:hover,
+.yoast-notifications .button.dismiss:hover {
+	background: transparent;
+}
+
+.yoast-notifications .button.restore:focus,
+.yoast-notifications .button.dismiss:focus {
+	background: transparent;
+}
+
+.yoast-notifications .button.restore:focus::before,
+.yoast-notifications .button.dismiss:focus::before {
+	content: "";
+	display: block;
+	width: 32px;
+	height: 32px;
+	border-radius: 50%;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	box-shadow: 0 0 0 1px #007cba;
+	/* Only visible in Windows High Contrast mode */
+	outline: 2px solid transparent;
+}
+
+.yoast-notifications .button.dismiss.yoast-container__configuration-wizard--dismiss::before {
+	top: 0;
+	transform: translate(-50%, 6px);
+}
+
+.yoast-container .separator {
+	margin-top: 1em;
+	margin-bottom: 1em;
+	border-top: 1px solid #ddd;
+}
+
+.yoast-container .dashicons-yes {
+	color: #77b227;
+}
+
+.yoast-container-disabled {
+	display: table-cell;
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	border-radius: 4px;
+	background-color: rgba(232, 232, 232, 0.7);
+}
+
+.yoast-no-issues {
+	padding: 1em 1em 1em 16px;
+	color: #666;
+}
+
+.yoast-muted-title {
+	overflow: hidden;
+	font-weight: 600;
+	font-style: italic;
+}
+
+.yoast-muted-title:after {
+	content: "";
+	display: inline-block;
+	height: 0.5em;
+	vertical-align: bottom;
+	width: 100%;
+	margin-right: -100%;
+	margin-left: 10px;
+	border-top: 1px solid #ddd;
+}
+
+/* Shared style for the problems and notifications. */
+.yoast-notifications-active .yoast-notification, .yoast-notifications-dismissed .yoast-notification {
+	padding-right: 52px;
+	flex: 1;
+}
+
+.yoast-notifications-active .yoast-notification-holder {
+	margin-bottom: 20px;
+}
+
+.yoast-notifications-dismissed.paper.tab-block {
+	margin: 20px 0 20px 0;
+}
+
+.yoast-notifications-dismissed.paper.tab-block .paper-container.toggleable-container {
+	padding: 0;
+}
+
+.yoast-notifications-dismissed.paper.tab-block .paper-container.toggleable-container .yoast-notification-holder:nth-child(odd) {
+	background-color: #f7f7f7;
+}
+
+.yoast-notifications-dismissed.paper.tab-block .paper-container.toggleable-container .yoast-notification-holder:nth-child(odd) .yoast-notification {
+	background-color: transparent;
+}
+
+.yoast-notifications-dismissed .yoast-svg-icon-eye {
+	background: transparent var(--yoast-svg-icon-eye) no-repeat 0 0;
+	background-size: 20px;
+}
+
+/* Style only for errors / problems. */
+#yoast-errors-header .dashicons {
+	color: #dc3232;
+}
+
+#yoast-errors-active .yoast-notification {
+	border-left-color: #dc3232;
+}
+
+#yoast-errors-dismissed .yoast-notification {
+	border-left-color: #d93f69;
+}
+
+/* Style only for warnings / notifications. */
+#yoast-warnings-header .dashicons {
+	color: #5d237a;
+}
+
+#yoast-warnings-active .yoast-notification {
+	border-left-color: #5d237a;
+}
+
+#yoast-warnings-dismissed .yoast-notification {
+	border-left-color: #0075b3;
+}
+
+.yoast-notifications .yoast-container__configuration-wizard {
+	display: flex;
+	align-items: center;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+	background-color: #fff;
+	min-height: 0;
+	padding-bottom: 20px;
+	margin-bottom: 15px;
+}
+
+@media screen and (max-width: 768px) {
+	.yoast-notifications .yoast-container__configuration-wizard img {
+		display: none;
+	}
+}
+
+.yoast-notifications .yoast-container__configuration-wizard--content {
+	flex: 1 1 auto;
+	margin: 12px;
+	padding: 0;
+}
+
+.yoast-notifications .yoast-container__configuration-wizard--content h3 {
+	border-bottom: 0;
+	font-size: 1.4em;
+	line-height: 1;
+	margin: 0 0 4px 0;
+	padding: 0;
+	background: transparent;
+}
+
+.yoast-notifications .yoast-container__configuration-wizard--content p {
+	margin: 1em 0 0;
+}
+
+.yoast-notifications .yoast-container__configuration-wizard--content p:last-child {
+	margin: 0;
+}
+
+@media screen and (max-width: 768px) {
+	.yoast-notifications .yoast-container__configuration-wizard--content {
+		display: block;
+		position: relative;
+		padding: 16px;
+	}
+}
+
+.yoast-notifications .yoast-container__configuration-wizard--dismiss {
+	text-align: center;
+}
+
+@media screen and (max-width: 768px) {
+	.yoast-notifications .yoast-container__configuration-wizard--dismiss {
+		width: 40px;
+		position: absolute;
+		top: 5px;
+		right: 5px;
+		margin: 0;
+	}
+}
+
+.yoast-notifications .yoast-container__configuration-wizard--dismiss .dashicons {
+	text-decoration: none;
+	margin-top: 12px;
+}
+
+/*# sourceMappingURL=notifications.css.map */

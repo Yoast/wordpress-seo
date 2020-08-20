@@ -45,6 +45,10 @@ class WPSEO_Tracking implements WPSEO_WordPress_Integration {
 	 * @param int    $threshold The limit for the option.
 	 */
 	public function __construct( $endpoint, $threshold ) {
+		if ( ! $this->tracking_enabled() ) {
+			return;
+		}
+
 		$this->endpoint     = $endpoint;
 		$this->threshold    = $threshold;
 		$this->current_time = time();
@@ -54,6 +58,10 @@ class WPSEO_Tracking implements WPSEO_WordPress_Integration {
 	 * Registers all hooks to WordPress.
 	 */
 	public function register_hooks() {
+		if ( ! $this->tracking_enabled() ) {
+			return;
+		}
+
 		// Send tracking data on `admin_init`.
 		add_action( 'admin_init', [ $this, 'send' ], 1 );
 
@@ -105,9 +113,16 @@ class WPSEO_Tracking implements WPSEO_WordPress_Integration {
 			return;
 		}
 
+		// Set a 'content-type' header of 'application/json'.
+		$tracking_request_args = [
+			'headers' => [
+				'content-type:' => 'application/json',
+			],
+		];
+
 		$collector = $this->get_collector();
 
-		$request = new WPSEO_Remote_Request( $this->endpoint );
+		$request = new WPSEO_Remote_Request( $this->endpoint, $tracking_request_args );
 		$request->set_body( $collector->get_as_json() );
 		$request->send();
 
@@ -129,15 +144,6 @@ class WPSEO_Tracking implements WPSEO_WordPress_Integration {
 	 */
 	protected function should_send_tracking( $ignore_time_treshhold = false ) {
 		global $pagenow;
-
-		/**
-		 * Filter: 'wpseo_enable_tracking' - Enables the data tracking of Yoast SEO Premium.
-		 *
-		 * @api string $is_enabled The enabled state. Default is false.
-		 */
-		if ( apply_filters( 'wpseo_enable_tracking', false ) === false ) {
-			return false;
-		}
 
 		// Only send tracking on the main site of a multi-site instance. This returns true on non-multisite installs.
 		if ( ! is_main_site() ) {
@@ -184,5 +190,37 @@ class WPSEO_Tracking implements WPSEO_WordPress_Integration {
 		$collector->add_collection( new WPSEO_Tracking_Settings_Data() );
 
 		return $collector;
+	}
+
+	/**
+	 * See if we should run tracking at all.
+	 *
+	 * @return bool True when we can track, false when we can't.
+	 */
+	private function tracking_enabled() {
+		// Check if we're allowing tracking.
+		$tracking = WPSEO_Options::get( 'tracking' );
+
+		if ( $tracking === false ) {
+			return false;
+		}
+
+		// Save this state.
+		if ( $tracking === null ) {
+			/**
+			 * Filter: 'wpseo_enable_tracking' - Enables the data tracking of Yoast SEO Premium and add-ons.
+			 *
+			 * @api string $is_enabled The enabled state. Default is false.
+			 */
+			$tracking = apply_filters( 'wpseo_enable_tracking', false );
+
+			WPSEO_Options::set( 'tracking', $tracking );
+		}
+
+		if ( $tracking === false ) {
+			return false;
+		}
+
+		return true;
 	}
 }

@@ -55,7 +55,7 @@ class Yoast_Input_Validation {
 		foreach ( $errors as $error ) {
 			// For now, filter the admin title only in the Yoast SEO settings pages.
 			if ( self::is_yoast_option_group_name( $error['setting'] ) && $error['code'] !== 'settings_updated' ) {
-				$error_count++;
+				++$error_count;
 			}
 		}
 
@@ -314,7 +314,7 @@ class Yoast_Input_Validation {
 			return sprintf(
 				/* translators: %s: form value as submitted. */
 				esc_html__( 'The submitted value was: %s', 'wordpress-seo' ),
-				$dirty_value
+				esc_html( $dirty_value )
 			);
 		}
 

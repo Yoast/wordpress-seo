@@ -1,11 +1,10 @@
 /* External dependencies */
 import { __ } from "@wordpress/i18n";
+import { registerBlockType } from "@wordpress/blocks";
 
 /* Internal dependencies */
 import HowTo from "./components/HowTo";
 import legacy from "./legacy";
-
-const { registerBlockType } = window.wp.blocks;
 
 const attributes = {
 	hasDuration: {
@@ -47,7 +46,7 @@ const attributes = {
 
 export default () => {
 	registerBlockType( "yoast/how-to-block", {
-		title: __( "How-to", "wordpress-seo" ),
+		title: __( "Yoast How-to", "wordpress-seo" ),
 		description: __( "Create a How-to guide in an SEO-friendly way. You can only use one How-to block per post.", "wordpress-seo" ),
 		icon: "editor-ol",
 		category: "yoast-structured-data-blocks",
@@ -55,7 +54,17 @@ export default () => {
 			__( "How-to", "wordpress-seo" ),
 			__( "How to", "wordpress-seo" ),
 			__( "Schema", "wordpress-seo" ),
+			__( "SEO", "wordpress-seo" ),
+			__( "Structured Data", "wordpress-seo-premium" ),
 		],
+		example: {
+			attributes: {
+				steps: [
+					{ id: HowTo.generateId( "how-to-step" ), name: [], text: [] },
+					{ id: HowTo.generateId( "how-to-step" ), name: [], text: [] },
+				],
+			},
+		},
 		// Allow only one How-To block per post.
 		supports: {
 			multiple: false,
@@ -81,6 +90,7 @@ export default () => {
 			return <HowTo { ...{ attributes, setAttributes, className } } />;
 		},
 
+		/* eslint-disable react/display-name */
 		/**
 		 * The save function defines the way in which the different attributes should be combined
 		 * into the final markup, which is then serialized by Gutenberg into post_content.
@@ -90,10 +100,10 @@ export default () => {
 		 * @link https://wordpress.org/gutenberg/handbook/block-api/block-edit-save/
 		 * @returns {Component} The display component.
 		 */
-		// eslint-disable-next-line react/display-name
 		save: function( { attributes } ) {
 			return <HowTo.Content { ...attributes } />;
 		},
+		/* eslint-enable react/display-name */
 
 		deprecated: [
 			{

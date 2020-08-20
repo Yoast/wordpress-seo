@@ -48,7 +48,7 @@ function filterBlockData( block ) {
  * 3. Pluggable modifications.
  * 4. The WordPress block-editor Redux store.
  *
- * @param {Edit}               edit                   The edit instance.
+ * @param {Object}             editorData             The editorData instance.
  * @param {Object}             store                  The redux store.
  * @param {CustomAnalysisData} customAnalysisData     The custom analysis data.
  * @param {Pluggable}          pluggable              The Pluggable.
@@ -56,10 +56,10 @@ function filterBlockData( block ) {
  *
  * @returns {Paper} The paper data used for the analyses.
  */
-export default function collectAnalysisData( edit, store, customAnalysisData, pluggable, blockEditorDataModule ) {
+export default function collectAnalysisData( editorData, store, customAnalysisData, pluggable, blockEditorDataModule ) {
 	const storeData = cloneDeep( store.getState() );
 	merge( storeData, customAnalysisData.getData() );
-	const editData = edit.getData().getData();
+	const editData = editorData.getData();
 
 	// Retrieve the block editor blocks from WordPress and filter on useful information.
 	let blocks = null;

@@ -5,6 +5,9 @@
  * @package WPSEO\Admin\Formatter
  */
 
+use Yoast\WP\SEO\Config\Schema_Types;
+use Yoast\WP\SEO\Helpers\Options_Helper;
+
 /**
  * This class forces needed methods for the metabox localization.
  */
@@ -46,8 +49,13 @@ class WPSEO_Metabox_Formatter {
 	private function get_defaults() {
 		$analysis_seo         = new WPSEO_Metabox_Analysis_SEO();
 		$analysis_readability = new WPSEO_Metabox_Analysis_Readability();
+		$schema_types         = new Schema_Types();
+		$options              = new Options_Helper();
 
 		return [
+			'author_name'               => get_the_author_meta( 'display_name' ),
+			'site_name'                 => get_bloginfo( 'name' ),
+			'sitewide_social_image'     => WPSEO_Options::get( 'og_default_image' ),
 			'language'                  => WPSEO_Language_Utils::get_site_language_name(),
 			'settings_link'             => $this->get_settings_link(),
 			'search_url'                => '',
@@ -69,8 +77,18 @@ class WPSEO_Metabox_Formatter {
 			'isRtl'                     => is_rtl(),
 			'isPremium'                 => WPSEO_Utils::is_yoast_seo_premium(),
 			'addKeywordUpsell'          => $this->get_add_keyword_upsell_translations(),
-			'wordFormRecognitionActive' => ( WPSEO_Language_Utils::get_language( get_locale() ) === 'en' ),
+			'wordFormRecognitionActive' => YoastSEO()->helpers->language->is_word_form_recognition_active( WPSEO_Language_Utils::get_language( get_locale() ) ),
 			'siteIconUrl'               => get_site_icon_url(),
+			'showSocial'                => [
+				'facebook' => WPSEO_Options::get( 'opengraph', false ),
+				'twitter'  => WPSEO_Options::get( 'twitter', false ),
+			],
+			'schema'                    => [
+				'displayFooter'      => WPSEO_Capability_Utils::current_user_can( 'wpseo_manage_options' ),
+				'pageTypeOptions'    => $schema_types->get_page_type_options(),
+				'articleTypeOptions' => $schema_types->get_article_type_options(),
+			],
+			'twitterCardType'           => $options->get( 'twitter_card_type' ),
 
 			/**
 			 * Filter to determine if the markers should be enabled or not.
@@ -148,14 +166,14 @@ class WPSEO_Metabox_Formatter {
 	}
 
 	/**
-	 * Returns a link to the settings page, if the user has the right capabilities.
+	 * Returns a link to the General Settings page, if the user has the right capabilities.
 	 * Returns an empty string otherwise.
 	 *
-	 * @return string The settings link.
+	 * @return string The General Settings link.
 	 */
 	private function get_settings_link() {
 		if ( current_user_can( 'manage_options' ) ) {
-			return admin_url( 'options-general.php' );
+			return esc_url( admin_url( 'options-general.php' ) );
 		}
 
 		return '';
@@ -228,6 +246,7 @@ class WPSEO_Metabox_Formatter {
 
 		$file = plugin_dir_path( WPSEO_FILE ) . 'languages/wordpress-seo-' . $locale . '.json';
 		if ( file_exists( $file ) ) {
+			// phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- Retrieving a local file.
 			$file = file_get_contents( $file );
 			if ( is_string( $file ) && $file !== '' ) {
 				return json_decode( $file, true );

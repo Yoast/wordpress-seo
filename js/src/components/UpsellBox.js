@@ -1,5 +1,5 @@
 /* External dependencies */
-import React from "react";
+import { Component } from "@wordpress/element";
 import interpolateComponents from "interpolate-components";
 import PropTypes from "prop-types";
 import styled from "styled-components";
@@ -32,9 +32,9 @@ const UpsellButton = makeOutboundLink();
 /**
  * Returns the UpsellBox component.
  *
- * @returns {ReactElement} The UpsellBox component.
+ * @returns {wp.Element} The UpsellBox component.
  */
-class UpsellBox extends React.Component {
+class UpsellBox extends Component {
 	/**
 	 * The constructor.
 	 *
@@ -88,7 +88,7 @@ class UpsellBox extends React.Component {
 	/**
 	 * Renders a UpsellBox component.
 	 *
-	 * @returns {ReactElement} The rendered UpsellBox component.
+	 * @returns {wp.Element} The rendered UpsellBox component.
 	 */
 	render() {
 		return (

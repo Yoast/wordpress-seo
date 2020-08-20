@@ -7,6 +7,7 @@
 
 namespace Yoast\WP\SEO;
 
+use WP_CLI;
 use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -17,28 +18,49 @@ class Loader {
 	/**
 	 * The registered integrations.
 	 *
-	 * @var \Yoast\WP\SEO\WordPress\Integration[]
+	 * @var string[]
 	 */
 	protected $integrations = [];
 
 	/**
-	 * The registered initializer.
+	 * The registered integrations.
 	 *
-	 * @var \Yoast\WP\SEO\WordPress\Initializer[]
+	 * @var string[]
 	 */
 	protected $initializers = [];
 
 	/**
+	 * The registered routes.
+	 *
+	 * @var string[]
+	 */
+	protected $routes = [];
+
+	/**
+	 * The registered commands.
+	 *
+	 * @var string[]
+	 */
+	protected $commands = [];
+
+	/**
+	 * The registered migrations.
+	 *
+	 * @var string[]
+	 */
+	protected $migrations = [];
+
+	/**
 	 * The dependency injection container.
 	 *
-	 * @var \YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface
+	 * @var ContainerInterface
 	 */
 	protected $container;
 
 	/**
 	 * Loader constructor.
 	 *
-	 * @param \YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface $container The dependency injection container.
+	 * @param ContainerInterface $container The dependency injection container.
 	 */
 	public function __construct( ContainerInterface $container ) {
 		$this->container = $container;
@@ -56,7 +78,7 @@ class Loader {
 	}
 
 	/**
-	 * Registers a initializer.
+	 * Registers an initializer.
 	 *
 	 * @param string $class The class name of the initializer to be loaded.
 	 *
@@ -67,13 +89,92 @@ class Loader {
 	}
 
 	/**
+	 * Registers a route.
+	 *
+	 * @param string $class The class name of the route to be loaded.
+	 *
+	 * @return void
+	 */
+	public function register_route( $class ) {
+		$this->routes[] = $class;
+	}
+
+	/**
+	 * Registers a command.
+	 *
+	 * @param string $class The class name of the command to be loaded.
+	 *
+	 * @return void
+	 */
+	public function register_command( $class ) {
+		$this->commands[] = $class;
+	}
+
+	/**
+	 * Registers a migration.
+	 *
+	 * @param string $plugin  The plugin the migration belongs to.
+	 * @param string $version The version of the migration.
+	 * @param string $class   The class name of the migration to be loaded.
+	 *
+	 * @return void
+	 */
+	public function register_migration( $plugin, $version, $class ) {
+		if ( ! \array_key_exists( $plugin, $this->migrations ) ) {
+			$this->migrations[ $plugin ] = [];
+		}
+
+		$this->migrations[ $plugin ][ $version ] = $class;
+	}
+
+	/**
 	 * Loads all registered classes if their conditionals are met.
 	 *
 	 * @return void
 	 */
 	public function load() {
 		$this->load_initializers();
-		$this->load_integrations();
+
+		if ( ! \did_action( 'init' ) ) {
+			\add_action( 'init', [ $this, 'load_integrations' ] );
+		}
+		else {
+			$this->load_integrations();
+		}
+
+		\add_action( 'rest_api_init', [ $this, 'load_routes' ] );
+
+		if ( \defined( 'WP_CLI' ) && \WP_CLI ) {
+			$this->load_commands();
+		}
+	}
+
+	/**
+	 * Returns all registered migrations.
+	 *
+	 * @param string $plugin The plugin to get the migrations for.
+	 *
+	 * @return string[]|false The registered migrations. False if no migrations were registered.
+	 */
+	public function get_migrations( $plugin ) {
+		if ( ! \array_key_exists( $plugin, $this->migrations ) ) {
+			return false;
+		}
+
+		return $this->migrations[ $plugin ];
+	}
+
+	/**
+	 * Loads all registered commands.
+	 *
+	 * @return void
+	 */
+	protected function load_commands() {
+		foreach ( $this->commands as $class ) {
+			$command = $this->container->get( $class );
+
+			WP_CLI::add_command( $class::get_namespace(), $command );
+		}
 	}
 
 	/**
@@ -96,7 +197,7 @@ class Loader {
 	 *
 	 * @return void
 	 */
-	protected function load_integrations() {
+	public function load_integrations() {
 		foreach ( $this->integrations as $class ) {
 			if ( ! $this->conditionals_are_met( $class ) ) {
 				continue;
@@ -107,9 +208,24 @@ class Loader {
 	}
 
 	/**
+	 * Loads all registered routes if their conditionals are met.
+	 *
+	 * @return void
+	 */
+	public function load_routes() {
+		foreach ( $this->routes as $class ) {
+			if ( ! $this->conditionals_are_met( $class ) ) {
+				continue;
+			}
+
+			$this->container->get( $class )->register_routes();
+		}
+	}
+
+	/**
 	 * Checks if all conditionals of a given integration are met.
 	 *
-	 * @param \Yoast\WP\SEO\WordPress\Loadable $class The class name of the integration.
+	 * @param Loadable_Interface $class The class name of the integration.
 	 *
 	 * @return bool Whether or not all conditionals of the integration are met.
 	 */

@@ -1,20 +1,21 @@
-/* global jQuery, wpseoPostScraperL10n */
+/* global jQuery, wpseoScriptData */
 
 /* External dependencies */
 import { get } from "lodash-es";
 import analysis from "yoastseo";
+import { select } from "@wordpress/data";
 
 /* Internal dependencies */
 import measureTextWidth from "../helpers/measureTextWidth";
 import { update as updateAdminBar } from "../ui/adminBar";
-import publishBox from "../ui/publishBox";
+import * as publishBox from "../ui/publishBox";
 import { update as updateTrafficLight } from "../ui/trafficLight";
-import tmceHelper, { tmceId } from "../wp-seo-tinymce";
+import * as tmceHelper from "../lib/tinymce";
 import getI18n from "./getI18n";
 import getIndicatorForScore from "./getIndicatorForScore";
 import isKeywordAnalysisActive from "./isKeywordAnalysisActive";
 
-
+const { tmceId } = tmceHelper;
 const $ = jQuery;
 const { removeMarks } = analysis.markers;
 const i18n = getI18n();
@@ -95,8 +96,8 @@ PostDataCollector.prototype.getKeyword = function() {
  */
 PostDataCollector.prototype.getMetaDescForAnalysis = function( state ) {
 	let metaDesc = get( state, [ "analysisData", "snippet", "description" ], this.getSnippetMeta() );
-	if ( wpseoPostScraperL10n.metaDescriptionDate !== "" ) {
-		metaDesc = wpseoPostScraperL10n.metaDescriptionDate + " - " + metaDesc;
+	if ( wpseoScriptData.metabox.metaDescriptionDate !== "" ) {
+		metaDesc = wpseoScriptData.metabox.metaDescriptionDate + " - " + metaDesc;
 	}
 	return metaDesc;
 };
@@ -134,6 +135,11 @@ PostDataCollector.prototype.getTitle = function() {
  * @returns {string} The url.
  */
 PostDataCollector.prototype.getUrl = function() {
+	const editorSelectors = select( "core/editor" );
+	if ( editorSelectors ) {
+		return editorSelectors.getCurrentPostAttribute( "slug" );
+	}
+
 	var url = "";
 
 	var newPostSlug = $( "#new-post-slug" );
@@ -223,7 +229,7 @@ PostDataCollector.prototype.getPrimaryCategory = function() {
  * @returns {string} The search url.
  */
 PostDataCollector.prototype.getSearchUrl = function() {
-	return wpseoPostScraperL10n.search_url;
+	return wpseoScriptData.metabox.search_url;
 };
 
 /**
@@ -232,7 +238,7 @@ PostDataCollector.prototype.getSearchUrl = function() {
  * @returns {string} The post url.
  */
 PostDataCollector.prototype.getPostUrl = function() {
-	return wpseoPostScraperL10n.post_edit_url;
+	return wpseoScriptData.metabox.post_edit_url;
 };
 
 /**
@@ -243,7 +249,7 @@ PostDataCollector.prototype.getPostUrl = function() {
 PostDataCollector.prototype.getPermalink = function() {
 	var url = this.getUrl();
 
-	return wpseoPostScraperL10n.base_url + url;
+	return wpseoScriptData.metabox.base_url + url;
 };
 
 /**

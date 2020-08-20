@@ -60,7 +60,7 @@ class WPSEO_Sitemaps_Router {
 			return;
 		}
 
-		wp_redirect( home_url( '/sitemap_index.xml' ), 301, 'Yoast SEO' );
+		wp_safe_redirect( home_url( '/sitemap_index.xml' ), 301, 'Yoast SEO' );
 		exit;
 	}
 

@@ -175,6 +175,16 @@ abstract class WPSEO_Base_Menu implements WPSEO_WordPress_Integration {
 			$page_title = $this->get_license_page_title();
 		}
 
+		/*
+		 * Handle the Google Search Console special case by passing a fake parent
+		 * page slug. This way, the sub-page is stil registered and can be accessed
+		 * directly. Its menu item won't be displayed.
+		 */
+		if ( $submenu_page[4] === 'wpseo_search_console' ) {
+			// Set the parent page slug to a non-existing one.
+			$submenu_page[0] = 'wpseo_fake_menu_parent_page_slug';
+		}
+
 		$page_title .= ' - Yoast SEO';
 
 		// Force the general manage capability to be used.

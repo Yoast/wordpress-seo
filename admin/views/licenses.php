@@ -35,7 +35,7 @@ $extensions = [
 			'buyUrl'        => WPSEO_Shortlinker::get( 'https://yoa.st/zt' ),
 			'infoUrl'       => WPSEO_Shortlinker::get( 'https://yoa.st/zs' ),
 			'title'         => 'Local SEO',
-			'display_title' => 'Stop losing customers to other local businesses',
+			'display_title' => __( 'Stop losing customers to other local businesses', 'wordpress-seo' ),
 			'desc'          => __( 'Rank better locally and in Google Maps, without breaking a sweat!', 'wordpress-seo' ),
 			'image'         => plugins_url( 'images/local_plugin_assistant.svg?v=' . WPSEO_VERSION, WPSEO_FILE ),
 			'benefits'      => [
@@ -51,7 +51,7 @@ $extensions = [
 			'buyUrl'        => WPSEO_Shortlinker::get( 'https://yoa.st/zx/' ),
 			'infoUrl'       => WPSEO_Shortlinker::get( 'https://yoa.st/zw/' ),
 			'title'         => 'Video SEO',
-			'display_title' => 'Start ranking better for your videos',
+			'display_title' => __( 'Start ranking better for your videos', 'wordpress-seo' ),
 			'desc'          => __( 'Optimize your videos to show them off in search results and get more clicks!', 'wordpress-seo' ),
 			'image'         => plugins_url( 'images/video_plugin_assistant.svg?v=' . WPSEO_VERSION, WPSEO_FILE ),
 			'benefits'      => [
@@ -66,7 +66,7 @@ $extensions = [
 			'buyUrl'        => WPSEO_Shortlinker::get( 'https://yoa.st/zv/' ),
 			'infoUrl'       => WPSEO_Shortlinker::get( 'https://yoa.st/zu/' ),
 			'title'         => 'News SEO',
-			'display_title' => 'Everything you need for Google News',
+			'display_title' => __( 'Everything you need for Google News', 'wordpress-seo' ),
 			'desc'          => __( 'Are you in Google News? Increase your traffic from Google News by optimizing for it!', 'wordpress-seo' ),
 			'image'         => plugins_url( 'images/news_plugin_assistant.svg?v=' . WPSEO_VERSION, WPSEO_FILE ),
 			'benefits'      => [
@@ -85,7 +85,7 @@ if ( WPSEO_Utils::is_woocommerce_active() ) {
 			'buyUrl'        => WPSEO_Shortlinker::get( 'https://yoa.st/zr' ),
 			'infoUrl'       => WPSEO_Shortlinker::get( 'https://yoa.st/zq' ),
 			'title'         => 'Yoast WooCommerce SEO',
-			'display_title' => 'Make your products stand out in Google',
+			'display_title' => __( 'Make your products stand out in Google', 'wordpress-seo' ),
 			/* translators: %1$s expands to Yoast SEO */
 			'desc'          => sprintf( __( 'Seamlessly integrate WooCommerce with %1$s and get extra features!', 'wordpress-seo' ), 'Yoast SEO' ),
 			'image'         => plugins_url( 'images/woo_plugin_assistant.svg?v=' . WPSEO_VERSION, WPSEO_FILE ),

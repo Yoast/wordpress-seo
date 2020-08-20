@@ -7,38 +7,37 @@ import { isUndefined, debounce } from "lodash-es";
 
 /* Internal dependencies */
 import { updateReplacementVariable, updateData } from "../redux/actions/snippetEditor";
+import { setContentImage } from "../redux/actions/settings";
 import {
 	excerptFromContent,
 	fillReplacementVariables,
 	mapCustomFields,
 	mapCustomTaxonomies,
 } from "../helpers/replacementVariableHelpers";
-import tmceHelper, { tmceId } from "../wp-seo-tinymce";
+import * as tmceHelper from "../lib/tinymce";
 
 const $ = jQuery;
 
 /**
  * Represents the classic editor data.
  */
-class ClassicEditorData {
+export default class ClassicEditorData {
 	/**
 	 * Sets the wp data, Yoast SEO refresh function and data object.
 	 *
-	 * @param {Function} refresh          The YoastSEO refresh function.
-	 * @param {Object} store              The YoastSEO Redux store.
-	 * @param {Object} settings           The settings for this classic editor data
-	 *                                    object.
-	 * @param {string} settings.tinyMceId The ID of the tinyMCE editor.
+	 * @param {Function} refresh   The YoastSEO refresh function.
+	 * @param {Object}   store     The YoastSEO Redux store.
+	 * @param {string}   tinyMceId ID of the tinyMCE editor.
 	 *
 	 * @returns {void}
 	 */
-	constructor( refresh, store, settings = { tinyMceId: tmceId } ) {
+	constructor( refresh, store, tinyMceId = "content" ) {
 		this._refresh = refresh;
 		this._store = store;
 		this._initialData = {};
 		// This will be used for the comparison whether the title, description and slug are dirty.
 		this._previousData = {};
-		this._settings = settings;
+		this._tinyMceId = tinyMceId;
 		this.updateReplacementData = this.updateReplacementData.bind( this );
 		this.refreshYoastSEO = this.refreshYoastSEO.bind( this );
 	}
@@ -87,18 +86,26 @@ class ClassicEditorData {
 			this.setImageInSnippetPreview( newUrl );
 		} );
 
-		tmceHelper.addEventHandler( this._settings.tinyMceId, [ "init" ], () => {
-			const url = this.getFeaturedImage() || this.getContentImage() || null;
+		tmceHelper.addEventHandler( this._tinyMceId, [ "init" ], () => {
+			const contentImage = this.getContentImage();
+			const url = this.getFeaturedImage() || contentImage || null;
 
+			// Set contentImage in settings.socialPreviews.
+			this._store.dispatch( setContentImage( contentImage ) );
 			this.setImageInSnippetPreview( url );
 		} );
 
-		tmceHelper.addEventHandler( this._settings.tinyMceId, [ "change" ], debounce( () => {
+		tmceHelper.addEventHandler( this._tinyMceId, [ "change" ], debounce( () => {
 			if ( this.featuredImageIsSet ) {
 				return;
 			}
 
-			this.setImageInSnippetPreview( this.getContentImage() );
+			const contentImage = this.getContentImage();
+
+			// Set contentImage in settings.socialPreviews.
+			this._store.dispatch( setContentImage( contentImage ) );
+
+			this.setImageInSnippetPreview( contentImage );
 		}, 1000 ) );
 	}
 
@@ -218,7 +225,7 @@ class ClassicEditorData {
 	 * @returns {string} The content of the document.
 	 */
 	getContent() {
-		const tinyMceId = this._settings.tinyMceId;
+		const tinyMceId = this._tinyMceId;
 
 		return removeMarks( tmceHelper.getContentTinyMce( tinyMceId ) );
 	}
@@ -388,4 +395,3 @@ class ClassicEditorData {
 		};
 	}
 }
-module.exports = ClassicEditorData;

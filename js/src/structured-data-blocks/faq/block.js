@@ -1,15 +1,24 @@
 /* External dependencies */
-import React from "react";
 import { __ } from "@wordpress/i18n";
+import { registerBlockType } from "@wordpress/blocks";
 
 /* Internal dependencies */
 import Faq from "./components/FAQ";
+import legacy from "./legacy";
 
-const { registerBlockType } = window.wp.blocks;
+
+const attributes = {
+	questions: {
+		type: "array",
+	},
+	additionalListCssClasses: {
+		type: "string",
+	},
+};
 
 export default () => {
 	registerBlockType( "yoast/faq-block", {
-		title: __( "FAQ", "wordpress-seo" ),
+		title: __( "Yoast FAQ", "wordpress-seo" ),
 		description: __( "List your Frequently Asked Questions in an SEO-friendly way. You can only use one FAQ block per post.", "wordpress-seo" ),
 		icon: "editor-ul",
 		category: "yoast-structured-data-blocks",
@@ -17,20 +26,24 @@ export default () => {
 			__( "FAQ", "wordpress-seo" ),
 			__( "Frequently Asked Questions", "wordpress-seo" ),
 			__( "Schema", "wordpress-seo" ),
+			__( "SEO", "wordpress-seo" ),
+			__( "Structured Data", "wordpress-seo-premium" ),
 		],
+		example: {
+			attributes: {
+				questions: [
+					{ id: Faq.generateId( "faq-question" ), question: [], answer: [] },
+					{ id: Faq.generateId( "faq-question" ), question: [], answer: [] },
+					{ id: Faq.generateId( "faq-question" ), question: [], answer: [] },
+				],
+			},
+		},
 		// Allow only one FAQ block per post.
 		supports: {
 			multiple: false,
 		},
 		// Block attributes - decides what to save and how to parse it from and to HTML.
-		attributes: {
-			questions: {
-				type: "array",
-			},
-			additionalListCssClasses: {
-				type: "string",
-			},
-		},
+		attributes,
 
 		/**
 		 * The edit function describes the structure of your block in the context of the editor.
@@ -50,6 +63,7 @@ export default () => {
 			return <Faq { ...{ attributes, setAttributes, className } } />;
 		},
 
+		/* eslint-disable react/display-name */
 		/**
 		 * The save function defines the way in which the different attributes should be combined
 		 * into the final markup, which is then serialized by Gutenberg into post_content.
@@ -59,9 +73,16 @@ export default () => {
 		 * @link https://wordpress.org/gutenberg/handbook/block-api/block-edit-save/
 		 * @returns {Component} The display component.
 		 */
-		// eslint-disable-next-line react/display-name
 		save: function( { attributes } ) {
 			return <Faq.Content { ...attributes } />;
 		},
+		/* eslint-enable react/display-name */
+
+		deprecated: [
+			{
+				attributes,
+				save: legacy.v13_1,
+			},
+		],
 	} );
 };

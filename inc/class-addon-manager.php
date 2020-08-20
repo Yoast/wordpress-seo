@@ -18,6 +18,13 @@ class WPSEO_Addon_Manager {
 	const SITE_INFORMATION_TRANSIENT = 'wpseo_site_information';
 
 	/**
+	 * Holds the name of the transient.
+	 *
+	 * @var string
+	 */
+	const SITE_INFORMATION_TRANSIENT_QUICK = 'wpseo_site_information_quick';
+
+	/**
 	 * Holds the slug for YoastSEO free.
 	 *
 	 * @var string
@@ -220,6 +227,17 @@ class WPSEO_Addon_Manager {
 	}
 
 	/**
+	 * Checks if there are any installed addons.
+	 *
+	 * @return bool True when there are installed Yoast addons.
+	 */
+	public function has_installed_addons() {
+		$installed_addons = $this->get_installed_addons();
+
+		return ! empty( $installed_addons );
+	}
+
+	/**
 	 * Checks whether a plugin expiry date has been passed.
 	 *
 	 * @param stdClass $subscription Plugin subscription.
@@ -247,10 +265,9 @@ class WPSEO_Addon_Manager {
 			'homepage'      => $subscription->product->store_url,
 			'download_link' => $subscription->product->download,
 			'package'       => $subscription->product->download,
-			'sections'      =>
-				[
-					'changelog' => $subscription->product->changelog,
-				],
+			'sections'      => [
+				'changelog' => $subscription->product->changelog,
+			],
 		];
 	}
 
@@ -295,7 +312,7 @@ class WPSEO_Addon_Manager {
 	 * @return array The installed plugins.
 	 */
 	protected function get_installed_addons() {
-		return $this->filter_by_key( $this->get_plugins(), [ $this, 'is_yoast_addon' ] );
+		return array_filter( $this->get_plugins(), [ $this, 'is_yoast_addon' ], ARRAY_FILTER_USE_KEY );
 	}
 
 	/**
@@ -304,7 +321,7 @@ class WPSEO_Addon_Manager {
 	 * @return array The active addons.
 	 */
 	protected function get_active_addons() {
-		return $this->filter_by_key( $this->get_installed_addons(), [ $this, 'is_plugin_active' ] );
+		return array_filter( $this->get_installed_addons(), [ $this, 'is_plugin_active' ], ARRAY_FILTER_USE_KEY );
 	}
 
 	/**
@@ -335,15 +352,16 @@ class WPSEO_Addon_Manager {
 
 		// Force re-check on license & dashboard pages.
 		$current_page = $this->get_current_page();
+
 		// Check whether the licenses are valid or whether we need to show notifications.
-		$exclude_cache = ( $current_page === 'wpseo_licenses' || $current_page === 'wpseo_dashboard' );
+		$quick = ( $current_page === 'wpseo_licenses' || $current_page === 'wpseo_dashboard' );
 
 		// Also do a fresh request on Plugins & Core Update pages.
-		$exclude_cache = $exclude_cache || $pagenow === 'plugins.php';
-		$exclude_cache = $exclude_cache || $pagenow === 'update-core.php';
+		$quick = $quick || $pagenow === 'plugins.php';
+		$quick = $quick || $pagenow === 'update-core.php';
 
-		if ( $exclude_cache ) {
-			return false;
+		if ( $quick ) {
+			return get_transient( self::SITE_INFORMATION_TRANSIENT_QUICK );
 		}
 
 		return get_transient( self::SITE_INFORMATION_TRANSIENT );
@@ -371,6 +389,7 @@ class WPSEO_Addon_Manager {
 	 */
 	protected function set_site_information_transient( $site_information ) {
 		set_transient( self::SITE_INFORMATION_TRANSIENT, $site_information, DAY_IN_SECONDS );
+		set_transient( self::SITE_INFORMATION_TRANSIENT_QUICK, $site_information, 60 );
 	}
 
 	/**
@@ -381,6 +400,9 @@ class WPSEO_Addon_Manager {
 	 * @return array The plugins.
 	 */
 	protected function get_plugins() {
+		if ( ! function_exists( 'get_plugins' ) ) {
+			require_once ABSPATH . 'wp-admin/includes/plugin.php';
+		}
 		return get_plugins();
 	}
 
@@ -409,41 +431,6 @@ class WPSEO_Addon_Manager {
 			'url'           => WPSEO_Utils::get_home_url(),
 			'subscriptions' => [],
 		];
-	}
-
-	/**
-	 * Checks if there are any installed addons.
-	 *
-	 * @return bool True when there are installed Yoast addons.
-	 */
-	protected function has_installed_addons() {
-		$installed_addons = $this->get_installed_addons();
-
-		return ! empty( $installed_addons );
-	}
-
-	/**
-	 * Filters the given array by its keys.
-	 *
-	 * This method is temporary. When WordPress has minimal PHP 5.6 support we can change this to:
-	 *
-	 * array_filter( $array_to_filter, $filter, ARRAY_FILTER_USE_KEY )
-	 *
-	 * @codeCoverageIgnore
-	 *
-	 * @param array    $array_to_filter The array to filter.
-	 * @param callable $callback        The filter callback.
-	 *
-	 * @return array The filtered array,
-	 */
-	private function filter_by_key( $array_to_filter, $callback ) {
-		$keys_to_filter = array_filter( array_keys( $array_to_filter ), $callback );
-		$filtered_array = [];
-		foreach ( $keys_to_filter as $filtered_key ) {
-			$filtered_array[ $filtered_key ] = $array_to_filter[ $filtered_key ];
-		}
-
-		return $filtered_array;
 	}
 
 	/**

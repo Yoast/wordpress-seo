@@ -1,0 +1,900 @@
+@import url(../src/icons.css);
+/*------------------------------------*\
+    #SETTINGS
+\*------------------------------------*/
+/**
+ * Pull in all the settings we require for this project.
+ */
+/* Settings pages layout based on CSS table model. */
+.wpseo_content_wrapper {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+}
+
+.wpseo_content_cell {
+  display: table-cell;
+  height: 500px;
+  margin: 0;
+  padding: 0;
+  vertical-align: top;
+}
+
+#wpseo_content_top {
+  width: 100%;
+}
+
+/* @todo: check this. */
+tr.yst_row {
+  margin: 5px 0 0 0;
+  padding: 5px 0 0 0;
+}
+
+#sidebar-container {
+  /* For historical reasons banner images have a 261px width. */
+  width: 300px;
+  padding-left: 20px;
+}
+
+/* @todo: check this. */
+tr.yst_row.even {
+  background-color: #f6f6f6;
+}
+
+.wpseo_content_wrapper {
+  /* Forms. */
+  /* Input validation errors */
+  /* @todo: check if the .double class is still used. */
+  /* @todo: check this. */
+  /* @todo: check this. Couldn't find any textarea with class 'import'. */
+  /* @todo: check this. */
+  /* @todo: check this. */
+  /* @todo: check this. */
+  /* @todo: check this. */
+  /* @todo: check this. */
+  /* @todo: check this. */
+  /* @todo: check this. */
+  /* @todo: check this. */
+  /* Search Appearance: title separator. */
+  /* @todo: check this. */
+  /* @todo: check this. */
+}
+
+.wpseo_content_wrapper label.textinput,
+.wpseo_content_wrapper label.select {
+  float: left;
+  width: 200px;
+  margin: 5px 0;
+}
+
+.wpseo_content_wrapper label.textinput.error,
+.wpseo_content_wrapper label.select.error {
+  color: #dc3232;
+  font-weight: bold;
+}
+
+.wpseo_content_wrapper .yoast-inline-label {
+  float: none;
+  display: inline-block;
+  margin: 0 0 8px;
+}
+
+.wpseo_content_wrapper input.textinput,
+.wpseo_content_wrapper textarea,
+.wpseo_content_wrapper select {
+  width: 400px;
+}
+
+.wpseo_content_wrapper input.large-text,
+.wpseo_content_wrapper textarea.large-text {
+  width: 99%;
+}
+
+.wpseo_content_wrapper input.textinput,
+.wpseo_content_wrapper textarea.textinput,
+.wpseo_content_wrapper select.select,
+.wpseo_content_wrapper .select2-container {
+  margin: 0 0 15px 0;
+}
+
+.wpseo_content_wrapper input.textinput[aria-invalid="true"] {
+  color: #000;
+  background: #f9dcdc url(../../images/error-icon.svg) no-repeat calc( 100% - 6px) center;
+  background-size: 12px;
+  border: 1px solid #dc3232;
+  padding-right: 24px;
+}
+
+.wpseo_content_wrapper input.textinput[aria-invalid="true"][aria-describedby] {
+  margin-bottom: 0.5rem;
+}
+
+.wpseo_content_wrapper .yoast-input-validation__error-description {
+  width: 400px;
+  padding-left: 200px;
+  margin: 0 0 1rem;
+  color: #8f1919;
+}
+
+.wpseo_content_wrapper input.radio,
+.wpseo_content_wrapper input.checkbox,
+.wpseo_content_wrapper input.checkbox.double {
+  margin: 6px 10px 6px 0;
+}
+
+.wpseo_content_wrapper .textinput.metadesc {
+  height: 50px;
+}
+
+.wpseo_content_wrapper textarea.import {
+  width: 500px;
+  height: 100px;
+}
+
+.wpseo_content_wrapper p.desc {
+  margin: 6px 0 10px 0;
+  padding: 0 0 8px 25px;
+}
+
+.wpseo_content_wrapper p.desc.label,
+.wpseo_content_wrapper div.desc.label {
+  margin: 0 0 20px;
+  padding: 0 0 10px 200px;
+}
+
+.wpseo_content_wrapper h4 {
+  clear: both;
+  margin: 1.2em 0 0.5em 0;
+}
+
+.wpseo_content_wrapper .postbox {
+  margin: 10px 10px 0 0;
+}
+
+.wpseo_content_wrapper .postbox form {
+  line-height: 150%;
+}
+
+.wpseo_content_wrapper .text {
+  width: 250px;
+}
+
+.wpseo_content_wrapper .correct {
+  padding: 5px;
+  color: white;
+  background-color: green;
+}
+
+.wpseo_content_wrapper .wrong {
+  padding: 5px;
+  color: white;
+  background-color: #dc3232;
+}
+
+.wpseo_content_wrapper .wrong code {
+  padding: 3px 8px;
+  color: #000;
+}
+
+.wpseo_content_wrapper .button.fixit {
+  float: right;
+  margin: 0 5px;
+}
+
+.wpseo_content_wrapper .button.checkit {
+  float: right;
+  margin: 0 5px;
+  padding: 5px 8px;
+}
+
+.wpseo_content_wrapper .disabled-note {
+  margin: 0 0 8px;
+  color: #888;
+}
+
+.wpseo_content_wrapper #separator {
+  margin: 1.5em 0 0.5em;
+}
+
+.wpseo_content_wrapper #separator input.radio {
+  /* visually hide the radio buttons but keep them accessible */
+  position: absolute;
+  left: -9999em;
+  width: 1px;
+  height: 1px;
+}
+
+.wpseo_content_wrapper #separator input.radio + label {
+  float: left;
+  width: 30px !important;
+  margin: 0 5px 0.5em 0 !important;
+  padding: 9px 6px;
+  border: 1px solid #ccc;
+  /* Don't change: these mimic Google's font and font size for titles */
+  font-family: Arial, Helvetica, sans-serif !important;
+  font-size: 18px !important;
+  line-height: 24px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.wpseo_content_wrapper #separator input.radio:checked + label {
+  border: 3px solid #a4286a;
+  background-color: #fff;
+  padding: 7px 4px;
+}
+
+.wpseo_content_wrapper #separator input.radio:focus + label {
+  outline: 2px solid #5b9dd9;
+}
+
+.wpseo_content_wrapper .svg-container {
+  text-align: center;
+}
+
+.wpseo_content_wrapper .svg-container .dashicons {
+  width: 200px;
+  height: 100px;
+  font-size: 100px;
+}
+
+.wpseo_content_wrapper .paper.tab-block button.toggleable-container-trigger {
+  width: 100%;
+  padding: 16px;
+  font-size: 1rem;
+}
+
+.wpseo_content_wrapper .paper.tab-block button.toggleable-container-trigger:focus {
+  outline: 1px solid #0066cd;
+  outline-offset: -1px;
+  box-shadow: 0 0 3px rgba(8, 74, 103, 0.8);
+}
+
+.wpseo_content_wrapper .paper.tab-block button.toggleable-container-trigger:active {
+  box-shadow: none;
+}
+
+.wpseo_content_wrapper .paper.tab-block h2.collapsible-header {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.wpseo_content_wrapper .paper.tab-block.metabox button.toggleable-container-trigger {
+  color: #555;
+}
+
+.wpseo_content_wrapper .paper.tab-block.metabox.wpseotab {
+  padding: 0;
+  border: 0;
+}
+
+.wpseo_content_wrapper .paper.tab-block.search-appearance {
+  max-width: 632px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  background-color: #fff;
+}
+
+.wpseo_content_wrapper .paper.tab-block .paper-container {
+  padding: 16px;
+}
+
+.wpseo_content_wrapper .paper.tab-block .paper-container:first-child {
+  margin-top: 0;
+}
+
+.wpseo_content_wrapper .paper.tab-block .paper-title {
+  padding: 16px;
+}
+
+.wpseo_content_wrapper .paper.tab-block .paper-title h2 {
+  margin: 0;
+}
+
+.wpseo_content_wrapper .paper.tab-block .tab-block:first-child {
+  margin-top: 0;
+}
+
+.wpseo_content_wrapper .wpseo-collapsible-container {
+  background-color: #fff;
+  border-top: 1px solid #e2e4e7;
+  border-bottom: 1px solid #e2e4e7;
+  margin-top: -1px;
+}
+
+.wpseo_content_wrapper .toggleable-container-trigger {
+  border: 0;
+  background: none;
+  cursor: pointer;
+  width: 100%;
+  padding: 0;
+  text-align: left;
+}
+
+.wpseo_content_wrapper .toggleable-container-icon {
+  float: right;
+  width: 20px;
+  height: 20px;
+  position: relative;
+}
+
+.wpseo_content_wrapper .toggleable-container-trigger .toggleable-container-icon::after {
+  content: "";
+  display: block;
+  padding: 14px;
+  position: absolute;
+  top: -4px;
+  left: -4px;
+}
+
+.wpseo_content_wrapper .toggleable-container-hidden {
+  display: none;
+}
+
+/* Styles for Yoast specific content. */
+.wpseo_content_wrapper h3 {
+  font-size: 1.15em;
+  margin: 1em 0 0.5em 0;
+}
+
+.wpseo_content_wrapper p,
+.wpseo_content_wrapper li {
+  max-width: 600px;
+}
+
+.yoast .search-box,
+.wpseo_content_wrapper .notice p,
+.yoast-container .container,
+.yoast-notification p {
+  max-width: none;
+}
+
+/* @todo: check this. */
+table.wpseo th {
+  text-align: left;
+}
+
+/* Notices below Settings pages tabs. */
+#wpseo-tabs + .notice {
+  margin-top: 1.5em;
+}
+
+/* Template variables error. */
+.wpseo-variable-warning-element {
+  border: 1px solid #c62d2d !important;
+}
+
+.wpseo-variable-warning {
+  clear: both;
+  margin: 5px 0 0 0;
+  padding: 5px;
+  color: #c62d2d;
+}
+
+.wpseo-variable-warning code {
+  color: #b02828;
+}
+
+.wpseo-variable-warning a {
+  color: #c62d2d;
+}
+
+/* Create redirect popup. */
+.wpseo_content_wrapper h1.wpseo-redirect-url-title {
+  margin: 1em 0 0.5em 0;
+  font-size: 1.3em;
+}
+
+/* Template variables table. */
+table.yoast_help {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+table.yoast_help,
+table.yoast_help th,
+table.yoast_help td {
+  border: 1px solid #ddd;
+  color: #444;
+}
+
+table.yoast_help th,
+table.yoast_help td {
+  padding: 5px 10px;
+  text-align: left;
+  vertical-align: top;
+}
+
+table.yoast_help tr {
+  background-color: #f1f1f1;
+}
+
+table.yoast_help tr:nth-child(2n) {
+  background-color: #fbfbfe;
+}
+
+table.yoast_help tr:hover {
+  background-color: #ddd;
+}
+
+table.yoast_help thead tr,
+table.yoast_help thead tr:hover {
+  background-color: #fff;
+}
+
+table.yoast_help .yoast-variable-name {
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+table.yoast_help .yoast-variable-desc {
+  min-width: 300px;
+}
+
+.yoast-notice-blocking-files code {
+  line-height: 2;
+  color: #000;
+}
+
+.yoast-notice-blocking-files .button {
+  margin: 0.5em 0;
+}
+
+.wpseo_content_wrapper .yoast-blocking-files-error p {
+  max-width: none;
+}
+
+/* Tabs. */
+.wpseotab {
+  display: none;
+}
+
+.wpseotab.active {
+  display: block;
+}
+
+.wpseotab p.expl {
+  margin-left: 6px;
+}
+
+.wpseotab .tab-block {
+  display: block;
+  margin: 30px 0;
+}
+
+.wpseotab p.expl strong {
+  font-size: 115%;
+}
+
+/* Debug Information meta box. */
+#wpseo-debug-info {
+  clear: both;
+  margin: 20px 0 0;
+  padding: 20px 20px 0;
+  border: 1px solid #e5e5e5;
+  background-color: #fff;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+}
+
+#wpseo-debug-info h2 {
+  margin: 0;
+  cursor: auto;
+}
+
+#wpseo-debug-info .wpseo-debug-heading {
+  font-size: 1em;
+}
+
+#wpseo-debug-info .wpseo-debug {
+  display: inline-block;
+  padding-left: 20px;
+  color: #c00;
+}
+
+/* Bulk editor. */
+input.wpseo-new-title,
+textarea.wpseo-new-metadesc {
+  width: 100%;
+  max-width: 100%;
+}
+
+/* Yoast SEO credits page. */
+body.toplevel_page_wpseo_dashboard .wp-badge {
+  background: transparent url(../../images/Yoast_SEO_Icon.svg) no-repeat 50% 10px;
+  background-size: 140px 140px;
+  box-shadow: none;
+}
+
+/* Recalculate score progress bar. Note: currently not used. */
+#wpseo_progressbar {
+  height: 25px;
+  border: 1px solid #006691;
+}
+
+#wpseo_progressbar .ui-progressbar-value {
+  height: 25px;
+  background: #006691;
+}
+
+.wpseo-progressbar-wrapper {
+  display: inline;
+  width: 100%;
+}
+
+.wpseo-progressbar {
+  display: block;
+  width: 100%;
+  height: 25px;
+  border: 1px solid #006691;
+}
+
+.wpseo-progressbar .ui-progressbar-value {
+  height: 25px;
+  background: #006691;
+}
+
+.archives-titles-metas-content {
+  padding-top: 1em;
+}
+
+/* Banners sidebar. */
+.yoast-sidebar__title {
+  width: 100%;
+  margin: 5px 0;
+  padding: 10px 0;
+  color: #a4286a;
+  text-align: left;
+  box-sizing: border-box;
+  line-height: 19px;
+  border-bottom: 1px solid #a4286a;
+}
+
+.yoast-sidebar__section {
+  box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.3);
+  border: 1px solid #dcdcdc;
+  background-color: #fff;
+  padding: 16px;
+  margin: 10px 0 20px 0;
+}
+
+.yoast-sidebar__section h2 {
+  margin-top: 0;
+  color: #a4286a;
+}
+
+.yoast-sidebar__section a {
+  color: #0085ba;
+}
+
+.yoast-sidebar__section ul {
+  position: relative;
+}
+
+.yoast-sidebar__section li {
+  list-style: none;
+  margin-left: 20px;
+}
+
+.yoast-sidebar__section li::before {
+  content: '+';
+  position: absolute;
+  left: 0;
+  font-weight: bold;
+}
+
+.yoast-sidebar__section div {
+  position: relative;
+  margin: 10px 0 20px 0;
+}
+
+.yoast-sidebar__section div img {
+  float: right;
+  width: 70px;
+  height: 70px;
+  margin: 0 0 0 10px;
+}
+
+.yoast-sidebar__section div img.alignleft {
+  margin: 0 10px 0 0;
+  float: left;
+}
+
+.yoast-sidebar__section div p {
+  float: left;
+  width: 100%;
+  margin: 0;
+}
+
+.wpseo-banner__link {
+  display: inline-block;
+}
+
+.wpseo-banner__image {
+  vertical-align: top;
+}
+
+/*
+ * Premium Upsell Admin Block
+ * @since 5.1
+ */
+.yoast_premium_upsell {
+  box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.3);
+  border: 1px solid #dcdcdc;
+  padding: 16px;
+  background-color: #fff;
+  max-width: 640px;
+  overflow: hidden;
+  margin-top: 2em;
+}
+
+.yoast_premium_upsell--header {
+  color: #A4286A;
+  margin-top: 0.3em;
+  font-size: 1.7em;
+  font-weight: bold;
+}
+
+.yoast_premium_upsell--motivation {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.yoast_premium_upsell--motivation li {
+  flex: 0 0 50%;
+  list-style: none;
+}
+
+.yoast_premium_upsell--argument {
+  padding: 0 8px 0 20px;
+}
+
+.yoast_premium_upsell--argument::before {
+  position: relative;
+  left: -16px;
+  margin-right: -10px;
+  font-weight: bold;
+  content: "+";
+  top: -1px;
+}
+
+@media screen and (max-width: 480px) {
+  .yoast_premium_upsell--motivation {
+    display: block;
+  }
+}
+
+.yoast-variable-desc {
+  min-width: 300px;
+}
+
+.yoast-table-scrollable {
+  box-sizing: border-box;
+}
+
+.yoast-table-scrollable th,
+.yoast-table-scrollable td {
+  box-sizing: border-box;
+}
+
+.yoast-table-scrollable__container.yoast-has-scroll {
+  position: relative;
+  overflow: hidden;
+}
+
+.yoast-table-scrollable__container.yoast-has-scroll:after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 100%;
+  width: 50px;
+  height: calc( 100% - 16px);
+  border-radius: 10px 0 0 10px / 50% 0 0 50%;
+  box-shadow: -5px 0 10px rgba(0, 0, 0, 0.25);
+}
+
+.yoast-table-scrollable__container.yoast-has-scroll .yoast-table-scrollable__inner {
+  overflow-x: scroll;
+  padding-bottom: 16px;
+}
+
+.yoast-table-scrollable__hintwrapper {
+  display: none;
+}
+
+.yoast-table-scrollable__hintwrapper.yoast-has-scroll {
+  display: block;
+  margin: 1em 0;
+  text-align: center;
+}
+
+.yoast-has-scroll .yoast-table-scrollable__hint {
+  display: inline-block;
+}
+
+.yoast-has-scroll .yoast-table-scrollable__hint:before {
+  content: "\21c4";
+  display: inline-block;
+  margin-right: 10px;
+  font-size: 20px;
+  line-height: inherit;
+  vertical-align: text-top;
+}
+
+/* Styled select. */
+.yoast-styled-select {
+  display: inline-flex;
+  align-items: center;
+  position: relative;
+  margin-bottom: 1em;
+}
+
+.yoast-styled-select::after, .yoast-styled-select::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  pointer-events: none;
+}
+
+.yoast-styled-select::before {
+  width: 28px;
+  right: 0;
+}
+
+.yoast-styled-select::after {
+  width: 0;
+  height: 0;
+  border: 4px solid transparent;
+  border-top: 5px solid #555;
+  border-bottom-width: 0;
+  margin: auto;
+  right: 6px;
+  z-index: 1;
+}
+
+.yoast-styled-select select {
+  height: 28px;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 4px 32px 4px 8px;
+  max-width: 100%;
+  appearance: none;
+  background: transparent;
+  border: 1px solid #aaa;
+  border-radius: 4px;
+  line-height: 1;
+  color: #32373c;
+  /* Inherits other focus styles from WordPress */
+  /* Reset Firefox selected option inner outline */
+  /* Remove the default down arrow in Edge. */
+}
+
+.yoast-styled-select select.error {
+  border-color: #dc3232;
+  border-width: 2px;
+}
+
+.wpseo_content_wrapper .yoast-styled-select select.select {
+  margin: 0;
+}
+
+.yoast-styled-select select:focus {
+  border-color: #5b9dd9;
+}
+
+.yoast-styled-select select:-moz-focusring {
+  color: transparent;
+  text-shadow: 0 0 0 #32373c;
+}
+
+.yoast-styled-select select[disabled] {
+  opacity: .75;
+}
+
+.yoast-styled-select select::-ms-expand {
+  display: none;
+}
+
+/* Responsive layout. */
+@media screen and (max-width: 1024px) {
+  .wpseo_content_wrapper,
+  .wpseo_content_cell {
+    display: block;
+    height: auto;
+  }
+  #wpseo_content_top {
+    width: auto;
+  }
+  #sidebar-container {
+    width: auto;
+    padding: 0;
+  }
+  /* Make the banners with product lists appear next to each other. */
+  .yoast-sidebar__product-list {
+    display: flex;
+    border-bottom: 1px solid #ddd;
+  }
+  .yoast-sidebar__product-list div p {
+    word-wrap: break-word;
+    width: calc( 100% - 50px);
+  }
+  .yoast-sidebar__product-list .yoast-sidebar__section {
+    border-bottom: none;
+  }
+  .yoast-sidebar__product-list .yoast-sidebar__section:first-child {
+    margin-right: 40px;
+  }
+}
+
+@media screen and (max-width: 782px) {
+  .wpseo_content_wrapper {
+    /* Forms. */
+    /* Input validation errors */
+  }
+  .wpseo_content_wrapper label.textinput,
+  .wpseo_content_wrapper label.select {
+    display: inline-block;
+    float: none;
+    width: auto;
+  }
+  .wpseo_content_wrapper input.textinput,
+  .wpseo_content_wrapper textarea,
+  .wpseo_content_wrapper textarea.textinput {
+    display: block;
+    width: 100%;
+  }
+  .wpseo_content_wrapper select,
+  .wpseo_content_wrapper select.select,
+  .wpseo_content_wrapper .select2-container {
+    display: block;
+    max-width: 100%;
+    margin: 0 0 5px 0;
+  }
+  .wpseo_content_wrapper p.desc.label,
+  .wpseo_content_wrapper div.desc.label {
+    padding-left: 0;
+  }
+  .wpseo_content_wrapper .textinput[aria-invalid="true"][aria-describedby] + br {
+    display: none;
+  }
+  .wpseo_content_wrapper .yoast-input-validation__error-description {
+    width: auto;
+    padding-left: 0;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  /* Make the banners with product lists appear below each other. */
+  .yoast-sidebar__product-list {
+    display: block;
+    border-bottom: none;
+  }
+  .yoast-sidebar__product-list .yoast-sidebar__section {
+    border-bottom: 1px solid #ddd;
+  }
+  .yoast-sidebar__product-list .yoast-sidebar__section p {
+    word-wrap: break-word;
+    width: calc( 100% - 50px);
+    padding-left: 50px;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  body.toplevel_page_wpseo_dashboard .wp-badge {
+    padding-top: 80px;
+    background-size: 100px 100px;
+    background-color: #a4286a;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  }
+}
+
+.wpseo-checkmark-ok-icon {
+  float: left;
+  width: 18px;
+  margin-right: 5px;
+  height: 18px;
+  background: var(--yoast-svg-icon-check-ok) no-repeat;
+  background-size: 18px;
+  vertical-align: top;
+}
+
+/*# sourceMappingURL=yst_plugin_tools.css.map */

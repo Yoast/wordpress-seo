@@ -49,7 +49,7 @@ class WPSEO_Configuration_Page {
 		$this->remove_notification();
 		$this->remove_notification_option();
 
-		wp_redirect( admin_url( 'admin.php?page=' . WPSEO_Admin::PAGE_IDENTIFIER ) );
+		wp_safe_redirect( admin_url( 'admin.php?page=' . WPSEO_Admin::PAGE_IDENTIFIER ) );
 		exit;
 	}
 
