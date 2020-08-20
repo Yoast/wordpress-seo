@@ -258,6 +258,7 @@ const checkSecondPatternAndGetRoot = function( word, pattern, numberSameLetters,
  *
  * @param {string}	word			The word to check.
  * @param {Object}	morphologyData	The Arabic morphology data
+ *
  * @returns {Object}				The root or the original word if no root was found.
  */
 const checkPatterns = function( word, morphologyData ) {
@@ -494,12 +495,11 @@ const processWordWithPrefixWaw = function( word, morphologyData ) {
 	}
 	// If the prefix waw was removed, try to find the root.
 	if ( wordAfterRemovingWaw !== word ) {
-		const wordAfterTryingToFindRoot = findRoot( wordAfterRemovingWaw, morphologyData );
-		if ( wordAfterTryingToFindRoot !== wordAfterRemovingWaw ) {
-			return wordAfterTryingToFindRoot;
+		const outputAfterTryingToFindRoot = findRoot( wordAfterRemovingWaw, morphologyData );
+		if ( outputAfterTryingToFindRoot ) {
+			return outputAfterTryingToFindRoot;
 		}
 	}
-	return word;
 };
 
 /**
@@ -537,9 +537,11 @@ export default function stem( word, morphologyData ) {
 	}
 
 	// If the root still hasn't been found, remove the prefix waw and try to find the root.
-	const wordAfterProcessingPrefixWaw = processWordWithPrefixWaw( word, morphologyData );
-	if ( wordAfterProcessingPrefixWaw !== word ) {
-		return wordAfterProcessingPrefixWaw;
+	const outputAfterProcessingPrefixWaw = processWordWithPrefixWaw( word, morphologyData );
+	if ( outputAfterProcessingPrefixWaw ) {
+		if ( outputAfterProcessingPrefixWaw.rootFound === true ) {
+			return outputAfterProcessingPrefixWaw.word;
+		} word = outputAfterProcessingPrefixWaw.word;
 	}
 
 	// If the root still hasn't been found, remove a suffix and try to find the root.
