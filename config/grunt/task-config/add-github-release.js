@@ -1,8 +1,8 @@
 module.exports = function( grunt ) {
 	return {
 		options: {
-			githubOwner:  'yoast',
-			githubRepo: '<%= pluginSlug %>',
+			githubOwner:  '<%= githubOwner %>',
+			githubRepo: '<%= githubRepo %>',
 			srcZipFilename: "artifact.zip",
 			dstZipFilename: "<%= pluginSlug %>.zip",
 			uploadZip: true,

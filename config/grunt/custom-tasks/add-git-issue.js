@@ -48,32 +48,12 @@ module.exports = function( grunt ) {
 				labels: options.labels,
 			};
 
-			const GithubRepository = process.env.GITHUB_REPOSITORY || ''
-			if (GithubRepository === ''){
-				owner = grunt.config.data.owner || options.githubOwner;
-				repo = grunt.config.data.repo || options.githubRepo;
-			} else {
-				var res = GithubRepository.split("/")
-                if (res.length == 1){
-					owner = grunt.config.data.owner || options.githubOwner;
-					repo = grunt.config.data.repo|| res[0];
-				}  
-				if (res.length > 1){
-					owner = grunt.config.data.owner || res[0];
-					res.shift();				
-					repo = grunt.config.data.repo || res.join("/");
-				}  	
-			}
-
-			grunt.verbose.writeln('repo:' + repo)
-			grunt.verbose.writeln('owner:' + owner)
-
-			const milestone = await getMilestone( options.versionString, owner + "/" + repo );
+			const milestone = await getMilestone( options.versionString, options.githubOwner + "/" + options.githubRepo );
 			if ( milestone ) {
 				issueData.milestone = milestone.number;
 			}
 			const finalMessage = "You can now celebrate, but there is work to be done!";
-			const issueResponse = await githubApi( owner + "/" + repo + "/issues", issueData, "POST" );
+			const issueResponse = await githubApi( options.githubOwner + "/" + options.githubRepo + "/issues", issueData, "POST" );
 			const issueResponseData = await issueResponse.json();
 
 			if ( ! issueResponse.ok ) {

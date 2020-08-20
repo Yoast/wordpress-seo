@@ -57,27 +57,10 @@ module.exports = function( grunt ) {
 			}
 			
 			let changelog;
-			let owner;
-			let repo;
+			const owner = options.githubOwner;
+			const repo = options.githubRepo;
 
-			//use GITHUB_REPOSITORY for backward compatibility. 
-			const GithubRepository = process.env.GITHUB_REPOSITORY || ''
-			if (GithubRepository === ''){
-				owner = grunt.config.data.owner || options.githubOwner;
-				repo = grunt.config.data.repo || options.githubRepo;
-			} else {
-				var res = GithubRepository.split("/")
-                if (res.length == 1){
-					owner = grunt.config.data.owner || options.githubOwner;
-					repo = grunt.config.data.repo|| res[0];
-				}  
-				if (res.length > 1){
-					owner = grunt.config.data.owner || res[0];
-					res.shift();				
-					repo = grunt.config.data.repo || res.join("/");
-				}  	
-			}
-
+			
 			if (options.manualEditChangelog === true) {
 				// Open a text editor to get the changelog.
 				changelog = await getUserInput( { initialContent: grunt.option( "changelog" ) } );
