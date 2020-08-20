@@ -410,42 +410,6 @@ class Indexable_Post_Builder {
 	}
 
 	/**
-	 * Sets the alternative on an indexable.
-	 *
-	 * @param array     $alternative_image The alternative image to set.
-	 * @param Indexable $indexable         The indexable to set image for.
-	 */
-	protected function set_alternative_image( array $alternative_image, Indexable $indexable ) {
-
-		if ( ! empty( $alternative_image['image_id'] ) ) {
-			if ( ! $indexable->open_graph_image_source && ! $indexable->open_graph_image_id ) {
-				$indexable->open_graph_image_id     = $alternative_image['image_id'];
-				$indexable->open_graph_image_source = $alternative_image['source'];
-
-				$this->set_open_graph_image_meta_data( $indexable );
-			}
-
-			if ( ! $indexable->twitter_image && ! $indexable->twitter_image_id ) {
-				$indexable->twitter_image        = $this->twitter_image->get_by_id( $alternative_image['image_id'] );
-				$indexable->twitter_image_id     = $alternative_image['image_id'];
-				$indexable->twitter_image_source = $alternative_image['source'];
-			}
-		}
-
-		if ( ! empty( $alternative_image['image'] ) ) {
-			if ( ! $indexable->open_graph_image_source && ! $indexable->open_graph_image_id ) {
-				$indexable->open_graph_image        = $alternative_image['image'];
-				$indexable->open_graph_image_source = $alternative_image['source'];
-			}
-
-			if ( ! $indexable->twitter_image && ! $indexable->twitter_image_id ) {
-				$indexable->twitter_image        = $alternative_image['image'];
-				$indexable->twitter_image_source = $alternative_image['source'];
-			}
-		}
-	}
-
-	/**
 	 * Gets the number of pages for a post.
 	 *
 	 * @param object $post The post object.
@@ -460,23 +424,5 @@ class Indexable_Post_Builder {
 		}
 
 		return $number_of_pages;
-	}
-
-	/**
-	 * Sets the OG image meta data for an og image
-	 *
-	 * @param Indexable $indexable The indexable.
-	 */
-	protected function set_open_graph_image_meta_data( Indexable $indexable ) {
-		if ( ! $indexable->open_graph_image_id ) {
-			return;
-		}
-
-		$image = $this->open_graph_image->get_image_by_id( $indexable->open_graph_image_id );
-
-		if ( ! empty( $image ) ) {
-			$indexable->open_graph_image      = $image['url'];
-			$indexable->open_graph_image_meta = WPSEO_Utils::format_json_encode( $image );
-		}
 	}
 }
