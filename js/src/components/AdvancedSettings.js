@@ -3,8 +3,9 @@ import { MultiSelect, Select } from "@yoast/components";
 import { RadioButtonGroup } from "@yoast/components";
 import { TextInput } from "@yoast/components";
 import { curryUpdateToHiddenInput, getValueFromHiddenInput } from "@yoast/helpers";
-import { Component, Fragment } from "@wordpress/element";
+import { Fragment } from "@wordpress/element";
 import { Alert } from "@yoast/components";
+import PropTypes from "prop-types";
 
 /**
  * Boolean that tells whether the current object refers to a post or a taxonomy.
@@ -12,6 +13,22 @@ import { Alert } from "@yoast/components";
  * @returns {Boolean} Whether this is a post or not.
  */
 const isPost = () => !! window.wpseoScriptData.isPost;
+
+/**
+ * If location is not empty, we append it to the id, to keep id's unique.
+ *
+ * @param {string} id       The id.
+ * @param {string} location The location.
+ *
+ * @returns {string} The hopefully unique id.
+ */
+const appendLocation = ( id, location ) => {
+	if ( location ) {
+		return `${ id }_${ location }`;
+	}
+
+	return id;
+};
 
 /**
  * The values that are used for the noIndex field differ for posts and taxonomies. This function returns an array of
@@ -54,16 +71,18 @@ const getNoIndexOptions = () => {
 	];
 };
 
-
 /**
  * Functional component for the Meta Robots No-Index option.
  *
+ * @param {Object} props The props object
+ *
  * @returns {Component} The Meta Robots No-Index component.
  */
-const MetaRobotsNoIndex = () => {
+const MetaRobotsNoIndex = ( { location } ) => {
 	const hiddenInputId = isPost() ? "#yoast_wpseo_meta-robots-noindex" : "#hidden_wpseo_noindex";
 	const metaRobotsNoIndexOptions = getNoIndexOptions();
 	const value = getValueFromHiddenInput( hiddenInputId );
+	const id = appendLocation( "yoast_wpseo_meta-robots-noindex-react", location );
 	return <Fragment>
 		{
 			window.wpseoAdminL10n.privateBlog &&
@@ -84,13 +103,21 @@ const MetaRobotsNoIndex = () => {
 				) }
 			onChange={ curryUpdateToHiddenInput( hiddenInputId ) }
 			name={ "yoast_wpseo_meta-robots-noindex-react" }
-			id={ "yoast_wpseo_meta-robots-noindex-react" }
+			id={ id }
 			options={ metaRobotsNoIndexOptions }
 			selected={ value }
 			linkTo={ "https://yoa.st/allow-search-engines" }
 			linkText={ __( "Learn more about the no-index setting on our help page.", "wordpress-seo" ) }
 		/>
 	</Fragment>;
+};
+
+MetaRobotsNoIndex.propTypes = {
+	location: PropTypes.string,
+};
+
+MetaRobotsNoIndex.defaultProps = {
+	location: "",
 };
 
 /**
@@ -120,17 +147,20 @@ const MetaRobotsNoFollow = () => {
 /**
  * Functional component for the Meta Robots Advanced field.
  *
+ * @param {Object} props The props object
+ *
  * @returns {Component} The Meta Robots advanced field component.
  */
-const MetaRobotsAdvanced = () => {
+const MetaRobotsAdvanced = ( { location } ) => {
 	const hiddenInputId = "#yoast_wpseo_meta-robots-adv";
 	const value = getValueFromHiddenInput( hiddenInputId );
+	const id = appendLocation( "yoast_wpseo_meta-robots-adv-react", location );
 
 	return <MultiSelect
 		label={ __( "Meta robots advanced", "wordpress-seo" ) }
 		onChange={ curryUpdateToHiddenInput( hiddenInputId ) }
 		name="yoast_wpseo_meta-robots-adv-react"
-		id="yoast_wpseo_meta-robots-adv-react"
+		id={ id }
 		options={ [
 			{ name: __( "No Image Index", "wordpress-seo" ), value: "noimageindex" },
 			{ name: __( "No Archive", "wordpress-seo" ), value: "noarchive" },
@@ -142,18 +172,29 @@ const MetaRobotsAdvanced = () => {
 	/>;
 };
 
+MetaRobotsAdvanced.propTypes = {
+	location: PropTypes.string,
+};
+
+MetaRobotsAdvanced.defaultProps = {
+	location: "",
+};
+
 /**
  * Functional component for the Breadcrumbs Title.
  *
+ * @param {Object} props The props object
+ *
  * @returns {Component} The Breadcrumbs title component.
  */
-const BreadCrumbsTitle = () => {
+const BreadCrumbsTitle = ( { location } ) => {
 	const hiddenInputId = isPost() ? "#yoast_wpseo_bctitle" : "#hidden_wpseo_bctitle";
 	const value = getValueFromHiddenInput( hiddenInputId );
+	const id = appendLocation( "yoast_wpseo_bctitle-react", location );
 
 	return <TextInput
 		label={ __( "Breadcrumbs Title", "wordpress-seo" ) }
-		id="yoast_wpseo_bctitle-react"
+		id={ id }
 		name="yoast_wpseo_bctitle-react"
 		onChange={ curryUpdateToHiddenInput( hiddenInputId ) }
 		value={ value }
@@ -162,18 +203,29 @@ const BreadCrumbsTitle = () => {
 	/>;
 };
 
+BreadCrumbsTitle.propTypes = {
+	location: PropTypes.string,
+};
+
+BreadCrumbsTitle.defaultProps = {
+	location: "",
+};
+
 /**
  * Functional component for the Canonical URL.
  *
+ * @param {Object} props The props object
+ *
  * @returns {Component} The canonical URL component.
  */
-const CanonicalURL = () => {
+const CanonicalURL = ( { location } ) => {
 	const hiddenInputId = isPost() ? "#yoast_wpseo_canonical" : "#hidden_wpseo_canonical";
 	const value = getValueFromHiddenInput( hiddenInputId );
+	const id = appendLocation( "yoast_wpseo_canonical-react", location );
 
 	return <TextInput
 		label={ __( "Canonical URL", "wordpress-seo" ) }
-		id="yoast_wpseo_canonical-react"
+		id={ id }
 		name="yoast_wpseo_canonical-react"
 		onChange={ curryUpdateToHiddenInput( hiddenInputId ) }
 		value={ value }
@@ -182,29 +234,41 @@ const CanonicalURL = () => {
 	/>;
 };
 
+CanonicalURL.propTypes = {
+	location: PropTypes.string,
+};
+
+CanonicalURL.defaultProps = {
+	location: "",
+};
 
 /**
- * Class that renders the Advanced Settings tab.
+ * The Advanced Settings component.
+ *
+ * @param {Object} props The props object
+ *
+ * @returns {wp.Element} The AdvancedSettings component.
  */
-class AdvancedSettings extends Component {
-	/**
-	 * Returns all the fields that should be in the Advanced Settings tab based on global settings.
-	 *
-	 * @returns {Component} The Advanced settings tab.
-	 */
-	render() {
-		return (
-			<Fragment>
-				<MetaRobotsNoIndex />
-				{ isPost() && <MetaRobotsNoFollow /> }
-				{ isPost() && <MetaRobotsAdvanced /> }
-				{
-					! window.wpseoAdminL10n.breadcrumbsDisabled && <BreadCrumbsTitle />
-				}
-				<CanonicalURL />
-			</Fragment>
-		);
-	}
-}
+const AdvancedSettings = ( { location } ) => {
+	return (
+		<Fragment>
+			<MetaRobotsNoIndex location={ location } />
+			{ isPost() && <MetaRobotsNoFollow /> }
+			{ isPost() && <MetaRobotsAdvanced location={ location } /> }
+			{
+				! window.wpseoAdminL10n.breadcrumbsDisabled && <BreadCrumbsTitle location={ location } />
+			}
+			<CanonicalURL location={ location } />
+		</Fragment>
+	);
+};
+
+AdvancedSettings.propTypes = {
+	location: PropTypes.string,
+};
+
+AdvancedSettings.defaultProps = {
+	location: "",
+};
 
 export default AdvancedSettings;

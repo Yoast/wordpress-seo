@@ -40,7 +40,7 @@ const modalContent = ( preferences ) => [
 	},
 	{
 		title: __( "Advanced", "wordpress-seo" ),
-		content: <AdvancedSettings />,
+		content: <AdvancedSettings location="modal" />,
 		shouldRender: preferences.displayAdvancedTab,
 	},
 ];
@@ -81,6 +81,26 @@ DrawerContainer.propTypes = {
 };
 
 /**
+ * Returns false for events passed to onRequestClose, that should not lead to the modal closing.
+ * Returns true for events that indeed should lead to the modal closing.
+ *
+ * @param {Event} event The event that was passed to onRequestClose.
+ *
+ * @returns {boolean} False when this event should not lead to closing to modal. True otherwise.
+ */
+const isCloseEvent = ( event ) => {
+	if ( event.type === "blur" ) {
+		// The blur event type should only close the modal when the screen overlay is clicked.
+		if ( event.relatedTarget && event.relatedTarget.querySelector( ".components-modal__screen-overlay" ) ) {
+			return true;
+		}
+		return false;
+	}
+
+	return true;
+};
+
+/**
  * Returns a button in a div that can be used to open the modal.
  *
  * Warning: contains styling that is specific for the Sidebar.
@@ -90,7 +110,14 @@ DrawerContainer.propTypes = {
 const PostSettingsModal = ( { preferences, postTypeName } ) => {
 	const [ isOpen, changeIsOpen ] = useState( false );
 
-	const closeModal = useCallback( () => changeIsOpen( false ), [] );
+	const closeModal = useCallback( ( event ) => {
+		// Prevent the modal from closing when the event is a false positive.
+		if ( ! isCloseEvent( event ) ) {
+			return;
+		}
+
+		changeIsOpen( false );
+	}, [] );
 	const openModal = useCallback( () => changeIsOpen( true ), [] );
 
 	return (
