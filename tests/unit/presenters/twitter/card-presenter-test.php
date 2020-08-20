@@ -18,6 +18,8 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
 class Card_Presenter_Test extends TestCase {
 
 	/**
+	 * Represents the instance to test.
+	 *
 	 * @var Card_Presenter
 	 */
 	protected $instance;
