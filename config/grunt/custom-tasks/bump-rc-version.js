@@ -18,6 +18,7 @@ module.exports = function( grunt ) {
 				alternativeBranchPush: false,
 				branchForRC: '',
 				type: 'release',
+				pluginVersionArg: '',
 
 			});
 			// Parse the command line options.

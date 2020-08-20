@@ -6,6 +6,7 @@ module.exports = {
             alternativeBranchPush: '<%= alternativeBranchPush %>',
             branchForRC: '<%= branchForRC %>',
             type: '<%= type %>',
+            pluginVersionArg: '<%= pluginVersionArg %>',
         },
     },
 }

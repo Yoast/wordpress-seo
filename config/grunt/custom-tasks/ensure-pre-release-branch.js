@@ -17,8 +17,7 @@ module.exports = function( grunt ) {
 				type: 'release',	
 				branchForRC: '<%= branchForRC %>',
 			});
-			
-		
+					
 			// Fetch all existing branches.
 			grunt.config( "gitfetch.fetchall.options.all", true );
 			grunt.task.run( "gitfetch:fetchall" );
