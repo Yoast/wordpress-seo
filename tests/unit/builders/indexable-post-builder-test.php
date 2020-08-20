@@ -132,13 +132,8 @@ class Indexable_Post_Builder_Test extends TestCase {
 	 * @covers ::__construct
 	 */
 	public function test_constructor() {
-		$instance = new Indexable_Post_Builder(
-			$this->link_builder,
-			$this->post
-		);
-
-		$this->assertAttributeInstanceOf( Indexable_Link_Builder::class, 'link_builder', $instance );
-		$this->assertAttributeInstanceOf( Post_Helper::class, 'post', $instance );
+		$this->assertAttributeInstanceOf( Indexable_Link_Builder::class, 'link_builder', $this->instance );
+		$this->assertAttributeInstanceOf( Post_Helper::class, 'post', $this->instance );
 	}
 
 	/**

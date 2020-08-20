@@ -3,6 +3,7 @@
 namespace Yoast\WP\SEO\Tests\Unit\Doubles\Builders;
 
 use Yoast\WP\SEO\Builders\Indexable_Post_Builder;
+use Yoast\WP\SEO\Models\Indexable;
 
 /**
  * Class Indexable_Post_Builder_Double.
@@ -61,7 +62,7 @@ class Indexable_Post_Builder_Double extends Indexable_Post_Builder {
 	/**
 	 * @inheritDoc
 	 */
-	public function find_alternative_image( $indexable ) {
+	public function find_alternative_image( Indexable $indexable ) {
 		return parent::find_alternative_image( $indexable );
 	}
 }
