@@ -121,6 +121,7 @@ class Indexable_Term_Builder_Test extends TestCase {
 		$term = (object) [
 			'taxonomy' => 'category',
 			'term_id'  => 1,
+			'name'     => 'some_category',
 		];
 
 		Monkey\Functions\expect( 'get_term' )->once()->with( 1 )->andReturn( $term );
@@ -141,7 +142,6 @@ class Indexable_Term_Builder_Test extends TestCase {
 					'wpseo_meta-robots-nofollow'  => '1',
 					'wpseo_title'                 => 'title',
 					'wpseo_desc'                  => 'description',
-					'wpseo_bctitle'               => 'breadcrumb_title',
 					'wpseo_opengraph-title'       => 'open_graph_title',
 					'wpseo_opengraph-image'       => 'open_graph_image',
 					'wpseo_opengraph-image-id'    => 'open_graph_image_id',
@@ -163,7 +163,7 @@ class Indexable_Term_Builder_Test extends TestCase {
 			'permalink'                   => 'https://example.org/category/1',
 			'canonical'                   => 'https://canonical-term',
 			'title'                       => 'title',
-			'breadcrumb_title'            => 'breadcrumb_title',
+			'breadcrumb_title'            => 'some_category',
 			'description'                 => 'description',
 			'open_graph_title'            => 'open_graph_title',
 			'open_graph_image'            => 'open_graph_image',
@@ -189,8 +189,8 @@ class Indexable_Term_Builder_Test extends TestCase {
 		$this->instance->expects( 'reset_social_images' )->with( $indexable_mock );
 		$this->instance->expects( 'handle_social_images' )->with( $indexable_mock );
 
-		$indexable_mock->orm->expects( 'offsetExists' )->once()->with( 'breadcrumb_title' )->andReturnTrue();
-		$indexable_mock->orm->expects( 'get' )->once()->with( 'breadcrumb_title' )->andReturnTrue();
+		$indexable_mock->orm->expects( 'offsetExists' )->once()->with( 'breadcrumb_title' )->andReturnFalse();
+		$indexable_mock->orm->expects( 'set' )->once()->with( 'breadcrumb_title', null );
 
 		$indexable_mock->orm->expects( 'get' )->twice()->with( 'is_robots_noindex' )->andReturn( true );
 		$indexable_mock->orm->expects( 'set' )->once()->with( 'is_public', false );
