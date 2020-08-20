@@ -342,4 +342,49 @@ class Indexable_Term_Builder_Test extends TestCase {
 	public function test_get_keyword_score_no_keyword() {
 		$this->assertNull( $this->instance->get_keyword_score( '', 2 ) );
 	}
+
+	/**
+	 * Test the get_meta_value method.
+	 *
+	 * @covers ::get_meta_value
+	 */
+	public function test_get_meta_value() {
+		$term_meta = [
+			'wpseo_focuskw'               => 'focuskeyword',
+			'wpseo_title'                 => '',
+		];
+
+		$this->assertSame( 'focuskeyword', $this->instance->get_meta_value( 'wpseo_focuskw', $term_meta ) );
+	}
+
+	/**
+	 * Test that the get_meta_value method returns `null`
+	 * when the meta key does not exist.
+	 *
+	 * @covers ::get_meta_value
+	 */
+	public function test_get_meta_value_non_existing_meta_key() {
+		$term_meta = [
+			'wpseo_focuskw'               => 'focuskeyword',
+			'wpseo_title'                 => '',
+		];
+
+		$this->assertNull( $this->instance->get_meta_value( 'wpseo_desc', $term_meta ) );
+	}
+
+	/**
+	 * Test that the get_meta_value method returns `null`
+	 * when the meta value is empty.
+	 *
+	 * @covers ::get_meta_value
+	 */
+	public function test_get_meta_value_empty_value() {
+		$term_meta = [
+			'wpseo_focuskw'               => 'focuskeyword',
+			'wpseo_title'                 => '',
+		];
+
+		$this->assertNull( $this->instance->get_meta_value( 'wpseo_title', $term_meta ) );
+	}
+
 }

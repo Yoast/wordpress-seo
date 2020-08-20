@@ -31,4 +31,11 @@ class Indexable_Term_Builder_Double extends Indexable_Term_Builder {
 	public function get_keyword_score( $keyword, $score ) {
 		return parent::get_keyword_score( $keyword, $score );
 	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function get_meta_value( $meta_key, $term_meta ) {
+		return parent::get_meta_value( $meta_key, $term_meta );
+	}
 }
