@@ -42,7 +42,7 @@ const determineWrapperHeight = ( mode ) => {
 const determineTextContainerWidth = ( mode ) => {
 	switch ( mode ) {
 		case "landscape":
-			return "527x";
+			return "527px";
 
 		case "square":
 			return "369px";
@@ -60,7 +60,7 @@ const FacebookPreviewWrapper = styled.div`
 	display: flex;
 	flex-direction: ${ props => props.mode === "landscape" ? "column" : "row" };
 	background-color: #f2f3f5;
-	width: 527px;
+	max-width: 527px;
 	height: ${ props => determineWrapperHeight( props.mode ) };
 `;
 
@@ -77,7 +77,7 @@ const FacebookTextWrapper = styled.div`
 	display: flex;
 	flex-direction: column;
 	justify-content: ${ props => props.mode === "landscape" ? "flex-start" : "center" };
-	width: ${ props => determineTextContainerWidth( props.mode ) };
+	max-width: ${ props => determineTextContainerWidth( props.mode ) };
 	${ props => props.mode === "landscape"  ? "height: 78px;" : "" }
 	font-size: 12px;
 	overflow: hidden;
@@ -160,6 +160,7 @@ class FacebookPreview extends Component {
 						{ this.props.title }
 					</FacebookTitle>
 					<FacebookDescription
+						maxWidth={ determineTextContainerWidth( imageMode ) }
 						onMouseEnter={ this.onDescriptionEnter }
 						onMouseLeave={ this.onLeave }
 						onClick={ this.onSelectDescription }
