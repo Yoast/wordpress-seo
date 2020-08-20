@@ -18,6 +18,8 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
 class Pinterest_Presenter_Test extends TestCase {
 
 	/**
+	 * Represents the instance to test.
+	 *
 	 * @var Pinterest_Presenter
 	 */
 	protected $instance;
