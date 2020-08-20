@@ -142,10 +142,11 @@ export const getAnimationStyles = ( state, props ) => {
  * @param {HTMLElement} args.popover       The popover HTML element.
  * @param {Object}      args.state         The component state.
  * @param {Object}      args.props         The component props.
+ * @param {boolean}     args.isRtl         Optional. Whether we are right-to-left or not. Defaults to false.
  *
  * @returns {Object} The mention plugin suggestions position object.
  */
-export const positionSuggestions = ( { decoratorRect: caretRect, popover, state, props } ) => {
+export const positionSuggestions = ( { decoratorRect: caretRect, popover, state, props, isRtl = false } ) => {
 	// Get the parent of the popover to determine the position relative to the viewport.
 	const parent = getRelativeParent( popover.parentElement );
 	const parentRect = parent.getBoundingClientRect();
@@ -154,7 +155,7 @@ export const positionSuggestions = ( { decoratorRect: caretRect, popover, state,
 	// Adjust the position as needed.
 	const position = {
 		top: getVerticalPosition( parentRect, caretRect, popoverSize.height ),
-		left: getHorizontalPosition( parentRect, caretRect, popoverSize.width, props.isRtl ),
+		left: getHorizontalPosition( parentRect, caretRect, popoverSize.width, isRtl ),
 	};
 	// Get the animation styles that the mention plugin applies normally.
 	const animationStyles = getAnimationStyles( state, props );

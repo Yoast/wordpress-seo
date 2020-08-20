@@ -114,7 +114,7 @@ class ReplacementVariableEditorStandalone extends React.Component {
 		this._serializedContent = rawContent;
 
 		this.initializeBinds();
-		this.initializeDraftJsPlugins();
+		this.initializeDraftJsPlugins( props.theme.isRtl );
 	}
 
 	/**
@@ -135,7 +135,7 @@ class ReplacementVariableEditorStandalone extends React.Component {
 	 *
 	 * @returns {void}
 	 */
-	initializeDraftJsPlugins() {
+	initializeDraftJsPlugins( isRtl ) {
 		/*
 		 * The mentions plugin is used to autocomplete the replacement variable
 		 * names.
@@ -143,7 +143,7 @@ class ReplacementVariableEditorStandalone extends React.Component {
 		this.mentionsPlugin = createMentionPlugin( {
 			mentionTrigger: "%",
 			entityMutability: "IMMUTABLE",
-			positionSuggestions,
+			positionSuggestions: ( args ) => positionSuggestions( { ...args, isRtl } ),
 			mentionComponent: Mention,
 		} );
 
@@ -503,7 +503,6 @@ class ReplacementVariableEditorStandalone extends React.Component {
 				/>
 				<ZIndexOverride>
 					<MentionSuggestions
-						isRtl={ theme.isRtl }
 						onSearchChange={ this.onSearchChange }
 						suggestions={ suggestions }
 					/>
