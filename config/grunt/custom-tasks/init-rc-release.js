@@ -38,7 +38,7 @@ module.exports = function( grunt ) {
 
         let owner;
         let repo;
-        const version = grunt.option( "plugin-version" );
+        const pluginVersionArg = grunt.option( "plugin-version" );
         const type = grunt.option( 'type' ) || options.type;
         const enableSvnDeployArg = grunt.option( 'enableSvnDeploy' ) ;
         const enableSvnDeploy = (typeof enableSvnDeployArg === 'undefined' ) ? options.enableSvnDeploy: enableSvnDeployArg;
@@ -64,7 +64,7 @@ module.exports = function( grunt ) {
             }  	
         }
 
-        if ( ! version ) {
+        if ( ! pluginVersionArg ) {
             grunt.fail.fatal( "Missing --plugin-version argument (i.e. x.x.x)" );
         }
 
@@ -78,14 +78,13 @@ module.exports = function( grunt ) {
             grunt.fail.fatal( "wrong --type argument is not one of: release, hotfix" );
         }
 
-        const branchForRC =  grunt.option( 'branchForRC' ) || type + "/" + version ;
+        const branchForRC =  grunt.option( 'branchForRC' ) || type + "/" + pluginVersionArg ;
 
         
-        //grunt.option( 'type' , type);
-       
         grunt.config( "add-github-release.seo-free-rc-pre-release.options.enable", enableGithubRelease);
         grunt.config( "deploy-to-wordpress.trunk.options.enable", enableSvnDeploy);
        
+        grunt.config.data.pluginVersionArg = pluginVersionArg,
         grunt.config.data.type = type,
         grunt.config.data.branchForRC = branchForRC;
         grunt.config.data.enableSlack = enableSlack;
@@ -96,7 +95,6 @@ module.exports = function( grunt ) {
         
 
         grunt.verbose.writeln("plugin-version:" + grunt.option( 'plugin-version'));
-        //grunt.verbose.writeln("type:" + grunt.option( 'type' ));
         grunt.verbose.writeln("enableSlack:" + enableSlack);
         grunt.verbose.writeln("enableSvnDeploy:" + enableSvnDeploy);
         grunt.verbose.writeln("enableGithubRelease:" + enableGithubRelease);
