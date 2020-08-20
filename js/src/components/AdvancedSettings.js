@@ -187,7 +187,7 @@ MetaRobotsAdvanced.defaultProps = {
  *
  * @returns {Component} The Breadcrumbs title component.
  */
-const BreadCrumbsTitle = ( { location } ) => {
+const BreadcrumbsTitle = ( { location } ) => {
 	const hiddenInputId = isPost() ? "#yoast_wpseo_bctitle" : "#hidden_wpseo_bctitle";
 	const value = getValueFromHiddenInput( hiddenInputId );
 	const id = appendLocation( "yoast_wpseo_bctitle-react", location );
@@ -203,11 +203,11 @@ const BreadCrumbsTitle = ( { location } ) => {
 	/>;
 };
 
-BreadCrumbsTitle.propTypes = {
+BreadcrumbsTitle.propTypes = {
 	location: PropTypes.string,
 };
 
-BreadCrumbsTitle.defaultProps = {
+BreadcrumbsTitle.defaultProps = {
 	location: "",
 };
 
@@ -256,7 +256,7 @@ const AdvancedSettings = ( { location } ) => {
 			{ isPost() && <MetaRobotsNoFollow /> }
 			{ isPost() && <MetaRobotsAdvanced location={ location } /> }
 			{
-				! window.wpseoAdminL10n.breadcrumbsDisabled && <BreadCrumbsTitle location={ location } />
+				! window.wpseoAdminL10n.breadcrumbsDisabled && <BreadcrumbsTitle location={ location } />
 			}
 			<CanonicalURL location={ location } />
 		</Fragment>
