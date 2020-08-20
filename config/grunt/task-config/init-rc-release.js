@@ -1,7 +1,7 @@
 module.exports = {
 	"default": {
         options: {
-            githubOwner: 'noud-github',
+            githubOwner: 'yoast',
             githubRepo: '<%= pluginSlug %>',
             enableSlack: true,
             type: 'release',
