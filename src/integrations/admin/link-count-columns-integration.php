@@ -89,7 +89,7 @@ class Link_Count_Columns_Integration implements Integration_Interface {
 	 * @param Post_Type_Helper                $post_type_helper          The post type helper.
 	 * @param wpdb                            $wpdb                      The wpdb object.
 	 * @param Post_Link_Indexing_Action       $post_link_indexing_action The post link indexing action.
-	 * @param Admin_Columns_Cache_Integration $admin_columns_cache       The SEO meta repository.
+	 * @param Admin_Columns_Cache_Integration $admin_columns_cache       The admin columns cache.
 	 */
 	public function __construct(
 		Post_Type_Helper $post_type_helper,
