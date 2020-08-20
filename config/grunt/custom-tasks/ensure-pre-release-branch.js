@@ -15,7 +15,8 @@ module.exports = function( grunt ) {
 		function() {
 			const options = this.options({
 				type: 'release',	
-				branchForRC: '',
+				branchForRC: '<%= branchForRC %>',
+				pluginVersionArg: '<%= pluginVersionArg %>'
 			});
 			
 			const version = grunt.option( "plugin-version" );
