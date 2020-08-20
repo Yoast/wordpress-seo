@@ -11,6 +11,7 @@ use Yoast\WP\SEO\Helpers\Open_Graph\Image_Helper as OG_Image_Helper;
 use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
 use Yoast\WP\SEO\Helpers\Twitter\Image_Helper as Twitter_Image_Helper;
 use Yoast\WP\SEO\Models\Indexable;
+use Yoast\WP\SEO\Tests\Unit\Doubles\Indexable_Term_Builder_Double;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
@@ -34,7 +35,7 @@ class Indexable_Term_Builder_Test extends TestCase {
 	/**
 	 * The instance under test.
 	 *
-	 * @var Mockery\Mock|Indexable_Term_Builder
+	 * @var Mockery\Mock|Indexable_Term_Builder|Indexable_Term_Builder_Double
 	 */
 	private $instance;
 
@@ -74,7 +75,7 @@ class Indexable_Term_Builder_Test extends TestCase {
 
 		$this->taxonomy = Mockery::mock( Taxonomy_Helper::class );
 
-		$this->instance = Mockery::mock( Indexable_Term_Builder::class, [ $this->taxonomy ] )
+		$this->instance = Mockery::mock( Indexable_Term_Builder_Double::class, [ $this->taxonomy ] )
 			->shouldAllowMockingProtectedMethods()
 			->makePartial();
 
@@ -246,5 +247,35 @@ class Indexable_Term_Builder_Test extends TestCase {
 			->andReturn( Mockery::mock( '\WP_Error' ) );
 
 		$this->assertFalse( $this->instance->build( 1, false ) );
+	}
+
+	/**
+	 * Tests that the get_noindex_value method correctly converts a `noindex`
+	 * to `true`.
+	 *
+	 * @covers ::get_noindex_value
+	 */
+	public function test_get_noindex_value_noindex() {
+		$this->assertTrue( $this->instance->get_noindex_value( 'noindex' ) );
+	}
+
+	/**
+	 * Tests that the get_noindex_value method correctly converts a `noindex`
+	 * to `true`.
+	 *
+	 * @covers ::get_noindex_value
+	 */
+	public function test_get_noindex_value_index() {
+		$this->assertFalse( $this->instance->get_noindex_value( 'index' ) );
+	}
+
+	/**
+	 * Tests that the get_noindex_value method correctly converts a `noindex`
+	 * to `true`.
+	 *
+	 * @covers ::get_noindex_value
+	 */
+	public function test_get_noindex_value_invalid() {
+		$this->assertNull( $this->instance->get_noindex_value( 'invalid' ) );
 	}
 }
