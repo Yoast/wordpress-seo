@@ -18,7 +18,7 @@ use Yoast\WP\SEO\Repositories\Indexable_Repository;
 class Admin_Columns_Cache_Integration implements Integration_Interface {
 
 	/**
-	 * Cache of link counts.
+	 * Cache of indexables.
 	 *
 	 * @var Indexable[]
 	 */
@@ -71,7 +71,7 @@ class Admin_Columns_Cache_Integration implements Integration_Interface {
 	}
 
 	/**
-	 * Fills the cache of link counts with all known post IDs.
+	 * Fills the cache of indexables for all known post IDs.
 	 */
 	public function fill_cache() {
 		global $wp_query;
