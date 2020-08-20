@@ -22,10 +22,6 @@ module.exports = function( grunt ) {
 
 			});
 			
-			const pluginVersionArgument = options.pluginVersionArg
-
-			const branchForRC = options.branchForRC || options.type + "/" + pluginVersionArgument;
-
 			/*
 			 * Whenever a merge conflict occurs after the version has bumped when the branch is merged
 			 * back into trunk, this needs to be resolved.
@@ -46,29 +42,21 @@ module.exports = function( grunt ) {
 			const strippedVersion = parsedVersion[ 0 ];
 
 			// Declare the new plugin version variable.
-			let newPluginVersion = pluginVersionArgument;
+			let newPluginVersion = options.pluginVersionArg;
 
 			// Setup the bumped version, which is only bumped without the flag being present.
 			let bumpedRCVersion = parseInt( parsedVersion[ 1 ] || "0", 10 );
-
-			// Set the previousPluginVersion, we need this variable for the GitHub release entry.
-			// grunt.config.data.previousPluginVersion = grunt.config.get( 'pluginVersion' );
 
 			/*
 			If the package.json had a version that contained "-RC", the number following that will be incremented by 1.
 			Otherwise, this is the first RC, so we set the RC version to 0, in order to add 1 and end up at "-RC1".
 			*/
-			if ( pluginVersionArgument === strippedVersion ) {
+			if ( options.pluginVersionArg === strippedVersion ) {
 				if ( noBump ) {
 					console.log( "Skipping version bumping, flag --no-version-bump detected." );
-
-					// Adapt the previousPluginVersion because there was no version bump.
-					//let previousRCVersion = bumpedRCVersion - 1;
-					//grunt.config.data.previousPluginVersion = strippedVersion + "-RC" + previousRCVersion;
 				} else {
 					bumpedRCVersion += 1;
 				}
-
 				newPluginVersion += "-RC" + bumpedRCVersion;
 			} else {
 				// Else, the RC is 1.
@@ -105,10 +93,10 @@ module.exports = function( grunt ) {
 
 				if (options.doGithubPush ){
 					if (options.alternativeBranchPush){
-						grunt.config( "gitpush.versionBump.options", { remote: "origin", branch: branchForRC + ":" + options.alternativeBranch, force: true } );
+						grunt.config( "gitpush.versionBump.options", { remote: "origin", branch: options.branchForRC + ":" + options.alternativeBranch, force: true } );
 					} else {
 						//grunt.config( "gitpush.versionBump.options", { remote: "origin", upstream: true  } );
-						grunt.config( "gitpush.versionBump.options", { remote: "origin", upstream: true, branch: branchForRC } );
+						grunt.config( "gitpush.versionBump.options", { remote: "origin", upstream: true, branch: options.branchForRC } );
 					}
 					grunt.task.run( "gitpush:versionBump" );
 				}
