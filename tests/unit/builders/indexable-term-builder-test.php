@@ -324,4 +324,22 @@ class Indexable_Term_Builder_Test extends TestCase {
 
 		$this->assertFalse( $this->instance->find_alternative_image( $indexable_mock ) );
 	}
+
+	/**
+	 * Tests the get_keyword_score method.
+	 *
+	 * @covers ::get_keyword_score
+	 */
+	public function test_get_keyword_score() {
+		$this->assertSame( 2, $this->instance->get_keyword_score( 'keyword', 2 ) );
+	}
+
+	/**
+	 * Tests the get_keyword_score method.
+	 *
+	 * @covers ::get_keyword_score
+	 */
+	public function test_get_keyword_score_no_keyword() {
+		$this->assertNull( $this->instance->get_keyword_score( '', 2 ) );
+	}
 }

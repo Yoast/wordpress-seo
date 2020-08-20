@@ -24,4 +24,11 @@ class Indexable_Term_Builder_Double extends Indexable_Term_Builder {
 	public function find_alternative_image( Indexable $indexable ) {
 		return parent::find_alternative_image( $indexable );
 	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function get_keyword_score( $keyword, $score ) {
+		return parent::get_keyword_score( $keyword, $score );
+	}
 }
