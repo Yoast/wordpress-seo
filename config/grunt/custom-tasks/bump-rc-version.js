@@ -52,7 +52,7 @@ module.exports = function( grunt ) {
 			let bumpedRCVersion = parseInt( parsedVersion[ 1 ] || "0", 10 );
 
 			// Set the previousPluginVersion, we need this variable for the GitHub release entry.
-			grunt.config.data.previousPluginVersion = grunt.config.get( 'pluginVersion' );
+			// grunt.config.data.previousPluginVersion = grunt.config.get( 'pluginVersion' );
 
 			/*
 			If the package.json had a version that contained "-RC", the number following that will be incremented by 1.
@@ -63,8 +63,8 @@ module.exports = function( grunt ) {
 					console.log( "Skipping version bumping, flag --no-version-bump detected." );
 
 					// Adapt the previousPluginVersion because there was no version bump.
-					let previousRCVersion = bumpedRCVersion - 1;
-					grunt.config.data.previousPluginVersion = strippedVersion + "-RC" + previousRCVersion;
+					//let previousRCVersion = bumpedRCVersion - 1;
+					//grunt.config.data.previousPluginVersion = strippedVersion + "-RC" + previousRCVersion;
 				} else {
 					bumpedRCVersion += 1;
 				}
