@@ -45,7 +45,6 @@ const checkWordsWithRemovedLastWeakLetter = function( word, morphologyData ) {
 	if ( externalStemmer.wordsWithLastYahRemoved.includes( word ) ) {
 		return word + characters.yeh;
 	}
-	return word;
 };
 
 /**
@@ -67,7 +66,6 @@ const checkWordsWithRemovedFirstWeakLetter = function( word, morphologyData ) {
 	if ( externalStemmer.wordsWithFirstYahRemoved.includes( word ) ) {
 		return characters.yeh + word;
 	}
-	return word;
 };
 
 /**
@@ -89,7 +87,6 @@ const checkWordsWithRemovedMiddleWeakLetter = function( word, morphologyData ) {
 	if ( externalStemmer.wordsWithMiddleYahRemoved.includes( word ) ) {
 		return word.charAt( 0 ) + ( characters.yeh + word.substring( 1 ) );
 	}
-	return word;
 };
 
 
@@ -140,9 +137,8 @@ const processWordsWithWeakLetterOrHamza = function( word, morphologyData, replac
 	const wordAfterRemovingWeakLetterOrHamza = word.replace( new RegExp( replacementPattern[ 0 ] ),
 		replacementPattern[ 1 ] );
 	if ( wordAfterRemovingWeakLetterOrHamza !== word ) {
-		word = functionToRunToGetRoot( wordAfterRemovingWeakLetterOrHamza, morphologyData );
+		return functionToRunToGetRoot( wordAfterRemovingWeakLetterOrHamza, morphologyData );
 	}
-	return word;
 };
 
 /**
@@ -168,27 +164,28 @@ const processThreeLetterWords = function( word, morphologyData ) {
 	// If the last letter is a weak letter or a hamza, remove it and check if the root is a word with the last weak letter or hamza removed.
 	const wordAfterLastWeakLetterOrHamzaCheck = processWordsWithWeakLetterOrHamza( word, morphologyData,
 		morphologyData.externalStemmer.regexRemoveLastWeakLetterOrHamza, checkWordsWithRemovedLastWeakLetter );
-	if ( wordAfterLastWeakLetterOrHamzaCheck !== word ) {
+	if ( wordAfterLastWeakLetterOrHamzaCheck ) {
 		return wordAfterLastWeakLetterOrHamzaCheck;
 	}
 
 	// If the second letter is a waw, yeh, alef or a yeh_hamza, remove it and check if the root is a word with the middle weak letter removed.
 	const wordAfterMiddleWeakLetterOrHamzaCheck = processWordsWithWeakLetterOrHamza( word, morphologyData,
 		morphologyData.externalStemmer.regexRemoveMiddleWeakLetterOrHamza, checkWordsWithRemovedMiddleWeakLetter );
-	if ( wordAfterMiddleWeakLetterOrHamzaCheck !== word ) {
+	if ( wordAfterMiddleWeakLetterOrHamzaCheck ) {
 		return wordAfterMiddleWeakLetterOrHamzaCheck;
 	}
 
 	// If the second letter has a hamza, and it's not on a alif, then it must be returned to the alif.
 	const regexReplaceMiddleLetterWithAlif = morphologyData.externalStemmer.regexReplaceMiddleLetterWithAlif;
+	const regexReplaceMiddleLetterWithAlifWithHamza = morphologyData.externalStemmer.regexReplaceMiddleLetterWithAlifWithHamza;
 	const wordAfterReplacingMiddleLetterWithAlif = word.replace( new RegExp( regexReplaceMiddleLetterWithAlif[ 0 ] ),
 		regexReplaceMiddleLetterWithAlif[ 1 ] );
-	if ( wordAfterReplacingMiddleLetterWithAlif !== word ) {
+	if ( wordAfterReplacingMiddleLetterWithAlif === word ) {
+		word = word = word.replace( new RegExp( regexReplaceMiddleLetterWithAlifWithHamza[ 0 ] ),
+			regexReplaceMiddleLetterWithAlifWithHamza[ 1 ] );
+	} else {
 		word = wordAfterReplacingMiddleLetterWithAlif;
 	}
-	const regexReplaceMiddleLetterWithAlifWithHamza = morphologyData.externalStemmer.regexReplaceMiddleLetterWithAlifWithHamza;
-	word = word.replace( new RegExp( regexReplaceMiddleLetterWithAlifWithHamza[ 0 ] ),
-		regexReplaceMiddleLetterWithAlifWithHamza[ 1 ] );
 	// If the last letter is a shadda, remove it and duplicate the last letter.
 	const regexRemoveShaddaAndDuplicateLastLetter = morphologyData.externalStemmer.regexRemoveShaddaAndDuplicateLastLetter;
 	word = word.replace( new RegExp( regexRemoveShaddaAndDuplicateLastLetter[ 0 ] ),
@@ -223,17 +220,13 @@ const matchWithRegexAndReplace = function( word, regexAndReplacement ) {
  */
 const checkFirstPatternAndGetRoot = function( word, numberSameLetters, morphologyData ) {
 	if ( word.length === 6 && word.charAt( 3 ) === word.charAt( 5 ) && numberSameLetters === 2 ) {
-		const wordAfterProcessing = processThreeLetterWords( word.substring( 1, 4 ), morphologyData );
-		if ( wordAfterProcessing !== word ) {
-			return wordAfterProcessing;
-		}
+		return processThreeLetterWords( word.substring( 1, 4 ), morphologyData );
 	}
 	return word;
 };
 
 /**
- * Test to see if the word matches the pattern ÇÝÚáÇ. If it does, get remove the first and the two last characters and
- * try to find the root.
+ *
  *
  * @param {string}	word				The word to check.
  * @param {string}	pattern				The pattern to check.
@@ -265,38 +258,39 @@ const checkSecondPatternAndGetRoot = function( word, pattern, numberSameLetters,
  *
  * @param {string}	word			The word to check.
  * @param {Object}	morphologyData	The Arabic morphology data
- * @returns {string}				The root or the original word if no root was found.
+ * @returns {Object}				The root or the original word if no root was found.
  */
 const checkPatterns = function( word, morphologyData ) {
 	const characters = morphologyData.externalStemmer.characters;
 	// If the first letter is an alef_madda, alef_hamza_above, or alef_hamza_below (أ/إ/آ), change it to an alef (ا)
-	word = matchWithRegexAndReplace( word, morphologyData.externalStemmer.regexReplaceFirstHamzaWithAlif );
+	const wordAfterModification = matchWithRegexAndReplace( word, morphologyData.externalStemmer.regexReplaceFirstHamzaWithAlif );
 
 	// Try and find a pattern that matches the word
 	for ( const pattern of morphologyData.externalStemmer.patterns ) {
-		if ( pattern.length === word.length ) {
+		if ( pattern.length === wordAfterModification.length ) {
 			let numberSameLetters = 0;
-			for ( let i = 0; i < word.length; i++ ) {
-				if ( pattern.charAt( i ) === word.charAt( i ) &&
+			for ( let i = 0; i < wordAfterModification.length; i++ ) {
+				if ( pattern.charAt( i ) === wordAfterModification.charAt( i ) &&
 					pattern.charAt( i ) !== characters.feh &&
 					pattern.charAt( i ) !== characters.aen &&
 					pattern.charAt( i ) !== characters.lam ) {
 					numberSameLetters++;
 				}
 			}
-
-			const wordAfterCheckingFirstPattern = checkFirstPatternAndGetRoot( word, numberSameLetters, morphologyData );
-			if ( wordAfterCheckingFirstPattern !== word ) {
-				return wordAfterCheckingFirstPattern;
+			const wordAfterCheckingFirstPattern = checkFirstPatternAndGetRoot( wordAfterModification, numberSameLetters, morphologyData );
+			if ( wordAfterCheckingFirstPattern !== wordAfterModification ) {
+				return { word: wordAfterCheckingFirstPattern, rootFound: true };
 			}
 
-			const wordAfterCheckingSecondPattern = checkSecondPatternAndGetRoot( word, pattern, numberSameLetters, morphologyData );
-			if ( wordAfterCheckingSecondPattern !== word ) {
-				return wordAfterCheckingSecondPattern;
+			const wordAfterCheckingSecondPattern = checkSecondPatternAndGetRoot( wordAfterModification, pattern, numberSameLetters, morphologyData );
+			if ( wordAfterCheckingSecondPattern !== wordAfterModification ) {
+				return { word: wordAfterCheckingSecondPattern, rootFound: true };
 			}
 		}
 	}
-	return word;
+	if ( wordAfterModification !== word ) {
+		return { word: wordAfterModification, rootFound: false };
+	}
 };
 
 /**
@@ -310,10 +304,7 @@ const checkPatterns = function( word, morphologyData ) {
 const checkIfWordIsRoot = function( word, morphologyData ) {
 	// Check if the word consists of two letters and find its root.
 	if ( word.length === 2 ) {
-		const wordAfterTwoLetterProcessing = processTwoLetterWords( word, morphologyData );
-		if ( wordAfterTwoLetterProcessing !== word ) {
-			return wordAfterTwoLetterProcessing;
-		}
+		return processTwoLetterWords( word, morphologyData );
 	}
 	// Check if the word consists of three letters.
 	if ( word.length === 3 ) {
@@ -353,7 +344,7 @@ const removeSuffix = function( word, suffixes ) {
 };
 
 /**
- * Checks whether the word ends in a prefix, and removes it if it does.
+ * Checks whether the word starts with a prefix, and removes it if it does.
  *
  * @param {string}		word		The word to check.
  * @param {string[]}	prefixes	The prefixes to check.
@@ -362,7 +353,7 @@ const removeSuffix = function( word, suffixes ) {
  */
 const removePrefix = function( word, prefixes ) {
 	for ( const prefix of prefixes ) {
-		if ( word.endsWith( prefix ) ) {
+		if ( word.startsWith( prefix ) ) {
 			return word.slice( -prefix.length );
 		}
 	}
@@ -376,7 +367,7 @@ const removePrefix = function( word, prefixes ) {
  * @param {string}	word			The word to check.
  * @param {Object}	morphologyData	The Arabic morphology data.
  *
- * @returns {string} The root or the input word if no root was found.
+ * @returns {Object} The root or the input word if no root was found.
  */
 const processWordWithSuffix = function( word, morphologyData ) {
 	// Find and remove suffix.
@@ -385,17 +376,16 @@ const processWordWithSuffix = function( word, morphologyData ) {
 		// If suffix was removed, check if the stemmed word is a root.
 		const root = checkIfWordIsRoot( wordAfterRemovingSuffix, morphologyData );
 		if ( root !== word ) {
-			return root;
+			return { word: root, rootFound: true };
 		}
 		// If no root was found and the stemmed word is longer than 2 characters, try to get the root by matching with a pattern.
 		if ( word.length > 2 ) {
-			const wordAfterCheckingPatterns = checkPatterns( word, morphologyData );
-			if ( wordAfterCheckingPatterns !== word ) {
-				return wordAfterCheckingPatterns;
+			const outputAfterCheckingPatterns = checkPatterns( word, morphologyData );
+			if ( outputAfterCheckingPatterns ) {
+				return outputAfterCheckingPatterns;
 			}
 		}
 	}
-	return word;
 };
 
 /**
@@ -405,31 +395,32 @@ const processWordWithSuffix = function( word, morphologyData ) {
  * @param {string}	word			The word to check.
  * @param {Object}	morphologyData	The Arabic morphology data.
  *
- * @returns {string}	The root or the input word if no root was found.
+ * @returns {Object}	The root or the input word if no root was found.
  */
 const processWordWithPrefix = function( word, morphologyData ) {
 	// Find and remove prefix.
-	const wordAfterRemovingPrefix = removePrefix( word, morphologyData.externalStemmer.prefixes );
+	let wordAfterRemovingPrefix = removePrefix( word, morphologyData.externalStemmer.prefixes );
 	if ( wordAfterRemovingPrefix !== word ) {
 		// If prefix was removed, check if the stemmed word is a root.
 		const root = checkIfWordIsRoot( wordAfterRemovingPrefix, morphologyData );
 		if ( root !== wordAfterRemovingPrefix ) {
-			return root;
+			return { word: root, rootFound: true };
 		}
 		// If no root was found and the stemmed word is longer than 2 characters, try to get the root by matching with a pattern.
-		if ( word.length > 2 ) {
-			const wordAfterCheckingPatterns = checkPatterns( word, morphologyData );
-			if ( wordAfterCheckingPatterns !== word ) {
-				return wordAfterCheckingPatterns;
+		if ( wordAfterRemovingPrefix.length > 2 ) {
+			const outputAfterCheckingPatterns = checkPatterns( wordAfterRemovingPrefix, morphologyData );
+			if ( outputAfterCheckingPatterns ) {
+				if ( outputAfterCheckingPatterns.rootFound === true ) {
+					return outputAfterCheckingPatterns;
+				} wordAfterRemovingPrefix = outputAfterCheckingPatterns.word;
 			}
 		}
 		// If the root was still not found, try to find and remove suffixes and find the root again.
-		const wordAfterCheckingForSuffixes = processWordWithSuffix( word, morphologyData );
-		if ( wordAfterCheckingForSuffixes !== word ) {
-			return wordAfterCheckingForSuffixes;
+		const outputAfterCheckingForSuffixes = processWordWithSuffix( wordAfterRemovingPrefix, morphologyData );
+		if ( outputAfterCheckingForSuffixes ) {
+			return outputAfterCheckingForSuffixes;
 		}
 	}
-	return word;
 };
 
 /**
@@ -438,28 +429,29 @@ const processWordWithPrefix = function( word, morphologyData ) {
  *
  * @param {string}	word			The word to check.
  * @param {Object}	morphologyData	The Arabic morphology data.
- * @returns {string}	The root of the original word if no root was found.
+ * @returns {Object}	The root of the original word if no root was found.
  */
 const findRoot = function( word, morphologyData ) {
 	// Check if the word is a root.
 	const root = checkIfWordIsRoot( word, morphologyData );
-	if ( root !== word ) {
-		return root;
+	if ( root ) {
+		return { word: root, rootFound: true };
 	} if ( word.length > 2 ) {
 		// Check if the root can be derived by matching a pattern.
-		const wordAfterCheckingPatterns = checkPatterns( word, morphologyData );
-		if ( wordAfterCheckingPatterns !== word ) {
-			return wordAfterCheckingPatterns;
+		const outputAfterCheckingPatterns = checkPatterns( word, morphologyData );
+		if ( outputAfterCheckingPatterns ) {
+			if ( outputAfterCheckingPatterns.rootFound === true ) {
+				return outputAfterCheckingPatterns;
+			} word = outputAfterCheckingPatterns.word;
 		}
 		// Remove affixes and check if the stemmed word is a root
 	} const wordAfterRemovingSuffix = processWordWithSuffix( word, morphologyData );
-	if ( wordAfterRemovingSuffix !== word ) {
-		return wordAfterRemovingSuffix;
-	} const wordAfterRemovingPrefix = processWordWithPrefix( word, morphologyData );
-	if ( wordAfterRemovingPrefix !== word ) {
-		return wordAfterRemovingPrefix;
+	if ( wordAfterRemovingSuffix ) {
+		return { word: wordAfterRemovingSuffix, rootFound: true };
+	} const outputAfterRemovingPrefix = processWordWithPrefix( word, morphologyData );
+	if ( outputAfterRemovingPrefix ) {
+		return outputAfterRemovingPrefix;
 	}
-	return word;
 };
 
 /**
@@ -468,23 +460,23 @@ const findRoot = function( word, morphologyData ) {
  * @param {string}	word			The word to check.
  * @param {Object}	morphologyData	The Arabic morphology data.
  *
- * @returns {string|(string)[]}		The root, or the original word and the word after searching and removing a potential definite article.
+ * @returns {Object}		The root, or the original word and the word after searching and removing a potential definite article.
  */
 const processWordWithDefiniteArticle = function( word, morphologyData ) {
 	// Search for and remove the definite article.
-	const wordAfterRemovingDefiniteArticle = removePrefix( word, morphologyData.externalStemmer.definiteArticles );
+	let wordAfterRemovingDefiniteArticle = removePrefix( word, morphologyData.externalStemmer.definiteArticles );
 	// If a definite article was removed, try to find the root.
 	if ( wordAfterRemovingDefiniteArticle !== word ) {
-		const wordAfterTryingToFindRoot = findRoot( wordAfterRemovingDefiniteArticle, morphologyData );
-		if ( wordAfterTryingToFindRoot !== wordAfterRemovingDefiniteArticle ) {
-			return wordAfterTryingToFindRoot;
+		const outputAfterTryingToFindRoot = findRoot( wordAfterRemovingDefiniteArticle, morphologyData );
+		if ( outputAfterTryingToFindRoot  ) {
+			if ( outputAfterTryingToFindRoot.rootFound === true ) {
+				return outputAfterTryingToFindRoot;
+			} wordAfterRemovingDefiniteArticle = outputAfterTryingToFindRoot.word;
+		}
+		if ( wordAfterRemovingDefiniteArticle > 3 ) {
+			return { word: wordAfterRemovingDefiniteArticle, rootFound: false };
 		}
 	}
-	/**
-	 * If no root was found, return the original word and the word without the definite article (it is checked later whether
-	 * the next stemming steps should be performed using the original word or the stemmed word.
-	 */
-	return [ word, wordAfterRemovingDefiniteArticle ];
 };
 
 /**
@@ -529,17 +521,19 @@ export default function stem( word, morphologyData ) {
 		return root;
 	}
 	// If the root still hasn't been found, check if the word matches a pattern and get its root if it does.
-	const wordAfterCheckingPatterns = checkPatterns( word, morphologyData );
-	if ( wordAfterCheckingPatterns !== word ) {
-		return wordAfterCheckingPatterns;
+	const outputAfterCheckingPatterns = checkPatterns( word, morphologyData );
+	if ( outputAfterCheckingPatterns ) {
+		if ( outputAfterCheckingPatterns.rootFound === true ) {
+			return outputAfterCheckingPatterns.word;
+		} word = outputAfterCheckingPatterns.word;
 	}
 
 	// If the root still hasn't been found, remove the definite article and try to find the root.
 	const outputAfterProcessingDefiniteArticle = processWordWithDefiniteArticle( word, morphologyData );
-	if ( outputAfterProcessingDefiniteArticle.isString ) {
-		return outputAfterProcessingDefiniteArticle;
-	} if ( outputAfterProcessingDefiniteArticle[ 1 ] > 3 ) {
-		word = outputAfterProcessingDefiniteArticle[ 1 ];
+	if ( outputAfterProcessingDefiniteArticle ) {
+		if ( outputAfterProcessingDefiniteArticle.rootFound === true ) {
+			return outputAfterProcessingDefiniteArticle.word;
+		} word = outputAfterCheckingPatterns.word;
 	}
 
 	// If the root still hasn't been found, remove the prefix waw and try to find the root.
@@ -549,15 +543,17 @@ export default function stem( word, morphologyData ) {
 	}
 
 	// If the root still hasn't been found, remove a suffix and try to find the root.
-	const wordAfterProcessingSuffix = processWordWithSuffix( word, morphologyData );
-	if ( wordAfterProcessingSuffix !== word ) {
-		return word;
+	const outputAfterProcessingSuffix = processWordWithSuffix( word, morphologyData );
+	if ( outputAfterProcessingSuffix ) {
+		if ( outputAfterProcessingSuffix.rootFound === true ) {
+			return outputAfterProcessingSuffix.word;
+		} word = outputAfterProcessingSuffix.word;
 	}
 
 	// If the root still hasn't been found, remove a prefix and try to find the root.
 	const wordAfterProcessingPrefix = processWordWithPrefix( word, morphologyData );
-	if ( wordAfterProcessingPrefix !== word ) {
-		return word;
+	if ( wordAfterProcessingPrefix ) {
+		return wordAfterProcessingPrefix.word;
 	}
 
 	return word;
