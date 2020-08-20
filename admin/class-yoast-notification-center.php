@@ -353,7 +353,7 @@ class Yoast_Notification_Center {
 	public function display_notifications( $echo_as_json = false ) {
 
 		// Never display notifications for network admin.
-		if ( function_exists( 'is_network_admin' ) && is_network_admin() ) {
+		if ( is_network_admin() ) {
 			return;
 		}
 
