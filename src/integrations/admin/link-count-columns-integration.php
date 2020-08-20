@@ -77,13 +77,6 @@ class Link_Count_Columns_Integration implements Integration_Interface {
 	protected $admin_columns_cache;
 
 	/**
-	 * Cache of link counts.
-	 *
-	 * @var Indexable[]
-	 */
-	protected $link_counts_cache = [];
-
-	/**
 	 * Link_Count_Columns_Integration constructor
 	 *
 	 * @param Post_Type_Helper                $post_type_helper          The post type helper.
