@@ -27,6 +27,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @group integrations
  * @group front-end
+ * @group woocommerce
  */
 class WooCommerce_Test extends TestCase {
 

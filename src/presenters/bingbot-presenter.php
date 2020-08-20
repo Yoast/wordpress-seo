@@ -9,6 +9,8 @@ namespace Yoast\WP\SEO\Presenters;
 
 use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 
+_deprecated_file( basename( __FILE__ ), 'WPSEO 14.9' );
+
 /**
  * Class Bingbot_Presenter
  */
@@ -17,9 +19,13 @@ class Bingbot_Presenter extends Abstract_Indexable_Presenter {
 	/**
 	 * Returns the bingbot output.
 	 *
+	 * @deprecated 14.9 Values merged into the robots meta tag.
+	 *
 	 * @return string The bingbot output tag.
 	 */
 	public function present() {
+		_deprecated_function( __METHOD__, 'WPSEO 14.9' );
+
 		$bingbot = \implode( ', ', $this->get() );
 		$bingbot = $this->filter( $bingbot );
 
@@ -33,9 +39,13 @@ class Bingbot_Presenter extends Abstract_Indexable_Presenter {
 	/**
 	 * Gets the raw value of a presentation.
 	 *
+	 * @deprecated 14.9 Values merged into the robots meta tag.
+	 *
 	 * @return array The raw value.
 	 */
 	public function get() {
+		_deprecated_function( __METHOD__, 'WPSEO 14.9' );
+
 		return $this->presentation->bingbot;
 	}
 
