@@ -6,7 +6,7 @@ use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Actions\SEMrush\SEMrush_Phrases_Action;
 use Yoast\WP\SEO\Config\SEMrush_Client;
-use Yoast\WP\SEO\Tests\TestCase;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
  * Class SEMrush_Phrases_Action_Test
@@ -53,18 +53,18 @@ class SEMrush_Phrases_Action_Test extends TestCase {
 	 */
 	public function test_get_related_keyphrases_from_api() {
 		$keyphrase = 'seo';
-		$database  = 'us';
+		$country_code  = 'us';
 
 		Monkey\Functions\expect( 'get_transient' )
 			->times( 1 )
-			->with( 'wpseo_semrush_related_keyphrases_' . $keyphrase . '_' . $database )
+			->with( 'wpseo_semrush_related_keyphrases_' . $keyphrase . '_' . $country_code )
 			->andReturn( false );
 
 		$options = [
 			'params' => [
 				'phrase'         => $keyphrase,
-				'database'       => $database,
-				'export_columns' => 'Ph,Nq,Cp,Co,Nr,Td,Rr',
+				'database'       => $country_code,
+				'export_columns' => 'Ph,Nq,Td',
 				'display_limit'  => 10,
 				'display_offset' => 0,
 				'display_sort'   => 'nq_desc',
@@ -87,7 +87,7 @@ class SEMrush_Phrases_Action_Test extends TestCase {
 
 		Monkey\Functions\expect( 'set_transient' )
 			->times( 1 )
-			->with( 'wpseo_semrush_related_keyphrases_' . $keyphrase . '_' . $database, $return_data, \DAY_IN_SECONDS );
+			->with( 'wpseo_semrush_related_keyphrases_' . $keyphrase . '_' . $country_code, $return_data, \DAY_IN_SECONDS );
 
 		$this->assertEquals(
 			(object) [
@@ -97,7 +97,7 @@ class SEMrush_Phrases_Action_Test extends TestCase {
 				],
 				'status'  => 200,
 			],
-			$this->instance->get_related_keyphrases( $keyphrase, $database )
+			$this->instance->get_related_keyphrases( $keyphrase, $country_code )
 		);
 	}
 

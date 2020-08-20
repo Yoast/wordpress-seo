@@ -4,7 +4,7 @@ namespace Yoast\WP\SEO\Tests\Values\SEMrush;
 
 use League\OAuth2\Client\Token\AccessTokenInterface;
 use Mockery;
-use Yoast\WP\SEO\Tests\TestCase;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
 use Yoast\WP\SEO\Values\SEMrush\SEMrush_Token;
 
 /**
