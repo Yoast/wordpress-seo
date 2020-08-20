@@ -203,6 +203,65 @@ const processThreeLetterWords = function( word, morphologyData ) {
 };
 
 /**
+ * @param {string}		word				The word to check.
+ * @param {string[]}	regexAndReplacement	The regex to match the word with and what the word should be replaced with if it is matched.
+ *
+ * @returns {string}	The modified word or the original word if it was not matched by the regex.
+ */
+const matchWithRegexAndReplace = function( word, regexAndReplacement ) {
+	return word.replace( new RegExp( regexAndReplacement[ 0 ] ),
+		regexAndReplacement[ 1 ] );
+};
+
+/**
+ * Test to see if the word matches the pattern ÇÝÚáÇ. If it does, get remove the first and the two last characters and
+ * try to find the root.
+ *
+ * @param {string}	word				The word to check.
+ * @param {number}	numberSameLetters	The number of letters the word and the pattern share at the same index.
+ * @param {Object}	morphologyData		The Arabic morphology data.
+ *
+ * @returns {string} The root or the original word if no root was found.
+ */
+const checkFirstPatternAndGetRoot = function( word, numberSameLetters, morphologyData ) {
+	if ( word.length === 6 && word.charAt( 3 ) === word.charAt( 5 ) && numberSameLetters === 2 ) {
+		const wordAfterProcessing = processThreeLetterWords( word.substring( 1, 4 ), morphologyData );
+		if ( wordAfterProcessing !== word ) {
+			return wordAfterProcessing;
+		}
+	}
+};
+
+/**
+ * Test to see if the word matches the pattern ÇÝÚáÇ. If it does, get remove the first and the two last characters and
+ * try to find the root.
+ *
+ * @param {string}	word				The word to check.
+ * @param {string}	pattern				The pattern to check.
+ * @param {number}	numberSameLetters	The number of letters the word and the pattern share at the same index.
+ * @param {Object}	morphologyData		The Arabic morphology data.
+ *
+ * @returns {string} The root or the original word if no root was found.
+ */
+const checkSecondPatternAndGetRoot = function( word, pattern, numberSameLetters, morphologyData ) {
+	const characters = morphologyData.externalStemmer.characters;
+	if ( word.length - 3 <= numberSameLetters ) {
+		const root = "";
+		for ( let i = 0; i < word.length; i++ ) {
+			if ( pattern.charAt( i ) === characters.feh ||
+				pattern.charAt( i ) === characters.aen ||
+				pattern.charAt( i ) === characters.lam ) {
+				root.concat( word.charAt( i ) );
+			}
+		}
+		if ( root.length === 3 ) {
+			return processThreeLetterWords( word, morphologyData );
+		}
+	}
+	return word;
+};
+
+/**
  * Check if a word matches a specific pattern of letters, and if it does, modify the word to get the root.
  *
  * @param {string}	word			The word to check.
@@ -212,9 +271,7 @@ const processThreeLetterWords = function( word, morphologyData ) {
 const checkPatterns = function( word, morphologyData ) {
 	const characters = morphologyData.externalStemmer.characters;
 	// If the first letter is a hamza, change it to an alif
-	const regexReplaceFirstHamzaWithAlif = morphologyData.externalStemmer.regexReplaceFirstHamzaWithAlif;
-	word = word.replace( new RegExp( regexReplaceFirstHamzaWithAlif[ 0 ] ),
-		regexReplaceFirstHamzaWithAlif[ 1 ] );
+	word = matchWithRegexAndReplace( word, morphologyData.externalStemmer.regexReplaceFirstHamzaWithAlif );
 
 	// Try and find a pattern that matches the word
 	for ( const pattern of morphologyData.externalStemmer.patterns ) {
@@ -229,27 +286,14 @@ const checkPatterns = function( word, morphologyData ) {
 				}
 			}
 
-			// Test to see if the word matches the pattern ÇÝÚáÇ.
-			if ( word.length === 6 && word.charAt( 3 ) === word.charAt( 5 ) && numberSameLetters === 2 ) {
-				const wordAfterProcessing = processThreeLetterWords( word.substring( 1, 4 ), morphologyData );
-				if ( wordAfterProcessing !== word ) {
-					return wordAfterProcessing;
-				}
+			const wordAfterCheckingFirstPattern = checkFirstPatternAndGetRoot( word, numberSameLetters, morphologyData );
+			if ( wordAfterCheckingFirstPattern !== word ) {
+				return wordAfterCheckingFirstPattern;
 			}
-			// Test to see if the word matches another pattern, and if it does get the root.
-			if ( word.length - 3 <= numberSameLetters ) {
-				const root = "";
-				for ( let i = 0; i < word.length; i++ ) {
-					if ( pattern.charAt( i ) === characters.feh ||
-						pattern.charAt( i ) === characters.aen ||
-						pattern.charAt( i ) === characters.lam ) {
-						root.concat( word.charAt( i ) );
-					}
-				}
-				const rootAfterProcessing = processThreeLetterWords( root, morphologyData );
-				if ( rootAfterProcessing !== root ) {
-					return rootAfterProcessing;
-				}
+
+			const wordAfterCheckingSecondPattern = checkSecondPatternAndGetRoot( word, pattern, numberSameLetters, morphologyData );
+			if ( wordAfterCheckingSecondPattern !== word ) {
+				return wordAfterCheckingSecondPattern;
 			}
 		}
 	}
@@ -487,7 +531,6 @@ export default function stem( word, morphologyData ) {
 		return root;
 	}
 	// If the root still hasn't been found, check if the word matches a pattern and get its root if it does.
-
 	const wordAfterCheckingPatterns = checkPatterns( word, morphologyData );
 	if ( wordAfterCheckingPatterns !== word ) {
 		return wordAfterCheckingPatterns;
