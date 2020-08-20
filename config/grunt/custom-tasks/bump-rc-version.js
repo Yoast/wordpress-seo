@@ -29,8 +29,6 @@ module.exports = function( grunt ) {
 			 * be used: --no-version-bump.
 			 */
 			
-			const noBump = grunt.option( "no-version-bump" ) || false;
-
 			// Retrieve the current plugin version from package.json.
 			const packageJson = grunt.file.readJSON( "package.json" );
 			const pluginVersionPackageJson = packageJson.yoast.pluginVersion;
@@ -52,7 +50,7 @@ module.exports = function( grunt ) {
 			Otherwise, this is the first RC, so we set the RC version to 0, in order to add 1 and end up at "-RC1".
 			*/
 			if ( options.pluginVersionArg === strippedVersion ) {
-				if ( noBump ) {
+				if ( options.noBump ) {
 					console.log( "Skipping version bumping, flag --no-version-bump detected." );
 				} else {
 					bumpedRCVersion += 1;
@@ -88,8 +86,6 @@ module.exports = function( grunt ) {
 
 				grunt.config( "gitcommit.versionBump.options.message", "Update the plugin version to " + grunt.config.data.pluginVersion );
 				grunt.task.run( "gitcommit:versionBump" );
-
-				const verbose = grunt.config.get( 'verbose' ) || true
 
 				if (options.doGithubPush ){
 					if (options.alternativeBranchPush){
