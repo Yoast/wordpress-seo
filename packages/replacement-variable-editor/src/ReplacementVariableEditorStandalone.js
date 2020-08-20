@@ -133,6 +133,8 @@ class ReplacementVariableEditorStandalone extends React.Component {
 	/**
 	 * Initializes the Draft.js mention and single line plugins.
 	 *
+	 * @param {boolean} isRtl Whether to editor is right-to-left or not.
+	 *
 	 * @returns {void}
 	 */
 	initializeDraftJsPlugins( isRtl ) {
@@ -143,7 +145,7 @@ class ReplacementVariableEditorStandalone extends React.Component {
 		this.mentionsPlugin = createMentionPlugin( {
 			mentionTrigger: "%",
 			entityMutability: "IMMUTABLE",
-			positionSuggestions: ( args ) => positionSuggestions( { ...args, isRtl } ),
+			positionSuggestions: ( args ) => positionSuggestions( args, isRtl ),
 			mentionComponent: Mention,
 		} );
 

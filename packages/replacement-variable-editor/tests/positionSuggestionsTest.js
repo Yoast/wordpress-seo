@@ -79,7 +79,7 @@ describe( "positionSuggestions", () => {
 			expect( actual ).toBe( expected );
 		} );
 
-		describe("right to left horizontal position", () => {
+		describe( "right to left horizontal position", () => {
 			it( "returns the horizontal position that corresponds with left minus the width", () => {
 				global.window.innerWidth = 2048;
 				/*
