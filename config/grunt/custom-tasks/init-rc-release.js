@@ -59,12 +59,12 @@ module.exports = function( grunt ) {
             var res = GithubRepository.split("/")
             if (res.length == 1){
                 owner = grunt.option( 'owner' ) || options.githubOwner;
-                repo = grunt.option( 'repo' ) || options.githubRepo || res[0];
+                repo = grunt.option( 'repo' ) || res[0] || options.githubRepo ;
             }  
             if (res.length > 1){
-                owner = grunt.option( 'owner' ) || options.githubOwner || res[0];
+                owner = grunt.option( 'owner' )  || res[0] || options.githubOwner;
                 res.shift();				
-                repo = grunt.option( 'repo' ) || options.githubRepo || res.join("/");
+                repo = grunt.option( 'repo' ) || res.join("/") || options.githubRepo ;
             }  	
         }
 
