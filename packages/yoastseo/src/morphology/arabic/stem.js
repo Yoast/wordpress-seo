@@ -198,8 +198,6 @@ const processThreeLetterWords = function( word, morphologyData ) {
 	if ( morphologyData.externalStemmer.threeLetterRoots.includes( word ) ) {
 		return word;
 	}
-
-	return word;
 };
 
 /**
@@ -230,6 +228,7 @@ const checkFirstPatternAndGetRoot = function( word, numberSameLetters, morpholog
 			return wordAfterProcessing;
 		}
 	}
+	return word;
 };
 
 /**
@@ -246,16 +245,16 @@ const checkFirstPatternAndGetRoot = function( word, numberSameLetters, morpholog
 const checkSecondPatternAndGetRoot = function( word, pattern, numberSameLetters, morphologyData ) {
 	const characters = morphologyData.externalStemmer.characters;
 	if ( word.length - 3 <= numberSameLetters ) {
-		const root = "";
+		let root = "";
 		for ( let i = 0; i < word.length; i++ ) {
 			if ( pattern.charAt( i ) === characters.feh ||
 				pattern.charAt( i ) === characters.aen ||
 				pattern.charAt( i ) === characters.lam ) {
-				root.concat( word.charAt( i ) );
+				root = root.concat( word.charAt( i ) );
 			}
 		}
 		if ( root.length === 3 ) {
-			return processThreeLetterWords( word, morphologyData );
+			return processThreeLetterWords( root, morphologyData );
 		}
 	}
 	return word;
@@ -270,7 +269,7 @@ const checkSecondPatternAndGetRoot = function( word, pattern, numberSameLetters,
  */
 const checkPatterns = function( word, morphologyData ) {
 	const characters = morphologyData.externalStemmer.characters;
-	// If the first letter is a hamza, change it to an alif
+	// If the first letter is an alef_madda, alef_hamza_above, or alef_hamza_below (أ/إ/آ), change it to an alef (ا)
 	word = matchWithRegexAndReplace( word, morphologyData.externalStemmer.regexReplaceFirstHamzaWithAlif );
 
 	// Try and find a pattern that matches the word
@@ -324,7 +323,7 @@ const checkIfWordIsRoot = function( word, morphologyData ) {
 		}
 		// If it is not a root, process it to find its root.
 		const wordAfterThreeLetterProcessing = processThreeLetterWords( word, morphologyData );
-		if ( wordAfterThreeLetterProcessing !== word ) {
+		if ( wordAfterThreeLetterProcessing ) {
 			return wordAfterThreeLetterProcessing;
 		}
 	}
@@ -334,7 +333,6 @@ const checkIfWordIsRoot = function( word, morphologyData ) {
 			return word;
 		}
 	}
-	return word;
 };
 
 /**
@@ -527,7 +525,7 @@ export default function stem( word, morphologyData ) {
 
 	// Look for the root of the word.
 	const root = checkIfWordIsRoot( word, morphologyData );
-	if ( root !== word ) {
+	if ( root ) {
 		return root;
 	}
 	// If the root still hasn't been found, check if the word matches a pattern and get its root if it does.
