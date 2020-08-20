@@ -3,7 +3,6 @@ module.exports = {
         options: {
             type: '<%= type %>',
             branchForRC: '<%= branchForRC %>',
-            pluginVersionArg: '<%= pluginVersionArg %>',
         },
     },
 }
