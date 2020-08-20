@@ -17,10 +17,12 @@ const wordsToStem = [
 	[ "طمو", "طمو" ],
 	// Three letter word with initial letter ا/ ؤ/ ئ (yeh_hamza/waw_hamza/alef), change the initial letter to أ (alef_hamza_above)
 	[ "ؤكد", "أكد" ],
-	// Three letter words ending in weak letter و/ي/ا/ى/ء/ئ (yeh_hamza/hamza/yeh_maksorah/alef/yeh/waw)
+	[ "ازب", "أزب" ],
+	// Three letter words ending in weak letter ي/ا/ى/ء (yeh_hamza/hamza/yeh_maksorah/alef/yeh/waw)
 	// And the root is in the list of word with the last weak letter or hamza removed.
 	// The current stem is قا as قوا is matched by regexRemoveMiddleWeakLetterOrHamza instead of this regex regexRemoveLastWeakLetterOrHamza
 	// [ "قوا", "قوا" ],
+	[ "غبي", "غبي" ],
 	[ "دعا", "دعا" ],
 	[ "بدء", "بدأ" ],
 	[ "كرى", "كرى" ],
@@ -28,8 +30,13 @@ const wordsToStem = [
 	// And the root is NOT in the list of word with the last weak letter or hamza removed.
 	// The current stem is وفي, as وف is also detected in wordsWithLastYahRemoved list. For words found in the list, ي (yeh) is added to the root
 	// [ "وفى", "وف" ],
+	// The current stem is صدأ, as صد is also matched in wordsWithLastHamzaRemoved.
+	// For words found in the list, أ (alef_hamza_above) is added to the root
+	// [ "صدئ", "صد" ],
 	[ "باء", "با" ],
-	// The current stem is برا, as بر is also detected in wordsWithLastHamzaRemoved list. For words found in the list, ا (alef) is added to the root
+	[ "غذى", "غذ" ],
+	[ "رشا", "رش" ],
+	// The current stem is برا, as بر is also detected in wordsWithLastAlifRemoved list. For words found in the list, ا (alef) is added to the root
 	// [ "برئ", "بر" ],
 	// The current stem is بلي, as بل is also detected in wordsWithLastYahRemoved list. For words found in the list, ي (yeh) is added to the root
 	// [ "بلا", "بل" ],
@@ -37,10 +44,13 @@ const wordsToStem = [
 	// Three letter words with و/ي (yeh/waw) as their second letter and the root is in the exception list after و/ي (yeh/waw) removal
 	[ "أيد", "أيد" ],
 	[ "أوز", "أوز" ],
+	[ "جاب", "جب" ],
 	// Three letter words with و/ي/ا/ئ (yeh_hamza/alef/yeh/waw) as their second letter
 	// And the root is NOT in the exception list after the deletion of و/ي/ا/ئ (yeh_hamza/alef/yeh/waw)
 	[ "موظ", "مظ" ],
 	[ "فئة", "فة" ],
+	[ "جيم", "جم" ],
+	[ "توت", "تت" ],
 	// The current stem is بور, as بر is also detected in wordsWithMiddleWawRemoved list. For words found in the list, و (waw) is added to the root.
 	// [ "بار", "بر" ],
 	// Three letter words with ئ/ؤ (yeh_hamza/waw_hamza) as their second letter and end in ر/ز/ن (noon/zai/reh),
@@ -53,6 +63,17 @@ const wordsToStem = [
 	[ "بؤس", "بأس" ],
 	// Three letter words that ends in a shadda, duplicate the second character and the root is in threeLetterRoots list
 	[ "ودّ", "ودد" ],
+	// Three letter words that ends in a shadda, duplicate the second character and the root is NOT in threeLetterRoots list
+	[ "ألّ", "ألل" ],
+	// Words that start with أ/إ/آ (alef_madda/alef_hamza_above/alef_hamza_below), the أ/إ/آ is changed to ا
+	[ "آفة", "افة" ],
+	[ "آلهات", "لهت" ],
+	[ "أفطر", "فطر" ],
+	[ "إنطباع", "طبع" ],
+	// Words that match one of the patterns
+	[ "تبادل", "بدل" ],
+	// Words that match pattern ÇÝÚáÇ
+	[ "ابيضاض", "بيض" ],
 	// Four letter word that is in the list of four-letter roots.
 	[ "أبزم", "أبزم" ],
 ];
