@@ -93,7 +93,7 @@ module.exports = function( grunt ) {
         grunt.config.data.alternativeBranch = options.alternativeBranch;
         grunt.config.data.alternativeBranchPush = options.alternativeBranchPush
         
-
+        grunt.verbose.writeln("plugin currend version:" + pluginVersion);
         grunt.verbose.writeln("plugin-version:" + grunt.option( 'plugin-version'));
         grunt.verbose.writeln("enableSlack:" + enableSlack);
         grunt.verbose.writeln("enableSvnDeploy:" + enableSvnDeploy);
