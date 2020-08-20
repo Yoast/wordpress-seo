@@ -503,6 +503,7 @@ class ReplacementVariableEditorStandalone extends React.Component {
 				/>
 				<ZIndexOverride>
 					<MentionSuggestions
+						isRtl={ theme.isRtl }
 						onSearchChange={ this.onSearchChange }
 						suggestions={ suggestions }
 					/>
