@@ -16,21 +16,13 @@ module.exports = function( grunt ) {
 			const options = this.options({
 				type: 'release',	
 				branchForRC: '<%= branchForRC %>',
-				pluginVersionArg: '<%= pluginVersionArg %>'
 			});
 			
-			const version = grunt.option( "plugin-version" );
-
-			// If no version is specified, abort the task.
-			if ( ! version ) {
-				grunt.fail.fatal( "Missing --plugin-version argument (i.e. x.x.x)" );
-			}
-
+		
 			// Fetch all existing branches.
 			grunt.config( "gitfetch.fetchall.options.all", true );
 			grunt.task.run( "gitfetch:fetchall" );
 			const basebranch = options.type === "hotfix" ? "master" : "trunk";
-			//const branchForRC = options.type + "/" + version;
 			const branchForRC = options.branchForRC
 
 			// Set a grunt branchForRC variable.
