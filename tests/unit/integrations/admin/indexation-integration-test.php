@@ -354,6 +354,17 @@ class Indexation_Integration_Test extends TestCase {
 			->with( 'indexation_started', false )
 			->andReturn( 1595233983 );
 
+		$this->options
+			->expects( 'get' )
+			->with( 'indexation_warning_hide_until' )
+			->andReturn( 0 );
+
+		$this->options
+			->expects( 'get' )
+			->once()
+			->with( 'indexables_indexation_reason', '' )
+			->andReturn( '' );
+
 		// Expect that the script and style for the modal is enqueued.
 		$this->asset_manager
 			->expects( 'enqueue_script' )

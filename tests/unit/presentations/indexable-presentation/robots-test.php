@@ -35,8 +35,11 @@ class Robots_Test extends TestCase {
 	public function test_generate_robots() {
 		$actual   = $this->instance->generate_robots();
 		$expected = [
-			'index'  => 'index',
-			'follow' => 'follow',
+			'index'                   => 'index',
+			'follow'                  => 'follow',
+			'max-snippet:-1'          => 'max-snippet:-1',
+			'max-image-preview:large' => 'max-image-preview:large',
+			'max-video-preview:-1'    => 'max-video-preview:-1',
 		];
 
 		$this->assertEquals( $expected, $actual );
@@ -53,7 +56,7 @@ class Robots_Test extends TestCase {
 	public function test_generate_robots_with_filter_return_false() {
 		Monkey\Filters\expectApplied( 'wpseo_robots' )
 			->once()
-			->with( 'index, follow', $this->instance )
+			->with( 'index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1', $this->instance )
 			->andReturn( false );
 
 		$this->assertEquals( [], $this->instance->generate_robots() );
@@ -70,7 +73,7 @@ class Robots_Test extends TestCase {
 	public function test_generate_robots_with_filter_returning_duplicates() {
 		Monkey\Filters\expectApplied( 'wpseo_robots' )
 			->once()
-			->with( 'index, follow', $this->instance )
+			->with( 'index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1', $this->instance )
 			->andReturn( 'index, noindex, follow' );
 
 		$this->assertEquals(
@@ -95,8 +98,11 @@ class Robots_Test extends TestCase {
 			->once()
 			->with(
 				[
-					'index'  => 'index',
-					'follow' => 'follow',
+					'index'                   => 'index',
+					'follow'                  => 'follow',
+					'max-snippet:-1'          => 'max-snippet:-1',
+					'max-image-preview:large' => 'max-image-preview:large',
+					'max-video-preview:-1'    => 'max-video-preview:-1',
 				],
 				$this->instance
 			)

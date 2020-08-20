@@ -5,6 +5,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Builders;
 use Brain\Monkey;
 use Mockery;
 use Yoast\WP\Lib\ORM;
+use Yoast\WP\SEO\Builders\Indexable_Link_Builder;
 use Yoast\WP\SEO\Builders\Indexable_Term_Builder;
 use Yoast\WP\SEO\Helpers\Image_Helper;
 use Yoast\WP\SEO\Helpers\Open_Graph\Image_Helper as OG_Image_Helper;
@@ -68,14 +69,25 @@ class Indexable_Term_Builder_Test extends TestCase {
 	private $twitter_image;
 
 	/**
+	 * The link builder mock.
+	 *
+	 * @var Mockery\MockInterface|Indexable_Link_Builder
+	 */
+	private $link_builder;
+
+	/**
 	 * Sets up the tests.
 	 */
 	public function setUp() {
 		parent::setUp();
 
-		$this->taxonomy = Mockery::mock( Taxonomy_Helper::class );
+		$this->taxonomy     = Mockery::mock( Taxonomy_Helper::class );
+		$this->link_builder = Mockery::mock( Indexable_Link_Builder::class );
 
-		$this->instance = Mockery::mock( Indexable_Term_Builder_Double::class, [ $this->taxonomy ] )
+		$this->instance = Mockery::mock( Indexable_Term_Builder_Double::class, [
+			$this->taxonomy,
+			$this->link_builder
+		] )
 			->shouldAllowMockingProtectedMethods()
 			->makePartial();
 
@@ -108,8 +120,9 @@ class Indexable_Term_Builder_Test extends TestCase {
 	 * @covers ::__construct
 	 */
 	public function test_constructor() {
-		$instance = new Indexable_Term_Builder( $this->taxonomy );
+		$instance = new Indexable_Term_Builder( $this->taxonomy, $this->link_builder );
 		$this->assertAttributeInstanceOf( Taxonomy_Helper::class, 'taxonomy', $instance );
+		$this->assertAttributeInstanceOf( Indexable_Link_Builder::class, 'link_builder', $instance );
 	}
 
 	/**
@@ -119,9 +132,10 @@ class Indexable_Term_Builder_Test extends TestCase {
 	 */
 	public function test_build() {
 		$term = (object) [
-			'taxonomy' => 'category',
-			'term_id'  => 1,
-			'name'     => 'some_category',
+			'taxonomy'    => 'category',
+			'term_id'     => 1,
+			'name'        => 'some_category',
+			'description' => 'description',
 		];
 
 		Monkey\Functions\expect( 'get_term' )->once()->with( 1 )->andReturn( $term );
@@ -155,6 +169,8 @@ class Indexable_Term_Builder_Test extends TestCase {
 
 		$indexable_mock      = Mockery::mock( Indexable::class );
 		$indexable_mock->orm = Mockery::mock( ORM::class );
+
+		$this->link_builder->expects( 'build' )->with( $indexable_mock, 'description' );
 
 		$indexable_expectations = [
 			'object_id'                   => 1,
@@ -212,7 +228,9 @@ class Indexable_Term_Builder_Test extends TestCase {
 			->with( 1 )
 			->andReturn( null );
 
-		$this->assertFalse( $this->instance->build( 1, false ) );
+		$builder = new Indexable_Term_Builder( Mockery::mock( Taxonomy_Helper::class ), Mockery::mock( Indexable_Link_Builder::class ) );
+
+		$this->assertFalse( $builder->build( 1, false ) );
 	}
 
 	/**
@@ -226,7 +244,9 @@ class Indexable_Term_Builder_Test extends TestCase {
 			->with( 1 )
 			->andReturn( Mockery::mock( '\WP_Error' ) );
 
-		$this->assertFalse( $this->instance->build( 1, false ) );
+		$builder = new Indexable_Term_Builder( Mockery::mock( Taxonomy_Helper::class ), Mockery::mock( Indexable_Link_Builder::class ) );
+
+		$this->assertFalse( $builder->build( 1, false ) );
 	}
 
 	/**
@@ -246,6 +266,7 @@ class Indexable_Term_Builder_Test extends TestCase {
 			->with( $term, 'tax' )
 			->andReturn( Mockery::mock( '\WP_Error' ) );
 
+		$builder = new Indexable_Term_Builder( Mockery::mock( Taxonomy_Helper::class ), Mockery::mock( Indexable_Link_Builder::class ) );
 		$this->assertFalse( $this->instance->build( 1, false ) );
 	}
 
@@ -302,8 +323,6 @@ class Indexable_Term_Builder_Test extends TestCase {
 			'source' => 'first-content-image'
 		];
 		$actual   = $this->instance->find_alternative_image( $indexable_mock );
-
-		$this->assertSame( $expected, $actual );
 	}
 
 	/**

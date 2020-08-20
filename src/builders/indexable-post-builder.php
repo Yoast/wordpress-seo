@@ -7,15 +7,10 @@
 
 namespace Yoast\WP\SEO\Builders;
 
-use Exception;
 use WPSEO_Meta;
-use WPSEO_Utils;
 use Yoast\WP\SEO\Helpers\Post_Helper;
-use Yoast\WP\SEO\Loggers\Logger;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
-use Yoast\WP\SEO\Repositories\SEO_Meta_Repository;
-use YoastSEO_Vendor\Psr\Log\LogLevel;
 
 /**
  * Formats the post meta to indexable format.
@@ -24,11 +19,11 @@ class Indexable_Post_Builder {
 	use Indexable_Social_Image_Trait;
 
 	/**
-	 * Yoast extension of the Model class.
+	 * The link builder.
 	 *
-	 * @var SEO_Meta_Repository
+	 * @var Indexable_Link_Builder
 	 */
-	protected $seo_meta_repository;
+	protected $link_builder;
 
 	/**
 	 * The indexable repository.
@@ -45,23 +40,19 @@ class Indexable_Post_Builder {
 	protected $post;
 
 	/**
-	 * Holds the logger.
-	 *
-	 * @var Logger
-	 */
-	protected $logger;
-
-	/**
 	 * Indexable_Post_Builder constructor.
 	 *
-	 * @param SEO_Meta_Repository $seo_meta_repository The SEO Meta repository.
-	 * @param Post_Helper         $post                The post helper.
-	 * @param Logger              $logger              The logger.
+	 * @codeCoverageIgnore This is dependency injection only.
+	 *
+	 * @param Indexable_Link_Builder $link_builder The link builder.
+	 * @param Post_Helper            $post         The post helper.
 	 */
-	public function __construct( SEO_Meta_Repository $seo_meta_repository, Post_Helper $post, Logger $logger ) {
-		$this->seo_meta_repository = $seo_meta_repository;
-		$this->post                = $post;
-		$this->logger              = $logger;
+	public function __construct(
+		Indexable_Link_Builder $link_builder,
+		Post_Helper $post
+	) {
+		$this->link_builder = $link_builder;
+		$this->post         = $post;
 	}
 
 	/**
@@ -127,7 +118,7 @@ class Indexable_Post_Builder {
 
 		$this->handle_social_images( $indexable );
 
-		$indexable = $this->set_link_count( $post_id, $indexable );
+		$this->link_builder->build( $indexable, $post->post_content );
 
 		$indexable->author_id   = $post->post_author;
 		$indexable->post_parent = $post->post_parent;
@@ -322,29 +313,6 @@ class Indexable_Post_Builder {
 			'twitter-image-id'      => 'twitter_image_id',
 			'twitter-description'   => 'twitter_description',
 		];
-	}
-
-	/**
-	 * Updates the link count from existing data.
-	 *
-	 * @param int       $post_id   The post ID to use.
-	 * @param Indexable $indexable The indexable to extend.
-	 *
-	 * @return Indexable The extended indexable.
-	 */
-	protected function set_link_count( $post_id, Indexable $indexable ) {
-		try {
-			$seo_meta = $this->seo_meta_repository->find_by_post_id( $post_id );
-
-			if ( $seo_meta ) {
-				$indexable->link_count          = $seo_meta->internal_link_count;
-				$indexable->incoming_link_count = $seo_meta->incoming_link_count;
-			}
-		} catch ( Exception $exception ) {
-			$this->logger->log( LogLevel::ERROR, $exception->getMessage() );
-		}
-
-		return $indexable;
 	}
 
 	/**

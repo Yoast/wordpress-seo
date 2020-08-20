@@ -3,18 +3,16 @@
 namespace Yoast\WP\SEO\Tests\Unit\Builders;
 
 use Brain\Monkey;
-use Exception;
 use Mockery;
 use Yoast\WP\Lib\ORM;
+use Yoast\WP\SEO\Builders\Indexable_Link_Builder;
 use Yoast\WP\SEO\Builders\Indexable_Post_Builder;
 use Yoast\WP\SEO\Helpers\Image_Helper;
 use Yoast\WP\SEO\Helpers\Open_Graph\Image_Helper as Open_Graph_Image_Helper;
 use Yoast\WP\SEO\Helpers\Post_Helper;
 use Yoast\WP\SEO\Helpers\Twitter\Image_Helper as Twitter_Image_Helper;
-use Yoast\WP\SEO\Loggers\Logger;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
-use Yoast\WP\SEO\Repositories\SEO_Meta_Repository;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Builders\Indexable_Post_Builder_Double;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
@@ -37,18 +35,11 @@ class Indexable_Post_Builder_Test extends TestCase {
 	private $indexable;
 
 	/**
-	 * Holds the SEO_Meta_Repository instance.
+	 * Holds the Indexable_Repository instance.
 	 *
 	 * @var Indexable_Repository|Mockery\MockInterface
 	 */
 	private $indexable_repository;
-
-	/**
-	 * Holds the SEO_Meta_Repository instance.
-	 *
-	 * @var SEO_Meta_Repository|Mockery\MockInterface
-	 */
-	private $seo_meta_repository;
 
 	/**
 	 * Holds the Image_Helper instance.
@@ -72,18 +63,18 @@ class Indexable_Post_Builder_Test extends TestCase {
 	private $twitter_image;
 
 	/**
+	 * The link builder.
+	 *
+	 * @var Indexable_Link_Builder|Mockery\MockInterface
+	 */
+	protected $link_builder;
+
+	/**
 	 * Holds the Post_Helper instance.
 	 *
 	 * @var Post_Helper|Mockery\MockInterface
 	 */
 	private $post;
-
-	/**
-	 * Holds the Logger instance.
-	 *
-	 * @var Logger|Mockery\MockInterface
-	 */
-	private $logger;
 
 	/**
 	 * Holds the Indexable_Post_Builder instance.
@@ -98,19 +89,17 @@ class Indexable_Post_Builder_Test extends TestCase {
 	public function setUp() {
 		$this->indexable            = Mockery::mock();
 		$this->indexable_repository = Mockery::mock( Indexable_Repository::class );
-		$this->seo_meta_repository  = Mockery::mock( SEO_Meta_Repository::class );
 		$this->image                = Mockery::mock( Image_Helper::class );
 		$this->open_graph_image     = Mockery::mock( Open_Graph_Image_Helper::class );
 		$this->twitter_image        = Mockery::mock( Twitter_Image_Helper::class );
+		$this->link_builder         = Mockery::mock( Indexable_Link_Builder::class );
 		$this->post                 = Mockery::mock( Post_Helper::class );
-		$this->logger               = Mockery::mock( Logger::class );
 
 		$this->instance = Mockery::mock(
 			Indexable_Post_Builder_Double::class,
 			[
-				$this->seo_meta_repository,
+				$this->link_builder,
 				$this->post,
-				$this->logger,
 			]
 		)
 			->makePartial()
@@ -144,14 +133,12 @@ class Indexable_Post_Builder_Test extends TestCase {
 	 */
 	public function test_constructor() {
 		$instance = new Indexable_Post_Builder(
-			$this->seo_meta_repository,
-			$this->post,
-			$this->logger
+			$this->link_builder,
+			$this->post
 		);
 
-		$this->assertAttributeInstanceOf( SEO_Meta_Repository::class, 'seo_meta_repository', $instance );
+		$this->assertAttributeInstanceOf( Indexable_Link_Builder::class, 'link_builder', $instance );
 		$this->assertAttributeInstanceOf( Post_Helper::class, 'post', $instance );
-		$this->assertAttributeInstanceOf( Logger::class, 'logger', $instance );
 	}
 
 	/**
@@ -160,15 +147,8 @@ class Indexable_Post_Builder_Test extends TestCase {
 	 * @covers ::set_indexable_repository
 	 */
 	public function test_set_indexable_repository() {
-		$instance = new Indexable_Post_Builder(
-			$this->seo_meta_repository,
-			$this->post,
-			$this->logger
-		);
-
-		$instance->set_indexable_repository( $this->indexable_repository );
-
-		$this->assertAttributeInstanceOf( Indexable_Repository::class, 'indexable_repository', $instance );
+		$this->instance->set_indexable_repository( $this->indexable_repository );
+		$this->assertAttributeInstanceOf( Indexable_Repository::class, 'indexable_repository', $this->instance );
 	}
 
 	/**
@@ -203,6 +183,20 @@ class Indexable_Post_Builder_Test extends TestCase {
 		);
 		Monkey\Functions\expect( 'maybe_unserialize' )->andReturnFirstArg();
 
+		$this->post->expects( 'get_post' )
+			->once()
+			->with( 1 )
+			->andReturn(
+				(object) [
+					'post_content'  => 'The content of the post',
+					'post_type'     => 'post',
+					'post_status'   => 'publish',
+					'post_password' => '',
+					'post_author'   => '1',
+					'post_parent'   => '0',
+				]
+			);
+
 		$indexable_expectations = [
 			'object_id'                   => 1,
 			'object_type'                 => 'post',
@@ -229,8 +223,6 @@ class Indexable_Post_Builder_Test extends TestCase {
 			'primary_focus_keyword'       => 'focuskeyword',
 			'primary_focus_keyword_score' => 100,
 			'readability_score'           => 50,
-			'link_count'                  => 5,
-			'incoming_link_count'         => 2,
 			'number_of_pages'             => null,
 			'is_public'                   => 0,
 			'post_status'                 => 'publish',
@@ -247,6 +239,8 @@ class Indexable_Post_Builder_Test extends TestCase {
 		$this->indexable->orm = Mockery::mock( ORM::class );
 
 		$this->set_indexable_set_expectations( $this->indexable, $indexable_expectations );
+
+		$this->link_builder->expects( 'build' )->with( $this->indexable, 'The content of the post' );
 
 		// Mock social images method (from the social image trait).
 		$this->instance->expects( 'reset_social_images' )->with( $this->indexable );
@@ -268,27 +262,6 @@ class Indexable_Post_Builder_Test extends TestCase {
 
 		// Blog ID.
 		Monkey\Functions\expect( 'get_current_blog_id' )->once()->andReturn( 1 );
-
-		$this->seo_meta_repository->expects( 'find_by_post_id' )->once()->with( 1 )->andReturn(
-			(object) [
-				'internal_link_count' => 5,
-				'incoming_link_count' => 2,
-			]
-		);
-
-		$this->post->expects( 'get_post' )
-			->once()
-			->with( 1 )
-			->andReturn(
-				(object) [
-					'post_content'  => 'The content of the post',
-					'post_type'     => 'post',
-					'post_status'   => 'publish',
-					'post_password' => '',
-					'post_author'   => '1',
-					'post_parent'   => '0',
-				]
-			);
 
 		$this->instance->build( 1, $this->indexable );
 	}
@@ -779,75 +752,5 @@ class Indexable_Post_Builder_Test extends TestCase {
 		$this->post->expects( 'get_post' )->once()->with( 1 )->andReturn( null );
 
 		$this->assertFalse( $this->instance->build( 1, false ) );
-	}
-
-	/**
-	 * Tests that build's set_link_count logs the exception.
-	 *
-	 * @covers ::build
-	 */
-	public function test_build_set_link_count_log_exception() {
-		$this->indexable      = Mockery::mock( Indexable::class );
-		$this->indexable->orm = Mockery::mock( ORM::class );
-		$this->indexable->orm->expects( 'set' )->times( 45 );
-		$this->indexable->orm->expects( 'offsetExists' )->zeroOrMoreTimes()->andReturnTrue();
-		$this->indexable->orm->expects( 'get' )->times( 11 )->andReturnArg( 0 );
-
-		$this->post->expects( 'get_post' )
-			->once()
-			->with( 1 )
-			->andReturn(
-				(object) [
-					'post_content'  => 'The content of the post',
-					'post_type'     => 'post',
-					'post_status'   => 'publish',
-					'post_password' => '',
-					'post_author'   => '1',
-					'post_parent'   => '0',
-				]
-			);
-
-		Monkey\Functions\expect( 'get_permalink' )
-			->once()
-			->with( 1 )
-			->andReturn( 'https://example.com' );
-		Monkey\Functions\expect( 'get_current_blog_id' )->once()->andReturn( 1 );
-		Monkey\Functions\expect( 'get_post_custom' )->with( 1 )->andReturn(
-			[
-				'_yoast_wpseo_focuskw'               => [ 'focuskeyword' ],
-				'_yoast_wpseo_linkdex'               => [ '100' ],
-				'_yoast_wpseo_is_cornerstone'        => [ '1' ],
-				'_yoast_wpseo_meta-robots-noindex'   => [ '1' ],
-				'_yoast_wpseo_meta-robots-adv'       => [ '' ],
-				'_yoast_wpseo_content_score'         => [ '50' ],
-				'_yoast_wpseo_canonical'             => [ 'https://canonical' ],
-				'_yoast_wpseo_meta-robots-nofollow'  => [ '1' ],
-				'_yoast_wpseo_title'                 => [ 'title' ],
-				'_yoast_wpseo_metadesc'              => [ 'description' ],
-				'_yoast_wpseo_bctitle'               => [ 'breadcrumb_title' ],
-				'_yoast_wpseo_opengraph-title'       => [ 'open_graph_title' ],
-				'_yoast_wpseo_opengraph-description' => [ 'open_graph_description' ],
-				'_yoast_wpseo_twitter-title'         => [ 'twitter_title' ],
-				'_yoast_wpseo_twitter-description'   => [ 'twitter_description' ],
-				'_yoast_wpseo_schema_page_type'      => [ 'WebPage' ],
-				'_yoast_wpseo_schema_article_type'   => [ 'Article' ],
-			]
-		);
-		Monkey\Functions\expect( 'maybe_unserialize' )->andReturnFirstArg();
-
-		$this->twitter_image->expects( 'get_by_id' )
-			->once()
-			->andReturnFalse();
-		$this->open_graph_image->expects( 'get_image_by_id' )
-			->once()
-			->andReturnFalse();
-
-		$this->seo_meta_repository->expects( 'find_by_post_id' )
-			->once()
-			->with( 1 )
-			->andThrows( new Exception( 'an error' ) );
-		$this->logger->expects( 'log' )->once()->with( 'error', 'an error' );
-
-		$this->instance->build( 1, $this->indexable );
 	}
 }

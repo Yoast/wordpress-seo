@@ -13,6 +13,7 @@ use wpdb;
 use Yoast\WP\Lib\ORM;
 use Yoast\WP\SEO\Builders\Indexable_Builder;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
+use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Loggers\Logger;
 use Yoast\WP\SEO\Repositories\Indexable_Hierarchy_Repository;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
@@ -72,6 +73,13 @@ class Indexable_Repository_Test extends TestCase {
 	protected $wpdb;
 
 	/**
+	 * Represents the indexable helper.
+	 *
+	 * @var Mockery\MockInterface|Indexable_Helper
+	 */
+	protected $indexable_helper;
+
+	/**
 	 * @inheritDoc
 	 */
 	public function setUp() {
@@ -82,6 +90,7 @@ class Indexable_Repository_Test extends TestCase {
 		$this->logger               = Mockery::mock( Logger::class );
 		$this->hierarchy_repository = Mockery::mock( Indexable_Hierarchy_Repository::class );
 		$this->wpdb                 = Mockery::mock( wpdb::class );
+		$this->indexable_helper     = Mockery::mock( Indexable_Helper::class );
 		$this->instance             = Mockery::mock(
 			Indexable_Repository::class,
 			[
@@ -90,6 +99,7 @@ class Indexable_Repository_Test extends TestCase {
 				$this->logger,
 				$this->hierarchy_repository,
 				$this->wpdb,
+				$this->indexable_helper
 			]
 		)->makePartial();
 	}
@@ -197,7 +207,9 @@ class Indexable_Repository_Test extends TestCase {
 
 		$permalink = 'https://example.org/permalink';
 
-		Monkey\Functions\expect( 'get_permalink' )
+		$this->indexable_helper
+			->expects( 'get_permalink_for_indexable' )
+			->with( $indexable )
 			->andReturn( $permalink );
 
 		$this->instance->expects( 'query' )->andReturn( $orm_object );
@@ -222,8 +234,10 @@ class Indexable_Repository_Test extends TestCase {
 
 		$orm_object = $this->mock_orm( [ 1, 2 ], [ $indexable ] );
 
-		Monkey\Functions\expect( 'get_permalink' )
-			->andReturnNull();
+		$this->indexable_helper
+			->expects( 'get_permalink_for_indexable' )
+			->with( $indexable )
+			->andReturnNull( );
 
 		$this->instance->expects( 'query' )->andReturn( $orm_object );
 
@@ -250,7 +264,9 @@ class Indexable_Repository_Test extends TestCase {
 
 		$permalink = 'https://example.org/permalink';
 
-		Monkey\Functions\expect( 'get_permalink' )
+		$this->indexable_helper
+			->expects( 'get_permalink_for_indexable' )
+			->with( $indexable )
 			->andReturn( $permalink );
 
 		$this->instance->expects( 'query' )->andReturn( $orm_object );
@@ -301,5 +317,70 @@ class Indexable_Repository_Test extends TestCase {
 
 		$this->assertAttributeEquals( '\Yoast\WP\SEO\Models\Indexable', 'class_name', $query );
 		$this->assertInstanceOf( ORM::class, $query );
+	}
+
+	/**
+	 * Tests retrieval of the child indexables with no children found for indexable.
+	 *
+	 * @covers ::get_children
+	 */
+	public function test_get_children_no_ids_found() {
+		$indexable = Mockery::mock( Indexable_Mock::class );
+
+		$this->hierarchy_repository
+			->expects( 'find_children' )
+			->with( $indexable )
+			->andReturn( [] );
+
+		$this->assertSame( [], $this->instance->get_children( $indexable ) );
+	}
+
+	/**
+	 * Tests retrieval of the child indexables with no children found for indexable.
+	 *
+	 * @covers ::get_children
+	 */
+	public function test_get_children() {
+		$indexable = Mockery::mock( Indexable_Mock::class );
+		$indexable->object_type = 'post';
+
+		$indexable->expects( 'save' )->once();
+
+		$this->hierarchy_repository
+			->expects( 'find_children' )
+			->with( $indexable )
+			->andReturn( [ 1, 2, 3 ] );
+
+		$orm_object = Mockery::mock();
+
+		$this->instance
+			->expects( 'query' )
+			->andReturn( $orm_object );
+
+		$orm_object
+			->expects( 'where_in' )
+			->with( 'id', [ 1, 2, 3 ] )
+			->once()
+			->andReturnSelf();
+
+		$orm_object
+			->expects( 'order_by_expr' )
+			->once()
+			->with( 'FIELD(id,1,2,3)' )
+			->andReturnSelf();
+
+		$orm_object
+			->expects( 'find_many' )
+			->once()
+			->andReturn( [ $indexable ] );
+
+		$permalink = 'https://example.org/permalink';
+
+		$this->indexable_helper
+			->expects( 'get_permalink_for_indexable' )
+			->with( $indexable )
+			->andReturn( $permalink );
+
+		$this->assertSame( [ $indexable ], $this->instance->get_children( $indexable ) );
 	}
 }

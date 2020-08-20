@@ -8,10 +8,11 @@
 namespace Yoast\WP\SEO\Generators;
 
 use Yoast\WP\SEO\Context\Meta_Tags_Context;
-use Yoast\WP\SEO\Generators\Generator_Interface;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Helpers\Pagination_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
+use Yoast\WP\SEO\Helpers\Url_Helper;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
@@ -35,18 +36,32 @@ class Breadcrumbs_Generator implements Generator_Interface {
 	private $options;
 
 	/**
-	 * The current page helper
+	 * The current page helper.
 	 *
 	 * @var Current_Page_Helper
 	 */
 	private $current_page_helper;
 
 	/**
-	 * The post type helper
+	 * The post type helper.
 	 *
 	 * @var Post_Type_Helper
 	 */
 	private $post_type_helper;
+
+	/**
+	 * The URL helper.
+	 *
+	 * @var Url_Helper;
+	 */
+	private $url_helper;
+
+	/**
+	 * The pagination helper.
+	 *
+	 * @var Pagination_Helper;
+	 */
+	private $pagination_helper;
 
 	/**
 	 * Breadcrumbs_Generator constructor.
@@ -55,17 +70,23 @@ class Breadcrumbs_Generator implements Generator_Interface {
 	 * @param Options_Helper       $options             The options helper.
 	 * @param Current_Page_Helper  $current_page_helper The current page helper.
 	 * @param Post_Type_Helper     $post_type_helper    The post type helper.
+	 * @param Url_Helper           $url_helper          The URL helper.
+	 * @param Pagination_Helper    $pagination_helper   The pagination helper.
 	 */
 	public function __construct(
 		Indexable_Repository $repository,
 		Options_Helper $options,
 		Current_Page_Helper $current_page_helper,
-		Post_Type_Helper $post_type_helper
+		Post_Type_Helper $post_type_helper,
+		Url_Helper $url_helper,
+		Pagination_Helper $pagination_helper
 	) {
 		$this->repository          = $repository;
 		$this->options             = $options;
 		$this->current_page_helper = $current_page_helper;
 		$this->post_type_helper    = $post_type_helper;
+		$this->url_helper          = $url_helper;
+		$this->pagination_helper   = $pagination_helper;
 	}
 
 	/**
@@ -144,7 +165,7 @@ class Breadcrumbs_Generator implements Generator_Interface {
 					$crumb = $this->get_user_crumb( $crumb, $ancestor );
 					break;
 				case 'date-archive':
-					$crumb = $this->get_date_archive_crumb( $crumb, $ancestor );
+					$crumb = $this->get_date_archive_crumb( $crumb );
 					break;
 			}
 			return $crumb;
@@ -154,6 +175,8 @@ class Breadcrumbs_Generator implements Generator_Interface {
 		if ( $breadcrumbs_home !== '' ) {
 			$crumbs[0]['text'] = $breadcrumbs_home;
 		}
+
+		$crumbs = $this->add_paged_crumb( $crumbs, $context->indexable );
 
 		/**
 		 * Filter: 'wpseo_breadcrumb_links' - Allow the developer to filter the Yoast SEO breadcrumb links, add to them, change order, etc.
@@ -256,22 +279,28 @@ class Breadcrumbs_Generator implements Generator_Interface {
 	/**
 	 * Returns the modified date archive crumb.
 	 *
-	 * @param array     $crumb    The crumb.
-	 * @param Indexable $ancestor The indexable.
+	 * @param array $crumb The crumb.
 	 *
 	 * @return array The crumb.
 	 */
-	private function get_date_archive_crumb( $crumb, $ancestor ) {
-		$prefix = $this->options->get( 'breadcrumbs-archiveprefix' );
+	protected function get_date_archive_crumb( $crumb ) {
+		$home_url = $this->url_helper->home();
+		$prefix   = $this->options->get( 'breadcrumbs-archiveprefix' );
 
 		if ( \is_day() ) {
-			$crumb['text'] = $prefix . ' ' . \esc_html( \get_the_date() );
+			$day           = \esc_html( \get_the_date() );
+			$crumb['url']  = $home_url . \get_the_date( 'Y/m/d' ) . '/';
+			$crumb['text'] = $prefix . ' ' . $day;
 		}
 		elseif ( \is_month() ) {
-			$crumb['text'] = $prefix . ' ' . \esc_html( \trim( \single_month_title( ' ', false ) ) );
+			$month         = \esc_html( \trim( \single_month_title( ' ', false ) ) );
+			$crumb['url']  = $home_url . \get_the_date( 'Y/m' ) . '/';
+			$crumb['text'] = $prefix . ' ' . $month;
 		}
 		elseif ( \is_year() ) {
-			$crumb['text'] = $prefix . ' ' . \esc_html( \get_query_var( 'year' ) );
+			$year          = \get_the_date( 'Y' );
+			$crumb['url']  = $home_url . $year . '/';
+			$crumb['text'] = $prefix . ' ' . $year;
 		}
 
 		return $crumb;
@@ -323,5 +352,42 @@ class Breadcrumbs_Generator implements Generator_Interface {
 		}
 
 		return $parent;
+	}
+
+	/**
+	 * Adds a crumb for the current page, if we're on an archive page or paginated post.
+	 *
+	 * @param array     $crumbs            The array of breadcrumbs.
+	 * @param Indexable $current_indexable The current indexable.
+	 *
+	 * @returns array The breadcrumbs.
+	 */
+	protected function add_paged_crumb( array $crumbs, $current_indexable ) {
+		$is_simple_page = $this->current_page_helper->is_simple_page();
+
+		// If we're not on a paged page do nothing.
+		if ( ! $is_simple_page && ! $this->current_page_helper->is_paged() ) {
+			return $crumbs;
+		}
+
+		// If we're not on a paginated post do nothing.
+		if ( $is_simple_page && $current_indexable->number_of_pages === null ) {
+			return $crumbs;
+		}
+
+		$current_page_number = $this->pagination_helper->get_current_page_number();
+		if ( $current_page_number <= 1 ) {
+			return $crumbs;
+		}
+
+		$crumbs[] = [
+			'text' => sprintf(
+				/* translators: %s expands to the current page number */
+				__( 'Page %s', 'wordpress-seo' ),
+				$current_page_number
+			),
+		];
+
+		return $crumbs;
 	}
 }
