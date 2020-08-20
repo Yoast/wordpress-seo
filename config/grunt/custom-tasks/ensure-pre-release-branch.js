@@ -15,7 +15,7 @@ module.exports = function( grunt ) {
 		function() {
 			const options = this.options({
 				type: 'release',	
-				branchForRC: '<%= branchForRC %>',
+				branchForRC: '<%= branchForRC %>',				
 			});
 					
 			// Fetch all existing branches.
