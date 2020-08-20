@@ -18,8 +18,6 @@ class Remove_Vendor_Prefixing_Codemod extends AbstractCodemod {
 	 * Sets up the environment required to do the code modifications.
 	 */
 	public function init() {
-		\define( 'YoastSEO_Vendor\RUCKUSING_BASE', __DIR__ . '/../../fake-ruckusing' );
-
 		\define( 'YOAST_VENDOR_NS_PREFIX', 'YoastSEO_Vendor' );
 		\define( 'YOAST_VENDOR_DEFINE_PREFIX', 'YOASTSEO_VENDOR__' );
 		\define( 'YOAST_VENDOR_PREFIX_DIRECTORY', 'vendor_prefixed' );

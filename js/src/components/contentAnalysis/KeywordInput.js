@@ -50,9 +50,9 @@ class KeywordInput extends Component {
 	 * @returns {wp.Element} The component.
 	 */
 	render() {
-		return <Fragment>
-			<LocationConsumer>
-				{ context => (
+		return <LocationConsumer>
+			{ context => (
+				<Fragment>
 					<KeywordInputContainer>
 						<KeywordInputComponent
 							id={ `focus-keyword-input-${ context }` }
@@ -73,10 +73,10 @@ class KeywordInput extends Component {
 							</Alert>
 						}
 					</KeywordInputContainer>
-				) }
-			</LocationConsumer>
-			<Slot name="YoastAfterKeyphraseInput" />
-		</Fragment>;
+					<Slot name={ `YoastAfterKeywordInput${ context.charAt( 0 ).toUpperCase() + context.slice( 1 ) }` } />
+				</Fragment>
+			) }
+		</LocationConsumer>;
 	}
 }
 

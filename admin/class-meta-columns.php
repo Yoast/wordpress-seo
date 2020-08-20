@@ -6,6 +6,7 @@
  */
 
 use Yoast\WP\SEO\Context\Meta_Tags_Context;
+use Yoast\WP\SEO\Surfaces\Values\Meta;
 
 /**
  * Class WPSEO_Meta_Columns.
@@ -32,6 +33,13 @@ class WPSEO_Meta_Columns {
 	 * @var WPSEO_Metabox_Analysis_Readability
 	 */
 	private $analysis_readability;
+
+	/**
+	 * Cache of meta objects
+	 *
+	 * @var Meta[]
+	 */
+	private $meta_cache = [];
 
 	/**
 	 * When page analysis is enabled, just initialize the hooks.
@@ -61,17 +69,17 @@ class WPSEO_Meta_Columns {
 
 		add_filter( 'request', [ $this, 'column_sort_orderby' ] );
 
-		// Hook into tablenav to get the indexable context, at this point we can get the post ids.
-		add_action( 'manage_posts_extra_tablenav', [ $this, 'get_post_ids_and_set_context' ] );
+		// Hook into tablenav to get the indexable meta, at this point we can get the post ids.
+		add_action( 'manage_posts_extra_tablenav', [ $this, 'get_post_ids_and_set_meta_cache' ] );
 	}
 
 	/**
-	 * Retrieves the post ids and sets the context objects for all the indexables belonging
+	 * Retrieves the post ids and sets the meta objects for all the indexables belonging
 	 * to the post ids.
 	 *
 	 * @param string $target Extra table navigation location which is triggered.
 	 */
-	public function get_post_ids_and_set_context( $target ) {
+	public function get_post_ids_and_set_meta_cache( $target ) {
 		if ( $target !== 'top' ) {
 			return;
 		}
@@ -88,6 +96,21 @@ class WPSEO_Meta_Columns {
 		elseif ( ! empty( $posts ) ) {
 			// Page list returns an array of post IDs.
 			$post_ids = array_keys( $posts );
+		}
+
+		if ( empty( $post_ids ) ) {
+			return;
+		}
+
+		if ( isset( $posts[0] ) && ! is_a( $posts[0], WP_Post::class ) ) {
+			// Prime the post caches as core would to avoid duplicate queries.
+			// This needs to be done as this executes before core does.
+			_prime_post_caches( $post_ids );
+		}
+
+		$results = YoastSEO()->meta->for_posts( $post_ids );
+		foreach ( $results as $meta ) {
+			$this->meta_cache[ $meta->id ] = $meta;
 		}
 	}
 
@@ -146,11 +169,11 @@ class WPSEO_Meta_Columns {
 				return;
 
 			case 'wpseo-title':
-				echo esc_html( YoastSEO()->meta->for_post( $post_id )->title );
+				echo esc_html( $this->get_meta( $post_id )->title );
 				return;
 
 			case 'wpseo-metadesc':
-				$metadesc_val = YoastSEO()->meta->for_post( $post_id )->meta_description;
+				$metadesc_val = $this->get_meta( $post_id )->meta_description;
 
 				if ( $metadesc_val === '' ) {
 					echo '<span aria-hidden="true">&#8212;</span><span class="screen-reader-text">',
@@ -288,6 +311,20 @@ class WPSEO_Meta_Columns {
 	 */
 	protected function generate_option( $value, $label, $selected = '' ) {
 		return '<option ' . $selected . ' value="' . esc_attr( $value ) . '">' . esc_html( $label ) . '</option>';
+	}
+
+	/**
+	 * Returns the meta object for a given post ID.
+	 *
+	 * @param int $post_id The post ID.
+	 *
+	 * @return Meta The meta object.
+	 */
+	protected function get_meta( $post_id ) {
+		if ( ! \array_key_exists( $post_id, $this->meta_cache ) ) {
+			$this->meta_cache[ $post_id ] = YoastSEO()->meta->for_post( $post_id );
+		}
+		return $this->meta_cache[ $post_id ];
 	}
 
 	/**

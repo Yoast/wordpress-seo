@@ -22,15 +22,6 @@ class WPSEO_Utils {
 	public static $has_filters;
 
 	/**
-	 * Notifications to be shown in the JavaScript console.
-	 *
-	 * @since 3.3.2
-	 *
-	 * @var array
-	 */
-	protected static $console_notifications = [];
-
-	/**
 	 * Check whether the current user is allowed to access the configuration.
 	 *
 	 * @since 1.8.0
@@ -113,49 +104,6 @@ class WPSEO_Utils {
 	}
 
 	/**
-	 * Register a notification to be shown in the JavaScript console.
-	 *
-	 * @since 3.3.2
-	 *
-	 * @param string $identifier    Notification identifier.
-	 * @param string $message       Message to be shown.
-	 * @param bool   $one_time_only Only show once (if added multiple times).
-	 */
-	public static function javascript_console_notification( $identifier, $message, $one_time_only = false ) {
-		static $registered_hook;
-
-		if ( is_null( $registered_hook ) ) {
-			add_action( 'admin_footer', [ __CLASS__, 'localize_console_notices' ], 999 );
-			$registered_hook = true;
-		}
-
-		$prefix = 'Yoast SEO: ';
-		if ( substr( $message, 0, strlen( $prefix ) ) !== $prefix ) {
-			$message = $prefix . $message;
-		}
-
-		if ( $one_time_only ) {
-			self::$console_notifications[ $identifier ] = $message;
-		}
-		else {
-			self::$console_notifications[] = $message;
-		}
-	}
-
-	/**
-	 * Localize the console notifications to JavaScript.
-	 *
-	 * @since 3.3.2
-	 */
-	public static function localize_console_notices() {
-		if ( empty( self::$console_notifications ) ) {
-			return;
-		}
-
-		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'admin-global-script', 'wpseoConsoleNotifications', array_values( self::$console_notifications ) );
-	}
-
-	/**
 	 * Check whether a url is relative.
 	 *
 	 * @since 1.8.0
@@ -165,7 +113,7 @@ class WPSEO_Utils {
 	 * @return bool
 	 */
 	public static function is_url_relative( $url ) {
-		return ( strpos( $url, 'http' ) !== 0 && strpos( $url, '//' ) !== 0 );
+		return YoastSEO()->helpers->url->is_relative( $url );
 	}
 
 	/**
@@ -808,7 +756,7 @@ class WPSEO_Utils {
 	 * @return string
 	 */
 	public static function get_site_name() {
-		return wp_strip_all_tags( get_bloginfo( 'name' ), true );
+		return YoastSEO()->helpers->site->get_site_name();
 	}
 
 	/**
@@ -847,14 +795,7 @@ class WPSEO_Utils {
 	 * @return bool
 	 */
 	public static function is_yoast_seo_page() {
-		static $is_yoast_seo;
-
-		if ( $is_yoast_seo === null ) {
-			$current_page = filter_input( INPUT_GET, 'page' );
-			$is_yoast_seo = ( substr( $current_page, 0, 6 ) === 'wpseo_' );
-		}
-
-		return $is_yoast_seo;
+		return YoastSEO()->helpers->current_page->is_yoast_seo_page();
 	}
 
 	/**
@@ -932,28 +873,7 @@ class WPSEO_Utils {
 	 * @return string Home URL with optional path, appropriately slashed if not.
 	 */
 	public static function home_url( $path = '', $scheme = null ) {
-
-		$home_url = home_url( $path, $scheme );
-
-		if ( ! empty( $path ) ) {
-			return $home_url;
-		}
-
-		$home_path = wp_parse_url( $home_url, PHP_URL_PATH );
-
-		if ( $home_path === '/' ) { // Home at site root, already slashed.
-			return $home_url;
-		}
-
-		if ( is_null( $home_path ) ) { // Home at site root, always slash.
-			return trailingslashit( $home_url );
-		}
-
-		if ( is_string( $home_path ) ) { // Home in subdirectory, slash if permalink structure has slash.
-			return user_trailingslashit( $home_url );
-		}
-
-		return $home_url;
+		return YoastSEO()->helpers->url->home( $path, $scheme );
 	}
 
 	/**
@@ -1192,9 +1112,9 @@ SVG;
 
 		$wpseo_admin_l10n = [
 			'displayAdvancedTab'   => WPSEO_Capability_Utils::current_user_can( 'wpseo_edit_advanced_metadata' ) || ! WPSEO_Options::get( 'disableadvanced_meta' ),
-			'noIndex'              => ! ! $no_index,
-			'isPremium'            => self::is_yoast_seo_premium(),
-			'isPostType'           => ! ! get_post_type(),
+			'noIndex'              => (bool) $no_index,
+			'isPostType'           => (bool) get_post_type(),
+			'postType'             => get_post_type(),
 			'postTypeNamePlural'   => ( $page_type === 'post' ) ? $label_object->label : $label_object->name,
 			'postTypeNameSingular' => ( $page_type === 'post' ) ? $label_object->labels->singular_name : $label_object->singular_name,
 			'breadcrumbsDisabled'  => WPSEO_Options::get( 'breadcrumbs-enable', false ) !== true && ! current_theme_supports( 'yoast-seo-breadcrumbs' ),

@@ -46,7 +46,7 @@ const attributes = {
 
 export default () => {
 	registerBlockType( "yoast/how-to-block", {
-		title: __( "How-to", "wordpress-seo" ),
+		title: __( "Yoast How-to", "wordpress-seo" ),
 		description: __( "Create a How-to guide in an SEO-friendly way. You can only use one How-to block per post.", "wordpress-seo" ),
 		icon: "editor-ol",
 		category: "yoast-structured-data-blocks",
@@ -54,7 +54,17 @@ export default () => {
 			__( "How-to", "wordpress-seo" ),
 			__( "How to", "wordpress-seo" ),
 			__( "Schema", "wordpress-seo" ),
+			__( "SEO", "wordpress-seo" ),
+			__( "Structured Data", "wordpress-seo-premium" ),
 		],
+		example: {
+			attributes: {
+				steps: [
+					{ id: HowTo.generateId( "how-to-step" ), name: [], text: [] },
+					{ id: HowTo.generateId( "how-to-step" ), name: [], text: [] },
+				],
+			},
+		},
 		// Allow only one How-To block per post.
 		supports: {
 			multiple: false,

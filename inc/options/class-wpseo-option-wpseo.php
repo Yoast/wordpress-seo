@@ -26,11 +26,14 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 	 */
 	protected $defaults = [
 		// Non-form fields, set via (ajax) function.
+		'tracking'                                 => null,
+		'license_server_version'                   => false,
 		'ms_defaults_set'                          => false,
 		'ignore_search_engines_discouraged_notice' => false,
 		'ignore_indexation_warning'                => false,
 		'indexation_warning_hide_until'            => false,
 		'indexation_started'                       => false,
+		'indexables_indexation_reason'             => '',
 		'indexables_indexation_completed'          => false,
 		// Non-form field, should only be set via validation routine.
 		'version'                                  => '', // Leave default as empty to ensure activation/upgrade works.
@@ -125,11 +128,10 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 	/**
 	 * Add the actions and filters for the option.
 	 *
-	 * @todo [JRF => testers] Check if the extra actions below would run into problems if an option
-	 * is updated early on and if so, change the call to schedule these for a later action on add/update
-	 * instead of running them straight away.
-	 *
 	 * @return \WPSEO_Option_Wpseo
+	 * @todo [JRF => testers] Check if the extra actions below would run into problems if an option
+	 *       is updated early on and if so, change the call to schedule these for a later action on add/update
+	 *       instead of running them straight away.
 	 */
 	protected function __construct() {
 		parent::__construct();
@@ -243,8 +245,14 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 					$clean[ $key ] = WPSEO_VERSION;
 					break;
 				case 'previous_version':
+				case 'license_server_version':
 					if ( isset( $dirty[ $key ] ) ) {
 						$clean[ $key ] = $dirty[ $key ];
+					}
+					break;
+				case 'indexables_indexation_reason':
+					if ( isset( $dirty[ $key ] ) ) {
+						$clean[ $key ] = sanitize_text_field( $dirty[ $key ] );
 					}
 					break;
 
@@ -319,6 +327,10 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 
 					break;
 
+				case 'tracking':
+					$clean[ $key ] = ( isset( $dirty[ $key ] ) ? WPSEO_Utils::validate_bool( $dirty[ $key ] ) : null );
+					break;
+
 				/*
 				 * Boolean (checkbox) fields.
 				 */
@@ -329,7 +341,6 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 				 *  'enable_headless_rest_endpoints'
 				 *  'yoast_tracking'
 				 */
-				case 'tracking':
 				default:
 					$clean[ $key ] = ( isset( $dirty[ $key ] ) ? WPSEO_Utils::validate_bool( $dirty[ $key ] ) : false );
 					break;
@@ -424,7 +435,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 
 		foreach ( $value_change as $key ) {
 			if ( isset( $option_value[ $key ] )
-				&& in_array( $option_value[ $key ], $target_values, true )
+				 && in_array( $option_value[ $key ], $target_values, true )
 			) {
 				$option_value[ $key ] = true;
 			}

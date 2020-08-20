@@ -108,6 +108,13 @@
   dependencies:
     regenerator-runtime "^0.13.2"
 
+"@babel/runtime@^7.9.2":
+  version "7.10.5"
+  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.10.5.tgz#303d8bd440ecd5a491eae6117fd3367698674c5c"
+  integrity sha512-otddXKhdNn7d0ptoFRHtMLa8LqDxLYwTjB4nYgM1yy5N6gU/MUf8zqyyLltCH3yAVitBzmwK4us+DD0l/MauAg==
+  dependencies:
+    regenerator-runtime "^0.13.4"
+
 "@babel/template@^7.1.0":
   version "7.4.4"
   resolved "https://registry.yarnpkg.com/@babel/template/-/template-7.4.4.tgz#f4b88d1225689a08f5bc3a17483545be9e4ed237"
@@ -490,6 +497,13 @@
   dependencies:
     "@babel/runtime-corejs2" "7.0.0-beta.56"
 
+"@wordpress/dom-ready@^2.10.0":
+  version "2.10.0"
+  resolved "https://registry.yarnpkg.com/@wordpress/dom-ready/-/dom-ready-2.10.0.tgz#7b2d9c801804563300e0db915570aad5f381789d"
+  integrity sha512-ibeuUU0bz66ZtFxu4jyo9YLxTkmLZCSiSo/NApwtzbyE3+cGS05XrAAhM/M79OjysOFaKNyh6sp0YA7ZZU47eg==
+  dependencies:
+    "@babel/runtime" "^7.9.2"
+
 "@wordpress/element@^2.9.0":
   version "2.9.0"
   resolved "https://registry.yarnpkg.com/@wordpress/element/-/element-2.9.0.tgz#5f374d6ea7ec18d4064b57e3e790f10354e29732"
@@ -560,15 +574,15 @@
   resolved "https://registry.yarnpkg.com/@xtuc/long/-/long-4.2.1.tgz#5c85d662f76fa1d34575766c5dcd6615abcd30d8"
   integrity sha512-FZdkNBDqBRHKQ2MEbSC17xnPFOhZxeJ2YGSfr2BKf3sujG49Qe3bB+rGCwQfIaA7WHnGeGkSijX4FuBCdrzW/g==
 
-"@yoast/analysis-report@^1.7.0-rc.6":
-  version "1.7.0-rc.6"
-  resolved "https://registry.yarnpkg.com/@yoast/analysis-report/-/analysis-report-1.7.0-rc.6.tgz#3cab44d8bde053eebd6be39ed475587c1751705b"
-  integrity sha512-6NBe3GMLlWtht7VqLaUltEsYt5AG9YjrG4P71u1wQjJlmi1HSTdbHrCTLAF3KfrQkp0J1L85pwyA1hRlzy4PfQ==
+"@yoast/analysis-report@^1.10.0-rc.0":
+  version "1.10.0-rc.0"
+  resolved "https://registry.yarnpkg.com/@yoast/analysis-report/-/analysis-report-1.10.0-rc.0.tgz#8e874c5ff13aa38117a714b47daa4559ea538262"
+  integrity sha512-8/Mm6XZC2/P8nI+BhW7hnMfR21kmJSARU9l8Se7uqc95ZY+J2qqVdCcVIl0IecbhIsvdgdTFwp1/MeJMN2UUmA==
   dependencies:
     "@wordpress/i18n" "^1.1.0"
-    "@yoast/components" "^2.5.0-rc.6"
-    "@yoast/helpers" "^0.13.0-rc.5"
-    "@yoast/style-guide" "^0.12.0-rc.5"
+    "@yoast/components" "^2.8.0-rc.0"
+    "@yoast/helpers" "^0.13.0"
+    "@yoast/style-guide" "^0.13.0"
     lodash "^4.17.11"
     prop-types "^15.6.0"
     react "16.6.3"
@@ -580,15 +594,15 @@
   resolved "https://registry.yarnpkg.com/@yoast/browserslist-config/-/browserslist-config-1.2.1.tgz#b5fb689537a60eec9d7a41b0e57409a160da343f"
   integrity sha512-vUYN9QyV1ylnZv23xc7qWTDIZ1UHLIiiV3xLRDW4DlFe/RM7Z77f/N6gg0PKxxIuoQnsgqE7TYT9g4Sw2gtZ1g==
 
-"@yoast/components@^2.5.0-rc.6":
-  version "2.5.0-rc.6"
-  resolved "https://registry.yarnpkg.com/@yoast/components/-/components-2.5.0-rc.6.tgz#a2fb98a10ab76ae1c74fc6c551689ab7627e43f4"
-  integrity sha512-z6IN56A4LjxS9dzKcWarPqz8kzVLE21J5t179IMxnPNWpVZAn6l7Kfcn360TLhvkLS/MDcrD2FlCxUUj8tOyGw==
+"@yoast/components@^2.8.0-rc.0":
+  version "2.8.0-rc.0"
+  resolved "https://registry.yarnpkg.com/@yoast/components/-/components-2.8.0-rc.0.tgz#750d5bca417233d187632b02854e189867294787"
+  integrity sha512-dZ8X7eSm/sMue/W26edAJzS8s7obcoFcbXfoLIBSL2HIj85DH22v0wx0nWZGg2jAEYh3ZlFd48icnXZNvfqrvw==
   dependencies:
     "@wordpress/a11y" "^1.1.3"
     "@wordpress/i18n" "^1.2.3"
-    "@yoast/helpers" "^0.13.0-rc.5"
-    "@yoast/style-guide" "^0.12.0-rc.5"
+    "@yoast/helpers" "^0.13.0"
+    "@yoast/style-guide" "^0.13.0"
     interpolate-components "^1.1.1"
     lodash "^4.17.11"
     prop-types "^15.7.2"
@@ -596,15 +610,15 @@
     react-tabs "^2.3.0"
     styled-components "^4.2.0"
 
-"@yoast/configuration-wizard@^2.7.0-rc.6":
-  version "2.7.0-rc.6"
-  resolved "https://registry.yarnpkg.com/@yoast/configuration-wizard/-/configuration-wizard-2.7.0-rc.6.tgz#84b2831a691ddbbfb764717843bc6fdc6e463f9c"
-  integrity sha512-Q3+tRB3Uug7h3x7C+BAgbfb8vEvR9b4aw4qaY7cnS09lpORBxZ8TpHbbZpc+rh3D2ZVu5n4EwSyAxT0bby9/lQ==
+"@yoast/configuration-wizard@^2.10.0-rc.0":
+  version "2.10.0-rc.0"
+  resolved "https://registry.yarnpkg.com/@yoast/configuration-wizard/-/configuration-wizard-2.10.0-rc.0.tgz#44b3d93f2a2f8ff06cc95d1494fbb094229a275d"
+  integrity sha512-LpqKefjhZMQyvrDyJPQgFzhqSTQJ1Ddeh1IEyR5UHmofEfDsfU1cH9URkz8yB6vd1no95vJGbui1kDRPSoO7NQ==
   dependencies:
     "@wordpress/i18n" "^1.1.0"
-    "@yoast/components" "^2.5.0-rc.6"
-    "@yoast/helpers" "^0.13.0-rc.5"
-    "@yoast/style-guide" "^0.12.0-rc.5"
+    "@yoast/components" "^2.8.0-rc.0"
+    "@yoast/helpers" "^0.13.0"
+    "@yoast/style-guide" "^0.13.0"
     interpolate-components "^1.1.1"
     lodash "^4.17.11"
     prop-types "^15.7.2"
@@ -614,10 +628,10 @@
   resolved "https://registry.yarnpkg.com/@yoast/feature-flag/-/feature-flag-0.5.2.tgz#ef4cd8ddb959c5857c5d68639ab09ab75c381508"
   integrity sha512-erHel5POEyPpt1B2fToLm8caZPruiOxBRZvn7X9nWqwb0lIbxbOkDp/XQnm168bcvVEL95Dg9JMaPgQwO3rA9w==
 
-"@yoast/grunt-plugin-tasks@^1.7":
-  version "1.7.1"
-  resolved "https://registry.yarnpkg.com/@yoast/grunt-plugin-tasks/-/grunt-plugin-tasks-1.7.1.tgz#3e85e73017e167793ca3a61664ec0f9a97f9c3cd"
-  integrity sha512-ti9D4jVkK5V1nQzlAtYRBMi4aDSE6jEoy3zaGoxIdvfIYGtam0GNdvOH/Z2APfLJf9URofayp9dL4GD9rEpJfQ==
+"@yoast/grunt-plugin-tasks@^1.7.2":
+  version "1.7.2"
+  resolved "https://registry.yarnpkg.com/@yoast/grunt-plugin-tasks/-/grunt-plugin-tasks-1.7.2.tgz#c3314c1f0d0ec5de747dcdca65f3eb87bc16fdd0"
+  integrity sha512-QBVB370homhYin//kxvC0b4mNrLfHXUJ6DZF1JYVx1Y+qOQYqdjB6/0GxtYFOLhNHLrpWRXiT1DZR42HzmziZw==
   dependencies:
     "@yoast/browserslist-config" "^1.0.0"
     autoprefixer "^9.7.2"
@@ -647,26 +661,26 @@
     load-grunt-config "^1.0.1"
     time-grunt "^1.0.0"
 
-"@yoast/helpers@^0.13.0-rc.5":
-  version "0.13.0-rc.5"
-  resolved "https://registry.yarnpkg.com/@yoast/helpers/-/helpers-0.13.0-rc.5.tgz#35c1f3519c006db0dee0431b4b2fb5d7feac6ecc"
-  integrity sha512-XyBsld8HbYVMnN+tsImaw8LiJ2NwmmYm2FR90+/1KFuDN8djR6uW7jheOG8LmriLrH5BiEIkyAB7UkjoCnubyg==
+"@yoast/helpers@^0.13.0":
+  version "0.13.0"
+  resolved "https://registry.yarnpkg.com/@yoast/helpers/-/helpers-0.13.0.tgz#8cd10170add04a29034a7bae98957efa088a8a56"
+  integrity sha512-HcecZZsnPXqjk76oqoSDyH9dxQpEQtbUj5MpCXgLaxvgtgCNoxlwdZ7pfkogdY63NTNh16Y/c4bhD3ufuAxMuQ==
   dependencies:
     "@wordpress/i18n" "^1.2.3"
     prop-types "^15.7.2"
     styled-components "^2.4.1"
     whatwg-fetch "1.1.1"
 
-"@yoast/replacement-variable-editor@^1.0.0-rc.6":
-  version "1.0.0-rc.6"
-  resolved "https://registry.yarnpkg.com/@yoast/replacement-variable-editor/-/replacement-variable-editor-1.0.0-rc.6.tgz#71c49ac727502821fc0c0f3dc348c12b7c568a53"
-  integrity sha512-jjjsYsCTsdaIDjsnnQNSqC/rnyWUjxye6GXfqrmEFMUx9qjB+7gwF2kTvKvgyR8N3VNjdUq5ZKOLlKoE5K+KAA==
+"@yoast/replacement-variable-editor@^1.3.0-rc.0":
+  version "1.3.0-rc.0"
+  resolved "https://registry.yarnpkg.com/@yoast/replacement-variable-editor/-/replacement-variable-editor-1.3.0-rc.0.tgz#b776c09ee8c4c299f3d9984b8b1e8c32a3da9e80"
+  integrity sha512-ncFtSHgcqUmQ1x8sCnEPg8E7EIy8trpDo6hHVhA3dWIc+frGgGJ7qBrytVWzig2/WN9OqvAXGTzHDnxzijHSNA==
   dependencies:
     "@wordpress/a11y" "^1.1.3"
     "@wordpress/i18n" "^1.2.3"
-    "@yoast/components" "^2.5.0-rc.6"
-    "@yoast/helpers" "^0.13.0-rc.5"
-    "@yoast/style-guide" "^0.12.0-rc.5"
+    "@yoast/components" "^2.8.0-rc.0"
+    "@yoast/helpers" "^0.13.0"
+    "@yoast/style-guide" "^0.13.0"
     draft-js "^0.11.4"
     draft-js-mention-plugin "^3.0.4"
     draft-js-plugins-editor "^2.0.4"
@@ -674,19 +688,19 @@
     lodash "^4.17.11"
     prop-types "^15.7.2"
     styled-components "^4.4.1"
-    yoastseo "^1.78.0-rc.6"
+    yoastseo "^1.81.0-rc.0"
 
-"@yoast/search-metadata-previews@^2.7.0-rc.7":
-  version "2.7.0-rc.7"
-  resolved "https://registry.yarnpkg.com/@yoast/search-metadata-previews/-/search-metadata-previews-2.7.0-rc.7.tgz#1190993b9a4426bf89092553f2f16f50d49bb8df"
-  integrity sha512-Rv7FE69Q33ojOgOkd/mI8ZdwwUkwBPwFycKMj3iVZ2WLUzBRrlZ9Uq5VXo7+z0IPoGfXbu4Njcp5E63+2FvMag==
+"@yoast/search-metadata-previews@^2.10.0-rc.0":
+  version "2.10.0-rc.0"
+  resolved "https://registry.yarnpkg.com/@yoast/search-metadata-previews/-/search-metadata-previews-2.10.0-rc.0.tgz#fe8c566449dadddc6a1211c19d775fab7e391784"
+  integrity sha512-mVP2AhwRprHueHdgBoQZSGGkzHMlT5SolpgrNhPmUxadCkRrtH5LzDF0dmoX4QISmhwBifoaJO/uu3ZgKp8XqA==
   dependencies:
     "@wordpress/a11y" "^1.0.7"
     "@wordpress/i18n" "^1.1.0"
-    "@yoast/components" "^2.5.0-rc.6"
-    "@yoast/helpers" "^0.13.0-rc.5"
-    "@yoast/replacement-variable-editor" "^1.0.0-rc.6"
-    "@yoast/style-guide" "^0.12.0-rc.5"
+    "@yoast/components" "^2.8.0-rc.0"
+    "@yoast/helpers" "^0.13.0"
+    "@yoast/replacement-variable-editor" "^1.3.0-rc.0"
+    "@yoast/style-guide" "^0.13.0"
     draft-js "^0.10.5"
     draft-js-mention-plugin "^3.0.4"
     draft-js-plugins-editor "^2.0.4"
@@ -696,26 +710,26 @@
     prop-types "^15.6.0"
     react-transition-group "^2.7.1"
     styled-components "^4.2.0"
-    yoastseo "^1.78.0-rc.6"
+    yoastseo "^1.81.0-rc.0"
 
-"@yoast/social-metadata-forms@^1.0.0-rc.9":
-  version "1.0.0-rc.10"
-  resolved "https://registry.yarnpkg.com/@yoast/social-metadata-forms/-/social-metadata-forms-1.0.0-rc.10.tgz#5d18b1c97ad023e9e5f28975e92a40cbe8c44ff4"
-  integrity sha512-IkmWI6TqbGPldj1uvHPP9ig+exFCp62fKBTy/IMtTf5GJXe4B9PvF0mSagW6eziVYItdyyNNKAhwlpkhxE5Xvw==
+"@yoast/social-metadata-forms@^1.3.0-rc.0":
+  version "1.3.0-rc.0"
+  resolved "https://registry.yarnpkg.com/@yoast/social-metadata-forms/-/social-metadata-forms-1.3.0-rc.0.tgz#3b505c577cd1e975c217e4fa03050e4ae8493750"
+  integrity sha512-3930InR2JbAXmtT0kUshvaF0ZE5I3hMfk23s/Ca2So6GkGZHOaZi/bxRg7OO0G+QOH1kzGUJOt7vhEbNiaMqbQ==
   dependencies:
     "@wordpress/i18n" "^1.1.0"
-    "@yoast/components" "^2.5.0-rc.6"
-    "@yoast/replacement-variable-editor" "^1.0.0-rc.6"
-    "@yoast/style-guide" "^0.12.0-rc.5"
+    "@yoast/components" "^2.8.0-rc.0"
+    "@yoast/replacement-variable-editor" "^1.3.0-rc.0"
+    "@yoast/style-guide" "^0.13.0"
     lodash "^4.17.11"
     prop-types "^15.6.0"
     redux "^3.7.2"
     styled-components "^4.2.0"
 
-"@yoast/style-guide@^0.12.0-rc.5":
-  version "0.12.0-rc.5"
-  resolved "https://registry.yarnpkg.com/@yoast/style-guide/-/style-guide-0.12.0-rc.5.tgz#3ee90d36ae6a67229c546e579d64888eed711ba6"
-  integrity sha512-1cYM9f/paqeVf5oMkhwA8XKBnuY/6aXtYdM75lQaZ1chFyF8Icrr33vHu/Dt+7wWgbukUnMnWvY4rZEvBcA8CA==
+"@yoast/style-guide@^0.13.0":
+  version "0.13.0"
+  resolved "https://registry.yarnpkg.com/@yoast/style-guide/-/style-guide-0.13.0.tgz#69e41ddacc62e378fbc98df9aebe1d63115ea047"
+  integrity sha512-6FpEKT/So8mixs+3ZuK9KJy0grsI0GKNLesGsyKEgx5ObRd9/vW7JLHiCJ+/DFgTKNQdzNRmcxrSTkSnV4DxLA==
 
 "a11y-speak@git+https://github.com/Yoast/a11y-speak.git#master":
   version "0.0.1"
@@ -771,15 +785,10 @@ acorn-walk@^6.1.1:
   resolved "https://registry.yarnpkg.com/acorn-walk/-/acorn-walk-6.1.1.tgz#d363b66f5fac5f018ff9c3a1e7b6f8e310cc3913"
   integrity sha512-OtUw6JUTgxA2QoqqmrmQ7F2NYqiBPi/L2jqHyFtllhOUvXYQXf0Z1CYUinIfyT4bTCGmrA7gX9FvHA81uzCoVw==
 
-acorn@^5.0.0, acorn@^5.5.3, acorn@^5.6.2:
-  version "5.7.3"
-  resolved "https://registry.yarnpkg.com/acorn/-/acorn-5.7.3.tgz#67aa231bf8812974b85235a96771eb6bd07ea279"
-  integrity sha512-T/zvzYRfbVojPWahDsE5evJdHb3oJoQfFbsrKM7w5Zcs++Tr257tia3BmMP8XYVjp1S9RZXQMh7gao96BlqZOw==
-
-acorn@^5.2.1:
-  version "5.2.1"
-  resolved "https://registry.yarnpkg.com/acorn/-/acorn-5.2.1.tgz#317ac7821826c22c702d66189ab8359675f135d7"
-  integrity sha512-jG0u7c4Ly+3QkkW18V+NRDN+4bWHdln30NL1ZL2AvFZZmQe/BfopYCtghCKKVBUSetZ4QKcyA0pY6/4Gw8Pv8w==
+acorn@^5.0.0, acorn@^5.2.1, acorn@^5.5.3, acorn@^5.6.2:
+  version "5.7.4"
+  resolved "https://registry.yarnpkg.com/acorn/-/acorn-5.7.4.tgz#3e8d8a9947d0599a1796d10225d7432f4a4acf5e"
+  integrity sha512-1D++VG7BhrtvQpNbBzovKNc1FLGGEE/oGe7b9xJm/RFHMBeUaUGpluV9RLjZa47YFdPcDAenEYuq9pQPcMdLJg==
 
 acorn@^6.0.7:
   version "6.1.1"
@@ -1544,7 +1553,7 @@ babel-plugin-istanbul@^3.0.0:
 
 babel-plugin-istanbul@^4.1.6:
   version "4.1.6"
-  resolved "http://registry.npmjs.org/babel-plugin-istanbul/-/babel-plugin-istanbul-4.1.6.tgz#36c59b2192efce81c5b378321b74175add1c9a45"
+  resolved "https://registry.npmjs.org/babel-plugin-istanbul/-/babel-plugin-istanbul-4.1.6.tgz#36c59b2192efce81c5b378321b74175add1c9a45"
   integrity sha512-PWP9FQ1AhZhS01T/4qLSKoHGY/xvkZdVBGlKM/HuxxS3+sC66HhTNR7+MpbO/so/cz/wY94MeSWJuP1hXIPfwQ==
   dependencies:
     babel-plugin-syntax-object-rest-spread "^6.13.0"
@@ -1624,7 +1633,7 @@ babel-plugin-syntax-jsx@^6.18.0, babel-plugin-syntax-jsx@^6.3.13, babel-plugin-s
 
 babel-plugin-syntax-object-rest-spread@^6.13.0, babel-plugin-syntax-object-rest-spread@^6.8.0:
   version "6.13.0"
-  resolved "http://registry.npmjs.org/babel-plugin-syntax-object-rest-spread/-/babel-plugin-syntax-object-rest-spread-6.13.0.tgz#fd6536f2bce13836ffa3a5458c4903a597bb3bf5"
+  resolved "https://registry.npmjs.org/babel-plugin-syntax-object-rest-spread/-/babel-plugin-syntax-object-rest-spread-6.13.0.tgz#fd6536f2bce13836ffa3a5458c4903a597bb3bf5"
   integrity sha1-/WU28rzhODb/o6VFjEkDpZe7O/U=
 
 babel-plugin-syntax-trailing-function-commas@^6.22.0:
@@ -2258,9 +2267,9 @@ bluebird@^3.4.1, bluebird@^3.5.1:
   integrity sha512-5am6HnnfN+urzt4yfg7IgTbotDjIT/u8AJpEt0sIU9FtXfVeezXAPKswrG+xKUCOYAINpSdgZVDU6QFh+cuH3w==
 
 bn.js@^4.0.0, bn.js@^4.1.0, bn.js@^4.1.1, bn.js@^4.4.0:
-  version "4.11.8"
-  resolved "https://registry.yarnpkg.com/bn.js/-/bn.js-4.11.8.tgz#2cde09eb5ee341f484746bb0309b3253b1b1442f"
-  integrity sha512-ItfYfPLkWHUjckQCk8xC+LwxgK8NYcXywGigJgSwOP8Y2iyWT4f2vsZnoOXTTbo+o5yXmIUJ4gn5538SO5S3gA==
+  version "4.11.9"
+  resolved "https://registry.yarnpkg.com/bn.js/-/bn.js-4.11.9.tgz#26d556829458f9d1e81fc48952493d0ba3507828"
+  integrity sha512-E6QoYqCKZfgatHTdHzs1RRKP7ip4vvm+EyRUeE2RF0NblwVvb0p6jSVeNTOFxPn26QXN2o6SMfNxKp6kU8zQaw==
 
 body-parser@1.18.2:
   version "1.18.2"
@@ -2861,7 +2870,7 @@ class-utils@^0.3.5:
     isobject "^3.0.0"
     static-extend "^0.1.1"
 
-classnames@^2.2.0, classnames@^2.2.6:
+classnames@^2.2.0:
   version "2.2.6"
   resolved "https://registry.yarnpkg.com/classnames/-/classnames-2.2.6.tgz#43935bffdd291f326dad0a205309b38d00f650ce"
   integrity sha512-JR/iSQOSt+LQIWwrwEzJ9uk0xfN3mTVYMwt1Ir5mUcSN6pU+V4zQFFaJsclJbPuAUQH+yfWef6tm7l1quW3C8Q==
@@ -3022,7 +3031,7 @@ commander@^2.11.0:
   resolved "https://registry.yarnpkg.com/commander/-/commander-2.15.1.tgz#df46e867d0fc2aec66a34662b406a9ccafff5b0f"
   integrity sha512-VlfT9F3V0v+jr4yxPc5gg9s62/fIVWsd2Bk2iD435um1NlGMYdVCq+MjcXnhYq2icNOizHr1kK+5TI6H0Hy0ag==
 
-commander@^2.18.0, commander@~2.20.0:
+commander@^2.18.0:
   version "2.20.0"
   resolved "https://registry.yarnpkg.com/commander/-/commander-2.20.0.tgz#d58bb2b5c1ee8f87b0d340027e9e94e222c5a422"
   integrity sha512-7j2y+40w61zy6YC2iRNpUe/NwhNyoXrYpHMrSunaMG64nRnaf96zO/KMQR4OyN/UnE5KLyEBnKHd4aG3rskjpQ==
@@ -4063,11 +4072,6 @@ dom-helpers@^3.3.1, dom-helpers@^3.4.0:
   dependencies:
     "@babel/runtime" "^7.1.2"
 
-dom-scroll-into-view@^2.0.1:
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/dom-scroll-into-view/-/dom-scroll-into-view-2.0.1.tgz#0decc8522801fd8d3f1c6ba355a74d382c5f989b"
-  integrity sha512-bvVTQe1lfaUr1oFzZX80ce9KLDlZ3iU+XGNE/bz9HnGdklTieqsbmsLHe+rT2XWqopvL0PckkYqN7ksmm5pe3w==
-
 dom-serializer@0:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/dom-serializer/-/dom-serializer-0.1.1.tgz#1ec4059e284babed36eec2941d4a970a189ce7c0"
@@ -4299,9 +4303,9 @@ electron-to-chromium@^1.3.306:
   integrity sha512-IKDR/xCxKFhPts7h+VaSXS02Z1mznP3fli1BbXWXeN89i2gCzKraU8qLpEid8YzKcmZdZD3Mly3cn5/lY9xsBQ==
 
 elliptic@^6.0.0:
-  version "6.4.0"
-  resolved "https://registry.yarnpkg.com/elliptic/-/elliptic-6.4.0.tgz#cac9af8762c85836187003c8dfe193e5e2eae5df"
-  integrity sha1-ysmvh2LIWDYYcAPI3+GT5eLq5d8=
+  version "6.5.3"
+  resolved "https://registry.yarnpkg.com/elliptic/-/elliptic-6.5.3.tgz#cb59eb2efdaf73a0bd78ccd7015a62ad6e0f93d6"
+  integrity sha512-IMqzv5wNQf+E6aHeIqATs0tOLeOTwj1QKbRcS3jBbYkl5oLAserA8yJTT7/VyHUYG91PRmPyeQDObKLPpeS4dw==
   dependencies:
     bn.js "^4.4.0"
     brorand "^1.0.1"
@@ -5969,9 +5973,9 @@ grunt-git@^1.0.14:
   dependencies:
     flopmang "^1.0.0"
 
-"grunt-glotpress@git+https://github.com/Yoast/grunt-glotpress.git#master":
+"grunt-glotpress@https://github.com/Yoast/grunt-glotpress.git#master":
   version "0.3.0"
-  resolved "git+https://github.com/Yoast/grunt-glotpress.git#e6ccc69c2532d126f5d8a30397ffd012e55b6eec"
+  resolved "https://github.com/Yoast/grunt-glotpress.git#e6ccc69c2532d126f5d8a30397ffd012e55b6eec"
   dependencies:
     request "^2.88.0"
     request-promise-native "^1.0.7"
@@ -6265,9 +6269,9 @@ hash-base@^3.0.0:
     safe-buffer "^5.0.1"
 
 hash.js@^1.0.0, hash.js@^1.0.3:
-  version "1.1.5"
-  resolved "https://registry.yarnpkg.com/hash.js/-/hash.js-1.1.5.tgz#e38ab4b85dfb1e0c40fe9265c0e9b54854c23812"
-  integrity sha512-eWI5HG9Np+eHV1KQhisXWwM+4EPPYe5dFX1UZZH7k/E3JzDEazVH+VGlZi6R94ZqImq+A3D1mCEtrFIfg/E7sA==
+  version "1.1.7"
+  resolved "https://registry.yarnpkg.com/hash.js/-/hash.js-1.1.7.tgz#0babca538e8d4ee4a0f8988d68866537a003cf42"
+  integrity sha512-taOaskGt4z4SOANNseOviYDvjEJinIkRgmp7LbKP2YTTmVxWBl87s/uzK9r+44BclBSp2X7K1hqeNfz9JbBeXA==
   dependencies:
     inherits "^2.0.3"
     minimalistic-assert "^1.0.1"
@@ -6435,7 +6439,7 @@ http-errors@~1.6.2:
 
 http-proxy-middleware@~0.18.0:
   version "0.18.0"
-  resolved "http://registry.npmjs.org/http-proxy-middleware/-/http-proxy-middleware-0.18.0.tgz#0987e6bb5a5606e5a69168d8f967a87f15dd8aab"
+  resolved "https://registry.npmjs.org/http-proxy-middleware/-/http-proxy-middleware-0.18.0.tgz#0987e6bb5a5606e5a69168d8f967a87f15dd8aab"
   integrity sha512-Fs25KVMPAIIcgjMZkVHJoKg9VcXcC1C8yb9JUgeDvVXY0S/zgVIhMb+qVswDIgtJe2DfckMSY2d6TuTEutlk6Q==
   dependencies:
     http-proxy "^1.16.2"
@@ -6674,20 +6678,20 @@ inflight@^1.0.4:
     once "^1.3.0"
     wrappy "1"
 
-inherits@2, inherits@2.0.3, inherits@^2.0.1, inherits@^2.0.3, inherits@~2.0.1, inherits@~2.0.3:
-  version "2.0.3"
-  resolved "https://registry.yarnpkg.com/inherits/-/inherits-2.0.3.tgz#633c2c83e3da42a502f52466022480f4208261de"
-  integrity sha1-Yzwsg+PaQqUC9SRmAiSA9CCCYd4=
+inherits@2, inherits@^2.0.1, inherits@^2.0.3, inherits@^2.0.4, inherits@~2.0.1, inherits@~2.0.3:
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/inherits/-/inherits-2.0.4.tgz#0fa2c64f932917c3433a0ded55363aae37416b7c"
+  integrity sha512-k/vGaX4/Yla3WzyMCvTQOXYeIHvqOKtnqBduzTHpzpQZzAskKMhZ2K+EnBiSM9zGSoIFeMpXKxa4dYeZIQqewQ==
 
 inherits@2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/inherits/-/inherits-2.0.1.tgz#b17d08d326b4423e568eff719f91b0b1cbdf69f1"
   integrity sha1-sX0I0ya0Qj5Wjv9xn5GwscvfafE=
 
-inherits@^2.0.4:
-  version "2.0.4"
-  resolved "https://registry.yarnpkg.com/inherits/-/inherits-2.0.4.tgz#0fa2c64f932917c3433a0ded55363aae37416b7c"
-  integrity sha512-k/vGaX4/Yla3WzyMCvTQOXYeIHvqOKtnqBduzTHpzpQZzAskKMhZ2K+EnBiSM9zGSoIFeMpXKxa4dYeZIQqewQ==
+inherits@2.0.3:
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/inherits/-/inherits-2.0.3.tgz#633c2c83e3da42a502f52466022480f4208261de"
+  integrity sha1-Yzwsg+PaQqUC9SRmAiSA9CCCYd4=
 
 ini@^1.3.4, ini@~1.3.0:
   version "1.3.5"
@@ -8549,7 +8553,7 @@ minimist@^1.1.1, minimist@^1.1.3, minimist@^1.2.0:
 
 minimist@~0.0.1:
   version "0.0.10"
-  resolved "http://registry.npmjs.org/minimist/-/minimist-0.0.10.tgz#de3f98543dbf96082be48ad1a0c7cda836301dcf"
+  resolved "https://registry.npmjs.org/minimist/-/minimist-0.0.10.tgz#de3f98543dbf96082be48ad1a0c7cda836301dcf"
   integrity sha1-3j+YVD2/lggr5IrRoMfNqDYwHc8=
 
 minipass@^2.2.1, minipass@^2.3.3:
@@ -10876,6 +10880,11 @@ regenerator-runtime@^0.13.2:
   resolved "https://registry.yarnpkg.com/regenerator-runtime/-/regenerator-runtime-0.13.2.tgz#32e59c9a6fb9b1a4aff09b4930ca2d4477343447"
   integrity sha512-S/TQAZJO+D3m9xeN1WTI8dLKBBiRgXBlTJvbWjCThHWZj9EvHK70Ff50/tYj2J/fvBY6JtFVwRuazHN2E7M9BA==
 
+regenerator-runtime@^0.13.4:
+  version "0.13.7"
+  resolved "https://registry.yarnpkg.com/regenerator-runtime/-/regenerator-runtime-0.13.7.tgz#cac2dacc8a1ea675feaabaeb8ae833898ae46f55"
+  integrity sha512-a54FxoJDIr27pgf7IgeQGxmqUNYrcV338lf/6gH456HZ/PhX+5BcwHXG9ajESmwe6WRO0tAzRUrRmNONWgkrew==
+
 regenerator-transform@^0.10.0:
   version "0.10.1"
   resolved "https://registry.yarnpkg.com/regenerator-transform/-/regenerator-transform-0.10.1.tgz#1e4996837231da8b7f3cf4114d71b5691a0680dd"
@@ -12595,12 +12604,9 @@ uglify-js@^3.1.4:
     source-map "~0.6.1"
 
 uglify-js@^3.5.0:
-  version "3.6.0"
-  resolved "https://registry.yarnpkg.com/uglify-js/-/uglify-js-3.6.0.tgz#704681345c53a8b2079fb6cec294b05ead242ff5"
-  integrity sha512-W+jrUHJr3DXKhrsS7NUVxn3zqMOFn0hL/Ei6v0anCIMoKC93TjcflTagwIHLW7SfMFfiQuktQyFVCFHGUE0+yg==
-  dependencies:
-    commander "~2.20.0"
-    source-map "~0.6.1"
+  version "3.10.1"
+  resolved "https://registry.yarnpkg.com/uglify-js/-/uglify-js-3.10.1.tgz#dd14767eb7150de97f2573a5ff210db14fffe4ad"
+  integrity sha512-RjxApKkrPJB6kjJxQS3iZlf///REXWYxYJxO/MpmlQzVkDWVI3PSnCBWezMecmTU/TRkNxrl8bmsfFQCp+LO+Q==
 
 uglifyjs-webpack-plugin@^1.2.4:
   version "1.3.0"
@@ -13058,9 +13064,9 @@ websocket-driver@>=0.5.1:
     websocket-extensions ">=0.1.1"
 
 websocket-extensions@>=0.1.1:
-  version "0.1.3"
-  resolved "https://registry.yarnpkg.com/websocket-extensions/-/websocket-extensions-0.1.3.tgz#5d2ff22977003ec687a4b87073dfbbac146ccf29"
-  integrity sha512-nqHUnMXmBzT0w570r2JpJxfiSD1IzoI+HGVdd3aZ0yNi3ngvQ4jv1dtHt5VGxfI2yj5yqImPhOK4vmIh2xMbGg==
+  version "0.1.4"
+  resolved "https://registry.yarnpkg.com/websocket-extensions/-/websocket-extensions-0.1.4.tgz#7f8473bc839dfd87608adb95d7eb075211578a42"
+  integrity sha512-OqedPIGOfsDlo31UNwYbCFMSaO9m9G/0faIHj5/dZFDMFqPTcx6UwqyOy3COEaEOg/9VsGIpdqn62W5KhoKSpg==
 
 whatwg-encoding@^1.0.1, whatwg-encoding@^1.0.3:
   version "1.0.4"
@@ -13289,7 +13295,7 @@ yargs@12.0.2, yargs@^12.0.2:
 
 yargs@^11.0.0:
   version "11.1.0"
-  resolved "http://registry.npmjs.org/yargs/-/yargs-11.1.0.tgz#90b869934ed6e871115ea2ff58b03f4724ed2d77"
+  resolved "https://registry.npmjs.org/yargs/-/yargs-11.1.0.tgz#90b869934ed6e871115ea2ff58b03f4724ed2d77"
   integrity sha512-NwW69J42EsCSanF8kyn5upxvjp5ds+t3+udGBeTbFnERA+lF541DDpMawzo4z6W/QrzNM18D+BPMiOBibnFV5A==
   dependencies:
     cliui "^4.0.0"
@@ -13313,19 +13319,20 @@ yauzl@^2.4.2:
     buffer-crc32 "~0.2.3"
     fd-slicer "~1.1.0"
 
-yoast-components@^5.7.0-rc.9:
-  version "5.7.0-rc.9"
-  resolved "https://registry.yarnpkg.com/yoast-components/-/yoast-components-5.7.0-rc.9.tgz#84edb05db914f54782e23856d287be834f7eafd0"
-  integrity sha512-KkFDru9yJfmPFYYoUaZ6zY9Y/tIeVa2syRM4JAgQs0Z+R2N1SAQhCLj8h+zKzOb71WtpQLV3Ce9g+klffPNQGA==
+yoast-components@^5.10.0-rc.0:
+  version "5.10.0-rc.0"
+  resolved "https://registry.yarnpkg.com/yoast-components/-/yoast-components-5.10.0-rc.0.tgz#2f2d7b299d7fd36044b447dce23a46fb153e08c9"
+  integrity sha512-klvaLw3Av5bJvcLTniFHiXutgi71PaQL3APiyGH2hzK6O5Z0qDluMcq4raSYT2XEvIFCE0V/qHpke0e/XEzXjw==
   dependencies:
     "@wordpress/a11y" "^1.0.7"
     "@wordpress/i18n" "^1.1.0"
-    "@yoast/analysis-report" "^1.7.0-rc.6"
-    "@yoast/components" "^2.5.0-rc.6"
-    "@yoast/configuration-wizard" "^2.7.0-rc.6"
-    "@yoast/helpers" "^0.13.0-rc.5"
-    "@yoast/search-metadata-previews" "^2.7.0-rc.7"
-    "@yoast/style-guide" "^0.12.0-rc.5"
+    "@yoast/analysis-report" "^1.10.0-rc.0"
+    "@yoast/components" "^2.8.0-rc.0"
+    "@yoast/configuration-wizard" "^2.10.0-rc.0"
+    "@yoast/helpers" "^0.13.0"
+    "@yoast/replacement-variable-editor" "^1.3.0-rc.0"
+    "@yoast/search-metadata-previews" "^2.10.0-rc.0"
+    "@yoast/style-guide" "^0.13.0"
     clipboard "^1.5.15"
     draft-js "^0.11.4"
     draft-js-mention-plugin "^3.0.4"
@@ -13343,12 +13350,12 @@ yoast-components@^5.7.0-rc.9:
     styled-components "^4.2.0"
     whatwg-fetch "^1.0.0"
     wicked-good-xpath "^1.3.0"
-    yoastseo "^1.78.0-rc.6"
+    yoastseo "^1.81.0-rc.0"
 
-yoastseo@^1.78.0-rc.6:
-  version "1.78.0-rc.6"
-  resolved "https://registry.yarnpkg.com/yoastseo/-/yoastseo-1.78.0-rc.6.tgz#0d513b823110daaa0c8e1754551b48b90e3589ea"
-  integrity sha512-Bm9Dyj+5gqnvUIlSxRVcZ2DKY0HzXN4h2gTgGhM5k3VpDVDIUu1IWW+kbAuWMBtACpCUfBTpX9D23b7Poa0AWA==
+yoastseo@^1.81.0-rc.0:
+  version "1.81.0-rc.0"
+  resolved "https://registry.yarnpkg.com/yoastseo/-/yoastseo-1.81.0-rc.0.tgz#05eab8e1f67bd5a362409332d4d0640c0bee79c6"
+  integrity sha512-/gehYVCoOn5ZUtQuVKB8ru3db+i7JHXdZ0m4k4XBRdByt5Sa/2JW0GtTOxSXOg8WCcVHF1qGQgUHaL09rjYZvw==
   dependencies:
     "@wordpress/autop" "^2.0.2"
     "@yoast/feature-flag" "^0.5.2"
