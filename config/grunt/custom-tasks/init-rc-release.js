@@ -33,6 +33,7 @@ module.exports = function( grunt ) {
                 alternativeBranch: 'CI-test',
                 alternativeBranchPush: false,
                 enableGithubRelease: false,
+                noBump: false,
         });
         
 
@@ -46,6 +47,9 @@ module.exports = function( grunt ) {
         const enableSlack = (typeof enableSlackArg === 'undefined' ) ? options.enableSlack: enableSlackArg ;
         const enableGithubReleaseArg = grunt.option( 'enableGithubRelease') 
         const enableGithubRelease = (typeof enableGithubReleaseArg === 'undefined' ) ? options.enableGithubRelease: enableGithubReleaseArg;
+        const noBumpArg = grunt.option( "no-version-bump" ) 
+        const noBump = (typeof noBumpArg === 'undefined' ) ? options.noBump: noBumpArg ;
+
 
         const GithubRepository = process.env.GITHUB_REPOSITORY || ''
         if (GithubRepository === ''){
@@ -84,6 +88,7 @@ module.exports = function( grunt ) {
         grunt.config( "add-github-release.seo-free-rc-pre-release.options.enable", enableGithubRelease);
         grunt.config( "deploy-to-wordpress.trunk.options.enable", enableSvnDeploy);
        
+        grunt.config.data.noBump = noBump,
         grunt.config.data.pluginVersionArg = pluginVersionArg,
         grunt.config.data.type = type,
         grunt.config.data.branchForRC = branchForRC;

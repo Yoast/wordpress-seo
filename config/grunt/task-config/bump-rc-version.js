@@ -7,6 +7,7 @@ module.exports = {
             branchForRC: '<%= branchForRC %>',
             type: '<%= type %>',
             pluginVersionArg: '<%= pluginVersionArg %>',
+            noBump: '<%= noBump %>',
         },
     },
 }

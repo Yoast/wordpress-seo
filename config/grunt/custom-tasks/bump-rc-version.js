@@ -19,7 +19,7 @@ module.exports = function( grunt ) {
 				branchForRC: '',
 				type: 'release',
 				pluginVersionArg: '',
-
+				noBump: false,
 			});
 			
 			/*
