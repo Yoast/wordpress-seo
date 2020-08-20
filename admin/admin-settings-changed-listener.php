@@ -32,7 +32,7 @@ class WPSEO_Admin_Settings_Changed_Listener implements WPSEO_WordPress_Integrati
 	public function intercept_save_update_notification() {
 		global $pagenow;
 
-		if ( $pagenow !== 'admin.php' || ! WPSEO_Utils::is_yoast_seo_page() ) {
+		if ( $pagenow !== 'admin.php' || ! YoastSEO()->helpers->current_page->is_yoast_seo_page() ) {
 			return;
 		}
 

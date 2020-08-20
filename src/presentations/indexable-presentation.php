@@ -26,8 +26,6 @@ use Yoast\WP\SEO\Models\Indexable;
  * @property string $title
  * @property string $meta_description
  * @property array  $robots
- * @property array  $bingbot
- * @property array  $googlebot
  * @property string $canonical
  * @property string $rel_next
  * @property string $rel_prev
@@ -233,8 +231,11 @@ class Indexable_Presentation extends Abstract_Presentation {
 	 */
 	protected function get_base_robots() {
 		return [
-			'index'  => ( $this->model->is_robots_noindex === true ) ? 'noindex' : 'index',
-			'follow' => ( $this->model->is_robots_nofollow === true ) ? 'nofollow' : 'follow',
+			'index'             => ( $this->model->is_robots_noindex === true ) ? 'noindex' : 'index',
+			'follow'            => ( $this->model->is_robots_nofollow === true ) ? 'nofollow' : 'follow',
+			'max-snippet'       => 'max-snippet:-1',
+			'max-image-preview' => 'max-image-preview:large',
+			'max-video-preview' => 'max-video-preview:-1',
 		];
 	}
 
@@ -246,6 +247,12 @@ class Indexable_Presentation extends Abstract_Presentation {
 	 * @return array The filtered meta robots values.
 	 */
 	protected function filter_robots( $robots ) {
+		if ( $robots['index'] === 'noindex' ) {
+			$robots['max-snippet']       = null;
+			$robots['max-image-preview'] = null;
+			$robots['max-video-preview'] = null;
+		}
+
 		$robots_string = \implode( ', ', $robots );
 
 		/**
@@ -289,32 +296,27 @@ class Indexable_Presentation extends Abstract_Presentation {
 	/**
 	 * Generates the robots value for the googlebot tag.
 	 *
+	 * @deprecated 14.9 Values merged into the robots meta tag.
+	 *
 	 * @return array The robots value with opt-in snippets.
 	 */
 	public function generate_googlebot() {
-		return $this->generate_snippet_opt_in();
+		_deprecated_function( __METHOD__, 'WPSEO 14.9' );
+
+		return [];
 	}
 
 	/**
 	 * Generates the value for the bingbot tag.
 	 *
+	 * @deprecated 14.9 Values merged into the robots meta tag.
+	 *
 	 * @return array The robots value with opt-in snippets.
 	 */
 	public function generate_bingbot() {
-		return $this->generate_snippet_opt_in();
-	}
+		_deprecated_function( __METHOD__, 'WPSEO 14.9' );
 
-	/**
-	 * Generates a snippet opt-in robots value.
-	 *
-	 * @return array The googlebot value.
-	 */
-	private function generate_snippet_opt_in() {
-		if ( \in_array( 'noindex', $this->robots, true ) ) {
-			return [];
-		}
-
-		return \array_filter( \array_merge( $this->robots, [ 'max-snippet:-1', 'max-image-preview:large', 'max-video-preview:-1' ] ) );
+		return [];
 	}
 
 	/**

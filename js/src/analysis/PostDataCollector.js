@@ -3,6 +3,7 @@
 /* External dependencies */
 import { get } from "lodash-es";
 import analysis from "yoastseo";
+import { select } from "@wordpress/data";
 
 /* Internal dependencies */
 import measureTextWidth from "../helpers/measureTextWidth";
@@ -134,6 +135,11 @@ PostDataCollector.prototype.getTitle = function() {
  * @returns {string} The url.
  */
 PostDataCollector.prototype.getUrl = function() {
+	const editorSelectors = select( "core/editor" );
+	if ( editorSelectors ) {
+		return editorSelectors.getCurrentPostAttribute( "slug" );
+	}
+
 	var url = "";
 
 	var newPostSlug = $( "#new-post-slug" );

@@ -1,6 +1,8 @@
 import { __, sprintf } from "@wordpress/i18n";
 import { LocationConsumer } from "../components/contexts/location";
 import SchemaTab from "../components/SchemaTab";
+import { compose } from "@wordpress/compose";
+import { withSelect } from "@wordpress/data";
 
 const articleTypeInputId = "yoast_wpseo_schema_article_type";
 const pageTypeInputId = "yoast_wpseo_schema_page_type";
@@ -128,9 +130,11 @@ const getLocationBasedProps = ( location ) => {
 /**
  * Renders the SchemaComponent.
  *
+ * @param {Object} props The props.
+ *
  * @returns {React.Component} The SchemaTab.
  */
-const SchemaTabContainer = () => {
+const SchemaTabContainer = ( props ) => {
 	const isArticleAvailable = getArticleTypeInput() !== null;
 	const { pageTypeOptions } = window.wpseoScriptData.metabox.schema;
 
@@ -158,15 +162,22 @@ const SchemaTabContainer = () => {
 	return (
 		<LocationConsumer>
 			{ location => {
-				const props = {
+				const schemaTabProps = {
+					...props,
 					...baseProps,
 					...getLocationBasedProps( location ),
 				};
 
-				return <SchemaTab { ...props } />;
+				return <SchemaTab { ...schemaTabProps } />;
 			} }
 		</LocationConsumer>
 	);
 };
 
-export default SchemaTabContainer;
+export default compose( [
+	withSelect( ( select ) => {
+		const { getPreferences } = select( "yoast-seo/editor" );
+
+		return { displayFooter: getPreferences().displaySchemaSettingsFooter };
+	} ),
+] )( SchemaTabContainer );

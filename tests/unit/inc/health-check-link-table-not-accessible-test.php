@@ -5,6 +5,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Inc;
 use Brain\Monkey;
 use Mockery;
 use WPSEO_Health_Check_Link_Table_Not_Accessible;
+use Yoast\WP\SEO\Config\Migration_Status;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
@@ -60,10 +61,13 @@ class Health_Check_Link_Table_Not_Accessible_Test extends TestCase {
 			->once()
 			->andReturnTrue();
 
-		$this->instance
-			->expects( 'are_tables_accessible' )
-			->once()
-			->andReturnTrue();
+		$migration_status = Mockery::mock( Migration_Status::class );
+		$migration_status->expects( 'is_version' )->once()->with( 'free', \WPSEO_VERSION )->andReturn( true );
+
+		$classes = Mockery::mock();
+		$classes->expects( 'get' )->once()->with( Migration_Status::class )->andReturn( $migration_status );
+
+		Monkey\Functions\expect( 'YoastSEO' )->once()->andReturn( (object) [ 'classes' => $classes ] );
 
 		Monkey\Functions\expect( 'add_query_arg' )->andReturn( '' );
 
@@ -86,10 +90,13 @@ class Health_Check_Link_Table_Not_Accessible_Test extends TestCase {
 			->once()
 			->andReturnTrue();
 
-		$this->instance
-			->expects( 'are_tables_accessible' )
-			->once()
-			->andReturnFalse();
+		$migration_status = Mockery::mock( Migration_Status::class );
+		$migration_status->expects( 'is_version' )->once()->with( 'free', \WPSEO_VERSION )->andReturn( false );
+
+		$classes = Mockery::mock();
+		$classes->expects( 'get' )->once()->with( Migration_Status::class )->andReturn( $migration_status );
+
+		Monkey\Functions\expect( 'YoastSEO' )->once()->andReturn( (object) [ 'classes' => $classes ] );
 
 		Monkey\Functions\expect( 'add_query_arg' )->andReturn( '' );
 

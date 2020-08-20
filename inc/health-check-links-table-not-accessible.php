@@ -5,6 +5,8 @@
  * @package WPSEO\Internals
  */
 
+use Yoast\WP\SEO\Config\Migration_Status;
+
 /**
  * Represents the health check when the links table is not accessible.
  */
@@ -25,7 +27,7 @@ class WPSEO_Health_Check_Link_Table_Not_Accessible extends WPSEO_Health_Check {
 			return;
 		}
 
-		if ( $this->are_tables_accessible() ) {
+		if ( YoastSEO()->classes->get( Migration_Status::class )->is_version( 'free', WPSEO_VERSION ) ) {
 			$this->label          = esc_html__( 'The text link counter is working as expected', 'wordpress-seo' );
 			$this->status         = self::STATUS_GOOD;
 			$this->badge['color'] = 'blue';
@@ -64,14 +66,5 @@ class WPSEO_Health_Check_Link_Table_Not_Accessible extends WPSEO_Health_Check {
 	 */
 	protected function is_text_link_counter_enabled() {
 		return WPSEO_Options::get( 'enable_text_link_counter' );
-	}
-
-	/**
-	 * Checks whether the SEO links and SEO meta database tables exist.
-	 *
-	 * @return bool Whether the SEO links and SEO meta database tables exist.
-	 */
-	protected function are_tables_accessible() {
-		return WPSEO_Link_Table_Accessible::is_accessible() && WPSEO_Meta_Table_Accessible::is_accessible();
 	}
 }
