@@ -61,6 +61,10 @@
 	max-width: 0;
 }
 
+.select2-container--default.select2-container--open {
+	z-index: 999999999;
+}
+
 .yoast-field-group .select2-container--default.select2-container--focus .select2-selection--multiple,
 .yoast-field-group .select2-container--default .select2-selection--multiple,
 .yoast-field-group .select2-container--default .select2-selection--single {
