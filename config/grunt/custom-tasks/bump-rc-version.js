@@ -21,13 +21,8 @@ module.exports = function( grunt ) {
 				pluginVersionArg: '',
 
 			});
-			// Parse the command line options.
-			const pluginVersionArgument = grunt.option( "plugin-version" );
-
-			// Check if arguments were passed.
-			if ( ! pluginVersionArgument ) {
-				grunt.fail.fatal( "Missing --plugin-version argument" );
-			}
+			
+			const pluginVersionArgument = options.pluginVersionArg
 
 			const branchForRC = options.branchForRC || options.type + "/" + pluginVersionArgument;
 
@@ -37,9 +32,7 @@ module.exports = function( grunt ) {
 			 * To avoid an additional bump (RC1 -> RC2) when continuing the process, this flag should
 			 * be used: --no-version-bump.
 			 */
-			//const gruntFlags = grunt.option.flags();
-			//const noBump = -1 !== gruntFlags.indexOf( '--no-version-bump' );
-
+			
 			const noBump = grunt.option( "no-version-bump" ) || false;
 
 			// Retrieve the current plugin version from package.json.
