@@ -79,8 +79,8 @@ class Actions {
 				'command' => 'fix-cs',
 			],
 			'6' => [
-				'label'   => 'Load coding standards configuration.',
-				'command' => 'config-yoastcs',
+				'label'   => 'Check for coding standards thresholds.',
+				'command' => 'check-cs-thresholds',
 			],
 		];
 
@@ -131,19 +131,6 @@ class Actions {
 		Container_Compiler::compile( true );
 
 		$io->write( 'The dependency injection container has been compiled.' );
-	}
-
-	/**
-	 * Runs PHPCS on the staged files.
-	 *
-	 * Used the composer check-staged-cs command.
-	 *
-	 * @codeCoverageIgnore
-	 *
-	 * @return void
-	 */
-	public static function check_staged_cs() {
-		self::check_cs_for_changed_files( '--staged' );
 	}
 
 	/**
@@ -222,6 +209,7 @@ class Actions {
 
 		\system( 'composer check-cs -- ' . \implode( ' ', \array_map( 'escapeshellarg', $php_files ) ) );
 	}
+
 	/**
 	 * Runs lint on changed files compared to some git reference.
 	 *
@@ -342,5 +330,98 @@ class {$name} extends Migration {
 TPL;
 
 		\file_put_contents( __DIR__ . '/../../src/config/migrations/' . $file_name, $template );
+	}
+
+	/**
+	 * Extract the number of errors, warnings and affected files from the phpcs summary
+	 *
+	 * @param array $output Raw console output of the PHPCS command.
+	 *
+	 * @return array With statistics about 'errorsCount' => nr of errors, 'warningsCount' => nr of warnings,  'filesCount' => nr of affected files,
+	 */
+	private static function extract_cs_statistics( $output ) {
+		$result  = false;
+		$matches = [];
+
+		/**
+		 * The only key of the filtered array already holds the summary.
+		 * $summary is NULL, if the summary was not present in the output
+		 */
+		$filtered_output = array_filter(
+			$output,
+			function( $value ) {
+				return strpos( $value, 'A TOTAL OF' ) !== false;
+			}
+		);
+
+		$summary = reset( $filtered_output );
+
+		// Extract the stats for the summary.
+		if ( $summary ) {
+			preg_match( '/A TOTAL OF (?P<error_count>\d+) ERRORS AND (?P<warning_count>\d+) WARNINGS WERE FOUND IN \d+ FILES/', $summary, $matches );
+		}
+
+		// Validate the result of extraction.
+		if (
+			array_key_exists( 'error_count', $matches ) &&
+			array_key_exists( 'warning_count', $matches )
+		) {
+			// We need integers for the further processing.
+			$result = array_map( 'intval', $matches );
+		}
+
+		return $result;
+	}
+
+	/**
+	 * Checks if the CS errors and warnings are below or at thresholds
+	 */
+	public static function check_cs_thresholds() {
+		$error_threshold   = (int) getenv( 'YOASTCS_THRESHOLD_ERRORS' );
+		$warning_threshold = (int) getenv( 'YOASTCS_THRESHOLD_WARNINGS' );
+
+		echo "Running coding standards checks, this may take some time.\n";
+		$command = 'composer check-cs-summary';
+		@exec( $command, $phpcs_output, $return );
+
+		$statistics = self::extract_cs_statistics( $phpcs_output );
+		if ( ! $statistics ) {
+			echo 'Error occurred when parsing the coding standards results.' . PHP_EOL;
+			exit( 1 );
+		}
+
+		echo PHP_EOL;
+		echo 'CODE SNIFFER SUMMARY' . PHP_EOL;
+		echo '--------------------' . PHP_EOL;
+		echo implode( PHP_EOL, $phpcs_output );
+
+		echo PHP_EOL;
+		echo 'CODE SNIFFER RESULTS' . PHP_EOL;
+		echo '--------------------' . PHP_EOL;
+
+		$error_count   = $statistics['error_count'];
+		$warning_count = $statistics['warning_count'];
+
+		echo "Coding standards errors: $error_count/$error_threshold.\n";
+		echo "Coding standards warnings: $warning_count/$warning_threshold.\n";
+
+		$above_threshold = false;
+
+		if ( $error_count > $error_threshold ) {
+			echo "Please fix any errors introduced in your code and run composer check-cs-warnings to verify.\n";
+			$above_threshold = true;
+		}
+
+		if ( $warning_count > $warning_threshold ) {
+			echo "Please fix any warnings introduced in your code and run check-cs-thresholds to verify.\n";
+			$above_threshold = true;
+		}
+
+		if ( ! $above_threshold ) {
+			echo PHP_EOL;
+			echo "Coding standards checks have passed!\n";
+		}
+
+		exit( ( $above_threshold ) ? 1 : 0 );
 	}
 }
