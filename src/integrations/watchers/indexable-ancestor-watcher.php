@@ -125,18 +125,6 @@ class Indexable_Ancestor_Watcher implements Integration_Interface {
 	}
 
 	/**
-	 * Refreshes the permalink for the given indexable.
-	 *
-	 * @param Indexable $indexable The indexable to refresh the permalink for.
-	 */
-	public function refresh_permalink( $indexable ) {
-		$this->indexable_hierarchy_builder->build( $indexable );
-
-		$indexable->permalink = $this->indexable_helper->get_permalink_for_indexable( $indexable );
-		$indexable->save();
-	}
-
-	/**
 	 * Finds all child indexables for the given term.
 	 *
 	 * @param int         $term_id          Term to fetch the indexable for.
@@ -165,6 +153,18 @@ class Indexable_Ancestor_Watcher implements Integration_Interface {
 
 		// Lets merge all fetched indexables.
 		return array_merge( $indexables_by_term, $additional_indexables );
+	}
+
+	/**
+	 * Refreshes the permalink for the given indexable.
+	 *
+	 * @param Indexable $indexable The indexable to refresh the permalink for.
+	 */
+	protected function refresh_permalink( $indexable ) {
+		$this->indexable_hierarchy_builder->build( $indexable );
+
+		$indexable->permalink = $this->indexable_helper->get_permalink_for_indexable( $indexable );
+		$indexable->save();
 	}
 
 	/**

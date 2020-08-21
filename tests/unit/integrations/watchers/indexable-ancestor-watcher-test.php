@@ -12,6 +12,7 @@ use Yoast\WP\SEO\Builders\Indexable_Hierarchy_Builder;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
 use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Integrations\Watchers\Indexable_Ancestor_Watcher;
+use Yoast\WP\SEO\Repositories\Indexable_Hierarchy_Repository;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
@@ -55,6 +56,10 @@ class Indexable_Ancestor_Watcher_Test extends TestCase {
 	 * @var Mockery\MockInterface|Indexable_Helper
 	 */
 	protected $indexable_helper;
+	/**
+	 * @var Mockery\LegacyMockInterface|Mockery\MockInterface|Indexable_Hierarchy_Builder
+	 */
+	protected $indexable_hierarchy_repository;
 
 	/**
 	 * @inheritDoc
@@ -62,23 +67,27 @@ class Indexable_Ancestor_Watcher_Test extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->indexable_repository        = Mockery::mock( Indexable_Repository::class );
-		$this->indexable_hierarchy_builder = Mockery::mock( Indexable_Hierarchy_Builder::class );
-		$this->indexable_helper            = Mockery::mock( Indexable_Helper::class );
+		$this->indexable_repository           = Mockery::mock( Indexable_Repository::class );
+		$this->indexable_hierarchy_builder    = Mockery::mock( Indexable_Hierarchy_Builder::class );
+		$this->indexable_hierarchy_repository = Mockery::mock( Indexable_Hierarchy_Repository::class );
+		$this->indexable_helper               = Mockery::mock( Indexable_Helper::class );
+		$this->wpdb                           = Mockery::mock( \wpdb::class );
 
 		$this->instance = new Indexable_Ancestor_Watcher(
 			$this->indexable_repository,
 			$this->indexable_hierarchy_builder,
-			$this->indexable_helper
+			$this->indexable_hierarchy_repository,
+			$this->indexable_helper,
+			$this->wpdb
 		);
 	}
 
 	/**
 	 * Tests the clear ancestors method when the object type is not a post or term.
 	 *
-	 * @covers ::clear_ancestors
+	 * @covers ::reset_children
 	 */
-	public function test_clear_ancestors_for_non_allowed_object_type() {
+	public function test_reset_children_for_non_allowed_object_type() {
 		$indexable        = Mockery::mock( Indexable_Mock::class );
 		$indexable_before = Mockery::mock( Indexable_Mock::class );
 
@@ -90,9 +99,9 @@ class Indexable_Ancestor_Watcher_Test extends TestCase {
 	/**
 	 * Tests the clear ancestors method having the permalink not changed.
 	 *
-	 * @covers ::clear_ancestors
+	 * @covers ::reset_children
 	 */
-	public function test_clear_ancestors_for_non_changed_permalink() {
+	public function test_reset_children_for_non_changed_permalink() {
 		$indexable        = Mockery::mock( Indexable_Mock::class );
 		$indexable_before = Mockery::mock( Indexable_Mock::class );
 
@@ -139,11 +148,12 @@ class Indexable_Ancestor_Watcher_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the clear ancestors method.
+	 * Tests the reset_children method.
 	 *
-	 * @covers ::clear_ancestors
+	 * @covers ::reset_children
+	 * @covers ::refresh_permalink
 	 */
-	public function test_clear_ancestors() {
+	public function test_reset_children() {
 		$indexable        = Mockery::mock( Indexable_Mock::class );
 		$indexable_before = Mockery::mock( Indexable_Mock::class );
 
@@ -164,10 +174,15 @@ class Indexable_Ancestor_Watcher_Test extends TestCase {
 			->with( $child_indexable )
 			->andReturn( 'https://example.org/child-permalink' );
 
-		$this->indexable_repository
-			->expects( 'get_children' )
+		$this->indexable_hierarchy_repository
+			->expects( 'find_children' )
 			->once()
 			->with( $indexable )
+			->andReturn( [ 1 ] );
+
+		$this->indexable_repository
+			->expects( 'find_by_ids' )
+			->with( [ 1 ] )
 			->andReturn( [ $child_indexable ] );
 
 		$this->assertTrue( $this->instance->reset_children( $indexable, $indexable_before ) );
