@@ -259,8 +259,8 @@ class WPSEO_Addon_Manager {
 		$yoast_seo_data = $this->get_yoast_seo_data();
 
 		// We need to replace h2's and h3's with h4's because the styling expects that.
-		$changelog      = str_replace( '</h2', '</h4', str_replace( '<h2', '<h4', $subscription->product->changelog ) );
-		$changelog      = str_replace( '</h3', '</h4', str_replace( '<h3', '<h4', $changelog ) );
+		$changelog = str_replace( '</h2', '</h4', str_replace( '<h2', '<h4', $subscription->product->changelog ) );
+		$changelog = str_replace( '</h3', '</h4', str_replace( '<h3', '<h4', $changelog ) );
 
 		return (object) [
 			'new_version'   => $subscription->product->version,
@@ -296,8 +296,8 @@ class WPSEO_Addon_Manager {
 
 		if ( ! isset( $yoast_seo_data ) ) {
 			foreach ( $plugin_updates as $file => $data ) {
-				$free_file           = 'wp-seo.php';
-				$free_file_length    = strlen( $free_file );
+				$free_file        = 'wp-seo.php';
+				$free_file_length = strlen( $free_file );
 				if ( substr( $file, - $free_file_length ) === $free_file ) {
 					$yoast_seo_data = (object) _get_plugin_data_markup_translate( $file, (array) $plugin_updates[ $file ], false, true );
 				}
