@@ -249,14 +249,18 @@ class Indexable_Term_Builder_Test extends TestCase {
 		$this->set_indexable_set_expectations( $indexable_mock, $indexable_expectations );
 
 		// Reset all social images first.
-		$indexable_mock->orm->expects( 'set' )->with( 'open_graph_image', null );
-		$indexable_mock->orm->expects( 'set' )->with( 'open_graph_image_id', null );
-		$indexable_mock->orm->expects( 'set' )->with( 'open_graph_image_source', null );
-		$indexable_mock->orm->expects( 'set' )->with( 'open_graph_image_meta', null );
-
-		$indexable_mock->orm->expects( 'set' )->with( 'twitter_image', null );
-		$indexable_mock->orm->expects( 'set' )->with( 'twitter_image_id', null );
-		$indexable_mock->orm->expects( 'set' )->with( 'twitter_image_source', null );
+		$this->set_indexable_set_expectations(
+			$indexable_mock,
+			[
+				'open_graph_image'        => null,
+				'open_graph_image_id'     => null,
+				'open_graph_image_source' => null,
+				'open_graph_image_meta'   => null,
+				'twitter_image'           => null,
+				'twitter_image_id'        => null,
+				'twitter_image_source'    => null,
+			]
+		);
 
 		$image_meta = [
 			'width'  => 640,

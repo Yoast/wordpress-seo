@@ -279,14 +279,18 @@ class Indexable_Post_Builder_Test extends TestCase {
 		$this->link_builder->expects( 'build' )->with( $this->indexable, 'The content of the post' );
 
 		// Reset all social images first.
-		$this->indexable->orm->expects( 'set' )->with( 'open_graph_image', null );
-		$this->indexable->orm->expects( 'set' )->with( 'open_graph_image_id', null );
-		$this->indexable->orm->expects( 'set' )->with( 'open_graph_image_source', null );
-		$this->indexable->orm->expects( 'set' )->with( 'open_graph_image_meta', null );
-
-		$this->indexable->orm->expects( 'set' )->with( 'twitter_image', null );
-		$this->indexable->orm->expects( 'set' )->with( 'twitter_image_id', null );
-		$this->indexable->orm->expects( 'set' )->with( 'twitter_image_source', null );
+		$this->set_indexable_set_expectations(
+			$this->indexable,
+			[
+				'open_graph_image'        => null,
+				'open_graph_image_id'     => null,
+				'open_graph_image_source' => null,
+				'open_graph_image_meta'   => null,
+				'twitter_image'           => null,
+				'twitter_image_id'        => null,
+				'twitter_image_source'    => null,
+			]
+		);
 
 		$image_meta = [
 			'width'  => 640,
