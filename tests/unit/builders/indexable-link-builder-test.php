@@ -21,7 +21,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group indexables
  * @group builders
  *
- * @coversDefaultClass \Yoast\WP\SEO\Builders\Indexable_Link_Builder_Test
+ * @coversDefaultClass \Yoast\WP\SEO\Builders\Indexable_Link_Builder
  * @covers ::<!public>
  */
 class Indexable_Link_Builder_Test extends TestCase {

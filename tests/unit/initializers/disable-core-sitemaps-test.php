@@ -59,7 +59,7 @@ class Disable_Core_Sitemaps_Test extends TestCase {
 	 * Tests the situation when primary term id isn't to the category id, the id should get updated.
 	 *
 	 * @covers ::__construct
-	 * @covers ::register_hooks
+	 * @covers ::initialize
 	 */
 	public function test_initialize() {
 		$this->options->expects( 'get' )->with( 'enable_xml_sitemap' )->andReturn( true );
@@ -74,7 +74,7 @@ class Disable_Core_Sitemaps_Test extends TestCase {
 	 * Tests the situation when primary term id isn't to the category id, the id should get updated.
 	 *
 	 * @covers ::__construct
-	 * @covers ::register_hooks
+	 * @covers ::initialize
 	 */
 	public function test_initialize_without_sitemaps() {
 		$this->options->expects( 'get' )->with( 'enable_xml_sitemap' )->andReturn( false );
