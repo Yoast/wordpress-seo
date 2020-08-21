@@ -2,17 +2,17 @@
 
 module.exports =  {
 	rc: {
-		options:{
+		options: {
 			slackToken: process.env.SLACK_DEV_PLUGIN_CHANNEL_TOKEN || process.env.SLACK_TEST_CHANNEL_TOKEN,
-			message: "An RC has been created: <%= tagUrl %>" ,
-			enable: true
-		}
+			message: "An RC has been created: <%= tagUrl %>",
+			enable: true,
+		},
 	},
 	'add-git-issue-slack-message': {
-		options:{
+		options: {
 			slackToken: process.env.SLACK_DEV_PLUGIN_CHANNEL_TOKEN || process.env.SLACK_TEST_CHANNEL_TOKEN,
-			message: "<%= slackMessage %>" ,
+			message: "<%= slackMessage %>",
 			enable: "<%= enableSlack %>",
-		}
+		},
 	},
 };

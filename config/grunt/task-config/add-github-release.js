@@ -20,7 +20,7 @@ module.exports = {
 	"seo-free-release": {
 		options: {
 			manualEditChangelog: false,
-			target_commitish: 'master',
+			target_commitish: "master",
 			prerelease: false,
 		},
 	},

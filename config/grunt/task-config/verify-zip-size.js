@@ -1,8 +1,8 @@
 module.exports = {
-	"defaults": {
-        options: {
-            enableSlack: true,
-            pluginVersion: "<%= pluginVersion %>"
-        },
-    },
+	"default": {
+		options: {
+			enableSlack: true,
+			pluginVersion: "<%= pluginVersion %>",
+		},
+	},
 };

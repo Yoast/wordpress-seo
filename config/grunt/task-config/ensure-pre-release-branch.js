@@ -1,8 +1,8 @@
 module.exports = {
-    "default": {
-        options: {
-            type: "<%= type %>",
-            branchForRC: "<%= branchForRC %>",
-        },
-    },
+	"default": {
+		options: {
+			type: "<%= type %>",
+			branchForRC: "<%= branchForRC %>",
+		},
+	},
 };
