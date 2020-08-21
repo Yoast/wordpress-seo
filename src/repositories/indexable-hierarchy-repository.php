@@ -126,4 +126,27 @@ class Indexable_Hierarchy_Repository {
 	public function query() {
 		return Model::of_type( 'Indexable_Hierarchy' );
 	}
+
+	/**
+	 * Finds all the children by given ancestor ids.
+	 *
+	 * @param array $object_ids List of ids to get the children for.
+	 *
+	 * @return array List of indexable ids for the children.
+	 */
+	public function find_children_by_ancestor_ids( array $object_ids ) {
+		$children = $this->query()
+			->select( 'indexable_id' )
+			->where_in( 'ancestor_id', $object_ids )
+			->find_array();
+
+		if ( empty( $children ) ) {
+			return [];
+		}
+
+		$callback = function( $child ) {
+			return $child['indexable_id'];
+		};
+		return \array_map( $callback, $children );
+	}
 }

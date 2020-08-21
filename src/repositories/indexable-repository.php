@@ -371,6 +371,26 @@ class Indexable_Repository {
 	}
 
 	/**
+	 * Finds the indexables by ids.
+	 *
+	 * @param array $indexable_ids The indexable ids.
+	 *
+	 * @return Indexable[] The found indexables.
+	 */
+	public function find_by_ids( array $indexable_ids ) {
+		if ( empty( $indexable_ids ) ) {
+			return [];
+		}
+
+		$indexables = $this
+			->query()
+			->where_in( 'id', $indexable_ids )
+			->find_many();
+
+		return \array_map( [ $this, 'ensure_permalink' ], $indexables );
+	}
+
+	/**
 	 * Returns all ancestors of a given indexable.
 	 *
 	 * @param Indexable $indexable The indexable to find the ancestors of.
@@ -416,17 +436,7 @@ class Indexable_Repository {
 	public function get_children( Indexable $indexable ) {
 		$indexable_ids = $this->hierarchy_repository->find_children( $indexable );
 
-		if ( empty( $indexable_ids ) ) {
-			return [];
-		}
-
-		$indexables = $this
-			->query()
-			->where_in( 'id', $indexable_ids )
-			->order_by_expr( 'FIELD(id,' . \implode( ',', $indexable_ids ) . ')' )
-			->find_many();
-
-		return \array_map( [ $this, 'ensure_permalink' ], $indexables );
+		return $this->find_by_ids( $indexable_ids );
 	}
 
 	/**
