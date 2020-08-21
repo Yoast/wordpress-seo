@@ -84,12 +84,10 @@ class Indexable_Term_Builder_Test extends TestCase {
 		$this->taxonomy     = Mockery::mock( Taxonomy_Helper::class );
 		$this->link_builder = Mockery::mock( Indexable_Link_Builder::class );
 
-		$this->instance = Mockery::mock( Indexable_Term_Builder_Double::class, [
+		$this->instance = new Indexable_Term_Builder_Double(
 			$this->taxonomy,
 			$this->link_builder
-		] )
-			->shouldAllowMockingProtectedMethods()
-			->makePartial();
+		);
 
 		$this->image            = Mockery::mock( Image_Helper::class );
 		$this->open_graph_image = Mockery::mock( OG_Image_Helper::class );
@@ -112,6 +110,54 @@ class Indexable_Term_Builder_Test extends TestCase {
 		foreach ( $expectations as $key => $value ) {
 			$indexable_mock->orm->expects( 'set' )->with( $key, $value );
 		}
+	}
+
+	/**
+	 * Mocks a Twitter image that has been set by the user.
+	 *
+	 * @param Mockery\Mock|Indexable $indexable_mock The mocked indexable.
+	 */
+	protected function twitter_image_set_by_user( $indexable_mock ) {
+		$indexable_mock->orm->shouldReceive( 'get' )
+			->with( 'twitter_image' )
+			->andReturn( 'twitter-image' );
+
+		$indexable_mock->orm->shouldReceive( 'get' )
+			->with( 'twitter_image_id' )
+			->andReturn( 'twitter-image-id' );
+
+		$this->twitter_image->shouldReceive( 'get_by_id' )
+			->with( 'twitter-image-id' )
+			->andReturn( 'twitter_image' );
+
+		$indexable_mock->orm->shouldReceive( 'get' )
+			->with( 'twitter_image_source' )
+			->andReturn( 'set-by-user' );
+	}
+
+	/**
+	 * Mocks an Open Graph image that is set by the user.
+	 *
+	 * @param Mockery\Mock|Indexable $indexable_mock The mocked indexable.
+	 * @param array                  $image_meta     The mocked meta data of the image.
+	 */
+	protected function open_graph_image_set_by_user( $indexable_mock, $image_meta ) {
+		$indexable_mock->orm->shouldReceive( 'get' )
+			->with( 'open_graph_image' )
+			->andReturn( 'open-graph-image' );
+
+		$indexable_mock->orm->shouldReceive( 'get' )
+			->twice()
+			->with( 'open_graph_image_id' )
+			->andReturn( 'open-graph-image-id' );
+
+		$indexable_mock->orm->shouldReceive( 'get' )
+			->with( 'open_graph_image_source' )
+			->andReturn( 'set-by-user' );
+
+		$this->open_graph_image->shouldReceive( 'get_image_by_id' )
+			->with( 'open-graph-image-id' )
+			->andReturn( $image_meta );
 	}
 
 	/**
@@ -202,8 +248,42 @@ class Indexable_Term_Builder_Test extends TestCase {
 
 		$this->set_indexable_set_expectations( $indexable_mock, $indexable_expectations );
 
-		$this->instance->expects( 'reset_social_images' )->with( $indexable_mock );
-		$this->instance->expects( 'handle_social_images' )->with( $indexable_mock );
+		// Reset all social images first.
+		$indexable_mock->orm->expects( 'set' )->with( 'open_graph_image', null );
+		$indexable_mock->orm->expects( 'set' )->with( 'open_graph_image_id', null );
+		$indexable_mock->orm->expects( 'set' )->with( 'open_graph_image_source', null );
+		$indexable_mock->orm->expects( 'set' )->with( 'open_graph_image_meta', null );
+
+		$indexable_mock->orm->expects( 'set' )->with( 'twitter_image', null );
+		$indexable_mock->orm->expects( 'set' )->with( 'twitter_image_id', null );
+		$indexable_mock->orm->expects( 'set' )->with( 'twitter_image_source', null );
+
+		$image_meta = [
+			'width'  => 640,
+			'height' => 480,
+			'url'    => 'http://basic.wordpress.test/wp-content/uploads/2020/07/WordPress5.jpg',
+			'path'   => '/var/www/html/wp-content/uploads/2020/07/WordPress5.jpg',
+			'size'   => 'full',
+			'id'     => 13,
+			'alt'    => '',
+			'pixels' => 307200,
+			'type'   => 'image/jpeg'
+		];
+
+		// Mock that the open graph and twitter images have been set by the user.
+		$this->open_graph_image_set_by_user( $indexable_mock, $image_meta );
+		$this->twitter_image_set_by_user( $indexable_mock );
+
+		// We expect the open graph image, its source and its metadata to be set.
+		$indexable_mock->orm->expects( 'set' )->with( 'open_graph_image_source', 'set-by-user' );
+		$indexable_mock->orm->expects( 'set' )
+			->with( 'open_graph_image', 'http://basic.wordpress.test/wp-content/uploads/2020/07/WordPress5.jpg' );
+		$indexable_mock->orm->expects( 'set' )
+			->with( 'open_graph_image_meta', \json_encode( $image_meta, ( JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES ) ) );
+
+		// We expect the twitter image and its source to be set.
+		$indexable_mock->orm->expects( 'set' )->with( 'twitter_image_source', 'set-by-user' );
+		$indexable_mock->orm->expects( 'set' )->with( 'twitter_image', 'twitter_image' );
 
 		$indexable_mock->orm->expects( 'offsetExists' )->once()->with( 'breadcrumb_title' )->andReturnFalse();
 		$indexable_mock->orm->expects( 'set' )->once()->with( 'breadcrumb_title', null );
