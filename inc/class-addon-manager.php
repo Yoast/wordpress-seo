@@ -298,9 +298,7 @@ class WPSEO_Addon_Manager {
 			foreach ( $plugin_updates as $file => $data ) {
 				$free_file           = 'wp-seo.php';
 				$free_file_length    = strlen( $free_file );
-				$premium_file        = 'wp-seo-premium.php';
-				$premium_file_length = strlen( $premium_file );
-				if ( substr( $file, - $free_file_length ) === $free_file || substr( $file, - $premium_file_length ) === $premium_file ) {
+				if ( substr( $file, - $free_file_length ) === $free_file ) {
 					$yoast_seo_data = (object) _get_plugin_data_markup_translate( $file, (array) $plugin_updates[ $file ], false, true );
 				}
 			}
