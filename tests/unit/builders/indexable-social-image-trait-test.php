@@ -26,35 +26,35 @@ class Indexable_Social_Image_Trait_Test extends TestCase {
 	 *
 	 * @var Indexable_Social_Image_Trait_Double
 	 */
-	private $instance;
+	protected $instance;
 
 	/**
 	 * The twitter image helper mock.
 	 *
 	 * @var Mockery\MockInterface|Twitter\Image_Helper
 	 */
-	private $twitter_image;
+	protected $twitter_image;
 
 	/**
 	 * The open graph image helper mock.
 	 *
 	 * @var Mockery\MockInterface|Open_Graph\Image_Helper
 	 */
-	private $open_graph_image;
+	protected $open_graph_image;
 
 	/**
 	 * The image helper mock.
 	 *
 	 * @var Mockery\MockInterface|Image_Helper
 	 */
-	private $image;
+	protected $image;
 
 	/**
 	 * The indexable mock.
 	 *
 	 * @var Mockery\MockInterface|Indexable
 	 */
-	private $indexable;
+	protected $indexable;
 
 	/**
 	 * Sets up the tests.
@@ -378,7 +378,7 @@ class Indexable_Social_Image_Trait_Test extends TestCase {
 	/**
 	 * Mocks a Twitter image that has been set by the user.
 	 */
-	private function twitter_image_set_by_user() {
+	protected function twitter_image_set_by_user() {
 		$this->indexable->orm->shouldReceive( 'get' )
 			->with( 'twitter_image' )
 			->andReturn( 'twitter-image' );
@@ -399,7 +399,7 @@ class Indexable_Social_Image_Trait_Test extends TestCase {
 	/**
 	 * Mocks a missing Twitter image.
 	 */
-	private function no_twitter_image() {
+	protected function no_twitter_image() {
 		$this->indexable->orm->shouldReceive( 'get' )
 			->with( 'twitter_image' )
 			->andReturn( null );
@@ -416,7 +416,7 @@ class Indexable_Social_Image_Trait_Test extends TestCase {
 	/**
 	 * Mocks a missing Open Graph image.
 	 */
-	private function no_open_graph_image() {
+	protected function no_open_graph_image() {
 		$this->indexable->orm->shouldReceive( 'get' )
 			->with( 'open_graph_image' )
 			->andReturn( null );
@@ -435,7 +435,7 @@ class Indexable_Social_Image_Trait_Test extends TestCase {
 	 *
 	 * @param array $image_meta The mocked meta data of the image.
 	 */
-	private function open_graph_image_set_by_user( $image_meta ) {
+	protected function open_graph_image_set_by_user( $image_meta ) {
 		$this->indexable->orm->shouldReceive( 'get' )
 			->with( 'open_graph_image' )
 			->andReturn( 'open-graph-image' );

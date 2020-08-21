@@ -32,35 +32,35 @@ class Indexable_Post_Builder_Test extends TestCase {
 	 *
 	 * @var Indexable|Mockery\MockInterface
 	 */
-	private $indexable;
+	protected $indexable;
 
 	/**
 	 * Holds the Indexable_Repository instance.
 	 *
 	 * @var Indexable_Repository|Mockery\MockInterface
 	 */
-	private $indexable_repository;
+	protected $indexable_repository;
 
 	/**
 	 * Holds the Image_Helper instance.
 	 *
 	 * @var Image_Helper|Mockery\MockInterface
 	 */
-	private $image;
+	protected $image;
 
 	/**
 	 * Holds the Open_Graph_Image_Helper instance.
 	 *
 	 * @var Open_Graph_Image_Helper|Mockery\MockInterface
 	 */
-	private $open_graph_image;
+	protected $open_graph_image;
 
 	/**
 	 * Holds the Twitter_Image_Helper instance.
 	 *
 	 * @var Twitter_Image_Helper|Mockery\MockInterface
 	 */
-	private $twitter_image;
+	protected $twitter_image;
 
 	/**
 	 * Holds the link builder instance.
@@ -74,14 +74,14 @@ class Indexable_Post_Builder_Test extends TestCase {
 	 *
 	 * @var Post_Helper|Mockery\MockInterface
 	 */
-	private $post;
+	protected $post;
 
 	/**
 	 * Holds the Indexable_Post_Builder instance.
 	 *
 	 * @var Indexable_Post_Builder|Indexable_Post_Builder_Double|Mockery\MockInterface
 	 */
-	private $instance;
+	protected $instance;
 
 	/**
 	 * Initializes the test mocks.
@@ -120,7 +120,7 @@ class Indexable_Post_Builder_Test extends TestCase {
 	 * @param Mockery\MockInterface|Indexable $indexable_mock The indexable mock object.
 	 * @param array                           $expectations   The expectation of the 'set' method of the mock object.
 	 */
-	private function set_indexable_set_expectations( $indexable_mock, $expectations ) {
+	protected function set_indexable_set_expectations( $indexable_mock, $expectations ) {
 		foreach ( $expectations as $key => $value ) {
 			$indexable_mock->orm->expects( 'set' )->with( $key, $value );
 		}

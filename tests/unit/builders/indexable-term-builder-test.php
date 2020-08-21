@@ -38,42 +38,42 @@ class Indexable_Term_Builder_Test extends TestCase {
 	 *
 	 * @var Mockery\Mock|Indexable_Term_Builder|Indexable_Term_Builder_Double
 	 */
-	private $instance;
+	protected $instance;
 
 	/**
 	 * The taxonomy helper mock.
 	 *
 	 * @var Mockery\MockInterface|Taxonomy_Helper
 	 */
-	private $taxonomy;
+	protected $taxonomy;
 
 	/**
 	 * The image helper mock.
 	 *
 	 * @var Mockery\MockInterface|Image_Helper
 	 */
-	private $image;
+	protected $image;
 
 	/**
 	 * The open graph image helper mock.
 	 *
 	 * @var Mockery\MockInterface|OG_Image_Helper
 	 */
-	private $open_graph_image;
+	protected $open_graph_image;
 
 	/**
 	 * The twitter image helper mock.
 	 *
 	 * @var Mockery\MockInterface|Twitter_Image_Helper
 	 */
-	private $twitter_image;
+	protected $twitter_image;
 
 	/**
 	 * The link builder mock.
 	 *
 	 * @var Mockery\MockInterface|Indexable_Link_Builder
 	 */
-	private $link_builder;
+	protected $link_builder;
 
 	/**
 	 * Sets up the tests.
@@ -108,7 +108,7 @@ class Indexable_Term_Builder_Test extends TestCase {
 	 * @param Mockery\MockInterface|Indexable $indexable_mock The indexable mock object.
 	 * @param array                           $expectations   The expectation of the 'set' method of the mock object.
 	 */
-	private function set_indexable_set_expectations( $indexable_mock, $expectations ) {
+	protected function set_indexable_set_expectations( $indexable_mock, $expectations ) {
 		foreach ( $expectations as $key => $value ) {
 			$indexable_mock->orm->expects( 'set' )->with( $key, $value );
 		}
