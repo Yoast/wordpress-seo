@@ -64,6 +64,8 @@ class Meta_Surface_Test extends TestCase {
 	protected $indexable;
 
 	/**
+	 * Represents the WP rewrite wrapper.
+	 *
 	 * @var WP_Rewrite_Wrapper
 	 */
 	private $wp_rewrite_wrapper;

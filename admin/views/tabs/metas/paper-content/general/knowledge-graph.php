@@ -20,8 +20,15 @@ $knowledge_graph_help = new WPSEO_Admin_Help_Panel(
 );
 ?>
 <div class="tab-block">
-	<h2 class="help-button-inline"><?php echo esc_html__( 'Knowledge Graph & Schema.org', 'wordpress-seo' ) . $knowledge_graph_help->get_button_html(); ?></h2>
+
+	<h2 class="help-button-inline">
+		<?php
+		// phpcs:ignore WordPress --sniffs=WordPress.Security.EscapeOutput -- get_button_html output is properly escaped.
+		echo esc_html__( 'Knowledge Graph & Schema.org', 'wordpress-seo' ) . $knowledge_graph_help->get_button_html();
+		?>
+	</h2>
 	<?php
+	// phpcs:ignore WordPress --sniffs=WordPress.Security.EscapeOutput -- get_panel_html output is properly escaped.
 	echo $knowledge_graph_help->get_panel_html();
 	/**
 	 * Filter: 'wpseo_knowledge_graph_setting_msg' - Allows adding a message above these settings.

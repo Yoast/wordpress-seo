@@ -18,6 +18,8 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
 class Yandex_Presenter_Test extends TestCase {
 
 	/**
+	 * Represents the instance to test.
+	 *
 	 * @var Yandex_Presenter
 	 */
 	protected $instance;
