@@ -1,5 +1,6 @@
 import { analysis } from "yoast-components";
 import activeMarker from "./activeMarker";
+import advancedSettings from "./advancedSettings";
 import analysisData from "./analysisData";
 import isCornerstone from "./cornerstoneContent";
 import facebookEditor from "./facebookEditor";
@@ -15,6 +16,7 @@ import warning from "./warning";
 
 export default {
 	analysis,
+	advancedSettings,
 	activeMarker,
 	analysisData,
 	isCornerstone,
