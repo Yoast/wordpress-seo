@@ -337,7 +337,7 @@ TPL;
 	 *
 	 * @param array $output Raw console output of the PHPCS command.
 	 *
-	 * @return array With statistics about 'errorsCount' => nr of errors, 'warningsCount' => nr of warnings,  'filesCount' => nr of affected files,
+	 * @return array ['error_count' = (int), 'warning_count' = (int)] Errors and warnings found by PHPCS.
 	 */
 	private static function extract_cs_statistics( $output ) {
 		$result  = false;
