@@ -95,15 +95,11 @@ class Indexable_Post_Builder_Test extends TestCase {
 		$this->link_builder         = Mockery::mock( Indexable_Link_Builder::class );
 		$this->post                 = Mockery::mock( Post_Helper::class );
 
-		$this->instance = Mockery::mock(
-			Indexable_Post_Builder_Double::class,
-			[
-				$this->link_builder,
-				$this->post,
-			]
-		)
-			->makePartial()
-			->shouldAllowMockingProtectedMethods();
+		$this->instance = new Indexable_Post_Builder_Double(
+			$this->link_builder,
+			$this->post
+		);
+
 		$this->instance->set_indexable_repository( $this->indexable_repository );
 		$this->instance->set_social_image_helpers(
 			$this->image,
@@ -124,6 +120,51 @@ class Indexable_Post_Builder_Test extends TestCase {
 		foreach ( $expectations as $key => $value ) {
 			$indexable_mock->orm->expects( 'set' )->with( $key, $value );
 		}
+	}
+
+	/**
+	 * Mocks a Twitter image that has been set by the user.
+	 */
+	protected function twitter_image_set_by_user() {
+		$this->indexable->orm->shouldReceive( 'get' )
+			->with( 'twitter_image' )
+			->andReturn( 'twitter-image' );
+
+		$this->indexable->orm->shouldReceive( 'get' )
+			->with( 'twitter_image_id' )
+			->andReturn( 'twitter-image-id' );
+
+		$this->twitter_image->shouldReceive( 'get_by_id' )
+			->with( 'twitter-image-id' )
+			->andReturn( 'twitter_image' );
+
+		$this->indexable->orm->shouldReceive( 'get' )
+			->with( 'twitter_image_source' )
+			->andReturn( 'set-by-user' );
+	}
+
+	/**
+	 * Mocks an Open Graph image that is set by the user.
+	 *
+	 * @param array $image_meta The mocked meta data of the image.
+	 */
+	protected function open_graph_image_set_by_user( $image_meta ) {
+		$this->indexable->orm->shouldReceive( 'get' )
+			->with( 'open_graph_image' )
+			->andReturn( 'open-graph-image' );
+
+		$this->indexable->orm->shouldReceive( 'get' )
+			->twice()
+			->with( 'open_graph_image_id' )
+			->andReturn( 'open-graph-image-id' );
+
+		$this->indexable->orm->shouldReceive( 'get' )
+			->with( 'open_graph_image_source' )
+			->andReturn( 'set-by-user' );
+
+		$this->open_graph_image->shouldReceive( 'get_image_by_id' )
+			->with( 'open-graph-image-id' )
+			->andReturn( $image_meta );
 	}
 
 	/**
@@ -237,9 +278,42 @@ class Indexable_Post_Builder_Test extends TestCase {
 
 		$this->link_builder->expects( 'build' )->with( $this->indexable, 'The content of the post' );
 
-		// Mock social images method (from the social image trait).
-		$this->instance->expects( 'reset_social_images' )->with( $this->indexable );
-		$this->instance->expects( 'handle_social_images' )->with( $this->indexable );
+		// Reset all social images first.
+		$this->indexable->orm->expects( 'set' )->with( 'open_graph_image', null );
+		$this->indexable->orm->expects( 'set' )->with( 'open_graph_image_id', null );
+		$this->indexable->orm->expects( 'set' )->with( 'open_graph_image_source', null );
+		$this->indexable->orm->expects( 'set' )->with( 'open_graph_image_meta', null );
+
+		$this->indexable->orm->expects( 'set' )->with( 'twitter_image', null );
+		$this->indexable->orm->expects( 'set' )->with( 'twitter_image_id', null );
+		$this->indexable->orm->expects( 'set' )->with( 'twitter_image_source', null );
+
+		$image_meta = [
+			'width'  => 640,
+			'height' => 480,
+			'url'    => 'http://basic.wordpress.test/wp-content/uploads/2020/07/WordPress5.jpg',
+			'path'   => '/var/www/html/wp-content/uploads/2020/07/WordPress5.jpg',
+			'size'   => 'full',
+			'id'     => 13,
+			'alt'    => '',
+			'pixels' => 307200,
+			'type'   => 'image/jpeg'
+		];
+
+		// Mock that the open graph and twitter images have been set by the user.
+		$this->open_graph_image_set_by_user( $image_meta );
+		$this->twitter_image_set_by_user();
+
+		// We expect the open graph image, its source and its metadata to be set.
+		$this->indexable->orm->expects( 'set' )->with( 'open_graph_image_source', 'set-by-user' );
+		$this->indexable->orm->expects( 'set' )
+			->with( 'open_graph_image', 'http://basic.wordpress.test/wp-content/uploads/2020/07/WordPress5.jpg' );
+		$this->indexable->orm->expects( 'set' )
+			->with( 'open_graph_image_meta', \json_encode( $image_meta, ( JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES ) ) );
+
+		// We expect the twitter image and its source to be set.
+		$this->indexable->orm->expects( 'set' )->with( 'twitter_image_source', 'set-by-user' );
+		$this->indexable->orm->expects( 'set' )->with( 'twitter_image', 'twitter_image' );
 
 		// Is public method.
 		$this->indexable->orm->expects( 'get' )->with( 'is_protected' )->andReturnFalse();
@@ -576,8 +650,6 @@ class Indexable_Post_Builder_Test extends TestCase {
 		$this->indexable->is_protected      = false;
 		$this->indexable->is_robots_noindex = false;
 		$this->indexable->object_sub_type   = 'attachment';
-
-		$this->instance->expects( 'is_public_attachment' )->once()->with( $this->indexable )->andReturnFalse();
 
 		$this->assertFalse( $this->instance->is_public( $this->indexable ) );
 	}
