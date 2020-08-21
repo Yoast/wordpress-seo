@@ -1,7 +1,7 @@
 import { MODAL_OPEN, MODAL_DISMISS, MODAL_OPEN_NO_KEYPHRASE, setSEMrushOpenModal, setSEMrushDismissModal, setSEMrushNoKeyphraseMessage } from "../../../src/redux/actions/SEMrushModal";
 
 describe( "SEMrushModal actions", () => {
-	it( "returns a MODAL_OPEN action with location: sidebar when setSEMrushOpenModal is called with \"sidebar\"", () => {
+	it( "returns a MODAL_OPEN action with location: sidebar when setSEMrushOpenModal is called with sidebar", () => {
 		const expected =  {
 			type: MODAL_OPEN,
 			location: "sidebar",
@@ -10,7 +10,7 @@ describe( "SEMrushModal actions", () => {
 
 		expect( actual ).toEqual( expected );
 	} );
-	it( "returns a MODAL_OPEN action with location: metabox when setSEMrushOpenModal is called with \"metabox\"", () => {
+	it( "returns a MODAL_OPEN action with location: metabox when setSEMrushOpenModal is called with metabox", () => {
 		const expected =  {
 			type: MODAL_OPEN,
 			location: "metabox",
@@ -19,7 +19,7 @@ describe( "SEMrushModal actions", () => {
 
 		expect( actual ).toEqual( expected );
 	} );
-	it( "returns a MODAL_OPEN action with location: none when setSEMrushOpenModal is called with \"none\"", () => {
+	it( "returns a MODAL_OPEN action with location: none when setSEMrushOpenModal is called with none", () => {
 		const expected =  {
 			type: MODAL_OPEN,
 			location: "none",
