@@ -143,7 +143,7 @@ class Actions {
 	 * @return void
 	 */
 	public static function lint_staged() {
-		self::lint_changed_files( '--staged' );
+		exit( self::lint_changed_files( '--staged' ) );
 	}
 
 	/**
@@ -158,13 +158,14 @@ class Actions {
 	 * @return void
 	 */
 	public static function lint_branch( Event $event ) {
-		$args = $event->getArguments();
-		if ( empty( $args ) ) {
-			self::lint_changed_files( 'trunk' );
+		$branch = 'trunk';
 
-			return;
+		$args = $event->getArguments();
+		if ( ! empty( $args ) ) {
+			$branch = $args[0];
 		}
-		self::lint_changed_files( $args[0] );
+
+		exit( self::lint_changed_files( $branch ) );
 	}
 
 	/**
@@ -179,35 +180,14 @@ class Actions {
 	 * @return void
 	 */
 	public static function check_branch_cs( Event $event ) {
+		$branch = 'trunk';
+
 		$args = $event->getArguments();
-		if ( empty( $args ) ) {
-			self::check_cs_for_changed_files( 'trunk' );
-
-			return;
-		}
-		self::check_cs_for_changed_files( $args[0] );
-	}
-
-	/**
-	 * Runs PHPCS on changed files compared to some git reference.
-	 *
-	 * @param string $compare The git reference.
-	 *
-	 * @codeCoverageIgnore
-	 *
-	 * @return void
-	 */
-	private static function check_cs_for_changed_files( $compare ) {
-		\exec( 'git diff --name-only --diff-filter=d ' . \escapeshellarg( $compare ), $files );
-
-		$php_files = self::filter_files( $files, '.php' );
-		if ( empty( $php_files ) ) {
-			echo 'No files to compare! Exiting.' . PHP_EOL;
-
-			return;
+		if ( ! empty( $args ) ) {
+			$branch = $args[0];
 		}
 
-		\system( 'composer check-cs -- ' . \implode( ' ', \array_map( 'escapeshellarg', $php_files ) ) );
+		exit( self::check_cs_for_changed_files( $branch ) );
 	}
 
 	/**
@@ -215,9 +195,9 @@ class Actions {
 	 *
 	 * @param string $compare The git reference.
 	 *
-	 * @codeCoverageIgnore
+	 * @return int Exit code from the lint command.
 	 *
-	 * @return void
+	 * @codeCoverageIgnore
 	 */
 	private static function lint_changed_files( $compare ) {
 		\exec( 'git diff --name-only --diff-filter=d ' . \escapeshellarg( $compare ), $files );
@@ -226,10 +206,34 @@ class Actions {
 		if ( empty( $php_files ) ) {
 			echo 'No files to compare! Exiting.' . PHP_EOL;
 
-			return;
+			return 0;
 		}
 
-		\system( 'composer lint-files -- ' . \implode( ' ', \array_map( 'escapeshellarg', $php_files ) ) );
+		\system( 'composer lint-files -- ' . \implode( ' ', \array_map( 'escapeshellarg', $php_files ) ), $exit_code );
+		return $exit_code;
+	}
+
+	/**
+	 * Runs PHPCS on changed files compared to some git reference.
+	 *
+	 * @param string $compare The git reference.
+	 *
+	 * @return int Exit code passed from the coding standards check.
+	 *
+	 * @codeCoverageIgnore
+	 */
+	private static function check_cs_for_changed_files( $compare ) {
+		\exec( 'git diff --name-only --diff-filter=d ' . \escapeshellarg( $compare ), $files );
+
+		$php_files = self::filter_files( $files, '.php' );
+		if ( empty( $php_files ) ) {
+			echo 'No files to compare! Exiting.' . PHP_EOL;
+
+			return 0;
+		}
+
+		\system( 'composer check-cs -- ' . \implode( ' ', \array_map( 'escapeshellarg', $php_files ) ), $exit_code );
+		return $exit_code;
 	}
 
 	/**
