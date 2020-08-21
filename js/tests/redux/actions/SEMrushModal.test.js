@@ -1,4 +1,5 @@
-import { MODAL_OPEN, MODAL_DISMISS, MODAL_OPEN_NO_KEYPHRASE, setSEMrushOpenModal, setSEMrushDismissModal, setSEMrushNoKeyphraseMessage } from "../../../src/redux/actions/SEMrushModal";
+import { MODAL_OPEN, MODAL_DISMISS, MODAL_OPEN_NO_KEYPHRASE,
+	setSEMrushOpenModal, setSEMrushDismissModal, setSEMrushNoKeyphraseMessage } from "../../../src/redux/actions/SEMrushModal";
 
 describe( "SEMrushModal actions", () => {
 	it( "returns a MODAL_OPEN action with location: sidebar when setSEMrushOpenModal is called with sidebar", () => {

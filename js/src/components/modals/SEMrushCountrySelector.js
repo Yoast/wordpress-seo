@@ -258,8 +258,6 @@ class SEMrushCountrySelector extends Component {
 	 */
 	handleSuccessResponse( response ) {
 		const {
-			keyphrase,
-			countryCode,
 			setNoResultsFound,
 			setRequestSucceeded,
 		} = this.props;

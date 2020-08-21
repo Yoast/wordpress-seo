@@ -1,4 +1,7 @@
-import { CHANGE_COUNTRY, NEW_REQUEST, SET_REQUEST_SUCCEEDED, SET_REQUEST_FAILED, SET_REQUEST_LIMIT_REACHED, NO_DATA_FOUND, setSEMrushChangeCountry, setSEMrushNewRequest, setSEMrushRequestSucceeded, setSEMrushRequestFailed, setSEMrushSetRequestLimitReached, setSEMrushNoResultsFound } from "../../../src/redux/actions/SEMrushRequest";
+import { CHANGE_COUNTRY, NEW_REQUEST, SET_REQUEST_SUCCEEDED,
+	SET_REQUEST_FAILED, SET_REQUEST_LIMIT_REACHED, NO_DATA_FOUND,
+	setSEMrushChangeCountry, setSEMrushNewRequest, setSEMrushRequestSucceeded,
+	setSEMrushRequestFailed, setSEMrushSetRequestLimitReached, setSEMrushNoResultsFound } from "../../../src/redux/actions/SEMrushRequest";
 
 describe( "SEMrushRequest actions", () => {
 	it( "returns a CHANGE_COUNTRY action with countryCode: nl when setSEMrushOpenModal is called with nl", () => {
@@ -10,7 +13,8 @@ describe( "SEMrushRequest actions", () => {
 
 		expect( actual ).toEqual( expected );
 	} );
-	it( "returns a NEW_REQUEST action with countryCode: nl and keyphrase: yoast when setSEMrushNewRequest is called with nl and yoast", () => {
+	it( "returns a NEW_REQUEST action with countryCode: nl and keyphrase: " +
+		"yoast when setSEMrushNewRequest is called with nl and yoast", () => {
 		const expected =  {
 			type: NEW_REQUEST,
 			countryCode: "nl",
@@ -20,7 +24,8 @@ describe( "SEMrushRequest actions", () => {
 
 		expect( actual ).toEqual( expected );
 	} );
-	it( "returns a SET_REQUEST_SUCCEEDED action with { response: \"exampleresponse\" } when setSEMrushRequestSucceeded is called with { response: \"exampleresponse\" }", () => {
+	it( "returns a SET_REQUEST_SUCCEEDED action with { response: \"exampleresponse\" } " +
+		"when setSEMrushRequestSucceeded is called with { response: \"exampleresponse\" }", () => {
 		const expected =  {
 			type: SET_REQUEST_SUCCEEDED,
 			response: { response: "exampleresponse" },
@@ -29,7 +34,8 @@ describe( "SEMrushRequest actions", () => {
 
 		expect( actual ).toEqual( expected );
 	} );
-	it( "returns a SET_REQUEST_FAILED action with { response: \"exampleresponse\" } when setSEMrushRequestFailed is called with { response: \"exampleresponse\" }", () => {
+	it( "returns a SET_REQUEST_FAILED action with { response: \"exampleresponse\" } " +
+		"when setSEMrushRequestFailed is called with { response: \"exampleresponse\" }", () => {
 		const expected =  {
 			type: SET_REQUEST_FAILED,
 			response: { response: "exampleresponse" },
@@ -38,7 +44,8 @@ describe( "SEMrushRequest actions", () => {
 
 		expect( actual ).toEqual( expected );
 	} );
-	it( "returns a SET_REQUEST_LIMIT_REACHED action when setSEMrushSetRequestLimitReached is called", () => {
+	it( "returns a SET_REQUEST_LIMIT_REACHED action when " +
+		"setSEMrushSetRequestLimitReached is called", () => {
 		const expected =  {
 			type: SET_REQUEST_LIMIT_REACHED,
 		};
@@ -46,7 +53,8 @@ describe( "SEMrushRequest actions", () => {
 
 		expect( actual ).toEqual( expected );
 	} );
-	it( "returns a NO_DATA_FOUND action with countryCode: nl and keyphrase: yoast when setSEMrushNoResultsFound is called with countryCode: nl and keyphrase: yoast", () => {
+	it( "returns a NO_DATA_FOUND action with countryCode: nl and " +
+		"keyphrase: yoast when setSEMrushNoResultsFound is called with countryCode: nl and keyphrase: yoast", () => {
 		const expected =  {
 			type: NO_DATA_FOUND,
 		};

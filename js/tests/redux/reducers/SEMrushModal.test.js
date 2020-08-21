@@ -1,7 +1,5 @@
 import { setSEMrushOpenModal, setSEMrushDismissModal, setSEMrushNoKeyphraseMessage } from "../../../src/redux/actions/SEMrushModal";
-import SEMrushModalReducer from "../../../src/redux/reducers/SEMrushModal";
-
-
+import modalReducerSEMrush from "../../../src/redux/reducers/SEMrushModal";
 
 describe( "SEMrushModalReducer", () => {
 	it( "sets whichModalOpen to sidebar when the reducer is called with a setSEMrushOpenModal action creator that is called with sidebar", () => {
@@ -16,7 +14,7 @@ describe( "SEMrushModalReducer", () => {
 			whichModalOpen: "sidebar",
 			displayNoKeyphraseMessage: false,
 		};
-		const actual = SEMrushModalReducer( state, action );
+		const actual = modalReducerSEMrush( state, action );
 
 		expect( actual ).toEqual( expected );
 	} );
@@ -32,11 +30,12 @@ describe( "SEMrushModalReducer", () => {
 			whichModalOpen: "none",
 			displayNoKeyphraseMessage: false,
 		};
-		const actual = SEMrushModalReducer( state, action );
+		const actual = modalReducerSEMrush( state, action );
 
 		expect( actual ).toEqual( expected );
 	} );
-	it( "sets displayNoKeyphraseMessage to true when the reducer is called with a setSEMrushNoKeyphraseMessage action creator that is called with true", () => {
+	it( "sets displayNoKeyphraseMessage to true when the reducer is " +
+		"called with a setSEMrushNoKeyphraseMessage action creator that is called with true", () => {
 		const state = {
 			whichModalOpen: "none",
 			displayNoKeyphraseMessage: false,
@@ -48,7 +47,7 @@ describe( "SEMrushModalReducer", () => {
 			whichModalOpen: "none",
 			displayNoKeyphraseMessage: true,
 		};
-		const actual = SEMrushModalReducer( state, action );
+		const actual = modalReducerSEMrush( state, action );
 
 		expect( actual ).toEqual( expected );
 	} );

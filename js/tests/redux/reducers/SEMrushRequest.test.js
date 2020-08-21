@@ -1,9 +1,8 @@
-import { setSEMrushChangeCountry, setSEMrushNewRequest, setSEMrushRequestSucceeded, setSEMrushRequestFailed, setSEMrushSetRequestLimitReached, setSEMrushNoResultsFound } from "../../../src/redux/actions/SEMrushRequest";
-import SEMrushRequestReducer from "../../../src/redux/reducers/SEMrushRequest";
+import { setSEMrushChangeCountry, setSEMrushNewRequest, setSEMrushRequestSucceeded,
+	setSEMrushRequestFailed, setSEMrushSetRequestLimitReached, setSEMrushNoResultsFound } from "../../../src/redux/actions/SEMrushRequest";
+import requestReducerSEMrush from "../../../src/redux/reducers/SEMrushRequest";
 
-
-
-describe( "SEMrushRequestReducer", () => {
+describe( "semrushRequestReducer", () => {
 	it( "sets countryCode to nl when the reducer is called with a setSEMrushChangeCountry action creator that is called with nl", () => {
 		const state = {
 			isRequestPending: false,
@@ -26,12 +25,13 @@ describe( "SEMrushRequestReducer", () => {
 			limitReached: false,
 			hasData: true,
 		};
-		const actual = SEMrushRequestReducer( state, action );
+		const actual = requestReducerSEMrush( state, action );
 
 		expect( actual ).toEqual( expected );
 	} );
 
-	it( "sets the state to an open request when the reducer is called with a setSEMrushNewRequest action creator that is called with nl and yoast", () => {
+	it( "sets the state to an open request when the reducer is " +
+		"called with a setSEMrushNewRequest action creator that is called with nl and yoast", () => {
 		const state = {
 			isRequestPending: false,
 			keyphrase: "",
@@ -53,12 +53,13 @@ describe( "SEMrushRequestReducer", () => {
 			limitReached: false,
 			hasData: true,
 		};
-		const actual = SEMrushRequestReducer( state, action );
+		const actual = requestReducerSEMrush( state, action );
 
 		expect( actual ).toEqual( expected );
 	} );
 
-	it( "sets the state to an succeeded request when the reducer is called with a setSEMrushRequestSucceeded action creator that is called with a sample response", () => {
+	it( "sets the state to an succeeded request when the reducer is called with" +
+		" a setSEMrushRequestSucceeded action creator that is called with a sample response", () => {
 		const state = {
 			isRequestPending: false,
 			keyphrase: "",
@@ -82,12 +83,13 @@ describe( "SEMrushRequestReducer", () => {
 			limitReached: false,
 			hasData: true,
 		};
-		const actual = SEMrushRequestReducer( state, action );
+		const actual = requestReducerSEMrush( state, action );
 
 		expect( actual ).toEqual( expected );
 	} );
 
-	it( "sets the state to an failed request when the reducer is called with a setSEMrushRequestFailed action creator that is called with a sample response", () => {
+	it( "sets the state to an failed request when the reducer is called " +
+		"with a setSEMrushRequestFailed action creator that is called with a sample response", () => {
 		const state = {
 			isRequestPending: false,
 			keyphrase: "",
@@ -111,7 +113,7 @@ describe( "SEMrushRequestReducer", () => {
 			limitReached: false,
 			hasData: false,
 		};
-		const actual = SEMrushRequestReducer( state, action );
+		const actual = requestReducerSEMrush( state, action );
 
 		expect( actual ).toEqual( expected );
 	} );
@@ -138,7 +140,7 @@ describe( "SEMrushRequestReducer", () => {
 			limitReached: true,
 			hasData: false,
 		};
-		const actual = SEMrushRequestReducer( state, action );
+		const actual = requestReducerSEMrush( state, action );
 
 		expect( actual ).toEqual( expected );
 	} );
@@ -154,7 +156,7 @@ describe( "SEMrushRequestReducer", () => {
 			hasData: true,
 		};
 
-		const action = setSEMrushNoResultsFound("nl", "yoast");
+		const action = setSEMrushNoResultsFound( "nl", "yoast" );
 
 		const expected = {
 			isRequestPending: false,
@@ -166,11 +168,8 @@ describe( "SEMrushRequestReducer", () => {
 			hasData: false,
 		};
 
-		const actual = SEMrushRequestReducer( state, action );
+		const actual = requestReducerSEMrush( state, action );
 
 		expect( actual ).toEqual( expected );
 	} );
-
-
-
 } );

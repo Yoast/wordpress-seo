@@ -1,4 +1,6 @@
-import { getSEMrushIsRequestPending, getSEMrushRequestHasData, getSEMrushRequestIsSuccess, getSEMrushRequestKeyphrase, getSEMrushRequestLimitReached, getSEMrushRequestResponse, getSEMrushSelectedCountry } from "../../../src/redux/selectors/SEMrushRequest";
+import { getSEMrushIsRequestPending, getSEMrushRequestHasData, getSEMrushRequestIsSuccess,
+	getSEMrushRequestKeyphrase, getSEMrushRequestLimitReached, getSEMrushRequestResponse,
+	getSEMrushSelectedCountry } from "../../../src/redux/selectors/SEMrushRequest";
 
 // This mimics parts of the yoast-seo/editor store.
 const testState = {
@@ -9,7 +11,7 @@ const testState = {
 		keyphrase: "yoast",
 		limitReached: false,
 		response: {
-			sampleData: "yoastIsAwesome"
+			sampleData: "yoastIsAwesome",
 		},
 		countryCode: "nl",
 	},
@@ -70,7 +72,7 @@ describe( getSEMrushRequestResponse, () => {
 		const actual = getSEMrushRequestResponse( testState );
 
 		const expected = {
-			sampleData: "yoastIsAwesome"
+			sampleData: "yoastIsAwesome",
 		};
 
 		expect( actual ).toEqual( expected );
