@@ -10,6 +10,7 @@ module.exports = {
 	"default": {
 
 	},
+	/* eslint-disable camelcase */
 	"seo-free-rc-pre-release": {
 		options: {
 			manualEditChangelog: true,
@@ -24,4 +25,5 @@ module.exports = {
 			prerelease: false,
 		},
 	},
+	/* eslint-enable camelcase */
 };
