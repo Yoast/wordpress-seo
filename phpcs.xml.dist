@@ -56,8 +56,26 @@
         </properties>
     </rule>
 
+    <rule ref="Yoast.NamingConventions.NamespaceName">
+        <properties>
+            <property name="prefixes" type="array" value="Yoast\WP\SEO\,Yoast\WP\SEO\Tests\Unit\" />
+        </properties>
+    </rule>
+
+    <!-- Exclude old code from filename conventions, new code needs to be added to `src/`. -->
+    <rule ref="Yoast.Files.FileName">
+        <exclude-pattern>admin/*</exclude-pattern>
+        <exclude-pattern>tests/integration/*</exclude-pattern>
+        <exclude-pattern>inc/*</exclude-pattern>
+    </rule>
+
     <rule ref="WordPress.Security.EscapeOutput.OutputNotEscaped">
-      <exclude-pattern>config/composer/*</exclude-pattern> <!-- Composer scripts are not WordPress and have console output. -->
+        <exclude-pattern>config/composer/*</exclude-pattern> <!-- Composer scripts are not WordPress and have console output. -->
+    </rule>
+
+    <!-- Exclude php-codeshift from being checked too roughly. -->
+    <rule ref="Yoast.NamingConventions.ObjectNameDepth">
+        <exclude-pattern>config/php-codeshift/*</exclude-pattern>
     </rule>
 
     <!--
