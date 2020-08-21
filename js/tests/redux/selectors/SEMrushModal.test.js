@@ -19,7 +19,7 @@ describe( getSEMrushModalOpen, () => {
 } );
 
 describe( getSEMrushNoKeyphraseMessage, () => {
-	it( "returns the modal status", () => {
+	it( "returns the modal keyphrase status", () => {
 		const actual = getSEMrushNoKeyphraseMessage( testState );
 
 		const expected = false;
