@@ -11,12 +11,13 @@ use Yoast\WP\SEO\Conditionals\Front_End_Conditional;
 use Yoast\WP\SEO\Conditionals\The_Events_Calendar_Conditional;
 use Yoast\WP\SEO\Conditionals\Open_Graph_Conditional;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
-use Yoast\WP\SEO\Integrations\Third_Party\TheEventsCalendar\Schema;
+use Yoast\WP\SEO\Generators\Schema\Third_Party\EventsCalendarSchema;
+use function \apply_filters;
 
 /**
- * Class TheEventsCalendar
+ * Class The_Events_Calendar
  */
-class TheEventsCalendar implements Integration_Interface {
+class The_Events_Calendar implements Integration_Interface {
 
 	/**
 	 * @inheritDoc
@@ -29,7 +30,7 @@ class TheEventsCalendar implements Integration_Interface {
 	 * @inheritDoc
 	 */
 	public function register_hooks() {
-		add_filter( 'wpseo_schema_graph_pieces', array( $this, 'add_graph_pieces' ), 11, 2 );
+		\add_filter( 'wpseo_schema_graph_pieces', array( $this, 'add_graph_pieces' ), 11, 2 );
 	}
 
 	public function add_graph_pieces( $pieces, $context ) {

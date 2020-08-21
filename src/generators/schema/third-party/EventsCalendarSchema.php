@@ -5,12 +5,13 @@
  * @package Yoast\WP\SEO\Integrations\Third_Party\The_Events_Calendar
  */
 
-namespace Yoast\WP\SEO\Integrations\Third_Party;
+namespace Yoast\WP\SEO\Generators\Schema\Third_Party;
 
 use Yoast\WP\SEO\Generators\Schema\Abstract_Schema_Piece;
 use Yoast\WP\SEO\Config\Schema_IDs;
 use Tribe__Events__JSON_LD__Event;
 use Tribe__Events__Template__Month;
+use function \apply_filters;
 
 /**
  * A class to handle textdomains and other Yoast Event Schema related logic..
@@ -36,10 +37,10 @@ class EventsCalendarSchema extends Abstract_Schema_Piece {
 	 * @return bool
 	 */
 	public function is_needed() {
-		if ( is_single() && 'tribe_events' === get_post_type() ) {
+		if ( \is_single() && 'tribe_events' === \get_post_type() ) {
 			// The single event view.
 			return true;
-		} elseif ( tribe_is_month() ) {
+		} elseif ( \tribe_is_month() ) {
 			// The month event view.
 			return true;
 		}
@@ -57,11 +58,11 @@ class EventsCalendarSchema extends Abstract_Schema_Piece {
 	public function generate() {
 		$posts = array();
 
-		if ( is_singular( 'tribe_events' ) ) {
+		if ( \is_singular( 'tribe_events' ) ) {
 			global $post;
 			$posts[] = $post;
 		} elseif (
-			tribe_is_month()
+			\tribe_is_month()
 		) {
 			$posts = $this->get_month_events();
 		}
@@ -100,7 +101,7 @@ class EventsCalendarSchema extends Abstract_Schema_Piece {
 			'context' => false,
 		);
 		$tribe_data = Tribe__Events__JSON_LD__Event::instance()->get_data( $posts, $args );
-		$type       = strtolower( esc_attr( Tribe__Events__JSON_LD__Event::instance()->type ) );
+		$type       = \strtolower( esc_attr( Tribe__Events__JSON_LD__Event::instance()->type ) );
 
 		foreach ( $tribe_data as $post_id => $_data ) {
 			Tribe__Events__JSON_LD__Event::instance()->set_type( $post_id, $type );
@@ -133,23 +134,24 @@ class EventsCalendarSchema extends Abstract_Schema_Piece {
 		$new_data = array();
 
 		foreach ( $data as $post_id => $d ) {
+			$permalink = \get_permalink( $post_id );
 			/*
 			 * EVENT
 			 */
 			// Generate an @id for the event.
-			$d->{'@id'} = get_permalink( $post_id ) . '#' . strtolower( esc_attr( $d->{'@type'} ) );
+			$d->{'@id'} = $permalink . '#' . strtolower( esc_attr( $d->{'@type'} ) );
 
 			// Transform the post_thumbnail from the url to the @id of #primaryimage.
-			if ( has_post_thumbnail( $post_id ) ) {
-				if ( is_singular( 'tribe_events' ) ) {
+			if ( \has_post_thumbnail( $post_id ) ) {
+				if ( \is_singular( 'tribe_events' ) ) {
 					// On a single view we can assume that Yoast SEO already printed the
 					// image schema for the post thumbnail.
 					$d->image = (object) [
-						'@id' => get_permalink( $post_id ) . '#primaryimage',
+						'@id' => $permalink . '#primaryimage',
 					];
 				} else {
-					$image_id  = get_post_thumbnail_id( $post_id );
-					$schema_id = get_permalink( $post_id ) . '#primaryimage';
+					$image_id  = \get_post_thumbnail_id( $post_id );
+					$schema_id = $permalink . '#primaryimage';
 					$d->image  = $this->helpers->schema->image->generate_from_attachment_id( $schema_id, $image_id );
 				}
 			}
@@ -157,19 +159,19 @@ class EventsCalendarSchema extends Abstract_Schema_Piece {
 			if ( isset( $d->description ) && ! empty( $d->description ) ) {
 				// By the time the description arrives in this plugin it is heavily
 				// escaped. That's why we basically pull new text from the database.
-				$d->description = get_the_excerpt( $post_id );
+				$d->description = \get_the_excerpt( $post_id );
 			}
 
 			/*
 			 * ORGANIZER
 			 */
-			if ( tribe_has_organizer( $post_id ) ) {
+			if ( \tribe_has_organizer( $post_id ) ) {
 				if ( ! $d->organizer ) {
 					$d->organizer = new \stdClass();
 				}
 
-				$organizer_id              = tribe_get_organizer_id( $post_id );
-				$d->organizer->description = get_the_excerpt( $organizer_id );
+				$organizer_id              = \tribe_get_organizer_id( $post_id );
+				$d->organizer->description = \get_the_excerpt( $organizer_id );
 
 				// Fix empty organizer/url and wrong organizer/sameAs.
 				if ( isset( $d->organizer->sameAs ) && $d->organizer->url === false ) {
@@ -181,13 +183,13 @@ class EventsCalendarSchema extends Abstract_Schema_Piece {
 			/*
 			 * VENUE / LOCATION
 			 */
-			if ( tribe_has_venue( $post_id ) ) {
+			if ( \tribe_has_venue( $post_id ) ) {
 				if ( ! $d->location ) {
 					$d->location = new \stdClass();
 				}
 
-				$venue_id                 = tribe_get_venue_id( $post_id );
-				$d->location->description = get_the_excerpt( $venue_id );
+				$venue_id                 = \tribe_get_venue_id( $post_id );
+				$d->location->description = \get_the_excerpt( $venue_id );
 			}
 
 			/*
@@ -218,12 +220,12 @@ class EventsCalendarSchema extends Abstract_Schema_Piece {
 	 * @return array An array of posts of the custom post type event.
 	 */
 	private function get_month_events() {
-		$wp_query = tribe_get_global_query_object();
+		$wp_query = \tribe_get_global_query_object();
 
 		$event_date = $wp_query->get( 'eventDate' );
 
 		$month = empty( $event_date )
-			? tribe_get_month_view_date()
+			? \tribe_get_month_view_date()
 			: $wp_query->get( 'eventDate' );
 
 		$args = [
@@ -234,7 +236,7 @@ class EventsCalendarSchema extends Abstract_Schema_Piece {
 			'hide_upcoming'  => true,
 		];
 
-		$posts = tribe_get_events( $args );
+		$posts = \tribe_get_events( $args );
 
 		return $posts;
 	}
