@@ -114,35 +114,19 @@ clean:build-assets:
   - 'remove-vendor-prefixed-folder'
   - 'shell:remove-vendor-prefixed-uses'
 
-'release-rc-test':
-    - 'init-rc-release:default'
-    - 'ensure-clean-branch'
-    - 'ensure-pre-release-branch'
-    - 'update-readme'
-    - 'bump-rc-version'
-    - 'sync-gutenberg-version'
-    - 'artifact'
-    - 'add-github-release:seo-free-rc-pre-release' 
-    - 'send-slack-notify:rc'
-    - 'check-deploy-allowed'
-    - 'deploy-to-wordpress:trunk'
-    - 'verify-zip-size'
-    - 'celebrate'
-
-
-
 # Get the project ready for release-candidate
 'create-rc':
+  - 'init-rc-release:default'
   - 'ensure-clean-branch'
   - 'ensure-pre-release-branch'
   - 'update-readme'
   - 'bump-rc-version'
   - 'sync-gutenberg-version'
   - 'artifact'
-  - 'github-pre-release'
-  - 'notify-slack:rc'
+  - 'add-github-release:seo-free-rc-pre-release' 
+  - 'send-slack-notify:rc'
   - 'check-deploy-allowed'
-  - 'wp_deploy:trunk'
+  - 'deploy-to-wordpress:trunk'
   - 'verify-zip-size'
   - 'celebrate'
 
