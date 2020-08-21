@@ -137,7 +137,18 @@ class Indexable_Ancestor_Watcher implements Integration_Interface {
 		$object_ids = $this->get_object_ids_for_term( $term_id );
 
 		// Removes the objects that are already present in the children.
-		$object_ids = $this->filter_already_fetched_indexables( $child_indexables, $object_ids );
+		foreach ( $child_indexables as $child_indexable ) {
+			if ( $child_indexable->object_type !== 'post' ) {
+				continue;
+			}
+
+			$search = \array_search( $child_indexable->object_id, $object_ids, true );
+			if ( ! $search ) {
+				continue;
+			}
+
+			unset( $object_ids[ $search ] );
+		}
 
 		// Finds the indexables for the fetched object_ids.
 		$indexables_by_term = $this->indexable_repository->find_by_multiple_ids_and_type( $object_ids, 'post' , false );
@@ -146,13 +157,20 @@ class Indexable_Ancestor_Watcher implements Integration_Interface {
 		$additional_indexable_ids = $this->indexable_hierarchy_repository->find_children_by_ancestor_ids( $object_ids );
 
 		// Makes sure we only have indexable ids that we haven't fetched before.
-		$additional_indexable_ids = $this->filter_already_fetched_indexables( $indexables_by_term, $additional_indexable_ids );
+		foreach ( $indexables_by_term as $indexable_by_term ) {
+			$search = \array_search( $indexable_by_term->id, $additional_indexable_ids, true );
+			if ( ! $search ) {
+				continue;
+			}
+
+			unset( $additional_indexable_ids[ $search ] );
+		}
 
 		// Finds the additional indexables.
 		$additional_indexables = $this->indexable_repository->find_by_ids( $additional_indexable_ids );
 
 		// Lets merge all fetched indexables.
-		return array_merge( $indexables_by_term, $additional_indexables );
+		return \array_merge( $indexables_by_term, $additional_indexables );
 	}
 
 	/**
@@ -192,30 +210,5 @@ class Indexable_Ancestor_Watcher implements Integration_Interface {
 
 			', $term_taxonomy_ids )
 		);
-	}
-
-	/**
-	 * Filters the object ids which indexables are already present in the list of indexables.
-	 *
-	 * @param Indexable[] $indexables List with indexables.
-	 * @param array       $object_ids List with object ids.
-	 *
-	 * @return array The filtered list with object_ids.
-	 */
-	protected function filter_already_fetched_indexables( array $indexables, array $object_ids ) {
-		foreach ( $indexables as $indexable ) {
-			if ( $indexable->object_type !== 'post' ) {
-				continue;
-			}
-
-			$search = array_search( $indexable->object_id, $object_ids, true );
-			if ( ! $search ) {
-				continue;
-			}
-
-			unset( $object_ids[ $search ] );
-		}
-
-		return $object_ids;
 	}
 }
