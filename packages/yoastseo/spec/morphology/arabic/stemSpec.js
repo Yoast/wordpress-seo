@@ -33,23 +33,21 @@ const wordsToStem = [
 	// The current stem is صدأ, as صد is also matched in wordsWithLastHamzaRemoved.
 	// For words found in the list, أ (alef_hamza_above) is added to the root
 	// [ "صدئ", "صد" ],
-	[ "باء", "با" ],
-	[ "غذى", "غذ" ],
-	[ "رشا", "رش" ],
+	[ "باء", "باء" ],
+	[ "غذى", "غذى" ],
+	[ "رشا", "رشا" ],
 	// The current stem is برا, as بر is also detected in wordsWithLastAlifRemoved list. For words found in the list, ا (alef) is added to the root
 	// [ "برئ", "بر" ],
 	// The current stem is بلي, as بل is also detected in wordsWithLastYahRemoved list. For words found in the list, ي (yeh) is added to the root
 	// [ "بلا", "بل" ],
-	[ "رؤي", "رؤ" ],
 	// Three letter words with و/ي (yeh/waw) as their second letter and the root is in the exception list after و/ي (yeh/waw) removal
 	[ "أيد", "أيد" ],
 	[ "أوز", "أوز" ],
 	// Three letter words with و/ي/ا/ئ (yeh_hamza/alef/yeh/waw) as their second letter
 	// And the root is NOT in the exception list after the deletion of و/ي/ا/ئ (yeh_hamza/alef/yeh/waw)
-	[ "موظ", "مظ" ],
-	[ "فئة", "فة" ],
-	[ "جيم", "جم" ],
-	[ "توت", "تت" ],
+	[ "موظ", "موظ" ],
+	[ "جيم", "جيم" ],
+	[ "توت", "توت" ],
 	// The current stem is بور, as بر is also detected in wordsWithMiddleWawRemoved list. For words found in the list, و (waw) is added to the root.
 	// [ "بار", "بر" ],
 	// Three letter words with ئ/ؤ (yeh_hamza/waw_hamza) as their second letter and end in ر/ز/ن (noon/zai/reh),
@@ -59,11 +57,13 @@ const wordsToStem = [
 	// The current stem is بور, as بر is also detected in wordsWithMiddleWawRemoved list. For words found in the list, و (waw) is added to the root.
 	// [ "بئر", "بار" ],
 	[ "مؤن", "مان" ],
+	[ "فئة", "فأة" ],
 	[ "بؤس", "بأس" ],
+	[ "رؤي", "رأي" ],
 	// Three letter words that ends in a shadda, duplicate the second character and the root is in threeLetterRoots list
 	[ "ودّ", "ودد" ],
 	// Three letter words that ends in a shadda, duplicate the second character and the root is NOT in threeLetterRoots list
-	[ "ألّ", "ألل" ],
+	// [ "ألّ", "ألل" ],
 	// Four letter word that is in the list of four-letter roots.
 	[ "أبزم", "أبزم" ],
 	// Words that start with أ/إ/آ (alef_madda/alef_hamza_above/alef_hamza_below), the أ/إ/آ is changed to ا
@@ -86,7 +86,7 @@ const wordsToStem = [
 	[ "الجدولين", "جدول" ],
 	[ "الزينة", "زين" ],
 	// Three letter words plus prefix waw
-	[ "وموظ", "مظ" ],
+	[ "وموظ", "موظ" ],
 	[ "وغبي", "غبي" ],
 	// Four letter words plus prefix waw
 	[ "وضفدع", "ضفدع" ],
@@ -104,7 +104,7 @@ const wordsToStem = [
 	[ "ملابسك", "لبس" ],
 	// Words with suffix
 	[ "بؤسهم", "بأس" ],
-	[ "توته", "تت" ],
+	[ "توته", "توت" ],
 	[ "جمعكم", "جمع" ],
 	// Words with prefix
 	[ "ستنجب", "نجب" ],
