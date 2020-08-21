@@ -24,9 +24,6 @@ module.exports = function( grunt ) {
 			const basebranch = options.type === "hotfix" ? "master" : "trunk";
 			const branchForRC = options.branchForRC
 
-			// Set a grunt branchForRC variable.
-			//grunt.config.data.branchForRC = branchForRC;
-
 			// First switch to either trunk or master to make sure we branch from the correct base branch.
 			grunt.config( "gitcheckout.baseBranch.options", {
 				branch: basebranch,
