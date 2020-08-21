@@ -3,6 +3,6 @@ module.exports = {
         options: {
             enableSlack: true,
             pluginVersion: "<%= pluginVersion %>"
-        }
+        },
     },
-}
+};

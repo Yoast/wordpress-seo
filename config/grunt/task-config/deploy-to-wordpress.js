@@ -1,8 +1,8 @@
 module.exports = {
-	"trunk": {
+    "trunk": {
         options: {
             enable: false,
-            branch: 'trunk',
-        }
+            branch: "trunk",
+        },
     },
-}
+};

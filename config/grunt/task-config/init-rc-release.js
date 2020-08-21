@@ -1,15 +1,15 @@
 module.exports = {
-	"default": {
+    "default": {
         options: {
-            githubOwner: 'yoast',
-            githubRepo: '<%= pluginSlug %>',
+            githubOwner: "yoast",
+            githubRepo: "<%= pluginSlug %>",
             enableSlack: true,
-            type: 'release',
+            type: "release",
             enableSvnDeploy: false,
             enableGithubRelease: true,
-            alternativeBranch: 'CI-test',
+            alternativeBranch: "CI-test",
             alternativeBranchPush: true,
             noBump: false,
-       }
+       },
     },
-}
+};

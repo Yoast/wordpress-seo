@@ -1,8 +1,8 @@
 module.exports = {
-	options: {
+    options: {
         githubOwner: "<%= githubOwner %>",
         githubRepo: "<%= githubRepo %>",
     },
     "default": {
     },
-}
+};
