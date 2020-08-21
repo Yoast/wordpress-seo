@@ -266,7 +266,7 @@ class SEMrushCountrySelector extends Component {
 
 		if ( response.results.rows.length === 0 ) {
 			// No results found.
-			setNoResultsFound( keyphrase, countryCode );
+			setNoResultsFound();
 
 			return;
 		}

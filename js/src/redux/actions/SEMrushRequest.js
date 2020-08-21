@@ -77,15 +77,10 @@ export function setSEMrushChangeCountry( countryCode ) {
 /**
  * An action creator for when no data is returned from SEMrush.
  *
- * @param {string} countryCode The country code of the database to be set.
- * @param {string} keyphrase   The keyphrase.
- *
  * @returns {Object} Action object.
  */
-export function setSEMrushNoResultsFound( countryCode, keyphrase ) {
+export function setSEMrushNoResultsFound() {
 	return {
 		type: NO_DATA_FOUND,
-		countryCode,
-		keyphrase,
 	};
 }
