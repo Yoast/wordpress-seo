@@ -42,8 +42,6 @@ class Indexable_Post_Builder {
 	/**
 	 * Indexable_Post_Builder constructor.
 	 *
-	 * @codeCoverageIgnore This is dependency injection only.
-	 *
 	 * @param Indexable_Link_Builder $link_builder The link builder.
 	 * @param Post_Helper            $post         The post helper.
 	 */

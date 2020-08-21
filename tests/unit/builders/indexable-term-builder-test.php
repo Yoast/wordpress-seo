@@ -16,7 +16,7 @@ use Yoast\WP\SEO\Tests\Unit\Doubles\Indexable_Term_Builder_Double;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
- * Class Indexable_Term_Test.
+ * Class Indexable_Term_Builder_Test.
  *
  * @group indexables
  * @group builders
@@ -27,7 +27,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
 class Indexable_Term_Builder_Test extends TestCase {
 
 	/**
-	 * Options being mocked.
+	 * The options being mocked.
 	 *
 	 * @var array
 	 */

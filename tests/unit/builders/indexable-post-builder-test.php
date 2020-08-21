@@ -17,10 +17,10 @@ use Yoast\WP\SEO\Tests\Unit\Doubles\Builders\Indexable_Post_Builder_Double;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
- * Class Indexable_Post_Test.
+ * Class Indexable_Post_Builder_Test.
  *
- * @group   indexables
- * @group   builders
+ * @group indexables
+ * @group builders
  *
  * @coversDefaultClass \Yoast\WP\SEO\Builders\Indexable_Post_Builder
  * @covers ::<!public>
@@ -63,7 +63,7 @@ class Indexable_Post_Builder_Test extends TestCase {
 	private $twitter_image;
 
 	/**
-	 * The link builder.
+	 * Holds the link builder instance.
 	 *
 	 * @var Indexable_Link_Builder|Mockery\MockInterface
 	 */

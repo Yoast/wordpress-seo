@@ -6,7 +6,7 @@ use Yoast\WP\SEO\Builders\Indexable_Term_Builder;
 use Yoast\WP\SEO\Models\Indexable;
 
 /**
- * Class Indexable_Term_Builder_Double
+ * Class Indexable_Term_Builder_Double.
  */
 class Indexable_Term_Builder_Double extends Indexable_Term_Builder {
 

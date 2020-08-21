@@ -12,7 +12,7 @@ use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
- * Class Indexable_Social_Image_Trait_Test
+ * Class Indexable_Social_Image_Trait_Test.
  *
  * @group indexables
  * @group builders
@@ -36,7 +36,7 @@ class Indexable_Social_Image_Trait_Test extends TestCase {
 	private $twitter_image;
 
 	/**
-	 * The open graph image helpet mock.
+	 * The open graph image helper mock.
 	 *
 	 * @var Mockery\MockInterface|Open_Graph\Image_Helper
 	 */
@@ -50,6 +50,8 @@ class Indexable_Social_Image_Trait_Test extends TestCase {
 	private $image;
 
 	/**
+	 * The indexable mock.
+	 *
 	 * @var Mockery\MockInterface|Indexable
 	 */
 	private $indexable;
