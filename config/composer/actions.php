@@ -339,6 +339,8 @@ TPL;
 	/**
 	 * Extract the number of errors, warnings and affected files from the phpcs summary
 	 *
+	 * Thanks for the inspiration from https://github.com/OXID-eSales/coding_standards_wrapper
+	 *
 	 * @param array $output Raw console output of the PHPCS command.
 	 *
 	 * @return array ['error_count' = (int), 'warning_count' = (int)] Errors and warnings found by PHPCS.
@@ -378,7 +380,9 @@ TPL;
 	}
 
 	/**
-	 * Checks if the CS errors and warnings are below or at thresholds
+	 * Checks if the CS errors and warnings are below or at thresholds.
+	 *
+	 * Thanks for the inspiration from https://github.com/OXID-eSales/coding_standards_wrapper
 	 */
 	public static function check_cs_thresholds() {
 		$error_threshold   = (int) getenv( 'YOASTCS_THRESHOLD_ERRORS' );
