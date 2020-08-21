@@ -2,8 +2,7 @@ import { __, sprintf } from "@wordpress/i18n";
 import { MultiSelect, Select } from "@yoast/components";
 import { RadioButtonGroup } from "@yoast/components";
 import { TextInput } from "@yoast/components";
-import { curryUpdateToHiddenInput, getValueFromHiddenInput } from "@yoast/helpers";
-import { Fragment } from "@wordpress/element";
+import { Fragment, useEffect } from "@wordpress/element";
 import { Alert } from "@yoast/components";
 import PropTypes from "prop-types";
 
@@ -78,10 +77,8 @@ const getNoIndexOptions = () => {
  *
  * @returns {Component} The Meta Robots No-Index component.
  */
-const MetaRobotsNoIndex = ( { location } ) => {
-	const hiddenInputId = isPost() ? "#yoast_wpseo_meta-robots-noindex" : "#hidden_wpseo_noindex";
+const MetaRobotsNoIndex = ( { noIndex, onNoIndexChange, location } ) => {
 	const metaRobotsNoIndexOptions = getNoIndexOptions();
-	const value = getValueFromHiddenInput( hiddenInputId );
 	const id = appendLocation( "yoast_wpseo_meta-robots-noindex-react", location );
 	return <Fragment>
 		{
@@ -101,11 +98,11 @@ const MetaRobotsNoIndex = ( { location } ) => {
 					__( "Allow search engines to show this %s in search results?", "wordpress-seo" ),
 					window.wpseoAdminL10n.postTypeNameSingular,
 				) }
-			onChange={ curryUpdateToHiddenInput( hiddenInputId ) }
+			onChange={ onNoIndexChange }
 			name={ "yoast_wpseo_meta-robots-noindex-react" }
 			id={ id }
 			options={ metaRobotsNoIndexOptions }
-			selected={ value }
+			selected={ noIndex }
 			linkTo={ "https://yoa.st/allow-search-engines" }
 			linkText={ __( "Learn more about the no-index setting on our help page.", "wordpress-seo" ) }
 		/>
@@ -113,6 +110,8 @@ const MetaRobotsNoIndex = ( { location } ) => {
 };
 
 MetaRobotsNoIndex.propTypes = {
+	noIndex: PropTypes.string.isRequired,
+	onNoIndexChange: PropTypes.func.isRequired,
 	location: PropTypes.string,
 };
 
@@ -125,10 +124,8 @@ MetaRobotsNoIndex.defaultProps = {
  *
  * @returns {Component} The Meta Robots No-Follow option.
  */
-const MetaRobotsNoFollow = () => {
-	const hiddenInputId = "#yoast_wpseo_meta-robots-nofollow";
-	const value = getValueFromHiddenInput( hiddenInputId );
-
+const MetaRobotsNoFollow = ( { noFollow, onNoFollowChange } ) => {
+	console.log( noFollow );
 	return <RadioButtonGroup
 		options={ [ { value: "0", label: "Yes" }, { value: "1", label: "No" } ] }
 		label={ sprintf(
@@ -137,11 +134,16 @@ const MetaRobotsNoFollow = () => {
 			window.wpseoAdminL10n.postTypeNameSingular,
 		) }
 		groupName="yoast_wpseo_meta-robots-nofollow-react"
-		onChange={ curryUpdateToHiddenInput( hiddenInputId ) }
-		selected={ value }
+		onChange={ onNoFollowChange }
+		selected={ noFollow }
 		linkTo={ "https://yoa.st/follow-links" }
 		linkText={ __( "Learn more about the no-follow setting on our help page.", "wordpress-seo" ) }
 	/>;
+};
+
+MetaRobotsNoFollow.propTypes = {
+	noFollow: PropTypes.string.isRequired,
+	onNoFollowChange: PropTypes.func.isRequired,
 };
 
 /**
@@ -151,14 +153,12 @@ const MetaRobotsNoFollow = () => {
  *
  * @returns {Component} The Meta Robots advanced field component.
  */
-const MetaRobotsAdvanced = ( { location } ) => {
-	const hiddenInputId = "#yoast_wpseo_meta-robots-adv";
-	const value = getValueFromHiddenInput( hiddenInputId );
+const MetaRobotsAdvanced = ( { advanced, onAdvancedChange, location } ) => {
 	const id = appendLocation( "yoast_wpseo_meta-robots-adv-react", location );
 
 	return <MultiSelect
 		label={ __( "Meta robots advanced", "wordpress-seo" ) }
-		onChange={ curryUpdateToHiddenInput( hiddenInputId ) }
+		onChange={ onAdvancedChange }
 		name="yoast_wpseo_meta-robots-adv-react"
 		id={ id }
 		options={ [
@@ -166,13 +166,15 @@ const MetaRobotsAdvanced = ( { location } ) => {
 			{ name: __( "No Archive", "wordpress-seo" ), value: "noarchive" },
 			{ name: __( "No Snippet", "wordpress-seo" ), value: "nosnippet" },
 		] }
-		selected={ value.split( "," ) }
+		selected={ advanced }
 		linkTo={ "https://yoa.st/meta-robots-advanced" }
 		linkText={ __( "Learn more about advanced meta robots settings on our help page.", "wordpress-seo" ) }
 	/>;
 };
 
 MetaRobotsAdvanced.propTypes = {
+	advanced: PropTypes.array.isRequired,
+	onAdvancedChange: PropTypes.func.isRequired,
 	location: PropTypes.string,
 };
 
@@ -187,23 +189,23 @@ MetaRobotsAdvanced.defaultProps = {
  *
  * @returns {Component} The Breadcrumbs title component.
  */
-const BreadcrumbsTitle = ( { location } ) => {
-	const hiddenInputId = isPost() ? "#yoast_wpseo_bctitle" : "#hidden_wpseo_bctitle";
-	const value = getValueFromHiddenInput( hiddenInputId );
+const BreadcrumbsTitle = ( { breadcrumbsTitle, onBreadcrumbsTitleChange, location } ) => {
 	const id = appendLocation( "yoast_wpseo_bctitle-react", location );
 
 	return <TextInput
 		label={ __( "Breadcrumbs Title", "wordpress-seo" ) }
 		id={ id }
 		name="yoast_wpseo_bctitle-react"
-		onChange={ curryUpdateToHiddenInput( hiddenInputId ) }
-		value={ value }
+		onChange={ onBreadcrumbsTitleChange }
+		value={ breadcrumbsTitle }
 		linkTo={ "https://yoa.st/breadcrumbs-title" }
 		linkText={ __( "Learn more about the breadcrumbs title setting on our help page.", "wordpress-seo" ) }
 	/>;
 };
 
 BreadcrumbsTitle.propTypes = {
+	breadcrumbsTitle: PropTypes.string.isRequired,
+	onBreadcrumbsTitleChange: PropTypes.func.isRequired,
 	location: PropTypes.string,
 };
 
@@ -218,23 +220,23 @@ BreadcrumbsTitle.defaultProps = {
  *
  * @returns {Component} The canonical URL component.
  */
-const CanonicalURL = ( { location } ) => {
-	const hiddenInputId = isPost() ? "#yoast_wpseo_canonical" : "#hidden_wpseo_canonical";
-	const value = getValueFromHiddenInput( hiddenInputId );
+const CanonicalURL = ( { canonical, onCanonicalChange, location } ) => {
 	const id = appendLocation( "yoast_wpseo_canonical-react", location );
 
 	return <TextInput
 		label={ __( "Canonical URL", "wordpress-seo" ) }
 		id={ id }
 		name="yoast_wpseo_canonical-react"
-		onChange={ curryUpdateToHiddenInput( hiddenInputId ) }
-		value={ value }
+		onChange={ onCanonicalChange }
+		value={ canonical }
 		linkTo={ "https://yoa.st/canonical-url" }
 		linkText={ __( "Learn more about canonical URLs on our help page.", "wordpress-seo" ) }
 	/>;
 };
 
 CanonicalURL.propTypes = {
+	canonical: PropTypes.string.isRequired,
+	onCanonicalChange: PropTypes.func.isRequired,
 	location: PropTypes.string,
 };
 
@@ -249,26 +251,101 @@ CanonicalURL.defaultProps = {
  *
  * @returns {wp.Element} The AdvancedSettings component.
  */
-const AdvancedSettings = ( { location } ) => {
+const AdvancedSettings = ( props ) => {
+	const {
+		noIndex,
+		noFollow,
+		advanced,
+		breadcrumbsTitle,
+		canonical,
+		location,
+		onNoIndexChange,
+		onNoFollowChange,
+		onAdvancedChange,
+		onBreadcrumbsTitleChange,
+		onCanonicalChange,
+		onLoad,
+		isLoading,
+	} = props;
+
+	useEffect( () => {
+		setTimeout( () => {
+			if ( isLoading ) {
+				onLoad();
+			}
+		} );
+	} );
+
+	const noIndexProps = {
+		noIndex,
+		onNoIndexChange,
+		location,
+	};
+
+	const noFollowProps = {
+		noFollow,
+		onNoFollowChange,
+		location,
+	};
+
+	const advancedProps = {
+		advanced,
+		onAdvancedChange,
+		location,
+	};
+	const breadcrumbsTitleProps = {
+		breadcrumbsTitle,
+		onBreadcrumbsTitleChange,
+		location,
+	};
+
+	const canonicalProps = {
+		canonical,
+		onCanonicalChange,
+		location,
+	};
+
+	if ( isLoading ) {
+		return null;
+	}
+
 	return (
 		<Fragment>
-			<MetaRobotsNoIndex location={ location } />
-			{ isPost() && <MetaRobotsNoFollow /> }
-			{ isPost() && <MetaRobotsAdvanced location={ location } /> }
+			<MetaRobotsNoIndex { ...noIndexProps } />
+			{ isPost() && <MetaRobotsNoFollow { ...noFollowProps } /> }
+			{ isPost() && <MetaRobotsAdvanced { ...advancedProps } /> }
 			{
-				! window.wpseoAdminL10n.breadcrumbsDisabled && <BreadcrumbsTitle location={ location } />
+				! window.wpseoAdminL10n.breadcrumbsDisabled && <BreadcrumbsTitle { ...breadcrumbsTitleProps } />
 			}
-			<CanonicalURL location={ location } />
+			<CanonicalURL { ...canonicalProps } />
 		</Fragment>
 	);
 };
 
 AdvancedSettings.propTypes = {
+	noIndex: PropTypes.string.isRequired,
+	canonical: PropTypes.string.isRequired,
+	onNoIndexChange: PropTypes.func.isRequired,
+	onCanonicalChange: PropTypes.func.isRequired,
+	onLoad: PropTypes.func.isRequired,
+	isLoading: PropTypes.bool.isRequired,
+	advanced: PropTypes.array,
+	onAdvancedChange: PropTypes.func,
+	noFollow: PropTypes.string,
+	onNoFollowChange: PropTypes.func,
+	breadcrumbsTitle: PropTypes.string,
+	onBreadcrumbsTitleChange: PropTypes.func,
 	location: PropTypes.string,
 };
 
 AdvancedSettings.defaultProps = {
 	location: "",
+	advanced: [],
+	onAdvancedChange: () => {},
+	noFollow: "",
+	onNoFollowChange: () => {},
+	breadcrumbsTitle: "",
+	onBreadcrumbsTitleChange: () => {},
 };
 
 export default AdvancedSettings;

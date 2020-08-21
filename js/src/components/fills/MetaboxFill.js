@@ -13,7 +13,7 @@ import SeoAnalysis from "../contentAnalysis/SeoAnalysis";
 import MetaboxCollapsible from "../MetaboxCollapsible";
 import SidebarItem from "../SidebarItem";
 import TopLevelProviders from "../TopLevelProviders";
-import AdvancedSettings from "../AdvancedSettings";
+import AdvancedSettings from "../../containers/AdvancedSettings";
 import SocialMetadataPortal from "../portals/SocialMetadataPortal";
 import SchemaTabContainer from "../../containers/SchemaTab";
 
