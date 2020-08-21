@@ -256,6 +256,12 @@ class WPSEO_Addon_Manager {
 	 * @return stdClass The converted subscription.
 	 */
 	protected function convert_subscription_to_plugin( $subscription ) {
+		$yoast_seo_data = $this->get_yoast_seo_data();
+
+		// We need to replace h2's and h3's with h4's because the styling expects that.
+		$changelog      = str_replace( '</h2', '</h4', str_replace( '<h2', '<h4', $subscription->product->changelog ) );
+		$changelog      = str_replace( '</h3', '</h4', str_replace( '<h3', '<h4', $changelog ) );
+
 		return (object) [
 			'new_version'   => $subscription->product->version,
 			'name'          => $subscription->product->name,
@@ -266,9 +272,85 @@ class WPSEO_Addon_Manager {
 			'download_link' => $subscription->product->download,
 			'package'       => $subscription->product->download,
 			'sections'      => [
-				'changelog' => $subscription->product->changelog,
+				'changelog' => $changelog,
 			],
+			'icons'         => [
+				'2x' => $this->get_icon( $subscription->product->slug ),
+			],
+			'banners'       => $this->get_banners( $subscription->product->slug ),
+			'tested'        => $yoast_seo_data->update->tested,
+			'requires_php'  => $yoast_seo_data->update->requires_php,
 		];
+	}
+
+	/**
+	 * Get the Yoast SEO plugin data.
+	 *
+	 * @return object Yoast SEO plugin data.
+	 */
+	protected function get_yoast_seo_data() {
+		static $plugin_updates, $yoast_seo_data;
+		if ( ! isset( $plugin_updates ) ) {
+			$plugin_updates = get_plugin_updates();
+		}
+
+		if ( ! isset( $yoast_seo_data ) ) {
+			foreach ( $plugin_updates as $file => $data ) {
+				$free_file           = 'wp-seo.php';
+				$free_file_length    = strlen( $free_file );
+				$premium_file        = 'wp-seo-premium.php';
+				$premium_file_length = strlen( $premium_file );
+				if ( substr( $file, - $free_file_length ) === $free_file || substr( $file, - $premium_file_length ) === $premium_file ) {
+					$yoast_seo_data = (object) _get_plugin_data_markup_translate( $file, (array) $plugin_updates[ $file ], false, true );
+				}
+			}
+
+		}
+
+		return $yoast_seo_data;
+	}
+
+	/**
+	 * Returns the plugin's icon URL.
+	 *
+	 * @param string $slug The plugin slug.
+	 *
+	 * @return string The icon URL for this plugin.
+	 */
+	protected function get_icon( $slug ) {
+		switch ( $slug ) {
+			case self::LOCAL_SLUG:
+				return 'https://yoa.st/local-seo-icon';
+			case self::NEWS_SLUG:
+				return 'https://yoa.st/news-seo-icon';
+			case self::PREMIUM_SLUG:
+				return 'https://yoa.st/yoast-seo-icon';
+			case self::VIDEO_SLUG:
+				return 'https://yoa.st/video-seo-icon';
+			case self::WOOCOMMERCE_SLUG:
+				return 'https://yoa.st/woo-seo-icon';
+		}
+	}
+
+	/**
+	 * Return an array of plugin banner URLs.
+	 *
+	 * @param string $slug The plugin slug.
+	 *
+	 * @return string[]
+	 */
+	protected function get_banners( $slug ) {
+		switch ( $slug ) {
+			case self::LOCAL_SLUG:
+			case self::NEWS_SLUG:
+			case self::PREMIUM_SLUG:
+			case self::VIDEO_SLUG:
+			case self::WOOCOMMERCE_SLUG:
+				return [
+					'high' => 'https://ps.w.org/wordpress-seo/assets/banner-1544x500.png',
+					'low'  => 'https://ps.w.org/wordpress-seo/assets/banner-772x250.png',
+				];
+		}
 	}
 
 	/**
@@ -403,6 +485,7 @@ class WPSEO_Addon_Manager {
 		if ( ! function_exists( 'get_plugins' ) ) {
 			require_once ABSPATH . 'wp-admin/includes/plugin.php';
 		}
+
 		return get_plugins();
 	}
 
