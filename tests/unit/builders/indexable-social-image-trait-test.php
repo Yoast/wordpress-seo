@@ -62,7 +62,7 @@ class Indexable_Social_Image_Trait_Test extends TestCase {
 	protected function setUp() {
 		parent::setUp();
 
-		$this->instance = Mockery::mock( Indexable_Social_Image_Trait_Double::class )->makePartial();
+		$this->instance = Mockery::mock( Indexable_Social_Image_Trait_Double::class );
 
 		$this->twitter_image    = Mockery::mock( Twitter\Image_Helper::class );
 		$this->open_graph_image = Mockery::mock( Open_Graph\Image_Helper::class );
