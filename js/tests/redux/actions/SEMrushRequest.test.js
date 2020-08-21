@@ -49,10 +49,8 @@ describe( "SEMrushRequest actions", () => {
 	it( "returns a NO_DATA_FOUND action with countryCode: nl and keyphrase: yoast when setSEMrushNoResultsFound is called with countryCode: nl and keyphrase: yoast", () => {
 		const expected =  {
 			type: NO_DATA_FOUND,
-			countryCode: "nl",
-			keyphrase: "yoast",
 		};
-		const actual = setSEMrushNoResultsFound( "nl", "yoast" );
+		const actual = setSEMrushNoResultsFound();
 
 		expect( actual ).toEqual( expected );
 	} );
