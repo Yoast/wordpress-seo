@@ -12,12 +12,6 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
-$extension_list = new WPSEO_Extensions();
-$extensions     = $extension_list->get();
-
-// First invalidate all licenses.
-array_map( [ $extension_list, 'invalidate' ], $extensions );
-
 $premium_extension = new WPSEO_Extension(
 	[
 		'buyUrl'   => WPSEO_Shortlinker::get( 'https://yoa.st/zz' ),
@@ -152,7 +146,7 @@ $new_tab_message         = sprintf(
 					</li>
 				</ul>
 			<?php endif; ?>
-			<?php if ( $extension_list->is_installed( $premium_extension->get_title() ) ) : ?>
+			<?php if ( $addon_manager->is_installed( WPSEO_Addon_Manager::PREMIUM_SLUG ) ) : ?>
 				<div class="yoast-button yoast-button--noarrow yoast-button--extension yoast-button--extension-installed"><?php esc_html_e( 'Installed', 'wordpress-seo' ); ?></div>
 
 				<?php if ( $has_valid_premium_subscription ) : ?>
@@ -258,7 +252,7 @@ $new_tab_message         = sprintf(
 					</ul>
 
 					<div class="yoast-button-container">
-						<?php if ( $extension_list->is_installed( $extension->get_title() ) ) : ?>
+						<?php if ( $addon_manager->is_installed( $slug ) ) : ?>
 							<div class="yoast-button yoast-button--noarrow  yoast-button--extension yoast-button--extension-installed"><?php esc_html_e( 'Installed', 'wordpress-seo' ); ?></div>
 
 							<?php if ( $addon_manager->has_valid_subscription( $slug ) ) : ?>

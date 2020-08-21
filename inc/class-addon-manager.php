@@ -238,6 +238,29 @@ class WPSEO_Addon_Manager {
 	}
 
 	/**
+	 * Checks if the plugin is installed and activated in WordPress.
+	 *
+	 * @param string $slug The class' slug.
+	 *
+	 * @return bool True when installed and activated.
+	 */
+	public function is_installed( $slug ) {
+		$slug_to_class_map = [
+			WPSEO_Addon_Manager::PREMIUM_SLUG     => 'WPSEO_Premium',
+			WPSEO_Addon_Manager::NEWS_SLUG        => 'WPSEO_News',
+			WPSEO_Addon_Manager::WOOCOMMERCE_SLUG => 'Yoast_WooCommerce_SEO',
+			WPSEO_Addon_Manager::VIDEO_SLUG       => 'WPSEO_Video_Sitemap',
+			WPSEO_Addon_Manager::LOCAL_SLUG       => 'WPSEO_Local_Core',
+		];
+
+		if ( ! isset( $slug_to_class_map[ $slug ] ) ) {
+			return false;
+		}
+
+		return class_exists( $slug_to_class_map[ $slug ] );
+	}
+
+	/**
 	 * Checks whether a plugin expiry date has been passed.
 	 *
 	 * @param stdClass $subscription Plugin subscription.

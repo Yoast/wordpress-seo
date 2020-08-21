@@ -18,17 +18,25 @@ class WPSEO_License_Page_Manager implements WPSEO_WordPress_Integration {
 	const VERSION_BACKWARDS_COMPATIBILITY = '2';
 
 	/**
+	 * Array with the Yoast extensions.
+	 *
+	 * @var array
+	 */
+	protected $extensions = [
+		'Yoast SEO Premium'     => WPSEO_Addon_Manager::PREMIUM_SLUG,
+		'News SEO'              => WPSEO_Addon_Manager::NEWS_SLUG,
+		'Yoast WooCommerce SEO' => WPSEO_Addon_Manager::WOOCOMMERCE_SLUG,
+		'Video SEO'             => WPSEO_Addon_Manager::VIDEO_SLUG,
+		'Local SEO'             => WPSEO_Addon_Manager::LOCAL_SLUG,
+	];
+
+	/**
 	 * Registers all hooks to WordPress.
 	 */
 	public function register_hooks() {
-		add_filter( 'http_response', [ $this, 'handle_response' ], 10, 3 );
-
 		if ( $this->get_version() === self::VERSION_BACKWARDS_COMPATIBILITY ) {
-			add_filter( 'yoast-license-valid', '__return_true' );
-			add_filter( 'yoast-show-license-notice', '__return_false' );
 			add_action( 'admin_init', [ $this, 'validate_extensions' ], 15 );
-		}
-		else {
+		} else {
 			add_action( 'admin_init', [ $this, 'remove_faulty_notifications' ], 15 );
 		}
 	}
@@ -37,27 +45,14 @@ class WPSEO_License_Page_Manager implements WPSEO_WordPress_Integration {
 	 * Validates the extensions and show a notice for the invalid extensions.
 	 */
 	public function validate_extensions() {
-
-		if ( filter_input( INPUT_GET, 'page' ) === WPSEO_Admin::PAGE_IDENTIFIER ) {
-			/**
-			 * Filter: 'yoast-active-extensions' - Collects all active extensions. This hook is implemented in the
-			 *                                     license manager.
-			 *
-			 * @api array $extensions The array with extensions.
-			 */
-			apply_filters( 'yoast-active-extensions', [] );
-		}
-
-		$extension_list = new WPSEO_Extensions();
-		$extensions     = $extension_list->get();
-
 		$notification_center = Yoast_Notification_Center::get();
+		$addon_manager       = new WPSEO_Addon_Manager();
 
-		foreach ( $extensions as $product_name ) {
+		foreach ( $this->extensions as $product_name => $slug ) {
 			$notification = $this->create_notification( $product_name );
 
 			// Add a notification when the installed plugin isn't activated in My Yoast.
-			if ( $extension_list->is_installed( $product_name ) && ! $extension_list->is_valid( $product_name ) ) {
+			if ( $addon_manager->is_installed( $slug ) && ! $addon_manager->has_valid_subscription( $slug ) ) {
 				$notification_center->add_notification( $notification );
 
 				continue;
@@ -71,44 +66,12 @@ class WPSEO_License_Page_Manager implements WPSEO_WordPress_Integration {
 	 * Removes the faulty set notifications.
 	 */
 	public function remove_faulty_notifications() {
-		$extension_list = new WPSEO_Extensions();
-		$extensions     = $extension_list->get();
-
 		$notification_center = Yoast_Notification_Center::get();
 
-		foreach ( $extensions as $product_name ) {
+		foreach ( array_keys( $this->extensions ) as $product_name ) {
 			$notification = $this->create_notification( $product_name );
 			$notification_center->remove_notification( $notification );
 		}
-	}
-
-	/**
-	 * Handles the response.
-	 *
-	 * @param array  $response          HTTP response.
-	 * @param array  $request_arguments HTTP request arguments. Unused.
-	 * @param string $url               The request URL.
-	 *
-	 * @return array The response array.
-	 */
-	public function handle_response( array $response, $request_arguments, $url ) {
-		$response_code = wp_remote_retrieve_response_code( $response );
-
-		if ( $response_code === 200 && $this->is_expected_endpoint( $url ) ) {
-			$response_data = $this->parse_response( $response );
-			$this->detect_version( $response_data );
-		}
-
-		return $response;
-	}
-
-	/**
-	 * Returns the license page to use based on the version number.
-	 *
-	 * @return string The page to use.
-	 */
-	public function get_license_page() {
-		return 'licenses';
 	}
 
 	/**
@@ -130,56 +93,6 @@ class WPSEO_License_Page_Manager implements WPSEO_WordPress_Integration {
 	}
 
 	/**
-	 * Sets the version when there is a value in the response.
-	 *
-	 * @param array $response The response to extract the version from.
-	 */
-	protected function detect_version( $response ) {
-		if ( ! empty( $response['serverVersion'] ) ) {
-			$this->set_version( $response['serverVersion'] );
-		}
-	}
-
-	/**
-	 * Sets the version.
-	 *
-	 * @param string $server_version The version number to save.
-	 */
-	protected function set_version( $server_version ) {
-		WPSEO_Options::set( $this->get_option_name(), $server_version );
-	}
-
-	/**
-	 * Parses the response by getting its body and do a unserialize of it.
-	 *
-	 * @param array $response The response to parse.
-	 *
-	 * @return mixed|string|false The parsed response.
-	 */
-	protected function parse_response( $response ) {
-		$response = json_decode( wp_remote_retrieve_body( $response ), true );
-		$response = maybe_unserialize( $response );
-
-		return $response;
-	}
-
-	/**
-	 * Checks if the given url matches the expected endpoint.
-	 *
-	 * @param string $url The url to check.
-	 *
-	 * @return bool True when url matches the endpoint.
-	 */
-	protected function is_expected_endpoint( $url ) {
-		$url_parts = wp_parse_url( $url );
-
-		$is_yoast_com = ( in_array( $url_parts['host'], [ 'yoast.com', 'my.yoast.com' ], true ) );
-		$is_edd_api   = ( isset( $url_parts['path'] ) && $url_parts['path'] === '/edd-sl-api' );
-
-		return $is_yoast_com && $is_edd_api;
-	}
-
-	/**
 	 * Creates an instance of Yoast_Notification.
 	 *
 	 * @param string $product_name The product to create the notification for.
@@ -195,12 +108,46 @@ class WPSEO_License_Page_Manager implements WPSEO_WordPress_Integration {
 
 		return new Yoast_Notification(
 			sprintf(
-				/* translators: %1$s expands to the product name. %2$s expands to a link to My Yoast  */
+			/* translators: %1$s expands to the product name. %2$s expands to a link to My Yoast  */
 				__( 'You are not receiving updates or support! Fix this problem by adding this site and enabling %1$s for it in %2$s.', 'wordpress-seo' ),
 				$product_name,
 				'<a href="' . WPSEO_Shortlinker::get( 'https://yoa.st/13j' ) . '" target="_blank">My Yoast</a>'
 			),
 			$notification_options
 		);
+	}
+
+	/* ********************* DEPRECATED METHODS ********************* */
+
+	/**
+	 * Handles the response.
+	 *
+	 * @deprecated 15.0
+	 * @codeCoverageIgnore
+	 *
+	 * @param array  $response          HTTP response.
+	 * @param array  $request_arguments HTTP request arguments. Unused.
+	 * @param string $url               The request URL.
+	 *
+	 * @return array The response array.
+	 */
+	public function handle_response( array $response, $request_arguments, $url ) {
+		_deprecated_function( __METHOD__, 'WPSEO 15.0' );
+
+		return $response;
+	}
+
+	/**
+	 * Returns the license page to use based on the version number.
+	 *
+	 * @deprecated 15.0
+	 * @codeCoverageIgnore
+	 *
+	 * @return string The page to use.
+	 */
+	public function get_license_page() {
+		_deprecated_function( __METHOD__, '15.0' );
+
+		return 'licenses';
 	}
 }
