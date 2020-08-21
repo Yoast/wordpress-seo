@@ -176,28 +176,28 @@ class Indexable_Ancestor_Watcher implements Integration_Interface {
 	 */
 	protected function get_object_ids_for_term( $term_id ) {
 		$term_taxonomy_ids = $this->wpdb->get_col(
-			$this->wpdb->prepare( "
+			$this->wpdb->prepare( '
 				SELECT term_taxonomy_id 
-				FROM " . $this->wpdb->term_taxonomy . "
+				FROM ' . $this->wpdb->term_taxonomy . '
 				WHERE term_id = %s OR parent = %s  
-			", $term_id, $term_id  )
+			', $term_id, $term_id  )
 		);
 
 		// Retrieve all object ids that is attached to the term.
 		return $this->wpdb->get_col(
-			$this->wpdb->prepare( "
+			$this->wpdb->prepare( '
 				SELECT DISTINCT object_id 
-				FROM " . $this->wpdb->term_relationships . " 
-				WHERE term_taxonomy_id IN(  " . \implode( ', ', \array_fill( 0, \count( $term_taxonomy_ids ), '%s' ) ) . " ) 
-			
-			", $term_taxonomy_ids )
+				FROM ' . $this->wpdb->term_relationships . ' 
+				WHERE term_taxonomy_id IN(  ' . \implode( ', ', \array_fill( 0, \count( $term_taxonomy_ids ), '%s' ) ) . ' ) 
+
+			', $term_taxonomy_ids )
 		);
 	}
 
 	/**
 	 * Filters the object ids which indexables are already present in the list of indexables.
 	 *
-	 * @param Indexable[] $indexables List with indexables
+	 * @param Indexable[] $indexables List with indexables.
 	 * @param array       $object_ids List with object ids.
 	 *
 	 * @return array The filtered list with object_ids.
