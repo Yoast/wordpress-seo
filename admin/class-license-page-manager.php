@@ -108,7 +108,7 @@ class WPSEO_License_Page_Manager implements WPSEO_WordPress_Integration {
 
 		return new Yoast_Notification(
 			sprintf(
-			/* translators: %1$s expands to the product name. %2$s expands to a link to My Yoast  */
+				/* translators: %1$s expands to the product name. %2$s expands to a link to My Yoast  */
 				__( 'You are not receiving updates or support! Fix this problem by adding this site and enabling %1$s for it in %2$s.', 'wordpress-seo' ),
 				$product_name,
 				'<a href="' . WPSEO_Shortlinker::get( 'https://yoa.st/13j' ) . '" target="_blank">My Yoast</a>'
