@@ -355,7 +355,7 @@ TPL;
 		 */
 		$filtered_output = array_filter(
 			$output,
-			function( $value ) {
+			static function( $value ) {
 				return strpos( $value, 'A TOTAL OF' ) !== false;
 			}
 		);

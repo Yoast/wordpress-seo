@@ -33,7 +33,7 @@
 	},
 	"require-dev": {
 		"yoast/php-development-environment": "^1.0",
-		"yoast/yoastcs": "~2.0.0",
+		"yoast/yoastcs": "^2.0.0",
 		"phpcompatibility/phpcompatibility-wp": "^2.0.0",
 		"humbug/php-scoper": "^0.12.0",
 		"brain/monkey": "^2.4",
@@ -101,7 +101,7 @@
 			"@php ./vendor/squizlabs/php_codesniffer/bin/phpcs"
 		],
 		"check-staged-cs": [
-			"@php ./vendor/squizlabs/php_codesniffer/bin/phpcs --filter=gitstaged"
+			"@check-cs-warnings --filter=gitstaged"
 		],
 		"check-branch-cs": [
 			"Yoast\\WP\\SEO\\Composer\\Actions::check_branch_cs"
