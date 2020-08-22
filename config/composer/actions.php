@@ -22,8 +22,6 @@ class Actions {
 	 *
 	 * Used in composer in the post-install script hook.
 	 *
-	 * @codeCoverageIgnore
-	 *
 	 * @param Event $event Composer event that triggered this script.
 	 *
 	 * @return void
@@ -110,8 +108,6 @@ class Actions {
 	 *
 	 * Used the composer compile-dependency-injection-container command.
 	 *
-	 * @codeCoverageIgnore
-	 *
 	 * @param Event $event Composer event that triggered this script.
 	 *
 	 * @return void
@@ -138,21 +134,6 @@ class Actions {
 	 *
 	 * Used the composer lint-files command.
 	 *
-	 * @codeCoverageIgnore
-	 *
-	 * @return void
-	 */
-	public static function lint_staged() {
-		exit( self::lint_changed_files( '--staged' ) );
-	}
-
-	/**
-	 * Runs lint on the staged files.
-	 *
-	 * Used the composer lint-files command.
-	 *
-	 * @codeCoverageIgnore
-	 *
 	 * @param Event $event Composer event that triggered this script.
 	 *
 	 * @return void
@@ -169,11 +150,20 @@ class Actions {
 	}
 
 	/**
+	 * Runs lint on the staged files.
+	 *
+	 * Used the composer lint-files command.
+	 *
+	 * @return void
+	 */
+	public static function lint_staged() {
+		exit( self::lint_changed_files( '--staged' ) );
+	}
+
+	/**
 	 * Runs PHPCS on the staged files.
 	 *
 	 * Used the composer check-staged-cs command.
-	 *
-	 * @codeCoverageIgnore
 	 *
 	 * @param Event $event Composer event that triggered this script.
 	 *
@@ -196,8 +186,6 @@ class Actions {
 	 * @param string $compare The git reference.
 	 *
 	 * @return int Exit code from the lint command.
-	 *
-	 * @codeCoverageIgnore
 	 */
 	private static function lint_changed_files( $compare ) {
 		\exec( 'git diff --name-only --diff-filter=d ' . \escapeshellarg( $compare ), $files );
@@ -219,8 +207,6 @@ class Actions {
 	 * @param string $compare The git reference.
 	 *
 	 * @return int Exit code passed from the coding standards check.
-	 *
-	 * @codeCoverageIgnore
 	 */
 	private static function check_cs_for_changed_files( $compare ) {
 		\exec( 'git diff --name-only --diff-filter=d ' . \escapeshellarg( $compare ), $files );
