@@ -339,7 +339,6 @@ TPL;
 		 * The only key of the filtered array already holds the summary.
 		 * $summary is NULL, if the summary was not present in the output
 		 */
-
 		$summary = array_filter(
 			$output,
 			static function( $value ) {
@@ -349,7 +348,11 @@ TPL;
 
 		// Extract the stats for the summary.
 		if ( $summary ) {
-			preg_match( '/A TOTAL OF (?P<error_count>\d+) ERRORS AND (?P<warning_count>\d+) WARNINGS WERE FOUND IN \d+ FILES/', $summary, $matches );
+			preg_match(
+				'/A TOTAL OF (?P<error_count>\d+) ERRORS AND (?P<warning_count>\d+) WARNINGS WERE FOUND IN \d+ FILES/',
+				end( $summary ),
+				$matches
+			);
 		}
 
 		// Validate the result of extraction.
