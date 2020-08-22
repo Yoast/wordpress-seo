@@ -77,7 +77,7 @@ class Actions {
 				'command' => 'fix-cs',
 			],
 			'6' => [
-				'label'   => 'Check for coding standards thresholds.',
+				'label'   => 'Verify coding standard violations are below thresholds.',
 				'command' => 'check-cs-thresholds',
 			],
 		];
@@ -339,14 +339,13 @@ TPL;
 		 * The only key of the filtered array already holds the summary.
 		 * $summary is NULL, if the summary was not present in the output
 		 */
-		$filtered_output = array_filter(
+
+		$summary = array_filter(
 			$output,
 			static function( $value ) {
 				return strpos( $value, 'A TOTAL OF' ) !== false;
 			}
 		);
-
-		$summary = reset( $filtered_output );
 
 		// Extract the stats for the summary.
 		if ( $summary ) {
@@ -354,10 +353,7 @@ TPL;
 		}
 
 		// Validate the result of extraction.
-		if (
-			array_key_exists( 'error_count', $matches ) &&
-			array_key_exists( 'warning_count', $matches )
-		) {
+		if ( isset( $matches['error_count'] ) && isset( $matches['warning_count'] ) ) {
 			// We need integers for the further processing.
 			$result = array_map( 'intval', $matches );
 		}
@@ -406,9 +402,21 @@ TPL;
 			$above_threshold = true;
 		}
 
+		if ( $error_count < $error_threshold ) {
+			echo PHP_EOL;
+			echo "Found less errors than the threshold, great job!\n";
+			echo "Please update the error threshold in the composer.json file to $error_count.\n";
+		}
+
 		if ( $warning_count > $warning_threshold ) {
 			echo "Please fix any warnings introduced in your code and run check-cs-thresholds to verify.\n";
 			$above_threshold = true;
+		}
+
+		if ( $warning_count < $warning_threshold ) {
+			echo PHP_EOL;
+			echo "Found less warnings than the threshold, great job!\n";
+			echo "Please update the warning threshold in the composer.json file to $warning_count.\n";
 		}
 
 		if ( ! $above_threshold ) {
