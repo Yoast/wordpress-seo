@@ -273,13 +273,14 @@ class WPSEO_Addon_Manager {
 			'package'       => $subscription->product->download,
 			'sections'      => [
 				'changelog' => $changelog,
+				'support'   => $this->get_support_section(),
 			],
 			'icons'         => [
 				'2x' => $this->get_icon( $subscription->product->slug ),
 			],
 			'banners'       => $this->get_banners( $subscription->product->slug ),
-			'tested'        => $yoast_seo_data->update->tested,
-			'requires_php'  => $yoast_seo_data->update->requires_php,
+			'tested'        => isset( $yoast_seo_data->update->tested ) ? $yoast_seo_data->update->tested : '',
+			'requires_php'  => isset( $yoast_seo_data->update->requires_php ) ? $yoast_seo_data->update->requires_php : '',
 		];
 	}
 
@@ -302,7 +303,6 @@ class WPSEO_Addon_Manager {
 					$yoast_seo_data = (object) _get_plugin_data_markup_translate( $file, (array) $plugin_updates[ $file ], false, true );
 				}
 			}
-
 		}
 
 		return $yoast_seo_data;
@@ -340,13 +340,29 @@ class WPSEO_Addon_Manager {
 	protected function get_banners( $slug ) {
 		switch ( $slug ) {
 			case self::LOCAL_SLUG:
+				return [
+					'high' => 'https://yoa.st/yoast-seo-banner-local',
+					'low'  => 'https://yoa.st/yoast-seo-banner-low-local',
+				];
 			case self::NEWS_SLUG:
+				return [
+					'high' => 'https://yoa.st/yoast-seo-banner-news',
+					'low'  => 'https://yoa.st/yoast-seo-banner-low-news',
+				];
 			case self::PREMIUM_SLUG:
+				return [
+					'high' => 'https://yoa.st/yoast-seo-banner-premium',
+					'low'  => 'https://yoa.st/yoast-seo-banner-low-premium',
+				];
 			case self::VIDEO_SLUG:
+				return [
+					'high' => 'https://yoa.st/yoast-seo-banner-video',
+					'low'  => 'https://yoa.st/yoast-seo-banner-low-video',
+				];
 			case self::WOOCOMMERCE_SLUG:
 				return [
-					'high' => 'https://ps.w.org/wordpress-seo/assets/banner-1544x500.png',
-					'low'  => 'https://ps.w.org/wordpress-seo/assets/banner-772x250.png',
+					'high' => 'https://yoa.st/yoast-seo-banner-woo',
+					'low'  => 'https://yoa.st/yoast-seo-banner-low-woo',
 				];
 		}
 	}
@@ -582,5 +598,19 @@ class WPSEO_Addon_Manager {
 		}
 
 		return $this->get_site_information_default();
+	}
+
+	/**
+	 * Retrieves the contents for the support section.
+	 *
+	 * @return string
+	 */
+	protected function get_support_section() {
+		return '<h4>' . __( 'Need support?', 'wordpress-seo' ) . '</h4>'
+			   . '<p>'
+			   . sprintf( __( 'You can probably find an answer to your question in our %1$shelp center%2$s.', 'wordpress-seo' ), '<a href="https://yoast.com/help/">', '</a>' )
+			   . ' '
+			   . sprintf( __( 'If you still need support and have an active subscription for this product, please email %s.', 'wordpress-seo' ), '<a href="mailto:support@yoast.com">support@yoast.com</a>' )
+			   . '</p>';
 	}
 }
