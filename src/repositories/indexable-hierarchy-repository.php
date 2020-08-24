@@ -135,6 +135,10 @@ class Indexable_Hierarchy_Repository {
 	 * @return array List of indexable ids for the children.
 	 */
 	public function find_children_by_ancestor_ids( array $object_ids ) {
+		if ( empty( $object_ids ) ){
+			return [];
+		}
+
 		$children = $this->query()
 			->select( 'indexable_id' )
 			->where_in( 'ancestor_id', $object_ids )
