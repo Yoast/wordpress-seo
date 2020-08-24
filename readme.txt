@@ -213,7 +213,7 @@ Release Date: August 25th, 2020
 
 Bugfixes:
 
-* Fixes a bug where concatenate scripts was causing JavaScript errors due to a core bug introduced in WordPress 5.5. We temporarily disable concatenate scripts.
+* Fixes a bug in WordPress itself where script concatenation was causing JavaScript errors, which in turn led to Yoast SEO malfunctioning. This bug was introduced in WordPress 5.5. We’re fixing it by disabling script concatenation entirely.
 
 = 14.8 =
 Release Date: August 18th, 2020
