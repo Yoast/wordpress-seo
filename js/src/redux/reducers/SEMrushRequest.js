@@ -5,6 +5,7 @@ import {
 	NEW_REQUEST,
 	CHANGE_COUNTRY,
 	NO_DATA_FOUND,
+	SET_LOGIN_STATUS,
 } from "../actions/SEMrushRequest";
 
 const INITIAL_STATE = {
@@ -15,6 +16,7 @@ const INITIAL_STATE = {
 	response: null,
 	limitReached: false,
 	hasData: true,
+	isLoggedIn: false,
 };
 /**
  * A reducer for the SEMrush request.
@@ -72,6 +74,11 @@ function SEMrushRequestReducer( state = INITIAL_STATE, action ) {
 				isRequestPending: false,
 				hasData: false,
 				response: null,
+			};
+		case SET_LOGIN_STATUS:
+			return {
+				...state,
+				isLoggedIn: action.loginStatus,
 			};
 		default:
 			return state;

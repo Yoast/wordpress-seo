@@ -5,6 +5,7 @@ export const SET_REQUEST_FAILED = "SET_REQUEST_FAILED";
 export const SET_REQUEST_LIMIT_REACHED = "SET_LIMIT_REACHED";
 export const NEW_REQUEST = "NEW_REQUEST";
 export const NO_DATA_FOUND = "NO_DATA_FOUND";
+export const SET_LOGIN_STATUS = "SET_LOGIN_STATUS";
 
 /**
  * An action creator for starting a new request.
@@ -88,5 +89,19 @@ export function setSEMrushNoResultsFound( countryCode, keyphrase ) {
 		type: NO_DATA_FOUND,
 		countryCode,
 		keyphrase,
+	};
+}
+
+/**
+ * An action creator to check if the user is logged in to SEMrush.
+ *
+ * @param {boolean} loginStatus The login status.
+ *
+ * @returns {Object} Action object.
+ */
+export function setSEMrushLoginStatus( loginStatus ) {
+	return {
+		type: SET_LOGIN_STATUS,
+		loginStatus,
 	};
 }
