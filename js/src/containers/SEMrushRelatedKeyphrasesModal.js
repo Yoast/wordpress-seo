@@ -6,6 +6,7 @@ export default compose( [
 	withSelect( ( select ) => {
 		return {
 			whichModalOpen: select( "yoast-seo/editor" ).getSEMrushModalOpen(),
+			isLoggedIn: select( "yoast-seo/editor" ).getSEMrushLoginStatus(),
 		};
 	} ),
 	withDispatch( ( dispatch ) => {

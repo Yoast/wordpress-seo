@@ -81,6 +81,6 @@ export function getSEMrushRequestHasData( state ) {
  *
  * @returns {boolean} Whether or not the user is logged in to SEMrush.
  */
-export function getEMrushLoginStatus( state ) {
+export function getSEMrushLoginStatus( state ) {
 	return state.SEMrushRequest.isLoggedIn;
 }
