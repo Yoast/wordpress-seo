@@ -125,7 +125,6 @@ MetaRobotsNoIndex.defaultProps = {
  * @returns {Component} The Meta Robots No-Follow option.
  */
 const MetaRobotsNoFollow = ( { noFollow, onNoFollowChange } ) => {
-	console.log( noFollow );
 	return <RadioButtonGroup
 		options={ [ { value: "0", label: "Yes" }, { value: "1", label: "No" } ] }
 		label={ sprintf(
