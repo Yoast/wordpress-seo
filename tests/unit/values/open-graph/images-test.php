@@ -21,21 +21,29 @@ use Yoast\WP\SEO\Values\Open_Graph\Images;
 class Images_Test extends TestCase {
 
 	/**
+	 * Represents the open graph image helper.
+	 *
 	 * @var Mockery\MockInterface|Open_Graph_Image_Helper
 	 */
 	protected $open_graph_image;
 
 	/**
+	 * Represents the image helper.
+	 *
 	 * @var Mockery\MockInterface|Image_Helper
 	 */
 	protected $image;
 
 	/**
+	 * Represents the instance to test.
+	 *
 	 * @var Images
 	 */
 	protected $instance;
 
 	/**
+	 * Represents the url helper.
+	 *
 	 * @var Url_Helper|Mockery\Mock
 	 */
 	protected $url;

@@ -18,16 +18,22 @@ use Yoast\WP\SEO\Values\Images;
 class Images_Test extends TestCase {
 
 	/**
+	 * Represents the image helper.
+	 *
 	 * @var Mockery\MockInterface|Image_Helper
 	 */
 	protected $image;
 
 	/**
-	 * @var Images|Mockery\MockInterface
+	 * Represents the class to test.
+	 *
+	 * @var Images
 	 */
 	protected $instance;
 
 	/**
+	 * Represents the url helper.
+	 *
 	 * @var Url_Helper|Mockery\Mock
 	 */
 	protected $url;

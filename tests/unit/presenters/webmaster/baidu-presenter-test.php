@@ -18,6 +18,8 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
 class Baidu_Presenter_Test extends TestCase {
 
 	/**
+	 * Represents the instance to test.
+	 *
 	 * @var Baidu_Presenter
 	 */
 	protected $instance;
