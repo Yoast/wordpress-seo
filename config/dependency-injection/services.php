@@ -13,6 +13,8 @@ use Yoast_Notification_Center;
 use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
+ * Holds the dependency injection container.
+ *
  * @var $container \Symfony\Component\DependencyInjection\ContainerBuilder
  */
 // WordPress factory functions.
@@ -57,6 +59,8 @@ $base_definition
 	->setPublic( true );
 
 /**
+ * Holds the dependency injection loader.
+ *
  * @var $loader \Yoast\WP\SEO\Dependency_Injection\Custom_Loader
  */
 $loader->registerClasses( $base_definition, 'Yoast\\WP\\SEO\\', 'src/*', 'src/{' . $excluded . '}' );
