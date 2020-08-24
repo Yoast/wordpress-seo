@@ -237,6 +237,13 @@ Other:
 * Moves the check for existing `weekly` cron schedule into `cron_schedules` filter return function. Props to [peter-webbird](https://github.com/peter-webbird)
 * Merges extra googlebot and bingbot meta tag values into the robots meta tag value. Deprecating the Googlebot_Presenter and Bingbot_Presenter.  
 
+= 14.8.1 =
+Release Date: August 25th, 2020
+
+Bugfixes:
+
+* Fixes a bug where concatenate scripts was causing JavaScript errors due to a core bug introduced in WordPress 5.5. We temporarily disable concatenate scripts.
+
 = 14.8 =
 Release Date: August 18th, 2020
 
