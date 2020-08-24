@@ -209,40 +209,40 @@ Your question has most likely been answered on our knowledge base: [kb.yoast.com
 == Changelog ==
 
 == 14.9 =
-Release Date: September 2nd, 2020
+Release Date: September 1st, 2020
 
 Bugfixes:
 
-* Fixes a bug where a JavaScript console warning was wrongly thrown on category edit pages.
-* Fixes a bug where the slug would not be shown in the snippet editor.
-* Fixes a bug where the page number was not shown in the breadcrumb for paginated series. 
-* Fixes a bug where the `robots.txt` and `.htaccess` file editor would not work due to `get_home_path()` not being a writable path. Props to [druesome](https://github.com/druesome) 
-* Fixes a bug where port numbers in the indexable permalinks were missing (when applicable). 
-* Fixes a bug where the indexables table could contain incorrect permalinks. 
-* Fixes a bug where a warning would occurs when a query was unsuccessful while indexing post type archives. Props to [Sekiphp](https://github.com/Sekiphp) 
+* Fixes a bug where a JavaScript console warning was thrown on category edit pages.
+* Fixes a bug where the page number was not shown in the breadcrumb for paginated series.
+* Fixes a bug where the `robots.txt` and `.htaccess` file editor would not work due to `get_home_path()` not being a writable path. Props to [druesome](https://github.com/druesome).
+* Fixes a bug where port numbers in the indexable permalinks were missing (when applicable).
+* Fixes a bug where the indexables table would contain incorrect permalinks for posts if the term slug had been changed and the post permalink contains the term slug.
+* Fixes a bug where the indexables table would contain incorrect permalinks for pages if the slug of the parent page had been changed.
+* Fixes a bug where a warning would occur when a query was unsuccessful while indexing post type archives. Props to [Sekiphp](https://github.com/Sekiphp).
 * Fixes a bug where closing parentheses would always be regarded as sentence endings in RTL languages.
 * Fixes a bug where closing parentheses would always be regarded as sentence endings when followed by an upper-case letter.
 
 Enhancements:
 
 * Adds an update notification for major and minor releases.
-* Improves SQL performance by not performing unnecessary update queries when updating a post’s public status.
+* Improves the SQL performance by not performing unnecessary update queries when updating a post’s public status.
 * Optimizes performance by preventing regular database queries.
 * Improves keyphrase recognition in Polish by filtering more function words.
-* Improves feedback string in the Keyphrase in Subheadings assessment to make it more explicit.
-* Improves all keyphrase-based assessments for Hebrew by allowing keyphrases to be recognized in text when preceded by a prefix (e.g., “כ” or “ל”) and filtering function words.
+* Improves the feedback string in the Keyphrase in Subheadings assessment by making it more explicit.
+* Improves all keyphrase-based assessments for Hebrew by filtering function words and allowing keyphrases to be recognized in the text when preceded by a prefix (e.g., “כ” or “ל”).
 
 Other:
 
-* Moves the check for existing `weekly` cron schedule into `cron_schedules` filter return function. Props to [peter-webbird](https://github.com/peter-webbird)
-* Merges extra googlebot and bingbot meta tag values into the robots meta tag value. Deprecating the Googlebot_Presenter and Bingbot_Presenter.  
+* Adds the weekly cron schedule to the `cron_schedules` filter to prevent overwriting the one WordPress adds. Props to [peter-webbird](https://github.com/peter-webbird).
+* Merges the googlebot and bingbot meta tag values into the robots meta tag value and deprecates the Googlebot_Presenter and Bingbot_Presenter.
 
 = 14.8.1 =
 Release Date: August 25th, 2020
 
 Bugfixes:
 
-* Fixes a bug where concatenate scripts was causing JavaScript errors due to a core bug introduced in WordPress 5.5. We temporarily disable concatenate scripts.
+* Fixes a bug in WordPress itself where script concatenation was causing JavaScript errors, which in turn led to Yoast SEO malfunctioning. This bug was introduced in WordPress 5.5. We’re fixing it by disabling script concatenation entirely.
 
 = 14.8 =
 Release Date: August 18th, 2020

@@ -120,6 +120,7 @@ module.exports = {
 					"wp-seo.php",
 					"wp-seo-main.php",
 					"wpml-config.xml",
+					"release-info.json",
 					"!vendor/bin/**",
 					"!vendor/composer/installed.json",
 					"!vendor/composer/installers/**",
