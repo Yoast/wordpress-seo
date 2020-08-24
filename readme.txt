@@ -231,6 +231,7 @@ Enhancements:
 * Improves keyphrase recognition in Polish by filtering more function words.
 * Improves the feedback string in the Keyphrase in Subheadings assessment by making it more explicit.
 * Improves all keyphrase-based assessments for Hebrew by filtering function words and allowing keyphrases to be recognized in the text when preceded by a prefix (e.g., “כ” or “ל”).
+* We already had a filter available to change the default Schema Article type (`wpseo_schema_article_post_types`), but it wasn't called anywhere. Now it is. 
 
 Other:
 
