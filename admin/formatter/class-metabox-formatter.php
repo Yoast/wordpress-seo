@@ -6,6 +6,8 @@
  */
 
 use Yoast\WP\SEO\Config\Schema_Types;
+use Yoast\WP\SEO\Exceptions\OAuth\OAuth_Authentication_Failed_Exception;
+use Yoast\WP\SEO\Exceptions\SEMrush\SEMrush_Empty_Token_Exception;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Config\SEMrush_Client;
 use Yoast\WP\SEO\Exceptions\SEMrush\SEMrush_Empty_Token_Property_Exception;
@@ -298,6 +300,16 @@ class WPSEO_Metabox_Formatter {
 		try {
 			$semrush_client = new SEMrush_Client( $options_helper );
 		} catch ( SEMrush_Empty_Token_Property_Exception $e ) {
+			// return false if token is malformed (empty property).
+			return false;
+		}
+
+		// Get token (and refresh it if it's expired).
+		try {
+			$semrush_client->get_tokens();
+		} catch ( OAuth_Authentication_Failed_Exception $e ) {
+			return false;
+		} catch ( SEMrush_Empty_Token_Exception $e ) {
 			return false;
 		}
 
