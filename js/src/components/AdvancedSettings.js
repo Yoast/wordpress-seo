@@ -33,12 +33,14 @@ const appendLocation = ( id, location ) => {
  * The values that are used for the noIndex field differ for posts and taxonomies. This function returns an array of
  * options that can be used to populate a select field.
  *
+ * @param {Object} editorContext An object containing context about this editor.
+ *
  * @returns {void} Array Returns an array of options for the noIndex setting.
  */
-const getNoIndexOptions = () => {
+const getNoIndexOptions = ( editorContext ) => {
 	const translatedNo = __( "No", "wordpress-seo" );
 	const translatedYes = __( "Yes", "wordpress-seo" );
-	const noIndex = window.wpseoAdminL10n.noIndex ? translatedNo : translatedYes;
+	const noIndex = editorContext.noIndex ? translatedNo : translatedYes;
 
 	if ( isPost() ) {
 		return [
@@ -47,7 +49,7 @@ const getNoIndexOptions = () => {
 					/* Translators: %s translates to "yes" or "no", %s translates to the Post Label in plural form */
 					__( "%s (current default for %s)", "wordpress-seo" ),
 					noIndex,
-					window.wpseoAdminL10n.postTypeNamePlural,
+					editorContext.postTypeNamePlural,
 				),
 				value: "0",
 			},
@@ -61,7 +63,7 @@ const getNoIndexOptions = () => {
 				/* Translators: %s translates to the "yes" or "no" ,%s translates to the Post Label in plural form */
 				__( "%s (current default for %s)", "wordpress-seo" ),
 				noIndex,
-				window.wpseoAdminL10n.postTypeNamePlural,
+				editorContext.postTypeNamePlural,
 			),
 			value: "default",
 		},
@@ -77,8 +79,8 @@ const getNoIndexOptions = () => {
  *
  * @returns {Component} The Meta Robots No-Index component.
  */
-const MetaRobotsNoIndex = ( { noIndex, onNoIndexChange, postTypeName, isPrivateBlog, location } ) => {
-	const metaRobotsNoIndexOptions = getNoIndexOptions();
+const MetaRobotsNoIndex = ( { noIndex, onNoIndexChange, editorContext, isPrivateBlog, location } ) => {
+	const metaRobotsNoIndexOptions = getNoIndexOptions( editorContext );
 	const id = appendLocation( "yoast_wpseo_meta-robots-noindex-react", location );
 	return <Fragment>
 		{
@@ -96,7 +98,7 @@ const MetaRobotsNoIndex = ( { noIndex, onNoIndexChange, postTypeName, isPrivateB
 				sprintf(
 					/* Translators: %s translates to the Post Label in singular form */
 					__( "Allow search engines to show this %s in search results?", "wordpress-seo" ),
-					postTypeName,
+					editorContext.postTypeNameSingular,
 				) }
 			onChange={ onNoIndexChange }
 			name={ "yoast_wpseo_meta-robots-noindex-react" }
@@ -112,7 +114,7 @@ const MetaRobotsNoIndex = ( { noIndex, onNoIndexChange, postTypeName, isPrivateB
 MetaRobotsNoIndex.propTypes = {
 	noIndex: PropTypes.string.isRequired,
 	onNoIndexChange: PropTypes.func.isRequired,
-	postTypeName: PropTypes.string.isRequired,
+	editorContext: PropTypes.object.isRequired,
 	isPrivateBlog: PropTypes.bool,
 	location: PropTypes.string,
 };
@@ -286,7 +288,7 @@ const AdvancedSettings = ( props ) => {
 		noIndex,
 		onNoIndexChange,
 		location,
-		postTypeName: editorContext.postTypeNameSingular,
+		editorContext,
 		isPrivateBlog,
 	};
 
