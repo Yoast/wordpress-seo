@@ -17,6 +17,8 @@ const wordsToStem = [
 			"كلتجاهل",
 			"ولتجاهل",
 			"فلتجاهل",
+			"سلتجاهل",
+			"ألتجاهل",
 			// De-prefixed form:
 			"تجاهل",
 			// Other prefixed forms based on de-prefixed form:
@@ -26,6 +28,8 @@ const wordsToStem = [
 			"كتجاهل",
 			"وتجاهل",
 			"فتجاهل",
+			"ستجاهل",
+			"أتجاهل",
 		],
 	},
 	/*
@@ -43,6 +47,8 @@ const wordsToStem = [
 			"كبسعادة",
 			"وبسعادة",
 			"فبسعادة",
+			"سبسعادة",
+			"أبسعادة",
 			// De-prefixed form:
 			"سعادة",
 			// Other prefixed forms based on de-prefixed form:
@@ -52,6 +58,8 @@ const wordsToStem = [
 			"كسعادة",
 			"وسعادة",
 			"فسعادة",
+			"سسعادة",
+			"أسعادة",
 		],
 	},
 	/*
@@ -69,6 +77,8 @@ const wordsToStem = [
 			"كالمنزل",
 			"والمنزل",
 			"فالمنزل",
+			"سالمنزل",
+			"أالمنزل",
 			// De-prefixed form:
 			"منزل",
 			// Other prefixed forms based on de-prefixed form:
@@ -78,6 +88,8 @@ const wordsToStem = [
 			"كمنزل",
 			"ومنزل",
 			"فمنزل",
+			"سمنزل",
+			"أمنزل",
 		],
 	},
 
@@ -96,6 +108,8 @@ const wordsToStem = [
 			"ككطائر",
 			"وكطائر",
 			"فكطائر",
+			"سكطائر",
+			"أكطائر",
 			// De-prefixed form:
 			"طائر",
 			// Other prefixed forms based on de-prefixed form:
@@ -105,6 +119,8 @@ const wordsToStem = [
 			"كطائر",
 			"وطائر",
 			"فطائر",
+			"سطائر",
+			"أطائر",
 		],
 	},
 	/*
@@ -122,6 +138,8 @@ const wordsToStem = [
 			"كومفتاح",
 			"وومفتاح",
 			"فومفتاح",
+			"سومفتاح",
+			"أومفتاح",
 			// De-prefixed form:
 			"مفتاح",
 			// Other prefixed forms based on de-prefixed form:
@@ -131,6 +149,8 @@ const wordsToStem = [
 			"كمفتاح",
 			"ومفتاح",
 			"فمفتاح",
+			"سمفتاح",
+			"أمفتاح",
 		],
 	},
 	/*
@@ -148,6 +168,8 @@ const wordsToStem = [
 			"كفأجبتك",
 			"وفأجبتك",
 			"ففأجبتك",
+			"سفأجبتك",
+			"أفأجبتك",
 			// De-prefixed form:
 			"أجبتك",
 			// Other prefixed forms based on de-prefixed form:
@@ -157,6 +179,94 @@ const wordsToStem = [
 			"كأجبتك",
 			"وأجبتك",
 			"فأجبتك",
+			"سأجبتك",
+			"أأجبتك",
+		],
+	},
+	/*
+     * Prefix س "will, being willing"
+     * He will write "سيكتب"
+     * He writes "يكتب"
+     */
+	{
+		original: "سيكتب",
+		forms: [
+			// Prefixed forms based on original:
+			"لسيكتب",
+			"بسيكتب",
+			"السيكتب",
+			"كسيكتب",
+			"وسيكتب",
+			"فسيكتب",
+			"سسيكتب",
+			"أسيكتب",
+			// De-prefixed form:
+			"يكتب",
+			// Other prefixed forms based on de-prefixed form:
+			"ليكتب",
+			"بيكتب",
+			"اليكتب",
+			"كيكتب",
+			"ويكتب",
+			"فيكتب",
+			"سيكتب",
+			"أيكتب",
+		],
+	},
+	/*
+     * Prefix أأكلت "Questioning prefix"
+     * Did you eat? "أأكلت"
+     * You ate "أكلت"
+     */
+	{
+		original: "أأكلت",
+		forms: [
+			// Prefixed forms based on original:
+			"لأأكلت",
+			"بأأكلت",
+			"الأأكلت",
+			"كأأكلت",
+			"وأأكلت",
+			"فأأكلت",
+			"سأأكلت",
+			"أأأكلت",
+			// De-prefixed form:
+			"أكلت",
+			// Other prefixed forms based on de-prefixed form:
+			"لأكلت",
+			"بأكلت",
+			"الأكلت",
+			"كأكلت",
+			"وأكلت",
+			"فأكلت",
+			"سأكلت",
+			"أأكلت",
+		],
+	},
+	// A word with a beginning that looks like a valid prefix, e.g "فرقان" (differences)
+	{
+		original: "فرقان",
+		forms: [
+			// Prefixed forms based on original:
+			"لفرقان",
+			"بفرقان",
+			"الفرقان",
+			"كفرقان",
+			"وفرقان",
+			"ففرقان",
+			"سفرقان",
+			"أفرقان",
+			// De-prefixed form:
+			"رقان",
+			// Other prefixed forms based on de-prefixed form:
+			"لرقان",
+			"برقان",
+			"الرقان",
+			"كرقان",
+			"ورقان",
+			"فرقان",
+			"سرقان",
+			"أرقان",
 		],
 	},
 	// When a word doesn't start with one of the prefixes, the stemmer only creates prefixed words based on the original:
@@ -170,6 +280,8 @@ const wordsToStem = [
 			"كقط",
 			"وقط",
 			"فقط",
+			"سقط",
+			"أقط",
 		],
 	},
 ];
