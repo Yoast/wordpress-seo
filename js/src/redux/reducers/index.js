@@ -2,6 +2,7 @@ import { analysis } from "yoast-components";
 import activeMarker from "./activeMarker";
 import advancedSettings from "./advancedSettings";
 import analysisData from "./analysisData";
+import editorContext from "./editorContext";
 import isCornerstone from "./cornerstoneContent";
 import facebookEditor from "./facebookEditor";
 import focusKeyword from "./focusKeyword";
@@ -19,6 +20,7 @@ export default {
 	advancedSettings,
 	activeMarker,
 	analysisData,
+	editorContext,
 	isCornerstone,
 	facebookEditor,
 	focusKeyword,

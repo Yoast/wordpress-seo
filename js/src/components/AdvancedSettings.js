@@ -77,12 +77,12 @@ const getNoIndexOptions = () => {
  *
  * @returns {Component} The Meta Robots No-Index component.
  */
-const MetaRobotsNoIndex = ( { noIndex, onNoIndexChange, location } ) => {
+const MetaRobotsNoIndex = ( { noIndex, onNoIndexChange, postTypeName, isPrivateBlog, location } ) => {
 	const metaRobotsNoIndexOptions = getNoIndexOptions();
 	const id = appendLocation( "yoast_wpseo_meta-robots-noindex-react", location );
 	return <Fragment>
 		{
-			window.wpseoAdminL10n.privateBlog &&
+			isPrivateBlog &&
 			<Alert type="warning">
 				{ __(
 					"Even though you can set the meta robots setting here, the entire site is set to noindex in the sitewide privacy settings, " +
@@ -96,7 +96,7 @@ const MetaRobotsNoIndex = ( { noIndex, onNoIndexChange, location } ) => {
 				sprintf(
 					/* Translators: %s translates to the Post Label in singular form */
 					__( "Allow search engines to show this %s in search results?", "wordpress-seo" ),
-					window.wpseoAdminL10n.postTypeNameSingular,
+					postTypeName,
 				) }
 			onChange={ onNoIndexChange }
 			name={ "yoast_wpseo_meta-robots-noindex-react" }
@@ -112,10 +112,13 @@ const MetaRobotsNoIndex = ( { noIndex, onNoIndexChange, location } ) => {
 MetaRobotsNoIndex.propTypes = {
 	noIndex: PropTypes.string.isRequired,
 	onNoIndexChange: PropTypes.func.isRequired,
+	postTypeName: PropTypes.string.isRequired,
+	isPrivateBlog: PropTypes.bool,
 	location: PropTypes.string,
 };
 
 MetaRobotsNoIndex.defaultProps = {
+	isPrivateBlog: false,
 	location: "",
 };
 
@@ -124,13 +127,13 @@ MetaRobotsNoIndex.defaultProps = {
  *
  * @returns {Component} The Meta Robots No-Follow option.
  */
-const MetaRobotsNoFollow = ( { noFollow, onNoFollowChange } ) => {
+const MetaRobotsNoFollow = ( { noFollow, onNoFollowChange, postTypeName } ) => {
 	return <RadioButtonGroup
 		options={ [ { value: "0", label: "Yes" }, { value: "1", label: "No" } ] }
 		label={ sprintf(
 			/* Translators: %s translates to the Post Label in singular form */
 			__( "Should search engines follow links on this %s", "wordpress-seo" ),
-			window.wpseoAdminL10n.postTypeNameSingular,
+			postTypeName,
 		) }
 		groupName="yoast_wpseo_meta-robots-nofollow-react"
 		onChange={ onNoFollowChange }
@@ -143,6 +146,7 @@ const MetaRobotsNoFollow = ( { noFollow, onNoFollowChange } ) => {
 MetaRobotsNoFollow.propTypes = {
 	noFollow: PropTypes.string.isRequired,
 	onNoFollowChange: PropTypes.func.isRequired,
+	postTypeName: PropTypes.string.isRequired,
 };
 
 /**
@@ -265,6 +269,9 @@ const AdvancedSettings = ( props ) => {
 		onCanonicalChange,
 		onLoad,
 		isLoading,
+		editorContext,
+		isBreadcrumbsDisabled,
+		isPrivateBlog,
 	} = props;
 
 	useEffect( () => {
@@ -279,12 +286,15 @@ const AdvancedSettings = ( props ) => {
 		noIndex,
 		onNoIndexChange,
 		location,
+		postTypeName: editorContext.postTypeNameSingular,
+		isPrivateBlog,
 	};
 
 	const noFollowProps = {
 		noFollow,
 		onNoFollowChange,
 		location,
+		postTypeName: editorContext.postTypeNameSingular,
 	};
 
 	const advancedProps = {
@@ -311,10 +321,10 @@ const AdvancedSettings = ( props ) => {
 	return (
 		<Fragment>
 			<MetaRobotsNoIndex { ...noIndexProps } />
-			{ isPost() && <MetaRobotsNoFollow { ...noFollowProps } /> }
-			{ isPost() && <MetaRobotsAdvanced { ...advancedProps } /> }
+			{ editorContext.isPost  && <MetaRobotsNoFollow { ...noFollowProps } /> }
+			{ editorContext.isPost && <MetaRobotsAdvanced { ...advancedProps } /> }
 			{
-				! window.wpseoAdminL10n.breadcrumbsDisabled && <BreadcrumbsTitle { ...breadcrumbsTitleProps } />
+				! isBreadcrumbsDisabled && <BreadcrumbsTitle { ...breadcrumbsTitleProps } />
 			}
 			<CanonicalURL { ...canonicalProps } />
 		</Fragment>
@@ -328,6 +338,9 @@ AdvancedSettings.propTypes = {
 	onCanonicalChange: PropTypes.func.isRequired,
 	onLoad: PropTypes.func.isRequired,
 	isLoading: PropTypes.bool.isRequired,
+	editorContext: PropTypes.object.isRequired,
+	isBreadcrumbsDisabled: PropTypes.bool.isRequired,
+	isPrivateBlog: PropTypes.bool,
 	advanced: PropTypes.array,
 	onAdvancedChange: PropTypes.func,
 	noFollow: PropTypes.string,
@@ -345,6 +358,7 @@ AdvancedSettings.defaultProps = {
 	onNoFollowChange: () => {},
 	breadcrumbsTitle: "",
 	onBreadcrumbsTitleChange: () => {},
+	isPrivateBlog: false,
 };
 
 export default AdvancedSettings;

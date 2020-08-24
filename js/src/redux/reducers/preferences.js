@@ -17,6 +17,8 @@ function getDefaultState() {
 		isKeywordAnalysisActive: isKeywordAnalysisActive(),
 		isWordFormRecognitionActive: isUndefined( window.wpseoPremiumMetaboxData ) && isWordFormRecognitionActive(),
 		isCornerstoneActive: isCornerstoneActive(),
+		isBreadcrumbsDisabled: ! ! window.wpseoAdminL10n.isBreadcrumbsDisabled,
+		isPrivateBlog: ! ! window.wpseoAdminL10n.isPrivateBlog,
 		shouldUpsell: isUndefined( window.wpseoPremiumMetaboxData ),
 		displayAdvancedTab: displayAdvancedTab,
 		displaySchemaSettings: displayAdvancedTab && !! window.wpseoScriptData.isPost,
