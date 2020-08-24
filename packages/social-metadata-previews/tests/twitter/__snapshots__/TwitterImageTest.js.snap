@@ -9,7 +9,7 @@ exports[`TwitterImage Component matches the snapshot for a landscape image in a 
   -webkit-flex-shrink: 0;
   -ms-flex-negative: 0;
   flex-shrink: 0;
-  max-width: 125px;
+  width: 125px;
   border-right: 1px solid #E1E8ED;
   border-radius: 14px 0 0 14px;
 }
@@ -88,7 +88,7 @@ exports[`TwitterImage Component matches the snapshot for a square image in a sum
   -webkit-flex-shrink: 0;
   -ms-flex-negative: 0;
   flex-shrink: 0;
-  max-width: 125px;
+  width: 125px;
   border-right: 1px solid #E1E8ED;
   border-radius: 14px 0 0 14px;
 }

@@ -47,7 +47,7 @@ exports[`TwitterPreview matches the snapshot 1`] = `
   padding: 1em;
   text-align: center;
   font-size: 1rem;
-  max-width: 125px;
+  width: 125px;
   border-radius: 14px 0 0 14px;
   border-top-left-radius: 14px;
   border-bottom-left-radius: 14px;
