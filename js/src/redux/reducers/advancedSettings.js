@@ -38,13 +38,13 @@ const advancedSettingsReducer = ( state = initialState, action ) => {
 		case SET_NO_INDEX:
 			return { ...state, noIndex: action.value };
 		case SET_NO_FOLLOW:
-			return { ...state, noFollow: action.value || initialState.noFollow };
+			return { ...state, noFollow: action.value };
 		case SET_ADVANCED:
-			return { ...state, advanced: action.value || initialState.advanced };
+			return { ...state, advanced: action.value };
 		case SET_CANONICAL_URL:
-			return { ...state, canonical: action.value || initialState.canonical };
+			return { ...state, canonical: action.value };
 		case SET_BREADCRUMBS_TITLE:
-			return { ...state, breadcrumbsTitle: action.value || initialState.breadcrumbsTitle };
+			return { ...state, breadcrumbsTitle: action.value };
 	  default:
 			return state;
 	}

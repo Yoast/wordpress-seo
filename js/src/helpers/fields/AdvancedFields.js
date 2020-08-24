@@ -53,7 +53,7 @@ export default class AdvancedFields {
 	 * @returns {string} The No Index setting.
 	 */
 	static get noIndex() {
-		return AdvancedFields.noIndexElement.value  || "";
+		return AdvancedFields.noIndexElement && AdvancedFields.noIndexElement.value  || "";
 	}
 
 	/**
@@ -73,8 +73,7 @@ export default class AdvancedFields {
 	 * @returns {string} The No Follow setting.
 	 */
 	static get noFollow() {
-		const el = AdvancedFields.noFollowElement;
-		return el.value || null;
+		return AdvancedFields.noFollowElement && AdvancedFields.noFollowElement.value || "";
 	}
 
 	/**
@@ -94,7 +93,7 @@ export default class AdvancedFields {
 	 * @returns {string} The Advanced (metarobots) setting.
 	 */
 	static get advanced() {
-		return AdvancedFields.advancedElement.value || "";
+		return AdvancedFields.advancedElement && AdvancedFields.advancedElement.value || "";
 	}
 
 	/**
@@ -134,7 +133,7 @@ export default class AdvancedFields {
 	 * @returns {string} The Canonical URL setting.
 	 */
 	static get canonical() {
-		return AdvancedFields.canonicalElement.value  || "";
+		return AdvancedFields.canonicalElement && AdvancedFields.canonicalElement.value  || "";
 	}
 
 	/**
