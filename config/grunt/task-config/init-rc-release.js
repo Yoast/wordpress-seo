@@ -12,4 +12,17 @@ module.exports = {
 			noBump: false,
 		},
 	},
+	"withrelease": {
+		options: {
+			githubOwner: "yoast",
+			githubRepo: "<%= pluginSlug %>",
+			enableSlack: true,
+			type: "release",
+			enableSvnDeploy: true,
+			enableGithubRelease: true,
+			alternativeBranch: "CI-test",
+			alternativeBranchPush: false,
+			noBump: false,
+		},
+	},
 };

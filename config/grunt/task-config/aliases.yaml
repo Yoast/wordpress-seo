@@ -130,6 +130,22 @@ clean:build-assets:
   - 'verify-zip-size'
   - 'celebrate'
 
+'create-rc':withrelease
+  - 'init-rc-release:withrelease'
+  - 'ensure-clean-branch'
+  - 'ensure-pre-release-branch'
+  - 'update-readme'
+  - 'bump-rc-version'
+  - 'sync-gutenberg-version'
+  - 'artifact'
+  - 'add-github-release:seo-free-rc-pre-release' 
+  - 'send-slack-notify:rc'
+  - 'check-deploy-allowed'
+  - 'deploy-to-wordpress:trunk'
+  - 'verify-zip-size'
+  - 'celebrate'
+
+
 'ensure-clean-branch':
   - 'shell:check-for-uncommitted-changes'
 
