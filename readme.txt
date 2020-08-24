@@ -208,6 +208,13 @@ Your question has most likely been answered on our knowledge base: [kb.yoast.com
 
 == Changelog ==
 
+= 14.8.1 =
+Release Date: August 25th, 2020
+
+Bugfixes:
+
+* Fixes a bug where concatenate scripts was causing JavaScript errors due to a core bug introduced in WordPress 5.5. We temporarily disable concatenate scripts.
+
 = 14.8 =
 Release Date: August 18th, 2020
 
