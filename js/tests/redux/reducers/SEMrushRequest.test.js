@@ -109,8 +109,8 @@ describe( "semrushRequestReducer", () => {
 		state.countryCode = "nl";
 
 		const action = setSEMrushRequestFailed( {
-			error:"ERROR 134 :: TOTAL LIMIT EXCEEDED",
-			status:403,
+			error: "ERROR 134 :: TOTAL LIMIT EXCEEDED",
+			status: 403,
 		} );
 
 		const expected = {
@@ -119,8 +119,8 @@ describe( "semrushRequestReducer", () => {
 			countryCode: "nl",
 			isSuccess: false,
 			response: {
-				error:"ERROR 134 :: TOTAL LIMIT EXCEEDED",
-				status:403,
+				error: "ERROR 134 :: TOTAL LIMIT EXCEEDED",
+				status: 403,
 			},
 			limitReached: false,
 			hasData: false,

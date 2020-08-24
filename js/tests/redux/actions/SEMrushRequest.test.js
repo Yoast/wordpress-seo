@@ -45,13 +45,13 @@ describe( "SEMrushRequest actions", () => {
 		const expected =  {
 			type: SET_REQUEST_FAILED,
 			response: {
-				error:"ERROR 134 :: TOTAL LIMIT EXCEEDED",
-				status:403,
-			}
+				error: "ERROR 134 :: TOTAL LIMIT EXCEEDED",
+				status: 403,
+			},
 		};
 		const actual = setSEMrushRequestFailed( {
-			error:"ERROR 134 :: TOTAL LIMIT EXCEEDED",
-			status:403,
+			error: "ERROR 134 :: TOTAL LIMIT EXCEEDED",
+			status: 403,
 		} );
 
 		expect( actual ).toEqual( expected );
