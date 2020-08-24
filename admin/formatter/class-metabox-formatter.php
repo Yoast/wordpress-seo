@@ -85,7 +85,7 @@ class WPSEO_Metabox_Formatter {
 			'wordFormRecognitionActive' => YoastSEO()->helpers->language->is_word_form_recognition_active( WPSEO_Language_Utils::get_language( get_locale() ) ),
 			'siteIconUrl'               => get_site_icon_url(),
 			'countryCode'	   			=> WPSEO_Options::get( 'semrush_country_code', false ),
-			'SEMrushLoginStatus'		=> $this->get_SEMrush_login_status( $options ),
+			'SEMrushLoginStatus'		=> $this->get_semrush_login_status( $options ),
 			'showSocial'                => [
 				'facebook' => WPSEO_Options::get( 'opengraph', false ),
 				'twitter'  => WPSEO_Options::get( 'twitter', false ),
@@ -296,7 +296,7 @@ class WPSEO_Metabox_Formatter {
 	 *
 	 * @return boolean The SEMrush login status.
 	 */
-	private function get_SEMrush_login_status( $options_helper ) {
+	private function get_semrush_login_status( $options_helper ) {
 		try {
 			$semrush_client = new SEMrush_Client( $options_helper );
 		} catch ( SEMrush_Empty_Token_Property_Exception $e ) {
