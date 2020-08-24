@@ -28,7 +28,7 @@ describe( getSEMrushIsRequestPending, () => {
 } );
 
 describe( getSEMrushRequestHasData, () => {
-	it( "returns the contains data status", () => {
+	it( "returns the data status", () => {
 		const actual = getSEMrushRequestHasData( testState );
 
 		const expected = true;
@@ -38,7 +38,7 @@ describe( getSEMrushRequestHasData, () => {
 } );
 
 describe( getSEMrushRequestIsSuccess, () => {
-	it( "returns the contains request succession status", () => {
+	it( "returns the request succession status", () => {
 		const actual = getSEMrushRequestIsSuccess( testState );
 
 		const expected = true;
@@ -58,7 +58,7 @@ describe( getSEMrushRequestKeyphrase, () => {
 } );
 
 describe( getSEMrushRequestLimitReached, () => {
-	it( "returns the bool for if the request limit has been reached", () => {
+	it( "returns whether the request limit has been reached", () => {
 		const actual = getSEMrushRequestLimitReached( testState );
 
 		const expected = false;

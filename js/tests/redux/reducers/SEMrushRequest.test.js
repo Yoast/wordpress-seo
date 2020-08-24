@@ -58,7 +58,7 @@ describe( "semrushRequestReducer", () => {
 		expect( actual ).toEqual( expected );
 	} );
 
-	it( "sets the state to an succeeded request when the reducer is called with" +
+	it( "sets the state to a successful request when the reducer is called with" +
 		" a setSEMrushRequestSucceeded action creator that is called with a sample response", () => {
 		const state = {
 			isRequestPending: false,
@@ -72,14 +72,20 @@ describe( "semrushRequestReducer", () => {
 		state.keyphrase = "yoast";
 		state.countryCode = "nl";
 
-		const action = setSEMrushRequestSucceeded( { response: "exampleresponse" } );
+		const action = setSEMrushRequestSucceeded( {
+			data: { exampleData: "yoast" },
+			status: 200,
+		} );
 
 		const expected = {
 			isRequestPending: false,
 			keyphrase: "yoast",
 			countryCode: "nl",
 			isSuccess: true,
-			response: { response: "exampleresponse" },
+			response: {
+				data: { exampleData: "yoast" },
+				status: 200,
+			},
 			limitReached: false,
 			hasData: true,
 		};
@@ -88,7 +94,7 @@ describe( "semrushRequestReducer", () => {
 		expect( actual ).toEqual( expected );
 	} );
 
-	it( "sets the state to an failed request when the reducer is called " +
+	it( "sets the state to a failed request when the reducer is called " +
 		"with a setSEMrushRequestFailed action creator that is called with a sample response", () => {
 		const state = {
 			isRequestPending: false,
@@ -102,14 +108,20 @@ describe( "semrushRequestReducer", () => {
 		state.keyphrase = "yoast";
 		state.countryCode = "nl";
 
-		const action = setSEMrushRequestFailed( { response: "exampleresponse" } );
+		const action = setSEMrushRequestFailed( {
+			error:"ERROR 134 :: TOTAL LIMIT EXCEEDED",
+			status:403,
+		} );
 
 		const expected = {
 			isRequestPending: false,
 			keyphrase: "yoast",
 			countryCode: "nl",
 			isSuccess: false,
-			response: { response: "exampleresponse" },
+			response: {
+				error:"ERROR 134 :: TOTAL LIMIT EXCEEDED",
+				status:403,
+			},
 			limitReached: false,
 			hasData: false,
 		};
@@ -118,7 +130,7 @@ describe( "semrushRequestReducer", () => {
 		expect( actual ).toEqual( expected );
 	} );
 
-	it( "sets the state to limit reached when the reducer is called with a setSEMrushSetRequestLimitReached action creator that is called", () => {
+	it( "sets the state to limit reached when the reducer is called with a setSEMrushSetRequestLimitReached action creator", () => {
 		const state = {
 			isRequestPending: false,
 			keyphrase: "",
@@ -145,7 +157,7 @@ describe( "semrushRequestReducer", () => {
 		expect( actual ).toEqual( expected );
 	} );
 
-	it( "sets the state to no results found when the reducer is called with a setSEMrushNoResultsFound action creator that is called", () => {
+	it( "sets the state to no results found when the reducer is called with a setSEMrushNoResultsFound action creator", () => {
 		const state = {
 			isRequestPending: false,
 			keyphrase: "yoast",

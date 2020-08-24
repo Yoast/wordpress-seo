@@ -28,9 +28,15 @@ describe( "SEMrushRequest actions", () => {
 		"when setSEMrushRequestSucceeded is called with { response: \"exampleresponse\" }", () => {
 		const expected =  {
 			type: SET_REQUEST_SUCCEEDED,
-			response: { response: "exampleresponse" },
+			response: {
+				data: { exampleData: "yoast" },
+				status: 200,
+			},
 		};
-		const actual = setSEMrushRequestSucceeded( { response: "exampleresponse" } );
+		const actual = setSEMrushRequestSucceeded( {
+			data: { exampleData: "yoast" },
+			status: 200,
+		} );
 
 		expect( actual ).toEqual( expected );
 	} );
@@ -38,9 +44,15 @@ describe( "SEMrushRequest actions", () => {
 		"when setSEMrushRequestFailed is called with { response: \"exampleresponse\" }", () => {
 		const expected =  {
 			type: SET_REQUEST_FAILED,
-			response: { response: "exampleresponse" },
+			response: {
+				error:"ERROR 134 :: TOTAL LIMIT EXCEEDED",
+				status:403,
+			}
 		};
-		const actual = setSEMrushRequestFailed( { response: "exampleresponse" } );
+		const actual = setSEMrushRequestFailed( {
+			error:"ERROR 134 :: TOTAL LIMIT EXCEEDED",
+			status:403,
+		} );
 
 		expect( actual ).toEqual( expected );
 	} );
@@ -49,7 +61,7 @@ describe( "SEMrushRequest actions", () => {
 		const expected =  {
 			type: SET_REQUEST_LIMIT_REACHED,
 		};
-		const actual = setSEMrushSetRequestLimitReached( { response: "exampleresponse" } );
+		const actual = setSEMrushSetRequestLimitReached();
 
 		expect( actual ).toEqual( expected );
 	} );
