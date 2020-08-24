@@ -206,7 +206,7 @@ class Indexable_Ancestor_Watcher implements Integration_Interface {
 			$this->wpdb->prepare( '
 				SELECT term_taxonomy_id
 				FROM ' . $this->wpdb->term_taxonomy . '
-				WHERE term_id IN( ' . \implode( ', ', \array_fill( 0, \count( $child_object_ids ) + 1, '%s' ) ) . ' )
+				WHERE term_id IN( ' . \implode( ', ', \array_fill( 0, ( \count( $child_object_ids ) + 1 ), '%s' ) ) . ' )
 			', $term_id, ...$child_object_ids )
 		);
 
