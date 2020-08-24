@@ -61,7 +61,6 @@ const FacebookPreviewWrapper = styled.div`
 	flex-direction: ${ props => props.mode === "landscape" ? "column" : "row" };
 	background-color: #f2f3f5;
 	max-width: 527px;
-	height: ${ props => determineWrapperHeight( props.mode ) };
 `;
 
 const FacebookTextWrapper = styled.div`
@@ -78,7 +77,6 @@ const FacebookTextWrapper = styled.div`
 	flex-direction: column;
 	justify-content: ${ props => props.mode === "landscape" ? "flex-start" : "center" };
 	max-width: ${ props => determineTextContainerWidth( props.mode ) };
-	${ props => props.mode === "landscape"  ? "height: 78px;" : "" }
 	font-size: 12px;
 	overflow: hidden;
 `;
