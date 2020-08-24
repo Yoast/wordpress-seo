@@ -248,7 +248,6 @@ const checkSecondPatternAndGetRoot = function( word, pattern, numberSameLetters,
 				root = root.concat( word[ i ] );
 			}
 		}
-		console.log( "root", root )
 		if ( root.length === 3 ) {
 			return processThreeLetterWords( root, morphologyData );
 		}
@@ -268,7 +267,6 @@ const checkPatterns = function( word, morphologyData ) {
 	const characters = morphologyData.externalStemmer.characters;
 	// If the first letter is an alef_madda, alef_hamza_above, or alef_hamza_below (أ/إ/آ), change it to an alef (ا)
 	const wordAfterModification = matchWithRegexAndReplace( word, morphologyData.externalStemmer.regexReplaceFirstHamzaWithAlif );
-	console.log( "wordAfterModification", wordAfterModification );
 
 	// Try and find a pattern that matches the word
 	for ( const pattern of morphologyData.externalStemmer.patterns ) {
@@ -288,7 +286,6 @@ const checkPatterns = function( word, morphologyData ) {
 			}
 
 			const wordAfterCheckingSecondPattern = checkSecondPatternAndGetRoot( wordAfterModification, pattern, numberSameLetters, morphologyData );
-			console.log( "wordAfterCheckingSecondPattern", wordAfterCheckingSecondPattern)
 			if ( wordAfterCheckingSecondPattern !== wordAfterModification ) {
 				return { word: wordAfterCheckingSecondPattern, rootFound: true };
 			}
@@ -344,7 +341,7 @@ const checkIfWordIsRoot = function( word, morphologyData ) {
 const removeSuffix = function( word, suffixes ) {
 	for ( const suffix of suffixes ) {
 		if ( word.endsWith( suffix ) ) {
-			const stemmedWord = word.slice( 0, -suffix.length )
+			const stemmedWord = word.slice( 0, -suffix.length );
 			return stemmedWord;
 		}
 	}
