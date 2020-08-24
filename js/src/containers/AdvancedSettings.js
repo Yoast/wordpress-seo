@@ -38,7 +38,7 @@ export default compose( [
 
 		return {
 			onNoIndexChange: setNoIndex,
-			onNoFollowChange:	setNoFollow,
+			onNoFollowChange: setNoFollow,
 			onAdvancedChange: setAdvanced,
 			onBreadcrumbsTitleChange: setBreadcrumbsTitle,
 			onCanonicalChange: setCanonical,
