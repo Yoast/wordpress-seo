@@ -5,7 +5,7 @@ import { __ } from "@wordpress/i18n";
 import PropTypes from "prop-types";
 
 /* Yoast dependencies */
-import { BaseButton } from "@yoast/components";
+import { Button } from "@yoast/components/src/button";
 import { ButtonStyledLink } from "@yoast/components";
 
 /* Internal dependencies */
@@ -95,13 +95,17 @@ class SEMrushRelatedKeyphrasesModal extends Component {
 
 		return (
 			<Fragment>
-				{ isLoggedIn && <BaseButton
-					id="yoast-get-related-keyphrases"
-					className="yoast-related-keyphrases-modal__button"
-					onClick={ this.onModalOpen }
-				>
-					{ __( "Get related keyphrases", "wordpress-seo" ) }
-				</BaseButton> }
+				{ isLoggedIn &&
+				<div className={ "yoast" }>
+					<Button
+						variant={ "secondary" }
+						small={ true }
+						id={ `yoast-get-related-keyphrases-${location}` }
+						onClick={ this.onModalOpen }
+					>
+						{ __( "Get related keyphrases", "wordpress-seo" ) }
+					</Button>
+				</div> }
 				{ keyphrase && whichModalOpen === location &&
 				<Modal
 					title={ __( "Related keyphrases", "wordpress-seo" ) }
@@ -117,14 +121,17 @@ class SEMrushRelatedKeyphrasesModal extends Component {
 					</ModalContainer>
 				</Modal>
 				}
-				{ ! isLoggedIn && <ButtonStyledLink
-					variant={ "secondary" }
-					small={ true }
-					href={ "https://oauth.semrush.com/auth/login" }
-					onClick={ this.onLinkClick }
-				>
-					{ __( "Get related keyphrases", "wordpress-seo" ) }
-				</ButtonStyledLink> }
+				{ ! isLoggedIn && <div className={ "yoast" }>
+					<ButtonStyledLink
+						variant={ "secondary" }
+						small={ true }
+						id={ `yoast-get-related-keyphrases-${location}` }
+						href={ "https://oauth.semrush.com/auth/login" }
+						onClick={ this.onLinkClick }
+					>
+						{ __( "Get related keyphrases", "wordpress-seo" ) }
+					</ButtonStyledLink>
+				</div> }
 			</Fragment>
 		);
 	}
