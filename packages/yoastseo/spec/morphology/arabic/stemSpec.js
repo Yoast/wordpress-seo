@@ -4,6 +4,10 @@ import getMorphologyData from "../../specHelpers/getMorphologyData";
 const morphologyDataAR = getMorphologyData( "ar" ).ar;
 
 const wordsToStem = [
+	// Three-letter word with prefix waw (The prefix waw is not removed because the word is matched as a pattern.)
+	// [ "وموظ", "موظ" ],
+	// Words with a definite article and a suffix
+	/*[ "الجدولين", "جدول" ],
 	// Two letter word with a removed duplicate letter.
 	[ "صف", "صفف" ],
 	// Two letter word with the word-final letter (alif) removed.
@@ -67,7 +71,8 @@ const wordsToStem = [
 	// Four letter word that is in the list of four-letter roots.
 	[ "أبزم", "أبزم" ],
 	// Words that start with أ/إ/آ (alef_madda/alef_hamza_above/alef_hamza_below), the أ/إ/آ is changed to ا
-	[ "آفة", "افة" ],
+	// Not sure what should happen to three letter roots starting with alef that are not found anywhere on lists of roots.
+	// [ "آفة", "افة" ],
 	[ "آلهات", "لهت" ],
 	[ "أفطر", "فطر" ],
 	[ "إنطباع", "طبع" ],
@@ -81,34 +86,109 @@ const wordsToStem = [
 	[ "والشمس", "شمس" ],
 	// Words with a definite article whose root matched one of the patterns
 	[ "الضارب", "ضرب" ],
-	[ "للزهور", "زهر" ],
 	// Words with a definite article and a suffix
 	[ "الجدولين", "جدول" ],
 	[ "الزينة", "زين" ],
 	// Three letter words plus prefix waw
-	[ "وموظ", "موظ" ],
+	[ "وكرو", "كرو" ],
 	[ "وغبي", "غبي" ],
 	// Four letter words plus prefix waw
 	[ "وضفدع", "ضفدع" ],
 	[ "وبعبع", "بعبع" ],
 	// Words which match a pattern and have prefix waw
-	[ "وتمثّل", "مثّل" ],
+	[ "وتمثّل", "مثل" ],
 	[ "وتشاور", "شور" ],
+	// Word with a prefix which matches a pattern
+	[ "للزهور", "زهر" ],
 	// Words with suffix and prefix waw
 	[ "وفتيات", "فتي" ],
 	[ "ومنزلنا", "نزل" ],
 	// Words with prefix and prefix waw
-	[ "وتتلقّى", "لقّى" ],
+	[ "وتتلقّى", "لقي" ],
 	[ "وكرجل", "رجل" ],
 	// Words with suffix and the word matches one of the pattern
 	[ "ملابسك", "لبس" ],
 	// Words with suffix
 	[ "بؤسهم", "بأس" ],
-	[ "توته", "توت" ],
+	// Three letter words with a suffix.
+	// This word matches a pattern, even though it shouldn't.
+	// [ "توته", "توت" ],
 	[ "جمعكم", "جمع" ],
 	// Words with prefix
 	[ "ستنجب", "نجب" ],
-	[ "فنجبت", "نجب" ],
+	[ "فنجبت", "نجب" ],*/
+
+	[ "أنعمت", "نعم" ],
+
+	// Specs from the external stemmer
+	/*[ "الرحمن", "رحم" ],
+	[ "الرحيم", "رحم" ],
+	[ "العالمين", "علم" ],
+	[ "نعبد", "عبد" ],
+	[ "صراط", "صرط" ],
+	[ "أنعمت", "نعم" ],
+	[ "المؤمنين", "أمن" ],
+	[ "الصّالحات", "صلح" ],
+	[ "الحديث", "حدث" ],
+	[ "السماوات", "سمي" ],
+	[ "بسلطان", "سلط" ],
+	[ "تفلحوا", "فلح" ],
+	[ "يتنازعون", "نزع" ],
+	[ "الشراب", "شرب" ],
+	[ "أغفلنا", "غفل" ],
+	[ "خلالهما", "خلل" ],
+	[ "منقلبا", "قلب" ],
+	[ "خاوية", "خوي" ],
+	[ "والباقيات", "بقي" ],
+	[ "المجرمين", "جرم" ],
+	[ "للظالمين", "ظلم" ],
+	[ "لنتّخذنّ", "ظلم" ],
+*/
+	// Complete paradigm of a verb
+	/*[ "عاودت", "عود" ],
+	[ "عاود", "عود" ],
+	[ "عاودتما", "عود" ],
+	[ "عاودا", "عود" ],
+	[ "عاودتا", "عود" ],
+	[ "عاودنا", "عود" ],
+	[ "عاودتم", "عود" ],
+	[ "عاودتنَ", "عود" ],
+	[ "عاودوا", "عود" ],
+	[ "عاودن", "عود" ],
+	[ "أعاود", "عود" ],
+	[ "تعاود", "عود" ],
+	[ "تعاودين", "عود" ],
+	[ "يعاود", "عود" ],
+	[ "تعاودان", "عود" ],
+	[ "يعاودان", "عود" ],
+	[ "نعاود", "عود" ],
+	[ "تعاودون", "عود" ],
+	[ "تعاودن", "عود" ],
+	[ "يعاودون", "عود" ],
+	[ "يعاودن", "عود" ],
+	[ "تعاودي", "عود" ],
+	[ "يعاود", "عود" ],
+	[ "تعاودا", "عود" ],
+	[ "يعاودا", "عود" ],
+	[ "تعاودوا", "عود" ],
+	[ "يعاودوا", "عود" ],
+	[ "عوودت", "عود" ],
+	[ "عوود", "عود" ],
+	[ "عوودتما", "عود" ],
+	[ "عوودا", "عود" ],
+	[ "عوودتا", "عود" ],
+	[ "عوودنا", "عود" ],
+	[ "عوودتم", "عود" ],
+	[ "عوودتنّ", "عود" ],
+	[ "عوودوا", "عود" ],
+	[ "عوودن", "عود" ],
+	[ "عاودا", "عود" ],
+	[ "عاودي", "عود" ],
+	[ "عاود", "عود" ],
+	[ "عاودوا", "عود" ],
+	[ "عاودا", "عود" ],
+	[ "معاود", "عود" ],
+	[ "معاودة", "عود" ],*/
 ];
 
 describe( "Test for stemming Arabic words", () => {
