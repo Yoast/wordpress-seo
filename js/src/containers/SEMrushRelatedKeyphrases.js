@@ -42,8 +42,8 @@ export default compose( [
 			setRequestLimitReached: () => {
 				setSEMrushSetRequestLimitReached();
 			},
-			setNoResultsFound: ( database, keyphrase ) => {
-				setSEMrushNoResultsFound( database, keyphrase );
+			setNoResultsFound: () => {
+				setSEMrushNoResultsFound();
 			},
 		};
 	} ),
