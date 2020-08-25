@@ -62,6 +62,13 @@ class Indexable_Ancestor_Watcher_Test extends TestCase {
 	protected $indexable_hierarchy_repository;
 
 	/**
+	 * WordPress database mock.
+	 *
+	 * @var Mockery\MockInterface|\wpdb
+	 */
+	protected $wpdb;
+
+	/**
 	 * @inheritDoc
 	 */
 	public function setUp() {
@@ -186,5 +193,71 @@ class Indexable_Ancestor_Watcher_Test extends TestCase {
 			->andReturn( [ $child_indexable ] );
 
 		$this->assertTrue( $this->instance->reset_children( $indexable, $indexable_before ) );
+	}
+
+
+	/**
+	 * Tests the get_children_for_term method.
+	 *
+	 * @covers ::get_children_for_term
+	 * @covers ::get_object_ids_for_term
+	 */
+	public function test_get_children_for_term() {
+		$indexable_1 = Mockery::mock( Indexable_Mock::class );
+		$indexable_2 = Mockery::mock( Indexable_Mock::class );
+		$indexable_3 = Mockery::mock( Indexable_Mock::class );
+
+		$indexable_1->object_id   = 21;
+		$indexable_2->object_id   = 22;
+		$indexable_3->object_id   = 23;
+		$indexable_1->object_type = 'post';
+		$indexable_2->object_type = 'term';
+		$indexable_3->object_type = 'post';
+
+		$this->wpdb->term_taxonomy      = 'wp_term_taxonomy';
+		$this->wpdb->term_relationships = 'wp_term_relationships';
+
+		$this->wpdb->expects( 'prepare' )
+			->with( '
+				SELECT term_taxonomy_id
+				FROM wp_term_taxonomy
+				WHERE term_id IN( %s, %s, %s, %s )
+			', 1, 21, 22, 23 );
+
+		$this->wpdb->expects( 'get_col' )
+			->andReturn( [ 321, 322, 323, 324 ] );
+
+		$this->wpdb->expects( 'prepare' )
+			->with( '
+				SELECT DISTINCT object_id
+				FROM wp_term_relationships
+				WHERE term_taxonomy_id IN(  %s, %s, %s, %s )
+			', [ 321, 322, 323, 324 ] );
+
+		$this->wpdb->expects( 'get_col' )
+			->andReturn( [ 431, 432, 433, 21 ] );
+
+		$indexable_term_1 = Mockery::mock( Indexable_Mock::class );
+		$indexable_term_2 = Mockery::mock( Indexable_Mock::class );
+
+		$indexable_term_1->id = 567;
+
+		$this->indexable_repository->expects( 'find_by_multiple_ids_and_type' )
+			->with( [ 431, 432, 433 ], 'post', false )
+			->andReturn( [ $indexable_term_1, $indexable_term_2 ] );
+
+		$this->indexable_hierarchy_repository->expects( 'find_children_by_ancestor_ids' )
+			->with( [ 431, 432, 433 ] )
+			->andReturn( [ 566, 567, 569 ] );
+
+		$additional_indexable_2 = Mockery::mock( Indexable_Mock::class );
+
+		$this->indexable_repository->expects( 'find_by_ids' )
+			->with( [ 0 => 566, 2 => 569 ] )
+			->andReturn( [ $additional_indexable_2 ] );
+
+		$actual = $this->instance->get_children_for_term( 1, [ $indexable_1, $indexable_2, $indexable_3 ] );
+
+		$this->assertSame( [ $indexable_term_1, $indexable_term_2, $additional_indexable_2 ], $actual );
 	}
 }
