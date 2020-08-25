@@ -41,6 +41,7 @@ Option.propTypes = {
 	value: PropTypes.string.isRequired,
 };
 
+/* eslint-disable jsx-a11y/no-onchange*/
 /**
  * MultiSelect using the select2 package.
  */
@@ -77,6 +78,16 @@ class MultiSelect extends React.Component {
 	}
 
 	/**
+	 * Instantiates the Select2 component again after updating.
+	 *
+	 * @returns {void}
+	 */
+	componentDidUpdate() {
+		this.select2.select2( { width: "100%", dropdownCssClass: "yoast-select__dropdown" } );
+		this.select2.on( "change.select2", this.onChangeHandler );
+	}
+
+	/**
 	 * Handler for the onChange event.
 	 *
 	 * @param {object} event The event that was fired.
@@ -85,7 +96,14 @@ class MultiSelect extends React.Component {
 	 */
 	onChangeHandler() {
 		// It is easier to query the select for the selected options than keep track of them in this component as well.
-		const selection = this.select2.select2( "data" ).map( option => option.id );
+		let selection = this.select2.select2( "data" );
+
+		// Map to format of the options to save in hidden field and redux store.
+		if ( selection.length !== 0 ) {
+			selection = selection.map( option => {
+				return option.id;
+			 } );
+		}
 		this.props.onChange( selection );
 	}
 
@@ -97,14 +115,13 @@ class MultiSelect extends React.Component {
 	render() {
 		const {
 			id,
-			selected,
-			options,
 			name,
+			options,
+			selected,
 			...fieldGroupProps
 		} = this.props;
 
 		// Make sure to pass an array of options to the multiselect.
-		const selections = Array.isArray( selected ) ? selected : [ selected ];
 
 		return (
 			<FieldGroup
@@ -115,7 +132,8 @@ class MultiSelect extends React.Component {
 					multiple="multiple"
 					id={ id }
 					name={ `${ name }[]` }
-					defaultValue={ selections }
+					onChange={ this.onChangeHandler }
+					value={ selected }
 				>
 					{ options.map( Option ) }
 				</select>
@@ -123,6 +141,7 @@ class MultiSelect extends React.Component {
 		);
 	}
 }
+/* eslint-enable jsx-a11y/no-onchange*/
 
 MultiSelect.propTypes = selectProps;
 MultiSelect.defaultProps = selectDefaultProps;
@@ -160,6 +179,10 @@ export class Select extends React.Component {
 		super( props );
 		this.onBlurHandler = this.onBlurHandler.bind( this );
 		this.onInputHandler = this.onInputHandler.bind( this );
+
+		this.state = {
+			selected: this.props.selected,
+		};
 	}
 
 	/**
@@ -187,7 +210,24 @@ export class Select extends React.Component {
 	 * @returns {void}
 	 */
 	onInputHandler( event ) {
-		this.props.onOptionFocus( event.target.name, event.target.value );
+		// Need to update the state in order to show the selected result before blurring.
+		this.setState( { selected: event.target.value } );
+		if ( this.onOptionFocus ) {
+			this.props.onOptionFocus( event.target.name, event.target.value );
+		}
+	}
+
+	/**
+	 * Compare props to decide whether the selected state has changed.
+	 *
+	 * @param {Object} prevProps The previous props
+	 *
+	 * @returns {void}
+	 */
+	componentDidUpdate( prevProps ) {
+		if ( prevProps.selected !== this.props.selected ) {
+			this.setState( { selected: this.props.selected } );
+		}
 	}
 	/**
 	 * Render function for component.
@@ -197,15 +237,10 @@ export class Select extends React.Component {
 	render() {
 		const {
 			id,
-			selected,
 			options,
 			name,
-			onOptionFocus,
 			...fieldGroupProps
 		} = this.props;
-
-		// Make sure to pass a single option when it is a normal select.
-		const selection = Array.isArray( selected ) ? selected[ 0 ] : selected;
 
 		return (
 			<FieldGroup
@@ -215,9 +250,9 @@ export class Select extends React.Component {
 				<select
 					id={ id }
 					name={ name }
-					defaultValue={ selection }
+					value={ this.state.selected }
 					onBlur={ this.onBlurHandler }
-					onInput={ onOptionFocus ? this.onInputHandler : null }
+					onInput={ this.onInputHandler }
 				>
 					{ options.map( Option ) }
 				</select>
