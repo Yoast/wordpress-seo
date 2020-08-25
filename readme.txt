@@ -208,6 +208,13 @@ Your question has most likely been answered on our knowledge base: [kb.yoast.com
 
 == Changelog ==
 
+= 14.8.1 =
+Release Date: August 25th, 2020
+
+Bugfixes:
+
+* Fixes a bug in WordPress itself where script concatenation was causing JavaScript errors, which in turn led to Yoast SEO malfunctioning. This bug was introduced in WordPress 5.5. We’re fixing it by disabling script concatenation entirely.
+
 = 14.8 =
 Release Date: August 18th, 2020
 
