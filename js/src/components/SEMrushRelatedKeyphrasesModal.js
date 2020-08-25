@@ -63,12 +63,11 @@ class SEMrushRelatedKeyphrasesModal extends Component {
 	 * @returns {void}
 	 */
 	onLinkClick( e ) {
-		const url = "https://oauth.semrush.com/oauth2/authorize?" +
-			"ref=1513012826&client_id=yoast&redirect_uri=https%3A%2F%2Foauth.semrush.com%2Foauth2%2Fyoast%2Fsuccess&response_type=code&scope=user.id";
+		const url    = e.target.href;
 		const height = "570";
 		const width  = "340";
-		const top = window.top.outerHeight / 2 + window.top.screenY - ( height / 2 );
-		const left = window.top.outerWidth / 2 + window.top.screenX - ( width / 2 );
+		const top    = window.top.outerHeight / 2 + window.top.screenY - ( height / 2 );
+		const left   = window.top.outerWidth / 2 + window.top.screenX - ( width / 2 );
 
 		const features = [
 			"top=" + top,
@@ -121,10 +120,15 @@ class SEMrushRelatedKeyphrasesModal extends Component {
 					<ButtonStyledLink
 						variant={ "secondary" }
 						id={ `yoast-get-related-keyphrases-${location}` }
-						href={ "https://oauth.semrush.com/auth/login" }
+						href={ "https://oauth.semrush.com/oauth2/authorize?" +
+							"ref=1513012826&client_id=yoast&redirect_uri=https%3A%2F%2Foauth.semrush.com%2Foauth2%2Fyoast%2Fsuccess&" +
+							"response_type=code&scope=user.id" }
 						onClick={ this.onLinkClick }
 					>
 						{ __( "Get related keyphrases", "wordpress-seo" ) }
+						<span className={ "screen-reader-text" }>
+							{ __( "(Opens in a new browser window)", "wordpress-seo" ) }
+						</span>
 					</ButtonStyledLink>
 				</div> }
 			</Fragment>
