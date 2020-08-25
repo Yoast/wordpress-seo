@@ -10,29 +10,6 @@ import FacebookTitle from "./FacebookTitle";
 import FacebookDescription from "./FacebookDescription";
 
 /**
- * Determines the height depending on the mode.
- *
- * @param {string} mode The mode. landscape, square, portrait.
- *
- * @returns {string} The height pixels.
- */
-const determineWrapperHeight = ( mode ) => {
-	switch ( mode ) {
-		case "landscape":
-			return "352px";
-
-		case "square":
-			return "158px";
-
-		case "portrait":
-			return "237px";
-
-		default:
-			return "57px";
-	}
-};
-
-/**
  * Determines the width depending on the mode.
  *
  * @param {string} mode The mode. landscape, square, portrait.
