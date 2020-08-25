@@ -258,15 +258,13 @@ class SEMrushCountrySelector extends Component {
 	 */
 	handleSuccessResponse( response ) {
 		const {
-			keyphrase,
-			countryCode,
 			setNoResultsFound,
 			setRequestSucceeded,
 		} = this.props;
 
 		if ( response.results.rows.length === 0 ) {
 			// No results found.
-			setNoResultsFound( keyphrase, countryCode );
+			setNoResultsFound();
 
 			return;
 		}

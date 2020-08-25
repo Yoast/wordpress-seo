@@ -1,5 +1,4 @@
 export const CHANGE_COUNTRY = "CHANGE_COUNTRY";
-export const SET_REQUEST_STARTED = "SET_REQUEST_STARTED";
 export const SET_REQUEST_SUCCEEDED = "SET_REQUEST_SUCCEEDED";
 export const SET_REQUEST_FAILED = "SET_REQUEST_FAILED";
 export const SET_REQUEST_LIMIT_REACHED = "SET_LIMIT_REACHED";
@@ -78,15 +77,10 @@ export function setSEMrushChangeCountry( countryCode ) {
 /**
  * An action creator for when no data is returned from SEMrush.
  *
- * @param {string} countryCode The country code of the database to be set.
- * @param {string} keyphrase   The keyphrase.
- *
  * @returns {Object} Action object.
  */
-export function setSEMrushNoResultsFound( countryCode, keyphrase ) {
+export function setSEMrushNoResultsFound() {
 	return {
 		type: NO_DATA_FOUND,
-		countryCode,
-		keyphrase,
 	};
 }
