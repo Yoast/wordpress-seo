@@ -44,6 +44,10 @@ const FacebookDescription = styled.p`
 	-webkit-line-clamp: ${ props => determineClamp( props.mode ) };
 	-webkit-box-orient: vertical;
 	overflow: hidden;
+
+	@media all and ( max-width: ${ props => props.maxWidth } ) {
+		display: none;
+	}
 `;
 
 export default FacebookDescription;

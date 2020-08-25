@@ -36,7 +36,7 @@ describe( "Select", () => {
 		const select = tree.rendered.rendered.rendered[ 1 ];
 
 		expect( json ).toMatchSnapshot();
-		expect( select.props.defaultValue ).toBe( "hi" );
+		expect( select.props.value ).toBe( "hi" );
 		select.props.onBlur( { target: { value: "hi" } } );
 		expect( mockChange ).toHaveBeenCalledTimes( 1 );
 	} );
