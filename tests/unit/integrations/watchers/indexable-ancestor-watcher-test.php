@@ -243,11 +243,11 @@ class Indexable_Ancestor_Watcher_Test extends TestCase {
 		$indexable_term_1->id = 567;
 
 		$this->indexable_repository->expects( 'find_by_multiple_ids_and_type' )
-			->with( [ 431, 432, 21 ], 'post', false )
+			->with( [ 431, 23, 21 ], 'post', false )
 			->andReturn( [ $indexable_term_1, $indexable_term_2 ] );
 
 		$this->indexable_hierarchy_repository->expects( 'find_children_by_ancestor_ids' )
-			->with( [ 431, 432, 21 ] )
+			->with( [ 431, 23, 21 ] )
 			->andReturn( [ 566, 567, 569 ] );
 
 		$additional_indexable = Mockery::mock( Indexable_Mock::class );
@@ -284,6 +284,10 @@ class Indexable_Ancestor_Watcher_Test extends TestCase {
 		$indexable_3->object_id   = 23;
 		$indexable_3->object_type = 'post';
 
+		$indexable_4              = Mockery::mock( Indexable_Mock::class );
+		$indexable_4->object_id   = 24;
+		$indexable_4->object_type = 'post';
+
 		$term_id = 1;
 
 		$this->set_expectations_for_get_object_ids_for_term( $term_id, $indexable_1->object_id, $indexable_2->object_id );
@@ -294,11 +298,11 @@ class Indexable_Ancestor_Watcher_Test extends TestCase {
 		$indexable_term_1->id = 567;
 
 		$this->indexable_repository->expects( 'find_by_multiple_ids_and_type' )
-			->with( [ 431, 432, 21 ], 'post', false )
+			->with( [ 0 => 431, 2 => 21 ], 'post', false )
 			->andReturn( [ $indexable_term_1, $indexable_term_2 ] );
 
 		$this->indexable_hierarchy_repository->expects( 'find_children_by_ancestor_ids' )
-			->with( [ 431, 432, 21 ] )
+			->with( [ 0 => 431, 2 => 21 ] )
 			->andReturn( [ 566, 567, 569 ] );
 
 		$additional_indexable_2 = Mockery::mock( Indexable_Mock::class );
@@ -307,7 +311,7 @@ class Indexable_Ancestor_Watcher_Test extends TestCase {
 			->with( [ 0 => 566, 2 => 569 ] )
 			->andReturn( [ $additional_indexable_2 ] );
 
-		$actual = $this->instance->get_children_for_term( 1, [ $indexable_1, $indexable_2, $indexable_3 ] );
+		$actual = $this->instance->get_children_for_term( 1, [ $indexable_1, $indexable_2, $indexable_3, $indexable_4 ] );
 
 		$this->assertSame( [ $indexable_term_1, $indexable_term_2, $additional_indexable_2 ], $actual );
 	}
@@ -339,7 +343,7 @@ class Indexable_Ancestor_Watcher_Test extends TestCase {
 			', [ 321, 322, 323 ] );
 
 		$this->wpdb->expects( 'get_col' )
-			->andReturn( [ 431, 432, 21 ] );
+			->andReturn( [ 431, 23, 21 ] );
 	}
 
 	/**
