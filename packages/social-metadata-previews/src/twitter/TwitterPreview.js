@@ -15,7 +15,7 @@ const TwitterPreviewWrapper = styled.div`
 	font-size: 15px;
 	font-weight: 400;
 	line-height: 20px;
-	width: 507px;
+	max-width: 507px;
 	border: 1px solid #E1E8ED;
 	box-sizing: border-box;
 	border-radius: 14px;
@@ -23,7 +23,7 @@ const TwitterPreviewWrapper = styled.div`
 	background: #FFFFFF;
 	text-overflow: ellipsis;
 	display: flex;
-	
+
 	&:hover {
 		background: #f5f8fa;
 		border: 1px solid rgba(136,153,166,.5);
