@@ -195,6 +195,75 @@ class Indexable_Ancestor_Watcher_Test extends TestCase {
 		$this->assertTrue( $this->instance->reset_children( $indexable, $indexable_before ) );
 	}
 
+	/**
+	 * Tests the reset_children method when the parent indexable is a term.
+	 *
+	 * @covers ::reset_children
+	 * @covers ::refresh_permalink
+	 */
+	public function test_reset_children_for_term() {
+		$indexable        = Mockery::mock( Indexable_Mock::class );
+		$indexable_before = Mockery::mock( Indexable_Mock::class );
+
+		$indexable->permalink        = 'https://example.org/permalink';
+		$indexable_before->permalink = 'https://example.org/old-permalink';
+		$indexable->object_type      = 'term';
+		$indexable->object_id        = 1;
+
+		$child_indexable              = Mockery::mock( Indexable_Mock::class );
+		$child_indexable->object_type = 'term';
+		$child_indexable->permalink   = 'https://example.org/old-child-permalink';
+		$child_indexable->object_id   = 23;
+		$child_indexable->expects( 'save' )->once();
+
+		$this->indexable_hierarchy_builder->expects( 'build' )->with( $child_indexable );
+
+		$this->indexable_helper
+			->expects( 'get_permalink_for_indexable' )
+			->once()
+			->with( $child_indexable )
+			->andReturn( 'https://example.org/child-permalink' );
+
+		$this->indexable_hierarchy_repository
+			->expects( 'find_children' )
+			->once()
+			->with( $indexable )
+			->andReturn( [ 1 ] );
+
+		$this->indexable_repository
+			->expects( 'find_by_ids' )
+			->with( [ 1 ] )
+			->andReturn( [ $child_indexable ] );
+
+		$this->set_expectations_for_get_object_ids_for_term( $indexable->object_id, $child_indexable->object_id );
+
+		$indexable_term_1 = Mockery::mock( Indexable_Mock::class );
+		$indexable_term_2 = Mockery::mock( Indexable_Mock::class );
+
+		$indexable_term_1->id = 567;
+
+		$this->indexable_repository->expects( 'find_by_multiple_ids_and_type' )
+			->with( [ 431, 432, 21 ], 'post', false )
+			->andReturn( [ $indexable_term_1, $indexable_term_2 ] );
+
+		$this->indexable_hierarchy_repository->expects( 'find_children_by_ancestor_ids' )
+			->with( [ 431, 432, 21 ] )
+			->andReturn( [ 566, 567, 569 ] );
+
+		$additional_indexable = Mockery::mock( Indexable_Mock::class );
+
+		$this->indexable_repository->expects( 'find_by_ids' )
+			->with( [ 0 => 566, 2 => 569 ] )
+			->andReturn( [ $additional_indexable ] );
+
+		$this->set_expectations_for_refresh_permalink( $indexable_term_1, $indexable_term_2, $additional_indexable );
+
+		$this->assertTrue( $this->instance->reset_children( $indexable, $indexable_before ) );
+		$this->assertSame( 'https://example.org/permalink', $indexable_term_1->permalink );
+		$this->assertSame( 'https://example.org/permalink', $indexable_term_2->permalink );
+		$this->assertSame( 'https://example.org/permalink', $additional_indexable->permalink );
+	}
+
 
 	/**
 	 * Tests the get_children_for_term method.
@@ -203,42 +272,21 @@ class Indexable_Ancestor_Watcher_Test extends TestCase {
 	 * @covers ::get_object_ids_for_term
 	 */
 	public function test_get_children_for_term() {
-		$indexable_1 = Mockery::mock( Indexable_Mock::class );
-		$indexable_2 = Mockery::mock( Indexable_Mock::class );
-		$indexable_3 = Mockery::mock( Indexable_Mock::class );
+		$indexable_1              = Mockery::mock( Indexable_Mock::class );
+		$indexable_1->object_id   = 21;
+		$indexable_1->object_type = 'term';
+
+		$indexable_2              = Mockery::mock( Indexable_Mock::class );
+		$indexable_2->object_id   = 22;
+		$indexable_2->object_type = 'term';
+
+		$indexable_3              = Mockery::mock( Indexable_Mock::class );
+		$indexable_3->object_id   = 23;
+		$indexable_3->object_type = 'post';
 
 		$term_id = 1;
 
-		$indexable_1->object_id   = 21;
-		$indexable_2->object_id   = 22;
-		$indexable_3->object_id   = 23;
-
-		$indexable_1->object_type = 'term';
-		$indexable_2->object_type = 'term';
-		$indexable_3->object_type = 'post';
-
-		$this->wpdb->term_taxonomy      = 'wp_term_taxonomy';
-		$this->wpdb->term_relationships = 'wp_term_relationships';
-
-		$this->wpdb->expects( 'prepare' )
-			->with( '
-				SELECT term_taxonomy_id
-				FROM wp_term_taxonomy
-				WHERE term_id IN( %s, %s, %s )
-			', $term_id, $indexable_1->object_id, $indexable_2->object_id );
-
-		$this->wpdb->expects( 'get_col' )
-			->andReturn( [ 321, 322, 323 ] );
-
-		$this->wpdb->expects( 'prepare' )
-			->with( '
-				SELECT DISTINCT object_id
-				FROM wp_term_relationships
-				WHERE term_taxonomy_id IN( %s, %s, %s )
-			', [ 321, 322, 323 ] );
-
-		$this->wpdb->expects( 'get_col' )
-			->andReturn( [ 431, 432, 21 ] );
+		$this->set_expectations_for_get_object_ids_for_term( $term_id, $indexable_1->object_id, $indexable_2->object_id );
 
 		$indexable_term_1 = Mockery::mock( Indexable_Mock::class );
 		$indexable_term_2 = Mockery::mock( Indexable_Mock::class );
@@ -262,5 +310,53 @@ class Indexable_Ancestor_Watcher_Test extends TestCase {
 		$actual = $this->instance->get_children_for_term( 1, [ $indexable_1, $indexable_2, $indexable_3 ] );
 
 		$this->assertSame( [ $indexable_term_1, $indexable_term_2, $additional_indexable_2 ], $actual );
+	}
+
+	/**
+	 * Sets the expectations for the get_object_ids_for term method.
+	 *
+	 * @param integer ...$object_ids The object ids.
+	 */
+	private function set_expectations_for_get_object_ids_for_term( ...$object_ids ) {
+		$this->wpdb->term_taxonomy      = 'wp_term_taxonomy';
+		$this->wpdb->term_relationships = 'wp_term_relationships';
+
+		$this->wpdb->expects( 'prepare' )
+			->with( '
+				SELECT term_taxonomy_id
+				FROM wp_term_taxonomy
+				WHERE term_id IN( ' . \implode( ', ', \array_fill( 0, ( \count( $object_ids ) ), '%s' ) ) . ' )
+			', ...$object_ids );
+
+		$this->wpdb->expects( 'get_col' )
+			->andReturn( [ 321, 322, 323 ] );
+
+		$this->wpdb->expects( 'prepare' )
+			->with( '
+				SELECT DISTINCT object_id
+				FROM wp_term_relationships
+				WHERE term_taxonomy_id IN( %s, %s, %s )
+			', [ 321, 322, 323 ] );
+
+		$this->wpdb->expects( 'get_col' )
+			->andReturn( [ 431, 432, 21 ] );
+	}
+
+	/**
+	 * Sets the expectations for the refresh_permalink method.
+	 *
+	 * @param Indexable_Mock ...$indexables The indexables.
+	 */
+	private function set_expectations_for_refresh_permalink( ...$indexables ) {
+		foreach ( $indexables as $indexable ) {
+			$this->indexable_hierarchy_builder->expects( 'build' )
+				->with( $indexable );
+
+			$this->indexable_helper->expects( 'get_permalink_for_indexable' )
+				->with( $indexable )
+				->andReturn( 'https://example.org/permalink' );
+
+			$indexable->expects( 'save' );
+		}
 	}
 }
