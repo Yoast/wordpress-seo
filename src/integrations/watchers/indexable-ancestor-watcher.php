@@ -194,12 +194,18 @@ class Indexable_Ancestor_Watcher implements Integration_Interface {
 	 * @return array List with object ids for the term.
 	 */
 	protected function get_object_ids_for_term( $term_id, $child_indexables ) {
+		$filter_terms = function( $child ) {
+			return $child->object_type === 'term';
+		};
+
+		$child_terms = \array_filter( $child_indexables, $filter_terms );
+
 		// Get the object id's for the child indexables.
 		$get_object_id_for_child = function( $child ) {
 			return $child->object_id;
 		};
 
-		$child_object_ids = \array_map( $get_object_id_for_child, $child_indexables );
+		$child_object_ids = \array_map( $get_object_id_for_child, $child_terms );
 
 		// Get the term-taxonomy id's for the term and its children.
 		$term_taxonomy_ids = $this->wpdb->get_col(
@@ -215,7 +221,7 @@ class Indexable_Ancestor_Watcher implements Integration_Interface {
 			$this->wpdb->prepare( '
 				SELECT DISTINCT object_id
 				FROM ' . $this->wpdb->term_relationships . '
-				WHERE term_taxonomy_id IN(  ' . \implode( ', ', \array_fill( 0, \count( $term_taxonomy_ids ), '%s' ) ) . ' )
+				WHERE term_taxonomy_id IN( ' . \implode( ', ', \array_fill( 0, \count( $term_taxonomy_ids ), '%s' ) ) . ' )
 			', $term_taxonomy_ids )
 		);
 	}

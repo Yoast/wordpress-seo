@@ -207,10 +207,13 @@ class Indexable_Ancestor_Watcher_Test extends TestCase {
 		$indexable_2 = Mockery::mock( Indexable_Mock::class );
 		$indexable_3 = Mockery::mock( Indexable_Mock::class );
 
+		$term_id = 1;
+
 		$indexable_1->object_id   = 21;
 		$indexable_2->object_id   = 22;
 		$indexable_3->object_id   = 23;
-		$indexable_1->object_type = 'post';
+
+		$indexable_1->object_type = 'term';
 		$indexable_2->object_type = 'term';
 		$indexable_3->object_type = 'post';
 
@@ -221,21 +224,21 @@ class Indexable_Ancestor_Watcher_Test extends TestCase {
 			->with( '
 				SELECT term_taxonomy_id
 				FROM wp_term_taxonomy
-				WHERE term_id IN( %s, %s, %s, %s )
-			', 1, 21, 22, 23 );
+				WHERE term_id IN( %s, %s, %s )
+			', $term_id, $indexable_1->object_id, $indexable_2->object_id );
 
 		$this->wpdb->expects( 'get_col' )
-			->andReturn( [ 321, 322, 323, 324 ] );
+			->andReturn( [ 321, 322, 323 ] );
 
 		$this->wpdb->expects( 'prepare' )
 			->with( '
 				SELECT DISTINCT object_id
 				FROM wp_term_relationships
-				WHERE term_taxonomy_id IN(  %s, %s, %s, %s )
-			', [ 321, 322, 323, 324 ] );
+				WHERE term_taxonomy_id IN( %s, %s, %s )
+			', [ 321, 322, 323 ] );
 
 		$this->wpdb->expects( 'get_col' )
-			->andReturn( [ 431, 432, 433, 21 ] );
+			->andReturn( [ 431, 432, 21 ] );
 
 		$indexable_term_1 = Mockery::mock( Indexable_Mock::class );
 		$indexable_term_2 = Mockery::mock( Indexable_Mock::class );
@@ -243,11 +246,11 @@ class Indexable_Ancestor_Watcher_Test extends TestCase {
 		$indexable_term_1->id = 567;
 
 		$this->indexable_repository->expects( 'find_by_multiple_ids_and_type' )
-			->with( [ 431, 432, 433 ], 'post', false )
+			->with( [ 431, 432, 21 ], 'post', false )
 			->andReturn( [ $indexable_term_1, $indexable_term_2 ] );
 
 		$this->indexable_hierarchy_repository->expects( 'find_children_by_ancestor_ids' )
-			->with( [ 431, 432, 433 ] )
+			->with( [ 431, 432, 21 ] )
 			->andReturn( [ 566, 567, 569 ] );
 
 		$additional_indexable_2 = Mockery::mock( Indexable_Mock::class );
