@@ -256,8 +256,6 @@ class WPSEO_Addon_Manager {
 	 * @return stdClass The converted subscription.
 	 */
 	protected function convert_subscription_to_plugin( $subscription ) {
-		$yoast_seo_data = $this->get_yoast_seo_data();
-
 		// We need to replace h2's and h3's with h4's because the styling expects that.
 		$changelog = str_replace( '</h2', '</h4', str_replace( '<h2', '<h4', $subscription->product->changelog ) );
 		$changelog = str_replace( '</h3', '</h4', str_replace( '<h3', '<h4', $changelog ) );
@@ -279,33 +277,10 @@ class WPSEO_Addon_Manager {
 				'2x' => $this->get_icon( $subscription->product->slug ),
 			],
 			'banners'       => $this->get_banners( $subscription->product->slug ),
-			'tested'        => isset( $yoast_seo_data->update->tested ) ? $yoast_seo_data->update->tested : '',
-			'requires_php'  => isset( $yoast_seo_data->update->requires_php ) ? $yoast_seo_data->update->requires_php : '',
+			'tested'        => WPSEO_WP_TESTED,
+			'requires'      => WPSEO_WP_REQUIRED,
+			'requires_php'  => WPSEO_PHP_REQUIRED,
 		];
-	}
-
-	/**
-	 * Get the Yoast SEO plugin data.
-	 *
-	 * @return object Yoast SEO plugin data.
-	 */
-	protected function get_yoast_seo_data() {
-		static $plugin_updates, $yoast_seo_data;
-		if ( ! isset( $plugin_updates ) ) {
-			$plugin_updates = get_plugin_updates();
-		}
-
-		if ( ! isset( $yoast_seo_data ) ) {
-			foreach ( $plugin_updates as $file => $data ) {
-				$free_file        = 'wp-seo.php';
-				$free_file_length = strlen( $free_file );
-				if ( substr( $file, - $free_file_length ) === $free_file ) {
-					$yoast_seo_data = (object) _get_plugin_data_markup_translate( $file, (array) $plugin_updates[ $file ], false, true );
-				}
-			}
-		}
-
-		return $yoast_seo_data;
 	}
 
 	/**
