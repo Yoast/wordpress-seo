@@ -84,8 +84,8 @@ class WPSEO_Metabox_Formatter {
 			'addKeywordUpsell'          => $this->get_add_keyword_upsell_translations(),
 			'wordFormRecognitionActive' => YoastSEO()->helpers->language->is_word_form_recognition_active( WPSEO_Language_Utils::get_language( get_locale() ) ),
 			'siteIconUrl'               => get_site_icon_url(),
-			'countryCode'	   			=> WPSEO_Options::get( 'semrush_country_code', false ),
-			'SEMrushLoginStatus'		=> $this->get_semrush_login_status( $options ),
+			'countryCode'               => WPSEO_Options::get( 'semrush_country_code', false ),
+			'SEMrushLoginStatus'        => $this->get_semrush_login_status( $options ),
 			'showSocial'                => [
 				'facebook' => WPSEO_Options::get( 'opengraph', false ),
 				'twitter'  => WPSEO_Options::get( 'twitter', false ),
@@ -290,7 +290,7 @@ class WPSEO_Metabox_Formatter {
 	}
 
 	/**
-	 * Checks if the use is logged in to SEMrush.
+	 * Checks if the user is logged in to SEMrush.
 	 *
 	 * @param {Options_Helper} $options_helper The Options Helper object.
 	 *

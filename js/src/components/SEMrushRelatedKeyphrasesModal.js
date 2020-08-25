@@ -95,8 +95,7 @@ class SEMrushRelatedKeyphrasesModal extends Component {
 
 		return (
 			<Fragment>
-				{ isLoggedIn &&
-				<div className={ "yoast" }>
+				{ isLoggedIn && <div className={ "yoast" }>
 					<Button
 						variant={ "secondary" }
 						id={ `yoast-get-related-keyphrases-${location}` }
@@ -106,19 +105,18 @@ class SEMrushRelatedKeyphrasesModal extends Component {
 					</Button>
 				</div> }
 				{ keyphrase && whichModalOpen === location &&
-				<Modal
-					title={ __( "Related keyphrases", "wordpress-seo" ) }
-					onRequestClose={ this.onModalClose }
-					icon={ <YoastIcon /> }
-					additionalClassName="yoast-related-keyphrases-modal"
-				>
-					<ModalContainer
-						className="yoast-gutenberg-modal__content yoast-related-keyphrases-modal__content"
+					<Modal
+						title={ __( "Related keyphrases", "wordpress-seo" ) }
+						onRequestClose={ this.onModalClose }
+						icon={ <YoastIcon /> }
+						additionalClassName="yoast-related-keyphrases-modal"
 					>
-						<Slot name="YoastRelatedKeyphrases" />
-
-					</ModalContainer>
-				</Modal>
+						<ModalContainer
+							className="yoast-gutenberg-modal__content yoast-related-keyphrases-modal__content"
+						>
+							<Slot name="YoastRelatedKeyphrases" />
+						</ModalContainer>
+					</Modal>
 				}
 				{ ! isLoggedIn && <div className={ "yoast" }>
 					<ButtonStyledLink
