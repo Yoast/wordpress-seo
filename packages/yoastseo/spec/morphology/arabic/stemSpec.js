@@ -128,6 +128,8 @@ const wordsToStem = [
 	[ "المؤمنين", "أمن" ],
 	[ "الصالحات", "صلح" ],
 	[ "الحديث", "حدث" ],
+	// This word السماوات has a different output stem based on this stemmer (سمو) as we check the longer suffix (ات) first before the shorter one (ت)
+	// We think that our stem output makes more sense, thus we don't change any functionality to accommodate this difference.
 	// [ "السماوات", "سمي" ],
 	[ "بسلطان", "سلط" ],
 	[ "تفلحوا", "فلح" ],
@@ -140,6 +142,7 @@ const wordsToStem = [
 	[ "والباقيات", "بقي" ],
 	[ "المجرمين", "جرم" ],
 	[ "للظالمين", "ظلم" ],
+	// This word لنتخذن is also commented out in the original external stemmer.
 	// [ "لنتخذن", "أخذ" ],
 
 	// Complete paradigm of a verb
