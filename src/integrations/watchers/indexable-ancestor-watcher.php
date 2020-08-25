@@ -143,7 +143,7 @@ class Indexable_Ancestor_Watcher implements Integration_Interface {
 			}
 
 			$search = \array_search( $child_indexable->object_id, $object_ids, true );
-			if ( ! $search ) {
+			if ( $search === false ) {
 				continue;
 			}
 
@@ -159,7 +159,7 @@ class Indexable_Ancestor_Watcher implements Integration_Interface {
 		// Makes sure we only have indexable ids that we haven't fetched before.
 		foreach ( $indexables_by_term as $indexable_by_term ) {
 			$search = \array_search( $indexable_by_term->id, $additional_indexable_ids, true );
-			if ( ! $search ) {
+			if ( $search === false ) {
 				continue;
 			}
 
