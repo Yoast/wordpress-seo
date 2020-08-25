@@ -5,6 +5,7 @@ import * as selectors from "../redux/selectors";
 import * as actions from "../redux/actions";
 import { setSettings } from "../redux/actions/settings";
 import { setSEMrushChangeCountry } from "../redux/actions";
+import { setSEMrushLoginStatus } from "../redux/actions";
 
 /**
  * Initializes the Yoast SEO editor store.
@@ -37,6 +38,9 @@ export default function initEditorStore() {
 	);
 	store.dispatch(
 		setSEMrushChangeCountry( window.wpseoScriptData.metabox.countryCode )
+	);
+	store.dispatch(
+		setSEMrushLoginStatus( window.wpseoScriptData.metabox.SEMrushLoginStatus )
 	);
 
 	return store;

@@ -74,3 +74,14 @@ export function getSEMrushSelectedCountry( state ) {
 export function getSEMrushRequestHasData( state ) {
 	return state.SEMrushRequest.hasData;
 }
+
+/**
+ * Gets the user logged in to SEMrush status.
+ *
+ * @param {Object} state The state.
+ *
+ * @returns {boolean} Whether or not the user is logged in to SEMrush.
+ */
+export function getSEMrushLoginStatus( state ) {
+	return state.SEMrushRequest.isLoggedIn;
+}

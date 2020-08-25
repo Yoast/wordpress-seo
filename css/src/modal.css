@@ -378,7 +378,8 @@
 	max-width: 712px;
 }
 
-.yoast-related-keyphrases-modal__button.yoast-related-keyphrases-modal__button {
+#yoast-get-related-keyphrases-sidebar,
+#yoast-get-related-keyphrases-metabox {
 	margin-top: 8px;
 }
 

@@ -5,7 +5,7 @@ import { __ } from "@wordpress/i18n";
 import PropTypes from "prop-types";
 
 /* Yoast dependencies */
-import { BaseButton } from "@yoast/components";
+import { Button, ButtonStyledLink } from "@yoast/components/src/button";
 
 /* Internal dependencies */
 import { ModalContainer } from "./modals/Container";
@@ -56,22 +56,52 @@ class SEMrushRelatedKeyphrasesModal extends Component {
 	}
 
 	/**
+	 * Opens the popup window.
+	 *
+	 * @param {event} e The click event.
+	 *
+	 * @returns {void}
+	 */
+	onLinkClick( e ) {
+		const url    = e.target.href;
+		const height = "570";
+		const width  = "340";
+		const top    = window.top.outerHeight / 2 + window.top.screenY - ( height / 2 );
+		const left   = window.top.outerWidth / 2 + window.top.screenX - ( width / 2 );
+
+		const features = [
+			"top=" + top,
+			"left=" + left,
+			"width=" + width,
+			"height=" + height,
+			"resizable=1",
+			"scrollbars=1",
+			"status=0",
+		];
+
+		window.open( url, "SEMrush_login", features.join( "," ) );
+		e.preventDefault();
+	}
+
+	/**
 	 * Renders the RelatedKeyPhrasesModal modal component.
 	 *
-	 * @returns {React.Element} The RelatedKeyPhrasesModal modal component.
+	 * @returns {wp.Element} The RelatedKeyPhrasesModal modal component.
 	 */
 	render() {
-		const { keyphrase, location, whichModalOpen } = this.props;
+		const { keyphrase, location, whichModalOpen, isLoggedIn } = this.props;
 
 		return (
 			<Fragment>
-				<BaseButton
-					id="yoast-get-related-keyphrases"
-					className="yoast-related-keyphrases-modal__button"
-					onClick={ this.onModalOpen }
-				>
-					{ __( "Get related keyphrases", "wordpress-seo" ) }
-				</BaseButton>
+				{ isLoggedIn && <div className={ "yoast" }>
+					<Button
+						variant={ "secondary" }
+						id={ `yoast-get-related-keyphrases-${location}` }
+						onClick={ this.onModalOpen }
+					>
+						{ __( "Get related keyphrases", "wordpress-seo" ) }
+					</Button>
+				</div> }
 				{ keyphrase && whichModalOpen === location &&
 					<Modal
 						title={ __( "Related keyphrases", "wordpress-seo" ) }
@@ -83,10 +113,24 @@ class SEMrushRelatedKeyphrasesModal extends Component {
 							className="yoast-gutenberg-modal__content yoast-related-keyphrases-modal__content"
 						>
 							<Slot name="YoastRelatedKeyphrases" />
-
 						</ModalContainer>
 					</Modal>
 				}
+				{ ! isLoggedIn && <div className={ "yoast" }>
+					<ButtonStyledLink
+						variant={ "secondary" }
+						id={ `yoast-get-related-keyphrases-${location}` }
+						href={ "https://oauth.semrush.com/oauth2/authorize?" +
+							"ref=1513012826&client_id=yoast&redirect_uri=https%3A%2F%2Foauth.semrush.com%2Foauth2%2Fyoast%2Fsuccess&" +
+							"response_type=code&scope=user.id" }
+						onClick={ this.onLinkClick }
+					>
+						{ __( "Get related keyphrases", "wordpress-seo" ) }
+						<span className={ "screen-reader-text" }>
+							{ __( "(Opens in a new browser window)", "wordpress-seo" ) }
+						</span>
+					</ButtonStyledLink>
+				</div> }
 			</Fragment>
 		);
 	}
@@ -100,6 +144,7 @@ SEMrushRelatedKeyphrasesModal.propTypes = {
 		"metabox",
 		"sidebar",
 	] ),
+	isLoggedIn: PropTypes.bool,
 	onOpen: PropTypes.func.isRequired,
 	onOpenWithNoKeyphrase: PropTypes.func.isRequired,
 	onClose: PropTypes.func.isRequired,
@@ -109,6 +154,7 @@ SEMrushRelatedKeyphrasesModal.defaultProps = {
 	keyphrase: "",
 	location: "",
 	whichModalOpen: "none",
+	isLoggedIn: false,
 };
 
 export default SEMrushRelatedKeyphrasesModal;
