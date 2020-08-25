@@ -322,6 +322,7 @@ class Addon_Manager_Test extends TestCase {
 						'update' => [
 							'tested'       => '5.5',
 							'requires_php' => '5.6',
+							'requires'     => '5.4',
 						],
 					],
 				]
@@ -471,8 +472,9 @@ class Addon_Manager_Test extends TestCase {
 					'high' => 'https://yoa.st/yoast-seo-banner-premium',
 					'low'  => 'https://yoa.st/yoast-seo-banner-low-premium',
 				],
-				'tested'        => '',
-				'requires_php'  => '',
+				'tested'        => WPSEO_WP_TESTED,
+				'requires_php'  => WPSEO_PHP_REQUIRED,
+				'requires'      => WPSEO_WP_REQUIRED,
 			],
 			$this->instance->convert_subscription_to_plugin(
 				(object) [
@@ -677,8 +679,9 @@ class Addon_Manager_Test extends TestCase {
 								'high' => 'https://yoa.st/yoast-seo-banner-premium',
 								'low'  => 'https://yoa.st/yoast-seo-banner-low-premium',
 							],
-							'tested'        => '',
-							'requires_php'  => '',
+							'tested'        => WPSEO_WP_TESTED,
+							'requires_php'  => WPSEO_PHP_REQUIRED,
+							'requires'      => WPSEO_WP_REQUIRED,
 						],
 					],
 				],
@@ -735,8 +738,9 @@ class Addon_Manager_Test extends TestCase {
 						'high' => 'https://yoa.st/yoast-seo-banner-premium',
 						'low'  => 'https://yoa.st/yoast-seo-banner-low-premium',
 					],
-					'tested'        => '',
-					'requires_php'  => '',
+					'tested'        => WPSEO_WP_TESTED,
+					'requires_php'  => WPSEO_PHP_REQUIRED,
+					'requires'      => WPSEO_WP_REQUIRED,
 				],
 				'message'  => 'Tests with a Yoast addon slug given as argument.',
 			],
