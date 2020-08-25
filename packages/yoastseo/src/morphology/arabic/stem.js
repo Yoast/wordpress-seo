@@ -21,188 +21,12 @@
  */
 
 /**
- * Check if the word is on the list of words which had the last weak letter removed. If it is, add back the
- * removed last letter and return the root.
+ * Tries to match a word with a regex. If matched, modifies the string according to the indicated pattern.
  *
- * @param {string}	word			The two-letter word to check.
- * @param {Object}	morphologyData	The Arabic morphology data.
- *
- * @returns {string}	The word with the last weak letter added back or the original word.
- */
-const checkWordsWithRemovedLastWeakLetter = function( word, morphologyData ) {
-	const externalStemmer = morphologyData.externalStemmer;
-	const characters = externalStemmer.characters;
-
-	if ( externalStemmer.wordsWithLastAlifRemoved.includes( word ) ) {
-		return word + characters.alef;
-	}
-	if ( externalStemmer.wordsWithLastHamzaRemoved.includes( word ) ) {
-		return word + characters.alef_hamza_above;
-	}
-	if ( externalStemmer.wordsWithLastMaksouraRemoved.includes( word ) ) {
-		return word + characters.yeh_maksorah;
-	}
-	if ( externalStemmer.wordsWithLastYahRemoved.includes( word ) ) {
-		return word + characters.yeh;
-	}
-};
-
-/**
- * Check if the word is on the list of words which had the first weak letter removed. If it is, add back the
- * removed weak letter and return the root.
- *
- * @param {string}	word			The two-letter word to check.
- * @param {Object}	morphologyData	The Arabic morphology data.
- *
- * @returns {string}	The word with the first weak letter added back or the original word.
- */
-const checkWordsWithRemovedFirstWeakLetter = function( word, morphologyData ) {
-	const externalStemmer = morphologyData.externalStemmer;
-	const characters = externalStemmer.characters;
-
-	if ( externalStemmer.wordsWithFirstWawRemoved.includes( word ) ) {
-		return characters.waw + word;
-	}
-	if ( externalStemmer.wordsWithFirstYahRemoved.includes( word ) ) {
-		return characters.yeh + word;
-	}
-};
-
-/**
- * Check if the word is on the list of words which had the middle weak letter removed. If it is, add back the
- * removed weak letter and return the root.
- *
- * @param {string}	word			The two-letter word to check.
- * @param {Object}	morphologyData	The Arabic morphology data.
- *
- * @returns {string}	The word with the middle weak letter added back or the original word.
- */
-const checkWordsWithRemovedMiddleWeakLetter = function( word, morphologyData ) {
-	const externalStemmer = morphologyData.externalStemmer;
-	const characters = externalStemmer.characters;
-
-	if ( externalStemmer.wordsWithMiddleWawRemoved.includes( word ) ) {
-		return word[ 0 ] + characters.waw + word[ 1 ];
-	}
-	if ( externalStemmer.wordsWithMiddleYahRemoved.includes( word ) ) {
-		return word[ 0 ] + characters.yeh + word[ 1 ];
-	}
-};
-
-
-/**
- * Find the root of two-letter words.
- *
- * @param {string}	word			The two-letter word to process.
- * @param {Object}	morphologyData	The Arabic morphology data.
- *
- * @returns {string}	The stemmed word.
- */
-const processTwoLetterWords = function( word, morphologyData ) {
-	// If the input consists of two letters, then this could be either
-	// - because it is a root consisting of two letters (though I can't think of any!)
-	// - because a letter was deleted as it is duplicated or a weak middle or last letter.
-	if ( morphologyData.externalStemmer.wordsWithRemovedDuplicateLetter.includes( word ) ) {
-		return word + word.substring( 1 );
-	}
-
-	const wordAfterLastWeakLetterCheck = checkWordsWithRemovedLastWeakLetter( word, morphologyData );
-	if ( wordAfterLastWeakLetterCheck ) {
-		return wordAfterLastWeakLetterCheck;
-	}
-	const wordAfterFirstWeakLetterCheck = checkWordsWithRemovedFirstWeakLetter( word, morphologyData );
-	if ( wordAfterFirstWeakLetterCheck ) {
-		return wordAfterFirstWeakLetterCheck;
-	}
-	const wordAfterMiddleWeakLetterCheck = checkWordsWithRemovedMiddleWeakLetter( word, morphologyData );
-	if ( wordAfterMiddleWeakLetterCheck ) {
-		return wordAfterMiddleWeakLetterCheck;
-	}
-
-	return word;
-};
-
-/**
- * Remove the middle or last weak letter or hamza in a three letter word, and find its root by checking an exception list of
- * roots with the middle or last weak letter/hamza removed.
- *
- * @param {string}		word					The three-letter word to check.
- * @param {Object}		morphologyData			The Arabic morphology data.
- * @param {string[]}	replacementPattern		The regex to match the word with and the modification that should be done to the string.
- * @param {function}	functionToRunToGetRoot	The function to run to get the root of the modified word.
- *
- * @returns {string}	The stemmed word.
- */
-const processWordsWithWeakLetterOrHamza = function( word, morphologyData, replacementPattern, functionToRunToGetRoot ) {
-	const wordAfterRemovingWeakLetterOrHamza = word.replace( new RegExp( replacementPattern[ 0 ] ),
-		replacementPattern[ 1 ] );
-	if ( wordAfterRemovingWeakLetterOrHamza !== word ) {
-		// If the weak letter or hamza was removed, check whether the word is on a list of words with middle/last weak letter removed.
-		return functionToRunToGetRoot( wordAfterRemovingWeakLetterOrHamza, morphologyData );
-	}
-};
-
-/**
- * Get the root/stem of three letter words.
- *
- * @param {string}	word			The three-letter word to check.
- * @param {Object}	morphologyData	The Arabic morphology data.
- *
- * @returns {string}	The stemmed word.
- */
-const processThreeLetterWords = function( word, morphologyData ) {
-	const characters = morphologyData.externalStemmer.characters;
-
-	if ( morphologyData.externalStemmer.threeLetterRoots.includes( word ) ) {
-		return word;
-	}
-	// If the first letter is an 'Ç', 'Ä'  or 'Æ' then change it to a 'Ã'
-	if ( word[ 0 ] === characters.alef || word[ 0 ] === characters.waw_hamza ||
-			word[ 0 ] === characters.yeh_hamza ) {
-		word = characters.alef_hamza_above + word.slice( 1 );
-	}
-
-	// If the last letter is a weak letter or a hamza, remove it and check if the root is a word with the last weak letter or hamza removed.
-	const wordAfterLastWeakLetterOrHamzaCheck = processWordsWithWeakLetterOrHamza( word, morphologyData,
-		morphologyData.externalStemmer.regexRemoveLastWeakLetterOrHamza, checkWordsWithRemovedLastWeakLetter );
-	if ( wordAfterLastWeakLetterOrHamzaCheck ) {
-		return wordAfterLastWeakLetterOrHamzaCheck;
-	}
-
-	// If the second letter is a waw, yeh, alef or a yeh_hamza, remove it and check if the root is a word with the middle weak letter removed.
-	const wordAfterMiddleWeakLetterOrHamzaCheck = processWordsWithWeakLetterOrHamza( word, morphologyData,
-		morphologyData.externalStemmer.regexRemoveMiddleWeakLetterOrHamza, checkWordsWithRemovedMiddleWeakLetter );
-	if ( wordAfterMiddleWeakLetterOrHamzaCheck ) {
-		return wordAfterMiddleWeakLetterOrHamzaCheck;
-	}
-	// If the second letter has a hamza, and it's not on a alif, then it must be returned to the alif.
-	const regexReplaceMiddleLetterWithAlif = morphologyData.externalStemmer.regexReplaceMiddleLetterWithAlif;
-	const regexReplaceMiddleLetterWithAlifWithHamza = morphologyData.externalStemmer.regexReplaceMiddleLetterWithAlifWithHamza;
-	const wordAfterReplacingMiddleLetterWithAlif = word.replace( new RegExp( regexReplaceMiddleLetterWithAlif[ 0 ] ),
-		regexReplaceMiddleLetterWithAlif[ 1 ] );
-	if ( wordAfterReplacingMiddleLetterWithAlif === word ) {
-		word = word.replace( new RegExp( regexReplaceMiddleLetterWithAlifWithHamza[ 0 ] ),
-			regexReplaceMiddleLetterWithAlifWithHamza[ 1 ] );
-	} else {
-		word = wordAfterReplacingMiddleLetterWithAlif;
-	}
-	// If the last letter is a shadda, remove it and duplicate the last letter.
-	const regexRemoveShaddaAndDuplicateLastLetter = morphologyData.externalStemmer.regexRemoveShaddaAndDuplicateLastLetter;
-	word = word.replace( new RegExp( regexRemoveShaddaAndDuplicateLastLetter[ 0 ] ),
-		regexRemoveShaddaAndDuplicateLastLetter[ 1 ] );
-
-	// Check whether the modified word is a root.
-	if ( morphologyData.externalStemmer.threeLetterRoots.includes( word ) ) {
-		return word;
-	}
-	return word;
-};
-
-/**
  * @param {string}		word				The word to check.
  * @param {string[]}	regexAndReplacement	The regex to match the word with and what the word should be replaced with if it is matched.
  *
- * @returns {string}	The modified word or the original word if it was not matched by the regex.
+ * @returns {string}	The modified word or the original word if it was not matched.
  */
 const matchWithRegexAndReplace = function( word, regexAndReplacement ) {
 	return word.replace( new RegExp( regexAndReplacement[ 0 ] ),
@@ -210,14 +34,200 @@ const matchWithRegexAndReplace = function( word, regexAndReplacement ) {
 };
 
 /**
- * Test to see if the word matches the pattern ÇÝÚáÇ. If it does, get remove the first and the two last characters and
- * try to find the root.
+ * Check if the word is on the list of three-letter roots which had the last weak letter removed (so are now two letters long).
+ * If the word is on the list, add back the removed last letter and return the three-letter root.
+ *
+ * @param {string}	word			The two-letter word to check.
+ * @param {Object}	morphologyData	The Arabic morphology data.
+ *
+ * @returns {string|null}	The word with the last weak letter added back or null if the word was not found on a list.
+ */
+const checkWordsWithRemovedLastLetter = function( word, morphologyData ) {
+	const externalStemmer = morphologyData.externalStemmer;
+	const characters = externalStemmer.characters;
+
+	if ( externalStemmer.wordsWithLastAlefRemoved.includes( word ) ) {
+		return word + characters.alef;
+	}
+	if ( externalStemmer.wordsWithLastHamzaRemoved.includes( word ) ) {
+		return word + characters.alef_hamza_above;
+	}
+	if ( externalStemmer.wordsWithLastMaksoraRemoved.includes( word ) ) {
+		return word + characters.yeh_maksorah;
+	}
+	if ( externalStemmer.wordsWithLastYehRemoved.includes( word ) ) {
+		return word + characters.yeh;
+	}
+};
+
+/**
+ * Check if the word is on the list of three-letter roots which had the first weak letter removed (so are now two letters long).
+ * If the word is on the list, add back the removed first letter and return the three-letter root.
+ *
+ * @param {string}	word			The two-letter word to check.
+ * @param {Object}	morphologyData	The Arabic morphology data.
+ *
+ * @returns {string|null}	The word with the first weak letter added back or null if the word was not found on any list.
+ */
+const checkWordsWithRemovedFirstLetter = function( word, morphologyData ) {
+	const externalStemmer = morphologyData.externalStemmer;
+	const characters = externalStemmer.characters;
+
+	if ( externalStemmer.wordsWithFirstWawRemoved.includes( word ) ) {
+		return characters.waw + word;
+	}
+	if ( externalStemmer.wordsWithFirstYehRemoved.includes( word ) ) {
+		return characters.yeh + word;
+	}
+};
+
+/**
+ * Check if the word is on the list of three-letter roots which had the middle weak letter removed (so are now two letters long).
+ * If the word is on the list, add back the removed middle letter and return the three-letter root.
+ *
+ * @param {string}	word			The two-letter word to check.
+ * @param {Object}	morphologyData	The Arabic morphology data.
+ *
+ * @returns {string|null}	The word with the middle weak letter added back or null if the word was not found on a list.
+ */
+const checkWordsWithRemovedMiddleLetter = function( word, morphologyData ) {
+	const externalStemmer = morphologyData.externalStemmer;
+	const characters = externalStemmer.characters;
+
+	if ( externalStemmer.wordsWithMiddleWawRemoved.includes( word ) ) {
+		return word[ 0 ] + characters.waw + word[ 1 ];
+	}
+	if ( externalStemmer.wordsWithMiddleYehRemoved.includes( word ) ) {
+		return word[ 0 ] + characters.yeh + word[ 1 ];
+	}
+};
+
+
+/**
+ * Find the root of two-letter words. Two-letter words usually come from three-letter roots for which a letter was deleted
+ * as it is a duplicated last letter or a weak letter.
+ *
+ * @param {string}	word			The two-letter word to process.
+ * @param {Object}	morphologyData	The Arabic morphology data.
+ *
+ * @returns {string}	The three-letter root or the input word if no root was found.
+ */
+const processTwoLetterWords = function( word, morphologyData ) {
+	// Check whether the word is on the list of words with removed duplicate last letter. If it is, add back the removed letter to get the root.
+	if ( morphologyData.externalStemmer.wordsWithRemovedDuplicateLetter.includes( word ) ) {
+		return word + word.substring( 1 );
+	}
+	// Check whether the word is on one of the lists of words with removed weak letter or hamza.
+	const wordAfterLastLetterCheck = checkWordsWithRemovedLastLetter( word, morphologyData );
+	if ( wordAfterLastLetterCheck ) {
+		return wordAfterLastLetterCheck;
+	}
+	const wordAfterFirstLetterCheck = checkWordsWithRemovedFirstLetter( word, morphologyData );
+	if ( wordAfterFirstLetterCheck ) {
+		return wordAfterFirstLetterCheck;
+	}
+	const wordAfterMiddleLetterCheck = checkWordsWithRemovedMiddleLetter( word, morphologyData );
+	if ( wordAfterMiddleLetterCheck ) {
+		return wordAfterMiddleLetterCheck;
+	}
+
+	return word;
+};
+
+/**
+ * Remove the middle/last weak letter or hamza in a three letter word. Find its root by checking the appropriate exception lists
+ * (words with middle letter removed or words with last letter removed) and attaching the removed letter back.
+ *
+ * @param {string}		word					The three-letter word to check.
+ * @param {Object}		morphologyData			The Arabic morphology data.
+ * @param {string[]}	replacementPattern		The regex to find and remove middle or last weak letter/hamza in three letter words
+ * @param {function}	functionToRunToGetRoot	The function that checks lists of words with either middle or last letter removed and attaches it back.
+ *
+ * @returns {string|null}	The root or null if no root was found.
+ */
+const processThreeLetterWordsWithWeakLetterOrHamza = function( word, morphologyData, replacementPattern, functionToRunToGetRoot ) {
+	// Find and remove middle or last weak letter or hamza
+	const wordAfterRemovingWeakLetterOrHamza = word.replace( new RegExp( replacementPattern[ 0 ] ),
+		replacementPattern[ 1 ] );
+	if ( wordAfterRemovingWeakLetterOrHamza !== word ) {
+		/*
+		 * If the weak letter or hamza was removed, get the root by checking lists of words with middle/last weak letter
+		 * or hamza removed and attaching it back.
+		 */
+		return functionToRunToGetRoot( wordAfterRemovingWeakLetterOrHamza, morphologyData );
+	}
+};
+
+/**
+ * Get the root of three letter words.
+ *
+ * @param {string}	word			The three-letter word to check.
+ * @param {Object}	morphologyData	The Arabic morphology data.
+ *
+ * @returns {string}	The root or the original input word (which may alrrady be the root).
+ */
+const processThreeLetterWords = function( word, morphologyData ) {
+	const characters = morphologyData.externalStemmer.characters;
+
+	// If the word exists on the list of three letter roots, return the word.
+	if ( morphologyData.externalStemmer.threeLetterRoots.includes( word ) ) {
+		return word;
+	}
+	// If the first letter is ا/ ؤ/ ئ (yeh_hamza/waw_hamza/alef), change it to أ (alef_hamza_above).
+	if ( word[ 0 ] === characters.alef || word[ 0 ] === characters.waw_hamza ||
+			word[ 0 ] === characters.yeh_hamza ) {
+		word = characters.alef_hamza_above + word.slice( 1 );
+	}
+
+	// If the last letter is a weak letter or a hamza, check if the word is a root that may get the last weak letter/hamza removed.
+	const wordAfterLastWeakLetterOrHamzaCheck = processThreeLetterWordsWithWeakLetterOrHamza( word, morphologyData,
+		morphologyData.externalStemmer.regexRemoveLastWeakLetterOrHamza, checkWordsWithRemovedLastLetter );
+	if ( wordAfterLastWeakLetterOrHamzaCheck ) {
+		return wordAfterLastWeakLetterOrHamzaCheck;
+	}
+
+	// If the middle letter is a waw, yeh, alef or a yeh_hamza, check if the word is a root that may get the middle weak letter/hamza removed..
+	const wordAfterMiddleWeakLetterOrHamzaCheck = processThreeLetterWordsWithWeakLetterOrHamza( word, morphologyData,
+		morphologyData.externalStemmer.regexRemoveMiddleWeakLetterOrHamza, checkWordsWithRemovedMiddleLetter );
+	if ( wordAfterMiddleWeakLetterOrHamzaCheck ) {
+		return wordAfterMiddleWeakLetterOrHamzaCheck;
+	}
+
+	const regexReplaceMiddleLetterWithAlef = morphologyData.externalStemmer.regexReplaceMiddleLetterWithAlef;
+	const regexReplaceMiddleLetterWithAlefWithHamza = morphologyData.externalStemmer.regexReplaceMiddleLetterWithAlefWithHamza;
+
+	// If the word has ئ/ؤ (yeh_hamza/waw_hamza) as the second letter and ends in ر/ز/ن (noon/zai/reh), change ئ/ؤ (yeh_hamza/waw_hamza) to ا (alef).
+	const wordAfterReplacingMiddleLetterWithAlef = word.replace( new RegExp( regexReplaceMiddleLetterWithAlef[ 0 ] ),
+		regexReplaceMiddleLetterWithAlef[ 1 ] );
+	if ( wordAfterReplacingMiddleLetterWithAlef === word ) {
+		word = word.replace( new RegExp( regexReplaceMiddleLetterWithAlefWithHamza[ 0 ] ),
+			regexReplaceMiddleLetterWithAlefWithHamza[ 1 ] );
+	} else {
+		// If the second letter is a ئ/ؤ (yeh_hamza/waw_hamza) and it doesn't end in noon/zai/reh, change ئ/ؤ d to أ (alef_hamza_above).
+		word = wordAfterReplacingMiddleLetterWithAlef;
+	}
+	// If the last letter is a shadda, remove it and duplicate the last letter.
+	const regexRemoveShaddaAndDuplicateLastLetter = morphologyData.externalStemmer.regexRemoveShaddaAndDuplicateLastLetter;
+	word = word.replace( new RegExp( regexRemoveShaddaAndDuplicateLastLetter[ 0 ] ),
+		regexRemoveShaddaAndDuplicateLastLetter[ 1 ] );
+
+	// Check whether the modified word is a three-letter root.
+	if ( morphologyData.externalStemmer.threeLetterRoots.includes( word ) ) {
+		return word;
+	}
+	return word;
+};
+
+/**
+ * Check whether the word matches the pattern (it is a 6 letter-word, the fourth and sixth letter are the same, and the pattern
+ * and the word share two same letters at the same index). If it does, remove the first character and the two last characters and
+ * get the root.
  *
  * @param {string}	word				The word to check.
  * @param {number}	numberSameLetters	The number of letters the word and the pattern share at the same index.
  * @param {Object}	morphologyData		The Arabic morphology data.
  *
- * @returns {string} The root or the original word if no root was found.
+ * @returns {string} The root or the original word if word was not matched by the pattern.
  */
 const checkFirstPatternAndGetRoot = function( word, numberSameLetters, morphologyData ) {
 	if ( word.length === 6 && word[ 3 ] === word[ 5 ] && numberSameLetters === 2 ) {
@@ -227,7 +237,7 @@ const checkFirstPatternAndGetRoot = function( word, numberSameLetters, morpholog
 };
 
 /**
- *
+ * Checks whether the word matches the pattern and get the root if it does.
  *
  * @param {string}	word				The word to check.
  * @param {string}	pattern				The pattern to check.
@@ -261,16 +271,18 @@ const checkSecondPatternAndGetRoot = function( word, pattern, numberSameLetters,
  * @param {string}	word			The word to check.
  * @param {Object}	morphologyData	The Arabic morphology data
  *
- * @returns {Object}				The root or the original word if no root was found.
+ * @returns {Object|null} An object with either the root or the modified word and the information whether the root was found,
+ * 						  or null if the word was not modified and the root was not found.
  */
 const checkPatterns = function( word, morphologyData ) {
 	const characters = morphologyData.externalStemmer.characters;
 	// If the first letter is an alef_madda, alef_hamza_above, or alef_hamza_below (أ/إ/آ), change it to an alef (ا)
-	const wordAfterModification = matchWithRegexAndReplace( word, morphologyData.externalStemmer.regexReplaceFirstHamzaWithAlif );
+	const wordAfterModification = matchWithRegexAndReplace( word, morphologyData.externalStemmer.regexReplaceFirstHamzaWithAlef );
 
 	// Try and find a pattern that matches the word
 	for ( const pattern of morphologyData.externalStemmer.patterns ) {
 		if ( pattern.length === wordAfterModification.length ) {
+			// Count the number of letters the word and the pattern share at the same index.
 			let numberSameLetters = 0;
 			for ( let i = 0; i < wordAfterModification.length; i++ ) {
 				if ( pattern[ i ] === wordAfterModification[ i ] &&
@@ -298,12 +310,12 @@ const checkPatterns = function( word, morphologyData ) {
 };
 
 /**
- * Tries to find the root of a word by checking lists and/or applying modifications to the word.
+ * Tries to find the root of two-, three- and four-letter words by checking lists and/or applying modifications to the word.
  *
  * @param {string} 	word			The word to check.
  * @param {Object}	morphologyData	The Arabic morphology data.
  *
- * @returns {string} The root or the word if no root was found.
+ * @returns {string|null} The root or null if the root was not found.
  */
 const checkIfWordIsRoot = function( word, morphologyData ) {
 	// Check if the word consists of two letters and find its root.
@@ -341,8 +353,7 @@ const checkIfWordIsRoot = function( word, morphologyData ) {
 const removeSuffix = function( word, suffixes ) {
 	for ( const suffix of suffixes ) {
 		if ( word.endsWith( suffix ) ) {
-			const stemmedWord = word.slice( 0, -suffix.length );
-			return stemmedWord;
+			return word.slice( 0, -suffix.length );
 		}
 	}
 	return word;
@@ -366,16 +377,16 @@ const removePrefix = function( word, prefixes ) {
 };
 
 /**
- * Searches for a suffix, removes it if found, and tries to find the root of the stemmed word. If no root is found, returns
- * the original word.
+ * Searches for a suffix, removes it if found, and tries to find the root of the stemmed word.
  *
  * @param {string}	word			The word to check.
  * @param {Object}	morphologyData	The Arabic morphology data.
  *
- * @returns {Object} The root or the input word if no root was found.
+ * @returns {Object|null} An object with the root/modified word and information about whether the root was found or null if
+ * the word is not .
  */
 const processWordWithSuffix = function( word, morphologyData ) {
-	// If the word length is less than or the same as three letters, return the original word.
+	// If the word length is three letters or less, return the input word, as the word is too short to have a suffix.
 	if ( word.length <= 3 )  {
 		return { word: word, rootFound: false };
 	}
@@ -458,10 +469,13 @@ const findRoot = function( word, morphologyData ) {
 			} word = outputAfterCheckingPatterns.word;
 		}
 		// Remove affixes and check if the stemmed word is a root
-	} const outputAfterRemovingSuffix = processWordWithSuffix( word, morphologyData );
-	if ( outputAfterRemovingSuffix ) {
-		return outputAfterRemovingSuffix;
-	} const outputAfterRemovingPrefix = processWordWithPrefix( word, morphologyData );
+	} const outputAfterProcessingSuffix = processWordWithSuffix( word, morphologyData );
+	if ( outputAfterProcessingSuffix ) {
+		if ( outputAfterProcessingSuffix.rootFound === true ) {
+			return outputAfterProcessingSuffix;
+		} word = outputAfterProcessingSuffix.word;
+	}
+	const outputAfterRemovingPrefix = processWordWithPrefix( word, morphologyData );
 	if ( outputAfterRemovingPrefix ) {
 		return outputAfterRemovingPrefix;
 	}

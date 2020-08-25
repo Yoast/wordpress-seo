@@ -78,7 +78,7 @@ const wordsToStem = [
 	[ "إنطباع", "طبع" ],
 	// Words that match one of the patterns
 	[ "تبادل", "بدل" ],
-	// Words that match pattern ÇÝÚáÇ or افعيلال/افعلال
+	// Words that match pattern ÇÝÚáÇ or افعلال
 	[ "ابيضاض", "بيض" ],
 	// Words with a definite article
 	[ "بالضبط", "ضبط" ],
