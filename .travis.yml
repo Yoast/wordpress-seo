@@ -264,7 +264,7 @@ script:
         cd premium
         composer check-cs
         cd -
-      elseif [[ "$TRAVIS_PULL_REQUEST" == "false" ]]; then
+      elif [[ "$TRAVIS_PULL_REQUEST" == "false" ]]; then
           composer check-cs-threshold
       else
         # For pull requests the $TRAVIS_BRANCH contains the target branch.
