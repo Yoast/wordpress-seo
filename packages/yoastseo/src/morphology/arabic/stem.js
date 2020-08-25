@@ -237,7 +237,7 @@ const checkFirstPatternAndGetRoot = function( word, numberSameLetters, morpholog
 };
 
 /**
- * Checks whether the word matches the pattern and get the root if it does.
+ * Checks whether the word matches the pattern (the word shares three characters with the pattern) and get the root if it does.
  *
  * @param {string}	word				The word to check.
  * @param {string}	pattern				The pattern to check.
@@ -377,18 +377,20 @@ const removePrefix = function( word, prefixes ) {
 };
 
 /**
- * Searches for a suffix, removes it if found, and tries to find the root of the stemmed word.
+ * Searches for a suffix, removes it if found, and tries to find the root of the stemmed word. If the root is not found, the
+ * function returns null, with one exception: it is possible that in the checkPatterns function that is ran inside of this one,
+ * the word is modified but no root is found. In this case, the function returns the modified word.
  *
  * @param {string}	word			The word to check.
  * @param {Object}	morphologyData	The Arabic morphology data.
  *
- * @returns {Object|null} An object with the root/modified word and information about whether the root was found or null if
- * the word is not .
+ * @returns {Object|null} An object with the root/modified word and information about whether the root was found, or null if
+ * 						  the word is not modified and no root is found.
  */
 const processWordWithSuffix = function( word, morphologyData ) {
-	// If the word length is three letters or less, return the input word, as the word is too short to have a suffix.
+	// If the word length is three letters or less, return null as the word is too short to have a suffix.
 	if ( word.length <= 3 )  {
-		return { word: word, rootFound: false };
+		return null;
 	}
 	// Find and remove suffix.
 	const wordAfterRemovingSuffix = removeSuffix( word, morphologyData.externalStemmer.suffixes );
@@ -409,18 +411,21 @@ const processWordWithSuffix = function( word, morphologyData ) {
 };
 
 /**
- * Searches for a prefix (other than waw or a definite article), removes it if found, and tries to find the root of the stemmed
- * word. If no root is found, returns the original word.
+ * Searches for a prefix (other than the definite article), removes it if found, and tries to find the root of the stemmed
+ * word. If the root is not found, the function returns null, with one exception: it is possible that in the checkPatterns
+ * function that is ran inside of this one, the word is modified but no root is found. In this case, the function returns
+ * the modified word.
  *
  * @param {string}	word			The word to check.
  * @param {Object}	morphologyData	The Arabic morphology data.
  *
- * @returns {Object}	The root or the input word if no root was found.
+ * @returns {Object|null}	An object with the root/modified word and information about whether the root was found, or null if
+ * 						    the word is not modified and no root is found.
  */
 const processWordWithPrefix = function( word, morphologyData ) {
-	// If the word length is less than or the same as three letters, return the original word.
+	// If the word length is less than or the same as three letters, return null as the word is too short to have a prefix.
 	if ( word.length <= 3 )  {
-		return { word: word, rootFound: false };
+		return null;
 	}
 	// Find and remove prefix.
 	let wordAfterRemovingPrefix = removePrefix( word, morphologyData.externalStemmer.prefixes );
