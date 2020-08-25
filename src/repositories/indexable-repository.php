@@ -331,9 +331,9 @@ class Indexable_Repository {
 	}
 
 	/**
-	 * Retrieves multiple indexables at once by their IDs and type.
+	 * Retrieves multiple indexables at once by their id's and type.
 	 *
-	 * @param int[]  $object_ids  The array of indexable object IDs.
+	 * @param int[]  $object_ids  The array of indexable object id's.
 	 * @param string $object_type The indexable object type.
 	 * @param bool   $auto_create Optional. Create the indexable if it does not exist.
 	 *
@@ -371,9 +371,9 @@ class Indexable_Repository {
 	}
 
 	/**
-	 * Finds the indexables by ids.
+	 * Finds the indexables by id's.
 	 *
-	 * @param array $indexable_ids The indexable ids.
+	 * @param array $indexable_ids The indexable id's.
 	 *
 	 * @return Indexable[] The found indexables.
 	 */
@@ -430,7 +430,7 @@ class Indexable_Repository {
 	 * Returns all subpages with a given post_parent.
 	 *
 	 * @param int   $post_parent The post parent.
-	 * @param array $exclude_ids The ids to exclude.
+	 * @param array $exclude_ids The id's to exclude.
 	 *
 	 * @return Indexable[] array of indexables.
 	 */
@@ -449,7 +449,7 @@ class Indexable_Repository {
 	/**
 	 * Updates the incoming link count for an indexable without first fetching it.
 	 *
-	 * @param int $indexable_id The indexable ID.
+	 * @param int $indexable_id The indexable id.
 	 * @param int $count        The incoming link count.
 	 *
 	 * @return bool Whether or not the update was succeful.

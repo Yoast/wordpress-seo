@@ -17,7 +17,7 @@ use Yoast\WP\SEO\Repositories\Indexable_Hierarchy_Repository;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
 /**
- * Watches an ancestor to save the meta information when updated.
+ * Watches an ancestor to reset its children's permalink when the ancestor is updated.
  */
 class Indexable_Ancestor_Watcher implements Integration_Interface {
 
@@ -60,7 +60,7 @@ class Indexable_Ancestor_Watcher implements Integration_Interface {
 	 * Sets the needed dependencies.
 	 *
 	 * @param Indexable_Repository           $indexable_repository           The indexable repository.
-	 * @param Indexable_Hierarchy_Builder    $indexable_hierarchy_builder    The hierarchy builder.
+	 * @param Indexable_Hierarchy_Builder    $indexable_hierarchy_builder    The indexable hierarchy builder.
 	 * @param Indexable_Hierarchy_Repository $indexable_hierarchy_repository The indexable hierarchy repository.
 	 * @param Indexable_Helper               $indexable_helper               The indexable helper.
 	 * @param wpdb                           $wpdb                           The wpdb object.
@@ -130,7 +130,7 @@ class Indexable_Ancestor_Watcher implements Integration_Interface {
 	 * @param int         $term_id          Term to fetch the indexable for.
 	 * @param Indexable[] $child_indexables The already known child indexables.
 	 *
-	 * @return array The list of additional indexables for a given term.
+	 * @return array The list of additional child indexables for a given term.
 	 */
 	public function get_children_for_term( $term_id, array $child_indexables ) {
 		// Finds object_ids (posts) for the term.
@@ -156,7 +156,7 @@ class Indexable_Ancestor_Watcher implements Integration_Interface {
 		// Finds the indexables for the posts that attached to the term.
 		$additional_indexable_ids = $this->indexable_hierarchy_repository->find_children_by_ancestor_ids( $object_ids );
 
-		// Makes sure we only have indexable ids that we haven't fetched before.
+		// Makes sure we only have indexable id's that we haven't fetched before.
 		foreach ( $indexables_by_term as $indexable_by_term ) {
 			$search = \array_search( $indexable_by_term->id, $additional_indexable_ids, true );
 			if ( $search === false ) {
@@ -169,7 +169,7 @@ class Indexable_Ancestor_Watcher implements Integration_Interface {
 		// Finds the additional indexables.
 		$additional_indexables = $this->indexable_repository->find_by_ids( $additional_indexable_ids );
 
-		// Lets merge all fetched indexables.
+		// Merges all fetched indexables.
 		return \array_merge( $indexables_by_term, $additional_indexables );
 	}
 

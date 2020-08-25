@@ -72,7 +72,7 @@ class Indexable_Hierarchy_Repository {
 	 *
 	 * @param Indexable $indexable The indexable to get the ancestors for.
 	 *
-	 * @return int[] The indexable IDs of the ancestors in order of grandparent to child.
+	 * @return int[] The indexable id's of the ancestors in order of grandparent to child.
 	 */
 	public function find_ancestors( Indexable $indexable ) {
 		$ancestors = $this->query()
@@ -100,7 +100,7 @@ class Indexable_Hierarchy_Repository {
 	 *
 	 * @param Indexable $indexable The indexable to find the children for.
 	 *
-	 * @return array Array with indexable ids for the children.
+	 * @return array Array with indexable id's for the children.
 	 */
 	public function find_children( Indexable $indexable ) {
 		$children = $this->query()
@@ -128,11 +128,11 @@ class Indexable_Hierarchy_Repository {
 	}
 
 	/**
-	 * Finds all the children by given ancestor ids.
+	 * Finds all the children by given ancestor id's.
 	 *
-	 * @param array $object_ids List of ids to get the children for.
+	 * @param array $object_ids List of id's to get the children for.
 	 *
-	 * @return array List of indexable ids for the children.
+	 * @return array List of indexable id's for the children.
 	 */
 	public function find_children_by_ancestor_ids( array $object_ids ) {
 		if ( empty( $object_ids ) ) {
