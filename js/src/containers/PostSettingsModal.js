@@ -22,12 +22,13 @@ const getPostTypeName = ( postTypeNameSingular ) => {
 export default withSelect( select => {
 	const {
 		getPreferences,
+		getEditorContext,
 	} = select( "yoast-seo/editor" );
 
 	const preferences = getPreferences();
 
 	return {
 		preferences,
-		postTypeName: getPostTypeName( preferences.postTypeNameSingular ),
+		postTypeName: getPostTypeName( getEditorContext().postTypeNameSingular ),
 	};
 } )( PostSettingsModal );
