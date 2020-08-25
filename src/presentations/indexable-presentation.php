@@ -264,15 +264,24 @@ class Indexable_Presentation extends Abstract_Presentation {
 		 */
 		$robots_filtered = \apply_filters( 'wpseo_robots', $robots_string, $this );
 
+		// Convert the robots string back to an array.
 		if ( \is_string( $robots_filtered ) ) {
 			$robots_values = \explode( ', ', $robots_filtered );
 			$robots_new    = [];
 
 			foreach ( $robots_values as $value ) {
 				$key = $value;
+
+				// Change `noindex` to `index.
 				if ( \strpos( $key, 'no' ) === 0 ) {
 					$key = \substr( $value, 2 );
 				}
+				// Change `max-snippet:-1` to `max-snippet`.
+				$colon_position = \strpos( $key, ':' );
+				if ( $colon_position !== false ) {
+					$key = \substr( $value, 0, $colon_position );
+				}
+
 				$robots_new[ $key ] = $value;
 			}
 
