@@ -66,8 +66,7 @@ const wordsToStem = [
 	[ "رؤي", "رأي" ],
 	// Three letter words that ends in a shadda, duplicate the second character and the root is in threeLetterRoots list
 	[ "ودّ", "ودد" ],
-	// Three letter words that ends in a shadda, duplicate the second character and the root is NOT in threeLetterRoots list
-	// [ "ألّ", "ألل" ],
+	[ "ألّ", "ألل" ],
 	// Four letter word that is in the list of four-letter roots.
 	[ "أبزم", "أبزم" ],
 	// Words that start with أ/إ/آ (alef_madda/alef_hamza_above/alef_hamza_below), the أ/إ/آ is changed to ا
@@ -78,7 +77,7 @@ const wordsToStem = [
 	[ "إنطباع", "طبع" ],
 	// Words that match one of the patterns
 	[ "تبادل", "بدل" ],
-	// Words that match pattern ÇÝÚáÇ or افعيلال/افعلال
+	// Words that match pattern ÇÝÚáÇ or افعلال
 	[ "ابيضاض", "بيض" ],
 	// Words with a definite article
 	[ "بالضبط", "ضبط" ],
