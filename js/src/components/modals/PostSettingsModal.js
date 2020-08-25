@@ -7,7 +7,7 @@ import SnippetEditor from "../../containers/SnippetEditor";
 import FacebookContainer from "../../containers/FacebookEditor";
 import TwitterContainer from "../../containers/TwitterEditor";
 import SchemaTabContainer from "../../containers/SchemaTab";
-import AdvancedSettings from "../AdvancedSettings";
+import AdvancedSettings from "../../containers/AdvancedSettings";
 import PropTypes from "prop-types";
 
 /**
