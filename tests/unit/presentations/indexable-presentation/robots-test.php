@@ -121,4 +121,39 @@ class Robots_Test extends TestCase {
 			$this->instance->generate_robots()
 		);
 	}
+
+	/**
+	 * Tests whether filter robots removes values when noindex.
+	 *
+	 * @covers ::generate_robots
+	 * @covers ::get_base_robots
+	 * @covers ::filter_robots
+	 */
+	public function test_generate_robots_strip_values_when_noindex() {
+		$this->instance->model->is_robots_noindex      = true;
+		$this->instance->model->is_robots_nofollow     = true;
+		$this->instance->model->is_robots_nosnippet    = true;
+		$this->instance->model->is_robots_noimageindex = true;
+		$this->instance->model->is_robots_noarchive    = true;
+
+		$expected = [
+			'index'  => 'noindex',
+			'follow' => 'nofollow',
+		];
+
+		// Check the values are stripped before running the filter by comparing the input of the filter.
+		Monkey\Filters\expectApplied( 'wpseo_robots' )
+			->twice()
+			->with( 'noindex, nofollow', $this->instance )
+			->andReturn( 'noindex, nofollow' );
+
+		$this->assertEquals( $expected, $this->instance->generate_robots() );
+
+		// Check again with snippet, imageindex and archive to false. It should not matter.
+		$this->instance->model->is_robots_nosnippet    = false;
+		$this->instance->model->is_robots_noimageindex = false;
+		$this->instance->model->is_robots_noarchive    = false;
+
+		$this->assertEquals( $expected, $this->instance->generate_robots() );
+	}
 }

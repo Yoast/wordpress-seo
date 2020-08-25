@@ -247,13 +247,17 @@ class Indexable_Presentation extends Abstract_Presentation {
 	 * @return array The filtered meta robots values.
 	 */
 	protected function filter_robots( $robots ) {
+		// Remove values that are only listened to when indexing.
 		if ( $robots['index'] === 'noindex' ) {
+			$robots['imageindex']        = null;
+			$robots['archive']           = null;
+			$robots['snippet']           = null;
 			$robots['max-snippet']       = null;
 			$robots['max-image-preview'] = null;
 			$robots['max-video-preview'] = null;
 		}
 
-		$robots_string = \implode( ', ', $robots );
+		$robots_string = \implode( ', ', \array_filter( $robots ) );
 
 		/**
 		 * Filter: 'wpseo_robots' - Allows filtering of the meta robots output of Yoast SEO.
