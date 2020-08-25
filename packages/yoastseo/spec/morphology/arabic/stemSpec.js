@@ -66,8 +66,7 @@ const wordsToStem = [
 	[ "رؤي", "رأي" ],
 	// Three letter words that ends in a shadda, duplicate the second character and the root is in threeLetterRoots list
 	[ "ودّ", "ودد" ],
-	// Three letter words that ends in a shadda, duplicate the second character and the root is NOT in threeLetterRoots list
-	// [ "ألّ", "ألل" ],
+	[ "ألّ", "ألل" ],
 	// Four letter word that is in the list of four-letter roots.
 	[ "أبزم", "أبزم" ],
 	// Words that start with أ/إ/آ (alef_madda/alef_hamza_above/alef_hamza_below), the أ/إ/آ is changed to ا
@@ -128,6 +127,8 @@ const wordsToStem = [
 	[ "المؤمنين", "أمن" ],
 	[ "الصالحات", "صلح" ],
 	[ "الحديث", "حدث" ],
+	// This word السماوات has a different output stem based on this stemmer (سمو) as we check the longer suffix (ات) first before the shorter one (ت)
+	// We think that our stem output makes more sense, thus we don't change any functionality to accommodate this difference.
 	// [ "السماوات", "سمي" ],
 	[ "بسلطان", "سلط" ],
 	[ "تفلحوا", "فلح" ],
@@ -140,6 +141,7 @@ const wordsToStem = [
 	[ "والباقيات", "بقي" ],
 	[ "المجرمين", "جرم" ],
 	[ "للظالمين", "ظلم" ],
+	// This word لنتخذن is also commented out in the original external stemmer.
 	// [ "لنتخذن", "أخذ" ],
 
 	// Complete paradigm of a verb
