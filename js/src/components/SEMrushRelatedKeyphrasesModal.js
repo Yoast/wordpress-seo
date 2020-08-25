@@ -5,8 +5,7 @@ import { __ } from "@wordpress/i18n";
 import PropTypes from "prop-types";
 
 /* Yoast dependencies */
-import { Button } from "@yoast/components/src/button";
-import { ButtonStyledLink } from "@yoast/components";
+import { Button, ButtonStyledLink } from "@yoast/components/src/button";
 
 /* Internal dependencies */
 import { ModalContainer } from "./modals/Container";
@@ -88,7 +87,7 @@ class SEMrushRelatedKeyphrasesModal extends Component {
 	/**
 	 * Renders the RelatedKeyPhrasesModal modal component.
 	 *
-	 * @returns {React.Element} The RelatedKeyPhrasesModal modal component.
+	 * @returns {wp.Element} The RelatedKeyPhrasesModal modal component.
 	 */
 	render() {
 		const { keyphrase, location, whichModalOpen, isLoggedIn } = this.props;
