@@ -15,7 +15,7 @@ class Metabox_Double extends WPSEO_Metabox {
 	 *
 	 * @return WPSEO_Metabox_Section_Additional[]
 	 */
-	public function get_additional_meta_sections() {
-		return parent::get_additional_meta_sections();
+	public function get_additional_tabs() {
+		return parent::get_additional_tabs();
 	}
 }

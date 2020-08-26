@@ -247,13 +247,17 @@ class Indexable_Presentation extends Abstract_Presentation {
 	 * @return array The filtered meta robots values.
 	 */
 	protected function filter_robots( $robots ) {
+		// Remove values that are only listened to when indexing.
 		if ( $robots['index'] === 'noindex' ) {
+			$robots['imageindex']        = null;
+			$robots['archive']           = null;
+			$robots['snippet']           = null;
 			$robots['max-snippet']       = null;
 			$robots['max-image-preview'] = null;
 			$robots['max-video-preview'] = null;
 		}
 
-		$robots_string = \implode( ', ', $robots );
+		$robots_string = \implode( ', ', \array_filter( $robots ) );
 
 		/**
 		 * Filter: 'wpseo_robots' - Allows filtering of the meta robots output of Yoast SEO.
@@ -264,15 +268,24 @@ class Indexable_Presentation extends Abstract_Presentation {
 		 */
 		$robots_filtered = \apply_filters( 'wpseo_robots', $robots_string, $this );
 
+		// Convert the robots string back to an array.
 		if ( \is_string( $robots_filtered ) ) {
 			$robots_values = \explode( ', ', $robots_filtered );
 			$robots_new    = [];
 
 			foreach ( $robots_values as $value ) {
 				$key = $value;
+
+				// Change `noindex` to `index.
 				if ( \strpos( $key, 'no' ) === 0 ) {
 					$key = \substr( $value, 2 );
 				}
+				// Change `max-snippet:-1` to `max-snippet`.
+				$colon_position = \strpos( $key, ':' );
+				if ( $colon_position !== false ) {
+					$key = \substr( $value, 0, $colon_position );
+				}
+
 				$robots_new[ $key ] = $value;
 			}
 

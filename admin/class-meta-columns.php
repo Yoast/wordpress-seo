@@ -6,6 +6,7 @@
  */
 
 use Yoast\WP\SEO\Context\Meta_Tags_Context;
+use Yoast\WP\SEO\Integrations\Admin\Admin_Columns_Cache_Integration;
 use Yoast\WP\SEO\Surfaces\Values\Meta;
 
 /**
@@ -35,11 +36,11 @@ class WPSEO_Meta_Columns {
 	private $analysis_readability;
 
 	/**
-	 * Cache of meta objects
+	 * Admin columns cache.
 	 *
-	 * @var Meta[]
+	 * @var Admin_Columns_Cache_Integration
 	 */
-	private $meta_cache = [];
+	private $admin_columns_cache;
 
 	/**
 	 * When page analysis is enabled, just initialize the hooks.
@@ -51,6 +52,7 @@ class WPSEO_Meta_Columns {
 
 		$this->analysis_seo         = new WPSEO_Metabox_Analysis_SEO();
 		$this->analysis_readability = new WPSEO_Metabox_Analysis_Readability();
+		$this->admin_columns_cache  = YoastSEO()->classes->get( Admin_Columns_Cache_Integration::class );
 	}
 
 	/**
@@ -68,50 +70,6 @@ class WPSEO_Meta_Columns {
 		}
 
 		add_filter( 'request', [ $this, 'column_sort_orderby' ] );
-
-		// Hook into tablenav to get the indexable meta, at this point we can get the post ids.
-		add_action( 'manage_posts_extra_tablenav', [ $this, 'get_post_ids_and_set_meta_cache' ] );
-	}
-
-	/**
-	 * Retrieves the post ids and sets the meta objects for all the indexables belonging
-	 * to the post ids.
-	 *
-	 * @param string $target Extra table navigation location which is triggered.
-	 */
-	public function get_post_ids_and_set_meta_cache( $target ) {
-		if ( $target !== 'top' ) {
-			return;
-		}
-
-		global $wp_query;
-
-		$posts    = empty( $wp_query->posts ) ? $wp_query->get_posts() : $wp_query->posts;
-		$post_ids = [];
-
-		// Post lists return a list of objects.
-		if ( isset( $posts[0] ) && is_object( $posts[0] ) ) {
-			$post_ids = wp_list_pluck( $posts, 'ID' );
-		}
-		elseif ( ! empty( $posts ) ) {
-			// Page list returns an array of post IDs.
-			$post_ids = array_keys( $posts );
-		}
-
-		if ( empty( $post_ids ) ) {
-			return;
-		}
-
-		if ( isset( $posts[0] ) && ! is_a( $posts[0], WP_Post::class ) ) {
-			// Prime the post caches as core would to avoid duplicate queries.
-			// This needs to be done as this executes before core does.
-			_prime_post_caches( $post_ids );
-		}
-
-		$results = YoastSEO()->meta->for_posts( $post_ids );
-		foreach ( $results as $meta ) {
-			$this->meta_cache[ $meta->id ] = $meta;
-		}
 	}
 
 	/**
@@ -321,10 +279,9 @@ class WPSEO_Meta_Columns {
 	 * @return Meta The meta object.
 	 */
 	protected function get_meta( $post_id ) {
-		if ( ! \array_key_exists( $post_id, $this->meta_cache ) ) {
-			$this->meta_cache[ $post_id ] = YoastSEO()->meta->for_post( $post_id );
-		}
-		return $this->meta_cache[ $post_id ];
+		$indexable = $this->admin_columns_cache->get_indexable( $post_id );
+
+		return YoastSEO()->meta->for_indexable( $indexable, 'Post_Type' );
 	}
 
 	/**

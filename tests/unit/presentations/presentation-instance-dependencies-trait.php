@@ -21,36 +21,50 @@ use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 trait Presentation_Instance_Dependencies {
 
 	/**
+	 * Holds the options helper.
+	 *
 	 * @var Options_Helper|Mockery\MockInterface
 	 */
 	protected $options;
 
 	/**
+	 * Holds the image helper.
+	 *
 	 * @var Image_Helper|Mockery\MockInterface
 	 */
 	protected $image;
 
 	/**
+	 * Holds the url helper.
+	 *
 	 * @var Url_Helper|Mockery\MockInterface
 	 */
 	protected $url;
 
 	/**
+	 * Holds the current page helper.
+	 *
 	 * @var Current_Page_Helper|Mockery\MockInterface
 	 */
 	protected $current_page;
 
 	/**
+	 * Holds the user helper.
+	 *
 	 * @var User_Helper|Mockery\MockInterface
 	 */
 	protected $user;
 
 	/**
+	 * Holds the opengraph image helper.
+	 *
 	 * @var Open_Graph_Image_Helper|Mockery\MockInterface
 	 */
 	protected $open_graph_image;
 
 	/**
+	 * Holds the twitter image helper.
+	 *
 	 * @var Twitter_Image_Helper|Mockery\MockInterface
 	 */
 	protected $twitter;
@@ -63,11 +77,15 @@ trait Presentation_Instance_Dependencies {
 	protected $pagination;
 
 	/**
+	 * Holds the open open graph image generator.
+	 *
 	 * @var Open_Graph_Image_Generator|Mockery\MockInterface
 	 */
 	protected $open_graph_image_generator;
 
 	/**
+	 * Holds the twitter image generator.
+	 *
 	 * @var Twitter_Image_Generator|Mockery\MockInterface
 	 */
 	protected $twitter_image_generator;

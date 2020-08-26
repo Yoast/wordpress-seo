@@ -14,6 +14,7 @@ import settings from "./settings";
 import snippetEditor from "./snippetEditor";
 import twitterEditor from "./twitterEditor";
 import warning from "./warning";
+import schemaTab from "./schemaTab";
 
 export default {
 	analysis,
@@ -32,4 +33,5 @@ export default {
 	snippetEditor,
 	twitterEditor,
 	warning,
+	schemaTab,
 };

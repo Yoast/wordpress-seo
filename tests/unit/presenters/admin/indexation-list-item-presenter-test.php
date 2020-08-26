@@ -21,6 +21,8 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
 class Indexation_List_Item_Presenter_Test extends TestCase {
 
 	/**
+	 * Tests the constructor.
+	 *
 	 * @covers ::__construct
 	 */
 	public function test_construct() {

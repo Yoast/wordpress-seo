@@ -11,3 +11,4 @@ export * from "./markerPauseStatus";
 export * from "./preferences";
 export * from "./advancedSettings";
 export * from "./editorContext";
+export * from "./schemaTab";

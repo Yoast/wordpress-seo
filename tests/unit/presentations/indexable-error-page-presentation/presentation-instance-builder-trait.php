@@ -13,11 +13,15 @@ trait Presentation_Instance_Builder {
 	use Presentation_Instance_Dependencies;
 
 	/**
+	 * Represents the indexable mock.
+	 *
 	 * @var Indexable_Mock
 	 */
 	protected $indexable;
 
 	/**
+	 * Represents the instance to test.
+	 *
 	 * @var Indexable_Error_Page_Presentation
 	 */
 	protected $instance;

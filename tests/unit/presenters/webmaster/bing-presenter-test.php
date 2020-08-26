@@ -18,6 +18,8 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
 class Bing_Presenter_Test extends TestCase {
 
 	/**
+	 * Represents the instance to test.
+	 *
 	 * @var Bing_Presenter
 	 */
 	protected $instance;
