@@ -145,7 +145,8 @@ const processTwoLetterWords = function( word, morphologyData ) {
  * @param {string}		word					The three-letter word to check.
  * @param {Object}		morphologyData			The Arabic morphology data.
  * @param {string[]}	replacementPattern		The regex to find and remove middle or last weak letter/hamza in three letter words
- * @param {function}	functionToRunToGetRoot	The function that checks lists of words with either middle or last letter removed and attaches it back.
+ * @param {function}	functionToRunToGetRoot	The function that checks lists of words with either middle or last letter removed
+ * 												and attaches it back.
  *
  * @returns {string|null}	The root or null if no root was found.
  */
@@ -475,9 +476,9 @@ const processWordWithPrefix = function( word, morphologyData ) {
 
 /**
  * Checks if the word is a root. If root is not found, checks whether the root can be derived using a pattern. If the root is
- * still not found, removes affixes and tries to find the root again. If the root is not found, the function returns null, with one exception: it is possible that in the checkPatterns
- * function that is ran inside of this one, the word is modified but no root is found. In this case, the function returns
- * the modified word.
+ * still not found, removes affixes and tries to find the root again. If the root is not found, the function returns null,
+ * with one exception: it is possible that in the checkPatterns function that is ran inside of this one, the word is modified
+ * but no root is found. In this case, the function returns the modified word.
  *
  * @param {string}	word			The word to check.
  * @param {Object}	morphologyData	The Arabic morphology data.
