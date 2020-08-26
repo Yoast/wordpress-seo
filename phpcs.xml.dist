@@ -25,6 +25,15 @@
 	<!-- Show progress, show the error codes for each message (source). -->
 	<arg value="sp"/>
 
+	<!-- Strip the filepaths down to the relevant bit. -->
+	<arg name="basepath" value="."/>
+
+	<!-- Check up to 12 files simultaneously. -->
+	<arg name="parallel" value="12"/>
+
+	<!-- Cache the results between runs. -->
+	<arg name="cache" value="./.cache/phpcs-free.cache"/>
+
 
 	<!--
 	#############################################################################
