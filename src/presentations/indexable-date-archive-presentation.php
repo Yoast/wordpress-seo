@@ -1,16 +1,13 @@
 <?php
-/**
- * Presentation object for indexables.
- *
- * @package Yoast\YoastSEO\Presentations
- */
 
 namespace Yoast\WP\SEO\Presentations;
 
 use Yoast\WP\SEO\Helpers\Pagination_Helper;
 
 /**
- * Class Indexable_Date_Archive_Presentation
+ * Class Indexable_Date_Archive_Presentation.
+ *
+ * Presentation object for indexables.
  */
 class Indexable_Date_Archive_Presentation extends Indexable_Presentation {
 

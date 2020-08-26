@@ -1,9 +1,4 @@
 <?php
-/**
- * Presentation object for indexables.
- *
- * @package Yoast\YoastSEO\Presentations
- */
 
 namespace Yoast\WP\SEO\Presentations;
 
@@ -11,7 +6,9 @@ use Yoast\WP\SEO\Helpers\Pagination_Helper;
 use Yoast\WP\SEO\Models\Indexable;
 
 /**
- * Class Archive_Adjacent
+ * Class Archive_Adjacent.
+ *
+ * Presentation object for indexables.
  *
  * @property Indexable         $model      The indexable.
  * @property Pagination_Helper $pagination The pagination helper. Should be defined in the parent

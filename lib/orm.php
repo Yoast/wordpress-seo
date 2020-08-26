@@ -1,9 +1,4 @@
 <?php
-/**
- * Yoast ORM class.
- *
- * @package Yoast\WP\Lib
- */
 
 namespace Yoast\WP\Lib;
 
@@ -11,7 +6,9 @@ use wpdb;
 use Yoast\WP\SEO\Config\Migration_Status;
 
 /**
- * Based on Idiorm.
+ * Yoast ORM class.
+ *
+ * Based on Idiorm
  *
  * URL: http://github.com/j4mie/idiorm/
  *

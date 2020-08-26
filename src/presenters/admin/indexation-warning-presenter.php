@@ -1,9 +1,4 @@
 <?php
-/**
- * Presenter class for the indexation warning.
- *
- * @package Yoast\YoastSEO\Presenters\Admin
- */
 
 namespace Yoast\WP\SEO\Presenters\Admin;
 
@@ -12,7 +7,7 @@ use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Presenters\Abstract_Presenter;
 
 /**
- * Indexation_Warning_Presenter class.
+ * Presenter class for the indexation warning.
  */
 class Indexation_Warning_Presenter extends Abstract_Presenter {
 

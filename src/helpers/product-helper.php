@@ -1,16 +1,11 @@
 <?php
-/**
- * A helper object to retrieve the product name.
- *
- * @package Yoast\YoastSEO\Helpers
- */
 
 namespace Yoast\WP\SEO\Helpers;
 
 use WPSEO_Utils;
 
 /**
- * Class Product_Helper
+ * A helper object to retrieve the product name.
  */
 class Product_Helper {
 

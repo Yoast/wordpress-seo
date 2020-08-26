@@ -1,9 +1,4 @@
 <?php
-/**
- * Generator object for the Open Graph image.
- *
- * @package Yoast\WP\SEO\Generators
- */
 
 namespace Yoast\WP\SEO\Generators;
 

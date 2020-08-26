@@ -1,9 +1,4 @@
 <?php
-/**
- * Action for preparing the indexable indexation routine.
- *
- * @package Yoast\WP\SEO\Actions\Indexation
- */
 
 namespace Yoast\WP\SEO\Actions\Indexation;
 

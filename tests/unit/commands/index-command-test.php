@@ -1,9 +1,4 @@
 <?php
-/**
- * WPSEO plugin test file.
- *
- * @package Yoast\WP\SEO\Tests\Unit\Commands
- */
 
 namespace Yoast\WP\SEO\Tests\Unit\Commands;
 

@@ -1,9 +1,4 @@
 <?php
-/**
- * Yoast migrations adapter class.
- *
- * @package Yoast\WP\Lib\Migrations
- */
 
 namespace Yoast\WP\Lib\Migrations;
 
@@ -11,7 +6,7 @@ use Exception;
 use Yoast\WP\Lib\Model;
 
 /**
- * Adapter class.
+ * Yoast migrations adapter class.
  */
 class Adapter {
 

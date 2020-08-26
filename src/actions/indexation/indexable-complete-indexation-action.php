@@ -1,9 +1,4 @@
 <?php
-/**
- * Indexation action to call when the indexable indexation process is completed.
- *
- * @package Yoast\WP\SEO\Actions\Indexation
- */
 
 namespace Yoast\WP\SEO\Actions\Indexation;
 

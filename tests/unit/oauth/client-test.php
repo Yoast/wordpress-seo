@@ -1,9 +1,4 @@
 <?php
-/**
- * WPSEO plugin test file.
- *
- * @package Yoast\Tests\Oauth
- */
 
 namespace Yoast\WP\SEO\Tests\Unit\Oauth;
 

@@ -1,16 +1,13 @@
 <?php
-/**
- * Presentation object for indexables.
- *
- * @package Yoast\YoastSEO\Presentations
- */
 
 namespace Yoast\WP\SEO\Presentations;
 
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 
 /**
- * Class Indexable_Author_Archive_Presentation
+ * Class Indexable_Author_Archive_Presentation.
+ *
+ * Presentation object for indexables.
  */
 class Indexable_Author_Archive_Presentation extends Indexable_Presentation {
 	use Archive_Adjacent;

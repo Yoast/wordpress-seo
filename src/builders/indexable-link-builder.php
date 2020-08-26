@@ -1,9 +1,4 @@
 <?php
-/**
- * Post link builder.
- *
- * @package Yoast\WP\SEO\Builders
- */
 
 namespace Yoast\WP\SEO\Builders;
 
@@ -15,7 +10,7 @@ use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Repositories\SEO_Links_Repository;
 
 /**
- * Indexable_Link_Builder class
+ * Post link builder.
  */
 class Indexable_Link_Builder {
 

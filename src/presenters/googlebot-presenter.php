@@ -1,9 +1,4 @@
 <?php
-/**
- * Abstract presenter class for the googlebot output.
- *
- * @package Yoast\YoastSEO\Presenters
- */
 
 namespace Yoast\WP\SEO\Presenters;
 
@@ -12,7 +7,7 @@ use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 _deprecated_file( basename( __FILE__ ), 'WPSEO 14.9' );
 
 /**
- * Class Googlebot_Presenter
+ * Presenter class for the googlebot output.
  */
 class Googlebot_Presenter extends Abstract_Indexable_Presenter {
 

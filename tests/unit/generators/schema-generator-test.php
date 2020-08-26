@@ -1,9 +1,4 @@
 <?php
-/**
- * WPSEO plugin file.
- *
- * @package Yoast\WP\SEO\Tests\Unit\Generators
- */
 
 namespace Yoast\WP\SEO\Tests\Unit\Generators;
 
@@ -23,7 +18,7 @@ use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
- * Class Schema_Generator_Test
+ * Class Schema_Generator_Test.
  *
  * @coversDefaultClass \Yoast\WP\SEO\Generators\Schema_Generator
  *

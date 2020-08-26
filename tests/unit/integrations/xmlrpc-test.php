@@ -1,9 +1,4 @@
 <?php
-/**
- * Yoast SEO Plugin File.
- *
- * @package Yoast\YoastSEO\Integrations
- */
 
 namespace Yoast\WP\SEO\Tests\Unit\Integrations;
 
@@ -12,7 +7,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 
 /**
- * Unit Test Class.
+ * Class XMLRPC_Test.
  *
  * @coversDefaultClass \Yoast\WP\SEO\Integrations\XMLRPC
  *

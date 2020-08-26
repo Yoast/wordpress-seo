@@ -1,9 +1,4 @@
 <?php
-/**
- * Presentation object for indexables.
- *
- * @package Yoast\YoastSEO\Presentations
- */
 
 namespace Yoast\WP\SEO\Presentations;
 
@@ -21,7 +16,9 @@ use Yoast\WP\SEO\Helpers\User_Helper;
 use Yoast\WP\SEO\Models\Indexable;
 
 /**
- * Class Indexable_Presentation
+ * Class Indexable_Presentation.
+ *
+ * Presentation object for indexables.
  *
  * @property string $title
  * @property string $meta_description

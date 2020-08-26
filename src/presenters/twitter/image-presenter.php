@@ -1,9 +1,4 @@
 <?php
-/**
- * Presenter class for the Twitter image.
- *
- * @package Yoast\YoastSEO\Presenters\Twitter
- */
 
 namespace Yoast\WP\SEO\Presenters\Twitter;
 
@@ -11,7 +6,7 @@ use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 use Yoast\WP\SEO\Presenters\Abstract_Indexable_Tag_Presenter;
 
 /**
- * Class Image_Presenter
+ * Presenter class for the Twitter image.
  */
 class Image_Presenter extends Abstract_Indexable_Tag_Presenter {
 

@@ -1,9 +1,4 @@
 <?php
-/**
- * Yoast extension of the Model class.
- *
- * @package Yoast\WP\SEO\Oauth
- */
 
 namespace Yoast\WP\SEO\Oauth;
 

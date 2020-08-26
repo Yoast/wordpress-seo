@@ -1,16 +1,11 @@
 <?php
-/**
- * A helper object for Twitter images.
- *
- * @package \Yoast\WP\SEO\Helpers\Twitter
- */
 
 namespace Yoast\WP\SEO\Helpers\Twitter;
 
 use Yoast\WP\SEO\Helpers\Image_Helper as Base_Image_Helper;
 
 /**
- * Class Image_Helper
+ * A helper object for Twitter images.
  */
 class Image_Helper {
 

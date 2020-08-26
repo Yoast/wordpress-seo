@@ -1,9 +1,4 @@
 <?php
-/**
- * A helper object for options.
- *
- * @package Yoast\YoastSEO\Helpers
- */
 
 namespace Yoast\WP\SEO\Helpers;
 
@@ -11,7 +6,7 @@ use WPSEO_Option_Titles;
 use WPSEO_Options;
 
 /**
- * Class Options_Helper
+ * A helper object for options.
  */
 class Options_Helper {
 

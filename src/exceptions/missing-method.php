@@ -1,16 +1,11 @@
 <?php
-/**
- * Exception to use when a method does not exist.
- *
- * @package Yoast\YoastSEO\Exceptions
- */
 
 namespace Yoast\WP\SEO\Exceptions;
 
 use Exception;
 
 /**
- * The exception when a method does not exists.
+ * Exception to use when a method does not exist.
  */
 class Missing_Method extends Exception {
 
