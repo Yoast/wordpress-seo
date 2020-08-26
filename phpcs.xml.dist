@@ -41,7 +41,15 @@
 	#############################################################################
 	-->
 
-	<rule ref="Yoast"/>
+	<rule ref="Yoast">
+		<properties>
+			<!-- Provide the plugin specific prefixes for all naming related sniffs. -->
+			<property name="prefixes" type="array">
+				<element value="Yoast\WP\SEO"/>
+				<element value="yoast_seo"/>
+			</property>
+		</properties>
+	</rule>
 
 
 	<!--
@@ -61,7 +69,10 @@
 
 	<rule ref="Yoast.NamingConventions.NamespaceName">
 		<properties>
-			<property name="prefixes" type="array" value="Yoast\WP\SEO\,Yoast\WP\SEO\Tests\Unit\"/>
+			<!-- Allow for the tests being in a non-standard directory in YoastSEO Free. -->
+			<property name="prefixes" type="array" extend="true">
+				<element value="Yoast\WP\SEO\Tests\Unit"/>
+			</property>
 		</properties>
 	</rule>
 
