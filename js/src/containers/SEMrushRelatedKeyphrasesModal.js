@@ -4,9 +4,14 @@ import SEMrushRelatedKeyphrasesModal from "../components/SEMrushRelatedKeyphrase
 
 export default compose( [
 	withSelect( ( select ) => {
+		const {
+			getSEMrushModalOpen,
+			getSEMrushLoginStatus,
+		} = select( "yoast-seo/editor" );
+
 		return {
-			whichModalOpen: select( "yoast-seo/editor" ).getSEMrushModalOpen(),
-			isLoggedIn: select( "yoast-seo/editor" ).getSEMrushLoginStatus(),
+			whichModalOpen: getSEMrushModalOpen(),
+			isLoggedIn: getSEMrushLoginStatus(),
 		};
 	} ),
 	withDispatch( ( dispatch ) => {
