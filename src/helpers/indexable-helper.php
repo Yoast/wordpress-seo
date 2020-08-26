@@ -13,6 +13,7 @@ use Yoast\WP\SEO\Models\Indexable;
  * Class Indexable_Helper
  */
 class Indexable_Helper {
+
 	/**
 	 * Retrieves the permalink for an indexable.
 	 *

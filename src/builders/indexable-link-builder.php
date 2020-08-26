@@ -118,7 +118,7 @@ class Indexable_Link_Builder {
 	 * @return void
 	 */
 	public function delete( $indexable ) {
-		$links = ($this->seo_links_repository->find_all_by_indexable_id( $indexable->id ));
+		$links = ( $this->seo_links_repository->find_all_by_indexable_id( $indexable->id ) );
 		$this->seo_links_repository->delete_all_by_indexable_id( $indexable->id );
 
 		$linked_indexable_ids = [];
@@ -231,12 +231,14 @@ class Indexable_Link_Builder {
 		/**
 		 * @var SEO_Links
 		 */
-		$model = $this->seo_links_repository->query()->create( [
-			'url'          => $url,
-			'type'         => $link_type,
-			'indexable_id' => $indexable->id,
-			'post_id'      => $indexable->object_id,
-		] );
+		$model             = $this->seo_links_repository->query()->create(
+			[
+				'url'          => $url,
+				'type'         => $link_type,
+				'indexable_id' => $indexable->id,
+				'post_id'      => $indexable->object_id,
+			]
+		);
 		$model->parsed_url = $parsed_url;
 
 		if ( $model->type === SEO_Links::TYPE_INTERNAL || $model->type === SEO_Links::TYPE_INTERNAL_IMAGE ) {
@@ -255,9 +257,9 @@ class Indexable_Link_Builder {
 
 		if ( $is_image && $model->target_post_id ) {
 			list( , $width, $height ) = \wp_get_attachment_image_src( $model->target_post_id, 'full' );
-			$model->width  = $width;
-			$model->height = $height;
-			$model->size   = \filesize( \get_attached_file( $model->target_post_id ) );
+			$model->width             = $width;
+			$model->height            = $height;
+			$model->size              = \filesize( \get_attached_file( $model->target_post_id ) );
 		}
 
 		if ( $model->target_indexable_id ) {
@@ -277,7 +279,7 @@ class Indexable_Link_Builder {
 	 * @return bool. Whether or not the link should be filtered.
 	 */
 	protected function filter_link( SEO_Links $link, $current_url ) {
-		$url  = $link->parsed_url;
+		$url = $link->parsed_url;
 
 		// Always keep external links.
 		if ( $link->type === SEO_Links::TYPE_EXTERNAL ) {
@@ -358,7 +360,7 @@ class Indexable_Link_Builder {
 
 		// Get rid of URL ?query=string.
 		$url_split = \explode( '?', $link );
-		$link       = $url_split[0];
+		$link      = $url_split[0];
 
 		// Set the correct URL scheme.
 		$link = \set_url_scheme( $link, $home_url['scheme'] );

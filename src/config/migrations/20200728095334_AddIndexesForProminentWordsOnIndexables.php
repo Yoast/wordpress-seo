@@ -60,7 +60,6 @@ class AddIndexesForProminentWordsOnIndexables extends Migration {
 	 * @return void
 	 */
 	public function down() {
-
 	}
 
 	/**

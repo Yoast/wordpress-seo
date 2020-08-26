@@ -76,21 +76,28 @@ class Link_Indexing_Route extends Abstract_Indexation_Route {
 		$this->term_link_indexing_action = $term_link_indexing_action;
 	}
 
-
 	/**
 	 * @inheritDoc
 	 */
 	public function register_routes() {
-		\register_rest_route( Main::API_V1_NAMESPACE, self::POSTS_ROUTE, [
-			'methods'             => 'POST',
-			'callback'            => [ $this, 'index_posts' ],
-			'permission_callback' => [ $this, 'can_index' ],
-		] );
-		\register_rest_route( Main::API_V1_NAMESPACE, self::TERMS_ROUTE, [
-			'methods'             => 'POST',
-			'callback'            => [ $this, 'index_terms' ],
-			'permission_callback' => [ $this, 'can_index' ],
-		] );
+		\register_rest_route(
+			Main::API_V1_NAMESPACE,
+			self::POSTS_ROUTE,
+			[
+				'methods'             => 'POST',
+				'callback'            => [ $this, 'index_posts' ],
+				'permission_callback' => [ $this, 'can_index' ],
+			]
+		);
+		\register_rest_route(
+			Main::API_V1_NAMESPACE,
+			self::TERMS_ROUTE,
+			[
+				'methods'             => 'POST',
+				'callback'            => [ $this, 'index_terms' ],
+				'permission_callback' => [ $this, 'can_index' ],
+			]
+		);
 	}
 
 	/**

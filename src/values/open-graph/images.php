@@ -43,7 +43,6 @@ class Images extends Base_Images {
 	 * @return void
 	 */
 	public function show() {
-
 	}
 
 	/**
