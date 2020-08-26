@@ -10,7 +10,6 @@ const initialState = {
 	defaultPageType: "",
 	articleType: "",
 	defaultArticleType: "",
-	isLoading: true,
 };
 
 /**
@@ -29,13 +28,15 @@ const schemaTabReducer = ( state = initialState, action ) => {
 			...state,
 			pageType: action.pageType,
 			defaultPageType: action.defaultPageType,
-			isLoading: false,
 		};
 		case GET_SCHEMA_ARTICLE_DATA: return {
 			...state,
 			articleType: action.articleType,
 			defaultArticleType: action.defaultArticleType,
 		};
+		default: {
+			return state;
+		}
 	}
 };
 

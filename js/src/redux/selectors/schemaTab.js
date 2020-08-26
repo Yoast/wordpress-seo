@@ -35,12 +35,3 @@ export const getDefaultArticleType = state => get( state, "schemaTab.defaultArti
  * @returns {String} Article type.
  */
 export const getArticleType = state => get( state, "schemaTab.articleType", "" );
-
-/**
- * Gets the isLoading prop from the state.
- *
- * @param {Object} state The state.
- *
- * @returns {bool} Whether the schema tab is loading.
- */
-export const getIsLoading = state => get( state, "schemaTab.isLoading", true );

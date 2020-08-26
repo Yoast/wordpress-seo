@@ -173,7 +173,6 @@ SchemaTab.propTypes = {
 	displayFooter: PropTypes.bool,
 	loadSchemaArticleData: PropTypes.func.isRequired,
 	loadSchemaPageData: PropTypes.func.isRequired,
-	isLoading: PropTypes.bool.isRequired,
 };
 
 SchemaTab.defaultProps = {

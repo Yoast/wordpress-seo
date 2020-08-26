@@ -41,22 +41,11 @@ const SchemaTabContainer = ( props ) => {
 	const showArticleTypeInput = SchemaFields.articleTypeInput !== null;
 
 	useEffect( () => {
-		/**
-		 * Load the data.
-		 *
-		 * @returns {void}
-		 */
-		const loadData = () => {
-			props.loadSchemaPageData();
-			if ( showArticleTypeInput ) {
-				props.loadSchemaArticleData();
-			}
-		};
-
-		if ( props.isLoading ) {
-			setTimeout( loadData() );
+		props.loadSchemaPageData();
+		if ( showArticleTypeInput ) {
+			props.loadSchemaArticleData();
 		}
-	}, [ props.isLoading ] );
+	}, [] );
 
 	const { pageTypeOptions, articleTypeOptions } = window.wpseoScriptData.metabox.schema;
 
@@ -74,10 +63,6 @@ const SchemaTabContainer = ( props ) => {
 		articleTypeOptions,
 	};
 
-	if ( props.isLoading ) {
-		return null;
-	}
-
 	return (
 		<LocationConsumer>
 			{ location => {
@@ -94,7 +79,6 @@ const SchemaTabContainer = ( props ) => {
 };
 
 SchemaTabContainer.propTypes = {
-	isLoading: PropTypes.bool.isRequired,
 	loadSchemaPageData: PropTypes.func.isRequired,
 	loadSchemaArticleData: PropTypes.func.isRequired,
 };
@@ -107,14 +91,12 @@ export default compose( [
 			getDefaultPageType,
 			getArticleType,
 			getDefaultArticleType,
-			getIsLoading,
 		} = select( "yoast-seo/editor" );
 
 		return {
 			displayFooter: getPreferences().displaySchemaSettingsFooter,
 			schemaPageTypeSelected: getPageType(),
 			schemaArticleTypeSelected: getArticleType(),
-			isLoading: getIsLoading(),
 			defaultArticleType: getDefaultArticleType(),
 			defaultPageType: getDefaultPageType(),
 		};
