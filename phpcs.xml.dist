@@ -41,14 +41,7 @@
 	#############################################################################
 	-->
 
-	<rule ref="Yoast">
-		<!-- See https://github.com/Yoast/wordpress-seo/pull/15713 - We discovered that WP_Filesystem can lead to unexpected behaviour. -->
-		<exclude name="WordPress.WP.AlternativeFunctions.file_system_read_fopen"/>
-		<exclude name="WordPress.WP.AlternativeFunctions.file_system_read_fwrite"/>
-		<exclude name="WordPress.WP.AlternativeFunctions.file_system_read_fclose"/>
-		<exclude name="WordPress.WP.AlternativeFunctions.file_system_read_fread"/>
-		<exclude name="WordPress.WP.AlternativeFunctions.file_system_read_file_put_contents"/>
-	</rule>
+	<rule ref="Yoast"/>
 
 
 	<!--
@@ -69,6 +62,16 @@
 	<rule ref="Yoast.NamingConventions.NamespaceName">
 		<properties>
 			<property name="prefixes" type="array" value="Yoast\WP\SEO\,Yoast\WP\SEO\Tests\Unit\"/>
+		</properties>
+	</rule>
+
+	<rule ref="WordPress.WP.AlternativeFunctions">
+		<properties>
+			<!-- We discovered that WP_Filesystem can lead to unexpected behaviour.
+				 See https://github.com/Yoast/wordpress-seo/pull/15713 -->
+			<property name="exclude" type="array" extend="true">
+				<element value="file_system_read"/>
+			</property>
 		</properties>
 	</rule>
 
