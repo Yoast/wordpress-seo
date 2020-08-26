@@ -102,6 +102,15 @@
 		<exclude-pattern>/src/config/migrations/*\.php$</exclude-pattern>
 	</rule>
 
+	<rule ref="Yoast.Files.TestDoubles">
+		<properties>
+			<property name="doubles_path" type="array" extend="true">
+				<element value="/tests/integration/doubles"/>
+				<element value="/tests/unit/doubles"/>
+			</property>
+		</properties>
+	</rule>
+
 	<rule ref="Yoast.NamingConventions.NamespaceName">
 		<properties>
 			<!-- Allow for the tests being in a non-standard directory in YoastSEO Free. -->
