@@ -113,6 +113,14 @@
 
 	<rule ref="Yoast.NamingConventions.NamespaceName">
 		<properties>
+			<!-- Indicate which directories should be treated as project root directories for
+				 path-to-namespace translations. -->
+			<property name="src_directory" type="array">
+				<element value="config"/>
+				<element value="src"/>
+				<element value="tests/unit"/>
+			</property>
+
 			<!-- Allow for the tests being in a non-standard directory in YoastSEO Free. -->
 			<property name="prefixes" type="array" extend="true">
 				<element value="Yoast\WP\SEO\Tests\Unit"/>
