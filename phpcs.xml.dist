@@ -229,4 +229,39 @@
 		<exclude-pattern>/tests/unit/doubles/*</exclude-pattern>
 	</rule>
 
+
+	<!--
+	#############################################################################
+	TEMPORARY ADJUSTMENTS
+	Adjustments which should be removed once the associated issue has been resolved.
+	#############################################################################
+	-->
+
+	<!-- Temporary: Only enable the file name rules for the "new" code for now.
+		 The "old" code has a lot of violations against this rule.
+		 Fixing this should be a coordinated effort, which is why we will ignore
+		 this rule for the "old" code for now.
+	-->
+	<rule ref="Yoast.Files.FileName">
+		<include-pattern>/config/*\.php$</include-pattern>
+		<include-pattern>/lib/*\.php$</include-pattern>
+		<include-pattern>/src/*\.php$</include-pattern>
+		<include-pattern>/tests/unit/*\.php$</include-pattern>
+	</rule>
+
+	<!-- Only enable the prefix all globals rules for the "new" code for now.
+		 The "old" code has a lot of violations against this rule, mostly inconsistent
+		 prefixes. Fixing this should be a coordinated effort, which is why we will ignore
+		 this rule for the "old" code for now.
+	-->
+	<rule ref="WordPress.NamingConventions.PrefixAllGlobals">
+		<include-pattern>*/config/*\.php$</include-pattern>
+		<include-pattern>*/lib/*\.php$</include-pattern>
+		<include-pattern>*/src/*\.php$</include-pattern>
+		<include-pattern>*/tests/unit/*\.php$</include-pattern>
+
+		<!-- Exclude hooks everywhere for the time being until the prefixes will be fixed. -->
+		<exclude name="WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound"/>
+	</rule>
+
 </ruleset>
