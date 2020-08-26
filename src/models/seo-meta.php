@@ -35,6 +35,7 @@ class SEO_Meta extends Model {
 	 * SEO_Meta constructor.
 	 *
 	 * @deprecated 14.8
+	 * @codeCoverageIgnore
 	 */
 	public function __construct() {
 		_deprecated_function( __METHOD__, '14.8' );

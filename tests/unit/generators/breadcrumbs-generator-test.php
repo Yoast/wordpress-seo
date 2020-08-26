@@ -452,9 +452,9 @@ class Breadcrumbs_Generator_Test extends TestCase {
 	/**
 	 * Sets some expectations specific for the data archive tests.
 	 *
-	 * @param string $scenario   The scenario to set.
-	 * @param bool $is_paged     When the page is paged.
-	 * @param bool $current_page The current page number.
+	 * @param string $scenario     The scenario to set.
+	 * @param bool   $is_paged     When the page is paged.
+	 * @param bool   $current_page The current page number.
 	 */
 	protected function setup_expectations_for_date_archive( $scenario, $is_paged, $current_page ) {
 		$this->indexable                   = Mockery::mock( Indexable_Mock::class );

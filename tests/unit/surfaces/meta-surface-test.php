@@ -407,13 +407,13 @@ class Meta_Surface_Test extends TestCase {
 	/**
 	 * Tests the url function.
 	 *
-	 * @param string $object_type       The object type.
-	 * @param string $object_sub_type   The object sub type.
-	 * @param int    $object_id         The object id.
-	 * @param string $page_type         The page type.
-	 *
 	 * @covers ::for_url
 	 * @dataProvider for_url_provider
+	 *
+	 * @param string $object_type     The object type.
+	 * @param string $object_sub_type The object sub type.
+	 * @param int    $object_id       The object id.
+	 * @param string $page_type       The page type.
 	 */
 	public function test_for_url( $object_type, $object_sub_type, $object_id, $page_type ) {
 		$wp_rewrite = Mockery::mock( 'WP_Rewrite' );

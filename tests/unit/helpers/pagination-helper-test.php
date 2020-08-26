@@ -50,7 +50,7 @@ class Pagination_Helper_Test extends TestCase {
 	/**
 	 * Tests if given dependencies are set as expected.
 	 *
-	 * @covers ::__construct()
+	 * @covers ::__construct
 	 */
 	public function test_constructor() {
 		$this->assertAttributeInstanceOf( WP_Rewrite_Wrapper::class, 'wp_rewrite_wrapper', $this->instance  );
