@@ -4,8 +4,6 @@ import getMorphologyData from "../../specHelpers/getMorphologyData";
 const morphologyDataAR = getMorphologyData( "ar" ).ar;
 
 const wordsToStem = [
-	// Three-letter word with prefix waw (The prefix waw is not removed because the word is matched as a pattern.)
-	// [ "وموظ", "موظ" ],
 	// Words with a definite article and a suffix
 	[ "الجدولين", "جدول" ],
 	// Two letter word with a removed duplicate letter.
@@ -24,26 +22,14 @@ const wordsToStem = [
 	[ "ازب", "أزب" ],
 	// Three letter words ending in weak letter ي/ا/ى/ء (yeh_hamza/hamza/yeh_maksorah/alef/yeh/waw)
 	// And the root is in the list of word with the last weak letter or hamza removed.
-	// The current stem is قا as قوا is matched by regexRemoveMiddleWeakLetterOrHamza instead of this regex regexRemoveLastWeakLetterOrHamza
-	// [ "قوا", "قوا" ],
 	[ "غبي", "غبي" ],
 	[ "دعا", "دعا" ],
 	[ "بدء", "بدأ" ],
 	[ "كرى", "كرى" ],
 	// Three letter words ending in weak letter و/ي/ا/ى/ء/ئ (yeh_hamza/hamza/yeh_maksorah/alef/yeh/waw)
-	// And the root is NOT in the list of word with the last weak letter or hamza removed.
-	// The current stem is وفي, as وف is also detected in wordsWithLastYahRemoved list. For words found in the list, ي (yeh) is added to the root
-	// [ "وفى", "وف" ],
-	// The current stem is صدأ, as صد is also matched in wordsWithLastHamzaRemoved.
-	// For words found in the list, أ (alef_hamza_above) is added to the root
-	// [ "صدئ", "صد" ],
 	[ "باء", "باء" ],
 	[ "غذى", "غذى" ],
 	[ "رشا", "رشا" ],
-	// The current stem is برا, as بر is also detected in wordsWithLastAlifRemoved list. For words found in the list, ا (alef) is added to the root
-	// [ "برئ", "بر" ],
-	// The current stem is بلي, as بل is also detected in wordsWithLastYahRemoved list. For words found in the list, ي (yeh) is added to the root
-	// [ "بلا", "بل" ],
 	// Three letter words with و/ي (yeh/waw) as their second letter and the root is in the exception list after و/ي (yeh/waw) removal
 	[ "أيد", "أيد" ],
 	[ "أوز", "أوز" ],
@@ -52,14 +38,8 @@ const wordsToStem = [
 	[ "موظ", "موظ" ],
 	[ "جيم", "جيم" ],
 	[ "توت", "توت" ],
-	// The current stem is بور, as بر is also detected in wordsWithMiddleWawRemoved list. For words found in the list, و (waw) is added to the root.
-	// [ "بار", "بر" ],
 	// Three letter words with ئ/ؤ (yeh_hamza/waw_hamza) as their second letter and end in ر/ز/ن (noon/zai/reh),
 	// Change ئ/ؤ (yeh_hamza/waw_hamza) to ا (alef), otherwise ئ/ؤ is changed to أ (alef_hamza_above)
-	// The current stem is ين, it is because يئن is matched first by this regex regexRemoveMiddleWeakLetterOrHamza.
-	// [ "يئن", "يان" ],
-	// The current stem is بور, as بر is also detected in wordsWithMiddleWawRemoved list. For words found in the list, و (waw) is added to the root.
-	// [ "بئر", "بار" ],
 	[ "مؤن", "مان" ],
 	[ "فئة", "فأة" ],
 	[ "بؤس", "بأس" ],
@@ -70,14 +50,12 @@ const wordsToStem = [
 	// Four letter word that is in the list of four-letter roots.
 	[ "أبزم", "أبزم" ],
 	// Words that start with أ/إ/آ (alef_madda/alef_hamza_above/alef_hamza_below), the أ/إ/آ is changed to ا
-	// Not sure what should happen to three letter roots starting with alef that are not found anywhere on lists of roots.
-	// [ "آفة", "افة" ],
 	[ "آلهات", "لهت" ],
 	[ "أفطر", "فطر" ],
 	[ "إنطباع", "طبع" ],
 	// Words that match one of the patterns
 	[ "تبادل", "بدل" ],
-	// Words that match pattern ÇÝÚáÇ or افعلال
+	// Words that match pattern افعلال
 	[ "ابيضاض", "بيض" ],
 	// Words with a definite article
 	[ "بالضبط", "ضبط" ],
@@ -109,9 +87,7 @@ const wordsToStem = [
 	[ "ملابسك", "لبس" ],
 	// Words with suffix
 	[ "بؤسهم", "بأس" ],
-	// Three letter words with a suffix.
-	// This word matches a pattern, even though it shouldn't.
-	// [ "توته", "توت" ],
+	// Three letter word with a suffix.
 	[ "جمعكم", "جمع" ],
 	// Words with prefix
 	[ "ستنجب", "نجب" ],
@@ -130,7 +106,7 @@ const wordsToStem = [
 	[ "المؤمنين", "أمن" ],
 	[ "الصالحات", "صلح" ],
 	[ "الحديث", "حدث" ],
-	// This word السماوات has a different output stem based on this stemmer (سمو) as we check the longer suffix (ات) first before the shorter one (ت)
+	// This word السماوات has a different output stem in this stemmer (سمو) as we check the longer suffix (ات) first before the shorter one (ت)
 	// We think that our stem output makes more sense, thus we don't change any functionality to accommodate this difference.
 	// [ "السماوات", "سمي" ],
 	[ "بسلطان", "سلط" ],
@@ -192,6 +168,26 @@ const wordsToStem = [
 	[ "عاودا", "عود" ],
 	[ "معاود", "عود" ],
 	[ "معاودة", "عود" ],
+
+	/*
+	 * Specs that do not pass because of overlap issues (they match multiple conditions, and they get stemmed in another
+	 * condition than where we would want it too). They are probably also a problem in the external stemmer; we may solve it
+	 * at some point with exception lists.
+	 */
+	// The current stem is قا as قوا is matched by regexRemoveMiddleWeakLetterOrHamza instead of this regex regexRemoveLastWeakLetterOrHamza
+	// [ "قوا", "قوا" ],
+	// The current stem is وفي, as وف is also detected in wordsWithLastYahRemoved list. For words found in the list, ي (yeh) is added to the root
+	// [ "وفى", "وف" ],
+	// The current stem is برا, as بر is also detected in wordsWithLastAlifRemoved list. For words found in the list, ا (alef) is added to the root
+	// [ "برئ", "بر" ],
+	// The current stem is بلي, as بل is also detected in wordsWithLastYahRemoved list. For words found in the list, ي (yeh) is added to the root
+	// [ "بلا", "بل" ],
+	// The current stem is بور, as بر is also detected in wordsWithMiddleWawRemoved list. For words found in the list, و (waw) is added to the root.
+	// [ "بار", "بر" ],
+	// The current stem is ين, it is because يئن is matched first by this regex regexRemoveMiddleWeakLetterOrHamza.
+	// [ "يئن", "يان" ],
+	// The current stem is بور, as بر is also detected in wordsWithMiddleWawRemoved list. For words found in the list, و (waw) is added to the root.
+	// [ "بئر", "بار" ],
 ];
 
 describe( "Test for stemming Arabic words", () => {
