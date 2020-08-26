@@ -279,7 +279,7 @@ class WPSEO_Addon_Manager {
 			'banners'       => $this->get_banners( $subscription->product->slug ),
 			'tested'        => YOAST_SEO_WP_TESTED,
 			'requires'      => YOAST_SEO_WP_REQUIRED,
-			'requires_php'  => YOAST_SEO_REQUIRED,
+			'requires_php'  => YOAST_SEO_PHP_REQUIRED,
 		];
 	}
 
@@ -578,14 +578,14 @@ class WPSEO_Addon_Manager {
 	/**
 	 * Retrieves the contents for the support section.
 	 *
-	 * @return string
+	 * @return string The support section content.
 	 */
 	protected function get_support_section() {
 		return '<h4>' . __( 'Need support?', 'wordpress-seo' ) . '</h4>'
-			   . '<p>'
-			   . sprintf( __( 'You can probably find an answer to your question in our %1$shelp center%2$s.', 'wordpress-seo' ), '<a href="https://yoast.com/help/">', '</a>' )
-			   . ' '
-			   . sprintf( __( 'If you still need support and have an active subscription for this product, please email %s.', 'wordpress-seo' ), '<a href="mailto:support@yoast.com">support@yoast.com</a>' )
-			   . '</p>';
+			. '<p>'
+			. sprintf( __( 'You can probably find an answer to your question in our %1$shelp center%2$s.', 'wordpress-seo' ), '<a href="https://yoast.com/help/">', '</a>' )
+			. ' '
+			. sprintf( __( 'If you still need support and have an active subscription for this product, please email %s.', 'wordpress-seo' ), '<a href="mailto:support@yoast.com">support@yoast.com</a>' )
+			. '</p>';
 	}
 }
