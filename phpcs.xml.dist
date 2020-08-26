@@ -59,7 +59,10 @@
 
 	<rule ref="WordPress.WP.I18n">
 		<properties>
-			<property name="text_domain" value="wordpress-seo"/>
+			<property name="text_domain" type="array">
+				<element value="wordpress-seo"/>
+				<element value="default"/>
+			</property>
 		</properties>
 	</rule>
 
