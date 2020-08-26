@@ -1,93 +1,94 @@
 <?xml version="1.0"?>
 <ruleset name="Yoast SEO">
-    <description>Yoast SEO rules for PHP_CodeSniffer</description>
+	<description>Yoast SEO rules for PHP_CodeSniffer</description>
 
-    <file>.</file>
+	<file>.</file>
 
-    <exclude-pattern>tests/*</exclude-pattern>
-    <exclude-pattern>vendor/*</exclude-pattern>
-    <exclude-pattern>vendor_prefixed/*</exclude-pattern>
-    <exclude-pattern>node_modules/*</exclude-pattern>
-    <exclude-pattern>deprecated/*</exclude-pattern>
-    <exclude-pattern>languages/*</exclude-pattern>
-    <exclude-pattern>artifact/*</exclude-pattern>
-    <exclude-pattern>.wordpress-svn/*</exclude-pattern>
-    <exclude-pattern>config/php-scoper/*</exclude-pattern>
-    <exclude-pattern>src/generated/*</exclude-pattern>
-    <exclude-pattern>polyfills/*</exclude-pattern>
+	<exclude-pattern>tests/*</exclude-pattern>
+	<exclude-pattern>vendor/*</exclude-pattern>
+	<exclude-pattern>vendor_prefixed/*</exclude-pattern>
+	<exclude-pattern>node_modules/*</exclude-pattern>
+	<exclude-pattern>deprecated/*</exclude-pattern>
+	<exclude-pattern>languages/*</exclude-pattern>
+	<exclude-pattern>artifact/*</exclude-pattern>
+	<exclude-pattern>.wordpress-svn/*</exclude-pattern>
+	<exclude-pattern>config/php-scoper/*</exclude-pattern>
+	<exclude-pattern>src/generated/*</exclude-pattern>
+	<exclude-pattern>polyfills/*</exclude-pattern>
 
-    <arg name="extensions" value="php"/>
-    <arg value="sp"/>
+	<arg name="extensions" value="php"/>
+	<arg value="sp"/>
 
-    <rule ref="Yoast">
-        <exclude name="WordPress.WP.PreparedSQL.NotPrepared"/><!-- TODO audit raw queries -->
-        <exclude name="Generic.Arrays.DisallowShortArraySyntax"/>
+	<rule ref="Yoast">
+		<exclude name="WordPress.WP.PreparedSQL.NotPrepared"/><!-- TODO audit raw queries -->
+		<exclude name="Generic.Arrays.DisallowShortArraySyntax"/>
 
-        <!-- See https://github.com/Yoast/wordpress-seo/pull/15713 - We discovered that WP_Filesystem can lead to unexpected behaviour. -->
-        <exclude name="WordPress.WP.AlternativeFunctions.file_system_read_fopen" />
-        <exclude name="WordPress.WP.AlternativeFunctions.file_system_read_fwrite" />
-        <exclude name="WordPress.WP.AlternativeFunctions.file_system_read_fclose" />
-        <exclude name="WordPress.WP.AlternativeFunctions.file_system_read_fread" />
-        <exclude name="WordPress.WP.AlternativeFunctions.file_system_read_file_put_contents" />
-    </rule>
+		<!-- See https://github.com/Yoast/wordpress-seo/pull/15713 - We discovered that WP_Filesystem can lead to unexpected behaviour. -->
+		<exclude name="WordPress.WP.AlternativeFunctions.file_system_read_fopen"/>
+		<exclude name="WordPress.WP.AlternativeFunctions.file_system_read_fwrite"/>
+		<exclude name="WordPress.WP.AlternativeFunctions.file_system_read_fclose"/>
+		<exclude name="WordPress.WP.AlternativeFunctions.file_system_read_fread"/>
+		<exclude name="WordPress.WP.AlternativeFunctions.file_system_read_file_put_contents"/>
+	</rule>
 
-    <!-- Demand short arrays. -->
-    <rule ref="Generic.Arrays.DisallowLongArraySyntax"/>
+	<!-- Demand short arrays. -->
+	<rule ref="Generic.Arrays.DisallowLongArraySyntax"/>
 
-    <rule ref="Yoast.Files.FileName.InvalidFunctionsFileName">
-        <exclude-pattern>wp-seo-main\.php</exclude-pattern>
-    </rule>
+	<rule ref="Yoast.Files.FileName.InvalidFunctionsFileName">
+		<exclude-pattern>wp-seo-main\.php</exclude-pattern>
+	</rule>
 
-    <!-- Exclude migrations folder from filename checks, as we do not have control over this format -->
-    <rule ref="WordPress.Files.FileName.UnderscoresNotAllowed">
-        <exclude-pattern>migrations/*</exclude-pattern>
-    </rule>
+	<!-- Exclude migrations folder from filename checks, as we do not have control over this format -->
+	<rule ref="WordPress.Files.FileName.UnderscoresNotAllowed">
+		<exclude-pattern>migrations/*</exclude-pattern>
+	</rule>
 
-    <rule ref="Generic.Files.LowercasedFilename.NotFound">
-        <exclude-pattern>migrations/*</exclude-pattern>
-    </rule>
-    <!-- /Exclude migrations folder -->
+	<rule ref="Generic.Files.LowercasedFilename.NotFound">
+		<exclude-pattern>migrations/*</exclude-pattern>
+	</rule>
+	<!-- /Exclude migrations folder -->
 
-    <rule ref="WordPress.WP.I18n">
-        <properties>
-            <property name="text_domain" value="wordpress-seo"/>
-        </properties>
-    </rule>
+	<rule ref="WordPress.WP.I18n">
+		<properties>
+			<property name="text_domain" value="wordpress-seo"/>
+		</properties>
+	</rule>
 
-    <rule ref="WordPress.NamingConventions.ValidVariableName">
-        <properties>
-            <property name="customVariablesWhitelist" type="array" value="pageUrl,responseCode,siteEntry,siteUrl,countPerTypes,urlCrawlErrorSample,buyUrl,infoUrl" />
-        </properties>
-    </rule>
+	<rule ref="WordPress.NamingConventions.ValidVariableName">
+		<properties>
+			<property name="customVariablesWhitelist" type="array" value="pageUrl,responseCode,siteEntry,siteUrl,countPerTypes,urlCrawlErrorSample,buyUrl,infoUrl"/>
+		</properties>
+	</rule>
 
-    <rule ref="Yoast.NamingConventions.NamespaceName">
-        <properties>
-            <property name="prefixes" type="array" value="Yoast\WP\SEO\,Yoast\WP\SEO\Tests\Unit\" />
-        </properties>
-    </rule>
+	<rule ref="Yoast.NamingConventions.NamespaceName">
+		<properties>
+			<property name="prefixes" type="array" value="Yoast\WP\SEO\,Yoast\WP\SEO\Tests\Unit\"/>
+		</properties>
+	</rule>
 
-    <!-- Exclude old code from filename conventions, new code needs to be added to `src/`. -->
-    <rule ref="Yoast.Files.FileName">
-        <exclude-pattern>admin/*</exclude-pattern>
-        <exclude-pattern>tests/integration/*</exclude-pattern>
-        <exclude-pattern>inc/*</exclude-pattern>
-    </rule>
+	<!-- Exclude old code from filename conventions, new code needs to be added to `src/`. -->
+	<rule ref="Yoast.Files.FileName">
+		<exclude-pattern>admin/*</exclude-pattern>
+		<exclude-pattern>tests/integration/*</exclude-pattern>
+		<exclude-pattern>inc/*</exclude-pattern>
+	</rule>
 
-    <rule ref="WordPress.Security.EscapeOutput.OutputNotEscaped">
-        <exclude-pattern>config/composer/*</exclude-pattern> <!-- Composer scripts are not WordPress and have console output. -->
-    </rule>
+	<!-- Composer scripts are not WordPress and have console output. -->
+	<rule ref="WordPress.Security.EscapeOutput.OutputNotEscaped">
+		<exclude-pattern>config/composer/*</exclude-pattern>
+	</rule>
 
-    <!-- Exclude php-codeshift from being checked too roughly. -->
-    <rule ref="Yoast.NamingConventions.ObjectNameDepth">
-        <exclude-pattern>config/php-codeshift/*</exclude-pattern>
-    </rule>
+	<!-- Exclude php-codeshift from being checked too roughly. -->
+	<rule ref="Yoast.NamingConventions.ObjectNameDepth">
+		<exclude-pattern>config/php-codeshift/*</exclude-pattern>
+	</rule>
 
-    <!--
-    #############################################################################
-    SNIFF FOR PHP CROSS-VERSION COMPATIBILITY
-    #############################################################################
-    -->
-    <config name="testVersion" value="5.6-"/>
-    <rule ref="PHPCompatibilityWP"/>
+	<!--
+	#############################################################################
+	SNIFF FOR PHP CROSS-VERSION COMPATIBILITY
+	#############################################################################
+	-->
+	<config name="testVersion" value="5.6-"/>
+	<rule ref="PHPCompatibilityWP"/>
 
 </ruleset>
