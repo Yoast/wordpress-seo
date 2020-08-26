@@ -36,7 +36,7 @@ const matchWithRegexAndReplace = function( word, regexAndReplacement ) {
 /**
  * Check if the word is on the list of three-letter roots which had the last weak letter removed (so are now two letters long).
  * If the word is on the list, add back the removed last letter and return the three-letter root.
- * E.g. طر -> طري , حص -> حصا
+ * Examples: طر -> طري (word with last weak letter ي (yeh) removed) , حص -> حصا (word with last weak letter ا (alef) removed)
  *
  * @param {string}	word			The two-letter word to check.
  * @param {Object}	morphologyData	The Arabic morphology data.
@@ -64,7 +64,7 @@ const checkWordsWithRemovedLastLetter = function( word, morphologyData ) {
 /**
  * Check if the word is on the list of three-letter roots which had the first weak letter removed (so are now two letters long).
  * If the word is on the list, add back the removed first letter and return the three-letter root.
- * E.g. مض -> ومض , سن -> يسن
+ * Examples: مض -> ومض (word with first weak letter و (waw) removed) , سن -> يسن (word with first weak letter ي (yeh) removed)
  *
  * @param {string}	word			The two-letter word to check.
  * @param {Object}	morphologyData	The Arabic morphology data.
@@ -86,7 +86,7 @@ const checkWordsWithRemovedFirstLetter = function( word, morphologyData ) {
 /**
  * Check if the word is on the list of three-letter roots which had the middle weak letter removed (so are now two letters long).
  * If the word is on the list, add back the removed middle letter and return the three-letter root.
- * E.g. غز -> غوز , لن -> لين
+ * Examples: غز -> غوز (word with middle weak letter و (waw) removed), لن -> لين (word with middle weak letter ي (yeh) removed)
  *
  * @param {string}	word			The two-letter word to check.
  * @param {Object}	morphologyData	The Arabic morphology data.
@@ -140,7 +140,8 @@ const processTwoLetterWords = function( word, morphologyData ) {
 /**
  * Remove the middle/last weak letter or hamza in a three letter word. Find its root by checking the appropriate exception lists
  * (words with middle letter removed or words with last letter removed) and attaching the removed letter back.
- * E.g. بدء -> بد -> ,بدأ غوز -> غز -> غوز
+ * Example: بدء -> بد -> بدأ (three letter word with (ء) hamza ending,
+ * which is found on the list of words with last letter removed after removing the suffix)
  *
  * @param {string}		word					The three-letter word to check.
  * @param {Object}		morphologyData			The Arabic morphology data.
@@ -164,7 +165,8 @@ const processThreeLetterWordsWithWeakLetterOrHamza = function( word, morphologyD
 };
 
 /**
- * Get the root of three letter words. E.g. ؤكد -> ,أكد مؤن -> ,مان بؤس -> ,بأس قدّ -> قدد
+ * Get the root of three letter words.
+ * Examples: ؤكد -> أكد (three letter word with ؤ (waw_hamza) beginning, قدّ -> قدد (three letter word which has a shadda on the second letter)
  *
  * @param {string}	word			The three-letter word to check.
  * @param {Object}	morphologyData	The Arabic morphology data.
@@ -226,7 +228,8 @@ const processThreeLetterWords = function( word, morphologyData ) {
 /**
  * Check whether the word matches the pattern (it is a 6 letter-word, the fourth and sixth letter are the same, and the pattern
  * and the word share two same letters at the same index). If it does, remove the first character and the two last characters and
- * get the root. E.g. احولال -> ,حول اعوجاج -> عوج
+ * get the root.
+ * Example: احولال -> حول (the stem is the 2nd to 4th character)
  *
  * @param {string}	word				The word to check.
  * @param {number}	numberSameLetters	The number of letters the word and the pattern share at the same index.
@@ -243,7 +246,7 @@ const checkFirstPatternAndGetRoot = function( word, numberSameLetters, morpholog
 
 /**
  * Checks whether the word matches the pattern (the word shares three characters with the pattern) and get the root if it does.
- * E.g. استكتب -> ,كتب تسارع -> سرع
+ * Example: استكتب -> كتب (A word that matches pattern (استفعل))
  *
  * @param {string}	word				The word to check.
  * @param {string}	pattern				The pattern to check.
