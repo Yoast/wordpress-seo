@@ -1,6 +1,7 @@
 /* External dependencies */
 import { Fragment, Component } from "@wordpress/element";
 import { Slot } from "@wordpress/components";
+import apiFetch from "@wordpress/api-fetch";
 import { __ } from "@wordpress/i18n";
 import PropTypes from "prop-types";
 
@@ -26,8 +27,10 @@ class SEMrushRelatedKeyphrasesModal extends Component {
 	constructor( props ) {
 		super( props );
 
-		this.onModalOpen  = this.onModalOpen.bind( this );
-		this.onModalClose = this.onModalClose.bind( this );
+		this.onModalOpen       = this.onModalOpen.bind( this );
+		this.onModalClose      = this.onModalClose.bind( this );
+		this.onLinkClick       = this.onLinkClick.bind( this );
+		this.listenToMessages  = this.listenToMessages.bind( this );
 	}
 
 	/**
@@ -36,8 +39,6 @@ class SEMrushRelatedKeyphrasesModal extends Component {
 	 * @returns {void}
 	 */
 	onModalOpen() {
-		// Add not-logged in logic here.
-
 		if ( ! this.props.keyphrase.trim() ) {
 			this.props.onOpenWithNoKeyphrase();
 			return;
@@ -63,6 +64,14 @@ class SEMrushRelatedKeyphrasesModal extends Component {
 	 * @returns {void}
 	 */
 	onLinkClick( e ) {
+		e.preventDefault();
+
+		// If no keyphrase has been submitted, trigger the error message immediately.
+		if ( ! this.props.keyphrase.trim() ) {
+			this.props.onOpenWithNoKeyphrase();
+			return;
+		}
+
 		const url    = e.target.href;
 		const height = "570";
 		const width  = "340";
@@ -79,8 +88,52 @@ class SEMrushRelatedKeyphrasesModal extends Component {
 			"status=0",
 		];
 
-		window.open( url, "SEMrush_login", features.join( "," ) );
-		e.preventDefault();
+		const popup = window.open( url, "SEMrush_login", features.join( "," ) );
+		popup.focus();
+		window.addEventListener( "message", this.listenToMessages, false );
+	}
+
+	/**
+	 * Listens to message events from the SEMrush popup.
+	 *
+	 * @param {event} event The message event.
+	 *
+	 * @returns {void}
+	 */
+	listenToMessages( event ) {
+		const object = event.data;
+		const popup  = event.source;
+
+		if ( object.type === "semrush:oauth:success" ) {
+			popup.close();
+			// Stop listening to messages, since the popup is closed.
+			window.removeEventListener( "message", this.listenToMessages, false );
+
+			try {
+				const url = new URL( object.url );
+				const code = url.searchParams.get( "code" );
+				apiFetch( {
+					path: "yoast/v1/semrush/authenticate",
+					method: "POST",
+					data: { code: code },
+				} ).then( res => {
+					if ( res.status === 200 )  {
+						this.props.onAuthentication( true );
+						this.onModalOpen();
+					} else {
+						console.error( res.error );
+					}
+				} );
+			} catch ( e ) {
+				// URL() constructor throws a TypeError exception if url is malformed.
+				console.error( e.message );
+			}
+		} else if ( object.type === "semrush:oauth:denied" ) {
+			popup.close();
+			// Stop listening to messages, since the popup is closed.
+			window.removeEventListener( "message", this.listenToMessages, false );
+			this.props.onAuthentication( false );
+		}
 	}
 
 	/**
@@ -148,6 +201,7 @@ SEMrushRelatedKeyphrasesModal.propTypes = {
 	onOpen: PropTypes.func.isRequired,
 	onOpenWithNoKeyphrase: PropTypes.func.isRequired,
 	onClose: PropTypes.func.isRequired,
+	onAuthentication: PropTypes.func.isRequired,
 };
 
 SEMrushRelatedKeyphrasesModal.defaultProps = {
