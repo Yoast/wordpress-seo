@@ -75,6 +75,33 @@
 		</properties>
 	</rule>
 
+	<rule ref="Yoast.Files.FileName">
+		<properties>
+			<property name="excluded_files_strict_check" type="array">
+				<!-- Don't trigger on the main file(s) as renaming it would deactivate the plugin. -->
+				<element value="wp-seo.php"/>
+				<element value="wp-seo-main.php"/>
+				<!-- Don't trigger on select view related files. -->
+				<element value="admin/views/tool-bulk-editor.php"/>
+				<!-- Don't trigger on test bootstrap files. -->
+				<element value="tests/integration/bootstrap.php"/>
+				<element value="tests/unit/bootstrap.php"/>
+			</property>
+
+			<!-- Remove the following prefixes from the names of object structures. -->
+			<property name="oo_prefixes" type="array">
+				<element value="yoast_seo"/>
+
+				<!-- Temporary: once all prefixes have been fixed, these two elements should be removed. -->
+				<element value="wpseo"/>
+				<element value="yoast"/>
+			</property>
+		</properties>
+
+		<!-- Exclude the migrations directory from filename checks, as we do not have control over this format -->
+		<exclude-pattern>/src/config/migrations/*\.php$</exclude-pattern>
+	</rule>
+
 	<rule ref="Yoast.NamingConventions.NamespaceName">
 		<properties>
 			<!-- Allow for the tests being in a non-standard directory in YoastSEO Free. -->
@@ -101,23 +128,6 @@
 	Exclude specific files for specific sniffs.
 	#############################################################################
 	-->
-
-	<rule ref="Yoast.Files.FileName.InvalidFunctionsFileName">
-		<exclude-pattern>wp-seo-main\.php</exclude-pattern>
-	</rule>
-
-	<!-- Exclude migrations folder from filename checks, as we do not have control over this format -->
-	<rule ref="WordPress.Files.FileName.UnderscoresNotAllowed">
-		<exclude-pattern>migrations/*</exclude-pattern>
-	</rule>
-	<!-- /Exclude migrations folder -->
-
-	<!-- Exclude old code from filename conventions, new code needs to be added to `src/`. -->
-	<rule ref="Yoast.Files.FileName">
-		<exclude-pattern>admin/*</exclude-pattern>
-		<exclude-pattern>tests/integration/*</exclude-pattern>
-		<exclude-pattern>inc/*</exclude-pattern>
-	</rule>
 
 	<!-- Composer scripts are not WordPress and have console output. -->
 	<rule ref="WordPress.Security.EscapeOutput.OutputNotEscaped">
