@@ -7,14 +7,24 @@ import RelatedKeyphrasesModalContent from "../components/SEMrushRelatedKeyphrase
 
 export default compose( [
 	withSelect( ( select ) => {
+		const {
+			getFocusKeyphrase,
+			getSEMrushSelectedCountry,
+			getSEMrushRequestLimitReached,
+			getSEMrushRequestResponse,
+			getSEMrushRequestIsSuccess,
+			getSEMrushIsRequestPending,
+			getSEMrushRequestHasData,
+		} = select( "yoast-seo/editor" );
+
 		return {
-			keyphrase: select( "yoast-seo/editor" ).getFocusKeyphrase(),
-			countryCode: select( "yoast-seo/editor" ).getSEMrushSelectedCountry(),
-			requestLimitReached: select( "yoast-seo/editor" ).getSEMrushRequestLimitReached(),
-			response: select( "yoast-seo/editor" ).getSEMrushRequestResponse(),
-			isSuccess: select( "yoast-seo/editor" ).getSEMrushRequestIsSuccess(),
-			isPending: select( "yoast-seo/editor" ).getSEMrushIsRequestPending(),
-			requestHasData: select( "yoast-seo/editor" ).getSEMrushRequestHasData(),
+			keyphrase: getFocusKeyphrase(),
+			countryCode: getSEMrushSelectedCountry(),
+			requestLimitReached: getSEMrushRequestLimitReached(),
+			response: getSEMrushRequestResponse(),
+			isSuccess: getSEMrushRequestIsSuccess(),
+			isPending: getSEMrushIsRequestPending(),
+			requestHasData: getSEMrushRequestHasData(),
 		};
 	} ),
 	withDispatch( ( dispatch ) => {
