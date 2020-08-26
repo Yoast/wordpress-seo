@@ -1,8 +1,7 @@
-import React from "react";
+import React, { useCallback } from "react";
 import PropTypes from "prop-types";
 import FieldGroup, { FieldGroupProps, FieldGroupDefaultProps } from "../field-group/FieldGroup";
-import ErrorWithUrl from "../internal/ErrorWithUrl";
-import ErrorBoundary from "../internal/ErrorBoundary";
+import { default as ReactSelect } from "react-select";
 
 // Import required CSS.
 import "./select.css";
@@ -43,126 +42,74 @@ Option.propTypes = {
 
 /* eslint-disable jsx-a11y/no-onchange*/
 /**
- * MultiSelect using the select2 package.
+ * Function to map options to a react-select compatible array.
+ *
+ * @param {Option[]} options Select options.
+ *
+ * @returns {object[]} An react-select compatible array of options.
  */
-class MultiSelect extends React.Component {
-	/**
-	 * Constructor for the MultiSelect.
-	 *
-	 * @param {object} props The props for the MultiSelect.
-	 *
-	 * @returns {void}
-	 */
-	constructor( props ) {
-		// Make sure that both jQuery and select2 are defined on the global window.
-		if ( typeof window.jQuery === "undefined" || typeof window.jQuery().select2 === "undefined" ) {
-			throw new ErrorWithUrl(
-				"Make sure to read our docs about the requirements for the MultiSelect.",
-				"https://github.com/Yoast/javascript/blob/develop/packages/components/README.md#using-the-multiselect"
-			);
-		}
+const changeOptionFormatToReactSelect = ( options ) => {
+	return options.map( option => {
+		return {
+			value: option.value,
+			label: option.name,
+		};
+	} );
+};
 
-		super( props );
-		this.onChangeHandler = this.onChangeHandler.bind( this );
-	}
+/**
+ * MultiSelect using the react-select package.
+ *
+ * @param {object} props The functional component props.
+ *
+ * @returns {React.Component} The react-select MultiSelect.
+ */
+export const MultiSelect = ( props ) => {
+	const {
+		id,
+		selected,
+		options,
+		name,
+		onChange,
+		...fieldGroupProps
+	} = props;
 
-	/**
-	 * Creates a select2 component from the select and listen to the change action.
-	 *
-	 * @returns {void}
-	 */
-	componentDidMount() {
-		this.select2 = jQuery( `#${ this.props.id }` );
-		this.select2.select2( { width: "100%", dropdownCssClass: "yoast-select__dropdown" } );
-		this.select2.on( "change.select2", this.onChangeHandler );
-	}
+	// Make sure to pass an array of options to the multiselect.
+	const selections = Array.isArray( selected ) ? selected : [ selected ];
 
-	/**
-	 * Instantiates the Select2 component again after updating.
-	 *
-	 * @returns {void}
-	 */
-	componentDidUpdate() {
-		this.select2.select2( { width: "100%", dropdownCssClass: "yoast-select__dropdown" } );
-		this.select2.on( "change.select2", this.onChangeHandler );
-	}
+	const reactSelectOptions = changeOptionFormatToReactSelect( options );
+	const selectedOptions = reactSelectOptions.filter( option => selections.includes( option.value ) );
 
-	/**
-	 * Handler for the onChange event.
-	 *
-	 * @param {object} event The event that was fired.
-	 *
-	 * @returns {void}
-	 */
-	onChangeHandler() {
-		// It is easier to query the select for the selected options than keep track of them in this component as well.
-		let selection = this.select2.select2( "data" );
+	const onChangeHandler = useCallback( selection => {
+		// Only call the onChange handler on the selected values.
+		 onChange( selection.map( option => option.value ) );
+	} );
 
-		// Map to format of the options to save in hidden field and redux store.
-		if ( selection.length !== 0 ) {
-			selection = selection.map( option => {
-				return option.id;
-			 } );
-		}
-		this.props.onChange( selection );
-	}
-
-	/**
-	 * Renders the MultiSelect component.
-	 *
-	 * @returns {React.Component} The MultiSelect.
-	 */
-	render() {
-		const {
-			id,
-			name,
-			options,
-			selected,
-			...fieldGroupProps
-		} = this.props;
-
-		// Make sure to pass an array of options to the multiselect.
-
-		return (
-			<FieldGroup
-				{ ...fieldGroupProps }
-				htmlFor={ id }
-			>
-				<select
-					multiple="multiple"
-					id={ id }
-					name={ `${ name }[]` }
-					onChange={ this.onChangeHandler }
-					value={ selected }
-				>
-					{ options.map( Option ) }
-				</select>
-			</FieldGroup>
-		);
-	}
-}
-/* eslint-enable jsx-a11y/no-onchange*/
+	return (
+		<FieldGroup
+			{ ...fieldGroupProps }
+			htmlFor={ id }
+		>
+			<ReactSelect
+				isMulti={ true }
+				id={ id }
+				name={ `${ name }[]` }
+				value={ selectedOptions }
+				options={ reactSelectOptions }
+				hideSelectedOptions={ false }
+				onChange={ onChangeHandler }
+				className="yoast-select-container"
+				classNamePrefix="yoast-select"
+				isClearable={ false }
+				isSearchable={ false }
+				placeholder=""
+			/>
+		</FieldGroup>
+	);
+};
 
 MultiSelect.propTypes = selectProps;
 MultiSelect.defaultProps = selectDefaultProps;
-
-/**
- * Renders the MultiSelect inside its own ErrorBoundary to prevent errors from bubbling up.
- *
- * @param {object} props The props for the MultiSelect.
- *
- * @returns {React.Component} The MultiSelect wrapped in an ErrorBoundary.
- */
-const MultiSelectWithErrorBoundary = ( props ) => (
-	<ErrorBoundary>
-		<MultiSelect { ...props } />
-	</ErrorBoundary>
-);
-
-MultiSelectWithErrorBoundary.propTypes = selectProps;
-MultiSelectWithErrorBoundary.defaultProps = selectDefaultProps;
-
-export { MultiSelectWithErrorBoundary as MultiSelect };
 
 /**
  * React wrapper for a basic HTML select.
