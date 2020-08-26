@@ -20,9 +20,6 @@
 	<arg value="sp"/>
 
 	<rule ref="Yoast">
-		<exclude name="WordPress.WP.PreparedSQL.NotPrepared"/><!-- TODO audit raw queries -->
-		<exclude name="Generic.Arrays.DisallowShortArraySyntax"/>
-
 		<!-- See https://github.com/Yoast/wordpress-seo/pull/15713 - We discovered that WP_Filesystem can lead to unexpected behaviour. -->
 		<exclude name="WordPress.WP.AlternativeFunctions.file_system_read_fopen"/>
 		<exclude name="WordPress.WP.AlternativeFunctions.file_system_read_fwrite"/>
@@ -30,9 +27,6 @@
 		<exclude name="WordPress.WP.AlternativeFunctions.file_system_read_fread"/>
 		<exclude name="WordPress.WP.AlternativeFunctions.file_system_read_file_put_contents"/>
 	</rule>
-
-	<!-- Demand short arrays. -->
-	<rule ref="Generic.Arrays.DisallowLongArraySyntax"/>
 
 	<rule ref="Yoast.Files.FileName.InvalidFunctionsFileName">
 		<exclude-pattern>wp-seo-main\.php</exclude-pattern>
@@ -42,21 +36,11 @@
 	<rule ref="WordPress.Files.FileName.UnderscoresNotAllowed">
 		<exclude-pattern>migrations/*</exclude-pattern>
 	</rule>
-
-	<rule ref="Generic.Files.LowercasedFilename.NotFound">
-		<exclude-pattern>migrations/*</exclude-pattern>
-	</rule>
 	<!-- /Exclude migrations folder -->
 
 	<rule ref="WordPress.WP.I18n">
 		<properties>
 			<property name="text_domain" value="wordpress-seo"/>
-		</properties>
-	</rule>
-
-	<rule ref="WordPress.NamingConventions.ValidVariableName">
-		<properties>
-			<property name="customVariablesWhitelist" type="array" value="pageUrl,responseCode,siteEntry,siteUrl,countPerTypes,urlCrawlErrorSample,buyUrl,infoUrl"/>
 		</properties>
 	</rule>
 
