@@ -138,6 +138,12 @@
 		</properties>
 	</rule>
 
+	<rule ref="WordPress.Arrays.MultipleStatementAlignment">
+		<properties>
+			<property name="maxColumn" value="70"/>
+		</properties>
+	</rule>
+
 
 	<!--
 	##########################################################################
