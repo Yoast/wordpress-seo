@@ -123,8 +123,9 @@ const wordsToStem = [
 	[ "العالمين", "علم" ],
 	[ "نعبد", "عبد" ],
 	[ "صراط", "صرط" ],
-	// This word أنعمت follows pattern افعل. The 5-letter conjugation of this verb which has ن (noon) as its second letter,
-	// Will be incorrectly matched by this pattern انفعل. Thus, this verb form will be stemmed based on pattern انفعل.
+	// This word أنعمت belongs to a group of verb that incorrectly matches انفعل even though it should not.
+	// Somehow the external stemmer stems this word correctly but we are still not sure how.
+	// This problem will be further investigated and later fixed.
 	// [ "أنعمت", "نعم" ],
 	[ "المؤمنين", "أمن" ],
 	[ "الصالحات", "صلح" ],
