@@ -103,7 +103,6 @@ class WPSEO_MyYoast_Api_Request {
 	 * @param array  $request_arguments The request arguments.
 	 *
 	 * @return string                                 The retrieved body.
-	 * @throws WPSEO_MyYoast_Authentication_Exception When authentication has failed.
 	 * @throws WPSEO_MyYoast_Bad_Request_Exception    When request is invalid.
 	 */
 	protected function do_request( $url, $request_arguments ) {
