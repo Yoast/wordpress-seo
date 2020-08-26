@@ -15,12 +15,12 @@ indent_style = tab
 insert_final_newline = true
 trim_trailing_whitespace = true
 
-[*.txt]
+[*\.txt]
 trim_trailing_whitespace = false
 
-[*.{md,json,yml}]
+[*\.{md,json,yml,xml,xml\.dist}]
 indent_style = space
 indent_size = 2
 
-[*.svg]
+[*\.svg]
 insert_final_newline = false

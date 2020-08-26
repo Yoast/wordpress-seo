@@ -46,4 +46,53 @@ class Indexable_Helper {
 
 		return null;
 	}
+
+	/**
+	 * Returns the page type of an indexable.
+	 *
+	 * @param Indexable $indexable The indexable.
+	 *
+	 * @return string|false The page type. False if it could not be determined.
+	 */
+	public function get_page_type_for_indexable( $indexable ) {
+		switch ( $indexable->object_type ) {
+			case 'post':
+				$front_page_id = (int) \get_option( 'page_on_front' );
+				if ( $indexable->object_id === $front_page_id ) {
+					return 'Static_Home_Page';
+					break;
+				}
+				$posts_page_id = (int) \get_option( 'page_for_posts' );
+				if ( $indexable->object_id === $posts_page_id ) {
+					return 'Static_Posts_Page';
+					break;
+				}
+				return 'Post_Type';
+				break;
+			case 'term':
+				return 'Term_Archive';
+				break;
+			case 'user':
+				return 'Author_Archive';
+				break;
+			case 'home-page':
+				return 'Home_Page';
+				break;
+			case 'post-type-archive':
+				return 'Post_Type_Archive';
+				break;
+			case 'date-archive':
+				return 'Date_Archive';
+				break;
+			case 'system-page':
+				if ( $indexable->object_sub_type === 'search-result' ) {
+					return 'Search_Result_Page';
+				}
+				if ( $indexable->object_sub_type === '404' ) {
+					return 'Error_Page';
+				}
+		}
+
+		return false;
+	}
 }

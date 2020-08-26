@@ -43,20 +43,20 @@ class Metabox_Test extends TestCase {
 	/**
 	 * Tests that the `yoast_free_additional_metabox_sections` filter is called.
 	 *
-	 * @covers ::get_additional_meta_sections
+	 * @covers ::get_additional_tabs
 	 */
 	public function test_get_additional_meta_sections_calls_filter() {
 		Monkey\Filters\expectApplied( 'yoast_free_additional_metabox_sections' )
 			->once()
 			->with( [] );
 
-		$this->assertEquals( [], $this->instance->get_additional_meta_sections() );
+		$this->assertEquals( [], $this->instance->get_additional_tabs() );
 	}
 
 	/**
 	 * Tests that it converts entries to a WPSEO_Metabox_Section_Additional instance.
 	 *
-	 * @covers ::get_additional_meta_sections
+	 * @covers ::get_additional_tabs
 	 */
 	public function test_get_additional_meta_sections() {
 		Monkey\Filters\expectApplied( 'yoast_free_additional_metabox_sections' )
@@ -76,7 +76,7 @@ class Metabox_Test extends TestCase {
 				]
 			);
 
-		$actual = $this->instance->get_additional_meta_sections();
+		$actual = $this->instance->get_additional_tabs();
 		$this->assertSame( 1, \count( $actual ) );
 
 		$entry = \array_pop( $actual );
@@ -89,7 +89,7 @@ class Metabox_Test extends TestCase {
 	/**
 	 * Tests that any non-array entries are ignored.
 	 *
-	 * @covers ::get_additional_meta_sections
+	 * @covers ::get_additional_tabs
 	 */
 	public function test_get_additional_meta_sections_ignores_non_arrays() {
 		Monkey\Filters\expectApplied( 'yoast_free_additional_metabox_sections' )
@@ -107,7 +107,7 @@ class Metabox_Test extends TestCase {
 				]
 			);
 
-		$actual = $this->instance->get_additional_meta_sections();
+		$actual = $this->instance->get_additional_tabs();
 		$this->assertSame( 1, \count( $actual ) );
 
 		$entry = \array_pop( $actual );
@@ -120,7 +120,7 @@ class Metabox_Test extends TestCase {
 	/**
 	 * Tests that any invalid section entries are ignored. In this case without a name property.
 	 *
-	 * @covers ::get_additional_meta_sections
+	 * @covers ::get_additional_tabs
 	 */
 	public function test_get_additional_meta_sections_ignores_invalid_sections() {
 		Monkey\Filters\expectApplied( 'yoast_free_additional_metabox_sections' )
@@ -135,7 +135,7 @@ class Metabox_Test extends TestCase {
 				]
 			);
 
-		$actual = $this->instance->get_additional_meta_sections();
+		$actual = $this->instance->get_additional_tabs();
 		$this->assertSame( 0, \count( $actual ) );
 	}
 }

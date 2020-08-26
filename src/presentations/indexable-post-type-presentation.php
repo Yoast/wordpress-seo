@@ -287,9 +287,9 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 		$robots = \array_merge(
 			$robots,
 			[
-				'noimageindex' => ( $this->model->is_robots_noimageindex === true ) ? 'noimageindex' : null,
-				'noarchive'    => ( $this->model->is_robots_noarchive === true ) ? 'noarchive' : null,
-				'nosnippet'    => ( $this->model->is_robots_nosnippet === true ) ? 'nosnippet' : null,
+				'imageindex' => ( $this->model->is_robots_noimageindex === true ) ? 'noimageindex' : null,
+				'archive'    => ( $this->model->is_robots_noarchive === true ) ? 'noarchive' : null,
+				'snippet'    => ( $this->model->is_robots_nosnippet === true ) ? 'nosnippet' : null,
 			]
 		);
 
