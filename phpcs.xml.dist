@@ -181,4 +181,52 @@
 		<exclude-pattern>/inc/wpseo-functions-deprecated\.php$</exclude-pattern>
 	</rule>
 
+	<!-- TEST CODE -->
+
+	<!-- Valid usage: For testing purposes, some non-prefixed globals are being created, which is fine. -->
+	<rule ref="WordPress.NamingConventions.PrefixAllGlobals">
+		<exclude-pattern>/tests/*/bootstrap\.php$</exclude-pattern>
+	</rule>
+
+	<!-- Direct DB queries to retrieve the comparison data for tests or to create a test case, is fine. -->
+	<rule ref="WordPress.DB.DirectDatabaseQuery">
+		<exclude-pattern>/tests/*</exclude-pattern>
+	</rule>
+
+	<!-- Test code does not go into production, so security is not an issue. -->
+	<rule ref="WordPress.Security">
+		<exclude-pattern>/tests/*</exclude-pattern>
+	</rule>
+
+	<!-- Changing the cron interval to test things, is fine. -->
+	<rule ref="WordPress.WP.CronInterval">
+		<exclude-pattern>/tests/*</exclude-pattern>
+	</rule>
+
+	<!-- Allow for the double/mock classes to override methods just to change the visibility. -->
+	<rule ref="Generic.CodeAnalysis.UselessOverridingMethod">
+		<exclude-pattern>/tests/integration/doubles/*</exclude-pattern>
+		<exclude-pattern>/tests/unit/doubles/*</exclude-pattern>
+	</rule>
+
+	<!-- Test mock/double classes do not have to be prefixed. -->
+	<rule ref="WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound">
+		<exclude-pattern>/tests/integration/doubles/*</exclude-pattern>
+		<exclude-pattern>/tests/unit/doubles/*</exclude-pattern>
+	</rule>
+
+	<!-- For documentation of the double/mock classes, please refer to the _real_ classes. -->
+	<rule ref="Squiz.Commenting.FunctionComment.Missing">
+		<exclude-pattern>/tests/integration/doubles/*</exclude-pattern>
+		<exclude-pattern>/tests/unit/doubles/*</exclude-pattern>
+	</rule>
+	<rule ref="Squiz.Commenting.FunctionComment.MissingParamTag">
+		<exclude-pattern>/tests/integration/doubles/*</exclude-pattern>
+		<exclude-pattern>/tests/unit/doubles/*</exclude-pattern>
+	</rule>
+	<rule ref="Squiz.Commenting.VariableComment.Missing">
+		<exclude-pattern>/tests/integration/doubles/*</exclude-pattern>
+		<exclude-pattern>/tests/unit/doubles/*</exclude-pattern>
+	</rule>
+
 </ruleset>
