@@ -165,4 +165,20 @@
 		<exclude-pattern>/config/php-codeshift/*</exclude-pattern>
 	</rule>
 
+	<!-- DEPRECATED CODE -->
+
+	<!-- Files which are excluded for code-coverage in the phpunit.xml.dist file should
+		 also be excluded for this sniff.
+		 Note: the lists in phpunit.xml.dist and here should be kept in sync! -->
+	<rule ref="Yoast.Commenting.CodeCoverageIgnoreDeprecated">
+		<exclude-pattern>/src/deprecated/*</exclude-pattern>
+		<exclude-pattern>/inc/wpseo-functions-deprecated\.php$</exclude-pattern>
+	</rule>
+
+	<!-- Ignore unused function parameters in deprecated functionality. -->
+	<rule ref="Generic.CodeAnalysis.UnusedFunctionParameter">
+		<exclude-pattern>/src/deprecated/*</exclude-pattern>
+		<exclude-pattern>/inc/wpseo-functions-deprecated\.php$</exclude-pattern>
+	</rule>
+
 </ruleset>
