@@ -277,9 +277,9 @@ class WPSEO_Addon_Manager {
 				'2x' => $this->get_icon( $subscription->product->slug ),
 			],
 			'banners'       => $this->get_banners( $subscription->product->slug ),
-			'tested'        => WPSEO_WP_TESTED,
-			'requires'      => WPSEO_WP_REQUIRED,
-			'requires_php'  => WPSEO_PHP_REQUIRED,
+			'tested'        => YOAST_SEO_WP_TESTED,
+			'requires'      => YOAST_SEO_WP_REQUIRED,
+			'requires_php'  => YOAST_SEO_REQUIRED,
 		];
 	}
 
