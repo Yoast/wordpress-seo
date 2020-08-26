@@ -402,8 +402,8 @@ class Meta_Tags_Context extends Abstract_Presentation {
 					$type[] = 'CollectionPage';
 				}
 
-				// Ensure we get only unique values, and remove the index.
-				$type = \array_values( \array_unique( $type ) );
+				// Ensure we get only unique values, and remove any null values and the index.
+				$type = \array_filter( \array_values( \array_unique( $type ) ) );
 		}
 
 		/**
