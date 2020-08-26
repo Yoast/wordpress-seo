@@ -329,6 +329,8 @@ const checkPatterns = function( word, morphologyData ) {
 /**
  * Tries to find the root of two-, three- and four-letter words by checking lists and/or applying modifications to the word.
  *
+ * Example: the word أبطر is on the list of four-letter roots.
+ *
  * @param {string} 	word			The word to check.
  * @param {Object}	morphologyData	The Arabic morphology data.
  *
@@ -398,6 +400,8 @@ const removePrefix = function( word, prefixes ) {
  * function returns null, with one exception: it is possible that in the checkPatterns function that is ran inside of this one,
  * the word is modified but no root is found. In this case, the function returns the modified word.
  *
+ * Example: جمعكم -> جمع (word with suffix كم which is found on the list of three-letter roots after removing the suffix).
+ *
  * @param {string}	word			The word to check.
  * @param {Object}	morphologyData	The Arabic morphology data.
  *
@@ -432,6 +436,8 @@ const processWordWithSuffix = function( word, morphologyData ) {
  * word. If the root is not found, the function returns null, with one exception: it is possible that in the checkPatterns
  * function that is ran inside of this one, the word is modified but no root is found. In this case, the function returns
  * the modified word.
+ *
+ * Example: للزهور -> زهر (word with prefix لل that gets its root by matching with a pattern after removing the prefix).
  *
  * @param {string}	word			The word to check.
  * @param {Object}	morphologyData	The Arabic morphology data.
@@ -475,6 +481,7 @@ const processWordWithPrefix = function( word, morphologyData ) {
  * with one exception: it is possible that in the checkPatterns function that is ran inside of this one, the word is modified
  * but no root is found. In this case, the function returns the modified word.
  *
+ *
  * @param {string}	word			The word to check.
  * @param {Object}	morphologyData	The Arabic morphology data.
  *
@@ -508,10 +515,12 @@ const findRoot = function( word, morphologyData ) {
 };
 
 /**
- * Search for and remove a definite article, and try to get the root of the word. If the root was not found, but the word
+ * Search for and remove a definite article and try to get the root of the word. If the root was not found, but the word
  * was modified inside the checkPatterns function, returns the modified word. If the definite article was removed and the
  * stemmed word is longer than three letters, but the root was not found, returns the stemmed word. Otherwise, if the root
  * was not found, returns null.
+ *
+ * Example: الجدولين -> جدول (word with definite article ال and suffix ين ).
  *
  * @param {string}	word			The word to check.
  * @param {Object}	morphologyData	The Arabic morphology data.
@@ -524,6 +533,10 @@ const processWordWithDefiniteArticle = function( word, morphologyData ) {
 	let wordAfterRemovingDefiniteArticle = removePrefix( word, morphologyData.externalStemmer.definiteArticles );
 	// If a definite article was removed, try to find the root.
 	if ( wordAfterRemovingDefiniteArticle !== word ) {
+		/**
+		 * If definite article was removed, try to find root by checking whether the word is a root, matching with a pattern, and/or
+		 * searching for and removing prefixes.
+		 */
 		const outputAfterTryingToFindRoot = findRoot( wordAfterRemovingDefiniteArticle, morphologyData );
 		if ( outputAfterTryingToFindRoot  ) {
 			if ( outputAfterTryingToFindRoot.rootFound === true ) {
@@ -538,10 +551,12 @@ const processWordWithDefiniteArticle = function( word, morphologyData ) {
 };
 
 /**
- * Searches for prefix waw and removes it if found, then tries to find the root. If the root is still not found, removes
+ * Searches for prefix waw (و) and removes it if found, then tries to find the root. If the root is still not found, removes
  * affixes and tries to find the root again. If the root is not found, the function returns null, with one exception: it
  * is possible that in the checkPatterns function that is ran inside of this one, the word is modified but no root is found.
  * In this case, the function returns the modified word.
+ *
+ * Example: وتمثّل -> مثل (word with prefix waw which matches a pattern after removing the prefix).
  *
  * @param {string}	word			The word to check.
  * @param {Object}	morphologyData	The Arabic morphology data.
@@ -553,7 +568,10 @@ const processWordWithPrefixWaw = function( word, morphologyData ) {
 	let wordAfterRemovingWaw = "";
 	if ( word.length > 3 && word.startsWith( morphologyData.externalStemmer.characters.waw ) ) {
 		wordAfterRemovingWaw = word.substring( 1 );
-		// If the prefix waw was removed, try to find the root.
+		/*
+		 * If the prefix waw was removed, try to find the root by checking whether the word is a root, matching with a pattern,
+		 * and/or searching for and removing prefixes.
+		 */
 		const outputAfterTryingToFindRoot = findRoot( wordAfterRemovingWaw, morphologyData );
 		if ( outputAfterTryingToFindRoot ) {
 			return outputAfterTryingToFindRoot;
@@ -574,7 +592,6 @@ export default function stem( word, morphologyData ) {
 	const regexRemovingDiacritics = morphologyData.externalStemmer.regexRemovingDiacritics;
 	word.replace( new RegExp( regexRemovingDiacritics ), "" );
 
-	// Look for the root of the word.
 	const root = checkIfWordIsRoot( word, morphologyData );
 	if ( root ) {
 		return root;
