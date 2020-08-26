@@ -266,7 +266,6 @@ script:
         cd -
       elif [[ "$TRAVIS_PULL_REQUEST" == "false" ]]; then
           composer check-cs-threshold
-          composer check-cs
       else
         # For pull requests the $TRAVIS_BRANCH contains the target branch.
         # We want to avoid introducing any new CS errors or warnings in PRs.
