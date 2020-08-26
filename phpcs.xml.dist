@@ -67,12 +67,4 @@
 		<exclude-pattern>config/php-codeshift/*</exclude-pattern>
 	</rule>
 
-	<!--
-	#############################################################################
-	SNIFF FOR PHP CROSS-VERSION COMPATIBILITY
-	#############################################################################
-	-->
-	<config name="testVersion" value="5.6-"/>
-	<rule ref="PHPCompatibilityWP"/>
-
 </ruleset>
