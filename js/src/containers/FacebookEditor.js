@@ -81,7 +81,6 @@ export default compose( [
 			getReplaceVars,
 			getSiteUrl,
 			getAuthorName,
-			getFacebookIsLoading,
 		} = select( "yoast-seo/editor" );
 
 		return {
@@ -97,7 +96,6 @@ export default compose( [
 			authorName: getAuthorName(),
 			siteUrl: getSiteUrl(),
 			isPremium: !! getL10nObject().isPremium,
-			isLoading: getFacebookIsLoading(),
 			titleInputPlaceholder,
 			descriptionInputPlaceholder,
 			socialMediumName,
