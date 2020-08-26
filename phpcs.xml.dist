@@ -154,12 +154,12 @@
 
 	<!-- Composer scripts are not WordPress and have console output. -->
 	<rule ref="WordPress.Security.EscapeOutput.OutputNotEscaped">
-		<exclude-pattern>config/composer/*</exclude-pattern>
+		<exclude-pattern>/config/composer/*</exclude-pattern>
 	</rule>
 
 	<!-- Exclude php-codeshift from being checked too roughly. -->
 	<rule ref="Yoast.NamingConventions.ObjectNameDepth">
-		<exclude-pattern>config/php-codeshift/*</exclude-pattern>
+		<exclude-pattern>/config/php-codeshift/*</exclude-pattern>
 	</rule>
 
 </ruleset>
