@@ -20,7 +20,7 @@ export const StyledContainer = styled.div`
 `;
 
 export const StyledContainerTopLevel = styled( StyledContainer )`
-	border-top: 1px solid rgba( 0,0,0,0.2 );
+	border-top: var(--yoast-border-default);
 `;
 
 export const StyledIconsButton = styled( IconsButton )`
