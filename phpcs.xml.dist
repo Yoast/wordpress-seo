@@ -34,6 +34,10 @@
     <!-- Demand short arrays. -->
     <rule ref="Generic.Arrays.DisallowLongArraySyntax"/>
 
+    <rule ref="Yoast.Files.FileName.InvalidFunctionsFileName">
+        <exclude-pattern>wp-seo-main\.php</exclude-pattern>
+    </rule>
+
     <!-- Exclude migrations folder from filename checks, as we do not have control over this format -->
     <rule ref="WordPress.Files.FileName.UnderscoresNotAllowed">
         <exclude-pattern>migrations/*</exclude-pattern>
