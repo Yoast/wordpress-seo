@@ -1,6 +1,16 @@
 <?xml version="1.0"?>
-<ruleset name="Yoast SEO">
-	<description>Yoast SEO rules for PHP_CodeSniffer</description>
+<ruleset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	name="Yoast SEO Free"
+	xsi:noNamespaceSchemaLocation="./vendor/squizlabs/php_codesniffer/phpcs.xsd">
+
+	<description>Yoast SEO Free rules for PHP_CodeSniffer</description>
+
+	<!--
+	#############################################################################
+	COMMAND LINE ARGUMENTS
+	https://github.com/squizlabs/PHP_CodeSniffer/wiki/Annotated-ruleset.xml
+	#############################################################################
+	-->
 
 	<file>.</file>
 
@@ -16,8 +26,18 @@
 	<exclude-pattern>src/generated/*</exclude-pattern>
 	<exclude-pattern>polyfills/*</exclude-pattern>
 
+	<!-- Only check PHP files. -->
 	<arg name="extensions" value="php"/>
+
+	<!-- Show progress, show the error codes for each message (source). -->
 	<arg value="sp"/>
+
+
+	<!--
+	#############################################################################
+	USE THE YoastCS RULESET
+	#############################################################################
+	-->
 
 	<rule ref="Yoast">
 		<!-- See https://github.com/Yoast/wordpress-seo/pull/15713 - We discovered that WP_Filesystem can lead to unexpected behaviour. -->
@@ -28,15 +48,12 @@
 		<exclude name="WordPress.WP.AlternativeFunctions.file_system_read_file_put_contents"/>
 	</rule>
 
-	<rule ref="Yoast.Files.FileName.InvalidFunctionsFileName">
-		<exclude-pattern>wp-seo-main\.php</exclude-pattern>
-	</rule>
 
-	<!-- Exclude migrations folder from filename checks, as we do not have control over this format -->
-	<rule ref="WordPress.Files.FileName.UnderscoresNotAllowed">
-		<exclude-pattern>migrations/*</exclude-pattern>
-	</rule>
-	<!-- /Exclude migrations folder -->
+	<!--
+	#############################################################################
+	SNIFF SPECIFIC CONFIGURATION
+	#############################################################################
+	-->
 
 	<rule ref="WordPress.WP.I18n">
 		<properties>
@@ -49,6 +66,24 @@
 			<property name="prefixes" type="array" value="Yoast\WP\SEO\,Yoast\WP\SEO\Tests\Unit\"/>
 		</properties>
 	</rule>
+
+
+	<!--
+	##########################################################################
+	SELECTIVE EXCLUSIONS
+	Exclude specific files for specific sniffs.
+	#############################################################################
+	-->
+
+	<rule ref="Yoast.Files.FileName.InvalidFunctionsFileName">
+		<exclude-pattern>wp-seo-main\.php</exclude-pattern>
+	</rule>
+
+	<!-- Exclude migrations folder from filename checks, as we do not have control over this format -->
+	<rule ref="WordPress.Files.FileName.UnderscoresNotAllowed">
+		<exclude-pattern>migrations/*</exclude-pattern>
+	</rule>
+	<!-- /Exclude migrations folder -->
 
 	<!-- Exclude old code from filename conventions, new code needs to be added to `src/`. -->
 	<rule ref="Yoast.Files.FileName">
