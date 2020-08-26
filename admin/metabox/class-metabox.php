@@ -77,7 +77,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$this->social_is_enabled            = WPSEO_Options::get( 'opengraph', false ) || WPSEO_Options::get( 'twitter', false );
 		$this->is_advanced_metadata_enabled = WPSEO_Capability_Utils::current_user_can( 'wpseo_edit_advanced_metadata' ) || WPSEO_Options::get( 'disableadvanced_meta' ) === false;
 
-		$this->seo_analysis = new WPSEO_Metabox_Analysis_SEO();
+		$this->seo_analysis         = new WPSEO_Metabox_Analysis_SEO();
 		$this->readability_analysis = new WPSEO_Metabox_Analysis_Readability();
 	}
 
@@ -143,6 +143,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			'</a>'
 		);
 
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output escaped above.
 		echo new Alert_Presenter( $content );
 	}
 
@@ -322,16 +323,20 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	protected function render_hidden_fields() {
 		wp_nonce_field( 'yoast_free_metabox', 'yoast_free_metabox_nonce' );
 
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output escaped in class.
 		echo new Meta_Fields_Presenter( $this->get_metabox_post(), 'general' );
 
 		if ( $this->is_advanced_metadata_enabled ) {
-			echo new Meta_Fields_Presenter( $this->get_metabox_post(),'advanced' );
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output escaped in class.
+			echo new Meta_Fields_Presenter( $this->get_metabox_post(), 'advanced' );
 		}
 
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output escaped in class.
 		echo new Meta_Fields_Presenter( $this->get_metabox_post(), 'schema', $this->get_metabox_post()->post_type );
 
 		if ( $this->social_is_enabled ) {
-			echo new Meta_Fields_Presenter( $this->get_metabox_post(),'social' );
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output escaped in class.
+			echo new Meta_Fields_Presenter( $this->get_metabox_post(), 'social' );
 		}
 
 		/**
@@ -339,6 +344,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		 *
 		 * @api string $post_content The metabox content string.
 		 */
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output should be escaped in the filter.
 		echo apply_filters( 'wpseo_content_meta_section_content', '' );
 	}
 
@@ -450,8 +456,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		foreach ( $requested_tabs as $tab ) {
 			if ( is_array( $tab ) && array_key_exists( 'name', $tab ) && array_key_exists( 'link_content', $tab ) && array_key_exists( 'content', $tab ) ) {
-				$options    = array_key_exists( 'options', $tab ) ? $tab['options'] : [];
-				$tabs[] = new WPSEO_Metabox_Section_Additional(
+				$options = array_key_exists( 'options', $tab ) ? $tab['options'] : [];
+				$tabs[]  = new WPSEO_Metabox_Section_Additional(
 					$tab['name'],
 					$tab['link_content'],
 					$tab['content'],
@@ -682,7 +688,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			return false;
 		}
 
-		if ( ! isset( $_POST['yoast_free_metabox_nonce'] ) || ! wp_verify_nonce( $_POST['yoast_free_metabox_nonce'], 'yoast_free_metabox' ) ) {
+		$nonce = filter_input( INPUT_POST, 'yoast_free_metabox_nonce' );
+		if ( empty( $nonce ) || ! wp_verify_nonce( $nonce, 'yoast_free_metabox' ) ) {
 			return false;
 		}
 
@@ -738,6 +745,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			}
 			else {
 				if ( isset( $_POST[ $field_name ] ) ) {
+					// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- We're preparing to do just that.
 					$data = wp_unslash( $_POST[ $field_name ] );
 
 					// For multi-select.
@@ -809,7 +817,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		$post_id = get_queried_object_id();
 		if ( empty( $post_id ) && isset( $_GET['post'] ) ) {
-			$post_id = sanitize_text_field( $_GET['post'] );
+			$post_id = sanitize_text_field( filter_input( INPUT_GET, 'post' ) );
 		}
 
 		if ( $post_id !== 0 ) {
@@ -822,7 +830,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$asset_manager->enqueue_style( 'select2' );
 		$asset_manager->enqueue_style( 'monorepo' );
 
-		$is_block_editor = WP_Screen::get()->is_block_editor();
+		$is_block_editor  = WP_Screen::get()->is_block_editor();
 		$post_edit_handle = 'post-edit';
 		if ( ! $is_block_editor ) {
 			$post_edit_handle = 'post-edit-classic';

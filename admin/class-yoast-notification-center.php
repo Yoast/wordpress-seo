@@ -164,9 +164,9 @@ class Yoast_Notification_Center {
 			return true;
 		}
 
-		$dismissal_key      = $notification->get_dismissal_key();
-		$notification_id    = $notification->get_id();
-		$notification_json  = $notification->get_json();
+		$dismissal_key     = $notification->get_dismissal_key();
+		$notification_id   = $notification->get_id();
+		$notification_json = $notification->get_json();
 
 		$is_dismissing = ( $dismissal_key === self::get_user_input( 'notification' ) );
 		if ( ! $is_dismissing ) {
@@ -661,8 +661,9 @@ class Yoast_Notification_Center {
 	private static function get_user_input( $key ) {
 
 		$filter_input_type = INPUT_GET;
+		$request_method    = filter_input( INPUT_SERVER, 'REQUEST_METHOD' );
 
-		if ( isset( $_SERVER['REQUEST_METHOD'] ) && strtoupper( wp_unslash( $_SERVER['REQUEST_METHOD'] ) ) === 'POST' ) {
+		if ( isset( $_SERVER['REQUEST_METHOD'] ) && strtoupper( $request_method ) === 'POST' ) {
 			$filter_input_type = INPUT_POST;
 		}
 

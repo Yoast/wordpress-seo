@@ -105,6 +105,7 @@ class WPSEO_Taxonomy {
 			'<a href="https://www.microsoft.com/windows/microsoft-edge">',
 			'</a>'
 		);
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output escaped above.
 		echo new Alert_Presenter( $content );
 
 		echo '</div></div>';

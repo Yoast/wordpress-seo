@@ -186,6 +186,7 @@ class WPSEO_Metabox_Formatter {
 	 */
 	private function get_content_analysis_component_translations() {
 		// Esc_html is not needed because React already handles HTML in the (translations of) these strings.
+		// phpcs:disable WordPress.Arrays.MultipleStatementAlignment.DoubleArrowNotAligned -- sniff misbehaving here.
 		return [
 			'locale'                                         => \get_user_locale(),
 			'content-analysis.language-notice-link'          => __( 'Change language', 'wordpress-seo' ),
@@ -201,6 +202,7 @@ class WPSEO_Metabox_Formatter {
 			'content-analysis.disabledButton'                => __( 'Marks are disabled in current view', 'wordpress-seo' ),
 			'a11yNotice.opensInNewTab'                       => __( '(Opens in a new browser tab)', 'wordpress-seo' ),
 		];
+		// phpcs:enable
 	}
 
 	/**

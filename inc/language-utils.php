@@ -45,6 +45,7 @@ class WPSEO_Language_Utils {
 	 * of WordPress get_user_locale() that already fallbacks to the site's locale.
 	 *
 	 * @deprecated 15.0
+	 * @codeCoverageIgnore
 	 *
 	 * @return string The locale.
 	 */
