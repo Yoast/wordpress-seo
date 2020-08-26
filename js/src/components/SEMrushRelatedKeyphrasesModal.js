@@ -103,6 +103,13 @@ class SEMrushRelatedKeyphrasesModal extends Component {
 	listenToMessages( event ) {
 		const object = event.data;
 		const popup  = event.source;
+		const origin = event.origin;
+
+		// Check that the message comes from the expected origin.
+		if ( origin !== "https://oauth.semrush.com/" ) {
+			popup.close();
+			return;
+		}
 
 		if ( object.type === "semrush:oauth:success" ) {
 			popup.close();
