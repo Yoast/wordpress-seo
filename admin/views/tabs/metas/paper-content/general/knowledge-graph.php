@@ -53,7 +53,6 @@ $knowledge_graph_help = new WPSEO_Admin_Help_Panel(
 	<div id="knowledge-graph-company">
 		<h3><?php esc_html_e( 'Organization', 'wordpress-seo' ); ?></h3>
 		<?php
-
 		/*
 		 * Render the `knowledge-graph-company-warning` div when the company name or logo are not set.
 		 * This div is used as React render root in `js/src/search-appearance.js`.
