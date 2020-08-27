@@ -1,4 +1,4 @@
-import { shallow } from "enzyme";
+import { mount, shallow } from "enzyme";
 import SEMrushRelatedKeyphrasesModal from "../../src/components/SEMrushRelatedKeyphrasesModal";
 
 describe( "SEMrushRelatedKeyphrasesModal", () => {
@@ -33,14 +33,19 @@ describe( "SEMrushRelatedKeyphrasesModal", () => {
 			props = {
 				...props,
 				keyphrase: "yoast seo",
+				isLoggedIn: false,
 			};
 
-			const component = shallow( <SEMrushRelatedKeyphrasesModal { ...props } /> );
-			const button = component.find( "#yoast-get-related-keyphrases-metabox" );
+			const component = mount( <SEMrushRelatedKeyphrasesModal { ...props } /> );
 
-			button.simulate( "click" );
+			jest.spyOn(component.instance(), "onLinkClick" ).mockImplementation( ( e ) => jest.fn() )
+			component.instance().forceUpdate();
 
-			expect( props.onOpen ).toHaveBeenCalled();
+			console.log( component.find( "#yoast-get-related-keyphrases-metabox" ) )
+			const button = component.find( "#yoast-get-related-keyphrases-metabox" ).simulate( "click" );
+
+
+			expect( component.onLinkClick ).toHaveBeenCalled();
 		} );
 	} );
 } );
