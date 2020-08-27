@@ -15,52 +15,52 @@ const testData = {
 		],
 		"rows":[
 			[
-				"a",
+				"element1",
 				"1500000",
 				"0.82,0.82,0.82,0.82,0.82,0.82,0.82,0.82,0.82,1.00,1.00,1.00"
 			],
 			[
-				"ice",
+				"element2",
 				"301000",
 				"1.00,0.67,0.45,0.45,0.37,0.37,0.37,0.37,0.37,0.30,0.37,0.45"
 			],
 			[
-				"record",
+				"element3",
 				"135000",
 				"0.82,0.82,0.82,0.82,1.00,1.00,0.82,0.82,0.82,0.82,0.82,0.82"
 			],
 			[
-				"ever",
+				"element4",
 				"49500",
 				"0.45,0.45,0.45,0.55,0.45,0.55,0.55,0.55,1.00,0.82,0.82,0.45"
 			],
 			[
-				"year",
+				"element5",
 				"40500",
 				"0.67,0.67,0.67,0.82,0.82,1.00,1.00,0.82,0.82,1.00,1.00,1.00"
 			],
 			[
-				"president donald trump greenland",
+				"element6",
 				"33100",
 				"0.00,1.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00"
 			],
 			[
-				"greenland map",
+				"element7",
 				"27100",
 				"0.06,1.00,0.20,0.11,0.11,0.11,0.13,0.13,0.13,0.11,0.09,0.07"
 			],
 			[
-				"greenland population",
+				"element8",
 				"27100",
 				"0.13,1.00,0.25,0.13,0.13,0.13,0.16,0.16,0.37,0.37,0.16,0.16"
 			],
 			[
-				"trump greenland",
+				"element9",
 				"18100",
 				"0.00,1.00,0.04,0.01,0.01,0.01,0.01,0.01,0.01,0.02,0.01,0.01"
 			],
 			[
-				"greenland movie",
+				"element10",
 				"12100",
 				"0.06,0.02,0.01,0.01,0.01,0.01,0.02,0.01,0.05,0.20,0.05,1.00"
 			]
@@ -77,5 +77,20 @@ describe( "SEMrushKeyphrasesTable", () => {
 
 		expect( component.find("tbody").getElement().props.children.length).toEqual(10);
 	} );
+	it( "should have the right elements present", () => {
+		const component = shallow(<SEMrushKeyphrasesTable keyphrase={"yoast seo"}
+		relatedKeyphrases={["yoast"]} countryCode={"us"} data={ testData } renderAction={() => {}} />) ;
 
+		expect(component.find({ children: 'element1' }).length).toEqual(1);
+		expect(component.find({ children: 'element2' }).length).toEqual(1);
+		expect(component.find({ children: 'element3' }).length).toEqual(1);
+		expect(component.find({ children: 'element4' }).length).toEqual(1);
+		expect(component.find({ children: 'element5' }).length).toEqual(1);
+		expect(component.find({ children: 'element6' }).length).toEqual(1);
+		expect(component.find({ children: 'element7' }).length).toEqual(1);
+		expect(component.find({ children: 'element8' }).length).toEqual(1);
+		expect(component.find({ children: 'element9' }).length).toEqual(1);
+		expect(component.find({ children: 'element10' }).length).toEqual(1);
+
+	} );
 } );
