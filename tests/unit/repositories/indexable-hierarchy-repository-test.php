@@ -98,7 +98,6 @@ class Indexable_Hierarchy_Repository_Test extends TestCase {
 		$this->assertSame( $ancestors, $this->instance->find_ancestors( $indexable ) );
 	}
 
-
 	/**
 	 * Tests retrieval of the ancestors when having no results the first time we query.
 	 *

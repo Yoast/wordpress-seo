@@ -381,7 +381,7 @@ class Schema_Generator_Test extends TestCase {
 		Monkey\Filters\expectApplied( 'wpseo_schema_website' )
 			->once()
 			->andReturn( [
-				'@type'           => [ 'WebSite' ] ,
+				'@type'           => [ 'WebSite' ],
 				'@id'             => '#website',
 				'url'             => null,
 				'name'            => '',
@@ -439,7 +439,7 @@ class Schema_Generator_Test extends TestCase {
 		Monkey\Filters\expectApplied( 'wpseo_schema_website' )
 			->once()
 			->andReturn( [
-				'@type'           => [ 'WebSite', 'WebSite', 'Something', 'Something', 'Something' ] ,
+				'@type'           => [ 'WebSite', 'WebSite', 'Something', 'Something', 'Something' ],
 				'@id'             => '#website',
 				'url'             => null,
 				'name'            => '',

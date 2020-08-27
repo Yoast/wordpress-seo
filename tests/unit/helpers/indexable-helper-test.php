@@ -95,7 +95,7 @@ class Indexable_Helper_Test extends TestCase {
 	 */
 	public function test_get_permalink_for_term_indexable() {
 		$indexable              = Mockery::mock( Indexable_Mock::class );
-		$indexable->object_id = 2;
+		$indexable->object_id   = 2;
 		$indexable->object_type = 'term';
 
 		$term = (object) [
@@ -127,7 +127,7 @@ class Indexable_Helper_Test extends TestCase {
 	 */
 	public function test_get_permalink_for_term_indexable_term_not_found() {
 		$indexable              = Mockery::mock( Indexable_Mock::class );
-		$indexable->object_id = 2;
+		$indexable->object_id   = 2;
 		$indexable->object_type = 'term';
 
 		Monkey\Functions\expect( 'get_term' )
@@ -147,7 +147,7 @@ class Indexable_Helper_Test extends TestCase {
 	 */
 	public function test_get_permalink_for_term_indexable_term_is_wp_error() {
 		$indexable              = Mockery::mock( Indexable_Mock::class );
-		$indexable->object_id = 2;
+		$indexable->object_id   = 2;
 		$indexable->object_type = 'term';
 
 		$term = (object) [

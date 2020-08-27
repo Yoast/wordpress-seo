@@ -123,7 +123,7 @@ class Indexable_Social_Image_Trait_Test extends TestCase {
 			'id'     => 13,
 			'alt'    => '',
 			'pixels' => 307200,
-			'type'   => 'image/jpeg'
+			'type'   => 'image/jpeg',
 		];
 
 		$this->open_graph_image_set_by_user( $image_meta );
@@ -139,7 +139,7 @@ class Indexable_Social_Image_Trait_Test extends TestCase {
 		$this->indexable->orm->expects( 'set' )
 			->with( 'open_graph_image', 'http://basic.wordpress.test/wp-content/uploads/2020/07/WordPress5.jpg' );
 		$this->indexable->orm->expects( 'set' )
-			->with( 'open_graph_image_meta', \json_encode( $image_meta, ( JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES ) ) );
+			->with( 'open_graph_image_meta', \json_encode( $image_meta, ( JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES ) ) );
 
 		// We expect twitter image meta to be set.
 		$this->indexable->orm->expects( 'set' )
@@ -173,7 +173,7 @@ class Indexable_Social_Image_Trait_Test extends TestCase {
 			'id'     => 13,
 			'alt'    => '',
 			'pixels' => 307200,
-			'type'   => 'image/jpeg'
+			'type'   => 'image/jpeg',
 		];
 
 		$this->no_twitter_image();
@@ -190,7 +190,7 @@ class Indexable_Social_Image_Trait_Test extends TestCase {
 		$this->indexable->orm->expects( 'set' )
 			->with( 'open_graph_image', 'http://basic.wordpress.test/wp-content/uploads/2020/07/WordPress5.jpg' );
 		$this->indexable->orm->expects( 'set' )
-			->with( 'open_graph_image_meta', \json_encode( $image_meta, ( JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES ) ) );
+			->with( 'open_graph_image_meta', \json_encode( $image_meta, ( JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES ) ) );
 
 		$alternative_image = [
 			'image_id' => 'featured-image-id',
@@ -288,7 +288,7 @@ class Indexable_Social_Image_Trait_Test extends TestCase {
 			'id'     => 13,
 			'alt'    => '',
 			'pixels' => 307200,
-			'type'   => 'image/jpeg'
+			'type'   => 'image/jpeg',
 		];
 
 		$this->no_twitter_image();
@@ -305,7 +305,7 @@ class Indexable_Social_Image_Trait_Test extends TestCase {
 		$this->indexable->orm->expects( 'set' )
 			->with( 'open_graph_image', 'http://basic.wordpress.test/wp-content/uploads/2020/07/WordPress5.jpg' );
 		$this->indexable->orm->expects( 'set' )
-			->with( 'open_graph_image_meta', \json_encode( $image_meta, ( JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES ) ) );
+			->with( 'open_graph_image_meta', \json_encode( $image_meta, ( JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES ) ) );
 
 		$alternative_image = [
 			'image'  => 'featured-image.jpeg',
@@ -453,5 +453,4 @@ class Indexable_Social_Image_Trait_Test extends TestCase {
 			->with( 'open-graph-image-id' )
 			->andReturn( $image_meta );
 	}
-
 }

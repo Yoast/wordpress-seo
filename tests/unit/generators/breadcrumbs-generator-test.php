@@ -291,7 +291,7 @@ class Breadcrumbs_Generator_Test extends TestCase {
 				'front_page_id'    => 0,
 				'message'          => 'Tests with current request being not the home, search or a singular post page',
 			],
-			'on-singular-post-page-with-front-page-id' =>[
+			'on-singular-post-page-with-front-page-id' => [
 				'scenario'         => 'on-singular-post-page-with-front-page-id',
 				'page_for_posts'   => 1,
 				'breadcrumb_home'  => 'home',
@@ -307,6 +307,7 @@ class Breadcrumbs_Generator_Test extends TestCase {
 			],
 		];
 	}
+
 	/**
 	 * Tests the generation of the bread crumbs for a date archive.
 	 *
@@ -469,8 +470,8 @@ class Breadcrumbs_Generator_Test extends TestCase {
 		$is_month = false;
 		$is_year  = false;
 
-		switch( $scenario ) {
-			case 'day' :
+		switch ( $scenario ) {
+			case 'day':
 				$is_day = true;
 
 				Monkey\Functions\expect( 'get_the_date' )
@@ -483,7 +484,7 @@ class Breadcrumbs_Generator_Test extends TestCase {
 					->with( 'Y/m/d' )
 					->andReturn( '2020/08/11' );
 				break;
-			case 'month' :
+			case 'month':
 				$is_month = true;
 
 				Monkey\Functions\expect( 'single_month_title' )
@@ -498,7 +499,7 @@ class Breadcrumbs_Generator_Test extends TestCase {
 
 				break;
 
-			case 'year' :
+			case 'year':
 				$is_year = true;
 
 				Monkey\Functions\expect( 'get_the_date' )

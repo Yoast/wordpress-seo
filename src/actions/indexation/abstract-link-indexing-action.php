@@ -52,9 +52,9 @@ abstract class Abstract_Link_Indexing_Action implements Indexation_Action_Interf
 		Indexable_Repository $repository,
 		wpdb $wpdb
 	) {
-		$this->link_builder     = $link_builder;
-		$this->repository       = $repository;
-		$this->wpdb             = $wpdb;
+		$this->link_builder = $link_builder;
+		$this->repository   = $repository;
+		$this->wpdb         = $wpdb;
 	}
 
 	/**

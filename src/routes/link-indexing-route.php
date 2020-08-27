@@ -71,7 +71,6 @@ class Link_Indexing_Route extends Abstract_Indexation_Route {
 		$this->term_link_indexing_action = $term_link_indexing_action;
 	}
 
-
 	/**
 	 * @inheritDoc
 	 */

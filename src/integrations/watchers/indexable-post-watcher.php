@@ -103,7 +103,7 @@ class Indexable_Post_Watcher implements Integration_Interface {
 		$this->repository           = $repository;
 		$this->builder              = $builder;
 		$this->hierarchy_repository = $hierarchy_repository;
-		$this->link_builder         = $link_builder        ;
+		$this->link_builder         = $link_builder;
 		$this->author_archive       = $author_archive;
 		$this->post                 = $post;
 		$this->logger               = $logger;
