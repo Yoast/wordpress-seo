@@ -21,7 +21,7 @@ import getL10nObject from "../analysis/getL10nObject";
  *
  * @returns {boolean} Whether or not the error property is present.
  */
-function hasError( response ) {
+export function hasError( response ) {
 	return ! isEmpty( response ) && "error" in response;
 }
 
@@ -32,7 +32,7 @@ function hasError( response ) {
  *
  * @returns {wp.Element} The user message.
  */
-function getUserMessage( props ) {
+export function getUserMessage( props ) {
 	const {
 		isPending,
 		requestLimitReached,
@@ -65,7 +65,7 @@ function getUserMessage( props ) {
  *
  * @returns {boolean} Whether or not the maximum limit has been reached.
  */
-function hasMaximumRelatedKeyphrases( relatedKeyphrases ) {
+export function hasMaximumRelatedKeyphrases( relatedKeyphrases ) {
 	return relatedKeyphrases && relatedKeyphrases.length >= 4;
 }
 
