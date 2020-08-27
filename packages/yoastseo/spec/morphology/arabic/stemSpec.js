@@ -21,7 +21,7 @@ const wordsToStem = [
 	[ "ؤكد", "أكد" ],
 	[ "ازب", "أزب" ],
 	// Three letter words ending in weak letter ي/ا/ى/ء (yeh_hamza/hamza/yeh_maksorah/alef/yeh/waw)
-	// And the root is in the list of word with the last weak letter or hamza removed.
+	// And the root is in the list of words with the last weak letter or hamza removed.
 	[ "غبي", "غبي" ],
 	[ "دعا", "دعا" ],
 	[ "بدء", "بدأ" ],
@@ -83,7 +83,7 @@ const wordsToStem = [
 	// Words with prefix and prefix waw
 	[ "وتتلقّى", "لقي" ],
 	[ "وكرجل", "رجل" ],
-	// Words with suffix and the word matches one of the pattern
+	// Words with suffix and the word matches one of the patterns
 	[ "ملابسك", "لبس" ],
 	// Words with suffix
 	[ "بؤسهم", "بأس" ],
@@ -122,56 +122,9 @@ const wordsToStem = [
 	[ "للظالمين", "ظلم" ],
 	// This word لنتخذن is also commented out in the original external stemmer.
 	// [ "لنتخذن", "أخذ" ],
-
-	// Complete paradigm of a verb
-	[ "عاودت", "عود" ],
-	[ "عاود", "عود" ],
-	[ "عاودتما", "عود" ],
-	[ "عاودا", "عود" ],
-	[ "عاودتا", "عود" ],
-	[ "عاودنا", "عود" ],
-	[ "عاودتم", "عود" ],
-	[ "عاودتن", "عود" ],
-	[ "عاودوا", "عود" ],
-	[ "عاودن", "عود" ],
-	[ "أعاود", "عود" ],
-	[ "تعاود", "عود" ],
-	[ "تعاودين", "عود" ],
-	[ "يعاود", "عود" ],
-	[ "تعاودان", "عود" ],
-	[ "يعاودان", "عود" ],
-	[ "نعاود", "عود" ],
-	[ "تعاودون", "عود" ],
-	[ "تعاودن", "عود" ],
-	[ "يعاودون", "عود" ],
-	[ "يعاودن", "عود" ],
-	[ "تعاودي", "عود" ],
-	[ "يعاود", "عود" ],
-	[ "تعاودا", "عود" ],
-	[ "يعاودا", "عود" ],
-	[ "تعاودوا", "عود" ],
-	[ "يعاودوا", "عود" ],
-	[ "عوودت", "عود" ],
-	[ "عوود", "عود" ],
-	[ "عوودتما", "عود" ],
-	[ "عوودا", "عود" ],
-	[ "عوودتا", "عود" ],
-	[ "عوودنا", "عود" ],
-	[ "عوودتم", "عود" ],
-	[ "عوودتن", "عود" ],
-	[ "عوودوا", "عود" ],
-	[ "عوودن", "عود" ],
-	[ "عاودا", "عود" ],
-	[ "عاودي", "عود" ],
-	[ "عاود", "عود" ],
-	[ "عاودوا", "عود" ],
-	[ "عاودا", "عود" ],
-	[ "معاود", "عود" ],
-	[ "معاودة", "عود" ],
-
 	/*
 	 * Specs that do not pass because of overlap issues (they match multiple conditions, and they get stemmed in another
-	 * condition than where we would want it too). They are probably also a problem in the external stemmer; we may solve it
+	 * condition than where we would want it to). They are probably also a problem in the external stemmer; we may solve it
 	 * at some point with exception lists.
 	 */
 	// The current stem is قا as قوا is matched by regexRemoveMiddleWeakLetterOrHamza instead of this regex regexRemoveLastWeakLetterOrHamza
@@ -190,6 +143,59 @@ const wordsToStem = [
 	// [ "بئر", "بار" ],
 ];
 
+const paradigms = [
+	{
+		// Complete paradigm of a verb.
+		stem: "عود",
+		forms: [
+			"عاودت",
+			"عاود",
+			"عاودتما",
+			"عاودا",
+			"عاودتا",
+			"عاودنا",
+			"عاودتم",
+			"عاودتن",
+			"عاودوا",
+			"عاودن",
+			"أعاود",
+			"تعاود",
+			"تعاودين",
+			"يعاود",
+			"تعاودان",
+			"يعاودان",
+			"نعاود",
+			"تعاودون",
+			"تعاودن",
+			"يعاودون",
+			"يعاودن",
+			"تعاودي",
+			"يعاود",
+			"تعاودا",
+			"يعاودا",
+			"تعاودوا",
+			"يعاودوا",
+			"عوودت",
+			"عوود",
+			"عوودتما",
+			"عوودا",
+			"عوودتا",
+			"عوودنا",
+			"عوودتم",
+			"عوودتن",
+			"عوودوا",
+			"عوودن",
+			"عاودا",
+			"عاودي",
+			"عاود",
+			"عاودوا",
+			"عاودا",
+			"معاود",
+			"معاودة",
+		],
+	},
+];
+
 describe( "Test for stemming Arabic words", () => {
 	for ( let i = 0; i < wordsToStem.length; i++ ) {
 		const wordToCheck = wordsToStem[ i ];
@@ -198,3 +204,14 @@ describe( "Test for stemming Arabic words", () => {
 		} );
 	}
 } );
+
+describe( "Test to make sure all forms of a paradigm get stemmed to the same stem", () => {
+	for ( const paradigm of paradigms ) {
+		for ( const form of paradigm.forms ) {
+			it( "correctly stems the word: " + form + " to " + paradigm.stem, () => {
+				expect( stem( form, morphologyDataAR ) ).toBe( paradigm.stem );
+			} );
+		}
+	}
+} );
+
