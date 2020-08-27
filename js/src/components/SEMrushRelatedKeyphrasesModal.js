@@ -88,8 +88,10 @@ class SEMrushRelatedKeyphrasesModal extends Component {
 			"status=0",
 		];
 
-		const popup = window.open( url, "SEMrush_login", features.join( "," ) );
-		popup.focus();
+		if ( ! this.popup || this.popup.closed ) {
+			this.popup = window.open( url, "SEMrush_login", features.join( "," ) );
+		}
+		this.popup.focus();
 		window.addEventListener( "message", this.listenToMessages, false );
 	}
 
@@ -102,17 +104,16 @@ class SEMrushRelatedKeyphrasesModal extends Component {
 	 */
 	listenToMessages( event ) {
 		const object = event.data;
-		const popup  = event.source;
+		const source = event.source;
 		const origin = event.origin;
 
 		// Check that the message comes from the expected origin.
-		if ( origin !== "https://oauth.semrush.com/" ) {
-			popup.close();
+		if ( origin !== "https://oauth.semrush.com" || this.popup !== source ) {
 			return;
 		}
 
 		if ( object.type === "semrush:oauth:success" ) {
-			popup.close();
+			this.popup.close();
 			// Stop listening to messages, since the popup is closed.
 			window.removeEventListener( "message", this.listenToMessages, false );
 
@@ -136,7 +137,7 @@ class SEMrushRelatedKeyphrasesModal extends Component {
 				console.error( e.message );
 			}
 		} else if ( object.type === "semrush:oauth:denied" ) {
-			popup.close();
+			this.popup.close();
 			// Stop listening to messages, since the popup is closed.
 			window.removeEventListener( "message", this.listenToMessages, false );
 			this.props.onAuthentication( false );
