@@ -139,7 +139,7 @@ class WPSEO_Admin_Init {
 	public function yoast_plugin_update_notification() {
 		$notification_center   = Yoast_Notification_Center::get();
 		$current_minor_version = $this->get_major_minor_version( WPSEO_Options::get( 'version', WPSEO_VERSION ) );
-		$file = plugin_dir_path( WPSEO_FILE ) . 'release-info.json';
+		$file                  = plugin_dir_path( WPSEO_FILE ) . 'release-info.json';
 
 		// Remove if file is not present.
 		if ( ! file_exists( $file ) ) {
@@ -160,7 +160,7 @@ class WPSEO_Admin_Init {
 		if ( is_null( $release_info )
 			|| empty( $release_info->version )
 			|| version_compare( $this->get_major_minor_version( $release_info->version ), $current_minor_version, '!=' )
-		 	|| empty( $release_info->release_description )
+			|| empty( $release_info->release_description )
 		) {
 			$notification_center->remove_notification_by_id( 'wpseo-plugin-updated' );
 			return;
@@ -171,7 +171,7 @@ class WPSEO_Admin_Init {
 		// Restore notification if it was dismissed in a previous minor version.
 		$last_dismissed_version = get_user_option( $notification->get_dismissal_key() );
 		if ( ! $last_dismissed_version
-			 || version_compare( $this->get_major_minor_version( $last_dismissed_version ), $current_minor_version, '<' )
+			|| version_compare( $this->get_major_minor_version( $last_dismissed_version ), $current_minor_version, '<' )
 		) {
 			Yoast_Notification_Center::restore_notification( $notification );
 		}
@@ -197,25 +197,25 @@ class WPSEO_Admin_Init {
 	 * @return Yoast_Notification The notification for the present version
 	 */
 	private function get_yoast_seo_update_notification( $release_info ) {
-		$info_message = '<strong>' .
-				sprintf(
-				/* translators: %1$s expands to Yoast SEO, %2$s expands to the plugin version. */
-					__( 'New in %1$s %2$s: ', 'wordpress-seo' ),
-					'Yoast SEO',
-					$release_info->version
-				) .
-				'</strong>' .
-				$release_info->release_description;
+		$info_message  = '<strong>';
+		$info_message .= sprintf(
+			/* translators: %1$s expands to Yoast SEO, %2$s expands to the plugin version. */
+			__( 'New in %1$s %2$s: ', 'wordpress-seo' ),
+			'Yoast SEO',
+			$release_info->version
+		);
+		$info_message .= '</strong>';
+		$info_message .= $release_info->release_description;
 
 		if ( ! empty( $release_info->shortlink ) ) {
-			$link = esc_url( WPSEO_Shortlinker::get( $release_info->shortlink ) );
-			$info_message .= ' <a href="' . esc_url( $link ) . '" target="_blank">' .
-							 sprintf(
-							 	/* translators: %s expands to the plugin version. */
-							 	__( 'Read all about version %s here', 'wordpress-seo' ),
-								$release_info->version
-							 ) .
-							 '</a>';
+			$link          = esc_url( WPSEO_Shortlinker::get( $release_info->shortlink ) );
+			$info_message .= ' <a href="' . esc_url( $link ) . '" target="_blank">';
+			$info_message .= sprintf(
+				/* translators: %s expands to the plugin version. */
+				__( 'Read all about version %s here', 'wordpress-seo' ),
+				$release_info->version
+			);
+			$info_message .= '</a>';
 		}
 
 		return new Yoast_Notification(

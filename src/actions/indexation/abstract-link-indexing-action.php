@@ -1,9 +1,4 @@
 <?php
-/**
- * Reindexation action for indexables.
- *
- * @package Yoast\WP\SEO\Actions\Indexation
- */
 
 namespace Yoast\WP\SEO\Actions\Indexation;
 
@@ -13,7 +8,7 @@ use Yoast\WP\SEO\Models\SEO_Links;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
 /**
- * Post_Link_Indexing_Action class.
+ * Reindexation action for link indexables.
  */
 abstract class Abstract_Link_Indexing_Action implements Indexation_Action_Interface {
 
@@ -48,18 +43,18 @@ abstract class Abstract_Link_Indexing_Action implements Indexation_Action_Interf
 	/**
 	 * Indexable_Post_Indexing_Action constructor
 	 *
-	 * @param Indexable_Link_Builder $link_builder     The indexable link builder.
-	 * @param Indexable_Repository   $repository       The indexable repository.
-	 * @param wpdb                   $wpdb             The WordPress database instance.
+	 * @param Indexable_Link_Builder $link_builder The indexable link builder.
+	 * @param Indexable_Repository   $repository   The indexable repository.
+	 * @param wpdb                   $wpdb         The WordPress database instance.
 	 */
 	public function __construct(
 		Indexable_Link_Builder $link_builder,
 		Indexable_Repository $repository,
 		wpdb $wpdb
 	) {
-		$this->link_builder     = $link_builder;
-		$this->repository       = $repository;
-		$this->wpdb             = $wpdb;
+		$this->link_builder = $link_builder;
+		$this->repository   = $repository;
+		$this->wpdb         = $wpdb;
 	}
 
 	/**
@@ -128,7 +123,7 @@ abstract class Abstract_Link_Indexing_Action implements Indexation_Action_Interf
 	 *
 	 * @return array Objects to be indexed, should be an array of objects with object_id, object_type and content.
 	 */
-	protected abstract function get_objects();
+	abstract protected function get_objects();
 
 	/**
 	 * Queries the database for unindexed term IDs.
@@ -138,5 +133,5 @@ abstract class Abstract_Link_Indexing_Action implements Indexation_Action_Interf
 	 *
 	 * @return string The query.
 	 */
-	protected abstract function get_query( $count, $limit = 1 );
+	abstract protected function get_query( $count, $limit = 1 );
 }

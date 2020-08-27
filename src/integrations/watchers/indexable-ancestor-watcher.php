@@ -1,9 +1,4 @@
 <?php
-/**
- * Ancestor watcher to update the ancestor's children.
- *
- * @package Yoast\YoastSEO\Watchers
- */
 
 namespace Yoast\WP\SEO\Integrations\Watchers;
 
@@ -15,6 +10,8 @@ use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
 /**
+ * Ancestor watcher to update the ancestor's children.
+ *
  * Watches an ancestor to save the meta information when updated.
  */
 class Indexable_Ancestor_Watcher implements Integration_Interface {

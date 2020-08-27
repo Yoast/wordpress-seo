@@ -1,9 +1,4 @@
 <?php
-/**
- * Watcher for the titles option.
- *
- * @package Yoast\YoastSEO\Watchers
- */
 
 namespace Yoast\WP\SEO\Integrations\Watchers;
 
@@ -13,6 +8,8 @@ use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\WordPress\Wrapper;
 
 /**
+ * Watcher for the titles option.
+ *
  * Represents the option titles watcher.
  */
 class Option_Titles_Watcher implements Integration_Interface {

@@ -1,14 +1,9 @@
 <?php
-/**
- * A helper object for string operations.
- *
- * @package Yoast\YoastSEO\Helpers
- */
 
 namespace Yoast\WP\SEO\Helpers;
 
 /**
- * Class String_Helper
+ * A helper object for string operations.
  */
 class String_Helper {
 

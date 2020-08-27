@@ -1,14 +1,9 @@
 <?php
-/**
- * Presenter class for the document title.
- *
- * @package Yoast\YoastSEO\Presenters
- */
 
 namespace Yoast\WP\SEO\Presenters;
 
 /**
- * Class Url_List_Presenter
+ * Presenter class for the URL list.
  */
 class Url_List_Presenter extends Abstract_Presenter {
 

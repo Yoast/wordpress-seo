@@ -1,9 +1,4 @@
 <?php
-/**
- * WPSEO plugin file.
- *
- * @package Yoast\WP\SEO\Integrations\Third_Party
- */
 
 namespace Yoast\WP\SEO\Integrations\Third_Party;
 
@@ -15,7 +10,7 @@ use Yoast\WP\SEO\Integrations\Front_End_Integration;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 
 /**
- * Web Stories integration
+ * Web Stories integration.
  */
 class Web_Stories implements Integration_Interface {
 

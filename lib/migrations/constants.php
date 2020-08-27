@@ -1,14 +1,9 @@
 <?php
-/**
- * Yoast migrations constants class.
- *
- * @package Yoast\WP\Lib\Migrations
- */
 
 namespace Yoast\WP\Lib\Migrations;
 
 /**
- * Constants class
+ * Yoast migrations constants class.
  */
 class Constants {
 	// @codingStandardsIgnoreLine WordPress.DB.RestrictedFunctions.mysql

@@ -737,6 +737,8 @@ class WPSEO_Upgrade {
 	 */
 	public function set_indexation_completed_option_for_145() {
 		/**
+		 * Holds the indexation integration instance.
+		 *
 		 * @var Indexation_Integration
 		 */
 		$indexation_integration = YoastSEO()->classes->get( Indexation_Integration::class );

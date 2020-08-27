@@ -1,9 +1,4 @@
 <?php
-/**
- * WPSEO plugin file.
- *
- * @package Yoast\WP\SEO\Integrations\Admin
- */
 
 namespace Yoast\WP\SEO\Integrations\Admin;
 
@@ -19,7 +14,7 @@ use Yoast\WP\SEO\Presenters\Admin\Link_Count_Indexing_Modal_Presenter;
 use Yoast\WP\SEO\Routes\Link_Indexing_Route;
 
 /**
- * Link_Count_Tools_Integration class
+ * Link_Count_Tools_Integration class.
  */
 class Link_Count_Tools_Integration implements Integration_Interface {
 

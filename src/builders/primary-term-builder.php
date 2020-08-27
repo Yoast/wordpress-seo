@@ -1,9 +1,4 @@
 <?php
-/**
- * Primary term builder.
- *
- * @package Yoast\WP\SEO\Builders
- */
 
 namespace Yoast\WP\SEO\Builders;
 
@@ -12,6 +7,8 @@ use Yoast\WP\SEO\Helpers\Primary_Term_Helper;
 use Yoast\WP\SEO\Repositories\Primary_Term_Repository;
 
 /**
+ * Primary term builder.
+ *
  * Creates the primary term for a post.
  */
 class Primary_Term_Builder {

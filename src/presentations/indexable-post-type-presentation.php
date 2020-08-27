@@ -1,9 +1,4 @@
 <?php
-/**
- * Presentation object for indexables.
- *
- * @package Yoast\YoastSEO\Presentations
- */
 
 namespace Yoast\WP\SEO\Presentations;
 
@@ -13,7 +8,9 @@ use Yoast\WP\SEO\Helpers\Post_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 
 /**
- * Class Indexable_Post_Type_Presentation
+ * Class Indexable_Post_Type_Presentation.
+ *
+ * Presentation object for indexables.
  */
 class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 
@@ -287,9 +284,9 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 		$robots = \array_merge(
 			$robots,
 			[
-				'noimageindex' => ( $this->model->is_robots_noimageindex === true ) ? 'noimageindex' : null,
-				'noarchive'    => ( $this->model->is_robots_noarchive === true ) ? 'noarchive' : null,
-				'nosnippet'    => ( $this->model->is_robots_nosnippet === true ) ? 'nosnippet' : null,
+				'imageindex' => ( $this->model->is_robots_noimageindex === true ) ? 'noimageindex' : null,
+				'archive'    => ( $this->model->is_robots_noarchive === true ) ? 'noarchive' : null,
+				'snippet'    => ( $this->model->is_robots_nosnippet === true ) ? 'nosnippet' : null,
 			]
 		);
 

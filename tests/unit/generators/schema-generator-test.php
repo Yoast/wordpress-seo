@@ -1,9 +1,4 @@
 <?php
-/**
- * WPSEO plugin file.
- *
- * @package Yoast\WP\SEO\Tests\Unit\Generators
- */
 
 namespace Yoast\WP\SEO\Tests\Unit\Generators;
 
@@ -23,7 +18,7 @@ use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
- * Class Schema_Generator_Test
+ * Class Schema_Generator_Test.
  *
  * @coversDefaultClass \Yoast\WP\SEO\Generators\Schema_Generator
  *
@@ -107,15 +102,19 @@ class Schema_Generator_Test extends TestCase {
 			[ $helpers ]
 		)->shouldAllowMockingProtectedMethods()->makePartial();
 
-		$this->context         = Mockery::mock( Meta_Tags_Context_Mock::class, [
-			$helpers->options,
-			Mockery::mock( \Yoast\WP\SEO\Helpers\Url_Helper::class ),
-			Mockery::mock( \Yoast\WP\SEO\Helpers\Image_Helper::class ),
-			Mockery::mock( \Yoast\WP\SEO\Helpers\Schema\ID_Helper::class ),
-			Mockery::mock( \WPSEO_Replace_Vars::class ),
-			Mockery::mock( \Yoast\WP\SEO\Helpers\Site_Helper::class ),
-			Mockery::mock( \Yoast\WP\SEO\Helpers\User_Helper::class ),
-		] )->shouldAllowMockingProtectedMethods();
+		$this->context = Mockery::mock(
+			Meta_Tags_Context_Mock::class,
+			[
+				$helpers->options,
+				Mockery::mock( \Yoast\WP\SEO\Helpers\Url_Helper::class ),
+				Mockery::mock( \Yoast\WP\SEO\Helpers\Image_Helper::class ),
+				Mockery::mock( \Yoast\WP\SEO\Helpers\Schema\ID_Helper::class ),
+				Mockery::mock( \WPSEO_Replace_Vars::class ),
+				Mockery::mock( \Yoast\WP\SEO\Helpers\Site_Helper::class ),
+				Mockery::mock( \Yoast\WP\SEO\Helpers\User_Helper::class ),
+			]
+		)->shouldAllowMockingProtectedMethods();
+
 		$this->context->blocks = [
 			'yoast/faq-block' => [
 				[
@@ -385,21 +384,23 @@ class Schema_Generator_Test extends TestCase {
 
 		Monkey\Filters\expectApplied( 'wpseo_schema_website' )
 			->once()
-			->andReturn( [
-				'@type'           => [ 'WebSite' ] ,
-				'@id'             => '#website',
-				'url'             => null,
-				'name'            => '',
-				'description'     => 'description',
-				'potentialAction' => [
-					[
-						'@type'       => 'SearchAction',
-						'target'      => '?s={search_term_string}',
-						'query-input' => 'required name=search_term_string',
+			->andReturn(
+				[
+					'@type'           => [ 'WebSite' ],
+					'@id'             => '#website',
+					'url'             => null,
+					'name'            => '',
+					'description'     => 'description',
+					'potentialAction' => [
+						[
+							'@type'       => 'SearchAction',
+							'target'      => '?s={search_term_string}',
+							'query-input' => 'required name=search_term_string',
+						],
 					],
-				],
-				'inLanguage'      => 'English',
-			] );
+					'inLanguage'      => 'English',
+				]
+			);
 
 		$this->assertEquals(
 			[
@@ -443,21 +444,23 @@ class Schema_Generator_Test extends TestCase {
 
 		Monkey\Filters\expectApplied( 'wpseo_schema_website' )
 			->once()
-			->andReturn( [
-				'@type'           => [ 'WebSite', 'WebSite', 'Something', 'Something', 'Something' ] ,
-				'@id'             => '#website',
-				'url'             => null,
-				'name'            => '',
-				'description'     => 'description',
-				'potentialAction' => [
-					[
-						'@type'       => 'SearchAction',
-						'target'      => '?s={search_term_string}',
-						'query-input' => 'required name=search_term_string',
+			->andReturn(
+				[
+					'@type'           => [ 'WebSite', 'WebSite', 'Something', 'Something', 'Something' ],
+					'@id'             => '#website',
+					'url'             => null,
+					'name'            => '',
+					'description'     => 'description',
+					'potentialAction' => [
+						[
+							'@type'       => 'SearchAction',
+							'target'      => '?s={search_term_string}',
+							'query-input' => 'required name=search_term_string',
+						],
 					],
-				],
-				'inLanguage'      => 'English',
-			] );
+					'inLanguage'      => 'English',
+				]
+			);
 
 		$this->assertEquals(
 			[

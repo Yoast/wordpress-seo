@@ -1,9 +1,4 @@
 <?php
-/**
- * WPSEO plugin test file.
- *
- * @package Yoast\WP\SEO\Tests\Unit\Integrations\Third_Party
- */
 
 namespace Yoast\WP\SEO\Tests\Unit\Integrations\Third_Party;
 
@@ -21,7 +16,7 @@ use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
- * Unit Test Class.
+ * Class WooCommerce_Test.
  *
  * @coversDefaultClass \Yoast\WP\SEO\Integrations\Third_Party\WooCommerce
  *

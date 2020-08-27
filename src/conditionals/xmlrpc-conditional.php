@@ -1,16 +1,9 @@
 <?php
-/**
- * Yoast SEO Plugin File.
- *
- * @package Yoast\YoastSEO\Conditionals
- */
 
 namespace Yoast\WP\SEO\Conditionals;
 
 /**
  * Conditional that is met when the current request is an XML-RPC request.
- *
- * @package Yoast\WP\SEO\Conditionals
  */
 class XMLRPC_Conditional implements Conditional {
 

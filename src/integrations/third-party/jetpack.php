@@ -1,9 +1,4 @@
 <?php
-/**
- * WPSEO plugin file.
- *
- * @package Yoast\WP\SEO\Integrations\Third_Party
- */
 
 namespace Yoast\WP\SEO\Integrations\Third_Party;
 
@@ -13,7 +8,7 @@ use Yoast\WP\SEO\Conditionals\Open_Graph_Conditional;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 
 /**
- * Class Jetpack
+ * Jetpack integration.
  */
 class Jetpack implements Integration_Interface {
 

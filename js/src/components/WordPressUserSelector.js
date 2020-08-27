@@ -1,6 +1,6 @@
 /* global wpApiSettings */
 
-import Select from "react-select/lib/Async";
+import Select from "react-select/async";
 import { Component, Fragment } from "@wordpress/element";
 import PropTypes from "prop-types";
 import { debounce } from "lodash-es";

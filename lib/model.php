@@ -1,9 +1,4 @@
 <?php
-/**
- * Yoast model class.
- *
- * @package Yoast\WP\Lib
- */
 
 namespace Yoast\WP\Lib;
 

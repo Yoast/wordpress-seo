@@ -1,14 +1,9 @@
 <?php
-/**
- * A helper object for language features.
- *
- * @package Yoast\YoastSEO\Helpers
- */
 
 namespace Yoast\WP\SEO\Helpers;
 
 /**
- * Class Language_Helper.
+ * A helper object for language features.
  */
 class Language_Helper {
 
