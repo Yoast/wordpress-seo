@@ -120,15 +120,14 @@ class WPSEO_Utils {
 	 * List all the available user roles.
 	 *
 	 * @since 1.8.0
+	 * @deprecated 15.0
+	 * @codeCoverageIgnore
 	 *
 	 * @return array $roles
 	 */
 	public static function get_roles() {
-		global $wp_roles;
-
-		if ( ! isset( $wp_roles ) ) {
-			$wp_roles = new WP_Roles();
-		}
+		_deprecated_function( __METHOD__, '15.0', 'wp_roles()->get_names()' );
+		$wp_roles = wp_roles();
 
 		$roles = $wp_roles->get_names();
 
@@ -1067,7 +1066,7 @@ SVG;
 			return $post->post_type;
 		}
 		elseif ( isset( $_GET['post_type'] ) ) {
-			return sanitize_text_field( $_GET['post_type'] );
+			return sanitize_text_field( wp_unslash( $_GET['post_type'] ) );
 		}
 
 		return '';
@@ -1118,6 +1117,7 @@ SVG;
 			'postTypeNamePlural'   => ( $page_type === 'post' ) ? $label_object->label : $label_object->name,
 			'postTypeNameSingular' => ( $page_type === 'post' ) ? $label_object->labels->singular_name : $label_object->singular_name,
 			'breadcrumbsDisabled'  => WPSEO_Options::get( 'breadcrumbs-enable', false ) !== true && ! current_theme_supports( 'yoast-seo-breadcrumbs' ),
+			// phpcs:ignore Generic.ControlStructures.DisallowYodaConditions.Found -- This is not a Yoda condition.
 			'privateBlog'          => ( (string) get_option( 'blog_public' ) ) === '0',
 		];
 
@@ -1187,9 +1187,12 @@ SVG;
 	 * @codeCoverageIgnore
 	 *
 	 * @return bool True if access_tokens are supported.
+	 *
+	 * @deprecated 15.0
 	 */
 	public static function has_access_token_support() {
-		return class_exists( 'WPSEO_MyYoast_Client' );
+		_deprecated_function( __METHOD__, 'WPSEO 15.0' );
+		return false;
 	}
 
 	/**
@@ -1213,6 +1216,7 @@ SVG;
 			$data = apply_filters( 'wpseo_debug_json_data', $data );
 		}
 
+		// phpcs:ignore Yoast.Yoast.AlternativeFunctions.json_encode_wp_json_encodeWithAdditionalParams -- This is the definition of format_json_encode.
 		return wp_json_encode( $data, $flags );
 	}
 
