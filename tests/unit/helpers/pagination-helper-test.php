@@ -56,6 +56,7 @@ class Pagination_Helper_Test extends TestCase {
 		$this->assertAttributeInstanceOf( WP_Rewrite_Wrapper::class, 'wp_rewrite_wrapper', $this->instance  );
 		$this->assertAttributeInstanceOf( WP_Query_Wrapper::class, 'wp_query_wrapper', $this->instance  );
 	}
+
 	/**
 	 * Tests that `is_disabled` returns false by default.
 	 *

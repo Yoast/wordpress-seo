@@ -2205,7 +2205,8 @@ class ORM implements \ArrayAccess {
 		] );
 
 		$success             = self::execute( $query, \array_merge( $values, $this->_values ) );
-		$this->_dirty_fields = $this->_expr_fields = [];
+		$this->_dirty_fields = [];
+		$this->_expr_fields  = [];
 
 		return $success;
 	}

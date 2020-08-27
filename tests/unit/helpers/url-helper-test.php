@@ -290,7 +290,6 @@ class Url_Helper_Test extends TestCase {
 		$this->assertEquals( 'https://example.org/', $this->instance->home() );
 	}
 
-
 	/**
 	 * Tests the home url with the home in a subdirectory.
 	 *

@@ -8,6 +8,7 @@ use Yoast\WP\SEO\Models\Indexable;
  * A helper object for indexables.
  */
 class Indexable_Helper {
+
 	/**
 	 * Retrieves the permalink for an indexable.
 	 *

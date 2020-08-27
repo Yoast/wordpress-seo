@@ -54,7 +54,7 @@ class Admin_Columns_Cache_Integration_Test extends TestCase {
 
 		$posts = [ Mockery::mock( WP_Post::class ) ];
 
-		$wp_query = Mockery::mock( WP_Query::class );
+		$wp_query        = Mockery::mock( WP_Query::class );
 		$wp_query->posts = [];
 		$wp_query->expects( 'get_posts' )->once()->andReturn( $posts );
 
@@ -81,7 +81,7 @@ class Admin_Columns_Cache_Integration_Test extends TestCase {
 
 		$posts = [ Mockery::mock( WP_Post::class ) ];
 
-		$wp_query = Mockery::mock( WP_Query::class );
+		$wp_query        = Mockery::mock( WP_Query::class );
 		$wp_query->posts = $posts;
 
 		Functions\expect( 'wp_list_pluck' )
@@ -105,9 +105,9 @@ class Admin_Columns_Cache_Integration_Test extends TestCase {
 	public function test_fill_cache_with_non_post_query() {
 		global $wp_query;
 
-		$posts = [ new stdClass ];
+		$posts = [ new stdClass() ];
 
-		$wp_query = Mockery::mock( WP_Query::class );
+		$wp_query        = Mockery::mock( WP_Query::class );
 		$wp_query->posts = [];
 		$wp_query->expects( 'get_posts' )->once()->andReturn( $posts );
 
@@ -136,7 +136,7 @@ class Admin_Columns_Cache_Integration_Test extends TestCase {
 
 		$posts = [];
 
-		$wp_query = Mockery::mock( WP_Query::class );
+		$wp_query        = Mockery::mock( WP_Query::class );
 		$wp_query->posts = [];
 		$wp_query->expects( 'get_posts' )->once()->andReturn( $posts );
 

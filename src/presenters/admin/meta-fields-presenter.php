@@ -11,6 +11,7 @@ use Yoast\WP\SEO\Presenters\Abstract_Presenter;
  * Outputs the hidden fields for a particular field group and post.
  */
 class Meta_Fields_Presenter extends Abstract_Presenter {
+
 	/**
 	 * @var array The meta fields for which we are going to output hidden input.
 	 */
@@ -29,7 +30,7 @@ class Meta_Fields_Presenter extends Abstract_Presenter {
 	 * @param string   $post_type   The post type.
 	 */
 	public function __construct( $post, $field_group, $post_type = 'post' ) {
-		$this->post = $post;
+		$this->post        = $post;
 		$this->meta_fields = WPSEO_Meta::get_meta_field_defs( $field_group, $post_type );
 	}
 

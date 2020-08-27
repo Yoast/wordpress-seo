@@ -166,7 +166,7 @@ class Indexation_Warning_Presenter extends Abstract_Presenter {
 	 */
 	protected function get_estimate() {
 		if ( $this->total_unindexed > 2500 ) {
-			$estimate = '<p>';
+			$estimate  = '<p>';
 			$estimate .= \esc_html__( 'We estimate this could take a long time, due to the size of your site. As an alternative to waiting, you could:', 'wordpress-seo' );
 			$estimate .= '<ul class="ul-disc">';
 			$estimate .= '<li>';
