@@ -54,11 +54,11 @@ class WPSEO_Taxonomy_Metabox {
 	 * @param stdClass $term     The term.
 	 */
 	public function __construct( $taxonomy, $term ) {
-		$this->term                 = $term;
-		$this->taxonomy             = $taxonomy;
+		$this->term              = $term;
+		$this->taxonomy          = $taxonomy;
 		$this->is_social_enabled = WPSEO_Options::get( 'opengraph', false ) || WPSEO_Options::get( 'twitter', false );
 
-		$this->seo_analysis = new WPSEO_Metabox_Analysis_SEO();
+		$this->seo_analysis         = new WPSEO_Metabox_Analysis_SEO();
 		$this->readability_analysis = new WPSEO_Metabox_Analysis_Readability();
 	}
 
@@ -85,7 +85,7 @@ class WPSEO_Taxonomy_Metabox {
 	 * @return void
 	 */
 	protected function render_hidden_fields() {
-		$fields_presenter = new WPSEO_Taxonomy_Fields_Presenter( $this->term );
+		$fields_presenter  = new WPSEO_Taxonomy_Fields_Presenter( $this->term );
 		$field_definitions = new WPSEO_Taxonomy_Fields();
 
 		echo $fields_presenter->html( $field_definitions->get( 'content' ) );
@@ -131,7 +131,7 @@ class WPSEO_Taxonomy_Metabox {
 	private function get_tabs() {
 		$tabs = [];
 
-		$label        = __( 'SEO', 'wordpress-seo' );
+		$label = __( 'SEO', 'wordpress-seo' );
 		if ( $this->seo_analysis->is_enabled() ) {
 			$label = '<span class="wpseo-score-icon-container" id="wpseo-seo-score-icon"></span>' . $label;
 		}

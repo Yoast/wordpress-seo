@@ -1,9 +1,4 @@
 <?php
-/**
- * Yoast extension of the Model class.
- *
- * @package Yoast\YoastSEO\Loggers
- */
 
 namespace Yoast\WP\SEO\Loggers;
 

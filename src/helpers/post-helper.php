@@ -1,9 +1,4 @@
 <?php
-/**
- * A helper object for post related things.
- *
- * @package Yoast\YoastSEO\Helpers
- */
 
 namespace Yoast\WP\SEO\Helpers;
 
@@ -12,7 +7,7 @@ use Yoast\WP\Lib\Model;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
 /**
- * Class Redirect_Helper
+ * A helper object for post related things.
  */
 class Post_Helper {
 

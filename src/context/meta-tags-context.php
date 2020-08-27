@@ -1,9 +1,4 @@
 <?php
-/**
- * Class that contains all relevant data for rendering the meta tags.
- *
- * @package Yoast\YoastSEO\Context
- */
 
 namespace Yoast\WP\SEO\Context;
 
@@ -22,7 +17,9 @@ use Yoast\WP\SEO\Presentations\Abstract_Presentation;
 use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 
 /**
- * Class Meta_Tags_Context
+ * Class Meta_Tags_Context.
+ *
+ * Class that contains all relevant data for rendering the meta tags.
  *
  * @property string      $canonical
  * @property string      $title
@@ -402,8 +399,8 @@ class Meta_Tags_Context extends Abstract_Presentation {
 					$type[] = 'CollectionPage';
 				}
 
-				// Ensure we get only unique values, and remove the index.
-				$type = \array_values( \array_unique( $type ) );
+				// Ensure we get only unique values, and remove any null values and the index.
+				$type = \array_filter( \array_values( \array_unique( $type ) ) );
 		}
 
 		/**

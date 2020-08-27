@@ -1,9 +1,4 @@
 <?php
-/**
- * WPSEO plugin test file.
- *
- * @package Yoast\WP\SEO\Tests\Unit\Surfaces
- */
 
 namespace Yoast\WP\SEO\Tests\Unit\Surfaces;
 
@@ -340,8 +335,8 @@ class Meta_Surface_Test extends TestCase {
 		$this->repository
 			->expects( 'find_by_multiple_ids_and_type' )
 			->once()
-			->with( [ 1, 2, 3, 4, 5 ], 'post'
-			)->andReturn( \array_fill( 0, 5, $this->indexable ) );
+			->with( [ 1, 2, 3, 4, 5 ], 'post' )
+			->andReturn( \array_fill( 0, 5, $this->indexable ) );
 		$this->context_memoizer->expects( 'get' )->times( 5 )->with( $this->indexable, 'Post_Type' )->andReturn( $this->context );
 
 		$results = $this->instance->for_posts( [ 1, 2, 3, 4, 5 ] );
@@ -412,13 +407,13 @@ class Meta_Surface_Test extends TestCase {
 	/**
 	 * Tests the url function.
 	 *
-	 * @param string $object_type       The object type.
-	 * @param string $object_sub_type   The object sub type.
-	 * @param int    $object_id         The object id.
-	 * @param string $page_type         The page type.
-	 *
 	 * @covers ::for_url
 	 * @dataProvider for_url_provider
+	 *
+	 * @param string $object_type     The object type.
+	 * @param string $object_sub_type The object sub type.
+	 * @param int    $object_id       The object id.
+	 * @param string $page_type       The page type.
 	 */
 	public function test_for_url( $object_type, $object_sub_type, $object_id, $page_type ) {
 		$wp_rewrite = Mockery::mock( 'WP_Rewrite' );

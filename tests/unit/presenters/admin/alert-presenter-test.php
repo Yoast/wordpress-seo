@@ -1,7 +1,4 @@
 <?php
-/**
- * WPSEO plugin test file.
- */
 
 namespace Yoast\WP\SEO\Tests\Unit\Presenters\Admin;
 
@@ -11,7 +8,7 @@ use Yoast\WP\SEO\Presenters\Admin\Alert_Presenter;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
- * Class Alert_Presenter_Test
+ * Class Alert_Presenter_Test.
  *
  * @coversDefaultClass \Yoast\WP\SEO\Presenters\Admin\Alert_Presenter
  *

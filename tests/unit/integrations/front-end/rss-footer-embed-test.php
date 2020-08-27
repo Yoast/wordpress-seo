@@ -1,7 +1,4 @@
 <?php
-/**
- * WPSEO plugin test file.
- */
 
 namespace Yoast\WP\SEO\Tests\Unit\Integrations\Front_End;
 
@@ -13,7 +10,7 @@ use Yoast\WP\SEO\Integrations\Front_End\RSS_Footer_Embed;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
- * Unit Test Class.
+ * Class RSS_Footer_Embed_Test.
  *
  * @coversDefaultClass \Yoast\WP\SEO\Integrations\Front_End\RSS_Footer_Embed
  * @covers ::<!public>

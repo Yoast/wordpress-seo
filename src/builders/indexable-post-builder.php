@@ -1,9 +1,4 @@
 <?php
-/**
- * Post Builder for the indexables.
- *
- * @package Yoast\YoastSEO\Builders
- */
 
 namespace Yoast\WP\SEO\Builders;
 
@@ -13,6 +8,8 @@ use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
 /**
+ * Post Builder for the indexables.
+ *
  * Formats the post meta to indexable format.
  */
 class Indexable_Post_Builder {

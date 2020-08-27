@@ -1,14 +1,9 @@
 <?php
-/**
- * Base migration class.
- *
- * @package Yoast\WP\Lib
- */
 
 namespace Yoast\WP\Lib\Migrations;
 
 /**
- * Migration class
+ * Base migration class.
  */
 abstract class Migration {
 

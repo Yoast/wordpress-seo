@@ -1,9 +1,4 @@
 <?php
-/**
- * WordPress Post watcher.
- *
- * @package Yoast\YoastSEO\Watchers
- */
 
 namespace Yoast\WP\SEO\Integrations\Watchers;
 
@@ -23,6 +18,8 @@ use Yoast\WP\SEO\Repositories\SEO_Links_Repository;
 use YoastSEO_Vendor\Psr\Log\LogLevel;
 
 /**
+ * WordPress Post watcher.
+ *
  * Fills the Indexable according to Post data.
  */
 class Indexable_Post_Watcher implements Integration_Interface {
@@ -106,7 +103,7 @@ class Indexable_Post_Watcher implements Integration_Interface {
 		$this->repository           = $repository;
 		$this->builder              = $builder;
 		$this->hierarchy_repository = $hierarchy_repository;
-		$this->link_builder         = $link_builder        ;
+		$this->link_builder         = $link_builder;
 		$this->author_archive       = $author_archive;
 		$this->post                 = $post;
 		$this->logger               = $logger;

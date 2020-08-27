@@ -1,9 +1,4 @@
 <?php
-/**
- * Yoast ORM class.
- *
- * @package Yoast\WP\Lib
- */
 
 namespace Yoast\WP\Lib;
 
@@ -11,7 +6,9 @@ use wpdb;
 use Yoast\WP\SEO\Config\Migration_Status;
 
 /**
- * Based on Idiorm.
+ * Yoast ORM class.
+ *
+ * Based on Idiorm
  *
  * URL: http://github.com/j4mie/idiorm/
  *
@@ -2202,13 +2199,11 @@ class ORM implements \ArrayAccess {
 			return true;
 		}
 
-		$query = $this->join_if_not_empty( ' ', [
-			$this->build_update(),
-			$this->build_where(),
-		] );
+		$query = $this->join_if_not_empty( ' ', [ $this->build_update(), $this->build_where() ] );
 
 		$success             = self::execute( $query, \array_merge( $values, $this->_values ) );
-		$this->_dirty_fields = $this->_expr_fields = [];
+		$this->_dirty_fields = [];
+		$this->_expr_fields  = [];
 
 		return $success;
 	}

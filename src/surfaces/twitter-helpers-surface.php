@@ -1,9 +1,4 @@
 <?php
-/**
- * Surface for the indexables.
- *
- * @package Yoast\YoastSEO\Surfaces
- */
 
 namespace Yoast\WP\SEO\Surfaces;
 
@@ -11,7 +6,9 @@ use Yoast\WP\SEO\Helpers\Twitter;
 use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Class Twitter_Helpers_Surface
+ * Class Twitter_Helpers_Surface.
+ *
+ * Surface for the indexables.
  *
  * @property Twitter\Image_Helper $image
  */

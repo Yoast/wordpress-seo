@@ -34,5 +34,4 @@ class Site_Helper_Test extends TestCase {
 
 		$this->assertEquals( 'name', $site_helper->get_site_name() );
 	}
-
 }
