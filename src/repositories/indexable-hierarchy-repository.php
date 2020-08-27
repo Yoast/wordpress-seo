@@ -77,17 +77,12 @@ class Indexable_Hierarchy_Repository {
 			->find_array();
 
 		if ( ! empty( $ancestors ) ) {
-			$callback = function ( $ancestor ) {
-				return $ancestor['ancestor_id'];
-			};
-			return \array_map( $callback, $ancestors );
+			return \wp_list_pluck( $ancestors, 'ancestor_id' );
 		}
 
 		$indexable = $this->builder->build( $indexable );
-		$callback  = function ( $indexable ) {
-			return $indexable->id;
-		};
-		return \array_map( $callback, $indexable->ancestors );
+
+		return \wp_list_pluck( $indexable->ancestors, 'id' );
 	}
 
 	/**
@@ -107,10 +102,7 @@ class Indexable_Hierarchy_Repository {
 			return [];
 		}
 
-		$callback = function( $child ) {
-			return $child['indexable_id'];
-		};
-		return \array_map( $callback, $children );
+		return \wp_list_pluck( $children, 'indexable_id' );
 	}
 
 	/**
@@ -143,9 +135,6 @@ class Indexable_Hierarchy_Repository {
 			return [];
 		}
 
-		$callback = function( $child ) {
-			return $child['indexable_id'];
-		};
-		return \array_map( $callback, $children );
+		return \wp_list_pluck( $children, 'indexable_id' );
 	}
 }

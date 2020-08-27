@@ -95,6 +95,8 @@ class Indexable_Hierarchy_Repository_Test extends TestCase {
 			->expects( 'query' )
 			->andReturn( $orm_object );
 
+		Functions\expect( 'wp_list_pluck' )->once()->andReturn( [ 0 => 2 ] );
+
 		$this->assertSame( $ancestors, $this->instance->find_ancestors( $indexable ) );
 	}
 
@@ -150,6 +152,8 @@ class Indexable_Hierarchy_Repository_Test extends TestCase {
 			->once()
 			->with( $indexable )
 			->andReturn( $indexable );
+
+		Functions\expect( 'wp_list_pluck' )->once()->andReturn( [ 0 => 2 ] );
 
 		$this->assertSame( $ancestors, $this->instance->find_ancestors( $indexable ) );
 	}
@@ -264,6 +268,8 @@ class Indexable_Hierarchy_Repository_Test extends TestCase {
 		$this->instance
 			->expects( 'query' )
 			->andReturn( $orm_object );
+
+		Functions\expect( 'wp_list_pluck' )->once()->andReturn( [ 0 => 2, 1 => 3 ] );
 
 		$this->assertSame( [ 2, 3 ], $this->instance->find_children( $indexable ) );
 	}
