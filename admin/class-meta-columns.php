@@ -117,12 +117,12 @@ class WPSEO_Meta_Columns {
 
 		switch ( $column_name ) {
 			case 'wpseo-score':
-				// @phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Correctly escaped in render_score_indicator() method.
+				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Correctly escaped in render_score_indicator() method.
 				echo $this->parse_column_score( $post_id );
 				return;
 
 			case 'wpseo-score-readability':
-				// @phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Correctly escaped in render_score_indicator() method.
+				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Correctly escaped in render_score_indicator() method.
 				echo $this->parse_column_score_readability( $post_id );
 				return;
 
