@@ -1,9 +1,4 @@
 <?php
-/**
- * WPSEO plugin test file.
- *
- * @package Yoast\WP\SEO\Tests\Unit\Integrations\Third_Party
- */
 
 namespace Yoast\WP\SEO\Tests\Unit\Integrations\Third_Party;
 
@@ -12,7 +7,7 @@ use Yoast\WP\SEO\Integrations\Third_Party\WPML;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
- * Unit Test Class.
+ * Class WPML_Test.
  *
  * @coversDefaultClass \Yoast\WP\SEO\Integrations\Third_Party\WPML
  * @covers ::<!public>

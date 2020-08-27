@@ -1,7 +1,4 @@
 <?php
-/**
- * WPSEO plugin test file.
- */
 
 namespace Yoast\WP\SEO\Tests\Unit\Presenters;
 
@@ -13,7 +10,7 @@ use Yoast\WP\SEO\Presenters\Breadcrumbs_Presenter;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
- * Class Breadcrumbs_Presenter_Test
+ * Class Breadcrumbs_Presenter_Test.
  *
  * @coversDefaultClass \Yoast\WP\SEO\Presenters\Breadcrumbs_Presenter
  *

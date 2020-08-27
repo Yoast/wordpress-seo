@@ -1,9 +1,4 @@
 <?php
-/**
- * WPSEO plugin test file.
- *
- * @package Yoast\WP\SEO\Tests\Unit\Integrations\Admin
- */
 
 namespace Yoast\WP\SEO\Tests\Unit\Integrations\Admin;
 
@@ -17,7 +12,7 @@ use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
- * Class Indexation_Integration_Test
+ * Class Admin_Columns_Cache_Integration_Test.
  *
  * @group integrations
  * @group indexation

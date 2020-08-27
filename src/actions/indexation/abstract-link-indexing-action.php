@@ -1,9 +1,4 @@
 <?php
-/**
- * Reindexation action for indexables.
- *
- * @package Yoast\WP\SEO\Actions\Indexation
- */
 
 namespace Yoast\WP\SEO\Actions\Indexation;
 
@@ -13,7 +8,7 @@ use Yoast\WP\SEO\Models\SEO_Links;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
 /**
- * Post_Link_Indexing_Action class.
+ * Reindexation action for link indexables.
  */
 abstract class Abstract_Link_Indexing_Action implements Indexation_Action_Interface {
 

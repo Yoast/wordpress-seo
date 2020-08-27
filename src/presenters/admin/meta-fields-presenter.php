@@ -1,9 +1,4 @@
 <?php
-/**
- * Presenter class for meta fields in the post editor.
- *
- * @package Yoast\YoastSEO\Presenters\Admin
- */
 
 namespace Yoast\WP\SEO\Presenters\Admin;
 
@@ -11,6 +6,8 @@ use WPSEO_Meta;
 use Yoast\WP\SEO\Presenters\Abstract_Presenter;
 
 /**
+ * Presenter class for meta fields in the post editor.
+ *
  * Outputs the hidden fields for a particular field group and post.
  */
 class Meta_Fields_Presenter extends Abstract_Presenter {

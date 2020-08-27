@@ -1,9 +1,4 @@
 <?php
-/**
- * Yoast SEO Plugin File.
- *
- * @package Yoast\YoastSEO\Integrations
- */
 
 namespace Yoast\WP\SEO\Tests\Unit\Initializers;
 
@@ -15,7 +10,7 @@ use Yoast\WP\SEO\Initializers\Disable_Core_Sitemaps;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
- * Unit Test Class.
+ * Class Disable_Core_Sitemaps_Test.
  *
  * @coversDefaultClass \Yoast\WP\SEO\Initializers\Disable_Core_Sitemaps
  *

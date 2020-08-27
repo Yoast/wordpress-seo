@@ -1,9 +1,4 @@
 <?php
-/**
- * WordPress Permalink structure watcher.
- *
- * @package Yoast\YoastSEO\Watchers
- */
 
 namespace Yoast\WP\SEO\Integrations\Watchers;
 
@@ -19,6 +14,8 @@ use Yoast\WP\SEO\Presenters\Admin\Indexation_Permalink_Warning_Presenter;
 use Yoast\WP\SEO\WordPress\Wrapper;
 
 /**
+ * WordPress Permalink structure watcher.
+ *
  * Handles updates to the permalink_structure for the Indexables table.
  */
 class Indexable_Permalink_Watcher implements Integration_Interface {

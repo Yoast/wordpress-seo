@@ -1,9 +1,4 @@
 <?php
-/**
- * WPSEO plugin test file.
- *
- * @package Yoast\WP\SEO\Tests\Unit\Presenters
- */
 
 namespace Yoast\WP\SEO\Tests\Unit\Presenters\Debug;
 

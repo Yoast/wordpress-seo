@@ -1,9 +1,4 @@
 <?php
-/**
- * WPSEO plugin test file.
- *
- * @package Yoast\WP\SEO\Tests\Unit\Generators
- */
 
 namespace Yoast\WP\SEO\Tests\Unit\Generators;
 
@@ -21,7 +16,7 @@ use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
- * Class Open_Graph_Image_Generator_Test
+ * Class Breadcrumbs_Generator_Test.
  *
  * @coversDefaultClass \Yoast\WP\SEO\Generators\Breadcrumbs_Generator
  *
