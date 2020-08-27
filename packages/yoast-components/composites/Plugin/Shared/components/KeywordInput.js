@@ -2,7 +2,7 @@
 import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
-import noop from "lodash/noop";
+import { noop, isEmpty } from "lodash-es";
 
 /* Yoast dependencies */
 import { addFocusStyle, SvgIcon, InputField } from "@yoast/components";
@@ -51,16 +51,16 @@ const KeywordField = styled( InputField )`
 `;
 
 const ErrorList = styled.ul`
-    color: ${ inputErrorColor };
-    list-style-type: disc;
-    list-style-position: outside;
-    margin: 0;
-    margin-left: 1.2em;
+	color: ${ inputErrorColor };
+	list-style-type: disc;
+	list-style-position: outside;
+	margin: 0;
+	margin-left: 1.2em;
 `;
 
-const ErrorText = styled.li`
-    color: ${ inputErrorColor };
-    margin: 0 0 0.5em 0;
+const ErrorListItem = styled.li`
+	color: ${ inputErrorColor };
+	margin: 0 0 0.5em 0;
 `;
 
 const BorderlessButton = addFocusStyle(
@@ -172,16 +172,16 @@ class KeywordInput extends React.Component {
 	renderErrorMessages() {
 		const errorMessages = [ ...this.props.errorMessages ];
 		return (
-			<ErrorList>
-				{ errorMessages.map( ( message, index ) =>
-					<ErrorText
-						key={ index }
-						role={ "alert" }
-					>
-						{ message }
-					</ErrorText>
-				) }
-			</ErrorList>
+			! isEmpty( errorMessages ) &&
+				<ErrorList>
+					{ errorMessages.map( ( message, index ) =>
+						<ErrorListItem
+							key={ index }
+						>
+							<span role="alert">{ message }</span>
+						</ErrorListItem>
+					) }
+				</ErrorList>
 		);
 	}
 
