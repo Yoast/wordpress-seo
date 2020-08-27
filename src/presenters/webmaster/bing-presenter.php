@@ -1,16 +1,11 @@
 <?php
-/**
- * Presenter class for the Bing Webmaster verification setting.
- *
- * @package Yoast\YoastSEO\Presenters\Webmaster
- */
 
 namespace Yoast\WP\SEO\Presenters\Webmaster;
 
 use Yoast\WP\SEO\Presenters\Abstract_Indexable_Tag_Presenter;
 
 /**
- * Class Bing_Presenter
+ * Presenter class for the Bing Webmaster verification setting.
  */
 class Bing_Presenter extends Abstract_Indexable_Tag_Presenter {
 

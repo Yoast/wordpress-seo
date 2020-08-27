@@ -1,9 +1,4 @@
 <?php
-/**
- * WPSEO plugin test file.
- *
- * @package Yoast\WP\SEO\Tests\Unit\Integrations\Admin
- */
 
 namespace Yoast\WP\SEO\Tests\Unit\Integrations\Admin;
 
@@ -24,7 +19,7 @@ use Yoast\WP\SEO\Integrations\Admin\Indexation_Integration;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
- * Class Indexation_Integration_Test
+ * Class Indexation_Integration_Test.
  *
  * @group integrations
  * @group indexation
@@ -481,7 +476,7 @@ class Indexation_Integration_Test extends TestCase {
 		);
 
 		$this->options
-			->expects('set')
+			->expects( 'set' )
 			->never()
 			->with( 'ignore_indexation_warning', true );
 
@@ -515,7 +510,7 @@ class Indexation_Integration_Test extends TestCase {
 			->with( 'wpseo-ignore' );
 
 		$this->options
-			->expects('set')
+			->expects( 'set' )
 			->once()
 			->with( 'ignore_indexation_warning', true );
 

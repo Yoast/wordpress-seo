@@ -1,9 +1,4 @@
 <?php
-/**
- * WPSEO plugin test file.
- *
- * @package Yoast\WP\SEO\Tests\Unit\Repositories
- */
 
 namespace Yoast\WP\SEO\Tests\Unit\Repositories;
 
@@ -99,7 +94,7 @@ class Indexable_Repository_Test extends TestCase {
 				$this->logger,
 				$this->hierarchy_repository,
 				$this->wpdb,
-				$this->indexable_helper
+				$this->indexable_helper,
 			]
 		)->makePartial();
 	}
@@ -237,7 +232,7 @@ class Indexable_Repository_Test extends TestCase {
 		$this->indexable_helper
 			->expects( 'get_permalink_for_indexable' )
 			->with( $indexable )
-			->andReturnNull( );
+			->andReturnNull();
 
 		$this->instance->expects( 'query' )->andReturn( $orm_object );
 
@@ -341,7 +336,7 @@ class Indexable_Repository_Test extends TestCase {
 	 * @covers ::get_children
 	 */
 	public function test_get_children() {
-		$indexable = Mockery::mock( Indexable_Mock::class );
+		$indexable              = Mockery::mock( Indexable_Mock::class );
 		$indexable->object_type = 'post';
 
 		$indexable->expects( 'save' )->once();

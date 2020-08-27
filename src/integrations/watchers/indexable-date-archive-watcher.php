@@ -1,9 +1,4 @@
 <?php
-/**
- * Date archive watcher to save the meta data to an Indexable.
- *
- * @package Yoast\YoastSEO\Watchers
- */
 
 namespace Yoast\WP\SEO\Integrations\Watchers;
 
@@ -13,6 +8,8 @@ use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
 /**
+ * Date archive watcher to save the meta data to an Indexable.
+ *
  * Watches the date archive options to save the meta information when updated.
  */
 class Indexable_Date_Archive_Watcher implements Integration_Interface {

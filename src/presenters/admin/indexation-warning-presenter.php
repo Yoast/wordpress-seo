@@ -1,9 +1,4 @@
 <?php
-/**
- * Presenter class for the indexation warning.
- *
- * @package Yoast\YoastSEO\Presenters\Admin
- */
 
 namespace Yoast\WP\SEO\Presenters\Admin;
 
@@ -12,7 +7,7 @@ use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Presenters\Abstract_Presenter;
 
 /**
- * Indexation_Warning_Presenter class.
+ * Presenter class for the indexation warning.
  */
 class Indexation_Warning_Presenter extends Abstract_Presenter {
 
@@ -171,7 +166,7 @@ class Indexation_Warning_Presenter extends Abstract_Presenter {
 	 */
 	protected function get_estimate() {
 		if ( $this->total_unindexed > 2500 ) {
-			$estimate = '<p>';
+			$estimate  = '<p>';
 			$estimate .= \esc_html__( 'We estimate this could take a long time, due to the size of your site. As an alternative to waiting, you could:', 'wordpress-seo' );
 			$estimate .= '<ul class="ul-disc">';
 			$estimate .= '<li>';

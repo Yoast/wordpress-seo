@@ -1,9 +1,4 @@
 <?php
-/**
- * A helper object for urls.
- *
- * @package Yoast\YoastSEO\Helpers
- */
 
 namespace Yoast\WP\SEO\Helpers;
 
@@ -11,7 +6,7 @@ use WPSEO_Utils;
 use Yoast\WP\SEO\Models\SEO_Links;
 
 /**
- * Class Url_Helper
+ * A helper object for URLs.
  */
 class Url_Helper {
 

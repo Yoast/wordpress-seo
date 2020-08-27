@@ -1,9 +1,4 @@
 <?php
-/**
- * WPSEO plugin file.
- *
- * @package Yoast\WP\SEO\Generators
- */
 
 namespace Yoast\WP\SEO\Generators;
 
@@ -13,7 +8,7 @@ use Yoast\WP\SEO\Generators\Schema\Abstract_Schema_Piece;
 use Yoast\WP\SEO\Surfaces\Helpers_Surface;
 
 /**
- * Class Schema_Generator
+ * Class Schema_Generator.
  */
 class Schema_Generator implements Generator_Interface {
 

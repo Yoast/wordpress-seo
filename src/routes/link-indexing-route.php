@@ -1,9 +1,4 @@
 <?php
-/**
- * Reindexation route for indexables.
- *
- * @package Yoast\WP\SEO\Routes\Routes
- */
 
 namespace Yoast\WP\SEO\Routes;
 
@@ -14,7 +9,7 @@ use Yoast\WP\SEO\Conditionals\No_Conditionals;
 use Yoast\WP\SEO\Main;
 
 /**
- * Link_Indexing_Route class.
+ * Reindexation route for link indexables.
  */
 class Link_Indexing_Route extends Abstract_Indexation_Route {
 
@@ -76,21 +71,19 @@ class Link_Indexing_Route extends Abstract_Indexation_Route {
 		$this->term_link_indexing_action = $term_link_indexing_action;
 	}
 
-
 	/**
 	 * @inheritDoc
 	 */
 	public function register_routes() {
-		\register_rest_route( Main::API_V1_NAMESPACE, self::POSTS_ROUTE, [
+		$args = [
 			'methods'             => 'POST',
 			'callback'            => [ $this, 'index_posts' ],
 			'permission_callback' => [ $this, 'can_index' ],
-		] );
-		\register_rest_route( Main::API_V1_NAMESPACE, self::TERMS_ROUTE, [
-			'methods'             => 'POST',
-			'callback'            => [ $this, 'index_terms' ],
-			'permission_callback' => [ $this, 'can_index' ],
-		] );
+		];
+		\register_rest_route( Main::API_V1_NAMESPACE, self::POSTS_ROUTE, $args );
+
+		$args['callback'] = [ $this, 'index_terms' ];
+		\register_rest_route( Main::API_V1_NAMESPACE, self::TERMS_ROUTE, $args );
 	}
 
 	/**

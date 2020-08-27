@@ -1,16 +1,11 @@
 <?php
-/**
- * A helper object for WordPress posts.
- *
- * @package Yoast\YoastSEO\Helpers
- */
 
 namespace Yoast\WP\SEO\Helpers;
 
 use Yoast\WP\SEO\Wrappers\WP_Query_Wrapper;
 
 /**
- * Class Current_Post_Helper
+ * A helper object for WordPress posts.
  */
 class Current_Page_Helper {
 

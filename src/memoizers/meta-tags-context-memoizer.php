@@ -1,9 +1,4 @@
 <?php
-/**
- * The meta tags context memoizer.
- *
- * @package Yoast\YoastSEO\Memoizers
- */
 
 namespace Yoast\WP\SEO\Memoizers;
 
@@ -14,7 +9,7 @@ use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
 /**
- * Class Meta_Tags_Context_Memoizer
+ * The meta tags context memoizer.
  */
 class Meta_Tags_Context_Memoizer {
 

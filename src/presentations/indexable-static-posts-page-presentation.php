@@ -1,16 +1,13 @@
 <?php
-/**
- * Presentation object for indexables.
- *
- * @package Yoast\YoastSEO\Presentations
- */
 
 namespace Yoast\WP\SEO\Presentations;
 
 use Yoast\WP\SEO\Helpers\Pagination_Helper;
 
 /**
- * Class Indexable_Static_Posts_Page_Presentation
+ * Class Indexable_Static_Posts_Page_Presentation.
+ *
+ * Presentation object for indexables.
  */
 class Indexable_Static_Posts_Page_Presentation extends Indexable_Post_Type_Presentation {
 

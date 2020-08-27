@@ -1,18 +1,14 @@
 <?php
-/**
- * A helper object for indexables.
- *
- * @package Yoast\WP\SEO\Helpers
- */
 
 namespace Yoast\WP\SEO\Helpers;
 
 use Yoast\WP\SEO\Models\Indexable;
 
 /**
- * Class Indexable_Helper
+ * A helper object for indexables.
  */
 class Indexable_Helper {
+
 	/**
 	 * Retrieves the permalink for an indexable.
 	 *

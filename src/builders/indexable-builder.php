@@ -1,9 +1,4 @@
 <?php
-/**
- * Builder for the indexables.
- *
- * @package Yoast\YoastSEO\Builders
- */
 
 namespace Yoast\WP\SEO\Builders;
 
@@ -11,6 +6,8 @@ use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
 /**
+ * Builder for the indexables.
+ *
  * Creates all the indexables.
  */
 class Indexable_Builder {

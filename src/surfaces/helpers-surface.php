@@ -1,9 +1,4 @@
 <?php
-/**
- * Surface for the indexables.
- *
- * @package Yoast\YoastSEO\Surfaces
- */
 
 namespace Yoast\WP\SEO\Surfaces;
 
@@ -11,7 +6,9 @@ use Yoast\WP\SEO\Helpers;
 use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Class Helpers_Surface
+ * Class Helpers_Surface.
+ *
+ * Surface for the indexables.
  *
  * @property Helpers\Author_Archive_Helper $author_archive
  * @property Helpers\Blocks_Helper         $blocks

@@ -1,9 +1,4 @@
 <?php
-/**
- * Search result watcher to save the meta data to an Indexable.
- *
- * @package Yoast\YoastSEO\Watchers
- */
 
 namespace Yoast\WP\SEO\Integrations\Watchers;
 
@@ -14,6 +9,8 @@ use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
 /**
+ * Search result watcher to save the meta data to an Indexable.
+ *
  * Watches the search result options to save the meta information when updated.
  */
 class Indexable_System_Page_Watcher implements Integration_Interface {

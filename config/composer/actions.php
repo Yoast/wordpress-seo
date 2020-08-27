@@ -1,9 +1,4 @@
 <?php
-/**
- * Yoast SEO Plugin File.
- *
- * @package Yoast\YoastSEO\Composer
- */
 
 namespace Yoast\WP\SEO\Composer;
 

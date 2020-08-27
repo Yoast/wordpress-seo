@@ -1,9 +1,4 @@
 <?php
-/**
- * Watcher for the stripcategorybase key in wpseo_titles, in order to clear the permalink of the category indexables.
- *
- * @package Yoast\YoastSEO\Watchers
- */
 
 namespace Yoast\WP\SEO\Integrations\Watchers;
 

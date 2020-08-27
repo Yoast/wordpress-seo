@@ -1,14 +1,9 @@
 <?php
-/**
- * A helper object for the user.
- *
- * @package Yoast\YoastSEO\Helpers
- */
 
 namespace Yoast\WP\SEO\Helpers;
 
 /**
- * Class User_Helper
+ * A helper object for the user.
  */
 class User_Helper {
 
