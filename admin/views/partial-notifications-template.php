@@ -52,9 +52,9 @@ if ( ! function_exists( '_yoast_display_notifications' ) ) {
 				esc_attr( $notification->get_id() ),
 				esc_attr( $notification->get_nonce() ),
 				esc_attr( $notification->get_json() ),
-				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: Needs to be fixed in https://github.com/Yoast/wordpress-seo-premium/issues/2548.
+				// This needs to be fixed in https://github.com/Yoast/wordpress-seo-premium/issues/2548.
 				$notification,
-				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: $button is properly escaped.
+				// Note: $button is properly escaped above.
 				$button
 			);
 		}

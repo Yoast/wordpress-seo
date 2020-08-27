@@ -58,7 +58,7 @@ if ( get_option( 'show_on_front' ) === 'posts' ) {
 				esc_html__( 'Click the "%3$s" button to use the meta description already set in the %1$sSearch Appearance Homepage%2$s setting.', 'wordpress-seo' ),
 				'<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_titles' ) ) . '">',
 				'</a>',
-				// phpcs:ignore WordPress --sniffs=WordPress.Security.EscapeOutput -- $copy_home_description_button_label is escaped above.
+				// $copy_home_description_button_label is escaped above.
 				$copy_home_description_button_label
 			)
 		);

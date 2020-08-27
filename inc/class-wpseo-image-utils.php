@@ -66,7 +66,7 @@ class WPSEO_Image_Utils {
 			return $id;
 		}
 
-		// phpcs:ignore WordPress.VIP.RestrictedFunctions -- We use the WP COM version if we can, see above.
+		// Note: We use the WP COM version if we can, see above.
 		$id = attachment_url_to_postid( $url );
 
 		if ( empty( $id ) ) {
