@@ -1,4 +1,4 @@
-import { mount, shallow } from "enzyme";
+import { shallow } from "enzyme";
 import SEMrushRelatedKeyphrasesModal from "../../src/components/SEMrushRelatedKeyphrasesModal";
 
 describe( "SEMrushRelatedKeyphrasesModal", () => {
@@ -29,23 +29,28 @@ describe( "SEMrushRelatedKeyphrasesModal", () => {
 			expect( props.onOpen ).toHaveBeenCalled();
 		} );
 
-		it( "successfully opens the pop-up when the user isn't logged in the 'Get related keyphrases' button is clicked", () => {
+		it( "returns a message when no keyphrase is present and the 'Get related keyphrases' button is clicked", () => {
 			props = {
 				...props,
-				keyphrase: "yoast seo",
-				isLoggedIn: false,
+				keyphrase: "",
+				isLoggedIn: true,
 			};
 
-			const component = mount( <SEMrushRelatedKeyphrasesModal { ...props } /> );
+			const component = shallow( <SEMrushRelatedKeyphrasesModal { ...props } /> );
+			const button = component.find( "#yoast-get-related-keyphrases-metabox" );
 
-			jest.spyOn(component.instance(), "onLinkClick" ).mockImplementation( ( e ) => jest.fn() )
-			component.instance().forceUpdate();
+			button.simulate( "click" );
 
-			console.log( component.find( "#yoast-get-related-keyphrases-metabox" ) )
-			const button = component.find( "#yoast-get-related-keyphrases-metabox" ).simulate( "click" );
+			expect( props.onOpenWithNoKeyphrase ).toHaveBeenCalled();
+		} );
+	} );
 
+	describe( "onModalClose", () => {
+		it( "successfully calls the close method", () => {
+			const component = shallow( <SEMrushRelatedKeyphrasesModal { ...props } /> );
+			component.instance().onModalClose();
 
-			expect( component.onLinkClick ).toHaveBeenCalled();
+			expect( props.onClose ).toHaveBeenCalled();
 		} );
 	} );
 } );
