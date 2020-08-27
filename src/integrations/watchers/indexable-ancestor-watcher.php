@@ -77,14 +77,16 @@ class Indexable_Ancestor_Watcher implements Integration_Interface {
 	}
 
 	/**
-	 * @inheritDoc
+	 * Registers the appropriate hooks.
 	 */
 	public function register_hooks() {
 		\add_action( 'wpseo_save_indexable', [ $this, 'reset_children' ], \PHP_INT_MAX, 2 );
 	}
 
 	/**
-	 * @inheritDoc
+	 * Returns the conditionals based in which this loadable should be active.
+	 *
+	 * @return array
 	 */
 	public static function get_conditionals() {
 		return [ Migrations_Conditional::class ];
@@ -134,9 +136,12 @@ class Indexable_Ancestor_Watcher implements Integration_Interface {
 		$post_object_ids = $this->get_object_ids_for_term( $term_id, $child_indexables );
 
 		// Removes the objects that are already present in the children.
-		$existing_post_indexables = \array_filter( $child_indexables, function( $indexable ) {
-			return $indexable->object_type === 'post';
-		} );
+		$existing_post_indexables = \array_filter(
+			$child_indexables,
+			function( $indexable ) {
+				return $indexable->object_type === 'post';
+			}
+		);
 		$existing_post_object_ids = \wp_list_pluck( $existing_post_indexables, 'object_id' );
 		$post_object_ids          = \array_diff( $post_object_ids, $existing_post_object_ids );
 
@@ -194,20 +199,23 @@ class Indexable_Ancestor_Watcher implements Integration_Interface {
 
 		// Get the term-taxonomy id's for the term and its children.
 		$term_taxonomy_ids = $this->wpdb->get_col(
-			$this->wpdb->prepare( '
-				SELECT term_taxonomy_id
+			$this->wpdb->prepare(
+				'SELECT term_taxonomy_id
 				FROM ' . $this->wpdb->term_taxonomy . '
-				WHERE term_id IN( ' . \implode( ', ', \array_fill( 0, ( \count( $child_object_ids ) + 1 ), '%s' ) ) . ' )
-			', $term_id, ...$child_object_ids )
+				WHERE term_id IN( ' . \implode( ', ', \array_fill( 0, ( \count( $child_object_ids ) + 1 ), '%s' ) ) . ' )',
+				$term_id,
+				...$child_object_ids
+			)
 		);
 
 		// Get the (post) object id's that are attached to the term.
 		return $this->wpdb->get_col(
-			$this->wpdb->prepare( '
-				SELECT DISTINCT object_id
+			$this->wpdb->prepare(
+				'SELECT DISTINCT object_id
 				FROM ' . $this->wpdb->term_relationships . '
-				WHERE term_taxonomy_id IN( ' . \implode( ', ', \array_fill( 0, \count( $term_taxonomy_ids ), '%s' ) ) . ' )
-			', $term_taxonomy_ids )
+				WHERE term_taxonomy_id IN( ' . \implode( ', ', \array_fill( 0, \count( $term_taxonomy_ids ), '%s' ) ) . ' )',
+				$term_taxonomy_ids
+			)
 		);
 	}
 }
