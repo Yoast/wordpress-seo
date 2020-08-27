@@ -81,6 +81,11 @@ export const MultiSelect = ( props ) => {
 	const selectedOptions = reactSelectOptions.filter( option => selections.includes( option.value ) );
 
 	const onChangeHandler = useCallback( selection => {
+		// Make sure that selection is always an array.
+		if ( ! selection ) {
+			selection = [];
+		}
+
 		// Only call the onChange handler on the selected values.
 		 onChange( selection.map( option => option.value ) );
 	} );
