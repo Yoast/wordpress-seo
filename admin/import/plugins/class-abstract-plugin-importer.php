@@ -43,8 +43,7 @@ abstract class WPSEO_Plugin_Importer {
 	/**
 	 * Class constructor.
 	 */
-	public function __construct() {
-	}
+	public function __construct() {}
 
 	/**
 	 * Returns the string for the plugin we're importing from.

@@ -83,7 +83,7 @@ class Language_Helper_Test extends TestCase {
 			[ 'sv' ],
 			[ 'id' ],
 			[ 'he' ],
-			[ 'ar' ]
+			[ 'ar' ],
 		];
 	}
 }

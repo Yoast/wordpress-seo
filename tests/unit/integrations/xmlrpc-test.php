@@ -5,7 +5,6 @@ namespace Yoast\WP\SEO\Tests\Unit\Integrations;
 use Yoast\WP\SEO\Integrations\XMLRPC;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
-
 /**
  * Class XMLRPC_Test.
  *

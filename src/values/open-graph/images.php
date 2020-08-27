@@ -37,8 +37,7 @@ class Images extends Base_Images {
 	 *
 	 * @return void
 	 */
-	public function show() {
-	}
+	public function show() {}
 
 	/**
 	 * Adds an image to the list by image ID.

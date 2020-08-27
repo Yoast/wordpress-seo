@@ -269,7 +269,12 @@ class Indexable_Hierarchy_Repository_Test extends TestCase {
 			->expects( 'query' )
 			->andReturn( $orm_object );
 
-		Functions\expect( 'wp_list_pluck' )->once()->andReturn( [ 0 => 2, 1 => 3 ] );
+		Functions\expect( 'wp_list_pluck' )->once()->andReturn(
+			[
+				0 => 2,
+				1 => 3,
+			]
+		);
 
 		$this->assertSame( [ 2, 3 ], $this->instance->find_children( $indexable ) );
 	}

@@ -394,7 +394,7 @@ class Meta_Tags_Context extends Abstract_Presentation {
 
 				$type = [ 'WebPage', $additional_type ];
 
-				// Is this indexable set as a page for posts, e.g. in the wordpress reading settings as a static homepage?
+				// Is this indexable set as a page for posts, e.g. in the WordPress reading settings as a static homepage?
 				if ( (int) \get_option( 'page_for_posts' ) === $this->indexable->object_id ) {
 					$type[] = 'CollectionPage';
 				}
