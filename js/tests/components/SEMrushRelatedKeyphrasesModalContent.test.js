@@ -1,9 +1,7 @@
-import { mount, shallow } from "enzyme";
 import * as SEMrushRelatedKeyphrasesModalContent from "../../src/components/SEMrushRelatedKeyphrasesModalContent";
 import SEMrushLoading from "../../src/components/modals/SEMrushLoading";
 import SEMrushLimitReached from "../../src/components/modals/SEMrushLimitReached";
 import SEMrushRequestFailed from "../../src/components/modals/SEMrushRequestFailed";
-import SEMrushRelatedKeyphrasesModal from "../../src/components/SEMrushRelatedKeyphrasesModal";
 
 describe( "SEMrushRelatedKeyphrasesModalContent", () => {
 	let props = {};
@@ -83,7 +81,7 @@ describe( "SEMrushRelatedKeyphrasesModalContent", () => {
 		it( "returns a message when response contains no data", () => {
 			const actual = SEMrushRelatedKeyphrasesModalContent.getUserMessage( props );
 
-			expect( actual ).toEqual( <p>Sorry, there's no data available for that keyphrase/country combination.</p> );
+			expect( actual ).toEqual( <p>{ "Sorry, there's no data available for that keyphrase/country combination." }</p> );
 		} );
 	} );
 

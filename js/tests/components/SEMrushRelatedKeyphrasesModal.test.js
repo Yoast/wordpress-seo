@@ -14,7 +14,8 @@ describe( "SEMrushRelatedKeyphrasesModal", () => {
 	} );
 
 	describe( "onModalOpen", () => {
-		it( "successfully opens the modal when the user is logged in, a keyphrase is present and the 'Get related keyphrases' button is clicked", () => {
+		it( "successfully opens the modal when the user is logged in, " +
+		    "a keyphrase is present and the 'Get related keyphrases' button is clicked", () => {
 			props = {
 				...props,
 				keyphrase: "yoast seo",
