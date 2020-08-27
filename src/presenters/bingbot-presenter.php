@@ -15,6 +15,7 @@ class Bingbot_Presenter extends Abstract_Indexable_Presenter {
 	 * Returns the bingbot output.
 	 *
 	 * @deprecated 14.9 Values merged into the robots meta tag.
+	 * @codeCoverageIgnore
 	 *
 	 * @return string The bingbot output tag.
 	 */
@@ -35,6 +36,7 @@ class Bingbot_Presenter extends Abstract_Indexable_Presenter {
 	 * Gets the raw value of a presentation.
 	 *
 	 * @deprecated 14.9 Values merged into the robots meta tag.
+	 * @codeCoverageIgnore
 	 *
 	 * @return array The raw value.
 	 */

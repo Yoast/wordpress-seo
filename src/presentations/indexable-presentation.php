@@ -307,6 +307,7 @@ class Indexable_Presentation extends Abstract_Presentation {
 	 * Generates the robots value for the googlebot tag.
 	 *
 	 * @deprecated 14.9 Values merged into the robots meta tag.
+	 * @codeCoverageIgnore
 	 *
 	 * @return array The robots value with opt-in snippets.
 	 */
@@ -320,6 +321,7 @@ class Indexable_Presentation extends Abstract_Presentation {
 	 * Generates the value for the bingbot tag.
 	 *
 	 * @deprecated 14.9 Values merged into the robots meta tag.
+	 * @codeCoverageIgnore
 	 *
 	 * @return array The robots value with opt-in snippets.
 	 */

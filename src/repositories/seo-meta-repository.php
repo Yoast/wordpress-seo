@@ -23,6 +23,7 @@ class SEO_Meta_Repository {
 	 * Starts a query for this repository.
 	 *
 	 * @deprecated 14.8
+	 * @codeCoverageIgnore
 	 *
 	 * @return ORM
 	 */
