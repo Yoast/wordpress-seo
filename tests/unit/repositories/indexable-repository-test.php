@@ -232,7 +232,7 @@ class Indexable_Repository_Test extends TestCase {
 		$this->indexable_helper
 			->expects( 'get_permalink_for_indexable' )
 			->with( $indexable )
-			->andReturnNull( );
+			->andReturnNull();
 
 		$this->instance->expects( 'query' )->andReturn( $orm_object );
 

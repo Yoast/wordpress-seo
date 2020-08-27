@@ -230,7 +230,6 @@ class Meta_Surface {
 			return false;
 		}
 
-
 		return $this->build_meta( $this->context_memoizer->get( $indexable, 'Term_Archive' ) );
 	}
 

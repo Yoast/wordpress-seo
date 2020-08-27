@@ -335,8 +335,8 @@ class Meta_Surface_Test extends TestCase {
 		$this->repository
 			->expects( 'find_by_multiple_ids_and_type' )
 			->once()
-			->with( [ 1, 2, 3, 4, 5 ], 'post'
-			)->andReturn( \array_fill( 0, 5, $this->indexable ) );
+			->with( [ 1, 2, 3, 4, 5 ], 'post' )
+			->andReturn( \array_fill( 0, 5, $this->indexable ) );
 		$this->context_memoizer->expects( 'get' )->times( 5 )->with( $this->indexable, 'Post_Type' )->andReturn( $this->context );
 
 		$results = $this->instance->for_posts( [ 1, 2, 3, 4, 5 ] );
