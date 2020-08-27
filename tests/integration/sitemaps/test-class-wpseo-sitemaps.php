@@ -86,7 +86,7 @@ class WPSEO_Sitemaps_Test extends WPSEO_UnitTestCase {
 		add_filter( 'wpseo_sitemap_index_links', function( $links ) {
 			$links[] = [
 				'loc'     => 'test-sitemap.xml',
-				'lastmod' => date( "1" ),
+				'lastmod' => date( '1' ),
 			];
 			return $links;
 		} );

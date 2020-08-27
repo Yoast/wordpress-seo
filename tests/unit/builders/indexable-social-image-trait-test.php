@@ -115,15 +115,15 @@ class Indexable_Social_Image_Trait_Test extends TestCase {
 		$this->indexable->orm = Mockery::mock( ORM::class );
 
 		$image_meta = [
-			"width"  => 640,
-			"height" => 480,
-			"url"    => "http://basic.wordpress.test/wp-content/uploads/2020/07/WordPress5.jpg",
-			"path"   => "/var/www/html/wp-content/uploads/2020/07/WordPress5.jpg",
-			"size"   => "full",
-			"id"     => 13,
-			"alt"    => "",
-			"pixels" => 307200,
-			"type"   => "image/jpeg"
+			'width'  => 640,
+			'height' => 480,
+			'url'    => 'http://basic.wordpress.test/wp-content/uploads/2020/07/WordPress5.jpg',
+			'path'   => '/var/www/html/wp-content/uploads/2020/07/WordPress5.jpg',
+			'size'   => 'full',
+			'id'     => 13,
+			'alt'    => '',
+			'pixels' => 307200,
+			'type'   => 'image/jpeg'
 		];
 
 		$this->open_graph_image_set_by_user( $image_meta );
@@ -165,15 +165,15 @@ class Indexable_Social_Image_Trait_Test extends TestCase {
 		$this->indexable->orm = Mockery::mock( ORM::class );
 
 		$image_meta = [
-			"width"  => 640,
-			"height" => 480,
-			"url"    => "http://basic.wordpress.test/wp-content/uploads/2020/07/WordPress5.jpg",
-			"path"   => "/var/www/html/wp-content/uploads/2020/07/WordPress5.jpg",
-			"size"   => "full",
-			"id"     => 13,
-			"alt"    => "",
-			"pixels" => 307200,
-			"type"   => "image/jpeg"
+			'width'  => 640,
+			'height' => 480,
+			'url'    => 'http://basic.wordpress.test/wp-content/uploads/2020/07/WordPress5.jpg',
+			'path'   => '/var/www/html/wp-content/uploads/2020/07/WordPress5.jpg',
+			'size'   => 'full',
+			'id'     => 13,
+			'alt'    => '',
+			'pixels' => 307200,
+			'type'   => 'image/jpeg'
 		];
 
 		$this->no_twitter_image();
@@ -280,15 +280,15 @@ class Indexable_Social_Image_Trait_Test extends TestCase {
 		$this->indexable->orm = Mockery::mock( ORM::class );
 
 		$image_meta = [
-			"width"  => 640,
-			"height" => 480,
-			"url"    => "http://basic.wordpress.test/wp-content/uploads/2020/07/WordPress5.jpg",
-			"path"   => "/var/www/html/wp-content/uploads/2020/07/WordPress5.jpg",
-			"size"   => "full",
-			"id"     => 13,
-			"alt"    => "",
-			"pixels" => 307200,
-			"type"   => "image/jpeg"
+			'width'  => 640,
+			'height' => 480,
+			'url'    => 'http://basic.wordpress.test/wp-content/uploads/2020/07/WordPress5.jpg',
+			'path'   => '/var/www/html/wp-content/uploads/2020/07/WordPress5.jpg',
+			'size'   => 'full',
+			'id'     => 13,
+			'alt'    => '',
+			'pixels' => 307200,
+			'type'   => 'image/jpeg'
 		];
 
 		$this->no_twitter_image();
