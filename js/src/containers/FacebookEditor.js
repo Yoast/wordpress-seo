@@ -68,7 +68,7 @@ const openMedia = () => {
 };
 
 export default compose( [
-	withSelect( select => {
+	withSelect( ( select, ownProps ) => {
 		const {
 			getFacebookDescription,
 			getDescriptionFallback,
@@ -99,6 +99,7 @@ export default compose( [
 			titleInputPlaceholder,
 			descriptionInputPlaceholder,
 			socialMediumName,
+			location: ownProps.location || "",
 		};
 	} ),
 

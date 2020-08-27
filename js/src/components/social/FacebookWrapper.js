@@ -23,7 +23,10 @@ const FacebookWrapper = ( props ) => {
 			{
 				props.isPremium
 					? <Slot
-						name="YoastFacebookPremium"
+						name={
+							"YoastFacebookPremium" +
+							`${ props.location ? props.location.charAt( 0 ).toUpperCase() + props.location.slice( 1 ) : "" }`
+						}
 						fillProps={ props }
 					/>
 					: <SocialForm { ...props } />
@@ -35,6 +38,11 @@ const FacebookWrapper = ( props ) => {
 FacebookWrapper.propTypes = {
 	isPremium: PropTypes.bool.isRequired,
 	onLoad: PropTypes.func.isRequired,
+	location: PropTypes.string,
+};
+
+FacebookWrapper.defaultProps = {
+	location: "",
 };
 
 export default FacebookWrapper;

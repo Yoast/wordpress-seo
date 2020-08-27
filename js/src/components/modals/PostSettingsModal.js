@@ -25,12 +25,12 @@ const modalContent = ( preferences ) => [
 	},
 	{
 		title: __( "Facebook preview", "wordpress-seo" ),
-		content: <FacebookContainer />,
+		content: <FacebookContainer location="modal" />,
 		shouldRender: preferences.displayFacebook,
 	},
 	{
 		title: __( "Twitter preview", "wordpress-seo" ),
-		content: <TwitterContainer />,
+		content: <TwitterContainer location="modal" />,
 		shouldRender: preferences.displayTwitter,
 	},
 	{
