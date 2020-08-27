@@ -476,7 +476,7 @@ class Indexation_Integration_Test extends TestCase {
 		);
 
 		$this->options
-			->expects('set')
+			->expects( 'set' )
 			->never()
 			->with( 'ignore_indexation_warning', true );
 
@@ -510,7 +510,7 @@ class Indexation_Integration_Test extends TestCase {
 			->with( 'wpseo-ignore' );
 
 		$this->options
-			->expects('set')
+			->expects( 'set' )
 			->once()
 			->with( 'ignore_indexation_warning', true );
 
