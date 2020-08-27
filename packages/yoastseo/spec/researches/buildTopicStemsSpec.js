@@ -370,7 +370,7 @@ describe( "A test for filtering function words in supported languages", function
 	const forms = buildStems( "دو سیب", "fa", false );
 	expect( forms ).toEqual(
 		new TopicPhrase(
-			[ new StemOriginalPair( "תפוחים", "תפוחים" ) ],
+			[ new StemOriginalPair( "سیب", "سیب" ) ],
 			false )
 	);
 } );
