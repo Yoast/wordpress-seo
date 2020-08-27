@@ -8,7 +8,7 @@
 namespace Yoast\WP\SEO\Helpers;
 
 /**
- * Class Language_Helper
+ * Class Language_Helper.
  */
 class Language_Helper {
 
@@ -27,7 +27,7 @@ class Language_Helper {
 
 	/**
 	 * Checks whether the given language has function word support.
-	 * (E.g. function words are used or filtered out for this language when doing some SEO and readability assessments)
+	 * (E.g. function words are used or filtered out for this language when doing some SEO and readability assessments).
 	 *
 	 * @param string $language The language to check.
 	 *
