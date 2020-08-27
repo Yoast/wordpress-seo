@@ -261,7 +261,8 @@ if ( ! function_exists( 'wp_get_environment_type' ) ) {
 	 * Possible values include 'local', 'development', 'staging', 'production'.
 	 * If not set, the type defaults to 'production'.
 	 *
-	 * Backfill for `wp_get_environment_type()` introduced in WordPress 5.5.
+	 * Backfill for `wp_get_environment_type()` introduced in WordPress 5.5. Code
+	 * is adapted to the Yoast PHP coding standards.
 	 *
 	 * @return string The current environment type.
 	 */
@@ -272,23 +273,19 @@ if ( ! function_exists( 'wp_get_environment_type' ) ) {
 			return $current_env;
 		}
 
-		// phpcs:disable Generic.Arrays.DisallowLongArraySyntax.Found -- Reason: This is copied from WP core.
-		$wp_environments = array(
+		$wp_environments = [
 			'local',
 			'development',
 			'staging',
 			'production',
-		);
-		// phpcs:enable Generic.Arrays.DisallowLongArraySyntax.Found
+		];
 
 		// Check if the environment variable has been set, if `getenv` is available on the system.
 		if ( function_exists( 'getenv' ) ) {
 			$has_env = getenv( 'WP_ENVIRONMENT_TYPES' );
-			// phpcs:disable Generic.ControlStructures.DisallowYodaConditions.Found -- Reason: This is copied from WP core.
-			if ( false !== $has_env ) {
+			if ( $has_env !== false ) {
 				$wp_environments = explode( ',', $has_env );
 			}
-			// phpcs:enable Generic.ControlStructures.DisallowYodaConditions.Found
 		}
 
 		// Fetch the environment types from a constant, this overrides the global system variable.
@@ -299,11 +296,9 @@ if ( ! function_exists( 'wp_get_environment_type' ) ) {
 		// Check if the environment variable has been set, if `getenv` is available on the system.
 		if ( function_exists( 'getenv' ) ) {
 			$has_env = getenv( 'WP_ENVIRONMENT_TYPE' );
-			// phpcs:disable Generic.ControlStructures.DisallowYodaConditions.Found -- Reason: This is copied from WP core.
-			if ( false !== $has_env ) {
+			if ( $has_env !== false ) {
 				$current_env = $has_env;
 			}
-			// phpcs:enable Generic.ControlStructures.DisallowYodaConditions.Found
 		}
 
 		// Fetch the environment from a constant, this overrides the global system variable.
