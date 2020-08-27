@@ -123,7 +123,7 @@ abstract class Abstract_Link_Indexing_Action implements Indexation_Action_Interf
 	 *
 	 * @return array Objects to be indexed, should be an array of objects with object_id, object_type and content.
 	 */
-	protected abstract function get_objects();
+	abstract protected function get_objects();
 
 	/**
 	 * Queries the database for unindexed term IDs.
@@ -133,5 +133,5 @@ abstract class Abstract_Link_Indexing_Action implements Indexation_Action_Interf
 	 *
 	 * @return string The query.
 	 */
-	protected abstract function get_query( $count, $limit = 1 );
+	abstract protected function get_query( $count, $limit = 1 );
 }
