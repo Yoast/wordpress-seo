@@ -36,9 +36,9 @@ class CreateSEOLinksTable extends Migration {
 		if ( ! $adapter->table_exists( $table_name ) ) {
 			$table = $this->create_table( $table_name, [ 'id' => false ] );
 			$table->column( 'id', 'biginteger', [
-				'primary_key' => true,
-				'limit' => 20,
-				'unsigned' => true,
+				'primary_key'    => true,
+				'limit'          => 20,
+				'unsigned'       => true,
 				'auto_increment' => true,
 			] );
 			$table->column( 'url', 'string', [ 'limit' => 255 ] );
