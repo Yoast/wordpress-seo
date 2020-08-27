@@ -211,9 +211,12 @@ class Meta_Surface {
 			return false;
 		}
 
-		return \array_map( function( $indexable ) {
-			return $this->build_meta( $this->context_memoizer->get( $indexable, 'Post_Type' ) );
-		}, $indexables );
+		return \array_map(
+			function( $indexable ) {
+				return $this->build_meta( $this->context_memoizer->get( $indexable, 'Post_Type' ) );
+			},
+			$indexables
+		);
 	}
 
 	/**
@@ -275,14 +278,16 @@ class Meta_Surface {
 	 * @return Meta|false The meta values. False if none could be found.
 	 */
 	public function for_indexables( $indexables, $page_type = null ) {
-		return \array_map( function( $indexable ) use ( $page_type ) {
+		$closure = function( $indexable ) use ( $page_type ) {
 			$this_page_type = $page_type;
 			if ( \is_null( $this_page_type ) ) {
 				$this_page_type = $this->indexable_helper->get_page_type_for_indexable( $indexable );
 			}
 
 			return $this->build_meta( $this->context_memoizer->get( $indexable, $this_page_type ) );
-		}, $indexables );
+		};
+
+		return \array_map( $closure, $indexables );
 	}
 
 	/**

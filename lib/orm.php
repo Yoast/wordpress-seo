@@ -2199,10 +2199,7 @@ class ORM implements \ArrayAccess {
 			return true;
 		}
 
-		$query = $this->join_if_not_empty( ' ', [
-			$this->build_update(),
-			$this->build_where(),
-		] );
+		$query = $this->join_if_not_empty( ' ', [ $this->build_update(), $this->build_where() ] );
 
 		$success             = self::execute( $query, \array_merge( $values, $this->_values ) );
 		$this->_dirty_fields = [];

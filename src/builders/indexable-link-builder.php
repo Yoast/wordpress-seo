@@ -226,12 +226,14 @@ class Indexable_Link_Builder {
 		/**
 		 * @var SEO_Links
 		 */
-		$model = $this->seo_links_repository->query()->create( [
-			'url'          => $url,
-			'type'         => $link_type,
-			'indexable_id' => $indexable->id,
-			'post_id'      => $indexable->object_id,
-		] );
+		$model = $this->seo_links_repository->query()->create(
+			[
+				'url'          => $url,
+				'type'         => $link_type,
+				'indexable_id' => $indexable->id,
+				'post_id'      => $indexable->object_id,
+			]
+		);
 
 		$model->parsed_url = $parsed_url;
 
