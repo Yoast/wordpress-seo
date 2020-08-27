@@ -100,14 +100,13 @@ class Term_Link_Indexing_Action_Test extends TestCase {
 			->andReturn( [ 'category', 'tag' ] );
 
 		$empty_string   = '';
-		$expected_query = "
-			SELECT COUNT(term_id)
+		$expected_query = "SELECT COUNT(term_id)
 			FROM wp_term_taxonomy
 			WHERE term_id NOT IN (
 				SELECT object_id FROM wp_yoast_indexable WHERE link_count IS NOT NULL AND object_type = 'term'
 			) AND taxonomy IN (%s, %s)
 			$empty_string
-		";
+			";
 
 		$this->wpdb
 			->expects( 'prepare' )
@@ -162,14 +161,13 @@ class Term_Link_Indexing_Action_Test extends TestCase {
 			->andReturn( [ 'category', 'tag' ] );
 
 		$empty_string   = '';
-		$expected_query = "
-			SELECT COUNT(term_id)
+		$expected_query = "SELECT COUNT(term_id)
 			FROM wp_term_taxonomy
 			WHERE term_id NOT IN (
 				SELECT object_id FROM wp_yoast_indexable WHERE link_count IS NOT NULL AND object_type = 'term'
 			) AND taxonomy IN (%s, %s)
 			$empty_string
-		";
+			";
 
 		$this->wpdb
 			->expects( 'prepare' )
@@ -200,14 +198,13 @@ class Term_Link_Indexing_Action_Test extends TestCase {
 			->once()
 			->andReturn( [ 'category', 'tag' ] );
 
-		$expected_query = "
-			SELECT term_id, description
+		$expected_query = "SELECT term_id, description
 			FROM wp_term_taxonomy
 			WHERE term_id NOT IN (
 				SELECT object_id FROM wp_yoast_indexable WHERE link_count IS NOT NULL AND object_type = 'term'
 			) AND taxonomy IN (%s, %s)
 			LIMIT %d
-		";
+			";
 
 		$this->wpdb
 			->expects( 'prepare' )
@@ -219,11 +216,22 @@ class Term_Link_Indexing_Action_Test extends TestCase {
 			->expects( 'get_results' )
 			->once()
 			->with( 'query' )
-			->andReturn( [
-				(object) [ 'term_id' => 1, 'description' => 'foo' ],
-				(object) [ 'term_id' => 3, 'description' => 'foo' ],
-				(object) [ 'term_id' => 8, 'description' => 'foo' ],
-			 ] );
+			->andReturn(
+				[
+					(object) [
+						'term_id'     => 1,
+						'description' => 'foo',
+					],
+					(object) [
+						'term_id'     => 3,
+						'description' => 'foo',
+					],
+					(object) [
+						'term_id'     => 8,
+						'description' => 'foo',
+					],
+				]
+			);
 
 		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 1, 'term' )->andReturn( (object) [ 'link_count' => 10 ] );
 		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 3, 'term' )->andReturn( (object) [ 'link_count' => 10 ] );
@@ -248,14 +256,13 @@ class Term_Link_Indexing_Action_Test extends TestCase {
 			->once()
 			->andReturn( [ 'category', 'tag' ] );
 
-		$expected_query = "
-			SELECT term_id, description
+		$expected_query = "SELECT term_id, description
 			FROM wp_term_taxonomy
 			WHERE term_id NOT IN (
 				SELECT object_id FROM wp_yoast_indexable WHERE link_count IS NOT NULL AND object_type = 'term'
 			) AND taxonomy IN (%s, %s)
 			LIMIT %d
-		";
+			";
 
 		$this->wpdb
 			->expects( 'prepare' )
@@ -267,11 +274,22 @@ class Term_Link_Indexing_Action_Test extends TestCase {
 			->expects( 'get_results' )
 			->once()
 			->with( 'query' )
-			->andReturn( [
-				(object) [ 'term_id' => 1, 'description' => 'foo' ],
-				(object) [ 'term_id' => 3, 'description' => 'foo' ],
-				(object) [ 'term_id' => 8, 'description' => 'foo' ],
-			 ] );
+			->andReturn(
+				[
+					(object) [
+						'term_id'     => 1,
+						'description' => 'foo',
+					],
+					(object) [
+						'term_id'     => 3,
+						'description' => 'foo',
+					],
+					(object) [
+						'term_id'     => 8,
+						'description' => 'foo',
+					],
+				]
+			);
 
 		$indexable             = Mockery::mock( Indexable_Mock::class );
 		$indexable->link_count = null;

@@ -45,13 +45,16 @@ class Term_Link_Indexing_Action extends Abstract_Link_Indexing_Action {
 
 		$terms = $this->wpdb->get_results( $query );
 
-		return \array_map( function ( $term ) {
-			return (object) [
-				'id'      => (int) $term->term_id,
-				'type'    => 'term',
-				'content' => $term->description,
-			];
-		}, $terms );
+		return \array_map(
+			static function ( $term ) {
+				return (object) [
+					'id'      => (int) $term->term_id,
+					'type'    => 'term',
+					'content' => $term->description,
+				];
+			},
+			$terms
+		);
 	}
 
 	/**
@@ -78,13 +81,15 @@ class Term_Link_Indexing_Action extends Abstract_Link_Indexing_Action {
 			$replacements[] = $limit;
 		}
 
-		return $this->wpdb->prepare( "
-			SELECT $select
+		return $this->wpdb->prepare(
+			"SELECT $select
 			FROM {$this->wpdb->term_taxonomy}
 			WHERE term_id NOT IN (
 				SELECT object_id FROM $indexable_table WHERE link_count IS NOT NULL AND object_type = 'term'
 			) AND taxonomy IN ($placeholders)
 			$limit_query
-		", $replacements );
+			",
+			$replacements
+		);
 	}
 }
