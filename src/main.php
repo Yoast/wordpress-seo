@@ -1,9 +1,4 @@
 <?php
-/**
- * Yoast SEO Plugin File.
- *
- * @package Yoast\WP\SEO
- */
 
 namespace Yoast\WP\SEO;
 
@@ -21,7 +16,7 @@ if ( ! \defined( 'WPSEO_VERSION' ) ) {
 }
 
 /**
- * Class Main
+ * Class Main.
  *
  * @property Classes_Surface $classes      The classes surface.
  * @property Meta_Surface    $meta         The meta surface.

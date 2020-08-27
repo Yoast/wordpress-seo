@@ -1,9 +1,4 @@
 <?php
-/**
- * Command to generate indexables for all posts and terms.
- *
- * @package Yoast\WP\SEO\Commands
- */
 
 namespace Yoast\WP\SEO\Commands;
 

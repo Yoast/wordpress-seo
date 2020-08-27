@@ -1,9 +1,4 @@
 <?php
-/**
- * WPSEO plugin file.
- *
- * @package Yoast\WP\SEO\Integrations\Admin
- */
 
 namespace Yoast\WP\SEO\Integrations\Admin;
 
@@ -26,7 +21,7 @@ use Yoast\WP\SEO\Presenters\Admin\Indexation_Warning_Presenter;
 use Yoast\WP\SEO\Routes\Indexable_Indexation_Route;
 
 /**
- * Indexation_Integration class
+ * Indexation_Integration class.
  */
 class Indexation_Integration implements Integration_Interface {
 

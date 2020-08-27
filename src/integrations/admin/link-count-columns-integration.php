@@ -1,9 +1,4 @@
 <?php
-/**
- * WPSEO plugin file.
- *
- * @package Yoast\WP\SEO\Integrations\Admin
- */
 
 namespace Yoast\WP\SEO\Integrations\Admin;
 
@@ -19,7 +14,7 @@ use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
 /**
- * Link_Count_Columns_Integration class
+ * Link_Count_Columns_Integration class.
  */
 class Link_Count_Columns_Integration implements Integration_Interface {
 
@@ -70,50 +65,36 @@ class Link_Count_Columns_Integration implements Integration_Interface {
 	protected $post_link_indexing_action;
 
 	/**
-	 * The indexable repository.
+	 * The admin columns cache.
 	 *
-	 * @var Indexable_Repository
+	 * @var Admin_Columns_Cache_Integration
 	 */
-	protected $indexable_repository;
-
-	/**
-	 * Cache of link counts.
-	 *
-	 * @var Indexable[]
-	 */
-	protected $link_counts_cache = [];
+	protected $admin_columns_cache;
 
 	/**
 	 * Link_Count_Columns_Integration constructor
 	 *
-	 * @param Post_Type_Helper          $post_type_helper          The post type helper.
-	 * @param wpdb                      $wpdb                      The wpdb object.
-	 * @param Post_Link_Indexing_Action $post_link_indexing_action The post link indexing action.
-	 * @param Indexable_Repository      $indexable_repository       The SEO meta repository.
+	 * @param Post_Type_Helper                $post_type_helper          The post type helper.
+	 * @param wpdb                            $wpdb                      The wpdb object.
+	 * @param Post_Link_Indexing_Action       $post_link_indexing_action The post link indexing action.
+	 * @param Admin_Columns_Cache_Integration $admin_columns_cache       The admin columns cache.
 	 */
 	public function __construct(
 		Post_Type_Helper $post_type_helper,
 		wpdb $wpdb,
 		Post_Link_Indexing_Action $post_link_indexing_action,
-		Indexable_Repository $indexable_repository
+		Admin_Columns_Cache_Integration $admin_columns_cache
 	) {
 		$this->post_type_helper          = $post_type_helper;
 		$this->wpdb                      = $wpdb;
 		$this->post_link_indexing_action = $post_link_indexing_action;
-		$this->indexable_repository      = $indexable_repository;
+		$this->admin_columns_cache       = $admin_columns_cache;
 	}
 
 	/**
 	 * @inheritDoc
 	 */
 	public function register_hooks() {
-		if ( \wp_doing_ajax() ) {
-			\add_action( 'admin_init', [ $this, 'fill_cache' ] );
-		}
-
-		// Hook into tablenav to calculate links and linked.
-		\add_action( 'manage_posts_extra_tablenav', [ $this, 'maybe_fill_cache' ] );
-
 		\add_filter( 'posts_clauses', [ $this, 'order_by_links' ], 1, 2 );
 		\add_filter( 'posts_clauses', [ $this, 'order_by_linked' ], 1, 2 );
 
@@ -233,60 +214,25 @@ class Link_Count_Columns_Integration implements Integration_Interface {
 	}
 
 	/**
-	 * Makes sure we calculate all values in one query by filling our cache beforehand.
-	 *
-	 * @param string $target Extra table navigation location which is triggered.
-	 */
-	public function maybe_fill_cache( $target ) {
-		if ( $target === 'top' ) {
-			$this->fill_cache();
-		}
-	}
-
-	/**
-	 * Fills the cache of link counts with all known post IDs.
-	 */
-	public function fill_cache() {
-		global $wp_query;
-
-		$posts    = empty( $wp_query->posts ) ? $wp_query->get_posts() : $wp_query->posts;
-		$post_ids = [];
-
-		// Post lists return a list of objects.
-		if ( isset( $posts[0] ) && is_object( $posts[0] ) ) {
-			$post_ids = wp_list_pluck( $posts, 'ID' );
-		}
-		elseif ( ! empty( $posts ) ) {
-			// Page list returns an array of post IDs.
-			$post_ids = array_keys( $posts );
-		}
-
-		$indexables = $this->indexable_repository->find_by_multiple_ids_and_type( $post_ids, 'post' );
-
-		foreach ( $indexables as $indexable ) {
-			$this->link_counts_cache[ $indexable->object_id ] = $indexable;
-		}
-	}
-
-	/**
 	 * Displays the column content for the given column.
 	 *
 	 * @param string $column_name Column to display the content for.
 	 * @param int    $post_id     Post to display the column content for.
 	 */
 	public function column_content( $column_name, $post_id ) {
+		$indexable = $this->admin_columns_cache->get_indexable( $post_id );
 		// Nothing to output if we don't have the value.
-		if ( ! \array_key_exists( $post_id, $this->link_counts_cache ) ) {
+		if ( $indexable === false ) {
 			return;
 		}
 
 		switch ( $column_name ) {
 			case 'wpseo-' . self::COLUMN_LINKS:
-				echo (int) $this->link_counts_cache[ $post_id ]->link_count;
+				echo (int) $indexable->link_count;
 				return;
 			case 'wpseo-' . self::COLUMN_LINKED:
 				if ( get_post_status( $post_id ) === 'publish' ) {
-					echo (int) $this->link_counts_cache[ $post_id ]->incoming_link_count;
+					echo (int) $indexable->incoming_link_count;
 				}
 		}
 	}

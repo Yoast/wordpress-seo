@@ -10,50 +10,203 @@
  *
  * Contains the basics for each class extending this one.
  */
-abstract class WPSEO_Taxonomy_Fields {
+class WPSEO_Taxonomy_Fields {
 
 	/**
-	 * The current term data.
+	 * Returns the taxonomy fields.
 	 *
-	 * @var stdClass
+	 * @param string $field_group The field group.
+	 *
+	 * @return array
 	 */
-	protected $term;
+	public function get( $field_group ) {
+		$fields = [];
 
-	/**
-	 * Setting the class properties.
-	 *
-	 * @param stdClass $term The current term.
-	 */
-	public function __construct( $term ) {
-		$this->term = $term;
+		switch ( $field_group ) {
+			case 'content':
+				$fields = $this->get_content_fields();
+				break;
+			case 'settings':
+				$fields = $this->get_settings_fields();
+				break;
+			case 'social':
+				$fields = $this->get_social_fields();
+				break;
+		}
+
+		return $this->filter_hidden_fields( $fields );
 	}
 
 	/**
-	 * This method should return the fields.
+	 * Returns array with the fields for the general tab.
 	 *
 	 * @return array
 	 */
-	abstract public function get();
+	protected function get_content_fields() {
+		$fields = [
+			'title' => [
+				'label'       => '',
+				'description' => '',
+				'type'        => 'hidden',
+				'options'     => '',
+				'hide'        => false,
+			],
+			'desc' => [
+				'label'       => '',
+				'description' => '',
+				'type'        => 'hidden',
+				'options'     => '',
+				'hide'        => false,
+			],
+			'linkdex' => [
+				'label'       => '',
+				'description' => '',
+				'type'        => 'hidden',
+				'options'     => '',
+				'hide'        => false,
+			],
+			'content_score' => [
+				'label'       => '',
+				'description' => '',
+				'type'        => 'hidden',
+				'options'     => '',
+				'hide'        => false,
+			],
+			'focuskw' => [
+				'label'       => '',
+				'description' => '',
+				'type'        => 'hidden',
+				'options'     => '',
+				'hide'        => false,
+			],
+			'is_cornerstone' => [
+				'label'       => '',
+				'description' => '',
+				'type'        => 'hidden',
+				'options'     => '',
+				'hide'        => false,
+			],
+		];
+
+		/**
+		 * Filter: 'wpseo_taxonomy_content_fields' - Adds the possibility to register additional content fields.
+		 *
+		 * @api array - The additional fields.
+		 */
+		$additional_fields = apply_filters( 'wpseo_taxonomy_content_fields', [] );
+
+		return array_merge( $fields, $additional_fields );
+	}
 
 	/**
-	 * Returns array with the field data.
-	 *
-	 * @param string       $label       The label displayed before the field.
-	 * @param string       $description Description which will explain the field.
-	 * @param string       $type        The field type, for example: input, select.
-	 * @param string|array $options     Optional. Array with additional options.
-	 * @param bool         $hide        Should the field be hidden.
+	 * Returns array with the fields for the settings tab.
 	 *
 	 * @return array
 	 */
-	protected function get_field_config( $label, $description, $type = 'text', $options = '', $hide = false ) {
+	protected function get_settings_fields() {
 		return [
-			'label'       => $label,
-			'description' => $description,
-			'type'        => $type,
-			'options'     => $options,
-			'hide'        => $hide,
+			'noindex' => [
+				'label'       => '',
+				'description' => '',
+				'type'        => 'hidden',
+				'options'     => '',
+				'hide'        => false,
+			],
+			'bctitle' => [
+				'label'       => '',
+				'description' => '',
+				'type'        => 'hidden',
+				'options'     => '',
+				'hide'        => ( WPSEO_Options::get( 'breadcrumbs-enable' ) !== true ),
+			],
+			'canonical' => [
+				'label'       => '',
+				'description' => '',
+				'type'        => 'hidden',
+				'options'     => '',
+				'hide'        => false,
+			],
 		];
+	}
+
+	/**
+	 * Returning the fields for the social media tab.
+	 *
+	 * @return array
+	 */
+	protected function get_social_fields() {
+		$fields = [];
+
+		if ( WPSEO_Options::get( 'opengraph', false ) === true ) {
+			$fields = [
+				'opengraph-title'       => [
+					'label'       => '',
+					'description' => '',
+					'type'        => 'hidden',
+					'options'     => '',
+					'hide'        => false,
+				],
+				'opengraph-description' => [
+					'label'       => '',
+					'description' => '',
+					'type'        => 'hidden',
+					'options'     => '',
+					'hide'        => false,
+				],
+				'opengraph-image'       => [
+					'label'       => '',
+					'description' => '',
+					'type'        => 'hidden',
+					'options'     => '',
+					'hide'        => false,
+				],
+				'opengraph-image-id'    => [
+					'label'       => '',
+					'description' => '',
+					'type'        => 'hidden',
+					'options'     => '',
+					'hide'        => false,
+				],
+			];
+		}
+
+		if ( WPSEO_Options::get( 'twitter', false ) === true ) {
+			$fields = array_merge(
+				$fields,
+				[
+					'twitter-title'       => [
+						'label'       => '',
+						'description' => '',
+						'type'        => 'hidden',
+						'options'     => '',
+						'hide'        => false,
+					],
+					'twitter-description' => [
+						'label'       => '',
+						'description' => '',
+						'type'        => 'hidden',
+						'options'     => '',
+						'hide'        => false,
+					],
+					'twitter-image'       => [
+						'label'       => '',
+						'description' => '',
+						'type'        => 'hidden',
+						'options'     => '',
+						'hide'        => false,
+					],
+					'twitter-image-id'    => [
+						'label'       => '',
+						'description' => '',
+						'type'        => 'hidden',
+						'options'     => '',
+						'hide'        => false,
+					],
+				]
+			);
+		}
+
+		return $fields;
 	}
 
 	/**

@@ -1,9 +1,4 @@
 <?php
-/**
- * A helper object for pagination.
- *
- * @package Yoast\WP\SEO\Helpers
- */
 
 namespace Yoast\WP\SEO\Helpers;
 
@@ -11,7 +6,7 @@ use Yoast\WP\SEO\Wrappers\WP_Query_Wrapper;
 use Yoast\WP\SEO\Wrappers\WP_Rewrite_Wrapper;
 
 /**
- * Class Pagination_Helper.
+ * A helper object for pagination.
  *
  * Used for the canonical URL and the rel "next" and "prev" meta tags.
  */

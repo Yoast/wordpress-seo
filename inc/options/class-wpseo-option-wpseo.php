@@ -435,7 +435,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 
 		foreach ( $value_change as $key ) {
 			if ( isset( $option_value[ $key ] )
-				 && in_array( $option_value[ $key ], $target_values, true )
+				&& in_array( $option_value[ $key ], $target_values, true )
 			) {
 				$option_value[ $key ] = true;
 			}

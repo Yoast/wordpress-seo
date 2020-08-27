@@ -13,7 +13,7 @@ if ( YoastSEO()->helpers->woocommerce->get_shop_page_id() !== -1 ) {
 	$description = sprintf(
 		/* translators: %1$s expands to an opening anchor tag, %2$s expands to a closing anchor tag. */
 		__( 'You can edit the SEO meta-data for this custom type on the %1$sShop page%2$s.', 'wordpress-seo' ),
-		'<a href="' . get_edit_post_link( YoastSEO()->helpers->woocommerce->get_shop_page_id() ) . '">',
+		'<a href="' . esc_url( get_edit_post_link( YoastSEO()->helpers->woocommerce->get_shop_page_id() ) ) . '">',
 		'</a>'
 	);
 }

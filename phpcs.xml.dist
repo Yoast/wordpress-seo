@@ -21,20 +21,22 @@
 
     <rule ref="Yoast">
         <exclude name="WordPress.WP.PreparedSQL.NotPrepared"/><!-- TODO audit raw queries -->
-        <exclude name="WordPress.Functions.DontExtract" /><!-- TODO audit usage & replace -->
-        <exclude name="Squiz.Commenting.FunctionCommentThrowTag.WrongNumber" /><!-- TODO Remove this once we're on 0.5. See https://github.com/squizlabs/PHP_CodeSniffer/issues/650 for more info. -->
         <exclude name="Generic.Arrays.DisallowShortArraySyntax"/>
 
         <!-- See https://github.com/Yoast/wordpress-seo/pull/15713 - We discovered that WP_Filesystem can lead to unexpected behaviour. -->
-   	 	<exclude name="WordPress.WP.AlternativeFunctions.file_system_read_fopen" />
-   	 	<exclude name="WordPress.WP.AlternativeFunctions.file_system_read_fwrite" />
-   	 	<exclude name="WordPress.WP.AlternativeFunctions.file_system_read_fclose" />
-   	 	<exclude name="WordPress.WP.AlternativeFunctions.file_system_read_fread" />
-   	 	<exclude name="WordPress.WP.AlternativeFunctions.file_system_read_file_put_contents" />
+        <exclude name="WordPress.WP.AlternativeFunctions.file_system_read_fopen" />
+        <exclude name="WordPress.WP.AlternativeFunctions.file_system_read_fwrite" />
+        <exclude name="WordPress.WP.AlternativeFunctions.file_system_read_fclose" />
+        <exclude name="WordPress.WP.AlternativeFunctions.file_system_read_fread" />
+        <exclude name="WordPress.WP.AlternativeFunctions.file_system_read_file_put_contents" />
     </rule>
 
     <!-- Demand short arrays. -->
     <rule ref="Generic.Arrays.DisallowLongArraySyntax"/>
+
+    <rule ref="Yoast.Files.FileName.InvalidFunctionsFileName">
+        <exclude-pattern>wp-seo-main\.php</exclude-pattern>
+    </rule>
 
     <!-- Exclude migrations folder from filename checks, as we do not have control over this format -->
     <rule ref="WordPress.Files.FileName.UnderscoresNotAllowed">
@@ -58,22 +60,34 @@
         </properties>
     </rule>
 
-    <!-- TEMPORARY exclusion! This has to do with a bug in WPCS 0.10.0. The bug has been fixed in WPCS 0.11.0. -->
-    <rule ref="WordPress.WP.I18n.UnorderedPlaceholders">
-        <exclude-pattern>inc/class-wpseo-replace-vars.php</exclude-pattern>
+    <rule ref="Yoast.NamingConventions.NamespaceName">
+        <properties>
+            <property name="prefixes" type="array" value="Yoast\WP\SEO\,Yoast\WP\SEO\Tests\Unit\" />
+        </properties>
     </rule>
 
-    <!-- TEMPORARY exclusion! Because we're not on 0.5 yet -->
-    <rule ref="WordPress.VIP.RestrictedFunctions">
-        <exclude-pattern>inc/class-wpseo-image-utils.php</exclude-pattern>
+    <!-- Exclude old code from filename conventions, new code needs to be added to `src/`. -->
+    <rule ref="Yoast.Files.FileName">
+        <exclude-pattern>admin/*</exclude-pattern>
+        <exclude-pattern>tests/integration/*</exclude-pattern>
+        <exclude-pattern>inc/*</exclude-pattern>
     </rule>
 
-	<!--
-	#############################################################################
-	SNIFF FOR PHP CROSS-VERSION COMPATIBILITY
-	#############################################################################
-	-->
-	<config name="testVersion" value="5.6-"/>
-	<rule ref="PHPCompatibilityWP"/>
+    <rule ref="WordPress.Security.EscapeOutput.OutputNotEscaped">
+        <exclude-pattern>config/composer/*</exclude-pattern> <!-- Composer scripts are not WordPress and have console output. -->
+    </rule>
+
+    <!-- Exclude php-codeshift from being checked too roughly. -->
+    <rule ref="Yoast.NamingConventions.ObjectNameDepth">
+        <exclude-pattern>config/php-codeshift/*</exclude-pattern>
+    </rule>
+
+    <!--
+    #############################################################################
+    SNIFF FOR PHP CROSS-VERSION COMPATIBILITY
+    #############################################################################
+    -->
+    <config name="testVersion" value="5.6-"/>
+    <rule ref="PHPCompatibilityWP"/>
 
 </ruleset>

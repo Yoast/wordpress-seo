@@ -12,6 +12,7 @@ import facebookEditor from "./facebookEditor";
 import twitterEditor from "./twitterEditor";
 import snippetEditor from "./snippetEditor";
 import warning from "./warning";
+import schemaTab from "./schemaTab";
 
 export default {
 	analysis,
@@ -28,4 +29,5 @@ export default {
 	twitterEditor,
 	snippetEditor,
 	warning,
+	schemaTab,
 };

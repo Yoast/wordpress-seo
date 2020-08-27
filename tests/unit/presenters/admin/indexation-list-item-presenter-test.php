@@ -1,9 +1,4 @@
 <?php
-/**
- * WPSEO plugin test file.
- *
- * @package Yoast\WP\SEO\Tests\Unit\Presenters\Admin
- */
 
 namespace Yoast\WP\SEO\Tests\Unit\Presenters\Admin;
 
@@ -12,7 +7,7 @@ use Yoast\WP\SEO\Presenters\Admin\Indexation_List_Item_Presenter;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
- * Class Indexation_List_Item_Presenter_Test
+ * Class Indexation_List_Item_Presenter_Test.
  *
  * @coversDefaultClass \Yoast\WP\SEO\Presenters\Admin\Indexation_List_Item_Presenter
  *
@@ -21,6 +16,8 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
 class Indexation_List_Item_Presenter_Test extends TestCase {
 
 	/**
+	 * Tests the constructor.
+	 *
 	 * @covers ::__construct
 	 */
 	public function test_construct() {

@@ -1,9 +1,4 @@
 <?php
-/**
- * Ancestor watcher to update the ancestor's children.
- *
- * @package Yoast\YoastSEO\Watchers
- */
 
 namespace Yoast\WP\SEO\Integrations\Watchers;
 
@@ -17,7 +12,9 @@ use Yoast\WP\SEO\Repositories\Indexable_Hierarchy_Repository;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
 /**
- * Watches an ancestor to reset its children's permalink when the ancestor is updated.
+ * Ancestor watcher to update the ancestor's children.
+ *
+ * Updates its children's permalink when the ancestor itself is updated.
  */
 class Indexable_Ancestor_Watcher implements Integration_Interface {
 

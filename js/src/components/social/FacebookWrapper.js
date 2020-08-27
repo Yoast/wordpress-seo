@@ -14,11 +14,9 @@ import SocialForm from "../social/SocialForm";
  */
 const FacebookWrapper = ( props ) => {
 	useEffect( () => {
-		if ( props.isLoading === true ) {
-			// Load on the next cycle because the editor inits asynchronously and we need to load the data after the component is fully loaded.
-			setTimeout( props.onLoad );
-		}
-	} );
+		// Load on the next cycle because the editor inits asynchronously and we need to load the data after the component is fully loaded.
+		setTimeout( props.onLoad );
+	}, [] );
 
 	return (
 		<Fragment>
@@ -36,7 +34,6 @@ const FacebookWrapper = ( props ) => {
 
 FacebookWrapper.propTypes = {
 	isPremium: PropTypes.bool.isRequired,
-	isLoading: PropTypes.bool.isRequired,
 	onLoad: PropTypes.func.isRequired,
 };
 

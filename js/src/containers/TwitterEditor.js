@@ -85,7 +85,6 @@ export default compose( [
 			getReplaceVars,
 			getSiteUrl,
 			getAuthorName,
-			getTwitterIsLoading,
 		} = select( "yoast-seo/editor" );
 		return {
 			imageUrl: getTwitterImageUrl(),
@@ -101,7 +100,6 @@ export default compose( [
 			siteUrl: getSiteUrl(),
 			isPremium: !! getL10nObject().isPremium,
 			isLarge: getTwitterImageType() !== "summary",
-			isLoading: getTwitterIsLoading(),
 			titleInputPlaceholder,
 			descriptionInputPlaceholder,
 			socialMediumName,

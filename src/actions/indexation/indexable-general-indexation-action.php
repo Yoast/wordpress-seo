@@ -1,16 +1,11 @@
 <?php
-/**
- * Reindexation action for indexables.
- *
- * @package Yoast\WP\SEO\Actions\Indexation
- */
 
 namespace Yoast\WP\SEO\Actions\Indexation;
 
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
 /**
- * Indexable_Misc_Indexation_Action class.
+ * General reindexation action for indexables.
  */
 class Indexable_General_Indexation_Action implements Indexation_Action_Interface {
 
