@@ -131,43 +131,31 @@ class Indexable_Ancestor_Watcher implements Integration_Interface {
 	 */
 	public function get_children_for_term( $term_id, array $child_indexables ) {
 		// Finds object_ids (posts) for the term.
-		$object_ids = $this->get_object_ids_for_term( $term_id, $child_indexables );
+		$post_object_ids = $this->get_object_ids_for_term( $term_id, $child_indexables );
 
 		// Removes the objects that are already present in the children.
-		foreach ( $child_indexables as $child_indexable ) {
-			if ( $child_indexable->object_type !== 'post' ) {
-				continue;
-			}
+		$existing_post_indexables = \array_filter( $child_indexables, function( $indexable ) {
+			return $indexable->object_type === 'post';
+		} );
+		$existing_post_object_ids = \wp_list_pluck( $existing_post_indexables, 'object_id' );
+		$post_object_ids          = \array_diff( $post_object_ids, $existing_post_object_ids );
 
-			$search = \array_search( $child_indexable->object_id, $object_ids, true );
-			if ( $search === false ) {
-				continue;
-			}
+		// Finds the indexables for the fetched post_object_ids.
+		$post_indexables = $this->indexable_repository->find_by_multiple_ids_and_type( $post_object_ids, 'post', false );
 
-			unset( $object_ids[ $search ] );
-		}
-
-		// Finds the indexables for the fetched object_ids.
-		$indexables_by_term = $this->indexable_repository->find_by_multiple_ids_and_type( $object_ids, 'post' , false );
-
-		// Finds the indexables for the posts that attached to the term.
-		$additional_indexable_ids = $this->indexable_hierarchy_repository->find_children_by_ancestor_ids( $object_ids );
+		// Finds the indexables for the posts that are attached to the term.
+		$post_indexable_ids       = \wp_list_pluck( $post_indexables, 'id' );
+		$additional_indexable_ids = $this->indexable_hierarchy_repository->find_children_by_ancestor_ids( $post_indexable_ids );
 
 		// Makes sure we only have indexable id's that we haven't fetched before.
-		foreach ( $indexables_by_term as $indexable_by_term ) {
-			$search = \array_search( $indexable_by_term->id, $additional_indexable_ids, true );
-			if ( $search === false ) {
-				continue;
-			}
-
-			unset( $additional_indexable_ids[ $search ] );
-		}
+		$existing_indexable_ids   = \wp_list_pluck( $post_indexables, 'id' );
+		$additional_indexable_ids = \array_diff( $additional_indexable_ids, $existing_indexable_ids );
 
 		// Finds the additional indexables.
 		$additional_indexables = $this->indexable_repository->find_by_ids( $additional_indexable_ids );
 
 		// Merges all fetched indexables.
-		return \array_merge( $indexables_by_term, $additional_indexables );
+		return \array_merge( $post_indexables, $additional_indexables );
 	}
 
 	/**
