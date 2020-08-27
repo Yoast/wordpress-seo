@@ -2,7 +2,6 @@
 import { Fill } from "@wordpress/components";
 import { Fragment } from "@wordpress/element";
 import PropTypes from "prop-types";
-import { __ } from "@wordpress/i18n";
 
 /* Internal dependencies */
 import CollapsibleCornerstone from "../../containers/CollapsibleCornerstone";
@@ -13,9 +12,7 @@ import SeoAnalysis from "../contentAnalysis/SeoAnalysis";
 import SidebarItem from "../SidebarItem";
 import SnippetPreviewModal from "../SnippetPreviewModal";
 import TopLevelProviders from "../TopLevelProviders";
-import SchemaTabContainer from "../../containers/SchemaTab";
 import PostSettingsModal from "../../containers/PostSettingsModal";
-import SidebarCollapsible from "../SidebarCollapsible";
 
 /**
  * Creates the SidebarFill component.
@@ -96,19 +93,6 @@ export default function SidebarFill( { settings, store, theme } ) {
 						location={ "sidebar" }
 					>
 						<CollapsibleCornerstone />
-					</TopLevelProviders>
-				</SidebarItem> }
-				{ settings.displaySchemaSettings && <SidebarItem renderPriority={ 40 }>
-					<TopLevelProviders
-						store={ store }
-						theme={ theme }
-						location={ "sidebar" }
-					>
-						<SidebarCollapsible
-							title={ __( "Schema", "wordpress-seo" ) }
-						>
-							<SchemaTabContainer />
-						</SidebarCollapsible>
 					</TopLevelProviders>
 				</SidebarItem> }
 			</Fill>
