@@ -82,7 +82,7 @@ if ( ! $active ) {
 
 		<div class="container yoast-notifications-active" id="<?php echo esc_attr( 'yoast-' . $type . '-active' ); ?>">
 			<?php
-			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: _yoast_display_notifications is considered a safe function.
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: _yoast_display_notifications() as declared above is safe.
 			echo _yoast_display_notifications( $active, 'active' );
 			?>
 		</div>
@@ -101,7 +101,7 @@ if ( ! $active ) {
 					'collapsible_header_class' => 'yoast-notification',
 				]
 			);
-			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: current usage is considered safe.
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: get_output() output is properly escaped.
 			echo $dismissed_paper->get_output();
 		}
 		?>
