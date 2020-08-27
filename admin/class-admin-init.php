@@ -147,6 +147,7 @@ class WPSEO_Admin_Init {
 			return;
 		}
 
+		// phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- Retrieving a local file.
 		$release_json = file_get_contents( $file );
 
 		/**
