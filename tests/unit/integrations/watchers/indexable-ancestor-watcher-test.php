@@ -153,7 +153,7 @@ class Indexable_Ancestor_Watcher_Test extends TestCase {
 	 * Tests the reset_children method.
 	 *
 	 * @covers ::reset_children
-	 * @covers ::refresh_permalink
+	 * @covers ::update_hierarchy_and_permalink
 	 */
 	public function test_reset_children() {
 		$indexable        = Mockery::mock( Indexable_Mock::class );
@@ -194,7 +194,7 @@ class Indexable_Ancestor_Watcher_Test extends TestCase {
 	 * Tests the reset_children method when the parent indexable is a term.
 	 *
 	 * @covers ::reset_children
-	 * @covers ::refresh_permalink
+	 * @covers ::update_hierarchy_and_permalink
 	 */
 	public function test_reset_children_for_term() {
 		$indexable        = Mockery::mock( Indexable_Mock::class );
@@ -251,7 +251,7 @@ class Indexable_Ancestor_Watcher_Test extends TestCase {
 			->with( [ 0 => 566, 2 => 569 ] )
 			->andReturn( [ $additional_indexable ] );
 
-		$this->set_expectations_for_refresh_permalink( $indexable_term_1, $indexable_term_2, $additional_indexable );
+		$this->set_expectations_for_update_hierarchy_and_permalink( $indexable_term_1, $indexable_term_2, $additional_indexable );
 
 		$this->assertTrue( $this->instance->reset_children( $indexable, $indexable_before ) );
 		$this->assertSame( 'https://example.org/permalink', $indexable_term_1->permalink );
@@ -342,11 +342,11 @@ class Indexable_Ancestor_Watcher_Test extends TestCase {
 	}
 
 	/**
-	 * Sets the expectations for the refresh_permalink method.
+	 * Sets the expectations for the update_hierarchy_and_permalink method.
 	 *
 	 * @param Indexable_Mock ...$indexables The indexables.
 	 */
-	private function set_expectations_for_refresh_permalink( ...$indexables ) {
+	private function set_expectations_for_update_hierarchy_and_permalink( ...$indexables ) {
 		foreach ( $indexables as $indexable ) {
 			$this->indexable_hierarchy_builder->expects( 'build' )
 				->with( $indexable );
