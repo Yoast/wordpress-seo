@@ -244,7 +244,6 @@ class SeoAnalysis extends Component {
 									{ __( "Analysis results", "wordpress-seo" ) }
 								</AnalysisHeader>
 								<Results
-									showLanguageNotice={ false }
 									results={ this.props.results }
 									marksButtonClassName="yoast-tooltip yoast-tooltip-w"
 									marksButtonStatus={ this.props.marksButtonStatus }
