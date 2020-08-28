@@ -455,7 +455,7 @@ class WPSEO_Addon_Manager {
 	 * @return object Mapped subscription.
 	 */
 	protected function map_subscription( $subscription ) {
-		// @codingStandardsIgnoreStart
+		// phpcs:disable WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase -- Not our properties.
 		return (object) [
 			'renewal_url' => $subscription->renewalUrl,
 			'expiry_date' => $subscription->expiryDate,
@@ -470,7 +470,7 @@ class WPSEO_Addon_Manager {
 				'changelog'    => $subscription->product->changelog,
 			],
 		];
-		// @codingStandardsIgnoreStop
+		// phpcs:enable
 	}
 
 	/**

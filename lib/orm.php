@@ -535,8 +535,8 @@ class ORM implements \ArrayAccess {
 			if ( ! \is_numeric( $result->{$alias} ) ) {
 				$return_value = $result->{$alias};
 			}
-			// @codingStandardsIgnoreLine
-			elseif ( (int) $result->{$alias} == (float) $result->{$alias} ) { // phpcs:ignore WordPress.PHP.StrictComparisons.LooseComparison -- Reason: This loose comparison seems intended.
+			// phpcs:ignore WordPress.PHP.StrictComparisons.LooseComparison -- Reason: This loose comparison seems intended.
+			elseif ( (int) $result->{$alias} == (float) $result->{$alias} ) {
 				$return_value = (int) $result->{$alias};
 			}
 			else {

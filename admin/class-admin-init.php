@@ -147,6 +147,7 @@ class WPSEO_Admin_Init {
 			return;
 		}
 
+		// phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- Retrieving a local file.
 		$release_json = file_get_contents( $file );
 
 		/**
@@ -464,13 +465,13 @@ class WPSEO_Admin_Init {
 		// Show notice for each deprecated filter or action that has been registered.
 		foreach ( $deprecated_notices as $deprecated_filter ) {
 			$deprecation_info = $deprecated_filters[ $deprecated_filter ];
-			// phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped -- only uses the hardcoded values from above.
+			// phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped -- Only uses the hardcoded values from above.
 			_deprecated_hook(
 				$deprecated_filter,
 				'WPSEO ' . $deprecation_info['version'],
 				$deprecation_info['alternative']
 			);
-			// phpcs:enable WordPress.Security.EscapeOutput.OutputNotEscaped.
+			// phpcs:enable
 		}
 	}
 
@@ -637,8 +638,7 @@ class WPSEO_Admin_Init {
 		$blog_description         = get_bloginfo( 'description' );
 		$default_blog_description = 'Just another WordPress site';
 
-		// We are checking against the WordPress internal translation.
-		// @codingStandardsIgnoreLine
+		// We are using the WordPress internal translation.
 		$translated_blog_description = __( 'Just another WordPress site', 'default' );
 
 		return $translated_blog_description === $blog_description || $default_blog_description === $blog_description;

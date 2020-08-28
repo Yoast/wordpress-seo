@@ -131,8 +131,7 @@ class Article extends Abstract_Schema_Piece {
 		}
 
 		$callback = function( $term ) {
-			// We are checking against the WordPress internal translation.
-			// @codingStandardsIgnoreLine
+			// We are using the WordPress internal translation.
 			return $term->name !== \__( 'Uncategorized', 'default' );
 		};
 		$terms    = \array_filter( $terms, $callback );
