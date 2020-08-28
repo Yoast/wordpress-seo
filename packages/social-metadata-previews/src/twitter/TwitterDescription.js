@@ -1,5 +1,6 @@
 /* External dependencies */
 import styled from "styled-components";
+import { TWITTER_IMAGE_SIZES } from "../helpers/determineImageProperties";
 
 /**
  * Renders a TwitterDescription component.
@@ -22,6 +23,10 @@ const TwitterDescription = styled.p`
 	cursor: pointer;
 	-webkit-line-clamp: 2;
 	-webkit-box-orient: vertical;
+
+	@media all and ( max-width: ${ TWITTER_IMAGE_SIZES.landscapeWidth }px ) {
+		display: none;
+	}
 `;
 
 export default TwitterDescription;

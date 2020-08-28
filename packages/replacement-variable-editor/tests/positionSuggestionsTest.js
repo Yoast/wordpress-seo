@@ -78,6 +78,32 @@ describe( "positionSuggestions", () => {
 
 			expect( actual ).toBe( expected );
 		} );
+
+		describe( "right to left horizontal position", () => {
+			it( "returns the horizontal position that corresponds with left minus the width", () => {
+				global.window.innerWidth = 2048;
+				/*
+				 * ( Caret left - parent left - popover width )
+				 * ( 730 - 20 - 220 )
+				 */
+				const expected = 490;
+				const actual = getHorizontalPosition( parentRect, caretRect, popoverSize.width, true );
+
+				expect( actual ).toBe( expected );
+			} );
+
+			it( "returns the horizontal position that corresponds with right", () => {
+				global.window.innerWidth = 500;
+				/*
+				 * ( Caret left - parent left ) - ( ( caret left + popover width + 3 ) - window.innerWidth )
+				 * ( 730 - 20 ) - ( ( 730 + 220 + 3 ) - 500 )
+				 */
+				const expected = 257;
+				const actual = getHorizontalPosition( parentRect, caretRect, popoverSize.width, true );
+
+				expect( actual ).toBe( expected );
+			} );
+		} );
 	} );
 
 	describe( "getAnimationStyles", () => {

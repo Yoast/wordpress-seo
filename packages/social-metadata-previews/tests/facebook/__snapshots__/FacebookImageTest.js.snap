@@ -3,7 +3,7 @@
 exports[`FacebookImage Component matches the snapshot for a faulty image 1`] = `
 .c0 {
   box-sizing: border-box;
-  width: 527px;
+  max-width: 527px;
   height: 273px;
   background-color: #ddd;
   border-style: dashed;
@@ -42,13 +42,13 @@ exports[`FacebookImage Component matches the snapshot for a landscape image 1`] 
 .c0 {
   position: relative;
   height: 273px;
-  width: 527px;
+  max-width: 527px;
   overflow: hidden;
   background-color: #fff;
 }
 
 .c1.c1 {
-  width: 600px;
+  max-width: 600px;
   height: 300px;
   position: absolute;
   top: 50%;
@@ -61,6 +61,7 @@ exports[`FacebookImage Component matches the snapshot for a landscape image 1`] 
 
 <div
   className="c0"
+  mode="landscape"
   onClick={[Function]}
   onMouseEnter={[Function]}
   onMouseLeave={[Function]}
@@ -77,13 +78,13 @@ exports[`FacebookImage Component matches the snapshot for a portrait image 1`] =
 .c0 {
   position: relative;
   height: 237px;
-  width: 158px;
+  min-width: 158px;
   overflow: hidden;
   background-color: #fff;
 }
 
 .c1.c1 {
-  width: 300px;
+  max-width: 300px;
   height: 600px;
   position: absolute;
   top: 50%;
@@ -96,6 +97,7 @@ exports[`FacebookImage Component matches the snapshot for a portrait image 1`] =
 
 <div
   className="c0"
+  mode="portrait"
   onClick={[Function]}
   onMouseEnter={[Function]}
   onMouseLeave={[Function]}
@@ -112,13 +114,13 @@ exports[`FacebookImage Component matches the snapshot for a square image 1`] = `
 .c0 {
   position: relative;
   height: 158px;
-  width: 158px;
+  min-width: 158px;
   overflow: hidden;
   background-color: #fff;
 }
 
 .c1.c1 {
-  width: 300px;
+  max-width: 300px;
   height: 300px;
   position: absolute;
   top: 50%;
@@ -131,6 +133,7 @@ exports[`FacebookImage Component matches the snapshot for a square image 1`] = `
 
 <div
   className="c0"
+  mode="square"
   onClick={[Function]}
   onMouseEnter={[Function]}
   onMouseLeave={[Function]}
@@ -147,13 +150,13 @@ exports[`FacebookImage Component matches the snapshot for a too small image 1`] 
 .c0 {
   position: relative;
   height: 158px;
-  width: 158px;
+  min-width: 158px;
   overflow: hidden;
   background-color: #fff;
 }
 
 .c1.c1 {
-  width: 100px;
+  max-width: 100px;
   height: 100px;
   position: absolute;
   top: 50%;
@@ -166,6 +169,7 @@ exports[`FacebookImage Component matches the snapshot for a too small image 1`] 
 
 <div
   className="c0"
+  mode="square"
   onClick={[Function]}
   onMouseEnter={[Function]}
   onMouseLeave={[Function]}
@@ -181,7 +185,7 @@ exports[`FacebookImage Component matches the snapshot for a too small image 1`] 
 exports[`FacebookImage Component matches the snapshot in the loading state 1`] = `
 .c0 {
   box-sizing: border-box;
-  width: 527px;
+  max-width: 527px;
   height: 273px;
   background-color: #ddd;
   border-style: dashed;

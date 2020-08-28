@@ -27,7 +27,7 @@ exports[`FacebookPreview matches the snapshot for a faulty image 1`] = `
 
 .c1 {
   box-sizing: border-box;
-  width: 527px;
+  max-width: 527px;
   height: 273px;
   background-color: #ddd;
   border-style: dashed;
@@ -100,8 +100,7 @@ exports[`FacebookPreview matches the snapshot for a faulty image 1`] = `
   -ms-flex-direction: row;
   flex-direction: row;
   background-color: #f2f3f5;
-  width: 527px;
-  height: 57px;
+  max-width: 527px;
 }
 
 .c2 {
@@ -120,13 +119,22 @@ exports[`FacebookPreview matches the snapshot for a faulty image 1`] = `
   -webkit-flex-direction: column;
   -ms-flex-direction: column;
   flex-direction: column;
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
   -webkit-box-pack: center;
   -webkit-justify-content: center;
   -ms-flex-pack: center;
   justify-content: center;
-  width: 476px;
   font-size: 12px;
   overflow: hidden;
+}
+
+@media all and ( max-width:476px ) {
+  .c6 {
+    display: none;
+  }
 }
 
 <div
@@ -209,7 +217,7 @@ exports[`FacebookPreview matches the snapshot for a landscape image 1`] = `
 
 .c1 {
   box-sizing: border-box;
-  width: 527px;
+  max-width: 527px;
   height: 273px;
   background-color: #ddd;
   border-style: dashed;
@@ -282,8 +290,7 @@ exports[`FacebookPreview matches the snapshot for a landscape image 1`] = `
   -ms-flex-direction: row;
   flex-direction: row;
   background-color: #f2f3f5;
-  width: 527px;
-  height: 57px;
+  max-width: 527px;
 }
 
 .c2 {
@@ -302,13 +309,22 @@ exports[`FacebookPreview matches the snapshot for a landscape image 1`] = `
   -webkit-flex-direction: column;
   -ms-flex-direction: column;
   flex-direction: column;
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
   -webkit-box-pack: center;
   -webkit-justify-content: center;
   -ms-flex-pack: center;
   justify-content: center;
-  width: 476px;
   font-size: 12px;
   overflow: hidden;
+}
+
+@media all and ( max-width:476px ) {
+  .c6 {
+    display: none;
+  }
 }
 
 <div
@@ -391,7 +407,7 @@ exports[`FacebookPreview matches the snapshot for a portrait image 1`] = `
 
 .c1 {
   box-sizing: border-box;
-  width: 527px;
+  max-width: 527px;
   height: 273px;
   background-color: #ddd;
   border-style: dashed;
@@ -464,8 +480,7 @@ exports[`FacebookPreview matches the snapshot for a portrait image 1`] = `
   -ms-flex-direction: row;
   flex-direction: row;
   background-color: #f2f3f5;
-  width: 527px;
-  height: 57px;
+  max-width: 527px;
 }
 
 .c2 {
@@ -484,13 +499,22 @@ exports[`FacebookPreview matches the snapshot for a portrait image 1`] = `
   -webkit-flex-direction: column;
   -ms-flex-direction: column;
   flex-direction: column;
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
   -webkit-box-pack: center;
   -webkit-justify-content: center;
   -ms-flex-pack: center;
   justify-content: center;
-  width: 476px;
   font-size: 12px;
   overflow: hidden;
+}
+
+@media all and ( max-width:476px ) {
+  .c6 {
+    display: none;
+  }
 }
 
 <div
@@ -573,7 +597,7 @@ exports[`FacebookPreview matches the snapshot for a square image 1`] = `
 
 .c1 {
   box-sizing: border-box;
-  width: 527px;
+  max-width: 527px;
   height: 273px;
   background-color: #ddd;
   border-style: dashed;
@@ -646,8 +670,7 @@ exports[`FacebookPreview matches the snapshot for a square image 1`] = `
   -ms-flex-direction: row;
   flex-direction: row;
   background-color: #f2f3f5;
-  width: 527px;
-  height: 57px;
+  max-width: 527px;
 }
 
 .c2 {
@@ -666,13 +689,22 @@ exports[`FacebookPreview matches the snapshot for a square image 1`] = `
   -webkit-flex-direction: column;
   -ms-flex-direction: column;
   flex-direction: column;
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
   -webkit-box-pack: center;
   -webkit-justify-content: center;
   -ms-flex-pack: center;
   justify-content: center;
-  width: 476px;
   font-size: 12px;
   overflow: hidden;
+}
+
+@media all and ( max-width:476px ) {
+  .c6 {
+    display: none;
+  }
 }
 
 <div
@@ -755,7 +787,7 @@ exports[`FacebookPreview matches the snapshot for a too small image 1`] = `
 
 .c1 {
   box-sizing: border-box;
-  width: 527px;
+  max-width: 527px;
   height: 273px;
   background-color: #ddd;
   border-style: dashed;
@@ -828,8 +860,7 @@ exports[`FacebookPreview matches the snapshot for a too small image 1`] = `
   -ms-flex-direction: row;
   flex-direction: row;
   background-color: #f2f3f5;
-  width: 527px;
-  height: 57px;
+  max-width: 527px;
 }
 
 .c2 {
@@ -848,13 +879,22 @@ exports[`FacebookPreview matches the snapshot for a too small image 1`] = `
   -webkit-flex-direction: column;
   -ms-flex-direction: column;
   flex-direction: column;
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
   -webkit-box-pack: center;
   -webkit-justify-content: center;
   -ms-flex-pack: center;
   justify-content: center;
-  width: 476px;
   font-size: 12px;
   overflow: hidden;
+}
+
+@media all and ( max-width:476px ) {
+  .c6 {
+    display: none;
+  }
 }
 
 <div

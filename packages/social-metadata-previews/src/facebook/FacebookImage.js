@@ -16,7 +16,7 @@ import {
 const FacebookImageContainer = styled.div`
 	position: relative;
 	height: ${ props => props.dimensions.height };
-	width: ${ props => props.dimensions.width };
+	${ props => props.mode === "landscape" ? `max-width: ${ props.dimensions.width }` : `min-width: ${ props.dimensions.width }` };
 	overflow: hidden;
 	background-color: ${ colors.$color_white };
 `;
@@ -24,7 +24,7 @@ const FacebookImageContainer = styled.div`
 // Adding && for specificity, competing styles coming from blockeditor
 const StyledImage = styled.img`
 	&& {
-		width: ${ props => props.imageProperties.width }px;
+		max-width: ${ props => props.imageProperties.width }px;
 		height: ${ props => props.imageProperties.height }px;
 		position: absolute;
 		top: 50%;
@@ -36,7 +36,7 @@ const StyledImage = styled.img`
 
 const PlaceholderImage = styled.div`
 	box-sizing: border-box;
-	width: ${ FACEBOOK_IMAGE_SIZES.landscapeWidth }px;
+	max-width: ${ FACEBOOK_IMAGE_SIZES.landscapeWidth }px;
 	height: ${ FACEBOOK_IMAGE_SIZES.landscapeHeight }px;
 	background-color: ${ colors.$color_grey };
 	border-style: dashed;
@@ -167,6 +167,7 @@ class FacebookImage extends Component {
 
 		const containerDimensions = this.retrieveContainerDimensions( imageProperties.mode );
 		return <FacebookImageContainer
+			mode={ imageProperties.mode }
 			dimensions={ containerDimensions }
 			onMouseEnter={ this.props.onMouseEnter }
 			onMouseLeave={ this.props.onMouseLeave }

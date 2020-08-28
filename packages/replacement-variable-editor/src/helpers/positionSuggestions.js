@@ -71,16 +71,23 @@ export const getVerticalPosition = ( parentRect, caretRect, popoverHeight ) => {
  * The default position is the same as the caret.
  * If that does not fit within the viewport, move it to the left as much as needed.
  *
- * @param {DOMRect|ClientRect} parentRect   The bounding client rect of the parent element.
- * @param {DOMRect|ClientRect} caretRect    The bounding client rect of the caret element.
- * @param {number}             popoverWidth The width of the popover.
+ * @param {DOMRect|ClientRect} parentRect                The bounding client rect of the parent element.
+ * @param {DOMRect|ClientRect} caretRect                 The bounding client rect of the caret element.
+ * @param {number}             popoverWidth              The width of the popover.
+ * @param {boolean}            defaultPositionToTheRight Whether to change the default position to the right or not.
  *
  * @returns {number} The horizontal position, relative to the parent.
  */
-export const getHorizontalPosition = ( parentRect, caretRect, popoverWidth ) => {
-	const relativeX = caretRect.left - parentRect.left;
+export const getHorizontalPosition = ( parentRect, caretRect, popoverWidth, defaultPositionToTheRight = false ) => {
+	let relativeX = caretRect.left - parentRect.left;
+	if ( defaultPositionToTheRight ) {
+		relativeX -= popoverWidth;
+	}
 
-	const popoverRight = caretRect.left + popoverWidth + EXTRA_OFFSET;
+	let popoverRight = caretRect.left + popoverWidth + EXTRA_OFFSET;
+	if ( defaultPositionToTheRight ) {
+		popoverRight -= popoverWidth;
+	}
 
 	if ( popoverRight > window.innerWidth ) {
 		// The fallback position is moving the popover over to the left just enough to make it fit.
@@ -135,10 +142,11 @@ export const getAnimationStyles = ( state, props ) => {
  * @param {HTMLElement} args.popover       The popover HTML element.
  * @param {Object}      args.state         The component state.
  * @param {Object}      args.props         The component props.
+ * @param {boolean}     isRtl              Optional. Whether we are right-to-left or not. Defaults to false.
  *
  * @returns {Object} The mention plugin suggestions position object.
  */
-export const positionSuggestions = ( { decoratorRect: caretRect, popover, state, props } ) => {
+export const positionSuggestions = ( { decoratorRect: caretRect, popover, state, props }, isRtl = false ) => {
 	// Get the parent of the popover to determine the position relative to the viewport.
 	const parent = getRelativeParent( popover.parentElement );
 	const parentRect = parent.getBoundingClientRect();
@@ -147,7 +155,7 @@ export const positionSuggestions = ( { decoratorRect: caretRect, popover, state,
 	// Adjust the position as needed.
 	const position = {
 		top: getVerticalPosition( parentRect, caretRect, popoverSize.height ),
-		left: getHorizontalPosition( parentRect, caretRect, popoverSize.width ),
+		left: getHorizontalPosition( parentRect, caretRect, popoverSize.width, isRtl ),
 	};
 	// Get the animation styles that the mention plugin applies normally.
 	const animationStyles = getAnimationStyles( state, props );

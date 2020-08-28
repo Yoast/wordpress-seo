@@ -10,29 +10,6 @@ import FacebookTitle from "./FacebookTitle";
 import FacebookDescription from "./FacebookDescription";
 
 /**
- * Determines the height depending on the mode.
- *
- * @param {string} mode The mode. landscape, square, portrait.
- *
- * @returns {string} The height pixels.
- */
-const determineWrapperHeight = ( mode ) => {
-	switch ( mode ) {
-		case "landscape":
-			return "352px";
-
-		case "square":
-			return "158px";
-
-		case "portrait":
-			return "237px";
-
-		default:
-			return "57px";
-	}
-};
-
-/**
  * Determines the width depending on the mode.
  *
  * @param {string} mode The mode. landscape, square, portrait.
@@ -42,7 +19,7 @@ const determineWrapperHeight = ( mode ) => {
 const determineTextContainerWidth = ( mode ) => {
 	switch ( mode ) {
 		case "landscape":
-			return "527x";
+			return "527px";
 
 		case "square":
 			return "369px";
@@ -60,8 +37,7 @@ const FacebookPreviewWrapper = styled.div`
 	display: flex;
 	flex-direction: ${ props => props.mode === "landscape" ? "column" : "row" };
 	background-color: #f2f3f5;
-	width: 527px;
-	height: ${ props => determineWrapperHeight( props.mode ) };
+	max-width: 527px;
 `;
 
 const FacebookTextWrapper = styled.div`
@@ -76,9 +52,8 @@ const FacebookTextWrapper = styled.div`
 	border: ${ props => props.mode === "landscape" ? "1px solid #dddfe2" : "" };
 	display: flex;
 	flex-direction: column;
+	flex-grow: 1;
 	justify-content: ${ props => props.mode === "landscape" ? "flex-start" : "center" };
-	width: ${ props => determineTextContainerWidth( props.mode ) };
-	${ props => props.mode === "landscape"  ? "height: 78px;" : "" }
 	font-size: 12px;
 	overflow: hidden;
 `;
@@ -160,6 +135,7 @@ class FacebookPreview extends Component {
 						{ this.props.title }
 					</FacebookTitle>
 					<FacebookDescription
+						maxWidth={ determineTextContainerWidth( imageMode ) }
 						onMouseEnter={ this.onDescriptionEnter }
 						onMouseLeave={ this.onLeave }
 						onClick={ this.onSelectDescription }
