@@ -72,7 +72,6 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 		// phpcs:ignore WordPress.Security.EscapeOutput -- $container_id_attr is escaped above.
 		$container_id_attr,
 		esc_attr( 'paper-container ' . $collapsible_config['class'] ),
-		// phpcs:ignore WordPress.Security.EscapeOutput -- $content is escaped above.
 		$content
 	);
 	?>
