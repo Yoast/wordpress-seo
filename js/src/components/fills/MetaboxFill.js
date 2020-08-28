@@ -74,7 +74,5 @@ export default function MetaboxFill( { settings } ) {
 
 MetaboxFill.propTypes = {
 	settings: PropTypes.object.isRequired,
-	store: PropTypes.object.isRequired,
-	theme: PropTypes.object.isRequired,
 };
 
