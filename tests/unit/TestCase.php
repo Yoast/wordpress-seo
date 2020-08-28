@@ -74,7 +74,7 @@ abstract class TestCase extends BaseTestCase {
 				},
 				'wp_strip_all_tags'    => function( $string, $remove_breaks = false ) {
 					$string = \preg_replace( '@<(script|style)[^>]*?>.*?</\\1>@si', '', $string );
-					// phpcs:ignore WordPress.WP.AlternativeFunctions.strip_tags -- We are stubbing the wp_strip_all_tags.
+					// phpcs:ignore WordPress.WP.AlternativeFunctions.strip_tags_strip_tags -- We are stubbing the wp_strip_all_tags.
 					$string = \strip_tags( $string );
 
 					if ( $remove_breaks ) {
