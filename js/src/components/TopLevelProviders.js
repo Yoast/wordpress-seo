@@ -31,7 +31,7 @@ const TopLevelProviders = ( { store, theme, location, children } ) => {
 TopLevelProviders.propTypes = {
 	store: PropTypes.object.isRequired,
 	theme: PropTypes.object.isRequired,
-	location: PropTypes.oneOf( [ "sidebar", "metabox" ] ).isRequired,
+	location: PropTypes.oneOf( [ "sidebar", "metabox", "modal" ] ).isRequired,
 	children: PropTypes.element.isRequired,
 };
 
