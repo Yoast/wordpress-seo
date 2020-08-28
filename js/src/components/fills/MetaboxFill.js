@@ -26,7 +26,7 @@ import SchemaTabContainer from "../../containers/SchemaTab";
  *
  * @returns {wp.Element} The Metabox component.
  */
-export default function MetaboxFill( { settings, store, theme } ) {
+export default function MetaboxFill( { settings } ) {
 	return (
 		<Fill name="YoastMetabox">
 			<SidebarItem renderPriority={ 1 }>
