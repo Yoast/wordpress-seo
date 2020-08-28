@@ -97,6 +97,7 @@ class Organization_Test extends TestCase {
 	 * Tests the generated schema is as expected.
 	 *
 	 * @dataProvider generate_provider
+	 * @covers       ::generate
 	 *
 	 * @param array $profiles_input    The social profiles input for the options.
 	 * @param array $profiles_expected The social profiles expected output.
