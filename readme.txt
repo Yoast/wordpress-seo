@@ -236,7 +236,7 @@ Enhancements:
 Other:
 
 * Adds the weekly cron schedule to the `cron_schedules` filter to prevent overwriting the one WordPress adds. Props to [peter-webbird](https://github.com/peter-webbird).
-* Merges the googlebot and bingbot meta tag values into the robots meta tag value and deprecates the Googlebot_Presenter and Bingbot_Presenter.
+* Merges the googlebot and bingbot meta tag values into the robots meta tag value and deprecates the `Googlebot_Presenter` and `Bingbot_Presenter`.
 
 = 14.8.1 =
 Release Date: August 25th, 2020

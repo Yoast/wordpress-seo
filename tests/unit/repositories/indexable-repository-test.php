@@ -317,34 +317,13 @@ class Indexable_Repository_Test extends TestCase {
 	/**
 	 * Tests retrieval of the child indexables with no children found for indexable.
 	 *
-	 * @covers ::get_children
+	 * @covers ::find_by_ids
 	 */
-	public function test_get_children_no_ids_found() {
-		$indexable = Mockery::mock( Indexable_Mock::class );
-
-		$this->hierarchy_repository
-			->expects( 'find_children' )
-			->with( $indexable )
-			->andReturn( [] );
-
-		$this->assertSame( [], $this->instance->get_children( $indexable ) );
-	}
-
-	/**
-	 * Tests retrieval of the child indexables with no children found for indexable.
-	 *
-	 * @covers ::get_children
-	 */
-	public function test_get_children() {
+	public function test_find_by_ids() {
 		$indexable              = Mockery::mock( Indexable_Mock::class );
 		$indexable->object_type = 'post';
 
 		$indexable->expects( 'save' )->once();
-
-		$this->hierarchy_repository
-			->expects( 'find_children' )
-			->with( $indexable )
-			->andReturn( [ 1, 2, 3 ] );
 
 		$orm_object = Mockery::mock();
 
@@ -359,12 +338,6 @@ class Indexable_Repository_Test extends TestCase {
 			->andReturnSelf();
 
 		$orm_object
-			->expects( 'order_by_expr' )
-			->once()
-			->with( 'FIELD(id,1,2,3)' )
-			->andReturnSelf();
-
-		$orm_object
 			->expects( 'find_many' )
 			->once()
 			->andReturn( [ $indexable ] );
@@ -376,6 +349,6 @@ class Indexable_Repository_Test extends TestCase {
 			->with( $indexable )
 			->andReturn( $permalink );
 
-		$this->assertSame( [ $indexable ], $this->instance->get_children( $indexable ) );
+		$this->assertSame( [ $indexable ], $this->instance->find_by_ids( [ 1, 2, 3 ] ) );
 	}
 }

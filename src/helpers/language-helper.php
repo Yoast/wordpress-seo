@@ -19,4 +19,18 @@ class Language_Helper {
 
 		return \in_array( $language, $supported_languages, true );
 	}
+
+	/**
+	 * Checks whether the given language has function word support.
+	 * (E.g. function words are used or filtered out for this language when doing some SEO and readability assessments).
+	 *
+	 * @param string $language The language to check.
+	 *
+	 * @return bool Whether the language has function word support.
+	 */
+	public function has_function_word_support( $language ) {
+		$supported_languages = [ 'en', 'de', 'nl', 'fr', 'es', 'it', 'pt', 'ru', 'pl', 'sv', 'id', 'he', 'ar' ];
+
+		return \in_array( $language, $supported_languages, true );
+	}
 }
