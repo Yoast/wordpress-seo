@@ -25,7 +25,7 @@ const FacebookWrapper = ( props ) => {
 					? <Slot
 						name={
 							"YoastFacebookPremium" +
-							`${ props.location ? props.location.charAt( 0 ).toUpperCase() + props.location.slice( 1 ) : "" }`
+							`${ props.location.charAt( 0 ).toUpperCase() + props.location.slice( 1 ) }`
 						}
 						fillProps={ props }
 					/>
