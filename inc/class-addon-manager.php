@@ -456,10 +456,10 @@ class WPSEO_Addon_Manager {
 	 */
 	protected function map_subscription( $subscription ) {
 		// @codingStandardsIgnoreStart
-		return (object) array(
+		return (object) [
 			'renewal_url' => $subscription->renewalUrl,
 			'expiry_date' => $subscription->expiryDate,
-			'product'     => (object) array(
+			'product'     => (object) [
 				'version'      => $subscription->product->version,
 				'name'         => $subscription->product->name,
 				'slug'         => $subscription->product->slug,
@@ -468,8 +468,8 @@ class WPSEO_Addon_Manager {
 				// Ternary operator is necessary because download can be undefined.
 				'download'     => isset( $subscription->product->download ) ? $subscription->product->download : null,
 				'changelog'    => $subscription->product->changelog,
-			),
-		);
+			],
+		];
 		// @codingStandardsIgnoreStop
 	}
 

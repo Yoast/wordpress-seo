@@ -14,6 +14,7 @@ class SEO_Meta_Repository {
 	 * SEO_Meta_Repository constructor.
 	 *
 	 * @deprecated 14.8
+	 * @codeCoverageIgnore
 	 */
 	public function __construct() {
 		\_deprecated_function( __METHOD__, '14.8' );

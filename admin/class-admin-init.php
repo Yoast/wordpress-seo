@@ -148,6 +148,7 @@ class WPSEO_Admin_Init {
 		}
 
 		$release_json = file_get_contents( $file );
+
 		/**
 		 * Filter: 'wpseo_update_notice_content' - Allow filtering of the content
 		 * of the update notice read from the release-info.json file.
