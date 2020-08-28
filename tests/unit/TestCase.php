@@ -53,6 +53,7 @@ abstract class TestCase extends BaseTestCase {
 				'wp_kses_post'         => null,
 				'site_url'             => 'https://www.example.org',
 				'wp_json_encode'       => function( $data, $options = 0, $depth = 512 ) {
+					// phpcs:ignore Yoast.Yoast.AlternativeFunctions.json_encode_json_encodeWithAdditionalParams -- Usage in tests is fine.
 					return \json_encode( $data, $options, $depth );
 				},
 				'wp_slash'             => null,
