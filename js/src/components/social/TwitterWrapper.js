@@ -27,7 +27,7 @@ const TwitterWrapper = ( props ) => {
 						? <Slot
 							name={
 								"YoastTwitterPremium" +
-								`${ props.location.charAt( 0 ).toUpperCase() + props.location.slice( 1 ) }`
+								`${ location.charAt( 0 ).toUpperCase() + location.slice( 1 ) }`
 							}
 							fillProps={ props }
 						/>
