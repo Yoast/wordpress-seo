@@ -171,4 +171,15 @@ describe( "Counts the occurences of a word in a string", function() {
 	it( "matches forms containing a - in Indonesian", function() {
 		expect( wordMatch( "buku-buku", "buku-buku", "id_ID" ).count ).toBe( 1 );
 	} );
+
+	it( "Should match words followed by RTL-specific punctuation marks", function() {
+		// Arabic comma
+		expect( wordMatch( "المقاومة،", "المقاومة", "ar_AE" ).count ).toBe( 1 );
+		// Arabic question mark
+		expect( wordMatch( "الجيدة؟", "الجيدة", "ar_AE" ).count ).toBe( 1 );
+		// Arabic semicolon
+		expect( wordMatch( "الجيدة؛", "الجيدة", "ar_AE" ).count ).toBe( 1 );
+		// Urdu full stop
+		expect( wordMatch( "گئے۔", "گئے", "ur" ).count ).toBe( 1 );
+	} );
 } );
