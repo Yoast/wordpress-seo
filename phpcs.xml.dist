@@ -156,6 +156,9 @@
 	<rule ref="WordPress.Security.EscapeOutput.OutputNotEscaped">
 		<exclude-pattern>/config/composer/*</exclude-pattern>
 	</rule>
+	<rule ref="WordPress.PHP.DiscouragedPHPFunctions">
+		<exclude-pattern>/config/composer/*</exclude-pattern>
+	</rule>
 
 	<!-- Exclude php-codeshift from being checked too roughly. -->
 	<rule ref="Yoast.NamingConventions.ObjectNameDepth">
