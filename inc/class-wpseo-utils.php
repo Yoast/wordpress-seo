@@ -255,7 +255,7 @@ class WPSEO_Utils {
 		 * @param string $filtered The sanitized string.
 		 * @param string $str      The string prior to being sanitized.
 		 */
-		return apply_filters( 'sanitize_text_field', $filtered, $value );
+		return apply_filters( 'sanitize_text_field', $filtered, $value ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals -- Using WP native filter.
 	}
 
 	/**
