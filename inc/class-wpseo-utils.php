@@ -255,7 +255,7 @@ class WPSEO_Utils {
 		 * @param string $filtered The sanitized string.
 		 * @param string $str      The string prior to being sanitized.
 		 */
-		return apply_filters( 'sanitize_text_field', $filtered, $value );
+		return apply_filters( 'sanitize_text_field', $filtered, $value ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals -- Using WP native filter.
 	}
 
 	/**
@@ -469,6 +469,7 @@ class WPSEO_Utils {
 			return $value;
 		}
 		elseif ( is_float( $value ) ) {
+			// phpcs:ignore WordPress.PHP.StrictComparisons -- Purposeful loose comparison.
 			if ( (int) $value == $value && ! is_nan( $value ) ) {
 				return (int) $value;
 			}
@@ -604,7 +605,7 @@ class WPSEO_Utils {
 				if ( $bc ) {
 					$result = bcdiv( $number1, $number2, $precision ); // String, or NULL if right_operand is 0.
 				}
-				elseif ( $number2 != 0 ) {
+				elseif ( $number2 != 0 ) { // phpcs:ignore WordPress.PHP.StrictComparisons -- Purposeful loose comparison.
 					$result = ( $number1 / $number2 );
 				}
 
@@ -619,7 +620,7 @@ class WPSEO_Utils {
 				if ( $bc ) {
 					$result = bcmod( $number1, $number2 ); // String, or NULL if modulus is 0.
 				}
-				elseif ( $number2 != 0 ) {
+				elseif ( $number2 != 0 ) { // phpcs:ignore WordPress.PHP.StrictComparisons -- Purposeful loose comparison.
 					$result = ( $number1 % $number2 );
 				}
 
@@ -636,6 +637,7 @@ class WPSEO_Utils {
 					$result = bccomp( $number1, $number2, $precision ); // Returns int 0, 1 or -1.
 				}
 				else {
+					// phpcs:ignore WordPress.PHP.StrictComparisons -- Purposeful loose comparison.
 					$result = ( $number1 == $number2 ) ? 0 : ( ( $number1 > $number2 ) ? 1 : -1 );
 				}
 				break;
@@ -650,6 +652,7 @@ class WPSEO_Utils {
 					}
 				}
 				else {
+					// phpcs:ignore WordPress.PHP.StrictComparisons -- Purposeful loose comparison.
 					$result = ( intval( $result ) == $result ) ? intval( $result ) : floatval( $result );
 				}
 			}
@@ -1117,7 +1120,7 @@ SVG;
 			'postTypeNamePlural'   => ( $page_type === 'post' ) ? $label_object->label : $label_object->name,
 			'postTypeNameSingular' => ( $page_type === 'post' ) ? $label_object->labels->singular_name : $label_object->singular_name,
 			'isBreadcrumbsDisabled'  => WPSEO_Options::get( 'breadcrumbs-enable', false ) !== true && ! current_theme_supports( 'yoast-seo-breadcrumbs' ),
-			// phpcs:ignore Generic.ControlStructures.DisallowYodaConditions.Found -- This is not a Yoda condition.
+			// phpcs:ignore Generic.ControlStructures.DisallowYodaConditions -- Bug: squizlabs/PHP_CodeSniffer#2962.
 			'isPrivateBlog'          => ( (string) get_option( 'blog_public' ) ) === '0',
 		];
 

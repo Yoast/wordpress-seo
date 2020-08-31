@@ -169,7 +169,7 @@ class WPSEO_Admin {
 	 * Maps the manage_options cap on saving an options page to wpseo_manage_options.
 	 */
 	public function map_manage_options_cap() {
-		// phpcs:ignore -- The variable is only used in strpos and thus safe to not unslash and escape.
+		// phpcs:ignore WordPress.Security -- The variable is only used in strpos and thus safe to not unslash or sanitize.
 		$option_page = ! empty( $_POST['option_page'] ) ? $_POST['option_page'] : '';
 
 		if ( strpos( $option_page, 'yoast_wpseo' ) === 0 ) {

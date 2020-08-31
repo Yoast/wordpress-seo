@@ -370,6 +370,7 @@ TPL;
 
 		echo "Running coding standards checks, this may take some time.\n";
 		$command = 'composer check-cs-summary';
+		// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged -- Non-WP context, this is fine.
 		@exec( $command, $phpcs_output, $return );
 
 		$statistics = self::extract_cs_statistics( $phpcs_output );

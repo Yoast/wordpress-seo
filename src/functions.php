@@ -16,9 +16,13 @@ use Yoast\WP\SEO\Main;
 /**
  * Retrieves the main instance.
  *
+ * @phpcs:disable WordPress.NamingConventions -- Should probably be renamed, but leave for now.
+ *
  * @return Main The main instance.
  */
-function YoastSEO() { // @codingStandardsIgnoreLine
+function YoastSEO() {
+	// phpcs:enable
+
 	static $main;
 
 	if ( $main === null ) {

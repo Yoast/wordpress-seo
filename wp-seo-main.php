@@ -290,6 +290,7 @@ function wpseo_init() {
 
 	if ( version_compare( WPSEO_Options::get( 'version', 1 ), WPSEO_VERSION, '<' ) ) {
 		if ( function_exists( 'opcache_reset' ) ) {
+			// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged -- Prevent notices when opcache.restrict_api is set.
 			@opcache_reset();
 		}
 

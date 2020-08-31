@@ -186,6 +186,8 @@ class Indexable_Repository_Test extends TestCase {
 	/**
 	 * Tests that retrieving the ancestors of an indexable ensures
 	 * that the permalink of each ancestor is available.
+	 *
+	 * @covers ::get_ancestors
 	 */
 	public function test_get_ancestors_ensures_permalink() {
 		$indexable = Mockery::mock( Indexable_Mock::class );
@@ -215,6 +217,8 @@ class Indexable_Repository_Test extends TestCase {
 
 	/**
 	 * Tests that ensure permalink does not save when the permalink is still null.
+	 *
+	 * @covers ::get_ancestors
 	 */
 	public function test_get_ancestors_ensures_permalink_no_save() {
 		$indexable = Mockery::mock( Indexable_Mock::class );
@@ -243,6 +247,8 @@ class Indexable_Repository_Test extends TestCase {
 	/**
 	 * Tests that retrieving the ancestors of an indexable ensures
 	 * that the permalink of each ancestor is available when there is only one ancestor.
+	 *
+	 * @covers ::get_ancestors
 	 */
 	public function test_get_ancestors_one_ancestor_ensures_permalink() {
 		$indexable = Mockery::mock( Indexable_Mock::class );

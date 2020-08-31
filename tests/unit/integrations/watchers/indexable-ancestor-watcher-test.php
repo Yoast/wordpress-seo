@@ -52,6 +52,7 @@ class Indexable_Ancestor_Watcher_Test extends TestCase {
 	 * @var Mockery\MockInterface|Indexable_Helper
 	 */
 	protected $indexable_helper;
+
 	/**
 	 * @var Mockery\LegacyMockInterface|Mockery\MockInterface|Indexable_Hierarchy_Builder
 	 */
@@ -255,7 +256,12 @@ class Indexable_Ancestor_Watcher_Test extends TestCase {
 		$additional_indexable = Mockery::mock( Indexable_Mock::class );
 
 		$this->indexable_repository->expects( 'find_by_ids' )
-			->with( [ 0 => 566, 2 => 569 ] )
+			->with(
+				[
+					0 => 566,
+					2 => 569,
+				]
+			)
 			->andReturn( [ $additional_indexable ] );
 
 		$this->set_expectations_for_update_hierarchy_and_permalink( $indexable_term_1, $indexable_term_2, $additional_indexable );
@@ -301,13 +307,30 @@ class Indexable_Ancestor_Watcher_Test extends TestCase {
 		$indexable_term_1->id = 567;
 
 		$this->indexable_repository->expects( 'find_by_multiple_ids_and_type' )
-			->with( [ 0 => 431, 2 => 21 ], 'post', false )
+			->with(
+				[
+					0 => 431,
+					2 => 21,
+				],
+				'post',
+				false
+			)
 			->andReturn( [ $indexable_term_1, $indexable_term_2 ] );
 
-		Functions\expect( 'wp_list_pluck' )->once()->andReturn( [ 0 => 431, 2 => 21 ] );
+		Functions\expect( 'wp_list_pluck' )->once()->andReturn(
+			[
+				0 => 431,
+				2 => 21,
+			]
+		);
 
 		$this->indexable_hierarchy_repository->expects( 'find_children_by_ancestor_ids' )
-			->with( [ 0 => 431, 2 => 21 ] )
+			->with(
+				[
+					0 => 431,
+					2 => 21,
+				]
+			)
 			->andReturn( [ 566, 567, 569 ] );
 
 		Functions\expect( 'wp_list_pluck' )->once()->andReturn( [ 567 ] );
@@ -315,7 +338,12 @@ class Indexable_Ancestor_Watcher_Test extends TestCase {
 		$additional_indexable_2 = Mockery::mock( Indexable_Mock::class );
 
 		$this->indexable_repository->expects( 'find_by_ids' )
-			->with( [ 0 => 566, 2 => 569 ] )
+			->with(
+				[
+					0 => 566,
+					2 => 569,
+				]
+			)
 			->andReturn( [ $additional_indexable_2 ] );
 
 		$actual = $this->instance->get_children_for_term( 1, [ $indexable_1, $indexable_2, $indexable_3, $indexable_4 ] );
@@ -333,21 +361,27 @@ class Indexable_Ancestor_Watcher_Test extends TestCase {
 		$this->wpdb->term_relationships = 'wp_term_relationships';
 
 		$this->wpdb->expects( 'prepare' )
-			->with( '
-				SELECT term_taxonomy_id
-				FROM wp_term_taxonomy
-				WHERE term_id IN( ' . \implode( ', ', \array_fill( 0, ( \count( $object_ids ) ), '%s' ) ) . ' )
-			', ...$object_ids );
+			->with(
+				'
+					SELECT term_taxonomy_id
+					FROM wp_term_taxonomy
+					WHERE term_id IN( ' . \implode( ', ', \array_fill( 0, ( \count( $object_ids ) ), '%s' ) ) . ' )
+				',
+				...$object_ids
+			);
 
 		$this->wpdb->expects( 'get_col' )
 			->andReturn( [ 321, 322, 323 ] );
 
 		$this->wpdb->expects( 'prepare' )
-			->with( '
-				SELECT DISTINCT object_id
-				FROM wp_term_relationships
-				WHERE term_taxonomy_id IN( %s, %s, %s )
-			', [ 321, 322, 323 ] );
+			->with(
+				'
+					SELECT DISTINCT object_id
+					FROM wp_term_relationships
+					WHERE term_taxonomy_id IN( %s, %s, %s )
+				',
+				[ 321, 322, 323 ]
+			);
 
 		$this->wpdb->expects( 'get_col' )
 			->andReturn( [ 431, 23, 21 ] );
