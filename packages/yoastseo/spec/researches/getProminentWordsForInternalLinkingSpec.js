@@ -25,7 +25,7 @@ describe( "relevantWords research", function() {
 		expect( words ).toEqual( expected );
 	} );
 
-	it( "does return prominent words for texts with more than 300 words", function() {
+	it( "returns prominent words for texts with more than 300 words", function() {
 		const paper = new Paper( "texte" + " et texte".repeat( 180 ), { title: "Title" } );
 
 		const researcher = new Researcher( paper );
@@ -147,6 +147,67 @@ describe( "relevantWords research", function() {
 			],
 			hasMetaDescription: true,
 			hasTitle: true,
+		};
+
+		const words = prominentWordsResearch( paper, researcher );
+
+		expect( words ).toEqual( expected );
+	} );
+
+	it( "lowers the prominent words occurrence threshold if a language does not have morphology support ", function() {
+		const paper = new Paper( ( "Romeo and Juliet borrows from a tradition of tragic love stories dating back to antiquity. " +
+								   "One of these is Pyramus and Thisbe, from Ovid's Metamorphoses, which contains parallels " +
+								   "to Shakespeare's story: the lovers' parents despise each other, " +
+								   "and Pyramus falsely believes his lover Thisbe is dead. " +
+								   "The Ephesiaca of Xenophon of Ephesus, written in the 3rd century, also contains several similarities " +
+								   "to the play, including the separation of the lovers, and a potion that induces a deathlike sleep." +
+								   "One of the earliest references to the names Montague and Capulet is from Dante's Divine Comedy, " +
+								   "who mentions the Montecchi (Montagues) and Capulets." +
+								   "Romeo and Juliet. " +
+								   "Romeo and Juliet. " +
+								   "Romeo and Juliet. " ) );
+
+		const researcher = new Researcher( paper );
+
+		const expected = {
+			prominentWords: [
+				new ProminentWord( "juliet", "juliet", 4 ),
+				new ProminentWord( "romeo", "romeo", 3 ),
+				new ProminentWord( "lovers", "lovers", 2 ),
+				new ProminentWord( "pyramus", "pyramus", 2 ),
+				new ProminentWord( "thisbe", "thisbe", 2 ),
+			],
+			hasMetaDescription: false,
+			hasTitle: false,
+		};
+
+		const words = prominentWordsResearch( paper, researcher );
+
+		expect( words ).toEqual( expected );
+	} );
+
+	it( "sets the prominent words occurrence threshold to 4 if a language does have morphology support ", function() {
+		const paper = new Paper( ( "Romeo and Juliet borrows from a tradition of tragic love stories dating back to antiquity. " +
+								   "One of these is Pyramus and Thisbe, from Ovid's Metamorphoses, which contains parallels " +
+								   "to Shakespeare's story: the lovers' parents despise each other, " +
+								   "and Pyramus falsely believes his lover Thisbe is dead. " +
+								   "The Ephesiaca of Xenophon of Ephesus, written in the 3rd century, also contains several similarities " +
+								   "to the play, including the separation of the lovers, and a potion that induces a deathlike sleep." +
+								   "One of the earliest references to the names Montague and Capulet is from Dante's Divine Comedy, " +
+								   "who mentions the Montecchi (Montagues) and Capulets." +
+								   "Romeo and Juliet. " +
+								   "Romeo and Juliet. " +
+								   "Romeo and Juliet. " ) );
+
+		const researcher = new Researcher( paper );
+		researcher.addResearchData( "morphology", morphologyData );
+
+		const expected = {
+			prominentWords: [
+				new ProminentWord( "juliet", "juliet", 4 ),
+			],
+			hasMetaDescription: false,
+			hasTitle: false,
 		};
 
 		const words = prominentWordsResearch( paper, researcher );
