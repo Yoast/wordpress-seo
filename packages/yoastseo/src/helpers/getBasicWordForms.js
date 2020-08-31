@@ -1,3 +1,4 @@
+import { createBasicWordForms as createBasicWordFormsHebrew } from "../morphology/hebrew/createBasicWordForms";
 import { createBasicWordForms as createBasicWordFormsArabic } from "../morphology/arabic/createBasicWordForms";
 
 /**
@@ -7,6 +8,7 @@ import { createBasicWordForms as createBasicWordFormsArabic } from "../morpholog
  */
 export default function() {
 	return {
+		he: createBasicWordFormsHebrew,
 		ar: createBasicWordFormsArabic,
 	};
 }

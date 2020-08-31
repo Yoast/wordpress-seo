@@ -21,7 +21,6 @@ describe( "gets Polish prominent words", function() {
 			new ProminentWord( "natychmiast", "natychmiast", 8 ),
 			new ProminentWord( "odczuwa", "odczuwa", 8 ),
 			new ProminentWord( "piersiowej", "piersiowej", 8 ),
-			new ProminentWord( "wie", "wie", 8 ),
 			new ProminentWord( "zasadzie", "zasadzie", 8 ),
 		];
 

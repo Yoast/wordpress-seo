@@ -105,6 +105,17 @@
 	mask-image: var(--yoast-svg-icon-caret-right);
 }
 
+.yoast .yoast-button--edit {
+	width: 20.25px;
+	height: 18px;
+	flex-shrink: 0;
+	display: inline-block;
+	background-color: currentColor;
+	-webkit-mask-image: var(--yoast-svg-icon-edit);
+	mask-image: var(--yoast-svg-icon-edit);
+	margin-right: 8px;
+}
+
 html[dir=rtl] .yoast .yoast-button--buy {
 	flex-direction: row-reverse;
 }
