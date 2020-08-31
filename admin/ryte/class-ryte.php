@@ -43,6 +43,18 @@ class WPSEO_Ryte implements WPSEO_WordPress_Integration {
 
 		// Sets the action for the Ryte fetch cron job.
 		add_action( 'wpseo_ryte_fetch', [ $this, 'fetch_from_ryte' ] );
+
+		/*
+		 * Unschedule the cron job when the environment type is changed to a
+		 * value other than `production` while the plugin is active.
+		 */
+		if ( wp_get_environment_type() !== 'production' ) {
+			$this->unschedule_cron();
+			return;
+		}
+
+		// Make sure to re-schedule the cron job.
+		$this->schedule_cron();
 	}
 
 	/**
@@ -66,7 +78,8 @@ class WPSEO_Ryte implements WPSEO_WordPress_Integration {
 	 * Hooks to run on plugin activation.
 	 */
 	public function activate_hooks() {
-		if ( $this->get_option()->is_enabled() ) {
+		// Schedule cron job when it doesn't exists on activation.
+		if ( $this->get_option()->is_enabled() && wp_get_environment_type() === 'production' ) {
 			$this->schedule_cron();
 
 			return;
