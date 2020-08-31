@@ -211,6 +211,8 @@ Your question has most likely been answered on our knowledge base: [kb.yoast.com
 == 14.9 =
 Release Date: September 1st, 2020
 
+Yoast SEO 14.9 comes with a new round of improvements, plus a new language-based enhancement: improved keyphrase recognition for Hebrew. Read more about those changes in [our release post](https://yoa.st/release-14-9)!
+
 Bugfixes:
 
 * Fixes a bug where a JavaScript console warning was thrown on category edit pages. 
