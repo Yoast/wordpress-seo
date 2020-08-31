@@ -2,11 +2,13 @@
 /**
  * WPSEO plugin test file.
  *
- * @package WPSEO\Tests\OnPage
+ * @package WPSEO\Tests\Ryte
  */
 
 /**
  * Unit Test Class.
+ *
+ * @group ryte
  */
 class WPSEO_Ryte_Test extends WPSEO_UnitTestCase {
 
@@ -148,8 +150,6 @@ class WPSEO_Ryte_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_cron_scheduling() {
 		WPSEO_Options::set( 'ryte_indexability', true );
-
-		$this->assertFalse( wp_next_scheduled( 'wpseo_ryte_fetch' ) );
 
 		$instance = new WPSEO_Ryte();
 		$instance->activate_hooks();
