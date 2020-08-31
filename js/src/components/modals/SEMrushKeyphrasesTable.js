@@ -89,7 +89,7 @@ class SEMrushKeyphrasesTable extends Component {
 			"&db=" + encodeURIComponent( countryCode );
 
 		return (
-			data && ! isEmpty( data ) && <Fragment>
+			data && ! isEmpty( data.results ) && <Fragment>
 				<table className="yoast yoast-table">
 					<thead>
 						<tr>
