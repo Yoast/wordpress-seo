@@ -213,7 +213,7 @@ Release Date: September 1st, 2020
 
 Bugfixes:
 
-* Fixes a bug where a JavaScript console warning was thrown on category edit pages.
+* Fixes a bug where a JavaScript console warning was thrown on category edit pages. 
 * Fixes a bug where the page number was not shown in the breadcrumb for paginated series.
 * Fixes a bug where the `robots.txt` and `.htaccess` file editor would not work due to `get_home_path()` not being a writable path. Props to [druesome](https://github.com/druesome).
 * Fixes a bug where port numbers in the indexable permalinks were missing (when applicable).
