@@ -7,6 +7,7 @@ import styled, { createGlobalStyle } from "styled-components";
 /* Yoast dependencies */
 import { ButtonSection } from "yoast-components";
 import { colors, rgba } from "@yoast/style-guide";
+import { Alert } from "@yoast/components";
 
 /* Internal dependencies */
 import SnippetEditorWrapper from "../containers/SnippetEditor";
@@ -46,6 +47,11 @@ class SnippetPreviewModal extends Component {
 		this.setState( { isOpen: false } );
 	}
 
+	/**
+	 * Returns the SnippetPreviewModal.
+	 *
+	 * @returns {Component} The SnippetPreviewModal.
+	 */
 	render() {
 		return (
 			<Fragment>
@@ -63,6 +69,9 @@ class SnippetPreviewModal extends Component {
 						onRequestClose={ this.closeModal }
 						overlayClassName="yoast-modal__screen-overlay"
 					>
+						<Alert type="info">
+							{ __( "This preview will be removed from here, and can already be found in the post settings.", "wordpress-seo" ) }
+						</Alert>
 						<ModalContentSpacer>
 							<SnippetEditorWrapper showCloseButton={ false } hasPaperStyle={ false } />
 						</ModalContentSpacer>

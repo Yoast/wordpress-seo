@@ -2,8 +2,6 @@ import PropTypes from "prop-types";
 import { LanguageNotice } from "@yoast/components";
 import { ContentAnalysis } from "@yoast/analysis-report";
 import { Component, Fragment } from "@wordpress/element";
-import { compose } from "@wordpress/compose";
-import { withDispatch, withSelect } from "@wordpress/data";
 import { Paper } from "yoastseo";
 
 import mapResults from "./mapResults";
@@ -152,25 +150,4 @@ Results.defaultProps = {
 	keywordKey: "",
 };
 
-export default compose( [
-	withSelect( select => {
-		const {
-			getActiveMarker,
-		} = select( "yoast-seo/editor" );
-
-		return {
-			activeMarker: getActiveMarker(),
-		};
-	} ),
-	withDispatch( dispatch => {
-		const {
-			setActiveMarker,
-			setMarkerPauseStatus,
-		} = dispatch( "yoast-seo/editor" );
-
-		return {
-			setActiveMarker,
-			setMarkerPauseStatus,
-		};
-	} ),
-] )( Results );
+export default Results;

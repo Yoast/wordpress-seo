@@ -23,7 +23,10 @@ const TwitterWrapper = ( props ) => {
 			{
 				props.isPremium
 					? <Slot
-						name="YoastTwitterPremium"
+						name={
+							"YoastTwitterPremium" +
+							`${ props.location.charAt( 0 ).toUpperCase() + props.location.slice( 1 ) }`
+						}
 						fillProps={ props }
 					/>
 					: <SocialForm { ...props } />
@@ -37,4 +40,9 @@ export default TwitterWrapper;
 TwitterWrapper.propTypes = {
 	isPremium: PropTypes.bool.isRequired,
 	onLoad: PropTypes.func.isRequired,
+	location: PropTypes.string,
+};
+
+TwitterWrapper.defaultProps = {
+	location: "",
 };

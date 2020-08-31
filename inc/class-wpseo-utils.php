@@ -1113,15 +1113,15 @@ SVG;
 		}
 
 		$wpseo_admin_l10n = [
-			'displayAdvancedTab'   => WPSEO_Capability_Utils::current_user_can( 'wpseo_edit_advanced_metadata' ) || ! WPSEO_Options::get( 'disableadvanced_meta' ),
-			'noIndex'              => (bool) $no_index,
-			'isPostType'           => (bool) get_post_type(),
-			'postType'             => get_post_type(),
-			'postTypeNamePlural'   => ( $page_type === 'post' ) ? $label_object->label : $label_object->name,
-			'postTypeNameSingular' => ( $page_type === 'post' ) ? $label_object->labels->singular_name : $label_object->singular_name,
-			'breadcrumbsDisabled'  => WPSEO_Options::get( 'breadcrumbs-enable', false ) !== true && ! current_theme_supports( 'yoast-seo-breadcrumbs' ),
+			'displayAdvancedTab'    => WPSEO_Capability_Utils::current_user_can( 'wpseo_edit_advanced_metadata' ) || ! WPSEO_Options::get( 'disableadvanced_meta' ),
+			'noIndex'               => (bool) $no_index,
+			'isPostType'            => (bool) get_post_type(),
+			'postType'              => get_post_type(),
+			'postTypeNamePlural'    => ( $page_type === 'post' ) ? $label_object->label : $label_object->name,
+			'postTypeNameSingular'  => ( $page_type === 'post' ) ? $label_object->labels->singular_name : $label_object->singular_name,
+			'isBreadcrumbsDisabled' => WPSEO_Options::get( 'breadcrumbs-enable', false ) !== true && ! current_theme_supports( 'yoast-seo-breadcrumbs' ),
 			// phpcs:ignore Generic.ControlStructures.DisallowYodaConditions -- Bug: squizlabs/PHP_CodeSniffer#2962.
-			'privateBlog'          => ( (string) get_option( 'blog_public' ) ) === '0',
+			'isPrivateBlog'         => ( (string) get_option( 'blog_public' ) ) === '0',
 		];
 
 		$additional_entries = apply_filters( 'wpseo_admin_l10n', [] );
