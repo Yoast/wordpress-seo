@@ -102,45 +102,55 @@ class SEMrushRelatedKeyphrasesModal extends Component {
 	 *
 	 * @returns {void}
 	 */
-	listenToMessages( event ) {
-		const object = event.data;
-		const source = event.source;
-		const origin = event.origin;
+	async listenToMessages( event ) {
+		const { data, source, origin } = event;
 
 		// Check that the message comes from the expected origin.
 		if ( origin !== "https://oauth.semrush.com" || this.popup !== source ) {
 			return;
 		}
 
-		if ( object.type === "semrush:oauth:success" ) {
+		if ( data.type === "semrush:oauth:success" ) {
 			this.popup.close();
 			// Stop listening to messages, since the popup is closed.
 			window.removeEventListener( "message", this.listenToMessages, false );
+			await this.performAuthenticationRequest( data );
+		}
 
-			try {
-				const url = new URL( object.url );
-				const code = url.searchParams.get( "code" );
-				apiFetch( {
-					path: "yoast/v1/semrush/authenticate",
-					method: "POST",
-					data: { code: code },
-				} ).then( res => {
-					if ( res.status === 200 )  {
-						this.props.onAuthentication( true );
-						this.onModalOpen();
-					} else {
-						console.error( res.error );
-					}
-				} );
-			} catch ( e ) {
-				// URL() constructor throws a TypeError exception if url is malformed.
-				console.error( e.message );
-			}
-		} else if ( object.type === "semrush:oauth:denied" ) {
+		if ( data.type === "semrush:oauth:denied" ) {
 			this.popup.close();
 			// Stop listening to messages, since the popup is closed.
 			window.removeEventListener( "message", this.listenToMessages, false );
 			this.props.onAuthentication( false );
+		}
+	}
+
+	/**
+	 * Get the tokens using the provided code after user has granted authorization.
+	 *
+	 * @param {object} data The message data.
+	 *
+	 * @returns {void}
+	 */
+	async performAuthenticationRequest( data ) {
+		try {
+			const url      = new URL( data.url );
+			const code     = url.searchParams.get( "code" );
+			const response = await apiFetch( {
+				path: "yoast/v1/semrush/authenticate",
+				method: "POST",
+				data: { code: code },
+			} );
+
+			if ( response.status === 200 )  {
+				this.props.onAuthentication( true );
+				this.onModalOpen();
+			} else {
+				console.error( response.error );
+			}
+		} catch ( e ) {
+			// URL() constructor throws a TypeError exception if url is malformed.
+			console.error( e.message );
 		}
 	}
 
