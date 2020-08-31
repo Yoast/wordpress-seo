@@ -36,7 +36,7 @@ export default function SidebarFill( { settings, store, theme } ) {
 						location={ "sidebar" }
 					>
 						<Warning />
-					</TopLevelProviders>
+					</TopLevelProviders>                                                                                                                                                                                                                                         
 				</SidebarItem>
 				<SidebarItem renderPriority={ 2 }>
 					<TopLevelProviders

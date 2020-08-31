@@ -11,6 +11,8 @@ class Indexable_Post_Type_Archive_Presentation extends Indexable_Presentation {
 	use Archive_Adjacent;
 
 	/**
+	 * Generates the canonical.
+	 *
 	 * @inheritDoc
 	 */
 	public function generate_canonical() {
@@ -27,6 +29,8 @@ class Indexable_Post_Type_Archive_Presentation extends Indexable_Presentation {
 	}
 
 	/**
+	 * Generates the robots.
+	 *
 	 * @inheritDoc
 	 */
 	public function generate_robots() {
@@ -40,6 +44,8 @@ class Indexable_Post_Type_Archive_Presentation extends Indexable_Presentation {
 	}
 
 	/**
+	 * Generates the title.
+	 *
 	 * @inheritDoc
 	 */
 	public function generate_title() {
@@ -54,6 +60,8 @@ class Indexable_Post_Type_Archive_Presentation extends Indexable_Presentation {
 	}
 
 	/**
+	 * Generates the source.
+	 *
 	 * @inheritDoc
 	 */
 	public function generate_source() {

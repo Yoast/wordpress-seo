@@ -22,6 +22,8 @@ class Indexable_Static_Home_Page_Presentation extends Indexable_Post_Type_Presen
 	}
 
 	/**
+	 * Generates the open_graph_type.
+	 *
 	 * @inheritDoc
 	 */
 	public function generate_open_graph_type() {

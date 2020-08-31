@@ -10,6 +10,8 @@ namespace Yoast\WP\SEO\Presentations;
 class Indexable_Error_Page_Presentation extends Indexable_Presentation {
 
 	/**
+	 * Generates the robots.
+	 *
 	 * @inheritDoc
 	 */
 	public function generate_robots() {
@@ -21,6 +23,8 @@ class Indexable_Error_Page_Presentation extends Indexable_Presentation {
 	}
 
 	/**
+	 * Generates the title.
+	 *
 	 * @inheritDoc
 	 */
 	public function generate_title() {
