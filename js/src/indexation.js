@@ -203,19 +203,91 @@ import ProgressBar from "./ui/progressBar";
 	} );
 } )( jQuery );
 
+/**
+ * Indexes the site and shows a progress bar indicating the indexing process' progress.
+ */
 class Indexation extends Component {
-	startIndexation() {
 
+	/**
+	 * Indexation constructor.
+	 *
+	 * @param {Object} props The properties.
+	 */
+	constructor( props ) {
+		super( props );
+
+		this.settings = window.yoastIndexingData;
+		this.stoppedIndexation = false;
+
+		this.state = {
+			processed: 0
+		};
+
+		this.startIndexation = this.startIndexation.bind( this );
 	}
 
+	/**
+	 * Does an indexation request.
+	 *
+	 * @param {string} url   The url of the indexation that should be done.
+	 * @param {string} nonce The WordPress nonce value for in the header.
+	 *
+	 * @returns {Promise} The request promise.
+	 */
+	async doIndexationRequest( url, nonce ) {
+		const response = await fetch( url, {
+			method: "POST",
+			headers: {
+				"X-WP-Nonce": nonce,
+			},
+		} );
+		return response.json();
+	}
+
+	/**
+	 * Does the indexation of a given endpoint.
+	 *
+	 * @param {string} endpoint The endpoint.
+	 *
+	 * @returns {Promise} The indexation promise.
+	 */
+	async doIndexation( endpoint, ) {
+		let url = this.settings.restApi.root + this.settings.restApi.endpoints[ endpoint ];
+
+		while ( !this.stoppedIndexation && url !== false && this.state.processed <= this.settings.amount ) {
+			const response = await this.doIndexationRequest( url, this.settings.restApi.nonce );
+			this.setState( { processed: this.state.processed + response.objects.length } );
+			url = response.next_url;
+		}
+	}
+
+	/**
+	 * Starts the indexation process.
+	 *
+	 * @return {Promise} The start indexation promise.
+	 */
+	async startIndexation() {
+		this.setState( { processed: 0 } );
+		for ( const endpoint of Object.keys( this.settings.restApi.endpoints ) ) {
+			await this.doIndexation( endpoint );
+		}
+	}
+
+	/**
+	 * Renders the component
+	 *
+	 * @return {JSX.Element} The rendered component.
+	 */
 	render() {
 		return (
 			<Fragment>
-				<New progressColor={ colors.$color_pink_dark } max={ 100 } value={ 30 } />
-				<Button onClick={ this.startIndexation } variant="purple">{ __( "Start SEO data optimization", "wordpress-seo" ) }</Button>
+				<New progressColor={colors.$color_pink_dark} max={this.settings.amount} value={this.state.processed}/>
+				<Button onClick={this.startIndexation} variant="purple">
+					{__( "Start SEO data optimization", "wordpress-seo" )}
+				</Button>
 			</Fragment>
 		);
 	}
 }
 
-render( <Indexation />, document.getElementById( "yoast-seo-indexation-action" ) );
+render( <Indexation/>, document.getElementById( "yoast-seo-indexation-action" ) );
