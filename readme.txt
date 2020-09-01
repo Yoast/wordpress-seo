@@ -5,7 +5,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
 Tested up to: 5.5
-Stable tag: 14.8.1
+Stable tag: 14.9
 Requires PHP: 5.6.20
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -211,9 +211,11 @@ Your question has most likely been answered on our knowledge base: [kb.yoast.com
 == 14.9 =
 Release Date: September 1st, 2020
 
+Yoast SEO 14.9 comes with a new round of improvements, plus a new language-based enhancement: improved keyphrase recognition for Hebrew. Read more about those changes in [our release post](https://yoa.st/release-14-9)!
+
 Bugfixes:
 
-* Fixes a bug where a JavaScript console warning was thrown on category edit pages.
+* Fixes a bug where a JavaScript console warning was thrown on category edit pages. 
 * Fixes a bug where the page number was not shown in the breadcrumb for paginated series.
 * Fixes a bug where the `robots.txt` and `.htaccess` file editor would not work due to `get_home_path()` not being a writable path. Props to [druesome](https://github.com/druesome).
 * Fixes a bug where port numbers in the indexable permalinks were missing (when applicable).
