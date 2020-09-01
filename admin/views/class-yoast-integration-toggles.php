@@ -72,7 +72,7 @@ class Yoast_Integration_Toggles {
 						'The %s integration offers suggestions and insights for keywords related to the entered focus keyphrase.',
 						'wordpress-seo'
 					),
-				'SEMrush'
+					'SEMrush'
 				),
 				'order'           => 10,
 			],
