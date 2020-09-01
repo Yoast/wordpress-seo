@@ -44,8 +44,8 @@ class Addon_Manager_Test extends TestCase {
 	 */
 	public function setUp() {
 		$this->instance = Mockery::mock( Addon_Manager_Double::class )
-								 ->shouldAllowMockingProtectedMethods()
-								 ->makePartial();
+				->shouldAllowMockingProtectedMethods()
+					->makePartial();
 
 		parent::setUp();
 	}
@@ -463,7 +463,7 @@ class Addon_Manager_Test extends TestCase {
 				'package'       => 'https://example.org/extension.zip',
 				'sections'      => [
 					'changelog' => 'changelog',
-					'support'   => '<h4>Need support?</h4><p>You can probably find an answer to your question in our <a href="https://yoast.com/help/">help center</a>. If you still need support and have an active subscription for this product, please email <a href="mailto:support@yoast.com">support@yoast.com</a>.</p>'
+					'support'   => '<h4>Need support?</h4><p>You can probably find an answer to your question in our <a href="https://yoast.com/help/">help center</a>. If you still need support and have an active subscription for this product, please email <a href="mailto:support@yoast.com">support@yoast.com</a>.</p>',
 				],
 				'icons'         => [
 					'2x' => 'https://yoa.st/yoast-seo-icon',
@@ -670,7 +670,7 @@ class Addon_Manager_Test extends TestCase {
 							'package'       => 'https://example.org/extension.zip',
 							'sections'      => [
 								'changelog' => 'changelog',
-								'support'   => '<h4>Need support?</h4><p>You can probably find an answer to your question in our <a href="https://yoast.com/help/">help center</a>. If you still need support and have an active subscription for this product, please email <a href="mailto:support@yoast.com">support@yoast.com</a>.</p>'
+								'support'   => '<h4>Need support?</h4><p>You can probably find an answer to your question in our <a href="https://yoast.com/help/">help center</a>. If you still need support and have an active subscription for this product, please email <a href="mailto:support@yoast.com">support@yoast.com</a>.</p>',
 							],
 							'icons'         => [
 								'2x' => 'https://yoa.st/yoast-seo-icon',
@@ -729,7 +729,7 @@ class Addon_Manager_Test extends TestCase {
 					'package'       => 'https://example.org/extension.zip',
 					'sections'      => [
 						'changelog' => 'changelog',
-						'support'   => '<h4>Need support?</h4><p>You can probably find an answer to your question in our <a href="https://yoast.com/help/">help center</a>. If you still need support and have an active subscription for this product, please email <a href="mailto:support@yoast.com">support@yoast.com</a>.</p>'
+						'support'   => '<h4>Need support?</h4><p>You can probably find an answer to your question in our <a href="https://yoast.com/help/">help center</a>. If you still need support and have an active subscription for this product, please email <a href="mailto:support@yoast.com">support@yoast.com</a>.</p>',
 					],
 					'icons'         => [
 						'2x' => 'https://yoa.st/yoast-seo-icon',
