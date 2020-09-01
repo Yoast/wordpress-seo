@@ -28,7 +28,7 @@ class WPSEO_Sitemaps_Admin_Test extends TestCase {
 	/**
 	 * @var Mockery\LegacyMockInterface|Mockery\MockInterface|Options_Double
 	 */
-	private $options;
+	private $options_mock;
 
 	/**
 	 * Set up the class which will be tested.
@@ -38,16 +38,10 @@ class WPSEO_Sitemaps_Admin_Test extends TestCase {
 	public function setUp() {
 		$this->instance = Mockery::mock( WPSEO_Sitemaps_Admin::class )->makePartial();
 
-		// Due to the nature of the WPSEO_Sitemaps_Admin class, this is necessary.
-		$this->options = Mockery::mock( 'alias:' . \WPSEO_Options::class )
-								->shouldAllowMockingProtectedMethods()
-								->shouldReceive( 'get_instance' )
-								->once()
-								->andReturnNull();
+		$this->options_mock = Mockery::mock( 'alias:' . \WPSEO_Options::class )->shouldAllowMockingProtectedMethods();
+		$this->options_mock->expects( 'get_instance' )->andReturnNull();
 
 		$this->mock_post               = Mockery::mock( '\WP_Post' )->makePartial();
-		$this->mock_post->ID           = 1;
-		$this->mock_post->post_content = '';
 		$this->mock_post->post_type    = 'post';
 
 		parent::setUp();
@@ -59,6 +53,12 @@ class WPSEO_Sitemaps_Admin_Test extends TestCase {
 	 * @covers WPSEO_Sitemaps_Admin::status_transition
 	 */
 	public function test_status_transition_on_development() {
+		Monkey\Functions\stubs(
+			[
+				'wp_get_environment_type' => 'development',
+			]
+		);
+
 		Monkey\Functions\expect( 'get_post_type' )
 			->with( $this->mock_post )
 			->andReturn( 'post' );
@@ -66,17 +66,13 @@ class WPSEO_Sitemaps_Admin_Test extends TestCase {
 		Monkey\Functions\expect( 'wp_cache_delete' )
 			->andReturn( true );
 
-		$this->options->shouldReceive( 'is_multisite' )
+		$this->options_mock->shouldReceive( 'is_multisite' )
 			->andReturn( false );
 
-		$this->options->shouldReceive( 'get' )
+		$this->options_mock->shouldReceive( 'get' )
 					  ->once()
 					  ->with( 'noindex-post', false )
 					  ->andReturnFalse();
-
-		Monkey\Functions\expect( 'wp_get_environment_type' )
-			->once()
-			->andReturn( 'development' );
 
 		Monkey\Functions\expect( 'apply_filters' )
 			->never();
@@ -90,6 +86,12 @@ class WPSEO_Sitemaps_Admin_Test extends TestCase {
 	 * @covers WPSEO_Sitemaps_Admin::status_transition
 	 */
 	public function test_status_transition_on_production() {
+		Monkey\Functions\stubs(
+			[
+				'wp_get_environment_type' => 'production',
+			]
+		);
+
 		Monkey\Functions\expect( 'get_post_type' )
 			->with( $this->mock_post )
 			->andReturn( 'post' );
@@ -97,17 +99,13 @@ class WPSEO_Sitemaps_Admin_Test extends TestCase {
 		Monkey\Functions\expect( 'wp_cache_delete' )
 			->andReturn( true );
 
-		$this->options->shouldReceive( 'is_multisite' )
+		$this->options_mock->shouldReceive( 'is_multisite' )
 					  ->andReturn( false );
 
-		$this->options->shouldReceive( 'get' )
+		$this->options_mock->shouldReceive( 'get' )
 					  ->once()
 					  ->with( 'noindex-post', false )
 					  ->andReturnFalse();
-
-		Monkey\Functions\expect( 'wp_get_environment_type' )
-			->once()
-			->andReturn( 'production' );
 
 		Monkey\Functions\expect( 'apply_filters' )
 			->once()
