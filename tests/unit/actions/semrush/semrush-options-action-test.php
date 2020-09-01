@@ -21,11 +21,16 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
 class SEMrush_Options_Action_Test extends TestCase {
 
 	/**
+	 * The class instance.
+	 *
 	 * @var SEMrush_Options_Action
 	 */
 	protected $instance;
 
 	/**
+	 *
+	 * The options helper.
+	 *
 	 * @var Mockery\MockInterface|Options_Helper
 	 */
 	protected $options_helper;
@@ -56,7 +61,7 @@ class SEMrush_Options_Action_Test extends TestCase {
 	 */
 	public function test_successful_set_country_code() {
 		$this->options_helper
-			->expects('set')
+			->expects( 'set' )
 			->once()
 			->with( 'semrush_country_code', 'us' )
 			->andReturnTrue();
@@ -64,7 +69,7 @@ class SEMrush_Options_Action_Test extends TestCase {
 		$this->assertEquals(
 			(object) [
 				'success' => true,
-				'status' => 200,
+				'status'  => 200,
 			],
 			$this->instance->set_country_code( 'us' )
 		);
@@ -77,7 +82,7 @@ class SEMrush_Options_Action_Test extends TestCase {
 	 */
 	public function test_unsuccessful_set_country_code() {
 		$this->options_helper
-			->expects('set')
+			->expects( 'set' )
 			->once()
 			->with( 'semrush_country_code', 'us' )
 			->andReturnFalse();
@@ -85,8 +90,8 @@ class SEMrush_Options_Action_Test extends TestCase {
 		$this->assertEquals(
 			(object) [
 				'success' => false,
-				'status' => 500,
-				'error' => 'Could not save option in the database',
+				'status'  => 500,
+				'error'   => 'Could not save option in the database',
 			],
 			$this->instance->set_country_code( 'us' )
 		);
