@@ -1,14 +1,14 @@
 <?php
-/**
- * WPSEO plugin file.
- *
- * @package WPSEO\Internals
- */
+
+namespace Yoast\WP\SEO\Integrations\Health_Checks;
+
+use Yoast\WP\SEO\Conditionals\Admin_Conditional;
+use Yoast\WP\SEO\Integrations\Integration_Interface;
 
 /**
- * Represents the abstract class for the health check.
+ * Abstract_Health_Check class
  */
-abstract class WPSEO_Health_Check {
+abstract class Abstract_Health_Check implements Integration_Interface {
 
 	/**
 	 * The health check section in which 'good' results should be shown.
@@ -84,24 +84,41 @@ abstract class WPSEO_Health_Check {
 	protected $async = false;
 
 	/**
-	 * Runs the test and returns the result.
+	 * @inheritDoc
 	 */
-	abstract public function run();
+	public static function get_conditionals() {
+		return [ Admin_Conditional::class ];
+	}
 
 	/**
-	 * Registers the test to WordPress.
+	 * @inheritDoc
 	 */
-	public function register_test() {
+	public function register_hooks() {
 		if ( $this->is_async() ) {
-			add_filter( 'site_status_tests', [ $this, 'add_async_test' ] );
-
-			add_action( 'wp_ajax_health-check-' . $this->get_test_name(), [ $this, 'get_async_test_result' ] );
+			\add_filter( 'site_status_tests', [ $this, 'add_async_test' ] );
+			\add_action( 'wp_ajax_health-check-' . $this->get_test_name(), [ $this, 'get_async_test_result' ] );
 
 			return;
 		}
 
-		add_filter( 'site_status_tests', [ $this, 'add_test' ] );
+		\add_filter( 'site_status_tests', [ $this, 'add_test' ] );
 	}
+
+	/**
+	 * Registers the test to WordPress.
+	 *
+	 * @codeCoverageIgnore
+	 * @deprecated 15.1
+	 */
+	public function register_test() {
+		\_deprecated_function( __METHOD__, '15.1', 'register_hooks' );
+		$this->register_hooks();
+	}
+
+	/**
+	 * Runs the test and returns the result.
+	 */
+	abstract public function run();
 
 	/**
 	 * Runs the test.
@@ -156,7 +173,7 @@ abstract class WPSEO_Health_Check {
 	 * Formats the test result as an array.
 	 */
 	public function get_async_test_result() {
-		wp_send_json_success( $this->get_test_result() );
+		\wp_send_json_success( $this->get_test_result() );
 	}
 
 	/**
@@ -165,7 +182,7 @@ abstract class WPSEO_Health_Check {
 	 * @return array The proper formatted badge.
 	 */
 	protected function get_badge() {
-		if ( ! is_array( $this->badge ) ) {
+		if ( ! \is_array( $this->badge ) ) {
 			$this->badge = [];
 		}
 
@@ -187,7 +204,7 @@ abstract class WPSEO_Health_Check {
 	 * @return string The formatted testname.
 	 */
 	protected function get_test_name() {
-		return str_replace( '_', '-', $this->test );
+		return \str_replace( '_', '-', $this->test );
 	}
 
 	/**
@@ -203,9 +220,9 @@ abstract class WPSEO_Health_Check {
 	 * Adds a text to the bottom of the Site Health check to indicate it is a Yoast SEO Site Health Check.
 	 */
 	protected function add_yoast_signature() {
-		$this->actions .= sprintf(
+		$this->actions .= \sprintf(
 			/* translators: 1: Start of a paragraph beginning with the Yoast icon, 2: Expands to 'Yoast SEO', 3: Paragraph closing tag. */
-			esc_html__( '%1$sThis was reported by the %2$s plugin%3$s', 'wordpress-seo' ),
+			\esc_html__( '%1$sThis was reported by the %2$s plugin%3$s', 'wordpress-seo' ),
 			'<p class="yoast-site-health__signature"><img src="' . esc_url( plugin_dir_url( WPSEO_FILE ) . 'images/Yoast_SEO_Icon.svg' ) . '" alt="" height="20" width="20" class="yoast-site-health__signature-icon">',
 			'Yoast SEO',
 			'</p>'
