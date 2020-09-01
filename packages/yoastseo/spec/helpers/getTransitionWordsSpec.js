@@ -61,7 +61,7 @@ describe( "gets transition words, based on language", function() {
 		const transitionWords = getTransitionWords( "id_ID" );
 		expect( Object.keys( transitionWords ) ).toEqual( properties );
 	} );
-	
+
 	it( "checks if all properties are set if no locale is given", function() {
 		const transitionWords = getTransitionWords( "" );
 		expect( Object.keys( transitionWords ) ).toEqual( properties );
