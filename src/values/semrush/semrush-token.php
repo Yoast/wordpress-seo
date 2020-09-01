@@ -16,26 +16,36 @@ use Yoast\WP\SEO\Exceptions\SEMrush\SEMrush_Empty_Token_Property_Exception;
 class SEMrush_Token {
 
 	/**
+	 * The access token.
+	 *
 	 * @var string
 	 */
 	public $access_token;
 
 	/**
+	 * The refresh token.
+	 *
 	 * @var string
 	 */
 	public $refresh_token;
 
 	/**
+	 * The expiration date.
+	 *
 	 * @var int
 	 */
 	public $expires;
 
 	/**
+	 * Whether or not the token has expired.
+	 *
 	 * @var bool
 	 */
 	public $has_expired;
 
 	/**
+	 * The timestamp at which the token was created.
+	 *
 	 * @var int
 	 */
 	public $created_at;
