@@ -22,6 +22,7 @@ class Indexing_List_Item_Presenter extends Abstract_Presenter {
 		);
 
 		$output .= '</li>';
+		$output .= '<div id="yoast-seo-indexation-action"></div>';
 
 		return $output;
 	}
