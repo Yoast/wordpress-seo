@@ -1,16 +1,11 @@
 <?php
-/**
- * WPSEO plugin file.
- *
- * @package Yoast\WP\SEO\Integrations\Blocks
- */
 
 namespace Yoast\WP\SEO\Integrations\Blocks;
 
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 
 /**
- * Dynamic blocks category class
+ * Internal_Linking_Category block class.
  */
 class Internal_Linking_Category implements Integration_Interface {
 

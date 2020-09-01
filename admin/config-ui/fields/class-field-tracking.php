@@ -18,8 +18,8 @@ class WPSEO_Config_Field_Tracking extends WPSEO_Config_Field_Choice {
 
 		$this->set_property( 'label', __( 'Can we collect anonymous information about your website and its usage?', 'wordpress-seo' ) );
 
-		$this->add_choice( '0', __( 'No, I don\'t want to allow you to track my site data.', 'wordpress-seo' ) );
-		$this->add_choice( '1', __( 'Yes, you can track my site\'s data!', 'wordpress-seo' ) );
+		$this->add_choice( 'no', __( 'No, I don\'t want to allow you to track my site data.', 'wordpress-seo' ) );
+		$this->add_choice( 'yes', __( 'Yes, you can track my site\'s data!', 'wordpress-seo' ) );
 	}
 
 	/**
@@ -43,9 +43,9 @@ class WPSEO_Config_Field_Tracking extends WPSEO_Config_Field_Choice {
 	public function get_data() {
 		$tracking = WPSEO_Options::get( 'tracking' );
 		if ( $tracking ) {
-			return '1';
+			return 'yes';
 		}
-		return '0';
+		return 'no';
 	}
 
 	/**

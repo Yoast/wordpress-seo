@@ -1,11 +1,6 @@
 /* External dependencies */
 import { Component } from "@wordpress/element";
 import PropTypes from "prop-types";
-import {
-	withSelect,
-	withDispatch,
-} from "@wordpress/data";
-import { compose } from "@wordpress/compose";
 import { sprintf, __ } from "@wordpress/i18n";
 import apiFetch from "@wordpress/api-fetch";
 import { addQueryArgs } from "@wordpress/url";
@@ -269,29 +264,4 @@ PrimaryTaxonomyPicker.propTypes = {
 	} ),
 };
 
-export default compose( [
-	withSelect( ( select, props ) => {
-		const editorData = select( "core/editor" );
-		const yoastData = select( "yoast-seo/editor" );
-
-		const { taxonomy } = props;
-
-		const selectedTermIds = editorData.getEditedPostAttribute( taxonomy.restBase ) || [];
-
-		return {
-			selectedTermIds,
-			primaryTaxonomyId: yoastData.getPrimaryTaxonomyId( taxonomy.name ),
-		};
-	} ),
-	withDispatch( dispatch => {
-		const {
-			setPrimaryTaxonomyId,
-			updateReplacementVariable,
-		} = dispatch( "yoast-seo/editor" );
-
-		return {
-			setPrimaryTaxonomyId,
-			updateReplacementVariable,
-		};
-	} ),
-] )( PrimaryTaxonomyPicker );
+export default PrimaryTaxonomyPicker;

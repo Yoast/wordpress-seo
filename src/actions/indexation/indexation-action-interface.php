@@ -1,12 +1,10 @@
 <?php
-/**
- * Reindexation action for indexables
- *
- * @package Yoast\WP\SEO\Actions\Indexation
- */
 
 namespace Yoast\WP\SEO\Actions\Indexation;
 
+/**
+ * Interface definition of reindexation action for indexables.
+ */
 interface Indexation_Action_Interface {
 
 	/**

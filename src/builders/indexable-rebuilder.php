@@ -1,9 +1,4 @@
 <?php
-/**
- * Rebuilder for the indexables.
- *
- * @package Yoast\YoastSEO\Builders
- */
 
 namespace Yoast\WP\SEO\Builders;
 
@@ -13,7 +8,7 @@ use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use YoastSEO_Vendor\Psr\Log\LogLevel;
 
 /**
- * Class Indexable_Rebuilder.
+ * Rebuilder for the indexables.
  *
  * Contains methods to find and build indexables.
  */

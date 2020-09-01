@@ -256,6 +256,10 @@ class WPSEO_Addon_Manager {
 	 * @return stdClass The converted subscription.
 	 */
 	protected function convert_subscription_to_plugin( $subscription ) {
+		// We need to replace h2's and h3's with h4's because the styling expects that.
+		$changelog = str_replace( '</h2', '</h4', str_replace( '<h2', '<h4', $subscription->product->changelog ) );
+		$changelog = str_replace( '</h3', '</h4', str_replace( '<h3', '<h4', $changelog ) );
+
 		return (object) [
 			'new_version'   => $subscription->product->version,
 			'name'          => $subscription->product->name,
@@ -266,9 +270,76 @@ class WPSEO_Addon_Manager {
 			'download_link' => $subscription->product->download,
 			'package'       => $subscription->product->download,
 			'sections'      => [
-				'changelog' => $subscription->product->changelog,
+				'changelog' => $changelog,
+				'support'   => $this->get_support_section(),
 			],
+			'icons'         => [
+				'2x' => $this->get_icon( $subscription->product->slug ),
+			],
+			'banners'       => $this->get_banners( $subscription->product->slug ),
+			'tested'        => YOAST_SEO_WP_TESTED,
+			'requires'      => YOAST_SEO_WP_REQUIRED,
+			'requires_php'  => YOAST_SEO_PHP_REQUIRED,
 		];
+	}
+
+	/**
+	 * Returns the plugin's icon URL.
+	 *
+	 * @param string $slug The plugin slug.
+	 *
+	 * @return string The icon URL for this plugin.
+	 */
+	protected function get_icon( $slug ) {
+		switch ( $slug ) {
+			case self::LOCAL_SLUG:
+				return 'https://yoa.st/local-seo-icon';
+			case self::NEWS_SLUG:
+				return 'https://yoa.st/news-seo-icon';
+			case self::PREMIUM_SLUG:
+				return 'https://yoa.st/yoast-seo-icon';
+			case self::VIDEO_SLUG:
+				return 'https://yoa.st/video-seo-icon';
+			case self::WOOCOMMERCE_SLUG:
+				return 'https://yoa.st/woo-seo-icon';
+		}
+	}
+
+	/**
+	 * Return an array of plugin banner URLs.
+	 *
+	 * @param string $slug The plugin slug.
+	 *
+	 * @return string[]
+	 */
+	protected function get_banners( $slug ) {
+		switch ( $slug ) {
+			case self::LOCAL_SLUG:
+				return [
+					'high' => 'https://yoa.st/yoast-seo-banner-local',
+					'low'  => 'https://yoa.st/yoast-seo-banner-low-local',
+				];
+			case self::NEWS_SLUG:
+				return [
+					'high' => 'https://yoa.st/yoast-seo-banner-news',
+					'low'  => 'https://yoa.st/yoast-seo-banner-low-news',
+				];
+			case self::PREMIUM_SLUG:
+				return [
+					'high' => 'https://yoa.st/yoast-seo-banner-premium',
+					'low'  => 'https://yoa.st/yoast-seo-banner-low-premium',
+				];
+			case self::VIDEO_SLUG:
+				return [
+					'high' => 'https://yoa.st/yoast-seo-banner-video',
+					'low'  => 'https://yoa.st/yoast-seo-banner-low-video',
+				];
+			case self::WOOCOMMERCE_SLUG:
+				return [
+					'high' => 'https://yoa.st/yoast-seo-banner-woo',
+					'low'  => 'https://yoa.st/yoast-seo-banner-low-woo',
+				];
+		}
 	}
 
 	/**
@@ -403,6 +474,7 @@ class WPSEO_Addon_Manager {
 		if ( ! function_exists( 'get_plugins' ) ) {
 			require_once ABSPATH . 'wp-admin/includes/plugin.php';
 		}
+
 		return get_plugins();
 	}
 
@@ -455,11 +527,11 @@ class WPSEO_Addon_Manager {
 	 * @return object Mapped subscription.
 	 */
 	protected function map_subscription( $subscription ) {
-		// @codingStandardsIgnoreStart
-		return (object) array(
+		// phpcs:disable WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase -- Not our properties.
+		return (object) [
 			'renewal_url' => $subscription->renewalUrl,
 			'expiry_date' => $subscription->expiryDate,
-			'product'     => (object) array(
+			'product'     => (object) [
 				'version'      => $subscription->product->version,
 				'name'         => $subscription->product->name,
 				'slug'         => $subscription->product->slug,
@@ -468,9 +540,9 @@ class WPSEO_Addon_Manager {
 				// Ternary operator is necessary because download can be undefined.
 				'download'     => isset( $subscription->product->download ) ? $subscription->product->download : null,
 				'changelog'    => $subscription->product->changelog,
-			),
-		);
-		// @codingStandardsIgnoreStop
+			],
+		];
+		// phpcs:enable
 	}
 
 	/**
@@ -501,5 +573,19 @@ class WPSEO_Addon_Manager {
 		}
 
 		return $this->get_site_information_default();
+	}
+
+	/**
+	 * Retrieves the contents for the support section.
+	 *
+	 * @return string The support section content.
+	 */
+	protected function get_support_section() {
+		return '<h4>' . __( 'Need support?', 'wordpress-seo' ) . '</h4>'
+			. '<p>'
+			. sprintf( __( 'You can probably find an answer to your question in our %1$shelp center%2$s.', 'wordpress-seo' ), '<a href="https://yoast.com/help/">', '</a>' )
+			. ' '
+			. sprintf( __( 'If you still need support and have an active subscription for this product, please email %s.', 'wordpress-seo' ), '<a href="mailto:support@yoast.com">support@yoast.com</a>' )
+			. '</p>';
 	}
 }

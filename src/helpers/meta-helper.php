@@ -1,9 +1,4 @@
 <?php
-/**
- * A helper object for meta.
- *
- * @package Yoast\YoastSEO\Helpers
- */
 
 namespace Yoast\WP\SEO\Helpers;
 
@@ -11,7 +6,7 @@ use WPSEO_Meta;
 use WPSEO_Taxonomy_Meta;
 
 /**
- * Class Meta_Helper
+ * A helper object for meta.
  */
 class Meta_Helper {
 

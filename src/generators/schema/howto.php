@@ -1,14 +1,9 @@
 <?php
-/**
- * WPSEO plugin file.
- *
- * @package Yoast\WP\SEO\Generators\Schema
- */
 
 namespace Yoast\WP\SEO\Generators\Schema;
 
 /**
- * Returns schema FAQ data.
+ * Returns schema HowTo data.
  */
 class HowTo extends Abstract_Schema_Piece {
 

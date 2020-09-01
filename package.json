@@ -133,7 +133,7 @@
     "prop-types": "^15.5.10",
     "react-intl": "^2.4.0",
     "react-redux": "^5.0.6",
-    "react-select": "^2.4.2",
+    "react-select": "^3.1.0",
     "redux": "^3.7.2",
     "redux-thunk": "^2.2.0",
     "select2": "^4.0.5",
@@ -145,6 +145,6 @@
     "extends @yoast/browserslist-config"
   ],
   "yoast": {
-    "pluginVersion": "14.9-RC2"
+    "pluginVersion": "14.9-RC5"
   }
 }

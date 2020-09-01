@@ -2,14 +2,21 @@
 import { Fragment, Component } from "@wordpress/element";
 import { Button, Modal } from "@wordpress/components";
 import { __ } from "@wordpress/i18n";
-import styled from "styled-components";
+import styled, { createGlobalStyle } from "styled-components";
 
 /* Yoast dependencies */
 import { ButtonSection } from "yoast-components";
+import { colors, rgba } from "@yoast/style-guide";
+import { Alert } from "@yoast/components";
 
 /* Internal dependencies */
 import SnippetEditorWrapper from "../containers/SnippetEditor";
-import YoastIcon from "../../../images/Yoast_icon_kader.svg";
+
+const OverrideOverlayColor = createGlobalStyle`
+	.yoast-modal__screen-overlay {
+		background-color: ${ rgba( colors.$color_pink_dark, 0.6 ) };
+	}
+`;
 
 const ModalContentSpacer = styled.div`
 	@media screen and (min-width: 782px) {
@@ -40,6 +47,11 @@ class SnippetPreviewModal extends Component {
 		this.setState( { isOpen: false } );
 	}
 
+	/**
+	 * Returns the SnippetPreviewModal.
+	 *
+	 * @returns {Component} The SnippetPreviewModal.
+	 */
 	render() {
 		return (
 			<Fragment>
@@ -55,15 +67,18 @@ class SnippetPreviewModal extends Component {
 					<Modal
 						title={ __( "Google preview", "wordpress-seo" ) }
 						onRequestClose={ this.closeModal }
-						className="yoast-gutenberg-modal"
-						icon={ <YoastIcon /> }
+						overlayClassName="yoast-modal__screen-overlay"
 					>
+						<Alert type="info">
+							{ __( "This preview will be removed from here, and can already be found in the post settings.", "wordpress-seo" ) }
+						</Alert>
 						<ModalContentSpacer>
 							<SnippetEditorWrapper showCloseButton={ false } hasPaperStyle={ false } />
 						</ModalContentSpacer>
-						<Button isSecondary={ true } onClick={ this.closeModal }>
+						<Button isDefault={ true } onClick={ this.closeModal }>
 							{ __( "Close", "wordpress-seo" ) }
 						</Button>
+						<OverrideOverlayColor />
 					</Modal>
 				}
 			</Fragment>

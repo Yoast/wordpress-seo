@@ -1,9 +1,4 @@
 <?php
-/**
- * Yoast SEO Plugin File.
- *
- * @package Yoast\YoastSEO\Integrations
- */
 
 namespace Yoast\WP\SEO\Tests\Unit\Integrations;
 
@@ -21,7 +16,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
 use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Unit Test Class.
+ * Class Front_End_Integration_Test.
  *
  * @coversDefaultClass \Yoast\WP\SEO\Integrations\Front_End_Integration
  *

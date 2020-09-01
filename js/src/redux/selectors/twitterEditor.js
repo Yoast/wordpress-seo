@@ -53,12 +53,3 @@ export const getTwitterImageSrc = state => get( state, "twitterEditor.image.src"
  * @returns {String} Twitter warnings.
  */
 export const getTwitterWarnings = state => get( state, "twitterEditor.warnings", [] );
-
-/**
- * Gets the Twitter isLoading attribute from the state.
- *
- * @param {Object} state The state.
- *
- * @returns {bool} Twitter is loading.
- */
-export const getTwitterIsLoading = state => get( state, "twitterEditor.isLoading", true );

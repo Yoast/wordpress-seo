@@ -117,12 +117,12 @@ class WPSEO_Meta_Columns {
 
 		switch ( $column_name ) {
 			case 'wpseo-score':
-				// @phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Correctly escaped in render_score_indicator() method.
+				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Correctly escaped in render_score_indicator() method.
 				echo $this->parse_column_score( $post_id );
 				return;
 
 			case 'wpseo-score-readability':
-				// @phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Correctly escaped in render_score_indicator() method.
+				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Correctly escaped in render_score_indicator() method.
 				echo $this->parse_column_score_readability( $post_id );
 				return;
 
@@ -221,11 +221,13 @@ class WPSEO_Meta_Columns {
 		echo '<label class="screen-reader-text" for="wpseo-filter">' . esc_html__( 'Filter by SEO Score', 'wordpress-seo' ) . '</label>';
 		echo '<select name="seo_filter" id="wpseo-filter">';
 
+		// phpcs:ignore WordPress.Security.EscapeOutput -- Output is correctly escaped in the generate_option() method.
 		echo $this->generate_option( '', __( 'All SEO Scores', 'wordpress-seo' ) );
 
 		foreach ( $ranks as $rank ) {
 			$selected = selected( $this->get_current_seo_filter(), $rank->get_rank(), false );
 
+			// phpcs:ignore WordPress.Security.EscapeOutput -- Output is correctly escaped in the generate_option() method.
 			echo $this->generate_option( $rank->get_rank(), $rank->get_drop_down_label(), $selected );
 		}
 
@@ -247,11 +249,13 @@ class WPSEO_Meta_Columns {
 		echo '<label class="screen-reader-text" for="wpseo-readability-filter">' . esc_html__( 'Filter by Readability Score', 'wordpress-seo' ) . '</label>';
 		echo '<select name="readability_filter" id="wpseo-readability-filter">';
 
+		// phpcs:ignore WordPress.Security.EscapeOutput -- Output is correctly escaped in the generate_option() method.
 		echo $this->generate_option( '', __( 'All Readability Scores', 'wordpress-seo' ) );
 
 		foreach ( $ranks as $rank ) {
 			$selected = selected( $this->get_current_readability_filter(), $rank->get_rank(), false );
 
+			// phpcs:ignore WordPress.Security.EscapeOutput -- Output is correctly escaped in the generate_option() method.
 			echo $this->generate_option( $rank->get_rank(), $rank->get_drop_down_readability_labels(), $selected );
 		}
 

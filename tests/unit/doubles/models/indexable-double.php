@@ -1,9 +1,4 @@
 <?php
-/**
- * Class Indexable.
- *
- * @package Yoast\Tests\Doubles\Models
- */
 
 namespace Yoast\WP\SEO\Tests\Unit\Doubles\Models;
 

@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 
-import SocialMetadata from "../social/SocialMetadata";
+import SocialMetadata from "../../containers/SocialMetadata";
 import Portal from "./Portal";
 
 /**
@@ -11,14 +11,9 @@ import Portal from "./Portal";
  * @returns {wp.Element} The social metadata collapsibles.
  */
 export default function SocialMetadataPortal( { target } ) {
-	const isFacebookEnabled = window.wpseoScriptData.metabox.showSocial.facebook;
-	const isTwitterEnabled = window.wpseoScriptData.metabox.showSocial.twitter;
 	return (
 		<Portal target={ target }>
-			<SocialMetadata
-				isFacebookEnabled={ isFacebookEnabled }
-				isTwitterEnabled={ isTwitterEnabled }
-			/>
+			<SocialMetadata />
 		</Portal>
 	);
 }
