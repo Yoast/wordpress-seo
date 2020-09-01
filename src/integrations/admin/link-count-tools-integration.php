@@ -94,6 +94,7 @@ class Link_Count_Tools_Integration implements Integration_Interface {
 
 		\add_action( 'admin_footer', [ $this, 'render_modal' ], 20 );
 
+		$this->asset_manager->enqueue_style( 'monorepo' );
 		$this->asset_manager->enqueue_script( 'indexation' );
 		$this->asset_manager->enqueue_style( 'admin-css' );
 

@@ -1,5 +1,18 @@
 /* global jQuery, tb_show, tb_remove, TB_WIDTH, TB_HEIGHT, wpseoSetIgnore, ajaxurl */
 import a11ySpeak from "a11y-speak";
+import styled from "styled-components";
+import { render, Component, Fragment } from "@wordpress/element";
+import { __ } from "@wordpress/i18n";
+import { ProgressBar as __ProgressBar } from "@yoast/components";
+import { Button } from "@yoast/components/src/button/Button";
+import { colors } from "@yoast/style-guide";
+
+const New = styled( __ProgressBar )`
+	height: 16px;
+	max-width: 600px;
+	margin: 8px 0;
+`;
+
 
 import ProgressBar from "./ui/progressBar";
 
@@ -189,3 +202,20 @@ import ProgressBar from "./ui/progressBar";
 		}
 	} );
 } )( jQuery );
+
+class Indexation extends Component {
+	startIndexation() {
+
+	}
+
+	render() {
+		return (
+			<Fragment>
+				<New progressColor={ colors.$color_pink_dark } max={ 100 } value={ 30 } />
+				<Button onClick={ this.startIndexation } variant="purple">{ __( "Start SEO data optimization", "wordpress-seo" ) }</Button>
+			</Fragment>
+		);
+	}
+}
+
+render( <Indexation />, document.getElementById( "yoast-seo-indexation-action" ) );
