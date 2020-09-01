@@ -1,4 +1,3 @@
-import { Button } from "@yoast/components";
 import { __, sprintf } from "@wordpress/i18n";
 import { useState, useCallback } from "@wordpress/element";
 import Modal from "./Modal";
