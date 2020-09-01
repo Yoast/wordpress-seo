@@ -22,6 +22,6 @@ class SEMrush_Failed_Token_Storage_Exception extends \Exception {
 	public function __construct( $reason = '' ) {
 		$message = ( $reason ) ? sprintf( 'Token storing failed. Reason: %s. Please try again', $reason ) : self::DEFAULT_MESSAGE;
 
-		parent::__construct( $message , 500 );
+		parent::__construct( $message, 500 );
 	}
 }
