@@ -1,6 +1,7 @@
 /**
- * Returns an object with exceptions for the prominent words researcher
- * @returns {Object} The object filled with exception arrays.
+ * Returns an object with function words.
+ *
+ * @returns {Object} The object filled with various categories of function word arrays.
  */
 const cardinalNumerals = [ "یک", "دو", "سه", "چهار", "پنج", "شش", "هفت", "هشت", "نه", "ده", "یازده", "دوازده", "سیزده",
 	"چهارده", "پانزده", "شانزده", "هفده", "هجده", "نوزده", "بیست", "صد", "هزار", "میلیون", "میلیارد" ];
@@ -8,12 +9,10 @@ const cardinalNumerals = [ "یک", "دو", "سه", "چهار", "پنج", "شش",
 const ordinalNumerals = [ "اول", "اوّل", "دوم", "سوم", "چهارم", "پنجم", "ششم", "هفتم", "هشتم", "نهم", "دهم", "یازدهم", "دوازدهم",
 	"سیزدهم", "چهاردهم", "پانزدهم", "شانزدهم", "هفدهم", "هجدهم", "نوزدهم", "بیستم" ];
 
-const personalPronouns = [ "مرا", "من را", "من‌را", "به من", "تو را", "شما را", "شما", "به تو", "به شما",
+const pronouns = [ "مرا", "من را", "من‌را", "به من", "تو را", "شما را", "شما", "به تو", "به شما",
 	"اون رو", "اونو", "به اون", "اون", "او را", "به او", "او", "به ایشان", "ایشان را", "ایشان", "به ایشون", "ایشون رو",
 	"ایشون را", "ایشون", "این", "این را", "آن", "به این", "به آن", "آن را", "این رو", "اینو", "ما را", "به ما", "به اونا",
 	"آن‌ها", "آنها را", "آن‌ها را", "به آنها", "به آن‌ها", "اونا", "اونارو", "اونا رو", "من", "تو", "ما", "آنها" ];
-
-const demonstrativePronouns = [  ];
 
 const interrogatives = [  ];
 
@@ -22,8 +21,6 @@ const quantifiers = [  ];
 const reflexivePronouns = [ "خودم", "خودت", "خودش", "یک نفر خودش", "خودمان", "خودتان", "خودشان" ];
 
 const indefinitePronouns = [  ];
-
-const relativePronouns = [  ];
 
 const prepositions = [ "با", "بی", "در", "را", "یا", "اگر", "مگر", "نه", "چه",
 	"باری", "بر", "برای", "برای این", "برای این که", "برای آن که", "برای آن", "از برای", "خواه", "زیرا", "که",
@@ -61,38 +58,16 @@ const transitionWords = [ "دوباره", "قطعاً", "حتماً", "اصلا�
 	"وقتی", "زمانی که", "به خاطر", "مخصوصاً", "مشخصاً", "در کل", "بعد", "قبل", "تا" ];
 
 /**
- * Returns function words for Farsi.
+ * Returns function words for Hebrew.
  *
- * @returns {Object} Farsi function words.
+ * @returns {Object} Hebrew function words.
  */
 export default function() {
 	return {
-		// These word categories are filtered at the ending of word combinations.
-		filteredAtEnding: [].concat( ordinalNumerals, generalAdjectivesAdverbs ),
-
-		// These word categories are filtered at the beginning and ending of word combinations.
-		filteredAtBeginningAndEnding: [].concat( prepositions, prepositions, conjunctions,
-			demonstrativePronouns, intensifiers, quantifiers ),
-
-		// These word categories are filtered everywhere within word combinations.
-		filteredAnywhere: [].concat( transitionWords, personalPronouns,
-			reflexivePronouns, interjections, cardinalNumerals, interviewVerbs,
-			auxiliariesAndDelexicalizedVerbs, indefinitePronouns, interrogatives, miscellaneous,
-			recipeWords, timeWords, vagueNouns ),
-
-		// These categories are used in the passive voice assessment. If they directly precede a participle, the sentence part is not passive.
-		cannotDirectlyPrecedePassiveParticiple: [].concat( prepositions, demonstrativePronouns, ordinalNumerals, quantifiers ),
-
-		/*
-		These categories are used in the passive voice assessment. If they appear between an auxiliary and a participle,
-		the sentence part is not passive.
-		*/
-		cannotBeBetweenPassiveAuxiliaryAndParticiple: [].concat( interviewVerbs, auxiliariesAndDelexicalizedVerbs ),
-
 		// This export contains all of the above words.
-		all: [].concat( prepositions, cardinalNumerals, ordinalNumerals, demonstrativePronouns, reflexivePronouns,
-			personalPronouns, quantifiers, indefinitePronouns, interrogatives, prepositions, conjunctions, interviewVerbs,
-			transitionWords, intensifiers, auxiliariesAndDelexicalizedVerbs, interjections, generalAdjectivesAdverbs,
-			recipeWords, vagueNouns, miscellaneous, relativePronouns ),
+		all: [].concat( cardinalNumerals, ordinalNumerals, pronouns, interrogatives,
+			quantifiers, reflexivePronouns, indefinitePronouns, prepositions, conjunctions, interviewVerbs,
+			intensifiers, auxiliariesAndDelexicalizedVerbs, generalAdjectivesAdverbs, interjections, recipeWords,
+			timeWords, vagueNouns, miscellaneous, transitionWords ),
 	};
 }
