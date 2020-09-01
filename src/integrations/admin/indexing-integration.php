@@ -84,7 +84,9 @@ class Indexing_Integration implements Integration_Interface {
 	protected $asset_manager;
 
 	/**
-	 * @inheritDoc
+	 * Returns the conditionals based on which this integration should be active.
+	 *
+	 * @return array The array of conditionals.
 	 */
 	public static function get_conditionals() {
 		return [
@@ -94,6 +96,18 @@ class Indexing_Integration implements Integration_Interface {
 		];
 	}
 
+	/**
+	 * Indexing_Integration constructor.
+	 *
+	 * @param Indexable_Post_Indexation_Action              $post_indexation              The post indexing action.
+	 * @param Indexable_Term_Indexation_Action              $term_indexation              The term indexing action.
+	 * @param Indexable_Post_Type_Archive_Indexation_Action $post_type_archive_indexation The post type archive indexing action.
+	 * @param Indexable_General_Indexation_Action           $general_indexation           The general indexing action.
+	 * @param Indexable_Complete_Indexation_Action          $complete_indexation_action   The complete indexing action.
+	 * @param Post_Link_Indexing_Action                     $post_link_indexing_action    The post link indexing action.
+	 * @param Term_Link_Indexing_Action                     $term_link_indexing_action    The term link indexing action.
+	 * @param WPSEO_Admin_Asset_Manager                     $asset_manager                The admin asset manager.
+	 */
 	public function __construct(
 		Indexable_Post_Indexation_Action $post_indexation,
 		Indexable_Term_Indexation_Action $term_indexation,
@@ -115,7 +129,7 @@ class Indexing_Integration implements Integration_Interface {
 	}
 
 	/**
-	 * @inheritDoc
+	 * Register hooks.
 	 */
 	public function register_hooks() {
 		\add_action( 'wpseo_tools_overview_list_items', [ $this, 'render_indexing_list_item' ], 10 );
