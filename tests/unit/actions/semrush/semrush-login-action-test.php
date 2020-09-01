@@ -20,11 +20,15 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
 class SEMrush_Login_Action_Test extends TestCase {
 
 	/**
+	 * The instance.
+	 *
 	 * @var SEMrush_Login_Action
 	 */
 	protected $instance;
 
 	/**
+	 * The client instance.
+	 *
 	 * @var Mockery\MockInterface|SEMrush_Client
 	 */
 	protected $client_instance;
@@ -55,21 +59,23 @@ class SEMrush_Login_Action_Test extends TestCase {
 	 */
 	public function test_valid_authentication() {
 		$token_data = [
-			'access_token' => 'some valid token',
+			'access_token'  => 'some valid token',
 			'refresh_token' => 'some valid refresh token',
 			'expires'       => 99999999,
 			'has_expired'   => false,
 			'created_at'    => 0,
 		];
 
-		// Expected returned class by client
+		// Expected returned class by client.
 		$response = Mockery::mock( AccessTokenInterface::class );
-		$response->allows( [
-			'getToken'        => '000000',
-			'getRefreshToken' => '000001',
-			'getExpires'      => 604800,
-			'hasExpired'      => false,
-		] );
+		$response->allows(
+			[
+				'getToken'        => '000000',
+				'getRefreshToken' => '000001',
+				'getExpires'      => 604800,
+				'hasExpired'      => false,
+			]
+		);
 
 		$tokens_class = Mockery::mock( SEMrush_Token::class );
 		$tokens_class
@@ -96,7 +102,7 @@ class SEMrush_Login_Action_Test extends TestCase {
 	 * @covers ::authenticate
 	 */
 	public function test_invalid_authentication() {
-		// Expected returned class by client
+		// Expected returned class by client.
 		$failed_tokens_request = Mockery::mock( OAuth_Authentication_Failed_Exception::class );
 		$failed_tokens_request
 			->expects( 'get_response' )
@@ -106,7 +112,8 @@ class SEMrush_Login_Action_Test extends TestCase {
 					'tokens' => [],
 					'error'  => 'Invalid token',
 					'status' => 500,
-				] );
+				]
+			);
 
 		$this->client_instance
 			->expects( 'request_tokens' )
