@@ -49,10 +49,6 @@ import transitionWordsIndonesianFactory from "../researches/indonesian/transitio
 const transitionWordsIndonesian = transitionWordsIndonesianFactory().allWords;
 import twoPartTransitionWordsIndonesian from "../researches/indonesian/twoPartTransitionWords.js";
 
-import transitionWordsFarsiFactory from "../researches/farsi/transitionWords.js";
-const transitionWordsFarsi = transitionWordsFarsiFactory().allWords;
-import twoPartTransitionWordsFarsi from "../researches/farsi/twoPartTransitionWords.js";
-
 import getLanguage from "./getLanguage.js";
 
 
@@ -124,11 +120,6 @@ export default function( locale ) {
 			return {
 				transitionWords: transitionWordsIndonesian,
 				twoPartTransitionWords: twoPartTransitionWordsIndonesian,
-			};
-		case "fa":
-			return {
-				transitionWords: transitionWordsFarsi,
-				twoPartTransitionWords: twoPartTransitionWordsFarsi,
 			};
 		default:
 		case "en":
