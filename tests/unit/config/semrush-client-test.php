@@ -27,21 +27,29 @@ class SEMrush_Client_Test extends TestCase {
 	protected $instance;
 
 	/**
+	 * The response object.
+	 *
 	 * @var AccessTokenInterface|\Mockery\LegacyMockInterface|\Mockery\MockInterface
 	 */
 	protected $response;
 
 	/**
+	 * The token object.
+	 *
 	 * @var \Mockery\LegacyMockInterface|\Mockery\MockInterface|SEMrush_Token
 	 */
 	protected $token;
 
 	/**
+	 * The OAuth provider.
+	 *
 	 * @var GenericProvider|\Mockery\LegacyMockInterface|\Mockery\MockInterface
 	 */
 	protected $provider;
 
 	/**
+	 * The optins helper.
+	 *
 	 * @var \Mockery\LegacyMockInterface|\Mockery\MockInterface|Options_Helper
 	 */
 	protected $options_helper;
@@ -109,12 +117,14 @@ class SEMrush_Client_Test extends TestCase {
 	 * @covers ::request_tokens
 	 */
 	public function test_valid_request_tokens_when_no_token_is_available() {
-		$this->response->allows( [
-			'getToken'        => '000000',
-			'getRefreshToken' => '000001',
-			'getExpires'      => 604800,
-			'hasExpired'      => false,
-		] );
+		$this->response->allows(
+			[
+				'getToken'        => '000000',
+				'getRefreshToken' => '000001',
+				'getExpires'      => 604800,
+				'hasExpired'      => false,
+			]
+		);
 
 		$this->provider
 			->expects( 'getAccessToken' )
@@ -130,7 +140,8 @@ class SEMrush_Client_Test extends TestCase {
 		$this->options_helper
 			->expects( 'set' )
 			->once()
-			->with( 'semrush_tokens',
+			->with(
+				'semrush_tokens',
 				[
 					'access_token'  => '000000',
 					'refresh_token' => '000001',
@@ -182,7 +193,7 @@ class SEMrush_Client_Test extends TestCase {
 	 */
 	public function test_storing_token_failure() {
 
-		$this->token->expects('to_array')->once()->andReturns(
+		$this->token->expects( 'to_array' )->once()->andReturns(
 			[
 				'access_token'  => '000000',
 				'refresh_token' => '000001',
@@ -194,7 +205,8 @@ class SEMrush_Client_Test extends TestCase {
 
 		$this->options_helper
 			->expects( 'set' )
-			->with( 'semrush_tokens',
+			->with(
+				'semrush_tokens',
 				[
 					'access_token'  => '000000',
 					'refresh_token' => '000001',
