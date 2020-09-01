@@ -1,139 +1,57 @@
-import { Component, Fragment } from "@wordpress/element";
 import PropTypes from "prop-types";
-import styled from "styled-components";
-import { __ } from "@wordpress/i18n";
-
-import { Modal as YoastModal, SvgIcon } from "@yoast/components";
-
-const StyledButton = styled.button`
-	// Increase specificity to override WP rules.
-	&& {
-		display: flex;
-		align-items: center;
-	}
-
-	.yoast-svg-icon {
-		margin: 1px 7px 0 0;
-		fill: currentColor;
-	}
-`;
+import { Modal as WpModal } from "@wordpress/components";
 
 /**
- * Returns the Modal component.
- *
- * @returns {wp.Element} The Modal component.
+ * Default className for our Modal.
  */
-class Modal extends Component {
-	/**
-	 * Constructs the Modal component.
-	 *
-	 * @param {Object} props The component properties.
-	 *
-	 * @returns {void}
-	 */
-	constructor( props ) {
-		super( props );
+export const defaultModalClassName = "yoast yoast-gutenberg-modal";
 
-		this.state = {
-			modalIsOpen: false,
-		};
+/**
+ * A modal based on the Gutenberg modal that adds a Yoast icon and yoast classes by default.
+ *
+ * Accepts all props that the Gutenberg modal accepts.
+ *
+ * @param {object} props Functional Component props.
+ *
+ * @returns {object} The modal.
+ */
+const Modal = ( props ) => {
+	const {
+		title,
+		className,
+		showYoastIcon,
+		additionalClassName,
+		...wpModalProps
+	} = props;
 
-		this.openModal  = this.openModal.bind( this );
-		this.closeModal = this.closeModal.bind( this );
+	const icon = showYoastIcon ? <span className="yoast-icon" /> : null;
 
-		this.appElement = document.querySelector( this.props.appElement );
-	}
-
-	/**
-	 * Sets the Modal state to open.
-	 *
-	 * @returns {void}
-	 */
-	openModal() {
-		this.setState( {
-			modalIsOpen: true,
-		} );
-	}
-
-	/**
-	 * Sets the Modal state to closed.
-	 *
-	 * @returns {void}
-	 */
-	closeModal() {
-		this.setState( {
-			modalIsOpen: false,
-		} );
-	}
-
-	/**
-	 * Renders the Modal component.
-	 *
-	 * @returns {wp.Element} The rendered react element.
-	 */
-	render() {
-		const defaultLabels = {
-			open: __( "Open", "wordpress-seo" ),
-			heading: "",
-			closeIconButton: __( "Close", "wordpress-seo" ),
-			closeButton: "",
-		};
-
-		const modalLabels = Object.assign( {}, defaultLabels, this.props.labels );
-
-		return (
-			<Fragment>
-				<StyledButton
-					type="button"
-					onClick={ this.openModal }
-					className={ `${ this.props.classes.openButton } yoast-modal__button-open` }
-				>
-					{ this.props.openButtonIcon && <SvgIcon icon={ this.props.openButtonIcon } size="13px" /> }
-					{ modalLabels.open }
-				</StyledButton>
-				<YoastModal
-					isOpen={ this.state.modalIsOpen }
-					onClose={ this.closeModal }
-					className={ this.props.className }
-					modalAriaLabel={ modalLabels.modalAriaLabel }
-					appElement={ this.appElement }
-					heading={ modalLabels.heading }
-					closeIconButton={ modalLabels.closeIconButton }
-					closeIconButtonClassName={ this.props.classes.closeIconButton }
-					closeButton={ modalLabels.closeButton }
-					closeButtonClassName={ this.props.classes.closeButton }
-				>
-					{ this.props.children }
-				</YoastModal>
-			</Fragment>
-		);
-	}
-}
+	return (
+		<WpModal
+			title={ title }
+			className={ `${ className } ${ additionalClassName }` }
+			icon={ icon }
+			{ ...wpModalProps }
+		>
+			{ props.children }
+		</WpModal>
+	);
+};
 
 Modal.propTypes = {
-	appElement: PropTypes.string,
-	openButtonIcon: PropTypes.string,
-	labels: PropTypes.shape( {
-		open: PropTypes.string,
-		modalAriaLabel: PropTypes.string.isRequired,
-		heading: PropTypes.string,
-		closeIconButton: PropTypes.string,
-		closeButton: PropTypes.string,
-	} ).isRequired,
-	classes: PropTypes.shape( {
-		openButton: PropTypes.string,
-		closeIconButton: PropTypes.string,
-		closeButton: PropTypes.string,
-	} ),
+	title: PropTypes.string,
 	className: PropTypes.string,
-	children: PropTypes.any.isRequired,
+	showYoastIcon: PropTypes.bool,
+	children: PropTypes.oneOfType( [ PropTypes.node, PropTypes.arrayOf( PropTypes.node ) ] ),
+	additionalClassName: PropTypes.string,
 };
 
 Modal.defaultProps = {
-	className: "",
-	appElement: "#wpwrap",
-	openButtonIcon: "",
-	classes: {},
+	title: "Yoast SEO",
+	className: defaultModalClassName,
+	showYoastIcon: true,
+	children: null,
+	additionalClassName: "",
 };
 
 export default Modal;

@@ -26,7 +26,6 @@ use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
  * @property string      $company_name                      The company name from the Knowledge graph settings.
  * @property int         $company_logo_id                   The attachment ID for the company logo.
  * @property string      $description                       The meta description for the current page, if set.
- * @property array       $googlebot                         The meta robots values we specifically output for Googlebot on this page.
  * @property string      $main_schema_id                    Schema ID that points to the main Schema thing on the page, usually the webpage or article Schema piece.
  * @property string      $meta_description                  The meta description for the current page, if set.
  * @property string      $open_graph_article_author         The article:author value.

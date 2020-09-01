@@ -13,7 +13,6 @@ import {
 } from "lodash-es";
 
 // Internal dependencies.
-import Edit from "./edit";
 import { termsTmceId } from "../lib/tinymce";
 import Pluggable from "../lib/Pluggable";
 import requestWordsToHighlight from "../analysis/requestWordsToHighlight.js";
@@ -42,15 +41,8 @@ import handleWorkerError from "../analysis/handleWorkerError";
 import { refreshSnippetEditor, updateData } from "../redux/actions/snippetEditor";
 import { setWordPressSeoL10n, setYoastComponentsL10n } from "../helpers/i18n";
 import { setFocusKeyword } from "../redux/actions/focusKeyword";
-import { setMarkerStatus } from "../redux/actions/markerButtons";
 import { setCornerstoneContent } from "../redux/actions/cornerstoneContent";
-
-// Helper dependencies.
-import isGutenbergDataAvailable from "../helpers/isGutenbergDataAvailable";
-import {
-	registerReactComponent,
-	renderClassicEditorMetabox,
-} from "../helpers/classicEditor";
+import initializeUsedKeywords from "./used-keywords-assessment";
 
 setYoastComponentsL10n();
 setWordPressSeoL10n();
@@ -61,15 +53,16 @@ window.yoastHideMarkers = true;
  * @summary Initializes the term scraper script.
  *
  * @param {object} $ jQuery
+ * @param {object} store The Yoast editor store.
+ * @param {object} editorData The editor data.
  *
  * @returns {void}
  */
-export default function initTermScraper( $ ) {
+export default function initTermScraper( $, store, editorData ) {
 	var app;
 
 	var termSlugInput;
 
-	let edit;
 	const customAnalysisData = new CustomAnalysisData();
 
 	/**
@@ -189,17 +182,17 @@ export default function initTermScraper( $ ) {
 	/**
 	 * Overwrites YoastSEO.js' app renderers.
 	 *
-	 * @param {Object} app YoastSEO.js app.
+	 * @param {Object} yoastSeoApp YoastSEO.js app.
 	 *
 	 * @returns {void}
 	 */
-	function disableYoastSEORenderers( app ) {
-		if ( ! isUndefined( app.seoAssessorPresenter ) ) {
-			app.seoAssessorPresenter.render = function() {};
+	function disableYoastSEORenderers( yoastSeoApp ) {
+		if ( ! isUndefined( yoastSeoApp.seoAssessorPresenter ) ) {
+			yoastSeoApp.seoAssessorPresenter.render = function() {};
 		}
-		if ( ! isUndefined( app.contentAssessorPresenter ) ) {
-			app.contentAssessorPresenter.render = function() {};
-			app.contentAssessorPresenter.renderIndividualRatings = function() {};
+		if ( ! isUndefined( yoastSeoApp.contentAssessorPresenter ) ) {
+			yoastSeoApp.contentAssessorPresenter.render = function() {};
+			yoastSeoApp.contentAssessorPresenter.renderIndividualRatings = function() {};
 		}
 	}
 
@@ -226,12 +219,11 @@ export default function initTermScraper( $ ) {
 	/**
 	 * Initializes cornerstone content analysis.
 	 *
-	 * @param {Object} store The redux store.
 	 * @param {Object} yoastSeoApp YoastSEO.js app.
 	 *
 	 * @returns {void}
 	 */
-	function initializeCornerstoneContentAnalysis( store, yoastSeoApp ) {
+	function initializeCornerstoneContentAnalysis( yoastSeoApp ) {
 		const cornerstoneField = document.getElementById( "hidden_wpseo_is_cornerstone" );
 
 		// This used to be a checkbox, then became a hidden input. For consistency, we set the value to '1'.
@@ -263,24 +255,9 @@ export default function initTermScraper( $ ) {
 	function initializeTermAnalysis() {
 		var args, termScraper, translations;
 
-		const editArgs = {
-			snippetEditorBaseUrl: wpseoScriptData.metabox.base_url,
-			replaceVars: wpseoScriptData.analysis.plugins.replaceVars.replace_vars,
-			recommendedReplaceVars: wpseoScriptData.analysis.plugins.replaceVars.recommended_replace_vars,
-			classicEditorDataSettings: {
-				tinyMceId: termsTmceId,
-			},
-		};
-
-		edit = new Edit( editArgs );
-
-		const store = edit.getStore();
-
 		insertTinyMCE();
 
 		termScraper = new TermDataCollector( { store } );
-
-		store.dispatch( setMarkerStatus( "hidden" ) );
 
 		args = {
 			// ID's of elements that need to trigger updating the analyzer.
@@ -323,12 +300,12 @@ export default function initTermScraper( $ ) {
 		app = new App( args );
 
 		// Expose globals.
-		window.YoastSEO = {};
+		window.YoastSEO = window.YoastSEO || {};
 		window.YoastSEO.app = app;
 		window.YoastSEO.store = store;
 		window.YoastSEO.analysis = {};
 		window.YoastSEO.analysis.worker = createAnalysisWorker();
-		window.YoastSEO.analysis.collectData = () => collectAnalysisData( edit, YoastSEO.store, customAnalysisData, YoastSEO.app.pluggable );
+		window.YoastSEO.analysis.collectData = () => collectAnalysisData( editorData, YoastSEO.store, customAnalysisData, YoastSEO.app.pluggable );
 		window.YoastSEO.analysis.applyMarks = ( paper, result ) => getApplyMarks( YoastSEO.store )( paper, result );
 
 		// YoastSEO.app overwrites.
@@ -356,7 +333,7 @@ export default function initTermScraper( $ ) {
 			YoastSEO.app.refresh();
 		};
 
-		edit.initializeUsedKeywords( YoastSEO.app.refresh, "get_term_keyword_usage" );
+		initializeUsedKeywords( YoastSEO.app.refresh, "get_term_keyword_usage", store );
 
 		store.subscribe( handleStoreChange.bind( null, store, YoastSEO.app.refresh ) );
 
@@ -373,8 +350,6 @@ export default function initTermScraper( $ ) {
 
 		// For backwards compatibility.
 		YoastSEO.analyzerArgs = args;
-
-		YoastSEO._registerReactComponent = registerReactComponent;
 
 		initTermSlugWatcher();
 		termScraper.bindElementEvents( debounce( () => refreshAnalysis(
@@ -410,9 +385,7 @@ export default function initTermScraper( $ ) {
 
 		// Initialize the snippet editor data.
 		let snippetEditorData = snippetEditorHelpers.getDataFromCollector( termScraper );
-
-		initializeCornerstoneContentAnalysis( store, app );
-
+		initializeCornerstoneContentAnalysis( app );
 		const snippetEditorTemplates = snippetEditorHelpers.getTemplatesFromL10n( wpseoScriptData.metabox );
 		snippetEditorData = snippetEditorHelpers.getDataWithTemplates( snippetEditorData, snippetEditorTemplates );
 
@@ -459,10 +432,6 @@ export default function initTermScraper( $ ) {
 			snippetEditorData.slug = data.slug;
 			snippetEditorData.description = data.description;
 		} );
-
-		if ( ! isGutenbergDataAvailable() ) {
-			renderClassicEditorMetabox( store );
-		}
 
 		initializationDone();
 		YoastSEO.app.refresh();

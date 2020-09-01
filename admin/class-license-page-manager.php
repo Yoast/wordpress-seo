@@ -15,13 +15,6 @@ class WPSEO_License_Page_Manager implements WPSEO_WordPress_Integration {
 	 *
 	 * @var string
 	 */
-	const VERSION_LEGACY = '1';
-
-	/**
-	 * Version number for License Page Manager.
-	 *
-	 * @var string
-	 */
 	const VERSION_BACKWARDS_COMPATIBILITY = '2';
 
 	/**
@@ -124,7 +117,7 @@ class WPSEO_License_Page_Manager implements WPSEO_WordPress_Integration {
 	 * @return int The version number
 	 */
 	protected function get_version() {
-		return get_option( $this->get_option_name(), self::VERSION_BACKWARDS_COMPATIBILITY );
+		return WPSEO_Options::get( $this->get_option_name(), self::VERSION_BACKWARDS_COMPATIBILITY );
 	}
 
 	/**
@@ -133,7 +126,7 @@ class WPSEO_License_Page_Manager implements WPSEO_WordPress_Integration {
 	 * @return string The option name.
 	 */
 	protected function get_option_name() {
-		return 'wpseo_license_server_version';
+		return 'license_server_version';
 	}
 
 	/**
@@ -153,7 +146,7 @@ class WPSEO_License_Page_Manager implements WPSEO_WordPress_Integration {
 	 * @param string $server_version The version number to save.
 	 */
 	protected function set_version( $server_version ) {
-		update_option( $this->get_option_name(), $server_version );
+		WPSEO_Options::set( $this->get_option_name(), $server_version );
 	}
 
 	/**
@@ -200,7 +193,7 @@ class WPSEO_License_Page_Manager implements WPSEO_WordPress_Integration {
 			'capabilities' => 'wpseo_manage_options',
 		];
 
-		$notification = new Yoast_Notification(
+		return new Yoast_Notification(
 			sprintf(
 				/* translators: %1$s expands to the product name. %2$s expands to a link to My Yoast  */
 				__( 'You are not receiving updates or support! Fix this problem by adding this site and enabling %1$s for it in %2$s.', 'wordpress-seo' ),
@@ -209,7 +202,5 @@ class WPSEO_License_Page_Manager implements WPSEO_WordPress_Integration {
 			),
 			$notification_options
 		);
-
-		return $notification;
 	}
 }

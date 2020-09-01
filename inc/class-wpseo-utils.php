@@ -113,7 +113,7 @@ class WPSEO_Utils {
 	 * @return bool
 	 */
 	public static function is_url_relative( $url ) {
-		return ( strpos( $url, 'http' ) !== 0 && strpos( $url, '//' ) !== 0 );
+		return YoastSEO()->helpers->url->is_relative( $url );
 	}
 
 	/**
@@ -756,7 +756,7 @@ class WPSEO_Utils {
 	 * @return string
 	 */
 	public static function get_site_name() {
-		return wp_strip_all_tags( get_bloginfo( 'name' ), true );
+		return YoastSEO()->helpers->site->get_site_name();
 	}
 
 	/**
@@ -795,14 +795,7 @@ class WPSEO_Utils {
 	 * @return bool
 	 */
 	public static function is_yoast_seo_page() {
-		static $is_yoast_seo;
-
-		if ( $is_yoast_seo === null ) {
-			$current_page = filter_input( INPUT_GET, 'page' );
-			$is_yoast_seo = ( substr( $current_page, 0, 6 ) === 'wpseo_' );
-		}
-
-		return $is_yoast_seo;
+		return YoastSEO()->helpers->current_page->is_yoast_seo_page();
 	}
 
 	/**
@@ -880,28 +873,7 @@ class WPSEO_Utils {
 	 * @return string Home URL with optional path, appropriately slashed if not.
 	 */
 	public static function home_url( $path = '', $scheme = null ) {
-
-		$home_url = home_url( $path, $scheme );
-
-		if ( ! empty( $path ) ) {
-			return $home_url;
-		}
-
-		$home_path = wp_parse_url( $home_url, PHP_URL_PATH );
-
-		if ( $home_path === '/' ) { // Home at site root, already slashed.
-			return $home_url;
-		}
-
-		if ( is_null( $home_path ) ) { // Home at site root, always slash.
-			return trailingslashit( $home_url );
-		}
-
-		if ( is_string( $home_path ) ) { // Home in subdirectory, slash if permalink structure has slash.
-			return user_trailingslashit( $home_url );
-		}
-
-		return $home_url;
+		return YoastSEO()->helpers->url->home( $path, $scheme );
 	}
 
 	/**
@@ -1141,7 +1113,6 @@ SVG;
 		$wpseo_admin_l10n = [
 			'displayAdvancedTab'   => WPSEO_Capability_Utils::current_user_can( 'wpseo_edit_advanced_metadata' ) || ! WPSEO_Options::get( 'disableadvanced_meta' ),
 			'noIndex'              => (bool) $no_index,
-			'isPremium'            => self::is_yoast_seo_premium(),
 			'isPostType'           => (bool) get_post_type(),
 			'postType'             => get_post_type(),
 			'postTypeNamePlural'   => ( $page_type === 'post' ) ? $label_object->label : $label_object->name,

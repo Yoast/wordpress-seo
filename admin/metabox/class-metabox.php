@@ -872,8 +872,9 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$asset_manager->enqueue_style( 'select2' );
 		$asset_manager->enqueue_style( 'monorepo' );
 
+		$is_block_editor = WP_Screen::get()->is_block_editor();
 		$post_edit_handle = 'post-edit';
-		if ( ! WP_Screen::get()->is_block_editor() ) {
+		if ( ! $is_block_editor ) {
 			$post_edit_handle = 'post-edit-classic';
 		}
 		$asset_manager->enqueue_script( $post_edit_handle );
@@ -924,6 +925,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			'metabox'          => $this->get_metabox_script_data(),
 			'userLanguageCode' => WPSEO_Language_Utils::get_language( WPSEO_Language_Utils::get_user_locale() ),
 			'isPost'           => true,
+			'isBlockEditor'    => $is_block_editor,
 		];
 
 		if ( post_type_supports( get_post_type(), 'thumbnail' ) ) {

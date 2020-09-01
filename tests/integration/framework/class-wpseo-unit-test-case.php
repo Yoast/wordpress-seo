@@ -21,10 +21,6 @@ abstract class WPSEO_UnitTestCase extends WP_UnitTestCase {
 		parent::setUp();
 
 		// Run migrations.
-		$meta_storage = new WPSEO_Meta_Storage();
-		$meta_storage->install();
-		$link_storage = new WPSEO_Link_Storage();
-		$link_storage->install();
 		$migration_runner = YoastSEO()->classes->get( Migration_Runner::class );
 		$migration_runner->run_migrations( 'free' );
 	}
