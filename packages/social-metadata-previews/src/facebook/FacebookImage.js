@@ -16,7 +16,7 @@ import {
 const FacebookImageContainer = styled.div`
 	position: relative;
 	height: ${ props => props.dimensions.height };
-	max-width: ${ props => props.dimensions.width };
+	${ props => props.mode === "landscape" ? `max-width: ${ props.dimensions.width }` : `min-width: ${ props.dimensions.width }` };
 	overflow: hidden;
 	background-color: ${ colors.$color_white };
 `;
@@ -167,6 +167,7 @@ class FacebookImage extends Component {
 
 		const containerDimensions = this.retrieveContainerDimensions( imageProperties.mode );
 		return <FacebookImageContainer
+			mode={ imageProperties.mode }
 			dimensions={ containerDimensions }
 			onMouseEnter={ this.props.onMouseEnter }
 			onMouseLeave={ this.props.onMouseLeave }
