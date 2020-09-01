@@ -12,7 +12,7 @@ import SeoAnalysis from "../contentAnalysis/SeoAnalysis";
 import SidebarItem from "../SidebarItem";
 import SnippetPreviewModal from "../SnippetPreviewModal";
 import TopLevelProviders from "../TopLevelProviders";
-import SchemaTabContainer from "../../containers/SchemaTab";
+import PostSettingsModal from "../../containers/PostSettingsModal";
 
 /**
  * Creates the SidebarFill component.
@@ -36,6 +36,15 @@ export default function SidebarFill( { settings, store, theme } ) {
 						location={ "sidebar" }
 					>
 						<Warning />
+					</TopLevelProviders>
+				</SidebarItem>
+				<SidebarItem renderPriority={ 2 }>
+					<TopLevelProviders
+						store={ store }
+						theme={ theme }
+						location={ "sidebar" }
+					>
+						<PostSettingsModal />
 					</TopLevelProviders>
 				</SidebarItem>
 				{ settings.isKeywordAnalysisActive && <SidebarItem renderPriority={ 8 }>
@@ -86,15 +95,6 @@ export default function SidebarFill( { settings, store, theme } ) {
 						location={ "sidebar" }
 					>
 						<CollapsibleCornerstone />
-					</TopLevelProviders>
-				</SidebarItem> }
-				{ settings.displaySchemaSettings && <SidebarItem renderPriority={ 40 }>
-					<TopLevelProviders
-						store={ store }
-						theme={ theme }
-						location={ "sidebar" }
-					>
-						<SchemaTabContainer />
 					</TopLevelProviders>
 				</SidebarItem> }
 			</Fill>

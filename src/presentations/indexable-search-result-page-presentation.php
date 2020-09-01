@@ -1,14 +1,11 @@
 <?php
-/**
- * Presentation object for indexables.
- *
- * @package Yoast\YoastSEO\Presentations
- */
 
 namespace Yoast\WP\SEO\Presentations;
 
 /**
- * Class Indexable_Search_Result_Page_Presentation
+ * Class Indexable_Search_Result_Page_Presentation.
+ *
+ * Presentation object for indexables.
  */
 class Indexable_Search_Result_Page_Presentation extends Indexable_Presentation {
 

@@ -1,9 +1,4 @@
 <?php
-/**
- * WPSEO plugin test file.
- *
- * @package Yoast\WP\SEO\Tests\Unit\Integrations\Admin
- */
 
 namespace Yoast\WP\SEO\Tests\Unit\Integrations\Admin;
 
@@ -16,7 +11,7 @@ use Yoast\WP\SEO\Integrations\Admin\Migration_Error_Integration;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
- * Class Migration_Error_Integration_Test
+ * Class Migration_Error_Integration_Test.
  *
  * @group integrations
  * @group migrations

@@ -1,9 +1,4 @@
 <?php
-/**
- * Meta value object.
- *
- * @package Yoast\YoastSEO\Surfaces\Values
- */
 
 namespace Yoast\WP\SEO\Surfaces\Values;
 
@@ -18,7 +13,7 @@ use Yoast\WP\SEO\Surfaces\Helpers_Surface;
 use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Class Meta
+ * Meta value object.
  *
  * @property array       $breadcrumbs                       The breadcrumbs array for the current page.
  * @property bool        $breadcrumbs_enabled               Whether breadcrumbs are enabled or not.

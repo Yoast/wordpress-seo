@@ -1,9 +1,4 @@
 <?php
-/**
- * WPSEO plugin test file.
- *
- * @package Yoast\WP\SEO\Tests\Unit\Presenters\Admin
- */
 
 namespace Yoast\WP\SEO\Tests\Unit\Presenters\Admin;
 
@@ -13,7 +8,7 @@ use Yoast\WP\SEO\Presenters\Admin\Migration_Error_Presenter;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
- * Class Migration_Error_Presenter_Test
+ * Class Migration_Error_Presenter_Test.
  *
  * @coversDefaultClass \Yoast\WP\SEO\Presenters\Admin\Migration_Error_Presenter
  *

@@ -44,12 +44,3 @@ export const getFacebookImageSrc = state => get( state, "facebookEditor.image.sr
  * @returns {String} Facebook warnings.
  */
 export const getFacebookWarnings = state => get( state, "facebookEditor.warnings", [] );
-
-/**
- * Gets the Facebook isLoading attribute from the state.
- *
- * @param {Object} state The state.
- *
- * @returns {bool} Facebook is loading.
- */
-export const getFacebookIsLoading = state => get( state, "facebookEditor.isLoading", true );

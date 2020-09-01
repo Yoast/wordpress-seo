@@ -1,9 +1,4 @@
 <?php
-/**
- * Yoast model class.
- *
- * @package Yoast\WP\Lib
- */
 
 namespace Yoast\WP\Lib;
 
@@ -463,8 +458,7 @@ class Model implements JsonSerializable {
 		$key_to_base_table       = static::build_foreign_key_name( $key_to_base_table, $base_table_name );
 		$key_to_associated_table = static::build_foreign_key_name( $key_to_associated_table, $associated_table_name );
 
-		// @codingStandardsIgnoreLine
-		/* // phpcs:ignore Squiz.PHP.CommentedOutCode.Found -- Reason: This is commented out code.
+		/* phpcs:ignore Squiz.PHP.CommentedOutCode.Found -- Reason: This is commented out code.
 			"   SELECT {$associated_table_name}.*
 				FROM {$associated_table_name} JOIN {$join_table_name}
 					ON {$associated_table_name}.{$associated_table_id_column} = {$join_table_name}.{$key_to_associated_table}

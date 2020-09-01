@@ -1,9 +1,4 @@
 <?php
-/**
- * WPSEO plugin file.
- *
- * @package Yoast\WP\SEO\Integrations\Admin
- */
 
 namespace Yoast\WP\SEO\Integrations\Admin;
 
@@ -13,7 +8,7 @@ use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
 /**
- * Admin_Columns_Cache_Integration class
+ * Admin_Columns_Cache_Integration class.
  */
 class Admin_Columns_Cache_Integration implements Integration_Interface {
 

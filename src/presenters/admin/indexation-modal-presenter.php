@@ -1,16 +1,11 @@
 <?php
-/**
- * Presenter class for the indexation modal.
- *
- * @package Yoast\YoastSEO\Presenters\Admin
- */
 
 namespace Yoast\WP\SEO\Presenters\Admin;
 
 use Yoast\WP\SEO\Presenters\Abstract_Presenter;
 
 /**
- * Indexation_Modal_Presenter class.
+ * Presenter class for the indexation modal.
  */
 class Indexation_Modal_Presenter extends Abstract_Presenter {
 

@@ -9,5 +9,8 @@ export * from "./primaryTaxonomies";
 export * from "./activeMarker";
 export * from "./markerPauseStatus";
 export * from "./preferences";
+export * from "./advancedSettings";
+export * from "./editorContext";
+export * from "./schemaTab";
 export * from "./SEMrushRequest";
 export * from "./SEMrushModal";

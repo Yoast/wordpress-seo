@@ -50,4 +50,40 @@ class Language_Helper_Test extends TestCase {
 	public function supported_language_provider() {
 		return [ [ 'de' ], [ 'en' ], [ 'es' ], [ 'fr' ], [ 'it' ], [ 'nl' ], [ 'ru' ] ];
 	}
+
+	/**
+	 * Tests that a given language has function word support.
+	 *
+	 * @covers ::has_function_word_support
+	 *
+	 * @dataProvider language_with_function_word_support_provider
+	 *
+	 * @param string $language The language to test.
+	 */
+	public function test_has_function_word_support( $language ) {
+		$this->assertTrue( $this->instance->has_function_word_support( $language ) );
+	}
+
+	/**
+	 * Data provider for the test_is_word_form_recognition_active test.
+	 *
+	 * @return string[][] The dataset.
+	 */
+	public function language_with_function_word_support_provider() {
+		return [
+			[ 'en' ],
+			[ 'de' ],
+			[ 'nl' ],
+			[ 'fr' ],
+			[ 'es' ],
+			[ 'it' ],
+			[ 'pt' ],
+			[ 'ru' ],
+			[ 'pl' ],
+			[ 'sv' ],
+			[ 'id' ],
+			[ 'he' ],
+			[ 'ar' ],
+		];
+	}
 }
