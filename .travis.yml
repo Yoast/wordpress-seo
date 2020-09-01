@@ -198,9 +198,6 @@ before_script:
       if [[ -z "$PLUGIN_TAGS" ]]; then
         git clone https://github.com/yoast/javascript /tmp/javascript
         echo '{"monorepo-location":"/tmp/javascript"}' > .yoast
-        echo $TRAVIS_BRANCH
-        echo $TRAVIS_EVENT_TYPE
-        echo $TRAVIS_PULL_REQUEST_BRANCH
         if [[ ( $TRAVIS_BRANCH =~ ^feature\/* || $TRAVIS_BRANCH =~ ^release\/* || $TRAVIS_BRANCH = "trunk" ) && $TRAVIS_EVENT_TYPE = "pull_request" ]]; then
           AUTO_CHECKOUT_MONOREPO_BRANCH=1 yarn link-monorepo
         else
