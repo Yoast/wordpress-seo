@@ -5,8 +5,6 @@ import { StyledSection, StyledHeading, StyledSectionBase } from "@yoast/componen
 import { getDirectionalStyle as getRtlStyle } from "@yoast/helpers";
 
 const Section = styled( StyledSection )`
-	max-width: 640px;
-	
 	&${ StyledSectionBase } {
 		padding: 0;
 

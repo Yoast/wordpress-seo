@@ -135,9 +135,9 @@ class Indexable_Presentation extends Abstract_Presentation {
 	protected $user;
 
 	/**
-	 * @required
-	 *
 	 * Sets the generator dependencies.
+	 *
+	 * @required
 	 *
 	 * @param Schema_Generator            $schema_generator            The schema generator.
 	 * @param Open_Graph_Locale_Generator $open_graph_locale_generator The Open Graph locale generator.
@@ -160,9 +160,9 @@ class Indexable_Presentation extends Abstract_Presentation {
 	}
 
 	/**
-	 * @required
-	 *
 	 * Used by dependency injection container to inject the helpers.
+	 *
+	 * @required
 	 *
 	 * @param Image_Helper        $image        The image helper.
 	 * @param Options_Helper      $options      The options helper.

@@ -73,6 +73,8 @@ class Indexable_Social_Image_Trait_Test extends TestCase {
 
 	/**
 	 * Tests setting the social image helpers.
+	 *
+	 * @covers ::set_social_image_helpers
 	 */
 	public function test_set_social_image_helpers() {
 		$this->instance->set_social_image_helpers( $this->image, $this->open_graph_image, $this->twitter_image );
