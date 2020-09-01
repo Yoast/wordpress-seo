@@ -91,7 +91,9 @@ class SEMrushRelatedKeyphrasesModal extends Component {
 		if ( ! this.popup || this.popup.closed ) {
 			this.popup = window.open( url, "SEMrush_login", features.join( "," ) );
 		}
-		this.popup.focus();
+		if ( this.popup ) {
+			this.popup.focus();
+		}
 		window.addEventListener( "message", this.listenToMessages, false );
 	}
 
