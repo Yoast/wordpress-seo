@@ -5,7 +5,7 @@ import { __ } from "@wordpress/i18n";
 import PropTypes from "prop-types";
 
 /* Yoast dependencies */
-import { Button, ButtonStyledLink } from "@yoast/components/src/button";
+import { Button, ButtonStyledLink } from "@yoast/components";
 
 /* Internal dependencies */
 import { ModalContainer } from "./modals/Container";
