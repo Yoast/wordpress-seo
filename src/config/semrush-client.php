@@ -27,16 +27,22 @@ class SEMrush_Client {
 	const TOKEN_OPTION = 'semrush_tokens';
 
 	/**
+	 * The provider.
+	 *
 	 * @var GenericProvider
 	 */
 	protected $provider;
 
 	/**
+	 * The options helper.
+	 *
 	 * @var Options_Helper
 	 */
 	protected $options_helper;
 
 	/**
+	 * The token.
+	 *
 	 * @var SEMrush_Token|null
 	 */
 	protected $token;
@@ -49,14 +55,16 @@ class SEMrush_Client {
 	 * @throws SEMrush_Empty_Token_Property_Exception Exception thrown if a token property is empty.
 	 */
 	public function __construct( Options_Helper $options_helper ) {
-		$this->provider = new GenericProvider( [
-			'clientId'                => 'yoast',
-			'clientSecret'            => 'YdqNsWwnP4vE54WO1ugThKEjGMxMAHJt',
-			'redirectUri'             => 'https://oauth.semrush.com/oauth2/yoast/success',
-			'urlAuthorize'            => 'https://oauth.semrush.com/oauth2/authorize',
-			'urlAccessToken'          => 'https://oauth.semrush.com/oauth2/access_token',
-			'urlResourceOwnerDetails' => 'https://oauth.semrush.com/oauth2/resource',
-		] );
+		$this->provider = new GenericProvider(
+			[
+				'clientId'                => 'yoast',
+				'clientSecret'            => 'YdqNsWwnP4vE54WO1ugThKEjGMxMAHJt',
+				'redirectUri'             => 'https://oauth.semrush.com/oauth2/yoast/success',
+				'urlAuthorize'            => 'https://oauth.semrush.com/oauth2/authorize',
+				'urlAccessToken'          => 'https://oauth.semrush.com/oauth2/access_token',
+				'urlResourceOwnerDetails' => 'https://oauth.semrush.com/oauth2/resource',
+			]
+		);
 
 		$this->options_helper = $options_helper;
 		$this->token          = $this->get_token_from_storage();
@@ -74,9 +82,12 @@ class SEMrush_Client {
 	public function request_tokens( $code ) {
 		try {
 			$response = $this->provider
-				->getAccessToken( 'authorization_code', [
-					'code' => $code,
-				] );
+				->getAccessToken(
+					'authorization_code',
+					[
+						'code' => $code,
+					]
+				);
 
 			$token = SEMrush_Token::from_response( $response );
 
@@ -237,9 +248,12 @@ class SEMrush_Client {
 	 */
 	protected function refresh_tokens( SEMrush_Token $tokens ) {
 		try {
-			$new_tokens = $this->provider->getAccessToken( 'refresh_token', [
-				'refresh_token' => $tokens->refresh_token,
-			] );
+			$new_tokens = $this->provider->getAccessToken(
+				'refresh_token',
+				[
+					'refresh_token' => $tokens->refresh_token,
+				]
+			);
 
 			$token = SEMrush_Token::from_response( $new_tokens );
 
@@ -248,5 +262,4 @@ class SEMrush_Client {
 			throw new OAuth_Authentication_Failed_Exception( $exception );
 		}
 	}
-
 }
