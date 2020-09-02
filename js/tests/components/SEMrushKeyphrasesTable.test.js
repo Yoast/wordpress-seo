@@ -1,4 +1,4 @@
-import { mount, shallow } from "enzyme";
+import { shallow } from "enzyme";
 
 global.window.wpseoAdminL10n = [];
 global.window.wpseoAdminL10n[ "shortlinks.semrush.volume_help" ] = "test.com";
