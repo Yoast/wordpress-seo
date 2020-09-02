@@ -68,7 +68,7 @@ class WPSEO_Health_Check_Ryte extends WPSEO_Health_Check {
 	 * Checks whether the Ryte Site Health check should run.
 	 *
 	 * Checks for the WordPress environment type, checks if Ryte integration is
-	 * enabled, the blog is public, and it is not development mode.
+	 * enabled, the blog is public, and the Yoast SEO environment is not development mode.
 	 *
 	 * @return bool Whether the Ryte Site Health check should run.
 	 */
