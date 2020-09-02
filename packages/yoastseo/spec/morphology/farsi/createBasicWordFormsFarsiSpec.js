@@ -65,7 +65,7 @@ const wordsToStem = [
 	/*
 	 * Possessive pronoun suffix ‌اش
 	 * His/her house "خانه‌اش"
-	 * House "خانه‌" (word that ends in silent ه )
+	 * House "خانه" (word that ends in silent ه )
 	 */
 	{
 		original: "خانه‌اش",
@@ -118,7 +118,7 @@ const wordsToStem = [
 		],
 	},
 	/*
-	 * A plura
+	 * A word with an ending that looks like a valid ending ی (indefinite suffix)
 	 */
 	{
 		original: "باری",
