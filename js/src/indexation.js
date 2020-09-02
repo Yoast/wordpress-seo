@@ -33,6 +33,7 @@ class Indexation extends Component {
 		};
 
 		this.startIndexation = this.startIndexation.bind( this );
+		this.stopIndexation = this.stopIndexation.bind( this );
 	}
 
 	/**
@@ -85,6 +86,16 @@ class Indexation extends Component {
 	}
 
 	/**
+	 * Stops the indexation process.
+	 *
+	 * @returns {void}
+	 */
+	stopIndexation() {
+		this.setState( { started: false } );
+		window.location.reload();
+	}
+
+	/**
 	 * Renders the applicable component when the indexation has not started yet.
 	 * (start button).
 	 *
@@ -110,7 +121,7 @@ class Indexation extends Component {
 					max={ this.settings.amount }
 					value={ this.state.processed }
 				/>
-				<Button variant="grey">
+				<Button onClick={ this.stopIndexation } variant="grey">
 					{ __( "Stop SEO data optimization", "wordpress-seo" ) }
 				</Button>
 			</Fragment>
