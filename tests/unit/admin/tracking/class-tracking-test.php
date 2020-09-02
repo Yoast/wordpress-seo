@@ -13,6 +13,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group tracking
  */
 class WPSEO_Tracking_Test extends TestCase {
+
 	/**
 	 * Set up the class which will be tested.
 	 *
