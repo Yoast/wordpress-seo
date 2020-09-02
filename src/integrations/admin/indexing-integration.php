@@ -166,8 +166,6 @@ class Indexing_Integration implements Integration_Interface {
 					'terms'      => Indexable_Indexation_Route::FULL_TERMS_ROUTE,
 					'archives'   => Indexable_Indexation_Route::FULL_POST_TYPE_ARCHIVES_ROUTE,
 					'general'    => Indexable_Indexation_Route::FULL_GENERAL_ROUTE,
-					'link-posts' => Link_Indexing_Route::FULL_POSTS_ROUTE,
-					'link-terms' => Link_Indexing_Route::FULL_TERMS_ROUTE,
 					'complete'   => Indexable_Indexation_Route::FULL_COMPLETE_ROUTE,
 				],
 				'nonce'     => \wp_create_nonce( 'wp_rest' ),
@@ -199,8 +197,6 @@ class Indexing_Integration implements Integration_Interface {
 			$this->total_unindexed += $this->term_indexation->get_total_unindexed();
 			$this->total_unindexed += $this->general_indexation->get_total_unindexed();
 			$this->total_unindexed += $this->post_type_archive_indexation->get_total_unindexed();
-			$this->total_unindexed += $this->post_link_indexing_action->get_total_unindexed();
-			$this->total_unindexed += $this->term_link_indexing_action->get_total_unindexed();
 		}
 
 		return $this->total_unindexed;
