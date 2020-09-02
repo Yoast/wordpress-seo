@@ -166,6 +166,7 @@ module.exports = function( env ) {
 
 	const base = {
 		mode: env.environment,
+		watch: env.watch,
 		devtool: env.environment === "development" ? "cheap-module-eval-source-map" : false,
 		context: root,
 		output: {
