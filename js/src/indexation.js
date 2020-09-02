@@ -13,7 +13,7 @@ const Progress = styled( ProgressBar )`
 `;
 
 const Text = styled.p`
-	color: ${colors.$palette_grey_text}
+	color: ${ colors.$palette_grey_text }
 `;
 
 /**
@@ -34,6 +34,7 @@ class Indexation extends Component {
 		this.state = {
 			started: false,
 			processed: 0,
+			amount: this.settings.amount,
 		};
 
 		this.startIndexation = this.startIndexation.bind( this );
@@ -68,7 +69,7 @@ class Indexation extends Component {
 	async doIndexation( endpoint ) {
 		let url = this.settings.restApi.root + this.settings.restApi.endpoints[ endpoint ];
 
-		while ( this.state.started && url !== false && this.state.processed <= this.settings.amount ) {
+		while ( this.state.started && url !== false && this.state.processed <= this.state.amount ) {
 			const response = await this.doIndexationRequest( url, this.settings.restApi.nonce );
 			this.setState( previousState => (
 				{ processed: previousState.processed + response.objects.length }
@@ -95,8 +96,10 @@ class Indexation extends Component {
 	 * @returns {void}
 	 */
 	stopIndexation() {
-		this.setState( { started: false } );
-		window.location.reload();
+		this.setState( previousState => ( {
+			started: false,
+			amount: previousState.amount - previousState.processed,
+		} ) );
 	}
 
 	/**
@@ -122,7 +125,7 @@ class Indexation extends Component {
 			<Fragment>
 				<Progress
 					progressColor={ colors.$color_pink_dark }
-					max={ this.settings.amount }
+					max={ this.state.amount }
 					value={ this.state.processed }
 				/>
 				<Text>Optimizing SEO data... This may take a while.</Text>
