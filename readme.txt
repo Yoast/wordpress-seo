@@ -213,22 +213,22 @@ Release Date: September 15th, 2020
 
 Enhancements:
 
-* Adds a modal to the post edit screen that can be used to change settings that were previously in the metabox.
-* Enables integrators to add links to the sitemap index by adding a new filter `wpseo_sitemap_index_links`. Props to [Joseph Paul](https://github.com/jsphpl).
-* Makes sure Yoast SEO Premium and the add-ons get the proper plugin icon when shown in the plugin updates screen.
-* Uses Yoast SEO Free's compatibility data (when available) to display compatibility data for the add-ons.
-* Adds the following words to the list that's used for the English transition word assessment: 'note that', 'not only', 'initially', 'as opposed to'.
-* Improves keyphrase and prominent word recognition when words in the text occur with specific Arabic or Urdu punctuation marks.
-
-Other:
-
-* Backfills `wp_get_environment_type()` for WordPress 5.4, so that this method is available in all the WP versions supported by Yoast SEO.
+* Adds a modal to the post edit screen that can be used to change settings.
+* Removes the Schema settings from the sidebar because they have moved to the post settings modal.
+* Always shows the Google Preview editor fields and as a result removes the 'Edit snippet' button.
+* Improves the English transition word assessment by adding the following words to the transition word list: 'note that', 'not only', 'initially', 'as opposed to'.
+* Improves the keyphrase and prominent word recognition when words in the text occur with specific Arabic or Urdu punctuation marks.
 
 Bugfixes:
 
-* Fixes a bug where `null` could be part of `@ type` in our schema.
-* Fixes a bug where the `archive`, `imageindex` and `snippet` robot values were output when set to `noindex`.
-* Fixes a bug where the indexable permalinks could have a wrong value when the term slug was changed.
+* Fixes a bug where the value of the schema `@type` could contain `null`.
+* Fixes a bug where the `archive`, `imageindex` and `snippet` robot values would be output when `noindex` was present as well.
+* Fixes a bug where the indexable permalinks could have an incorrect value when the term slug was changed.
+
+Other:
+
+* Adds an alert to the Google Preview modal informing users about the future removal of that modal in favor of the new post settings modal.
+* Adds the `wpseo_sitemap_index_links` filter to enable adding links to the sitemap index. Props to [Joseph Paul](https://github.com/jsphpl).
 
 = 14.9 =
 Release Date: September 1st, 2020
