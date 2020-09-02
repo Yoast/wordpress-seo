@@ -23,10 +23,15 @@ class WPSEO_Sitemaps_Admin_Test extends TestCase {
 	protected $instance;
 
 	/**
+	 * The mock post to use for the test.
+	 *
 	 * @var Mockery\Mock
 	 */
 	private $mock_post;
+
 	/**
+	 * The options mock to use for the test.
+	 *
 	 * @var Mockery\LegacyMockInterface|Mockery\MockInterface|Options_Double
 	 */
 	private $options_mock;
@@ -39,10 +44,10 @@ class WPSEO_Sitemaps_Admin_Test extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->instance                = Mockery::mock( WPSEO_Sitemaps_Admin::class )->makePartial();
-		$this->options_mock            = Mockery::mock( \WPSEO_Options::class )->shouldAllowMockingProtectedMethods();
-		$this->mock_post               = Mockery::mock( '\WP_Post' )->makePartial();
-		$this->mock_post->post_type    = 'post';
+		$this->instance             = Mockery::mock( WPSEO_Sitemaps_Admin::class )->makePartial();
+		$this->options_mock         = Mockery::mock( \WPSEO_Options::class )->shouldAllowMockingProtectedMethods();
+		$this->mock_post            = Mockery::mock( '\WP_Post' )->makePartial();
+		$this->mock_post->post_type = 'post';
 	}
 
 	/**
