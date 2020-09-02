@@ -128,7 +128,7 @@ class Indexation extends Component {
 					max={ this.state.amount }
 					value={ this.state.processed }
 				/>
-				<Text>Optimizing SEO data... This may take a while.</Text>
+				<Text>{ __( "Optimizing SEO data... This may take a while.", "wordpress-seo" ) }</Text>
 				<Button onClick={ this.stopIndexation } variant="grey">
 					{ __( "Stop SEO data optimization", "wordpress-seo" ) }
 				</Button>
