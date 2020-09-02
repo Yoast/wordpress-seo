@@ -5,7 +5,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
 Tested up to: 5.5
-Stable tag: 14.8.1
+Stable tag: 14.9
 Requires PHP: 5.6.20
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -208,12 +208,36 @@ Your question has most likely been answered on our knowledge base: [kb.yoast.com
 
 == Changelog ==
 
-== 14.9 =
-Release Date: September 1st, 2020
+= 15.0 =
+Release Date: September 15th, 2020
+
+Enhancements:
+
+* Adds a modal to the post edit screen that can be used to change settings that were previously in the metabox.
+* Enables integrators to add links to the sitemap index by adding a new filter `wpseo_sitemap_index_links`. Props to [Joseph Paul](https://github.com/jsphpl).
+* Makes sure Yoast SEO Premium and the add-ons get the proper plugin icon when shown in the plugin updates screen.
+* Uses Yoast SEO Free's compatibility data (when available) to display compatibility data for the add-ons.
+* Adds the following words to the list that's used for the English transition word assessment: 'note that', 'not only', 'initially', 'as opposed to'.
+* Improves keyphrase and prominent word recognition when words in the text occur with specific Arabic or Urdu punctuation marks.
+
+Other:
+
+* Backfills `wp_get_environment_type()` for WordPress 5.4, so that this method is available in all the WP versions supported by Yoast SEO.
 
 Bugfixes:
 
-* Fixes a bug where a JavaScript console warning was thrown on category edit pages.
+* Fixes a bug where `null` could be part of `@ type` in our schema.
+* Fixes a bug where the `archive`, `imageindex` and `snippet` robot values were output when set to `noindex`.
+* Fixes a bug where the indexable permalinks could have a wrong value when the term slug was changed.
+
+= 14.9 =
+Release Date: September 1st, 2020
+
+Yoast SEO 14.9 comes with a new round of improvements, plus a new language-based enhancement: improved keyphrase recognition for Hebrew. Read more about those changes in [our release post](https://yoa.st/release-14-9)!
+
+Bugfixes:
+
+* Fixes a bug where a JavaScript console warning was thrown on category edit pages. 
 * Fixes a bug where the page number was not shown in the breadcrumb for paginated series.
 * Fixes a bug where the `robots.txt` and `.htaccess` file editor would not work due to `get_home_path()` not being a writable path. Props to [druesome](https://github.com/druesome).
 * Fixes a bug where port numbers in the indexable permalinks were missing (when applicable).
@@ -237,41 +261,6 @@ Other:
 
 * Adds the weekly cron schedule to the `cron_schedules` filter to prevent overwriting the one WordPress adds. Props to [peter-webbird](https://github.com/peter-webbird).
 * Merges the googlebot and bingbot meta tag values into the robots meta tag value and deprecates the `Googlebot_Presenter` and `Bingbot_Presenter`.
-
-= 14.8.1 =
-Release Date: August 25th, 2020
-
-Bugfixes:
-
-* Fixes a bug in WordPress itself where script concatenation was causing JavaScript errors, which in turn led to Yoast SEO malfunctioning. This bug was introduced in WordPress 5.5. We’re fixing it by disabling script concatenation entirely.
-
-= 14.8 =
-Release Date: August 18th, 2020
-
-Get ready for a brand new version of Yoast SEO! In this version you'll find new Schema functionality, an improved readability analysis for Portuguese & Indonesian, and improved keyword recognition for right-to-left languages. Read more about those changes in [our release post](https://yoa.st/release-14-8)!
-
-Enhancements:
-
-* Adds a Schema section to the metabox and sidebar. This section allows the user to change their Schema settings on posts, pages and custom post types.
-* Adds a new section to the Search Appearance settings. This section allows the user to change their Schema defaults for posts, pages and custom post types.
-* Fixes an inconsistency in the feedback strings that are produced by the keyphrase in SEO title assessment.
-* Improves the accuracy of the following assessments for right-to-left languages: sentence length, keyphrase in introduction, keyphrase distribution, keyphrase density, and keyphrase in meta description.
-* Improves all keyphrase-based assessments for Arabic by filtering function words and by allowing keyphrases to be recognized in a text when preceded by a prefix (e.g., "ل" or "ب").
-* Adds the following assessments for Indonesian: sentence beginnings, transition words and passive voice.
-* Adds the following assessments for Portuguese: Flesch reading ease and passive voice.
-* Cleans up Schema @type values:
-	* If it's an array with multiple values, only output unique values.
-	* If it's a single value, output it as a string instead of an array.
-
-Bugfixes:
-
-* Fixes a bug where the Yoast Dashboard widget would trigger an error when other plugins or temporary conditions would make the Yoast API response fail.
-* Fixes a bug where block editor dependencies would be loaded unnecessarily on classic editor, causing issues with NextGEN gallery. Posts with NextGEN galleries that have been broken due to this bug will need to be re-saved.
-
-Other:
-
-* Sets the minimum WP version to 5.4.
-* Optimizes the logic involved in default filters for our options. This should lead to a very small increase in performance as well as avoiding an edge case where the default filter would be removed.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).

@@ -45,7 +45,15 @@ class WpYoastIndexableHierarchy extends Migration {
 				'limit'       => 11,
 			]
 		);
-		$indexable_table->column( 'depth', 'integer', [ 'unsigned' => true, 'null' => true, 'limit' => 11 ] );
+		$indexable_table->column(
+			'depth',
+			'integer',
+			[
+				'unsigned' => true,
+				'null'     => true,
+				'limit'    => 11,
+			]
+		);
 		$indexable_table->finish();
 
 		$this->add_index( $table_name, 'indexable_id', [ 'name' => 'indexable_id' ] );
