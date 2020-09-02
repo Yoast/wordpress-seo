@@ -5,6 +5,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Inc;
 use Brain\Monkey;
 use Mockery;
 use WPSEO_Sitemaps_Admin;
+use Yoast\WP\SEO\Tests\Unit\Doubles\Inc\Options\Options_Double;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
@@ -36,15 +37,12 @@ class WPSEO_Sitemaps_Admin_Test extends TestCase {
 	 * @return void
 	 */
 	public function setUp() {
-		$this->instance = Mockery::mock( WPSEO_Sitemaps_Admin::class )->makePartial();
+		parent::setUp();
 
-		$this->options_mock = Mockery::mock( 'alias:' . \WPSEO_Options::class )->shouldAllowMockingProtectedMethods();
-		$this->options_mock->expects( 'get_instance' )->andReturnNull();
-
+		$this->instance                = Mockery::mock( WPSEO_Sitemaps_Admin::class )->makePartial();
+		$this->options_mock            = Mockery::mock( \WPSEO_Options::class )->shouldAllowMockingProtectedMethods();
 		$this->mock_post               = Mockery::mock( '\WP_Post' )->makePartial();
 		$this->mock_post->post_type    = 'post';
-
-		parent::setUp();
 	}
 
 	/**
@@ -69,12 +67,6 @@ class WPSEO_Sitemaps_Admin_Test extends TestCase {
 		$this->options_mock
 			->shouldReceive( 'is_multisite' )
 			->andReturn( false );
-
-		$this->options_mock
-			->shouldReceive( 'get' )
-			->once()
-			->with( 'noindex-post', false )
-			->andReturnFalse();
 
 		Monkey\Functions\expect( 'apply_filters' )
 			->never();
@@ -104,12 +96,6 @@ class WPSEO_Sitemaps_Admin_Test extends TestCase {
 		$this->options_mock
 			->shouldReceive( 'is_multisite' )
 			->andReturn( false );
-
-		$this->options_mock
-			->shouldReceive( 'get' )
-			->once()
-			->with( 'noindex-post', false )
-			->andReturnFalse();
 
 		Monkey\Functions\expect( 'apply_filters' )
 			->once()
