@@ -314,7 +314,6 @@ class Indexation_Integration implements Integration_Interface {
 
 		$this->asset_manager->enqueue_script( 'indexation' );
 		$this->asset_manager->enqueue_style( 'admin-css' );
-		$this->asset_manager->enqueue_style( 'monorepo' );
 
 		$data = [
 			'amount'  => $this->get_total_unindexed(),
