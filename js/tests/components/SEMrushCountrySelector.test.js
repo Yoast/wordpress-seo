@@ -17,5 +17,13 @@ describe( "SEMrushCountrySelector", () => {
 
 		expect( onClickMock ).toHaveBeenCalled();
 	} );
+	it( "validates the amount of options loaded within the select", () => {
+		const onClickMock = jest.fn();
+		const component = shallow( <SEMrushCountrySelector setCountry={() => {console.log("setCountry")}} newRequest={onClickMock}
+		setNoResultsFoundnewRequest={() => {}} setRequestSucceeded={() => {}} setRequestLimitReached={() => {}}
+		setRequestFailed={() => {}} setNoResultsFound={() => {}} /> );
+
+		expect( component.find("select").getElement().props.children.length ).toEqual( 117 );
+	} );
 
 } );
