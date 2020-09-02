@@ -16,13 +16,18 @@ const createForms = function( word ) {
 	const suffixes3 = [ "‌ای", "‌یی", "‌ام", "‌ات", "‌اش" ];
 	// Suffixes for words that end in ها
 	const suffixes4 = [ "یی", "ی" ];
+
 	const createdForms = [];
+
+	// Create prefixed form.
 	createdForms.push( prefix + word );
+
+	// Create suffixed forms using suffixes from one of the four groups, depending on the word's ending.
 	if ( word.endsWith( "ها" ) ) {
 		createdForms.push( ...suffixes4.map( suffix => word + suffix ) );
 	} else if ( /([^وای]ه)$/i.test( word ) ) {
 		createdForms.push( ...suffixes3.map( suffix => word + suffix ) );
-	} else if ( /(ا|و)$/i.test( word ) ) {
+	} else if ( /([وا])$/i.test( word ) ) {
 		createdForms.push( ...suffixes2.map( suffix => word + suffix ) );
 	} else {
 		if ( word.endsWith( "ی" )  ) {
@@ -49,18 +54,14 @@ const stemWord = function( word ) {
 		[ "(ها)یی$", "$1" ],
 		[ "(مان|شان|تان|ش|ت|م|ی)$", "" ],
 	];
-	let stemmedWord = "";
+	// Remove prefix.
 	if ( word.startsWith( prefix ) ) {
-		stemmedWord = word.slice( 1, word.length );
+		return word.slice( 1, word.length );
 	}
-	if ( stemmedWord.length === 0 ) {
-		const wordWithoutSuffix = searchAndReplaceWithRegex( word, suffixesAndReplacements );
-		if ( wordWithoutSuffix ) {
-			stemmedWord = wordWithoutSuffix;
-		}
-	}
-	return stemmedWord;
+	// Search for and remove suffixes.
+	return searchAndReplaceWithRegex( word, suffixesAndReplacements );
 };
+
 /**
  * Creates basic word forms for a given Farsi word.
  *
