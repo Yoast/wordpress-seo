@@ -107,8 +107,6 @@ class Indexing_Integration_Test extends TestCase {
 			$this->post_type_archive_indexation,
 			$this->general_indexation,
 			$this->complete_indexation_action,
-			$this->post_link_indexing_action,
-			$this->term_link_indexing_action,
 			$this->asset_manager
 		);
 	}
@@ -137,8 +135,6 @@ class Indexing_Integration_Test extends TestCase {
 		$this->assertAttributeInstanceOf( Indexable_Post_Type_Archive_Indexation_Action::class, 'post_type_archive_indexation', $this->instance );
 		$this->assertAttributeInstanceOf( Indexable_General_Indexation_Action::class, 'general_indexation', $this->instance );
 		$this->assertAttributeInstanceOf( Indexable_Complete_Indexation_Action::class, 'complete_indexation_action', $this->instance );
-		$this->assertAttributeInstanceOf( Post_Link_Indexing_Action::class, 'post_link_indexing_action', $this->instance );
-		$this->assertAttributeInstanceOf( Term_Link_Indexing_Action::class, 'term_link_indexing_action', $this->instance );
 		$this->assertAttributeInstanceOf( WPSEO_Admin_Asset_Manager::class, 'asset_manager', $this->instance );
 	}
 
@@ -153,13 +149,11 @@ class Indexing_Integration_Test extends TestCase {
 			'term_indexation'              => 20,
 			'post_type_archive_indexation' => 12,
 			'general_indexation'           => 0,
-			'post_link_indexing_action'    => 30,
-			'term_link_indexing_action'    => 20,
 		];
 
 		$this->set_total_unindexed_expectations( $total_unindexed_expectations );
 
-		$this->assertEquals( 122, $this->instance->get_total_unindexed() );
+		$this->assertEquals( 72, $this->instance->get_total_unindexed() );
 	}
 
 	/**
@@ -173,23 +167,26 @@ class Indexing_Integration_Test extends TestCase {
 			'term_indexation'              => 20,
 			'post_type_archive_indexation' => 12,
 			'general_indexation'           => 0,
-			'post_link_indexing_action'    => 30,
-			'term_link_indexing_action'    => 20,
 		];
 
 		$this->set_total_unindexed_expectations( $total_unindexed_expectations );
 
-		$this->asset_manager->expects( 'enqueue_script' )
-		                    ->with( 'indexation' );
-		$this->asset_manager->expects( 'enqueue_style' )
-		                    ->with( 'admin-css' );
+		$this->asset_manager
+			->expects( 'enqueue_script' )
+			->with( 'indexation' );
+		$this->asset_manager
+			->expects( 'enqueue_style' )
+			->with( 'admin-css' );
+		$this->asset_manager
+			->expects( 'enqueue_style' )
+			->with( 'monorepo' );
 
 		Monkey\Functions\expect( 'wp_create_nonce' )
 			->with( 'wp_rest' )
 			->andReturn( 'nonce_value' );
 
 		$injected_data = [
-			'amount'  => 122,
+			'amount'  => 72,
 			'restApi' =>
 				[
 					'root'      => 'https://example.org/wp-ajax/',
@@ -200,8 +197,6 @@ class Indexing_Integration_Test extends TestCase {
 							'terms'      => 'yoast/v1/indexation/terms',
 							'archives'   => 'yoast/v1/indexation/post-type-archives',
 							'general'    => 'yoast/v1/indexation/general',
-							'link-posts' => 'yoast/v1/link-indexing/posts',
-							'link-terms' => 'yoast/v1/link-indexing/terms',
 							'complete'   => 'yoast/v1/indexation/complete',
 						],
 					'nonce'     => 'nonce_value',
