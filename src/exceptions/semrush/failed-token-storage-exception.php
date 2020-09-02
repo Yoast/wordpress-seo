@@ -15,7 +15,7 @@ class Failed_Token_Storage_Exception extends \Exception {
 	const DEFAULT_MESSAGE = 'Token storing failed. Please try again.';
 
 	/**
-	 * SEMrush_Failed_Token_Storage_Exception constructor.
+	 * Failed_Token_Storage_Exception constructor.
 	 *
 	 * @param string $reason The reason why token storage failed. Optional.
 	 */

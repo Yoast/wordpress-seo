@@ -13,7 +13,7 @@ namespace Yoast\WP\SEO\Exceptions\SEMrush;
 class Empty_Token_Property_Exception extends \Exception {
 
 	/**
-	 * SEMrush_Empty_Token_Property_Exception constructor.
+	 * Empty_Token_Property_Exception constructor.
 	 *
 	 * @param string $property The property that is empty.
 	 */

@@ -13,7 +13,7 @@ namespace Yoast\WP\SEO\Exceptions\SEMrush;
 class Empty_Token_Exception extends \Exception {
 
 	/**
-	 * SEMrush_Empty_Token_Exception constructor.
+	 * Empty_Token_Exception constructor.
 	 */
 	public function __construct() {
 		parent::__construct( 'Token usage failed. Token is empty.', 400 );

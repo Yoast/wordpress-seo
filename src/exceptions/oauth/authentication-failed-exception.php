@@ -13,7 +13,7 @@ namespace Yoast\WP\SEO\Exceptions\OAuth;
 class Authentication_Failed_Exception extends \Exception {
 
 	/**
-	 * OAuth_Authentication_Failed_Exception constructor.
+	 * Authentication_Failed_Exception constructor.
 	 *
 	 * @param \Exception $original_exception The original exception.
 	 */
