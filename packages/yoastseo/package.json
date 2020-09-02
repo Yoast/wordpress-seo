@@ -121,9 +121,9 @@
       "/spec/morphology/indonesian/stemmerCoverage/generateStems.js",
       "/spec/morphology/indonesian/stemmerCoverage/goldStandardStems.json",
       "/spec/morphology/indonesian/stemmerCoverage/sampleVocabulary.json",
-      "/spec/morphology/swedish/stemmerCoverage/generateStems.js",
       "/spec/morphology/swedish/stemmerCoverage/goldStandardStems.json",
-      "/spec/morphology/swedish/stemmerCoverage/sampleVocabulary.json"
+      "/spec/morphology/swedish/stemmerCoverage/sampleVocabulary.json",
+      "/spec/morphology/swedish/stemmerCoverage/generateStems.js"
     ],
     "coveragePathIgnorePatterns": [
       "js/templates.js"
