@@ -9,10 +9,10 @@ namespace Yoast\WP\SEO\Config;
 
 use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
 use League\OAuth2\Client\Provider\GenericProvider;
-use Yoast\WP\SEO\Exceptions\OAuth\OAuth_Authentication_Failed_Exception;
-use Yoast\WP\SEO\Exceptions\SEMrush\SEMrush_Empty_Token_Exception;
-use Yoast\WP\SEO\Exceptions\SEMrush\SEMrush_Empty_Token_Property_Exception;
-use Yoast\WP\SEO\Exceptions\SEMrush\SEMrush_Failed_Token_Storage_Exception;
+use Yoast\WP\SEO\Exceptions\OAuth\Authentication_Failed_Exception;
+use Yoast\WP\SEO\Exceptions\SEMrush\Empty_Token_Exception;
+use Yoast\WP\SEO\Exceptions\SEMrush\Empty_Token_Property_Exception;
+use Yoast\WP\SEO\Exceptions\SEMrush\Failed_Token_Storage_Exception;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Values\SEMrush\SEMrush_Token;
 
@@ -52,7 +52,7 @@ class SEMrush_Client {
 	 *
 	 * @param Options_Helper $options_helper The Options_Helper instance.
 	 *
-	 * @throws SEMrush_Empty_Token_Property_Exception Exception thrown if a token property is empty.
+	 * @throws Empty_Token_Property_Exception Exception thrown if a token property is empty.
 	 */
 	public function __construct( Options_Helper $options_helper ) {
 		$this->provider = new GenericProvider(
@@ -77,7 +77,7 @@ class SEMrush_Client {
 	 *
 	 * @return SEMrush_Token The requested tokens.
 	 *
-	 * @throws OAuth_Authentication_Failed_Exception Exception thrown if authentication has failed.
+	 * @throws Authentication_Failed_Exception Exception thrown if authentication has failed.
 	 */
 	public function request_tokens( $code ) {
 		try {
@@ -93,7 +93,7 @@ class SEMrush_Client {
 
 			return $this->store_token( $token );
 		} catch ( \Exception $exception ) {
-			throw new OAuth_Authentication_Failed_Exception( $exception );
+			throw new Authentication_Failed_Exception( $exception );
 		}
 	}
 
@@ -106,8 +106,8 @@ class SEMrush_Client {
 	 * @return mixed The parsed API response.
 	 *
 	 * @throws IdentityProviderException Exception thrown if there's something wrong with the identifying data.
-	 * @throws OAuth_Authentication_Failed_Exception Exception thrown if authentication has failed.
-	 * @throws SEMrush_Empty_Token_Exception Exception thrown if the token is empty.
+	 * @throws Authentication_Failed_Exception Exception thrown if authentication has failed.
+	 * @throws Empty_Token_Exception Exception thrown if the token is empty.
 	 */
 	public function get( $url, $options = [] ) {
 		return $this->do_request( 'GET', $url, $options );
@@ -123,8 +123,8 @@ class SEMrush_Client {
 	 * @return mixed The parsed API response.
 	 *
 	 * @throws IdentityProviderException Exception thrown if there's something wrong with the identifying data.
-	 * @throws OAuth_Authentication_Failed_Exception Exception thrown if authentication has failed.
-	 * @throws SEMrush_Empty_Token_Exception Exception thrown if the token is empty.
+	 * @throws Authentication_Failed_Exception Exception thrown if authentication has failed.
+	 * @throws Empty_Token_Exception Exception thrown if the token is empty.
 	 */
 	public function post( $url, $body, $options = [] ) {
 		$options['body'] = $body;
@@ -146,12 +146,11 @@ class SEMrush_Client {
 	 *
 	 * @return SEMrush_Token The stored tokens.
 	 *
-	 * @throws OAuth_Authentication_Failed_Exception Exception thrown if authentication has failed.
-	 * @throws SEMrush_Empty_Token_Exception Exception thrown if the token is empty.
+	 * @throws Empty_Token_Exception Exception thrown if the token is empty.
 	 */
 	public function get_tokens() {
 		if ( empty( $this->token ) ) {
-			throw new SEMrush_Empty_Token_Exception();
+			throw new Empty_Token_Exception();
 		}
 
 		if ( $this->token->has_expired() ) {
@@ -166,7 +165,7 @@ class SEMrush_Client {
 	 *
 	 * @return SEMrush_Token|null The token object. Returns null if none exists.
 	 *
-	 * @throws SEMrush_Empty_Token_Property_Exception Exception thrown if a token property is empty.
+	 * @throws Empty_Token_Property_Exception Exception thrown if a token property is empty.
 	 */
 	public function get_token_from_storage() {
 		$tokens = $this->options_helper->get( self::TOKEN_OPTION );
@@ -191,13 +190,13 @@ class SEMrush_Client {
 	 *
 	 * @return SEMrush_Token The stored token.
 	 *
-	 * @throws SEMrush_Failed_Token_Storage_Exception Exception thrown if storing of the token fails.
+	 * @throws Failed_Token_Storage_Exception Exception thrown if storing of the token fails.
 	 */
 	public function store_token( SEMrush_Token $token ) {
 		$saved = $this->options_helper->set( self::TOKEN_OPTION, $token->to_array() );
 
 		if ( $saved === false ) {
-			throw new SEMrush_Failed_Token_Storage_Exception();
+			throw new Failed_Token_Storage_Exception();
 		}
 
 		return $token;
@@ -213,8 +212,8 @@ class SEMrush_Client {
 	 * @return mixed The parsed API response.
 	 *
 	 * @throws IdentityProviderException Exception thrown if there's something wrong with the identifying data.
-	 * @throws OAuth_Authentication_Failed_Exception Exception thrown if authentication has failed.
-	 * @throws SEMrush_Empty_Token_Exception Exception thrown if the token is empty.
+	 * @throws Authentication_Failed_Exception Exception thrown if authentication has failed.
+	 * @throws Empty_Token_Exception Exception thrown if the token is empty.
 	 */
 	protected function do_request( $method, $url, array $options ) {
 		$defaults = [
@@ -244,7 +243,7 @@ class SEMrush_Client {
 	 *
 	 * @return SEMrush_Token The refreshed tokens.
 	 *
-	 * @throws OAuth_Authentication_Failed_Exception Exception thrown if authentication has failed.
+	 * @throws Authentication_Failed_Exception Exception thrown if authentication has failed.
 	 */
 	protected function refresh_tokens( SEMrush_Token $tokens ) {
 		try {
@@ -259,7 +258,7 @@ class SEMrush_Client {
 
 			return $this->store_token( $token );
 		} catch ( \Exception $exception ) {
-			throw new OAuth_Authentication_Failed_Exception( $exception );
+			throw new Authentication_Failed_Exception( $exception );
 		}
 	}
 }

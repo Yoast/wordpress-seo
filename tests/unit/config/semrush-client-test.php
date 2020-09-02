@@ -1,12 +1,12 @@
 <?php
 
-namespace Yoast\WP\SEO\Tests\Config;
+namespace Yoast\WP\SEO\Config;
 
 use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
 use League\OAuth2\Client\Provider\GenericProvider;
 use League\OAuth2\Client\Token\AccessTokenInterface;
 use Yoast\WP\SEO\Helpers\Options_Helper;
-use Yoast\WP\SEO\Tests\Doubles\Config\SEMrush_Client_Double;
+use Yoast\WP\SEO\Doubles\Config\SEMrush_Client_Double;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 use Yoast\WP\SEO\Values\SEMrush\SEMrush_Token;
 
@@ -164,7 +164,7 @@ class SEMrush_Client_Test extends TestCase {
 	 *
 	 * @covers ::request_tokens
 	 *
-	 * @expectedException Yoast\WP\SEO\Exceptions\OAuth\OAuth_Authentication_Failed_Exception
+	 * @expectedException Yoast\WP\SEO\Exceptions\OAuth\Authentication_Failed_Exception
 	 */
 	public function test_invalid_request_tokens_when_no_code_is_set() {
 		$this->provider
@@ -189,7 +189,7 @@ class SEMrush_Client_Test extends TestCase {
 	 *
 	 * @covers ::store_token
 	 *
-	 * @expectedException Yoast\WP\SEO\Exceptions\SEMrush\SEMrush_Failed_Token_Storage_Exception
+	 * @expectedException Yoast\WP\SEO\Exceptions\SEMrush\Failed_Token_Storage_Exception
 	 */
 	public function test_storing_token_failure() {
 

@@ -1,12 +1,12 @@
 <?php
 
-namespace Yoast\WP\SEO\Tests\Actions\SEMrush;
+namespace Yoast\WP\SEO\Actions\SEMrush;
 
 use League\OAuth2\Client\Token\AccessTokenInterface;
 use Mockery;
 use Yoast\WP\SEO\Actions\SEMrush\SEMrush_Options_Action;
 use Yoast\WP\SEO\Config\SEMrush_Client;
-use Yoast\WP\SEO\Exceptions\OAuth\OAuth_Authentication_Failed_Exception;
+use Yoast\WP\SEO\Exceptions\OAuth\Authentication_Failed_Exception;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Values\SEMrush\SEMrush_Token;
 use Yoast\WP\SEO\Tests\Unit\TestCase;

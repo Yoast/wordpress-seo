@@ -5,7 +5,7 @@
  * @package Yoast\WP\SEO\Tests\Routes
  */
 
-namespace Yoast\WP\SEO\Tests\Routes;
+namespace Yoast\WP\SEO\Routes;
 
 use Brain\Monkey;
 use Mockery;

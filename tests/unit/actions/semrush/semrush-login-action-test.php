@@ -1,12 +1,12 @@
 <?php
 
-namespace Yoast\WP\SEO\Tests\Actions\SEMrush;
+namespace Yoast\WP\SEO\Actions\SEMrush;
 
 use League\OAuth2\Client\Token\AccessTokenInterface;
 use Mockery;
 use Yoast\WP\SEO\Actions\SEMrush\SEMrush_Login_Action;
 use Yoast\WP\SEO\Config\SEMrush_Client;
-use Yoast\WP\SEO\Exceptions\OAuth\OAuth_Authentication_Failed_Exception;
+use Yoast\WP\SEO\Exceptions\OAuth\Authentication_Failed_Exception;
 use Yoast\WP\SEO\Values\SEMrush\SEMrush_Token;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
@@ -103,7 +103,7 @@ class SEMrush_Login_Action_Test extends TestCase {
 	 */
 	public function test_invalid_authentication() {
 		// Expected returned class by client.
-		$failed_tokens_request = Mockery::mock( OAuth_Authentication_Failed_Exception::class );
+		$failed_tokens_request = Mockery::mock( Authentication_Failed_Exception::class );
 		$failed_tokens_request
 			->expects( 'get_response' )
 			->once()

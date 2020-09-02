@@ -8,11 +8,11 @@
 namespace Yoast\WP\SEO\Exceptions\OAuth;
 
 /**
- * Class OAuth_Failed_Token_Storage_Exception
+ * Class Failed_Token_Storage_Exception
  *
  * @package Yoast\WP\SEO\Exceptions\OAuth
  */
-class OAuth_Failed_Token_Storage_Exception extends \Exception {
+class Failed_Token_Storage_Exception extends \Exception {
 
 	/**
 	 * OAuth_Failed_Token_Storage_Exception constructor.
