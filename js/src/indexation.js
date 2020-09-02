@@ -12,6 +12,10 @@ const Progress = styled( ProgressBar )`
 	margin: 8px 0;
 `;
 
+const Text = styled.p`
+	color: ${colors.$palette_grey_text}
+`;
+
 /**
  * Indexes the site and shows a progress bar indicating the indexing process' progress.
  */
@@ -121,6 +125,7 @@ class Indexation extends Component {
 					max={ this.settings.amount }
 					value={ this.state.processed }
 				/>
+				<Text>Optimizing SEO data... This may take a while.</Text>
 				<Button onClick={ this.stopIndexation } variant="grey">
 					{ __( "Stop SEO data optimization", "wordpress-seo" ) }
 				</Button>
