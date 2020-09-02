@@ -66,13 +66,15 @@ class WPSEO_Sitemaps_Admin_Test extends TestCase {
 		Monkey\Functions\expect( 'wp_cache_delete' )
 			->andReturn( true );
 
-		$this->options_mock->shouldReceive( 'is_multisite' )
+		$this->options_mock
+			->shouldReceive( 'is_multisite' )
 			->andReturn( false );
 
-		$this->options_mock->shouldReceive( 'get' )
-					  ->once()
-					  ->with( 'noindex-post', false )
-					  ->andReturnFalse();
+		$this->options_mock
+			->shouldReceive( 'get' )
+			->once()
+			->with( 'noindex-post', false )
+			->andReturnFalse();
 
 		Monkey\Functions\expect( 'apply_filters' )
 			->never();
@@ -99,13 +101,15 @@ class WPSEO_Sitemaps_Admin_Test extends TestCase {
 		Monkey\Functions\expect( 'wp_cache_delete' )
 			->andReturn( true );
 
-		$this->options_mock->shouldReceive( 'is_multisite' )
-					  ->andReturn( false );
+		$this->options_mock
+			->shouldReceive( 'is_multisite' )
+			->andReturn( false );
 
-		$this->options_mock->shouldReceive( 'get' )
-					  ->once()
-					  ->with( 'noindex-post', false )
-					  ->andReturnFalse();
+		$this->options_mock
+			->shouldReceive( 'get' )
+			->once()
+			->with( 'noindex-post', false )
+			->andReturnFalse();
 
 		Monkey\Functions\expect( 'apply_filters' )
 			->once()
