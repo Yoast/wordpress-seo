@@ -28,6 +28,7 @@ class Indexation extends Component {
 		this.stoppedIndexation = false;
 
 		this.state = {
+			started: false,
 			processed: 0,
 		};
 
@@ -62,9 +63,11 @@ class Indexation extends Component {
 	async doIndexation( endpoint ) {
 		let url = this.settings.restApi.root + this.settings.restApi.endpoints[ endpoint ];
 
-		while ( ! this.stoppedIndexation && url !== false && this.state.processed <= this.settings.amount ) {
+		while ( this.state.started && url !== false && this.state.processed <= this.settings.amount ) {
 			const response = await this.doIndexationRequest( url, this.settings.restApi.nonce );
-			this.setState( previousState => ( { processed: previousState.processed + response.objects.length } ) );
+			this.setState( previousState => (
+				{ processed: previousState.processed + response.objects.length }
+			) );
 			url = response.next_url;
 		}
 	}
@@ -75,10 +78,43 @@ class Indexation extends Component {
 	 * @returns {Promise} The start indexation promise.
 	 */
 	async startIndexation() {
-		this.setState( { processed: 0 } );
+		this.setState( { processed: 0, started: true } );
 		for ( const endpoint of Object.keys( this.settings.restApi.endpoints ) ) {
 			await this.doIndexation( endpoint );
 		}
+	}
+
+	/**
+	 * Renders the applicable component when the indexation has not started yet.
+	 * (start button).
+	 *
+	 * @returns {JSX.Element} The applicable components.
+	 */
+	renderStartComponents() {
+		return <Button onClick={ this.startIndexation } variant="purple">
+			{ __( "Start SEO data optimization", "wordpress-seo" ) }
+		</Button>;
+	}
+
+	/**
+	 * Renders the applicable components when the indexation is in progress.
+	 * (progress bar, stop button).
+	 *
+	 * @returns {JSX.Element} The applicable components.
+	 */
+	renderInProgressComponents() {
+		return (
+			<Fragment>
+				<Progress
+					progressColor={ colors.$color_pink_dark }
+					max={ this.settings.amount }
+					value={ this.state.processed }
+				/>
+				<Button variant="grey">
+					{ __( "Stop SEO data optimization", "wordpress-seo" ) }
+				</Button>
+			</Fragment>
+		);
 	}
 
 	/**
@@ -87,18 +123,7 @@ class Indexation extends Component {
 	 * @returns {JSX.Element} The rendered component.
 	 */
 	render() {
-		return (
-			<Fragment>
-				<Progress
-					progressColor={ colors.$color_pink_dark }
-					max={ this.settings.amount }
-					value={ this.state.processed }
-				/>
-				<Button onClick={ this.startIndexation } variant="purple">
-					{ __( "Start SEO data optimization", "wordpress-seo" ) }
-				</Button>
-			</Fragment>
-		);
+		return this.state.started ? this.renderInProgressComponents() : this.renderStartComponents();
 	}
 }
 
