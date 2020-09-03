@@ -788,7 +788,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 *
 	 * @todo [JRF => whomever] Create css/metabox-mp6.css file and add it to the below allowed colors array when done.
 	 */
-	public function enqueue() {
+	public function enqueue( $elementor_hack = false ) {
 		global $pagenow;
 
 		$asset_manager = new WPSEO_Admin_Asset_Manager();
@@ -824,8 +824,12 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		$is_block_editor  = WP_Screen::get()->is_block_editor();
 		$post_edit_handle = 'post-edit';
-		if ( ! $is_block_editor ) {
-			$post_edit_handle = 'post-edit-classic';
+		if ( $elementor_hack ) {
+			$post_edit_handle = 'elementor';
+		} else {
+			if ( ! $is_block_editor ) {
+				$post_edit_handle = 'post-edit-classic';
+			}
 		}
 		$asset_manager->enqueue_script( $post_edit_handle );
 		$asset_manager->enqueue_style( 'admin-css' );

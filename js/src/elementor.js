@@ -17,6 +17,9 @@ jQuery( function() {
 	const body = jQuery( "body" ).first();
 	body.append( jQuery( "<div id=\"wpseo_meta\"></div>" ) );
 	body.append( jQuery( `<input id="yoast_wpseo_is_cornerstone" value="${ window.wpseoScriptData.metabox.cornerstoneActive }" />` ) );
+	body.append( jQuery( "<div id=\"wpseo-metabox-root\"></div>" ) );
+	body.append( jQuery( "<div id=\"wpseo-meta-section-schema\"></div>" ) );
+	// TODO: Still missing the metabox hidden fields, maybe load them in through the `do_meta_box`.
 
 	initializeEdit();
 
