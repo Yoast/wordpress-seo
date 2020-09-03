@@ -28,14 +28,13 @@ describe( "gets Polish word combinations", function() {
 			new WordCombination( [ "odczuwa", "ból" ], 8, polishFunctionWords ),
 			new WordCombination( [ "natychmiast", "dzwonić" ], 8, polishFunctionWords ),
 			new WordCombination( [ "klatce", "piersiowej" ], 8, polishFunctionWords ),
-			new WordCombination( [ "wie" ], 8, polishFunctionWords ),
+			new WordCombination( [ "odczuwa" ], 8, polishFunctionWords ),
 			new WordCombination( [ "karetkę" ], 8, polishFunctionWords ),
 			new WordCombination( [ "dzwonić" ], 8, polishFunctionWords ),
 			new WordCombination( [ "natychmiast" ], 8, polishFunctionWords ),
 			new WordCombination( [ "piersiowej" ], 8, polishFunctionWords ),
 			new WordCombination( [ "klatce" ], 8, polishFunctionWords ),
 			new WordCombination( [ "ból" ], 8, polishFunctionWords ),
-			new WordCombination( [ "odczuwa" ], 8, polishFunctionWords ),
 			new WordCombination( [ "zasadzie" ], 8, polishFunctionWords ),
 		];
 

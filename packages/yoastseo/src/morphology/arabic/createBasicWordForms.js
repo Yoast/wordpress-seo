@@ -6,7 +6,7 @@
  * @returns {Array}        Prefixed and de-prefixed variations of a word.
  */
 export function createBasicWordForms( word ) {
-	const prefixes = [ "ل", "ب", "ال", "ك", "و", "ف" ];
+	const prefixes = [ "ل", "ب", "ال", "ك", "و", "ف", "س", "أ" ];
 	const forms = [];
 
 	/*

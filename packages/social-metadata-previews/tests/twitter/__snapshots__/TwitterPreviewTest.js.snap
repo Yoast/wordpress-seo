@@ -115,7 +115,7 @@ exports[`TwitterPreview matches the snapshot 1`] = `
   font-size: 15px;
   font-weight: 400;
   line-height: 20px;
-  width: 507px;
+  max-width: 507px;
   border: 1px solid #E1E8ED;
   box-sizing: border-box;
   border-radius: 14px;
@@ -135,6 +135,12 @@ exports[`TwitterPreview matches the snapshot 1`] = `
 .c0:hover {
   background: #f5f8fa;
   border: 1px solid rgba(136,153,166,.5);
+}
+
+@media all and ( max-width:506px ) {
+  .c4 {
+    display: none;
+  }
 }
 
 <div
