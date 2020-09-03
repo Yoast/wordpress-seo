@@ -287,22 +287,26 @@ class SEMrushCountrySelector extends Component {
 				label={ __( "Show results for:", "wordpress-seo" ) }
 				wrapperClassName="yoast-field-group"
 			>
-				<SingleSelect
-					label="Test single select"
-					id={ id }
-					name="semrush-country-code"
-					options={ countries }
-					selected={ this.props.countryCode }
-					onChange={ ( selected ) =>
-						this.props.setCountry( selected )
+				<div style={ { display: "flex", flexDirection: "row", height: 62, width: "70%" } }>
+					<div style={ { flexGrow: 1, padding: 0, margin: 0, paddingRight: 10 } }>
+						<SingleSelect
+							id={ id }
+							name="semrush-country-code"
+							options={ countries }
+							selected={ this.props.countryCode }
+							onChange={ ( selected ) =>
+								this.props.setCountry( selected )
 					 }
-				/>
-				<button
-					className="yoast-button yoast-button--secondary"
-					onClick={ this.relatedKeyphrasesRequest }
-				>
-					{ __( "Change Country", "wordpress-seo" ) }
-				</button>
+						/>
+					</div>
+					<button
+						style={ { height: 42, alignSelf: "center" } }
+						className="yoast-button yoast-button--secondary"
+						onClick={ this.relatedKeyphrasesRequest }
+					>
+						{ __( "Change Country", "wordpress-seo" ) }
+					</button>
+				</div>
 			</FieldGroup>
 		);
 	}
