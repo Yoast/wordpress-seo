@@ -126,6 +126,9 @@ export const SingleSelect = ( props ) => {
 	/>;
 };
 
+SingleSelect.propTypes = selectProps;
+SingleSelect.defaultProps = selectDefaultProps;
+
 /**
  * MultiSelect component.
  * @param {object} props The functional component props.
@@ -152,6 +155,9 @@ export const MultiSelect = ( props ) => {
 		onChange={ onChangeHandler }
 	/>;
 };
+
+MultiSelect.propTypes = selectProps;
+MultiSelect.defaultProps = selectDefaultProps;
 
 /**
  * React wrapper for a basic HTML select.
