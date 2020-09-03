@@ -1,4 +1,4 @@
-/* global Marionette jQuery */
+/* global Marionette, elementor */
 import { createElement, render } from "@wordpress/element";
 
 export default Marionette.ItemView.extend( {
@@ -8,19 +8,18 @@ export default Marionette.ItemView.extend( {
 
 	initialize() {
 		console.log( "init" );
-		jQuery( "#elementor-panel-elements-search-area" ).hide();
+		elementor.getPanelView().getCurrentPageView().search.reset();
 	},
 
 	onShow() {
 		console.log( "onShow" );
 		render(
-			createElement( () => <div>HALLLOOOO</div> ),
+			createElement( () => <div>YAY</div> ),
 			document.getElementById( "elementor-panel-yoast" ),
 		);
 	},
 
 	onDestroy() {
 		console.log( "hide" );
-		jQuery( "#elementor-panel-elements-search-area" ).show();
 	},
 } );

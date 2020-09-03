@@ -1,13 +1,19 @@
 /* global jQuery, elementor, $e */
-import ElementorAddRegion from "./elementor/AddRegion";
+import YoastView from "./elementor/YoastView";
+
+const addYoastRegion = ( regions ) => {
+	regions.yoast = {
+		region: regions.global.region,
+		view: YoastView,
+		options: {},
+	};
+
+	return regions;
+};
 
 jQuery( function() {
 	elementor.once( "preview:loaded", function() {
 		console.log( "preview:loaded" );
-
-		const yoastNavigationTab = jQuery( ".elementor-component-tab.elementor-panel-navigation-tab" );
-		yoastNavigationTab.attr( "data-tab", "yoast" );
-		jQuery( "#elementor-panel-elements-navigation" ).append( yoastNavigationTab );
 
 		$e.components
 			.get( "panel/elements" )
@@ -15,19 +21,17 @@ jQuery( function() {
 	} );
 } );
 
-jQuery( window ).on( "elementor:init", function() {
+jQuery( window ).on( "elementor:init", () => {
 	console.log( "elementor:init" );
+
+	const templateElement = document.getElementById( "tmpl-elementor-panel-elements" );
+	templateElement.innerHTML = templateElement.innerHTML.replace(
+		/(<div class="elementor-component-tab elementor-panel-navigation-tab" data-tab="global">.*<\/div>)/,
+		"$1<div class=\"elementor-component-tab elementor-panel-navigation-tab elementor-active\" data-tab=\"yoast\">Yoast SEO</div>",
+	);
 
 	elementor.hooks.addFilter(
 		"panel/elements/regionViews",
-		ElementorAddRegion,
+		addYoastRegion,
 	);
 } );
-
-
-//
-//const slot = document.createElement( "div" );
-//slot.classList.add( [ "elementor-component-tab", "elementor-panel-navigation-tab" ] );
-//slot.innerHTML = "<p>tadaaa</p>";
-//document.getElementById( "body" ).appendChild( slot );
-//// Document.getElementById( 'elementor-panel-elements-navigation' ).appendChild( slot );
