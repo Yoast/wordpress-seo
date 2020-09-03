@@ -1,5 +1,6 @@
 /* global Marionette, elementor */
 import { createElement, render } from "@wordpress/element";
+import SidebarFill from "../containers/SidebarFill";
 
 export default Marionette.ItemView.extend( {
 	template: false,
@@ -8,13 +9,16 @@ export default Marionette.ItemView.extend( {
 
 	initialize() {
 		console.log( "init" );
+
+		// Hide the widget search.
 		elementor.getPanelView().getCurrentPageView().search.reset();
 	},
 
 	onShow() {
 		console.log( "onShow" );
+
 		render(
-			createElement( () => <div>YAY</div> ),
+			createElement( SidebarFill ),
 			document.getElementById( "elementor-panel-yoast" ),
 		);
 	},

@@ -1,4 +1,5 @@
 /* global jQuery, elementor, $e */
+import initializeEdit from "./elementor/initializeEdit";
 import YoastView from "./elementor/YoastView";
 
 const addYoastRegion = ( regions ) => {
@@ -12,12 +13,19 @@ const addYoastRegion = ( regions ) => {
 };
 
 jQuery( function() {
+	// Add missing elements on our page.
+	const body = jQuery( "body" ).first();
+	body.append( jQuery( "<div id=\"wpseo_meta\"></div>" ) );
+	body.append( jQuery( `<input id="yoast_wpseo_is_cornerstone" value="${ window.wpseoScriptData.metabox.cornerstoneActive }" />` ) );
+
+	initializeEdit();
+
 	elementor.once( "preview:loaded", function() {
 		console.log( "preview:loaded" );
 
 		$e.components
 			.get( "panel/elements" )
-			.addTab( "yoast", { title: "SEO" } );
+			.addTab( "yoast", { title: "Yoast SEO" } );
 	} );
 } );
 
