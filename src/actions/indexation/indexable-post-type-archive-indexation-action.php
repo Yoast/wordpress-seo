@@ -92,7 +92,9 @@ class Indexable_Post_Type_Archive_Indexation_Action implements Indexation_Action
 	}
 
 	/**
-	 * @inheritDoc
+	 * Returns the number of post type archives that will be indexed in a single indexing pass.
+	 *
+	 * @return int The limit.
 	 */
 	public function get_limit() {
 		/**

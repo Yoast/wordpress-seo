@@ -58,7 +58,9 @@ abstract class Abstract_Link_Indexing_Action implements Indexation_Action_Interf
 	}
 
 	/**
-	 * @inheritDoc
+	 * Returns the total number of unindexed links.
+	 *
+	 * @return int The total number of unindexed links.
 	 */
 	public function get_total_unindexed() {
 		$transient = \get_transient( static::UNINDEXED_COUNT_TRANSIENT );
@@ -107,7 +109,9 @@ abstract class Abstract_Link_Indexing_Action implements Indexation_Action_Interf
 	}
 
 	/**
-	 * @inheritDoc
+	 * Returns the number of texts that will be indexed in a single link indexing pass.
+	 *
+	 * @return int The limit.
 	 */
 	public function get_limit() {
 		/**
