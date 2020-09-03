@@ -1,7 +1,7 @@
 /* External dependencies */
 import { Fragment, Component } from "@wordpress/element";
 import { Slot } from "@wordpress/components";
-import { apiFetch } from "@wordpress/api-fetch";
+import apiFetch from "@wordpress/api-fetch";
 import { __ } from "@wordpress/i18n";
 import PropTypes from "prop-types";
 

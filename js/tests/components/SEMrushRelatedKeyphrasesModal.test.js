@@ -1,11 +1,11 @@
 import { shallow, mount } from "enzyme";
 import SEMrushRelatedKeyphrasesModal from "../../src/components/SEMrushRelatedKeyphrasesModal";
-import { apiFetch } from "../__mocks__/@wordpress/api-fetch";
+import apiFetch from "../__mocks__/@wordpress/api-fetch";
 
 jest.mock( "@wordpress/api-fetch", () => {
 	return {
 		__esModule: true,
-		apiFetch: jest.fn( () => {
+		"default": jest.fn( () => {
 			return Promise.resolve( {
 				tokens: {
 					// eslint-disable-next-line camelcase
