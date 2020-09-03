@@ -1,16 +1,11 @@
 <?php
-/**
- * Yoast SEO plugin file.
- *
- * @package Yoast\YoastSEO\Conditionals
- */
 
 namespace Yoast\WP\SEO\Conditionals;
 
 use Yoast\WP\SEO\Config\Migration_Status;
 
 /**
- * Class for integrations that depend on having all migration run.
+ * Class for integrations that depend on having all migrations run.
  */
 class Migrations_Conditional implements Conditional {
 

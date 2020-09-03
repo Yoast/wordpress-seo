@@ -1,9 +1,4 @@
 <?php
-/**
- * The presentation memoizer.
- *
- * @package Yoast\YoastSEO\Memoizers
- */
 
 namespace Yoast\WP\SEO\Memoizers;
 
@@ -13,7 +8,7 @@ use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Class Presentation_Memoizer
+ * The presentation memoizer.
  */
 class Presentation_Memoizer {
 

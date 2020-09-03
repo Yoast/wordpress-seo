@@ -83,13 +83,16 @@ class WPSEO_Sitemaps_Test extends WPSEO_UnitTestCase {
 
 		$this->factory->post->create();
 
-		add_filter( 'wpseo_sitemap_index_links', function( $links ) {
-			$links[] = [
-				'loc'     => 'test-sitemap.xml',
-				'lastmod' => date( "1" ),
-			];
-			return $links;
-		} );
+		add_filter(
+			'wpseo_sitemap_index_links',
+			static function( $links ) {
+				$links[] = [
+					'loc'     => 'test-sitemap.xml',
+					'lastmod' => date( '1' ),
+				];
+				return $links;
+			}
+		);
 
 		self::$class_instance->redirect( $GLOBALS['wp_the_query'] );
 		$expected_contains = [

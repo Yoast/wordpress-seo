@@ -1,16 +1,11 @@
 <?php
-/**
- * Presenter class for the document title.
- *
- * @package Yoast\YoastSEO\Presenters
- */
 
 namespace Yoast\WP\SEO\Presenters;
 
 use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 
 /**
- * Class Title_Presenter
+ * Presenter class for the document title.
  */
 class Title_Presenter extends Abstract_Indexable_Tag_Presenter {
 

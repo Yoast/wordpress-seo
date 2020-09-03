@@ -219,26 +219,29 @@ abstract class WPSEO_Option {
 		}
 	}
 
-// @codingStandardsIgnoreStart
-	/**
+	/*
 	 * All concrete classes *must* contain the get_instance method.
 	 *
 	 * {@internal Unfortunately I can't define it as an abstract as it also *has* to be static...}}
-	 */
-	// abstract protected static function get_instance();
-
-
-	/**
+	 *
+	 * ```
+	 * abstract protected static function get_instance();
+	 * ```
+	 * ---------------
+	 *
 	 * Concrete classes *may* contain a translate_defaults method.
-	 */
-	// abstract public function translate_defaults();
-
-
-	/**
+	 * ```
+	 * abstract public function translate_defaults();
+	 * ```
+	 * ---------------
+	 *
 	 * Concrete classes *may* contain a enrich_defaults method to add additional defaults once
 	 * all post_types and taxonomies have been registered.
+	 *
+	 * ```
+	 * abstract public function enrich_defaults();
+	 * ```
 	 */
-	// abstract public function enrich_defaults();
 
 	/* *********** METHODS INFLUENCING get_option() *********** */
 
@@ -291,7 +294,6 @@ abstract class WPSEO_Option {
 		return $value;
 	}
 
-	// @codingStandardsIgnoreStart
 	/**
 	 * Validate webmaster tools & Pinterest verification strings.
 	 *
@@ -799,11 +801,15 @@ abstract class WPSEO_Option {
 		return $this->option_name;
 	}
 
-	/**
+	/*
 	 * Concrete classes *may* contain a clean_option method which will clean out old/renamed
 	 * values within the option.
+	 *
+	 * ```
+	 * abstract public function clean_option( $option_value, $current_version = null, $all_old_option_values = null );
+	 * ```
 	 */
-	// abstract public function clean_option( $option_value, $current_version = null, $all_old_option_values = null );
+
 	/* *********** HELPER METHODS for internal use. *********** */
 
 	/**

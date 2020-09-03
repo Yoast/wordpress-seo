@@ -914,7 +914,6 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 		$id = "wpseo-existing-$record_id-$this->target_db_field";
 
 		// $attributes correctly escaped, verified by Alexander. See WPSEO_Bulk_Description_List_Table::parse_page_specific_column.
-		// phpcs:ignore WordPress.Security.EscapeOutput
 		return sprintf( '<td %2$s id="%3$s">%1$s</td>', esc_html( $meta_value ), $attributes, esc_attr( $id ) );
 	}
 

@@ -1,7 +1,4 @@
 <?php
-/**
- * WPSEO plugin test file.
- */
 
 namespace Yoast\WP\SEO\Tests\Unit\Integrations\Front_End;
 
@@ -13,7 +10,7 @@ use Yoast\WP\SEO\Integrations\Front_End\Indexing_Controls;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
- * Unit Test Class.
+ * Class Indexing_Controls_Test.
  *
  * @coversDefaultClass \Yoast\WP\SEO\Integrations\Front_End\Indexing_Controls
  * @covers ::<!public>

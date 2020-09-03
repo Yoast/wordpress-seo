@@ -1,16 +1,11 @@
 <?php
-/**
- * Presenter class for the Baidu Webmaster Tools verification setting.
- *
- * @package Yoast\YoastSEO\Presenters\Webmaster
- */
 
 namespace Yoast\WP\SEO\Presenters\Webmaster;
 
 use Yoast\WP\SEO\Presenters\Abstract_Indexable_Tag_Presenter;
 
 /**
- * Class Baidu_Presenter
+ * Presenter class for the Baidu Webmaster Tools verification setting.
  */
 class Baidu_Presenter extends Abstract_Indexable_Tag_Presenter {
 

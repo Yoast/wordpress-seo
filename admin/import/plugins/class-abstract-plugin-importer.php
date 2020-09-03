@@ -43,8 +43,7 @@ abstract class WPSEO_Plugin_Importer {
 	/**
 	 * Class constructor.
 	 */
-	public function __construct() {
-	}
+	public function __construct() {}
 
 	/**
 	 * Returns the string for the plugin we're importing from.
@@ -188,6 +187,7 @@ abstract class WPSEO_Plugin_Importer {
 		// First we create a temp table with all the values for meta_key.
 		$result = $wpdb->query(
 			$wpdb->prepare(
+				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.SchemaChange -- This is intentional + temporary.
 				"CREATE TEMPORARY TABLE tmp_meta_table SELECT * FROM {$wpdb->postmeta} WHERE meta_key = %s",
 				$old_key
 			)
@@ -225,6 +225,7 @@ abstract class WPSEO_Plugin_Importer {
 		$wpdb->query( "INSERT INTO {$wpdb->postmeta} SELECT * FROM tmp_meta_table" );
 
 		// Now we drop our temporary table.
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.SchemaChange -- This is intentional + a temporary table.
 		$wpdb->query( 'DROP TEMPORARY TABLE IF EXISTS tmp_meta_table' );
 
 		return true;

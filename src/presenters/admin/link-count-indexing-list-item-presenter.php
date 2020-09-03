@@ -1,16 +1,11 @@
 <?php
-/**
- * Presenter class for the link count indexing tool.
- *
- * @package Yoast\YoastSEO\Presenters\Admin
- */
 
 namespace Yoast\WP\SEO\Presenters\Admin;
 
 use Yoast\WP\SEO\Presenters\Abstract_Presenter;
 
 /**
- * Link_Count_Indexing_List_Item_Presenter class
+ * Presenter class for the link count indexing tool.
  */
 class Link_Count_Indexing_List_Item_Presenter extends Abstract_Presenter {
 

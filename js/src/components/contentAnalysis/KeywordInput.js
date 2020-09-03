@@ -131,6 +131,8 @@ KeywordInput.defaultProps = {
 	displayNoKeyphraseMessage: false,
 };
 
+export { KeywordInput };
+
 /**
  * Maps redux state to SeoAnalysis props.
  *

@@ -1,9 +1,4 @@
 <?php
-/**
- * WPSEO plugin test file.
- *
- * @package Yoast\WP\SEO\Tests\Unit\Integrations\Front_End
- */
 
 namespace Yoast\WP\SEO\Tests\Unit\Integrations\Front_End;
 
@@ -16,7 +11,7 @@ use Yoast\WP\SEO\Integrations\Front_End\Comment_Link_Fixer;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
- * Unit Test Class.
+ * Class Comment_Link_Fixer_Test.
  *
  * @coversDefaultClass \Yoast\WP\SEO\Integrations\Front_End\Comment_Link_Fixer
  * @covers ::<!public>

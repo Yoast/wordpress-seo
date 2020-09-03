@@ -1,9 +1,4 @@
 <?php
-/**
- * Homepage Builder for the indexables.
- *
- * @package Yoast\YoastSEO\Builders
- */
 
 namespace Yoast\WP\SEO\Builders;
 
@@ -12,6 +7,8 @@ use Yoast\WP\SEO\Helpers\Url_Helper;
 use Yoast\WP\SEO\Models\Indexable;
 
 /**
+ * Homepage Builder for the indexables.
+ *
  * Formats the homepage meta to indexable format.
  */
 class Indexable_Home_Page_Builder {

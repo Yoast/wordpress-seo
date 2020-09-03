@@ -301,7 +301,7 @@ class Indexable_Post_Builder_Test extends TestCase {
 			'id'     => 13,
 			'alt'    => '',
 			'pixels' => 307200,
-			'type'   => 'image/jpeg'
+			'type'   => 'image/jpeg',
 		];
 
 		// Mock that the open graph and twitter images have been set by the user.
@@ -313,7 +313,7 @@ class Indexable_Post_Builder_Test extends TestCase {
 		$this->indexable->orm->expects( 'set' )
 			->with( 'open_graph_image', 'http://basic.wordpress.test/wp-content/uploads/2020/07/WordPress5.jpg' );
 		$this->indexable->orm->expects( 'set' )
-			->with( 'open_graph_image_meta', \json_encode( $image_meta, ( JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES ) ) );
+			->with( 'open_graph_image_meta', \json_encode( $image_meta, ( JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES ) ) );
 
 		// We expect the twitter image and its source to be set.
 		$this->indexable->orm->expects( 'set' )->with( 'twitter_image_source', 'set-by-user' );
@@ -364,7 +364,7 @@ class Indexable_Post_Builder_Test extends TestCase {
 
 		$expected = [
 			'image_id' => 123,
-			'source'   => 'attachment-image'
+			'source'   => 'attachment-image',
 		];
 
 		$this->assertEquals( $expected, $actual );
@@ -395,7 +395,7 @@ class Indexable_Post_Builder_Test extends TestCase {
 
 		$expected = [
 			'image_id' => 456,
-			'source'   => 'featured-image'
+			'source'   => 'featured-image',
 		];
 
 		$this->assertEquals( $expected, $actual );
@@ -484,7 +484,7 @@ class Indexable_Post_Builder_Test extends TestCase {
 			'id'     => 13,
 			'alt'    => '',
 			'pixels' => 307200,
-			'type'   => 'image/jpeg'
+			'type'   => 'image/jpeg',
 		];
 
 		$this->image->allows( 'get_post_content_image' )
@@ -495,7 +495,7 @@ class Indexable_Post_Builder_Test extends TestCase {
 
 		$expected = [
 			'image'  => $image_meta,
-			'source' => 'first-content-image'
+			'source' => 'first-content-image',
 		];
 
 		$this->assertEquals( $expected, $actual );

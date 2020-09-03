@@ -1,9 +1,4 @@
 <?php
-/**
- * Term/Taxonomy watcher to fill the related Indexable.
- *
- * @package Yoast\YoastSEO\Watchers
- */
 
 namespace Yoast\WP\SEO\Integrations\Watchers;
 
@@ -14,7 +9,7 @@ use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
 /**
- * Watcher for terms to fill the related Indexable.
+ * Watches Terms/Taxonomies to fill the related Indexable.
  */
 class Indexable_Term_Watcher implements Integration_Interface {
 

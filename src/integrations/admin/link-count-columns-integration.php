@@ -1,9 +1,4 @@
 <?php
-/**
- * WPSEO plugin file.
- *
- * @package Yoast\WP\SEO\Integrations\Admin
- */
 
 namespace Yoast\WP\SEO\Integrations\Admin;
 
@@ -19,7 +14,7 @@ use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
 /**
- * Link_Count_Columns_Integration class
+ * Link_Count_Columns_Integration class.
  */
 class Link_Count_Columns_Integration implements Integration_Interface {
 
