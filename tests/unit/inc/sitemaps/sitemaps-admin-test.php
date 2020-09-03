@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\WP\SEO\Tests\Unit\Inc;
+namespace Yoast\WP\SEO\Tests\Unit\Inc\Sitemaps;
 
 use Brain\Monkey;
 use Mockery;
