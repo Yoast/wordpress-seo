@@ -120,8 +120,8 @@ export const SingleSelect = ( props ) => {
 	const onChangeHandler = useCallback( selection => onChange( selection.value ) );
 	return <YoastReactSelect
 		{ ...props }
-		isMulti = { false }
-		isSearchable = { true }
+		isMulti={ false }
+		isSearchable={ true }
 		onChange={ onChangeHandler }
 	/>;
 };
