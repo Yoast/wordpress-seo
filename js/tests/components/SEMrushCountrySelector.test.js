@@ -22,12 +22,15 @@ describe( "SEMrushCountrySelector", () => {
 
 		expect( onClickMock ).toHaveBeenCalled();
 	} );
-	it( "validates the amount of options loaded within the select", () => {
+	it( "successfully calls the associated setCountry function when the selected option has changed", () => {
+		const setCountryMock = jest.fn();
 		const component = shallow( <SEMrushCountrySelector
-			setCountry={ noop } newRequest={ noop } setNoResultsFoundnewRequest={ noop }
+			setCountry={ setCountryMock } newRequest={ noop } setNoResultsFoundnewRequest={ noop }
 			setRequestSucceeded={ noop } setRequestLimitReached={ noop } setRequestFailed={ noop } setNoResultsFound={ noop }
 		/> );
 
-		expect( component.find( "select" ).getElement().props.children.length ).toEqual( 117 );
+		component.find( "#semrush-country-selector" ).simulate( "change" );
+
+		expect( setCountryMock ).toHaveBeenCalled();
 	} );
 } );
