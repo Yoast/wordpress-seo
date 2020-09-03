@@ -19,6 +19,7 @@ export default compose( [
 			setSEMrushNoKeyphraseMessage,
 			setSEMrushOpenModal,
 			setSEMrushDismissModal,
+			setSEMrushLoginStatus,
 		} = dispatch( "yoast-seo/editor" );
 
 		return {
@@ -30,6 +31,9 @@ export default compose( [
 			},
 			onClose: () => {
 				setSEMrushDismissModal();
+			},
+			onAuthentication: ( status ) => {
+				setSEMrushLoginStatus( status );
 			},
 		};
 	} ),
