@@ -70,7 +70,7 @@ class Indexable_General_Indexation_Action implements Indexation_Action_Interface
 	 * @return int The limit.
 	 */
 	public function get_limit() {
-		// This matches the maximum amount of indexables created by this action.
+		// This matches the maximum number of indexables created by this action.
 		return 4;
 	}
 
