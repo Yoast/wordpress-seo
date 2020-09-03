@@ -56,10 +56,6 @@ class WPSEO_Admin_Asset_Manager {
 	 */
 	public function enqueue_script( $script ) {
 		wp_enqueue_script( $this->prefix . $script );
-		if ( $script === 'elementor' ) {
-			var_dump( 'hoibram', wp_script_is( $this->prefix . $script, 'registered' ) );
-			var_dump( 'hoibram', wp_script_is( $this->prefix . $script ) );
-		}
 	}
 
 	/**
@@ -84,9 +80,6 @@ class WPSEO_Admin_Asset_Manager {
 			$script->get_version(),
 			$script->is_in_footer()
 		);
-		if ( $script->get_name() === 'elementor' ) {
-			var_dump( 'hoibram', wp_script_is( $this->prefix . $script->get_name(), 'registered' ) );
-		}
 	}
 
 	/**
@@ -532,6 +525,7 @@ class WPSEO_Admin_Asset_Manager {
 				'name' => 'elementor',
 				'src'  => 'elementor-' . $flat_version,
 				'deps' => [
+					'wp-element',
 					self::PREFIX . 'commons',
 				],
 			],
