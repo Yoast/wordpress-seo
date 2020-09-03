@@ -155,6 +155,7 @@ class SEMrushCountrySelector extends Component {
 		super( props );
 
 		this.relatedKeyphrasesRequest = this.relatedKeyphrasesRequest.bind( this );
+		this.onChangeHandler = this.onChangeHandler.bind( this );
 	}
 
 	/**
@@ -276,6 +277,17 @@ class SEMrushCountrySelector extends Component {
 	}
 
 	/**
+	 * Save the selected value in the store.
+	 *
+	 * @param {string} selected The user selection.
+	 *
+	 * @returns {void}
+	 */
+	onChangeHandler( selected ) {
+		this.props.setCountry( selected );
+	}
+
+	/**
 	 * Renders the SEMrush Country Selector.
 	 *
 	 * @returns {wp.Element} The SEMrush Country Selector.
@@ -294,9 +306,7 @@ class SEMrushCountrySelector extends Component {
 							name="semrush-country-code"
 							options={ countries }
 							selected={ this.props.countryCode }
-							onChange={ ( selected ) =>
-								this.props.setCountry( selected )
-					 }
+							onChange={ this.onChangeHandler }
 						/>
 					</div>
 					<button
