@@ -6,9 +6,8 @@ import React from "react";
 import { noop } from "lodash";
 
 window.jQuery = () => ( {
-	select2: () => {
-	}, on: () => {
-	},
+	select2: () => {},
+	on: () => {},
 } );
 
 describe( "SEMrushCountrySelector", () => {
