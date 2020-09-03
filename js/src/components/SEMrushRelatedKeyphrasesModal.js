@@ -27,10 +27,10 @@ class SEMrushRelatedKeyphrasesModal extends Component {
 	constructor( props ) {
 		super( props );
 
-		this.onModalOpen       = this.onModalOpen.bind( this );
-		this.onModalClose      = this.onModalClose.bind( this );
-		this.onLinkClick       = this.onLinkClick.bind( this );
-		this.listenToMessages  = this.listenToMessages.bind( this );
+		this.onModalOpen      = this.onModalOpen.bind( this );
+		this.onModalClose     = this.onModalClose.bind( this );
+		this.onLinkClick      = this.onLinkClick.bind( this );
+		this.listenToMessages = this.listenToMessages.bind( this );
 	}
 
 	/**
@@ -144,7 +144,7 @@ class SEMrushRelatedKeyphrasesModal extends Component {
 				data: { code: code },
 			} );
 
-			if ( response.status === 200 )  {
+			if ( response.status === 200 ) {
 				this.props.onAuthentication( true );
 				this.onModalOpen();
 			} else {
