@@ -56,20 +56,6 @@ class Indexing_Integration implements Integration_Interface {
 	protected $complete_indexation_action;
 
 	/**
-	 * The post link indexing action.
-	 *
-	 * @var Post_Link_Indexing_Action
-	 */
-	protected $post_link_indexing_action;
-
-	/**
-	 * The term link indexing action.
-	 *
-	 * @var Term_Link_Indexing_Action
-	 */
-	protected $term_link_indexing_action;
-
-	/**
 	 * The total amount of unindexed objects.
 	 *
 	 * @var int
@@ -104,8 +90,6 @@ class Indexing_Integration implements Integration_Interface {
 	 * @param Indexable_Post_Type_Archive_Indexation_Action $post_type_archive_indexation The post type archive indexing action.
 	 * @param Indexable_General_Indexation_Action           $general_indexation           The general indexing action.
 	 * @param Indexable_Complete_Indexation_Action          $complete_indexation_action   The complete indexing action.
-	 * @param Post_Link_Indexing_Action                     $post_link_indexing_action    The post link indexing action.
-	 * @param Term_Link_Indexing_Action                     $term_link_indexing_action    The term link indexing action.
 	 * @param WPSEO_Admin_Asset_Manager                     $asset_manager                The admin asset manager.
 	 */
 	public function __construct(
@@ -114,8 +98,6 @@ class Indexing_Integration implements Integration_Interface {
 		Indexable_Post_Type_Archive_Indexation_Action $post_type_archive_indexation,
 		Indexable_General_Indexation_Action $general_indexation,
 		Indexable_Complete_Indexation_Action $complete_indexation_action,
-		Post_Link_Indexing_Action $post_link_indexing_action,
-		Term_Link_Indexing_Action $term_link_indexing_action,
 		WPSEO_Admin_Asset_Manager $asset_manager
 	) {
 		$this->post_indexation              = $post_indexation;
@@ -123,8 +105,6 @@ class Indexing_Integration implements Integration_Interface {
 		$this->post_type_archive_indexation = $post_type_archive_indexation;
 		$this->general_indexation           = $general_indexation;
 		$this->complete_indexation_action   = $complete_indexation_action;
-		$this->post_link_indexing_action    = $post_link_indexing_action;
-		$this->term_link_indexing_action    = $term_link_indexing_action;
 		$this->asset_manager                = $asset_manager;
 	}
 
@@ -166,8 +146,6 @@ class Indexing_Integration implements Integration_Interface {
 					'terms'      => Indexable_Indexation_Route::FULL_TERMS_ROUTE,
 					'archives'   => Indexable_Indexation_Route::FULL_POST_TYPE_ARCHIVES_ROUTE,
 					'general'    => Indexable_Indexation_Route::FULL_GENERAL_ROUTE,
-					'link-posts' => Link_Indexing_Route::FULL_POSTS_ROUTE,
-					'link-terms' => Link_Indexing_Route::FULL_TERMS_ROUTE,
 					'complete'   => Indexable_Indexation_Route::FULL_COMPLETE_ROUTE,
 				],
 				'nonce'     => \wp_create_nonce( 'wp_rest' ),
@@ -199,8 +177,6 @@ class Indexing_Integration implements Integration_Interface {
 			$this->total_unindexed += $this->term_indexation->get_total_unindexed();
 			$this->total_unindexed += $this->general_indexation->get_total_unindexed();
 			$this->total_unindexed += $this->post_type_archive_indexation->get_total_unindexed();
-			$this->total_unindexed += $this->post_link_indexing_action->get_total_unindexed();
-			$this->total_unindexed += $this->term_link_indexing_action->get_total_unindexed();
 		}
 
 		return $this->total_unindexed;
