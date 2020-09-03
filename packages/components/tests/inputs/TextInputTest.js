@@ -20,7 +20,7 @@ describe( "TextInput", () => {
 		expect( result.props.label ).toBe( "Heya" );
 		expect( result.props.linkTo ).toBe( "linkTo" );
 		expect( result.props.children.props.name ).toBe( "textInput" );
-		expect( result.props.children.props.defaultValue ).toBe( "" );
+		expect( result.props.children.props.value ).toBe( "" );
 	} );
 
 	it( "generates an input based on the defaults if required props are missing", () => {
@@ -34,7 +34,7 @@ describe( "TextInput", () => {
 
 		expect( result.props.children.props.name ).toBe( "" );
 		expect( result.props.children.props.type ).toBe( "text" );
-		expect( result.props.children.props.defaultValue ).toBe( "" );
+		expect( result.props.children.props.value ).toBe( "" );
 	} );
 
 	it( "generates an input based on the defaults if required props are partially missing", () => {
@@ -49,7 +49,7 @@ describe( "TextInput", () => {
 
 		expect( result.props.children.props.name ).toBe( "textInput" );
 		expect( result.props.children.props.type ).toBe( "text" );
-		expect( result.props.children.props.defaultValue ).toBe( "" );
+		expect( result.props.children.props.value ).toBe( "" );
 	} );
 
 	it( "generates a warning when a faulty input type is passed", () => {

@@ -27,7 +27,7 @@ describe( "TextArea", () => {
 		expect( result ).toBeDefined();
 		expect( result.props.linkTo ).toBe( "google" );
 		expect( result.props.htmlFor ).toBe( "very-nice-id" );
-		expect( result.props.children.props.defaultValue ).toBe( "Nice value you got here!" );
+		expect( result.props.children.props.value ).toBe( "Nice value you got here!" );
 		expect( result.props.children.props.id ).toBe( "very-nice-id" );
 	} );
 
