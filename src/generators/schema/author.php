@@ -1,16 +1,11 @@
 <?php
-/**
- * WPSEO plugin file.
- *
- * @package Yoast\WP\SEO\Generators\Schema
- */
 
 namespace Yoast\WP\SEO\Generators\Schema;
 
 use Yoast\WP\SEO\Config\Schema_IDs;
 
 /**
- * Returns schema Person data.
+ * Returns schema Author data.
  */
 class Author extends Person {
 

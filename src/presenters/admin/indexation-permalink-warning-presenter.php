@@ -1,14 +1,9 @@
 <?php
-/**
- * Presenter class for the warning that is given when the Category URLs (stripcategorybase) option is touched.
- *
- * @package Yoast\YoastSEO\Presenters\Admin
- */
 
 namespace Yoast\WP\SEO\Presenters\Admin;
 
 /**
- * Indexation_Permalink_Warning_Presenter class.
+ * Presenter class for the warning that is given when the Category URLs (stripcategorybase) option is touched.
  */
 class Indexation_Permalink_Warning_Presenter extends Indexation_Warning_Presenter {
 

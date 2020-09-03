@@ -26,5 +26,5 @@ $wpseo_rss_presenter = new WPSEO_Paper_Presenter(
 	]
 );
 
-// phpcs:ignore WordPress --sniffs=WordPress.Security.EscapeOutput -- get_output output is properly escaped.
+// phpcs:ignore WordPress.Security.EscapeOutput -- get_output() output is properly escaped.
 echo $wpseo_rss_presenter->get_output();

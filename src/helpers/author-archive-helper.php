@@ -1,16 +1,11 @@
 <?php
-/**
- * A helper object for author archives.
- *
- * @package Yoast\YoastSEO\Helpers
- */
 
 namespace Yoast\WP\SEO\Helpers;
 
 use Yoast\WP\Lib\Model;
 
 /**
- * Class Author_Archive_Helper
+ * A helper object for author archives.
  */
 class Author_Archive_Helper {
 

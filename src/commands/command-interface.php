@@ -1,14 +1,11 @@
 <?php
-/**
- * WP CLI command interface definition.
- *
- * @package Yoast\WP\SEO\Commands
- */
 
 namespace Yoast\WP\SEO\Commands;
 
 /**
- * An interface for registering integrations with WordPress
+ * Interface definition for WP CLI commands.
+ *
+ * An interface for registering integrations with WordPress.
  */
 interface Command_Interface {
 

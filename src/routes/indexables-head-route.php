@@ -1,9 +1,4 @@
 <?php
-/**
- * Head route for indexables.
- *
- * @package Yoast\WP\SEO\Routes\Routes
- */
 
 namespace Yoast\WP\SEO\Routes;
 
@@ -14,7 +9,7 @@ use Yoast\WP\SEO\Conditionals\Headless_Rest_Endpoints_Enabled_Conditional;
 use Yoast\WP\SEO\Main;
 
 /**
- * Indexable_Reindexing_Route class.
+ * Head route for indexables.
  */
 class Indexables_Head_Route implements Route_Interface {
 

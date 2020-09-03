@@ -1,16 +1,11 @@
 <?php
-/**
- * WPSEO plugin test file.
- *
- * @package Yoast\WP\SEO\Tests\Unit\Presentations\Indexable_Author_Archive_Presentation
- */
 
 namespace Yoast\WP\SEO\Tests\Unit\Presentations\Indexable_Author_Archive_Presentation;
 
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
- * Class Source_Test
+ * Class Source_Test.
  *
  * @coversDefaultClass \Yoast\WP\SEO\Presentations\Indexable_Author_Archive_Presentation
  *

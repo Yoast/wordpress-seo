@@ -1,9 +1,4 @@
 <?php
-/**
- * WPSEO plugin file.
- *
- * @package Yoast\WP\SEO\Integrations\Front_End
- */
 
 namespace Yoast\WP\SEO\Integrations\Front_End;
 
@@ -15,7 +10,7 @@ use Yoast\WP\SEO\Helpers\Redirect_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 
 /**
- * Class Redirects
+ * Class Redirects.
  */
 class Redirects implements Integration_Interface {
 

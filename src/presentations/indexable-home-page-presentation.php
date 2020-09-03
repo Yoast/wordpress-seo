@@ -1,14 +1,11 @@
 <?php
-/**
- * Presentation object for indexables.
- *
- * @package Yoast\YoastSEO\Presentations
- */
 
 namespace Yoast\WP\SEO\Presentations;
 
 /**
- * Class Indexable_Presentation
+ * Class Indexable_Home_Page_Presentation.
+ *
+ * Presentation object for indexables.
  */
 class Indexable_Home_Page_Presentation extends Indexable_Presentation {
 	use Archive_Adjacent;

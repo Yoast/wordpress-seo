@@ -1,9 +1,4 @@
 <?php
-/**
- * Post type archive builder for the indexables.
- *
- * @package Yoast\YoastSEO\Builders
- */
 
 namespace Yoast\WP\SEO\Builders;
 
@@ -11,6 +6,8 @@ use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Models\Indexable;
 
 /**
+ * Post type archive builder for the indexables.
+ *
  * Formats the post type archive meta to indexable format.
  */
 class Indexable_Post_Type_Archive_Builder {

@@ -6,8 +6,7 @@ import { addQueryArgs } from "@wordpress/url";
 import { __ } from "@wordpress/i18n";
 
 /* Yoast dependencies */
-import ErrorBoundary from "@yoast/components/src/internal/ErrorBoundary";
-import FieldGroup from "@yoast/components/src/field-group/FieldGroup";
+import { ErrorBoundary, FieldGroup } from "@yoast/components";
 
 /**
  * The ID of the SEMrush Country Selection component.

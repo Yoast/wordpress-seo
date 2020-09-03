@@ -1,9 +1,4 @@
 <?php
-/**
- * WPSEO plugin test file.
- *
- * @package Yoast\WP\SEO\Tests\Unit\Integrations\Watchers
- */
 
 namespace Yoast\WP\SEO\Tests\Unit\Integrations\Watchers;
 
@@ -16,7 +11,7 @@ use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
- * Class Indexable_Author_Test.
+ * Class Indexable_Author_Watcher_Test.
  *
  * @group indexables
  * @group integrations

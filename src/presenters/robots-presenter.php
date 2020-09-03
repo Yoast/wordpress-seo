@@ -1,14 +1,9 @@
 <?php
-/**
- * Abstract presenter class for the robots output.
- *
- * @package Yoast\YoastSEO\Presenters
- */
 
 namespace Yoast\WP\SEO\Presenters;
 
 /**
- * Class Robots_Presenter
+ * Presenter class for the robots output.
  */
 class Robots_Presenter extends Abstract_Indexable_Presenter {
 

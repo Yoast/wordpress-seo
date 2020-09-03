@@ -1,16 +1,11 @@
 <?php
-/**
- * Yoast SEO plugin file.
- *
- * @package Yoast\YoastSEO\Conditionals
- */
 
 namespace Yoast\WP\SEO\Conditionals;
 
 use Yoast\WP\SEO\Helpers\Options_Helper;
 
 /**
- * Index_Links_Conditional class
+ * Should_Index_Links_Conditional class.
  */
 class Should_Index_Links_Conditional implements Conditional {
 

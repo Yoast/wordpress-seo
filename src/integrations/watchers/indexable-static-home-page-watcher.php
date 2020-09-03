@@ -1,9 +1,4 @@
 <?php
-/**
- * Watcher that checks for changes in the page used as homepage.
- *
- * @package Yoast\YoastSEO\Watchers
- */
 
 namespace Yoast\WP\SEO\Integrations\Watchers;
 
@@ -12,6 +7,8 @@ use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
 /**
+ * Watcher that checks for changes in the page used as homepage.
+ *
  * Watches the static homepage option and updates the permalinks accordingly.
  */
 class Indexable_Static_Home_Page_Watcher implements Integration_Interface {

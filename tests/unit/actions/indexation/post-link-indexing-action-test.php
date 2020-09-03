@@ -99,14 +99,13 @@ class Post_Link_Indexing_Action_Test extends TestCase {
 			->andReturn( [ 'post', 'page' ] );
 
 		$empty_string   = '';
-		$expected_query = "
-			SELECT COUNT(ID)
+		$expected_query = "SELECT COUNT(ID)
 			FROM wp_posts
 			WHERE ID NOT IN (
 				SELECT object_id FROM wp_yoast_indexable WHERE link_count IS NOT NULL AND object_type = 'post'
 			) AND post_status = 'publish' AND post_type IN (%s, %s)
 			$empty_string
-		";
+			";
 
 		$this->wpdb
 			->expects( 'prepare' )
@@ -161,14 +160,13 @@ class Post_Link_Indexing_Action_Test extends TestCase {
 			->andReturn( [ 'post', 'page' ] );
 
 		$empty_string   = '';
-		$expected_query = "
-			SELECT COUNT(ID)
+		$expected_query = "SELECT COUNT(ID)
 			FROM wp_posts
 			WHERE ID NOT IN (
 				SELECT object_id FROM wp_yoast_indexable WHERE link_count IS NOT NULL AND object_type = 'post'
 			) AND post_status = 'publish' AND post_type IN (%s, %s)
 			$empty_string
-		";
+			";
 
 		$this->wpdb
 			->expects( 'prepare' )
@@ -199,14 +197,13 @@ class Post_Link_Indexing_Action_Test extends TestCase {
 			->once()
 			->andReturn( [ 'post', 'page' ] );
 
-		$expected_query = "
-			SELECT ID, post_content
+		$expected_query = "SELECT ID, post_content
 			FROM wp_posts
 			WHERE ID NOT IN (
 				SELECT object_id FROM wp_yoast_indexable WHERE link_count IS NOT NULL AND object_type = 'post'
 			) AND post_status = 'publish' AND post_type IN (%s, %s)
 			LIMIT %d
-		";
+			";
 
 		$this->wpdb
 			->expects( 'prepare' )
@@ -218,11 +215,22 @@ class Post_Link_Indexing_Action_Test extends TestCase {
 			->expects( 'get_results' )
 			->once()
 			->with( 'query' )
-			->andReturn( [
-				(object) [ 'ID' => 1, 'post_content' => 'foo' ],
-				(object) [ 'ID' => 3, 'post_content' => 'foo' ],
-				(object) [ 'ID' => 8, 'post_content' => 'foo' ],
-			 ] );
+			->andReturn(
+				[
+					(object) [
+						'ID'           => 1,
+						'post_content' => 'foo',
+					],
+					(object) [
+						'ID'           => 3,
+						'post_content' => 'foo',
+					],
+					(object) [
+						'ID'           => 8,
+						'post_content' => 'foo',
+					],
+				]
+			);
 
 		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 1, 'post' )->andReturn( (object) [ 'link_count' => 10 ] );
 		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 3, 'post' )->andReturn( (object) [ 'link_count' => 10 ] );
@@ -247,14 +255,13 @@ class Post_Link_Indexing_Action_Test extends TestCase {
 			->once()
 			->andReturn( [ 'post', 'page' ] );
 
-		$expected_query = "
-			SELECT ID, post_content
+		$expected_query = "SELECT ID, post_content
 			FROM wp_posts
 			WHERE ID NOT IN (
 				SELECT object_id FROM wp_yoast_indexable WHERE link_count IS NOT NULL AND object_type = 'post'
 			) AND post_status = 'publish' AND post_type IN (%s, %s)
 			LIMIT %d
-		";
+			";
 
 		$this->wpdb
 			->expects( 'prepare' )
@@ -266,11 +273,22 @@ class Post_Link_Indexing_Action_Test extends TestCase {
 			->expects( 'get_results' )
 			->once()
 			->with( 'query' )
-			->andReturn( [
-				(object) [ 'ID' => 1, 'post_content' => 'foo' ],
-				(object) [ 'ID' => 3, 'post_content' => 'foo' ],
-				(object) [ 'ID' => 8, 'post_content' => 'foo' ],
-			 ] );
+			->andReturn(
+				[
+					(object) [
+						'ID'           => 1,
+						'post_content' => 'foo',
+					],
+					(object) [
+						'ID'           => 3,
+						'post_content' => 'foo',
+					],
+					(object) [
+						'ID'           => 8,
+						'post_content' => 'foo',
+					],
+				]
+			);
 
 		$indexable             = Mockery::mock( Indexable_Mock::class );
 		$indexable->link_count = null;

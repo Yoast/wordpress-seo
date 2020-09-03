@@ -1,9 +1,4 @@
 <?php
-/**
- * Presentation object for indexables.
- *
- * @package Yoast\YoastSEO\Presentations
- */
 
 namespace Yoast\WP\SEO\Presentations;
 
@@ -21,7 +16,9 @@ use Yoast\WP\SEO\Helpers\User_Helper;
 use Yoast\WP\SEO\Models\Indexable;
 
 /**
- * Class Indexable_Presentation
+ * Class Indexable_Presentation.
+ *
+ * Presentation object for indexables.
  *
  * @property string $title
  * @property string $meta_description
@@ -138,9 +135,9 @@ class Indexable_Presentation extends Abstract_Presentation {
 	protected $user;
 
 	/**
-	 * @required
-	 *
 	 * Sets the generator dependencies.
+	 *
+	 * @required
 	 *
 	 * @param Schema_Generator            $schema_generator            The schema generator.
 	 * @param Open_Graph_Locale_Generator $open_graph_locale_generator The Open Graph locale generator.
@@ -163,9 +160,9 @@ class Indexable_Presentation extends Abstract_Presentation {
 	}
 
 	/**
-	 * @required
-	 *
 	 * Used by dependency injection container to inject the helpers.
+	 *
+	 * @required
 	 *
 	 * @param Image_Helper        $image        The image helper.
 	 * @param Options_Helper      $options      The options helper.
@@ -247,13 +244,17 @@ class Indexable_Presentation extends Abstract_Presentation {
 	 * @return array The filtered meta robots values.
 	 */
 	protected function filter_robots( $robots ) {
+		// Remove values that are only listened to when indexing.
 		if ( $robots['index'] === 'noindex' ) {
+			$robots['imageindex']        = null;
+			$robots['archive']           = null;
+			$robots['snippet']           = null;
 			$robots['max-snippet']       = null;
 			$robots['max-image-preview'] = null;
 			$robots['max-video-preview'] = null;
 		}
 
-		$robots_string = \implode( ', ', $robots );
+		$robots_string = \implode( ', ', \array_filter( $robots ) );
 
 		/**
 		 * Filter: 'wpseo_robots' - Allows filtering of the meta robots output of Yoast SEO.
@@ -264,15 +265,24 @@ class Indexable_Presentation extends Abstract_Presentation {
 		 */
 		$robots_filtered = \apply_filters( 'wpseo_robots', $robots_string, $this );
 
+		// Convert the robots string back to an array.
 		if ( \is_string( $robots_filtered ) ) {
 			$robots_values = \explode( ', ', $robots_filtered );
 			$robots_new    = [];
 
 			foreach ( $robots_values as $value ) {
 				$key = $value;
+
+				// Change `noindex` to `index.
 				if ( \strpos( $key, 'no' ) === 0 ) {
 					$key = \substr( $value, 2 );
 				}
+				// Change `max-snippet:-1` to `max-snippet`.
+				$colon_position = \strpos( $key, ':' );
+				if ( $colon_position !== false ) {
+					$key = \substr( $value, 0, $colon_position );
+				}
+
 				$robots_new[ $key ] = $value;
 			}
 
@@ -297,6 +307,7 @@ class Indexable_Presentation extends Abstract_Presentation {
 	 * Generates the robots value for the googlebot tag.
 	 *
 	 * @deprecated 14.9 Values merged into the robots meta tag.
+	 * @codeCoverageIgnore
 	 *
 	 * @return array The robots value with opt-in snippets.
 	 */
@@ -310,6 +321,7 @@ class Indexable_Presentation extends Abstract_Presentation {
 	 * Generates the value for the bingbot tag.
 	 *
 	 * @deprecated 14.9 Values merged into the robots meta tag.
+	 * @codeCoverageIgnore
 	 *
 	 * @return array The robots value with opt-in snippets.
 	 */

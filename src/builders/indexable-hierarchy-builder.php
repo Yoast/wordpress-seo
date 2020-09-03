@@ -1,9 +1,4 @@
 <?php
-/**
- * Builder for the indexables hierarchy.
- *
- * @package Yoast\YoastSEO\Builders
- */
 
 namespace Yoast\WP\SEO\Builders;
 
@@ -18,6 +13,8 @@ use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Repositories\Primary_Term_Repository;
 
 /**
+ * Builder for the indexables hierarchy.
+ *
  * Builds the indexable hierarchy for indexables.
  */
 class Indexable_Hierarchy_Builder {

@@ -19,7 +19,7 @@ class Site_Helper_Test extends TestCase {
 	/**
 	 * Tests retrieval of the site name.
 	 *
-	 * @covers::get_site_name
+	 * @covers ::get_site_name
 	 */
 	public function test_get_site_name() {
 		Monkey\Functions\expect( 'wp_strip_all_tags' )
@@ -34,5 +34,4 @@ class Site_Helper_Test extends TestCase {
 
 		$this->assertEquals( 'name', $site_helper->get_site_name() );
 	}
-
 }

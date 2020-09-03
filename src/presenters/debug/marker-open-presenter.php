@@ -1,9 +1,4 @@
 <?php
-/**
- * Final presenter class for the debug open marker.
- *
- * @package Yoast\YoastSEO\Presenters\Debug
- */
 
 namespace Yoast\WP\SEO\Presenters\Debug;
 
@@ -11,7 +6,7 @@ use WPSEO_Utils;
 use Yoast\WP\SEO\Presenters\Abstract_Indexable_Presenter;
 
 /**
- * Class Debug_Marker_Open_Presenter
+ * Presenter class for the debug open marker.
  */
 final class Marker_Open_Presenter extends Abstract_Indexable_Presenter {
 
