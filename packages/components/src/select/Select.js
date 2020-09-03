@@ -82,16 +82,6 @@ export const YoastReactSelect = ( props ) => {
 	const reactSelectOptions = changeOptionFormatToReactSelect( options );
 	const selectedOptions = reactSelectOptions.filter( option => selections.includes( option.value ) );
 
-	const onChangeHandler = useCallback( selection => {
-		// Make sure that selection is always an array.
-		if ( ! selection ) {
-			selection = [];
-		}
-
-		// Only call the onChange handler on the selected values.
-		 onChange( selection.map( option => option.value ) );
-	} );
-
 	return (
 		<FieldGroup
 			{ ...fieldGroupProps }
@@ -104,7 +94,7 @@ export const YoastReactSelect = ( props ) => {
 				value={ selectedOptions }
 				options={ reactSelectOptions }
 				hideSelectedOptions={ false }
-				onChange={ onChangeHandler }
+				onChange={ onChange }
 				className="yoast-select-container"
 				classNamePrefix="yoast-select"
 				isClearable={ false }
@@ -124,7 +114,17 @@ YoastReactSelect.defaultProps = selectDefaultProps;
  *
  * @returns {React.Component} The react-select MultiSelect component.
  */
-export const SingleSelect = ( props ) => <YoastReactSelect { ...props } isMulti={ false } isSearchable={ true } />;
+export const SingleSelect = ( props ) => {
+	const { onChange } = props;
+
+	const onChangeHandler = useCallback( selection => onChange( selection.value ) );
+	return <YoastReactSelect
+		{ ...props }
+		isMulti = { false }
+		isSearchable = { true }
+		onChange={ onChangeHandler }
+	/>;
+};
 
 /**
  * MultiSelect component.
@@ -132,7 +132,26 @@ export const SingleSelect = ( props ) => <YoastReactSelect { ...props } isMulti=
  *
  * @returns {React.Component} The react-select MultiSelect component.
  */
-export const MultiSelect = ( props ) => <YoastReactSelect { ...props } isMulti={ true } isSearchable={ false } />;
+export const MultiSelect = ( props ) => {
+	const { onChange } = props;
+
+	const onChangeHandler = useCallback( selection => {
+		// Make sure that selection is always an array.
+		if ( ! selection ) {
+			selection = [];
+		}
+
+		// Only call the onChange handler on the selected values.
+		onChange( selection.map( option => option.value ) );
+	} );
+
+	return <YoastReactSelect
+		{ ...props }
+		isMulti={ true }
+		isSearchable={ false }
+		onChange={ onChangeHandler }
+	/>;
+};
 
 /**
  * React wrapper for a basic HTML select.
