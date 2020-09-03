@@ -293,6 +293,9 @@ class SEMrushCountrySelector extends Component {
 					name="semrush-country-code"
 					options={ countries }
 					selected={ this.props.countryCode }
+					onChange={ ( selected ) =>
+						this.props.setCountry( selected )
+					 }
 				/>
 				<button
 					className="yoast-button yoast-button--secondary"
