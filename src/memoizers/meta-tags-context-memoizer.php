@@ -133,7 +133,6 @@ class Meta_Tags_Context_Memoizer {
 	 * Clears the memoization of either a specific indexable or all indexables.
 	 *
 	 * @param Indexable|int|string $indexable Optional. The indexable or indexable id to clear the memoization of.
-	 *                                        "current-page" clears the current-page context.
 	 */
 	public function clear( $indexable = null ) {
 		if ( $indexable instanceof Indexable ) {
