@@ -13,7 +13,7 @@ import { ErrorBoundary, SingleSelect } from "@yoast/components";
  *
  * @type {string} id The ID of the component.
  */
-const id = "semrush-country-selector";
+const id = "yoast-semrush-country-selector";
 
 /**
  * List of all available database countries for the SEMrush API.
