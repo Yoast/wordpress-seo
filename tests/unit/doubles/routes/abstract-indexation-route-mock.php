@@ -30,7 +30,5 @@ class Abstract_Indexation_Route_Mock extends Abstract_Indexation_Route {
 	 *
 	 * @return void
 	 */
-	public function register_routes() {
-		// Do nothing...
-	}
+	public function register_routes() {}
 }
