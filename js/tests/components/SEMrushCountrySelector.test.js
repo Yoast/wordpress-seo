@@ -29,7 +29,7 @@ describe( "SEMrushCountrySelector", () => {
 			setRequestSucceeded={ noop } setRequestLimitReached={ noop } setRequestFailed={ noop } setNoResultsFound={ noop }
 		/> );
 
-		component.find( "#semrush-country-selector" ).simulate( "change" );
+		component.find( "#semrush-country-selector-select" ).simulate( "change" );
 
 		expect( setCountryMock ).toHaveBeenCalled();
 	} );

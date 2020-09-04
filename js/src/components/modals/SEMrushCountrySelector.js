@@ -6,7 +6,7 @@ import { addQueryArgs } from "@wordpress/url";
 import { __ } from "@wordpress/i18n";
 
 /* Yoast dependencies */
-import { ErrorBoundary, FieldGroup, SingleSelect } from "@yoast/components";
+import { ErrorBoundary, SingleSelect } from "@yoast/components";
 
 /**
  * The ID of the SEMrush Country Selection component.
@@ -242,7 +242,7 @@ class SEMrushCountrySelector extends Component {
 	handleFailedResponse( response ) {
 		const { setRequestLimitReached, setRequestFailed } = this.props;
 
-		if ( "error" in response === false ) {
+		if ( ! ( "error" in response ) ) {
 			return;
 		}
 
@@ -294,25 +294,23 @@ class SEMrushCountrySelector extends Component {
 	 */
 	render() {
 		return (
-			<FieldGroup
-				htmlFor={ id }
-				label={ __( "Show results for:", "wordpress-seo" ) }
-				wrapperClassName="yoast-field-group"
-			>
+			<div id={ id }>
 				<SingleSelect
-					id={ id }
+					id={ id + "-select" }
+					label={ __( "Show results for:", "wordpress-seo" ) }
 					name="semrush-country-code"
 					options={ countries }
 					selected={ this.props.countryCode }
 					onChange={ this.onChangeHandler }
 				/>
 				<button
+					id={ id + "-button" }
 					className="yoast-button yoast-button--secondary"
 					onClick={ this.relatedKeyphrasesRequest }
 				>
 					{ __( "Change Country", "wordpress-seo" ) }
 				</button>
-			</FieldGroup>
+			</div>
 		);
 	}
 }
