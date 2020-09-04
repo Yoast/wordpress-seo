@@ -18,42 +18,42 @@ class Meta_Tags_Context_Memoizer {
 	 *
 	 * @var Blocks_Helper
 	 */
-	private $blocks;
+	protected $blocks;
 
 	/**
 	 * The current page helper.
 	 *
 	 * @var Current_Page_Helper
 	 */
-	private $current_page;
+	protected $current_page;
 
 	/**
 	 * The indexable repository.
 	 *
 	 * @var Indexable_Repository
 	 */
-	private $repository;
+	protected $repository;
 
 	/**
 	 * The meta tags context.
 	 *
 	 * @var Meta_Tags_Context
 	 */
-	private $context_prototype;
+	protected $context_prototype;
 
 	/**
 	 * The presentation memoizer.
 	 *
 	 * @var Presentation_Memoizer
 	 */
-	private $presentation_memoizer;
+	protected $presentation_memoizer;
 
 	/**
 	 * The meta tags context.
 	 *
 	 * @var Meta_Tags_Context[]
 	 */
-	private $cache = [];
+	protected $cache = [];
 
 	/**
 	 * Meta_Tags_Context_Memoizer constructor.

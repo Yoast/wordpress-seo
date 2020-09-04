@@ -17,14 +17,14 @@ class Presentation_Memoizer {
 	 *
 	 * @var ContainerInterface
 	 */
-	private $container;
+	protected $container;
 
 	/**
 	 * Cache with indexable presentations.
 	 *
 	 * @var Indexable_Presentation[]
 	 */
-	private $cache = [];
+	protected $cache = [];
 
 	/**
 	 * Presentation_Memoizer constructor.
