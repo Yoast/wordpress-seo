@@ -29,5 +29,6 @@ export default function() {
 		id: indonesianDetermineStem,
 		pl: polishDetermineStem,
 		ar: arabicDetermineStem,
+		sv: swedishDetermineStem,
 	};
 }

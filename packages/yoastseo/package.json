@@ -126,8 +126,7 @@
       "/spec/morphology/polish/stemmerCoverage/sampleVocabulary.json",
       "/spec/morphology/arabic/stemmerCoverage/generateStems.js",
       "/spec/morphology/arabic/stemmerCoverage/goldStandardStems.json",
-      "/spec/morphology/arabic/stemmerCoverage/sampleVocabulary.json"
-      "/spec/morphology/indonesian/stemmerCoverage/sampleVocabulary.json",
+      "/spec/morphology/arabic/stemmerCoverage/sampleVocabulary.json",
       "/spec/morphology/swedish/stemmerCoverage/goldStandardStems.json",
       "/spec/morphology/swedish/stemmerCoverage/sampleVocabulary.json",
       "/spec/morphology/swedish/stemmerCoverage/generateStems.js"
