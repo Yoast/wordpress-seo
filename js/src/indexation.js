@@ -19,9 +19,9 @@ const Text = styled.p`
 /**
  * Indexes the site and shows a progress bar indicating the indexing process' progress.
  */
-class Indexation extends Component {
+class Indexing extends Component {
 	/**
-	 * Indexation constructor.
+	 * Indexing constructor.
 	 *
 	 * @param {Object} props The properties.
 	 */
@@ -29,7 +29,7 @@ class Indexation extends Component {
 		super( props );
 
 		this.settings = yoastIndexingData;
-		this.stoppedIndexation = false;
+		this.stoppedIndexing = false;
 
 		this.state = {
 			started: false,
@@ -38,19 +38,19 @@ class Indexation extends Component {
 			error: null,
 		};
 
-		this.startIndexation = this.startIndexation.bind( this );
-		this.stopIndexation = this.stopIndexation.bind( this );
+		this.startIndexing = this.startIndexing.bind( this );
+		this.stopIndexing = this.stopIndexing.bind( this );
 	}
 
 	/**
-	 * Does an indexation request.
+	 * Does an indexing request.
 	 *
-	 * @param {string} url   The url of the indexation that should be done.
+	 * @param {string} url   The url of the indexing that should be done.
 	 * @param {string} nonce The WordPress nonce value for in the header.
 	 *
 	 * @returns {Promise} The request promise.
 	 */
-	async doIndexationRequest( url, nonce ) {
+	async doIndexingRequest( url, nonce ) {
 		const response = await fetch( url, {
 			method: "POST",
 			headers: {
@@ -61,18 +61,18 @@ class Indexation extends Component {
 	}
 
 	/**
-	 * Does the indexation of a given endpoint.
+	 * Does the indexing of a given endpoint.
 	 *
 	 * @param {string} endpoint The endpoint.
 	 *
-	 * @returns {Promise} The indexation promise.
+	 * @returns {Promise} The indexing promise.
 	 */
-	async doIndexation( endpoint ) {
+	async doIndexing( endpoint ) {
 		let url = this.settings.restApi.root + this.settings.restApi.endpoints[ endpoint ];
 
 		while ( this.state.started && url !== false && this.state.processed <= this.state.amount ) {
 			try {
-				const response = await this.doIndexationRequest( url, this.settings.restApi.nonce );
+				const response = await this.doIndexingRequest( url, this.settings.restApi.nonce );
 				this.setState( previousState => (
 					{ processed: previousState.processed + response.objects.length }
 				) );
@@ -84,23 +84,23 @@ class Indexation extends Component {
 	}
 
 	/**
-	 * Starts the indexation process.
+	 * Starts the indexing process.
 	 *
-	 * @returns {Promise} The start indexation promise.
+	 * @returns {Promise} The start indexing promise.
 	 */
-	async startIndexation() {
+	async startIndexing() {
 		this.setState( { processed: 0, started: true, error: null } );
 		for ( const endpoint of Object.keys( this.settings.restApi.endpoints ) ) {
-			await this.doIndexation( endpoint );
+			await this.doIndexing( endpoint );
 		}
 	}
 
 	/**
-	 * Stops the indexation process.
+	 * Stops the indexing process.
 	 *
 	 * @returns {void}
 	 */
-	stopIndexation() {
+	stopIndexing() {
 		this.setState( previousState => (
 			{
 				started: false,
@@ -139,10 +139,10 @@ class Indexation extends Component {
 				}
 				{
 					this.state.started
-						? <Button onClick={ this.stopIndexation } variant="grey">
+						? <Button onClick={ this.stopIndexing } variant="grey">
 							{ __( "Stop SEO data optimization", "wordpress-seo" ) }
 						</Button>
-						: <Button onClick={ this.startIndexation } variant="purple">
+						: <Button onClick={ this.startIndexing } variant="purple">
 							{ __( "Start SEO data optimization", "wordpress-seo" ) }
 						</Button>
 				}
@@ -151,4 +151,4 @@ class Indexation extends Component {
 	}
 }
 
-render( <Indexation />, document.getElementById( "yoast-seo-indexation-action" ) );
+render( <Indexing />, document.getElementById( "yoast-seo-indexing-action" ) );
