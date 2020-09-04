@@ -128,8 +128,6 @@ class Indexing_Integration implements Integration_Interface {
 		 */
 		if ( $this->get_total_unindexed() === 0 ) {
 			$this->complete_indexation_action->complete();
-
-			return;
 		}
 
 		$this->asset_manager->enqueue_script( 'indexation' );
