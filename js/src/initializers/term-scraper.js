@@ -49,6 +49,9 @@ setWordPressSeoL10n();
 
 window.yoastHideMarkers = true;
 
+// Plugin class prototypes (not the instances) are being used by other plugins from the window.
+window.YoastReplaceVarPlugin = YoastReplaceVarPlugin;
+
 /**
  * @summary Initializes the term scraper script.
  *
