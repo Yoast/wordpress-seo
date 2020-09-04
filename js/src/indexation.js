@@ -7,6 +7,18 @@ import { Button } from "@yoast/components/src/button/Button";
 import { Alert } from "@yoast/components";
 import { colors } from "@yoast/style-guide";
 
+const preIndexingActions = {};
+const IndexingActions = {};
+
+window.yoast = window.yoast || {};
+window.yoast.indexing = window.yoast.Indexing || {};
+window.yoast.indexing.registerPreIndexingAction = ( endpoint, action ) => {
+	preIndexingActions[ endpoint ] = action;
+};
+window.yoast.indexing.registerIndexingAction = ( endpoint, action ) => {
+	IndexingActions[ endpoint ] = action;
+};
+
 const Progress = styled( ProgressBar )`
 	height: 16px;
 	margin: 8px 0;
@@ -72,10 +84,20 @@ class Indexing extends Component {
 
 		while ( this.state.started && url !== false && this.state.processed <= this.state.amount ) {
 			try {
+				if ( typeof preIndexingActions[ endpoint ] === "function" ) {
+					await preIndexingActions[ endpoint ]( this.settings );
+				}
+
 				const response = await this.doIndexingRequest( url, this.settings.restApi.nonce );
+
+				if ( typeof IndexingActions[ endpoint ] === "function" ) {
+					await IndexingActions[ endpoint ]( response.objects, this.settings );
+				}
+
 				this.setState( previousState => (
 					{ processed: previousState.processed + response.objects.length }
 				) );
+
 				url = response.next_url;
 			} catch ( error ) {
 				this.setState( { started: false, error } );
