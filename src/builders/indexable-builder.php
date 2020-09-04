@@ -3,6 +3,7 @@
 namespace Yoast\WP\SEO\Builders;
 
 use Yoast\WP\SEO\Models\Indexable;
+use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
 /**
@@ -83,17 +84,25 @@ class Indexable_Builder {
 	private $indexable_repository;
 
 	/**
+	 * indexable helper methods
+	 *
+	 * @var Indexable_Helper
+	 */
+	private $indexable_helper;
+
+	/**
 	 * Returns the instance of this class constructed through the ORM Wrapper.
 	 *
-	 * @param Indexable_Author_Builder            $author_builder            The author builder for creating missing indexables.
-	 * @param Indexable_Post_Builder              $post_builder              The post builder for creating missing indexables.
-	 * @param Indexable_Term_Builder              $term_builder              The term builder for creating missing indexables.
-	 * @param Indexable_Home_Page_Builder         $home_page_builder         The front page builder for creating missing indexables.
+	 * @param Indexable_Author_Builder $author_builder The author builder for creating missing indexables.
+	 * @param Indexable_Post_Builder $post_builder The post builder for creating missing indexables.
+	 * @param Indexable_Term_Builder $term_builder The term builder for creating missing indexables.
+	 * @param Indexable_Home_Page_Builder $home_page_builder The front page builder for creating missing indexables.
 	 * @param Indexable_Post_Type_Archive_Builder $post_type_archive_builder The post type archive builder for creating missing indexables.
-	 * @param Indexable_Date_Archive_Builder      $date_archive_builder      The date archive builder for creating missing indexables.
-	 * @param Indexable_System_Page_Builder       $system_page_builder       The search result builder for creating missing indexables.
-	 * @param Indexable_Hierarchy_Builder         $hierarchy_builder         The hierarchy builder for creating the indexable hierarchy.
-	 * @param Primary_Term_Builder                $primary_term_builder      The primary term builder for creating primary terms for posts.
+	 * @param Indexable_Date_Archive_Builder $date_archive_builder The date archive builder for creating missing indexables.
+	 * @param Indexable_System_Page_Builder $system_page_builder The search result builder for creating missing indexables.
+	 * @param Indexable_Hierarchy_Builder $hierarchy_builder The hierarchy builder for creating the indexable hierarchy.
+	 * @param Primary_Term_Builder $primary_term_builder The primary term builder for creating primary terms for posts.
+	 * @param Indexable_Helper $indexable_helper
 	 */
 	public function __construct(
 		Indexable_Author_Builder $author_builder,
@@ -104,7 +113,8 @@ class Indexable_Builder {
 		Indexable_Date_Archive_Builder $date_archive_builder,
 		Indexable_System_Page_Builder $system_page_builder,
 		Indexable_Hierarchy_Builder $hierarchy_builder,
-		Primary_Term_Builder $primary_term_builder
+		Primary_Term_Builder $primary_term_builder,
+		Indexable_Helper $indexable_helper
 	) {
 		$this->author_builder            = $author_builder;
 		$this->post_builder              = $post_builder;
@@ -115,6 +125,7 @@ class Indexable_Builder {
 		$this->system_page_builder       = $system_page_builder;
 		$this->hierarchy_builder         = $hierarchy_builder;
 		$this->primary_term_builder      = $primary_term_builder;
+		$this->indexable_helper 		 = $indexable_helper;
 	}
 
 	/**
@@ -143,26 +154,26 @@ class Indexable_Builder {
 			->query()
 			->create( $indexable->as_array() );
 
-		switch ( $object_type ) {
+		switch ($object_type) {
 			case 'post':
-				$indexable = $this->post_builder->build( $object_id, $indexable );
-				if ( $indexable === false ) {
+				$indexable = $this->post_builder->build($object_id, $indexable);
+				if ($indexable === false) {
 					break;
 				}
 
-				$this->primary_term_builder->build( $object_id );
+				$this->primary_term_builder->build($object_id);
 
-				$author = $this->indexable_repository->find_by_id_and_type( $indexable->author_id, 'user', false );
-				if ( ! $author ) {
-					$this->build_for_id_and_type( $indexable->author_id, 'user' );
+				$author = $this->indexable_repository->find_by_id_and_type($indexable->author_id, 'user', false);
+				if (!$author) {
+					$this->build_for_id_and_type($indexable->author_id, 'user');
 				}
 
 				break;
 			case 'user':
-				$indexable = $this->author_builder->build( $object_id, $indexable );
+				$indexable = $this->author_builder->build($object_id, $indexable);
 				break;
 			case 'term':
-				$indexable = $this->term_builder->build( $object_id, $indexable );
+				$indexable = $this->term_builder->build($object_id, $indexable);
 				break;
 			default:
 				return $indexable;
@@ -183,7 +194,11 @@ class Indexable_Builder {
 			$this->hierarchy_builder->build( $indexable );
 		}
 
-		$this->save_indexable( $indexable, $indexable_before );
+		// only save if we should
+		if ( $this->indexable_helper->should_index_indexables() )
+		{
+			$this->save_indexable( $indexable, $indexable_before );
+		}
 
 		return $indexable;
 	}
@@ -262,7 +277,7 @@ class Indexable_Builder {
 	}
 
 	/**
-	 * Saves and returns an indexable.
+	 * Saves and returns an indexable (on production environments only).
 	 *
 	 * @param Indexable      $indexable        The indexable.
 	 * @param Indexable|null $indexable_before The indexable before possible changes.

@@ -7,6 +7,7 @@ use Mockery;
 use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
+use function Brain\Monkey\Functions\expect;
 
 /**
  * Class Indexable_Helper_Test
@@ -42,7 +43,7 @@ class Indexable_Helper_Test extends TestCase {
 		$indexable              = Mockery::mock( Indexable_Mock::class );
 		$indexable->object_type = 'post';
 
-		Monkey\Functions\expect( 'get_permalink' )
+		expect( 'get_permalink' )
 			->andReturn( 'https://example.org/permalink' );
 
 		$this->assertEquals(
@@ -61,7 +62,7 @@ class Indexable_Helper_Test extends TestCase {
 		$indexable->object_type     = 'post';
 		$indexable->object_sub_type = 'attachment';
 
-		Monkey\Functions\expect( 'wp_get_attachment_url' )
+		expect( 'wp_get_attachment_url' )
 			->andReturn( 'https://example.org/attachment' );
 
 		$this->assertEquals(
@@ -79,7 +80,7 @@ class Indexable_Helper_Test extends TestCase {
 		$indexable              = Mockery::mock( Indexable_Mock::class );
 		$indexable->object_type = 'home-page';
 
-		Monkey\Functions\expect( 'get_permalink' )
+		expect( 'get_permalink' )
 			->andReturn( 'https://example.org/homepage' );
 
 		$this->assertEquals(
@@ -102,15 +103,15 @@ class Indexable_Helper_Test extends TestCase {
 			'taxonomy' => 'category',
 		];
 
-		Monkey\Functions\expect( 'get_term' )
+		expect( 'get_term' )
 			->with( 2 )
 			->andReturn( $term );
 
-		Monkey\Functions\expect( 'is_wp_error' )
+		expect( 'is_wp_error' )
 			->with( $term )
 			->andReturn( false );
 
-		Monkey\Functions\expect( 'get_term_link' )
+		expect( 'get_term_link' )
 			->with( $term, 'category' )
 			->andReturn( 'https://example.org/term' );
 
@@ -130,7 +131,7 @@ class Indexable_Helper_Test extends TestCase {
 		$indexable->object_id   = 2;
 		$indexable->object_type = 'term';
 
-		Monkey\Functions\expect( 'get_term' )
+		expect( 'get_term' )
 			->with( 2 )
 			->andReturn( null );
 
@@ -154,11 +155,11 @@ class Indexable_Helper_Test extends TestCase {
 			'taxonomy' => 'category',
 		];
 
-		Monkey\Functions\expect( 'get_term' )
+		expect( 'get_term' )
 			->with( 2 )
 			->andReturn( $term );
 
-		Monkey\Functions\expect( 'is_wp_error' )
+		expect( 'is_wp_error' )
 			->with( $term )
 			->andReturn( true );
 
@@ -177,7 +178,7 @@ class Indexable_Helper_Test extends TestCase {
 		$indexable->object_type     = 'system-page';
 		$indexable->object_sub_type = 'search-page';
 
-		Monkey\Functions\expect( 'get_search_link' )
+		expect( 'get_search_link' )
 			->andReturn( 'https://example.org/search' );
 
 		$this->assertEquals(
@@ -196,7 +197,7 @@ class Indexable_Helper_Test extends TestCase {
 		$indexable->object_type     = 'post-type-archive';
 		$indexable->object_sub_type = 'post-type';
 
-		Monkey\Functions\expect( 'get_post_type_archive_link' )
+		expect( 'get_post_type_archive_link' )
 			->with( 'post-type' )
 			->andReturn( 'https://example.org/post-type' );
 
@@ -216,7 +217,7 @@ class Indexable_Helper_Test extends TestCase {
 		$indexable->object_type = 'user';
 		$indexable->object_id   = 1;
 
-		Monkey\Functions\expect( 'get_author_posts_url' )
+		expect( 'get_author_posts_url' )
 			->with( 1 )
 			->andReturn( 'https://example.org/user/1' );
 
@@ -254,13 +255,13 @@ class Indexable_Helper_Test extends TestCase {
 	 */
 	public function test_get_page_type_for_indexable( $object_type, $object_sub_type, $is_front_page, $is_posts_page, $expected_page_type ) {
 		if ( $object_type === 'post' ) {
-			Monkey\Functions\expect( 'get_option' )
+			expect( 'get_option' )
 				->once()
 				->with( 'page_on_front' )
 				->andReturn( ( $is_front_page ) ? 1 : 0 );
 
 			if ( ! $is_front_page ) {
-				Monkey\Functions\expect( 'get_option' )
+				expect( 'get_option' )
 					->once()
 					->with( 'page_for_posts' )
 					->andReturn( ( $is_posts_page ) ? 1 : 0 );
@@ -291,6 +292,38 @@ class Indexable_Helper_Test extends TestCase {
 			[ 'post-type-archive', 'post', false, false, 'Post_Type_Archive' ],
 			[ 'system-page', 'search-result', false, false, 'Search_Result_Page' ],
 			[ 'system-page', '404', false, false, 'Error_Page' ],
+		];
+	}
+
+	/**
+	 *
+	 * @param $environment environment to test for
+	 * @param $yoast_environment yoast environment to test for
+	 * @param $expected_result true or false
+	 *
+	 * @dataProvider should_index_for_production_environment_provider
+	 */
+	public function test_should_index_for_production_environment($environment, $yoast_environment, $expected_result) {
+		// arrange
+
+		// act
+		$result = $this->instance->should_index_indexables($environment, $yoast_environment);
+
+		// assert
+		$this->assertEquals($result, $expected_result);
+	}
+
+	/**
+	 * dataProvider for test_should_index_for_production_environment
+	 *
+	 * @return array[]
+	 */
+	public function should_index_for_production_environment_provider() {
+		return [
+			[ 'production',  'production',  true],
+			[ 'development', 'production',  false],
+			[ 'production',  'development', false],
+			[ 'development', 'development', false],
 		];
 	}
 }
