@@ -61,7 +61,7 @@ Yoast SEO uses some JavaScript code that is managed outside of this repository. 
 
 ```bash
 git clone https://github.com/Yoast/javascript.git # Only the first time.
-yarn link-monorepo # You will be prompted for the location of your Yoast/javascript clone. This will is "./javascript" if you cloned it inside the wordpress-seo directory. Your preference will be saved in a .yoast file for later use.
+yarn link-monorepo # You will be prompted for the location of your Yoast/javascript clone. This will be "./javascript" if you cloned it inside the wordpress-seo directory. Your preference will be saved in a .yoast file for later use.
 grunt build 
 ```
 
