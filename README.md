@@ -43,8 +43,9 @@ yarn
 grunt build
 ```
 
-Please note that if you change anything in the JavaScript or CSS, you'll have to run `grunt build:js` or `grunt build:css`, respectively.
 During development, you could run `grunt build:dev` instead of `grunt build`, to save yourself downloading some dependencies that are only needed for a production environment.
+
+Please note that if you change anything in the JavaScript or CSS, you'll have to run `grunt build:js` or `grunt build:css`, respectively.
 
 Alternatively, a webpack development server is available. To enable the dev-server, you'll have to add this to your WordPress install's `config.php`:
 ```php
