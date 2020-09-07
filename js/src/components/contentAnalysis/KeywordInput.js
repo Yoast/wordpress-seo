@@ -1,7 +1,7 @@
 /* global wpseoAdminL10n */
 
 /* External dependencies */
-import { Component, Fragment } from "@wordpress/element";
+import { Component } from "@wordpress/element";
 import { Slot } from "@wordpress/components";
 import { __ } from "@wordpress/i18n";
 import PropTypes from "prop-types";
@@ -19,7 +19,7 @@ import { LocationConsumer } from "../contexts/location";
 const KeywordInputContainer = styled.div`
 	padding: 16px;
 	/* Necessary to compensate negative top margin of the collapsible after the keyword input. */
-	border-bottom: ${ props => props.location === "sidebar" ? "1px solid #f0f0f0" : "1px solid transparent" };
+	border-bottom: 1px solid transparent;
 `;
 
 /**
@@ -52,7 +52,7 @@ class KeywordInput extends Component {
 	render() {
 		return <LocationConsumer>
 			{ context => (
-				<Fragment>
+				<div style={ context ==="sidebar" ? {  borderBottom: "1px solid #f0f0f0" } : {} }>
 					<KeywordInputContainer location={ context }>
 						<KeywordInputComponent
 							id={ `focus-keyword-input-${ context }` }
@@ -74,7 +74,7 @@ class KeywordInput extends Component {
 						}
 					</KeywordInputContainer>
 					<Slot name={ `YoastAfterKeywordInput${ context.charAt( 0 ).toUpperCase() + context.slice( 1 ) }` } />
-				</Fragment>
+				</div>
 			) }
 		</LocationConsumer>;
 	}
