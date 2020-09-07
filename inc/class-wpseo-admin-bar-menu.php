@@ -527,6 +527,10 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 	 * @return string Score markup, or empty string if none available.
 	 */
 	protected function get_post_score( $post ) {
+		if ( get_current_screen()->is_block_editor() ) {
+			return '';
+		}
+
 		if ( ! is_object( $post ) || ! property_exists( $post, 'ID' ) ) {
 			return '';
 		}
@@ -580,6 +584,10 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 	 * @return string Score markup, or empty string if none available.
 	 */
 	protected function get_term_score( $term ) {
+		if ( get_current_screen()->is_block_editor() ) {
+			return '';
+		}
+
 		if ( ! is_object( $term ) || ! property_exists( $term, 'term_id' ) || ! property_exists( $term, 'taxonomy' ) ) {
 			return '';
 		}
