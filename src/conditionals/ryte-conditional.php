@@ -31,6 +31,10 @@ class Ryte_Conditional implements Conditional {
 	 * @return boolean Whether or not the conditional is met.
 	 */
 	public function is_met() {
+		if ( wp_get_environment_type() !== 'production' ) {
+			return false;
+		}
+
 		$ryte_option = new WPSEO_Ryte_Option();
 		if ( ! $ryte_option->is_enabled() ) {
 			return false;
