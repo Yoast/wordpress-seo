@@ -129,6 +129,10 @@
 	min-height: 2.85em;
 }
 
+.yoast-field-group .yoast-select__value-container {
+	padding: 0 8px !important;
+}
+
 .yoast-field-group select:focus,
 .yoast-field-group__select select:focus {
 	box-shadow: var(--yoast-color-focus);
