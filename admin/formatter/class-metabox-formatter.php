@@ -7,10 +7,10 @@
 
 use Yoast\WP\SEO\Config\Schema_Types;
 use Yoast\WP\SEO\Exceptions\OAuth\Authentication_Failed_Exception;
-use Yoast\WP\SEO\Exceptions\SEMrush\Empty_Token_Exception;
+use Yoast\WP\SEO\Exceptions\SEMrush\Tokens\Empty_Token_Exception;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Config\SEMrush_Client;
-use Yoast\WP\SEO\Exceptions\SEMrush\Empty_Token_Property_Exception;
+use Yoast\WP\SEO\Exceptions\SEMrush\Tokens\Empty_Property_Exception;
 
 /**
  * This class forces needed methods for the metabox localization.
@@ -299,7 +299,7 @@ class WPSEO_Metabox_Formatter {
 	private function get_semrush_login_status( $options_helper ) {
 		try {
 			$semrush_client = new SEMrush_Client( $options_helper );
-		} catch ( Empty_Token_Property_Exception $e ) {
+		} catch ( Empty_Property_Exception $e ) {
 			// return false if token is malformed (empty property).
 			return false;
 		}

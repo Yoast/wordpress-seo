@@ -189,7 +189,7 @@ class SEMrush_Client_Test extends TestCase {
 	 *
 	 * @covers ::store_token
 	 *
-	 * @expectedException Yoast\WP\SEO\Exceptions\SEMrush\Failed_Token_Storage_Exception
+	 * @expectedException Yoast\WP\SEO\Exceptions\SEMrush\Tokens\Failed_Storage_Exception
 	 */
 	public function test_storing_token_failure() {
 

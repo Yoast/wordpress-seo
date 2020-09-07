@@ -47,7 +47,7 @@ class SEMrush_Token_Test extends TestCase {
 	 * Test creating a new instance with an empty property.
 	 *
 	 * @covers ::__construct
-	 * @expectedException Yoast\WP\SEO\Exceptions\SEMrush\Empty_Token_Property_Exception
+	 * @expectedException Yoast\WP\SEO\Exceptions\SEMrush\Tokens\Empty_Property_Exception
 	 */
 	public function test_creating_new_instance_empty_property() {
 		$instance = new SEMrush_Token( '', '000001', 604800, true, $this->created_at );

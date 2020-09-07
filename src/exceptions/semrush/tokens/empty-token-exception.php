@@ -5,7 +5,7 @@
  * @package Yoast\WP\SEO\Exceptions\SEMrush
  */
 
-namespace Yoast\WP\SEO\Exceptions\SEMrush;
+namespace Yoast\WP\SEO\Exceptions\SEMrush\Tokens;
 
 /**
  * Class Empty_Token_Exception

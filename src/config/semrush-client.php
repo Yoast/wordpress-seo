@@ -10,9 +10,9 @@ namespace Yoast\WP\SEO\Config;
 use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
 use League\OAuth2\Client\Provider\GenericProvider;
 use Yoast\WP\SEO\Exceptions\OAuth\Authentication_Failed_Exception;
-use Yoast\WP\SEO\Exceptions\SEMrush\Empty_Token_Exception;
-use Yoast\WP\SEO\Exceptions\SEMrush\Empty_Token_Property_Exception;
-use Yoast\WP\SEO\Exceptions\SEMrush\Failed_Token_Storage_Exception;
+use Yoast\WP\SEO\Exceptions\SEMrush\Tokens\Empty_Token_Exception;
+use Yoast\WP\SEO\Exceptions\SEMrush\Tokens\Empty_Property_Exception;
+use Yoast\WP\SEO\Exceptions\SEMrush\Tokens\Failed_Storage_Exception;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Values\SEMrush\SEMrush_Token;
 
@@ -52,7 +52,7 @@ class SEMrush_Client {
 	 *
 	 * @param Options_Helper $options_helper The Options_Helper instance.
 	 *
-	 * @throws Empty_Token_Property_Exception Exception thrown if a token property is empty.
+	 * @throws Empty_Property_Exception Exception thrown if a token property is empty.
 	 */
 	public function __construct( Options_Helper $options_helper ) {
 		$this->provider = new GenericProvider(
@@ -165,7 +165,7 @@ class SEMrush_Client {
 	 *
 	 * @return SEMrush_Token|null The token object. Returns null if none exists.
 	 *
-	 * @throws Empty_Token_Property_Exception Exception thrown if a token property is empty.
+	 * @throws Empty_Property_Exception Exception thrown if a token property is empty.
 	 */
 	public function get_token_from_storage() {
 		$tokens = $this->options_helper->get( self::TOKEN_OPTION );
@@ -190,13 +190,13 @@ class SEMrush_Client {
 	 *
 	 * @return SEMrush_Token The stored token.
 	 *
-	 * @throws Failed_Token_Storage_Exception Exception thrown if storing of the token fails.
+	 * @throws Failed_Storage_Exception Exception thrown if storing of the token fails.
 	 */
 	public function store_token( SEMrush_Token $token ) {
 		$saved = $this->options_helper->set( self::TOKEN_OPTION, $token->to_array() );
 
 		if ( $saved === false ) {
-			throw new Failed_Token_Storage_Exception();
+			throw new Failed_Storage_Exception();
 		}
 
 		return $token;
