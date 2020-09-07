@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Actions\Indexation;
 
+use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
 /**
@@ -26,7 +27,9 @@ class Indexable_General_Indexation_Action implements Indexation_Action_Interface
 	}
 
 	/**
-	 * @inheritDoc
+	 * Returns the total number of unindexed objects.
+	 *
+	 * @return int The total number of unindexed objects.
 	 */
 	public function get_total_unindexed() {
 		$indexables_to_create = $this->query();
@@ -35,7 +38,9 @@ class Indexable_General_Indexation_Action implements Indexation_Action_Interface
 	}
 
 	/**
-	 * @inheritDoc
+	 * Creates indexables for unindexed system pages, the date archive, and the homepage.
+	 *
+	 * @return Indexable[] The created indexables.
 	 */
 	public function index() {
 		$indexables           = [];
@@ -60,10 +65,12 @@ class Indexable_General_Indexation_Action implements Indexation_Action_Interface
 	}
 
 	/**
-	 * @inheritDoc
+	 * Returns the number of objects that will be indexed in a single indexing pass.
+	 *
+	 * @return int The limit.
 	 */
 	public function get_limit() {
-		// This matches the maximum amount of indexables created by this action.
+		// This matches the maximum number of indexables created by this action.
 		return 4;
 	}
 
