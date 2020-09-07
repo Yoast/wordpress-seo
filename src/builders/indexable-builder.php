@@ -93,16 +93,16 @@ class Indexable_Builder {
 	/**
 	 * Returns the instance of this class constructed through the ORM Wrapper.
 	 *
-	 * @param Indexable_Author_Builder $author_builder The author builder for creating missing indexables.
-	 * @param Indexable_Post_Builder $post_builder The post builder for creating missing indexables.
-	 * @param Indexable_Term_Builder $term_builder The term builder for creating missing indexables.
-	 * @param Indexable_Home_Page_Builder $home_page_builder The front page builder for creating missing indexables.
-	 * @param Indexable_Post_Type_Archive_Builder $post_type_archive_builder The post type archive builder for creating missing indexables.
-	 * @param Indexable_Date_Archive_Builder $date_archive_builder The date archive builder for creating missing indexables.
-	 * @param Indexable_System_Page_Builder $system_page_builder The search result builder for creating missing indexables.
-	 * @param Indexable_Hierarchy_Builder $hierarchy_builder The hierarchy builder for creating the indexable hierarchy.
-	 * @param Primary_Term_Builder $primary_term_builder The primary term builder for creating primary terms for posts.
-	 * @param Indexable_Helper $indexable_helper
+	 * @param Indexable_Author_Builder 				$author_builder The author builder for creating missing indexables.
+	 * @param Indexable_Post_Builder 				$post_builder The post builder for creating missing indexables.
+	 * @param Indexable_Term_Builder 				$term_builder The term builder for creating missing indexables.
+	 * @param Indexable_Home_Page_Builder 			$home_page_builder The front page builder for creating missing indexables.
+	 * @param Indexable_Post_Type_Archive_Builder 	$post_type_archive_builder The post type archive builder for creating missing indexables.
+	 * @param Indexable_Date_Archive_Builder 		$date_archive_builder The date archive builder for creating missing indexables.
+	 * @param Indexable_System_Page_Builder 		$system_page_builder The search result builder for creating missing indexables.
+	 * @param Indexable_Hierarchy_Builder 			$hierarchy_builder The hierarchy builder for creating the indexable hierarchy.
+	 * @param Primary_Term_Builder 					$primary_term_builder The primary term builder for creating primary terms for posts.
+	 * @param Indexable_Helper 						$indexable_helper
 	 */
 	public function __construct(
 		Indexable_Author_Builder $author_builder,
@@ -194,11 +194,7 @@ class Indexable_Builder {
 			$this->hierarchy_builder->build( $indexable );
 		}
 
-		// only save if we should
-		if ( $this->indexable_helper->should_index_indexables() )
-		{
-			$this->save_indexable( $indexable, $indexable_before );
-		}
+		$this->save_indexable( $indexable, $indexable_before );
 
 		return $indexable;
 	}
@@ -285,7 +281,10 @@ class Indexable_Builder {
 	 * @return Indexable The indexable.
 	 */
 	private function save_indexable( $indexable, $indexable_before = null ) {
-		if ( $indexable_before ) {
+		// only save if we should
+		if ( $this->indexable_helper->should_index_indexables() )
+		{
+			if ( $indexable_before ) {
 			/**
 			 * Action: 'wpseo_save_indexable' - Allow developers to perform an action
 			 * when the indexable is updated.
@@ -295,9 +294,9 @@ class Indexable_Builder {
 			 * @api Indexable The saved indexable.
 			 */
 			\do_action( 'wpseo_save_indexable', $indexable, $indexable_before );
-		}
 
-		$indexable->save();
+			$indexable->save();
+		}
 
 		return $indexable;
 	}
