@@ -7,8 +7,8 @@
 
 namespace Yoast\WP\SEO\Config;
 
-use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
-use League\OAuth2\Client\Provider\GenericProvider;
+use YoastSEO_Vendor\League\OAuth2\Client\Provider\Exception\IdentityProviderException;
+use YoastSEO_Vendor\League\OAuth2\Client\Provider\GenericProvider;
 use Yoast\WP\SEO\Exceptions\OAuth\OAuth_Authentication_Failed_Exception;
 use Yoast\WP\SEO\Exceptions\SEMrush\SEMrush_Empty_Token_Exception;
 use Yoast\WP\SEO\Exceptions\SEMrush\SEMrush_Empty_Token_Property_Exception;
