@@ -786,16 +786,17 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	/**
 	 * Enqueues all the needed JS and CSS.
 	 *
+	 * @param string $page           The current page.
+	 * @param bool   $load_elementor Whether to load elementor instead of the post editor.
+	 *
 	 * @todo [JRF => whomever] Create css/metabox-mp6.css file and add it to the below allowed colors array when done.
 	 */
-	public function enqueue( $elementor_hack = false ) {
-		global $pagenow;
-
+	public function enqueue( $page, $load_elementor = false ) {
 		$asset_manager = new WPSEO_Admin_Asset_Manager();
 
-		$is_editor = self::is_post_overview( $pagenow ) || self::is_post_edit( $pagenow );
+		$is_editor = self::is_post_overview( $page ) || self::is_post_edit( $page );
 
-		if ( self::is_post_overview( $pagenow ) ) {
+		if ( self::is_post_overview( $page ) ) {
 			$asset_manager->enqueue_style( 'edit-page' );
 			$asset_manager->enqueue_script( 'edit-page-script' );
 
@@ -824,7 +825,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		$is_block_editor  = WP_Screen::get()->is_block_editor();
 		$post_edit_handle = 'post-edit';
-		if ( $elementor_hack ) {
+		if ( $load_elementor ) {
 			$post_edit_handle = 'elementor';
 		} else {
 			if ( ! $is_block_editor ) {

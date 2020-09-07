@@ -3,16 +3,22 @@
 namespace Yoast\WP\SEO\Integrations;
 
 use WPSEO_Admin_Asset_Manager;
-use WPSEO_Language_Utils;
 use WPSEO_Metabox;
-use Yoast\WP\SEO\Conditionals\No_Conditionals;
+use Yoast\WP\SEO\Conditionals\Admin\Elementor_Edit_Conditional;
 
 /**
  * Adds customizations to the front end for breadcrumbs.
  */
 class Elementor_Integration implements Integration_Interface {
 
-	use No_Conditionals;
+	/**
+	 * Returns the conditionals based in which this loadable should be active.
+	 *
+	 * @return array
+	 */
+	public static function get_conditionals() {
+		return [ Elementor_Edit_Conditional::class ];
+	}
 
 	/**
 	 * Represents the admin asset manager.
@@ -54,7 +60,7 @@ class Elementor_Integration implements Integration_Interface {
 	public function init() {
 		$this->asset_manager->register_assets();
 		// @TODO: Prevent post-edit script enqueue.
-		$this->metabox->enqueue( true );
+		$this->metabox->enqueue( 'post.php', true );
 //		$this->asset_manager->enqueue_script( 'elementor' );
 	}
 }
