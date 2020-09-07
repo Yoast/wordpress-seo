@@ -149,10 +149,7 @@ class Person extends Abstract_Schema_Piece {
 			$data['description'] = $this->helpers->schema->html->smart_strip_tags( $user_data->description );
 		}
 
-		$social_profiles = $this->get_social_profiles( $user_id );
-		if ( ! empty( $social_profiles ) ) {
-			$data['sameAs'] = $social_profiles;
-		}
+		$data = $this->add_same_as_urls( $data, $user_data, $user_id );
 
 		return $data;
 	}
@@ -267,5 +264,30 @@ class Person extends Abstract_Schema_Piece {
 
 		// Author archive from the same user as the site represents.
 		return $this->context->indexable->object_type === 'user' && $this->context->site_user_id === $this->context->indexable->object_id;
+	}
+
+	/**
+	 * Builds our SameAs array.
+	 *
+	 * @param array   $data      The Person schema data.
+	 * @param WP_User $user_data The user data object.
+	 * @param int     $user_id   The user ID to use.
+	 *
+	 * @return array The Person schema data.
+	 */
+	private function add_same_as_urls( array $data, WP_User $user_data, $user_id ) {
+		// Add the "Website" field from WordPress' contact info.
+		if ( ! empty( $user_data->user_url ) ) {
+			$same_as_urls[] = $user_data->user_url;
+		}
+
+		// Add the social profiles.
+		$same_as_urls = $this->get_social_profiles( $user_id );
+
+		if ( ! empty( $same_as_urls ) ) {
+			$data['sameAs'] = $same_as_urls;
+		}
+
+		return $data;
 	}
 }
