@@ -2,6 +2,7 @@
 import { Fill } from "@wordpress/components";
 import { Fragment } from "@wordpress/element";
 import PropTypes from "prop-types";
+import { __ } from "@wordpress/i18n";
 
 /* Internal dependencies */
 import CollapsibleCornerstone from "../../containers/CollapsibleCornerstone";
@@ -14,6 +15,9 @@ import GooglePreviewModal from "../modals/GooglePreviewModal";
 import TwitterPreviewModal from "../modals/TwitterPreviewModal";
 import FacebookPreviewModal from "../modals/FacebookPreviewModal";
 import TopLevelProviders from "../TopLevelProviders";
+import SchemaTabContainer from "../../containers/SchemaTab";
+import SidebarCollapsible from "../SidebarCollapsible";
+import AdvancedSettings from "../../containers/AdvancedSettings";
 
 /**
  * Creates the SidebarFill component.
@@ -73,6 +77,32 @@ export default function SidebarFill( { settings, store, theme } ) {
 						location={ "sidebar" }
 					>
 						<TwitterPreviewModal />
+					</TopLevelProviders>
+				</SidebarItem> }
+				{ settings.displaySchemaSettings && <SidebarItem renderPriority={ 24 }>
+					<TopLevelProviders
+						store={ store }
+						theme={ theme }
+						location={ "sidebar" }
+					>
+						<SidebarCollapsible
+							title={ __( "Schema", "wordpress-seo" ) }
+						>
+							<SchemaTabContainer />
+						</SidebarCollapsible>
+					</TopLevelProviders>
+				</SidebarItem> }
+				{ settings.displayAdvancedTab && <SidebarItem renderPriority={ 25 }>
+					<TopLevelProviders
+						store={ store }
+						theme={ theme }
+						location={ "sidebar" }
+					>
+						<SidebarCollapsible
+							title={ __( "Advanced", "wordpress-seo" ) }
+						>
+							<AdvancedSettings />
+						</SidebarCollapsible>
 					</TopLevelProviders>
 				</SidebarItem> }
 				{ settings.isContentAnalysisActive && <SidebarItem renderPriority={ 10 }>
