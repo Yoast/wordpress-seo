@@ -33,9 +33,9 @@ export default () => {
 	initPostScraper( jQuery, store, editorData );
 
 	// Initialize the featured image integration.
-//	if ( window.wpseoScriptData && typeof window.wpseoScriptData.featuredImage !== "undefined" ) {
-//		initFeaturedImageIntegration( jQuery );
-//	}
+	if ( window.wpseoScriptData && typeof window.wpseoScriptData.featuredImage !== "undefined" ) {
+		initFeaturedImageIntegration( jQuery );
+	}
 
 	// Initialize the media library for our social settings.
 	initAdminMedia( jQuery );

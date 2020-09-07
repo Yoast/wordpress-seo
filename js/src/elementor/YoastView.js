@@ -18,6 +18,7 @@ export default Marionette.ItemView.extend( {
 
 		const panel = jQuery( "#elementor-panel-yoast" );
 		panel.append( jQuery( window.wpseoScriptData.elementor ) );
+		panel.append( jQuery( "<div id=\"wpseo_meta\"></div>" ) );
 		panel.append( jQuery( "<div id=\"wpseo-metabox-root\"></div>" ) );
 
 		console.log( "react root:", jQuery( "#wpseo-metabox-root" ) );
