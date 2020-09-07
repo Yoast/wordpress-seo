@@ -300,65 +300,7 @@ class Schema_Generator_Test extends TestCase {
 			->andReturnArg( 0 );
 
 		$this->assertEquals(
-			[
-				'@context' => 'https://schema.org',
-				'@graph'   => [
-					[
-						'@type'           => 'WebSite',
-						'@id'             => '#website',
-						'url'             => null,
-						'name'            => '',
-						'description'     => 'description',
-						'potentialAction' => [
-							[
-								'@type'       => 'SearchAction',
-								'target'      => '?s={search_term_string}',
-								'query-input' => 'required name=search_term_string',
-							],
-						],
-						'inLanguage'      => 'English',
-					],
-					[
-						'@type'           => [ null, 'FAQPage' ],
-						'@id'             => '#webpage',
-						'url'             => null,
-						'name'            => '',
-						'isPartOf'        => [
-							'@id' => '#website',
-						],
-						'inLanguage'      => 'English',
-						'potentialAction' => [
-							[
-								'@type'  => 'ReadAction',
-								'target' => [
-									null,
-								],
-							],
-						],
-					],
-					[
-						'@type'            => 'ItemList',
-						'mainEntityOfPage' => [ '@id' => null ],
-						'numberOfItems'    => 1,
-						'itemListElement'  => [ [ '@id' => '#id-1' ] ],
-					],
-					[
-						'@type'          => 'Question',
-						'@id'            => '#id-1',
-						'position'       => 1,
-						'url'            => '#id-1',
-						'name'           => 'This is a question',
-						'answerCount'    => 1,
-						'acceptedAnswer' => [
-							'@type'      => 'Answer',
-							'text'       => 'This is an answer',
-							'inLanguage' => 'English',
-						],
-						'inLanguage'     => 'English',
-					],
-				],
-			],
-			$this->instance->generate( $this->context )
+			$this->get_expected_schema(), $this->instance->generate( $this->context )
 		);
 	}
 
