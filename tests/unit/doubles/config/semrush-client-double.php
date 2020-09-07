@@ -2,7 +2,7 @@
 
 namespace Yoast\WP\SEO\Tests\Doubles\Config;
 
-use League\OAuth2\Client\Provider\AbstractProvider;
+use YoastSEO_Vendor\League\OAuth2\Client\Provider\AbstractProvider;
 use Yoast\WP\SEO\Config\SEMrush_Client;
 use Yoast\WP\SEO\Config\SEMrush_Token_Manager;
 

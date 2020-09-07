@@ -2,9 +2,9 @@
 
 namespace Yoast\WP\SEO\Tests\Config;
 
-use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
-use League\OAuth2\Client\Provider\GenericProvider;
-use League\OAuth2\Client\Token\AccessTokenInterface;
+use YoastSEO_Vendor\League\OAuth2\Client\Provider\Exception\IdentityProviderException;
+use YoastSEO_Vendor\League\OAuth2\Client\Provider\GenericProvider;
+use YoastSEO_Vendor\League\OAuth2\Client\Token\AccessTokenInterface;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Tests\Doubles\Config\SEMrush_Client_Double;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
