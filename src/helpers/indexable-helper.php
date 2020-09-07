@@ -23,6 +23,7 @@ class Indexable_Helper {
 				if ( $indexable->object_sub_type === 'attachment' ) {
 					return \wp_get_attachment_url( $indexable->object_id );
 				}
+
 				return \get_permalink( $indexable->object_id );
 			case $indexable->object_type === 'term':
 				$term = \get_term( $indexable->object_id );
@@ -56,30 +57,23 @@ class Indexable_Helper {
 				$front_page_id = (int) \get_option( 'page_on_front' );
 				if ( $indexable->object_id === $front_page_id ) {
 					return 'Static_Home_Page';
-					break;
 				}
 				$posts_page_id = (int) \get_option( 'page_for_posts' );
 				if ( $indexable->object_id === $posts_page_id ) {
 					return 'Static_Posts_Page';
-					break;
 				}
+
 				return 'Post_Type';
-				break;
 			case 'term':
 				return 'Term_Archive';
-				break;
 			case 'user':
 				return 'Author_Archive';
-				break;
 			case 'home-page':
 				return 'Home_Page';
-				break;
 			case 'post-type-archive':
 				return 'Post_Type_Archive';
-				break;
 			case 'date-archive':
 				return 'Date_Archive';
-				break;
 			case 'system-page':
 				if ( $indexable->object_sub_type === 'search-result' ) {
 					return 'Search_Result_Page';
@@ -92,37 +86,13 @@ class Indexable_Helper {
 		return false;
 	}
 
-
 	/**
-	 * Determines wether indexing indexables is appropriate for the current environment
-	 *
-	 * @param $environment (optional)
-	 *
-	 * @param $yoast_environment (optional)
+	 * Determines whether indexing indexables is appropriate for the current environment.
 	 *
 	 * @return bool
 	 */
-	public function should_index_indexables($environment, $yoast_environment) {
-		if (!isset($environment)) {
-			$environment = wp_get_environment_type();
-		}
-
-		/**
-		 * Defaults to production, for safety.
-		 */
-		if (isset($yoast_environment)) {
-			$yoast_production_environment =
-				$yoast_environment === 'production';
-		} else {
-			$yoast_production_environment =
-				defined( 'YOAST_ENVIRONMENT')
-					? YOAST_ENVIRONMENT === 'production'
-					: true;
-		}
-
-		return
-			$environment === 'production'
-			&&
-			$yoast_production_environment;
+	public function should_index_indexables() {
+		// Currently the only reason to index indexables is running a production website
+		return Environment_Helper::is_production_mode();
 	}
 }

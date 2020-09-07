@@ -84,7 +84,7 @@ class Indexable_Builder {
 	private $indexable_repository;
 
 	/**
-	 * indexable helper methods
+	 * The indexable helper methods.
 	 *
 	 * @var Indexable_Helper
 	 */
@@ -102,7 +102,7 @@ class Indexable_Builder {
 	 * @param Indexable_System_Page_Builder       $system_page_builder       The search result builder for creating missing indexables.
 	 * @param Indexable_Hierarchy_Builder         $hierarchy_builder         The hierarchy builder for creating the indexable hierarchy.
 	 * @param Primary_Term_Builder                $primary_term_builder      The primary term builder for creating primary terms for posts.
-	 * @param Indexable_Helper                    $indexable_helper
+	 * @param Indexable_Helper                    $indexable_helper          Indexable helper functions.
 	 */
 	public function __construct(
 		Indexable_Author_Builder $author_builder,
@@ -281,7 +281,7 @@ class Indexable_Builder {
 	 * @return Indexable The indexable.
 	 */
 	private function save_indexable( $indexable, $indexable_before = null ) {
-		// only save if we should
+		// only save the indexable if we should; this might be a non-production environment.
 		if ( $this->indexable_helper->should_index_indexables() ) {
 			if ( $indexable_before ) {
 				/**
@@ -296,7 +296,8 @@ class Indexable_Builder {
 
 				$indexable->save();
 			}
-
-			return $indexable;
 		}
+
+		return $indexable;
 	}
+}
