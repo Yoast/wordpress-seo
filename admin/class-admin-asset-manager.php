@@ -535,7 +535,7 @@ class WPSEO_Admin_Asset_Manager {
 					'wp-url',
 					'wp-util',
 					self::PREFIX . 'analysis',
-					self::PREFIX . 'classic-editor',
+					self::PREFIX . 'block-editor',
 					self::PREFIX . 'commons',
 					self::PREFIX . 'redux',
 					self::PREFIX . 'select2',

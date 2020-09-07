@@ -1,6 +1,12 @@
 /* global jQuery, elementor, $e */
-import initializeEdit from "./elementor/initializeEdit";
+import BlockEditorData from "./analysis/blockEditorData";
+import initializeElementorEdit from "./elementor/initializeElementorEdit";
 import YoastView from "./elementor/YoastView";
+import initElementorEditorIntegration from "./initializers/elementor-editor-integration";
+
+window.yoast = window.yoast || {};
+window.yoast.initEditorIntegration = initElementorEditorIntegration;
+window.yoast.EditorData = BlockEditorData;
 
 const addYoastRegion = ( regions ) => {
 	regions.yoast = {
@@ -13,16 +19,6 @@ const addYoastRegion = ( regions ) => {
 };
 
 jQuery( function() {
-	// Add missing elements on our page.
-	const body = jQuery( "body" ).first();
-	body.append( jQuery( "<div id=\"wpseo_meta\"></div>" ) );
-	body.append( jQuery( `<input id="yoast_wpseo_is_cornerstone" value="${ window.wpseoScriptData.metabox.cornerstoneActive }" />` ) );
-	body.append( jQuery( "<div id=\"wpseo-metabox-root\"></div>" ) );
-	body.append( jQuery( "<div id=\"wpseo-meta-section-schema\"></div>" ) );
-	// TODO: Still missing the metabox hidden fields, maybe load them in through the `do_meta_box`.
-
-	initializeEdit();
-
 	elementor.once( "preview:loaded", function() {
 		console.log( "preview:loaded" );
 

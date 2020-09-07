@@ -1,6 +1,5 @@
 /* global Marionette, elementor */
-import { createElement, render } from "@wordpress/element";
-import SidebarFill from "../containers/SidebarFill";
+import initializeElementorEdit from "./initializeElementorEdit";
 
 export default Marionette.ItemView.extend( {
 	template: false,
@@ -17,10 +16,13 @@ export default Marionette.ItemView.extend( {
 	onShow() {
 		console.log( "onShow" );
 
-		render(
-			createElement( SidebarFill ),
-			document.getElementById( "elementor-panel-yoast" ),
-		);
+		const panel = jQuery( "#elementor-panel-yoast" );
+		panel.append( jQuery( window.wpseoScriptData.elementor ) );
+		panel.append( jQuery( "<div id=\"wpseo-metabox-root\"></div>" ) );
+
+		console.log( "react root:", jQuery( "#wpseo-metabox-root" ) );
+
+		initializeElementorEdit();
 	},
 
 	onDestroy() {

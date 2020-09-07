@@ -825,7 +825,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		$is_block_editor  = WP_Screen::get()->is_block_editor();
 		$post_edit_handle = 'post-edit';
-		if ( $load_elementor ) {
+		if ( $load_elementor !== false ) {
 			$post_edit_handle = 'elementor';
 		} else {
 			if ( ! $is_block_editor ) {
@@ -882,6 +882,9 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			'isPost'           => true,
 			'isBlockEditor'    => $is_block_editor,
 		];
+		if ( $load_elementor !== false ) {
+			$script_data['elementor'] = $load_elementor;
+		}
 
 		if ( post_type_supports( get_post_type(), 'thumbnail' ) ) {
 			$asset_manager->enqueue_style( 'featured-image' );
