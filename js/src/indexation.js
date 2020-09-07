@@ -1,4 +1,4 @@
-/* global yoastIndexingData */
+/* global jQuery, yoastIndexingData */
 import styled from "styled-components";
 import { render, Component, Fragment } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
@@ -173,4 +173,6 @@ class Indexing extends Component {
 	}
 }
 
-render( <Indexing />, document.getElementById( "yoast-seo-indexing-action" ) );
+jQuery( document ).ready( function() {
+	render( <Indexing />, document.getElementById( "yoast-seo-indexing-action" ) );
+} );
