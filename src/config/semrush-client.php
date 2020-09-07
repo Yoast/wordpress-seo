@@ -7,12 +7,15 @@
 
 namespace Yoast\WP\SEO\Config;
 
+use Yoast\WP\SEO\Exceptions\OAuth\Authentication_Failed_Exception;
+use Yoast\WP\SEO\Exceptions\SEMrush\Tokens\Empty_Property_Exception;
+use Yoast\WP\SEO\Exceptions\SEMrush\Tokens\Failed_Storage_Exception;
 use YoastSEO_Vendor\League\OAuth2\Client\Provider\Exception\IdentityProviderException;
 use YoastSEO_Vendor\League\OAuth2\Client\Provider\GenericProvider;
 use Yoast\WP\SEO\Exceptions\OAuth\OAuth_Authentication_Failed_Exception;
-use Yoast\WP\SEO\Exceptions\SEMrush\SEMrush_Empty_Token_Exception;
-use Yoast\WP\SEO\Exceptions\SEMrush\SEMrush_Empty_Token_Property_Exception;
-use Yoast\WP\SEO\Exceptions\SEMrush\SEMrush_Failed_Token_Storage_Exception;
+use Yoast\WP\SEO\Exceptions\SEMrush\Tokens\Empty_Token_Exception;
+use Yoast\WP\SEO\Exceptions\SEMrush\Tokens\Empty_Token_Property_Exception;
+use Yoast\WP\SEO\Exceptions\SEMrush\Tokens\Failed_Token_Storage_Exception;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Values\SEMrush\SEMrush_Token;
 
@@ -52,7 +55,7 @@ class SEMrush_Client {
 	 *
 	 * @param Options_Helper $options_helper The Options_Helper instance.
 	 *
-	 * @throws Empty_Property_Exception Exception thrown if a token property is empty.
+	 * @throws Empty_Property_Eßxception Exception thrown if a token property is empty.
 	 */
 	public function __construct( Options_Helper $options_helper ) {
 		$this->provider = new GenericProvider(
