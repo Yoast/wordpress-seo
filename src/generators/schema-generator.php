@@ -242,7 +242,6 @@ class Schema_Generator implements Generator_Interface {
 				] );
 
 				$graph_piece          = \array_intersect_key( $graph_piece, $webpage_public_properties );
-				print_r( $graph_piece );
 				$graph_piece['@type'] = 'WebPage';
 
 				return $graph_piece;
