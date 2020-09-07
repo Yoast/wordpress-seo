@@ -51,6 +51,11 @@
 			"vendor_prefixed/",
 			"src/",
 			"lib/"
+		],
+		"files": [
+			"vendor_prefixed/guzzlehttp/guzzle/src/functions.php",
+			"vendor_prefixed/guzzlehttp/psr7/src/functions_include.php",
+			"vendor_prefixed/guzzlehttp/promises/src/functions_include.php"
 		]
 	},
 	"autoload-dev": {
