@@ -6,13 +6,20 @@ use WPSEO_Admin_Utils;
 use WPSEO_Ryte;
 use WPSEO_Ryte_Option;
 use WPSEO_Shortlinker;
-use WPSEO_Utils;
+use Yoast\WP\SEO\Conditionals\Ryte_Conditional;
 use Yoast\WP\SEO\Presenters\Admin\Alert_Presenter;
 
 /**
  * Represents the health check for Ryte.
  */
 class Ryte_Health_Check extends Abstract_Health_Check {
+
+	/**
+	 * @inheritDoc
+	 */
+	public static function get_conditionals() {
+		return [ Ryte_Conditional::class ];
+	}
 
 	/**
 	 * The name of the test.
@@ -27,11 +34,6 @@ class Ryte_Health_Check extends Abstract_Health_Check {
 	 * @return void
 	 */
 	public function run() {
-		// If Ryte is disabled or the blog is not public or development mode is on, don't run code.
-		if ( ! $this->should_run() ) {
-			return;
-		}
-
 		/*
 		 * Run the request to fetch the indexability status. Set last fetch time.
 		 * Update the Ryte option status. Will run a new request only if the last
@@ -50,7 +52,7 @@ class Ryte_Health_Check extends Abstract_Health_Check {
 		}
 
 		// The request was successful: get the updated Ryte option.
-		$ryte_option = $this->get_ryte_option();
+		$ryte_option = new WPSEO_Ryte_Option();
 
 		switch ( $ryte_option->get_status() ) {
 			case WPSEO_Ryte_Option::IS_NOT_INDEXABLE:
@@ -64,42 +66,6 @@ class Ryte_Health_Check extends Abstract_Health_Check {
 				$this->unknown_indexability_response();
 				break;
 		}
-	}
-
-	/**
-	 * Checks whether Ryte is enabled, the blog is public, and it is not development mode.
-	 *
-	 * @return bool True when Ryte is enabled, the blog is public and development mode is not on.
-	 */
-	protected function should_run() {
-		$ryte_option = $this->get_ryte_option();
-		if ( ! $ryte_option->is_enabled() ) {
-			return false;
-		}
-
-		if ( \get_option( 'blog_public' ) === '0' ) {
-			return false;
-		}
-
-		return ! $this->is_development_mode();
-	}
-
-	/**
-	 * Checks if debug mode is on but Yoast development mode is not on (i.e. for non-Yoast developers).
-	 *
-	 * @return bool True when debug mode is on and Yoast development mode is not on.
-	 */
-	protected function is_development_mode() {
-		return \wp_debug_mode() && ! WPSEO_Utils::is_development_mode();
-	}
-
-	/**
-	 * Returns a new instance of WPSEO_Ryte_Option.
-	 *
-	 * @return WPSEO_Ryte_Option New Ryte Option.
-	 */
-	protected function get_ryte_option() {
-		return new WPSEO_Ryte_Option();
 	}
 
 	/**
