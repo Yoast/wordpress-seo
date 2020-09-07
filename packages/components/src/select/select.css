@@ -144,3 +144,10 @@
 .yoast-field-group select.yoast-select--inline {
 	display: inline-block;
 }
+
+.yoast-field-group--inline {
+	max-width: 300px;
+    display: inline-block;
+    width: 100%;
+    margin-right: 8px;
+}
