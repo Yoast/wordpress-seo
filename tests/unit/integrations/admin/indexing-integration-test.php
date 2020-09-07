@@ -153,7 +153,11 @@ class Indexing_Integration_Test extends TestCase {
 
 		$this->set_total_unindexed_expectations( $total_unindexed_expectations );
 
-		$this->assertEquals( 72, $this->instance->get_total_unindexed() );
+		Monkey\Filters\expectApplied( 'wpseo_indexing_total_unindexed' )
+			->with( 72 )
+			->andReturn( 84 );
+
+		$this->assertEquals( 84, $this->instance->get_total_unindexed() );
 	}
 
 	/**
@@ -208,6 +212,9 @@ class Indexing_Integration_Test extends TestCase {
 
 		Monkey\Functions\expect( 'wp_localize_script' )
 			->with( 'yoast-seo-indexation', 'yoastIndexingData', $injected_data );
+
+		Monkey\Filters\expectApplied( 'wpseo_indexing_data' )
+			->with( $injected_data );
 
 		$this->instance->enqueue_scripts();
 	}
