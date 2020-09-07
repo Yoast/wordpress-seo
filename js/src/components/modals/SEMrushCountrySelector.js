@@ -6,29 +6,14 @@ import { addQueryArgs } from "@wordpress/url";
 import { __ } from "@wordpress/i18n";
 
 /* Yoast dependencies */
-import { ErrorBoundary, FieldGroup } from "@yoast/components";
+import { ErrorBoundary, SingleSelect } from "@yoast/components";
 
 /**
  * The ID of the SEMrush Country Selection component.
  *
  * @type {string} id The ID of the component.
  */
-const id = "semrush-country-selector";
-
-/**
- * Renders a HTML option based on a name and value.
- *
- * @param {string} name  The name of the option.
- * @param {string} value The value of the option.
- *
- * @returns {React.Component} An HTML option.
- */
-const Option = ( { name, value } ) => <option key={ value } value={ value }>{ name }</option>;
-
-Option.propTypes = {
-	name: PropTypes.string.isRequired,
-	value: PropTypes.string.isRequired,
-};
+const id = "yoast-semrush-country-selector";
 
 /**
  * List of all available database countries for the SEMrush API.
@@ -167,15 +152,10 @@ class SEMrushCountrySelector extends Component {
 	 * @returns {void}
 	 */
 	constructor( props ) {
-		// Make sure that both jQuery and select2 are defined on the global window.
-		if ( typeof window.jQuery().select2 === "undefined" ) {
-			throw new Error( "No Select2 found." );
-		}
-
 		super( props );
 
-		this.onChangeHandler = this.onChangeHandler.bind( this );
 		this.relatedKeyphrasesRequest = this.relatedKeyphrasesRequest.bind( this );
+		this.onChangeHandler = this.onChangeHandler.bind( this );
 	}
 
 	/**
@@ -184,29 +164,10 @@ class SEMrushCountrySelector extends Component {
 	 * @returns {void}
 	 */
 	componentDidMount() {
-		this.select2 = jQuery( `#${ id }` );
-		this.select2.select2( {
-			theme: "default yoast-select2--inline",
-			dropdownCssClass: "yoast-select__dropdown",
-			dropdownParent: jQuery( ".yoast-related-keyphrases-modal__content" ),
-		} );
-		this.select2.on( "change.select2", this.onChangeHandler );
-
 		//	Fire a new request when the modal is first opened
 		if ( ! this.props.response ) {
 			this.relatedKeyphrasesRequest();
 		}
-	}
-
-	/**
-	 * Handler for the onChange event.
-	 *
-	 * @returns {void}
-	 */
-	onChangeHandler() {
-		const selection = this.select2.select2( "data" ).map( option => option.id )[ 0 ];
-
-		this.props.setCountry( selection );
 	}
 
 	/**
@@ -281,7 +242,7 @@ class SEMrushCountrySelector extends Component {
 	handleFailedResponse( response ) {
 		const { setRequestLimitReached, setRequestFailed } = this.props;
 
-		if ( "error" in response === false ) {
+		if ( ! ( "error" in response ) ) {
 			return;
 		}
 
@@ -316,31 +277,40 @@ class SEMrushCountrySelector extends Component {
 	}
 
 	/**
+	 * Save the selected value in the store.
+	 *
+	 * @param {string} selected The user selection.
+	 *
+	 * @returns {void}
+	 */
+	onChangeHandler( selected ) {
+		this.props.setCountry( selected );
+	}
+
+	/**
 	 * Renders the SEMrush Country Selector.
 	 *
 	 * @returns {wp.Element} The SEMrush Country Selector.
 	 */
 	render() {
 		return (
-			<FieldGroup
-				htmlFor={ id }
-				label={ __( "Show results for:", "wordpress-seo" ) }
-				wrapperClassName="yoast-field-group"
-			>
-				<select
-					id={ id }
+			<div id={ id }>
+				<SingleSelect
+					id={ id + "-select" }
+					label={ __( "Show results for:", "wordpress-seo" ) }
 					name="semrush-country-code"
-					defaultValue={ this.props.countryCode }
-				>
-					{ countries.map( Option ) }
-				</select>
+					options={ countries }
+					selected={ this.props.countryCode }
+					onChange={ this.onChangeHandler }
+				/>
 				<button
+					id={ id + "-button" }
 					className="yoast-button yoast-button--secondary"
 					onClick={ this.relatedKeyphrasesRequest }
 				>
 					{ __( "Change Country", "wordpress-seo" ) }
 				</button>
-			</FieldGroup>
+			</div>
 		);
 	}
 }

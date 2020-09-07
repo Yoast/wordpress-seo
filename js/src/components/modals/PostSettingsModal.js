@@ -1,4 +1,3 @@
-import { Button } from "@yoast/components/src/button/Button";
 import { __, sprintf } from "@wordpress/i18n";
 import { useState, useCallback } from "@wordpress/element";
 import Modal from "./Modal";
@@ -142,28 +141,31 @@ const PostSettingsModal = ( { preferences, postTypeName } ) => {
 									sprintf( __( "Make sure to save your %s for changes to take effect", "wordpress-seo" ), postTypeName )
 								}
 							</p>
-							<Button
+							<button
 								className="yoast-button yoast-button--primary yoast-button--post-settings-modal"
+								type="button"
 								onClick={ closeModal }
 							>
 								{
 									/* Translators: %s translates to the Post Label in singular form */
 									sprintf( __( "Return to your %s", "wordpress-seo" ), postTypeName )
 								}
-							</Button>
+							</button>
 						</div>
 					</div>
 				</Modal>
 			) }
-			<Button
-				variant="edit"
+			<button
+				className="yoast-button yoast-button--primary"
+				type="button"
 				onClick={ openModal }
 			>
+				<span className={ "yoast-button--edit" } />
 				{
 					/* Translators: %s translates to the Post Label in singular form */
 					sprintf( __( "Open %s settings", "wordpress-seo" ), postTypeName )
 				}
-			</Button>
+			</button>
 		</div>
 	);
 };
