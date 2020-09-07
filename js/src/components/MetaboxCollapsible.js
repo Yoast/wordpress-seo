@@ -1,7 +1,7 @@
-import SidebarCollapsible from "./SidebarCollapsible";
+import { Collapsible } from "@yoast/components";
 import styled from "styled-components";
 
-const MetaboxCollapsible = styled( SidebarCollapsible )`
+const StyledMetaboxCollapsible = styled( Collapsible )`
 	h2 > button {
 		padding-left: 24px;
 		padding-top: 16px;
@@ -13,5 +13,16 @@ const MetaboxCollapsible = styled( SidebarCollapsible )`
 		border-top: 1px solid rgba(0,0,0,0.2);
 	}
 `;
+
+/**
+ * The MetaboxCollapsible.
+ *
+ * @param {Object} props The props
+ *
+ * @returns {React.Component} A MetaboxCollapsible component
+ */
+const MetaboxCollapsible = ( props ) => {
+	return <StyledMetaboxCollapsible hasPadding={ true } hasSeparator={ true } { ...props } />;
+};
 
 export default MetaboxCollapsible;
