@@ -10,9 +10,10 @@ import KeywordInput from "../contentAnalysis/KeywordInput";
 import ReadabilityAnalysis from "../contentAnalysis/ReadabilityAnalysis";
 import SeoAnalysis from "../contentAnalysis/SeoAnalysis";
 import SidebarItem from "../SidebarItem";
-import SnippetPreviewModal from "../SnippetPreviewModal";
+import GooglePreviewModal from "../modals/GooglePreviewModal";
+import TwitterPreviewModal from "../modals/TwitterPreviewModal";
+import FacebookPreviewModal from "../modals/FacebookPreviewModal";
 import TopLevelProviders from "../TopLevelProviders";
-import PostSettingsModal from "../../containers/PostSettingsModal";
 
 /**
  * Creates the SidebarFill component.
@@ -38,15 +39,6 @@ export default function SidebarFill( { settings, store, theme } ) {
 						<Warning />
 					</TopLevelProviders>
 				</SidebarItem>
-				<SidebarItem renderPriority={ 2 }>
-					<TopLevelProviders
-						store={ store }
-						theme={ theme }
-						location={ "sidebar" }
-					>
-						<PostSettingsModal />
-					</TopLevelProviders>
-				</SidebarItem>
 				{ settings.isKeywordAnalysisActive && <SidebarItem renderPriority={ 8 }>
 					<TopLevelProviders
 						store={ store }
@@ -56,13 +48,31 @@ export default function SidebarFill( { settings, store, theme } ) {
 						<KeywordInput />
 					</TopLevelProviders>
 				</SidebarItem> }
-				{ <SidebarItem renderPriority={ 9 }>
+				<SidebarItem renderPriority={ 21 }>
 					<TopLevelProviders
 						store={ store }
 						theme={ theme }
 						location={ "sidebar" }
 					>
-						<SnippetPreviewModal />
+						<GooglePreviewModal />
+					</TopLevelProviders>
+				</SidebarItem>
+				{ settings.displayFacebook && <SidebarItem renderPriority={ 22 }>
+					<TopLevelProviders
+						store={ store }
+						theme={ theme }
+						location={ "sidebar" }
+					>
+						<FacebookPreviewModal />
+					</TopLevelProviders>
+				</SidebarItem> }
+				{ settings.displayTwitter && <SidebarItem renderPriority={ 23 }>
+					<TopLevelProviders
+						store={ store }
+						theme={ theme }
+						location={ "sidebar" }
+					>
+						<TwitterPreviewModal />
 					</TopLevelProviders>
 				</SidebarItem> }
 				{ settings.isContentAnalysisActive && <SidebarItem renderPriority={ 10 }>

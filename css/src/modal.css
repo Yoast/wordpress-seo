@@ -360,16 +360,15 @@
 	overflow: hidden;
 }
 
+.yoast-modal-content {
+	padding: 16px;
+}
+
 .yoast-post-settings-modal__button-container {
 	padding: 16px;
 	display: flex;
 	flex-direction: column;
 	border-bottom: 1px solid rgba( 0,0,0,0.2 );
-}
-
-.yoast-post-settings-modal .yoast-collapsible-content {
-	padding: 16px;
-	border-top: var(--yoast-border-default);
 }
 
 .yoast-post-settings-modal .components-modal__content {
