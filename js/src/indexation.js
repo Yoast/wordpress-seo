@@ -11,7 +11,7 @@ const preIndexingActions = {};
 const IndexingActions = {};
 
 window.yoast = window.yoast || {};
-window.yoast.indexing = window.yoast.Indexing || {};
+window.yoast.indexing = window.yoast.indexing || {};
 window.yoast.indexing.registerPreIndexingAction = ( endpoint, action ) => {
 	preIndexingActions[ endpoint ] = action;
 };

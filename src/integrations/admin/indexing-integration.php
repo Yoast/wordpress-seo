@@ -150,6 +150,13 @@ class Indexing_Integration implements Integration_Interface {
 			],
 		];
 
+		/**
+		 * Filter to adapt the data used in the indexing process.
+		 *
+		 * @param array $data The indexing data to adapt.
+		 */
+		$data = \apply_filters( 'wpseo_indexing_data', $data );
+
 		\wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'indexation', 'yoastIndexingData', $data );
 	}
 
@@ -175,6 +182,15 @@ class Indexing_Integration implements Integration_Interface {
 			$this->total_unindexed += $this->term_indexation->get_total_unindexed();
 			$this->total_unindexed += $this->general_indexation->get_total_unindexed();
 			$this->total_unindexed += $this->post_type_archive_indexation->get_total_unindexed();
+
+			/**
+			 * Filter to adapt the total number of unindexed objects (posts, pages, terms, etc.).
+			 * Used in generating the progress bar when indexing the content of the site
+			 * on the tools page.
+			 *
+			 * @param int $total_unindexed The current total number of unindexed content.
+			 */
+			$this->total_unindexed = \apply_filters( 'wpseo_indexing_total_unindexed', $this->total_unindexed );
 		}
 
 		return $this->total_unindexed;
