@@ -52,7 +52,7 @@ export default function SidebarFill( { settings, store, theme } ) {
 						<KeywordInput />
 					</TopLevelProviders>
 				</SidebarItem> }
-				<SidebarItem renderPriority={ 21 }>
+				<SidebarItem renderPriority={ 23 }>
 					<TopLevelProviders
 						store={ store }
 						theme={ theme }
@@ -61,7 +61,7 @@ export default function SidebarFill( { settings, store, theme } ) {
 						<GooglePreviewModal />
 					</TopLevelProviders>
 				</SidebarItem>
-				{ settings.displayFacebook && <SidebarItem renderPriority={ 22 }>
+				{ settings.displayFacebook && <SidebarItem renderPriority={ 24 }>
 					<TopLevelProviders
 						store={ store }
 						theme={ theme }
@@ -70,7 +70,7 @@ export default function SidebarFill( { settings, store, theme } ) {
 						<FacebookPreviewModal />
 					</TopLevelProviders>
 				</SidebarItem> }
-				{ settings.displayTwitter && <SidebarItem renderPriority={ 23 }>
+				{ settings.displayTwitter && <SidebarItem renderPriority={ 25 }>
 					<TopLevelProviders
 						store={ store }
 						theme={ theme }
@@ -79,7 +79,7 @@ export default function SidebarFill( { settings, store, theme } ) {
 						<TwitterPreviewModal />
 					</TopLevelProviders>
 				</SidebarItem> }
-				{ settings.displaySchemaSettings && <SidebarItem renderPriority={ 24 }>
+				{ settings.displaySchemaSettings && <SidebarItem renderPriority={ 26 }>
 					<TopLevelProviders
 						store={ store }
 						theme={ theme }
@@ -92,7 +92,7 @@ export default function SidebarFill( { settings, store, theme } ) {
 						</SidebarCollapsible>
 					</TopLevelProviders>
 				</SidebarItem> }
-				{ settings.displayAdvancedTab && <SidebarItem renderPriority={ 25 }>
+				{ settings.displayAdvancedTab && <SidebarItem renderPriority={ 27 }>
 					<TopLevelProviders
 						store={ store }
 						theme={ theme }
