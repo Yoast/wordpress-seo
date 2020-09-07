@@ -1,6 +1,5 @@
 /* global jQuery, elementor, $e */
 import BlockEditorData from "./analysis/blockEditorData";
-import initializeElementorEdit from "./elementor/initializeElementorEdit";
 import YoastView from "./elementor/YoastView";
 import initElementorEditorIntegration from "./initializers/elementor-editor-integration";
 
@@ -31,6 +30,7 @@ jQuery( function() {
 jQuery( window ).on( "elementor:init", () => {
 	console.log( "elementor:init" );
 
+	// Add our tab to the template.
 	const templateElement = document.getElementById( "tmpl-elementor-panel-elements" );
 	templateElement.innerHTML = templateElement.innerHTML.replace(
 		/(<div class="elementor-component-tab elementor-panel-navigation-tab" data-tab="global">.*<\/div>)/,

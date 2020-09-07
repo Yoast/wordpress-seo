@@ -12,12 +12,12 @@ window.wpseoShortcodePluginL10n = window.wpseoScriptData.analysis.plugins.shortc
 
 window.YoastSEO = window.YoastSEO || {};
 
-export default () => {
+export default function initPostEdit() {
 	// Initialize the tab behavior of the metabox.
 	initTabs( jQuery );
 
 	// Initialize the primary category integration.
-	if ( typeof window.wpseoPrimaryCategoryL10n !== "undefined" ) {
+	if ( typeof wpseoPrimaryCategoryL10n !== "undefined" ) {
 		initPrimaryCategory( jQuery );
 	}
 

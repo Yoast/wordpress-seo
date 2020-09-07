@@ -33,7 +33,7 @@ export default function initElementorEditorIntegration( store ) {
 				</Fragment>
 			</SlotFillProvider>
 		),
-		document.getElementById( "wpseo-metabox-root" ),
+		document.getElementById( "wpseo-react-root" ),
 	);
 
 	registeredComponents.forEach( ( registered ) => {

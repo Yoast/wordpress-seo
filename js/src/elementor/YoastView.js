@@ -1,5 +1,5 @@
 /* global Marionette, elementor */
-import initializeElementorEdit from "./initializeElementorEdit";
+import initPostEdit from "../initializers/post-edit";
 
 export default Marionette.ItemView.extend( {
 	template: false,
@@ -18,12 +18,11 @@ export default Marionette.ItemView.extend( {
 
 		const panel = jQuery( "#elementor-panel-yoast" );
 		panel.append( jQuery( window.wpseoScriptData.elementor ) );
+		// The post scraper checks for this metabox container.
 		panel.append( jQuery( "<div id=\"wpseo_meta\"></div>" ) );
-		panel.append( jQuery( "<div id=\"wpseo-metabox-root\"></div>" ) );
+		panel.append( jQuery( "<div id=\"wpseo-react-root\"></div>" ) );
 
-		console.log( "react root:", jQuery( "#wpseo-metabox-root" ) );
-
-		initializeElementorEdit();
+		initPostEdit();
 	},
 
 	onDestroy() {

@@ -651,6 +651,11 @@ class WPSEO_Admin_Asset_Manager {
 				'src'  => 'structured-data-blocks-' . $flat_version,
 				'deps' => [ 'wp-edit-blocks' ],
 			],
+			[
+				'name' => 'elementor',
+				'src'  => 'yoast-elementor-' . $flat_version,
+				'deps' => [ 'wp-edit-post' ],
+			],
 		];
 	}
 

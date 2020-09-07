@@ -10,7 +10,7 @@ import TopLevelProviders from "../TopLevelProviders";
  */
 export default function ElementorSlot( { store, theme } ) {
 	return (
-		<TopLevelProviders store={ store } theme={ theme } location="elementor">
+		<TopLevelProviders store={ store } theme={ theme } location="sidebar">
 			<Slot name="YoastElementor">
 				{ ( fills ) => sortComponentsByRenderPriority( fills ) }
 			</Slot>
