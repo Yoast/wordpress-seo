@@ -1,11 +1,11 @@
 /* global jQuery, elementor, $e */
-import BlockEditorData from "./analysis/blockEditorData";
+import ElementorEditorData from "./analysis/elementorEditorData";
 import YoastView from "./elementor/YoastView";
 import initElementorEditorIntegration from "./initializers/elementor-editor-integration";
 
 window.yoast = window.yoast || {};
 window.yoast.initEditorIntegration = initElementorEditorIntegration;
-window.yoast.EditorData = BlockEditorData;
+window.yoast.EditorData = ElementorEditorData;
 
 const addYoastRegion = ( regions ) => {
 	regions.yoast = {
