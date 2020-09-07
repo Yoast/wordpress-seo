@@ -742,12 +742,16 @@ div.interface-pinned-items button.components-button.is-pressed[aria-label="Yoast
   background-image: var(--yoast-svg-icon-schema-active);
 }
 
-.yoast-icon-span {
-	padding-right: 8px;
+.yoast-icon-span svg {
+	margin-right: 8px;
 }
 
 .yoast-icon-span svg {
 	fill: inherit;
+}
+
+.yoast.components-panel__body {
+	border-top: 0;
 }
 
 .components-button > .yoast-title-container {

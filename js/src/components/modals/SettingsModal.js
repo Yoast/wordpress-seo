@@ -2,7 +2,7 @@ import { __, sprintf } from "@wordpress/i18n";
 import { useState, useCallback, Fragment } from "@wordpress/element";
 import Modal from "./Modal";
 import PropTypes from "prop-types";
-import { ButtonSection } from "yoast-components";
+import SidebarButton from "../SidebarButton";
 
 /**
  * Returns false for events passed to onRequestClose, that should not lead to the modal closing.
@@ -78,11 +78,9 @@ const SettingsModal = ( { postTypeName, children, title } ) => {
 					</div>
 				</Modal>
 			) }
-			<ButtonSection
-				id={ "yoast-snippet-editor-sidebar" }
+			<SidebarButton
 				title={ title }
 				suffixIcon={ { size: "20px", icon: "pencil-square" } }
-				hasSeparator={ true }
 				onClick={ openModal }
 			/>
 		</Fragment>

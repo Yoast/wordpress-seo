@@ -16,7 +16,7 @@ const SidebarCollapsible = ( props ) => {
 		prefixIconCollapsed,
 	} = props;
 
-	return <div className={ `components-panel__body ${ isOpen ? "is-opened" : "" }` }>
+	return <div className={ `yoast components-panel__body ${ isOpen ? "is-opened" : "" }` }>
 		<h2 className="components-panel__body-title">
 			<button
 				onClick={ () => toggleOpen( ! isOpen ) }

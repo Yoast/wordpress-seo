@@ -19,7 +19,7 @@ import { LocationConsumer } from "../contexts/location";
 const KeywordInputContainer = styled.div`
 	padding: 16px;
 	/* Necessary to compensate negative top margin of the collapsible after the keyword input. */
-	border-bottom: 1px solid transparent;
+	border-bottom: ${ props => props.location === "sidebar" ? "1px solid #f0f0f0" : "1px solid transparent" };
 `;
 
 /**
@@ -53,7 +53,7 @@ class KeywordInput extends Component {
 		return <LocationConsumer>
 			{ context => (
 				<Fragment>
-					<KeywordInputContainer>
+					<KeywordInputContainer location={ context }>
 						<KeywordInputComponent
 							id={ `focus-keyword-input-${ context }` }
 							onChange={ this.props.onFocusKeywordChange }
