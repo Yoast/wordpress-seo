@@ -130,7 +130,7 @@ class Schema_Generator implements Generator_Interface {
 	}
 
 	/**
-	 * Allow filtering the graph piece by its schema type.
+	 * Allows filtering the graph piece by its schema type.
 	 *
 	 * @param array             $graph_piece The graph piece we're filtering.
 	 * @param string            $identifier  The identifier of the graph piece that is being filtered.
@@ -220,18 +220,47 @@ class Schema_Generator implements Generator_Interface {
 	 * @return Abstract_Schema_Piece[] A filtered array of graph pieces.
 	 */
 	protected function get_graph_pieces( $context ) {
-		$schema_pieces = [
-			new Schema\Organization(),
-			new Schema\Person(),
-			new Schema\Website(),
-			new Schema\Main_Image(),
-			new Schema\WebPage(),
-			new Schema\Breadcrumb(),
-			new Schema\Article(),
-			new Schema\Author(),
-			new Schema\FAQ(),
-			new Schema\HowTo(),
-		];
+		if ( \post_password_required() ){
+			$schema_pieces = [
+				new Schema\Organization(),
+				new Schema\Website(),
+				new Schema\WebPage(),
+				];
+
+			// The WebPage graph piece should only have selected properties, and @type should always be set to WebPage.
+			\add_filter( 'wpseo_schema_webpage', function( $graph_piece ) {
+				$webpage_public_properties = \array_flip( [
+					'@type',
+					'@id',
+					'url',
+					'name',
+					'isPartOf',
+					'inLanguage',
+					'datePublished',
+					'dateModified',
+					'breadcrumb'
+				] );
+
+				$graph_piece          = \array_intersect_key( $graph_piece, $webpage_public_properties );
+				print_r( $graph_piece );
+				$graph_piece['@type'] = 'WebPage';
+
+				return $graph_piece;
+			});
+		} else {
+			$schema_pieces = [
+				new Schema\Organization(),
+				new Schema\Person(),
+				new Schema\Website(),
+				new Schema\Main_Image(),
+				new Schema\WebPage(),
+				new Schema\Breadcrumb(),
+				new Schema\Article(),
+				new Schema\Author(),
+				new Schema\FAQ(),
+				new Schema\HowTo(),
+			];
+		}
 
 		/**
 		 * Filter: 'wpseo_schema_graph_pieces' - Allows adding pieces to the graph.
