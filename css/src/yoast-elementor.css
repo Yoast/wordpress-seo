@@ -1,3 +1,7 @@
 #elementor-panel-yoast {
-	background-color: white;
+	background-color: var(--yoast-color-white);
+}
+
+#elementor-panel-yoast input, #snippet-editor-field-slug {
+	background-color: inherit;
 }
