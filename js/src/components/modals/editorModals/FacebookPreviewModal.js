@@ -2,8 +2,8 @@
 import { __ } from "@wordpress/i18n";
 
 /* Internal dependencies */
-import SettingsModal from "../../containers/SettingsModal";
-import FacebookEditor from "../../containers/FacebookEditor";
+import EditorModal from "../../../containers/EditorModal";
+import FacebookEditor from "../../../containers/FacebookEditor";
 
 /**
  * The Facebook Preview Modal.
@@ -12,11 +12,11 @@ import FacebookEditor from "../../containers/FacebookEditor";
  */
 const FacebookPreviewModal = () => {
 	return (
-		<SettingsModal
+		<EditorModal
 			title={ __( "Facebook preview", "wordpress-seo" ) }
 		>
 			<FacebookEditor location="modal" />
-		</SettingsModal>
+		</EditorModal>
 	);
 };
 

@@ -1,8 +1,8 @@
 import { __, sprintf } from "@wordpress/i18n";
 import { useState, useCallback, Fragment } from "@wordpress/element";
-import Modal from "./Modal";
+import Modal from "../Modal";
 import PropTypes from "prop-types";
-import SidebarButton from "../SidebarButton";
+import SidebarButton from "../../SidebarButton";
 
 /**
  * Returns false for events passed to onRequestClose, that should not lead to the modal closing.
@@ -31,7 +31,7 @@ const isCloseEvent = ( event ) => {
  *
  * @returns {*} A button wrapped in a div.
  */
-const SettingsModal = ( { postTypeName, children, title } ) => {
+const EditorModal = ( { postTypeName, children, title } ) => {
 	const [ isOpen, changeIsOpen ] = useState( false );
 
 	const closeModal = useCallback( ( event ) => {
@@ -89,10 +89,10 @@ const SettingsModal = ( { postTypeName, children, title } ) => {
 	);
 };
 
-SettingsModal.propTypes = {
+EditorModal.propTypes = {
 	postTypeName: PropTypes.string.isRequired,
 	children: PropTypes.oneOfType( [ PropTypes.node, PropTypes.arrayOf( PropTypes.node ) ] ).isRequired,
 	title: PropTypes.string.isRequired,
 };
 
-export default SettingsModal;
+export default EditorModal;

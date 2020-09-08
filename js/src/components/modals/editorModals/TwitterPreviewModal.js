@@ -2,8 +2,8 @@
 import { __ } from "@wordpress/i18n";
 
 /* Internal dependencies */
-import SettingsModal from "../../containers/SettingsModal";
-import TwitterEditor from "../../containers/TwitterEditor";
+import EditorModal from "../../../containers/EditorModal";
+import TwitterEditor from "../../../containers/TwitterEditor";
 
 /**
  * The Twitter Preview Modal.
@@ -12,11 +12,11 @@ import TwitterEditor from "../../containers/TwitterEditor";
  */
 const TwitterPreviewModal = () => {
 	return (
-		<SettingsModal
+		<EditorModal
 			title={ __( "Twitter preview", "wordpress-seo" ) }
 		>
 			<TwitterEditor location="modal" />
-		</SettingsModal>
+		</EditorModal>
 	);
 };
 

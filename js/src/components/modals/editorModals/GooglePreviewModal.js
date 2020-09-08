@@ -2,8 +2,8 @@
 import { __ } from "@wordpress/i18n";
 
 /* Internal dependencies */
-import SettingsModal from "../../containers/SettingsModal";
-import SnippetEditorWrapper from "../../containers/SnippetEditor";
+import EditorModal from "../../../containers/EditorModal";
+import SnippetEditorWrapper from "../../../containers/SnippetEditor";
 
 /**
  * The Google Preview Modal.
@@ -12,11 +12,11 @@ import SnippetEditorWrapper from "../../containers/SnippetEditor";
  */
 const GooglePreviewModal = () => {
 	return (
-		<SettingsModal
+		<EditorModal
 			title={ __( "Google preview", "wordpress-seo" ) }
 		>
 			<SnippetEditorWrapper showCloseButton={ false } hasPaperStyle={ false } />
-		</SettingsModal>
+		</EditorModal>
 	);
 };
 
