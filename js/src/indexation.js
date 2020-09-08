@@ -174,5 +174,8 @@ class Indexing extends Component {
 }
 
 jQuery( document ).ready( function() {
-	render( <Indexing />, document.getElementById( "yoast-seo-indexing-action" ) );
+	const root = document.getElementById( "yoast-seo-indexing-action" );
+	if ( root ) {
+		render( <Indexing />, root );
+	}
 } );
