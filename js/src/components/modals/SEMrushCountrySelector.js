@@ -302,6 +302,7 @@ class SEMrushCountrySelector extends Component {
 					options={ countries }
 					selected={ this.props.countryCode }
 					onChange={ this.onChangeHandler }
+					wrapperClassName={ "yoast-field-group yoast-field-group--inline" }
 				/>
 				<button
 					id={ id + "-button" }
