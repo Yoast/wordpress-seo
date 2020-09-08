@@ -20,7 +20,7 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 	/**
 	 * The permalink to follow.
 	 *
-	 * @var string
+	 * @var string[]
 	 */
 	private $permalink;
 
@@ -54,8 +54,8 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 			'search_url'          => $this->search_url(),
 			'post_edit_url'       => $this->edit_url(),
 			'base_url'            => $this->base_url_for_js(),
+			'slug'                => $this->permalink[1],
 			'metaDescriptionDate' => '',
-
 		];
 
 		if ( $this->post instanceof WP_Post ) {
@@ -83,6 +83,7 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 
 		if ( has_post_thumbnail( $post_id ) ) {
 			$featured_image_info = wp_get_attachment_image_src( get_post_thumbnail_id( $post_id ), 'thumbnail' );
+
 			return isset( $featured_image_info[0] ) ? $featured_image_info[0] : null;
 		}
 
@@ -123,8 +124,8 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 		}
 
 		// If %postname% is the last tag, just strip it and use that as a base.
-		if ( preg_match( '#%postname%/?$#', $this->permalink ) === 1 ) {
-			$base_url = preg_replace( '#%postname%/?$#', '', $this->permalink );
+		if ( preg_match( '#%postname%/?$#', $this->permalink[0] ) === 1 ) {
+			$base_url = preg_replace( '#%postname%/?$#', '', $this->permalink[0] );
 		}
 
 		return $base_url;

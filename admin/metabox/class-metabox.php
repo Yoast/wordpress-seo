@@ -263,7 +263,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		if ( is_object( $this->get_metabox_post() ) ) {
 			$permalink = get_sample_permalink( $this->get_metabox_post()->ID );
-			$permalink = $permalink[0];
 		}
 
 		$post_formatter = new WPSEO_Metabox_Formatter(
