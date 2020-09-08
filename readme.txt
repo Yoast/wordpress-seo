@@ -215,7 +215,7 @@ Enhancements:
 
 * Introduces an advanced Settings tab in the sidebar.
 * Introduces buttons in the sidebar to open the Facebook and Twitter Preview in a modal.
-* Changes the Google Preview modal styling to match the new modals.
+* Changes the Google Preview modal styling to match the other new modals.
 * Always shows the Google Preview editor fields and as a result removes the 'Edit snippet' button.
 * Changes the styling of the Yoast SEO sidebar to match the standard Gutenberg styling.
 * Adds a hover state styling to the items in the Metabox.
