@@ -10,11 +10,13 @@ We follow [Semantic Versioning](http://semver.org/).
 * Changes the `MultiSelect` implementation to use `react-select` instead of `select2`.
 * Introduces `icons.html` for examples on how to use the icons.
 * Adds chevron up and chevron down svg icons.
-* Adds styling to the RadioButtons to remove any "before" elements.
 
 ### Bugfixes
 * Fixes a bug where removing the last item from the `MultiSelect` generated an error.
 * Fixes a bug where the `select2` dropdown would be hidden when used in a modal.
+
+### Other
+* Adds styling to the RadioButtons to remove any "before" elements.
 
 ## 2.8.0 August 31st, 2020
 ### Enhancements
