@@ -220,32 +220,15 @@ class Schema_Generator implements Generator_Interface {
 	 * @return Abstract_Schema_Piece[] A filtered array of graph pieces.
 	 */
 	protected function get_graph_pieces( $context ) {
-		if ( \post_password_required() ){
+		if ( \post_password_required() ) {
 			$schema_pieces = [
 				new Schema\Organization(),
 				new Schema\Website(),
 				new Schema\WebPage(),
-				];
+			];
 
 			// The WebPage graph piece should only have selected properties, and @type should always be set to WebPage.
-			\add_filter( 'wpseo_schema_webpage', function( $graph_piece ) {
-				$webpage_public_properties = \array_flip( [
-					'@type',
-					'@id',
-					'url',
-					'name',
-					'isPartOf',
-					'inLanguage',
-					'datePublished',
-					'dateModified',
-					'breadcrumb'
-				] );
-
-				$graph_piece          = \array_intersect_key( $graph_piece, $webpage_public_properties );
-				$graph_piece['@type'] = 'WebPage';
-
-				return $graph_piece;
-			});
+			\add_filter( 'wpseo_schema_webpage', [ $this, 'protected_webpage_schema' ] );
 		} else {
 			$schema_pieces = [
 				new Schema\Organization(),
@@ -269,5 +252,34 @@ class Schema_Generator implements Generator_Interface {
 		 * @api array $pieces The schema pieces.
 		 */
 		return \apply_filters( 'wpseo_schema_graph_pieces', $schema_pieces, $context );
+	}
+
+	/**
+	 * Adapts the WebPage graph piece for password-protected posts.
+	 *
+	 * It should only have certain whitelisted properties.
+	 * The type should always be WebPage.
+	 *
+	 * @param array $graph_piece The WebPage graph piece that should be adapted for password-protected posts.
+	 *
+	 * @return array The WebPage graph piece that has been adapted for password-protected posts.
+	 */
+	public function protected_webpage_schema( $graph_piece ) {
+		$properties_to_show = \array_flip( [
+			'@type',
+			'@id',
+			'url',
+			'name',
+			'isPartOf',
+			'inLanguage',
+			'datePublished',
+			'dateModified',
+			'breadcrumb'
+		] );
+
+		$graph_piece          = \array_intersect_key( $graph_piece, $properties_to_show );
+		$graph_piece['@type'] = 'WebPage';
+
+		return $graph_piece;
 	}
 }
