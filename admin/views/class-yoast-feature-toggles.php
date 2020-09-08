@@ -108,6 +108,7 @@ class Yoast_Feature_Toggles {
 				'read_more_label' => __( 'Read why XML Sitemaps are important for your site.', 'wordpress-seo' ),
 				'read_more_url'   => 'https://yoa.st/2a-',
 				'extra'           => $xml_sitemap_extra,
+				'warning_if_off'  => __( 'Disabling Yoast SEO’s XML sitemaps will not disable WordPress’ core sitemaps. In some cases, this <a href="#">may result in SEO errors on your site</a>. These may be reported in Google Search Console and other tools.', 'wordpress-seo' ),
 				'order'           => 60,
 			],
 			(object) [

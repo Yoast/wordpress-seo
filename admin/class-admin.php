@@ -149,6 +149,10 @@ class WPSEO_Admin {
 			$asset_manager = new WPSEO_Admin_Asset_Manager();
 			$asset_manager->enqueue_style( 'extensions' );
 		}
+		if ( filter_input( INPUT_GET, 'page' ) === 'wpseo_dashboard' ) {
+			$asset_manager = new WPSEO_Admin_Asset_Manager();
+			$asset_manager->enqueue_style( 'alert' );
+		}
 	}
 
 	/**

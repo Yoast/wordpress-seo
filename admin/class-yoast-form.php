@@ -661,8 +661,9 @@ class Yoast_Form {
 	 *                       value can be an array of visible label text and screen reader text.
 	 * @param string $label  The visual label for the radio buttons group, used as the fieldset legend.
 	 * @param string $help   Inline Help that will be printed out before the visible toggles text.
+	 * @param string $warning_if_off Inline warning to show when the toggle is switched to `off`.
 	 */
-	public function toggle_switch( $var, $values, $label, $help = '' ) {
+	public function toggle_switch( $var, $values, $label, $help = '', $warning_if_off = '' ) {
 		if ( ! is_array( $values ) || $values === [] ) {
 			return;
 		}
@@ -684,6 +685,8 @@ class Yoast_Form {
 		echo $this->get_disabled_note( $var );
 		echo '<div class="switch-toggle switch-candy switch-yoast-seo">';
 
+		$name = esc_attr( $this->option_name ) . '[' . $var_esc . ']';
+
 		foreach ( $values as $key => $value ) {
 			$screen_reader_text_html = '';
 
@@ -695,11 +698,17 @@ class Yoast_Form {
 
 			$key_esc = esc_attr( $key );
 			$for     = $var_esc . '-' . $key_esc;
-			echo '<input type="radio" id="' . $for . '" name="' . esc_attr( $this->option_name ) . '[' . $var_esc . ']" value="' . $key_esc . '" ' . checked( $val, $key_esc, false ) . disabled( $this->is_control_disabled( $var ), true, false ) . ' />',
+			echo '<input type="radio" id="' . $for . '" name="' . $name . '" value="' . $key_esc . '" ' . checked( $val, $key_esc, false ) . disabled( $this->is_control_disabled( $var ), true, false ) . ' />',
 			'<label for="', $for, '">', esc_html( $value ), $screen_reader_text_html, '</label>';
 		}
 
-		echo '<a></a></div></fieldset><div class="clear"></div></div>' . PHP_EOL . PHP_EOL;
+		echo '<a></a></div></fieldset>';
+
+		if ( $warning_if_off ) {
+			echo $this->get_warning_if_off( $name, $warning_if_off );
+		}
+
+		echo '<div class="clear"></div></div>' . PHP_EOL . PHP_EOL;
 	}
 
 	/**
@@ -791,5 +800,25 @@ class Yoast_Form {
 		}
 
 		return '<p class="disabled-note">' . esc_html__( 'This feature has been disabled by the network admin.', 'wordpress-seo' ) . '</p>';
+	}
+
+	/**
+	 * Creates a warning alert element to show when a toggle is set to 'off'.
+	 *
+	 * @param string $name         The name of the toggle element.
+	 * @param string $warning_text The warning text.
+	 *
+	 * @return string The warning to show as an HTML string.
+	 */
+	protected function get_warning_if_off( $name, $warning_text ) {
+		$out  = '<div class="yoast-toggle-warning yoast-alert yoast-alert--warning" id="' . $name . '-warning" style="display:none">';
+		$out .= '<span>';
+		$out .= '<img class="yoast-alert__icon" src="' . \esc_url( \plugin_dir_url( \WPSEO_FILE ) . 'images/alert-warning-icon.svg' ) . '" alt="" />';
+		$out .= '</span>';
+
+		$out .= '<span>' . $warning_text . '</span>';
+		$out .= '</div>';
+
+		return $out;
 	}
 }

@@ -119,6 +119,10 @@ class WPSEO_Admin_Pages {
 			];
 		}
 
+		if ( $page === 'wpseo_dashboard' ) {
+			$script_data['isDashboard'] = true;
+		}
+
 		if ( $page === 'wpseo_tools' ) {
 			$this->enqueue_tools_scripts();
 		}

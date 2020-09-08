@@ -53,6 +53,13 @@ class Yoast_Feature_Toggle {
 	protected $extra = '';
 
 	/**
+	 * Optional warning to show when the toggle is set to 'off'.
+	 *
+	 * @var string
+	 */
+	protected $warning_if_off = '';
+
+	/**
 	 * Value to specify the feature toggle order.
 	 *
 	 * @var string
