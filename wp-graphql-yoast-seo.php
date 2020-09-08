@@ -8,7 +8,7 @@
  * Author URI:      https://www.ashleyhitchcock.com
  * Text Domain:     wp-graphql-yoast-seo
  * Domain Path:     /languages
- * Version:         4.5.5
+ * Version:         4.6.0
  *
  * @package         WP_Graphql_YOAST_SEO
  */
@@ -100,31 +100,47 @@ add_action('graphql_init', function () {
       ],
     ]);
 
-    register_graphql_object_type('SEO', [
+    register_graphql_object_type('SEOPostTypeSchema', [
+      'description' => __('The Schema types', 'wp-graphql-yoast-seo'),
       'fields' => [
-        'title' => ['type' => 'String'],
-        'metaDesc' => ['type' => 'String'],
-        'focuskw' => ['type' => 'String'],
-        'metaKeywords' => ['type' => 'String'],
-        'metaRobotsNoindex' => ['type' => 'String'],
-        'metaRobotsNofollow' => ['type' => 'String'],
-        'opengraphTitle' => ['type' => 'String'],
-        'opengraphUrl' => ['type' => 'String'],
-        'opengraphSiteName' => ['type' => 'String'],
-        'opengraphType' => ['type' => 'String'],
-        'opengraphAuthor' => ['type' => 'String'],
-        'opengraphPublisher' => ['type' => 'String'],
-        'opengraphPublishedTime' => ['type' => 'String'],
-        'opengraphModifiedTime' => ['type' => 'String'],
-        'opengraphDescription' => ['type' => 'String'],
-        'opengraphImage' => ['type' => 'MediaItem'],
-        'twitterTitle' => ['type' => 'String'],
-        'twitterDescription' => ['type' => 'String'],
-        'twitterImage' => ['type' => 'MediaItem'],
-        'canonical' => ['type' => 'String'],
-        'breadcrumbs' => ['type' => ['list_of' => 'SEOPostTypeBreadcrumbs']],
+        'pageType' =>  ['type' => ['list_of' => 'String']],
+        'articleType' =>  ['type' => ['list_of' => 'String']],
       ]
     ]);
+
+    $baseSEOFields = array(
+      'title' => ['type' => 'String'],
+      'metaDesc' => ['type' => 'String'],
+      'focuskw' => ['type' => 'String'],
+      'metaKeywords' => ['type' => 'String'],
+      'metaRobotsNoindex' => ['type' => 'String'],
+      'metaRobotsNofollow' => ['type' => 'String'],
+      'opengraphTitle' => ['type' => 'String'],
+      'opengraphUrl' => ['type' => 'String'],
+      'opengraphSiteName' => ['type' => 'String'],
+      'opengraphType' => ['type' => 'String'],
+      'opengraphAuthor' => ['type' => 'String'],
+      'opengraphPublisher' => ['type' => 'String'],
+      'opengraphPublishedTime' => ['type' => 'String'],
+      'opengraphModifiedTime' => ['type' => 'String'],
+      'opengraphDescription' => ['type' => 'String'],
+      'opengraphImage' => ['type' => 'MediaItem'],
+      'twitterTitle' => ['type' => 'String'],
+      'twitterDescription' => ['type' => 'String'],
+      'twitterImage' => ['type' => 'MediaItem'],
+      'canonical' => ['type' => 'String'],
+      'breadcrumbs' => ['type' => ['list_of' => 'SEOPostTypeBreadcrumbs']],
+      'cornerstone' => ['type' => 'Boolean'],
+    );
+
+    register_graphql_object_type('TaxonomySEO', [
+      'fields' => $baseSEOFields
+    ]);
+
+    register_graphql_object_type('PostTypeSEO', [
+      'fields' => array_merge($baseSEOFields, array('schema' => ['type' => 'SEOPostTypeSchema'])),
+    ]);
+
 
     register_graphql_object_type('SEOPostTypeBreadcrumbs', [
       'fields' => [
@@ -134,10 +150,12 @@ add_action('graphql_init', function () {
       ]
     ]);
 
+
     register_graphql_object_type('SEOSchema', [
       'description' => __('The Yoast SEO schema data', 'wp-graphql-yoast-seo'),
       'fields' => [
         'companyName' => ['type' => 'String'],
+        'personName' => ['type' => 'String'],
         'companyOrPerson' => ['type' => 'String'],
         'companyLogo' => ['type' => 'MediaItem'],
         'personLogo' => ['type' => 'MediaItem'],
@@ -313,6 +331,8 @@ add_action('graphql_init', function () {
         $redirectsObj = class_exists('WPSEO_Redirect_Option') ? new WPSEO_Redirect_Option() : false;
         $redirects = $redirectsObj ? $redirectsObj->get_from_option() : [];
 
+        $userID = $all['company_or_person_user_id'];
+        $user = get_userdata($userID);
 
         $mappedRedirects = function ($value) {
 
@@ -364,6 +384,7 @@ add_action('graphql_init', function () {
           ),
           'schema' => array(
             'companyName' => wp_gql_seo_format_string($all['company_name']),
+            'personName' => wp_gql_seo_format_string($user->user_nicename),
             'companyLogo' => DataSource::resolve_post_object($all['company_logo_id'], $context),
             'personLogo' => DataSource::resolve_post_object($all['person_logo_id'], $context),
             'logo' => DataSource::resolve_post_object($all['company_or_person'] === 'company' ? $all['company_logo_id'] : $all['person_logo_id'], $context),
@@ -392,7 +413,7 @@ add_action('graphql_init', function () {
 
         if (isset($post_type_object->graphql_single_name)) :
           register_graphql_field($post_type_object->graphql_single_name, 'seo', [
-            'type' => 'SEO',
+            'type' => 'PostTypeSEO',
             'description' => __('The Yoast SEO data of the ' . $post_type_object->graphql_single_name, 'wp-graphql-yoast-seo'),
             'resolve' => function ($post, array $args, AppContext $context) {
 
@@ -401,6 +422,7 @@ add_action('graphql_init', function () {
 
               // https://developer.yoast.com/blog/yoast-seo-14-0-using-yoast-seo-surfaces/
               $robots = YoastSEO()->meta->for_post($post->ID)->robots;
+
               // Get data
               $seo = array(
                 'title' => wp_gql_seo_format_string(YoastSEO()->meta->for_post($post->ID)->title),
@@ -424,8 +446,14 @@ add_action('graphql_init', function () {
                 'twitterDescription' => wp_gql_seo_format_string(YoastSEO()->meta->for_post($post->ID)->twitter_description),
                 'twitterImage' => DataSource::resolve_post_object(attachment_url_to_postid(YoastSEO()->meta->for_post($post->ID)->twitter_image), $context),
                 'canonical' => wp_gql_seo_format_string(YoastSEO()->meta->for_post($post->ID)->canonical),
-                'breadcrumbs' => YoastSEO()->meta->for_post($post->ID)->breadcrumbs
+                'breadcrumbs' => YoastSEO()->meta->for_post($post->ID)->breadcrumbs,
+                'cornerstone' => boolval(YoastSEO()->meta->for_post($post->ID)->indexable->is_cornerstone),
+                'schema' => array(
+                  'pageType' => is_array(YoastSEO()->meta->for_post($post->ID)->schema_page_type) ? YoastSEO()->meta->for_post($post->ID)->schema_page_type : [],
+                  'articleType' => is_array(YoastSEO()->meta->for_post($post->ID)->schema_article_type) ? YoastSEO()->meta->for_post($post->ID)->schema_article_type : [],
+                ),
               );
+
 
               return !empty($seo) ? $seo : null;
             }
@@ -475,7 +503,7 @@ add_action('graphql_init', function () {
 
 
         register_graphql_field($taxonomy->graphql_single_name, 'seo', [
-          'type' => 'SEO',
+          'type' => 'TaxonomySEO',
           'description' => __('The Yoast SEO data of the ' . $taxonomy->label . ' taxonomy.', 'wp-graphql-yoast-seo'),
           'resolve' => function ($term, array $args, AppContext $context) {
 
@@ -507,7 +535,8 @@ add_action('graphql_init', function () {
               'twitterDescription' => wp_gql_seo_format_string(YoastSEO()->meta->for_term($term->term_id)->twitter_description),
               'twitterImage' => DataSource::resolve_post_object($meta['wpseo_twitter-image-id'], $context),
               'canonical' => wp_gql_seo_format_string($meta['canonical']),
-              'breadcrumbs' => YoastSEO()->meta->for_term($term->term_id)->breadcrumbs
+              'breadcrumbs' => YoastSEO()->meta->for_term($term->term_id)->breadcrumbs,
+              'cornerstone' => boolval(YoastSEO()->meta->for_term($term->term_id)->is_cornerstone),
             );
             wp_reset_query();
 

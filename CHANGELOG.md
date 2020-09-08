@@ -5,6 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.6.0] - 2020-09-08
+
+### Added
+
+- New Schema fields:
+  - pageType
+  - articleType
+- Added cornerstone flag
+
+### Changed
+
+- Changed Type used on Post Types and Taxonomies from `SEO` to `PostTypeSEO` and `TaxonomySEO`
+
 ## [4.5.5] - 2020-08-20
 
 ### Changed

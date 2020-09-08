@@ -95,24 +95,31 @@ To query for the Yoast Data simply add the seo object to your query:
             url
             text
           }
+          cornerstone
+          schema {
+            pageType
+            articleType
+          }
         }
 
         author {
-          seo {
-            metaDesc
-            metaRobotsNofollow
-            metaRobotsNoindex
-            title
-            social {
-              youTube
-              wikipedia
-              twitter
-              soundCloud
-              pinterest
-              mySpace
-              linkedIn
-              instagram
-              facebook
+          node {
+            seo {
+              metaDesc
+              metaRobotsNofollow
+              metaRobotsNoindex
+              title
+              social {
+                youTube
+                wikipedia
+                twitter
+                soundCloud
+                pinterest
+                mySpace
+                linkedIn
+                instagram
+                facebook
+              }
             }
           }
         }
