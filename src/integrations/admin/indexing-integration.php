@@ -8,15 +8,11 @@ use Yoast\WP\SEO\Actions\Indexation\Indexable_General_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexation\Indexable_Post_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexation\Indexable_Post_Type_Archive_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexation\Indexable_Term_Indexation_Action;
-use Yoast\WP\SEO\Actions\Indexation\Post_Link_Indexing_Action;
-use Yoast\WP\SEO\Actions\Indexation\Term_Link_Indexing_Action;
-use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
-use Yoast\WP\SEO\Conditionals\Yoast_Admin_And_Dashboard_Conditional;
+use Yoast\WP\SEO\Conditionals\Yoast_Tools_Page_Conditional;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Presenters\Admin\Indexing_List_Item_Presenter;
 use Yoast\WP\SEO\Routes\Indexable_Indexation_Route;
-use Yoast\WP\SEO\Routes\Link_Indexing_Route;
 
 class Indexing_Integration implements Integration_Interface {
 
@@ -76,8 +72,7 @@ class Indexing_Integration implements Integration_Interface {
 	 */
 	public static function get_conditionals() {
 		return [
-			Admin_Conditional::class,
-			Yoast_Admin_And_Dashboard_Conditional::class,
+			Yoast_Tools_Page_Conditional::class,
 			Migrations_Conditional::class,
 		];
 	}
