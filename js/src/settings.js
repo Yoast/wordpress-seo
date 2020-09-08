@@ -11,6 +11,7 @@ if ( wpseoScriptData && typeof wpseoScriptData.searchAppearance !== "undefined" 
 	initSearchAppearance();
 }
 if ( wpseoScriptData && wpseoScriptData.isDashboard ) {
+	// Show a warning below the XML sitemap toggle when it is set to 'off'.
 	jQuery( document ).ready( function() {
 		jQuery( ".switch-container input[type=radio]" ).change( function() {
 			/*

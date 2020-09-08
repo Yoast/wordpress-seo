@@ -655,12 +655,12 @@ class Yoast_Form {
 	 *
 	 * @since 3.1
 	 *
-	 * @param string $var    The variable within the option to create the radio buttons for.
-	 * @param array  $values Associative array of on/off keys and their values to be used as
-	 *                       the label elements text for the radio buttons. Optionally, each
-	 *                       value can be an array of visible label text and screen reader text.
-	 * @param string $label  The visual label for the radio buttons group, used as the fieldset legend.
-	 * @param string $help   Inline Help that will be printed out before the visible toggles text.
+	 * @param string $var            The variable within the option to create the radio buttons for.
+	 * @param array  $values         Associative array of on/off keys and their values to be used as
+	 *                               the label elements text for the radio buttons. Optionally, each
+	 *                               value can be an array of visible label text and screen reader text.
+	 * @param string $label          The visual label for the radio buttons group, used as the fieldset legend.
+	 * @param string $help           Inline Help that will be printed out before the visible toggles text.
 	 * @param string $warning_if_off Inline warning to show when the toggle is switched to `off`.
 	 */
 	public function toggle_switch( $var, $values, $label, $help = '', $warning_if_off = '' ) {
