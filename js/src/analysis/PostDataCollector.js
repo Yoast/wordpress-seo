@@ -135,21 +135,28 @@ PostDataCollector.prototype.getTitle = function() {
  * @returns {string} The url.
  */
 PostDataCollector.prototype.getUrl = function() {
+	let url = "";
+
 	const editorSelectors = select( "core/editor" );
 	if ( editorSelectors ) {
-		return editorSelectors.getCurrentPostAttribute( "slug" );
+		url = editorSelectors.getCurrentPostAttribute( "slug" );
+		if ( url && url !== "" ) {
+			return url;
+		}
 	}
 
-	var url = "";
-
-	var newPostSlug = $( "#new-post-slug" );
-	if ( 0 < newPostSlug.length ) {
+	const newPostSlug = $( "#new-post-slug" );
+	if ( newPostSlug.length > 0 ) {
 		url = newPostSlug.val();
 	} else if ( document.getElementById( "editable-post-name-full" ) !== null ) {
 		url = document.getElementById( "editable-post-name-full" ).textContent;
 	}
 
-	return url;
+	if ( url && url !== "" ) {
+		return url;
+	}
+
+	return wpseoScriptData.metabox.slug;
 };
 
 /**
