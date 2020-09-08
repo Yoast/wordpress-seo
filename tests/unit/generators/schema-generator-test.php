@@ -212,13 +212,20 @@ class Schema_Generator_Test extends TestCase {
 						'inLanguage'      => 'English',
 					],
 					[
-						'@id' => '#website',
-					],
-					[
-						[
-							'@type'  => 'ReadAction',
-							'target' => [
-								null,
+						'@type'           => null,
+						'@id'             => '#webpage',
+						'url'             => null,
+						'name'            => '',
+						'isPartOf'        => [
+							'@id' => '#website',
+						],
+						'inLanguage'      => 'English',
+						'potentialAction' => [
+							[
+								'@type'  => 'ReadAction',
+								'target' => [
+									null,
+								],
 							],
 						],
 					],
