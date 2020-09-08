@@ -707,6 +707,7 @@ class Yoast_Form {
 		echo '<a></a></div></fieldset>';
 
 		if ( $warning_if_off ) {
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output is already escaped.
 			echo $this->get_warning_if_off( $name, $warning_if_off );
 		}
 
@@ -815,8 +816,8 @@ class Yoast_Form {
 	protected function get_warning_if_off( $name, $warning_text ) {
 		$out   = '<div class="yoast-toggle-warning" id="' . $name . '-warning" style="display:none">';
 		$alert = new Alert_Presenter( $warning_text, 'warning' );
-		$out   .= $alert->present();
-		$out   .= '</div>';
+		$out  .= $alert->present();
+		$out  .= '</div>';
 
 		return $out;
 	}
