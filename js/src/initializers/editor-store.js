@@ -27,6 +27,7 @@ export default function initEditorStore() {
 		},
 		snippetEditor: {
 			baseUrl: window.wpseoScriptData.metabox.base_url,
+			slug: window.wpseoScriptData.metabox.slug,
 			date: window.wpseoScriptData.metabox.metaDescriptionDate,
 			recommendedReplacementVariables: window.wpseoScriptData.analysis.plugins.replaceVars.recommended_replace_vars,
 			siteIconUrl: window.wpseoScriptData.metabox.siteIconUrl,
