@@ -172,6 +172,11 @@ class Schema_Generator_Test extends TestCase {
 	public function test_generate_with_no_blocks() {
 		$this->context->indexable->object_sub_type = 'super-custom-post-type';
 
+		Monkey\Functions\expect( 'post_password_required' )
+			->once()
+			->withNoArgs()
+			->andReturnFalse();
+
 		$this->current_page
 			->expects( 'is_home_static_page' )
 			->twice()
@@ -227,6 +232,11 @@ class Schema_Generator_Test extends TestCase {
 	 * @covers ::get_graph_pieces
 	 */
 	public function test_generate_with_blocks() {
+		Monkey\Functions\expect( 'post_password_required' )
+			->once()
+			->withNoArgs()
+			->andReturnFalse();
+
 		$this->current_page
 			->expects( 'is_home_static_page' )
 			->twice()
@@ -285,6 +295,11 @@ class Schema_Generator_Test extends TestCase {
 	 * @covers ::get_graph_pieces
 	 */
 	public function test_generate_with_block_not_having_generated_output() {
+		Monkey\Functions\expect( 'post_password_required' )
+			->once()
+			->withNoArgs()
+			->andReturnFalse();
+
 		$this->current_page
 			->expects( 'is_home_static_page' )
 			->twice()
@@ -315,6 +330,11 @@ class Schema_Generator_Test extends TestCase {
 	 */
 	public function test_validate_type_singular_array() {
 		$this->context->blocks = [];
+
+		Monkey\Functions\expect( 'post_password_required' )
+			->once()
+			->withNoArgs()
+			->andReturnFalse();
 
 		$this->current_page
 			->expects( 'is_home_static_page' )
@@ -376,6 +396,11 @@ class Schema_Generator_Test extends TestCase {
 	public function test_validate_type_unique_array() {
 		$this->context->blocks = [];
 
+		Monkey\Functions\expect( 'post_password_required' )
+			->once()
+			->withNoArgs()
+			->andReturnFalse();
+
 		$this->current_page
 			->expects( 'is_home_static_page' )
 			->twice()
@@ -423,6 +448,96 @@ class Schema_Generator_Test extends TestCase {
 			],
 			$this->instance->generate( $this->context )['@graph'][0]
 		);
+	}
+
+	/**
+	 * Tests getting the graph pieces for a password-protected post.
+	 *
+	 * @covers ::generate
+	 * @covers ::get_graph_pieces
+	 */
+	public function test_get_graph_pieces_when_password_required() {
+		Monkey\Functions\expect( 'post_password_required' )
+			->once()
+			->withNoArgs()
+			->andReturnTrue();
+
+		$this->current_page
+			->expects( 'is_home_static_page' )
+			->once()
+			->andReturnFalse();
+
+		$this->current_page
+			->expects( 'is_front_page' )
+			->andReturnFalse();
+
+		$filtered_webpage_schema = [
+			'@type'      => 'WebPage',
+			'@id'        => '#webpage',
+			'url'        => null,
+			'name'       => '',
+			'isPartOf'   => [
+				'@id' => '#website',
+			],
+			'inLanguage' => 'English',
+		];
+
+		Monkey\Filters\expectApplied( 'wpseo_schema_webpage' )
+			->once()
+			->andReturn( $filtered_webpage_schema );
+
+		$this->assertEquals(
+			[
+				'@context' => 'https://schema.org',
+				'@graph'   => [
+					[
+						'@type'           => 'WebSite',
+						'@id'             => '#website',
+						'url'             => null,
+						'name'            => '',
+						'description'     => 'description',
+						'potentialAction' => [
+							[
+								'@type'       => 'SearchAction',
+								'target'      => '?s={search_term_string}',
+								'query-input' => 'required name=search_term_string',
+							],
+						],
+						'inLanguage'      => 'English',
+					],
+					$filtered_webpage_schema,
+				],
+			],
+			$this->instance->generate( $this->context )
+		);
+	}
+
+	/**
+	 * Tests filtering the WebPage schema for password-protected posts.
+	 *
+	 * @covers ::protected_webpage_schema
+	 */
+	public function test_filtering_the_webpage_schema() {
+		$graph_piece = [
+			'@type'      => 'NULL',
+			'@id'        => 'http://basic.wordpress.test/faq-howto/#webpage',
+			'url'        => 'http://basic.wordpress.test/faq-howto/',
+			'name'       => 'FAQ + HowTo - Basic',
+			'author'     => [
+				'@id' => 'the_id',
+			],
+			'inLanguage' => 'en-US',
+		];
+
+		$expected = [
+			'@type'      => 'WebPage',
+			'@id'        => 'http://basic.wordpress.test/faq-howto/#webpage',
+			'url'        => 'http://basic.wordpress.test/faq-howto/',
+			'name'       => 'FAQ + HowTo - Basic',
+			'inLanguage' => 'en-US',
+		];
+
+		$this->assertEquals( $expected, $this->instance->protected_webpage_schema( $graph_piece ) );
 	}
 
 	/**
