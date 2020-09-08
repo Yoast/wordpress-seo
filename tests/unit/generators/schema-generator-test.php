@@ -8,10 +8,14 @@ use Yoast\WP\SEO\Generators\Schema\FAQ;
 use Yoast\WP\SEO\Generators\Schema\Organization;
 use Yoast\WP\SEO\Generators\Schema_Generator;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
+use Yoast\WP\SEO\Helpers\Image_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Schema\HTML_Helper;
 use Yoast\WP\SEO\Helpers\Schema\ID_Helper;
 use Yoast\WP\SEO\Helpers\Schema\Language_Helper;
+use Yoast\WP\SEO\Helpers\Site_Helper;
+use Yoast\WP\SEO\Helpers\Url_Helper;
+use Yoast\WP\SEO\Helpers\User_Helper;
 use Yoast\WP\SEO\Surfaces\Helpers_Surface;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Context\Meta_Tags_Context_Mock;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
@@ -106,12 +110,12 @@ class Schema_Generator_Test extends TestCase {
 			Meta_Tags_Context_Mock::class,
 			[
 				$helpers->options,
-				Mockery::mock( \Yoast\WP\SEO\Helpers\Url_Helper::class ),
-				Mockery::mock( \Yoast\WP\SEO\Helpers\Image_Helper::class ),
-				Mockery::mock( \Yoast\WP\SEO\Helpers\Schema\ID_Helper::class ),
+				Mockery::mock( Url_Helper::class ),
+				Mockery::mock( Image_Helper::class ),
+				Mockery::mock( ID_Helper::class ),
 				Mockery::mock( \WPSEO_Replace_Vars::class ),
-				Mockery::mock( \Yoast\WP\SEO\Helpers\Site_Helper::class ),
-				Mockery::mock( \Yoast\WP\SEO\Helpers\User_Helper::class ),
+				Mockery::mock( Site_Helper::class ),
+				Mockery::mock( User_Helper::class ),
 			]
 		)->shouldAllowMockingProtectedMethods();
 
