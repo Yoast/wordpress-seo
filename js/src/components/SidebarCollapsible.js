@@ -1,5 +1,6 @@
 import { useState } from "@wordpress/element";
 import { SvgIcon } from "@yoast/components";
+import PropTypes from "prop-types";
 
 /**
  * Sidebar Collapsible component with default padding and separator
@@ -13,29 +14,32 @@ const SidebarCollapsible = ( props ) => {
 
 	const {
 		prefixIcon,
-		prefixIconCollapsed,
 	} = props;
+
+	/**
+	 * Toggles the SidebarCollapsible open and closed state.
+	 *
+	 * @returns {void}
+	 */
+	function handleClick() {
+		toggleOpen( ! isOpen );
+	}
 
 	return <div className={ `yoast components-panel__body ${ isOpen ? "is-opened" : "" }` }>
 		<h2 className="components-panel__body-title">
 			<button
-				onClick={ () => toggleOpen( ! isOpen ) }
+				onClick={ handleClick }
 				className="components-button components-panel__body-toggle"
-				style={ { fill: `${ prefixIcon && prefixIcon.color || "" }` } }
 			>
-				<span className="yoast-icon-span">
+				<span
+					className="yoast-icon-span"
+					style={ { fill: `${ prefixIcon && prefixIcon.color || "" }` } }
+				>
 					{
-						isOpen && prefixIcon && <SvgIcon
+						prefixIcon && <SvgIcon
 							icon={ prefixIcon.icon }
 							color={ prefixIcon.color }
 							size={ prefixIcon.size }
-						/>
-					}
-					{
-						! isOpen && prefixIconCollapsed && <SvgIcon
-							icon={ prefixIconCollapsed.icon }
-							color={ prefixIconCollapsed.color }
-							size={ prefixIconCollapsed.size }
 						/>
 					}
 				</span>
@@ -43,23 +47,7 @@ const SidebarCollapsible = ( props ) => {
 					<div className="yoast-title">{ props.title }</div>
 					<div className="yoast-subtitle">{ props.subTitle }</div>
 				</span>
-				<span aria-hidden="true">
-					<svg
-						width="24"
-						height="24"
-						viewBox="0 0 24 24"
-						xmlns="http://www.w3.org/2000/svg"
-						className="components-panel__arrow"
-						role="img"
-						aria-hidden="true" focusable="false"
-					>
-						{
-							isOpen
-								? <path d="M12 8l-6 5.4 1 1.2 5-4.6 5 4.6 1-1.2z" />
-								: <path d="M17 9.4L12 14 7 9.4l-1 1.2 6 5.4 6-5.4z" />
-						}
-					</svg>
-				</span>
+				<span className="yoast-chevron" aria-hidden="true" />
 			</button>
 		</h2>
 		{ isOpen && props.children }
@@ -67,3 +55,18 @@ const SidebarCollapsible = ( props ) => {
 };
 
 export default SidebarCollapsible;
+
+SidebarCollapsible.propTypes = {
+	title: PropTypes.string.isRequired,
+	children: PropTypes.oneOfType( [
+		PropTypes.node,
+		PropTypes.arrayOf( PropTypes.node ),
+	] ).isRequired,
+	prefixIcon: PropTypes.object,
+	subTitle: PropTypes.string,
+};
+
+SidebarCollapsible.defaultProps = {
+	prefixIcon: null,
+	subTitle: "",
+};

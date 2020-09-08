@@ -1,4 +1,5 @@
 import { SvgIcon } from "@yoast/components";
+import PropTypes from "prop-types";
 
 /**
  * Sidebar Collapsible component with default padding and separator
@@ -30,3 +31,15 @@ const SidebarButton = ( props ) => {
 };
 
 export default SidebarButton;
+
+SidebarButton.propTypes = {
+	onClick: PropTypes.func.isRequired,
+	title: PropTypes.string.isRequired,
+	subTitle: PropTypes.string,
+	suffixIcon: PropTypes.object,
+};
+
+SidebarButton.defaultProps = {
+	suffixIcon: null,
+	subTitle: "",
+};

@@ -776,4 +776,16 @@ div.interface-pinned-items button.components-button.is-pressed[aria-label="Yoast
 	margin-top: 2px;
 }
 
+.yoast.components-panel__body .yoast-chevron {
+	background-color: #1e1e1e;
+	mask-image: var(--yoast-svg-icon-chevron-down);
+	mask-size: 100% 100%;
+	display: inline-block;
+	width: 24px;
+	height: 24px;
+}
+.yoast.components-panel__body.is-opened .yoast-chevron {
+	mask-image: var(--yoast-svg-icon-chevron-up);
+}
+
 /*# sourceMappingURL=metabox.css.map */
