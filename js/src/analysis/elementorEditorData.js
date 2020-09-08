@@ -1,3 +1,4 @@
+/* global elementor */
 import { select, subscribe } from "@wordpress/data";
 import { debounce } from "lodash-es";
 import { string } from "yoastseo";
@@ -7,8 +8,6 @@ import { setContentImage } from "../redux/actions/settings";
 
 import { updateData, updateReplacementVariable } from "../redux/actions/snippetEditor";
 
-const { $, elementor } = global;
-
 /**
  * Represents the data.
  */
@@ -17,21 +16,22 @@ export default class ElementorEditorData {
 	 * Sets the wp data, Yoast SEO refresh function and data object.
 	 *
 	 * @param {Function} refresh The YoastSEO refresh function.
-	 * @param {Object} store     The YoastSEO Redux store.
+	 * @param {Object} store The YoastSEO Redux store.
+	 *
 	 * @returns {void}
 	 */
 	constructor( refresh, store ) {
 		this._refresh = refresh;
 		this._store = store;
 		this._data = {};
-		this.getPostAttribute = this.getPostAttribute.bind( this );
 		this.refreshYoastSEO = this.refreshYoastSEO.bind( this );
 	}
 
 	/**
-	 * Initializes this Gutenberg data instance.
+	 * Initializes this data instance.
 	 *
 	 * @param {Object} replaceVars The replacevars.
+	 *
 	 * @returns {void}
 	 */
 	initialize( replaceVars ) {
@@ -112,50 +112,16 @@ export default class ElementorEditorData {
 	}
 
 	/**
-	 * Retrieves the Gutenberg data for the passed post attribute.
-	 *
-	 * @param {string} attribute The post attribute you'd like to retrieve.
-	 *
-	 * @returns {string|number} The post attribute.
-	 */
-	getPostAttribute( attribute ) {
-		if ( ! this._coreEditorSelect ) {
-			this._coreEditorSelect = select( "core/editor" );
-		}
-
-		return this._coreEditorSelect.getEditedPostAttribute( attribute );
-	}
-
-	/**
 	 * Get the post's slug.
 	 *
 	 * @returns {string} The post's slug.
 	 */
 	getSlug() {
-		/**
-		 * Before the post has been saved for the first time, the generated_slug is "auto-draft".
-		 *
-		 * Before the post is saved the post status is "auto-draft", so when this is the case the slug
-		 * should be empty.
-		 */
-		if ( this.getPostAttribute( "status" ) === "auto-draft" ) {
-			return "";
+		if ( ! this._yoastEditorSelect ) {
+			this._yoastEditorSelect = select( "yoast-seo/editor" );
 		}
 
-		let generatedSlug = this.getPostAttribute( "generated_slug" ) || "";
-
-		/**
-		 * This should be removed when the following issue is resolved:
-		 *
-		 * https://github.com/WordPress/gutenberg/issues/8770
-		 */
-		if ( generatedSlug === "auto-draft" ) {
-			generatedSlug = "";
-		}
-
-		// When no custom slug is provided we should use the generated_slug attribute.
-		const slug = this.getPostAttribute( "slug" ) || generatedSlug;
-		return decodeURIComponent( slug );
+		return this._yoastEditorSelect.getSlug();
 	}
 
 	/**
@@ -164,16 +130,27 @@ export default class ElementorEditorData {
 	 * @returns {{content: string, title: string, slug: string, excerpt: string}} The content, title, slug and excerpt.
 	 */
 	collectData() {
+		const content = this.getContent();
+
 		return {
-			content: this.getPostAttribute( "content" ),
-			title: this.getPostAttribute( "title" ) || "",
+			content,
+			title: this.getTitle(),
 			slug: this.getSlug(),
-			excerpt: this.getExcerpt(),
+			excerpt: this.getExcerpt( true, content ),
 			// eslint-disable-next-line camelcase
-			excerpt_only: this.getExcerpt( false ),
-			snippetPreviewImageURL: this.getFeaturedImage() || this.getContentImage(),
-			contentImage: this.getContentImage(),
+			excerpt_only: this.getExcerpt( false, content ),
+			snippetPreviewImageURL: this.getFeaturedImage() || this.getContentImage( content ),
+			contentImage: this.getContentImage( content ),
 		};
+	}
+
+	/**
+	 * Gets the post title.
+	 *
+	 * @returns {string} The post's title.
+	 */
+	getTitle() {
+		return elementor.settings.page.model.get( "post_title" );
 	}
 
 	/**
@@ -183,17 +160,13 @@ export default class ElementorEditorData {
 	 */
 	getContent() {
 		if ( ! this._contentArea ) {
-			this._contentArea = elementor.$preview
-				.contents()
-				.find( "[data-elementor-type=]" );
+			this._contentArea = elementor.$preview.contents().find( "[data-elementor-type]" );
 		}
 
 		const content = [];
-		this._contentArea
-			.find( ".elementor-widget-container" )
-			.each( function() {
-				content.push( jQuery( this ).html() );
-			} );
+		this._contentArea.find( ".elementor-widget-container" ).each( ( index, element ) => {
+			content.push( element.innerHTML.trim() );
+		} );
 
 		return content.join( "" );
 	}
@@ -204,13 +177,17 @@ export default class ElementorEditorData {
 	 * @returns {null|string} The source URL.
 	 */
 	getFeaturedImage() {
-		const featuredImage = this.getPostAttribute( "featured_media" );
-		if ( featuredImage ) {
-			const mediaObj = this.getMediaById( featuredImage );
+		const { id, url } = elementor.settings.page.model.get( "post_featured_image" );
+		if ( url !== "" ) {
+			return url;
+		}
+		if ( id === 0 ) {
+			return null;
+		}
 
-			if ( mediaObj ) {
-				return mediaObj.source_url;
-			}
+		const mediaObj = this.getMediaById( id );
+		if ( mediaObj ) {
+			return mediaObj.source_url;
 		}
 
 		return null;
@@ -221,9 +198,7 @@ export default class ElementorEditorData {
 	 *
 	 * @returns {string} The first image found in the content.
 	 */
-	getContentImage() {
-		const content = this._coreEditorSelect.getEditedPostContent();
-
+	getContentImage( content ) {
 		const images = string.imageInText( content );
 		let image = "";
 
@@ -232,15 +207,13 @@ export default class ElementorEditorData {
 		}
 
 		do {
-			var currentImage = images.shift();
-			currentImage = $( currentImage );
-
-			var imageSource = currentImage.prop( "src" );
+			const currentImage = jQuery( images.shift() );
+			const imageSource = currentImage.prop( "src" );
 
 			if ( imageSource ) {
 				image = imageSource;
 			}
-		} while ( "" === image && images.length > 0 );
+		} while ( image === "" && images.length > 0 );
 
 		return image;
 	}
@@ -281,16 +254,17 @@ export default class ElementorEditorData {
 	 * Gets the excerpt from the post.
 	 *
 	 * @param {boolean} useFallBack Whether the fallback for content should be used.
+	 * @param {string} content The post content.
 	 *
 	 * @returns {string} The excerpt.
 	 */
-	getExcerpt( useFallBack = true ) {
-		const excerpt = this.getPostAttribute( "excerpt" ) || "";
+	getExcerpt( useFallBack = true, content = "" ) {
+		const excerpt = elementor.settings.page.model.get( "post_excerpt" );
 		if ( excerpt !== "" || useFallBack === false ) {
 			return excerpt;
 		}
 
-		return excerptFromContent( this.getPostAttribute( "content" ) );
+		return excerptFromContent( content );
 	}
 
 	/**
@@ -299,10 +273,14 @@ export default class ElementorEditorData {
 	 * @returns {void}
 	 */
 	reapplyMarkers() {
+		if ( ! this._yoastEditorSelect ) {
+			this._yoastEditorSelect = select( "yoast-seo/editor" );
+		}
+
 		const {
 			getActiveMarker,
 			getMarkerPauseStatus,
-		} = select( "yoast-seo/editor" );
+		} = this._yoastEditorSelect;
 
 		const activeMarker = getActiveMarker();
 		const isMarkerPaused = getMarkerPauseStatus();
@@ -338,9 +316,12 @@ export default class ElementorEditorData {
 	 * @returns {boolean} Whether new analysis results are available.
 	 */
 	areNewAnalysisResultsAvailable() {
-		const yoastSeoEditorSelectors = select( "yoast-seo/editor" );
-		const readabilityResults = yoastSeoEditorSelectors.getReadabilityResults();
-		const seoResults         = yoastSeoEditorSelectors.getResultsForFocusKeyword();
+		if ( ! this._yoastEditorSelect ) {
+			this._yoastEditorSelect = select( "yoast-seo/editor" );
+		}
+
+		const readabilityResults = this._yoastEditorSelect.getReadabilityResults();
+		const seoResults         = this._yoastEditorSelect.getResultsForFocusKeyword();
 
 		if (
 			this._previousReadabilityResults !== readabilityResults ||
