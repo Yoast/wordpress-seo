@@ -9,6 +9,8 @@ We follow [Semantic Versioning](http://semver.org/).
 * Changes `TextInput`, `TextArea`, `LabeledRadioButton`, `Select`, and `MultiSelect` to controlled components, their value should be passed from a higher order component.
 * Changes the `MultiSelect` implementation to use `react-select` instead of `select2`.
 * Introduces `icons.html` for examples on how to use the icons.
+* Adds chevron up and chevron down svg icons.
+* Adds styling to the RadioButtons to remove any "before" elements.
 
 ### Bugfixes
 * Fixes a bug where removing the last item from the `MultiSelect` generated an error.
