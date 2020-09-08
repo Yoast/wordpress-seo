@@ -52,8 +52,8 @@ const FacebookTextWrapper = styled.div`
 	border: ${ props => props.mode === "landscape" ? "1px solid #dddfe2" : "" };
 	display: flex;
 	flex-direction: column;
+	flex-grow: 1;
 	justify-content: ${ props => props.mode === "landscape" ? "flex-start" : "center" };
-	max-width: ${ props => determineTextContainerWidth( props.mode ) };
 	font-size: 12px;
 	overflow: hidden;
 `;

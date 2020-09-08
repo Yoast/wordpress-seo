@@ -119,11 +119,14 @@ exports[`FacebookPreview matches the snapshot for a faulty image 1`] = `
   -webkit-flex-direction: column;
   -ms-flex-direction: column;
   flex-direction: column;
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
   -webkit-box-pack: center;
   -webkit-justify-content: center;
   -ms-flex-pack: center;
   justify-content: center;
-  max-width: 476px;
   font-size: 12px;
   overflow: hidden;
 }
@@ -306,11 +309,14 @@ exports[`FacebookPreview matches the snapshot for a landscape image 1`] = `
   -webkit-flex-direction: column;
   -ms-flex-direction: column;
   flex-direction: column;
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
   -webkit-box-pack: center;
   -webkit-justify-content: center;
   -ms-flex-pack: center;
   justify-content: center;
-  max-width: 476px;
   font-size: 12px;
   overflow: hidden;
 }
@@ -493,11 +499,14 @@ exports[`FacebookPreview matches the snapshot for a portrait image 1`] = `
   -webkit-flex-direction: column;
   -ms-flex-direction: column;
   flex-direction: column;
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
   -webkit-box-pack: center;
   -webkit-justify-content: center;
   -ms-flex-pack: center;
   justify-content: center;
-  max-width: 476px;
   font-size: 12px;
   overflow: hidden;
 }
@@ -680,11 +689,14 @@ exports[`FacebookPreview matches the snapshot for a square image 1`] = `
   -webkit-flex-direction: column;
   -ms-flex-direction: column;
   flex-direction: column;
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
   -webkit-box-pack: center;
   -webkit-justify-content: center;
   -ms-flex-pack: center;
   justify-content: center;
-  max-width: 476px;
   font-size: 12px;
   overflow: hidden;
 }
@@ -867,11 +879,14 @@ exports[`FacebookPreview matches the snapshot for a too small image 1`] = `
   -webkit-flex-direction: column;
   -ms-flex-direction: column;
   flex-direction: column;
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
   -webkit-box-pack: center;
   -webkit-justify-content: center;
   -ms-flex-pack: center;
   justify-content: center;
-  max-width: 476px;
   font-size: 12px;
   overflow: hidden;
 }
