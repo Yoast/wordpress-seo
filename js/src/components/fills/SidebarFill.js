@@ -101,7 +101,7 @@ export default function SidebarFill( { settings, store, theme } ) {
 						<SidebarCollapsible
 							title={ __( "Advanced", "wordpress-seo" ) }
 						>
-							<AdvancedSettings />
+							<AdvancedSettings location="sidebar" />
 						</SidebarCollapsible>
 					</TopLevelProviders>
 				</SidebarItem> }
