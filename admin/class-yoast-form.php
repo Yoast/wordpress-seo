@@ -5,6 +5,8 @@
  * @package WPSEO\Admin
  */
 
+use Yoast\WP\SEO\Presenters\Admin\Alert_Presenter;
+
 /**
  * Admin form class.
  *
@@ -811,13 +813,10 @@ class Yoast_Form {
 	 * @return string The warning to show as an HTML string.
 	 */
 	protected function get_warning_if_off( $name, $warning_text ) {
-		$out  = '<div class="yoast-toggle-warning yoast-alert yoast-alert--warning" id="' . $name . '-warning" style="display:none">';
-		$out .= '<span>';
-		$out .= '<img class="yoast-alert__icon" src="' . \esc_url( \plugin_dir_url( \WPSEO_FILE ) . 'images/alert-warning-icon.svg' ) . '" alt="" />';
-		$out .= '</span>';
-
-		$out .= '<span>' . $warning_text . '</span>';
-		$out .= '</div>';
+		$out   = '<div class="yoast-toggle-warning" id="' . $name . '-warning" style="display:none">';
+		$alert = new Alert_Presenter( $warning_text, 'warning' );
+		$out   .= $alert->present();
+		$out   .= '</div>';
 
 		return $out;
 	}
