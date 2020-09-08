@@ -83,7 +83,7 @@ class Schema_Generator_Test extends TestCase {
 		parent::setUp();
 
 		$this->id           = Mockery::mock( ID_Helper::class );
-		$this->current_page = Mockery::mock( Current_Page_Helper::class )->makePartial();
+		$this->current_page = Mockery::mock( Current_Page_Helper::class );
 
 		$this->html = Mockery::mock( HTML_Helper::class )->makePartial();
 
