@@ -5,7 +5,7 @@ namespace Yoast\WP\SEO\Integrations\Watchers;
 use wpdb;
 use Yoast\WP\SEO\Builders\Indexable_Hierarchy_Builder;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
-use Yoast\WP\SEO\Helpers\Indexable_Helper;
+use Yoast\WP\SEO\Helpers\Permalink_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Repositories\Indexable_Hierarchy_Repository;
@@ -40,13 +40,6 @@ class Indexable_Ancestor_Watcher implements Integration_Interface {
 	protected $indexable_hierarchy_repository;
 
 	/**
-	 * Represents the indexable helper.
-	 *
-	 * @var Indexable_Helper
-	 */
-	protected $indexable_helper;
-
-	/**
 	 * Represents the WordPress database object.
 	 *
 	 * @var wpdb
@@ -54,26 +47,33 @@ class Indexable_Ancestor_Watcher implements Integration_Interface {
 	protected $wpdb;
 
 	/**
+	 * Represents the permalink helper.
+	 *
+	 * @var Permalink_Helper
+	 */
+	protected $permalink_helper;
+
+	/**
 	 * Sets the needed dependencies.
 	 *
 	 * @param Indexable_Repository           $indexable_repository           The indexable repository.
 	 * @param Indexable_Hierarchy_Builder    $indexable_hierarchy_builder    The indexable hierarchy builder.
 	 * @param Indexable_Hierarchy_Repository $indexable_hierarchy_repository The indexable hierarchy repository.
-	 * @param Indexable_Helper               $indexable_helper               The indexable helper.
 	 * @param wpdb                           $wpdb                           The wpdb object.
+	 * @param Permalink_Helper               $permalink_helper               The permalink helper.
 	 */
 	public function __construct(
 		Indexable_Repository $indexable_repository,
 		Indexable_Hierarchy_Builder $indexable_hierarchy_builder,
 		Indexable_Hierarchy_Repository $indexable_hierarchy_repository,
-		Indexable_Helper $indexable_helper,
-		wpdb $wpdb
+		wpdb $wpdb,
+		Permalink_Helper $permalink_helper
 	) {
 		$this->indexable_repository           = $indexable_repository;
 		$this->indexable_hierarchy_builder    = $indexable_hierarchy_builder;
-		$this->indexable_helper               = $indexable_helper;
 		$this->wpdb                           = $wpdb;
 		$this->indexable_hierarchy_repository = $indexable_hierarchy_repository;
+		$this->permalink_helper               = $permalink_helper;
 	}
 
 	/**
@@ -171,7 +171,7 @@ class Indexable_Ancestor_Watcher implements Integration_Interface {
 	protected function update_hierarchy_and_permalink( $indexable ) {
 		$this->indexable_hierarchy_builder->build( $indexable );
 
-		$indexable->permalink = $this->indexable_helper->get_permalink_for_indexable( $indexable );
+		$indexable->permalink = $this->permalink_helper->get_permalink_for_indexable( $indexable );
 		$indexable->save();
 	}
 

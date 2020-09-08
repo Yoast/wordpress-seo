@@ -8,6 +8,7 @@ use Yoast\WP\SEO\Actions\Indexation\Indexable_Post_Type_Archive_Indexation_Actio
 use Yoast\WP\SEO\Actions\Indexation\Indexable_Term_Indexation_Action;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Presenters\Admin\Indexation_Permalink_Warning_Presenter;
+use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\WordPress\Wrapper;
 
 /**
@@ -29,40 +30,6 @@ class Indexable_Helper {
 	 */
 	public function __construct( Options_Helper $options_helper ) {
 		$this->options_helper = $options_helper;
-	}
-
-	/**
-	 * Retrieves the permalink for an indexable.
-	 *
-	 * @param Indexable $indexable The indexable.
-	 *
-	 * @return string|null The permalink.
-	 */
-	public function get_permalink_for_indexable( $indexable ) {
-		switch ( true ) {
-			case $indexable->object_type === 'post':
-			case $indexable->object_type === 'home-page':
-				if ( $indexable->object_sub_type === 'attachment' ) {
-					return \wp_get_attachment_url( $indexable->object_id );
-				}
-				return \get_permalink( $indexable->object_id );
-			case $indexable->object_type === 'term':
-				$term = \get_term( $indexable->object_id );
-
-				if ( $term === null || \is_wp_error( $term ) ) {
-					return null;
-				}
-
-				return \get_term_link( $term, $term->taxonomy );
-			case $indexable->object_type === 'system-page' && $indexable->object_sub_type === 'search-page':
-				return \get_search_link();
-			case $indexable->object_type === 'post-type-archive':
-				return \get_post_type_archive_link( $indexable->object_sub_type );
-			case $indexable->object_type === 'user':
-				return \get_author_posts_url( $indexable->object_id );
-		}
-
-		return null;
 	}
 
 	/**
@@ -122,6 +89,10 @@ class Indexable_Helper {
 	 * @param string      $reason  The reason that the permalink has been changed.
 	 */
 	public function reset_permalink_indexables( $type, $subtype = null, $reason = Indexation_Permalink_Warning_Presenter::REASON_PERMALINK_SETTINGS ) {
+		$result =
+
+
+
 		$where = [ 'object_type' => $type ];
 
 		if ( $subtype ) {
