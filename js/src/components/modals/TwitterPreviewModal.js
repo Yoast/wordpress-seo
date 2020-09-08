@@ -1,8 +1,8 @@
 /* External dependencies */
 import { __ } from "@wordpress/i18n";
-import SettingsModal from "./SettingsModal";
 
 /* Internal dependencies */
+import SettingsModal from "../../containers/SettingsModal";
 import TwitterEditor from "../../containers/TwitterEditor";
 
 /**
@@ -14,7 +14,6 @@ const TwitterPreviewModal = () => {
 	return (
 		<SettingsModal
 			title={ __( "Twitter preview", "wordpress-seo" ) }
-			postTypeName="post"
 		>
 			<TwitterEditor location="modal" />
 		</SettingsModal>

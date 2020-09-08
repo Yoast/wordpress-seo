@@ -69,7 +69,7 @@ const openMedia = () => {
 
 /* eslint-disable complexity */
 export default compose( [
-	withSelect( ( select, ownProps ) => {
+	withSelect( select => {
 		const {
 			getTwitterDescription,
 			getTwitterTitle,
@@ -104,7 +104,6 @@ export default compose( [
 			titleInputPlaceholder,
 			descriptionInputPlaceholder,
 			socialMediumName,
-			location: ownProps.location || "",
 		};
 	} ),
 

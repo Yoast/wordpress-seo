@@ -1,8 +1,8 @@
 /* External dependencies */
 import { __ } from "@wordpress/i18n";
-import SettingsModal from "./SettingsModal";
 
 /* Internal dependencies */
+import SettingsModal from "../../containers/SettingsModal";
 import SnippetEditorWrapper from "../../containers/SnippetEditor";
 
 /**
@@ -14,7 +14,6 @@ const GooglePreviewModal = () => {
 	return (
 		<SettingsModal
 			title={ __( "Google preview", "wordpress-seo" ) }
-			postTypeName="post"
 		>
 			<SnippetEditorWrapper showCloseButton={ false } hasPaperStyle={ false } />
 		</SettingsModal>

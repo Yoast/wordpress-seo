@@ -1,8 +1,8 @@
 /* External dependencies */
 import { __ } from "@wordpress/i18n";
-import SettingsModal from "./SettingsModal";
 
 /* Internal dependencies */
+import SettingsModal from "../../containers/SettingsModal";
 import FacebookEditor from "../../containers/FacebookEditor";
 
 /**
@@ -14,7 +14,6 @@ const FacebookPreviewModal = () => {
 	return (
 		<SettingsModal
 			title={ __( "Facebook preview", "wordpress-seo" ) }
-			postTypeName="post"
 		>
 			<FacebookEditor location="modal" />
 		</SettingsModal>
