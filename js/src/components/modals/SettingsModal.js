@@ -52,8 +52,10 @@ const SettingsModal = ( { postTypeName, children, title } ) => {
 					onRequestClose={ closeModal }
 					additionalClassName="yoast-collapsible-modal yoast-post-settings-modal"
 				>
-					<div className="yoast-modal-content">
-						{ children }
+					<div className="yoast-content-container">
+						<div className="yoast-modal-content">
+							{ children }
+						</div>
 					</div>
 					<div className="yoast-notice-container">
 						<hr />
