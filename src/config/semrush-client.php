@@ -55,7 +55,7 @@ class SEMrush_Client {
 	 *
 	 * @param Options_Helper $options_helper The Options_Helper instance.
 	 *
-	 * @throws Empty_Property_Eßxception Exception thrown if a token property is empty.
+	 * @throws Empty_Property_Exception Exception thrown if a token property is empty.
 	 */
 	public function __construct( Options_Helper $options_helper ) {
 		$this->provider = new GenericProvider(
