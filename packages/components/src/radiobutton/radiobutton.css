@@ -27,9 +27,14 @@
     overflow: hidden;
     cursor: pointer;
 }
+
 .yoast-field-group__radiobutton input[type='radio']:checked {
 	border-color: var(--yoast-color-primary);
 	background-color: inherit;
+}
+
+.yoast-field-group__radiobutton input[type='radio']:checked:before {
+	display: none;
 }
 
 .yoast-field-group__radiobutton input[type='radio']:checked:after {

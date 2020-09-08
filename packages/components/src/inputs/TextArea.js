@@ -24,7 +24,7 @@ const TextArea = ( props ) => {
 			<textarea
 				id={ id }
 				name={ props.name }
-				defaultValue={ props.value }
+				value={ props.value }
 				className="yoast-field-group__textarea"
 				aria-describedby={ props.ariaDescribedBy }
 				onChange={ props.onChange }

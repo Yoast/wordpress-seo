@@ -68,13 +68,23 @@ function getProminentWordsForInternalLinking( paper, researcher ) {
 	sortProminentWords( collapsedWords );
 
 	/*
+	 * If morphology data are available for a language, the minimum number of occurrences to consider a word to be prominent is 4.
+	 * This minimum number was chosen in order to avoid premature suggestions of words from the paper attributes.
+	 * These get a times-3 boost and would therefore be prominent with just 1 occurrence.
+	 *
+	 * If morphology data are not available, and therefore word forms are not recognized, the minimum threshold is lowered to 2.
+	 */
+	let minimumNumberOfOccurrences = 4;
+
+	if ( ! morphologyData ) {
+		minimumNumberOfOccurrences = 2;
+	}
+
+	/*
 	 * Return the 100 top items from the collapsed and sorted list. The number is picked deliberately to prevent larger
 	 * articles from getting too long of lists.
-	 *
-	 * Minimum required occurrences set to 4 in order to avoid premature suggestions of words from the paper attributes.
-	 * These get a times-3 boost and would therefore be prominent with just 1 occurrence.
 	 */
-	result.prominentWords = take( filterProminentWords( collapsedWords, 4 ), 100 );
+	result.prominentWords = take( filterProminentWords( collapsedWords, minimumNumberOfOccurrences ), 100 );
 
 	return result;
 }
