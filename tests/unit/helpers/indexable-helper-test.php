@@ -4,7 +4,12 @@ namespace Yoast\WP\SEO\Tests\Unit\Helpers;
 
 use Brain\Monkey;
 use Mockery;
+use Yoast\WP\SEO\Actions\Indexation\Indexable_Post_Indexation_Action;
+use Yoast\WP\SEO\Actions\Indexation\Indexable_Post_Type_Archive_Indexation_Action;
+use Yoast\WP\SEO\Actions\Indexation\Indexable_Term_Indexation_Action;
 use Yoast\WP\SEO\Helpers\Indexable_Helper;
+use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Presenters\Admin\Indexation_Permalink_Warning_Presenter;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
@@ -25,12 +30,20 @@ class Indexable_Helper_Test extends TestCase {
 	protected $instance;
 
 	/**
+	 * Represents the options helper.
+	 *
+	 * @var Mockery\MockInterface|Options_Helper
+	 */
+	protected $options;
+
+	/**
 	 * @inheritDoc
 	 */
 	public function setUp() {
 		parent::setUp();
 
-		$this->instance = new Indexable_Helper();
+		$this->options  = Mockery::mock( Options_Helper::class );
+		$this->instance = new Indexable_Helper( $this->options );
 	}
 
 	/**
@@ -292,5 +305,54 @@ class Indexable_Helper_Test extends TestCase {
 			[ 'system-page', 'search-result', false, false, 'Search_Result_Page' ],
 			[ 'system-page', '404', false, false, 'Error_Page' ],
 		];
+	}
+
+	/**
+	 * Test resetting the permalinks for categories.
+	 *
+	 * @covers ::reset_permalink_indexables
+	 */
+	public function test_reset_permalink_indexables() {
+		global $wpdb;
+
+		$wpdb         = Mockery::mock();
+		$wpdb->prefix = 'wp_';
+
+		$wpdb
+			->expects( 'update' )
+			->once()
+			->with(
+				'wp_yoast_indexable',
+				[
+					'permalink'      => null,
+					'permalink_hash' => null,
+				],
+				[
+					'object_type'     => 'term',
+					'object_sub_type' => 'category',
+				]
+			)
+			->andReturn( 1 );
+
+		$this->options
+			->expects( 'set' )
+			->with( 'indexables_indexation_reason', Indexation_Permalink_Warning_Presenter::REASON_CATEGORY_BASE_PREFIX )
+			->once();
+
+		$this->options
+			->expects( 'set' )
+			->with( 'ignore_indexation_warning', false )
+			->once();
+
+		$this->options
+			->expects( 'set' )
+			->with( 'indexation_warning_hide_until', false )
+			->once();
+
+		Monkey\Functions\expect( 'delete_transient' )->with( Indexable_Post_Indexation_Action::TRANSIENT_CACHE_KEY );
+		Monkey\Functions\expect( 'delete_transient' )->with( Indexable_Post_Type_Archive_Indexation_Action::TRANSIENT_CACHE_KEY );
+		Monkey\Functions\expect( 'delete_transient' )->with( Indexable_Term_Indexation_Action::TRANSIENT_CACHE_KEY );
+
+		$this->instance->reset_permalink_indexables( 'term', 'category', Indexation_Permalink_Warning_Presenter::REASON_CATEGORY_BASE_PREFIX );
 	}
 }
