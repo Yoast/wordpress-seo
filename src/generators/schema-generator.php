@@ -130,6 +130,79 @@ class Schema_Generator implements Generator_Interface {
 	}
 
 	/**
+	 * Adapts the WebPage graph piece for password-protected posts.
+	 *
+	 * It should only have certain whitelisted properties.
+	 * The type should always be WebPage.
+	 *
+	 * @param array $graph_piece The WebPage graph piece that should be adapted for password-protected posts.
+	 *
+	 * @return array The WebPage graph piece that has been adapted for password-protected posts.
+	 */
+	public function protected_webpage_schema( $graph_piece ) {
+		$properties_to_show = \array_flip(
+			[
+				'@type',
+				'@id',
+				'url',
+				'name',
+				'isPartOf',
+				'inLanguage',
+				'datePublished',
+				'dateModified',
+				'breadcrumb',
+			]
+		);
+
+		$graph_piece          = \array_intersect_key( $graph_piece, $properties_to_show );
+		$graph_piece['@type'] = 'WebPage';
+
+		return $graph_piece;
+	}
+
+	/**
+	 * Gets all the graph pieces we need.
+	 *
+	 * @param Meta_Tags_Context $context The meta tags context.
+	 *
+	 * @return Abstract_Schema_Piece[] A filtered array of graph pieces.
+	 */
+	protected function get_graph_pieces( $context ) {
+		if ( \post_password_required() ) {
+			$schema_pieces = [
+				new Schema\Organization(),
+				new Schema\Website(),
+				new Schema\WebPage(),
+			];
+
+			\add_filter( 'wpseo_schema_webpage', [ $this, 'protected_webpage_schema' ] );
+		}
+		else {
+			$schema_pieces = [
+				new Schema\Organization(),
+				new Schema\Person(),
+				new Schema\Website(),
+				new Schema\Main_Image(),
+				new Schema\WebPage(),
+				new Schema\Breadcrumb(),
+				new Schema\Article(),
+				new Schema\Author(),
+				new Schema\FAQ(),
+				new Schema\HowTo(),
+			];
+		}
+
+		/**
+		 * Filter: 'wpseo_schema_graph_pieces' - Allows adding pieces to the graph.
+		 *
+		 * @param Meta_Tags_Context $context An object with context variables.
+		 *
+		 * @api array $pieces The schema pieces.
+		 */
+		return \apply_filters( 'wpseo_schema_graph_pieces', $schema_pieces, $context );
+	}
+
+	/**
 	 * Allows filtering the graph piece by its schema type.
 	 *
 	 * @param array             $graph_piece The graph piece we're filtering.
@@ -212,79 +285,5 @@ class Schema_Generator implements Generator_Interface {
 		}
 
 		return $piece;
-	}
-
-	/**
-	 * Gets all the graph pieces we need.
-	 *
-	 * @param Meta_Tags_Context $context The meta tags context.
-	 *
-	 * @return Abstract_Schema_Piece[] A filtered array of graph pieces.
-	 */
-	protected function get_graph_pieces( $context ) {
-		if ( \post_password_required() ) {
-			$schema_pieces = [
-				new Schema\Organization(),
-				new Schema\Website(),
-				new Schema\WebPage(),
-			];
-
-			// The WebPage graph piece should only have selected properties, and @type should always be set to WebPage.
-			\add_filter( 'wpseo_schema_webpage', [ $this, 'protected_webpage_schema' ] );
-		}
-		else {
-			$schema_pieces = [
-				new Schema\Organization(),
-				new Schema\Person(),
-				new Schema\Website(),
-				new Schema\Main_Image(),
-				new Schema\WebPage(),
-				new Schema\Breadcrumb(),
-				new Schema\Article(),
-				new Schema\Author(),
-				new Schema\FAQ(),
-				new Schema\HowTo(),
-			];
-		}
-
-		/**
-		 * Filter: 'wpseo_schema_graph_pieces' - Allows adding pieces to the graph.
-		 *
-		 * @param Meta_Tags_Context $context An object with context variables.
-		 *
-		 * @api array $pieces The schema pieces.
-		 */
-		return \apply_filters( 'wpseo_schema_graph_pieces', $schema_pieces, $context );
-	}
-
-	/**
-	 * Adapts the WebPage graph piece for password-protected posts.
-	 *
-	 * It should only have certain whitelisted properties.
-	 * The type should always be WebPage.
-	 *
-	 * @param array $graph_piece The WebPage graph piece that should be adapted for password-protected posts.
-	 *
-	 * @return array The WebPage graph piece that has been adapted for password-protected posts.
-	 */
-	public function protected_webpage_schema( $graph_piece ) {
-		$properties_to_show = \array_flip(
-			[
-				'@type',
-				'@id',
-				'url',
-				'name',
-				'isPartOf',
-				'inLanguage',
-				'datePublished',
-				'dateModified',
-				'breadcrumb',
-			]
-		);
-
-		$graph_piece          = \array_intersect_key( $graph_piece, $properties_to_show );
-		$graph_piece['@type'] = 'WebPage';
-
-		return $graph_piece;
 	}
 }
