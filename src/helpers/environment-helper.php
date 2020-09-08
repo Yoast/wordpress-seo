@@ -2,8 +2,6 @@
 
 namespace Yoast\WP\SEO\Helpers;
 
-use Yoast\WP\SEO\Models\Indexable;
-
 /**
  * A helper object for site environment.
  */
@@ -14,23 +12,34 @@ class Environment_Helper {
 	 *
 	 * @return bool true if the site is currently running on production, false for all other environments
 	 */
-	public static function is_production_mode() {
-		$production_mode = false;
-
-		if ( defined( 'YOAST_ENVIRONMENT' ) && YOAST_ENVIRONMENT === 'production' ) {
-			$production_mode = true;
+	public function is_production_mode() {
+		$production_mode = $this->get_yoast_environment();
+		if ( isset( $production_mode ) ) {
+			return $production_mode === 'production';
+		} else {
+			return $this->get_wp_environment() === 'production';
 		}
-		else {
-			$production_mode = wp_get_environment_type() === 'production';
+	}
+
+	/**
+	 * A wrapper function to determine what environment the Yoast SEO is running at.
+	 *
+	 * @return string|null
+	 */
+	public function get_yoast_environment() {
+		if ( defined( 'YOAST_ENVIRONMENT' ) ) {
+			return YOAST_ENVIRONMENT;
 		}
 
-		/**
-		 * Filter the Yoast SEO production mode.
-		 *
-		 * @since 3.0
-		 *
-		 * @param bool $production_mode Is Yoast SEOs production mode active?
-		 */
-		return apply_filters( 'yoast_seo_production_mode', $production_mode );
+		return null;
+	}
+
+	/**
+	 * This is a wrapper function to determine what environment wordpress is running at.
+	 *
+	 * @return string
+	 */
+	public function get_wp_environment() {
+		return \wp_get_environment_type();
 	}
 }

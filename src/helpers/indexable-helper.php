@@ -10,6 +10,24 @@ use Yoast\WP\SEO\Models\Indexable;
 class Indexable_Helper {
 
 	/**
+	 * The environment helper knows things about the environment.
+	 *
+	 * @var Environment_Helper
+	 */
+	private $environment_helper;
+
+	/**
+	 * Indexable_Helper constructor.
+	 *
+	 * @param Environment_Helper $environment_helper This helper knows things about the environment.
+	 *
+	 * @codeCoverageIgnore This constructor only sets dependencies.
+	 */
+	public function __construct( Environment_Helper $environment_helper ) {
+		$this->environment_helper = $environment_helper;
+	}
+
+	/**
 	 * Retrieves the permalink for an indexable.
 	 *
 	 * @param Indexable $indexable The indexable.
@@ -25,6 +43,7 @@ class Indexable_Helper {
 				}
 
 				return \get_permalink( $indexable->object_id );
+
 			case $indexable->object_type === 'term':
 				$term = \get_term( $indexable->object_id );
 
@@ -33,10 +52,13 @@ class Indexable_Helper {
 				}
 
 				return \get_term_link( $term, $term->taxonomy );
+
 			case $indexable->object_type === 'system-page' && $indexable->object_sub_type === 'search-page':
 				return \get_search_link();
+
 			case $indexable->object_type === 'post-type-archive':
 				return \get_post_type_archive_link( $indexable->object_sub_type );
+
 			case $indexable->object_type === 'user':
 				return \get_author_posts_url( $indexable->object_id );
 		}
@@ -87,12 +109,12 @@ class Indexable_Helper {
 	}
 
 	/**
-	 * Determines whether indexing indexables is appropriate for the current environment.
+	 * Determines whether indexing indexables is appropriate at this time.
 	 *
 	 * @return bool
 	 */
 	public function should_index_indexables() {
-		// Currently the only reason to index indexables is running a production website
-		return Environment_Helper::is_production_mode();
+		// Currently the only reason to index indexables is when we're on a production website.
+		return $this->environment_helper->is_production_mode();
 	}
 }
