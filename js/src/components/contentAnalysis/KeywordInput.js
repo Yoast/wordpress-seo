@@ -52,7 +52,7 @@ class KeywordInput extends Component {
 	render() {
 		return <LocationConsumer>
 			{ context => (
-				<div style={ context ==="sidebar" ? {  borderBottom: "1px solid #f0f0f0" } : {} }>
+				<div style={ context === "sidebar" ? {  borderBottom: "1px solid #f0f0f0" } : {} }>
 					<KeywordInputContainer location={ context }>
 						<KeywordInputComponent
 							id={ `focus-keyword-input-${ context }` }
