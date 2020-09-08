@@ -203,7 +203,7 @@ class Schema_Generator_Test extends TestCase {
 						'inLanguage'      => 'English',
 					],
 					[
-						'@id'   => '#website',
+						'@id' => '#website',
 					],
 					[
 						[
@@ -300,7 +300,8 @@ class Schema_Generator_Test extends TestCase {
 			->andReturnArg( 0 );
 
 		$this->assertEquals(
-			$this->get_expected_schema(), $this->instance->generate( $this->context )
+			$this->get_expected_schema(),
+			$this->instance->generate( $this->context )
 		);
 	}
 

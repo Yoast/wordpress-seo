@@ -171,8 +171,10 @@ class Schema_Generator implements Generator_Interface {
 			if ( \is_array( $piece['@type'] ) ) {
 				return $piece['@type'];
 			}
+
 			return [ $piece['@type'] ];
 		}
+
 		return [];
 	}
 
@@ -229,7 +231,8 @@ class Schema_Generator implements Generator_Interface {
 
 			// The WebPage graph piece should only have selected properties, and @type should always be set to WebPage.
 			\add_filter( 'wpseo_schema_webpage', [ $this, 'protected_webpage_schema' ] );
-		} else {
+		}
+		else {
 			$schema_pieces = [
 				new Schema\Organization(),
 				new Schema\Person(),
@@ -265,17 +268,19 @@ class Schema_Generator implements Generator_Interface {
 	 * @return array The WebPage graph piece that has been adapted for password-protected posts.
 	 */
 	public function protected_webpage_schema( $graph_piece ) {
-		$properties_to_show = \array_flip( [
-			'@type',
-			'@id',
-			'url',
-			'name',
-			'isPartOf',
-			'inLanguage',
-			'datePublished',
-			'dateModified',
-			'breadcrumb'
-		] );
+		$properties_to_show = \array_flip(
+			[
+				'@type',
+				'@id',
+				'url',
+				'name',
+				'isPartOf',
+				'inLanguage',
+				'datePublished',
+				'dateModified',
+				'breadcrumb',
+			]
+		);
 
 		$graph_piece          = \array_intersect_key( $graph_piece, $properties_to_show );
 		$graph_piece['@type'] = 'WebPage';
