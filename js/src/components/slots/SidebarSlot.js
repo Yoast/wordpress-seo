@@ -7,7 +7,7 @@ import TopLevelProviders from "../TopLevelProviders";
  *
  * @returns {null|wp.Element} The element.
  */
-export default function SidebarSlot() {
+export default function SidebarSlot( { store, theme } ) {
 	return (
 		<TopLevelProviders
 			store={ store }

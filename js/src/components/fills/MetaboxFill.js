@@ -63,11 +63,11 @@ export default function MetaboxFill( { settings } ) {
 			{ settings.displaySchemaSettings && <SidebarItem renderPriority={ 50 }>
 				<SchemaTabContainer />
 			</SidebarItem> }
-			<Fragment
+			<SidebarItem
 				renderPriority={ -1 }
 			>
 				<SocialMetadataPortal target="wpseo-section-social" />
-			</Fragment>
+			</SidebarItem>
 		</Fill>
 	);
 }

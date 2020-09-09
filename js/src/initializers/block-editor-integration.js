@@ -111,7 +111,7 @@ function registerFills( store ) {
 				name="seo-sidebar"
 				title={ pluginTitle }
 			>
-				<SidebarSlot />
+				<SidebarSlot store={ store } theme={ theme } />
 			</PluginSidebar>
 			<Fragment>
 				<SidebarFill store={ store } theme={ theme } />

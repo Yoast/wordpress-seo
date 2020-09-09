@@ -30,110 +30,50 @@ import AdvancedSettings from "../../containers/AdvancedSettings";
  *
  * @constructor
  */
-export default function SidebarFill( { settings, store, theme } ) {
+export default function SidebarFill( { settings } ) {
 	return (
 		<Fragment>
 			<Fill name="YoastSidebar">
 				<SidebarItem renderPriority={ 1 }>
-					<TopLevelProviders
-						store={ store }
-						theme={ theme }
-						location={ "sidebar" }
-					>
-						<Warning />
-					</TopLevelProviders>
+					<Warning />
 				</SidebarItem>
 				{ settings.isKeywordAnalysisActive && <SidebarItem renderPriority={ 8 }>
-					<TopLevelProviders
-						store={ store }
-						theme={ theme }
-						location={ "sidebar" }
-					>
-						<KeywordInput />
-					</TopLevelProviders>
+					<KeywordInput />
 				</SidebarItem> }
 				<SidebarItem renderPriority={ 23 }>
-					<TopLevelProviders
-						store={ store }
-						theme={ theme }
-						location={ "sidebar" }
-					>
-						<GooglePreviewModal />
-					</TopLevelProviders>
+					<GooglePreviewModal />
 				</SidebarItem>
 				{ settings.displayFacebook && <SidebarItem renderPriority={ 24 }>
-					<TopLevelProviders
-						store={ store }
-						theme={ theme }
-						location={ "sidebar" }
-					>
-						<FacebookPreviewModal />
-					</TopLevelProviders>
+					<FacebookPreviewModal />
 				</SidebarItem> }
 				{ settings.displayTwitter && <SidebarItem renderPriority={ 25 }>
-					<TopLevelProviders
-						store={ store }
-						theme={ theme }
-						location={ "sidebar" }
-					>
-						<TwitterPreviewModal />
-					</TopLevelProviders>
+					<TwitterPreviewModal />
 				</SidebarItem> }
 				{ settings.displaySchemaSettings && <SidebarItem renderPriority={ 26 }>
-					<TopLevelProviders
-						store={ store }
-						theme={ theme }
-						location={ "sidebar" }
+					<SidebarCollapsible
+						title={ __( "Schema", "wordpress-seo" ) }
 					>
-						<SidebarCollapsible
-							title={ __( "Schema", "wordpress-seo" ) }
-						>
-							<SchemaTabContainer />
-						</SidebarCollapsible>
-					</TopLevelProviders>
+						<SchemaTabContainer />
+					</SidebarCollapsible>
 				</SidebarItem> }
 				{ settings.displayAdvancedTab && <SidebarItem renderPriority={ 27 }>
-					<TopLevelProviders
-						store={ store }
-						theme={ theme }
-						location={ "sidebar" }
+					<SidebarCollapsible
+						title={ __( "Advanced", "wordpress-seo" ) }
 					>
-						<SidebarCollapsible
-							title={ __( "Advanced", "wordpress-seo" ) }
-						>
-							<AdvancedSettings />
-						</SidebarCollapsible>
-					</TopLevelProviders>
+						<AdvancedSettings />
+					</SidebarCollapsible>
 				</SidebarItem> }
 				{ settings.isContentAnalysisActive && <SidebarItem renderPriority={ 10 }>
-					<TopLevelProviders
-						store={ store }
-						theme={ theme }
-						location={ "sidebar" }
-					>
-						<ReadabilityAnalysis />
-					</TopLevelProviders>
+					<ReadabilityAnalysis />
 				</SidebarItem> }
 				{ settings.isKeywordAnalysisActive && <SidebarItem renderPriority={ 20 }>
-					<TopLevelProviders
-						store={ store }
-						theme={ theme }
-						location={ "sidebar" }
-					>
-						<SeoAnalysis
-							shouldUpsell={ settings.shouldUpsell }
-							shouldUpsellWordFormRecognition={ settings.isWordFormRecognitionActive }
-						/>
-					</TopLevelProviders>
+					<SeoAnalysis
+						shouldUpsell={ settings.shouldUpsell }
+						shouldUpsellWordFormRecognition={ settings.isWordFormRecognitionActive }
+					/>
 				</SidebarItem> }
 				{ settings.isCornerstoneActive && <SidebarItem renderPriority={ 30 }>
-					<TopLevelProviders
-						store={ store }
-						theme={ theme }
-						location={ "sidebar" }
-					>
-						<CollapsibleCornerstone />
-					</TopLevelProviders>
+					<CollapsibleCornerstone />
 				</SidebarItem> }
 			</Fill>
 		</Fragment>
@@ -142,6 +82,4 @@ export default function SidebarFill( { settings, store, theme } ) {
 
 SidebarFill.propTypes = {
 	settings: PropTypes.object.isRequired,
-	store: PropTypes.object.isRequired,
-	theme: PropTypes.object.isRequired,
 };
