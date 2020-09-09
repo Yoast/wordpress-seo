@@ -267,10 +267,6 @@ export default function initAdmin( jQuery ) {
 
 		const xmlSitemapWarning = jQuery( "#yoast-seo-sitemaps-disabled-warning" );
 
-		if ( jQuery( "#enable_xml_sitemap input[type=radio]:checked" ).val() === "off" ) {
-			xmlSitemapWarning.show();
-		}
-
 		jQuery( "#enable_xml_sitemap input[type=radio]" ).change( function() {
 			if ( this.value === "off" ) {
 				xmlSitemapWarning.show();
