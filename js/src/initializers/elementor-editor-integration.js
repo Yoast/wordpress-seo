@@ -1,8 +1,8 @@
 import { SlotFillProvider } from "@wordpress/components";
 import { createRef, Fragment, render } from "@wordpress/element";
 import getL10nObject from "../analysis/getL10nObject";
-import ElementorSlot from "../components/slots/ElementorSlot";
 import ElementorFill from "../containers/ElementorFill";
+import TopLevelProviders from "../components/TopLevelProviders";
 import { RegisteredComponentsContainer } from "../helpers/classicEditor";
 
 const registeredComponents = [];
@@ -26,11 +26,12 @@ export default function initElementorEditorIntegration( store ) {
 	render(
 		(
 			<SlotFillProvider>
-				<Fragment>
-					<ElementorSlot store={ store } theme={ theme } />
-					<ElementorFill />
-					<RegisteredComponentsContainer ref={ containerRef } />
-				</Fragment>
+				<TopLevelProviders store={ store } theme={ theme } location="sidebar">
+					<Fragment>
+						<ElementorFill />
+						<RegisteredComponentsContainer ref={ containerRef } />
+					</Fragment>
+				</TopLevelProviders>
 			</SlotFillProvider>
 		),
 		document.getElementById( "wpseo-react-root" ),

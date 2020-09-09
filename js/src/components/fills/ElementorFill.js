@@ -1,4 +1,4 @@
-import { Fill, Fragment } from "@wordpress/components";
+import { Fill } from "@wordpress/components";
 import PropTypes from "prop-types";
 import CollapsibleCornerstone from "../../containers/CollapsibleCornerstone";
 import PostSettingsModal from "../../containers/PostSettingsModal";

@@ -1,5 +1,6 @@
 /* global Marionette, elementor */
-import initPostEdit from "../initializers/post-edit";
+import { createElement, render, unmountComponentAtNode } from "@wordpress/element";
+import ElementorSlot from "../components/slots/ElementorSlot";
 
 export default Marionette.ItemView.extend( {
 	template: false,
@@ -9,6 +10,8 @@ export default Marionette.ItemView.extend( {
 	initialize() {
 		console.log( "init" );
 
+		this.element = createElement( ElementorSlot );
+
 		// Hide the widget search.
 		elementor.getPanelView().getCurrentPageView().search.reset();
 	},
@@ -16,16 +19,12 @@ export default Marionette.ItemView.extend( {
 	onShow() {
 		console.log( "onShow" );
 
-		const panel = jQuery( "#elementor-panel-yoast" );
-		panel.append( jQuery( window.wpseoScriptData.elementor ) );
-		// The post scraper checks for this metabox container.
-		panel.append( jQuery( "<div id=\"wpseo_meta\"></div>" ) );
-		panel.append( jQuery( "<div id=\"wpseo-react-root\"></div>" ) );
-
-		initPostEdit();
+		render( this.element, document.getElementById( "elementor-panel-yoast" ) );
 	},
 
 	onDestroy() {
 		console.log( "hide" );
+
+		unmountComponentAtNode( document.getElementById( "elementor-panel-yoast" ) );
 	},
 } );

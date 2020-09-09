@@ -2,6 +2,7 @@
 import ElementorEditorData from "./analysis/elementorEditorData";
 import YoastView from "./elementor/YoastView";
 import initElementorEditorIntegration from "./initializers/elementor-editor-integration";
+import initPostEdit from "./initializers/post-edit";
 
 window.yoast = window.yoast || {};
 window.yoast.initEditorIntegration = initElementorEditorIntegration;
@@ -20,6 +21,14 @@ const addYoastRegion = ( regions ) => {
 jQuery( function() {
 	elementor.once( "preview:loaded", function() {
 		console.log( "preview:loaded" );
+
+		const body = jQuery( "body" ).first();
+		body.append( jQuery( window.wpseoScriptData.elementor ) );
+		// The post scraper checks for this metabox container.
+		body.append( jQuery( "<div id=\"wpseo_meta\"></div>" ) );
+		body.append( jQuery( "<div id=\"wpseo-react-root\"></div>" ) );
+
+		initPostEdit();
 
 		$e.components
 			.get( "panel/elements" )
