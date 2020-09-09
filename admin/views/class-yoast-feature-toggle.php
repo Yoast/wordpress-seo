@@ -53,6 +53,13 @@ class Yoast_Feature_Toggle {
 	protected $extra = '';
 
 	/**
+	 * Additional content to be rendered after the toggle.
+	 *
+	 * @var string
+	 */
+	protected $after = '';
+
+	/**
 	 * Value to specify the feature toggle order.
 	 *
 	 * @var string
