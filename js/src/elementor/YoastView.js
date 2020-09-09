@@ -1,5 +1,4 @@
 /* global Marionette, elementor */
-import { setElementorTarget } from "../redux/actions/settings";
 
 export default Marionette.ItemView.extend( {
 	template: false,

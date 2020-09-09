@@ -19,16 +19,16 @@ const addYoastRegion = ( regions ) => {
 };
 
 jQuery( function() {
+	const body = jQuery( "body" ).first();
+	body.append( jQuery( window.wpseoScriptData.elementor ) );
+	// The post scraper checks for this metabox container.
+	body.append( jQuery( "<div id=\"wpseo_meta\"></div>" ) );
+	body.append( jQuery( "<div id=\"wpseo-react-root\"></div>" ) );
+
+	initElementorEdit();
+
 	elementor.once( "preview:loaded", function() {
 		console.log( "preview:loaded" );
-
-		const body = jQuery( "body" ).first();
-		body.append( jQuery( window.wpseoScriptData.elementor ) );
-		// The post scraper checks for this metabox container.
-		body.append( jQuery( "<div id=\"wpseo_meta\"></div>" ) );
-		body.append( jQuery( "<div id=\"wpseo-react-root\"></div>" ) );
-
-		initElementorEdit();
 
 		$e.components
 			.get( "panel/elements" )
