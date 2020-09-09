@@ -75,4 +75,4 @@ export default function MetaboxFill( { settings } ) {
 MetaboxFill.propTypes = {
 	settings: PropTypes.object.isRequired,
 };
-/* eslint-ensable complexity */
+/* eslint-enable complexity */
