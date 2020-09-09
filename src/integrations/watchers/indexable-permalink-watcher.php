@@ -158,4 +158,22 @@ class Indexable_Permalink_Watcher implements Integration_Interface {
 
 		return $taxonomies;
 	}
+
+	/* ********************* DEPRECATED METHODS ********************* */
+
+	/**
+	 * Resets the permalinks of the indexables.
+	 *
+	 * @deprecated 15.1
+	 * @codeCoverageIgnore
+	 *
+	 * @param string      $type    The type of the indexable.
+	 * @param null|string $subtype The subtype. Can be null.
+	 * @param string      $reason  The reason that the permalink has been changed.
+	 */
+	public function reset_permalink_indexables( $type, $subtype = null, $reason = Indexation_Permalink_Warning_Presenter::REASON_PERMALINK_SETTINGS ) {
+		_deprecated_function( __METHOD__, 'WPSEO 15.1', 'Indexable_Helper::reset_permalink_indexables' );
+
+		return $this->indexable_helper->reset_permalink_indexables( $type, $subtype, $reason );
+	}
 }
