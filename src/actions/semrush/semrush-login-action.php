@@ -16,6 +16,8 @@ use Yoast\WP\SEO\Exceptions\OAuth\Authentication_Failed_Exception;
 class SEMrush_Login_Action {
 
 	/**
+	 * The SEMrush_Client instance.
+	 *
 	 * @var SEMrush_Client
 	 */
 	protected $client;
@@ -61,4 +63,3 @@ class SEMrush_Login_Action {
 		// Prompt with login screen.
 	}
 }
-
