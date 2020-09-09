@@ -168,14 +168,14 @@ class Schema_Generator implements Generator_Interface {
 	 * @return Abstract_Schema_Piece[] A filtered array of graph pieces.
 	 */
 	protected function get_graph_pieces( $context ) {
-		if ( \post_password_required() ) {
+		if ( \is_single() && \post_password_required() ) {
 			$schema_pieces = [
 				new Schema\Organization(),
 				new Schema\Website(),
 				new Schema\WebPage(),
 			];
 
-			\add_filter( 'wpseo_schema_webpage', [ $this, 'protected_webpage_schema' ] );
+			\add_filter( 'wpseo_schema_webpage', [ $this, 'protected_webpage_schema' ], 1 );
 		}
 		else {
 			$schema_pieces = [

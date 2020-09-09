@@ -176,7 +176,7 @@ class Schema_Generator_Test extends TestCase {
 	public function test_generate_with_no_blocks() {
 		$this->context->indexable->object_sub_type = 'super-custom-post-type';
 
-		Monkey\Functions\expect( 'post_password_required' )
+		Monkey\Functions\expect( 'is_single' )
 			->once()
 			->withNoArgs()
 			->andReturnFalse();
@@ -248,6 +248,11 @@ class Schema_Generator_Test extends TestCase {
 			->withNoArgs()
 			->andReturnFalse();
 
+		Monkey\Functions\expect( 'is_single' )
+			->once()
+			->withNoArgs()
+			->andReturnTrue();
+
 		$this->current_page
 			->expects( 'is_home_static_page' )
 			->twice()
@@ -306,6 +311,11 @@ class Schema_Generator_Test extends TestCase {
 	 * @covers ::get_graph_pieces
 	 */
 	public function test_generate_with_block_not_having_generated_output() {
+		Monkey\Functions\expect( 'is_single' )
+			->once()
+			->withNoArgs()
+			->andReturnTrue();
+
 		Monkey\Functions\expect( 'post_password_required' )
 			->once()
 			->withNoArgs()
@@ -341,6 +351,11 @@ class Schema_Generator_Test extends TestCase {
 	 */
 	public function test_validate_type_singular_array() {
 		$this->context->blocks = [];
+
+		Monkey\Functions\expect( 'is_single' )
+			->once()
+			->withNoArgs()
+			->andReturnTrue();
 
 		Monkey\Functions\expect( 'post_password_required' )
 			->once()
@@ -407,6 +422,11 @@ class Schema_Generator_Test extends TestCase {
 	public function test_validate_type_unique_array() {
 		$this->context->blocks = [];
 
+		Monkey\Functions\expect( 'is_single' )
+			->once()
+			->withNoArgs()
+			->andReturnTrue();
+
 		Monkey\Functions\expect( 'post_password_required' )
 			->once()
 			->withNoArgs()
@@ -467,7 +487,12 @@ class Schema_Generator_Test extends TestCase {
 	 * @covers ::generate
 	 * @covers ::get_graph_pieces
 	 */
-	public function test_get_graph_pieces_when_password_required() {
+	public function test_get_graph_pieces_on_single_post_with_password_required() {
+		Monkey\Functions\expect( 'is_single' )
+			->once()
+			->withNoArgs()
+			->andReturnTrue();
+
 		Monkey\Functions\expect( 'post_password_required' )
 			->once()
 			->withNoArgs()
