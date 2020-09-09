@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\WP\SEO\Tests\Actions\SEMrush;
+namespace Yoast\WP\SEO\Actions\SEMrush;
 
 use Brain\Monkey;
 use Mockery;
@@ -18,17 +18,21 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
 class SEMrush_Phrases_Action_Test extends TestCase {
 
 	/**
+	 * The class instance.
+	 *
 	 * @var SEMrush_Phrases_Action
 	 */
 	protected $instance;
 
 	/**
+	 * The client.
+	 *
 	 * @var Mockery\MockInterface|SEMrush_Client
 	 */
 	protected $client_instance;
 
 	/**
-	 * @inheritDoc
+	 * Set up the test fixtures.
 	 */
 	public function setUp() {
 		parent::setUp();
@@ -52,8 +56,8 @@ class SEMrush_Phrases_Action_Test extends TestCase {
 	 * @covers ::get_related_keyphrases
 	 */
 	public function test_get_related_keyphrases_from_api() {
-		$keyphrase = 'seo';
-		$country_code  = 'us';
+		$keyphrase    = 'seo';
+		$country_code = 'us';
 
 		Monkey\Functions\expect( 'get_transient' )
 			->times( 1 )
@@ -113,13 +117,15 @@ class SEMrush_Phrases_Action_Test extends TestCase {
 		Monkey\Functions\expect( 'get_transient' )
 			->times( 1 )
 			->with( 'wpseo_semrush_related_keyphrases_' . $keyphrase . '_' . $database )
-			->andReturn( [
-				'data'   => [
-					'column_names' => [],
-					'rows'         => [],
-				],
-				'status' => 200,
-			] );
+			->andReturn(
+				[
+					'data'   => [
+						'column_names' => [],
+						'rows'         => [],
+					],
+					'status' => 200,
+				]
+			);
 
 		$this->client_instance->expects( 'get' )->times( 0 );
 

@@ -8,12 +8,12 @@
 namespace Yoast\WP\SEO\Exceptions\OAuth;
 
 /**
- * Class OAuth_Authentication_Failed_Exception
+ * Class Authentication_Failed_Exception
  */
-class OAuth_Authentication_Failed_Exception extends \Exception {
+class Authentication_Failed_Exception extends \Exception {
 
 	/**
-	 * OAuth_Authentication_Failed_Exception constructor.
+	 * Authentication_Failed_Exception constructor.
 	 *
 	 * @param \Exception $original_exception The original exception.
 	 */
@@ -30,7 +30,7 @@ class OAuth_Authentication_Failed_Exception extends \Exception {
 		return (object) [
 			'tokens' => [],
 			'error'  => $this->getMessage() . ': ' . $this->getPrevious()->getMessage(),
-			'status'   => $this->getCode(),
+			'status' => $this->getCode(),
 		];
 	}
 }

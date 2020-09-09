@@ -27,6 +27,8 @@ class SEMrush_Phrases_Action {
 	const KEYPHRASES_URL = 'https://oauth.semrush.com/api/v1/keywords/phrase_related';
 
 	/**
+	 * The SEMrush_Client instance.
+	 *
 	 * @var SEMrush_Client
 	 */
 	protected $client;

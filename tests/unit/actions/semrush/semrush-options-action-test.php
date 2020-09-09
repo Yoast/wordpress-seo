@@ -1,12 +1,12 @@
 <?php
 
-namespace Yoast\WP\SEO\Tests\Actions\SEMrush;
+namespace Yoast\WP\SEO\Actions\SEMrush;
 
 use League\OAuth2\Client\Token\AccessTokenInterface;
 use Mockery;
 use Yoast\WP\SEO\Actions\SEMrush\SEMrush_Options_Action;
 use Yoast\WP\SEO\Config\SEMrush_Client;
-use Yoast\WP\SEO\Exceptions\OAuth\OAuth_Authentication_Failed_Exception;
+use Yoast\WP\SEO\Exceptions\OAuth\Authentication_Failed_Exception;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Values\SEMrush\SEMrush_Token;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
@@ -21,17 +21,22 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
 class SEMrush_Options_Action_Test extends TestCase {
 
 	/**
+	 * The class instance.
+	 *
 	 * @var SEMrush_Options_Action
 	 */
 	protected $instance;
 
 	/**
+	 *
+	 * The options helper.
+	 *
 	 * @var Mockery\MockInterface|Options_Helper
 	 */
 	protected $options_helper;
 
 	/**
-	 * @inheritDoc
+	 * Set up the test fixtures.
 	 */
 	public function setUp() {
 		parent::setUp();
@@ -56,7 +61,7 @@ class SEMrush_Options_Action_Test extends TestCase {
 	 */
 	public function test_successful_set_country_code() {
 		$this->options_helper
-			->expects('set')
+			->expects( 'set' )
 			->once()
 			->with( 'semrush_country_code', 'us' )
 			->andReturnTrue();
@@ -64,7 +69,7 @@ class SEMrush_Options_Action_Test extends TestCase {
 		$this->assertEquals(
 			(object) [
 				'success' => true,
-				'status' => 200,
+				'status'  => 200,
 			],
 			$this->instance->set_country_code( 'us' )
 		);
@@ -77,7 +82,7 @@ class SEMrush_Options_Action_Test extends TestCase {
 	 */
 	public function test_unsuccessful_set_country_code() {
 		$this->options_helper
-			->expects('set')
+			->expects( 'set' )
 			->once()
 			->with( 'semrush_country_code', 'us' )
 			->andReturnFalse();
@@ -85,8 +90,8 @@ class SEMrush_Options_Action_Test extends TestCase {
 		$this->assertEquals(
 			(object) [
 				'success' => false,
-				'status' => 500,
-				'error' => 'Could not save option in the database',
+				'status'  => 500,
+				'error'   => 'Could not save option in the database',
 			],
 			$this->instance->set_country_code( 'us' )
 		);

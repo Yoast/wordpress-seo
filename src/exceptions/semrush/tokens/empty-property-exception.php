@@ -5,15 +5,15 @@
  * @package Yoast\WP\SEO\Exceptions\SEMrush
  */
 
-namespace Yoast\WP\SEO\Exceptions\SEMrush;
+namespace Yoast\WP\SEO\Exceptions\SEMrush\Tokens;
 
 /**
- * Class SEMrush_Empty_Token_Property_Exception
+ * Class Empty_Property_Exception
  */
-class SEMrush_Empty_Token_Property_Exception extends \Exception {
+class Empty_Property_Exception extends \Exception {
 
 	/**
-	 * SEMrush_Empty_Token_Property_Exception constructor.
+	 * Empty_Property_Exception constructor.
 	 *
 	 * @param string $property The property that is empty.
 	 */

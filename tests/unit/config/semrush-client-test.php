@@ -1,12 +1,12 @@
 <?php
 
-namespace Yoast\WP\SEO\Tests\Config;
+namespace Yoast\WP\SEO\Config;
 
 use YoastSEO_Vendor\League\OAuth2\Client\Provider\Exception\IdentityProviderException;
 use YoastSEO_Vendor\League\OAuth2\Client\Provider\GenericProvider;
 use YoastSEO_Vendor\League\OAuth2\Client\Token\AccessTokenInterface;
 use Yoast\WP\SEO\Helpers\Options_Helper;
-use Yoast\WP\SEO\Tests\Doubles\Config\SEMrush_Client_Double;
+use Yoast\WP\SEO\Doubles\Config\SEMrush_Client_Double;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 use Yoast\WP\SEO\Values\SEMrush\SEMrush_Token;
 
@@ -27,27 +27,35 @@ class SEMrush_Client_Test extends TestCase {
 	protected $instance;
 
 	/**
+	 * The response object.
+	 *
 	 * @var AccessTokenInterface|\Mockery\LegacyMockInterface|\Mockery\MockInterface
 	 */
 	protected $response;
 
 	/**
+	 * The token object.
+	 *
 	 * @var \Mockery\LegacyMockInterface|\Mockery\MockInterface|SEMrush_Token
 	 */
 	protected $token;
 
 	/**
+	 * The OAuth provider.
+	 *
 	 * @var GenericProvider|\Mockery\LegacyMockInterface|\Mockery\MockInterface
 	 */
 	protected $provider;
 
 	/**
+	 * The optins helper.
+	 *
 	 * @var \Mockery\LegacyMockInterface|\Mockery\MockInterface|Options_Helper
 	 */
 	protected $options_helper;
 
 	/**
-	 * @inheritDoc
+	 * Set up the test fixtures.
 	 */
 	public function setUp() {
 		parent::setUp();
@@ -109,12 +117,14 @@ class SEMrush_Client_Test extends TestCase {
 	 * @covers ::request_tokens
 	 */
 	public function test_valid_request_tokens_when_no_token_is_available() {
-		$this->response->allows( [
-			'getToken'        => '000000',
-			'getRefreshToken' => '000001',
-			'getExpires'      => 604800,
-			'hasExpired'      => false,
-		] );
+		$this->response->allows(
+			[
+				'getToken'        => '000000',
+				'getRefreshToken' => '000001',
+				'getExpires'      => 604800,
+				'hasExpired'      => false,
+			]
+		);
 
 		$this->provider
 			->expects( 'getAccessToken' )
@@ -130,7 +140,8 @@ class SEMrush_Client_Test extends TestCase {
 		$this->options_helper
 			->expects( 'set' )
 			->once()
-			->with( 'semrush_tokens',
+			->with(
+				'semrush_tokens',
 				[
 					'access_token'  => '000000',
 					'refresh_token' => '000001',
@@ -153,7 +164,7 @@ class SEMrush_Client_Test extends TestCase {
 	 *
 	 * @covers ::request_tokens
 	 *
-	 * @expectedException Yoast\WP\SEO\Exceptions\OAuth\OAuth_Authentication_Failed_Exception
+	 * @expectedException Yoast\WP\SEO\Exceptions\OAuth\Authentication_Failed_Exception
 	 */
 	public function test_invalid_request_tokens_when_no_code_is_set() {
 		$this->provider
@@ -178,11 +189,11 @@ class SEMrush_Client_Test extends TestCase {
 	 *
 	 * @covers ::store_token
 	 *
-	 * @expectedException Yoast\WP\SEO\Exceptions\SEMrush\SEMrush_Failed_Token_Storage_Exception
+	 * @expectedException Yoast\WP\SEO\Exceptions\SEMrush\Tokens\Failed_Storage_Exception
 	 */
 	public function test_storing_token_failure() {
 
-		$this->token->expects('to_array')->once()->andReturns(
+		$this->token->expects( 'to_array' )->once()->andReturns(
 			[
 				'access_token'  => '000000',
 				'refresh_token' => '000001',
@@ -194,7 +205,8 @@ class SEMrush_Client_Test extends TestCase {
 
 		$this->options_helper
 			->expects( 'set' )
-			->with( 'semrush_tokens',
+			->with(
+				'semrush_tokens',
 				[
 					'access_token'  => '000000',
 					'refresh_token' => '000001',

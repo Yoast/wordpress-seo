@@ -6,11 +6,11 @@
  */
 
 use Yoast\WP\SEO\Config\Schema_Types;
-use Yoast\WP\SEO\Exceptions\OAuth\OAuth_Authentication_Failed_Exception;
-use Yoast\WP\SEO\Exceptions\SEMrush\SEMrush_Empty_Token_Exception;
+use Yoast\WP\SEO\Exceptions\OAuth\Authentication_Failed_Exception;
+use Yoast\WP\SEO\Exceptions\SEMrush\Tokens\Empty_Token_Exception;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Config\SEMrush_Client;
-use Yoast\WP\SEO\Exceptions\SEMrush\SEMrush_Empty_Token_Property_Exception;
+use Yoast\WP\SEO\Exceptions\SEMrush\Tokens\Empty_Property_Exception;
 
 /**
  * This class forces needed methods for the metabox localization.
@@ -299,7 +299,7 @@ class WPSEO_Metabox_Formatter {
 	private function get_semrush_login_status( $options_helper ) {
 		try {
 			$semrush_client = new SEMrush_Client( $options_helper );
-		} catch ( SEMrush_Empty_Token_Property_Exception $e ) {
+		} catch ( Empty_Property_Exception $e ) {
 			// return false if token is malformed (empty property).
 			return false;
 		}
@@ -307,9 +307,9 @@ class WPSEO_Metabox_Formatter {
 		// Get token (and refresh it if it's expired).
 		try {
 			$semrush_client->get_tokens();
-		} catch ( OAuth_Authentication_Failed_Exception $e ) {
+		} catch ( Authentication_Failed_Exception $e ) {
 			return false;
-		} catch ( SEMrush_Empty_Token_Exception $e ) {
+		} catch ( Empty_Token_Exception $e ) {
 			return false;
 		}
 

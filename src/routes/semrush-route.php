@@ -88,13 +88,13 @@ class SEMrush_Route implements Route_Interface {
 	/**
 	 * Semrush_Route constructor.
 	 *
-	 * @param Semrush_Login_Action   $login_action   The login action.
-	 * @param Semrush_Options_Action $options_action The options action.
+	 * @param SEMrush_Login_Action   $login_action   The login action.
+	 * @param SEMrush_Options_Action $options_action The options action.
 	 * @param SEMrush_Phrases_Action $phrases_action The phrases action.
 	 */
 	public function __construct(
-		Semrush_Login_Action $login_action,
-		Semrush_Options_Action $options_action,
+		SEMrush_Login_Action $login_action,
+		SEMrush_Options_Action $options_action,
 		SEMrush_Phrases_Action $phrases_action
 	) {
 		$this->login_action   = $login_action;
@@ -103,7 +103,9 @@ class SEMrush_Route implements Route_Interface {
 	}
 
 	/**
-	 * @inheritDoc
+	 * Registers routes with WordPress.
+	 *
+	 * @return void
 	 */
 	public function register_routes() {
 		$authentication_route_args = [

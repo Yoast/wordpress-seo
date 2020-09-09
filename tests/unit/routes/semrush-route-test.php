@@ -5,7 +5,7 @@
  * @package Yoast\WP\SEO\Tests\Routes
  */
 
-namespace Yoast\WP\SEO\Tests\Routes;
+namespace Yoast\WP\SEO\Routes;
 
 use Brain\Monkey;
 use Mockery;
@@ -54,7 +54,7 @@ class SEMrush_Route_Test extends TestCase {
 	protected $instance;
 
 	/**
-	 * @inheritDoc
+	 * Set up the test fixtures.
 	 */
 	public function setUp() {
 		parent::setUp();
@@ -96,10 +96,10 @@ class SEMrush_Route_Test extends TestCase {
 				'yoast/v1',
 				'semrush/authenticate',
 				[
-					'methods'  => 'POST',
-					'callback' => [ $this->instance, 'authenticate' ],
+					'methods'             => 'POST',
+					'callback'            => [ $this->instance, 'authenticate' ],
 					'permission_callback' => [ $this->instance, 'can_authenticate' ],
-					'args'     => [
+					'args'                => [
 						'code' => [
 							'validate_callback' => [ $this->instance, 'has_valid_code' ],
 							'required'          => true,
@@ -113,10 +113,10 @@ class SEMrush_Route_Test extends TestCase {
 				'yoast/v1',
 				'semrush/country_code',
 				[
-					'methods'  => 'POST',
-					'callback' => [ $this->instance, 'set_country_code_option' ],
+					'methods'             => 'POST',
+					'callback'            => [ $this->instance, 'set_country_code_option' ],
 					'permission_callback' => [ $this->instance, 'can_edit' ],
-					'args'     => [
+					'args'                => [
 						'country_code' => [
 							'validate_callback' => [ $this->instance, 'has_valid_country_code' ],
 							'required'          => true,
@@ -130,15 +130,15 @@ class SEMrush_Route_Test extends TestCase {
 				'yoast/v1',
 				'semrush/related_keyphrases',
 				[
-					'methods'  => 'GET',
-					'callback' => [ $this->instance, 'get_related_keyphrases' ],
+					'methods'             => 'GET',
+					'callback'            => [ $this->instance, 'get_related_keyphrases' ],
 					'permission_callback' => [ $this->instance, 'can_edit' ],
-					'args'     => [
+					'args'                => [
 						'keyphrase' => [
 							'validate_callback' => [ $this->instance, 'has_valid_keyphrase' ],
 							'required'          => true,
 						],
-						'country_code'  => [
+						'country_code' => [
 							'required' => true,
 						],
 					],
