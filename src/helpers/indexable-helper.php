@@ -2,14 +2,12 @@
 
 namespace Yoast\WP\SEO\Helpers;
 
-use Yoast\WP\Lib\Model;
 use Yoast\WP\SEO\Actions\Indexation\Indexable_Post_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexation\Indexable_Post_Type_Archive_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexation\Indexable_Term_Indexation_Action;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Presenters\Admin\Indexation_Permalink_Warning_Presenter;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
-use Yoast\WP\SEO\WordPress\Wrapper;
 
 /**
  * A helper object for indexables.
@@ -24,12 +22,21 @@ class Indexable_Helper {
 	private $options_helper;
 
 	/**
+	 * Represents the indexable repository.
+	 *
+	 * @var Indexable_Repository
+	 */
+	protected $repository;
+
+	/**
 	 * Indexable_Helper constructor.
 	 *
-	 * @param Options_Helper $options_helper The options helper.
+	 * @param Options_Helper       $options_helper The options helper.
+	 * @param Indexable_Repository $repository     The indexables repository.
 	 */
-	public function __construct( Options_Helper $options_helper ) {
+	public function __construct( Options_Helper $options_helper, Indexable_Repository $repository ) {
 		$this->options_helper = $options_helper;
+		$this->repository     = $repository;
 	}
 
 	/**
@@ -88,27 +95,10 @@ class Indexable_Helper {
 	 * @param null|string $subtype The subtype. Can be null.
 	 * @param string      $reason  The reason that the permalink has been changed.
 	 */
-	public function reset_permalink_indexables( $type, $subtype = null, $reason = Indexation_Permalink_Warning_Presenter::REASON_PERMALINK_SETTINGS ) {
-		$result =
+	public function reset_permalink_indexables( $type = null, $subtype = null, $reason = Indexation_Permalink_Warning_Presenter::REASON_PERMALINK_SETTINGS ) {
+		$result = $this->repository->reset_permalink( $type, $subtype );
 
-
-
-		$where = [ 'object_type' => $type ];
-
-		if ( $subtype ) {
-			$where['object_sub_type'] = $subtype;
-		}
-
-		$result = Wrapper::get_wpdb()->update(
-			Model::get_table_name( 'Indexable' ),
-			[
-				'permalink'      => null,
-				'permalink_hash' => null,
-			],
-			$where
-		);
-
-		if ( $result > 0 ) {
+		if ( $result !== false && $result > 0 ) {
 			$this->options_helper->set( 'indexables_indexation_reason', $reason );
 			$this->options_helper->set( 'ignore_indexation_warning', false );
 			$this->options_helper->set( 'indexation_warning_hide_until', false );

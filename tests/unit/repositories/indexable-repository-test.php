@@ -356,4 +356,111 @@ class Indexable_Repository_Test extends TestCase {
 
 		$this->assertSame( [ $indexable ], $this->instance->find_by_ids( [ 1, 2, 3 ] ) );
 	}
+
+	/**
+	 * Tests if the reset_permalink method fires when no type and subtype are passed.
+	 *
+	 * @covers ::reset_permalink
+	 */
+	public function test_reset_permalink() {
+		$orm_object = Mockery::mock();
+
+		$this->instance
+			->expects( 'query' )
+			->andReturn( $orm_object );
+
+		$orm_object
+			->expects( 'set' )
+			->with(
+				[
+					'permalink'      => null,
+					'permalink_hash' => null,
+				]
+			)
+			->once()
+			->andReturnSelf();
+
+		$orm_object
+			->expects( 'update_many' )
+			->once()
+			->andReturn( 10 );
+
+		$this->assertSame( 10, $this->instance->reset_permalink() );
+	}
+
+	/**
+	 * Tests if the reset_permalink method fires when type and subtype are passed.
+	 *
+	 * @covers ::reset_permalink
+	 */
+	public function test_reset_permalink_with_args() {
+		$orm_object = Mockery::mock();
+
+		$this->instance
+			->expects( 'query' )
+			->andReturn( $orm_object );
+
+		$orm_object
+			->expects( 'set' )
+			->with(
+				[
+					'permalink'      => null,
+					'permalink_hash' => null,
+				]
+			)
+			->once()
+			->andReturnSelf();
+
+		$orm_object
+			->expects( 'where' )
+			->with( 'object_type', 'term' )
+			->andReturnSelf();
+
+		$orm_object
+			->expects( 'where' )
+			->with( 'object_sub_type', 'category' )
+			->andReturnSelf();
+
+		$orm_object
+			->expects( 'update_many' )
+			->once()
+			->andReturn( 1 );
+
+		$this->assertSame( 1, $this->instance->reset_permalink( 'term', 'category' ) );
+	}
+
+	/**
+	 * Tests if the reset_permalink method fires when no type is passed, but a subtype is.
+	 *
+	 * @covers ::reset_permalink
+	 */
+	public function test_reset_permalink_with_invalid_args() {
+		$orm_object = Mockery::mock();
+
+		$this->instance
+			->expects( 'query' )
+			->andReturn( $orm_object );
+
+		$orm_object
+			->expects( 'set' )
+			->with(
+				[
+					'permalink'      => null,
+					'permalink_hash' => null,
+				]
+			)
+			->once()
+			->andReturnSelf();
+
+		$orm_object
+			->expects( 'where' )
+			->never();
+
+		$orm_object
+			->expects( 'update_many' )
+			->once()
+			->andReturn( 10 );
+
+		$this->assertSame( 10, $this->instance->reset_permalink( null, 'category' ) );
+	}
 }

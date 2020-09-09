@@ -503,10 +503,21 @@ class Indexable_Repository {
 		return $this->find_by_ids( $indexable_ids );
 	}
 
+	/**
+	 * Resets the permalinks of the passed object type and subtype.
+	 *
+	 * @param string      $type    The type of the indexable. Can be null.
+	 * @param null|string $subtype The subtype. Can be null.
+	 *
+	 * @return int|bool The number of permalinks changed if the query was succesful. False otherwise.
+	 */
 	public function reset_permalink( $type = null, $subtype = null ) {
-		$query = $this->query()
-			->set( 'permalink', null )
-			->set( 'permalink_hash', null );
+		$query = $this->query()->set(
+			[
+				'permalink'      => null,
+				'permalink_hash' => null,
+			]
+		);
 
 		if ( $type !== null ) {
 			$query->where( 'object_type', $type );

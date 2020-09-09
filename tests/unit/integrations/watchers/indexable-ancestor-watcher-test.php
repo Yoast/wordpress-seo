@@ -47,6 +47,8 @@ class Indexable_Ancestor_Watcher_Test extends TestCase {
 	protected $indexable_hierarchy_builder;
 
 	/**
+	 * Represents the indexable hierarchy repository.
+	 *
 	 * @var Mockery\LegacyMockInterface|Mockery\MockInterface|Indexable_Hierarchy_Builder
 	 */
 	protected $indexable_hierarchy_repository;
@@ -59,6 +61,8 @@ class Indexable_Ancestor_Watcher_Test extends TestCase {
 	protected $wpdb;
 
 	/**
+	 * Represents the permalink helper.
+	 *
 	 * @var Mockery\LegacyMockInterface|Mockery\MockInterface|Permalink_Helper
 	 */
 	protected $permalink_helper;
