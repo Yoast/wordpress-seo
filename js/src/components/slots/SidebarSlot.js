@@ -1,5 +1,6 @@
 import { Slot } from "@wordpress/components";
 import sortComponentsByRenderPriority from "../../helpers/sortComponentsByRenderPriority";
+import TopLevelProviders from "../TopLevelProviders";
 
 /**
  * Renders the Sidebar slot.
@@ -8,10 +9,16 @@ import sortComponentsByRenderPriority from "../../helpers/sortComponentsByRender
  */
 export default function SidebarSlot() {
 	return (
-		<Slot name="YoastSidebar">
-			{ ( fills ) => {
-				return sortComponentsByRenderPriority( fills );
-			} }
-		</Slot>
+		<TopLevelProviders
+			store={ store }
+			theme={ theme }
+			location={ "sidebar" }
+		>
+			<Slot name="YoastSidebar">
+				{ ( fills ) => {
+					return sortComponentsByRenderPriority( fills );
+				} }
+			</Slot>
+		</TopLevelProviders>
 	);
 }
