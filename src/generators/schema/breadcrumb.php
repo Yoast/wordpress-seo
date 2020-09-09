@@ -19,10 +19,6 @@ class Breadcrumb extends Abstract_Schema_Piece {
 			return false;
 		}
 
-		if ( $this->context->indexable->object_type === 'home-page' || $this->helpers->current_page->is_home_static_page() ) {
-			return false;
-		}
-
 		if ( $this->context->breadcrumbs_enabled ) {
 			return true;
 		}
