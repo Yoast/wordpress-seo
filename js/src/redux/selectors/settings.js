@@ -37,6 +37,17 @@ export const getBaseUrlFromSettings = state => state.settings.snippetEditor.base
 export const getSlugFromSettings = state => state.settings.snippetEditor.slug;
 
 /**
+ * Gets the elementorTarget from the state.
+ *
+ * @param {Object} state The state.
+ *
+ * @returns {string} The elementorTarget.
+ */
+export function getElementorTarget( state ) {
+	return state.settings.elementorTarget;
+}
+
+/**
  * Gets the authorName from the state.
  *
  * @param {Object} state The state.

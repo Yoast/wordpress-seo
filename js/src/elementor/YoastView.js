@@ -1,6 +1,5 @@
 /* global Marionette, elementor */
-import { createElement, render, unmountComponentAtNode } from "@wordpress/element";
-import ElementorSlot from "../components/slots/ElementorSlot";
+import { setElementorTarget } from "../redux/actions/settings";
 
 export default Marionette.ItemView.extend( {
 	template: false,
@@ -10,8 +9,6 @@ export default Marionette.ItemView.extend( {
 	initialize() {
 		console.log( "init" );
 
-		this.element = createElement( ElementorSlot );
-
 		// Hide the widget search.
 		elementor.getPanelView().getCurrentPageView().search.reset();
 	},
@@ -19,12 +16,12 @@ export default Marionette.ItemView.extend( {
 	onShow() {
 		console.log( "onShow" );
 
-		render( this.element, document.getElementById( "elementor-panel-yoast" ) );
+		window.wp.data.dispatch( "yoast-seo/editor" ).setElementorTarget( "elementor-yoast-panel" );
 	},
 
 	onDestroy() {
 		console.log( "hide" );
 
-		unmountComponentAtNode( document.getElementById( "elementor-panel-yoast" ) );
+		window.wp.data.dispatch( "yoast-seo/editor" ).setElementorTarget( "" );
 	},
 } );

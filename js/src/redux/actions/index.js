@@ -9,3 +9,4 @@ export * from "./twitterEditor";
 export * from "./facebookEditor";
 export * from "./advancedSettings";
 export * from "./schemaTab";
+export * from "./settings";

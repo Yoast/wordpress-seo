@@ -2,7 +2,7 @@
 import ElementorEditorData from "./analysis/elementorEditorData";
 import YoastView from "./elementor/YoastView";
 import initElementorEditorIntegration from "./initializers/elementor-editor-integration";
-import initPostEdit from "./initializers/post-edit";
+import initElementorEdit from "./initializers/elementor-edit";
 
 window.yoast = window.yoast || {};
 window.yoast.initEditorIntegration = initElementorEditorIntegration;
@@ -28,7 +28,7 @@ jQuery( function() {
 		body.append( jQuery( "<div id=\"wpseo_meta\"></div>" ) );
 		body.append( jQuery( "<div id=\"wpseo-react-root\"></div>" ) );
 
-		initPostEdit();
+		initElementorEdit();
 
 		$e.components
 			.get( "panel/elements" )
