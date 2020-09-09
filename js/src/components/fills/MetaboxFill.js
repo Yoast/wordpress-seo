@@ -1,6 +1,5 @@
 /* External dependencies */
 import { Fill } from "@wordpress/components";
-import { Fragment } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import PropTypes from "prop-types";
 
@@ -17,6 +16,7 @@ import AdvancedSettings from "../../containers/AdvancedSettings";
 import SocialMetadataPortal from "../portals/SocialMetadataPortal";
 import SchemaTabContainer from "../../containers/SchemaTab";
 
+/* eslint-disable complexity */
 /**
  * Creates the Metabox component.
  *
@@ -75,4 +75,4 @@ export default function MetaboxFill( { settings } ) {
 MetaboxFill.propTypes = {
 	settings: PropTypes.object.isRequired,
 };
-
+/* eslint-ensable complexity */

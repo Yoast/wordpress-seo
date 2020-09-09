@@ -14,11 +14,11 @@ import SidebarItem from "../SidebarItem";
 import GooglePreviewModal from "../modals/editorModals/GooglePreviewModal";
 import TwitterPreviewModal from "../modals/editorModals/TwitterPreviewModal";
 import FacebookPreviewModal from "../modals/editorModals/FacebookPreviewModal";
-import TopLevelProviders from "../TopLevelProviders";
 import SchemaTabContainer from "../../containers/SchemaTab";
 import SidebarCollapsible from "../SidebarCollapsible";
 import AdvancedSettings from "../../containers/AdvancedSettings";
 
+/* eslint-disable complexity */
 /**
  * Creates the SidebarFill component.
  *
@@ -83,3 +83,4 @@ export default function SidebarFill( { settings } ) {
 SidebarFill.propTypes = {
 	settings: PropTypes.object.isRequired,
 };
+/* eslint-enable complexity */
