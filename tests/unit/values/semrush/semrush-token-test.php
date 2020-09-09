@@ -24,7 +24,7 @@ class SEMrush_Token_Test extends TestCase {
 	private $created_at;
 
 	/**
-	 * @inheritDoc
+	 * Set up the test fixtures.
 	 */
 	public function setUp() {
 		parent::setUp();

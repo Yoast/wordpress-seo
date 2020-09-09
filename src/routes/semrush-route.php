@@ -103,7 +103,9 @@ class SEMrush_Route implements Route_Interface {
 	}
 
 	/**
-	 * @inheritDoc
+	 * Registers routes with WordPress.
+	 *
+	 * @return void
 	 */
 	public function register_routes() {
 		$authentication_route_args = [

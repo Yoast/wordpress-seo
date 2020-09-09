@@ -54,7 +54,7 @@ class SEMrush_Route_Test extends TestCase {
 	protected $instance;
 
 	/**
-	 * @inheritDoc
+	 * Set up the test fixtures.
 	 */
 	public function setUp() {
 		parent::setUp();

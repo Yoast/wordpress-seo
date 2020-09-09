@@ -36,7 +36,7 @@ class SEMrush_Options_Action_Test extends TestCase {
 	protected $options_helper;
 
 	/**
-	 * @inheritDoc
+	 * Set up the test fixtures.
 	 */
 	public function setUp() {
 		parent::setUp();

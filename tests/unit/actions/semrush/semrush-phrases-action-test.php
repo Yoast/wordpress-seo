@@ -32,7 +32,7 @@ class SEMrush_Phrases_Action_Test extends TestCase {
 	protected $client_instance;
 
 	/**
-	 * @inheritDoc
+	 * Set up the test fixtures.
 	 */
 	public function setUp() {
 		parent::setUp();
