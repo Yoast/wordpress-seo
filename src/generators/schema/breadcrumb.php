@@ -61,9 +61,15 @@ class Breadcrumb extends Abstract_Schema_Piece {
 				return false;
 			}
 		}
+
 		// Create the last breadcrumb.
 		$last_breadcrumb = \array_pop( $breadcrumbs );
 		$breadcrumbs[]   = $this->format_last_breadcrumb( $last_breadcrumb );
+
+		// If this is a static frontpage, prevent nested pages from creating a trail.
+		if ( $this->helpers->current_page->is_front_page() ) {
+			$breadcrumbs = [ \array_pop( $breadcrumbs ) ];
+		}
 
 		// Create intermediate breadcrumbs.
 		foreach ( $breadcrumbs as $index => $breadcrumb ) {
