@@ -89,7 +89,9 @@ class Elementor_Integration implements Integration_Interface {
 	 */
 	public function init() {
 		$this->asset_manager->register_assets();
-		$this->metabox->enqueue( 'post.php', $this->render_hidden_fields() );
+		$this->metabox->enqueue( 'post.php', true );
+		echo $this->render_hidden_fields();
+		echo '<div id="wpseo_meta"></div>';
 	}
 
 	/**

@@ -882,9 +882,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			'isPost'           => true,
 			'isBlockEditor'    => $is_block_editor,
 		];
-		if ( $load_elementor !== false ) {
-			$script_data['elementor'] = $load_elementor;
-		}
 
 		if ( post_type_supports( get_post_type(), 'thumbnail' ) ) {
 			$asset_manager->enqueue_style( 'featured-image' );

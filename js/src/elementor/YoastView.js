@@ -10,7 +10,7 @@ export default Marionette.ItemView.extend( {
 	initialize() {
 		console.log( "init" );
 
-		// Hide the widget search.
+		// Hide the search widget.
 		elementor.getPanelView().getCurrentPageView().search.reset();
 	},
 
