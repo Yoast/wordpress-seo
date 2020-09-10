@@ -29,7 +29,7 @@ return array(
 	 */
 	'patchers'                   => [
 		/**
-		 * Removes the namespace from the bootstrap file
+		 * Removes the namespace from the bootstrap file.
 		 *
 		 * @param string $filePath The path of the current file.
 		 * @param string $prefix   The prefix to be used.
