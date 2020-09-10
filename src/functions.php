@@ -13,6 +13,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 
 use Yoast\WP\SEO\Main;
 
+require_once WPSEO_PATH . 'vendor_prefixed/symfony/polyfill-intl-idn/bootstrap.php';
 require_once WPSEO_PATH . 'vendor_prefixed/guzzlehttp/guzzle/src/functions.php';
 require_once WPSEO_PATH . 'vendor_prefixed/guzzlehttp/psr7/src/functions_include.php';
 require_once WPSEO_PATH . 'vendor_prefixed/guzzlehttp/promises/src/functions_include.php';
