@@ -47,8 +47,8 @@ const onChangeHandler = onChange => {
 const TextInput = ( props ) => {
 	const id = getId( props.id );
 	const fieldGroupProps = {
-		htmlFor: id,
 		...props,
+		htmlFor: id,
 	};
 
 	return (
