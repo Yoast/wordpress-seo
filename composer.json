@@ -29,7 +29,8 @@
 		"pimple/pimple": "^3.2",
 		"psr/log": "^1.0",
 		"league/oauth2-client": "^2.4",
-		"symfony/dependency-injection": "^3.4"
+		"symfony/dependency-injection": "^3.4",
+		"symfony/polyfill-intl-idn": "^1.11"
 	},
 	"require-dev": {
 		"yoast/php-development-environment": "^1.0",
