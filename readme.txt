@@ -213,7 +213,7 @@ Release Date: September 15th, 2020
 
 Enhancements:
 
-* Introduces an advanced Settings tab in the sidebar.
+* Introduces an advanced settings tab in the sidebar.
 * Introduces buttons in the sidebar to open the Facebook and Twitter Preview in a modal.
 * Changes the Google Preview modal styling to match the other new modals.
 * Always shows the Google Preview editor fields and as a result removes the 'Edit snippet' button.
