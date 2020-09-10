@@ -213,9 +213,12 @@ Release Date: September 15th, 2020
 
 Enhancements:
 
-* Adds a modal to the post edit screen that can be used to change settings.
-* Removes the Schema settings from the sidebar because they have moved to the post settings modal.
+* Introduces an advanced Settings tab in the sidebar.
+* Introduces buttons in the sidebar to open the Facebook and Twitter Preview in a modal.
+* Changes the Google Preview modal styling to match the other new modals.
 * Always shows the Google Preview editor fields and as a result removes the 'Edit snippet' button.
+* Changes the styling of the Yoast SEO sidebar to match the standard Gutenberg styling.
+* Adds a hover state styling to the items in the Metabox.
 * Improves the English transition word assessment by adding the following words to the transition word list: 'note that', 'not only', 'initially', 'as opposed to'.
 * Improves the keyphrase and prominent word recognition when words in the text occur with specific Arabic or Urdu punctuation marks.
 
@@ -224,11 +227,13 @@ Bugfixes:
 * Fixes a bug where the value of the schema `@type` could contain `null`.
 * Fixes a bug where the `archive`, `imageindex` and `snippet` robot values would be output when `noindex` was present as well.
 * Fixes a bug where the indexable permalinks could have an incorrect value when the term slug was changed.
+* Fixes a bug where parts of the content of a password protected post could be output in the schema.
 
 Other:
 
 * Adds an alert to the Google Preview modal informing users about the future removal of that modal in favor of the new post settings modal.
 * Adds the `wpseo_sitemap_index_links` filter to enable adding links to the sitemap index. Props to [Joseph Paul](https://github.com/jsphpl).
+* Slightly rearranges the order of items in the Yoast SEO sidebar.
 
 = 14.9 =
 Release Date: September 1st, 2020
