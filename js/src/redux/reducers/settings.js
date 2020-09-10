@@ -1,4 +1,4 @@
-import { SET_CONTENT_IMAGE, SET_ELEMENTOR_TARGET, SET_SETTINGS } from "../actions/settings";
+import { SET_CONTENT_IMAGE, SET_SETTINGS } from "../actions/settings";
 
 /**
  * A reducer for settings.
@@ -21,11 +21,6 @@ export default function settingsReducer( state = {}, action ) {
 				},
 			};
 		}
-		case SET_ELEMENTOR_TARGET:
-			return {
-				...state,
-				elementorTarget: action.target,
-			};
 		default:
 			return state;
 	}

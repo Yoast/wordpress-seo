@@ -23,7 +23,6 @@ jQuery( function() {
 	body.append( jQuery( window.wpseoScriptData.elementor ) );
 	// The post scraper checks for this metabox container.
 	body.append( jQuery( "<div id=\"wpseo_meta\"></div>" ) );
-	body.append( jQuery( "<div id=\"wpseo-react-root\"></div>" ) );
 
 	initElementorEdit();
 

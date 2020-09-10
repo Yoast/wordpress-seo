@@ -1,4 +1,4 @@
-import { registerReactComponent, renderReactRoot } from "../helpers/reactRoot";
+import { registerReactComponent } from "../helpers/reactRoot";
 
 /**
  * Initializes the Yoast elementor editor integration.
@@ -11,5 +11,4 @@ export default function initElementEditorIntegration( store ) {
 	// Expose registerReactComponent as an alternative to registerPlugin.
 	window.YoastSEO = window.YoastSEO || {};
 	window.YoastSEO._registerReactComponent = registerReactComponent;
-	renderReactRoot( store );
 }

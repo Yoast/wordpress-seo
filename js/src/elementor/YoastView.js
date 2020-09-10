@@ -1,4 +1,6 @@
 /* global Marionette, elementor */
+import { unmountComponentAtNode } from "@wordpress/element";
+import { renderReactRoot } from "../helpers/reactRoot";
 
 export default Marionette.ItemView.extend( {
 	template: false,
@@ -15,12 +17,12 @@ export default Marionette.ItemView.extend( {
 	onShow() {
 		console.log( "onShow" );
 
-		window.wp.data.dispatch( "yoast-seo/editor" ).setElementorTarget( "elementor-yoast-panel" );
+		renderReactRoot( window.YoastSEO.store, this.id );
 	},
 
 	onDestroy() {
 		console.log( "hide" );
 
-		window.wp.data.dispatch( "yoast-seo/editor" ).setElementorTarget( "" );
+		unmountComponentAtNode( this.$el[0] );
 	},
 } );

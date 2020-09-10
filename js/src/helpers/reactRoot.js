@@ -1,8 +1,9 @@
 import { SlotFillProvider } from "@wordpress/components";
 import { Component as wpComponent, createRef, Fragment, render } from "@wordpress/element";
 import getL10nObject from "../analysis/getL10nObject";
-import ElementorPortal from "../components/portals/ElementorPortal";
+import ElementorSlot from "../components/slots/ElementorSlot";
 import TopLevelProviders from "../components/TopLevelProviders";
+import ElementorFill from "../containers/ElementorFill";
 
 const registeredComponents = [];
 let containerRef = null;
@@ -62,10 +63,11 @@ export class RegisteredComponentsContainer extends wpComponent {
  * Renders a React tree for the classic editor.
  *
  * @param {Object} store The active redux store.
+ * @param {string} target The id of the DOM target.
  *
  * @returns {void}
  */
-export function renderReactRoot( store ) {
+export function renderReactRoot( store, target ) {
 	const localizedData = getL10nObject();
 	containerRef = createRef();
 
@@ -75,20 +77,21 @@ export function renderReactRoot( store ) {
 
 	render(
 		(
-			<SlotFillProvider>
-				<TopLevelProviders
-					store={ store }
-					theme={ theme }
-					location={ "sidebar" }
-				>
+			<TopLevelProviders
+				store={ store }
+				theme={ theme }
+				location={ "sidebar" }
+			>
+				<SlotFillProvider>
 					<Fragment>
-						<ElementorPortal />
+						<ElementorSlot />
+						<ElementorFill />
 						<RegisteredComponentsContainer ref={ containerRef } />
 					</Fragment>
-				</TopLevelProviders>
-			</SlotFillProvider>
+				</SlotFillProvider>
+			</TopLevelProviders>
 		),
-		document.getElementById( "wpseo-react-root" ),
+		document.getElementById( target ),
 	);
 
 	registeredComponents.forEach( ( registered ) => {

@@ -1,6 +1,5 @@
 export const SET_SETTINGS = "SET_SETTINGS";
 export const SET_CONTENT_IMAGE = "SET_CONTENT_IMAGE";
-export const SET_ELEMENTOR_TARGET = "SET_ELEMENTOR_TARGET";
 
 /**
  * An action creator for settings.
@@ -27,19 +26,5 @@ export const setContentImage = function( imageSrc ) {
 	return {
 		type: SET_CONTENT_IMAGE,
 		src: imageSrc,
-	};
-};
-
-/**
- * An action creator for the elementor target.
- *
- * @param {string} target The elementor target.
- *
- * @returns {Object} The set elementor target action.
- */
-export const setElementorTarget = function( target ) {
-	return {
-		type: SET_ELEMENTOR_TARGET,
-		target,
 	};
 };

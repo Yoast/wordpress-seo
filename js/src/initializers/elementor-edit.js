@@ -8,8 +8,7 @@ export default function initElementorEdit() {
 
 	// Initialize the editor integration
 	window.yoast.initEditorIntegration( store );
-	const editorData = new window.yoast.EditorData( () => {
-	}, store );
+	const editorData = new window.yoast.EditorData( () => {}, store );
 	editorData.initialize( window.wpseoScriptData.analysis.plugins.replaceVars.replace_vars );
 
 	// Initialize the post scraper.
