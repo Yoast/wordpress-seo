@@ -14,7 +14,7 @@ class Indexable_Helper {
 	 *
 	 * @var Environment_Helper
 	 */
-	private $environment_helper;
+	protected $environment_helper;
 
 	/**
 	 * Indexable_Helper constructor.
