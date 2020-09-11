@@ -14,7 +14,6 @@ use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
  * @property Helpers\Blocks_Helper         $blocks
  * @property Helpers\Current_Page_Helper   $current_page
  * @property Helpers\Date_Helper           $date
- * @property Helpers\Environment_Helper    $environment
  * @property Helpers\Home_Url_Helper       $home_url
  * @property Helpers\Image_Helper          $image
  * @property Helpers\Indexable_Helper      $indexable
