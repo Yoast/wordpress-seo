@@ -284,19 +284,28 @@ class Indexable_Builder {
 
 		$intend_to_save = $this->indexable_helper->should_index_indexables();
 		/**
-		 * Filter: 'wpseo_save_indexable' - Allow developers to enable / disable
+		 * Filter: 'wpseo_override_save_indexable' - Allow developers to enable / disable
 		 * saving the indexable when the indexable is updated. Warning: overriding
 		 * the intended action may cause missing indexables or incorrect behavior!
 		 *
 		 * @api Indexable The indexable to be saved.
-		 * @api bool YoastSEO intention of saving the indexable.
+		 * @api bool True if YoastSEO intends to save the indexable.
 		 */
-		$intend_to_save = \apply_filter( 'wpseo_save_indexable', $indexable, $intend_to_save );
+		$intend_to_save = \apply_filter( 'wpseo_override_save_indexable', $indexable, $intend_to_save );
 
 		if ( $intend_to_save ) {
 			if ( $indexable_before ) {
-				$indexable->save();
+				/**
+				 * Action: 'wpseo_save_indexable' - Allow developers to perform an action
+				 * when the indexable is udated.
+				 *
+				 * @param Indexable The indexable before saving.
+				 *
+				 * @api   Indexable The saved indexable.
+				 */
+				do_action( 'wpseo_save_indexable', $indexable, $indexable_before );
 			}
+			$indexable->save();
 		}
 
 		return $indexable;
