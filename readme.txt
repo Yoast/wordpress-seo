@@ -231,7 +231,6 @@ Bugfixes:
 
 Other:
 
-* Adds an alert to the Google Preview modal informing users about the future removal of that modal in favor of the new post settings modal.
 * Adds the `wpseo_sitemap_index_links` filter to enable adding links to the sitemap index. Props to [Joseph Paul](https://github.com/jsphpl).
 * Slightly rearranges the order of items in the Yoast SEO sidebar.
 
