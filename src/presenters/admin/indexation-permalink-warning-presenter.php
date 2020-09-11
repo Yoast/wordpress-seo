@@ -18,6 +18,11 @@ class Indexation_Permalink_Warning_Presenter extends Indexation_Warning_Presente
 	const REASON_CATEGORY_BASE_PREFIX = 'category_base_changed';
 
 	/**
+	 * Represents the reason that the home url option is changed.
+	 */
+	const REASON_HOME_URL_OPTION = 'home_url_option_changed';
+
+	/**
 	 * Presents the warning that your site's content is not fully indexed.
 	 *
 	 * @return string The warning HTML.
@@ -49,6 +54,10 @@ class Indexation_Permalink_Warning_Presenter extends Indexation_Warning_Presente
 		switch ( $reason ) {
 			case static::REASON_CATEGORY_BASE_PREFIX:
 				$text = \esc_html__( 'Because of a change in your category URL setting, some of your SEO data need to be reprocessed.', 'wordpress-seo' );
+				break;
+
+			case static::REASON_HOME_URL_OPTION:
+				$text = \esc_html__( 'Because of a change in your home URL option, some of your SEO data need to be reprocessed.', 'wordpress-seo' );
 				break;
 
 			case static::REASON_PERMALINK_SETTINGS:
