@@ -7,6 +7,7 @@ use Yoast\WP\SEO\Helpers\Environment_Helper;
 use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
+use function Brain\Monkey\Functions\expect;
 
 /**
  * Class Indexable_Helper_Test.
