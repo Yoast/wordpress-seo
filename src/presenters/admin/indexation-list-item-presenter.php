@@ -28,7 +28,7 @@ class Indexation_List_Item_Presenter extends Abstract_Presenter {
 	/**
 	 * Indexation_List_Item_Presenter constructor.
 	 *
-	 * @param int              $total_unindexed The number of objects that need to be indexed.
+	 * @param int              $total_unindexed  The number of objects that need to be indexed.
 	 * @param Indexable_Helper $indexable_helper The indexable helper.
 	 */
 	public function __construct(
@@ -50,12 +50,12 @@ class Indexation_List_Item_Presenter extends Abstract_Presenter {
 			'<p><a href="%1$s" target="_blank">%2$s</a>%3$s</p>',
 			\esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/3-z' ) ),
 			\sprintf(
-				/* translators: 1: Expands to Yoast SEO. */
+			/* translators: 1: Expands to Yoast SEO. */
 				\esc_html__( '%1$s creates and maintains an index of all of your site\'s SEO data in order to speed up your site', 'wordpress-seo' ),
 				'Yoast SEO'
 			),
 			\sprintf(
-				/* translators: 1: Expands to Yoast SEO. */
+			/* translators: 1: Expands to Yoast SEO. */
 				\esc_html__( '. To build your index, %1$s needs to process all of your content.', 'wordpress-seo' ),
 				'Yoast SEO'
 			)
@@ -71,33 +71,30 @@ class Indexation_List_Item_Presenter extends Abstract_Presenter {
 		if ( $this->total_unindexed === 0 || $this->total_unindexed < $shutdown_limit ) {
 			$output .= '<span class="wpseo-checkmark-ok-icon"></span>' . \esc_html__( 'Great, your site has been optimized!', 'wordpress-seo' );
 		}
-		elseif ( $this->indexable_helper->should_index_indexables() ) {
-			$output .= \sprintf(
-				'<span id="yoast-indexation">' .
-					'<button type="button" class="button yoast-open-indexation" data-title="%1$s" data-settings="yoastIndexationData">' .
-						'%2$s' .
-					'</button>' .
-				'</span>',
-				\esc_attr__( 'Speeding up your site', 'wordpress-seo' ),
-				\esc_html__( 'Start processing and speed up your site now', 'wordpress-seo' )
-			);
-		}
 		else {
+
+			$should_index = $this->indexable_helper->should_index_indexables();
+			$disabled     = ( $should_index ) ? '' : 'disabled';
+
 			$output .= \sprintf(
 				'<span id="yoast-indexation">' .
-				'<button type="button" class="button yoast-open-indexation" data-title="%1$s" data-settings="yoastIndexationData" disabled>' .
+				'<button type="button" class="button yoast-open-indexation" data-title="%1$s" data-settings="yoastIndexationData" %3$s>' .
 				'%2$s' .
 				'</button>' .
 				'</span>',
 				\esc_attr__( 'Speeding up your site', 'wordpress-seo' ),
-				\esc_html__( 'Start processing and speed up your site now', 'wordpress-seo' )
+				\esc_html__( 'Start processing and speed up your site now', 'wordpress-seo' ),
+				$disabled
 			);
-			$output .= '<p>';
-			$output .= "This button to index your website is disabled for non-production environments.";
-			$output .= '</p>';
-		}
 
-		$output .= '</li>';
+			if ( ! $should_index ) {
+				$output .= '<p>';
+				$output .= 'This button to index your website is disabled for non-production environments.';
+				$output .= '</p>';
+			}
+
+			$output .= '</li>';
+		}
 
 		return $output;
 	}
