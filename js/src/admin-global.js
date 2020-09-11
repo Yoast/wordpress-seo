@@ -135,6 +135,21 @@
 	}
 
 	/**
+	 * @returns {void}
+	 */
+	function bindIndexationNotificationButton() {
+		const button = document.getElementById( "yoast-indexation-remind-button" );
+
+		if ( ! button ) {
+			return;
+		}
+
+		button.addEventListener( "click", () => {
+			document.getElementById( "wpseo-reindex" ).querySelector( ".dismiss" ).click();
+		} );
+	}
+
+	/**
 	 * Handles dismiss and restore AJAX responses.
 	 *
 	 * @param {Object} $source Object that triggered the request.
@@ -198,7 +213,7 @@
 					action: "yoast_dismiss_notification",
 					notification: $source.attr( "id" ),
 					nonce: $source.data( "nonce" ),
-					data: $source.data( "json" ),
+					data: $this.data( "json" ) || $source.data( "json" ),
 				},
 				handleDismissRestoreResponse.bind( this, $source ),
 				"json"
