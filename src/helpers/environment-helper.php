@@ -8,7 +8,7 @@ namespace Yoast\WP\SEO\Helpers;
 class Environment_Helper {
 
 	/**
-	 * Is the site running on production?
+	 * Determines wheter the site is running on production.
 	 *
 	 * @return bool true if the site is currently running on production, false for all other environments
 	 */
@@ -16,15 +16,16 @@ class Environment_Helper {
 		$production_mode = $this->get_yoast_environment();
 		if ( isset( $production_mode ) ) {
 			return $production_mode === 'production';
-		} else {
+		}
+		else {
 			return $this->get_wp_environment() === 'production';
 		}
 	}
 
 	/**
-	 * A wrapper function to determine what environment the Yoast SEO is running at.
+	 * Determines on which environment the Yoast SEO is running.
 	 *
-	 * @return string|null
+	 * @return string|null The current Yoast SEO environment
 	 */
 	public function get_yoast_environment() {
 		if ( defined( 'YOAST_ENVIRONMENT' ) ) {
@@ -35,9 +36,9 @@ class Environment_Helper {
 	}
 
 	/**
-	 * This is a wrapper function to determine what environment wordpress is running at.
+	 * Determines on which environment Wordpress is running.
 	 *
-	 * @return string
+	 * @return string The current Wordpress environment
 	 */
 	public function get_wp_environment() {
 		return \wp_get_environment_type();
