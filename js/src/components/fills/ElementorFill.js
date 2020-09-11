@@ -1,13 +1,15 @@
 import { Fill } from "@wordpress/components";
 import PropTypes from "prop-types";
 import CollapsibleCornerstone from "../../containers/CollapsibleCornerstone";
-import PostSettingsModal from "../../containers/PostSettingsModal";
 import Warning from "../../containers/Warning";
 import KeywordInput from "../contentAnalysis/KeywordInput";
 import ReadabilityAnalysis from "../contentAnalysis/ReadabilityAnalysis";
 import SeoAnalysis from "../contentAnalysis/SeoAnalysis";
 import SidebarItem from "../SidebarItem";
-import SnippetPreviewModal from "../SnippetPreviewModal";
+import GooglePreviewModal from "../modals/editorModals/GooglePreviewModal";
+import TwitterPreviewModal from "../modals/editorModals/TwitterPreviewModal";
+import FacebookPreviewModal from "../modals/editorModals/FacebookPreviewModal";
+
 
 /**
  * Creates the ElementorFill component.
@@ -24,14 +26,31 @@ export default function ElementorFill( { settings } ) {
 			<SidebarItem renderPriority={ 1 }>
 				<Warning />
 			</SidebarItem>
-			<SidebarItem renderPriority={ 2 }>
-				<PostSettingsModal />
-			</SidebarItem>
 			{ settings.isKeywordAnalysisActive && <SidebarItem renderPriority={ 8 }>
 				<KeywordInput />
 			</SidebarItem> }
-			{ <SidebarItem renderPriority={ 9 }>
-				<SnippetPreviewModal />
+			<SidebarItem renderPriority={ 23 }>
+				<GooglePreviewModal />
+			</SidebarItem>
+			{ settings.displayFacebook && <SidebarItem renderPriority={ 24 }>
+				<FacebookPreviewModal />
+			</SidebarItem> }
+			{ settings.displayTwitter && <SidebarItem renderPriority={ 25 }>
+				<TwitterPreviewModal />
+			</SidebarItem> }
+			{ settings.displaySchemaSettings && <SidebarItem renderPriority={ 26 }>
+				<SidebarCollapsible
+					title={ __( "Schema", "wordpress-seo" ) }
+				>
+					<SchemaTabContainer />
+				</SidebarCollapsible>
+			</SidebarItem> }
+			{ settings.displayAdvancedTab && <SidebarItem renderPriority={ 27 }>
+				<SidebarCollapsible
+					title={ __( "Advanced", "wordpress-seo" ) }
+				>
+					<AdvancedSettings location="sidebar" />
+				</SidebarCollapsible>
 			</SidebarItem> }
 			{ settings.isContentAnalysisActive && <SidebarItem renderPriority={ 10 }>
 				<ReadabilityAnalysis />
