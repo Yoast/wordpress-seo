@@ -8,7 +8,7 @@ namespace Yoast\WP\SEO\Helpers;
 class Environment_Helper {
 
 	/**
-	 * Determines wheter the site is running on production.
+	 * Determines whether the site is running on production.
 	 *
 	 * @return bool true if the site is currently running on production, false for all other environments
 	 */
@@ -28,7 +28,7 @@ class Environment_Helper {
 	 * @return string|null The current Yoast SEO environment
 	 */
 	public function get_yoast_environment() {
-		if ( defined( 'YOAST_ENVIRONMENT' ) ) {
+		if ( \defined( 'YOAST_ENVIRONMENT' ) ) {
 			return YOAST_ENVIRONMENT;
 		}
 
