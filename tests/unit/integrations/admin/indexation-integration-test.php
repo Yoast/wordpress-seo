@@ -14,6 +14,7 @@ use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
 use Yoast\WP\SEO\Conditionals\Yoast_Admin_And_Dashboard_Conditional;
 use Yoast\WP\SEO\Conditionals\Yoast_Tools_Page_Conditional;
+use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Integrations\Admin\Indexation_Integration;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
@@ -92,7 +93,14 @@ class Indexation_Integration_Test extends TestCase {
 	private $yoast_tools_page_conditional;
 
 	/**
-	 * @inheritDoc
+	 * Holds the indexable helper mock.
+	 *
+	 * @var Mockery\LegacyMockInterface|Mockery\MockInterface|Indexable_Helper
+	 */
+	protected $indexable_helper;
+
+	/**
+	 * Sets up the tests.
 	 */
 	public function setUp() {
 		$this->post_type_archive_indexation = Mockery::mock( Indexable_Post_Type_Archive_Indexation_Action::class );
@@ -103,6 +111,7 @@ class Indexation_Integration_Test extends TestCase {
 		$this->options                      = Mockery::mock( Options_Helper::class );
 		$this->asset_manager                = Mockery::mock( WPSEO_Admin_Asset_Manager::class );
 		$this->yoast_tools_page_conditional = Mockery::mock( Yoast_Tools_Page_Conditional::class );
+		$this->indexable_helper             = Mockery::mock( Indexable_Helper::class );
 
 		$this->instance = new Indexation_Integration(
 			$this->post_indexation,
@@ -112,7 +121,8 @@ class Indexation_Integration_Test extends TestCase {
 			$this->complete_indexation,
 			$this->options,
 			$this->asset_manager,
-			$this->yoast_tools_page_conditional
+			$this->yoast_tools_page_conditional,
+			$this->indexable_helper
 		);
 
 		parent::setUp();
@@ -158,6 +168,12 @@ class Indexation_Integration_Test extends TestCase {
 	 * @covers ::enqueue_indexation_assets
 	 */
 	public function test_enqueue_scripts_not_having_warning_ignored() {
+		$this->indexable_helper
+			->expects( 'should_index_indexables' )
+			->once()
+			->withNoArgs()
+			->andReturnTrue();
+
 		// Mock that 40 indexables should be indexed.
 		$this->set_total_unindexed_expectations(
 			[
@@ -183,6 +199,12 @@ class Indexation_Integration_Test extends TestCase {
 	 * @covers ::enqueue_indexation_assets
 	 */
 	public function test_adding_the_indexation_permalink_warning() {
+		$this->indexable_helper
+			->expects( 'should_index_indexables' )
+			->once()
+			->withNoArgs()
+			->andReturnTrue();
+
 		// Mock that 40 indexables should be indexed.
 		$this->set_total_unindexed_expectations(
 			[
@@ -263,6 +285,12 @@ class Indexation_Integration_Test extends TestCase {
 	 * @covers ::enqueue_indexation_assets
 	 */
 	public function test_ignore_indexation_warning() {
+		$this->indexable_helper
+			->expects( 'should_index_indexables' )
+			->once()
+			->withNoArgs()
+			->andReturnTrue();
+
 		// Mock that 40 indexables should be indexed.
 		$this->set_total_unindexed_expectations(
 			[
@@ -325,6 +353,12 @@ class Indexation_Integration_Test extends TestCase {
 	 * @covers ::enqueue_indexation_assets
 	 */
 	public function test_indexation_started() {
+		$this->indexable_helper
+			->expects( 'should_index_indexables' )
+			->once()
+			->withNoArgs()
+			->andReturnTrue();
+
 		// Mock that 40 indexables should be indexed.
 		$this->set_total_unindexed_expectations(
 			[
@@ -403,6 +437,12 @@ class Indexation_Integration_Test extends TestCase {
 	 * @covers ::enqueue_indexation_assets
 	 */
 	public function test_enqueue_scripts_having_the_warning_ignored() {
+		$this->indexable_helper
+			->expects( 'should_index_indexables' )
+			->once()
+			->withNoArgs()
+			->andReturnTrue();
+
 		// Mock that 40 indexables should be indexed.
 		$this->set_total_unindexed_expectations(
 			[
@@ -463,6 +503,12 @@ class Indexation_Integration_Test extends TestCase {
 	 * @covers ::hide_notice_listener
 	 */
 	public function test_enqueue_scripts_having_a_listener_that_does_not_contain_expected_value() {
+		$this->indexable_helper
+			->expects( 'should_index_indexables' )
+			->once()
+			->withNoArgs()
+			->andReturnTrue();
+
 		$_GET['yoast_seo_hide'] = 'not_indexation_warning';
 
 		// Mock that 40 indexables should be indexed.
@@ -491,6 +537,12 @@ class Indexation_Integration_Test extends TestCase {
 	 * @covers ::hide_notice_listener
 	 */
 	public function test_enqueue_scripts_having_a_listener_that_hides_the_warning() {
+		$this->indexable_helper
+			->expects( 'should_index_indexables' )
+			->once()
+			->withNoArgs()
+			->andReturnTrue();
+
 		$_GET['yoast_seo_hide'] = 'indexation_warning';
 
 		// Mock that 40 indexables should be indexed.
@@ -563,6 +615,12 @@ class Indexation_Integration_Test extends TestCase {
 	 * @covers ::enqueue_scripts
 	 */
 	public function test_enqueue_scripts_without_indexable_assets() {
+		$this->indexable_helper
+			->expects( 'should_index_indexables' )
+			->once()
+			->withNoArgs()
+			->andReturnTrue();
+
 		// Mock that 40 indexables should be indexed.
 		$this->set_total_unindexed_expectations(
 			[
@@ -616,6 +674,12 @@ class Indexation_Integration_Test extends TestCase {
 	 * @covers ::get_total_unindexed
 	 */
 	public function test_enqueue_scripts_when_nothing_should_be_indexed() {
+		$this->indexable_helper
+			->expects( 'should_index_indexables' )
+			->once()
+			->withNoArgs()
+			->andReturnTrue();
+
 		// Nothing should be indexed.
 		$this->set_total_unindexed_expectations(
 			[
@@ -648,6 +712,12 @@ class Indexation_Integration_Test extends TestCase {
 	 * @covers ::get_total_unindexed
 	 */
 	public function test_enqueue_scripts_when_smaller_than_shutdown_limit() {
+		$this->indexable_helper
+			->expects( 'should_index_indexables' )
+			->once()
+			->withNoArgs()
+			->andReturnTrue();
+
 		// Nothing should be indexed.
 		$this->set_total_unindexed_expectations(
 			[
@@ -833,8 +903,15 @@ class Indexation_Integration_Test extends TestCase {
 	 * @covers ::render_indexation_list_item
 	 */
 	public function test_render_indexation_list_item() {
+		$this->indexable_helper
+			->expects( 'should_index_indexables' )
+			->once()
+			->withNoArgs()
+			->andReturnTrue();
+
 		Monkey\Functions\expect( 'current_user_can' )
 			->once()
+			->with( 'manage_options' )
 			->andReturnTrue();
 
 		$this->set_total_unindexed_expectations(
@@ -851,12 +928,38 @@ class Indexation_Integration_Test extends TestCase {
 		$expected  = '<li><strong>SEO Data</strong>';
 		$expected .= '<p><a href="" target="_blank">Yoast SEO creates and maintains an index of all of your site\'s SEO data in order to speed up your site</a>.';
 		$expected .= ' To build your index, Yoast SEO needs to process all of your content.</p>';
-		$expected .= '<span id="yoast-indexation"><button type="button" class="button yoast-open-indexation" data-title="Speeding up your site" data-settings="yoastIndexationData">';
+		$expected .= '<span id="yoast-indexation"><button type="button" class="button yoast-open-indexation" data-title="Speeding up your site" data-settings="yoastIndexationData" >';
 		$expected .= 'Start processing and speed up your site now</button></span></li>';
 
 		$this->expectOutputString( $expected );
 
 		$this->instance->render_indexation_list_item();
+	}
+
+	/**
+	 * Tests (not) enqueuing the scripts when the indexables shouldn't be indexed.
+	 *
+	 * @covers ::enqueue_scripts
+	 */
+	public function test_enqueue_do_not_index() {
+		$this->indexable_helper
+			->expects( 'should_index_indexables' )
+			->once()
+			->withNoArgs()
+			->andReturnFalse();
+
+		// Expect that the script and style for the modal is not enqueued.
+		$this->asset_manager
+			->expects( 'enqueue_script' )
+			->never()
+			->with( 'indexation' );
+
+		$this->asset_manager
+			->expects( 'enqueue_style' )
+			->never()
+			->with( 'admin-css' );
+
+		$this->instance->enqueue_scripts();
 	}
 
 	/**
