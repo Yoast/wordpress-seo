@@ -264,8 +264,13 @@ script:
         cd premium
         composer check-cs
         cd -
+      elif [[ "$TRAVIS_PULL_REQUEST" == "false" ]]; then
+          composer check-cs-threshold
       else
+        # For pull requests the $TRAVIS_BRANCH contains the target branch.
+        # We want to avoid introducing any new CS errors or warnings in PRs.
         composer check-cs-threshold
+        composer check-branch-cs $TRAVIS_BRANCH
       fi
       travis_time_finish && travis_fold end "PHP.code-style"
     fi

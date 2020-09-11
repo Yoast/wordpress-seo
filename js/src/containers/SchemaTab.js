@@ -70,7 +70,6 @@ const SchemaTabContainer = ( props ) => {
 					...props,
 					...baseProps,
 					...getLocationBasedProps( location ),
-					location,
 				};
 
 				return <SchemaTab { ...schemaTabProps } />;

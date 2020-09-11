@@ -102,6 +102,7 @@ class Indexable_Builder {
 	 * @param Indexable_System_Page_Builder       $system_page_builder       The search result builder for creating missing indexables.
 	 * @param Indexable_Hierarchy_Builder         $hierarchy_builder         The hierarchy builder for creating the indexable hierarchy.
 	 * @param Primary_Term_Builder                $primary_term_builder      The primary term builder for creating primary terms for posts.
+	 * @param Indexable_Helper                    $indexable_helper          The indexable helper.
 	 */
 	public function __construct(
 		Indexable_Author_Builder $author_builder,
@@ -112,7 +113,8 @@ class Indexable_Builder {
 		Indexable_Date_Archive_Builder $date_archive_builder,
 		Indexable_System_Page_Builder $system_page_builder,
 		Indexable_Hierarchy_Builder $hierarchy_builder,
-		Primary_Term_Builder $primary_term_builder
+		Primary_Term_Builder $primary_term_builder,
+		Indexable_Helper $indexable_helper
 	) {
 		$this->author_builder            = $author_builder;
 		$this->post_builder              = $post_builder;
@@ -123,6 +125,7 @@ class Indexable_Builder {
 		$this->system_page_builder       = $system_page_builder;
 		$this->hierarchy_builder         = $hierarchy_builder;
 		$this->primary_term_builder      = $primary_term_builder;
+		$this->indexable_helper          = $indexable_helper;
 	}
 
 	/**
@@ -134,17 +137,6 @@ class Indexable_Builder {
 	 */
 	public function set_indexable_repository( Indexable_Repository $indexable_repository ) {
 		$this->indexable_repository = $indexable_repository;
-	}
-
-	/**
-	 * Sets the indexable builder. Done to avoid circular dependencies.
-	 *
-	 * @param Indexable_Helper $indexable_helper The indexable helper.
-	 *
-	 * @required
-	 */
-	public function set_indexable_helper( Indexable_helper $indexable_helper ) {
-		$this->indexable_helper = $indexable_helper;
 	}
 
 	/**

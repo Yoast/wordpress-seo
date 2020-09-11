@@ -360,15 +360,16 @@
 	overflow: hidden;
 }
 
-.yoast-modal-content {
-	padding: 16px;
-}
-
 .yoast-post-settings-modal__button-container {
 	padding: 16px;
 	display: flex;
 	flex-direction: column;
 	border-bottom: 1px solid rgba( 0,0,0,0.2 );
+}
+
+.yoast-post-settings-modal .yoast-collapsible-content {
+	padding: 16px;
+	border-top: var(--yoast-border-default);
 }
 
 .yoast-post-settings-modal .components-modal__content {
@@ -406,6 +407,12 @@
 /* Set overflow-y to scroll and hide the scrollbar on FireFox. */
 .yoast-post-settings-modal .yoast-content-container {
 	overflow-y: auto;
+	border-bottom: var(--yoast-border-default);
+}
+
+/* Remove the border-top from the first collapsible. This created a double border. */
+.yoast-post-settings-modal .yoast-content-container > div:first-child {
+	border-top: none !important;
 }
 
 .yoast-post-settings-modal .yoast-button-container {

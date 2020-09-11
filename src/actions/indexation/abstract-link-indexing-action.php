@@ -58,9 +58,7 @@ abstract class Abstract_Link_Indexing_Action implements Indexation_Action_Interf
 	}
 
 	/**
-	 * Returns the total number of unindexed links.
-	 *
-	 * @return int The total number of unindexed links.
+	 * @inheritDoc
 	 */
 	public function get_total_unindexed() {
 		$transient = \get_transient( static::UNINDEXED_COUNT_TRANSIENT );
@@ -83,7 +81,7 @@ abstract class Abstract_Link_Indexing_Action implements Indexation_Action_Interf
 	}
 
 	/**
-	 * Builds links for indexables which haven't had their links indexed yet.
+	 * Creates indexables for unindexed objects.
 	 *
 	 * @return SEO_Links[] The created SEO links.
 	 */
@@ -94,7 +92,7 @@ abstract class Abstract_Link_Indexing_Action implements Indexation_Action_Interf
 		foreach ( $objects as $object ) {
 			$indexable = $this->repository->find_by_id_and_type( $object->id, $object->type );
 
-			// It's possible the indexable was created without having its links indexed.
+			// It's possible the indexable was created without having it's links indexed.
 			if ( $indexable->link_count === null ) {
 				$this->link_builder->build( $indexable, $object->content );
 				$indexable->save();
@@ -109,13 +107,11 @@ abstract class Abstract_Link_Indexing_Action implements Indexation_Action_Interf
 	}
 
 	/**
-	 * Returns the number of texts that will be indexed in a single link indexing pass.
-	 *
-	 * @return int The limit.
+	 * @inheritDoc
 	 */
 	public function get_limit() {
 		/**
-		 * Filter 'wpseo_link_indexing_limit' - Allow filtering the number of texts indexed during each link indexing pass.
+		 * Filter 'wpseo_link_indexing_limit' - Allow filtering the amount of texts indexed during each link indexing pass.
 		 *
 		 * @api int The maximum number of texts indexed.
 		 */
@@ -133,7 +129,7 @@ abstract class Abstract_Link_Indexing_Action implements Indexation_Action_Interf
 	 * Queries the database for unindexed term IDs.
 	 *
 	 * @param bool $count Whether or not it should be a count query.
-	 * @param int  $limit The maximum number of term IDs to return.
+	 * @param int  $limit The maximum amount of term IDs to return.
 	 *
 	 * @return string The query.
 	 */

@@ -4,7 +4,9 @@ namespace Yoast\WP\SEO\Tests\Unit\Integrations\Watchers;
 
 use Brain\Monkey;
 use Mockery;
-use Yoast\WP\SEO\Helpers\Indexable_Helper;
+use Yoast\WP\SEO\Actions\Indexation\Indexable_Post_Indexation_Action;
+use Yoast\WP\SEO\Actions\Indexation\Indexable_Post_Type_Archive_Indexation_Action;
+use Yoast\WP\SEO\Actions\Indexation\Indexable_Term_Indexation_Action;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Integrations\Watchers\Indexable_Category_Permalink_Watcher;
@@ -44,20 +46,12 @@ class Indexable_Category_Permalink_Watcher_Test extends TestCase {
 	private $instance;
 
 	/**
-	 * Represents the indexable helper.
-	 *
-	 * @var Mockery\MockInterface|Indexable_Helperex
-	 */
-	protected $indexable_helper;
-
-	/**
 	 * @inheritDoc
 	 */
 	public function setUp() {
-		$this->options          = Mockery::mock( Options_Helper::class );
-		$this->post_type        = Mockery::mock( Post_Type_Helper::class );
-		$this->indexable_helper = Mockery::mock( Indexable_Helper::class );
-		$this->instance         = new Indexable_Category_Permalink_Watcher( $this->post_type, $this->options, $this->indexable_helper );
+		$this->options   = Mockery::mock( Options_Helper::class );
+		$this->post_type = Mockery::mock( Post_Type_Helper::class );
+		$this->instance  = new Indexable_Category_Permalink_Watcher( $this->post_type, $this->options );
 
 		parent::setUp();
 	}
@@ -151,10 +145,45 @@ class Indexable_Category_Permalink_Watcher_Test extends TestCase {
 	 * @covers ::check_option
 	 */
 	public function test_check_option_stripcategorybase_changed() {
-		$this->indexable_helper
-			->expects( 'reset_permalink_indexables' )
-			->with( 'term', 'category', Indexation_Permalink_Warning_Presenter::REASON_CATEGORY_BASE_PREFIX )
+		global $wpdb;
+
+		$wpdb         = Mockery::mock();
+		$wpdb->prefix = 'wp_';
+
+		$wpdb
+			->expects( 'update' )
+			->once()
+			->with(
+				'wp_yoast_indexable',
+				[
+					'permalink'      => null,
+					'permalink_hash' => null,
+				],
+				[
+					'object_type'     => 'term',
+					'object_sub_type' => 'category',
+				]
+			)
+			->andReturn( 1 );
+
+		$this->options
+			->expects( 'set' )
+			->with( 'indexables_indexation_reason', Indexation_Permalink_Warning_Presenter::REASON_CATEGORY_BASE_PREFIX )
 			->once();
+
+		$this->options
+			->expects( 'set' )
+			->with( 'ignore_indexation_warning', false )
+			->once();
+
+		$this->options
+			->expects( 'set' )
+			->with( 'indexation_warning_hide_until', false )
+			->once();
+
+		Monkey\Functions\expect( 'delete_transient' )->with( Indexable_Post_Indexation_Action::TRANSIENT_CACHE_KEY );
+		Monkey\Functions\expect( 'delete_transient' )->with( Indexable_Post_Type_Archive_Indexation_Action::TRANSIENT_CACHE_KEY );
+		Monkey\Functions\expect( 'delete_transient' )->with( Indexable_Term_Indexation_Action::TRANSIENT_CACHE_KEY );
 
 		$this->instance->check_option( [ 'stripcategorybase' => 0 ], [ 'stripcategorybase' => 1 ] );
 	}

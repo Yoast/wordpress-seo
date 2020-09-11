@@ -89,14 +89,14 @@ const Content = ( props ) => {
 				linkText={ __( "Learn more about page or content types", "wordpress-seo" ) }
 			/>
 			<Select
-				id={ `yoast_wpseo_schema_page_type_react_${ props.location }` }
+				id="yoast_wpseo_schema_page_type_react"
 				options={ schemaPageTypeOptions }
 				label={ __( "Page type", "wordpress-seo" ) }
 				onChange={ props.schemaPageTypeChange }
 				selected={ props.schemaPageTypeSelected }
 			/>
 			{ props.showArticleTypeInput && <Select
-				id={ `yoast_wpseo_schema_article_type_react_${ props.location }` }
+				id="yoast_wpseo_schema_article_type_react"
 				options={ schemaArticleTypeOptions }
 				label={ __( "Article type", "wordpress-seo" ) }
 				onChange={ props.schemaArticleTypeChange }
@@ -123,7 +123,6 @@ Content.propTypes = {
 	displayFooter: PropTypes.bool,
 	defaultPageType: PropTypes.string.isRequired,
 	defaultArticleType: PropTypes.string.isRequired,
-	location: PropTypes.string.isRequired,
 };
 
 Content.defaultProps = {
@@ -169,7 +168,6 @@ SchemaTab.propTypes = {
 	displayFooter: PropTypes.bool,
 	loadSchemaArticleData: PropTypes.func.isRequired,
 	loadSchemaPageData: PropTypes.func.isRequired,
-	location: PropTypes.string.isRequired,
 };
 
 SchemaTab.defaultProps = {

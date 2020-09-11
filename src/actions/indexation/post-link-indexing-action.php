@@ -61,7 +61,7 @@ class Post_Link_Indexing_Action extends Abstract_Link_Indexing_Action {
 	 * Queries the database for unindexed term IDs.
 	 *
 	 * @param bool $count Whether or not it should be a count query.
-	 * @param int  $limit The maximum number of term IDs to return.
+	 * @param int  $limit The maximum amount of term IDs to return.
 	 *
 	 * @return string The query.
 	 */

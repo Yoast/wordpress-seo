@@ -87,12 +87,11 @@ class Person extends Abstract_Schema_Piece {
 	/**
 	 * Retrieve a list of social profile URLs for Person.
 	 *
-	 * @param array $same_as_urls Array of SameAs URLs.
-	 * @param int   $user_id      User ID.
+	 * @param int $user_id User ID.
 	 *
-	 * @return string[] $same_as_urls A list of SameAs URLs.
+	 * @return string[] $output A list of social profiles.
 	 */
-	protected function get_social_profiles( $same_as_urls, $user_id ) {
+	protected function get_social_profiles( $user_id ) {
 		/**
 		 * Filter: 'wpseo_schema_person_social_profiles' - Allows filtering of social profiles per user.
 		 *
@@ -102,10 +101,11 @@ class Person extends Abstract_Schema_Piece {
 		 *                                key. As they are retrieved using the WordPress function `get_the_author_meta`.
 		 */
 		$social_profiles = \apply_filters( 'wpseo_schema_person_social_profiles', $this->social_profiles, $user_id );
+		$output          = [];
 
 		// We can only handle an array.
 		if ( ! \is_array( $social_profiles ) ) {
-			return $same_as_urls;
+			return $output;
 		}
 
 		foreach ( $social_profiles as $profile ) {
@@ -116,11 +116,11 @@ class Person extends Abstract_Schema_Piece {
 
 			$social_url = $this->url_social_site( $profile, $user_id );
 			if ( $social_url ) {
-				$same_as_urls[] = $social_url;
+				$output[] = $social_url;
 			}
 		}
 
-		return $same_as_urls;
+		return $output;
 	}
 
 	/**
@@ -149,7 +149,10 @@ class Person extends Abstract_Schema_Piece {
 			$data['description'] = $this->helpers->schema->html->smart_strip_tags( $user_data->description );
 		}
 
-		$data = $this->add_same_as_urls( $data, $user_data, $user_id );
+		$social_profiles = $this->get_social_profiles( $user_id );
+		if ( ! empty( $social_profiles ) ) {
+			$data['sameAs'] = $social_profiles;
+		}
 
 		return $data;
 	}
@@ -264,32 +267,5 @@ class Person extends Abstract_Schema_Piece {
 
 		// Author archive from the same user as the site represents.
 		return $this->context->indexable->object_type === 'user' && $this->context->site_user_id === $this->context->indexable->object_id;
-	}
-
-	/**
-	 * Builds our SameAs array.
-	 *
-	 * @param array   $data      The Person schema data.
-	 * @param WP_User $user_data The user data object.
-	 * @param int     $user_id   The user ID to use.
-	 *
-	 * @return array The Person schema data.
-	 */
-	protected function add_same_as_urls( $data, $user_data, $user_id ) {
-		$same_as_urls = [];
-
-		// Add the "Website" field from WordPress' contact info.
-		if ( ! empty( $user_data->user_url ) ) {
-			$same_as_urls[] = $user_data->user_url;
-		}
-
-		// Add the social profiles.
-		$same_as_urls = $this->get_social_profiles( $same_as_urls, $user_id );
-
-		if ( ! empty( $same_as_urls ) ) {
-			$data['sameAs'] = $same_as_urls;
-		}
-
-		return $data;
 	}
 }

@@ -47,7 +47,7 @@ class Indexable_Category_Permalink_Watcher extends Indexable_Permalink_Watcher {
 
 		// If a new value has been set for 'stripcategorybase', clear the category permalinks.
 		if ( $old_value['stripcategorybase'] !== $new_value['stripcategorybase'] ) {
-			$this->indexable_helper->reset_permalink_indexables( 'term', 'category', Indexation_Permalink_Warning_Presenter::REASON_CATEGORY_BASE_PREFIX );
+			$this->reset_permalink_indexables( 'term', 'category', Indexation_Permalink_Warning_Presenter::REASON_CATEGORY_BASE_PREFIX );
 		}
 	}
 }

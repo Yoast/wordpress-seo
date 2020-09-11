@@ -10,12 +10,12 @@ interface Indexation_Action_Interface {
 	/**
 	 * Returns the total number of unindexed objects.
 	 *
-	 * @return int The total number of unindexed objects.
+	 * @return int The number of unindexed objects.
 	 */
 	public function get_total_unindexed();
 
 	/**
-	 * Indexes a number of objects.
+	 * Index a number of objects.
 	 *
 	 * NOTE: ALWAYS use limits, this method is intended to be called multiple times over several requests.
 	 *
@@ -26,7 +26,7 @@ interface Indexation_Action_Interface {
 	public function index();
 
 	/**
-	 * Returns the number of objects that will be indexed in a single indexing pass.
+	 * Returns the number of objects that will be indexed in a single indexation pass.
 	 *
 	 * @return int The limit.
 	 */

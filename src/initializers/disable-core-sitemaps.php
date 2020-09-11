@@ -44,9 +44,9 @@ class Disable_Core_Sitemaps implements Initializer_Interface {
 	 * Disable the WP core XML sitemaps.
 	 */
 	public function initialize() {
-		if ( $this->options->get( 'enable_xml_sitemap' ) ) {
-			\add_filter( 'wp_sitemaps_enabled', '__return_false' );
+		\add_filter( 'wp_sitemaps_enabled', '__return_false' );
 
+		if ( $this->options->get( 'enable_xml_sitemap' ) ) {
 			\add_action( 'template_redirect', [ $this, 'template_redirect' ], 0 );
 		}
 	}

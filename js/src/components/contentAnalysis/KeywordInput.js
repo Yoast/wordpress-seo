@@ -1,7 +1,7 @@
 /* global wpseoAdminL10n */
 
 /* External dependencies */
-import { Component } from "@wordpress/element";
+import { Component, Fragment } from "@wordpress/element";
 import { Slot } from "@wordpress/components";
 import { __ } from "@wordpress/i18n";
 import PropTypes from "prop-types";
@@ -52,8 +52,8 @@ class KeywordInput extends Component {
 	render() {
 		return <LocationConsumer>
 			{ context => (
-				<div style={ context === "sidebar" ? {  borderBottom: "1px solid #f0f0f0" } : {} }>
-					<KeywordInputContainer location={ context }>
+				<Fragment>
+					<KeywordInputContainer>
 						<KeywordInputComponent
 							id={ `focus-keyword-input-${ context }` }
 							onChange={ this.props.onFocusKeywordChange }
@@ -74,7 +74,7 @@ class KeywordInput extends Component {
 						}
 					</KeywordInputContainer>
 					<Slot name={ `YoastAfterKeywordInput${ context.charAt( 0 ).toUpperCase() + context.slice( 1 ) }` } />
-				</div>
+				</Fragment>
 			) }
 		</LocationConsumer>;
 	}

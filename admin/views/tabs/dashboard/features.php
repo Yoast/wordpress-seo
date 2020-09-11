@@ -55,10 +55,6 @@ $feature_toggles = Yoast_Feature_Toggles::instance()->get_all();
 			'<strong>' . $feature->name . '</strong>',
 			$feature_help->get_button_html() . $feature_help->get_panel_html()
 		);
-
-		if ( ! empty( $feature->after ) ) {
-			echo $feature->after;
-		}
 	}
 	?>
 </div>

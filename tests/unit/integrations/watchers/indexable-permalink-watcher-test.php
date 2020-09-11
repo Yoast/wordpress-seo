@@ -5,7 +5,6 @@ namespace Yoast\WP\SEO\Tests\Unit\Integrations\Watchers;
 use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
-use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Integrations\Watchers\Indexable_Permalink_Watcher;
@@ -45,24 +44,16 @@ class Indexable_Permalink_Watcher_Test extends TestCase {
 	protected $options;
 
 	/**
-	 * Represents the indexable helper.
-	 *
-	 * @var Mockery\MockInterface|Indexable_Helperex
-	 */
-	protected $indexable_helper;
-
-	/**
 	 * Does the setup.
 	 */
 	public function setUp() {
 		parent::setUp();
 
-		$this->post_type        = Mockery::mock( Post_Type_Helper::class );
-		$this->options          = Mockery::mock( Options_Helper::class );
-		$this->indexable_helper = Mockery::mock( Indexable_Helper::class );
-		$this->instance         = Mockery::mock( Indexable_Permalink_Watcher::class, [ $this->post_type, $this->options, $this->indexable_helper ] )
-				->shouldAllowMockingProtectedMethods()
-				->makePartial();
+		$this->post_type = Mockery::mock( Post_Type_Helper::class );
+		$this->options   = Mockery::mock( Options_Helper::class );
+		$this->instance  = Mockery::mock( Indexable_Permalink_Watcher::class, [ $this->post_type, $this->options ] )
+			->shouldAllowMockingProtectedMethods()
+			->makePartial();
 	}
 
 	/**
@@ -99,12 +90,12 @@ class Indexable_Permalink_Watcher_Test extends TestCase {
 		$this->instance->expects( 'get_post_types' )->once()->andReturn( [ 'post' ] );
 		$this->instance->expects( 'get_taxonomies_for_post_types' )->once()->with( [ 'post' ] )->andReturn( [ 'category' ] );
 
-		$this->indexable_helper->expects( 'reset_permalink_indexables' )->with( 'post', 'post' )->once();
-		$this->indexable_helper->expects( 'reset_permalink_indexables' )->with( 'post-type-archive', 'post' )->once();
-		$this->indexable_helper->expects( 'reset_permalink_indexables' )->with( 'term', 'category' )->once();
-		$this->indexable_helper->expects( 'reset_permalink_indexables' )->with( 'user' )->once();
-		$this->indexable_helper->expects( 'reset_permalink_indexables' )->with( 'date-archive' )->once();
-		$this->indexable_helper->expects( 'reset_permalink_indexables' )->with( 'system-page' )->once();
+		$this->instance->expects( 'reset_permalink_indexables' )->with( 'post', 'post' )->once();
+		$this->instance->expects( 'reset_permalink_indexables' )->with( 'post-type-archive', 'post' )->once();
+		$this->instance->expects( 'reset_permalink_indexables' )->with( 'term', 'category' )->once();
+		$this->instance->expects( 'reset_permalink_indexables' )->with( 'user' )->once();
+		$this->instance->expects( 'reset_permalink_indexables' )->with( 'date-archive' )->once();
+		$this->instance->expects( 'reset_permalink_indexables' )->with( 'system-page' )->once();
 
 		$this->instance->reset_permalinks();
 	}
@@ -115,8 +106,8 @@ class Indexable_Permalink_Watcher_Test extends TestCase {
 	 * @covers ::reset_permalinks_post_type
 	 */
 	public function test_reset_permalinks_post_type() {
-		$this->indexable_helper->expects( 'reset_permalink_indexables' )->with( 'post', 'post' )->once();
-		$this->indexable_helper->expects( 'reset_permalink_indexables' )->with( 'post-type-archive', 'post' )->once();
+		$this->instance->expects( 'reset_permalink_indexables' )->with( 'post', 'post' )->once();
+		$this->instance->expects( 'reset_permalink_indexables' )->with( 'post-type-archive', 'post' )->once();
 
 		$this->instance->reset_permalinks_post_type( 'post' );
 	}
@@ -127,7 +118,7 @@ class Indexable_Permalink_Watcher_Test extends TestCase {
 	 * @covers ::reset_permalinks_term
 	 */
 	public function test_reset_permalinks_term() {
-		$this->indexable_helper
+		$this->instance
 			->expects( 'reset_permalink_indexables' )
 			->with( 'term', 'category' )
 			->once();
@@ -141,7 +132,7 @@ class Indexable_Permalink_Watcher_Test extends TestCase {
 	 * @covers ::reset_permalinks_term
 	 */
 	public function test_reset_permalinks_for_term_tag() {
-		$this->indexable_helper
+		$this->instance
 			->expects( 'reset_permalink_indexables' )
 			->with( 'term', 'post_tag' )
 			->once();

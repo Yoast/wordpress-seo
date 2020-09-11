@@ -275,7 +275,7 @@ class Indexation_Integration implements Integration_Interface {
 	/**
 	 * Returns the total number of unindexed objects.
 	 *
-	 * @return int The total number of unindexed objects.
+	 * @return int
 	 */
 	public function get_total_unindexed() {
 		if ( \is_null( $this->total_unindexed ) ) {

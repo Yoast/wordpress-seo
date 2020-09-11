@@ -6,7 +6,7 @@ import { withDispatch, withSelect } from "@wordpress/data";
 import AdvancedSettings from "../components/AdvancedSettings";
 
 export default compose( [
-	withSelect( select => {
+	withSelect( ( select, ownProps ) => {
 		const {
 			getNoIndex,
 			getNoFollow,
@@ -30,6 +30,7 @@ export default compose( [
 			editorContext: getEditorContext(),
 			isBreadcrumbsDisabled,
 			isPrivateBlog,
+			location: ownProps.location || "",
 		};
 	} ),
 

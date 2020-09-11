@@ -6,7 +6,7 @@ use Brain\Monkey\Functions;
 use Mockery;
 use Yoast\WP\SEO\Builders\Indexable_Hierarchy_Builder;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
-use Yoast\WP\SEO\Helpers\Permalink_Helper;
+use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Integrations\Watchers\Indexable_Ancestor_Watcher;
 use Yoast\WP\SEO\Repositories\Indexable_Hierarchy_Repository;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
@@ -47,8 +47,13 @@ class Indexable_Ancestor_Watcher_Test extends TestCase {
 	protected $indexable_hierarchy_builder;
 
 	/**
-	 * Represents the indexable hierarchy repository.
+	 * Represents the indexable helper.
 	 *
+	 * @var Mockery\MockInterface|Indexable_Helper
+	 */
+	protected $indexable_helper;
+
+	/**
 	 * @var Mockery\LegacyMockInterface|Mockery\MockInterface|Indexable_Hierarchy_Builder
 	 */
 	protected $indexable_hierarchy_repository;
@@ -61,13 +66,6 @@ class Indexable_Ancestor_Watcher_Test extends TestCase {
 	protected $wpdb;
 
 	/**
-	 * Represents the permalink helper.
-	 *
-	 * @var Mockery\LegacyMockInterface|Mockery\MockInterface|Permalink_Helper
-	 */
-	protected $permalink_helper;
-
-	/**
 	 * @inheritDoc
 	 */
 	public function setUp() {
@@ -76,15 +74,15 @@ class Indexable_Ancestor_Watcher_Test extends TestCase {
 		$this->indexable_repository           = Mockery::mock( Indexable_Repository::class );
 		$this->indexable_hierarchy_builder    = Mockery::mock( Indexable_Hierarchy_Builder::class );
 		$this->indexable_hierarchy_repository = Mockery::mock( Indexable_Hierarchy_Repository::class );
+		$this->indexable_helper               = Mockery::mock( Indexable_Helper::class );
 		$this->wpdb                           = Mockery::mock( \wpdb::class );
-		$this->permalink_helper               = Mockery::mock( Permalink_Helper::class );
 
 		$this->instance = new Indexable_Ancestor_Watcher(
 			$this->indexable_repository,
 			$this->indexable_hierarchy_builder,
 			$this->indexable_hierarchy_repository,
-			$this->wpdb,
-			$this->permalink_helper
+			$this->indexable_helper,
+			$this->wpdb
 		);
 	}
 
@@ -127,7 +125,7 @@ class Indexable_Ancestor_Watcher_Test extends TestCase {
 	public function test_construct() {
 		$this->assertAttributeInstanceOf( Indexable_Repository::class, 'indexable_repository', $this->instance );
 		$this->assertAttributeInstanceOf( Indexable_Hierarchy_Builder::class, 'indexable_hierarchy_builder', $this->instance );
-		$this->assertAttributeInstanceOf( Permalink_Helper::class, 'permalink_helper', $this->instance );
+		$this->assertAttributeInstanceOf( Indexable_Helper::class, 'indexable_helper', $this->instance );
 	}
 
 	/**
@@ -174,7 +172,7 @@ class Indexable_Ancestor_Watcher_Test extends TestCase {
 
 		$this->indexable_hierarchy_builder->expects( 'build' )->with( $child_indexable );
 
-		$this->permalink_helper
+		$this->indexable_helper
 			->expects( 'get_permalink_for_indexable' )
 			->once()
 			->with( $child_indexable )
@@ -228,7 +226,7 @@ class Indexable_Ancestor_Watcher_Test extends TestCase {
 
 		$this->indexable_hierarchy_builder->expects( 'build' )->with( $child_indexable );
 
-		$this->permalink_helper
+		$this->indexable_helper
 			->expects( 'get_permalink_for_indexable' )
 			->once()
 			->with( $child_indexable )
@@ -399,7 +397,7 @@ class Indexable_Ancestor_Watcher_Test extends TestCase {
 			$this->indexable_hierarchy_builder->expects( 'build' )
 				->with( $indexable );
 
-			$this->permalink_helper->expects( 'get_permalink_for_indexable' )
+			$this->indexable_helper->expects( 'get_permalink_for_indexable' )
 				->with( $indexable )
 				->andReturn( 'https://example.org/permalink' );
 
