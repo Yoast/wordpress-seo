@@ -10,7 +10,7 @@ use Yoast\WP\SEO\Models\Indexable;
 class Indexable_Helper {
 
 	/**
-	 * The environment helper knows things about the environment.
+	 * The environment helper.
 	 *
 	 * @var Environment_Helper
 	 */
@@ -19,9 +19,7 @@ class Indexable_Helper {
 	/**
 	 * Indexable_Helper constructor.
 	 *
-	 * @param Environment_Helper $environment_helper This helper knows things about the environment.
-	 *
-	 * @codeCoverageIgnore This constructor only sets dependencies.
+	 * @param Environment_Helper $environment_helper The environment helper.
 	 */
 	public function __construct( Environment_Helper $environment_helper ) {
 		$this->environment_helper = $environment_helper;
@@ -111,7 +109,7 @@ class Indexable_Helper {
 	/**
 	 * Determines whether indexing indexables is appropriate at this time.
 	 *
-	 * @return bool
+	 * @return bool Whether or not the indexables should be indexed.
 	 */
 	public function should_index_indexables() {
 		// Currently the only reason to index is when we're on a production website.
