@@ -45,6 +45,12 @@ class Health_Check_Ryte_Test extends TestCase {
 	 * @covers ::run
 	 */
 	public function test_run_with_option_disabled() {
+		Monkey\Functions\stubs(
+			[
+				'wp_get_environment_type' => 'production',
+			]
+		);
+
 		$this->health_check
 			->expects( 'get_ryte_option' )
 			->once()
@@ -67,6 +73,12 @@ class Health_Check_Ryte_Test extends TestCase {
 	 * @covers ::run
 	 */
 	public function test_run_with_blog_not_public() {
+		Monkey\Functions\stubs(
+			[
+				'wp_get_environment_type' => 'production',
+			]
+		);
+
 		Monkey\Functions\expect( 'get_option' )
 			->once()
 			->with( 'blog_public' )
@@ -94,6 +106,12 @@ class Health_Check_Ryte_Test extends TestCase {
 	 * @covers ::run
 	 */
 	public function test_run_with_development_mode() {
+		Monkey\Functions\stubs(
+			[
+				'wp_get_environment_type' => 'production',
+			]
+		);
+
 		Monkey\Functions\expect( 'get_option' )
 			->once()
 			->with( 'blog_public' )
@@ -134,6 +152,7 @@ class Health_Check_Ryte_Test extends TestCase {
 				'wp_remote_get'                    => null,
 				'wp_remote_retrieve_response_code' => 200,
 				'wp_remote_retrieve_body'          => WPSEO_Utils::format_json_encode( [] ),
+				'wp_get_environment_type'          => 'production',
 			]
 		);
 
@@ -170,6 +189,7 @@ class Health_Check_Ryte_Test extends TestCase {
 				'wp_remote_get'                    => null,
 				'wp_remote_retrieve_response_code' => 200,
 				'wp_remote_retrieve_body'          => null,
+				'wp_get_environment_type'          => 'production',
 			]
 		);
 
@@ -208,6 +228,7 @@ class Health_Check_Ryte_Test extends TestCase {
 				'wp_remote_get'                    => null,
 				'wp_remote_retrieve_response_code' => 200,
 				'wp_remote_retrieve_body'          => WPSEO_Utils::format_json_encode( [] ),
+				'wp_get_environment_type'          => 'production',
 			]
 		);
 
@@ -244,6 +265,7 @@ class Health_Check_Ryte_Test extends TestCase {
 				'wp_remote_retrieve_response_code'    => 500,
 				'wp_remote_retrieve_body'             => null,
 				'wp_remote_retrieve_response_message' => '',
+				'wp_get_environment_type'             => 'production',
 			]
 		);
 
@@ -283,5 +305,24 @@ class Health_Check_Ryte_Test extends TestCase {
 
 		Monkey\Functions\expect( 'add_query_arg' )->andReturn( '' );
 		Monkey\Functions\expect( 'esc_url' )->andReturn( '' );
+	}
+
+	/**
+	 * Tests the run method when Ryte integration is enabled, the site is indexable but the WordPress environment type is not "production".
+	 *
+	 * @covers ::run
+	 * @covers ::response_error
+	 */
+	public function test_run_with_environment_type_not_production() {
+		Monkey\Functions\stubs(
+			[
+				'wp_get_environment_type' => 'staging',
+			]
+		);
+
+		$this->health_check->run();
+
+		// We just want to verify that the label attribute hasn't been set.
+		$this->assertAttributeEquals( '', 'label', $this->health_check );
 	}
 }

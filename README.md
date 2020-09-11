@@ -43,6 +43,8 @@ yarn
 grunt build
 ```
 
+During development, you could run `grunt build:dev` instead of `grunt build`, to save yourself downloading some dependencies that are only needed for a production environment.
+
 Please note that if you change anything in the JavaScript or CSS, you'll have to run `grunt build:js` or `grunt build:css`, respectively.
 
 Alternatively, a webpack development server is available. To enable the dev-server, you'll have to add this to your WordPress install's `config.php`:
@@ -59,7 +61,7 @@ Yoast SEO uses some JavaScript code that is managed outside of this repository. 
 
 ```bash
 git clone https://github.com/Yoast/javascript.git # Only the first time.
-yarn link-monorepo # You will be prompted for the location of your Yoast/javascript clone. This will is "./javascript" if you cloned it inside the wordpress-seo directory. Your preference will be saved in a .yoast file for later use.
+yarn link-monorepo # You will be prompted for the location of your Yoast/javascript clone. This will be "./javascript" if you cloned it inside the wordpress-seo directory. Your preference will be saved in a .yoast file for later use.
 grunt build 
 ```
 

@@ -2,11 +2,13 @@
 /**
  * WPSEO plugin test file.
  *
- * @package WPSEO\Tests\OnPage
+ * @package WPSEO\Tests\Ryte
  */
 
 /**
  * Unit Test Class.
+ *
+ * @group ryte
  */
 class WPSEO_Ryte_Test extends WPSEO_UnitTestCase {
 
