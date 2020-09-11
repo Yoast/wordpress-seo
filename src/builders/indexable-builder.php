@@ -88,7 +88,7 @@ class Indexable_Builder {
 	 *
 	 * @var Indexable_Helper
 	 */
-	private $indexable_helper;
+	protected $indexable_helper;
 
 	/**
 	 * Returns the instance of this class constructed through the ORM Wrapper.
