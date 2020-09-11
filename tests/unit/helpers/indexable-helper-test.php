@@ -308,7 +308,7 @@ class Indexable_Helper_Test extends TestCase {
 	 * Tests should_index_indexables method
 	 *
 	 * @param $wp_environment    The WordPress environment to test for.
-	 * @param $yoast_environment The yoast environment to test for.
+	 * @param $yoast_environment The Yoast environment to test for.
 	 * @param $expected_result   Either true or false.
 	 *
 	 * @covers ::should_index_indexables
@@ -343,10 +343,10 @@ class Indexable_Helper_Test extends TestCase {
 	public function should_index_for_production_environment_provider() {
 		return [
 			[ 'production', 'production', true ],
-			[ 'production', 'development', false ],
+			[ 'production', 'development', true ],
 			[ 'production', null, true ],
 			[ 'development', 'production', true ],
-			[ 'development', 'development', false ],
+			[ 'development', 'anything will be accepted', true ],
 			[ 'development', null, false ],
 			[ null, null, false ],
 		];
