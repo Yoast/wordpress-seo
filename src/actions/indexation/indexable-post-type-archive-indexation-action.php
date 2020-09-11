@@ -56,7 +56,7 @@ class Indexable_Post_Type_Archive_Indexation_Action implements Indexation_Action
 	}
 
 	/**
-	 * The total number of unindexed post type archives.
+	 * Returns the total number of unindexed post type archives.
 	 *
 	 * @return int The total number of unindexed post type archives.
 	 */
@@ -92,11 +92,13 @@ class Indexable_Post_Type_Archive_Indexation_Action implements Indexation_Action
 	}
 
 	/**
-	 * @inheritDoc
+	 * Returns the number of post type archives that will be indexed in a single indexing pass.
+	 *
+	 * @return int The limit.
 	 */
 	public function get_limit() {
 		/**
-		 * Filter 'wpseo_post_type_archive_indexation_limit' - Allow filtering the amount of posts indexed during each indexing pass.
+		 * Filter 'wpseo_post_type_archive_indexation_limit' - Allow filtering the number of posts indexed during each indexing pass.
 		 *
 		 * @api int The maximum number of posts indexed.
 		 */

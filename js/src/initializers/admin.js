@@ -253,6 +253,29 @@ export default function initAdmin( jQuery ) {
 		onViewportChange();
 	}
 
+	/**
+	 * Toggles a warning under the xml sitemap feature toggle when it is disabled.
+	 *
+	 * @returns {void}
+	 */
+	function initXmlSitemapsWarning() {
+		const radioButtons = jQuery( "#enable_xml_sitemap input[type=radio]" );
+
+		if ( ! radioButtons.length ) {
+			return;
+		}
+
+		const xmlSitemapWarning = jQuery( "#yoast-seo-sitemaps-disabled-warning" );
+
+		jQuery( "#enable_xml_sitemap input[type=radio]" ).change( function() {
+			if ( this.value === "off" ) {
+				xmlSitemapWarning.show();
+			} else {
+				xmlSitemapWarning.hide();
+			}
+		} );
+	}
+
 	window.wpseoDetectWrongVariables = wpseoDetectWrongVariables;
 	window.setWPOption = setWPOption;
 	window.wpseoCopyHomeMeta = wpseoCopyHomeMeta;
@@ -389,6 +412,7 @@ export default function initAdmin( jQuery ) {
 		wpseoCopyHomeMeta();
 		setInitialActiveTab();
 		initSelect2();
+		initXmlSitemapsWarning();
 		// Should be called after the initial active tab has been set.
 		setFixedSubmitButtonVisibility();
 	} );
