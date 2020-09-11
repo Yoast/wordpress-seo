@@ -8,18 +8,12 @@ namespace Yoast\WP\SEO\Helpers;
 class Environment_Helper {
 
 	/**
-	 * Determines whether the site is running on production.
+	 * Determines if the site is running on production.
 	 *
-	 * @return bool true if the site is currently running on production, false for all other environments
+	 * @return bool true if wordpress is currently running on production, false for all other environments
 	 */
 	public function is_production_mode() {
-		$production_mode = $this->get_yoast_environment();
-		if ( isset( $production_mode ) ) {
-			return $production_mode === 'production';
-		}
-		else {
-			return $this->get_wp_environment() === 'production';
-		}
+		return $this->get_wp_environment() === 'production';
 	}
 
 	/**

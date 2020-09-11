@@ -155,7 +155,18 @@ class Indexable_Helper {
 	 * @return bool
 	 */
 	public function should_index_indexables() {
-		// Currently the only reason to index indexables is when we're on a production website.
-		return $this->environment_helper->is_production_mode();
+		// Currently the only reason to index is when we're on a production website.
+		if ( $this->environment_helper->is_production_mode() ) {
+			return true;
+		}
+
+		$yoast_mode = $this->environment_helper->get_yoast_environment();
+		if ( isset( $yoast_mode ) ) {
+			// Always allow developers to index, regardless of their test environment.
+			return true;
+		}
+
+		// We are not running a production site.
+		return false;
 	}
 }
