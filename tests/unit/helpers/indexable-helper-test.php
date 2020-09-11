@@ -64,6 +64,15 @@ class Indexable_Helper_Test extends TestCase {
 	}
 
 	/**
+	 * Tests if the class attributes are set properly.
+	 *
+	 * @covers ::__construct
+	 */
+	public function test_construct() {
+		$this->assertAttributeInstanceOf( Environment_Helper::class, 'environment_helper', $this->instance );
+	}
+
+	/**
 	 * Retrieves the permalink for a post indexable.
 	 *
 	 * @covers ::get_permalink_for_indexable
