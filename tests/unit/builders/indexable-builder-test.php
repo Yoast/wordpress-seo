@@ -107,7 +107,7 @@ class Indexable_Builder_Test extends TestCase {
 	protected $instance;
 
 	/**
-	 * @inheritDoc
+	 * Sets up the test.
 	 */
 	public function setUp() {
 		parent::setUp();
@@ -142,7 +142,7 @@ class Indexable_Builder_Test extends TestCase {
 	}
 
 	/**
-	 * Test building an indexable for a post when having no indexable for the author yet.
+	 * Tests building an indexable for a post when having no indexable for the author yet.
 	 *
 	 * @covers ::__construct
 	 * @covers ::set_indexable_repository
@@ -223,7 +223,7 @@ class Indexable_Builder_Test extends TestCase {
 	}
 
 	/**
-	 * Test building an indexable for a post when already having an indexable for the author.
+	 * Tests building an indexable for a post when already having an indexable for the author.
 	 *
 	 * @covers ::__construct
 	 * @covers ::set_indexable_repository
@@ -284,7 +284,7 @@ class Indexable_Builder_Test extends TestCase {
 	}
 
 	/**
-	 * Test building an indexable for a post with having the post builder return false.
+	 * Tests building an indexable for a post with having the post builder return false.
 	 *
 	 * @covers ::__construct
 	 * @covers ::set_indexable_repository
@@ -341,7 +341,7 @@ class Indexable_Builder_Test extends TestCase {
 	}
 
 	/**
-	 * Test building an indexable for an author.
+	 * Tests building an indexable for an author.
 	 *
 	 * @covers ::__construct
 	 * @covers ::set_indexable_repository
@@ -385,7 +385,7 @@ class Indexable_Builder_Test extends TestCase {
 	}
 
 	/**
-	 * Test building an indexable for a term.
+	 * Tests building an indexable for a term.
 	 *
 	 * @covers ::__construct
 	 * @covers ::set_indexable_repository
@@ -434,7 +434,7 @@ class Indexable_Builder_Test extends TestCase {
 	}
 
 	/**
-	 * Test building an indexable for an unknown type.
+	 * Tests building an indexable for an unknown type.
 	 *
 	 * @covers ::__construct
 	 * @covers ::set_indexable_repository
@@ -462,7 +462,7 @@ class Indexable_Builder_Test extends TestCase {
 	}
 
 	/**
-	 * Test building an indexable for the homepage.
+	 * Tests building an indexable for the homepage.
 	 *
 	 * @covers ::__construct
 	 * @covers ::set_indexable_repository
@@ -489,7 +489,7 @@ class Indexable_Builder_Test extends TestCase {
 	}
 
 	/**
-	 * Test building an indexable for the date archive.
+	 * Tests building an indexable for the date archive.
 	 *
 	 * @covers ::__construct
 	 * @covers ::set_indexable_repository
@@ -513,7 +513,7 @@ class Indexable_Builder_Test extends TestCase {
 	}
 
 	/**
-	 * Test building an indexable for the post type archive.
+	 * Tests building an indexable for the post type archive.
 	 *
 	 * @covers ::__construct
 	 * @covers ::set_indexable_repository
@@ -540,7 +540,7 @@ class Indexable_Builder_Test extends TestCase {
 	}
 
 	/**
-	 * Test building an indexable for a system page.
+	 * Tests building an indexable for a system page.
 	 *
 	 * @covers ::__construct
 	 * @covers ::set_indexable_repository
