@@ -124,6 +124,8 @@ class Indexable_Builder_Test extends TestCase {
 
 		$this->indexable_repository = Mockery::mock( Indexable_Repository::class );
 
+		$this->indexable            = Mockery::mock( Indexable_Mock::class );
+		$this->indexable->author_id = 1999;
 		$this->instance = new Indexable_Builder(
 			$this->author_builder,
 			$this->post_builder,
@@ -149,14 +151,11 @@ class Indexable_Builder_Test extends TestCase {
 	 * @covers ::save_indexable
 	 */
 	public function test_build_for_id_and_type_with_post_given_and_no_author_indexable_found() {
-		$indexable            = Mockery::mock( Indexable_Mock::class );
-		$indexable->author_id = 1999;
-
-		$indexable
+		$this->indexable
 			->expects( 'save' )
 			->once();
 
-		$indexable
+		$this->indexable
 			->expects( 'as_array' )
 			->once()
 			->andReturn( [] );
@@ -170,13 +169,13 @@ class Indexable_Builder_Test extends TestCase {
 			->expects( 'create' )
 			->twice()
 			->with( [] )
-			->andReturn( $indexable );
+			->andReturn( $this->indexable );
 
 		$this->post_builder
 			->expects( 'build' )
 			->once()
-			->with( 1337, $indexable )
-			->andReturn( $indexable );
+			->with( 1337, $this->indexable )
+			->andReturn( $this->indexable );
 
 		$this->primary_term_builder
 			->expects( 'build' )
@@ -217,9 +216,10 @@ class Indexable_Builder_Test extends TestCase {
 		$this->hierarchy_builder
 			->expects( 'build' )
 			->once()
-			->with( $indexable );
+			->with( $this->indexable );
 
-		$this->assertSame( $indexable, $this->instance->build_for_id_and_type( 1337, 'post', $indexable ) );
+
+		$this->assertSame( $this->indexable, $this->instance->build_for_id_and_type( 1337, 'post', $this->indexable ) );
 	}
 
 	/**
@@ -232,14 +232,11 @@ class Indexable_Builder_Test extends TestCase {
 	 * @covers ::save_indexable
 	 */
 	public function test_build_for_id_and_type_with_post_given_and_author_indexable_found() {
-		$indexable            = Mockery::mock( Indexable_Mock::class );
-		$indexable->author_id = 1999;
-
-		$indexable
+		$this->indexable
 			->expects( 'save' )
 			->once();
 
-		$indexable
+		$this->indexable
 			->expects( 'as_array' )
 			->once()
 			->andReturn( [] );
@@ -253,13 +250,13 @@ class Indexable_Builder_Test extends TestCase {
 			->expects( 'create' )
 			->once()
 			->with( [] )
-			->andReturn( $indexable );
+			->andReturn( $this->indexable );
 
 		$this->post_builder
 			->expects( 'build' )
 			->once()
-			->with( 1337, $indexable )
-			->andReturn( $indexable );
+			->with( 1337, $this->indexable )
+			->andReturn( $this->indexable );
 
 		$this->primary_term_builder
 			->expects( 'build' )
@@ -268,12 +265,12 @@ class Indexable_Builder_Test extends TestCase {
 
 		Monkey\Actions\expectDone( 'wpseo_save_indexable' )
 			->once()
-			->with( $indexable, $indexable );
+			->with( $this->indexable, $this->indexable );
 
 		$this->hierarchy_builder
 			->expects( 'build' )
 			->once()
-			->with( $indexable );
+			->with( $this->indexable );
 
 		$author_indexable = Mockery::mock( Indexable_Mock::class );
 		$this->indexable_repository
@@ -282,7 +279,8 @@ class Indexable_Builder_Test extends TestCase {
 			->with( 1999, 'user', false )
 			->andReturn( $author_indexable );
 
-		$this->assertSame( $indexable, $this->instance->build_for_id_and_type( 1337, 'post', $indexable ) );
+
+		$this->assertSame( $this->indexable, $this->instance->build_for_id_and_type( 1337, 'post', $this->indexable ) );
 	}
 
 	/**
@@ -294,9 +292,7 @@ class Indexable_Builder_Test extends TestCase {
 	 * @covers ::ensure_indexable
 	 */
 	public function test_build_for_id_and_type_with_post_given_and_no_indexable_build() {
-		$indexable = Mockery::mock( Indexable_Mock::class );
-
-		$indexable
+		$this->indexable
 			->expects( 'as_array' )
 			->once()
 			->andReturn( [] );
@@ -310,12 +306,12 @@ class Indexable_Builder_Test extends TestCase {
 			->expects( 'create' )
 			->once()
 			->with( [] )
-			->andReturn( $indexable );
+			->andReturn( $this->indexable );
 
 		$this->post_builder
 			->expects( 'build' )
 			->once()
-			->with( 1337, $indexable )
+			->with( 1337, $this->indexable )
 			->andReturnFalse();
 
 		$this->primary_term_builder
@@ -340,7 +336,8 @@ class Indexable_Builder_Test extends TestCase {
 			)
 			->andReturn( $fake_indexable );
 
-		$this->assertEquals( $fake_indexable, $this->instance->build_for_id_and_type( 1337, 'post', $indexable ) );
+
+		$this->assertEquals( $fake_indexable, $this->instance->build_for_id_and_type( 1337, 'post', $this->indexable ) );
 	}
 
 	/**
@@ -353,13 +350,11 @@ class Indexable_Builder_Test extends TestCase {
 	 * @covers ::save_indexable
 	 */
 	public function test_build_for_id_and_type_with_user_given() {
-		$indexable = Mockery::mock( Indexable_Mock::class );
-
-		$indexable
+		$this->indexable
 			->expects( 'save' )
 			->once();
 
-		$indexable
+		$this->indexable
 			->expects( 'as_array' )
 			->once()
 			->andReturn( [] );
@@ -373,19 +368,20 @@ class Indexable_Builder_Test extends TestCase {
 			->expects( 'create' )
 			->once()
 			->with( [] )
-			->andReturn( $indexable );
+			->andReturn( $this->indexable );
 
 		Monkey\Actions\expectDone( 'wpseo_save_indexable' )
 			->once()
-			->with( $indexable, $indexable );
+			->with( $this->indexable, $this->indexable );
 
 		$this->author_builder
 			->expects( 'build' )
 			->once()
-			->with( 1337, $indexable )
-			->andReturn( $indexable );
+			->with( 1337, $this->indexable )
+			->andReturn( $this->indexable );
 
-		$this->assertSame( $indexable, $this->instance->build_for_id_and_type( 1337, 'user', $indexable ) );
+
+		$this->assertSame( $this->indexable, $this->instance->build_for_id_and_type( 1337, 'user', $this->indexable ) );
 	}
 
 	/**
@@ -398,13 +394,11 @@ class Indexable_Builder_Test extends TestCase {
 	 * @covers ::save_indexable
 	 */
 	public function test_build_for_id_and_type_with_term_given() {
-		$indexable = Mockery::mock( Indexable_Mock::class );
-
-		$indexable
+		$this->indexable
 			->expects( 'save' )
 			->once();
 
-		$indexable
+		$this->indexable
 			->expects( 'as_array' )
 			->once()
 			->andReturn( [] );
@@ -418,24 +412,25 @@ class Indexable_Builder_Test extends TestCase {
 			->expects( 'create' )
 			->once()
 			->with( [] )
-			->andReturn( $indexable );
+			->andReturn( $this->indexable );
 
 		Monkey\Actions\expectDone( 'wpseo_save_indexable' )
 			->once()
-			->with( $indexable, $indexable );
+			->with( $this->indexable, $this->indexable );
 
 		$this->term_builder
 			->expects( 'build' )
 			->once()
-			->with( 1337, $indexable )
-			->andReturn( $indexable );
+			->with( 1337, $this->indexable )
+			->andReturn( $this->indexable );
 
 		$this->hierarchy_builder
 			->expects( 'build' )
 			->once()
-			->with( $indexable );
+			->with( $this->indexable );
 
-		$this->assertSame( $indexable, $this->instance->build_for_id_and_type( 1337, 'term', $indexable ) );
+
+		$this->assertSame( $this->indexable, $this->instance->build_for_id_and_type( 1337, 'term', $this->indexable ) );
 	}
 
 	/**
@@ -447,9 +442,7 @@ class Indexable_Builder_Test extends TestCase {
 	 * @covers ::ensure_indexable
 	 */
 	public function test_build_for_id_and_type_with_unknown_type_given() {
-		$indexable = Mockery::mock( Indexable_Mock::class );
-
-		$indexable
+		$this->indexable
 			->expects( 'as_array' )
 			->once()
 			->andReturn( [] );
@@ -463,9 +456,9 @@ class Indexable_Builder_Test extends TestCase {
 			->expects( 'create' )
 			->once()
 			->with( [] )
-			->andReturn( $indexable );
+			->andReturn( $this->indexable );
 
-		$this->assertSame( $indexable, $this->instance->build_for_id_and_type( 1337, 'bicycle', $indexable ) );
+		$this->assertSame( $this->indexable, $this->instance->build_for_id_and_type( 1337, 'bicycle', $this->indexable ) );
 	}
 
 	/**
@@ -478,23 +471,21 @@ class Indexable_Builder_Test extends TestCase {
 	 * @covers ::save_indexable
 	 */
 	public function test_build_for_homepage() {
-		$indexable = Mockery::mock( Indexable_Mock::class );
-
 		$this->home_page_builder
 			->expects( 'build' )
 			->once()
-			->with( $indexable )
-			->andReturn( $indexable );
+			->with( $this->indexable )
+			->andReturn( $this->indexable );
 
-		$indexable
+		$this->indexable
 			->expects( 'save' )
 			->once();
 
 		Monkey\Actions\expectDone( 'wpseo_save_indexable' )
 			->once()
-			->with( $indexable, $indexable );
+			->with( $this->indexable, $this->indexable );
 
-		$this->assertSame( $indexable, $this->instance->build_for_home_page( $indexable ) );
+		$this->assertSame( $this->indexable, $this->instance->build_for_home_page( $this->indexable ) );
 	}
 
 	/**
@@ -507,19 +498,18 @@ class Indexable_Builder_Test extends TestCase {
 	 * @covers ::save_indexable
 	 */
 	public function test_build_for_date_archive() {
-		$indexable = Mockery::mock( Indexable_Mock::class );
-
 		$this->date_archive_builder
 			->expects( 'build' )
 			->once()
-			->with( $indexable )
-			->andReturn( $indexable );
+			->with( $this->indexable )
+			->andReturn( $this->indexable );
 
-		$indexable
+		$this->indexable
 			->expects( 'save' )
 			->once();
 
-		$this->assertSame( $indexable, $this->instance->build_for_date_archive( $indexable ) );
+
+		$this->assertSame( $this->indexable, $this->instance->build_for_date_archive( $this->indexable ) );
 	}
 
 	/**
@@ -532,23 +522,21 @@ class Indexable_Builder_Test extends TestCase {
 	 * @covers ::save_indexable
 	 */
 	public function test_build_for_post_type_archive() {
-		$indexable = Mockery::mock( Indexable_Mock::class );
-
 		$this->post_type_archive_builder
 			->expects( 'build' )
 			->once()
-			->with( 'post', $indexable )
-			->andReturn( $indexable );
+			->with( 'post', $this->indexable )
+			->andReturn( $this->indexable );
 
-		$indexable
+		$this->indexable
 			->expects( 'save' )
 			->once();
 
 		Monkey\Actions\expectDone( 'wpseo_save_indexable' )
 			->once()
-			->with( $indexable, $indexable );
+			->with( $this->indexable, $this->indexable );
 
-		$this->assertSame( $indexable, $this->instance->build_for_post_type_archive( 'post', $indexable ) );
+		$this->assertSame( $this->indexable, $this->instance->build_for_post_type_archive( 'post', $this->indexable ) );
 	}
 
 	/**
@@ -561,23 +549,21 @@ class Indexable_Builder_Test extends TestCase {
 	 * @covers ::save_indexable
 	 */
 	public function test_build_for_system_page() {
-		$indexable = Mockery::mock( Indexable_Mock::class );
-
 		$this->system_page_builder
 			->expects( 'build' )
 			->once()
-			->with( 'sub-type', $indexable )
-			->andReturn( $indexable );
+			->with( 'sub-type', $this->indexable )
+			->andReturn( $this->indexable );
 
-		$indexable
+		$this->indexable
 			->expects( 'save' )
 			->once();
 
 		Monkey\Actions\expectDone( 'wpseo_save_indexable' )
 			->once()
-			->with( $indexable, $indexable );
+			->with( $this->indexable, $this->indexable );
 
-		$this->assertSame( $indexable, $this->instance->build_for_system_page( 'sub-type', $indexable ) );
+		$this->assertSame( $this->indexable, $this->instance->build_for_system_page( 'sub-type', $this->indexable ) );
 	}
 
 	/**
@@ -586,9 +572,7 @@ class Indexable_Builder_Test extends TestCase {
 	 * @covers ::build_for_id_and_type
 	 */
 	public function test_build_for_id_and_type_returns_fake_indexable() {
-		$indexable = Mockery::mock( Indexable_Mock::class );
-
-		$indexable
+		$this->indexable
 			->expects( 'as_array' )
 			->once()
 			->andReturn( [] );
@@ -602,11 +586,11 @@ class Indexable_Builder_Test extends TestCase {
 			->expects( 'create' )
 			->once()
 			->with( [] )
-			->andReturn( $indexable );
+			->andReturn( $this->indexable );
 
 		$this->term_builder->expects( 'build' )
 			->once()
-			->with( 1, $indexable )
+			->with( 1, $this->indexable )
 			->andReturn( false );
 
 		$fake_indexable              = Mockery::mock( Indexable_Mock::class );
@@ -627,6 +611,7 @@ class Indexable_Builder_Test extends TestCase {
 			)
 			->andReturn( $fake_indexable );
 
-		$this->assertEquals( $fake_indexable, $this->instance->build_for_id_and_type( 1, 'term', $indexable ) );
+
+		$this->assertEquals( $fake_indexable, $this->instance->build_for_id_and_type( 1, 'term', $this->indexable ) );
 	}
 }
