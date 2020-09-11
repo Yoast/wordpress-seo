@@ -305,7 +305,7 @@ class Indexable_Builder {
 				 *
 				 * @api Indexable $indexable The saved indexable.
 				 */
-				do_action( 'wpseo_save_indexable', $indexable, $indexable_before );
+				\do_action( 'wpseo_save_indexable', $indexable, $indexable_before );
 			}
 			$indexable->save();
 		}
