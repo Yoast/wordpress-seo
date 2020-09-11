@@ -70,8 +70,7 @@ class Indexation_List_Item_Presenter extends Abstract_Presenter {
 
 		if ( $this->total_unindexed === 0 || $this->total_unindexed < $shutdown_limit ) {
 			$output .= '<span class="wpseo-checkmark-ok-icon"></span>' . \esc_html__( 'Great, your site has been optimized!', 'wordpress-seo' );
-		}
-		else {
+		} else {
 
 			$should_index = $this->indexable_helper->should_index_indexables();
 			$disabled     = ( $should_index ) ? '' : 'disabled';

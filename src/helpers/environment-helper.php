@@ -10,7 +10,7 @@ class Environment_Helper {
 	/**
 	 * Determines if the site is running on production.
 	 *
-	 * @return bool true if wordpress is currently running on production, false for all other environments
+	 * @return bool true if WordPress is currently running on production, false for all other environments
 	 */
 	public function is_production_mode() {
 		return $this->get_wp_environment() === 'production';
@@ -30,9 +30,9 @@ class Environment_Helper {
 	}
 
 	/**
-	 * Determines on which environment Wordpress is running.
+	 * Determines on which environment WordPress is running.
 	 *
-	 * @return string The current Wordpress environment
+	 * @return string The current WordPress environment
 	 */
 	public function get_wp_environment() {
 		return \wp_get_environment_type();
