@@ -121,7 +121,7 @@ class Indexable_Helper {
 
 		$yoast_mode = $this->environment_helper->get_yoast_environment();
 		if ( isset( $yoast_mode ) ) {
-			// Always allow developers to index, regardless of their test environment.
+			// Always allow Yoast SEO developers to index, regardless of their test environment.
 			return true;
 		}
 
