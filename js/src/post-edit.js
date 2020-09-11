@@ -7,6 +7,12 @@ import initTabs from "./initializers/metabox-tabs";
 import initPostScraper from "./initializers/post-scraper";
 import initPrimaryCategory from "./initializers/primary-category";
 
+// Backwards compatibility globals.
+window.wpseoPostScraperL10n = window.wpseoScriptData.metabox;
+window.wpseoShortcodePluginL10n = window.wpseoScriptData.analysis.plugins.shortcodes;
+
+window.YoastSEO = window.YoastSEO || {};
+
 domReady( () => {
 	// Initialize the tab behavior of the metabox.
 	initTabs( jQuery );
