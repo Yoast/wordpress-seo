@@ -11,6 +11,7 @@ use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Presenters\Admin\Indexation_Permalink_Warning_Presenter;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
+use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 use function Brain\Monkey\Functions\expect;
@@ -58,10 +59,10 @@ class Indexable_Helper_Test extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->options    = Mockery::mock( Options_Helper::class );
-		$this->repository = Mockery::mock( Indexable_Repository::class );
+		$this->options            = Mockery::mock( Options_Helper::class );
+		$this->repository         = Mockery::mock( Indexable_Repository::class );
 		$this->environment_helper = Mockery::mock( Environment_Helper::class );
-		$this->instance   = new Indexable_Helper( $this->options, $this->repository, $this->environment_helper );
+		$this->instance           = new Indexable_Helper( $this->options, $this->repository, $this->environment_helper );
 	}
 
 	/**
@@ -316,30 +317,11 @@ class Indexable_Helper_Test extends TestCase {
 	}
 
 	/**
-	 * Data provider for the test_get_page_type_for_indexable_provider function.
-	 *
-	 * @return array The test data.
-	 */
-	public function get_page_type_for_indexable_provider() {
-		return [
-			[ 'post', 'page', true, false, 'Static_Home_Page' ],
-			[ 'post', 'page', false, true, 'Static_Posts_Page' ],
-			[ 'post', 'post', false, false, 'Post_Type' ],
-			[ 'term', 'tag', false, false, 'Term_Archive' ],
-			[ 'user', null, false, false, 'Author_Archive' ],
-			[ 'home-page', null, false, false, 'Home_Page' ],
-			[ 'post-type-archive', 'post', false, false, 'Post_Type_Archive' ],
-			[ 'system-page', 'search-result', false, false, 'Search_Result_Page' ],
-			[ 'system-page', '404', false, false, 'Error_Page' ],
-		];
-	}
-
-	/**
 	 * Tests should_index_indexables method
 	 *
-	 * @param $wp_environment    The WordPress environment to test for.
-	 * @param $yoast_environment The Yoast environment to test for.
-	 * @param $expected_result   Either true or false.
+	 * @param string      $wp_environment    The WordPress environment to test for.
+	 * @param string|null $yoast_environment The Yoast environment to test for.
+	 * @param bool        $expected_result   Either true or false.
 	 *
 	 * @covers ::should_index_indexables
 	 * @dataProvider should_index_for_production_environment_provider
@@ -363,6 +345,25 @@ class Indexable_Helper_Test extends TestCase {
 
 		// Assert.
 		$this->assertEquals( $result, $expected_result );
+	}
+
+	/**
+	 * Data provider for the test_get_page_type_for_indexable_provider function.
+	 *
+	 * @return array The test data.
+	 */
+	public function get_page_type_for_indexable_provider() {
+		return [
+			[ 'post', 'page', true, false, 'Static_Home_Page' ],
+			[ 'post', 'page', false, true, 'Static_Posts_Page' ],
+			[ 'post', 'post', false, false, 'Post_Type' ],
+			[ 'term', 'tag', false, false, 'Term_Archive' ],
+			[ 'user', null, false, false, 'Author_Archive' ],
+			[ 'home-page', null, false, false, 'Home_Page' ],
+			[ 'post-type-archive', 'post', false, false, 'Post_Type_Archive' ],
+			[ 'system-page', 'search-result', false, false, 'Search_Result_Page' ],
+			[ 'system-page', '404', false, false, 'Error_Page' ],
+		];
 	}
 
 	/**
