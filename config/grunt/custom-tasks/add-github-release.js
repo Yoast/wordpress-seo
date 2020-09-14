@@ -65,7 +65,7 @@ module.exports = function( grunt ) {
 				// Open a text editor to get the changelog.
 				changelog = await getUserInput( { initialContent: grunt.option( "changelog" ) } );
 			} else {
-				// use the changelog from the arguments
+				// Use the changelog from the arguments.
 				changelog = grunt.option( 'changelog' ) || process.env.RELEASECHANGELOG || grunt.config.data.changelog ;
 			}
 			// Perform sanity checks to fail fast when data is missing.
