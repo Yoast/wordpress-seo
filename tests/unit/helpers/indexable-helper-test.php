@@ -2,11 +2,11 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Helpers;
 
-use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Actions\Indexation\Indexable_Post_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexation\Indexable_Post_Type_Archive_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexation\Indexable_Term_Indexation_Action;
+use Yoast\WP\SEO\Helpers\Environment_Helper;
 use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Presenters\Admin\Indexation_Permalink_Warning_Presenter;
@@ -45,6 +45,15 @@ class Indexable_Helper_Test extends TestCase {
 	protected $repository;
 
 	/**
+	 * This is a mock of the environment helper
+	 *
+	 * @var Environment_Helper
+	 */
+	protected $environment_helper;
+
+	/**
+	 * Setup the class under test and mock objects
+	 *
 	 * @inheritDoc
 	 */
 	public function setUp() {
@@ -317,34 +326,50 @@ class Indexable_Helper_Test extends TestCase {
 	}
 
 	/**
+	 * Tests should_index_indexables method
 	 *
-	 * @param $environment environment to test for
-	 * @param $yoast_environment yoast environment to test for
-	 * @param $expected_result true or false
+	 * @param $wp_environment    The WordPress environment to test for.
+	 * @param $yoast_environment The yoast environment to test for.
+	 * @param $expected_result   Either true or false.
 	 *
+	 * @covers ::should_index_indexables
 	 * @dataProvider should_index_for_production_environment_provider
 	 */
-	public function test_should_index_for_production_environment($environment, $yoast_environment, $expected_result) {
-		// arrange
+	public function test_should_index_for_production_environment(
+		$wp_environment, $yoast_environment, $expected_result
+	) {
+		// Arrange.
+		$this->environment_helper
+			->shouldReceive( 'is_production_mode' )
+			->passthru();
+		$this->environment_helper
+			->shouldReceive( 'get_yoast_environment' )
+			->andReturn( $yoast_environment );
+		$this->environment_helper
+			->shouldReceive( 'get_wp_environment' )
+			->andReturn( $wp_environment );
 
-		// act
-		$result = $this->instance->should_index_indexables($environment, $yoast_environment);
+		// Act.
+		$result = $this->instance->should_index_indexables();
 
-		// assert
-		$this->assertEquals($result, $expected_result);
+		// Assert.
+		$this->assertEquals( $result, $expected_result );
 	}
 
 	/**
-	 * dataProvider for test_should_index_for_production_environment
+	 * DataProvider for test_should_index_for_production_environment.
 	 *
 	 * @return array[]
 	 */
 	public function should_index_for_production_environment_provider() {
 		return [
-			[ 'production',  'production',  true],
-			[ 'development', 'production',  false],
-			[ 'production',  'development', false],
-			[ 'development', 'development', false],
+			[ 'production', 'production', true ],
+			[ 'production', 'development', false ],
+			[ 'production', null, true ],
+			[ 'development', 'production', true ],
+			[ 'development', 'development', false ],
+			[ 'development', null, false ],
+			[ null, null, false ],
 		];
 	}
 
