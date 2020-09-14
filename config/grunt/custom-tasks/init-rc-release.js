@@ -96,7 +96,7 @@ module.exports = function( grunt ) {
         grunt.config.data.githubOwner = owner;
         grunt.config.data.githubRepo =  repo;
         grunt.config.data.owner = owner;
-        grunt.config.data.repo =  repo;
+        grunt.config.data.repo = repo;
         grunt.config.data.alternativeBranch = options.alternativeBranch;
         grunt.config.data.alternativeBranchPush = options.alternativeBranchPush
         
