@@ -100,9 +100,11 @@ const determineSentenceIsPassiveArabic = function( sentence ) {
 		if ( word.startsWith( arabicPrepositionalPrefix ) ) {
 			word = word.slice( 1 );
 		}
-
+		let wordWithDamma = -1;
 		// Check if the first character has a damma or if the word is in the list of Arabic passive verbs
-		const wordWithDamma = word[ 1 ].search( "\u064F" );
+		if ( word.length >= 2 ) {
+			wordWithDamma = word[ 1 ].search( "\u064F" );
+		}
 		if ( wordWithDamma !== -1 || getPassiveVerbsArabic.includes( word ) ) {
 			passiveVerbs.push( word );
 		}
