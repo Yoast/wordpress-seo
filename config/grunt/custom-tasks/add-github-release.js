@@ -68,7 +68,7 @@ module.exports = function( grunt ) {
 				// use the changelog from the arguments
 				changelog = grunt.option( 'changelog' ) || process.env.RELEASECHANGELOG || grunt.config.data.changelog ;
 			}
-			// do some senity checking
+			// Perform sanity checks to fail fast when data is missing.
 			if (changelog === '') {
 				grunt.fail.fatal( 'changelog entry required');
 			}
