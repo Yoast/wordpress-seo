@@ -10,6 +10,7 @@ export default function initElementorEdit() {
 	window.yoast.initEditorIntegration( store );
 	const editorData = new window.yoast.EditorData( () => {}, store );
 	editorData.initialize( window.wpseoScriptData.analysis.plugins.replaceVars.replace_vars );
+	window.editorData = editorData;
 
 	// Initialize the post scraper.
 	initPostScraper( jQuery, store, editorData );

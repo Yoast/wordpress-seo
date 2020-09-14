@@ -39,7 +39,7 @@ export default class ElementorEditorData {
 		this._data = this.getInitialData( replaceVars );
 		fillReplacementVariables( this._data, this._store );
 		this.subscribeToElementor();
-		this.subscribeToYoastSEO();
+		// this.subscribeToYoastSEO();
 	}
 
 	/**
@@ -159,7 +159,7 @@ export default class ElementorEditorData {
 	 * @returns {string} The post's content.
 	 */
 	getContent() {
-		if ( ! this._contentArea ) {
+		if ( ! this._contentArea || this._contentArea.length === 0 ) {
 			this._contentArea = elementor.$preview.contents().find( "[data-elementor-type]" );
 		}
 
@@ -177,15 +177,19 @@ export default class ElementorEditorData {
 	 * @returns {null|string} The source URL.
 	 */
 	getFeaturedImage() {
-		const { id, url } = elementor.settings.page.model.get( "post_featured_image" );
-		if ( url !== "" ) {
-			return url;
+		const featuredImage = elementor.settings.page.model.get( "post_featured_image" );
+		if ( ! ( featuredImage && featuredImage.url && featuredImage.id ) ) {
+			return "";
 		}
-		if ( id === 0 ) {
+
+		if ( featuredImage.url !== "" ) {
+			return featuredImage.url;
+		}
+		if ( featuredImage.id === 0 ) {
 			return null;
 		}
 
-		const mediaObj = this.getMediaById( id );
+		const mediaObj = this.getMediaById( featuredImage.id );
 		if ( mediaObj ) {
 			return mediaObj.source_url;
 		}
