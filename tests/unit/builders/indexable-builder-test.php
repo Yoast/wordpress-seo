@@ -1,9 +1,4 @@
 <?php
-/**
- * WPSEO plugin test file.
- *
- * @package Yoast\WP\SEO\Tests\Unit\Builders
- */
 
 namespace Yoast\WP\SEO\Tests\Unit\Builders;
 
@@ -161,6 +156,22 @@ class Indexable_Builder_Test extends TestCase {
 			->expects( 'save' )
 			->once();
 
+		$indexable
+			->expects( 'as_array' )
+			->once()
+			->andReturn( [] );
+
+		$this->indexable_repository
+			->expects( 'query' )
+			->times( 3 )
+			->andReturnSelf();
+
+		$this->indexable_repository
+			->expects( 'create' )
+			->twice()
+			->with( [] )
+			->andReturn( $indexable );
+
 		$this->post_builder
 			->expects( 'build' )
 			->once()
@@ -171,15 +182,6 @@ class Indexable_Builder_Test extends TestCase {
 			->expects( 'build' )
 			->once()
 			->with( 1337 );
-
-		Monkey\Actions\expectDone( 'wpseo_save_indexable' )
-			->once()
-			->with( $indexable, $indexable );
-
-		$this->hierarchy_builder
-			->expects( 'build' )
-			->once()
-			->with( $indexable );
 
 		$this->indexable_repository
 			->expects( 'find_by_id_and_type' )
@@ -192,13 +194,14 @@ class Indexable_Builder_Test extends TestCase {
 			->expects( 'save' )
 			->once();
 
-		$this->indexable_repository
-			->expects( 'query' )
+		$author_indexable
+			->expects( 'as_array' )
 			->once()
-			->andReturn( $this->indexable_repository );
+			->andReturn( [] );
 
 		$this->indexable_repository
 			->expects( 'create' )
+			->withNoArgs()
 			->once()
 			->andReturn( $author_indexable );
 
@@ -209,8 +212,12 @@ class Indexable_Builder_Test extends TestCase {
 			->andReturn( $author_indexable );
 
 		Monkey\Actions\expectDone( 'wpseo_save_indexable' )
+			->twice();
+
+		$this->hierarchy_builder
+			->expects( 'build' )
 			->once()
-			->with( $author_indexable, $author_indexable );
+			->with( $indexable );
 
 		$this->assertSame( $indexable, $this->instance->build_for_id_and_type( 1337, 'post', $indexable ) );
 	}
@@ -231,6 +238,22 @@ class Indexable_Builder_Test extends TestCase {
 		$indexable
 			->expects( 'save' )
 			->once();
+
+		$indexable
+			->expects( 'as_array' )
+			->once()
+			->andReturn( [] );
+
+		$this->indexable_repository
+			->expects( 'query' )
+			->once()
+			->andReturnSelf();
+
+		$this->indexable_repository
+			->expects( 'create' )
+			->once()
+			->with( [] )
+			->andReturn( $indexable );
 
 		$this->post_builder
 			->expects( 'build' )
@@ -273,6 +296,22 @@ class Indexable_Builder_Test extends TestCase {
 	public function test_build_for_id_and_type_with_post_given_and_no_indexable_build() {
 		$indexable = Mockery::mock( Indexable_Mock::class );
 
+		$indexable
+			->expects( 'as_array' )
+			->once()
+			->andReturn( [] );
+
+		$this->indexable_repository
+			->expects( 'query' )
+			->times( 2 )
+			->andReturnSelf();
+
+		$this->indexable_repository
+			->expects( 'create' )
+			->once()
+			->with( [] )
+			->andReturn( $indexable );
+
 		$this->post_builder
 			->expects( 'build' )
 			->once()
@@ -288,11 +327,6 @@ class Indexable_Builder_Test extends TestCase {
 		$fake_indexable
 			->expects( 'save' )
 			->once();
-
-		$this->indexable_repository
-			->expects( 'query' )
-			->once()
-			->andReturn( $this->indexable_repository );
 
 		$this->indexable_repository
 			->expects( 'create' )
@@ -325,6 +359,22 @@ class Indexable_Builder_Test extends TestCase {
 			->expects( 'save' )
 			->once();
 
+		$indexable
+			->expects( 'as_array' )
+			->once()
+			->andReturn( [] );
+
+		$this->indexable_repository
+			->expects( 'query' )
+			->once()
+			->andReturnSelf();
+
+		$this->indexable_repository
+			->expects( 'create' )
+			->once()
+			->with( [] )
+			->andReturn( $indexable );
+
 		Monkey\Actions\expectDone( 'wpseo_save_indexable' )
 			->once()
 			->with( $indexable, $indexable );
@@ -354,6 +404,22 @@ class Indexable_Builder_Test extends TestCase {
 			->expects( 'save' )
 			->once();
 
+		$indexable
+			->expects( 'as_array' )
+			->once()
+			->andReturn( [] );
+
+		$this->indexable_repository
+			->expects( 'query' )
+			->once()
+			->andReturnSelf();
+
+		$this->indexable_repository
+			->expects( 'create' )
+			->once()
+			->with( [] )
+			->andReturn( $indexable );
+
 		Monkey\Actions\expectDone( 'wpseo_save_indexable' )
 			->once()
 			->with( $indexable, $indexable );
@@ -382,6 +448,22 @@ class Indexable_Builder_Test extends TestCase {
 	 */
 	public function test_build_for_id_and_type_with_unknown_type_given() {
 		$indexable = Mockery::mock( Indexable_Mock::class );
+
+		$indexable
+			->expects( 'as_array' )
+			->once()
+			->andReturn( [] );
+
+		$this->indexable_repository
+			->expects( 'query' )
+			->once()
+			->andReturnSelf();
+
+		$this->indexable_repository
+			->expects( 'create' )
+			->once()
+			->with( [] )
+			->andReturn( $indexable );
 
 		$this->assertSame( $indexable, $this->instance->build_for_id_and_type( 1337, 'bicycle', $indexable ) );
 	}
@@ -506,6 +588,22 @@ class Indexable_Builder_Test extends TestCase {
 	public function test_build_for_id_and_type_returns_fake_indexable() {
 		$indexable = Mockery::mock( Indexable_Mock::class );
 
+		$indexable
+			->expects( 'as_array' )
+			->once()
+			->andReturn( [] );
+
+		$this->indexable_repository
+			->expects( 'query' )
+			->twice()
+			->andReturnSelf();
+
+		$this->indexable_repository
+			->expects( 'create' )
+			->once()
+			->with( [] )
+			->andReturn( $indexable );
+
 		$this->term_builder->expects( 'build' )
 			->once()
 			->with( 1, $indexable )
@@ -516,11 +614,6 @@ class Indexable_Builder_Test extends TestCase {
 		$fake_indexable
 			->expects( 'save' )
 			->once();
-
-		$this->indexable_repository
-			->expects( 'query' )
-			->once()
-			->andReturn( $this->indexable_repository );
 
 		$this->indexable_repository
 			->expects( 'create' )

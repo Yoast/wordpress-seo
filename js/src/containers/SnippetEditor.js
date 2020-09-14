@@ -45,6 +45,13 @@ export const mapEditorDataToPreview = function( data, context ) {
 	return applyReplaceUsingPlugin( data );
 };
 
+/**
+ * Wraps a Snippet editor with a Snippet preview section.
+ *
+ * @param {object} props The props.
+ *
+ * @returns {wp.Element} The component.
+ */
 const SnippetEditorWrapper = ( props ) => (
 	<Fragment>
 		<SnippetPreviewSection
@@ -55,6 +62,7 @@ const SnippetEditorWrapper = ( props ) => (
 				{ ...props }
 				descriptionPlaceholder={ __( "Please provide a meta description by editing the snippet below.", "wordpress-seo" ) }
 				mapEditorDataToPreview={ mapEditorDataToPreview }
+				showCloseButton={ false }
 			/>
 		</SnippetPreviewSection>
 	</Fragment>

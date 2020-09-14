@@ -20,8 +20,15 @@ $knowledge_graph_help = new WPSEO_Admin_Help_Panel(
 );
 ?>
 <div class="tab-block">
-	<h2 class="help-button-inline"><?php echo esc_html__( 'Knowledge Graph & Schema.org', 'wordpress-seo' ) . $knowledge_graph_help->get_button_html(); ?></h2>
+
+	<h2 class="help-button-inline">
+		<?php
+		// phpcs:ignore WordPress.Security.EscapeOutput -- get_button_html() output is properly escaped.
+		echo esc_html__( 'Knowledge Graph & Schema.org', 'wordpress-seo' ) . $knowledge_graph_help->get_button_html();
+		?>
+	</h2>
 	<?php
+	// phpcs:ignore WordPress.Security.EscapeOutput -- get_panel_html() output is properly escaped.
 	echo $knowledge_graph_help->get_panel_html();
 	/**
 	 * Filter: 'wpseo_knowledge_graph_setting_msg' - Allows adding a message above these settings.
@@ -46,7 +53,6 @@ $knowledge_graph_help = new WPSEO_Admin_Help_Panel(
 	<div id="knowledge-graph-company">
 		<h3><?php esc_html_e( 'Organization', 'wordpress-seo' ); ?></h3>
 		<?php
-
 		/*
 		 * Render the `knowledge-graph-company-warning` div when the company name or logo are not set.
 		 * This div is used as React render root in `js/src/search-appearance.js`.

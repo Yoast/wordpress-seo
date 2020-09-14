@@ -1,16 +1,11 @@
 <?php
-/**
- * A helper object for WordPress posts.
- *
- * @package Yoast\YoastSEO\Helpers
- */
 
 namespace Yoast\WP\SEO\Helpers;
 
 use Yoast\WP\SEO\Wrappers\WP_Query_Wrapper;
 
 /**
- * Class Current_Post_Helper
+ * A helper object for WordPress posts.
  */
 class Current_Page_Helper {
 
@@ -405,6 +400,22 @@ class Current_Page_Helper {
 		global $pagenow;
 
 		return $pagenow;
+	}
+
+	/**
+	 * Check if the current opened page is a Yoast SEO page.
+	 *
+	 * @return bool True when current page is a yoast seo plugin page.
+	 */
+	public function is_yoast_seo_page() {
+		static $is_yoast_seo;
+
+		if ( $is_yoast_seo === null ) {
+			$current_page = filter_input( INPUT_GET, 'page' );
+			$is_yoast_seo = ( strpos( $current_page, 'wpseo_' ) === 0 );
+		}
+
+		return $is_yoast_seo;
 	}
 
 	/**

@@ -1,9 +1,4 @@
 <?php
-/**
- * WPSEO plugin test file.
- *
- * @package Yoast\WP\SEO\Tests\Unit\Mocks
- */
 
 namespace Yoast\WP\SEO\Tests\Unit\Doubles\Routes;
 
@@ -15,7 +10,12 @@ use Yoast\WP\SEO\Routes\Abstract_Indexation_Route;
 class Abstract_Indexation_Route_Mock extends Abstract_Indexation_Route {
 
 	/**
-	 * @inheritDoc
+	 * Responds to an indexation request.
+	 *
+	 * @param array  $objects  The objects that have been indexed.
+	 * @param string $next_url The url that should be called to continue reindexing. False if done.
+	 *
+	 * @return WP_REST_Response The response.
 	 */
 	public function respond_with( $objects, $next_url ) {
 		return parent::respond_with( $objects, $next_url );
@@ -35,7 +35,5 @@ class Abstract_Indexation_Route_Mock extends Abstract_Indexation_Route {
 	 *
 	 * @return void
 	 */
-	public function register_routes() {
-		// Do nothing...
-	}
+	public function register_routes() {}
 }

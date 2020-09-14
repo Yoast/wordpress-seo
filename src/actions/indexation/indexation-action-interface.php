@@ -1,23 +1,21 @@
 <?php
-/**
- * Reindexation action for indexables
- *
- * @package Yoast\WP\SEO\Actions\Indexation
- */
 
 namespace Yoast\WP\SEO\Actions\Indexation;
 
+/**
+ * Interface definition of reindexation action for indexables.
+ */
 interface Indexation_Action_Interface {
 
 	/**
 	 * Returns the total number of unindexed objects.
 	 *
-	 * @return int The number of unindexed objects.
+	 * @return int The total number of unindexed objects.
 	 */
 	public function get_total_unindexed();
 
 	/**
-	 * Index a number of objects.
+	 * Indexes a number of objects.
 	 *
 	 * NOTE: ALWAYS use limits, this method is intended to be called multiple times over several requests.
 	 *
@@ -28,7 +26,7 @@ interface Indexation_Action_Interface {
 	public function index();
 
 	/**
-	 * Returns the number of objects that will be indexed in a single indexation pass.
+	 * Returns the number of objects that will be indexed in a single indexing pass.
 	 *
 	 * @return int The limit.
 	 */

@@ -48,6 +48,16 @@ class Pagination_Helper_Test extends TestCase {
 	}
 
 	/**
+	 * Tests if given dependencies are set as expected.
+	 *
+	 * @covers ::__construct
+	 */
+	public function test_constructor() {
+		$this->assertAttributeInstanceOf( WP_Rewrite_Wrapper::class, 'wp_rewrite_wrapper', $this->instance );
+		$this->assertAttributeInstanceOf( WP_Query_Wrapper::class, 'wp_query_wrapper', $this->instance );
+	}
+
+	/**
 	 * Tests that `is_disabled` returns false by default.
 	 *
 	 * @covers ::is_rel_adjacent_disabled
@@ -191,6 +201,40 @@ class Pagination_Helper_Test extends TestCase {
 			->andReturn( $wp_query );
 
 		$this->assertEquals( 2, $this->instance->get_current_post_page_number() );
+	}
+
+	/**
+	 * Tests the retrieval of the current page number.
+	 *
+	 * @covers ::get_current_page_number
+	 */
+	public function test_get_current_page_number() {
+		Monkey\Functions\expect( 'get_query_var' )
+			->with( 'paged', 1 )
+			->andReturn( 100 );
+
+		$this->assertSame( 100, $this->instance->get_current_page_number() );
+	}
+
+	/**
+	 * Tests the retrieval of the current page number.
+	 *
+	 * @covers ::get_current_page_number
+	 */
+	public function test_get_current_page_number_fallback_to_page() {
+		Monkey\Functions\expect( 'get_query_var' )
+			->twice()
+			->andReturnUsing(
+				static function( $query_var, $default ) {
+					if ( $query_var === 'page' ) {
+						$default = 2;
+					}
+
+					return $default;
+				}
+			);
+
+		$this->assertSame( 2, $this->instance->get_current_page_number() );
 	}
 
 	/**

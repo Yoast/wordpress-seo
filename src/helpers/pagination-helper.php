@@ -1,9 +1,4 @@
 <?php
-/**
- * A helper object for pagination.
- *
- * @package Yoast\WP\SEO\Helpers
- */
 
 namespace Yoast\WP\SEO\Helpers;
 
@@ -11,7 +6,7 @@ use Yoast\WP\SEO\Wrappers\WP_Query_Wrapper;
 use Yoast\WP\SEO\Wrappers\WP_Rewrite_Wrapper;
 
 /**
- * Class Pagination_Helper.
+ * A helper object for pagination.
  *
  * Used for the canonical URL and the rel "next" and "prev" meta tags.
  */
@@ -36,8 +31,6 @@ class Pagination_Helper {
 	 *
 	 * @param WP_Rewrite_Wrapper $wp_rewrite_wrapper The rewrite wrapper.
 	 * @param WP_Query_Wrapper   $wp_query_wrapper   The query wrapper.
-	 *
-	 * @codeCoverageIgnore
 	 */
 	public function __construct(
 		WP_Rewrite_Wrapper $wp_rewrite_wrapper,
@@ -117,5 +110,21 @@ class Pagination_Helper {
 		$wp_query = $this->wp_query_wrapper->get_main_query();
 
 		return (int) $wp_query->get( 'page' );
+	}
+
+	/**
+	 * Returns the current page number.
+	 *
+	 * @return int The current page number.
+	 */
+	public function get_current_page_number() {
+		// Get the page number for an archive page.
+		$page_number = \get_query_var( 'paged', 1 );
+		if ( $page_number > 1 ) {
+			return $page_number;
+		}
+
+		// Get the page number for a page in a paginated post.
+		return \get_query_var( 'page', 1 );
 	}
 }

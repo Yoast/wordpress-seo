@@ -1,9 +1,4 @@
 <?php
-/**
- * WPSEO plugin file.
- *
- * @package Yoast\WP\SEO\Integrations\Third_Party
- */
 
 namespace Yoast\WP\SEO\Integrations\Third_Party;
 
@@ -15,7 +10,7 @@ use Yoast\WP\SEO\Integrations\Front_End_Integration;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 
 /**
- * Web Stories integration
+ * Web Stories integration.
  */
 class Web_Stories implements Integration_Interface {
 
@@ -79,6 +74,7 @@ class Web_Stories implements Integration_Interface {
 			&& $screen->base !== 'edit'
 		) {
 			\wp_dequeue_script( WPSEO_Admin_Asset_Manager::PREFIX . 'post-edit' );
+			\wp_dequeue_script( WPSEO_Admin_Asset_Manager::PREFIX . 'post-edit-classic' );
 			\wp_dequeue_script( WPSEO_Admin_Asset_Manager::PREFIX . 'edit-page-script' );
 			\wp_dequeue_script( WPSEO_Admin_Asset_Manager::PREFIX . 'quick-edit-handler' );
 

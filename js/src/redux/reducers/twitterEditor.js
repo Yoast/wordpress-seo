@@ -30,7 +30,12 @@ const initialState = {
 const twitterReducer = ( state = initialState, action ) => {
 	switch ( action.type ) {
 		case LOAD_TWITTER_PREVIEW:
-			return { ...state, title: action.title, description: action.description, image: { id: action.id, url: action.imageUrl } };
+			return {
+				...state,
+				title: action.title,
+				description: action.description,
+				image: { id: action.id, url: action.imageUrl },
+			};
 		case SET_TWITTER_TITLE :
 			return { ...state, title: action.title };
 		case SET_TWITTER_DESCRIPTION :

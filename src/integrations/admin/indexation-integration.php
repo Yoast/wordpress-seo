@@ -1,9 +1,4 @@
 <?php
-/**
- * WPSEO plugin file.
- *
- * @package Yoast\WP\SEO\Integrations\Admin
- */
 
 namespace Yoast\WP\SEO\Integrations\Admin;
 
@@ -26,7 +21,7 @@ use Yoast\WP\SEO\Presenters\Admin\Indexation_Warning_Presenter;
 use Yoast\WP\SEO\Routes\Indexable_Indexation_Route;
 
 /**
- * Indexation_Integration class
+ * Indexation_Integration class.
  */
 class Indexation_Integration implements Integration_Interface {
 
@@ -265,7 +260,7 @@ class Indexation_Integration implements Integration_Interface {
 	/**
 	 * Returns the total number of unindexed objects.
 	 *
-	 * @return int
+	 * @return int The total number of unindexed objects.
 	 */
 	public function get_total_unindexed() {
 		if ( \is_null( $this->total_unindexed ) ) {

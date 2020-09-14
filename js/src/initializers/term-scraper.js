@@ -1,4 +1,4 @@
-/* global YoastSEO: true, wpseoScriptData */
+/* global wpseoScriptData */
 
 // External dependencies.
 import { App, TaxonomyAssessor } from "yoastseo";
@@ -13,7 +13,6 @@ import {
 } from "lodash-es";
 
 // Internal dependencies.
-import Edit from "./edit";
 import { termsTmceId } from "../lib/tinymce";
 import Pluggable from "../lib/Pluggable";
 import requestWordsToHighlight from "../analysis/requestWordsToHighlight.js";
@@ -42,34 +41,31 @@ import handleWorkerError from "../analysis/handleWorkerError";
 import { refreshSnippetEditor, updateData } from "../redux/actions/snippetEditor";
 import { setWordPressSeoL10n, setYoastComponentsL10n } from "../helpers/i18n";
 import { setFocusKeyword } from "../redux/actions/focusKeyword";
-import { setMarkerStatus } from "../redux/actions/markerButtons";
 import { setCornerstoneContent } from "../redux/actions/cornerstoneContent";
-
-// Helper dependencies.
-import isGutenbergDataAvailable from "../helpers/isGutenbergDataAvailable";
-import {
-	registerReactComponent,
-	renderClassicEditorMetabox,
-} from "../helpers/classicEditor";
+import initializeUsedKeywords from "./used-keywords-assessment";
 
 setYoastComponentsL10n();
 setWordPressSeoL10n();
 
 window.yoastHideMarkers = true;
 
+// Plugin class prototypes (not the instances) are being used by other plugins from the window.
+window.YoastReplaceVarPlugin = YoastReplaceVarPlugin;
+
 /**
  * @summary Initializes the term scraper script.
  *
  * @param {object} $ jQuery
+ * @param {object} store The Yoast editor store.
+ * @param {object} editorData The editor data.
  *
  * @returns {void}
  */
-export default function initTermScraper( $ ) {
+export default function initTermScraper( $, store, editorData ) {
 	var app;
 
 	var termSlugInput;
 
-	let edit;
 	const customAnalysisData = new CustomAnalysisData();
 
 	/**
@@ -122,7 +118,7 @@ export default function initTermScraper( $ ) {
 			slug: termSlugInput.val(),
 		};
 
-		YoastSEO.store.dispatch( updateData( snippetEditorData ) );
+		window.YoastSEO.store.dispatch( updateData( snippetEditorData ) );
 	}
 
 	/**
@@ -189,17 +185,17 @@ export default function initTermScraper( $ ) {
 	/**
 	 * Overwrites YoastSEO.js' app renderers.
 	 *
-	 * @param {Object} app YoastSEO.js app.
+	 * @param {Object} yoastSeoApp YoastSEO.js app.
 	 *
 	 * @returns {void}
 	 */
-	function disableYoastSEORenderers( app ) {
-		if ( ! isUndefined( app.seoAssessorPresenter ) ) {
-			app.seoAssessorPresenter.render = function() {};
+	function disableYoastSEORenderers( yoastSeoApp ) {
+		if ( ! isUndefined( yoastSeoApp.seoAssessorPresenter ) ) {
+			yoastSeoApp.seoAssessorPresenter.render = function() {};
 		}
-		if ( ! isUndefined( app.contentAssessorPresenter ) ) {
-			app.contentAssessorPresenter.render = function() {};
-			app.contentAssessorPresenter.renderIndividualRatings = function() {};
+		if ( ! isUndefined( yoastSeoApp.contentAssessorPresenter ) ) {
+			yoastSeoApp.contentAssessorPresenter.render = function() {};
+			yoastSeoApp.contentAssessorPresenter.renderIndividualRatings = function() {};
 		}
 	}
 
@@ -226,12 +222,11 @@ export default function initTermScraper( $ ) {
 	/**
 	 * Initializes cornerstone content analysis.
 	 *
-	 * @param {Object} store The redux store.
 	 * @param {Object} yoastSeoApp YoastSEO.js app.
 	 *
 	 * @returns {void}
 	 */
-	function initializeCornerstoneContentAnalysis( store, yoastSeoApp ) {
+	function initializeCornerstoneContentAnalysis( yoastSeoApp ) {
 		const cornerstoneField = document.getElementById( "hidden_wpseo_is_cornerstone" );
 
 		// This used to be a checkbox, then became a hidden input. For consistency, we set the value to '1'.
@@ -263,24 +258,9 @@ export default function initTermScraper( $ ) {
 	function initializeTermAnalysis() {
 		var args, termScraper, translations;
 
-		const editArgs = {
-			snippetEditorBaseUrl: wpseoScriptData.metabox.base_url,
-			replaceVars: wpseoScriptData.analysis.plugins.replaceVars.replace_vars,
-			recommendedReplaceVars: wpseoScriptData.analysis.plugins.replaceVars.recommended_replace_vars,
-			classicEditorDataSettings: {
-				tinyMceId: termsTmceId,
-			},
-		};
-
-		edit = new Edit( editArgs );
-
-		const store = edit.getStore();
-
 		insertTinyMCE();
 
 		termScraper = new TermDataCollector( { store } );
-
-		store.dispatch( setMarkerStatus( "hidden" ) );
 
 		args = {
 			// ID's of elements that need to trigger updating the analyzer.
@@ -323,42 +303,46 @@ export default function initTermScraper( $ ) {
 		app = new App( args );
 
 		// Expose globals.
-		window.YoastSEO = {};
+		window.YoastSEO = window.YoastSEO || {};
 		window.YoastSEO.app = app;
 		window.YoastSEO.store = store;
 		window.YoastSEO.analysis = {};
 		window.YoastSEO.analysis.worker = createAnalysisWorker();
-		window.YoastSEO.analysis.collectData = () => collectAnalysisData( edit, YoastSEO.store, customAnalysisData, YoastSEO.app.pluggable );
-		window.YoastSEO.analysis.applyMarks = ( paper, result ) => getApplyMarks( YoastSEO.store )( paper, result );
+		window.YoastSEO.analysis.collectData = () => collectAnalysisData(
+			editorData,
+			window.YoastSEO.store,
+			customAnalysisData,
+			window.YoastSEO.app.pluggable
+		);
+		window.YoastSEO.analysis.applyMarks = ( paper, result ) => getApplyMarks( window.YoastSEO.store )( paper, result );
 
 		// YoastSEO.app overwrites.
-		YoastSEO.app.refresh = debounce( () => refreshAnalysis(
-			YoastSEO.analysis.worker,
-			YoastSEO.analysis.collectData,
-			YoastSEO.analysis.applyMarks,
-			YoastSEO.store,
+		window.YoastSEO.app.refresh = debounce( () => refreshAnalysis(
+			window.YoastSEO.analysis.worker,
+			window.YoastSEO.analysis.collectData,
+			window.YoastSEO.analysis.applyMarks,
+			window.YoastSEO.store,
 			termScraper
 		), refreshDelay );
-		YoastSEO.app.registerCustomDataCallback = customAnalysisData.register;
-		YoastSEO.app.pluggable = new Pluggable( YoastSEO.app.refresh );
-		YoastSEO.app.registerPlugin = YoastSEO.app.pluggable._registerPlugin;
-		YoastSEO.app.pluginReady = YoastSEO.app.pluggable._ready;
-		YoastSEO.app.pluginReloaded = YoastSEO.app.pluggable._reloaded;
-		YoastSEO.app.registerModification = YoastSEO.app.pluggable._registerModification;
-		YoastSEO.app.registerAssessment = ( name, assessment, pluginName ) => {
-			if ( ! isUndefined( YoastSEO.app.seoAssessor ) ) {
-				return YoastSEO.app.pluggable._registerAssessment( YoastSEO.app.defaultSeoAssessor, name, assessment, pluginName ) &&
-					YoastSEO.app.pluggable._registerAssessment( YoastSEO.app.cornerStoneSeoAssessor, name, assessment, pluginName );
+		window.YoastSEO.app.registerCustomDataCallback = customAnalysisData.register;
+		window.YoastSEO.app.pluggable = new Pluggable( window.YoastSEO.app.refresh );
+		window.YoastSEO.app.registerPlugin = window.YoastSEO.app.pluggable._registerPlugin;
+		window.YoastSEO.app.pluginReady = window.YoastSEO.app.pluggable._ready;
+		window.YoastSEO.app.pluginReloaded = window.YoastSEO.app.pluggable._reloaded;
+		window.YoastSEO.app.registerModification = window.YoastSEO.app.pluggable._registerModification;
+		window.YoastSEO.app.registerAssessment = ( name, assessment, pluginName ) => {
+			if ( ! isUndefined( app.seoAssessor ) ) {
+				return window.YoastSEO.app.pluggable._registerAssessment( app.defaultSeoAssessor, name, assessment, pluginName ) &&
+					window.YoastSEO.app.pluggable._registerAssessment( app.cornerStoneSeoAssessor, name, assessment, pluginName );
 			}
 		};
-		YoastSEO.app.changeAssessorOptions = function( assessorOptions ) {
-			YoastSEO.analysis.worker.initialize( assessorOptions ).catch( handleWorkerError );
-			YoastSEO.app.refresh();
+		window.YoastSEO.app.changeAssessorOptions = function( assessorOptions ) {
+			window.YoastSEO.analysis.worker.initialize( assessorOptions ).catch( handleWorkerError );
+			window.YoastSEO.app.refresh();
 		};
 
-		edit.initializeUsedKeywords( YoastSEO.app.refresh, "get_term_keyword_usage" );
-
-		store.subscribe( handleStoreChange.bind( null, store, YoastSEO.app.refresh ) );
+		initializeUsedKeywords( app.refresh, "get_term_keyword_usage", store );
+		store.subscribe( handleStoreChange.bind( null, store, app.refresh ) );
 
 		if ( isKeywordAnalysisActive() ) {
 			app.seoAssessor = new TaxonomyAssessor( app.i18n );
@@ -368,20 +352,18 @@ export default function initTermScraper( $ ) {
 		termScraper.initKeywordTabTemplate();
 
 		// Init Plugins.
-		YoastSEO.wp = {};
-		YoastSEO.wp.replaceVarsPlugin = new YoastReplaceVarPlugin( app, store );
+		window.YoastSEO.wp = {};
+		window.YoastSEO.wp.replaceVarsPlugin = new YoastReplaceVarPlugin( app, store );
 
 		// For backwards compatibility.
-		YoastSEO.analyzerArgs = args;
-
-		YoastSEO._registerReactComponent = registerReactComponent;
+		window.YoastSEO.analyzerArgs = args;
 
 		initTermSlugWatcher();
 		termScraper.bindElementEvents( debounce( () => refreshAnalysis(
-			YoastSEO.analysis.worker,
-			YoastSEO.analysis.collectData,
-			YoastSEO.analysis.applyMarks,
-			YoastSEO.store,
+			window.YoastSEO.analysis.worker,
+			window.YoastSEO.analysis.collectData,
+			window.YoastSEO.analysis.applyMarks,
+			window.YoastSEO.store,
 			termScraper,
 		), refreshDelay ) );
 
@@ -394,7 +376,7 @@ export default function initTermScraper( $ ) {
 		}
 
 		// Initialize the analysis worker.
-		YoastSEO.analysis.worker.initialize( getAnalysisConfiguration( { useTaxonomy: true } ) )
+		window.YoastSEO.analysis.worker.initialize( getAnalysisConfiguration( { useTaxonomy: true } ) )
 			.then( () => {
 				jQuery( window ).trigger( "YoastSEO:ready" );
 			} )
@@ -410,9 +392,7 @@ export default function initTermScraper( $ ) {
 
 		// Initialize the snippet editor data.
 		let snippetEditorData = snippetEditorHelpers.getDataFromCollector( termScraper );
-
-		initializeCornerstoneContentAnalysis( store, app );
-
+		initializeCornerstoneContentAnalysis( app );
 		const snippetEditorTemplates = snippetEditorHelpers.getTemplatesFromL10n( wpseoScriptData.metabox );
 		snippetEditorData = snippetEditorHelpers.getDataWithTemplates( snippetEditorData, snippetEditorTemplates );
 
@@ -420,7 +400,7 @@ export default function initTermScraper( $ ) {
 		store.dispatch( updateData( snippetEditorData ) );
 
 		let focusKeyword = store.getState().focusKeyword;
-		requestWordsToHighlight( YoastSEO.analysis.worker.runResearch, YoastSEO.store, focusKeyword );
+		requestWordsToHighlight( window.YoastSEO.analysis.worker.runResearch, window.YoastSEO.store, focusKeyword );
 
 		const refreshAfterFocusKeywordChange = debounce( () => {
 			app.refresh();
@@ -434,7 +414,7 @@ export default function initTermScraper( $ ) {
 			if ( focusKeyword !== newFocusKeyword ) {
 				focusKeyword = newFocusKeyword;
 
-				requestWordsToHighlight( YoastSEO.analysis.worker.runResearch, YoastSEO.store, focusKeyword );
+				requestWordsToHighlight( window.YoastSEO.analysis.worker.runResearch, window.YoastSEO.store, focusKeyword );
 
 				document.getElementById( "hidden_wpseo_focuskw" ).value = focusKeyword;
 				refreshAfterFocusKeywordChange();
@@ -460,12 +440,8 @@ export default function initTermScraper( $ ) {
 			snippetEditorData.description = data.description;
 		} );
 
-		if ( ! isGutenbergDataAvailable() ) {
-			renderClassicEditorMetabox( store );
-		}
-
 		initializationDone();
-		YoastSEO.app.refresh();
+		window.YoastSEO.app.refresh();
 	}
 
 	jQuery( document ).ready( initializeTermAnalysis );

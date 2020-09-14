@@ -17,6 +17,8 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
 class Migration_Status_Test extends TestCase {
 
 	/**
+	 * Tests whether the migration is run when the migration option key exists.
+	 *
 	 * @covers ::should_run_migration
 	 */
 	public function test_should_run_migration() {
@@ -31,6 +33,8 @@ class Migration_Status_Test extends TestCase {
 	}
 
 	/**
+	 * Tests whether the migration is run when the migration option key doesn't exist.
+	 *
 	 * @covers ::should_run_migration
 	 */
 	public function test_should_run_migration_without_option() {
@@ -45,6 +49,8 @@ class Migration_Status_Test extends TestCase {
 	}
 
 	/**
+	 * Tests whether the migration is run when the migration option key has a lock.
+	 *
 	 * @covers ::should_run_migration
 	 */
 	public function test_should_run_migration_with_old_lock() {

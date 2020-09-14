@@ -5,6 +5,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Helpers;
 use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Helpers\Url_Helper;
+use Yoast\WP\SEO\Models\SEO_Links;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
@@ -191,5 +192,226 @@ class Url_Helper_Test extends TestCase {
 			->andReturnFalse();
 
 		$this->assertEquals( 'https://example.org/page', $this->instance->ensure_absolute_url( 'https://example.org/page' ) );
+	}
+
+	/**
+	 * Tests if an url is relative with a relative url given as argument.
+	 *
+	 * @covers ::is_relative
+	 */
+	public function test_if_url_is_relative() {
+		$this->assertTrue( $this->instance->is_relative( '/relative.html' ) );
+	}
+
+	/**
+	 * Tests if an url is relative with a relative url given as argument.
+	 *
+	 * @covers ::is_relative
+	 */
+	public function test_if_url_is_relative_with_non_relative_url_given() {
+		$this->assertFalse( $this->instance->is_relative( 'https://relative.html' ) );
+	}
+
+	/**
+	 * Tests if an url is relative with a protocol-less url given as argument.
+	 *
+	 * @covers ::is_relative
+	 */
+	public function test_if_url_is_relative_with_protocol_less_url_given() {
+		$this->assertFalse( $this->instance->is_relative( '//relative.html' ) );
+	}
+
+	/**
+	 * Tests the home url with a path given.
+	 *
+	 * @covers ::home
+	 */
+	public function test_home_with_path_given() {
+		Monkey\Functions\expect( 'home_url' )
+			->with( 'path' )
+			->andReturn( 'https://example.org/path' );
+
+		$this->assertEquals( 'https://example.org/path', $this->instance->home( 'path' ) );
+	}
+
+	/**
+	 * Tests the home url with no path given and home url is site root.
+	 *
+	 * @covers ::home
+	 */
+	public function test_home_with_home_at_site_root() {
+		Monkey\Functions\expect( 'home_url' )
+			->andReturn( 'https://example.org' );
+
+		Monkey\Functions\expect( 'wp_parse_url' )
+			->with( 'https://example.org/', PHP_URL_PATH )
+			->andReturn( null );
+
+		Monkey\Functions\expect( 'trailingslashit' )
+			->with( 'https://example.org' )
+			->andReturn( 'https://example.org/' );
+
+		$this->assertEquals( 'https://example.org/', $this->instance->home() );
+	}
+
+	/**
+	 * Tests the home url with no path given and home url is site root.
+	 *
+	 * @covers ::home
+	 */
+	public function test_home_with_home_at_site_root_already_slashed() {
+		Monkey\Functions\expect( 'home_url' )
+			->andReturn( 'https://example.org/' );
+
+		Monkey\Functions\expect( 'wp_parse_url' )
+			->with( 'https://example.org/', PHP_URL_PATH )
+			->andReturn( '/' );
+
+		$this->assertEquals( 'https://example.org/', $this->instance->home() );
+	}
+
+	/**
+	 * Tests the home url with the home in a subdirectory.
+	 *
+	 * @covers ::home
+	 */
+	public function test_home_with_home_in_subdirectory() {
+		Monkey\Functions\expect( 'home_url' )
+			->andReturn( 'https://example.org' );
+
+		Monkey\Functions\expect( 'wp_parse_url' )
+			->with( 'https://example.org/', PHP_URL_PATH )
+			->andReturn( 'https://example.org/subdirectory' );
+
+		Monkey\Functions\expect( 'user_trailingslashit' )
+			->with( 'https://example.org' )
+			->andReturn( 'https://example.org/' );
+
+		$this->assertEquals( 'https://example.org/', $this->instance->home() );
+	}
+
+	/**
+	 * Tests the home url with the home in a subdirectory.
+	 *
+	 * @covers ::home
+	 */
+	public function test_home() {
+		Monkey\Functions\expect( 'home_url' )
+			->andReturn( 'https://example.org' );
+
+		Monkey\Functions\expect( 'wp_parse_url' )
+			->with( 'https://example.org/', PHP_URL_PATH )
+			->andReturn( false );
+
+		$this->assertEquals( 'https://example.org', $this->instance->home() );
+	}
+
+	/**
+	 * Tests the get_link_type function.
+	 *
+	 * @covers ::get_link_type
+	 *
+	 * @dataProvider get_link_type_test_data
+	 *
+	 * @param array  $url       The parsed url.
+	 * @param array  $home_url  The parsed home url.
+	 * @param bool   $is_image  Whether or not the link is an image.
+	 * @param string $link_type The expected link type.
+	 * @param string $message   The assertion message.
+	 */
+	public function test_get_link_type( $url, $home_url, $is_image, $link_type, $message ) {
+		if ( \is_null( $home_url ) ) {
+			Monkey\Functions\expect( 'home_url' )
+				->once()
+				->andReturn( 'home_url' );
+			Monkey\Functions\expect( 'wp_parse_url' )
+				->once()
+				->with( 'home_url' )
+				->andReturn( [ 'host' => 'example.com' ] );
+		}
+
+		$this->assertEquals(
+			$link_type,
+			$this->instance->get_link_type( $url, $home_url, $is_image ),
+			$message
+		);
+	}
+
+	/**
+	 * Data for the get_link_type_test.
+	 *
+	 * @return array The test data.
+	 */
+	public function get_link_type_test_data() {
+		return [
+			[
+				[ 'scheme' => '' ],
+				[],
+				false,
+				SEO_Links::TYPE_INTERNAL,
+				'URLs with no scheme should be internal',
+			],
+			[
+				[ 'scheme' => 'not-http(s)?' ],
+				[],
+				false,
+				SEO_Links::TYPE_EXTERNAL,
+				'URLs with a non http(s)? scheme should be external',
+			],
+			[
+				[
+					'scheme' => 'http',
+					'host'   => 'not-example.com',
+				],
+				null,
+				false,
+				SEO_Links::TYPE_EXTERNAL,
+				'When no home_url is passed home_url and wp_parse_url should be called',
+			],
+			[
+				[
+					'scheme' => 'http',
+					'host'   => 'example.com',
+					'path'   => 'test',
+				],
+				[
+					'scheme' => 'http',
+					'host'   => 'example.com',
+				],
+				false,
+				SEO_Links::TYPE_INTERNAL,
+				'When home_url has no path and the hosts match the URL should be internal',
+			],
+			[
+				[
+					'scheme' => 'http',
+					'host'   => 'example.com',
+					'path'   => 'test',
+				],
+				[
+					'scheme' => 'http',
+					'host'   => 'example.com',
+					'path'   => 'home',
+				],
+				false,
+				SEO_Links::TYPE_EXTERNAL,
+				'When home_url has a path URLs that don\'t start with it should be external',
+			],
+			[
+				[
+					'scheme' => 'http',
+					'host'   => 'example.com',
+					'path'   => 'home/test',
+				],
+				[
+					'scheme' => 'http',
+					'host'   => 'example.com',
+					'path'   => 'home',
+				],
+				false,
+				SEO_Links::TYPE_INTERNAL,
+				'When home_url has a path URLs that do start with it should be internal',
+			],
+		];
 	}
 }

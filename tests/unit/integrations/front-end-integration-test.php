@@ -1,9 +1,4 @@
 <?php
-/**
- * Yoast SEO Plugin File.
- *
- * @package Yoast\YoastSEO\Integrations
- */
 
 namespace Yoast\WP\SEO\Tests\Unit\Integrations;
 
@@ -21,7 +16,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
 use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Unit Test Class.
+ * Class Front_End_Integration_Test.
  *
  * @coversDefaultClass \Yoast\WP\SEO\Integrations\Front_End_Integration
  *
@@ -176,8 +171,6 @@ class Front_End_Integration_Test extends TestCase {
 			'Yoast\WP\SEO\Presenters\Title_Presenter',
 			'Yoast\WP\SEO\Presenters\Meta_Description_Presenter',
 			'Yoast\WP\SEO\Presenters\Robots_Presenter',
-			'Yoast\WP\SEO\Presenters\Googlebot_Presenter',
-			'Yoast\WP\SEO\Presenters\Bingbot_Presenter',
 			'Yoast\WP\SEO\Presenters\Canonical_Presenter',
 			'Yoast\WP\SEO\Presenters\Rel_Prev_Presenter',
 			'Yoast\WP\SEO\Presenters\Rel_Next_Presenter',
@@ -240,8 +233,6 @@ class Front_End_Integration_Test extends TestCase {
 				'Yoast\WP\SEO\Presenters\Title_Presenter',
 				'Yoast\WP\SEO\Presenters\Meta_Description_Presenter',
 				'Yoast\WP\SEO\Presenters\Robots_Presenter',
-				'Yoast\WP\SEO\Presenters\Googlebot_Presenter',
-				'Yoast\WP\SEO\Presenters\Bingbot_Presenter',
 				'Yoast\WP\SEO\Presenters\Open_Graph\Locale_Presenter',
 				'Yoast\WP\SEO\Presenters\Open_Graph\Title_Presenter',
 				'Yoast\WP\SEO\Presenters\Open_Graph\Site_Name_Presenter',
@@ -284,8 +275,6 @@ class Front_End_Integration_Test extends TestCase {
 				'Yoast\WP\SEO\Presenters\Title_Presenter',
 				'Yoast\WP\SEO\Presenters\Meta_Description_Presenter',
 				'Yoast\WP\SEO\Presenters\Robots_Presenter',
-				'Yoast\WP\SEO\Presenters\Googlebot_Presenter',
-				'Yoast\WP\SEO\Presenters\Bingbot_Presenter',
 				'Yoast\WP\SEO\Presenters\Canonical_Presenter',
 				'Yoast\WP\SEO\Presenters\Rel_Prev_Presenter',
 				'Yoast\WP\SEO\Presenters\Rel_Next_Presenter',
@@ -341,8 +330,6 @@ class Front_End_Integration_Test extends TestCase {
 				'Yoast\WP\SEO\Presenters\Debug\Marker_Open_Presenter',
 				'Yoast\WP\SEO\Presenters\Meta_Description_Presenter',
 				'Yoast\WP\SEO\Presenters\Robots_Presenter',
-				'Yoast\WP\SEO\Presenters\Googlebot_Presenter',
-				'Yoast\WP\SEO\Presenters\Bingbot_Presenter',
 				'Yoast\WP\SEO\Presenters\Open_Graph\Locale_Presenter',
 				'Yoast\WP\SEO\Presenters\Open_Graph\Title_Presenter',
 				'Yoast\WP\SEO\Presenters\Open_Graph\Site_Name_Presenter',
@@ -386,8 +373,6 @@ class Front_End_Integration_Test extends TestCase {
 				'Yoast\WP\SEO\Presenters\Title_Presenter',
 				'Yoast\WP\SEO\Presenters\Meta_Description_Presenter',
 				'Yoast\WP\SEO\Presenters\Robots_Presenter',
-				'Yoast\WP\SEO\Presenters\Googlebot_Presenter',
-				'Yoast\WP\SEO\Presenters\Bingbot_Presenter',
 				'Yoast\WP\SEO\Presenters\Open_Graph\Locale_Presenter',
 				'Yoast\WP\SEO\Presenters\Open_Graph\Title_Presenter',
 				'Yoast\WP\SEO\Presenters\Open_Graph\Site_Name_Presenter',

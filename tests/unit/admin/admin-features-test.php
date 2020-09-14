@@ -7,6 +7,9 @@ use Mockery;
 use WP_User;
 use WPSEO_Admin;
 use WPSEO_Primary_Term_Admin;
+use Yoast\WP\SEO\Helpers\Current_Page_Helper;
+use Yoast\WP\SEO\Main;
+use Yoast\WP\SEO\Surfaces\Helpers_Surface;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Shortlinker_Double;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 use Yoast_Dashboard_Widget;
@@ -45,6 +48,20 @@ class Admin_Features_Test extends TestCase {
 	}
 
 	/**
+	 * Sets up the YoastSEO function with the right expectations.
+	 */
+	private function setup_yoastseo_with_expectations() {
+		$current_page_helper = Mockery::mock( Current_Page_Helper::class );
+		$current_page_helper->expects( 'is_yoast_seo_page' )->twice()->andReturn( true );
+
+		$helper_surface               = Mockery::mock( Helpers_Surface::class );
+		$helper_surface->current_page = $current_page_helper;
+
+		Monkey\Functions\expect( 'YoastSEO' )
+			->andReturn( (object) [ 'helpers' => $helper_surface ] );
+	}
+
+	/**
 	 * Test that admin_features returns the correct array when we're editing/creating a post.
 	 *
 	 * @covers ::get_admin_features
@@ -52,6 +69,8 @@ class Admin_Features_Test extends TestCase {
 	public function test_get_admin_features_ON_post_edit() {
 		global $pagenow;
 		$pagenow = 'post.php';
+
+		$this->setup_yoastseo_with_expectations();
 
 		$class_instance = $this->get_admin_with_expectations();
 
@@ -72,6 +91,8 @@ class Admin_Features_Test extends TestCase {
 		global $pagenow;
 		$pagenow = 'index.php';
 
+		$this->setup_yoastseo_with_expectations();
+
 		$class_instance = $this->get_admin_with_expectations();
 
 		$admin_features = [
@@ -87,6 +108,8 @@ class Admin_Features_Test extends TestCase {
 	 * @covers ::update_contactmethods
 	 */
 	public function test_update_contactmethods() {
+		$this->setup_yoastseo_with_expectations();
+
 		$class_instance = $this->get_admin_with_expectations();
 		$result         = $class_instance->update_contactmethods( [] );
 		\ksort( $result );

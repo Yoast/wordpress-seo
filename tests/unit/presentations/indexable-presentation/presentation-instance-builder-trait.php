@@ -15,16 +15,22 @@ trait Presentation_Instance_Builder {
 	use Presentation_Instance_Dependencies;
 
 	/**
+	 * Represents an indexable mock object.
+	 *
 	 * @var Indexable_Mock
 	 */
 	protected $indexable;
 
 	/**
-	 * @var Indexable_Presentation|Mockery\MockInterface
+	 * Represents the instance to test.
+	 *
+	 * @var Indexable_Presentation
 	 */
 	protected $instance;
 
 	/**
+	 * Represents the meta tags context mock object.
+	 *
 	 * @var Meta_Tags_Context_Mock|Mockery\MockInterface
 	 */
 	protected $context;

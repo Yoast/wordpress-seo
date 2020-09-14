@@ -10,12 +10,21 @@ import isWordFormRecognitionActive from "../../analysis/isWordFormRecognitionAct
  * @returns {Object} The default state.
  */
 function getDefaultState() {
+	const displayAdvancedTab = !! window.wpseoAdminL10n.displayAdvancedTab;
+
 	return {
 		isContentAnalysisActive: isContentAnalysisActive(),
 		isKeywordAnalysisActive: isKeywordAnalysisActive(),
 		isWordFormRecognitionActive: isUndefined( window.wpseoPremiumMetaboxData ) && isWordFormRecognitionActive(),
 		isCornerstoneActive: isCornerstoneActive(),
+		isBreadcrumbsDisabled: ! ! window.wpseoAdminL10n.isBreadcrumbsDisabled,
+		isPrivateBlog: ! ! window.wpseoAdminL10n.isPrivateBlog,
 		shouldUpsell: isUndefined( window.wpseoPremiumMetaboxData ),
+		displayAdvancedTab: displayAdvancedTab,
+		displaySchemaSettings: displayAdvancedTab && !! window.wpseoScriptData.isPost,
+		displaySchemaSettingsFooter: window.wpseoScriptData.metabox.schema.displayFooter,
+		displayFacebook: window.wpseoScriptData.metabox.showSocial.facebook,
+		displayTwitter: window.wpseoScriptData.metabox.showSocial.twitter,
 	};
 }
 

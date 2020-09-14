@@ -20,11 +20,6 @@ class Twitter_Title_Test extends TestCase {
 	use Presentation_Instance_Builder;
 
 	/**
-	 * @var Options_Helper|Mockery\MockInterface
-	 */
-	protected $option;
-
-	/**
 	 * Does the setup for testing.
 	 */
 	public function setUp() {

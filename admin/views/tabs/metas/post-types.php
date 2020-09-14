@@ -50,6 +50,7 @@ if ( is_array( $wpseo_post_types ) && $wpseo_post_types !== [] ) {
 			]
 		);
 
+		// phpcs:ignore WordPress.Security.EscapeOutput -- get_output() output is properly escaped.
 		echo $wpseo_post_type_presenter->get_output();
 	}
 }

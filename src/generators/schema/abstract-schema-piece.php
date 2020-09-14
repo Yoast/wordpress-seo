@@ -1,9 +1,4 @@
 <?php
-/**
- * WPSEO plugin file.
- *
- * @package Yoast\WP\SEO\Generators\Schema
- */
 
 namespace Yoast\WP\SEO\Generators\Schema;
 
@@ -11,7 +6,7 @@ use Yoast\WP\SEO\Context\Meta_Tags_Context;
 use Yoast\WP\SEO\Surfaces\Helpers_Surface;
 
 /**
- * Class Abstract_Schema_Piece
+ * Class Abstract_Schema_Piece.
  */
 abstract class Abstract_Schema_Piece {
 

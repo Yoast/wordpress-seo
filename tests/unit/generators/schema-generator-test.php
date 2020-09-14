@@ -1,9 +1,4 @@
 <?php
-/**
- * WPSEO plugin file.
- *
- * @package Yoast\WP\SEO\Tests\Unit\Generators
- */
 
 namespace Yoast\WP\SEO\Tests\Unit\Generators;
 
@@ -13,17 +8,21 @@ use Yoast\WP\SEO\Generators\Schema\FAQ;
 use Yoast\WP\SEO\Generators\Schema\Organization;
 use Yoast\WP\SEO\Generators\Schema_Generator;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
+use Yoast\WP\SEO\Helpers\Image_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Schema\HTML_Helper;
 use Yoast\WP\SEO\Helpers\Schema\ID_Helper;
 use Yoast\WP\SEO\Helpers\Schema\Language_Helper;
+use Yoast\WP\SEO\Helpers\Site_Helper;
+use Yoast\WP\SEO\Helpers\Url_Helper;
+use Yoast\WP\SEO\Helpers\User_Helper;
 use Yoast\WP\SEO\Surfaces\Helpers_Surface;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Context\Meta_Tags_Context_Mock;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
- * Class Schema_Generator_Test
+ * Class Schema_Generator_Test.
  *
  * @coversDefaultClass \Yoast\WP\SEO\Generators\Schema_Generator
  *
@@ -88,7 +87,7 @@ class Schema_Generator_Test extends TestCase {
 		parent::setUp();
 
 		$this->id           = Mockery::mock( ID_Helper::class );
-		$this->current_page = Mockery::mock( Current_Page_Helper::class )->makePartial();
+		$this->current_page = Mockery::mock( Current_Page_Helper::class );
 
 		$this->html = Mockery::mock( HTML_Helper::class )->makePartial();
 
@@ -107,15 +106,19 @@ class Schema_Generator_Test extends TestCase {
 			[ $helpers ]
 		)->shouldAllowMockingProtectedMethods()->makePartial();
 
-		$this->context         = Mockery::mock( Meta_Tags_Context_Mock::class, [
-			$helpers->options,
-			Mockery::mock( \Yoast\WP\SEO\Helpers\Url_Helper::class ),
-			Mockery::mock( \Yoast\WP\SEO\Helpers\Image_Helper::class ),
-			Mockery::mock( \Yoast\WP\SEO\Helpers\Schema\ID_Helper::class ),
-			Mockery::mock( \WPSEO_Replace_Vars::class ),
-			Mockery::mock( \Yoast\WP\SEO\Helpers\Site_Helper::class ),
-			Mockery::mock( \Yoast\WP\SEO\Helpers\User_Helper::class ),
-		] )->shouldAllowMockingProtectedMethods();
+		$this->context = Mockery::mock(
+			Meta_Tags_Context_Mock::class,
+			[
+				$helpers->options,
+				Mockery::mock( Url_Helper::class ),
+				Mockery::mock( Image_Helper::class ),
+				Mockery::mock( ID_Helper::class ),
+				Mockery::mock( \WPSEO_Replace_Vars::class ),
+				Mockery::mock( Site_Helper::class ),
+				Mockery::mock( User_Helper::class ),
+			]
+		)->shouldAllowMockingProtectedMethods();
+
 		$this->context->blocks = [
 			'yoast/faq-block' => [
 				[
@@ -173,6 +176,11 @@ class Schema_Generator_Test extends TestCase {
 	public function test_generate_with_no_blocks() {
 		$this->context->indexable->object_sub_type = 'super-custom-post-type';
 
+		Monkey\Functions\expect( 'is_single' )
+			->once()
+			->withNoArgs()
+			->andReturnFalse();
+
 		$this->current_page
 			->expects( 'is_home_static_page' )
 			->twice()
@@ -204,13 +212,20 @@ class Schema_Generator_Test extends TestCase {
 						'inLanguage'      => 'English',
 					],
 					[
-						'@id'   => '#website',
-					],
-					[
-						[
-							'@type'  => 'ReadAction',
-							'target' => [
-								null,
+						'@type'           => null,
+						'@id'             => '#webpage',
+						'url'             => null,
+						'name'            => '',
+						'isPartOf'        => [
+							'@id' => '#website',
+						],
+						'inLanguage'      => 'English',
+						'potentialAction' => [
+							[
+								'@type'  => 'ReadAction',
+								'target' => [
+									null,
+								],
 							],
 						],
 					],
@@ -228,6 +243,16 @@ class Schema_Generator_Test extends TestCase {
 	 * @covers ::get_graph_pieces
 	 */
 	public function test_generate_with_blocks() {
+		Monkey\Functions\expect( 'post_password_required' )
+			->once()
+			->withNoArgs()
+			->andReturnFalse();
+
+		Monkey\Functions\expect( 'is_single' )
+			->once()
+			->withNoArgs()
+			->andReturnTrue();
+
 		$this->current_page
 			->expects( 'is_home_static_page' )
 			->twice()
@@ -286,6 +311,16 @@ class Schema_Generator_Test extends TestCase {
 	 * @covers ::get_graph_pieces
 	 */
 	public function test_generate_with_block_not_having_generated_output() {
+		Monkey\Functions\expect( 'is_single' )
+			->once()
+			->withNoArgs()
+			->andReturnTrue();
+
+		Monkey\Functions\expect( 'post_password_required' )
+			->once()
+			->withNoArgs()
+			->andReturnFalse();
+
 		$this->current_page
 			->expects( 'is_home_static_page' )
 			->twice()
@@ -299,6 +334,193 @@ class Schema_Generator_Test extends TestCase {
 			->expects( 'smart_strip_tags' )
 			->times( 3 )
 			->andReturnArg( 0 );
+
+		$this->assertEquals(
+			$this->get_expected_schema(),
+			$this->instance->generate( $this->context )
+		);
+	}
+
+	/**
+	 * Tests that a type array with 1 entry gets put without the array.
+	 *
+	 * @covers ::__construct
+	 * @covers ::generate
+	 * @covers ::get_graph_pieces
+	 * @covers ::validate_type
+	 */
+	public function test_validate_type_singular_array() {
+		$this->context->blocks = [];
+
+		Monkey\Functions\expect( 'is_single' )
+			->once()
+			->withNoArgs()
+			->andReturnTrue();
+
+		Monkey\Functions\expect( 'post_password_required' )
+			->once()
+			->withNoArgs()
+			->andReturnFalse();
+
+		$this->current_page
+			->expects( 'is_home_static_page' )
+			->twice()
+			->andReturnTrue();
+
+		$this->current_page
+			->expects( 'is_front_page' )
+			->andReturnTrue();
+
+		Monkey\Filters\expectApplied( 'wpseo_schema_website' )
+			->once()
+			->andReturn(
+				[
+					'@type'           => [ 'WebSite' ],
+					'@id'             => '#website',
+					'url'             => null,
+					'name'            => '',
+					'description'     => 'description',
+					'potentialAction' => [
+						[
+							'@type'       => 'SearchAction',
+							'target'      => '?s={search_term_string}',
+							'query-input' => 'required name=search_term_string',
+						],
+					],
+					'inLanguage'      => 'English',
+				]
+			);
+
+		$this->assertEquals(
+			[
+				'@type'           => 'WebSite',
+				'@id'             => '#website',
+				'url'             => null,
+				'name'            => '',
+				'description'     => 'description',
+				'potentialAction' => [
+					[
+						'@type'       => 'SearchAction',
+						'target'      => '?s={search_term_string}',
+						'query-input' => 'required name=search_term_string',
+					],
+				],
+				'inLanguage'      => 'English',
+			],
+			$this->instance->generate( $this->context )['@graph'][0]
+		);
+	}
+
+	/**
+	 * Tests that a type array duplicates get squashed.
+	 *
+	 * @covers ::__construct
+	 * @covers ::generate
+	 * @covers ::get_graph_pieces
+	 * @covers ::validate_type
+	 */
+	public function test_validate_type_unique_array() {
+		$this->context->blocks = [];
+
+		Monkey\Functions\expect( 'is_single' )
+			->once()
+			->withNoArgs()
+			->andReturnTrue();
+
+		Monkey\Functions\expect( 'post_password_required' )
+			->once()
+			->withNoArgs()
+			->andReturnFalse();
+
+		$this->current_page
+			->expects( 'is_home_static_page' )
+			->twice()
+			->andReturnTrue();
+
+		$this->current_page
+			->expects( 'is_front_page' )
+			->andReturnTrue();
+
+		Monkey\Filters\expectApplied( 'wpseo_schema_website' )
+			->once()
+			->andReturn(
+				[
+					'@type'           => [ 'WebSite', 'WebSite', 'Something', 'Something', 'Something' ],
+					'@id'             => '#website',
+					'url'             => null,
+					'name'            => '',
+					'description'     => 'description',
+					'potentialAction' => [
+						[
+							'@type'       => 'SearchAction',
+							'target'      => '?s={search_term_string}',
+							'query-input' => 'required name=search_term_string',
+						],
+					],
+					'inLanguage'      => 'English',
+				]
+			);
+
+		$this->assertEquals(
+			[
+				'@type'           => [ 'WebSite', 'Something' ],
+				'@id'             => '#website',
+				'url'             => null,
+				'name'            => '',
+				'description'     => 'description',
+				'potentialAction' => [
+					[
+						'@type'       => 'SearchAction',
+						'target'      => '?s={search_term_string}',
+						'query-input' => 'required name=search_term_string',
+					],
+				],
+				'inLanguage'      => 'English',
+			],
+			$this->instance->generate( $this->context )['@graph'][0]
+		);
+	}
+
+	/**
+	 * Tests getting the graph pieces for a password-protected post.
+	 *
+	 * @covers ::generate
+	 * @covers ::get_graph_pieces
+	 */
+	public function test_get_graph_pieces_on_single_post_with_password_required() {
+		Monkey\Functions\expect( 'is_single' )
+			->once()
+			->withNoArgs()
+			->andReturnTrue();
+
+		Monkey\Functions\expect( 'post_password_required' )
+			->once()
+			->withNoArgs()
+			->andReturnTrue();
+
+		$this->current_page
+			->expects( 'is_home_static_page' )
+			->once()
+			->andReturnFalse();
+
+		$this->current_page
+			->expects( 'is_front_page' )
+			->andReturnFalse();
+
+		$filtered_webpage_schema = [
+			'@type'      => 'WebPage',
+			'@id'        => '#webpage',
+			'url'        => null,
+			'name'       => '',
+			'isPartOf'   => [
+				'@id' => '#website',
+			],
+			'inLanguage' => 'English',
+		];
+
+		Monkey\Filters\expectApplied( 'wpseo_schema_webpage' )
+			->once()
+			->andReturn( $filtered_webpage_schema );
 
 		$this->assertEquals(
 			[
@@ -319,48 +541,39 @@ class Schema_Generator_Test extends TestCase {
 						],
 						'inLanguage'      => 'English',
 					],
-					[
-						'@type'           => [ null, 'FAQPage' ],
-						'@id'             => '#webpage',
-						'url'             => null,
-						'name'            => '',
-						'isPartOf'        => [
-							'@id' => '#website',
-						],
-						'inLanguage'      => 'English',
-						'potentialAction' => [
-							[
-								'@type'  => 'ReadAction',
-								'target' => [
-									null,
-								],
-							],
-						],
-					],
-					[
-						'@type'            => 'ItemList',
-						'mainEntityOfPage' => [ '@id' => null ],
-						'numberOfItems'    => 1,
-						'itemListElement'  => [ [ '@id' => '#id-1' ] ],
-					],
-					[
-						'@type'          => 'Question',
-						'@id'            => '#id-1',
-						'position'       => 1,
-						'url'            => '#id-1',
-						'name'           => 'This is a question',
-						'answerCount'    => 1,
-						'acceptedAnswer' => [
-							'@type'      => 'Answer',
-							'text'       => 'This is an answer',
-							'inLanguage' => 'English',
-						],
-						'inLanguage'     => 'English',
-					],
+					$filtered_webpage_schema,
 				],
 			],
 			$this->instance->generate( $this->context )
 		);
+	}
+
+	/**
+	 * Tests filtering the WebPage schema for password-protected posts.
+	 *
+	 * @covers ::protected_webpage_schema
+	 */
+	public function test_filtering_the_webpage_schema() {
+		$graph_piece = [
+			'@type'      => 'NULL',
+			'@id'        => 'http://basic.wordpress.test/faq-howto/#webpage',
+			'url'        => 'http://basic.wordpress.test/faq-howto/',
+			'name'       => 'FAQ + HowTo - Basic',
+			'author'     => [
+				'@id' => 'the_id',
+			],
+			'inLanguage' => 'en-US',
+		];
+
+		$expected = [
+			'@type'      => 'WebPage',
+			'@id'        => 'http://basic.wordpress.test/faq-howto/#webpage',
+			'url'        => 'http://basic.wordpress.test/faq-howto/',
+			'name'       => 'FAQ + HowTo - Basic',
+			'inLanguage' => 'en-US',
+		];
+
+		$this->assertEquals( $expected, $this->instance->protected_webpage_schema( $graph_piece ) );
 	}
 
 	/**

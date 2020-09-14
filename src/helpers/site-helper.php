@@ -1,28 +1,21 @@
 <?php
-/**
- * A helper object for site options.
- *
- * @package Yoast\WP\SEO\Helpers
- */
 
 namespace Yoast\WP\SEO\Helpers;
 
 use WPSEO_Utils;
 
 /**
- * Class Site_Helper
+ * A helper object for site options.
  */
 class Site_Helper {
 
 	/**
 	 * Retrieves the site name.
 	 *
-	 * @codeCoverageIgnore We have to write test when this method contains own code.
-	 *
 	 * @return string
 	 */
 	public function get_site_name() {
-		return WPSEO_Utils::get_site_name();
+		return wp_strip_all_tags( get_bloginfo( 'name' ), true );
 	}
 
 	/**

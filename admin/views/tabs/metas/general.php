@@ -20,4 +20,5 @@ $wpseo_general_presenter = new WPSEO_Paper_Presenter(
 	]
 );
 
+// phpcs:ignore WordPress.Security.EscapeOutput -- get_output() output is properly escaped.
 echo $wpseo_general_presenter->get_output();

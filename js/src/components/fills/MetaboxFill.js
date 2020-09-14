@@ -13,7 +13,7 @@ import SeoAnalysis from "../contentAnalysis/SeoAnalysis";
 import MetaboxCollapsible from "../MetaboxCollapsible";
 import SidebarItem from "../SidebarItem";
 import TopLevelProviders from "../TopLevelProviders";
-import AdvancedSettings from "../AdvancedSettings";
+import AdvancedSettings from "../../containers/AdvancedSettings";
 import SocialMetadataPortal from "../portals/SocialMetadataPortal";
 import SchemaTabContainer from "../../containers/SchemaTab";
 
@@ -97,10 +97,12 @@ export default function MetaboxFill( { settings, store, theme } ) {
 					theme={ theme }
 					location={ "metabox" }
 				>
-					<AdvancedSettings />
+					<MetaboxCollapsible id={ "collapsible-advanced-settings" } title={ __( "Advanced", "wordpress-seo" ) }>
+						<AdvancedSettings />
+					</MetaboxCollapsible>
 				</TopLevelProviders>
 			</SidebarItem> }
-			{ !! window.wpseoScriptData.isPost && <SidebarItem renderPriority={ 50 }>
+			{ settings.displaySchemaSettings && <SidebarItem renderPriority={ 50 }>
 				<TopLevelProviders
 					store={ store }
 					theme={ theme }

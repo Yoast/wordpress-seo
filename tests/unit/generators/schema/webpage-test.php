@@ -473,14 +473,14 @@ class WebPage_Test extends TestCase {
 		);
 
 		$expected = [
-			'@type'      => 'CollectionPage',
-			'@id'        => 'https://example.com/the-post/#webpage',
-			'url'        => 'https://example.com/the-post/',
-			'name'       => 'the-title',
-			'isPartOf'   => [
+			'@type'           => 'CollectionPage',
+			'@id'             => 'https://example.com/the-post/#webpage',
+			'url'             => 'https://example.com/the-post/',
+			'name'            => 'the-title',
+			'isPartOf'        => [
 				'@id' => 'https://example.com/#website',
 			],
-			'inLanguage' => 'the-language',
+			'inLanguage'      => 'the-language',
 			'potentialAction' => [
 				[
 					'@type'  => 'ReadAction',
@@ -514,16 +514,16 @@ class WebPage_Test extends TestCase {
 		);
 
 		$expected = [
-			'@type'         => 'CollectionPage',
-			'@id'           => 'https://example.com/the-post/#webpage',
-			'url'           => 'https://example.com/the-post/',
-			'name'          => 'the-title',
-			'datePublished' => '2345-12-12 12:12:12',
-			'dateModified'  => '2345-12-12 23:23:23',
-			'isPartOf'      => [
+			'@type'           => 'CollectionPage',
+			'@id'             => 'https://example.com/the-post/#webpage',
+			'url'             => 'https://example.com/the-post/',
+			'name'            => 'the-title',
+			'datePublished'   => '2345-12-12 12:12:12',
+			'dateModified'    => '2345-12-12 23:23:23',
+			'isPartOf'        => [
 				'@id' => 'https://example.com/#website',
 			],
-			'inLanguage'    => 'the-language',
+			'inLanguage'      => 'the-language',
 			'potentialAction' => [
 				[
 					'@type'  => 'ReadAction',

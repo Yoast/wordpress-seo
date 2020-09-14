@@ -1,9 +1,4 @@
 <?php
-/**
- * WPSEO plugin test file.
- *
- * @package Yoast\WP\SEO\Tests\Unit\Repositories
- */
 
 namespace Yoast\WP\SEO\Tests\Unit\Repositories;
 
@@ -100,6 +95,8 @@ class Indexable_Hierarchy_Repository_Test extends TestCase {
 			->expects( 'query' )
 			->andReturn( $orm_object );
 
+		Functions\expect( 'wp_list_pluck' )->once()->andReturn( [ 0 => 2 ] );
+
 		$this->assertSame( $ancestors, $this->instance->find_ancestors( $indexable ) );
 	}
 
@@ -155,6 +152,8 @@ class Indexable_Hierarchy_Repository_Test extends TestCase {
 			->once()
 			->with( $indexable )
 			->andReturn( $indexable );
+
+		Functions\expect( 'wp_list_pluck' )->once()->andReturn( [ 0 => 2 ] );
 
 		$this->assertSame( $ancestors, $this->instance->find_ancestors( $indexable ) );
 	}
@@ -231,5 +230,87 @@ class Indexable_Hierarchy_Repository_Test extends TestCase {
 
 		$this->assertAttributeEquals( '\Yoast\WP\SEO\Models\Indexable_Hierarchy', 'class_name', $query );
 		$this->assertInstanceOf( ORM::class, $query );
+	}
+
+	/**
+	 * Tests the retrieval of the children for an indexable.
+	 *
+	 * @covers ::find_children
+	 */
+	public function test_find_children() {
+		$indexable     = Mockery::mock( Indexable_Mock::class );
+		$indexable->id = 1;
+
+		$orm_object = Mockery::mock();
+
+		$orm_object
+			->expects( 'select' )
+			->once()
+			->with( 'indexable_id' )
+			->andReturnSelf();
+
+		$orm_object
+			->expects( 'where' )
+			->once()
+			->with( 'ancestor_id', 1 )
+			->andReturnSelf();
+
+		$children = [
+			[ 'indexable_id' => 2 ],
+			[ 'indexable_id' => 3 ],
+		];
+
+		$orm_object
+			->expects( 'find_array' )
+			->once()
+			->andReturn( $children );
+
+		$this->instance
+			->expects( 'query' )
+			->andReturn( $orm_object );
+
+		Functions\expect( 'wp_list_pluck' )->once()->andReturn(
+			[
+				0 => 2,
+				1 => 3,
+			]
+		);
+
+		$this->assertSame( [ 2, 3 ], $this->instance->find_children( $indexable ) );
+	}
+
+	/**
+	 * Tests the retrieval of the children for an indexable that has no children.
+	 *
+	 * @covers ::find_children
+	 */
+	public function test_find_children_with_no_children_found() {
+		$indexable     = Mockery::mock( Indexable_Mock::class );
+		$indexable->id = 1;
+
+		$orm_object = Mockery::mock();
+
+		$orm_object
+			->expects( 'select' )
+			->once()
+			->with( 'indexable_id' )
+			->andReturnSelf();
+
+		$orm_object
+			->expects( 'where' )
+			->once()
+			->with( 'ancestor_id', 1 )
+			->andReturnSelf();
+
+		$orm_object
+			->expects( 'find_array' )
+			->once()
+			->andReturn( [] );
+
+		$this->instance
+			->expects( 'query' )
+			->andReturn( $orm_object );
+
+		$this->assertSame( [], $this->instance->find_children( $indexable ) );
 	}
 }

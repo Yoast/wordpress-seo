@@ -116,6 +116,7 @@ cache:
 before_install:
   - export SECURITYCHECK_DIR=/tmp/security-checker
   - if [[ -z "$CC_TEST_REPORTER_ID" ]]; then COVERAGE="0"; fi
+  - if [[ -d "premium" ]]; then IS_PREMIUM=1; fi
   - if [[ "$COVERAGE" != "1" ]]; then phpenv config-rm xdebug.ini || echo 'No xdebug config.'; fi
   - |
     if [[ "$CHECKJS" == "1" ]]; then
@@ -145,19 +146,22 @@ install:
   - |
     if [[ $TRAVIS_PHP_VERSION == "nightly" && "$PHPLINT" == "1" ]]; then
       composer install --no-interaction --ignore-platform-reqs --no-scripts --no-suggest
-    elif [[ "$PHPCS" == "1" || "$PHPUNIT" == "1" || "$COVERAGE" == "1" || "$PHPLINT" == "1" ]]; then
+    elif [[ "$PHPUNIT" == "1" || "$COVERAGE" == "1" || "$PHPCS" == "1" || "$PHPLINT" == "1" ]]; then
       # Run composer update as we have dev dependencies locked at PHP ^7.0 versions.
       composer update
       composer install --no-interaction
       composer du
+      if [[ "$IS_PREMIUM" == "1" ]]; then
+        if [[ "$PHPCS" == "1" || "$PHPLINT" == "1" ]]; then
+          cd premium
+          composer install --no-interaction
+          cd -
+        fi
+      fi
     elif [[ "$TRAVIS_BUILD_STAGE_NAME" == "🚀 deployment" ]]; then
       composer update
       composer install --no-dev --no-interaction
       composer du
-    fi
-  - |
-    if [[ "$PHPCS" == "1" ]]; then
-      composer config-yoastcs
     fi
   - |
     if [[ "$CHECKJS" == "1" ]]; then
@@ -243,8 +247,10 @@ script:
   - |
     if [[ "$PHPLINT" == "1" ]]; then
       travis_fold start "PHP.check" && travis_time_start
-      if [[ -d "premium" ]]; then
-        composer premium-lint
+      if [[ "$IS_PREMIUM" == "1" ]]; then
+        cd premium
+        composer lint
+        cd -
       else
         composer lint
       fi
@@ -254,10 +260,12 @@ script:
   - |
     if [[ "$PHPCS" == "1" ]]; then
       travis_fold start "PHP.code-style" && travis_time_start
-      if [[ -d "premium" ]]; then
-        composer premium-check-cs -- -n
+      if [[ "$IS_PREMIUM" == "1" ]]; then
+        cd premium
+        composer check-cs
+        cd -
       else
-        vendor/bin/phpcs -qn
+        composer check-cs-threshold
       fi
       travis_time_finish && travis_fold end "PHP.code-style"
     fi

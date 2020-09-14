@@ -46,6 +46,7 @@ $yform->toggle_switch(
 			'</a>'
 		);
 
+		// phpcs:ignore WordPress.Security.EscapeOutput -- $description is properly escaped above.
 		echo '<div style="clear:both; background-color: #ffeb3b; color: #000000; padding: 16px; max-width: 450px; margin-bottom: 32px;">' . $description . '</div>';
 	}
 

@@ -1,9 +1,4 @@
 <?php
-/**
- * WPSEO plugin test file.
- *
- * @package Yoast\WP\SEO\Tests\Unit\Generators
- */
 
 namespace Yoast\WP\SEO\Tests\Unit\Generators;
 
@@ -12,14 +7,16 @@ use Mockery;
 use Yoast\WP\SEO\Generators\Breadcrumbs_Generator;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Helpers\Pagination_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
+use Yoast\WP\SEO\Helpers\Url_Helper;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Context\Meta_Tags_Context_Mock;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
- * Class Open_Graph_Image_Generator_Test
+ * Class Breadcrumbs_Generator_Test.
  *
  * @coversDefaultClass \Yoast\WP\SEO\Generators\Breadcrumbs_Generator
  *
@@ -50,7 +47,7 @@ class Breadcrumbs_Generator_Test extends TestCase {
 	private $current_page;
 
 	/**
-	 * The post type helper
+	 * The post type helper.
 	 *
 	 * @var Post_Type_Helper
 	 */
@@ -78,25 +75,33 @@ class Breadcrumbs_Generator_Test extends TestCase {
 	private $indexable;
 
 	/**
+	 * The URL helper.
+	 *
+	 * @var Url_Helper
+	 */
+	private $url_helper;
+
+	/**
+	 * The pagination helper.
+	 *
+	 * @var Pagination_Helper
+	 */
+	private $pagination_helper;
+
+	/**
 	 * @inheritDoc
 	 */
 	public function setUp() {
 		parent::setUp();
 
-		$this->repository       = Mockery::mock( Indexable_Repository::class );
-		$this->options          = Mockery::mock( Options_Helper::class );
-		$this->current_page     = Mockery::mock( Current_Page_Helper::class );
-		$this->post_type_helper = Mockery::mock( Post_Type_Helper::class );
-		$this->instance         = new Breadcrumbs_Generator( $this->repository, $this->options, $this->current_page, $this->post_type_helper );
-
-		$this->indexable                   = Mockery::mock( Indexable_Mock::class );
-		$this->indexable->object_id        = 1;
-		$this->indexable->object_type      = 'post';
-		$this->indexable->object_sub_type  = 'post';
-		$this->indexable->permalink        = 'https://example.com/post';
-		$this->indexable->breadcrumb_title = 'post';
-		$this->context                     = Mockery::mock( Meta_Tags_Context_Mock::class );
-		$this->context->indexable          = $this->indexable;
+		$this->repository        = Mockery::mock( Indexable_Repository::class );
+		$this->options           = Mockery::mock( Options_Helper::class );
+		$this->current_page      = Mockery::mock( Current_Page_Helper::class );
+		$this->post_type_helper  = Mockery::mock( Post_Type_Helper::class );
+		$this->url_helper        = Mockery::mock( Url_Helper::class );
+		$this->pagination_helper = Mockery::mock( Pagination_Helper::class );
+		$this->instance          = new Breadcrumbs_Generator( $this->repository, $this->options, $this->current_page, $this->post_type_helper, $this->url_helper, $this->pagination_helper );
+		$this->context           = Mockery::mock( Meta_Tags_Context_Mock::class );
 	}
 
 	/**
@@ -115,7 +120,17 @@ class Breadcrumbs_Generator_Test extends TestCase {
 	 * @param string $message         Message to show when test fails.
 	 */
 	public function test_generate( $scenario, $page_for_posts, $breadcrumb_home, $front_page_id, $message ) {
+		$this->indexable                   = Mockery::mock( Indexable_Mock::class );
+		$this->indexable->object_id        = 1;
+		$this->indexable->object_type      = 'post';
+		$this->indexable->object_sub_type  = 'post';
+		$this->indexable->permalink        = 'https://example.com/post';
+		$this->indexable->breadcrumb_title = 'post';
+		$this->context->indexable          = $this->indexable;
+
 		$this->set_scenario( $scenario );
+
+		$is_simple_page = false;
 
 		Monkey\Functions\expect( 'get_option' )
 			->once()
@@ -143,6 +158,7 @@ class Breadcrumbs_Generator_Test extends TestCase {
 		}
 
 		if ( \strpos( $scenario, 'on-singular-post-page' ) === 0 ) {
+			$is_simple_page = true;
 			$this->repository
 				->expects( 'find_by_id_and_type' )
 				->once()
@@ -188,6 +204,16 @@ class Breadcrumbs_Generator_Test extends TestCase {
 			->once()
 			->andReturn( $page_type );
 
+		$this->current_page
+			->expects( 'is_simple_page' )
+			->andReturn( $is_simple_page );
+
+		if ( ! $is_simple_page ) {
+			$this->current_page
+				->expects( 'is_paged' )
+				->once()
+				->andReturnFalse();
+		}
 
 		$expected = [
 			[
@@ -216,63 +242,63 @@ class Breadcrumbs_Generator_Test extends TestCase {
 	 */
 	public function generate_provider() {
 		return [
-			[
+			'hide-blog-page' => [
 				'scenario'         => 'hide-blog-page',
 				'page_for_posts'   => 1,
 				'breadcrumb_home'  => 'home',
 				'front_page_id'    => 0,
 				'message'          => 'Tests with the display blog page option disabled.',
 			],
-			[
+			'show_posts_on_front' => [
 				'scenario'         => 'show_posts_on_front',
 				'page_for_posts'   => 1,
 				'breadcrumb_home'  => 'home',
 				'front_page_id'    => 0,
 				'message'          => 'Tests with the posts being shown on front',
 			],
-			[
+			'show_page_on_front' => [
 				'scenario'         => 'show_page_on_front',
 				'page_for_posts'   => 0,
 				'breadcrumb_home'  => 'home',
 				'front_page_id'    => 0,
 				'message'          => 'Tests with the page being shown on front, but no page being set',
 			],
-			[
+			'on-home-page' => [
 				'scenario'         => 'on-home-page',
 				'page_for_posts'   => 1,
 				'breadcrumb_home'  => 'home',
 				'front_page_id'    => 0,
 				'message'          => 'Tests with current request being the home page',
 			],
-			[
+			'on-search-page' => [
 				'scenario'         => 'on-search-page',
 				'page_for_posts'   => 1,
 				'breadcrumb_home'  => 'home',
 				'front_page_id'    => 0,
 				'message'          => 'Tests with current request being the search page',
 			],
-			[
+			'on-singular-post-page' => [
 				'scenario'         => 'on-singular-post-page',
 				'page_for_posts'   => 1,
 				'breadcrumb_home'  => 'home',
 				'front_page_id'    => 0,
 				'message'          => 'Tests with current request being a singular post page',
 			],
-			[
+			'not-on-home-search-or-singular-post-page' => [
 				'scenario'         => 'not-on-home-search-or-singular-post-page',
 				'page_for_posts'   => 1,
 				'breadcrumb_home'  => 'home',
 				'front_page_id'    => 0,
 				'message'          => 'Tests with current request being not the home, search or a singular post page',
 			],
-			[
+			'on-singular-post-page-with-front-page-id' => [
 				'scenario'         => 'on-singular-post-page-with-front-page-id',
 				'page_for_posts'   => 1,
 				'breadcrumb_home'  => 'home',
 				'front_page_id'    => 2,
 				'message'          => 'Tests with current request being a singular post page and a front page being set',
 			],
-			[
+			'show-custom-post-type' => [
 				'scenario'         => 'show-custom-post-type',
 				'page_for_posts'   => 1,
 				'breadcrumb_home'  => 'home',
@@ -280,6 +306,253 @@ class Breadcrumbs_Generator_Test extends TestCase {
 				'message'          => 'Tests with current request being a singular custom post page',
 			],
 		];
+	}
+
+	/**
+	 * Tests the generation of the bread crumbs for a date archive.
+	 *
+	 * @param string $scenario     Scenario to test (day, month, year).
+	 * @param bool   $is_paged     Is the page being paged.
+	 * @param int    $current_page The current page number.
+	 * @param array  $expected     The expected output.
+	 *
+	 * @dataProvider date_archive_provider
+	 *
+	 * @covers ::generate
+	 * @covers ::get_date_archive_crumb
+	 * @covers ::add_paged_crumb
+	 */
+	public function test_with_date_archive( $scenario, $is_paged, $current_page, $expected ) {
+		$this->setup_expectations_for_date_archive( $scenario, $is_paged, $current_page );
+
+		$this->assertEquals(
+			$expected,
+			\array_slice( $this->instance->generate( $this->context ), -2 )
+		);
+	}
+
+	/**
+	 * Provides data to test_with_date_archive.
+	 *
+	 * @return array[] Test data to use.
+	 */
+	public function date_archive_provider() {
+		return [
+			'for_day' => [
+				'scenario'     => 'day',
+				'is_paged'     => true,
+				'current_page' => 5,
+				'expected'     => [
+					[
+						'url'  => 'https://example.com/2020/08/11/',
+						'text' => 'Archive August 11th, 2020',
+					],
+					[
+						'text' => 'Page 5',
+					],
+				],
+			],
+			'for_day_on_first_page' => [
+				'scenario'     => 'day',
+				'is_paged'     => true,
+				'current_page' => 1,
+				'expected'     => [
+					[
+						'url'  => 'https://example.com/2020/08/11/',
+						'text' => 'Archive August 11th, 2020',
+					],
+				],
+			],
+			'for_day_not_paged' => [
+				'scenario'     => 'day',
+				'is_paged'     => false,
+				'current_page' => 5,
+				'expected'     => [
+					[
+						'url'  => 'https://example.com/2020/08/11/',
+						'text' => 'Archive August 11th, 2020',
+					],
+				],
+			],
+			'for_month' => [
+				'scenario'     => 'month',
+				'is_paged'     => true,
+				'current_page' => 5,
+				'expected'     => [
+					[
+						'url'  => 'https://example.com/2020/08/',
+						'text' => 'Archive August',
+					],
+					[
+						'text' => 'Page 5',
+					],
+				],
+			],
+			'for_month_on_first_page' => [
+				'scenario'     => 'month',
+				'is_paged'     => true,
+				'current_page' => 1,
+				'expected'     => [
+					[
+						'url'  => 'https://example.com/2020/08/',
+						'text' => 'Archive August',
+					],
+				],
+			],
+			'for_month_not_paged' => [
+				'scenario'     => 'month',
+				'is_paged'     => false,
+				'current_page' => 5,
+				'expected'     => [
+					[
+						'url'  => 'https://example.com/2020/08/',
+						'text' => 'Archive August',
+					],
+				],
+			],
+			'for_year' => [
+				'scenario'     => 'year',
+				'is_paged'     => true,
+				'current_page' => 5,
+				'expected'     => [
+					[
+						'url'  => 'https://example.com/2020/',
+						'text' => 'Archive 2020',
+					],
+					[
+						'text' => 'Page 5',
+					],
+				],
+			],
+			'for_year_on_first_page' => [
+				'scenario'     => 'year',
+				'is_paged'     => true,
+				'current_page' => 1,
+				'expected'     => [
+					[
+						'url'  => 'https://example.com/2020/',
+						'text' => 'Archive 2020',
+					],
+				],
+			],
+			'for_year_not_paged' => [
+				'scenario'     => 'year',
+				'is_paged'     => false,
+				'current_page' => 5,
+				'expected'     => [
+					[
+						'url'  => 'https://example.com/2020/',
+						'text' => 'Archive 2020',
+					],
+				],
+			],
+		];
+	}
+
+	/**
+	 * Sets some expectations specific for the data archive tests.
+	 *
+	 * @param string $scenario     The scenario to set.
+	 * @param bool   $is_paged     When the page is paged.
+	 * @param bool   $current_page The current page number.
+	 */
+	protected function setup_expectations_for_date_archive( $scenario, $is_paged, $current_page ) {
+		$this->indexable                   = Mockery::mock( Indexable_Mock::class );
+		$this->indexable->object_id        = 1;
+		$this->indexable->object_type      = 'date-archive';
+		$this->indexable->object_sub_type  = null;
+		$this->indexable->permalink        = null;
+		$this->indexable->breadcrumb_title = null;
+		$this->context                     = Mockery::mock( Meta_Tags_Context_Mock::class );
+		$this->context->indexable          = $this->indexable;
+
+		$is_day   = false;
+		$is_month = false;
+		$is_year  = false;
+
+		switch ( $scenario ) {
+			case 'day':
+				$is_day = true;
+
+				Monkey\Functions\expect( 'get_the_date' )
+					->once()
+					->withNoArgs()
+					->andReturn( 'August 11th, 2020' );
+
+				Monkey\Functions\expect( 'get_the_date' )
+					->once()
+					->with( 'Y/m/d' )
+					->andReturn( '2020/08/11' );
+				break;
+			case 'month':
+				$is_month = true;
+
+				Monkey\Functions\expect( 'single_month_title' )
+					->once()
+					->with( ' ', false )
+					->andReturn( 'August' );
+
+				Monkey\Functions\expect( 'get_the_date' )
+					->once()
+					->with( 'Y/m' )
+					->andReturn( '2020/08' );
+
+				break;
+
+			case 'year':
+				$is_year = true;
+
+				Monkey\Functions\expect( 'get_the_date' )
+					->once()
+					->with( 'Y' )
+					->andReturn( 2020 );
+
+				break;
+		}
+
+		Monkey\Functions\expect( 'is_day' )->andReturn( $is_day );
+		Monkey\Functions\expect( 'is_month' )->andReturn( $is_month );
+		Monkey\Functions\expect( 'is_year' )->andReturn( $is_year );
+
+		$this->current_page
+			->expects( 'is_paged' )
+			->andReturn( $is_paged );
+
+		if ( $is_paged ) {
+			$this->pagination_helper
+				->expects( 'get_current_page_number' )
+				->andReturn( $current_page );
+		}
+
+		$this->options
+			->expects( 'get' )
+			->with( 'breadcrumbs-home' )
+			->andReturn( '' );
+
+		Monkey\Functions\expect( 'get_option' )
+			->once()
+			->with( 'page_for_posts' )
+			->andReturn( false );
+
+		$this->repository
+			->expects( 'get_ancestors' )
+			->once()
+			->with( $this->indexable )
+			->andReturn( [] );
+
+		$this->url_helper
+			->expects( 'home' )
+			->andReturn( 'https://example.com/' );
+
+		$this->options
+			->expects( 'get' )
+			->with( 'breadcrumbs-archiveprefix' )
+			->andReturn( 'Archive' );
+
+		$this->current_page
+			->expects( 'is_simple_page' )
+			->once()
+			->andReturnFalse();
 	}
 
 	/**
@@ -307,7 +580,6 @@ class Breadcrumbs_Generator_Test extends TestCase {
 				->with( 'breadcrumbs-display-blog-page' )
 				->andReturnTrue();
 		}
-
 
 		if ( $scenario === 'show-custom-post-type' ) {
 			$this->indexable->object_sub_type = 'custom';

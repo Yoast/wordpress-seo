@@ -1,9 +1,4 @@
 <?php
-/**
- * Date Archive Builder for the indexables.
- *
- * @package Yoast\YoastSEO\Builders
- */
 
 namespace Yoast\WP\SEO\Builders;
 
@@ -11,6 +6,8 @@ use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Models\Indexable;
 
 /**
+ * Date Archive Builder for the indexables.
+ *
  * Formats the date archive meta to indexable format.
  */
 class Indexable_Date_Archive_Builder {

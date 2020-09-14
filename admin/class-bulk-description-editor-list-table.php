@@ -72,7 +72,7 @@ class WPSEO_Bulk_Description_List_Table extends WPSEO_Bulk_List_Table {
 				// @todo Inconsistent return/echo behavior R.
 				// I traced the escaping of the attributes to WPSEO_Bulk_List_Table::column_attributes. Alexander.
 				// The output of WPSEO_Bulk_List_Table::parse_meta_data_field is properly escaped.
-				// phpcs:ignore WordPress.Security.EscapeOutput
+				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				echo $this->parse_meta_data_field( $record->ID, $attributes );
 				break;
 		}

@@ -1,16 +1,11 @@
 <?php
-/**
- * Presenter class for the Pinterest Webmaster verification setting.
- *
- * @package Yoast\YoastSEO\Presenters\Webmaster
- */
 
 namespace Yoast\WP\SEO\Presenters\Webmaster;
 
 use Yoast\WP\SEO\Presenters\Abstract_Indexable_Tag_Presenter;
 
 /**
- * Class Pinterest_Presenter
+ * Presenter class for the Pinterest Webmaster verification setting.
  */
 class Pinterest_Presenter extends Abstract_Indexable_Tag_Presenter {
 

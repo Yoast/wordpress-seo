@@ -1,9 +1,4 @@
 <?php
-/**
- * WPSEO plugin test file.
- *
- * @package Yoast\WP\SEO\Tests\Unit\Integrations\Watchers
- */
 
 namespace Yoast\WP\SEO\Tests\Unit\Integrations\Watchers;
 
@@ -11,6 +6,7 @@ use Brain\Monkey;
 use Exception;
 use Mockery;
 use Yoast\WP\SEO\Builders\Indexable_Builder;
+use Yoast\WP\SEO\Builders\Indexable_Link_Builder;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
 use Yoast\WP\SEO\Helpers\Author_Archive_Helper;
 use Yoast\WP\SEO\Helpers\Post_Helper;
@@ -23,7 +19,7 @@ use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
- * Class Indexable_Post_Test.
+ * Class Indexable_Post_Watcher_Test.
  *
  * @group indexables
  * @group integrations
@@ -54,6 +50,13 @@ class Indexable_Post_Watcher_Test extends TestCase {
 	 * @var Mockery\MockInterface|Indexable_Hierarchy_Repository
 	 */
 	private $hierarchy_repository;
+
+	/**
+	 * The link builder.
+	 *
+	 * @var Indexable_Link_Builder
+	 */
+	protected $link_builder;
 
 	/**
 	 * The author archive helper mock.
@@ -90,6 +93,7 @@ class Indexable_Post_Watcher_Test extends TestCase {
 		$this->repository           = Mockery::mock( Indexable_Repository::class );
 		$this->builder              = Mockery::mock( Indexable_Builder::class );
 		$this->hierarchy_repository = Mockery::mock( Indexable_Hierarchy_Repository::class );
+		$this->link_builder         = Mockery::mock( Indexable_Link_Builder::class );
 		$this->author_archive       = Mockery::mock( Author_Archive_Helper::class );
 		$this->post                 = Mockery::mock( Post_Helper::class );
 		$this->logger               = Mockery::mock( Logger::class );
@@ -99,6 +103,7 @@ class Indexable_Post_Watcher_Test extends TestCase {
 				$this->repository,
 				$this->builder,
 				$this->hierarchy_repository,
+				$this->link_builder,
 				$this->author_archive,
 				$this->post,
 				$this->logger,
@@ -156,6 +161,7 @@ class Indexable_Post_Watcher_Test extends TestCase {
 
 		$this->repository->expects( 'find_by_id_and_type' )->once()->with( $id, 'post', false )->andReturn( $indexable );
 		$this->hierarchy_repository->expects( 'clear_ancestors' )->once()->with( $id )->andReturn( true );
+		$this->link_builder->expects( 'delete' )->once()->with( $indexable );
 
 		$this->post->expects( 'get_post' )->once()->with( $id )->andReturn( $post );
 

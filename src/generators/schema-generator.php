@@ -1,9 +1,4 @@
 <?php
-/**
- * WPSEO plugin file.
- *
- * @package Yoast\WP\SEO\Generators
- */
 
 namespace Yoast\WP\SEO\Generators;
 
@@ -13,7 +8,7 @@ use Yoast\WP\SEO\Generators\Schema\Abstract_Schema_Piece;
 use Yoast\WP\SEO\Surfaces\Helpers_Surface;
 
 /**
- * Class Schema_Generator
+ * Class Schema_Generator.
  */
 class Schema_Generator implements Generator_Interface {
 
@@ -87,7 +82,7 @@ class Schema_Generator implements Generator_Interface {
 		foreach ( $pieces_to_generate as $identifier => $piece ) {
 			$graph_pieces = $piece->generate();
 			// If only a single graph piece was returned.
-			if ( isset( $graph_pieces['@type'] ) ) {
+			if ( $graph_pieces !== false && \array_key_exists( '@type', $graph_pieces ) ) {
 				$graph_pieces = [ $graph_pieces ];
 			}
 
@@ -105,6 +100,7 @@ class Schema_Generator implements Generator_Interface {
 				 */
 				$graph_piece = \apply_filters( 'wpseo_schema_' . $identifier, $graph_piece, $context );
 				$graph_piece = $this->type_filter( $graph_piece, $identifier, $context );
+				$graph_piece = $this->validate_type( $graph_piece );
 
 				if ( \is_array( $graph_piece ) ) {
 					$graph[] = $graph_piece;
@@ -138,7 +134,80 @@ class Schema_Generator implements Generator_Interface {
 	}
 
 	/**
-	 * Allow filtering the graph piece by its schema type.
+	 * Adapts the WebPage graph piece for password-protected posts.
+	 *
+	 * It should only have certain whitelisted properties.
+	 * The type should always be WebPage.
+	 *
+	 * @param array $graph_piece The WebPage graph piece that should be adapted for password-protected posts.
+	 *
+	 * @return array The WebPage graph piece that has been adapted for password-protected posts.
+	 */
+	public function protected_webpage_schema( $graph_piece ) {
+		$properties_to_show = \array_flip(
+			[
+				'@type',
+				'@id',
+				'url',
+				'name',
+				'isPartOf',
+				'inLanguage',
+				'datePublished',
+				'dateModified',
+				'breadcrumb',
+			]
+		);
+
+		$graph_piece          = \array_intersect_key( $graph_piece, $properties_to_show );
+		$graph_piece['@type'] = 'WebPage';
+
+		return $graph_piece;
+	}
+
+	/**
+	 * Gets all the graph pieces we need.
+	 *
+	 * @param Meta_Tags_Context $context The meta tags context.
+	 *
+	 * @return Abstract_Schema_Piece[] A filtered array of graph pieces.
+	 */
+	protected function get_graph_pieces( $context ) {
+		if ( \is_single() && \post_password_required() ) {
+			$schema_pieces = [
+				new Schema\Organization(),
+				new Schema\Website(),
+				new Schema\WebPage(),
+			];
+
+			\add_filter( 'wpseo_schema_webpage', [ $this, 'protected_webpage_schema' ], 1 );
+		}
+		else {
+			$schema_pieces = [
+				new Schema\Organization(),
+				new Schema\Person(),
+				new Schema\Website(),
+				new Schema\Main_Image(),
+				new Schema\WebPage(),
+				new Schema\Breadcrumb(),
+				new Schema\Article(),
+				new Schema\Author(),
+				new Schema\FAQ(),
+				new Schema\HowTo(),
+			];
+		}
+
+		/**
+		 * Filter: 'wpseo_schema_graph_pieces' - Allows adding pieces to the graph.
+		 *
+		 * @param Meta_Tags_Context $context An object with context variables.
+		 *
+		 * @api array $pieces The schema pieces.
+		 */
+		return \apply_filters( 'wpseo_schema_graph_pieces', $schema_pieces, $context );
+	}
+
+	/**
+	 * Allows filtering the graph piece by its schema type.
 	 *
 	 * @param array             $graph_piece The graph piece we're filtering.
 	 * @param string            $identifier  The identifier of the graph piece that is being filtered.
@@ -179,39 +248,46 @@ class Schema_Generator implements Generator_Interface {
 			if ( \is_array( $piece['@type'] ) ) {
 				return $piece['@type'];
 			}
+
 			return [ $piece['@type'] ];
 		}
+
 		return [];
 	}
 
 	/**
-	 * Gets all the graph pieces we need.
+	 * Validates a graph piece's type.
 	 *
-	 * @param Meta_Tags_Context $context The meta tags context.
+	 * When the type is an array:
+	 *   - Ensure the values are unique.
+	 *   - Only 1 value? Use that value without the array wrapping.
 	 *
-	 * @return Abstract_Schema_Piece[] A filtered array of graph pieces.
+	 * @param array $piece The graph piece.
+	 *
+	 * @return array The graph piece.
 	 */
-	protected function get_graph_pieces( $context ) {
-		$schema_pieces = [
-			new Schema\Organization(),
-			new Schema\Person(),
-			new Schema\Website(),
-			new Schema\Main_Image(),
-			new Schema\WebPage(),
-			new Schema\Breadcrumb(),
-			new Schema\Article(),
-			new Schema\Author(),
-			new Schema\FAQ(),
-			new Schema\HowTo(),
-		];
+	private function validate_type( $piece ) {
+		if ( ! isset( $piece['@type'] ) ) {
+			// No type to validate.
+			return $piece;
+		}
 
-		/**
-		 * Filter: 'wpseo_schema_graph_pieces' - Allows adding pieces to the graph.
-		 *
-		 * @param Meta_Tags_Context $context An object with context variables.
-		 *
-		 * @api array $pieces The schema pieces.
+		// If it is not an array, we can return immediately.
+		if ( ! \is_array( $piece['@type'] ) ) {
+			return $piece;
+		}
+
+		/*
+		 * Ensure the types are unique.
+		 * Use array_values to reset the indices (e.g. no 0, 2 because 1 was a duplicate).
 		 */
-		return \apply_filters( 'wpseo_schema_graph_pieces', $schema_pieces, $context );
+		$piece['@type'] = \array_values( \array_unique( $piece['@type'] ) );
+
+		// Use the first value if there is only 1 type.
+		if ( \count( $piece['@type'] ) === 1 ) {
+			$piece['@type'] = \reset( $piece['@type'] );
+		}
+
+		return $piece;
 	}
 }

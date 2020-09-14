@@ -60,7 +60,7 @@
     "@wordpress/babel-preset-default": "^1.1.3",
     "@wordpress/data": "^4.10.0",
     "@wordpress/element": "^2.9.0",
-    "@yoast/grunt-plugin-tasks": "^1.7",
+    "@yoast/grunt-plugin-tasks": "^1.7.2",
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
     "babel-jest": "^18.0.0",
@@ -108,25 +108,23 @@
   },
   "dependencies": {
     "@babel/runtime": "7.0.0-beta.55",
-    "@yoast/analysis-report": "^1.9.0-rc.0",
-    "@yoast/components": "^2.7.0-rc.0",
-    "@yoast/configuration-wizard": "^2.9.0-rc.0",
+    "@wordpress/dom-ready": "^2.10.0",
+    "@yoast/analysis-report": "^1.11.0-rc.1",
+    "@yoast/components": "^2.9.0-rc.1",
+    "@yoast/configuration-wizard": "^2.11.0-rc.1",
     "@yoast/feature-flag": "^0.5.2",
     "@yoast/helpers": "^0.13.0",
-    "@yoast/replacement-variable-editor": "^1.2.0-rc.1",
-    "@yoast/search-metadata-previews": "^2.9.0-rc.1",
-    "@yoast/social-metadata-forms": "^1.2.0-rc.1",
+    "@yoast/replacement-variable-editor": "^1.4.0-rc.1",
+    "@yoast/search-metadata-previews": "^2.11.0-rc.1",
+    "@yoast/social-metadata-forms": "^1.4.0-rc.1",
     "@yoast/style-guide": "^0.13.0",
     "a11y-speak": "git+https://github.com/Yoast/a11y-speak.git#master",
     "babel-polyfill": "^6.26.0",
-    "classnames": "^2.2.6",
-    "dom-scroll-into-view": "^2.0.1",
     "draft-js": "^0.10.5",
     "draft-js-mention-plugin": "^3.0.4",
     "find-with-regex": "~1.0.2",
     "interpolate-components": "^1.1.0",
     "jed": "^1.1.1",
-    "lodash": "^4.17.15",
     "marked": "^0.6.1",
     "material-ui": "^0.20.0",
     "moment": "2.22.2",
@@ -135,19 +133,19 @@
     "prop-types": "^15.5.10",
     "react-intl": "^2.4.0",
     "react-redux": "^5.0.6",
-    "react-select": "^2.4.2",
+    "react-select": "^3.1.0",
     "redux": "^3.7.2",
     "redux-thunk": "^2.2.0",
     "select2": "^4.0.5",
     "styled-components": "^4.2.0",
     "tokenizr": "^1.5.7",
-    "yoast-components": "^5.9.0-rc.1",
-    "yoastseo": "^1.80.0-rc.1"
+    "yoast-components": "^5.11.0-rc.1",
+    "yoastseo": "^1.82.0-rc.1"
   },
   "browserslist": [
     "extends @yoast/browserslist-config"
   ],
   "yoast": {
-    "pluginVersion": "14.7"
+    "pluginVersion": "15.0-RC5"
   }
 }

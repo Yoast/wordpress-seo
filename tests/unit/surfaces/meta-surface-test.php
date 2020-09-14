@@ -1,14 +1,10 @@
 <?php
-/**
- * WPSEO plugin test file.
- *
- * @package Yoast\WP\SEO\Tests\Unit\Surfaces
- */
 
 namespace Yoast\WP\SEO\Tests\Unit\Surfaces;
 
 use Brain\Monkey;
 use Mockery;
+use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Memoizers\Meta_Tags_Context_Memoizer;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Surfaces\Meta_Surface;
@@ -64,9 +60,16 @@ class Meta_Surface_Test extends TestCase {
 	protected $indexable;
 
 	/**
+	 * Represents the WP rewrite wrapper.
+	 *
 	 * @var WP_Rewrite_Wrapper
 	 */
 	private $wp_rewrite_wrapper;
+
+	/**
+	 * @var Indexable_Helper
+	 */
+	private $indexable_helper;
 
 	/**
 	 * The instance
@@ -86,13 +89,15 @@ class Meta_Surface_Test extends TestCase {
 		$this->repository         = Mockery::mock( Indexable_Repository::class );
 		$this->context            = Mockery::mock( Meta_Tags_Context_Mock::class );
 		$this->wp_rewrite_wrapper = Mockery::mock( WP_Rewrite_Wrapper::class );
+		$this->indexable_helper   = Mockery::mock( Indexable_Helper::class );
 		$this->indexable          = Mockery::mock( Indexable_Mock::class );
 
 		$this->instance = new Meta_Surface(
 			$this->container,
 			$this->context_memoizer,
 			$this->repository,
-			$this->wp_rewrite_wrapper
+			$this->wp_rewrite_wrapper,
+			$this->indexable_helper
 		);
 
 		$this->context->presentation = (object) [ 'test' => 'succeeds' ];
@@ -321,6 +326,25 @@ class Meta_Surface_Test extends TestCase {
 	}
 
 	/**
+	 * Tests the posts function.
+	 *
+	 * @covers ::for_posts
+	 */
+	public function test_for_posts() {
+		$this->container->expects( 'get' )->times( 15 )->andReturn( null );
+		$this->repository
+			->expects( 'find_by_multiple_ids_and_type' )
+			->once()
+			->with( [ 1, 2, 3, 4, 5 ], 'post' )
+			->andReturn( \array_fill( 0, 5, $this->indexable ) );
+		$this->context_memoizer->expects( 'get' )->times( 5 )->with( $this->indexable, 'Post_Type' )->andReturn( $this->context );
+
+		$results = $this->instance->for_posts( [ 1, 2, 3, 4, 5 ] );
+
+		$this->assertEquals( 'succeeds', $results[0]->test );
+	}
+
+	/**
 	 * Tests the post function.
 	 *
 	 * @covers ::for_post
@@ -383,17 +407,15 @@ class Meta_Surface_Test extends TestCase {
 	/**
 	 * Tests the url function.
 	 *
-	 * @param string $object_type       The object type.
-	 * @param string $object_sub_type   The object sub type.
-	 * @param int    $object_id         The object id.
-	 * @param string $page_type         The page type.
-	 * @param int    $front_page_id     The front page id.
-	 * @param int    $page_for_posts_id The page for posts id.
-	 *
 	 * @covers ::for_url
 	 * @dataProvider for_url_provider
+	 *
+	 * @param string $object_type     The object type.
+	 * @param string $object_sub_type The object sub type.
+	 * @param int    $object_id       The object id.
+	 * @param string $page_type       The page type.
 	 */
-	public function test_for_url( $object_type, $object_sub_type, $object_id, $page_type, $front_page_id, $page_for_posts_id ) {
+	public function test_for_url( $object_type, $object_sub_type, $object_id, $page_type ) {
 		$wp_rewrite = Mockery::mock( 'WP_Rewrite' );
 
 		Monkey\Functions\expect( 'wp_parse_url' )
@@ -442,19 +464,7 @@ class Meta_Surface_Test extends TestCase {
 		$this->indexable->object_id       = $object_id;
 		$this->indexable->object_sub_type = $object_sub_type;
 
-		if ( $object_type === 'post' ) {
-			Monkey\Functions\expect( 'get_option' )
-				->once()
-				->with( 'page_on_front' )
-				->andReturn( $front_page_id );
-
-			if ( $front_page_id === 0 ) {
-				Monkey\Functions\expect( 'get_option' )
-					->once()
-					->with( 'page_for_posts' )
-					->andReturn( $page_for_posts_id );
-			}
-		}
+		$this->indexable_helper->expects( 'get_page_type_for_indexable' )->with( $this->indexable )->andReturn( $page_type );
 
 		$this->context_memoizer->expects( 'get' )->with( $this->indexable, $page_type )->andReturn( $this->context );
 
@@ -470,15 +480,15 @@ class Meta_Surface_Test extends TestCase {
 	 */
 	public function for_url_provider() {
 		return [
-			[ 'post', 'post', 1, 'Static_Home_Page', 1, 0 ],
-			[ 'post', 'post', 1, 'Static_Posts_Page', 0, 1 ],
-			[ 'post', 'post', 1, 'Post_Type', 0, 0 ],
-			[ 'term', 'tag', 1, 'Term_Archive', 0, 0 ],
-			[ 'user', null, 1, 'Author_Archive', 0, 0 ],
-			[ 'home-page', null, 1, 'Home_Page', 0, 0 ],
-			[ 'post-type-archive', 'book', 1, 'Post_Type_Archive', 0, 0 ],
-			[ 'system-page', 'search-result', 1, 'Search_Result_Page', 0, 0 ],
-			[ 'system-page', '404', 1, 'Error_Page', 0, 0 ],
+			[ 'post', 'post', 1, 'Static_Home_Page' ],
+			[ 'post', 'post', 1, 'Static_Posts_Page' ],
+			[ 'post', 'post', 1, 'Post_Type' ],
+			[ 'term', 'tag', 1, 'Term_Archive' ],
+			[ 'user', null, 1, 'Author_Archive' ],
+			[ 'home-page', null, 1, 'Home_Page' ],
+			[ 'post-type-archive', 'book', 1, 'Post_Type_Archive' ],
+			[ 'system-page', 'search-result', 1, 'Search_Result_Page' ],
+			[ 'system-page', '404', 1, 'Error_Page' ],
 		];
 	}
 }

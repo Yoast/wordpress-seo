@@ -1,9 +1,4 @@
 <?php
-/**
- * WPSEO plugin test file.
- *
- * @package Yoast\WP\SEO\Tests\Unit\Routes
- */
 
 namespace Yoast\WP\SEO\Tests\Unit\Routes;
 
@@ -12,7 +7,7 @@ use Yoast\WP\SEO\Tests\Unit\Doubles\Routes\Abstract_Indexation_Route_Mock;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
- * Class Abstract_Indexation_Route_Test
+ * Class Abstract_Indexation_Route_Test.
  *
  * @coversDefaultClass \Yoast\WP\SEO\Routes\Abstract_Indexation_Route
  *

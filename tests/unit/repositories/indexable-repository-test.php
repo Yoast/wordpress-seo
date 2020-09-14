@@ -1,18 +1,13 @@
 <?php
-/**
- * WPSEO plugin test file.
- *
- * @package Yoast\WP\SEO\Tests\Unit\Repositories
- */
 
 namespace Yoast\WP\SEO\Tests\Unit\Repositories;
 
-use Brain\Monkey;
 use Mockery;
 use wpdb;
 use Yoast\WP\Lib\ORM;
 use Yoast\WP\SEO\Builders\Indexable_Builder;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
+use Yoast\WP\SEO\Helpers\Permalink_Helper;
 use Yoast\WP\SEO\Loggers\Logger;
 use Yoast\WP\SEO\Repositories\Indexable_Hierarchy_Repository;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
@@ -72,6 +67,13 @@ class Indexable_Repository_Test extends TestCase {
 	protected $wpdb;
 
 	/**
+	 * Represents the permalink helper.
+	 *
+	 * @var Mockery\MockInterface|Permalink_Helper
+	 */
+	protected $permalink_helper;
+
+	/**
 	 * @inheritDoc
 	 */
 	public function setUp() {
@@ -82,6 +84,7 @@ class Indexable_Repository_Test extends TestCase {
 		$this->logger               = Mockery::mock( Logger::class );
 		$this->hierarchy_repository = Mockery::mock( Indexable_Hierarchy_Repository::class );
 		$this->wpdb                 = Mockery::mock( wpdb::class );
+		$this->permalink_helper     = Mockery::mock( Permalink_Helper::class );
 		$this->instance             = Mockery::mock(
 			Indexable_Repository::class,
 			[
@@ -90,6 +93,7 @@ class Indexable_Repository_Test extends TestCase {
 				$this->logger,
 				$this->hierarchy_repository,
 				$this->wpdb,
+				$this->permalink_helper,
 			]
 		)->makePartial();
 	}
@@ -181,6 +185,8 @@ class Indexable_Repository_Test extends TestCase {
 	/**
 	 * Tests that retrieving the ancestors of an indexable ensures
 	 * that the permalink of each ancestor is available.
+	 *
+	 * @covers ::get_ancestors
 	 */
 	public function test_get_ancestors_ensures_permalink() {
 		$indexable = Mockery::mock( Indexable_Mock::class );
@@ -197,7 +203,9 @@ class Indexable_Repository_Test extends TestCase {
 
 		$permalink = 'https://example.org/permalink';
 
-		Monkey\Functions\expect( 'get_permalink' )
+		$this->permalink_helper
+			->expects( 'get_permalink_for_indexable' )
+			->with( $indexable )
 			->andReturn( $permalink );
 
 		$this->instance->expects( 'query' )->andReturn( $orm_object );
@@ -208,6 +216,8 @@ class Indexable_Repository_Test extends TestCase {
 
 	/**
 	 * Tests that ensure permalink does not save when the permalink is still null.
+	 *
+	 * @covers ::get_ancestors
 	 */
 	public function test_get_ancestors_ensures_permalink_no_save() {
 		$indexable = Mockery::mock( Indexable_Mock::class );
@@ -222,7 +232,9 @@ class Indexable_Repository_Test extends TestCase {
 
 		$orm_object = $this->mock_orm( [ 1, 2 ], [ $indexable ] );
 
-		Monkey\Functions\expect( 'get_permalink' )
+		$this->permalink_helper
+			->expects( 'get_permalink_for_indexable' )
+			->with( $indexable )
 			->andReturnNull();
 
 		$this->instance->expects( 'query' )->andReturn( $orm_object );
@@ -234,6 +246,8 @@ class Indexable_Repository_Test extends TestCase {
 	/**
 	 * Tests that retrieving the ancestors of an indexable ensures
 	 * that the permalink of each ancestor is available when there is only one ancestor.
+	 *
+	 * @covers ::get_ancestors
 	 */
 	public function test_get_ancestors_one_ancestor_ensures_permalink() {
 		$indexable = Mockery::mock( Indexable_Mock::class );
@@ -250,7 +264,9 @@ class Indexable_Repository_Test extends TestCase {
 
 		$permalink = 'https://example.org/permalink';
 
-		Monkey\Functions\expect( 'get_permalink' )
+		$this->permalink_helper
+			->expects( 'get_permalink_for_indexable' )
+			->with( $indexable )
 			->andReturn( $permalink );
 
 		$this->instance->expects( 'query' )->andReturn( $orm_object );
@@ -301,5 +317,150 @@ class Indexable_Repository_Test extends TestCase {
 
 		$this->assertAttributeEquals( '\Yoast\WP\SEO\Models\Indexable', 'class_name', $query );
 		$this->assertInstanceOf( ORM::class, $query );
+	}
+
+	/**
+	 * Tests retrieval of the child indexables with no children found for indexable.
+	 *
+	 * @covers ::find_by_ids
+	 */
+	public function test_find_by_ids() {
+		$indexable              = Mockery::mock( Indexable_Mock::class );
+		$indexable->object_type = 'post';
+
+		$indexable->expects( 'save' )->once();
+
+		$orm_object = Mockery::mock();
+
+		$this->instance
+			->expects( 'query' )
+			->andReturn( $orm_object );
+
+		$orm_object
+			->expects( 'where_in' )
+			->with( 'id', [ 1, 2, 3 ] )
+			->once()
+			->andReturnSelf();
+
+		$orm_object
+			->expects( 'find_many' )
+			->once()
+			->andReturn( [ $indexable ] );
+
+		$permalink = 'https://example.org/permalink';
+
+		$this->permalink_helper
+			->expects( 'get_permalink_for_indexable' )
+			->with( $indexable )
+			->andReturn( $permalink );
+
+		$this->assertSame( [ $indexable ], $this->instance->find_by_ids( [ 1, 2, 3 ] ) );
+	}
+
+	/**
+	 * Tests if the reset_permalink method fires when no type and subtype are passed.
+	 *
+	 * @covers ::reset_permalink
+	 */
+	public function test_reset_permalink() {
+		$orm_object = Mockery::mock();
+
+		$this->instance
+			->expects( 'query' )
+			->andReturn( $orm_object );
+
+		$orm_object
+			->expects( 'set' )
+			->with(
+				[
+					'permalink'      => null,
+					'permalink_hash' => null,
+				]
+			)
+			->once()
+			->andReturnSelf();
+
+		$orm_object
+			->expects( 'update_many' )
+			->once()
+			->andReturn( 10 );
+
+		$this->assertSame( 10, $this->instance->reset_permalink() );
+	}
+
+	/**
+	 * Tests if the reset_permalink method fires when type and subtype are passed.
+	 *
+	 * @covers ::reset_permalink
+	 */
+	public function test_reset_permalink_with_args() {
+		$orm_object = Mockery::mock();
+
+		$this->instance
+			->expects( 'query' )
+			->andReturn( $orm_object );
+
+		$orm_object
+			->expects( 'set' )
+			->with(
+				[
+					'permalink'      => null,
+					'permalink_hash' => null,
+				]
+			)
+			->once()
+			->andReturnSelf();
+
+		$orm_object
+			->expects( 'where' )
+			->with( 'object_type', 'term' )
+			->andReturnSelf();
+
+		$orm_object
+			->expects( 'where' )
+			->with( 'object_sub_type', 'category' )
+			->andReturnSelf();
+
+		$orm_object
+			->expects( 'update_many' )
+			->once()
+			->andReturn( 1 );
+
+		$this->assertSame( 1, $this->instance->reset_permalink( 'term', 'category' ) );
+	}
+
+	/**
+	 * Tests if the reset_permalink method fires when no type is passed, but a subtype is.
+	 *
+	 * @covers ::reset_permalink
+	 */
+	public function test_reset_permalink_with_invalid_args() {
+		$orm_object = Mockery::mock();
+
+		$this->instance
+			->expects( 'query' )
+			->andReturn( $orm_object );
+
+		$orm_object
+			->expects( 'set' )
+			->with(
+				[
+					'permalink'      => null,
+					'permalink_hash' => null,
+				]
+			)
+			->once()
+			->andReturnSelf();
+
+		$orm_object
+			->expects( 'where' )
+			->never();
+
+		$orm_object
+			->expects( 'update_many' )
+			->once()
+			->andReturn( 10 );
+
+		$this->assertSame( 10, $this->instance->reset_permalink( null, 'category' ) );
 	}
 }

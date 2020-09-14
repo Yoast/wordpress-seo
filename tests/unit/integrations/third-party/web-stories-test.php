@@ -1,9 +1,4 @@
 <?php
-/**
- * WPSEO plugin test file.
- *
- * @package Yoast\WP\SEO\Tests\Unit\Integrations\Third_Party
- */
 
 namespace Yoast\WP\SEO\Tests\Unit\Integrations\Third_Party;
 
@@ -146,7 +141,7 @@ class Web_Stories_Test extends TestCase {
 		Mockery::namedMock( '\Google\Web_Stories\Story_Post_Type', Story_Post_Type_Stub::class );
 
 		Monkey\Functions\expect( '\wp_dequeue_script' )
-			->times( 3 );
+			->times( 4 );
 		Monkey\Functions\expect( '\wp_dequeue_style' )
 			->times( 8 );
 

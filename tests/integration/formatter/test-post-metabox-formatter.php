@@ -41,7 +41,7 @@ class WPSEO_Post_Metabox_Formatter_Test extends WPSEO_UnitTestCase {
 
 		$this->assertEquals( $result['search_url'], admin_url( 'edit.php?seo_kw_filter={keyword}' ) );
 		$this->assertEquals( $result['post_edit_url'], admin_url( 'post.php?post={id}&action=edit' ) );
-		$this->assertEquals( $result['base_url'], WPSEO_Utils::home_url() );
+		$this->assertEquals( $result['base_url'], YoastSEO()->helpers->url->home() );
 	}
 
 	/**
@@ -95,7 +95,7 @@ class WPSEO_Post_Metabox_Formatter_Test extends WPSEO_UnitTestCase {
 		$instance = new WPSEO_Post_Metabox_Formatter( $this->post, [], '' );
 		$result   = $instance->get_values();
 
-		$this->assertEquals( $result['base_url'], WPSEO_Utils::home_url() );
+		$this->assertEquals( $result['base_url'], YoastSEO()->helpers->url->home() );
 
 		unset( $GLOBALS['pagenow'] );
 	}
@@ -123,6 +123,6 @@ class WPSEO_Post_Metabox_Formatter_Test extends WPSEO_UnitTestCase {
 		$instance = new WPSEO_Post_Metabox_Formatter( $this->post, [], '%isnotreplaced%/' );
 		$result   = $instance->get_values();
 
-		$this->assertEquals( $result['base_url'], WPSEO_Utils::home_url() );
+		$this->assertEquals( $result['base_url'], YoastSEO()->helpers->url->home() );
 	}
 }

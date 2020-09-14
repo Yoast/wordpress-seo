@@ -81,17 +81,6 @@ class WPSEO_Ryte implements WPSEO_WordPress_Integration {
 	 * @return void
 	 */
 	public function maybe_add_weekly_schedule() {
-		$schedules = wp_get_schedules();
-
-		/*
-		 * Starting with version 5.4, WordPress does have a default weekly cron
-		 * schedule. See https://core.trac.wordpress.org/changeset/47062.
-		 * We need to add a custom one only if the default one doesn't exist.
-		 */
-		if ( isset( $schedules['weekly'] ) ) {
-			return;
-		}
-
 		// If there's no default cron weekly schedule, add a custom one.
 		add_filter( 'cron_schedules', [ $this, 'add_weekly_schedule' ] );
 	}
@@ -108,6 +97,15 @@ class WPSEO_Ryte implements WPSEO_WordPress_Integration {
 			$schedules = [];
 		}
 
+		/*
+		 * Starting with version 5.4, WordPress does have a default weekly cron
+		 * schedule. See https://core.trac.wordpress.org/changeset/47062.
+		 * We need to add a custom one only if the default one doesn't exist.
+		 */
+		if ( isset( $schedules['weekly'] ) ) {
+			return $schedules;
+		}
+
 		$schedules['weekly'] = [
 			'interval' => WEEK_IN_SECONDS,
 			'display'  => __( 'Once Weekly', 'wordpress-seo' ),
@@ -122,6 +120,11 @@ class WPSEO_Ryte implements WPSEO_WordPress_Integration {
 	 * @return bool Whether the request ran.
 	 */
 	public function fetch_from_ryte() {
+		// Don't do anything when the WordPress environment type isn't "production".
+		if ( wp_get_environment_type() !== 'production' ) {
+			return;
+		}
+
 		$ryte_option = $this->get_option();
 		if ( ! $ryte_option->should_be_fetched() ) {
 			return false;

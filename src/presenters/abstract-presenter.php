@@ -1,9 +1,4 @@
 <?php
-/**
- * Abstract presenter class.
- *
- * @package Yoast\YoastSEO\Presenters
- */
 
 namespace Yoast\WP\SEO\Presenters;
 

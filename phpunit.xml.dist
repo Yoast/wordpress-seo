@@ -28,6 +28,7 @@
 			<directory>./src</directory>
 			<exclude>
 				<directory suffix=".php">./deprecated</directory>
+				<directory suffix=".php">./config/composer</directory>
 				<file>./inc/wpseo-functions-deprecated.php</file>
 			</exclude>
 		</whitelist>

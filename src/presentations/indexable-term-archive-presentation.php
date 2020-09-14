@@ -1,9 +1,4 @@
 <?php
-/**
- * Presentation object for indexables.
- *
- * @package Yoast\YoastSEO\Presentations
- */
 
 namespace Yoast\WP\SEO\Presentations;
 
@@ -12,7 +7,9 @@ use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
 use Yoast\WP\SEO\Wrappers\WP_Query_Wrapper;
 
 /**
- * Class Indexable_Presentation
+ * Class Indexable_Term_Archive_Presentation.
+ *
+ * Presentation object for indexables.
  *
  * @property WP_Term $source
  */

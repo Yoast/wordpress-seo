@@ -1,9 +1,4 @@
 <?php
-/**
- * WPSEO plugin test file.
- *
- * @package Yoast\WP\SEO\Tests\Unit\Presenters\Admin
- */
 
 namespace Yoast\WP\SEO\Tests\Unit\Presenters\Admin;
 
@@ -14,7 +9,7 @@ use Yoast\WP\SEO\Presenters\Admin\Indexation_Warning_Presenter;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
- * Class Indexation_Warning_Presenter_Test
+ * Class Indexation_Warning_Presenter_Test.
  *
  * @coversDefaultClass \Yoast\WP\SEO\Presenters\Admin\Indexation_Warning_Presenter
  *

@@ -1,9 +1,4 @@
 <?php
-/**
- * WPSEO plugin test file.
- *
- * @package Yoast\WP\SEO\Tests\Unit\Integrations\Front_End
- */
 
 namespace Yoast\WP\SEO\Tests\Unit\Integrations\Front_End;
 
@@ -13,7 +8,7 @@ use Yoast\WP\SEO\Integrations\Front_End\Theme_Titles;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
- * Unit Test Class.
+ * Class Theme_Titles_Test.
  *
  * @coversDefaultClass \Yoast\WP\SEO\Integrations\Front_End\Theme_Titles
  * @covers ::<!public>

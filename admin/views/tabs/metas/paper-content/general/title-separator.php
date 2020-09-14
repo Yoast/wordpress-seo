@@ -15,8 +15,14 @@ $title_separator_help = new WPSEO_Admin_Help_Panel(
 );
 ?>
 <div class="tab-block">
-	<h2 class="help-button-inline"><?php echo esc_html__( 'Title Separator', 'wordpress-seo' ) . $title_separator_help->get_button_html(); ?></h2>
+	<h2 class="help-button-inline">
+		<?php
+		// phpcs:ignore WordPress.Security.EscapeOutput -- get_button_html() output is properly escaped.
+		echo esc_html__( 'Title Separator', 'wordpress-seo' ) . $title_separator_help->get_button_html();
+		?>
+	</h2>
 	<?php
+	// phpcs:ignore WordPress.Security.EscapeOutput -- get_panel_html() output is properly escaped.
 	echo $title_separator_help->get_panel_html();
 	$legend      = __( 'Title separator symbol', 'wordpress-seo' );
 	$legend_attr = [ 'class' => 'radiogroup screen-reader-text' ];

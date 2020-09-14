@@ -5,6 +5,8 @@
  * @package WPSEO\Admin
  */
 
+use Yoast\WP\SEO\Presenters\Admin\Alert_Presenter;
+
 /**
  * Class for managing feature toggles.
  */
@@ -108,6 +110,7 @@ class Yoast_Feature_Toggles {
 				'read_more_label' => __( 'Read why XML Sitemaps are important for your site.', 'wordpress-seo' ),
 				'read_more_url'   => 'https://yoa.st/2a-',
 				'extra'           => $xml_sitemap_extra,
+				'after'           => $this->sitemaps_toggle_after(),
 				'order'           => 60,
 			],
 			(object) [
@@ -133,11 +136,11 @@ class Yoast_Feature_Toggles {
 				'order'   => 80,
 			],
 			(object) [
-				'name'    => __( 'Security: no advanced settings for authors', 'wordpress-seo' ),
+				'name'    => __( 'Security: no advanced or schema settings for authors', 'wordpress-seo' ),
 				'setting' => 'disableadvanced_meta',
 				'label'   => sprintf(
 					/* translators: 1: Yoast SEO, 2: translated version of "Off" */
-					__( 'The advanced section of the %1$s meta box allows a user to remove posts from the search results or change the canonical. These are things you might not want any author to do. That\'s why, by default, only editors and administrators can do this. Setting to "%2$s" allows all users to change these settings.', 'wordpress-seo' ),
+					__( 'The advanced section of the %1$s meta box allows a user to remove posts from the search results or change the canonical. The settings in the schema tab allows a user to change schema meta data for a post. These are things you might not want any author to do. That\'s why, by default, only editors and administrators can do this. Setting to "%2$s" allows all users to change these settings.', 'wordpress-seo' ),
 					'Yoast SEO',
 					__( 'Off', 'wordpress-seo' )
 				),
@@ -179,6 +182,24 @@ class Yoast_Feature_Toggles {
 		usort( $feature_toggles, [ $this, 'sort_toggles_callback' ] );
 
 		return $feature_toggles;
+	}
+
+	/**
+	 * Returns html for a warning that core sitemaps are enabled when yoast seo sitemaps are disabled.
+	 *
+	 * @return string HTML string for the warning.
+	 */
+	protected function sitemaps_toggle_after() {
+		$out   = '<div id="yoast-seo-sitemaps-disabled-warning" style="display:none;">';
+		$alert = new Alert_Presenter(
+			/* translators: %1$s: expands to an opening anchor tag, %2$s: expands to a closing anchor tag */
+			\sprintf( esc_html__( 'Disabling Yoast SEO\'s XML sitemaps will not disable WordPress\' core sitemaps. In some cases, this %1$s may result in SEO errors on your site%2$s. These may be reported in Google Search Console and other tools.', 'wordpress-seo' ), '<a target="_blank" href="' . WPSEO_Shortlinker::get( 'https://yoa.st/44z' ) . '">', '</a>' ),
+			'warning'
+		);
+		$out .= $alert->present();
+		$out .= '</div>';
+
+		return $out;
 	}
 
 	/**

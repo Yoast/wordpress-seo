@@ -3,7 +3,6 @@
 [![Build Status](https://api.travis-ci.org/Yoast/wordpress-seo.svg?branch=master)](https://travis-ci.org/Yoast/wordpress-seo)
 [![Stable Version](https://poser.pugx.org/yoast/wordpress-seo/v/stable.svg)](https://packagist.org/packages/yoast/wordpress-seo)
 [![License](https://poser.pugx.org/yoast/wordpress-seo/license.svg)](https://packagist.org/packages/yoast/wordpress-seo)
-[![Maintainability](https://api.codeclimate.com/v1/badges/9f5d48fd95e3ab3d8472/maintainability)](https://codeclimate.com/repos/54523c9069568068a70b3279/maintainability)
 
 ## Welcome to the Yoast SEO GitHub repository
 
@@ -44,6 +43,8 @@ yarn
 grunt build
 ```
 
+During development, you could run `grunt build:dev` instead of `grunt build`, to save yourself downloading some dependencies that are only needed for a production environment.
+
 Please note that if you change anything in the JavaScript or CSS, you'll have to run `grunt build:js` or `grunt build:css`, respectively.
 
 Alternatively, a webpack development server is available. To enable the dev-server, you'll have to add this to your WordPress install's `config.php`:
@@ -60,7 +61,7 @@ Yoast SEO uses some JavaScript code that is managed outside of this repository. 
 
 ```bash
 git clone https://github.com/Yoast/javascript.git # Only the first time.
-yarn link-monorepo # You will be prompted for the location of your Yoast/javascript clone. This will is "./javascript" if you cloned it inside the wordpress-seo directory. Your preference will be saved in a .yoast file for later use.
+yarn link-monorepo # You will be prompted for the location of your Yoast/javascript clone. This will be "./javascript" if you cloned it inside the wordpress-seo directory. Your preference will be saved in a .yoast file for later use.
 grunt build 
 ```
 

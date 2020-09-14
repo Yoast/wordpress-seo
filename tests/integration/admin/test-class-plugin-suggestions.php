@@ -37,10 +37,13 @@ class WPSEO_Plugin_Suggestions_Test extends WPSEO_UnitTestCase {
 		/*
 		 * Silencing errors for PHP 7.4 in combination with the Mock Builder.
 		 * See WPSEO_UnitTestCase::bypass_php74_mockbuilder_deprecation_warning() for context.
+		 *
+		 * phpcs:disable WordPress.PHP.NoSilencedErrors.Discouraged
 		 */
 		@$notification_center_mock = $this->getMockBuilder( 'Yoast_Notification_Center_Double' )
 			->setMethods( [ 'add_notification', 'remove_notification' ] )
 			->getMock();
+		// phpcs:enable
 
 		$this->class_instance = new WPSEO_Suggested_Plugins_Double( $plugin_availability, $notification_center_mock );
 

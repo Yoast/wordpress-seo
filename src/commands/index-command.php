@@ -1,9 +1,4 @@
 <?php
-/**
- * Command to generate indexables for all posts and terms.
- *
- * @package Yoast\WP\SEO\Commands
- */
 
 namespace Yoast\WP\SEO\Commands;
 
@@ -212,6 +207,9 @@ class Index_Command implements Command_Interface {
 	protected function clear() {
 		global $wpdb;
 
+		// For the PreparedSQLPlaceholders issue, see: https://github.com/WordPress/WordPress-Coding-Standards/issues/1903
+		// For the DirectDBQuery issue, see: https://github.com/WordPress/WordPress-Coding-Standards/issues/1947
+		// phpcs:disable WordPress.DB -- Table names should not be quoted and truncate queries can not be cached.
 		$wpdb->query(
 			$wpdb->prepare(
 				'TRUNCATE TABLE %1$s',
@@ -224,5 +222,6 @@ class Index_Command implements Command_Interface {
 				Model::get_table_name( 'Indexable_Hierarchy' )
 			)
 		);
+		// phpcs:enable
 	}
 }

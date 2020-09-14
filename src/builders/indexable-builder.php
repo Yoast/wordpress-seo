@@ -1,9 +1,4 @@
 <?php
-/**
- * Builder for the indexables.
- *
- * @package Yoast\YoastSEO\Builders
- */
 
 namespace Yoast\WP\SEO\Builders;
 
@@ -11,6 +6,8 @@ use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
 /**
+ * Builder for the indexables.
+ *
  * Creates all the indexables.
  */
 class Indexable_Builder {
@@ -142,7 +139,9 @@ class Indexable_Builder {
 	 */
 	public function build_for_id_and_type( $object_id, $object_type, $indexable = false ) {
 		$indexable        = $this->ensure_indexable( $indexable );
-		$indexable_before = $indexable;
+		$indexable_before = $this->indexable_repository
+			->query()
+			->create( $indexable->as_array() );
 
 		switch ( $object_type ) {
 			case 'post':
