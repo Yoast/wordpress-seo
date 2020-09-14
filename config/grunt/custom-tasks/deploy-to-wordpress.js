@@ -13,7 +13,7 @@ module.exports = function( grunt ) {
 			const options = this.options({
                 enable: false,
                 branch: '',
-            });
+			});
 
 
             if ( options.enable ) {
