@@ -1,7 +1,7 @@
 const githubApi = require( "../lib/github-api" );
 
 /**
- * Gets a milestone from the  repo.
+ * Gets a milestone from the repo.
  *
  * @param {string} pluginVersion The name of the milestone (milestones are always named after the plugin version).
  *
