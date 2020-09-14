@@ -78,6 +78,7 @@ class Indexable_HomeUrlOption_Watcher implements Integration_Interface {
 			$this->indexable_helper->reset_permalink_indexables( 'term', $taxonomy, Indexation_Permalink_Warning_Presenter::REASON_HOME_URL_OPTION );
 		}
 
+		$this->indexable_helper->reset_permalink_indexables( 'home-page', null, Indexation_Permalink_Warning_Presenter::REASON_HOME_URL_OPTION );
 		$this->indexable_helper->reset_permalink_indexables( 'user', null, Indexation_Permalink_Warning_Presenter::REASON_HOME_URL_OPTION );
 		$this->indexable_helper->reset_permalink_indexables( 'date-archive', null, Indexation_Permalink_Warning_Presenter::REASON_HOME_URL_OPTION );
 		$this->indexable_helper->reset_permalink_indexables( 'system-page', null, Indexation_Permalink_Warning_Presenter::REASON_HOME_URL_OPTION );
