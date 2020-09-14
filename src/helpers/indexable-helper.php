@@ -108,4 +108,37 @@ class Indexable_Helper {
 			delete_transient( Indexable_Term_Indexation_Action::TRANSIENT_CACHE_KEY );
 		}
 	}
+
+	/**
+	 * Determines wether indexing indexables is appropriate for the current environment
+	 *
+	 * @param $environment (optional)
+	 *
+	 * @param $yoast_environment (optional)
+	 *
+	 * @return bool
+	 */
+	public function should_index_indexables($environment, $yoast_environment) {
+		if (!isset($environment)) {
+			$environment = wp_get_environment_type();
+		}
+
+		/**
+		 * Defaults to production, for safety.
+		 */
+		if (isset($yoast_environment)) {
+			$yoast_production_environment =
+				$yoast_environment === 'production';
+		} else {
+			$yoast_production_environment =
+				defined( 'YOAST_ENVIRONMENT')
+					? YOAST_ENVIRONMENT === 'production'
+					: true;
+		}
+
+		return
+			$environment === 'production'
+			&&
+			$yoast_production_environment;
+	}
 }
