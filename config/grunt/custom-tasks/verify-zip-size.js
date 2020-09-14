@@ -41,7 +41,7 @@ module.exports = function( grunt ) {
 			const sizeInMB = ( stats.size / 1024 / 1024 ).toFixed( 2 );
 			const versionString = options.pluginVersion;
 			
-			// Send a message to the slack plugin channel. text is set in "add-git-issue:oversized"
+			// Add GitHub issue and send a message to the slack plugin channel. text is set in "add-git-issue:oversized"
 			grunt.config( "add-git-issue.oversized.options", {
 				title: `${ versionString } exceeds maximum size (${ sizeInMB }MB > ${ maximumSizeInMB }MB)`,
 				body: `The release candidate zip size should be smaller than ${ maximumSizeInMB }MB, currently ${ sizeInMB }MB.`,
