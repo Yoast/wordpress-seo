@@ -34,7 +34,6 @@ module.exports = function( grunt ) {
 
 			// Exit early if the filesize is within limits.
 			if ( stats.size <= maximumSize ) {
-				
 				return;
 			}
 
