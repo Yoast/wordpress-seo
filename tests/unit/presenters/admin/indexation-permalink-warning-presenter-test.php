@@ -95,4 +95,31 @@ class Indexation_Permalink_Warning_Presenter_Test extends TestCase {
 
 		$this->assertEquals( $expected, $presenter->present() );
 	}
+
+	/**
+	 * Tests the indexation permalink warning presenter with the reason being the home url option having changed.
+	 *
+	 * @covers ::present
+	 * @covers ::get_text_for_reason
+	 */
+	public function test_present_home_url_option_changed_reason() {
+		$presenter = new Indexation_Permalink_Warning_Presenter( 12, $this->options, Indexation_Warning_Presenter::ACTION_TYPE_RUN_HERE );
+
+		$this->options
+			->expects( 'get' )
+			->with( 'indexables_indexation_reason' )
+			->once()
+			->andReturn( 'home_url_option_changed' );
+
+		Monkey\Filters\expectApplied( 'wpseo_indexables_indexation_alert' );
+
+		$expected  = '<div id="yoast-indexation-warning" class="notice notice-success">';
+		$expected .= '<p>Because of a change in your home URL setting, some of your SEO data needs to be reprocessed.</p>';
+		$expected .= '<p>We estimate this will take less than a minute.</p>';
+		$expected .= '<button type="button" class="button yoast-open-indexation" data-title="<strong>Yoast indexing status</strong>" data-settings="yoastIndexationData">Start processing and speed up your site now</button>';
+		$expected .= '<hr /><p><button type="button" id="yoast-indexation-dismiss-button" class="button-link hide-if-no-js" data-nonce="123456789">Hide this notice</button> ';
+		$expected .= '(everything will continue to function normally)</p></div>';
+
+		$this->assertEquals( $expected, $presenter->present() );
+	}
 }
