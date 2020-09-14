@@ -116,7 +116,7 @@ module.exports = function( grunt ) {
 			}
 
 			// Upload the zip to GitHub.
-			grunt.verbose.writeln("upload url" + responseData.upload_url);
+			grunt.verbose.writeln( "GitHub release upload URL = " + responseData.upload_url );
 			if (options.uploadZip) {
 				try {
 					const uploadResponse = await uploadToGitHub( responseData.upload_url, options.srcZipFilename, options.dstZipFilename );
