@@ -188,14 +188,8 @@ class Indexable_Ancestor_Watcher implements Integration_Interface {
 			return $child->object_type === 'term';
 		};
 
-		$child_terms = \array_filter( $child_indexables, $filter_terms );
-
-		// Get the object id's for the child indexables.
-		$get_object_id_for_child = function( $child ) {
-			return $child->object_id;
-		};
-
-		$child_object_ids = \array_map( $get_object_id_for_child, $child_terms );
+		$child_terms      = \array_filter( $child_indexables, $filter_terms );
+		$child_object_ids = \wp_list_pluck( $child_terms, 'object_id' );
 
 		// Get the term-taxonomy id's for the term and its children.
 		$term_taxonomy_ids = $this->wpdb->get_col(
@@ -208,6 +202,11 @@ class Indexable_Ancestor_Watcher implements Integration_Interface {
 				...$child_object_ids
 			)
 		);
+
+		// In the case of faulty data having been saved the above query can return 0 results.
+		if ( empty( $term_taxonomy_ids ) ) {
+			return [];
+		}
 
 		// Get the (post) object id's that are attached to the term.
 		return $this->wpdb->get_col(
