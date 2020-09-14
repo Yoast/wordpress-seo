@@ -29,7 +29,7 @@ class Indexable_Helper {
 	protected $repository;
 
 	/**
-	 * The environment helper knows things about the environment.
+	 * The environment helper.
 	 *
 	 * @var Environment_Helper
 	 */
@@ -40,13 +40,14 @@ class Indexable_Helper {
 	 *
 	 * @param Options_Helper       $options_helper     The options helper.
 	 * @param Indexable_Repository $repository         The indexables repository.
-	 * @param Environment_Helper   $environment_helper This helper knows things about the environment.
+	 * @param Environment_Helper   $environment_helper The environment helper.
 	 */
 	public function __construct( Options_Helper $options_helper, Indexable_Repository $repository, Environment_Helper $environment_helper ) {
 		$this->options_helper = $options_helper;
 		$this->repository     = $repository;
 		$this->environment_helper = $environment_helper;
 	}
+
 	/**
 	 * Retrieves the permalink for an indexable.
 	 *
@@ -152,7 +153,7 @@ class Indexable_Helper {
 	/**
 	 * Determines whether indexing indexables is appropriate at this time.
 	 *
-	 * @return bool
+	 * @return bool Whether or not the indexables should be indexed.
 	 */
 	public function should_index_indexables() {
 		// Currently the only reason to index is when we're on a production website.

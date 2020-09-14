@@ -84,7 +84,7 @@ class Indexable_Builder {
 	private $indexable_repository;
 
 	/**
-	 * The indexable helper methods.
+	 * The indexable helper.
 	 *
 	 * @var Indexable_Helper
 	 */
@@ -102,7 +102,7 @@ class Indexable_Builder {
 	 * @param Indexable_System_Page_Builder       $system_page_builder       The search result builder for creating missing indexables.
 	 * @param Indexable_Hierarchy_Builder         $hierarchy_builder         The hierarchy builder for creating the indexable hierarchy.
 	 * @param Primary_Term_Builder                $primary_term_builder      The primary term builder for creating primary terms for posts.
-	 * @param Indexable_Helper                    $indexable_helper          Indexable helper functions.
+	 * @param Indexable_Helper                    $indexable_helper          The indexable helper.
 	 */
 	public function __construct(
 		Indexable_Author_Builder $author_builder,
@@ -281,15 +281,17 @@ class Indexable_Builder {
 	 * @return Indexable The indexable.
 	 */
 	private function save_indexable( $indexable, $indexable_before = null ) {
-
 		$intend_to_save = $this->indexable_helper->should_index_indexables();
+
 		/**
 		 * Filter: 'wpseo_override_save_indexable' - Allow developers to enable / disable
 		 * saving the indexable when the indexable is updated. Warning: overriding
-		 * the intended action may cause missing indexables or incorrect behavior!
+		 * the intended action may cause problems when moving from a staging to a
+		 * production environment because indexable permalinks may get set incorrectly.
 		 *
-		 * @api Indexable The indexable to be saved.
-		 * @api bool True if YoastSEO intends to save the indexable.
+		 * @param Indexable $indexable The indexable to be saved.
+		 *
+		 * @api bool $intend_to_save True if YoastSEO intends to save the indexable.
 		 */
 		$intend_to_save = \apply_filter( 'wpseo_override_save_indexable', $indexable, $intend_to_save );
 
@@ -297,11 +299,11 @@ class Indexable_Builder {
 			if ( $indexable_before ) {
 				/**
 				 * Action: 'wpseo_save_indexable' - Allow developers to perform an action
-				 * when the indexable is udated.
+				 * when the indexable is updated.
 				 *
-				 * @param Indexable The indexable before saving.
+				 * @param Indexable $indexable_before The indexable before saving.
 				 *
-				 * @api   Indexable The saved indexable.
+				 * @api Indexable $indexable The saved indexable.
 				 */
 				do_action( 'wpseo_save_indexable', $indexable, $indexable_before );
 			}
