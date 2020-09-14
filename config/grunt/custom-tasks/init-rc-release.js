@@ -86,7 +86,7 @@ module.exports = function( grunt ) {
 
         
         grunt.config( "create-github-release.seo-free-rc-pre-release.options.enable", enableGithubRelease);
-        grunt.config( "deploy-to-wordpress.trunk.options.enable", enableSvnDeploy);
+        grunt.config( "deploy-to-wordpress.trunk.options.enable", enableSvnDeploy );
        
         grunt.config.data.noBump = noBump,
         grunt.config.data.pluginVersionArg = pluginVersionArg,
