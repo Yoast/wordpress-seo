@@ -4,13 +4,9 @@ namespace Yoast\WP\SEO\Tests\Unit\Helpers;
 
 use Brain\Monkey;
 use Mockery;
-use Yoast\WP\SEO\Actions\Indexation\Indexable_Post_Indexation_Action;
-use Yoast\WP\SEO\Actions\Indexation\Indexable_Post_Type_Archive_Indexation_Action;
-use Yoast\WP\SEO\Actions\Indexation\Indexable_Term_Indexation_Action;
 use Yoast\WP\SEO\Helpers\Environment_Helper;
 use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
-use Yoast\WP\SEO\Presenters\Admin\Indexation_Permalink_Warning_Presenter;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
@@ -61,7 +57,8 @@ class Indexable_Helper_Test extends TestCase {
 		$this->options            = Mockery::mock( Options_Helper::class );
 		$this->repository         = Mockery::mock( Indexable_Repository::class );
 		$this->environment_helper = Mockery::mock( Environment_Helper::class );
-		$this->instance           = new Indexable_Helper( $this->options, $this->repository, $this->environment_helper );
+		$this->instance           = new Indexable_Helper( $this->options, $this->environment_helper );
+		$this->instance->set_indexable_repository($this->repository);
 	}
 
 	/**

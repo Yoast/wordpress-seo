@@ -38,14 +38,23 @@ class Indexable_Helper {
 	/**
 	 * Indexable_Helper constructor.
 	 *
-	 * @param Options_Helper       $options_helper     The options helper.
-	 * @param Indexable_Repository $repository         The indexables repository.
-	 * @param Environment_Helper   $environment_helper The environment helper.
+	 * @param Options_Helper     $options_helper     The options helper.
+	 * @param Environment_Helper $environment_helper The environment helper.
 	 */
-	public function __construct( Options_Helper $options_helper, Indexable_Repository $repository, Environment_Helper $environment_helper ) {
+	public function __construct( Options_Helper $options_helper, Environment_Helper $environment_helper ) {
 		$this->options_helper     = $options_helper;
-		$this->repository         = $repository;
 		$this->environment_helper = $environment_helper;
+	}
+
+	/**
+	 * Sets the indexable repository. Done to avoid circular dependencies.
+	 *
+	 * @param Indexable_Repository $repository The indexable repository.
+	 *
+	 * @required
+	 */
+	public function set_indexable_repository( Indexable_Repository $repository ) {
+		$this->repository = $repository;
 	}
 
 	/**
