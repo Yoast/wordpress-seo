@@ -102,6 +102,7 @@ class Indexable_HomeUrlOption_Watcher_Test extends TestCase {
 		$this->indexable_helper->expects( 'reset_permalink_indexables' )->with( 'post-type-archive', 'post', Indexation_Permalink_Warning_Presenter::REASON_HOME_URL_OPTION )->once();
 		$this->indexable_helper->expects( 'reset_permalink_indexables' )->with( 'term', 'category', Indexation_Permalink_Warning_Presenter::REASON_HOME_URL_OPTION )->once();
 		$this->indexable_helper->expects( 'reset_permalink_indexables' )->with( 'user', null, Indexation_Permalink_Warning_Presenter::REASON_HOME_URL_OPTION )->once();
+		$this->indexable_helper->expects( 'reset_permalink_indexables' )->with( 'home-page', null, Indexation_Permalink_Warning_Presenter::REASON_HOME_URL_OPTION )->once();
 		$this->indexable_helper->expects( 'reset_permalink_indexables' )->with( 'date-archive', null, Indexation_Permalink_Warning_Presenter::REASON_HOME_URL_OPTION )->once();
 		$this->indexable_helper->expects( 'reset_permalink_indexables' )->with( 'system-page', null, Indexation_Permalink_Warning_Presenter::REASON_HOME_URL_OPTION )->once();
 
