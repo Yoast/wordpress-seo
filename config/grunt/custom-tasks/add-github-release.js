@@ -76,7 +76,7 @@ module.exports = function( grunt ) {
 				grunt.fail.fatal( 'Github owner (organisation) required');
 			}
 			if (repo === '') {
-				grunt.fail.fatal( 'Github repo (repository) required');
+				grunt.fail.fatal( 'No GitHub repository is configured, this is required.' );
 			}
 			if (options.srcZipFilename === '') {
 				grunt.fail.fatal( 'Github release source Zipfile name required');
