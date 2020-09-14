@@ -33,7 +33,7 @@ async function logError( response, grunt ) {
  */
 module.exports = function( grunt ) {
 	grunt.registerMultiTask(
-		"add-github-release",
+		"create-github-release",
 		"Creates and pushes a GitHub release and uploads the artifact to GitHub",
 		async function() {
 			const done = this.async();

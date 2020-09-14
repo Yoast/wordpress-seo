@@ -32,7 +32,7 @@
   - 'rtlcss:build'
 
 'github-pre-release':
-  - 'add-github-release:seo-free-rc-pre-release' 
+  - 'create-github-release:seo-free-rc-pre-release' 
  
 # Build internationalisation features
 'build:i18n':
@@ -123,7 +123,7 @@ clean:build-assets:
   - 'bump-rc-version'
   - 'sync-gutenberg-version'
   - 'artifact'
-  - 'add-github-release:seo-free-rc-pre-release'
+  - 'create-github-release:seo-free-rc-pre-release'
   - 'send-slack-notify:rc'
   - 'check-deploy-allowed'
   - 'deploy-to-wordpress:trunk'
@@ -138,7 +138,7 @@ clean:build-assets:
   - 'bump-rc-version'
   - 'sync-gutenberg-version'
   - 'artifact'
-  - 'add-github-release:seo-free-rc-pre-release' 
+  - 'create-github-release:seo-free-rc-pre-release' 
   - 'send-slack-notify:rc'
   - 'check-deploy-allowed'
   - 'deploy-to-wordpress:trunk'
