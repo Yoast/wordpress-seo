@@ -1,6 +1,16 @@
 'use strict';
 
 /**
+ * helper function that takes the grunt option name as argument and the option as second argument to set whenever the option name is not defined as grunt option
+ * @param {array} 
+ * @returns {bool}
+ */
+function gruntOptionLogicToPreseveFalseValue( gruntOptionName, fallbackValue ) {
+	const gruntOptionValue = grunt.option( gruntOptionName ) ;
+    return (typeof gruntOptionValue === 'undefined' ) ? fallbackValue: gruntOptionValue;
+}
+
+/**
  * helper function adds a function to a string to determan is that sctring in the list specified list 
  * @param {array} 
  * @returns {bool}
@@ -42,15 +52,21 @@ module.exports = function( grunt ) {
 
 			let owner;
 			let repo;
-			const pluginVersionArg = grunt.option( "plugin-version" );
+			const pluginVersionArg = grunt.option( 'plugin-version' );
 			const type = grunt.option( 'type' ) || options.type;
-			const enableSvnDeployArg = grunt.option( 'enableSvnDeploy' ) ;
-			const enableSvnDeploy = (typeof enableSvnDeployArg === 'undefined' ) ? options.enableSvnDeploy: enableSvnDeployArg;
+			const enableSvnDeploy = gruntOptionLogicToPreseveFalseValue( 'enableSvnDeploy', options.enableSvnDeploy );
+			/*
+			*const enableSvnDeployArg = grunt.option( 'enableSvnDeploy' ) ;
+			*const enableSvnDeploy = (typeof enableSvnDeployArg === 'undefined' ) ? options.enableSvnDeploy: enableSvnDeployArg;
+			*/
 			const enableSlackArg = grunt.option( 'enableSlack' ) 
 			const enableSlack = (typeof enableSlackArg === 'undefined' ) ? options.enableSlack: enableSlackArg ;
 			const enableGithubReleaseArg = grunt.option( 'enableGithubRelease') 
 			const enableGithubRelease = (typeof enableGithubReleaseArg === 'undefined' ) ? options.enableGithubRelease: enableGithubReleaseArg;
-			const noBumpArg = grunt.option( "no-version-bump" ) 
+			
+			
+			
+			const noBumpArg = grunt.option( 'no-version-bump' ) 
 			const noBump = (typeof noBumpArg === 'undefined' ) ? options.noBump: noBumpArg ;
 
 
