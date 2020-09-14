@@ -64,6 +64,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 			],
 			'access_tokens' => [],
 		],
+		'home_url'                                 => '',
 	];
 
 	/**
@@ -246,6 +247,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 					break;
 				case 'previous_version':
 				case 'license_server_version':
+				case 'home_url':
 					if ( isset( $dirty[ $key ] ) ) {
 						$clean[ $key ] = $dirty[ $key ];
 					}
