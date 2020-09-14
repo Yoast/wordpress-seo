@@ -53,7 +53,7 @@ module.exports = function( grunt ) {
 				versionString: strippedVersion,				
 			} );
 			
-			grunt.task.run( ["add-git-issue:oversized", "send-slack-notify:add-git-issue-slack-message"]);
+			grunt.task.run( ["add-git-issue:oversized", "send-slack-notify:add-git-issue-slack-message"] );
             
 			return;
 		}
