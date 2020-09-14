@@ -1,4 +1,4 @@
-const { options } = require("marked");
+const { options } = require( "marked" );
 
 const execSync = require( "child_process" ).execSync;
 
