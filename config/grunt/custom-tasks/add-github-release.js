@@ -59,7 +59,6 @@ module.exports = function( grunt ) {
 			let changelog;
 			const owner = options.githubOwner;
 			const repo = options.githubRepo;
-
 			
 			if (options.manualEditChangelog === true) {
 				// Open a text editor to get the changelog.
