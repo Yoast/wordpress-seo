@@ -70,7 +70,7 @@ module.exports = function( grunt ) {
 			}
 			// Perform sanity checks to fail fast when data is missing.
 			if (changelog === '') {
-				grunt.fail.fatal( 'changelog entry required');
+				grunt.fail.fatal( 'No changelog was provided, this is required.' );
 			}
 			if (owner === '') {
 				grunt.fail.fatal( 'Github owner (organisation) required');
