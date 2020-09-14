@@ -161,12 +161,6 @@ class Indexable_Helper {
 			return true;
 		}
 
-		$yoast_mode = $this->environment_helper->get_yoast_environment();
-		if ( isset( $yoast_mode ) ) {
-			// Always allow Yoast SEO developers to index, regardless of their test environment.
-			return true;
-		}
-
 		// We are not running a production site.
 		return false;
 	}

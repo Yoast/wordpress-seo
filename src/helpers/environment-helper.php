@@ -17,19 +17,6 @@ class Environment_Helper {
 	}
 
 	/**
-	 * Determines on which environment Yoast SEO is running.
-	 *
-	 * @return string|null The current Yoast SEO environment.
-	 */
-	public function get_yoast_environment() {
-		if ( \defined( 'YOAST_ENVIRONMENT' ) ) {
-			return YOAST_ENVIRONMENT;
-		}
-
-		return null;
-	}
-
-	/**
 	 * Determines on which environment WordPress is running.
 	 *
 	 * @return string The current WordPress environment.

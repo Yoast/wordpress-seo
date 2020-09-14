@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Helpers;
 
+use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Actions\Indexation\Indexable_Post_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexation\Indexable_Post_Type_Archive_Indexation_Action;
@@ -11,10 +12,8 @@ use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Presenters\Admin\Indexation_Permalink_Warning_Presenter;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
-use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
-use function Brain\Monkey\Functions\expect;
 
 /**
  * Class Indexable_Helper_Test.
@@ -83,7 +82,7 @@ class Indexable_Helper_Test extends TestCase {
 		$indexable              = Mockery::mock( Indexable_Mock::class );
 		$indexable->object_type = 'post';
 
-		expect( 'get_permalink' )
+		Monkey\Functions\expect( 'get_permalink' )
 			->andReturn( 'https://example.org/permalink' );
 
 		$this->assertEquals(
@@ -102,7 +101,7 @@ class Indexable_Helper_Test extends TestCase {
 		$indexable->object_type     = 'post';
 		$indexable->object_sub_type = 'attachment';
 
-		expect( 'wp_get_attachment_url' )
+		Monkey\Functions\expect( 'wp_get_attachment_url' )
 			->andReturn( 'https://example.org/attachment' );
 
 		$this->assertEquals(
@@ -120,7 +119,7 @@ class Indexable_Helper_Test extends TestCase {
 		$indexable              = Mockery::mock( Indexable_Mock::class );
 		$indexable->object_type = 'home-page';
 
-		expect( 'get_permalink' )
+		Monkey\Functions\expect( 'get_permalink' )
 			->andReturn( 'https://example.org/homepage' );
 
 		$this->assertEquals(
@@ -143,15 +142,15 @@ class Indexable_Helper_Test extends TestCase {
 			'taxonomy' => 'category',
 		];
 
-		expect( 'get_term' )
+		Monkey\Functions\expect( 'get_term' )
 			->with( 2 )
 			->andReturn( $term );
 
-		expect( 'is_wp_error' )
+		Monkey\Functions\expect( 'is_wp_error' )
 			->with( $term )
 			->andReturn( false );
 
-		expect( 'get_term_link' )
+		Monkey\Functions\expect( 'get_term_link' )
 			->with( $term, 'category' )
 			->andReturn( 'https://example.org/term' );
 
@@ -171,7 +170,7 @@ class Indexable_Helper_Test extends TestCase {
 		$indexable->object_id   = 2;
 		$indexable->object_type = 'term';
 
-		expect( 'get_term' )
+		Monkey\Functions\expect( 'get_term' )
 			->with( 2 )
 			->andReturn( null );
 
@@ -195,11 +194,11 @@ class Indexable_Helper_Test extends TestCase {
 			'taxonomy' => 'category',
 		];
 
-		expect( 'get_term' )
+		Monkey\Functions\expect( 'get_term' )
 			->with( 2 )
 			->andReturn( $term );
 
-		expect( 'is_wp_error' )
+		Monkey\Functions\expect( 'is_wp_error' )
 			->with( $term )
 			->andReturn( true );
 
@@ -218,7 +217,7 @@ class Indexable_Helper_Test extends TestCase {
 		$indexable->object_type     = 'system-page';
 		$indexable->object_sub_type = 'search-page';
 
-		expect( 'get_search_link' )
+		Monkey\Functions\expect( 'get_search_link' )
 			->andReturn( 'https://example.org/search' );
 
 		$this->assertEquals(
@@ -237,7 +236,7 @@ class Indexable_Helper_Test extends TestCase {
 		$indexable->object_type     = 'post-type-archive';
 		$indexable->object_sub_type = 'post-type';
 
-		expect( 'get_post_type_archive_link' )
+		Monkey\Functions\expect( 'get_post_type_archive_link' )
 			->with( 'post-type' )
 			->andReturn( 'https://example.org/post-type' );
 
@@ -257,7 +256,7 @@ class Indexable_Helper_Test extends TestCase {
 		$indexable->object_type = 'user';
 		$indexable->object_id   = 1;
 
-		expect( 'get_author_posts_url' )
+		Monkey\Functions\expect( 'get_author_posts_url' )
 			->with( 1 )
 			->andReturn( 'https://example.org/user/1' );
 
@@ -317,37 +316,6 @@ class Indexable_Helper_Test extends TestCase {
 	}
 
 	/**
-	 * Tests should_index_indexables method
-	 *
-	 * @param string      $wp_environment    The WordPress environment to test for.
-	 * @param string|null $yoast_environment The Yoast environment to test for.
-	 * @param bool        $expected_result   Either true or false.
-	 *
-	 * @covers ::should_index_indexables
-	 * @dataProvider should_index_for_production_environment_provider
-	 */
-	public function test_should_index_for_production_environment(
-		$wp_environment, $yoast_environment, $expected_result
-	) {
-		// Arrange.
-		$this->environment_helper
-			->shouldReceive( 'is_production_mode' )
-			->passthru();
-		$this->environment_helper
-			->shouldReceive( 'get_yoast_environment' )
-			->andReturn( $yoast_environment );
-		$this->environment_helper
-			->shouldReceive( 'get_wp_environment' )
-			->andReturn( $wp_environment );
-
-		// Act.
-		$result = $this->instance->should_index_indexables();
-
-		// Assert.
-		$this->assertEquals( $result, $expected_result );
-	}
-
-	/**
 	 * Data provider for the test_get_page_type_for_indexable_provider function.
 	 *
 	 * @return array The test data.
@@ -367,19 +335,45 @@ class Indexable_Helper_Test extends TestCase {
 	}
 
 	/**
+	 * Tests should_index_indexables method
+	 *
+	 * @param string $wp_environment  The WordPress environment to test for.
+	 * @param bool   $expected_result Either true or false.
+	 *
+	 * @covers ::should_index_indexables
+	 * @dataProvider should_index_for_production_environment_provider
+	 */
+	public function test_should_index_for_production_environment(
+		$wp_environment, $expected_result
+	) {
+		// Arrange.
+		$this->environment_helper
+			->shouldReceive( 'is_production_mode' )
+			->passthru();
+		$this->environment_helper
+			->shouldReceive( 'get_wp_environment' )
+			->andReturn( $wp_environment );
+
+		// Act.
+		$result = $this->instance->should_index_indexables();
+
+		// Assert.
+		$this->assertEquals( $result, $expected_result );
+	}
+
+	/**
 	 * DataProvider for test_should_index_for_production_environment.
 	 *
 	 * @return array[]
 	 */
 	public function should_index_for_production_environment_provider() {
 		return [
-			[ 'production', 'production', true ],
-			[ 'production', 'development', true ],
-			[ 'production', null, true ],
-			[ 'development', 'production', true ],
-			[ 'development', 'anything will be accepted', true ],
-			[ 'development', null, false ],
-			[ null, null, false ],
+			[ 'production', true ],
+			[ 'staging', false ],
+			[ 'test', false ],
+			[ 'development', false ],
+			[ 'random letters and 1234567890', false ],
+			[ null, false ],
 		];
 	}
 
