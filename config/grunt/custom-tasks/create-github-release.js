@@ -72,13 +72,13 @@ module.exports = function( grunt ) {
 				grunt.fail.fatal( 'No changelog was provided, this is required.' );
 			}
 			if (owner === '') {
-				grunt.fail.fatal( 'Github owner (organisation) required');
+				grunt.fail.fatal( 'No Github owner (organisation), this is required');
 			}
 			if (repo === '') {
 				grunt.fail.fatal( 'No GitHub repository is configured, this is required.' );
 			}
 			if (options.srcZipFilename === '') {
-				grunt.fail.fatal( 'Github release source Zipfile name required');
+				 grunt.fail.fatal( 'GitHub release source zip filename is not configured, this is required.' );
 			}
 			if (options.dstZipFilename === '') {
 				grunt.fail.fatal( 'GitHub release destination filename is not configured, this is required.' );

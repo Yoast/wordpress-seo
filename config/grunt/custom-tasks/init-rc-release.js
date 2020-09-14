@@ -1,18 +1,18 @@
 'use strict';
 
 /**
- * helper function takes list and item retuns true is item is in list
+ * helper function adds a function to a string to determan is that sctring in the list specified list 
  * @param {array} 
  * @returns {bool}
  */
 
 if (!String.prototype.isInList) {
 	String.prototype.isInList = function() {
-	   let value = this.valueOf();
-	   for (let i = 0, l = arguments.length; i < l; i += 1) {
-		  if (arguments[i] === value) return true;
-	   }
-	   return false;
+		let value = this.valueOf();
+		for (let i = 0, l = arguments.length; i < l; i += 1) {
+			if (arguments[i] === value) return true;
+		}
+		return false;
 	}
  }
 
