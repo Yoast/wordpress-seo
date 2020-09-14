@@ -1,13 +1,13 @@
 const githubApi = require( "../lib/github-api" );
 
 /**
- * Gets a milestone from the  repo.
+ * Gets a milestone from the repo.
  *
  * @param {string} pluginVersion The name of the milestone (milestones are always named after the plugin version).
  *
  * @returns {Promise<object|null>} A promise resolving to a single milestone.
  */
-async function getMilestone( pluginVersion , githubRepository ) {
+async function getMilestone( pluginVersion, githubRepository ) {
 	pluginVersion = pluginVersion.toLowerCase();
 
 	const milestonesResponse = await githubApi( githubRepository + "/milestones?state=open" );
@@ -22,7 +22,7 @@ async function getMilestone( pluginVersion , githubRepository ) {
 
 /**
  * Checks the size of the created artifact and creates an issue if the zip exceeds 5MB.
- * it will try to link the issue to the RCs main milestone
+ * It will try to link the issue to the milestone of the RCs.
  * 
  * @param {Object} grunt The grunt helper object.
  * @returns {void}

@@ -52,37 +52,36 @@ module.exports = function( grunt ) {
 			
             
 			if ( ! options.enable) {
-				grunt.config.data.tagUrl =  'the github release was skipped'
+				grunt.config.data.tagUrl = 'The GitHub release was skipped - because it is disabled in this run.'
 				return done();
 			}
 			
 			let changelog;
 			const owner = options.githubOwner;
 			const repo = options.githubRepo;
-
 			
 			if (options.manualEditChangelog === true) {
 				// Open a text editor to get the changelog.
 				changelog = await getUserInput( { initialContent: grunt.option( "changelog" ) } );
 			} else {
-				// use the changelog from the arguments
+				// Use the changelog from the arguments.
 				changelog = grunt.option( 'changelog' ) || process.env.RELEASECHANGELOG || grunt.config.data.changelog ;
 			}
-			// do some senity checking
+			// Perform sanity checks to fail fast when data is missing.
 			if (changelog === '') {
-				grunt.fail.fatal( 'changelog entry required');
+				grunt.fail.fatal( 'No changelog was provided, this is required.' );
 			}
 			if (owner === '') {
 				grunt.fail.fatal( 'Github owner (organisation) required');
 			}
 			if (repo === '') {
-				grunt.fail.fatal( 'Github repo (repository) required');
+				grunt.fail.fatal( 'No GitHub repository is configured, this is required.' );
 			}
 			if (options.srcZipFilename === '') {
 				grunt.fail.fatal( 'Github release source Zipfile name required');
 			}
 			if (options.dstZipFilename === '') {
-				grunt.fail.fatal( 'Github release destination Zipfile name required');
+				grunt.fail.fatal( 'GitHub release destination filename is not configured, this is required.' );
 			}
 			if (options.target_commitish === '') {
 				grunt.fail.fatal( 'Github release target_commitish name required');
@@ -90,7 +89,6 @@ module.exports = function( grunt ) {
 
 
 			const pluginVersion = grunt.file.readJSON( "package.json" ).yoast.pluginVersion;
-			grunt.verbose.writeln(pluginVersion);
 			/* eslint-disable camelcase */
 			const releaseData = {
 				tag_name: pluginVersion,
@@ -102,8 +100,8 @@ module.exports = function( grunt ) {
 			};
 			/* eslint-enable camelcase */
  
-			const path =  `${ owner }/${ repo }/releases`;
-			grunt.verbose.writeln(path);
+			const path = `${ owner }/${ repo }/releases`;
+			grunt.verbose.writeln( "GitHub release path = " + path );
 			let responseData;
 			try {
 				const response = await githubApi( path, releaseData, "POST");
@@ -117,7 +115,7 @@ module.exports = function( grunt ) {
 			}
 
 			// Upload the zip to GitHub.
-			grunt.verbose.writeln("upload url" + responseData.upload_url);
+			grunt.verbose.writeln( "GitHub release upload URL = " + responseData.upload_url );
 			if (options.uploadZip) {
 				try {
 					const uploadResponse = await uploadToGitHub( responseData.upload_url, options.srcZipFilename, options.dstZipFilename );
