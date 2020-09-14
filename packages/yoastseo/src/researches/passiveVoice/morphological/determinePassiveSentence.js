@@ -57,21 +57,28 @@ const determineSentenceIsPassiveListBased = function( sentence, language ) {
  */
 const determineSentenceIsPassiveIndonesian = function( sentence ) {
 	const words = getWords( sentence );
-	let matchedPassives = words.filter( word => ( word.startsWith( passivePrefixIndonesian ) ) );
-
+	let matchedPassives = words.filter( word => ( word.length > 4 ) );
+	matchedPassives = matchedPassives.filter( word => ( word.startsWith( passivePrefixIndonesian ) ) );
 	if ( matchedPassives.length === 0 ) {
 		return false;
 	}
 
 	// Check exception list.
-	matchedPassives = matchedPassives.filter( matchedPassive => ( ! nonPassivesIndonesian.includes( matchedPassive ) ) );
-
-	if ( matchedPassives.length === 0 ) {
+	let passiveWords = [];
+	for ( nonPassive in nonPassivesIndonesian ) {
+		for ( matchedPassive in matchedPassives ) {
+			if ( ! matchedPassive.startsWith( nonPassive ) ) {
+			}
+		}
+	}
+	console.log( passiveWords )
+	if ( passiveWords.length === 0 ) {
 		return false;
 	}
+	matchedPassives = passiveWords;
 
 	// Check direct precedence exceptions.
-	matchedPassives = matchedPassives.filter( function( matchedPassive ) {
+		matchedPassives = matchedPassives.filter( function( matchedPassive ) {
 		let matchedPassivesShouldStay = true;
 		const passiveIndex = words.indexOf( matchedPassive );
 		const wordPrecedingPassive = words[ passiveIndex - 1 ];

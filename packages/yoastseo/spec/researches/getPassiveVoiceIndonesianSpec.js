@@ -47,4 +47,28 @@ describe( "detecting passive voice in sentences", function() {
 		const paper = new Paper( "Saya melihat dinosaurus", { locale: "id_ID" } );
 		expect( passiveVoice( paper ).passives.length ).toBe( 0 );
 	} );
+
+	it( "does not return passive voice if non-passive exception has an additional suffix", function() {
+		// Non passive: dinosaurus.
+		const paper = new Paper( "Disiplinlah dalam menuntut ilmu", { locale: "id_ID" } );
+		expect( passiveVoice( paper ).passives.length ).toBe( 0 );
+	} );
+
+	it( "does not return passive voice if non-passive exception is shorter than 4 letters", function() {
+		// Non passive: dinosaurus.
+		const paper = new Paper( "Dia melanjutkan kuliahnya di Jakarta", { locale: "id_ID" } );
+		expect( passiveVoice( paper ).passives.length ).toBe( 0 );
+	} );
+
+	it( "does not return passive voice if non-passive exception is shorter than 4 letters", function() {
+		// Non passive: dinosaurus.
+		const paper = new Paper( "Dia duduk di atas dipan", { locale: "id_ID" } );
+		expect( passiveVoice( paper ).passives.length ).toBe( 0 );
+	} );
+
+	it( "does not return passive voice if non-passive exception has an additional suffix", function() {
+		// Non passive: dinosaurus.
+		const paper = new Paper( "Rumah yang dindingnya berwarna hijau itu roboh", { locale: "id_ID" } );
+		expect( passiveVoice( paper ).passives.length ).toBe( 0 );
+	} );
 } );
