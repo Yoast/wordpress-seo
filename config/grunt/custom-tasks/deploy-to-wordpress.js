@@ -18,7 +18,6 @@ module.exports = function( grunt ) {
 
             if ( options.enable ) {
                 grunt.task.run( 'wp_deploy:' + options.branch )
-                //grunt.log.writeln('wp_deploy:' + options.branch)
             }
         });
     };
