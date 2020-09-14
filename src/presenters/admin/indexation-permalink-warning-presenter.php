@@ -53,16 +53,16 @@ class Indexation_Permalink_Warning_Presenter extends Indexation_Warning_Presente
 	protected function get_text_for_reason( $reason ) {
 		switch ( $reason ) {
 			case static::REASON_CATEGORY_BASE_PREFIX:
-				$text = \esc_html__( 'Because of a change in your category URL setting, some of your SEO data need to be reprocessed.', 'wordpress-seo' );
+				$text = \esc_html__( 'Because of a change in your category URL setting, some of your SEO data needs to be reprocessed.', 'wordpress-seo' );
 				break;
 
 			case static::REASON_HOME_URL_OPTION:
-				$text = \esc_html__( 'Because of a change in your home URL setting, some of your SEO data need to be reprocessed.', 'wordpress-seo' );
+				$text = \esc_html__( 'Because of a change in your home URL setting, some of your SEO data needs to be reprocessed.', 'wordpress-seo' );
 				break;
 
 			case static::REASON_PERMALINK_SETTINGS:
 			default:
-				$text = \esc_html__( 'Because of a change in your permalink structure, some of your SEO data need to be reprocessed.', 'wordpress-seo' );
+				$text = \esc_html__( 'Because of a change in your permalink structure, some of your SEO data needs to be reprocessed.', 'wordpress-seo' );
 				break;
 		}
 
