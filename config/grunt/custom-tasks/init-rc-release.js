@@ -82,7 +82,7 @@ module.exports = function( grunt ) {
             grunt.fail.fatal( "wrong --type argument is not one of: release, hotfix" );
         }
 
-        const branchForRC =  grunt.option( 'branchForRC' ) || type + "/" + pluginVersionArg ;
+        const branchForRC = grunt.option( 'branchForRC' ) || type + "/" + pluginVersionArg;
 
         
         grunt.config( "create-github-release.seo-free-rc-pre-release.options.enable", enableGithubRelease);
