@@ -12,7 +12,6 @@ use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
 use Yoast\WP\SEO\Conditionals\Yoast_Admin_And_Dashboard_Conditional;
 use Yoast\WP\SEO\Conditionals\Yoast_Tools_Page_Conditional;
-use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Presenters\Admin\Indexation_List_Item_Presenter;
@@ -62,14 +61,14 @@ class Indexation_Integration implements Integration_Interface {
 	protected $general_indexation;
 
 	/**
-	 * Represents the indexation completed action.
+	 * Represented the indexation completed action.
 	 *
 	 * @var Indexable_Complete_Indexation_Action
 	 */
 	protected $complete_indexation_action;
 
 	/**
-	 * Represents the admin asset manager.
+	 * Represents tha admin asset manager.
 	 *
 	 * @var WPSEO_Admin_Asset_Manager
 	 */
@@ -81,13 +80,6 @@ class Indexation_Integration implements Integration_Interface {
 	 * @var Yoast_Tools_Page_Conditional
 	 */
 	protected $yoast_tools_page_conditional;
-
-	/**
-	 * Holds the indexable helper.
-	 *
-	 * @var Indexable_Helper
-	 */
-	protected $indexable_helper;
 
 	/**
 	 * Holds whether or not the current page is the Yoast tools page.
@@ -133,8 +125,8 @@ class Indexation_Integration implements Integration_Interface {
 	 * @param Indexable_Complete_Indexation_Action          $complete_indexation_action   The complete indexation action.
 	 * @param Options_Helper                                $options_helper               The options helper.
 	 * @param WPSEO_Admin_Asset_Manager                     $asset_manager                The admin asset manager.
-	 * @param Yoast_Tools_Page_Conditional                  $yoast_tools_page_conditional The Yoast tools page conditional.
-	 * @param Indexable_Helper                              $indexable_helper             The indexable helper.
+	 * @param Yoast_Tools_Page_Conditional                  $yoast_tools_page_conditional The yoast tools page
+	 *                                                                                    conditional.
 	 */
 	public function __construct(
 		Indexable_Post_Indexation_Action $post_indexation,
@@ -144,8 +136,7 @@ class Indexation_Integration implements Integration_Interface {
 		Indexable_Complete_Indexation_Action $complete_indexation_action,
 		Options_Helper $options_helper,
 		WPSEO_Admin_Asset_Manager $asset_manager,
-		Yoast_Tools_Page_Conditional $yoast_tools_page_conditional,
-		Indexable_Helper $indexable_helper
+		Yoast_Tools_Page_Conditional $yoast_tools_page_conditional
 	) {
 		$this->post_indexation              = $post_indexation;
 		$this->term_indexation              = $term_indexation;
@@ -155,7 +146,6 @@ class Indexation_Integration implements Integration_Interface {
 		$this->options_helper               = $options_helper;
 		$this->asset_manager                = $asset_manager;
 		$this->yoast_tools_page_conditional = $yoast_tools_page_conditional;
-		$this->indexable_helper             = $indexable_helper;
 	}
 
 	/**
@@ -172,11 +162,6 @@ class Indexation_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function enqueue_scripts() {
-		// If we are in a non-production environment, don't index the indexables.
-		if ( ! $this->indexable_helper->should_index_indexables() ) {
-			return;
-		}
-
 		/*
 		 * We aren't able to determine whether or not anything needs to happen at register_hooks,
 		 * as post types aren't registered yet. So we do most of our add_action calls here.
@@ -245,7 +230,7 @@ class Indexation_Integration implements Integration_Interface {
 	 */
 	public function render_indexation_list_item() {
 		if ( \current_user_can( 'manage_options' ) ) {
-			echo new Indexation_List_Item_Presenter( $this->get_total_unindexed(), $this->indexable_helper );
+			echo new Indexation_List_Item_Presenter( $this->get_total_unindexed() );
 		}
 	}
 
@@ -275,7 +260,7 @@ class Indexation_Integration implements Integration_Interface {
 	/**
 	 * Returns the total number of unindexed objects.
 	 *
-	 * @return int
+	 * @return int The total number of unindexed objects.
 	 */
 	public function get_total_unindexed() {
 		if ( \is_null( $this->total_unindexed ) ) {
