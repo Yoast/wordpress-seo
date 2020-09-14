@@ -23,7 +23,7 @@ if (!String.prototype.isInList) {
 module.exports = function( grunt ) {
 	grunt.registerMultiTask(
 		"init-rc-release",
-		"central entry point to set options in one place",
+		"Initializes the configuration needed to do an RC release.",
 		function() {
             const options = this.options({
                 failOnError: true,
