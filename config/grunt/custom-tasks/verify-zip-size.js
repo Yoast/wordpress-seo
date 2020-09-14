@@ -26,7 +26,7 @@ module.exports = function( grunt ) {
 			//check  if grunt.config.data.enableSlack is already set, if not set it to the commandline value if that exist.
 			if (typeof grunt.config.data.enableSlack === 'undefined') {
 				const enableSlackArg = grunt.option( 'enableSlack' );
-            	grunt.config.data.enableSlack = (typeof enableSlackArg === 'undefined' ) ? options.enableSlack: enableSlackArg ;
+				grunt.config.data.enableSlack = (typeof enableSlackArg === 'undefined' ) ? options.enableSlack : enableSlackArg;
 			}
 						
 			// Max filesize has been determined to be 5 MB (5242880 bytes).
