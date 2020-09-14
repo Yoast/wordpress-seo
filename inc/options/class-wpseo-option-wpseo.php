@@ -64,6 +64,8 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 			],
 			'access_tokens' => [],
 		],
+		'category_base_url'                        => '',
+		'tag_base_url'                             => '',
 	];
 
 	/**
@@ -246,6 +248,8 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 					break;
 				case 'previous_version':
 				case 'license_server_version':
+				case 'category_base_url':
+				case 'tag_base_url':
 					if ( isset( $dirty[ $key ] ) ) {
 						$clean[ $key ] = $dirty[ $key ];
 					}
