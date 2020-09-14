@@ -46,4 +46,8 @@ describe( "detecting passive voice in sentences", function() {
 		const paper = new Paper( " وأُبلغت في اليوم التالي بأن سبب التأجيل هو حالة الحمل.", { locale: "ar" } );
 		expect( passiveVoice( paper ).passives.length ).toBe( 1 );
 	} );
+	it( "returns active voice", function() {
+		const paper = new Paper( " بدلاً من رميها، يمكنك زرع فص الثوم الذي ينبت على عمق حوالي ١ بوصة في وعاء ٤ بوصات وسقيه.", { locale: "ar" } );
+		expect( passiveVoice( paper ).passives.length ).toBe( 0 );
+	} );
 } );
