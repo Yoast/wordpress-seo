@@ -7,7 +7,7 @@ const githubApi = require( "../lib/github-api" );
  *
  * @returns {Promise<object|null>} A promise resolving to a single milestone.
  */
-async function getMilestone( pluginVersion , githubRepository ) {
+async function getMilestone( pluginVersion, githubRepository ) {
 	pluginVersion = pluginVersion.toLowerCase();
 
 	const milestonesResponse = await githubApi( githubRepository + "/milestones?state=open" );
