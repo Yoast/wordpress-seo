@@ -82,7 +82,7 @@ module.exports = function( grunt ) {
 				grunt.fail.fatal( 'Github release source Zipfile name required');
 			}
 			if (options.dstZipFilename === '') {
-				grunt.fail.fatal( 'Github release destination Zipfile name required');
+				grunt.fail.fatal( 'GitHub release destination filename is not configured, this is required.' );
 			}
 			if (options.target_commitish === '') {
 				grunt.fail.fatal( 'Github release target_commitish name required');
