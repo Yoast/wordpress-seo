@@ -43,8 +43,8 @@ class Indexable_Helper {
 	 * @param Environment_Helper   $environment_helper The environment helper.
 	 */
 	public function __construct( Options_Helper $options_helper, Indexable_Repository $repository, Environment_Helper $environment_helper ) {
-		$this->options_helper = $options_helper;
-		$this->repository     = $repository;
+		$this->options_helper     = $options_helper;
+		$this->repository         = $repository;
 		$this->environment_helper = $environment_helper;
 	}
 

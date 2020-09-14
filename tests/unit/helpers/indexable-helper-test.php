@@ -48,7 +48,7 @@ class Indexable_Helper_Test extends TestCase {
 	/**
 	 * Represents the environment helper.
 	 *
-	 * @var Environment_Helper
+	 * @var Mockery\MockInterface|Environment_Helper
 	 */
 	protected $environment_helper;
 
@@ -70,6 +70,8 @@ class Indexable_Helper_Test extends TestCase {
 	 * @covers ::__construct
 	 */
 	public function test_construct() {
+		$this->assertAttributeInstanceOf( Options_Helper::class, 'options_helper', $this->instance );
+		$this->assertAttributeInstanceOf( Indexable_Repository::class, 'repository', $this->instance );
 		$this->assertAttributeInstanceOf( Environment_Helper::class, 'environment_helper', $this->instance );
 	}
 
@@ -377,71 +379,4 @@ class Indexable_Helper_Test extends TestCase {
 		];
 	}
 
-	/**
-	 * Test resetting the permalinks for categories.
-	 *
-	 * @covers ::reset_permalink_indexables
-	 */
-	public function test_reset_permalink_indexables() {
-		$this->repository
-			->expects( 'reset_permalink' )
-			->once()
-			->with( 'term', 'category' )
-			->andReturn( 1 );
-
-		$this->options
-			->expects( 'set' )
-			->with( 'indexables_indexation_reason', Indexation_Permalink_Warning_Presenter::REASON_CATEGORY_BASE_PREFIX )
-			->once();
-
-		$this->options
-			->expects( 'set' )
-			->with( 'ignore_indexation_warning', false )
-			->once();
-
-		$this->options
-			->expects( 'set' )
-			->with( 'indexation_warning_hide_until', false )
-			->once();
-
-		Monkey\Functions\expect( 'delete_transient' )->with( Indexable_Post_Indexation_Action::TRANSIENT_CACHE_KEY );
-		Monkey\Functions\expect( 'delete_transient' )->with( Indexable_Post_Type_Archive_Indexation_Action::TRANSIENT_CACHE_KEY );
-		Monkey\Functions\expect( 'delete_transient' )->with( Indexable_Term_Indexation_Action::TRANSIENT_CACHE_KEY );
-
-		$this->instance->reset_permalink_indexables( 'term', 'category', Indexation_Permalink_Warning_Presenter::REASON_CATEGORY_BASE_PREFIX );
-	}
-
-	/**
-	 * Test resetting the permalinks for categories when there are no results.
-	 *
-	 * @covers ::reset_permalink_indexables
-	 */
-	public function test_no_reset_permalink_indexables() {
-		$this->repository
-			->expects( 'reset_permalink' )
-			->once()
-			->with( 'term', 'category' )
-			->andReturn( 0 );
-
-		$this->options
-			->expects( 'set' )
-			->with( 'indexables_indexation_reason', Indexation_Permalink_Warning_Presenter::REASON_CATEGORY_BASE_PREFIX )
-			->never();
-
-		$this->options
-			->expects( 'set' )
-			->with( 'ignore_indexation_warning', false )
-			->never();
-
-		$this->options
-			->expects( 'set' )
-			->with( 'indexation_warning_hide_until', false )
-			->never();
-
-		Monkey\Functions\expect( 'delete_transient' )->with( Indexable_Post_Indexation_Action::TRANSIENT_CACHE_KEY )->never();
-		Monkey\Functions\expect( 'delete_transient' )->with( Indexable_Post_Type_Archive_Indexation_Action::TRANSIENT_CACHE_KEY )->never();
-		Monkey\Functions\expect( 'delete_transient' )->with( Indexable_Term_Indexation_Action::TRANSIENT_CACHE_KEY )->never();
-
-		$this->instance->reset_permalink_indexables( 'term', 'category', Indexation_Permalink_Warning_Presenter::REASON_CATEGORY_BASE_PREFIX );
-	}
 }
