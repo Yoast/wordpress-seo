@@ -22,7 +22,7 @@ async function getMilestone( pluginVersion, githubRepository ) {
 
 /**
  * Checks the size of the created artifact and creates an issue if the zip exceeds 5MB.
- * it will try to link the issue to the RCs main milestone
+ * It will try to link the issue to the milestone of the RCs.
  * 
  * @param {Object} grunt The grunt helper object.
  * @returns {void}
