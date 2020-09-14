@@ -22,7 +22,7 @@ async function logError( response, grunt ) {
 		} );
 	}
 
-	grunt.fail.fatal( "Failed to create a pre-release on GitHub." );
+	grunt.fail.fatal( "Failed to create a release on GitHub." );
 }
 
 /**
@@ -65,7 +65,7 @@ module.exports = function( grunt ) {
 				changelog = await getUserInput( { initialContent: grunt.option( "changelog" ) } );
 			} else {
 				// Use the changelog from the arguments.
-				changelog = grunt.option( 'changelog' ) || process.env.RELEASECHANGELOG || grunt.config.data.changelog ;
+				changelog = grunt.option( 'changelog' ) || process.env.RELEASECHANGELOG || grunt.config.data.changelog;
 			}
 			// Perform sanity checks to fail fast when data is missing.
 			if (changelog === '') {
@@ -127,9 +127,8 @@ module.exports = function( grunt ) {
 					grunt.fail.fatal( "An error occurred creating a GitHub release." );
 				}
 			}
-			// Slack notifier logic.
-			const tagUrl = `https://github.com/${ path }/tag/${ releaseData.tag_name }`;
-			grunt.config.data.tagUrl =  tagUrl ;
+			
+			grunt.config.data.tagUrl = `https://github.com/${ path }/tag/${ releaseData.tag_name }`;
 			
 			done();
 		}
