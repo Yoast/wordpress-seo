@@ -37,7 +37,7 @@ module.exports = function( grunt ) {
 		"Creates and pushes a GitHub release and uploads the artifact to GitHub",
 		async function() {
 			const done = this.async();
-            let options = this.options({
+			let options = this.options({
 				manualEditChangelog: true,
 				target_commitish: '',
 				draft: false,

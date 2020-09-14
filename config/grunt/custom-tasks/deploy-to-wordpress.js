@@ -11,13 +11,13 @@ module.exports = function( grunt ) {
 		"wrapper function on wp_deploy",
 		function() {
 			const options = this.options({
-                enable: false,
-                branch: '',
+				enable: false,
+				branch: '',
 			});
 
 
-            if ( options.enable ) {
-                grunt.task.run( 'wp_deploy:' + options.branch )
-            }
-        });
-    };
+			if ( options.enable ) {
+				grunt.task.run( 'wp_deploy:' + options.branch )
+			}
+		});
+	};

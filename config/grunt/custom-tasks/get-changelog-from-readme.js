@@ -14,16 +14,16 @@ module.exports = function( grunt ) {
 				{
 					readmePath: "readme.txt"
 				}
-            );
-            let changelog = grunt.file.read( readmePath );
+			);
+			let changelog = grunt.file.read( readmePath );
 
 
-            /*
-            let currentChangelog = grunt.file.read( options.readmePath ).match(
+			/*
+			let currentChangelog = grunt.file.read( options.readmePath ).match(
 				options.regEx
 			)[ options.matchGroupIndex ];
-            console.log("match", currentChangelog);
-            */
+			console.log("match", currentChangelog);
+			*/
 		}
 	);
 }
