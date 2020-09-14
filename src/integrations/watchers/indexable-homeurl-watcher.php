@@ -12,9 +12,9 @@ use Yoast\WP\SEO\Presenters\Admin\Indexation_Permalink_Warning_Presenter;
 /**
  * Home url option watcher.
  *
- * Handles updates to the home url option for the Indexables table.
+ * Handles updates to the home URL option for the Indexables table.
  */
-class Indexable_HomeUrlOption_Watcher implements Integration_Interface {
+class Indexable_HomeUrl_Watcher implements Integration_Interface {
 
 	/**
 	 * Represents the options helper.
@@ -38,7 +38,9 @@ class Indexable_HomeUrlOption_Watcher implements Integration_Interface {
 	protected $indexable_helper;
 
 	/**
-	 * @inheritDoc
+	 * Returns the conditionals based in which this loadable should be active.
+	 *
+	 * @return array
 	 */
 	public static function get_conditionals() {
 		return [ Admin_Conditional::class ];
@@ -58,7 +60,11 @@ class Indexable_HomeUrlOption_Watcher implements Integration_Interface {
 	}
 
 	/**
-	 * @inheritDoc
+	 * Initializes the integration.
+	 *
+	 * This is the place to register hooks and filters.
+	 *
+	 * @return void
 	 */
 	public function register_hooks() {
 		\add_action( 'update_option_home', [ $this, 'reset_permalinks' ] );
@@ -66,6 +72,8 @@ class Indexable_HomeUrlOption_Watcher implements Integration_Interface {
 
 	/**
 	 * Resets the permalinks for everything that is related to the permalink structure.
+	 *
+	 * @return void
 	 */
 	public function reset_permalinks() {
 		$post_types = $this->get_post_types();
@@ -107,9 +115,7 @@ class Indexable_HomeUrlOption_Watcher implements Integration_Interface {
 		 *
 		 * @return array The post types.
 		 */
-		$post_types = \apply_filters( 'wpseo_post_types_reset_permalinks', $this->post_type->get_public_post_types() );
-
-		return $post_types;
+		return \apply_filters( 'wpseo_post_types_reset_permalinks', $this->post_type->get_public_post_types() );
 	}
 
 	/**

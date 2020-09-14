@@ -57,7 +57,7 @@ class Indexation_Permalink_Warning_Presenter extends Indexation_Warning_Presente
 				break;
 
 			case static::REASON_HOME_URL_OPTION:
-				$text = \esc_html__( 'Because of a change in your home URL option, some of your SEO data need to be reprocessed.', 'wordpress-seo' );
+				$text = \esc_html__( 'Because of a change in your home URL setting, some of your SEO data need to be reprocessed.', 'wordpress-seo' );
 				break;
 
 			case static::REASON_PERMALINK_SETTINGS:

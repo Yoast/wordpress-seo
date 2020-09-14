@@ -8,7 +8,7 @@ use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
-use Yoast\WP\SEO\Integrations\Watchers\Indexable_HomeUrlOption_Watcher;
+use Yoast\WP\SEO\Integrations\Watchers\Indexable_HomeUrl_Watcher;
 use Yoast\WP\SEO\Presenters\Admin\Indexation_Permalink_Warning_Presenter;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
@@ -19,15 +19,14 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group integrations
  * @group watchers
  *
- * @coversDefaultClass \Yoast\WP\SEO\Integrations\Watchers\Indexable_HomeUrlOption_Watcher
- * @covers ::<!public>
+ * @coversDefaultClass \Yoast\WP\SEO\Integrations\Watchers\Indexable_HomeUrl_Watcher
  */
-class Indexable_HomeUrlOption_Watcher_Test extends TestCase {
+class Indexable_HomeUrl_Watcher_Test extends TestCase {
 
 	/**
 	 * Represents the instance to test.
 	 *
-	 * @var Mockery\MockInterface|Indexable_HomeUrlOption_Watcher
+	 * @var Mockery\MockInterface|Indexable_HomeUrl_Watcher
 	 */
 	protected $instance;
 
@@ -61,7 +60,7 @@ class Indexable_HomeUrlOption_Watcher_Test extends TestCase {
 		$this->post_type        = Mockery::mock( Post_Type_Helper::class );
 		$this->options          = Mockery::mock( Options_Helper::class );
 		$this->indexable_helper = Mockery::mock( Indexable_Helper::class );
-		$this->instance         = Mockery::mock( Indexable_HomeUrlOption_Watcher::class, [ $this->post_type, $this->options, $this->indexable_helper ] )
+		$this->instance         = Mockery::mock( Indexable_HomeUrl_Watcher::class, [ $this->post_type, $this->options, $this->indexable_helper ] )
 				->shouldAllowMockingProtectedMethods()
 				->makePartial();
 	}
@@ -74,7 +73,7 @@ class Indexable_HomeUrlOption_Watcher_Test extends TestCase {
 	public function test_get_conditionals() {
 		$this->assertEquals(
 			[ Admin_Conditional::class ],
-			Indexable_HomeUrlOption_Watcher::get_conditionals()
+			Indexable_HomeUrl_Watcher::get_conditionals()
 		);
 	}
 
