@@ -102,7 +102,7 @@ module.exports = function( grunt ) {
 			/* eslint-enable camelcase */
  
 			const path = `${ owner }/${ repo }/releases`;
-			grunt.verbose.writeln(path);
+			grunt.verbose.writeln( "GitHub release path = " + path );
 			let responseData;
 			try {
 				const response = await githubApi( path, releaseData, "POST");
