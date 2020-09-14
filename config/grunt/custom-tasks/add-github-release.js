@@ -90,7 +90,6 @@ module.exports = function( grunt ) {
 
 
 			const pluginVersion = grunt.file.readJSON( "package.json" ).yoast.pluginVersion;
-			grunt.verbose.writeln(pluginVersion);
 			/* eslint-disable camelcase */
 			const releaseData = {
 				tag_name: pluginVersion,
