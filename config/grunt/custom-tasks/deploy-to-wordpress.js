@@ -15,7 +15,6 @@ module.exports = function( grunt ) {
                 branch: '',
             });
 
-            //const enableSvnDeploy = grunt.option( 'enableSvnDeploy' ) || options.enableSvnDeploy;
 
             if ( options.enable ) {
                 grunt.task.run( 'wp_deploy:' + options.branch )
