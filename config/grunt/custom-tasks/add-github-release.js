@@ -84,7 +84,7 @@ module.exports = function( grunt ) {
 				grunt.fail.fatal( 'GitHub release destination filename is not configured, this is required.' );
 			}
 			if (options.target_commitish === '') {
-				grunt.fail.fatal( 'Github release target_commitish name required');
+				grunt.fail.fatal( 'GitHub release target commit is not configured, this is required.' );
 			}
 
 

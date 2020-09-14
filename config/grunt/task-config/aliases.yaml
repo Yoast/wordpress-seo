@@ -123,7 +123,7 @@ clean:build-assets:
   - 'bump-rc-version'
   - 'sync-gutenberg-version'
   - 'artifact'
-  - 'add-github-release:seo-free-rc-pre-release' 
+  - 'add-github-release:seo-free-rc-pre-release'
   - 'send-slack-notify:rc'
   - 'check-deploy-allowed'
   - 'deploy-to-wordpress:trunk'
