@@ -89,7 +89,6 @@ module.exports = function( grunt ) {
 					if (options.alternativeBranchPush){
 						grunt.config( "gitpush.versionBump.options", { remote: "origin", branch: options.branchForRC + ":" + options.alternativeBranch, force: true } );
 					} else {
-						//grunt.config( "gitpush.versionBump.options", { remote: "origin", upstream: true  } );
 						grunt.config( "gitpush.versionBump.options", { remote: "origin", upstream: true, branch: options.branchForRC } );
 					}
 					grunt.task.run( "gitpush:versionBump" );
