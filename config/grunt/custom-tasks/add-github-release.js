@@ -52,7 +52,7 @@ module.exports = function( grunt ) {
 			
             
 			if ( ! options.enable) {
-				grunt.config.data.tagUrl =  'the github release was skipped'
+				grunt.config.data.tagUrl = 'The GitHub release was skipped - because it is disabled in this run.'
 				return done();
 			}
 			
