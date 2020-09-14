@@ -1,7 +1,7 @@
 'use strict';
 
 /**
- * helper function
+ * helper function takes list and item retuns true is item is in list
  * @param {array} 
  * @returns {bool}
  */
@@ -16,10 +16,13 @@ if (!String.prototype.isInList) {
 	}
  }
 
-
-
-
-
+/**
+ * Grunt task Initializes the configuration needed to do an RC release..
+ *
+ * @param {Object} grunt The grunt helper object.
+ *
+ * @returns {void}
+ */
 module.exports = function( grunt ) {
 	grunt.registerMultiTask(
 		"init-rc-release",
@@ -30,7 +33,7 @@ module.exports = function( grunt ) {
                 enableSvnDeploy: false,
                 githubOwner: '',
                 githubRepo: '',
-                alternativeBranch: 'CI-test',
+                alternativeBranch: 'CI-rc-test',
                 alternativeBranchPush: false,
                 enableGithubRelease: false,
                 noBump: false,
