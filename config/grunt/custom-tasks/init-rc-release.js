@@ -56,15 +56,15 @@ module.exports = function( grunt ) {
             owner = grunt.option( 'owner' ) || options.githubOwner;
             repo = grunt.option( 'repo' ) || options.githubRepo;
         } else {
-            var res = GithubRepository.split("/")
-            if (res.length == 1){
+            var repositoryUrlParts = GithubRepository.split("/")
+            if (repositoryUrlParts.length == 1){
                 owner = grunt.option( 'owner' ) || options.githubOwner;
-                repo = grunt.option( 'repo' ) || res[0] || options.githubRepo ;
+                repo = grunt.option( 'repo' ) || repositoryUrlParts[0] || options.githubRepo ;
             }  
-            if (res.length > 1){
-                owner = grunt.option( 'owner' )  || res[0] || options.githubOwner;
-                res.shift();				
-                repo = grunt.option( 'repo' ) || res.join("/") || options.githubRepo ;
+            if (repositoryUrlParts.length > 1){
+                owner = grunt.option( 'owner' )  || repositoryUrlParts[0] || options.githubOwner;
+                repositoryUrlParts.shift();				
+                repo = grunt.option( 'repo' ) || repositoryUrlParts.join("/") || options.githubRepo ;
             }  	
         }
 
