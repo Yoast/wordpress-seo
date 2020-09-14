@@ -142,6 +142,7 @@ class Indexable_Ancestor_Watcher implements Integration_Interface {
 				return $indexable->object_type === 'post';
 			}
 		);
+
 		$existing_post_object_ids = \wp_list_pluck( $existing_post_indexables, 'object_id' );
 		$post_object_ids          = \array_diff( $post_object_ids, $existing_post_object_ids );
 
@@ -153,8 +154,7 @@ class Indexable_Ancestor_Watcher implements Integration_Interface {
 		$additional_indexable_ids = $this->indexable_hierarchy_repository->find_children_by_ancestor_ids( $post_indexable_ids );
 
 		// Makes sure we only have indexable id's that we haven't fetched before.
-		$existing_indexable_ids   = \wp_list_pluck( $post_indexables, 'id' );
-		$additional_indexable_ids = \array_diff( $additional_indexable_ids, $existing_indexable_ids );
+		$additional_indexable_ids = \array_diff( $additional_indexable_ids, $post_indexable_ids );
 
 		// Finds the additional indexables.
 		$additional_indexables = $this->indexable_repository->find_by_ids( $additional_indexable_ids );
