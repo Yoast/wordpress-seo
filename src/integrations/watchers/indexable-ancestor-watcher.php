@@ -195,9 +195,8 @@ class Indexable_Ancestor_Watcher implements Integration_Interface {
 		$term_taxonomy_ids = $this->wpdb->get_col(
 			$this->wpdb->prepare(
 				'SELECT term_taxonomy_id
-				FROM %s
+				FROM ' . $this->wpdb->term_taxonomy . '
 				WHERE term_id IN( ' . \implode( ', ', \array_fill( 0, ( \count( $child_object_ids ) + 1 ), '%s' ) ) . ' )',
-				$this->wpdb->term_taxonomy,
 				$term_id,
 				...$child_object_ids
 			)
@@ -212,9 +211,8 @@ class Indexable_Ancestor_Watcher implements Integration_Interface {
 		return $this->wpdb->get_col(
 			$this->wpdb->prepare(
 				'SELECT DISTINCT object_id
-				FROM %s
+				FROM ' . $this->wpdb->term_relationships . '
 				WHERE term_taxonomy_id IN( ' . \implode( ', ', \array_fill( 0, \count( $term_taxonomy_ids ), '%s' ) ) . ' )',
-				$this->wpdb->term_relationships,
 				...$term_taxonomy_ids
 			)
 		);
