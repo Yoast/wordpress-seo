@@ -15,7 +15,7 @@ use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
- * Class Indexable_Helper_Test
+ * Class Indexable_Helper_Test.
  *
  * @coversDefaultClass \Yoast\WP\SEO\Helpers\Indexable_Helper
  *
@@ -45,23 +45,22 @@ class Indexable_Helper_Test extends TestCase {
 	protected $repository;
 
 	/**
-	 * This is a mock of the environment helper
+	 * Represents the environment helper.
 	 *
 	 * @var Environment_Helper
 	 */
 	protected $environment_helper;
 
 	/**
-	 * Setup the class under test and mock objects
-	 *
-	 * @inheritDoc
+	 * Sets up the class under test and mock objects.
 	 */
 	public function setUp() {
 		parent::setUp();
 
 		$this->options    = Mockery::mock( Options_Helper::class );
 		$this->repository = Mockery::mock( Indexable_Repository::class );
-		$this->instance   = new Indexable_Helper( $this->options, $this->repository );
+		$this->environment_helper = Mockery::mock( Environment_Helper::class );
+		$this->instance   = new Indexable_Helper( $this->options, $this->repository, $this->environment_helper );
 	}
 
 	/**
