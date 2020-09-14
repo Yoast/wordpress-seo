@@ -64,10 +64,11 @@ export class RegisteredComponentsContainer extends wpComponent {
  *
  * @param {Object} store The active redux store.
  * @param {string} target The id of the DOM target.
+ * @param {wp.Element} children The children to render.
  *
  * @returns {void}
  */
-export function renderReactRoot( store, target ) {
+export function renderReactRoot( store, target, children ) {
 	const localizedData = getL10nObject();
 	containerRef = createRef();
 
@@ -84,8 +85,7 @@ export function renderReactRoot( store, target ) {
 			>
 				<SlotFillProvider>
 					<Fragment>
-						<ElementorSlot />
-						<ElementorFill />
+						{ children }
 						<RegisteredComponentsContainer ref={ containerRef } />
 					</Fragment>
 				</SlotFillProvider>

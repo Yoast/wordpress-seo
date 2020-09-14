@@ -1,5 +1,7 @@
 /* global Marionette, elementor */
-import { unmountComponentAtNode } from "@wordpress/element";
+import { Fragment, unmountComponentAtNode } from "@wordpress/element";
+import ElementorSlot from "../components/slots/ElementorSlot";
+import ElementorFill from "../containers/ElementorFill";
 import { renderReactRoot } from "../helpers/reactRoot";
 
 export default Marionette.ItemView.extend( {
@@ -17,7 +19,12 @@ export default Marionette.ItemView.extend( {
 	onShow() {
 		console.log( "onShow" );
 
-		renderReactRoot( window.YoastSEO.store, this.id );
+		renderReactRoot( window.YoastSEO.store, this.id, (
+			<Fragment>
+				<ElementorSlot />
+				<ElementorFill />
+			</Fragment>
+		) );
 	},
 
 	onDestroy() {
