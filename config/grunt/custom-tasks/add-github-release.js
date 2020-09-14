@@ -101,7 +101,7 @@ module.exports = function( grunt ) {
 			};
 			/* eslint-enable camelcase */
  
-			const path =  `${ owner }/${ repo }/releases`;
+			const path = `${ owner }/${ repo }/releases`;
 			grunt.verbose.writeln(path);
 			let responseData;
 			try {
