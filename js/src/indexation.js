@@ -115,6 +115,10 @@ class Indexing extends Component {
 		for ( const endpoint of Object.keys( this.settings.restApi.endpoints ) ) {
 			await this.doIndexing( endpoint );
 		}
+		// Set the progress bar to 100% after completing the indexing process.
+		this.setState( previousState => (
+			{ processed: previousState.amount }
+		) );
 	}
 
 	/**
@@ -147,7 +151,7 @@ class Indexing extends Component {
 					this.state.started && <Fragment>
 						<Progress
 							progressColor={ colors.$color_pink_dark }
-							max={ this.state.amount }
+							max={ parseInt( this.state.amount, 10 ) }
 							value={ this.state.processed }
 						/>
 						<Text>{ __( "Optimizing SEO data... This may take a while.", "wordpress-seo" ) }</Text>

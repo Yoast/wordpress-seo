@@ -135,8 +135,8 @@ class Indexing_Integration implements Integration_Interface {
 				'root'      => \esc_url_raw( \rest_url() ),
 				'endpoints' => [
 					'prepare'    => Indexable_Indexation_Route::FULL_PREPARE_ROUTE,
-					'posts'      => Indexable_Indexation_Route::FULL_POSTS_ROUTE,
 					'terms'      => Indexable_Indexation_Route::FULL_TERMS_ROUTE,
+					'posts'      => Indexable_Indexation_Route::FULL_POSTS_ROUTE,
 					'archives'   => Indexable_Indexation_Route::FULL_POST_TYPE_ARCHIVES_ROUTE,
 					'general'    => Indexable_Indexation_Route::FULL_GENERAL_ROUTE,
 					'complete'   => Indexable_Indexation_Route::FULL_COMPLETE_ROUTE,
