@@ -25,6 +25,8 @@ const SidebarCollapsible = ( props ) => {
 		toggleOpen( ! isOpen );
 	}
 
+	const color = `${ prefixIcon && prefixIcon.color || "" }`;
+
 	return <div className={ `yoast components-panel__body ${ isOpen ? "is-opened" : "" }` }>
 		<h2 className="components-panel__body-title">
 			<button
@@ -33,7 +35,7 @@ const SidebarCollapsible = ( props ) => {
 			>
 				<span
 					className="yoast-icon-span"
-					style={ { fill: `${ prefixIcon && prefixIcon.color || "" }` } }
+					style={ { color: color, fill: color } }
 				>
 					{
 						prefixIcon && <SvgIcon
