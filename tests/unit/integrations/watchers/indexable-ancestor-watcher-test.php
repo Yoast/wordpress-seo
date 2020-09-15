@@ -21,7 +21,6 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group watchers
  *
  * @coversDefaultClass \Yoast\WP\SEO\Integrations\Watchers\Indexable_Ancestor_Watcher
- * @covers ::<!public>
  */
 class Indexable_Ancestor_Watcher_Test extends TestCase {
 
@@ -54,6 +53,8 @@ class Indexable_Ancestor_Watcher_Test extends TestCase {
 	protected $indexable_helper;
 
 	/**
+	 * Represents the indexable hierarchy builder.
+	 *
 	 * @var Mockery\LegacyMockInterface|Mockery\MockInterface|Indexable_Hierarchy_Builder
 	 */
 	protected $indexable_hierarchy_repository;
@@ -66,7 +67,7 @@ class Indexable_Ancestor_Watcher_Test extends TestCase {
 	protected $wpdb;
 
 	/**
-	 * @inheritDoc
+	 * Sets up the tests.
 	 */
 	public function setUp() {
 		parent::setUp();

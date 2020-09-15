@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\WP\SEO\Tests\Unit\Memoizers\Meta_Tags_Context_Memoizer;
+namespace Yoast\WP\SEO\Tests\Unit\Memoizers;
 
 use Brain\Monkey;
 use Mockery;
@@ -149,7 +149,6 @@ class Meta_Tags_Context_Memoizer_Test extends TestCase {
 		$this->mock_get();
 
 		$this->assertEquals( $this->meta_tags_context_mock, $this->instance->for_current_page() );
-
 	}
 
 	/**
@@ -161,7 +160,6 @@ class Meta_Tags_Context_Memoizer_Test extends TestCase {
 		$this->instance->set_cache( 'current_page', $this->meta_tags_context_mock );
 
 		$this->assertEquals( $this->meta_tags_context_mock, $this->instance->for_current_page() );
-
 	}
 
 	/**
@@ -202,7 +200,7 @@ class Meta_Tags_Context_Memoizer_Test extends TestCase {
 	 */
 	public function test_get_without_cache_for_post() {
 		$this->indexable->object_type = 'post';
-		$this->indexable->object_id = 20;
+		$this->indexable->object_id   = 20;
 
 		$this->wp_post->post_content = 'the_content';
 

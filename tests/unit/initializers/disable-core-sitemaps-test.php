@@ -40,7 +40,7 @@ class Disable_Core_Sitemaps_Test extends TestCase {
 	private $redirect;
 
 	/**
-	 * @inheritDoc
+	 * Sets up the tests.
 	 */
 	public function setUp() {
 		parent::setUp();

@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\WP\SEO\Tests\Unit\Memoizers\Presentation_Memoizer;
+namespace Yoast\WP\SEO\Tests\Unit\Memoizers;
 
 use Mockery;
 use Yoast\WP\SEO\Context\Presentation;

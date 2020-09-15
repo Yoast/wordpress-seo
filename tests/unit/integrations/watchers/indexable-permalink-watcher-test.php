@@ -18,7 +18,6 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group watchers
  *
  * @coversDefaultClass \Yoast\WP\SEO\Integrations\Watchers\Indexable_Permalink_Watcher
- * @covers ::<!public>
  */
 class Indexable_Permalink_Watcher_Test extends TestCase {
 
