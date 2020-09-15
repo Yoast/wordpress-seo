@@ -21,7 +21,7 @@ class Indexing_List_Item_Presenter extends Abstract_Presenter {
 			\esc_html__( 'Learn more about the benefits of optimized SEO data.', 'wordpress-seo' )
 		);
 
-		$output .= '<div id="yoast-seo-indexing-action"></div>';
+		$output .= '<div id="yoast-seo-indexing-action" style="margin: 16px 0;"></div>';
 		$output .= '</li>';
 
 		return $output;
