@@ -355,7 +355,7 @@ export default class ElementorEditorData {
 	 */
 	subscribeToElementor() {
 		this.subscriber = debounce( this.refreshYoastSEO, 500 );
-		elementor.channels.editor.on( "change", this.subscriber );
+		elementor.channels.editor.on( "status:change", this.subscriber );
 	}
 
 	/**
