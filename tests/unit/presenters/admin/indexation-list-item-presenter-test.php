@@ -43,6 +43,8 @@ class Indexation_List_Item_Presenter_Test extends TestCase {
 
 	/**
 	 * Initializes requirements for all tests.
+	 *
+	 * @phpcs ignore
 	 */
 	public function setup() {
 		parent::setUp();
@@ -53,9 +55,11 @@ class Indexation_List_Item_Presenter_Test extends TestCase {
 		Monkey\Functions\expect( 'add_query_arg' )->andReturn( '' );
 		Monkey\Functions\expect( 'get_platform_version' )->andReturn( '5.5' );
 
-		// if ( ! isset( $GLOBALS['wp_version'] ) ) {
-		// $GLOBALS['wp_version'] = 5.5;
-		// }
+		// phpcs:ignore
+		if ( ! isset( $GLOBALS['wp_version'] ) ) {
+			// phpcs:ignore
+			$GLOBALS['wp_version'] = 5.5;
+		}
 		if ( ! defined( 'WPSEO_VERSION' ) ) {
 			define( 'WPSEO_VERSION', 15.0 );
 		}
