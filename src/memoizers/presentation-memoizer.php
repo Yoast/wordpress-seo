@@ -78,6 +78,7 @@ class Presentation_Memoizer {
 		}
 		if ( \is_int( $indexable ) ) {
 			unset( $this->cache[ $indexable ] );
+			return;
 		}
 		if ( $indexable === null ) {
 			$this->cache = [];
