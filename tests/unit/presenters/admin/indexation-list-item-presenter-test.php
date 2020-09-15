@@ -3,6 +3,9 @@
 namespace Yoast\WP\SEO\Tests\Unit\Presenters\Admin;
 
 use Brain\Monkey;
+use Mockery;
+use Monkey\Functions\stubs;
+use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Presenters\Admin\Indexation_List_Item_Presenter;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
@@ -16,14 +19,50 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
 class Indexation_List_Item_Presenter_Test extends TestCase {
 
 	/**
+	 * The indexable helper.
+	 *
+	 * @var Mockery\MockInterface|Indexable_Helper The indexable helper.
+	 */
+	protected $indexable_helper;
+
+	/**
+	 * The class under test.
+	 *
+	 * @var Indexation_List_Item_Presenter The Indexation_List_Item_Presenter being tested.
+	 */
+	protected $instance;
+
+	/**
+	 * Provides a working test class.
+	 *
+	 * @param int $count The total unindexed count.
+	 */
+	public function default_arrange( $count ) {
+		$this->instance = new Indexation_List_Item_Presenter( $count, $this->indexable_helper );
+	}
+
+	/**
+	 * Initializes requirements for all tests.
+	 */
+	public function setup() {
+		parent::setUp();
+
+		$this->indexable_helper = \Mockery::Mock( Indexable_Helper::class );
+		$this->default_arrange( 0 );
+
+		Monkey\Functions\expect( 'add_query_arg' )->andReturn( '' );
+	}
+
+	/**
 	 * Tests the constructor.
 	 *
 	 * @covers ::__construct
 	 */
 	public function test_construct() {
-		$instance = new Indexation_List_Item_Presenter( 12 );
+		$this->default_arrange( 12 );
 
-		$this->assertAttributeSame( 12, 'total_unindexed', $instance );
+		$this->assertAttributeSame( 12, 'total_unindexed', $this->instance );
+		$this->assertAttributeInstanceOf( Indexable_Helper::class, 'indexable_helper', $this->instance );
 	}
 
 	/**
@@ -32,9 +71,6 @@ class Indexation_List_Item_Presenter_Test extends TestCase {
 	 * @covers ::present
 	 */
 	public function test_present_with_nothing_to_index() {
-		$instance = new Indexation_List_Item_Presenter( 0 );
-
-		Monkey\Functions\expect( 'add_query_arg' )->andReturn( '' );
 
 		$expected  = '<li><strong>SEO Data</strong>';
 		$expected .= '<p><a href="" target="_blank">Yoast SEO creates and maintains an index of all of your site\'s SEO data in order to speed up your site</a>.';
@@ -42,7 +78,7 @@ class Indexation_List_Item_Presenter_Test extends TestCase {
 		$expected .= '<span class="wpseo-checkmark-ok-icon"></span>Great, your site has been optimized!';
 		$expected .= '</li>';
 
-		$this->assertSame( $expected, $instance->present() );
+		$this->assertSame( $expected, $this->instance->present() );
 	}
 
 	/**
@@ -51,9 +87,8 @@ class Indexation_List_Item_Presenter_Test extends TestCase {
 	 * @covers ::present
 	 */
 	public function test_present_with_something_to_index() {
-		$instance = new Indexation_List_Item_Presenter( 30 );
 
-		Monkey\Functions\expect( 'add_query_arg' )->andReturn( '' );
+		$this->default_arrange( 30 );
 
 		$expected  = '<li><strong>SEO Data</strong>';
 		$expected .= '<p><a href="" target="_blank">Yoast SEO creates and maintains an index of all of your site\'s SEO data in order to speed up your site</a>. ';
@@ -61,6 +96,6 @@ class Indexation_List_Item_Presenter_Test extends TestCase {
 		$expected .= '<span id="yoast-indexation"><button type="button" class="button yoast-open-indexation" data-title="Speeding up your site" data-settings="yoastIndexationData">Start processing and speed up your site now</button></span>';
 		$expected .= '</li>';
 
-		$this->assertSame( $expected, $instance->present() );
+		$this->assertSame( $expected, $this->instance->present() );
 	}
 }
