@@ -8,6 +8,9 @@ use Yoast\WP\SEO\Presenters\Abstract_Presenter;
 
 /**
  * Presenter class for the indexation warning.
+ *
+ * @deprecated 15.1
+ * @codeCoverageIgnore
  */
 class Indexation_Warning_Presenter extends Abstract_Presenter {
 
@@ -48,6 +51,9 @@ class Indexation_Warning_Presenter extends Abstract_Presenter {
 	/**
 	 * Indexation_Warning_Presenter constructor.
 	 *
+	 * @deprecated 15.1
+	 * @codeCoverageIgnore
+	 *
 	 * @param int            $total_unindexed The number of objects that needs to be indexed.
 	 * @param Options_Helper $options_helper  The options helper.
 	 * @param string         $action_type     The action type.
@@ -60,6 +66,9 @@ class Indexation_Warning_Presenter extends Abstract_Presenter {
 
 	/**
 	 * Presents the warning that your site's content is not fully indexed.
+	 *
+	 * @deprecated 15.1
+	 * @codeCoverageIgnore
 	 *
 	 * @return string The warning HTML.
 	 */
@@ -137,6 +146,9 @@ class Indexation_Warning_Presenter extends Abstract_Presenter {
 	/**
 	 * Generates the action, which is either a button or a link.
 	 *
+	 * @deprecated 15.1
+	 * @codeCoverageIgnore
+	 *
 	 * @param string $text The text of the action.
 	 *
 	 * @return string The action.
@@ -161,6 +173,9 @@ class Indexation_Warning_Presenter extends Abstract_Presenter {
 
 	/**
 	 * Determines the message given for the estimation of the time that calculation might take.
+	 *
+	 * @deprecated 15.1
+	 * @codeCoverageIgnore
 	 *
 	 * @return string The message.
 	 */
@@ -219,6 +234,9 @@ class Indexation_Warning_Presenter extends Abstract_Presenter {
 
 	/**
 	 * Generates the button/link for dismissing the notice.
+	 *
+	 * @deprecated 15.1
+	 * @codeCoverageIgnore
 	 *
 	 * @return string The action.
 	 */

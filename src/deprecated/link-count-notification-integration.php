@@ -11,6 +11,9 @@ use Yoast_Notification_Center;
 
 /**
  * Link_Count_Notification_Integration class.
+ *
+ * @deprecated 15.1
+ * @codeCoverageIgnore
  */
 class Link_Count_Notification_Integration implements Integration_Interface {
 
@@ -37,6 +40,9 @@ class Link_Count_Notification_Integration implements Integration_Interface {
 
 	/**
 	 * @inheritDoc
+	 *
+	 * @deprecated 15.1
+	 * @codeCoverageIgnore
 	 */
 	public static function get_conditionals() {
 		return [ Admin_Conditional::class ];
@@ -44,6 +50,9 @@ class Link_Count_Notification_Integration implements Integration_Interface {
 
 	/**
 	 * Link_Count_Notification_Integration constructor.
+	 *
+	 * @deprecated 15.1
+	 * @codeCoverageIgnore
 	 *
 	 * @param Yoast_Notification_Center $notification_center       The Yoast notification center.
 	 * @param Post_Link_Indexing_Action $post_link_indexing_action The post link indexing action.
@@ -58,6 +67,9 @@ class Link_Count_Notification_Integration implements Integration_Interface {
 
 	/**
 	 * @inheritDoc
+	 *
+	 * @deprecated 15.1
+	 * @codeCoverageIgnore
 	 */
 	public function register_hooks() {
 		if ( \filter_input( INPUT_GET, 'page' ) === 'wpseo_dashboard' ) {
@@ -73,6 +85,9 @@ class Link_Count_Notification_Integration implements Integration_Interface {
 
 	/**
 	 * Removes the notification when it is set and the amount of unindexed items is lower than the threshold.
+	 *
+	 * @deprecated 15.1
+	 * @codeCoverageIgnore
 	 */
 	public function cleanup_notification() {
 		$notification = $this->notification_center->get_notification_by_id( self::NOTIFICATION_ID );
@@ -87,6 +102,9 @@ class Link_Count_Notification_Integration implements Integration_Interface {
 	/**
 	 * Adds the notification when it isn't set already and the amount of unindexed items is greater than the set
 	 * threshold.
+	 *
+	 * @deprecated 15.1
+	 * @codeCoverageIgnore
 	 */
 	public function manage_notification() {
 		$notification = $this->notification_center->get_notification_by_id( self::NOTIFICATION_ID );
@@ -109,7 +127,7 @@ class Link_Count_Notification_Integration implements Integration_Interface {
 			esc_html__( 'All you have to do is press the following button and we\'ll go through all your texts for you.', 'wordpress-seo' ) . '<br><br>' .
 			'<button type="button" id="noticeRunLinkIndex" class="button">' . esc_html__( 'Count links', 'wordpress-seo' ) . '</button><br><br>' .
 			sprintf(
-				/* translators: 1: link to yoast.com post about internal linking suggestion. 2: is anchor closing. */
+			/* translators: 1: link to yoast.com post about internal linking suggestion. 2: is anchor closing. */
 				esc_html__( 'The Text link counter feature provides insights in how many links are found in your text and how many links are referring to your text. This is very helpful when you are improving your %1$sinternal linking%2$s.', 'wordpress-seo' ),
 				'<a href="' . WPSEO_Shortlinker::get( 'https://yoa.st/15m' ) . '" target="_blank">',
 				'</a>'

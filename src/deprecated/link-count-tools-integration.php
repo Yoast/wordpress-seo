@@ -15,11 +15,17 @@ use Yoast\WP\SEO\Routes\Link_Indexing_Route;
 
 /**
  * Link_Count_Tools_Integration class.
+ *
+ * @deprecated 15.1
+ * @codeCoverageIgnore
  */
 class Link_Count_Tools_Integration implements Integration_Interface {
 
 	/**
 	 * @inheritDoc
+	 *
+	 * @deprecated 15.1
+	 * @codeCoverageIgnore
 	 */
 	public static function get_conditionals() {
 		return [
@@ -60,6 +66,9 @@ class Link_Count_Tools_Integration implements Integration_Interface {
 	/**
 	 * Constructor.
 	 *
+	 * @deprecated 15.1
+	 * @codeCoverageIgnore
+	 *
 	 * @param Post_Link_Indexing_Action $post_link_indexing_action The post link indexing action.
 	 * @param Term_Link_Indexing_Action $term_link_indexing_action The term link indexing action.
 	 * @param WPSEO_Admin_Asset_Manager $asset_manager             The asset manager.
@@ -84,6 +93,9 @@ class Link_Count_Tools_Integration implements Integration_Interface {
 
 	/**
 	 * Enqueues all required assets.
+	 *
+	 * @deprecated 15.1
+	 * @codeCoverageIgnore
 	 *
 	 * @return void
 	 */
@@ -131,6 +143,9 @@ class Link_Count_Tools_Integration implements Integration_Interface {
 	/**
 	 * Renders the tools list item.
 	 *
+	 * @deprecated 15.1
+	 * @codeCoverageIgnore
+	 *
 	 * @return void
 	 */
 	public function render_tools_overview_item() {
@@ -142,6 +157,9 @@ class Link_Count_Tools_Integration implements Integration_Interface {
 	/**
 	 * Renders the link count indexing modal.
 	 *
+	 * @deprecated 15.1
+	 * @codeCoverageIgnore
+	 *
 	 * @return void
 	 */
 	public function render_modal() {
@@ -152,6 +170,9 @@ class Link_Count_Tools_Integration implements Integration_Interface {
 
 	/**
 	 * Returns the total number of unindexed objects.
+	 *
+	 * @deprecated 15.1
+	 * @codeCoverageIgnore
 	 *
 	 * @return int
 	 */

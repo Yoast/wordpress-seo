@@ -4,6 +4,9 @@ namespace Yoast\WP\SEO\Presenters\Admin;
 
 /**
  * Presenter class for the warning that is given when the Category URLs (stripcategorybase) option is touched.
+ *
+ * @deprecated 15.1
+ * @codeCoverageIgnore
  */
 class Indexation_Permalink_Warning_Presenter extends Indexation_Warning_Presenter {
 
@@ -19,6 +22,9 @@ class Indexation_Permalink_Warning_Presenter extends Indexation_Warning_Presente
 
 	/**
 	 * Presents the warning that your site's content is not fully indexed.
+	 *
+	 * @deprecated 15.1
+	 * @codeCoverageIgnore
 	 *
 	 * @return string The warning HTML.
 	 */
@@ -40,6 +46,9 @@ class Indexation_Permalink_Warning_Presenter extends Indexation_Warning_Presente
 
 	/**
 	 * Determines which text to show as reason for the indexation.
+	 *
+	 * @deprecated 15.1
+	 * @codeCoverageIgnore
 	 *
 	 * @param string $reason The saved reason.
 	 *

@@ -22,6 +22,9 @@ use Yoast\WP\SEO\Routes\Indexable_Indexation_Route;
 
 /**
  * Indexation_Integration class.
+ *
+ * @deprecated 15.1
+ * @codeCoverageIgnore
  */
 class Indexation_Integration implements Integration_Interface {
 
@@ -106,6 +109,9 @@ class Indexation_Integration implements Integration_Interface {
 
 	/**
 	 * @inheritDoc
+	 *
+	 * @deprecated 15.1
+	 * @codeCoverageIgnore
 	 */
 	public static function get_conditionals() {
 		return [
@@ -117,6 +123,9 @@ class Indexation_Integration implements Integration_Interface {
 
 	/**
 	 * Indexation_Integration constructor.
+	 *
+	 * @deprecated 15.1
+	 * @codeCoverageIgnore
 	 *
 	 * @param Indexable_Post_Indexation_Action              $post_indexation              The post indexation action.
 	 * @param Indexable_Term_Indexation_Action              $term_indexation              The term indexation action.
@@ -150,6 +159,9 @@ class Indexation_Integration implements Integration_Interface {
 
 	/**
 	 * @inheritDoc
+	 *
+	 * @deprecated 15.1
+	 * @codeCoverageIgnore
 	 */
 	public function register_hooks() {
 		\add_action( 'wpseo_tools_overview_list_items', [ $this, 'render_indexation_list_item' ], 10 );
@@ -158,6 +170,9 @@ class Indexation_Integration implements Integration_Interface {
 
 	/**
 	 * Enqueues the required scripts.
+	 *
+	 * @deprecated 15.1
+	 * @codeCoverageIgnore
 	 *
 	 * @return void
 	 */
@@ -202,6 +217,9 @@ class Indexation_Integration implements Integration_Interface {
 	/**
 	 * Renders the indexation warning.
 	 *
+	 * @deprecated 15.1
+	 * @codeCoverageIgnore
+	 *
 	 * @return void
 	 */
 	public function render_indexation_warning() {
@@ -212,6 +230,9 @@ class Indexation_Integration implements Integration_Interface {
 
 	/**
 	 * Renders the indexation modal.
+	 *
+	 * @deprecated 15.1
+	 * @codeCoverageIgnore
 	 *
 	 * @return void
 	 */
@@ -226,6 +247,9 @@ class Indexation_Integration implements Integration_Interface {
 	/**
 	 * Renders the indexation list item.
 	 *
+	 * @deprecated 15.1
+	 * @codeCoverageIgnore
+	 *
 	 * @return void
 	 */
 	public function render_indexation_list_item() {
@@ -237,6 +261,9 @@ class Indexation_Integration implements Integration_Interface {
 	/**
 	 * Renders the indexation permalink warning.
 	 *
+	 * @deprecated 15.1
+	 * @codeCoverageIgnore
+	 *
 	 * @return void
 	 */
 	public function render_indexation_permalink_warning() {
@@ -247,6 +274,9 @@ class Indexation_Integration implements Integration_Interface {
 
 	/**
 	 * Run a single indexation pass of each indexation action. Intended for use as a shutdown function.
+	 *
+	 * @deprecated 15.1
+	 * @codeCoverageIgnore
 	 *
 	 * @return void
 	 */
@@ -275,6 +305,9 @@ class Indexation_Integration implements Integration_Interface {
 
 	/**
 	 * Adds the admin notice to show a specific indexation warning.
+	 *
+	 * @deprecated 15.1
+	 * @codeCoverageIgnore
 	 */
 	protected function add_admin_notice() {
 		if ( $this->options_helper->get( 'indexables_indexation_reason', '' ) !== '' ) {
@@ -288,6 +321,9 @@ class Indexation_Integration implements Integration_Interface {
 
 	/**
 	 * Returns if the indexation warning is temporarily hidden.
+	 *
+	 * @deprecated 15.1
+	 * @codeCoverageIgnore
 	 *
 	 * @return bool True if hidden.
 	 */
@@ -308,6 +344,9 @@ class Indexation_Integration implements Integration_Interface {
 
 	/**
 	 * Enqueues the indexation script and style and renders the indexation modal.
+	 *
+	 * @deprecated 15.1
+	 * @codeCoverageIgnore
 	 */
 	protected function enqueue_indexation_assets() {
 		\add_action( 'admin_footer', [ $this, 'render_indexation_modal' ], 20 );
@@ -351,6 +390,9 @@ class Indexation_Integration implements Integration_Interface {
 
 	/**
 	 * Hides the notice when the url query contains an argument that hides the notice.
+	 *
+	 * @deprecated 15.1
+	 * @codeCoverageIgnore
 	 */
 	protected function hide_notice_listener() {
 		if ( ! isset( $_GET['yoast_seo_hide'] ) ) {

@@ -6,6 +6,9 @@ use Yoast\WP\SEO\Presenters\Abstract_Presenter;
 
 /**
  * Presenter class for the link count indexing tool.
+ *
+ * @deprecated 15.1
+ * @codeCoverageIgnore
  */
 class Link_Count_Indexing_List_Item_Presenter extends Abstract_Presenter {
 
@@ -27,6 +30,9 @@ class Link_Count_Indexing_List_Item_Presenter extends Abstract_Presenter {
 
 	/**
 	 * @inheritDoc
+	 *
+	 * @deprecated 15.1
+	 * @codeCoverageIgnore
 	 */
 	public function present() {
 		$list_item = '<li><strong>' . esc_html__( 'Text link counter', 'wordpress-seo' ) . '</strong><br/>';
