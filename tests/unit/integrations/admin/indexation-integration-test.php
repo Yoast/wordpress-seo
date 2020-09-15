@@ -93,7 +93,7 @@ class Indexation_Integration_Test extends TestCase {
 	private $yoast_tools_page_conditional;
 
 	/**
-	 * Holds the indexable helper mock.
+	 * Represents the indexable helper mock.
 	 *
 	 * @var Mockery\LegacyMockInterface|Mockery\MockInterface|Indexable_Helper
 	 */
