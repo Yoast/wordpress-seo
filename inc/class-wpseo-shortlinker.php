@@ -85,7 +85,7 @@ class WPSEO_Shortlinker {
 	/**
 	 * Gets the current site's platform version.
 	 *
-	 * @return string the wp_version.
+	 * @return string The wp_version.
 	 */
 	protected function get_platform_version() {
 		return $GLOBALS['wp_version'];
