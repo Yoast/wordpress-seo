@@ -752,5 +752,4 @@ class Indexable_Builder_Test extends TestCase {
 
 		$this->assertSame( $this->indexable, $this->instance->build_for_id_and_type( 1337, 'post', $this->indexable ) );
 	}
-
 }

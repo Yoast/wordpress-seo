@@ -58,7 +58,7 @@ class Indexable_Helper_Test extends TestCase {
 		$this->repository         = Mockery::mock( Indexable_Repository::class );
 		$this->environment_helper = Mockery::mock( Environment_Helper::class );
 		$this->instance           = new Indexable_Helper( $this->options, $this->environment_helper );
-		$this->instance->set_indexable_repository($this->repository);
+		$this->instance->set_indexable_repository( $this->repository );
 	}
 
 	/**
@@ -375,5 +375,4 @@ class Indexable_Helper_Test extends TestCase {
 			[ null, false ],
 		];
 	}
-
 }
