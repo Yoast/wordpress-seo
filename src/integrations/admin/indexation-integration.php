@@ -83,7 +83,7 @@ class Indexation_Integration implements Integration_Interface {
 	protected $yoast_tools_page_conditional;
 
 	/**
-	 * Holds the indexable helper.
+	 * Represents the indexable helper.
 	 *
 	 * @var Indexable_Helper
 	 */
