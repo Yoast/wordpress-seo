@@ -69,7 +69,7 @@ class Indexable_HomeUrl_Watcher implements Integration_Interface {
 	 * @return void
 	 */
 	public function register_hooks() {
-		\add_action( 'update_option_home',   [ $this, 'reset_permalinks' ] );
+		\add_action( 'update_option_home', [ $this, 'reset_permalinks' ] );
 		\add_action( 'wpseo_home_url_check', [ $this, 'force_reset_permalinks' ] );
 	}
 
