@@ -12,7 +12,7 @@ use Yoast\WP\SEO\Presenters\Abstract_Presenter;
 class Indexation_List_Item_Presenter extends Abstract_Presenter {
 
 	/**
-	 * Holds the indexable helper.
+	 * Represents the indexable helper.
 	 *
 	 * @var Indexable_Helper
 	 */
