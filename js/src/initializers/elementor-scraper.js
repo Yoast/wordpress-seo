@@ -69,34 +69,7 @@ export default function initPostScraper( $, store, editorData ) {
 		return;
 	}
 	let app;
-	let postDataCollector;
 	const customAnalysisData = new CustomAnalysisData();
-
-	/**
-	 * Initializes post data collector.
-	 *
-	 * @param {Object} data The data.
-	 *
-	 * @returns {PostDataCollector} The initialized post data collector.
-	 */
-	function initializePostDataCollector( data ) {
-		const postDataCollector = new PostDataCollector( {
-			data,
-			store: store,
-		} );
-
-		/*
-		 * Initially any change on the slug needs to be persisted as post name.
-		 *
-		 * This value will change whenever an AJAX call is being detected that
-		 * populates the slug with a generated value based on the Title (or ID if no title is set).
-		 *
-		 * See bind event on "ajaxComplete" in this file.
-		 */
-		postDataCollector.leavePostNameUntouched = false;
-
-		return postDataCollector;
-	}
 
 	/**
 	 * Returns the arguments necessary to initialize the app.
@@ -117,7 +90,7 @@ export default function initPostScraper( $, store, editorData ) {
 				contentOutput: "also-does-not-really-exist-but-it-needs-something",
 			},
 			callbacks: {
-				getData: postDataCollector.getData.bind( postDataCollector ),
+				getData: editorData.getData,
 			},
 			locale: wpseoScriptData.metabox.contentLocale,
 			marker: getApplyMarks( store ),
@@ -130,7 +103,7 @@ export default function initPostScraper( $, store, editorData ) {
 		if ( isKeywordAnalysisActive() ) {
 			store.dispatch( setFocusKeyword( $( "#yoast_wpseo_focuskw" ).val() ) );
 
-			args.callbacks.saveScores = postDataCollector.saveScores.bind( postDataCollector );
+			args.callbacks.saveScores = () => {};
 			args.callbacks.updatedKeywordsResults = function( results ) {
 				const keyword = store.getState().focusKeyword;
 
@@ -140,7 +113,7 @@ export default function initPostScraper( $, store, editorData ) {
 		}
 
 		if ( isContentAnalysisActive() ) {
-			args.callbacks.saveContentScore = postDataCollector.saveContentScore.bind( postDataCollector );
+			args.callbacks.saveContentScore = () => {};
 			args.callbacks.updatedContentResults = function( results ) {
 				store.dispatch( setReadabilityResults( results ) );
 				store.dispatch( refreshSnippetEditor() );
@@ -256,8 +229,6 @@ export default function initPostScraper( $, store, editorData ) {
 		tinyMCEHelper.wpTextViewOnInitCheck();
 		handlePageBuilderCompatibility();
 
-		postDataCollector = initializePostDataCollector( editorData );
-
 		const appArgs = getAppArgs( store );
 		app = new App( appArgs );
 
@@ -282,7 +253,7 @@ export default function initPostScraper( $, store, editorData ) {
 			window.YoastSEO.analysis.collectData,
 			window.YoastSEO.analysis.applyMarks,
 			store,
-			postDataCollector,
+			editorData,
 		), refreshDelay );
 		window.YoastSEO.app.registerCustomDataCallback = customAnalysisData.register;
 		window.YoastSEO.app.pluggable = new Pluggable( window.YoastSEO.app.refresh );
@@ -331,15 +302,6 @@ export default function initPostScraper( $, store, editorData ) {
 			} )
 			.catch( handleWorkerError );
 
-
-		postDataCollector.bindElementEvents( debounce( () => refreshAnalysis(
-			window.YoastSEO.analysis.worker,
-			window.YoastSEO.analysis.collectData,
-			window.YoastSEO.analysis.applyMarks,
-			store,
-			postDataCollector,
-		), refreshDelay ) );
-
 		// Hack needed to make sure Publish box and traffic light are still updated.
 		disableYoastSEORenderers( app );
 		const originalInitAssessorPresenters = app.initAssessorPresenters.bind( app );
@@ -354,7 +316,7 @@ export default function initPostScraper( $, store, editorData ) {
 		}
 
 		// Initialize the snippet editor data.
-		let snippetEditorData = snippetEditorHelpers.getDataFromCollector( postDataCollector );
+		let snippetEditorData = snippetEditorHelpers.getDataFromCollector( editorData );
 		const snippetEditorTemplates = snippetEditorHelpers.getTemplatesFromL10n( wpseoScriptData.metabox );
 		snippetEditorData = snippetEditorHelpers.getDataWithTemplates( snippetEditorData, snippetEditorTemplates );
 
@@ -388,15 +350,15 @@ export default function initPostScraper( $, store, editorData ) {
 
 
 			if ( snippetEditorData.title !== data.title ) {
-				postDataCollector.setDataFromSnippet( dataWithoutTemplates.title, "snippet_title" );
+				editorData.setDataFromSnippet( dataWithoutTemplates.title, "snippet_title" );
 			}
 
 			if ( snippetEditorData.slug !== data.slug ) {
-				postDataCollector.setDataFromSnippet( dataWithoutTemplates.slug, "snippet_cite" );
+				editorData.setDataFromSnippet( dataWithoutTemplates.slug, "snippet_cite" );
 			}
 
 			if ( snippetEditorData.description !== data.description ) {
-				postDataCollector.setDataFromSnippet( dataWithoutTemplates.description, "snippet_meta" );
+				editorData.setDataFromSnippet( dataWithoutTemplates.description, "snippet_meta" );
 			}
 
 			const currentState = store.getState();

@@ -7,6 +7,7 @@ import { excerptFromContent, fillReplacementVariables, mapCustomFields, mapCusto
 import { setContentImage } from "../redux/actions/settings";
 
 import { updateData, updateReplacementVariable } from "../redux/actions/snippetEditor";
+import PostDataCollector from "./PostDataCollector";
 
 /**
  * Represents the data.
@@ -25,6 +26,13 @@ export default class ElementorEditorData {
 		this._store = store;
 		this._data = {};
 		this.refreshYoastSEO = this.refreshYoastSEO.bind( this );
+		this.getData = this.getData.bind( this );
+
+		// Methods to be able to pass as DataCollector.
+		this.saveScores = () => {};
+		this.getSnippetTitle = () => document.getElementById( "yoast_wpseo_title" ) && document.getElementById( "yoast_wpseo_title" ).value || "";
+		this.getSnippetCite = () => wpseoScriptData.metabox.slug;
+		this.getSnippetMeta = () => document.getElementById( "yoast_wpseo_metadesc" ) && document.getElementById( "yoast_wpseo_metadesc" ).value || "";
 	}
 
 	/**
@@ -381,5 +389,47 @@ export default class ElementorEditorData {
 	 */
 	getData() {
 		return this._data;
+	}
+
+	/**
+	 * When the snippet is updated, update the (hidden) fields on the page.
+	 *
+	 * @param {Object} value The value to set.
+	 * @param {String} type  The type to set the value for.
+	 *
+	 * @returns {void}
+	 */
+	setDataFromSnippet( value, type ) {
+		switch ( type ) {
+			case "snippet_meta":
+				document.getElementById( "yoast_wpseo_metadesc" ).value = value;
+				break;
+			case "snippet_cite":
+
+				/*
+				 * WordPress leaves the post name empty to signify that it should be generated from the title once the
+				 * post is saved. So when we receive an auto generated slug from WordPress we should be
+				 * able to not save this to the UI. This conditional makes that possible.
+				 */
+				if ( this.leavePostNameUntouched ) {
+					this.leavePostNameUntouched = false;
+					return;
+				}
+				if ( document.getElementById( "post_name" ) !== null ) {
+					document.getElementById( "post_name" ).value = value;
+				}
+				if (
+					document.getElementById( "editable-post-name" ) !== null &&
+					document.getElementById( "editable-post-name-full" ) !== null ) {
+					document.getElementById( "editable-post-name" ).textContent = value;
+					document.getElementById( "editable-post-name-full" ).textContent = value;
+				}
+				break;
+			case "snippet_title":
+				document.getElementById( "yoast_wpseo_title" ).value = value;
+				break;
+			default:
+				break;
+		}
 	}
 }

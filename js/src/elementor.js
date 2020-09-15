@@ -1,4 +1,4 @@
-/* global jQuery, elementor, $e */
+/* global jQuery, elementor, $e, elementorFrontend */
 import ElementorEditorData from "./analysis/elementorEditorData";
 import YoastView from "./elementor/YoastView";
 import initElementorEditorIntegration from "./initializers/elementor-editor-integration";
@@ -19,14 +19,28 @@ const addYoastRegion = ( regions ) => {
 };
 
 jQuery( function() {
+	console.log( "document load" );
+
+	let refreshed = false;
+
 	initElementorEdit();
 
-	elementor.once( "preview:loaded", function() {
+	elementor.once( "preview:loaded", () => {
 		console.log( "preview:loaded" );
 
 		$e.components
 			.get( "panel/elements" )
 			.addTab( "yoast", { title: "Yoast SEO" } );
+
+		elementorFrontend.hooks.addAction( "frontend/element_ready/global", () => {
+			if ( refreshed ) {
+				return;
+			}
+			console.log('actually refreshing');
+			refreshed = true;
+			window.editorData._data = window.editorData.collectData();
+			window.YoastSEO.app.refresh();
+		} );
 	} );
 } );
 
