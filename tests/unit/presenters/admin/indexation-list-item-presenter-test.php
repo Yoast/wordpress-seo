@@ -44,7 +44,6 @@ class Indexation_List_Item_Presenter_Test extends TestCase {
 	/**
 	 * Initializes requirements for all tests.
 	 *
-	 * @phpcs ignore
 	 */
 	public function setup() {
 		parent::setUp();
