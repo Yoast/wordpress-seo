@@ -51,10 +51,11 @@ class Indexation_List_Item_Presenter_Test extends TestCase {
 		$this->default_arrange( 0 );
 
 		Monkey\Functions\expect( 'add_query_arg' )->andReturn( '' );
+		Monkey\Functions\expect( 'get_platform_version' )->andReturn( '5.5' );
 
-		if ( ! isset( $GLOBALS['wp_version'] ) ) {
-			$GLOBALS['wp_version'] = 5.5;
-		}
+		// if ( ! isset( $GLOBALS['wp_version'] ) ) {
+		// $GLOBALS['wp_version'] = 5.5;
+		// }
 		if ( ! defined( 'WPSEO_VERSION' ) ) {
 			define( 'WPSEO_VERSION', 15.0 );
 		}
@@ -96,7 +97,6 @@ class Indexation_List_Item_Presenter_Test extends TestCase {
 
 		$this->assertSame( $expected, $result );
 	}
-
 
 	/**
 	 * Tests the case when there is something to index.
