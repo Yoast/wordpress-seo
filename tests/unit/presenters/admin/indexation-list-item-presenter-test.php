@@ -81,14 +81,45 @@ class Indexation_List_Item_Presenter_Test extends TestCase {
 	 * @covers ::present
 	 */
 	public function test_present_with_nothing_to_index() {
+		// Arrange.
+		$this->default_arrange( 0 );
 
+		// Act.
+		$result = $this->instance->present();
+
+		// Assert.
 		$expected  = '<li><strong>SEO Data</strong>';
 		$expected .= '<p><a href="" target="_blank">Yoast SEO creates and maintains an index of all of your site\'s SEO data in order to speed up your site</a>.';
 		$expected .= ' To build your index, Yoast SEO needs to process all of your content.</p>';
 		$expected .= '<span class="wpseo-checkmark-ok-icon"></span>Great, your site has been optimized!';
 		$expected .= '</li>';
 
-		$this->assertSame( $expected, $this->instance->present() );
+		$this->assertSame( $expected, $result );
+	}
+
+
+	/**
+	 * Tests the case when there is something to index.
+	 *
+	 * @covers ::present
+	 */
+	public function test_present_with_something_to_index_non_production() {
+		// Arrange.
+		$this->default_arrange( 30 );
+		$this->indexable_helper->shouldReceive( 'should_index_indexables' )->andReturn( false );
+
+		// Act.
+		$result = $this->instance->present();
+
+		// Assert.
+		$expected  = '<li><strong>SEO Data</strong>';
+		$expected .= '<p><a href="" target="_blank">Yoast SEO creates and maintains an index of all of your site\'s SEO data in order to speed up your site</a>. ';
+		$expected .= 'To build your index, Yoast SEO needs to process all of your content.</p>';
+		$expected .= '<span id="yoast-indexation"><button type="button" class="button yoast-open-indexation" data-title="Speeding up your site" data-settings="yoastIndexationData" disabled>Start processing and speed up your site now</button></span>';
+		$expected .= '<p>This button to index your website is disabled for non-production environments.</p>';
+		$expected .= '</li>';
+
+		$this->assertSame( $expected, $result );
 	}
 
 	/**
@@ -96,17 +127,21 @@ class Indexation_List_Item_Presenter_Test extends TestCase {
 	 *
 	 * @covers ::present
 	 */
-	public function test_present_with_something_to_index() {
-
+	public function test_present_with_something_to_index_production() {
+		// Arrange.
 		$this->default_arrange( 30 );
 		$this->indexable_helper->shouldReceive( 'should_index_indexables' )->andReturn( true );
 
+		// Act.
+		$result = $this->instance->present();
+
+		// Assert.
 		$expected  = '<li><strong>SEO Data</strong>';
 		$expected .= '<p><a href="" target="_blank">Yoast SEO creates and maintains an index of all of your site\'s SEO data in order to speed up your site</a>. ';
 		$expected .= 'To build your index, Yoast SEO needs to process all of your content.</p>';
-		$expected .= '<span id="yoast-indexation"><button type="button" class="button yoast-open-indexation" data-title="Speeding up your site" data-settings="yoastIndexationData">Start processing and speed up your site now</button></span>';
+		$expected .= '<span id="yoast-indexation"><button type="button" class="button yoast-open-indexation" data-title="Speeding up your site" data-settings="yoastIndexationData" >Start processing and speed up your site now</button></span>';
 		$expected .= '</li>';
 
-		$this->assertSame( $expected, $this->instance->present() );
+		$this->assertSame( $expected, $result );
 	}
 }
