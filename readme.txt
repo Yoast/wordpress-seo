@@ -228,6 +228,8 @@ Bugfixes:
 * Fixes a bug where the `archive`, `imageindex` and `snippet` robot values would be output when `noindex` was present as well.
 * Fixes a bug where the indexable permalinks could have an incorrect value when the term slug was changed.
 * Fixes a bug where parts of the content of a password protected post could be output in the schema.
+* Fixes a bug where the 'Stop counting' button in the text link counter modal wouldn't stop the counting of links.
+* Fixes a bug where indexable hierarchies were not being created during bulk indexing.
 
 Other:
 
