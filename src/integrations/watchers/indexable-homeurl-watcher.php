@@ -57,6 +57,8 @@ class Indexable_HomeUrl_Watcher implements Integration_Interface {
 		$this->post_type        = $post_type;
 		$this->options_helper   = $options;
 		$this->indexable_helper = $indexable;
+
+		$this->schedule_cron();
 	}
 
 	/**
@@ -67,7 +69,8 @@ class Indexable_HomeUrl_Watcher implements Integration_Interface {
 	 * @return void
 	 */
 	public function register_hooks() {
-		\add_action( 'update_option_home', [ $this, 'reset_permalinks' ] );
+		\add_action( 'update_option_home',   [ $this, 'reset_permalinks' ] );
+		\add_action( 'wpseo_home_url_check', [ $this, 'force_reset_permalinks' ] );
 	}
 
 	/**
@@ -103,6 +106,33 @@ class Indexable_HomeUrl_Watcher implements Integration_Interface {
 	}
 
 	/**
+	 * Resets the permalink indexables automatically, if necessary.
+	 *
+	 * @return bool Whether the request ran.
+	 */
+	public function force_reset_permalinks() {
+		if ( $this->should_reset_permalinks() ) {
+			$this->reset_permalinks();
+
+			// Reset the home_url option.
+			$this->options_helper->set( 'home_url', get_home_url() );
+
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Checks whether permalinks should be reset.
+	 *
+	 * @return bool Whether the permalinks should be reset.
+	 */
+	public function should_reset_permalinks() {
+		return \get_home_url() !== $this->options_helper->get( 'home_url' );
+	}
+
+	/**
 	 * Retrieves a list with the public post types.
 	 *
 	 * @return array The post types.
@@ -135,5 +165,18 @@ class Indexable_HomeUrl_Watcher implements Integration_Interface {
 		$taxonomies = \array_unique( $taxonomies );
 
 		return $taxonomies;
+	}
+
+	/**
+	 * Schedules the cronjob to check the home_url status.
+	 *
+	 * @return void
+	 */
+	protected function schedule_cron() {
+		if ( \wp_next_scheduled( 'wpseo_home_url_check' ) ) {
+			return;
+		}
+
+		\wp_schedule_event( time(), 'daily', 'wpseo_home_url_check' );
 	}
 }
