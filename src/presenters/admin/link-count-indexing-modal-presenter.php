@@ -58,7 +58,7 @@ class Link_Count_Indexing_Modal_Presenter extends Abstract_Presenter {
 		);
 
 		return \sprintf(
-			'<div id="yoast-link-indexing-modal" class="hidden">%s<button id="yoast-link-indexing-stop" type="button" class="button">%s</button></div>',
+			'<div id="yoast-link-indexing-modal" class="hidden">%s<button id="yoast-link-indexing-stop" type="button" class="button yoast-indexation-stop">%s</button></div>',
 			\implode( '<hr />', $blocks ),
 			\esc_html__( 'Stop counting', 'wordpress-seo' )
 		);
