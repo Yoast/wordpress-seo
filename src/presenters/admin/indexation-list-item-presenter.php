@@ -70,14 +70,15 @@ class Indexation_List_Item_Presenter extends Abstract_Presenter {
 
 		if ( $this->total_unindexed === 0 || $this->total_unindexed < $shutdown_limit ) {
 			$output .= '<span class="wpseo-checkmark-ok-icon"></span>' . \esc_html__( 'Great, your site has been optimized!', 'wordpress-seo' );
-		} else {
+		}
+		else {
 
 			$should_index = $this->indexable_helper->should_index_indexables();
-			$disabled     = ( $should_index ) ? '' : 'disabled';
+			$disabled     = ( $should_index ) ? '' : ' disabled';
 
 			$output .= \sprintf(
 				'<span id="yoast-indexation">' .
-				'<button type="button" class="button yoast-open-indexation" data-title="%1$s" data-settings="yoastIndexationData" %3$s>' .
+				'<button type="button" class="button yoast-open-indexation" data-title="%1$s" data-settings="yoastIndexationData"%3$s>' .
 				'%2$s' .
 				'</button>' .
 				'</span>',
@@ -91,9 +92,9 @@ class Indexation_List_Item_Presenter extends Abstract_Presenter {
 				$output .= 'This button to index your website is disabled for non-production environments.';
 				$output .= '</p>';
 			}
-
-			$output .= '</li>';
 		}
+
+		$output .= '</li>';
 
 		return $output;
 	}

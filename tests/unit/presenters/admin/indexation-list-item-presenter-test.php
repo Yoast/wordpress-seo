@@ -51,6 +51,16 @@ class Indexation_List_Item_Presenter_Test extends TestCase {
 		$this->default_arrange( 0 );
 
 		Monkey\Functions\expect( 'add_query_arg' )->andReturn( '' );
+
+		if ( ! isset( $GLOBALS['wp_version'] ) ) {
+			$GLOBALS['wp_version'] = 5.5;
+		}
+		if ( ! defined( 'WPSEO_VERSION' ) ) {
+			define( 'WPSEO_VERSION', 15.0 );
+		}
+		if ( ! defined( 'DAY_IN_SECONDS' ) ) {
+			define( 'DAY_IN_SECONDS', ( 60 * 60 * 24 ) );
+		}
 	}
 
 	/**
@@ -89,6 +99,7 @@ class Indexation_List_Item_Presenter_Test extends TestCase {
 	public function test_present_with_something_to_index() {
 
 		$this->default_arrange( 30 );
+		$this->indexable_helper->shouldReceive( 'should_index_indexables' )->andReturn( true );
 
 		$expected  = '<li><strong>SEO Data</strong>';
 		$expected .= '<p><a href="" target="_blank">Yoast SEO creates and maintains an index of all of your site\'s SEO data in order to speed up your site</a>. ';
