@@ -13,7 +13,6 @@ use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Context\Meta_Tags_Context_Mock;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Memoizers\Meta_Tags_Context_Memoizer_Double;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
-use Yoast\WP\SEO\Tests\Unit\Doubles\Presentations\Abstract_Presentation_Mock;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
@@ -80,14 +79,6 @@ class Meta_Tags_Context_Memoizer_Test extends TestCase {
 	 * @var Meta_Tags_Context_Mock
 	 */
 	protected $meta_tags_context_mock;
-
-	/**
-	 * The abstract presentation mock.
-	 *
-	 * @var Abstract_Presentation_Mock
-	 */
-	protected $abstract_presentation_mock;
-
 
 	/**
 	 * Represents the instance to test.
@@ -199,7 +190,7 @@ class Meta_Tags_Context_Memoizer_Test extends TestCase {
 			->expects( 'get' )
 			->once()
 			->with( $this->indexable, $this->meta_tags_context_mock, 'the_page_type' )
-			->andReturn( $this->abstract_presentation_mock );
+			->andReturn( $this->meta_tags_context_mock->presentation );
 
 		$this->assertEquals( $this->meta_tags_context_mock, $this->instance->get( $this->indexable, 'the_page_type' ) );
 	}
@@ -235,13 +226,13 @@ class Meta_Tags_Context_Memoizer_Test extends TestCase {
 			->expects( 'get' )
 			->once()
 			->with( $this->indexable, $this->meta_tags_context_mock, 'the_page_type' )
-			->andReturn( $this->abstract_presentation_mock );
+			->andReturn( $this->meta_tags_context_mock->presentation );
 
 		$this->assertEquals( $this->meta_tags_context_mock, $this->instance->get( $this->indexable, 'the_page_type' ) );
 	}
 
 	/**
-	 * Tests clearing the memoization of an specific indexable.
+	 * Tests clearing the memoization of a specific indexable.
 	 *
 	 * If the cache is indeed empty, the 'for_current_page' method must call
 	 * a number of other methods to fill the cache again.
@@ -331,6 +322,6 @@ class Meta_Tags_Context_Memoizer_Test extends TestCase {
 			->expects( 'get' )
 			->once()
 			->with( $this->indexable, $this->meta_tags_context_mock, 'the_page_type' )
-			->andReturn( $this->abstract_presentation_mock );
+			->andReturn( $this->meta_tags_context_mock->presentation );
 	}
 }
