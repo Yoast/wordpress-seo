@@ -12,27 +12,35 @@ use Yoast\WP\SEO\Presenters\Abstract_Presenter;
 class Indexing_Notification_Presenter extends Abstract_Presenter {
 
 	/**
-	 * The total number if unindexed objects.
+	 * The total number of unindexed objects.
 	 *
 	 * @var integer
 	 */
 	private $total_unindexed;
 
 	/**
+	 * The message to show in the notification.
+	 *
+	 * @var string
+	 */
+	private $message;
+
+	/**
 	 * Indexing_Notification_Presenter constructor.
 	 *
-	 * @param int $total_unindexed Total number of unindexed objects.
+	 * @param int    $total_unindexed Total number of unindexed objects.
+	 * @param string $message         The message to show in the notification.
 	 */
-	public function __construct( $total_unindexed ) {
+	public function __construct( $total_unindexed, $message ) {
 		$this->total_unindexed = $total_unindexed;
+		$this->message         = $message;
 	}
 
 	/**
 	 * @inheritDoc
 	 */
 	public function present() {
-		/* Translators: %1$s expands to Yoast SEO. */
-		$notification_text  = '<p>' . \esc_html__( 'You can speed up your site and get insight into your internal linking structure by letting us perform a few optimizations to the way SEO data is stored.', 'wordpress-seo' ) . '</p>';
+		$notification_text  = '<p>' . $this->message . '</p>';
 		$notification_text .= '<p>' . $this->get_time_estimate( $this->total_unindexed ) . '</p>';
 		$notification_text .= '<a class="button" href="' . \get_admin_url( null, 'admin.php?page=wpseo_tools' ) . '">';
 		$notification_text .= \esc_html__( 'Start SEO data optimization', 'wordpress-seo' );

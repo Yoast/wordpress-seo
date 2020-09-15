@@ -149,13 +149,6 @@ class Indexable_Indexation_Route extends Abstract_Indexation_Route {
 	private $complete_indexation_action;
 
 	/**
-	 * Represents the options helper.
-	 *
-	 * @var Options_Helper
-	 */
-	private $options_helper;
-
-	/**
 	 * Indexable_Indexation_Route constructor.
 	 *
 	 * @param Indexable_Post_Indexation_Action              $post_indexation_action              The post indexation action.
@@ -177,13 +170,13 @@ class Indexable_Indexation_Route extends Abstract_Indexation_Route {
 		Indexable_Prepare_Indexation_Action $prepare_indexation_action,
 		Options_Helper $options_helper
 	) {
+		Abstract_Indexation_Route::__construct( $options_helper );
 		$this->post_indexation_action              = $post_indexation_action;
 		$this->term_indexation_action              = $term_indexation_action;
 		$this->post_type_archive_indexation_action = $post_type_archive_indexation_action;
 		$this->general_indexation_action           = $general_indexation_action;
 		$this->complete_indexation_action          = $complete_indexation_action;
 		$this->prepare_indexation_action           = $prepare_indexation_action;
-		$this->options_helper                      = $options_helper;
 	}
 
 	/**

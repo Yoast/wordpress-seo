@@ -6,6 +6,7 @@ use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Presenters\Admin\Indexing_Notification_Presenter;
+use Yoast\WP\SEO\Presenters\Admin\Indexing_Failed_Notification_Presenter;
 use Yoast_Notification;
 use Yoast_Notification_Center;
 
@@ -16,7 +17,25 @@ use Yoast_Notification_Center;
  */
 class Indexing_Notification_Integration implements Integration_Interface {
 
+	/**
+	 * The notification ID.
+	 */
 	const NOTIFICATION_ID = 'wpseo-reindex';
+
+	/**
+	 * Represents the reason that the indexing process failed and should be tried again.
+	 */
+	const REASON_INDEXING_FAILED = 'indexing_failed';
+
+	/**
+	 * Represents the reason that the permalink settings are changed.
+	 */
+	const REASON_PERMALINK_SETTINGS = 'permalink_settings_changed';
+
+	/**
+	 * Represents the reason that the category base is changed.
+	 */
+	const REASON_CATEGORY_BASE_PREFIX = 'category_base_changed';
 
 	/**
 	 * The indexing integration.
@@ -115,9 +134,14 @@ class Indexing_Notification_Integration implements Integration_Interface {
 	 * @return bool If the notification should be shown.
 	 */
 	protected function should_show_notification() {
+		$indexation_reason         = $this->options_helper->get( 'indexables_indexation_reason', '' );
 		$indexation_started        = $this->options_helper->get( 'indexation_started', false );
 		$indexation_completed      = $this->options_helper->get( 'indexation_completed', false );
 		$ignore_indexation_warning = $this->options_helper->get( 'ignore_indexation_warning', false );
+
+		if ( $indexation_reason ) {
+			return true;
+		}
 
 		return (
 			$indexation_started === false &&
@@ -127,17 +151,41 @@ class Indexing_Notification_Integration implements Integration_Interface {
 	}
 
 	/**
+	 * Determines the message to show in the indexing notification.
+	 *
+	 * @param string $indexation_reason The reason identifier.
+	 *
+	 * @return string The message to show in the notification.
+	 */
+	protected function get_notification_message( $indexation_reason ) {
+		switch ( $indexation_reason ) {
+			case self::REASON_PERMALINK_SETTINGS:
+				return \esc_html__( 'Because of a change in your permalink structure, some of your SEO data needs to be reprocessed.', 'wordpress-seo' );
+			case self::REASON_CATEGORY_BASE_PREFIX:
+				return \esc_html__( 'Because of a change in your category URL setting, some of your SEO data needs to be reprocessed.', 'wordpress-seo' );
+			default:
+				return \esc_html__( 'You can speed up your site and get insight into your internal linking structure by letting us perform a few optimizations to the way SEO data is stored. ', 'wordpress-seo' );
+		}
+	}
+
+	/**
 	 * Returns an instance of the notification.
 	 *
 	 * @return Yoast_Notification The notification to show.
 	 */
 	protected function notification() {
-		$notification_presenter = new Indexing_Notification_Presenter(
-			$this->indexing_integration->get_total_unindexed()
-		);
+		$indexation_reason = $this->options_helper->get( 'indexables_indexation_reason', '' );
+
+		if ( $indexation_reason === self::REASON_INDEXING_FAILED ) {
+			$presenter = new Indexing_Failed_Notification_Presenter();
+		}
+		else {
+			$total_unindexed = $this->indexing_integration->get_total_unindexed();
+			$presenter       = new Indexing_Notification_Presenter( $total_unindexed, $this->get_notification_message( $indexation_reason ) );
+		}
 
 		return new Yoast_Notification(
-			$notification_presenter,
+			$presenter,
 			[
 				'type'         => Yoast_Notification::WARNING,
 				'id'           => self::NOTIFICATION_ID,
