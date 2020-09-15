@@ -52,6 +52,7 @@ class Disable_Core_Sitemaps_Test extends TestCase {
 
 	/**
 	 * Tests the situation when primary term id isn't to the category id, the id should get updated.
+	 * WordPress sitemaps should be disabled and a redirect should be added to the WP sitemap URL.
 	 *
 	 * @covers ::__construct
 	 * @covers ::initialize
@@ -67,6 +68,7 @@ class Disable_Core_Sitemaps_Test extends TestCase {
 
 	/**
 	 * Tests the situation when primary term id isn't to the category id, the id should get updated.
+	 * WordPress sitemaps should be disabled and a redirect should be added to the WP sitemap URL.
 	 *
 	 * @covers ::__construct
 	 * @covers ::initialize
@@ -76,7 +78,7 @@ class Disable_Core_Sitemaps_Test extends TestCase {
 
 		$this->instance->initialize();
 
-		$this->assertTrue( \has_filter( 'wp_sitemaps_enabled', '__return_false' ), 'Does not have expected wp_sitemaps_enabled filter' );
+		$this->assertFalse( \has_filter( 'wp_sitemaps_enabled', '__return_false' ), 'Does not have expected wp_sitemaps_enabled filter' );
 		$this->assertFalse( \has_action( 'template_redirect', [ $this->instance, 'template_redirect' ] ), 'Has unexpected template_redirect action' );
 	}
 

@@ -3,10 +3,11 @@
 namespace Yoast\WP\SEO\Tests\Unit\Integrations\Watchers;
 
 use Brain\Monkey\Functions;
+use Cassandra\Index;
 use Mockery;
 use Yoast\WP\SEO\Builders\Indexable_Hierarchy_Builder;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
-use Yoast\WP\SEO\Helpers\Indexable_Helper;
+use Yoast\WP\SEO\Helpers\Permalink_Helper;
 use Yoast\WP\SEO\Integrations\Watchers\Indexable_Ancestor_Watcher;
 use Yoast\WP\SEO\Repositories\Indexable_Hierarchy_Repository;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
@@ -53,9 +54,9 @@ class Indexable_Ancestor_Watcher_Test extends TestCase {
 	protected $indexable_helper;
 
 	/**
-	 * Represents the indexable hierarchy builder.
+	 * Represents the indexable hierarchy repository.
 	 *
-	 * @var Mockery\LegacyMockInterface|Mockery\MockInterface|Indexable_Hierarchy_Builder
+	 * @var Mockery\MockInterface|Indexable_Hierarchy_Repository
 	 */
 	protected $indexable_hierarchy_repository;
 
@@ -67,6 +68,13 @@ class Indexable_Ancestor_Watcher_Test extends TestCase {
 	protected $wpdb;
 
 	/**
+	 * Represents the permalink helper.
+	 *
+	 * @var Mockery\LegacyMockInterface|Mockery\MockInterface|Permalink_Helper
+	 */
+	protected $permalink_helper;
+
+	/**
 	 * Sets up the tests.
 	 */
 	public function setUp() {
@@ -75,15 +83,15 @@ class Indexable_Ancestor_Watcher_Test extends TestCase {
 		$this->indexable_repository           = Mockery::mock( Indexable_Repository::class );
 		$this->indexable_hierarchy_builder    = Mockery::mock( Indexable_Hierarchy_Builder::class );
 		$this->indexable_hierarchy_repository = Mockery::mock( Indexable_Hierarchy_Repository::class );
-		$this->indexable_helper               = Mockery::mock( Indexable_Helper::class );
 		$this->wpdb                           = Mockery::mock( \wpdb::class );
+		$this->permalink_helper               = Mockery::mock( Permalink_Helper::class );
 
 		$this->instance = new Indexable_Ancestor_Watcher(
 			$this->indexable_repository,
 			$this->indexable_hierarchy_builder,
 			$this->indexable_hierarchy_repository,
-			$this->indexable_helper,
-			$this->wpdb
+			$this->wpdb,
+			$this->permalink_helper
 		);
 	}
 
@@ -126,7 +134,7 @@ class Indexable_Ancestor_Watcher_Test extends TestCase {
 	public function test_construct() {
 		$this->assertAttributeInstanceOf( Indexable_Repository::class, 'indexable_repository', $this->instance );
 		$this->assertAttributeInstanceOf( Indexable_Hierarchy_Builder::class, 'indexable_hierarchy_builder', $this->instance );
-		$this->assertAttributeInstanceOf( Indexable_Helper::class, 'indexable_helper', $this->instance );
+		$this->assertAttributeInstanceOf( Permalink_Helper::class, 'permalink_helper', $this->instance );
 	}
 
 	/**
@@ -173,7 +181,7 @@ class Indexable_Ancestor_Watcher_Test extends TestCase {
 
 		$this->indexable_hierarchy_builder->expects( 'build' )->with( $child_indexable );
 
-		$this->indexable_helper
+		$this->permalink_helper
 			->expects( 'get_permalink_for_indexable' )
 			->once()
 			->with( $child_indexable )
@@ -227,42 +235,47 @@ class Indexable_Ancestor_Watcher_Test extends TestCase {
 
 		$this->indexable_hierarchy_builder->expects( 'build' )->with( $child_indexable );
 
-		$this->indexable_helper
+		$this->permalink_helper
 			->expects( 'get_permalink_for_indexable' )
 			->once()
 			->with( $child_indexable )
 			->andReturn( 'https://example.org/child-permalink' );
 
+		Functions\expect( 'wp_list_pluck' )
+			->once()
+			->with( [ $child_indexable ], 'object_id' )
+			->andReturn( [ $child_indexable->object_id ] );
+
 		$this->set_expectations_for_get_object_ids_for_term( $indexable->object_id, $child_indexable->object_id );
 
-		Functions\expect( 'wp_list_pluck' )->once()->andReturn( [ 1, 2 ] );
+		Functions\expect( 'wp_list_pluck' )
+			->once()
+			->with( [], 'object_id' )
+			->andReturn( [] );
 
 		$indexable_term_1 = Mockery::mock( Indexable_Mock::class );
 		$indexable_term_2 = Mockery::mock( Indexable_Mock::class );
 
 		$indexable_term_1->id = 567;
+		$indexable_term_2->id = 568;
 
 		$this->indexable_repository->expects( 'find_by_multiple_ids_and_type' )
 			->with( [ 431, 23, 21 ], 'post', false )
 			->andReturn( [ $indexable_term_1, $indexable_term_2 ] );
 
-		Functions\expect( 'wp_list_pluck' )->once()->andReturn( [ 431, 23, 21 ] );
+		Functions\expect( 'wp_list_pluck' )
+			->once()
+			->with( [ $indexable_term_1, $indexable_term_2 ], 'id' )
+			->andReturn( [ 101, 102 ] );
 
 		$this->indexable_hierarchy_repository->expects( 'find_children_by_ancestor_ids' )
-			->with( [ 431, 23, 21 ] )
+			->with( [ 101, 102 ] )
 			->andReturn( [ 566, 567, 569 ] );
-
-		Functions\expect( 'wp_list_pluck' )->once()->andReturn( [ 567 ] );
 
 		$additional_indexable = Mockery::mock( Indexable_Mock::class );
 
 		$this->indexable_repository->expects( 'find_by_ids' )
-			->with(
-				[
-					0 => 566,
-					2 => 569,
-				]
-			)
+			->with( [ 566, 567, 569 ] )
 			->andReturn( [ $additional_indexable ] );
 
 		$this->set_expectations_for_update_hierarchy_and_permalink( $indexable_term_1, $indexable_term_2, $additional_indexable );
@@ -298,14 +311,24 @@ class Indexable_Ancestor_Watcher_Test extends TestCase {
 
 		$term_id = 1;
 
-		$this->set_expectations_for_get_object_ids_for_term( $term_id, $indexable_1->object_id, $indexable_2->object_id );
+		Functions\expect( 'wp_list_pluck' )->andReturnUsing(
+			function ( $array, $prop ) {
+				return \array_map(
+					function ( $e ) use ( $prop ) {
+						return $e->{$prop};
+					},
+					$array
+				);
+			}
+		);
 
-		Functions\expect( 'wp_list_pluck' )->once()->andReturn( [ 23 ] );
+		$this->set_expectations_for_get_object_ids_for_term( $term_id, $indexable_1->object_id, $indexable_2->object_id );
 
 		$indexable_term_1 = Mockery::mock( Indexable_Mock::class );
 		$indexable_term_2 = Mockery::mock( Indexable_Mock::class );
 
 		$indexable_term_1->id = 567;
+		$indexable_term_2->id = 568;
 
 		$this->indexable_repository->expects( 'find_by_multiple_ids_and_type' )
 			->with(
@@ -318,23 +341,9 @@ class Indexable_Ancestor_Watcher_Test extends TestCase {
 			)
 			->andReturn( [ $indexable_term_1, $indexable_term_2 ] );
 
-		Functions\expect( 'wp_list_pluck' )->once()->andReturn(
-			[
-				0 => 431,
-				2 => 21,
-			]
-		);
-
 		$this->indexable_hierarchy_repository->expects( 'find_children_by_ancestor_ids' )
-			->with(
-				[
-					0 => 431,
-					2 => 21,
-				]
-			)
+			->with( [ 567, 568 ] )
 			->andReturn( [ 566, 567, 569 ] );
-
-		Functions\expect( 'wp_list_pluck' )->once()->andReturn( [ 567 ] );
 
 		$additional_indexable_2 = Mockery::mock( Indexable_Mock::class );
 
@@ -364,9 +373,8 @@ class Indexable_Ancestor_Watcher_Test extends TestCase {
 		$this->wpdb->expects( 'prepare' )
 			->with(
 				'SELECT term_taxonomy_id
-				FROM %s
+				FROM wp_term_taxonomy
 				WHERE term_id IN( ' . \implode( ', ', \array_fill( 0, ( \count( $object_ids ) ), '%s' ) ) . ' )',
-				'wp_term_taxonomy',
 				...$object_ids
 			);
 
@@ -376,9 +384,8 @@ class Indexable_Ancestor_Watcher_Test extends TestCase {
 		$this->wpdb->expects( 'prepare' )
 			->with(
 				'SELECT DISTINCT object_id
-				FROM %s
+				FROM wp_term_relationships
 				WHERE term_taxonomy_id IN( %s, %s, %s )',
-				'wp_term_relationships',
 				321,
 				322,
 				323
@@ -398,7 +405,7 @@ class Indexable_Ancestor_Watcher_Test extends TestCase {
 			$this->indexable_hierarchy_builder->expects( 'build' )
 				->with( $indexable );
 
-			$this->indexable_helper->expects( 'get_permalink_for_indexable' )
+			$this->permalink_helper->expects( 'get_permalink_for_indexable' )
 				->with( $indexable )
 				->andReturn( 'https://example.org/permalink' );
 

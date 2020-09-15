@@ -742,4 +742,50 @@ div.interface-pinned-items button.components-button.is-pressed[aria-label="Yoast
   background-image: var(--yoast-svg-icon-schema-active);
 }
 
+.yoast-icon-span svg {
+	margin-right: 8px;
+}
+
+.yoast-icon-span svg {
+	fill: inherit;
+}
+
+.yoast.components-panel__body {
+	border-top: 0;
+}
+
+.components-button > .yoast-title-container {
+	flex-grow: 1;
+	overflow-x: hidden;
+	line-height: normal;
+}
+
+
+.yoast-title-container > .yoast-title {
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+}
+
+.yoast-title-container > .yoast-subtitle {
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	font-size: 0.8125rem;
+	font-weight: 300;
+	margin-top: 2px;
+}
+
+.yoast.components-panel__body .yoast-chevron {
+	background-color: #1e1e1e;
+	mask-image: var(--yoast-svg-icon-chevron-down);
+	mask-size: 100% 100%;
+	display: inline-block;
+	width: 24px;
+	height: 24px;
+}
+.yoast.components-panel__body.is-opened .yoast-chevron {
+	mask-image: var(--yoast-svg-icon-chevron-up);
+}
+
 /*# sourceMappingURL=metabox.css.map */
