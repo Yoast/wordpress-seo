@@ -44,7 +44,7 @@ class Indexing extends Component {
 		this.stoppedIndexing = false;
 
 		this.state = {
-			started: false,
+			inProgress: false,
 			processed: 0,
 			amount: this.settings.amount,
 			error: null,
@@ -82,7 +82,7 @@ class Indexing extends Component {
 	async doIndexing( endpoint ) {
 		let url = this.settings.restApi.root + this.settings.restApi.endpoints[ endpoint ];
 
-		while ( this.state.started && url !== false && this.state.processed <= this.state.amount ) {
+		while ( this.state.inProgress && url !== false && this.state.processed <= this.state.amount ) {
 			try {
 				if ( typeof preIndexingActions[ endpoint ] === "function" ) {
 					await preIndexingActions[ endpoint ]( this.settings );
@@ -100,7 +100,7 @@ class Indexing extends Component {
 
 				url = response.next_url;
 			} catch ( error ) {
-				this.setState( { started: false, error } );
+				this.setState( { inProgress: false, error } );
 			}
 		}
 	}
@@ -111,13 +111,30 @@ class Indexing extends Component {
 	 * @returns {Promise} The start indexing promise.
 	 */
 	async startIndexing() {
-		this.setState( { processed: 0, started: true, error: null } );
+		this.setState( { processed: 0, inProgress: true, error: null } );
 		for ( const endpoint of Object.keys( this.settings.restApi.endpoints ) ) {
 			await this.doIndexing( endpoint );
 		}
-		// Set the progress bar to 100% after completing the indexing process.
+		/*
+		 * Set the indexing process as completed only when there is no error
+		 * and the user has not stopped the process manually.
+		 */
+		if ( ! this.state.error && this.state.inProgress ) {
+			this.completeIndexing();
+		}
+	}
+
+	/**
+	 * Sets the state of the indexing process to completed.
+	 *
+	 * @returns {void}
+	 */
+	completeIndexing() {
 		this.setState( previousState => (
-			{ processed: previousState.amount }
+			{
+				inProgress: false,
+				processed: previousState.amount,
+			}
 		) );
 	}
 
@@ -129,7 +146,7 @@ class Indexing extends Component {
 	stopIndexing() {
 		this.setState( previousState => (
 			{
-				started: false,
+				inProgress: false,
 				amount: previousState.amount - previousState.processed,
 			}
 		) );
@@ -148,7 +165,7 @@ class Indexing extends Component {
 		return (
 			<Fragment>
 				{
-					this.state.started && <Fragment>
+					this.state.inProgress && <Fragment>
 						<Progress
 							progressColor={ colors.$color_pink_dark }
 							max={ parseInt( this.state.amount, 10 ) }
@@ -164,7 +181,7 @@ class Indexing extends Component {
 					</Alert>
 				}
 				{
-					this.state.started
+					this.state.inProgress
 						? <Button onClick={ this.stopIndexing } variant="grey">
 							{ __( "Stop SEO data optimization", "wordpress-seo" ) }
 						</Button>
