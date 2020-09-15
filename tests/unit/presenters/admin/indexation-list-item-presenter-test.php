@@ -55,9 +55,9 @@ class Indexation_List_Item_Presenter_Test extends TestCase {
 		Monkey\Functions\expect( 'add_query_arg' )->andReturn( '' );
 		Monkey\Functions\expect( 'get_platform_version' )->andReturn( '5.5' );
 
-		// phpcs:ignore
+		// phpcs:ignore WordPress.WP.GlobalVariablesOverride
 		if ( ! isset( $GLOBALS['wp_version'] ) ) {
-			// phpcs:ignore
+			// phpcs:ignore WordPress.WP.GlobalVariablesOverride
 			$GLOBALS['wp_version'] = 5.5;
 		}
 		if ( ! defined( 'WPSEO_VERSION' ) ) {
