@@ -13,7 +13,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * Class Indexation_List_Item_Presenter_Test.
  *
  * @coversDefaultClass \Yoast\WP\SEO\Presenters\Admin\Indexation_List_Item_Presenter
- *
+ * @covers \Yoast\WP\SEO\Presenters\Admin\Indexation_List_Item_Presenter
  * @group presenters
  */
 class Indexation_List_Item_Presenter_Test extends TestCase {
@@ -43,7 +43,6 @@ class Indexation_List_Item_Presenter_Test extends TestCase {
 
 	/**
 	 * Initializes requirements for all tests.
-	 *
 	 */
 	public function setup() {
 		parent::setUp();
@@ -54,9 +53,9 @@ class Indexation_List_Item_Presenter_Test extends TestCase {
 		Monkey\Functions\expect( 'add_query_arg' )->andReturn( '' );
 		Monkey\Functions\expect( 'get_platform_version' )->andReturn( '5.5' );
 
-		// phpcs:ignore WordPress.WP.GlobalVariablesOverride
+		// phpcs:ignore WordPress.WP.GlobalVariablesOverride -- required in static helper method in WPSEO_Shortlinker
 		if ( ! isset( $GLOBALS['wp_version'] ) ) {
-			// phpcs:ignore WordPress.WP.GlobalVariablesOverride
+			// phpcs:ignore WordPress.WP.GlobalVariablesOverride -- required in static helper method in WPSEO_Shortlinker
 			$GLOBALS['wp_version'] = 5.5;
 		}
 		if ( ! defined( 'WPSEO_VERSION' ) ) {
