@@ -142,6 +142,7 @@ class Indexable_Ancestor_Watcher implements Integration_Interface {
 				return $indexable->object_type === 'post';
 			}
 		);
+
 		$existing_post_object_ids = \wp_list_pluck( $existing_post_indexables, 'object_id' );
 		$post_object_ids          = \array_diff( $post_object_ids, $existing_post_object_ids );
 
@@ -153,8 +154,7 @@ class Indexable_Ancestor_Watcher implements Integration_Interface {
 		$additional_indexable_ids = $this->indexable_hierarchy_repository->find_children_by_ancestor_ids( $post_indexable_ids );
 
 		// Makes sure we only have indexable id's that we haven't fetched before.
-		$existing_indexable_ids   = \wp_list_pluck( $post_indexables, 'id' );
-		$additional_indexable_ids = \array_diff( $additional_indexable_ids, $existing_indexable_ids );
+		$additional_indexable_ids = \array_diff( $additional_indexable_ids, $post_indexable_ids );
 
 		// Finds the additional indexables.
 		$additional_indexables = $this->indexable_repository->find_by_ids( $additional_indexable_ids );
@@ -188,34 +188,31 @@ class Indexable_Ancestor_Watcher implements Integration_Interface {
 			return $child->object_type === 'term';
 		};
 
-		$child_terms = \array_filter( $child_indexables, $filter_terms );
-
-		// Get the object id's for the child indexables.
-		$get_object_id_for_child = function( $child ) {
-			return $child->object_id;
-		};
-
-		$child_object_ids = \array_map( $get_object_id_for_child, $child_terms );
+		$child_terms      = \array_filter( $child_indexables, $filter_terms );
+		$child_object_ids = \wp_list_pluck( $child_terms, 'object_id' );
 
 		// Get the term-taxonomy id's for the term and its children.
 		$term_taxonomy_ids = $this->wpdb->get_col(
 			$this->wpdb->prepare(
 				'SELECT term_taxonomy_id
-				FROM %s
+				FROM ' . $this->wpdb->term_taxonomy . '
 				WHERE term_id IN( ' . \implode( ', ', \array_fill( 0, ( \count( $child_object_ids ) + 1 ), '%s' ) ) . ' )',
-				$this->wpdb->term_taxonomy,
 				$term_id,
 				...$child_object_ids
 			)
 		);
 
+		// In the case of faulty data having been saved the above query can return 0 results.
+		if ( empty( $term_taxonomy_ids ) ) {
+			return [];
+		}
+
 		// Get the (post) object id's that are attached to the term.
 		return $this->wpdb->get_col(
 			$this->wpdb->prepare(
 				'SELECT DISTINCT object_id
-				FROM %s
+				FROM ' . $this->wpdb->term_relationships . '
 				WHERE term_taxonomy_id IN( ' . \implode( ', ', \array_fill( 0, \count( $term_taxonomy_ids ), '%s' ) ) . ' )',
-				$this->wpdb->term_relationships,
 				...$term_taxonomy_ids
 			)
 		);
