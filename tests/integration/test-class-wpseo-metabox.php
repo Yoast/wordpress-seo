@@ -115,9 +115,9 @@ class WPSEO_Metabox_Test extends WPSEO_UnitTestCase {
 		$meta_fields = apply_filters( 'wpseo_save_metaboxes', [] );
 		$meta_fields = array_merge(
 			$meta_fields,
-			WPSEO_Meta::get_meta_field_defs( 'general', $post->post_type ),
+			WPSEO_Meta::get_meta_field_defs( 'general', $post ),
 			WPSEO_Meta::get_meta_field_defs( 'advanced' ),
-			WPSEO_Meta::get_meta_field_defs( 'schema', $post->post_type )
+			WPSEO_Meta::get_meta_field_defs( 'schema', $post )
 		);
 
 		// Set $_POST data to be saved.

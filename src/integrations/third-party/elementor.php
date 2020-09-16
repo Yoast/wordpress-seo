@@ -157,12 +157,11 @@ class Elementor_Integration implements Integration_Interface {
 		$meta_boxes = \apply_filters( 'wpseo_save_metaboxes', [] );
 		$meta_boxes = \array_merge(
 			$meta_boxes,
-			WPSEO_Meta::get_meta_field_defs( 'general', $post->post_type ),
+			WPSEO_Meta::get_meta_field_defs( 'general', $post ),
 			WPSEO_Meta::get_meta_field_defs( 'advanced' ),
 			$social_fields,
-			WPSEO_Meta::get_meta_field_defs( 'schema', $post->post_type )
+			WPSEO_Meta::get_meta_field_defs( 'schema', $post )
 		);
-
 
 		foreach ( $meta_boxes as $key => $meta_box ) {
 			// If analysis is disabled remove that analysis score value from the DB.
@@ -313,7 +312,7 @@ class Elementor_Integration implements Integration_Interface {
 			echo new Meta_Fields_Presenter( $this->get_metabox_post(), 'advanced' );
 		}
 
-		echo new Meta_Fields_Presenter( $this->get_metabox_post(), 'schema', $this->get_metabox_post()->post_type );
+		echo new Meta_Fields_Presenter( $this->get_metabox_post(), 'schema' );
 
 		if ( $this->social_is_enabled ) {
 			echo new Meta_Fields_Presenter( $this->get_metabox_post(), 'social' );

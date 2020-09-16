@@ -327,7 +327,7 @@ class WPSEO_Meta {
 	 *
 	 * @return array Array containing the meta box field definitions.
 	 */
-	public static function get_meta_field_defs( $tab, $post_type = 'post' ) {
+	public static function get_meta_field_defs( $tab, $post = null ) {
 		if ( ! isset( self::$meta_fields[ $tab ] ) ) {
 			return [];
 		}
@@ -341,26 +341,12 @@ class WPSEO_Meta {
 				break;
 
 			case 'advanced':
-				global $post;
-
 				if ( ! WPSEO_Capability_Utils::current_user_can( 'wpseo_edit_advanced_metadata' ) && WPSEO_Options::get( 'disableadvanced_meta' ) ) {
 					return [];
 				}
 
-				$post_type = '';
-				if ( isset( $post->post_type ) ) {
-					$post_type = $post->post_type;
-				}
-				elseif ( ! isset( $post->post_type ) && isset( $_GET['post_type'] ) ) {
-					$post_type = sanitize_text_field( $_GET['post_type'] );
-				}
-
-				if ( $post_type === '' ) {
-					return [];
-				}
-
 				/* Adjust the no-index text strings based on the post type. */
-				$post_type_object = get_post_type_object( $post_type );
+				$post_type_object = get_post_type_object( $post->post_type );
 
 				$field_defs['meta-robots-noindex']['title']        = sprintf( $field_defs['meta-robots-noindex']['title'], $post_type_object->labels->singular_name );
 				$field_defs['meta-robots-noindex']['options']['0'] = sprintf( $field_defs['meta-robots-noindex']['options']['0'], ( ( WPSEO_Options::get( 'noindex-' . $post_type, false ) === true ) ? $field_defs['meta-robots-noindex']['options']['1'] : $field_defs['meta-robots-noindex']['options']['2'] ), $post_type_object->label );
@@ -370,8 +356,6 @@ class WPSEO_Meta {
 				if ( WPSEO_Options::get( 'breadcrumbs-enable', false ) !== true && ! current_theme_supports( 'yoast-seo-breadcrumbs' ) ) {
 					unset( $field_defs['bctitle'] );
 				}
-
-				global $post;
 
 				if ( empty( $post->ID ) || ( ! empty( $post->ID ) && self::get_value( 'redirect', $post->ID ) === '' ) ) {
 					unset( $field_defs['redirect'] );
@@ -383,11 +367,11 @@ class WPSEO_Meta {
 					return [];
 				}
 
-				$field_defs['schema_page_type']['default'] = WPSEO_Options::get( 'schema-page-type-' . $post_type );
+				$field_defs['schema_page_type']['default'] = WPSEO_Options::get( 'schema-page-type-' . $post->post_type );
 
 				$article_helper = new Article_Helper();
-				if ( $post_type !== 'page' && $article_helper->is_author_supported( $post_type ) ) {
-					$field_defs['schema_article_type']['default'] = WPSEO_Options::get( 'schema-article-type-' . $post_type );
+				if ( $post->post_type !== 'page' && $article_helper->is_author_supported( $post->post_type ) ) {
+					$field_defs['schema_article_type']['default'] = WPSEO_Options::get( 'schema-article-type-' . $post->post_type );
 				}
 				else {
 					unset( $field_defs['schema_article_type'] );
