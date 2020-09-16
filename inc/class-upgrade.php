@@ -732,7 +732,9 @@ class WPSEO_Upgrade {
 	}
 
 	/**
-	 * Performs the 14.5 upgrade.
+	 * Performs the 15.1 upgrade routine.
+	 *
+	 * @return void
 	 */
 	private function upgrade_151() {
 		add_action( 'init', [ $this, 'set_home_url_option_for_151' ] );
@@ -998,6 +1000,8 @@ class WPSEO_Upgrade {
 
 	/**
 	 * Stores the initial `home_url` option.
+	 *
+	 * @return void
 	 */
 	public function set_home_url_option_for_151() {
 		WPSEO_Options::set( 'home_url', get_home_url() );
