@@ -392,22 +392,6 @@ export default class ElementorEditorData {
 			return result;
 		}, {} );
 		jQuery.post( this._form.getAttribute( "action" ), data );
-
-		//		const XHR = new XMLHttpRequest();
-//		const formData = new FormData( this._form );
-//
-//		XHR.addEventListener( "load", ( event ) => {
-//			console.log( "form sent", event.target );
-//		} );
-//		XHR.addEventListener( "error", ( event ) => {
-//			console.warn( "Error with saving Yoast data", event );
-//		} );
-//
-//		// Set up our request.
-//		XHR.open( "POST", this._form.getAttribute( "action" ) );
-//
-//		// The data sent is what the user provided in the form.
-//		XHR.send( formData );
 	}
 
 	/**
