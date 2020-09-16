@@ -221,6 +221,10 @@ class WPSEO_Tracking implements WPSEO_WordPress_Integration {
 			return false;
 		}
 
+		if ( wp_get_environment_type() !== 'production' ) {
+			return false;
+		}
+
 		return true;
 	}
 }

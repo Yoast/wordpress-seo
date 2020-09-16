@@ -54,7 +54,6 @@ class Indexable_Home_Page_Watcher implements Integration_Interface {
 		\add_action( 'update_option_wpseo_social', [ $this, 'check_option' ], 15, 3 );
 		\add_action( 'update_option_blog_public', [ $this, 'build_indexable' ] );
 		\add_action( 'update_option_blogdescription', [ $this, 'build_indexable' ] );
-		\add_action( 'update_option_home', [ $this, 'build_indexable' ] );
 	}
 
 	/**

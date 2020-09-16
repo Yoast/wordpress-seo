@@ -53,9 +53,9 @@ class Indexable_Term_Indexation_Action implements Indexation_Action_Interface {
 	}
 
 	/**
-	 * Gets the total number of unindexed terms.
+	 * Returns the total number of unindexed terms.
 	 *
-	 * @return int|false The amount of unindexed terms. False if the query fails.
+	 * @return int|false The number of unindexed terms. False if the query fails.
 	 */
 	public function get_total_unindexed() {
 		$transient = \get_transient( static::TRANSIENT_CACHE_KEY );
@@ -96,11 +96,13 @@ class Indexable_Term_Indexation_Action implements Indexation_Action_Interface {
 	}
 
 	/**
-	 * @inheritDoc
+	 * Returns the number of terms that will be indexed in a single indexing pass.
+	 *
+	 * @return int The limit.
 	 */
 	public function get_limit() {
 		/**
-		 * Filter 'wpseo_term_indexation_limit' - Allow filtering the amount of terms indexed during each indexing pass.
+		 * Filter 'wpseo_term_indexation_limit' - Allow filtering the number of terms indexed during each indexing pass.
 		 *
 		 * @api int The maximum number of terms indexed.
 		 */
@@ -117,7 +119,7 @@ class Indexable_Term_Indexation_Action implements Indexation_Action_Interface {
 	 * Queries the database for unindexed term IDs.
 	 *
 	 * @param bool $count Whether or not it should be a count query.
-	 * @param int  $limit The maximum amount of term IDs to return.
+	 * @param int  $limit The maximum number of term IDs to return.
 	 *
 	 * @return string The query.
 	 */

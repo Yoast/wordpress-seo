@@ -62,6 +62,10 @@ class WPSEO_Sitemaps_Admin {
 			return;
 		}
 
+		if ( wp_get_environment_type() !== 'production' ) {
+			return;
+		}
+
 		/**
 		 * Filter: 'wpseo_allow_xml_sitemap_ping' - Check if pinging is not allowed (allowed by default).
 		 *
