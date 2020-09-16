@@ -19,24 +19,22 @@ const addYoastRegion = ( regions ) => {
 };
 
 jQuery( function() {
-	console.log( "document load" );
-
-	let refreshed = false;
-
 	initElementorEdit();
 
 	elementor.once( "preview:loaded", () => {
-		console.log( "preview:loaded" );
+		let refreshed = false;
 
+		// Connects the tab to the panel.
 		$e.components
 			.get( "panel/elements" )
 			.addTab( "yoast", { title: "Yoast SEO" } );
 
+		// Updates the initial data after the content is available.
 		elementorFrontend.hooks.addAction( "frontend/element_ready/global", () => {
 			if ( refreshed ) {
 				return;
 			}
-			console.log('actually refreshing');
+
 			refreshed = true;
 			window.editorData._data = window.editorData.collectData();
 			window.YoastSEO.app.refresh();
@@ -45,9 +43,7 @@ jQuery( function() {
 } );
 
 jQuery( window ).on( "elementor:init", () => {
-	console.log( "elementor:init" );
-
-	// Add our tab to the template.
+	// Adds the tab to the template.
 	const templateElement = document.getElementById( "tmpl-elementor-panel-elements" );
 	templateElement.innerHTML = templateElement.innerHTML.replace(
 		/(<div class="elementor-component-tab elementor-panel-navigation-tab" data-tab="global">.*<\/div>)/,

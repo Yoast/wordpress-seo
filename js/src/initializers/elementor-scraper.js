@@ -26,7 +26,6 @@ import requestWordsToHighlight from "../analysis/requestWordsToHighlight.js";
 import { createAnalysisWorker, getAnalysisConfiguration } from "../analysis/worker";
 import refreshAnalysis, { initializationDone } from "../analysis/refreshAnalysis";
 import collectAnalysisData from "../analysis/collectAnalysisData";
-import PostDataCollector from "../analysis/PostDataCollector";
 import getTranslations from "../analysis/getTranslations";
 import isKeywordAnalysisActive from "../analysis/isKeywordAnalysisActive";
 import isContentAnalysisActive from "../analysis/isContentAnalysisActive";
@@ -44,9 +43,6 @@ import { updateData } from "../redux/actions/snippetEditor";
 import { setWordPressSeoL10n, setYoastComponentsL10n } from "../helpers/i18n";
 import { setCornerstoneContent } from "../redux/actions/cornerstoneContent";
 import { refreshSnippetEditor } from "../redux/actions/snippetEditor.js";
-
-// Helper dependencies.
-import isBlockEditor from "../helpers/isBlockEditor";
 
 setYoastComponentsL10n();
 setWordPressSeoL10n();

@@ -7,7 +7,6 @@ import { excerptFromContent, fillReplacementVariables, mapCustomFields, mapCusto
 import { setContentImage } from "../redux/actions/settings";
 
 import { updateData, updateReplacementVariable } from "../redux/actions/snippetEditor";
-import PostDataCollector from "./PostDataCollector";
 
 /**
  * Represents the data.
