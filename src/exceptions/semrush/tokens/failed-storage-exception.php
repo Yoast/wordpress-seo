@@ -1,9 +1,4 @@
 <?php
-/**
- * Yoast SEO plugin file.
- *
- * @package Yoast\WP\SEO\Exceptions\SEMrush
- */
 
 namespace Yoast\WP\SEO\Exceptions\SEMrush\Tokens;
 

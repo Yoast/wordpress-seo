@@ -1,9 +1,4 @@
 <?php
-/**
- * Phrases action for SEMrush.
- *
- * @package Yoast\WP\SEO\Actions\SEMrush
- */
 
 namespace Yoast\WP\SEO\Actions\SEMrush;
 

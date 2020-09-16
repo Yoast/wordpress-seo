@@ -1,9 +1,4 @@
 <?php
-/**
- * WPSEO plugin test file.
- *
- * @package Yoast\WP\SEO\Tests\Routes
- */
 
 namespace Yoast\WP\SEO\Routes;
 
