@@ -211,6 +211,8 @@ Your question has most likely been answered on our knowledge base: [kb.yoast.com
 = 15.0 =
 Release Date: September 22nd, 2020
 
+Today, we’re launching Yoast SEO 15.0. This release features some awesome new additions and enhancements. We’ve added full support for Arabic and made the Yoast SEO block editor sidebar fully-featured. Read more about those changes in [our release post](https://yoa.st/release-15-0)!
+
 Enhancements:
 
 * Introduces an advanced settings tab in the sidebar.
