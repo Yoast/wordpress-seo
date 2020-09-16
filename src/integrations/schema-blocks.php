@@ -7,18 +7,20 @@
 
 namespace Yoast\WP\SEO\Integrations;
 
-use Yoast\WP\SEO\WordPress\Integration;
+use Yoast\WP\SEO\Conditionals\Schema_Blocks_Feature_Flag_Conditional;
 
 /**
  * Loads schema block templates into Gutenberg.
  */
-class Schema_Blocks implements Integration {
+class Schema_Blocks implements Integration_Interface {
 
     /**
      * @inheritDoc
      */
     public static function get_conditionals() {
-        return [];
+        return [
+            Schema_Blocks_Feature_Flag_Conditional::class
+        ];
     }
 
     /**
