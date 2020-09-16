@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\WP\SEO\Integrations;
+namespace Yoast\WP\SEO\Integrations\Third_Party;
 
 use WP_Post;
 use WP_Screen;
@@ -11,20 +11,21 @@ use WPSEO_Admin_Asset_Yoast_Components_L10n;
 use WPSEO_Admin_Recommended_Replace_Vars;
 use WPSEO_Language_Utils;
 use WPSEO_Meta;
+use WPSEO_Metabox_Analysis_Readability;
+use WPSEO_Metabox_Analysis_SEO;
 use WPSEO_Metabox_Formatter;
 use WPSEO_Post_Metabox_Formatter;
 use WPSEO_Utils;
 use Yoast\WP\SEO\Conditionals\Admin\Elementor_Edit_Conditional;
 use Yoast\WP\SEO\Helpers\Capability_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Presenters\Admin\Meta_Fields_Presenter;
-use WPSEO_Metabox_Analysis_SEO;
-use WPSEO_Metabox_Analysis_Readability;
 
 /**
  * Adds customizations to the front end for breadcrumbs.
  */
-class Elementor_Integration implements Integration_Interface {
+class Elementor implements Integration_Interface {
 
 	/**
 	 * Represents the post.
