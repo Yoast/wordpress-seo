@@ -58,6 +58,7 @@ class WPSEO_Upgrade {
 			'14.2-RC0'   => 'upgrade_142',
 			'14.5-RC0'   => 'upgrade_145',
 			'14.9-RC0'   => 'upgrade_149',
+			'15.1-RC0'   => 'upgrade_151',
 		];
 
 		array_walk( $routines, [ $this, 'run_upgrade_routine' ], $version );
@@ -728,6 +729,14 @@ class WPSEO_Upgrade {
 		$version = get_option( 'wpseo_license_server_version', WPSEO_License_Page_Manager::VERSION_BACKWARDS_COMPATIBILITY );
 		WPSEO_Options::set( 'license_server_version', $version );
 		delete_option( 'wpseo_license_server_version' );
+	}
+
+	/**
+	 * Performs the 15.1 upgrade.
+	 */
+	private function upgrade_151() {
+		$permalink_structure = get_option( 'permalink_structure' );
+		WPSEO_Options::set( 'permalink_structure', $permalink_structure );
 	}
 
 	/**
