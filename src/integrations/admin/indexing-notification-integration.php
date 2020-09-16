@@ -134,6 +134,10 @@ class Indexing_Notification_Integration implements Integration_Interface {
 	 * @return bool If the notification should be shown.
 	 */
 	protected function should_show_notification() {
+		if ( $this->is_indexation_warning_hidden() ) {
+			return false;
+		}
+
 		$indexation_reason         = $this->options_helper->get( 'indexables_indexation_reason', '' );
 		$indexation_started        = $this->options_helper->get( 'indexation_started', false );
 		$indexation_completed      = $this->options_helper->get( 'indexation_completed', false );
@@ -148,6 +152,26 @@ class Indexing_Notification_Integration implements Integration_Interface {
 			$indexation_completed === false &&
 			$ignore_indexation_warning === false
 		);
+	}
+
+	/**
+	 * Returns if the indexation warning is temporarily hidden.
+	 *
+	 * @return bool True if hidden.
+	 */
+	protected function is_indexation_warning_hidden() {
+		if ( $this->options_helper->get( 'ignore_indexation_warning', false ) === true ) {
+			return true;
+		}
+
+		// When the indexation is started, but not completed.
+		if ( $this->options_helper->get( 'indexation_started', false ) > ( \time() - \MONTH_IN_SECONDS ) ) {
+			return true;
+		}
+
+		$hide_until = (int) $this->options_helper->get( 'indexation_warning_hide_until' );
+
+		return ( $hide_until !== 0 && $hide_until >= \time() );
 	}
 
 	/**

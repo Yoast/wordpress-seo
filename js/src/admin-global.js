@@ -135,21 +135,6 @@
 	}
 
 	/**
-	 * @returns {void}
-	 */
-	function bindIndexationNotificationButton() {
-		const button = document.getElementById( "yoast-indexation-remind-button" );
-
-		if ( ! button ) {
-			return;
-		}
-
-		button.addEventListener( "click", () => {
-			document.getElementById( "wpseo-reindex" ).querySelector( ".dismiss" ).click();
-		} );
-	}
-
-	/**
 	 * Handles dismiss and restore AJAX responses.
 	 *
 	 * @param {Object} $source Object that triggered the request.
@@ -237,6 +222,18 @@
 				},
 				handleDismissRestoreResponse.bind( this, $source ),
 				"json"
+			);
+		} );
+
+		$dismissible.on( "click", "#yoast-indexation-remind-button", function() {
+			const nonce = jQuery( this ).data( "nonce" );
+
+			$.post(
+				ajaxurl,
+				{
+					action: "wpseo_set_indexation_remind",
+					_wpnonce: nonce,
+				},
 			);
 		} );
 	}
