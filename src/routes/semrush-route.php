@@ -1,9 +1,4 @@
 <?php
-/**
- * SEMrush route.
- *
- * @package Yoast\WP\SEO\Routes\Routes
- */
 
 namespace Yoast\WP\SEO\Routes;
 
