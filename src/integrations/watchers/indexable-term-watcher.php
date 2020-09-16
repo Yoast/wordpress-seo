@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Integrations\Watchers;
 
 use Yoast\WP\SEO\Builders\Indexable_Builder;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
+use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Site_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
@@ -111,5 +112,25 @@ class Indexable_Term_Watcher implements Integration_Interface {
 
 		// If we haven't found an existing indexable, create it. Otherwise update it.
 		$this->builder->build_for_id_and_type( $term_id, 'term', $indexable );
+
+		//Check if the base url is still the same and did not get changed undetected
+		$optionsHelper = new Options_Helper();
+
+		$currentBase = $this->get_tax_slug($term->taxonomy);
+		$previousBaseCategory = $optionsHelper->get("category_base_url");
+		$previousBaseTag = $optionsHelper->get("category_tag_url");
+
+		if($currentBase !== $previousBaseCategory || $currentBase !== $previousBaseTag)
+		{
+			//clear all permalinks, store the new permalink structure and ask for a reindex.
+		}
+	}
+
+	private function get_tax_slug( $taxonomy ) {
+		$tax = get_taxonomy( $taxonomy );
+		if ( $tax && property_exists( $tax, 'rewrite' ) && is_array( $tax->rewrite ) && isset( $tax->rewrite['slug'] ) ) {
+			return $tax->rewrite['slug'];
+		}
+		return strtolower( $tax->name );
 	}
 }
