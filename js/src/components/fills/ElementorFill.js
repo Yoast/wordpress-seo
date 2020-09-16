@@ -1,3 +1,4 @@
+/* global elementor */
 // External dependencies.
 import { Fill } from "@wordpress/components";
 import { __ } from "@wordpress/i18n";
