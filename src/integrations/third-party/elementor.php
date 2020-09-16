@@ -18,6 +18,8 @@ use Yoast\WP\SEO\Conditionals\Admin\Elementor_Edit_Conditional;
 use Yoast\WP\SEO\Helpers\Capability_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Presenters\Admin\Meta_Fields_Presenter;
+use WPSEO_Metabox_Analysis_SEO;
+use WPSEO_Metabox_Analysis_Readability;
 
 /**
  * Adds customizations to the front end for breadcrumbs.
@@ -82,6 +84,11 @@ class Elementor_Integration implements Integration_Interface {
 		$this->asset_manager = $asset_manager;
 		$this->options       = $options;
 		$this->capability    = $capability;
+
+		$this->seo_analysis                 = new WPSEO_Metabox_Analysis_SEO();
+		$this->readability_analysis         = new WPSEO_Metabox_Analysis_Readability();
+		$this->social_is_enabled            = $this->options->get( 'opengraph', false ) || $this->options->get( 'twitter', false );
+		$this->is_advanced_metadata_enabled = $this->capability->current_user_can( 'wpseo_edit_advanced_metadata' ) || $this->options->get( 'disableadvanced_meta' ) === false;
 	}
 
 	/**
@@ -90,7 +97,7 @@ class Elementor_Integration implements Integration_Interface {
 	 */
 	public function register_hooks() {
 		\add_action( 'elementor/editor/before_enqueue_scripts', [ $this, 'init' ] );
-		\add_action( 'wp_ajax_wpseo_elementor_save', 'save_postdata' );
+		\add_action( 'wp_ajax_wpseo_elementor_save', [ $this, 'save_postdata' ] );
 	}
 
 	/**
@@ -99,9 +106,6 @@ class Elementor_Integration implements Integration_Interface {
 	 * @return string The rendered breadcrumbs.
 	 */
 	public function init() {
-		$this->social_is_enabled            = $this->options->get( 'opengraph', false ) || $this->options->get( 'twitter', false );
-		$this->is_advanced_metadata_enabled = $this->capability->current_user_can( 'wpseo_edit_advanced_metadata' ) || $this->options->get( 'disableadvanced_meta' ) === false;
-
 		$this->asset_manager->register_assets();
 		$this->enqueue();
 		$this->render_hidden_fields();
@@ -118,36 +122,17 @@ class Elementor_Integration implements Integration_Interface {
 	 *
 	 * @return bool|void Boolean false if invalid save post request.
 	 */
-	public function save_postdata( $post_id ) {
+	public function save_postdata() {
+		$post_id = $_POST['post_id'];
+
 		if ( ! \current_user_can( 'manage_options' ) ) {
-			die( '-1' );
+			return false;
 		}
+		
 		\check_ajax_referer( 'wpseo_elementor_save' );
-
-		// Debug return.
-		return [
-			'status' => 'hi',
-		];
-		wp_die();
-
+		
 		// Bail if this is a multisite installation and the site has been switched.
 		if ( \is_multisite() && \ms_is_switched() ) {
-			return false;
-		}
-
-		if ( $post_id === null ) {
-			return false;
-		}
-
-		if ( \wp_is_post_revision( $post_id ) ) {
-			$post_id = \wp_is_post_revision( $post_id );
-		}
-
-		/**
-		 * Determine we're not accidentally updating a different post.
-		 * We can't use filter_input here as the ID isn't available at this point, other than in the $_POST data.
-		 */
-		if ( ! isset( $_POST['ID'] ) || $post_id !== (int) $_POST['ID'] ) {
 			return false;
 		}
 
@@ -160,6 +145,9 @@ class Elementor_Integration implements Integration_Interface {
 		}
 
 		\do_action( 'wpseo_save_compare_data', $post );
+
+		// Initialize social fields.
+		WPSEO_Meta::init();
 
 		$social_fields = [];
 		if ( $this->social_is_enabled ) {
@@ -174,6 +162,7 @@ class Elementor_Integration implements Integration_Interface {
 			$social_fields,
 			WPSEO_Meta::get_meta_field_defs( 'schema', $post->post_type )
 		);
+
 
 		foreach ( $meta_boxes as $key => $meta_box ) {
 			// If analysis is disabled remove that analysis score value from the DB.
@@ -214,6 +203,25 @@ class Elementor_Integration implements Integration_Interface {
 		}
 
 		\do_action( 'wpseo_saved_postdata' );
+	}
+
+	/**
+	 * Determines if the given meta value key is disabled.
+	 *
+	 * @param string $key The key of the meta value.
+	 *
+	 * @return bool Whether the given meta value key is disabled.
+	 */
+	public function is_meta_value_disabled( $key ) {
+		if ( $key === 'linkdex' && ! $this->seo_analysis->is_enabled() ) {
+			return true;
+		}
+
+		if ( $key === 'content_score' && ! $this->readability_analysis->is_enabled() ) {
+			return true;
+		}
+
+		return false;
 	}
 
 	/**
@@ -296,7 +304,7 @@ class Elementor_Integration implements Integration_Interface {
 	 * Renders the metabox hidden fields.
 	 */
 	protected function render_hidden_fields() {
-		printf( '<form id="yoast-form" method="post" action="%1$s"><input type="hidden" name="action" value="wpseo_elementor_save" />', \admin_url( 'admin-ajax.php' ) );
+		printf( '<form id="yoast-form" method="post" action="%1$s"><input type="hidden" name="action" value="wpseo_elementor_save" /><input type="hidden" name="post_id" value="%2$s" />', \admin_url( 'admin-ajax.php' ), $this->get_metabox_post()->ID );
 
 		\wp_nonce_field( 'wpseo_elementor_save', '_wpnonce' );
 		echo new Meta_Fields_Presenter( $this->get_metabox_post(), 'general' );
