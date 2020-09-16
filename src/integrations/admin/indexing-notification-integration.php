@@ -140,7 +140,7 @@ class Indexing_Notification_Integration implements Integration_Interface {
 
 		$indexation_reason         = $this->options_helper->get( 'indexables_indexation_reason', '' );
 		$indexation_started        = $this->options_helper->get( 'indexation_started', false );
-		$indexation_completed      = $this->options_helper->get( 'indexation_completed', false );
+		$indexation_completed      = $this->options_helper->get( 'indexables_indexation_completed', false );
 		$ignore_indexation_warning = $this->options_helper->get( 'ignore_indexation_warning', false );
 
 		if ( $indexation_reason ) {
