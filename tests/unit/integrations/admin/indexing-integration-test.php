@@ -12,7 +12,6 @@ use Yoast\WP\SEO\Actions\Indexation\Indexable_Post_Type_Archive_Indexation_Actio
 use Yoast\WP\SEO\Actions\Indexation\Indexable_Term_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexation\Post_Link_Indexing_Action;
 use Yoast\WP\SEO\Actions\Indexation\Term_Link_Indexing_Action;
-use Yoast\WP\SEO\Integrations\Admin\Indexation_Integration;
 use Yoast\WP\SEO\Integrations\Admin\Indexing_Integration;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
@@ -26,7 +25,7 @@ class Indexing_Integration_Test extends TestCase {
 	/**
 	 * The indexation integration under test.
 	 *
-	 * @var Indexation_Integration
+	 * @var Indexing_Integration
 	 */
 	protected $instance;
 
