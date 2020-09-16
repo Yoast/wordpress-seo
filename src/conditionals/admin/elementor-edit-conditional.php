@@ -17,6 +17,9 @@ class Elementor_Edit_Conditional implements Conditional {
 	public function is_met() {
 		global $pagenow;
 
-		return $pagenow === 'post.php' && isset( $_GET['action'] ) && $_GET['action'] === 'elementor';
+		$edit_page    = $pagenow === 'post.php' && isset( $_GET['action'] ) && $_GET['action'] === 'elementor';
+		$ajax_request = \wp_doing_ajax() && isset( $_POST['action'] ) && $_POST['action'] === 'wpseo_elementor_save';
+
+		return $edit_page || $ajax_request;
 	}
 }

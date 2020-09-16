@@ -24,8 +24,10 @@ export default class ElementorEditorData {
 		this._refresh = refresh;
 		this._store = store;
 		this._data = {};
+
 		this.refreshYoastSEO = this.refreshYoastSEO.bind( this );
 		this.getData = this.getData.bind( this );
+		this.sendFormData = this.sendFormData.bind( this );
 
 		// Methods to be able to pass as DataCollector.
 		this.saveScores = () => {};
@@ -45,8 +47,25 @@ export default class ElementorEditorData {
 		// Fill data object on page load.
 		this._data = this.getInitialData( replaceVars );
 		fillReplacementVariables( this._data, this._store );
+		this.initializeForm();
 		this.subscribeToElementor();
 		// this.subscribeToYoastSEO();
+	}
+
+	initializeForm() {
+		if ( ! this._form ) {
+			this._form = document.getElementById( "yoast-form" );
+			if ( ! this._form ) {
+				console.warn( "Error finding the Yoast form." );
+				return;
+			}
+		}
+
+		// Not sure if we need this, we can just call sendFormData directly.
+		this._form.addEventListener( "submit", ( event ) => {
+			event.preventDefault();
+			this.sendFormData();
+		} );
 	}
 
 	/**
@@ -363,6 +382,32 @@ export default class ElementorEditorData {
 	subscribeToElementor() {
 		this.subscriber = debounce( this.refreshYoastSEO, 500 );
 		elementor.channels.editor.on( "status:change", this.subscriber );
+		elementor.saver.on( "before:save", this.sendFormData );
+	}
+
+	sendFormData() {
+		const data = jQuery( this._form ).serializeArray().reduce( ( result, { name, value } ) => {
+			result[ name ] = value;
+
+			return result;
+		}, {} );
+		jQuery.post( this._form.getAttribute( "action" ), data );
+
+		//		const XHR = new XMLHttpRequest();
+//		const formData = new FormData( this._form );
+//
+//		XHR.addEventListener( "load", ( event ) => {
+//			console.log( "form sent", event.target );
+//		} );
+//		XHR.addEventListener( "error", ( event ) => {
+//			console.warn( "Error with saving Yoast data", event );
+//		} );
+//
+//		// Set up our request.
+//		XHR.open( "POST", this._form.getAttribute( "action" ) );
+//
+//		// The data sent is what the user provided in the form.
+//		XHR.send( formData );
 	}
 
 	/**

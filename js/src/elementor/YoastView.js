@@ -10,15 +10,11 @@ export default Marionette.ItemView.extend( {
 	className: "yoast-elementor yoast-sidebar-panel",
 
 	initialize() {
-		console.log( "init" );
-
 		// Hide the search widget.
 		elementor.getPanelView().getCurrentPageView().search.reset();
 	},
 
 	onShow() {
-		console.log( "onShow" );
-
 		renderReactRoot( window.YoastSEO.store, this.id, (
 			<Fragment>
 				<ElementorSlot />
@@ -28,8 +24,6 @@ export default Marionette.ItemView.extend( {
 	},
 
 	onDestroy() {
-		console.log( "hide" );
-
 		unmountComponentAtNode( this.$el[0] );
 	},
 } );
