@@ -10,7 +10,7 @@ use Yoast\WP\SEO\Memoizers\Presentation_Memoizer;
 class Presentation_Memoizer_Double extends Presentation_Memoizer {
 
 	/**
-	 * Sets the cache.
+	 * Used to manually set the internal cache for testing purposes.
 	 *
 	 * @param string $key   The key to set.
 	 * @param string $value The value to set.
