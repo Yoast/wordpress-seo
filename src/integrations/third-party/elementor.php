@@ -129,9 +129,9 @@ class Elementor implements Integration_Interface {
 		if ( ! \current_user_can( 'manage_options' ) ) {
 			return false;
 		}
-		
+
 		\check_ajax_referer( 'wpseo_elementor_save' );
-		
+
 		// Bail if this is a multisite installation and the site has been switched.
 		if ( \is_multisite() && \ms_is_switched() ) {
 			return false;
@@ -258,7 +258,7 @@ class Elementor implements Integration_Interface {
 		$used_keywords_assessment_location = new WPSEO_Admin_Asset_Analysis_Worker_Location( $this->asset_manager->flatten_version( WPSEO_VERSION ), 'used-keywords-assessment' );
 
 		$script_data = [
-			'analysis'         => [
+			'analysis'          => [
 				'plugins' => [
 					'replaceVars' => [
 						'no_parent_text'           => __( '(no parent)', 'wordpress-seo' ),
@@ -280,13 +280,14 @@ class Elementor implements Integration_Interface {
 					'enabled_features'        => WPSEO_Utils::retrieve_enabled_features(),
 				],
 			],
-			'media'            => [
+			'media'             => [
 				'choose_image' => __( 'Use Image', 'wordpress-seo' ),
 			],
-			'metabox'          => $this->get_metabox_script_data(),
-			'userLanguageCode' => WPSEO_Language_Utils::get_language( WPSEO_Language_Utils::get_user_locale() ),
-			'isPost'           => true,
-			'isBlockEditor'    => WP_Screen::get()->is_block_editor(),
+			'metabox'           => $this->get_metabox_script_data(),
+			'userLanguageCode'  => WPSEO_Language_Utils::get_language( WPSEO_Language_Utils::get_user_locale() ),
+			'isPost'            => true,
+			'isBlockEditor'     => WP_Screen::get()->is_block_editor(),
+			'isElementorEditor' => true,
 		];
 
 		if ( post_type_supports( get_post_type(), 'thumbnail' ) ) {
