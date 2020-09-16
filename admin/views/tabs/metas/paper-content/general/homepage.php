@@ -36,11 +36,11 @@
 		$editor->render();
 	}
 	else {
-		echo '<h2>', esc_html__( 'Homepage &amp; Front page', 'wordpress-seo' ), '</h2>';
+		echo '<h2>', esc_html__( 'Homepage &amp; Posts page', 'wordpress-seo' ), '</h2>';
 		echo '<p>';
 		printf(
 			/* translators: 1: link open tag; 2: link close tag. */
-			esc_html__( 'You can determine the title and description for the front page by %1$sediting the front page itself%2$s.', 'wordpress-seo' ),
+			esc_html__( 'You can determine the title and description for the homepage by %1$sediting the homepage itself%2$s.', 'wordpress-seo' ),
 			'<a href="' . esc_url( get_edit_post_link( get_option( 'page_on_front' ) ) ) . '">',
 			'</a>'
 		);
@@ -49,7 +49,7 @@
 			echo '<p>';
 			printf(
 				/* translators: 1: link open tag; 2: link close tag. */
-				esc_html__( 'You can determine the title and description for the blog page by %1$sediting the blog page itself%2$s.', 'wordpress-seo' ),
+				esc_html__( 'You can determine the title and description for the posts page by %1$sediting the posts page itself%2$s.', 'wordpress-seo' ),
 				'<a href="' . esc_url( get_edit_post_link( get_option( 'page_for_posts' ) ) ) . '">',
 				'</a>'
 			);
