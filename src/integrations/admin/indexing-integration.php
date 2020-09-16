@@ -14,6 +14,11 @@ use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Presenters\Admin\Indexing_List_Item_Presenter;
 use Yoast\WP\SEO\Routes\Indexable_Indexation_Route;
 
+/**
+ * Class Indexing_Integration
+ *
+ * @package Yoast\WP\SEO\Integrations\Admin
+ */
 class Indexing_Integration implements Integration_Interface {
 
 	/**
@@ -117,11 +122,8 @@ class Indexing_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function enqueue_scripts() {
-		/*
-		 * We aren't able to determine whether or not anything needs to happen at register_hooks,
-		 * as post types aren't registered yet. So we do most of our add_action calls here.
-		 */
-		if ( $this->get_total_unindexed() === 0 ) {
+		$total_unindexed = $this->get_total_unindexed();
+		if ( $total_unindexed === 0 ) {
 			$this->complete_indexation_action->complete();
 		}
 
@@ -132,10 +134,10 @@ class Indexing_Integration implements Integration_Interface {
 		 */
 		$shutdown_limit = \apply_filters( 'wpseo_shutdown_indexation_limit', 25 );
 
-		if ( $this->get_total_unindexed() < $shutdown_limit ) {
+		if ( $total_unindexed < $shutdown_limit ) {
 			\register_shutdown_function( [ $this, 'shutdown_indexation' ] );
-
-			return;
+			// To correctly show an 'indexing completed' message.
+			$total_unindexed = 0;
 		}
 
 		$this->asset_manager->enqueue_script( 'indexation' );
@@ -143,7 +145,7 @@ class Indexing_Integration implements Integration_Interface {
 		$this->asset_manager->enqueue_style( 'monorepo' );
 
 		$data = [
-			'amount'  => $this->get_total_unindexed(),
+			'amount'  => $total_unindexed,
 			'restApi' => [
 				'root'      => \esc_url_raw( \rest_url() ),
 				'endpoints' => [
