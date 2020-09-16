@@ -13,6 +13,9 @@ We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwa
 * Adds the prefixes س and أ to the list of ignored prefixes for Arabic. When the Arabic keyphrase is preceded by س and أ, the basic keyphrase forms will also be created.
 * Adds and refactors an external stemmer for Arabic.
 
+### Bugfixes
+* Fixes the URL of the assessment image in the readme. Props to [Güven Atbakan](https://github.com/shibby).
+
 ### Other
 * Sets the threshold for words to be recognized as prominent words from 4 to 2, in case a language has no morphology support. This increases the chance that different word forms are saved, leading to better internal linking suggestions for these languages.
 
