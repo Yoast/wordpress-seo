@@ -35,7 +35,7 @@ class Open_Graph_OEmbed_Test extends TestCase {
 	protected $instance;
 
 	/**
-	 * @inheritDoc
+	 * Sets an instance for test purposes.
 	 */
 	public function setUp() {
 		parent::setUp();
