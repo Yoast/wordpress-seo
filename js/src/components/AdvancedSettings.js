@@ -160,12 +160,14 @@ MetaRobotsNoFollow.propTypes = {
  */
 const MetaRobotsAdvanced = ( { advanced, onAdvancedChange, location } ) => {
 	const id = appendLocation( "yoast_wpseo_meta-robots-adv-react", location );
+	const inputId = appendLocation( "yoast_wpseo_meta-robots-adv-input", location );
 
 	return <MultiSelect
 		label={ __( "Meta robots advanced", "wordpress-seo" ) }
 		onChange={ onAdvancedChange }
 		name="yoast_wpseo_meta-robots-adv-react"
 		id={ id }
+		inputId={ inputId }
 		options={ [
 			{ name: __( "No Image Index", "wordpress-seo" ), value: "noimageindex" },
 			{ name: __( "No Archive", "wordpress-seo" ), value: "noarchive" },
