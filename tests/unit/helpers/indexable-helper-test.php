@@ -9,7 +9,7 @@ use Yoast\WP\SEO\Actions\Indexation\Indexable_Post_Type_Archive_Indexation_Actio
 use Yoast\WP\SEO\Actions\Indexation\Indexable_Term_Indexation_Action;
 use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
-use Yoast\WP\SEO\Presenters\Admin\Indexation_Permalink_Warning_Presenter;
+use Yoast\WP\SEO\Integrations\Admin\Indexing_Notification_Integration;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
@@ -123,7 +123,7 @@ class Indexable_Helper_Test extends TestCase {
 
 		$this->options
 			->expects( 'set' )
-			->with( 'indexables_indexation_reason', Indexation_Permalink_Warning_Presenter::REASON_CATEGORY_BASE_PREFIX )
+			->with( 'indexables_indexation_reason', Indexing_Notification_Integration::REASON_CATEGORY_BASE_PREFIX )
 			->once();
 
 		$this->options
@@ -140,7 +140,7 @@ class Indexable_Helper_Test extends TestCase {
 		Monkey\Functions\expect( 'delete_transient' )->with( Indexable_Post_Type_Archive_Indexation_Action::TRANSIENT_CACHE_KEY );
 		Monkey\Functions\expect( 'delete_transient' )->with( Indexable_Term_Indexation_Action::TRANSIENT_CACHE_KEY );
 
-		$this->instance->reset_permalink_indexables( 'term', 'category', Indexation_Permalink_Warning_Presenter::REASON_CATEGORY_BASE_PREFIX );
+		$this->instance->reset_permalink_indexables( 'term', 'category', Indexing_Notification_Integration::REASON_CATEGORY_BASE_PREFIX );
 	}
 
 	/**
@@ -157,7 +157,7 @@ class Indexable_Helper_Test extends TestCase {
 
 		$this->options
 			->expects( 'set' )
-			->with( 'indexables_indexation_reason', Indexation_Permalink_Warning_Presenter::REASON_CATEGORY_BASE_PREFIX )
+			->with( 'indexables_indexation_reason', Indexing_Notification_Integration::REASON_CATEGORY_BASE_PREFIX )
 			->never();
 
 		$this->options
@@ -174,6 +174,6 @@ class Indexable_Helper_Test extends TestCase {
 		Monkey\Functions\expect( 'delete_transient' )->with( Indexable_Post_Type_Archive_Indexation_Action::TRANSIENT_CACHE_KEY )->never();
 		Monkey\Functions\expect( 'delete_transient' )->with( Indexable_Term_Indexation_Action::TRANSIENT_CACHE_KEY )->never();
 
-		$this->instance->reset_permalink_indexables( 'term', 'category', Indexation_Permalink_Warning_Presenter::REASON_CATEGORY_BASE_PREFIX );
+		$this->instance->reset_permalink_indexables( 'term', 'category', Indexing_Notification_Integration::REASON_CATEGORY_BASE_PREFIX );
 	}
 }

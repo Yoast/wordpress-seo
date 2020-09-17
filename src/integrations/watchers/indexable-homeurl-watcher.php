@@ -6,8 +6,8 @@ use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
+use Yoast\WP\SEO\Integrations\Admin\Indexing_Notification_Integration;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
-use Yoast\WP\SEO\Presenters\Admin\Indexation_Permalink_Warning_Presenter;
 
 /**
  * Home url option watcher.
@@ -83,13 +83,13 @@ class Indexable_HomeUrl_Watcher implements Integration_Interface {
 
 		$taxonomies = $this->get_taxonomies_for_post_types( $post_types );
 		foreach ( $taxonomies as $taxonomy ) {
-			$this->indexable_helper->reset_permalink_indexables( 'term', $taxonomy, Indexation_Permalink_Warning_Presenter::REASON_HOME_URL_OPTION );
+			$this->indexable_helper->reset_permalink_indexables( 'term', $taxonomy, Indexing_Notification_Integration::REASON_HOME_URL_OPTION );
 		}
 
-		$this->indexable_helper->reset_permalink_indexables( 'home-page', null, Indexation_Permalink_Warning_Presenter::REASON_HOME_URL_OPTION );
-		$this->indexable_helper->reset_permalink_indexables( 'user', null, Indexation_Permalink_Warning_Presenter::REASON_HOME_URL_OPTION );
-		$this->indexable_helper->reset_permalink_indexables( 'date-archive', null, Indexation_Permalink_Warning_Presenter::REASON_HOME_URL_OPTION );
-		$this->indexable_helper->reset_permalink_indexables( 'system-page', null, Indexation_Permalink_Warning_Presenter::REASON_HOME_URL_OPTION );
+		$this->indexable_helper->reset_permalink_indexables( 'home-page', null, Indexing_Notification_Integration::REASON_HOME_URL_OPTION );
+		$this->indexable_helper->reset_permalink_indexables( 'user', null, Indexing_Notification_Integration::REASON_HOME_URL_OPTION );
+		$this->indexable_helper->reset_permalink_indexables( 'date-archive', null, Indexing_Notification_Integration::REASON_HOME_URL_OPTION );
+		$this->indexable_helper->reset_permalink_indexables( 'system-page', null, Indexing_Notification_Integration::REASON_HOME_URL_OPTION );
 	}
 
 	/**
@@ -98,8 +98,8 @@ class Indexable_HomeUrl_Watcher implements Integration_Interface {
 	 * @param string $post_type The post type to reset.
 	 */
 	public function reset_permalinks_post_type( $post_type ) {
-		$this->indexable_helper->reset_permalink_indexables( 'post', $post_type, Indexation_Permalink_Warning_Presenter::REASON_HOME_URL_OPTION );
-		$this->indexable_helper->reset_permalink_indexables( 'post-type-archive', $post_type, Indexation_Permalink_Warning_Presenter::REASON_HOME_URL_OPTION );
+		$this->indexable_helper->reset_permalink_indexables( 'post', $post_type, Indexing_Notification_Integration::REASON_HOME_URL_OPTION );
+		$this->indexable_helper->reset_permalink_indexables( 'post-type-archive', $post_type, Indexing_Notification_Integration::REASON_HOME_URL_OPTION );
 	}
 
 	/**
