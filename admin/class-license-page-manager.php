@@ -123,7 +123,7 @@ class WPSEO_License_Page_Manager implements WPSEO_WordPress_Integration {
 	/**
 	 * Handles the response.
 	 *
-	 * @deprecated 15.0
+	 * @deprecated 15.1
 	 * @codeCoverageIgnore
 	 *
 	 * @param array  $response          HTTP response.
@@ -133,7 +133,7 @@ class WPSEO_License_Page_Manager implements WPSEO_WordPress_Integration {
 	 * @return array The response array.
 	 */
 	public function handle_response( array $response, $request_arguments, $url ) {
-		_deprecated_function( __METHOD__, 'WPSEO 15.0' );
+		_deprecated_function( __METHOD__, 'WPSEO 15.1' );
 
 		return $response;
 	}
@@ -141,13 +141,13 @@ class WPSEO_License_Page_Manager implements WPSEO_WordPress_Integration {
 	/**
 	 * Returns the license page to use based on the version number.
 	 *
-	 * @deprecated 15.0
+	 * @deprecated 15.1
 	 * @codeCoverageIgnore
 	 *
 	 * @return string The page to use.
 	 */
 	public function get_license_page() {
-		_deprecated_function( __METHOD__, '15.0' );
+		_deprecated_function( __METHOD__, '15.1' );
 
 		return 'licenses';
 	}
