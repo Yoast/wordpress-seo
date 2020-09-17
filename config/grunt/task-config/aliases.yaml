@@ -130,7 +130,7 @@ clean:build-assets:
   - 'verify-zip-size'
   - 'celebrate'
 
-'create-rc':withrelease
+'create-rc:withrelease':
   - 'init-rc-release:withrelease'
   - 'ensure-clean-branch'
   - 'ensure-pre-release-branch'

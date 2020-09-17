@@ -5,7 +5,7 @@
  * @param {array} 
  * @returns {bool}
  */
-function gruntOptionLogicToPreseveFalseValue( gruntOptionName, fallbackValue ) {
+function gruntOptionLogicToPreseveFalseValue( grunt, gruntOptionName, fallbackValue ) {
 	const gruntOptionValue = grunt.option( gruntOptionName ) ;
     return (typeof gruntOptionValue === 'undefined' ) ? fallbackValue: gruntOptionValue;
 }
@@ -54,7 +54,7 @@ module.exports = function( grunt ) {
 			let repo;
 			const pluginVersionArg = grunt.option( 'plugin-version' );
 			const type = grunt.option( 'type' ) || options.type;
-			const enableSvnDeploy = gruntOptionLogicToPreseveFalseValue( 'enableSvnDeploy', options.enableSvnDeploy );
+			const enableSvnDeploy = gruntOptionLogicToPreseveFalseValue( grunt, 'enableSvnDeploy', options.enableSvnDeploy );
 			/*
 			*const enableSvnDeployArg = grunt.option( 'enableSvnDeploy' ) ;
 			*const enableSvnDeploy = (typeof enableSvnDeployArg === 'undefined' ) ? options.enableSvnDeploy: enableSvnDeployArg;
