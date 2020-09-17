@@ -22,12 +22,11 @@ module.exports = function( grunt ) {
 				"./node_modules/yoastseo",
 			];
 
-
 			for ( let i = 0; i < files.length; i++ ) {
 				const file = files[ i ];
 
 				if ( ! fs.existsSync( file ) ) {
-					grunt.log.warn( `Package ${ file } not found, continuing normally.` );
+					grunt.log.write( `Package ${ file } not found, continuing normally.` );
 					continue;
 				}
 
