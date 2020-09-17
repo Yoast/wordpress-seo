@@ -209,11 +209,11 @@ Your question has most likely been answered on our knowledge base: [kb.yoast.com
 == Changelog ==
 
 = 15.0 =
-Release Date: September 15th, 2020
+Release Date: September 22nd, 2020
 
 Enhancements:
 
-* Introduces an advanced Settings tab in the sidebar.
+* Introduces an advanced settings tab in the sidebar.
 * Introduces buttons in the sidebar to open the Facebook and Twitter Preview in a modal.
 * Changes the Google Preview modal styling to match the other new modals.
 * Always shows the Google Preview editor fields and as a result removes the 'Edit snippet' button.
@@ -227,10 +227,12 @@ Bugfixes:
 * Fixes a bug where the value of the schema `@type` could contain `null`.
 * Fixes a bug where the `archive`, `imageindex` and `snippet` robot values would be output when `noindex` was present as well.
 * Fixes a bug where the indexable permalinks could have an incorrect value when the term slug was changed.
+* Fixes a bug where parts of the content of a password protected post could be output in the schema.
+* Fixes a bug where the 'Stop counting' button in the text link counter modal wouldn't stop the counting of links.
+* Fixes a bug where indexable hierarchies were not being created during bulk indexing.
 
 Other:
 
-* Adds an alert to the Google Preview modal informing users about the future removal of that modal in favor of the new post settings modal.
 * Adds the `wpseo_sitemap_index_links` filter to enable adding links to the sitemap index. Props to [Joseph Paul](https://github.com/jsphpl).
 * Slightly rearranges the order of items in the Yoast SEO sidebar.
 

@@ -169,6 +169,7 @@ const MetaRobotsAdvanced = ( { advanced, onAdvancedChange } ) => {
 				onChange={ onAdvancedChange }
 				name="yoast_wpseo_meta-robots-adv-react"
 				id={ appendLocation( "yoast_wpseo_meta-robots-adv-react", location ) }
+				inputId={ appendLocation( "yoast_wpseo_meta-robots-adv-input", location ) }
 				options={ [
 					{ name: __( "No Image Index", "wordpress-seo" ), value: "noimageindex" },
 					{ name: __( "No Archive", "wordpress-seo" ), value: "noarchive" },
