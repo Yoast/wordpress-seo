@@ -2,7 +2,12 @@
 
 namespace Yoast\WP\SEO\Helpers;
 
+use Yoast\WP\SEO\Actions\Indexation\Indexable_Post_Indexation_Action;
+use Yoast\WP\SEO\Actions\Indexation\Indexable_Post_Type_Archive_Indexation_Action;
+use Yoast\WP\SEO\Actions\Indexation\Indexable_Term_Indexation_Action;
 use Yoast\WP\SEO\Models\Indexable;
+use Yoast\WP\SEO\Presenters\Admin\Indexation_Permalink_Warning_Presenter;
+use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
 /**
  * A helper object for indexables.
@@ -10,37 +15,28 @@ use Yoast\WP\SEO\Models\Indexable;
 class Indexable_Helper {
 
 	/**
-	 * Retrieves the permalink for an indexable.
+	 * Represents the options helper.
 	 *
-	 * @param Indexable $indexable The indexable.
-	 *
-	 * @return string|null The permalink.
+	 * @var Options_Helper
 	 */
-	public function get_permalink_for_indexable( $indexable ) {
-		switch ( true ) {
-			case $indexable->object_type === 'post':
-			case $indexable->object_type === 'home-page':
-				if ( $indexable->object_sub_type === 'attachment' ) {
-					return \wp_get_attachment_url( $indexable->object_id );
-				}
-				return \get_permalink( $indexable->object_id );
-			case $indexable->object_type === 'term':
-				$term = \get_term( $indexable->object_id );
+	private $options_helper;
 
-				if ( $term === null || \is_wp_error( $term ) ) {
-					return null;
-				}
+	/**
+	 * Represents the indexable repository.
+	 *
+	 * @var Indexable_Repository
+	 */
+	protected $repository;
 
-				return \get_term_link( $term, $term->taxonomy );
-			case $indexable->object_type === 'system-page' && $indexable->object_sub_type === 'search-page':
-				return \get_search_link();
-			case $indexable->object_type === 'post-type-archive':
-				return \get_post_type_archive_link( $indexable->object_sub_type );
-			case $indexable->object_type === 'user':
-				return \get_author_posts_url( $indexable->object_id );
-		}
-
-		return null;
+	/**
+	 * Indexable_Helper constructor.
+	 *
+	 * @param Options_Helper       $options_helper The options helper.
+	 * @param Indexable_Repository $repository     The indexables repository.
+	 */
+	public function __construct( Options_Helper $options_helper, Indexable_Repository $repository ) {
+		$this->options_helper = $options_helper;
+		$this->repository     = $repository;
 	}
 
 	/**
@@ -90,5 +86,26 @@ class Indexable_Helper {
 		}
 
 		return false;
+	}
+
+	/**
+	 * Resets the permalinks of the indexables.
+	 *
+	 * @param string      $type    The type of the indexable.
+	 * @param null|string $subtype The subtype. Can be null.
+	 * @param string      $reason  The reason that the permalink has been changed.
+	 */
+	public function reset_permalink_indexables( $type = null, $subtype = null, $reason = Indexation_Permalink_Warning_Presenter::REASON_PERMALINK_SETTINGS ) {
+		$result = $this->repository->reset_permalink( $type, $subtype );
+
+		if ( $result !== false && $result > 0 ) {
+			$this->options_helper->set( 'indexables_indexation_reason', $reason );
+			$this->options_helper->set( 'ignore_indexation_warning', false );
+			$this->options_helper->set( 'indexation_warning_hide_until', false );
+
+			delete_transient( Indexable_Post_Indexation_Action::TRANSIENT_CACHE_KEY );
+			delete_transient( Indexable_Post_Type_Archive_Indexation_Action::TRANSIENT_CACHE_KEY );
+			delete_transient( Indexable_Term_Indexation_Action::TRANSIENT_CACHE_KEY );
+		}
 	}
 }
