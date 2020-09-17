@@ -65,7 +65,7 @@ $extensions = [
 ];
 
 // Add Yoast WooCommerce SEO when WooCommerce is active.
-if ( WPSEO_Utils::is_woocommerce_active() ) {
+if ( YoastSEO()->helpers->woocommerce->is_active() ) {
 	$extensions[ WPSEO_Addon_Manager::WOOCOMMERCE_SLUG ] = [
         'buyUrl'        => WPSEO_Shortlinker::get( 'https://yoa.st/zr' ),
         'infoUrl'       => WPSEO_Shortlinker::get( 'https://yoa.st/zq' ),
