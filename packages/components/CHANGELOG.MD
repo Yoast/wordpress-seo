@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file. Releases wi
 
 We follow [Semantic Versioning](http://semver.org/).
 
+## 2.10.0 October 1st, 2020
+### Other
+* Adds an id to the MultiSelect's input field.
+
 ## 2.9.0 September 17th, 2020
 ### Enhancements
 * Changes `TextInput`, `TextArea`, `LabeledRadioButton`, `Select`, and `MultiSelect` to controlled components, their value should be passed from a higher order component.
