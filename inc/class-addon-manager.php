@@ -246,11 +246,11 @@ class WPSEO_Addon_Manager {
 	 */
 	public function is_installed( $slug ) {
 		$slug_to_class_map = [
-			WPSEO_Addon_Manager::PREMIUM_SLUG     => 'WPSEO_Premium',
-			WPSEO_Addon_Manager::NEWS_SLUG        => 'WPSEO_News',
-			WPSEO_Addon_Manager::WOOCOMMERCE_SLUG => 'Yoast_WooCommerce_SEO',
-			WPSEO_Addon_Manager::VIDEO_SLUG       => 'WPSEO_Video_Sitemap',
-			WPSEO_Addon_Manager::LOCAL_SLUG       => 'WPSEO_Local_Core',
+			static::PREMIUM_SLUG     => 'WPSEO_Premium',
+			static::NEWS_SLUG        => 'WPSEO_News',
+			static::WOOCOMMERCE_SLUG => 'Yoast_WooCommerce_SEO',
+			static::VIDEO_SLUG       => 'WPSEO_Video_Sitemap',
+			static::LOCAL_SLUG       => 'WPSEO_Local_Core',
 		];
 
 		if ( ! isset( $slug_to_class_map[ $slug ] ) ) {
