@@ -67,6 +67,7 @@ const changeOptionFormatToReactSelect = ( options ) => {
 export const MultiSelect = ( props ) => {
 	const {
 		id,
+		inputId,
 		selected,
 		options,
 		name,
@@ -98,6 +99,7 @@ export const MultiSelect = ( props ) => {
 			<ReactSelect
 				isMulti={ true }
 				id={ id }
+				inputId={ inputId }
 				name={ `${ name }[]` }
 				value={ selectedOptions }
 				options={ reactSelectOptions }
@@ -113,8 +115,14 @@ export const MultiSelect = ( props ) => {
 	);
 };
 
-MultiSelect.propTypes = selectProps;
-MultiSelect.defaultProps = selectDefaultProps;
+MultiSelect.propTypes = {
+	...selectProps,
+	inputId: PropTypes.string,
+};
+MultiSelect.defaultProps = {
+	...selectDefaultProps,
+	inputId: null,
+};
 
 /**
  * React wrapper for a basic HTML select.
