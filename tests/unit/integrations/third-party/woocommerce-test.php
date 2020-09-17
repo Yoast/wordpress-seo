@@ -69,6 +69,8 @@ class WooCommerce_Test extends TestCase {
 	protected $context_memoizer;
 
 	/**
+	 * The indexable repository.
+	 *
 	 * @var Indexable_Repository
 	 */
 	private $repository;
