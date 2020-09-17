@@ -132,7 +132,7 @@ class Indexable_Author_Archive_Presentation extends Indexable_Presentation {
 	/**
 	 * Generates the Open Graph type.
 	 *
-	 * @return array The Open Graph type.
+	 * @return string The Open Graph type.
 	 */
 	public function generate_open_graph_type() {
 		return 'profile';
