@@ -115,7 +115,6 @@
     "@yoast/feature-flag": "^0.5.2-rc.1",
     "@yoast/helpers": "^0.13.0-rc.5",
     "@yoast/replacement-variable-editor": "^1.4.0-rc.2",
-    "@yoast/schema-blocks": "/Users/alexander/Documents/javascript/packages/schema-blocks",
     "@yoast/search-metadata-previews": "^2.11.0-rc.2",
     "@yoast/social-metadata-forms": "^1.4.0-rc.2",
     "@yoast/style-guide": "^0.13.0-rc.0",
