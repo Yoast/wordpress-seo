@@ -36,7 +36,8 @@ class WPSEO_License_Page_Manager implements WPSEO_WordPress_Integration {
 	public function register_hooks() {
 		if ( $this->get_version() === self::VERSION_BACKWARDS_COMPATIBILITY ) {
 			add_action( 'admin_init', [ $this, 'validate_extensions' ], 15 );
-		} else {
+		}
+		else {
 			add_action( 'admin_init', [ $this, 'remove_faulty_notifications' ], 15 );
 		}
 	}
