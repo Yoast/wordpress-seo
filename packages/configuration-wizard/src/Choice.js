@@ -99,7 +99,7 @@ Choice.propTypes = {
 	value: PropTypes.string,
 	properties: PropTypes.shape( {
 		label: PropTypes.string,
-		choices: PropTypes.object,
+		choices: PropTypes.array,
 		explanation: PropTypes.string,
 		description: PropTypes.string,
 		type: PropTypes.string,
@@ -114,7 +114,7 @@ Choice.defaultProps = {
 	value: "",
 	properties: {
 		label: "",
-		choices: {},
+		choices: [],
 		description: "",
 	},
 	onChange: () => null,

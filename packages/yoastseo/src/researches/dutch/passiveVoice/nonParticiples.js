@@ -5,6 +5,7 @@
 export default function() {
 	return [
 		"gebraad",
+		"gemoed",
 		"gebed",
 		"gebied",
 		"gebod",

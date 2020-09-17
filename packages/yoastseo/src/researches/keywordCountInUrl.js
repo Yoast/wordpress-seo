@@ -13,10 +13,16 @@ import { findTopicFormsInString } from "./findKeywordFormsInString.js";
  */
 export default function( paper, researcher ) {
 	const topicForms = researcher.getResearch( "morphology" );
-	const slug = parseSlug( paper.getUrl() );
+	const parsedSlug = parseSlug( paper.getUrl() );
 
-	const keyphraseInSlug = findTopicFormsInString( topicForms, slug, false, paper.getLocale() );
-
+	let keyphraseInSlug = findTopicFormsInString( topicForms, parsedSlug, false, paper.getLocale() );
+	/* In case we deal with a language where dashes are part of the word (e.g., in Indonesian: buku-buku),
+	 * Try looking for the keywords in the unparsed slug.
+	 */
+	if ( keyphraseInSlug.percentWordMatches === 0 ) {
+		const unparsedSlug = paper.getUrl();
+		keyphraseInSlug = findTopicFormsInString( topicForms, unparsedSlug, false, paper.getLocale() );
+	}
 	return {
 		keyphraseLength: topicForms.keyphraseForms.length,
 		percentWordMatches: keyphraseInSlug.percentWordMatches,

@@ -5,6 +5,8 @@ import PropTypes from "prop-types";
 /**
  * @summary WordList component.
  *
+ * @deprecated
+ *
  * @param {object}      props                 The props to use.
  * @param {string}      props.title           The title of the list.
  * @param {string}      props.classNamePrefix CSS classname prefix for the elements.
@@ -15,6 +17,8 @@ import PropTypes from "prop-types";
  * @returns {JSX.Element} Rendered WordList component.
  */
 const WordList = ( props ) => {
+	console.warn( "The WordList component has been deprecated and will be removed in a future release." );
+
 	const { title, classNamePrefix, words, header, footer } = props;
 
 	const list = (

@@ -75,7 +75,7 @@ const expectedResults = {
 	titleKeyword: {
 		isApplicable: true,
 		score: 2,
-		resultText: "<a href='https://yoa.st/33g' target='_blank'>Keyphrase in title</a>: Not all the words from your keyphrase \"El lugar de culto religioso más antiguo del mundo\" appear in the SEO title. <a href='https://yoa.st/33h' target='_blank'>Try to use the exact match of your keyphrase in the SEO title</a>.",
+		resultText: "<a href='https://yoa.st/33g' target='_blank'>Keyphrase in title</a>: Not all the words from your keyphrase \"El lugar de culto religioso más antiguo del mundo\" appear in the SEO title. <a href='https://yoa.st/33h' target='_blank'>For the best SEO results write the exact match of your keyphrase in the SEO title, and put the keyphrase at the beginning of the title</a>.",
 	},
 	titleWidth: {
 		isApplicable: true,
@@ -103,7 +103,7 @@ const expectedResults = {
 	fleschReadingEase: {
 		isApplicable: true,
 		score: 6,
-		resultText: "<a href='https://yoa.st/34r' target='_blank'>Flesch Reading Ease</a>: The copy scores 59.7 in the test, which is considered fairly difficult to read. <a href='https://yoa.st/34s' target='_blank'>Try to make shorter sentences to improve readability</a>.",
+		resultText: "<a href='https://yoa.st/34r' target='_blank'>Flesch Reading Ease</a>: The copy scores 58.1 in the test, which is considered fairly difficult to read. <a href='https://yoa.st/34s' target='_blank'>Try to make shorter sentences to improve readability</a>.",
 	},
 	subheadingsTooLong: {
 		isApplicable: true,

@@ -9,7 +9,7 @@
   ],
   "main": "index.js",
   "license": "GPL-3.0",
-  "version": "1.70.0-rc.0",
+  "version": "1.82.0-rc.2",
   "repository": {
     "type": "git",
     "url": "https://github.com/Yoast/javascript.git",
@@ -29,7 +29,7 @@
     "node": ">=8.0.0"
   },
   "devDependencies": {
-    "@yoast/browserslist-config": "^1.2.1",
+    "@yoast/browserslist-config": "^1.2.2",
     "autoprefixer": "^9.0.0",
     "babel-cli": "^6.16.0",
     "babel-core": "^6.26.0",
@@ -41,7 +41,7 @@
     "babelify": "^8.0.0",
     "browserslist": "^4.7.3",
     "console.table": "^0.10.0",
-    "eslint-config-yoast": "^5.0.16",
+    "eslint-config-yoast": "^5.0.17",
     "eslint-plugin-jsx-a11y": "^6.1.2",
     "eslint-plugin-react": "^7.11.1",
     "eslint-plugin-yoast": "^1.0.1",
@@ -62,14 +62,14 @@
     "js-yaml": "^3.12.1",
     "load-grunt-config": "^1.0.0",
     "lodash-cli": "^4.14.1",
-    "node-sass": "^4.9.3"
+    "node-sass": "4.13.0"
   },
   "bugs": {
     "url": "https://github.com/Yoast/js-text-analysis/issues"
   },
   "dependencies": {
     "@wordpress/autop": "^2.0.2",
-    "@yoast/feature-flag": "^0.5.1",
+    "@yoast/feature-flag": "^0.5.2",
     "htmlparser2": "^3.9.2",
     "jed": "^1.1.0",
     "lodash-es": "^4.17.10",
@@ -103,7 +103,30 @@
     ],
     "testPathIgnorePatterns": [
       "/spec/specHelpers/*",
-      "/spec/fullTextTests/testTexts"
+      "/spec/fullTextTests/testTexts",
+      "/spec/morphology/spanish/stemmerCoverage/generateStems.js",
+      "/spec/morphology/spanish/stemmerCoverage/goldStandardStems.json",
+      "/spec/morphology/french/stemmerCoverage/generateStems.js",
+      "/spec/morphology/french/stemmerCoverage/goldStandardStems.json",
+      "/spec/morphology/french/stemmerCoverage/sampleVocabulary.json",
+      "/spec/morphology/russian/stemmerCoverage/generateStems.js",
+      "/spec/morphology/russian/stemmerCoverage/goldStandardStems.json",
+      "/spec/morphology/russian/stemmerCoverage/sampleVocabulary.json",
+      "/spec/morphology/italian/stemmerCoverage/goldStandardStems.json",
+      "/spec/morphology/italian/stemmerCoverage/sampleVocabulary.json",
+      "/spec/morphology/italian/stemmerCoverage/generateStems.js",
+      "/spec/morphology/portuguese/stemmerCoverage/generateStems.js",
+      "/spec/morphology/portuguese/stemmerCoverage/goldStandardStems.json",
+      "/spec/morphology/portuguese/stemmerCoverage/sampleVocabulary.json",
+      "/spec/morphology/indonesian/stemmerCoverage/generateStems.js",
+      "/spec/morphology/indonesian/stemmerCoverage/goldStandardStems.json",
+      "/spec/morphology/indonesian/stemmerCoverage/sampleVocabulary.json",
+      "/spec/morphology/polish/stemmerCoverage/generateStems.js",
+      "/spec/morphology/polish/stemmerCoverage/goldStandardStems.json",
+      "/spec/morphology/polish/stemmerCoverage/sampleVocabulary.json",
+      "/spec/morphology/arabic/stemmerCoverage/generateStems.js",
+      "/spec/morphology/arabic/stemmerCoverage/goldStandardStems.json",
+      "/spec/morphology/arabic/stemmerCoverage/sampleVocabulary.json"
     ],
     "coveragePathIgnorePatterns": [
       "js/templates.js"
@@ -118,6 +141,6 @@
     }
   },
   "yoast": {
-    "premiumConfiguration": "release-yoast-seo/13.3"
+    "premiumConfiguration": ""
   }
 }

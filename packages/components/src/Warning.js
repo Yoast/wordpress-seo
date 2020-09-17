@@ -13,8 +13,8 @@ import SvgIcon from "./SvgIcon";
 const WarningBox = styled.div`
 	display: flex;
 	padding: 16px;
-	background: ${ colors.$color_yellow };
-	color: ${ colors.$color_black };
+	background: ${ colors.$color_alert_warning_background };
+	color: ${ colors.$color_alert_warning_text };
 `;
 
 const StyledSvgIcon = styled( SvgIcon )`

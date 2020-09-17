@@ -14,11 +14,11 @@ export default function() {
 		[ "amikor", "azalatt" ], [ "amikorra", "addigra" ], [ "amikorra", "akkorra" ], [ "amint", "akkor" ],
 		[ "amint", "azonnal" ], [ "amint", "máris" ], [ "amint", "nyomban" ], [ "amint", "tüstént" ],
 		[ "amióta", "attól kezdve" ], [ "amióta", "azóta" ], [ "amire", "addig" ], [ "amire", "addigra" ],
-		[ "azóta", "hogy" ], [ "ha", "akkor" ], [ "hogyha", "akkor" ], [ "mialatt", "azalatt" ],
+		[ "azóta", "hogy" ], [ "ha", "akkor" ], [ "hogyha", "akkor" ], [ "is", "is" ], [ "mialatt", "azalatt" ],
 		[ "mielőtt", "azelőtt" ], [ "mihelyt", "azonnal" ], [ "mihelyt", "máris" ], [ "mihelyt", "nyomban" ],
 		[ "mihelyt", "tüstént" ], [ "mikor", "akkor" ], [ "mikor", "aközben" ], [ "mikor", "azalatt" ],
 		[ "mikor", "azután" ], [ "mikorra", "addigra" ], [ "mikorra", "akkorra" ], [ "miközben", "azalatt" ],
 		[ "mióta", "attól kezdve" ], [ "mióta", "azóta" ], [ "mire", "addig" ], [ "mire", "addigra" ],
-		[ "miután", "azután" ], [ "nemcsak", "hanem" ], [ "sem", "sem" ] ];
+		[ "miután", "azután" ], [ "nemcsak", "hanem" ], [ "sem", "sem" ], [ "vagy", "vagy" ] ];
 }
 

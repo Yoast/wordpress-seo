@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<style>
+		/* Demo styling */
+		body {
+			font-family: var(--yoast-font-family);
+			font-size: var(--yoast-font-size-default);
+			color: var(--yoast-color-font-default);
+			line-height: 1.5;
+		}
+	</style>
+
+	<link rel='stylesheet' href='../base/colors.css' type='text/css' media='all'/>
+	<link rel='stylesheet' href='../base/typography.css' type='text/css' media='all'/>
+	<link rel='stylesheet' href='../base/borders.css' type='text/css' media='all'/>
+	<link rel='stylesheet' href='../base/utility.css' type='text/css' media='all'/>
+	<link rel='stylesheet' href='../help-icon/help-icon.css' type='text/css' media='all'/>
+
+	<link rel='stylesheet' href='../field-group/field-group.css' type='text/css' media='all'/>
+	<link rel='stylesheet' href='title-separator.css' type='text/css' media='all'/>
+
+</head>
+<body class="yoast">
+<form>
+
+	<p>Fieldset with styling</p>
+
+	<fieldset class="yoast-field-group">
+		<div class="yoast-field-group__title">
+			<legend>Choose your title separator</legend>
+			<a class="yoast-help" target="_blank" href="https://yoast.com">
+				<span class="yoast-help__icon">
+					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12" role="img" aria-hidden="true"
+						 focusable="false"><path
+							d="M12 6A6 6 0 110 6a6 6 0 0112 0zM6.2 2C4.8 2 4 2.5 3.3 3.5l.1.4.8.7.4-.1c.5-.5.8-.9 1.4-.9.5 0 1.1.4 1.1.8s-.3.6-.7.9C5.8 5.6 5 6 5 7c0 .2.2.4.3.4h1.4L7 7c0-.8 2-.8 2-2.6C9 3 7.5 2 6.2 2zM6 8a1.1 1.1 0 100 2.2A1.1 1.1 0 006 8z"/></svg>
+				</span>
+				<span class="screen-reader-text">Tell what this link does.</span>
+				<span class="screen-reader-text">(Opens in a new browser tab)</span>
+			</a>
+		</div>
+		<div class="yoast-field-group__title-separator">
+			<input type="radio" name="separator" class="visually-hidden" id="separator-0" value="sc-dash" checked="">
+			<label for="separator-0" class="" aria-label="Dash">-</label>
+			<input type="radio" name="separator" class="visually-hidden" id="separator-1" value="sc-ndash">
+			<label for="separator-1" class="" aria-label="En dash">–</label>
+			<input type="radio" name="separator" class="visually-hidden" id="separator-2" value="sc-mdash">
+			<label for="separator-2" class="" aria-label="Em dash">—</label>
+			<input type="radio" name="separator" class="visually-hidden" id="separator-3" value="sc-colon">
+			<label for="separator-3" class="" aria-label="Colon">:</label>
+			<input type="radio" name="separator" class="visually-hidden" id="separator-4" value="sc-middot">
+			<label for="separator-4" class="" aria-label="Middle dot">·</label>
+			<input type="radio" name="separator" class="visually-hidden" id="separator-5" value="sc-bull">
+			<label for="separator-5" class="" aria-label="Bullet">•</label>
+			<input type="radio" name="separator" class="visually-hidden" id="separator-6" value="sc-star">
+			<label for="separator-6" class="" aria-label="Asterisk">*</label>
+			<input type="radio" name="separator" class="visually-hidden" id="separator-7" value="sc-smstar">
+			<label for="separator-7" class="" aria-label="Low asterisk">⋆</label>
+			<input type="radio" name="separator" class="visually-hidden" id="separator-8" value="sc-pipe">
+			<label for="separator-8" class="" aria-label="Vertical bar">|</label>
+			<input type="radio" name="separator" class="visually-hidden" id="separator-9" value="sc-tilde">
+			<label for="separator-9" class="" aria-label="Small tilde">~</label>
+			<input type="radio" name="separator" class="visually-hidden" id="separator-10" value="sc-laquo">
+			<label for="separator-10" class="" aria-label="Left angle quotation mark">«</label>
+			<input type="radio" name="separator" class="visually-hidden" id="separator-11" value="sc-raquo">
+			<label for="separator-11" class="" aria-label="Right angle quotation mark">»</label>
+			<input type="radio" name="separator" class="visually-hidden" id="separator-12" value="sc-lt">
+			<label for="separator-12" class="" aria-label="Less than sign">&lt;</label>
+			<input type="radio" name="separator" class="visually-hidden" id="separator-13" value="sc-gt">
+			<label for="separator-13" class="" aria-label="Greater than sign">&gt;</label>
+		</div>
+	</fieldset>
+
+	<p>Fieldset without specific styling</p>
+
+	<fieldset>
+		<input type="radio" name="separator1" class="visually-hidden" id="separator-0-s" value="sc-dash" checked="">
+		<label for="separator-0-s" class="" aria-label="Dash">-</label>
+		<input type="radio" name="separator1" class="visually-hidden" id="separator-1-s" value="sc-ndash">
+		<label for="separator-1-s" class="" aria-label="En dash">–</label>
+		<input type="radio" name="separator1" class="visually-hidden" id="separator-2-s" value="sc-mdash">
+		<label for="separator-2-s" class="" aria-label="Em dash">—</label>
+		<input type="radio" name="separator1" class="visually-hidden" id="separator-3-s" value="sc-colon">
+		<label for="separator-3-s" class="" aria-label="Colon">:</label>
+		<input type="radio" name="separator1" class="visually-hidden" id="separator-4-s" value="sc-middot">
+		<label for="separator-4-s" class="" aria-label="Middle dot">·</label>
+		<input type="radio" name="separator1" class="visually-hidden" id="separator-5-s" value="sc-bull">
+		<label for="separator-5-s" class="" aria-label="Bullet">•</label>
+		<input type="radio" name="separator1" class="visually-hidden" id="separator-6-s" value="sc-star">
+		<label for="separator-6-s" class="" aria-label="Asterisk">*</label>
+		<input type="radio" name="separato1r" class="visually-hidden" id="separator-7-s" value="sc-smstar">
+		<label for="separator-7-s" class="" aria-label="Low asterisk">⋆</label>
+		<input type="radio" name="separator1" class="visually-hidden" id="separator-8-s" value="sc-pipe">
+		<label for="separator-8-s" class="" aria-label="Vertical bar">|</label>
+		<input type="radio" name="separator1" class="visually-hidden" id="separator-9-s" value="sc-tilde">
+		<label for="separator-9-s" class="" aria-label="Small tilde">~</label>
+		<input type="radio" name="separator1" class="visually-hidden" id="separator-10-s" value="sc-laquo">
+		<label for="separator-10-s" class="" aria-label="Left angle quotation mark">«</label>
+		<input type="radio" name="separator1" class="visually-hidden" id="separator-11-s" value="sc-raquo">
+		<label for="separator-11-s" class="" aria-label="Right angle quotation mark">»</label>
+		<input type="radio" name="separator1" class="visually-hidden" id="separator-12-s" value="sc-lt">
+		<label for="separator-12-s" class="" aria-label="Less than sign">&lt;</label>
+		<input type="radio" name="separator1" class="visually-hidden" id="separator-13-s" value="sc-gt">
+		<label for="separator-13-s" class="" aria-label="Greater than sign">&gt;</label>
+	</fieldset>
+
+</form>
+</body>
+</html>

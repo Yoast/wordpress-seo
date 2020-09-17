@@ -278,7 +278,7 @@ class Step extends React.Component {
 				tabIndex="-1"
 				aria-labelledby="step-title"
 			>
-				<h1 id="step-title">{ this.props.title }</h1>
+				<h1 className="step-title">{ this.props.title }</h1>
 				<div className={ `${ this.props.classPrefix }-content-container${ fullWidthClass }` }>
 					{ this.getFieldComponents( this.props.fields ) }
 				</div>

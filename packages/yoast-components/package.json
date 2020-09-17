@@ -1,6 +1,6 @@
 {
   "name": "yoast-components",
-  "version": "4.43.0-rc.0",
+  "version": "5.11.0-rc.2",
   "description": "Yoast Generic Components",
   "homepage": "https://github.com/Yoast/",
   "repository": {
@@ -59,14 +59,15 @@
   "dependencies": {
     "@wordpress/a11y": "^1.0.7",
     "@wordpress/i18n": "^1.1.0",
-    "@yoast/analysis-report": "^0.13.1",
-    "@yoast/components": "^0.13.1",
-    "@yoast/configuration-wizard": "^1.12.1",
-    "@yoast/helpers": "^0.11.1",
-    "@yoast/search-metadata-previews": "^1.19.0-rc.0",
-    "@yoast/style-guide": "^0.11.1",
+    "@yoast/analysis-report": "^1.11.0-rc.2",
+    "@yoast/components": "^2.9.0-rc.2",
+    "@yoast/configuration-wizard": "^2.11.0-rc.2",
+    "@yoast/helpers": "^0.13.0",
+    "@yoast/replacement-variable-editor": "^1.4.0-rc.2",
+    "@yoast/search-metadata-previews": "^2.11.0-rc.2",
+    "@yoast/style-guide": "^0.13.0",
     "clipboard": "^1.5.15",
-    "draft-js": "^0.10.5",
+    "draft-js": "^0.11.4",
     "draft-js-mention-plugin": "^3.0.4",
     "draft-js-plugins-editor": "^2.0.4",
     "draft-js-single-line-plugin": "^2.0.1",
@@ -82,10 +83,10 @@
     "styled-components": "^4.2.0",
     "whatwg-fetch": "^1.0.0",
     "wicked-good-xpath": "^1.3.0",
-    "yoastseo": "^1.70.0-rc.0"
+    "yoastseo": "^1.82.0-rc.2"
   },
   "devDependencies": {
-    "@yoast/browserslist-config": "^1.2.1",
+    "@yoast/browserslist-config": "^1.2.2",
     "autoprefixer": "^6.4.0",
     "babel-core": "^6.25.0",
     "babel-jest": "^22.4.3",

@@ -1,0 +1,51 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CheckboxGroup should render with only the required props 1`] = `
+<div
+  className="yoast-field-group"
+>
+  <div
+    className="yoast-field-group__title"
+  >
+    <label
+      htmlFor="test-id"
+    >
+      Nice label
+    </label>
+  </div>
+  <div
+    onChange={[Function]}
+  >
+    <div
+      className="yoast-field-group__checkbox"
+    >
+      <input
+        defaultChecked={false}
+        id="hi"
+        type="checkbox"
+      />
+      <label
+        className="yoast-field-group__checkbox"
+        htmlFor="hi"
+      >
+        Hi
+      </label>
+    </div>
+    <div
+      className="yoast-field-group__checkbox"
+    >
+      <input
+        defaultChecked={false}
+        id="hello"
+        type="checkbox"
+      />
+      <label
+        className="yoast-field-group__checkbox"
+        htmlFor="hello"
+      >
+        Hello
+      </label>
+    </div>
+  </div>
+</div>
+`;

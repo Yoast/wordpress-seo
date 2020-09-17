@@ -1,0 +1,31 @@
+.yoast-data-model {
+    padding: 0;
+    list-style: none;
+}
+
+.yoast-data-model li {
+    line-height: 1.4;
+    padding: 0 8px;
+    position: relative;
+    z-index:2;
+    font-weight: var(--yoast-font-weight-bold);
+}
+
+.yoast-data-model span {
+    float: right;
+    font-weight: var(--yoast-font-weight-default);
+}
+
+.yoast-data-model li + li {
+    margin-top: 9px;
+}
+
+.yoast-data-model li:after {
+    position: absolute;
+    left: 0;
+    height: 20px;
+    background: #F5D6E6;
+    content:"";
+    width: var(--yoast-width);
+    z-index:-1;
+}

@@ -31,7 +31,8 @@ describe( "A test for building stems for an array of words", function() {
 		);
 	} );
 
-	it( "returns all (content) words if there is no morphological analyzer for this language yet", function() {
+	it( "returns all (content) words for a language that has a morphological analyzer, but no morphology data is available" +
+		"(e.g., when running Free)", function() {
 		const forms = buildStems( "Como hacer guacamole como los mexicanos", "es", false );
 		expect( forms ).toEqual(
 			new TopicPhrase(
@@ -44,24 +45,38 @@ describe( "A test for building stems for an array of words", function() {
 		);
 	} );
 
-	it( "returns all (content) words if there is no morphological analyzer for this language yet and takes care of apostrophe variations", function() {
-		expect( buildStems( "слово'слово", "ru", {} ) ).toEqual(
+	it( "returns all words if there are no function words and no morphological analyzer for this language", function() {
+		const forms = buildStems( "Ek gaan stap.", "af", false );
+		expect( forms ).toEqual(
+			new TopicPhrase(
+				[
+					new StemOriginalPair( "ek", "Ek" ),
+					new StemOriginalPair( "gaan", "gaan" ),
+					new StemOriginalPair( "stap", "stap" ),
+				],
+				false
+			)
+		);
+	} );
+
+	it( "returns all (content) words if there is no morphological analyzer for this language (i.e., Free situation) and takes care of apostrophe variations", function() {
+		expect( buildStems( "слово'слово", "ru", false ) ).toEqual(
 			new TopicPhrase( [ new StemOriginalPair( "слово'слово", "слово'слово" ) ], false )
 		);
 
-		expect( buildStems( "слово‘слово", "ru", {} ) ).toEqual(
+		expect( buildStems( "слово‘слово", "ru", false ) ).toEqual(
 			new TopicPhrase( [ new StemOriginalPair( "слово'слово", "слово‘слово" ) ], false )
 		);
 
-		expect( buildStems( "слово‛слово", "ru", {} ) ).toEqual(
+		expect( buildStems( "слово‛слово", "ru", false ) ).toEqual(
 			new TopicPhrase( [ new StemOriginalPair( "слово'слово", "слово‛слово" ) ], false )
 		);
 
-		expect( buildStems( "слово’слово", "ru", {} ) ).toEqual(
+		expect( buildStems( "слово’слово", "ru", false ) ).toEqual(
 			new TopicPhrase( [ new StemOriginalPair( "слово'слово", "слово’слово" ) ], false )
 		);
 
-		expect( buildStems( "слово`слово", "ru", {} ) ).toEqual(
+		expect( buildStems( "слово`слово", "ru", false ) ).toEqual(
 			new TopicPhrase( [ new StemOriginalPair( "слово'слово", "слово`слово" ) ], false )
 		);
 	} );
@@ -191,36 +206,45 @@ describe( "A test for building keyword and synonyms stems for a paper", function
 		expect( collectStems( keyword, synonyms, language, morphologyDataEN.en ) ).toEqual( expectedResult );
 	} );
 
-	it( "returns the exact matches if the input strings are embedded in quotation marks and separate words if not; for French (no morphology yet)", function() {
-		const keyword = "Je vais me promener";
-		const synonyms = "\"Tu ne vas pas te promener\", Tu vas voir un film, Et lui il va travailler dur.";
-		const language = "fr";
+	it( "returns the exact matches if the input strings are embedded in quotation marks and separate words if not; " +
+		"for a language without morphology and function words", function() {
+		const keyword = "Ek gaan stap.";
+		const synonyms = "\"Ek gaan nie stap nie\", Jy gaan 'n film kyk, En hy sal hard werk.";
+		const language = "af";
 
 		const expectedResult = {
 			keyphraseStems: new TopicPhrase(
 				[
-					new StemOriginalPair( "promener", "promener" ),
+					new StemOriginalPair( "ek", "Ek" ),
+					new StemOriginalPair( "gaan", "gaan" ),
+					new StemOriginalPair( "stap", "stap" ),
 				],
 				false
 			),
 			synonymsStems: [
 				new TopicPhrase(
 					[
-						new StemOriginalPair( "Tu ne vas pas te promener", "Tu ne vas pas te promener" ),
+						new StemOriginalPair( "Ek gaan nie stap nie", "Ek gaan nie stap nie" ),
 					],
 					true
 				),
 				new TopicPhrase(
 					[
-						new StemOriginalPair( "voir", "voir" ),
+						new StemOriginalPair( "jy", "Jy" ),
+						new StemOriginalPair( "gaan", "gaan" ),
+						new StemOriginalPair( "n", "n" ),
 						new StemOriginalPair( "film", "film" ),
+						new StemOriginalPair( "kyk", "kyk" ),
 					],
 					false
 				),
 				new TopicPhrase(
 					[
-						new StemOriginalPair( "travailler", "travailler" ),
-						new StemOriginalPair( "dur", "dur" ),
+						new StemOriginalPair( "en", "En" ),
+						new StemOriginalPair( "hy", "hy" ),
+						new StemOriginalPair( "sal", "sal" ),
+						new StemOriginalPair( "hard", "hard" ),
+						new StemOriginalPair( "werk", "werk" ),
 					],
 					false
 				),
@@ -329,6 +353,36 @@ describe( "A test for building keyword and synonyms stems for a paper", function
 		};
 		expect( collectStems( keyword, "", language, morphologyDataEN.en ) ).toEqual( expectedResult );
 	} );
+} );
+
+describe( "A test for filtering function words in supported languages", function() {
+	// Function word: שני
+	const forms = buildStems( "שני תפוחים", "he", false );
+	expect( forms ).toEqual(
+		new TopicPhrase(
+			[ new StemOriginalPair( "תפוחים", "תפוחים" ) ],
+			false )
+	);
+} );
+
+describe( "A test for filtering function words in supported languages", function() {
+	// Function word: دو
+	const forms = buildStems( "دو سیب", "fa", false );
+	expect( forms ).toEqual(
+		new TopicPhrase(
+			[ new StemOriginalPair( "سیب", "سیب" ) ],
+			false )
+	);
+} );
+
+describe( "A test for filtering function words in supported languages", function() {
+	// Function word: هذه
+	const forms = buildStems( "هذه المعلومات", "ar", false );
+	expect( forms ).toEqual(
+		new TopicPhrase(
+			[ new StemOriginalPair( "المعلومات", "المعلومات" ) ],
+			false )
+	);
 } );
 
 describe( "A test for topic phrase objects", function() {

@@ -286,6 +286,7 @@ describe( "determineStem", function() {
 		expect( determineStem( "anaesthesias'", morphologyDataEN ) ).toEqual( "anaesthesia" );
 
 		expect( determineStem( "traffic", morphologyDataEN ) ).toEqual( "traffic" );
+		expect( determineStem( "ying", morphologyDataEN ) ).toEqual( "ying" );
 	} );
 
 	it( "returns the stem of an irregular verb/noun", function() {

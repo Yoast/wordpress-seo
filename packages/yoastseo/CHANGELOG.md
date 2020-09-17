@@ -1,9 +1,114 @@
 # Change Log
 
-This changelog is according to [Keep a Changelog](http://keepachangelog.com).
-
 All notable changes to this project will be documented in this file. Releases without a changelog entry contain only minor changes that are irrelevant for users of this library.
 We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwards.
+
+## 1.82.0 September 14th, 2020
+### Enhancements
+* Adds the following words to the list that's used for the English transition word assessment: 'note that', 'not only', 'initially', 'as opposed to'.
+* Improves word tokenization when words are followed by specific Arabic or Urdu punctuation marks.
+* Adds passive voice assessment for Arabic, including a check, and a list of Arabic passive verbs with long vowel in their root.
+* Adds the consecutive sentences assessment for Arabic.
+* Implements the transition words assessment for Arabic.
+* Adds the prefixes س and أ to the list of ignored prefixes for Arabic. When the Arabic keyphrase is preceded by س and أ, the basic keyphrase forms will also be created.
+* Adds and refactors an external stemmer for Arabic.
+
+### Bugfixes
+* Fixes the URL of the assessment image in the readme. Props to [Güven Atbakan](https://github.com/shibby).
+
+### Other
+* Sets the threshold for words to be recognized as prominent words from 4 to 2, in case a language has no morphology support. This increases the chance that different word forms are saved, leading to better internal linking suggestions for these languages.
+
+## 1.81.0 August 31st, 2020
+### Enhancements
+* Adds more Polish function words.
+* Adds word form functionality for Polish.
+* Makes feedback string in the keyphrase in subheadings assessment more explicit.
+* Improves keyphrase recognition for Hebrew.
+* Adds function words for Hebrew.
+
+### Bugfixes
+* Fixes a bug where closing parentheses would always be regarded as sentence endings in RTL languages.
+* Fixes a bug where closing parentheses would always be regarded as sentence endings when followed by an upper-case letter.
+
+## 1.80.0 August 17th, 2020
+### Enhancements
+* Makes it possible to tokenize sentences in languages that are written right-to-left (e.g., Hebrew, Arabic, Farsi and Urdu).
+* Improves keyphrase recognition for Arabic.
+* Adds function words for Arabic and Hebrew.
+* Adds Sentence beginning assessment for Indonesian.
+* Adds Transition words assessment for Indonesian.
+* Adds Passive voice assessment for Indonesian.
+* Adds Flesch reading ease assessment for Portuguese.
+* Adds passive voice assessment for Portuguese.
+* Fixes inconsistency in feedback strings that are produced by the Keyphrase in SEO Title assessment.
+
+## 1.79.0 August 3rd, 2020
+### Enhancements
+* Adds some irregular plural forms of Italian words to function words and morphologyData file, including specs and a function to call the exception list.
+* Adds a check for whether the word belongs to stemming exceptions to the Russian stemmer.
+* Adds an exception check for irregular Italian diminutives to the Italian stemmer.
+* Adds a check for exception lists of full forms and words with multiple stems to the Russian stemmer.
+* Adds specs for irregular verbs for the Italian full forms exception list.
+* Adds check for French verbs on -ions before stemming the verb suffix -ons and does not stem -ons if the word ends on -ions (for these words, the suffix is most likely -s, not -ons).
+* Adds Indonesian function words.
+* Changes the `getProminentWordsForInternalLinking` research so that it only runs for texts over 400 words or texts over 300 words with a title and/or a metadescription specified.
+* Changes the output of the research so that it not only returns the list of prominent words but also information about the presence of metadescription and title, as well as the length of text. This information is later used to return a customized message to the user, within the internal linking suggestions container.
+
+## 1.78.0 July 20th, 2020
+### Enhancements
+* Adds word form support for Portuguese.
+* Adds word form support for Indonesian.
+* Adds a check for keywords containing a dash as part of the word (e.g., buku-buku) so that they can be found in the slug.
+* Adds "кроме того" to Russian transition words.
+* Adds a check for whether the word belongs to stemming exceptions to the Russian stemmer.
+* Adds an exception check for irregular Italian diminutives to the Italian stemmer and removes _scrivere_, _scrive_, and _scritto_ from function words.
+* Adds a check for exception lists of full forms and words with multiple stems to the Russian stemmer.
+* Adds some irregular plural forms of Italian words to function words and morphologyData file, including specs and a function to call the exception list.
+* Improves the feedback text for the _keyphrase in title_ assessment to make clear that an exact keyphrase match is necessary.
+
+## 1.77.0 June 22nd, 2020
+### Enhancements
+* Adds check for stemming -ons suffix in French, and for the exception list of words where only -s should be stemmed in French.
+* Adds check for nouns in Russian on _ость_ before removing verb suffixes (including the newly added suffix _ть_).
+
+## 1.76.0 June 8th, 2020
+### Enhancements
+* Adds a check for the exception list of French verbs with multiple stems and stems them by returning the indicated canonical stem.
+* Adds a stemmer for the Italian language.
+* Adds an exception check for words ending in -is/us/os where -s should not be stemmed.
+* Improves the way keyphrases containing words ending in "ent" are recognized in the text.
+* Stems French words that are considered too short to be stemmed according to the stemming rules, but that should nevertheless be stemmed.
+
+## 1.75.0 May 25th, 2020
+### Enhancements
+* Adds a stemmer for the Russian language.
+* Adds checks for exception list with full forms and exception list of words with multiple stems to the French stemmer.
+* Checks an exception list of plurals with -x suffix and stems them correctly.
+* Transfers data from French stemmer to data file and improves stemming of words in -issement in French.
+
+## 1.74.0 May 11th, 2020
+### Added
+* Adds French to the list of languages for which we have morphology support.
+* Adds word forms support for French in a beta version.
+
+### Changed
+* Improves the transition word assessment for Hungarian. Props to [@Zsoru](https://github.com/Zsoru).
+* Improves the way diminutive nouns are stemmed.
+
+### Fixed
+* Makes sure that lists with single words don't skew the keyphrase distribution score.
+
+## 1.72.0 April 9th, 2020
+### Added
+* Adds word-form support for Spanish.
+
+### Fixed
+* Fixes a bug where the text analysis would break if the text contains the word "Ying".
+
+## 1.71.0 March 30th, 2020
+### Enhancements:
+* Adds word form support for Dutch.
 
 ## 1.66.0 January 6th, 2019
 ### Other

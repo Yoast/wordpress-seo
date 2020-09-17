@@ -10,6 +10,10 @@ import { assessments, string, helpers } from "yoastseo";
 import { ErrorBoundary, SvgIcon, Button } from "@yoast/components";
 import { colors } from "@yoast/style-guide";
 import { getDirectionalStyle } from "@yoast/helpers";
+import {
+	replacementVariablesShape,
+	recommendedReplacementVariablesShape,
+} from "@yoast/replacement-variable-editor";
 
 const { MetaDescriptionLengthAssessment, PageTitleWidthAssessment } = assessments.seo;
 const { measureTextWidth } = helpers;
@@ -18,7 +22,7 @@ const { measureTextWidth } = helpers;
 import SnippetPreview from "../snippet-preview/SnippetPreview";
 import { DEFAULT_MODE, 	MODES } from "../snippet-preview/constants";
 import SnippetEditorFields from "./SnippetEditorFields";
-import { lengthProgressShape, replacementVariablesShape, recommendedReplacementVariablesShape } from "./constants";
+import { lengthProgressShape } from "./constants";
 import ModeSwitcher from "./ModeSwitcher";
 
 const SnippetEditorButton = styled( Button )`
@@ -413,7 +417,7 @@ class SnippetEditor extends React.Component {
 		// Strip multiple spaces and spaces at the beginning and end.
 		description = string.stripSpaces( description );
 
-		const shortenedBaseUrl = baseUrl.replace( /^http:\/\//i, "" );
+		const shortenedBaseUrl = baseUrl.replace( /^https?:\/\//i, "" );
 
 		const mappedData = {
 			title: this.processReplacementVariables( originalData.title, replacementVariables ),

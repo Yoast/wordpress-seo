@@ -1,6 +1,6 @@
 {
   "name": "@yoast/analysis-report",
-  "version": "0.13.1",
+  "version": "1.11.0-rc.2",
   "main": "src/index.js",
   "repository": {
     "type": "git",
@@ -17,9 +17,9 @@
   "private": false,
   "dependencies": {
     "@wordpress/i18n": "^1.1.0",
-    "@yoast/components": "^0.13.1",
-    "@yoast/helpers": "^0.11.1",
-    "@yoast/style-guide": "^0.11.1",
+    "@yoast/components": "^2.9.0-rc.2",
+    "@yoast/helpers": "^0.13.0",
+    "@yoast/style-guide": "^0.13.0",
     "lodash": "^4.17.11",
     "prop-types": "^15.6.0",
     "react": "16.6.3",
@@ -27,7 +27,7 @@
     "styled-components": "^4.2.0"
   },
   "devDependencies": {
-    "@yoast/browserslist-config": "^1.2.1",
+    "@yoast/browserslist-config": "^1.2.2",
     "browserslist": "^4.7.3",
     "jest": "^22.4.3",
     "jest-cli": "^22.4.3",
@@ -51,7 +51,10 @@
     "transformIgnorePatterns": [
       "/node_modules/(?!yoastseo|lodash-es).+\\.js$"
     ],
-    "setupTestFrameworkScriptFile": "<rootDir>/tools/jest/setupTests.js"
+    "setupTestFrameworkScriptFile": "<rootDir>/tools/jest/setupTests.js",
+    "moduleNameMapper": {
+      "\\.css$": "<rootDir>/tools/jest/CSSStub.js"
+    }
   },
   "publishConfig": {
     "access": "public"

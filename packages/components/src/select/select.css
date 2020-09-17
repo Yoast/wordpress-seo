@@ -1,0 +1,146 @@
+.yoast-field-group__select {
+	display: flex;
+	cursor: pointer;
+	align-items: center;
+}
+
+/**
+ * Styling for React-Select
+ */
+.yoast-select__indicator-separator {
+	display: none;
+}
+
+.yoast-select-container {
+	padding: 0;
+	width: 100%;
+	display: block;
+	min-height: 2.85em;
+	position: relative;
+	background-color: white;
+	box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+	border-radius: 0;
+	border: var(--yoast-border-default);
+}
+
+.yoast-select-container .yoast-select__control--is-focused {
+	box-shadow: var(--yoast-color-focus);
+	outline: none;
+}
+
+.yoast-select-container .yoast-select__indicator > svg {
+	color: #212121;
+}
+
+.yoast-select-container .yoast-select__menu {
+	z-index: 2;
+	margin: 0;
+}
+
+.yoast-select-container .yoast-select__multi-value__label {
+	color: inherit;
+	font-size: 14px;
+	display: flex;
+	align-items: center;
+	box-sizing: border-box;
+	padding: 0;
+}
+
+.yoast-select-container .yoast-select__multi-value {
+	background-color: var(--yoast-color-primary);
+	border: 0;
+	border-radius: 12px;
+	color: var(--yoast-color-white);
+	padding: 1px 10px 2px;
+	margin-bottom: 3px;
+	margin-top: 3px;
+	margin-right: 8px;
+	line-height: 1.5;
+	font-weight: 500;
+	display: flex;
+	flex-direction: row-reverse;
+}
+
+.yoast-select-container .yoast-select__menu-list {
+	padding: 0;
+}
+
+.yoast-select-container .yoast-select__multi-value__remove {
+	padding: 2px 0 0;
+	display: flex;
+	align-items: center;
+	border-radius: 2px;
+	box-sizing: border-box;
+	-webkit-box-align: center;
+	margin-right: 6px;
+}
+
+.yoast-select-container .yoast-select__multi-value__remove:hover {
+	background-color: inherit;
+	color: var(--yoast-color-white);
+	cursor: pointer;
+}
+
+.yoast-select-container .yoast-select__control {
+	border-radius: 0;
+}
+
+.yoast-select-container .yoast-select__option {
+	color: inherit;
+	cursor: default;
+	display: block;
+	padding: 8px 12px;
+	width: 100%;
+	box-sizing: border-box;
+	user-select: none;
+}
+
+.yoast-select-container .yoast-select__option--is-focused {
+	background-color: var(--yoast-color-primary-lighter);
+	color: var(--yoast-color-font-default);
+}
+
+.yoast-select-container .yoast-select__option.yoast-select__option--is-selected {
+	background-color: var(--yoast-color-primary);
+	color: var(--yoast-color-white);
+}
+
+/**
+ * Styling for the HTML select.
+ */
+.yoast-field-group select,
+.yoast-field-group__select select {
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	width: 100%;
+	font-size: var(--yoast-font-size-default);
+	padding: 5px 8px;
+	background-color: white;
+	background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 8"><path d="M1.4 0L6 4.6 10.6 0 12 1.4 6 7.5 0 1.4z"/></svg>');
+	background-position: right 15px center;
+	background-repeat: no-repeat;
+	background-size: 13px auto;
+	border-radius: 0;
+	border: var(--yoast-border-default);
+	box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+	position: relative;
+	max-width: 300px;
+	display: block;
+	min-height: 2.85em;
+}
+
+.yoast-field-group select:focus,
+.yoast-field-group__select select:focus {
+	box-shadow: var(--yoast-color-focus);
+	outline: none;
+}
+
+.yoast-field-group select,
+.yoast-field-group__select select {
+	line-height: 1.9;
+	padding-right: 40px;
+}
+
+.yoast-field-group select.yoast-select--inline {
+	display: inline-block;
+}

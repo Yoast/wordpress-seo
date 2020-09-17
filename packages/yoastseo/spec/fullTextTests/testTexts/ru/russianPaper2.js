@@ -29,7 +29,7 @@ const expectedResults = {
 		isApplicable: true,
 		score: 9,
 		resultText: "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: " +
-			"The focus keyphrase was found 4 times. This is great!",
+			"The focus keyphrase was found 9 times. This is great!",
 	},
 	metaDescriptionKeyword: {
 		isApplicable: true,
@@ -72,7 +72,7 @@ const expectedResults = {
 	titleKeyword: {
 		isApplicable: true,
 		score: 9,
-		resultText: "<a href='https://yoa.st/33g' target='_blank'>Keyphrase in title</a>: The exact match of the keyphrase appears at the beginning of the SEO title. Good job!",
+		resultText: "<a href='https://yoa.st/33g' target='_blank'>Keyphrase in title</a>: The exact match of the focus keyphrase appears at the beginning of the SEO title. Good job!",
 	},
 	titleWidth: {
 		isApplicable: true,
@@ -94,13 +94,13 @@ const expectedResults = {
 	},
 	keyphraseDistribution: {
 		isApplicable: true,
-		score: 1,
-		resultText: "<a href='https://yoa.st/33q' target='_blank'>Keyphrase distribution</a>: Very uneven. Large parts of your text do not contain the keyphrase or its synonyms. <a href='https://yoa.st/33u' target='_blank'>Distribute them more evenly</a>.",
+		score: 6,
+		resultText: "<a href='https://yoa.st/33q' target='_blank'>Keyphrase distribution</a>: Uneven. Some parts of your text do not contain the keyphrase or its synonyms. <a href='https://yoa.st/33u' target='_blank'>Distribute them more evenly</a>.",
 	},
 	fleschReadingEase: {
 		isApplicable: true,
 		score: 3,
-		resultText: "<a href='https://yoa.st/34r' target='_blank'>Flesch Reading Ease</a>: The copy scores 31.7 in the test, which is considered difficult to read. <a href='https://yoa.st/34s' target='_blank'>Try to make shorter sentences, using less difficult words to improve readability</a>.",
+		resultText: "<a href='https://yoa.st/34r' target='_blank'>Flesch Reading Ease</a>: The copy scores 30.8 in the test, which is considered difficult to read. <a href='https://yoa.st/34s' target='_blank'>Try to make shorter sentences, using less difficult words to improve readability</a>.",
 	},
 	subheadingsTooLong: {
 		isApplicable: true,
@@ -115,12 +115,12 @@ const expectedResults = {
 	textSentenceLength: {
 		isApplicable: true,
 		score: 3,
-		resultText: "<a href='https://yoa.st/34v' target='_blank'>Sentence length</a>: 39% of the sentences contain more than 15 words, which is more than the recommended maximum of 25%. <a href='https://yoa.st/34w' target='_blank'>Try to shorten the sentences</a>.",
+		resultText: "<a href='https://yoa.st/34v' target='_blank'>Sentence length</a>: 47.4% of the sentences contain more than 15 words, which is more than the recommended maximum of 25%. <a href='https://yoa.st/34w' target='_blank'>Try to shorten the sentences</a>.",
 	},
 	textTransitionWords: {
 		isApplicable: true,
 		score: 6,
-		resultText: "<a href='https://yoa.st/34z' target='_blank'>Transition words</a>: Only 22% of the sentences contain transition words, which is not enough. <a href='https://yoa.st/35a' target='_blank'>Use more of them</a>.",
+		resultText: "<a href='https://yoa.st/34z' target='_blank'>Transition words</a>: Only 25.5% of the sentences contain transition words, which is not enough. <a href='https://yoa.st/35a' target='_blank'>Use more of them</a>.",
 	},
 	passiveVoice: {
 		isApplicable: true,

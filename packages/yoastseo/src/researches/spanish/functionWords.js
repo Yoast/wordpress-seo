@@ -19,12 +19,12 @@ const ordinalNumerals = [ "primera", "segunda", "tercera", "cuarto", "cuarta", "
 	"sextas", "septimos", "septimas", "octavos", "octavas", "novenos", "novenas", "décimos", "décimas", "vigésimos",
 	"vigésimas" ];
 
-const personalPronounsNominative = [ "yo", "tú", "él", "ella", "ello", "nosotros", "nosotras", "vosotros", "vosotras",
+const personalPronounsNominative = [ "yo", "yos", "yoes", "tú", "él", "ella", "ello", "nosotros", "nosotras", "vosotros", "vosotras",
 	"ustedes", "ellos", "ellas" ];
 
 const personalPronounsAccusative = [ "me", "te", "lo", "se", "nos", "os", "les" ];
 
-const personalPronounsPrepositional = [ "mí", "ti", "ud", "uds", "usted", "sí" ];
+const personalPronounsPrepositional = [ "mí", "ti", "ud", "uds", "usted" ];
 
 const personalPronounsComitative = [ "conmigo", "contigo", "consigo" ];
 
@@ -34,8 +34,9 @@ const demonstrativePronouns = [ "este", "ese", "aquel", "esta", "esa", "aquella"
 const possessivePronouns = [ "mi", "mis", "mío", "míos", "mía", "mías", "nuestro", "nuestros", "nuestra", "nuestras", "tuyo", "tuyos", "tuya",
 	"tuyas", "tu", "tus", "vuestro", "vuestros", "vuestra", "vuestras", "suyo", "suyos", "suya", "suyas", "su", "sus" ];
 
-const quantifiers = [ "bastante", "bastantes", "mucho", "muchas", "mucha", "muchos", "demasiado", "demasiada", "demasiados", "demasiadas",
-	"poco", "poca", "pocos", "pocas", "demás", "otros", "otras", "todo", "toda", "todos", "todas" ];
+const quantifiers = [ "bastante", "bastantes", "mucho", "muchas", "mucha", "muchos",  "más", "muchísimo", "muchísima", "muchísimos", "muchísimas",
+	"demasiado", "demasiada", "demasiados", "demasiadas", "poco", "poca", "pocos", "pocas", "menos", "poquísimo", "poquísima", "poquísimos",
+	"poquísimas", "demás", "otros", "otras", "todo", "toda", "todos", "todas" ];
 
 const indefinitePronouns = [ "alguien", "algo", "algún", "alguno", "alguna", "algunos", "algunas", "nadie", "nada", "ningún",
 	"ninguno", "ninguna", "ningunos", "ningunas", "tanto", "tantos", "tanta", "tantas" ];
@@ -214,23 +215,33 @@ const delexicalizedVerbs = [ "hago", "haces", "hace", "hacemos", "hacéis", "hac
 	"parecisteis", "parecieron", "parecía", "parecías", "parecíamos", "parecíais", "parecían", "parecería", "parecerías", "pareceríamos",
 	"pareceríais", "parecerían", "pareceré", "parecerás", "parecerá", "pareceremos", "pareceréis", "parecerán", "parezca", "parezcas",
 	"parezcamos", "parezcáis", "parezcan", "pareciera", "parecieras", "pareciéramos", "parecierais", "parecieran", "pareciese", "parecieses",
-	"pareciésemos", "parecieseis", "pareciesen", "pareciere", "parecieres", "pareciéremos", "pareciereis", "parecieren", "pareced", "parecido" ];
+	"pareciésemos", "parecieseis", "pareciesen", "pareciere", "parecieres", "pareciéremos", "pareciereis", "parecieren", "pareced", "parecido",
+	"iba", "ibais", "iban", "ibas", "id", "ido", "iremos", "irá", "irán", "irás", "iré", "iréis", "iría", "iríais", "iríamos", "irían", "irías",
+	"va", "vais", "vamos", "van", "vas", "vaya", "vayamos", "vayan", "vayas", "vayáis", "ve", "voy", "yendo", "íbamos" ];
 
-const delexicalizedVerbsInfinitive = [ "hacer", "parecer" ];
+const delexicalizedVerbsInfinitive = [ "hacer", "parecer", "ir" ];
 
 // These adjectives and adverbs are so general, they should never be suggested as a (single) keyword.
 // Keyword combinations containing these adjectives/adverbs are fine.
-const generalAdjectivesAdverbs = [ "enfrente", "mejor", "peor", "menos", "claro", "bueno", "nuevo",
-	"nueva", "nuevos", "nuevas", "viejo", "viejos", "vieja", "viejas", "anterior", "grande", "gran", "grandes", "mayores", "fácil",
-	"fáciles", "rápido", "rápida", "rápidos", "rápidas", "lejos", "lejas", "difícil", "difíciles", "propio", "propios", "propia", "propias",
-	"largo", "larga", "largos", "largas", "bajos", "baja", "bajas", "alto", "alta", "altos", "altas", "regular", "regulares", "normal",
-	"pequeño", "pequeña", "pequeños", "pequeñas", "diminuta", "diminuto", "diminutas", "diminutos", "chiquitito", "chiquititos", "chiquitita",
-	"chiquititas", "corta", "corto", "cortas", "cortos", "principal", "principales", "mismo", "mismos", "misma", "mismas", "capaz", "capaces",
-	"cierta", "cierto", "ciertas", "ciertos", "llamado", "llamada", "llamados", "llamadas", "mayormente", "reciente",
-	"recientes", "completa", "completo", "completas", "completos", "absoluta", "absoluto", "absolutas", "absolutos", "últimamente", "posible",
-	"común", "comúnes", "comúnmente", "constantemente", "continuamente", "directamente", "fácilmente", "casi", "ligeramente",
-	"estima", "estimada", "estimado", "aproximada", "aproximadamente", "última", "últimas", "último", "últimos", "diferente", "diferentes",
-	"similar", "mal", "malo", "malos", "mala", "malas", "perfectamente", "excelente", "final", "general" ];
+const generalAdjectivesAdverbs = [ "enfrente", "claro", "bueno", "mejor", "mejores", "buena", "buenos", "buenas", "óptimo", "óptimos",
+	"óptimas", "bonísimo", "bonísima", "bonísimos", "bonísimas", "buenísimo", "buenísima", "buenísimos", "buenísimas", "buenérrimo",
+	"buenérrima", "buenérrimos", "buenérrimas", "nuevo", "nueva", "nuevos", "nuevas", "novísimo", "novísima", "novísimos", "novísimas",
+	"nuevísimo", "nuevísima", "nuevísimos", "nuevísimas", "viejo", "viejos", "vieja", "viejas", "anterior", "grande", "gran", "grandes",
+	"mayores", "mayor", "máximo", "máxima", "grandísimo", "grandísima", "máximos", "máximas", "grandísimos", "grandísimas", "fácil",
+	"fáciles", "rápido", "rápida", "rápidos", "rápidas", "lejos", "lejas", "lejote", "lejotes", "difícil", "difíciles", "propio", "propios",
+	"propia", "propias", "largo", "larga", "largos", "largas", "bajos", "baja", "bajas", "inferior", "ínfimo", "ínfima", "ínfimos", "ínfimas",
+	"bajísimo", "bajísima", "bajísimos", "bajísimas", "alto", "alta", "altos", "altas", "superior", "superiores", "supremo",
+	"suprema", "supremos", "supremas", "sumo", "suma", "sumos", "sumas", "altísimo", "altísima", "altísimos", "altísimas",
+	"regular", "regulares", "normal", "pequeño", "pequeña", "pequeños", "pequeñas", "menor", "pequeñísimo", "pequeñísima",
+	"pequeñísimos", "pequeñísimas", "mínimo", "mínima", "mínimos", "mínimas", "diminuta", "diminuto", "diminutas",
+	"diminutos", "chiquitito", "chiquititos", "chiquitita", "chiquititas", "corta", "corto", "cortas", "cortos",
+	"principal", "principales", "mismo", "mismos", "misma", "mismas", "capaz", "capaces",
+	"cierta", "cierto", "ciertas", "ciertos", "certísimos", "certísimas", "ciertísimo", "ciertísima", "ciertísimos", "ciertísimas", "llamado",
+	"llamada", "llamados", "llamadas", "mayormente", "reciente", "recientes", "completa", "completo", "completas", "completos", "absoluta",
+	"absoluto", "absolutas", "absolutos", "últimamente", "posible", "común", "comúnes", "comúnmente", "constantemente", "continuamente",
+	"directamente", "fácilmente", "casi", "ligeramente", "estima", "estimada", "estimado", "aproximada", "aproximadamente", "última",
+	"últimas", "último", "últimos", "diferente", "diferentes", "similar", "mal", "malo", "malos", "mala", "malas", "peor", "pésimo", "pésima",
+	"malísimo", "malísima", "pésimos", "pésimas", "malísimos", "malísimas", "perfectamente", "excelente", "final", "general" ];
 
 const interjections = [ "ah", "eh", "ejem", "ele", "achís", "adiós", "agur", "ajá", "ajajá", "ala",
 	"alá", "albricias", "aleluya", "alerta", "alirón", "aló", "amalaya", "ar", "aro", "arrarray", "arre", "arsa", "atatay",
@@ -256,7 +267,7 @@ const timeWords = [ "minuto", "minutos", "hora", "horas", "día", "días", "sema
 const vagueNouns = [ "cosa", "cosas", "manera", "maneras", "caso", "casos", "pieza", "piezas", "vez", "veces", "parte", "partes", "porcentaje",
 	"instancia", "aspecto", "aspectos", "punto", "puntos", "objeto", "objectos", "persona", "personas" ];
 
-const miscellaneous = [ "no", "euros" ];
+const miscellaneous = [ "no", "euros", "sí", "síes", "noes" ];
 
 const titlesPreceding = [ "sra", "sras", "srta", "sr", "sres", "dra", "dr", "profa", "prof" ];
 

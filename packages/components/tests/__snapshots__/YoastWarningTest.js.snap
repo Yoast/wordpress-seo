@@ -4,7 +4,7 @@ exports[`YoastWarning does not render without a message 1`] = `null`;
 
 exports[`YoastWarning matches the snapshot 1`] = `
 <div
-  className="PiBkT"
+  className="cleOfn"
 >
   <svg
     aria-hidden={true}
@@ -39,7 +39,7 @@ exports[`YoastWarning matches the snapshot 1`] = `
 
 exports[`YoastWarning with a right to left language matches the snapshot 1`] = `
 <div
-  className="PiBkT"
+  className="cleOfn"
 >
   <svg
     aria-hidden={true}

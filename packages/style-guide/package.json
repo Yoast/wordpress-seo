@@ -1,6 +1,6 @@
 {
   "name": "@yoast/style-guide",
-  "version": "0.11.1",
+  "version": "0.13.0",
   "description": "Yoast style guide.",
   "main": "src/index.js",
   "repository": "https://github.com/Yoast/javascript",
@@ -11,7 +11,7 @@
     "prepublishOnly": "rm -rf dist && cp -R src dist && cp package.json dist/package.json && json -I -f dist/package.json -e \"this.main='index.js'\" && mkdir dist/src && cp src/_colors.scss dist/src/_colors.scss && cp .babelrc dist/.babelrc"
   },
   "devDependencies": {
-    "@yoast/browserslist-config": "^1.2.1",
+    "@yoast/browserslist-config": "^1.2.2",
     "browserslist": "^4.7.3",
     "grunt": "^1.0.3",
     "grunt-scss-to-json": "https://github.com/atimmer/grunt-scss-to-json",

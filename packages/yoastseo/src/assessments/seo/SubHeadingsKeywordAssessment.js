@@ -152,7 +152,7 @@ export default class SubHeadingsKeywordAssessment extends Assessment {
 					/* Translators: %1$s and %2$s expand to a link on yoast.com, %3$s expands to the anchor end tag. */
 					i18n.dgettext(
 						"js-text-analysis",
-						"%1$sKeyphrase in subheading%3$s: %2$sUse more keyphrases or synonyms in your higher-level subheadings%3$s!",
+						"%1$sKeyphrase in subheading%3$s: %2$sUse more keyphrases or synonyms in your H2 and H3 subheadings%3$s!",
 					),
 					this._config.urlTitle,
 					this._config.urlCallToAction,
@@ -168,7 +168,7 @@ export default class SubHeadingsKeywordAssessment extends Assessment {
 					/* Translators: %1$s and %2$s expand to a link on yoast.com, %3$s expands to the anchor end tag. */
 					i18n.dgettext(
 						"js-text-analysis",
-						"%1$sKeyphrase in subheading%3$s: More than 75%% of your higher-level subheadings reflect the topic of your copy. " +
+						"%1$sKeyphrase in subheading%3$s: More than 75%% of your H2 and H3 subheadings reflect the topic of your copy. " +
 						"That's too much. %2$sDon't over-optimize%3$s!",
 					),
 					this._config.urlTitle,
@@ -186,7 +186,7 @@ export default class SubHeadingsKeywordAssessment extends Assessment {
 					%3$d expands to the number of subheadings containing the keyphrase. */
 					i18n.dgettext(
 						"js-text-analysis",
-						"%1$sKeyphrase in subheading%2$s: Your higher-level subheading reflects the topic of your copy. Good job!",
+						"%1$sKeyphrase in subheading%2$s: Your H2 or H3 subheading reflects the topic of your copy. Good job!",
 						this._subHeadings.matches,
 					),
 					this._config.urlTitle,
@@ -203,8 +203,8 @@ export default class SubHeadingsKeywordAssessment extends Assessment {
 					%3$d expands to the number of subheadings containing the keyphrase. */
 					i18n.dngettext(
 						"js-text-analysis",
-						"%1$sKeyphrase in subheading%2$s: %3$s of your higher-level subheadings reflects the topic of your copy. Good job!",
-						"%1$sKeyphrase in subheading%2$s: %3$s of your higher-level subheadings reflect the topic of your copy. Good job!",
+						"%1$sKeyphrase in subheading%2$s: %3$s of your H2 and H3 subheadings reflects the topic of your copy. Good job!",
+						"%1$sKeyphrase in subheading%2$s: %3$s of your H2 and H3 subheadings reflect the topic of your copy. Good job!",
 						this._subHeadings.matches,
 					),
 					this._config.urlTitle,
@@ -220,7 +220,7 @@ export default class SubHeadingsKeywordAssessment extends Assessment {
 				/* Translators: %1$s and %2$s expand to a link on yoast.com, %3$s expands to the anchor end tag. */
 				i18n.dgettext(
 					"js-text-analysis",
-					"%1$sKeyphrase in subheading%3$s: %2$sUse more keyphrases or synonyms in your higher-level subheadings%3$s!",
+					"%1$sKeyphrase in subheading%3$s: %2$sUse more keyphrases or synonyms in your H2 and H3 subheadings%3$s!",
 				),
 				this._config.urlTitle,
 				this._config.urlCallToAction,

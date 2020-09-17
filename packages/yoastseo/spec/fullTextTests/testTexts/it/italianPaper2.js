@@ -74,7 +74,7 @@ const expectedResults = {
 	titleKeyword: {
 		isApplicable: true,
 		score: 9,
-		resultText: "<a href='https://yoa.st/33g' target='_blank'>Keyphrase in title</a>: The exact match of the keyphrase appears at the beginning of the SEO title. Good job!",
+		resultText: "<a href='https://yoa.st/33g' target='_blank'>Keyphrase in title</a>: The exact match of the focus keyphrase appears at the beginning of the SEO title. Good job!",
 	},
 	titleWidth: {
 		isApplicable: true,
@@ -102,7 +102,7 @@ const expectedResults = {
 	fleschReadingEase: {
 		isApplicable: true,
 		score: 9,
-		resultText: "<a href='https://yoa.st/34r' target='_blank'>Flesch Reading Ease</a>: The copy scores 75.6 in the test, which is considered fairly easy to read. Good job!",
+		resultText: "<a href='https://yoa.st/34r' target='_blank'>Flesch Reading Ease</a>: The copy scores 75.2 in the test, which is considered fairly easy to read. Good job!",
 	},
 	subheadingsTooLong: {
 		isApplicable: true,
@@ -122,7 +122,7 @@ const expectedResults = {
 	textTransitionWords: {
 		isApplicable: true,
 		score: 3,
-		resultText: "<a href='https://yoa.st/34z' target='_blank'>Transition words</a>: Only 18% of the sentences contain transition words, which is not enough. <a href='https://yoa.st/35a' target='_blank'>Use more of them</a>.",
+		resultText: "<a href='https://yoa.st/34z' target='_blank'>Transition words</a>: Only 18.6% of the sentences contain transition words, which is not enough. <a href='https://yoa.st/35a' target='_blank'>Use more of them</a>.",
 	},
 	passiveVoice: {
 		isApplicable: true,

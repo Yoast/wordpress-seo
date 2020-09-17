@@ -10,7 +10,7 @@ import isPassiveSentence from "./passiveVoice/morphological/determinePassiveSent
 import getPeriphrasticSentencePartsDefault from "./passiveVoice/periphrastic/getSentenceParts.js";
 import getPeriphrasticSentencePartsSplitOnStopwords from "./passiveVoice/periphrastic/getSentencePartsSplitOnStopwords.js";
 
-const morphologicalLanguages = [ "ru", "tr", "sv" ];
+const morphologicalLanguages = [ "ru", "tr", "sv", "id", "ar" ];
 const periphrasticLanguages = [ "en", "de", "nl", "fr", "es", "it", "pt", "cn", "pl" ];
 
 /* Languages that employ both morphological and periphrastic passive voice marking have not been implemented yet.

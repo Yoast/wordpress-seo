@@ -1,6 +1,6 @@
 {
   "name": "@yoast/configuration-wizard",
-  "version": "1.12.1",
+  "version": "2.11.0-rc.2",
   "description": "Package for our configuration wizard",
   "main": "src/index.js",
   "repository": {
@@ -14,19 +14,19 @@
   "scripts": {
     "test": "jest",
     "lint": "eslint . --max-warnings=11",
-    "prepublishOnly": "rm -rf dist && cp -R src dist && cp package.json dist/package.json && json -I -f dist/package.json -e \"this.main='index.js'\" && mkdir dist/src && cp src/configuration-wizard.scss dist/src/configuration-wizard.scss && mkdir dist/src/helpers && cp src/helpers/_colors.scss dist/src/helpers/_colors.scss && cp .babelrc dist/.babelrc"
+    "prepublishOnly": "rm -rf dist && cp -R src dist && cp package.json dist/package.json && json -I -f dist/package.json -e \"this.main='index.js'\" && mkdir dist/src && mkdir dist/src/helpers && cp src/helpers/_colors.scss dist/src/helpers/_colors.scss && cp .babelrc dist/.babelrc"
   },
   "dependencies": {
     "@wordpress/i18n": "^1.1.0",
-    "@yoast/components": "^0.13.1",
-    "@yoast/helpers": "^0.11.1",
-    "@yoast/style-guide": "^0.11.1",
+    "@yoast/components": "^2.9.0-rc.2",
+    "@yoast/helpers": "^0.13.0",
+    "@yoast/style-guide": "^0.13.0",
     "interpolate-components": "^1.1.1",
     "lodash": "^4.17.11",
     "prop-types": "^15.7.2"
   },
   "devDependencies": {
-    "@yoast/browserslist-config": "^1.2.1",
+    "@yoast/browserslist-config": "^1.2.2",
     "babel-core": "^6.25.0",
     "babel-jest": "^22.4.3",
     "babel-loader": "^7.1.1",
@@ -40,8 +40,8 @@
     "enzyme-to-json": "3.3.5",
     "jest": "^22.4.3",
     "jest-styled-components": "^5.0.1",
-    "react": "16.6.3",
-    "react-dom": "16.6.3",
+    "react": "16.12.0",
+    "react-dom": "16.12.0",
     "react-test-renderer": "^16.8.4"
   },
   "peerDependencies": {
@@ -53,6 +53,9 @@
     "testURL": "http://localhost",
     "testRegex": ".*Test.js$",
     "setupTestFrameworkScriptFile": "<rootDir>/tools/jest/setupTests.js",
+    "moduleNameMapper": {
+      "\\.css$": "<rootDir>/tools/jest/CSSStub.js"
+    },
     "snapshotSerializers": [
       "enzyme-to-json/serializer"
     ],

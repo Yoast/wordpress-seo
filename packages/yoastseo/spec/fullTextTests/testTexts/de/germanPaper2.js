@@ -44,7 +44,7 @@ const expectedResults = {
 	subheadingsKeyword: {
 		isApplicable: true,
 		score: 3,
-		resultText: "<a href='https://yoa.st/33m' target='_blank'>Keyphrase in subheading</a>: <a href='https://yoa.st/33n' target='_blank'>Use more keyphrases or synonyms in your higher-level subheadings</a>!",
+		resultText: "<a href='https://yoa.st/33m' target='_blank'>Keyphrase in subheading</a>: <a href='https://yoa.st/33n' target='_blank'>Use more keyphrases or synonyms in your H2 and H3 subheadings</a>!",
 	},
 	textCompetingLinks: {
 		isApplicable: true,
@@ -75,7 +75,7 @@ const expectedResults = {
 	titleKeyword: {
 		isApplicable: true,
 		score: 9,
-		resultText: "<a href='https://yoa.st/33g' target='_blank'>Keyphrase in title</a>: The exact match of the keyphrase appears at the beginning of the SEO title. Good job!",
+		resultText: "<a href='https://yoa.st/33g' target='_blank'>Keyphrase in title</a>: The exact match of the focus keyphrase appears at the beginning of the SEO title. Good job!",
 	},
 	titleWidth: {
 		isApplicable: true,
@@ -103,7 +103,7 @@ const expectedResults = {
 	fleschReadingEase: {
 		isApplicable: true,
 		score: 3,
-		resultText: "<a href='https://yoa.st/34r' target='_blank'>Flesch Reading Ease</a>: The copy scores 47.5 in the test, which is considered difficult to read. <a href='https://yoa.st/34s' target='_blank'>Try to make shorter sentences, using less difficult words to improve readability</a>.",
+		resultText: "<a href='https://yoa.st/34r' target='_blank'>Flesch Reading Ease</a>: The copy scores 46.8 in the test, which is considered difficult to read. <a href='https://yoa.st/34s' target='_blank'>Try to make shorter sentences, using less difficult words to improve readability</a>.",
 	},
 	subheadingsTooLong: {
 		isApplicable: true,
@@ -123,12 +123,12 @@ const expectedResults = {
 	textTransitionWords: {
 		isApplicable: true,
 		score: 6,
-		resultText: "<a href='https://yoa.st/34z' target='_blank'>Transition words</a>: Only 28% of the sentences contain transition words, which is not enough. <a href='https://yoa.st/35a' target='_blank'>Use more of them</a>.",
+		resultText: "<a href='https://yoa.st/34z' target='_blank'>Transition words</a>: Only 29.9% of the sentences contain transition words, which is not enough. <a href='https://yoa.st/35a' target='_blank'>Use more of them</a>.",
 	},
 	passiveVoice: {
 		isApplicable: true,
 		score: 6,
-		resultText: "<a href='https://yoa.st/34t' target='_blank'>Passive voice</a>: 11% of the sentences contain passive voice, which is more than the recommended maximum of 10%. <a href='https://yoa.st/34u' target='_blank'>Try to use their active counterparts</a>.",
+		resultText: "<a href='https://yoa.st/34t' target='_blank'>Passive voice</a>: 11.7% of the sentences contain passive voice, which is more than the recommended maximum of 10%. <a href='https://yoa.st/34u' target='_blank'>Try to use their active counterparts</a>.",
 	},
 	textPresence: {
 		isApplicable: true,

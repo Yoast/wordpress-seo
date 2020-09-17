@@ -1,6 +1,6 @@
 {
   "name": "@yoast/helpers",
-  "version": "0.11.1",
+  "version": "0.13.0",
   "description": "All Yoast helper functions.",
   "main": "src/index.js",
   "repository": {
@@ -26,14 +26,15 @@
     "react": "^16.2.0"
   },
   "jest": {
+    "testURL": "http://localhost",
     "testRegex": ".*Test.js$",
-    "testEnvironment": "node",
     "setupTestFrameworkScriptFile": "<rootDir>/tools/jest/setupTests.js"
   },
   "devDependencies": {
-    "@yoast/browserslist-config": "^1.2.1",
+    "@yoast/browserslist-config": "^1.2.2",
     "browserslist": "^4.7.3",
     "jest-styled-components": "^5.0.1",
+    "react": "^16.12.0",
     "react-test-renderer": "^16.8.6",
     "wicked-good-xpath": "^1.3.0"
   },

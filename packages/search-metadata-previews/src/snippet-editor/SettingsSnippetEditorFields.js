@@ -2,17 +2,18 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
+import styled from "styled-components";
 
 // Internal dependencies.
-import ReplacementVariableEditor from "./ReplacementVariableEditor";
 import {
+	ReplacementVariableEditor,
 	replacementVariablesShape,
 	recommendedReplacementVariablesShape,
-} from "./constants";
-import {
-	FormSection,
-	StyledEditor,
-} from "../shared";
+} from "@yoast/replacement-variable-editor";
+
+export const StyledEditor = styled.section`
+	padding: ${ ( props ) => props.padding ? props.padding : "0 20px" };
+`;
 
 /**
  * The snippet editor settings fields.
@@ -130,38 +131,35 @@ class SettingsSnippetEditorFields extends React.Component {
 			<StyledEditor
 				padding={ containerPadding }
 			>
-				<FormSection>
-					<ReplacementVariableEditor
-						label={ __( "SEO title", "yoast-components" ) }
-						onFocus={ () => onFocus( "title" ) }
-						onBlur={ onBlur }
-						isActive={ activeField === "title" }
-						isHovered={ hoveredField === "title" }
-						editorRef={ ref => this.setRef( "title", ref ) }
-						replacementVariables={ replacementVariables }
-						recommendedReplacementVariables={ recommendedReplacementVariables }
-						content={ title }
-						onChange={ content => onChange( "title", content ) }
-						fieldId={ fieldIds.title }
-					/>
-				</FormSection>
-				<FormSection>
-					<ReplacementVariableEditor
-						type="description"
-						placeholder={ descriptionEditorFieldPlaceholder }
-						label={ __( "Meta description", "yoast-components" ) }
-						onFocus={ () => onFocus( "description" ) }
-						onBlur={ onBlur }
-						isActive={ activeField === "description" }
-						isHovered={ hoveredField === "description" }
-						editorRef={ ref => this.setRef( "description", ref ) }
-						replacementVariables={ replacementVariables }
-						recommendedReplacementVariables={ recommendedReplacementVariables }
-						content={ description }
-						onChange={ content => onChange( "description", content ) }
-						fieldId={ fieldIds.description }
-					/>
-				</FormSection>
+				<ReplacementVariableEditor
+					type="title"
+					label={ __( "SEO title", "yoast-components" ) }
+					onFocus={ () => onFocus( "title" ) }
+					onBlur={ onBlur }
+					isActive={ activeField === "title" }
+					isHovered={ hoveredField === "title" }
+					editorRef={ ref => this.setRef( "title", ref ) }
+					replacementVariables={ replacementVariables }
+					recommendedReplacementVariables={ recommendedReplacementVariables }
+					content={ title }
+					onChange={ content => onChange( "title", content ) }
+					fieldId={ fieldIds.title }
+				/>
+				<ReplacementVariableEditor
+					type="description"
+					placeholder={ descriptionEditorFieldPlaceholder }
+					label={ __( "Meta description", "yoast-components" ) }
+					onFocus={ () => onFocus( "description" ) }
+					onBlur={ onBlur }
+					isActive={ activeField === "description" }
+					isHovered={ hoveredField === "description" }
+					editorRef={ ref => this.setRef( "description", ref ) }
+					replacementVariables={ replacementVariables }
+					recommendedReplacementVariables={ recommendedReplacementVariables }
+					content={ description }
+					onChange={ content => onChange( "description", content ) }
+					fieldId={ fieldIds.description }
+				/>
 			</StyledEditor>
 		);
 	}

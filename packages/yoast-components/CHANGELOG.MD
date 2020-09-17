@@ -1,9 +1,20 @@
 # Change Log
 
-This changelog is according to [Keep a Changelog](http://keepachangelog.com).
-
 All notable changes to this project will be documented in this file.
 We follow [Semantic Versioning](http://semver.org/).
+
+## 5.8.0 August 3rd, 2020
+### Enhancements
+* Adds a label to the internal linking suggestions, indicating the post type or taxonomy name of the suggested post or term.
+* Changes the message the user receives in the internal linking suggestions container. The message now includes a notification to add a title and/or a metadescription (if those are missing) to improve the quality of internal linking suggestions.
+
+## 5.7.0 July 6th, 2020
+### Enhancements
+* Changes the message the user receives in the internal linking suggestions container. The message now includes a notification to add a title and/or a metadescription (if those are missing) to improve the quality of internal linking suggestions.
+
+## 5.2.0 April 23rd, 2020
+### Added
+* Adds a CSS test stub.
 
 ## 4.39.0 January 6th, 2019
 ### Other

@@ -1,0 +1,35 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Select should render a select 1`] = `
+<div
+  className="yoast-field-group"
+>
+  <div
+    className="yoast-field-group__title"
+  >
+    <label
+      htmlFor="my-awesome-multiselect"
+    >
+      Nice label
+    </label>
+  </div>
+  <select
+    id="my-awesome-multiselect"
+    name="my-selection"
+    onBlur={[Function]}
+    onInput={[Function]}
+    value="hi"
+  >
+    <option
+      value="hi"
+    >
+      hi
+    </option>
+    <option
+      value="ho"
+    >
+      ho
+    </option>
+  </select>
+</div>
+`;

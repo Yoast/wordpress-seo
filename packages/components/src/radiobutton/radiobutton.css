@@ -1,0 +1,51 @@
+.yoast-field-group__radiobutton {
+    display: flex;
+    align-items: center;
+}
+
+.yoast-field-group__radiobutton--vertical:not(:last-of-type) {
+    margin-bottom: 8px;
+}
+
+.yoast-field-group__radiobutton label {
+    cursor: pointer;
+    margin-right: 16px;
+}
+
+.yoast-field-group__radiobutton input[type='radio'] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    width: 18px;
+    height: 18px;
+    padding: 2px;
+    margin: 0 8px 0 0;
+    border-radius: 50%;
+    transition: all 150ms ease-out 0s;
+    border: var(--yoast-border-default);
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.yoast-field-group__radiobutton input[type='radio']:checked {
+	border-color: var(--yoast-color-primary);
+	background-color: inherit;
+}
+
+.yoast-field-group__radiobutton input[type='radio']:checked:before {
+	display: none;
+}
+
+.yoast-field-group__radiobutton input[type='radio']:checked:after {
+    background: var(--yoast-color-primary);
+    width: 10px;
+    height: 10px;
+    background: var(--yoast-color-primary);
+    position: absolute;
+    left: 3px;
+    top: 3px;
+    content: "";
+    display: block;
+    border-radius: 50%;
+}

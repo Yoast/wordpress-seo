@@ -44,7 +44,7 @@ const expectedResults = {
 	subheadingsKeyword: {
 		isApplicable: true,
 		score: 3,
-		resultText: "<a href='https://yoa.st/33m' target='_blank'>Keyphrase in subheading</a>: <a href='https://yoa.st/33n' target='_blank'>Use more keyphrases or synonyms in your higher-level subheadings</a>!",
+		resultText: "<a href='https://yoa.st/33m' target='_blank'>Keyphrase in subheading</a>: <a href='https://yoa.st/33n' target='_blank'>Use more keyphrases or synonyms in your H2 and H3 subheadings</a>!",
 	},
 	textCompetingLinks: {
 		isApplicable: true,
@@ -74,7 +74,7 @@ const expectedResults = {
 	titleKeyword: {
 		isApplicable: true,
 		score: 6,
-		resultText: "<a href='https://yoa.st/33g' target='_blank'>Keyphrase in title</a>: Does not contain the exact match. <a href='https://yoa.st/33h' target='_blank'>Try to write the exact match of your keyphrase in the SEO title</a>.",
+		resultText: "<a href='https://yoa.st/33g' target='_blank'>Keyphrase in title</a>: Does not contain the exact match. <a href='https://yoa.st/33h' target='_blank'>Try to write the exact match of your keyphrase in the SEO title and put it at the beginning of the title</a>.",
 	},
 	titleWidth: {
 		isApplicable: true,
@@ -102,7 +102,7 @@ const expectedResults = {
 	fleschReadingEase: {
 		isApplicable: true,
 		score: 9,
-		resultText: "<a href='https://yoa.st/34r' target='_blank'>Flesch Reading Ease</a>: The copy scores 82.9 in the test, which is considered easy to read. Good job!",
+		resultText: "<a href='https://yoa.st/34r' target='_blank'>Flesch Reading Ease</a>: The copy scores 79.9 in the test, which is considered fairly easy to read. Good job!",
 	},
 	subheadingsTooLong: {
 		isApplicable: true,
@@ -121,8 +121,8 @@ const expectedResults = {
 	},
 	textTransitionWords: {
 		isApplicable: true,
-		score: 6,
-		resultText: "<a href='https://yoa.st/34z' target='_blank'>Transition words</a>: Only 29.3% of the sentences contain transition words, which is not enough. <a href='https://yoa.st/35a' target='_blank'>Use more of them</a>.",
+		score: 9,
+		resultText: "<a href='https://yoa.st/34z' target='_blank'>Transition words</a>: Well done!",
 	},
 	passiveVoice: {
 		isApplicable: true,

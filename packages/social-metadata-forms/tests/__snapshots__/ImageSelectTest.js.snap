@@ -1,0 +1,491 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`The ImageSelect component displays warnings 1`] = `
+.c2 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: flex-start;
+  -webkit-box-align: flex-start;
+  -ms-flex-align: flex-start;
+  align-items: flex-start;
+  font-size: 14px;
+  line-height: 1.5;
+  border: 1px solid rgba(0,0,0,0.2);
+  padding: 16px;
+  color: #674e00;
+  background: #fff3cd;
+  margin-bottom: 20px;
+}
+
+.c4 {
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+}
+
+.c4 a {
+  color: #004973;
+}
+
+.c3 {
+  margin-top: 0.125rem;
+  margin-right: 8px;
+}
+
+.c1 {
+  -webkit-flex: 1 1 200px;
+  -ms-flex: 1 1 200px;
+  flex: 1 1 200px;
+  min-width: 200px;
+  cursor: pointer;
+  font-size: 14px;
+  font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;
+  margin: 4px 0;
+  color: #303030;
+  font-weight: 500;
+}
+
+.c8 {
+  color: #555;
+  border-color: #ccc;
+  background: #f7f7f7;
+  box-shadow: 0 1px 0 rgba( 204,204,204,1 );
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  vertical-align: middle;
+  border-width: 1px;
+  border-style: solid;
+  margin: 0;
+  padding: 4px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+  box-sizing: border-box;
+  font-size: inherit;
+  font-family: inherit;
+  font-weight: inherit;
+  text-align: left;
+  overflow: visible;
+  min-height: 32px;
+  -webkit-transition: var(--yoast-transition-default);
+  transition: var(--yoast-transition-default);
+  color: #303030;
+  box-sizing: border-box;
+  border-radius: 4px;
+  box-shadow: inset 0 -2px 0 0 rgba(0,0,0,0.1);
+  font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;
+  padding: 4px;
+  border: 1px solid #dbdbdb;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.5;
+  margin-bottom: 5px;
+  width: 112px;
+  height: 40px;
+}
+
+.c8:active {
+  color: #000;
+  background-color: #f7f7f7;
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
+}
+
+.c8::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c8:focus {
+  outline: none;
+  border-color: #0066cd;
+  color: #000;
+  background-color: #fff;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+.c8:hover {
+  color: #000;
+  background-color: #fff;
+  border-color: var(--yoast-color-border--default);
+}
+
+.c8 svg {
+  -webkit-align-self: center;
+  -ms-flex-item-align: center;
+  align-self: center;
+}
+
+.c9 {
+  color: #555;
+  border-color: #ccc;
+  background: #f7f7f7;
+  box-shadow: 0 1px 0 rgba( 204,204,204,1 );
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  vertical-align: middle;
+  border-width: 1px;
+  border-style: solid;
+  margin: 0;
+  padding: 4px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+  box-sizing: border-box;
+  font-size: inherit;
+  font-family: inherit;
+  font-weight: inherit;
+  text-align: left;
+  overflow: visible;
+  min-height: 32px;
+  -webkit-transition: var(--yoast-transition-default);
+  transition: var(--yoast-transition-default);
+  color: #303030;
+  box-sizing: border-box;
+  border-radius: 4px;
+  box-shadow: inset 0 -2px 0 0 rgba(0,0,0,0.1);
+  font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;
+  padding: 4px;
+  border: 1px solid #dbdbdb;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.5;
+  margin-bottom: 5px;
+  width: 112px;
+  height: 40px;
+  background: none!important;
+  border: none;
+  padding: 0!important;
+  color: #a00;
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  cursor: pointer;
+  box-shadow: none;
+}
+
+.c9:active {
+  color: #000;
+  background-color: #f7f7f7;
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
+}
+
+.c9::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c9:focus {
+  outline: none;
+  border-color: #0066cd;
+  color: #000;
+  background-color: #fff;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+.c9:hover {
+  color: #000;
+  background-color: #fff;
+  border-color: var(--yoast-color-border--default);
+}
+
+.c9 svg {
+  -webkit-align-self: center;
+  -ms-flex-item-align: center;
+  align-self: center;
+}
+
+.c9:hover {
+  color: #F00;
+}
+
+.c9:focus {
+  color: #F00;
+}
+
+.c6 {
+  min-width: 100%;
+}
+
+.c6.c6.c6 {
+  padding: 0 8px;
+  min-height: 34px;
+  font-size: 1em;
+  box-shadow: inset 0 1px 2px rgba( 0,0,0,0.07 );
+  border: 1px solid #ddd;
+  border-radius: 0;
+}
+
+.c6.c6.c6:focus {
+  border-color: #5b9dd9;
+  box-shadow: 0 0 2px rgba( 30,140,190,0.8 );
+}
+
+.c5 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+}
+
+.c7 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  margin: 10px 0 0 0;
+}
+
+.c0 {
+  margin-top: 24px;
+}
+
+@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
+  .c8::after {
+    display: inline-block;
+    content: "";
+    min-height: 22px;
+  }
+}
+
+@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
+  .c9::after {
+    display: inline-block;
+    content: "";
+    min-height: 22px;
+  }
+}
+
+<div
+  className="c0"
+  onMouseEnter={[Function]}
+  onMouseLeave={[Function]}
+>
+  <div
+    className="c1"
+  >
+    Facebook image
+  </div>
+  <div
+    className="c2"
+  >
+    <svg
+      aria-hidden={true}
+      className="yoast-svg-icon yoast-svg-icon-alert-warning c3 createSvgIconComponent__StyledSvg-sc-1h4gl3a-0 cPnaHk"
+      fill="#674e00"
+      focusable="false"
+      role="img"
+      size="16px"
+      viewBox="0 0 576 512"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M569.517 440.013C587.975 472.007 564.806 512 527.94 512H48.054c-36.937 0-59.999-40.055-41.577-71.987L246.423 23.985c18.467-32.009 64.72-31.951 83.154 0l239.94 416.028zM288 354c-25.405 0-46 20.595-46 46s20.595 46 46 46 46-20.595 46-46-20.595-46-46-46zm-43.673-165.346l7.418 136c.347 6.364 5.609 11.346 11.982 11.346h48.546c6.373 0 11.635-4.982 11.982-11.346l7.418-136c.375-6.874-5.098-12.654-11.982-12.654h-63.383c-6.884 0-12.356 5.78-11.981 12.654z"
+      />
+    </svg>
+    <div
+      className="c4"
+    >
+      Your image is too small
+    </div>
+  </div>
+  <div
+    className="c2"
+  >
+    <svg
+      aria-hidden={true}
+      className="yoast-svg-icon yoast-svg-icon-alert-warning c3 createSvgIconComponent__StyledSvg-sc-1h4gl3a-0 cPnaHk"
+      fill="#674e00"
+      focusable="false"
+      role="img"
+      size="16px"
+      viewBox="0 0 576 512"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M569.517 440.013C587.975 472.007 564.806 512 527.94 512H48.054c-36.937 0-59.999-40.055-41.577-71.987L246.423 23.985c18.467-32.009 64.72-31.951 83.154 0l239.94 416.028zM288 354c-25.405 0-46 20.595-46 46s20.595 46 46 46 46-20.595 46-46-20.595-46-46-46zm-43.673-165.346l7.418 136c.347 6.364 5.609 11.346 11.982 11.346h48.546c6.373 0 11.635-4.982 11.982-11.346l7.418-136c.375-6.874-5.098-12.654-11.982-12.654h-63.383c-6.884 0-12.356 5.78-11.981 12.654z"
+      />
+    </svg>
+    <div
+      className="c4"
+    >
+      Wow, I like writing tests
+    </div>
+  </div>
+  <div
+    className="c5"
+  >
+    <input
+      className="c6"
+      disabled="disabled"
+      id="twitter-url-input"
+      value=""
+    />
+    <div
+      className="c7"
+    >
+      <button
+        className="c8"
+        id="twitter-replace-button"
+        onClick={[Function]}
+        type="button"
+      >
+        Replace image
+      </button>
+      <button
+        className="c9"
+        id="twitter-remove-button"
+        onClick={[Function]}
+        type="button"
+      >
+        Remove image
+      </button>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`The ImageSelect component renders 1`] = `
+.c1 {
+  -webkit-flex: 1 1 200px;
+  -ms-flex: 1 1 200px;
+  flex: 1 1 200px;
+  min-width: 200px;
+  cursor: pointer;
+  font-size: 14px;
+  font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;
+  margin: 4px 0;
+  color: #303030;
+  font-weight: 500;
+}
+
+.c2 {
+  color: #555;
+  border-color: #ccc;
+  background: #f7f7f7;
+  box-shadow: 0 1px 0 rgba( 204,204,204,1 );
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  vertical-align: middle;
+  border-width: 1px;
+  border-style: solid;
+  margin: 0;
+  padding: 4px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+  box-sizing: border-box;
+  font-size: inherit;
+  font-family: inherit;
+  font-weight: inherit;
+  text-align: left;
+  overflow: visible;
+  min-height: 32px;
+  -webkit-transition: var(--yoast-transition-default);
+  transition: var(--yoast-transition-default);
+  color: #303030;
+  box-sizing: border-box;
+  border-radius: 4px;
+  box-shadow: inset 0 -2px 0 0 rgba(0,0,0,0.1);
+  font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;
+  padding: 4px;
+  border: 1px solid #dbdbdb;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.5;
+  margin-bottom: 5px;
+  width: 112px;
+  height: 40px;
+}
+
+.c2:active {
+  color: #000;
+  background-color: #f7f7f7;
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
+}
+
+.c2::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c2:focus {
+  outline: none;
+  border-color: #0066cd;
+  color: #000;
+  background-color: #fff;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+.c2:hover {
+  color: #000;
+  background-color: #fff;
+  border-color: var(--yoast-color-border--default);
+}
+
+.c2 svg {
+  -webkit-align-self: center;
+  -ms-flex-item-align: center;
+  align-self: center;
+}
+
+.c0 {
+  margin-top: 24px;
+}
+
+@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
+  .c2::after {
+    display: inline-block;
+    content: "";
+    min-height: 22px;
+  }
+}
+
+<div
+  className="c0"
+  onMouseEnter={[Function]}
+  onMouseLeave={[Function]}
+>
+  <div
+    className="c1"
+  >
+    Facebook image
+  </div>
+  <button
+    className="c2"
+    id="facebook-select-button"
+    onClick={[Function]}
+    type="button"
+  >
+    Select image
+  </button>
+</div>
+`;

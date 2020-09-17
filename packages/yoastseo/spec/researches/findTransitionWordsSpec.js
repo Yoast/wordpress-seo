@@ -407,6 +407,13 @@ describe( "a test for finding transition words from a string", function() {
 		expect( result.totalSentences ).toBe( 1 );
 		expect( result.transitionWordSentences ).toBe( 1 );
 	} );
+	it( "returns 1 when a transition word is found in a sentence (Hungarian)", function() {
+		// Transition word: például
+		mockPaper = new Paper( "például növekedési arány és szaporodásbiológia szempontjából.", { locale: "hu_HU" } );
+		result = transitionWordsResearch( mockPaper );
+		expect( result.totalSentences ).toBe( 1 );
+		expect( result.transitionWordSentences ).toBe( 1 );
+	} );
 	it( "returns 1 when a two-part transition word is found in a sentence (Hungarian)", function() {
 		// Transition word: ahogy, akkor
 		mockPaper = new Paper( "Csak később, ahogy felnőttem, akkor kezdődött a sok baj.", { locale: "hu_HU" } );
@@ -414,8 +421,69 @@ describe( "a test for finding transition words from a string", function() {
 		expect( result.totalSentences ).toBe( 1 );
 		expect( result.transitionWordSentences ).toBe( 1 );
 	} );
+	it( "returns 1 when a multiple transition word is found in a sentence (Hungarian)", function() {
+		// Transition word: azzal a feltétellel, hogy
+		mockPaper = new Paper( "Azzal a feltétellel, hogy én forgathatom a kést.", { locale: "hu_HU" } );
+		result = transitionWordsResearch( mockPaper );
+		expect( result.totalSentences ).toBe( 1 );
+		expect( result.transitionWordSentences ).toBe( 1 );
+	} );
 	it( "returns 0 when no transition words are present in a sentence (Hungarian)", function() {
 		mockPaper = new Paper( "Nem beszélek magyarul.", { locale: "hu_HU" } );
+		result = transitionWordsResearch( mockPaper );
+		expect( result.totalSentences ).toBe( 1 );
+		expect( result.transitionWordSentences ).toBe( 0 );
+	} );
+
+	it( "returns 1 when a transition word is found in a sentence (Indonesian)", function() {
+		// Transition word: dikarenakan.
+		mockPaper = new Paper( "Dikarenakan sakit, ia tidak masuk kerja.", { locale: "id_ID" } );
+		result = transitionWordsResearch( mockPaper );
+		expect( result.totalSentences ).toBe( 1 );
+		expect( result.transitionWordSentences ).toBe( 1 );
+	} );
+
+	it( "returns 1 when a two-part transition word is found in a sentence (Indonesian)", function() {
+		// Transition word: sedemikian, sampai.
+		mockPaper = new Paper( "Ia sedemikian marahnya sampai tidak bisa berkata-kata.", { locale: "id_ID" } );
+		result = transitionWordsResearch( mockPaper );
+		expect( result.totalSentences ).toBe( 1 );
+		expect( result.transitionWordSentences ).toBe( 1 );
+	} );
+
+	it( "returns 0 when no transition words are present in a sentence (Indonesian)", function() {
+		mockPaper = new Paper( "Ibu itu membeli beras.", { locale: "id_ID" } );
+		result = transitionWordsResearch( mockPaper );
+		expect( result.totalSentences ).toBe( 1 );
+		expect( result.transitionWordSentences ).toBe( 0 );
+	} );
+
+	it( "returns 1 when a (single) transition word is found in a sentence (Arabic)", function() {
+		// Transition word: كذلك.
+		mockPaper = new Paper( "يمكننا الذهاب إلى الجامعة، ويمكننا كذلك المذاكرة في المكتبة هناك.", { locale: "ar" } );
+		result = transitionWordsResearch( mockPaper );
+		expect( result.totalSentences ).toBe( 1 );
+		expect( result.transitionWordSentences ).toBe( 1 );
+	} );
+
+	it( "returns 1 when a (multiple) transition word is found in a sentence (Arabic)", function() {
+		// Transition word: إلى الأبد.
+		mockPaper = new Paper( "سأحبك إلى الأبد.", { locale: "ar" } );
+		result = transitionWordsResearch( mockPaper );
+		expect( result.totalSentences ).toBe( 1 );
+		expect( result.transitionWordSentences ).toBe( 1 );
+	} );
+
+	it( "returns 1 when a two-part transition word is found in a sentence (Arabic)", function() {
+		// Transition word: أو ,إما.
+		mockPaper = new Paper( "يمكننا الحصول إما على الخبز أو الأرز.", { locale: "ar" } );
+		result = transitionWordsResearch( mockPaper );
+		expect( result.totalSentences ).toBe( 1 );
+		expect( result.transitionWordSentences ).toBe( 1 );
+	} );
+
+	it( "returns 0 when no transition words are present in a sentence (Arabic)", function() {
+		mockPaper = new Paper( "اشترت الأم الأرز.", { locale: "ar" } );
 		result = transitionWordsResearch( mockPaper );
 		expect( result.totalSentences ).toBe( 1 );
 		expect( result.transitionWordSentences ).toBe( 0 );

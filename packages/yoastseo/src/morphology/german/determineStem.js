@@ -1,6 +1,6 @@
 import { flatten } from "lodash-es";
 import { detectAndStemRegularParticiple } from "./detectAndStemRegularParticiple";
-import { allGermanVerbPrefixesSorted } from "./helpers";
+import { flattenSortLength } from "../morphoHelpers/flattenSortLength";
 
 import stem from "./stem";
 
@@ -63,7 +63,7 @@ const findStemOnAdjectiveExceptionList = function( morphologyDataAdjectives, ste
 const findStemOnVerbExceptionList = function( morphologyDataVerbs, stemmedWord ) {
 	let wordToCheck = stemmedWord;
 	const strongAndIrregularVerbStems = morphologyDataVerbs.strongAndIrregularVerbs.stems;
-	const prefixes = allGermanVerbPrefixesSorted( morphologyDataVerbs.prefixes );
+	const prefixes = flattenSortLength( morphologyDataVerbs.prefixes );
 
 	let matchedPrefix = prefixes.find( prefix => stemmedWord.startsWith( prefix ) );
 

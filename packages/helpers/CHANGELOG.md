@@ -1,10 +1,16 @@
 # Change Log
 
-This changelog is according to [Keep a Changelog](http://keepachangelog.com).
-
 All notable changes to this project will be documented in this file. Releases without a changelog entry contain only minor changes that are irrelevant for users of this library.
 
 We follow [Semantic Versioning](http://semver.org/).
+
+## 0.13.0 July 20th, 2020
+### Enhancements
+* Adds functions to validate Facebook/Twitter images.
+
+## 0.12.0 May 11th, 2020
+### Added
+* Adds a file that can be used to modify hidden inputs.
 
 ## 0.3.0 May 27th, 2019
 

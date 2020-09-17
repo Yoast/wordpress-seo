@@ -20,9 +20,7 @@ export const StyledContainer = styled.div`
 `;
 
 export const StyledContainerTopLevel = styled( StyledContainer )`
-	border-top: 1px solid ${ colors.$color_border_gutenberg };
-	border-bottom: 1px solid ${ colors.$color_border_gutenberg };
-	margin-top: -1px;
+	border-top: var(--yoast-border-default);
 `;
 
 export const StyledIconsButton = styled( IconsButton )`
@@ -112,7 +110,7 @@ const StyledHeading = wrapInHeading( StyledIconsButton, { level: 2, fontSize: "1
 export const CollapsibleStateless = ( props ) => {
 	let children = null;
 	if ( props.isOpen ) {
-		children = ( props.hasPadding ) ? <Content>{ props.children }</Content> : props.children;
+		children = ( props.hasPadding ) ? <Content className="collapsible_content">{ props.children }</Content> : props.children;
 	}
 	const Container = ( props.hasSeparator ) ? StyledContainerTopLevel : StyledContainer;
 

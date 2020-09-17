@@ -1,0 +1,33 @@
+:root {
+	--yoast-color-default: #404040;
+	--yoast-color-default-darker: #303030;
+	--yoast-color-primary: #a4286a;
+	--yoast-color-secondary: #f7f7f7;
+	--yoast-color-white: #fff;
+	--yoast-color-green: #6EA029;
+	--yoast-color-primary-darker: #7b1e50;
+	--yoast-color-primary-lighter: #F5D6E6;
+	--yoast-color-secondary-darker: #d9d9d9;
+	--yoast-color-button-upsell: #FEC228;
+	--yoast-color-button-upsell-hover: #F2AE01;
+	--yoast-color-dark: #303030;
+	--yoast-color-sale: #fec228;
+	--yoast-color-sale-darker: #feb601;
+	--yoast-color-border: rgba(0,0,0, 0.2);
+	--yoast-color-label: #303030;
+	--yoast-color-label-help: #707070;
+	--yoast-color-active: #6EA029;
+	--yoast-color-inactive: #DC3232;
+	--yoast-color-inactive-text: #707070;
+	--yoast-color-inactive-grey: #9E9E9E;
+	--yoast-color-inactive-grey-light: #f1f1f1;
+	--yoast-color-active-light: #B6CF94;
+
+	--yoast-transition-default: all 150ms ease-out;
+
+	--yoast-color-link: #006dac;
+
+	--yoast-color-border--default: rgba(0, 0, 0, 0.2);
+
+	--yoast-color-focus: 0 0 0 2px #007fff, 0 0 0 5px #bfdfff;
+}

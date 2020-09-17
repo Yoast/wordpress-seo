@@ -45,8 +45,15 @@ import transitionWordsHungarianFactory from "../researches/hungarian/transitionW
 const transitionWordsHungarian = transitionWordsHungarianFactory().allWords;
 import twoPartTransitionWordsHungarian from "../researches/hungarian/twoPartTransitionWords.js";
 
+import transitionWordsIndonesianFactory from "../researches/indonesian/transitionWords.js";
+const transitionWordsIndonesian = transitionWordsIndonesianFactory().allWords;
+import twoPartTransitionWordsIndonesian from "../researches/indonesian/twoPartTransitionWords.js";
+
 import getLanguage from "./getLanguage.js";
 
+import transitionWordsArabicFactory from "../researches/arabic/transitionWords.js";
+const transitionWordsArabic = transitionWordsArabicFactory().allWords;
+import twoPartTransitionWordsArabic from "../researches/arabic/twoPartTransitionWords.js";
 
 /**
  * Returns transition words for a specific locale.
@@ -111,6 +118,16 @@ export default function( locale ) {
 			return {
 				transitionWords: transitionWordsHungarian,
 				twoPartTransitionWords: twoPartTransitionWordsHungarian,
+			};
+		case "id":
+			return {
+				transitionWords: transitionWordsIndonesian,
+				twoPartTransitionWords: twoPartTransitionWordsIndonesian,
+			};
+		case "ar":
+			return {
+				transitionWords: transitionWordsArabic,
+				twoPartTransitionWords: twoPartTransitionWordsArabic,
 			};
 		default:
 		case "en":

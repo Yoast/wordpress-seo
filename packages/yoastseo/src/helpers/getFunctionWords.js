@@ -24,6 +24,14 @@ import polishFunctionWordsFactory from "../researches/polish/functionWords.js";
 const polishFunctionWords = polishFunctionWordsFactory();
 import swedishFunctionWordsFactory from "../researches/swedish/functionWords.js";
 const swedishFunctionWords = swedishFunctionWordsFactory();
+import indonesianFunctionWordsFactory from "../researches/indonesian/functionWords.js";
+const indonesianFunctionWords = indonesianFunctionWordsFactory();
+import hebrewFunctionWordsFactory from "../researches/hebrew/functionWords.js";
+const hebrewFunctionWords = hebrewFunctionWordsFactory();
+import arabicFunctionWordsFactory from "../researches/arabic/functionWords.js";
+const arabicFunctionWords = arabicFunctionWordsFactory();
+import farsiFunctionWordsFactory from "../researches/farsi/functionWords.js";
+const farsiFunctionWords = farsiFunctionWordsFactory();
 
 /**
  * Returns the function words for all languages.
@@ -42,5 +50,9 @@ export default function() {
 		ru: russianFunctionWords,
 		pl: polishFunctionWords,
 		sv: swedishFunctionWords,
+		id: indonesianFunctionWords,
+		he: hebrewFunctionWords,
+		ar: arabicFunctionWords,
+		fa: farsiFunctionWords,
 	};
 }

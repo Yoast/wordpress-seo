@@ -15,9 +15,14 @@ import UIControlsWrapper from "./UIControlsWrapper";
 import Wizard from "./WizardWrapper";
 import { Loader } from "@yoast/components";
 import FacebookPreviewExample from "./FacebookPreviewExample";
+import TwitterPreviewExample from "./TwitterPreviewExample";
 import LinkSuggestionsWrapper from "./LinkSuggestionsExample";
 import WordOccurrencesWrapper from "./WordOccurrencesWrapper";
 import MultiStepProgressWrapper from "./MultiStepProgressWrapper";
+import SocialPreviewFormWrapper from "./SocialPreviewFormWrapper";
+import ReactifiedComponentsWrapper from "./ReactifiedComponentsWrapper";
+import SocialPreviewEditorWrapper from "./SocialPreviewEditorWrapper";
+
 
 // Setup empty translations to prevent Jed error.
 setLocaleData( { "": {} }, "yoast-components" );
@@ -94,6 +99,11 @@ const components = [
 		component: <FacebookPreviewExample />,
 	},
 	{
+		id: "twitterpreview-example",
+		name: "TwitterPreview",
+		component: <TwitterPreviewExample />,
+	},
+	{
 		id: "wordoccurrences-example",
 		name: "WordOccurrences",
 		component: <WordOccurrencesWrapper />,
@@ -102,6 +112,21 @@ const components = [
 		id: "multi-step-progress",
 		name: "Multi step progress",
 		component: <MultiStepProgressWrapper />,
+	},
+	{
+		id: "social-preview-data-form",
+		name: "Social Preview data form",
+		component: <SocialPreviewFormWrapper />,
+	},
+	{
+		id: "social-preview",
+		name: "Social Preview",
+		component: <SocialPreviewEditorWrapper />,
+	},
+	{
+		id: "reactified-components",
+		name: "Reactified components",
+		component: <ReactifiedComponentsWrapper />,
 	},
 ];
 
@@ -120,7 +145,7 @@ class App extends React.Component {
 		super();
 
 		this.state = {
-			activeComponent: "buttons",
+			activeComponent: localStorage.getItem( "active-component" ) || "buttons",
 			isRtl: false,
 		};
 		this.changeLanguageDirection = this.changeLanguageDirection.bind( this );
@@ -150,6 +175,8 @@ class App extends React.Component {
 	navigate( activeComponent ) {
 		this.setState( {
 			activeComponent: activeComponent,
+		}, () => {
+			localStorage.setItem( "active-component", activeComponent );
 		} );
 	}
 
