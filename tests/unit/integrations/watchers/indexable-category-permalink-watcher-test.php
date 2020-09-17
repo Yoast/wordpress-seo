@@ -51,7 +51,7 @@ class Indexable_Category_Permalink_Watcher_Test extends TestCase {
 	protected $indexable_helper;
 
 	/**
-	 * @inheritDoc
+	 * Sets up the tests.
 	 */
 	public function setUp() {
 		$this->options          = Mockery::mock( Options_Helper::class );

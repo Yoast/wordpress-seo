@@ -92,7 +92,11 @@ class Indexing_Notification_Integration implements Integration_Interface {
 	}
 
 	/**
-	 * @inheritDoc
+	 * Initializes the integration.
+	 *
+	 * Adds hooks and jobs to cleanup or add the notification when necessary.
+	 *
+	 * @return void
 	 */
 	public function register_hooks() {
 		if ( \filter_input( INPUT_GET, 'page' ) === 'wpseo_dashboard' ) {
@@ -107,7 +111,9 @@ class Indexing_Notification_Integration implements Integration_Interface {
 	}
 
 	/**
-	 * @inheritDoc
+	 * Returns the conditionals based in which this loadable should be active.
+	 *
+	 * @return array
 	 */
 	public static function get_conditionals() {
 		return [

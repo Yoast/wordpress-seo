@@ -37,7 +37,9 @@ class Indexing_Notification_Presenter extends Abstract_Presenter {
 	}
 
 	/**
-	 * @inheritDoc
+	 * Returns the notification as an HTML string.
+	 *
+	 * @returns string The HTML string representation of the notification.
 	 */
 	public function present() {
 		$notification_text  = '<p>' . $this->message . '</p>';

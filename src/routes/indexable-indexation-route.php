@@ -180,7 +180,7 @@ class Indexable_Indexation_Route extends Abstract_Indexation_Route {
 	}
 
 	/**
-	 * @inheritDoc
+	 * Registers the routes used to index indexables.
 	 */
 	public function register_routes() {
 		$route_args = [

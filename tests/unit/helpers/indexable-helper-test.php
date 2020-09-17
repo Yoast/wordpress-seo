@@ -45,7 +45,7 @@ class Indexable_Helper_Test extends TestCase {
 	protected $repository;
 
 	/**
-	 * @inheritDoc
+	 * Sets up the tests.
 	 */
 	public function setUp() {
 		parent::setUp();
