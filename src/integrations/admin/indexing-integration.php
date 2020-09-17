@@ -189,6 +189,7 @@ class Indexing_Integration implements Integration_Interface {
 	 */
 	public function render_indexing_list_item() {
 		if ( \current_user_can( 'manage_options' ) ) {
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- The output is correctly escaped in the presenter.
 			echo new Indexing_List_Item_Presenter();
 		}
 	}
@@ -200,7 +201,7 @@ class Indexing_Integration implements Integration_Interface {
 	 */
 	public function get_total_unindexed() {
 		if ( \is_null( $this->total_unindexed ) ) {
-			$this->total_unindexed = $this->post_indexation->get_total_unindexed();
+			$this->total_unindexed  = $this->post_indexation->get_total_unindexed();
 			$this->total_unindexed += $this->term_indexation->get_total_unindexed();
 			$this->total_unindexed += $this->general_indexation->get_total_unindexed();
 			$this->total_unindexed += $this->post_type_archive_indexation->get_total_unindexed();
