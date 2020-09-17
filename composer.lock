@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b1345e51656013ba26b14af575dad4c3",
+    "content-hash": "d976bff5d2e998b7e74b55e86c0bad05",
     "packages": [
         {
             "name": "composer/installers",
@@ -772,51 +772,6 @@
                 "wordpress"
             ],
             "time": "2019-05-07T06:45:05+00:00"
-        },
-        {
-            "name": "yoast/license-manager",
-            "version": "1.6.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Yoast/License-Manager.git",
-                "reference": "fbacabb06d788912fead4f32d0d1d8b9a2d883c9"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Yoast/License-Manager/zipball/fbacabb06d788912fead4f32d0d1d8b9a2d883c9",
-                "reference": "fbacabb06d788912fead4f32d0d1d8b9a2d883c9",
-                "shasum": ""
-            },
-            "type": "library",
-            "autoload": {
-                "classmap": [
-                    "class-api-request.php",
-                    "class-license-manager.php",
-                    "class-plugin-license-manager.php",
-                    "class-plugin-update-manager.php",
-                    "class-product.php",
-                    "class-theme-license-manager.php",
-                    "class-theme-update-manager.php",
-                    "class-update-manager.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "GPL-2.0+"
-            ],
-            "authors": [
-                {
-                    "name": "Team Yoast",
-                    "email": "support@yoast.com",
-                    "homepage": "https://yoast.com"
-                }
-            ],
-            "description": "Yoast License Manager.",
-            "homepage": "https://github.com/Yoast/License-Manager",
-            "keywords": [
-                "wordpress"
-            ],
-            "time": "2017-08-22T07:59:16+00:00"
         }
     ],
     "packages-dev": [
