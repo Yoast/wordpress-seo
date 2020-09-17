@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file. Releases wi
 
 We follow [Semantic Versioning](http://semver.org/).
 
-## 2.9.0 September 14th, 2020
+## 2.9.0 September 17th, 2020
 ### Enhancements
 * Changes `TextInput`, `TextArea`, `LabeledRadioButton`, `Select`, and `MultiSelect` to controlled components, their value should be passed from a higher order component.
 * Changes the `MultiSelect` implementation to use `react-select` instead of `select2`.
