@@ -3,16 +3,16 @@
 namespace Yoast\WP\SEO\Tests\Unit\Conditionals;
 
 use Yoast\WP\SEO\Tests\Unit\TestCase;
-use Yoast\WP\SEO\Conditionals\Schema_Blocks_Feature_Flag_Conditional;
+use Yoast\WP\SEO\Conditionals\Schema_Blocks_Conditional;
 
 /**
- * Class Schema_Blocks_Feature_Flag_Conditional_Test.
+ * Class Schema_Blocks_Conditional_Test.
  *
  * @group conditionals
  *
- * @coversDefaultClass Y\oast\WP\SEO\Conditionals\Schema_Blocks_Feature_Flag_Conditional
+ * @coversDefaultClass Y\oast\WP\SEO\Conditionals\Schema_Blocks_Conditional
  */
-class Schema_Blocks_Feature_Flag_Conditional_Test extends TestCase {
+class Schema_Blocks_Conditional_Test extends TestCase {
 
 	/**
 	 * The schema blocks feature flag conditional.
@@ -27,7 +27,7 @@ class Schema_Blocks_Feature_Flag_Conditional_Test extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->instance = new Schema_Blocks_Feature_Flag_Conditional();
+		$this->instance = new Schema_Blocks_Conditional();
 	}
 
 	/**
@@ -46,8 +46,8 @@ class Schema_Blocks_Feature_Flag_Conditional_Test extends TestCase {
 	 */
 	public function test_is_met() {
 		if ( ! defined( 'YOAST_SEO_SCHEMA_BLOCKS' ) ) {
-            define( "YOAST_SEO_SCHEMA_BLOCKS", true );
-        }
+			define( 'YOAST_SEO_SCHEMA_BLOCKS', true );
+		}
 
 		$this->assertEquals( true, $this->instance->is_met() );
 	}

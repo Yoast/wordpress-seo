@@ -230,8 +230,8 @@ class WPSEO_Admin_Asset_Manager {
 					'wp-editor',
 					'wp-element',
 					'wp-hooks',
-					'wp-i18n'
-				]
+					'wp-i18n',
+				],
 			],
 			[
 				'name' => 'yoast-modal',
