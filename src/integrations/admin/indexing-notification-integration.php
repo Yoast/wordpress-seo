@@ -38,6 +38,11 @@ class Indexing_Notification_Integration implements Integration_Interface {
 	const REASON_CATEGORY_BASE_PREFIX = 'category_base_changed';
 
 	/**
+	 * Represents the reason that the home url option is changed.
+	 */
+	const REASON_HOME_URL_OPTION = 'home_url_option_changed';
+
+	/**
 	 * The indexing integration.
 	 *
 	 * @var Indexing_Integration
@@ -187,6 +192,8 @@ class Indexing_Notification_Integration implements Integration_Interface {
 				return \esc_html__( 'Because of a change in your permalink structure, some of your SEO data needs to be reprocessed.', 'wordpress-seo' );
 			case self::REASON_CATEGORY_BASE_PREFIX:
 				return \esc_html__( 'Because of a change in your category URL setting, some of your SEO data needs to be reprocessed.', 'wordpress-seo' );
+			case self::REASON_HOME_URL_OPTION:
+				return \esc_html__( 'Because of a change in your home URL setting, some of your SEO data needs to be reprocessed.', 'wordpress-seo' );
 			default:
 				return \esc_html__( 'You can speed up your site and get insight into your internal linking structure by letting us perform a few optimizations to the way SEO data is stored. ', 'wordpress-seo' );
 		}
