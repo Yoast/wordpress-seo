@@ -341,6 +341,10 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 					break;
 
 				/*
+				 * Boolean (checkbox) fields.
+				 */
+
+				/*
 				 * Covers:
 				 *  'disableadvanced_meta'
 				 *  'enable_headless_rest_endpoints'

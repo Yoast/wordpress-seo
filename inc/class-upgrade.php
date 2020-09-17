@@ -735,8 +735,7 @@ class WPSEO_Upgrade {
 	 * Performs the 15.1 upgrade.
 	 */
 	private function upgrade_151() {
-		$permalink_structure = get_option( 'permalink_structure' );
-		WPSEO_Options::set( 'permalink_structure', $permalink_structure );
+		add_action( 'init', [ $this, 'set_permalink_structure_option_for_151' ] );
 	}
 
 	/**
@@ -995,5 +994,12 @@ class WPSEO_Upgrade {
 
 			WPSEO_Options::set( 'noindex-ptarchive-product', false );
 		}
+	}
+
+	/**
+	 * Stores the initial `permalink_structure` option.
+	 */
+	public function set_permalink_structure_option_for_151() {
+		WPSEO_Options::set( 'permalink_structure', get_option( 'permalink_structure' ) );
 	}
 }
