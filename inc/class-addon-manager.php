@@ -94,6 +94,7 @@ class WPSEO_Addon_Manager {
 	 * @return void
 	 */
 	public function register_hooks() {
+		add_action( 'admin_init', [ $this, 'validate_addons' ], 15 );
 		add_filter( 'pre_set_site_transient_update_plugins', [ $this, 'check_for_updates' ] );
 		add_filter( 'plugins_api', [ $this, 'get_plugin_information' ], 10, 3 );
 	}
@@ -258,6 +259,63 @@ class WPSEO_Addon_Manager {
 		}
 
 		return class_exists( $slug_to_class_map[ $slug ] );
+	}
+
+	/**
+	 * Validates the addons and show a notice for the ones that are invalid.
+	 */
+	public function validate_addons() {
+		$notification_center = Yoast_Notification_Center::get();
+
+		if ( $notification_center === null ) {
+			return;
+		}
+
+		$addons = [
+			'Yoast SEO Premium'     => static::PREMIUM_SLUG,
+			'News SEO'              => static::NEWS_SLUG,
+			'Yoast WooCommerce SEO' => static::WOOCOMMERCE_SLUG,
+			'Video SEO'             => static::VIDEO_SLUG,
+			'Local SEO'             => static::LOCAL_SLUG,
+		];
+
+		foreach ( $addons as $product_name => $slug ) {
+			$notification = $this->create_notification( $product_name );
+
+			// Add a notification when the installed plugin isn't activated in My Yoast.
+			if ( $this->is_installed( $slug ) && ! $this->has_valid_subscription( $slug ) ) {
+				$notification_center->add_notification( $notification );
+
+				continue;
+			}
+
+			$notification_center->remove_notification( $notification );
+		}
+	}
+
+	/**
+	 * Creates an instance of Yoast_Notification.
+	 *
+	 * @param string $product_name The product to create the notification for.
+	 *
+	 * @return Yoast_Notification The created notification.
+	 */
+	protected function create_notification( $product_name ) {
+		$notification_options = [
+			'type'         => Yoast_Notification::ERROR,
+			'id'           => 'wpseo-dismiss-' . sanitize_title_with_dashes( $product_name, null, 'save' ),
+			'capabilities' => 'wpseo_manage_options',
+		];
+
+		return new Yoast_Notification(
+			sprintf(
+			/* translators: %1$s expands to the product name. %2$s expands to a link to My Yoast  */
+				__( 'You are not receiving updates or support! Fix this problem by adding this site and enabling %1$s for it in %2$s.', 'wordpress-seo' ),
+				$product_name,
+				'<a href="' . WPSEO_Shortlinker::get( 'https://yoa.st/13j' ) . '" target="_blank">My Yoast</a>'
+			),
+			$notification_options
+		);
 	}
 
 	/**
