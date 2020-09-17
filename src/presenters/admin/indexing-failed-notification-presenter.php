@@ -12,6 +12,23 @@ use Yoast\WP\SEO\Presenters\Abstract_Presenter;
 class Indexing_Failed_Notification_Presenter extends Abstract_Presenter {
 
 	/**
+	 * Whether we are in Premium.
+	 * (The text in the notification changes a bit depending on whether we are in Premium).
+	 *
+	 * @var bool
+	 */
+	protected $is_premium;
+
+	/**
+	 * Indexing_Failed_Notification_Presenter constructor.
+	 *
+	 * @param boolean $is_premium Whether we are in premium or not.
+	 */
+	public function __construct( $is_premium ) {
+		$this->is_premium = $is_premium;
+	}
+
+	/**
 	 * @inheritDoc
 	 */
 	public function present() {
@@ -22,6 +39,10 @@ class Indexing_Failed_Notification_Presenter extends Abstract_Presenter {
 			'<a href="' . \get_admin_url( null, 'admin.php?page=wpseo_tools' ) . '">',
 			'</a>'
 		);
+		if ( $this->is_premium ) {
+			$notification_text .= ' ';
+			$notification_text .= \esc_html__( 'If the problem persists, please contact support.', 'wordpress-seo' );
+		}
 		$notification_text .= '</p>';
 
 		return $notification_text;

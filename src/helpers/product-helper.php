@@ -29,7 +29,7 @@ class Product_Helper {
 	 *
 	 * @return bool True when is premium.
 	 */
-	protected function is_premium() {
+	public function is_premium() {
 		return WPSEO_Utils::is_yoast_seo_premium();
 	}
 }

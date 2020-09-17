@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Integrations\Admin;
 
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Presenters\Admin\Indexing_Notification_Presenter;
 use Yoast\WP\SEO\Presenters\Admin\Indexing_Failed_Notification_Presenter;
@@ -64,20 +65,30 @@ class Indexing_Notification_Integration implements Integration_Interface {
 	private $options_helper;
 
 	/**
+	 * The product helper.
+	 *
+	 * @var Product_Helper
+	 */
+	private $product_helper;
+
+	/**
 	 * Prominent_Words_Notifier constructor.
 	 *
 	 * @param Indexing_Integration      $indexing_integration The indexing integration.
 	 * @param Yoast_Notification_Center $notification_center  The notification center.
 	 * @param Options_Helper            $options_helper       The options helper.
+	 * @param Product_Helper            $product_helper       The product helper.
 	 */
 	public function __construct(
 		Indexing_Integration $indexing_integration,
 		Yoast_Notification_Center $notification_center,
-		Options_Helper $options_helper
+		Options_Helper $options_helper,
+		Product_Helper $product_helper
 	) {
 		$this->indexing_integration = $indexing_integration;
 		$this->notification_center  = $notification_center;
 		$this->options_helper       = $options_helper;
+		$this->product_helper       = $product_helper;
 	}
 
 	/**
@@ -208,7 +219,7 @@ class Indexing_Notification_Integration implements Integration_Interface {
 		$indexation_reason = $this->options_helper->get( 'indexables_indexation_reason', '' );
 
 		if ( $indexation_reason === self::REASON_INDEXING_FAILED ) {
-			$presenter = new Indexing_Failed_Notification_Presenter();
+			$presenter = new Indexing_Failed_Notification_Presenter( $this->product_helper->is_premium() );
 		}
 		else {
 			$total_unindexed = $this->indexing_integration->get_total_unindexed();
