@@ -4,9 +4,11 @@ namespace Yoast\WP\SEO\Tests\Unit\Integrations\Third_Party;
 
 use Brain\Monkey;
 use Mockery;
+use Yoast\WP\Lib\ORM;
 use Yoast\WP\SEO\Conditionals\Web_Stories_Conditional;
 use Yoast\WP\SEO\Integrations\Front_End_Integration;
 use Yoast\WP\SEO\Integrations\Third_Party\Web_Stories;
+use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 class Story_Post_Type_Stub {
@@ -71,6 +73,7 @@ class Web_Stories_Test extends TestCase {
 		$this->assertTrue( \has_action( 'web_stories_story_head', [ $this->instance, 'remove_web_stories_meta_output' ] ), 'The remove Web Stories meta output function is registered.' );
 		$this->assertTrue( \has_action( 'web_stories_story_head', [ $this->front_end, 'call_wpseo_head' ] ), 'The wpseo head action is registered.' );
 		$this->assertTrue( \has_filter( 'wpseo_schema_article_post_types', [ $this->instance, 'filter_schema_article_post_types' ] ), 'The filter schema article post types function is registered.' );
+		$this->assertTrue( \has_filter( 'wpseo_schema_article_type', [ $this->instance, 'filter_schema_article_type' ] ), 'The filter schema article type function is registered.' );
 		$this->assertTrue( \has_action( 'admin_enqueue_scripts', [ $this->instance, 'dequeue_admin_assets' ] ), 'The admin_enqueue_scripts action is registered.' );
 	}
 
@@ -158,5 +161,46 @@ class Web_Stories_Test extends TestCase {
 
 		$actual = $this->instance->filter_schema_article_post_types( [ 'post' ] );
 		$this->assertEquals( [ 'post', 'web-story' ], $actual );
+	}
+
+	/**
+	 * Tests filter schema article post types for stories.
+	 *
+	 * @covers ::filter_schema_article_type
+	 */
+	public function test_filter_schema_article_type_stories() {
+		Mockery::namedMock( '\Google\Web_Stories\Story_Post_Type', Story_Post_Type_Stub::class );
+
+		$indexable      = Mockery::mock( Indexable::class );
+		$indexable->orm = Mockery::mock( ORM::class );
+
+		$indexable->orm->allows( 'get' )
+		                     ->with( 'object_sub_type' )
+		                     ->andReturn( 'web-story' );
+
+		$actual = $this->instance->filter_schema_article_type( 'None', $indexable );
+		$this->assertEquals( 'Article', $actual );
+
+		$actual = $this->instance->filter_schema_article_type( 'TechArticle', $indexable );
+		$this->assertEquals( 'TechArticle', $actual );
+	}
+
+	/**
+	 * Tests filter schema article post types for other indexables.
+	 *
+	 * @covers ::filter_schema_article_type
+	 */
+	public function test_filter_schema_article_type_others() {
+		Mockery::namedMock( '\Google\Web_Stories\Story_Post_Type', Story_Post_Type_Stub::class );
+
+		$indexable      = Mockery::mock( Indexable::class );
+		$indexable->orm = Mockery::mock( ORM::class );
+
+		$indexable->orm->allows( 'get' )
+		                     ->with( 'object_sub_type' )
+		                     ->andReturn( 'post' );
+
+		$actual = $this->instance->filter_schema_article_type( 'None', $indexable );
+		$this->assertEquals( 'None', $actual );
 	}
 }
