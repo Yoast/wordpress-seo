@@ -90,7 +90,7 @@ class Indexation_List_Item_Presenter extends Abstract_Presenter {
 
 			if ( ! $should_index ) {
 				$output .= '<p>';
-				$output .= 'This button to index your website is disabled for non-production environments.';
+				$output .= \esc_html__( 'This button to index your website is disabled for non-production environments.', 'wordpress-seo' );
 				$output .= '</p>';
 			}
 		}
