@@ -1,13 +1,13 @@
 {
 	"name": "@yoast/content-analysis-app",
-	"version": "0.1.69",
+	"version": "0.1.70-rc.0",
 	"private": true,
 	"dependencies": {
 		"@babel/core": "7.7.4",
 		"@svgr/webpack": "4.3.3",
 		"@wordpress/i18n": "^3.1.1",
-		"@yoast/analysis-report": "^1.11.0",
-		"@yoast/components": "^2.9.0",
+		"@yoast/analysis-report": "^1.12.0-rc.0",
+		"@yoast/components": "^2.10.0-rc.0",
 		"@yoast/style-guide": "^0.13.0",
 		"babel-core": "7.0.0-bridge.0",
 		"babel-eslint": "10.0.3",
@@ -70,7 +70,7 @@
 		"webpack-manifest-plugin": "2.2.0",
 		"workbox-webpack-plugin": "4.3.1",
 		"worker-loader": "^2.0.0",
-		"yoastseo": "^1.82.0"
+		"yoastseo": "^1.83.0-rc.0"
 	},
 	"scripts": {
 		"start": "node scripts/start.js",
