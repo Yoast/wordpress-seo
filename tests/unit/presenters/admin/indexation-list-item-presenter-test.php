@@ -37,7 +37,7 @@ class Indexation_List_Item_Presenter_Test extends TestCase {
 	 *
 	 * @param int $count The total unindexed count.
 	 */
-	public function default_arrange( $count ) {
+	protected function create_presenter( $count ) {
 		$this->instance = new Indexation_List_Item_Presenter( $count, $this->indexable_helper );
 	}
 
@@ -48,7 +48,7 @@ class Indexation_List_Item_Presenter_Test extends TestCase {
 		parent::setUp();
 
 		$this->indexable_helper = \Mockery::Mock( Indexable_Helper::class );
-		$this->default_arrange( 0 );
+		$this->create_presenter( 0 );
 
 		Monkey\Functions\expect( 'add_query_arg' )->andReturn( '' );
 		Monkey\Functions\expect( 'get_platform_version' )->andReturn( '5.5' );
@@ -72,7 +72,7 @@ class Indexation_List_Item_Presenter_Test extends TestCase {
 	 * @covers ::__construct
 	 */
 	public function test_construct() {
-		$this->default_arrange( 12 );
+		$this->create_presenter( 12 );
 
 		$this->assertAttributeSame( 12, 'total_unindexed', $this->instance );
 		$this->assertAttributeInstanceOf( Indexable_Helper::class, 'indexable_helper', $this->instance );
@@ -85,7 +85,7 @@ class Indexation_List_Item_Presenter_Test extends TestCase {
 	 */
 	public function test_present_with_nothing_to_index() {
 		// Arrange.
-		$this->default_arrange( 0 );
+		$this->create_presenter( 0 );
 
 		// Act.
 		$result = $this->instance->present();
@@ -107,7 +107,7 @@ class Indexation_List_Item_Presenter_Test extends TestCase {
 	 */
 	public function test_present_with_something_to_index_non_production() {
 		// Arrange.
-		$this->default_arrange( 30 );
+		$this->create_presenter( 30 );
 		$this->indexable_helper->shouldReceive( 'should_index_indexables' )->andReturn( false );
 
 		// Act.
@@ -131,7 +131,7 @@ class Indexation_List_Item_Presenter_Test extends TestCase {
 	 */
 	public function test_present_with_something_to_index_production() {
 		// Arrange.
-		$this->default_arrange( 30 );
+		$this->create_presenter( 30 );
 		$this->indexable_helper->shouldReceive( 'should_index_indexables' )->andReturn( true );
 
 		// Act.

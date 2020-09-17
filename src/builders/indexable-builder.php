@@ -295,20 +295,23 @@ class Indexable_Builder {
 		 */
 		$intend_to_save = \apply_filters( 'wpseo_should_save_indexable', $indexable, $intend_to_save );
 
-		if ( $intend_to_save ) {
-			if ( $indexable_before ) {
-				/**
-				 * Action: 'wpseo_save_indexable' - Allow developers to perform an action
-				 * when the indexable is updated.
-				 *
-				 * @param Indexable $indexable_before The indexable before saving.
-				 *
-				 * @api Indexable $indexable The saved indexable.
-				 */
-				\do_action( 'wpseo_save_indexable', $indexable, $indexable_before );
-			}
-			$indexable->save();
+		if ( ! $intend_to_save ) {
+			return $indexable;
 		}
+
+		if ( $indexable_before ) {
+			/**
+			 * Action: 'wpseo_save_indexable' - Allow developers to perform an action
+			 * when the indexable is updated.
+			 *
+			 * @param Indexable $indexable_before The indexable before saving.
+			 *
+			 * @api Indexable $indexable The saved indexable.
+			 */
+			\do_action( 'wpseo_save_indexable', $indexable, $indexable_before );
+		}
+
+		$indexable->save();
 
 		return $indexable;
 	}

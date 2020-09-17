@@ -172,7 +172,6 @@ class Indexation_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function enqueue_scripts() {
-		// If we are in a non-production environment, don't index the indexables.
 		if ( ! $this->indexable_helper->should_index_indexables() ) {
 			return;
 		}
