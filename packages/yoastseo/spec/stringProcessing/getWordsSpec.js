@@ -48,3 +48,56 @@ describe( "a test getting words from a sentence", function() {
 		] );
 	} );
 } );
+
+describe( "language-specific tests for getting words", function() {
+	it( "returns words without special Arabic punctuation marks: ،؟؛", function() {
+		const words = getWords( "ما هي المقالات الجيدة؟ السلطان خوارزمشاه، وعدم تنسيق سبل المقاومة، كانت كلها أسبابًا لفشل ذلك الصمود. جدول قواسم الأعداد من 1 إلى العدد 1000؛ وقاسم" );
+
+		expect( words ).toEqual( [
+			"ما",
+			"هي",
+			"المقالات",
+			"الجيدة",
+			"السلطان",
+			"خوارزمشاه",
+			"وعدم",
+			"تنسيق",
+			"سبل",
+			"المقاومة",
+			"كانت",
+			"كلها",
+			"أسبابًا",
+			"لفشل",
+			"ذلك",
+			"الصمود",
+			"جدول",
+			"قواسم",
+			"الأعداد",
+			"من",
+			"1",
+			"إلى",
+			"العدد",
+			"1000",
+			"وقاسم",
+		] );
+	} );
+
+	it( "returns words without special Urdu punctuation marks: ۔", function() {
+		const words = getWords( "اس دوران میں وہ حملے کرتے رہے اور آخرکار شکست کھا گئے۔"	);
+
+		expect( words ).toEqual( [
+			"اس",
+			"دوران",
+			"میں",
+			"وہ",
+			"حملے",
+			"کرتے",
+			"رہے",
+			"اور",
+			"آخرکار",
+			"شکست",
+			"کھا",
+			"گئے",
+		] );
+	} );
+} );

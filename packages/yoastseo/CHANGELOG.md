@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file. Releases without a changelog entry contain only minor changes that are irrelevant for users of this library.
 We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwards.
 
+## 1.82.0 September 14th, 2020
+### Enhancements
+* Adds the following words to the list that's used for the English transition word assessment: 'note that', 'not only', 'initially', 'as opposed to'.
+* Improves word tokenization when words are followed by specific Arabic or Urdu punctuation marks.
+* Adds passive voice assessment for Arabic, including a check, and a list of Arabic passive verbs with long vowel in their root.
+* Adds the consecutive sentences assessment for Arabic.
+* Implements the transition words assessment for Arabic.
+* Adds the prefixes س and أ to the list of ignored prefixes for Arabic. When the Arabic keyphrase is preceded by س and أ, the basic keyphrase forms will also be created.
+* Adds and refactors an external stemmer for Arabic.
+
+### Bugfixes
+* Fixes the URL of the assessment image in the readme. Props to [Güven Atbakan](https://github.com/shibby).
+
+### Other
+* Sets the threshold for words to be recognized as prominent words from 4 to 2, in case a language has no morphology support. This increases the chance that different word forms are saved, leading to better internal linking suggestions for these languages.
+
 ## 1.81.0 August 31st, 2020
 ### Enhancements
 * Adds more Polish function words.

@@ -47,8 +47,8 @@ const onChangeHandler = onChange => {
 const TextInput = ( props ) => {
 	const id = getId( props.id );
 	const fieldGroupProps = {
-		htmlFor: id,
 		...props,
+		htmlFor: id,
 	};
 
 	return (
@@ -56,7 +56,7 @@ const TextInput = ( props ) => {
 			<input
 				id={ id }
 				name={ props.name }
-				defaultValue={ props.value }
+				value={ props.value }
 				type={ props.type }
 				className="yoast-field-group__inputfield"
 				aria-describedby={ props.ariaDescribedBy }

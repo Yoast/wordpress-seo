@@ -23,18 +23,20 @@ const radioButtonsDefaultProps = {
  * @param {string} value The value of the radiobutton.
  * @param {string} label The label that accompanies the radiobutton.
  * @param {boolean} checked Whether the radiobutton is checked.
+ * @param {onChange} onChange A function for the onChange.
  * @param {string} groupName The name of the group of radio buttons.
  * @param {string} id The id of the radio button.
  *
  * @returns {React.Component} A single radiobutton field with label.
  */
-const LabeledRadioButton = ( { value, label, checked, groupName, id } ) => <Fragment>
+const LabeledRadioButton = ( { value, label, checked, onChange, groupName, id } ) => <Fragment>
 	<input
 		type="radio"
 		name={ groupName }
 		id={ id }
 		value={ value }
-		defaultChecked={ checked }
+		onChange={ onChange }
+		checked={ checked }
 	/>
 	<label
 		htmlFor={ id }
@@ -48,6 +50,7 @@ LabeledRadioButton.propTypes = {
 	label: PropTypes.string.isRequired,
 	checked: PropTypes.bool.isRequired,
 	groupName: PropTypes.string.isRequired,
+	onChange: PropTypes.func.isRequired,
 	id: PropTypes.string.isRequired,
 };
 
@@ -63,16 +66,19 @@ LabeledRadioButton.propTypes = {
  * @returns {React.Component} A div with radiobuttons in it.
  */
 const HorizontalRadioButtons = ( { options, onChange, groupName, id, selected } ) => (
-	<div className="yoast-field-group__radiobutton" onChange={ onChange }>
-		{ options.map( option =>
-			<LabeledRadioButton
-				key={ option.value }
-				groupName={ groupName }
-				checked={ selected === option.value }
-				id={ `${ id }_${ option.value }` }
-				{ ...option }
-			/>,
-		) }
+	<div className="yoast-field-group__radiobutton">
+		{ options.map( option => {
+			return (
+				<LabeledRadioButton
+					key={ option.value }
+					groupName={ groupName }
+					checked={ selected === option.value }
+					onChange={ onChange }
+					id={ `${ id }_${ option.value }` }
+					{ ...option }
+				/>
+			);
+		} ) }
 	</div>
 );
 
@@ -139,7 +145,6 @@ const RadioButtonGroup = props => {
 
 	return (
 		<FieldGroup
-			htmlFor={ componentId }
 			{ ...fieldGroupProps }
 		>
 			{ vertical

@@ -23,7 +23,7 @@ const injectCardDependentStyles = ( isLarge, border = true ) => {
 		return (
 			`
 			height: ${ TWITTER_IMAGE_SIZES.landscapeHeight }px;
-			width: ${ TWITTER_IMAGE_SIZES.landscapeWidth }px;
+			max-width: ${ TWITTER_IMAGE_SIZES.landscapeWidth }px;
 			${ border ? "border-bottom: 1px solid #E1E8ED;" : "" }
 			border-radius: 14px 14px 0 0;
 			`
@@ -49,9 +49,8 @@ const TwitterImageContainer = styled.div`
 
 const StyledImage = styled.img`
 	&& {
-		width: ${ props => props.imageProperties.width }px;
+		max-width: ${ props => props.imageProperties.width }px;
 		height: ${ props => props.imageProperties.height }px;
-		max-width: none;
 		position: absolute;
 		top: 50%;
 		left: 50%;
