@@ -43,7 +43,7 @@ class Comment_Link_Fixer_Test extends TestCase {
 	protected $robots;
 
 	/**
-	 * @inheritDoc
+	 * Sets an instance for test purposes.
 	 */
 	public function setUp() {
 		parent::setUp();

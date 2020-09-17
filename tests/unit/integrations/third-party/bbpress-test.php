@@ -34,7 +34,7 @@ class BbPress_Test extends TestCase {
 	protected $options;
 
 	/**
-	 * @inheritDoc
+	 * Sets an instance for test purposes.
 	 */
 	public function setUp() {
 		parent::setUp();
