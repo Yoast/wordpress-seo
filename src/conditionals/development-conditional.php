@@ -15,6 +15,6 @@ class Development_Conditional implements Conditional {
 	 * @return boolean Whether or not the conditional is met.
 	 */
 	public function is_met() {
-		return WPSEO_Utils::is_development_mode();
+		return YoastSEO()->helpers->yoast->is_development_mode();
 	}
 }

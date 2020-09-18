@@ -84,7 +84,7 @@ class WPSEO_Admin {
 
 		$this->initialize_cornerstone_content();
 
-		if ( WPSEO_Utils::is_plugin_network_active() ) {
+		if ( YoastSEO()->helpers->yoast->is_plugin_network_active() ) {
 			$integrations[] = new Yoast_Network_Admin();
 		}
 
@@ -225,7 +225,7 @@ class WPSEO_Admin {
 		}
 
 		$addon_manager = new WPSEO_Addon_Manager();
-		if ( WPSEO_Utils::is_yoast_seo_premium() && $addon_manager->has_valid_subscription( WPSEO_Addon_Manager::PREMIUM_SLUG ) ) {
+		if ( YoastSEO()->helpers->yoast->is_premium() && $addon_manager->has_valid_subscription( WPSEO_Addon_Manager::PREMIUM_SLUG ) ) {
 			return $links;
 		}
 
