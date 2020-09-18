@@ -601,7 +601,7 @@ abstract class WPSEO_Option {
 			return $clean;
 		}
 
-		$option_value = array_map( [ 'WPSEO_Utils', 'trim_recursive' ], $option_value );
+		$option_value = array_map( [ YoastSEO()->helpers->string, 'trim_recursive' ], $option_value );
 
 		$old = $this->get_original_option();
 		if ( ! is_array( $old ) ) {

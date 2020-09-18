@@ -248,7 +248,7 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 	public static function validate_term_meta_data( $meta_data, $old_meta ) {
 
 		$clean     = self::$defaults_per_term;
-		$meta_data = array_map( [ 'WPSEO_Utils', 'trim_recursive' ], $meta_data );
+		$meta_data = array_map( [ YoastSEO()->helpers->string, 'trim_recursive' ], $meta_data );
 
 		if ( ! is_array( $meta_data ) || $meta_data === [] ) {
 			return $clean;

@@ -133,14 +133,7 @@ class WPSEO_Utils {
 	 * @return mixed Trimmed value or array of trimmed values.
 	 */
 	public static function trim_recursive( $value ) {
-		if ( is_string( $value ) ) {
-			$value = trim( $value );
-		}
-		elseif ( is_array( $value ) ) {
-			$value = array_map( [ __CLASS__, 'trim_recursive' ], $value );
-		}
-
-		return $value;
+		return YoastSEO()->helpers->string->trim_recursive( $value );
 	}
 
 	/**
