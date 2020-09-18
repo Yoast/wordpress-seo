@@ -3,6 +3,7 @@
   "version": "1.0.0-RC1",
   "main": "build/index.js",
   "license": "MIT",
+  "private": false,
   "dependencies": {
     "tokenizr": "^1.5.2"
   },
@@ -45,5 +46,8 @@
   "scripts": {
     "build": "tsc",
     "watch": "tsc --watch"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
