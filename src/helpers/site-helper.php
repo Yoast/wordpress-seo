@@ -10,6 +10,22 @@ use WPSEO_Utils;
 class Site_Helper {
 
 	/**
+	 * Represents the yoast helper.
+	 *
+	 * @var Yoast_Helper
+	 */
+	protected $yoast_helper;
+
+	/**
+	 * Site_Helper constructor.
+	 *
+	 * @param Yoast_Helper $yoast_helper
+	 */
+	public function __construct( Yoast_Helper $yoast_helper ) {
+		$this->yoast_helper = $yoast_helper;
+	}
+
+	/**
 	 * Retrieves the site name.
 	 *
 	 * @return string

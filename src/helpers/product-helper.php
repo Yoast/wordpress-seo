@@ -2,12 +2,26 @@
 
 namespace Yoast\WP\SEO\Helpers;
 
-use WPSEO_Utils;
-
 /**
  * A helper object to retrieve the product name.
  */
 class Product_Helper {
+
+	/**
+	 * Represents the yoast helper.
+	 *
+	 * @var Yoast_Helper
+	 */
+	protected $yoast_helper;
+
+	/**
+	 * Site_Helper constructor.
+	 *
+	 * @param Yoast_Helper $yoast_helper
+	 */
+	public function __construct( Yoast_Helper $yoast_helper ) {
+		$this->yoast_helper = $yoast_helper;
+	}
 
 	/**
 	 * Get the product name in the head section.
@@ -15,21 +29,10 @@ class Product_Helper {
 	 * @return string
 	 */
 	public function get_name() {
-		if ( $this->is_premium() ) {
+		if ( $this->yoast_helper->is_premium() ) {
 			return 'Yoast SEO Premium plugin';
 		}
 
 		return 'Yoast SEO plugin';
-	}
-
-	/**
-	 * Checks if the installed version is Yoast SEO Premium.
-	 *
-	 * @codeCoverageIgnore It just wraps a static method.
-	 *
-	 * @return bool True when is premium.
-	 */
-	protected function is_premium() {
-		return YoastSEO()->helpers->yoast->is_premium();
 	}
 }

@@ -2,8 +2,6 @@
 
 namespace Yoast\WP\SEO\Conditionals;
 
-use WPSEO_Utils;
-
 /**
  * Conditional that is only met when in development mode.
  */
