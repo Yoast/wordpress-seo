@@ -39,7 +39,7 @@ class WPSEO_Admin_Menu extends WPSEO_Base_Menu {
 				$this->get_manage_capability(),
 				$this->get_page_identifier(),
 				$this->get_admin_page_callback(),
-				WPSEO_Utils::get_icon_svg(),
+				$this->get_icon_svg(),
 				'99.31337'
 			);
 
