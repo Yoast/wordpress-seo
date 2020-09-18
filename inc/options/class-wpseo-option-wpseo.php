@@ -65,6 +65,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 			'access_tokens' => [],
 		],
 		'permalink_structure'                      => '',
+		'dynamic_permalinks'                       => false,
 	];
 
 	/**
@@ -347,6 +348,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 				 *  'disableadvanced_meta'
 				 *  'enable_headless_rest_endpoints'
 				 *  'yoast_tracking'
+				 *  'dynamic_permalinks'
 				 */
 				default:
 					$clean[ $key ] = ( isset( $dirty[ $key ] ) ? WPSEO_Utils::validate_bool( $dirty[ $key ] ) : false );
