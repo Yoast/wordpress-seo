@@ -12,6 +12,7 @@ use Yoast\WP\SEO\Actions\Indexation\Indexable_Post_Type_Archive_Indexation_Actio
 use Yoast\WP\SEO\Actions\Indexation\Indexable_Term_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexation\Post_Link_Indexing_Action;
 use Yoast\WP\SEO\Actions\Indexation\Term_Link_Indexing_Action;
+use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Integrations\Admin\Indexing_Integration;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
@@ -86,6 +87,13 @@ class Indexing_Integration_Test extends TestCase {
 	private $asset_manager;
 
 	/**
+	 * The indexable helper.
+	 *
+	 * @var Mockery\MockInterface|Indexable_Helper
+	 */
+	private $indexable_helper;
+
+	/**
 	 * Sets up the tests.
 	 */
 	protected function setUp() {
@@ -99,6 +107,7 @@ class Indexing_Integration_Test extends TestCase {
 		$this->post_link_indexing_action    = Mockery::mock( Post_Link_Indexing_Action::class );
 		$this->term_link_indexing_action    = Mockery::mock( Term_Link_Indexing_Action::class );
 		$this->asset_manager                = Mockery::mock( WPSEO_Admin_Asset_Manager::class );
+		$this->indexable_helper             = Mockery::mock( Indexable_Helper::class );
 
 		$this->instance = new Indexing_Integration(
 			$this->post_indexation,
@@ -106,7 +115,8 @@ class Indexing_Integration_Test extends TestCase {
 			$this->post_type_archive_indexation,
 			$this->general_indexation,
 			$this->complete_indexation_action,
-			$this->asset_manager
+			$this->asset_manager,
+			$this->indexable_helper
 		);
 	}
 
@@ -184,23 +194,28 @@ class Indexing_Integration_Test extends TestCase {
 			->expects( 'enqueue_style' )
 			->with( 'monorepo' );
 
+		$this->indexable_helper
+			->expects( 'should_index_indexables' )
+			->andReturn( true );
+
 		Monkey\Functions\expect( 'wp_create_nonce' )
 			->with( 'wp_rest' )
 			->andReturn( 'nonce_value' );
 
 		$injected_data = [
-			'amount'  => 72,
-			'restApi' =>
+			'amount'   => 72,
+			'disabled' => false,
+			'restApi'  =>
 				[
 					'root'      => 'https://example.org/wp-ajax/',
 					'endpoints' =>
 						[
-							'prepare'    => 'yoast/v1/indexation/prepare',
-							'posts'      => 'yoast/v1/indexation/posts',
-							'terms'      => 'yoast/v1/indexation/terms',
-							'archives'   => 'yoast/v1/indexation/post-type-archives',
-							'general'    => 'yoast/v1/indexation/general',
-							'complete'   => 'yoast/v1/indexation/complete',
+							'prepare'  => 'yoast/v1/indexation/prepare',
+							'posts'    => 'yoast/v1/indexation/posts',
+							'terms'    => 'yoast/v1/indexation/terms',
+							'archives' => 'yoast/v1/indexation/post-type-archives',
+							'general'  => 'yoast/v1/indexation/general',
+							'complete' => 'yoast/v1/indexation/complete',
 						],
 					'nonce'     => 'nonce_value',
 				],
