@@ -15,7 +15,7 @@ export default abstract class BlockInstruction extends Instruction {
 	 * Renders editing the element.
 	 *
 	 * @param props} props The props.
-	 * @param leaf  The leaf being rendered.
+	 * @param leaf   The leaf being rendered.
 	 * @param i      The number the rendered element is of it's parent.
 	 *
 	 * @returns {JSX.Element} The element to render.
@@ -28,7 +28,7 @@ export default abstract class BlockInstruction extends Instruction {
 	 * Renders saving the element.
 	 *
 	 * @param props} props The props.
-	 * @param leaf  The leaf being rendered.
+	 * @param leaf   The leaf being rendered.
 	 * @param i      The number the rendered element is of it's parent.
 	 *
 	 * @returns {JSX.Element} The element to render.
@@ -41,7 +41,7 @@ export default abstract class BlockInstruction extends Instruction {
 	 * Renders the sidebar.
 	 *
 	 * @param props The props.
-	 * @param i      The number the rendered element is of it's parent.
+	 * @param i     The number the rendered element is of it's parent.
 	 *
 	 * @returns The sidebar element to render.
 	 */
@@ -57,5 +57,14 @@ export default abstract class BlockInstruction extends Instruction {
 	 */
 	configuration(): Partial<BlockConfiguration> {
 		return {};
+	}
+
+	/**
+	 * Checks if the instruction block is valid.
+	 * 
+	 * @returns {boolean} True if the instruction block is valid, False if the block contains errors.
+	 */
+	valid(): boolean {
+		return true;
 	}
 }
