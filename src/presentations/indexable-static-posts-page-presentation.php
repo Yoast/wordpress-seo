@@ -31,12 +31,16 @@ class Indexable_Static_Posts_Page_Presentation extends Indexable_Post_Type_Prese
 		}
 
 		$current_page = $this->pagination->get_current_archive_page_number();
-
-		if ( $current_page > 1 ) {
-			return $this->pagination->get_paginated_url( $this->model->permalink, $current_page );
+		$permalink = $this->model->permalink;
+		if ( $this->indexable_helper->dynamic_permalinks_enabled() ) {
+			$permalink = $this->permalink_helper->get_permalink_for_indexable( $this->model );
 		}
 
-		return $this->model->permalink;
+		if ( $current_page > 1 ) {
+			return $this->pagination->get_paginated_url( $permalink, $current_page );
+		}
+
+		return $permalink;
 	}
 
 	/**
