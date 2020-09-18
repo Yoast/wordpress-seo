@@ -730,17 +730,7 @@ class WPSEO_Utils {
 	 * @return bool
 	 */
 	public static function is_yoast_seo_free_page( $current_page ) {
-		$yoast_seo_free_pages = [
-			'wpseo_dashboard',
-			'wpseo_titles',
-			'wpseo_social',
-			'wpseo_advanced',
-			'wpseo_tools',
-			'wpseo_search_console',
-			'wpseo_licenses',
-		];
-
-		return in_array( $current_page, $yoast_seo_free_pages, true );
+		return YoastSEO()->helpers->product->is_free_page( $current_page );
 	}
 
 	/**
@@ -749,7 +739,7 @@ class WPSEO_Utils {
 	 * @return bool True when we are in the premium plugin.
 	 */
 	public static function is_yoast_seo_premium() {
-		return defined( 'WPSEO_PREMIUM_PLUGIN_FILE' );
+		return YoastSEO()->helpers->product->is_premium();
 	}
 
 	/**
@@ -757,31 +747,10 @@ class WPSEO_Utils {
 	 *
 	 * Inspired by JetPack (https://github.com/Automattic/jetpack/blob/master/class.jetpack.php#L1383-L1406).
 	 *
-	 * @since 3.0.0
-	 *
 	 * @return bool
 	 */
 	public static function is_development_mode() {
-		$development_mode = false;
-
-		if ( defined( 'YOAST_ENVIRONMENT' ) && YOAST_ENVIRONMENT === 'development' ) {
-			$development_mode = true;
-		}
-		elseif ( defined( 'WPSEO_DEBUG' ) ) {
-			$development_mode = WPSEO_DEBUG;
-		}
-		elseif ( site_url() && strpos( site_url(), '.' ) === false ) {
-			$development_mode = true;
-		}
-
-		/**
-		 * Filter the Yoast SEO development mode.
-		 *
-		 * @since 3.0
-		 *
-		 * @param bool $development_mode Is Yoast SEOs development mode active.
-		 */
-		return apply_filters( 'yoast_seo_development_mode', $development_mode );
+		return YoastSEO()->helpers->product->is_development_mode();
 	}
 
 	/**
@@ -1100,7 +1069,7 @@ SVG;
 	public static function format_json_encode( $data ) {
 		$flags = JSON_UNESCAPED_SLASHES;
 
-		if ( self::is_development_mode() ) {
+		if ( YoastSEO()->helpers->product->is_development_mode() ) {
 			$flags = ( $flags | JSON_PRETTY_PRINT );
 
 			/**
