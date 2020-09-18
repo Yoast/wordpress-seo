@@ -10,6 +10,7 @@ use Yoast\WP\SEO\Actions\Indexation\Indexable_Post_Type_Archive_Indexation_Actio
 use Yoast\WP\SEO\Actions\Indexation\Indexable_Term_Indexation_Action;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
 use Yoast\WP\SEO\Conditionals\Yoast_Tools_Page_Conditional;
+use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Presenters\Admin\Indexing_List_Item_Presenter;
 use Yoast\WP\SEO\Routes\Indexable_Indexation_Route;
@@ -71,6 +72,13 @@ class Indexing_Integration implements Integration_Interface {
 	protected $asset_manager;
 
 	/**
+	 * The indexable helper.
+	 *
+	 * @var Indexable_Helper
+	 */
+	protected $indexable_helper;
+
+	/**
 	 * Returns the conditionals based on which this integration should be active.
 	 *
 	 * @return array The array of conditionals.
@@ -91,6 +99,7 @@ class Indexing_Integration implements Integration_Interface {
 	 * @param Indexable_General_Indexation_Action           $general_indexation           The general indexing action.
 	 * @param Indexable_Complete_Indexation_Action          $complete_indexation_action   The complete indexing action.
 	 * @param WPSEO_Admin_Asset_Manager                     $asset_manager                The admin asset manager.
+	 * @param Indexable_Helper                              $indexable_helper             The indexable helper.
 	 */
 	public function __construct(
 		Indexable_Post_Indexation_Action $post_indexation,
@@ -98,7 +107,8 @@ class Indexing_Integration implements Integration_Interface {
 		Indexable_Post_Type_Archive_Indexation_Action $post_type_archive_indexation,
 		Indexable_General_Indexation_Action $general_indexation,
 		Indexable_Complete_Indexation_Action $complete_indexation_action,
-		WPSEO_Admin_Asset_Manager $asset_manager
+		WPSEO_Admin_Asset_Manager $asset_manager,
+		Indexable_Helper $indexable_helper
 	) {
 		$this->post_indexation              = $post_indexation;
 		$this->term_indexation              = $term_indexation;
@@ -106,6 +116,7 @@ class Indexing_Integration implements Integration_Interface {
 		$this->general_indexation           = $general_indexation;
 		$this->complete_indexation_action   = $complete_indexation_action;
 		$this->asset_manager                = $asset_manager;
+		$this->indexable_helper             = $indexable_helper;
 	}
 
 	/**
@@ -145,16 +156,17 @@ class Indexing_Integration implements Integration_Interface {
 		$this->asset_manager->enqueue_style( 'monorepo' );
 
 		$data = [
-			'amount'  => $total_unindexed,
-			'restApi' => [
+			'disabled' => ! $this->indexable_helper->should_index_indexables(),
+			'amount'   => $total_unindexed,
+			'restApi'  => [
 				'root'      => \esc_url_raw( \rest_url() ),
 				'endpoints' => [
-					'prepare'    => Indexable_Indexation_Route::FULL_PREPARE_ROUTE,
-					'terms'      => Indexable_Indexation_Route::FULL_TERMS_ROUTE,
-					'posts'      => Indexable_Indexation_Route::FULL_POSTS_ROUTE,
-					'archives'   => Indexable_Indexation_Route::FULL_POST_TYPE_ARCHIVES_ROUTE,
-					'general'    => Indexable_Indexation_Route::FULL_GENERAL_ROUTE,
-					'complete'   => Indexable_Indexation_Route::FULL_COMPLETE_ROUTE,
+					'prepare'  => Indexable_Indexation_Route::FULL_PREPARE_ROUTE,
+					'terms'    => Indexable_Indexation_Route::FULL_TERMS_ROUTE,
+					'posts'    => Indexable_Indexation_Route::FULL_POSTS_ROUTE,
+					'archives' => Indexable_Indexation_Route::FULL_POST_TYPE_ARCHIVES_ROUTE,
+					'general'  => Indexable_Indexation_Route::FULL_GENERAL_ROUTE,
+					'complete' => Indexable_Indexation_Route::FULL_COMPLETE_ROUTE,
 				],
 				'nonce'     => \wp_create_nonce( 'wp_rest' ),
 			],

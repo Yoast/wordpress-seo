@@ -213,6 +213,19 @@ class Indexing extends Component {
 	 * @returns {JSX.Element} The rendered component.
 	 */
 	render() {
+		if ( this.settings.disabled ) {
+			return <Fragment>
+				<p>
+					<Button disabled={ true } variant="grey">
+						{ __( "Stop SEO data optimization", "wordpress-seo" ) }
+					</Button>
+				</p>
+				<Alert type={ "info" }>
+					{ __( "This button to optimize the SEO data for your website is disabled for non-production environments.", "wordpress-seo" ) }
+				</Alert>
+			</Fragment>;
+		}
+
 		if ( this.state.processed >= this.state.amount ) {
 			return <Alert type={ "success" }>{ __( "SEO data optimization complete", "wordpress-seo" ) }</Alert>;
 		}
