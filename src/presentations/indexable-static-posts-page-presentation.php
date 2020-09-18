@@ -31,7 +31,8 @@ class Indexable_Static_Posts_Page_Presentation extends Indexable_Post_Type_Prese
 		}
 
 		$current_page = $this->pagination->get_current_archive_page_number();
-		$permalink = $this->model->permalink;
+		$permalink    = $this->model->permalink;
+
 		if ( $this->indexable_helper->dynamic_permalinks_enabled() ) {
 			$permalink = $this->permalink_helper->get_permalink_for_indexable( $this->model );
 		}
