@@ -1,4 +1,4 @@
-const getPluginStableVersionFromWordPressApi = require( "../lib/wordpress-api" );
+const wordpressApi = require( "../lib/wordpress-api" );
 
 /*
  * Checks if the stable tag in ther readme.txt is set to the version currently on wordpress.org and aborts the release process if not so.
@@ -13,7 +13,7 @@ module.exports = function( grunt ) {
 		"Checks if the stable tag in the readme.txt is set to the version currently on wordpress.org and aborts the release process if not so.",
 		async function() {
 			var done = this.async();
-			const stableVerion = await getPluginStableVersionFromWordPressApi( grunt.config.data.pluginSlug );
+			const stableVerion = await wordpressApi.getPluginStableVersionFromWordPressApi( grunt.config.data.pluginSlug );
 			if ( stableVerion === null ){
 				grunt.fail.fatal(
 					"The Stable tag for plugin: " + grunt.config.data.pluginSlug + " could not be retrieved from api.wordpress.org\n" +

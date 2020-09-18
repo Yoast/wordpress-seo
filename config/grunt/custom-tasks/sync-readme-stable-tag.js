@@ -1,4 +1,4 @@
-const getPluginStableVersionFromWordPressApi = require( "../lib/wordpress-api" );
+const wordpressApi = require( "../lib/wordpress-api" );
 
 module.exports = function( grunt ) {
 	grunt.registerTask(
@@ -8,7 +8,7 @@ module.exports = function( grunt ) {
 			const done = this.async();
 
 			const targetFile = "readme.txt";
-			const stableVerion = await getPluginStableVersionFromWordPressApi( grunt.config.data.pluginSlug );
+			const stableVerion = await wordpressApi.getPluginStableVersionFromWordPressApi( grunt.config.data.pluginSlug );
 			if ( stableVerion === null ){
 				grunt.fail.fatal(
 					"The Stable tag for plugin: " + grunt.config.data.pluginSlug + " could not be retrieved from api.wordpress.org\n" +
