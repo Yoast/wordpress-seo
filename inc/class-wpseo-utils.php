@@ -678,7 +678,6 @@ class WPSEO_Utils {
 	public static function format_url( $url ) {
 		$parsed_url = wp_parse_url( $url );
 
-		$formatted_url = '';
 		if ( ! empty( $parsed_url['path'] ) ) {
 			$formatted_url = $parsed_url['path'];
 		}
@@ -713,6 +712,7 @@ class WPSEO_Utils {
 		}
 
 		return false;
+		return YoastSEO()->helpers->url->format_admin_url( $url );
 	}
 
 	/**

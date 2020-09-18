@@ -168,4 +168,33 @@ class Url_Helper {
 
 		return ( $is_image ) ? SEO_Links::TYPE_EXTERNAL_IMAGE : SEO_Links::TYPE_EXTERNAL;
 	}
+	/**
+	 * Format the URL to be sure it is okay for using as a redirect url.
+	 *
+	 * This method will parse the URL and combine them in one string.
+	 *
+	 * @param string $url URL string.
+	 *
+	 * @return string The formatted url.
+	 */
+	public function format_admin_url( $url ) {
+		$parsed_url = wp_parse_url( $url );
+
+		$formatted_url = '';
+		if ( ! empty( $parsed_url['path'] ) ) {
+			$formatted_url = $parsed_url['path'];
+		}
+
+		// Prepend a slash if first char != slash.
+		if ( stripos( $formatted_url, '/' ) !== 0 ) {
+			$formatted_url = '/' . $formatted_url;
+		}
+
+		// Append 'query' string if it exists.
+		if ( ! empty( $parsed_url['query'] ) ) {
+			$formatted_url .= '?' . $parsed_url['query'];
+		}
+
+		return apply_filters( 'wpseo_format_admin_url', $formatted_url );
+	}
 }
