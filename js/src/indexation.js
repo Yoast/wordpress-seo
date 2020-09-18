@@ -238,7 +238,7 @@ class Indexing extends Component {
 			return <Fragment>
 				<p>
 					<Button disabled={ true } variant="grey">
-						{ __( "Stop SEO data optimization", "wordpress-seo" ) }
+						{ __( "Start SEO data optimization", "wordpress-seo" ) }
 					</Button>
 				</p>
 				<Alert type={ "info" }>
