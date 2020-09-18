@@ -51,7 +51,6 @@ class Indexation_List_Item_Presenter_Test extends TestCase {
 		$this->create_presenter( 0 );
 
 		Monkey\Functions\expect( 'add_query_arg' )->andReturn( '' );
-		Monkey\Functions\expect( 'get_platform_version' )->andReturn( '5.5' );
 
 		// phpcs:ignore WordPress.WP.GlobalVariablesOverride -- required in static helper method in WPSEO_Shortlinker
 		if ( ! isset( $GLOBALS['wp_version'] ) ) {
