@@ -36,7 +36,7 @@ class WPSEO_Network_Admin_Menu extends WPSEO_Base_Menu {
 			$this->get_manage_capability(),
 			$this->get_page_identifier(),
 			[ $this, 'network_config_page' ],
-			WPSEO_Utils::get_icon_svg()
+			$this->get_icon_svg()
 		);
 
 		$submenu_pages = $this->get_submenu_pages();
