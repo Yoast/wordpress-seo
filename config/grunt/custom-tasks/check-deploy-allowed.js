@@ -30,20 +30,22 @@ module.exports = function( grunt ) {
 		"check-deploy-allowed",
 		"Checks if the stable tag is an RC version and aborts the release process if so.",
 		async function() {
-			const contents = grunt.file.read( "readme.txt" );
-			const regex = new RegExp( "Stable tag: .*-RC.*" );
-			const isRCVersion = contents.search( regex ) !== -1;
-			if ( isRCVersion ) {
+			var done = this.async();
+			const pluginSlug = 'wordpress-seo';
+			const stableVerion = await getPluginStableVersionFromWordPressApi( pluginSlug );
+			grunt.verbose.writeln( "Worpress returned this stable verion: " + stableVerion + " for plugin: " + pluginSlug )
+			let contents = grunt.file.read( "readme.txt" );
+			contents = contents.split( "\n" ).slice( 0, 9 ).join( "\n" );
+            grunt.verbose.writeln("first 10 lines of readme.txt file: \n"+ contents );
+			const regex = new RegExp( "\nStable tag: " + stableVerion + "\n" );
+			const notVersionMatch = contents.search( regex ) == -1;
+			if ( notVersionMatch ) {
 				grunt.fail.fatal(
-					"The Stable tag specified in the readme.txt file contains RC tag. You cannot deploy an RC version. " +
+					"The Stable tag specified in the readme.txt file is not set to the stable tag curently on wordpress " + stableVerion + ". You cannot deploy with this " +
 					"The release process has been stopped."
 				);
 			};
-			const pluginSlug = 'wordpress-seo';
-			var done = this.async();
-			const tmp = await getPluginStableVersionFromWordPressApi( pluginSlug );
-			console.log ( tmp )
-		 	done();
+			done();
 		}
 	);
 };
