@@ -78,7 +78,7 @@ class Indexation_List_Item_Presenter extends Abstract_Presenter {
 			$output .= \sprintf(
 				'<span id="yoast-indexation">' .
 				'<button type="button" ' .
-				disabled( true, $should_index, false) .
+				disabled( true, $should_index, false ) .
 				'class="button yoast-open-indexation" data-title="%1$s" data-settings="yoastIndexationData">' .
 				'%2$s' .
 				'</button>' .
