@@ -60,27 +60,4 @@ class Product_Helper {
 		 */
 		return apply_filters( 'yoast_seo_development_mode', $development_mode );
 	}
-
-	/**
-	 * Check if the current opened page belongs to Yoast SEO Free.
-	 *
-	 * @since 3.3.0
-	 *
-	 * @param string $current_page The current page the user is on.
-	 *
-	 * @return bool
-	 */
-	public function is_free_page( $current_page ) {
-		$yoast_seo_free_pages = [
-			'wpseo_dashboard',
-			'wpseo_titles',
-			'wpseo_social',
-			'wpseo_advanced',
-			'wpseo_tools',
-			'wpseo_search_console',
-			'wpseo_licenses',
-		];
-
-		return in_array( $current_page, $yoast_seo_free_pages, true );
-	}
 }

@@ -332,7 +332,7 @@ class WPSEO_Admin_Init {
 			$GLOBALS['wpseo_admin_pages'] = new WPSEO_Admin_Pages();
 
 			// Only register the yoast i18n when the page is a Yoast SEO page.
-			if ( YoastSEO()->helpers->product->is_free_page( filter_input( INPUT_GET, 'page' ) ) ) {
+			if ( YoastSEO()->helpers->current_page->is_free_page( filter_input( INPUT_GET, 'page' ) ) ) {
 				$this->register_i18n_promo_class();
 				$this->register_premium_upsell_admin_block();
 			}

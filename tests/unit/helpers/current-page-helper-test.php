@@ -754,4 +754,38 @@ class Current_Page_Helper_Test extends TestCase {
 
 		$this->assertTrue( $this->instance->is_multiple_terms_page() );
 	}
+
+	/**
+	 * When current page is not in the list of Yoast SEO Free, is_yoast_seo_free_page() should return false.
+	 *
+	 * @covers ::is_free_page
+	 */
+	public function test_current_page_not_in_yoast_seo_free_pages() {
+		$current_page = '';
+
+		$this->assertFalse( $this->instance->is_free_page( $current_page ) );
+	}
+
+	/**
+	 * When current page is not in the list of Yoast SEO Free, but is a page of one of the plugin' addons,
+	 * the function should return false.
+	 *
+	 * @covers ::is_free_page
+	 */
+	public function test_current_page_not_in_yoast_seo_free_pages_but_is_yoast_seo_addon_page() {
+		$current_page = 'wpseo_news';
+
+		$this->assertFalse( $this->instance->is_free_page( $current_page ) );
+	}
+
+	/**
+	 * When the current page belongs to Yoast SEO Free, the function is_yoast_seo_free_page() should return true.
+	 *
+	 * @covers ::is_free_page
+	 */
+	public function test_current_page_in_yoast_seo_free_pages() {
+		$current_page = 'wpseo_dashboard';
+
+		$this->assertTrue( $this->instance->is_free_page( $current_page ) );
+	}
 }

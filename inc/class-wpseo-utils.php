@@ -730,7 +730,7 @@ class WPSEO_Utils {
 	 * @return bool
 	 */
 	public static function is_yoast_seo_free_page( $current_page ) {
-		return YoastSEO()->helpers->product->is_free_page( $current_page );
+		return YoastSEO()->helpers->current_page->is_free_page( $current_page );
 	}
 
 	/**
