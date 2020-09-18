@@ -1,29 +1,21 @@
 const fetch = require( "node-fetch" );
 
 /**
- * Calls the wordpress API
+ * Gets stable version for a WordPress plugin from the wordpress api.
  *
- * @param {string} path The path to call for instance: worpress verion core/version-check/1.7/ 
- * @param {Object} body The body data to send.
- * @param {string} [method] Optional. The request method, "POST", "GET", "PATCH".
+ * @param {string} pluginSlug The name of the plugin .
  *
- * @returns {Promise<Object>} Response object.
+ * @returns {Promise<object|null>} A promise resolving to a single milestone.
  */
-async function wordpressApi( path, body, method = "GET" ) {
-	
-	const apiRoot = "https://api.wordpress.org/";
-	const apiUrl = `${ apiRoot }${ path }`;
-	const config = {
-		method: method,
-		headers: {
-			"Content-Type": "application/json",
-		},
-	};
-	if ( method !== "GET" && method !== "HEAD" ) {
-		config.body = JSON.stringify( body );
-	}
 
-	return await fetch( apiUrl, config );
+async function getPluginStableVersionFromWordPressApi( pluginSlug ) {
+	pluginSlug = pluginSlug.toLowerCase();
+	const wordpressResponse = await fetch( `https://api.wordpress.org/plugins/info/1.0/${ pluginSlug }.json` );
+	if ( ! wordpressResponse.ok ) {
+		return null;
+	}
+	const ResponseJson = await wordpressResponse.json();
+	return ResponseJson.version || null;
 }
 
-module.exports = wordpressApi;
+module.exports = getPluginStableVersionFromWordPressApi;
