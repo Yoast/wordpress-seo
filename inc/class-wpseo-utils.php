@@ -156,38 +156,7 @@ class WPSEO_Utils {
 	 * @return string
 	 */
 	public static function sanitize_text_field( $value ) {
-		$filtered = wp_check_invalid_utf8( $value );
-
-		if ( strpos( $filtered, '<' ) !== false ) {
-			$filtered = wp_pre_kses_less_than( $filtered );
-			// This will strip extra whitespace for us.
-			$filtered = wp_strip_all_tags( $filtered, true );
-		}
-		else {
-			$filtered = trim( preg_replace( '`[\r\n\t ]+`', ' ', $filtered ) );
-		}
-
-		$found = false;
-		while ( preg_match( '`[^%](%[a-f0-9]{2})`i', $filtered, $match ) ) {
-			$filtered = str_replace( $match[1], '', $filtered );
-			$found    = true;
-		}
-		unset( $match );
-
-		if ( $found ) {
-			// Strip out the whitespace that may now exist after removing the octets.
-			$filtered = trim( preg_replace( '` +`', ' ', $filtered ) );
-		}
-
-		/**
-		 * Filter a sanitized text field string.
-		 *
-		 * @since WP 2.9.0
-		 *
-		 * @param string $filtered The sanitized string.
-		 * @param string $str      The string prior to being sanitized.
-		 */
-		return apply_filters( 'sanitize_text_field', $filtered, $value ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals -- Using WP native filter.
+		return YoastSEO()->helpers->sanitize->sanitize_text_field( $value );
 	}
 
 	/**
@@ -202,64 +171,7 @@ class WPSEO_Utils {
 	 * @return string
 	 */
 	public static function sanitize_url( $value, $allowed_protocols = [ 'http', 'https' ] ) {
-
-		$url   = '';
-		$parts = wp_parse_url( $value );
-
-		if ( isset( $parts['scheme'], $parts['host'] ) ) {
-			$url = $parts['scheme'] . '://';
-
-			if ( isset( $parts['user'] ) ) {
-				$url .= rawurlencode( $parts['user'] );
-				$url .= isset( $parts['pass'] ) ? ':' . rawurlencode( $parts['pass'] ) : '';
-				$url .= '@';
-			}
-
-			$parts['host'] = preg_replace(
-				'`[^a-z0-9-.:\[\]\\x80-\\xff]`',
-				'',
-				strtolower( $parts['host'] )
-			);
-
-			$url .= $parts['host'] . ( isset( $parts['port'] ) ? ':' . intval( $parts['port'] ) : '' );
-		}
-
-		if ( isset( $parts['path'] ) && strpos( $parts['path'], '/' ) === 0 ) {
-			$path = explode( '/', wp_strip_all_tags( $parts['path'] ) );
-			$path = self::sanitize_encoded_text_field( $path );
-			$url .= implode( '/', $path );
-		}
-
-		if ( ! $url ) {
-			return '';
-		}
-
-		if ( isset( $parts['query'] ) ) {
-			wp_parse_str( $parts['query'], $parsed_query );
-
-			$parsed_query = array_combine(
-				self::sanitize_encoded_text_field( array_keys( $parsed_query ) ),
-				self::sanitize_encoded_text_field( array_values( $parsed_query ) )
-			);
-
-			$url = add_query_arg( $parsed_query, $url );
-		}
-
-		if ( isset( $parts['fragment'] ) ) {
-			$url .= '#' . self::sanitize_encoded_text_field( $parts['fragment'] );
-		}
-
-		if ( strpos( $url, '%' ) !== false ) {
-			$url = preg_replace_callback(
-				'`%[a-fA-F0-9]{2}`',
-				function( $octects ) {
-					return strtolower( $octects[0] );
-				},
-				$url
-			);
-		}
-
-		return esc_url_raw( $url, $allowed_protocols );
+		return YoastSEO()->helpers->sanitize->sanitize_url( $value, $allowed_protocols );
 	}
 
 	/**
@@ -272,11 +184,7 @@ class WPSEO_Utils {
 	 * @return array|string The sanitized value.
 	 */
 	public static function sanitize_encoded_text_field( $value ) {
-		if ( is_array( $value ) ) {
-			return array_map( [ __CLASS__, 'sanitize_encoded_text_field' ], $value );
-		}
-
-		return rawurlencode( sanitize_text_field( rawurldecode( $value ) ) );
+		return YoastSEO()->helpers->sanitize->sanitize_encoded_text_field( $value );
 	}
 
 	/**

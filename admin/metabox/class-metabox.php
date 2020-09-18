@@ -750,11 +750,11 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 					// For multi-select.
 					if ( is_array( $data ) ) {
-						$data = array_map( [ 'WPSEO_Utils', 'sanitize_text_field' ], $data );
+						$data = array_map( [ YoastSEO()->helpers->sanitize, 'sanitize_text_field' ], $data );
 					}
 
 					if ( is_string( $data ) ) {
-						$data = ( $key !== 'canonical' ) ? WPSEO_Utils::sanitize_text_field( $data ) : WPSEO_Utils::sanitize_url( $data );
+						$data = ( $key !== 'canonical' ) ? YoastSEO()->helpers->sanitize->sanitize_text_field( $data ) : YoastSEO()->helpers->sanitize->sanitize_url( $data );
 					}
 				}
 

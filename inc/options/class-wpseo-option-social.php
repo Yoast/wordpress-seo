@@ -129,7 +129,7 @@ class WPSEO_Option_Social extends WPSEO_Option {
 				case 'og_frontpage_desc':
 				case 'og_frontpage_title':
 					if ( isset( $dirty[ $key ] ) && $dirty[ $key ] !== '' ) {
-						$clean[ $key ] = WPSEO_Utils::sanitize_text_field( $dirty[ $key ] );
+						$clean[ $key ] = YoastSEO()->helpers->sanitize->sanitize_text_field( $dirty[ $key ] );
 					}
 					break;
 

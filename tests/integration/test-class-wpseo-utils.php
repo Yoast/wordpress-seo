@@ -11,49 +11,6 @@
 class WPSEO_Utils_Test extends WPSEO_UnitTestCase {
 
 	/**
-	 * Tests whether a user is allowed to access the SEO configuration in various situations.
-	 *
-	 * @covers WPSEO_Utils::grant_access
-	 */
-	public function test_grant_access() {
-
-		if ( ! is_multisite() ) { // Should be true when not running multisite.
-			$this->assertTrue( WPSEO_Utils::grant_access() );
-			return;
-		}
-
-		// Admin required by default/option.
-		$user_id = $this->factory->user->create( [ 'role' => 'administrator' ] );
-		wp_set_current_user( $user_id );
-		$this->assertTrue( WPSEO_Utils::grant_access() );
-
-		// Super Admin required by option.
-		$options           = get_site_option( 'wpseo_ms' );
-		$options['access'] = 'superadmin';
-		update_site_option( 'wpseo_ms', $options );
-		$this->assertFalse( WPSEO_Utils::grant_access() );
-
-		grant_super_admin( $user_id );
-		$this->assertTrue( WPSEO_Utils::grant_access() );
-
-		// Below admin not allowed.
-		$user_id = $this->factory->user->create( [ 'role' => 'editor' ] );
-		wp_set_current_user( $user_id );
-		$this->assertFalse( WPSEO_Utils::grant_access() );
-	}
-
-	/**
-	 * Tests whether trim_nbsp_from_string correctly strips no-break spaces.
-	 *
-	 * @covers WPSEO_Utils::trim_nbsp_from_string
-	 */
-	public function test_wpseo_trim_nbsp_from_string() {
-		$old_string = ' This is an old string with&nbsp;as spaces.&nbsp;';
-		$expected   = 'This is an old string with as spaces.';
-
-		$this->assertEquals( $expected, WPSEO_Utils::trim_nbsp_from_string( $old_string ) );
-	}
-	/**
 	 * Tests the retrieve enabled features function without the defined variable or filter.
 	 *
 	 * @covers WPSEO_Utils::retrieve_enabled_features
@@ -118,13 +75,13 @@ class WPSEO_Utils_Test extends WPSEO_UnitTestCase {
 	 *
 	 * @dataProvider sanitize_url_provider
 	 *
-	 * @covers WPSEO_Utils::sanitize_url
+	 * @covers YoastSEO()->helpers->sanitize->sanitize_url
 	 *
 	 * @param string $expected        Expected function outcome.
 	 * @param string $url_to_sanitize Input to pass to the function under test.
 	 */
 	public function test_sanitize_url( $expected, $url_to_sanitize ) {
-		$this->assertEquals( $expected, WPSEO_Utils::sanitize_url( $url_to_sanitize ) );
+		$this->assertEquals( $expected, YoastSEO()->helpers->sanitize->sanitize_url( $url_to_sanitize ) );
 	}
 
 	/**

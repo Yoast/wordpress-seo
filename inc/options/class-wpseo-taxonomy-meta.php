@@ -271,7 +271,7 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 
 				case 'wpseo_canonical':
 					if ( isset( $meta_data[ $key ] ) && $meta_data[ $key ] !== '' ) {
-						$url = WPSEO_Utils::sanitize_url( $meta_data[ $key ] );
+						$url = YoastSEO()->helpers->sanitize->sanitize_url( $meta_data[ $key ] );
 						if ( $url !== '' ) {
 							$clean[ $key ] = $url;
 						}
@@ -281,7 +281,7 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 
 				case 'wpseo_bctitle':
 					if ( isset( $meta_data[ $key ] ) ) {
-						$clean[ $key ] = WPSEO_Utils::sanitize_text_field( $meta_data[ $key ] );
+						$clean[ $key ] = YoastSEO()->helpers->sanitize->sanitize_text_field( $meta_data[ $key ] );
 					}
 					elseif ( isset( $old_meta[ $key ] ) ) {
 						// Retain old value if field currently not in use.
@@ -293,7 +293,7 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 					if ( isset( $meta_data[ $key ] ) && is_string( $meta_data[ $key ] ) ) {
 						// The data is stringified JSON. Use `json_decode` and `json_encode` around the sanitation.
 						$input         = json_decode( $meta_data[ $key ], true );
-						$sanitized     = array_map( [ 'WPSEO_Utils', 'sanitize_text_field' ], $input );
+						$sanitized     = array_map( [ YoastSEO()->helpers->sanitize, 'sanitize_text_field' ], $input );
 						$clean[ $key ] = WPSEO_Utils::format_json_encode( $sanitized );
 					}
 					elseif ( isset( $old_meta[ $key ] ) ) {
@@ -311,8 +311,8 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 						$sanitized = [];
 						foreach ( $input as $entry ) {
 							$sanitized[] = [
-								'keyword' => WPSEO_Utils::sanitize_text_field( $entry['keyword'] ),
-								'score'   => WPSEO_Utils::sanitize_text_field( $entry['score'] ),
+								'keyword' => YoastSEO()->helpers->sanitize->sanitize_text_field( $entry['keyword'] ),
+								'score'   => YoastSEO()->helpers->sanitize->sanitize_text_field( $entry['score'] ),
 							];
 						}
 
@@ -330,7 +330,7 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 				case 'wpseo_linkdex':
 				default:
 					if ( isset( $meta_data[ $key ] ) && is_string( $meta_data[ $key ] ) ) {
-						$clean[ $key ] = WPSEO_Utils::sanitize_text_field( $meta_data[ $key ] );
+						$clean[ $key ] = YoastSEO()->helpers->sanitize->sanitize_text_field( $meta_data[ $key ] );
 					}
 
 					if ( $key === 'wpseo_focuskw' ) {

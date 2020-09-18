@@ -361,7 +361,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 				case 'alternate_website_name':
 				case 'title-':
 					if ( isset( $dirty[ $key ] ) ) {
-						$clean[ $key ] = WPSEO_Utils::sanitize_text_field( $dirty[ $key ] );
+						$clean[ $key ] = YoastSEO()->helpers->sanitize->sanitize_text_field( $dirty[ $key ] );
 					}
 					break;
 
@@ -396,7 +396,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 				case 'company_name':
 				case 'person_name':
 					if ( isset( $dirty[ $key ] ) && $dirty[ $key ] !== '' ) {
-						$clean[ $key ] = WPSEO_Utils::sanitize_text_field( $dirty[ $key ] );
+						$clean[ $key ] = YoastSEO()->helpers->sanitize->sanitize_text_field( $dirty[ $key ] );
 					}
 					break;
 
@@ -770,7 +770,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 					case 'title-':
 					case 'metadesc-':
 					case 'bctitle-ptarchive-':
-						$option_value[ $key ] = WPSEO_Utils::sanitize_text_field( $value );
+						$option_value[ $key ] = YoastSEO()->helpers->sanitize->sanitize_text_field( $value );
 						break;
 
 					case 'separator':

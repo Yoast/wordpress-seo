@@ -239,8 +239,8 @@ function wpseo_save_all( $what ) {
 		wpseo_ajax_json_echo_die( $results );
 	}
 
-	$new_values      = array_map( [ 'WPSEO_Utils', 'sanitize_text_field' ], wp_unslash( (array) $_POST['items'] ) );
-	$original_values = array_map( [ 'WPSEO_Utils', 'sanitize_text_field' ], wp_unslash( (array) $_POST['existingItems'] ) );
+	$new_values      = array_map( [ YoastSEO()->helpers->sanitize, 'sanitize_text_field' ], wp_unslash( (array) $_POST['items'] ) );
+	$original_values = array_map( [ YoastSEO()->helpers->sanitize, 'sanitize_text_field' ], wp_unslash( (array) $_POST['existingItems'] ) );
 
 	foreach ( $new_values as $post_id => $new_value ) {
 		$original_value = $original_values[ $post_id ];

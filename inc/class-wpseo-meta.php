@@ -451,7 +451,7 @@ class WPSEO_Meta {
 
 			case ( $field_def['type'] === 'url' || $meta_key === self::$meta_prefix . 'canonical' ):
 				// Validate as url(-part).
-				$url = WPSEO_Utils::sanitize_url( $meta_value );
+				$url = YoastSEO()->helpers->sanitize->sanitize_url( $meta_value );
 				if ( $url !== '' ) {
 					$clean = $url;
 				}
@@ -460,7 +460,7 @@ class WPSEO_Meta {
 
 			case ( $field_def['type'] === 'upload' && in_array( $meta_key, [ self::$meta_prefix . 'opengraph-image', self::$meta_prefix . 'twitter-image' ], true ) ):
 				// Validate as url.
-				$url = WPSEO_Utils::sanitize_url( $meta_value, [ 'http', 'https', 'ftp', 'ftps' ] );
+				$url = YoastSEO()->helpers->sanitize->sanitize_url( $meta_value, [ 'http', 'https', 'ftp', 'ftps' ] );
 				if ( $url !== '' ) {
 					$clean = $url;
 				}
@@ -490,7 +490,7 @@ class WPSEO_Meta {
 					// Remove line breaks and tabs.
 					// @todo [JRF => Yoast] Verify that line breaks and the likes aren't allowed/recommended in meta header fields.
 					$meta_value = str_replace( [ "\n", "\r", "\t", '  ' ], ' ', $meta_value );
-					$clean      = WPSEO_Utils::sanitize_text_field( trim( $meta_value ) );
+					$clean      = YoastSEO()->helpers->sanitize->sanitize_text_field( trim( $meta_value ) );
 				}
 				break;
 
@@ -502,7 +502,7 @@ class WPSEO_Meta {
 			case ( $field_def['type'] === 'text' ):
 			default:
 				if ( is_string( $meta_value ) ) {
-					$clean = WPSEO_Utils::sanitize_text_field( trim( $meta_value ) );
+					$clean = YoastSEO()->helpers->sanitize->sanitize_text_field( trim( $meta_value ) );
 				}
 
 				break;

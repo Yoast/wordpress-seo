@@ -381,7 +381,7 @@ abstract class WPSEO_Option {
 		if ( isset( $dirty[ $key ] ) && $dirty[ $key ] !== '' ) {
 
 			$submitted_url = trim( htmlspecialchars( $dirty[ $key ], ENT_COMPAT, get_bloginfo( 'charset' ), true ) );
-			$validated_url = filter_var( WPSEO_Utils::sanitize_url( $submitted_url ), FILTER_VALIDATE_URL );
+			$validated_url = filter_var( YoastSEO()->helpers->sanitize->sanitize_url( $submitted_url ), FILTER_VALIDATE_URL );
 
 			if ( $validated_url === false ) {
 				if ( function_exists( 'add_settings_error' ) ) {
@@ -403,7 +403,7 @@ abstract class WPSEO_Option {
 
 				// Restore the previous URL value, if any.
 				if ( isset( $old[ $key ] ) && $old[ $key ] !== '' ) {
-					$url = WPSEO_Utils::sanitize_url( $old[ $key ] );
+					$url = YoastSEO()->helpers->sanitize->sanitize_url( $old[ $key ] );
 					if ( $url !== '' ) {
 						$clean[ $key ] = $url;
 					}
@@ -415,7 +415,7 @@ abstract class WPSEO_Option {
 			}
 
 			// The URL format is valid, let's sanitize it.
-			$url = WPSEO_Utils::sanitize_url( $validated_url );
+			$url = YoastSEO()->helpers->sanitize->sanitize_url( $validated_url );
 
 			if ( $url !== '' ) {
 				$clean[ $key ] = $url;
