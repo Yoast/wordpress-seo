@@ -182,7 +182,7 @@ class Yoast_Form {
 	public function admin_sidebar() {
 		// No banners in Premium.
 		$addon_manager = new WPSEO_Addon_Manager();
-		if ( YoastSEO()->helpers->product->is_premium() && $addon_manager->has_valid_subscription( WPSEO_Addon_Manager::PREMIUM_SLUG ) ) {
+		if ( YoastSEO()->helpers->yoast->is_premium() && $addon_manager->has_valid_subscription( WPSEO_Addon_Manager::PREMIUM_SLUG ) ) {
 			return;
 		}
 

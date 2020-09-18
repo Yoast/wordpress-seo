@@ -95,7 +95,7 @@ class WPSEO_Health_Check_Ryte extends WPSEO_Health_Check {
 	 * @return bool True when debug mode is on and Yoast development mode is not on.
 	 */
 	protected function is_development_mode() {
-		return wp_debug_mode() && ! YoastSEO()->helpers->product->is_development_mode();
+		return wp_debug_mode() && ! YoastSEO()->helpers->yoast->is_development_mode();
 	}
 
 	/**

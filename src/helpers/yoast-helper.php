@@ -33,4 +33,46 @@ class Yoast_Helper {
 		return $network_active;
 	}
 
+
+
+	/**
+	 * Determine if Yoast SEO is in development mode?
+	 *
+	 * Inspired by JetPack (https://github.com/Automattic/jetpack/blob/master/class.jetpack.php#L1383-L1406).
+
+	 * @return bool
+	 */
+	public function is_development_mode() {
+		$development_mode = false;
+
+		if ( defined( 'YOAST_ENVIRONMENT' ) && YOAST_ENVIRONMENT === 'development' ) {
+			$development_mode = true;
+		}
+		elseif ( defined( 'WPSEO_DEBUG' ) ) {
+			$development_mode = WPSEO_DEBUG;
+		}
+		elseif ( site_url() && strpos( site_url(), '.' ) === false ) {
+			$development_mode = true;
+		}
+
+		/**
+		 * Filter the Yoast SEO development mode.
+		 *
+		 * @since 3.0
+		 *
+		 * @param bool $development_mode Is Yoast SEOs development mode active.
+		 */
+		return apply_filters( 'yoast_seo_development_mode', $development_mode );
+	}
+
+	/**
+	 * Checks if the installed version is Yoast SEO Premium.
+	 *
+	 * @codeCoverageIgnore It just wraps a static method.
+	 *
+	 * @return bool True when is premium.
+	 */
+	public function is_premium() {
+		return defined( 'WPSEO_PREMIUM_PLUGIN_FILE' );
+	}
 }

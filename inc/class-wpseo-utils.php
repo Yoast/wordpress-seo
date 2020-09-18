@@ -739,7 +739,7 @@ class WPSEO_Utils {
 	 * @return bool True when we are in the premium plugin.
 	 */
 	public static function is_yoast_seo_premium() {
-		return YoastSEO()->helpers->product->is_premium();
+		return YoastSEO()->helpers->yoast->is_premium();
 	}
 
 	/**
@@ -750,7 +750,7 @@ class WPSEO_Utils {
 	 * @return bool
 	 */
 	public static function is_development_mode() {
-		return YoastSEO()->helpers->product->is_development_mode();
+		return YoastSEO()->helpers->yoast->is_development_mode();
 	}
 
 	/**
@@ -993,7 +993,7 @@ SVG;
 	public static function format_json_encode( $data ) {
 		$flags = JSON_UNESCAPED_SLASHES;
 
-		if ( YoastSEO()->helpers->product->is_development_mode() ) {
+		if ( YoastSEO()->helpers->yoast->is_development_mode() ) {
 			$flags = ( $flags | JSON_PRETTY_PRINT );
 
 			/**

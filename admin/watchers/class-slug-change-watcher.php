@@ -17,7 +17,7 @@ class WPSEO_Slug_Change_Watcher implements WPSEO_WordPress_Integration {
 	 */
 	public function register_hooks() {
 		// If the current plugin is Yoast SEO Premium, stop registering.
-		if ( YoastSEO()->helpers->product->is_premium() ) {
+		if ( YoastSEO()->helpers->yoast->is_premium() ) {
 			return;
 		}
 

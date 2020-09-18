@@ -2,7 +2,7 @@
 
 namespace Yoast\WP\SEO\Conditionals;
 
-use Yoast\WP\SEO\Helpers\Product_Helper;
+use Yoast\WP\SEO\Helpers\Yoast_Helper;
 
 /**
  * Conditional that is only met when in development mode.
@@ -10,19 +10,19 @@ use Yoast\WP\SEO\Helpers\Product_Helper;
 class Development_Conditional implements Conditional {
 
 	/**
-	 * The product helper.
+	 * The yoast helper.
 	 *
-	 * @var Product_Helper
+	 * @var Yoast_Helper
 	 */
-	protected $product;
+	protected $yoast_helper;
 
 	/**
 	 * Development_Conditional constructor.
 	 *
-	 * @param Product_Helper $product The product helper.
+	 * @param Yoast_Helper $yoast_helper The yoast helper.
 	 */
-	public function __construct( Product_Helper $product ) {
-		$this->product = $product;
+	public function __construct( Yoast_Helper $yoast_helper ) {
+		$this->yoast_helper = $yoast_helper;
 	}
 
 	/**
@@ -31,6 +31,6 @@ class Development_Conditional implements Conditional {
 	 * @return boolean Whether or not the conditional is met.
 	 */
 	public function is_met() {
-		return $this->product->is_development_mode();
+		return $this->yoast_helper->is_development_mode();
 	}
 }

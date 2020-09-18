@@ -364,7 +364,7 @@ class WPSEO_Addon_Manager {
 		$addons = self::$addons;
 
 		// Yoast SEO Free isn't an addon, but we needed it in Premium to fetch translations.
-		if ( YoastSEO()->helpers->product->is_premium() ) {
+		if ( YoastSEO()->helpers->yoast->is_premium() ) {
 			$addons['wp-seo.php'] = self::FREE_SLUG;
 		}
 
