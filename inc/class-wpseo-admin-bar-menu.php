@@ -606,14 +606,34 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 	 * @return string Score markup.
 	 */
 	protected function get_score( $score ) {
-		$score_class      = WPSEO_Utils::translate_score( $score );
-		$translated_score = WPSEO_Utils::translate_score( $score, false );
+		$score_class      = $this->translate_score( $score );
+		$translated_score = $this->translate_score( $score, false );
 		/* translators: %s expands to the SEO score. */
 		$screen_reader_text = sprintf( __( 'SEO score: %s', 'wordpress-seo' ), $translated_score );
 
 		$score_adminbar_element = '<div class="wpseo-score-icon adminbar-seo-score ' . $score_class . '"><span class="adminbar-seo-score-text screen-reader-text">' . $screen_reader_text . '</span></div>';
 
 		return $score_adminbar_element;
+	}
+
+	/**
+	 * Translates a decimal analysis score into a textual one.
+	 *
+	 * @since 1.8.0
+	 *
+	 * @param int  $val       The decimal score to translate.
+	 * @param bool $css_value Whether to return the i18n translated score or the CSS class value.
+	 *
+	 * @return string
+	 */
+	protected function translate_score( $val, $css_value = true ) {
+		$seo_rank = WPSEO_Rank::from_numeric_score( $val );
+
+		if ( $css_value ) {
+			return $seo_rank->get_css_class();
+		}
+
+		return $seo_rank->get_label();
 	}
 
 	/**

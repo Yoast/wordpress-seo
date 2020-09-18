@@ -53,51 +53,6 @@ class WPSEO_Utils_Test extends WPSEO_UnitTestCase {
 
 		$this->assertEquals( $expected, WPSEO_Utils::trim_nbsp_from_string( $old_string ) );
 	}
-
-	/**
-	 * Tests translate_score function.
-	 *
-	 * @dataProvider translate_score_provider
-	 * @covers       WPSEO_Utils::translate_score
-	 *
-	 * @param int    $score     The decimal score to translate.
-	 * @param bool   $css_value Whether to return the i18n translated score or the CSS class value.
-	 * @param string $expected  Expected function result.
-	 */
-	public function test_translate_score( $score, $css_value, $expected ) {
-		$this->assertEquals( $expected, WPSEO_Utils::translate_score( $score, $css_value ) );
-	}
-
-	/**
-	 * Provides test data for test_translate_score().
-	 *
-	 * @return array
-	 */
-	public function translate_score_provider() {
-		return [
-			[ 0, true, 'na' ],
-			[ 1, true, 'bad' ],
-			[ 23, true, 'bad' ],
-			[ 40, true, 'bad' ],
-			[ 41, true, 'ok' ],
-			[ 55, true, 'ok' ],
-			[ 70, true, 'ok' ],
-			[ 71, true, 'good' ],
-			[ 83, true, 'good' ],
-			[ 100, true, 'good' ],
-			[ 0, false, 'Not available' ],
-			[ 1, false, 'Needs improvement' ],
-			[ 23, false, 'Needs improvement' ],
-			[ 40, false, 'Needs improvement' ],
-			[ 41, false, 'OK' ],
-			[ 55, false, 'OK' ],
-			[ 70, false, 'OK' ],
-			[ 71, false, 'Good' ],
-			[ 83, false, 'Good' ],
-			[ 100, false, 'Good' ],
-		];
-	}
-
 	/**
 	 * Tests the retrieve enabled features function without the defined variable or filter.
 	 *
