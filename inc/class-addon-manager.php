@@ -500,7 +500,7 @@ class WPSEO_Addon_Manager {
 	 */
 	protected function get_site_information_default() {
 		return (object) [
-			'url'           => WPSEO_Utils::get_home_url(),
+			'url'           => YoastSEO()->helpers->site->get_home_url(),
 			'subscriptions' => [],
 		];
 	}

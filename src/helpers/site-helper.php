@@ -29,4 +29,23 @@ class Site_Helper {
 	public function is_multisite_and_switched() {
 		return \is_multisite() && \ms_is_switched();
 	}
+
+	/**
+	 * Returns the unfiltered home URL. In case of a multisite setup we return the network_home_url.
+	 *
+	 * @return string The home url.
+	 */
+	public function get_home_url() {
+		/**
+		 * Action: 'wpseo_home_url' - Allows overriding of the home URL.
+		 */
+		do_action( 'wpseo_home_url' );
+
+		// If the plugin is network-activated, use the network home URL.
+		if ( WPSEO_Utils::is_plugin_network_active() ) {
+			return network_home_url();
+		}
+
+		return home_url();
+	}
 }

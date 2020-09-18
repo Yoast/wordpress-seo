@@ -177,7 +177,7 @@ class WPSEO_MyYoast_Api_Request {
 	 * @return array The request body.
 	 */
 	public function get_request_body() {
-		return [ 'url' => WPSEO_Utils::get_home_url() ];
+		return [ 'url' => YoastSEO()->helpers->site->get_home_url() ];
 	}
 
 	/**
