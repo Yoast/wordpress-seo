@@ -30,6 +30,11 @@ class Canonical_Test extends TestCase {
 	 * @covers ::generate_canonical
 	 */
 	public function test_without_permalink() {
+		$this->indexable_helper
+			->expects( 'dynamic_permalinks_enabled' )
+			->once()
+			->andReturn( false );
+
 		$this->assertEmpty( $this->instance->generate_canonical() );
 	}
 
@@ -45,6 +50,11 @@ class Canonical_Test extends TestCase {
 			->expects( 'get_current_archive_page_number' )
 			->once()
 			->andReturn( 0 );
+
+		$this->indexable_helper
+			->expects( 'dynamic_permalinks_enabled' )
+			->once()
+			->andReturn( false );
 
 		$this->assertEquals( 'https://example.com/custom-post-type/', $this->instance->generate_canonical() );
 	}
@@ -67,6 +77,11 @@ class Canonical_Test extends TestCase {
 			->with( $this->indexable->permalink, 2 )
 			->once()
 			->andReturn( 'https://example.com/custom-post-type/page/2/' );
+
+		$this->indexable_helper
+			->expects( 'dynamic_permalinks_enabled' )
+			->once()
+			->andReturn( false );
 
 		$this->assertEquals( 'https://example.com/custom-post-type/page/2/', $this->instance->generate_canonical() );
 	}
