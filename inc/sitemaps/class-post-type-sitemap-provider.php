@@ -385,6 +385,19 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			// Deprecated, kept for backwards data compat. R.
 			$front_page['chf'] = 'daily';
 			$front_page['pri'] = 1;
+			
+			/**
+			 * Filter the URL Yoast SEO uses in the XML sitemap for this post type
+			 * archive.
+			 *
+			 * @param string $archive_url The URL of this archive
+			 * @param string $post_type   The post type this archive is for.
+			 */
+			$front_page['loc'] = apply_filters(
+				'wpseo_sitemap_page_type_archive_link',
+				$front_page['loc'],
+				$post_type
+			);
 
 			$links[] = $front_page;
 		}
