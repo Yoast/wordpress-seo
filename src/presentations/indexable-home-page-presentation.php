@@ -20,16 +20,21 @@ class Indexable_Home_Page_Presentation extends Indexable_Presentation {
 			return $this->model->canonical;
 		}
 
-		if ( ! $this->model->permalink ) {
+		$permalink = $this->model->permalink;
+		if ( $this->indexable_helper->dynamic_permalinks_enabled() ) {
+			$permalink = $this->permalink_helper->get_permalink_for_indexable( $this->model );
+		}
+
+		if ( ! $permalink ) {
 			return '';
 		}
 
 		$current_page = $this->pagination->get_current_archive_page_number();
 		if ( $current_page > 1 ) {
-			return $this->pagination->get_paginated_url( $this->model->permalink, $current_page );
+			return $this->pagination->get_paginated_url( $permalink, $current_page );
 		}
 
-		return $this->model->permalink;
+		return $permalink;
 	}
 
 	/**
