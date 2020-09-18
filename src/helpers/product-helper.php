@@ -17,7 +17,7 @@ class Product_Helper {
 	/**
 	 * Site_Helper constructor.
 	 *
-	 * @param Yoast_Helper $yoast_helper
+	 * @param Yoast_Helper $yoast_helper The yoast helper.
 	 */
 	public function __construct( Yoast_Helper $yoast_helper ) {
 		$this->yoast_helper = $yoast_helper;

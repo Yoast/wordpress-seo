@@ -28,7 +28,7 @@ class Yoast_Helper {
 
 		// Consider MU plugins and network-activated plugins as network-active.
 		$network_active = strpos( wp_normalize_path( WPSEO_FILE ), wp_normalize_path( WPMU_PLUGIN_DIR ) ) === 0
-		                  || in_array( WP_PLUGIN_DIR . '/' . WPSEO_BASENAME, $network_active_plugins, true );
+							|| in_array( WP_PLUGIN_DIR . '/' . WPSEO_BASENAME, $network_active_plugins, true );
 
 		return $network_active;
 	}
@@ -37,6 +37,7 @@ class Yoast_Helper {
 	 * Determines if Yoast SEO is in development mode?
 	 *
 	 * Inspired by JetPack (https://github.com/Automattic/jetpack/blob/master/class.jetpack.php#L1383-L1406).
+	 *
 	 * @return bool
 	 */
 	public function is_development_mode() {
@@ -70,5 +71,4 @@ class Yoast_Helper {
 	public function is_premium() {
 		return defined( 'WPSEO_PREMIUM_PLUGIN_FILE' );
 	}
-
 }
