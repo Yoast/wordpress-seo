@@ -74,18 +74,17 @@ class Indexation_List_Item_Presenter extends Abstract_Presenter {
 		else {
 
 			$should_index = $this->indexable_helper->should_index_indexables();
-			$disabled     = ( $should_index ) ? '' : 'disabled';
 
 			$output .= \sprintf(
 				'<span id="yoast-indexation">' .
-				'<button type="button" class="button yoast-open-indexation" data-title="%1$s" data-settings="yoastIndexationData" ' .
-				'%3$s>' .
+				'<button type="button" ' .
+				disabled( true, $should_index, false) .
+				'class="button yoast-open-indexation" data-title="%1$s" data-settings="yoastIndexationData">' .
 				'%2$s' .
 				'</button>' .
 				'</span>',
 				\esc_attr__( 'Speeding up your site', 'wordpress-seo' ),
-				\esc_html__( 'Start processing and speed up your site now', 'wordpress-seo' ),
-				$disabled
+				\esc_html__( 'Start processing and speed up your site now', 'wordpress-seo' )
 			);
 
 			if ( ! $should_index ) {
