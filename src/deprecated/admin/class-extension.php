@@ -5,6 +5,7 @@
  * @package WPSEO\Admin
  */
 
+// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound -- Reason: The class is deprecated.
 /**
  * Represents the values for a single Yoast Premium extension plugin.
  *
@@ -135,3 +136,4 @@ class WPSEO_Extension {
 		return $this->config['benefits'];
 	}
 }
+// phpcs:enable

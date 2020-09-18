@@ -664,8 +664,10 @@ class WPSEO_Addon_Manager {
 	protected function get_support_section() {
 		return '<h4>' . __( 'Need support?', 'wordpress-seo' ) . '</h4>'
 			. '<p>'
+			/* translators: 1: expands to <a> that refers to the help page, 2: </a> closing tag. */
 			. sprintf( __( 'You can probably find an answer to your question in our %1$shelp center%2$s.', 'wordpress-seo' ), '<a href="https://yoast.com/help/">', '</a>' )
 			. ' '
+			/* translators: %s expands to a mailto support link. */
 			. sprintf( __( 'If you still need support and have an active subscription for this product, please email %s.', 'wordpress-seo' ), '<a href="mailto:support@yoast.com">support@yoast.com</a>' )
 			. '</p>';
 	}
