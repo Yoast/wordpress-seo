@@ -337,7 +337,7 @@ function wpseo_init() {
  */
 function wpseo_init_rest_api() {
 	// We can't do anything when requirements are not met.
-	if ( ! WPSEO_Utils::is_api_available() ) {
+	if ( ! YoastSEO()->helpers->wordpress->is_api_available() ) {
 		return;
 	}
 
