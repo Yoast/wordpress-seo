@@ -154,4 +154,86 @@ class Indexable_Permalink_Watcher_Test extends TestCase {
 
 		$this->instance->reset_permalinks_term( null, null, 'tag_base' );
 	}
+
+	/**
+	 * Test forced flushing of permalinks.
+	 *
+	 * @covers ::force_reset_permalinks
+	 */
+	public function test_force_reset_permalinks() {
+		$this->instance
+			->expects( 'should_reset_permalinks' )
+			->once()
+			->andReturnTrue();
+
+		$this->instance
+			->expects( 'reset_permalinks' )
+			->once();
+
+		Monkey\Functions\expect( 'get_option' )
+			->once()
+			->with( 'permalink_structure' )
+			->andReturn( '/%postname%/' );
+
+		$this->options
+			->expects( 'set' )
+			->with( 'permalink_structure', '/%postname%/' )
+			->once();
+
+		$this->assertTrue( $this->instance->force_reset_permalinks() );
+	}
+
+	/**
+	 * Test forced flushing of permalinks not executing.
+	 *
+	 * @covers ::force_reset_permalinks
+	 */
+	public function test_force_reset_permalinks_not_executing() {
+		$this->instance
+			->expects( 'should_reset_permalinks' )
+			->once()
+			->andReturnFalse();
+
+		$this->assertFalse( $this->instance->force_reset_permalinks() );
+	}
+
+	/**
+	 * Test that permalinks should be reset.
+	 *
+	 * @covers ::should_reset_permalinks
+	 */
+	public function test_should_reset_permalinks() {
+		Monkey\Functions\expect( 'get_option' )
+			->once()
+			->with( 'permalink_structure' )
+			->andReturn( '/%postname%/' );
+
+		$this->options
+			->expects( 'get' )
+			->with( 'permalink_structure' )
+			->once()
+			->andReturn( '/%year%/%monthnum%/%postname%/' );
+
+		$this->assertTrue( $this->instance->should_reset_permalinks() );
+	}
+
+	/**
+	 * Test that permalinks should not be reset.
+	 *
+	 * @covers ::should_reset_permalinks
+	 */
+	public function test_shouldnt_reset_permalinks() {
+		Monkey\Functions\expect( 'get_option' )
+			->once()
+			->with( 'permalink_structure' )
+			->andReturn( '/%postname%/' );
+
+		$this->options
+			->expects( 'get' )
+			->with( 'permalink_structure' )
+			->once()
+			->andReturn( '/%postname%/' );
+
+		$this->assertFalse( $this->instance->should_reset_permalinks() );
+	}
 }
