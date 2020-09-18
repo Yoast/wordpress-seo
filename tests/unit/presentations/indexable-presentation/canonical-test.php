@@ -43,6 +43,11 @@ class Canonical_Test extends TestCase {
 	public function test_with_permalink() {
 		$this->indexable->permalink = 'https://example.com/permalink';
 
+		$this->indexable_helper
+			->expects( 'dynamic_permalinks_enabled' )
+			->once()
+			->andReturn( false );
+
 		$this->assertEquals( 'https://example.com/permalink', $this->instance->generate_canonical() );
 	}
 
@@ -52,6 +57,11 @@ class Canonical_Test extends TestCase {
 	 * @covers ::generate_canonical
 	 */
 	public function test_without_canonical_or_permalink() {
+		$this->indexable_helper
+			->expects( 'dynamic_permalinks_enabled' )
+			->once()
+			->andReturn( false );
+
 		$this->assertEmpty( $this->instance->generate_canonical() );
 	}
 }

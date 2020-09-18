@@ -58,6 +58,11 @@ class Canonical_Test extends TestCase {
 				}
 			);
 
+		$this->indexable_helper
+			->expects( 'dynamic_permalinks_enabled' )
+			->once()
+			->andReturn( false );
+
 		$this->assertEquals( 'https://example.com/permalink/', $this->instance->generate_canonical() );
 	}
 
@@ -90,6 +95,11 @@ class Canonical_Test extends TestCase {
 					return $val;
 				}
 			);
+
+		$this->indexable_helper
+			->expects( 'dynamic_permalinks_enabled' )
+			->once()
+			->andReturn( false );
 
 		$this->assertEquals( 'https://example.com/permalink/2/', $this->instance->generate_canonical() );
 	}
