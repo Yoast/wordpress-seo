@@ -9,8 +9,12 @@ module.exports = function( grunt ) {
 
 			const targetFile = "readme.txt";
 			const stableVerion = await getPluginStableVersionFromWordPressApi( grunt.config.data.pluginSlug );
-			//grunt.verbose.writeln ( "retrieved plugin info: " + pluginInfoJson );
-			
+			if ( stableVerion === null ){
+				grunt.fail.fatal(
+					"The Stable tag for plugin: " + grunt.config.data.pluginSlug + " could not be retrieved from api.wordpress.org\n" +
+					"The release process has been stopped."
+				);
+			}
 
 			const currentVersion = getVersion( targetFile, /(\n?)(Stable tag: )(\d+(\.\d+){0,3})(\n)/, 3 );
 			//grunt.verbose.writeln ( "stable Tag version in readme.txt: " + currentVersion + "\nretrieved verion: " + stableVerion );

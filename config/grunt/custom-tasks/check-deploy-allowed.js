@@ -1,7 +1,7 @@
 const getPluginStableVersionFromWordPressApi = require( "../lib/wordpress-api" );
 
 /*
- * Checks if the stable tag is an RC version and aborts the release process if so.
+ * Checks if the stable tag in ther readme.txt is set to the version currently on wordpress.org and aborts the release process if not so.
  *
  * @param {Object} grunt The grunt helper object.
  *
@@ -10,11 +10,17 @@ const getPluginStableVersionFromWordPressApi = require( "../lib/wordpress-api" )
 module.exports = function( grunt ) {
 	grunt.registerTask(
 		"check-deploy-allowed",
-		"Checks if the stable tag is an RC version and aborts the release process if so.",
+		"Checks if the stable tag in the readme.txt is set to the version currently on wordpress.org and aborts the release process if not so.",
 		async function() {
 			var done = this.async();
 			const stableVerion = await getPluginStableVersionFromWordPressApi( grunt.config.data.pluginSlug );
-			grunt.verbose.writeln( "Worpress returned this stable verion: " + stableVerion + " for plugin: " + grunt.config.data.pluginSlug )
+			if ( stableVerion === null ){
+				grunt.fail.fatal(
+					"The Stable tag for plugin: " + grunt.config.data.pluginSlug + " could not be retrieved from api.wordpress.org\n" +
+					"The release process has been stopped."
+				);
+			}
+			grunt.verbose.writeln( "Worpress api stable tag verion: " + stableVerion + " for plugin: " + grunt.config.data.pluginSlug )
 			let contents = grunt.file.read( "readme.txt" );
 			contents = contents.split( "\n" ).slice( 0, 9 ).join( "\n" );
             grunt.verbose.writeln("first 10 lines of readme.txt file: \n"+ contents );
@@ -22,7 +28,7 @@ module.exports = function( grunt ) {
 			const notVersionMatch = contents.search( regex ) == -1;
 			if ( notVersionMatch ) {
 				grunt.fail.fatal(
-					"The Stable tag specified in the readme.txt file is not set to the stable tag curently on wordpress " + stableVerion + ". You cannot deploy with this " +
+					"The Stable tag specified in the readme.txt file is not set to the stable tag curently on wordpress: " + stableVerion + ". There for you cannot deploy with this readme.txt file.\n" +
 					"The release process has been stopped."
 				);
 			};
