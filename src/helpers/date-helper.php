@@ -64,4 +64,15 @@ class Date_Helper {
 	public function current_time() {
 		return \time();
 	}
+
+	/**
+	 * Check if a string is a valid datetime.
+	 *
+	 * @param string $datetime String input to check as valid input for DateTime class.
+	 *
+	 * @return bool True when datetime is valid.
+	 */
+	public function is_valid_datetime( $datetime ) {
+		return $this->date->is_valid_datetime( $datetime );
+	}
 }

@@ -661,13 +661,7 @@ class WPSEO_Utils {
 	 * @return bool
 	 */
 	public static function is_valid_datetime( $datetime ) {
-		static $date_helper;
-
-		if ( ! $date_helper ) {
-			$date_helper = new WPSEO_Date_Helper();
-		}
-
-		return $date_helper->is_valid_datetime( $datetime );
+		return YoastSEO()->helpers->date->is_valid_datetime( $datetime );
 	}
 
 	/**
