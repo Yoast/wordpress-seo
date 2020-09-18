@@ -114,9 +114,9 @@ class Indexable_Helper {
 			$this->options_helper->set( 'ignore_indexation_warning', false );
 			$this->options_helper->set( 'indexation_warning_hide_until', false );
 
-			delete_transient( Indexable_Post_Indexation_Action::TRANSIENT_CACHE_KEY );
-			delete_transient( Indexable_Post_Type_Archive_Indexation_Action::TRANSIENT_CACHE_KEY );
-			delete_transient( Indexable_Term_Indexation_Action::TRANSIENT_CACHE_KEY );
+			\delete_transient( Indexable_Post_Indexation_Action::TRANSIENT_CACHE_KEY );
+			\delete_transient( Indexable_Post_Type_Archive_Indexation_Action::TRANSIENT_CACHE_KEY );
+			\delete_transient( Indexable_Term_Indexation_Action::TRANSIENT_CACHE_KEY );
 		}
 	}
 
