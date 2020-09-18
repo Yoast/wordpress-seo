@@ -5,7 +5,7 @@ namespace Yoast\WP\SEO\Helpers;
 use WPSEO_Utils;
 
 /**
- * A helper object to retrieve the product name.
+ * A helper object for the Yoast products.
  */
 class Product_Helper {
 

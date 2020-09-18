@@ -16,7 +16,7 @@ use Yoast\WP\SEO\Presenters\Admin\Indexing_List_Item_Presenter;
 use Yoast\WP\SEO\Routes\Indexable_Indexation_Route;
 
 /**
- * Class Indexing_Integration
+ * Class Indexing_Integration.
  *
  * @package Yoast\WP\SEO\Integrations\Admin
  */
@@ -58,7 +58,7 @@ class Indexing_Integration implements Integration_Interface {
 	protected $complete_indexation_action;
 
 	/**
-	 * The total amount of unindexed objects.
+	 * The total number of unindexed objects.
 	 *
 	 * @var int
 	 */
@@ -139,7 +139,7 @@ class Indexing_Integration implements Integration_Interface {
 		}
 
 		/**
-		 * Filter 'wpseo_shutdown_indexation_limit' - Allow filtering the amount of objects that can be indexed during shutdown.
+		 * Filter 'wpseo_shutdown_indexation_limit' - Allow filtering the number of objects that can be indexed during shutdown.
 		 *
 		 * @api int The maximum number of objects indexed.
 		 */
@@ -183,7 +183,7 @@ class Indexing_Integration implements Integration_Interface {
 	}
 
 	/**
-	 * Run a single indexation pass of each indexation action. Intended for use as a shutdown function.
+	 * Run a single indexing pass of each indexing action. Intended for use as a shutdown function.
 	 *
 	 * @return void
 	 */
@@ -195,7 +195,7 @@ class Indexing_Integration implements Integration_Interface {
 	}
 
 	/**
-	 * Renders the indexation list item.
+	 * Renders the indexing list item.
 	 *
 	 * @return void
 	 */
@@ -209,7 +209,7 @@ class Indexing_Integration implements Integration_Interface {
 	/**
 	 * Returns the total number of unindexed objects.
 	 *
-	 * @return int
+	 * @return int The total number of unindexed objects.
 	 */
 	public function get_total_unindexed() {
 		if ( \is_null( $this->total_unindexed ) ) {

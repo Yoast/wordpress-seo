@@ -111,9 +111,9 @@ class Indexing_Notification_Integration implements Integration_Interface {
 	}
 
 	/**
-	 * Returns the conditionals based in which this loadable should be active.
+	 * Returns the conditionals based on which this loadable should be active.
 	 *
-	 * @return array
+	 * @return array The conditionals.
 	 */
 	public static function get_conditionals() {
 		return [
@@ -122,8 +122,8 @@ class Indexing_Notification_Integration implements Integration_Interface {
 	}
 
 	/**
-	 * Checks whether the notification should be shown and removes
-	 * it from the notification center if this is the case.
+	 * Checks whether the notification should be shown and adds
+	 * it to the notification center if this is the case.
 	 */
 	public function create_notification() {
 		$notification = $this->notification_center->get_notification_by_id( self::NOTIFICATION_ID );
@@ -185,7 +185,7 @@ class Indexing_Notification_Integration implements Integration_Interface {
 			return true;
 		}
 
-		// When the indexation is started, but not completed.
+		// When the indexation has started, but not completed.
 		if ( $this->options_helper->get( 'indexation_started', false ) > ( \time() - \MONTH_IN_SECONDS ) ) {
 			return true;
 		}

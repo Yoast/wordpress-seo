@@ -5,7 +5,7 @@ namespace Yoast\WP\SEO\Presenters\Admin;
 use Yoast\WP\SEO\Presenters\Abstract_Presenter;
 
 /**
- * Class Indexing_Permalink_Presenter
+ * Class Indexing_Failed_Notification_Presenter.
  *
  * @package Yoast\WP\SEO\Presenters\Notifications
  */
@@ -22,7 +22,7 @@ class Indexing_Failed_Notification_Presenter extends Abstract_Presenter {
 	/**
 	 * Indexing_Failed_Notification_Presenter constructor.
 	 *
-	 * @param boolean $is_premium Whether we are in premium or not.
+	 * @param bool $is_premium Whether we are in premium or not.
 	 */
 	public function __construct( $is_premium ) {
 		$this->is_premium = $is_premium;

@@ -6,7 +6,7 @@ use WPSEO_Shortlinker;
 use Yoast\WP\SEO\Presenters\Abstract_Presenter;
 
 /**
- * Class Indexing_List_Item_Presenter
+ * Class Indexing_List_Item_Presenter.
  *
  * @package Yoast\WP\SEO\Presenters\Admin
  */

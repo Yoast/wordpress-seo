@@ -5,7 +5,7 @@ namespace Yoast\WP\SEO\Presenters\Admin;
 use Yoast\WP\SEO\Presenters\Abstract_Presenter;
 
 /**
- * Class Indexing_Notification_Presenter
+ * Class Indexing_Notification_Presenter.
  *
  * @package Yoast\WP\SEO\Presenters\Admin
  */
@@ -14,7 +14,7 @@ class Indexing_Notification_Presenter extends Abstract_Presenter {
 	/**
 	 * The total number of unindexed objects.
 	 *
-	 * @var integer
+	 * @var int
 	 */
 	private $total_unindexed;
 
