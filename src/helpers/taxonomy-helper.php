@@ -85,4 +85,19 @@ class Taxonomy_Helper {
 	public function get_term_meta( $term ) {
 		return WPSEO_Taxonomy_Meta::get_term_meta( $term, $term->taxonomy, null );
 	}
+
+	/**
+	 * Determine whether or not the metabox should be displayed for a taxonomy.
+	 *
+	 * @param string|null $taxonomy Optional. The post type to check the visibility of the metabox for.
+	 *
+	 * @return bool Whether or not the metabox should be displayed.
+	 */
+	public function display_metabox( $taxonomy = null ) {
+		if ( ! isset( $taxonomy ) || ! \in_array( $taxonomy, \get_taxonomies( [ 'public' => true ], 'names' ), true ) ) {
+			return false;
+		}
+
+		return $this->options->get( 'display-metabox-tax-' . $taxonomy );
+	}
 }

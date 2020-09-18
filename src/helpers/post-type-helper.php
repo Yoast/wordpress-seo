@@ -93,4 +93,27 @@ class Post_Type_Helper {
 
 		return ( ! empty( $post_type->has_archive ) );
 	}
+
+	/**
+	 * Determine whether or not the metabox should be displayed for a post type.
+	 *
+	 * @param string|null $post_type Optional. The post type to check the visibility of the metabox for.
+	 *
+	 * @return bool Whether or not the metabox should be displayed.
+	 */
+	public function display_metabox( $post_type = null ) {
+		if ( ! isset( $post_type ) ) {
+			$post_type = \get_post_type();
+		}
+
+		if ( ! isset( $post_type ) || ! \WPSEO_Post_Type::is_post_type_accessible( $post_type ) ) {
+			return false;
+		}
+
+		if ( $post_type === 'attachment' && $this->options_helper->get( 'disable-attachment' ) ) {
+			return false;
+		}
+
+		return $this->options_helper->get( 'display-metabox-pt-' . $post_type );
+	}
 }

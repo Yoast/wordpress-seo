@@ -206,7 +206,15 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * @return bool Whether or not the metabox should be displayed.
 	 */
 	public function display_metabox( $identifier = null, $type = 'post_type' ) {
-		return WPSEO_Utils::is_metabox_active( $identifier, $type );
+		if ( $type === 'post_type' ) {
+			return YoastSEO()->helpers->post_type->display_metabox( $identifier );
+		}
+
+		if ( $type === 'taxonomy' ) {
+			return YoastSEO()->helpers->taxonomy->display_metabox( $identifier );
+		}
+
+		return false;
 	}
 
 	/**

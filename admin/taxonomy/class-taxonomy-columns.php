@@ -248,6 +248,6 @@ class WPSEO_Taxonomy_Columns {
 			$taxonomy = $current_taxonomy;
 		}
 
-		return WPSEO_Utils::is_metabox_active( $taxonomy, 'taxonomy' );
+		return YoastSEO()->helpers->taxonomy->display_metabox( $taxonomy );
 	}
 }

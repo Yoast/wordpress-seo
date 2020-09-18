@@ -724,7 +724,7 @@ class WPSEO_Meta_Columns {
 			$post_type = $current_post_type;
 		}
 
-		return WPSEO_Utils::is_metabox_active( $post_type, 'post_type' );
+		return YoastSEO()->helpers->post_type->display_metabox( $post_type, 'post_type' );
 	}
 
 	/**
