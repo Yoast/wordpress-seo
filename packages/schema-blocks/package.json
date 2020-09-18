@@ -45,7 +45,8 @@
   },
   "scripts": {
     "build": "tsc",
-    "watch": "tsc --watch"
+    "watch": "tsc --watch",
+    "install": "yarn build"
   },
   "publishConfig": {
     "access": "public"
