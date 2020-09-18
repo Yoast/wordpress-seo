@@ -128,7 +128,7 @@ clean:build-assets:
   - 'sync-readme-stable-tag'
   - 'check-deploy-allowed'
   - 'deploy-to-wordpress:trunk'
-  - 'readme-reset-txt'
+  - 'shell:readme-reset-txt'
   - 'verify-zip-size'
   - 'celebrate'
 
@@ -145,7 +145,7 @@ clean:build-assets:
   - 'sync-readme-stable-tag'
   - 'check-deploy-allowed'
   - 'deploy-to-wordpress:trunk'
-  - 'readme-reset-txt'
+  - 'shell:readme-reset-txt'
   - 'verify-zip-size'
   - 'celebrate'
 
