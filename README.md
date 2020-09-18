@@ -60,7 +60,7 @@ This monorepo includes apps for testing purposes. These apps are not published. 
 The following commands can be executed from the javascript project root:
 
 * `yarn install`, will install all dependencies for all packages.
-* `yarn lint`, will run linting for all pacwhichkages.
+* `yarn lint`, will run linting for all packages.
 * `yarn test`, will run tests for all packages.
 * `yarn link-all`, will run `yarn link` for all packages.
 * `yarn unlink-all`, will run `yarn unlink` for all packages.
