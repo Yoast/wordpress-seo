@@ -743,7 +743,7 @@ class Indexable_Builder_Test extends TestCase {
 
 		Monkey\Filters\expectApplied( 'wpseo_should_save_indexable' )
 			->once()
-			->with( $this->indexable, false )
+			->with( false, $this->indexable )
 			->andReturn( false );
 
 		Monkey\Actions\expectDone( 'wpseo_save_indexable' )

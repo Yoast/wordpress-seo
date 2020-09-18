@@ -293,7 +293,7 @@ class Indexable_Builder {
 		 *
 		 * @api bool $intend_to_save True if YoastSEO intends to save the indexable.
 		 */
-		$intend_to_save = \apply_filters( 'wpseo_should_save_indexable', $indexable, $intend_to_save );
+		$intend_to_save = \apply_filters( 'wpseo_should_save_indexable', $intend_to_save, $indexable );
 
 		if ( ! $intend_to_save ) {
 			return $indexable;
