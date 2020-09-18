@@ -126,7 +126,6 @@ class Indexing_Notification_Integration implements Integration_Interface {
 	 * it from the notification center if this is the case.
 	 */
 	public function create_notification() {
-		$this->notification_center->add_notification( $this->notification() );
 		$notification = $this->notification_center->get_notification_by_id( self::NOTIFICATION_ID );
 
 		if ( $notification || ! $this->should_show_notification() ) {
