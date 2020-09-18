@@ -85,6 +85,9 @@ class Link_Count_Tools_Integration implements Integration_Interface {
 
 	/**
 	 * @inheritDoc
+	 *
+	 * @deprecated 15.1
+	 * @codeCoverageIgnore
 	 */
 	public function register_hooks() {
 		\add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_assets' ], 10 );

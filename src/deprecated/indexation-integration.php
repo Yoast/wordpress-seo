@@ -287,7 +287,7 @@ class Indexation_Integration implements Integration_Interface {
 	}
 
 	/**
-	 * Run a single indexation pass of each indexation action. Intended for use as a shutdown function.
+	 * Runs a single indexation pass of each indexation action. Intended for use as a shutdown function.
 	 *
 	 * @deprecated 15.1
 	 * @codeCoverageIgnore
@@ -303,6 +303,9 @@ class Indexation_Integration implements Integration_Interface {
 
 	/**
 	 * Returns the total number of unindexed objects.
+	 *
+	 * @deprecated 15.1
+	 * @codeCoverageIgnore
 	 *
 	 * @return int The total number of unindexed objects.
 	 */

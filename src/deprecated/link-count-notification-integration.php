@@ -119,6 +119,9 @@ class Link_Count_Notification_Integration implements Integration_Interface {
 	/**
 	 * Returns an instance of the notification.
 	 *
+	 * @deprecated 15.1
+	 * @codeCoverageIgnore
+	 *
 	 * @return Yoast_Notification The notification to show.
 	 */
 	protected function create_notification() {

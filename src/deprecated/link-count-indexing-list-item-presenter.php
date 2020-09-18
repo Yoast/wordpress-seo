@@ -22,6 +22,9 @@ class Link_Count_Indexing_List_Item_Presenter extends Abstract_Presenter {
 	/**
 	 * Link_Count_Indexing_List_Item_Presenter constructor.
 	 *
+	 * @deprecated 15.1
+	 * @codeCoverageIgnore
+	 *
 	 * @param int $total_unindexed The number of objects that need to be indexed.
 	 */
 	public function __construct( $total_unindexed ) {
