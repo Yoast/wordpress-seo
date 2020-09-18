@@ -816,7 +816,6 @@ SVG;
 	/**
 	 * Returns the unfiltered home URL.
 	 *
-	 * In case WPML is installed, returns the original home_url and not the WPML version.
 	 * In case of a multisite setup we return the network_home_url.
 	 *
 	 * @return string The home url.
@@ -824,18 +823,7 @@ SVG;
 	 * @codeCoverageIgnore
 	 */
 	public static function get_home_url() {
-
-		/**
-		 * Action: 'wpseo_home_url' - Allows overriding of the home URL.
-		 */
-		do_action( 'wpseo_home_url' );
-
-		// If the plugin is network-activated, use the network home URL.
-		if ( self::is_plugin_network_active() ) {
-			return network_home_url();
-		}
-
-		return home_url();
+		return YoastSEO()->helpers->site->get_home_url();
 	}
 
 	/**
