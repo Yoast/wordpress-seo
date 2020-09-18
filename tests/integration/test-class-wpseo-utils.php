@@ -125,15 +125,6 @@ class WPSEO_Utils_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Tests whether the plugin is network-active or not.
-	 *
-	 * @covers WPSEO_Utils::is_plugin_network_active
-	 */
-	public function test_is_plugin_network_active() {
-		$this->assertFalse( WPSEO_Utils::is_plugin_network_active() );
-	}
-
-	/**
 	 * Tests the retrieve enabled features function without the defined variable or filter.
 	 *
 	 * @covers WPSEO_Utils::retrieve_enabled_features

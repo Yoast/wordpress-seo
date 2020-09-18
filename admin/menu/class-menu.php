@@ -35,7 +35,7 @@ class WPSEO_Menu implements WPSEO_WordPress_Integration {
 		$admin_menu = new WPSEO_Admin_Menu( $this );
 		$admin_menu->register_hooks();
 
-		if ( WPSEO_Utils::is_plugin_network_active() ) {
+		if ( YoastSEO()->helpers->yoast->is_plugin_network_active() ) {
 			$network_admin_menu = new WPSEO_Network_Admin_Menu( $this );
 			$network_admin_menu->register_hooks();
 		}

@@ -138,7 +138,7 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 	 */
 	public function meets_requirements() {
 		if ( is_network_admin() ) {
-			return WPSEO_Utils::is_plugin_network_active();
+			return YoastSEO()->helpers->yoast->is_plugin_network_active();
 		}
 
 		if ( WPSEO_Options::get( 'enable_admin_bar_menu' ) !== true ) {

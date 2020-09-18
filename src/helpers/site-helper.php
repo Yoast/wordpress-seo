@@ -10,6 +10,22 @@ use WPSEO_Utils;
 class Site_Helper {
 
 	/**
+	 * Represents the yoast helper.
+	 *
+	 * @var Yoast_Helper
+	 */
+	protected $yoast_helper;
+
+	/**
+	 * Site_Helper constructor.
+	 *
+	 * @param Yoast_Helper $yoast_helper
+	 */
+	public function __construct( Yoast_Helper $yoast_helper ) {
+		$this->yoast_helper = $yoast_helper;
+	}
+
+	/**
 	 * Retrieves the site name.
 	 *
 	 * @return string
@@ -42,7 +58,7 @@ class Site_Helper {
 		do_action( 'wpseo_home_url' );
 
 		// If the plugin is network-activated, use the network home URL.
-		if ( WPSEO_Utils::is_plugin_network_active() ) {
+		if ( $this->yoast_helper->is_plugin_network_active() ) {
 			return network_home_url();
 		}
 
