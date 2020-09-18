@@ -128,6 +128,33 @@ class Indexing extends Component {
 	}
 
 	/**
+	 * Do any registered indexing action *before* a call to an index endpoint.
+	 *
+	 * @param {string} endpoint The endpoint that has been called.
+	 *
+	 * @returns {Promise<void>} An empty promise.
+	 */
+	async doPreIndexingAction( endpoint ) {
+		if ( typeof preIndexingActions[ endpoint ] === "function" ) {
+			await preIndexingActions[ endpoint ]( this.settings );
+		}
+	}
+
+	/**
+	 * Do any registered indexing action *after* a call to an index endpoint.
+	 *
+	 * @param {string} endpoint The endpoint that has been called.
+	 * @param {Object} response The response of the call to the endpoint.
+	 *
+	 * @returns {Promise<void>} An empty promise.
+	 */
+	async doPostIndexingAction( endpoint, response ) {
+		if ( typeof IndexingActions[ endpoint ] === "function" ) {
+			await IndexingActions[ endpoint ]( response.objects, this.settings );
+		}
+	}
+
+	/**
 	 * Does the indexing of a given endpoint.
 	 *
 	 * @param {string} endpoint The endpoint.
@@ -139,15 +166,9 @@ class Indexing extends Component {
 
 		while ( this.state.inProgress && url !== false && this.state.processed <= this.state.amount ) {
 			try {
-				if ( typeof preIndexingActions[ endpoint ] === "function" ) {
-					await preIndexingActions[ endpoint ]( this.settings );
-				}
-
+				await this.doPreIndexingAction( endpoint );
 				const response = await this.doIndexingRequest( url, this.settings.restApi.nonce );
-
-				if ( typeof IndexingActions[ endpoint ] === "function" ) {
-					await IndexingActions[ endpoint ]( response.objects, this.settings );
-				}
+				await this.doPostIndexingAction( endpoint, response );
 
 				this.setState( previousState => (
 					{ processed: previousState.processed + response.objects.length }
