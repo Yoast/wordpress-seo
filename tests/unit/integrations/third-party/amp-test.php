@@ -34,7 +34,7 @@ class AMP_Test extends TestCase {
 	protected $front_end;
 
 	/**
-	 * @inheritDoc
+	 * Sets an instance for test purposes.
 	 */
 	public function setUp() {
 		parent::setUp();

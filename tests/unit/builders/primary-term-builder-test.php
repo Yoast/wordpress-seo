@@ -17,6 +17,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group builders
  *
  * @coversDefaultClass \Yoast\WP\SEO\Builders\Primary_Term_Builder
+ * @covers \Yoast\WP\SEO\Builders\Primary_Term_Builder
  */
 class Primary_Term_Builder_Test extends TestCase {
 

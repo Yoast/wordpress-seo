@@ -11,7 +11,9 @@ class Indexable_Home_Page_Presentation extends Indexable_Presentation {
 	use Archive_Adjacent;
 
 	/**
-	 * @inheritDoc
+	 * Generates the canonical.
+	 *
+	 * @return string The canonical.
 	 */
 	public function generate_canonical() {
 		if ( $this->model->canonical ) {
@@ -31,7 +33,9 @@ class Indexable_Home_Page_Presentation extends Indexable_Presentation {
 	}
 
 	/**
-	 * @inheritDoc
+	 * Generates the meta description.
+	 *
+	 * @return string The meta description.
 	 */
 	public function generate_meta_description() {
 		if ( $this->model->description ) {
@@ -42,7 +46,9 @@ class Indexable_Home_Page_Presentation extends Indexable_Presentation {
 	}
 
 	/**
-	 * @inheritDoc
+	 * Generates the title.
+	 *
+	 * @return string The title.
 	 */
 	public function generate_title() {
 		if ( $this->model->title ) {
