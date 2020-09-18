@@ -48,28 +48,28 @@ class Indexing_Notification_Integration implements Integration_Interface {
 	 *
 	 * @var Indexing_Integration
 	 */
-	private $indexing_integration;
+	protected $indexing_integration;
 
 	/**
 	 * The Yoast notification center.
 	 *
 	 * @var Yoast_Notification_Center
 	 */
-	private $notification_center;
+	protected $notification_center;
 
 	/**
 	 * The options helper.
 	 *
 	 * @var Options_Helper
 	 */
-	private $options_helper;
+	protected $options_helper;
 
 	/**
 	 * The product helper.
 	 *
 	 * @var Product_Helper
 	 */
-	private $product_helper;
+	protected $product_helper;
 
 	/**
 	 * Prominent_Words_Notifier constructor.

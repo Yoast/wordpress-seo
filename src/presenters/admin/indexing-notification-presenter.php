@@ -16,14 +16,14 @@ class Indexing_Notification_Presenter extends Abstract_Presenter {
 	 *
 	 * @var int
 	 */
-	private $total_unindexed;
+	protected $total_unindexed;
 
 	/**
 	 * The message to show in the notification.
 	 *
 	 * @var string
 	 */
-	private $message;
+	protected $message;
 
 	/**
 	 * Indexing_Notification_Presenter constructor.
