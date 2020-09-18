@@ -112,6 +112,16 @@ class Indexable_Permalink_Watcher_Test extends TestCase {
 		$this->indexable_helper->expects( 'reset_permalink_indexables' )->with( 'date-archive' )->once();
 		$this->indexable_helper->expects( 'reset_permalink_indexables' )->with( 'system-page' )->once();
 
+		Monkey\Functions\expect( 'get_option' )
+			->once()
+			->with( 'permalink_structure' )
+			->andReturn( '/%postname%/' );
+
+		$this->options
+			->expects( 'set' )
+			->with( 'permalink_structure', '/%postname%/' )
+			->once();
+
 		$this->instance->reset_permalinks();
 	}
 
@@ -168,16 +178,6 @@ class Indexable_Permalink_Watcher_Test extends TestCase {
 
 		$this->instance
 			->expects( 'reset_permalinks' )
-			->once();
-
-		Monkey\Functions\expect( 'get_option' )
-			->once()
-			->with( 'permalink_structure' )
-			->andReturn( '/%postname%/' );
-
-		$this->options
-			->expects( 'set' )
-			->with( 'permalink_structure', '/%postname%/' )
 			->once();
 
 		$this->assertTrue( $this->instance->force_reset_permalinks() );

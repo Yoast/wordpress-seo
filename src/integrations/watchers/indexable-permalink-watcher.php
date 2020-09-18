@@ -91,6 +91,9 @@ class Indexable_Permalink_Watcher implements Integration_Interface {
 		$this->indexable_helper->reset_permalink_indexables( 'user' );
 		$this->indexable_helper->reset_permalink_indexables( 'date-archive' );
 		$this->indexable_helper->reset_permalink_indexables( 'system-page' );
+
+		// Always update `permalink_structure` in the wpseo option.
+		$this->options_helper->set( 'permalink_structure', \get_option( 'permalink_structure' ) );
 	}
 
 	/**
@@ -133,9 +136,6 @@ class Indexable_Permalink_Watcher implements Integration_Interface {
 	public function force_reset_permalinks() {
 		if ( $this->should_reset_permalinks() ) {
 			$this->reset_permalinks();
-
-			// Update the permalink_structure option.
-			$this->options_helper->set( 'permalink_structure', \get_option( 'permalink_structure' ) );
 
 			return true;
 		}
