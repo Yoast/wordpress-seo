@@ -129,4 +129,18 @@ class Indexable_Helper {
 		// Currently the only reason to index is when we're on a production website.
 		return $this->environment_helper->is_production_mode();
 	}
+
+	/**
+	 * Returns whether or not dynamic permalinks should be used.
+	 *
+	 * @return bool
+	 */
+	public function dynamic_permalinks_enabled() {
+		/**
+		 * Filters the value of the `dynamic_permalinks` option
+		 *
+		 * @param bool $value The value of the `dynamic_permalinks` option
+		 */
+		return (bool) \apply_filters( 'wpseo_dynamic_permalinks_enabled', $this->options_helper->get( 'dynamic_permalinks', false ) );
+	}
 }
