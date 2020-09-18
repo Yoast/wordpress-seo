@@ -6,7 +6,6 @@
  */
 
 use Yoast\WP\Lib\Model;
-use Yoast\WP\SEO\Integrations\Admin\Indexation_Integration;
 use Yoast\WP\SEO\Integrations\Admin\Indexing_Integration;
 
 /**
@@ -740,11 +739,11 @@ class WPSEO_Upgrade {
 		/**
 		 * Holds the indexation integration instance.
 		 *
-		 * @var Indexation_Integration
+		 * @var Indexing_Integration
 		 */
-		$indexation_integration = YoastSEO()->classes->get( Indexing_Integration::class );
+		$indexing_integration = YoastSEO()->classes->get( Indexing_Integration::class );
 
-		WPSEO_Options::set( 'indexables_indexation_completed', $indexation_integration->get_total_unindexed() === 0 );
+		WPSEO_Options::set( 'indexables_indexation_completed', $indexing_integration->get_total_unindexed() === 0 );
 	}
 
 	/**
