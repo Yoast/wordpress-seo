@@ -33,13 +33,11 @@ class Yoast_Helper {
 		return $network_active;
 	}
 
-
-
 	/**
-	 * Determine if Yoast SEO is in development mode?
+	 * Determines if Yoast SEO is in development mode?
 	 *
 	 * Inspired by JetPack (https://github.com/Automattic/jetpack/blob/master/class.jetpack.php#L1383-L1406).
-
+	 *
 	 * @return bool
 	 */
 	public function is_development_mode() {
@@ -67,8 +65,6 @@ class Yoast_Helper {
 
 	/**
 	 * Checks if the installed version is Yoast SEO Premium.
-	 *
-	 * @codeCoverageIgnore It just wraps a static method.
 	 *
 	 * @return bool True when is premium.
 	 */

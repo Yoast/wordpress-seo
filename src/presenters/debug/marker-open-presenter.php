@@ -2,7 +2,6 @@
 
 namespace Yoast\WP\SEO\Presenters\Debug;
 
-use WPSEO_Utils;
 use Yoast\WP\SEO\Presenters\Abstract_Indexable_Presenter;
 
 /**
@@ -33,7 +32,7 @@ final class Marker_Open_Presenter extends Abstract_Indexable_Presenter {
 			 *
 			 * @api bool
 			 */
-			( ( \apply_filters( 'wpseo_hide_version', false ) && $this->helpers->product->is_premium() ) ? '' : 'v' . \WPSEO_VERSION )
+			( ( \apply_filters( 'wpseo_hide_version', false ) && $this->helpers->yoast->is_premium() ) ? '' : 'v' . \WPSEO_VERSION )
 		);
 	}
 

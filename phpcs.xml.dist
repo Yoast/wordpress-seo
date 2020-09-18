@@ -176,6 +176,12 @@
 		<exclude-pattern>/inc/wpseo-functions-deprecated\.php$</exclude-pattern>
 	</rule>
 
+	<!-- These files have intentionally yoast in the filename. -->
+	<rule ref="Yoast.Files.FileName.InvalidClassFileName">
+		<exclude-pattern>/src/helpers/yoast-helper.php</exclude-pattern>
+		<exclude-pattern>/tests/unit/helpers/yoast-helper-test.php</exclude-pattern>
+	</rule>
+
 	<!-- Ignore unused function parameters in deprecated functionality. -->
 	<rule ref="Generic.CodeAnalysis.UnusedFunctionParameter">
 		<exclude-pattern>/src/deprecated/*</exclude-pattern>
