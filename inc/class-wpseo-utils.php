@@ -696,7 +696,6 @@ class WPSEO_Utils {
 		}
 
 		return false;
-		return YoastSEO()->helpers->url->format_admin_url( $url );
 	}
 
 	/**
