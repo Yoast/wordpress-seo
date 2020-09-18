@@ -18,6 +18,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group builders
  *
  * @coversDefaultClass \Yoast\WP\SEO\Builders\Indexable_Social_Image_Trait
+ * @covers \Yoast\WP\SEO\Builders\Indexable_Social_Image_Trait
  */
 class Indexable_Social_Image_Trait_Test extends TestCase {
 

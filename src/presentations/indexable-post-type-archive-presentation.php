@@ -13,7 +13,7 @@ class Indexable_Post_Type_Archive_Presentation extends Indexable_Presentation {
 	/**
 	 * Generates the canonical.
 	 *
-	 * @inheritDoc
+	 * @return string The canonical.
 	 */
 	public function generate_canonical() {
 		if ( ! $this->model->permalink ) {
@@ -29,9 +29,9 @@ class Indexable_Post_Type_Archive_Presentation extends Indexable_Presentation {
 	}
 
 	/**
-	 * Generates the robots.
+	 * Generates the robots value.
 	 *
-	 * @inheritDoc
+	 * @return array The robots value.
 	 */
 	public function generate_robots() {
 		$robots = $this->get_base_robots();
@@ -46,7 +46,7 @@ class Indexable_Post_Type_Archive_Presentation extends Indexable_Presentation {
 	/**
 	 * Generates the title.
 	 *
-	 * @inheritDoc
+	 * @return string The title.
 	 */
 	public function generate_title() {
 		if ( $this->model->title ) {
@@ -62,7 +62,7 @@ class Indexable_Post_Type_Archive_Presentation extends Indexable_Presentation {
 	/**
 	 * Generates the source.
 	 *
-	 * @inheritDoc
+	 * @return array The source.
 	 */
 	public function generate_source() {
 		return [ 'post_type' => $this->model->object_sub_type ];

@@ -16,8 +16,8 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group indexables
  * @group builders
  *
- * @coversDefaultClass \Yoast\WP\SEO\Builders\Indexable_Author_Builder
- * @covers ::<!public>
+ * @coversDefaultClass \Yoast\WP\SEO\Builders\Indexable_System_Page_Builder
+ * @covers \Yoast\WP\SEO\Builders\Indexable_System_Page_Builder
  */
 class Indexable_System_Page_Builder_Test extends TestCase {
 

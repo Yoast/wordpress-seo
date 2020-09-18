@@ -4,20 +4,18 @@ namespace Yoast\WP\SEO\Tests\Unit\Helpers;
 
 use Brain\Monkey;
 use Mockery;
-use Yoast\WP\SEO\Actions\Indexation\Indexable_Post_Indexation_Action;
-use Yoast\WP\SEO\Actions\Indexation\Indexable_Post_Type_Archive_Indexation_Action;
-use Yoast\WP\SEO\Actions\Indexation\Indexable_Term_Indexation_Action;
+use Yoast\WP\SEO\Helpers\Environment_Helper;
 use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
-use Yoast\WP\SEO\Integrations\Admin\Indexing_Notification_Integration;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
- * Class Indexable_Helper_Test
+ * Class Indexable_Helper_Test.
  *
  * @coversDefaultClass \Yoast\WP\SEO\Helpers\Indexable_Helper
+ * @covers \Yoast\WP\SEO\Helpers\Indexable_Helper
  *
  * @group helpers
  */
@@ -45,14 +43,34 @@ class Indexable_Helper_Test extends TestCase {
 	protected $repository;
 
 	/**
-	 * Sets up the tests.
+	 * Represents the environment helper.
+	 *
+	 * @var Mockery\MockInterface|Environment_Helper
+	 */
+	protected $environment_helper;
+
+	/**
+	 * Sets up the class under test and mock objects.
 	 */
 	public function setUp() {
 		parent::setUp();
 
-		$this->options    = Mockery::mock( Options_Helper::class );
-		$this->repository = Mockery::mock( Indexable_Repository::class );
-		$this->instance   = new Indexable_Helper( $this->options, $this->repository );
+		$this->options            = Mockery::mock( Options_Helper::class );
+		$this->repository         = Mockery::mock( Indexable_Repository::class );
+		$this->environment_helper = Mockery::mock( Environment_Helper::class );
+		$this->instance           = new Indexable_Helper( $this->options, $this->environment_helper );
+		$this->instance->set_indexable_repository( $this->repository );
+	}
+
+	/**
+	 * Tests if the class attributes are set properly.
+	 *
+	 * @covers ::__construct
+	 */
+	public function test_construct() {
+		$this->assertAttributeInstanceOf( Options_Helper::class, 'options_helper', $this->instance );
+		$this->assertAttributeInstanceOf( Indexable_Repository::class, 'repository', $this->instance );
+		$this->assertAttributeInstanceOf( Environment_Helper::class, 'environment_helper', $this->instance );
 	}
 
 	/**
@@ -110,70 +128,45 @@ class Indexable_Helper_Test extends TestCase {
 	}
 
 	/**
-	 * Test resetting the permalinks for categories.
+	 * Tests should_index_indexables method
 	 *
-	 * @covers ::reset_permalink_indexables
+	 * @param string $wp_environment  The WordPress environment to test for.
+	 * @param bool   $expected_result Either true or false.
+	 *
+	 * @covers ::should_index_indexables
+	 * @dataProvider should_index_for_production_environment_provider
 	 */
-	public function test_reset_permalink_indexables() {
-		$this->repository
-			->expects( 'reset_permalink' )
-			->once()
-			->with( 'term', 'category' )
-			->andReturn( 1 );
+	public function test_should_index_for_production_environment(
+		$wp_environment, $expected_result
+	) {
+		// Arrange.
+		$this->environment_helper
+			->shouldReceive( 'is_production_mode' )
+			->passthru();
+		$this->environment_helper
+			->shouldReceive( 'get_wp_environment' )
+			->andReturn( $wp_environment );
 
-		$this->options
-			->expects( 'set' )
-			->with( 'indexables_indexation_reason', Indexing_Notification_Integration::REASON_CATEGORY_BASE_PREFIX )
-			->once();
+		// Act.
+		$result = $this->instance->should_index_indexables();
 
-		$this->options
-			->expects( 'set' )
-			->with( 'ignore_indexation_warning', false )
-			->once();
-
-		$this->options
-			->expects( 'set' )
-			->with( 'indexation_warning_hide_until', false )
-			->once();
-
-		Monkey\Functions\expect( 'delete_transient' )->with( Indexable_Post_Indexation_Action::TRANSIENT_CACHE_KEY );
-		Monkey\Functions\expect( 'delete_transient' )->with( Indexable_Post_Type_Archive_Indexation_Action::TRANSIENT_CACHE_KEY );
-		Monkey\Functions\expect( 'delete_transient' )->with( Indexable_Term_Indexation_Action::TRANSIENT_CACHE_KEY );
-
-		$this->instance->reset_permalink_indexables( 'term', 'category', Indexing_Notification_Integration::REASON_CATEGORY_BASE_PREFIX );
+		// Assert.
+		$this->assertEquals( $result, $expected_result );
 	}
 
 	/**
-	 * Test resetting the permalinks for categories when there are no results.
+	 * DataProvider for test_should_index_for_production_environment.
 	 *
-	 * @covers ::reset_permalink_indexables
+	 * @return array[]
 	 */
-	public function test_no_reset_permalink_indexables() {
-		$this->repository
-			->expects( 'reset_permalink' )
-			->once()
-			->with( 'term', 'category' )
-			->andReturn( 0 );
-
-		$this->options
-			->expects( 'set' )
-			->with( 'indexables_indexation_reason', Indexing_Notification_Integration::REASON_CATEGORY_BASE_PREFIX )
-			->never();
-
-		$this->options
-			->expects( 'set' )
-			->with( 'ignore_indexation_warning', false )
-			->never();
-
-		$this->options
-			->expects( 'set' )
-			->with( 'indexation_warning_hide_until', false )
-			->never();
-
-		Monkey\Functions\expect( 'delete_transient' )->with( Indexable_Post_Indexation_Action::TRANSIENT_CACHE_KEY )->never();
-		Monkey\Functions\expect( 'delete_transient' )->with( Indexable_Post_Type_Archive_Indexation_Action::TRANSIENT_CACHE_KEY )->never();
-		Monkey\Functions\expect( 'delete_transient' )->with( Indexable_Term_Indexation_Action::TRANSIENT_CACHE_KEY )->never();
-
-		$this->instance->reset_permalink_indexables( 'term', 'category', Indexing_Notification_Integration::REASON_CATEGORY_BASE_PREFIX );
+	public function should_index_for_production_environment_provider() {
+		return [
+			[ 'production', true ],
+			[ 'staging', false ],
+			[ 'test', false ],
+			[ 'development', false ],
+			[ 'random letters and 1234567890', false ],
+			[ null, false ],
+		];
 	}
 }

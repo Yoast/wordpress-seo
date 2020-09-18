@@ -3,6 +3,7 @@
 namespace Yoast\WP\SEO\Presenters\Admin;
 
 use WPSEO_Shortlinker;
+use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Presenters\Abstract_Presenter;
 
 /**
@@ -12,6 +13,13 @@ use Yoast\WP\SEO\Presenters\Abstract_Presenter;
  * @codeCoverageIgnore
  */
 class Indexation_List_Item_Presenter extends Abstract_Presenter {
+
+	/**
+	 * Represents the indexable helper.
+	 *
+	 * @var Indexable_Helper
+	 */
+	protected $indexable_helper;
 
 	/**
 	 * The number of objects that need to be reindexed.
@@ -26,10 +34,15 @@ class Indexation_List_Item_Presenter extends Abstract_Presenter {
 	 * @deprecated 15.1
 	 * @codeCoverageIgnore
 	 *
-	 * @param int $total_unindexed The number of objects that need to be indexed.
+	 * @param int              $total_unindexed  The number of objects that need to be indexed.
+	 * @param Indexable_Helper $indexable_helper The indexable helper.
 	 */
-	public function __construct( $total_unindexed ) {
-		$this->total_unindexed = $total_unindexed;
+	public function __construct(
+		$total_unindexed,
+		Indexable_Helper $indexable_helper
+	) {
+		$this->total_unindexed  = $total_unindexed;
+		$this->indexable_helper = $indexable_helper;
 	}
 
 	/**
@@ -68,15 +81,27 @@ class Indexation_List_Item_Presenter extends Abstract_Presenter {
 			$output .= '<span class="wpseo-checkmark-ok-icon"></span>' . \esc_html__( 'Great, your site has been optimized!', 'wordpress-seo' );
 		}
 		else {
+
+			$should_index = $this->indexable_helper->should_index_indexables();
+			$disabled     = ( $should_index ) ? '' : 'disabled';
+
 			$output .= \sprintf(
 				'<span id="yoast-indexation">' .
-					'<button type="button" class="button yoast-open-indexation" data-title="%1$s" data-settings="yoastIndexationData">' .
-						'%2$s' .
-					'</button>' .
+				'<button type="button" class="button yoast-open-indexation" data-title="%1$s" data-settings="yoastIndexationData" ' .
+				'%3$s>' .
+				'%2$s' .
+				'</button>' .
 				'</span>',
 				\esc_attr__( 'Speeding up your site', 'wordpress-seo' ),
-				\esc_html__( 'Start processing and speed up your site now', 'wordpress-seo' )
+				\esc_html__( 'Start processing and speed up your site now', 'wordpress-seo' ),
+				$disabled
 			);
+
+			if ( ! $should_index ) {
+				$output .= '<p>';
+				$output .= \esc_html__( 'This button to index your website is disabled for non-production environments.', 'wordpress-seo' );
+				$output .= '</p>';
+			}
 		}
 
 		$output .= '</li>';
