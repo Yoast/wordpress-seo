@@ -178,7 +178,7 @@ else {
 		echo '</form>';
 	}
 }
-if ( ! WPSEO_Utils::is_nginx() ) {
+if ( ! YoastSEO()->helpers->server->is_nginx() ) {
 
 	echo '<h2>';
 	printf(

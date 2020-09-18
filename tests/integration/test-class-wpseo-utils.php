@@ -43,32 +43,6 @@ class WPSEO_Utils_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Tests whether is_apache correctly returns if the site runs on apache.
-	 *
-	 * @covers WPSEO_Utils::is_apache
-	 */
-	public function test_wpseo_is_apache() {
-		$_SERVER['SERVER_SOFTWARE'] = 'Apache/2.2.22';
-		$this->assertTrue( WPSEO_Utils::is_apache() );
-
-		$_SERVER['SERVER_SOFTWARE'] = 'nginx/1.5.11';
-		$this->assertFalse( WPSEO_Utils::is_apache() );
-	}
-
-	/**
-	 * Tests whether is_apache correctly returns if the site runs on nginx.
-	 *
-	 * @covers WPSEO_Utils::is_nginx
-	 */
-	public function test_wpseo_is_nginx() {
-		$_SERVER['SERVER_SOFTWARE'] = 'nginx/1.5.11';
-		$this->assertTrue( WPSEO_Utils::is_nginx() );
-
-		$_SERVER['SERVER_SOFTWARE'] = 'Apache/2.2.22';
-		$this->assertFalse( WPSEO_Utils::is_nginx() );
-	}
-
-	/**
 	 * Tests whether trim_nbsp_from_string correctly strips no-break spaces.
 	 *
 	 * @covers WPSEO_Utils::trim_nbsp_from_string
