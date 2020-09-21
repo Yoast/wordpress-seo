@@ -224,6 +224,8 @@ class Indexable_Link_Builder {
 		$link_type  = $this->url_helper->get_link_type( $parsed_url, $home_url, $is_image );
 
 		/**
+		 * ORM representing a link in the SEO Links table.
+		 *
 		 * @var SEO_Links
 		 */
 		$model = $this->seo_links_repository->query()->create(
@@ -242,7 +244,14 @@ class Indexable_Link_Builder {
 			$target    = $this->indexable_repository->find_by_permalink( $permalink );
 
 			if ( ! $target ) {
-				return $model;
+				// If target indexable cannot be found, create one based on the post's post ID.
+				if ( $model->type === SEO_Links::TYPE_INTERNAL ) {
+					$post_id = \url_to_postid( $permalink );
+				}
+				else {
+					$post_id = $this->image_helper->get_attachment_by_url( $permalink );
+				}
+				$target = $this->indexable_repository->find_by_id_and_type( $post_id, 'post' );
 			}
 
 			$model->target_indexable_id = $target->id;
