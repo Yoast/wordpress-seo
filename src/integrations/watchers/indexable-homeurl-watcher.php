@@ -4,7 +4,7 @@ namespace Yoast\WP\SEO\Integrations\Watchers;
 
 use WP_CLI;
 use WP_CLI\Utils;
-use Yoast\WP\SEO\Conditionals\Admin_Conditional;
+use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
 use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
@@ -45,7 +45,7 @@ class Indexable_HomeUrl_Watcher implements Integration_Interface {
 	 * @return array
 	 */
 	public static function get_conditionals() {
-		return [ Admin_Conditional::class ];
+		return [ Migrations_Conditional::class ];
 	}
 
 	/**
@@ -118,6 +118,10 @@ class Indexable_HomeUrl_Watcher implements Integration_Interface {
 
 			// Reset the home_url option.
 			$this->options_helper->set( 'home_url', get_home_url() );
+
+			if ( \defined( 'WP_CLI' ) && \WP_CLI ) {
+				WP_CLI::success( __( 'All permalinks were succesfully reset', 'wordpress-seo' ) );
+			}
 
 			return true;
 		}
