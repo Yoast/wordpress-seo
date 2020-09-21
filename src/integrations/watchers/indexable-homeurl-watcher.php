@@ -2,6 +2,8 @@
 
 namespace Yoast\WP\SEO\Integrations\Watchers;
 
+use WP_CLI;
+use WP_CLI\Utils;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
@@ -111,6 +113,7 @@ class Indexable_HomeUrl_Watcher implements Integration_Interface {
 	 * @return bool Whether the request ran.
 	 */
 	public function force_reset_permalinks() {
+		var_dump('hello');
 		if ( $this->should_reset_permalinks() ) {
 			$this->reset_permalinks();
 

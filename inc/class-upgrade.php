@@ -737,7 +737,11 @@ class WPSEO_Upgrade {
 	 * @return void
 	 */
 	private function upgrade_151() {
-		add_action( 'init', [ $this, 'set_home_url_option_for_151' ] );
+		$home_url = WPSEO_Options::get( 'home_url' );
+
+		if ( empty( $home_url ) ) {
+			WPSEO_Options::set( 'home_url', get_home_url() );
+		}
 	}
 
 	/**
@@ -996,14 +1000,5 @@ class WPSEO_Upgrade {
 
 			WPSEO_Options::set( 'noindex-ptarchive-product', false );
 		}
-	}
-
-	/**
-	 * Stores the initial `home_url` option.
-	 *
-	 * @return void
-	 */
-	public function set_home_url_option_for_151() {
-		WPSEO_Options::set( 'home_url', get_home_url() );
 	}
 }
