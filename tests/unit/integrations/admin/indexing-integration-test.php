@@ -12,6 +12,8 @@ use Yoast\WP\SEO\Actions\Indexation\Indexable_Post_Type_Archive_Indexation_Actio
 use Yoast\WP\SEO\Actions\Indexation\Indexable_Term_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexation\Post_Link_Indexing_Action;
 use Yoast\WP\SEO\Actions\Indexation\Term_Link_Indexing_Action;
+use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
+use Yoast\WP\SEO\Conditionals\Yoast_Tools_Page_Conditional;
 use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Integrations\Admin\Indexing_Integration;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
@@ -148,6 +150,57 @@ class Indexing_Integration_Test extends TestCase {
 	}
 
 	/**
+	 * Tests the get_conditionals method.
+	 *
+	 * @covers ::get_conditionals
+	 */
+	public function test_get_conditionals() {
+		$actual = Indexing_Integration::get_conditionals();
+		$expected = [
+			Yoast_Tools_Page_Conditional::class,
+			Migrations_Conditional::class
+		];
+		$this->assertEquals( $expected, $actual );
+	}
+
+	/**
+	 * Tests the register hooks method.
+	 *
+	 * @covers ::register_hooks
+	 */
+	public function test_register_hooks() {
+		Monkey\Actions\expectAdded( 'wpseo_tools_overview_list_items' );
+		Monkey\Actions\expectAdded( 'admin_enqueue_scripts' );
+
+		$this->instance->register_hooks();
+	}
+
+	/**
+	 * Tests the shutdown indexing method.
+	 *
+	 * @covers ::shutdown_indexation
+	 */
+	public function test_shutdown_indexing() {
+		$this->term_indexation
+			->expects( 'index' )
+			->once();
+
+		$this->post_indexation
+			->expects( 'index' )
+			->once();
+
+		$this->general_indexation
+			->expects( 'index' )
+			->once();
+
+		$this->post_type_archive_indexation
+			->expects( 'index' )
+			->once();
+
+		$this->instance->shutdown_indexation();
+	}
+
+	/**
 	 * Tests the get_total_unindexed method.
 	 *
 	 * @covers ::get_total_unindexed
@@ -231,5 +284,90 @@ class Indexing_Integration_Test extends TestCase {
 			->with( $injected_data );
 
 		$this->instance->enqueue_scripts();
+	}
+
+	/**
+	 * Tests the enqueue_scripts method.
+	 *
+	 * @covers ::enqueue_scripts
+	 */
+	public function test_enqueue_scripts_indexing_completed() {
+		$total_unindexed_expectations = [
+			'post_indexation'              => 0,
+			'term_indexation'              => 0,
+			'post_type_archive_indexation' => 0,
+			'general_indexation'           => 0,
+		];
+
+		$this->set_total_unindexed_expectations( $total_unindexed_expectations );
+
+		$this->complete_indexation_action
+			->expects( 'complete' )
+			->once();
+
+		$this->asset_manager
+			->expects( 'enqueue_script' )
+			->with( 'indexation' );
+		$this->asset_manager
+			->expects( 'enqueue_style' )
+			->with( 'admin-css' );
+		$this->asset_manager
+			->expects( 'enqueue_style' )
+			->with( 'monorepo' );
+
+		$this->indexable_helper
+			->expects( 'should_index_indexables' )
+			->andReturn( true );
+
+		/**
+		 * We have to register the shutdown function here to prevent a fatal PHP error,
+		 * which would occur because the registered shutdown function is executed
+		 * after the unit test has already completed.
+		 */
+		\register_shutdown_function( [ $this, 'shutdown_indexation_expectations' ] );
+
+		Monkey\Functions\expect( 'wp_create_nonce' )
+			->with( 'wp_rest' )
+			->andReturn( 'nonce_value' );
+
+		$injected_data = [
+			'amount'   => 0,
+			'disabled' => false,
+			'restApi'  =>
+				[
+					'root'      => 'https://example.org/wp-ajax/',
+					'endpoints' =>
+						[
+							'prepare'  => 'yoast/v1/indexation/prepare',
+							'posts'    => 'yoast/v1/indexation/posts',
+							'terms'    => 'yoast/v1/indexation/terms',
+							'archives' => 'yoast/v1/indexation/post-type-archives',
+							'general'  => 'yoast/v1/indexation/general',
+							'complete' => 'yoast/v1/indexation/complete',
+						],
+					'nonce'     => 'nonce_value',
+				],
+		];
+
+		Monkey\Functions\expect( 'rest_url' )
+			->andReturn( 'https://example.org/wp-ajax/' );
+
+		Monkey\Functions\expect( 'wp_localize_script' )
+			->with( 'yoast-seo-indexation', 'yoastIndexingData', $injected_data );
+
+		Monkey\Filters\expectApplied( 'wpseo_indexing_data' )
+			->with( $injected_data );
+
+		$this->instance->enqueue_scripts();
+	}
+
+	/**
+	 * Sets the expectations for the shutdown indexation.
+	 */
+	public function shutdown_indexation_expectations() {
+		$this->post_indexation->expects( 'index' )->once();
+		$this->term_indexation->expects( 'index' )->once();
+		$this->general_indexation->expects( 'index' )->once();
+		$this->post_type_archive_indexation->expects( 'index' )->once();
 	}
 }
