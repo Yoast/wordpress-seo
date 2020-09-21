@@ -155,41 +155,28 @@ class Indexing_Notification_Integration implements Integration_Interface {
 	 * @return bool If the notification should be shown.
 	 */
 	protected function should_show_notification() {
-		if ( $this->is_indexation_warning_hidden() ) {
+		$indexing_reason = $this->options_helper->get( 'indexables_indexation_reason', '' );
+
+		/*
+		 * Show a notification when we have a reason to do so.
+		 * For example when indexing has failed before and the user should try again.
+		 */
+		if ( $indexing_reason ) {
+			return true;
+		}
+
+		/*
+		 * Do not show the notification when the indexation has started, but not completed.
+		 * I.e. when the user stopped it manually.
+		 */
+		if ( $this->options_helper->get( 'indexation_started', false ) > ( \time() - \MONTH_IN_SECONDS ) ) {
 			return false;
 		}
 
-		$indexation_reason         = $this->options_helper->get( 'indexables_indexation_reason', '' );
-		$indexation_started        = $this->options_helper->get( 'indexation_started', false );
-		$indexation_completed      = $this->options_helper->get( 'indexables_indexation_completed', false );
-		$ignore_indexation_warning = $this->options_helper->get( 'ignore_indexation_warning', false );
-
-		if ( $indexation_reason ) {
-			return true;
-		}
-
-		return (
-			$indexation_started === false &&
-			$indexation_completed === false &&
-			$ignore_indexation_warning === false
-		);
-	}
-
-	/**
-	 * Returns if the indexation warning is temporarily hidden.
-	 *
-	 * @return bool True if hidden.
-	 */
-	protected function is_indexation_warning_hidden() {
-		if ( $this->options_helper->get( 'ignore_indexation_warning', false ) === true ) {
-			return true;
-		}
-
-		// When the indexation has started, but not completed.
-		if ( $this->options_helper->get( 'indexation_started', false ) > ( \time() - \MONTH_IN_SECONDS ) ) {
-			return true;
-		}
-
+		/*
+		 * Show the notification when it is not in the hide notification period.
+		 * (E.g. when the user clicked on 'hide this notification for a week').
+		 */
 		$hide_until = (int) $this->options_helper->get( 'indexation_warning_hide_until' );
 
 		return ( $hide_until !== 0 && $hide_until >= \time() );
