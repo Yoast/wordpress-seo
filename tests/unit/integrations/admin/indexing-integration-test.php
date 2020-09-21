@@ -2,8 +2,8 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Integrations\Admin;
 
-use Mockery;
 use Brain\Monkey;
+use Mockery;
 use WPSEO_Admin_Asset_Manager;
 use Yoast\WP\SEO\Actions\Indexation\Indexable_Complete_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexation\Indexable_General_Indexation_Action;
@@ -17,6 +17,7 @@ use Yoast\WP\SEO\Conditionals\Yoast_Tools_Page_Conditional;
 use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Integrations\Admin\Indexing_Integration;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
+use Yoast\WP\SEO\Wrappers\WP_Shortlink_Wrapper;
 
 /**
  * Class Indexing_Integration_Test.
@@ -96,6 +97,13 @@ class Indexing_Integration_Test extends TestCase {
 	protected $indexable_helper;
 
 	/**
+	 * The shortlink wrapper.
+	 *
+	 * @var Mockery\LegacyMockInterface|Mockery\MockInterface|WP_Shortlink_Wrapper
+	 */
+	protected $wp_shortlink_wrapper;
+
+	/**
 	 * Sets up the tests.
 	 */
 	protected function setUp() {
@@ -110,6 +118,7 @@ class Indexing_Integration_Test extends TestCase {
 		$this->term_link_indexing_action    = Mockery::mock( Term_Link_Indexing_Action::class );
 		$this->asset_manager                = Mockery::mock( WPSEO_Admin_Asset_Manager::class );
 		$this->indexable_helper             = Mockery::mock( Indexable_Helper::class );
+		$this->wp_shortlink_wrapper         = Mockery::mock( WP_Shortlink_Wrapper::class );
 
 		$this->instance = new Indexing_Integration(
 			$this->post_indexation,
@@ -118,7 +127,8 @@ class Indexing_Integration_Test extends TestCase {
 			$this->general_indexation,
 			$this->complete_indexation_action,
 			$this->asset_manager,
-			$this->indexable_helper
+			$this->indexable_helper,
+			$this->wp_shortlink_wrapper
 		);
 	}
 
@@ -147,6 +157,7 @@ class Indexing_Integration_Test extends TestCase {
 		$this->assertAttributeInstanceOf( Indexable_General_Indexation_Action::class, 'general_indexation', $this->instance );
 		$this->assertAttributeInstanceOf( Indexable_Complete_Indexation_Action::class, 'complete_indexation_action', $this->instance );
 		$this->assertAttributeInstanceOf( WPSEO_Admin_Asset_Manager::class, 'asset_manager', $this->instance );
+		$this->assertAttributeInstanceOf( WP_Shortlink_Wrapper::class, 'wp_shortlink_wrapper', $this->instance );
 	}
 
 	/**
@@ -155,7 +166,7 @@ class Indexing_Integration_Test extends TestCase {
 	 * @covers ::get_conditionals
 	 */
 	public function test_get_conditionals() {
-		$actual = Indexing_Integration::get_conditionals();
+		$actual   = Indexing_Integration::get_conditionals();
 		$expected = [
 			Yoast_Tools_Page_Conditional::class,
 			Migrations_Conditional::class
@@ -369,5 +380,28 @@ class Indexing_Integration_Test extends TestCase {
 		$this->term_indexation->expects( 'index' )->once();
 		$this->general_indexation->expects( 'index' )->once();
 		$this->post_type_archive_indexation->expects( 'index' )->once();
+	}
+
+	public function test_render_indexing_list_item_not_allowed() {
+		// Arrange.
+		Monkey\Functions\expect( 'current_user_can' )->with( 'manage_options' )->andReturn( false );
+
+		// Act.
+		$result = $this->instance->render_indexing_list_item();
+
+		// Assert.
+		$this->assertEmpty( $result );
+	}
+
+	public function test_render_indexing_list_item_is_allowed() {
+		// Arrange.
+		Monkey\Functions\expect( 'current_user_can' )->with( 'manage_options' )->andReturn( true );
+		$this->wp_shortlink_wrapper->shouldReceive( 'get' )->with(  'https://yoa.st/3-z' )->andReturn( 'https://yoast.com' );
+
+		// Act.
+		$result = $this->instance->render_indexing_list_item();
+
+		// Assert.
+		$this->assertEquals( $result, "" );
 	}
 }
