@@ -120,7 +120,7 @@ class Indexable_HomeUrl_Watcher implements Integration_Interface {
 			$this->options_helper->set( 'home_url', get_home_url() );
 
 			if ( \defined( 'WP_CLI' ) && \WP_CLI ) {
-				WP_CLI::success( __( 'All permalinks were succesfully reset', 'wordpress-seo' ) );
+				WP_CLI::success( __( 'All permalinks were successfully reset', 'wordpress-seo' ) );
 			}
 
 			return true;
