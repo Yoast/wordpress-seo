@@ -128,7 +128,7 @@ class Indexing extends Component {
 	}
 
 	/**
-	 * Do any registered indexing action *before* a call to an index endpoint.
+	 * Does any registered indexing action *before* a call to an index endpoint.
 	 *
 	 * @param {string} endpoint The endpoint that has been called.
 	 *
@@ -141,7 +141,7 @@ class Indexing extends Component {
 	}
 
 	/**
-	 * Do any registered indexing action *after* a call to an index endpoint.
+	 * Does any registered indexing action *after* a call to an index endpoint.
 	 *
 	 * @param {string} endpoint The endpoint that has been called.
 	 * @param {Object} response The response of the call to the endpoint.
