@@ -14,6 +14,7 @@ use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Presenters\Admin\Indexing_List_Item_Presenter;
 use Yoast\WP\SEO\Routes\Indexable_Indexation_Route;
+use Yoast\WP\SEO\Wrappers\WP_Shortlink_Wrapper;
 
 /**
  * Class Indexing_Integration.
@@ -79,6 +80,13 @@ class Indexing_Integration implements Integration_Interface {
 	protected $indexable_helper;
 
 	/**
+	 * Represents the shortlink wrapper.
+	 *
+	 * @var WP_Shortlink_Wrapper
+	 */
+	protected $wp_shortlink_wrapper;
+
+	/**
 	 * Returns the conditionals based on which this integration should be active.
 	 *
 	 * @return array The array of conditionals.
@@ -100,6 +108,7 @@ class Indexing_Integration implements Integration_Interface {
 	 * @param Indexable_Complete_Indexation_Action          $complete_indexation_action   The complete indexing action.
 	 * @param WPSEO_Admin_Asset_Manager                     $asset_manager                The admin asset manager.
 	 * @param Indexable_Helper                              $indexable_helper             The indexable helper.
+	 * @param WP_Shortlink_Wrapper                          $wp_shortlink_wrapper         The shortlinker wrapper.
 	 */
 	public function __construct(
 		Indexable_Post_Indexation_Action $post_indexation,
@@ -108,7 +117,8 @@ class Indexing_Integration implements Integration_Interface {
 		Indexable_General_Indexation_Action $general_indexation,
 		Indexable_Complete_Indexation_Action $complete_indexation_action,
 		WPSEO_Admin_Asset_Manager $asset_manager,
-		Indexable_Helper $indexable_helper
+		Indexable_Helper $indexable_helper,
+		WP_shortlink_wrapper $wp_shortlink_wrapper
 	) {
 		$this->post_indexation              = $post_indexation;
 		$this->term_indexation              = $term_indexation;
@@ -117,6 +127,7 @@ class Indexing_Integration implements Integration_Interface {
 		$this->complete_indexation_action   = $complete_indexation_action;
 		$this->asset_manager                = $asset_manager;
 		$this->indexable_helper             = $indexable_helper;
+		$this->wp_shortlink_wrapper         = $wp_shortlink_wrapper;
 	}
 
 	/**
@@ -202,7 +213,7 @@ class Indexing_Integration implements Integration_Interface {
 	public function render_indexing_list_item() {
 		if ( \current_user_can( 'manage_options' ) ) {
 			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- The output is correctly escaped in the presenter.
-			echo new Indexing_List_Item_Presenter();
+			echo new Indexing_List_Item_Presenter($this->wp_shortlink_wrapper);
 		}
 	}
 
