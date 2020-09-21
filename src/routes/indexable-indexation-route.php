@@ -170,7 +170,7 @@ class Indexable_Indexation_Route extends Abstract_Indexation_Route {
 		Indexable_Prepare_Indexation_Action $prepare_indexation_action,
 		Options_Helper $options_helper
 	) {
-		Abstract_Indexation_Route::__construct( $options_helper );
+		parent::__construct( $options_helper );
 		$this->post_indexation_action              = $post_indexation_action;
 		$this->term_indexation_action              = $term_indexation_action;
 		$this->post_type_archive_indexation_action = $post_type_archive_indexation_action;

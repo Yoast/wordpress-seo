@@ -6,6 +6,7 @@ use WP_REST_Response;
 use Yoast\WP\SEO\Actions\Indexation\Post_Link_Indexing_Action;
 use Yoast\WP\SEO\Actions\Indexation\Term_Link_Indexing_Action;
 use Yoast\WP\SEO\Conditionals\No_Conditionals;
+use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Main;
 
 /**
@@ -62,11 +63,14 @@ class Link_Indexing_Route extends Abstract_Indexation_Route {
 	 *
 	 * @param Post_Link_Indexing_Action $post_link_indexing_action The post link indexing action.
 	 * @param Term_Link_Indexing_Action $term_link_indexing_action The term link indexing action.
+	 * @param Options_Helper            $options_helper
 	 */
 	public function __construct(
 		Post_Link_Indexing_Action $post_link_indexing_action,
-		Term_Link_Indexing_Action $term_link_indexing_action
+		Term_Link_Indexing_Action $term_link_indexing_action,
+		Options_Helper $options_helper
 	) {
+		parent::__construct( $options_helper );
 		$this->post_link_indexing_action = $post_link_indexing_action;
 		$this->term_link_indexing_action = $term_link_indexing_action;
 	}
