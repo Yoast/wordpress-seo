@@ -1,7 +1,7 @@
 {
   "name": "@yoast/schema-blocks",
-  "version": "1.0.0-RC2",
-  "main": "build/index.js",
+  "version": "1.0.0-RC3",
+  "main": "dist/index.js",
   "license": "MIT",
   "private": false,
   "dependencies": {
