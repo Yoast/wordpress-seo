@@ -1,6 +1,5 @@
 <?php
 
-
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Integrations\Admin\Indexing_Integration;
@@ -8,13 +7,12 @@ use Yoast\WP\SEO\Integrations\Admin\Indexing_Notification_Integration;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
- * Class Indexing_Notification_Integration_Test
+ * Class Indexing_Notification_Integration_Test.
  *
  * @coversDefaultClass \Yoast\WP\SEO\Integrations\Admin\Indexing_Notification_Integration
  * @covers \Yoast\WP\SEO\Integrations\Admin\Indexing_Notification_Integration
  */
 class Indexing_Notification_Integration_Test extends TestCase {
-
 
 	/**
 	 * The indexing integration.
@@ -50,7 +48,6 @@ class Indexing_Notification_Integration_Test extends TestCase {
 	 * @var Indexing_Notification_Integration
 	 */
 	protected $instance;
-
 
 	/**
 	 * Sets up the tests.
