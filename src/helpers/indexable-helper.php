@@ -111,7 +111,6 @@ class Indexable_Helper {
 
 		if ( $result !== false && $result > 0 ) {
 			$this->options_helper->set( 'indexables_indexation_reason', $reason );
-			$this->options_helper->set( 'ignore_indexation_warning', false );
 			$this->options_helper->set( 'indexation_warning_hide_until', false );
 
 			\delete_transient( Indexable_Post_Indexation_Action::TRANSIENT_CACHE_KEY );
