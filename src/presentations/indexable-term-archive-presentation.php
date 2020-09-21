@@ -60,11 +60,7 @@ class Indexable_Term_Archive_Presentation extends Indexable_Presentation {
 			return $this->model->canonical;
 		}
 
-		$permalink = $this->model->permalink;
-		if ( $this->indexable_helper->dynamic_permalinks_enabled() ) {
-			$permalink = $this->permalink_helper->get_permalink_for_indexable( $this->model );
-		}
-
+		$permalink = $this->get_permalink();
 		if ( ! $permalink ) {
 			return '';
 		}

@@ -208,6 +208,18 @@ class Indexable_Presentation extends Abstract_Presentation {
 	}
 
 	/**
+	 * Gets the permalink from the indexable or generates it id dynamic permalinks are enabled.
+	 *
+	 * @return string the permalink.
+	 */
+	public function get_permalink() {
+		if ( $this->indexable_helper->dynamic_permalinks_enabled() ) {
+			return $this->permalink_helper->get_permalink_for_indexable( $this->model );
+		}
+		return $this->model->permalink;
+	}
+
+	/**
 	 * Generates the title.
 	 *
 	 * @return string The title.
@@ -364,11 +376,7 @@ class Indexable_Presentation extends Abstract_Presentation {
 			return $this->model->canonical;
 		}
 
-		$permalink = $this->model->permalink;
-		if ( $this->indexable_helper->dynamic_permalinks_enabled() ) {
-			$permalink = $this->permalink_helper->get_permalink_for_indexable( $this->model );
-		}
-
+		$permalink = $this->get_permalink();
 		if ( $permalink ) {
 			return $permalink;
 		}
@@ -452,7 +460,7 @@ class Indexable_Presentation extends Abstract_Presentation {
 			return $this->model->canonical;
 		}
 
-		return $this->model->permalink;
+		return $this->get_permalink();
 	}
 
 	/**
