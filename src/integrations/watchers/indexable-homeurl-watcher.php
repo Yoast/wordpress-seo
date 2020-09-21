@@ -49,7 +49,7 @@ class Indexable_HomeUrl_Watcher implements Integration_Interface {
 	}
 
 	/**
-	 * Indexable_Permalink_Watcher constructor.
+	 * Indexable_HomeUrl_Watcher constructor.
 	 *
 	 * @param Post_Type_Helper $post_type The post type helper.
 	 * @param Options_Helper   $options   The options helper.
@@ -113,7 +113,6 @@ class Indexable_HomeUrl_Watcher implements Integration_Interface {
 	 * @return bool Whether the request ran.
 	 */
 	public function force_reset_permalinks() {
-		var_dump('hello');
 		if ( $this->should_reset_permalinks() ) {
 			$this->reset_permalinks();
 
