@@ -71,7 +71,7 @@ class SEMrush_Phrases_Action_Test extends TestCase {
 				'export_columns' => 'Ph,Nq,Td',
 				'display_limit'  => 10,
 				'display_offset' => 0,
-				'display_sort'   => 'rr_desc',
+				'display_sort'   => 'nq_desc',
 				'display_filter' => '%2B|Nq|Lt|1000',
 			],
 		];
