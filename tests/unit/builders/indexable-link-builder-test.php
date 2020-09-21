@@ -213,12 +213,14 @@ class Indexable_Link_Builder_Test extends TestCase {
 
 		$this->url_helper->expects( 'get_link_type' )->with( $parsed_link_url, $parsed_home_url, false )->andReturn( $link_type );
 
-		$query_mock             = Mockery::mock();
-		$seo_link               = Mockery::mock( SEO_Links_Mock::class );
-		$seo_link->type         = $link_type;
-		$seo_link->url          = $target_indexable->permalink;
-		$seo_link->indexable_id = $indexable->id;
-		$seo_link->post_id      = $indexable->object_id;
+		$query_mock                    = Mockery::mock();
+		$seo_link                      = Mockery::mock( SEO_Links_Mock::class );
+		$seo_link->type                = $link_type;
+		$seo_link->url                 = $target_indexable->permalink;
+		$seo_link->indexable_id        = $indexable->id;
+		$seo_link->post_id             = $indexable->object_id;
+		$seo_link->target_indexable_id = $target_indexable->id;
+		$seo_link->target_post_id      = $target_indexable->object_id;
 
 		$this->seo_links_repository->expects( 'query' )->once()->andReturn( $query_mock );
 		$query_mock->expects( 'create' )->once()->with(
@@ -270,6 +272,8 @@ class Indexable_Link_Builder_Test extends TestCase {
 
 		$this->assertCount( 1, $links );
 		$this->assertEquals( $seo_link, $links[0] );
+		$this->assertEquals( $seo_link->target_indexable_id, $links[0]->target_indexable_id );
+		$this->assertEquals( $seo_link->target_post_id, $links[0]->target_post_id );
 	}
 
 	/**
