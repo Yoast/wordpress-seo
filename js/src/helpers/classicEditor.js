@@ -9,7 +9,7 @@ let containerRef = null;
 /**
  * Container used to render registerd components when wp.plugins is not available.
  */
-export class RegisteredComponentsContainer extends wpComponent {
+class RegisteredComponentsContainer extends wpComponent {
 	/**
 	 * Constructs a container for registered components.
 	 *

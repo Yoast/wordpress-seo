@@ -1,9 +1,7 @@
 import { SlotFillProvider } from "@wordpress/components";
 import { Component as wpComponent, createRef, Fragment, render } from "@wordpress/element";
 import getL10nObject from "../analysis/getL10nObject";
-import ElementorSlot from "../components/slots/ElementorSlot";
 import TopLevelProviders from "../components/TopLevelProviders";
-import ElementorFill from "../containers/ElementorFill";
 
 const registeredComponents = [];
 let containerRef = null;
@@ -11,7 +9,7 @@ let containerRef = null;
 /**
  * Container used to render registerd components when wp.plugins is not available.
  */
-export class RegisteredComponentsContainer extends wpComponent {
+class RegisteredComponentsContainer extends wpComponent {
 	/**
 	 * Constructs a container for registered components.
 	 *
