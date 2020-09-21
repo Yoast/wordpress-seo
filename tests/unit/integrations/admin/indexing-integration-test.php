@@ -17,7 +17,7 @@ use Yoast\WP\SEO\Integrations\Admin\Indexing_Integration;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
- * Class Indexing_Integration_Test
+ * Class Indexing_Integration_Test.
  *
  * @coversDefaultClass \Yoast\WP\SEO\Integrations\Admin\Indexing_Integration
  */
@@ -42,56 +42,56 @@ class Indexing_Integration_Test extends TestCase {
 	 *
 	 * @var Mockery\MockInterface|Indexable_Term_Indexation_Action
 	 */
-	private $term_indexation;
+	protected $term_indexation;
 
 	/**
 	 * The post type archive indexable indexation action.
 	 *
 	 * @var Mockery\MockInterface|Indexable_Post_Type_Archive_Indexation_Action
 	 */
-	private $post_type_archive_indexation;
+	protected $post_type_archive_indexation;
 
 	/**
 	 * The general indexable indexation action.
 	 *
 	 * @var Mockery\MockInterface|Indexable_General_Indexation_Action
 	 */
-	private $general_indexation;
+	protected $general_indexation;
 
 	/**
 	 * The complete indexation action.
 	 *
 	 * @var Mockery\MockInterface|Indexable_Complete_Indexation_Action
 	 */
-	private $complete_indexation_action;
+	protected $complete_indexation_action;
 
 	/**
 	 * The post link indexation action.
 	 *
 	 * @var Mockery\MockInterface|Post_Link_Indexing_Action
 	 */
-	private $post_link_indexing_action;
+	protected $post_link_indexing_action;
 
 	/**
 	 * The term link indexation action.
 	 *
 	 * @var Mockery\MockInterface|Term_Link_Indexing_Action
 	 */
-	private $term_link_indexing_action;
+	protected $term_link_indexing_action;
 
 	/**
 	 * The admin asset manager.
 	 *
 	 * @var Mockery\MockInterface|WPSEO_Admin_Asset_Manager
 	 */
-	private $asset_manager;
+	protected $asset_manager;
 
 	/**
 	 * The indexable helper.
 	 *
 	 * @var Mockery\MockInterface|Indexable_Helper
 	 */
-	private $indexable_helper;
+	protected $indexable_helper;
 
 	/**
 	 * Sets up the tests.
