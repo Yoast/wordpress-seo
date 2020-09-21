@@ -334,8 +334,6 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 
 				case 'permalink_structure':
 					if ( isset( $dirty[ $key ] ) ) {
-						// Check this as sanitize_option also sets a WordPress global settings
-						// error via add_settings_error() to print out an admin notice.
 						$clean[ $key ] = sanitize_option( 'permalink_structure', $dirty[ $key ] );
 					}
 					break;
