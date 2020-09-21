@@ -22,9 +22,9 @@ class Indexable_Static_Home_Page_Presentation extends Indexable_Post_Type_Presen
 	}
 
 	/**
-	 * Generates the open_graph_type.
+	 * Generates the Open Graph type.
 	 *
-	 * @inheritDoc
+	 * @return string The Open Graph type.
 	 */
 	public function generate_open_graph_type() {
 		return 'website';

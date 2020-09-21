@@ -35,14 +35,20 @@ class Open_Graph_OEmbed implements Integration_Interface {
 	private $post_id;
 
 	/**
-	 * @inheritDoc
+	 * Returns the conditionals based in which this loadable should be active.
+	 *
+	 * @return array
 	 */
 	public static function get_conditionals() {
 		return [ Front_End_Conditional::class, Open_Graph_Conditional::class ];
 	}
 
 	/**
-	 * @inheritDoc
+	 * Initializes the integration.
+	 *
+	 * This is the place to register hooks and filters.
+	 *
+	 * @return void
 	 */
 	public function register_hooks() {
 		\add_filter( 'oembed_response_data', [ $this, 'set_oembed_data' ], 10, 2 );
