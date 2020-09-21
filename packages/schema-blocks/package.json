@@ -1,6 +1,6 @@
 {
   "name": "@yoast/schema-blocks",
-  "version": "1.0.0-RC1",
+  "version": "1.0.0-RC2",
   "main": "build/index.js",
   "license": "MIT",
   "private": false,
@@ -46,7 +46,7 @@
   "scripts": {
     "build": "tsc",
     "watch": "tsc --watch",
-    "install": "yarn build"
+    "prepare": "yarn build"
   },
   "publishConfig": {
     "access": "public"
