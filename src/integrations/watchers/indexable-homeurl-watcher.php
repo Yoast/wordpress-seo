@@ -95,6 +95,9 @@ class Indexable_HomeUrl_Watcher implements Integration_Interface {
 		$this->indexable_helper->reset_permalink_indexables( 'user', null, Indexation_Permalink_Warning_Presenter::REASON_HOME_URL_OPTION );
 		$this->indexable_helper->reset_permalink_indexables( 'date-archive', null, Indexation_Permalink_Warning_Presenter::REASON_HOME_URL_OPTION );
 		$this->indexable_helper->reset_permalink_indexables( 'system-page', null, Indexation_Permalink_Warning_Presenter::REASON_HOME_URL_OPTION );
+
+		// Reset the home_url option.
+		$this->options_helper->set( 'home_url', get_home_url() );
 	}
 
 	/**
@@ -115,9 +118,6 @@ class Indexable_HomeUrl_Watcher implements Integration_Interface {
 	public function force_reset_permalinks() {
 		if ( $this->should_reset_permalinks() ) {
 			$this->reset_permalinks();
-
-			// Reset the home_url option.
-			$this->options_helper->set( 'home_url', get_home_url() );
 
 			if ( \defined( 'WP_CLI' ) && \WP_CLI ) {
 				WP_CLI::success( __( 'All permalinks were successfully reset', 'wordpress-seo' ) );

@@ -112,6 +112,15 @@ class Indexable_HomeUrl_Watcher_Test extends TestCase {
 		$this->indexable_helper->expects( 'reset_permalink_indexables' )->with( 'date-archive', null, Indexation_Permalink_Warning_Presenter::REASON_HOME_URL_OPTION )->once();
 		$this->indexable_helper->expects( 'reset_permalink_indexables' )->with( 'system-page', null, Indexation_Permalink_Warning_Presenter::REASON_HOME_URL_OPTION )->once();
 
+		Monkey\Functions\expect( 'get_home_url' )
+			->once()
+			->andReturn( 'http://example.com' );
+
+		$this->options
+			->expects( 'set' )
+			->with( 'home_url', 'http://example.com' )
+			->once();
+
 		$this->instance->reset_permalinks();
 	}
 
@@ -140,15 +149,6 @@ class Indexable_HomeUrl_Watcher_Test extends TestCase {
 
 		$this->instance
 			->expects( 'reset_permalinks' )
-			->once();
-
-		Monkey\Functions\expect( 'get_home_url' )
-			->once()
-			->andReturn( 'http://example.com' );
-
-		$this->options
-			->expects( 'set' )
-			->with( 'home_url', 'http://example.com' )
 			->once();
 
 		$this->assertTrue( $this->instance->force_reset_permalinks() );
