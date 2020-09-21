@@ -96,7 +96,6 @@ class Indexing extends Component {
 		super( props );
 
 		this.settings = yoastIndexingData;
-		this.stoppedIndexing = false;
 
 		this.state = {
 			inProgress: false,
