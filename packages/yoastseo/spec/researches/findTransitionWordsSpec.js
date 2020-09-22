@@ -481,6 +481,37 @@ describe( "a test for finding transition words from a string", function() {
 		expect( result.transitionWordSentences ).toBe( 0 );
 	} );
 
+	it( "returns 1 when a (single) transition word is found in a sentence (Arabic)", function() {
+		// Transition word: كذلك.
+		mockPaper = new Paper( "يمكننا الذهاب إلى الجامعة، ويمكننا كذلك المذاكرة في المكتبة هناك.", { locale: "ar" } );
+		result = transitionWordsResearch( mockPaper );
+		expect( result.totalSentences ).toBe( 1 );
+		expect( result.transitionWordSentences ).toBe( 1 );
+	} );
+
+	it( "returns 1 when a (multiple) transition word is found in a sentence (Arabic)", function() {
+		// Transition word: إلى الأبد.
+		mockPaper = new Paper( "سأحبك إلى الأبد.", { locale: "ar" } );
+		result = transitionWordsResearch( mockPaper );
+		expect( result.totalSentences ).toBe( 1 );
+		expect( result.transitionWordSentences ).toBe( 1 );
+	} );
+
+	it( "returns 1 when a two-part transition word is found in a sentence (Arabic)", function() {
+		// Transition word: أو ,إما.
+		mockPaper = new Paper( "يمكننا الحصول إما على الخبز أو الأرز.", { locale: "ar" } );
+		result = transitionWordsResearch( mockPaper );
+		expect( result.totalSentences ).toBe( 1 );
+		expect( result.transitionWordSentences ).toBe( 1 );
+	} );
+
+	it( "returns 0 when no transition words are present in a sentence (Arabic)", function() {
+		mockPaper = new Paper( "اشترت الأم الأرز.", { locale: "ar" } );
+		result = transitionWordsResearch( mockPaper );
+		expect( result.totalSentences ).toBe( 1 );
+		expect( result.transitionWordSentences ).toBe( 0 );
+	} );
+
 	it( "defaults to English in case of a bogus locale", function() {
 		// Transition word: because.
 		mockPaper = new Paper( "Because of a bogus locale.", { locale: "xx_YY" } );

@@ -174,7 +174,7 @@ class SocialMetadataPreviewForm extends Component {
 		/* Translators: %s expands to the social medium name, i.e. Faceboook. */
 		const titleEditorTitle = sprintf( __( "%s title", "yoast-components" ), socialMediumName );
 		/* Translators: %s expands to the social medium name, i.e. Faceboook. */
-		const descEditorTitle = sprintf( __( "%s desciption", "yoast-components" ), socialMediumName );
+		const descEditorTitle = sprintf( __( "%s description", "yoast-components" ), socialMediumName );
 
 		return (
 			<Fragment>

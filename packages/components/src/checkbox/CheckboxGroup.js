@@ -149,8 +149,8 @@ class CheckboxGroup extends React.Component {
 
 		return (
 			<FieldGroup
-				htmlFor={ componentId }
 				{ ...fieldGroupProps }
+				htmlFor={ componentId }
 			>
 				<div onChange={ this.onChangeHandler }>
 					{ vertical

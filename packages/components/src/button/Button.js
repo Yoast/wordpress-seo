@@ -8,6 +8,7 @@ const buttonClasses = "yoast-button yoast-button--";
 // A map from variant to icon span className, with iconAfter or iconBefore as a key.
 const variantToIcon = {
 	buy: { iconAfter: "yoast-button--buy__caret" },
+	edit: { iconBefore: "yoast-button--edit" },
 
 	// Aliases
 	upsell: { iconAfter: "yoast-button--buy__caret" },
@@ -26,6 +27,7 @@ const variantToClassName = {
 	purple: buttonClasses + "primary",
 	grey: buttonClasses + "secondary",
 	yellow: buttonClasses + "buy",
+	edit: buttonClasses + "primary",
 };
 
 /**
@@ -75,6 +77,7 @@ export const Button = ( props ) => {
 		variant,
 		small,
 		type,
+		buttonRef,
 		...restProps
 	} = props;
 
@@ -83,6 +86,7 @@ export const Button = ( props ) => {
 	const iconAfter = variantIcons && variantIcons.iconAfter;
 
 	return <button
+		ref={ buttonRef }
 		className={ className || getClassName( variant, small ) }
 		type={ type }
 		{ ...restProps }
@@ -97,6 +101,7 @@ Button.propTypes = {
 	onClick: PropTypes.func,
 	type: PropTypes.string,
 	className: PropTypes.string,
+	buttonRef: PropTypes.object,
 	small: PropTypes.bool,
 	variant: PropTypes.oneOf( Object.keys( variantToClassName ) ),
 	children: PropTypes.oneOfType(
@@ -114,6 +119,7 @@ Button.defaultProps = {
 	small: false,
 	children: null,
 	onClick: null,
+	buttonRef: null,
 };
 
 /**
@@ -134,6 +140,7 @@ export const ButtonStyledLink = ( props ) => {
 		className,
 		variant,
 		small,
+		buttonRef,
 		...restProps
 	} = props;
 
@@ -143,6 +150,7 @@ export const ButtonStyledLink = ( props ) => {
 
 	return <a
 		className={ className || getClassName( variant, small ) }
+		ref={ buttonRef }
 		{ ...restProps }
 	>
 		{ ! ! iconBefore && <span className={ iconBefore } /> }
@@ -156,6 +164,7 @@ ButtonStyledLink.propTypes = {
 	variant: PropTypes.oneOf( Object.keys( variantToClassName ) ),
 	small: PropTypes.bool,
 	className: PropTypes.string,
+	buttonRef: PropTypes.object,
 	children: PropTypes.oneOfType(
 		[
 			PropTypes.node,
@@ -169,4 +178,5 @@ ButtonStyledLink.defaultProps = {
 	variant: "primary",
 	small: false,
 	children: null,
+	buttonRef: null,
 };

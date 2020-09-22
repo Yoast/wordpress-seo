@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file. Releases without a changelog entry contain only minor changes that are irrelevant for users of this library.
 We follow [Semantic Versioning](http://semver.org/).
 
+## 2.11.0 September 17th, 2020
+### Bugfixes
+* Fixes a bug where the social previews would be able to break out of their container when viewed on smaller screens.
+
 ## 2.7.0 July 20th, 2020
 ### Enhancements
 * Removes the replacement variable editor from the code but keep the export for backwards compatibility.

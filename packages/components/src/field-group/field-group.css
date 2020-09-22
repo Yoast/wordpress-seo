@@ -11,10 +11,10 @@
     font-weight: var(--yoast-font-weight-bold);
     margin: 0 0 8px;
     color: var(--yoast-color-label);
-    line-height: 1.2;
+    line-height: 1.5;
     padding: 0;
 }
 
-.yoast-field-group .description {
+.yoast-field-group .field-group-description {
     margin: 0;
 }

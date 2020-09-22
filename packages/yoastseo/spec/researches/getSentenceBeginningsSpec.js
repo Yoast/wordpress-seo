@@ -388,4 +388,24 @@ describe( "gets the sentence beginnings and the count of consecutive duplicates.
 		expect( getSentenceBeginnings()[ 0 ].word ).toBe( "אני" );
 		expect( getSentenceBeginnings()[ 0 ].count ).toBe( 2 );
 	} );
+
+	it( "returns an object with sentence beginnings and counts for three sentences in Arabic all starting with one of the exception words.", function() {
+		changePaper( { text: "هؤلاء الأولاد غائبون. هؤلاء الأولاد هم طلاب. هؤلاء الأولاد في المنزل.", locale: "ar_AR" } );
+		expect( getSentenceBeginnings()[ 0 ].word ).toBe( "هؤلاء الأولاد" );
+		expect( getSentenceBeginnings()[ 0 ].count ).toBe( 3 );
+	} );
+
+	it( "returns an object with sentence beginnings and counts for two sentences in Arabic starting with different words.", function() {
+		changePaper( { text: "العشاء جاهز. ارجو أن تنضم الينا.", locale: "ar_AR" } );
+		expect( getSentenceBeginnings()[ 0 ].word ).toBe( "العشاء" );
+		expect( getSentenceBeginnings()[ 0 ].count ).toBe( 1 );
+		expect( getSentenceBeginnings()[ 1 ].word ).toBe( "ارجو" );
+		expect( getSentenceBeginnings()[ 1 ].count ).toBe( 1 );
+	} );
+
+	it( "returns an object with sentence beginnings and counts for two sentences in Arabic starting with the same word.", function() {
+		changePaper( { text: "مرحبا بالزائرين. مرحبا بالعالم.", locale: "ar_AR" } );
+		expect( getSentenceBeginnings()[ 0 ].word ).toBe( "مرحبا" );
+		expect( getSentenceBeginnings()[ 0 ].count ).toBe( 2 );
+	} );
 } );

@@ -3,6 +3,51 @@
 All notable changes to this project will be documented in this file. Releases without a changelog entry contain only minor changes that are irrelevant for users of this library.
 We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwards.
 
+## 1.83.0 October 1st, 2020
+### Enhancements
+* Creates basic keyphrase forms for Farsi when they have the following affixes: prefix `ن`, and suffixes `مان, شان, تان, ش, ت, م, ی` and their variations such as ` ‌اش, ‌ات, یی, یم, یت, یش, ‌ای, ‌ام`.
+* Adds function words for Farsi and edits a typo in the Arabic function words file.
+
+## 1.82.0 September 14th, 2020
+### Enhancements
+* Adds the following words to the list that's used for the English transition word assessment: 'note that', 'not only', 'initially', 'as opposed to'.
+* Improves word tokenization when words are followed by specific Arabic or Urdu punctuation marks.
+* Adds passive voice assessment for Arabic, including a check, and a list of Arabic passive verbs with long vowel in their root.
+* Adds the consecutive sentences assessment for Arabic.
+* Implements the transition words assessment for Arabic.
+* Adds the prefixes س and أ to the list of ignored prefixes for Arabic. When the Arabic keyphrase is preceded by س and أ, the basic keyphrase forms will also be created.
+* Adds and refactors an external stemmer for Arabic.
+
+### Bugfixes
+* Fixes the URL of the assessment image in the readme. Props to [Güven Atbakan](https://github.com/shibby).
+
+### Other
+* Sets the threshold for words to be recognized as prominent words from 4 to 2, in case a language has no morphology support. This increases the chance that different word forms are saved, leading to better internal linking suggestions for these languages.
+
+## 1.81.0 August 31st, 2020
+### Enhancements
+* Adds more Polish function words.
+* Adds word form functionality for Polish.
+* Makes feedback string in the keyphrase in subheadings assessment more explicit.
+* Improves keyphrase recognition for Hebrew.
+* Adds function words for Hebrew.
+
+### Bugfixes
+* Fixes a bug where closing parentheses would always be regarded as sentence endings in RTL languages.
+* Fixes a bug where closing parentheses would always be regarded as sentence endings when followed by an upper-case letter.
+
+## 1.80.0 August 17th, 2020
+### Enhancements
+* Makes it possible to tokenize sentences in languages that are written right-to-left (e.g., Hebrew, Arabic, Farsi and Urdu).
+* Improves keyphrase recognition for Arabic.
+* Adds function words for Arabic and Hebrew.
+* Adds Sentence beginning assessment for Indonesian.
+* Adds Transition words assessment for Indonesian.
+* Adds Passive voice assessment for Indonesian.
+* Adds Flesch reading ease assessment for Portuguese.
+* Adds passive voice assessment for Portuguese.
+* Fixes inconsistency in feedback strings that are produced by the Keyphrase in SEO Title assessment.
+
 ## 1.79.0 August 3rd, 2020
 ### Enhancements
 * Adds some irregular plural forms of Italian words to function words and morphologyData file, including specs and a function to call the exception list.

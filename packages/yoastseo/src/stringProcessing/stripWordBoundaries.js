@@ -1,4 +1,11 @@
-const wordBoundary = "[ \\u00a0 \\n\\r\\t.,'()\"+\\-;!?:/»«‹›<>]";
+/*
+ * \u00a0 - No-break space
+ * \u06d4 - Urdu full stop
+ * \u061f - Arabic question mark
+ * \u060C - Arabic comma
+ * \u061B - Arabic semicolon
+ */
+const wordBoundary = "[ \\u00a0\\u06d4\\u061f\\u060C\\u061B \\n\\r\\t.,'()\"+\\-;!?:/»«‹›<>]";
 const wordBoundaryStart = new RegExp( "^(" + wordBoundary + "+)", "ig" );
 const wordBoundaryEnd = new RegExp( "(" + wordBoundary + "+$)", "ig" );
 

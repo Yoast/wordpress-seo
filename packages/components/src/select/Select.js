@@ -1,8 +1,7 @@
-import React from "react";
+import React, { useCallback } from "react";
 import PropTypes from "prop-types";
 import FieldGroup, { FieldGroupProps, FieldGroupDefaultProps } from "../field-group/FieldGroup";
-import ErrorWithUrl from "../internal/ErrorWithUrl";
-import ErrorBoundary from "../internal/ErrorBoundary";
+import { default as ReactSelect } from "react-select";
 
 // Import required CSS.
 import "./select.css";
@@ -13,13 +12,14 @@ import "./select.css";
 const selectOption = PropTypes.shape( { name: PropTypes.string, value: PropTypes.string } );
 const selectProps = {
 	id: PropTypes.string.isRequired,
-	name: PropTypes.string.isRequired,
+	name: PropTypes.string,
 	options: PropTypes.arrayOf( selectOption ).isRequired,
 	selected: PropTypes.oneOfType( [ PropTypes.arrayOf( PropTypes.string ), PropTypes.string ] ),
 	onChange: PropTypes.func,
 	...FieldGroupProps,
 };
 const selectDefaultProps = {
+	name: "",
 	selected: [],
 	onChange: () => {},
 	...FieldGroupDefaultProps,
@@ -40,109 +40,89 @@ Option.propTypes = {
 	value: PropTypes.string.isRequired,
 };
 
+/* eslint-disable jsx-a11y/no-onchange*/
 /**
- * MultiSelect using the select2 package.
+ * Function to map options to a react-select compatible array.
+ *
+ * @param {Option[]} options Select options.
+ *
+ * @returns {object[]} An react-select compatible array of options.
  */
-class MultiSelect extends React.Component {
-	/**
-	 * Constructor for the MultiSelect.
-	 *
-	 * @param {object} props The props for the MultiSelect.
-	 *
-	 * @returns {void}
-	 */
-	constructor( props ) {
-		// Make sure that both jQuery and select2 are defined on the global window.
-		if ( typeof window.jQuery === "undefined" || typeof window.jQuery().select2 === "undefined" ) {
-			throw new ErrorWithUrl(
-				"Make sure to read our docs about the requirements for the MultiSelect.",
-				"https://github.com/Yoast/javascript/blob/develop/packages/components/README.md#using-the-multiselect"
-			);
+const changeOptionFormatToReactSelect = ( options ) => {
+	return options.map( option => {
+		return {
+			value: option.value,
+			label: option.name,
+		};
+	} );
+};
+
+/**
+ * MultiSelect using the react-select package.
+ *
+ * @param {object} props The functional component props.
+ *
+ * @returns {React.Component} The react-select MultiSelect.
+ */
+export const MultiSelect = ( props ) => {
+	const {
+		id,
+		inputId,
+		selected,
+		options,
+		name,
+		onChange,
+		...fieldGroupProps
+	} = props;
+
+	// Make sure to pass an array of options to the multiselect.
+	const selections = Array.isArray( selected ) ? selected : [ selected ];
+
+	const reactSelectOptions = changeOptionFormatToReactSelect( options );
+	const selectedOptions = reactSelectOptions.filter( option => selections.includes( option.value ) );
+
+	const onChangeHandler = useCallback( selection => {
+		// Make sure that selection is always an array.
+		if ( ! selection ) {
+			selection = [];
 		}
 
-		super( props );
-		this.onChangeHandler = this.onChangeHandler.bind( this );
-	}
+		// Only call the onChange handler on the selected values.
+		 onChange( selection.map( option => option.value ) );
+	} );
 
-	/**
-	 * Creates a select2 component from the select and listen to the change action.
-	 *
-	 * @returns {void}
-	 */
-	componentDidMount() {
-		this.select2 = jQuery( `#${ this.props.id }` );
-		this.select2.select2( { width: "100%", dropdownCssClass: "yoast-select__dropdown" } );
-		this.select2.on( "change.select2", this.onChangeHandler );
-	}
+	return (
+		<FieldGroup
+			{ ...fieldGroupProps }
+			htmlFor={ id }
+		>
+			<ReactSelect
+				isMulti={ true }
+				id={ id }
+				inputId={ inputId }
+				name={ `${ name }[]` }
+				value={ selectedOptions }
+				options={ reactSelectOptions }
+				hideSelectedOptions={ false }
+				onChange={ onChangeHandler }
+				className="yoast-select-container"
+				classNamePrefix="yoast-select"
+				isClearable={ false }
+				isSearchable={ false }
+				placeholder=""
+			/>
+		</FieldGroup>
+	);
+};
 
-	/**
-	 * Handler for the onChange event.
-	 *
-	 * @param {object} event The event that was fired.
-	 *
-	 * @returns {void}
-	 */
-	onChangeHandler() {
-		// It is easier to query the select for the selected options than keep track of them in this component as well.
-		const selection = this.select2.select2( "data" ).map( option => option.id );
-		this.props.onChange( selection );
-	}
-
-	/**
-	 * Renders the MultiSelect component.
-	 *
-	 * @returns {React.Component} The MultiSelect.
-	 */
-	render() {
-		const {
-			id,
-			selected,
-			options,
-			name,
-			...fieldGroupProps
-		} = this.props;
-
-		// Make sure to pass an array of options to the multiselect.
-		const selections = Array.isArray( selected ) ? selected : [ selected ];
-
-		return (
-			<FieldGroup
-				htmlFor={ id }
-				{ ...fieldGroupProps }
-			>
-				<select
-					multiple="multiple"
-					id={ id }
-					name={ `${ name }[]` }
-					defaultValue={ selections }
-				>
-					{ options.map( Option ) }
-				</select>
-			</FieldGroup>
-		);
-	}
-}
-
-MultiSelect.propTypes = selectProps;
-MultiSelect.defaultProps = selectDefaultProps;
-
-/**
- * Renders the MultiSelect inside its own ErrorBoundary to prevent errors from bubbling up.
- *
- * @param {object} props The props for the MultiSelect.
- *
- * @returns {React.Component} The MultiSelect wrapped in an ErrorBoundary.
- */
-const MultiSelectWithErrorBoundary = ( props ) => (
-	<ErrorBoundary>
-		<MultiSelect { ...props } />
-	</ErrorBoundary>
-);
-
-MultiSelectWithErrorBoundary.propTypes = selectProps;
-MultiSelectWithErrorBoundary.defaultProps = selectDefaultProps;
-
-export { MultiSelectWithErrorBoundary as MultiSelect };
+MultiSelect.propTypes = {
+	...selectProps,
+	inputId: PropTypes.string,
+};
+MultiSelect.defaultProps = {
+	...selectDefaultProps,
+	inputId: null,
+};
 
 /**
  * React wrapper for a basic HTML select.
@@ -158,6 +138,11 @@ export class Select extends React.Component {
 	constructor( props ) {
 		super( props );
 		this.onBlurHandler = this.onBlurHandler.bind( this );
+		this.onInputHandler = this.onInputHandler.bind( this );
+
+		this.state = {
+			selected: this.props.selected,
+		};
 	}
 
 	/**
@@ -175,6 +160,36 @@ export class Select extends React.Component {
 	}
 
 	/**
+	 * Passes the target's name and input value to the onOptionFocus function if it exists.
+	 *
+	 * NOTE: Please do not pass functions to props.onOptionFocus that would induce a context change in the DOM (navigation, focus changes).
+	 *       This is an a11y concern, because it disorients keyboard and screenreader users.
+	 *
+	 * @param {Event} event The event triggered by an Input.
+	 *
+	 * @returns {void}
+	 */
+	onInputHandler( event ) {
+		// Need to update the state in order to show the selected result before blurring.
+		this.setState( { selected: event.target.value } );
+		if ( this.onOptionFocus ) {
+			this.props.onOptionFocus( event.target.name, event.target.value );
+		}
+	}
+
+	/**
+	 * Compare props to decide whether the selected state has changed.
+	 *
+	 * @param {Object} prevProps The previous props
+	 *
+	 * @returns {void}
+	 */
+	componentDidUpdate( prevProps ) {
+		if ( prevProps.selected !== this.props.selected ) {
+			this.setState( { selected: this.props.selected } );
+		}
+	}
+	/**
 	 * Render function for component.
 	 *
 	 * @returns {void}
@@ -182,25 +197,22 @@ export class Select extends React.Component {
 	render() {
 		const {
 			id,
-			selected,
 			options,
 			name,
 			...fieldGroupProps
 		} = this.props;
 
-		// Make sure to pass a single option when it is a normal select.
-		const selection = Array.isArray( selected ) ? selected[ 0 ] : selected;
-
 		return (
 			<FieldGroup
-				htmlFor={ id }
 				{ ...fieldGroupProps }
+				htmlFor={ id }
 			>
 				<select
 					id={ id }
 					name={ name }
-					defaultValue={ selection }
+					value={ this.state.selected }
 					onBlur={ this.onBlurHandler }
+					onInput={ this.onInputHandler }
 				>
 					{ options.map( Option ) }
 				</select>
@@ -209,5 +221,11 @@ export class Select extends React.Component {
 	}
 }
 
-Select.propTypes = selectProps;
-Select.defaultProps = selectDefaultProps;
+Select.propTypes = {
+	...selectProps,
+	onOptionFocus: PropTypes.func,
+};
+Select.defaultProps = {
+	...selectDefaultProps,
+	onOptionFocus: null,
+};
