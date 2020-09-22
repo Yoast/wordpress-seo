@@ -29,14 +29,32 @@ class Indexable_Helper {
 	protected $repository;
 
 	/**
+	 * The environment helper.
+	 *
+	 * @var Environment_Helper
+	 */
+	protected $environment_helper;
+
+	/**
 	 * Indexable_Helper constructor.
 	 *
-	 * @param Options_Helper       $options_helper The options helper.
-	 * @param Indexable_Repository $repository     The indexables repository.
+	 * @param Options_Helper     $options_helper     The options helper.
+	 * @param Environment_Helper $environment_helper The environment helper.
 	 */
-	public function __construct( Options_Helper $options_helper, Indexable_Repository $repository ) {
-		$this->options_helper = $options_helper;
-		$this->repository     = $repository;
+	public function __construct( Options_Helper $options_helper, Environment_Helper $environment_helper ) {
+		$this->options_helper     = $options_helper;
+		$this->environment_helper = $environment_helper;
+	}
+
+	/**
+	 * Sets the indexable repository. Done to avoid circular dependencies.
+	 *
+	 * @param Indexable_Repository $repository The indexable repository.
+	 *
+	 * @required
+	 */
+	public function set_indexable_repository( Indexable_Repository $repository ) {
+		$this->repository = $repository;
 	}
 
 	/**
@@ -52,30 +70,23 @@ class Indexable_Helper {
 				$front_page_id = (int) \get_option( 'page_on_front' );
 				if ( $indexable->object_id === $front_page_id ) {
 					return 'Static_Home_Page';
-					break;
 				}
 				$posts_page_id = (int) \get_option( 'page_for_posts' );
 				if ( $indexable->object_id === $posts_page_id ) {
 					return 'Static_Posts_Page';
-					break;
 				}
+
 				return 'Post_Type';
-				break;
 			case 'term':
 				return 'Term_Archive';
-				break;
 			case 'user':
 				return 'Author_Archive';
-				break;
 			case 'home-page':
 				return 'Home_Page';
-				break;
 			case 'post-type-archive':
 				return 'Post_Type_Archive';
-				break;
 			case 'date-archive':
 				return 'Date_Archive';
-				break;
 			case 'system-page':
 				if ( $indexable->object_sub_type === 'search-result' ) {
 					return 'Search_Result_Page';
@@ -107,5 +118,15 @@ class Indexable_Helper {
 			delete_transient( Indexable_Post_Type_Archive_Indexation_Action::TRANSIENT_CACHE_KEY );
 			delete_transient( Indexable_Term_Indexation_Action::TRANSIENT_CACHE_KEY );
 		}
+	}
+
+	/**
+	 * Determines whether indexing indexables is appropriate at this time.
+	 *
+	 * @return bool Whether or not the indexables should be indexed.
+	 */
+	public function should_index_indexables() {
+		// Currently the only reason to index is when we're on a production website.
+		return $this->environment_helper->is_production_mode();
 	}
 }

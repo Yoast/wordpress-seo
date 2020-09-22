@@ -14,6 +14,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
 /**
  * Class Indexable_Category_Permalink_Watcher_Test.
  *
+ * @group indexables
  * @group integrations
  * @group watchers
  *
@@ -46,7 +47,7 @@ class Indexable_Category_Permalink_Watcher_Test extends TestCase {
 	/**
 	 * Represents the indexable helper.
 	 *
-	 * @var Mockery\MockInterface|Indexable_Helperex
+	 * @var Mockery\MockInterface|Indexable_Helper
 	 */
 	protected $indexable_helper;
 
@@ -54,6 +55,13 @@ class Indexable_Category_Permalink_Watcher_Test extends TestCase {
 	 * @inheritDoc
 	 */
 	public function setUp() {
+		Monkey\Functions\stubs(
+			[
+				'wp_next_scheduled' => false,
+				'wp_schedule_event' => false,
+			]
+		);
+
 		$this->options          = Mockery::mock( Options_Helper::class );
 		$this->post_type        = Mockery::mock( Post_Type_Helper::class );
 		$this->indexable_helper = Mockery::mock( Indexable_Helper::class );

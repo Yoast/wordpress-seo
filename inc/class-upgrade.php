@@ -733,25 +733,11 @@ class WPSEO_Upgrade {
 
 	/**
 	 * Performs the 15.1 upgrade.
+	 *
+	 * @return void
 	 */
 	private function upgrade_151() {
-		$category_base_url = WPSEO_Options::get( 'category_base_url' );
-		$tag_base_url = WPSEO_Options::get( 'tag_base_url' );
-
-		//First check if the category link is custom set.
-		if( !empty( get_category_link() ) ) {
-			WPSEO_Options::set('category_base_url', get_category_link());
-			//Now check if the category option is empty, then set it to the default: category.
-		}else if ( empty( $category_base_url ) ) {
-			WPSEO_Options::set('category_base_url', 'category');
-		}
-		//First check if the tag link is custom set.
-		if( !empty( get_tag_link() ) ) {
-			WPSEO_Options::set('tag_base_url', get_tag_link());
-			//Now check if the tag option is empty, then set it to the default: tag.
-		}else if ( empty( $tag_base_url ) ) {
-			WPSEO_Options::set('tag_base_url', 'tag');
-		}
+		add_action( 'init', [ $this, 'set_permalink_structure_option_for_151' ] );
 	}
 
 	/**
@@ -1010,5 +996,14 @@ class WPSEO_Upgrade {
 
 			WPSEO_Options::set( 'noindex-ptarchive-product', false );
 		}
+	}
+
+	/**
+	 * Stores the initial `permalink_structure` option.
+	 *
+	 * @return void
+	 */
+	public function set_permalink_structure_option_for_151() {
+		WPSEO_Options::set( 'permalink_structure', get_option( 'permalink_structure' ) );
 	}
 }

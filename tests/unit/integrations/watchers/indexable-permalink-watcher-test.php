@@ -19,7 +19,6 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group watchers
  *
  * @coversDefaultClass \Yoast\WP\SEO\Integrations\Watchers\Indexable_Permalink_Watcher
- * @covers ::<!public>
  */
 class Indexable_Permalink_Watcher_Test extends TestCase {
 
@@ -47,7 +46,7 @@ class Indexable_Permalink_Watcher_Test extends TestCase {
 	/**
 	 * Represents the indexable helper.
 	 *
-	 * @var Mockery\MockInterface|Indexable_Helperex
+	 * @var Mockery\MockInterface|Indexable_Helper
 	 */
 	protected $indexable_helper;
 
@@ -56,6 +55,13 @@ class Indexable_Permalink_Watcher_Test extends TestCase {
 	 */
 	public function setUp() {
 		parent::setUp();
+
+		Monkey\Functions\stubs(
+			[
+				'wp_next_scheduled' => false,
+				'wp_schedule_event' => false,
+			]
+		);
 
 		$this->post_type        = Mockery::mock( Post_Type_Helper::class );
 		$this->options          = Mockery::mock( Options_Helper::class );
@@ -106,6 +112,16 @@ class Indexable_Permalink_Watcher_Test extends TestCase {
 		$this->indexable_helper->expects( 'reset_permalink_indexables' )->with( 'date-archive' )->once();
 		$this->indexable_helper->expects( 'reset_permalink_indexables' )->with( 'system-page' )->once();
 
+		Monkey\Functions\expect( 'get_option' )
+			->once()
+			->with( 'permalink_structure' )
+			->andReturn( '/%postname%/' );
+
+		$this->options
+			->expects( 'set' )
+			->with( 'permalink_structure', '/%postname%/' )
+			->once();
+
 		$this->instance->reset_permalinks();
 	}
 
@@ -147,5 +163,77 @@ class Indexable_Permalink_Watcher_Test extends TestCase {
 			->once();
 
 		$this->instance->reset_permalinks_term( null, null, 'tag_base' );
+	}
+
+	/**
+	 * Test forced flushing of permalinks.
+	 *
+	 * @covers ::force_reset_permalinks
+	 */
+	public function test_force_reset_permalinks() {
+		$this->instance
+			->expects( 'should_reset_permalinks' )
+			->once()
+			->andReturnTrue();
+
+		$this->instance
+			->expects( 'reset_permalinks' )
+			->once();
+
+		$this->assertTrue( $this->instance->force_reset_permalinks() );
+	}
+
+	/**
+	 * Test forced flushing of permalinks not executing.
+	 *
+	 * @covers ::force_reset_permalinks
+	 */
+	public function test_force_reset_permalinks_not_executing() {
+		$this->instance
+			->expects( 'should_reset_permalinks' )
+			->once()
+			->andReturnFalse();
+
+		$this->assertFalse( $this->instance->force_reset_permalinks() );
+	}
+
+	/**
+	 * Test that permalinks should be reset.
+	 *
+	 * @covers ::should_reset_permalinks
+	 */
+	public function test_should_reset_permalinks() {
+		Monkey\Functions\expect( 'get_option' )
+			->once()
+			->with( 'permalink_structure' )
+			->andReturn( '/%postname%/' );
+
+		$this->options
+			->expects( 'get' )
+			->with( 'permalink_structure' )
+			->once()
+			->andReturn( '/%year%/%monthnum%/%postname%/' );
+
+		$this->assertTrue( $this->instance->should_reset_permalinks() );
+	}
+
+	/**
+	 * Test that permalinks should not be reset.
+	 *
+	 * @covers ::should_reset_permalinks
+	 */
+	public function test_shouldnt_reset_permalinks() {
+		Monkey\Functions\expect( 'get_option' )
+			->once()
+			->with( 'permalink_structure' )
+			->andReturn( '/%postname%/' );
+
+		$this->options
+			->expects( 'get' )
+			->with( 'permalink_structure' )
+			->once()
+			->andReturn( '/%postname%/' );
+
+		$this->assertFalse( $this->instance->should_reset_permalinks() );
 	}
 }
