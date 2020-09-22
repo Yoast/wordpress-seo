@@ -1,5 +1,6 @@
 <?php
 
+use Brain\Monkey;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Integrations\Admin\Indexing_Integration;
@@ -94,5 +95,287 @@ class Indexing_Notification_Integration_Test extends TestCase {
 			'product_helper',
 			$this->instance
 		);
+	}
+
+	/**
+	 * Tests the registration of the hooks.
+	 *
+	 * @covers ::register_hooks
+	 */
+	public function _test_register_hooks() {
+		$this->instance->register_hooks();
+
+		Monkey\Functions\expect( 'wp_next_scheduled' )
+			->once()
+			->andReturn( true );
+
+		Monkey\Actions\expectAdded( 'admin_init' );
+	}
+
+	/**
+	 * Tests creating the notification when it already exists.
+	 *
+	 * @covers ::create_notification
+	 */
+	public function test_create_existing_notification() {
+		$this->notification_center
+			->expects( 'get_notification_by_id' )
+			->once()
+			->andReturn( 'the_notification' );
+
+		$this->options_helper
+			->expects( 'get' )
+			->never();
+
+		$this->notification_center
+			->expects( 'add_notification' )
+			->never();
+
+		$this->instance->create_notification();
+	}
+
+	/**
+	 * Tests creating the notification when there are no unindexed items.
+	 *
+	 * @covers ::create_notification
+	 * @covers ::should_show_notification
+	 */
+	public function test_create_notification_no_unindexed_items() {
+		$this->notification_center
+			->expects( 'get_notification_by_id' )
+			->once()
+			->andReturnNull();
+
+		$this->indexing_integration
+			->expects( 'get_total_unindexed' )
+			->once()
+			->andReturn( 0 );
+
+		$this->options_helper
+			->expects( 'get' )
+			->never();
+
+		$this->notification_center
+			->expects( 'add_notification' )
+			->never();
+
+		$this->instance->create_notification();
+	}
+
+	/**
+	 * Tests creating the notification with the reason being that indexing has failed.
+	 *
+	 * @covers ::create_notification
+	 * @covers ::should_show_notification
+	 * @covers ::notification
+	 */
+	public function test_create_notification_with_indexing_failed_reason() {
+		$this->notification_center
+			->expects( 'get_notification_by_id' )
+			->once()
+			->andReturnNull();
+
+		$this->indexing_integration
+			->expects( 'get_total_unindexed' )
+			->once()
+			->andReturn( 40 );
+
+		$this->options_helper
+			->expects( 'get' )
+			->with( 'indexables_indexation_reason', '' )
+			->twice()
+			->andReturn( 'indexing_failed' );
+
+		$this->product_helper
+			->expects( 'is_premium' )
+			->andReturnFalse();
+
+		Monkey\Functions\expect( 'wp_get_current_user' )
+			->andReturn( 'user' );
+
+		$this->notification_center
+			->expects( 'add_notification' )
+			->once();
+
+		$this->instance->create_notification();
+	}
+
+	/**
+	 * Tests creating the notification when there is an other reason to index.
+	 *
+	 * @covers ::create_notification
+	 * @covers ::should_show_notification
+	 * @covers ::notification
+	 * @covers ::get_notification_message
+	 *
+	 * @dataProvider reason_provider
+	 *
+	 * @param string $reason The reason for indexing.
+	 */
+	public function test_create_notification_with_indexing_reasons( $reason ) {
+		$this->notification_center
+			->expects( 'get_notification_by_id' )
+			->once()
+			->andReturnNull();
+
+		$this->indexing_integration
+			->expects( 'get_total_unindexed' )
+			->twice()
+			->andReturn( 40 );
+
+		$this->options_helper
+			->expects( 'get' )
+			->with( 'indexables_indexation_reason', '' )
+			->twice()
+			->andReturn( $reason );
+
+		Monkey\Filters\expectApplied( 'wpseo_indexables_indexation_alert' );
+
+		Monkey\Functions\expect( 'wp_get_current_user' )
+			->andReturn( 'user' );
+
+		$this->notification_center
+			->expects( 'add_notification' )
+			->once();
+
+		$this->instance->create_notification();
+	}
+
+	/**
+	 * Data provider to test all indexing reasons.
+	 *
+	 * @return array A mapping of methods and expected inputs.
+	 */
+	public function reason_provider() {
+		return [
+			[ 'permalink_settings_changed' ],
+			[ 'category_base_changed' ],
+			[ 'home_url_option_changed' ]
+		];
+	}
+
+	/**
+	 * Tests creating the notification when there is no indexing reason.
+	 *
+	 * @covers ::create_notification
+	 * @covers ::should_show_notification
+	 * @covers ::notification
+	 * @covers ::get_notification_message
+	 */
+	public function test_create_notification_with_no_reason() {
+		$this->notification_center
+			->expects( 'get_notification_by_id' )
+			->once()
+			->andReturnNull();
+
+		$this->indexing_integration
+			->expects( 'get_total_unindexed' )
+			->twice()
+			->andReturn( 40 );
+
+		$this->options_helper
+			->expects( 'get' )
+			->with( 'indexables_indexation_reason', '' )
+			->twice()
+			->andReturn( '' );
+
+		$this->options_helper
+			->expects( 'get' )
+			->with( 'indexation_started' )
+			->once()
+			->andReturn( 1593426177 );
+
+		$this->options_helper
+			->expects( 'get' )
+			->with( 'indexation_warning_hide_until' )
+			->once()
+			->andReturn( 1693426177 );
+
+		Monkey\Functions\expect( 'wp_get_current_user' )
+			->andReturn( 'user' );
+
+		$this->notification_center
+			->expects( 'add_notification' )
+			->once();
+
+		$this->instance->create_notification();
+	}
+
+	/**
+	 * Tests removing the notification from the notification center when there is no notification.
+	 *
+	 * @covers ::cleanup_notification
+	 */
+	public function test_cleanup_notification_when_null() {
+		$this->notification_center
+			->expects( 'get_notification_by_id' )
+			->once()
+			->andReturnNull();
+
+		$this->options_helper
+			->expects( 'get' )
+			->never();
+
+		$this->notification_center
+			->expects( 'remove_notification' )
+			->never();
+
+		$this->instance->cleanup_notification();
+	}
+
+	/**
+	 * Tests removing the notification from the notification center when the notification should be shown.
+	 *
+	 * @covers ::cleanup_notification
+	 * @covers ::should_show_notification
+	 */
+	public function test_cleanup_notification_when_it_should_be_shown() {
+		$this->notification_center
+			->expects( 'get_notification_by_id' )
+			->once()
+			->andReturn( 'the_notification' );
+
+		$this->indexing_integration
+			->expects( 'get_total_unindexed' )
+			->once()
+			->andReturn( 40 );
+
+		$this->options_helper
+			->expects( 'get' )
+			->with( 'indexables_indexation_reason', '' )
+			->once()
+			->andReturn( 'indexing_failed' );
+
+		$this->notification_center
+			->expects( 'remove_notification' )
+			->never();
+
+		$this->instance->cleanup_notification();
+	}
+
+	/**
+	 * Tests removing the notification from the notification center.
+	 *
+	 * @covers ::cleanup_notification
+	 */
+	public function test_cleanup_notification() {
+		Monkey\Functions\expect( 'wp_get_current_user' )
+			->andReturn( 'user' );
+
+		$this->notification_center
+			->expects( 'get_notification_by_id' )
+			->once()
+			->andReturn( new Yoast_Notification( 'the_notification_message' ) );
+
+		$this->indexing_integration
+			->expects( 'get_total_unindexed' )
+			->once()
+			->andReturn( 0 );
+
+		$this->notification_center
+			->expects( 'remove_notification' )
+			->once();
+
+		$this->instance->cleanup_notification();
 	}
 }
