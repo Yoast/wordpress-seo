@@ -123,17 +123,9 @@ class Indexable_Hierarchy_Builder {
 	 * @return void
 	 */
 	private function save_ancestors( $indexable ) {
-		$depth           = \count( $indexable->ancestors );
-		$saved_ancestors = [];
+		$depth = \count( $indexable->ancestors );
 		foreach ( $indexable->ancestors as $ancestor ) {
-			if ( in_array( $ancestor->id, $saved_ancestors, true ) ) {
-				continue;
-			}
-
 			$this->indexable_hierarchy_repository->add_ancestor( $indexable->id, $ancestor->id, $depth-- );
-
-			$saved_ancestors[] = $ancestor->id;
-
 		}
 	}
 

@@ -271,6 +271,7 @@ class Indexable_Builder {
 	 */
 	private function save_indexable( $indexable, $indexable_before = null ) {
 
+		// Save the indexable before running the wordpress hook.
 		$indexable->save();
 
 		if ( $indexable_before ) {
@@ -283,8 +284,6 @@ class Indexable_Builder {
 			 * @api Indexable The saved indexable.
 			 */
 			\do_action( 'wpseo_save_indexable', $indexable, $indexable_before );
-
-			$indexable->save();
 		}
 
 		return $indexable;
