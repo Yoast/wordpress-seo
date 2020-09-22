@@ -265,6 +265,10 @@ class Indexable_Link_Builder {
 				$target  = $this->indexable_repository->find_by_id_and_type( $post_id, 'post' );
 			}
 
+			if ( ! $target ) {
+				return $model;
+			}
+
 			$model->target_indexable_id = $target->id;
 			if ( $target->object_type === 'post' ) {
 				$model->target_post_id = $target->object_id;
