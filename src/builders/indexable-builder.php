@@ -179,7 +179,7 @@ class Indexable_Builder {
 			);
 		}
 
-		$this->save_indexable( $indexable, $indexable_before );
+		$indexable = $this->save_indexable( $indexable, $indexable_before );
 
 		if ( \in_array( $object_type, [ 'post', 'term' ], true ) && $indexable->post_status !== 'unindexed' ) {
 			$this->hierarchy_builder->build( $indexable );
@@ -271,7 +271,7 @@ class Indexable_Builder {
 	 */
 	private function save_indexable( $indexable, $indexable_before = null ) {
 
-		// Save the indexable before running the wordpress hook.
+		// Save the indexable before running the WordPress hook.
 		$indexable->save();
 
 		if ( $indexable_before ) {
