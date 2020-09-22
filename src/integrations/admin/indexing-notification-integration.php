@@ -165,11 +165,17 @@ class Indexing_Notification_Integration implements Integration_Interface {
 			return true;
 		}
 
+		/**
+		 * The UNIX timestamp on which indexing has started.
+		 * Defaults to `false` to indicate that indexing has not started yet.
+		 */
+		$time_indexation_started = $this->options_helper->get( 'indexation_started' );
+
 		/*
 		 * Do not show the notification when the indexation has started, but not completed.
 		 * I.e. when the user stopped it manually.
 		 */
-		if ( $this->options_helper->get( 'indexation_started', false ) > ( \time() - \MONTH_IN_SECONDS ) ) {
+		if ( $time_indexation_started && $time_indexation_started > ( \time() - \MONTH_IN_SECONDS ) ) {
 			return false;
 		}
 
