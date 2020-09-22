@@ -64,6 +64,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 			],
 			'access_tokens' => [],
 		],
+		'permalink_structure'                      => '',
 	];
 
 	/**
@@ -329,6 +330,12 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 
 				case 'tracking':
 					$clean[ $key ] = ( isset( $dirty[ $key ] ) ? WPSEO_Utils::validate_bool( $dirty[ $key ] ) : null );
+					break;
+
+				case 'permalink_structure':
+					if ( isset( $dirty[ $key ] ) ) {
+						$clean[ $key ] = sanitize_option( 'permalink_structure', $dirty[ $key ] );
+					}
 					break;
 
 				/*

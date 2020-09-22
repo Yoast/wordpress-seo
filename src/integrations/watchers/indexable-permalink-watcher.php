@@ -60,6 +60,8 @@ class Indexable_Permalink_Watcher implements Integration_Interface {
 		$this->post_type        = $post_type;
 		$this->options_helper   = $options;
 		$this->indexable_helper = $indexable;
+
+		$this->schedule_cron();
 	}
 
 	/**
@@ -69,6 +71,7 @@ class Indexable_Permalink_Watcher implements Integration_Interface {
 		\add_action( 'update_option_permalink_structure', [ $this, 'reset_permalinks' ] );
 		\add_action( 'update_option_category_base', [ $this, 'reset_permalinks_term' ], 10, 3 );
 		\add_action( 'update_option_tag_base', [ $this, 'reset_permalinks_term' ], 10, 3 );
+		\add_action( 'wpseo_permalink_structure_check', [ $this, 'force_reset_permalinks' ] );
 	}
 
 	/**
@@ -88,6 +91,9 @@ class Indexable_Permalink_Watcher implements Integration_Interface {
 		$this->indexable_helper->reset_permalink_indexables( 'user' );
 		$this->indexable_helper->reset_permalink_indexables( 'date-archive' );
 		$this->indexable_helper->reset_permalink_indexables( 'system-page' );
+
+		// Always update `permalink_structure` in the wpseo option.
+		$this->options_helper->set( 'permalink_structure', \get_option( 'permalink_structure' ) );
 	}
 
 	/**
@@ -120,6 +126,30 @@ class Indexable_Permalink_Watcher implements Integration_Interface {
 		}
 
 		$this->indexable_helper->reset_permalink_indexables( 'term', $subtype );
+	}
+
+	/**
+	 * Resets the permalink indexables automatically, if necessary.
+	 *
+	 * @return bool Whether the reset request ran.
+	 */
+	public function force_reset_permalinks() {
+		if ( $this->should_reset_permalinks() ) {
+			$this->reset_permalinks();
+
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Checks whether permalinks should be reset.
+	 *
+	 * @return bool Whether the permalinks should be reset.
+	 */
+	public function should_reset_permalinks() {
+		return \get_option( 'permalink_structure' ) !== $this->options_helper->get( 'permalink_structure' );
 	}
 
 	/**
@@ -157,6 +187,19 @@ class Indexable_Permalink_Watcher implements Integration_Interface {
 		$taxonomies = \array_unique( $taxonomies );
 
 		return $taxonomies;
+	}
+
+	/**
+	 * Schedules the WP-Cron job to check the permalink_structure status.
+	 *
+	 * @return void
+	 */
+	protected function schedule_cron() {
+		if ( \wp_next_scheduled( 'wpseo_permalink_structure_check' ) ) {
+			return;
+		}
+
+		\wp_schedule_event( time(), 'daily', 'wpseo_permalink_structure_check' );
 	}
 
 	/* ********************* DEPRECATED METHODS ********************* */
