@@ -735,8 +735,15 @@ class WPSEO_Upgrade {
 	 * Performs the 15.1 upgrade.
 	 */
 	private function upgrade_151() {
-		WPSEO_Options::set( 'category_base_url', 'category' );
-		WPSEO_Options::set( 'tag_base_url', 'tag' );
+		$category_base_url = WPSEO_Options::get( 'category_base_url' );
+		$tag_base_url = WPSEO_Options::get( 'tag_base_url' );
+
+		if ( empty( $category_base_url ) ) {
+			WPSEO_Options::set( 'category_base_url', 'category' );
+		}
+		if ( empty( $tag_base_url ) ) {
+			WPSEO_Options::set( 'tag_base_url', 'tag' );
+		}
 	}
 
 	/**
