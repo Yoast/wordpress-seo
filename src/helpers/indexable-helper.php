@@ -133,13 +133,13 @@ class Indexable_Helper {
 	/**
 	 * Returns whether or not dynamic permalinks should be used.
 	 *
-	 * @return bool
+	 * @return bool Whether or not the dynamic permalinks should be used.
 	 */
 	public function dynamic_permalinks_enabled() {
 		/**
-		 * Filters the value of the `dynamic_permalinks` option
+		 * Filters the value of the `dynamic_permalinks` option.
 		 *
-		 * @param bool $value The value of the `dynamic_permalinks` option
+		 * @param bool $value The value of the `dynamic_permalinks` option.
 		 */
 		return (bool) \apply_filters( 'wpseo_dynamic_permalinks_enabled', $this->options_helper->get( 'dynamic_permalinks', false ) );
 	}

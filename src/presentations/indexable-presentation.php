@@ -202,20 +202,20 @@ class Indexable_Presentation extends Abstract_Presentation {
 		$this->current_page     = $current_page;
 		$this->url              = $url;
 		$this->user             = $user;
-		$this->user             = $user;
 		$this->indexable_helper = $indexable;
 		$this->permalink_helper = $permalink;
 	}
 
 	/**
-	 * Gets the permalink from the indexable or generates it id dynamic permalinks are enabled.
+	 * Gets the permalink from the indexable or generates it if dynamic permalinks are enabled.
 	 *
-	 * @return string the permalink.
+	 * @return string The permalink.
 	 */
 	public function get_permalink() {
 		if ( $this->indexable_helper->dynamic_permalinks_enabled() ) {
 			return $this->permalink_helper->get_permalink_for_indexable( $this->model );
 		}
+
 		return $this->model->permalink;
 	}
 
