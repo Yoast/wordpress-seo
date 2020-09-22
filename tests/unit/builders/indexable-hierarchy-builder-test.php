@@ -143,7 +143,7 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 
 		$this->indexable_hierarchy_repository
 			->expects( 'clear_ancestors' )
-			->never();
+			->once();
 
 		$this->options
 			->expects( 'get' )

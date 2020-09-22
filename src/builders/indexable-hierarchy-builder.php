@@ -106,7 +106,7 @@ class Indexable_Hierarchy_Builder {
 		}
 		$indexable->ancestors     = \array_reverse( \array_values( $ancestors ) );
 		$indexable->has_ancestors = ! empty( $ancestors );
-		if ( ! $indexable->id ) {
+		if ( $indexable->id ) {
 			$this->save_ancestors( $indexable );
 		}
 
