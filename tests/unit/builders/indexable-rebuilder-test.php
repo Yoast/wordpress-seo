@@ -17,7 +17,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group   builders
  *
  * @coversDefaultClass \Yoast\WP\SEO\Builders\Indexable_Rebuilder
- * @covers ::<!public>
+ * @covers \Yoast\WP\SEO\Builders\Indexable_Rebuilder
  */
 class Indexable_Rebuilder_Test extends TestCase {
 

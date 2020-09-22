@@ -3,6 +3,7 @@ import { useState, useCallback, Fragment } from "@wordpress/element";
 import Modal from "../Modal";
 import PropTypes from "prop-types";
 import SidebarButton from "../../SidebarButton";
+import { LocationProvider } from "../../contexts/location";
 
 /**
  * Returns false for events passed to onRequestClose, that should not lead to the modal closing.
@@ -47,38 +48,40 @@ const EditorModal = ( { postTypeName, children, title } ) => {
 	return (
 		<Fragment>
 			{ isOpen && (
-				<Modal
-					title={ title }
-					onRequestClose={ closeModal }
-					additionalClassName="yoast-collapsible-modal yoast-post-settings-modal"
-				>
-					<div className="yoast-content-container">
-						<div className="yoast-modal-content">
-							{ children }
+				<LocationProvider value="modal">
+					<Modal
+						title={ title }
+						onRequestClose={ closeModal }
+						additionalClassName="yoast-collapsible-modal yoast-post-settings-modal"
+					>
+						<div className="yoast-content-container">
+							<div className="yoast-modal-content">
+								{ children }
+							</div>
 						</div>
-					</div>
-					<div className="yoast-notice-container">
-						<hr />
-						<div className="yoast-button-container">
-							<p>
-								{
-									/* Translators: %s translates to the Post Label in singular form */
-									sprintf( __( "Make sure to save your %s for changes to take effect", "wordpress-seo" ), postTypeName )
-								}
-							</p>
-							<button
-								className="yoast-button yoast-button--primary yoast-button--post-settings-modal"
-								type="button"
-								onClick={ closeModal }
-							>
-								{
-									/* Translators: %s translates to the Post Label in singular form */
-									sprintf( __( "Return to your %s", "wordpress-seo" ), postTypeName )
-								}
-							</button>
+						<div className="yoast-notice-container">
+							<hr />
+							<div className="yoast-button-container">
+								<p>
+									{
+										/* Translators: %s translates to the Post Label in singular form */
+										sprintf( __( "Make sure to save your %s for changes to take effect", "wordpress-seo" ), postTypeName )
+									}
+								</p>
+								<button
+									className="yoast-button yoast-button--primary yoast-button--post-settings-modal"
+									type="button"
+									onClick={ closeModal }
+								>
+									{
+										/* Translators: %s translates to the Post Label in singular form */
+										sprintf( __( "Return to your %s", "wordpress-seo" ), postTypeName )
+									}
+								</button>
+							</div>
 						</div>
-					</div>
-				</Modal>
+					</Modal>
+				</LocationProvider>
 			) }
 			<SidebarButton
 				title={ title }

@@ -12,12 +12,12 @@ import ReadabilityAnalysis from "../contentAnalysis/ReadabilityAnalysis";
 import SeoAnalysis from "../contentAnalysis/SeoAnalysis";
 import MetaboxCollapsible from "../MetaboxCollapsible";
 import SidebarItem from "../SidebarItem";
-import TopLevelProviders from "../TopLevelProviders";
 import AdvancedSettings from "../../containers/AdvancedSettings";
 import SocialMetadataPortal from "../portals/SocialMetadataPortal";
 import SchemaTabContainer from "../../containers/SchemaTab";
 import SEMrushRelatedKeyphrases from "../../containers/SEMrushRelatedKeyphrases";
 
+/* eslint-disable complexity */
 /**
  * Creates the Metabox component.
  *
@@ -27,111 +27,58 @@ import SEMrushRelatedKeyphrases from "../../containers/SEMrushRelatedKeyphrases"
  *
  * @returns {wp.Element} The Metabox component.
  */
-export default function MetaboxFill( { settings, store, theme } ) {
+export default function MetaboxFill( { settings } ) {
 	return (
 		<Fill name="YoastMetabox">
 			<SidebarItem renderPriority={ 1 }>
-				<TopLevelProviders
-					store={ store }
-					theme={ theme }
-					location={ "metabox" }
-				>
-					<Warning />
-				</TopLevelProviders>
+				<Warning />
 			</SidebarItem>
 			{ settings.isKeywordAnalysisActive && <SidebarItem renderPriority={ 8 }>
-				<TopLevelProviders
-					store={ store }
-					theme={ theme }
-					location={ "metabox" }
-				>
-					<KeywordInput
-						isSEMrushIntegrationActive={ settings.isSEMrushIntegrationActive }
-					/>
-				</TopLevelProviders>
+				<KeywordInput
+					isSEMrushIntegrationActive={ settings.isSEMrushIntegrationActive }
+				/>
 				{ ! window.wpseoScriptData.metabox.isPremium && <Fill name="YoastRelatedKeyphrases">
 					<SEMrushRelatedKeyphrases />
 				</Fill> }
 			</SidebarItem> }
 			<SidebarItem renderPriority={ 9 }>
-				<TopLevelProviders
-					store={ store }
-					theme={ theme }
-					location={ "metabox" }
+				<MetaboxCollapsible
+					id={ "yoast-snippet-editor-metabox" }
+					title={ __( "Google preview", "wordpress-seo" ) } initialIsOpen={ true }
 				>
-					<MetaboxCollapsible
-						id={ "yoast-snippet-editor-metabox" }
-						title={ __( "Google preview", "wordpress-seo" ) } initialIsOpen={ true }
-					>
-						<SnippetEditor hasPaperStyle={ false } />
-					</MetaboxCollapsible>
-				</TopLevelProviders>
+					<SnippetEditor hasPaperStyle={ false } />
+				</MetaboxCollapsible>
 			</SidebarItem>
 			{ settings.isContentAnalysisActive && <SidebarItem renderPriority={ 10 }>
-				<TopLevelProviders
-					store={ store }
-					theme={ theme }
-					location={ "metabox" }
-				>
-					<ReadabilityAnalysis />
-				</TopLevelProviders>
+				<ReadabilityAnalysis />
 			</SidebarItem> }
 			{ settings.isKeywordAnalysisActive && <SidebarItem renderPriority={ 20 }>
-				<TopLevelProviders
-					store={ store }
-					theme={ theme }
-					location={ "metabox" }
-				>
-					<SeoAnalysis
-						shouldUpsell={ settings.shouldUpsell }
-						shouldUpsellWordFormRecognition={ settings.isWordFormRecognitionActive }
-					/>
-				</TopLevelProviders>
+				<SeoAnalysis
+					shouldUpsell={ settings.shouldUpsell }
+					shouldUpsellWordFormRecognition={ settings.isWordFormRecognitionActive }
+				/>
 			</SidebarItem> }
 			{ settings.isCornerstoneActive && <SidebarItem renderPriority={ 30 }>
-				<TopLevelProviders
-					store={ store }
-					theme={ theme }
-					location={ "metabox" }
-				>
-					<CollapsibleCornerstone />
-				</TopLevelProviders>
+				<CollapsibleCornerstone />
 			</SidebarItem> }
 			{ settings.displayAdvancedTab && <SidebarItem renderPriority={ 40 }>
-				<TopLevelProviders
-					store={ store }
-					theme={ theme }
-					location={ "metabox" }
-				>
-					<MetaboxCollapsible id={ "collapsible-advanced-settings" } title={ __( "Advanced", "wordpress-seo" ) }>
-						<AdvancedSettings />
-					</MetaboxCollapsible>
-				</TopLevelProviders>
+				<MetaboxCollapsible id={ "collapsible-advanced-settings" } title={ __( "Advanced", "wordpress-seo" ) }>
+					<AdvancedSettings />
+				</MetaboxCollapsible>
 			</SidebarItem> }
 			{ settings.displaySchemaSettings && <SidebarItem renderPriority={ 50 }>
-				<TopLevelProviders
-					store={ store }
-					theme={ theme }
-					location={ "metabox" }
-				>
-					<SchemaTabContainer />
-				</TopLevelProviders>
+				<SchemaTabContainer />
 			</SidebarItem> }
-			<TopLevelProviders
+			<SidebarItem
 				renderPriority={ -1 }
-				store={ store }
-				theme={ theme }
-				location={ "metabox" }
 			>
 				<SocialMetadataPortal target="wpseo-section-social" />
-			</TopLevelProviders>
+			</SidebarItem>
 		</Fill>
 	);
 }
 
 MetaboxFill.propTypes = {
 	settings: PropTypes.object.isRequired,
-	store: PropTypes.object.isRequired,
-	theme: PropTypes.object.isRequired,
 };
-
+/* eslint-enable complexity */
