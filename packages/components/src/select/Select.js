@@ -69,6 +69,7 @@ export const YoastReactSelect = ( props ) => {
 		id,
 		isMulti,
 		isSearchable,
+		inputId,
 		selected,
 		options,
 		name,
@@ -91,6 +92,7 @@ export const YoastReactSelect = ( props ) => {
 				isMulti={ isMulti }
 				id={ id }
 				name={ name }
+				inputId={ inputId }
 				value={ selectedOptions }
 				options={ reactSelectOptions }
 				hideSelectedOptions={ false }
