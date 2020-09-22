@@ -115,7 +115,7 @@
     "@yoast/feature-flag": "^0.5.2-rc.1",
     "@yoast/helpers": "^0.13.0-rc.5",
     "@yoast/replacement-variable-editor": "^1.5.0-rc.0",
-    "@yoast/schema-blocks": "^1.0.0-RC2",
+    "@yoast/schema-blocks": "^1.0.0-RC3",
     "@yoast/search-metadata-previews": "^2.12.0-rc.0",
     "@yoast/social-metadata-forms": "^1.5.0-rc.0",
     "@yoast/style-guide": "^0.13.0-rc.0",

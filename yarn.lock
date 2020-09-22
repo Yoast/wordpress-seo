@@ -738,10 +738,10 @@
     styled-components "^4.4.1"
     yoastseo "^1.83.0-rc.0"
 
-"@yoast/schema-blocks@^1.0.0-RC2":
-  version "1.0.0-RC2"
-  resolved "https://registry.yarnpkg.com/@yoast/schema-blocks/-/schema-blocks-1.0.0-RC2.tgz#5466bb393b766a08b6e504cdb886e0347fb5bd29"
-  integrity sha512-ANLJRwrEbRx89UkJx+jOS/0jXin7unP9Ij/d9xAL74UFZ1RZecZlNi+aAY93bfCju7qBOvlFd05148foTyPBHQ==
+"@yoast/schema-blocks@^1.0.0-RC3":
+  version "1.0.0-RC3"
+  resolved "https://registry.yarnpkg.com/@yoast/schema-blocks/-/schema-blocks-1.0.0-RC3.tgz#9ae9631404ddae589922bf87184aa75853cb67d0"
+  integrity sha512-MlO7YH0Jc/jVyIs/iHXgsYrczGT1e4s1VMMHvvOQtE9US7KQNcQBsTrgfxitHY4WP05BIrKLfV3ibN7YeccuiA==
   dependencies:
     tokenizr "^1.5.2"
 
