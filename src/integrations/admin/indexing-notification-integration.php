@@ -167,7 +167,7 @@ class Indexing_Notification_Integration implements Integration_Interface {
 
 		/**
 		 * The UNIX timestamp on which indexing has started.
-		 * Defaults to `false` to indicate that indexing has not started yet.
+		 * Defaults to `null` to indicate that indexing has not started yet.
 		 */
 		$time_indexation_started = $this->options_helper->get( 'indexation_started' );
 
