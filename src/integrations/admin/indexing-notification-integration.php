@@ -155,6 +155,13 @@ class Indexing_Notification_Integration implements Integration_Interface {
 	 * @return bool If the notification should be shown.
 	 */
 	protected function should_show_notification() {
+		/*
+		 * Never show a notification when nothing should be indexed.
+		 */
+		if ( $this->indexing_integration->get_total_unindexed() === 0 ) {
+			return false;
+		}
+
 		$indexing_reason = $this->options_helper->get( 'indexables_indexation_reason', '' );
 
 		/*
