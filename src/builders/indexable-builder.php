@@ -270,6 +270,9 @@ class Indexable_Builder {
 	 * @return Indexable The indexable.
 	 */
 	private function save_indexable( $indexable, $indexable_before = null ) {
+
+		$indexable->save();
+
 		if ( $indexable_before ) {
 			/**
 			 * Action: 'wpseo_save_indexable' - Allow developers to perform an action
@@ -280,9 +283,9 @@ class Indexable_Builder {
 			 * @api Indexable The saved indexable.
 			 */
 			\do_action( 'wpseo_save_indexable', $indexable, $indexable_before );
-		}
 
-		$indexable->save();
+			$indexable->save();
+		}
 
 		return $indexable;
 	}
