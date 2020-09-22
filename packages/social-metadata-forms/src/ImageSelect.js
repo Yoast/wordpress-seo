@@ -45,15 +45,19 @@ const DivWithMargin = styled.div`
 /**
  * Renders the standard and the undo button.
  *
- * @param {function} 	onClick				Callback called when the "Select image" or "Replace image" button is clicked.
- * @param {bool}		imageSelected		Is there already an image slected.
- * @param {function}	onRemoveImageClick 	Callback called when the "Remove image" button is clicked.
- * @param {string}		socialMediumName	The name of the Social Medium for which the buttons are rendered.
+ * @param {function} onClick            Callback called when the "Select image" or "Replace image" button is clicked.
+ * @param {bool}     imageSelected      Is there already an image slected.
+ * @param {function} onRemoveImageClick Callback called when the "Remove image" button is clicked.
+ * @param {string}   socialMediumName   The name of the Social Medium for which the buttons are rendered.
+ * @param {string}   location           The name of the location where this component is rendered.
  *
- * @returns {Components} The buttons to render for the ImageSelect.
+ * @returns {JSX.Element} The buttons to render for the ImageSelect.
  */
-const renderButtons = ( onClick, imageSelected, onRemoveImageClick, socialMediumName ) => {
-	const buttonId = imageSelected ? `${ socialMediumName }-replace-button` : `${ socialMediumName }-select-button`;
+const renderButtons = ( onClick, imageSelected, onRemoveImageClick, socialMediumName, location ) => {
+	const buttonId = imageSelected
+		? `${ socialMediumName }-replace-button-${ location }`
+		: `${ socialMediumName }-select-button-${ location }`;
+
 	return (
 		<Fragment>
 			<StandardButton
@@ -70,12 +74,13 @@ const renderButtons = ( onClick, imageSelected, onRemoveImageClick, socialMedium
 			{
 				imageSelected && <UndoButton
 					onClick={ onRemoveImageClick }
-					id={ `${ socialMediumName }-remove-button`  }
+					id={ `${ socialMediumName }-remove-button-${ location }`  }
 				>
 					{ __( "Remove image", "yoast-components" ) }
 				</UndoButton>
 			}
-		</Fragment> );
+		</Fragment>
+	);
 };
 
 /**
@@ -91,8 +96,9 @@ const renderButtons = ( onClick, imageSelected, onRemoveImageClick, socialMedium
  * @param {string}   props.imageUrl           The Url adress of the image
  * @param {bool}     props.isPremium          States if premium is installed.
  * @param {string}   props.socialMediumName   The name of the social medium for which this component is rendered.
+ * @param {string}   props.location           Optional. The name of the location where this component is rendered.
  *
- * @returns {React.Component} The ImageSelect component with a title, optional warnings and an image selection button.
+ * @returns {JSX.Element} The ImageSelect component with a title, optional warnings and an image selection button.
  */
 const ImageSelect = ( {
 	title,
@@ -105,6 +111,7 @@ const ImageSelect = ( {
 	onMouseEnter,
 	onMouseLeave,
 	socialMediumName,
+	location,
 } ) =>
 	<DivWithMargin
 		onMouseEnter={ onMouseEnter }
@@ -120,11 +127,11 @@ const ImageSelect = ( {
 			</Alert> )
 		}
 		{
-			isPremium ? renderButtons( onClick, imageSelected, onRemoveImageClick, socialMediumName )
-				:	<ColumnWrapper>
-					<UrlInputField disabled={ "disabled" } value={ imageUrl } id={ `${ socialMediumName }-url-input` } />
+			isPremium ? renderButtons( onClick, imageSelected, onRemoveImageClick, socialMediumName, location )
+				: <ColumnWrapper>
+					<UrlInputField disabled={ "disabled" } value={ imageUrl } id={ `${ socialMediumName }-url-input-${ location }` } />
 					<RowWrapper>
-						{ renderButtons( onClick, imageSelected, onRemoveImageClick, socialMediumName ) }
+						{ renderButtons( onClick, imageSelected, onRemoveImageClick, socialMediumName, location ) }
 					</RowWrapper>
 				</ColumnWrapper>
 		}
@@ -142,6 +149,7 @@ ImageSelect.propTypes = {
 	onMouseEnter: PropTypes.func,
 	onMouseLeave: PropTypes.func,
 	socialMediumName: PropTypes.oneOf( [ "twitter", "facebook" ] ).isRequired,
+	location: PropTypes.string,
 };
 
 ImageSelect.defaultProps = {
@@ -151,6 +159,7 @@ ImageSelect.defaultProps = {
 	imageUrl: "",
 	onMouseEnter: () => {},
 	onMouseLeave: () => {},
+	location: "",
 };
 
 export default ImageSelect;

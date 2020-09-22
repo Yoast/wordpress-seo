@@ -165,6 +165,7 @@ class SocialMetadataPreviewForm extends Component {
 			recommendedReplacementVariables,
 			imageWarnings,
 			imageUrl,
+			location,
 		} = this.props;
 
 		const imageSelected = !! imageUrl;
@@ -175,6 +176,8 @@ class SocialMetadataPreviewForm extends Component {
 		const titleEditorTitle = sprintf( __( "%s title", "yoast-components" ), socialMediumName );
 		/* Translators: %s expands to the social medium name, i.e. Faceboook. */
 		const descEditorTitle = sprintf( __( "%s description", "yoast-components" ), socialMediumName );
+
+		const lowerCaseSocialMediumName = socialMediumName.toLowerCase();
 
 		return (
 			<Fragment>
@@ -190,7 +193,8 @@ class SocialMetadataPreviewForm extends Component {
 					isHovered={ hoveredField === "image" }
 					imageUrl={ imageUrl }
 					isPremium={ isPremium }
-					socialMediumName={ socialMediumName.toLowerCase() }
+					socialMediumName={ lowerCaseSocialMediumName }
+					location={ location }
 				/>
 				<ReplacementVariableEditor
 					onChange={ onTitleChange }
@@ -199,7 +203,7 @@ class SocialMetadataPreviewForm extends Component {
 					replacementVariables={ replacementVariables }
 					recommendedReplacementVariables={ recommendedReplacementVariables }
 					type="title"
-					fieldId={ `${ socialMediumName.toLowerCase() }-title-input` }
+					fieldId={ `${ lowerCaseSocialMediumName }-title-input-${ location }` }
 					label={ titleEditorTitle }
 					onMouseEnter={ this.onTitleEnter }
 					onMouseLeave={ this.onLeave }
@@ -217,7 +221,7 @@ class SocialMetadataPreviewForm extends Component {
 					replacementVariables={ replacementVariables }
 					recommendedReplacementVariables={ recommendedReplacementVariables }
 					type="description"
-					fieldId={ `${ socialMediumName.toLowerCase() }-description-input` }
+					fieldId={ `${ lowerCaseSocialMediumName }-description-input-${ location }` }
 					label={ descEditorTitle }
 					onMouseEnter={ this.onDescriptionEnter }
 					onMouseLeave={ this.onLeave }
@@ -254,6 +258,7 @@ SocialMetadataPreviewForm.propTypes = {
 	descriptionInputPlaceholder: PropTypes.string,
 	setEditorRef: PropTypes.func,
 	onMouseHover: PropTypes.func,
+	location: PropTypes.string,
 };
 
 SocialMetadataPreviewForm.defaultProps = {
@@ -269,6 +274,7 @@ SocialMetadataPreviewForm.defaultProps = {
 	isPremium: false,
 	setEditorRef: () => {},
 	onMouseHover: () => {},
+	location: "",
 };
 
 export default SocialMetadataPreviewForm;
