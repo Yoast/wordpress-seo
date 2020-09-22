@@ -126,6 +126,7 @@ class SocialPreviewEditor extends Component {
 			replacementVariables,
 			recommendedReplacementVariables,
 			isPremium,
+			location,
 		} = this.props;
 
 		return (
@@ -152,6 +153,7 @@ class SocialPreviewEditor extends Component {
 					activeField={ this.state.activeField }
 					isPremium={ isPremium }
 					setEditorRef={ this.setEditorRef }
+					location={ location }
 				/>
 			</Fragment>
 		);
@@ -173,6 +175,7 @@ SocialPreviewEditor.propTypes = {
 	titleInputPlaceholder: PropTypes.string,
 	replacementVariables: replacementVariablesShape,
 	recommendedReplacementVariables: recommendedReplacementVariablesShape,
+	location: PropTypes.string,
 };
 
 SocialPreviewEditor.defaultProps = {
@@ -182,6 +185,7 @@ SocialPreviewEditor.defaultProps = {
 	isPremium: false,
 	descriptionInputPlaceholder: "",
 	titleInputPlaceholder: "",
+	location: "",
 };
 
 export default SocialPreviewEditor;
