@@ -1,3 +1,5 @@
+/* eslint-disable complexity */
+
 import {
 	SET_REQUEST_LIMIT_REACHED,
 	SET_REQUEST_FAILED,
