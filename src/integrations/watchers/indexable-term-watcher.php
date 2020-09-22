@@ -92,38 +92,54 @@ class Indexable_Term_Watcher implements Integration_Interface {
 	 *
 	 * @return void
 	 */
-	public function build_indexable( $term_id ) {
+	public function build_indexable( $term_id )
+	{
 		// Bail if this is a multisite installation and the site has been switched.
-		if ( $this->site->is_multisite_and_switched() ) {
+		if ($this->site->is_multisite_and_switched()) {
 			return;
 		}
 
-		$term = \get_term( $term_id );
+		$term = \get_term($term_id);
 
-		if ( $term === null || \is_wp_error( $term ) ) {
+		if ($term === null || \is_wp_error($term)) {
 			return;
 		}
 
-		if ( ! \is_taxonomy_viewable( $term->taxonomy ) ) {
+		if (!\is_taxonomy_viewable($term->taxonomy)) {
 			return;
 		}
 
-		$indexable = $this->repository->find_by_id_and_type( $term_id, 'term', false );
+		$indexable = $this->repository->find_by_id_and_type($term_id, 'term', false);
 
 		// If we haven't found an existing indexable, create it. Otherwise update it.
-		$this->builder->build_for_id_and_type( $term_id, 'term', $indexable );
+		$this->builder->build_for_id_and_type($term_id, 'term', $indexable);
 
 		//Check if the base url is still the same and did not get changed undetected
+		if ( $this->should_reset_permalinks($term->taxonomy) )
+		{
+			//reset
+		}
+
+	}
+
+	/**
+	 * Checks whether permalinks should be reset.
+	 *
+	 * @return bool Whether the permalinks should be reset.
+	 */
+	public function should_reset_permalinks( $taxonomy ) {
 		$optionsHelper = new Options_Helper();
 
-		$currentBase = $this->get_tax_slug($term->taxonomy);
+		$currentBase = $this->get_tax_slug( taxonomy );
 		$previousBaseCategory = $optionsHelper->get("category_base_url");
 		$previousBaseTag = $optionsHelper->get("category_tag_url");
 
 		if($currentBase !== $previousBaseCategory || $currentBase !== $previousBaseTag)
 		{
-			//clear all permalinks, store the new permalink structure and ask for a reindex.
+			return true;
 		}
+
+		return false;
 	}
 
 	private function get_tax_slug( $taxonomy ) {

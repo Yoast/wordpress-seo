@@ -738,11 +738,19 @@ class WPSEO_Upgrade {
 		$category_base_url = WPSEO_Options::get( 'category_base_url' );
 		$tag_base_url = WPSEO_Options::get( 'tag_base_url' );
 
-		if ( empty( $category_base_url ) ) {
-			WPSEO_Options::set( 'category_base_url', 'category' );
+		//First check if the category link is custom set.
+		if( !empty( get_category_link() ) ) {
+			WPSEO_Options::set('category_base_url', get_category_link());
+			//Now check if the category option is empty, then set it to the default: category.
+		}else if ( empty( $category_base_url ) ) {
+			WPSEO_Options::set('category_base_url', 'category');
 		}
-		if ( empty( $tag_base_url ) ) {
-			WPSEO_Options::set( 'tag_base_url', 'tag' );
+		//First check if the tag link is custom set.
+		if( !empty( get_tag_link() ) ) {
+			WPSEO_Options::set('tag_base_url', get_tag_link());
+			//Now check if the tag option is empty, then set it to the default: tag.
+		}else if ( empty( $tag_base_url ) ) {
+			WPSEO_Options::set('tag_base_url', 'tag');
 		}
 	}
 
