@@ -181,12 +181,11 @@ class Indexing extends Component {
 	}
 
 	/**
-	 * Starts the indexing process.
+	 * Indexes the objects by calling each indexing endpoint in turen.
 	 *
-	 * @returns {Promise} The start indexing promise.
+	 * @returns {Promise<void>} The indexing promise.
 	 */
-	async startIndexing() {
-		this.setState( { processed: 0, inProgress: true, error: null } );
+	async index() {
 		for ( const endpoint of Object.keys( this.settings.restApi.endpoints ) ) {
 			await this.doIndexing( endpoint );
 		}
@@ -197,6 +196,20 @@ class Indexing extends Component {
 		if ( ! this.state.error && this.state.inProgress ) {
 			this.completeIndexing();
 		}
+	}
+
+	/**
+	 * Starts the indexing process.
+	 *
+	 * @returns {Promise<void>} The start indexing promise.
+	 */
+	async startIndexing() {
+		/*
+		 * Since `setState` is asynchronous in nature, we have to supply a callback
+		 * to make sure the state is correctly set before trying to call the first
+		 * endpoint.
+		 */
+		this.setState( { processed: 0, inProgress: true, error: null }, this.index );
 	}
 
 	/**
