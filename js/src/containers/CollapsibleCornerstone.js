@@ -2,6 +2,7 @@
 import { compose } from "@wordpress/compose";
 import { withDispatch, withSelect } from "@wordpress/data";
 import CollapsibleCornerstone from "../components/CollapsibleCornerstone";
+import withLocation from "../helpers/withLocation";
 
 /**
  * Composes the CollapsibleCornerstone container.
@@ -14,6 +15,7 @@ export default compose( [
 
 		return {
 			isCornerstone: isCornerstoneContent(),
+			learnMoreUrl: wpseoAdminL10n[ "shortlinks.cornerstone_content_info" ],
 		};
 	} ),
 	withDispatch( dispatch => {
@@ -25,4 +27,5 @@ export default compose( [
 			},
 		};
 	} ),
+	withLocation(),
 ] )( CollapsibleCornerstone );
