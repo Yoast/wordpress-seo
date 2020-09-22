@@ -210,6 +210,22 @@ class Indexable_Link_Builder {
 	}
 
 	/**
+	 * Get the post ID based on the link's type and its target's permalink.
+	 *
+	 * @param string $type      The type of link (either SEO_Links::TYPE_INTERNAL or SEO_Links::TYPE_INTERNAL_IMAGE).
+	 * @param string $permalink The permalink of the link's target.
+	 *
+	 * @return int The post ID.
+	 */
+	protected function get_post_id( $type, $permalink ) {
+		if ( $type === SEO_Links::TYPE_INTERNAL ) {
+			return \url_to_postid( $permalink );
+		}
+
+		return $this->image_helper->get_attachment_by_url( $permalink );
+	}
+
+	/**
 	 * Creates an internal link.
 	 *
 	 * @param string    $url       The url of the link.
@@ -245,13 +261,8 @@ class Indexable_Link_Builder {
 
 			if ( ! $target ) {
 				// If target indexable cannot be found, create one based on the post's post ID.
-				if ( $model->type === SEO_Links::TYPE_INTERNAL ) {
-					$post_id = \url_to_postid( $permalink );
-				}
-				else {
-					$post_id = $this->image_helper->get_attachment_by_url( $permalink );
-				}
-				$target = $this->indexable_repository->find_by_id_and_type( $post_id, 'post' );
+				$post_id = $this->get_post_id( $model->type, $permalink );
+				$target  = $this->indexable_repository->find_by_id_and_type( $post_id, 'post' );
 			}
 
 			$model->target_indexable_id = $target->id;
