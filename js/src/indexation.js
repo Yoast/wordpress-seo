@@ -181,7 +181,7 @@ class Indexing extends Component {
 	}
 
 	/**
-	 * Indexes the objects by calling each indexing endpoint in turen.
+	 * Indexes the objects by calling each indexing endpoint in turn.
 	 *
 	 * @returns {Promise<void>} The indexing promise.
 	 */
