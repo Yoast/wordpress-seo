@@ -19,7 +19,7 @@ class SEMrush_Phrases_Action {
 	 *
 	 * @var string
 	 */
-	const KEYPHRASES_URL = 'https://oauth.semrush.com/api/v1/keywords/phrase_related';
+	const KEYPHRASES_URL = 'https://oauth.semrush.com/api/v1/keywords/phrase_fullsearch';
 
 	/**
 	 * The SEMrush_Client instance.
@@ -61,7 +61,7 @@ class SEMrush_Phrases_Action {
 					'export_columns' => 'Ph,Nq,Td',
 					'display_limit'  => 10,
 					'display_offset' => 0,
-					'display_sort'   => 'rr_desc',
+					'display_sort'   => 'nq_desc',
 					'display_filter' => '%2B|Nq|Lt|1000',
 				],
 			];
