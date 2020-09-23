@@ -1,8 +1,9 @@
-import React, { Fragment } from "react";
-import PropTypes from "prop-types";
-import { Alert, SimulatedLabel, InputField } from "@yoast/components";
-import { StandardButton } from "@yoast/replacement-variable-editor";
 import { __ } from "@wordpress/i18n";
+import { Alert, InputField, SimulatedLabel } from "@yoast/components";
+import { appendLocationToId } from "@yoast/helpers";
+import { StandardButton } from "@yoast/replacement-variable-editor";
+import PropTypes from "prop-types";
+import React, { Fragment } from "react";
 import styled from "styled-components";
 
 const UndoButton = styled( StandardButton )`
@@ -41,12 +42,11 @@ const DivWithMargin = styled.div`
 	margin-top: 24px;
 `;
 
-
 /**
  * Renders the standard and the undo button.
  *
  * @param {function} onClick            Callback called when the "Select image" or "Replace image" button is clicked.
- * @param {bool}     imageSelected      Is there already an image slected.
+ * @param {bool}     imageSelected      Is there already an image selected.
  * @param {function} onRemoveImageClick Callback called when the "Remove image" button is clicked.
  * @param {string}   socialMediumName   The name of the Social Medium for which the buttons are rendered.
  * @param {string}   location           The name of the location where this component is rendered.
@@ -55,8 +55,8 @@ const DivWithMargin = styled.div`
  */
 const renderButtons = ( onClick, imageSelected, onRemoveImageClick, socialMediumName, location ) => {
 	const buttonId = imageSelected
-		? `${ socialMediumName }-replace-button-${ location }`
-		: `${ socialMediumName }-select-button-${ location }`;
+		? appendLocationToId( `${ socialMediumName }-replace-button`, location )
+		: appendLocationToId( `${ socialMediumName }-select-button`, location );
 
 	return (
 		<Fragment>
@@ -73,8 +73,8 @@ const renderButtons = ( onClick, imageSelected, onRemoveImageClick, socialMedium
 			</StandardButton>
 			{
 				imageSelected && <UndoButton
+					id={ appendLocationToId( `${ socialMediumName }-remove-button`, location ) }
 					onClick={ onRemoveImageClick }
-					id={ `${ socialMediumName }-remove-button-${ location }`  }
 				>
 					{ __( "Remove image", "yoast-components" ) }
 				</UndoButton>
@@ -112,7 +112,7 @@ const ImageSelect = ( {
 	onMouseLeave,
 	socialMediumName,
 	location,
-} ) =>
+} ) => (
 	<DivWithMargin
 		onMouseEnter={ onMouseEnter }
 		onMouseLeave={ onMouseLeave }
@@ -129,14 +129,18 @@ const ImageSelect = ( {
 		{
 			isPremium ? renderButtons( onClick, imageSelected, onRemoveImageClick, socialMediumName, location )
 				: <ColumnWrapper>
-					<UrlInputField disabled={ "disabled" } value={ imageUrl } id={ `${ socialMediumName }-url-input-${ location }` } />
+					<UrlInputField
+						id={ appendLocationToId( `${ socialMediumName }-url-input`, location ) }
+						value={ imageUrl }
+						disabled={ "disabled" }
+					/>
 					<RowWrapper>
 						{ renderButtons( onClick, imageSelected, onRemoveImageClick, socialMediumName, location ) }
 					</RowWrapper>
 				</ColumnWrapper>
 		}
 	</DivWithMargin>
-;
+);
 
 ImageSelect.propTypes = {
 	title: PropTypes.string.isRequired,

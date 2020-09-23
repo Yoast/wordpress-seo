@@ -1,11 +1,11 @@
-import React, { Fragment, Component } from "react";
-import ImageSelect from "./ImageSelect";
-import PropTypes from "prop-types";
-import { ReplacementVariableEditor, replacementVariablesShape } from "@yoast/replacement-variable-editor";
 import { __, sprintf } from "@wordpress/i18n";
-import styled from "styled-components";
-import { getDirectionalStyle } from "@yoast/helpers";
+import { appendLocationToId, getDirectionalStyle } from "@yoast/helpers";
+import { ReplacementVariableEditor, replacementVariablesShape } from "@yoast/replacement-variable-editor";
 import { angleLeft, angleRight, colors } from "@yoast/style-guide";
+import PropTypes from "prop-types";
+import React, { Component, Fragment } from "react";
+import styled from "styled-components";
+import ImageSelect from "./ImageSelect";
 
 /**
  * Sets the color based on whether the caret is active or not (usually hovered).
@@ -178,6 +178,8 @@ class SocialMetadataPreviewForm extends Component {
 		const descEditorTitle = sprintf( __( "%s description", "yoast-components" ), socialMediumName );
 
 		const lowerCaseSocialMediumName = socialMediumName.toLowerCase();
+		const titleId = appendLocationToId( `${ lowerCaseSocialMediumName }-title-input`, location );
+		const descriptionId = appendLocationToId( `${ lowerCaseSocialMediumName }-description-input`, location );
 
 		return (
 			<Fragment>
@@ -203,7 +205,7 @@ class SocialMetadataPreviewForm extends Component {
 					replacementVariables={ replacementVariables }
 					recommendedReplacementVariables={ recommendedReplacementVariables }
 					type="title"
-					fieldId={ `${ lowerCaseSocialMediumName }-title-input-${ location }` }
+					fieldId={ titleId }
 					label={ titleEditorTitle }
 					onMouseEnter={ this.onTitleEnter }
 					onMouseLeave={ this.onLeave }
@@ -221,7 +223,7 @@ class SocialMetadataPreviewForm extends Component {
 					replacementVariables={ replacementVariables }
 					recommendedReplacementVariables={ recommendedReplacementVariables }
 					type="description"
-					fieldId={ `${ lowerCaseSocialMediumName }-description-input-${ location }` }
+					fieldId={ descriptionId }
 					label={ descEditorTitle }
 					onMouseEnter={ this.onDescriptionEnter }
 					onMouseLeave={ this.onLeave }
