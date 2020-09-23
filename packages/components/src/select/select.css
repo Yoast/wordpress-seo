@@ -83,6 +83,8 @@
 
 .yoast-select-container .yoast-select__control {
 	border-radius: 0;
+	border: none;
+	background-color: transparent;
 }
 
 .yoast-select-container .yoast-select__option {
