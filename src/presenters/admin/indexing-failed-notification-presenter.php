@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Presenters\Admin;
 
+use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Presenters\Abstract_Presenter;
 
 /**
@@ -12,20 +13,19 @@ use Yoast\WP\SEO\Presenters\Abstract_Presenter;
 class Indexing_Failed_Notification_Presenter extends Abstract_Presenter {
 
 	/**
-	 * Whether we are in Premium.
-	 * (The text in the notification changes a bit depending on whether we are in Premium).
+	 * The product helper.
 	 *
-	 * @var bool
+	 * @var Product_Helper
 	 */
-	protected $is_premium;
+	protected $product_helper;
 
 	/**
 	 * Indexing_Failed_Notification_Presenter constructor.
 	 *
-	 * @param bool $is_premium Whether we are in premium or not.
+	 * @param Product_Helper $product_helper The product helper.
 	 */
-	public function __construct( $is_premium ) {
-		$this->is_premium = $is_premium;
+	public function __construct( $product_helper ) {
+		$this->product_helper = $product_helper;
 	}
 
 	/**
@@ -41,7 +41,7 @@ class Indexing_Failed_Notification_Presenter extends Abstract_Presenter {
 			'<a href="' . \get_admin_url( null, 'admin.php?page=wpseo_tools' ) . '">',
 			'</a>'
 		);
-		if ( $this->is_premium ) {
+		if ( $this->product_helper->is_premium() ) {
 			$notification_text .= ' ';
 			$notification_text .= \esc_html__( 'If the problem persists, please contact support.', 'wordpress-seo' );
 		}

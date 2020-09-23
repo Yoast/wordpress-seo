@@ -292,10 +292,6 @@ class Indexing_Notification_Integration_Test extends TestCase {
 			->twice()
 			->andReturn( 'indexing_failed' );
 
-		$this->product_helper
-			->expects( 'is_premium' )
-			->andReturnFalse();
-
 		Monkey\Functions\expect( 'wp_get_current_user' )
 			->andReturn( 'user' );
 

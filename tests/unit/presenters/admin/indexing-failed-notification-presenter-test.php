@@ -1,6 +1,7 @@
 <?php
 
 use Brain\Monkey;
+use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Presenters\Admin\Indexing_Failed_Notification_Presenter;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
@@ -19,7 +20,13 @@ class Indexing_Failed_Notification_Presenter_Test extends TestCase {
 	 * @covers ::present
 	 */
 	public function test_present_not_premium() {
-		$instance = new Indexing_Failed_Notification_Presenter( false );
+		$product_helper = Mockery::mock( Product_Helper::class );
+
+		$product_helper
+			->expects( 'is_premium' )
+			->andReturnFalse();
+
+		$instance = new Indexing_Failed_Notification_Presenter( $product_helper );
 
 		Monkey\Functions\expect( 'get_admin_url' )
 			->with( null, 'admin.php?page=wpseo_tools' )
@@ -37,7 +44,13 @@ class Indexing_Failed_Notification_Presenter_Test extends TestCase {
 	 * @covers ::present
 	 */
 	public function test_present_premium() {
-		$instance = new Indexing_Failed_Notification_Presenter( true );
+		$product_helper = Mockery::mock( Product_Helper::class );
+
+		$product_helper
+			->expects( 'is_premium' )
+			->andReturnTrue();
+
+		$instance = new Indexing_Failed_Notification_Presenter( $product_helper );
 
 		Monkey\Functions\expect( 'get_admin_url' )
 			->with( null, 'admin.php?page=wpseo_tools' )

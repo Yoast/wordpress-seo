@@ -289,7 +289,7 @@ class Indexing_Notification_Integration implements Integration_Interface {
 	 */
 	protected function get_presenter( $reason ) {
 		if ( $reason === self::REASON_INDEXING_FAILED ) {
-			$presenter = new Indexing_Failed_Notification_Presenter( $this->product_helper->is_premium() );
+			$presenter = new Indexing_Failed_Notification_Presenter( $this->product_helper );
 		}
 		else {
 			$total_unindexed = $this->indexing_integration->get_total_unindexed();
