@@ -2,8 +2,8 @@
 
 namespace Yoast\WP\SEO\Presenters\Admin;
 
+use Yoast\WP\SEO\Helpers\Short_Link_Helper;
 use Yoast\WP\SEO\Presenters\Abstract_Presenter;
-use Yoast\WP\SEO\Wrappers\WP_Shortlink_Wrapper;
 
 /**
  * Class Indexing_List_Item_Presenter.
@@ -13,17 +13,19 @@ use Yoast\WP\SEO\Wrappers\WP_Shortlink_Wrapper;
 class Indexing_List_Item_Presenter extends Abstract_Presenter {
 
 	/**
-	 * @var WP_Shortlink_Wrapper Represents the shortlink wrapper.
+	 * The short link helper.
+	 *
+	 * @var Short_Link_Helper
 	 */
-	protected $wp_shortlink_wrapper;
+	protected $short_link_helper;
 
 	/**
 	 * Indexing_List_Item_Presenter constructor.
 	 *
-	 * @param WP_Shortlink_Wrapper $wp_shortlink_wrapper Represents the shortlink wrapper
+	 * @param Short_Link_Helper $short_link_helper Represents the short link helper.
 	 */
-	public function __construct( WP_Shortlink_Wrapper $wp_shortlink_wrapper ) {
-		$this->wp_shortlink_wrapper = $wp_shortlink_wrapper;
+	public function __construct( Short_Link_Helper $short_link_helper ) {
+		$this->short_link_helper = $short_link_helper;
 	}
 
 	/**
@@ -36,7 +38,7 @@ class Indexing_List_Item_Presenter extends Abstract_Presenter {
 		$output .= \sprintf(
 			'%1$s <a href="%2$s" target="_blank">%3$s</a>',
 			\esc_html__( 'You can speed up your site and get insight into your internal linking structure by letting us perform a few optimizations to the way SEO data is stored. If you have a lot of content it might take a while, but trust us, it\'s worth it.', 'wordpress-seo' ),
-			\esc_url( $this->wp_shortlink_wrapper->get( 'https://yoa.st/3-z' )  ),
+			\esc_url( $this->short_link_helper->get( 'https://yoa.st/3-z' ) ),
 			\esc_html__( 'Learn more about the benefits of optimized SEO data.', 'wordpress-seo' )
 		);
 
