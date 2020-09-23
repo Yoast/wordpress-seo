@@ -1,7 +1,7 @@
 import { Fragment, useEffect } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Alert, MultiSelect, RadioButtonGroup, Select, TextInput } from "@yoast/components";
-import { appendLocationToId } from "@yoast/helpers";
+import { join } from "@yoast/helpers";
 import PropTypes from "prop-types";
 import { LocationConsumer } from "./contexts/location";
 
@@ -67,7 +67,7 @@ const MetaRobotsNoIndex = ( { noIndex, onNoIndexChange, editorContext, isPrivate
 
 	return <LocationConsumer>
 		{ location => {
-			const id = appendLocationToId( "yoast-meta-robots-noindex", location );
+			const id = join( [ "yoast-meta-robots-noindex", location ] );
 
 			return <Fragment>
 				{
@@ -120,7 +120,7 @@ MetaRobotsNoIndex.defaultProps = {
 const MetaRobotsNoFollow = ( { noFollow, onNoFollowChange, postTypeName } ) => {
 	return <LocationConsumer>
 		{ location => {
-			const id = appendLocationToId( "yoast-meta-robots-nofollow", location );
+			const id = join( [ "yoast-meta-robots-nofollow", location ] );
 
 			return <RadioButtonGroup
 				id={ id }
@@ -156,7 +156,7 @@ MetaRobotsNoFollow.propTypes = {
 const MetaRobotsAdvanced = ( { advanced, onAdvancedChange } ) => {
 	return <LocationConsumer>
 		{ location => {
-			const id = appendLocationToId( "yoast-meta-robots-advanced", location );
+			const id = join( [ "yoast-meta-robots-advanced", location ] );
 			const inputId = `${ id }-input`;
 
 			return <MultiSelect
@@ -194,7 +194,7 @@ const BreadcrumbsTitle = ( { breadcrumbsTitle, onBreadcrumbsTitleChange } ) => {
 	return <LocationConsumer>
 		{
 			location => {
-				const id = appendLocationToId( "yoast-breadcrumbs-title", location );
+				const id = join( [ "yoast-breadcrumbs-title", location ] );
 
 				return <TextInput
 					label={ __( "Breadcrumbs Title", "wordpress-seo" ) }
@@ -226,7 +226,7 @@ const CanonicalURL = ( { canonical, onCanonicalChange } ) => {
 	return <LocationConsumer>
 		{
 			location => {
-				const id = appendLocationToId( "yoast-canonical", location );
+				const id = join( [ "yoast-canonical", location ] );
 
 				return <TextInput
 					label={ __( "Canonical URL", "wordpress-seo" ) }
