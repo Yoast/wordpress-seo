@@ -1,5 +1,5 @@
 import { __, sprintf } from "@wordpress/i18n";
-import { appendLocationToId, getDirectionalStyle } from "@yoast/helpers";
+import { getDirectionalStyle } from "@yoast/helpers";
 import { ReplacementVariableEditor, replacementVariablesShape } from "@yoast/replacement-variable-editor";
 import { angleLeft, angleRight, colors } from "@yoast/style-guide";
 import PropTypes from "prop-types";
@@ -165,21 +165,24 @@ class SocialMetadataPreviewForm extends Component {
 			recommendedReplacementVariables,
 			imageWarnings,
 			imageUrl,
-			location,
+			titleId,
+			descriptionId,
+			imageUrlInputId,
+			selectImageButtonId,
+			replaceImageButtonId,
+			removeImageButtonId,
 		} = this.props;
 
 		const imageSelected = !! imageUrl;
 
-		/* Translators: %s expands to the social medium name, i.e. Faceboook. */
+		/* Translators: %s expands to the social medium name, i.e. Facebook. */
 		const imageSelectTitle = sprintf( __( "%s image", "yoast-components" ), socialMediumName );
-		/* Translators: %s expands to the social medium name, i.e. Faceboook. */
+		/* Translators: %s expands to the social medium name, i.e. Facebook. */
 		const titleEditorTitle = sprintf( __( "%s title", "yoast-components" ), socialMediumName );
-		/* Translators: %s expands to the social medium name, i.e. Faceboook. */
+		/* Translators: %s expands to the social medium name, i.e. Facebook. */
 		const descEditorTitle = sprintf( __( "%s description", "yoast-components" ), socialMediumName );
 
 		const lowerCaseSocialMediumName = socialMediumName.toLowerCase();
-		const titleId = appendLocationToId( `${ lowerCaseSocialMediumName }-title-input`, location );
-		const descriptionId = appendLocationToId( `${ lowerCaseSocialMediumName }-description-input`, location );
 
 		return (
 			<Fragment>
@@ -195,8 +198,10 @@ class SocialMetadataPreviewForm extends Component {
 					isHovered={ hoveredField === "image" }
 					imageUrl={ imageUrl }
 					isPremium={ isPremium }
-					socialMediumName={ lowerCaseSocialMediumName }
-					location={ location }
+					imageUrlInputId={ imageUrlInputId.length > 0 ? imageUrlInputId : `${ lowerCaseSocialMediumName }-url-input` }
+					selectImageButtonId={ selectImageButtonId.length > 0 ? selectImageButtonId : `${ lowerCaseSocialMediumName }-select-button` }
+					replaceImageButtonId={ replaceImageButtonId.length > 0 ? replaceImageButtonId : `${ lowerCaseSocialMediumName }-replace-button` }
+					removeImageButtonId={ removeImageButtonId.length > 0 ? removeImageButtonId : `${ lowerCaseSocialMediumName }-replace-button` }
 				/>
 				<ReplacementVariableEditor
 					onChange={ onTitleChange }
@@ -205,7 +210,7 @@ class SocialMetadataPreviewForm extends Component {
 					replacementVariables={ replacementVariables }
 					recommendedReplacementVariables={ recommendedReplacementVariables }
 					type="title"
-					fieldId={ titleId }
+					fieldId={ titleId.length > 0 ? titleId : `${ lowerCaseSocialMediumName }-title-input` }
 					label={ titleEditorTitle }
 					onMouseEnter={ this.onTitleEnter }
 					onMouseLeave={ this.onLeave }
@@ -223,7 +228,7 @@ class SocialMetadataPreviewForm extends Component {
 					replacementVariables={ replacementVariables }
 					recommendedReplacementVariables={ recommendedReplacementVariables }
 					type="description"
-					fieldId={ descriptionId }
+					fieldId={ descriptionId.length > 0 ? descriptionId : `${ lowerCaseSocialMediumName }-description-input` }
 					label={ descEditorTitle }
 					onMouseEnter={ this.onDescriptionEnter }
 					onMouseLeave={ this.onLeave }
@@ -238,7 +243,6 @@ class SocialMetadataPreviewForm extends Component {
 		);
 	}
 }
-
 
 SocialMetadataPreviewForm.propTypes = {
 	socialMediumName: PropTypes.oneOf( [ "Twitter", "Facebook" ] ).isRequired,
@@ -260,7 +264,12 @@ SocialMetadataPreviewForm.propTypes = {
 	descriptionInputPlaceholder: PropTypes.string,
 	setEditorRef: PropTypes.func,
 	onMouseHover: PropTypes.func,
-	location: PropTypes.string,
+	titleId: PropTypes.string,
+	descriptionId: PropTypes.string,
+	imageUrlInputId: PropTypes.string,
+	selectImageButtonId: PropTypes.string,
+	replaceImageButtonId: PropTypes.string,
+	removeImageButtonId: PropTypes.string,
 };
 
 SocialMetadataPreviewForm.defaultProps = {
@@ -276,7 +285,12 @@ SocialMetadataPreviewForm.defaultProps = {
 	isPremium: false,
 	setEditorRef: () => {},
 	onMouseHover: () => {},
-	location: "",
+	titleId: "",
+	descriptionId: "",
+	imageUrlInputId: "",
+	selectImageButtonId: "",
+	replaceImageButtonId: "",
+	removeImageButtonId: "",
 };
 
 export default SocialMetadataPreviewForm;
