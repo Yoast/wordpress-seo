@@ -386,8 +386,15 @@ TPL;
 		$error_count   = $statistics['error_count'];
 		$warning_count = $statistics['warning_count'];
 
-		echo "Coding standards errors: $error_count/$error_threshold.\n";
-		echo "Coding standards warnings: $warning_count/$warning_threshold.\n";
+		self::color_line_success(
+			"Coding standards errors: $error_count/$error_threshold.",
+			( $error_count <= $error_threshold )
+		);
+
+		self::color_line_success(
+			"Coding standards warnings: $warning_count/$warning_threshold.",
+			( $warning_count <= $warning_threshold )
+		);
 
 		$above_threshold = false;
 
@@ -419,5 +426,29 @@ TPL;
 		}
 
 		exit( ( $above_threshold ) ? 1 : 0 );
+	}
+
+	/**
+	 * Color the output of the line.
+	 *
+	 * @param string $line  Line to output.
+	 * @param string $color Color to give the line.
+	 *
+	 * @returns void
+	 */
+	private static function color_line( $line, $color ) {
+		echo $color . $line . "\e[0m\n";
+	}
+
+	/**
+	 * Color the line based on success status.
+	 *
+	 * @param string $line    Line to output.
+	 * @param bool   $success Success status.
+	 *
+	 * @returns void
+	 */
+	private static function color_line_success( $line, $success ) {
+		self::color_line( $line, ( $success ) ? "\e[32m" : "\e[31m" );
 	}
 }
