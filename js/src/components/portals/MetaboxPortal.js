@@ -16,7 +16,7 @@ import Portal from "./Portal";
 export default function MetaboxPortal( { target, store, theme } ) {
 	return (
 		<Portal target={ target }>
-			<MetaboxSlot />
+			<MetaboxSlot store={ store } theme={ theme } />
 			<MetaboxFill store={ store } theme={ theme } />
 		</Portal>
 	);

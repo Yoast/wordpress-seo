@@ -19,7 +19,7 @@ class WPSEO_Shortlinker {
 		return [
 			'php_version'      => $this->get_php_version(),
 			'platform'         => 'wordpress',
-			'platform_version' => $GLOBALS['wp_version'],
+			'platform_version' => $this->get_platform_version(),
 			'software'         => $this->get_software(),
 			'software_version' => WPSEO_VERSION,
 			'days_active'      => $this->get_days_active(),
@@ -80,6 +80,15 @@ class WPSEO_Shortlinker {
 		$version = explode( '.', PHP_VERSION );
 
 		return (int) $version[0] . '.' . (int) $version[1];
+	}
+
+	/**
+	 * Gets the current site's platform version.
+	 *
+	 * @return string The wp_version.
+	 */
+	protected function get_platform_version() {
+		return $GLOBALS['wp_version'];
 	}
 
 	/**

@@ -23,7 +23,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group builders
  *
  * @coversDefaultClass \Yoast\WP\SEO\Builders\Indexable_Post_Builder
- * @covers ::<!public>
+ * @covers \Yoast\WP\SEO\Builders\Indexable_Post_Builder
  */
 class Indexable_Post_Builder_Test extends TestCase {
 
