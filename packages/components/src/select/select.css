@@ -105,6 +105,10 @@
 	color: var(--yoast-color-white);
 }
 
+.yoast-select-container input[type="text"]:focus {
+	box-shadow: none !important;
+}
+
 /**
  * Styling for the HTML select.
  */
