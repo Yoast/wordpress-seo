@@ -15,9 +15,9 @@ use Yoast\WP\SEO\Actions\Indexation\Term_Link_Indexing_Action;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
 use Yoast\WP\SEO\Conditionals\Yoast_Tools_Page_Conditional;
 use Yoast\WP\SEO\Helpers\Indexable_Helper;
+use Yoast\WP\SEO\Helpers\Short_Link_Helper;
 use Yoast\WP\SEO\Integrations\Admin\Indexing_Integration;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
-use Yoast\WP\SEO\Wrappers\WP_Shortlink_Wrapper;
 
 /**
  * Class Indexing_Integration_Test.
@@ -97,11 +97,11 @@ class Indexing_Integration_Test extends TestCase {
 	protected $indexable_helper;
 
 	/**
-	 * The shortlink wrapper.
+	 * The short link helper.
 	 *
-	 * @var Mockery\LegacyMockInterface|Mockery\MockInterface|WP_Shortlink_Wrapper
+	 * @var Mockery\MockInterface|Short_Link_Helper
 	 */
-	protected $wp_shortlink_wrapper;
+	protected $short_link_helper;
 
 	/**
 	 * Sets up the tests.
@@ -118,7 +118,7 @@ class Indexing_Integration_Test extends TestCase {
 		$this->term_link_indexing_action    = Mockery::mock( Term_Link_Indexing_Action::class );
 		$this->asset_manager                = Mockery::mock( WPSEO_Admin_Asset_Manager::class );
 		$this->indexable_helper             = Mockery::mock( Indexable_Helper::class );
-		$this->wp_shortlink_wrapper         = Mockery::mock( WP_Shortlink_Wrapper::class );
+		$this->short_link_helper            = Mockery::mock( Short_Link_Helper::class );
 
 		$this->instance = new Indexing_Integration(
 			$this->post_indexation,
@@ -128,7 +128,7 @@ class Indexing_Integration_Test extends TestCase {
 			$this->complete_indexation_action,
 			$this->asset_manager,
 			$this->indexable_helper,
-			$this->wp_shortlink_wrapper
+			$this->short_link_helper
 		);
 	}
 
@@ -157,7 +157,7 @@ class Indexing_Integration_Test extends TestCase {
 		$this->assertAttributeInstanceOf( Indexable_General_Indexation_Action::class, 'general_indexation', $this->instance );
 		$this->assertAttributeInstanceOf( Indexable_Complete_Indexation_Action::class, 'complete_indexation_action', $this->instance );
 		$this->assertAttributeInstanceOf( WPSEO_Admin_Asset_Manager::class, 'asset_manager', $this->instance );
-		$this->assertAttributeInstanceOf( WP_Shortlink_Wrapper::class, 'wp_shortlink_wrapper', $this->instance );
+		$this->assertAttributeInstanceOf( Short_Link_Helper::class, 'short_link_helper', $this->instance );
 	}
 
 	/**
@@ -169,7 +169,7 @@ class Indexing_Integration_Test extends TestCase {
 		$actual   = Indexing_Integration::get_conditionals();
 		$expected = [
 			Yoast_Tools_Page_Conditional::class,
-			Migrations_Conditional::class
+			Migrations_Conditional::class,
 		];
 		$this->assertEquals( $expected, $actual );
 	}
@@ -382,26 +382,36 @@ class Indexing_Integration_Test extends TestCase {
 		$this->post_type_archive_indexation->expects( 'index' )->once();
 	}
 
+	/**
+	 * Tests the rendering of the list item, when the user does not have the right rights.
+	 *
+	 * @covers ::render_indexing_list_item
+	 */
 	public function test_render_indexing_list_item_not_allowed() {
 		// Arrange.
 		Monkey\Functions\expect( 'current_user_can' )->with( 'manage_options' )->andReturn( false );
 
 		// Act.
-		$result = $this->instance->render_indexing_list_item();
+		$this->instance->render_indexing_list_item();
 
 		// Assert.
-		$this->assertEmpty( $result );
+		$this->expectOutput( '' );
 	}
 
+	/**
+	 * Tests the rendering of the list item, when the user has the right rights.
+	 *
+	 * @covers ::render_indexing_list_item
+	 */
 	public function test_render_indexing_list_item_is_allowed() {
 		// Arrange.
 		Monkey\Functions\expect( 'current_user_can' )->with( 'manage_options' )->andReturn( true );
-		$this->wp_shortlink_wrapper->shouldReceive( 'get' )->with(  'https://yoa.st/3-z' )->andReturn( 'https://yoast.com' );
+		$this->short_link_helper->shouldReceive( 'get' )->with( 'https://yoa.st/3-z' )->andReturn( 'https://yoast.com' );
 
 		// Act.
-		$result = $this->instance->render_indexing_list_item();
+		$this->instance->render_indexing_list_item();
 
 		// Assert.
-		$this->assertEquals( $result, "" );
+		$this->expectOutput( '<li><strong>Optimize SEO Data</strong><br/>You can speed up your site and get insight into your internal linking structure by letting us perform a few optimizations to the way SEO data is stored. If you have a lot of content it might take a while, but trust us, it\'s worth it. <a href="https://yoast.com" target="_blank">Learn more about the benefits of optimized SEO data.</a><div id="yoast-seo-indexing-action" style="margin: 16px 0;"></div></li>' );
 	}
 }
