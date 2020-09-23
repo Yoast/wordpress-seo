@@ -11,7 +11,7 @@ window.jQuery = () => ( {
 } );
 
 describe( "SEMrushCountrySelector", () => {
-	it( "successfully calls the associated newRequest function when the change country button is clicked", () => {
+	it( "successfully calls the associated newRequest function when the select country button is clicked", () => {
 		const onClickMock = jest.fn();
 		const component = shallow( <SEMrushCountrySelector
 			setCountry={ noop } newRequest={ onClickMock } setNoResultsFoundnewRequest={ noop }

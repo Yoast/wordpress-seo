@@ -309,7 +309,7 @@ class SEMrushCountrySelector extends Component {
 					className="yoast-button yoast-button--secondary"
 					onClick={ this.relatedKeyphrasesRequest }
 				>
-					{ __( "Change Country", "wordpress-seo" ) }
+					{ __( "Select country", "wordpress-seo" ) }
 				</button>
 			</div>
 		);
