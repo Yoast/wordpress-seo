@@ -36,30 +36,13 @@ class Short_Link_Helper {
 	}
 
 	/**
-	 * Collects the additional data necessary for the shortlink.
-	 *
-	 * @return array The shortlink data.
-	 */
-	protected function collect_additional_shortlink_data() {
-		return [
-			'php_version'      => $this->get_php_version(),
-			'platform'         => 'wordpress',
-			'platform_version' => $this->get_platform_version(),
-			'software'         => $this->get_software(),
-			'software_version' => WPSEO_VERSION,
-			'days_active'      => $this->get_days_active(),
-			'user_language'    => \get_user_locale(),
-		];
-	}
-
-	/**
 	 * Builds a URL to use in the plugin as shortlink.
 	 *
 	 * @param string $url The URL to build upon.
 	 *
 	 * @return string The final URL.
 	 */
-	public function build_shortlink( $url ) {
+	public function build( $url ) {
 		return add_query_arg( $this->collect_additional_shortlink_data(), $url );
 	}
 
@@ -71,7 +54,7 @@ class Short_Link_Helper {
 	 * @return string The final URL.
 	 */
 	public function get( $url ) {
-		return $this->build_shortlink( $url );
+		return $this->build( $url );
 	}
 
 	/**
@@ -113,11 +96,28 @@ class Short_Link_Helper {
 	}
 
 	/**
+	 * Collects the additional data necessary for the shortlink.
+	 *
+	 * @return array The shortlink data.
+	 */
+	protected function collect_additional_shortlink_data() {
+		return [
+			'php_version'      => $this->get_php_version(),
+			'platform'         => 'wordpress',
+			'platform_version' => $this->get_platform_version(),
+			'software'         => $this->get_software(),
+			'software_version' => WPSEO_VERSION,
+			'days_active'      => $this->get_days_active(),
+			'user_language'    => \get_user_locale(),
+		];
+	}
+
+	/**
 	 * Get our software and whether it's active or not.
 	 *
 	 * @return string The software name.
 	 */
-	private function get_software() {
+	protected function get_software() {
 		if ( $this->product_helper->is_premium() ) {
 			return 'premium';
 		}
@@ -130,7 +130,7 @@ class Short_Link_Helper {
 	 *
 	 * @return int The number of days the plugin is active.
 	 */
-	private function get_days_active() {
+	protected function get_days_active() {
 		$date_activated = $this->options_helper->get( 'first_activated_on' );
 		$datediff       = ( \time() - $date_activated );
 		$days           = (int) \round( $datediff / DAY_IN_SECONDS );
