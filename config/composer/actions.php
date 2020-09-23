@@ -425,6 +425,16 @@ TPL;
 			echo "Coding standards checks have passed!\n";
 		}
 
+		if ( $above_threshold ) {
+			echo "\n";
+			echo "Running branch changed CS checks.\n";
+			echo "These might give problems on untouched lines, focus on the lines you've changed first.\n";
+			echo "\n";
+
+			// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged -- Non-WP context, this is fine.
+			@passthru( 'composer check-branch-cs' );
+		}
+
 		exit( ( $above_threshold ) ? 1 : 0 );
 	}
 

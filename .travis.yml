@@ -269,8 +269,7 @@ script:
         composer check-cs
         cd -
       else
-        # If thresholds fail; run branch-changed check to report what could be changed to comply to the thresholds.
-        composer check-cs-threshold || composer check-branch-cs
+        composer check-cs-threshold
       fi
       travis_time_finish && travis_fold end "PHP.code-style"
     fi
