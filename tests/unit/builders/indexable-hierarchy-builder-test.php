@@ -22,9 +22,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group builders
  *
  * @coversDefaultClass \Yoast\WP\SEO\Builders\Indexable_Hierarchy_Builder
- * @covers ::<!public>
- * @covers ::__construct
- * @covers ::set_indexable_repository
+ * @covers \Yoast\WP\SEO\Builders\Indexable_Hierarchy_Builder
  *
  * @package Yoast\Tests\Builders
  */
