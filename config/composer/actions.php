@@ -380,11 +380,6 @@ TPL;
 		}
 
 		echo PHP_EOL;
-		echo 'CODE SNIFFER SUMMARY' . PHP_EOL;
-		echo '--------------------' . PHP_EOL;
-		echo implode( PHP_EOL, $phpcs_output );
-
-		echo PHP_EOL;
 		echo 'CODE SNIFFER RESULTS' . PHP_EOL;
 		echo '--------------------' . PHP_EOL;
 
