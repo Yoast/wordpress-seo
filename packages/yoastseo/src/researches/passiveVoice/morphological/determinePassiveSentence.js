@@ -122,6 +122,16 @@ const determineSentenceIsPassiveArabic = function( sentence ) {
 	return passiveVerbs.length !== 0;
 };
 
+const checkHebrewVerbRootsList = function( word, verbRootsList, prefixes, suffixes ) {
+	for ( const root of verbRootsList ) {
+		for ( let i = 0; i < prefixes.length; i++ ) {
+			const pattern =  new RegExp( "^" + prefixes[ i ] + root + suffixes[ i ] + "$" );
+			if ( pattern.test( word ) ) {
+				return word;
+			}
+		}
+	}
+};
 /**
  * Checks the passed sentence to see if it contains Hebrew passive verb-forms.
  *
@@ -133,68 +143,31 @@ const determineSentenceIsPassiveHebrew = function( sentence ) {
 	const matchedPassives = [];
 	for ( const word of words ) {
 		// Check if the root is in nif'al.
-		for ( const root of getNifalVerbsHebrew ) {
-			// The list of prefixes and suffixes for nif'al.
-			const nifalPrefix1 = "נ";
-			const nifalSuffixes1 = "(ים|ת|ות|תי|ה|נו|תם|תן|ו)";
-			const nifalPrefixes2 = "(תי|הי)";
-			const nifalSuffixes2 = "(י|ו|נה)";
-			const nifalPrefix3 = "יי";
-			const nifalSuffix3 = "ו";
-			const nifalPrefixes = "(נ|אי|תי|הי|יי|ני|להי)";
-			// The regexes to match the root with a nif'al pattern.
-			const pattern1 = new RegExp( "^" + nifalPrefix1 + root + nifalSuffixes1 + "$" );
-			const pattern2 = new RegExp( "^" + nifalPrefixes2 + root + nifalSuffixes2 + "$" );
-			const pattern3 = new RegExp( "^" + nifalPrefix3 + root + nifalSuffix3 + "$" );
-			const pattern4 = new RegExp( "^" + nifalPrefixes + root + "$" );
-			if ( pattern1.test( word ) || pattern2.test( word ) || pattern3.test( word ) || pattern4.test( word ) ) {
-				matchedPassives.push( word );
-			}
+		const nifalPrefixes = [ "נ", "(תי|הי)", "יי", "(נ|אי|תי|הי|יי|ני|להי)" ];
+		const nifalSuffixes = [ "(ים|ת|ות|תי|ה|נו|תם|תן|ו)", "(י|ו|נה)", "ו", "" ];
+		const nifalPassive = checkHebrewVerbRootsList( word, getNifalVerbsHebrew, nifalPrefixes, nifalSuffixes );
+		if ( nifalPassive ) {
+			matchedPassives.push( word );
 		}
 		// Check if the root is in pu'al.
 		for ( const root of getPualVerbsHebrew ) {
 			// The list of prefixes and suffixes for pu'al.
-			const pualPrefix1 = "נ";
-			const pualSuffixes1 = "(ים|ת|ות|תי|ה|נו|תם|תן|ו)";
-			const pualPrefixes2 = "(תי|הי)";
-			const pualSuffixes2 = "(י|ו|נה)";
-			const pualPrefix3 = "יי";
-			const pualSuffix3 = "ו";
-			const pualPrefixes = "(נ|אי|תי|הי|יי|ני|להי)";
-			// The regexes to match the root with a pu'al pattern.
-			const pattern1 = new RegExp( "^" + pualPrefix1 + root + pualSuffixes1 + "$" );
-			const pattern2 = new RegExp( "^" + pualPrefixes2 + root + pualSuffixes2 + "$" );
-			const pattern3 = new RegExp( "^" + pualPrefix3 + root + pualSuffix3 + "$" );
-			const pattern4 = new RegExp( "^" + pualPrefixes + root + "$" );
-			if ( pattern1.test( word ) || pattern2.test( word ) || pattern3.test( word ) || pattern4.test( word ) ) {
-				matchedPassives.push( word );
+			const pualPrefixes = [ "מ", "ת", "י", "תי", "(מ|א|ת|י|נ)", "" ];
+			const pualSuffixes = [ "(ת|ים|ות)", "(י|ו|נה)", "ו", "נה", "", "(תי|ת|ה|נו|תם|תן|ו)" ];
+			const pualInfix = "ו";
+			for ( let i = 0; i < pualPrefixes.length; i++ ) {
+				const pualPattern = new RegExp( "^" + pualPrefixes[ i ] + root[ 0 ] + pualInfix + root[ 1 ] + root[ 2 ] + pualSuffixes[ i ] + "$" );
+				if ( pualPattern.test( word ) ) {
+					matchedPassives.push( word );
+				}
 			}
 		}
 		// Check if the root is in huf'al.
-		for ( const root of getHufalVerbsHebrew ) {
-			// The list of prefixes and suffixes for huf'al.
-			const hufalPrefix1 = "מו";
-			const hufalSuffixes1 = "(ת|ים|ות)";
-			const hufalPrefix2 = "הו";
-			const hufalSuffixes2 = "(תי|ת|ית|ה|נו|תם|תן|ו)";
-			const hufalPrefix3 = "תו";
-			const hufalSuffix3 = "י";
-			const hufalPrefix4 = "תו";
-			const hufalSuffixes4 = "(ו|נה)";
-			const hufalPrefix5 = "יו";
-			const hufalSuffix5 = "ו";
-			const hufalPrefixes = "(מו|הו|או|תו|יו|נו)";
-			// The regexes to match the root with a huf'al pattern.
-			const pattern1 = new RegExp( "^" + hufalPrefix1 + root + hufalSuffixes1 + "$" );
-			const pattern2 = new RegExp( "^" + hufalPrefix2 + root + hufalSuffixes2 + "$" );
-			const pattern3 = new RegExp( "^" + hufalPrefix3 + root + hufalSuffix3 + "$" );
-			const pattern4 = new RegExp( "^" + hufalPrefix4 + root + hufalSuffixes4 + "$" );
-			const pattern5 = new RegExp( "^" + hufalPrefix5 + root + hufalSuffix5 + "$" );
-			const pattern6 = new RegExp( "^" + hufalPrefixes + root + "$" );
-			if ( pattern1.test( word ) || pattern2.test( word ) || pattern3.test( word ) || pattern4.test( word ) ||
-				pattern5.test( word ) || pattern6.test( word ) ) {
-				matchedPassives.push( word );
-			}
+		const hufalPrefixes = [ "מו", "הו", "תו", "תו", "תו", "יו", "(מו|הו|או|תו|יו|נו)" ];
+		const hufalSuffixes = [ "(ת|ים|ות)", "(תי|ת|ית|ה|נו|תם|תן|ו)", "י", "(ו|נה)", "ו", "" ];
+		const hufalPassive = checkHebrewVerbRootsList( word, getHufalVerbsHebrew, hufalPrefixes, hufalSuffixes );
+		if ( hufalPassive ) {
+			matchedPassives.push( word );
 		}
 	}
 	// If it's in none of the above it's not a passive.
