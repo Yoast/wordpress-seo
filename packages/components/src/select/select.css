@@ -83,6 +83,8 @@
 
 .yoast-select-container .yoast-select__control {
 	border-radius: 0;
+	border: none;
+	background-color: transparent;
 }
 
 .yoast-select-container .yoast-select__option {
@@ -103,6 +105,10 @@
 .yoast-select-container .yoast-select__option.yoast-select__option--is-selected {
 	background-color: var(--yoast-color-primary);
 	color: var(--yoast-color-white);
+}
+
+.yoast-select-container input[type="text"]:focus {
+	box-shadow: none;
 }
 
 /**
