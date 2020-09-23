@@ -58,6 +58,7 @@ class WPSEO_Upgrade {
 			'14.2-RC0'   => 'upgrade_142',
 			'14.5-RC0'   => 'upgrade_145',
 			'14.9-RC0'   => 'upgrade_149',
+			'15.1-RC0'   => 'upgrade_151',
 		];
 
 		array_walk( $routines, [ $this, 'run_upgrade_routine' ], $version );
@@ -731,6 +732,15 @@ class WPSEO_Upgrade {
 	}
 
 	/**
+	 * Performs the 15.1 upgrade.
+	 *
+	 * @return void
+	 */
+	private function upgrade_151() {
+		add_action( 'init', [ $this, 'set_permalink_structure_option_for_151' ] );
+	}
+
+	/**
 	 * Checks if the indexable indexation is completed.
 	 * If so, sets the `indexables_indexation_completed` option to `true`,
 	 * else to `false`.
@@ -986,5 +996,14 @@ class WPSEO_Upgrade {
 
 			WPSEO_Options::set( 'noindex-ptarchive-product', false );
 		}
+	}
+
+	/**
+	 * Stores the initial `permalink_structure` option.
+	 *
+	 * @return void
+	 */
+	public function set_permalink_structure_option_for_151() {
+		WPSEO_Options::set( 'permalink_structure', get_option( 'permalink_structure' ) );
 	}
 }
