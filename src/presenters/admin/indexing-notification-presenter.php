@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Presenters\Admin;
 
+use Yoast\WP\SEO\Helpers\Short_Link_Helper;
 use Yoast\WP\SEO\Presenters\Abstract_Presenter;
 
 /**
@@ -26,14 +27,23 @@ class Indexing_Notification_Presenter extends Abstract_Presenter {
 	protected $message;
 
 	/**
+	 * The short link helper.
+	 *
+	 * @var Short_Link_Helper
+	 */
+	protected $short_link_helper;
+
+	/**
 	 * Indexing_Notification_Presenter constructor.
 	 *
-	 * @param int    $total_unindexed Total number of unindexed objects.
-	 * @param string $message         The message to show in the notification.
+	 * @param Short_Link_Helper $short_link_helper The short link helper.
+	 * @param int               $total_unindexed   Total number of unindexed objects.
+	 * @param string            $message           The message to show in the notification.
 	 */
-	public function __construct( $total_unindexed, $message ) {
-		$this->total_unindexed = $total_unindexed;
-		$this->message         = $message;
+	public function __construct( $short_link_helper, $total_unindexed, $message ) {
+		$this->short_link_helper = $short_link_helper;
+		$this->total_unindexed   = $total_unindexed;
+		$this->message           = $message;
 	}
 
 	/**
@@ -85,7 +95,7 @@ class Indexing_Notification_Presenter extends Abstract_Presenter {
 		$estimate .= \sprintf(
 		/* translators: 1: Link to article about indexation command, 2: Anchor closing tag, 3: Link to WP CLI. */
 			\esc_html__( '%1$sRun the indexation process on your server%2$s using %3$sWP CLI%2$s', 'wordpress-seo' ),
-			'<a href="' . \esc_url( \WPSEO_Shortlinker::get( 'https://yoa.st/3-w' ) ) . '" target="_blank">',
+			'<a href="' . \esc_url( $this->short_link_helper->get( 'https://yoa.st/3-w' ) ) . '" target="_blank">',
 			'</a>',
 			'<a href="https://wp-cli.org/" target="_blank">'
 		);

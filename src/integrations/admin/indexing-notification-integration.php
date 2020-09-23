@@ -7,6 +7,7 @@ use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Date_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
+use Yoast\WP\SEO\Helpers\Short_Link_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Presenters\Admin\Indexing_Notification_Presenter;
 use Yoast\WP\SEO\Presenters\Admin\Indexing_Failed_Notification_Presenter;
@@ -85,7 +86,14 @@ class Indexing_Notification_Integration implements Integration_Interface {
 	 *
 	 * @var Date_Helper
 	 */
-	private $date_helper;
+	protected $date_helper;
+
+	/**
+	 * The short link helper.
+	 *
+	 * @var Short_Link_Helper
+	 */
+	protected $short_link_helper;
 
 	/**
 	 * Prominent_Words_Notifier constructor.
@@ -96,6 +104,7 @@ class Indexing_Notification_Integration implements Integration_Interface {
 	 * @param Product_Helper            $product_helper       The product helper.
 	 * @param Current_Page_Helper       $page_helper          The current page helper.
 	 * @param Date_Helper               $date_helper          The date helper.
+	 * @param Short_Link_Helper         $short_link_helper    The short link helper.
 	 */
 	public function __construct(
 		Indexing_Integration $indexing_integration,
@@ -103,7 +112,8 @@ class Indexing_Notification_Integration implements Integration_Interface {
 		Options_Helper $options_helper,
 		Product_Helper $product_helper,
 		Current_Page_Helper $page_helper,
-		Date_Helper $date_helper
+		Date_Helper $date_helper,
+		Short_Link_Helper $short_link_helper
 	) {
 		$this->indexing_integration = $indexing_integration;
 		$this->notification_center  = $notification_center;
@@ -111,6 +121,7 @@ class Indexing_Notification_Integration implements Integration_Interface {
 		$this->product_helper       = $product_helper;
 		$this->page_helper          = $page_helper;
 		$this->date_helper          = $date_helper;
+		$this->short_link_helper    = $short_link_helper;
 	}
 
 	/**
@@ -261,7 +272,7 @@ class Indexing_Notification_Integration implements Integration_Interface {
 		}
 		else {
 			$total_unindexed = $this->indexing_integration->get_total_unindexed();
-			$presenter       = new Indexing_Notification_Presenter( $total_unindexed, $this->get_notification_message( $reason ) );
+			$presenter       = new Indexing_Notification_Presenter( $this->short_link_helper, $total_unindexed, $this->get_notification_message( $reason ) );
 		}
 
 		return new Yoast_Notification(

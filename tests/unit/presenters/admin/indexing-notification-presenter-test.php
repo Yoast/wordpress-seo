@@ -17,6 +17,22 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
 class Indexing_Notification_Presenter_Test extends TestCase {
 
 	/**
+	 * The short link helper.
+	 *
+	 * @var Mockery\MockInterface|Short_Link_Helper
+	 */
+	protected $short_link_helper;
+
+	/**
+	 * Sets up the tests.
+	 */
+	public function setUp() {
+		parent::setUp();
+
+		$this->short_link_helper = Mockery::mock( Short_Link_Helper::class );
+	}
+
+	/**
 	 * Tests the present method when only a few notifications need
 	 * to be indexed.
 	 *
@@ -28,6 +44,7 @@ class Indexing_Notification_Presenter_Test extends TestCase {
 			->andReturn( 'https://example.org/wp-admin/admin.php?page=wpseo_tools' );
 
 		$instance = new Indexing_Notification_Presenter(
+			$this->short_link_helper,
 			50,
 			'A message to show in the notification.'
 		);
@@ -50,6 +67,7 @@ class Indexing_Notification_Presenter_Test extends TestCase {
 			->andReturn( 'https://example.org/wp-admin/admin.php?page=wpseo_tools' );
 
 		$instance = new Indexing_Notification_Presenter(
+			$this->short_link_helper,
 			500,
 			'A message to show in the notification.'
 		);
@@ -67,7 +85,10 @@ class Indexing_Notification_Presenter_Test extends TestCase {
 	 * @covers ::present
 	 */
 	public function test_present_many_indexables() {
-		Monkey\Functions\expect( 'add_query_arg' );
+		$this->short_link_helper
+			->expects( 'get' )
+			->with( 'https://yoa.st/3-w' )
+			->andReturn( 'https://yoa.st/3-w?some-query-arg=some-value' );
 
 		Monkey\Functions\expect( 'get_admin_url' )
 			->with( null, 'admin.php?page=wpseo_tools' )
@@ -78,11 +99,12 @@ class Indexing_Notification_Presenter_Test extends TestCase {
 			->andReturn( 'wp-nonce' );
 
 		$instance = new Indexing_Notification_Presenter(
+			$this->short_link_helper,
 			4000,
 			'A message to show in the notification.'
 		);
 
-		$expected = '<p>A message to show in the notification.</p><p>We estimate this could take a long time, due to the size of your site. As an alternative to waiting, you could:<ul class="ul-disc"><li>Wait for a week or so, until Yoast SEO automatically processes most of your content in the background. <button type="button" id="yoast-indexation-remind-button" class="button-link hide-if-no-js dismiss" data-nonce="wp-nonce" data-json=\'{ "temp": true }\'>Remind me in a week.</button></li><li><a href="" target="_blank">Run the indexation process on your server</a> using <a href="https://wp-cli.org/" target="_blank">WP CLI</a></li></ul></p><a class="button" href="https://example.org/wp-admin/admin.php?page=wpseo_tools">Start SEO data optimization</a>';
+		$expected = '<p>A message to show in the notification.</p><p>We estimate this could take a long time, due to the size of your site. As an alternative to waiting, you could:<ul class="ul-disc"><li>Wait for a week or so, until Yoast SEO automatically processes most of your content in the background. <button type="button" id="yoast-indexation-remind-button" class="button-link hide-if-no-js dismiss" data-nonce="wp-nonce" data-json=\'{ "temp": true }\'>Remind me in a week.</button></li><li><a href="https://yoa.st/3-w?some-query-arg=some-value" target="_blank">Run the indexation process on your server</a> using <a href="https://wp-cli.org/" target="_blank">WP CLI</a></li></ul></p><a class="button" href="https://example.org/wp-admin/admin.php?page=wpseo_tools">Start SEO data optimization</a>';
 		$actual   = $instance->present();
 
 		self::assertSame( $expected, $actual );
