@@ -3,6 +3,8 @@
 namespace Yoast\WP\SEO\Integrations\Admin;
 
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
+use Yoast\WP\SEO\Helpers\Current_Page_Helper;
+use Yoast\WP\SEO\Helpers\Date_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
@@ -72,23 +74,43 @@ class Indexing_Notification_Integration implements Integration_Interface {
 	protected $product_helper;
 
 	/**
+	 * The current page helper.
+	 *
+	 * @var Current_Page_Helper
+	 */
+	protected $page_helper;
+
+	/**
+	 * The date helper.
+	 *
+	 * @var Date_Helper
+	 */
+	private $date_helper;
+
+	/**
 	 * Prominent_Words_Notifier constructor.
 	 *
 	 * @param Indexing_Integration      $indexing_integration The indexing integration.
 	 * @param Yoast_Notification_Center $notification_center  The notification center.
 	 * @param Options_Helper            $options_helper       The options helper.
 	 * @param Product_Helper            $product_helper       The product helper.
+	 * @param Current_Page_Helper       $page_helper          The current page helper.
+	 * @param Date_Helper               $date_helper          The date helper.
 	 */
 	public function __construct(
 		Indexing_Integration $indexing_integration,
 		Yoast_Notification_Center $notification_center,
 		Options_Helper $options_helper,
-		Product_Helper $product_helper
+		Product_Helper $product_helper,
+		Current_Page_Helper $page_helper,
+		Date_Helper $date_helper
 	) {
 		$this->indexing_integration = $indexing_integration;
 		$this->notification_center  = $notification_center;
 		$this->options_helper       = $options_helper;
 		$this->product_helper       = $product_helper;
+		$this->page_helper          = $page_helper;
+		$this->date_helper          = $date_helper;
 	}
 
 	/**
@@ -99,12 +121,12 @@ class Indexing_Notification_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function register_hooks() {
-		if ( \filter_input( INPUT_GET, 'page' ) === 'wpseo_dashboard' ) {
+		if ( $this->page_helper->get_current_yoast_seo_page() === 'wpseo_dashboard' ) {
 			\add_action( 'admin_init', [ $this, 'cleanup_notification' ] );
 		}
 
 		if ( ! \wp_next_scheduled( self::NOTIFICATION_ID ) ) {
-			\wp_schedule_event( \time(), 'daily', self::NOTIFICATION_ID );
+			\wp_schedule_event( $this->date_helper->current_time(), 'daily', self::NOTIFICATION_ID );
 		}
 
 		\add_action( self::NOTIFICATION_ID, [ $this, 'create_notification' ] );

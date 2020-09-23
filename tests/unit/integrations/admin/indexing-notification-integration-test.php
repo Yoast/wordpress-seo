@@ -1,6 +1,8 @@
 <?php
 
 use Brain\Monkey;
+use Yoast\WP\SEO\Helpers\Current_Page_Helper;
+use Yoast\WP\SEO\Helpers\Date_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Integrations\Admin\Indexing_Integration;
@@ -44,6 +46,20 @@ class Indexing_Notification_Integration_Test extends TestCase {
 	protected $product_helper;
 
 	/**
+	 * The current page helper.
+	 *
+	 * @var Mockery\MockInterface|Current_Page_Helper
+	 */
+	protected $page_helper;
+
+	/**
+	 * The date helper.
+	 *
+	 * @var Mockery\MockInterface|Date_Helper
+	 */
+	protected $date_helper;
+
+	/**
 	 * The instance under test.
 	 *
 	 * @var Indexing_Notification_Integration
@@ -60,12 +76,16 @@ class Indexing_Notification_Integration_Test extends TestCase {
 		$this->notification_center  = Mockery::mock( \Yoast_Notification_Center::class );
 		$this->options_helper       = Mockery::mock( Options_Helper::class );
 		$this->product_helper       = Mockery::mock( Product_Helper::class );
+		$this->page_helper          = Mockery::mock( Current_Page_Helper::class );
+		$this->date_helper          = Mockery::mock( Date_Helper::class );
 
 		$this->instance = new Indexing_Notification_Integration(
 			$this->indexing_integration,
 			$this->notification_center,
 			$this->options_helper,
-			$this->product_helper
+			$this->product_helper,
+			$this->page_helper,
+			$this->date_helper
 		);
 	}
 
@@ -102,14 +122,74 @@ class Indexing_Notification_Integration_Test extends TestCase {
 	 *
 	 * @covers ::register_hooks
 	 */
-	public function _test_register_hooks() {
-		$this->instance->register_hooks();
+	public function test_register_hooks_create_notification() {
+		$this->page_helper
+			->expects( 'get_current_yoast_seo_page' )
+			->once()
+			->andReturn( 'another_page' );
 
 		Monkey\Functions\expect( 'wp_next_scheduled' )
 			->once()
 			->andReturn( true );
 
-		Monkey\Actions\expectAdded( 'admin_init' );
+		Monkey\Actions\expectAdded( Indexing_Notification_Integration::NOTIFICATION_ID )
+			->with( [ $this->instance, 'create_notification' ] )
+			->once();
+
+		$this->instance->register_hooks();
+	}
+
+	/**
+	 * Tests the registration of the hooks.
+	 *
+	 * @covers ::register_hooks
+	 */
+	public function test_register_hooks_cleanup_notification() {
+		$this->page_helper
+			->expects( 'get_current_yoast_seo_page' )
+			->once()
+			->andReturn( 'wpseo_dashboard' );
+
+		Monkey\Actions\expectAdded( 'admin_init' )
+			->with( [ $this->instance, 'cleanup_notification' ] )
+			->once();
+
+		Monkey\Functions\expect( 'wp_next_scheduled' )
+			->once()
+			->andReturn( true );
+
+		Monkey\Actions\expectAdded( Indexing_Notification_Integration::NOTIFICATION_ID )
+			->with( [ $this->instance, 'create_notification' ] )
+			->once();
+
+		$this->instance->register_hooks();
+	}
+
+	/**
+	 * Tests the registration of the hooks.
+	 *
+	 * @covers ::register_hooks
+	 */
+	public function test_register_hooks_schedule_notification() {
+		$this->page_helper
+			->expects( 'get_current_yoast_seo_page' )
+			->once()
+			->andReturn( 'another_page' );
+
+		Monkey\Functions\expect( 'wp_next_scheduled' )
+			->once()
+			->andReturn( false );
+
+		$mocked_time = 1234567;
+
+		$this->date_helper
+			->expects( 'current_time' )
+			->andReturn( $mocked_time );
+
+		Monkey\Functions\expect( 'wp_schedule_event' )
+			->with( $mocked_time, 'daily', Indexing_Notification_Integration::NOTIFICATION_ID );
+
+		$this->instance->register_hooks();
 	}
 
 	/**
@@ -250,7 +330,7 @@ class Indexing_Notification_Integration_Test extends TestCase {
 		return [
 			[ 'permalink_settings_changed' ],
 			[ 'category_base_changed' ],
-			[ 'home_url_option_changed' ]
+			[ 'home_url_option_changed' ],
 		];
 	}
 
