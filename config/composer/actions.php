@@ -213,7 +213,7 @@ class Actions {
 			return 0;
 		}
 
-		\system( 'composer check-cs -- ' . \implode( ' ', \array_map( 'escapeshellarg', $php_files ) ), $exit_code );
+		\system( 'composer check-cs-warnings -- ' . \implode( ' ', \array_map( 'escapeshellarg', $php_files ) ), $exit_code );
 		return $exit_code;
 	}
 
