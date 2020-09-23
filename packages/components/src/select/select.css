@@ -129,6 +129,10 @@
 	min-height: 2.85em;
 }
 
+.yoast-field-group .yoast-select__value-container {
+	padding: 0 8px !important;
+}
+
 .yoast-field-group select:focus,
 .yoast-field-group__select select:focus {
 	box-shadow: var(--yoast-color-focus);
@@ -143,4 +147,11 @@
 
 .yoast-field-group select.yoast-select--inline {
 	display: inline-block;
+}
+
+.yoast-field-group--inline {
+	max-width: 300px;
+    display: inline-block;
+    width: 100%;
+    margin-right: 8px;
 }

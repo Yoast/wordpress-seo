@@ -12,7 +12,7 @@
   "scripts": {
     "start": "echo 'The yoast-components demo app has been moved to javascript/apps/components (https://github.com/Yoast/javascript/tree/develop/apps/components). Please run yarn start there.'",
     "test": "jest",
-    "lint": "eslint . --max-warnings=34",
+    "lint": "eslint . --max-warnings=28",
     "prepublishOnly": "grunt publish"
   },
   "jest": {
