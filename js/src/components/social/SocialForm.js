@@ -1,11 +1,9 @@
-/* External dependencies */
 import { Component, Fragment } from "@wordpress/element";
 import PropTypes from "prop-types";
-
-/* Internal dependencies */
 import SocialUpsell from "./SocialUpsell";
 import { SocialMetadataPreviewForm } from "@yoast/social-metadata-forms";
 import { recommendedReplacementVariablesShape, replacementVariablesShape } from "@yoast/replacement-variable-editor";
+import { join } from "@yoast/helpers";
 
 /**
  * A form with an image selection button, a title input field and a description field and the social preview.
@@ -129,6 +127,8 @@ class SocialPreviewEditor extends Component {
 			location,
 		} = this.props;
 
+		const lowerCaseSocialMediumName = socialMediumName.toLowerCase();
+
 		return (
 			<Fragment>
 				<SocialUpsell socialMediumName={ socialMediumName } />
@@ -153,7 +153,12 @@ class SocialPreviewEditor extends Component {
 					activeField={ this.state.activeField }
 					isPremium={ isPremium }
 					setEditorRef={ this.setEditorRef }
-					location={ location }
+					titleId={ join( [ lowerCaseSocialMediumName, "title-input", location ] ) }
+					descriptionId={ join( [ lowerCaseSocialMediumName, "description-input", location ] ) }
+					imageUrlInputId={ join( [ lowerCaseSocialMediumName, "image-url-input", location ] ) }
+					selectImageButtonId={ join( [ lowerCaseSocialMediumName, "select-image-button", location ] ) }
+					replaceImageButtonId={ join( [ lowerCaseSocialMediumName, "replace-image-button", location ] ) }
+					removeImageButtonId={ join( [ lowerCaseSocialMediumName, "remove-image-button", location ] ) }
 				/>
 			</Fragment>
 		);
