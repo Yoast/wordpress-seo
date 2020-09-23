@@ -405,6 +405,54 @@ class Indexing_Notification_Integration_Test extends TestCase {
 	}
 
 	/**
+	 * Tests that no notification is created when the user stopped the
+	 * indexing process manually.
+	 *
+	 * @covers ::create_notification
+	 * @covers ::should_show_notification
+	 * @covers ::notification
+	 * @covers ::get_notification_message
+	 */
+	public function test_create_notification_when_user_stopped_it() {
+		$mocked_time = 1353426177;
+
+		$this->date_helper
+			->expects( 'current_time' )
+			->andReturn( $mocked_time );
+
+		$this->notification_center
+			->expects( 'get_notification_by_id' )
+			->once()
+			->andReturnNull();
+
+		$this->indexing_integration
+			->expects( 'get_total_unindexed' )
+			->once()
+			->andReturn( 40 );
+
+		$this->options_helper
+			->expects( 'get' )
+			->with( 'indexables_indexation_reason', '' )
+			->once()
+			->andReturn( '' );
+
+		$this->options_helper
+			->expects( 'get' )
+			->with( 'indexation_started' )
+			->once()
+			->andReturn( 1593426177 );
+
+		Monkey\Functions\expect( 'wp_get_current_user' )
+			->andReturn( 'user' );
+
+		$this->notification_center
+			->expects( 'add_notification' )
+			->never();
+
+		$this->instance->create_notification();
+	}
+
+	/**
 	 * Tests removing the notification from the notification center when there is no notification.
 	 *
 	 * @covers ::cleanup_notification
