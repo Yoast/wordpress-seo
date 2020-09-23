@@ -1,9 +1,7 @@
-import { __, sprintf } from "@wordpress/i18n";
-import { MultiSelect, Select } from "@yoast/components";
-import { RadioButtonGroup } from "@yoast/components";
-import { TextInput } from "@yoast/components";
 import { Fragment, useEffect } from "@wordpress/element";
-import { Alert } from "@yoast/components";
+import { __, sprintf } from "@wordpress/i18n";
+import { Alert, MultiSelect, RadioButtonGroup, Select, TextInput } from "@yoast/components";
+import { appendLocationToId } from "@yoast/helpers";
 import PropTypes from "prop-types";
 import { LocationConsumer } from "./contexts/location";
 
@@ -13,22 +11,6 @@ import { LocationConsumer } from "./contexts/location";
  * @returns {Boolean} Whether this is a post or not.
  */
 const isPost = () => !! window.wpseoScriptData.isPost;
-
-/**
- * If location is not empty, we append it to the id, to keep id's unique.
- *
- * @param {string} id       The id.
- * @param {string} location The location.
- *
- * @returns {string} The hopefully unique id.
- */
-const appendLocation = ( id, location ) => {
-	if ( location ) {
-		return `${ id }-${ location }`;
-	}
-
-	return id;
-};
 
 /**
  * The values that are used for the noIndex field differ for posts and taxonomies. This function returns an array of
@@ -85,7 +67,7 @@ const MetaRobotsNoIndex = ( { noIndex, onNoIndexChange, editorContext, isPrivate
 
 	return <LocationConsumer>
 		{ location => {
-			const id = appendLocation( "yoast-meta-robots-noindex", location );
+			const id = appendLocationToId( "yoast-meta-robots-noindex", location );
 
 			return <Fragment>
 				{
@@ -95,7 +77,7 @@ const MetaRobotsNoIndex = ( { noIndex, onNoIndexChange, editorContext, isPrivate
 							"Even though you can set the meta robots setting here, " +
 							"the entire site is set to noindex in the sitewide privacy settings, " +
 							"so these settings won't have an effect.",
-							"wordpress-seo"
+							"wordpress-seo",
 						) }
 					</Alert>
 				}
@@ -138,7 +120,7 @@ MetaRobotsNoIndex.defaultProps = {
 const MetaRobotsNoFollow = ( { noFollow, onNoFollowChange, postTypeName } ) => {
 	return <LocationConsumer>
 		{ location => {
-			const id = appendLocation( "yoast-meta-robots-nofollow", location );
+			const id = appendLocationToId( "yoast-meta-robots-nofollow", location );
 
 			return <RadioButtonGroup
 				id={ id }
@@ -174,7 +156,7 @@ MetaRobotsNoFollow.propTypes = {
 const MetaRobotsAdvanced = ( { advanced, onAdvancedChange } ) => {
 	return <LocationConsumer>
 		{ location => {
-			const id = appendLocation( "yoast-meta-robots-advanced", location );
+			const id = appendLocationToId( "yoast-meta-robots-advanced", location );
 			const inputId = `${ id }-input`;
 
 			return <MultiSelect
@@ -212,7 +194,7 @@ const BreadcrumbsTitle = ( { breadcrumbsTitle, onBreadcrumbsTitleChange } ) => {
 	return <LocationConsumer>
 		{
 			location => {
-				const id = appendLocation( "yoast-breadcrumbs-title", location );
+				const id = appendLocationToId( "yoast-breadcrumbs-title", location );
 
 				return <TextInput
 					label={ __( "Breadcrumbs Title", "wordpress-seo" ) }
@@ -244,7 +226,7 @@ const CanonicalURL = ( { canonical, onCanonicalChange } ) => {
 	return <LocationConsumer>
 		{
 			location => {
-				const id = appendLocation( "yoast-canonical", location );
+				const id = appendLocationToId( "yoast-canonical", location );
 
 				return <TextInput
 					label={ __( "Canonical URL", "wordpress-seo" ) }
@@ -333,7 +315,7 @@ const AdvancedSettings = ( props ) => {
 	return (
 		<Fragment>
 			<MetaRobotsNoIndex { ...noIndexProps } />
-			{ editorContext.isPost  && <MetaRobotsNoFollow { ...noFollowProps } /> }
+			{ editorContext.isPost && <MetaRobotsNoFollow { ...noFollowProps } /> }
 			{ editorContext.isPost && <MetaRobotsAdvanced { ...advancedProps } /> }
 			{
 				! isBreadcrumbsDisabled && <BreadcrumbsTitle { ...breadcrumbsTitleProps } />
