@@ -11,15 +11,10 @@ use Yoast\WP\SEO\Integrations\Third_Party\Web_Stories;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
-class Story_Post_Type_Stub {
-	const POST_TYPE_SLUG = 'web-story';
-}
-
 /**
  * Web Stories integration test.
  *
  * @coversDefaultClass \Yoast\WP\SEO\Integrations\Third_Party\Web_Stories
- * @covers ::<!public>
  *
  * @group integrations
  * @group third-party
@@ -174,9 +169,7 @@ class Web_Stories_Test extends TestCase {
 		$indexable      = Mockery::mock( Indexable::class );
 		$indexable->orm = Mockery::mock( ORM::class );
 
-		$indexable->orm->allows( 'get' )
-		                     ->with( 'object_sub_type' )
-		                     ->andReturn( 'web-story' );
+		$indexable->orm->allows( 'get' )->with( 'object_sub_type' )->andReturn( 'web-story' );
 
 		$actual = $this->instance->filter_schema_article_type( 'None', $indexable );
 		$this->assertEquals( 'Article', $actual );
@@ -196,11 +189,14 @@ class Web_Stories_Test extends TestCase {
 		$indexable      = Mockery::mock( Indexable::class );
 		$indexable->orm = Mockery::mock( ORM::class );
 
-		$indexable->orm->allows( 'get' )
-		                     ->with( 'object_sub_type' )
-		                     ->andReturn( 'post' );
+		$indexable->orm->allows( 'get' )->with( 'object_sub_type' )->andReturn( 'post' );
 
 		$actual = $this->instance->filter_schema_article_type( 'None', $indexable );
 		$this->assertEquals( 'None', $actual );
 	}
+}
+
+// phpcs:ignore -- Convert this to a double if more logic is needed.
+class Story_Post_Type_Stub {
+	const POST_TYPE_SLUG = 'web-story';
 }

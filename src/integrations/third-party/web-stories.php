@@ -115,12 +115,12 @@ class Web_Stories implements Integration_Interface {
 	 * @param Indexable       $indexable The indexable.
 	 * @return string|string[] Article type.
 	 */
-	public function filter_schema_article_type( $type, $indexable  ) {
+	public function filter_schema_article_type( $type, $indexable ) {
 		if ( Google_Web_Stories\Story_Post_Type::POST_TYPE_SLUG !== $indexable->object_sub_type ) {
 			return $type;
 		}
 
-		if ( is_string( $type ) && 'None' === $type ) {
+		if ( is_string( $type ) && $type === 'None' ) {
 			return 'Article';
 		}
 
