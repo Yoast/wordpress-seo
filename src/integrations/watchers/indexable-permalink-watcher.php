@@ -149,8 +149,35 @@ class Indexable_Permalink_Watcher implements Integration_Interface {
 	 * @return bool Whether the permalinks should be reset.
 	 */
 	public function should_reset_permalinks() {
-		return \get_option( 'permalink_structure' ) !== $this->options_helper->get( 'permalink_structure' );
+		if( \get_option( 'permalink_structure' ) !== $this->options_helper->get( 'permalink_structure' ) ||
+			get_option( 'category_base' ) !== $this->options_helper->get( 'category_base_url' ) ||
+			get_option( 'tag_base' ) !== $this->options_helper->get( 'tag_base_url' ))
+		{
+			return true;
+		}
+		return false;
 	}
+
+	/**
+	 * Checks whether permalinks should be reset.
+	 *
+	 * @return bool Whether the permalinks should be reset.
+	 */
+	public function should_reset_terms( $taxonomy ) {
+
+
+		$currentBase = $this->get_tax_slug( $taxonomy );
+		$previousBaseCategory = $this->options_helper->get("category_base_url");
+		$previousBaseTag = $this->options_helper->get("category_tag_url");
+
+		if($currentBase !== $previousBaseCategory || $currentBase !== $previousBaseTag)
+		{
+			return true;
+		}
+
+		return false;
+	}
+
 
 	/**
 	 * Retrieves a list with the public post types.

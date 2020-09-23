@@ -113,40 +113,5 @@ class Indexable_Term_Watcher implements Integration_Interface {
 
 		// If we haven't found an existing indexable, create it. Otherwise update it.
 		$this->builder->build_for_id_and_type($term_id, 'term', $indexable);
-
-		//Check if the base url is still the same and did not get changed undetected
-		if ( $this->should_reset_permalinks($term->taxonomy) )
-		{
-			//reset
-		}
-
-	}
-
-	/**
-	 * Checks whether permalinks should be reset.
-	 *
-	 * @return bool Whether the permalinks should be reset.
-	 */
-	public function should_reset_permalinks( $taxonomy ) {
-		$optionsHelper = new Options_Helper();
-
-		$currentBase = $this->get_tax_slug( taxonomy );
-		$previousBaseCategory = $optionsHelper->get("category_base_url");
-		$previousBaseTag = $optionsHelper->get("category_tag_url");
-
-		if($currentBase !== $previousBaseCategory || $currentBase !== $previousBaseTag)
-		{
-			return true;
-		}
-
-		return false;
-	}
-
-	private function get_tax_slug( $taxonomy ) {
-		$tax = get_taxonomy( $taxonomy );
-		if ( $tax && property_exists( $tax, 'rewrite' ) && is_array( $tax->rewrite ) && isset( $tax->rewrite['slug'] ) ) {
-			return $tax->rewrite['slug'];
-		}
-		return strtolower( $tax->name );
 	}
 }
