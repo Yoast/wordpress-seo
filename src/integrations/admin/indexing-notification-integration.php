@@ -267,13 +267,7 @@ class Indexing_Notification_Integration implements Integration_Interface {
 	protected function notification() {
 		$reason = $this->options_helper->get( 'indexables_indexation_reason', '' );
 
-		if ( $reason === self::REASON_INDEXING_FAILED ) {
-			$presenter = new Indexing_Failed_Notification_Presenter( $this->product_helper->is_premium() );
-		}
-		else {
-			$total_unindexed = $this->indexing_integration->get_total_unindexed();
-			$presenter       = new Indexing_Notification_Presenter( $this->short_link_helper, $total_unindexed, $this->get_notification_message( $reason ) );
-		}
+		$presenter = $this->get_presenter( $reason );
 
 		return new Yoast_Notification(
 			$presenter,
@@ -284,5 +278,24 @@ class Indexing_Notification_Integration implements Integration_Interface {
 				'priority'     => 0.8,
 			]
 		);
+	}
+
+	/**
+	 * Gets the presenter to use to show the notification.
+	 *
+	 * @param string $reason The reason for the notification.
+	 *
+	 * @return Indexing_Failed_Notification_Presenter|Indexing_Notification_Presenter
+	 */
+	protected function get_presenter( $reason ) {
+		if ( $reason === self::REASON_INDEXING_FAILED ) {
+			$presenter = new Indexing_Failed_Notification_Presenter( $this->product_helper->is_premium() );
+		}
+		else {
+			$total_unindexed = $this->indexing_integration->get_total_unindexed();
+			$presenter       = new Indexing_Notification_Presenter( $this->short_link_helper, $total_unindexed, $this->get_notification_message( $reason ) );
+		}
+
+		return $presenter;
 	}
 }
