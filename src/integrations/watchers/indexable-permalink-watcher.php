@@ -92,8 +92,10 @@ class Indexable_Permalink_Watcher implements Integration_Interface {
 		$this->indexable_helper->reset_permalink_indexables( 'date-archive' );
 		$this->indexable_helper->reset_permalink_indexables( 'system-page' );
 
-		// Always update `permalink_structure` in the wpseo option.
+		// Always update `permalink_structure`, `category_base_url` and `tag_base_url` in the wpseo option.
 		$this->options_helper->set( 'permalink_structure', \get_option( 'permalink_structure' ) );
+		$this->options_helper->set('category_base_url', get_option( 'category_base' ));
+		$this->options_helper->set('tag_base_url', get_option( 'tag_base' ));
 	}
 
 	/**
@@ -157,27 +159,6 @@ class Indexable_Permalink_Watcher implements Integration_Interface {
 		}
 		return false;
 	}
-
-	/**
-	 * Checks whether permalinks should be reset.
-	 *
-	 * @return bool Whether the permalinks should be reset.
-	 */
-	public function should_reset_terms( $taxonomy ) {
-
-
-		$currentBase = $this->get_tax_slug( $taxonomy );
-		$previousBaseCategory = $this->options_helper->get("category_base_url");
-		$previousBaseTag = $this->options_helper->get("category_tag_url");
-
-		if($currentBase !== $previousBaseCategory || $currentBase !== $previousBaseTag)
-		{
-			return true;
-		}
-
-		return false;
-	}
-
 
 	/**
 	 * Retrieves a list with the public post types.
