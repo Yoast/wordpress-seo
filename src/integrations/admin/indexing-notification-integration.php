@@ -204,7 +204,7 @@ class Indexing_Notification_Integration implements Integration_Interface {
 		 * Do not show the notification when the indexation has started, but not completed.
 		 * I.e. when the user stopped it manually.
 		 */
-		if ( $time_indexation_started && $time_indexation_started > ( \time() - \MONTH_IN_SECONDS ) ) {
+		if ( $time_indexation_started && $time_indexation_started > ( $this->date_helper->current_time() - \MONTH_IN_SECONDS ) ) {
 			return false;
 		}
 
@@ -214,7 +214,7 @@ class Indexing_Notification_Integration implements Integration_Interface {
 		 */
 		$hide_until = (int) $this->options_helper->get( 'indexation_warning_hide_until' );
 
-		return ( $hide_until !== 0 && $hide_until >= \time() );
+		return ( $hide_until !== 0 && $hide_until >= $this->date_helper->current_time() );
 	}
 
 	/**

@@ -1,6 +1,7 @@
 <?php
 
 use Brain\Monkey;
+use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Date_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
@@ -119,6 +120,7 @@ class Indexing_Notification_Integration_Test extends TestCase {
 
 	/**
 	 * Tests the registration of the hooks.
+	 * Tests whether the notification is created.
 	 *
 	 * @covers ::register_hooks
 	 */
@@ -141,6 +143,7 @@ class Indexing_Notification_Integration_Test extends TestCase {
 
 	/**
 	 * Tests the registration of the hooks.
+	 * Tests whether the notification is cleaned up on the `wpseo_dashboard` page.
 	 *
 	 * @covers ::register_hooks
 	 */
@@ -167,6 +170,7 @@ class Indexing_Notification_Integration_Test extends TestCase {
 
 	/**
 	 * Tests the registration of the hooks.
+	 * Tests whether the notification is scheduled.
 	 *
 	 * @covers ::register_hooks
 	 */
@@ -190,6 +194,18 @@ class Indexing_Notification_Integration_Test extends TestCase {
 			->with( $mocked_time, 'daily', Indexing_Notification_Integration::NOTIFICATION_ID );
 
 		$this->instance->register_hooks();
+	}
+
+	/**
+	 * Tests the get_conditionals method.
+	 *
+	 * @covers ::get_conditionals
+	 */
+	public function test_get_conditionals() {
+		$this->assertSame(
+			[ Admin_Conditional::class ],
+			Indexing_Notification_Integration::get_conditionals()
+		);
 	}
 
 	/**
@@ -343,6 +359,13 @@ class Indexing_Notification_Integration_Test extends TestCase {
 	 * @covers ::get_notification_message
 	 */
 	public function test_create_notification_with_no_reason() {
+		$mocked_time = 1653426177;
+
+		$this->date_helper
+			->expects( 'current_time' )
+			->twice()
+			->andReturn( $mocked_time );
+
 		$this->notification_center
 			->expects( 'get_notification_by_id' )
 			->once()
