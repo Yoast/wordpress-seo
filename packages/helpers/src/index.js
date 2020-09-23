@@ -5,6 +5,7 @@ import getFeed from "./getFeed";
 import getCourseFeed from "./getCourseFeed";
 import getPostFeed from "./getPostFeed";
 import createSvgIconComponent from "./createSvgIconComponent";
+import appendLocationToId from "./appendLocationToId";
 
 export {
 	createSvgIconComponent,
@@ -14,6 +15,7 @@ export {
 	getPostFeed,
 	getCourseFeed,
 	getFeed,
+	appendLocationToId,
 };
 
 export { makeOutboundLink } from "./makeOutboundLink";
