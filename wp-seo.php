@@ -46,5 +46,5 @@ if ( ! defined( 'WPSEO_FILE' ) ) {
 	define( 'WPSEO_FILE', __FILE__ );
 }
 
-// Load the Yoast SEO plugin.
+// Load the Yoast SEO plugin
 require_once dirname( WPSEO_FILE ) . '/wp-seo-main.php';
