@@ -166,7 +166,7 @@ class SEMrushKeyphrasesTable extends Component {
 						}
 					</tbody>
 				</table>
-				<p>
+				<p style={ { marginBottom: 0 } }>
 					<GetMoreInsightsLink href={ url }>
 						{ sprintf(
 							/* translators: %s expands to SEMrush */
