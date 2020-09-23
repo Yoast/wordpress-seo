@@ -211,6 +211,8 @@ Your question has most likely been answered on our knowledge base: [kb.yoast.com
 = 15.0 =
 Release Date: September 22nd, 2020
 
+Today, we’re launching Yoast SEO 15.0. This release features some awesome new additions and enhancements. We’ve added full support for Arabic and made the Yoast SEO block editor sidebar fully-featured. Read more about those changes in [our release post](https://yoa.st/release-15-0)!
+
 Enhancements:
 
 * Introduces an advanced settings tab in the sidebar.
@@ -218,6 +220,7 @@ Enhancements:
 * Changes the Google Preview modal styling to match the other new modals.
 * Always shows the Google Preview editor fields and as a result removes the 'Edit snippet' button.
 * Changes the styling of the Yoast SEO sidebar to match the standard Gutenberg styling.
+* Slightly rearranges the order of items in the Yoast SEO sidebar.
 * Adds a hover state styling to the items in the Metabox.
 * Improves the English transition word assessment by adding the following words to the transition word list: 'note that', 'not only', 'initially', 'as opposed to'.
 * Improves the keyphrase and prominent word recognition when words in the text occur with specific Arabic or Urdu punctuation marks.
@@ -234,7 +237,6 @@ Bugfixes:
 Other:
 
 * Adds the `wpseo_sitemap_index_links` filter to enable adding links to the sitemap index. Props to [Joseph Paul](https://github.com/jsphpl).
-* Slightly rearranges the order of items in the Yoast SEO sidebar.
 
 = 14.9 =
 Release Date: September 1st, 2020
