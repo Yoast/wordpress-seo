@@ -108,7 +108,7 @@
 }
 
 .yoast-select-container input[type="text"]:focus {
-	box-shadow: none !important;
+	box-shadow: none;
 }
 
 /**
