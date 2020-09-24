@@ -30,13 +30,13 @@ describe( "detecting passive voice in sentences", function() {
 	} );
 
 	it( "returns passive voice with binyan huf'al", function() {
-		// Passive: הואכל.
-		const paper = new Paper( "התינוק הואכל על ידי האב.", { locale: "he_IL" } );
+		// Passive: מרופא.
+		const paper = new Paper( "כן, אני מרופא.", { locale: "he_IL" } );
 		expect( passiveVoice( paper ).passives.length ).toBe( 1 );
 	} );
 	it( "returns passive voice with binyan nif'al where the last letter of the root changes in non-final position", function() {
-		// Passive: נערך.
-		const paper = new Paper( "בשנים הראשונות, הפסטיבל נערך באקפולקו, מקסיקו.", { locale: "he_IL" } );
+		// Passive: נערכו.
+		const paper = new Paper( "המשחקים הראשונים נערכו בשנת 1953 באלכסנדריה שבמצרים.", { locale: "he_IL" } );
 		expect( passiveVoice( paper ).passives.length ).toBe( 1 );
 	} );
 	it( "returns passive voice with binyan pu'al where the last letter of the root changes in non-final position", function() {
