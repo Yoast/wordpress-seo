@@ -4,9 +4,15 @@ All notable changes to this project will be documented in this file. Releases wi
 
 We follow [Semantic Versioning](http://semver.org/).
 
-## 2.10.0 October 1st, 2020
+## 2.10.0 October 12th, 2020
+### Enhancements
+* Adds SingleSelect component, which is based on the MultiSelect implementation.
+* Introduces the new table HTML and CSS setup.
+* Includes table.css in monorepo.css.
+
 ### Other
 * Adds an id to the MultiSelect's input field.
+* Adjusts the styling provided for the modal component to use it for the Gutenberg Modal component.
 
 ## 2.9.0 September 17th, 2020
 ### Enhancements
