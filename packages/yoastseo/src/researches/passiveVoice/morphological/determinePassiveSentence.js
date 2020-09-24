@@ -64,7 +64,6 @@ const determineSentenceIsPassiveIndonesian = function( sentence ) {
 	}
 
 	// Check exception list.
-<<<<<<< HEAD
 	let passiveWords = [];
 	for ( nonPassive in nonPassivesIndonesian ) {
 		for ( matchedPassive in matchedPassives ) {
