@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 We follow [Semantic Versioning](http://semver.org/).
 
+## 1.83.0 October 12th, 2020
+### Enhancements
+* Changes the look of the KeyphraseInput component's errors.
+* Improves accessibility of the KeyphraseInput component's errors list.
+* Adds a `hasError` prop to the KeywordInput component.
+
+### Bugfixes
+* Fixes a bug where the YoastReactSelect component would not show the border and inner shadow correctly.
+
 ## 5.8.0 August 3rd, 2020
 ### Enhancements
 * Adds a label to the internal linking suggestions, indicating the post type or taxonomy name of the suggested post or term.
