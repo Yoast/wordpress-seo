@@ -1,8 +1,9 @@
 import { connect } from "react-redux";
 import { SnippetEditor } from "@yoast/search-metadata-previews";
-import { Fragment } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { dispatch as wpDataDispatch } from "@wordpress/data";
+import { LocationConsumer } from "../components/contexts/location";
+import { join } from "@yoast/helpers";
 
 import {
 	switchMode,
@@ -53,19 +54,26 @@ export const mapEditorDataToPreview = function( data, context ) {
  * @returns {wp.Element} The component.
  */
 const SnippetEditorWrapper = ( props ) => (
-	<Fragment>
-		<SnippetPreviewSection
-			icon="eye"
-			hasPaperStyle={ props.hasPaperStyle }
-		>
-			<SnippetEditor
-				{ ...props }
-				descriptionPlaceholder={ __( "Please provide a meta description by editing the snippet below.", "wordpress-seo" ) }
-				mapEditorDataToPreview={ mapEditorDataToPreview }
-				showCloseButton={ false }
-			/>
-		</SnippetPreviewSection>
-	</Fragment>
+	<LocationConsumer>
+		{ location =>
+			<SnippetPreviewSection
+				icon="eye"
+				hasPaperStyle={ props.hasPaperStyle }
+			>
+				<SnippetEditor
+					{ ...props }
+					descriptionPlaceholder={ __( "Please provide a meta description by editing the snippet below.", "wordpress-seo" ) }
+					mapEditorDataToPreview={ mapEditorDataToPreview }
+					showCloseButton={ false }
+					mobileModeInputId={ join( [ "yoast-google-preview-mode-mobile", location ] ) }
+					desktopModeInputId={ join( [ "yoast-google-preview-mode-desktop", location ] ) }
+					titleInputId={ join( [ "yoast-google-preview-title", location ] ) }
+					slugInputId={ join( [ "yoast-google-preview-slug", location ] ) }
+					descriptionInputId={ join( [ "yoast-google-preview-description", location ] ) }
+				/>
+			</SnippetPreviewSection>
+		}
+	</LocationConsumer>
 );
 
 /**
