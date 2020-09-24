@@ -64,24 +64,12 @@ const determineSentenceIsPassiveIndonesian = function( sentence ) {
 	}
 
 	// Check exception list.
-	let passiveWords = [];
-	for ( nonPassive in nonPassivesIndonesian ) {
-		for ( matchedPassive in matchedPassives ) {
-			if ( ! matchedPassive.startsWith( nonPassive ) ) {
-			}
-	}
-	}
-	console.log( passiveWords )
-	if ( passiveWords.length === 0 ) {
-		return false;
-=======
 	for ( const nonPassive of nonPassivesIndonesian ) {
 		matchedPassives = matchedPassives.filter( word => ( ! word.startsWith( nonPassive ) ) );
->>>>>>> c1aef70e15640842088313c7fb76568f89a4773f
 	}
 
 	// Check direct precedence exceptions.
-		matchedPassives = matchedPassives.filter( function( matchedPassive ) {
+	matchedPassives = matchedPassives.filter( function( matchedPassive ) {
 		let matchedPassivesShouldStay = true;
 		const passiveIndex = words.indexOf( matchedPassive );
 		const wordPrecedingPassive = words[ passiveIndex - 1 ];
