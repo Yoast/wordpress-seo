@@ -1,6 +1,6 @@
 {
   "name": "@yoast/components",
-  "version": "2.10.0-rc.0",
+  "version": "2.10.0-rc.1",
   "description": "Yoast Components",
   "main": "src/index.js",
   "private": false,
