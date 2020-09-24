@@ -1,9 +1,4 @@
 <?php
-/**
- * Yoast SEO plugin file.
- *
- * @package Yoast\YoastSEO\Conditionals
- */
 
 namespace Yoast\WP\SEO\Conditionals;
 
@@ -13,7 +8,9 @@ namespace Yoast\WP\SEO\Conditionals;
 class The_Events_Calendar_Conditional implements Conditional {
 
 	/**
-	 * @inheritDoc
+	 * Returns whether or not this conditional is met.
+	 *
+	 * @return boolean Whether or not the conditional is met.
 	 */
 	public function is_met() {
 		return \defined( 'TRIBE_EVENTS_FILE' );
