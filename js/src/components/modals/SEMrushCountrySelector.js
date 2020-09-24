@@ -165,7 +165,7 @@ class SEMrushCountrySelector extends Component {
 	 */
 	componentDidMount() {
 		//	Fire a new request when the modal is first opened
-		if ( ! this.props.response ) {
+		if ( ! this.props.response || this.props.keyphrase !== this.props.lastRequestKeyphrase ) {
 			this.relatedKeyphrasesRequest();
 		}
 	}
@@ -320,6 +320,7 @@ SEMrushCountrySelector.propTypes = {
 	keyphrase: PropTypes.string,
 	countryCode: PropTypes.string,
 	response: PropTypes.object,
+	lastRequestKeyphrase: PropTypes.string,
 	setCountry: PropTypes.func.isRequired,
 	newRequest: PropTypes.func.isRequired,
 	setNoResultsFound: PropTypes.func.isRequired,
@@ -332,6 +333,7 @@ SEMrushCountrySelector.defaultProps = {
 	keyphrase: "",
 	countryCode: "us",
 	response: {},
+	lastRequestKeyphrase: "",
 };
 
 /**

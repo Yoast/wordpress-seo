@@ -79,6 +79,7 @@ export function hasMaximumRelatedKeyphrases( relatedKeyphrases ) {
 export default function RelatedKeyphraseModalContent( props ) {
 	const {
 		response,
+		lastRequestKeyphrase,
 		keyphrase,
 		newRequest,
 		setCountry,
@@ -110,6 +111,7 @@ export default function RelatedKeyphraseModalContent( props ) {
 						setRequestSucceeded={ setRequestSucceeded }
 						setRequestLimitReached={ setRequestLimitReached }
 						response={ response }
+						lastRequestKeyphrase={ lastRequestKeyphrase }
 					/>
 				</Fragment>
 			) }
@@ -140,6 +142,7 @@ RelatedKeyphraseModalContent.propTypes = {
 	setRequestFailed: PropTypes.func.isRequired,
 	setNoResultsFound: PropTypes.func.isRequired,
 	response: PropTypes.object,
+	lastRequestKeyphrase: PropTypes.object,
 };
 
 RelatedKeyphraseModalContent.defaultProps = {
@@ -148,4 +151,5 @@ RelatedKeyphraseModalContent.defaultProps = {
 	renderAction: null,
 	requestLimitReached: false,
 	response: {},
+	lastRequestKeyphrase: {},
 };
