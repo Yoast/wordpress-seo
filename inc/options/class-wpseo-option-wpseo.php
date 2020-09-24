@@ -68,6 +68,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'semrush_tokens'                           => [],
 		'semrush_country_code'                     => 'us',
 		'permalink_structure'                      => '',
+		'home_url'                                 => '',
 	];
 
 	/**
@@ -251,6 +252,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 				case 'previous_version':
 				case 'semrush_country_code':
 				case 'license_server_version':
+				case 'home_url':
 					if ( isset( $dirty[ $key ] ) ) {
 						$clean[ $key ] = $dirty[ $key ];
 					}
