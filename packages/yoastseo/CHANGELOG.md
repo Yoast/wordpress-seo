@@ -3,7 +3,7 @@
 All notable changes to this project will be documented in this file. Releases without a changelog entry contain only minor changes that are irrelevant for users of this library.
 We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwards.
 
-## 1.83.0 October 1st, 2020
+## 1.83.0 October 12th, 2020
 ### Enhancements
 * Creates basic keyphrase forms for Farsi when they have the following affixes: prefix `ن`, and suffixes `مان, شان, تان, ش, ت, م, ی` and their variations such as ` ‌اش, ‌ات, یی, یم, یت, یش, ‌ای, ‌ام`.
 * Adds function words for Farsi and edits a typo in the Arabic function words file.
