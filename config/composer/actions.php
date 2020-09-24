@@ -427,8 +427,8 @@ TPL;
 
 		if ( $above_threshold ) {
 			echo "\n";
-			echo "Running branch changed CS checks.\n";
-			echo "These might give problems on untouched lines, focus on the lines you've changed first.\n";
+			echo "Running check-branch-cs.\n";
+			echo "This might show problems on untouched lines. Focus on the lines you've changed first.\n";
 			echo "\n";
 
 			// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged -- Non-WP context, this is fine.
