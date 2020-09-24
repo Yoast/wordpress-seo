@@ -22,7 +22,7 @@ exports[`KeywordInput matches the snapshot by default 1`] = `
   outline: none;
   border-color: #0066cd;
   color: #000;
-  background-color: #fff;
+  background-color: transparent;
   box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
 }
 
@@ -75,6 +75,10 @@ exports[`KeywordInput matches the snapshot by default 1`] = `
 
 .c5.has-error {
   border-color: #dc3232 !important;
+  background-color: #f9dcdc !important;
+}
+
+.c5.has-error:focus {
   box-shadow: 0 0 2px #dc3232 !important;
 }
 
