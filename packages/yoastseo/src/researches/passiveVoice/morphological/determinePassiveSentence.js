@@ -168,8 +168,8 @@ const determineSentenceIsPassiveHebrew = function( sentence ) {
 		// Check if the root is in pu'al.
 		for ( const root of getPualVerbsHebrew ) {
 			// The list of prefixes and suffixes for pu'al.
-			const pualPrefixes = [ "(מ|א|ת|י|נ)", "תי", "מ", "ת", "י", "" ];
-			const pualSuffixes = [ "", "נה", "(ת|ים|ות)", "(י|ו|נה)", "ו", "(תי|ת|ה|נו|תם|תן|ו)" ];
+			const pualPrefixes = [ "(מ|א|ת|י|נ)", "תי", "מ", "ת", "י", "", "" ];
+			const pualSuffixes = [ "", "נה", "(ת|ים|ות)", "(י|ו|נה)", "ו", "(תי|ת|ה|נו|תם|תן|ו)", "" ];
 			const pualInfix = "ו";
 			for ( let i = 0; i < pualPrefixes.length; i++ ) {
 				const pualPattern = new RegExp( "^" + pualPrefixes[ i ] + root[ 0 ] + pualInfix + root[ 1 ] + root[ 2 ] + pualSuffixes[ i ] + "$" );
