@@ -64,6 +64,7 @@ const determineSentenceIsPassiveIndonesian = function( sentence ) {
 	}
 
 	// Check exception list.
+<<<<<<< HEAD
 	let passiveWords = [];
 	for ( nonPassive in nonPassivesIndonesian ) {
 		for ( matchedPassive in matchedPassives ) {
@@ -74,8 +75,11 @@ const determineSentenceIsPassiveIndonesian = function( sentence ) {
 	console.log( passiveWords )
 	if ( passiveWords.length === 0 ) {
 		return false;
+=======
+	for ( const nonPassive of nonPassivesIndonesian ) {
+		matchedPassives = matchedPassives.filter( word => ( ! word.startsWith( nonPassive ) ) );
+>>>>>>> c1aef70e15640842088313c7fb76568f89a4773f
 	}
-	matchedPassives = passiveWords;
 
 	// Check direct precedence exceptions.
 		matchedPassives = matchedPassives.filter( function( matchedPassive ) {
