@@ -69,7 +69,7 @@ const determineSentenceIsPassiveIndonesian = function( sentence ) {
 		for ( matchedPassive in matchedPassives ) {
 			if ( ! matchedPassive.startsWith( nonPassive ) ) {
 			}
-		}
+	}
 	}
 	console.log( passiveWords )
 	if ( passiveWords.length === 0 ) {
