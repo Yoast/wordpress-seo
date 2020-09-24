@@ -27,9 +27,10 @@ const getHufalVerbsHebrew = getHufalVerbsHebrewFactory();
 /**
  * Matches the sentence against passive verbs.
  *
- * @param {string} sentence The sentence to match against.
- * @param {Array} passiveVerbs The array containing passive verb-forms.
- * @returns {Array} The found passive verbs.
+ * @param {string} sentence       The sentence to match against.
+ * @param {Array}  passiveVerbs   The array containing passive verb-forms.
+ *
+ * @returns {Array}               The found passive verbs.
  */
 const matchPassiveVerbs = function( sentence, passiveVerbs ) {
 	return filter( getWords( sentence ), function( word ) {
@@ -40,9 +41,10 @@ const matchPassiveVerbs = function( sentence, passiveVerbs ) {
 /**
  * Checks the passed sentence to see if it contains passive verb-forms.
  *
- * @param {string} sentence The sentence to match against.
- * @param {string} language The language of the text.
- * @returns {Boolean} Whether the sentence contains passive voice.
+ * @param {string} sentence   The sentence to match against.
+ * @param {string} language   The language of the text.
+ *
+ * @returns {Boolean}         Whether the sentence contains passive voice.
  */
 const determineSentenceIsPassiveListBased = function( sentence, language ) {
 	let passiveVerbs = [];
@@ -61,8 +63,9 @@ const determineSentenceIsPassiveListBased = function( sentence, language ) {
 /**
  * Checks the passed sentence to see if it contains Indonesian passive verb-forms.
  *
- * @param {string} sentence The sentence to match against.
- * @returns {Boolean} Whether the sentence contains Indonesian passive voice.
+ * @param {string} sentence   The sentence to match against.
+ *
+ * @returns {Boolean}         Whether the sentence contains Indonesian passive voice.
  */
 const determineSentenceIsPassiveIndonesian = function( sentence ) {
 	const words = getWords( sentence );
@@ -96,8 +99,9 @@ const determineSentenceIsPassiveIndonesian = function( sentence ) {
 /**
  * Checks the passed sentence to see if it contains Arabic passive verb-forms.
  *
- * @param {string} sentence The sentence to match against.
- * @returns {Boolean} Whether the sentence contains Arabic passive voice.
+ * @param {string} sentence     The sentence to match against.
+ *
+ * @returns {Boolean}           Whether the sentence contains Arabic passive voice.
  */
 const determineSentenceIsPassiveArabic = function( sentence ) {
 	const arabicPrepositionalPrefix =  "و";
@@ -125,12 +129,12 @@ const determineSentenceIsPassiveArabic = function( sentence ) {
 /**
  * Checks if the input word's root is in the Hebrew verb roots list.
  *
- * @param {string} word     The word to check.
+ * @param {string} word         The word to check.
  * @param {[]} verbRootsList    The Hebrew verb roots list.
  * @param {string[]} prefixes   The list of prefixes.
  * @param {string[]} suffixes   The list of suffixes.
  *
- * @returns {Boolean}    Returns true if the root of the input word is in the list.
+ * @returns {Boolean}           Returns true if the root of the input word is in the list.
  */
 const checkHebrewVerbRootsList = function( word, verbRootsList, prefixes, suffixes ) {
 	for ( const root of verbRootsList ) {
@@ -147,6 +151,7 @@ const checkHebrewVerbRootsList = function( word, verbRootsList, prefixes, suffix
  * Checks the passed sentence to see if it contains Hebrew passive verb-forms.
  *
  * @param {string} sentence    The sentence to match against.
+ *
  * @returns {Boolean}          Whether the sentence contains Hebrew passive voice.
  */
 const determineSentenceIsPassiveHebrew = function( sentence ) {
@@ -187,10 +192,10 @@ const determineSentenceIsPassiveHebrew = function( sentence ) {
 /**
  * Determines whether a sentence is passive.
  *
- * @param {string} sentenceText The sentence to determine voice for.
- * @param {string} language The language of the sentence part.
-
- * @returns {boolean} Returns true if passive, otherwise returns false.
+ * @param {string} sentenceText     The sentence to determine voice for.
+ * @param {string} language         The language of the sentence part.
+ *
+ * @returns {boolean}               Returns true if passive, otherwise returns false.
  */
 export default function( sentenceText, language ) {
 	if ( [ "ru", "sv" ].includes( language ) ) {

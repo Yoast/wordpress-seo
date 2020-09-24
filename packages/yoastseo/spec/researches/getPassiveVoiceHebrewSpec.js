@@ -30,8 +30,8 @@ describe( "detecting passive voice in sentences", function() {
 	} );
 
 	it( "returns passive voice with binyan huf'al", function() {
-		// Passive: מרופא.
-		const paper = new Paper( "כן, אני מרופא.", { locale: "he_IL" } );
+		// Passive: הוחזק.
+		const paper = new Paper( "הכדור הוחזק ביד.", { locale: "he_IL" } );
 		expect( passiveVoice( paper ).passives.length ).toBe( 1 );
 	} );
 	it( "returns passive voice with binyan nif'al where the last letter of the root changes in non-final position", function() {
