@@ -239,6 +239,9 @@ class SnippetEditor extends React.Component {
 			recommendedReplacementVariables,
 			hasPaperStyle,
 			showCloseButton,
+			titleInputId,
+			slugInputId,
+			descriptionInputId,
 		} = this.props;
 
 		let {
@@ -270,6 +273,9 @@ class SnippetEditor extends React.Component {
 					descriptionLengthProgress={ descriptionLengthProgress }
 					descriptionEditorFieldPlaceholder={ descriptionEditorFieldPlaceholder }
 					containerPadding={ hasPaperStyle ? "0 20px" : "0" }
+					titleInputId={ titleInputId }
+					slugInputId={ slugInputId }
+					descriptionInputId={ descriptionInputId }
 				/>
 				{ showCloseButton &&
 					<CloseEditorButton onClick={ this.close }>{ __( "Close snippet editor", "yoast-components" ) }</CloseEditorButton>
@@ -513,6 +519,8 @@ class SnippetEditor extends React.Component {
 			showCloseButton,
 			faviconSrc,
 			mobileImageSrc,
+			mobileModeInputId,
+			desktopModeInputId,
 		} = this.props;
 
 		const {
@@ -532,7 +540,12 @@ class SnippetEditor extends React.Component {
 		return (
 			<ErrorBoundary>
 				<div>
-					<ModeSwitcher onChange={ ( newMode ) => onChange( "mode", newMode ) } active={ mode } />
+					<ModeSwitcher
+						onChange={ ( newMode ) => onChange( "mode", newMode ) }
+						active={ mode }
+						mobileModeInputId={ mobileModeInputId }
+						desktopModeInputId={ desktopModeInputId }
+					/>
 
 					<SnippetPreview
 						keyword={ keyword }
@@ -591,6 +604,11 @@ SnippetEditor.propTypes = {
 	showCloseButton: PropTypes.bool,
 	faviconSrc: PropTypes.string,
 	mobileImageSrc: PropTypes.string,
+	mobileModeInputId: PropTypes.string,
+	desktopModeInputId: PropTypes.string,
+	titleInputId: PropTypes.string,
+	slugInputId: PropTypes.string,
+	descriptionInputId: PropTypes.string,
 };
 
 SnippetEditor.defaultProps = {
@@ -610,6 +628,7 @@ SnippetEditor.defaultProps = {
 		score: 0,
 	},
 	mapEditorDataToPreview: null,
+	keyword: "",
 	locale: "en",
 	descriptionEditorFieldPlaceholder: "",
 	onChangeAnalysisData: noop,
@@ -617,6 +636,11 @@ SnippetEditor.defaultProps = {
 	showCloseButton: true,
 	faviconSrc: "",
 	mobileImageSrc: "",
+	mobileModeInputId: "",
+	desktopModeInputId: "",
+	titleInputId: "",
+	slugInputId: "",
+	descriptionInputId: "",
 };
 
 export default SnippetEditor;

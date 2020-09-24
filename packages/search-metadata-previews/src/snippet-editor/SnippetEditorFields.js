@@ -168,6 +168,9 @@ class SnippetEditorFields extends React.Component {
 				description,
 			},
 			containerPadding,
+			titleInputId,
+			slugInputId,
+			descriptionInputId,
 		} = this.props;
 
 		const slugLabelId = `${ this.uniqueId }-slug`;
@@ -188,7 +191,7 @@ class SnippetEditorFields extends React.Component {
 					recommendedReplacementVariables={ recommendedReplacementVariables }
 					content={ title }
 					onChange={ content => onChange( "title", content ) }
-					fieldId="snippet-editor-field-title"
+					fieldId={ titleInputId.length > 0 ? titleInputId : "yoast-google-preview-title" }
 					type="title"
 				/>
 				<ProgressBar
@@ -214,7 +217,7 @@ class SnippetEditorFields extends React.Component {
 						onBlur={ () => onBlur() }
 						ref={ ref => this.setRef( "slug", ref ) }
 						aria-labelledby={ this.uniqueId + "-slug" }
-						id="snippet-editor-field-slug"
+						id={ slugInputId.length > 0 ? slugInputId : "yoast-google-preview-slug" }
 					/>
 				</InputContainerWithCaretStyles>
 				<ReplacementVariableEditor
@@ -231,7 +234,7 @@ class SnippetEditorFields extends React.Component {
 					recommendedReplacementVariables={ recommendedReplacementVariables }
 					content={ description }
 					onChange={ content => onChange( "description", content ) }
-					fieldId="snippet-editor-field-description"
+					fieldId={ descriptionInputId.length > 0 ? descriptionInputId : "yoast-google-preview-description" }
 				/>
 				<ProgressBar
 					max={ descriptionLengthProgress.max }
@@ -279,6 +282,9 @@ SnippetEditorFields.propTypes = {
 	descriptionLengthProgress: lengthProgressShape,
 	descriptionEditorFieldPlaceholder: PropTypes.string,
 	containerPadding: PropTypes.string,
+	titleInputId: PropTypes.string,
+	slugInputId: PropTypes.string,
+	descriptionInputId: PropTypes.string,
 };
 
 SnippetEditorFields.defaultProps = {
@@ -296,6 +302,9 @@ SnippetEditorFields.defaultProps = {
 		score: 0,
 	},
 	containerPadding: "0 20px",
+	titleInputId: "",
+	slugInputId: "",
+	descriptionInputId: "",
 };
 
 export default SnippetEditorFields;
