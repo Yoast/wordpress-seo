@@ -159,8 +159,8 @@ const determineSentenceIsPassiveHebrew = function( sentence ) {
 	const matchedPassives = [];
 	for ( const word of words ) {
 		// Check if the root is in nif'al.
-		const nifalPrefixes = [ "נ", "(תי|הי)", "יי", "(נ|אי|תי|הי|יי|ני|להי)" ];
-		const nifalSuffixes = [ "(ים|ת|ות|תי|ה|נו|תם|תן|ו)", "(י|ו|נה)", "ו", "" ];
+		const nifalPrefixes = [ "(נ|אי|תי|הי|יי|ני|להי)", "(תי|הי)", "נ", "יי" ];
+		const nifalSuffixes = [ "", "(י|ו|נה)", "(ים|ת|ות|תי|ה|נו|תם|תן|ו)", "ו" ];
 		const nifalPassive = checkHebrewVerbRootsList( word, getNifalVerbsHebrew, nifalPrefixes, nifalSuffixes );
 		if ( nifalPassive ) {
 			matchedPassives.push( word );
@@ -168,8 +168,8 @@ const determineSentenceIsPassiveHebrew = function( sentence ) {
 		// Check if the root is in pu'al.
 		for ( const root of getPualVerbsHebrew ) {
 			// The list of prefixes and suffixes for pu'al.
-			const pualPrefixes = [ "מ", "ת", "י", "תי", "(מ|א|ת|י|נ)", "" ];
-			const pualSuffixes = [ "(ת|ים|ות)", "(י|ו|נה)", "ו", "נה", "", "(תי|ת|ה|נו|תם|תן|ו)" ];
+			const pualPrefixes = [ "(מ|א|ת|י|נ)", "תי", "מ", "ת", "י", "" ];
+			const pualSuffixes = [ "", "נה", "(ת|ים|ות)", "(י|ו|נה)", "ו", "(תי|ת|ה|נו|תם|תן|ו)" ];
 			const pualInfix = "ו";
 			for ( let i = 0; i < pualPrefixes.length; i++ ) {
 				const pualPattern = new RegExp( "^" + pualPrefixes[ i ] + root[ 0 ] + pualInfix + root[ 1 ] + root[ 2 ] + pualSuffixes[ i ] + "$" );
@@ -179,8 +179,8 @@ const determineSentenceIsPassiveHebrew = function( sentence ) {
 			}
 		}
 		// Check if the root is in huf'al.
-		const hufalPrefixes = [ "מו", "הו", "תו", "תו", "תו", "יו", "(מו|הו|או|תו|יו|נו)" ];
-		const hufalSuffixes = [ "(ת|ים|ות)", "(תי|ת|ית|ה|נו|תם|תן|ו)", "י", "(ו|נה)", "ו", "" ];
+		const hufalPrefixes = [ "(מו|הו|או|תו|יו|נו)", "מו", "הו", "תו", "יו" ];
+		const hufalSuffixes = [ "", "(ת|ים|ות)", "(תי|ת|ית|ה|נו|תם|תן|ו)", "(ו|נה|י)", "ו" ];
 		const hufalPassive = checkHebrewVerbRootsList( word, getHufalVerbsHebrew, hufalPrefixes, hufalSuffixes );
 		if ( hufalPassive ) {
 			matchedPassives.push( word );
