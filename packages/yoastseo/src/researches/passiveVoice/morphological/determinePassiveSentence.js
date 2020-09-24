@@ -122,16 +122,27 @@ const determineSentenceIsPassiveArabic = function( sentence ) {
 	return passiveVerbs.length !== 0;
 };
 
+/**
+ * Checks if the input word's root is in the Hebrew verb roots list.
+ *
+ * @param {string} word     The word to check.
+ * @param {[]} verbRootsList    The Hebrew verb roots list.
+ * @param {string[]} prefixes   The list of prefixes.
+ * @param {string[]} suffixes   The list of suffixes.
+ *
+ * @returns {Boolean}    Returns true if the root of the input word is in the list.
+ */
 const checkHebrewVerbRootsList = function( word, verbRootsList, prefixes, suffixes ) {
 	for ( const root of verbRootsList ) {
 		for ( let i = 0; i < prefixes.length; i++ ) {
 			const pattern =  new RegExp( "^" + prefixes[ i ] + root + suffixes[ i ] + "$" );
 			if ( pattern.test( word ) ) {
-				return word;
+				return true;
 			}
 		}
 	}
 };
+
 /**
  * Checks the passed sentence to see if it contains Hebrew passive verb-forms.
  *
@@ -170,7 +181,6 @@ const determineSentenceIsPassiveHebrew = function( sentence ) {
 			matchedPassives.push( word );
 		}
 	}
-	// If it's in none of the above it's not a passive.
 	return matchedPassives.length !== 0;
 };
 
@@ -188,13 +198,13 @@ export default function( sentenceText, language ) {
 	}
 
 	if ( language === "id" ) {
-		return determineSentenceIsPassiveIndonesian( sentenceText, language );
+		return determineSentenceIsPassiveIndonesian( sentenceText );
 	}
 
 	if ( language === "ar" ) {
-		return determineSentenceIsPassiveArabic( sentenceText, language );
+		return determineSentenceIsPassiveArabic( sentenceText );
 	}
 	if ( language === "he" ) {
-		return determineSentenceIsPassiveHebrew( sentenceText, language );
+		return determineSentenceIsPassiveHebrew( sentenceText );
 	}
 }
