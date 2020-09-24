@@ -226,7 +226,7 @@
 		} );
 
 		$dismissible.on( "click", "#yoast-indexation-remind-button", function() {
-			const nonce = jQuery( this ).data( "nonce" );
+			const nonce = $( this ).data( "nonce" );
 
 			$.post(
 				ajaxurl,
