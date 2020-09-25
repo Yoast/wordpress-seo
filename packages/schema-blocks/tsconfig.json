@@ -9,7 +9,8 @@
             "DOM",
             "ES5"
         ],
-        "esModuleInterop": true
+        "esModuleInterop": true,
+        "declaration": true
     },
     "include": [
         "src/**/*"
