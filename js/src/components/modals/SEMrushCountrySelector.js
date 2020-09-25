@@ -159,12 +159,12 @@ class SEMrushCountrySelector extends Component {
 	}
 
 	/**
-	 * Creates a select2 component from the select, listens to the change action and fires the first SEMrush request.
+	 * Listens to the change action and fires the SEMrush request.
 	 *
 	 * @returns {void}
 	 */
 	componentDidMount() {
-		//	Fire a new request when the modal is first opened
+		// Fire a new request when the modal is first opened and when the keyphrase has been changed.
 		if ( ! this.props.response || this.props.keyphrase !== this.props.lastRequestKeyphrase ) {
 			this.relatedKeyphrasesRequest();
 		}
