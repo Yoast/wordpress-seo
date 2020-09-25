@@ -3,6 +3,7 @@ import isContentAnalysisActive from "../../analysis/isContentAnalysisActive";
 import isKeywordAnalysisActive from "../../analysis/isKeywordAnalysisActive";
 import isCornerstoneActive from "../../analysis/isCornerstoneContentActive";
 import isWordFormRecognitionActive from "../../analysis/isWordFormRecognitionActive";
+import isSEMrushIntegrationActive from "../../analysis/isSEMrushIntegrationActive";
 
 /**
  * Gets the default state.
@@ -19,6 +20,7 @@ function getDefaultState() {
 		isCornerstoneActive: isCornerstoneActive(),
 		isBreadcrumbsDisabled: ! ! window.wpseoAdminL10n.isBreadcrumbsDisabled,
 		isPrivateBlog: ! ! window.wpseoAdminL10n.isPrivateBlog,
+		isSEMrushIntegrationActive: isSEMrushIntegrationActive(),
 		shouldUpsell: isUndefined( window.wpseoPremiumMetaboxData ),
 		displayAdvancedTab: displayAdvancedTab,
 		displaySchemaSettings: displayAdvancedTab && !! window.wpseoScriptData.isPost,
@@ -31,7 +33,7 @@ function getDefaultState() {
 /**
  * A reducer for the preferences.
  *
- * @param {Object} state  The current state of the object.
+ * @param {Object} state The current state of the object.
  *
  * @returns {Object} The state.
  */
