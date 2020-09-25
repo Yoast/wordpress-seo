@@ -215,7 +215,7 @@ Enhancements:
 
 * Adds an integration with SEMrush to search for and compare search volume of related keyphrases.
 * Prevents several processes from happening on non-production environments:
-    * Indexing indexables. 
+    * Indexing indexables.
     * Pinging search engines about XML sitemaps.
     * Sending tracking information.
     * Checking the indexability of the site with Ryte.
