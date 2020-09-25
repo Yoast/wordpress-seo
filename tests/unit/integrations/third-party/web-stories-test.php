@@ -4,20 +4,18 @@ namespace Yoast\WP\SEO\Tests\Unit\Integrations\Third_Party;
 
 use Brain\Monkey;
 use Mockery;
+use Yoast\WP\Lib\ORM;
 use Yoast\WP\SEO\Conditionals\Web_Stories_Conditional;
 use Yoast\WP\SEO\Integrations\Front_End_Integration;
 use Yoast\WP\SEO\Integrations\Third_Party\Web_Stories;
+use Yoast\WP\SEO\Models\Indexable;
+use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
-
-class Story_Post_Type_Stub {
-	const POST_TYPE_SLUG = 'web-story';
-}
 
 /**
  * Web Stories integration test.
  *
  * @coversDefaultClass \Yoast\WP\SEO\Integrations\Third_Party\Web_Stories
- * @covers ::<!public>
  *
  * @group integrations
  * @group third-party
@@ -72,6 +70,7 @@ class Web_Stories_Test extends TestCase {
 		$this->assertTrue( \has_action( 'web_stories_story_head', [ $this->front_end, 'call_wpseo_head' ] ), 'The wpseo head action is registered.' );
 		$this->assertTrue( \has_filter( 'wpseo_schema_article_post_types', [ $this->instance, 'filter_schema_article_post_types' ] ), 'The filter schema article post types function is registered.' );
 		$this->assertTrue( \has_action( 'admin_enqueue_scripts', [ $this->instance, 'dequeue_admin_assets' ] ), 'The admin_enqueue_scripts action is registered.' );
+		$this->assertTrue( \has_filter( 'wpseo_metadesc', [ $this->instance, 'filter_meta_description' ] ), 'The metadesc action is registered.' );
 	}
 
 	/**
@@ -159,4 +158,61 @@ class Web_Stories_Test extends TestCase {
 		$actual = $this->instance->filter_schema_article_post_types( [ 'post' ] );
 		$this->assertEquals( [ 'post', 'web-story' ], $actual );
 	}
+
+	/**
+	 * Tests filtering the meta description.
+	 *
+	 * @covers ::filter_meta_description
+	 */
+	public function test_filter_meta_description_prefilled() {
+		$presentation = Mockery::mock( Indexable_Presentation::class );
+		$actual       = $this->instance->filter_meta_description( 'Hello World', $presentation );
+		$this->assertSame( 'Hello World', $actual );
+	}
+
+	/**
+	 * Tests filtering the meta description.
+	 *
+	 * @covers ::filter_meta_description
+	 */
+	public function test_filter_meta_description_different_object_sub_type() {
+		$indexable      = Mockery::mock( Indexable::class );
+		$indexable->orm = Mockery::mock( ORM::class );
+		$indexable->orm->expects( 'set' )->once();
+		$indexable->orm->expects( 'get' )->withArgs( [ 'object_sub_type' ] )->andReturn( 'foo' );
+		$indexable->object_sub_type = 'foo';
+
+		$presentation        = Mockery::mock( Indexable_Presentation::class );
+		$presentation->model = $indexable;
+
+		$actual = $this->instance->filter_meta_description( '', $presentation );
+		$this->assertSame( '', $actual );
+	}
+
+	/**
+	 * Tests filtering the meta description.
+	 *
+	 * @covers ::filter_meta_description
+	 */
+	public function test_filter_meta_description() {
+		$indexable      = Mockery::mock( Indexable::class );
+		$indexable->orm = Mockery::mock( ORM::class );
+		$indexable->orm->expects( 'set' )->once();
+		$indexable->orm->expects( 'get' )->withArgs( [ 'object_sub_type' ] )->andReturn( 'web-story' );
+		$indexable->orm->expects( 'get' )->withArgs( [ 'object_id' ] )->andReturn( 123 );
+		$indexable->object_sub_type = 'foo';
+
+		$presentation        = Mockery::mock( Indexable_Presentation::class );
+		$presentation->model = $indexable;
+
+		Monkey\Functions\expect( 'get_the_excerpt' )->once()->andReturn( 'Hello World' );
+
+		$actual = $this->instance->filter_meta_description( '', $presentation );
+		$this->assertSame( 'Hello World', $actual );
+	}
+}
+
+// phpcs:ignore -- Convert this to a double if more logic is needed.
+class Story_Post_Type_Stub {
+	const POST_TYPE_SLUG = 'web-story';
 }
