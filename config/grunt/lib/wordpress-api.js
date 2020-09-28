@@ -1,9 +1,9 @@
 const fetch = require( "node-fetch" );
 
 /**
- * Gets stable version for a WordPress plugin from the wordpress api.
+ * Gets stable version for a WordPress plugin from the WordPress API.
  *
- * @param {string} pluginSlug The name of the plugin .
+ * @param {string} pluginSlug The name of the plugin.
  *
  * @returns {Promise<object|null>} A promise resolving to the version.
  */
@@ -21,20 +21,18 @@ async function getPluginStableVersionFromWordPressApi( pluginSlug ) {
 module.exports.getPluginStableVersionFromWordPressApi = getPluginStableVersionFromWordPressApi;
 
 /**
- * Gets the latest WordPress version from the wordpress api.
- *
- * 
+ * Gets the latest WordPress version from the WordPress API.
  *
  * @returns {Promise<object|null>} A promise resolving to the version.
  */
 
-async function getLatestWordpressFromWordPressApi( ) {
+async function getLatestWordpressFromWordPressApi() {
 	const wordpressResponse = await fetch( `http://api.wordpress.org/core/version-check/1.7/` );
 	if ( ! wordpressResponse.ok ) {
 		return null;
 	}
 	const ResponseJson = await wordpressResponse.json();
-	return ResponseJson.offers[0].version || null;
+	return ResponseJson.offers[ 0 ].version || null;
 }
 
 module.exports.getLatestWordpressFromWordPressApi = getLatestWordpressFromWordPressApi;
