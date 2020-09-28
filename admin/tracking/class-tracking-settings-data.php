@@ -77,6 +77,7 @@ class WPSEO_Tracking_Settings_Data implements WPSEO_Collection {
 		'show_onboarding_notice',
 		'first_activated_on',
 		'myyoast-oauth',
+		'dynamic_permalinks',
 		'website_name',
 		'alternate_website_name',
 		'company_logo',

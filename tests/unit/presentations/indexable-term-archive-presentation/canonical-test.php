@@ -60,6 +60,11 @@ class Canonical_Test extends TestCase {
 	public function test_without_permalink() {
 		$this->setup_multiple_terms_query();
 
+		$this->indexable_helper
+			->expects( 'dynamic_permalinks_enabled' )
+			->once()
+			->andReturn( false );
+
 		$this->assertEmpty( $this->instance->generate_canonical() );
 	}
 
@@ -73,6 +78,11 @@ class Canonical_Test extends TestCase {
 		$this->setup_multiple_terms_query();
 
 		$this->indexable->permalink = 'https://example.com/term-archive/';
+
+		$this->indexable_helper
+			->expects( 'dynamic_permalinks_enabled' )
+			->once()
+			->andReturn( false );
 
 		$this->pagination
 			->expects( 'get_current_archive_page_number' )
@@ -93,6 +103,11 @@ class Canonical_Test extends TestCase {
 
 		$this->indexable->permalink = 'https://example.com/term-archive/';
 
+		$this->indexable_helper
+			->expects( 'dynamic_permalinks_enabled' )
+			->once()
+			->andReturn( false );
+
 		$this->pagination
 			->expects( 'get_current_archive_page_number' )
 			->once()
@@ -105,6 +120,72 @@ class Canonical_Test extends TestCase {
 			->andReturn( 'https://example.com/term-archive/page/2/' );
 
 		$this->assertEquals( 'https://example.com/term-archive/page/2/', $this->instance->generate_canonical() );
+	}
+
+	/**
+	 * Tests the situation without pagination and with dynamic permalinks enabled.
+	 *
+	 * @covers ::generate_canonical
+	 * @covers ::is_multiple_terms_query
+	 */
+	public function test_without_pagination_with_dynamic_permalinks() {
+		$this->setup_multiple_terms_query();
+
+		$this->indexable->permalink = 'https://example.com/term-archive/';
+
+		$this->indexable_helper
+			->expects( 'dynamic_permalinks_enabled' )
+			->once()
+			->andReturn( true );
+
+		$this->permalink_helper
+			->expects( 'get_permalink_for_indexable' )
+			->with( $this->instance->model )
+			->once()
+			->andReturn( 'https://example.com/dynamic-term-archive/' );
+
+		$this->pagination
+			->expects( 'get_current_archive_page_number' )
+			->once()
+			->andReturn( 0 );
+
+		$this->assertEquals( 'https://example.com/dynamic-term-archive/', $this->instance->generate_canonical() );
+	}
+
+	/**
+	 * Tests the situation with pagination  and with dynamic permalinks enabled.
+	 *
+	 * @covers ::generate_canonical
+	 * @covers ::is_multiple_terms_query
+	 */
+	public function test_with_pagination_with_dynamic_permalinks() {
+		$this->setup_multiple_terms_query();
+
+		$this->indexable->permalink = 'https://example.com/term-archive/';
+
+		$this->indexable_helper
+			->expects( 'dynamic_permalinks_enabled' )
+			->once()
+			->andReturn( true );
+
+		$this->permalink_helper
+			->expects( 'get_permalink_for_indexable' )
+			->with( $this->instance->model )
+			->once()
+			->andReturn( 'https://example.com/dynamic-term-archive/' );
+
+		$this->pagination
+			->expects( 'get_current_archive_page_number' )
+			->once()
+			->andReturn( 2 );
+
+		$this->pagination
+			->expects( 'get_paginated_url' )
+			->with( 'https://example.com/dynamic-term-archive/', 2 )
+			->once()
+			->andReturn( 'https://example.com/dynamic-term-archive/page/2/' );
+
+		$this->assertEquals( 'https://example.com/dynamic-term-archive/page/2/', $this->instance->generate_canonical() );
 	}
 
 	/**
