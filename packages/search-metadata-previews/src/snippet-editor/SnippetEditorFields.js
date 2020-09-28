@@ -191,7 +191,7 @@ class SnippetEditorFields extends React.Component {
 					recommendedReplacementVariables={ recommendedReplacementVariables }
 					content={ title }
 					onChange={ content => onChange( "title", content ) }
-					fieldId={ titleInputId.length > 0 ? titleInputId : "yoast-google-preview-title" }
+					fieldId={ titleInputId }
 					type="title"
 				/>
 				<ProgressBar
@@ -217,7 +217,7 @@ class SnippetEditorFields extends React.Component {
 						onBlur={ () => onBlur() }
 						ref={ ref => this.setRef( "slug", ref ) }
 						aria-labelledby={ this.uniqueId + "-slug" }
-						id={ slugInputId.length > 0 ? slugInputId : "yoast-google-preview-slug" }
+						id={ slugInputId }
 					/>
 				</InputContainerWithCaretStyles>
 				<ReplacementVariableEditor
@@ -234,7 +234,7 @@ class SnippetEditorFields extends React.Component {
 					recommendedReplacementVariables={ recommendedReplacementVariables }
 					content={ description }
 					onChange={ content => onChange( "description", content ) }
-					fieldId={ descriptionInputId.length > 0 ? descriptionInputId : "yoast-google-preview-description" }
+					fieldId={ descriptionInputId }
 				/>
 				<ProgressBar
 					max={ descriptionLengthProgress.max }
@@ -302,9 +302,9 @@ SnippetEditorFields.defaultProps = {
 		score: 0,
 	},
 	containerPadding: "0 20px",
-	titleInputId: "",
-	slugInputId: "",
-	descriptionInputId: "",
+	titleInputId: "yoast-google-preview-title",
+	slugInputId: "yoast-google-preview-slug",
+	descriptionInputId: "yoast-google-preview-description",
 };
 
 export default SnippetEditorFields;
