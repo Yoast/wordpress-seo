@@ -47,11 +47,15 @@ During development, you could run `grunt build:dev` instead of `grunt build`, to
 
 Please note that if you change anything in the JavaScript or CSS, you'll have to run `grunt build:js` or `grunt build:css`, respectively.
 
-Alternatively, a webpack development server is available. To enable the dev-server, you'll have to add this to your WordPress install's `config.php`:
+For active development, you could run `grunt watch` to keep the build up-to-date and run checks right away.
+
+For JavaScript only, a webpack development server is available. To enable the dev-server, you'll have to add this to your WordPress install's `config.php`:
 ```php
 define( 'YOAST_SEO_DEV_SERVER', true );
 ```
 and you can start it by running `yarn start` in the `wordpress-seo` folder.
+
+Another JavaScript alternative is `grunt webpack:watch`, this command will keep the JS files up-to-date. You'll have to refresh the page yourself since this does not run a development server.
 
 This repository uses [the Yoast grunt tasks plugin](https://github.com/Yoast/plugin-grunt-tasks).
 
