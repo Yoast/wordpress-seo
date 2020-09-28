@@ -225,7 +225,7 @@ class SEMrush_Route_Test extends TestCase {
 	/**
 	 * Tests the country code route.
 	 *
-	 * @covers ::set_country_code
+	 * @covers ::set_country_code_option
 	 */
 	public function test_country_code() {
 		$request = Mockery::mock( 'WP_REST_Request', 'ArrayAccess' );
