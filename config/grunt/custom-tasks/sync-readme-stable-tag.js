@@ -48,7 +48,6 @@ module.exports = function( grunt ) {
 			}
 
 			const currentVersion = getVersion( targetFile, /(\n?)(Stable tag: )(\d+(\.\d+){0,3})(\n)/, 3 );
-			//grunt.verbose.writeln ( "stable Tag version in readme.txt: " + currentVersion + "\nretrieved verion: " + stableVersion );
 			// Only change the file if the version does not match.
 			if ( currentVersion !== stableVersion ) {
 				grunt.verbose.writeln( "Stable tag version in readme.txt: " + currentVersion + "\n" +
