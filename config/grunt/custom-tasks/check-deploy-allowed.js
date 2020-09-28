@@ -26,8 +26,8 @@ module.exports = function( grunt ) {
 			contents = contents.split( "\n" ).slice( 0, 9 ).join( "\n" );
 			grunt.verbose.writeln( "First 10 lines of readme.txt file: \n" + contents );
 			const regex = new RegExp( "\nStable tag: " + stableVersion + "\n" );
-			const notVersionMatch = contents.search( regex ) === -1;
-			if ( notVersionMatch ) {
+			const versionMatch = contents.search( regex ) !== -1;
+			if ( ! versionMatch ) {
 				grunt.fail.fatal(
 					"The Stable tag specified in the readme.txt file is not set to the stable tag currently on WordPress: " + stableVersion + ". " +
 					"Therefor you cannot deploy with this readme.txt file.\n" +
