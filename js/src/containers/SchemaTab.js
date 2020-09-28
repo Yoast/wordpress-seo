@@ -56,7 +56,7 @@ const SchemaTabContainer = ( props ) => {
 		helpTextTitle: __( "Yoast SEO automatically describes your pages using schema.org", "wordpress-seo" ),
 		helpTextDescription: __(
 			"This helps search engines understand your website and your content. You can change some of your settings for this page below.",
-			"wordpress-seo",
+			"wordpress-seo"
 		),
 		showArticleTypeInput,
 		pageTypeOptions,
