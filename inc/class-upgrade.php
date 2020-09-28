@@ -737,6 +737,12 @@ class WPSEO_Upgrade {
 	 * @return void
 	 */
 	private function upgrade_151() {
+		$home_url = WPSEO_Options::get( 'home_url' );
+
+		if ( empty( $home_url ) ) {
+			WPSEO_Options::set( 'home_url', get_home_url() );
+		}
+
 		add_action( 'init', [ $this, 'set_permalink_structure_option_for_151' ] );
 	}
 

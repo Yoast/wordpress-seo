@@ -93,7 +93,7 @@
     "jest": "^23.3.0",
     "jest-styled-components": "^6.3.4",
     "mini-css-extract-plugin": "^0.9.0",
-    "node-fetch": "^2.6.0",
+    "node-fetch": "^2.6.1",
     "raf": "^3.4.0",
     "react": "16.8.6",
     "react-dom": "16.8.6",
@@ -109,15 +109,15 @@
   "dependencies": {
     "@babel/runtime": "7.0.0-beta.55",
     "@wordpress/dom-ready": "^2.10.0",
-    "@yoast/analysis-report": "^1.12.0-rc.0",
-    "@yoast/components": "^2.10.0-rc.0",
-    "@yoast/configuration-wizard": "^2.12.0-rc.0",
-    "@yoast/feature-flag": "^0.5.2-rc.1",
+    "@yoast/analysis-report": "^1.12.0-rc.1",
+    "@yoast/components": "^2.10.0-rc.1",
+    "@yoast/configuration-wizard": "^2.12.0-rc.1",
+    "@yoast/feature-flag": "^0.5.2",
     "@yoast/helpers": "^0.13.0-rc.5",
-    "@yoast/replacement-variable-editor": "^1.5.0-rc.0",
-    "@yoast/search-metadata-previews": "^2.12.0-rc.0",
-    "@yoast/social-metadata-forms": "^1.5.0-rc.0",
-    "@yoast/style-guide": "^0.13.0-rc.0",
+    "@yoast/replacement-variable-editor": "^1.5.0-rc.1",
+    "@yoast/search-metadata-previews": "^2.12.0-rc.1",
+    "@yoast/social-metadata-forms": "^1.5.0-rc.1",
+    "@yoast/style-guide": "^0.13.0",
     "a11y-speak": "git+https://github.com/Yoast/a11y-speak.git#master",
     "babel-polyfill": "^6.26.0",
     "draft-js": "^0.10.5",
@@ -125,7 +125,7 @@
     "find-with-regex": "~1.0.2",
     "interpolate-components": "^1.1.0",
     "jed": "^1.1.1",
-    "marked": "^0.6.1",
+    "marked": "^0.7.0",
     "material-ui": "^0.20.0",
     "moment": "2.22.2",
     "moment-duration-format": "^2.2.2",
@@ -138,13 +138,13 @@
     "redux-thunk": "^2.2.0",
     "select2": "^4.0.5",
     "styled-components": "^4.2.0",
-    "yoast-components": "^5.12.0-rc.0",
-    "yoastseo": "^1.83.0-rc.0"
+    "yoast-components": "^5.12.0-rc.1",
+    "yoastseo": "^1.83.0-rc.1"
   },
   "browserslist": [
     "extends @yoast/browserslist-config"
   ],
   "yoast": {
-    "pluginVersion": "15.0-RC6"
+    "pluginVersion": "15.1-RC1"
   }
 }

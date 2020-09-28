@@ -4,7 +4,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Integrations\Watchers;
 
 use Brain\Monkey;
 use Mockery;
-use Yoast\WP\SEO\Conditionals\Admin_Conditional;
+use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
 use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
@@ -57,6 +57,13 @@ class Indexable_HomeUrl_Watcher_Test extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
+		Monkey\Functions\stubs(
+			[
+				'wp_next_scheduled' => false,
+				'wp_schedule_event' => false,
+			]
+		);
+
 		$this->post_type        = Mockery::mock( Post_Type_Helper::class );
 		$this->options          = Mockery::mock( Options_Helper::class );
 		$this->indexable_helper = Mockery::mock( Indexable_Helper::class );
@@ -72,7 +79,7 @@ class Indexable_HomeUrl_Watcher_Test extends TestCase {
 	 */
 	public function test_get_conditionals() {
 		$this->assertEquals(
-			[ Admin_Conditional::class ],
+			[ Migrations_Conditional::class ],
 			Indexable_HomeUrl_Watcher::get_conditionals()
 		);
 	}
@@ -105,6 +112,15 @@ class Indexable_HomeUrl_Watcher_Test extends TestCase {
 		$this->indexable_helper->expects( 'reset_permalink_indexables' )->with( 'date-archive', null, Indexation_Permalink_Warning_Presenter::REASON_HOME_URL_OPTION )->once();
 		$this->indexable_helper->expects( 'reset_permalink_indexables' )->with( 'system-page', null, Indexation_Permalink_Warning_Presenter::REASON_HOME_URL_OPTION )->once();
 
+		Monkey\Functions\expect( 'get_home_url' )
+			->once()
+			->andReturn( 'http://example.com' );
+
+		$this->options
+			->expects( 'set' )
+			->with( 'home_url', 'http://example.com' )
+			->once();
+
 		$this->instance->reset_permalinks();
 	}
 
@@ -118,5 +134,75 @@ class Indexable_HomeUrl_Watcher_Test extends TestCase {
 		$this->indexable_helper->expects( 'reset_permalink_indexables' )->with( 'post-type-archive', 'post', Indexation_Permalink_Warning_Presenter::REASON_HOME_URL_OPTION )->once();
 
 		$this->instance->reset_permalinks_post_type( 'post' );
+	}
+
+	/**
+	 * Test forced flushing of permalinks.
+	 *
+	 * @covers ::force_reset_permalinks
+	 */
+	public function test_force_reset_permalinks() {
+		$this->instance
+			->expects( 'should_reset_permalinks' )
+			->once()
+			->andReturnTrue();
+
+		$this->instance
+			->expects( 'reset_permalinks' )
+			->once();
+
+		$this->assertTrue( $this->instance->force_reset_permalinks() );
+	}
+
+	/**
+	 * Test forced flushing of permalinks not executing.
+	 *
+	 * @covers ::force_reset_permalinks
+	 */
+	public function test_force_reset_permalinks_not_executing() {
+		$this->instance
+			->expects( 'should_reset_permalinks' )
+			->once()
+			->andReturnFalse();
+
+		$this->assertFalse( $this->instance->force_reset_permalinks() );
+	}
+
+	/**
+	 * Test that permalinks should be reset.
+	 *
+	 * @covers ::should_reset_permalinks
+	 */
+	public function test_should_reset_permalinks() {
+		Monkey\Functions\expect( 'get_home_url' )
+			->once()
+			->andReturn( 'http://example-old.com' );
+
+		$this->options
+			->expects( 'get' )
+			->with( 'home_url' )
+			->once()
+			->andReturn( 'http://example.com' );
+
+		$this->assertTrue( $this->instance->should_reset_permalinks() );
+	}
+
+	/**
+	 * Test that permalinks should not be reset.
+	 *
+	 * @covers ::should_reset_permalinks
+	 */
+	public function test_shouldnt_reset_permalinks() {
+		Monkey\Functions\expect( 'get_home_url' )
+			->once()
+			->andReturn( 'http://example.com' );
+
+		$this->options
+			->expects( 'get' )
+			->with( 'home_url' )
+			->once()
+			->andReturn( 'http://example.com' );
+
+		$this->assertFalse( $this->instance->should_reset_permalinks() );
 	}
 }

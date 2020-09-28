@@ -15,6 +15,7 @@ import SidebarItem from "../SidebarItem";
 import AdvancedSettings from "../../containers/AdvancedSettings";
 import SocialMetadataPortal from "../portals/SocialMetadataPortal";
 import SchemaTabContainer from "../../containers/SchemaTab";
+import SEMrushRelatedKeyphrases from "../../containers/SEMrushRelatedKeyphrases";
 
 /* eslint-disable complexity */
 /**
@@ -33,7 +34,12 @@ export default function MetaboxFill( { settings } ) {
 				<Warning />
 			</SidebarItem>
 			{ settings.isKeywordAnalysisActive && <SidebarItem renderPriority={ 8 }>
-				<KeywordInput />
+				<KeywordInput
+					isSEMrushIntegrationActive={ settings.isSEMrushIntegrationActive }
+				/>
+				{ ! window.wpseoScriptData.metabox.isPremium && <Fill name="YoastRelatedKeyphrases">
+					<SEMrushRelatedKeyphrases />
+				</Fill> }
 			</SidebarItem> }
 			<SidebarItem renderPriority={ 9 }>
 				<MetaboxCollapsible

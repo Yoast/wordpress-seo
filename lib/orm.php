@@ -2175,7 +2175,8 @@ class ORM implements \ArrayAccess {
 				if ( \is_array( $column ) ) {
 					$column = \reset( $column );
 				}
-				$this->_data[ $column ] = $wpdb->insert_id;
+				// Explicitly cast to int to make dealing with Id's simpler.
+				$this->_data[ $column ] = (int) $wpdb->insert_id;
 			}
 		}
 		$this->_dirty_fields = [];

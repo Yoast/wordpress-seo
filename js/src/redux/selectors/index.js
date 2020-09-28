@@ -12,3 +12,5 @@ export * from "./preferences";
 export * from "./advancedSettings";
 export * from "./editorContext";
 export * from "./schemaTab";
+export * from "./SEMrushRequest";
+export * from "./SEMrushModal";
