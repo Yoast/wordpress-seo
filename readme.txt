@@ -246,6 +246,7 @@ Enhancements:
 * Adds a hover state styling to the items in the Metabox.
 * Improves the English transition word assessment by adding the following words to the transition word list: 'note that', 'not only', 'initially', 'as opposed to'.
 * Improves the keyphrase and prominent word recognition when words in the text occur with specific Arabic or Urdu punctuation marks.
+* Adds an option and a filter (`wpseo_dynamic_permalinks_enabled`) to enable dynamic permalink fallback in the indexable model.
 
 Bugfixes:
 
