@@ -5,7 +5,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
 Tested up to: 5.5
-Stable tag: 14.9
+Stable tag: 15.0
 Requires PHP: 5.6.20
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -215,7 +215,7 @@ Enhancements:
 
 * Adds an integration with SEMrush to search for and compare search volume of related keyphrases.
 * Prevents several processes from happening on non-production environments:
-    * Indexing indexables. 
+    * Indexing indexables.
     * Pinging search engines about XML sitemaps.
     * Sending tracking information.
     * Checking the indexability of the site with Ryte.

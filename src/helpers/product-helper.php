@@ -5,7 +5,7 @@ namespace Yoast\WP\SEO\Helpers;
 use WPSEO_Utils;
 
 /**
- * A helper object to retrieve the product name.
+ * A helper object for the Yoast products.
  */
 class Product_Helper {
 
@@ -29,7 +29,7 @@ class Product_Helper {
 	 *
 	 * @return bool True when is premium.
 	 */
-	protected function is_premium() {
+	public function is_premium() {
 		return WPSEO_Utils::is_yoast_seo_premium();
 	}
 }

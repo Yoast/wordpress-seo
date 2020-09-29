@@ -411,6 +411,7 @@ class WPSEO_Admin_Asset_Manager {
 					'jquery-ui-progressbar',
 					self::PREFIX . 'admin-global-script',
 					self::PREFIX . 'commons',
+					self::PREFIX . 'components',
 				],
 			],
 			[
