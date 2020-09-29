@@ -10,6 +10,7 @@ use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
 use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
+use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Presenters\Admin\Indexation_Permalink_Warning_Presenter;
 use Yoast\WP\SEO\WordPress\Wrapper;
@@ -27,6 +28,11 @@ class Indexable_Permalink_Watcher implements Integration_Interface {
 	 * @var Options_Helper
 	 */
 	protected $options_helper;
+
+	/**
+	 * @var Taxonomy_Helper
+	 */
+	protected $taxonomy_helper;
 
 	/**
 	 * The post type helper.
@@ -55,11 +61,13 @@ class Indexable_Permalink_Watcher implements Integration_Interface {
 	 * @param Post_Type_Helper $post_type The post type helper.
 	 * @param Options_Helper   $options   The options helper.
 	 * @param Indexable_Helper $indexable The indexable helper.
+	 * @param Taxonomy_Helper  $taxonomy_helper
 	 */
-	public function __construct( Post_Type_Helper $post_type, Options_Helper $options, Indexable_Helper $indexable ) {
+	public function __construct( Post_Type_Helper $post_type, Options_Helper $options, Indexable_Helper $indexable, Taxonomy_Helper $taxonomy_helper ) {
 		$this->post_type        = $post_type;
 		$this->options_helper   = $options;
 		$this->indexable_helper = $indexable;
+		$this->taxonomy_helper  = $taxonomy_helper;
 
 		$this->schedule_cron();
 	}
@@ -134,6 +142,8 @@ class Indexable_Permalink_Watcher implements Integration_Interface {
 	 * @return bool Whether the reset request ran.
 	 */
 	public function force_reset_permalinks() {
+		$this->reset_altered_custom_taxonomies();
+
 		if ( $this->should_reset_permalinks() ) {
 			$this->reset_permalinks();
 
@@ -150,6 +160,26 @@ class Indexable_Permalink_Watcher implements Integration_Interface {
 	 */
 	public function should_reset_permalinks() {
 		return \get_option( 'permalink_structure' ) !== $this->options_helper->get( 'permalink_structure' );
+	}
+
+	public function reset_altered_custom_taxonomies() {
+		$taxonomies            = $this->taxonomy_helper->get_custom_taxonomies();
+		$custom_taxonomy_bases = $this->options_helper->get( 'custom_taxonomy_slugs', [] );
+
+		foreach ( $taxonomies as $taxonomy ) {
+			if ( ! array_key_exists( $taxonomy, $custom_taxonomy_bases ) ) {
+				continue;
+			}
+
+			// If custom taxonomy is registered, but altered, we need to reset it.
+			$taxonomy_slug = $this->taxonomy_helper->get_taxonomy_slug( $taxonomy );
+
+			if ( $taxonomy_slug !== $custom_taxonomy_bases[ $taxonomy ] ) {
+				$this->indexable_helper->reset_permalink_indexables( 'term', $taxonomy );
+			}
+		}
+
+		$this->options_helper->set( 'custom_taxonomy_slugs', $taxonomies );
 	}
 
 	/**
