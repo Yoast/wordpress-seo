@@ -168,9 +168,9 @@ class Index_Command implements Command_Interface {
 			$this->clear();
 
 			// Delete the transients to make sure re-indexing runs every time.
-			\delete_transient( $this->post_indexation_action::TRANSIENT_CACHE_KEY );
-			\delete_transient( $this->post_type_archive_indexation_action::TRANSIENT_CACHE_KEY );
-			\delete_transient( $this->term_indexation_action::TRANSIENT_CACHE_KEY );
+			\delete_transient( Indexable_Post_Indexation_Action::TRANSIENT_CACHE_KEY );
+			\delete_transient( Indexable_Post_Type_Archive_Indexation_Action::TRANSIENT_CACHE_KEY );
+			\delete_transient( Indexable_Term_Indexation_Action::TRANSIENT_CACHE_KEY );
 		}
 
 		$indexation_actions = [
