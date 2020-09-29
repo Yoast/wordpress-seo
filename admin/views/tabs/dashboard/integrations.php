@@ -21,7 +21,7 @@ $integration_toggles = Yoast_Integration_Toggles::instance()->get_all();
 		<?php
 		echo sprintf(
 		/* translators: %1$s expands to Yoast SEO */
-			esc_html__( '%1$s integrates with a couple of third parties. You can enable or disable these integrations below.', 'wordpress-seo' ),
+			esc_html__( '%1$s can integrate with third parties products. You can enable or disable these integrations below.', 'wordpress-seo' ),
 			'Yoast SEO'
 		);
 
