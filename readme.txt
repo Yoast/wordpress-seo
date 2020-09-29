@@ -225,6 +225,7 @@ Enhancements:
 * Registers a cron job that checks whether the `home_url` was changed manually and resets the permalinks accordingly.
 * Makes it possible to recognize keyphrases in Farsi when they have a negation prefix or an indefinite article (for example: ماشین ("car") in ماشینی ("a car")).
 * Improves keyphrase recognition in Farsi by filtering the function words such as `هفت`, `چهارم`, `یا `.
+* Adds an option and a filter (`wpseo_dynamic_permalinks_enabled`) to enable dynamic permalink fallback in the indexable model.
 
 Bugfixes:
 
@@ -246,7 +247,6 @@ Enhancements:
 * Adds a hover state styling to the items in the Metabox.
 * Improves the English transition word assessment by adding the following words to the transition word list: 'note that', 'not only', 'initially', 'as opposed to'.
 * Improves the keyphrase and prominent word recognition when words in the text occur with specific Arabic or Urdu punctuation marks.
-* Adds an option and a filter (`wpseo_dynamic_permalinks_enabled`) to enable dynamic permalink fallback in the indexable model.
 
 Bugfixes:
 
