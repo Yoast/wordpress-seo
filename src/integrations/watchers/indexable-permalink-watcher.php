@@ -142,15 +142,15 @@ class Indexable_Permalink_Watcher implements Integration_Interface {
 	 * @return bool Whether the reset request ran.
 	 */
 	public function force_reset_permalinks() {
-		$this->reset_altered_custom_taxonomies();
-
 		if ( $this->should_reset_permalinks() ) {
 			$this->reset_permalinks();
 
 			return true;
 		}
 
-		return false;
+		$this->reset_altered_custom_taxonomies();
+
+		return true;
 	}
 
 	/**
@@ -162,24 +162,31 @@ class Indexable_Permalink_Watcher implements Integration_Interface {
 		return \get_option( 'permalink_structure' ) !== $this->options_helper->get( 'permalink_structure' );
 	}
 
+	/**
+	 * Resets custom taxonomies if their slugs have changed.
+	 *
+	 * @return void
+	 */
 	public function reset_altered_custom_taxonomies() {
 		$taxonomies            = $this->taxonomy_helper->get_custom_taxonomies();
 		$custom_taxonomy_bases = $this->options_helper->get( 'custom_taxonomy_slugs', [] );
+		$new_taxonomy_bases    = [];
 
 		foreach ( $taxonomies as $taxonomy ) {
+			$taxonomy_slug = $this->taxonomy_helper->get_taxonomy_slug( $taxonomy );
+
 			if ( ! array_key_exists( $taxonomy, $custom_taxonomy_bases ) ) {
+				$new_taxonomy_bases[ $taxonomy ] = $taxonomy_slug;
+
 				continue;
 			}
-
-			// If custom taxonomy is registered, but altered, we need to reset it.
-			$taxonomy_slug = $this->taxonomy_helper->get_taxonomy_slug( $taxonomy );
 
 			if ( $taxonomy_slug !== $custom_taxonomy_bases[ $taxonomy ] ) {
 				$this->indexable_helper->reset_permalink_indexables( 'term', $taxonomy );
 			}
 		}
 
-		$this->options_helper->set( 'custom_taxonomy_slugs', $taxonomies );
+		$this->options_helper->set( 'custom_taxonomy_slugs', $new_taxonomy_bases );
 	}
 
 	/**
