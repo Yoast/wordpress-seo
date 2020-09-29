@@ -68,6 +68,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'semrush_country_code'                     => 'us',
 		'permalink_structure'                      => '',
 		'home_url'                                 => '',
+		'dynamic_permalinks'                       => false,
 	];
 
 	/**
@@ -368,6 +369,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 				 *  'disableadvanced_meta'
 				 *  'enable_headless_rest_endpoints'
 				 *  'yoast_tracking'
+				 *  'dynamic_permalinks'
 				 */
 				default:
 					$clean[ $key ] = ( isset( $dirty[ $key ] ) ? WPSEO_Utils::validate_bool( $dirty[ $key ] ) : false );

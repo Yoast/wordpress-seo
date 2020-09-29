@@ -252,9 +252,7 @@ script:
     if [[ "$PHPLINT" == "1" ]]; then
       travis_fold start "PHP.check" && travis_time_start
       if [[ "$IS_PREMIUM" == "1" ]]; then
-        cd premium
-        composer lint
-        cd -
+        cd premium && composer lint && cd -
       else
         composer lint
       fi
@@ -265,9 +263,7 @@ script:
     if [[ "$PHPCS" == "1" ]]; then
       travis_fold start "PHP.code-style" && travis_time_start
       if [[ "$IS_PREMIUM" == "1" ]]; then
-        cd premium
-        composer check-cs
-        cd -
+        cd premium && composer check-cs && cd -
       else
         composer check-cs-threshold
       fi
