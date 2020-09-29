@@ -133,6 +133,7 @@ module.exports = function( grunt ) {
 				gitcommit: "grunt-git",
 				gitcheckout: "grunt-git",
 				gitpull: "grunt-git",
+				gitpush: "grunt-git",
 				"update-version": "@yoast/grunt-plugin-tasks",
 				"set-version": "@yoast/grunt-plugin-tasks",
 				"register-prompt": "grunt-prompt",

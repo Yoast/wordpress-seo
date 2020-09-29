@@ -144,8 +144,10 @@ module.exports = function( grunt ) {
 		},
 
 		"remove-prefixed-sources": {
-			command: "composer remove league/oauth2-client pimple/pimple psr/log " +
-			"symfony/dependency-injection --update-no-dev --optimize-autoloader --no-scripts",
+			command: "composer remove " +
+				"league/oauth2-client pimple/pimple psr/log " +
+				"symfony/dependency-injection " +
+				"--update-no-dev --optimize-autoloader --no-scripts",
 		},
 
 		"composer-install": {

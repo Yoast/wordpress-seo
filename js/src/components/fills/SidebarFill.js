@@ -38,7 +38,9 @@ export default function SidebarFill( { settings } ) {
 					<Warning />
 				</SidebarItem>
 				{ settings.isKeywordAnalysisActive && <SidebarItem renderPriority={ 8 }>
-					<KeywordInput />
+					<KeywordInput
+						isSEMrushIntegrationActive={ settings.isSEMrushIntegrationActive }
+					/>
 				</SidebarItem> }
 				<SidebarItem renderPriority={ 23 }>
 					<GooglePreviewModal />
