@@ -116,6 +116,11 @@
 	margin-right: 8px;
 }
 
+html[dir=rtl] .yoast .yoast-button--edit {
+	margin-right: 0;
+	margin-left: 8px;
+}
+
 html[dir=rtl] .yoast .yoast-button--buy {
 	flex-direction: row-reverse;
 }
