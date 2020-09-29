@@ -164,10 +164,6 @@ install:
       composer du
     fi
   - |
-    if [[ "$PHPCS" == "1" && "$IS_PREMIUM" != "1" ]]; then
-      composer config-yoastcs
-    fi
-  - |
     if [[ "$CHECKJS" == "1" ]]; then
       yarn global add grunt-cli
       yarn install
@@ -269,7 +265,7 @@ script:
         composer check-cs
         cd -
       else
-        vendor/bin/phpcs -qn
+        composer check-cs-threshold
       fi
       travis_time_finish && travis_fold end "PHP.code-style"
     fi

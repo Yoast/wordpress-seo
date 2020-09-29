@@ -1,9 +1,4 @@
 <?php
-/**
- * Yoast SEO Plugin File.
- *
- * @package Yoast\YoastSEO\Integrations
- */
 
 namespace Yoast\WP\SEO\Integrations\Third_Party;
 
@@ -11,9 +6,7 @@ use Yoast\WP\SEO\Conditionals\WPML_Conditional;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 
 /**
- * Class WPML
- *
- * @package Yoast\WP\SEO\Integration\Third_Party
+ * WPML integration.
  */
 class WPML implements Integration_Interface {
 

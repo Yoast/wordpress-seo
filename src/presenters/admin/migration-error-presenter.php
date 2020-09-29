@@ -1,9 +1,4 @@
 <?php
-/**
- * Presenter class for the indexation warning.
- *
- * @package Yoast\YoastSEO\Presenters\Admin
- */
 
 namespace Yoast\WP\SEO\Presenters\Admin;
 
@@ -11,7 +6,7 @@ use WPSEO_Shortlinker;
 use Yoast\WP\SEO\Presenters\Abstract_Presenter;
 
 /**
- * Migration_Error_Presenter class.
+ * Presenter class for the migration error.
  */
 class Migration_Error_Presenter extends Abstract_Presenter {
 

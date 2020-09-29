@@ -1,9 +1,4 @@
 <?php
-/**
- * WPSEO plugin test file.
- *
- * @package Yoast\WP\SEO\Tests\Unit\Mocks
- */
 
 namespace Yoast\WP\SEO\Tests\Unit\Doubles\Database;
 
@@ -11,7 +6,7 @@ use Exception;
 use Yoast\WP\Lib\Migrations\Migration;
 
 /**
- * Class Meta_Tags_Context_Mock
+ * Class Migration_Double.
  */
 class Migration_Double extends Migration {
 

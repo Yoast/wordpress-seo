@@ -1,9 +1,4 @@
 <?php
-/**
- * WPSEO plugin file.
- *
- * @package Yoast\WP\SEO\Integrations\Admin
- */
 
 namespace Yoast\WP\SEO\Integrations\Admin;
 
@@ -13,7 +8,7 @@ use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Presenters\Admin\Migration_Error_Presenter;
 
 /**
- * Migration_Error_Integration class
+ * Migration_Error_Integration class.
  */
 class Migration_Error_Integration implements Integration_Interface {
 

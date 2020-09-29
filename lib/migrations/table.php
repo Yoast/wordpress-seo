@@ -1,16 +1,11 @@
 <?php
-/**
- * Yoast migrations adapter class.
- *
- * @package Yoast\WP\Lib\Migrations
- */
 
 namespace Yoast\WP\Lib\Migrations;
 
 use Exception;
 
 /**
- * Table class
+ * Yoast migrations table class.
  */
 class Table {
 

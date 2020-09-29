@@ -29,7 +29,6 @@ final class WPSEO_Role_Manager_WP extends WPSEO_Abstract_Role_Manager {
 			return;
 		}
 
-		// @codingStandardsIgnoreLine
 		add_role( $role, $display_name, $capabilities );
 	}
 

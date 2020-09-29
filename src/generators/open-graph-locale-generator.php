@@ -1,16 +1,11 @@
 <?php
-/**
- * WPSEO plugin file.
- *
- * @package Yoast\WP\SEO\Generators
- */
 
 namespace Yoast\WP\SEO\Generators;
 
 use Yoast\WP\SEO\Context\Meta_Tags_Context;
 
 /**
- * Class Open_Graph_Locale_Generator
+ * Class Open_Graph_Locale_Generator.
  */
 class Open_Graph_Locale_Generator implements Generator_Interface {
 

@@ -1,9 +1,4 @@
 <?php
-/**
- * Yoast SEO Plugin File.
- *
- * @package Yoast\WP\SEO\Config\Migrations
- */
 
 namespace Yoast\WP\SEO\Config\Migrations;
 
@@ -35,15 +30,33 @@ class CreateSEOLinksTable extends Migration {
 		// If not, create it exactly as it was.
 		if ( ! $adapter->table_exists( $table_name ) ) {
 			$table = $this->create_table( $table_name, [ 'id' => false ] );
-			$table->column( 'id', 'biginteger', [
-				'primary_key'    => true,
-				'limit'          => 20,
-				'unsigned'       => true,
-				'auto_increment' => true,
-			] );
+			$table->column(
+				'id',
+				'biginteger',
+				[
+					'primary_key'    => true,
+					'limit'          => 20,
+					'unsigned'       => true,
+					'auto_increment' => true,
+				]
+			);
 			$table->column( 'url', 'string', [ 'limit' => 255 ] );
-			$table->column( 'post_id', 'biginteger', [ 'limit' => 20, 'unsigned' => true ] );
-			$table->column( 'target_post_id', 'biginteger', [ 'limit' => 20, 'unsigned' => true ] );
+			$table->column(
+				'post_id',
+				'biginteger',
+				[
+					'limit'    => 20,
+					'unsigned' => true,
+				]
+			);
+			$table->column(
+				'target_post_id',
+				'biginteger',
+				[
+					'limit'    => 20,
+					'unsigned' => true,
+				]
+			);
 			$table->column( 'type', 'string', [ 'limit' => 8 ] );
 			$table->finish();
 		}

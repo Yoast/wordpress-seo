@@ -1,9 +1,4 @@
 <?php
-/**
- * Reindexation route for indexables.
- *
- * @package Yoast\WP\SEO\Routes\Routes
- */
 
 namespace Yoast\WP\SEO\Routes;
 
@@ -19,7 +14,9 @@ use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Main;
 
 /**
- * Indexable_Reindexing_Route class.
+ * Indexable_Indexation_Route class.
+ *
+ * Reindexation route for indexables.
  */
 class Indexable_Indexation_Route extends Abstract_Indexation_Route {
 

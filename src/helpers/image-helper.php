@@ -1,9 +1,4 @@
 <?php
-/**
- * A helper object for images.
- *
- * @package Yoast\WP\SEO\Helpers
- */
 
 namespace Yoast\WP\SEO\Helpers;
 
@@ -11,7 +6,7 @@ use WPSEO_Image_Utils;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
 /**
- * Class Image_Helper
+ * A helper object for images.
  */
 class Image_Helper {
 

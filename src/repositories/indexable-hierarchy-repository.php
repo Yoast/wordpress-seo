@@ -1,9 +1,4 @@
 <?php
-/**
- * Yoast extension of the Model class.
- *
- * @package Yoast\WP\SEO\Repositories
- */
 
 namespace Yoast\WP\SEO\Repositories;
 
@@ -13,7 +8,7 @@ use Yoast\WP\SEO\Builders\Indexable_Hierarchy_Builder;
 use Yoast\WP\SEO\Models\Indexable;
 
 /**
- * Class Indexable_Hierarchy_Repository
+ * Class Indexable_Hierarchy_Repository.
  */
 class Indexable_Hierarchy_Repository {
 
@@ -64,6 +59,7 @@ class Indexable_Hierarchy_Repository {
 				'blog_id'      => \get_current_blog_id(),
 			]
 		);
+
 		return $hierarchy->save();
 	}
 
@@ -72,7 +68,7 @@ class Indexable_Hierarchy_Repository {
 	 *
 	 * @param Indexable $indexable The indexable to get the ancestors for.
 	 *
-	 * @return int[] The indexable IDs of the ancestors in order of grandparent to child.
+	 * @return int[] The indexable id's of the ancestors in order of grandparent to child.
 	 */
 	public function find_ancestors( Indexable $indexable ) {
 		$ancestors = $this->query()
@@ -82,17 +78,12 @@ class Indexable_Hierarchy_Repository {
 			->find_array();
 
 		if ( ! empty( $ancestors ) ) {
-			$callback = function ( $ancestor ) {
-				return $ancestor['ancestor_id'];
-			};
-			return \array_map( $callback, $ancestors );
+			return \wp_list_pluck( $ancestors, 'ancestor_id' );
 		}
 
 		$indexable = $this->builder->build( $indexable );
-		$callback  = function ( $indexable ) {
-			return $indexable->id;
-		};
-		return \array_map( $callback, $indexable->ancestors );
+
+		return \wp_list_pluck( $indexable->ancestors, 'id' );
 	}
 
 	/**
@@ -100,7 +91,7 @@ class Indexable_Hierarchy_Repository {
 	 *
 	 * @param Indexable $indexable The indexable to find the children for.
 	 *
-	 * @return array Array with indexable ids for the children.
+	 * @return array Array with indexable id's for the children.
 	 */
 	public function find_children( Indexable $indexable ) {
 		$children = $this->query()
@@ -112,10 +103,7 @@ class Indexable_Hierarchy_Repository {
 			return [];
 		}
 
-		$callback = function( $child ) {
-			return $child['indexable_id'];
-		};
-		return \array_map( $callback, $children );
+		return \wp_list_pluck( $children, 'indexable_id' );
 	}
 
 	/**
@@ -125,5 +113,29 @@ class Indexable_Hierarchy_Repository {
 	 */
 	public function query() {
 		return Model::of_type( 'Indexable_Hierarchy' );
+	}
+
+	/**
+	 * Finds all the children by given ancestor id's.
+	 *
+	 * @param array $object_ids List of id's to get the children for.
+	 *
+	 * @return array List of indexable id's for the children.
+	 */
+	public function find_children_by_ancestor_ids( array $object_ids ) {
+		if ( empty( $object_ids ) ) {
+			return [];
+		}
+
+		$children = $this->query()
+			->select( 'indexable_id' )
+			->where_in( 'ancestor_id', $object_ids )
+			->find_array();
+
+		if ( empty( $children ) ) {
+			return [];
+		}
+
+		return \wp_list_pluck( $children, 'indexable_id' );
 	}
 }

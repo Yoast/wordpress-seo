@@ -1,18 +1,17 @@
 <?php
-/**
- * Presentation object for indexables.
- *
- * @package Yoast\YoastSEO\Presentations
- */
 
 namespace Yoast\WP\SEO\Presentations;
 
 /**
- * Class Indexable_Error_Page_Presentation
+ * Class Indexable_Error_Page_Presentation.
+ *
+ * Presentation object for indexables.
  */
 class Indexable_Error_Page_Presentation extends Indexable_Presentation {
 
 	/**
+	 * Generates the robots.
+	 *
 	 * @inheritDoc
 	 */
 	public function generate_robots() {
@@ -24,6 +23,8 @@ class Indexable_Error_Page_Presentation extends Indexable_Presentation {
 	}
 
 	/**
+	 * Generates the title.
+	 *
 	 * @inheritDoc
 	 */
 	public function generate_title() {

@@ -67,6 +67,7 @@ const openMedia = () => {
 	return getMedia().open();
 };
 
+/* eslint-disable complexity */
 export default compose( [
 	withSelect( select => {
 		const {
@@ -85,7 +86,6 @@ export default compose( [
 			getReplaceVars,
 			getSiteUrl,
 			getAuthorName,
-			getTwitterIsLoading,
 		} = select( "yoast-seo/editor" );
 		return {
 			imageUrl: getTwitterImageUrl(),
@@ -101,7 +101,6 @@ export default compose( [
 			siteUrl: getSiteUrl(),
 			isPremium: !! getL10nObject().isPremium,
 			isLarge: getTwitterImageType() !== "summary",
-			isLoading: getTwitterIsLoading(),
 			titleInputPlaceholder,
 			descriptionInputPlaceholder,
 			socialMediumName,
@@ -125,3 +124,4 @@ export default compose( [
 		};
 	} ),
 ] )( TwitterWrapper );
+/* eslint-enable complexity */

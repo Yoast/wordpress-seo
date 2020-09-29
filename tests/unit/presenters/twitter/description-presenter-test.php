@@ -27,6 +27,8 @@ class Description_Presenter_Test extends TestCase {
 	protected $replace_vars;
 
 	/**
+	 * Represents the instance to test.
+	 *
 	 * @var Description_Presenter
 	 */
 	protected $instance;

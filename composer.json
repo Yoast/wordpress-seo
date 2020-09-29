@@ -33,8 +33,7 @@
 	},
 	"require-dev": {
 		"yoast/php-development-environment": "^1.0",
-		"yoast/yoastcs": "~0.4.3",
-		"phpcompatibility/phpcompatibility-wp": "^2.0.0",
+		"yoast/yoastcs": "^2.0.0",
 		"humbug/php-scoper": "^0.12.0",
 		"brain/monkey": "^2.4",
 		"phpunit/phpunit": "^5.7",
@@ -49,7 +48,6 @@
 		"classmap": [
 			"admin/",
 			"inc/",
-			"deprecated/",
 			"vendor_prefixed/",
 			"src/",
 			"lib/"
@@ -80,12 +78,16 @@
 		"lint-staged": [
 			"Yoast\\WP\\SEO\\Composer\\Actions::lint_staged"
 		],
-		"config-yoastcs": [
-			"@php ./vendor/squizlabs/php_codesniffer/scripts/phpcs --config-set installed_paths ../../../vendor/wp-coding-standards/wpcs,../../../vendor/yoast/yoastcs,../../../vendor/phpcompatibility/php-compatibility,../../../vendor/phpcompatibility/phpcompatibility-paragonie,../../../vendor/phpcompatibility/phpcompatibility-wp",
-			"@php ./vendor/squizlabs/php_codesniffer/scripts/phpcs --config-set default_standard Yoast"
-		],
 		"cs": [
 			"Yoast\\WP\\SEO\\Composer\\Actions::check_coding_standards"
+		],
+		"check-cs-thresholds": [
+			"@putenv YOASTCS_THRESHOLD_ERRORS=960",
+			"@putenv YOASTCS_THRESHOLD_WARNINGS=264",
+			"Yoast\\WP\\SEO\\Composer\\Actions::check_cs_thresholds"
+		],
+		"check-cs-summary": [
+			"@check-cs-warnings --report=summary"
 		],
 		"check-cs": [
 			"@check-cs-warnings -n"
@@ -95,16 +97,16 @@
 			"composer check-cs"
 		],
 		"check-cs-warnings": [
-			"@php ./vendor/squizlabs/php_codesniffer/scripts/phpcs"
+			"@php ./vendor/squizlabs/php_codesniffer/bin/phpcs"
 		],
 		"check-staged-cs": [
-			"Yoast\\WP\\SEO\\Composer\\Actions::check_staged_cs"
+			"@check-cs-warnings --filter=GitStaged"
 		],
 		"check-branch-cs": [
 			"Yoast\\WP\\SEO\\Composer\\Actions::check_branch_cs"
 		],
 		"fix-cs": [
-			"@php ./vendor/squizlabs/php_codesniffer/scripts/phpcbf"
+			"@php ./vendor/squizlabs/php_codesniffer/bin/phpcbf"
 		],
 		"prefix-dependencies": [
 			"composer prefix-oauth2-client",

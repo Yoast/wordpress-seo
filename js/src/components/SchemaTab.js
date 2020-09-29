@@ -5,11 +5,35 @@ import interpolateComponents from "interpolate-components";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { schemaTypeOptionsPropType } from "./SchemaSettings";
-import SidebarCollapsible from "./SidebarCollapsible";
 
 const SchemaContainer = styled.div`
 	padding: 16px;
 `;
+
+/**
+ * Returns the schema type options with a default.
+ *
+ * @param {Object[]} schemaTypeOptions The schema type options.
+ * @param {string} defaultType The default value to change the name for.
+ * @param {string} postTypeName The plural name of the post type.
+ *
+ * @returns {Object[]} A copy of the schema type options.
+ */
+const getSchemaTypeOptions = ( schemaTypeOptions, defaultType, postTypeName ) => {
+	const schemaOption = schemaTypeOptions.find( option => option.value === defaultType );
+	return [
+		{
+			name: sprintf(
+				/* translators: %1$s expands to the plural name of the current post type, %2$s expands to the current site wide default. */
+				__( "Default for %1$s (%2$s)", "wordpress-seo" ),
+				postTypeName,
+				schemaOption ? schemaOption.name : "",
+			),
+			value: "",
+		},
+		...schemaTypeOptions,
+	];
+};
 
 /**
  * Function that uses a postTypeName to create a string which will be used to create a link to the Search Appearance settings.
@@ -48,44 +72,48 @@ const footerWithLink = ( postTypeName ) => interpolateComponents(
  *
  * @returns {React.Component} The schema tab content.
  */
-const Content = ( props ) => (
-	<Fragment>
-		<FieldGroup
-			label={ props.helpTextTitle }
-			linkTo={ props.helpTextLink }
-			linkText={ __( "Learn more about structured data with Schema.org", "wordpress-seo" ) }
-			description={ props.helpTextDescription }
-		/>
-		<FieldGroup
-			label={ __( "What type of page or content is this?", "wordpress-seo" ) }
-			linkTo={ props.additionalHelpTextLink }
-			linkText={ __( "Learn more about page or content types", "wordpress-seo" ) }
-		/>
-		<Select
-			id="yoast_wpseo_schema_page_type_react"
-			options={ props.schemaPageTypeOptions }
-			label={ __( "Page type", "wordpress-seo" ) }
-			onChange={ props.schemaPageTypeChange }
-			selected={ props.schemaPageTypeSelected }
-		/>
-		{ props.showArticleTypeInput && <Select
-			id="yoast_wpseo_schema_article_type_react"
-			options={ props.schemaArticleTypeOptions }
-			label={ __( "Article type", "wordpress-seo" ) }
-			onChange={ props.schemaArticleTypeChange }
-			selected={ props.schemaArticleTypeSelected }
-		/> }
-		{ props.displayFooter && <p>{ footerWithLink( props.postTypeName ) }</p> }
-	</Fragment>
-);
+const Content = ( props ) => {
+	const schemaPageTypeOptions = getSchemaTypeOptions( props.pageTypeOptions, props.defaultPageType, props.postTypeName );
+	const schemaArticleTypeOptions = getSchemaTypeOptions( props.articleTypeOptions, props.defaultArticleType, props.postTypeName );
+	return (
+		<Fragment>
+			<FieldGroup
+				label={ props.helpTextTitle }
+				linkTo={ props.helpTextLink }
+				linkText={ __( "Learn more about structured data with Schema.org", "wordpress-seo" ) }
+				description={ props.helpTextDescription }
+			/>
+			<FieldGroup
+				label={ __( "What type of page or content is this?", "wordpress-seo" ) }
+				linkTo={ props.additionalHelpTextLink }
+				linkText={ __( "Learn more about page or content types", "wordpress-seo" ) }
+			/>
+			<Select
+				id={ `yoast_wpseo_schema_page_type_react_${ props.location }` }
+				options={ schemaPageTypeOptions }
+				label={ __( "Page type", "wordpress-seo" ) }
+				onChange={ props.schemaPageTypeChange }
+				selected={ props.schemaPageTypeSelected }
+			/>
+			{ props.showArticleTypeInput && <Select
+				id={ `yoast_wpseo_schema_article_type_react_${ props.location }` }
+				options={ schemaArticleTypeOptions }
+				label={ __( "Article type", "wordpress-seo" ) }
+				onChange={ props.schemaArticleTypeChange }
+				selected={ props.schemaArticleTypeSelected }
+			/> }
+			{ props.displayFooter && <p>{ footerWithLink( props.postTypeName ) }</p> }
+		</Fragment>
+	);
+};
 
 Content.propTypes = {
 	schemaPageTypeChange: PropTypes.func,
 	schemaPageTypeSelected: PropTypes.string,
-	schemaPageTypeOptions: schemaTypeOptionsPropType.isRequired,
+	pageTypeOptions: schemaTypeOptionsPropType.isRequired,
 	schemaArticleTypeChange: PropTypes.func,
 	schemaArticleTypeSelected: PropTypes.string,
-	schemaArticleTypeOptions: schemaTypeOptionsPropType,
+	articleTypeOptions: schemaTypeOptionsPropType.isRequired,
 	showArticleTypeInput: PropTypes.bool.isRequired,
 	additionalHelpTextLink: PropTypes.string.isRequired,
 	helpTextLink: PropTypes.string.isRequired,
@@ -93,6 +121,9 @@ Content.propTypes = {
 	helpTextDescription: PropTypes.string.isRequired,
 	postTypeName: PropTypes.string.isRequired,
 	displayFooter: PropTypes.bool,
+	defaultPageType: PropTypes.string.isRequired,
+	defaultArticleType: PropTypes.string.isRequired,
+	location: PropTypes.string.isRequired,
 };
 
 Content.defaultProps = {
@@ -100,7 +131,6 @@ Content.defaultProps = {
 	schemaPageTypeSelected: null,
 	schemaArticleTypeChange: () => {},
 	schemaArticleTypeSelected: null,
-	schemaArticleTypeOptions: null,
 	displayFooter: false,
 };
 
@@ -122,11 +152,7 @@ const SchemaTab = ( props ) => {
 	}
 
 	return (
-		<SidebarCollapsible
-			title={ __( "Schema", "wordpress-seo" ) }
-		>
-			<Content { ...props } />
-		</SidebarCollapsible>
+		<Content { ...props } />
 	);
 };
 
@@ -141,6 +167,9 @@ SchemaTab.propTypes = {
 	isMetabox: PropTypes.bool.isRequired,
 	postTypeName: PropTypes.string.isRequired,
 	displayFooter: PropTypes.bool,
+	loadSchemaArticleData: PropTypes.func.isRequired,
+	loadSchemaPageData: PropTypes.func.isRequired,
+	location: PropTypes.string.isRequired,
 };
 
 SchemaTab.defaultProps = {

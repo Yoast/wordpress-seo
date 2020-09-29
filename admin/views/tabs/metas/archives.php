@@ -49,6 +49,7 @@ foreach ( $wpseo_archives as $wpseo_archive_index => $wpseo_archive ) {
 		]
 	);
 
+	// phpcs:ignore WordPress.Security.EscapeOutput -- get_output() output is properly escaped.
 	echo $wpseo_archive_presenter->get_output();
 }
 

@@ -1,9 +1,4 @@
 <?php
-/**
- * Home page watcher to save the meta data to an Indexable.
- *
- * @package Yoast\YoastSEO\Watchers
- */
 
 namespace Yoast\WP\SEO\Integrations\Watchers;
 
@@ -13,6 +8,8 @@ use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
 /**
+ * Home page watcher to save the meta data to an Indexable.
+ *
  * Watches the home page options to save the meta information when updated.
  */
 class Indexable_Home_Page_Watcher implements Integration_Interface {

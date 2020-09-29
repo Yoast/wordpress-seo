@@ -1,9 +1,4 @@
 <?php
-/**
- * Builder for the indexables hierarchy.
- *
- * @package Yoast\YoastSEO\Builders
- */
 
 namespace Yoast\WP\SEO\Builders;
 
@@ -18,9 +13,18 @@ use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Repositories\Primary_Term_Repository;
 
 /**
+ * Builder for the indexables hierarchy.
+ *
  * Builds the indexable hierarchy for indexables.
  */
 class Indexable_Hierarchy_Builder {
+
+	/**
+	 * Holds a list of indexables where the ancestors are saved for.
+	 *
+	 * @var array
+	 */
+	protected $saved_ancestors = [];
 
 	/**
 	 * The indexable repository.
@@ -96,9 +100,11 @@ class Indexable_Hierarchy_Builder {
 	 * @return Indexable The indexable.
 	 */
 	public function build( Indexable $indexable ) {
-		if ( $indexable->has_ancestors ) {
-			$this->indexable_hierarchy_repository->clear_ancestors( $indexable->id );
+		if ( $this->hierarchy_is_built( $indexable ) ) {
+			return $indexable;
 		}
+
+		$this->indexable_hierarchy_repository->clear_ancestors( $indexable->id );
 
 		$indexable_id = $this->get_indexable_id( $indexable );
 		$ancestors    = [];
@@ -111,11 +117,28 @@ class Indexable_Hierarchy_Builder {
 		}
 		$indexable->ancestors     = \array_reverse( \array_values( $ancestors ) );
 		$indexable->has_ancestors = ! empty( $ancestors );
-		if ( ! \is_null( $indexable->id ) ) {
+		if ( $indexable->id ) {
 			$this->save_ancestors( $indexable );
 		}
 
 		return $indexable;
+	}
+
+	/**
+	 * Checks if a hierarchy is built already for the given indexable.
+	 *
+	 * @param Indexable $indexable The indexable to check.
+	 *
+	 * @return bool True when indexable has a built hierarchy.
+	 */
+	protected function hierarchy_is_built( Indexable $indexable ) {
+		if ( \in_array( $indexable->id, $this->saved_ancestors, true ) ) {
+			return true;
+		}
+
+		$this->saved_ancestors[] = $indexable->id;
+
+		return false;
 	}
 
 	/**

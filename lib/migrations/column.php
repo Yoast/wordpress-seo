@@ -1,16 +1,11 @@
 <?php
-/**
- * Yoast migrations adapter class.
- *
- * @package Yoast\WP\Lib\Migrations
- */
 
 namespace Yoast\WP\Lib\Migrations;
 
 use Exception;
 
 /**
- * Column class
+ * Yoast migrations column class.
  */
 class Column {
 

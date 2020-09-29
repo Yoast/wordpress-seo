@@ -109,14 +109,14 @@
   "dependencies": {
     "@babel/runtime": "7.0.0-beta.55",
     "@wordpress/dom-ready": "^2.10.0",
-    "@yoast/analysis-report": "^1.10.0",
-    "@yoast/components": "^2.8.0",
-    "@yoast/configuration-wizard": "^2.10.0",
+    "@yoast/analysis-report": "^1.11.0",
+    "@yoast/components": "^2.9.0",
+    "@yoast/configuration-wizard": "^2.11.0",
     "@yoast/feature-flag": "^0.5.2",
     "@yoast/helpers": "^0.13.0",
-    "@yoast/replacement-variable-editor": "^1.3.0",
-    "@yoast/search-metadata-previews": "^2.10.0",
-    "@yoast/social-metadata-forms": "^1.3.0",
+    "@yoast/replacement-variable-editor": "^1.4.1",
+    "@yoast/search-metadata-previews": "^2.11.1",
+    "@yoast/social-metadata-forms": "^1.4.1",
     "@yoast/style-guide": "^0.13.0",
     "a11y-speak": "git+https://github.com/Yoast/a11y-speak.git#master",
     "babel-polyfill": "^6.26.0",
@@ -133,18 +133,18 @@
     "prop-types": "^15.5.10",
     "react-intl": "^2.4.0",
     "react-redux": "^5.0.6",
-    "react-select": "^2.4.2",
+    "react-select": "^3.1.0",
     "redux": "^3.7.2",
     "redux-thunk": "^2.2.0",
     "select2": "^4.0.5",
     "styled-components": "^4.2.0",
-    "yoast-components": "^5.10.0",
-    "yoastseo": "^1.81.0"
+    "yoast-components": "^5.11.1",
+    "yoastseo": "^1.82.0"
   },
   "browserslist": [
     "extends @yoast/browserslist-config"
   ],
   "yoast": {
-    "pluginVersion": "14.9"
+    "pluginVersion": "15.0"
   }
 }

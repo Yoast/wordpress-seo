@@ -1,9 +1,4 @@
 <?php
-/**
- * WPSEO plugin file.
- *
- * @package Yoast\WP\SEO\Tests\Unit\Generators
- */
 
 namespace Yoast\WP\SEO\Tests\Unit\Generators;
 
@@ -14,7 +9,7 @@ use Yoast\WP\SEO\Tests\Unit\Doubles\Context\Meta_Tags_Context_Mock;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
- * Class Open_Graph_Locale_Generator_Test
+ * Class Open_Graph_Locale_Generator_Test.
  *
  * @coversDefaultClass \Yoast\WP\SEO\Generators\Open_Graph_Locale_Generator
  *

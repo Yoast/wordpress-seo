@@ -1,9 +1,4 @@
 <?php
-/**
- * Generator object for the breadcrumbs.
- *
- * @package Yoast\YoastSEO\Generators
- */
 
 namespace Yoast\WP\SEO\Generators;
 
@@ -17,7 +12,7 @@ use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
 /**
- * Represents the generator class for the Open Graph images.
+ * Represents the generator class for the breadcrumbs.
  */
 class Breadcrumbs_Generator implements Generator_Interface {
 

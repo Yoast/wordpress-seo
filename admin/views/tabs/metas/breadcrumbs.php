@@ -19,4 +19,6 @@ $wpseo_breadcrumbs_presenter = new WPSEO_Paper_Presenter(
 		'class'    => 'search-appearance',
 	]
 );
+
+// phpcs:ignore WordPress.Security.EscapeOutput -- get_output() output is properly escaped.
 echo $wpseo_breadcrumbs_presenter->get_output();
