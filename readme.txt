@@ -211,9 +211,15 @@ Your question has most likely been answered on our knowledge base: [kb.yoast.com
 = 15.1 =
 Release Date: October 13th, 2020
 
+Other:
+
+* Merges the indexable and link indexing tools on the tools page into one process.
+* Adds the watch tasks to the readme.
+
 Enhancements:
 
 * Adds an integration with SEMrush to search for and compare search volume of related keyphrases.
+* Improves the user experience of the indexing tool on the tools page by showing its progress on the tools page itself, instead of in a separate pop-up modal.
 * Prevents several processes from happening on non-production environments:
     * Indexing indexables.
     * Pinging search engines about XML sitemaps.
