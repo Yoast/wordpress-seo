@@ -8,6 +8,8 @@ use Yoast\WP\SEO\Actions\Indexation\Indexable_General_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexation\Indexable_Post_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexation\Indexable_Post_Type_Archive_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexation\Indexable_Term_Indexation_Action;
+use Yoast\WP\SEO\Actions\Indexation\Post_Link_Indexing_Action;
+use Yoast\WP\SEO\Actions\Indexation\Term_Link_Indexing_Action;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
 use Yoast\WP\SEO\Conditionals\Yoast_Tools_Page_Conditional;
 use Yoast\WP\SEO\Helpers\Indexable_Helper;
@@ -15,6 +17,7 @@ use Yoast\WP\SEO\Helpers\Short_Link_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Presenters\Admin\Indexing_List_Item_Presenter;
 use Yoast\WP\SEO\Routes\Indexable_Indexation_Route;
+use Yoast\WP\SEO\Routes\Link_Indexing_Route;
 
 /**
  * Class Indexing_Integration.
@@ -57,6 +60,20 @@ class Indexing_Integration implements Integration_Interface {
 	 * @var Indexable_Complete_Indexation_Action
 	 */
 	protected $complete_indexation_action;
+
+	/**
+	 * The post link indexing action.
+	 *
+	 * @var Post_Link_Indexing_Action
+	 */
+	protected $post_link_indexing_action;
+
+	/**
+	 * The term link indexing action.
+	 *
+	 * @var Term_Link_Indexing_Action
+	 */
+	protected $term_link_indexing_action;
 
 	/**
 	 * The total number of unindexed objects.
@@ -106,6 +123,8 @@ class Indexing_Integration implements Integration_Interface {
 	 * @param Indexable_Post_Type_Archive_Indexation_Action $post_type_archive_indexation The post type archive indexing action.
 	 * @param Indexable_General_Indexation_Action           $general_indexation           The general indexing action.
 	 * @param Indexable_Complete_Indexation_Action          $complete_indexation_action   The complete indexing action.
+	 * @param Post_Link_Indexing_Action                     $post_link_indexing_action    The post link indexing action.
+	 * @param Term_Link_Indexing_Action                     $term_link_indexing_action    The term link indexing action.
 	 * @param WPSEO_Admin_Asset_Manager                     $asset_manager                The admin asset manager.
 	 * @param Indexable_Helper                              $indexable_helper             The indexable helper.
 	 * @param Short_Link_Helper                             $short_link_helper            The short link helper.
@@ -116,6 +135,8 @@ class Indexing_Integration implements Integration_Interface {
 		Indexable_Post_Type_Archive_Indexation_Action $post_type_archive_indexation,
 		Indexable_General_Indexation_Action $general_indexation,
 		Indexable_Complete_Indexation_Action $complete_indexation_action,
+		Post_Link_Indexing_Action $post_link_indexing_action,
+		Term_Link_Indexing_Action $term_link_indexing_action,
 		WPSEO_Admin_Asset_Manager $asset_manager,
 		Indexable_Helper $indexable_helper,
 		Short_Link_Helper $short_link_helper
@@ -125,6 +146,8 @@ class Indexing_Integration implements Integration_Interface {
 		$this->post_type_archive_indexation = $post_type_archive_indexation;
 		$this->general_indexation           = $general_indexation;
 		$this->complete_indexation_action   = $complete_indexation_action;
+		$this->post_link_indexing_action    = $post_link_indexing_action;
+		$this->term_link_indexing_action    = $term_link_indexing_action;
 		$this->asset_manager                = $asset_manager;
 		$this->indexable_helper             = $indexable_helper;
 		$this->short_link_helper            = $short_link_helper;
@@ -172,12 +195,14 @@ class Indexing_Integration implements Integration_Interface {
 			'restApi'  => [
 				'root'      => \esc_url_raw( \rest_url() ),
 				'endpoints' => [
-					'prepare'  => Indexable_Indexation_Route::FULL_PREPARE_ROUTE,
-					'terms'    => Indexable_Indexation_Route::FULL_TERMS_ROUTE,
-					'posts'    => Indexable_Indexation_Route::FULL_POSTS_ROUTE,
-					'archives' => Indexable_Indexation_Route::FULL_POST_TYPE_ARCHIVES_ROUTE,
-					'general'  => Indexable_Indexation_Route::FULL_GENERAL_ROUTE,
-					'complete' => Indexable_Indexation_Route::FULL_COMPLETE_ROUTE,
+					'prepare'   => Indexable_Indexation_Route::FULL_PREPARE_ROUTE,
+					'terms'     => Indexable_Indexation_Route::FULL_TERMS_ROUTE,
+					'posts'     => Indexable_Indexation_Route::FULL_POSTS_ROUTE,
+					'archives'  => Indexable_Indexation_Route::FULL_POST_TYPE_ARCHIVES_ROUTE,
+					'general'   => Indexable_Indexation_Route::FULL_GENERAL_ROUTE,
+					'post-link' => Link_Indexing_Route::FULL_POSTS_ROUTE,
+					'term-link' => Link_Indexing_Route::FULL_TERMS_ROUTE,
+					'complete'  => Indexable_Indexation_Route::FULL_COMPLETE_ROUTE,
 				],
 				'nonce'     => \wp_create_nonce( 'wp_rest' ),
 			],
@@ -228,6 +253,8 @@ class Indexing_Integration implements Integration_Interface {
 			$this->total_unindexed += $this->term_indexation->get_total_unindexed();
 			$this->total_unindexed += $this->general_indexation->get_total_unindexed();
 			$this->total_unindexed += $this->post_type_archive_indexation->get_total_unindexed();
+			$this->total_unindexed += $this->post_link_indexing_action->get_total_unindexed();
+			$this->total_unindexed += $this->term_link_indexing_action->get_total_unindexed();
 
 			/**
 			 * Filter to adapt the total number of unindexed objects (posts, pages, terms, etc.).

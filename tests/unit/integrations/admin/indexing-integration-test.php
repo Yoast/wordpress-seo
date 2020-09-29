@@ -126,6 +126,8 @@ class Indexing_Integration_Test extends TestCase {
 			$this->post_type_archive_indexation,
 			$this->general_indexation,
 			$this->complete_indexation_action,
+			$this->post_link_indexing_action,
+			$this->term_link_indexing_action,
 			$this->asset_manager,
 			$this->indexable_helper,
 			$this->short_link_helper
@@ -222,15 +224,17 @@ class Indexing_Integration_Test extends TestCase {
 			'term_indexation'              => 20,
 			'post_type_archive_indexation' => 12,
 			'general_indexation'           => 0,
+			'post_link_indexing_action'    => 40,
+			'term_link_indexing_action'    => 20,
 		];
 
 		$this->set_total_unindexed_expectations( $total_unindexed_expectations );
 
 		Monkey\Filters\expectApplied( 'wpseo_indexing_total_unindexed' )
-			->with( 72 )
-			->andReturn( 84 );
+			->with( 132 )
+			->andReturn( 145 );
 
-		$this->assertEquals( 84, $this->instance->get_total_unindexed() );
+		$this->assertEquals( 145, $this->instance->get_total_unindexed() );
 	}
 
 	/**
@@ -244,6 +248,8 @@ class Indexing_Integration_Test extends TestCase {
 			'term_indexation'              => 20,
 			'post_type_archive_indexation' => 12,
 			'general_indexation'           => 0,
+			'post_link_indexing_action'    => 40,
+			'term_link_indexing_action'    => 20,
 		];
 
 		$this->set_total_unindexed_expectations( $total_unindexed_expectations );
@@ -267,19 +273,21 @@ class Indexing_Integration_Test extends TestCase {
 			->andReturn( 'nonce_value' );
 
 		$injected_data = [
-			'amount'   => 72,
+			'amount'   => 132,
 			'disabled' => false,
 			'restApi'  =>
 				[
 					'root'      => 'https://example.org/wp-ajax/',
 					'endpoints' =>
 						[
-							'prepare'  => 'yoast/v1/indexation/prepare',
-							'posts'    => 'yoast/v1/indexation/posts',
-							'terms'    => 'yoast/v1/indexation/terms',
-							'archives' => 'yoast/v1/indexation/post-type-archives',
-							'general'  => 'yoast/v1/indexation/general',
-							'complete' => 'yoast/v1/indexation/complete',
+							'prepare'   => 'yoast/v1/indexation/prepare',
+							'posts'     => 'yoast/v1/indexation/posts',
+							'terms'     => 'yoast/v1/indexation/terms',
+							'archives'  => 'yoast/v1/indexation/post-type-archives',
+							'general'   => 'yoast/v1/indexation/general',
+							'post-link' => 'yoast/v1/link-indexing/posts',
+							'term-link' => 'yoast/v1/link-indexing/terms',
+							'complete'  => 'yoast/v1/indexation/complete',
 						],
 					'nonce'     => 'nonce_value',
 				],
@@ -308,6 +316,8 @@ class Indexing_Integration_Test extends TestCase {
 			'term_indexation'              => 0,
 			'post_type_archive_indexation' => 0,
 			'general_indexation'           => 0,
+			'post_link_indexing_action'    => 0,
+			'term_link_indexing_action'    => 0,
 		];
 
 		$this->set_total_unindexed_expectations( $total_unindexed_expectations );
@@ -349,12 +359,14 @@ class Indexing_Integration_Test extends TestCase {
 					'root'      => 'https://example.org/wp-ajax/',
 					'endpoints' =>
 						[
-							'prepare'  => 'yoast/v1/indexation/prepare',
-							'posts'    => 'yoast/v1/indexation/posts',
-							'terms'    => 'yoast/v1/indexation/terms',
-							'archives' => 'yoast/v1/indexation/post-type-archives',
-							'general'  => 'yoast/v1/indexation/general',
-							'complete' => 'yoast/v1/indexation/complete',
+							'prepare'   => 'yoast/v1/indexation/prepare',
+							'posts'     => 'yoast/v1/indexation/posts',
+							'terms'     => 'yoast/v1/indexation/terms',
+							'archives'  => 'yoast/v1/indexation/post-type-archives',
+							'general'   => 'yoast/v1/indexation/general',
+							'post-link' => 'yoast/v1/link-indexing/posts',
+							'term-link' => 'yoast/v1/link-indexing/terms',
+							'complete'  => 'yoast/v1/indexation/complete',
 						],
 					'nonce'     => 'nonce_value',
 				],
