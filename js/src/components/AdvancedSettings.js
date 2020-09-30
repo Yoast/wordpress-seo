@@ -89,7 +89,6 @@ const MetaRobotsNoIndex = ( { noIndex, onNoIndexChange, editorContext, isPrivate
 							editorContext.postTypeNameSingular,
 						) }
 					onChange={ onNoIndexChange }
-					name={ id }
 					id={ id }
 					options={ metaRobotsNoIndexOptions }
 					selected={ noIndex }
@@ -162,7 +161,6 @@ const MetaRobotsAdvanced = ( { advanced, onAdvancedChange } ) => {
 			return <MultiSelect
 				label={ __( "Meta robots advanced", "wordpress-seo" ) }
 				onChange={ onAdvancedChange }
-				name={ id }
 				id={ id }
 				inputId={ inputId }
 				options={ [
@@ -199,7 +197,6 @@ const BreadcrumbsTitle = ( { breadcrumbsTitle, onBreadcrumbsTitleChange } ) => {
 				return <TextInput
 					label={ __( "Breadcrumbs Title", "wordpress-seo" ) }
 					id={ id }
-					name={ id }
 					onChange={ onBreadcrumbsTitleChange }
 					value={ breadcrumbsTitle }
 					linkTo={ "https://yoa.st/breadcrumbs-title" }
@@ -231,7 +228,6 @@ const CanonicalURL = ( { canonical, onCanonicalChange } ) => {
 				return <TextInput
 					label={ __( "Canonical URL", "wordpress-seo" ) }
 					id={ id }
-					name={ id }
 					onChange={ onCanonicalChange }
 					value={ canonical }
 					linkTo={ "https://yoa.st/canonical-url" }
