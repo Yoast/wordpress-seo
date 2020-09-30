@@ -3,7 +3,6 @@ import { SnippetEditor } from "@yoast/search-metadata-previews";
 import { __ } from "@wordpress/i18n";
 import { dispatch as wpDataDispatch } from "@wordpress/data";
 import { LocationConsumer } from "../components/contexts/location";
-import { join } from "@yoast/helpers";
 
 import {
 	switchMode,
