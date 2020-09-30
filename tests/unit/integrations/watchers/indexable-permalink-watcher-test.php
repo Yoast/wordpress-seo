@@ -122,6 +122,26 @@ class Indexable_Permalink_Watcher_Test extends TestCase {
 			->with( 'permalink_structure', '/%postname%/' )
 			->once();
 
+		Monkey\Functions\expect( 'get_option' )
+			->once()
+			->with( 'category_base' )
+			->andReturn( null );
+
+		$this->options
+			->expects( 'set' )
+			->with( 'category_base_url', null )
+			->once();
+
+		Monkey\Functions\expect( 'get_option' )
+			->once()
+			->with( 'tag_base' )
+			->andReturn( null );
+
+		$this->options
+			->expects( 'set' )
+			->with( 'tag_base_url', null )
+			->once();
+
 		$this->instance->reset_permalinks();
 	}
 
@@ -233,6 +253,28 @@ class Indexable_Permalink_Watcher_Test extends TestCase {
 			->with( 'permalink_structure' )
 			->once()
 			->andReturn( '/%postname%/' );
+
+		Monkey\Functions\expect( 'get_option' )
+			->once()
+			->with( 'category_base' )
+			->andReturn( '/%category%/' );
+
+		$this->options
+			->expects( 'get' )
+			->with( 'category_base_url' )
+			->once()
+			->andReturn( '/%category%/' );
+
+		Monkey\Functions\expect( 'get_option' )
+			->once()
+			->with( 'tag_base' )
+			->andReturn( '/%tag%/' );
+
+		$this->options
+			->expects( 'get' )
+			->with( 'tag_base_url' )
+			->once()
+			->andReturn( '/%tag%/' );
 
 		$this->assertFalse( $this->instance->should_reset_permalinks() );
 	}

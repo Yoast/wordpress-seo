@@ -94,8 +94,8 @@ class Indexable_Permalink_Watcher implements Integration_Interface {
 
 		// Always update `permalink_structure`, `category_base_url` and `tag_base_url` in the wpseo option.
 		$this->options_helper->set( 'permalink_structure', \get_option( 'permalink_structure' ) );
-		$this->options_helper->set('category_base_url', get_option( 'category_base' ));
-		$this->options_helper->set('tag_base_url', get_option( 'tag_base' ));
+		$this->options_helper->set('category_base_url', \get_option( 'category_base' ));
+		$this->options_helper->set('tag_base_url', \get_option( 'tag_base' ));
 	}
 
 	/**
@@ -152,8 +152,8 @@ class Indexable_Permalink_Watcher implements Integration_Interface {
 	 */
 	public function should_reset_permalinks() {
 		if( \get_option( 'permalink_structure' ) !== $this->options_helper->get( 'permalink_structure' ) ||
-			get_option( 'category_base' ) !== $this->options_helper->get( 'category_base_url' ) ||
-			get_option( 'tag_base' ) !== $this->options_helper->get( 'tag_base_url' ))
+			\get_option( 'category_base' ) !== $this->options_helper->get( 'category_base_url' ) ||
+			\get_option( 'tag_base' ) !== $this->options_helper->get( 'tag_base_url' ))
 		{
 			return true;
 		}
