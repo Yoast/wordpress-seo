@@ -234,8 +234,7 @@ Bugfixes:
 
 Other:
 
-* Adds a filter (`wpseo_dynamic_permalinks_enabled`) to enable the dynamic permalink fallback. When this fallback is enabled, the indexable-based output of the `permalink` property is overridden by a permalink that is calculated on the fly.
-
+* Adds a filter (`wpseo_dynamic_permalinks_enabled`) to enable the dynamic permalink fallback. When this fallback is enabled, the indexable-based output of the `permalink` property is overridden by a permalink that is calculated on the fly. Using this is detrimental for performance but may be needed for some site setups.
 
 = 15.0 =
 Release Date: September 29th, 2020
