@@ -244,7 +244,7 @@ class Indexable_Link_Builder {
 		/**
 		 * ORM representing a link in the SEO Links table.
 		 *
-		 * @var SEO_Links
+		 * @var SEO_Links $model
 		 */
 		$model = $this->seo_links_repository->query()->create(
 			[
