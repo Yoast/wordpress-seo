@@ -8,7 +8,23 @@ const indexingActions = {};
 window.yoast = window.yoast || {};
 window.yoast.indexing = window.yoast.indexing || {};
 
-let component;
+let root;
+
+/**
+ * Render the component.
+ *
+ * @returns {void}
+ */
+function renderRoot() {
+	if ( ! root ) {
+		root = document.getElementById( "yoast-seo-indexing-action" );
+	}
+
+	render( <Indexation
+		preIndexingActions={ preIndexingActions }
+		indexingActions={ indexingActions }
+	/>, root );
+}
 
 /**
  * Registers a pre-indexing action on the given indexing endpoint.
@@ -23,9 +39,7 @@ let component;
  */
 window.yoast.indexing.registerPreIndexingAction = ( endpoint, action ) => {
 	preIndexingActions[ endpoint ] = action;
-	if ( component ) {
-		component.setPreIndexingActions( preIndexingActions );
-	}
+	renderRoot();
 };
 
 /**
@@ -41,9 +55,7 @@ window.yoast.indexing.registerPreIndexingAction = ( endpoint, action ) => {
  */
 window.yoast.indexing.registerIndexingAction = ( endpoint, action ) => {
 	indexingActions[ endpoint ] = action;
-	if ( component ) {
-		component.setIndexingActions( indexingActions );
-	}
+	renderRoot();
 };
 
 /**
@@ -87,22 +99,6 @@ window.yoast.indexation.registerIndexationAction = ( endpoint, action ) => {
 	window.yoast.indexing.registerIndexingAction( endpoint, action );
 };
 
-/**
- * Set the indexation component reference.
- *
- * @param {Object} ref Component ref.
- *
- * @returns {void}
- */
-function setRef( ref ) {
-	component = ref;
-	component.setIndexingActions( indexingActions );
-	component.setPreIndexingActions( preIndexingActions );
-}
-
 jQuery( function() {
-	const root = document.getElementById( "yoast-seo-indexing-action" );
-	if ( root ) {
-		render( <Indexation ref={ setRef } />, root );
-	}
+	renderRoot();
 } );

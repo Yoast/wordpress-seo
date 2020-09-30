@@ -67,9 +67,6 @@ describe( "Indexation", () => {
 
 		const component = mount( <Indexation /> );
 
-		component.instance().setPreIndexingActions( {} );
-		component.instance().setIndexingActions( {} );
-
 		component.find( "button" ).simulate( "click" );
 
 		const progressBar = component.find( "ProgressBar" );
@@ -95,7 +92,7 @@ describe( "Indexation", () => {
 		} );
 	} );
 
-	it( "shows an error when womthing goed wrong", ( done ) => {
+	it( "shows an error when something goes wrong", ( done ) => {
 		global.yoastIndexingData = {
 			amount: 5,
 			restApi: {
@@ -114,9 +111,6 @@ describe( "Indexation", () => {
 
 		const component = mount( <Indexation /> );
 
-		component.instance().setPreIndexingActions( {} );
-		component.instance().setIndexingActions( {} );
-
 		component.find( "button" ).simulate( "click" );
 
 		setTimeout( () => {
@@ -134,7 +128,7 @@ describe( "Indexation", () => {
 		} );
 	} );
 
-	it( "executes registered pre- and postindexing actions", async function() {
+	it( "executes registered pre- and postindexing actions", async function( done ) {
 		global.yoastIndexingData = {
 			amount: 5,
 			restApi: {
@@ -161,32 +155,31 @@ describe( "Indexation", () => {
 			return Promise.reject();
 		} );
 
-		const component = mount( <Indexation /> );
-
 		const preIndexingAction = jest.fn();
-		preIndexingAction.mockReturnValue( Promise.resolve() );
 		const postIndexingAction = jest.fn();
-		postIndexingAction.mockReturnValue( Promise.resolve() );
 
-		component.instance().setState( {
-			indexation: preIndexingAction,
-		} );
-		component.instance().setState( {
-			indexation: postIndexingAction,
-		} );
+		const component = mount( <Indexation
+			preIndexingActions={ { indexation: preIndexingAction } }
+			indexingActions={ { indexation: postIndexingAction } }
+		/> );
+
+		component.instance().setState( { inProgress: true } );
 
 		await component.instance().doIndexing( "indexation" );
 
+		component.update();
+
 		// Allow setState to mutate the sate.
 		setTimeout( () => {
-			expect( preIndexingAction ).toHaveBeenCalledWith( "indexation" );
-			expect( postIndexingAction ).toHaveBeenCalledWith( "indexation", {
-				objects: [
-					{}, {}, {}, {}, {},
-				],
-				// eslint-disable-next-line camelcase
-				next_url: false,
-			} );
-		} );
+			const settings = global.yoastIndexingData;
+
+			expect( preIndexingAction ).toHaveBeenCalledWith( settings );
+			expect( postIndexingAction ).toHaveBeenCalledWith( [
+				// Response.objects
+				{}, {}, {}, {}, {},
+			], settings );
+
+			done();
+		}, 5 );
 	} );
 } );

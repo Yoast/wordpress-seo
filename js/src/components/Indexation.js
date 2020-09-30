@@ -4,6 +4,7 @@ import { __ } from "@wordpress/i18n";
 import { ProgressBar } from "@yoast/components";
 import { Alert } from "@yoast/components";
 import { colors } from "@yoast/style-guide";
+import PropTypes from "prop-types";
 
 /**
  * Indexes the site and shows a progress bar indicating the indexing process' progress.
@@ -24,8 +25,6 @@ export class Indexation extends Component {
 			processed: 0,
 			amount: this.settings.amount,
 			error: null,
-			preIndexingActions: {},
-			indexingActions: {},
 		};
 
 		this.startIndexing = this.startIndexing.bind( this );
@@ -58,8 +57,8 @@ export class Indexation extends Component {
 	 * @returns {Promise<void>} An empty promise.
 	 */
 	async doPreIndexingAction( endpoint ) {
-		if ( typeof this.state.preIndexingActions[ endpoint ] === "function" ) {
-			await this.state.preIndexingActions[ endpoint ]( this.settings );
+		if ( typeof this.props.preIndexingActions[ endpoint ] === "function" ) {
+			await this.props.preIndexingActions[ endpoint ]( this.settings );
 		}
 	}
 
@@ -72,8 +71,8 @@ export class Indexation extends Component {
 	 * @returns {Promise<void>} An empty promise.
 	 */
 	async doPostIndexingAction( endpoint, response ) {
-		if ( typeof this.state.indexingActions[ endpoint ] === "function" ) {
-			await this.state.indexingActions[ endpoint ]( response.objects, this.settings );
+		if ( typeof this.props.indexingActions[ endpoint ] === "function" ) {
+			await this.props.indexingActions[ endpoint ]( response.objects, this.settings );
 		}
 	}
 
@@ -165,28 +164,6 @@ export class Indexation extends Component {
 	}
 
 	/**
-	 * Sets the preindexing actions.
-	 *
-	 * @param {Object} preIndexingActions The preindexing actions.
-	 *
-	 * @returns {void}
-	 */
-	setPreIndexingActions( preIndexingActions ) {
-		this.setState( { preIndexingActions } );
-	}
-
-	/**
-	 * Sets the indexing actions.
-	 *
-	 * @param {Object} indexingActions The indexing actions.
-	 *
-	 * @returns {void}
-	 */
-	setIndexingActions( indexingActions ) {
-		this.setState( { indexingActions } );
-	}
-
-	/**
 	 * Renders the component
 	 *
 	 * @returns {JSX.Element} The rendered component.
@@ -255,5 +232,15 @@ export class Indexation extends Component {
 		);
 	}
 }
+
+Indexation.propTypes = {
+	indexingActions: PropTypes.object,
+	preIndexingActions: PropTypes.object,
+};
+
+Indexation.defaultProps = {
+	indexingActions: {},
+	preIndexingActions: {},
+};
 
 export default Indexation;
