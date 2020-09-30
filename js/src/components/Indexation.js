@@ -1,8 +1,7 @@
 /* global yoastIndexingData */
 import { Component, Fragment } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
-import { ProgressBar } from "@yoast/components";
-import { Alert } from "@yoast/components";
+import { ProgressBar, NewButton, Alert } from "@yoast/components";
 import { colors } from "@yoast/style-guide";
 import PropTypes from "prop-types";
 
@@ -172,13 +171,12 @@ export class Indexation extends Component {
 		if ( this.settings.disabled ) {
 			return <Fragment>
 				<p>
-					<button
-						className="yoast-button yoast-button--secondary"
-						type="button"
+					<NewButton
+						variant="secondary"
 						disabled={ true }
 					>
 						{ __( "Start SEO data optimization", "wordpress-seo" ) }
-					</button>
+					</NewButton>
 				</p>
 				<Alert type={ "info" }>
 					{ __( "This button to optimize the SEO data for your website is disabled for non-production environments.", "wordpress-seo" ) }
@@ -213,20 +211,18 @@ export class Indexation extends Component {
 				}
 				{
 					this.state.inProgress
-						? <button
-							className="yoast-button yoast-button--secondary"
-							type="button"
-							onClick={ this.stopIndexing }
+						? <NewButton
+							variant="secondary"
+							disabled={ true }
 						>
 							{ __( "Stop SEO data optimization", "wordpress-seo" ) }
-						</button>
-						: <button
-							className="yoast-button yoast-button--primary"
-							type="button"
+						</NewButton>
+						: <NewButton
+							variant="primary"
 							onClick={ this.startIndexing }
 						>
 							{ __( "Start SEO data optimization", "wordpress-seo" ) }
-						</button>
+						</NewButton>
 				}
 			</Fragment>
 		);

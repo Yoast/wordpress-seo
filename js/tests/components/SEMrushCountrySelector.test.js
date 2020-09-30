@@ -18,7 +18,7 @@ describe( "SEMrushCountrySelector", () => {
 			setRequestSucceeded={ noop } setRequestLimitReached={ noop } setRequestFailed={ noop } setNoResultsFound={ noop }
 		/> );
 
-		component.find( "button" ).simulate( "click" );
+		component.find( "#yoast-semrush-country-selector-button" ).simulate( "click" );
 
 		expect( onClickMock ).toHaveBeenCalled();
 	} );
