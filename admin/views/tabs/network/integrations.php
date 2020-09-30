@@ -51,8 +51,8 @@ $integration_toggles = Yoast_Integration_Toggles::instance()->get_all();
 			$yform->toggle_switch(
 				WPSEO_Option::ALLOW_KEY_PREFIX . $integration->setting,
 				[
-					'on'  => __( 'On', 'wordpress-seo' ),
-					'off' => __( 'Off', 'wordpress-seo' ),
+					'on'  => __( 'Allow Control', 'wordpress-seo' ),
+					'off' => __( 'Disable', 'wordpress-seo' ),
 				],
 				'<strong>' . $integration->name . '</strong>',
 				$feature_help->get_button_html() . $feature_help->get_panel_html()
