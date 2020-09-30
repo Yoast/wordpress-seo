@@ -6,7 +6,7 @@ import { addQueryArgs } from "@wordpress/url";
 import { __ } from "@wordpress/i18n";
 
 /* Yoast dependencies */
-import { ErrorBoundary, SingleSelect } from "@yoast/components";
+import { ErrorBoundary, SingleSelect, NewButton } from "@yoast/components";
 
 /**
  * The ID of the SEMrush Country Selection component.
@@ -159,13 +159,13 @@ class SEMrushCountrySelector extends Component {
 	}
 
 	/**
-	 * Creates a select2 component from the select, listens to the change action and fires the first SEMrush request.
+	 * Listens to the change action and fires the SEMrush request.
 	 *
 	 * @returns {void}
 	 */
 	componentDidMount() {
-		//	Fire a new request when the modal is first opened
-		if ( ! this.props.response ) {
+		// Fire a new request when the modal is first opened and when the keyphrase has been changed.
+		if ( ! this.props.response || this.props.keyphrase !== this.props.lastRequestKeyphrase ) {
 			this.relatedKeyphrasesRequest();
 		}
 	}
@@ -304,13 +304,13 @@ class SEMrushCountrySelector extends Component {
 					onChange={ this.onChangeHandler }
 					wrapperClassName={ "yoast-field-group yoast-field-group--inline" }
 				/>
-				<button
+				<NewButton
 					id={ id + "-button" }
-					className="yoast-button yoast-button--secondary"
+					variant="secondary"
 					onClick={ this.relatedKeyphrasesRequest }
 				>
 					{ __( "Select country", "wordpress-seo" ) }
-				</button>
+				</NewButton>
 			</div>
 		);
 	}
@@ -320,6 +320,7 @@ SEMrushCountrySelector.propTypes = {
 	keyphrase: PropTypes.string,
 	countryCode: PropTypes.string,
 	response: PropTypes.object,
+	lastRequestKeyphrase: PropTypes.string,
 	setCountry: PropTypes.func.isRequired,
 	newRequest: PropTypes.func.isRequired,
 	setNoResultsFound: PropTypes.func.isRequired,
@@ -332,6 +333,7 @@ SEMrushCountrySelector.defaultProps = {
 	keyphrase: "",
 	countryCode: "us",
 	response: {},
+	lastRequestKeyphrase: "",
 };
 
 /**
