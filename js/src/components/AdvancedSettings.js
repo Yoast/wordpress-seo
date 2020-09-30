@@ -67,8 +67,6 @@ const MetaRobotsNoIndex = ( { noIndex, onNoIndexChange, editorContext, isPrivate
 
 	return <LocationConsumer>
 		{ location => {
-			const id = join( [ "yoast-meta-robots-noindex", location ] );
-
 			return <Fragment>
 				{
 					isPrivateBlog &&
@@ -89,7 +87,7 @@ const MetaRobotsNoIndex = ( { noIndex, onNoIndexChange, editorContext, isPrivate
 							editorContext.postTypeNameSingular,
 						) }
 					onChange={ onNoIndexChange }
-					id={ id }
+					id={ join( [ "yoast-meta-robots-noindex", location ] ) }
 					options={ metaRobotsNoIndexOptions }
 					selected={ noIndex }
 					linkTo={ "https://yoa.st/allow-search-engines" }
@@ -192,11 +190,9 @@ const BreadcrumbsTitle = ( { breadcrumbsTitle, onBreadcrumbsTitleChange } ) => {
 	return <LocationConsumer>
 		{
 			location => {
-				const id = join( [ "yoast-breadcrumbs-title", location ] );
-
 				return <TextInput
 					label={ __( "Breadcrumbs Title", "wordpress-seo" ) }
-					id={ id }
+					id={ join( [ "yoast-breadcrumbs-title", location ] ) }
 					onChange={ onBreadcrumbsTitleChange }
 					value={ breadcrumbsTitle }
 					linkTo={ "https://yoa.st/breadcrumbs-title" }
@@ -223,11 +219,9 @@ const CanonicalURL = ( { canonical, onCanonicalChange } ) => {
 	return <LocationConsumer>
 		{
 			location => {
-				const id = join( [ "yoast-canonical", location ] );
-
 				return <TextInput
 					label={ __( "Canonical URL", "wordpress-seo" ) }
-					id={ id }
+					id={ join( [ "yoast-canonical", location ] ) }
 					onChange={ onCanonicalChange }
 					value={ canonical }
 					linkTo={ "https://yoa.st/canonical-url" }
