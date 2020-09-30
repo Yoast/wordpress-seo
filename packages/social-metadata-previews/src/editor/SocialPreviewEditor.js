@@ -138,12 +138,7 @@ class SocialPreviewEditor extends Component {
 			isPremium,
 			isLarge,
 			socialPreviewLabel,
-			titleId,
-			descriptionId,
-			imageUrlInputId,
-			selectImageButtonId,
-			replaceImageButtonId,
-			removeImageButtonId,
+			idSuffix,
 		} = this.props;
 
 		// Set fallbacks if title and/or description are empty.
@@ -191,12 +186,7 @@ class SocialPreviewEditor extends Component {
 					activeField={ this.state.activeField }
 					isPremium={ isPremium }
 					setEditorRef={ this.setEditorRef }
-					titleId={ titleId }
-					descriptionId={ descriptionId }
-					imageUrlInputId={ imageUrlInputId }
-					selectImageButtonId={ selectImageButtonId }
-					replaceImageButtonId={ replaceImageButtonId }
-					removeImageButtonId={ removeImageButtonId }
+					idSuffix={ idSuffix }
 				/>
 			</React.Fragment>
 		);
@@ -227,12 +217,7 @@ SocialPreviewEditor.propTypes = {
 	recommendedReplacementVariables: recommendedReplacementVariablesShape,
 	applyReplacementVariables: PropTypes.func,
 	socialPreviewLabel: PropTypes.string,
-	titleId: PropTypes.string,
-	descriptionId: PropTypes.string,
-	imageUrlInputId: PropTypes.string,
-	selectImageButtonId: PropTypes.string,
-	replaceImageButtonId: PropTypes.string,
-	removeImageButtonId: PropTypes.string,
+	idSuffix: PropTypes.string,
 };
 
 SocialPreviewEditor.defaultProps = {
@@ -250,12 +235,7 @@ SocialPreviewEditor.defaultProps = {
 	authorName: "",
 	applyReplacementVariables: data => data,
 	socialPreviewLabel: "",
-	titleId: "",
-	descriptionId: "",
-	imageUrlInputId: "",
-	selectImageButtonId: "",
-	replaceImageButtonId: "",
-	removeImageButtonId: "",
+	idSuffix: "",
 };
 
 export default SocialPreviewEditor;

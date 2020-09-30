@@ -9,7 +9,7 @@ import noop from "lodash/noop";
 import { assessments, string, helpers } from "yoastseo";
 import { ErrorBoundary, SvgIcon, Button } from "@yoast/components";
 import { colors } from "@yoast/style-guide";
-import { getDirectionalStyle } from "@yoast/helpers";
+import { getDirectionalStyle, join } from "@yoast/helpers";
 import {
 	replacementVariablesShape,
 	recommendedReplacementVariablesShape,
@@ -239,9 +239,7 @@ class SnippetEditor extends React.Component {
 			recommendedReplacementVariables,
 			hasPaperStyle,
 			showCloseButton,
-			titleInputId,
-			slugInputId,
-			descriptionInputId,
+			idSuffix,
 		} = this.props;
 
 		let {
@@ -273,9 +271,9 @@ class SnippetEditor extends React.Component {
 					descriptionLengthProgress={ descriptionLengthProgress }
 					descriptionEditorFieldPlaceholder={ descriptionEditorFieldPlaceholder }
 					containerPadding={ hasPaperStyle ? "0 20px" : "0" }
-					titleInputId={ titleInputId }
-					slugInputId={ slugInputId }
-					descriptionInputId={ descriptionInputId }
+					titleInputId={ join( [ "yoast-google-preview-title", idSuffix ] ) }
+					slugInputId={ join( [ "yoast-google-preview-slug", idSuffix ] ) }
+					descriptionInputId={ join( [ "yoast-google-preview-description", idSuffix ] ) }
 				/>
 				{ showCloseButton &&
 					<CloseEditorButton onClick={ this.close }>{ __( "Close snippet editor", "yoast-components" ) }</CloseEditorButton>
@@ -519,8 +517,7 @@ class SnippetEditor extends React.Component {
 			showCloseButton,
 			faviconSrc,
 			mobileImageSrc,
-			mobileModeInputId,
-			desktopModeInputId,
+			idSuffix,
 		} = this.props;
 
 		const {
@@ -543,10 +540,9 @@ class SnippetEditor extends React.Component {
 					<ModeSwitcher
 						onChange={ ( newMode ) => onChange( "mode", newMode ) }
 						active={ mode }
-						mobileModeInputId={ mobileModeInputId }
-						desktopModeInputId={ desktopModeInputId }
+						mobileModeInputId={ join( [ "yoast-google-preview-mode-mobile", idSuffix ] ) }
+						desktopModeInputId={ join( [ "yoast-google-preview-mode-desktop", idSuffix ] ) }
 					/>
-
 					<SnippetPreview
 						keyword={ keyword }
 						wordsToHighlight={ wordsToHighlight }
@@ -604,11 +600,7 @@ SnippetEditor.propTypes = {
 	showCloseButton: PropTypes.bool,
 	faviconSrc: PropTypes.string,
 	mobileImageSrc: PropTypes.string,
-	mobileModeInputId: PropTypes.string,
-	desktopModeInputId: PropTypes.string,
-	titleInputId: PropTypes.string,
-	slugInputId: PropTypes.string,
-	descriptionInputId: PropTypes.string,
+	idSuffix: PropTypes.string,
 };
 
 SnippetEditor.defaultProps = {
@@ -636,11 +628,7 @@ SnippetEditor.defaultProps = {
 	showCloseButton: true,
 	faviconSrc: "",
 	mobileImageSrc: "",
-	mobileModeInputId: "",
-	desktopModeInputId: "",
-	titleInputId: "",
-	slugInputId: "",
-	descriptionInputId: "",
+	idSuffix: "",
 };
 
 export default SnippetEditor;

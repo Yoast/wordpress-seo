@@ -1,5 +1,5 @@
 import { __, sprintf } from "@wordpress/i18n";
-import { getDirectionalStyle } from "@yoast/helpers";
+import { getDirectionalStyle, join } from "@yoast/helpers";
 import { ReplacementVariableEditor, replacementVariablesShape } from "@yoast/replacement-variable-editor";
 import { angleLeft, angleRight, colors } from "@yoast/style-guide";
 import PropTypes from "prop-types";
@@ -19,7 +19,9 @@ const getCaretColor = ( active ) => {
 	return active ? colors.$color_snippet_focus : colors.$color_snippet_hover;
 };
 
-const CaretContainer = styled.div`position: relative`;
+const CaretContainer = styled.div`
+	position: relative;`
+;
 
 const Caret = styled.div`
 	display: ${ props => ( props.isActive || props.isHovered ) ? "block" : "none" };
@@ -165,12 +167,7 @@ class SocialMetadataPreviewForm extends Component {
 			recommendedReplacementVariables,
 			imageWarnings,
 			imageUrl,
-			titleId,
-			descriptionId,
-			imageUrlInputId,
-			selectImageButtonId,
-			replaceImageButtonId,
-			removeImageButtonId,
+			idSuffix,
 		} = this.props;
 
 		const imageSelected = !! imageUrl;
@@ -198,10 +195,10 @@ class SocialMetadataPreviewForm extends Component {
 					isHovered={ hoveredField === "image" }
 					imageUrl={ imageUrl }
 					isPremium={ isPremium }
-					imageUrlInputId={ imageUrlInputId.length > 0 ? imageUrlInputId : `${ lowerCaseSocialMediumName }-url-input` }
-					selectImageButtonId={ selectImageButtonId.length > 0 ? selectImageButtonId : `${ lowerCaseSocialMediumName }-select-button` }
-					replaceImageButtonId={ replaceImageButtonId.length > 0 ? replaceImageButtonId : `${ lowerCaseSocialMediumName }-replace-button` }
-					removeImageButtonId={ removeImageButtonId.length > 0 ? removeImageButtonId : `${ lowerCaseSocialMediumName }-replace-button` }
+					imageUrlInputId={ join( [ lowerCaseSocialMediumName, "url-input", idSuffix ] ) }
+					selectImageButtonId={ join( [ lowerCaseSocialMediumName, "select-button", idSuffix ] ) }
+					replaceImageButtonId={ join( [ lowerCaseSocialMediumName, "replace-button", idSuffix ] ) }
+					removeImageButtonId={ join( [ lowerCaseSocialMediumName, "remove-button", idSuffix ] ) }
 				/>
 				<ReplacementVariableEditor
 					onChange={ onTitleChange }
@@ -210,7 +207,7 @@ class SocialMetadataPreviewForm extends Component {
 					replacementVariables={ replacementVariables }
 					recommendedReplacementVariables={ recommendedReplacementVariables }
 					type="title"
-					fieldId={ titleId.length > 0 ? titleId : `${ lowerCaseSocialMediumName }-title-input` }
+					fieldId={ join( [ lowerCaseSocialMediumName, "title-input", idSuffix ] ) }
 					label={ titleEditorTitle }
 					onMouseEnter={ this.onTitleEnter }
 					onMouseLeave={ this.onLeave }
@@ -228,7 +225,7 @@ class SocialMetadataPreviewForm extends Component {
 					replacementVariables={ replacementVariables }
 					recommendedReplacementVariables={ recommendedReplacementVariables }
 					type="description"
-					fieldId={ descriptionId.length > 0 ? descriptionId : `${ lowerCaseSocialMediumName }-description-input` }
+					fieldId={ join( [ lowerCaseSocialMediumName, "description-input", idSuffix ] ) }
 					label={ descEditorTitle }
 					onMouseEnter={ this.onDescriptionEnter }
 					onMouseLeave={ this.onLeave }
@@ -264,12 +261,7 @@ SocialMetadataPreviewForm.propTypes = {
 	descriptionInputPlaceholder: PropTypes.string,
 	setEditorRef: PropTypes.func,
 	onMouseHover: PropTypes.func,
-	titleId: PropTypes.string,
-	descriptionId: PropTypes.string,
-	imageUrlInputId: PropTypes.string,
-	selectImageButtonId: PropTypes.string,
-	replaceImageButtonId: PropTypes.string,
-	removeImageButtonId: PropTypes.string,
+	idSuffix: PropTypes.string,
 };
 
 SocialMetadataPreviewForm.defaultProps = {
@@ -285,12 +277,7 @@ SocialMetadataPreviewForm.defaultProps = {
 	isPremium: false,
 	setEditorRef: () => {},
 	onMouseHover: () => {},
-	titleId: "",
-	descriptionId: "",
-	imageUrlInputId: "",
-	selectImageButtonId: "",
-	replaceImageButtonId: "",
-	removeImageButtonId: "",
+	idSuffix: "",
 };
 
 export default SocialMetadataPreviewForm;
