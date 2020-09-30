@@ -43,7 +43,7 @@ $integration_toggles = Yoast_Integration_Toggles::instance()->get_all();
 
 			$feature_help = new WPSEO_Admin_Help_Panel(
 				$integration->setting,
-				/* translators: %s expands to a integration's name */
+				/* translators: %s expands to an integration's name */
 				sprintf( esc_html__( 'Help on: %s', 'wordpress-seo' ), esc_html( $integration->name ) ),
 				$help_text
 			);

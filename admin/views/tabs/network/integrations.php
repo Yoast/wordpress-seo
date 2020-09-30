@@ -21,7 +21,7 @@ $integration_toggles = Yoast_Integration_Toggles::instance()->get_all();
 		<?php
 		echo sprintf(
 		/* translators: %1$s expands to Yoast SEO */
-			esc_html__( 'This tab allows you to selectively disable %1$s integrations with third parties products for all sites in the network. By default all integrations are enabled, which allows site admins to choose for themselves if they want to toggle an integration on or off for their site. When you disable an integration here, site admins will not be able to use that integration at all.', 'wordpress-seo' ),
+			esc_html__( 'This tab allows you to selectively disable %1$s integrations with third-party products for all sites in the network. By default all integrations are enabled, which allows site admins to choose for themselves if they want to toggle an integration on or off for their site. When you disable an integration here, site admins will not be able to use that integration at all.', 'wordpress-seo' ),
 			'Yoast SEO'
 		);
 
@@ -43,7 +43,7 @@ $integration_toggles = Yoast_Integration_Toggles::instance()->get_all();
 
 			$feature_help = new WPSEO_Admin_Help_Panel(
 				WPSEO_Option::ALLOW_KEY_PREFIX . $integration->setting,
-				/* translators: %s expands to a integration's name */
+				/* translators: %s expands to an integration's name */
 				sprintf( esc_html__( 'Help on: %s', 'wordpress-seo' ), esc_html( $integration->name ) ),
 				$help_text
 			);
