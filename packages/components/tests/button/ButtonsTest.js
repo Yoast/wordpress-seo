@@ -2,7 +2,7 @@
 import React from "react";
 import ReactShallowRenderer from "react-test-renderer/shallow";
 import {
-	Button,
+	NewButton as Button,
 	ButtonStyledLink,
 	CloseButton,
 } from "../../src/button";

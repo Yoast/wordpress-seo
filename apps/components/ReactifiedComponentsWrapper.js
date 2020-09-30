@@ -7,7 +7,7 @@ import { MultiSelect, Select } from "@yoast/components/src/select/Select";
 import Toggle from "@yoast/components/src/toggle/Toggle";
 import DataModel from "@yoast/components/src/data-model/DataModel";
 import {
-	Button,
+	NewButton as Button,
 	ButtonStyledLink,
 	CloseButton,
 } from "@yoast/components/src/button";
