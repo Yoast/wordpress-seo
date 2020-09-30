@@ -1,6 +1,6 @@
 import { __ } from "@wordpress/i18n";
 import { HelpText } from "@yoast/components";
-import { makeOutboundLink } from "@yoast/helpers";
+import { join, makeOutboundLink } from "@yoast/helpers";
 import PropTypes from "prop-types";
 import { default as CornerstoneToggle } from "./CornerstoneToggle";
 import MetaboxCollapsible from "./MetaboxCollapsible";
@@ -17,7 +17,10 @@ export default function CollapsibleCornerstone( { isCornerstone, onChange, learn
 	const Collapsible = location === "metabox" ? MetaboxCollapsible : SidebarCollapsible;
 
 	return (
-		<Collapsible id={ `yoast-cornerstone-collapsible-${ location }` } title={ __( "Cornerstone content", "wordpress-seo" ) }>
+		<Collapsible
+			id={ join( [ "yoast-cornerstone-collapsible", location ] ) }
+			title={ __( "Cornerstone content", "wordpress-seo" ) }
+		>
 			<HelpText>
 				{ __( "Cornerstone content should be the most important and extensive articles on your site.", "wordpress-seo" ) + " " }
 				<LearnMoreLink href={ learnMoreUrl }>
@@ -25,7 +28,7 @@ export default function CollapsibleCornerstone( { isCornerstone, onChange, learn
 				</LearnMoreLink>
 			</HelpText>
 			<CornerstoneToggle
-				id={ `yoast-cornerstone-${ location }` }
+				id={ join( [ "yoast-cornerstone", location ] ) }
 				isEnabled={ isCornerstone }
 				onToggle={ onChange }
 			/>
