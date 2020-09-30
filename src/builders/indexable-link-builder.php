@@ -93,6 +93,8 @@ class Indexable_Link_Builder {
 
 		if ( empty( $links ) && empty( $images ) ) {
 			$indexable->link_count = 0;
+			$this->update_related_indexables( $indexable, [] );
+
 			return [];
 		}
 
