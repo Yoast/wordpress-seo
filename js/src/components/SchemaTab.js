@@ -1,6 +1,7 @@
 import { createPortal, Fragment } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { FieldGroup, Select } from "@yoast/components";
+import { join } from "@yoast/helpers";
 import interpolateComponents from "interpolate-components";
 import PropTypes from "prop-types";
 import styled from "styled-components";
@@ -90,14 +91,14 @@ const Content = ( props ) => {
 				linkText={ __( "Learn more about page or content types", "wordpress-seo" ) }
 			/>
 			<Select
-				id={ `yoast-schema-page-type-${ props.location }` }
+				id={ join( [ "yoast-schema-page-type", props.location ] ) }
 				options={ schemaPageTypeOptions }
 				label={ __( "Page type", "wordpress-seo" ) }
 				onChange={ props.schemaPageTypeChange }
 				selected={ props.schemaPageTypeSelected }
 			/>
 			{ props.showArticleTypeInput && <Select
-				id={ `yoast-schema-article-type-${ props.location }` }
+				id={ join( [ "yoast-schema-article-type", props.location ] ) }
 				options={ schemaArticleTypeOptions }
 				label={ __( "Article type", "wordpress-seo" ) }
 				onChange={ props.schemaArticleTypeChange }
