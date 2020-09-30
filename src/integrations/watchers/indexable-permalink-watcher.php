@@ -30,6 +30,8 @@ class Indexable_Permalink_Watcher implements Integration_Interface {
 	protected $options_helper;
 
 	/**
+	 * The taxonomy helper.
+	 *
 	 * @var Taxonomy_Helper
 	 */
 	protected $taxonomy_helper;
@@ -58,10 +60,10 @@ class Indexable_Permalink_Watcher implements Integration_Interface {
 	/**
 	 * Indexable_Permalink_Watcher constructor.
 	 *
-	 * @param Post_Type_Helper $post_type The post type helper.
-	 * @param Options_Helper   $options   The options helper.
-	 * @param Indexable_Helper $indexable The indexable helper.
-	 * @param Taxonomy_Helper  $taxonomy_helper
+	 * @param Post_Type_Helper $post_type       The post type helper.
+	 * @param Options_Helper   $options         The options helper.
+	 * @param Indexable_Helper $indexable       The indexable helper.
+	 * @param Taxonomy_Helper  $taxonomy_helper The taxonomy helper.
 	 */
 	public function __construct( Post_Type_Helper $post_type, Options_Helper $options, Indexable_Helper $indexable, Taxonomy_Helper $taxonomy_helper ) {
 		$this->post_type        = $post_type;
@@ -175,9 +177,9 @@ class Indexable_Permalink_Watcher implements Integration_Interface {
 		foreach ( $taxonomies as $taxonomy ) {
 			$taxonomy_slug = $this->taxonomy_helper->get_taxonomy_slug( $taxonomy );
 
-			if ( ! array_key_exists( $taxonomy, $custom_taxonomy_bases ) ) {
-				$new_taxonomy_bases[ $taxonomy ] = $taxonomy_slug;
+			$new_taxonomy_bases[ $taxonomy ] = $taxonomy_slug;
 
+			if ( ! array_key_exists( $taxonomy, $custom_taxonomy_bases ) ) {
 				continue;
 			}
 
