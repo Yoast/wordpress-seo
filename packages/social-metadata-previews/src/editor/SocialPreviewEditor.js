@@ -138,6 +138,7 @@ class SocialPreviewEditor extends Component {
 			isPremium,
 			isLarge,
 			socialPreviewLabel,
+			idSuffix,
 		} = this.props;
 
 		// Set fallbacks if title and/or description are empty.
@@ -185,6 +186,7 @@ class SocialPreviewEditor extends Component {
 					activeField={ this.state.activeField }
 					isPremium={ isPremium }
 					setEditorRef={ this.setEditorRef }
+					idSuffix={ idSuffix }
 				/>
 			</React.Fragment>
 		);
@@ -215,6 +217,7 @@ SocialPreviewEditor.propTypes = {
 	recommendedReplacementVariables: recommendedReplacementVariablesShape,
 	applyReplacementVariables: PropTypes.func,
 	socialPreviewLabel: PropTypes.string,
+	idSuffix: PropTypes.string,
 };
 
 SocialPreviewEditor.defaultProps = {
@@ -232,6 +235,7 @@ SocialPreviewEditor.defaultProps = {
 	authorName: "",
 	applyReplacementVariables: data => data,
 	socialPreviewLabel: "",
+	idSuffix: "",
 };
 
 export default SocialPreviewEditor;
