@@ -5,8 +5,8 @@ namespace Yoast\WP\SEO\Helpers;
 use Yoast\WP\SEO\Actions\Indexation\Indexable_Post_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexation\Indexable_Post_Type_Archive_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexation\Indexable_Term_Indexation_Action;
+use Yoast\WP\SEO\Integrations\Admin\Indexing_Notification_Integration;
 use Yoast\WP\SEO\Models\Indexable;
-use Yoast\WP\SEO\Presenters\Admin\Indexation_Permalink_Warning_Presenter;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
 /**
@@ -106,17 +106,16 @@ class Indexable_Helper {
 	 * @param null|string $subtype The subtype. Can be null.
 	 * @param string      $reason  The reason that the permalink has been changed.
 	 */
-	public function reset_permalink_indexables( $type = null, $subtype = null, $reason = Indexation_Permalink_Warning_Presenter::REASON_PERMALINK_SETTINGS ) {
+	public function reset_permalink_indexables( $type = null, $subtype = null, $reason = Indexing_Notification_Integration::REASON_PERMALINK_SETTINGS ) {
 		$result = $this->repository->reset_permalink( $type, $subtype );
 
 		if ( $result !== false && $result > 0 ) {
 			$this->options_helper->set( 'indexables_indexation_reason', $reason );
-			$this->options_helper->set( 'ignore_indexation_warning', false );
 			$this->options_helper->set( 'indexation_warning_hide_until', false );
 
-			delete_transient( Indexable_Post_Indexation_Action::TRANSIENT_CACHE_KEY );
-			delete_transient( Indexable_Post_Type_Archive_Indexation_Action::TRANSIENT_CACHE_KEY );
-			delete_transient( Indexable_Term_Indexation_Action::TRANSIENT_CACHE_KEY );
+			\delete_transient( Indexable_Post_Indexation_Action::TRANSIENT_CACHE_KEY );
+			\delete_transient( Indexable_Post_Type_Archive_Indexation_Action::TRANSIENT_CACHE_KEY );
+			\delete_transient( Indexable_Term_Indexation_Action::TRANSIENT_CACHE_KEY );
 		}
 	}
 
@@ -128,5 +127,19 @@ class Indexable_Helper {
 	public function should_index_indexables() {
 		// Currently the only reason to index is when we're on a production website.
 		return $this->environment_helper->is_production_mode();
+	}
+
+	/**
+	 * Returns whether or not dynamic permalinks should be used.
+	 *
+	 * @return bool Whether or not the dynamic permalinks should be used.
+	 */
+	public function dynamic_permalinks_enabled() {
+		/**
+		 * Filters the value of the `dynamic_permalinks` option.
+		 *
+		 * @param bool $value The value of the `dynamic_permalinks` option.
+		 */
+		return (bool) \apply_filters( 'wpseo_dynamic_permalinks_enabled', $this->options_helper->get( 'dynamic_permalinks', false ) );
 	}
 }

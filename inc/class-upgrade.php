@@ -6,7 +6,7 @@
  */
 
 use Yoast\WP\Lib\Model;
-use Yoast\WP\SEO\Integrations\Admin\Indexation_Integration;
+use Yoast\WP\SEO\Integrations\Admin\Indexing_Integration;
 
 /**
  * This code handles the option upgrades.
@@ -737,6 +737,12 @@ class WPSEO_Upgrade {
 	 * @return void
 	 */
 	private function upgrade_151() {
+		$home_url = WPSEO_Options::get( 'home_url' );
+
+		if ( empty( $home_url ) ) {
+			WPSEO_Options::set( 'home_url', get_home_url() );
+		}
+
 		add_action( 'init', [ $this, 'set_permalink_structure_options_for_151' ] );
 	}
 
@@ -749,11 +755,11 @@ class WPSEO_Upgrade {
 		/**
 		 * Holds the indexation integration instance.
 		 *
-		 * @var Indexation_Integration
+		 * @var Indexing_Integration
 		 */
-		$indexation_integration = YoastSEO()->classes->get( Indexation_Integration::class );
+		$indexing_integration = YoastSEO()->classes->get( Indexing_Integration::class );
 
-		WPSEO_Options::set( 'indexables_indexation_completed', $indexation_integration->get_total_unindexed() === 0 );
+		WPSEO_Options::set( 'indexables_indexation_completed', $indexing_integration->get_total_unindexed() === 0 );
 	}
 
 	/**

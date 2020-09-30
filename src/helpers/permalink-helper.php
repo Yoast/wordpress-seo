@@ -19,11 +19,12 @@ class Permalink_Helper {
 	public function get_permalink_for_indexable( $indexable ) {
 		switch ( true ) {
 			case $indexable->object_type === 'post':
-			case $indexable->object_type === 'home-page':
 				if ( $indexable->object_sub_type === 'attachment' ) {
 					return \wp_get_attachment_url( $indexable->object_id );
 				}
 				return \get_permalink( $indexable->object_id );
+			case $indexable->object_type === 'home-page':
+				return \home_url( '/' );
 			case $indexable->object_type === 'term':
 				$term = \get_term( $indexable->object_id );
 
