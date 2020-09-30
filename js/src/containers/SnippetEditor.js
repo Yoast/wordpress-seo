@@ -65,11 +65,7 @@ const SnippetEditorWrapper = ( props ) => (
 					descriptionPlaceholder={ __( "Please provide a meta description by editing the snippet below.", "wordpress-seo" ) }
 					mapEditorDataToPreview={ mapEditorDataToPreview }
 					showCloseButton={ false }
-					mobileModeInputId={ join( [ "yoast-google-preview-mode-mobile", location ] ) }
-					desktopModeInputId={ join( [ "yoast-google-preview-mode-desktop", location ] ) }
-					titleInputId={ join( [ "yoast-google-preview-title", location ] ) }
-					slugInputId={ join( [ "yoast-google-preview-slug", location ] ) }
-					descriptionInputId={ join( [ "yoast-google-preview-description", location ] ) }
+					idSuffix={ location }
 				/>
 			</SnippetPreviewSection>
 		}
