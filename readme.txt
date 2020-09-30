@@ -15,6 +15,7 @@ Improve your WordPress SEO: Write better content and have a fully optimized Word
 ### YOAST SEO: THE #1 WORDPRESS SEO PLUGIN
 
 Since 2008 Yoast SEO has helped millions of websites worldwide to **rank higher in search engines**. It's the **only WordPress SEO plugin made by world-renowned SEO experts**. There is a reason that Yoast SEO is the most-used WordPress SEO plugin and the favorite tool of millions of users worldwide!
+
 Yoast’s mission is **SEO for Everyone**. Our plugin’s users range from the bakery around the corner to some of the most popular sites on the planet.
 
 ### DON’T LET YOUR COMPETITORS WIN
@@ -94,7 +95,7 @@ Oh, don’t forget: our [**Yoast SEO academy**](https://yoa.st/3ri) is for all e
 
 Do you want to report a bug for Yoast SEO? Best to do so in the WordPress SEO [repository on GitHub](https://github.com/Yoast/wordpress-seo). Please note that GitHub is not a support forum and issues will be closed if they don’t meet the bug requirements. 
 
-### READ MORE
+### FURTHER READING
 
 Want more information on search engine optimization and Yoast SEO? Have a look at: 
 
