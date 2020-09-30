@@ -94,7 +94,7 @@ export const MultiSelect = ( props ) => {
 	return (
 		<FieldGroup
 			{ ...fieldGroupProps }
-			htmlFor={ id }
+			htmlFor={ inputId }
 		>
 			<ReactSelect
 				isMulti={ true }
