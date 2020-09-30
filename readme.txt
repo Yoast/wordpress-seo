@@ -211,14 +211,10 @@ Your question has most likely been answered on our knowledge base: [kb.yoast.com
 = 15.1 =
 Release Date: October 13th, 2020
 
-Other:
-
-* Merges the indexable and link indexing tools on the tools page into one process.
-* Adds the watch tasks to the readme.
-
 Enhancements:
 
 * Adds an integration with SEMrush to search for and compare search volume of related keyphrases.
+* Merges the indexable and link indexing tools on the tools page into one process.
 * Improves the user experience of the indexing tool on the tools page by showing its progress on the tools page itself, instead of in a separate pop-up modal.
 * Prevents several processes from happening on non-production environments:
     * Indexing indexables.
@@ -231,11 +227,15 @@ Enhancements:
 * Registers a cron job that checks whether the `home_url` was changed manually and resets the permalinks accordingly.
 * Makes it possible to recognize keyphrases in Farsi when they have a negation prefix or an indefinite article (for example: ماشین ("car") in ماشینی ("a car")).
 * Improves keyphrase recognition in Farsi by filtering the function words such as `هفت`, `چهارم`, `یا `.
-* Adds an option and a filter (`wpseo_dynamic_permalinks_enabled`) to enable dynamic permalink fallback in the indexable model.
 
 Bugfixes:
 
 * Fixes a bug where the Yoast replacement variables plugin would not be available on edit terms page for usage by other plugins.
+
+Other:
+
+* Adds a filter (`wpseo_dynamic_permalinks_enabled`) to enable the dynamic permalink fallback. When this fallback is enabled, the indexable-based output of the `permalink` property is overridden by a permalink that is calculated on the fly.
+
 
 = 15.0 =
 Release Date: September 29th, 2020
