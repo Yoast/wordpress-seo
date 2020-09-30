@@ -12,90 +12,97 @@ Improve your WordPress SEO: Write better content and have a fully optimized Word
 
 == Description ==
 
-### Yoast SEO: the #1 WordPress SEO plugin
+### YOAST SEO: THE #1 WORDPRESS SEO PLUGIN
 
-Since 2008 Yoast SEO has helped millions of websites worldwide to rank higher in search engines. This WordPress SEO plugin helps you with your search engine optimization. Are you not entirely convinced? Yoast SEO is the favorite WordPress SEO plugin of millions of users worldwide!
+Since 2008 Yoast SEO has helped millions of websites worldwide to **rank higher in search engines**. It's the **only WordPress SEO plugin made by world-renowned SEO experts**. There is a reason that Yoast SEO is the most-used WordPress SEO plugin and the favorite tool of millions of users worldwide!
+Yoast’s mission is **SEO for Everyone**. Our plugin’s users range from the bakery around the corner to some of the most popular sites on the planet.
 
-As Yoast’s mission is **SEO for Everyone**, the plugin’s users range from the bakery around the corner to some of the most popular sites on the planet.
+### DON’T LET YOUR COMPETITORS WIN
 
-#### DON’T LET YOUR COMPETITORS WIN
-Do you know who your competitors are in your niche? There’s a reason why they are your competitors: they do what you do. And they might even do it better right now. That does not mean you can't win from them, but it does mean you need all the help to get on top and stay on top! Yoast SEO is here to help you out as we’ve helped millions of people worldwide with their WordPress SEO efforts.
+Do you know who your competitors are? There’s a reason why they are your competitors: they do what you do. And they might even be doing it better right now. That does not mean you can't beat them, but it does mean you need all the help to get on top and stay on top! Yoast SEO is here to help you out as we’ve helped millions of people worldwide with their WordPress SEO.
 
-#### TAKING CARE OF YOUR WORDPRESS SEO
-Yoast SEO does everything in its power to please both visitors and search engine spiders. A dedicated team of developers, testers, architects and SEO experts work daily to improve the plugin with every release. Yoast SEO offers:
+[insert plugin video when finished]
 
+### TAKING CARE OF YOUR WORDPRESS SEO
+
+Yoast SEO does everything in its power to help both visitors and search engine spiders. A dedicated team of developers, testers, software architects and SEO experts work daily to improve the plugin with every release. Yoast SEO offers:
+
+* A hypermodern Schema.org integration that will higher the chance of getting rich results because search engines understand your site the best.
+* Faster loading times for your website due to an innovative new way of gathering data in WordPress.
 * Title and meta description templating for better branding and consistent snippets in the search results.
-* A state-of-the-art Schema implementation helps search engines make sense of your site and increases the chance on those coveted rich results.
-* The most advanced XML Sitemaps functionality at the push of a button.
-* Full control over your site's breadcrumbs.
-* Automatically set canonical URLs to avoid duplicate content.
-* **[Premium]** support for our [Yoast SEO Premium](https://yoa.st/1v8) users.
-* **[Premium]** the ability to expand Yoast SEO with the [News SEO](https://yoa.st/1uv), [Video SEO](https://yoa.st/1uw), [Local SEO](https://yoa.st/1uu) and [WooCommerce SEO](https://yoa.st/3rh) extensions.
+* The most advanced XML sitemap functionality making it easy for Google to understand your site structure.
+* Full control over site breadcrumbs * easy for your user and Google!
+* Automatic canonical URLs to avoid duplicate content * never compete with yourself again!
+* **[Premium]** E-mail support for our [Yoast SEO Premium](https://yoa.st/1v8) users.
+* **[Premium]** The possibility to expand Yoast SEO with the [News SEO](https://yoa.st/1uv), [Video SEO](https://yoa.st/1uw), [Local SEO](https://yoa.st/1uu) en [WooCommerce SEO](https://yoa.st/3rh) extensions.
 
-#### WRITE KILLER CONTENT WITH YOAST SEO
-We know content is king, that's why Yoast SEO is famous for its readability analysis and its SEO analysis. Yoast SEO gives you:
+### WRITE KILLER CONTENT WITH YOAST SEO
 
-* The SEO analysis: an invaluable tool to write SEO-friendly texts with the right (focus) keywords in mind.
-* The readability analysis: make sure that you are writing easy-to-digest, engaging content for both visitors and search engines.
-* Our snippet preview that shows you how your post or page will look in the search results. Even on mobile!
-* An **FAQ** and **HowTo** block for the WordPress editor so search engines know when you are serving a FAQ page or HowTo guides.
+We know content is king, that's why Yoast SEO is famous for its **state-of-the-art content and SEO analysis**. Yoast SEO gives you:
+
+* The **SEO analysis**: an invaluable tool while writing SEO-friendly texts with the right (focus) keyphrases in mind.
+* The **readability analysis**: ensures that your text is easy to process: for the reader and Google.
+* The **Google preview** shows what your post or page will look like in the search results. Even on mobile devices!
+* An **FAQ** and **HowTo block** for the WordPress editor so search engines know when you are serving a FAQ page or HowTo guides. And we’ll keep adding innovative Schema blocks!
 * **[Premium]** Social previews to show you how your content will be shown on Twitter and Facebook.
 * **[Premium]** The Insights tool that shows you what your text focuses on. This way you can keep your article in line with your keyphrases.
-* **[Premium]** The ability to optimize your article for synonyms and related keyphrases.
-* **[Premium]** We now recognize different word forms of your keyphrase, like singular and plurals, but also different tenses of verbs (just in English for now). It helps you improve your text in a more natural way.
-* **[Premium]** Automatic internal linking suggestions: write your article and automatically get suggested posts to link to!
+* **[Premium]** Optimize your text for synonyms and related keyphrases
+* **[Premium]** Optimize your article for different word forms of your keyphrases, as the singular and plural. But also different verb forms, synonyms, and related keyphrases. This makes for more natural texts!
+* **[Premium]** Automatic internal linking suggestions: write your article and get automatic suggested posts to link to! 
+ 
+### KEEP YOUR SITE IN PERFECT SHAPE
 
-#### KEEP YOUR SITE IN PERFECT SHAPE
+Whether you are an online entrepreneur, blogger or content creator, a developer, a (WordPress) SEO expert or a business owner: Yoast SEO helps you keep your website in perfect shape. Yoast SEO: 
 
-Whether you are a **business owner** or **blogger**, a **content creator**, a **developer** or an **SEO expert**: Yoast SEO helps you keep your website in perfect shape. Yoast SEO:
-
-* Tunes the engine of your website so you can focus on creating great content.
-* Gives you cornerstone content and internal linking features to help you rank for the right keywords with the right pages.
-* Helps you manage your team's WordPress SEO efforts: with our SEO roles you can give colleagues access to specific sections of the Yoast SEO plugin.
-* Has a bulk editor so you can make large-scale edits to the titles and meta descriptions of your website.
+* Tunes the engine of your website so you can work on creating great content!
+* Gives you cornerstone content and internal linking features to help you optimize your site structure in a breeze.
 * Translates your content to structured data where possible to help search engines understand your website.
-* **[Premium]** Gives you social previews to manage the way your page is shared on social networks like Facebook and Twitter.
-* **[Premium]** Has a full redirect manager to keep your site healthy by easily redirecting deleted pages and changed URLs.
+* Has a bulk editor so you can make large-scale edits to your website.
+* Helps you manage your team: with our SEO roles you can give colleagues access to specific sections of the Yoast SEO plugin.
+* **[Premium]** has a full, automatic redirect manager to keep your site healthy by easily redirecting deleted pages and changed URLs.
+* **[Premium]** gives you social previews to manage the way your page is shared on social networks like Facebook and Twitter.
 
-### Premium support
+### PREMIUM SUPPORT
 
-The Yoast team aims to provide regular support for the Yoast SEO plugin on the WordPress.org forums. But please understand that we do prioritize our premium support. This one-on-one email support is available to people who [bought Yoast SEO Premium](https://yoa.st/1v8).
+The Yoast team offers regular support on the WordPress.org forums. But we hope you understand that we prioritize our Premium customers. This one-on-one email support is available to people who have purchased Yoast SEO Premium.
 
-Did you know that the [Yoast SEO Premium](https://yoa.st/1v8) also has several extra features:
+Did you know that [Yoast SEO Premium](https://yoa.st/1v8) contains a lot of **extra features**:
 
-* It gives you the option to have **synonyms and related keyphrases**.
-* A **redirect manager** that f.i. helps you prevent 404 Page Not Found errors.
-* **Internal linking** suggestions while you write.
-* Write more natural with our automatic **recognition of word forms**
-* **Cornerstone content checks** to point search engines to your main pages.
+* A **redirect manager** that prevents “404: page not found” errors
+* Optimize for synonyms and related keyphrases with the **state-of-the-art text analysis**
+* **Internal linking** suggestions while you’re writing
+* Preview your content to see what it will look like when shared on social media using the **social preview**
+* Write natural texts with the **automatic recognition of word forms**
+* **Cornerstone content checks** that point search engines to your most important pages 
 
-The [Yoast SEO Premium plugin](https://yoa.st/1v8) is well worth your investment!
+If you are serious about your WordPress SEO, install the [Yoast SEO Premium plugin](https://yoa.st/1v8)! **Costs a little, saves a lot of time!**
 
-#### Our addons to further improve your WordPress SEO
-You should also check out these other products by Yoast:
+### OUR EXTENSIONS TO FURTHER IMPROVE YOUR WORDPRESS SEO
 
-* **[Yoast Local SEO](https://yoa.st/1uu)** to optimize all website that serve a local audience, like certain small businesses, or businesses with multiple locations.
-* **[Yoast Video SEO](https://yoa.st/1uw)** to make sure Google understands what your video is about, thus increasing your chances to rank in video results.
-* **[Yoast News SEO](https://yoa.st/1uv)** for news publishers who want to improve their visibility and performance in Google News.
-* **[WooCommerce SEO](https://yoa.st/3rh)** for all online shops that want to perform better in search engines and on social platforms.
+Check out these SEO add-ons by Yoast:
 
-They work with the FREE version of Yoast SEO already, and these premium extensions of course come with support too.
+* [**Yoast Local SEO**](https://yoa.st/1uu) optimize your website for a local audience
+* [**Yoast Video SEO**](https://yoa.st/1uw) ensures that Google understands what your video is about, increasing the chances of ranking in the video results
+* [**Yoast News SEO**](https://yoa.st/1uv) for news websites that want to improve their visibility and performance in Google News
+* [**WooCommerce SEO**](https://yoa.st/3rh) for all online shops that want to perform better in the search results and social media
 
-Oh, and don't forget: our **[Yoast Academy](https://yoa.st/3ri)** is for all the business owners, bloggers and everyone else who wants to learn more about optimizing websites, improving their WordPress SEO and taking their online content to the next level.
+These extensions work fine with the free version of Yoast SEO. Of course, the premium extensions also include 24/7 support.
 
-### Bug reports
+Oh, don’t forget: our [**Yoast SEO academy**](https://yoa.st/3ri) is for all entrepreneurs, bloggers, and anyone who wants to learn more about optimizing websites, improving your WordPress SEO, and if you want to take your content to the next level!
 
-Bug reports for Yoast SEO are welcomed in our WordPress SEO [repository on GitHub](https://github.com/Yoast/wordpress-seo). Please note that GitHub is not a support forum, and that issues that aren’t properly qualified as bugs will be closed.
+### BUG REPORTS
 
-### Further Reading
+Do you want to report a bug for Yoast SEO? Best to do so in the WordPress SEO [repository on GitHub](https://github.com/Yoast/wordpress-seo). Please note that GitHub is not a support forum and issues will be closed if they don’t meet the bug requirements. 
 
-For more info on search engine optimization and WordPress SEO in specific, check out the following:
+### READ MORE
+
+Want more information on search engine optimization and Yoast SEO? Have a look at: 
 
 * The [Yoast SEO Plugin](https://yoa.st/1v8) official homepage.
-* The [Yoast SEO Knowledgebase](https://yoa.st/1va).
-* [WordPress SEO - The definitive Guide by Yoast](https://yoa.st/1v6).
-* Other [WordPress Plugins](https://yoa.st/1v9) by the same team.
-* Follow Yoast on [Facebook](https://facebook.com/yoast), [Instagram](https://www.instagram.com/yoast/) & [Twitter](https://twitter.com/yoast).
+* The [Yoast SEO Help center](https://yoa.st/1va).
+* [WordPress SEO – The definitive guide by Yoast](https://yoa.st/1v6).
+* Other [WordPress Plugins](https://yoa.st/1v9) by Team Yoast
+* Also follow Yoast on [Facebook](https://facebook.com/yoast), [Instagram](https://www.instagram.com/yoast/) & [Twitter](https://twitter.com/yoast).
 
 == Installation ==
 Starting with Yoast SEO consists of just two steps: installing and setting up the plugin. Yoast SEO is designed to work with your site’s specific needs, so don’t forget to go through the Yoast SEO configuration wizard as explained in the ‘after activation’ step!
