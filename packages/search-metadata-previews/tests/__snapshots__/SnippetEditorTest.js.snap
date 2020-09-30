@@ -399,8 +399,8 @@ exports[`SnippetEditor activates a field on onMouseUp() and opens the editor 1`]
   <div>
     <ModeSwitcher
       active="mobile"
-      desktopModeInputId=""
-      mobileModeInputId=""
+      desktopModeInputId="yoast-google-preview-mode-desktop"
+      mobileModeInputId="yoast-google-preview-mode-mobile"
       onChange={[Function]}
     />
     <SnippetPreview
@@ -460,7 +460,7 @@ exports[`SnippetEditor activates a field on onMouseUp() and opens the editor 1`]
         }
       }
       descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
-      descriptionInputId=""
+      descriptionInputId="yoast-google-preview-description"
       descriptionLengthProgress={
         Object {
           "actual": 42,
@@ -474,8 +474,8 @@ exports[`SnippetEditor activates a field on onMouseUp() and opens the editor 1`]
       onFocus={[Function]}
       recommendedReplacementVariables={Array []}
       replacementVariables={Array []}
-      slugInputId=""
-      titleInputId=""
+      slugInputId="yoast-google-preview-slug"
+      titleInputId="yoast-google-preview-title"
       titleLengthProgress={
         Object {
           "actual": 0,
@@ -939,7 +939,6 @@ exports[`SnippetEditor closes when calling close() 1`] = `
   }
   date=""
   descriptionEditorFieldPlaceholder=""
-  descriptionInputId=""
   descriptionLengthProgress={
     Object {
       "actual": 0,
@@ -947,22 +946,19 @@ exports[`SnippetEditor closes when calling close() 1`] = `
       "score": 0,
     }
   }
-  desktopModeInputId=""
   faviconSrc=""
   hasPaperStyle={true}
+  idSuffix=""
   keyword=""
   locale="en"
   mapEditorDataToPreview={null}
   mobileImageSrc=""
-  mobileModeInputId=""
   mode="mobile"
   onChange={[Function]}
   onChangeAnalysisData={[Function]}
   recommendedReplacementVariables={Array []}
   replacementVariables={Array []}
   showCloseButton={true}
-  slugInputId=""
-  titleInputId=""
   titleLengthProgress={
     Object {
       "actual": 0,
@@ -976,8 +972,8 @@ exports[`SnippetEditor closes when calling close() 1`] = `
     <div>
       <ModeSwitcher
         active="mobile"
-        desktopModeInputId=""
-        mobileModeInputId=""
+        desktopModeInputId="yoast-google-preview-mode-desktop"
+        mobileModeInputId="yoast-google-preview-mode-mobile"
         onChange={[Function]}
       >
         <ModeSwitcher__Switcher>
@@ -2291,7 +2287,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
           }
         }
         descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
-        descriptionInputId=""
+        descriptionInputId="yoast-google-preview-description"
         descriptionLengthProgress={
           Object {
             "actual": 42,
@@ -2305,8 +2301,8 @@ exports[`SnippetEditor closes when calling close() 1`] = `
         onFocus={[Function]}
         recommendedReplacementVariables={Array []}
         replacementVariables={Array []}
-        slugInputId=""
-        titleInputId=""
+        slugInputId="yoast-google-preview-slug"
+        titleInputId="yoast-google-preview-title"
         titleLengthProgress={
           Object {
             "actual": 0,
@@ -3063,7 +3059,6 @@ exports[`SnippetEditor closes when calling close() 2`] = `
   }
   date=""
   descriptionEditorFieldPlaceholder=""
-  descriptionInputId=""
   descriptionLengthProgress={
     Object {
       "actual": 0,
@@ -3071,22 +3066,19 @@ exports[`SnippetEditor closes when calling close() 2`] = `
       "score": 0,
     }
   }
-  desktopModeInputId=""
   faviconSrc=""
   hasPaperStyle={true}
+  idSuffix=""
   keyword=""
   locale="en"
   mapEditorDataToPreview={null}
   mobileImageSrc=""
-  mobileModeInputId=""
   mode="mobile"
   onChange={[Function]}
   onChangeAnalysisData={[Function]}
   recommendedReplacementVariables={Array []}
   replacementVariables={Array []}
   showCloseButton={true}
-  slugInputId=""
-  titleInputId=""
   titleLengthProgress={
     Object {
       "actual": 0,
@@ -3100,8 +3092,8 @@ exports[`SnippetEditor closes when calling close() 2`] = `
     <div>
       <ModeSwitcher
         active="mobile"
-        desktopModeInputId=""
-        mobileModeInputId=""
+        desktopModeInputId="yoast-google-preview-mode-desktop"
+        mobileModeInputId="yoast-google-preview-mode-mobile"
         onChange={[Function]}
       >
         <ModeSwitcher__Switcher>
@@ -4841,7 +4833,6 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
   }
   date=""
   descriptionEditorFieldPlaceholder=""
-  descriptionInputId=""
   descriptionLengthProgress={
     Object {
       "actual": 0,
@@ -4849,22 +4840,19 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
       "score": 0,
     }
   }
-  desktopModeInputId=""
   faviconSrc=""
   hasPaperStyle={true}
+  idSuffix=""
   keyword=""
   locale="en"
   mapEditorDataToPreview={null}
   mobileImageSrc=""
-  mobileModeInputId=""
   mode="mobile"
   onChange={[Function]}
   onChangeAnalysisData={[Function]}
   recommendedReplacementVariables={Array []}
   replacementVariables={Array []}
   showCloseButton={true}
-  slugInputId=""
-  titleInputId=""
   titleLengthProgress={
     Object {
       "actual": 361,
@@ -4878,8 +4866,8 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
     <div>
       <ModeSwitcher
         active="mobile"
-        desktopModeInputId=""
-        mobileModeInputId=""
+        desktopModeInputId="yoast-google-preview-mode-desktop"
+        mobileModeInputId="yoast-google-preview-mode-mobile"
         onChange={[Function]}
       >
         <ModeSwitcher__Switcher>
@@ -6193,7 +6181,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
           }
         }
         descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
-        descriptionInputId=""
+        descriptionInputId="yoast-google-preview-description"
         descriptionLengthProgress={
           Object {
             "actual": 42,
@@ -6207,8 +6195,8 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
         onFocus={[Function]}
         recommendedReplacementVariables={Array []}
         replacementVariables={Array []}
-        slugInputId=""
-        titleInputId=""
+        slugInputId="yoast-google-preview-slug"
+        titleInputId="yoast-google-preview-title"
         titleLengthProgress={
           Object {
             "actual": 0,
@@ -7169,7 +7157,6 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
   }
   date=""
   descriptionEditorFieldPlaceholder=""
-  descriptionInputId=""
   descriptionLengthProgress={
     Object {
       "actual": 330,
@@ -7177,22 +7164,19 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
       "score": 9,
     }
   }
-  desktopModeInputId=""
   faviconSrc=""
   hasPaperStyle={true}
+  idSuffix=""
   keyword=""
   locale="en"
   mapEditorDataToPreview={null}
   mobileImageSrc=""
-  mobileModeInputId=""
   mode="mobile"
   onChange={[Function]}
   onChangeAnalysisData={[Function]}
   recommendedReplacementVariables={Array []}
   replacementVariables={Array []}
   showCloseButton={true}
-  slugInputId=""
-  titleInputId=""
   titleLengthProgress={
     Object {
       "actual": 100,
@@ -7206,8 +7190,8 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
     <div>
       <ModeSwitcher
         active="mobile"
-        desktopModeInputId=""
-        mobileModeInputId=""
+        desktopModeInputId="yoast-google-preview-mode-desktop"
+        mobileModeInputId="yoast-google-preview-mode-mobile"
         onChange={[Function]}
       >
         <ModeSwitcher__Switcher>
@@ -8521,7 +8505,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
           }
         }
         descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
-        descriptionInputId=""
+        descriptionInputId="yoast-google-preview-description"
         descriptionLengthProgress={
           Object {
             "actual": 42,
@@ -8535,8 +8519,8 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
         onFocus={[Function]}
         recommendedReplacementVariables={Array []}
         replacementVariables={Array []}
-        slugInputId=""
-        titleInputId=""
+        slugInputId="yoast-google-preview-slug"
+        titleInputId="yoast-google-preview-title"
         titleLengthProgress={
           Object {
             "actual": 0,
@@ -10314,7 +10298,6 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
   }
   date=""
   descriptionEditorFieldPlaceholder=""
-  descriptionInputId=""
   descriptionLengthProgress={
     Object {
       "actual": 0,
@@ -10322,22 +10305,19 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
       "score": 0,
     }
   }
-  desktopModeInputId=""
   faviconSrc=""
   hasPaperStyle={true}
+  idSuffix=""
   keyword=""
   locale="en"
   mapEditorDataToPreview={null}
   mobileImageSrc=""
-  mobileModeInputId=""
   mode="mobile"
   onChange={[Function]}
   onChangeAnalysisData={[Function]}
   recommendedReplacementVariables={Array []}
   replacementVariables={Array []}
   showCloseButton={true}
-  slugInputId=""
-  titleInputId=""
   titleLengthProgress={
     Object {
       "actual": 0,
@@ -10351,8 +10331,8 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
     <div>
       <ModeSwitcher
         active="mobile"
-        desktopModeInputId=""
-        mobileModeInputId=""
+        desktopModeInputId="yoast-google-preview-mode-desktop"
+        mobileModeInputId="yoast-google-preview-mode-mobile"
         onChange={[Function]}
       >
         <ModeSwitcher__Switcher>
@@ -11675,7 +11655,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
           }
         }
         descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
-        descriptionInputId=""
+        descriptionInputId="yoast-google-preview-description"
         descriptionLengthProgress={
           Object {
             "actual": 42,
@@ -11689,8 +11669,8 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
         onFocus={[Function]}
         recommendedReplacementVariables={Array []}
         replacementVariables={Array []}
-        slugInputId=""
-        titleInputId=""
+        slugInputId="yoast-google-preview-slug"
+        titleInputId="yoast-google-preview-title"
         titleLengthProgress={
           Object {
             "actual": 0,
@@ -12680,7 +12660,6 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
   }
   date=""
   descriptionEditorFieldPlaceholder=""
-  descriptionInputId=""
   descriptionLengthProgress={
     Object {
       "actual": 0,
@@ -12688,22 +12667,19 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
       "score": 0,
     }
   }
-  desktopModeInputId=""
   faviconSrc=""
   hasPaperStyle={true}
+  idSuffix=""
   keyword=""
   locale="en"
   mapEditorDataToPreview={null}
   mobileImageSrc=""
-  mobileModeInputId=""
   mode="mobile"
   onChange={[Function]}
   onChangeAnalysisData={[Function]}
   recommendedReplacementVariables={Array []}
   replacementVariables={Array []}
   showCloseButton={true}
-  slugInputId=""
-  titleInputId=""
   titleLengthProgress={
     Object {
       "actual": 0,
@@ -12717,8 +12693,8 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
     <div>
       <ModeSwitcher
         active="mobile"
-        desktopModeInputId=""
-        mobileModeInputId=""
+        desktopModeInputId="yoast-google-preview-mode-desktop"
+        mobileModeInputId="yoast-google-preview-mode-mobile"
         onChange={[Function]}
       >
         <ModeSwitcher__Switcher>
@@ -14041,7 +14017,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
           }
         }
         descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
-        descriptionInputId=""
+        descriptionInputId="yoast-google-preview-description"
         descriptionLengthProgress={
           Object {
             "actual": 42,
@@ -14055,8 +14031,8 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
         onFocus={[Function]}
         recommendedReplacementVariables={Array []}
         replacementVariables={Array []}
-        slugInputId=""
-        titleInputId=""
+        slugInputId="yoast-google-preview-slug"
+        titleInputId="yoast-google-preview-title"
         titleLengthProgress={
           Object {
             "actual": 0,
@@ -15017,7 +14993,6 @@ exports[`SnippetEditor opens when calling open() 1`] = `
   }
   date=""
   descriptionEditorFieldPlaceholder=""
-  descriptionInputId=""
   descriptionLengthProgress={
     Object {
       "actual": 0,
@@ -15025,22 +15000,19 @@ exports[`SnippetEditor opens when calling open() 1`] = `
       "score": 0,
     }
   }
-  desktopModeInputId=""
   faviconSrc=""
   hasPaperStyle={true}
+  idSuffix=""
   keyword=""
   locale="en"
   mapEditorDataToPreview={null}
   mobileImageSrc=""
-  mobileModeInputId=""
   mode="mobile"
   onChange={[Function]}
   onChangeAnalysisData={[Function]}
   recommendedReplacementVariables={Array []}
   replacementVariables={Array []}
   showCloseButton={true}
-  slugInputId=""
-  titleInputId=""
   titleLengthProgress={
     Object {
       "actual": 0,
@@ -15054,8 +15026,8 @@ exports[`SnippetEditor opens when calling open() 1`] = `
     <div>
       <ModeSwitcher
         active="mobile"
-        desktopModeInputId=""
-        mobileModeInputId=""
+        desktopModeInputId="yoast-google-preview-mode-desktop"
+        mobileModeInputId="yoast-google-preview-mode-mobile"
         onChange={[Function]}
       >
         <ModeSwitcher__Switcher>
@@ -16369,7 +16341,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
           }
         }
         descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
-        descriptionInputId=""
+        descriptionInputId="yoast-google-preview-description"
         descriptionLengthProgress={
           Object {
             "actual": 42,
@@ -16383,8 +16355,8 @@ exports[`SnippetEditor opens when calling open() 1`] = `
         onFocus={[Function]}
         recommendedReplacementVariables={Array []}
         replacementVariables={Array []}
-        slugInputId=""
-        titleInputId=""
+        slugInputId="yoast-google-preview-slug"
+        titleInputId="yoast-google-preview-title"
         titleLengthProgress={
           Object {
             "actual": 0,
@@ -17345,7 +17317,6 @@ exports[`SnippetEditor passes replacement variables to the title and description
   }
   date=""
   descriptionEditorFieldPlaceholder=""
-  descriptionInputId=""
   descriptionLengthProgress={
     Object {
       "actual": 0,
@@ -17353,14 +17324,13 @@ exports[`SnippetEditor passes replacement variables to the title and description
       "score": 0,
     }
   }
-  desktopModeInputId=""
   faviconSrc=""
   hasPaperStyle={true}
+  idSuffix=""
   keyword=""
   locale="en"
   mapEditorDataToPreview={null}
   mobileImageSrc=""
-  mobileModeInputId=""
   mode="mobile"
   onChange={[Function]}
   onChangeAnalysisData={[Function]}
@@ -17382,8 +17352,6 @@ exports[`SnippetEditor passes replacement variables to the title and description
     ]
   }
   showCloseButton={true}
-  slugInputId=""
-  titleInputId=""
   titleLengthProgress={
     Object {
       "actual": 0,
@@ -17397,8 +17365,8 @@ exports[`SnippetEditor passes replacement variables to the title and description
     <div>
       <ModeSwitcher
         active="mobile"
-        desktopModeInputId=""
-        mobileModeInputId=""
+        desktopModeInputId="yoast-google-preview-mode-desktop"
+        mobileModeInputId="yoast-google-preview-mode-mobile"
         onChange={[Function]}
       >
         <ModeSwitcher__Switcher>
@@ -18712,7 +18680,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
           }
         }
         descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
-        descriptionInputId=""
+        descriptionInputId="yoast-google-preview-description"
         descriptionLengthProgress={
           Object {
             "actual": 42,
@@ -18741,8 +18709,8 @@ exports[`SnippetEditor passes replacement variables to the title and description
             },
           ]
         }
-        slugInputId=""
-        titleInputId=""
+        slugInputId="yoast-google-preview-slug"
+        titleInputId="yoast-google-preview-title"
         titleLengthProgress={
           Object {
             "actual": 0,
@@ -19711,8 +19679,8 @@ exports[`SnippetEditor removes the highlight from the hovered field on calling o
   <div>
     <ModeSwitcher
       active="mobile"
-      desktopModeInputId=""
-      mobileModeInputId=""
+      desktopModeInputId="yoast-google-preview-mode-desktop"
+      mobileModeInputId="yoast-google-preview-mode-mobile"
       onChange={[Function]}
     />
     <SnippetPreview
@@ -19772,7 +19740,7 @@ exports[`SnippetEditor removes the highlight from the hovered field on calling o
         }
       }
       descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
-      descriptionInputId=""
+      descriptionInputId="yoast-google-preview-description"
       descriptionLengthProgress={
         Object {
           "actual": 42,
@@ -19786,8 +19754,8 @@ exports[`SnippetEditor removes the highlight from the hovered field on calling o
       onFocus={[Function]}
       recommendedReplacementVariables={Array []}
       replacementVariables={Array []}
-      slugInputId=""
-      titleInputId=""
+      slugInputId="yoast-google-preview-slug"
+      titleInputId="yoast-google-preview-title"
       titleLengthProgress={
         Object {
           "actual": 0,
@@ -20251,7 +20219,6 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
   }
   date=""
   descriptionEditorFieldPlaceholder=""
-  descriptionInputId=""
   descriptionLengthProgress={
     Object {
       "actual": 0,
@@ -20259,22 +20226,19 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
       "score": 0,
     }
   }
-  desktopModeInputId=""
   faviconSrc=""
   hasPaperStyle={true}
+  idSuffix=""
   keyword=""
   locale="en"
   mapEditorDataToPreview={null}
   mobileImageSrc=""
-  mobileModeInputId=""
   mode="mobile"
   onChange={[Function]}
   onChangeAnalysisData={[Function]}
   recommendedReplacementVariables={Array []}
   replacementVariables={Array []}
   showCloseButton={true}
-  slugInputId=""
-  titleInputId=""
   titleLengthProgress={
     Object {
       "actual": 0,
@@ -20288,8 +20252,8 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
     <div>
       <ModeSwitcher
         active="mobile"
-        desktopModeInputId=""
-        mobileModeInputId=""
+        desktopModeInputId="yoast-google-preview-mode-desktop"
+        mobileModeInputId="yoast-google-preview-mode-mobile"
         onChange={[Function]}
       >
         <ModeSwitcher__Switcher>
@@ -21603,7 +21567,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
           }
         }
         descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
-        descriptionInputId=""
+        descriptionInputId="yoast-google-preview-description"
         descriptionLengthProgress={
           Object {
             "actual": 42,
@@ -21617,8 +21581,8 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
         onFocus={[Function]}
         recommendedReplacementVariables={Array []}
         replacementVariables={Array []}
-        slugInputId=""
-        titleInputId=""
+        slugInputId="yoast-google-preview-slug"
+        titleInputId="yoast-google-preview-title"
         titleLengthProgress={
           Object {
             "actual": 0,
