@@ -69,6 +69,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'permalink_structure'                      => '',
 		'home_url'                                 => '',
 		'dynamic_permalinks'                       => false,
+		'zapier_integration_active'                => false,
 	];
 
 	/**
@@ -370,6 +371,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 				 *  'enable_headless_rest_endpoints'
 				 *  'yoast_tracking'
 				 *  'dynamic_permalinks'
+				 *  and most of the feature variables.
 				 */
 				default:
 					$clean[ $key ] = ( isset( $dirty[ $key ] ) ? WPSEO_Utils::validate_bool( $dirty[ $key ] ) : false );
@@ -404,6 +406,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 			'enable_text_link_counter'       => false,
 			'enable_headless_rest_endpoints' => false,
 			'semrush_integration_active'     => false,
+			'zapier_integration_active'      => false,
 		];
 
 		// We can reuse this logic from the base class with the above defaults to parse with the correct feature values.
