@@ -18,13 +18,13 @@ Since 2008 Yoast SEO has helped millions of websites worldwide to **rank higher 
 
 Yoast’s mission is **SEO for Everyone**. Our plugin’s users range from the bakery around the corner to some of the most popular sites on the planet.
 
-### DON’T LET YOUR COMPETITORS WIN
+#### DON’T LET YOUR COMPETITORS WIN
 
 Do you know who your competitors are? There’s a reason why they are your competitors: they do what you do. And they might even be doing it better right now. That does not mean you can't beat them, but it does mean you need all the help to get on top and stay on top! Yoast SEO is here to help you out as we’ve helped millions of people worldwide with their WordPress SEO.
 
 [insert plugin video when finished]
 
-### TAKING CARE OF YOUR WORDPRESS SEO
+#### TAKING CARE OF YOUR WORDPRESS SEO
 
 Yoast SEO does everything in its power to help both visitors and search engine spiders. A dedicated team of developers, testers, software architects and SEO experts work daily to improve the plugin with every release. Yoast SEO offers:
 
@@ -37,7 +37,7 @@ Yoast SEO does everything in its power to help both visitors and search engine s
 * **[Premium]** E-mail support for our [Yoast SEO Premium](https://yoa.st/1v8) users.
 * **[Premium]** The possibility to expand Yoast SEO with the [News SEO](https://yoa.st/1uv), [Video SEO](https://yoa.st/1uw), [Local SEO](https://yoa.st/1uu) en [WooCommerce SEO](https://yoa.st/3rh) extensions.
 
-### WRITE KILLER CONTENT WITH YOAST SEO
+#### WRITE KILLER CONTENT WITH YOAST SEO
 
 We know content is king, that's why Yoast SEO is famous for its **state-of-the-art content and SEO analysis**. Yoast SEO gives you:
 
@@ -51,7 +51,7 @@ We know content is king, that's why Yoast SEO is famous for its **state-of-the-a
 * **[Premium]** Optimize your article for different word forms of your keyphrases, as the singular and plural. But also different verb forms, synonyms, and related keyphrases. This makes for more natural texts!
 * **[Premium]** Automatic internal linking suggestions: write your article and get automatic suggested posts to link to! 
  
-### KEEP YOUR SITE IN PERFECT SHAPE
+#### KEEP YOUR SITE IN PERFECT SHAPE
 
 Whether you are an online entrepreneur, blogger or content creator, a developer, a (WordPress) SEO expert or a business owner: Yoast SEO helps you keep your website in perfect shape. Yoast SEO: 
 
@@ -63,7 +63,7 @@ Whether you are an online entrepreneur, blogger or content creator, a developer,
 * **[Premium]** has a full, automatic redirect manager to keep your site healthy by easily redirecting deleted pages and changed URLs.
 * **[Premium]** gives you social previews to manage the way your page is shared on social networks like Facebook and Twitter.
 
-### PREMIUM SUPPORT
+#### PREMIUM SUPPORT
 
 The Yoast team offers regular support on the WordPress.org forums. But we hope you understand that we prioritize our Premium customers. This one-on-one email support is available to people who have purchased Yoast SEO Premium.
 
@@ -78,7 +78,7 @@ Did you know that [Yoast SEO Premium](https://yoa.st/1v8) contains a lot of **ex
 
 If you are serious about your WordPress SEO, install the [Yoast SEO Premium plugin](https://yoa.st/1v8)! **Costs a little, saves a lot of time!**
 
-### OUR EXTENSIONS TO FURTHER IMPROVE YOUR WORDPRESS SEO
+#### OUR EXTENSIONS TO FURTHER IMPROVE YOUR WORDPRESS SEO
 
 Check out these SEO add-ons by Yoast:
 
@@ -91,11 +91,11 @@ These extensions work fine with the free version of Yoast SEO. Of course, the pr
 
 Oh, don’t forget: our [**Yoast SEO academy**](https://yoa.st/3ri) is for all entrepreneurs, bloggers, and anyone who wants to learn more about optimizing websites, improving your WordPress SEO, and if you want to take your content to the next level!
 
-### BUG REPORTS
+#### BUG REPORTS
 
 Do you want to report a bug for Yoast SEO? Best to do so in the WordPress SEO [repository on GitHub](https://github.com/Yoast/wordpress-seo). Please note that GitHub is not a support forum and issues will be closed if they don’t meet the bug requirements. 
 
-### FURTHER READING
+#### FURTHER READING
 
 Want more information on search engine optimization and Yoast SEO? Have a look at: 
 
