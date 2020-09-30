@@ -129,5 +129,7 @@ class Indexable_Term_Watcher implements Integration_Interface {
 
 		// Update links.
 		$this->link_builder->build( $indexable, $term->description );
+
+		$indexable->save();
 	}
 }

@@ -171,6 +171,8 @@ class Indexable_Post_Watcher implements Integration_Interface {
 		}
 
 		$this->update_has_public_posts( $updated_indexable );
+
+		$updated_indexable->save();
 	}
 
 	/**
