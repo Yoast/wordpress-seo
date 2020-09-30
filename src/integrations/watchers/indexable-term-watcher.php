@@ -36,6 +36,8 @@ class Indexable_Term_Watcher implements Integration_Interface {
 	protected $site;
 
 	/**
+	 * Gets the conditionals.
+	 *
 	 * @inheritDoc
 	 */
 	public static function get_conditionals() {
@@ -56,6 +58,8 @@ class Indexable_Term_Watcher implements Integration_Interface {
 	}
 
 	/**
+	 * Registers the hooks.
+	 *
 	 * @inheritDoc
 	 */
 	public function register_hooks() {
@@ -84,34 +88,29 @@ class Indexable_Term_Watcher implements Integration_Interface {
 	/**
 	 * Update the taxonomy meta data on save.
 	 *
-	 * Note: This method is missing functionality to update internal links and incoming links.
-	 *       As this functionality is currently not available for terms, it has not been added in this
-	 *       class yet.
-	 *
 	 * @param int $term_id ID of the term to save data for.
 	 *
 	 * @return void
 	 */
-	public function build_indexable( $term_id )
-	{
+	public function build_indexable( $term_id ) {
 		// Bail if this is a multisite installation and the site has been switched.
-		if ($this->site->is_multisite_and_switched()) {
+		if ( $this->site->is_multisite_and_switched() ) {
 			return;
 		}
 
-		$term = \get_term($term_id);
+		$term = \get_term( $term_id );
 
-		if ($term === null || \is_wp_error($term)) {
+		if ( $term === null || \is_wp_error( $term ) ) {
 			return;
 		}
 
-		if (!\is_taxonomy_viewable($term->taxonomy)) {
+		if ( ! \is_taxonomy_viewable( $term->taxonomy ) ) {
 			return;
 		}
 
-		$indexable = $this->repository->find_by_id_and_type($term_id, 'term', false);
+		$indexable = $this->repository->find_by_id_and_type( $term_id, 'term', false );
 
 		// If we haven't found an existing indexable, create it. Otherwise update it.
-		$this->builder->build_for_id_and_type($term_id, 'term', $indexable);
+		$this->builder->build_for_id_and_type( $term_id, 'term', $indexable );
 	}
 }

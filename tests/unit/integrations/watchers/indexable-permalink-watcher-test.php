@@ -238,6 +238,80 @@ class Indexable_Permalink_Watcher_Test extends TestCase {
 	}
 
 	/**
+	 * Test that permalinks should be reset when category base is changed.
+	 *
+	 * @covers ::should_reset_permalinks
+	 */
+	public function test_should_reset_permalinks_categorychanged() {
+		Monkey\Functions\expect( 'get_option' )
+			->once()
+			->with( 'permalink_structure' )
+			->andReturn( '/%postname%/' );
+
+		$this->options
+			->expects( 'get' )
+			->with( 'permalink_structure' )
+			->once()
+			->andReturn( '/%postname%/' );
+
+		Monkey\Functions\expect( 'get_option' )
+			->once()
+			->with( 'category_base' )
+			->andReturn( '/%differentcategory%/' );
+
+		$this->options
+			->expects( 'get' )
+			->with( 'category_base_url' )
+			->once()
+			->andReturn( '/%category%/' );
+
+		$this->assertTrue( $this->instance->should_reset_permalinks() );
+	}
+
+	/**
+	 * Test that permalinks should be reset when tag base is changed.
+	 *
+	 * @covers ::should_reset_permalinks
+	 */
+	public function test_should_reset_permalinks_tagchanged() {
+		Monkey\Functions\expect( 'get_option' )
+			->once()
+			->with( 'permalink_structure' )
+			->andReturn( '/%postname%/' );
+
+		$this->options
+			->expects( 'get' )
+			->with( 'permalink_structure' )
+			->once()
+			->andReturn( '/%postname%/' );
+
+		Monkey\Functions\expect( 'get_option' )
+			->once()
+			->with( 'category_base' )
+			->andReturn( '/%category%/' );
+
+		$this->options
+			->expects( 'get' )
+			->with( 'category_base_url' )
+			->once()
+			->andReturn( '/%category%/' );
+
+
+		Monkey\Functions\expect( 'get_option' )
+			->once()
+			->with( 'tag_base' )
+			->andReturn( '/%anothertag%/' );
+
+		$this->options
+			->expects( 'get' )
+			->with( 'tag_base_url' )
+			->once()
+			->andReturn( '/%tag%/' );
+
+		$this->assertTrue( $this->instance->should_reset_permalinks() );
+	}
+
+	/**
 	 * Test that permalinks should not be reset.
 	 *
 	 * @covers ::should_reset_permalinks
