@@ -225,7 +225,7 @@ Enhancements:
 * Flushes all permalinks from the indexables tables when the value of the `permalink_structure` option changes, and introduces a notification to ask for a reindex in that case.
 * Flushes all permalinks from the indexables tables when the value of the `home_url` option changes, and introduces a notification to ask for a reindex in that case.
 * Registers a cron job that checks whether the `home_url` was changed manually and resets the permalinks accordingly.
-* Makes it possible to recognize keyphrases in Farsi when they have a negation prefix or an indefinite article (for example: ماشین ("car") in ماشینی ("a car")).
+* Makes it possible to recognize keyphrases in Farsi when they have a negation prefix or an indefinite article (for example: ماشین ('car') in ماشینی ('a car')).
 * Improves keyphrase recognition in Farsi by filtering the function words such as `هفت`, `چهارم`, `یا `.
 
 Bugfixes:
