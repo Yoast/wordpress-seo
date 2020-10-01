@@ -9,15 +9,7 @@ import { mount } from "enzyme";
  * @returns {Promise} The promise.
  */
 const fetchReponse = ( data ) => {
-	return new Promise( resolve => {
-		resolve( {
-			json: () => {
-				return new Promise( resolve2 => {
-					resolve2( data );
-				} );
-			},
-		} );
-	} );
+	return Promise.resolve( { json: () => Promise.resolve( data ) } );
 };
 
 describe( "Indexation", () => {
