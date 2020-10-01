@@ -365,6 +365,10 @@ class Indexable_Post_Watcher_Test extends TestCase {
 			->expects( 'build' )
 			->with( $updated_indexable, 'This is post content with a <a href="">link</a>.' );
 
+		$updated_indexable
+			->expects( 'save' )
+			->once();
+
 		$this->instance->updated_indexable( $updated_indexable, $old_indexable );
 	}
 
@@ -395,6 +399,10 @@ class Indexable_Post_Watcher_Test extends TestCase {
 		$this->instance
 			->expects( 'update_has_public_posts' )
 			->with( $updated_indexable )
+			->once();
+
+		$updated_indexable
+			->expects( 'save' )
 			->once();
 
 		$this->instance->updated_indexable( $updated_indexable, $old_indexable );
