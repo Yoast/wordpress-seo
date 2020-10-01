@@ -141,7 +141,7 @@ class Link_Indexing_Route extends Abstract_Indexation_Route {
 		} catch ( \Exception $exception ) {
 			$this->options_helper->set( 'indexables_indexation_reason', Indexing_Notification_Integration::REASON_INDEXING_FAILED );
 
-			return new WP_Error( 'wpseo_error_indexing', __( 'An error occurred during the indexing process.', 'wordpress-seo' ) );
+			return new WP_Error( 'wpseo_error_indexing', $exception->getMessage() );
 		}
 	}
 }
