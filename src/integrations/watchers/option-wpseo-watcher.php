@@ -45,7 +45,7 @@ class Option_Wpseo_Watcher implements Integration_Interface {
 	 */
 	public function check_semrush_option( $old_value, $new_value ) {
 		if ( \array_key_exists( 'semrush_integration_active', $new_value )
-			 && $new_value['semrush_integration_active'] === false ) {
+			&& $new_value['semrush_integration_active'] === false ) {
 			YoastSEO()->helpers->options->set( 'semrush_tokens', [] );
 			return true;
 		}
