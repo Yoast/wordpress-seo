@@ -704,16 +704,6 @@
     styled-components "^2.4.1"
     whatwg-fetch "1.1.1"
 
-"@yoast/helpers@^0.13.0-rc.5":
-  version "0.13.0-rc.5"
-  resolved "https://registry.yarnpkg.com/@yoast/helpers/-/helpers-0.13.0-rc.5.tgz#35c1f3519c006db0dee0431b4b2fb5d7feac6ecc"
-  integrity sha512-XyBsld8HbYVMnN+tsImaw8LiJ2NwmmYm2FR90+/1KFuDN8djR6uW7jheOG8LmriLrH5BiEIkyAB7UkjoCnubyg==
-  dependencies:
-    "@wordpress/i18n" "^1.2.3"
-    prop-types "^15.7.2"
-    styled-components "^2.4.1"
-    whatwg-fetch "1.1.1"
-
 "@yoast/replacement-variable-editor@^1.5.0-rc.1":
   version "1.5.0-rc.1"
   resolved "https://registry.yarnpkg.com/@yoast/replacement-variable-editor/-/replacement-variable-editor-1.5.0-rc.1.tgz#b424680227a0e5df728ae139a4ac07d8623fbfff"
