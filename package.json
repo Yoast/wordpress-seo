@@ -113,7 +113,7 @@
     "@yoast/components": "^2.10.0-rc.1",
     "@yoast/configuration-wizard": "^2.12.0-rc.1",
     "@yoast/feature-flag": "^0.5.2",
-    "@yoast/helpers": "^0.13.0-rc.5",
+    "@yoast/helpers": "^0.13.0",
     "@yoast/replacement-variable-editor": "^1.5.0-rc.1",
     "@yoast/search-metadata-previews": "^2.12.0-rc.1",
     "@yoast/social-metadata-forms": "^1.5.0-rc.1",
