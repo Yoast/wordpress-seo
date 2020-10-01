@@ -188,6 +188,10 @@ class Indexable_Term_Watcher_Test extends TestCase {
 				'This is a term description, with a <a href="https://example.org/target">link</a>.'
 			);
 
+		$indexable
+			->expects( 'save' )
+			->once();
+
 		$this->instance->build_indexable( 1 );
 	}
 
@@ -332,6 +336,10 @@ class Indexable_Term_Watcher_Test extends TestCase {
 				$indexable,
 				'This is a term description, with a <a href="https://example.org/target">link</a>.'
 			);
+
+		$indexable
+			->expects( 'save' )
+			->once();
 
 		$this->instance->build_indexable( 1 );
 	}
