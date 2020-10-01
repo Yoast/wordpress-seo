@@ -30,7 +30,7 @@ module.exports = function( grunt ) {
 			if ( ! versionMatch ) {
 				grunt.fail.fatal(
 					"The Stable tag specified in the readme.txt file is not set to the stable tag currently on WordPress: " + stableVersion + ". " +
-					"Therefor you cannot deploy with this readme.txt file.\n" +
+					"Therefore, you cannot deploy with this readme.txt file.\n" +
 					"The release process has been stopped."
 				);
 			}
