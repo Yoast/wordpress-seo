@@ -142,7 +142,7 @@ RelatedKeyphraseModalContent.propTypes = {
 	setRequestFailed: PropTypes.func.isRequired,
 	setNoResultsFound: PropTypes.func.isRequired,
 	response: PropTypes.object,
-	lastRequestKeyphrase: PropTypes.object,
+	lastRequestKeyphrase: PropTypes.string,
 };
 
 RelatedKeyphraseModalContent.defaultProps = {
@@ -151,5 +151,5 @@ RelatedKeyphraseModalContent.defaultProps = {
 	renderAction: null,
 	requestLimitReached: false,
 	response: {},
-	lastRequestKeyphrase: {},
+	lastRequestKeyphrase: "",
 };

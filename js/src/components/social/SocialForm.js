@@ -1,8 +1,5 @@
-/* External dependencies */
 import { Component, Fragment } from "@wordpress/element";
 import PropTypes from "prop-types";
-
-/* Internal dependencies */
 import SocialUpsell from "./SocialUpsell";
 import { SocialMetadataPreviewForm } from "@yoast/social-metadata-forms";
 import { recommendedReplacementVariablesShape, replacementVariablesShape } from "@yoast/replacement-variable-editor";
@@ -126,6 +123,7 @@ class SocialPreviewEditor extends Component {
 			replacementVariables,
 			recommendedReplacementVariables,
 			isPremium,
+			location,
 		} = this.props;
 
 		return (
@@ -152,6 +150,7 @@ class SocialPreviewEditor extends Component {
 					activeField={ this.state.activeField }
 					isPremium={ isPremium }
 					setEditorRef={ this.setEditorRef }
+					idSuffix={ location }
 				/>
 			</Fragment>
 		);
@@ -173,6 +172,7 @@ SocialPreviewEditor.propTypes = {
 	titleInputPlaceholder: PropTypes.string,
 	replacementVariables: replacementVariablesShape,
 	recommendedReplacementVariables: recommendedReplacementVariablesShape,
+	location: PropTypes.string,
 };
 
 SocialPreviewEditor.defaultProps = {
@@ -182,6 +182,7 @@ SocialPreviewEditor.defaultProps = {
 	isPremium: false,
 	descriptionInputPlaceholder: "",
 	titleInputPlaceholder: "",
+	location: "",
 };
 
 export default SocialPreviewEditor;
