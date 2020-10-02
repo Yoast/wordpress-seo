@@ -174,6 +174,7 @@ describe( "SEMrushRelatedKeyphrasesModal", () => {
 			const component = mount( <SEMrushRelatedKeyphrasesModal { ...props } /> );
 			const instance = component.instance();
 			instance.popup = { close: () => {} };
+			console.error = jest.fn();
 
 			await instance.listenToMessages( {
 				origin: "https://oauth.semrush.com",
@@ -198,6 +199,7 @@ describe( "SEMrushRelatedKeyphrasesModal", () => {
 			const component = mount( <SEMrushRelatedKeyphrasesModal { ...props } /> );
 			const instance = component.instance();
 			instance.popup = { close: () => {} };
+			console.error = jest.fn();
 
 			await instance.listenToMessages( {
 				origin: "https://oauth.semrush.com",
