@@ -88,10 +88,12 @@ class Link_Indexing_Route_Test extends TestCase {
 
 		Mockery::mock( 'overload:WP_REST_Response' )
 			->expects( '__construct' )
-			->with( [
-				'objects'  => $indexables,
-				'next_url' => 'resturl',
-			] );
+			->with(
+				[
+					'objects'  => $indexables,
+					'next_url' => 'resturl',
+				]
+			);
 
 		$this->instance->index_posts();
 	}
@@ -114,10 +116,12 @@ class Link_Indexing_Route_Test extends TestCase {
 
 		Mockery::mock( 'overload:WP_REST_Response' )
 			->expects( '__construct' )
-			->with( [
-				'objects'  => $indexables,
-				'next_url' => false,
-			] );
+			->with(
+				[
+					'objects'  => $indexables,
+					'next_url' => false,
+				]
+			);
 
 		$this->instance->index_posts();
 	}
@@ -137,9 +141,7 @@ class Link_Indexing_Route_Test extends TestCase {
 			->expects( 'set' )
 			->with( 'indexables_indexation_reason', Indexing_Notification_Integration::REASON_INDEXING_FAILED );
 
-		Mockery::mock( 'overload:WP_Error' )
-			->expects( '__construct' )
-			->with( 'wpseo_error_indexing', 'An exception during indexing' );
+		Mockery::mock( '\WP_Error' );
 
 		$this->instance->index_posts();
 	}
@@ -163,16 +165,21 @@ class Link_Indexing_Route_Test extends TestCase {
 
 		$this->term_link_indexing_action->expects( 'get_limit' )->andReturn( 3 );
 
-		Monkey\Functions\expect( 'rest_url' )->with( Link_Indexing_Route::FULL_POSTS_ROUTE )->andReturn( 'resturl' );
+		Monkey\Functions\expect( 'rest_url' )
+			->with( Link_Indexing_Route::FULL_POSTS_ROUTE )
+			->andReturn( 'resturl' );
 
-		Mockery::mock( 'overload:WP_REST_Response' )->expects( '__construct' )->with( [
-			'objects'  => $indexables,
-			'next_url' => 'resturl',
-		] );
+		Mockery::mock( 'overload:WP_REST_Response' )
+			->expects( '__construct' )
+			->with(
+				[
+					'objects'  => $indexables,
+					'next_url' => 'resturl',
+				]
+			);
 
 		$this->instance->index_terms();
 	}
-
 
 	/**
 	 * Tests the index_terms method when the nr of terms is below the limit.
@@ -192,10 +199,12 @@ class Link_Indexing_Route_Test extends TestCase {
 
 		Mockery::mock( 'overload:WP_REST_Response' )
 			->expects( '__construct' )
-			->with( [
-				'objects'  => $indexables,
-				'next_url' => false,
-			] );
+			->with(
+				[
+					'objects'  => $indexables,
+					'next_url' => false,
+				]
+			);
 
 		$this->instance->index_terms();
 	}
@@ -207,13 +216,14 @@ class Link_Indexing_Route_Test extends TestCase {
 	 * @covers ::run_indexation_action
 	 */
 	public function test_index_terms_when_error_occurs() {
-		$this->term_link_indexing_action->expects( 'index' )->andThrow( new \Exception( 'An exception during indexing' ) );
+		$this->term_link_indexing_action
+			->expects( 'index' )
+			->andThrow( new \Exception( 'An exception during indexing' ) );
 
-		$this->options_helper->expects( 'set' )->with( 'indexables_indexation_reason', Indexing_Notification_Integration::REASON_INDEXING_FAILED );
+		$this->options_helper->expects( 'set' )
+			->with( 'indexables_indexation_reason', Indexing_Notification_Integration::REASON_INDEXING_FAILED );
 
-		Mockery::mock( 'overload:WP_Error' )
-			->expects( '__construct' )
-			->with( 'wpseo_error_indexing', 'An exception during indexing' );
+		Mockery::mock( '\WP_Error' );
 
 		$this->instance->index_terms();
 	}

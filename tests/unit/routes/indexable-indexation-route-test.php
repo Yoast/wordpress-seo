@@ -321,9 +321,7 @@ class Indexable_Indexation_Route_Test extends TestCase {
 
 		$this->options_helper->expects( 'set' )->with( 'indexables_indexation_reason', Indexing_Notification_Integration::REASON_INDEXING_FAILED );
 
-		Mockery::mock( 'overload:WP_Error' )
-			->expects( '__construct' )
-			->with( 'wpseo_error_indexing', 'An exception during indexing' );
+		Mockery::mock( '\WP_Error' );
 
 		$this->instance->index_general();
 	}
