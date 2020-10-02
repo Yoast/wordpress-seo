@@ -1,5 +1,5 @@
 /* global describe it expect */
-import topicCount from "../../src/researches/topicCount.js";
+import topicCount from "../../src/languages/legacy/researches/topicCount.js";
 
 import Paper from "../../src/values/Paper.js";
 describe( "Test for counting the keyword and synonyms in a text", function() {

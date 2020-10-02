@@ -6,7 +6,7 @@ import {
 	collapseProminentWordsOnStem,
 	sortProminentWords,
 	retrieveAbbreviations,
-} from "../../src/stringProcessing/determineProminentWords";
+} from "../../src/languages/legacy/stringProcessing/determineProminentWords";
 import getMorphologyData from "../specHelpers/getMorphologyData";
 
 

@@ -1,4 +1,4 @@
-import urlKeyword from "../../src/researches/keywordCountInUrl.js";
+import urlKeyword from "../../src/languages/legacy/researches/keywordCountInUrl.js";
 import Paper from "../../src/values/Paper.js";
 import Researcher from "../../src/researcher";
 import getMorphologyData from "../specHelpers/getMorphologyData";

@@ -1,6 +1,6 @@
 import Researcher from "../../src/researcher";
 import getMorphologyData from "../specHelpers/getMorphologyData";
-import keyphraseLength from "../../src/researches/keyphraseLength.js";
+import keyphraseLength from "../../src/languages/legacy/researches/keyphraseLength.js";
 import Paper from "../../src/values/Paper.js";
 
 

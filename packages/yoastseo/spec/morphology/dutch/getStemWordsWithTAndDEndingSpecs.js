@@ -1,4 +1,4 @@
-import { generateCorrectStemWithTAndDEnding } from "../../../src/morphology/dutch/getStemWordsWithTAndDEnding";
+import { generateCorrectStemWithTAndDEnding } from "../../../src/languages/legacy/morphology/dutch/getStemWordsWithTAndDEnding";
 import getMorphologyData from "../../specHelpers/getMorphologyData";
 
 const morphologyDataNL = getMorphologyData( "nl" ).nl;

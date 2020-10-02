@@ -1,6 +1,6 @@
 import WordCombination from "../../src/values/WordCombination";
-import relevantWords from "../../src/stringProcessing/relevantWords";
-import indonesianFunctionWordsFactory from "../../src/researches/indonesian/functionWords.js";
+import relevantWords from "../../src/languages/legacy/stringProcessing/relevantWords";
+import indonesianFunctionWordsFactory from "../../src/languages/legacy/researches/indonesian/functionWords.js";
 
 const getRelevantWords = relevantWords.getRelevantWords;
 const indonesianFunctionWords = indonesianFunctionWordsFactory().all;

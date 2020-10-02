@@ -1,4 +1,4 @@
-import getParagraphLength from "../../src/researches/getParagraphLength.js";
+import getParagraphLength from "../../src/languages/legacy/researches/getParagraphLength.js";
 import Paper from "../../src/values/Paper.js";
 
 

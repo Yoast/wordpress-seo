@@ -1,4 +1,4 @@
-import stem from "../../../src/morphology/portuguese/stem";
+import stem from "../../../src/languages/legacy/morphology/portuguese/stem";
 import getMorphologyData from "../../specHelpers/getMorphologyData";
 
 const morphologyDataPT = getMorphologyData( "pt" ).pt;

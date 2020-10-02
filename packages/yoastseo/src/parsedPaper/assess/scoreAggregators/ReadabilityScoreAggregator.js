@@ -1,4 +1,4 @@
-import getLanguage from "../../../helpers/getLanguage";
+import getLanguage from "../../../languages/legacy/helpers/getLanguage";
 import { scoreToRating } from "../../../interpreters";
 
 /* Internal dependencies */

@@ -1,4 +1,4 @@
-import getProminentWordsForInsights from "../../src/researches/getProminentWordsForInsights";
+import getProminentWordsForInsights from "../../src/languages/legacy/researches/getProminentWordsForInsights";
 import Paper from "../../src/values/Paper";
 import Researcher from "../../src/researcher";
 import ProminentWord from "../../src/values/ProminentWord";

@@ -1,4 +1,4 @@
-import urlIsTooLong from "../../src/researches/urlIsTooLong.js";
+import urlIsTooLong from "../../src/languages/legacy/researches/urlIsTooLong.js";
 import Paper from "../../src/values/Paper.js";
 
 describe( "Checks length of Url", function() {

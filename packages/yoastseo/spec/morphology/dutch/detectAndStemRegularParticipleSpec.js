@@ -1,4 +1,4 @@
-import { detectAndStemRegularParticiple } from "../../../src/morphology/dutch/detectAndStemRegularParticiple";
+import { detectAndStemRegularParticiple } from "../../../src/languages/legacy/morphology/dutch/detectAndStemRegularParticiple";
 import getMorphologyData from "../../specHelpers/getMorphologyData";
 
 

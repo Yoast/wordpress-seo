@@ -1,6 +1,6 @@
 import WordCombination from "../../src/values/WordCombination";
-import relevantWords from "../../src/stringProcessing/relevantWords";
-import dutchFunctionWordsFactory from "../../src/researches/dutch/functionWords.js";
+import relevantWords from "../../src/languages/legacy/stringProcessing/relevantWords";
+import dutchFunctionWordsFactory from "../../src/languages/legacy/researches/dutch/functionWords.js";
 const getRelevantWords = relevantWords.getRelevantWords;
 const dutchFunctionWords = dutchFunctionWordsFactory().all;
 

@@ -1,4 +1,4 @@
-import SubheadingsKeywordAssessment from "../../src/assessments/seo/SubHeadingsKeywordAssessment";
+import SubheadingsKeywordAssessment from "../../src/languages/legacy/assessments/seo/SubHeadingsKeywordAssessment";
 import Paper from "../../src/values/Paper";
 import Factory from "../specHelpers/factory";
 

@@ -1,4 +1,4 @@
-import { stemTOrDFromEndOfWord } from "../../../src/morphology/dutch/stemTOrDFromEndOfWord";
+import { stemTOrDFromEndOfWord } from "../../../src/languages/legacy/morphology/dutch/stemTOrDFromEndOfWord";
 import getMorphologyData from "../../specHelpers/getMorphologyData";
 
 const morphologyDataNL = getMorphologyData( "nl" ).nl;

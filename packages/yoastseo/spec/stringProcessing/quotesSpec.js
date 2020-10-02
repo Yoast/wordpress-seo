@@ -1,6 +1,6 @@
-import { normalizeSingle as normalizeSingleQuotes } from "../../src/stringProcessing/quotes";
-import { normalizeDouble as normalizeDoubleQuotes } from "../../src/stringProcessing/quotes";
-import { normalize } from "../../src/stringProcessing/quotes";
+import { normalizeSingle as normalizeSingleQuotes } from "../../src/languages/legacy/stringProcessing/quotes";
+import { normalizeDouble as normalizeDoubleQuotes } from "../../src/languages/legacy/stringProcessing/quotes";
+import { normalize } from "../../src/languages/legacy/stringProcessing/quotes";
 
 describe( "a quote helper", function() {
 	describe( "normalizeSingle", function() {

@@ -1,4 +1,4 @@
-import formatString from "../../src/helpers/formatString";
+import formatString from "../../src/languages/legacy/helpers/formatString";
 
 describe( "formatString", () => {
 	it( "formats a string with string parameters", () => {

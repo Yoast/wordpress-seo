@@ -1,4 +1,4 @@
-import functionWordsInKeyphrase from "../../src/researches/functionWordsInKeyphrase.js";
+import functionWordsInKeyphrase from "../../src/languages/legacy/researches/functionWordsInKeyphrase.js";
 
 import Paper from "../../src/values/Paper.js";
 

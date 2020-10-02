@@ -1,4 +1,4 @@
-import getLinks from "../../src/researches/getLinks";
+import getLinks from "../../src/languages/legacy/researches/getLinks";
 import Paper from "../../src/values/Paper.js";
 
 describe( "A test for getting the links from a text", function() {

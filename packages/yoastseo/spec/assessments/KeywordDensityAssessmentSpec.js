@@ -1,5 +1,5 @@
 /* global describe it expect */
-import KeywordDensityAssessment from "../../src/assessments/seo/KeywordDensityAssessment";
+import KeywordDensityAssessment from "../../src/languages/legacy/assessments/seo/KeywordDensityAssessment";
 import Researcher from "../../src/researcher";
 import Paper from "../../src/values/Paper.js";
 import Mark from "../../src/values/Mark.js";

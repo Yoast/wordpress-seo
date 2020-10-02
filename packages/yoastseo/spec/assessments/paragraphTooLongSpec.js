@@ -1,4 +1,4 @@
-import paragraphTooLongAssessment from "../../src/assessments/readability/paragraphTooLongAssessment.js";
+import paragraphTooLongAssessment from "../../src/languages/legacy/assessments/readability/paragraphTooLongAssessment.js";
 import Paper from "../../src/values/Paper.js";
 import Factory from "../specHelpers/factory.js";
 const i18n = Factory.buildJed();

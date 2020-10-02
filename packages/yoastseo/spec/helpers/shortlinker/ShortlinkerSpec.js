@@ -1,4 +1,4 @@
-import Shortlinker from "../../../src/helpers/shortlinker/Shortlinker";
+import Shortlinker from "../../../src/languages/legacy/helpers/shortlinker/Shortlinker";
 
 describe( "Shortlinker", () => {
 	test( "create an instance without config to include empty params", () => {

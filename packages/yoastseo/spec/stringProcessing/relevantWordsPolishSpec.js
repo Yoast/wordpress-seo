@@ -1,6 +1,6 @@
 import WordCombination from "../../src/values/WordCombination";
-import relevantWords from "../../src/stringProcessing/relevantWords";
-import polishFunctionWordsFactory from "../../src/researches/polish/functionWords.js";
+import relevantWords from "../../src/languages/legacy/stringProcessing/relevantWords";
+import polishFunctionWordsFactory from "../../src/languages/legacy/researches/polish/functionWords.js";
 
 const getRelevantWords = relevantWords.getRelevantWords;
 const polishFunctionWords = polishFunctionWordsFactory().all;

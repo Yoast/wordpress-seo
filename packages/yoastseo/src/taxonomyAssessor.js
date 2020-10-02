@@ -1,18 +1,18 @@
 import { inherits } from "util";
 
-import IntroductionKeywordAssessment from "./assessments/seo/IntroductionKeywordAssessment";
-import KeyphraseLengthAssessment from "./assessments/seo/KeyphraseLengthAssessment";
-import KeywordDensityAssessment from "./assessments/seo/KeywordDensityAssessment";
-import MetaDescriptionKeywordAssessment from "./assessments/seo/MetaDescriptionKeywordAssessment";
-import TitleKeywordAssessment from "./assessments/seo/TitleKeywordAssessment";
-import UrlKeywordAssessment from "./assessments/seo/UrlKeywordAssessment";
+import IntroductionKeywordAssessment from "./languages/legacy/assessments/seo/IntroductionKeywordAssessment";
+import KeyphraseLengthAssessment from "./languages/legacy/assessments/seo/KeyphraseLengthAssessment";
+import KeywordDensityAssessment from "./languages/legacy/assessments/seo/KeywordDensityAssessment";
+import MetaDescriptionKeywordAssessment from "./languages/legacy/assessments/seo/MetaDescriptionKeywordAssessment";
+import TitleKeywordAssessment from "./languages/legacy/assessments/seo/TitleKeywordAssessment";
+import UrlKeywordAssessment from "./languages/legacy/assessments/seo/UrlKeywordAssessment";
 import Assessor from "./assessor";
-import MetaDescriptionLengthAssessment from "./assessments/seo/MetaDescriptionLengthAssessment";
-import TextLengthAssessment from "./assessments/seo/TextLengthAssessment";
-import PageTitleWidthAssessment from "./assessments/seo/PageTitleWidthAssessment";
-import FunctionWordsInKeyphrase from "./assessments/seo/FunctionWordsInKeyphraseAssessment";
-import SingleH1Assessment from "./assessments/seo/SingleH1Assessment";
-import { createAnchorOpeningTag } from "./helpers/shortlinker";
+import MetaDescriptionLengthAssessment from "./languages/legacy/assessments/seo/MetaDescriptionLengthAssessment";
+import TextLengthAssessment from "./languages/legacy/assessments/seo/TextLengthAssessment";
+import PageTitleWidthAssessment from "./languages/legacy/assessments/seo/PageTitleWidthAssessment";
+import FunctionWordsInKeyphrase from "./languages/legacy/assessments/seo/FunctionWordsInKeyphraseAssessment";
+import SingleH1Assessment from "./languages/legacy/assessments/seo/SingleH1Assessment";
+import { createAnchorOpeningTag } from "./languages/legacy/helpers/shortlinker";
 
 /**
  * Returns the text length assessment to use.

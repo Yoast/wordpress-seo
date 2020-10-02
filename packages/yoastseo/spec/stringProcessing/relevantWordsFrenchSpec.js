@@ -1,6 +1,6 @@
 import WordCombination from "../../src/values/WordCombination";
-import relevantWords from "../../src/stringProcessing/relevantWords";
-import frenchFunctionWordsFactory from "../../src/researches/french/functionWords.js";
+import relevantWords from "../../src/languages/legacy/stringProcessing/relevantWords";
+import frenchFunctionWordsFactory from "../../src/languages/legacy/researches/french/functionWords.js";
 
 const getRelevantWords = relevantWords.getRelevantWords;
 const frenchFunctionWords = frenchFunctionWordsFactory().all;

@@ -1,4 +1,4 @@
-import { mergeListItems } from "../../src/stringProcessing/mergeListItems";
+import { mergeListItems } from "../../src/languages/legacy/stringProcessing/mergeListItems";
 
 const paragraph1 = "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. In sit amet semper sem, id faucibus massa.</p>";
 

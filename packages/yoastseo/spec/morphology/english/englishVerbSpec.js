@@ -1,5 +1,5 @@
 import getMorphologyData from "../../specHelpers/getMorphologyData";
-import { getInfinitive, normalizePrefixed } from "../../../src/morphology/english/getVerbStem";
+import { getInfinitive, normalizePrefixed } from "../../../src/languages/legacy/morphology/english/getVerbStem";
 
 const morphologyData = getMorphologyData( "en" );
 const regexVerb = morphologyData.en.verbs.regexVerb;

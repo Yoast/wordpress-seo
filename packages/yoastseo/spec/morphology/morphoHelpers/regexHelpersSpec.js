@@ -1,4 +1,4 @@
-import { doesWordMatchRegex, searchAndReplaceWithRegex, applyAllReplacements } from "../../../src/morphology/morphoHelpers/regexHelpers";
+import { doesWordMatchRegex, searchAndReplaceWithRegex, applyAllReplacements } from "../../../src/languages/legacy/morphology/morphoHelpers/regexHelpers";
 
 describe( "A test to return a regex match", () => {
 	it( "Appends multiple suffixes to a stem", () => {

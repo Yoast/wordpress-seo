@@ -1,4 +1,4 @@
-import { createBasicWordForms } from "../../../src/morphology/arabic/createBasicWordForms";
+import { createBasicWordForms } from "../../../src/languages/legacy/morphology/arabic/createBasicWordForms";
 
 const wordsToStem = [
 	// Creates prefixed forms based on an input word that starts with a valid prefix.

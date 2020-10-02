@@ -1,4 +1,4 @@
-import IntroductionKeywordAssessment from "../../src/assessments/seo/IntroductionKeywordAssessment";
+import IntroductionKeywordAssessment from "../../src/languages/legacy/assessments/seo/IntroductionKeywordAssessment";
 import Paper from "../../src/values/Paper";
 import Factory from "../specHelpers/factory";
 

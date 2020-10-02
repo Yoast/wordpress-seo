@@ -1,4 +1,4 @@
-import { buildStems, collectStems, StemOriginalPair, TopicPhrase } from "../../src/researches/buildTopicStems.js";
+import { buildStems, collectStems, StemOriginalPair, TopicPhrase } from "../../src/languages/legacy/researches/buildTopicStems.js";
 import getMorphologyData from "../specHelpers/getMorphologyData";
 
 const morphologyDataEN = getMorphologyData( "en" );

@@ -1,4 +1,4 @@
-import { flattenSortLength } from "../../../src/morphology/morphoHelpers/flattenSortLength";
+import { flattenSortLength } from "../../../src/languages/legacy/morphology/morphoHelpers/flattenSortLength";
 
 const prefixesTestData = {
 	categoryA: [

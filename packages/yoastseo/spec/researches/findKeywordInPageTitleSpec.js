@@ -1,6 +1,6 @@
 import Researcher from "../../src/researcher";
 import getMorphologyData from "../specHelpers/getMorphologyData";
-import pageTitleKeyword from "../../src/researches/findKeywordInPageTitle.js";
+import pageTitleKeyword from "../../src/languages/legacy/researches/findKeywordInPageTitle.js";
 import Paper from "../../src/values/Paper.js";
 
 

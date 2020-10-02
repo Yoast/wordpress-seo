@@ -1,4 +1,4 @@
-import prominentWordsResearch from "../../src/researches/getProminentWordsForInternalLinking";
+import prominentWordsResearch from "../../src/languages/legacy/researches/getProminentWordsForInternalLinking";
 import Paper from "../../src/values/Paper";
 import Researcher from "../../src/researcher";
 import ProminentWord from "../../src/values/ProminentWord";

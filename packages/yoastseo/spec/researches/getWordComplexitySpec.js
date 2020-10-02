@@ -1,4 +1,4 @@
-import wordComplexity from "../../src/researches/getWordComplexity.js";
+import wordComplexity from "../../src/languages/legacy/researches/getWordComplexity.js";
 import Paper from "../../src/values/Paper";
 
 describe( "A function for getting the syllables per word",  function() {

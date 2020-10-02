@@ -1,4 +1,4 @@
-import stem from "../../../src/morphology/russian/stem";
+import stem from "../../../src/languages/legacy/morphology/russian/stem";
 import getMorphologyData from "../../specHelpers/getMorphologyData";
 
 const morphologyDataRU = getMorphologyData( "ru" ).ru;

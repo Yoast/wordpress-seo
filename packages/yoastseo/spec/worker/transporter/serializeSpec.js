@@ -7,7 +7,7 @@ import SentencePart from "../../../src/values/SentencePart";
 import ProminentWord from "../../../src/values/ProminentWord";
 import WordCombination from "../../../src/values/WordCombination";
 import serialize from "../../../src/worker/transporter/serialize";
-import englishFunctionWordsFactory from "../../../src/researches/english/functionWords.js";
+import englishFunctionWordsFactory from "../../../src/languages/legacy/researches/english/functionWords.js";
 
 const functionWords = englishFunctionWordsFactory().all;
 

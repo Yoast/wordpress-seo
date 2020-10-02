@@ -1,4 +1,4 @@
-import UrlKeywordAssessment from "../../src/assessments/seo/UrlKeywordAssessment";
+import UrlKeywordAssessment from "../../src/languages/legacy/assessments/seo/UrlKeywordAssessment";
 import Paper from "../../src/values/Paper.js";
 import Factory from "../specHelpers/factory.js";
 const i18n = Factory.buildJed();

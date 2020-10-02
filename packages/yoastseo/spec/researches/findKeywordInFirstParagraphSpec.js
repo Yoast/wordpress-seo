@@ -1,6 +1,6 @@
 import Researcher from "../../src/researcher";
 import getMorphologyData from "../specHelpers/getMorphologyData";
-import firstParagraph from "../../src/researches/findKeywordInFirstParagraph.js";
+import firstParagraph from "../../src/languages/legacy/researches/findKeywordInFirstParagraph.js";
 import Paper from "../../src/values/Paper.js";
 
 

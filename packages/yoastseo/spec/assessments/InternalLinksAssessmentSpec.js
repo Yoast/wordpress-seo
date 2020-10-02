@@ -1,4 +1,4 @@
-import InternalLinksAssessment from "../../src/assessments/seo/InternalLinksAssessment";
+import InternalLinksAssessment from "../../src/languages/legacy/assessments/seo/InternalLinksAssessment";
 
 import Paper from "../../src/values/Paper.js";
 import factory from "../specHelpers/factory.js";

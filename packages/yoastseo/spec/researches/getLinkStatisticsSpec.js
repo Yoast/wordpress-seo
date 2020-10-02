@@ -1,6 +1,6 @@
 import Researcher from "../../src/researcher";
 import getMorphologyData from "../specHelpers/getMorphologyData";
-import linkCount from "../../src/researches/getLinkStatistics.js";
+import linkCount from "../../src/languages/legacy/researches/getLinkStatistics.js";
 import Paper from "../../src/values/Paper.js";
 
 

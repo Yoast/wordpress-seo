@@ -5,7 +5,7 @@ import { isUndefined } from "lodash-es";
 import { difference } from "lodash-es";
 import { assessmentPresenterResult as template } from "../templates.js";
 import scoreToRating from "../interpreters/scoreToRating.js";
-import createConfig from "../config/presenter.js";
+import createConfig from "../languages/legacy/config/presenter.js";
 
 /**
  * Constructs the AssessorPresenter.

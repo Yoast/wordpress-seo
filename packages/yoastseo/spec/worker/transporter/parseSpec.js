@@ -1,4 +1,4 @@
-import englishFunctionWordsFactory from "../../../src/researches/english/functionWords";
+import englishFunctionWordsFactory from "../../../src/languages/legacy/researches/english/functionWords";
 import AssessmentResult from "../../../src/values/AssessmentResult";
 import Mark from "../../../src/values/Mark";
 import Paper from "../../../src/values/Paper";

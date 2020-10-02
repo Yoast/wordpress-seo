@@ -1,5 +1,5 @@
 import WordCombination from "../../src/values/WordCombination";
-import functionWordsFactory from "../../src/researches/english/functionWords.js";
+import functionWordsFactory from "../../src/languages/legacy/researches/english/functionWords.js";
 
 var functionWords = functionWordsFactory().all;
 

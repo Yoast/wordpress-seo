@@ -1,4 +1,4 @@
-import metaDescriptionLength from "../../src/researches/metaDescriptionLength.js";
+import metaDescriptionLength from "../../src/languages/legacy/researches/metaDescriptionLength.js";
 import Paper from "../../src/values/Paper.js";
 
 describe( "the metadescription length research", function() {

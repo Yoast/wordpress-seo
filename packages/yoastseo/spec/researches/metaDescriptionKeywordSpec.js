@@ -1,4 +1,4 @@
-import metaDescriptionKeyword from "../../src/researches/metaDescriptionKeyword.js";
+import metaDescriptionKeyword from "../../src/languages/legacy/researches/metaDescriptionKeyword.js";
 import Paper from "../../src/values/Paper.js";
 import Researcher from "../../src/researcher";
 import getMorphologyData from "../specHelpers/getMorphologyData";

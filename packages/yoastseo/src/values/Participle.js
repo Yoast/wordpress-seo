@@ -1,6 +1,6 @@
 import { defaults, forEach, isString } from "lodash-es";
 
-import { getType, isSameType } from "./../helpers/types";
+import { getType, isSameType } from "../languages/legacy/helpers/types";
 
 /**
  * Default attributes to be used by the Participle if they are left undefined.

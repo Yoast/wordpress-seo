@@ -1,5 +1,5 @@
-import { determineStem as determineStemEnglish } from "../../src/morphology/english/determineStem";
-import retrieveStemmer from "../../src/helpers/retrieveStemmer";
+import { determineStem as determineStemEnglish } from "../../src/languages/legacy/morphology/english/determineStem";
+import retrieveStemmer from "../../src/languages/legacy/helpers/retrieveStemmer";
 import getMorphologyData from "../specHelpers/getMorphologyData";
 
 describe( "tests whether the correct stemming function is retrieved", () => {

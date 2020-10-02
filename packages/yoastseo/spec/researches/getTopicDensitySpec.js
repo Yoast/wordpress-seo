@@ -1,5 +1,5 @@
 /* global describe it expect */
-import getTopicDensity from "../../src/researches/getTopicDensity.js";
+import getTopicDensity from "../../src/languages/legacy/researches/getTopicDensity.js";
 
 import Paper from "../../src/values/Paper.js";
 describe( "Test for counting the keyword and synonyms in a text", function() {

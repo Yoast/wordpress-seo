@@ -1,4 +1,4 @@
-import stopWordsInUrlAssessment from "../../src/assessments/seo/urlStopWordsAssessment.js";
+import stopWordsInUrlAssessment from "../../src/languages/legacy/assessments/seo/urlStopWordsAssessment.js";
 import Paper from "../../src/values/Paper.js";
 import Factory from "../specHelpers/factory.js";
 var i18n = Factory.buildJed();

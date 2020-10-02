@@ -1,4 +1,4 @@
-import h1s from "../../src/researches/h1s.js";
+import h1s from "../../src/languages/legacy/researches/h1s.js";
 import Paper from "../../src/values/Paper.js";
 
 describe( "Gets all H1s in the text", function() {

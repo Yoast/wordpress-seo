@@ -1,4 +1,4 @@
-import regex from "./../../../../src/researches/german/passiveVoice/regex.js";
+import regex from "../../../../src/languages/legacy/researches/german/passiveVoice/regex.js";
 const verbsBeginningWithGe = regex().verbsBeginningWithGe;
 const	verbsBeginningWithErVerEntBeZerHerUber = regex().verbsBeginningWithErVerEntBeZerHerUber;
 const verbsWithGeInMiddle = regex().verbsWithGeInMiddle;

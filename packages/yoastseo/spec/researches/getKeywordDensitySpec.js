@@ -1,5 +1,5 @@
 /* global describe it expect */
-import getKeywordDensity from "../../src/researches/getKeywordDensity.js";
+import getKeywordDensity from "../../src/languages/legacy/researches/getKeywordDensity.js";
 
 import Paper from "../../src/values/Paper.js";
 import Researcher from "../../src/researcher";

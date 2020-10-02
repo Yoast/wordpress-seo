@@ -1,4 +1,4 @@
-import getTransitionWords from "../../src/helpers/getTransitionWords.js";
+import getTransitionWords from "../../src/languages/legacy/helpers/getTransitionWords.js";
 
 describe( "gets transition words, based on language", function() {
 	const properties = [ "transitionWords", "twoPartTransitionWords" ];

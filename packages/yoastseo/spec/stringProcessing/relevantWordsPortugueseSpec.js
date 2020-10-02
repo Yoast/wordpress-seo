@@ -1,6 +1,6 @@
 import WordCombination from "../../src/values/WordCombination";
-import relevantWords from "../../src/stringProcessing/relevantWords";
-import portugueseFunctionWordsFactory from "../../src/researches/portuguese/functionWords.js";
+import relevantWords from "../../src/languages/legacy/stringProcessing/relevantWords";
+import portugueseFunctionWordsFactory from "../../src/languages/legacy/researches/portuguese/functionWords.js";
 
 const getRelevantWords = relevantWords.getRelevantWords;
 const portugueseFunctionWords = portugueseFunctionWordsFactory().all;

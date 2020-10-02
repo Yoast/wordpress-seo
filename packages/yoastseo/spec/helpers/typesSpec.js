@@ -1,4 +1,4 @@
-import types from "../../src/helpers/types";
+import types from "../../src/languages/legacy/helpers/types";
 
 var getType = types.getType;
 

@@ -1,5 +1,5 @@
 import Researcher from "../../src/researcher";
-import getWordForms from "../../src/researches/getWordForms";
+import getWordForms from "../../src/languages/legacy/researches/getWordForms";
 import Paper from "../../src/values/Paper";
 import getMorphologyData from "../specHelpers/getMorphologyData";
 const morphologyDataEN = getMorphologyData( "en" );

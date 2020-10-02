@@ -1,6 +1,6 @@
 import getMorphologyData from "../../specHelpers/getMorphologyData";
-import { buildOneFormFromRegex } from "../../../src/morphology/morphoHelpers/buildFormRule";
-import createRulesFromMorphologyData from "../../../src/morphology/morphoHelpers/createRulesFromMorphologyData";
+import { buildOneFormFromRegex } from "../../../src/languages/legacy/morphology/morphoHelpers/buildFormRule";
+import createRulesFromMorphologyData from "../../../src/languages/legacy/morphology/morphoHelpers/createRulesFromMorphologyData";
 
 const morphologyData = getMorphologyData( "en" );
 const regexNoun = morphologyData.en.nouns.regexNoun;

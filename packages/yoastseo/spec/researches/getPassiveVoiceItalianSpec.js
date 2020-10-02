@@ -1,4 +1,4 @@
-import passiveVoice from "../../src/researches/getPassiveVoice.js";
+import passiveVoice from "../../src/languages/legacy/researches/getPassiveVoice.js";
 import Paper from "../../src/values/Paper.js";
 
 describe( "detecting passive voice in sentences", function() {

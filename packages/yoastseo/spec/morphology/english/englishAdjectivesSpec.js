@@ -1,4 +1,4 @@
-import getAdjectiveStem from "../../../src/morphology/english/getAdjectiveStem";
+import getAdjectiveStem from "../../../src/languages/legacy/morphology/english/getAdjectiveStem";
 import getMorphologyData from "../../specHelpers/getMorphologyData";
 
 const morphologyData = getMorphologyData( "en" );

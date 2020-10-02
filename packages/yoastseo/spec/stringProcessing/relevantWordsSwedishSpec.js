@@ -1,6 +1,6 @@
 import WordCombination from "../../src/values/WordCombination";
-import relevantWords from "../../src/stringProcessing/relevantWords";
-import swedishFunctionWordsFactory from "../../src/researches/swedish/functionWords.js";
+import relevantWords from "../../src/languages/legacy/stringProcessing/relevantWords";
+import swedishFunctionWordsFactory from "../../src/languages/legacy/researches/swedish/functionWords.js";
 
 const getRelevantWords = relevantWords.getRelevantWords;
 const swedishFunctionWords = swedishFunctionWordsFactory().all;

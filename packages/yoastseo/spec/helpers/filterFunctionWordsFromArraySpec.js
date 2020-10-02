@@ -1,4 +1,4 @@
-import filterFunctionWordsFromArray from "../../src/helpers/filterFunctionWordsFromArray.js";
+import filterFunctionWordsFromArray from "../../src/languages/legacy/helpers/filterFunctionWordsFromArray.js";
 
 describe( "A test for filtering out function words from an array of words for a given language", function() {
 	it( "returns the array of content words for absent locale", function() {

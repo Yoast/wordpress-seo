@@ -1,8 +1,8 @@
-import { computeScoresPerSentenceShortTopic } from "../../src/researches/keyphraseDistribution.js";
-import { computeScoresPerSentenceLongTopic } from "../../src/researches/keyphraseDistribution.js";
-import { maximizeSentenceScores } from "../../src/researches/keyphraseDistribution.js";
-import { keyphraseDistributionResearcher } from "../../src/researches/keyphraseDistribution.js";
-import { getDistraction } from "../../src/researches/keyphraseDistribution";
+import { computeScoresPerSentenceShortTopic } from "../../src/languages/legacy/researches/keyphraseDistribution.js";
+import { computeScoresPerSentenceLongTopic } from "../../src/languages/legacy/researches/keyphraseDistribution.js";
+import { maximizeSentenceScores } from "../../src/languages/legacy/researches/keyphraseDistribution.js";
+import { keyphraseDistributionResearcher } from "../../src/languages/legacy/researches/keyphraseDistribution.js";
+import { getDistraction } from "../../src/languages/legacy/researches/keyphraseDistribution";
 import Paper from "../../src/values/Paper.js";
 import Mark from "../../src/values/Mark";
 import Researcher from "../../src/researcher";

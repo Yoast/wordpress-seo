@@ -1,4 +1,4 @@
-import readingTime from "../../src/researches/readingTime.js";
+import readingTime from "../../src/languages/legacy/researches/readingTime.js";
 import Paper from "../../src/values/Paper.js";
 
 describe( "Calculates the reading time for the paper (rounded up to the next highest full minute)", function() {

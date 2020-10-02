@@ -1,11 +1,11 @@
 import { AnalysisWebWorker, AnalysisWorkerWrapper, createWorker } from "./src/worker";
-import * as assessments from "./src/assessments";
+import * as assessments from "./src/languages/legacy/assessments";
 import * as bundledPlugins from "./src/bundledPlugins";
-import * as helpers from "./src/helpers";
+import * as helpers from "./src/languages/legacy/helpers";
 import * as markers from "./src/markers";
-import * as string from "./src/stringProcessing";
+import * as string from "./src/languages/legacy/stringProcessing";
 import * as interpreters from "./src/interpreters";
-import * as config from "./src/config";
+import * as config from "./src/languages/legacy/config";
 
 import App from "./src/app";
 import Assessor from "./src/assessor";

@@ -1,4 +1,4 @@
-import stem from "../../../src/morphology/indonesian/stem";
+import stem from "../../../src/languages/legacy/morphology/indonesian/stem";
 import getMorphologyData from "../../specHelpers/getMorphologyData";
 
 const morphologyData = getMorphologyData( "id" ).id;

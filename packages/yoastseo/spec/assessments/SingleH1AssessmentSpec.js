@@ -1,4 +1,4 @@
-import SingleH1Assessment from "../../src/assessments/seo/SingleH1Assessment.js";
+import SingleH1Assessment from "../../src/languages/legacy/assessments/seo/SingleH1Assessment.js";
 import Paper from "../../src/values/Paper.js";
 import Factory from "../specHelpers/factory.js";
 const i18n = Factory.buildJed();

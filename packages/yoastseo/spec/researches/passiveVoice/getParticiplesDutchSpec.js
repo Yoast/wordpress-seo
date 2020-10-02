@@ -1,4 +1,4 @@
-import getParticiples from "../../../src/researches/passiveVoice/periphrastic/getParticiples.js";
+import getParticiples from "../../../src/languages/legacy/researches/passiveVoice/periphrastic/getParticiples.js";
 import SentencePart from "../../../src/values/SentencePart.js";
 
 describe( "Test for matching Dutch participles", function() {

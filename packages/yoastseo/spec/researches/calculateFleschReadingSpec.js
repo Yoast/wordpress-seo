@@ -1,4 +1,4 @@
-import fleschFunction from "../../src/researches/calculateFleschReading.js";
+import fleschFunction from "../../src/languages/legacy/researches/calculateFleschReading.js";
 import Paper from "../../src/values/Paper.js";
 
 describe( "a test to calculate the fleschReading score", function() {

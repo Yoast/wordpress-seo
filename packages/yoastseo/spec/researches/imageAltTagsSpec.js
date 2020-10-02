@@ -1,6 +1,6 @@
 import Researcher from "../../src/researcher";
 import getMorphologyData from "../specHelpers/getMorphologyData";
-import altTagCountFunction from "../../src/researches/imageAltTags";
+import altTagCountFunction from "../../src/languages/legacy/researches/imageAltTags";
 import Paper from "../../src/values/Paper";
 
 

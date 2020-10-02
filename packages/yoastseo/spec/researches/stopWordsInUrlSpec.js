@@ -1,4 +1,4 @@
-import urlStopwords from "../../src/researches/stopWordsInUrl.js";
+import urlStopwords from "../../src/languages/legacy/researches/stopWordsInUrl.js";
 import Paper from "../../src/values/Paper.js";
 
 describe( "Checks the URL for stopwords", function() {

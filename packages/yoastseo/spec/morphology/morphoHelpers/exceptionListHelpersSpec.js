@@ -1,4 +1,4 @@
-import { checkIfWordEndingIsOnExceptionList, checkIfWordIsOnVerbExceptionList, checkExceptionListWithTwoStems } from "../../../src/morphology/morphoHelpers/exceptionListHelpers";
+import { checkIfWordEndingIsOnExceptionList, checkIfWordIsOnVerbExceptionList, checkExceptionListWithTwoStems } from "../../../src/languages/legacy/morphology/morphoHelpers/exceptionListHelpers";
 import getMorphologyData from "../../specHelpers/getMorphologyData";
 
 const morphologyDataNL = getMorphologyData( "nl" ).nl;

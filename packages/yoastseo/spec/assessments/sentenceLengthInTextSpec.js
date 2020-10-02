@@ -1,11 +1,11 @@
-import SentenceLengthInTextAssessment from "../../src/assessments/readability/sentenceLengthInTextAssessment";
+import SentenceLengthInTextAssessment from "../../src/languages/legacy/assessments/readability/sentenceLengthInTextAssessment";
 import Paper from "../../src/values/Paper.js";
 import Factory from "../specHelpers/factory.js";
 import Mark from "../../src/values/Mark.js";
 const i18n = Factory.buildJed();
 
 const sentenceLengthInTextAssessment = new SentenceLengthInTextAssessment();
-import contentConfiguration from "../../src/config/content/combinedConfig.js";
+import contentConfiguration from "../../src/languages/legacy/config/content/combinedConfig.js";
 
 describe( "An assessment for sentence length", function() {
 	it( "returns the score for all short sentences", function() {

@@ -1,4 +1,4 @@
-import matchKeywordInSubheadings from "../../src/researches/matchKeywordInSubheadings";
+import matchKeywordInSubheadings from "../../src/languages/legacy/researches/matchKeywordInSubheadings";
 import Paper from "../../src/values/Paper";
 import Factory from "../specHelpers/factory";
 

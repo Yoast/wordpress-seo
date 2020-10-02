@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import stem from "../../../../src/morphology/arabic/stem";
+import stem from "../../../../src/languages/legacy/morphology/arabic/stem";
 import getMorphologyData from "../../../specHelpers/getMorphologyData";
 import goldStandard from "./goldStandardStems.json";
 

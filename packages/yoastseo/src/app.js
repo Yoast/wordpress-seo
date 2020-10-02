@@ -1,4 +1,4 @@
-import "./config/config.js";
+import "./languages/legacy/config/config.js";
 import SnippetPreview from "./snippetPreview.js";
 
 import { defaultsDeep } from "lodash-es";
@@ -16,17 +16,17 @@ import { merge } from "lodash-es";
 
 import Jed from "jed";
 import SEOAssessor from "./seoAssessor.js";
-import KeyphraseDistributionAssessment from "./assessments/seo/KeyphraseDistributionAssessment.js";
+import KeyphraseDistributionAssessment from "./languages/legacy/assessments/seo/KeyphraseDistributionAssessment.js";
 import ContentAssessor from "./contentAssessor.js";
-import CornerstoneSEOAssessor from "./cornerstone/seoAssessor.js";
-import CornerstoneContentAssessor from "./cornerstone/contentAssessor.js";
+import CornerstoneSEOAssessor from "./languages/legacy/cornerstone/seoAssessor.js";
+import CornerstoneContentAssessor from "./languages/legacy/cornerstone/contentAssessor.js";
 import Researcher from "./researcher.js";
 import AssessorPresenter from "./renderers/AssessorPresenter.js";
 import Pluggable from "./pluggable.js";
 import Paper from "./values/Paper.js";
-import { measureTextWidth } from "./helpers/createMeasurementElement.js";
+import { measureTextWidth } from "./languages/legacy/helpers/createMeasurementElement.js";
 
-import removeHtmlBlocks from "./stringProcessing/htmlParser.js";
+import removeHtmlBlocks from "./languages/legacy/stringProcessing/htmlParser.js";
 
 const keyphraseDistribution = new KeyphraseDistributionAssessment();
 

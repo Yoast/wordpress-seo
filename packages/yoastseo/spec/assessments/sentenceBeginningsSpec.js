@@ -1,4 +1,4 @@
-import sentenceBeginningsAssessment from "../../src/assessments/readability/sentenceBeginningsAssessment.js";
+import sentenceBeginningsAssessment from "../../src/languages/legacy/assessments/readability/sentenceBeginningsAssessment.js";
 import Paper from "../../src/values/Paper.js";
 import Factory from "../specHelpers/factory.js";
 const i18n = Factory.buildJed();

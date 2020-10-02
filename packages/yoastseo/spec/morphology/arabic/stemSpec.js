@@ -1,4 +1,4 @@
-import stem from "../../../src/morphology/arabic/stem";
+import stem from "../../../src/languages/legacy/morphology/arabic/stem";
 import getMorphologyData from "../../specHelpers/getMorphologyData";
 
 const morphologyDataAR = getMorphologyData( "ar" ).ar;

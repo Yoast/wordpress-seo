@@ -1,4 +1,4 @@
-import { buildOneFormFromRegex } from "../../../src/morphology/morphoHelpers/buildFormRule";
+import { buildOneFormFromRegex } from "../../../src/languages/legacy/morphology/morphoHelpers/buildFormRule";
 
 describe( "Test for making a form of a word based on a regex rule", function() {
 	it( "returns the form of the word", function() {

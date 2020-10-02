@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
-import stem from "../../../../src/morphology/portuguese/stem";
-import filterFunctionWordsFromArray from "../../../../src/helpers/filterFunctionWordsFromArray.js";
+import stem from "../../../../src/languages/legacy/morphology/portuguese/stem";
+import filterFunctionWordsFromArray from "../../../../src/languages/legacy/helpers/filterFunctionWordsFromArray.js";
 import sampleVocabulary from "../stemmerCoverage/sampleVocabulary.json";
 
 const wordsToStemWithoutFunctionWords = filterFunctionWordsFromArray( sampleVocabulary.words, "pt" );

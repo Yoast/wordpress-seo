@@ -1,5 +1,5 @@
 /* global describe it expect */
-import keywordCount from "../../src/researches/keywordCount.js";
+import keywordCount from "../../src/languages/legacy/researches/keywordCount.js";
 
 import Paper from "../../src/values/Paper.js";
 import factory from "../specHelpers/factory";

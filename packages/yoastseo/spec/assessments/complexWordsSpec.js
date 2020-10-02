@@ -1,4 +1,4 @@
-import wordComplexityAssessment from "../../src/assessments/readability/wordComplexityAssessment.js";
+import wordComplexityAssessment from "../../src/languages/legacy/assessments/readability/wordComplexityAssessment.js";
 import Paper from "../../src/values/Paper.js";
 import factory from "../specHelpers/factory.js";
 var i18n = factory.buildJed();

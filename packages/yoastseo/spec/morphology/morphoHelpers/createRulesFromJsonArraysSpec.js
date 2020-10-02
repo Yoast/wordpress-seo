@@ -1,4 +1,4 @@
-import createRulesFromMorphologyData from "../../../src/morphology/morphoHelpers/createRulesFromMorphologyData";
+import createRulesFromMorphologyData from "../../../src/languages/legacy/morphology/morphoHelpers/createRulesFromMorphologyData";
 
 describe( "Test for creating regex-based rules for arrays of strings", function() {
 	it( "returns an array of pairs `reg` and `repl`", function() {

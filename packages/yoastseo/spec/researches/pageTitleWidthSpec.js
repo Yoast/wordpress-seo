@@ -1,4 +1,4 @@
-import pageTitleLength from "../../src/researches/pageTitleWidth.js";
+import pageTitleLength from "../../src/languages/legacy/researches/pageTitleWidth.js";
 import Paper from "../../src/values/Paper.js";
 
 describe( "the page title width research", function() {

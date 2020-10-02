@@ -1,8 +1,8 @@
-import wordIndicesRegexes from "../../../../src/researches/passiveVoice/periphrastic/getIndicesWithRegex.js";
+import wordIndicesRegexes from "../../../../src/languages/legacy/researches/passiveVoice/periphrastic/getIndicesWithRegex.js";
 
-import cannotDirectlyPrecedePassiveParticipleFactory from "../../../../src/researches/english/functionWords.js";
+import cannotDirectlyPrecedePassiveParticipleFactory from "../../../../src/languages/legacy/researches/english/functionWords.js";
 var cannotDirectlyPrecedePassiveParticiple = cannotDirectlyPrecedePassiveParticipleFactory().cannotDirectlyPrecedePassiveParticiple;
-import arrayToRegex from "../../../../src/stringProcessing/createRegexFromArray.js";
+import arrayToRegex from "../../../../src/languages/legacy/stringProcessing/createRegexFromArray.js";
 
 var directPrecedenceExceptionRegex = arrayToRegex( cannotDirectlyPrecedePassiveParticiple );
 

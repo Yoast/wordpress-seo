@@ -1,4 +1,4 @@
-import recommendedKeywordCount from "../../src/assessmentHelpers/recommendedKeywordCount.js";
+import recommendedKeywordCount from "../../src/languages/legacy/assessmentHelpers/recommendedKeywordCount.js";
 const maxRecommendedDensity = 3;
 const minRecommendedDensity = 0.5;
 

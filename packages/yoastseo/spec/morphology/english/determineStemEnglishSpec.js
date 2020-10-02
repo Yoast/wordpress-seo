@@ -1,8 +1,8 @@
-import { findShortestAndAlphabeticallyFirst } from  "../../../src/morphology/english/determineStem.js";
-import { determineIrregularStem } from  "../../../src/morphology/english/determineStem.js";
-import { determineIrregularVerbStem } from  "../../../src/morphology/english/determineStem.js";
-import { determineRegularStem } from  "../../../src/morphology/english/determineStem.js";
-import { determineStem } from  "../../../src/morphology/english/determineStem.js";
+import { findShortestAndAlphabeticallyFirst } from "../../../src/languages/legacy/morphology/english/determineStem.js";
+import { determineIrregularStem } from "../../../src/languages/legacy/morphology/english/determineStem.js";
+import { determineIrregularVerbStem } from "../../../src/languages/legacy/morphology/english/determineStem.js";
+import { determineRegularStem } from "../../../src/languages/legacy/morphology/english/determineStem.js";
+import { determineStem } from "../../../src/languages/legacy/morphology/english/determineStem.js";
 import getMorphologyData from "../../specHelpers/getMorphologyData";
 
 

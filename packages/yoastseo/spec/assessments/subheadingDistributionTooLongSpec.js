@@ -1,4 +1,4 @@
-import SubheadingDistributionTooLong from "../../src/assessments/readability/subheadingDistributionTooLongAssessment.js";
+import SubheadingDistributionTooLong from "../../src/languages/legacy/assessments/readability/subheadingDistributionTooLongAssessment.js";
 import Paper from "../../src/values/Paper.js";
 import Factory from "../specHelpers/factory.js";
 import Mark from "../../src/values/Mark.js";

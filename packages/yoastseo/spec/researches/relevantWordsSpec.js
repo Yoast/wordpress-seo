@@ -1,8 +1,8 @@
-import relevantWordsResearch from "../../src/researches/relevantWords";
+import relevantWordsResearch from "../../src/languages/legacy/researches/relevantWords";
 import Paper from "../../src/values/Paper";
 import WordCombination from "../../src/values/WordCombination";
 
-import functionWordsFactory from "../../src/researches/english/functionWords.js";
+import functionWordsFactory from "../../src/languages/legacy/researches/english/functionWords.js";
 const functionWords = functionWordsFactory().all;
 
 describe( "relevantWords research", function() {

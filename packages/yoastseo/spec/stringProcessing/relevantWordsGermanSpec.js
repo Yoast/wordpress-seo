@@ -1,6 +1,6 @@
 import WordCombination from "../../src/values/WordCombination";
-import relevantWords from "../../src/stringProcessing/relevantWords";
-import germanFunctionWordsFactory from "../../src/researches/german/functionWords.js";
+import relevantWords from "../../src/languages/legacy/stringProcessing/relevantWords";
+import germanFunctionWordsFactory from "../../src/languages/legacy/researches/german/functionWords.js";
 
 const getRelevantWords = relevantWords.getRelevantWords;
 const germanFunctionWords = germanFunctionWordsFactory().all;

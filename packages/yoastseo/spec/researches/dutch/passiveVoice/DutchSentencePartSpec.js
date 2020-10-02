@@ -1,4 +1,4 @@
-import DutchSentencePart from "../../../../src/researches/dutch/passiveVoice/SentencePart.js";
+import DutchSentencePart from "../../../../src/languages/legacy/researches/dutch/passiveVoice/SentencePart.js";
 
 describe( "creates a Dutch sentence part", function() {
 	it( "makes sure the Dutch sentence part inherits all functions", function() {

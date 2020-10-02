@@ -1,4 +1,4 @@
-import includesAny from "../../src/helpers/includesAny";
+import includesAny from "../../src/languages/legacy/helpers/includesAny";
 
 describe( "includesAny", function() {
 	test( "array: returns true if the value is included", function() {

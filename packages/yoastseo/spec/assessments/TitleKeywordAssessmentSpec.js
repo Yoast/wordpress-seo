@@ -1,4 +1,4 @@
-import TitleKeywordAssessment from "../../src/assessments/seo/TitleKeywordAssessment";
+import TitleKeywordAssessment from "../../src/languages/legacy/assessments/seo/TitleKeywordAssessment";
 import Paper from "../../src/values/Paper";
 import Factory from "../specHelpers/factory";
 

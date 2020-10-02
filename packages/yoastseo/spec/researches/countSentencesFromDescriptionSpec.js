@@ -1,4 +1,4 @@
-import getSentences from "../../src/researches/countSentencesFromDescription.js";
+import getSentences from "../../src/languages/legacy/researches/countSentencesFromDescription.js";
 import Paper from "../../src/values/Paper";
 
 describe( "counts words in sentences from text", function() {
