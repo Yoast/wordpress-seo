@@ -104,17 +104,19 @@ class Admin_Columns_Cache_Integration_Test extends TestCase {
 	 */
 	public function test_fill_cache_with_non_post_query() {
 		global $wp_query;
+		global $per_page;
+		$per_page = 10;
 
-		$posts = [ new stdClass() ];
+		$posts = [
+			(object) [
+				'ID'          => 1,
+				'post_parent' => 0,
+			],
+		];
 
 		$wp_query        = Mockery::mock( WP_Query::class );
 		$wp_query->posts = [];
 		$wp_query->expects( 'get_posts' )->once()->andReturn( $posts );
-
-		Functions\expect( 'wp_list_pluck' )
-			->once()
-			->with( $posts, 'ID' )
-			->andReturn( [ 1 ] );
 
 		Functions\expect( '_prime_post_caches' )->once()->with( [ 1 ] );
 
