@@ -4,7 +4,6 @@ namespace Yoast\WP\SEO\Tests\Unit\Integrations\Watchers;
 
 use Brain\Monkey;
 use Mockery;
-use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Integrations\Watchers\Option_Wpseo_Watcher;
 use Yoast\WP\SEO\Surfaces\Helpers_Surface;
@@ -32,18 +31,6 @@ class Option_Wpseo_Watcher_Test extends TestCase {
 		parent::setUp();
 
 		$this->instance = new Option_Wpseo_Watcher();
-	}
-
-	/**
-	 * Tests if the expected conditionals are in place.
-	 *
-	 * @covers \Yoast\WP\SEO\Integrations\Watchers\Option_Wpseo_Watcher::get_conditionals
-	 */
-	public function test_get_conditionals() {
-		$this->assertEquals(
-			[ Migrations_Conditional::class ],
-			Option_Wpseo_Watcher::get_conditionals()
-		);
 	}
 
 	/**

@@ -3,7 +3,7 @@
 namespace Yoast\WP\SEO\Integrations\Watchers;
 
 use Yoast\WP\SEO\Integrations\Integration_Interface;
-use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
+use Yoast\WP\SEO\Conditionals\No_Conditionals;
 
 /**
  * Watcher for the wpseo option.
@@ -11,6 +11,8 @@ use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
  * Represents the option wpseo watcher.
  */
 class Option_Wpseo_Watcher implements Integration_Interface {
+
+	use No_Conditionals;
 
 	/**
 	 * Initializes the integration.
@@ -21,15 +23,6 @@ class Option_Wpseo_Watcher implements Integration_Interface {
 	 */
 	public function register_hooks() {
 		\add_action( 'update_option_wpseo', [ $this, 'check_semrush_option' ], 10, 2 );
-	}
-
-	/**
-	 * Returns the conditionals based in which this loadable should be active.
-	 *
-	 * @return array
-	 */
-	public static function get_conditionals() {
-		return [ Migrations_Conditional::class ];
 	}
 
 	/**
