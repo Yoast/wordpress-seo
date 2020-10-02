@@ -319,7 +319,6 @@ class WPSEO_Admin_Asset_Manager {
 					self::PREFIX . 'social-metadata-forms',
 					self::PREFIX . 'analysis',
 					self::PREFIX . 'helpers',
-					self::PREFIX . 'components',
 				],
 				'in_footer' => false,
 			],
@@ -476,7 +475,8 @@ class WPSEO_Admin_Asset_Manager {
 					'jquery-ui-progressbar',
 					self::PREFIX . 'admin-global-script',
 					self::PREFIX . 'commons',
-					self::PREFIX . 'components',
+					self::PREFIX . 'style-guide',
+					self::PREFIX . 'yoast-components',
 				],
 			],
 			[
