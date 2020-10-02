@@ -11,6 +11,7 @@ use Yoast\WP\SEO\Actions\Indexation\Indexable_Post_Type_Archive_Indexation_Actio
 use Yoast\WP\SEO\Actions\Indexation\Indexable_Prepare_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexation\Indexable_Term_Indexation_Action;
 use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Integrations\Admin\Indexing_Notification_Integration;
 use Yoast\WP\SEO\Routes\Indexable_Indexation_Route;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
@@ -307,5 +308,23 @@ class Indexable_Indexation_Route_Test extends TestCase {
 			->andReturn( true );
 
 		$this->assertTrue( $this->instance->can_index() );
+	}
+
+	/**
+	 * Tests the index_general method when an error occurs.
+	 *
+	 * @covers ::index_general
+	 * @covers ::run_indexation_action
+	 */
+	public function test_index_general_when_error_occurs() {
+		$this->general_indexation_action->expects( 'index' )->andThrow( new \Exception( 'An exception during indexing' ) );
+
+		$this->options_helper->expects( 'set' )->with( 'indexables_indexation_reason', Indexing_Notification_Integration::REASON_INDEXING_FAILED );
+
+		Mockery::mock( 'overload:WP_Error' )
+			->expects( '__construct' )
+			->with( 'wpseo_error_indexing', 'An exception during indexing' );
+
+		$this->instance->index_general();
 	}
 }
