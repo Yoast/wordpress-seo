@@ -10,7 +10,6 @@ use Yoast\WP\SEO\Helpers\Short_Link_Helper;
 use Yoast\WP\SEO\Integrations\Indexing_Interface;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Presenters\Admin\Indexing_List_Item_Presenter;
-use Yoast\WP\SEO\Surfaces\Classes_Surface;
 
 /**
  * Class Indexing_Integration.
