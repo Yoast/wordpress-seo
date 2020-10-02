@@ -73,9 +73,11 @@ class WPSEO_Admin_Asset_Manager {
 	 * @param WPSEO_Admin_Asset $script The script to register.
 	 */
 	public function register_script( WPSEO_Admin_Asset $script ) {
+		$url = $script->get_src() ? $this->get_url( $script, WPSEO_Admin_Asset::TYPE_JS ) : false;
+
 		wp_register_script(
 			$this->prefix . $script->get_name(),
-			$this->get_url( $script, WPSEO_Admin_Asset::TYPE_JS ),
+			$url,
 			$script->get_deps(),
 			$script->get_version(),
 			$script->is_in_footer()
