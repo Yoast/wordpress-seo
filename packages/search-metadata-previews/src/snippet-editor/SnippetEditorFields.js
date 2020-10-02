@@ -11,15 +11,13 @@ import {
 	ReplacementVariableEditor,
 	replacementVariablesShape,
 	recommendedReplacementVariablesShape,
+	StyledEditor,
 } from "@yoast/replacement-variable-editor";
 import { ProgressBar } from "@yoast/components";
 import { VariableEditorInputContainer, SimulatedLabel } from "@yoast/components";
 import { withCaretStyles } from "@yoast/style-guide";
 
 // Internal dependencies.
-import {
-	StyledEditor,
-} from "./SettingsSnippetEditorFields";
 import {
 	lengthProgressShape,
 } from "./constants";

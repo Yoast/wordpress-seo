@@ -585,6 +585,10 @@ exports[`SnippetEditor closes when calling close() 1`] = `
   border: 0;
 }
 
+.c15 {
+  padding: 0 20px;
+}
+
 .c4 {
   border-bottom: 1px hidden #fff;
   border-radius: 8px;
@@ -687,10 +691,6 @@ exports[`SnippetEditor closes when calling close() 1`] = `
   height: 16px;
   margin-right: 12px;
   vertical-align: middle;
-}
-
-.c15 {
-  padding: 0 20px;
 }
 
 .c19 {
@@ -2320,7 +2320,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                 "$$typeof": Symbol(react.forward_ref),
                 "attrs": Array [],
                 "componentStyle": ComponentStyle {
-                  "componentId": "SettingsSnippetEditorFields__StyledEditor-syxqiu-0",
+                  "componentId": "SettingsSnippetEditorFields__StyledEditor-sc-1j5cads-0",
                   "isStatic": false,
                   "lastClassName": "c15",
                   "rules": Array [
@@ -2332,7 +2332,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                 "displayName": "SettingsSnippetEditorFields__StyledEditor",
                 "foldedComponentIds": Array [],
                 "render": [Function],
-                "styledComponentId": "SettingsSnippetEditorFields__StyledEditor-syxqiu-0",
+                "styledComponentId": "SettingsSnippetEditorFields__StyledEditor-sc-1j5cads-0",
                 "target": "section",
                 "toString": [Function],
                 "warnTooManyClasses": [Function],
@@ -4479,6 +4479,10 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
   border: 0;
 }
 
+.c15 {
+  padding: 0 20px;
+}
+
 .c4 {
   border-bottom: 1px hidden #fff;
   border-radius: 8px;
@@ -4581,10 +4585,6 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
   height: 16px;
   margin-right: 12px;
   vertical-align: middle;
-}
-
-.c15 {
-  padding: 0 20px;
 }
 
 .c19 {
@@ -6214,7 +6214,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                 "$$typeof": Symbol(react.forward_ref),
                 "attrs": Array [],
                 "componentStyle": ComponentStyle {
-                  "componentId": "SettingsSnippetEditorFields__StyledEditor-syxqiu-0",
+                  "componentId": "SettingsSnippetEditorFields__StyledEditor-sc-1j5cads-0",
                   "isStatic": false,
                   "lastClassName": "c15",
                   "rules": Array [
@@ -6226,7 +6226,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                 "displayName": "SettingsSnippetEditorFields__StyledEditor",
                 "foldedComponentIds": Array [],
                 "render": [Function],
-                "styledComponentId": "SettingsSnippetEditorFields__StyledEditor-syxqiu-0",
+                "styledComponentId": "SettingsSnippetEditorFields__StyledEditor-sc-1j5cads-0",
                 "target": "section",
                 "toString": [Function],
                 "warnTooManyClasses": [Function],
@@ -6803,6 +6803,10 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
   border: 0;
 }
 
+.c15 {
+  padding: 0 20px;
+}
+
 .c4 {
   border-bottom: 1px hidden #fff;
   border-radius: 8px;
@@ -6905,10 +6909,6 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
   height: 16px;
   margin-right: 12px;
   vertical-align: middle;
-}
-
-.c15 {
-  padding: 0 20px;
 }
 
 .c19 {
@@ -8538,7 +8538,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                 "$$typeof": Symbol(react.forward_ref),
                 "attrs": Array [],
                 "componentStyle": ComponentStyle {
-                  "componentId": "SettingsSnippetEditorFields__StyledEditor-syxqiu-0",
+                  "componentId": "SettingsSnippetEditorFields__StyledEditor-sc-1j5cads-0",
                   "isStatic": false,
                   "lastClassName": "c15",
                   "rules": Array [
@@ -8550,7 +8550,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                 "displayName": "SettingsSnippetEditorFields__StyledEditor",
                 "foldedComponentIds": Array [],
                 "render": [Function],
-                "styledComponentId": "SettingsSnippetEditorFields__StyledEditor-syxqiu-0",
+                "styledComponentId": "SettingsSnippetEditorFields__StyledEditor-sc-1j5cads-0",
                 "target": "section",
                 "toString": [Function],
                 "warnTooManyClasses": [Function],
@@ -9915,6 +9915,10 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
   border: 0;
 }
 
+.c16 {
+  padding: 0 20px;
+}
+
 .c4 {
   border-bottom: 1px hidden #fff;
   border-radius: 8px;
@@ -10017,10 +10021,6 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
   height: 16px;
   margin-right: 12px;
   vertical-align: middle;
-}
-
-.c16 {
-  padding: 0 20px;
 }
 
 .c20 {
@@ -11688,7 +11688,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                 "$$typeof": Symbol(react.forward_ref),
                 "attrs": Array [],
                 "componentStyle": ComponentStyle {
-                  "componentId": "SettingsSnippetEditorFields__StyledEditor-syxqiu-0",
+                  "componentId": "SettingsSnippetEditorFields__StyledEditor-sc-1j5cads-0",
                   "isStatic": false,
                   "lastClassName": "c16",
                   "rules": Array [
@@ -11700,7 +11700,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                 "displayName": "SettingsSnippetEditorFields__StyledEditor",
                 "foldedComponentIds": Array [],
                 "render": [Function],
-                "styledComponentId": "SettingsSnippetEditorFields__StyledEditor-syxqiu-0",
+                "styledComponentId": "SettingsSnippetEditorFields__StyledEditor-sc-1j5cads-0",
                 "target": "section",
                 "toString": [Function],
                 "warnTooManyClasses": [Function],
@@ -12277,6 +12277,10 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
   border: 0;
 }
 
+.c16 {
+  padding: 0 20px;
+}
+
 .c4 {
   border-bottom: 1px hidden #fff;
   border-radius: 8px;
@@ -12379,10 +12383,6 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
   height: 16px;
   margin-right: 12px;
   vertical-align: middle;
-}
-
-.c16 {
-  padding: 0 20px;
 }
 
 .c20 {
@@ -14050,7 +14050,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                 "$$typeof": Symbol(react.forward_ref),
                 "attrs": Array [],
                 "componentStyle": ComponentStyle {
-                  "componentId": "SettingsSnippetEditorFields__StyledEditor-syxqiu-0",
+                  "componentId": "SettingsSnippetEditorFields__StyledEditor-sc-1j5cads-0",
                   "isStatic": false,
                   "lastClassName": "c16",
                   "rules": Array [
@@ -14062,7 +14062,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                 "displayName": "SettingsSnippetEditorFields__StyledEditor",
                 "foldedComponentIds": Array [],
                 "render": [Function],
-                "styledComponentId": "SettingsSnippetEditorFields__StyledEditor-syxqiu-0",
+                "styledComponentId": "SettingsSnippetEditorFields__StyledEditor-sc-1j5cads-0",
                 "target": "section",
                 "toString": [Function],
                 "warnTooManyClasses": [Function],
@@ -14639,6 +14639,10 @@ exports[`SnippetEditor opens when calling open() 1`] = `
   border: 0;
 }
 
+.c15 {
+  padding: 0 20px;
+}
+
 .c4 {
   border-bottom: 1px hidden #fff;
   border-radius: 8px;
@@ -14741,10 +14745,6 @@ exports[`SnippetEditor opens when calling open() 1`] = `
   height: 16px;
   margin-right: 12px;
   vertical-align: middle;
-}
-
-.c15 {
-  padding: 0 20px;
 }
 
 .c19 {
@@ -16374,7 +16374,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                 "$$typeof": Symbol(react.forward_ref),
                 "attrs": Array [],
                 "componentStyle": ComponentStyle {
-                  "componentId": "SettingsSnippetEditorFields__StyledEditor-syxqiu-0",
+                  "componentId": "SettingsSnippetEditorFields__StyledEditor-sc-1j5cads-0",
                   "isStatic": false,
                   "lastClassName": "c15",
                   "rules": Array [
@@ -16386,7 +16386,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                 "displayName": "SettingsSnippetEditorFields__StyledEditor",
                 "foldedComponentIds": Array [],
                 "render": [Function],
-                "styledComponentId": "SettingsSnippetEditorFields__StyledEditor-syxqiu-0",
+                "styledComponentId": "SettingsSnippetEditorFields__StyledEditor-sc-1j5cads-0",
                 "target": "section",
                 "toString": [Function],
                 "warnTooManyClasses": [Function],
@@ -16963,6 +16963,10 @@ exports[`SnippetEditor passes replacement variables to the title and description
   border: 0;
 }
 
+.c15 {
+  padding: 0 20px;
+}
+
 .c4 {
   border-bottom: 1px hidden #fff;
   border-radius: 8px;
@@ -17065,10 +17069,6 @@ exports[`SnippetEditor passes replacement variables to the title and description
   height: 16px;
   margin-right: 12px;
   vertical-align: middle;
-}
-
-.c15 {
-  padding: 0 20px;
 }
 
 .c19 {
@@ -18728,7 +18728,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                 "$$typeof": Symbol(react.forward_ref),
                 "attrs": Array [],
                 "componentStyle": ComponentStyle {
-                  "componentId": "SettingsSnippetEditorFields__StyledEditor-syxqiu-0",
+                  "componentId": "SettingsSnippetEditorFields__StyledEditor-sc-1j5cads-0",
                   "isStatic": false,
                   "lastClassName": "c15",
                   "rules": Array [
@@ -18740,7 +18740,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                 "displayName": "SettingsSnippetEditorFields__StyledEditor",
                 "foldedComponentIds": Array [],
                 "render": [Function],
-                "styledComponentId": "SettingsSnippetEditorFields__StyledEditor-syxqiu-0",
+                "styledComponentId": "SettingsSnippetEditorFields__StyledEditor-sc-1j5cads-0",
                 "target": "section",
                 "toString": [Function],
                 "warnTooManyClasses": [Function],
@@ -19865,6 +19865,10 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
   border: 0;
 }
 
+.c15 {
+  padding: 0 20px;
+}
+
 .c4 {
   border-bottom: 1px hidden #fff;
   border-radius: 8px;
@@ -19967,10 +19971,6 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
   height: 16px;
   margin-right: 12px;
   vertical-align: middle;
-}
-
-.c15 {
-  padding: 0 20px;
 }
 
 .c19 {
@@ -21600,7 +21600,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                 "$$typeof": Symbol(react.forward_ref),
                 "attrs": Array [],
                 "componentStyle": ComponentStyle {
-                  "componentId": "SettingsSnippetEditorFields__StyledEditor-syxqiu-0",
+                  "componentId": "SettingsSnippetEditorFields__StyledEditor-sc-1j5cads-0",
                   "isStatic": false,
                   "lastClassName": "c15",
                   "rules": Array [
@@ -21612,7 +21612,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                 "displayName": "SettingsSnippetEditorFields__StyledEditor",
                 "foldedComponentIds": Array [],
                 "render": [Function],
-                "styledComponentId": "SettingsSnippetEditorFields__StyledEditor-syxqiu-0",
+                "styledComponentId": "SettingsSnippetEditorFields__StyledEditor-sc-1j5cads-0",
                 "target": "section",
                 "toString": [Function],
                 "warnTooManyClasses": [Function],
@@ -22571,6 +22571,10 @@ exports[`SnippetEditor renders the snippet editor without a close button when sh
   border: 0;
 }
 
+.c14 {
+  padding: 0 20px;
+}
+
 .c4 {
   border-bottom: 1px hidden #fff;
   border-radius: 8px;
@@ -22673,10 +22677,6 @@ exports[`SnippetEditor renders the snippet editor without a close button when sh
   height: 16px;
   margin-right: 12px;
   vertical-align: middle;
-}
-
-.c14 {
-  padding: 0 20px;
 }
 
 .c18 {
