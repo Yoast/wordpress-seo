@@ -3,6 +3,11 @@
 All notable changes to this project will be documented in this file. Releases without a changelog entry contain only minor changes that are irrelevant for users of this library.
 We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwards.
 
+## 1.83.0 October 12th, 2020
+### Enhancements
+* Creates basic keyphrase forms for Farsi when they have the following affixes: prefix `ن`, and suffixes `مان, شان, تان, ش, ت, م, ی` and their variations such as ` ‌اش, ‌ات, یی, یم, یت, یش, ‌ای, ‌ام`.
+* Adds function words for Farsi and edits a typo in the Arabic function words file.
+
 ## 1.82.0 September 14th, 2020
 ### Enhancements
 * Adds the following words to the list that's used for the English transition word assessment: 'note that', 'not only', 'initially', 'as opposed to'.
@@ -12,6 +17,9 @@ We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwa
 * Implements the transition words assessment for Arabic.
 * Adds the prefixes س and أ to the list of ignored prefixes for Arabic. When the Arabic keyphrase is preceded by س and أ, the basic keyphrase forms will also be created.
 * Adds and refactors an external stemmer for Arabic.
+
+### Bugfixes
+* Fixes the URL of the assessment image in the readme. Props to [Güven Atbakan](https://github.com/shibby).
 
 ### Other
 * Sets the threshold for words to be recognized as prominent words from 4 to 2, in case a language has no morphology support. This increases the chance that different word forms are saved, leading to better internal linking suggestions for these languages.

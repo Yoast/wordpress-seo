@@ -231,14 +231,14 @@ exports[`SnippetEditor accepts a custom data mapping function 1`] = `
       checked={true}
       className="c2"
       defaultValue="mobile"
-      id="yoast-google-preview-mode-mobile-7"
+      id="yoast-google-preview-mode-mobile"
       name="screen"
       onChange={[Function]}
       type="radio"
     />
     <label
       className="c3"
-      htmlFor="yoast-google-preview-mode-mobile-7"
+      htmlFor="yoast-google-preview-mode-mobile"
     >
       Mobile result
     </label>
@@ -247,14 +247,14 @@ exports[`SnippetEditor accepts a custom data mapping function 1`] = `
       checked={false}
       className="c2"
       defaultValue="desktop"
-      id="yoast-google-preview-mode-desktop-7"
+      id="yoast-google-preview-mode-desktop"
       name="screen"
       onChange={[Function]}
       type="radio"
     />
     <label
       className="c3"
-      htmlFor="yoast-google-preview-mode-desktop-7"
+      htmlFor="yoast-google-preview-mode-desktop"
     >
       Desktop result
     </label>
@@ -399,6 +399,8 @@ exports[`SnippetEditor activates a field on onMouseUp() and opens the editor 1`]
   <div>
     <ModeSwitcher
       active="mobile"
+      desktopModeInputId="yoast-google-preview-mode-desktop"
+      mobileModeInputId="yoast-google-preview-mode-mobile"
       onChange={[Function]}
     />
     <SnippetPreview
@@ -458,6 +460,7 @@ exports[`SnippetEditor activates a field on onMouseUp() and opens the editor 1`]
         }
       }
       descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
+      descriptionInputId="yoast-google-preview-description"
       descriptionLengthProgress={
         Object {
           "actual": 42,
@@ -471,6 +474,8 @@ exports[`SnippetEditor activates a field on onMouseUp() and opens the editor 1`]
       onFocus={[Function]}
       recommendedReplacementVariables={Array []}
       replacementVariables={Array []}
+      slugInputId="yoast-google-preview-slug"
+      titleInputId="yoast-google-preview-title"
       titleLengthProgress={
         Object {
           "actual": 0,
@@ -943,6 +948,8 @@ exports[`SnippetEditor closes when calling close() 1`] = `
   }
   faviconSrc=""
   hasPaperStyle={true}
+  idSuffix=""
+  keyword=""
   locale="en"
   mapEditorDataToPreview={null}
   mobileImageSrc=""
@@ -965,6 +972,8 @@ exports[`SnippetEditor closes when calling close() 1`] = `
     <div>
       <ModeSwitcher
         active="mobile"
+        desktopModeInputId="yoast-google-preview-mode-desktop"
+        mobileModeInputId="yoast-google-preview-mode-mobile"
         onChange={[Function]}
       >
         <ModeSwitcher__Switcher>
@@ -1037,7 +1046,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                 optionalAttributes={
                   Object {
                     "checked": true,
-                    "id": "yoast-google-preview-mode-mobile-9",
+                    "id": "yoast-google-preview-mode-mobile",
                   }
                 }
                 type="radio"
@@ -1075,7 +1084,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                   optionalAttributes={
                     Object {
                       "checked": true,
-                      "id": "yoast-google-preview-mode-mobile-9",
+                      "id": "yoast-google-preview-mode-mobile",
                     }
                   }
                   type="radio"
@@ -1089,7 +1098,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                     optionalAttributes={
                       Object {
                         "checked": true,
-                        "id": "yoast-google-preview-mode-mobile-9",
+                        "id": "yoast-google-preview-mode-mobile",
                       }
                     }
                     type="radio"
@@ -1099,7 +1108,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                       checked={true}
                       className="c2"
                       defaultValue="mobile"
-                      id="yoast-google-preview-mode-mobile-9"
+                      id="yoast-google-preview-mode-mobile"
                       name="screen"
                       onChange={[Function]}
                       type="radio"
@@ -1108,10 +1117,10 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                 </StyledComponent>
               </ModeSwitcher__ModeRadio>
               <ModeSwitcher__ModeLabel
-                for="yoast-google-preview-mode-mobile-9"
+                for="yoast-google-preview-mode-mobile"
               >
                 <StyledComponent
-                  for="yoast-google-preview-mode-mobile-9"
+                  for="yoast-google-preview-mode-mobile"
                   forwardedComponent={
                     Object {
                       "$$typeof": Symbol(react.forward_ref),
@@ -1140,12 +1149,12 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                 >
                   <Label
                     className="c3"
-                    for="yoast-google-preview-mode-mobile-9"
+                    for="yoast-google-preview-mode-mobile"
                     optionalAttributes={Object {}}
                   >
                     <label
                       className="c3"
-                      htmlFor="yoast-google-preview-mode-mobile-9"
+                      htmlFor="yoast-google-preview-mode-mobile"
                     >
                       Mobile result
                     </label>
@@ -1158,7 +1167,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                 optionalAttributes={
                   Object {
                     "checked": false,
-                    "id": "yoast-google-preview-mode-desktop-9",
+                    "id": "yoast-google-preview-mode-desktop",
                   }
                 }
                 type="radio"
@@ -1196,7 +1205,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                   optionalAttributes={
                     Object {
                       "checked": false,
-                      "id": "yoast-google-preview-mode-desktop-9",
+                      "id": "yoast-google-preview-mode-desktop",
                     }
                   }
                   type="radio"
@@ -1210,7 +1219,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                     optionalAttributes={
                       Object {
                         "checked": false,
-                        "id": "yoast-google-preview-mode-desktop-9",
+                        "id": "yoast-google-preview-mode-desktop",
                       }
                     }
                     type="radio"
@@ -1220,7 +1229,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                       checked={false}
                       className="c2"
                       defaultValue="desktop"
-                      id="yoast-google-preview-mode-desktop-9"
+                      id="yoast-google-preview-mode-desktop"
                       name="screen"
                       onChange={[Function]}
                       type="radio"
@@ -1229,10 +1238,10 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                 </StyledComponent>
               </ModeSwitcher__ModeRadio>
               <ModeSwitcher__ModeLabel
-                for="yoast-google-preview-mode-desktop-9"
+                for="yoast-google-preview-mode-desktop"
               >
                 <StyledComponent
-                  for="yoast-google-preview-mode-desktop-9"
+                  for="yoast-google-preview-mode-desktop"
                   forwardedComponent={
                     Object {
                       "$$typeof": Symbol(react.forward_ref),
@@ -1261,12 +1270,12 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                 >
                   <Label
                     className="c3"
-                    for="yoast-google-preview-mode-desktop-9"
+                    for="yoast-google-preview-mode-desktop"
                     optionalAttributes={Object {}}
                   >
                     <label
                       className="c3"
-                      htmlFor="yoast-google-preview-mode-desktop-9"
+                      htmlFor="yoast-google-preview-mode-desktop"
                     >
                       Desktop result
                     </label>
@@ -2278,6 +2287,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
           }
         }
         descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
+        descriptionInputId="yoast-google-preview-description"
         descriptionLengthProgress={
           Object {
             "actual": 42,
@@ -2291,6 +2301,8 @@ exports[`SnippetEditor closes when calling close() 1`] = `
         onFocus={[Function]}
         recommendedReplacementVariables={Array []}
         replacementVariables={Array []}
+        slugInputId="yoast-google-preview-slug"
+        titleInputId="yoast-google-preview-title"
         titleLengthProgress={
           Object {
             "actual": 0,
@@ -2336,7 +2348,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
               <ReplacementVariableEditorMock
                 content="Test title"
                 editorRef={[Function]}
-                fieldId="snippet-editor-field-title"
+                fieldId="yoast-google-preview-title"
                 isActive={false}
                 isHovered={false}
                 label="SEO title"
@@ -2517,7 +2529,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                   >
                     <SnippetEditorFields__SlugInput
                       aria-labelledby="snippet-editor-field-3-slug"
-                      id="snippet-editor-field-slug"
+                      id="yoast-google-preview-slug"
                       onBlur={[Function]}
                       onChange={[Function]}
                       onFocus={[Function]}
@@ -2548,7 +2560,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                           }
                         }
                         forwardedRef={[Function]}
-                        id="snippet-editor-field-slug"
+                        id="yoast-google-preview-slug"
                         onBlur={[Function]}
                         onChange={[Function]}
                         onFocus={[Function]}
@@ -2557,7 +2569,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                         <input
                           aria-labelledby="snippet-editor-field-3-slug"
                           className="c19"
-                          id="snippet-editor-field-slug"
+                          id="yoast-google-preview-slug"
                           onBlur={[Function]}
                           onChange={[Function]}
                           onFocus={[Function]}
@@ -2571,7 +2583,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
               <ReplacementVariableEditorMock
                 content="Test description, %%replacement_variable%%"
                 editorRef={[Function]}
-                fieldId="snippet-editor-field-description"
+                fieldId="yoast-google-preview-description"
                 isActive={false}
                 isHovered={false}
                 label="Meta description"
@@ -3056,6 +3068,8 @@ exports[`SnippetEditor closes when calling close() 2`] = `
   }
   faviconSrc=""
   hasPaperStyle={true}
+  idSuffix=""
+  keyword=""
   locale="en"
   mapEditorDataToPreview={null}
   mobileImageSrc=""
@@ -3078,6 +3092,8 @@ exports[`SnippetEditor closes when calling close() 2`] = `
     <div>
       <ModeSwitcher
         active="mobile"
+        desktopModeInputId="yoast-google-preview-mode-desktop"
+        mobileModeInputId="yoast-google-preview-mode-mobile"
         onChange={[Function]}
       >
         <ModeSwitcher__Switcher>
@@ -3150,7 +3166,7 @@ exports[`SnippetEditor closes when calling close() 2`] = `
                 optionalAttributes={
                   Object {
                     "checked": true,
-                    "id": "yoast-google-preview-mode-mobile-9",
+                    "id": "yoast-google-preview-mode-mobile",
                   }
                 }
                 type="radio"
@@ -3188,7 +3204,7 @@ exports[`SnippetEditor closes when calling close() 2`] = `
                   optionalAttributes={
                     Object {
                       "checked": true,
-                      "id": "yoast-google-preview-mode-mobile-9",
+                      "id": "yoast-google-preview-mode-mobile",
                     }
                   }
                   type="radio"
@@ -3202,7 +3218,7 @@ exports[`SnippetEditor closes when calling close() 2`] = `
                     optionalAttributes={
                       Object {
                         "checked": true,
-                        "id": "yoast-google-preview-mode-mobile-9",
+                        "id": "yoast-google-preview-mode-mobile",
                       }
                     }
                     type="radio"
@@ -3212,7 +3228,7 @@ exports[`SnippetEditor closes when calling close() 2`] = `
                       checked={true}
                       className="c2"
                       defaultValue="mobile"
-                      id="yoast-google-preview-mode-mobile-9"
+                      id="yoast-google-preview-mode-mobile"
                       name="screen"
                       onChange={[Function]}
                       type="radio"
@@ -3221,10 +3237,10 @@ exports[`SnippetEditor closes when calling close() 2`] = `
                 </StyledComponent>
               </ModeSwitcher__ModeRadio>
               <ModeSwitcher__ModeLabel
-                for="yoast-google-preview-mode-mobile-9"
+                for="yoast-google-preview-mode-mobile"
               >
                 <StyledComponent
-                  for="yoast-google-preview-mode-mobile-9"
+                  for="yoast-google-preview-mode-mobile"
                   forwardedComponent={
                     Object {
                       "$$typeof": Symbol(react.forward_ref),
@@ -3253,12 +3269,12 @@ exports[`SnippetEditor closes when calling close() 2`] = `
                 >
                   <Label
                     className="c3"
-                    for="yoast-google-preview-mode-mobile-9"
+                    for="yoast-google-preview-mode-mobile"
                     optionalAttributes={Object {}}
                   >
                     <label
                       className="c3"
-                      htmlFor="yoast-google-preview-mode-mobile-9"
+                      htmlFor="yoast-google-preview-mode-mobile"
                     >
                       Mobile result
                     </label>
@@ -3271,7 +3287,7 @@ exports[`SnippetEditor closes when calling close() 2`] = `
                 optionalAttributes={
                   Object {
                     "checked": false,
-                    "id": "yoast-google-preview-mode-desktop-9",
+                    "id": "yoast-google-preview-mode-desktop",
                   }
                 }
                 type="radio"
@@ -3309,7 +3325,7 @@ exports[`SnippetEditor closes when calling close() 2`] = `
                   optionalAttributes={
                     Object {
                       "checked": false,
-                      "id": "yoast-google-preview-mode-desktop-9",
+                      "id": "yoast-google-preview-mode-desktop",
                     }
                   }
                   type="radio"
@@ -3323,7 +3339,7 @@ exports[`SnippetEditor closes when calling close() 2`] = `
                     optionalAttributes={
                       Object {
                         "checked": false,
-                        "id": "yoast-google-preview-mode-desktop-9",
+                        "id": "yoast-google-preview-mode-desktop",
                       }
                     }
                     type="radio"
@@ -3333,7 +3349,7 @@ exports[`SnippetEditor closes when calling close() 2`] = `
                       checked={false}
                       className="c2"
                       defaultValue="desktop"
-                      id="yoast-google-preview-mode-desktop-9"
+                      id="yoast-google-preview-mode-desktop"
                       name="screen"
                       onChange={[Function]}
                       type="radio"
@@ -3342,10 +3358,10 @@ exports[`SnippetEditor closes when calling close() 2`] = `
                 </StyledComponent>
               </ModeSwitcher__ModeRadio>
               <ModeSwitcher__ModeLabel
-                for="yoast-google-preview-mode-desktop-9"
+                for="yoast-google-preview-mode-desktop"
               >
                 <StyledComponent
-                  for="yoast-google-preview-mode-desktop-9"
+                  for="yoast-google-preview-mode-desktop"
                   forwardedComponent={
                     Object {
                       "$$typeof": Symbol(react.forward_ref),
@@ -3374,12 +3390,12 @@ exports[`SnippetEditor closes when calling close() 2`] = `
                 >
                   <Label
                     className="c3"
-                    for="yoast-google-preview-mode-desktop-9"
+                    for="yoast-google-preview-mode-desktop"
                     optionalAttributes={Object {}}
                   >
                     <label
                       className="c3"
-                      htmlFor="yoast-google-preview-mode-desktop-9"
+                      htmlFor="yoast-google-preview-mode-desktop"
                     >
                       Desktop result
                     </label>
@@ -4826,6 +4842,8 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
   }
   faviconSrc=""
   hasPaperStyle={true}
+  idSuffix=""
+  keyword=""
   locale="en"
   mapEditorDataToPreview={null}
   mobileImageSrc=""
@@ -4848,6 +4866,8 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
     <div>
       <ModeSwitcher
         active="mobile"
+        desktopModeInputId="yoast-google-preview-mode-desktop"
+        mobileModeInputId="yoast-google-preview-mode-mobile"
         onChange={[Function]}
       >
         <ModeSwitcher__Switcher>
@@ -4920,7 +4940,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                 optionalAttributes={
                   Object {
                     "checked": true,
-                    "id": "yoast-google-preview-mode-mobile-16",
+                    "id": "yoast-google-preview-mode-mobile",
                   }
                 }
                 type="radio"
@@ -4958,7 +4978,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                   optionalAttributes={
                     Object {
                       "checked": true,
-                      "id": "yoast-google-preview-mode-mobile-16",
+                      "id": "yoast-google-preview-mode-mobile",
                     }
                   }
                   type="radio"
@@ -4972,7 +4992,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                     optionalAttributes={
                       Object {
                         "checked": true,
-                        "id": "yoast-google-preview-mode-mobile-16",
+                        "id": "yoast-google-preview-mode-mobile",
                       }
                     }
                     type="radio"
@@ -4982,7 +5002,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                       checked={true}
                       className="c2"
                       defaultValue="mobile"
-                      id="yoast-google-preview-mode-mobile-16"
+                      id="yoast-google-preview-mode-mobile"
                       name="screen"
                       onChange={[Function]}
                       type="radio"
@@ -4991,10 +5011,10 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                 </StyledComponent>
               </ModeSwitcher__ModeRadio>
               <ModeSwitcher__ModeLabel
-                for="yoast-google-preview-mode-mobile-16"
+                for="yoast-google-preview-mode-mobile"
               >
                 <StyledComponent
-                  for="yoast-google-preview-mode-mobile-16"
+                  for="yoast-google-preview-mode-mobile"
                   forwardedComponent={
                     Object {
                       "$$typeof": Symbol(react.forward_ref),
@@ -5023,12 +5043,12 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                 >
                   <Label
                     className="c3"
-                    for="yoast-google-preview-mode-mobile-16"
+                    for="yoast-google-preview-mode-mobile"
                     optionalAttributes={Object {}}
                   >
                     <label
                       className="c3"
-                      htmlFor="yoast-google-preview-mode-mobile-16"
+                      htmlFor="yoast-google-preview-mode-mobile"
                     >
                       Mobile result
                     </label>
@@ -5041,7 +5061,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                 optionalAttributes={
                   Object {
                     "checked": false,
-                    "id": "yoast-google-preview-mode-desktop-16",
+                    "id": "yoast-google-preview-mode-desktop",
                   }
                 }
                 type="radio"
@@ -5079,7 +5099,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                   optionalAttributes={
                     Object {
                       "checked": false,
-                      "id": "yoast-google-preview-mode-desktop-16",
+                      "id": "yoast-google-preview-mode-desktop",
                     }
                   }
                   type="radio"
@@ -5093,7 +5113,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                     optionalAttributes={
                       Object {
                         "checked": false,
-                        "id": "yoast-google-preview-mode-desktop-16",
+                        "id": "yoast-google-preview-mode-desktop",
                       }
                     }
                     type="radio"
@@ -5103,7 +5123,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                       checked={false}
                       className="c2"
                       defaultValue="desktop"
-                      id="yoast-google-preview-mode-desktop-16"
+                      id="yoast-google-preview-mode-desktop"
                       name="screen"
                       onChange={[Function]}
                       type="radio"
@@ -5112,10 +5132,10 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                 </StyledComponent>
               </ModeSwitcher__ModeRadio>
               <ModeSwitcher__ModeLabel
-                for="yoast-google-preview-mode-desktop-16"
+                for="yoast-google-preview-mode-desktop"
               >
                 <StyledComponent
-                  for="yoast-google-preview-mode-desktop-16"
+                  for="yoast-google-preview-mode-desktop"
                   forwardedComponent={
                     Object {
                       "$$typeof": Symbol(react.forward_ref),
@@ -5144,12 +5164,12 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                 >
                   <Label
                     className="c3"
-                    for="yoast-google-preview-mode-desktop-16"
+                    for="yoast-google-preview-mode-desktop"
                     optionalAttributes={Object {}}
                   >
                     <label
                       className="c3"
-                      htmlFor="yoast-google-preview-mode-desktop-16"
+                      htmlFor="yoast-google-preview-mode-desktop"
                     >
                       Desktop result
                     </label>
@@ -6161,6 +6181,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
           }
         }
         descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
+        descriptionInputId="yoast-google-preview-description"
         descriptionLengthProgress={
           Object {
             "actual": 42,
@@ -6174,6 +6195,8 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
         onFocus={[Function]}
         recommendedReplacementVariables={Array []}
         replacementVariables={Array []}
+        slugInputId="yoast-google-preview-slug"
+        titleInputId="yoast-google-preview-title"
         titleLengthProgress={
           Object {
             "actual": 0,
@@ -6219,7 +6242,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
               <ReplacementVariableEditorMock
                 content="Test title"
                 editorRef={[Function]}
-                fieldId="snippet-editor-field-title"
+                fieldId="yoast-google-preview-title"
                 isActive={false}
                 isHovered={false}
                 label="SEO title"
@@ -6400,7 +6423,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                   >
                     <SnippetEditorFields__SlugInput
                       aria-labelledby="snippet-editor-field-9-slug"
-                      id="snippet-editor-field-slug"
+                      id="yoast-google-preview-slug"
                       onBlur={[Function]}
                       onChange={[Function]}
                       onFocus={[Function]}
@@ -6431,7 +6454,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                           }
                         }
                         forwardedRef={[Function]}
-                        id="snippet-editor-field-slug"
+                        id="yoast-google-preview-slug"
                         onBlur={[Function]}
                         onChange={[Function]}
                         onFocus={[Function]}
@@ -6440,7 +6463,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                         <input
                           aria-labelledby="snippet-editor-field-9-slug"
                           className="c19"
-                          id="snippet-editor-field-slug"
+                          id="yoast-google-preview-slug"
                           onBlur={[Function]}
                           onChange={[Function]}
                           onFocus={[Function]}
@@ -6454,7 +6477,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
               <ReplacementVariableEditorMock
                 content="Test description, %%replacement_variable%%"
                 editorRef={[Function]}
-                fieldId="snippet-editor-field-description"
+                fieldId="yoast-google-preview-description"
                 isActive={false}
                 isHovered={false}
                 label="Meta description"
@@ -7143,6 +7166,8 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
   }
   faviconSrc=""
   hasPaperStyle={true}
+  idSuffix=""
+  keyword=""
   locale="en"
   mapEditorDataToPreview={null}
   mobileImageSrc=""
@@ -7165,6 +7190,8 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
     <div>
       <ModeSwitcher
         active="mobile"
+        desktopModeInputId="yoast-google-preview-mode-desktop"
+        mobileModeInputId="yoast-google-preview-mode-mobile"
         onChange={[Function]}
       >
         <ModeSwitcher__Switcher>
@@ -7237,7 +7264,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                 optionalAttributes={
                   Object {
                     "checked": true,
-                    "id": "yoast-google-preview-mode-mobile-15",
+                    "id": "yoast-google-preview-mode-mobile",
                   }
                 }
                 type="radio"
@@ -7275,7 +7302,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                   optionalAttributes={
                     Object {
                       "checked": true,
-                      "id": "yoast-google-preview-mode-mobile-15",
+                      "id": "yoast-google-preview-mode-mobile",
                     }
                   }
                   type="radio"
@@ -7289,7 +7316,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                     optionalAttributes={
                       Object {
                         "checked": true,
-                        "id": "yoast-google-preview-mode-mobile-15",
+                        "id": "yoast-google-preview-mode-mobile",
                       }
                     }
                     type="radio"
@@ -7299,7 +7326,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                       checked={true}
                       className="c2"
                       defaultValue="mobile"
-                      id="yoast-google-preview-mode-mobile-15"
+                      id="yoast-google-preview-mode-mobile"
                       name="screen"
                       onChange={[Function]}
                       type="radio"
@@ -7308,10 +7335,10 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                 </StyledComponent>
               </ModeSwitcher__ModeRadio>
               <ModeSwitcher__ModeLabel
-                for="yoast-google-preview-mode-mobile-15"
+                for="yoast-google-preview-mode-mobile"
               >
                 <StyledComponent
-                  for="yoast-google-preview-mode-mobile-15"
+                  for="yoast-google-preview-mode-mobile"
                   forwardedComponent={
                     Object {
                       "$$typeof": Symbol(react.forward_ref),
@@ -7340,12 +7367,12 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                 >
                   <Label
                     className="c3"
-                    for="yoast-google-preview-mode-mobile-15"
+                    for="yoast-google-preview-mode-mobile"
                     optionalAttributes={Object {}}
                   >
                     <label
                       className="c3"
-                      htmlFor="yoast-google-preview-mode-mobile-15"
+                      htmlFor="yoast-google-preview-mode-mobile"
                     >
                       Mobile result
                     </label>
@@ -7358,7 +7385,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                 optionalAttributes={
                   Object {
                     "checked": false,
-                    "id": "yoast-google-preview-mode-desktop-15",
+                    "id": "yoast-google-preview-mode-desktop",
                   }
                 }
                 type="radio"
@@ -7396,7 +7423,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                   optionalAttributes={
                     Object {
                       "checked": false,
-                      "id": "yoast-google-preview-mode-desktop-15",
+                      "id": "yoast-google-preview-mode-desktop",
                     }
                   }
                   type="radio"
@@ -7410,7 +7437,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                     optionalAttributes={
                       Object {
                         "checked": false,
-                        "id": "yoast-google-preview-mode-desktop-15",
+                        "id": "yoast-google-preview-mode-desktop",
                       }
                     }
                     type="radio"
@@ -7420,7 +7447,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                       checked={false}
                       className="c2"
                       defaultValue="desktop"
-                      id="yoast-google-preview-mode-desktop-15"
+                      id="yoast-google-preview-mode-desktop"
                       name="screen"
                       onChange={[Function]}
                       type="radio"
@@ -7429,10 +7456,10 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                 </StyledComponent>
               </ModeSwitcher__ModeRadio>
               <ModeSwitcher__ModeLabel
-                for="yoast-google-preview-mode-desktop-15"
+                for="yoast-google-preview-mode-desktop"
               >
                 <StyledComponent
-                  for="yoast-google-preview-mode-desktop-15"
+                  for="yoast-google-preview-mode-desktop"
                   forwardedComponent={
                     Object {
                       "$$typeof": Symbol(react.forward_ref),
@@ -7461,12 +7488,12 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                 >
                   <Label
                     className="c3"
-                    for="yoast-google-preview-mode-desktop-15"
+                    for="yoast-google-preview-mode-desktop"
                     optionalAttributes={Object {}}
                   >
                     <label
                       className="c3"
-                      htmlFor="yoast-google-preview-mode-desktop-15"
+                      htmlFor="yoast-google-preview-mode-desktop"
                     >
                       Desktop result
                     </label>
@@ -8478,6 +8505,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
           }
         }
         descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
+        descriptionInputId="yoast-google-preview-description"
         descriptionLengthProgress={
           Object {
             "actual": 42,
@@ -8491,6 +8519,8 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
         onFocus={[Function]}
         recommendedReplacementVariables={Array []}
         replacementVariables={Array []}
+        slugInputId="yoast-google-preview-slug"
+        titleInputId="yoast-google-preview-title"
         titleLengthProgress={
           Object {
             "actual": 0,
@@ -8536,7 +8566,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
               <ReplacementVariableEditorMock
                 content="Test title"
                 editorRef={[Function]}
-                fieldId="snippet-editor-field-title"
+                fieldId="yoast-google-preview-title"
                 isActive={false}
                 isHovered={false}
                 label="SEO title"
@@ -8717,7 +8747,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                   >
                     <SnippetEditorFields__SlugInput
                       aria-labelledby="snippet-editor-field-8-slug"
-                      id="snippet-editor-field-slug"
+                      id="yoast-google-preview-slug"
                       onBlur={[Function]}
                       onChange={[Function]}
                       onFocus={[Function]}
@@ -8748,7 +8778,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                           }
                         }
                         forwardedRef={[Function]}
-                        id="snippet-editor-field-slug"
+                        id="yoast-google-preview-slug"
                         onBlur={[Function]}
                         onChange={[Function]}
                         onFocus={[Function]}
@@ -8757,7 +8787,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                         <input
                           aria-labelledby="snippet-editor-field-8-slug"
                           className="c19"
-                          id="snippet-editor-field-slug"
+                          id="yoast-google-preview-slug"
                           onBlur={[Function]}
                           onChange={[Function]}
                           onFocus={[Function]}
@@ -8771,7 +8801,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
               <ReplacementVariableEditorMock
                 content="Test description, %%replacement_variable%%"
                 editorRef={[Function]}
-                fieldId="snippet-editor-field-description"
+                fieldId="yoast-google-preview-description"
                 isActive={false}
                 isHovered={false}
                 label="Meta description"
@@ -9250,14 +9280,14 @@ exports[`SnippetEditor highlights a focused field 1`] = `
       checked={true}
       className="c2"
       defaultValue="mobile"
-      id="yoast-google-preview-mode-mobile-3"
+      id="yoast-google-preview-mode-mobile"
       name="screen"
       onChange={[Function]}
       type="radio"
     />
     <label
       className="c3"
-      htmlFor="yoast-google-preview-mode-mobile-3"
+      htmlFor="yoast-google-preview-mode-mobile"
     >
       Mobile result
     </label>
@@ -9266,14 +9296,14 @@ exports[`SnippetEditor highlights a focused field 1`] = `
       checked={false}
       className="c2"
       defaultValue="desktop"
-      id="yoast-google-preview-mode-desktop-3"
+      id="yoast-google-preview-mode-desktop"
       name="screen"
       onChange={[Function]}
       type="radio"
     />
     <label
       className="c3"
-      htmlFor="yoast-google-preview-mode-desktop-3"
+      htmlFor="yoast-google-preview-mode-desktop"
     >
       Desktop result
     </label>
@@ -9644,14 +9674,14 @@ exports[`SnippetEditor highlights a hovered field 1`] = `
       checked={true}
       className="c2"
       defaultValue="mobile"
-      id="yoast-google-preview-mode-mobile-2"
+      id="yoast-google-preview-mode-mobile"
       name="screen"
       onChange={[Function]}
       type="radio"
     />
     <label
       className="c3"
-      htmlFor="yoast-google-preview-mode-mobile-2"
+      htmlFor="yoast-google-preview-mode-mobile"
     >
       Mobile result
     </label>
@@ -9660,14 +9690,14 @@ exports[`SnippetEditor highlights a hovered field 1`] = `
       checked={false}
       className="c2"
       defaultValue="desktop"
-      id="yoast-google-preview-mode-desktop-2"
+      id="yoast-google-preview-mode-desktop"
       name="screen"
       onChange={[Function]}
       type="radio"
     />
     <label
       className="c3"
-      htmlFor="yoast-google-preview-mode-desktop-2"
+      htmlFor="yoast-google-preview-mode-desktop"
     >
       Desktop result
     </label>
@@ -10277,6 +10307,8 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
   }
   faviconSrc=""
   hasPaperStyle={true}
+  idSuffix=""
+  keyword=""
   locale="en"
   mapEditorDataToPreview={null}
   mobileImageSrc=""
@@ -10299,6 +10331,8 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
     <div>
       <ModeSwitcher
         active="mobile"
+        desktopModeInputId="yoast-google-preview-mode-desktop"
+        mobileModeInputId="yoast-google-preview-mode-mobile"
         onChange={[Function]}
       >
         <ModeSwitcher__Switcher>
@@ -10371,7 +10405,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                 optionalAttributes={
                   Object {
                     "checked": true,
-                    "id": "yoast-google-preview-mode-mobile-11",
+                    "id": "yoast-google-preview-mode-mobile",
                   }
                 }
                 type="radio"
@@ -10409,7 +10443,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                   optionalAttributes={
                     Object {
                       "checked": true,
-                      "id": "yoast-google-preview-mode-mobile-11",
+                      "id": "yoast-google-preview-mode-mobile",
                     }
                   }
                   type="radio"
@@ -10423,7 +10457,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                     optionalAttributes={
                       Object {
                         "checked": true,
-                        "id": "yoast-google-preview-mode-mobile-11",
+                        "id": "yoast-google-preview-mode-mobile",
                       }
                     }
                     type="radio"
@@ -10433,7 +10467,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                       checked={true}
                       className="c2"
                       defaultValue="mobile"
-                      id="yoast-google-preview-mode-mobile-11"
+                      id="yoast-google-preview-mode-mobile"
                       name="screen"
                       onChange={[Function]}
                       type="radio"
@@ -10442,10 +10476,10 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                 </StyledComponent>
               </ModeSwitcher__ModeRadio>
               <ModeSwitcher__ModeLabel
-                for="yoast-google-preview-mode-mobile-11"
+                for="yoast-google-preview-mode-mobile"
               >
                 <StyledComponent
-                  for="yoast-google-preview-mode-mobile-11"
+                  for="yoast-google-preview-mode-mobile"
                   forwardedComponent={
                     Object {
                       "$$typeof": Symbol(react.forward_ref),
@@ -10474,12 +10508,12 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                 >
                   <Label
                     className="c3"
-                    for="yoast-google-preview-mode-mobile-11"
+                    for="yoast-google-preview-mode-mobile"
                     optionalAttributes={Object {}}
                   >
                     <label
                       className="c3"
-                      htmlFor="yoast-google-preview-mode-mobile-11"
+                      htmlFor="yoast-google-preview-mode-mobile"
                     >
                       Mobile result
                     </label>
@@ -10492,7 +10526,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                 optionalAttributes={
                   Object {
                     "checked": false,
-                    "id": "yoast-google-preview-mode-desktop-11",
+                    "id": "yoast-google-preview-mode-desktop",
                   }
                 }
                 type="radio"
@@ -10530,7 +10564,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                   optionalAttributes={
                     Object {
                       "checked": false,
-                      "id": "yoast-google-preview-mode-desktop-11",
+                      "id": "yoast-google-preview-mode-desktop",
                     }
                   }
                   type="radio"
@@ -10544,7 +10578,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                     optionalAttributes={
                       Object {
                         "checked": false,
-                        "id": "yoast-google-preview-mode-desktop-11",
+                        "id": "yoast-google-preview-mode-desktop",
                       }
                     }
                     type="radio"
@@ -10554,7 +10588,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                       checked={false}
                       className="c2"
                       defaultValue="desktop"
-                      id="yoast-google-preview-mode-desktop-11"
+                      id="yoast-google-preview-mode-desktop"
                       name="screen"
                       onChange={[Function]}
                       type="radio"
@@ -10563,10 +10597,10 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                 </StyledComponent>
               </ModeSwitcher__ModeRadio>
               <ModeSwitcher__ModeLabel
-                for="yoast-google-preview-mode-desktop-11"
+                for="yoast-google-preview-mode-desktop"
               >
                 <StyledComponent
-                  for="yoast-google-preview-mode-desktop-11"
+                  for="yoast-google-preview-mode-desktop"
                   forwardedComponent={
                     Object {
                       "$$typeof": Symbol(react.forward_ref),
@@ -10595,12 +10629,12 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                 >
                   <Label
                     className="c3"
-                    for="yoast-google-preview-mode-desktop-11"
+                    for="yoast-google-preview-mode-desktop"
                     optionalAttributes={Object {}}
                   >
                     <label
                       className="c3"
-                      htmlFor="yoast-google-preview-mode-desktop-11"
+                      htmlFor="yoast-google-preview-mode-desktop"
                     >
                       Desktop result
                     </label>
@@ -11621,6 +11655,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
           }
         }
         descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
+        descriptionInputId="yoast-google-preview-description"
         descriptionLengthProgress={
           Object {
             "actual": 42,
@@ -11634,6 +11669,8 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
         onFocus={[Function]}
         recommendedReplacementVariables={Array []}
         replacementVariables={Array []}
+        slugInputId="yoast-google-preview-slug"
+        titleInputId="yoast-google-preview-title"
         titleLengthProgress={
           Object {
             "actual": 0,
@@ -11679,7 +11716,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
               <ReplacementVariableEditorMock
                 content="Test title"
                 editorRef={[Function]}
-                fieldId="snippet-editor-field-title"
+                fieldId="yoast-google-preview-title"
                 isActive={false}
                 isHovered={false}
                 label="SEO title"
@@ -11860,7 +11897,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                   >
                     <SnippetEditorFields__SlugInput
                       aria-labelledby="snippet-editor-field-5-slug"
-                      id="snippet-editor-field-slug"
+                      id="yoast-google-preview-slug"
                       onBlur={[Function]}
                       onChange={[Function]}
                       onFocus={[Function]}
@@ -11891,7 +11928,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                           }
                         }
                         forwardedRef={[Function]}
-                        id="snippet-editor-field-slug"
+                        id="yoast-google-preview-slug"
                         onBlur={[Function]}
                         onChange={[Function]}
                         onFocus={[Function]}
@@ -11900,7 +11937,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                         <input
                           aria-labelledby="snippet-editor-field-5-slug"
                           className="c20"
-                          id="snippet-editor-field-slug"
+                          id="yoast-google-preview-slug"
                           onBlur={[Function]}
                           onChange={[Function]}
                           onFocus={[Function]}
@@ -11914,7 +11951,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
               <ReplacementVariableEditorMock
                 content="Test description, %%replacement_variable%%"
                 editorRef={[Function]}
-                fieldId="snippet-editor-field-description"
+                fieldId="yoast-google-preview-description"
                 isActive={true}
                 isHovered={false}
                 label="Meta description"
@@ -12632,6 +12669,8 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
   }
   faviconSrc=""
   hasPaperStyle={true}
+  idSuffix=""
+  keyword=""
   locale="en"
   mapEditorDataToPreview={null}
   mobileImageSrc=""
@@ -12654,6 +12693,8 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
     <div>
       <ModeSwitcher
         active="mobile"
+        desktopModeInputId="yoast-google-preview-mode-desktop"
+        mobileModeInputId="yoast-google-preview-mode-mobile"
         onChange={[Function]}
       >
         <ModeSwitcher__Switcher>
@@ -12726,7 +12767,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                 optionalAttributes={
                   Object {
                     "checked": true,
-                    "id": "yoast-google-preview-mode-mobile-10",
+                    "id": "yoast-google-preview-mode-mobile",
                   }
                 }
                 type="radio"
@@ -12764,7 +12805,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                   optionalAttributes={
                     Object {
                       "checked": true,
-                      "id": "yoast-google-preview-mode-mobile-10",
+                      "id": "yoast-google-preview-mode-mobile",
                     }
                   }
                   type="radio"
@@ -12778,7 +12819,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                     optionalAttributes={
                       Object {
                         "checked": true,
-                        "id": "yoast-google-preview-mode-mobile-10",
+                        "id": "yoast-google-preview-mode-mobile",
                       }
                     }
                     type="radio"
@@ -12788,7 +12829,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                       checked={true}
                       className="c2"
                       defaultValue="mobile"
-                      id="yoast-google-preview-mode-mobile-10"
+                      id="yoast-google-preview-mode-mobile"
                       name="screen"
                       onChange={[Function]}
                       type="radio"
@@ -12797,10 +12838,10 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                 </StyledComponent>
               </ModeSwitcher__ModeRadio>
               <ModeSwitcher__ModeLabel
-                for="yoast-google-preview-mode-mobile-10"
+                for="yoast-google-preview-mode-mobile"
               >
                 <StyledComponent
-                  for="yoast-google-preview-mode-mobile-10"
+                  for="yoast-google-preview-mode-mobile"
                   forwardedComponent={
                     Object {
                       "$$typeof": Symbol(react.forward_ref),
@@ -12829,12 +12870,12 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                 >
                   <Label
                     className="c3"
-                    for="yoast-google-preview-mode-mobile-10"
+                    for="yoast-google-preview-mode-mobile"
                     optionalAttributes={Object {}}
                   >
                     <label
                       className="c3"
-                      htmlFor="yoast-google-preview-mode-mobile-10"
+                      htmlFor="yoast-google-preview-mode-mobile"
                     >
                       Mobile result
                     </label>
@@ -12847,7 +12888,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                 optionalAttributes={
                   Object {
                     "checked": false,
-                    "id": "yoast-google-preview-mode-desktop-10",
+                    "id": "yoast-google-preview-mode-desktop",
                   }
                 }
                 type="radio"
@@ -12885,7 +12926,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                   optionalAttributes={
                     Object {
                       "checked": false,
-                      "id": "yoast-google-preview-mode-desktop-10",
+                      "id": "yoast-google-preview-mode-desktop",
                     }
                   }
                   type="radio"
@@ -12899,7 +12940,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                     optionalAttributes={
                       Object {
                         "checked": false,
-                        "id": "yoast-google-preview-mode-desktop-10",
+                        "id": "yoast-google-preview-mode-desktop",
                       }
                     }
                     type="radio"
@@ -12909,7 +12950,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                       checked={false}
                       className="c2"
                       defaultValue="desktop"
-                      id="yoast-google-preview-mode-desktop-10"
+                      id="yoast-google-preview-mode-desktop"
                       name="screen"
                       onChange={[Function]}
                       type="radio"
@@ -12918,10 +12959,10 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                 </StyledComponent>
               </ModeSwitcher__ModeRadio>
               <ModeSwitcher__ModeLabel
-                for="yoast-google-preview-mode-desktop-10"
+                for="yoast-google-preview-mode-desktop"
               >
                 <StyledComponent
-                  for="yoast-google-preview-mode-desktop-10"
+                  for="yoast-google-preview-mode-desktop"
                   forwardedComponent={
                     Object {
                       "$$typeof": Symbol(react.forward_ref),
@@ -12950,12 +12991,12 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                 >
                   <Label
                     className="c3"
-                    for="yoast-google-preview-mode-desktop-10"
+                    for="yoast-google-preview-mode-desktop"
                     optionalAttributes={Object {}}
                   >
                     <label
                       className="c3"
-                      htmlFor="yoast-google-preview-mode-desktop-10"
+                      htmlFor="yoast-google-preview-mode-desktop"
                     >
                       Desktop result
                     </label>
@@ -13976,6 +14017,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
           }
         }
         descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
+        descriptionInputId="yoast-google-preview-description"
         descriptionLengthProgress={
           Object {
             "actual": 42,
@@ -13989,6 +14031,8 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
         onFocus={[Function]}
         recommendedReplacementVariables={Array []}
         replacementVariables={Array []}
+        slugInputId="yoast-google-preview-slug"
+        titleInputId="yoast-google-preview-title"
         titleLengthProgress={
           Object {
             "actual": 0,
@@ -14034,7 +14078,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
               <ReplacementVariableEditorMock
                 content="Test title"
                 editorRef={[Function]}
-                fieldId="snippet-editor-field-title"
+                fieldId="yoast-google-preview-title"
                 isActive={false}
                 isHovered={false}
                 label="SEO title"
@@ -14215,7 +14259,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                   >
                     <SnippetEditorFields__SlugInput
                       aria-labelledby="snippet-editor-field-4-slug"
-                      id="snippet-editor-field-slug"
+                      id="yoast-google-preview-slug"
                       onBlur={[Function]}
                       onChange={[Function]}
                       onFocus={[Function]}
@@ -14246,7 +14290,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                           }
                         }
                         forwardedRef={[Function]}
-                        id="snippet-editor-field-slug"
+                        id="yoast-google-preview-slug"
                         onBlur={[Function]}
                         onChange={[Function]}
                         onFocus={[Function]}
@@ -14255,7 +14299,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                         <input
                           aria-labelledby="snippet-editor-field-4-slug"
                           className="c20"
-                          id="snippet-editor-field-slug"
+                          id="yoast-google-preview-slug"
                           onBlur={[Function]}
                           onChange={[Function]}
                           onFocus={[Function]}
@@ -14269,7 +14313,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
               <ReplacementVariableEditorMock
                 content="Test description, %%replacement_variable%%"
                 editorRef={[Function]}
-                fieldId="snippet-editor-field-description"
+                fieldId="yoast-google-preview-description"
                 isActive={false}
                 isHovered={true}
                 label="Meta description"
@@ -14958,6 +15002,8 @@ exports[`SnippetEditor opens when calling open() 1`] = `
   }
   faviconSrc=""
   hasPaperStyle={true}
+  idSuffix=""
+  keyword=""
   locale="en"
   mapEditorDataToPreview={null}
   mobileImageSrc=""
@@ -14980,6 +15026,8 @@ exports[`SnippetEditor opens when calling open() 1`] = `
     <div>
       <ModeSwitcher
         active="mobile"
+        desktopModeInputId="yoast-google-preview-mode-desktop"
+        mobileModeInputId="yoast-google-preview-mode-mobile"
         onChange={[Function]}
       >
         <ModeSwitcher__Switcher>
@@ -15052,7 +15100,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                 optionalAttributes={
                   Object {
                     "checked": true,
-                    "id": "yoast-google-preview-mode-mobile-8",
+                    "id": "yoast-google-preview-mode-mobile",
                   }
                 }
                 type="radio"
@@ -15090,7 +15138,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                   optionalAttributes={
                     Object {
                       "checked": true,
-                      "id": "yoast-google-preview-mode-mobile-8",
+                      "id": "yoast-google-preview-mode-mobile",
                     }
                   }
                   type="radio"
@@ -15104,7 +15152,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                     optionalAttributes={
                       Object {
                         "checked": true,
-                        "id": "yoast-google-preview-mode-mobile-8",
+                        "id": "yoast-google-preview-mode-mobile",
                       }
                     }
                     type="radio"
@@ -15114,7 +15162,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                       checked={true}
                       className="c2"
                       defaultValue="mobile"
-                      id="yoast-google-preview-mode-mobile-8"
+                      id="yoast-google-preview-mode-mobile"
                       name="screen"
                       onChange={[Function]}
                       type="radio"
@@ -15123,10 +15171,10 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                 </StyledComponent>
               </ModeSwitcher__ModeRadio>
               <ModeSwitcher__ModeLabel
-                for="yoast-google-preview-mode-mobile-8"
+                for="yoast-google-preview-mode-mobile"
               >
                 <StyledComponent
-                  for="yoast-google-preview-mode-mobile-8"
+                  for="yoast-google-preview-mode-mobile"
                   forwardedComponent={
                     Object {
                       "$$typeof": Symbol(react.forward_ref),
@@ -15155,12 +15203,12 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                 >
                   <Label
                     className="c3"
-                    for="yoast-google-preview-mode-mobile-8"
+                    for="yoast-google-preview-mode-mobile"
                     optionalAttributes={Object {}}
                   >
                     <label
                       className="c3"
-                      htmlFor="yoast-google-preview-mode-mobile-8"
+                      htmlFor="yoast-google-preview-mode-mobile"
                     >
                       Mobile result
                     </label>
@@ -15173,7 +15221,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                 optionalAttributes={
                   Object {
                     "checked": false,
-                    "id": "yoast-google-preview-mode-desktop-8",
+                    "id": "yoast-google-preview-mode-desktop",
                   }
                 }
                 type="radio"
@@ -15211,7 +15259,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                   optionalAttributes={
                     Object {
                       "checked": false,
-                      "id": "yoast-google-preview-mode-desktop-8",
+                      "id": "yoast-google-preview-mode-desktop",
                     }
                   }
                   type="radio"
@@ -15225,7 +15273,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                     optionalAttributes={
                       Object {
                         "checked": false,
-                        "id": "yoast-google-preview-mode-desktop-8",
+                        "id": "yoast-google-preview-mode-desktop",
                       }
                     }
                     type="radio"
@@ -15235,7 +15283,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                       checked={false}
                       className="c2"
                       defaultValue="desktop"
-                      id="yoast-google-preview-mode-desktop-8"
+                      id="yoast-google-preview-mode-desktop"
                       name="screen"
                       onChange={[Function]}
                       type="radio"
@@ -15244,10 +15292,10 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                 </StyledComponent>
               </ModeSwitcher__ModeRadio>
               <ModeSwitcher__ModeLabel
-                for="yoast-google-preview-mode-desktop-8"
+                for="yoast-google-preview-mode-desktop"
               >
                 <StyledComponent
-                  for="yoast-google-preview-mode-desktop-8"
+                  for="yoast-google-preview-mode-desktop"
                   forwardedComponent={
                     Object {
                       "$$typeof": Symbol(react.forward_ref),
@@ -15276,12 +15324,12 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                 >
                   <Label
                     className="c3"
-                    for="yoast-google-preview-mode-desktop-8"
+                    for="yoast-google-preview-mode-desktop"
                     optionalAttributes={Object {}}
                   >
                     <label
                       className="c3"
-                      htmlFor="yoast-google-preview-mode-desktop-8"
+                      htmlFor="yoast-google-preview-mode-desktop"
                     >
                       Desktop result
                     </label>
@@ -16293,6 +16341,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
           }
         }
         descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
+        descriptionInputId="yoast-google-preview-description"
         descriptionLengthProgress={
           Object {
             "actual": 42,
@@ -16306,6 +16355,8 @@ exports[`SnippetEditor opens when calling open() 1`] = `
         onFocus={[Function]}
         recommendedReplacementVariables={Array []}
         replacementVariables={Array []}
+        slugInputId="yoast-google-preview-slug"
+        titleInputId="yoast-google-preview-title"
         titleLengthProgress={
           Object {
             "actual": 0,
@@ -16351,7 +16402,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
               <ReplacementVariableEditorMock
                 content="Test title"
                 editorRef={[Function]}
-                fieldId="snippet-editor-field-title"
+                fieldId="yoast-google-preview-title"
                 isActive={false}
                 isHovered={false}
                 label="SEO title"
@@ -16532,7 +16583,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                   >
                     <SnippetEditorFields__SlugInput
                       aria-labelledby="snippet-editor-field-2-slug"
-                      id="snippet-editor-field-slug"
+                      id="yoast-google-preview-slug"
                       onBlur={[Function]}
                       onChange={[Function]}
                       onFocus={[Function]}
@@ -16563,7 +16614,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                           }
                         }
                         forwardedRef={[Function]}
-                        id="snippet-editor-field-slug"
+                        id="yoast-google-preview-slug"
                         onBlur={[Function]}
                         onChange={[Function]}
                         onFocus={[Function]}
@@ -16572,7 +16623,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                         <input
                           aria-labelledby="snippet-editor-field-2-slug"
                           className="c19"
-                          id="snippet-editor-field-slug"
+                          id="yoast-google-preview-slug"
                           onBlur={[Function]}
                           onChange={[Function]}
                           onFocus={[Function]}
@@ -16586,7 +16637,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
               <ReplacementVariableEditorMock
                 content="Test description, %%replacement_variable%%"
                 editorRef={[Function]}
-                fieldId="snippet-editor-field-description"
+                fieldId="yoast-google-preview-description"
                 isActive={false}
                 isHovered={false}
                 label="Meta description"
@@ -17275,6 +17326,8 @@ exports[`SnippetEditor passes replacement variables to the title and description
   }
   faviconSrc=""
   hasPaperStyle={true}
+  idSuffix=""
+  keyword=""
   locale="en"
   mapEditorDataToPreview={null}
   mobileImageSrc=""
@@ -17312,6 +17365,8 @@ exports[`SnippetEditor passes replacement variables to the title and description
     <div>
       <ModeSwitcher
         active="mobile"
+        desktopModeInputId="yoast-google-preview-mode-desktop"
+        mobileModeInputId="yoast-google-preview-mode-mobile"
         onChange={[Function]}
       >
         <ModeSwitcher__Switcher>
@@ -17384,7 +17439,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                 optionalAttributes={
                   Object {
                     "checked": true,
-                    "id": "yoast-google-preview-mode-mobile-14",
+                    "id": "yoast-google-preview-mode-mobile",
                   }
                 }
                 type="radio"
@@ -17422,7 +17477,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                   optionalAttributes={
                     Object {
                       "checked": true,
-                      "id": "yoast-google-preview-mode-mobile-14",
+                      "id": "yoast-google-preview-mode-mobile",
                     }
                   }
                   type="radio"
@@ -17436,7 +17491,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                     optionalAttributes={
                       Object {
                         "checked": true,
-                        "id": "yoast-google-preview-mode-mobile-14",
+                        "id": "yoast-google-preview-mode-mobile",
                       }
                     }
                     type="radio"
@@ -17446,7 +17501,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                       checked={true}
                       className="c2"
                       defaultValue="mobile"
-                      id="yoast-google-preview-mode-mobile-14"
+                      id="yoast-google-preview-mode-mobile"
                       name="screen"
                       onChange={[Function]}
                       type="radio"
@@ -17455,10 +17510,10 @@ exports[`SnippetEditor passes replacement variables to the title and description
                 </StyledComponent>
               </ModeSwitcher__ModeRadio>
               <ModeSwitcher__ModeLabel
-                for="yoast-google-preview-mode-mobile-14"
+                for="yoast-google-preview-mode-mobile"
               >
                 <StyledComponent
-                  for="yoast-google-preview-mode-mobile-14"
+                  for="yoast-google-preview-mode-mobile"
                   forwardedComponent={
                     Object {
                       "$$typeof": Symbol(react.forward_ref),
@@ -17487,12 +17542,12 @@ exports[`SnippetEditor passes replacement variables to the title and description
                 >
                   <Label
                     className="c3"
-                    for="yoast-google-preview-mode-mobile-14"
+                    for="yoast-google-preview-mode-mobile"
                     optionalAttributes={Object {}}
                   >
                     <label
                       className="c3"
-                      htmlFor="yoast-google-preview-mode-mobile-14"
+                      htmlFor="yoast-google-preview-mode-mobile"
                     >
                       Mobile result
                     </label>
@@ -17505,7 +17560,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                 optionalAttributes={
                   Object {
                     "checked": false,
-                    "id": "yoast-google-preview-mode-desktop-14",
+                    "id": "yoast-google-preview-mode-desktop",
                   }
                 }
                 type="radio"
@@ -17543,7 +17598,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                   optionalAttributes={
                     Object {
                       "checked": false,
-                      "id": "yoast-google-preview-mode-desktop-14",
+                      "id": "yoast-google-preview-mode-desktop",
                     }
                   }
                   type="radio"
@@ -17557,7 +17612,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                     optionalAttributes={
                       Object {
                         "checked": false,
-                        "id": "yoast-google-preview-mode-desktop-14",
+                        "id": "yoast-google-preview-mode-desktop",
                       }
                     }
                     type="radio"
@@ -17567,7 +17622,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                       checked={false}
                       className="c2"
                       defaultValue="desktop"
-                      id="yoast-google-preview-mode-desktop-14"
+                      id="yoast-google-preview-mode-desktop"
                       name="screen"
                       onChange={[Function]}
                       type="radio"
@@ -17576,10 +17631,10 @@ exports[`SnippetEditor passes replacement variables to the title and description
                 </StyledComponent>
               </ModeSwitcher__ModeRadio>
               <ModeSwitcher__ModeLabel
-                for="yoast-google-preview-mode-desktop-14"
+                for="yoast-google-preview-mode-desktop"
               >
                 <StyledComponent
-                  for="yoast-google-preview-mode-desktop-14"
+                  for="yoast-google-preview-mode-desktop"
                   forwardedComponent={
                     Object {
                       "$$typeof": Symbol(react.forward_ref),
@@ -17608,12 +17663,12 @@ exports[`SnippetEditor passes replacement variables to the title and description
                 >
                   <Label
                     className="c3"
-                    for="yoast-google-preview-mode-desktop-14"
+                    for="yoast-google-preview-mode-desktop"
                     optionalAttributes={Object {}}
                   >
                     <label
                       className="c3"
-                      htmlFor="yoast-google-preview-mode-desktop-14"
+                      htmlFor="yoast-google-preview-mode-desktop"
                     >
                       Desktop result
                     </label>
@@ -18625,6 +18680,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
           }
         }
         descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
+        descriptionInputId="yoast-google-preview-description"
         descriptionLengthProgress={
           Object {
             "actual": 42,
@@ -18653,6 +18709,8 @@ exports[`SnippetEditor passes replacement variables to the title and description
             },
           ]
         }
+        slugInputId="yoast-google-preview-slug"
+        titleInputId="yoast-google-preview-title"
         titleLengthProgress={
           Object {
             "actual": 0,
@@ -18698,7 +18756,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
               <ReplacementVariableEditorMock
                 content="Test title"
                 editorRef={[Function]}
-                fieldId="snippet-editor-field-title"
+                fieldId="yoast-google-preview-title"
                 isActive={false}
                 isHovered={false}
                 label="SEO title"
@@ -18894,7 +18952,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                   >
                     <SnippetEditorFields__SlugInput
                       aria-labelledby="snippet-editor-field-7-slug"
-                      id="snippet-editor-field-slug"
+                      id="yoast-google-preview-slug"
                       onBlur={[Function]}
                       onChange={[Function]}
                       onFocus={[Function]}
@@ -18925,7 +18983,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                           }
                         }
                         forwardedRef={[Function]}
-                        id="snippet-editor-field-slug"
+                        id="yoast-google-preview-slug"
                         onBlur={[Function]}
                         onChange={[Function]}
                         onFocus={[Function]}
@@ -18934,7 +18992,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                         <input
                           aria-labelledby="snippet-editor-field-7-slug"
                           className="c19"
-                          id="snippet-editor-field-slug"
+                          id="yoast-google-preview-slug"
                           onBlur={[Function]}
                           onChange={[Function]}
                           onFocus={[Function]}
@@ -18948,7 +19006,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
               <ReplacementVariableEditorMock
                 content="Test description, %%replacement_variable%%"
                 editorRef={[Function]}
-                fieldId="snippet-editor-field-description"
+                fieldId="yoast-google-preview-description"
                 isActive={false}
                 isHovered={false}
                 label="Meta description"
@@ -19446,14 +19504,14 @@ exports[`SnippetEditor passes the date prop 1`] = `
       checked={true}
       className="c2"
       defaultValue="mobile"
-      id="yoast-google-preview-mode-mobile-5"
+      id="yoast-google-preview-mode-mobile"
       name="screen"
       onChange={[Function]}
       type="radio"
     />
     <label
       className="c3"
-      htmlFor="yoast-google-preview-mode-mobile-5"
+      htmlFor="yoast-google-preview-mode-mobile"
     >
       Mobile result
     </label>
@@ -19462,14 +19520,14 @@ exports[`SnippetEditor passes the date prop 1`] = `
       checked={false}
       className="c2"
       defaultValue="desktop"
-      id="yoast-google-preview-mode-desktop-5"
+      id="yoast-google-preview-mode-desktop"
       name="screen"
       onChange={[Function]}
       type="radio"
     />
     <label
       className="c3"
-      htmlFor="yoast-google-preview-mode-desktop-5"
+      htmlFor="yoast-google-preview-mode-desktop"
     >
       Desktop result
     </label>
@@ -19621,6 +19679,8 @@ exports[`SnippetEditor removes the highlight from the hovered field on calling o
   <div>
     <ModeSwitcher
       active="mobile"
+      desktopModeInputId="yoast-google-preview-mode-desktop"
+      mobileModeInputId="yoast-google-preview-mode-mobile"
       onChange={[Function]}
     />
     <SnippetPreview
@@ -19680,6 +19740,7 @@ exports[`SnippetEditor removes the highlight from the hovered field on calling o
         }
       }
       descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
+      descriptionInputId="yoast-google-preview-description"
       descriptionLengthProgress={
         Object {
           "actual": 42,
@@ -19693,6 +19754,8 @@ exports[`SnippetEditor removes the highlight from the hovered field on calling o
       onFocus={[Function]}
       recommendedReplacementVariables={Array []}
       replacementVariables={Array []}
+      slugInputId="yoast-google-preview-slug"
+      titleInputId="yoast-google-preview-title"
       titleLengthProgress={
         Object {
           "actual": 0,
@@ -20165,6 +20228,8 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
   }
   faviconSrc=""
   hasPaperStyle={true}
+  idSuffix=""
+  keyword=""
   locale="en"
   mapEditorDataToPreview={null}
   mobileImageSrc=""
@@ -20187,6 +20252,8 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
     <div>
       <ModeSwitcher
         active="mobile"
+        desktopModeInputId="yoast-google-preview-mode-desktop"
+        mobileModeInputId="yoast-google-preview-mode-mobile"
         onChange={[Function]}
       >
         <ModeSwitcher__Switcher>
@@ -20259,7 +20326,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                 optionalAttributes={
                   Object {
                     "checked": true,
-                    "id": "yoast-google-preview-mode-mobile-12",
+                    "id": "yoast-google-preview-mode-mobile",
                   }
                 }
                 type="radio"
@@ -20297,7 +20364,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                   optionalAttributes={
                     Object {
                       "checked": true,
-                      "id": "yoast-google-preview-mode-mobile-12",
+                      "id": "yoast-google-preview-mode-mobile",
                     }
                   }
                   type="radio"
@@ -20311,7 +20378,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                     optionalAttributes={
                       Object {
                         "checked": true,
-                        "id": "yoast-google-preview-mode-mobile-12",
+                        "id": "yoast-google-preview-mode-mobile",
                       }
                     }
                     type="radio"
@@ -20321,7 +20388,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                       checked={true}
                       className="c2"
                       defaultValue="mobile"
-                      id="yoast-google-preview-mode-mobile-12"
+                      id="yoast-google-preview-mode-mobile"
                       name="screen"
                       onChange={[Function]}
                       type="radio"
@@ -20330,10 +20397,10 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                 </StyledComponent>
               </ModeSwitcher__ModeRadio>
               <ModeSwitcher__ModeLabel
-                for="yoast-google-preview-mode-mobile-12"
+                for="yoast-google-preview-mode-mobile"
               >
                 <StyledComponent
-                  for="yoast-google-preview-mode-mobile-12"
+                  for="yoast-google-preview-mode-mobile"
                   forwardedComponent={
                     Object {
                       "$$typeof": Symbol(react.forward_ref),
@@ -20362,12 +20429,12 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                 >
                   <Label
                     className="c3"
-                    for="yoast-google-preview-mode-mobile-12"
+                    for="yoast-google-preview-mode-mobile"
                     optionalAttributes={Object {}}
                   >
                     <label
                       className="c3"
-                      htmlFor="yoast-google-preview-mode-mobile-12"
+                      htmlFor="yoast-google-preview-mode-mobile"
                     >
                       Mobile result
                     </label>
@@ -20380,7 +20447,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                 optionalAttributes={
                   Object {
                     "checked": false,
-                    "id": "yoast-google-preview-mode-desktop-12",
+                    "id": "yoast-google-preview-mode-desktop",
                   }
                 }
                 type="radio"
@@ -20418,7 +20485,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                   optionalAttributes={
                     Object {
                       "checked": false,
-                      "id": "yoast-google-preview-mode-desktop-12",
+                      "id": "yoast-google-preview-mode-desktop",
                     }
                   }
                   type="radio"
@@ -20432,7 +20499,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                     optionalAttributes={
                       Object {
                         "checked": false,
-                        "id": "yoast-google-preview-mode-desktop-12",
+                        "id": "yoast-google-preview-mode-desktop",
                       }
                     }
                     type="radio"
@@ -20442,7 +20509,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                       checked={false}
                       className="c2"
                       defaultValue="desktop"
-                      id="yoast-google-preview-mode-desktop-12"
+                      id="yoast-google-preview-mode-desktop"
                       name="screen"
                       onChange={[Function]}
                       type="radio"
@@ -20451,10 +20518,10 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                 </StyledComponent>
               </ModeSwitcher__ModeRadio>
               <ModeSwitcher__ModeLabel
-                for="yoast-google-preview-mode-desktop-12"
+                for="yoast-google-preview-mode-desktop"
               >
                 <StyledComponent
-                  for="yoast-google-preview-mode-desktop-12"
+                  for="yoast-google-preview-mode-desktop"
                   forwardedComponent={
                     Object {
                       "$$typeof": Symbol(react.forward_ref),
@@ -20483,12 +20550,12 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                 >
                   <Label
                     className="c3"
-                    for="yoast-google-preview-mode-desktop-12"
+                    for="yoast-google-preview-mode-desktop"
                     optionalAttributes={Object {}}
                   >
                     <label
                       className="c3"
-                      htmlFor="yoast-google-preview-mode-desktop-12"
+                      htmlFor="yoast-google-preview-mode-desktop"
                     >
                       Desktop result
                     </label>
@@ -21500,6 +21567,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
           }
         }
         descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
+        descriptionInputId="yoast-google-preview-description"
         descriptionLengthProgress={
           Object {
             "actual": 42,
@@ -21513,6 +21581,8 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
         onFocus={[Function]}
         recommendedReplacementVariables={Array []}
         replacementVariables={Array []}
+        slugInputId="yoast-google-preview-slug"
+        titleInputId="yoast-google-preview-title"
         titleLengthProgress={
           Object {
             "actual": 0,
@@ -21558,7 +21628,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
               <ReplacementVariableEditorMock
                 content="Test title"
                 editorRef={[Function]}
-                fieldId="snippet-editor-field-title"
+                fieldId="yoast-google-preview-title"
                 isActive={false}
                 isHovered={false}
                 label="SEO title"
@@ -21739,7 +21809,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                   >
                     <SnippetEditorFields__SlugInput
                       aria-labelledby="snippet-editor-field-6-slug"
-                      id="snippet-editor-field-slug"
+                      id="yoast-google-preview-slug"
                       onBlur={[Function]}
                       onChange={[Function]}
                       onFocus={[Function]}
@@ -21770,7 +21840,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                           }
                         }
                         forwardedRef={[Function]}
-                        id="snippet-editor-field-slug"
+                        id="yoast-google-preview-slug"
                         onBlur={[Function]}
                         onChange={[Function]}
                         onFocus={[Function]}
@@ -21779,7 +21849,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                         <input
                           aria-labelledby="snippet-editor-field-6-slug"
                           className="c19"
-                          id="snippet-editor-field-slug"
+                          id="yoast-google-preview-slug"
                           onBlur={[Function]}
                           onChange={[Function]}
                           onFocus={[Function]}
@@ -21793,7 +21863,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
               <ReplacementVariableEditorMock
                 content="Test description, %%replacement_variable%%"
                 editorRef={[Function]}
-                fieldId="snippet-editor-field-description"
+                fieldId="yoast-google-preview-description"
                 isActive={false}
                 isHovered={false}
                 label="Meta description"
@@ -22265,14 +22335,14 @@ exports[`SnippetEditor renders in desktop mode 1`] = `
       checked={false}
       className="c2"
       defaultValue="mobile"
-      id="yoast-google-preview-mode-mobile-4"
+      id="yoast-google-preview-mode-mobile"
       name="screen"
       onChange={[Function]}
       type="radio"
     />
     <label
       className="c3"
-      htmlFor="yoast-google-preview-mode-mobile-4"
+      htmlFor="yoast-google-preview-mode-mobile"
     >
       Mobile result
     </label>
@@ -22281,14 +22351,14 @@ exports[`SnippetEditor renders in desktop mode 1`] = `
       checked={true}
       className="c2"
       defaultValue="desktop"
-      id="yoast-google-preview-mode-desktop-4"
+      id="yoast-google-preview-mode-desktop"
       name="screen"
       onChange={[Function]}
       type="radio"
     />
     <label
       className="c3"
-      htmlFor="yoast-google-preview-mode-desktop-4"
+      htmlFor="yoast-google-preview-mode-desktop"
     >
       Desktop result
     </label>
@@ -22696,14 +22766,14 @@ exports[`SnippetEditor renders the snippet editor without a close button when sh
       checked={true}
       className="c2"
       defaultValue="mobile"
-      id="yoast-google-preview-mode-mobile-6"
+      id="yoast-google-preview-mode-mobile"
       name="screen"
       onChange={[Function]}
       type="radio"
     />
     <label
       className="c3"
-      htmlFor="yoast-google-preview-mode-mobile-6"
+      htmlFor="yoast-google-preview-mode-mobile"
     >
       Mobile result
     </label>
@@ -22712,14 +22782,14 @@ exports[`SnippetEditor renders the snippet editor without a close button when sh
       checked={false}
       className="c2"
       defaultValue="desktop"
-      id="yoast-google-preview-mode-desktop-6"
+      id="yoast-google-preview-mode-desktop"
       name="screen"
       onChange={[Function]}
       type="radio"
     />
     <label
       className="c3"
-      htmlFor="yoast-google-preview-mode-desktop-6"
+      htmlFor="yoast-google-preview-mode-desktop"
     >
       Desktop result
     </label>
@@ -22858,7 +22928,7 @@ exports[`SnippetEditor renders the snippet editor without a close button when sh
       <input
         aria-labelledby="snippet-editor-field-1-slug"
         className="c18"
-        id="snippet-editor-field-slug"
+        id="yoast-google-preview-slug"
         onBlur={[Function]}
         onChange={[Function]}
         onFocus={[Function]}
@@ -23107,14 +23177,14 @@ exports[`SnippetEditor shows the editor 1`] = `
       checked={true}
       className="c2"
       defaultValue="mobile"
-      id="yoast-google-preview-mode-mobile-1"
+      id="yoast-google-preview-mode-mobile"
       name="screen"
       onChange={[Function]}
       type="radio"
     />
     <label
       className="c3"
-      htmlFor="yoast-google-preview-mode-mobile-1"
+      htmlFor="yoast-google-preview-mode-mobile"
     >
       Mobile result
     </label>
@@ -23123,14 +23193,14 @@ exports[`SnippetEditor shows the editor 1`] = `
       checked={false}
       className="c2"
       defaultValue="desktop"
-      id="yoast-google-preview-mode-desktop-1"
+      id="yoast-google-preview-mode-desktop"
       name="screen"
       onChange={[Function]}
       type="radio"
     />
     <label
       className="c3"
-      htmlFor="yoast-google-preview-mode-desktop-1"
+      htmlFor="yoast-google-preview-mode-desktop"
     >
       Desktop result
     </label>

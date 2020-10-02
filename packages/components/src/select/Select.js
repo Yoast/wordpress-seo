@@ -58,15 +58,18 @@ const changeOptionFormatToReactSelect = ( options ) => {
 };
 
 /**
- * MultiSelect using the react-select package.
+ * ReactSelect using the react-select package.
  *
  * @param {object} props The functional component props.
  *
- * @returns {React.Component} The react-select MultiSelect.
+ * @returns {React.Component} The react-select ReactSelect component.
  */
-export const MultiSelect = ( props ) => {
+export const YoastReactSelect = ( props ) => {
 	const {
 		id,
+		isMulti,
+		isSearchable,
+		inputId,
 		selected,
 		options,
 		name,
@@ -80,6 +83,63 @@ export const MultiSelect = ( props ) => {
 	const reactSelectOptions = changeOptionFormatToReactSelect( options );
 	const selectedOptions = reactSelectOptions.filter( option => selections.includes( option.value ) );
 
+	return (
+		<FieldGroup
+			{ ...fieldGroupProps }
+			htmlFor={ inputId }
+		>
+			<ReactSelect
+				isMulti={ isMulti }
+				id={ id }
+				name={ name }
+				inputId={ inputId }
+				value={ selectedOptions }
+				options={ reactSelectOptions }
+				hideSelectedOptions={ false }
+				onChange={ onChange }
+				className="yoast-select-container"
+				classNamePrefix="yoast-select"
+				isClearable={ false }
+				isSearchable={ isSearchable }
+				placeholder=""
+			/>
+		</FieldGroup>
+	);
+};
+
+YoastReactSelect.propTypes = selectProps;
+YoastReactSelect.defaultProps = selectDefaultProps;
+
+/**
+ * SingleSelect component.
+ * @param {object} props The functional component props.
+ *
+ * @returns {React.Component} The react-select MultiSelect component.
+ */
+export const SingleSelect = ( props ) => {
+	const { onChange } = props;
+
+	const onChangeHandler = useCallback( selection => onChange( selection.value ) );
+	return <YoastReactSelect
+		{ ...props }
+		isMulti={ false }
+		isSearchable={ true }
+		onChange={ onChangeHandler }
+	/>;
+};
+
+SingleSelect.propTypes = selectProps;
+SingleSelect.defaultProps = selectDefaultProps;
+
+/**
+ * MultiSelect component.
+ * @param {object} props The functional component props.
+ *
+ * @returns {React.Component} The react-select MultiSelect component.
+ */
+export const MultiSelect = ( props ) => {
+	const { onChange } = props;
+
 	const onChangeHandler = useCallback( selection => {
 		// Make sure that selection is always an array.
 		if ( ! selection ) {
@@ -87,30 +147,15 @@ export const MultiSelect = ( props ) => {
 		}
 
 		// Only call the onChange handler on the selected values.
-		 onChange( selection.map( option => option.value ) );
+		onChange( selection.map( option => option.value ) );
 	} );
 
-	return (
-		<FieldGroup
-			{ ...fieldGroupProps }
-			htmlFor={ id }
-		>
-			<ReactSelect
-				isMulti={ true }
-				id={ id }
-				name={ `${ name }[]` }
-				value={ selectedOptions }
-				options={ reactSelectOptions }
-				hideSelectedOptions={ false }
-				onChange={ onChangeHandler }
-				className="yoast-select-container"
-				classNamePrefix="yoast-select"
-				isClearable={ false }
-				isSearchable={ false }
-				placeholder=""
-			/>
-		</FieldGroup>
-	);
+	return <YoastReactSelect
+		{ ...props }
+		isMulti={ true }
+		isSearchable={ false }
+		onChange={ onChangeHandler }
+	/>;
 };
 
 MultiSelect.propTypes = selectProps;

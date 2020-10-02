@@ -145,7 +145,6 @@ const RadioButtonGroup = props => {
 
 	return (
 		<FieldGroup
-			htmlFor={ componentId }
 			{ ...fieldGroupProps }
 		>
 			{ vertical

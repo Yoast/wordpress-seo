@@ -14,7 +14,7 @@ export function doesWordMatchRegex( word, regex ) {
  * Loops through a nested array with pairs of regexes and replacements, and performs the needed replacement if a match is found.
  *
  * @param {string} word 							The word that may need to be modified.
- * @param {string[]} groupOfRegexAndReplacements 	The array with the regexes and the required replacements.
+ * @param {[][]} groupOfRegexAndReplacements 	The array with the regexes and the required replacements.
  * @returns {?string} The modified stem or null if no match was found.
  */
 export function searchAndReplaceWithRegex( word, groupOfRegexAndReplacements ) {
