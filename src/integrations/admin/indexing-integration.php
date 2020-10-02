@@ -128,6 +128,13 @@ class Indexing_Integration implements Integration_Interface {
 			],
 		];
 
+		/**
+		 * Filter: 'wpseo_indexing_data' Filter to adapt the data used in the indexing process.
+		 *
+		 * @param array $data The indexing data to adapt.
+		 */
+		$data = \apply_filters( 'wpseo_indexing_data', $data );
+
 		\wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'indexation', 'yoastIndexingData', $data );
 	}
 
