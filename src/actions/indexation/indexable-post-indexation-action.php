@@ -1,9 +1,4 @@
 <?php
-/**
- * Reindexation action for indexables.
- *
- * @package Yoast\WP\SEO\Actions\Indexation
- */
 
 namespace Yoast\WP\SEO\Actions\Indexation;
 
@@ -14,7 +9,7 @@ use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
 /**
- * Indexable_Post_Indexation_Action class.
+ * Reindexation action for post indexables.
  */
 class Indexable_Post_Indexation_Action implements Indexation_Action_Interface {
 
@@ -58,9 +53,9 @@ class Indexable_Post_Indexation_Action implements Indexation_Action_Interface {
 	}
 
 	/**
-	 * The total number of unindexed posts.
+	 * Returns the total number of unindexed posts.
 	 *
-	 * @return int|false The amount of unindexed posts. False if the query fails.
+	 * @return int|false The total number of unindexed posts. False if the query fails.
 	 */
 	public function get_total_unindexed() {
 		$transient = \get_transient( static::TRANSIENT_CACHE_KEY );
@@ -101,7 +96,9 @@ class Indexable_Post_Indexation_Action implements Indexation_Action_Interface {
 	}
 
 	/**
-	 * @inheritDoc
+	 * Returns the number of posts that will be indexed in a single indexing pass.
+	 *
+	 * @return int The limit.
 	 */
 	public function get_limit() {
 		/**
@@ -122,7 +119,7 @@ class Indexable_Post_Indexation_Action implements Indexation_Action_Interface {
 	 * Queries the database for unindexed post IDs.
 	 *
 	 * @param bool $count Whether or not it should be a count query.
-	 * @param int  $limit The maximum amount of post IDs to return.
+	 * @param int  $limit The maximum number of post IDs to return.
 	 *
 	 * @return string The query.
 	 */

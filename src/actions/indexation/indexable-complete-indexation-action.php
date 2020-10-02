@@ -1,9 +1,4 @@
 <?php
-/**
- * Indexation action to call when the indexable indexation process is completed.
- *
- * @package Yoast\WP\SEO\Actions\Indexation
- */
 
 namespace Yoast\WP\SEO\Actions\Indexation;
 
@@ -36,7 +31,7 @@ class Indexable_Complete_Indexation_Action {
 	 * @return void
 	 */
 	public function complete() {
-		$this->options->set( 'indexation_started', 0 );
+		$this->options->set( 'indexation_started', null );
 		$this->options->set( 'indexables_indexation_reason', '' );
 		$this->options->set( 'indexables_indexation_completed', true );
 	}

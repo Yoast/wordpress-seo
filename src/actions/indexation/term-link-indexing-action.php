@@ -1,9 +1,4 @@
 <?php
-/**
- * Reindexation action for indexables.
- *
- * @package Yoast\WP\SEO\Actions\Indexation
- */
 
 namespace Yoast\WP\SEO\Actions\Indexation;
 
@@ -11,7 +6,7 @@ use Yoast\WP\Lib\Model;
 use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
 
 /**
- * Term_Link_Indexing_Action class.
+ * Reindexation action for term link indexables.
  */
 class Term_Link_Indexing_Action extends Abstract_Link_Indexing_Action {
 
@@ -50,20 +45,23 @@ class Term_Link_Indexing_Action extends Abstract_Link_Indexing_Action {
 
 		$terms = $this->wpdb->get_results( $query );
 
-		return \array_map( function ( $term ) {
-			return (object) [
-				'id'      => (int) $term->term_id,
-				'type'    => 'term',
-				'content' => $term->description,
-			];
-		}, $terms );
+		return \array_map(
+			static function ( $term ) {
+				return (object) [
+					'id'      => (int) $term->term_id,
+					'type'    => 'term',
+					'content' => $term->description,
+				];
+			},
+			$terms
+		);
 	}
 
 	/**
 	 * Queries the database for unindexed term IDs.
 	 *
 	 * @param bool $count Whether or not it should be a count query.
-	 * @param int  $limit The maximum amount of term IDs to return.
+	 * @param int  $limit The maximum number of term IDs to return.
 	 *
 	 * @return string The query.
 	 */
@@ -83,13 +81,15 @@ class Term_Link_Indexing_Action extends Abstract_Link_Indexing_Action {
 			$replacements[] = $limit;
 		}
 
-		return $this->wpdb->prepare( "
-			SELECT $select
+		return $this->wpdb->prepare(
+			"SELECT $select
 			FROM {$this->wpdb->term_taxonomy}
 			WHERE term_id NOT IN (
 				SELECT object_id FROM $indexable_table WHERE link_count IS NOT NULL AND object_type = 'term'
 			) AND taxonomy IN ($placeholders)
 			$limit_query
-		", $replacements );
+			",
+			$replacements
+		);
 	}
 }

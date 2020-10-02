@@ -1,9 +1,4 @@
 <?php
-/**
- * System page builder for the indexables.
- *
- * @package Yoast\YoastSEO\Builders
- */
 
 namespace Yoast\WP\SEO\Builders;
 
@@ -11,6 +6,8 @@ use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Models\Indexable;
 
 /**
+ * System page builder for the indexables.
+ *
  * Formats system pages ( search and error ) meta to indexable format.
  */
 class Indexable_System_Page_Builder {

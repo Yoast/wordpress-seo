@@ -7,6 +7,7 @@ import { validateTwitterImage } from "@yoast/helpers";
 /* Internal dependencies */
 import TwitterWrapper from "../components/social/TwitterWrapper";
 import getL10nObject from "../analysis/getL10nObject";
+import withLocation from "../helpers/withLocation";
 
 const socialMediumName = "Twitter";
 
@@ -67,6 +68,7 @@ const openMedia = () => {
 	return getMedia().open();
 };
 
+/* eslint-disable complexity */
 export default compose( [
 	withSelect( select => {
 		const {
@@ -85,7 +87,6 @@ export default compose( [
 			getReplaceVars,
 			getSiteUrl,
 			getAuthorName,
-			getTwitterIsLoading,
 		} = select( "yoast-seo/editor" );
 		return {
 			imageUrl: getTwitterImageUrl(),
@@ -101,7 +102,6 @@ export default compose( [
 			siteUrl: getSiteUrl(),
 			isPremium: !! getL10nObject().isPremium,
 			isLarge: getTwitterImageType() !== "summary",
-			isLoading: getTwitterIsLoading(),
 			titleInputPlaceholder,
 			descriptionInputPlaceholder,
 			socialMediumName,
@@ -124,4 +124,7 @@ export default compose( [
 			onLoad: loadTwitterPreviewData,
 		};
 	} ),
+
+	withLocation(),
 ] )( TwitterWrapper );
+/* eslint-enable complexity */

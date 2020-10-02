@@ -1,16 +1,11 @@
 <?php
-/**
- * A helper object for site options.
- *
- * @package Yoast\WP\SEO\Helpers
- */
 
 namespace Yoast\WP\SEO\Helpers;
 
 use WPSEO_Utils;
 
 /**
- * Class Site_Helper
+ * A helper object for site options.
  */
 class Site_Helper {
 

@@ -10,9 +10,11 @@ use Yoast\WP\SEO\Generators\Schema_Generator;
 use Yoast\WP\SEO\Generators\Twitter_Image_Generator;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Image_Helper;
+use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Helpers\Open_Graph\Image_Helper as Open_Graph_Image_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Pagination_Helper;
+use Yoast\WP\SEO\Helpers\Permalink_Helper;
 use Yoast\WP\SEO\Helpers\Twitter\Image_Helper as Twitter_Image_Helper;
 use Yoast\WP\SEO\Helpers\Url_Helper;
 use Yoast\WP\SEO\Helpers\User_Helper;
@@ -21,36 +23,64 @@ use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 trait Presentation_Instance_Dependencies {
 
 	/**
+	 * Holds the options helper.
+	 *
 	 * @var Options_Helper|Mockery\MockInterface
 	 */
 	protected $options;
 
 	/**
+	 * Holds the image helper.
+	 *
 	 * @var Image_Helper|Mockery\MockInterface
 	 */
 	protected $image;
 
 	/**
+	 * Holds the url helper.
+	 *
 	 * @var Url_Helper|Mockery\MockInterface
 	 */
 	protected $url;
 
 	/**
+	 * Holds the current page helper.
+	 *
 	 * @var Current_Page_Helper|Mockery\MockInterface
 	 */
 	protected $current_page;
 
 	/**
+	 * Holds the user helper.
+	 *
 	 * @var User_Helper|Mockery\MockInterface
 	 */
 	protected $user;
 
 	/**
+	 * Holds the indexable helper.
+	 *
+	 * @var \Yoast\WP\SEO\Helpers\Indexable_Helper|Mockery\MockInterface
+	 */
+	protected $indexable_helper;
+
+	/**
+	 * Holds the permalink helper.
+	 *
+	 * @var \Yoast\WP\SEO\Helpers\Permalink_Helper|Mockery\MockInterface
+	 */
+	protected $permalink_helper;
+
+	/**
+	 * Holds the opengraph image helper.
+	 *
 	 * @var Open_Graph_Image_Helper|Mockery\MockInterface
 	 */
 	protected $open_graph_image;
 
 	/**
+	 * Holds the twitter image helper.
+	 *
 	 * @var Twitter_Image_Helper|Mockery\MockInterface
 	 */
 	protected $twitter;
@@ -63,11 +93,15 @@ trait Presentation_Instance_Dependencies {
 	protected $pagination;
 
 	/**
+	 * Holds the open open graph image generator.
+	 *
 	 * @var Open_Graph_Image_Generator|Mockery\MockInterface
 	 */
 	protected $open_graph_image_generator;
 
 	/**
+	 * Holds the twitter image generator.
+	 *
 	 * @var Twitter_Image_Generator|Mockery\MockInterface
 	 */
 	protected $twitter_image_generator;
@@ -83,6 +117,8 @@ trait Presentation_Instance_Dependencies {
 		$this->current_page     = Mockery::mock( Current_Page_Helper::class );
 		$this->url              = Mockery::mock( Url_Helper::class );
 		$this->user             = Mockery::mock( User_Helper::class );
+		$this->indexable_helper = Mockery::mock( Indexable_Helper::class );
+		$this->permalink_helper = Mockery::mock( Permalink_Helper::class );
 		$this->open_graph_image = Mockery::mock( Open_Graph_Image_Helper::class );
 		$this->twitter          = Mockery::mock( Twitter_Image_Helper::class );
 
@@ -91,7 +127,9 @@ trait Presentation_Instance_Dependencies {
 			$this->options,
 			$this->current_page,
 			$this->url,
-			$this->user
+			$this->user,
+			$this->indexable_helper,
+			$this->permalink_helper
 		);
 
 		$this->open_graph_image_generator = Mockery::mock(

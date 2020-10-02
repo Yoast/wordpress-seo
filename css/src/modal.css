@@ -1,0 +1,575 @@
+.yoast-modal__screen-overlay { /* Background */
+	position: fixed;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	background-color: rgba(164, 40, 106, 0.6);
+	z-index: 100000;
+	animation: edit-post__fade-in-animation .2s ease-out 0s;
+	animation-fill-mode: forwards;
+}
+
+.yoast-modal {
+	background: white;
+	display: flex;
+	flex-direction: column;
+	overflow: hidden;
+	position: fixed;
+	height: calc(100% - 96px);
+	top: 48px;
+	bottom: 48px;
+	left: calc(50% - 440px);
+	max-width: 880px;
+	width: 100%;
+}
+
+.yoast-gutenberg-modal .yoast-icon {
+	background-color: var(--yoast-color-primary);
+	mask-image: var(--yoast-svg-icon-yoast);
+	-webkit-mask-image: var(--yoast-svg-icon-yoast);
+	mask-size: 100% 100%;
+	-webkit-mask-size: 100% 100%;
+	display: inline-block;
+	width: 20px;
+	height: 20px;
+	margin-right: 8px;
+}
+
+.yoast-tabs .yoast-modal__content {
+	display: grid;
+	grid-template-areas: "heading heading" "menu content" "menu footer";
+	grid-template-rows: 72px 1fr 88px;
+	grid-template-columns: 280px 1fr;
+}
+
+.yoast-modal__heading {
+	display: flex;
+	align-items: center;
+	box-sizing: border-box;
+	min-height: 72px;
+	border-bottom: var(--yoast-border-default);
+	padding: 0 24px;
+	grid-area: heading;
+	background: var(--yoast-color-white);
+}
+
+.yoast-modal__heading .yoast-close {
+	position: absolute;
+	right: 16px;
+}
+
+.yoast-modal__heading h1,
+.yoast-gutenberg-modal .components-modal__header-heading {
+	font-size: 20px;
+	font-weight: 400;
+	color: var(--yoast-color-primary);
+	line-height: 1.2;
+	margin: 0;
+}
+
+.yoast-gutenberg-modal .components-modal__icon-container {
+	display: inline-flex;
+}
+
+.yoast-modal__heading-icon,
+.yoast-gutenberg-modal .components-modal__icon-container svg {
+	fill: var(--yoast-color-primary);
+	margin-right: 16px;
+	width: 19px;
+	height: 20px;
+	flex-shrink: 0;
+}
+
+.yoast-modal__menu {
+	grid-area: menu;
+	border-right: var(--yoast-border-default);
+	overflow-y: auto;
+}
+
+.yoast-modal__menu ul {
+	padding: 0;
+	margin: 0;
+	list-style: none;
+}
+
+.yoast-modal__menu li {
+	padding: 12px 16px 11px;
+	border-bottom: var(--yoast-border-default);
+	font-size: 16px;
+	cursor: pointer;
+	text-decoration: none;
+	color: var(--yoast-color-default);
+	display: block;
+}
+
+.yoast-modal__menu li:hover {
+	background-color: #EDD4E1;
+}
+
+.yoast-modal__menu li.yoast-tabs__tab--selected {
+	background-color: var(--yoast-color-primary);
+	border-bottom: var(--yoast-border-default);
+	color: white;
+}
+
+.yoast-modal__content {
+	grid-area: content;
+	overflow-y: auto;
+	flex-grow: 1;
+	position: relative;
+	display: flex;
+	flex-direction: column;
+}
+
+.yoast-modal__section {
+	grid-area: content;
+	overflow-y: auto;
+	flex-grow: 1;
+	position: relative;
+	display: flex;
+	flex-direction: column;
+}
+
+.yoast-modal__section * {
+	max-width: 600px;
+}
+
+.yoast-modal__section-header {
+	position: sticky;
+	top: 0;
+	background: var(--yoast-color-white);
+	padding: 24px 24px 0 24px;
+	z-index: 10;
+}
+
+.yoast-modal__section .yoast-h2 {
+	border-bottom: var(--yoast-border-default);
+	padding-bottom: 24px;
+}
+
+.yoast-modal__footer {
+	grid-area: footer;
+	padding: 0;
+	border-top: var(--yoast-border-default);
+	display: flex;
+	align-self: flex-end;
+	align-items: center;
+	justify-content: flex-end;
+	position: sticky;
+	bottom: 0;
+	background: var(--yoast-color-white);
+	margin: 0 24px;
+	z-index: 10;
+	box-sizing: border-box;
+	min-height: 88px;
+	width: calc(100% - 48px);
+}
+
+.yoast-modal__settings-saved {
+	position: relative;
+	margin-right: 16px;
+	display: inline-flex;
+	align-items: center;
+}
+
+.yoast-modal__settings-saved:before {
+	content: "";
+	background: var(--yoast-checkmark--green) no-repeat center;
+	height: 13px;
+	width: 14px;
+	display: inline-block;
+	margin-right: 8px;
+}
+
+.yoast-modal__footer .yoast-button {
+	display: block;
+}
+
+.yoast-modal__section-content {
+	padding: 24px;
+	flex-grow: 1;
+}
+
+@media screen and (max-width: 880px) {
+	.yoast-modal {
+		top: 0;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		height: auto;
+	}
+}
+
+@media screen and (max-width: 782px) {
+	.yoast-modal {
+		overflow-y: initial;
+	}
+
+	.yoast-modal.yoast-modal-collapsible {
+		padding-bottom: 72px;
+	}
+
+	.yoast-tabs .yoast-modal__content {
+		grid-template-rows: 48px 1fr 72px;
+	}
+
+	.yoast-modal__heading {
+		padding: 0 16px;
+		position: fixed;
+		top: 0;
+		width: 100%;
+		min-height: 48px;
+		z-index: 11;
+	}
+
+	.yoast-modal__heading h1 {
+		font-size: var(--yoast-font-size-default);
+	}
+
+	.yoast-close svg {
+		width: 10px;
+	}
+
+	.yoast-modal__heading-icon {
+		height: 15px;
+		margin-right: 8px;
+	}
+
+	.yoast .yoast-close {
+		right: 3px;
+	}
+
+	.yoast-modal__heading .yoast-h2 {
+		font-size: var(--yoast-font-size-default);
+	}
+
+	.yoast-modal__section {
+		overflow: initial;
+		flex-grow: 0;
+	}
+
+	.yoast-modal__section-content {
+		padding: 24px 0;
+		margin: 0 16px;
+	}
+
+	.yoast-modal__section:first-of-type {
+		margin-top: 48px;
+	}
+
+	.yoast-modal__section:last-of-type {
+		margin-bottom: 72px;
+	}
+
+	.yoast-modal__section-header {
+		top: 48px;
+		position: sticky;
+		padding: 0;
+		margin: 0;
+	}
+
+	.yoast-modal__section-open .yoast-modal__section-header {
+		padding-left: 0;
+		padding-right: 0;
+		margin-left: 16px;
+		margin-right: 16px;
+	}
+
+	.yoast-modal__section-open {
+		border-bottom: var(--yoast-border-default);
+	}
+
+	.yoast-modal__footer {
+		width: 100%;
+		min-height: 72px;
+		margin: 0;
+		padding: 0 16px;
+		position: fixed;
+		z-index: 11;
+	}
+
+	.yoast-modal-collapsible .yoast-modal__footer {
+		min-height: 72px;
+	}
+
+	/* collapsible styling */
+
+	.yoast-modal-collapsible .yoast-modal__section-content {
+		padding: 24px 16px;
+		border-bottom: var(--yoast-border-default);
+		margin: 0;
+	}
+
+	.yoast-collapsible__hidden {
+		display: none;
+	}
+
+	.yoast-collapsible__trigger {
+		padding: 16px;
+		border: none;
+		border-bottom: var(--yoast-border-default);
+		cursor: pointer;
+		justify-content: space-between;
+		font-size: var(--yoast-font-size-default);
+		width: 100%;
+		text-align: left;
+		background: white;
+		color: var(--yoast-color-primary);
+	}
+
+	.yoast-collapsible__trigger[aria-expanded="true"] .yoast-collapsible__icon {
+		transform: rotatez(180deg);
+	}
+
+	.yoast-collapsible__trigger[aria-expanded="true"] {
+		padding: 16px 0;
+		width: calc(100% - 32px);
+		margin: 0 16px;
+	}
+
+	.yoast-collapsible__icon {
+		background-color: var(--yoast-color-white);
+		background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 8" fill="%23404040"><path d="M1.4 0L6 4.6 10.6 0 12 1.4 6 7.5 0 1.4z"/></svg>');
+		background-position: center center;
+		background-repeat: no-repeat;
+		background-size: 10px auto;
+		width: 19px;
+		height: 19px;
+		border: none;
+		display: block;
+		float: right;
+	}
+
+	.yoast-collapsible-block {
+		width: 100%;
+		margin-top: 48px;
+	}
+
+	.yoast-collapsible-block + .yoast-collapsible-block {
+		margin-top: 0;
+	}
+}
+
+/* Specific styling for the PostSettingsModal */
+.yoast-post-settings-modal {
+	width: 880px;
+	height: 100%;
+	max-width: calc(100% - 48px - 48px);
+	max-height: calc(100% - 48px - 48px);
+	overflow: hidden;
+}
+
+.yoast-modal-content {
+	padding: 16px;
+}
+
+.yoast-post-settings-modal__button-container {
+	padding: 16px;
+	display: flex;
+	flex-direction: column;
+	border-bottom: 1px solid rgba( 0,0,0,0.2 );
+}
+
+.yoast-post-settings-modal .components-modal__content {
+	padding: 0;
+	display: flex;
+	flex-direction: column;
+}
+
+.yoast-post-settings-modal .components-modal__header {
+	margin: 0;
+	flex-shrink: 0;
+	border-bottom: var(--yoast-border-default);
+}
+
+.yoast-post-settings-modal .yoast-notice-container {
+	z-index: 1;
+	position: sticky;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	margin-top: auto;
+}
+
+/**
+ * Add a negative margin so that the hr will overlap with the border of the content above.
+ *
+ * As this is only needed when the content overflows, it is hard to make a good CSS rule for this case.
+ * Adding a negative margin solves the problem and has no noticeable effect when the margin was not really needed.
+ */
+.yoast-post-settings-modal .yoast-notice-container > hr {
+	margin-top: -1px;
+	margin-bottom: 0;
+}
+
+/* Set overflow-y to scroll and hide the scrollbar on FireFox. */
+.yoast-post-settings-modal .yoast-content-container {
+	overflow-y: auto;
+}
+
+.yoast-post-settings-modal .yoast-button-container {
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-end;
+	padding: 24px 24px 24px;
+	margin: 0;
+}
+
+.yoast-post-settings-modal .yoast-button-container p {
+	color: var(--yoast-color-label-help);
+	padding-right: 24px;
+	align-self: center;
+}
+
+.yoast-post-settings-modal .yoast-button-container button {
+	flex-shrink: 0;
+	max-height: 45px;
+	align-self: center;
+}
+
+/* Responsive CSS for the mobile PostSettingsModal */
+@media only screen and (max-width: 600px){
+	/* Make the modal fullscreen. */
+	.yoast-post-settings-modal {
+		max-height: 100%;
+		max-width: 100%;
+	}
+
+	/* Align the button and notice so that they have the spacing between them. */
+	.yoast-post-settings-modal .yoast-button-container {
+		padding: 16px 16px 16px;
+		justify-content: space-between;
+	}
+
+	/* Unset the padding for the p on mobile devices */
+	.yoast-post-settings-modal .yoast-button-container p {
+		padding-right: 0;
+	}
+}
+/* Specific styling for the PostSettingsModal */
+.yoast-post-settings-modal {
+	width: 880px;
+	height: 100%;
+	max-width: calc(100% - 48px - 48px);
+	max-height: calc(100% - 48px - 48px);
+	overflow: hidden;
+}
+
+.yoast-post-settings-modal__button-container {
+	padding: 16px;
+	display: flex;
+	flex-direction: column;
+	border-bottom: 1px solid rgba( 0,0,0,0.2 );
+}
+
+.yoast-post-settings-modal .yoast-collapsible-content {
+	padding: 16px;
+	border-top: var(--yoast-border-default);
+}
+
+.yoast-post-settings-modal .components-modal__content {
+	padding: 0;
+	display: flex;
+	flex-direction: column;
+}
+
+.yoast-post-settings-modal .components-modal__header {
+	margin: 0;
+	flex-shrink: 0;
+	border-bottom: var(--yoast-border-default);
+}
+
+.yoast-post-settings-modal .yoast-notice-container {
+	z-index: 1;
+	position: sticky;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	margin-top: auto;
+}
+
+/**
+ * Add a negative margin so that the hr will overlap with the border of the content above.
+ *
+ * As this is only needed when the content overflows, it is hard to make a good CSS rule for this case.
+ * Adding a negative margin solves the problem and has no noticeable effect when the margin was not really needed.
+ */
+.yoast-post-settings-modal .yoast-notice-container > hr {
+	margin-top: -1px;
+	margin-bottom: 0;
+}
+
+/* Set overflow-y to scroll and hide the scrollbar on FireFox. */
+.yoast-post-settings-modal .yoast-content-container {
+	overflow-y: auto;
+	border-bottom: var(--yoast-border-default);
+}
+
+/* Remove the border-top from the first collapsible. This created a double border. */
+.yoast-post-settings-modal .yoast-content-container > div:first-child {
+	border-top: none !important;
+}
+
+.yoast-post-settings-modal .yoast-button-container {
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-end;
+	padding: 24px 24px 24px;
+	margin: 0;
+}
+
+.yoast-post-settings-modal .yoast-button-container p {
+	color: var(--yoast-color-label-help);
+	padding-right: 24px;
+	align-self: center;
+}
+
+.yoast-post-settings-modal .yoast-button-container button {
+	flex-shrink: 0;
+	max-height: 45px;
+	align-self: center;
+}
+
+/* Responsive CSS for the mobile PostSettingsModal */
+@media only screen and (max-width: 600px){
+	/* Make the modal fullscreen. */
+	.yoast-post-settings-modal {
+		max-height: 100%;
+		max-width: 100%;
+	}
+
+	/* Align the button and notice so that they have the spacing between them. */
+	.yoast-post-settings-modal .yoast-button-container {
+		padding: 16px 16px 16px;
+		justify-content: space-between;
+	}
+
+	/* Unset the padding for the p on mobile devices */
+	.yoast-post-settings-modal .yoast-button-container p {
+		padding-right: 0;
+	}
+}
+
+.yoast-related-keyphrases-modal {
+	max-width: 712px;
+}
+
+#yoast-get-related-keyphrases-sidebar,
+#yoast-get-related-keyphrases-metabox {
+	margin-top: 8px;
+}
+
+.yoast-gutenberg-modal .yoast-related-keyphrases-modal__content {
+	min-height: 66vh;
+	position: relative;
+}
+
+ #yoast-semrush-country-selector {
+	 position: relative;
+	 border: none;
+ }
+
+.yoast-related-keyphrases-modal__chart {
+	display: block;
+}

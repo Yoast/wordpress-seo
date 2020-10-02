@@ -15,21 +15,18 @@ trait Presentation_Instance_Builder {
 	use Presentation_Instance_Dependencies;
 
 	/**
+	 * Represents the indexable mock.
+	 *
 	 * @var Indexable_Mock
 	 */
 	protected $indexable;
 
 	/**
+	 * Represents the instance to test.
+	 *
 	 * @var Indexable_Date_Archive_Presentation
 	 */
 	protected $instance;
-
-	/**
-	 * Holds the Pagination_Helper instance.
-	 *
-	 * @var Pagination_Helper|Mockery\MockInterface
-	 */
-	protected $pagination;
 
 	/**
 	 * Builds an instance of Indexable_Post_Type_Presentation.

@@ -38,6 +38,10 @@ class WPSEO_Expose_Shortlinks implements WPSEO_WordPress_Integration {
 		'shortlinks.activate_premium_info'                          => 'https://yoa.st/activate-subscription',
 		'shortlinks.upsell.sidebar.morphology_upsell_metabox'       => 'https://yoa.st/morphology-upsell-metabox',
 		'shortlinks.upsell.sidebar.morphology_upsell_sidebar'       => 'https://yoa.st/morphology-upsell-sidebar',
+		'shortlinks.semrush.volume_help'                            => 'https://yoa.st/3-v',
+		'shortlinks.semrush.trend_help'                             => 'https://yoa.st/3-v',
+		'shortlinks.semrush.prices'                                 => 'https://yoa.st/semrush-prices',
+		'shortlinks.semrush.premium_landing_page'                   => 'https://yoa.st/413',
 	];
 
 	/**

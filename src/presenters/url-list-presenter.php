@@ -1,24 +1,23 @@
 <?php
-/**
- * Presenter class for the document title.
- *
- * @package Yoast\YoastSEO\Presenters
- */
 
 namespace Yoast\WP\SEO\Presenters;
 
 /**
- * Class Url_List_Presenter
+ * Presenter class for the URL list.
  */
 class Url_List_Presenter extends Abstract_Presenter {
 
 	/**
-	 * @var array A list of arrays containing titles and urls.
+	 * A list of arrays containing titles and URLs.
+	 *
+	 * @var array
 	 */
 	private $links;
 
 	/**
-	 * @var string Classname for the url list.
+	 * Classname for the URL list.
+	 *
+	 * @var string
 	 */
 	private $class_name;
 
@@ -34,7 +33,9 @@ class Url_List_Presenter extends Abstract_Presenter {
 	}
 
 	/**
-	 * @return string
+	 * Presents the URL list.
+	 *
+	 * @return string The URL list.
 	 */
 	public function present() {
 		$output = '<ul class="' . $this->class_name . '">';

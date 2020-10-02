@@ -1,18 +1,11 @@
 <?php
-/**
- * WPSEO plugin file.
- *
- * @package Yoast\WP\SEO\Helpers\Schema
- */
 
 namespace Yoast\WP\SEO\Helpers\Schema;
 
 use Yoast\WP\SEO\Helpers\Image_Helper as Main_Image_Helper;
 
 /**
- * Class Image_Helper
- *
- * @package Yoast\WP\SEO\Helpers\Schema
+ * Class Image_Helper.
  */
 class Image_Helper {
 

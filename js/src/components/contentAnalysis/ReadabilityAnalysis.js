@@ -9,12 +9,12 @@ import { isNil, get } from "lodash-es";
 
 /* Internal components */
 import ScoreIconPortal from "../portals/ScoreIconPortal";
-import Results from "./Results";
+import Results from "../../containers/Results";
 import Collapsible from "../SidebarCollapsible";
 import getIndicatorForScore from "../../analysis/getIndicatorForScore";
 import { getIconForScore } from "./mapResults";
 import { LocationConsumer } from "../contexts/location";
-import HelpLink from "./HelpLink";
+import HelpLink from "../HelpLink";
 import ReadabilityResultsPortal from "../portals/ReadabilityResultsPortal";
 
 const AnalysisHeader = styled.span`

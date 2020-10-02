@@ -1,9 +1,4 @@
 <?php
-/**
- * WPSEO plugin file.
- *
- * @package WPSEO\Frontend
- */
 
 namespace Yoast\WP\SEO\Integrations\Front_End;
 
@@ -12,7 +7,7 @@ use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 
 /**
- * Class RSS_Footer_Embed
+ * Class RSS_Footer_Embed.
  */
 class RSS_Footer_Embed implements Integration_Interface {
 
@@ -24,7 +19,9 @@ class RSS_Footer_Embed implements Integration_Interface {
 	protected $options;
 
 	/**
-	 * @inheritDoc
+	 * Returns the conditionals based in which this loadable should be active.
+	 *
+	 * @return array
 	 */
 	public static function get_conditionals() {
 		return [ Front_End_Conditional::class ];
@@ -42,7 +39,11 @@ class RSS_Footer_Embed implements Integration_Interface {
 	}
 
 	/**
-	 * @inheritDoc
+	 * Initializes the integration.
+	 *
+	 * This is the place to register hooks and filters.
+	 *
+	 * @return void
 	 */
 	public function register_hooks() {
 		\add_filter( 'the_content_feed', [ $this, 'embed_rssfooter' ] );

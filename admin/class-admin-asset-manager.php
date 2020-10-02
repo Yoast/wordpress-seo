@@ -306,6 +306,7 @@ class WPSEO_Admin_Asset_Manager {
 				'src'       => 'classic-editor-' . $flat_version,
 				'deps'      => [
 					'lodash',
+					'wp-api-fetch',
 					'wp-components',
 					'wp-compose',
 					'wp-element',
@@ -316,6 +317,7 @@ class WPSEO_Admin_Asset_Manager {
 					self::PREFIX . 'social-metadata-forms',
 					self::PREFIX . 'analysis',
 					self::PREFIX . 'helpers',
+					self::PREFIX . 'components',
 				],
 				'in_footer' => false,
 			],
@@ -472,6 +474,7 @@ class WPSEO_Admin_Asset_Manager {
 					'jquery-ui-progressbar',
 					self::PREFIX . 'admin-global-script',
 					self::PREFIX . 'commons',
+					self::PREFIX . 'components',
 				],
 			],
 			[
@@ -765,6 +768,7 @@ class WPSEO_Admin_Asset_Manager {
 				'deps' => [
 					self::PREFIX . 'select2',
 					self::PREFIX . 'admin-css',
+					'wp-components',
 				],
 			],
 			[

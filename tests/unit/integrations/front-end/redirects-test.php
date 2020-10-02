@@ -1,9 +1,4 @@
 <?php
-/**
- * WPSEO plugin test file.
- *
- * @package Yoast\WP\SEO\Tests\Unit\Integrations\Front_End
- */
 
 namespace Yoast\WP\SEO\Tests\Unit\Integrations\Front_End;
 
@@ -18,7 +13,7 @@ use Yoast\WP\SEO\Integrations\Front_End\Redirects;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
- * Unit Test Class.
+ * Class Redirects_Test.
  *
  * @coversDefaultClass \Yoast\WP\SEO\Integrations\Front_End\Redirects
  * @covers ::<!public>

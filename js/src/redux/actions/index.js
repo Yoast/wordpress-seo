@@ -7,3 +7,7 @@ export * from "./activeMarker";
 export * from "./markerPauseStatus";
 export * from "./twitterEditor";
 export * from "./facebookEditor";
+export * from "./advancedSettings";
+export * from "./schemaTab";
+export * from "./SEMrushRequest";
+export * from "./SEMrushModal";

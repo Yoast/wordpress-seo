@@ -1,9 +1,4 @@
 <?php
-/**
- * Author watcher to save the meta data to an Indexable.
- *
- * @package Yoast\YoastSEO\Watchers
- */
 
 namespace Yoast\WP\SEO\Integrations\Watchers;
 
@@ -13,7 +8,7 @@ use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
 /**
- * Watches an Author to save the meta information when updated.
+ * Watches an Author to save the meta information to an Indexable when updated.
  */
 class Indexable_Author_Watcher implements Integration_Interface {
 

@@ -1,9 +1,4 @@
 <?php
-/**
- * Reindexation action for indexables.
- *
- * @package Yoast\WP\SEO\Actions\Indexation
- */
 
 namespace Yoast\WP\SEO\Actions\Indexation;
 
@@ -13,7 +8,7 @@ use Yoast\WP\SEO\Models\SEO_Links;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
 /**
- * Post_Link_Indexing_Action class.
+ * Reindexation action for link indexables.
  */
 abstract class Abstract_Link_Indexing_Action implements Indexation_Action_Interface {
 
@@ -48,22 +43,24 @@ abstract class Abstract_Link_Indexing_Action implements Indexation_Action_Interf
 	/**
 	 * Indexable_Post_Indexing_Action constructor
 	 *
-	 * @param Indexable_Link_Builder $link_builder     The indexable link builder.
-	 * @param Indexable_Repository   $repository       The indexable repository.
-	 * @param wpdb                   $wpdb             The WordPress database instance.
+	 * @param Indexable_Link_Builder $link_builder The indexable link builder.
+	 * @param Indexable_Repository   $repository   The indexable repository.
+	 * @param wpdb                   $wpdb         The WordPress database instance.
 	 */
 	public function __construct(
 		Indexable_Link_Builder $link_builder,
 		Indexable_Repository $repository,
 		wpdb $wpdb
 	) {
-		$this->link_builder     = $link_builder;
-		$this->repository       = $repository;
-		$this->wpdb             = $wpdb;
+		$this->link_builder = $link_builder;
+		$this->repository   = $repository;
+		$this->wpdb         = $wpdb;
 	}
 
 	/**
-	 * @inheritDoc
+	 * Returns the total number of unindexed links.
+	 *
+	 * @return int The total number of unindexed links.
 	 */
 	public function get_total_unindexed() {
 		$transient = \get_transient( static::UNINDEXED_COUNT_TRANSIENT );
@@ -86,7 +83,7 @@ abstract class Abstract_Link_Indexing_Action implements Indexation_Action_Interf
 	}
 
 	/**
-	 * Creates indexables for unindexed objects.
+	 * Builds links for indexables which haven't had their links indexed yet.
 	 *
 	 * @return SEO_Links[] The created SEO links.
 	 */
@@ -97,7 +94,7 @@ abstract class Abstract_Link_Indexing_Action implements Indexation_Action_Interf
 		foreach ( $objects as $object ) {
 			$indexable = $this->repository->find_by_id_and_type( $object->id, $object->type );
 
-			// It's possible the indexable was created without having it's links indexed.
+			// It's possible the indexable was created without having its links indexed.
 			if ( $indexable->link_count === null ) {
 				$this->link_builder->build( $indexable, $object->content );
 				$indexable->save();
@@ -112,11 +109,13 @@ abstract class Abstract_Link_Indexing_Action implements Indexation_Action_Interf
 	}
 
 	/**
-	 * @inheritDoc
+	 * Returns the number of texts that will be indexed in a single link indexing pass.
+	 *
+	 * @return int The limit.
 	 */
 	public function get_limit() {
 		/**
-		 * Filter 'wpseo_link_indexing_limit' - Allow filtering the amount of texts indexed during each link indexing pass.
+		 * Filter 'wpseo_link_indexing_limit' - Allow filtering the number of texts indexed during each link indexing pass.
 		 *
 		 * @api int The maximum number of texts indexed.
 		 */
@@ -128,15 +127,15 @@ abstract class Abstract_Link_Indexing_Action implements Indexation_Action_Interf
 	 *
 	 * @return array Objects to be indexed, should be an array of objects with object_id, object_type and content.
 	 */
-	protected abstract function get_objects();
+	abstract protected function get_objects();
 
 	/**
 	 * Queries the database for unindexed term IDs.
 	 *
 	 * @param bool $count Whether or not it should be a count query.
-	 * @param int  $limit The maximum amount of term IDs to return.
+	 * @param int  $limit The maximum number of term IDs to return.
 	 *
 	 * @return string The query.
 	 */
-	protected abstract function get_query( $count, $limit = 1 );
+	abstract protected function get_query( $count, $limit = 1 );
 }

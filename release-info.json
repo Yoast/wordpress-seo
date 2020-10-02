@@ -1,5 +1,5 @@
 {
-  "version": "14.8",
-  "release_description": "This is <b>the description</b>.",
-  "shortlink": "yoa.st/test"
+  "version": "15.0",
+  "release_description": "Arabic readability analysis and all settings are now in the Yoast sidebar for the block editor.",
+  "shortlink": "https://yoa.st/yoast15-0"
 }

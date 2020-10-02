@@ -1,9 +1,4 @@
 <?php
-/**
- * Yoast extension of the Model class.
- *
- * @package Yoast\WP\SEO\Repositories
- */
 
 namespace Yoast\WP\SEO\Repositories;
 
@@ -11,7 +6,7 @@ use Yoast\WP\Lib\Model;
 use Yoast\WP\Lib\ORM;
 
 /**
- * Class SEO_Links_Repository
+ * Class SEO_Links_Repository.
  */
 class SEO_Links_Repository {
 

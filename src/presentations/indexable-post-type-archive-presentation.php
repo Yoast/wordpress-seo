@@ -1,36 +1,38 @@
 <?php
-/**
- * Presentation object for indexables.
- *
- * @package Yoast\YoastSEO\Presentations
- */
 
 namespace Yoast\WP\SEO\Presentations;
 
 /**
- * Class Indexable_Post_Type_Archive_Presentation
+ * Class Indexable_Post_Type_Archive_Presentation.
+ *
+ * Presentation object for indexables.
  */
 class Indexable_Post_Type_Archive_Presentation extends Indexable_Presentation {
 	use Archive_Adjacent;
 
 	/**
-	 * @inheritDoc
+	 * Generates the canonical.
+	 *
+	 * @return string The canonical.
 	 */
 	public function generate_canonical() {
-		if ( ! $this->model->permalink ) {
+		$permalink = $this->get_permalink();
+		if ( ! $permalink ) {
 			return '';
 		}
 
 		$current_page = $this->pagination->get_current_archive_page_number();
 		if ( $current_page > 1 ) {
-			return $this->pagination->get_paginated_url( $this->model->permalink, $current_page );
+			return $this->pagination->get_paginated_url( $permalink, $current_page );
 		}
 
-		return $this->model->permalink;
+		return $permalink;
 	}
 
 	/**
-	 * @inheritDoc
+	 * Generates the robots value.
+	 *
+	 * @return array The robots value.
 	 */
 	public function generate_robots() {
 		$robots = $this->get_base_robots();
@@ -43,7 +45,9 @@ class Indexable_Post_Type_Archive_Presentation extends Indexable_Presentation {
 	}
 
 	/**
-	 * @inheritDoc
+	 * Generates the title.
+	 *
+	 * @return string The title.
 	 */
 	public function generate_title() {
 		if ( $this->model->title ) {
@@ -57,7 +61,9 @@ class Indexable_Post_Type_Archive_Presentation extends Indexable_Presentation {
 	}
 
 	/**
-	 * @inheritDoc
+	 * Generates the source.
+	 *
+	 * @return array The source.
 	 */
 	public function generate_source() {
 		return [ 'post_type' => $this->model->object_sub_type ];

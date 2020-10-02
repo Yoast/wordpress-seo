@@ -1,9 +1,4 @@
 <?php
-/**
- * Presentation object for indexables.
- *
- * @package Yoast\YoastSEO\Presentations
- */
 
 namespace Yoast\WP\SEO\Presentations;
 
@@ -12,7 +7,9 @@ use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
 use Yoast\WP\SEO\Wrappers\WP_Query_Wrapper;
 
 /**
- * Class Indexable_Presentation
+ * Class Indexable_Term_Archive_Presentation.
+ *
+ * Presentation object for indexables.
  *
  * @property WP_Term $source
  */
@@ -50,7 +47,9 @@ class Indexable_Term_Archive_Presentation extends Indexable_Presentation {
 	}
 
 	/**
-	 * @inheritDoc
+	 * Generates the canonical.
+	 *
+	 * @return string The canonical.
 	 */
 	public function generate_canonical() {
 		if ( $this->is_multiple_terms_query() ) {
@@ -61,20 +60,23 @@ class Indexable_Term_Archive_Presentation extends Indexable_Presentation {
 			return $this->model->canonical;
 		}
 
-		if ( ! $this->model->permalink ) {
+		$permalink = $this->get_permalink();
+		if ( ! $permalink ) {
 			return '';
 		}
 
 		$current_page = $this->pagination->get_current_archive_page_number();
 		if ( $current_page > 1 ) {
-			return $this->pagination->get_paginated_url( $this->model->permalink, $current_page );
+			return $this->pagination->get_paginated_url( $permalink, $current_page );
 		}
 
-		return $this->model->permalink;
+		return $permalink;
 	}
 
 	/**
-	 * @inheritDoc
+	 * Generates the meta description.
+	 *
+	 * @return string The meta description.
 	 */
 	public function generate_meta_description() {
 		if ( $this->model->description ) {
@@ -85,14 +87,18 @@ class Indexable_Term_Archive_Presentation extends Indexable_Presentation {
 	}
 
 	/**
-	 * @inheritDoc
+	 * Generates the source.
+	 *
+	 * @return array The source.
 	 */
 	public function generate_source() {
 		return \get_term( $this->model->object_id, $this->model->object_sub_type );
 	}
 
 	/**
-	 * @inheritDoc
+	 * Generates the Open Graph description.
+	 *
+	 * @return string The Open Graph description.
 	 */
 	public function generate_open_graph_description() {
 		$open_graph_description = parent::generate_open_graph_description();
@@ -104,7 +110,9 @@ class Indexable_Term_Archive_Presentation extends Indexable_Presentation {
 	}
 
 	/**
-	 * @inheritDoc
+	 * Generates the Twitter description.
+	 *
+	 * @return string The Twitter description.
 	 */
 	public function generate_twitter_description() {
 		$twitter_description = parent::generate_twitter_description();
@@ -120,7 +128,9 @@ class Indexable_Term_Archive_Presentation extends Indexable_Presentation {
 	}
 
 	/**
-	 * @inheritDoc
+	 * Generates the robots value.
+	 *
+	 * @return array The robots value.
 	 */
 	public function generate_robots() {
 		$robots = $this->get_base_robots();
@@ -153,7 +163,9 @@ class Indexable_Term_Archive_Presentation extends Indexable_Presentation {
 	}
 
 	/**
-	 * @inheritDoc
+	 * Generates the title.
+	 *
+	 * @return string The title.
 	 */
 	public function generate_title() {
 		if ( $this->model->title ) {
@@ -173,7 +185,9 @@ class Indexable_Term_Archive_Presentation extends Indexable_Presentation {
 	}
 
 	/**
-	 * @inheritDoc
+	 * Generates the Open Graph type.
+	 *
+	 * @return string The Open Graph type.
 	 */
 	public function generate_open_graph_type() {
 		return 'article';

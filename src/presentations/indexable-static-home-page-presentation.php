@@ -1,14 +1,11 @@
 <?php
-/**
- * Presentation object for indexables.
- *
- * @package Yoast\YoastSEO\Presentations
- */
 
 namespace Yoast\WP\SEO\Presentations;
 
 /**
- * Class Indexable_Static_Home_Page_Presentation
+ * Class Indexable_Static_Home_Page_Presentation.
+ *
+ * Presentation object for indexables.
  */
 class Indexable_Static_Home_Page_Presentation extends Indexable_Post_Type_Presentation {
 
@@ -25,7 +22,9 @@ class Indexable_Static_Home_Page_Presentation extends Indexable_Post_Type_Presen
 	}
 
 	/**
-	 * @inheritDoc
+	 * Generates the Open Graph type.
+	 *
+	 * @return string The Open Graph type.
 	 */
 	public function generate_open_graph_type() {
 		return 'website';

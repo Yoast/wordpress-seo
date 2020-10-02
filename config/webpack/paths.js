@@ -18,7 +18,6 @@ const entry = {
 	"filter-explanation": "./filter-explanation.js",
 	"help-scout-beacon": "./help-scout-beacon.js",
 	"indexation": "./indexation.js",
-	"modal": "./modal.js",
 	"network-admin": "./network-admin.js",
 	"post-edit": "./post-edit.js",
 	"quick-edit-handler": "./quick-edit-handler.js",

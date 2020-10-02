@@ -1,9 +1,4 @@
 <?php
-/**
- * WPSEO plugin file.
- *
- * @package WPSEO\Frontend
- */
 
 namespace Yoast\WP\SEO\Integrations;
 

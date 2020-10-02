@@ -1,9 +1,4 @@
 <?php
-/**
- * WPSEO plugin test file.
- *
- * @package Yoast\WP\SEO\Tests\Unit\Integrations\Front_End
- */
 
 namespace Yoast\WP\SEO\Tests\Unit\Integrations\Front_End;
 
@@ -16,7 +11,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
 use Yoast\WP\SEO\Wrappers\WP_Query_Wrapper;
 
 /**
- * Unit Test Class.
+ * Class Force_Rewrite_Title_Test.
  *
  * @coversDefaultClass \Yoast\WP\SEO\Integrations\Front_End\Force_Rewrite_Title
  * @covers ::<!public>
@@ -48,7 +43,7 @@ class Force_Rewrite_Title_Test extends TestCase {
 	private $instance;
 
 	/**
-	 * @inheritDoc
+	 * Sets an instance for test purposes.
 	 */
 	public function setUp() {
 		parent::setUp();

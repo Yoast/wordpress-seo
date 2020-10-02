@@ -1,9 +1,4 @@
 <?php
-/**
- * WPSEO plugin file.
- *
- * @package Yoast\WP\SEO\Integrations\Third_Party
- */
 
 namespace Yoast\WP\SEO\Integrations\Third_Party;
 
@@ -15,7 +10,7 @@ use Yoast\WP\SEO\Integrations\Front_End_Integration;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 
 /**
- * Web Stories integration
+ * Web Stories integration.
  */
 class Web_Stories implements Integration_Interface {
 
@@ -27,7 +22,9 @@ class Web_Stories implements Integration_Interface {
 	protected $front_end;
 
 	/**
-	 * @inheritDoc
+	 * Returns the conditionals based in which this loadable should be active.
+	 *
+	 * @return array
 	 */
 	public static function get_conditionals() {
 		return [ Web_Stories_Conditional::class ];
@@ -43,7 +40,11 @@ class Web_Stories implements Integration_Interface {
 	}
 
 	/**
-	 * @inheritDoc
+	 * Initializes the integration.
+	 *
+	 * This is the place to register hooks and filters.
+	 *
+	 * @return void
 	 */
 	public function register_hooks() {
 		\add_action( 'web_stories_story_head', [ $this, 'remove_web_stories_meta_output' ], 0 );

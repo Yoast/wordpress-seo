@@ -10,7 +10,6 @@ import {
  * Initial state
  */
 const initialState = {
-	isLoading: true,
 	title: "",
 	description: "",
 	warnings: [],
@@ -33,7 +32,6 @@ const twitterReducer = ( state = initialState, action ) => {
 		case LOAD_TWITTER_PREVIEW:
 			return {
 				...state,
-				isLoading: false,
 				title: action.title,
 				description: action.description,
 				image: { id: action.id, url: action.imageUrl },

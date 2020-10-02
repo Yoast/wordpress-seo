@@ -1,16 +1,11 @@
 <?php
-/**
- * Get ehad action for indexables.
- *
- * @package Yoast\WP\SEO\Actions\Indexables
- */
 
 namespace Yoast\WP\SEO\Actions\Indexables;
 
 use Yoast\WP\SEO\Surfaces\Meta_Surface;
 
 /**
- * Indexable_Head_Action class
+ * Get head action for indexables.
  */
 class Indexable_Head_Action {
 

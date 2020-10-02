@@ -1,9 +1,4 @@
 <?php
-/**
- * WPSEO plugin file.
- *
- * @package WPSEO\Admin
- */
 
 namespace Yoast\WP\SEO\Integrations\Blocks;
 

@@ -21,7 +21,9 @@ $rss_variables_help = new WPSEO_Admin_Help_Panel(
 	'has-wrapper'
 );
 
+// phpcs:ignore WordPress.Security.EscapeOutput -- get_button_html() output is properly escaped.
 echo '<h2 class="help-button-inline">' . esc_html__( 'Available variables', 'wordpress-seo' ) . $rss_variables_help->get_button_html() . '</h2>';
+// phpcs:ignore WordPress.Security.EscapeOutput -- get_panel_html() output is properly escaped.
 echo $rss_variables_help->get_panel_html();
 ?>
 <table class="wpseo yoast_help yoast-table-scrollable">

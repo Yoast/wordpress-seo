@@ -1,9 +1,4 @@
 <?php
-/**
- * A helper object for terms.
- *
- * @package Yoast\YoastSEO\Helpers
- */
 
 namespace Yoast\WP\SEO\Helpers;
 
@@ -12,7 +7,7 @@ use WP_Term;
 use WPSEO_Taxonomy_Meta;
 
 /**
- * Class Taxonomy_Helper
+ * A helper object for terms.
  */
 class Taxonomy_Helper {
 

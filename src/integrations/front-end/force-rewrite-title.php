@@ -1,9 +1,4 @@
 <?php
-/**
- * WPSEO plugin file.
- *
- * @package Yoast\WP\SEO\Integrations\Front_End
- */
 
 namespace Yoast\WP\SEO\Integrations\Front_End;
 
@@ -13,7 +8,7 @@ use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Wrappers\WP_Query_Wrapper;
 
 /**
- * Class Force_Rewrite_Title
+ * Class Force_Rewrite_Title.
  */
 class Force_Rewrite_Title implements Integration_Interface {
 
@@ -52,15 +47,22 @@ class Force_Rewrite_Title implements Integration_Interface {
 	}
 
 	/**
-	 * @inheritDoc
+	 * Returns the conditionals based in which this loadable should be active.
+	 *
+	 * @return array
 	 */
 	public static function get_conditionals() {
 		return [ Front_End_Conditional::class ];
 	}
 
 	/**
+	 * Initializes the integration.
+	 *
+	 * This is the place to register hooks and filters.
+	 *
 	 * @codeCoverageIgnore
-	 * @inheritDoc
+	 *
+	 * @return void
 	 */
 	public function register_hooks() {
 		// When the option is disabled.

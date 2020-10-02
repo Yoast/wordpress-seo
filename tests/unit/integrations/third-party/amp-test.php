@@ -1,9 +1,4 @@
 <?php
-/**
- * WPSEO plugin test file.
- *
- * @package Yoast\WP\SEO\Tests\Unit\Integrations\Third_Party
- */
 
 namespace Yoast\WP\SEO\Tests\Unit\Integrations\Third_Party;
 
@@ -39,7 +34,7 @@ class AMP_Test extends TestCase {
 	protected $front_end;
 
 	/**
-	 * @inheritDoc
+	 * Sets an instance for test purposes.
 	 */
 	public function setUp() {
 		parent::setUp();

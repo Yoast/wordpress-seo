@@ -198,7 +198,7 @@
 					action: "yoast_dismiss_notification",
 					notification: $source.attr( "id" ),
 					nonce: $source.data( "nonce" ),
-					data: $source.data( "json" ),
+					data: $this.data( "json" ) || $source.data( "json" ),
 				},
 				handleDismissRestoreResponse.bind( this, $source ),
 				"json"
@@ -222,6 +222,18 @@
 				},
 				handleDismissRestoreResponse.bind( this, $source ),
 				"json"
+			);
+		} );
+
+		$dismissible.on( "click", "#yoast-indexation-remind-button", function() {
+			const nonce = $( this ).data( "nonce" );
+
+			$.post(
+				ajaxurl,
+				{
+					action: "wpseo_set_indexation_remind",
+					_wpnonce: nonce,
+				},
 			);
 		} );
 	}

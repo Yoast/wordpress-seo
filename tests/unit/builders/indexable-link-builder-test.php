@@ -21,8 +21,8 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group indexables
  * @group builders
  *
- * @coversDefaultClass \Yoast\WP\SEO\Builders\Indexable_Link_Builder_Test
- * @covers ::<!public>
+ * @coversDefaultClass \Yoast\WP\SEO\Builders\Indexable_Link_Builder
+ * @covers \Yoast\WP\SEO\Builders\Indexable_Link_Builder
  */
 class Indexable_Link_Builder_Test extends TestCase {
 
@@ -98,9 +98,19 @@ class Indexable_Link_Builder_Test extends TestCase {
 
 		Filters\expectApplied( 'the_content' )->with( $content )->andReturnFirstArg();
 
-		$parsed_home_url = [ 'scheme' => 'https', 'host' => 'site.com' ];
-		$parsed_page_url = [ 'scheme' => 'https', 'host' => 'site.com', 'path' => 'page' ];
-		$parsed_link_url = [ 'scheme' => 'https', 'host' => 'link.com' ];
+		$parsed_home_url = [
+			'scheme' => 'https',
+			'host'   => 'site.com',
+		];
+		$parsed_page_url = [
+			'scheme' => 'https',
+			'host'   => 'site.com',
+			'path'   => 'page',
+		];
+		$parsed_link_url = [
+			'scheme' => 'https',
+			'host'   => 'link.com',
+		];
 
 		Functions\expect( 'home_url' )->once()->andReturn( 'https://site.com' );
 		Functions\expect( 'wp_parse_url' )->once()->with( 'https://site.com' )->andReturn( $parsed_home_url );
@@ -117,19 +127,32 @@ class Indexable_Link_Builder_Test extends TestCase {
 		$seo_link->post_id      = $indexable->object_id;
 
 		$this->seo_links_repository->expects( 'query' )->once()->andReturn( $query_mock );
-		$query_mock->expects( 'create' )->once()->with( [
-			'url'          => 'https://link.com',
-			'type'         => $link_type,
-			'indexable_id' => $indexable->id,
-			'post_id'      => $indexable->object_id,
-		] )->andReturn( $seo_link );
+		$query_mock->expects( 'create' )->once()->with(
+			[
+				'url'          => 'https://link.com',
+				'type'         => $link_type,
+				'indexable_id' => $indexable->id,
+				'post_id'      => $indexable->object_id,
+			]
+		)->andReturn( $seo_link );
 
 		$old_seo_link                      = new SEO_Links_Mock();
 		$old_seo_link->target_indexable_id = 3;
 		$this->seo_links_repository->expects( 'find_all_by_indexable_id' )->once()->with( $indexable->id )->andReturn( [ $old_seo_link ] );
 		$this->seo_links_repository->expects( 'delete_all_by_indexable_id' )->once()->with( $indexable->id );
 		$this->seo_links_repository->expects( 'delete_all_by_post_id' )->once()->with( $indexable->object_id );
-		$this->seo_links_repository->expects( 'get_incoming_link_counts_for_indexable_ids' )->once()->with( [ $old_seo_link->target_indexable_id ] )->andReturn( [ [ 'target_indexable_id' => 3, 'incoming' => 0 ] ] );
+		$this->seo_links_repository
+			->expects( 'get_incoming_link_counts_for_indexable_ids' )
+			->once()
+			->with( [ $old_seo_link->target_indexable_id ] )
+			->andReturn(
+				[
+					[
+						'target_indexable_id' => 3,
+						'incoming'            => 0,
+					],
+				]
+			);
 		$this->indexable_repository->expects( 'update_incoming_link_count' )->once()->with( 3, 0 );
 
 		$seo_link->expects( 'save' )->once();

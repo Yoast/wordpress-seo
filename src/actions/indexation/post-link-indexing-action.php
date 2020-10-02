@@ -1,9 +1,4 @@
 <?php
-/**
- * Reindexation action for indexables.
- *
- * @package Yoast\WP\SEO\Actions\Indexation
- */
 
 namespace Yoast\WP\SEO\Actions\Indexation;
 
@@ -11,7 +6,7 @@ use Yoast\WP\Lib\Model;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 
 /**
- * Post_Link_Indexing_Action class.
+ * Reindexation action for post link indexables.
  */
 class Post_Link_Indexing_Action extends Abstract_Link_Indexing_Action {
 
@@ -50,20 +45,23 @@ class Post_Link_Indexing_Action extends Abstract_Link_Indexing_Action {
 
 		$posts = $this->wpdb->get_results( $query );
 
-		return \array_map( function ( $post ) {
-			return (object) [
-				'id'      => (int) $post->ID,
-				'type'    => 'post',
-				'content' => $post->post_content,
-			];
-		}, $posts );
+		return \array_map(
+			static function ( $post ) {
+				return (object) [
+					'id'      => (int) $post->ID,
+					'type'    => 'post',
+					'content' => $post->post_content,
+				];
+			},
+			$posts
+		);
 	}
 
 	/**
 	 * Queries the database for unindexed term IDs.
 	 *
 	 * @param bool $count Whether or not it should be a count query.
-	 * @param int  $limit The maximum amount of term IDs to return.
+	 * @param int  $limit The maximum number of term IDs to return.
 	 *
 	 * @return string The query.
 	 */
@@ -83,13 +81,15 @@ class Post_Link_Indexing_Action extends Abstract_Link_Indexing_Action {
 			$replacements[] = $limit;
 		}
 
-		return $this->wpdb->prepare( "
-			SELECT $select
+		return $this->wpdb->prepare(
+			"SELECT $select
 			FROM {$this->wpdb->posts}
 			WHERE ID NOT IN (
 				SELECT object_id FROM $indexable_table WHERE link_count IS NOT NULL AND object_type = 'post'
 			) AND post_status = 'publish' AND post_type IN ($placeholders)
 			$limit_query
-		", $replacements );
+			",
+			$replacements
+		);
 	}
 }

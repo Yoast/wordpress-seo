@@ -71,6 +71,37 @@ class WPSEO_Sitemaps_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Tests the wpseo_sitemap_index_links filter.
+	 *
+	 * @covers WPSEO_Sitemaps::build_root_map
+	 */
+	public function test_index_links_filter() {
+
+		self::$class_instance->reset();
+
+		set_query_var( 'sitemap', '1' );
+
+		$this->factory->post->create();
+
+		add_filter(
+			'wpseo_sitemap_index_links',
+			static function( $links ) {
+				$links[] = [
+					'loc'     => 'test-sitemap.xml',
+					'lastmod' => date( '1' ),
+				];
+				return $links;
+			}
+		);
+
+		self::$class_instance->redirect( $GLOBALS['wp_the_query'] );
+		$expected_contains = [
+			'<loc>test-sitemap.xml</loc>',
+		];
+		$this->expectOutputContains( $expected_contains );
+	}
+
+	/**
 	 * Test for last modified date.
 	 *
 	 * @covers WPSEO_Sitemaps::get_last_modified_gmt

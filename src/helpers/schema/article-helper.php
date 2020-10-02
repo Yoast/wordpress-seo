@@ -1,16 +1,9 @@
 <?php
-/**
- * WPSEO plugin file.
- *
- * @package Yoast\WP\SEO\Helpers\Schema
- */
 
 namespace Yoast\WP\SEO\Helpers\Schema;
 
 /**
- * Class Article_Helper
- *
- * @package Yoast\WP\SEO\Helpers
+ * Class Article_Helper.
  */
 class Article_Helper {
 
@@ -19,7 +12,7 @@ class Article_Helper {
 	 *
 	 * @param string $post_type Post type to check.
 	 *
-	 * @return bool True if it has article schema, false if not.
+	 * @return bool True if it has Article schema, false if not.
 	 */
 	public function is_article_post_type( $post_type = null ) {
 		if ( \is_null( $post_type ) ) {
