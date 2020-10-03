@@ -80,7 +80,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9b31fd61-d6a0-4a87-bf8d-99e44c01a6f2" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/yoastseo/src/stringProcessing/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/packages/yoastseo/src/stringProcessing/index.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -132,7 +133,7 @@
       <option name="presentableId" value="Default" />
       <updated>1601630355319</updated>
       <workItem from="1601630356384" duration="7068000" />
-      <workItem from="1601648002524" duration="18664000" />
+      <workItem from="1601648002524" duration="18976000" />
     </task>
     <servers />
   </component>
