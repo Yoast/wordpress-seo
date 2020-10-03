@@ -1,4 +1,4 @@
-import stem from "../../../src/languages/legacy/morphology/dutch/stem";
+import stem from "../../../src/stringProcessing/languages/nl/morphology/stem";
 import getMorphologyData from "../../specHelpers/getMorphologyData";
 
 

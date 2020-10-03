@@ -6,28 +6,28 @@ import arrayToRegex from "../../stringProcessing/createRegexFromArray.js";
 import stripSpaces from "../../stringProcessing/stripSpaces.js";
 
 // German-specific imports.
-import SentencePartGerman from "../../german/passiveVoice/SentencePart.js";
+import SentencePartGerman from "../../de/passiveVoice/SentencePart.js";
 
-import auxiliariesGermanFactory from "../../german/passiveVoice/auxiliaries.js";
+import auxiliariesGermanFactory from "../../de/passiveVoice/auxiliaries.js";
 
 const auxiliariesGerman = auxiliariesGermanFactory().allAuxiliaries;
-import stopwordsGermanFactory from "../../german/passiveVoice/stopwords.js";
+import stopwordsGermanFactory from "../../de/passiveVoice/stopwords.js";
 const stopwordsGerman = stopwordsGermanFactory();
 
 // Dutch-specific imports.
-import SentencePartDutch from "../../dutch/passiveVoice/SentencePart.js";
+import SentencePartDutch from "../../nl/passiveVoice/SentencePart.js";
 
-import stopwordsDutchFactory from "../../dutch/passiveVoice/stopwords.js";
+import stopwordsDutchFactory from "../../nl/passiveVoice/stopwords.js";
 const stopwordsDutch = stopwordsDutchFactory();
-import auxiliariesDutchFactory from "../../dutch/passiveVoice/auxiliaries.js";
+import auxiliariesDutchFactory from "../../nl/passiveVoice/auxiliaries.js";
 const auxiliariesDutch = auxiliariesDutchFactory();
 
 // Polish-specific imports.
-import SentencePartPolish from "../../polish/passiveVoice/SentencePart.js";
+import SentencePartPolish from "../../pl/passiveVoice/SentencePart.js";
 
-import stopwordsPolishFactory from "../../polish/passiveVoice/stopwords.js";
+import stopwordsPolishFactory from "../../pl/passiveVoice/stopwords.js";
 const stopwordsPolish = stopwordsPolishFactory();
-import auxiliariesPolishFactory from "../../polish/passiveVoice/auxiliaries.js";
+import auxiliariesPolishFactory from "../../pl/passiveVoice/auxiliaries.js";
 const auxiliariesPolish = auxiliariesPolishFactory();
 
 

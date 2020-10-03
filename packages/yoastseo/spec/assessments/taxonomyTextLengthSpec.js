@@ -1,4 +1,4 @@
-import taxonomyTextLengthAssessment from "../../src/languages/legacy/assessments/seo/taxonomyTextLengthAssessment.js";
+import taxonomyTextLengthAssessment from "../../src/scoring/assessments/seo/taxonomyTextLengthAssessment.js";
 import Paper from "../../src/values/Paper.js";
 import Factory from "../specHelpers/factory.js";
 const i18n = Factory.buildJed();

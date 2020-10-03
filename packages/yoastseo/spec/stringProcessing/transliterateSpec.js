@@ -1,4 +1,4 @@
-import transliteration from "../../src/languages/legacy/stringProcessing/transliterate.js";
+import transliteration from "../../src/researches/stringProcessing/transliterate.js";
 
 describe( "a test removing special characters from text", function() {
 	it( "returns a Spanish string without special characters.", function() {
@@ -163,7 +163,7 @@ describe( "a test removing special characters from text", function() {
 	it( "returns a Guarani string without special characters.", function() {
 		expect( transliteration( "’g̃G̃ãÃẽẼĩĨñÑõÕũŨỹỸ", "gn" ) ).toBe( "gGaAeEiInNoOuUyY" );
 	} );
-	it( "returns a Swiss german string without special characters.", function() {
+	it( "returns a Swiss de string without special characters.", function() {
 		expect( transliteration( "äöüÄÖÜ", "gsw" ) ).toBe( "aouAOU" );
 	} );
 	it( "returns a Haitian Creole string without special characters.", function() {

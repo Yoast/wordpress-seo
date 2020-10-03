@@ -1,5 +1,5 @@
-import { stripFullTags as stripHTMLTags } from "../../src/languages/legacy/stringProcessing/stripHTMLTags.js";
-import { stripIncompleteTags as stripTagParts } from "../../src/languages/legacy/stringProcessing/stripHTMLTags.js";
+import { stripFullTags as stripHTMLTags } from "../../src/researches/stringProcessing/stripHTMLTags.js";
+import { stripIncompleteTags as stripTagParts } from "../../src/researches/stringProcessing/stripHTMLTags.js";
 
 describe( "strips the HTMLtags from a string", function() {
 	it( "returns a string without HTMLtags", function() {

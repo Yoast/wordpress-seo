@@ -1,4 +1,4 @@
-import stem from "../../../src/languages/legacy/morphology/polish/stem";
+import stem from "../../../src/stringProcessing/languages/pl/morphology/stem";
 import getMorphologyData from "../../specHelpers/getMorphologyData";
 
 const morphologyDataPL = getMorphologyData( "pl" ).pl;

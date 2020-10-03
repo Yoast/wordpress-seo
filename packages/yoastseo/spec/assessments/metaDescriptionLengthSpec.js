@@ -1,4 +1,4 @@
-import MetaDescriptionLengthAssessment from "../../src/languages/legacy/assessments/seo/MetaDescriptionLengthAssessment.js";
+import MetaDescriptionLengthAssessment from "../../src/scoring/assessments/seo/MetaDescriptionLengthAssessment.js";
 import Paper from "../../src/values/Paper.js";
 import Factory from "../specHelpers/factory.js";
 var i18n = Factory.buildJed();

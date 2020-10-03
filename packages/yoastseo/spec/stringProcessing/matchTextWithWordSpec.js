@@ -1,4 +1,4 @@
-import wordMatch from "../../src/languages/legacy/stringProcessing/matchTextWithWord.js";
+import wordMatch from "../../src/stringProcessing/helpers/_todo/matchTextWithWord.js";
 
 describe( "Counts the occurences of a word in a string", function() {
 	it( "returns number", function() {
@@ -110,7 +110,7 @@ describe( "Counts the occurences of a word in a string", function() {
 		expect( wordMatch( "focus&nbsp;keyword", "focus keyword" ).matches ).toEqual( [ "focus keyword" ] );
 	} );
 
-	it( "should match hebrew", function() {
+	it( "should match he", function() {
 		expect( wordMatch( "ל בעל", "ל בעל" ).count ).toBe( 1 );
 		expect( wordMatch( "ל בעל", "ל בעל" ).matches ).toEqual( [ "ל בעל" ] );
 		expect( wordMatch( "", "ל בעל" ).count ).toBe( 0 );

@@ -1,4 +1,4 @@
-import KeyphraseLengthAssessment from "../../src/languages/legacy/assessments/seo/KeyphraseLengthAssessment";
+import KeyphraseLengthAssessment from "../../src/scoring/assessments/seo/KeyphraseLengthAssessment";
 import Paper from "../../src/values/Paper.js";
 import factory from "../specHelpers/factory.js";
 const i18n = factory.buildJed();

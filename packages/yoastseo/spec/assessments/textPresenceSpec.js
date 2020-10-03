@@ -1,4 +1,4 @@
-import textPresence from "../../src/languages/legacy/assessments/readability/textPresenceAssessment.js";
+import textPresence from "../../src/scoring/assessments/readability/textPresenceAssessment.js";
 import Paper from "../../src/values/Paper.js";
 import Factory from "../specHelpers/factory.js";
 var i18n = Factory.buildJed();

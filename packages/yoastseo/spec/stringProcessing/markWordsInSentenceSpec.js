@@ -1,4 +1,4 @@
-import { markWordsInSentences } from "../../src/languages/legacy/stringProcessing/markWordsInSentences";
+import { markWordsInSentences } from "../../src/researches/stringProcessing/markWordsInSentences";
 import Mark from "../../src/values/Mark";
 
 describe( "Adds Yoast marks to specific words in a sentence", function() {

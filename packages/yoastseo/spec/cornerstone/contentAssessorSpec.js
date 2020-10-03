@@ -1,6 +1,6 @@
 import { forEach } from "lodash-es";
 
-import ContentAssessor from "../../src/languages/legacy/cornerstone/contentAssessor";
+import ContentAssessor from "../../src/scoring/cornerstone/contentAssessor";
 import AssessmentResult from "../../src/values/AssessmentResult";
 import Paper from "../../src/values/Paper";
 import Factory from "../specHelpers/factory";

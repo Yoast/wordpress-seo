@@ -1,4 +1,4 @@
-import { configureShortlinker, createShortlink, createAnchorOpeningTag } from "../../../src/languages/legacy/helpers/shortlinker/singleton";
+import { configureShortlinker, createShortlink, createAnchorOpeningTag } from "../../../src/helpers/shortlinker/singleton";
 
 describe( "Shortlinker singleton", () => {
 	beforeEach( () => {

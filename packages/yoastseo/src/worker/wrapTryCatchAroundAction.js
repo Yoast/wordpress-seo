@@ -1,4 +1,4 @@
-import formatString from "../languages/legacy/helpers/formatString";
+import formatString from "../helpers/formatString";
 
 /**
  * Logs and formats the error message to send back to the plugin

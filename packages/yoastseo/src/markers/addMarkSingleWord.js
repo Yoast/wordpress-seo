@@ -1,4 +1,4 @@
-import { stripWordBoundariesStart, stripWordBoundariesEnd } from "../languages/legacy/stringProcessing/stripWordBoundaries";
+import { stripWordBoundariesStart, stripWordBoundariesEnd } from "../researches/stringProcessing/stripWordBoundaries";
 
 /**
  * Marks a text with HTML tags, deals with word boundaries that were matched by regexes, but which should not be marked.

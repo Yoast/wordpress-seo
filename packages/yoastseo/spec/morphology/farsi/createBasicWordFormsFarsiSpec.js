@@ -1,4 +1,4 @@
-import { createBasicWordForms } from "../../../src/languages/legacy/morphology/farsi/createBasicWordForms";
+import { createBasicWordForms } from "../../../src/stringProcessing/languages/fa/morphology/createBasicWordForms";
 
 const wordsToStem = [
 	// Creates affixed forms based on an input word that starts with a valid prefix.

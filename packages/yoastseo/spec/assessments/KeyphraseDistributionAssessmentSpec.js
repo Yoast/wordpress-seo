@@ -1,4 +1,4 @@
-import KeyphraseDistributionAssessment from "../../src/languages/legacy/assessments/seo/KeyphraseDistributionAssessment.js";
+import KeyphraseDistributionAssessment from "../../src/scoring/assessments/seo/KeyphraseDistributionAssessment.js";
 import Paper from "../../src/values/Paper.js";
 import Factory from "../specHelpers/factory.js";
 const i18n = Factory.buildJed();

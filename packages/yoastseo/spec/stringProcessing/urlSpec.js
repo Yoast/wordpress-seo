@@ -1,4 +1,4 @@
-import url from "../../src/languages/legacy/stringProcessing/url";
+import url from "../../src/researches/stringProcessing/url";
 
 describe( "A URL helper", function() {
 	describe( "removeHash", function() {

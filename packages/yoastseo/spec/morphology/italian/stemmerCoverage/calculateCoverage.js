@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import stem from "../../../../src/languages/legacy/morphology/italian/stem";
+import stem from "../../../../src/stringProcessing/languages/it/morphology/stem";
 import getMorphologyData from "../../../specHelpers/getMorphologyData";
 import goldStandard from "./goldStandardStems.json";
 

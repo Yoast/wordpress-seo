@@ -1,4 +1,4 @@
-import matchWordInSentence from "../../src/languages/legacy/stringProcessing/matchWordInSentence";
+import matchWordInSentence from "../../src/researches/stringProcessing/matchWordInSentence";
 const characterInBoundary = matchWordInSentence.characterInBoundary;
 const isWordInSentence = matchWordInSentence.isWordInSentence;
 

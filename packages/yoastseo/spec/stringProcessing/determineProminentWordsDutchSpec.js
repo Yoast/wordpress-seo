@@ -1,5 +1,5 @@
 import ProminentWord from "../../src/values/ProminentWord";
-import { getProminentWords } from "../../src/languages/legacy/stringProcessing/determineProminentWords";
+import { getProminentWords } from "../../src/stringProcessing/helpers/_todo/determineProminentWords";
 
 describe( "gets Dutch prominent words", function() {
 	it( "returns word combinations", function() {

@@ -1,4 +1,4 @@
-import findKeywordInUrl from "../../src/languages/legacy/stringProcessing/findKeywordInUrl";
+import findKeywordInUrl from "../../src/stringProcessing/helpers/_todo/findKeywordInUrl";
 
 describe( "findKeywordInUrl", function() {
 	it( "returns false when passed no anchor tag", function() {

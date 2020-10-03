@@ -1,4 +1,4 @@
-import parseSynonyms from "../../../../languages/legacy/stringProcessing/parseSynonyms";
+import parseSynonyms from "../../../../researches/stringProcessing/parseSynonyms";
 import { MetadataMiscellaneous, MetadataText, StructuredNode } from "../../../structure/tree/nodes";
 
 /**

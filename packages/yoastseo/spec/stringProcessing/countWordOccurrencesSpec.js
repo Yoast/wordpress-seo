@@ -1,4 +1,4 @@
-import countWordOccurrences from "../../src/languages/legacy/stringProcessing/countWordOccurrences.js";
+import countWordOccurrences from "../../src/stringProcessing/helpers/_todo/countWordOccurrences.js";
 
 describe( "Counts words in text and returns occurrences", function() {
 	it( "returns counts", function() {

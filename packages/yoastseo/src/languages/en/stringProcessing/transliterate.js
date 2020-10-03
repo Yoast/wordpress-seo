@@ -1,6 +1,7 @@
 /** @module stringProcessing/replaceDiacritics */
 
-import transliterationsMap from "../config/transliterations.js";
+import config from "../config/transliterations.js";
+import transliterate from "../../../researches/stringProcessing/transliterate";
 
 /**
  * Replaces all special characters from the text based on the transliterations map.
@@ -10,12 +11,5 @@ import transliterationsMap from "../config/transliterations.js";
  * @returns {string} The text with all special characters replaced.
  */
 export default function( text, locale ) {
-	var map = transliterationsMap( locale );
-	for ( var i = 0; i < map.length; i++ ) {
-		text = text.replace(
-			map[ i ].letter,
-			map[ i ].alternative
-		);
-	}
-	return text;
+	return transliterate( text, locale, config() );
 }

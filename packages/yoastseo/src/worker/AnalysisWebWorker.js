@@ -6,13 +6,13 @@ import { forEach, has, includes, isNull, isObject, isString, isUndefined, merge,
 import { getLogger } from "loglevel";
 
 // YoastSEO.js dependencies.
-import * as assessments from "../languages/legacy/assessments";
+import * as assessments from "../scoring/assessments";
 import * as bundledPlugins from "../bundledPlugins";
-import * as helpers from "../languages/legacy/helpers";
+import * as helpers from "../helpers/_todo";
 import * as markers from "../markers";
-import * as string from "../languages/legacy/stringProcessing";
-import * as interpreters from "../interpreters";
-import * as config from "../languages/legacy/config";
+import * as string from "../stringProcessing/helpers/_todo";
+import * as interpreters from "../scoring/interpreters";
+import * as config from "../config/_todo";
 
 import Assessor from "../assessor";
 import Assessment from "../assessment";
@@ -50,12 +50,12 @@ const YoastSEO = {
 };
 
 // Internal dependencies.
-import CornerstoneContentAssessor from "../languages/legacy/cornerstone/contentAssessor";
-import CornerstoneRelatedKeywordAssessor from "../languages/legacy/cornerstone/relatedKeywordAssessor";
-import CornerstoneSEOAssessor from "../languages/legacy/cornerstone/seoAssessor";
+import CornerstoneContentAssessor from "../scoring/cornerstone/contentAssessor";
+import CornerstoneRelatedKeywordAssessor from "../scoring/cornerstone/relatedKeywordAssessor";
+import CornerstoneSEOAssessor from "../scoring/cornerstone/seoAssessor";
 import InvalidTypeError from "../errors/invalidType";
-import includesAny from "../languages/legacy/helpers/includesAny";
-import { configureShortlinker } from "../languages/legacy/helpers/shortlinker";
+import includesAny from "../helpers/includesAny";
+import { configureShortlinker } from "../helpers/shortlinker";
 import RelatedKeywordTaxonomyAssessor from "../relatedKeywordTaxonomyAssessor";
 import Scheduler from "./scheduler";
 import Transporter from "./transporter";

@@ -1,6 +1,6 @@
-import { stripWordBoundariesStart } from "../../src/languages/legacy/stringProcessing/stripWordBoundaries.js";
-import { stripWordBoundariesEnd } from "../../src/languages/legacy/stringProcessing/stripWordBoundaries.js";
-import { stripWordBoundariesEverywhere } from "../../src/languages/legacy/stringProcessing/stripWordBoundaries.js";
+import { stripWordBoundariesStart } from "../../src/researches/stringProcessing/stripWordBoundaries.js";
+import { stripWordBoundariesEnd } from "../../src/researches/stringProcessing/stripWordBoundaries.js";
+import { stripWordBoundariesEverywhere } from "../../src/researches/stringProcessing/stripWordBoundaries.js";
 
 describe( "function to remove word boundaries from words", function() {
 	it( "returns a string with word boundaries in the beginning of the word removed", function() {

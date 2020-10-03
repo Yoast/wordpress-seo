@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import stem from "../../../../src/languages/legacy/morphology/indonesian/stem";
+import stem from "../../../../src/stringProcessing/languages/id/morphology/stem";
 import getMorphologyData from "../../../specHelpers/getMorphologyData";
 import sampleVocabulary from "../stemmerCoverage/sampleVocabulary.json";
 

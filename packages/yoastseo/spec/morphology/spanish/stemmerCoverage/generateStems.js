@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
-import stem from "../../../../src/languages/legacy/morphology/spanish/stem";
+import stem from "../../../../src/stringProcessing/languages/es/morphology/stem";
 import getMorphologyData from "../../../specHelpers/getMorphologyData";
-import filterFunctionWordsFromArray from "../../../../src/languages/legacy/helpers/filterFunctionWordsFromArray.js";
+import filterFunctionWordsFromArray from "../../../../src/helpers/_todo/filterFunctionWordsFromArray.js";
 
 const morphologyDataES = getMorphologyData( "es" ).es;
 

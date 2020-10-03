@@ -1,4 +1,4 @@
-import unifyWhitespace from "../../src/languages/legacy/stringProcessing/unifyWhitespace.js";
+import unifyWhitespace from "../../src/researches/stringProcessing/unifyWhitespace.js";
 
 describe( "A test to check if the whitespaces are filtered correctly", function() {
 	it( "returns a string with uniform whitespaces", function() {

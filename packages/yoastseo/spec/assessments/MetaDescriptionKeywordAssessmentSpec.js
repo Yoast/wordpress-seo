@@ -1,4 +1,4 @@
-import MetaDescriptionKeywordAssessment from "../../src/languages/legacy/assessments/seo/MetaDescriptionKeywordAssessment";
+import MetaDescriptionKeywordAssessment from "../../src/scoring/assessments/seo/MetaDescriptionKeywordAssessment";
 import Paper from "../../src/values/Paper";
 import Factory from "../specHelpers/factory";
 

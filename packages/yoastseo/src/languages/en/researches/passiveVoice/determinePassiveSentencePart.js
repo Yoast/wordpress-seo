@@ -2,17 +2,17 @@ import determineSentencePartIsPassive from "./determineSentencePartIsPassive.js"
 import getParticiples from "./getParticiples.js";
 
 // Imports specific for German.
-import auxiliariesGermanFactory from "../../german/passiveVoice/auxiliaries.js";
+import auxiliariesGermanFactory from "../../de/passiveVoice/auxiliaries.js";
 const auxiliariesGerman = auxiliariesGermanFactory().allAuxiliaries;
-import getParticiplesGerman from "../../german/passiveVoice/getParticiples.js";
+import getParticiplesGerman from "../../de/passiveVoice/getParticiples.js";
 
 // Imports specific for Dutch.
-import auxiliariesDutchFactory from "../../dutch/passiveVoice/auxiliaries.js";
+import auxiliariesDutchFactory from "../../nl/passiveVoice/auxiliaries.js";
 
 const auxiliariesDutch = auxiliariesDutchFactory();
 
 // Imports specific for Polish.
-import auxiliariesPolishFactory from "../../polish/passiveVoice/auxiliaries.js";
+import auxiliariesPolishFactory from "../../pl/passiveVoice/auxiliaries.js";
 
 const auxiliariesPolish = auxiliariesPolishFactory();
 

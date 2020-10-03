@@ -1,4 +1,4 @@
-import getSubheadingTexts from "../../src/languages/legacy/stringProcessing/getSubheadingTexts.js";
+import getSubheadingTexts from "../../src/researches/stringProcessing/getSubheadingTexts.js";
 
 var result;
 describe( "A function to get all text blocks from subheadings", function() {

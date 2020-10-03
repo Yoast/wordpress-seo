@@ -1,5 +1,5 @@
-import getLanguage from "../../../languages/legacy/helpers/getLanguage";
-import { scoreToRating } from "../../../interpreters";
+import getLanguage from "../../../helpers/_todo/getLanguage";
+import { scoreToRating } from "../../../scoring/interpreters";
 
 /* Internal dependencies */
 import ScoreAggregator from "./ScoreAggregator";

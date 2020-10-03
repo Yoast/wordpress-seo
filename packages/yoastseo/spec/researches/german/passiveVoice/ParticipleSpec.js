@@ -1,7 +1,7 @@
 import GermanParticiple from "../../../../src/languages/legacy/researches/german/passiveVoice/GermanParticiple.js";
 
-describe( "A test for checking the german Participle", function() {
-	it( "checks the properties of the german participle object without a passive", function() {
+describe( "A test for checking the de Participle", function() {
+	it( "checks the properties of the de participle object without a passive", function() {
 		var mockParticiple = new GermanParticiple( "geschlossen", "Wir werden geschlossen haben", { auxiliaries: [ "werden" ], type: "irregular", language: "de" } );
 		expect( mockParticiple.getParticiple() ).toBe( "geschlossen" );
 		expect( mockParticiple.hasHabenSeinException() ).toBe( true );
@@ -11,7 +11,7 @@ describe( "A test for checking the german Participle", function() {
 		expect( mockParticiple.determinesSentencePartIsPassive() ).toBe( false );
 	} );
 
-	it( "checks the properties of the german participle object without a passive, but with 'sein'", function() {
+	it( "checks the properties of the de participle object without a passive, but with 'sein'", function() {
 		var mockParticiple = new GermanParticiple( "geschlossen", "Es wird geschlossen worden sein.", { auxiliaries: [ "werden" ], type: "irregular", language: "de" } );
 		expect( mockParticiple.getParticiple() ).toBe( "geschlossen" );
 		expect( mockParticiple.hasHabenSeinException() ).toBe( false );
@@ -21,7 +21,7 @@ describe( "A test for checking the german Participle", function() {
 		expect( mockParticiple.determinesSentencePartIsPassive() ).toBe( true );
 	} );
 
-	it( "checks the properties of the german participle object without a passive, and without 'haben'/'sein'", function() {
+	it( "checks the properties of the de participle object without a passive, and without 'haben'/'sein'", function() {
 		var mockParticiple = new GermanParticiple( "gekauft", "Es wird gekauft.", { auxiliaries: [ "wird" ], type: "ge- at beginning", language: "de" } );
 		expect( mockParticiple.getParticiple() ).toBe( "gekauft" );
 		expect( mockParticiple.hasHabenSeinException() ).toBe( false );
@@ -31,7 +31,7 @@ describe( "A test for checking the german Participle", function() {
 		expect( mockParticiple.determinesSentencePartIsPassive() ).toBe( true );
 	} );
 
-	it( "checks the properties of the german participle object with a participle from the exception list.", function() {
+	it( "checks the properties of the de participle object with a participle from the exception list.", function() {
 		var mockParticiple = new GermanParticiple( "geburtsakt", "Es wird geburtsakt.", { auxiliaries: [ "wird" ], type: "ge- at beginning", language: "de" } );
 		expect( mockParticiple.getParticiple() ).toBe( "geburtsakt" );
 		expect( mockParticiple.hasHabenSeinException() ).toBe( false );
@@ -41,7 +41,7 @@ describe( "A test for checking the german Participle", function() {
 		expect( mockParticiple.determinesSentencePartIsPassive() ).toBe( false );
 	} );
 
-	it( "checks the properties of the german participle object with a participle that is an auxiliary.", function() {
+	it( "checks the properties of the de participle object with a participle that is an auxiliary.", function() {
 		var mockParticiple = new GermanParticiple( "bekommst", "In deinem Netzwerk bekommst du emotionale Unterstützung.", { auxiliaries: [ "bekommst" ], type: "be- at beginning", language: "de" } );
 		expect( mockParticiple.getParticiple() ).toBe( "bekommst" );
 		expect( mockParticiple.hasHabenSeinException() ).toBe( false );
@@ -51,7 +51,7 @@ describe( "A test for checking the german Participle", function() {
 		expect( mockParticiple.determinesSentencePartIsPassive() ).toBe( false );
 	} );
 
-	it( "checks the properties of the german participle object with a participle with a noun suffix.", function() {
+	it( "checks the properties of the de participle object with a participle with a noun suffix.", function() {
 		var mockParticiple = new GermanParticiple( "gemütlichkeit", "Es wird gemütlichkeit.", { auxiliaries: [ "wird" ], type: "ge- at beginning", language: "de" } );
 		expect( mockParticiple.getParticiple() ).toBe( "gemütlichkeit" );
 		expect( mockParticiple.hasHabenSeinException() ).toBe( false );

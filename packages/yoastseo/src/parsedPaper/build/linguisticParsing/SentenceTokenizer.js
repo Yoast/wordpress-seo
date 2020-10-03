@@ -3,7 +3,7 @@ import { isNaN } from "lodash-es";
 
 import core from "tokenizer2/core";
 
-import { normalize as normalizeQuotes } from "../../../languages/legacy/stringProcessing/quotes.js";
+import { normalize as normalizeQuotes } from "../../../researches/stringProcessing/quotes.js";
 import Sentence from "./Sentence";
 
 // All characters that indicate a sentence delimiter.

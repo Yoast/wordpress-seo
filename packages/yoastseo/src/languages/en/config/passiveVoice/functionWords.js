@@ -135,7 +135,7 @@ const titlesPreceding = [ "ms", "mss", "mrs", "mr", "dr", "prof" ];
 const titlesFollowing = [ "jr", "sr" ];
 
 /**
- * Returns function words for english.
+ * Returns function words for en.
  *
  * @returns {Object} English function words.
  */

@@ -1,4 +1,4 @@
-import getSentences from "../../src/languages/legacy/stringProcessing/getSentences.js";
+import getSentences from "../../src/researches/stringProcessing/getSentences.js";
 
 import {
 	paragraph1,

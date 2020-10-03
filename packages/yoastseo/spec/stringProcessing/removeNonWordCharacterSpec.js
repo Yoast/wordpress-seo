@@ -1,4 +1,4 @@
-import removeNonWord from "../../src/languages/legacy/stringProcessing/removeNonWordCharacters.js";
+import removeNonWord from "../../src/researches/stringProcessing/removeNonWordCharacters.js";
 
 describe( "a test removing spaces from a string", function() {
 	it( "returns string without spaces", function() {

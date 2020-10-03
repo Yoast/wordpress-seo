@@ -1,4 +1,4 @@
-import FunctionWordsInKeyphraseAssessment from "../../src/languages/legacy/assessments/seo/FunctionWordsInKeyphraseAssessment";
+import FunctionWordsInKeyphraseAssessment from "../../src/scoring/assessments/seo/FunctionWordsInKeyphraseAssessment";
 import Paper from "../../src/values/Paper";
 import Factory from "../specHelpers/factory";
 

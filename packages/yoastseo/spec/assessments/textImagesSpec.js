@@ -1,4 +1,4 @@
-import ImageCountAssessment from "../../src/languages/legacy/assessments/seo/TextImagesAssessment";
+import ImageCountAssessment from "../../src/scoring/assessments/seo/TextImagesAssessment";
 import Paper from "../../src/values/Paper.js";
 import Factory from "../specHelpers/factory.js";
 const i18n = Factory.buildJed();

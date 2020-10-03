@@ -1,6 +1,6 @@
-import { createBasicWordForms as createBasicWordFormsHebrew } from "../morphology/hebrew/createBasicWordForms";
-import { createBasicWordForms as createBasicWordFormsArabic } from "../morphology/arabic/createBasicWordForms";
-import { createBasicWordForms as createBasicWordFormsFarsi } from "../morphology/farsi/createBasicWordForms";
+import { createBasicWordForms as createBasicWordFormsHebrew } from "../morphology/he/createBasicWordForms";
+import { createBasicWordForms as createBasicWordFormsArabic } from "../morphology/ar/createBasicWordForms";
+import { createBasicWordForms as createBasicWordFormsFarsi } from "../morphology/fa/createBasicWordForms";
 
 /**
  * Collects functions for creating basic word forms for different languages.

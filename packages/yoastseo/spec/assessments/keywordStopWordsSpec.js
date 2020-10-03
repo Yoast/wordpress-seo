@@ -1,4 +1,4 @@
-import stopWordsInKeywordAssessment from "../../src/languages/legacy/assessments/seo/keywordStopWordsAssessment.js";
+import stopWordsInKeywordAssessment from "../../src/scoring/assessments/seo/keywordStopWordsAssessment.js";
 import Paper from "../../src/values/Paper.js";
 import Factory from "../specHelpers/factory.js";
 var i18n = Factory.buildJed();

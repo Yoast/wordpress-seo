@@ -1,4 +1,4 @@
-import TextCompetingLinksAssessment from "../../src/languages/legacy/assessments/seo/TextCompetingLinksAssessment";
+import TextCompetingLinksAssessment from "../../src/scoring/assessments/seo/TextCompetingLinksAssessment";
 import Paper from "../../src/values/Paper";
 import Factory from "../specHelpers/factory";
 

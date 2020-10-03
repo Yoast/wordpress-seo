@@ -1,5 +1,5 @@
-import contentConfiguration from "../../src/languages/legacy/config/content/combinedConfig";
-import getLanguage from "../../src/languages/legacy/helpers/getLanguage";
+import contentConfiguration from "../../src/config/_todo/content/combinedConfig";
+import getLanguage from "../../src/helpers/_todo/getLanguage";
 import factory from "../specHelpers/factory.js";
 const i18n = factory.buildJed();
 import Researcher from "../../src/researcher";
@@ -7,31 +7,31 @@ import getMorphologyData from "../specHelpers/getMorphologyData";
 
 
 // Import SEO assessments
-import IntroductionKeywordAssessment from "../../src/languages/legacy/assessments/seo/IntroductionKeywordAssessment";
-import KeyphraseLengthAssessment from "../../src/languages/legacy/assessments/seo/KeyphraseLengthAssessment";
-import KeywordDensityAssessment from "../../src/languages/legacy/assessments/seo/KeywordDensityAssessment";
-import MetaDescriptionKeywordAssessment from "../../src/languages/legacy/assessments/seo/MetaDescriptionKeywordAssessment";
-import MetaDescriptionLengthAssessment from "../../src/languages/legacy/assessments/seo/MetaDescriptionLengthAssessment";
-import SubheadingsKeywordAssessment from "../../src/languages/legacy/assessments/seo/SubHeadingsKeywordAssessment";
-import TextCompetingLinksAssessment from "../../src/languages/legacy/assessments/seo/TextCompetingLinksAssessment";
-import TextImagesAssessment from "../../src/languages/legacy/assessments/seo/TextImagesAssessment";
-import TextLengthAssessment from "../../src/languages/legacy/assessments/seo/TextLengthAssessment";
-import OutboundLinksAssessment from "../../src/languages/legacy/assessments/seo/OutboundLinksAssessment";
-import InternalLinksAssessment from "../../src/languages/legacy/assessments/seo/InternalLinksAssessment";
-import TitleKeywordAssessment from "../../src/languages/legacy/assessments/seo/TitleKeywordAssessment";
-import TitleWidthAssessment from "../../src/languages/legacy/assessments/seo/PageTitleWidthAssessment";
-import UrlKeywordAssessment from "../../src/languages/legacy/assessments/seo/UrlKeywordAssessment";
-import KeyphraseDistributionAssessment from "../../src/languages/legacy/assessments/seo/KeyphraseDistributionAssessment";
+import IntroductionKeywordAssessment from "../../src/scoring/assessments/seo/IntroductionKeywordAssessment";
+import KeyphraseLengthAssessment from "../../src/scoring/assessments/seo/KeyphraseLengthAssessment";
+import KeywordDensityAssessment from "../../src/scoring/assessments/seo/KeywordDensityAssessment";
+import MetaDescriptionKeywordAssessment from "../../src/scoring/assessments/seo/MetaDescriptionKeywordAssessment";
+import MetaDescriptionLengthAssessment from "../../src/scoring/assessments/seo/MetaDescriptionLengthAssessment";
+import SubheadingsKeywordAssessment from "../../src/scoring/assessments/seo/SubHeadingsKeywordAssessment";
+import TextCompetingLinksAssessment from "../../src/scoring/assessments/seo/TextCompetingLinksAssessment";
+import TextImagesAssessment from "../../src/scoring/assessments/seo/TextImagesAssessment";
+import TextLengthAssessment from "../../src/scoring/assessments/seo/TextLengthAssessment";
+import OutboundLinksAssessment from "../../src/scoring/assessments/seo/OutboundLinksAssessment";
+import InternalLinksAssessment from "../../src/scoring/assessments/seo/InternalLinksAssessment";
+import TitleKeywordAssessment from "../../src/scoring/assessments/seo/TitleKeywordAssessment";
+import TitleWidthAssessment from "../../src/scoring/assessments/seo/PageTitleWidthAssessment";
+import UrlKeywordAssessment from "../../src/scoring/assessments/seo/UrlKeywordAssessment";
+import KeyphraseDistributionAssessment from "../../src/scoring/assessments/seo/KeyphraseDistributionAssessment";
 
 // Import content assessments
-import FleschReadingAssessment from "../../src/languages/legacy/assessments/readability/fleschReadingEaseAssessment";
-import SubheadingDistributionTooLongAssessment from "../../src/languages/legacy/assessments/readability/subheadingDistributionTooLongAssessment";
-import paragraphTooLongAssessment from "../../src/languages/legacy/assessments/readability/paragraphTooLongAssessment";
-import SentenceLengthInTextAssessment from "../../src/languages/legacy/assessments/readability/sentenceLengthInTextAssessment";
-import transitionWordsAssessment from "../../src/languages/legacy/assessments/readability/transitionWordsAssessment";
-import passiveVoiceAssessment from "../../src/languages/legacy/assessments/readability/passiveVoiceAssessment";
-import textPresenceAssessment from "../../src/languages/legacy/assessments/readability/textPresenceAssessment";
-import sentenceBeginningsAssessment from "../../src/languages/legacy/assessments/readability/sentenceBeginningsAssessment";
+import FleschReadingAssessment from "../../src/scoring/assessments/readability/fleschReadingEaseAssessment";
+import SubheadingDistributionTooLongAssessment from "../../src/scoring/assessments/readability/subheadingDistributionTooLongAssessment";
+import paragraphTooLongAssessment from "../../src/scoring/assessments/readability/paragraphTooLongAssessment";
+import SentenceLengthInTextAssessment from "../../src/scoring/assessments/readability/sentenceLengthInTextAssessment";
+import transitionWordsAssessment from "../../src/scoring/assessments/readability/transitionWordsAssessment";
+import passiveVoiceAssessment from "../../src/scoring/assessments/readability/passiveVoiceAssessment";
+import textPresenceAssessment from "../../src/scoring/assessments/readability/textPresenceAssessment";
+import sentenceBeginningsAssessment from "../../src/scoring/assessments/readability/sentenceBeginningsAssessment";
 
 // Import researches
 import findKeywordInFirstParagraph from "../../src/languages/legacy/researches/findKeywordInFirstParagraph.js";
@@ -316,7 +316,7 @@ testPapers.forEach( function( testPaper ) {
 			}
 		} );
 
-		it( "returns a score and the associated feedback text for the english keyphraseDistribution assessment", function() {
+		it( "returns a score and the associated feedback text for the en keyphraseDistribution assessment", function() {
 			const isApplicable = keyphraseDistributionAssessment.isApplicable( paper );
 			expect( isApplicable ).toBe( expectedResults.keyphraseDistribution.isApplicable );
 

@@ -1,13 +1,13 @@
 import Assessor from "./assessor.js";
-import FleschReadingEase from "./languages/legacy/assessments/readability/fleschReadingEaseAssessment.js";
-import paragraphTooLong from "./languages/legacy/assessments/readability/paragraphTooLongAssessment.js";
-import SentenceLengthInText from "./languages/legacy/assessments/readability/sentenceLengthInTextAssessment.js";
-import SubheadingDistributionTooLong from "./languages/legacy/assessments/readability/subheadingDistributionTooLongAssessment.js";
-import transitionWords from "./languages/legacy/assessments/readability/transitionWordsAssessment.js";
-import passiveVoice from "./languages/legacy/assessments/readability/passiveVoiceAssessment.js";
-import sentenceBeginnings from "./languages/legacy/assessments/readability/sentenceBeginningsAssessment.js";
-import textPresence from "./languages/legacy/assessments/readability/textPresenceAssessment.js";
-import contentConfiguration from "./languages/legacy/config/content/combinedConfig.js";
+import FleschReadingEase from "./scoring/assessments/readability/fleschReadingEaseAssessment.js";
+import paragraphTooLong from "./scoring/assessments/readability/paragraphTooLongAssessment.js";
+import SentenceLengthInText from "./scoring/assessments/readability/sentenceLengthInTextAssessment.js";
+import SubheadingDistributionTooLong from "./scoring/assessments/readability/subheadingDistributionTooLongAssessment.js";
+import transitionWords from "./scoring/assessments/readability/transitionWordsAssessment.js";
+import passiveVoice from "./scoring/assessments/readability/passiveVoiceAssessment.js";
+import sentenceBeginnings from "./scoring/assessments/readability/sentenceBeginningsAssessment.js";
+import textPresence from "./scoring/assessments/readability/textPresenceAssessment.js";
+import contentConfiguration from "./config/_todo/content/combinedConfig.js";
 
 /*
 	Temporarily disabled:
@@ -16,7 +16,7 @@ import contentConfiguration from "./languages/legacy/config/content/combinedConf
 	var sentenceLengthInDescription = require( "./assessments/sentenceLengthInDescriptionAssessment.js" );
  */
 
-import scoreToRating from "./interpreters/scoreToRating";
+import scoreToRating from "./scoring/interpreters/scoreToRating";
 
 import { map } from "lodash-es";
 import { sum } from "lodash-es";

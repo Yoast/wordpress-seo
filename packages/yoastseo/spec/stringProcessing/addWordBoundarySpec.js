@@ -1,4 +1,4 @@
-import addWordBoundary from "../../src/languages/legacy/stringProcessing/addWordboundary";
+import addWordBoundary from "../../src/researches/stringProcessing/addWordboundary";
 
 describe( "a test adding wordboundaries to a string", function() {
 	it( "adds start and end boundaries", function() {

@@ -1,4 +1,4 @@
-import formatNumberSpec from "../../src/languages/legacy/helpers/formatNumber.js";
+import formatNumberSpec from "../../src/helpers/formatNumber.js";
 
 describe( "a test to round numbers to two decimal places", function() {
 	it( "returns a rounded number", function() {

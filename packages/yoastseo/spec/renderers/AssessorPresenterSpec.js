@@ -1,4 +1,4 @@
-import AssessorPresenter from "../../src/renderers/AssessorPresenter.js";
+import AssessorPresenter from "../../src/scoring/renderers/AssessorPresenter.js";
 import AssessmentResult from "../../src/values/AssessmentResult";
 import Factory from "../specHelpers/factory.js";
 

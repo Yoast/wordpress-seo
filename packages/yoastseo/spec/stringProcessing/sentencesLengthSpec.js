@@ -1,4 +1,4 @@
-import sentencesLength from "../../src/languages/legacy/stringProcessing/sentencesLength";
+import sentencesLength from "../../src/researches/stringProcessing/sentencesLength";
 
 describe( "sentencesLength", function() {
 	it( "doesn't return a length for an empty sentence", function() {

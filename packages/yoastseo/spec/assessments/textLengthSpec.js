@@ -1,4 +1,4 @@
-import TextLengthAssessment from "../../src/languages/legacy/assessments/seo/TextLengthAssessment.js";
+import TextLengthAssessment from "../../src/scoring/assessments/seo/TextLengthAssessment.js";
 import Paper from "../../src/values/Paper.js";
 import Factory from "../specHelpers/factory.js";
 var i18n = Factory.buildJed();

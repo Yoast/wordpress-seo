@@ -3,34 +3,34 @@
  * stringProcessing script
  */
 
-import germanFunctionWordsFactory from "../researches/german/functionWords.js";
+import germanFunctionWordsFactory from "../researches/de/functionWords.js";
 
 const germanFunctionWords = germanFunctionWordsFactory();
 import englishFunctionWordsFactory from "../config/passiveVoice/functionWords.js";
 const englishFunctionWords = englishFunctionWordsFactory();
-import dutchFunctionWordsFactory from "../researches/dutch/functionWords.js";
+import dutchFunctionWordsFactory from "../researches/nl/functionWords.js";
 const dutchFunctionWords = dutchFunctionWordsFactory();
-import spanishFunctionWordsFactory from "../researches/spanish/functionWords.js";
+import spanishFunctionWordsFactory from "../researches/es/functionWords.js";
 const spanishFunctionWords = spanishFunctionWordsFactory();
-import italianFunctionWordsFactory from "../researches/italian/functionWords.js";
+import italianFunctionWordsFactory from "../researches/it/functionWords.js";
 const italianFunctionWords = italianFunctionWordsFactory();
-import frenchFunctionWordsFactory from "../researches/french/functionWords.js";
+import frenchFunctionWordsFactory from "../researches/fr/functionWords.js";
 const frenchFunctionWords = frenchFunctionWordsFactory();
-import portugueseFunctionWordsFactory from "../researches/portuguese/functionWords.js";
+import portugueseFunctionWordsFactory from "../researches/pt/functionWords.js";
 const portugueseFunctionWords = portugueseFunctionWordsFactory();
-import russianFunctionWordsFactory from "../researches/russian/functionWords.js";
+import russianFunctionWordsFactory from "../researches/ru/functionWords.js";
 const russianFunctionWords = russianFunctionWordsFactory();
-import polishFunctionWordsFactory from "../researches/polish/functionWords.js";
+import polishFunctionWordsFactory from "../researches/pl/functionWords.js";
 const polishFunctionWords = polishFunctionWordsFactory();
-import swedishFunctionWordsFactory from "../researches/swedish/functionWords.js";
+import swedishFunctionWordsFactory from "../researches/sv/functionWords.js";
 const swedishFunctionWords = swedishFunctionWordsFactory();
-import indonesianFunctionWordsFactory from "../researches/indonesian/functionWords.js";
+import indonesianFunctionWordsFactory from "../researches/id/functionWords.js";
 const indonesianFunctionWords = indonesianFunctionWordsFactory();
-import hebrewFunctionWordsFactory from "../researches/hebrew/functionWords.js";
+import hebrewFunctionWordsFactory from "../researches/he/functionWords.js";
 const hebrewFunctionWords = hebrewFunctionWordsFactory();
-import arabicFunctionWordsFactory from "../researches/arabic/functionWords.js";
+import arabicFunctionWordsFactory from "../researches/ar/functionWords.js";
 const arabicFunctionWords = arabicFunctionWordsFactory();
-import farsiFunctionWordsFactory from "../researches/farsi/functionWords.js";
+import farsiFunctionWordsFactory from "../researches/fa/functionWords.js";
 const farsiFunctionWords = farsiFunctionWordsFactory();
 
 /**

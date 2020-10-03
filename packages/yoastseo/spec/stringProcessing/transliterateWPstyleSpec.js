@@ -1,5 +1,5 @@
 import transliterationObjects from "../../src/languages/legacy/config/transliterationsWPstyle.js";
-import transliteration from "../../src/languages/legacy/stringProcessing/transliterateWPstyle.js";
+import transliteration from "../../src/researches/stringProcessing/transliterateWPstyle.js";
 
 describe( "a test for returning correct number of transliteration objects for different languages", function() {
 	it( "returns only generic transliteration objects for Spanish.", function() {

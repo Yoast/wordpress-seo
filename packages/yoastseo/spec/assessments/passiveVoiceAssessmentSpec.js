@@ -1,4 +1,4 @@
-import passiveVoiceAssessment from "../../src/languages/legacy/assessments/readability/passiveVoiceAssessment.js";
+import passiveVoiceAssessment from "../../src/scoring/assessments/readability/passiveVoiceAssessment.js";
 import Paper from "../../src/values/Paper.js";
 import Factory from "../specHelpers/factory.js";
 const i18n = Factory.buildJed();

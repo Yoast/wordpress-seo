@@ -2,7 +2,7 @@ import wordIndicesRegexes from "../../../../src/languages/legacy/researches/pass
 
 import cannotDirectlyPrecedePassiveParticipleFactory from "../../../../src/languages/legacy/researches/english/functionWords.js";
 var cannotDirectlyPrecedePassiveParticiple = cannotDirectlyPrecedePassiveParticipleFactory().cannotDirectlyPrecedePassiveParticiple;
-import arrayToRegex from "../../../../src/languages/legacy/stringProcessing/createRegexFromArray.js";
+import arrayToRegex from "../../../../src/researches/stringProcessing/createRegexFromArray.js";
 
 var directPrecedenceExceptionRegex = arrayToRegex( cannotDirectlyPrecedePassiveParticiple );
 

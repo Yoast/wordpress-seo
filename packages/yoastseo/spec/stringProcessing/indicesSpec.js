@@ -1,4 +1,4 @@
-import indices from "../../src/languages/legacy/stringProcessing/indices.js";
+import indices from "../../src/researches/stringProcessing/indices.js";
 const getIndices = indices.getIndicesByWord;
 const getIndicesOfList = indices.getIndicesByWordList;
 const getIndicesByWordListSorted = indices.getIndicesByWordListSorted;

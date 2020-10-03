@@ -1,4 +1,4 @@
-import SyllableCountStep from "../../src/languages/legacy/helpers/syllableCountStep";
+import SyllableCountStep from "../../src/helpers/_todo/syllableCountStep";
 
 describe( "SyllableCountStep", function() {
 	it( "will not count syllables without a regex", function() {

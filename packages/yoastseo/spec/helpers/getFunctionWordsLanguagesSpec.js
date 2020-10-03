@@ -1,4 +1,4 @@
-import getFunctionWordsLanguages from "../../src/languages/legacy/helpers/getFunctionWordsLanguages";
+import getFunctionWordsLanguages from "../../src/helpers/_todo/getFunctionWordsLanguages";
 
 describe( "Checks which languages have function word support in YoastSEO.js", function() {
 	it( "returns an array of languages that have function word support", function() {

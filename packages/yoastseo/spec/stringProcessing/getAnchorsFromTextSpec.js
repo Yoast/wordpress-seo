@@ -1,4 +1,4 @@
-import linkMatches from "../../src/languages/legacy/stringProcessing/getAnchorsFromText.js";
+import linkMatches from "../../src/researches/stringProcessing/getAnchorsFromText.js";
 
 describe( "matches links in URL", function() {
 	it( "returns array with matches", function() {

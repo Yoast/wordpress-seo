@@ -1,4 +1,4 @@
-import getWords from "../../src/languages/legacy/stringProcessing/getWords";
+import getWords from "../../src/researches/stringProcessing/getWords";
 
 describe( "a test getting words from a sentence", function() {
 	it( "returns an empty array", function() {

@@ -1,11 +1,11 @@
 import { inherits } from "util";
 
-import IntroductionKeywordAssessment from "./languages/legacy/assessments/seo/IntroductionKeywordAssessment";
-import KeyphraseLengthAssessment from "./languages/legacy/assessments/seo/KeyphraseLengthAssessment";
-import KeywordDensityAssessment from "./languages/legacy/assessments/seo/KeywordDensityAssessment";
-import MetaDescriptionKeywordAssessment from "./languages/legacy/assessments/seo/MetaDescriptionKeywordAssessment";
+import IntroductionKeywordAssessment from "./scoring/assessments/seo/IntroductionKeywordAssessment";
+import KeyphraseLengthAssessment from "./scoring/assessments/seo/KeyphraseLengthAssessment";
+import KeywordDensityAssessment from "./scoring/assessments/seo/KeywordDensityAssessment";
+import MetaDescriptionKeywordAssessment from "./scoring/assessments/seo/MetaDescriptionKeywordAssessment";
 import Assessor from "./assessor";
-import FunctionWordsInKeyphrase from "./languages/legacy/assessments/seo/FunctionWordsInKeyphraseAssessment";
+import FunctionWordsInKeyphrase from "./scoring/assessments/seo/FunctionWordsInKeyphraseAssessment";
 
 /**
  * Creates the Assessor used for taxonomy pages.

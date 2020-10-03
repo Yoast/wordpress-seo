@@ -3,7 +3,7 @@ import { uniq } from "lodash-es";
 import arrayToRegex from "../../../stringProcessing/createRegexFromArray.js";
 import getWordIndices from "../getIndicesWithRegex.js";
 
-import cannotBeBetweenAuxiliaryAndParticiplePolishFactory from "../../../polish/functionWords.js";
+import cannotBeBetweenAuxiliaryAndParticiplePolishFactory from "../../../pl/functionWords.js";
 
 const cannotBeBetweenAuxiliaryAndParticiplePolish =
 cannotBeBetweenAuxiliaryAndParticiplePolishFactory().cannotBeBetweenPassiveAuxiliaryAndParticiple;

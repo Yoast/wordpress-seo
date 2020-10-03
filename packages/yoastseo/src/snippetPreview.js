@@ -6,19 +6,19 @@ import { defaultsDeep } from "lodash-es";
 import { forEach } from "lodash-es";
 import { debounce } from "lodash-es";
 
-import createWordRegex from "./languages/legacy/stringProcessing/createWordRegex.js";
-import { stripFullTags as stripHTMLTags } from "./languages/legacy/stringProcessing/stripHTMLTags.js";
-import stripSpaces from "./languages/legacy/stringProcessing/stripSpaces.js";
-import replaceDiacritics from "./languages/legacy/stringProcessing/replaceDiacritics.js";
-import transliterate from "./languages/legacy/stringProcessing/transliterate.js";
+import createWordRegex from "./researches/stringProcessing/createWordRegex.js";
+import { stripFullTags as stripHTMLTags } from "./researches/stringProcessing/stripHTMLTags.js";
+import stripSpaces from "./researches/stringProcessing/stripSpaces.js";
+import replaceDiacritics from "./researches/stringProcessing/replaceDiacritics.js";
+import transliterate from "./researches/stringProcessing/transliterate.js";
 import templates from "./templates.js";
 var snippetEditorTemplate = templates.snippetEditor;
 var hiddenElement = templates.hiddenSpan;
 
 import SnippetPreviewToggler from "./snippetPreviewToggler";
-import domManipulation from "./languages/legacy/helpers/domManipulation.js";
+import domManipulation from "./helpers/domManipulation.js";
 
-import Config from "./languages/legacy/config/config";
+import Config from "./config/_todo/config";
 
 var defaults = {
 	data: {
