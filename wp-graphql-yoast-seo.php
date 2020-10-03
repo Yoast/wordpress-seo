@@ -458,9 +458,41 @@ add_action('graphql_init', function () {
               return !empty($seo) ? $seo : null;
             }
           ]);
+
+
+          // Loop each taxonomy to register on the edge if a category is the primary one.
+          $taxonomies = get_object_taxonomies($post_type, 'objects');
+
+          foreach ($taxonomies as $tax) {
+
+
+            if ($tax->hierarchical && $tax->graphql_single_name) {
+
+              $name = ucfirst($post_type_object->graphql_single_name) . 'To' . ucfirst($tax->graphql_single_name) . 'ConnectionEdge';
+
+              register_graphql_field($name, 'isPrimary',  [
+                'type'        => 'Boolean',
+                'description' => __('The Yoast SEO Primary ' . $tax->name, 'wp-graphql-yoast-seo'),
+                'resolve'     => function ($item, array $args, AppContext $context) use ($tax) {
+
+                  $postId = $item['source']->ID;
+
+                  $wpseo_primary_term = new WPSEO_Primary_Term($tax->name, $postId);
+                  $primaryTaxId = $wpseo_primary_term->get_primary_term();
+                  $termId = $item['node']->term_id;
+
+
+                  return  $primaryTaxId === $termId;
+                }
+              ]);
+            }
+          }
+
         endif;
       }
     }
+
+
 
     register_graphql_field('User', 'seo',  [
       'type'        => 'SEOUser',

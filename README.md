@@ -59,6 +59,7 @@ To query for the Yoast Data simply add the seo object to your query:
 
 ```
 {
+  # Getting Yoast Content Data (posts pages etc)
   pages(first: 10) {
     edges {
       node {
@@ -127,7 +128,7 @@ To query for the Yoast Data simply add the seo object to your query:
     }
   }
 
-
+# Getting Yoast Category data
   categories(first: 10) {
     edges {
       node {
@@ -165,7 +166,7 @@ To query for the Yoast Data simply add the seo object to your query:
     }
   }
 
-
+# Getting Yoast User Data
   users {
     nodes {
       seo {
@@ -189,6 +190,24 @@ To query for the Yoast Data simply add the seo object to your query:
   }
 }
 
+# Getting Yoast primary category
+query GetPostsPrimary {
+  posts {
+    nodes {
+      title
+      slug
+      categories {
+        edges {
+          isPrimary
+          node {
+            name
+            count
+          }
+        }
+      }
+    }
+  }
+}
 
 ```
 

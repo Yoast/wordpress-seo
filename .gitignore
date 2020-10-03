@@ -8,3 +8,4 @@ node_modules/
 .idea*
 wp-content/
 vendor/
+notes.md
