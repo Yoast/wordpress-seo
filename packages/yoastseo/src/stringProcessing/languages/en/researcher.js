@@ -1,41 +1,41 @@
-import AbstractResearcher from "../../abstract/researcher";
-import wordCountInText from "../../general/wordCountInText.js";
-
-import linkCount from "../../general/countLinks.js";
-import getLinks from "../../general/getLinks.js";
-import urlLength from "../../general/urlIsTooLong.js";
 import matchKeywordInSubheadings from "../../researches/_todo/matchKeywordInSubheadings.js";
-import getKeywordDensity from "../../general/getKeywordDensity.js";
 import keywordCount from "../../researches/_todo/keywordCount";
-import stopWordsInKeyword from "./researches/stopWordsInKeyword";
-import stopWordsInUrl from "./stopWordsInUrl";
-import calculateFleschReading from "./researches/calculateFleshReading";
-import metaDescriptionLength from "../../general/metaDescriptionLength.js";
-import imageCount from "../../general/imageCountInText.js";
-import altTagCount from "../../general/imageAltTags.js";
-import keyphraseLength from "../../general/keyphraseLength";
 import metaDescriptionKeyword from "../../researches/_todo/metaDescriptionKeyword.js";
 import keywordCountInUrl from "../../researches/_todo/keywordCountInUrl";
-import pageTitleWidth from "../../general/pageTitleWidth.js";
-import wordComplexity from "../../general/getWordComplexity.js";
-import getParagraphLength from "../../general/getParagraphLength.js";
-import countSentencesFromText from "../../general/countSentencesFromText.js";
-import countSentencesFromDescription from "../../general/countSentencesFromDescription.js";
-import getSubheadingTextLengths from "../../general/getSubheadingTextLengths.js";
-import findTransitionWords from "./researches/findTransitionWords";
 import passiveVoice from "../../researches/_todo/getPassiveVoice.js";
-import getSentenceBeginnings from "../../abstract/getSentenceBeginnings.js";
 import relevantWords from "../../researches/_todo/relevantWords";
-import readingTime from "../../general/readingTime";
 import getTopicDensity from "../../researches/_todo/getTopicDensity";
 import topicCount from "../../researches/_todo/topicCount";
 import { keyphraseDistributionResearcher } from "../../researches/_todo/keyphraseDistribution";
-const keyphraseDistribution = keyphraseDistributionResearcher;
-import functionWordsInKeyphrase from "./researches/functionWordsInKeyphrase";
-import h1s from "../../general/h1s";
 import getProminentWordsForInsights from "../../researches/_todo/getProminentWordsForInsights";
 import getProminentWordsForInternalLinking from "../../researches/_todo/getProminentWordsForInternalLinking";
 import getWordForms from "../../researches/_todo/getWordForms";
+
+import AbstractResearcher from "../../abstract/researcher";
+import wordCountInText from "../../researches/wordCountInText.js";
+import linkCount from "../../researches/countLinks.js";
+import getLinks from "../../researches/getLinks.js";
+import urlLength from "../../researches/urlIsTooLong.js";
+import getKeywordDensity from "../../researches/getKeywordDensity.js";
+import stopWordsInKeyword from "./researches/stopWordsInKeyword";
+import stopWordsInUrl from "./researches/stopWordsInUrl";
+import calculateFleschReading from "./researches/calculateFleshReading";
+import metaDescriptionLength from "../../researches/metaDescriptionLength.js";
+import imageCount from "../../researches/imageCountInText.js";
+import altTagCount from "../../researches/imageAltTags.js";
+import keyphraseLength from "../../researches/keyphraseLength";
+import pageTitleWidth from "../../researches/pageTitleWidth.js";
+import wordComplexity from "../../researches/getWordComplexity.js";
+import getParagraphLength from "../../researches/getParagraphLength.js";
+import countSentencesFromText from "../../researches/countSentencesFromText.js";
+import countSentencesFromDescription from "../../researches/countSentencesFromDescription.js";
+import getSubheadingTextLengths from "../../researches/getSubheadingTextLengths.js";
+import findTransitionWords from "./researches/findTransitionWords";
+import getSentenceBeginnings from "../../abstract/getSentenceBeginnings.js";
+import readingTime from "../../researches/readingTime";
+import functionWordsInKeyphrase from "./researches/functionWordsInKeyphrase";
+import h1s from "../../researches/h1s";
+const keyphraseDistribution = keyphraseDistributionResearcher;
 
 /**
  * The researches contains all the researches
