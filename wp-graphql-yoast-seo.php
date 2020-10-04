@@ -8,7 +8,7 @@
  * Author URI:      https://www.ashleyhitchcock.com
  * Text Domain:     wp-graphql-yoast-seo
  * Domain Path:     /languages
- * Version:         4.7.0
+ * Version:         4.7.1
  *
  * @package         WP_Graphql_YOAST_SEO
  */
@@ -461,9 +461,9 @@ add_action('graphql_init', function () {
 
 
           // Loop each taxonomy to register on the edge if a category is the primary one.
-          $taxonomies = get_object_taxonomies($post_type, 'objects');
+          $taxonomiesPostObj = get_object_taxonomies($post_type, 'objects');
 
-          foreach ($taxonomies as $tax) {
+          foreach ($taxonomiesPostObj as $tax) {
 
 
             if ($tax->hierarchical && $tax->graphql_single_name) {
