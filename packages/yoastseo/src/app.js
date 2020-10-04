@@ -1,5 +1,5 @@
 import "./config/_todo/config.js";
-import SnippetPreview from "./snippetPreview.js";
+import SnippetPreview from "./snippetPreview/snippetPreview.js";
 
 import { defaultsDeep } from "lodash-es";
 import { isObject } from "lodash-es";
@@ -15,9 +15,9 @@ import { throttle } from "lodash-es";
 import { merge } from "lodash-es";
 
 import Jed from "jed";
-import SEOAssessor from "./seoAssessor.js";
+import SEOAssessor from "./scoring/seoAssessor.js";
 import KeyphraseDistributionAssessment from "./scoring/assessments/seo/KeyphraseDistributionAssessment.js";
-import ContentAssessor from "./contentAssessor.js";
+import ContentAssessor from "./scoring/contentAssessor.js";
 import CornerstoneSEOAssessor from "./scoring/cornerstone/seoAssessor.js";
 import CornerstoneContentAssessor from "./scoring/cornerstone/contentAssessor.js";
 import Researcher from "./researcher.js";

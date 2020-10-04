@@ -5,19 +5,19 @@ import * as helpers from "./src/helpers/_todo";
 import * as markers from "./src/markers";
 import * as string from "./src/stringProcessing/helpers/_todo";
 import * as interpreters from "./src/scoring/interpreters";
+import * as researchers from "./src/stringProcessing";
 import * as config from "./src/config/_todo";
 
 import App from "./src/app";
-import Assessor from "./src/assessor";
-import ContentAssessor from "./src/contentAssessor";
-import SeoAssessor from './src/seoAssessor';
-import TaxonomyAssessor from "./src/taxonomyAssessor";
+import Assessor from "./src/scoring/assessor";
+import ContentAssessor from "./src/scoring/contentAssessor";
+import SeoAssessor from './src/scoring/seoAssessor';
+import TaxonomyAssessor from "./src/scoring/taxonomyAssessor";
 import Pluggable from "./src/pluggable";
-import Researcher from "./src/researcher";
-import SnippetPreview from "./src/snippetPreview";
+import SnippetPreview from "./src/snippetPreview/snippetPreview";
 import Paper from "./src/values/Paper";
 import AssessmentResult from "./src/values/AssessmentResult";
-import Assessment from "./src/assessment";
+import Assessment from "./src/scoring/assessments/assessment";
 
 /*
  * Everything exported here is put on the `yoast.analysis` global in the plugin.
@@ -29,7 +29,6 @@ export {
 	SeoAssessor,
 	TaxonomyAssessor,
 	Pluggable,
-	Researcher,
 	SnippetPreview,
 
 	Paper,
@@ -47,6 +46,7 @@ export {
 	markers,
 	string,
 	interpreters,
+	researchers,
 };
 
 /*

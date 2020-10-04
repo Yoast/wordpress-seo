@@ -1,7 +1,7 @@
 import { merge } from "lodash-es";
 
 import recommendedKeywordCount from "../../helpers/assessments/recommendedKeywordCount.js";
-import Assessment from "../../../assessment";
+import Assessment from "../assessment";
 import getLanguage from "../../../helpers/_todo/getLanguage";
 import getLanguagesWithWordFormSupport from "../../../helpers/_todo/getLanguagesWithWordFormSupport";
 import AssessmentResult from "../../../values/AssessmentResult";

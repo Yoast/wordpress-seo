@@ -1,6 +1,6 @@
 import { isUndefined, merge, inRange } from "lodash-es";
 
-import Assessment from "../../../assessment";
+import Assessment from "../assessment";
 import getFunctionWordsLanguages from "../../../helpers/_todo/getFunctionWordsLanguages";
 import getLanguage from "../../../helpers/_todo/getLanguage";
 import { createAnchorOpeningTag } from "../../../helpers/shortlinker";

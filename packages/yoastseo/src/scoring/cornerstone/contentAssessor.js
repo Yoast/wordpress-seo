@@ -1,5 +1,5 @@
-import Assessor from "../../assessor.js";
-import ContentAssessor from "../../contentAssessor";
+import Assessor from "../assessor.js";
+import ContentAssessor from "../contentAssessor";
 import FleschReadingEase from "../assessments/readability/fleschReadingEaseAssessment.js";
 import paragraphTooLong from "../assessments/readability/paragraphTooLongAssessment.js";
 import SentenceLengthInText from "../assessments/readability/sentenceLengthInTextAssessment.js";

@@ -1,4 +1,4 @@
-import Assessor from "../src/taxonomyAssessor.js";
+import Assessor from "../src/scoring/taxonomyAssessor.js";
 import Paper from "../src/values/Paper.js";
 import factory from "./specHelpers/factory.js";
 const i18n = factory.buildJed();

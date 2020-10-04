@@ -1,6 +1,6 @@
 import { filter, merge } from "lodash-es";
 
-import Assessment from "../../../assessment";
+import Assessment from "../assessment";
 import { inRangeEndInclusive as inRange } from "../../../helpers/inRange";
 import isTextTooLong from "../../../helpers/isValueTooLong";
 import { createAnchorOpeningTag } from "../../../helpers/shortlinker";

@@ -1,6 +1,6 @@
 import { merge } from "lodash-es";
 
-import Assessment from "../../../assessment";
+import Assessment from "../assessment";
 import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
 import getSentences from "../../../../researches/stringProcessing/getSentences";
 import AssessmentResult from "../../../values/AssessmentResult";

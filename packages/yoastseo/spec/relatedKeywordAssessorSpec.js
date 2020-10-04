@@ -1,4 +1,4 @@
-import Assessor from "../src/relatedKeywordAssessor";
+import Assessor from "../src/scoring/relatedKeywordAssessor";
 import Paper from "../src/values/Paper";
 import factory from "./specHelpers/factory";
 import getResults from "./specHelpers/getListOfAssessmentResults";

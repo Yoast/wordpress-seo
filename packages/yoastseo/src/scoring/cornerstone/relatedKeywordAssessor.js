@@ -1,5 +1,5 @@
 import { inherits } from "util";
-import Assessor from "../../assessor.js";
+import Assessor from "../assessor.js";
 
 import IntroductionKeyword from "../assessments/seo/IntroductionKeywordAssessment.js";
 import KeyphraseLength from "../assessments/seo/KeyphraseLengthAssessment.js";

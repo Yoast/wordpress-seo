@@ -8,8 +8,8 @@ import TextCompetingLinksAssessment from "../assessments/seo/TextCompetingLinksA
 import InternalLinksAssessment from "../assessments/seo/InternalLinksAssessment";
 import TitleKeywordAssessment from "../assessments/seo/TitleKeywordAssessment";
 import UrlKeywordAssessment from "../assessments/seo/UrlKeywordAssessment";
-import Assessor from "../../assessor";
-import SEOAssessor from "../../seoAssessor";
+import Assessor from "../assessor";
+import SEOAssessor from "../seoAssessor";
 import MetaDescriptionLength from "../assessments/seo/MetaDescriptionLengthAssessment";
 import SubheadingsKeyword from "../assessments/seo/SubHeadingsKeywordAssessment";
 import TextImages from "../assessments/seo/TextImagesAssessment";

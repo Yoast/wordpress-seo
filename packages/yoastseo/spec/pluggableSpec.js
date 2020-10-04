@@ -1,6 +1,6 @@
 import Pluggable from "../src/pluggable";
 import InvalidTypeError from "../src/errors/invalidType";
-import Assessor from "../src/assessor.js";
+import Assessor from "../src/scoring/assessor.js";
 import factory from "./specHelpers/factory.js";
 var i18n = factory.buildJed();
 

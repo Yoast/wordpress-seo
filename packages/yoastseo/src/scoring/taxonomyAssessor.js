@@ -1,18 +1,18 @@
 import { inherits } from "util";
 
-import IntroductionKeywordAssessment from "./scoring/assessments/seo/IntroductionKeywordAssessment";
-import KeyphraseLengthAssessment from "./scoring/assessments/seo/KeyphraseLengthAssessment";
-import KeywordDensityAssessment from "./scoring/assessments/seo/KeywordDensityAssessment";
-import MetaDescriptionKeywordAssessment from "./scoring/assessments/seo/MetaDescriptionKeywordAssessment";
-import TitleKeywordAssessment from "./scoring/assessments/seo/TitleKeywordAssessment";
-import UrlKeywordAssessment from "./scoring/assessments/seo/UrlKeywordAssessment";
+import IntroductionKeywordAssessment from "./assessments/seo/IntroductionKeywordAssessment";
+import KeyphraseLengthAssessment from "./assessments/seo/KeyphraseLengthAssessment";
+import KeywordDensityAssessment from "./assessments/seo/KeywordDensityAssessment";
+import MetaDescriptionKeywordAssessment from "./assessments/seo/MetaDescriptionKeywordAssessment";
+import TitleKeywordAssessment from "./assessments/seo/TitleKeywordAssessment";
+import UrlKeywordAssessment from "./assessments/seo/UrlKeywordAssessment";
 import Assessor from "./assessor";
-import MetaDescriptionLengthAssessment from "./scoring/assessments/seo/MetaDescriptionLengthAssessment";
-import TextLengthAssessment from "./scoring/assessments/seo/TextLengthAssessment";
-import PageTitleWidthAssessment from "./scoring/assessments/seo/PageTitleWidthAssessment";
-import FunctionWordsInKeyphrase from "./scoring/assessments/seo/FunctionWordsInKeyphraseAssessment";
-import SingleH1Assessment from "./scoring/assessments/seo/SingleH1Assessment";
-import { createAnchorOpeningTag } from "./helpers/shortlinker";
+import MetaDescriptionLengthAssessment from "./assessments/seo/MetaDescriptionLengthAssessment";
+import TextLengthAssessment from "./assessments/seo/TextLengthAssessment";
+import PageTitleWidthAssessment from "./assessments/seo/PageTitleWidthAssessment";
+import FunctionWordsInKeyphrase from "./assessments/seo/FunctionWordsInKeyphraseAssessment";
+import SingleH1Assessment from "./assessments/seo/SingleH1Assessment";
+import { createAnchorOpeningTag } from "../helpers/shortlinker";
 
 /**
  * Returns the text length assessment to use.

@@ -1,13 +1,13 @@
 import { inherits } from "util";
 
 import Assessor from "./assessor.js";
-import IntroductionKeyword from "./scoring/assessments/seo/IntroductionKeywordAssessment.js";
-import KeyphraseLength from "./scoring/assessments/seo/KeyphraseLengthAssessment.js";
-import KeywordDensity from "./scoring/assessments/seo/KeywordDensityAssessment.js";
-import MetaDescriptionKeyword from "./scoring/assessments/seo/MetaDescriptionKeywordAssessment.js";
-import TextImages from "./scoring/assessments/seo/TextImagesAssessment.js";
-import TextCompetingLinks from "./scoring/assessments/seo/TextCompetingLinksAssessment.js";
-import FunctionWordsInKeyphrase from "./scoring/assessments/seo/FunctionWordsInKeyphraseAssessment";
+import IntroductionKeyword from "./assessments/seo/IntroductionKeywordAssessment.js";
+import KeyphraseLength from "./assessments/seo/KeyphraseLengthAssessment.js";
+import KeywordDensity from "./assessments/seo/KeywordDensityAssessment.js";
+import MetaDescriptionKeyword from "./assessments/seo/MetaDescriptionKeywordAssessment.js";
+import TextImages from "./assessments/seo/TextImagesAssessment.js";
+import TextCompetingLinks from "./assessments/seo/TextCompetingLinksAssessment.js";
+import FunctionWordsInKeyphrase from "./assessments/seo/FunctionWordsInKeyphraseAssessment";
 
 /**
  * Creates the Assessor

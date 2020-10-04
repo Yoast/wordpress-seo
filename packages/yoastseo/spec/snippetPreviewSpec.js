@@ -1,4 +1,4 @@
-import SnippetPreview from "../src/snippetPreview.js";
+import SnippetPreview from "../src/snippetPreview/snippetPreview.js";
 import "../src/app.js";
 import Factory from "./specHelpers/factory.js";
 

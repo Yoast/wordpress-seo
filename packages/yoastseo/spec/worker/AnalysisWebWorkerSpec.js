@@ -5,8 +5,8 @@ import { getLogger } from "loglevel";
 // Internal dependencies
 import AnalysisWebWorker from "../../src/worker/AnalysisWebWorker";
 import { createShortlink } from "../../src/helpers/shortlinker";
-import Assessment from "../../src/assessment";
-import SEOAssessor from "../../src/seoAssessor";
+import Assessment from "../../src/scoring/assessments/assessment";
+import SEOAssessor from "../../src/scoring/seoAssessor";
 import { SEOScoreAggregator } from "../../src/parsedPaper/assess/scoreAggregators";
 import { TreeResearcher } from "../../src/parsedPaper/research";
 import AssessmentResult from "../../src/values/AssessmentResult";

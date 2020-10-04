@@ -14,17 +14,17 @@ import * as string from "../stringProcessing/helpers/_todo";
 import * as interpreters from "../scoring/interpreters";
 import * as config from "../config/_todo";
 
-import Assessor from "../assessor";
-import Assessment from "../assessment";
-import SEOAssessor from "../seoAssessor";
-import ContentAssessor from "../contentAssessor";
-import TaxonomyAssessor from "../taxonomyAssessor";
+import Assessor from "../scoring/assessor";
+import Assessment from "../scoring/assessments/assessment";
+import SEOAssessor from "../scoring/seoAssessor";
+import ContentAssessor from "../scoring/contentAssessor";
+import TaxonomyAssessor from "../scoring/taxonomyAssessor";
 import Pluggable from "../pluggable";
 import Researcher from "../researcher";
-import SnippetPreview from "../snippetPreview";
+import SnippetPreview from "../snippetPreview/snippetPreview";
 import Paper from "../values/Paper";
 import AssessmentResult from "../values/AssessmentResult";
-import RelatedKeywordAssessor from "../relatedKeywordAssessor";
+import RelatedKeywordAssessor from "../scoring/relatedKeywordAssessor";
 
 const YoastSEO = {
 	Assessor,
@@ -56,7 +56,7 @@ import CornerstoneSEOAssessor from "../scoring/cornerstone/seoAssessor";
 import InvalidTypeError from "../errors/invalidType";
 import includesAny from "../helpers/includesAny";
 import { configureShortlinker } from "../helpers/shortlinker";
-import RelatedKeywordTaxonomyAssessor from "../relatedKeywordTaxonomyAssessor";
+import RelatedKeywordTaxonomyAssessor from "../scoring/relatedKeywordTaxonomyAssessor";
 import Scheduler from "./scheduler";
 import Transporter from "./transporter";
 import wrapTryCatchAroundAction from "./wrapTryCatchAroundAction";

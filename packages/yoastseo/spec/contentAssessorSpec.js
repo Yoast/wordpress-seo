@@ -1,4 +1,4 @@
-import ContentAssessor from "../src/contentAssessor.js";
+import ContentAssessor from "../src/scoring/contentAssessor.js";
 import AssessmentResult from "../src/values/AssessmentResult.js";
 import Factory from "./specHelpers/factory.js";
 import Paper from "../src/values/Paper.js";

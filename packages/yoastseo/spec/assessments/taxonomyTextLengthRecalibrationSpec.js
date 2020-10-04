@@ -1,6 +1,6 @@
 import Paper from "../../src/values/Paper.js";
 import Factory from "../specHelpers/factory.js";
-import { getTextLengthAssessment } from "../../src/taxonomyAssessor";
+import { getTextLengthAssessment } from "../../src/scoring/taxonomyAssessor";
 
 describe( "A taxonomy page text length assessment.", function() {
 	let assessment;

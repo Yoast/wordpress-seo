@@ -1,5 +1,5 @@
 import { merge } from "lodash-es";
-import Assessment from "../../../assessment";
+import Assessment from "../assessment";
 import Config from "../../../config/_todo/config";
 import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
 import AssessmentResult from "../../../values/AssessmentResult";

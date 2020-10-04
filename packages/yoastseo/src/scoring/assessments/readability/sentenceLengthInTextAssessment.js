@@ -1,6 +1,6 @@
 import { map, merge } from "lodash-es";
 
-import Assessment from "../../../assessment";
+import Assessment from "../assessment";
 import countTooLongSentences from "../../helpers/assessments/checkForTooLongSentences";
 import formatNumber from "../../../helpers/formatNumber";
 import { inRangeEndInclusive as inRange } from "../../../helpers/inRange";

@@ -1,4 +1,4 @@
-import Assessor from "../src/assessor.js";
+import Assessor from "../src/scoring/assessor.js";
 import Paper from "../src/values/Paper.js";
 import AssessmentResult from "../src/values/AssessmentResult.js";
 import MissingArgument from "../src/errors/missingArgument";
