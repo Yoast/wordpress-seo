@@ -4,6 +4,25 @@ import MissingArgument from "../../errors/missingArgument";
 import { isUndefined } from "lodash-es";
 import { isEmpty } from "lodash-es";
 
+import wordCountInText from "../researches/wordCountInText.js";
+import linkCount from "../researches/countLinks.js";
+import getLinks from "../researches/getLinks.js";
+import urlLength from "../researches/urlIsTooLong.js";
+import getKeywordDensity from "../researches/getKeywordDensity.js";
+import metaDescriptionLength from "../researches/metaDescriptionLength.js";
+import imageCount from "../researches/imageCountInText.js";
+import altTagCount from "../researches/imageAltTags.js";
+import keyphraseLength from "../researches/keyphraseLength";
+import pageTitleWidth from "../researches/pageTitleWidth.js";
+import wordComplexity from "../researches/getWordComplexity.js";
+import getParagraphLength from "../researches/getParagraphLength.js";
+import countSentencesFromText from "../researches/countSentencesFromText.js";
+import countSentencesFromDescription from "../researches/countSentencesFromDescription.js";
+import getSubheadingTextLengths from "../researches/getSubheadingTextLengths.js";
+import readingTime from "../researches/readingTime";
+import h1s from "../researches/h1s";
+import sentences from "../researches/sentences";
+
 /**
  * The researches contains all the researches
  */
@@ -16,7 +35,26 @@ export default class Researcher {
 	constructor( paper ) {
 		this.paper = paper;
 
-		this.defaultResearches = {};
+		this.defaultResearches = {
+			urlLength: urlLength,
+			wordCountInText: wordCountInText,
+			getLinks: getLinks,
+			linkCount: linkCount,
+			imageCount: imageCount,
+			altTagCount: altTagCount,
+			getKeywordDensity: getKeywordDensity,
+			metaDescriptionLength: metaDescriptionLength,
+			keyphraseLength: keyphraseLength,
+			pageTitleWidth: pageTitleWidth,
+			wordComplexity: wordComplexity,
+			getParagraphLength: getParagraphLength,
+			countSentencesFromText: countSentencesFromText,
+			countSentencesFromDescription: countSentencesFromDescription,
+			getSubheadingTextLengths: getSubheadingTextLengths,
+			readingTime: readingTime,
+			h1s: h1s,
+			sentences: sentences,
+		};
 
 		this._data = {};
 
