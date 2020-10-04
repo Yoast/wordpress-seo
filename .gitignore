@@ -6,4 +6,5 @@ coverage
 dependencies.json
 dependencies.md
 .vscode
-.idea
+.idea/
+.DS_Store
