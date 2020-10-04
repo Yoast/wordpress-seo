@@ -1,9 +1,9 @@
 import Participle from "../../../../../values/Participle.js";
-import checkException from "../../../../researches/_todo/passiveVoice/periphrastic/checkException.js";
+import checkException from "../../../../helpers/passiveVoice/periphrastic/checkException.js";
 import nonVerbsEndingEdFactory from "./non-verb-ending-ed.js";
 const nonVerbsEndingEd = nonVerbsEndingEdFactory();
-import directPrecedenceException from "../../../stringProcessing/directPrecedenceExceptionWithoutRegex";
-import precedenceException from "../../../stringProcessing/precedenceExceptionWithoutRegex";
+import directPrecedenceException from "../../helpers/directPrecedenceExceptionWithoutRegex";
+import precedenceException from "../../helpers/precedenceExceptionWithoutRegex";
 
 import { includes } from "lodash-es";
 import { isEmpty } from "lodash-es";

@@ -1,6 +1,6 @@
 /** @module researches/stopWordsInUrl */
 
-import stopWordsInText from "./stopWordsInText.js";
+import stopWordsInText from "../helpers/stopWordsInText.js";
 
 /**
  * Matches stopwords in the URL. Replaces - and _ with whitespace.

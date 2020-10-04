@@ -1,7 +1,7 @@
 import { includes } from "lodash-es";
 
 import Participle from "../../../../../values/Participle.js";
-import checkException from "../../../../researches/_todo/passiveVoice/periphrastic/checkException.js";
+import checkException from "../../../../helpers/passiveVoice/periphrastic/checkException.js";
 import nonParticiples from "./nonParticiples";
 import directPrecedenceException from "../../../stringProcessing/directPrecedenceExceptionWithoutRegex";
 

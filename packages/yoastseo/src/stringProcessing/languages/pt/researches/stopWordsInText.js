@@ -1,4 +1,4 @@
-import getStopWords from "../config/passiveVoice/stopwords";
+import getStopWords from "../config/stopwords";
 import stopWordsInText from "../../../abstract/stopWordsInText";
 const stopwords = getStopWords();
 

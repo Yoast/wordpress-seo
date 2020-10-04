@@ -92,7 +92,7 @@ export default function() {
 		filteredAuxiliaries: participleLike.concat( otherAuxiliaries ),
 		// These auxiliaries are not filtered from the beginning of word combinations in the prominent words.
 		infinitiveAuxiliaries: infinitiveAuxiliaries,
-		allAuxiliaries: participleLike.concat( otherAuxiliaries, infinitiveAuxiliaries ),
+		all: participleLike.concat( otherAuxiliaries, infinitiveAuxiliaries ),
 	};
 }
 

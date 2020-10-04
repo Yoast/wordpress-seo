@@ -1,6 +1,6 @@
 /** @module researches/stopWordsInKeyword */
 
-import stopWordsInText from "./stopWordsInText.js";
+import stopWordsInText from "../helpers/stopWordsInText.js";
 
 import { escapeRegExp } from "lodash-es";
 

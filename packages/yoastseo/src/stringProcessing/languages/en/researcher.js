@@ -2,7 +2,7 @@ import matchKeywordInSubheadings from "../../researches/_todo/matchKeywordInSubh
 import keywordCount from "../../researches/_todo/keywordCount";
 import metaDescriptionKeyword from "../../researches/_todo/metaDescriptionKeyword.js";
 import keywordCountInUrl from "../../researches/_todo/keywordCountInUrl";
-import passiveVoice from "../../researches/_todo/getPassiveVoice.js";
+import passiveVoice from "./researches/getPassiveVoice.js";
 import relevantWords from "../../researches/_todo/relevantWords";
 import getTopicDensity from "../../researches/_todo/getTopicDensity";
 import topicCount from "../../researches/_todo/topicCount";

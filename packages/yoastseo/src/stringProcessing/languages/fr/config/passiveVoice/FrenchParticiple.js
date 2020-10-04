@@ -3,7 +3,7 @@ import { forEach, includes, memoize } from "lodash-es";
 import directPrecedenceException from "../../../stringProcessing/directPrecedenceExceptionWithoutRegex";
 import precedenceException from "../../../stringProcessing/precedenceExceptionWithoutRegex";
 import Participle from "../../../../../values/Participle";
-import checkException from "../../../../researches/_todo/passiveVoice/periphrastic/checkException";
+import checkException from "../../../../helpers/passiveVoice/periphrastic/checkException";
 import exceptionsParticiplesFactory from "./exceptionsParticiples";
 
 const {

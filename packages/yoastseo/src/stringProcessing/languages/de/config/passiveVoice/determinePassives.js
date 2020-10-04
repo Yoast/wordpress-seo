@@ -1,8 +1,8 @@
 import arrayToRegex from "../../../stringProcessing/createRegexFromArray.js";
 import auxiliariesGermanFactory from "./auxiliaries.js";
 const germanAuxiliaries = auxiliariesGermanFactory().allAuxiliaries;
-import getParticiples from "./getParticiples.js";
-import determineSentencePartIsPassive from "../../../../researches/_todo/passiveVoice/periphrastic/determineSentencePartIsPassive.js";
+import getParticiples from "../../helpers/getParticiples.js";
+import determineSentencePartIsPassive from "../../../../helpers/passiveVoice/periphrastic/determineSentencePartIsPassive.js";
 
 var auxiliaryRegex = arrayToRegex( germanAuxiliaries );
 

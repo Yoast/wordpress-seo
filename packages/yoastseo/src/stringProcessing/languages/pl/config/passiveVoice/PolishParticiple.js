@@ -1,7 +1,7 @@
 import Participle from "../../../../../values/Participle.js";
-import checkException from "../../../../researches/_todo/passiveVoice/periphrastic/checkException.js";
+import checkException from "../../../../helpers/passiveVoice/periphrastic/checkException.js";
 import directPrecedenceException from "../../../stringProcessing/directPrecedenceExceptionWithoutRegex";
-import nonDirectPrecedenceException from "../../../../researches/_todo/passiveVoice/periphrastic/freeAuxiliaryParticipleOrder/nonDirectParticiplePrecedenceException";
+import nonDirectPrecedenceException from "../../../../helpers/passiveVoice/periphrastic/freeAuxiliaryParticipleOrder/nonDirectParticiplePrecedenceException";
 
 /**
  * Creates an Participle object for the Polish language.
