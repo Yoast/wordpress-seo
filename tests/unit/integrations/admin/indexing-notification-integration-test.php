@@ -411,6 +411,107 @@ class Indexing_Notification_Integration_Test extends TestCase {
 	}
 
 	/**
+	 * Tests whether a notification is shown when the "Hide for 7 days" is clicked and the 7 days have expired.
+	 * 
+	 * @covers ::create_notification
+	 * @covers ::should_show_notification
+	 * @covers ::notification
+	 */
+	public function test_create_notification_when_hide_has_expired() {
+		$mocked_time = 1653426177;
+
+		$this->date_helper
+			->expects( 'current_time' )
+			->twice()
+			->andReturn( $mocked_time );
+
+		$this->notification_center
+			->expects( 'get_notification_by_id' )
+			->once()
+			->andReturnNull();
+
+		$this->indexing_integration
+			->expects( 'get_total_unindexed' )
+			->twice()
+			->andReturn( 40 );
+
+		$this->options_helper
+			->expects( 'get' )
+			->with( 'indexables_indexation_reason', '' )
+			->twice()
+			->andReturn( '' );
+
+		$this->options_helper
+			->expects( 'get' )
+			->with( 'indexation_started' )
+			->once()
+			->andReturn( 1593426177 );
+
+		$this->options_helper
+			->expects( 'get' )
+			->with( 'indexation_warning_hide_until', false )
+			->once()
+			->andReturn( 1653426176 );
+
+		Monkey\Functions\expect( 'wp_get_current_user' )
+			->andReturn( 'user' );
+
+		$this->notification_center
+			->expects( 'add_notification' )
+			->once();
+
+		$this->instance->create_notification();
+	}
+
+	/**
+	 * Tests whether a notification is shown when the "Hide for 7 days" is clicked and the 7 days have NOT expired.
+	 * 
+	 * @covers ::create_notification
+	 * @covers ::should_show_notification
+	 */
+	public function test_create_notification_when_hide_has_not_expired() {
+		$mocked_time = 1653426177;
+
+		$this->date_helper
+			->expects( 'current_time' )
+			->twice()
+			->andReturn( $mocked_time );
+
+		$this->notification_center
+			->expects( 'get_notification_by_id' )
+			->once()
+			->andReturnNull();
+
+		$this->indexing_integration
+			->expects( 'get_total_unindexed' )
+			->once()
+			->andReturn( 40 );
+
+		$this->options_helper
+			->expects( 'get' )
+			->with( 'indexables_indexation_reason', '' )
+			->once()
+			->andReturn( '' );
+
+		$this->options_helper
+			->expects( 'get' )
+			->with( 'indexation_started' )
+			->once()
+			->andReturn( 1593426177 );
+
+		$this->options_helper
+			->expects( 'get' )
+			->with( 'indexation_warning_hide_until', false )
+			->once()
+			->andReturn( 1653426178 );
+
+		Monkey\Functions\expect( 'wp_get_current_user' )
+			->andReturn( 'user' );
+
+		$this->instance->create_notification();
+	}
+
+	/**
 	 * Tests that no notification is created when the user stopped the
 	 * indexing process manually.
 	 *
