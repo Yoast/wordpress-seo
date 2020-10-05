@@ -737,13 +737,34 @@ class WPSEO_Upgrade {
 	 * @return void
 	 */
 	private function upgrade_151() {
+		$this->set_home_url_for_151();
+		$this->move_indexables_indexation_reason_for_151();
+
+		add_action( 'init', [ $this, 'set_permalink_structure_option_for_151' ] );
+	}
+
+	/**
+	 * Sets the home_url option for the 15.1 upgrade routine.
+	 *
+	 * @return void
+	 */
+	protected function set_home_url_for_151() {
 		$home_url = WPSEO_Options::get( 'home_url' );
 
 		if ( empty( $home_url ) ) {
 			WPSEO_Options::set( 'home_url', get_home_url() );
 		}
+	}
 
-		add_action( 'init', [ $this, 'set_permalink_structure_option_for_151' ] );
+	/**
+	 * Moves the `indexables_indexation_reason` option to the
+	 * renamed `indexing_reason` option if one exists.
+	 *
+	 * @return void
+	 */
+	protected function move_indexables_indexation_reason_for_151() {
+		$reason = WPSEO_Options::get( 'indexables_indexation_reason', '' );
+		WPSEO_Options::set( 'indexing_reason', $reason );
 	}
 
 	/**
