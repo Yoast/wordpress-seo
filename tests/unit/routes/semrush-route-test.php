@@ -7,7 +7,6 @@ use Mockery;
 use Yoast\WP\SEO\Actions\Semrush\SEMrush_Login_Action;
 use Yoast\WP\SEO\Actions\Semrush\SEMrush_Options_Action;
 use Yoast\WP\SEO\Actions\SEMrush\SEMrush_Phrases_Action;
-use Yoast\WP\SEO\Routes\SEMrush_Route;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
@@ -93,7 +92,7 @@ class SEMrush_Route_Test extends TestCase {
 				[
 					'methods'             => 'POST',
 					'callback'            => [ $this->instance, 'authenticate' ],
-					'permission_callback' => [ $this->instance, 'can_authenticate' ],
+					'permission_callback' => [ $this->instance, 'can_use_semrush' ],
 					'args'                => [
 						'code' => [
 							'validate_callback' => [ $this->instance, 'has_valid_code' ],
@@ -110,7 +109,7 @@ class SEMrush_Route_Test extends TestCase {
 				[
 					'methods'             => 'POST',
 					'callback'            => [ $this->instance, 'set_country_code_option' ],
-					'permission_callback' => [ $this->instance, 'can_edit' ],
+					'permission_callback' => [ $this->instance, 'can_use_semrush' ],
 					'args'                => [
 						'country_code' => [
 							'validate_callback' => [ $this->instance, 'has_valid_country_code' ],
@@ -127,7 +126,7 @@ class SEMrush_Route_Test extends TestCase {
 				[
 					'methods'             => 'GET',
 					'callback'            => [ $this->instance, 'get_related_keyphrases' ],
-					'permission_callback' => [ $this->instance, 'can_edit' ],
+					'permission_callback' => [ $this->instance, 'can_use_semrush' ],
 					'args'                => [
 						'keyphrase' => [
 							'validate_callback' => [ $this->instance, 'has_valid_keyphrase' ],
