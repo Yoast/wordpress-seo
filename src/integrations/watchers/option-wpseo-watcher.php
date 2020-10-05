@@ -22,13 +22,13 @@ class Option_Wpseo_Watcher implements Integration_Interface {
 	 * @return void
 	 */
 	public function register_hooks() {
-		\add_action( 'update_option_wpseo', [ $this, 'check_semrush_option' ], 10, 2 );
+		\add_action( 'update_option_wpseo', [ $this, 'check_semrush_option_disabled' ], 10, 2 );
 	}
 
 	/**
 	 * Checks if the SEMrush integration is disabled; if so, deletes the tokens.
 	 *
-	 * We delete the tokens it the SEMrush integration is disabled, no matter if
+	 * We delete the tokens if the SEMrush integration is disabled, no matter if
 	 * the value has actually changed or not.
 	 *
 	 * @param array $old_value The old value of the option.
@@ -36,7 +36,7 @@ class Option_Wpseo_Watcher implements Integration_Interface {
 	 *
 	 * @return bool Whether the SEMrush tokens have been deleted or not.
 	 */
-	public function check_semrush_option( $old_value, $new_value ) {
+	public function check_semrush_option_disabled( $old_value, $new_value ) {
 		if ( \array_key_exists( 'semrush_integration_active', $new_value )
 			&& $new_value['semrush_integration_active'] === false ) {
 			YoastSEO()->helpers->options->set( 'semrush_tokens', [] );

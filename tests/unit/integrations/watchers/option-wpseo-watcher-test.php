@@ -41,24 +41,24 @@ class Option_Wpseo_Watcher_Test extends TestCase {
 	public function test_register_hooks() {
 		$this->instance->register_hooks();
 
-		$this->assertTrue( Monkey\Actions\has( 'update_option_wpseo', [ $this->instance, 'check_semrush_option' ] ) );
+		$this->assertTrue( Monkey\Actions\has( 'update_option_wpseo', [ $this->instance, 'check_semrush_option_disabled' ] ) );
 	}
 
 	/**
 	 * Tests with the new value being true.
 	 *
-	 * @covers \Yoast\WP\SEO\Integrations\Watchers\Option_Wpseo_Watcher::check_semrush_option
+	 * @covers \Yoast\WP\SEO\Integrations\Watchers\Option_Wpseo_Watcher::check_semrush_option_disabled
 	 */
-	public function test_check_semrush_option_with_new_value_being_true() {
-		$this->assertFalse( $this->instance->check_semrush_option( null, [ 'semrush_integration_active' => true ] ) );
+	public function test_check_semrush_option_disabled_with_new_value_being_true() {
+		$this->assertFalse( $this->instance->check_semrush_option_disabled( null, [ 'semrush_integration_active' => true ] ) );
 	}
 
 	/**
 	 * Tests with the new value being false .
 	 *
-	 * @covers \Yoast\WP\SEO\Integrations\Watchers\Option_Wpseo_Watcher::check_semrush_option
+	 * @covers \Yoast\WP\SEO\Integrations\Watchers\Option_Wpseo_Watcher::check_semrush_option_disabled
 	 */
-	public function test_check_semrush_option_with_new_value_being_false() {
+	public function test_check_semrush_option_disabled_with_new_value_being_false() {
 		$options_helper = Mockery::mock( Options_Helper::class );
 		$options_helper->expects( 'set' )->once()->andReturn( true );
 
@@ -68,6 +68,6 @@ class Option_Wpseo_Watcher_Test extends TestCase {
 		Monkey\Functions\expect( 'YoastSEO' )
 			->andReturn( (object) [ 'helpers' => $helper_surface ] );
 
-		$this->assertTrue( $this->instance->check_semrush_option( null, [ 'semrush_integration_active' => false ] ) );
+		$this->assertTrue( $this->instance->check_semrush_option_disabled( null, [ 'semrush_integration_active' => false ] ) );
 	}
 }
