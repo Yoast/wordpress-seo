@@ -758,7 +758,7 @@ class WPSEO_Upgrade {
 
 	/**
 	 * Moves the `indexables_indexation_reason` option to the
-	 * renamed `indexing_reason` option if one exists.
+	 * renamed `indexing_reason` option.
 	 *
 	 * @return void
 	 */
