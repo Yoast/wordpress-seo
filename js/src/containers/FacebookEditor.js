@@ -7,6 +7,7 @@ import { validateFacebookImage } from "@yoast/helpers";
 /* Internal dependencies */
 import FacebookWrapper from "../components/social/FacebookWrapper";
 import getL10nObject from "../analysis/getL10nObject";
+import withLocation from "../helpers/withLocation";
 
 const socialMediumName = "Facebook";
 
@@ -117,4 +118,6 @@ export default compose( [
 			onLoad: loadFacebookPreviewData,
 		};
 	} ),
+
+	withLocation(),
 ] )( FacebookWrapper );

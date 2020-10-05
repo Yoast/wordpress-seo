@@ -12,10 +12,8 @@ import FacebookEditor from "../../../containers/FacebookEditor";
  */
 const FacebookPreviewModal = () => {
 	return (
-		<EditorModal
-			title={ __( "Facebook preview", "wordpress-seo" ) }
-		>
-			<FacebookEditor location="modal" />
+		<EditorModal title={ __( "Facebook preview", "wordpress-seo" ) }>
+			<FacebookEditor />
 		</EditorModal>
 	);
 };

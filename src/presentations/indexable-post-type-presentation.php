@@ -74,18 +74,18 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 			return $this->model->canonical;
 		}
 
-		$canonical = $this->model->permalink;
+		$permalink = $this->get_permalink();
 
 		// Fix paginated pages canonical, but only if the page is truly paginated.
 		$current_page = $this->pagination->get_current_post_page_number();
 		if ( $current_page > 1 ) {
 			$number_of_pages = $this->model->number_of_pages;
 			if ( $number_of_pages && $current_page <= $number_of_pages ) {
-				$canonical = $this->get_paginated_url( $canonical, $current_page );
+				$permalink = $this->get_paginated_url( $permalink, $current_page );
 			}
 		}
 
-		return $this->url->ensure_absolute_url( $canonical );
+		return $this->url->ensure_absolute_url( $permalink );
 	}
 
 	/**

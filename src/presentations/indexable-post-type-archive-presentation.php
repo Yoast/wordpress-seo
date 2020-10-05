@@ -16,16 +16,17 @@ class Indexable_Post_Type_Archive_Presentation extends Indexable_Presentation {
 	 * @return string The canonical.
 	 */
 	public function generate_canonical() {
-		if ( ! $this->model->permalink ) {
+		$permalink = $this->get_permalink();
+		if ( ! $permalink ) {
 			return '';
 		}
 
 		$current_page = $this->pagination->get_current_archive_page_number();
 		if ( $current_page > 1 ) {
-			return $this->pagination->get_paginated_url( $this->model->permalink, $current_page );
+			return $this->pagination->get_paginated_url( $permalink, $current_page );
 		}
 
-		return $this->model->permalink;
+		return $permalink;
 	}
 
 	/**

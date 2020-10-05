@@ -13,6 +13,8 @@ use Yoast\WP\SEO\Helpers\Image_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Url_Helper;
 use Yoast\WP\SEO\Helpers\User_Helper;
+use Yoast\WP\SEO\Helpers\Indexable_Helper;
+use Yoast\WP\SEO\Helpers\Permalink_Helper;
 use Yoast\WP\SEO\Models\Indexable;
 
 /**
@@ -135,6 +137,20 @@ class Indexable_Presentation extends Abstract_Presentation {
 	protected $user;
 
 	/**
+	 * The indexable helper.
+	 *
+	 * @var Indexable_Helper
+	 */
+	protected $indexable_helper;
+
+	/**
+	 * The permalink helper.
+	 *
+	 * @var Permalink_Helper
+	 */
+	protected $permalink_helper;
+
+	/**
 	 * Sets the generator dependencies.
 	 *
 	 * @required
@@ -169,19 +185,38 @@ class Indexable_Presentation extends Abstract_Presentation {
 	 * @param Current_Page_Helper $current_page The current page helper.
 	 * @param Url_Helper          $url          The URL helper.
 	 * @param User_Helper         $user         The user helper.
+	 * @param Indexable_Helper    $indexable    The indexable helper.
+	 * @param Permalink_Helper    $permalink    The permalin helper.
 	 */
 	public function set_helpers(
 		Image_Helper $image,
 		Options_Helper $options,
 		Current_Page_Helper $current_page,
 		Url_Helper $url,
-		User_Helper $user
+		User_Helper $user,
+		Indexable_Helper $indexable,
+		Permalink_Helper $permalink
 	) {
-		$this->image        = $image;
-		$this->options      = $options;
-		$this->current_page = $current_page;
-		$this->url          = $url;
-		$this->user         = $user;
+		$this->image            = $image;
+		$this->options          = $options;
+		$this->current_page     = $current_page;
+		$this->url              = $url;
+		$this->user             = $user;
+		$this->indexable_helper = $indexable;
+		$this->permalink_helper = $permalink;
+	}
+
+	/**
+	 * Gets the permalink from the indexable or generates it if dynamic permalinks are enabled.
+	 *
+	 * @return string The permalink.
+	 */
+	public function get_permalink() {
+		if ( $this->indexable_helper->dynamic_permalinks_enabled() ) {
+			return $this->permalink_helper->get_permalink_for_indexable( $this->model );
+		}
+
+		return $this->model->permalink;
 	}
 
 	/**
@@ -341,8 +376,9 @@ class Indexable_Presentation extends Abstract_Presentation {
 			return $this->model->canonical;
 		}
 
-		if ( $this->model->permalink ) {
-			return $this->model->permalink;
+		$permalink = $this->get_permalink();
+		if ( $permalink ) {
+			return $permalink;
 		}
 
 		return '';
@@ -424,7 +460,7 @@ class Indexable_Presentation extends Abstract_Presentation {
 			return $this->model->canonical;
 		}
 
-		return $this->model->permalink;
+		return $this->get_permalink();
 	}
 
 	/**

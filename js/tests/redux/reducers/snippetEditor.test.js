@@ -5,7 +5,6 @@ import {
 	removeReplacementVariable,
 } from "../../../src/redux/actions/snippetEditor";
 import snippetEditorReducer from "../../../src/redux/reducers/snippetEditor";
-import { DEFAULT_MODE } from "yoast-components";
 import getDefaultReplaceVariables from "../../../src/values/defaultReplaceVariables";
 
 describe( "snippet editor reducers", () => {
@@ -14,7 +13,7 @@ describe( "snippet editor reducers", () => {
 			const result = snippetEditorReducer( undefined, { type: "undefined" } );
 
 			expect( result ).toEqual( {
-				mode: DEFAULT_MODE,
+				mode: "mobile",
 				data: {
 					title: "",
 					slug: "",
