@@ -369,7 +369,7 @@ class Indexing_Notification_Integration_Test extends TestCase {
 
 		$this->date_helper
 			->expects( 'current_time' )
-			->twice()
+			->once()
 			->andReturn( $mocked_time );
 
 		$this->notification_center
@@ -396,9 +396,9 @@ class Indexing_Notification_Integration_Test extends TestCase {
 
 		$this->options_helper
 			->expects( 'get' )
-			->with( 'indexation_warning_hide_until' )
+			->with( 'indexation_warning_hide_until', false )
 			->once()
-			->andReturn( 1693426177 );
+			->andReturn( false );
 
 		Monkey\Functions\expect( 'wp_get_current_user' )
 			->andReturn( 'user' );

@@ -223,9 +223,13 @@ class Indexing_Notification_Integration implements Integration_Interface {
 		 * Show the notification when it is not in the hide notification period.
 		 * (E.g. when the user clicked on 'hide this notification for a week').
 		 */
-		$hide_until = (int) $this->options_helper->get( 'indexation_warning_hide_until' );
+		$hide_until = $this->options_helper->get( 'indexation_warning_hide_until', false );
 
-		return ( $hide_until !== 0 && $hide_until >= $this->date_helper->current_time() );
+		if ( $hide_until === false ) {
+			return true;
+		}
+
+		return ( $this->date_helper->current_time() > ( (int) $hide_until ) );
 	}
 
 	/**
