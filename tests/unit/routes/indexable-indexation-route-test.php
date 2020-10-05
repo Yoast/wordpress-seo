@@ -319,7 +319,7 @@ class Indexable_Indexation_Route_Test extends TestCase {
 	public function test_index_general_when_error_occurs() {
 		$this->general_indexation_action->expects( 'index' )->andThrow( new \Exception( 'An exception during indexing' ) );
 
-		$this->options_helper->expects( 'set' )->with( 'indexables_indexation_reason', Indexing_Notification_Integration::REASON_INDEXING_FAILED );
+		$this->options_helper->expects( 'set' )->with( 'indexing_reason', Indexing_Notification_Integration::REASON_INDEXING_FAILED );
 
 		Mockery::mock( '\WP_Error' );
 

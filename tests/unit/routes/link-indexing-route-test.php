@@ -139,7 +139,7 @@ class Link_Indexing_Route_Test extends TestCase {
 
 		$this->options_helper
 			->expects( 'set' )
-			->with( 'indexables_indexation_reason', Indexing_Notification_Integration::REASON_INDEXING_FAILED );
+			->with( 'indexing_reason', Indexing_Notification_Integration::REASON_INDEXING_FAILED );
 
 		Mockery::mock( '\WP_Error' );
 
@@ -221,7 +221,7 @@ class Link_Indexing_Route_Test extends TestCase {
 			->andThrow( new \Exception( 'An exception during indexing' ) );
 
 		$this->options_helper->expects( 'set' )
-			->with( 'indexables_indexation_reason', Indexing_Notification_Integration::REASON_INDEXING_FAILED );
+			->with( 'indexing_reason', Indexing_Notification_Integration::REASON_INDEXING_FAILED );
 
 		Mockery::mock( '\WP_Error' );
 

@@ -288,7 +288,7 @@ class Indexing_Notification_Integration_Test extends TestCase {
 
 		$this->options_helper
 			->expects( 'get' )
-			->with( 'indexables_indexation_reason', '' )
+			->with( 'indexing_reason', '' )
 			->twice()
 			->andReturn( 'indexing_failed' );
 
@@ -327,7 +327,7 @@ class Indexing_Notification_Integration_Test extends TestCase {
 
 		$this->options_helper
 			->expects( 'get' )
-			->with( 'indexables_indexation_reason', '' )
+			->with( 'indexing_reason', '' )
 			->twice()
 			->andReturn( $reason );
 
@@ -384,7 +384,7 @@ class Indexing_Notification_Integration_Test extends TestCase {
 
 		$this->options_helper
 			->expects( 'get' )
-			->with( 'indexables_indexation_reason', '' )
+			->with( 'indexing_reason', '' )
 			->twice()
 			->andReturn( '' );
 
@@ -438,7 +438,7 @@ class Indexing_Notification_Integration_Test extends TestCase {
 
 		$this->options_helper
 			->expects( 'get' )
-			->with( 'indexables_indexation_reason', '' )
+			->with( 'indexing_reason', '' )
 			->once()
 			->andReturn( '' );
 
@@ -499,7 +499,7 @@ class Indexing_Notification_Integration_Test extends TestCase {
 
 		$this->options_helper
 			->expects( 'get' )
-			->with( 'indexables_indexation_reason', '' )
+			->with( 'indexing_reason', '' )
 			->once()
 			->andReturn( 'indexing_failed' );
 

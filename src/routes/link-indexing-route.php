@@ -139,7 +139,7 @@ class Link_Indexing_Route extends Abstract_Indexation_Route {
 		try {
 			return parent::run_indexation_action( $indexation_action, $url );
 		} catch ( \Exception $exception ) {
-			$this->options_helper->set( 'indexables_indexation_reason', Indexing_Notification_Integration::REASON_INDEXING_FAILED );
+			$this->options_helper->set( 'indexing_reason', Indexing_Notification_Integration::REASON_INDEXING_FAILED );
 
 			return new WP_Error( 'wpseo_error_indexing', $exception->getMessage() );
 		}

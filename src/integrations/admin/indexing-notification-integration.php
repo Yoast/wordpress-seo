@@ -195,7 +195,7 @@ class Indexing_Notification_Integration implements Integration_Interface {
 			return false;
 		}
 
-		$indexing_reason = $this->options_helper->get( 'indexables_indexation_reason', '' );
+		$indexing_reason = $this->options_helper->get( 'indexing_reason', '' );
 
 		/*
 		 * Show a notification when we have a reason to do so.
@@ -265,7 +265,7 @@ class Indexing_Notification_Integration implements Integration_Interface {
 	 * @return Yoast_Notification The notification to show.
 	 */
 	protected function notification() {
-		$reason = $this->options_helper->get( 'indexables_indexation_reason', '' );
+		$reason = $this->options_helper->get( 'indexing_reason', '' );
 
 		$presenter = $this->get_presenter( $reason );
 

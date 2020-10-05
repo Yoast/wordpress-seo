@@ -110,7 +110,7 @@ class Indexable_Helper {
 		$result = $this->repository->reset_permalink( $type, $subtype );
 
 		if ( $result !== false && $result > 0 ) {
-			$this->options_helper->set( 'indexables_indexation_reason', $reason );
+			$this->options_helper->set( 'indexing_reason', $reason );
 			$this->options_helper->set( 'indexation_warning_hide_until', false );
 
 			\delete_transient( Indexable_Post_Indexation_Action::TRANSIENT_CACHE_KEY );
