@@ -6,7 +6,7 @@ import { __ } from "@wordpress/i18n";
 import PropTypes from "prop-types";
 
 /* Yoast dependencies */
-import { Button, ButtonStyledLink } from "@yoast/components";
+import { NewButton, ButtonStyledLink } from "@yoast/components";
 
 /* Internal dependencies */
 import { ModalContainer } from "./modals/Container";
@@ -167,13 +167,13 @@ class SEMrushRelatedKeyphrasesModal extends Component {
 		return (
 			<Fragment>
 				{ isLoggedIn && <div className={ "yoast" }>
-					<Button
+					<NewButton
 						variant={ "secondary" }
 						id={ `yoast-get-related-keyphrases-${location}` }
 						onClick={ this.onModalOpen }
 					>
 						{ __( "Get related keyphrases", "wordpress-seo" ) }
-					</Button>
+					</NewButton>
 				</div> }
 				{ keyphrase && whichModalOpen === location &&
 					<Modal

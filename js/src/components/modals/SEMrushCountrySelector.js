@@ -6,7 +6,7 @@ import { addQueryArgs } from "@wordpress/url";
 import { __ } from "@wordpress/i18n";
 
 /* Yoast dependencies */
-import { ErrorBoundary, SingleSelect } from "@yoast/components";
+import { ErrorBoundary, SingleSelect, NewButton } from "@yoast/components";
 
 /**
  * The ID of the SEMrush Country Selection component.
@@ -304,13 +304,13 @@ class SEMrushCountrySelector extends Component {
 					onChange={ this.onChangeHandler }
 					wrapperClassName={ "yoast-field-group yoast-field-group--inline" }
 				/>
-				<button
+				<NewButton
 					id={ id + "-button" }
-					className="yoast-button yoast-button--secondary"
+					variant="secondary"
 					onClick={ this.relatedKeyphrasesRequest }
 				>
 					{ __( "Select country", "wordpress-seo" ) }
-				</button>
+				</NewButton>
 			</div>
 		);
 	}

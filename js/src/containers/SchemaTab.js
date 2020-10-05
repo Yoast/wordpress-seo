@@ -1,11 +1,11 @@
-import { __ } from "@wordpress/i18n";
-import { LocationConsumer } from "../components/contexts/location";
-import SchemaTab from "../components/SchemaTab";
 import { compose } from "@wordpress/compose";
-import { withSelect, withDispatch } from "@wordpress/data";
-import SchemaFields from "../helpers/fields/SchemaFields";
+import { withDispatch, withSelect } from "@wordpress/data";
 import { useEffect } from "@wordpress/element";
+import { __ } from "@wordpress/i18n";
 import PropTypes from "prop-types";
+import SchemaTab from "../components/SchemaTab";
+import SchemaFields from "../helpers/fields/SchemaFields";
+import withLocation from "../helpers/withLocation";
 
 /**
  * Function to get props based on the location.
@@ -35,7 +35,7 @@ const getLocationBasedProps = ( location ) => {
  *
  * @param {Object} props The props.
  *
- * @returns {React.Component} The SchemaTab.
+ * @returns {JSX.Element} The SchemaTab.
  */
 const SchemaTabContainer = ( props ) => {
 	const showArticleTypeInput = SchemaFields.articleTypeInput !== null;
@@ -63,25 +63,26 @@ const SchemaTabContainer = ( props ) => {
 		articleTypeOptions,
 	};
 
-	return (
-		<LocationConsumer>
-			{ location => {
-				const schemaTabProps = {
-					...props,
-					...baseProps,
-					...getLocationBasedProps( location ),
-					location,
-				};
+	const schemaTabProps = {
+		...props,
+		...baseProps,
+		...getLocationBasedProps( props.location ),
+	};
 
-				return <SchemaTab { ...schemaTabProps } />;
-			} }
-		</LocationConsumer>
-	);
+	return <SchemaTab { ...schemaTabProps } />;
 };
 
 SchemaTabContainer.propTypes = {
+	displayFooter: PropTypes.bool.isRequired,
+	schemaPageTypeSelected: PropTypes.string.isRequired,
+	schemaArticleTypeSelected: PropTypes.string.isRequired,
+	defaultArticleType: PropTypes.string.isRequired,
+	defaultPageType: PropTypes.string.isRequired,
 	loadSchemaPageData: PropTypes.func.isRequired,
 	loadSchemaArticleData: PropTypes.func.isRequired,
+	schemaPageTypeChange: PropTypes.func.isRequired,
+	schemaArticleTypeChange: PropTypes.func.isRequired,
+	location: PropTypes.string.isRequired,
 };
 
 export default compose( [
@@ -117,4 +118,5 @@ export default compose( [
 			schemaArticleTypeChange: setArticleType,
 		};
 	} ),
+	withLocation(),
 ] )( SchemaTabContainer );
