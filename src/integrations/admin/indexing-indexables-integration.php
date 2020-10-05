@@ -14,7 +14,7 @@ use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Routes\Indexable_Indexation_Route;
 
 /**
- * Class Indexing_Integration.
+ * Class Indexing_Indexables_Integration.
  *
  * @package Yoast\WP\SEO\Integrations\Admin
  */
@@ -75,7 +75,7 @@ class Indexing_Indexables_Integration implements Indexing_Interface, Integration
 	}
 
 	/**
-	 * Indexing_Integration constructor.
+	 * Indexing_Indexables_Integration constructor.
 	 *
 	 * @param Indexable_Post_Indexation_Action              $post_indexation              The post indexing action.
 	 * @param Indexable_Term_Indexation_Action              $term_indexation              The term indexing action.
