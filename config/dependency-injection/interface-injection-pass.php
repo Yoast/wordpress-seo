@@ -2,11 +2,11 @@
 
 namespace Yoast\WP\SEO\Dependency_Injection;
 
-use ReflectionClass;
 use ReflectionNamedType;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
+use Yoast\WP\SEO\Dependency_Injection\Util\Constructor_Details;
 
 /**
  * A pass is a step in the compilation process of the container.
@@ -23,15 +23,6 @@ class Interface_Injection_Pass implements CompilerPassInterface {
 	 * @param ContainerBuilder $container The container.
 	 */
 	public function process( ContainerBuilder $container ) {
-
-		/**
-		 * We need reflection methods introduced in PHP 7.1 to run this compiler pass.
-		 */
-		if ( PHP_VERSION_ID < 70100 ) {
-			echo 'Cannot use interface array injection; PHP version is ' . PHP_VERSION . ', but v7.1 is required.';
-			return;
-		}
-
 		try {
 
 			// Get all definitions in our container.
@@ -47,18 +38,14 @@ class Interface_Injection_Pass implements CompilerPassInterface {
 			foreach ( $definitions as $definition ) {
 
 				$definition_class = $this->get_variadic_constructor( $definition );
-				if ( $definition_class == null ) {
+				if ( $definition_class === null ) {
 					continue;
 				}
 
-				// We've found a class that has a splat operator in its constructor!
-				echo( 'Found a constructor with a splat argument for class ' . $definition_class->target_class_name );
-				// This is the type of the splat argument:
-				$splat_argument_classname = $definition_class->splat_argument_type;
-				echo( 'Going to inject all implementations of ' . $splat_argument_classname );
+				echo "Found" . $definition_class->target_class_name;
 
-				// Find all subclasses of the requested type in our DI definition
-				$subclasses_of_splat_type = get_registered_subclasses( $definition_class, $definitions );
+				// Find all subclasses of the requested type in our DI definition.
+				$subclasses_of_splat_type = $this->get_registered_subclasses_of( $definitions, $definition_class );
 
 				/*
 				 * The constructor needs to be called with a comma separated enumeration of objects.
@@ -69,13 +56,12 @@ class Interface_Injection_Pass implements CompilerPassInterface {
 				 */
 				$argument_index = $definition_class->splat_argument->getPosition();
 				foreach ( $subclasses_of_splat_type as $subclass ) {
-					echo ( 'Injecting ' . $subclass );
 					$definition->setArgument( $argument_index, new Reference( $subclass->getClass() ) );
-
-					$argument_index += 1;
+					$argument_index++;
 				}
 			}
 		} catch ( \Exception $e ) {
+			// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_var_dump
 			var_dump( $e );
 		}
 	}
@@ -87,11 +73,12 @@ class Interface_Injection_Pass implements CompilerPassInterface {
 	 *
 	 * @return Constructor_Details|null
 	 *
-	 * @throws \ReflectionException
+	 * @throws \ReflectionException If the reflection class couldn't be found.
+	 *
 	 * @example If we had a class Fruit_Basket with this constructor:
 	 * __construct(Fruit ...$all_our_fruit), then this method would find it.
 	 */
-	function get_variadic_constructor( $definition ) {
+	private function get_variadic_constructor( $definition ) {
 		// Limit the processing to classes from our project.
 		$definition_class = $definition->getClass();
 		if ( ! \class_exists( $definition_class ) ) {
@@ -114,16 +101,14 @@ class Interface_Injection_Pass implements CompilerPassInterface {
 		$constructor_arguments = $class_constructor->getParameters();
 		$splat_argument        = end( $constructor_arguments );
 
-		if ( ! $splat_argument ||
-			 ! $splat_argument->isVariadic() ) { // isVariadic means "is it a 'splat' argument".
+		// isVariadic means "is it a 'splat' argument".
+		if ( ! $splat_argument || ! $splat_argument->isVariadic() ) {
 			return null;
 		}
 
-		// Needs PHP 7.0.
 		$splat_argument_type = $splat_argument->getType();
 
 		// Analyse the type of the splat argument.
-		// Needs PHP 7.1.
 		if ( ! is_a( $splat_argument_type, ReflectionNamedType::class ) ) {
 			// If the argument is not a class, we cannot inject it as a dependency.
 			return null;
@@ -138,13 +123,21 @@ class Interface_Injection_Pass implements CompilerPassInterface {
 		return $result;
 	}
 
-	function get_registered_subclasses_of( $all_definitions, Constructor_Details $definition_class ) {
-		\array_filter(
+	/**
+	 * Gets all registered subsclasses for a given definition.
+	 *
+	 * @param Definition[]        $all_definitions  The list of all definitions in the container.
+	 * @param Constructor_Details $definition_class The class we're looking to inject.
+	 *
+	 * @return Definition[] The definitions that should be injected.
+	 */
+	private function get_registered_subclasses_of( $all_definitions, Constructor_Details $definition_class ) {
+		return \array_filter(
 			$all_definitions,
 			function( $other_definition ) use ( $definition_class ) {
 				$other_class = $other_definition->getClass();
 				if ( $other_class === $definition_class->target_class_name ) {
-					// Never inject itself to itself
+					// Never inject itself to itself.
 					return false;
 				}
 
@@ -152,27 +145,4 @@ class Interface_Injection_Pass implements CompilerPassInterface {
 			}
 		);
 	}
-}
-
-class Constructor_Details {
-
-	/**
-	 * @var string Represents the class containing a constructor with a splat parameter.
-	 */
-	public $target_class_name;
-
-	/**
-	 * @var \ReflectionMethod Represents the constructor function.
-	 */
-	public $constructor;
-
-	/**
-	 * @var ReflectionParameter Represents the constructor parameter.
-	 */
-	public $splat_argument;
-
-	/**
-	 * @var ReflectionParameterType Represents the constructor parameter's type.
-	 */
-	public $splat_argument_type;
 }
