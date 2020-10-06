@@ -239,6 +239,23 @@ class Indexing extends Component {
 	}
 
 	/**
+	 * Start indexation on mount, when redirected from the "Start SEO data optimization" button in the dashboard notification.
+	 *
+	 * @returns {void}
+	 */
+	componentDidMount() {
+		if ( this.settings.disabled ) {
+			return;
+		}
+
+		const shouldStart = new URLSearchParams( window.location.search ).get( "start-indexation" ) === "true";
+
+		if ( shouldStart ) {
+			this.startIndexing();
+		}
+	}
+
+	/**
 	 * Renders the component
 	 *
 	 * @returns {JSX.Element} The rendered component.

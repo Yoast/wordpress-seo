@@ -5,6 +5,7 @@ namespace Yoast\WP\SEO\Integrations\Admin;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Date_Helper;
+use Yoast\WP\SEO\Helpers\Notification_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Helpers\Short_Link_Helper;
@@ -15,7 +16,7 @@ use Yoast_Notification;
 use Yoast_Notification_Center;
 
 /**
- * Class Indexing_Notification_Integration
+ * Class Indexing_Notification_Integration.
  *
  * @package Yoast\WP\SEO\Integrations\Admin
  */
@@ -96,6 +97,13 @@ class Indexing_Notification_Integration implements Integration_Interface {
 	protected $short_link_helper;
 
 	/**
+	 * The notification helper.
+	 *
+	 * @var Notification_Helper
+	 */
+	protected $notification_helper;
+
+	/**
 	 * Prominent_Words_Notifier constructor.
 	 *
 	 * @param Indexing_Integration      $indexing_integration The indexing integration.
@@ -105,6 +113,7 @@ class Indexing_Notification_Integration implements Integration_Interface {
 	 * @param Current_Page_Helper       $page_helper          The current page helper.
 	 * @param Date_Helper               $date_helper          The date helper.
 	 * @param Short_Link_Helper         $short_link_helper    The short link helper.
+	 * @param Notification_Helper       $notification_helper  The notification helper.
 	 */
 	public function __construct(
 		Indexing_Integration $indexing_integration,
@@ -113,7 +122,8 @@ class Indexing_Notification_Integration implements Integration_Interface {
 		Product_Helper $product_helper,
 		Current_Page_Helper $page_helper,
 		Date_Helper $date_helper,
-		Short_Link_Helper $short_link_helper
+		Short_Link_Helper $short_link_helper,
+		Notification_Helper $notification_helper
 	) {
 		$this->indexing_integration = $indexing_integration;
 		$this->notification_center  = $notification_center;
@@ -122,6 +132,7 @@ class Indexing_Notification_Integration implements Integration_Interface {
 		$this->page_helper          = $page_helper;
 		$this->date_helper          = $date_helper;
 		$this->short_link_helper    = $short_link_helper;
+		$this->notification_helper  = $notification_helper;
 	}
 
 	/**
@@ -138,6 +149,9 @@ class Indexing_Notification_Integration implements Integration_Interface {
 
 		if ( ! \wp_next_scheduled( self::NOTIFICATION_ID ) ) {
 			\wp_schedule_event( $this->date_helper->current_time(), 'daily', self::NOTIFICATION_ID );
+			\add_action( 'admin_init', [ $this, 'create_notification' ] );
+
+			return;
 		}
 
 		\add_action( self::NOTIFICATION_ID, [ $this, 'create_notification' ] );
@@ -159,13 +173,14 @@ class Indexing_Notification_Integration implements Integration_Interface {
 	 * it to the notification center if this is the case.
 	 */
 	public function create_notification() {
-		$notification = $this->notification_center->get_notification_by_id( self::NOTIFICATION_ID );
-
-		if ( $notification || ! $this->should_show_notification() ) {
+		if ( ! $this->should_show_notification() ) {
 			return;
 		}
 
-		$this->notification_center->add_notification( $this->notification() );
+		$notification = $this->notification();
+		$this->notification_helper->restore_notification( $notification );
+		$this->options_helper->set( 'indexation_warning_hide_until', false );
+		$this->notification_center->add_notification( $notification );
 	}
 
 	/**
@@ -223,9 +238,13 @@ class Indexing_Notification_Integration implements Integration_Interface {
 		 * Show the notification when it is not in the hide notification period.
 		 * (E.g. when the user clicked on 'hide this notification for a week').
 		 */
-		$hide_until = (int) $this->options_helper->get( 'indexation_warning_hide_until' );
+		$hide_until = $this->options_helper->get( 'indexation_warning_hide_until', false );
 
-		return ( $hide_until !== 0 && $hide_until >= $this->date_helper->current_time() );
+		if ( $hide_until === false ) {
+			return true;
+		}
+
+		return ( $this->date_helper->current_time() > ( (int) $hide_until ) );
 	}
 
 	/**
