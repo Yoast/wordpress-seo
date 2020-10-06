@@ -7,7 +7,7 @@ use Mockery;
 use WPSEO_Admin_Asset_Manager;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
 use Yoast\WP\SEO\Conditionals\Yoast_Tools_Page_Conditional;
-use Yoast\WP\SEO\Helpers\Environment_Helper;
+use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Short_Link_Helper;
 use Yoast\WP\SEO\Integrations\Admin\Indexing_Indexables_Integration;
@@ -46,11 +46,11 @@ class Indexing_Integration_Test extends TestCase {
 	protected $asset_manager;
 
 	/**
-	 * The environment helper.
+	 * The indexable helper.
 	 *
-	 * @var Mockery\MockInterface|Environment_Helper
+	 * @var Mockery\MockInterface|Indexable_Helper
 	 */
-	protected $environment_helper;
+	protected $indexable_helper;
 
 	/**
 	 * The short link helper.
@@ -74,14 +74,14 @@ class Indexing_Integration_Test extends TestCase {
 
 		$this->indexing_indexables_integration = Mockery::mock( Indexing_Indexables_Integration::class );
 		$this->asset_manager                   = Mockery::mock( WPSEO_Admin_Asset_Manager::class );
-		$this->environment_helper              = Mockery::mock( Environment_Helper::class );
+		$this->indexable_helper                = Mockery::mock( Indexable_Helper::class );
 		$this->short_link_helper               = Mockery::mock( Short_Link_Helper::class );
 		$this->options_helper                  = Mockery::mock( Options_Helper::class );
 
 		$this->instance = new Indexing_Integration(
 			$this->indexing_indexables_integration,
 			$this->asset_manager,
-			$this->environment_helper,
+			$this->indexable_helper,
 			$this->short_link_helper,
 			$this->options_helper
 		);
@@ -107,7 +107,7 @@ class Indexing_Integration_Test extends TestCase {
 	 */
 	public function test_constructor() {
 		$this->assertAttributeInstanceOf( WPSEO_Admin_Asset_Manager::class, 'asset_manager', $this->instance );
-		$this->assertAttributeInstanceOf( Environment_Helper::class, 'environment_helper', $this->instance );
+		$this->assertAttributeInstanceOf( Indexable_Helper::class, 'indexable_helper', $this->instance );
 		$this->assertAttributeInstanceOf( Short_Link_Helper::class, 'short_link_helper', $this->instance );
 		$this->assertAttributeInstanceOf( Options_Helper::class, 'options_helper', $this->instance );
 
@@ -204,8 +204,8 @@ class Indexing_Integration_Test extends TestCase {
 			->expects( 'enqueue_style' )
 			->with( 'monorepo' );
 
-		$this->environment_helper
-			->expects( 'is_production_mode' )
+		$this->indexable_helper
+			->expects( 'should_index_indexables' )
 			->andReturnTrue();
 
 		Monkey\Functions\expect( 'wp_create_nonce' )
