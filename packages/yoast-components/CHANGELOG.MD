@@ -11,7 +11,7 @@ We follow [Semantic Versioning](http://semver.org/).
 
 ### Bugfixes
 * Fixes a bug where the YoastReactSelect component would not show the border and inner shadow correctly.
-* Fixes a bug where the font size and weight for the KeywordInput label would not be set correctly. 
+* Fixes a bug where the font size and weight for the KeywordInput label would not be set correctly.
 
 ## 5.8.0 August 3rd, 2020
 ### Enhancements
