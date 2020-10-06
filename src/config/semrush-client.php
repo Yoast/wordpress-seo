@@ -61,6 +61,7 @@ class SEMrush_Client {
 				'urlAuthorize'            => 'https://oauth.semrush.com/oauth2/authorize',
 				'urlAccessToken'          => 'https://oauth.semrush.com/oauth2/access_token',
 				'urlResourceOwnerDetails' => 'https://oauth.semrush.com/oauth2/resource',
+				'verify'                  => \ABSPATH . \WPINC . '/certificates/ca-bundle.crt',
 			]
 		);
 
