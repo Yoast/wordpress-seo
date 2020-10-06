@@ -100,6 +100,7 @@ class Indexing extends Component {
 			processed: 0,
 			amount: this.settings.amount,
 			error: null,
+			firstTime: ( this.settings.firstTime === "1" ),
 		};
 
 		this.startIndexing = this.startIndexing.bind( this );
@@ -168,12 +169,19 @@ class Indexing extends Component {
 				await this.doPostIndexingAction( endpoint, response );
 
 				this.setState( previousState => (
-					{ processed: previousState.processed + response.objects.length }
+					{
+						processed: previousState.processed + response.objects.length,
+						firstTime: false,
+					}
 				) );
 
 				url = response.next_url;
 			} catch ( error ) {
-				this.setState( { inProgress: false, error } );
+				this.setState( {
+					inProgress: false,
+					firstTime: false,
+					error
+				} );
 			}
 		}
 	}
@@ -300,6 +308,11 @@ class Indexing extends Component {
 					this.state.error && <Alert type={ "error" }>
 						{ __( "Oops, something has gone wrong and we couldn't complete the optimization of your SEO data. " +
 							  "Please click the button again to re-start the process.", "wordpress-seo" ) }
+					</Alert>
+				}
+				{
+					! this.state.inProgress && this.state.firstTime && <Alert type={ "info" }>
+						{ __( "This feature includes and replaces the Text Link Counter and Internal Linking Analysis", "wordpress-seo" ) }
 					</Alert>
 				}
 				{
