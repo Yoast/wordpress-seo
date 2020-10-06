@@ -5,7 +5,7 @@ namespace Yoast\WP\SEO\Config;
 use Yoast\WP\SEO\Exceptions\OAuth\Authentication_Failed_Exception;
 use Yoast\WP\SEO\Exceptions\SEMrush\Tokens\Empty_Property_Exception;
 use Yoast\WP\SEO\Exceptions\SEMrush\Tokens\Failed_Storage_Exception;
-use \YoastSEO_Vendor\GuzzleHttp\Client;
+use YoastSEO_Vendor\GuzzleHttp\Client;
 use YoastSEO_Vendor\League\OAuth2\Client\Provider\Exception\IdentityProviderException;
 use YoastSEO_Vendor\League\OAuth2\Client\Provider\GenericProvider;
 use Yoast\WP\SEO\Exceptions\OAuth\OAuth_Authentication_Failed_Exception;
