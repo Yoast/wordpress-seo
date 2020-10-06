@@ -388,7 +388,7 @@ class Indexing_Notification_Integration_Test extends TestCase {
 
 		$this->options_helper
 			->expects( 'get' )
-			->with( 'indexables_indexation_reason', '' )
+			->with( 'indexing_reason', '' )
 			->twice()
 			->andReturn( '' );
 
@@ -499,7 +499,7 @@ class Indexing_Notification_Integration_Test extends TestCase {
 
 		$this->options_helper
 			->expects( 'get' )
-			->with( 'indexables_indexation_reason', '' )
+			->with( 'indexing_reason', '' )
 			->once()
 			->andReturn( '' );
 
