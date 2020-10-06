@@ -32,7 +32,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'ignore_search_engines_discouraged_notice' => false,
 		'indexation_warning_hide_until'            => false,
 		'indexation_started'                       => null,
-		'indexables_indexation_reason'             => '',
+		'indexing_reason'                          => '',
 		'indexables_indexation_completed'          => false,
 		// Non-form field, should only be set via validation routine.
 		'version'                                  => '', // Leave default as empty to ensure activation/upgrade works.
@@ -257,7 +257,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 						$clean[ $key ] = $dirty[ $key ];
 					}
 					break;
-				case 'indexables_indexation_reason':
+				case 'indexing_reason':
 					if ( isset( $dirty[ $key ] ) ) {
 						$clean[ $key ] = sanitize_text_field( $dirty[ $key ] );
 					}

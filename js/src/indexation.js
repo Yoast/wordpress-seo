@@ -121,7 +121,15 @@ class Indexing extends Component {
 				"X-WP-Nonce": nonce,
 			},
 		} );
-		return response.json();
+
+		const data = await response.json();
+
+		// Throw an error when the response's status code is not in the 200-299 range.
+		if ( ! response.ok ) {
+			throw new Error( data.message );
+		}
+
+		return data;
 	}
 
 	/**
