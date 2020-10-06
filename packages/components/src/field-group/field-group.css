@@ -22,3 +22,27 @@
 .yoast-field-group .field-group-description {
     margin: 0;
 }
+
+.yoast-field-group__inline {
+	display: flex;
+	align-items: center;
+}
+
+.yoast-field-group__inline .yoast-field-group__inputfield {
+	margin-right: 8px;
+}
+
+.yoast-field-group__inline .yoast-button {
+	flex-shrink: 0;
+}
+
+@media screen and (max-width: 782px) {
+	.yoast-field-group__inline {
+		display: block;
+	}
+
+	.yoast-field-group__inline .yoast-field-group__inputfield {
+		margin-right: 0;
+		margin-bottom: 8px;
+	}
+}
