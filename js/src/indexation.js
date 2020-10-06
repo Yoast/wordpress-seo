@@ -180,7 +180,7 @@ class Indexing extends Component {
 				this.setState( {
 					inProgress: false,
 					firstTime: false,
-					error
+					error,
 				} );
 			}
 		}
