@@ -116,7 +116,7 @@ class Indexing_Indexables_Integration implements Indexing_Interface, Integration
 		}
 
 		if ( $total_unindexed < $this->get_shutdown_limit() ) {
-			 \register_shutdown_function( [ $this, 'shutdown_indexation' ] );
+			\register_shutdown_function( [ $this, 'shutdown_indexation' ] );
 		}
 	}
 
