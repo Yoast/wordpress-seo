@@ -1,6 +1,6 @@
 {
   "name": "@yoast/example-component-app",
-  "version": "1.0.74-rc.3",
+  "version": "1.0.74-rc.4",
   "description": "This app demonstrates the possibilites of our components",
   "main": "index.js",
   "author": "Yoast",
@@ -12,11 +12,11 @@
   },
   "dependencies": {
     "@wordpress/i18n": "1.2.3",
-    "@yoast/analysis-report": "^1.12.0-rc.3",
-    "@yoast/components": "^2.10.0-rc.3",
-    "@yoast/configuration-wizard": "^2.12.0-rc.3",
+    "@yoast/analysis-report": "^1.12.0-rc.4",
+    "@yoast/components": "^2.10.0-rc.4",
+    "@yoast/configuration-wizard": "^2.12.0-rc.4",
     "@yoast/helpers": "^0.13.0",
-    "@yoast/search-metadata-previews": "^2.12.0-rc.3",
+    "@yoast/search-metadata-previews": "^2.12.0-rc.4",
     "@yoast/style-guide": "^0.13.0",
     "babel-polyfill": "^6.23.0",
     "lodash": "4.17.11",
@@ -49,7 +49,7 @@
     "webpack": "4.19.1",
     "webpack-cli": "^2.1.3",
     "webpack-dev-server": "3.1.14",
-    "yoast-components": "^5.12.0-rc.3"
+    "yoast-components": "^5.12.0-rc.4"
   },
   "peerDependencies": {
     "material-ui": "^0.18.6",
