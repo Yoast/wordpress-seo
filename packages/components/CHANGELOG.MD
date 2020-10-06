@@ -12,7 +12,7 @@ We follow [Semantic Versioning](http://semver.org/).
 
 ### Bugfixes
 * Fixes a bug where the new Button component could not be imported via the package index.
-* Fixes a bug where the font size for the field group and the font weight for the table header would not be set correctly.
+* Fixes a bug where the font size for the field group and the font weight for the table header would not be set correctly. 
 
 ### Other
 * Adds an id to the MultiSelect's input field.
