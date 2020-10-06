@@ -6,6 +6,5 @@ const wordsToStemWithoutFunctionWords = filterFunctionWordsFromArray( sampleVoca
 
 
 describe( "Generate stems for Arabic words", () => {
-
 	console.log( JSON.stringify( wordsToStemWithoutFunctionWords ) );
 } );
