@@ -170,6 +170,8 @@ class Indexing_Indexables_Integration implements Indexing_Interface, Integration
 
 	/**
 	 * Retrieves the shutdown limit. This limit is the amount that indexables that is generated in the background.
+	 *
+	 * @retur int The shutdown limit.
 	 */
 	protected function get_shutdown_limit() {
 		/**
