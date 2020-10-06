@@ -10,6 +10,10 @@ We follow [Semantic Versioning](http://semver.org/).
 * Introduces the new table HTML and CSS setup.
 * Includes table.css in monorepo.css.
 
+### Bugfixes
+* Fixes a bug where the new Button component could not be imported via the package index.
+* Fixes a bug where the font size for the field group and the font weight for the table header would not be set correctly.
+
 ### Other
 * Adds an id to the MultiSelect's input field.
 * Adjusts the styling provided for the modal component to use it for the Gutenberg Modal component.
