@@ -66,7 +66,7 @@ class SEMrush_Client {
 			[
 				'httpClient' => new Client(
 					[
-						'verify' => ABSPATH . WPINC . '/certificates/ca-bundle.crt',
+						'verify' => ABSPATH . 'wp-includes/certificates/ca-bundle.crt',
 					]
 				),
 			]
