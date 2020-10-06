@@ -179,6 +179,7 @@ class Indexing_Notification_Integration implements Integration_Interface {
 
 		$notification = $this->notification();
 		$this->notification_helper->restore_notification( $notification );
+		$this->options_helper->set( 'indexation_warning_hide_until', false );
 		$this->notification_center->add_notification( $notification );
 	}
 
