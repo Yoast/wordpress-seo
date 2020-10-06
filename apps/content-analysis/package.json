@@ -1,13 +1,13 @@
 {
 	"name": "@yoast/content-analysis-app",
-	"version": "0.1.70-rc.1",
+	"version": "0.1.70-rc.2",
 	"private": true,
 	"dependencies": {
 		"@babel/core": "7.7.4",
 		"@svgr/webpack": "4.3.3",
 		"@wordpress/i18n": "^3.1.1",
-		"@yoast/analysis-report": "^1.12.0-rc.1",
-		"@yoast/components": "^2.10.0-rc.1",
+		"@yoast/analysis-report": "^1.12.0-rc.2",
+		"@yoast/components": "^2.10.0-rc.2",
 		"@yoast/style-guide": "^0.13.0",
 		"babel-core": "7.0.0-bridge.0",
 		"babel-eslint": "10.0.3",
