@@ -255,7 +255,7 @@ class Indexing extends Component {
 					</NewButton>
 				</p>
 				<Alert type={ "info" }>
-					{ __( "This button to optimize the SEO data for your website is disabled for non-production environments.", "wordpress-seo" ) }
+					{ __( "SEO data optimization is disabled for non-production environments..", "wordpress-seo" ) }
 				</Alert>
 			</Fragment>;
 		}
