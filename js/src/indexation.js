@@ -100,6 +100,7 @@ class Indexing extends Component {
 			processed: 0,
 			amount: this.settings.amount,
 			error: null,
+			firstTime: ( this.settings.firstTime === "1" ),
 		};
 
 		this.startIndexing = this.startIndexing.bind( this );
@@ -176,12 +177,19 @@ class Indexing extends Component {
 				await this.doPostIndexingAction( endpoint, response );
 
 				this.setState( previousState => (
-					{ processed: previousState.processed + response.objects.length }
+					{
+						processed: previousState.processed + response.objects.length,
+						firstTime: false,
+					}
 				) );
 
 				url = response.next_url;
 			} catch ( error ) {
-				this.setState( { inProgress: false, error } );
+				this.setState( {
+					inProgress: false,
+					firstTime: false,
+					error,
+				} );
 			}
 		}
 	}
@@ -264,6 +272,23 @@ class Indexing extends Component {
 	}
 
 	/**
+	 * Renders a notice if it is the first time the indexation is performed.
+	 *
+	 * @returns {JSX.Element} The rendered component.
+	 */
+	renderFirstIndexationNotice() {
+		if ( this.state.inProgress || ! this.state.firstTime ) {
+			return null;
+		}
+
+		return (
+			<Alert type={ "info" }>
+				{ __( "This feature includes and replaces the Text Link Counter and Internal Linking Analysis", "wordpress-seo" ) }
+			</Alert>
+		);
+	}
+
+	/**
 	 * Renders the component
 	 *
 	 * @returns {JSX.Element} The rendered component.
@@ -310,6 +335,7 @@ class Indexing extends Component {
 							  "Please click the button again to re-start the process.", "wordpress-seo" ) }
 					</Alert>
 				}
+				{ this.renderFirstIndexationNotice() }
 				{
 					this.state.inProgress
 						? <NewButton

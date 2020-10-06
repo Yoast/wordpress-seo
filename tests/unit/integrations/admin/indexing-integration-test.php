@@ -8,6 +8,7 @@ use WPSEO_Admin_Asset_Manager;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
 use Yoast\WP\SEO\Conditionals\Yoast_Tools_Page_Conditional;
 use Yoast\WP\SEO\Helpers\Environment_Helper;
+use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Short_Link_Helper;
 use Yoast\WP\SEO\Integrations\Admin\Indexing_Indexables_Integration;
 use Yoast\WP\SEO\Integrations\Admin\Indexing_Integration;
@@ -59,6 +60,13 @@ class Indexing_Integration_Test extends TestCase {
 	protected $short_link_helper;
 
 	/**
+	 * Represents the options helper.
+	 *
+	 * @var Mockery\MockInterface|Options_Helper
+	 */
+	protected $options_helper;
+
+	/**
 	 * Sets up the tests.
 	 */
 	protected function setUp() {
@@ -68,12 +76,14 @@ class Indexing_Integration_Test extends TestCase {
 		$this->asset_manager                   = Mockery::mock( WPSEO_Admin_Asset_Manager::class );
 		$this->environment_helper              = Mockery::mock( Environment_Helper::class );
 		$this->short_link_helper               = Mockery::mock( Short_Link_Helper::class );
+		$this->options_helper                  = Mockery::mock( Options_Helper::class );
 
 		$this->instance = new Indexing_Integration(
 			$this->indexing_indexables_integration,
 			$this->asset_manager,
 			$this->environment_helper,
-			$this->short_link_helper
+			$this->short_link_helper,
+			$this->options_helper
 		);
 	}
 
@@ -99,6 +109,7 @@ class Indexing_Integration_Test extends TestCase {
 		$this->assertAttributeInstanceOf( WPSEO_Admin_Asset_Manager::class, 'asset_manager', $this->instance );
 		$this->assertAttributeInstanceOf( Environment_Helper::class, 'environment_helper', $this->instance );
 		$this->assertAttributeInstanceOf( Short_Link_Helper::class, 'short_link_helper', $this->instance );
+		$this->assertAttributeInstanceOf( Options_Helper::class, 'options_helper', $this->instance );
 
 		$this->assertAttributeEquals( [ $this->indexing_indexables_integration ], 'indexing_integrations', $this->instance );
 	}
@@ -201,10 +212,16 @@ class Indexing_Integration_Test extends TestCase {
 			->with( 'wp_rest' )
 			->andReturn( 'nonce_value' );
 
+		$this->options_helper
+			->expects( 'get' )
+			->with( 'indexing_first_time', true )
+			->andReturnTrue();
+
 		$injected_data = [
-			'amount'   => 72,
-			'disabled' => false,
-			'restApi'  =>
+			'amount'    => 72,
+			'disabled'  => false,
+			'firstTime' => true,
+			'restApi'   =>
 				[
 					'root'      => 'https://example.org/wp-ajax/',
 					'endpoints' =>

@@ -115,14 +115,7 @@ class Indexing_Indexables_Integration implements Indexing_Interface, Integration
 			$this->complete_indexation_action->complete();
 		}
 
-		/**
-		 * Filter 'wpseo_shutdown_indexation_limit' - Allow filtering the number of objects that can be indexed during shutdown.
-		 *
-		 * @api int The maximum number of objects indexed.
-		 */
-		$shutdown_limit = \apply_filters( 'wpseo_shutdown_indexation_limit', 25 );
-
-		if ( $total_unindexed < $shutdown_limit ) {
+		if ( $total_unindexed < $this->get_shutdown_limit() ) {
 			\register_shutdown_function( [ $this, 'shutdown_indexation' ] );
 		}
 	}
@@ -168,6 +161,24 @@ class Indexing_Indexables_Integration implements Indexing_Interface, Integration
 			$this->total_unindexed += $this->post_type_archive_indexation->get_total_unindexed();
 		}
 
+		if ( $this->total_unindexed < $this->get_shutdown_limit() ) {
+			return 0;
+		}
+
 		return $this->total_unindexed;
+	}
+
+	/**
+	 * Retrieves the shutdown limit. This limit is the amount of indexables that is generated in the background.
+	 *
+	 * @return int The shutdown limit.
+	 */
+	protected function get_shutdown_limit() {
+		/**
+		 * Filter 'wpseo_shutdown_indexation_limit' - Allow filtering the number of objects that can be indexed during shutdown.
+		 *
+		 * @api int The maximum number of objects indexed.
+		 */
+		return \apply_filters( 'wpseo_shutdown_indexation_limit', 25 );
 	}
 }

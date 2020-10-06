@@ -6,6 +6,7 @@ use WPSEO_Admin_Asset_Manager;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
 use Yoast\WP\SEO\Conditionals\Yoast_Tools_Page_Conditional;
 use Yoast\WP\SEO\Helpers\Environment_Helper;
+use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Short_Link_Helper;
 use Yoast\WP\SEO\Integrations\Indexing_Interface;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
@@ -54,6 +55,13 @@ class Indexing_Integration implements Integration_Interface {
 	protected $short_link_helper;
 
 	/**
+	 * Represents the options helper.
+	 *
+	 * @var Options_Helper
+	 */
+	protected $options_helper;
+
+	/**
 	 * Returns the conditionals based on which this integration should be active.
 	 *
 	 * @return array The array of conditionals.
@@ -72,16 +80,19 @@ class Indexing_Integration implements Integration_Interface {
 	 * @param WPSEO_Admin_Asset_Manager       $asset_manager                   The admin asset manager.
 	 * @param Environment_Helper              $environment_helper              The environment helper.
 	 * @param Short_Link_Helper               $short_link_helper               The short link helper.
+	 * @param Options_Helper                  $options_helper                  The options helper.
 	 */
 	public function __construct(
 		Indexing_Indexables_Integration $indexing_indexables_integration,
 		WPSEO_Admin_Asset_Manager $asset_manager,
 		Environment_Helper $environment_helper,
-		Short_Link_Helper $short_link_helper
+		Short_Link_Helper $short_link_helper,
+		Options_Helper $options_helper
 	) {
 		$this->asset_manager      = $asset_manager;
 		$this->environment_helper = $environment_helper;
 		$this->short_link_helper  = $short_link_helper;
+		$this->options_helper     = $options_helper;
 
 		$this->indexing_integrations[] = $indexing_indexables_integration;
 	}
@@ -118,9 +129,10 @@ class Indexing_Integration implements Integration_Interface {
 		$this->asset_manager->enqueue_style( 'monorepo' );
 
 		$data = [
-			'disabled' => ! $this->environment_helper->is_production_mode(),
-			'amount'   => $this->get_total_unindexed(),
-			'restApi'  => [
+			'disabled'  => ! $this->environment_helper->is_production_mode(),
+			'amount'    => $this->get_total_unindexed(),
+			'firstTime' => ( $this->options_helper->get( 'indexing_first_time', true ) === true ),
+			'restApi'   => [
 				'root'      => \esc_url_raw( \rest_url() ),
 				'endpoints' => $this->get_endpoints(),
 				'nonce'     => \wp_create_nonce( 'wp_rest' ),

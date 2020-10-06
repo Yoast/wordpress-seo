@@ -8,7 +8,7 @@ use Yoast_Notification_Center;
 /**
  * A helper object for notifications.
  */
-class Notification_Helper{
+class Notification_Helper {
 
 	/**
 	 * Restores a notification (wrapper function).

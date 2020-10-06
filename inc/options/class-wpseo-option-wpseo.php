@@ -31,6 +31,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'ms_defaults_set'                          => false,
 		'ignore_search_engines_discouraged_notice' => false,
 		'indexation_warning_hide_until'            => false,
+		'indexing_first_time'                      => true,
 		'indexation_started'                       => null,
 		'indexing_reason'                          => '',
 		'indexables_indexation_completed'          => false,
@@ -370,6 +371,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 				 *  'enable_headless_rest_endpoints'
 				 *  'yoast_tracking'
 				 *  'dynamic_permalinks'
+				 *  'indexing_first_time'
 				 */
 				default:
 					$clean[ $key ] = ( isset( $dirty[ $key ] ) ? WPSEO_Utils::validate_bool( $dirty[ $key ] ) : false );
