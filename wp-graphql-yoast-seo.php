@@ -77,6 +77,50 @@ add_action('graphql_init', function () {
       return attachment_url_to_postid($image['url']);
     }
   }
+  if (!function_exists('wp_gql_seo_get_field_key')) {
+    function wp_gql_seo_get_field_key($field_key)
+    {
+      $field_key = lcfirst(preg_replace('[^a-zA-Z0-9 -]', ' ', $field_key));
+      $field_key = lcfirst(str_replace('_', ' ', ucwords($field_key, '_')));
+      $field_key = lcfirst(str_replace('-', ' ', ucwords($field_key, '_')));
+      $field_key = lcfirst(str_replace(' ', '', ucwords($field_key, ' ')));
+
+      return $field_key;
+    }
+  }
+
+  function wp_gql_seo_build_content_types($types)
+  {
+    $carry = array();
+    foreach ($types as $type) {
+
+      $post_type_object = get_post_type_object($type);
+      if ($post_type_object->graphql_single_name) {
+
+        $carry[wp_gql_seo_get_field_key($post_type_object->graphql_single_name)] = ['type' => 'SEOContentType'];
+      }
+    }
+    return $carry;
+  }
+
+  function wp_gql_seo_build_content_type_data($types, $all)
+  {
+    $carry = array();
+    foreach ($types as $type) {
+      $post_type_object = get_post_type_object($type);
+      if ($post_type_object->graphql_single_name) {
+
+        $tag = wp_gql_seo_get_field_key($post_type_object->graphql_single_name);
+        $carry[$tag] = array(
+          'title' => $all['title-' . $tag],
+          'metaDesc' => $all['metadesc-' . $tag],
+          'metaRobotsNoindex' => $all['noindex-' . $tag],
+          'schemaType' => $all['schema-page-type-' . $tag],
+        );
+      }
+    }
+    return $carry;
+  }
 
   add_action('graphql_register_types', function () {
     $post_types = \WPGraphQL::get_allowed_post_types();
@@ -282,6 +326,23 @@ add_action('graphql_init', function () {
       ]
     ]);
 
+    register_graphql_object_type('SEOContentType', [
+      'description' => __('he Yoast SEO search appearance content types fields', 'wp-graphql-yoast-seo'),
+      'fields' => [
+        'title' => ['type' => 'String'],
+        'metaDesc' => ['type' => 'String'],
+        'metaRobotsNoindex' => ['type' => 'Boolean'],
+        'schemaType' => ['type' => 'String'],
+      ]
+    ]);
+
+    $allTypes =  wp_gql_seo_build_content_types($post_types);
+
+    register_graphql_object_type('SEOContentTypes', [
+      'description' => __('The Yoast SEO search appearance content types', 'wp-graphql-yoast-seo'),
+      'fields' => $allTypes,
+    ]);
+
     register_graphql_object_type('SEOConfig', [
       'description' => __('The Yoast SEO site level configuration data', 'wp-graphql-yoast-seo'),
       'fields' => [
@@ -293,6 +354,7 @@ add_action('graphql_init', function () {
           'list_of' => 'SEORedirect',
         ]],
         'openGraph' => ['type' => 'SEOOpenGraph'],
+        'contentTypes' => ['type' => 'SEOContentTypes'],
       ]
     ]);
 
@@ -323,7 +385,7 @@ add_action('graphql_init', function () {
     register_graphql_field('RootQuery', 'seo', [
       'type' => 'SEOConfig',
       'description' => __('Returns seo site data', 'wp-graphql-yoast-seo'),
-      'resolve' => function ($source, array $args, AppContext $context) {
+      'resolve' => function ($source, array $args, AppContext $context) use ($post_types) {
 
         $wpseo_options = WPSEO_Options::get_instance();
         $all =  $wpseo_options->get_all();
@@ -345,7 +407,11 @@ add_action('graphql_init', function () {
         };
 
 
+
+        $contentTypes = wp_gql_seo_build_content_type_data($post_types, $all);
+
         return  array(
+          'contentTypes' => $contentTypes,
           'webmaster' => array(
             'baiduVerify' => wp_gql_seo_format_string($all['baiduverify']),
             'googleVerify' => wp_gql_seo_format_string($all['googleverify']),
@@ -463,12 +529,14 @@ add_action('graphql_init', function () {
           // Loop each taxonomy to register on the edge if a category is the primary one.
           $taxonomiesPostObj = get_object_taxonomies($post_type, 'objects');
 
+          $postNameKey = wp_gql_seo_get_field_key($post_type_object->graphql_single_name);
+
           foreach ($taxonomiesPostObj as $tax) {
 
 
             if ($tax->hierarchical && $tax->graphql_single_name) {
 
-              $name = ucfirst($post_type_object->graphql_single_name) . 'To' . ucfirst($tax->graphql_single_name) . 'ConnectionEdge';
+              $name = ucfirst($postNameKey) . 'To' . ucfirst($tax->graphql_single_name) . 'ConnectionEdge';
 
               register_graphql_field($name, 'isPrimary',  [
                 'type'        => 'Boolean',
