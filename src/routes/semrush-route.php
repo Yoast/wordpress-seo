@@ -106,7 +106,7 @@ class SEMrush_Route implements Route_Interface {
 		$authentication_route_args = [
 			'methods'             => 'POST',
 			'callback'            => [ $this, 'authenticate' ],
-			'permission_callback' => [ $this, 'can_authenticate' ],
+			'permission_callback' => [ $this, 'can_use_semrush' ],
 			'args'                => [
 				'code' => [
 					'validate_callback' => [ $this, 'has_valid_code' ],
@@ -120,7 +120,7 @@ class SEMrush_Route implements Route_Interface {
 		$set_country_code_option_route_args = [
 			'methods'             => 'POST',
 			'callback'            => [ $this, 'set_country_code_option' ],
-			'permission_callback' => [ $this, 'can_edit' ],
+			'permission_callback' => [ $this, 'can_use_semrush' ],
 			'args'                => [
 				'country_code' => [
 					'validate_callback' => [ $this, 'has_valid_country_code' ],
@@ -134,7 +134,7 @@ class SEMrush_Route implements Route_Interface {
 		$related_keyphrases_route_args = [
 			'methods'             => 'GET',
 			'callback'            => [ $this, 'get_related_keyphrases' ],
-			'permission_callback' => [ $this, 'can_edit' ],
+			'permission_callback' => [ $this, 'can_use_semrush' ],
 			'args'                => [
 				'keyphrase' => [
 					'validate_callback' => [ $this, 'has_valid_keyphrase' ],
@@ -231,20 +231,11 @@ class SEMrush_Route implements Route_Interface {
 	}
 
 	/**
-	 * Whether or not the current user is allowed to edit post and thus access the SEMrush modal.
+	 * Whether or not the current user is allowed to edit post/pages and thus use the SEMrush integration.
 	 *
-	 * @return bool Whether or not the current user is allowed to edit posts.
+	 * @return bool Whether or not the current user is allowed to use SEMrush.
 	 */
-	public function can_edit() {
-		return \current_user_can( 'edit_posts' );
-	}
-
-	/**
-	 * Determines whether the current user can authenticate with SEMrush.
-	 *
-	 * @return bool Whether or not the current user can authenticate with SEMrush.
-	 */
-	public function can_authenticate() {
-		return \current_user_can( 'manage_options' );
+	public function can_use_semrush() {
+		return \current_user_can( 'edit_posts' ) || \current_user_can( 'edit_pages' );
 	}
 }

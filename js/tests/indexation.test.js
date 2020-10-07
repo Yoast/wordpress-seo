@@ -9,7 +9,7 @@ import { mount } from "enzyme";
  * @returns {Promise} The promise.
  */
 const fetchReponse = ( data ) => {
-	return Promise.resolve( { json: () => Promise.resolve( data ) } );
+	return Promise.resolve( { json: () => Promise.resolve( data ), ok: true } );
 };
 
 describe( "Indexation", () => {
@@ -27,7 +27,7 @@ describe( "Indexation", () => {
 
 		const alert = component.find( "Alert" );
 
-		expect( alert.text() ).toEqual( "This button to optimize the SEO data for your website is disabled for non-production environments." );
+		expect( alert.text() ).toEqual( "SEO data optimization is disabled for non-production environments." );
 	} );
 
 	it( "will show you when the indexation is complete", ( done ) => {

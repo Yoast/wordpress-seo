@@ -211,9 +211,10 @@ Your question has most likely been answered on our knowledge base: [kb.yoast.com
 = 15.1 =
 Release Date: October 13th, 2020
 
-Enhancements:
+Enhancements: 
 
 * Adds an integration with SEMrush to search for and compare search volume of related keyphrases.
+* Moves the Ryte feature toggle to the new Integrations tab where the new SEMrush feature toggle also can be found.
 * Merges the indexable and link indexing tools on the tools page into one process.
 * Improves the user experience of the indexing tool on the tools page by showing its progress on the tools page itself, instead of in a separate pop-up modal.
 * Prevents several processes from happening on non-production environments:
