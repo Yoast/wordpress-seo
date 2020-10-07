@@ -1,12 +1,12 @@
 /* External dependencies */
 import { Component } from "@wordpress/element";
 import PropTypes from "prop-types";
-import { SettingsSnippetEditor } from "@yoast/search-metadata-previews";
 import { __ } from "@wordpress/i18n";
 import {
 	replacementVariablesShape,
 	recommendedReplacementVariablesShape,
-} from "@yoast/search-metadata-previews";
+	SettingsSnippetEditor,
+} from "@yoast/replacement-variable-editor";
 
 /* Internal dependencies */
 import SnippetPreviewSection from "./SnippetPreviewSection";

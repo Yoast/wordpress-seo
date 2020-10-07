@@ -21,7 +21,7 @@ $integration_toggles = Yoast_Integration_Toggles::instance()->get_all();
 		<?php
 		echo sprintf(
 		/* translators: %1$s expands to Yoast SEO */
-			esc_html__( '%1$s integrates with a couple of third parties. You can enable or disable these integrations below.', 'wordpress-seo' ),
+			esc_html__( '%1$s can integrate with third parties products. You can enable or disable these integrations below.', 'wordpress-seo' ),
 			'Yoast SEO'
 		);
 
@@ -43,7 +43,7 @@ $integration_toggles = Yoast_Integration_Toggles::instance()->get_all();
 
 			$feature_help = new WPSEO_Admin_Help_Panel(
 				$integration->setting,
-				/* translators: %s expands to a integration's name */
+				/* translators: %s expands to an integration's name */
 				sprintf( esc_html__( 'Help on: %s', 'wordpress-seo' ), esc_html( $integration->name ) ),
 				$help_text
 			);

@@ -7,6 +7,7 @@ import { validateTwitterImage } from "@yoast/helpers";
 /* Internal dependencies */
 import TwitterWrapper from "../components/social/TwitterWrapper";
 import getL10nObject from "../analysis/getL10nObject";
+import withLocation from "../helpers/withLocation";
 
 const socialMediumName = "Twitter";
 
@@ -123,5 +124,7 @@ export default compose( [
 			onLoad: loadTwitterPreviewData,
 		};
 	} ),
+
+	withLocation(),
 ] )( TwitterWrapper );
 /* eslint-enable complexity */

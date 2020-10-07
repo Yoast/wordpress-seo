@@ -1,9 +1,7 @@
-import { __, sprintf } from "@wordpress/i18n";
-import { MultiSelect, Select } from "@yoast/components";
-import { RadioButtonGroup } from "@yoast/components";
-import { TextInput } from "@yoast/components";
 import { Fragment, useEffect } from "@wordpress/element";
-import { Alert } from "@yoast/components";
+import { __, sprintf } from "@wordpress/i18n";
+import { Alert, MultiSelect, RadioButtonGroup, Select, TextInput } from "@yoast/components";
+import { join } from "@yoast/helpers";
 import PropTypes from "prop-types";
 import { LocationConsumer } from "./contexts/location";
 
@@ -15,28 +13,12 @@ import { LocationConsumer } from "./contexts/location";
 const isPost = () => !! window.wpseoScriptData.isPost;
 
 /**
- * If location is not empty, we append it to the id, to keep id's unique.
- *
- * @param {string} id       The id.
- * @param {string} location The location.
- *
- * @returns {string} The hopefully unique id.
- */
-const appendLocation = ( id, location ) => {
-	if ( location ) {
-		return `${ id }_${ location }`;
-	}
-
-	return id;
-};
-
-/**
  * The values that are used for the noIndex field differ for posts and taxonomies. This function returns an array of
  * options that can be used to populate a select field.
  *
  * @param {Object} editorContext An object containing context about this editor.
  *
- * @returns {void} Array Returns an array of options for the noIndex setting.
+ * @returns {Object[]} Returns an array of options for the noIndex setting.
  */
 const getNoIndexOptions = ( editorContext ) => {
 	const translatedNo = __( "No", "wordpress-seo" );
@@ -78,10 +60,11 @@ const getNoIndexOptions = ( editorContext ) => {
  *
  * @param {Object} props The props object
  *
- * @returns {Component} The Meta Robots No-Index component.
+ * @returns {JSX.Element} The Meta Robots No-Index.
  */
 const MetaRobotsNoIndex = ( { noIndex, onNoIndexChange, editorContext, isPrivateBlog } ) => {
 	const metaRobotsNoIndexOptions = getNoIndexOptions( editorContext );
+
 	return <LocationConsumer>
 		{ location => {
 			return <Fragment>
@@ -92,7 +75,7 @@ const MetaRobotsNoIndex = ( { noIndex, onNoIndexChange, editorContext, isPrivate
 							"Even though you can set the meta robots setting here, " +
 							"the entire site is set to noindex in the sitewide privacy settings, " +
 							"so these settings won't have an effect.",
-							"wordpress-seo"
+							"wordpress-seo",
 						) }
 					</Alert>
 				}
@@ -104,8 +87,7 @@ const MetaRobotsNoIndex = ( { noIndex, onNoIndexChange, editorContext, isPrivate
 							editorContext.postTypeNameSingular,
 						) }
 					onChange={ onNoIndexChange }
-					name={ "yoast_wpseo_meta-robots-noindex-react" }
-					id={ appendLocation( "yoast_wpseo_meta-robots-noindex-react", location ) }
+					id={ join( [ "yoast-meta-robots-noindex", location ] ) }
 					options={ metaRobotsNoIndexOptions }
 					selected={ noIndex }
 					linkTo={ "https://yoa.st/allow-search-engines" }
@@ -130,22 +112,29 @@ MetaRobotsNoIndex.defaultProps = {
 /**
  * Functional component for the Meta Robots No-Follow option.
  *
- * @returns {Component} The Meta Robots No-Follow option.
+ * @returns {JSX.Element} The Meta Robots No-Follow option.
  */
 const MetaRobotsNoFollow = ( { noFollow, onNoFollowChange, postTypeName } ) => {
-	return <RadioButtonGroup
-		options={ [ { value: "0", label: "Yes" }, { value: "1", label: "No" } ] }
-		label={ sprintf(
-			/* Translators: %s translates to the Post Label in singular form */
-			__( "Should search engines follow links on this %s", "wordpress-seo" ),
-			postTypeName,
-		) }
-		groupName="yoast_wpseo_meta-robots-nofollow-react"
-		onChange={ onNoFollowChange }
-		selected={ noFollow }
-		linkTo={ "https://yoa.st/follow-links" }
-		linkText={ __( "Learn more about the no-follow setting on our help page.", "wordpress-seo" ) }
-	/>;
+	return <LocationConsumer>
+		{ location => {
+			const id = join( [ "yoast-meta-robots-nofollow", location ] );
+
+			return <RadioButtonGroup
+				id={ id }
+				options={ [ { value: "0", label: "Yes" }, { value: "1", label: "No" } ] }
+				label={ sprintf(
+					/* Translators: %s translates to the Post Label in singular form */
+					__( "Should search engines follow links on this %s", "wordpress-seo" ),
+					postTypeName,
+				) }
+				groupName={ id }
+				onChange={ onNoFollowChange }
+				selected={ noFollow }
+				linkTo={ "https://yoa.st/follow-links" }
+				linkText={ __( "Learn more about the no-follow setting on our help page.", "wordpress-seo" ) }
+			/>;
+		} }
+	</LocationConsumer>;
 };
 
 MetaRobotsNoFollow.propTypes = {
@@ -159,17 +148,19 @@ MetaRobotsNoFollow.propTypes = {
  *
  * @param {Object} props The props object
  *
- * @returns {Component} The Meta Robots advanced field component.
+ * @returns {JSX.Element} The Meta Robots advanced field.
  */
 const MetaRobotsAdvanced = ( { advanced, onAdvancedChange } ) => {
 	return <LocationConsumer>
 		{ location => {
+			const id = join( [ "yoast-meta-robots-advanced", location ] );
+			const inputId = `${ id }-input`;
+
 			return <MultiSelect
 				label={ __( "Meta robots advanced", "wordpress-seo" ) }
 				onChange={ onAdvancedChange }
-				name="yoast_wpseo_meta-robots-adv-react"
-				id={ appendLocation( "yoast_wpseo_meta-robots-adv-react", location ) }
-				inputId={ appendLocation( "yoast_wpseo_meta-robots-adv-input", location ) }
+				id={ id }
+				inputId={ inputId }
 				options={ [
 					{ name: __( "No Image Index", "wordpress-seo" ), value: "noimageindex" },
 					{ name: __( "No Archive", "wordpress-seo" ), value: "noarchive" },
@@ -193,7 +184,7 @@ MetaRobotsAdvanced.propTypes = {
  *
  * @param {Object} props The props object
  *
- * @returns {Component} The Breadcrumbs title component.
+ * @returns {JSX.Element} The Breadcrumbs title.
  */
 const BreadcrumbsTitle = ( { breadcrumbsTitle, onBreadcrumbsTitleChange } ) => {
 	return <LocationConsumer>
@@ -201,8 +192,7 @@ const BreadcrumbsTitle = ( { breadcrumbsTitle, onBreadcrumbsTitleChange } ) => {
 			location => {
 				return <TextInput
 					label={ __( "Breadcrumbs Title", "wordpress-seo" ) }
-					id={ appendLocation( "yoast_wpseo_bctitle-react", location ) }
-					name="yoast_wpseo_bctitle-react"
+					id={ join( [ "yoast-breadcrumbs-title", location ] ) }
 					onChange={ onBreadcrumbsTitleChange }
 					value={ breadcrumbsTitle }
 					linkTo={ "https://yoa.st/breadcrumbs-title" }
@@ -223,7 +213,7 @@ BreadcrumbsTitle.propTypes = {
  *
  * @param {Object} props The props object
  *
- * @returns {Component} The canonical URL component.
+ * @returns {JSX.Element} The canonical URL.
  */
 const CanonicalURL = ( { canonical, onCanonicalChange } ) => {
 	return <LocationConsumer>
@@ -231,8 +221,7 @@ const CanonicalURL = ( { canonical, onCanonicalChange } ) => {
 			location => {
 				return <TextInput
 					label={ __( "Canonical URL", "wordpress-seo" ) }
-					id={ appendLocation( "yoast_wpseo_canonical-react", location ) }
-					name="yoast_wpseo_canonical-react"
+					id={ join( [ "yoast-canonical", location ] ) }
 					onChange={ onCanonicalChange }
 					value={ canonical }
 					linkTo={ "https://yoa.st/canonical-url" }
@@ -316,7 +305,7 @@ const AdvancedSettings = ( props ) => {
 	return (
 		<Fragment>
 			<MetaRobotsNoIndex { ...noIndexProps } />
-			{ editorContext.isPost  && <MetaRobotsNoFollow { ...noFollowProps } /> }
+			{ editorContext.isPost && <MetaRobotsNoFollow { ...noFollowProps } /> }
 			{ editorContext.isPost && <MetaRobotsAdvanced { ...advancedProps } /> }
 			{
 				! isBreadcrumbsDisabled && <BreadcrumbsTitle { ...breadcrumbsTitleProps } />
