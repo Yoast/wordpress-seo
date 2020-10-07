@@ -343,6 +343,14 @@ export default function initAdmin( jQuery ) {
 			jQuery( "#breadcrumbsinfo" ).toggle( jQuery( this ).is( ":checked" ) );
 		} ).change();
 
+		// Toggle the Zapier connection section.
+		jQuery( "#zapier_integration_active input[type='radio']" ).change( function() {
+			// The value on is enabled, off is disabled.
+			if ( jQuery( this ).is( ":checked" ) ) {
+				jQuery( "#zapier-connection" ).toggle( jQuery( this ).val() === "on" );
+			}
+		} ).change();
+
 		// Handle the settings pages tabs.
 		jQuery( "#wpseo-tabs" ).find( "a" ).click( function() {
 			jQuery( "#wpseo-tabs" ).find( "a" ).removeClass( "nav-tab-active" );
