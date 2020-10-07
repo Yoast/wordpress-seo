@@ -1,7 +1,7 @@
 /** @module analyses/calculateFleschReading */
 
 import formatNumber from "../../../../helpers/formatNumber.js";
-import getFleschReadingStatistics from "../../../researches/getFleschReadingStatistics";
+import getFleschReadingStatistics from "../../../helpers/fleschReadingTest/getFleschReadingStatistics";
 
 /**
  * This calculates the flesch reading score for a given text.
