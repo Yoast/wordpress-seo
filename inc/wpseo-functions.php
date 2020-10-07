@@ -197,7 +197,7 @@ function wpseo_shortcode_yoast_breadcrumb() {
 	return '';
 }
 
-if ( ! extension_loaded( 'ctype' ) || ! function_exists( 'ctype_digit' ) ) {
+if ( ! function_exists( 'ctype_digit' ) ) {
 	/**
 	 * Emulate PHP native ctype_digit() function for when the ctype extension would be disabled *sigh*.
 	 * Only emulates the behaviour for when the input is a string, does not handle integer input as ascii value.
