@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Routes;
 
+use WP_Error;
 use WP_REST_Response;
 use Yoast\WP\SEO\Actions\Indexation\Indexation_Action_Interface;
 use Yoast\WP\SEO\Actions\Indexation\Post_Link_Indexing_Action;
@@ -132,17 +133,15 @@ class Link_Indexing_Route extends Abstract_Indexation_Route {
 	 * @param Indexation_Action_Interface $indexation_action The indexation action.
 	 * @param string                      $url               The url of the indexation route.
 	 *
-	 * @return WP_REST_Response The response.
-	 *
-	 * @throws \Exception If the indexation action fails.
+	 * @return WP_REST_Response|WP_Error The response, or an error when running the indexing action failed.
 	 */
 	protected function run_indexation_action( Indexation_Action_Interface $indexation_action, $url ) {
 		try {
 			return parent::run_indexation_action( $indexation_action, $url );
 		} catch ( \Exception $exception ) {
-			$this->options_helper->set( 'indexables_indexation_reason', Indexing_Notification_Integration::REASON_INDEXING_FAILED );
+			$this->options_helper->set( 'indexing_reason', Indexing_Notification_Integration::REASON_INDEXING_FAILED );
 
-			throw $exception;
+			return new WP_Error( 'wpseo_error_indexing', $exception->getMessage() );
 		}
 	}
 }

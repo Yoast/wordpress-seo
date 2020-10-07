@@ -31,8 +31,9 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'ms_defaults_set'                          => false,
 		'ignore_search_engines_discouraged_notice' => false,
 		'indexation_warning_hide_until'            => false,
+		'indexing_first_time'                      => true,
 		'indexation_started'                       => null,
-		'indexables_indexation_reason'             => '',
+		'indexing_reason'                          => '',
 		'indexables_indexation_completed'          => false,
 		// Non-form field, should only be set via validation routine.
 		'version'                                  => '', // Leave default as empty to ensure activation/upgrade works.
@@ -262,7 +263,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 						$clean[ $key ] = $dirty[ $key ];
 					}
 					break;
-				case 'indexables_indexation_reason':
+				case 'indexing_reason':
 					if ( isset( $dirty[ $key ] ) ) {
 						$clean[ $key ] = sanitize_text_field( $dirty[ $key ] );
 					}
@@ -361,6 +362,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 				 *  'enable_headless_rest_endpoints'
 				 *  'yoast_tracking'
 				 *  'dynamic_permalinks'
+				 *  'indexing_first_time'
 				 */
 				default:
 					$clean[ $key ] = ( isset( $dirty[ $key ] ) ? WPSEO_Utils::validate_bool( $dirty[ $key ] ) : false );
