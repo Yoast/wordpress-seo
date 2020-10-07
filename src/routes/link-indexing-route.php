@@ -2,10 +2,14 @@
 
 namespace Yoast\WP\SEO\Routes;
 
+use WP_Error;
 use WP_REST_Response;
+use Yoast\WP\SEO\Actions\Indexation\Indexation_Action_Interface;
 use Yoast\WP\SEO\Actions\Indexation\Post_Link_Indexing_Action;
 use Yoast\WP\SEO\Actions\Indexation\Term_Link_Indexing_Action;
 use Yoast\WP\SEO\Conditionals\No_Conditionals;
+use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Integrations\Admin\Indexing_Notification_Integration;
 use Yoast\WP\SEO\Main;
 
 /**
@@ -58,21 +62,31 @@ class Link_Indexing_Route extends Abstract_Indexation_Route {
 	protected $term_link_indexing_action;
 
 	/**
+	 * The options helper.
+	 *
+	 * @var Options_Helper
+	 */
+	protected $options_helper;
+
+	/**
 	 * Link_Indexing_Route constructor
 	 *
 	 * @param Post_Link_Indexing_Action $post_link_indexing_action The post link indexing action.
 	 * @param Term_Link_Indexing_Action $term_link_indexing_action The term link indexing action.
+	 * @param Options_Helper            $options_helper            The options helper.
 	 */
 	public function __construct(
 		Post_Link_Indexing_Action $post_link_indexing_action,
-		Term_Link_Indexing_Action $term_link_indexing_action
+		Term_Link_Indexing_Action $term_link_indexing_action,
+		Options_Helper $options_helper
 	) {
 		$this->post_link_indexing_action = $post_link_indexing_action;
 		$this->term_link_indexing_action = $term_link_indexing_action;
+		$this->options_helper            = $options_helper;
 	}
 
 	/**
-	 * @inheritDoc
+	 * Registers routes with WordPress.
 	 */
 	public function register_routes() {
 		$args = [
@@ -111,5 +125,23 @@ class Link_Indexing_Route extends Abstract_Indexation_Route {
 	 */
 	public function can_index() {
 		return \current_user_can( 'edit_posts' );
+	}
+
+	/**
+	 * Runs an indexation action and returns the response.
+	 *
+	 * @param Indexation_Action_Interface $indexation_action The indexation action.
+	 * @param string                      $url               The url of the indexation route.
+	 *
+	 * @return WP_REST_Response|WP_Error The response, or an error when running the indexing action failed.
+	 */
+	protected function run_indexation_action( Indexation_Action_Interface $indexation_action, $url ) {
+		try {
+			return parent::run_indexation_action( $indexation_action, $url );
+		} catch ( \Exception $exception ) {
+			$this->options_helper->set( 'indexing_reason', Indexing_Notification_Integration::REASON_INDEXING_FAILED );
+
+			return new WP_Error( 'wpseo_error_indexing', $exception->getMessage() );
+		}
 	}
 }

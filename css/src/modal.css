@@ -447,3 +447,129 @@
 		padding-right: 0;
 	}
 }
+/* Specific styling for the PostSettingsModal */
+.yoast-post-settings-modal {
+	width: 880px;
+	height: 100%;
+	max-width: calc(100% - 48px - 48px);
+	max-height: calc(100% - 48px - 48px);
+	overflow: hidden;
+}
+
+.yoast-post-settings-modal__button-container {
+	padding: 16px;
+	display: flex;
+	flex-direction: column;
+	border-bottom: 1px solid rgba( 0,0,0,0.2 );
+}
+
+.yoast-post-settings-modal .yoast-collapsible-content {
+	padding: 16px;
+	border-top: var(--yoast-border-default);
+}
+
+.yoast-post-settings-modal .components-modal__content {
+	padding: 0;
+	display: flex;
+	flex-direction: column;
+}
+
+.yoast-post-settings-modal .components-modal__header {
+	margin: 0;
+	flex-shrink: 0;
+	border-bottom: var(--yoast-border-default);
+}
+
+.yoast-post-settings-modal .yoast-notice-container {
+	z-index: 1;
+	position: sticky;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	margin-top: auto;
+}
+
+/**
+ * Add a negative margin so that the hr will overlap with the border of the content above.
+ *
+ * As this is only needed when the content overflows, it is hard to make a good CSS rule for this case.
+ * Adding a negative margin solves the problem and has no noticeable effect when the margin was not really needed.
+ */
+.yoast-post-settings-modal .yoast-notice-container > hr {
+	margin-top: -1px;
+	margin-bottom: 0;
+}
+
+/* Set overflow-y to scroll and hide the scrollbar on FireFox. */
+.yoast-post-settings-modal .yoast-content-container {
+	overflow-y: auto;
+	border-bottom: var(--yoast-border-default);
+}
+
+/* Remove the border-top from the first collapsible. This created a double border. */
+.yoast-post-settings-modal .yoast-content-container > div:first-child {
+	border-top: none !important;
+}
+
+.yoast-post-settings-modal .yoast-button-container {
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-end;
+	padding: 24px 24px 24px;
+	margin: 0;
+}
+
+.yoast-post-settings-modal .yoast-button-container p {
+	color: var(--yoast-color-label-help);
+	padding-right: 24px;
+	align-self: center;
+}
+
+.yoast-post-settings-modal .yoast-button-container button {
+	flex-shrink: 0;
+	max-height: 45px;
+	align-self: center;
+}
+
+/* Responsive CSS for the mobile PostSettingsModal */
+@media only screen and (max-width: 600px){
+	/* Make the modal fullscreen. */
+	.yoast-post-settings-modal {
+		max-height: 100%;
+		max-width: 100%;
+	}
+
+	/* Align the button and notice so that they have the spacing between them. */
+	.yoast-post-settings-modal .yoast-button-container {
+		padding: 16px 16px 16px;
+		justify-content: space-between;
+	}
+
+	/* Unset the padding for the p on mobile devices */
+	.yoast-post-settings-modal .yoast-button-container p {
+		padding-right: 0;
+	}
+}
+
+.yoast-related-keyphrases-modal {
+	max-width: 712px;
+}
+
+#yoast-get-related-keyphrases-sidebar,
+#yoast-get-related-keyphrases-metabox {
+	margin-top: 8px;
+}
+
+.yoast-gutenberg-modal .yoast-related-keyphrases-modal__content {
+	min-height: 66vh;
+	position: relative;
+}
+
+ #yoast-semrush-country-selector {
+	 position: relative;
+	 border: none;
+ }
+
+.yoast-related-keyphrases-modal__chart {
+	display: block;
+}

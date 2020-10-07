@@ -45,6 +45,9 @@ $excluded_directories = [
 	'loaders',
 	'models',
 	'presenters',
+	'exceptions/oauth',
+	'exceptions/semrush',
+	'values/semrush',
 	'surfaces/values',
 	'wordpress',
 ];

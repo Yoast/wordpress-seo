@@ -56,7 +56,6 @@ const SeoAnalysisModal = ( props ) => {
 					onRequestClose={ closeModal }
 					className={ props.className }
 					title={ modalLabels.heading }
-					showYoastIcon={ false }
 				>
 					{ props.children }
 				</Modal>

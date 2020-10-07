@@ -74,6 +74,9 @@ class Indexable_Prepare_Indexation_Action_Test extends TestCase {
 			->andReturn( $mocked_time );
 
 		$this->options->expects( 'set' )
+			->with( 'indexing_first_time', false );
+
+		$this->options->expects( 'set' )
 			->with( 'indexation_started', $mocked_time );
 
 		$this->instance->prepare();
