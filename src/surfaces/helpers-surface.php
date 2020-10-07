@@ -20,6 +20,7 @@ use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
  * @property Helpers\Indexable_Helper      $indexable
  * @property Helpers\Language_Helper       $language
  * @property Helpers\Meta_Helper           $meta
+ * @property Helpers\Notification_Helper   $notification
  * @property Helpers\Options_Helper        $options
  * @property Helpers\Pagination_Helper     $pagination
  * @property Helpers\Post_Helper           $post
