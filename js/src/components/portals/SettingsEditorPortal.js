@@ -3,7 +3,7 @@ import SettingsReplacementVariableEditor from "../SettingsReplacementVariableEdi
 import {
 	replacementVariablesShape,
 	recommendedReplacementVariablesShape,
-} from "@yoast/search-metadata-previews";
+} from "@yoast/replacement-variable-editor";
 
 import Portal from "./Portal";
 
