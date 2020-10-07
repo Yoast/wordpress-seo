@@ -171,11 +171,15 @@ class Indexing_Notification_Integration_Test extends TestCase {
 			->andReturn( 'another_page' );
 
 		Monkey\Functions\expect( 'wp_next_scheduled' )
-			->once()
+			->twice()
 			->andReturn( true );
 
 		Monkey\Actions\expectAdded( Indexing_Notification_Integration::NOTIFICATION_ID )
 			->with( [ $this->instance, 'create_notification' ] )
+			->once();
+
+		$this->options_helper
+			->expects( 'get' )
 			->once();
 
 		$this->instance->register_hooks();
@@ -198,11 +202,15 @@ class Indexing_Notification_Integration_Test extends TestCase {
 			->once();
 
 		Monkey\Functions\expect( 'wp_next_scheduled' )
-			->once()
+			->twice()
 			->andReturn( true );
 
 		Monkey\Actions\expectAdded( Indexing_Notification_Integration::NOTIFICATION_ID )
 			->with( [ $this->instance, 'create_notification' ] )
+			->once();
+
+		$this->options_helper
+			->expects( 'get' )
 			->once();
 
 		$this->instance->register_hooks();
@@ -221,7 +229,7 @@ class Indexing_Notification_Integration_Test extends TestCase {
 			->andReturn( 'another_page' );
 
 		Monkey\Functions\expect( 'wp_next_scheduled' )
-			->once()
+			->twice()
 			->andReturn( false );
 
 		$mocked_time = 1234567;
@@ -232,6 +240,10 @@ class Indexing_Notification_Integration_Test extends TestCase {
 
 		Monkey\Functions\expect( 'wp_schedule_event' )
 			->with( $mocked_time, 'daily', Indexing_Notification_Integration::NOTIFICATION_ID );
+
+		$this->options_helper
+			->expects( 'get' )
+			->once();
 
 		$this->instance->register_hooks();
 	}
