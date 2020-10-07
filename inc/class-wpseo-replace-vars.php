@@ -220,7 +220,7 @@ class WPSEO_Replace_Vars {
 		}
 
 		// Remove superfluous whitespace.
-		$string = $this->standardize_whitespace( $string );
+		$string = YoastSEO()->helpers->string->standardize_whitespace( $string );
 
 		return $string;
 	}
