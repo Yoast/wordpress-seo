@@ -69,7 +69,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'permalink_structure'                      => '',
 		'home_url'                                 => '',
 		'dynamic_permalinks'                       => false,
-		'zapier_integration_active'                => false,
+		'zapier_integration_active'                => true,
 	];
 
 	/**
