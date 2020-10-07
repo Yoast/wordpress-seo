@@ -1387,7 +1387,7 @@ SVG;
 	public static function standardize_whitespace( $string ) {
 		_deprecated_function( __METHOD__, 'WPSEO 15.2' );
 
-		return trim( str_replace( '  ', ' ', str_replace( [ "\t", "\n", "\r", "\f" ], ' ', $string ) ) );
+		return YoastSEO()->helpers->string->standardize_whitespace( $string );
 	}
 
 	/**
@@ -1406,7 +1406,7 @@ SVG;
 	public static function strip_shortcode( $text ) {
 		_deprecated_function( __METHOD__, 'WPSEO 15.2' );
 
-		return preg_replace( '`\[[^\]]+\]`s', '', strip_shortcodes( $text ) );
+		return YoastSEO()->helpers->string->strip_shortcode( $text );
 	}
 
 	/**

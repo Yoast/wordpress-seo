@@ -156,15 +156,15 @@ class WPSEO_Replace_Vars {
 
 		// Let's see if we can bail super early.
 		if ( strpos( $string, '%%' ) === false ) {
-			return $this->standardize_whitespace( $string );
+			return YoastSEO()->helpers->string->standardize_whitespace( $string );
 		}
 
 		$args = (array) $args;
 		if ( isset( $args['post_content'] ) && ! empty( $args['post_content'] ) ) {
-			$args['post_content'] = $this->strip_shortcode( $args['post_content'] );
+			$args['post_content'] = YoastSEO()->helpers->string->strip_shortcode( $args['post_content'] );
 		}
 		if ( isset( $args['post_excerpt'] ) && ! empty( $args['post_excerpt'] ) ) {
-			$args['post_excerpt'] = $this->strip_shortcode( $args['post_excerpt'] );
+			$args['post_excerpt'] = YoastSEO()->helpers->string->strip_shortcode( $args['post_excerpt'] );
 		}
 		$this->args = (object) wp_parse_args( $args, $this->defaults );
 
@@ -1314,31 +1314,6 @@ class WPSEO_Replace_Vars {
 	}
 
 	/* *********************** GENERAL HELPER METHODS ************************** */
-
-	/**
-	 * Standardize whitespace in a string.
-	 *
-	 * Replace line breaks, carriage returns, tabs with a space, then remove double spaces.
-	 *
-	 * @param string $string String input to standardize.
-	 *
-	 * @return string
-	 */
-	protected function standardize_whitespace( $string ) {
-		return trim( str_replace( '  ', ' ', str_replace( [ "\t", "\n", "\r", "\f" ], ' ', $string ) ) );
-	}
-
-	/**
-	 * First strip out registered and enclosing shortcodes using native WordPress strip_shortcodes function.
-	 * Then strip out the shortcodes with a filthy regex, because people don't properly register their shortcodes.
-	 *
-	 * @param string $text Input string that might contain shortcodes.
-	 *
-	 * @return string $text String without shortcodes.
-	 */
-	protected function strip_shortcode( $text ) {
-		return preg_replace( '`\[[^\]]+\]`s', '', strip_shortcodes( $text ) );
-	}
 
 	/**
 	 * Remove the '%%' delimiters from a variable string.
