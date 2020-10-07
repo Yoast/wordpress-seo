@@ -211,7 +211,7 @@ Your question has most likely been answered on our knowledge base: [kb.yoast.com
 = 15.1 =
 Release Date: October 13th, 2020
 
-Enhancements:
+Enhancements: 
 
 * Adds an integration with SEMrush to search for and compare search volume of related keyphrases.
 * Moves the Ryte feature toggle to the new Integrations tab where the new SEMrush feature toggle also can be found.
