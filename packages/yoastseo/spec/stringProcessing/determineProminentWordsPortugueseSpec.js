@@ -1,5 +1,5 @@
 import ProminentWord from "../../src/values/ProminentWord";
-import { getProminentWords } from "../../src/stringProcessing/helpers/_todo/determineProminentWords";
+import { getProminentWords } from "../../src/languageProcessing/helpers/_todo/determineProminentWords";
 
 describe( "gets Portuguese prominent words", function() {
 	it( "returns prominent words", function() {

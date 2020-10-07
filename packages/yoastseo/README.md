@@ -36,7 +36,7 @@ import { AnalysisWebWorker } from "yoastseo";
 
 const worker = new AnalysisWebWorker( self );
 worker.register();
-``` 
+```
 
 Then in a different script you have the following code:
 
@@ -59,7 +59,7 @@ worker.initialize( {
     const paper = new Paper( "Text to analyze", {
         keyword: "analyze",
     } );
-    
+
     return worker.analyze( paper );
 } ).then( ( results ) => {
     console.log( 'Analysis results:' );
@@ -75,12 +75,12 @@ worker.initialize( {
 If you want to have a more barebones API, or are in an environment without access to Web Worker you can use the internal objects:
 
 ```js
-import { Researcher, Paper } from "yoastseo";
+import { AbstractResearcher, Paper } from "yoastseo";
 
 const paper = new Paper( "Text to analyze", {
     keyword: "analyze",
 } );
-const researcher = new Researcher( paper );
+const researcher = new AbstractResearcher( paper );
 
 console.log( researcher.getResearch( "wordCountInText" ) );
 ```
@@ -111,7 +111,7 @@ console.log( researcher.getResearch( "wordCountInText" ) );
 <sup>3</sup> There is no existing Flesch reading ease formula for these languages.
 
 
-The following readability assessments are available for all languages: 
+The following readability assessments are available for all languages:
 - sentence length (with a default upper limit of 20 words, see<sup>1</sup> above )
 - paragraph length
 - subheading distribution
