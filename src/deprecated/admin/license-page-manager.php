@@ -22,27 +22,27 @@ class WPSEO_License_Page_Manager implements WPSEO_WordPress_Integration {
 	/**
 	 * Registers all hooks to WordPress.
 	 *
-	 * @deprecated 15.1
+	 * @deprecated 15.2
 	 * @codeCoverageIgnore
 	 */
 	public function register_hooks() {
-		_deprecated_function( __METHOD__, 'WPSEO 15.1' );
+		_deprecated_function( __METHOD__, 'WPSEO 15.2' );
 	}
 
 	/**
 	 * Removes the faulty set notifications.
 	 *
-	 * @deprecated 15.1
+	 * @deprecated 15.2
 	 * @codeCoverageIgnore
 	 */
 	public function remove_faulty_notifications() {
-		_deprecated_function( __METHOD__, 'WPSEO 15.1' );
+		_deprecated_function( __METHOD__, 'WPSEO 15.2' );
 	}
 
 	/**
 	 * Handles the response.
 	 *
-	 * @deprecated 15.1
+	 * @deprecated 15.2
 	 * @codeCoverageIgnore
 	 *
 	 * @param array  $response          HTTP response.
@@ -52,7 +52,7 @@ class WPSEO_License_Page_Manager implements WPSEO_WordPress_Integration {
 	 * @return array The response array.
 	 */
 	public function handle_response( array $response, $request_arguments, $url ) {
-		_deprecated_function( __METHOD__, 'WPSEO 15.1' );
+		_deprecated_function( __METHOD__, 'WPSEO 15.2' );
 
 		return $response;
 	}
@@ -60,13 +60,13 @@ class WPSEO_License_Page_Manager implements WPSEO_WordPress_Integration {
 	/**
 	 * Returns the license page to use based on the version number.
 	 *
-	 * @deprecated 15.1
+	 * @deprecated 15.2
 	 * @codeCoverageIgnore
 	 *
 	 * @return string The page to use.
 	 */
 	public function get_license_page() {
-		_deprecated_function( __METHOD__, '15.1' );
+		_deprecated_function( __METHOD__, '15.2' );
 
 		return 'licenses';
 	}
@@ -74,11 +74,11 @@ class WPSEO_License_Page_Manager implements WPSEO_WordPress_Integration {
 	/**
 	 * Validates the extensions and show a notice for the invalid extensions.
 	 *
-	 * @deprecated 15.1
+	 * @deprecated 15.2
 	 * @codeCoverageIgnore
 	 */
 	public function validate_extensions() {
-		_deprecated_function( __METHOD__, '15.1' );
+		_deprecated_function( __METHOD__, '15.2' );
 	}
 }
 // phpcs:enable
