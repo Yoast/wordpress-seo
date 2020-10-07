@@ -156,15 +156,15 @@ class WPSEO_Replace_Vars {
 
 		// Let's see if we can bail super early.
 		if ( strpos( $string, '%%' ) === false ) {
-			return WPSEO_Utils::standardize_whitespace( $string );
+			return $this->standardize_whitespace( $string );
 		}
 
 		$args = (array) $args;
 		if ( isset( $args['post_content'] ) && ! empty( $args['post_content'] ) ) {
-			$args['post_content'] = WPSEO_Utils::strip_shortcode( $args['post_content'] );
+			$args['post_content'] = $this->strip_shortcode( $args['post_content'] );
 		}
 		if ( isset( $args['post_excerpt'] ) && ! empty( $args['post_excerpt'] ) ) {
-			$args['post_excerpt'] = WPSEO_Utils::strip_shortcode( $args['post_excerpt'] );
+			$args['post_excerpt'] = $this->strip_shortcode( $args['post_excerpt'] );
 		}
 		$this->args = (object) wp_parse_args( $args, $this->defaults );
 
@@ -220,7 +220,7 @@ class WPSEO_Replace_Vars {
 		}
 
 		// Remove superfluous whitespace.
-		$string = WPSEO_Utils::standardize_whitespace( $string );
+		$string = $this->standardize_whitespace( $string );
 
 		return $string;
 	}
@@ -431,7 +431,24 @@ class WPSEO_Replace_Vars {
 	 * @return string
 	 */
 	private function retrieve_sep() {
-		return WPSEO_Utils::get_title_separator();
+		$replacement = WPSEO_Options::get_default( 'wpseo_titles', 'separator' );
+
+		// Get the titles option and the separator options.
+		$separator         = WPSEO_Options::get( 'separator' );
+		$seperator_options = WPSEO_Option_Titles::get_instance()->get_separator_options();
+
+		// This should always be set, but just to be sure.
+		if ( isset( $seperator_options[ $separator ] ) ) {
+			// Set the new replacement.
+			$replacement = $seperator_options[ $separator ];
+		}
+
+		/**
+		 * Filter: 'wpseo_replacements_filter_sep' - Allow customization of the separator character(s).
+		 *
+		 * @api string $replacement The current separator.
+		 */
+		return apply_filters( 'wpseo_replacements_filter_sep', $replacement );
 	}
 
 	/**
@@ -1297,6 +1314,31 @@ class WPSEO_Replace_Vars {
 	}
 
 	/* *********************** GENERAL HELPER METHODS ************************** */
+
+	/**
+	 * Standardize whitespace in a string.
+	 *
+	 * Replace line breaks, carriage returns, tabs with a space, then remove double spaces.
+	 *
+	 * @param string $string String input to standardize.
+	 *
+	 * @return string
+	 */
+	protected function standardize_whitespace( $string ) {
+		return trim( str_replace( '  ', ' ', str_replace( [ "\t", "\n", "\r", "\f" ], ' ', $string ) ) );
+	}
+
+	/**
+	 * First strip out registered and enclosing shortcodes using native WordPress strip_shortcodes function.
+	 * Then strip out the shortcodes with a filthy regex, because people don't properly register their shortcodes.
+	 *
+	 * @param string $text Input string that might contain shortcodes.
+	 *
+	 * @return string $text String without shortcodes.
+	 */
+	protected function strip_shortcode( $text ) {
+		return preg_replace( '`\[[^\]]+\]`s', '', strip_shortcodes( $text ) );
+	}
 
 	/**
 	 * Remove the '%%' delimiters from a variable string.
