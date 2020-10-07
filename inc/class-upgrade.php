@@ -732,24 +732,6 @@ class WPSEO_Upgrade {
 	}
 
 	/**
-	 * Performs the 15.1 upgrade
-	 */
-	private function upgrade_151() {
-		$notification_center = Yoast_Notification_Center::get();
-		if ( $notification_center === null ) {
-			return;
-		}
-
-		if ( WPSEO_Options::get( 'license_server_version', 2 ) === 2 ) {
-			return;
-		}
-
-		foreach ( array_keys( $this->extensions ) as $product_name ) {
-			$notification_center->remove_notification_by_id( 'wpseo-dismiss-' . sanitize_title_with_dashes( $product_name, null, 'save' ) );
-		}
-	}
-
-	/**
 	 * Checks if the indexable indexation is completed.
 	 * If so, sets the `indexables_indexation_completed` option to `true`,
 	 * else to `false`.
