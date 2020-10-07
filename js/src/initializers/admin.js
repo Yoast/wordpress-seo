@@ -1,4 +1,4 @@
-/* global wpseoAdminGlobalL10n, ajaxurl, wpseoScriptData */
+/* global wpseoAdminGlobalL10n, ajaxurl, wpseoScriptData, ClipboardJS */
 
 import a11ySpeak from "a11y-speak";
 import { debounce } from "lodash-es";
@@ -416,6 +416,22 @@ export default function initAdmin( jQuery ) {
 				facebookSettingsContainer.toggle( event.target.checked );
 			} );
 		}
+
+		const copyZapierKeyToClipboard = new ClipboardJS( "#copy-zapier-api-key" );
+
+		/**
+		 * Copies the Zapier API Key to the clipboard.
+		 *
+		 * @param {MouseEvent} event The click event on the Copy button.
+		 *
+		 * @return {void}
+		 */
+		copyZapierKeyToClipboard.on( "success", function( event ) {
+			// Clear the selection and move focus back to the trigger.
+			event.clearSelection();
+			// Handle ClipboardJS focus bug, see https://github.com/zenorocha/clipboard.js/issues/680
+			jQuery( event.trigger ).focus();
+		} );
 
 		wpseoCopyHomeMeta();
 		setInitialActiveTab();
