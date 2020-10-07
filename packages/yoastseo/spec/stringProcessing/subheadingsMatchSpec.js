@@ -1,4 +1,4 @@
-import subheadingsMatch from "../../src/stringProcessing/helpers/_todo/subheadingsMatch";
+import subheadingsMatch from "../../src/languageProcessing/helpers/_todo/subheadingsMatch";
 
 describe( "subheadingsMatch", function() {
 	it( "should return -1 when match is null", function() {

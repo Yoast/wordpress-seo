@@ -1,5 +1,5 @@
 import ProminentWord from "../../src/values/ProminentWord";
-import { getProminentWords } from "../../src/stringProcessing/helpers/_todo/determineProminentWords";
+import { getProminentWords } from "../../src/languageProcessing/helpers/_todo/determineProminentWords";
 import getMorphologyData from "../specHelpers/getMorphologyData";
 
 const morphologyData = getMorphologyData( "de" ).de;

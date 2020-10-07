@@ -10,7 +10,7 @@ import * as assessments from "../scoring/assessments";
 import * as bundledPlugins from "../bundledPlugins";
 import * as helpers from "../helpers/_todo";
 import * as markers from "../markers";
-import * as string from "../stringProcessing/helpers/_todo";
+import * as string from "../languageProcessing/helpers/_todo";
 import * as interpreters from "../scoring/interpreters";
 import * as config from "../config/_todo";
 

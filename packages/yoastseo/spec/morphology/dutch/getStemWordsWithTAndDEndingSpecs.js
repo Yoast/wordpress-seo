@@ -1,4 +1,4 @@
-import { generateCorrectStemWithTAndDEnding } from "../../../src/stringProcessing/languages/nl/morphology/getStemWordsWithTAndDEnding";
+import { generateCorrectStemWithTAndDEnding } from "../../../src/languageProcessing/languages/nl/morphology/getStemWordsWithTAndDEnding";
 import getMorphologyData from "../../specHelpers/getMorphologyData";
 
 const morphologyDataNL = getMorphologyData( "nl" ).nl;

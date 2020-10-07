@@ -1,4 +1,4 @@
-import { createBasicWordForms } from "../../../src/stringProcessing/languages/he/morphology/createBasicWordForms";
+import { createBasicWordForms } from "../../../src/languageProcessing/languages/he/morphology/createBasicWordForms";
 
 const wordsToStem = [
 	// Creates prefixed forms based on an input word that starts with a valid prefix.

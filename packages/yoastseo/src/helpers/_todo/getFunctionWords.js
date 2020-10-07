@@ -3,33 +3,33 @@
  * stringProcessing script
  */
 
-import germanFunctionWordsFactory from "../../stringProcessing/languages/de/config/functionWords.js";
+import germanFunctionWordsFactory from "../../languageProcessing/languages/de/config/functionWords.js";
 const germanFunctionWords = germanFunctionWordsFactory();
-import englishFunctionWordsFactory from "../../stringProcessing/languages/en/config/functionWords.js";
+import englishFunctionWordsFactory from "../../languageProcessing/languages/en/config/functionWords.js";
 const englishFunctionWords = englishFunctionWordsFactory();
-import dutchFunctionWordsFactory from "../../stringProcessing/languages/nl/config/functionWords.js";
+import dutchFunctionWordsFactory from "../../languageProcessing/languages/nl/config/functionWords.js";
 const dutchFunctionWords = dutchFunctionWordsFactory();
-import spanishFunctionWordsFactory from "../../stringProcessing/languages/es/config/functionWords.js";
+import spanishFunctionWordsFactory from "../../languageProcessing/languages/es/config/functionWords.js";
 const spanishFunctionWords = spanishFunctionWordsFactory();
-import italianFunctionWordsFactory from "../../stringProcessing/languages/it/config/functionWords.js";
+import italianFunctionWordsFactory from "../../languageProcessing/languages/it/config/functionWords.js";
 const italianFunctionWords = italianFunctionWordsFactory();
-import frenchFunctionWordsFactory from "../../stringProcessing/languages/fr/config/functionWords.js";
+import frenchFunctionWordsFactory from "../../languageProcessing/languages/fr/config/functionWords.js";
 const frenchFunctionWords = frenchFunctionWordsFactory();
-import portugueseFunctionWordsFactory from "../../stringProcessing/languages/pt/config/functionWords.js";
+import portugueseFunctionWordsFactory from "../../languageProcessing/languages/pt/config/functionWords.js";
 const portugueseFunctionWords = portugueseFunctionWordsFactory();
-import russianFunctionWordsFactory from "../../stringProcessing/languages/ru/config/functionWords.js";
+import russianFunctionWordsFactory from "../../languageProcessing/languages/ru/config/functionWords.js";
 const russianFunctionWords = russianFunctionWordsFactory();
-import polishFunctionWordsFactory from "../../stringProcessing/languages/pl/config/functionWords.js";
+import polishFunctionWordsFactory from "../../languageProcessing/languages/pl/config/functionWords.js";
 const polishFunctionWords = polishFunctionWordsFactory();
-import swedishFunctionWordsFactory from "../../stringProcessing/languages/sv/config/functionWords.js";
+import swedishFunctionWordsFactory from "../../languageProcessing/languages/sv/config/functionWords.js";
 const swedishFunctionWords = swedishFunctionWordsFactory();
-import indonesianFunctionWordsFactory from "../../stringProcessing/languages/id/config/functionWords.js";
+import indonesianFunctionWordsFactory from "../../languageProcessing/languages/id/config/functionWords.js";
 const indonesianFunctionWords = indonesianFunctionWordsFactory();
-import hebrewFunctionWordsFactory from "../../stringProcessing/languages/he/config/functionWords.js";
+import hebrewFunctionWordsFactory from "../../languageProcessing/languages/he/config/functionWords.js";
 const hebrewFunctionWords = hebrewFunctionWordsFactory();
-import arabicFunctionWordsFactory from "../../stringProcessing/languages/ar/config/functionWords.js";
+import arabicFunctionWordsFactory from "../../languageProcessing/languages/ar/config/functionWords.js";
 const arabicFunctionWords = arabicFunctionWordsFactory();
-import farsiFunctionWordsFactory from "../../stringProcessing/languages/fa/config/functionWords.js";
+import farsiFunctionWordsFactory from "../../languageProcessing/languages/fa/config/functionWords.js";
 const farsiFunctionWords = farsiFunctionWordsFactory();
 
 /**

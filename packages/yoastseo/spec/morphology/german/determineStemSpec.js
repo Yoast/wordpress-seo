@@ -1,4 +1,4 @@
-import { determineStem } from "../../../src/stringProcessing/languages/de/morphology/determineStem";
+import { determineStem } from "../../../src/languageProcessing/languages/de/morphology/determineStem";
 import getMorphologyData from "../../specHelpers/getMorphologyData";
 
 

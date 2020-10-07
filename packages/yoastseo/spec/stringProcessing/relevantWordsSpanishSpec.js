@@ -1,5 +1,5 @@
 import WordCombination from "../../src/values/WordCombination";
-import relevantWords from "../../src/stringProcessing/helpers/_todo/relevantWords";
+import relevantWords from "../../src/languageProcessing/helpers/_todo/relevantWords";
 import spanishFunctionWordsFactory from "../../src/languages/legacy/researches/spanish/functionWords.js";
 
 const getRelevantWords = relevantWords.getRelevantWords;
