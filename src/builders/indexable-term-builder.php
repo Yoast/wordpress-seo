@@ -21,24 +21,14 @@ class Indexable_Term_Builder {
 	private $taxonomy;
 
 	/**
-	 * The link builder.
-	 *
-	 * @var Indexable_Link_Builder
-	 */
-	protected $link_builder;
-
-	/**
 	 * Indexable_Term_Builder constructor.
 	 *
-	 * @param Taxonomy_Helper        $taxonomy     The taxonomy helper.
-	 * @param Indexable_Link_Builder $link_builder The link builder.
+	 * @param Taxonomy_Helper $taxonomy The taxonomy helper.
 	 */
 	public function __construct(
-		Taxonomy_Helper $taxonomy,
-		Indexable_Link_Builder $link_builder
+		Taxonomy_Helper $taxonomy
 	) {
-		$this->taxonomy     = $taxonomy;
-		$this->link_builder = $link_builder;
+		$this->taxonomy = $taxonomy;
 	}
 
 	/**
@@ -89,7 +79,6 @@ class Indexable_Term_Builder {
 		}
 
 		$this->handle_social_images( $indexable );
-		$this->link_builder->build( $indexable, $term->description );
 
 		$indexable->is_cornerstone = $this->get_meta_value( 'wpseo_is_cornerstone', $term_meta );
 
