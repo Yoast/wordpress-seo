@@ -147,8 +147,8 @@ class Indexing_Notification_Integration implements Integration_Interface {
 			\add_action( 'admin_init', [ $this, 'cleanup_notification' ] );
 		}
 
-			\add_action( 'admin_init', [ $this, 'create_notification' ] );
 		if ( $this->should_show_notification() || ! \wp_next_scheduled( self::NOTIFICATION_ID ) ) {
+			$this->create_notification();
 		}
 
 		if ( ! \wp_next_scheduled( self::NOTIFICATION_ID ) ) {
