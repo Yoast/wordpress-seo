@@ -32,7 +32,7 @@ class Indexable_Complete_Indexation_Action {
 	 */
 	public function complete() {
 		$this->options->set( 'indexation_started', null );
-		$this->options->set( 'indexables_indexation_reason', '' );
+		$this->options->set( 'indexing_reason', '' );
 		$this->options->set( 'indexables_indexation_completed', true );
 	}
 }
