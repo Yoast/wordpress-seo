@@ -1,6 +1,6 @@
 {
 	"name": "@yoast/social-metadata-forms",
-	"version": "1.5.0-rc.1",
+	"version": "1.5.0-rc.4",
 	"main": "src/index.js",
 	"repository": {
 		"type": "git",
@@ -37,8 +37,8 @@
 	},
 	"dependencies": {
 		"@wordpress/i18n": "^1.1.0",
-		"@yoast/components": "^2.10.0-rc.1",
-		"@yoast/replacement-variable-editor": "^1.5.0-rc.1",
+		"@yoast/components": "^2.10.0-rc.4",
+		"@yoast/replacement-variable-editor": "^1.5.0-rc.4",
 		"@yoast/style-guide": "^0.13.0",
 		"lodash": "^4.17.11",
 		"prop-types": "^15.6.0",
