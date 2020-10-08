@@ -746,7 +746,8 @@ class WPSEO_Upgrade {
 	private function upgrade_151() {
 		$this->set_home_url_for_151();
 		$this->move_indexables_indexation_reason_for_151();
-
+		WPSEO_Options::set( 'category_base_url', 'category' );
+		WPSEO_Options::set( 'tag_base_url', 'tag' );
 		add_action( 'init', [ $this, 'store_custom_taxonomy_slugs_for_151' ] );
 		add_action( 'init', [ $this, 'set_permalink_structure_options_for_151' ] );
 	}

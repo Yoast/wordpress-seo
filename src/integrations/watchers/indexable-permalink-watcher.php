@@ -11,6 +11,7 @@ use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
+use Yoast\WP\SEO\Integrations\Admin\Indexing_Notification_Integration;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Presenters\Admin\Indexation_Permalink_Warning_Presenter;
 use Yoast\WP\SEO\WordPress\Wrapper;
@@ -49,6 +50,13 @@ class Indexable_Permalink_Watcher implements Integration_Interface {
 	 * @var Indexable_Helper
 	 */
 	protected $indexable_helper;
+
+	/**
+	 * The reindexing reason.
+	 *
+	 * @var string
+	 */
+	protected $reason;
 
 	/**
 	 * Gets the conditionals.
@@ -99,12 +107,12 @@ class Indexable_Permalink_Watcher implements Integration_Interface {
 
 		$taxonomies = $this->get_taxonomies_for_post_types( $post_types );
 		foreach ( $taxonomies as $taxonomy ) {
-			$this->indexable_helper->reset_permalink_indexables( 'term', $taxonomy );
+			$this->indexable_helper->reset_permalink_indexables( 'term', $taxonomy, $this->reason );
 		}
 
-		$this->indexable_helper->reset_permalink_indexables( 'user' );
-		$this->indexable_helper->reset_permalink_indexables( 'date-archive' );
-		$this->indexable_helper->reset_permalink_indexables( 'system-page' );
+		$this->indexable_helper->reset_permalink_indexables( 'user', null, $this->reason );
+		$this->indexable_helper->reset_permalink_indexables( 'date-archive', $this->reason );
+		$this->indexable_helper->reset_permalink_indexables( 'system-page' , null, $this->reason);
 
 		// Always update `permalink_structure`, `category_base_url` and `tag_base_url` in the wpseo option.
 		$this->options_helper->set( 'permalink_structure', \get_option( 'permalink_structure' ) );
@@ -118,8 +126,8 @@ class Indexable_Permalink_Watcher implements Integration_Interface {
 	 * @param string $post_type The post type to reset.
 	 */
 	public function reset_permalinks_post_type( $post_type ) {
-		$this->indexable_helper->reset_permalink_indexables( 'post', $post_type );
-		$this->indexable_helper->reset_permalink_indexables( 'post-type-archive', $post_type );
+		$this->indexable_helper->reset_permalink_indexables( 'post', $post_type, $this->reason );
+		$this->indexable_helper->reset_permalink_indexables( 'post-type-archive', $post_type, $this->reason );
 	}
 
 	/**
@@ -167,9 +175,16 @@ class Indexable_Permalink_Watcher implements Integration_Interface {
 	 * @return bool Whether the permalinks should be reset.
 	 */
 	public function should_reset_permalinks() {
-		if ( \get_option( 'permalink_structure' ) !== $this->options_helper->get( 'permalink_structure' ) ||
-			\get_option( 'category_base' ) !== $this->options_helper->get( 'category_base_url' ) ||
-			\get_option( 'tag_base' ) !== $this->options_helper->get( 'tag_base_url' ) ) {
+		if ( \get_option( 'permalink_structure' ) !== $this->options_helper->get( 'permalink_structure' ) ) {
+			$this->reason = Indexing_Notification_Integration::REASON_PERMALINK_SETTINGS;
+			return true;
+		}
+		else if ( \get_option( 'category_base' ) !== $this->options_helper->get( 'category_base_url' ) ) {
+			$this->reason = Indexing_Notification_Integration::REASON_CATEGORY_BASE_PREFIX;
+			return true;
+		}
+		else if ( \get_option( 'tag_base' ) !== $this->options_helper->get( 'tag_base_url' ) ) {
+			$this->reason = Indexing_Notification_Integration::REASON_TAG_BASE_PREFIX;
 			return true;
 		}
 		return false;
