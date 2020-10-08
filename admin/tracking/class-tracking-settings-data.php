@@ -161,6 +161,7 @@ class WPSEO_Tracking_Settings_Data implements WPSEO_Collection {
 		'semrush_integration_active',
 		'semrush_tokens',
 		'semrush_country_code',
+		'enable_enhanced_slack_sharing',
 	];
 
 	/**

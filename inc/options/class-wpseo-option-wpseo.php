@@ -73,6 +73,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'category_base_url'                        => '',
 		'tag_base_url'                             => '',
 		'custom_taxonomy_slugs'                    => [],
+		'enable_enhanced_slack_sharing'            => true,
 	];
 
 	/**
