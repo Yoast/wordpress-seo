@@ -1,8 +1,38 @@
-/* global jQuery */
+/* eslint-disable require-jsdoc */
+/* global jQuery, Marionette, elementor */
 import domReady from "@wordpress/dom-ready";
 import { registerReactComponent } from "../helpers/reactRoot";
-import YoastView from "../elementor/YoastView";
 import { get } from "lodash";
+import { Fragment, unmountComponentAtNode } from "@wordpress/element";
+import ElementorSlot from "../components/slots/ElementorSlot";
+import ElementorFill from "../containers/ElementorFill";
+import { renderReactRoot } from "../helpers/reactRoot";
+
+
+const YoastView = Marionette.ItemView.extend( {
+	template: false,
+	id: "elementor-panel-yoast",
+	className: "yoast-elementor yoast-sidebar-panel",
+
+	initialize() {
+		// Hide the search widget.
+		elementor.getPanelView().getCurrentPageView().search.reset();
+	},
+
+	onShow() {
+		renderReactRoot( window.YoastSEO.store, this.id, (
+			<Fragment>
+				<ElementorSlot />
+				<ElementorFill />
+			</Fragment>
+		) );
+	},
+
+	onDestroy() {
+		unmountComponentAtNode( this.$el[0] );
+	},
+} );
+
 
 /**
  * Adds the Yoast region to the Elementor regionviews.
