@@ -28,6 +28,11 @@ class Indexing_Notification_Integration implements Integration_Interface {
 	const NOTIFICATION_ID = 'wpseo-reindex';
 
 	/**
+	 * Represents the reason that the plugin has just been installed.
+	 */
+	const REASON_FIRST_INSTALL = 'first_install';
+
+	/**
 	 * Represents the reason that the indexing process failed and should be tried again.
 	 */
 	const REASON_INDEXING_FAILED = 'indexing_failed';
@@ -147,13 +152,14 @@ class Indexing_Notification_Integration implements Integration_Interface {
 			\add_action( 'admin_init', [ $this, 'cleanup_notification' ] );
 		}
 
-		if ( $this->should_show_notification() || ! \wp_next_scheduled( self::NOTIFICATION_ID ) ) {
-			$this->create_notification();
-		}
-
 		if ( ! \wp_next_scheduled( self::NOTIFICATION_ID ) ) {
 			\wp_schedule_event( $this->date_helper->current_time(), 'daily', self::NOTIFICATION_ID );
 			\add_action( self::NOTIFICATION_ID, [ $this, 'create_notification' ] );
+			$this->options_helper->set( 'indexing_reason', self::REASON_FIRST_INSTALL );
+		}
+
+		if ( $this->options_helper->get( 'indexing_reason' ) ) {
+			$this->create_notification();
 		}
 	}
 
