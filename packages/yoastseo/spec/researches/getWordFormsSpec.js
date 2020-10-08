@@ -413,3 +413,56 @@ describe( "A test for creating basic morphology forms in supported languages", (
 		);
 	} );
 } );
+
+describe( "A test for creating basic morphology forms in supported languages", () => {
+	it( "returns all possible prefixed forms for Farsi keyphrases", () => {
+		const attributes = {
+			keyword: "دانشجوی زرنگی",
+			locale: "fa",
+		};
+		const testPaper = new Paper( "", attributes );
+		const researcher = new Researcher( testPaper );
+
+		expect( getWordForms( testPaper, researcher ) ).toEqual(
+			{
+				keyphraseForms: [
+					[
+						"دانشجوی",
+						"ندانشجوی",
+						"دانشجوی‌ای",
+						"دانشجویمان",
+						"دانشجویشان",
+						"دانشجویتان",
+						"دانشجویش",
+						"دانشجویت",
+						"دانشجویم",
+						"دانشجویی",
+						"دانشجو",
+						"ندانشجو",
+					],
+					[
+						"زرنگی",
+						"نزرنگی",
+						"زرنگی‌ای",
+						"زرنگیمان",
+						"زرنگیشان",
+						"زرنگیتان",
+						"زرنگیش",
+						"زرنگیت",
+						"زرنگیم",
+						"زرنگیی",
+						"زرنگ",
+						"نزرنگ",
+						"زرنگمان",
+						"زرنگشان",
+						"زرنگتان",
+						"زرنگش",
+						"زرنگت",
+						"زرنگم",
+					],
+				],
+				synonymsForms: [],
+			}
+		);
+	} );
+} );
