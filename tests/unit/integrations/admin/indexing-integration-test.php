@@ -163,7 +163,7 @@ class Indexing_Integration_Test extends TestCase {
 			->once()
 			->andReturn( 84 );
 
-		$this->assertEquals( 145, $this->instance->get_total_unindexed() );
+		$this->assertEquals( 84, $this->instance->get_total_unindexed() );
 	}
 
 	/**
@@ -231,8 +231,6 @@ class Indexing_Integration_Test extends TestCase {
 							'terms'     => 'yoast/v1/indexation/terms',
 							'archives'  => 'yoast/v1/indexation/post-type-archives',
 							'general'   => 'yoast/v1/indexation/general',
-							'post-link' => 'yoast/v1/link-indexing/posts',
-							'term-link' => 'yoast/v1/link-indexing/terms',
 							'complete'  => 'yoast/v1/indexation/complete',
 						],
 					'nonce'     => 'nonce_value',
