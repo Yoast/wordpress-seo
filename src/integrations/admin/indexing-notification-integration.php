@@ -147,14 +147,16 @@ class Indexing_Notification_Integration implements Integration_Interface {
 			\add_action( 'admin_init', [ $this, 'cleanup_notification' ] );
 		}
 
-		if ( ! \wp_next_scheduled( self::NOTIFICATION_ID ) ) {
-			\wp_schedule_event( $this->date_helper->current_time(), 'daily', self::NOTIFICATION_ID );
-			\add_action( self::NOTIFICATION_ID, [ $this, 'create_notification' ] );
+		if ( $this->options_helper->get( 'indexing_reason' ) || ! \wp_next_scheduled( self::NOTIFICATION_ID ) ) {
+			\add_action( 'admin_init', [ $this, 'create_notification' ] );
 		}
 
-		if ( $this->options_helper->get( 'indexing_reason' ) ) {
-			$this->create_notification();
+		if ( ! \wp_next_scheduled( self::NOTIFICATION_ID ) ) {
+			\wp_schedule_event( $this->date_helper->current_time(), 'daily', self::NOTIFICATION_ID );
+			return;
 		}
+
+		\add_action( self::NOTIFICATION_ID, [ $this, 'create_notification' ] );
 	}
 
 	/**
