@@ -264,7 +264,9 @@ class Indexable_Link_Builder {
 			if ( ! $target ) {
 				// If target indexable cannot be found, create one based on the post's post ID.
 				$post_id = $this->get_post_id( $model->type, $permalink );
-				$target  = $this->indexable_repository->find_by_id_and_type( $post_id, 'post' );
+				if ( $post_id && $post_id !== 0 ) {
+					$target = $this->indexable_repository->find_by_id_and_type( $post_id, 'post' );
+				}
 			}
 
 			if ( ! $target ) {
