@@ -71,6 +71,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'home_url'                                 => '',
 		'dynamic_permalinks'                       => false,
 		'custom_taxonomy_slugs'                    => [],
+		'enable_enhanced_slack_sharing'            => true,
 	];
 
 	/**
