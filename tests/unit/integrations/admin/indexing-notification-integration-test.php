@@ -171,12 +171,18 @@ class Indexing_Notification_Integration_Test extends TestCase {
 			->andReturn( 'another_page' );
 
 		Monkey\Functions\expect( 'wp_next_scheduled' )
-			->once()
+			->twice()
 			->andReturn( true );
 
 		Monkey\Actions\expectAdded( Indexing_Notification_Integration::NOTIFICATION_ID )
 			->with( [ $this->instance, 'create_notification' ] )
 			->once();
+
+		$this->options_helper
+			->expects( 'get' )
+			->with( 'indexing_reason' )
+			->once()
+			->andReturn( '' );
 
 		$this->instance->register_hooks();
 	}
@@ -198,12 +204,18 @@ class Indexing_Notification_Integration_Test extends TestCase {
 			->once();
 
 		Monkey\Functions\expect( 'wp_next_scheduled' )
-			->once()
+			->twice()
 			->andReturn( true );
 
 		Monkey\Actions\expectAdded( Indexing_Notification_Integration::NOTIFICATION_ID )
 			->with( [ $this->instance, 'create_notification' ] )
 			->once();
+
+		$this->options_helper
+			->expects( 'get' )
+			->with( 'indexing_reason' )
+			->once()
+			->andReturn( '' );
 
 		$this->instance->register_hooks();
 	}
@@ -221,6 +233,40 @@ class Indexing_Notification_Integration_Test extends TestCase {
 			->andReturn( 'another_page' );
 
 		Monkey\Functions\expect( 'wp_next_scheduled' )
+			->twice()
+			->andReturn( false );
+
+		$mocked_time = 1234567;
+
+		$this->date_helper
+			->expects( 'current_time' )
+			->andReturn( $mocked_time );
+
+		Monkey\Functions\expect( 'wp_schedule_event' )
+			->with( $mocked_time, 'daily', Indexing_Notification_Integration::NOTIFICATION_ID );
+
+		$this->options_helper
+			->expects( 'get' )
+			->with( 'indexing_reason' )
+			->once()
+			->andReturn( '' );
+
+		$this->instance->register_hooks();
+	}
+
+	/**
+	 * Tests the registration of the hooks.
+	 * Tests whether the notification is shown when there is a reason set.
+	 *
+	 * @covers ::register_hooks
+	 */
+	public function test_register_hooks_create_notification_on_reason() {
+		$this->page_helper
+			->expects( 'get_current_yoast_seo_page' )
+			->once()
+			->andReturn( 'another_page' );
+
+		Monkey\Functions\expect( 'wp_next_scheduled' )
 			->once()
 			->andReturn( false );
 
@@ -232,6 +278,12 @@ class Indexing_Notification_Integration_Test extends TestCase {
 
 		Monkey\Functions\expect( 'wp_schedule_event' )
 			->with( $mocked_time, 'daily', Indexing_Notification_Integration::NOTIFICATION_ID );
+
+		$this->options_helper
+			->expects( 'get' )
+			->with( 'indexing_reason' )
+			->once()
+			->andReturn( Indexing_Notification_Integration::REASON_CATEGORY_BASE_PREFIX );
 
 		$this->instance->register_hooks();
 	}
