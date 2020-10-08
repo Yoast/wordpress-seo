@@ -8,7 +8,7 @@ use Yoast\WP\SEO\Actions\Indexation\Indexable_Post_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexation\Indexable_Post_Type_Archive_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexation\Indexable_Term_Indexation_Action;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
-use Yoast\WP\SEO\Conditionals\Yoast_Tools_Page_Conditional;
+use Yoast\WP\SEO\Conditionals\Yoast_Admin_And_Dashboard_Conditional;
 use Yoast\WP\SEO\Integrations\Indexing_Interface;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Routes\Indexable_Indexation_Route;
@@ -69,7 +69,7 @@ class Indexing_Indexables_Integration implements Indexing_Interface, Integration
 	 */
 	public static function get_conditionals() {
 		return [
-			Yoast_Tools_Page_Conditional::class,
+			Yoast_Admin_And_Dashboard_Conditional::class,
 			Migrations_Conditional::class,
 		];
 	}
@@ -113,6 +113,8 @@ class Indexing_Indexables_Integration implements Indexing_Interface, Integration
 		$total_unindexed = $this->get_total_unindexed();
 		if ( $total_unindexed === 0 ) {
 			$this->complete_indexation_action->complete();
+
+			return;
 		}
 
 		if ( $total_unindexed < $this->get_shutdown_limit() ) {
