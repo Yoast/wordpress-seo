@@ -118,18 +118,18 @@ class WPSEO_Image_Utils {
 		/**
 		 * Filter: 'wpseo_image_get_data' - Filter image data.
 		 *
-		 * @api array $image {
+		 * @api array {
 		 *     Array of image data
 		 *
-		 *     @type string $alt      Image's alt text.
-		 *     @type string $alt      Image's alt text.
-		 *     @type int    $width    Width of image.
-		 *     @type int    $height   Height of image.
-		 *     @type string $type     Image's MIME type.
-		 *     @type string $url      Image's URL.
-		 *     @type int    $filesize The file size in bytes, if already set.
+		 *     @type string alt      Image's alt text.
+		 *     @type string alt      Image's alt text.
+		 *     @type int    width    Width of image.
+		 *     @type int    height   Height of image.
+		 *     @type string type     Image's MIME type.
+		 *     @type string url      Image's URL.
+		 *     @type int    filesize The file size in bytes, if already set.
 		 * }
-		 * @api int $attachment_id Attachment ID.
+		 * @api int  Attachment ID.
 		 */
 		$image = apply_filters( 'wpseo_image_get_data', $image, $attachment_id );
 
