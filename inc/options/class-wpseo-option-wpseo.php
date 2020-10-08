@@ -31,8 +31,9 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'ms_defaults_set'                          => false,
 		'ignore_search_engines_discouraged_notice' => false,
 		'indexation_warning_hide_until'            => false,
+		'indexing_first_time'                      => true,
 		'indexation_started'                       => null,
-		'indexables_indexation_reason'             => '',
+		'indexing_reason'                          => '',
 		'indexables_indexation_completed'          => false,
 		// Non-form field, should only be set via validation routine.
 		'version'                                  => '', // Leave default as empty to ensure activation/upgrade works.
@@ -69,6 +70,8 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'permalink_structure'                      => '',
 		'home_url'                                 => '',
 		'dynamic_permalinks'                       => false,
+		'custom_taxonomy_slugs'                    => [],
+		'enable_enhanced_slack_sharing'            => true,
 	];
 
 	/**
@@ -257,7 +260,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 						$clean[ $key ] = $dirty[ $key ];
 					}
 					break;
-				case 'indexables_indexation_reason':
+				case 'indexing_reason':
 					if ( isset( $dirty[ $key ] ) ) {
 						$clean[ $key ] = sanitize_text_field( $dirty[ $key ] );
 					}
@@ -318,36 +321,22 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 					}
 					break;
 
-				case 'myyoast_oauth':
-					$clean[ $key ] = $old[ $key ];
-
-					if ( isset( $dirty[ $key ] ) ) {
-						$myyoast_oauth = $dirty[ $key ];
-						if ( ! is_array( $myyoast_oauth ) ) {
-							$myyoast_oauth = json_decode( $dirty[ $key ], true );
-						}
-
-						if ( is_array( $myyoast_oauth ) ) {
-							$clean[ $key ] = $dirty[ $key ];
-						}
-					}
-
-					break;
-
 				case 'tracking':
 					$clean[ $key ] = ( isset( $dirty[ $key ] ) ? WPSEO_Utils::validate_bool( $dirty[ $key ] ) : null );
 					break;
 
+				case 'myyoast_oauth':
 				case 'semrush_tokens':
+				case 'custom_taxonomy_slugs':
 					$clean[ $key ] = $old[ $key ];
 
 					if ( isset( $dirty[ $key ] ) ) {
-						$semrush_tokens = $dirty[ $key ];
-						if ( ! is_array( $semrush_tokens ) ) {
-							$semrush_tokens = json_decode( $dirty[ $key ], true );
+						$items = $dirty[ $key ];
+						if ( ! is_array( $items ) ) {
+							$items = json_decode( $dirty[ $key ], true );
 						}
 
-						if ( is_array( $semrush_tokens ) ) {
+						if ( is_array( $items ) ) {
 							$clean[ $key ] = $dirty[ $key ];
 						}
 					}
@@ -370,6 +359,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 				 *  'enable_headless_rest_endpoints'
 				 *  'yoast_tracking'
 				 *  'dynamic_permalinks'
+				 *  'indexing_first_time'
 				 */
 				default:
 					$clean[ $key ] = ( isset( $dirty[ $key ] ) ? WPSEO_Utils::validate_bool( $dirty[ $key ] ) : false );

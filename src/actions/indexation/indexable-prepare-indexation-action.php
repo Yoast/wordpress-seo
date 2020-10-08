@@ -44,6 +44,7 @@ class Indexable_Prepare_Indexation_Action {
 	 * @return void
 	 */
 	public function prepare() {
+		$this->options->set( 'indexing_first_time', false );
 		$this->options->set( 'indexation_started', $this->date->current_time() );
 	}
 }

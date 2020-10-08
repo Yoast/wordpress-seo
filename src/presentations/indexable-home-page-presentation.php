@@ -59,13 +59,4 @@ class Indexable_Home_Page_Presentation extends Indexable_Presentation {
 
 		return $this->options->get_title_default( 'title-home-wpseo' );
 	}
-
-	/**
-	 * Generates the open graph url.
-	 *
-	 * @return string The open graph url.
-	 */
-	public function generate_open_graph_url() {
-		return $this->url->home();
-	}
 }

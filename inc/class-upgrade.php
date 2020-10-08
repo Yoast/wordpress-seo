@@ -14,9 +14,16 @@ use Yoast\WP\SEO\Integrations\Admin\Indexing_Integration;
 class WPSEO_Upgrade {
 
 	/**
+	 * @var \Yoast\WP\SEO\Helpers\Taxonomy_Helper
+	 */
+	private $taxonomy_helper;
+
+	/**
 	 * Class constructor.
 	 */
 	public function __construct() {
+		$this->taxonomy_helper = YoastSEO()->helpers->taxonomy;
+
 		$version = WPSEO_Options::get( 'version' );
 
 		WPSEO_Options::maybe_set_multisite_defaults( false );
@@ -737,13 +744,35 @@ class WPSEO_Upgrade {
 	 * @return void
 	 */
 	private function upgrade_151() {
+		$this->set_home_url_for_151();
+		$this->move_indexables_indexation_reason_for_151();
+
+		add_action( 'init', [ $this, 'set_permalink_structure_option_for_151' ] );
+		add_action( 'init', [ $this, 'store_custom_taxonomy_slugs_for_151' ] );
+	}
+
+	/**
+	 * Sets the home_url option for the 15.1 upgrade routine.
+	 *
+	 * @return void
+	 */
+	protected function set_home_url_for_151() {
 		$home_url = WPSEO_Options::get( 'home_url' );
 
 		if ( empty( $home_url ) ) {
 			WPSEO_Options::set( 'home_url', get_home_url() );
 		}
+	}
 
-		add_action( 'init', [ $this, 'set_permalink_structure_option_for_151' ] );
+	/**
+	 * Moves the `indexables_indexation_reason` option to the
+	 * renamed `indexing_reason` option.
+	 *
+	 * @return void
+	 */
+	protected function move_indexables_indexation_reason_for_151() {
+		$reason = WPSEO_Options::get( 'indexables_indexation_reason', '' );
+		WPSEO_Options::set( 'indexing_reason', $reason );
 	}
 
 	/**
@@ -1011,5 +1040,24 @@ class WPSEO_Upgrade {
 	 */
 	public function set_permalink_structure_option_for_151() {
 		WPSEO_Options::set( 'permalink_structure', get_option( 'permalink_structure' ) );
+	}
+
+	/**
+	 * Stores the initial slugs of custom taxonomies.
+	 *
+	 * @return void
+	 */
+	public function store_custom_taxonomy_slugs_for_151() {
+		$taxonomies = $this->taxonomy_helper->get_custom_taxonomies();
+
+		$custom_taxonomies = [];
+
+		foreach ( $taxonomies as $taxonomy ) {
+			$slug = $this->taxonomy_helper->get_taxonomy_slug( $taxonomy );
+
+			$custom_taxonomies[ $taxonomy ] = $slug;
+		}
+
+		WPSEO_Options::set( 'custom_taxonomy_slugs', $custom_taxonomies );
 	}
 }

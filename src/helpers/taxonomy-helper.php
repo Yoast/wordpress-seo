@@ -85,4 +85,33 @@ class Taxonomy_Helper {
 	public function get_term_meta( $term ) {
 		return WPSEO_Taxonomy_Meta::get_term_meta( $term, $term->taxonomy, null );
 	}
+
+	/**
+	 * Gets the passed taxonomy's slug.
+	 *
+	 * @param string $taxonomy The name of the taxonomy.
+	 *
+	 * @return string The slug for the taxonomy. Returns the taxonomy's name if no slug could be found.
+	 */
+	public function get_taxonomy_slug( $taxonomy ) {
+		$taxonomy_object = \get_taxonomy( $taxonomy );
+
+		if ( $taxonomy_object && property_exists( $taxonomy_object, 'rewrite' ) && is_array( $taxonomy_object->rewrite ) && isset( $taxonomy_object->rewrite['slug'] ) ) {
+			return $taxonomy_object->rewrite['slug'];
+		}
+
+		return strtolower( $taxonomy_object->name );
+	}
+
+	/**
+	 * Returns an array with the custom taxonomies.
+	 *
+	 * @param string $output The output type to use.
+	 *
+	 * @return string[]|WP_Taxonomy[] Array with all the custom taxonomies.
+	 *                                The type depends on the specified output variable.
+	 */
+	public function get_custom_taxonomies( $output = 'names' ) {
+		return \get_taxonomies( [ '_builtin' => false ], $output );
+	}
 }

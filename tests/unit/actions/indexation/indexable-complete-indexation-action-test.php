@@ -61,7 +61,7 @@ class Indexable_Complete_Indexation_Action_Test extends TestCase {
 	 */
 	public function test_complete_method() {
 		$this->options->expects( 'set' )->with( 'indexation_started', 0 );
-		$this->options->expects( 'set' )->with( 'indexables_indexation_reason', '' );
+		$this->options->expects( 'set' )->with( 'indexing_reason', '' );
 		$this->options->expects( 'set' )->with( 'indexables_indexation_completed', true );
 
 		$this->instance->complete();

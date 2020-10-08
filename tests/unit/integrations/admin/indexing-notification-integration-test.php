@@ -4,6 +4,7 @@ use Brain\Monkey;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Date_Helper;
+use Yoast\WP\SEO\Helpers\Notification_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Helpers\Short_Link_Helper;
@@ -76,6 +77,13 @@ class Indexing_Notification_Integration_Test extends TestCase {
 	protected $short_link_helper;
 
 	/**
+	 * The notification helper.
+	 *
+	 * @var Notification_Helper
+	 */
+	protected $notification_helper;
+
+	/**
 	 * Sets up the tests.
 	 */
 	public function setUp() {
@@ -88,6 +96,7 @@ class Indexing_Notification_Integration_Test extends TestCase {
 		$this->page_helper          = Mockery::mock( Current_Page_Helper::class );
 		$this->date_helper          = Mockery::mock( Date_Helper::class );
 		$this->short_link_helper    = Mockery::mock( Short_Link_Helper::class );
+		$this->notification_helper  = Mockery::mock( Notification_Helper::class );
 
 		$this->instance = new Indexing_Notification_Integration(
 			$this->indexing_integration,
@@ -96,7 +105,8 @@ class Indexing_Notification_Integration_Test extends TestCase {
 			$this->product_helper,
 			$this->page_helper,
 			$this->date_helper,
-			$this->short_link_helper
+			$this->short_link_helper,
+			$this->notification_helper
 		);
 	}
 
@@ -126,6 +136,26 @@ class Indexing_Notification_Integration_Test extends TestCase {
 			'product_helper',
 			$this->instance
 		);
+		$this->assertAttributeInstanceOf(
+			Current_Page_Helper::class,
+			'page_helper',
+			$this->instance
+		);
+		$this->assertAttributeInstanceOf(
+			Date_Helper::class,
+			'date_helper',
+			$this->instance
+		);
+		$this->assertAttributeInstanceOf(
+			Short_Link_Helper::class,
+			'short_link_helper',
+			$this->instance
+		);
+		$this->assertAttributeInstanceOf(
+			Notification_Helper::class,
+			'notification_helper',
+			$this->instance
+		);
 	}
 
 	/**
@@ -141,12 +171,18 @@ class Indexing_Notification_Integration_Test extends TestCase {
 			->andReturn( 'another_page' );
 
 		Monkey\Functions\expect( 'wp_next_scheduled' )
-			->once()
+			->twice()
 			->andReturn( true );
 
 		Monkey\Actions\expectAdded( Indexing_Notification_Integration::NOTIFICATION_ID )
 			->with( [ $this->instance, 'create_notification' ] )
 			->once();
+
+		$this->options_helper
+			->expects( 'get' )
+			->with( 'indexing_reason' )
+			->once()
+			->andReturn( '' );
 
 		$this->instance->register_hooks();
 	}
@@ -168,12 +204,18 @@ class Indexing_Notification_Integration_Test extends TestCase {
 			->once();
 
 		Monkey\Functions\expect( 'wp_next_scheduled' )
-			->once()
+			->twice()
 			->andReturn( true );
 
 		Monkey\Actions\expectAdded( Indexing_Notification_Integration::NOTIFICATION_ID )
 			->with( [ $this->instance, 'create_notification' ] )
 			->once();
+
+		$this->options_helper
+			->expects( 'get' )
+			->with( 'indexing_reason' )
+			->once()
+			->andReturn( '' );
 
 		$this->instance->register_hooks();
 	}
@@ -185,6 +227,40 @@ class Indexing_Notification_Integration_Test extends TestCase {
 	 * @covers ::register_hooks
 	 */
 	public function test_register_hooks_schedule_notification() {
+		$this->page_helper
+			->expects( 'get_current_yoast_seo_page' )
+			->once()
+			->andReturn( 'another_page' );
+
+		Monkey\Functions\expect( 'wp_next_scheduled' )
+			->twice()
+			->andReturn( false );
+
+		$mocked_time = 1234567;
+
+		$this->date_helper
+			->expects( 'current_time' )
+			->andReturn( $mocked_time );
+
+		Monkey\Functions\expect( 'wp_schedule_event' )
+			->with( $mocked_time, 'daily', Indexing_Notification_Integration::NOTIFICATION_ID );
+
+		$this->options_helper
+			->expects( 'get' )
+			->with( 'indexing_reason' )
+			->once()
+			->andReturn( '' );
+
+		$this->instance->register_hooks();
+	}
+
+	/**
+	 * Tests the registration of the hooks.
+	 * Tests whether the notification is shown when there is a reason set.
+	 *
+	 * @covers ::register_hooks
+	 */
+	public function test_register_hooks_create_notification_on_reason() {
 		$this->page_helper
 			->expects( 'get_current_yoast_seo_page' )
 			->once()
@@ -203,6 +279,12 @@ class Indexing_Notification_Integration_Test extends TestCase {
 		Monkey\Functions\expect( 'wp_schedule_event' )
 			->with( $mocked_time, 'daily', Indexing_Notification_Integration::NOTIFICATION_ID );
 
+		$this->options_helper
+			->expects( 'get' )
+			->with( 'indexing_reason' )
+			->once()
+			->andReturn( Indexing_Notification_Integration::REASON_CATEGORY_BASE_PREFIX );
+
 		$this->instance->register_hooks();
 	}
 
@@ -219,39 +301,12 @@ class Indexing_Notification_Integration_Test extends TestCase {
 	}
 
 	/**
-	 * Tests creating the notification when it already exists.
-	 *
-	 * @covers ::create_notification
-	 */
-	public function test_create_existing_notification() {
-		$this->notification_center
-			->expects( 'get_notification_by_id' )
-			->once()
-			->andReturn( 'the_notification' );
-
-		$this->options_helper
-			->expects( 'get' )
-			->never();
-
-		$this->notification_center
-			->expects( 'add_notification' )
-			->never();
-
-		$this->instance->create_notification();
-	}
-
-	/**
 	 * Tests creating the notification when there are no unindexed items.
 	 *
 	 * @covers ::create_notification
 	 * @covers ::should_show_notification
 	 */
 	public function test_create_notification_no_unindexed_items() {
-		$this->notification_center
-			->expects( 'get_notification_by_id' )
-			->once()
-			->andReturnNull();
-
 		$this->indexing_integration
 			->expects( 'get_total_unindexed' )
 			->once()
@@ -276,11 +331,6 @@ class Indexing_Notification_Integration_Test extends TestCase {
 	 * @covers ::notification
 	 */
 	public function test_create_notification_with_indexing_failed_reason() {
-		$this->notification_center
-			->expects( 'get_notification_by_id' )
-			->once()
-			->andReturnNull();
-
 		$this->indexing_integration
 			->expects( 'get_total_unindexed' )
 			->once()
@@ -288,12 +338,20 @@ class Indexing_Notification_Integration_Test extends TestCase {
 
 		$this->options_helper
 			->expects( 'get' )
-			->with( 'indexables_indexation_reason', '' )
+			->with( 'indexing_reason', '' )
 			->twice()
 			->andReturn( 'indexing_failed' );
 
 		Monkey\Functions\expect( 'wp_get_current_user' )
 			->andReturn( 'user' );
+
+		$this->notification_helper
+			->expects( 'restore_notification' )
+			->once();
+
+		$this->options_helper
+			->expects( 'set' )
+			->once();
 
 		$this->notification_center
 			->expects( 'add_notification' )
@@ -315,11 +373,6 @@ class Indexing_Notification_Integration_Test extends TestCase {
 	 * @param string $reason The reason for indexing.
 	 */
 	public function test_create_notification_with_indexing_reasons( $reason ) {
-		$this->notification_center
-			->expects( 'get_notification_by_id' )
-			->once()
-			->andReturnNull();
-
 		$this->indexing_integration
 			->expects( 'get_total_unindexed' )
 			->twice()
@@ -327,7 +380,7 @@ class Indexing_Notification_Integration_Test extends TestCase {
 
 		$this->options_helper
 			->expects( 'get' )
-			->with( 'indexables_indexation_reason', '' )
+			->with( 'indexing_reason', '' )
 			->twice()
 			->andReturn( $reason );
 
@@ -335,6 +388,14 @@ class Indexing_Notification_Integration_Test extends TestCase {
 
 		Monkey\Functions\expect( 'wp_get_current_user' )
 			->andReturn( 'user' );
+
+		$this->notification_helper
+			->expects( 'restore_notification' )
+			->once();
+
+		$this->options_helper
+			->expects( 'set' )
+			->once();
 
 		$this->notification_center
 			->expects( 'add_notification' )
@@ -369,13 +430,8 @@ class Indexing_Notification_Integration_Test extends TestCase {
 
 		$this->date_helper
 			->expects( 'current_time' )
-			->twice()
-			->andReturn( $mocked_time );
-
-		$this->notification_center
-			->expects( 'get_notification_by_id' )
 			->once()
-			->andReturnNull();
+			->andReturn( $mocked_time );
 
 		$this->indexing_integration
 			->expects( 'get_total_unindexed' )
@@ -384,7 +440,7 @@ class Indexing_Notification_Integration_Test extends TestCase {
 
 		$this->options_helper
 			->expects( 'get' )
-			->with( 'indexables_indexation_reason', '' )
+			->with( 'indexing_reason', '' )
 			->twice()
 			->andReturn( '' );
 
@@ -396,16 +452,123 @@ class Indexing_Notification_Integration_Test extends TestCase {
 
 		$this->options_helper
 			->expects( 'get' )
-			->with( 'indexation_warning_hide_until' )
+			->with( 'indexation_warning_hide_until', false )
 			->once()
-			->andReturn( 1693426177 );
+			->andReturn( false );
 
 		Monkey\Functions\expect( 'wp_get_current_user' )
 			->andReturn( 'user' );
 
+		$this->notification_helper
+			->expects( 'restore_notification' )
+			->once();
+
+		$this->options_helper
+			->expects( 'set' )
+			->once();
+
 		$this->notification_center
 			->expects( 'add_notification' )
 			->once();
+
+		$this->instance->create_notification();
+	}
+
+	/**
+	 * Tests whether a notification is shown when the "Hide for 7 days" is clicked and the 7 days have expired.
+	 *
+	 * @covers ::create_notification
+	 * @covers ::should_show_notification
+	 * @covers ::notification
+	 */
+	public function test_create_notification_when_hide_has_expired() {
+		$mocked_time = 1653426177;
+
+		$this->date_helper
+			->expects( 'current_time' )
+			->twice()
+			->andReturn( $mocked_time );
+
+		$this->indexing_integration
+			->expects( 'get_total_unindexed' )
+			->twice()
+			->andReturn( 40 );
+
+		$this->options_helper
+			->expects( 'get' )
+			->with( 'indexing_reason', '' )
+			->twice()
+			->andReturn( '' );
+
+		$this->options_helper
+			->expects( 'get' )
+			->with( 'indexation_started' )
+			->once()
+			->andReturn( 1593426177 );
+
+		$this->options_helper
+			->expects( 'get' )
+			->with( 'indexation_warning_hide_until', false )
+			->once()
+			->andReturn( 1653426176 );
+
+		Monkey\Functions\expect( 'wp_get_current_user' )
+			->andReturn( 'user' );
+
+		$this->notification_helper
+			->expects( 'restore_notification' )
+			->once();
+
+		$this->options_helper
+			->expects( 'set' )
+			->once();
+
+		$this->notification_center
+			->expects( 'add_notification' )
+			->once();
+
+		$this->instance->create_notification();
+	}
+
+	/**
+	 * Tests whether a notification is shown when the "Hide for 7 days" is clicked and the 7 days have NOT expired.
+	 *
+	 * @covers ::create_notification
+	 * @covers ::should_show_notification
+	 */
+	public function test_create_notification_when_hide_has_not_expired() {
+		$mocked_time = 1653426177;
+
+		$this->date_helper
+			->expects( 'current_time' )
+			->twice()
+			->andReturn( $mocked_time );
+
+		$this->indexing_integration
+			->expects( 'get_total_unindexed' )
+			->once()
+			->andReturn( 40 );
+
+		$this->options_helper
+			->expects( 'get' )
+			->with( 'indexing_reason', '' )
+			->once()
+			->andReturn( '' );
+
+		$this->options_helper
+			->expects( 'get' )
+			->with( 'indexation_started' )
+			->once()
+			->andReturn( 1593426177 );
+
+		$this->options_helper
+			->expects( 'get' )
+			->with( 'indexation_warning_hide_until', false )
+			->once()
+			->andReturn( 1653426178 );
+
+		Monkey\Functions\expect( 'wp_get_current_user' )
+			->andReturn( 'user' );
 
 		$this->instance->create_notification();
 	}
@@ -426,11 +589,6 @@ class Indexing_Notification_Integration_Test extends TestCase {
 			->expects( 'current_time' )
 			->andReturn( $mocked_time );
 
-		$this->notification_center
-			->expects( 'get_notification_by_id' )
-			->once()
-			->andReturnNull();
-
 		$this->indexing_integration
 			->expects( 'get_total_unindexed' )
 			->once()
@@ -438,7 +596,7 @@ class Indexing_Notification_Integration_Test extends TestCase {
 
 		$this->options_helper
 			->expects( 'get' )
-			->with( 'indexables_indexation_reason', '' )
+			->with( 'indexing_reason', '' )
 			->once()
 			->andReturn( '' );
 
@@ -450,6 +608,14 @@ class Indexing_Notification_Integration_Test extends TestCase {
 
 		Monkey\Functions\expect( 'wp_get_current_user' )
 			->andReturn( 'user' );
+
+		$this->notification_helper
+			->expects( 'restore_notification' )
+			->never();
+
+		$this->options_helper
+			->expects( 'set' )
+			->never();
 
 		$this->notification_center
 			->expects( 'add_notification' )
@@ -499,7 +665,7 @@ class Indexing_Notification_Integration_Test extends TestCase {
 
 		$this->options_helper
 			->expects( 'get' )
-			->with( 'indexables_indexation_reason', '' )
+			->with( 'indexing_reason', '' )
 			->once()
 			->andReturn( 'indexing_failed' );
 
