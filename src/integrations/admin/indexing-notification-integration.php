@@ -153,10 +153,8 @@ class Indexing_Notification_Integration implements Integration_Interface {
 
 		if ( ! \wp_next_scheduled( self::NOTIFICATION_ID ) ) {
 			\wp_schedule_event( $this->date_helper->current_time(), 'daily', self::NOTIFICATION_ID );
-			return;
+			\add_action( self::NOTIFICATION_ID, [ $this, 'create_notification' ] );
 		}
-
-		\add_action( self::NOTIFICATION_ID, [ $this, 'create_notification' ] );
 	}
 
 	/**
