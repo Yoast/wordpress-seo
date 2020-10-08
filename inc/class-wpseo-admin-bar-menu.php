@@ -326,8 +326,8 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 			],
 			[
 				'id'     => 'wpseo-structureddata',
-				'title'  => __( 'Google Structured Data Test', 'wordpress-seo' ),
-				'href'   => 'https://search.google.com/structured-data/testing-tool#url=' . $encoded_url,
+				'title'  => __( 'Google Rich Results Test', 'wordpress-seo' ),
+				'href'   => 'https://search.google.com/test/rich-results?url=' . $encoded_url,
 			],
 			[
 				'id'     => 'wpseo-facebookdebug',
