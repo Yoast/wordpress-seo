@@ -89,7 +89,7 @@ class WPSEO_Image_Utils {
 	 *     Array of image data
 	 *
 	 *     @type string $alt      Image's alt text.
-	 *     @type int    $path     Path of image.
+	 *     @type string $path     Path of image.
 	 *     @type int    $width    Width of image.
 	 *     @type int    $height   Height of image.
 	 *     @type string $type     Image's MIME type.
