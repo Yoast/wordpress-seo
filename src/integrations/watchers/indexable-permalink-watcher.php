@@ -145,11 +145,17 @@ class Indexable_Permalink_Watcher implements Integration_Interface {
 			$subtype = \substr( $type, 0, -5 );
 		}
 
+		if ( $subtype === 'category' ) {
+			$subtype = 'post_category';
+			$this->reason = Indexing_Notification_Integration::REASON_CATEGORY_BASE_PREFIX;
+		}
+
 		if ( $subtype === 'tag' ) {
+			$this->reason = Indexing_Notification_Integration::REASON_TAG_BASE_PREFIX;
 			$subtype = 'post_tag';
 		}
 
-		$this->indexable_helper->reset_permalink_indexables( 'term', $subtype );
+		$this->indexable_helper->reset_permalink_indexables( 'term', $subtype, $this->reason );
 	}
 
 	/**
@@ -210,7 +216,7 @@ class Indexable_Permalink_Watcher implements Integration_Interface {
 			}
 
 			if ( $taxonomy_slug !== $custom_taxonomy_bases[ $taxonomy ] ) {
-				$this->indexable_helper->reset_permalink_indexables( 'term', $taxonomy );
+				$this->indexable_helper->reset_permalink_indexables( 'term', $taxonomy, $this->reason );
 			}
 		}
 
