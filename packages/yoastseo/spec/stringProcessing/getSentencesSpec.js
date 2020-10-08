@@ -283,27 +283,74 @@ describe( "Get sentences from text", function() {
 
 		testGetSentences( testCases );
 	} );
-	it( "", function() {
+
+	it( "can deal with brackets", function() {
 		var testCases = [
+			{
+				input: "This is a sentence (with blockends) and is still one sentence.",
+				expected: [ "This is a sentence (with blockends) and is still one sentence." ],
+			},
 			{
 				input: "This is a sentence (with blockends.) and is still one sentence.",
 				expected: [ "This is a sentence (with blockends.) and is still one sentence." ],
+			},
+			{
+				input: "This is a sentence (with blockends?) and is still one sentence.",
+				expected: [ "This is a sentence (with blockends?) and is still one sentence." ],
+			},
+			{
+				input: "This is a sentence (with blockends). this is still one sentence.",
+				expected: [ "This is a sentence (with blockends). this is still one sentence." ],
+			},
+			// Second sentence starts with lower-case letter, but unlike a full stop, a "?" is an unambiguous sentence ending.
+			{
+				input: "This is a sentence (with blockends)? this is still one sentence.",
+				expected: [ "This is a sentence (with blockends)?", "this is still one sentence." ],
 			},
 			{
 				input: "This is a sentence (with blockends.). This is a second sentence.",
 				expected: [ "This is a sentence (with blockends.).", "This is a second sentence." ],
 			},
 			{
+				input: "This is a sentence (with blockends.)? This is a second sentence.",
+				expected: [ "This is a sentence (with blockends.)?", "This is a second sentence." ],
+			},
+			{
+				input: "This is a sentence (with blockends?). This is a second sentence.",
+				expected: [ "This is a sentence (with blockends?).", "This is a second sentence." ],
+			},
+			{
 				input: "This is a sentence (with blockends.) This is a second sentence.",
 				expected: [ "This is a sentence (with blockends.)", "This is a second sentence." ],
 			},
 			{
-				input: "This is a sentence (with blockends) This is a second sentence.",
-				expected: [ "This is a sentence (with blockends)", "This is a second sentence." ],
+				input: "This is a sentence (with blockends?) This is a second sentence.",
+				expected: [ "This is a sentence (with blockends?)", "This is a second sentence." ],
 			},
 			{
-				input: "This is a sentence (with blockends.). this is a second sentence.",
-				expected: [ "This is a sentence (with blockends.). this is a second sentence." ],
+				input: "This is a sentence (with blockends) This is still one sentence.",
+				expected: [ "This is a sentence (with blockends) This is still one sentence." ],
+			},
+			{
+				input: "This is a sentence (with blockends). This is a second sentence.",
+				expected: [ "This is a sentence (with blockends).", "This is a second sentence." ],
+			},
+			{
+				input: "This is a sentence (with blockends)? This is a second sentence.",
+				expected: [ "This is a sentence (with blockends)?", "This is a second sentence." ],
+			},
+			{
+				input: "This is a sentence (with blockends.). this is still one sentence.",
+				expected: [ "This is a sentence (with blockends.). this is still one sentence." ],
+			},
+			{
+				input: "This is a sentence (with blockends?). this is still one sentence.",
+				expected: [ "This is a sentence (with blockends?). this is still one sentence." ],
+			},
+			// Second sentence starts with lower-case letter, but unlike a full stop, a ? is an unambiguosu sentence ending
+			{
+				input: "This is a sentence (with blockends.)? this is a new sentence.",
+				expected: [ "This is a sentence (with blockends.)?", "this is a new sentence." ],
 			},
 			{
 				input: "This is a sentence (with blockends.). 1 this is a second sentence.",
@@ -355,6 +402,183 @@ describe( "Get sentences from text", function() {
 		];
 
 		testGetSentences( testCases );
+	} );
+} );
+
+describe( "Parse languages written right-to-left", function() {
+	it( "parses a Hebrew text", function() {
+		const text = "רקע היסטורי תאורטי\n" +
+			"שלבי התפתחות ציורי ילדים נחקרים מאז שלהי המאה ה-19. בעבודות" +
+			" המוקדמות שנערכו, תיארו החוקרים שלושה שלבים מרכזיים של התפתחות אמנותית: שלב השרבוט, שלב הסכימה והשלב" +
+			" הנטורליסטי. ב-1921 יצר הפסיכולוג החינוכי סיריל ברט ((אנ')‏ Cyril Burt) חלוקה חדשה של התפתחות ציורי ילדים" +
+			" לארבעה שלבים. אחריו, בשנת 1927, יצר ז'ורז'-אנרי לוקה ((צר') ‏Georges-Henri Luquet) שלבים, שבבסיסם" +
+			" עומדת ההנחה שהילד מצייר באופן ריאליסטי זמן רב לפני שהוא מסוגל לצייר את מה שהוא רואה באמת. על בסיס" +
+			" שלביו של לוקה, קבעו הפסיכולוגים ההתפתחותיים ז'אן פיאז'ה וברבל אינהלדר ((אנ')‏ Bärbel Inhelder) כי" +
+			" התפתחות הציור מקבילה להתפתחותו האינטלקטואלית של הילד, המתבטאת בהתפתחות הראייה ההנדסית" +
+			" והמרחבית (ארגון המרחב, שליטה ובקרה בעיצוב הקו), ובהתאם להתפתחות החשיבה. בשנת 1947 תיאר איש החינוך לאמנות" +
+			" ויקטור לוונפלד ((אנ')‏ Viktor Lowenfeld) שישה שלבים עיקריים בהתפתחות הגרפית של ילדים, וזאת על בסיס עבודתו של" +
+			" ברט ובדומה לתאוריית ההתפתחות הקוגניטיבית של פיאז'ה; עבודתו זו מהווה עד היום בסיס לבחינת התפתחות ציורי ילדים. \n";
+
+		const expected = [
+			"רקע היסטורי תאורטי",
+			"שלבי התפתחות ציורי ילדים נחקרים מאז שלהי המאה ה-19.",
+			"בעבודות המוקדמות שנערכו, תיארו החוקרים שלושה שלבים מרכזיים של התפתחות אמנותית: שלב השרבוט, שלב הסכימה והשלב הנטורליסטי.",
+			"ב-1921 יצר הפסיכולוג החינוכי סיריל ברט ((אנ')‏ Cyril Burt) חלוקה חדשה של התפתחות ציורי ילדים לארבעה שלבים.",
+			"אחריו, בשנת 1927, יצר ז'ורז'-אנרי לוקה ((צר') ‏Georges-Henri Luquet) שלבים, שבבסיסם עומדת ההנחה שהילד מצייר באופן ריאליסטי זמן רב לפני שהוא מסוגל לצייר את מה שהוא רואה באמת.",
+			"על בסיס שלביו של לוקה, קבעו הפסיכולוגים ההתפתחותיים ז'אן פיאז'ה וברבל אינהלדר ((אנ')‏ Bärbel Inhelder) כי התפתחות הציור מקבילה להתפתחותו האינטלקטואלית של הילד, המתבטאת בהתפתחות הראייה ההנדסית והמרחבית (ארגון המרחב, שליטה ובקרה בעיצוב הקו), ובהתאם להתפתחות החשיבה.",
+			"בשנת 1947 תיאר איש החינוך לאמנות ויקטור לוונפלד ((אנ')‏ Viktor Lowenfeld) שישה שלבים עיקריים בהתפתחות הגרפית של ילדים, וזאת על בסיס עבודתו של ברט ובדומה לתאוריית ההתפתחות הקוגניטיבית של פיאז'ה;",
+			"עבודתו זו מהווה עד היום בסיס לבחינת התפתחות ציורי ילדים.",
+		];
+
+		const actual = getSentences( text );
+
+		expect( actual ).toEqual( expected );
+	} );
+
+	it( "parses an RTL language text with brackets", function() {
+		const testCases = [
+			{
+				input: "רקע (היסטורי) תאורטי.",
+				expected: [ "רקע (היסטורי) תאורטי." ],
+			},
+			{
+				input: "רקע (היסטורי.) תאורטי.",
+				expected: [ "רקע (היסטורי.)", "תאורטי." ],
+			},
+			{
+				input: "רקע (היסטורי). תאורטי.",
+				expected: [ "רקע (היסטורי).", "תאורטי." ],
+			},
+			{
+				input: "רקע (היסטורי)? תאורטי.",
+				expected: [ "רקע (היסטורי)?", "תאורטי." ],
+			},
+			{
+				input: "רקע (היסטורי?) תאורטי.",
+				expected: [ "רקע (היסטורי?)", "תאורטי." ],
+			},
+		];
+
+		testGetSentences( testCases );
+	} );
+
+	it( "parses an Arabic text", function() {
+		const text = "باتمان أو الرجل الوطواط هو شخصية خيالية لبطل كتب مصورة خارق من دي سي كومكس. ابتكر الشخصية الفنان" +
+			" بوب كين والكاتب بيل فينغر. كان أول ظهور للشخصية في شهر مايو عام 1939. حين ظهر في العدد رقم" +
+			" 27 من مجلة القصص المصورة ديتكتيف كومكس عام 1939 ومنذ ذلك الوقت أصبح هو وسوبرمان والرجل العنكبوت،" +
+			" أشهر الأبطال الخارقين الخياليين، وقد ظهر كل منهم في عدة أفلام سينمائية ناجحة. شخصية باتمان السرية" +
+			" هي بروس واين، الملياردير الأمريكي، والفتى اللعوب صاحب شركات واين التجارية وفاعل الخير الكبير. بعد" +
+			" أن رأى والديه يقتلان على يد أحد اللصوص في صغره، أقسم أن يحارب الجريمة أنى وجدت وأن ينتقم من" +
+			" المجرمين جميعا دون أن يصبح واحدا منهم، فلا يقتل أو يغتال أحدهم مهما حصل. فتدرب على فنون القتال" +
+			" والتحري المختلفة منذ صغره، وصنع لنفسه بذلة مستوحاة من هيئة الخفافيش، واتخذ اسما مستعارا" +
+			" مستوحى من الخفاش كذلك الأمر. مسقط رأس باتمان هو مدينة غوثام الخيالية، وهو يتعاون مع عدة" +
+			" شخصيات رئيسية في سلسلة قصصه، منها ألفرد بنيوورث خادمه ومدبر منزله، والمفوض جيمس جوردون" +
+			" رئيس شرطة المدينة، وعدد من محاربي الجريمة الآخرين مثل ربيبه روبن. لا يتمتع باتمان بأي قوة" +
+			" خارقة، وإنما يعتمد على مهاراته التقنية والقتالية العالية، وذكائه الذي يصل إلى حد العبقرية،" +
+			" وقدراته التحليلية، وثروته الهائلة، وقوة إرادته. برزت عبر السنوات عدة شخصيات شريرة مناوئة" +
+			" لباتمان حقق بعضها شهرة واسعة بين محبي وهواة القصص المصورة، يبقى الجوكر أبرزها بلا منازع.";
+
+		const expected = [
+			"باتمان أو الرجل الوطواط هو شخصية خيالية لبطل كتب مصورة خارق من دي سي كومكس.",
+			"ابتكر الشخصية الفنان بوب كين والكاتب بيل فينغر.",
+			"كان أول ظهور للشخصية في شهر مايو عام 1939.",
+			"حين ظهر في العدد رقم 27 من مجلة القصص المصورة ديتكتيف كومكس عام 1939 ومنذ ذلك الوقت أصبح هو وسوبرمان والرجل العنكبوت، أشهر الأبطال الخارقين الخياليين، وقد ظهر كل منهم في عدة أفلام سينمائية ناجحة.",
+			"شخصية باتمان السرية هي بروس واين، الملياردير الأمريكي، والفتى اللعوب صاحب شركات واين التجارية وفاعل الخير الكبير.",
+			"بعد أن رأى والديه يقتلان على يد أحد اللصوص في صغره، أقسم أن يحارب الجريمة أنى وجدت وأن ينتقم من المجرمين جميعا دون أن يصبح واحدا منهم، فلا يقتل أو يغتال أحدهم مهما حصل.",
+			"فتدرب على فنون القتال والتحري المختلفة منذ صغره، وصنع لنفسه بذلة مستوحاة من هيئة الخفافيش، واتخذ اسما مستعارا مستوحى من الخفاش كذلك الأمر.",
+			"مسقط رأس باتمان هو مدينة غوثام الخيالية، وهو يتعاون مع عدة شخصيات رئيسية في سلسلة قصصه، منها ألفرد بنيوورث خادمه ومدبر منزله، والمفوض جيمس جوردون رئيس شرطة المدينة، وعدد من محاربي الجريمة الآخرين مثل ربيبه روبن.",
+			"لا يتمتع باتمان بأي قوة خارقة، وإنما يعتمد على مهاراته التقنية والقتالية العالية، وذكائه الذي يصل إلى حد العبقرية، وقدراته التحليلية، وثروته الهائلة، وقوة إرادته.",
+			"برزت عبر السنوات عدة شخصيات شريرة مناوئة لباتمان حقق بعضها شهرة واسعة بين محبي وهواة القصص المصورة، يبقى الجوكر أبرزها بلا منازع.",
+		];
+
+		const actual = getSentences( text );
+
+		expect( actual ).toEqual( expected );
+	} );
+
+	it( "parses an Arabic text with Arabic question marks", function() {
+		const text = " أنَّ منتخب مصر لكرة القدم" +
+			" هو أول منتخب عربي وإفريقي يتأهل لكأس العالم، حيث تأهل للبطولة عام 1934؟ أنَّ النيتروجين يشكل" +
+			" 78.08% من الغلاف الجوي؟ أنَّ صلاح الدين الأيوبي هو أول من لُقّب بخادم الحرمين الشريفين؟ أنَّ جامعة" +
+			" أنديرا غاندي الوطنية المفتوحة هي أكبر جامعة في العالم من حيث عدد الملتحقين بها؟ أنَّ رفع كساء" +
+			" الكعبة (في الصورة) المبطن بالقماش الأبيض في موسم الحج يُفعل لحمايتها من قطعها بآلات حادة للحصول على" +
+			" قطع صغيرة طلبا للبركة أو الذكرى؟ أنَّ ليختنشتاين ألغت جيشها في عام 1868 لأنه كان مُكلفًا للغاية لها؟";
+
+		const expected =    [
+			"أنَّ منتخب مصر لكرة القدم هو أول منتخب عربي وإفريقي يتأهل لكأس العالم، حيث تأهل للبطولة عام 1934؟",
+			"أنَّ النيتروجين يشكل 78.08% من الغلاف الجوي؟",
+			"أنَّ صلاح الدين الأيوبي هو أول من لُقّب بخادم الحرمين الشريفين؟",
+			"أنَّ جامعة أنديرا غاندي الوطنية المفتوحة هي أكبر جامعة في العالم من حيث عدد الملتحقين بها؟",
+			"أنَّ رفع كساء الكعبة (في الصورة) المبطن بالقماش الأبيض في موسم الحج يُفعل لحمايتها من قطعها بآلات حادة للحصول على قطع صغيرة طلبا للبركة أو الذكرى؟",
+			"أنَّ ليختنشتاين ألغت جيشها في عام 1868 لأنه كان مُكلفًا للغاية لها؟",
+		];
+
+		const actual = getSentences( text );
+
+		expect( actual ).toEqual( expected );
+	} );
+
+	it( "parses a Farsi text", function() {
+		const text = "آرامگاه کوروش بزرگ که مقبرهٔ کوروش" +
+			" دوم هخامنشی ملقب به کوروش بزرگ یا کوروش کبیر است، بنایی بی‌پیرایه ولی با معماری منحصربه‌فرد،" +
+			" در فاصلهٔ حدود یک کیلومتری جنوب غربی کاخ‌های پاسارگاد است. این بنا از همه سوی دشت مرغاب پیداست،" +
+			" به‌ویژه اگر از سمت جنوب غربی از راه باستانی گذر کنیم و از تنگهٔ بلاغی وارد دشت شویم، نخستین چیزی" +
+			" که جلب توجه می‌کند آرامگاه کوروش است. این اثر در سال ۲۰۰۴ میلادی به عنوان زیر مجموعهٔ پاسارگاد" +
+			" تحت شمارهٔ ۱۱۰۶ در میراث جهانی یونسکو ثبت شده‌است. آرامگاه کوروش تنها بنایی در پاسارگاد است که" +
+			" توصیف آن در منابع یونانی آمده‌است. از قدیمی‌ترین توصیف‌های مربوط به آرامگاه کوروش می‌توان به توصیف" +
+			" اریستوبولوس، یکی از همراهان اسکندر مقدونی در لشکرکشی‌اش به قلمرو هخامنشیان نام برد که توسط آریان" +
+			" در کتاب آناباسیس اسکندر بدین شکل ثبت شده‌است: قسمت‌های پایینی آرامگاه از سنگ‌هایی تشکیل شده بود" +
+			" که به شکل مربع بریده شده بودند و در کل یک قاعدهٔ مستطیلی شکل را تشکیل می‌دادند. بالای آرامگاه یک" +
+			" اتاق سنگی بود که یک سقف و یک در داشت و به قدری باریک بود که یک مرد کوتاه قد به‌سختی می‌توانست داخل" +
+			" اتاق شود. در داخل اتاق یک تابوت طلایی وجود داشت که پیکر کوروش را در داخل آن قرار داده بودند." +
+			" یک نیمکت نیز با پایه‌هایی از طلا در کنار تابوت قرار داشت. یک پردهٔ بابلی پوشش آن (احتمالاً نیمکت) بود" +
+			" و کف اتاق نیز با فرش پوشانده شده بود. یک شنل آستین‌دار و سایر لباس‌های بابلی روی آن قرار" +
+			" داشتند. شلوارها و جامه‌های مادی در اتاق یافت می‌شد، بعضی تیره و بعضی به رنگ‌های دیگر بودند. گردن‌بند،" +
+			" شمشیر، گوشواره‌های سنگی با تزیینات طلا و یک میز نیز در اتاق بودند. تابوت کوروش بین میز و نیمکت قرار داشت.";
+
+		const expected = [
+			"آرامگاه کوروش بزرگ که مقبرهٔ کوروش دوم هخامنشی ملقب به کوروش بزرگ یا کوروش کبیر است، بنایی بی‌پیرایه ولی با معماری منحصربه‌فرد، در فاصلهٔ حدود یک کیلومتری جنوب غربی کاخ‌های پاسارگاد است.",
+			"این بنا از همه سوی دشت مرغاب پیداست، به‌ویژه اگر از سمت جنوب غربی از راه باستانی گذر کنیم و از تنگهٔ بلاغی وارد دشت شویم، نخستین چیزی که جلب توجه می‌کند آرامگاه کوروش است.",
+			"این اثر در سال ۲۰۰۴ میلادی به عنوان زیر مجموعهٔ پاسارگاد تحت شمارهٔ ۱۱۰۶ در میراث جهانی یونسکو ثبت شده‌است.",
+			"آرامگاه کوروش تنها بنایی در پاسارگاد است که توصیف آن در منابع یونانی آمده‌است.",
+			"از قدیمی‌ترین توصیف‌های مربوط به آرامگاه کوروش می‌توان به توصیف اریستوبولوس، یکی از همراهان اسکندر مقدونی در لشکرکشی‌اش به قلمرو هخامنشیان نام برد که توسط آریان در کتاب آناباسیس اسکندر بدین شکل ثبت شده‌است: قسمت‌های پایینی آرامگاه از سنگ‌هایی تشکیل شده بود که به شکل مربع بریده شده بودند و در کل یک قاعدهٔ مستطیلی شکل را تشکیل می‌دادند.",
+			"بالای آرامگاه یک اتاق سنگی بود که یک سقف و یک در داشت و به قدری باریک بود که یک مرد کوتاه قد به‌سختی می‌توانست داخل اتاق شود.",
+			"در داخل اتاق یک تابوت طلایی وجود داشت که پیکر کوروش را در داخل آن قرار داده بودند.",
+			"یک نیمکت نیز با پایه‌هایی از طلا در کنار تابوت قرار داشت.",
+			"یک پردهٔ بابلی پوشش آن (احتمالاً نیمکت) بود و کف اتاق نیز با فرش پوشانده شده بود.",
+			"یک شنل آستین‌دار و سایر لباس‌های بابلی روی آن قرار داشتند.",
+			"شلوارها و جامه‌های مادی در اتاق یافت می‌شد، بعضی تیره و بعضی به رنگ‌های دیگر بودند.",
+			"گردن‌بند، شمشیر، گوشواره‌های سنگی با تزیینات طلا و یک میز نیز در اتاق بودند.",
+			"تابوت کوروش بین میز و نیمکت قرار داشت.",
+		];
+
+		const actual = getSentences( text );
+
+		expect( actual ).toEqual( expected );
+	} );
+
+	it( "parses an Urdu text", function() {
+		const text = "موئن جو دڑو (سندھی:موئن جو دڙو اور اردو میں عموما" +
+			"ً موہنجوداڑو بھی؛ انگریزی: Mohenjo-daro) وادی سندھ کی قدیم تہذیب کا ایک مرکز تھا۔ یہ لاڑکانہ سے بیس" +
+			" کلومیٹر دور اور سکھر سے 80 کلومیٹر جنوب مغرب میں واقع ہے۔ یہ وادی،وادی سندھ کی تہذیب کے ایک" +
+			" اور اہم مرکز ہڑپہ صوبہ پنجاب سے 686 میل دور ہے۔ یہ شہر 2600 قبل مسیح موجود تھا اور 1700 قبل" +
+			" مسیح میں نامعلوم وجوہات کی بناء پر ختم ہو گیا۔ تاہم ماہرین کے خیال میں دریائے سندھ کے رخ کی" +
+			" تبدیلی، سیلاب، بیرونی حملہ آور یا زلزلہ اہم وجوہات ہوسکتی ہیں۔ اسے قدیم مصر اور بین النہرین" +
+			" کی تہذیبوں کا ہم عصر سمجھا جاتا ہے۔ 1980ء میں یونیسکو نے اسے یونیسکو عالمی ثقافتی ورثہ قرار دیا۔";
+
+		const expected =     [
+			"موئن جو دڑو (سندھی:موئن جو دڙو اور اردو میں عموماً موہنجوداڑو بھی؛ انگریزی: Mohenjo-daro) وادی سندھ کی قدیم تہذیب کا ایک مرکز تھا۔",
+			"یہ لاڑکانہ سے بیس کلومیٹر دور اور سکھر سے 80 کلومیٹر جنوب مغرب میں واقع ہے۔",
+			"یہ وادی،وادی سندھ کی تہذیب کے ایک اور اہم مرکز ہڑپہ صوبہ پنجاب سے 686 میل دور ہے۔",
+			"یہ شہر 2600 قبل مسیح موجود تھا اور 1700 قبل مسیح میں نامعلوم وجوہات کی بناء پر ختم ہو گیا۔",
+			"تاہم ماہرین کے خیال میں دریائے سندھ کے رخ کی تبدیلی، سیلاب، بیرونی حملہ آور یا زلزلہ اہم وجوہات ہوسکتی ہیں۔",
+			"اسے قدیم مصر اور بین النہرین کی تہذیبوں کا ہم عصر سمجھا جاتا ہے۔",
+			"1980ء میں یونیسکو نے اسے یونیسکو عالمی ثقافتی ورثہ قرار دیا۔",
+		];
+
+		const actual = getSentences( text );
+
+		expect( actual ).toEqual( expected );
 	} );
 } );
 
@@ -531,10 +755,7 @@ describe( "Get sentences from texts that have been processed for the keyphrase d
 					"On the <strong>General</strong> tab: Make sure your store address is correct and that you’ve limited selling to your country and location Enable or disable tax calculation if needed Enable or disable the use of coupon codes if needed Pick the correct currency On the <strong>Product</strong> tab: Select the page where you want the shop to appear Want users to leave reviews on your product?",
 					"Activate that option here On Inventory: Disable stock management unless you need it On the <strong>Payments</strong> tab: Pick an easy payment option, like cash on delivery or bank transfer If needed, you can add more complex payment providers like PayPal On the <strong>Accounts</strong> tab: Allow guest checkout Allow account creation if needed Select the Privacy policy Review the other options on this page carefully, you may need them On the <strong>Emails</strong> tab: Check the different email templates and activate the ones you want to use.",
 					"For every email, change the text to match what you want to say Scroll down to check the sender options Also adapt the email template to fit your brand Skip the <strong>Integrations</strong> tab On the <strong>Advanced</strong> tab: Map the essential pages for your shop, i.e. the cart, checkout, account page and terms and conditions.",
-					"You can make these pages in WordPress: Add the `[woocommerce_cart]",
-					"` shortcode to the cart page Add the `[woocommerce_checkout]",
-					"` shortcode to the checkout page Place the `[woocommerce_my_account]",
-					"` shortcode to the account page" ],
+					"You can make these pages in WordPress: Add the `[woocommerce_cart]` shortcode to the cart page Add the `[woocommerce_checkout]` shortcode to the checkout page Place the `[woocommerce_my_account]` shortcode to the account page" ],
 			},
 		];
 

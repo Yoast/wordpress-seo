@@ -1,5 +1,14 @@
-// Replace all other punctuation characters at the beginning or at the end of a word.
-var punctuationRegexString = "[\\–\\-\\(\\)_\\[\\]’“”\"'.?!:;,¿¡«»‹›\u2014\u00d7\u002b\u0026\<\>]+";
+/*
+ * \u2014 - em-dash
+ * \u00d7 - multiplication sign
+ * \u002b - plus sign
+ * \u0026 - ampersand
+ * \u06d4 - Urdu full stop
+ * \u061f - Arabic question mark
+ * \u060C - Arabic comma
+ * \u061B - Arabic semicolon
+ */
+var punctuationRegexString = "[\\–\\-\\(\\)_\\[\\]’“”〝〞〟‟„\"'.?!:;,¿¡«»‹›\u2014\u00d7\u002b\u0026\u06d4\u061f\u060C\u061B\\<\>]+";
 var punctuationRegexStart = new RegExp( "^" + punctuationRegexString );
 var punctuationRegexEnd = new RegExp( punctuationRegexString + "$" );
 

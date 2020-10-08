@@ -1,11 +1,11 @@
-import React, { Fragment, Component } from "react";
-import ImageSelect from "./ImageSelect";
-import PropTypes from "prop-types";
-import { ReplacementVariableEditor, replacementVariablesShape } from "@yoast/replacement-variable-editor";
 import { __, sprintf } from "@wordpress/i18n";
-import styled from "styled-components";
-import { getDirectionalStyle } from "@yoast/helpers";
+import { getDirectionalStyle, join } from "@yoast/helpers";
+import { ReplacementVariableEditor, replacementVariablesShape } from "@yoast/replacement-variable-editor";
 import { angleLeft, angleRight, colors } from "@yoast/style-guide";
+import PropTypes from "prop-types";
+import React, { Component, Fragment } from "react";
+import styled from "styled-components";
+import ImageSelect from "./ImageSelect";
 
 /**
  * Sets the color based on whether the caret is active or not (usually hovered).
@@ -19,7 +19,9 @@ const getCaretColor = ( active ) => {
 	return active ? colors.$color_snippet_focus : colors.$color_snippet_hover;
 };
 
-const CaretContainer = styled.div`position: relative`;
+const CaretContainer = styled.div`
+	position: relative;`
+;
 
 const Caret = styled.div`
 	display: ${ props => ( props.isActive || props.isHovered ) ? "block" : "none" };
@@ -165,16 +167,19 @@ class SocialMetadataPreviewForm extends Component {
 			recommendedReplacementVariables,
 			imageWarnings,
 			imageUrl,
+			idSuffix,
 		} = this.props;
 
 		const imageSelected = !! imageUrl;
 
-		/* Translators: %s expands to the social medium name, i.e. Faceboook. */
+		/* Translators: %s expands to the social medium name, i.e. Facebook. */
 		const imageSelectTitle = sprintf( __( "%s image", "yoast-components" ), socialMediumName );
-		/* Translators: %s expands to the social medium name, i.e. Faceboook. */
+		/* Translators: %s expands to the social medium name, i.e. Facebook. */
 		const titleEditorTitle = sprintf( __( "%s title", "yoast-components" ), socialMediumName );
-		/* Translators: %s expands to the social medium name, i.e. Faceboook. */
-		const descEditorTitle = sprintf( __( "%s desciption", "yoast-components" ), socialMediumName );
+		/* Translators: %s expands to the social medium name, i.e. Facebook. */
+		const descEditorTitle = sprintf( __( "%s description", "yoast-components" ), socialMediumName );
+
+		const lowerCaseSocialMediumName = socialMediumName.toLowerCase();
 
 		return (
 			<Fragment>
@@ -190,7 +195,10 @@ class SocialMetadataPreviewForm extends Component {
 					isHovered={ hoveredField === "image" }
 					imageUrl={ imageUrl }
 					isPremium={ isPremium }
-					socialMediumName={ socialMediumName.toLowerCase() }
+					imageUrlInputId={ join( [ lowerCaseSocialMediumName, "url-input", idSuffix ] ) }
+					selectImageButtonId={ join( [ lowerCaseSocialMediumName, "select-button", idSuffix ] ) }
+					replaceImageButtonId={ join( [ lowerCaseSocialMediumName, "replace-button", idSuffix ] ) }
+					removeImageButtonId={ join( [ lowerCaseSocialMediumName, "remove-button", idSuffix ] ) }
 				/>
 				<ReplacementVariableEditor
 					onChange={ onTitleChange }
@@ -199,7 +207,7 @@ class SocialMetadataPreviewForm extends Component {
 					replacementVariables={ replacementVariables }
 					recommendedReplacementVariables={ recommendedReplacementVariables }
 					type="title"
-					fieldId={ `${ socialMediumName.toLowerCase() }-title-input` }
+					fieldId={ join( [ lowerCaseSocialMediumName, "title-input", idSuffix ] ) }
 					label={ titleEditorTitle }
 					onMouseEnter={ this.onTitleEnter }
 					onMouseLeave={ this.onLeave }
@@ -217,7 +225,7 @@ class SocialMetadataPreviewForm extends Component {
 					replacementVariables={ replacementVariables }
 					recommendedReplacementVariables={ recommendedReplacementVariables }
 					type="description"
-					fieldId={ `${ socialMediumName.toLowerCase() }-description-input` }
+					fieldId={ join( [ lowerCaseSocialMediumName, "description-input", idSuffix ] ) }
 					label={ descEditorTitle }
 					onMouseEnter={ this.onDescriptionEnter }
 					onMouseLeave={ this.onLeave }
@@ -232,7 +240,6 @@ class SocialMetadataPreviewForm extends Component {
 		);
 	}
 }
-
 
 SocialMetadataPreviewForm.propTypes = {
 	socialMediumName: PropTypes.oneOf( [ "Twitter", "Facebook" ] ).isRequired,
@@ -254,6 +261,7 @@ SocialMetadataPreviewForm.propTypes = {
 	descriptionInputPlaceholder: PropTypes.string,
 	setEditorRef: PropTypes.func,
 	onMouseHover: PropTypes.func,
+	idSuffix: PropTypes.string,
 };
 
 SocialMetadataPreviewForm.defaultProps = {
@@ -269,6 +277,7 @@ SocialMetadataPreviewForm.defaultProps = {
 	isPremium: false,
 	setEditorRef: () => {},
 	onMouseHover: () => {},
+	idSuffix: "",
 };
 
 export default SocialMetadataPreviewForm;

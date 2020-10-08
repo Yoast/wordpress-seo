@@ -4,6 +4,70 @@ All notable changes to this project will be documented in this file. Releases wi
 
 We follow [Semantic Versioning](http://semver.org/).
 
+## 2.10.0 October 12th, 2020
+### Enhancements
+* Adds SingleSelect component, which is based on the MultiSelect implementation.
+* Introduces the new table HTML and CSS setup.
+* Includes table.css in monorepo.css.
+
+### Bugfixes
+* Fixes a bug where the new Button component could not be imported via the package index.
+* Fixes a bug where the font size for the field group and the font weight for the table header would not be set correctly.
+
+### Other
+* Adds an id to the MultiSelect's input field.
+* Adjusts the styling provided for the modal component to use it for the Gutenberg Modal component.
+
+## 2.9.0 September 17th, 2020
+### Enhancements
+* Changes `TextInput`, `TextArea`, `LabeledRadioButton`, `Select`, and `MultiSelect` to controlled components, their value should be passed from a higher order component.
+* Changes the `MultiSelect` implementation to use `react-select` instead of `select2`.
+* Introduces `icons.html` for examples on how to use the icons.
+* Adds chevron up and chevron down svg icons.
+
+### Bugfixes
+* Fixes a bug where removing the last item from the `MultiSelect` generated an error.
+* Fixes a bug where the `select2` dropdown would be hidden when used in a modal.
+
+### Other
+* Adds styling to the RadioButtons to remove any "before" elements.
+
+## 2.8.0 August 31st, 2020
+### Enhancements
+* Adds a button with an edit icon.
+
+## 2.7.0 August 17th, 2020
+### Enhancements
+* Adds a new active schema tab icon.
+* Adds an optional buttonRef prop to the Button and ButtonStyledLink, which will be set as a ref on the html button and anchor element, respectively.
+* Makes the FieldGroup component available by exporting it. The FieldGroup is a reusable wrapper with a title/label, an optional HelpIcon and an optional Description.
+* Opens the 'ultimate guide to keyword research' link from the WordOccurrenceInsights component in a new tab.
+* Adds an optional `onOptionFocus` prop to the Select component. When an input event is fired, `onOptionFocus` is called with the select's name, and the current value.
+
+### Other
+* Makes the Select name property optional.
+
+## 2.6.0 August 3rd, 2020
+### Enhancements
+* Adds the means to put a button inline with a select2 element.
+* Adds a small class for the buttons and a disabled status for the secondary button.
+* Adds a box shadow and border to the toggle switch.
+* Adds a disabled state for the toggle items.
+* Adds a "small" prop (boolean) to the Button and ButtonStyledLink components for a variant with a lower profile.
+* Yoast styled buttons are now available in preset variants, such as `primary`, `secondary`, `buy`, etc.
+* Yoast styled links (identically styled to the buttons) are now available in preset variants, such as `primary`, `secondary`, `buy`, etc.
+* Updates the input fields, text areas, dropdowns,  buttons, title separator and toggle switches in the settings pages to the new styling.
+
+### Bugfixes
+* Fixes a bug where the insights would cause a horizontal scrollbar in the Yoast sidebar.
+
+### Other
+* Flips the order of the labels for inverse toggles. To make sure the active state is always on the right.
+* Refactors the code to use another term than 'prominent words', 'keyword suggestions' or 'relevant words'.
+* Removes the standard WordPress checkmark from our checkmarks.
+* Removes internal linking feature flag from the feature branch. Previously hidden functionality will now be the default.
+* Deprecates the WordList component. A console warning has been added to the component.
+
 ## 2.5.0 July 20th, 2020
 ### Enhancements
 * Adds `type="button"` to all buttons to make sure the default submit behavior is prevented.

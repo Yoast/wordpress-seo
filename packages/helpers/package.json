@@ -1,6 +1,6 @@
 {
   "name": "@yoast/helpers",
-  "version": "0.13.0-rc.5",
+  "version": "0.13.0",
   "description": "All Yoast helper functions.",
   "main": "src/index.js",
   "repository": {
@@ -28,7 +28,10 @@
   "jest": {
     "testURL": "http://localhost",
     "testRegex": ".*Test.js$",
-    "setupTestFrameworkScriptFile": "<rootDir>/tools/jest/setupTests.js"
+    "setupTestFrameworkScriptFile": "<rootDir>/tools/jest/setupTests.js",
+    "moduleNameMapper": {
+      "^lodash-es$": "lodash"
+    }
   },
   "devDependencies": {
     "@yoast/browserslist-config": "^1.2.2",

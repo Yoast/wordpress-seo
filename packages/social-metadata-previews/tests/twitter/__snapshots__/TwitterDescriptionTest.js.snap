@@ -16,6 +16,12 @@ exports[`TwitterDescription matches the snapshot for the summary card 1`] = `
   -webkit-box-orient: vertical;
 }
 
+@media all and ( max-width:506px ) {
+  .c0 {
+    display: none;
+  }
+}
+
 <p
   className="c0"
 />
@@ -35,6 +41,12 @@ exports[`TwitterDescription matches the snapshot for the summary with large imag
   cursor: pointer;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
+}
+
+@media all and ( max-width:506px ) {
+  .c0 {
+    display: none;
+  }
 }
 
 <p

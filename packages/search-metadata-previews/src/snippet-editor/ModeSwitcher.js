@@ -4,7 +4,6 @@ import styled from "styled-components";
 import { __ } from "@wordpress/i18n";
 import { Component } from "react";
 import PropTypes from "prop-types";
-import { uniqueId } from "lodash";
 
 // Yoast dependencies
 import { Input, Label } from "@yoast/components";
@@ -57,9 +56,6 @@ class ModeSwitcher extends Component {
 	constructor( props ) {
 		super( props );
 
-		// Used to assure unique ids.
-		this.uniqueId = uniqueId();
-
 		this.switchToMobile = this.props.onChange.bind( this, "mobile" );
 		this.switchToDesktop = this.props.onChange.bind( this, "desktop" );
 	}
@@ -67,12 +63,17 @@ class ModeSwitcher extends Component {
 	/**
 	 * Render the ModeSwitcher component.
 	 *
-	 * @returns {React.element} The rendered component.
+	 * @returns {JSX.Element} The rendered component.
 	 */
 	render() {
 		const {
 			active,
+			mobileModeInputId,
+			desktopModeInputId,
 		} = this.props;
+
+		const mobileInputId = mobileModeInputId.length > 0 ? mobileModeInputId : "yoast-google-preview-mode-mobile";
+		const desktopInputId = desktopModeInputId.length > 0 ? desktopModeInputId : "yoast-google-preview-mode-desktop";
 
 		return ( <Switcher>
 			<SwitcherTitle>{ __( "Preview as:", "yoast-components" ) }</SwitcherTitle>
@@ -82,13 +83,11 @@ class ModeSwitcher extends Component {
 				name="screen"
 				value="mobile"
 				optionalAttributes={ {
-					id: `yoast-google-preview-mode-mobile-${ this.uniqueId }`,
+					id: mobileInputId,
 					checked: active === MODE_MOBILE,
 				} }
 			/>
-			<ModeLabel
-				for={ `yoast-google-preview-mode-mobile-${ this.uniqueId }` }
-			>
+			<ModeLabel for={ mobileInputId }>
 				{ __( "Mobile result", "yoast-components" ) }
 			</ModeLabel>
 			<ModeRadio
@@ -97,13 +96,11 @@ class ModeSwitcher extends Component {
 				name="screen"
 				value="desktop"
 				optionalAttributes={ {
-					id: `yoast-google-preview-mode-desktop-${ this.uniqueId }`,
+					id: desktopInputId,
 					checked: active === MODE_DESKTOP,
 				} }
 			/>
-			<ModeLabel
-				for={ `yoast-google-preview-mode-desktop-${ this.uniqueId }` }
-			>
+			<ModeLabel for={ desktopInputId }>
 				{ __( "Desktop result", "yoast-components" ) }
 			</ModeLabel>
 		</Switcher> );
@@ -113,10 +110,14 @@ class ModeSwitcher extends Component {
 ModeSwitcher.propTypes = {
 	onChange: PropTypes.func.isRequired,
 	active: PropTypes.oneOf( MODES ),
+	mobileModeInputId: PropTypes.string,
+	desktopModeInputId: PropTypes.string,
 };
 
 ModeSwitcher.defaultProps = {
 	active: MODE_MOBILE,
+	mobileModeInputId: "",
+	desktopModeInputId: "",
 };
 
 export default ModeSwitcher;

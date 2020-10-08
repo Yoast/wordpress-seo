@@ -24,6 +24,7 @@
 	<link rel='stylesheet' href='../help-icon/help-icon.css' type='text/css' media='all'/>
 	<link rel='stylesheet' href='input.css' type='text/css' media='all'/>
 	<link rel='stylesheet' href='../checkbox/checkbox.css' type='text/css' media='all'/>
+	<link rel='stylesheet' href='../button/buttons.css' type='text/css' media='all'/>
 
 </head>
 <body class="yoast">
@@ -33,7 +34,7 @@
 
 	<div class="yoast-field-group">
 		<div class="yoast-field-group__title">
-			<label for="example-input">Do you have a passport?</label>
+			<label for="example-input-01">Do you have a passport?</label>
 			<a class="yoast-help" target="_blank" href="https://yoast.com">
 				<span class="yoast-help__icon">
 					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12" role="img" aria-hidden="true"
@@ -45,7 +46,7 @@
 			</a>
 		</div>
 		<p class="description" id="yoast_unique_description_id">This is a description</p>
-		<input class="yoast-field-group__inputfield" value="" name="foobar" id="example-input"
+		<input class="yoast-field-group__inputfield" type="text" value="" name="foobar" id="example-input-01"
 			   placeholder="This is a fake placeholder" aria-describedby="yoast_unique_description_id">
 	</div>
 
@@ -53,7 +54,7 @@
 
 	<div class="yoast-field-group">
 		<div class="yoast-field-group__title">
-			<label for="example-input">Do you have a passport?</label>
+			<label for="example-input-02">Do you have a passport?</label>
 			<a class="yoast-help" target="_blank" href="https://yoast.com">
 				<span class="yoast-help__icon">
 					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12" role="img" aria-hidden="true"
@@ -64,15 +65,44 @@
 				<span class="screen-reader-text">(Opens in a new browser tab)</span>
 			</a>
 		</div>
-		<input class="yoast-field-group__inputfield" type="password" value="" name="foobar" id="example-input"
-			   aria-describedby="yoast_unique_description_id">
+		<input class="yoast-field-group__inputfield" type="password" value="" name="foobar" id="example-input-02">
+	</div>
+
+	<p>Input field, readonly (or disabled, or aria-disabled)</p>
+
+	<div class="yoast-field-group">
+		<div class="yoast-field-group__title">
+			<label for="example-input-03">Do you have a passport?</label>
+		</div>
+		<input readonly class="yoast-field-group__inputfield" type="text" value="some value" name="foobar" id="example-input-03">
+	</div>
+
+	<p>Input field with normal font-weight label</p>
+
+	<div class="yoast-field-group">
+		<div class="yoast-field-group__title yoast-field-group__title--light">
+			<label for="example-input-05">Do you have a passport?</label>
+		</div>
+		<input class="yoast-field-group__inputfield" type="text" value="" name="foobar" id="example-input-05">
+	</div>
+
+	<p>Input field with horizontally aligned button</p>
+
+	<div class="yoast-field-group">
+		<div class="yoast-field-group__title">
+			<label for="example-input-06">Do you have a passport?</label>
+		</div>
+		<div class="yoast-field-group__inline">
+			<input class="yoast-field-group__inputfield" type="text" value="" name="foobar" id="example-input-06">
+			<button class="yoast-button yoast-button--secondary" type="button">Yoast button</button>
+		</div>
 	</div>
 
 	<p>Textarea with a label and help icon</p>
 
 	<div class="yoast-field-group">
 		<div class="yoast-field-group__title">
-			<label for="example-input">Do you have a passport?</label>
+			<label for="example-input-04">Do you have a passport?</label>
 			<a class="yoast-help" target="_blank" href="https://yoast.com">
 				<span class="yoast-help__icon">
 					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12" role="img" aria-hidden="true"
@@ -83,8 +113,7 @@
 				<span class="screen-reader-text">(Opens in a new browser tab)</span>
 			</a>
 		</div>
-		<textarea value="" name="foobar" id="example-input" class="yoast-field-group__textarea"
-				  aria-describedby="yoast_unique_description_id"></textarea>
+		<textarea value="" name="foobar" id="example-input-04" class="yoast-field-group__textarea"></textarea>
 	</div>
 
 </form>

@@ -1,5 +1,5 @@
 import Researcher from "../../src/researcher";
-import getWordFormsFromText from "../../src/researches/getWordFormsFromText";
+import getWordForms from "../../src/researches/getWordForms";
 import Paper from "../../src/values/Paper";
 import getMorphologyData from "../specHelpers/getMorphologyData";
 const morphologyDataEN = getMorphologyData( "en" );
@@ -7,7 +7,7 @@ const morphologyDataDE = getMorphologyData( "de" );
 
 const testText = "I walked my dog. The cat walks along. The canine and the feline were walking.";
 
-describe( "A test from getting word forms from the text, based on the stems of a keyphrase", () => {
+describe( "A test for getting word forms from the text, based on the stems of a keyphrase", () => {
 	it( "returns forms found in the text for multiple keyphrases and synonyms with multiple words;" +
 		"English stemmer", () => {
 		const text = "A cat's dog and a dog's cat. The feline purrs. The <a href='http://example.com/doggies'>canine</a> is friendly. " +
@@ -21,7 +21,7 @@ describe( "A test from getting word forms from the text, based on the stems of a
 		const researcher = new Researcher( testPaper );
 		researcher.addResearchData( "morphology", morphologyDataEN );
 
-		expect( getWordFormsFromText( testPaper, researcher ) ).toEqual(
+		expect( getWordForms( testPaper, researcher ) ).toEqual(
 			{
 				keyphraseForms: [ [ "cats", "cat's", "cat", "cattest" ], [ "dogs", "dog", "dog's", "dogly" ] ],
 				synonymsForms: [ [ [ "purring", "purrs" ], [ "felines", "feline" ] ], [ [ "friendly" ], [ "canines", "canine" ] ] ],
@@ -41,7 +41,7 @@ describe( "A test from getting word forms from the text, based on the stems of a
 		const researcher = new Researcher( testPaper );
 		researcher.addResearchData( "morphology", morphologyDataDE );
 
-		expect( getWordFormsFromText( testPaper, researcher ) ).toEqual(
+		expect( getWordForms( testPaper, researcher ) ).toEqual(
 			{
 				keyphraseForms: [ [ "orangen", "orange" ], [ "heidelbeeren", "heidelbeere" ] ],
 				synonymsForms: [
@@ -66,7 +66,7 @@ describe( "A test from getting word forms from the text, based on the stems of a
 		const testPaper = new Paper( testText, attributes );
 		const researcher = new Researcher( testPaper );
 
-		expect( getWordFormsFromText( testPaper, researcher ) ).toEqual(
+		expect( getWordForms( testPaper, researcher ) ).toEqual(
 			{
 				keyphraseForms: [],
 				synonymsForms: [],
@@ -82,7 +82,7 @@ describe( "A test from getting word forms from the text, based on the stems of a
 		const testPaper = new Paper( testText, attributes );
 		const researcher = new Researcher( testPaper );
 
-		expect( getWordFormsFromText( testPaper, researcher ) ).toEqual(
+		expect( getWordForms( testPaper, researcher ) ).toEqual(
 			{
 				keyphraseForms: [],
 				synonymsForms: [ [ [ "cats" ], [ "dogs" ] ] ],
@@ -98,7 +98,7 @@ describe( "A test from getting word forms from the text, based on the stems of a
 		const researcher = new Researcher( testPaper );
 		researcher.addResearchData( "morphology", morphologyDataEN );
 
-		expect( getWordFormsFromText( testPaper, researcher ) ).toEqual(
+		expect( getWordForms( testPaper, researcher ) ).toEqual(
 			{
 				keyphraseForms: [ [ "cats", "cat" ], [ "dogs", "dog" ] ],
 				synonymsForms: [],
@@ -115,7 +115,7 @@ describe( "A test from getting word forms from the text, based on the stems of a
 		const researcher = new Researcher( testPaper );
 		researcher.addResearchData( "morphology", morphologyDataEN );
 
-		expect( getWordFormsFromText( testPaper, researcher ) ).toEqual(
+		expect( getWordForms( testPaper, researcher ) ).toEqual(
 			{
 				keyphraseForms: [ [  "cats", "cat" ], [ "dogs", "dog" ] ],
 				synonymsForms: [ [ [ "felines", "feline" ] ], [ [ "canines", "canine" ] ] ],
@@ -132,7 +132,7 @@ describe( "A test from getting word forms from the text, based on the stems of a
 		const researcher = new Researcher( testPaper );
 		researcher.addResearchData( "morphology", morphologyDataEN );
 
-		expect( getWordFormsFromText( testPaper, researcher ) ).toEqual(
+		expect( getWordForms( testPaper, researcher ) ).toEqual(
 			{
 				keyphraseForms: [ [ "cats" ], [ "dogs" ] ],
 				synonymsForms: [],
@@ -152,7 +152,7 @@ describe( "A test from getting word forms from the text, based on the stems of a
 		const researcher = new Researcher( testPaper );
 		researcher.addResearchData( "morphology", morphologyDataEN );
 
-		expect( getWordFormsFromText( testPaper, researcher ) ).toEqual(
+		expect( getWordForms( testPaper, researcher ) ).toEqual(
 			{
 				keyphraseForms: [ [ "cat", "cats" ], [ "walks", "walked", "walking", "walk"  ] ],
 				synonymsForms: [],
@@ -172,7 +172,7 @@ describe( "A test from getting word forms from the text, based on the stems of a
 		const researcher = new Researcher( testPaper );
 		researcher.addResearchData( "morphology", morphologyDataEN );
 
-		expect( getWordFormsFromText( testPaper, researcher ) ).toEqual(
+		expect( getWordForms( testPaper, researcher ) ).toEqual(
 			{
 				keyphraseForms: [ [ "walk", "walk's", "walks", "walked", "walking", "walkings" ] ],
 				synonymsForms: [],
@@ -192,7 +192,7 @@ describe( "A test from getting word forms from the text, based on the stems of a
 		const researcher = new Researcher( testPaper );
 		researcher.addResearchData( "morphology", morphologyDataEN );
 
-		expect( getWordFormsFromText( testPaper, researcher ) ).toEqual(
+		expect( getWordForms( testPaper, researcher ) ).toEqual(
 			{
 				keyphraseForms: [ [ "walk's", "walk", "walks", "walked", "walking" ] ],
 				synonymsForms: [],
@@ -209,7 +209,7 @@ describe( "A test from getting word forms from the text, based on the stems of a
 		const researcher = new Researcher( testPaper );
 		researcher.addResearchData( "morphology", morphologyDataEN );
 
-		expect( getWordFormsFromText( testPaper, researcher ) ).toEqual(
+		expect( getWordForms( testPaper, researcher ) ).toEqual(
 			{
 				keyphraseForms: [ [ "cats and dogs" ] ],
 				synonymsForms: [ [ [ "felines", "feline"  ] ], [ [ "canines", "canine" ] ] ],
@@ -226,7 +226,7 @@ describe( "A test from getting word forms from the text, based on the stems of a
 		const researcher = new Researcher( testPaper );
 		researcher.addResearchData( "morphology", morphologyDataEN );
 
-		expect( getWordFormsFromText( testPaper, researcher ) ).toEqual(
+		expect( getWordForms( testPaper, researcher ) ).toEqual(
 			{
 				keyphraseForms: [ [ "cats", "cat" ], [ "dogs", "dog" ] ],
 				synonymsForms: [ [ [ "some purring felines"  ] ], [ [ "canines", "canine" ] ] ],
@@ -243,7 +243,7 @@ describe( "A test from getting word forms from the text, based on the stems of a
 		const researcher = new Researcher( testPaper );
 		researcher.addResearchData( "morphology", morphologyDataEN );
 
-		expect( getWordFormsFromText( testPaper, researcher ) ).toEqual(
+		expect( getWordForms( testPaper, researcher ) ).toEqual(
 			{
 				keyphraseForms: [ [ "cats and dogs" ] ],
 				synonymsForms: [ [ [ "some purring felines"  ] ], [ [ "these friendly canines" ] ] ],
@@ -261,7 +261,7 @@ describe( "A test from getting word forms from the text, based on the stems of a
 		const testPaper = new Paper( testText, attributes );
 		const researcher = new Researcher( testPaper );
 
-		expect( getWordFormsFromText( testPaper, researcher ) ).toEqual(
+		expect( getWordForms( testPaper, researcher ) ).toEqual(
 			{
 				keyphraseForms: [ [ "cats" ], [ "dogs" ] ],
 				synonymsForms: [ [ [ "felines" ] ], [ [ "canines" ] ] ],
@@ -278,7 +278,7 @@ describe( "A test from getting word forms from the text, based on the stems of a
 		const testPaper = new Paper( "Cane e gatto. Cani e gatti.", attributes );
 		const researcher = new Researcher( testPaper );
 
-		expect( getWordFormsFromText( testPaper, researcher ) ).toEqual(
+		expect( getWordForms( testPaper, researcher ) ).toEqual(
 			{
 				keyphraseForms: [ [ "cane" ], [ "gatto" ] ],
 				synonymsForms: [  ],
@@ -295,9 +295,172 @@ describe( "A test from getting word forms from the text, based on the stems of a
 		const testPaper = new Paper( "", attributes );
 		const researcher = new Researcher( testPaper );
 
-		expect( getWordFormsFromText( testPaper, researcher ) ).toEqual(
+		expect( getWordForms( testPaper, researcher ) ).toEqual(
 			{
 				keyphraseForms: [ [ "katte" ], [ "en" ], [ "honde" ] ],
+				synonymsForms: [],
+			}
+		);
+	} );
+} );
+
+describe( "A test for creating basic morphology forms in supported languages", () => {
+	it( "returns all possible prefixed forms for Hebrew keyphrases", () => {
+		const attributes = {
+			keyword: "בראשית לארץ",
+			locale: "he_IL",
+		};
+		const testPaper = new Paper( "", attributes );
+		const researcher = new Researcher( testPaper );
+
+		expect( getWordForms( testPaper, researcher ) ).toEqual(
+			{
+				keyphraseForms: [
+					[
+						"בראשית",
+						"בבראשית",
+						"הבראשית",
+						"ובראשית",
+						"כבראשית",
+						"לבראשית",
+						"מבראשית",
+						"שבראשית",
+						"ראשית",
+						"הראשית",
+						"וראשית",
+						"כראשית",
+						"לראשית",
+						"מראשית",
+						"שראשית",
+					],
+					[
+						"לארץ",
+						"בלארץ",
+						"הלארץ",
+						"ולארץ",
+						"כלארץ",
+						"ללארץ",
+						"מלארץ",
+						"שלארץ",
+						"ארץ",
+						"בארץ",
+						"הארץ",
+						"וארץ",
+						"כארץ",
+						"מארץ",
+						"שארץ",
+					],
+				],
+				synonymsForms: [],
+			}
+		);
+	} );
+} );
+
+describe( "A test for creating basic morphology forms in supported languages", () => {
+	it( "returns all possible prefixed forms for Arabic keyphrases", () => {
+		const attributes = {
+			keyword: "لتجاهل الرسالة",
+			locale: "ar",
+		};
+		const testPaper = new Paper( "", attributes );
+		const researcher = new Researcher( testPaper );
+
+		expect( getWordForms( testPaper, researcher ) ).toEqual(
+			{
+				keyphraseForms: [
+					[
+						"لتجاهل",
+						"للتجاهل",
+						"بلتجاهل",
+						"اللتجاهل",
+						"كلتجاهل",
+						"ولتجاهل",
+						"فلتجاهل",
+						"سلتجاهل",
+						"ألتجاهل",
+						"تجاهل",
+						"بتجاهل",
+						"التجاهل",
+						"كتجاهل",
+						"وتجاهل",
+						"فتجاهل",
+						"ستجاهل",
+						"أتجاهل",
+					],
+					[
+						"الرسالة",
+						"لالرسالة",
+						"بالرسالة",
+						"الالرسالة",
+						"كالرسالة",
+						"والرسالة",
+						"فالرسالة",
+						"سالرسالة",
+						"أالرسالة",
+						"رسالة",
+						"لرسالة",
+						"برسالة",
+						"كرسالة",
+						"ورسالة",
+						"فرسالة",
+						"سرسالة",
+						"أرسالة",
+					],
+				],
+				synonymsForms: [],
+			}
+		);
+	} );
+} );
+
+describe( "A test for creating basic morphology forms in supported languages", () => {
+	it( "returns all possible prefixed forms for Farsi keyphrases", () => {
+		const attributes = {
+			keyword: "دانشجوی زرنگی",
+			locale: "fa",
+		};
+		const testPaper = new Paper( "", attributes );
+		const researcher = new Researcher( testPaper );
+
+		expect( getWordForms( testPaper, researcher ) ).toEqual(
+			{
+				keyphraseForms: [
+					[
+						"دانشجوی",
+						"ندانشجوی",
+						"دانشجوی‌ای",
+						"دانشجویمان",
+						"دانشجویشان",
+						"دانشجویتان",
+						"دانشجویش",
+						"دانشجویت",
+						"دانشجویم",
+						"دانشجویی",
+						"دانشجو",
+						"ندانشجو",
+					],
+					[
+						"زرنگی",
+						"نزرنگی",
+						"زرنگی‌ای",
+						"زرنگیمان",
+						"زرنگیشان",
+						"زرنگیتان",
+						"زرنگیش",
+						"زرنگیت",
+						"زرنگیم",
+						"زرنگیی",
+						"زرنگ",
+						"نزرنگ",
+						"زرنگمان",
+						"زرنگشان",
+						"زرنگتان",
+						"زرنگش",
+						"زرنگت",
+						"زرنگم",
+					],
+				],
 				synonymsForms: [],
 			}
 		);

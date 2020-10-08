@@ -9,7 +9,7 @@ import noop from "lodash/noop";
 import { assessments, string, helpers } from "yoastseo";
 import { ErrorBoundary, SvgIcon, Button } from "@yoast/components";
 import { colors } from "@yoast/style-guide";
-import { getDirectionalStyle } from "@yoast/helpers";
+import { getDirectionalStyle, join } from "@yoast/helpers";
 import {
 	replacementVariablesShape,
 	recommendedReplacementVariablesShape,
@@ -239,6 +239,7 @@ class SnippetEditor extends React.Component {
 			recommendedReplacementVariables,
 			hasPaperStyle,
 			showCloseButton,
+			idSuffix,
 		} = this.props;
 
 		let {
@@ -270,6 +271,9 @@ class SnippetEditor extends React.Component {
 					descriptionLengthProgress={ descriptionLengthProgress }
 					descriptionEditorFieldPlaceholder={ descriptionEditorFieldPlaceholder }
 					containerPadding={ hasPaperStyle ? "0 20px" : "0" }
+					titleInputId={ join( [ "yoast-google-preview-title", idSuffix ] ) }
+					slugInputId={ join( [ "yoast-google-preview-slug", idSuffix ] ) }
+					descriptionInputId={ join( [ "yoast-google-preview-description", idSuffix ] ) }
 				/>
 				{ showCloseButton &&
 					<CloseEditorButton onClick={ this.close }>{ __( "Close snippet editor", "yoast-components" ) }</CloseEditorButton>
@@ -417,7 +421,7 @@ class SnippetEditor extends React.Component {
 		// Strip multiple spaces and spaces at the beginning and end.
 		description = string.stripSpaces( description );
 
-		const shortenedBaseUrl = baseUrl.replace( /^http:\/\//i, "" );
+		const shortenedBaseUrl = baseUrl.replace( /^https?:\/\//i, "" );
 
 		const mappedData = {
 			title: this.processReplacementVariables( originalData.title, replacementVariables ),
@@ -513,6 +517,7 @@ class SnippetEditor extends React.Component {
 			showCloseButton,
 			faviconSrc,
 			mobileImageSrc,
+			idSuffix,
 		} = this.props;
 
 		const {
@@ -532,8 +537,12 @@ class SnippetEditor extends React.Component {
 		return (
 			<ErrorBoundary>
 				<div>
-					<ModeSwitcher onChange={ ( newMode ) => onChange( "mode", newMode ) } active={ mode } />
-
+					<ModeSwitcher
+						onChange={ ( newMode ) => onChange( "mode", newMode ) }
+						active={ mode }
+						mobileModeInputId={ join( [ "yoast-google-preview-mode-mobile", idSuffix ] ) }
+						desktopModeInputId={ join( [ "yoast-google-preview-mode-desktop", idSuffix ] ) }
+					/>
 					<SnippetPreview
 						keyword={ keyword }
 						wordsToHighlight={ wordsToHighlight }
@@ -591,6 +600,7 @@ SnippetEditor.propTypes = {
 	showCloseButton: PropTypes.bool,
 	faviconSrc: PropTypes.string,
 	mobileImageSrc: PropTypes.string,
+	idSuffix: PropTypes.string,
 };
 
 SnippetEditor.defaultProps = {
@@ -610,6 +620,7 @@ SnippetEditor.defaultProps = {
 		score: 0,
 	},
 	mapEditorDataToPreview: null,
+	keyword: "",
 	locale: "en",
 	descriptionEditorFieldPlaceholder: "",
 	onChangeAnalysisData: noop,
@@ -617,6 +628,7 @@ SnippetEditor.defaultProps = {
 	showCloseButton: true,
 	faviconSrc: "",
 	mobileImageSrc: "",
+	idSuffix: "",
 };
 
 export default SnippetEditor;

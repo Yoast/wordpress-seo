@@ -36,5 +36,20 @@ describe( "Removing punctuation at the begin and end of a word", function() {
 		expect( removePunctuation( "'word×" ) ).toBe( "word" );
 		expect( removePunctuation( "'word+" ) ).toBe( "word" );
 		expect( removePunctuation( "'word&" ) ).toBe( "word" );
+		expect( removePunctuation( "„word‟" ) ).toBe( "word" );
 	} );
 } );
+
+describe( "Removing language-specific punctuation", function() {
+	it( "returns a word without punctuation.", function() {
+		// Arabic comma
+		expect( removePunctuation( "المقاومة،" ) ).toBe( "المقاومة" );
+		// Arabic question mark
+		expect( removePunctuation( "الجيدة؟" ) ).toBe( "الجيدة" );
+		// Arabic semicolon
+		expect( removePunctuation( "الجيدة؛" ) ).toBe( "الجيدة" );
+		// Urdu full stop
+		expect( removePunctuation( "گئے۔" ) ).toBe( "گئے" );
+	} );
+} );
+

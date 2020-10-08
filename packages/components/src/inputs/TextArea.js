@@ -16,15 +16,15 @@ import { getId } from "../GenerateId";
 const TextArea = ( props ) => {
 	const id = getId( props.id );
 	const fieldGroupProps = {
-		htmlFor: id,
 		...props,
+		htmlFor: id,
 	};
 	return (
 		<FieldGroup { ...fieldGroupProps }>
 			<textarea
 				id={ id }
 				name={ props.name }
-				defaultValue={ props.value }
+				value={ props.value }
 				className="yoast-field-group__textarea"
 				aria-describedby={ props.ariaDescribedBy }
 				onChange={ props.onChange }

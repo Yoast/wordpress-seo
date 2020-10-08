@@ -2,16 +2,17 @@
 import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
-import { __ } from "@wordpress/i18n";
-import noop from "lodash/noop";
+import { noop, isEmpty } from "lodash-es";
 
 /* Yoast dependencies */
 import { addFocusStyle, SvgIcon, InputField } from "@yoast/components";
 import { getDirectionalStyle } from "@yoast/helpers";
 import { colors } from "@yoast/style-guide";
 
-const errorColor = colors.$color_red;
+const errorColor = colors.$color_bad;
+const backgroundErrorColor = colors.$palette_error_background;
 const greyColor = colors.$color_grey_text_light;
+const inputErrorColor = colors.$palette_error_text;
 
 const KeywordInputContainer = styled.div`
 	display: flex;
@@ -19,8 +20,8 @@ const KeywordInputContainer = styled.div`
 `;
 
 const KeywordFieldLabel = styled.label`
-	font-size: 1em;
-	font-weight: bold;
+	font-size: var(--yoast-font-size-default);
+	font-weight: var(--yoast-font-weight-bold);
 	${ getDirectionalStyle( "margin-right: 4px", "margin-left: 4px" ) };
 `;
 
@@ -41,14 +42,25 @@ const KeywordField = styled( InputField )`
 
 	&.has-error {
 		border-color: ${ errorColor } !important;
-		box-shadow: 0 0 2px ${ errorColor } !important;
+		background-color: ${ backgroundErrorColor } !important;
+
+		&:focus {
+			box-shadow: 0 0 2px ${ errorColor } !important;
+		}
 	}
 `;
 
-const ErrorText = styled.p`
-	color: ${ errorColor };
-	margin: 0.5em 0 0 0;
-	min-height: 1.8em;
+const ErrorList = styled.ul`
+	color: ${ inputErrorColor };
+	list-style-type: disc;
+	list-style-position: outside;
+	margin: 0;
+	margin-left: 1.2em;
+`;
+
+const ErrorListItem = styled.li`
+	color: ${ inputErrorColor };
+	margin: 0 0 0.5em 0;
 `;
 
 const BorderlessButton = addFocusStyle(
@@ -74,7 +86,7 @@ BorderlessButton.propTypes = {
 BorderlessButton.defaultProps = {
 	type: "button",
 	focusColor: colors.$color_button_text_hover,
-	focusBackgroundColor: colors.$color_white,
+	focusBackgroundColor: "transparent",
 	focusBorderColor: colors.$color_blue,
 };
 
@@ -118,35 +130,6 @@ class KeywordInput extends React.Component {
 		super( props );
 
 		this.handleChange = this.handleChange.bind( this );
-		this.displayErrorMessage = this.displayErrorMessage.bind( this );
-	}
-
-	/**
-	 * Checks the keyword input for comma-separated words.
-	 *
-	 * @param {string} keywordText The text of the input.
-	 *
-	 * @returns {boolean} Returns true if a comma was found.
-	 */
-	checkKeywordInput( keywordText ) {
-		return keywordText.includes( "," );
-	}
-
-	/**
-	 * Displays the error message
-	 *
-	 * @param {boolean} showErrorMessage Whether or not the error message has to be shown.
-	 *
-	 * @returns {ReactElement} ErrorText The error message element.
-	 */
-	displayErrorMessage( showErrorMessage ) {
-		if ( showErrorMessage && this.props.keyword !== "" ) {
-			return (
-				<ErrorText role="alert">
-					{ __( "Are you trying to use multiple keyphrases? You should add them separately below.", "yoast-components" ) }
-				</ErrorText>
-			);
-		}
 	}
 
 	/**
@@ -182,14 +165,33 @@ class KeywordInput extends React.Component {
 	}
 
 	/**
+	 * Renders the input's error message list.
+	 *
+	 * @returns {ReactElement} The error list.
+	 */
+	renderErrorMessages() {
+		const errorMessages = [ ...this.props.errorMessages ];
+		return (
+			! isEmpty( errorMessages ) &&
+				<ErrorList>
+					{ errorMessages.map( ( message, index ) =>
+						<ErrorListItem
+							key={ index }
+						>
+							<span role="alert">{ message }</span>
+						</ErrorListItem>
+					) }
+				</ErrorList>
+		);
+	}
+
+	/**
 	 * Renders an input field, a label, and if the condition is met, an error message.
 	 *
 	 * @returns {ReactElement} The KeywordField react component including its label and eventual error message.
 	 */
 	render() {
-		const { id, showLabel, keyword, onRemoveKeyword, onBlurKeyword, onFocusKeyword } = this.props;
-		const showErrorMessage = this.checkKeywordInput( keyword );
-
+		const { id, showLabel, keyword, onRemoveKeyword, onBlurKeyword, onFocusKeyword, hasError } = this.props;
 		// The aria label should not be shown if there is a visible label.
 		const showAriaLabel = ! showLabel;
 
@@ -198,6 +200,7 @@ class KeywordInput extends React.Component {
 		return (
 			<KeywordInputContainer>
 				{ showLabel && this.renderLabel() }
+				{ hasError && this.renderErrorMessages() }
 				<YoastInputButtonContainer
 					className={ showRemoveKeywordButton ? "has-remove-keyword-button" : null }
 				>
@@ -205,7 +208,7 @@ class KeywordInput extends React.Component {
 						aria-label={ showAriaLabel ? this.props.label : null }
 						type="text"
 						id={ id }
-						className={ showErrorMessage ? "has-error" : null }
+						className={ hasError ? "has-error" : null }
 						onChange={ this.handleChange }
 						onFocus={ onFocusKeyword }
 						onBlur={ onBlurKeyword }
@@ -222,7 +225,6 @@ class KeywordInput extends React.Component {
 						</BorderlessButton>
 					) }
 				</YoastInputButtonContainer>
-				{ this.displayErrorMessage( showErrorMessage ) }
 			</KeywordInputContainer>
 		);
 	}
@@ -238,6 +240,10 @@ KeywordInput.propTypes = {
 	onFocusKeyword: PropTypes.func,
 	label: PropTypes.string.isRequired,
 	helpLink: PropTypes.node,
+	hasError: PropTypes.bool,
+	errorMessages: PropTypes.arrayOf(
+		PropTypes.string
+	),
 };
 
 KeywordInput.defaultProps = {
@@ -247,6 +253,8 @@ KeywordInput.defaultProps = {
 	onBlurKeyword: noop,
 	onFocusKeyword: noop,
 	helpLink: null,
+	hasError: false,
+	errorMessages: [],
 };
 
 export default KeywordInput;

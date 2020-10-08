@@ -2,7 +2,7 @@
 import React from "react";
 import ReactShallowRenderer from "react-test-renderer/shallow";
 import {
-	Button,
+	NewButton as Button,
 	ButtonStyledLink,
 	CloseButton,
 } from "../../src/button";
@@ -31,6 +31,38 @@ describe( "Button", () => {
 		expect( result.props.id ).toBe( "very-nice-id" );
 		expect( result.props.className ).toBe( "yoast-button yoast-button--primary" );
 		expect( result.type ).toBe( "button" );
+	} );
+
+	it( "should render a small button based on the provided 'small' prop", () => {
+		shallowRenderer.render(
+			<Button
+				onClick={ ()=>{} }
+				id="very-nice-id"
+				variant="buy"
+				small={ true }
+			/>
+		);
+
+		const result = shallowRenderer.getRenderOutput();
+
+		expect( result ).toBeDefined();
+		expect( result.props.className ).toBe( "yoast-button yoast-button--buy yoast-button--small" );
+	} );
+
+	it( "should render a small button based on the provided 'disabled' prop", () => {
+		shallowRenderer.render(
+			<Button
+				onClick={ ()=>{} }
+				id="very-nice-id"
+				variant="secondary"
+				disabled={ true }
+			/>
+		);
+
+		const result = shallowRenderer.getRenderOutput();
+
+		expect( result ).toBeDefined();
+		expect( result.props.className ).toBe( "yoast-button yoast-button--secondary" );
 	} );
 
 	it( "generates an error if wrong props are provided", () => {

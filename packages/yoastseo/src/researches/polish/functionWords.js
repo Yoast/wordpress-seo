@@ -257,7 +257,28 @@ const delexicalizedVerbs = [ "bierz", "bierzcie", "bierzecie", "bierzemy", "bier
 	"zrobię", "zrobił", "zrobiła", "zrobiłaby", "zrobiłabym", "zrobiłabyś", "zrobiłam", "zrobiłaś", "zrobiłby",
 	"zrobiłbym", "zrobiłbyś", "zrobiłem", "zrobiłeś", "zrobili", "zrobilibiście", "zrobiliby", "zrobilibyśmy",
 	"zrobiliście", "zrobiliśmy", "zrobiło", "zrobiły", "zrobiłyby", "zrobiłybyście", "zrobiłybyśmy", "zrobiłyście",
-	"zrobiłyśmy", "zrobimy", "zrobiono", "zrobiony", "zrobisz", "zróbmy" ];
+	"zrobiłyśmy", "zrobimy", "zrobiono", "zrobiony", "zrobisz", "zróbmy", "powinno", "bywa", "wiedzieć", "znać",
+	"wiedział", "wiedziała", "wiedziały", "wiedzieli", "znał", "znała", "znali", "znały", "powie", "wie", "zna",
+	"zobaczy", "powiedzą", "powiedziano", "powiem", "wiedzą", "wiedzące", "wiedzący", "wiedziało", "wiedziano",
+	"wiem", "znają", "znające", "znający", "znało", "znam", "znane", "znano", "zobaczą", "zobaczę", "zobaczone",
+	"zobaczono", "powiecie", "powiedz", "powiedzcie", "powiedzenie", "powiedział", "powiedziała", "powiedziałaby",
+	"powiedziałabym", "powiedziałabyś", "powiedziałam", "powiedziałaś", "powiedziałby", "powiedziałbym",
+	"powiedziałbyś", "powiedziałem", "powiedziałeś", "powiedziało", "powiedziałoby", "powiedziały", "powiedziałyby",
+	"powiedziałybyście", "powiedziałybyśmy", "powiedziałyście", "powiedziałyśmy", "powiedziawszy", "powiedzieć",
+	"powiedzieli", "powiedzieliby", "powiedzielibyście", "powiedzielibyśmy", "powiedzieliście", "powiedzieliśmy",
+	"powiedzmy", "powiemy", "powiesz", "wiecie", "wiedz", "wiedząc", "wiedząca", "wiedzcie", "wiedziałaby",
+	"wiedziałabym", "wiedziałabyś", "wiedziałam", "wiedziałaś", "wiedziałby", "wiedziałbym", "wiedziałbyś",
+	"wiedziałem", "wiedziałeś", "wiedziałoby", "wiedziałyby", "wiedziałybyście", "wiedziałybyśmy", "wiedziałyście",
+	"wiedziałyśmy", "wiedzieliby", "wiedzielibyście", "wiedzielibyśmy", "wiedzieliście", "wiedzieliśmy", "wiedzmy",
+	"wiemy", "wiesz", "znacie", "znaj", "znając", "znająca", "znajcie", "znajmy", "znałaby", "znałabym", "znałabyś",
+	"znałam", "znałaś", "znałby", "znałbym", "znałbyś", "znałem", "znałeś", "znaliby", "znalibyście", "znalibyśmy",
+	"znaliście", "znaliśmy", "znałoby", "znałyby", "znałybyście", "znałybyśmy", "znałyście", "znałyśmy", "znamy",
+	"znana", "znani", "znanie", "znany", "znasz", "zobacz", "zobaczcie", "zobaczeni", "zobaczenie", "zobaczmy",
+	"zobaczona", "zobaczony", "zobaczyć", "zobaczycie", "zobaczył", "zobaczyła", "zobaczyłaby", "zobaczyłabym",
+	"zobaczyłabyś", "zobaczyłam", "zobaczyłaś", "zobaczyłby", "zobaczyłbym", "zobaczyłbyś", "zobaczyłem", "zobaczyłeś",
+	"zobaczyli", "zobaczyliby", "zobaczylibyście", "zobaczylibyśmy", "zobaczyliście", "zobaczyliśmy", "zobaczyło",
+	"zobaczyłoby", "zobaczyły", "zobaczyłyby", "zobaczyłybyście", "zobaczyłybyśmy", "zobaczyłyście", "zobaczyłyśmy",
+	"zobaczymy", "zobaczysz", "zobaczywszy" ];
 
 const delexicalisedVerbsInfinitive = [ "brać", "dać", "dawać", "iść", "robić", "stanowić", "uprawiać", "wykonywać", "wziąć",
 	"zrobić" ];
@@ -317,7 +338,10 @@ const generalAdjectives = [ "cała", "całą", "całe", "całego", "całej", "ca
 	"właściwa", "właściwą", "właściwe", "właściwego", "właściwej", "właściwemu", "właściwi", "właściwy", "właściwych",
 	"właściwym", "właściwymi", "wysocy", "wysoka", "wysoką", "wysoki", "wysokich", "wysokie", "wysokiego", "wysokiej",
 	"wysokiemu", "wysokim", "wysokimi", "wyżsi", "wyższa", "wyższą", "wyższe", "wyższego", "wyższej", "wyższemu",
-	"wyższy", "wyższych", "wyższym", "wyższymi" ];
+	"wyższy", "wyższych", "wyższym", "wyższymi", "kolejne", "różne", "złe", "kolejnych", "różnych", "złych",
+	"kolejnego", "kolejnej", "kolejny", "kolejnym", "różnego", "różnej", "różny", "różnym", "złego", "złej",
+	"zły", "złym", "kolejna", "kolejną", "kolejnemu", "kolejni", "kolejnymi", "różna", "różną", "różnemu", "różni",
+	"różnymi", "zła", "złą", "złemu", "źli", "złymi" ];
 
 const generalAdverbs = [ "blisko", "bliżej", "ciągle", "ciężko", "czasami", "czasem", "częściej", "często", "dalej",
 	"daleko", "dawniej", "dawno", "dobrze", "dopiero", "fajnie", "fajniej", "gorzej", "inaczej", "ładnie", "łatwiej", "łatwo",
@@ -325,7 +349,7 @@ const generalAdverbs = [ "blisko", "bliżej", "ciągle", "ciężko", "czasami", 
 	"najniżej", "najpóźniej", "najprościej", "najszybciej", "najtrudniej", "najwcześniej", "najwyżej", "naprawdę",
 	"niedaleko", "niedawno", "nisko", "niżej", "ostatnio", "pewno", "póżniej", "późno", "prawie", "prościej", "prosto",
 	"prostu", "szybciej", "szybko", "trochę", "trudniej", "trudno", "wcześnie", "wcześniej", "wolno", "wszędzie",
-	"wysoko", "wyżej", "zazwyczaj", "źle" ];
+	"wysoko", "wyżej", "zazwyczaj", "źle", "jedynie", "obecnie", "teraz", "szczególnie", "zwykle" ];
 
 const timeWords = [ "dni", "dnia", "dniach", "dniami", "dnie", "dzień", "dzisiaj", "godzin", "godzina", "godzinach",
 	"godzinami", "godzinę", "godziny", "jutro", "lata", "latach", "latami", "miesiąc", "miesiąca", "miesiącach",
@@ -342,7 +366,7 @@ const vagueNouns = [ "chwila", "chwilą", "chwilach", "chwilami", "chwile", "chw
 	"sprawa", "sprawą", "sprawach", "sprawami", "sprawę", "sprawie", "sprawom", "sprawy", "temacie", "temat", "tematach",
 	"tematami", "tematem", "tematom", "tematów", "tematowi", "tematu", "tematy" ];
 
-const titles = [ "dr", "dyr", "mgr", "p", "pan", "pani", "panie", "panowie", "prof" ];
+const titles = [ "dr", "dyr", "mgr", "p", "pan", "pani", "panie", "panowie", "prof", "hab" ];
 
 const interjections = [ "a", "ach", "aha", "aj", "akurat", "ał", "aua", "auć", "ba", "brawo", "e", "ech", "ehe", "ehm", "ej",
 	"ejże", "ekhm", "ekstra", "jej", "jejku", "łał", "och", "oh", "oho", "oj", "ojej", "ojejku", "phi", "precz", "super",
@@ -355,7 +379,7 @@ const measurementUnits = [ "°C", "°F", "ar", "ary", "arów", "arach", "c", "cl
 	"m²", "m³", "mg", "ml", "mm", "mm²", "mm³", "szczypta", "szczyptę", "szczypty", "szklanka", "szklankę", "szklanki",
 	"tuzin" ];
 
-const miscellaneous = [ "nie", "no", "oto", "tak", "sobie", "ok", "okej" ];
+const miscellaneous = [ "nie", "no", "oto", "tak", "sobie", "ok", "okej", "itp", "itd", "tzw" ];
 
 /**
  * Returns the Polish function words.
