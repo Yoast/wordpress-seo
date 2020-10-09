@@ -42,7 +42,7 @@ class Enhanced_Data_Presenter extends Abstract_Indexable_Presenter {
 		if ( ! empty( $post_content ) ) {
 			$data[ __( 'Est. reading time', 'wordpress-seo' ) ] = $this->get_reading_time( $post_content );
 		}
-		return \apply_filters( 'wpseo_enhanced_data', $data );
+		return \apply_filters( 'wpseo_enhanced_data', $data, $this->presentation );
 	}
 
 	/**
