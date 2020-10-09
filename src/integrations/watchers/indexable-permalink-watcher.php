@@ -111,8 +111,8 @@ class Indexable_Permalink_Watcher implements Integration_Interface {
 		}
 
 		$this->indexable_helper->reset_permalink_indexables( 'user', null, $this->reason );
-		$this->indexable_helper->reset_permalink_indexables( 'date-archive', $this->reason );
-		$this->indexable_helper->reset_permalink_indexables( 'system-page' , null, $this->reason);
+		$this->indexable_helper->reset_permalink_indexables( 'date-archive', null, $this->reason );
+		$this->indexable_helper->reset_permalink_indexables( 'system-page', null, $this->reason);
 
 		// Always update `permalink_structure`, `category_base_url` and `tag_base_url` in the wpseo option.
 		$this->options_helper->set( 'permalink_structure', \get_option( 'permalink_structure' ) );
@@ -146,13 +146,13 @@ class Indexable_Permalink_Watcher implements Integration_Interface {
 		}
 
 		if ( $subtype === 'category' ) {
-			$subtype = 'post_category';
+			$subtype      = 'post_category';
 			$this->reason = Indexing_Notification_Integration::REASON_CATEGORY_BASE_PREFIX;
 		}
 
 		if ( $subtype === 'tag' ) {
 			$this->reason = Indexing_Notification_Integration::REASON_TAG_BASE_PREFIX;
-			$subtype = 'post_tag';
+			$subtype      = 'post_tag';
 		}
 
 		$this->indexable_helper->reset_permalink_indexables( 'term', $subtype, $this->reason );
@@ -185,11 +185,11 @@ class Indexable_Permalink_Watcher implements Integration_Interface {
 			$this->reason = Indexing_Notification_Integration::REASON_PERMALINK_SETTINGS;
 			return true;
 		}
-		else if ( \get_option( 'category_base' ) !== $this->options_helper->get( 'category_base_url' ) ) {
+		elseif ( \get_option( 'category_base' ) !== $this->options_helper->get( 'category_base_url' ) ) {
 			$this->reason = Indexing_Notification_Integration::REASON_CATEGORY_BASE_PREFIX;
 			return true;
 		}
-		else if ( \get_option( 'tag_base' ) !== $this->options_helper->get( 'tag_base_url' ) ) {
+		elseif ( \get_option( 'tag_base' ) !== $this->options_helper->get( 'tag_base_url' ) ) {
 			$this->reason = Indexing_Notification_Integration::REASON_TAG_BASE_PREFIX;
 			return true;
 		}
