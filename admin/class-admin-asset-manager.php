@@ -721,6 +721,33 @@ class WPSEO_Admin_Asset_Manager {
 				'name' => 'draft-js',
 				'src'  => 'draft-js-' . $flat_version,
 			],
+			[
+				'name' => 'elementor',
+				'src'  => 'elementor-' . $flat_version,
+				'deps' => [
+					'jquery',
+					'wp-api',
+					'wp-api-fetch',
+					'wp-data',
+					'wp-i18n',
+					'wp-is-shallow-equal',
+					'wp-sanitize',
+					'wp-url',
+					'wp-util',
+					'wp-annotations',
+					'wp-blocks',
+					'wp-components',
+					'wp-compose',
+					'wp-edit-post',
+					'wp-element',
+					self::PREFIX . 'components',
+					self::PREFIX . 'analysis',
+					self::PREFIX . 'commons',
+					self::PREFIX . 'redux',
+					self::PREFIX . 'select2',
+					self::PREFIX . 'select2-translations',
+				],
+			],
 		];
 	}
 
