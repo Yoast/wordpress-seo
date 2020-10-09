@@ -13,11 +13,4 @@ interface Indexing_Interface {
 	 * @return int The total amount.
 	 */
 	public function get_total_unindexed();
-
-	/**
-	 * Retrieves the endpoints to call.
-	 *
-	 * @return array The endpoints.
-	 */
-	public function get_endpoints();
 }

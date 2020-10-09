@@ -3,28 +3,25 @@
 namespace Yoast\WP\SEO\Integrations\Admin;
 
 use WPSEO_Admin_Asset_Manager;
+use Yoast\WP\SEO\Actions\Indexation\Indexable_General_Indexation_Action;
+use Yoast\WP\SEO\Actions\Indexation\Indexable_Post_Indexation_Action;
+use Yoast\WP\SEO\Actions\Indexation\Indexable_Post_Type_Archive_Indexation_Action;
+use Yoast\WP\SEO\Actions\Indexation\Indexable_Term_Indexation_Action;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
 use Yoast\WP\SEO\Conditionals\Yoast_Tools_Page_Conditional;
 use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Short_Link_Helper;
-use Yoast\WP\SEO\Integrations\Indexing_Interface;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Presenters\Admin\Indexing_List_Item_Presenter;
+use Yoast\WP\SEO\Routes\Indexable_Indexation_Route;
 
 /**
- * Class Indexing_Integration.
+ * Class Indexing_Tool_Integration.
  *
  * @package Yoast\WP\SEO\Integrations\Admin
  */
-class Indexing_Integration implements Integration_Interface {
-
-	/**
-	 * The total number of unindexed objects.
-	 *
-	 * @var int
-	 */
-	protected $total_unindexed;
+class Indexing_Tool_Integration implements Integration_Interface {
 
 	/**
 	 * Represents the admin asset manager.
@@ -32,13 +29,6 @@ class Indexing_Integration implements Integration_Interface {
 	 * @var WPSEO_Admin_Asset_Manager
 	 */
 	protected $asset_manager;
-
-	/**
-	 * Represents the integrations.
-	 *
-	 * @var Indexing_Interface[]
-	 */
-	protected $indexing_integrations = [];
 
 	/**
 	 * Represents the indexables helper.
@@ -61,6 +51,35 @@ class Indexing_Integration implements Integration_Interface {
 	 */
 	protected $options_helper;
 
+
+	/**
+	 * The post indexation action.
+	 *
+	 * @var Indexable_Post_Indexation_Action
+	 */
+	protected $post_indexation;
+
+	/**
+	 * The term indexation action.
+	 *
+	 * @var Indexable_Term_Indexation_Action
+	 */
+	protected $term_indexation;
+
+	/**
+	 * The post type archive indexation action.
+	 *
+	 * @var Indexable_Post_Type_Archive_Indexation_Action
+	 */
+	protected $post_type_archive_indexation;
+
+	/**
+	 * Represents the general indexation.
+	 *
+	 * @var Indexable_General_Indexation_Action
+	 */
+	protected $general_indexation;
+
 	/**
 	 * Returns the conditionals based on which this integration should be active.
 	 *
@@ -76,25 +95,34 @@ class Indexing_Integration implements Integration_Interface {
 	/**
 	 * Indexing_Integration constructor.
 	 *
-	 * @param Indexing_Indexables_Integration $indexing_indexables_integration The indexables_indexing integration.
-	 * @param WPSEO_Admin_Asset_Manager       $asset_manager                   The admin asset manager.
-	 * @param Indexable_Helper                $indexable_helper                The indexable helper.
-	 * @param Short_Link_Helper               $short_link_helper               The short link helper.
-	 * @param Options_Helper                  $options_helper                  The options helper.
+	 * @param WPSEO_Admin_Asset_Manager $asset_manager     The admin asset manager.
+	 * @param Indexable_Helper          $indexable_helper  The indexable helper.
+	 * @param Short_Link_Helper         $short_link_helper The short link helper.
+	 * @param Options_Helper            $options_helper    The options helper.
+	 * @param Indexable_Post_Indexation_Action              $post_indexation              The post indexing action.
+	 * @param Indexable_Term_Indexation_Action              $term_indexation              The term indexing action.
+	 * @param Indexable_Post_Type_Archive_Indexation_Action $post_type_archive_indexation The post type archive indexing action.
+	 * @param Indexable_General_Indexation_Action           $general_indexation
 	 */
 	public function __construct(
-		Indexing_Indexables_Integration $indexing_indexables_integration,
 		WPSEO_Admin_Asset_Manager $asset_manager,
 		Indexable_Helper $indexable_helper,
 		Short_Link_Helper $short_link_helper,
-		Options_Helper $options_helper
+		Options_Helper $options_helper,
+		Indexable_Post_Indexation_Action $post_indexation,
+		Indexable_Term_Indexation_Action $term_indexation,
+		Indexable_Post_Type_Archive_Indexation_Action $post_type_archive_indexation,
+		Indexable_General_Indexation_Action $general_indexation
 	) {
 		$this->asset_manager     = $asset_manager;
 		$this->indexable_helper  = $indexable_helper;
 		$this->short_link_helper = $short_link_helper;
 		$this->options_helper    = $options_helper;
 
-		$this->indexing_integrations[] = $indexing_indexables_integration;
+		$this->post_indexation              = $post_indexation;
+		$this->term_indexation              = $term_indexation;
+		$this->post_type_archive_indexation = $post_type_archive_indexation;
+		$this->general_indexation           = $general_indexation;
 	}
 
 	/**
@@ -102,20 +130,7 @@ class Indexing_Integration implements Integration_Interface {
 	 */
 	public function register_hooks() {
 		\add_action( 'wpseo_tools_overview_list_items', [ $this, 'render_indexing_list_item' ], 10 );
-		\add_action( 'admin_enqueue_scripts', [ $this, 'set_indexing_integrations' ], 9 );
 		\add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_scripts' ], 10 );
-	}
-
-	/**
-	 * Sets the indexing integrations.
-	 */
-	public function set_indexing_integrations() {
-		/**
-		 * Filter: 'wpseo_indexing_instances' - Allow adding items for indexing content.
-		 *
-		 * @param Indexing_Integration[] $indexing_integrations The list of indexing integrations.
-		 */
-		$this->indexing_integrations = apply_filters( 'wpseo_indexing_instances', $this->indexing_integrations );
 	}
 
 	/**
@@ -130,7 +145,7 @@ class Indexing_Integration implements Integration_Interface {
 
 		$data = [
 			'disabled'  => ! $this->indexable_helper->should_index_indexables(),
-			'amount'    => $this->get_total_unindexed(),
+			'amount'    => $this->get_unindexed_count(),
 			'firstTime' => ( $this->options_helper->get( 'indexing_first_time', true ) === true ),
 			'restApi'   => [
 				'root'      => \esc_url_raw( \rest_url() ),
@@ -152,17 +167,17 @@ class Indexing_Integration implements Integration_Interface {
 	/**
 	 * Returns the total number of unindexed objects.
 	 *
+	 * @param int $unindexed_count
+	 *
 	 * @return int The total number of unindexed objects.
 	 */
-	public function get_total_unindexed() {
-		if ( \is_null( $this->total_unindexed ) ) {
-			$this->total_unindexed = 0;
-			foreach ( $this->indexing_integrations as $indexing_integration ) {
-				$this->total_unindexed += $indexing_integration->get_total_unindexed();
-			}
-		}
+	public function get_unindexed_count( $unindexed_count = 0 ) {
+		$unindexed_count += $this->post_indexation->get_total_unindexed();
+		$unindexed_count += $this->term_indexation->get_total_unindexed();
+		$unindexed_count += $this->general_indexation->get_total_unindexed();
+		$unindexed_count += $this->post_type_archive_indexation->get_total_unindexed();
 
-		return $this->total_unindexed;
+		return \apply_filters( 'wpseo_indexing_get_unindexed_count', $unindexed_count );
 	}
 
 	/**
@@ -183,12 +198,15 @@ class Indexing_Integration implements Integration_Interface {
 	 * @return array The endpoints.
 	 */
 	protected function get_endpoints() {
-		$endpoints = [];
+		$endpoints = [
+			'prepare'  => Indexable_Indexation_Route::FULL_PREPARE_ROUTE,
+			'terms'    => Indexable_Indexation_Route::FULL_TERMS_ROUTE,
+			'posts'    => Indexable_Indexation_Route::FULL_POSTS_ROUTE,
+			'archives' => Indexable_Indexation_Route::FULL_POST_TYPE_ARCHIVES_ROUTE,
+			'general'  => Indexable_Indexation_Route::FULL_GENERAL_ROUTE,
+			'complete' => Indexable_Indexation_Route::FULL_COMPLETE_ROUTE,
+		];
 
-		foreach ( $this->indexing_integrations as $indexing_integration ) {
-			$endpoints[] = $indexing_integration->get_endpoints();
-		}
-
-		return array_merge( [], ...$endpoints );
+		return \apply_filters( 'wpseo_indexing_endpoints', $endpoints );
 	}
 }

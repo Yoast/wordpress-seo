@@ -11,13 +11,13 @@ use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Short_Link_Helper;
 use Yoast\WP\SEO\Integrations\Admin\Indexing_Indexables_Integration;
-use Yoast\WP\SEO\Integrations\Admin\Indexing_Integration;
+use Yoast\WP\SEO\Integrations\Admin\Indexing_Tool_Integration;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
  * Class Indexing_Integration_Test.
  *
- * @coversDefaultClass \Yoast\WP\SEO\Integrations\Admin\Indexing_Integration
+ * @coversDefaultClass \Yoast\WP\SEO\Integrations\Admin\Indexing_Tool_Integration
  *
  * @group integrations
  * @group indexing
@@ -27,7 +27,7 @@ class Indexing_Integration_Test extends TestCase {
 	/**
 	 * The indexation integration under test.
 	 *
-	 * @var Indexing_Integration
+	 * @var Indexing_Tool_Integration
 	 */
 	protected $instance;
 
@@ -78,7 +78,7 @@ class Indexing_Integration_Test extends TestCase {
 		$this->short_link_helper               = Mockery::mock( Short_Link_Helper::class );
 		$this->options_helper                  = Mockery::mock( Options_Helper::class );
 
-		$this->instance = new Indexing_Integration(
+		$this->instance = new Indexing_Tool_Integration(
 			$this->indexing_indexables_integration,
 			$this->asset_manager,
 			$this->indexable_helper,
@@ -120,7 +120,7 @@ class Indexing_Integration_Test extends TestCase {
 	 * @covers ::get_conditionals
 	 */
 	public function test_get_conditionals() {
-		$actual   = Indexing_Integration::get_conditionals();
+		$actual   = Indexing_Tool_Integration::get_conditionals();
 		$expected = [
 			Yoast_Tools_Page_Conditional::class,
 			Migrations_Conditional::class,
