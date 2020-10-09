@@ -16,13 +16,13 @@ import getPassiveVerbsArabicFactory from "../../arabic/passiveVoice/passiveVerbs
 const getPassiveVerbsArabic = getPassiveVerbsArabicFactory();
 
 import getNifalVerbsHebrewFactory from "../../hebrew/passiveVoice/regularRootsNifal";
-const getNifalVerbsHebrew = getNifalVerbsHebrewFactory();
+const nifalVerbsHebrew = getNifalVerbsHebrewFactory();
 
 import getPualVerbsHebrewFactory from "../../hebrew/passiveVoice/regularRootsPual";
-const getPualVerbsHebrew = getPualVerbsHebrewFactory();
+const pualVerbsHebrew = getPualVerbsHebrewFactory();
 
 import getHufalVerbsHebrewFactory from "../../hebrew/passiveVoice/regularRootsHufal";
-const getHufalVerbsHebrew = getHufalVerbsHebrewFactory();
+const hufalVerbsHebrew = getHufalVerbsHebrewFactory();
 
 /**
  * Matches the sentence against passive verbs.
@@ -129,22 +129,17 @@ const determineSentenceIsPassiveArabic = function( sentence ) {
 /**
  * Checks if the input word's root is in the Hebrew verb roots list.
  *
- * @param {string} word         The word to check.
- * @param {[]} verbRootsList    The Hebrew verb roots list.
- * @param {string[]} prefixes   The list of prefixes.
- * @param {string[]} suffixes   The list of suffixes.
+ * @param {string} word             The word to check.
+ * @param {string[]} verbRootsList  The Hebrew verb roots list.
+ * @param {Object[]} affixesList    The list of prefixes and suffixes.
  *
  * @returns {Boolean}           Returns true if the root of the input word is in the list.
  */
-const checkHebrewVerbRootsList = function( word, verbRootsList, prefixes, suffixes ) {
-	for ( const root of verbRootsList ) {
-		for ( let i = 0; i < prefixes.length; i++ ) {
-			const pattern =  new RegExp( "^" + prefixes[ i ] + root + suffixes[ i ] + "$" );
-			if ( pattern.test( word ) ) {
-				return true;
-			}
-		}
-	}
+const checkHebrewVerbRootsList = function( word, verbRootsList, affixesList ) {
+	return verbRootsList.some( root => affixesList.some( function( affixes ) {
+		const pattern =  new RegExp( "^" + affixes.prefix + root + affixes.suffix + "$" );
+		return pattern.test( word );
+	} ) );
 };
 
 /**
@@ -156,37 +151,63 @@ const checkHebrewVerbRootsList = function( word, verbRootsList, prefixes, suffix
  */
 const determineSentenceIsPassiveHebrew = function( sentence ) {
 	const words = getWords( sentence );
-	const matchedPassives = [];
 	for ( const word of words ) {
+		// The list of prefixes and suffixes for nif'al.
+		const nifalAffixes =  [
+			{ prefix: "(נ|אי|תי|הי|יי|ני|להי)", suffix: "" },
+			{ prefix: "(תי|הי)", suffix: "(י|ו|נה)" },
+			{ prefix: "נ", suffix: "(ים|ת|ות|תי|ה|נו|תם|תן|ו)" },
+			{ prefix: "יי", suffix: "ו" },
+		];
+
 		// Check if the root is in nif'al.
-		const nifalPrefixes = [ "(נ|אי|תי|הי|יי|ני|להי)", "(תי|הי)", "נ", "יי" ];
-		const nifalSuffixes = [ "", "(י|ו|נה)", "(ים|ת|ות|תי|ה|נו|תם|תן|ו)", "ו" ];
-		const nifalPassive = checkHebrewVerbRootsList( word, getNifalVerbsHebrew, nifalPrefixes, nifalSuffixes );
+		const nifalPassive = checkHebrewVerbRootsList( word, nifalVerbsHebrew, nifalAffixes );
+
 		if ( nifalPassive ) {
-			matchedPassives.push( word );
+			return true;
 		}
+
+		// The list of prefixes and suffixes for pu'al.
+		const pualAffixes = [
+			{ prefix: "(מ|א|ת|י|נ)", suffix: "" },
+			{ prefix: "תי", suffix: "נה" },
+			{ prefix: "מ", suffix: "(ת|ים|ות)" },
+			{ prefix: "ת", suffix: "(י|ו|נה)" },
+			{ prefix: "י", suffix: "ו" },
+			{ prefix: "", suffix: "(תי|ת|ה|נו|תם|תן|ו)" },
+			{ prefix: "", suffix: "" },
+		];
+		const pualInfix = "ו";
+
 		// Check if the root is in pu'al.
-		for ( const root of getPualVerbsHebrew ) {
-			// The list of prefixes and suffixes for pu'al.
-			const pualPrefixes = [ "(מ|א|ת|י|נ)", "תי", "מ", "ת", "י", "", "" ];
-			const pualSuffixes = [ "", "נה", "(ת|ים|ות)", "(י|ו|נה)", "ו", "(תי|ת|ה|נו|תם|תן|ו)", "" ];
-			const pualInfix = "ו";
-			for ( let i = 0; i < pualPrefixes.length; i++ ) {
-				const pualPattern = new RegExp( "^" + pualPrefixes[ i ] + root[ 0 ] + pualInfix + root[ 1 ] + root[ 2 ] + pualSuffixes[ i ] + "$" );
-				if ( pualPattern.test( word ) ) {
-					matchedPassives.push( word );
-				}
-			}
+		const pualPassive = pualVerbsHebrew.some( root => pualAffixes.some( function( affixes ) {
+			const pualPattern = new RegExp( "^" + affixes.prefix + root[ 0 ] + pualInfix + root[ 1 ] + root[ 2 ] + affixes.suffix + "$" );
+
+			return pualPattern.test( word );
+		} ) );
+
+		if ( pualPassive ) {
+			return true;
 		}
+
+		// The list of prefixes and suffixes for huf'al.
+		const hufalAffixes = [
+			{ prefix: "(מו|הו|או|תו|יו|נו)", suffix: "" },
+			{ prefix: "מו", suffix: "(ת|ים|ות)" },
+			{ prefix: "הו", suffix: "(תי|ת|ית|ה|נו|תם|תן|ו)" },
+			{ prefix: "תו", suffix: "(ו|נה|י)" },
+			{ prefix: "יו", suffix: "ו" },
+		];
+
 		// Check if the root is in huf'al.
-		const hufalPrefixes = [ "(מו|הו|או|תו|יו|נו)", "מו", "הו", "תו", "יו" ];
-		const hufalSuffixes = [ "", "(ת|ים|ות)", "(תי|ת|ית|ה|נו|תם|תן|ו)", "(ו|נה|י)", "ו" ];
-		const hufalPassive = checkHebrewVerbRootsList( word, getHufalVerbsHebrew, hufalPrefixes, hufalSuffixes );
+		const hufalPassive = checkHebrewVerbRootsList( word, hufalVerbsHebrew, hufalAffixes );
+
 		if ( hufalPassive ) {
-			matchedPassives.push( word );
+			return true;
 		}
 	}
-	return matchedPassives.length !== 0;
+
+	return false;
 };
 
 /**
