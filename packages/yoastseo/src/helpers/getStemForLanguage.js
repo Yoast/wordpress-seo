@@ -9,6 +9,7 @@ import portugueseDetermineStem from "../morphology/portuguese/stem";
 import indonesianDetermineStem from "../morphology/indonesian/stem";
 import polishDetermineStem from "../morphology/polish/stem";
 import arabicDetermineStem from "../morphology/arabic/stem";
+import hebrewDetermineStem from "../morphology/hebrew/stem";
 
 /**
  * Collects all functions for determining a stem per language and returns this collection to a Researcher
@@ -28,5 +29,6 @@ export default function() {
 		id: indonesianDetermineStem,
 		pl: polishDetermineStem,
 		ar: arabicDetermineStem,
+		he: hebrewDetermineStem,
 	};
 }
