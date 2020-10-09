@@ -15,6 +15,7 @@ import settings from "./settings";
 import snippetEditor from "./snippetEditor";
 import twitterEditor from "./twitterEditor";
 import warning from "./warning";
+import searchMetadata from "./searchMetadata";
 import schemaTab from "./schemaTab";
 import SEMrushModal from "./SEMrushModal";
 import SEMrushRequest from "./SEMrushRequest";
@@ -37,6 +38,7 @@ export default {
 	snippetEditor,
 	twitterEditor,
 	warning,
+	searchMetadata,
 	schemaTab,
 	SEMrushModal,
 	SEMrushRequest,
