@@ -267,10 +267,10 @@ class Indexing_Notification_Integration implements Integration_Interface {
 				$text = \esc_html__( 'Because of a change in your permalink structure, some of your SEO data needs to be reprocessed.', 'wordpress-seo' );
 				break;
 			case self::REASON_CATEGORY_BASE_PREFIX:
-				$text = \esc_html__( 'Because of a change in your category URL setting, some of your SEO data needs to be reprocessed.', 'wordpress-seo' );
+				$text = \esc_html__( 'Because of a change in your category base setting, some of your SEO data needs to be reprocessed.', 'wordpress-seo' );
 				break;
 			case self::REASON_TAG_BASE_PREFIX:
-				$text = \esc_html__( 'Because of a change in your tag URL setting, some of your SEO data needs to be reprocessed.', 'wordpress-seo' );
+				$text = \esc_html__( 'Because of a change in your tag base setting, some of your SEO data needs to be reprocessed.', 'wordpress-seo' );
 				break;
 			case self::REASON_HOME_URL_OPTION:
 				$text = \esc_html__( 'Because of a change in your home URL setting, some of your SEO data needs to be reprocessed.', 'wordpress-seo' );
