@@ -11,6 +11,8 @@ use Yoast\WP\SEO\Actions\Indexation\Indexable_Post_Type_Archive_Indexation_Actio
 use Yoast\WP\SEO\Actions\Indexation\Indexable_Prepare_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexation\Indexable_Term_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexation\Indexation_Action_Interface;
+use Yoast\WP\SEO\Actions\Indexation\Post_Link_Indexing_Action;
+use Yoast\WP\SEO\Actions\Indexation\Term_Link_Indexing_Action;
 use Yoast\WP\SEO\Conditionals\No_Conditionals;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Integrations\Admin\Indexing_Notification_Integration;
@@ -21,7 +23,7 @@ use Yoast\WP\SEO\Main;
  *
  * Reindexation route for indexables.
  */
-class Indexable_Indexation_Route extends Abstract_Indexation_Route {
+class Indexing_Route extends Abstract_Indexation_Route {
 
 	use No_Conditionals;
 
@@ -109,6 +111,36 @@ class Indexable_Indexation_Route extends Abstract_Indexation_Route {
 	 */
 	const FULL_GENERAL_ROUTE = Main::API_V1_NAMESPACE . '/' . self::GENERAL_ROUTE;
 
+
+	/**
+	 * The posts route constant.
+	 *
+	 * @var string
+	 */
+	const POST_LINKS_INDEXING_ROUTE = 'link-indexing/posts';
+
+	/**
+	 * The full posts route constant.
+	 *
+	 * @var string
+	 */
+	const FULL_POST_LINKS_INDEXING_ROUTE = Main::API_V1_NAMESPACE . '/' . self::POST_LINKS_INDEXING_ROUTE;
+
+	/**
+	 * The terms route constant.
+	 *
+	 * @var string
+	 */
+	const TERM_LINKS_INDEXING_ROUTE = 'link-indexing/terms';
+
+	/**
+	 * The full terms route constant.
+	 *
+	 * @var string
+	 */
+	const FULL_TERM_LINKS_INDEXING_ROUTE = Main::API_V1_NAMESPACE . '/' . self::TERM_LINKS_INDEXING_ROUTE;
+
+
 	/**
 	 * The post indexation action.
 	 *
@@ -152,6 +184,20 @@ class Indexable_Indexation_Route extends Abstract_Indexation_Route {
 	private $complete_indexation_action;
 
 	/**
+	 * The post link indexing action.
+	 *
+	 * @var Post_Link_Indexing_Action
+	 */
+	protected $post_link_indexing_action;
+
+	/**
+	 * The term link indexing action.
+	 *
+	 * @var Term_Link_Indexing_Action
+	 */
+	protected $term_link_indexing_action;
+
+	/**
 	 * The options helper.
 	 *
 	 * @var Options_Helper
@@ -168,7 +214,9 @@ class Indexable_Indexation_Route extends Abstract_Indexation_Route {
 	 * @param Indexable_Complete_Indexation_Action          $complete_indexation_action          The complete indexation action.
 	 *                                                                                           Called when the indexation is completed.
 	 * @param Indexable_Prepare_Indexation_Action           $prepare_indexation_action           The prepare indexation action.
-	 *                                                                                           Called when the indexation is started.
+	 * @param Post_Link_Indexing_Action $post_link_indexing_action The post link indexing action.
+	 * @param Term_Link_Indexing_Action $term_link_indexing_action The term link indexing action.
+	 * Called when the indexation is started.
 	 * @param Options_Helper                                $options_helper                      The options helper.
 	 */
 	public function __construct(
@@ -178,6 +226,8 @@ class Indexable_Indexation_Route extends Abstract_Indexation_Route {
 		Indexable_General_Indexation_Action $general_indexation_action,
 		Indexable_Complete_Indexation_Action $complete_indexation_action,
 		Indexable_Prepare_Indexation_Action $prepare_indexation_action,
+		Post_Link_Indexing_Action $post_link_indexing_action,
+		Term_Link_Indexing_Action $term_link_indexing_action,
 		Options_Helper $options_helper
 	) {
 		$this->post_indexation_action              = $post_indexation_action;
@@ -187,6 +237,8 @@ class Indexable_Indexation_Route extends Abstract_Indexation_Route {
 		$this->complete_indexation_action          = $complete_indexation_action;
 		$this->prepare_indexation_action           = $prepare_indexation_action;
 		$this->options_helper                      = $options_helper;
+		$this->post_link_indexing_action = $post_link_indexing_action;
+		$this->term_link_indexing_action = $term_link_indexing_action;
 	}
 
 	/**
@@ -214,6 +266,12 @@ class Indexable_Indexation_Route extends Abstract_Indexation_Route {
 
 		$route_args['callback'] = [ $this, 'complete' ];
 		\register_rest_route( Main::API_V1_NAMESPACE, self::COMPLETE_ROUTE, $route_args );
+
+		$route_args['callback'] = [ $this, 'index_post_links' ];
+		\register_rest_route( Main::API_V1_NAMESPACE, self::POST_LINKS_INDEXING_ROUTE, $route_args );
+
+		$route_args['callback'] = [ $this, 'index_term_links' ];
+		\register_rest_route( Main::API_V1_NAMESPACE, self::TERM_LINKS_INDEXING_ROUTE, $route_args );
 	}
 
 	/**
@@ -250,6 +308,24 @@ class Indexable_Indexation_Route extends Abstract_Indexation_Route {
 	 */
 	public function index_general() {
 		return $this->run_indexation_action( $this->general_indexation_action, self::FULL_GENERAL_ROUTE );
+	}
+
+	/**
+	 * Indexes a number of posts for links.
+	 *
+	 * @return WP_Rest_Response The response.
+	 */
+	public function index_post_links() {
+		return $this->run_indexation_action( $this->post_link_indexing_action, self::FULL_POST_LINKS_INDEXING_ROUTE );
+	}
+
+	/**
+	 * Indexes a number of terms for links.
+	 *
+	 * @return WP_Rest_Response The response.
+	 */
+	public function index_term_links() {
+		return $this->run_indexation_action( $this->term_link_indexing_action, self::FULL_TERM_LINKS_INDEXING_ROUTE );
 	}
 
 	/**

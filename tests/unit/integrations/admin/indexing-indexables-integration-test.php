@@ -11,14 +11,14 @@ use Yoast\WP\SEO\Actions\Indexation\Indexable_Post_Type_Archive_Indexation_Actio
 use Yoast\WP\SEO\Actions\Indexation\Indexable_Term_Indexation_Action;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
 use Yoast\WP\SEO\Conditionals\Yoast_Admin_And_Dashboard_Conditional;
-use Yoast\WP\SEO\Integrations\Admin\Indexing_Indexables_Integration;
+use Yoast\WP\SEO\Integrations\Admin\Background_Indexing_Integration;
 use Yoast\WP\SEO\Integrations\Admin\Indexing_Tool_Integration;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
  * Class Indexing_Integration_Test.
  *
- * @coversDefaultClass \Yoast\WP\SEO\Integrations\Admin\Indexing_Indexables_Integration
+ * @coversDefaultClass \Yoast\WP\SEO\Integrations\Admin\Background_Indexing_Integration
  *
  * @group integrations
  * @group indexing
@@ -79,7 +79,7 @@ class Indexing_Indexables_Integration_Test extends TestCase {
 		$this->general_indexation           = Mockery::mock( Indexable_General_Indexation_Action::class );
 		$this->complete_indexation_action   = Mockery::mock( Indexable_Complete_Indexation_Action::class );
 
-		$this->instance = new Indexing_Indexables_Integration(
+		$this->instance = new Background_Indexing_Integration(
 			$this->post_indexation,
 			$this->term_indexation,
 			$this->post_type_archive_indexation,
@@ -99,7 +99,7 @@ class Indexing_Indexables_Integration_Test extends TestCase {
 				Yoast_Admin_And_Dashboard_Conditional::class,
 				Migrations_Conditional::class,
 			],
-			Indexing_Indexables_Integration::get_conditionals()
+			Background_Indexing_Integration::get_conditionals()
 		);
 	}
 

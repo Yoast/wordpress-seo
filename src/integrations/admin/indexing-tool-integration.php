@@ -7,6 +7,8 @@ use Yoast\WP\SEO\Actions\Indexation\Indexable_General_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexation\Indexable_Post_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexation\Indexable_Post_Type_Archive_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexation\Indexable_Term_Indexation_Action;
+use Yoast\WP\SEO\Actions\Indexation\Post_Link_Indexing_Action;
+use Yoast\WP\SEO\Actions\Indexation\Term_Link_Indexing_Action;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
 use Yoast\WP\SEO\Conditionals\Yoast_Tools_Page_Conditional;
 use Yoast\WP\SEO\Helpers\Indexable_Helper;
@@ -14,10 +16,11 @@ use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Short_Link_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Presenters\Admin\Indexing_List_Item_Presenter;
-use Yoast\WP\SEO\Routes\Indexable_Indexation_Route;
+use Yoast\WP\SEO\Routes\Indexing_Route;
+use Yoast\WP\SEO\Routes\Link_Indexing_Route;
 
 /**
- * Class Indexing_Tool_Integration.
+ * Class Indexing_Tool_Integration. Bridge to the Javascript indexing tool on Yoast SEO Tools page.
  *
  * @package Yoast\WP\SEO\Integrations\Admin
  */
@@ -74,6 +77,20 @@ class Indexing_Tool_Integration implements Integration_Interface {
 	protected $post_type_archive_indexation;
 
 	/**
+	 * The post link indexing action.
+	 *
+	 * @var Post_Link_Indexing_Action
+	 */
+	protected $post_link_indexing_action;
+
+	/**
+	 * The term link indexing action.
+	 *
+	 * @var Term_Link_Indexing_Action
+	 */
+	protected $term_link_indexing_action;
+
+	/**
 	 * Represents the general indexation.
 	 *
 	 * @var Indexable_General_Indexation_Action
@@ -103,6 +120,8 @@ class Indexing_Tool_Integration implements Integration_Interface {
 	 * @param Indexable_Term_Indexation_Action              $term_indexation              The term indexing action.
 	 * @param Indexable_Post_Type_Archive_Indexation_Action $post_type_archive_indexation The post type archive indexing action.
 	 * @param Indexable_General_Indexation_Action           $general_indexation
+	 * @param Post_Link_Indexing_Action $post_link_indexing_action The post indexing action.
+	 * @param Term_Link_Indexing_Action $term_link_indexing_action The term indexing action.
 	 */
 	public function __construct(
 		WPSEO_Admin_Asset_Manager $asset_manager,
@@ -112,17 +131,20 @@ class Indexing_Tool_Integration implements Integration_Interface {
 		Indexable_Post_Indexation_Action $post_indexation,
 		Indexable_Term_Indexation_Action $term_indexation,
 		Indexable_Post_Type_Archive_Indexation_Action $post_type_archive_indexation,
-		Indexable_General_Indexation_Action $general_indexation
+		Indexable_General_Indexation_Action $general_indexation,
+		Post_Link_Indexing_Action $post_link_indexing_action,
+		Term_Link_Indexing_Action $term_link_indexing_action
 	) {
 		$this->asset_manager     = $asset_manager;
 		$this->indexable_helper  = $indexable_helper;
 		$this->short_link_helper = $short_link_helper;
 		$this->options_helper    = $options_helper;
-
 		$this->post_indexation              = $post_indexation;
 		$this->term_indexation              = $term_indexation;
 		$this->post_type_archive_indexation = $post_type_archive_indexation;
 		$this->general_indexation           = $general_indexation;
+		$this->post_link_indexing_action = $post_link_indexing_action;
+		$this->term_link_indexing_action = $term_link_indexing_action;
 	}
 
 	/**
@@ -176,6 +198,8 @@ class Indexing_Tool_Integration implements Integration_Interface {
 		$unindexed_count += $this->term_indexation->get_total_unindexed();
 		$unindexed_count += $this->general_indexation->get_total_unindexed();
 		$unindexed_count += $this->post_type_archive_indexation->get_total_unindexed();
+		$unindexed_count += $this->post_link_indexing_action->get_total_unindexed();
+		$unindexed_count += $this->term_link_indexing_action->get_total_unindexed();
 
 		return \apply_filters( 'wpseo_indexing_get_unindexed_count', $unindexed_count );
 	}
@@ -199,12 +223,14 @@ class Indexing_Tool_Integration implements Integration_Interface {
 	 */
 	protected function get_endpoints() {
 		$endpoints = [
-			'prepare'  => Indexable_Indexation_Route::FULL_PREPARE_ROUTE,
-			'terms'    => Indexable_Indexation_Route::FULL_TERMS_ROUTE,
-			'posts'    => Indexable_Indexation_Route::FULL_POSTS_ROUTE,
-			'archives' => Indexable_Indexation_Route::FULL_POST_TYPE_ARCHIVES_ROUTE,
-			'general'  => Indexable_Indexation_Route::FULL_GENERAL_ROUTE,
-			'complete' => Indexable_Indexation_Route::FULL_COMPLETE_ROUTE,
+			'prepare'   => Indexing_Route::FULL_PREPARE_ROUTE,
+			'terms'     => Indexing_Route::FULL_TERMS_ROUTE,
+			'posts'     => Indexing_Route::FULL_POSTS_ROUTE,
+			'archives'  => Indexing_Route::FULL_POST_TYPE_ARCHIVES_ROUTE,
+			'general'   => Indexing_Route::FULL_GENERAL_ROUTE,
+			'complete'  => Indexing_Route::FULL_COMPLETE_ROUTE,
+			'post_link' => Link_Indexing_Route::FULL_POST_LINKS_INDEXING_ROUTE,
+			'term_link' => Link_Indexing_Route::FULL_TERMS_ROUTE,
 		];
 
 		return \apply_filters( 'wpseo_indexing_endpoints', $endpoints );

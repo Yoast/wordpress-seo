@@ -12,13 +12,13 @@ use Yoast\WP\SEO\Actions\Indexation\Indexable_Prepare_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexation\Indexable_Term_Indexation_Action;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Integrations\Admin\Indexing_Notification_Integration;
-use Yoast\WP\SEO\Routes\Indexable_Indexation_Route;
+use Yoast\WP\SEO\Routes\Indexing_Route;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
  * Class Indexable_Indexation_Route_Test.
  *
- * @coversDefaultClass \Yoast\WP\SEO\Routes\Indexable_Indexation_Route
+ * @coversDefaultClass \Yoast\WP\SEO\Routes\Indexing_Route
  *
  * @group routes
  * @group indexables
@@ -71,7 +71,7 @@ class Indexable_Indexation_Route_Test extends TestCase {
 	/**
 	 * Represents the instance to test.
 	 *
-	 * @var Indexable_Indexation_Route
+	 * @var Indexing_Route
 	 */
 	protected $instance;
 
@@ -96,7 +96,7 @@ class Indexable_Indexation_Route_Test extends TestCase {
 		$this->prepare_indexation_action           = Mockery::mock( Indexable_Prepare_Indexation_Action::class );
 		$this->options_helper                      = Mockery::mock( Options_Helper::class );
 
-		$this->instance = new Indexable_Indexation_Route(
+		$this->instance = new Indexing_Route(
 			$this->post_indexation_action,
 			$this->term_indexation_action,
 			$this->post_type_archive_indexation_action,

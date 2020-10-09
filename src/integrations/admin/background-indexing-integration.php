@@ -12,11 +12,11 @@ use Yoast\WP\SEO\Conditionals\Yoast_Admin_And_Dashboard_Conditional;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 
 /**
- * Class Indexing_Indexables_Integration.
+ * Class Background_Indexing_Integration.
  *
  * @package Yoast\WP\SEO\Integrations\Admin
  */
-class Indexing_Indexables_Integration implements Integration_Interface {
+class Background_Indexing_Integration implements Integration_Interface {
 
 	/**
 	 * The post indexation action.
@@ -47,7 +47,7 @@ class Indexing_Indexables_Integration implements Integration_Interface {
 	protected $general_indexation;
 
 	/**
-	 * Represented the indexation completed action.
+	 * Represented the indexation completed action. ??? wat heeft deze nog voor rol?
 	 *
 	 * @var Indexable_Complete_Indexation_Action
 	 */
@@ -73,7 +73,7 @@ class Indexing_Indexables_Integration implements Integration_Interface {
 	}
 
 	/**
-	 * Indexing_Indexables_Integration constructor.
+	 * Shutdown_Indexing_Integration constructor.
 	 *
 	 * @param Indexable_Post_Indexation_Action              $post_indexation              The post indexing action.
 	 * @param Indexable_Term_Indexation_Action              $term_indexation              The term indexing action.
@@ -133,7 +133,7 @@ class Indexing_Indexables_Integration implements Integration_Interface {
 	 *
 	 * @return int The total number of unindexed objects.
 	 */
-	public function get_unindexed_count( $unindexed_count = 0 ) {
+	protected function get_unindexed_count( $unindexed_count = 0 ) {
 		$unindexed_count += $this->post_indexation->get_total_unindexed();
 		$unindexed_count += $this->term_indexation->get_total_unindexed();
 		$unindexed_count += $this->general_indexation->get_total_unindexed();

@@ -66,7 +66,7 @@ class Link_Indexing_Route_Test extends TestCase {
 	/**
 	 * Tests the index_posts method.
 	 *
-	 * @covers ::index_posts
+	 * @covers ::index_post_links
 	 * @covers ::run_indexation_action
 	 */
 	public function test_index_posts_above_limit() {
@@ -83,7 +83,7 @@ class Link_Indexing_Route_Test extends TestCase {
 		$this->post_link_indexing_action->expects( 'get_limit' )->andReturn( 3 );
 
 		Monkey\Functions\expect( 'rest_url' )
-			->with( Link_Indexing_Route::FULL_POSTS_ROUTE )
+			->with( Link_Indexing_Route::FULL_POST_LINKS_INDEXING_ROUTE )
 			->andReturn( 'resturl' );
 
 		Mockery::mock( 'overload:WP_REST_Response' )
@@ -95,13 +95,13 @@ class Link_Indexing_Route_Test extends TestCase {
 				]
 			);
 
-		$this->instance->index_posts();
+		$this->instance->index_post_links();
 	}
 
 	/**
 	 * Tests the index_posts method.
 	 *
-	 * @covers ::index_posts
+	 * @covers ::index_post_links
 	 * @covers ::run_indexation_action
 	 */
 	public function test_index_posts_below_limit() {
@@ -123,13 +123,13 @@ class Link_Indexing_Route_Test extends TestCase {
 				]
 			);
 
-		$this->instance->index_posts();
+		$this->instance->index_post_links();
 	}
 
 	/**
 	 * Tests the index_posts method.
 	 *
-	 * @covers ::index_posts
+	 * @covers ::index_post_links
 	 * @covers ::run_indexation_action
 	 */
 	public function test_index_posts_when_error_occurs() {
@@ -143,13 +143,13 @@ class Link_Indexing_Route_Test extends TestCase {
 
 		Mockery::mock( '\WP_Error' );
 
-		$this->instance->index_posts();
+		$this->instance->index_post_links();
 	}
 
 	/**
 	 * Tests the index_terms method.
 	 *
-	 * @covers ::index_terms
+	 * @covers ::index_term_links
 	 * @covers ::run_indexation_action
 	 */
 	public function test_index_terms_above_limit() {
@@ -166,7 +166,7 @@ class Link_Indexing_Route_Test extends TestCase {
 		$this->term_link_indexing_action->expects( 'get_limit' )->andReturn( 3 );
 
 		Monkey\Functions\expect( 'rest_url' )
-			->with( Link_Indexing_Route::FULL_POSTS_ROUTE )
+			->with( Link_Indexing_Route::FULL_POST_LINKS_INDEXING_ROUTE )
 			->andReturn( 'resturl' );
 
 		Mockery::mock( 'overload:WP_REST_Response' )
@@ -178,13 +178,13 @@ class Link_Indexing_Route_Test extends TestCase {
 				]
 			);
 
-		$this->instance->index_terms();
+		$this->instance->index_term_links();
 	}
 
 	/**
 	 * Tests the index_terms method when the nr of terms is below the limit.
 	 *
-	 * @covers ::index_terms
+	 * @covers ::index_term_links
 	 * @covers ::run_indexation_action
 	 */
 	public function test_index_terms_below_limit() {
@@ -206,13 +206,13 @@ class Link_Indexing_Route_Test extends TestCase {
 				]
 			);
 
-		$this->instance->index_terms();
+		$this->instance->index_term_links();
 	}
 
 	/**
 	 * Tests the index_terms method when an error occurs.
 	 *
-	 * @covers ::index_terms
+	 * @covers ::index_term_links
 	 * @covers ::run_indexation_action
 	 */
 	public function test_index_terms_when_error_occurs() {
@@ -225,6 +225,6 @@ class Link_Indexing_Route_Test extends TestCase {
 
 		Mockery::mock( '\WP_Error' );
 
-		$this->instance->index_terms();
+		$this->instance->index_term_links();
 	}
 }

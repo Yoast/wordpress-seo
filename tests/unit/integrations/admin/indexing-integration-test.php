@@ -10,7 +10,7 @@ use Yoast\WP\SEO\Conditionals\Yoast_Tools_Page_Conditional;
 use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Short_Link_Helper;
-use Yoast\WP\SEO\Integrations\Admin\Indexing_Indexables_Integration;
+use Yoast\WP\SEO\Integrations\Admin\Background_Indexing_Integration;
 use Yoast\WP\SEO\Integrations\Admin\Indexing_Tool_Integration;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
@@ -34,7 +34,7 @@ class Indexing_Integration_Test extends TestCase {
 	/**
 	 * The indexing indexables indexation action.
 	 *
-	 * @var Mockery\MockInterface|Indexing_Indexables_Integration
+	 * @var Mockery\MockInterface|Background_Indexing_Integration
 	 */
 	protected $indexing_indexables_integration;
 
@@ -72,7 +72,7 @@ class Indexing_Integration_Test extends TestCase {
 	protected function setUp() {
 		parent::setUp();
 
-		$this->indexing_indexables_integration = Mockery::mock( Indexing_Indexables_Integration::class );
+		$this->indexing_indexables_integration = Mockery::mock( Background_Indexing_Integration::class );
 		$this->asset_manager                   = Mockery::mock( WPSEO_Admin_Asset_Manager::class );
 		$this->indexable_helper                = Mockery::mock( Indexable_Helper::class );
 		$this->short_link_helper               = Mockery::mock( Short_Link_Helper::class );
