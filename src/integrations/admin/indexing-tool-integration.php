@@ -228,11 +228,12 @@ class Indexing_Tool_Integration implements Integration_Interface {
 			'posts'     => Indexing_Route::FULL_POSTS_ROUTE,
 			'archives'  => Indexing_Route::FULL_POST_TYPE_ARCHIVES_ROUTE,
 			'general'   => Indexing_Route::FULL_GENERAL_ROUTE,
-			'complete'  => Indexing_Route::FULL_COMPLETE_ROUTE,
-			'post_link' => Link_Indexing_Route::FULL_POST_LINKS_INDEXING_ROUTE,
-			'term_link' => Link_Indexing_Route::FULL_TERMS_ROUTE,
+			'indexablesComplete'  => Indexing_Route::INDEXABLES_COMPLETE_ROUTE,
+			'post_link' => Indexing_Route::FULL_POST_LINKS_INDEXING_ROUTE,
+			'term_link' => Indexing_Route::FULL_TERMS_ROUTE,
 		];
 
-		return \apply_filters( 'wpseo_indexing_endpoints', $endpoints );
+		$endpoints = \apply_filters( 'wpseo_indexing_endpoints', $endpoints );
+		$endpoints[ 'complete' ] = Indexing_Route::FULL_COMPLETE_ROUTE;
 	}
 }
