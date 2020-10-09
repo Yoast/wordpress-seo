@@ -104,29 +104,16 @@ class Indexing_Indexables_Integration_Test extends TestCase {
 	}
 
 	/**
-	 * Sets the expectations for the get_total_unindexed methods for the given actions.
-	 *
-	 * @param array $expectations The expectations.
-	 */
-	protected function set_total_unindexed_expectations( array $expectations ) {
-		foreach ( $expectations as $action => $total_unindexed ) {
-			$this->{$action}
-				->expects( 'get_total_unindexed' )
-				->andReturn( $total_unindexed );
-		}
-	}
-
-	/**
 	 * Tests the constructor.
 	 *
 	 * @covers ::__construct
 	 */
 	public function test_constructor() {
-		$this->assertAttributeInstanceOf( Indexable_Post_Indexation_Action::class, 'post_indexation', $this->instance );
-		$this->assertAttributeInstanceOf( Indexable_Term_Indexation_Action::class, 'term_indexation', $this->instance );
-		$this->assertAttributeInstanceOf( Indexable_Post_Type_Archive_Indexation_Action::class, 'post_type_archive_indexation', $this->instance );
-		$this->assertAttributeInstanceOf( Indexable_General_Indexation_Action::class, 'general_indexation', $this->instance );
-		$this->assertAttributeInstanceOf( Indexable_Indexing_Complete_Action::class, 'complete_indexation_action', $this->instance );
+		static::assertAttributeInstanceOf( Indexable_Post_Indexation_Action::class, 'post_indexation', $this->instance );
+		static::assertAttributeInstanceOf( Indexable_Term_Indexation_Action::class, 'term_indexation', $this->instance );
+		static::assertAttributeInstanceOf( Indexable_Post_Type_Archive_Indexation_Action::class, 'post_type_archive_indexation', $this->instance );
+		static::assertAttributeInstanceOf( Indexable_General_Indexation_Action::class, 'general_indexation', $this->instance );
+		static::assertAttributeInstanceOf( Indexable_Indexing_Complete_Action::class, 'complete_indexation_action', $this->instance );
 	}
 
 	/**
@@ -135,17 +122,38 @@ class Indexing_Indexables_Integration_Test extends TestCase {
 	 * @covers ::register_hooks
 	 */
 	public function test_register_hooks() {
-		Monkey\Actions\expectAdded( 'admin_enqueue_scripts' );
+		Monkey\Actions\expectAdded( 'admin_init' );
 
 		$this->instance->register_hooks();
 	}
 
 	/**
+	 * Tests the enqueue_scripts method.
+	 *
+	 * @covers ::register_shutdown_indexing
+	 */
+	public function test_register_shutdown_indexing() {
+		$this->post_indexation->expects( 'get_total_unindexed' )->andReturn( 0 );
+		$this->term_indexation->expects( 'get_total_unindexed' )->andReturn( 0 );
+		$this->post_type_archive_indexation->expects( 'get_total_unindexed' )->andReturn( 0 );
+		$this->general_indexation->expects( 'get_total_unindexed' )->andReturn( 0 );
+
+		/**
+		 * We have to register the shutdown function here to prevent a fatal PHP error,
+		 * which would occur because the registered shutdown function is executed
+		 * after the unit test has already completed.
+		 */
+		\register_shutdown_function( [ $this, 'shutdown_indexation_expectations' ] );
+
+		$this->instance->register_shutdown_indexing();
+	}
+
+	/**
 	 * Tests the shutdown indexing method.
 	 *
-	 * @covers ::shutdown_indexation
+	 * @covers ::index
 	 */
-	public function test_shutdown_indexing() {
+	public function test_index() {
 		$this->term_indexation
 			->expects( 'index' )
 			->once();
@@ -162,83 +170,11 @@ class Indexing_Indexables_Integration_Test extends TestCase {
 			->expects( 'index' )
 			->once();
 
-		$this->instance->shutdown_indexation();
-	}
-
-	/**
-	 * Tests the get_total_unindexed method.
-	 *
-	 * @covers ::get_total_unindexed
-	 */
-	public function test_get_total_unindexed() {
-		$this->post_indexation->expects( 'get_total_unindexed' )->andReturn( 40 );
-		$this->term_indexation->expects( 'get_total_unindexed' )->andReturn( 20 );
-		$this->post_type_archive_indexation->expects( 'get_total_unindexed' )->andReturn( 12 );
-		$this->general_indexation->expects( 'get_total_unindexed' )->andReturn( 0 );
-
-		$this->assertEquals( 72, $this->instance->get_total_unindexed() );
-	}
-
-	/**
-	 * Tests the retrieval of the endpoints.
-	 *
-	 * @covers ::get_endpoints
-	 */
-	public function test_get_endpoints() {
-		$this->assertEquals(
-			[
-				'prepare'  => 'yoast/v1/indexation/prepare',
-				'posts'    => 'yoast/v1/indexation/posts',
-				'terms'    => 'yoast/v1/indexation/terms',
-				'archives' => 'yoast/v1/indexation/post-type-archives',
-				'general'  => 'yoast/v1/indexation/general',
-				'complete' => 'yoast/v1/indexation/complete',
-			],
-			$this->instance->get_endpoints()
-		);
-	}
-
-	/**
-	 * Tests the enqueue_scripts method.
-	 *
-	 * @covers ::enqueue_scripts
-	 */
-	public function test_enqueue_scripts() {
-		$this->post_indexation->expects( 'get_total_unindexed' )->andReturn( 40 );
-		$this->term_indexation->expects( 'get_total_unindexed' )->andReturn( 20 );
-		$this->post_type_archive_indexation->expects( 'get_total_unindexed' )->andReturn( 12 );
-		$this->general_indexation->expects( 'get_total_unindexed' )->andReturn( 0 );
-
-		$this->instance->enqueue_scripts();
-	}
-
-	/**
-	 * Tests the enqueue_scripts method.
-	 *
-	 * @covers ::enqueue_scripts
-	 */
-	public function test_enqueue_scripts_indexing_completed() {
-		$this->post_indexation->expects( 'get_total_unindexed' )->andReturn( 0 );
-		$this->term_indexation->expects( 'get_total_unindexed' )->andReturn( 0 );
-		$this->post_type_archive_indexation->expects( 'get_total_unindexed' )->andReturn( 0 );
-		$this->general_indexation->expects( 'get_total_unindexed' )->andReturn( 0 );
-
 		$this->complete_indexation_action
 			->expects( 'complete' )
 			->once();
 
-		/**
-		 * We have to register the shutdown function here to prevent a fatal PHP error,
-		 * which would occur because the registered shutdown function is executed
-		 * after the unit test has already completed.
-		 */
-		\register_shutdown_function( [ $this, 'shutdown_indexation_expectations' ] );
-
-		Monkey\Functions\expect( 'wp_create_nonce' )
-			->with( 'wp_rest' )
-			->andReturn( 'nonce_value' );
-
-		$this->instance->enqueue_scripts();
+		$this->instance->index();
 	}
 
 	/**

@@ -5,6 +5,12 @@ namespace Yoast\WP\SEO\Tests\Unit\Integrations\Admin;
 use Brain\Monkey;
 use Mockery;
 use WPSEO_Admin_Asset_Manager;
+use Yoast\WP\SEO\Actions\Indexation\Indexable_General_Indexation_Action;
+use Yoast\WP\SEO\Actions\Indexation\Indexable_Post_Indexation_Action;
+use Yoast\WP\SEO\Actions\Indexation\Indexable_Post_Type_Archive_Indexation_Action;
+use Yoast\WP\SEO\Actions\Indexation\Indexable_Term_Indexation_Action;
+use Yoast\WP\SEO\Actions\Indexation\Post_Link_Indexing_Action;
+use Yoast\WP\SEO\Actions\Indexation\Term_Link_Indexing_Action;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
 use Yoast\WP\SEO\Conditionals\Yoast_Tools_Page_Conditional;
 use Yoast\WP\SEO\Helpers\Indexable_Helper;
@@ -30,13 +36,6 @@ class Indexing_Integration_Test extends TestCase {
 	 * @var Indexing_Tool_Integration
 	 */
 	protected $instance;
-
-	/**
-	 * The indexing indexables indexation action.
-	 *
-	 * @var Mockery\MockInterface|Background_Indexing_Integration
-	 */
-	protected $indexing_indexables_integration;
 
 	/**
 	 * The admin asset manager.
@@ -67,23 +66,75 @@ class Indexing_Integration_Test extends TestCase {
 	protected $options_helper;
 
 	/**
+	 * The post indexation action.
+	 *
+	 * @var Mockery\MockInterface|Indexable_Post_Indexation_Action
+	 */
+	protected $post_indexation;
+
+	/**
+	 * The term indexation action.
+	 *
+	 * @var Mockery\MockInterface|Indexable_Term_Indexation_Action
+	 */
+	protected $term_indexation;
+
+	/**
+	 * The post type archive indexation action.
+	 *
+	 * @var Mockery\MockInterface|Indexable_Post_Type_Archive_Indexation_Action
+	 */
+	protected $post_type_archive_indexation;
+
+	/**
+	 * The post link indexing action.
+	 *
+	 * @var Mockery\MockInterface|Post_Link_Indexing_Action
+	 */
+	protected $post_link_indexing_action;
+
+	/**
+	 * The term link indexing action.
+	 *
+	 * @var Mockery\MockInterface|Term_Link_Indexing_Action
+	 */
+	protected $term_link_indexing_action;
+
+	/**
+	 * Represents the general indexation.
+	 *
+	 * @var Mockery\MockInterface|Indexable_General_Indexation_Action
+	 */
+	protected $general_indexation;
+
+	/**
 	 * Sets up the tests.
 	 */
 	protected function setUp() {
 		parent::setUp();
 
-		$this->indexing_indexables_integration = Mockery::mock( Background_Indexing_Integration::class );
 		$this->asset_manager                   = Mockery::mock( WPSEO_Admin_Asset_Manager::class );
 		$this->indexable_helper                = Mockery::mock( Indexable_Helper::class );
 		$this->short_link_helper               = Mockery::mock( Short_Link_Helper::class );
 		$this->options_helper                  = Mockery::mock( Options_Helper::class );
+		$this->post_indexation                 = Mockery::mock( Indexable_Post_Indexation_Action::class );
+		$this->term_indexation                 = Mockery::mock( Indexable_Term_Indexation_Action::class );
+		$this->post_type_archive_indexation    = Mockery::mock( Indexable_Post_Type_Archive_Indexation_Action::class );
+		$this->general_indexation              = Mockery::mock( Indexable_General_Indexation_Action::class );
+		$this->post_link_indexing_action       = Mockery::mock( Post_Link_Indexing_Action::class );
+		$this->term_link_indexing_action       = Mockery::mock( Term_Link_Indexing_Action::class );
 
 		$this->instance = new Indexing_Tool_Integration(
-			$this->indexing_indexables_integration,
 			$this->asset_manager,
 			$this->indexable_helper,
 			$this->short_link_helper,
-			$this->options_helper
+			$this->options_helper,
+			$this->post_indexation,
+			$this->term_indexation,
+			$this->post_type_archive_indexation,
+			$this->general_indexation,
+			$this->post_link_indexing_action,
+			$this->term_link_indexing_action
 		);
 	}
 
@@ -106,12 +157,18 @@ class Indexing_Integration_Test extends TestCase {
 	 * @covers ::__construct
 	 */
 	public function test_constructor() {
-		$this->assertAttributeInstanceOf( WPSEO_Admin_Asset_Manager::class, 'asset_manager', $this->instance );
-		$this->assertAttributeInstanceOf( Indexable_Helper::class, 'indexable_helper', $this->instance );
-		$this->assertAttributeInstanceOf( Short_Link_Helper::class, 'short_link_helper', $this->instance );
-		$this->assertAttributeInstanceOf( Options_Helper::class, 'options_helper', $this->instance );
+		static::assertAttributeInstanceOf( WPSEO_Admin_Asset_Manager::class, 'asset_manager', $this->instance );
+		static::assertAttributeInstanceOf( Indexable_Helper::class, 'indexable_helper', $this->instance );
+		static::assertAttributeInstanceOf( Short_Link_Helper::class, 'short_link_helper', $this->instance );
+		static::assertAttributeInstanceOf( Options_Helper::class, 'options_helper', $this->instance );
 
-		$this->assertAttributeEquals( [ $this->indexing_indexables_integration ], 'indexing_integrations', $this->instance );
+		static::assertAttributeInstanceOf( Indexable_Post_Indexation_Action::class, 'post_indexation', $this->instance );
+		static::assertAttributeInstanceOf( Indexable_Term_Indexation_Action::class, 'term_indexation', $this->instance );
+		static::assertAttributeInstanceOf( Indexable_Post_Type_Archive_Indexation_Action::class, 'post_type_archive_indexation', $this->instance );
+		static::assertAttributeInstanceOf( Indexable_General_Indexation_Action::class, 'general_indexation', $this->instance );
+		static::assertAttributeInstanceOf( Post_Link_Indexing_Action::class, 'post_link_indexing_action', $this->instance );
+		static::assertAttributeInstanceOf( Term_Link_Indexing_Action::class, 'term_link_indexing_action', $this->instance );
+
 	}
 
 	/**
