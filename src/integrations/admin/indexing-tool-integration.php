@@ -235,5 +235,7 @@ class Indexing_Tool_Integration implements Integration_Interface {
 		$endpoints = \apply_filters( 'wpseo_indexing_endpoints', $endpoints );
 
 		$endpoints['complete'] = Indexing_Route::FULL_COMPLETE_ROUTE;
+
+		return $endpoints;
 	}
 }
