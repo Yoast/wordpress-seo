@@ -3,11 +3,12 @@ import activeMarker from "./activeMarker";
 import advancedSettings from "./advancedSettings";
 import analysisData from "./analysisData";
 import editorContext from "./editorContext";
+import editorData from "./editorData";
 import isCornerstone from "./cornerstoneContent";
+import isMarkerPaused from "./markerPauseStatus";
 import facebookEditor from "./facebookEditor";
 import focusKeyword from "./focusKeyword";
 import marksButtonStatus from "./markerButtons";
-import isMarkerPaused from "./markerPauseStatus";
 import preferences from "./preferences";
 import primaryTaxonomies from "./primaryTaxonomies";
 import settings from "./settings";
@@ -24,6 +25,7 @@ export default {
 	activeMarker,
 	analysisData,
 	editorContext,
+	editorData,
 	isCornerstone,
 	facebookEditor,
 	focusKeyword,

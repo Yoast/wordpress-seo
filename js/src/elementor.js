@@ -7,7 +7,6 @@ import initElementorWatcher from "./watchers/elementorWatcher";
 domReady( () => {
 	// Initialize the editor store and set it on the window.
 	const store = initEditorStore();
-	console.log( store );
 
 	// Initialize the editor data watcher.
 	initElementorWatcher();
