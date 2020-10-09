@@ -1,23 +1,23 @@
 import domReady from "@wordpress/dom-ready";
-import initAnalysis from "./initializers/analysis";
-import initElementorEditorIntegration from "./initializers/elementor-editor-integration";
+// import initAnalysis from "./initializers/analysis";
+// import initElementorEditorIntegration from "./initializers/elementor-editor-integration";
 import initEditorStore from "./initializers/editor-store";
 import initElementorWatcher from "./watchers/elementorWatcher";
 
 domReady( () => {
 	// Initialize the editor store and set it on the window.
 	const store = initEditorStore();
-	window.YoastSEO.store = store;
+	console.log( store );
 
 	// Initialize the editor data watcher.
 	initElementorWatcher();
 
 	// Initialize analysis.
-	initAnalysis();
+	// initAnalysis();
 } );
 
 // Initialize the editor integration.
-initElementorEditorIntegration();
+// initElementorEditorIntegration();
 
 // STORE INIT
 // Register our store to WP data.
