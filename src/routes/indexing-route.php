@@ -232,7 +232,7 @@ class Indexing_Route extends Abstract_Indexation_Route {
 	 * @param Indexable_Post_Type_Archive_Indexation_Action $post_type_archive_indexation_action The post type archive indexing action.
 	 * @param Indexable_General_Indexation_Action           $general_indexation_action           The general indexing action.
 	 * @param Indexable_Indexing_Complete_Action            $indexable_indexing_complete_action  The complete indexing action.
-	 * @param Indexing_Complete_Action                      $indexing_complete_action            The complete indexing action
+	 * @param Indexing_Complete_Action                      $indexing_complete_action            The complete indexing action.
 	 * @param Indexable_Prepare_Indexation_Action           $prepare_indexation_action           The prepare indexing action.
 	 * @param Post_Link_Indexing_Action                     $post_link_indexing_action           The post link indexing action.
 	 * @param Term_Link_Indexing_Action                     $term_link_indexing_action           The term link indexing action.

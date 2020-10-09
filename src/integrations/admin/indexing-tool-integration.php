@@ -111,16 +111,16 @@ class Indexing_Tool_Integration implements Integration_Interface {
 	/**
 	 * Indexing_Integration constructor.
 	 *
-	 * @param WPSEO_Admin_Asset_Manager                     $asset_manager     The admin asset manager.
-	 * @param Indexable_Helper                              $indexable_helper  The indexable helper.
-	 * @param Short_Link_Helper                             $short_link_helper The short link helper.
-	 * @param Options_Helper                                $options_helper    The options helper.
+	 * @param WPSEO_Admin_Asset_Manager                     $asset_manager                The admin asset manager.
+	 * @param Indexable_Helper                              $indexable_helper             The indexable helper.
+	 * @param Short_Link_Helper                             $short_link_helper            The short link helper.
+	 * @param Options_Helper                                $options_helper               The options helper.
 	 * @param Indexable_Post_Indexation_Action              $post_indexation              The post indexing action.
 	 * @param Indexable_Term_Indexation_Action              $term_indexation              The term indexing action.
 	 * @param Indexable_Post_Type_Archive_Indexation_Action $post_type_archive_indexation The post type archive indexing action.
-	 * @param Indexable_General_Indexation_Action           $general_indexation
-	 * @param Post_Link_Indexing_Action                     $post_link_indexing_action The post indexing action.
-	 * @param Term_Link_Indexing_Action                     $term_link_indexing_action The term indexing action.
+	 * @param Indexable_General_Indexation_Action           $general_indexation           The general indexing action.
+	 * @param Post_Link_Indexing_Action                     $post_link_indexing_action    The post indexing action.
+	 * @param Term_Link_Indexing_Action                     $term_link_indexing_action    The term indexing action.
 	 */
 	public function __construct(
 		WPSEO_Admin_Asset_Manager $asset_manager,
@@ -188,7 +188,7 @@ class Indexing_Tool_Integration implements Integration_Interface {
 	/**
 	 * Returns the total number of unindexed objects.
 	 *
-	 * @param int $unindexed_count
+	 * @param int $unindexed_count The total number of unindexed objects.
 	 *
 	 * @return int The total number of unindexed objects.
 	 */

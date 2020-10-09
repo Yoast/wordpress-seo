@@ -3,7 +3,6 @@
 namespace Yoast\WP\SEO\Tests\Unit\Actions\Indexation;
 
 use Mockery;
-use Yoast\WP\SEO\Actions\Indexation\Indexable_Indexing_Complete_Action;
 use Yoast\WP\SEO\Actions\Indexation\Indexing_Complete_Action;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;

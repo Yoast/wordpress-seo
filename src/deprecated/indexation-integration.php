@@ -52,6 +52,7 @@ class Indexation_Integration implements Integration_Interface {
 	 * @param WPSEO_Admin_Asset_Manager                     $asset_manager                The admin asset manager.
 	 * @param Yoast_Tools_Page_Conditional                  $yoast_tools_page_conditional The Yoast tools page conditional.
 	 * @param Indexable_Helper                              $indexable_helper             The indexable helper.
+	 *
 	 * @deprecated 15.1
 	 * @codeCoverageIgnore
 	 */

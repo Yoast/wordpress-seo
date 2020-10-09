@@ -94,7 +94,7 @@ class Index_Command implements Command_Interface {
 	}
 
 	/**
-	 * @inheritDoc
+	 * Gets the namespace.
 	 */
 	public static function get_namespace() {
 		return Main::WP_CLI_NAMESPACE;
@@ -207,8 +207,8 @@ class Index_Command implements Command_Interface {
 	protected function clear() {
 		global $wpdb;
 
-		// For the PreparedSQLPlaceholders issue, see: https://github.com/WordPress/WordPress-Coding-Standards/issues/1903
-		// For the DirectDBQuery issue, see: https://github.com/WordPress/WordPress-Coding-Standards/issues/1947
+		// For the PreparedSQLPlaceholders issue, see: https://github.com/WordPress/WordPress-Coding-Standards/issues/1903.
+		// For the DirectDBQuery issue, see: https://github.com/WordPress/WordPress-Coding-Standards/issues/1947.
 		// phpcs:disable WordPress.DB -- Table names should not be quoted and truncate queries can not be cached.
 		$wpdb->query(
 			$wpdb->prepare(

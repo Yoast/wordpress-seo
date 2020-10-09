@@ -38,7 +38,9 @@ class Term_Link_Indexing_Action extends Abstract_Link_Indexing_Action {
 	}
 
 	/**
-	 * @inheritDoc
+	 * Returns objects to be indexed.
+	 *
+	 * @return array Objects to be indexed.
 	 */
 	protected function get_objects() {
 		$query = $this->get_query( false, $this->get_limit() );

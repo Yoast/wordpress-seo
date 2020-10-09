@@ -47,7 +47,7 @@ class Background_Indexing_Integration implements Integration_Interface {
 	protected $general_indexation;
 
 	/**
-	 * Represented the indexation completed action. ??? wat heeft deze nog voor rol?
+	 * Represents the indexation completed action.
 	 *
 	 * @var Indexable_Indexing_Complete_Action
 	 */
@@ -129,7 +129,7 @@ class Background_Indexing_Integration implements Integration_Interface {
 	/**
 	 * Returns the total number of unindexed objects.
 	 *
-	 * @param int $unindexed_count
+	 * @param int $unindexed_count The total number of unindexed objects.
 	 *
 	 * @return int The total number of unindexed objects.
 	 */

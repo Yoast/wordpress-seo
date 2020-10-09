@@ -83,7 +83,7 @@ class Indexable_Indexation_Route_Test extends TestCase {
 	protected $options_helper;
 
 	/**
-	 * @inheritDoc
+	 * Sets up the tests.
 	 */
 	public function setUp() {
 		parent::setUp();

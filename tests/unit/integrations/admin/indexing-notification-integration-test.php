@@ -90,13 +90,13 @@ class Indexing_Notification_Integration_Test extends TestCase {
 		parent::setUp();
 
 		$this->indexing_tool_integration = Mockery::mock( Indexing_Tool_Integration::class );
-		$this->notification_center  = Mockery::mock( \Yoast_Notification_Center::class );
-		$this->options_helper       = Mockery::mock( Options_Helper::class );
-		$this->product_helper       = Mockery::mock( Product_Helper::class );
-		$this->page_helper          = Mockery::mock( Current_Page_Helper::class );
-		$this->date_helper          = Mockery::mock( Date_Helper::class );
-		$this->short_link_helper    = Mockery::mock( Short_Link_Helper::class );
-		$this->notification_helper  = Mockery::mock( Notification_Helper::class );
+		$this->notification_center       = Mockery::mock( \Yoast_Notification_Center::class );
+		$this->options_helper            = Mockery::mock( Options_Helper::class );
+		$this->product_helper            = Mockery::mock( Product_Helper::class );
+		$this->page_helper               = Mockery::mock( Current_Page_Helper::class );
+		$this->date_helper               = Mockery::mock( Date_Helper::class );
+		$this->short_link_helper         = Mockery::mock( Short_Link_Helper::class );
+		$this->notification_helper       = Mockery::mock( Notification_Helper::class );
 
 		$this->instance = new Indexing_Notification_Integration(
 			$this->indexing_tool_integration,

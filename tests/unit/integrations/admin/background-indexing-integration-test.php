@@ -16,14 +16,14 @@ use Yoast\WP\SEO\Integrations\Admin\Indexing_Tool_Integration;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
- * Class Indexing_Integration_Test.
+ * Class Background_Indexing_Integration_Test.
  *
  * @coversDefaultClass \Yoast\WP\SEO\Integrations\Admin\Background_Indexing_Integration
  *
  * @group integrations
  * @group indexing
  */
-class Indexing_Indexables_Integration_Test extends TestCase {
+class Background_Indexing_Integration_Test extends TestCase {
 
 	/**
 	 * The indexation integration under test.
