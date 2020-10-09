@@ -62,7 +62,7 @@ class Indexable_Link_Builder_Test extends TestCase {
 	protected $instance;
 
 	/**
-	 * @inheritDoc
+	 * Sets up the tests.
 	 */
 	public function setUp() {
 		parent::setUp();
@@ -161,6 +161,119 @@ class Indexable_Link_Builder_Test extends TestCase {
 
 		$this->assertEquals( 1, \count( $links ) );
 		$this->assertEquals( $seo_link, $links[0] );
+	}
+
+	/**
+	 * Tests the build function for an internal link when the target indexable does not exist yet.
+	 *
+	 * @covers ::__construct
+	 * @covers ::set_dependencies
+	 * @covers ::build
+	 */
+	public function test_build_target_indexable_does_not_exist() {
+		$content   = '<a href="https://site.com/target">link</a>';
+		$link_type = SEO_Links::TYPE_INTERNAL;
+
+		$indexable              = Mockery::mock( Indexable_Mock::class );
+		$indexable->id          = 1;
+		$indexable->object_id   = 2;
+		$indexable->object_type = 'post';
+		$indexable->permalink   = 'https://site.com/page';
+
+		$target_indexable              = Mockery::mock( Indexable_Mock::class );
+		$target_indexable->id          = 2;
+		$target_indexable->object_id   = 3;
+		$target_indexable->object_type = 'post';
+		$target_indexable->permalink   = 'https://site.com/target';
+		$target_indexable->language    = 'nl';
+		$target_indexable->region      = 'NL';
+
+		Filters\expectApplied( 'the_content' )->with( $content )->andReturnFirstArg();
+
+		$parsed_home_url = [
+			'scheme' => 'https',
+			'host'   => 'site.com',
+		];
+		$parsed_page_url = [
+			'scheme' => 'https',
+			'host'   => 'site.com',
+			'path'   => 'page',
+		];
+		$parsed_link_url = [
+			'scheme' => 'https',
+			'host'   => 'link.com',
+			'path'   => 'target',
+		];
+
+		Functions\expect( 'home_url' )->once()->andReturn( 'https://site.com' );
+		Functions\expect( 'wp_parse_url' )->once()->with( 'https://site.com' )->andReturn( $parsed_home_url );
+		Functions\expect( 'wp_parse_url' )->once()->with( 'https://site.com/page' )->andReturn( $parsed_page_url );
+		Functions\expect( 'wp_parse_url' )->once()->with( 'https://site.com/target' )->andReturn( $parsed_link_url );
+		Functions\expect( 'set_url_scheme' )->once()->with( 'https://site.com/target', 'https' )->andReturnFirstArg();
+
+		$this->url_helper->expects( 'get_link_type' )->with( $parsed_link_url, $parsed_home_url, false )->andReturn( $link_type );
+
+		$query_mock                    = Mockery::mock();
+		$seo_link                      = Mockery::mock( SEO_Links_Mock::class );
+		$seo_link->type                = $link_type;
+		$seo_link->url                 = $target_indexable->permalink;
+		$seo_link->indexable_id        = $indexable->id;
+		$seo_link->post_id             = $indexable->object_id;
+		$seo_link->target_indexable_id = $target_indexable->id;
+		$seo_link->target_post_id      = $target_indexable->object_id;
+
+		$this->seo_links_repository->expects( 'query' )->once()->andReturn( $query_mock );
+		$query_mock->expects( 'create' )->once()->with(
+			[
+				'url'          => $target_indexable->permalink,
+				'type'         => $link_type,
+				'indexable_id' => $indexable->id,
+				'post_id'      => $indexable->object_id,
+			]
+		)->andReturn( $seo_link );
+
+		$old_seo_link                      = new SEO_Links_Mock();
+		$old_seo_link->target_indexable_id = 3;
+		$this->seo_links_repository->expects( 'find_all_by_indexable_id' )->once()->with( $indexable->id )->andReturn( [ $old_seo_link ] );
+		$this->seo_links_repository->expects( 'delete_all_by_indexable_id' )->once()->with( $indexable->id );
+		$this->seo_links_repository->expects( 'delete_all_by_post_id' )->once()->with( $indexable->object_id );
+		$this->seo_links_repository->expects( 'get_incoming_link_counts_for_indexable_ids' )
+			->with( [ 2, 3 ] )
+			->andReturn(
+				[
+					[
+						'target_indexable_id' => 2,
+						'incoming'            => 0,
+					],
+					[
+						'target_indexable_id' => 3,
+						'incoming'            => 0,
+					],
+				]
+			);
+
+		$this->indexable_repository->expects( 'update_incoming_link_count' )->once()->with( 2, 0 );
+		$this->indexable_repository->expects( 'update_incoming_link_count' )->once()->with( 3, 0 );
+		$this->indexable_repository->expects( 'find_by_permalink' )
+			->once()
+			->with( $target_indexable->permalink )
+			->andReturn( null );
+		$this->indexable_repository->expects( 'find_by_id_and_type' )
+			->with( 3, 'post' )
+			->andReturn( $target_indexable );
+
+		Functions\expect( 'url_to_postid' )
+			->with( $target_indexable->permalink )
+			->andReturn( $target_indexable->object_id );
+
+		$seo_link->expects( 'save' )->once();
+
+		$links = $this->instance->build( $indexable, $content );
+
+		$this->assertCount( 1, $links );
+		$this->assertEquals( $seo_link, $links[0] );
+		$this->assertEquals( $seo_link->target_indexable_id, $links[0]->target_indexable_id );
+		$this->assertEquals( $seo_link->target_post_id, $links[0]->target_post_id );
 	}
 
 	/**
