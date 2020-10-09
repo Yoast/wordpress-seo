@@ -5,9 +5,9 @@ import exceptionsParticiplesActiveFactory from "./exceptionsParticiplesActive.js
 const exceptionsParticiplesActive = exceptionsParticiplesActiveFactory();
 
 import auxiliariesFactory from "./auxiliaries.js";
-var auxiliaries = auxiliariesFactory().participleLike;
+const auxiliaries = auxiliariesFactory().participleLike;
 
-var exceptionsRegex =
+const exceptionsRegex =
 	/\S+(apparat|arbeit|dienst|haft|halt|keit|kraft|not|pflicht|schaft|schrift|tät|wert|zeit)($|[ \n\r\t.,'()"+-;!?:/»«‹›<>])/ig;
 
 import { includes } from "lodash-es";
@@ -22,7 +22,7 @@ import { map } from "lodash-es";
  *
  * @constructor
  */
-var GermanParticiple = function(  participle, sentencePart, attributes ) {
+const GermanParticiple = function(  participle, sentencePart, attributes ) {
 	Participle.call( this, participle, sentencePart, attributes );
 	this.setSentencePartPassiveness( this.isPassive() );
 };
@@ -68,13 +68,17 @@ GermanParticiple.prototype.hasNounSuffix = function() {
  * @returns {boolean} Returns true if it is an exception, otherwise returns false.
  */
 GermanParticiple.prototype.hasHabenSeinException = function() {
-	var participleIndices = getIndices( this.getParticiple(), this.getSentencePart() );
-	var habenSeinIndices = getIndicesOfList( [ "haben", "sein" ], this.getSentencePart() );
-	if ( participleIndices.length > 0 && habenSeinIndices.length === 0 ) {
+	const participleIndices = getIndices( this.getParticiple(), this.getSentencePart() );
+	let habenSeinIndices = getIndicesOfList( [ "haben", "sein" ], this.getSentencePart() );
+
+	// Don't check further if there is no participle or no haben/sein.
+	if ( participleIndices.length === 0 || habenSeinIndices.length === 0 ) {
 		return false;
 	}
+
 	habenSeinIndices = map( habenSeinIndices, "index" );
-	var currentParticiple = participleIndices[ 0 ];
+	const currentParticiple = participleIndices[ 0 ];
+
 	return includes( habenSeinIndices, currentParticiple.index + currentParticiple.match.length + 1 );
 };
 

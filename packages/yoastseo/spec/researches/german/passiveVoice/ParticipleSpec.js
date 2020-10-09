@@ -60,4 +60,14 @@ describe( "A test for checking the german Participle", function() {
 		expect( mockParticiple.isAuxiliary() ).toBe( false );
 		expect( mockParticiple.determinesSentencePartIsPassive() ).toBe( false );
 	} );
+
+	it( "checks the properties of the german participle object with a participle follwed by a special quotation mark.", function() {
+		var mockParticiple = new GermanParticiple( "gekauft", "Es wurde “gekauft”.", { auxiliaries: [ "wurde" ], type: "ge- at beginning", language: "de" } );
+		expect( mockParticiple.getParticiple() ).toBe( "gekauft" );
+		expect( mockParticiple.hasHabenSeinException() ).toBe( false );
+		expect( mockParticiple.isInExceptionList() ).toBe( false );
+		expect( mockParticiple.hasNounSuffix() ).toBe( false );
+		expect( mockParticiple.isAuxiliary() ).toBe( false );
+		expect( mockParticiple.determinesSentencePartIsPassive() ).toBe( true );
+	} );
 } );

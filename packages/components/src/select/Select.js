@@ -86,7 +86,7 @@ export const YoastReactSelect = ( props ) => {
 	return (
 		<FieldGroup
 			{ ...fieldGroupProps }
-			htmlFor={ id }
+			htmlFor={ inputId }
 		>
 			<ReactSelect
 				isMulti={ isMulti }

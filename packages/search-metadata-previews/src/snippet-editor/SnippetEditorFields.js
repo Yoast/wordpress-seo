@@ -11,15 +11,13 @@ import {
 	ReplacementVariableEditor,
 	replacementVariablesShape,
 	recommendedReplacementVariablesShape,
+	StyledEditor,
 } from "@yoast/replacement-variable-editor";
 import { ProgressBar } from "@yoast/components";
 import { VariableEditorInputContainer, SimulatedLabel } from "@yoast/components";
 import { withCaretStyles } from "@yoast/style-guide";
 
 // Internal dependencies.
-import {
-	StyledEditor,
-} from "./SettingsSnippetEditorFields";
 import {
 	lengthProgressShape,
 } from "./constants";
@@ -168,6 +166,9 @@ class SnippetEditorFields extends React.Component {
 				description,
 			},
 			containerPadding,
+			titleInputId,
+			slugInputId,
+			descriptionInputId,
 		} = this.props;
 
 		const slugLabelId = `${ this.uniqueId }-slug`;
@@ -188,7 +189,7 @@ class SnippetEditorFields extends React.Component {
 					recommendedReplacementVariables={ recommendedReplacementVariables }
 					content={ title }
 					onChange={ content => onChange( "title", content ) }
-					fieldId="snippet-editor-field-title"
+					fieldId={ titleInputId }
 					type="title"
 				/>
 				<ProgressBar
@@ -214,7 +215,7 @@ class SnippetEditorFields extends React.Component {
 						onBlur={ () => onBlur() }
 						ref={ ref => this.setRef( "slug", ref ) }
 						aria-labelledby={ this.uniqueId + "-slug" }
-						id="snippet-editor-field-slug"
+						id={ slugInputId }
 					/>
 				</InputContainerWithCaretStyles>
 				<ReplacementVariableEditor
@@ -231,7 +232,7 @@ class SnippetEditorFields extends React.Component {
 					recommendedReplacementVariables={ recommendedReplacementVariables }
 					content={ description }
 					onChange={ content => onChange( "description", content ) }
-					fieldId="snippet-editor-field-description"
+					fieldId={ descriptionInputId }
 				/>
 				<ProgressBar
 					max={ descriptionLengthProgress.max }
@@ -279,6 +280,9 @@ SnippetEditorFields.propTypes = {
 	descriptionLengthProgress: lengthProgressShape,
 	descriptionEditorFieldPlaceholder: PropTypes.string,
 	containerPadding: PropTypes.string,
+	titleInputId: PropTypes.string,
+	slugInputId: PropTypes.string,
+	descriptionInputId: PropTypes.string,
 };
 
 SnippetEditorFields.defaultProps = {
@@ -296,6 +300,9 @@ SnippetEditorFields.defaultProps = {
 		score: 0,
 	},
 	containerPadding: "0 20px",
+	titleInputId: "yoast-google-preview-title",
+	slugInputId: "yoast-google-preview-slug",
+	descriptionInputId: "yoast-google-preview-description",
 };
 
 export default SnippetEditorFields;

@@ -69,17 +69,15 @@ const determineSentenceIsPassiveListBased = function( sentence, language ) {
  */
 const determineSentenceIsPassiveIndonesian = function( sentence ) {
 	const words = getWords( sentence );
-	let matchedPassives = words.filter( word => ( word.startsWith( passivePrefixIndonesian ) ) );
-
+	let matchedPassives = words.filter( word => ( word.length > 4 ) );
+	matchedPassives = matchedPassives.filter( word => ( word.startsWith( passivePrefixIndonesian ) ) );
 	if ( matchedPassives.length === 0 ) {
 		return false;
 	}
 
 	// Check exception list.
-	matchedPassives = matchedPassives.filter( matchedPassive => ( ! nonPassivesIndonesian.includes( matchedPassive ) ) );
-
-	if ( matchedPassives.length === 0 ) {
-		return false;
+	for ( const nonPassive of nonPassivesIndonesian ) {
+		matchedPassives = matchedPassives.filter( word => ( ! word.startsWith( nonPassive ) ) );
 	}
 
 	// Check direct precedence exceptions.

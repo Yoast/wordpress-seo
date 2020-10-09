@@ -1,6 +1,6 @@
 {
   "name": "@yoast/components",
-  "version": "2.10.0-rc.1",
+  "version": "2.10.0-rc.4",
   "description": "Yoast Components",
   "main": "src/index.js",
   "private": false,
@@ -19,6 +19,12 @@
   "jest": {
     "testRegex": ".*Test.js$",
     "testURL": "http://localhost",
+    "transform": {
+      "^.+\\.jsx?$": "babel-jest"
+    },
+    "transformIgnorePatterns": [
+      "/node_modules/(?!yoastseo|lodash-es).+\\.js$"
+    ],
     "setupTestFrameworkScriptFile": "<rootDir>/jest/setupTests.js",
     "moduleNameMapper": {
       "\\.css$": "<rootDir>/jest/CSSStub.js"

@@ -28,7 +28,10 @@
   "jest": {
     "testURL": "http://localhost",
     "testRegex": ".*Test.js$",
-    "setupTestFrameworkScriptFile": "<rootDir>/tools/jest/setupTests.js"
+    "setupTestFrameworkScriptFile": "<rootDir>/tools/jest/setupTests.js",
+    "moduleNameMapper": {
+      "^lodash-es$": "lodash"
+    }
   },
   "devDependencies": {
     "@yoast/browserslist-config": "^1.2.2",
