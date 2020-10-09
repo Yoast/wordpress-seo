@@ -165,6 +165,7 @@ class Front_End_Integration_Test extends TestCase {
 
 		$this->options->expects( 'get' )->with( 'opengraph' )->andReturnTrue();
 		$this->options->expects( 'get' )->with( 'twitter' )->andReturnTrue();
+		$this->options->expects( 'get' )->with( 'enable_enhanced_slack_sharing' )->andReturnTrue();
 
 		$expected = [
 			'Yoast\WP\SEO\Presenters\Debug\Marker_Open_Presenter',
@@ -192,6 +193,7 @@ class Front_End_Integration_Test extends TestCase {
 			'Yoast\WP\SEO\Presenters\Twitter\Image_Presenter',
 			'Yoast\WP\SEO\Presenters\Twitter\Creator_Presenter',
 			'Yoast\WP\SEO\Presenters\Twitter\Site_Presenter',
+			'Yoast\WP\SEO\Presenters\Slack\Enhanced_Data_Presenter',
 			'Yoast\WP\SEO\Presenters\Schema_Presenter',
 			'Yoast\WP\SEO\Presenters\Debug\Marker_Close_Presenter',
 		];
@@ -262,6 +264,11 @@ class Front_End_Integration_Test extends TestCase {
 		$this->options
 			->expects( 'get' )
 			->with( 'twitter' )
+			->andReturnTrue();
+
+		$this->options
+			->expects( 'get' )
+			->with( 'enable_enhanced_slack_sharing' )
 			->andReturnTrue();
 
 		$callback = function ( $presenter ) {
