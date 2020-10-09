@@ -4,13 +4,14 @@ namespace Yoast\WP\SEO\Routes;
 
 use WP_Error;
 use WP_REST_Response;
-use Yoast\WP\SEO\Actions\Indexation\Indexable_Complete_Indexation_Action;
+use Yoast\WP\SEO\Actions\Indexation\Indexable_Indexing_Complete_Action;
 use Yoast\WP\SEO\Actions\Indexation\Indexable_General_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexation\Indexable_Post_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexation\Indexable_Post_Type_Archive_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexation\Indexable_Prepare_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexation\Indexable_Term_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexation\Indexation_Action_Interface;
+use Yoast\WP\SEO\Actions\Indexation\Indexing_Complete_Action;
 use Yoast\WP\SEO\Actions\Indexation\Post_Link_Indexing_Action;
 use Yoast\WP\SEO\Actions\Indexation\Term_Link_Indexing_Action;
 use Yoast\WP\SEO\Conditionals\No_Conditionals;
@@ -21,35 +22,49 @@ use Yoast\WP\SEO\Main;
 /**
  * Indexable_Indexation_Route class.
  *
- * Reindexation route for indexables.
+ * Indexing route for indexables.
  */
 class Indexing_Route extends Abstract_Indexation_Route {
 
 	use No_Conditionals;
 
 	/**
-	 * The indexation complete route constant.
+	 * The indexing complete route constant.
 	 *
 	 * @var string
 	 */
 	const COMPLETE_ROUTE = 'indexation/complete';
 
 	/**
-	 * The full indexation complete route constant.
+	 * The full indexing complete route constant.
 	 *
 	 * @var string
 	 */
 	const FULL_COMPLETE_ROUTE = Main::API_V1_NAMESPACE . '/' . self::COMPLETE_ROUTE;
 
 	/**
-	 * The indexation prepare route constant.
+	 * The indexables complete route constant.
+	 *
+	 * @var string
+	 */
+	const INDEXABLES_COMPLETE_ROUTE = 'indexation/indexables-complete';
+
+	/**
+	 * The full indexing complete route constant.
+	 *
+	 * @var string
+	 */
+	const FULL_INDEXABLES_COMPLETE_ROUTE = Main::API_V1_NAMESPACE . '/' . self::INDEXABLES_COMPLETE_ROUTE;
+
+	/**
+	 * The indexing prepare route constant.
 	 *
 	 * @var string
 	 */
 	const PREPARE_ROUTE = 'indexation/prepare';
 
 	/**
-	 * The full indexation prepare route constant.
+	 * The full indexing prepare route constant.
 	 *
 	 * @var string
 	 */
@@ -111,7 +126,6 @@ class Indexing_Route extends Abstract_Indexation_Route {
 	 */
 	const FULL_GENERAL_ROUTE = Main::API_V1_NAMESPACE . '/' . self::GENERAL_ROUTE;
 
-
 	/**
 	 * The posts route constant.
 	 *
@@ -140,48 +154,54 @@ class Indexing_Route extends Abstract_Indexation_Route {
 	 */
 	const FULL_TERM_LINKS_INDEXING_ROUTE = Main::API_V1_NAMESPACE . '/' . self::TERM_LINKS_INDEXING_ROUTE;
 
-
 	/**
-	 * The post indexation action.
+	 * The post indexing action.
 	 *
 	 * @var Indexable_Post_Indexation_Action
 	 */
-	private $post_indexation_action;
+	protected $post_indexation_action;
 
 	/**
-	 * The term indexation action.
+	 * The term indexing action.
 	 *
 	 * @var Indexable_Term_Indexation_Action
 	 */
-	private $term_indexation_action;
+	protected $term_indexation_action;
 
 	/**
-	 * The post type archive indexation action.
+	 * The post type archive indexing action.
 	 *
 	 * @var Indexable_Post_Type_Archive_Indexation_Action
 	 */
-	private $post_type_archive_indexation_action;
+	protected $post_type_archive_indexation_action;
 
 	/**
-	 * Represents the general indexation action.
+	 * Represents the general indexing action.
 	 *
 	 * @var Indexable_General_Indexation_Action
 	 */
-	private $general_indexation_action;
+	protected $general_indexation_action;
 
 	/**
-	 * The prepare indexation action.
+	 * The prepare indexing action.
 	 *
 	 * @var Indexable_Prepare_Indexation_Action
 	 */
-	private $prepare_indexation_action;
+	protected $prepare_indexation_action;
 
 	/**
-	 * The complete indexation action.
+	 * The indexable indexing complete action.
 	 *
-	 * @var Indexable_Complete_Indexation_Action
+	 * @var Indexable_Indexing_Complete_Action
 	 */
-	private $complete_indexation_action;
+	protected $indexable_indexing_complete_action;
+
+	/**
+	 * The indexing complete action.
+	 *
+	 * @var Indexing_Complete_Action
+	 */
+	protected $indexing_complete_action;
 
 	/**
 	 * The post link indexing action.
@@ -207,16 +227,15 @@ class Indexing_Route extends Abstract_Indexation_Route {
 	/**
 	 * Indexable_Indexation_Route constructor.
 	 *
-	 * @param Indexable_Post_Indexation_Action              $post_indexation_action              The post indexation action.
-	 * @param Indexable_Term_Indexation_Action              $term_indexation_action              The term indexation action.
-	 * @param Indexable_Post_Type_Archive_Indexation_Action $post_type_archive_indexation_action The post type archive indexation action.
-	 * @param Indexable_General_Indexation_Action           $general_indexation_action           The general indexation action.
-	 * @param Indexable_Complete_Indexation_Action          $complete_indexation_action          The complete indexation action.
-	 *                                                                                           Called when the indexation is completed.
-	 * @param Indexable_Prepare_Indexation_Action           $prepare_indexation_action           The prepare indexation action.
-	 * @param Post_Link_Indexing_Action $post_link_indexing_action The post link indexing action.
-	 * @param Term_Link_Indexing_Action $term_link_indexing_action The term link indexing action.
-	 * Called when the indexation is started.
+	 * @param Indexable_Post_Indexation_Action              $post_indexation_action              The post indexing action.
+	 * @param Indexable_Term_Indexation_Action              $term_indexation_action              The term indexing action.
+	 * @param Indexable_Post_Type_Archive_Indexation_Action $post_type_archive_indexation_action The post type archive indexing action.
+	 * @param Indexable_General_Indexation_Action           $general_indexation_action           The general indexing action.
+	 * @param Indexable_Indexing_Complete_Action            $indexable_indexing_complete_action  The complete indexing action.
+	 * @param Indexing_Complete_Action                      $indexing_complete_action            The complete indexing action
+	 * @param Indexable_Prepare_Indexation_Action           $prepare_indexation_action           The prepare indexing action.
+	 * @param Post_Link_Indexing_Action                     $post_link_indexing_action           The post link indexing action.
+	 * @param Term_Link_Indexing_Action                     $term_link_indexing_action           The term link indexing action.
 	 * @param Options_Helper                                $options_helper                      The options helper.
 	 */
 	public function __construct(
@@ -224,7 +243,8 @@ class Indexing_Route extends Abstract_Indexation_Route {
 		Indexable_Term_Indexation_Action $term_indexation_action,
 		Indexable_Post_Type_Archive_Indexation_Action $post_type_archive_indexation_action,
 		Indexable_General_Indexation_Action $general_indexation_action,
-		Indexable_Complete_Indexation_Action $complete_indexation_action,
+		Indexable_Indexing_Complete_Action $indexable_indexing_complete_action,
+		Indexing_Complete_Action $indexing_complete_action,
 		Indexable_Prepare_Indexation_Action $prepare_indexation_action,
 		Post_Link_Indexing_Action $post_link_indexing_action,
 		Term_Link_Indexing_Action $term_link_indexing_action,
@@ -234,11 +254,12 @@ class Indexing_Route extends Abstract_Indexation_Route {
 		$this->term_indexation_action              = $term_indexation_action;
 		$this->post_type_archive_indexation_action = $post_type_archive_indexation_action;
 		$this->general_indexation_action           = $general_indexation_action;
-		$this->complete_indexation_action          = $complete_indexation_action;
+		$this->indexable_indexing_complete_action  = $indexable_indexing_complete_action;
+		$this->indexing_complete_action            = $indexing_complete_action;
 		$this->prepare_indexation_action           = $prepare_indexation_action;
 		$this->options_helper                      = $options_helper;
-		$this->post_link_indexing_action = $post_link_indexing_action;
-		$this->term_link_indexing_action = $term_link_indexing_action;
+		$this->post_link_indexing_action           = $post_link_indexing_action;
+		$this->term_link_indexing_action           = $term_link_indexing_action;
 	}
 
 	/**
@@ -263,6 +284,9 @@ class Indexing_Route extends Abstract_Indexation_Route {
 
 		$route_args['callback'] = [ $this, 'prepare' ];
 		\register_rest_route( Main::API_V1_NAMESPACE, self::PREPARE_ROUTE, $route_args );
+
+		$route_args['callback'] = [ $this, 'indexables_complete' ];
+		\register_rest_route( Main::API_V1_NAMESPACE, self::INDEXABLES_COMPLETE_ROUTE, $route_args );
 
 		$route_args['callback'] = [ $this, 'complete' ];
 		\register_rest_route( Main::API_V1_NAMESPACE, self::COMPLETE_ROUTE, $route_args );
@@ -311,7 +335,7 @@ class Indexing_Route extends Abstract_Indexation_Route {
 	}
 
 	/**
-	 * Indexes a number of posts for links.
+	 * Indexes a number of posts for post links.
 	 *
 	 * @return WP_Rest_Response The response.
 	 */
@@ -320,7 +344,7 @@ class Indexing_Route extends Abstract_Indexation_Route {
 	}
 
 	/**
-	 * Indexes a number of terms for links.
+	 * Indexes a number of terms for term links.
 	 *
 	 * @return WP_Rest_Response The response.
 	 */
@@ -340,12 +364,23 @@ class Indexing_Route extends Abstract_Indexation_Route {
 	}
 
 	/**
+	 * Completes the indexable indexation.
+	 *
+	 * @return WP_REST_Response The response.
+	 */
+	public function indexables_complete() {
+		$this->indexable_indexing_complete_action->complete();
+
+		return $this->respond_with( [], false );
+	}
+
+	/**
 	 * Completes the indexation.
 	 *
 	 * @return WP_REST_Response The response.
 	 */
 	public function complete() {
-		$this->complete_indexation_action->complete();
+		$this->indexing_complete_action->complete();
 
 		return $this->respond_with( [], false );
 	}
@@ -360,10 +395,10 @@ class Indexing_Route extends Abstract_Indexation_Route {
 	}
 
 	/**
-	 * Runs an indexation action and returns the response.
+	 * Runs an indexing action and returns the response.
 	 *
-	 * @param Indexation_Action_Interface $indexation_action The indexation action.
-	 * @param string                      $url               The url of the indexation route.
+	 * @param Indexation_Action_Interface $indexation_action The indexing action.
+	 * @param string                      $url               The url of the indexing route.
 	 *
 	 * @return WP_REST_Response|WP_Error The response, or an error when running the indexing action failed.
 	 */

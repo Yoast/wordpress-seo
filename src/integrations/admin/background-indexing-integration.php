@@ -2,7 +2,7 @@
 
 namespace Yoast\WP\SEO\Integrations\Admin;
 
-use Yoast\WP\SEO\Actions\Indexation\Indexable_Complete_Indexation_Action;
+use Yoast\WP\SEO\Actions\Indexation\Indexable_Indexing_Complete_Action;
 use Yoast\WP\SEO\Actions\Indexation\Indexable_General_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexation\Indexable_Post_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexation\Indexable_Post_Type_Archive_Indexation_Action;
@@ -49,7 +49,7 @@ class Background_Indexing_Integration implements Integration_Interface {
 	/**
 	 * Represented the indexation completed action. ??? wat heeft deze nog voor rol?
 	 *
-	 * @var Indexable_Complete_Indexation_Action
+	 * @var Indexable_Indexing_Complete_Action
 	 */
 	protected $complete_indexation_action;
 
@@ -79,14 +79,14 @@ class Background_Indexing_Integration implements Integration_Interface {
 	 * @param Indexable_Term_Indexation_Action              $term_indexation              The term indexing action.
 	 * @param Indexable_Post_Type_Archive_Indexation_Action $post_type_archive_indexation The post type archive indexing action.
 	 * @param Indexable_General_Indexation_Action           $general_indexation           The general indexing action.
-	 * @param Indexable_Complete_Indexation_Action          $complete_indexation_action   The complete indexing action.
+	 * @param Indexable_Indexing_Complete_Action            $complete_indexation_action   The complete indexing action.
 	 */
 	public function __construct(
 		Indexable_Post_Indexation_Action $post_indexation,
 		Indexable_Term_Indexation_Action $term_indexation,
 		Indexable_Post_Type_Archive_Indexation_Action $post_type_archive_indexation,
 		Indexable_General_Indexation_Action $general_indexation,
-		Indexable_Complete_Indexation_Action $complete_indexation_action
+		Indexable_Indexing_Complete_Action $complete_indexation_action
 	) {
 		$this->post_indexation              = $post_indexation;
 		$this->term_indexation              = $term_indexation;

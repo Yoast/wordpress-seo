@@ -3,7 +3,7 @@
 namespace Yoast\WP\SEO\Tests\Unit\Actions\Indexation;
 
 use Mockery;
-use Yoast\WP\SEO\Actions\Indexation\Indexable_Complete_Indexation_Action;
+use Yoast\WP\SEO\Actions\Indexation\Indexable_Indexing_Complete_Action;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
@@ -13,14 +13,14 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group actions
  * @group indexation
  *
- * @coversDefaultClass \Yoast\WP\SEO\Actions\Indexation\Indexable_Complete_Indexation_Action
+ * @coversDefaultClass \Yoast\WP\SEO\Actions\Indexation\Indexable_Indexing_Complete_Action
  */
 class Indexable_Complete_Indexation_Action_Test extends TestCase {
 
 	/**
 	 * The indexable indexation complete action under test.
 	 *
-	 * @var Indexable_Complete_Indexation_Action
+	 * @var Indexable_Indexing_Complete_Action
 	 */
 	private $instance;
 
@@ -36,7 +36,7 @@ class Indexable_Complete_Indexation_Action_Test extends TestCase {
 
 		$this->options = Mockery::mock( Options_Helper::class );
 
-		$this->instance = new Indexable_Complete_Indexation_Action(
+		$this->instance = new Indexable_Indexing_Complete_Action(
 			$this->options
 		);
 	}
@@ -47,7 +47,7 @@ class Indexable_Complete_Indexation_Action_Test extends TestCase {
 	 * @covers ::__construct
 	 */
 	public function test_constructor() {
-		$instance = new Indexable_Complete_Indexation_Action(
+		$instance = new Indexable_Indexing_Complete_Action(
 			$this->options
 		);
 

@@ -54,7 +54,6 @@ class Indexing_Tool_Integration implements Integration_Interface {
 	 */
 	protected $options_helper;
 
-
 	/**
 	 * The post indexation action.
 	 *
@@ -112,16 +111,16 @@ class Indexing_Tool_Integration implements Integration_Interface {
 	/**
 	 * Indexing_Integration constructor.
 	 *
-	 * @param WPSEO_Admin_Asset_Manager $asset_manager     The admin asset manager.
-	 * @param Indexable_Helper          $indexable_helper  The indexable helper.
-	 * @param Short_Link_Helper         $short_link_helper The short link helper.
-	 * @param Options_Helper            $options_helper    The options helper.
+	 * @param WPSEO_Admin_Asset_Manager                     $asset_manager     The admin asset manager.
+	 * @param Indexable_Helper                              $indexable_helper  The indexable helper.
+	 * @param Short_Link_Helper                             $short_link_helper The short link helper.
+	 * @param Options_Helper                                $options_helper    The options helper.
 	 * @param Indexable_Post_Indexation_Action              $post_indexation              The post indexing action.
 	 * @param Indexable_Term_Indexation_Action              $term_indexation              The term indexing action.
 	 * @param Indexable_Post_Type_Archive_Indexation_Action $post_type_archive_indexation The post type archive indexing action.
 	 * @param Indexable_General_Indexation_Action           $general_indexation
-	 * @param Post_Link_Indexing_Action $post_link_indexing_action The post indexing action.
-	 * @param Term_Link_Indexing_Action $term_link_indexing_action The term indexing action.
+	 * @param Post_Link_Indexing_Action                     $post_link_indexing_action The post indexing action.
+	 * @param Term_Link_Indexing_Action                     $term_link_indexing_action The term indexing action.
 	 */
 	public function __construct(
 		WPSEO_Admin_Asset_Manager $asset_manager,
@@ -135,16 +134,16 @@ class Indexing_Tool_Integration implements Integration_Interface {
 		Post_Link_Indexing_Action $post_link_indexing_action,
 		Term_Link_Indexing_Action $term_link_indexing_action
 	) {
-		$this->asset_manager     = $asset_manager;
-		$this->indexable_helper  = $indexable_helper;
-		$this->short_link_helper = $short_link_helper;
-		$this->options_helper    = $options_helper;
+		$this->asset_manager                = $asset_manager;
+		$this->indexable_helper             = $indexable_helper;
+		$this->short_link_helper            = $short_link_helper;
+		$this->options_helper               = $options_helper;
 		$this->post_indexation              = $post_indexation;
 		$this->term_indexation              = $term_indexation;
 		$this->post_type_archive_indexation = $post_type_archive_indexation;
 		$this->general_indexation           = $general_indexation;
-		$this->post_link_indexing_action = $post_link_indexing_action;
-		$this->term_link_indexing_action = $term_link_indexing_action;
+		$this->post_link_indexing_action    = $post_link_indexing_action;
+		$this->term_link_indexing_action    = $term_link_indexing_action;
 	}
 
 	/**
@@ -223,17 +222,18 @@ class Indexing_Tool_Integration implements Integration_Interface {
 	 */
 	protected function get_endpoints() {
 		$endpoints = [
-			'prepare'   => Indexing_Route::FULL_PREPARE_ROUTE,
-			'terms'     => Indexing_Route::FULL_TERMS_ROUTE,
-			'posts'     => Indexing_Route::FULL_POSTS_ROUTE,
-			'archives'  => Indexing_Route::FULL_POST_TYPE_ARCHIVES_ROUTE,
-			'general'   => Indexing_Route::FULL_GENERAL_ROUTE,
-			'indexablesComplete'  => Indexing_Route::INDEXABLES_COMPLETE_ROUTE,
-			'post_link' => Indexing_Route::FULL_POST_LINKS_INDEXING_ROUTE,
-			'term_link' => Indexing_Route::FULL_TERMS_ROUTE,
+			'prepare'            => Indexing_Route::FULL_PREPARE_ROUTE,
+			'terms'              => Indexing_Route::FULL_TERMS_ROUTE,
+			'posts'              => Indexing_Route::FULL_POSTS_ROUTE,
+			'archives'           => Indexing_Route::FULL_POST_TYPE_ARCHIVES_ROUTE,
+			'general'            => Indexing_Route::FULL_GENERAL_ROUTE,
+			'indexablesComplete' => Indexing_Route::FULL_INDEXABLES_COMPLETE_ROUTE,
+			'post_link'          => Indexing_Route::FULL_POST_LINKS_INDEXING_ROUTE,
+			'term_link'          => Indexing_Route::FULL_TERMS_ROUTE,
 		];
 
 		$endpoints = \apply_filters( 'wpseo_indexing_endpoints', $endpoints );
-		$endpoints[ 'complete' ] = Indexing_Route::FULL_COMPLETE_ROUTE;
+
+		$endpoints['complete'] = Indexing_Route::FULL_COMPLETE_ROUTE;
 	}
 }
