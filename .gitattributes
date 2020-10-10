@@ -21,3 +21,10 @@ phpcs.xml.dist export-ignore
 phpunit-integration.xml.dist export-ignore
 phpunit.xml.dist export-ignore
 README.md export-ignore
+
+# Fix some GitHub stats and how GitHub deals with changes.
+# See https://github.com/github/linguist/#using-gitattributes for docs.
+
+premium/languages/* linguist-generated
+*.txt linguist-documentation
+*.md linguist-documentation
