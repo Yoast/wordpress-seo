@@ -1,4 +1,4 @@
-import getFunctionWordsFactory from "./getFunctionWords.js";
+import getFunctionWordsFactory from "../../../helpers/_todo/getFunctionWords.js";
 import { filter, get, includes, isUndefined } from "lodash-es";
 
 const getFunctionWords = getFunctionWordsFactory();

@@ -1,13 +1,13 @@
 /** @module analyses/getLinkStatistics */
 
-import filterFunctionWordsFromArray from "../../helpers/filterFunctionWordsFromArray";
+import filterFunctionWordsFromArray from "../../helpers/_todo/filterFunctionWordsFromArray";
 import getLanguage from "../../helpers/getLanguage";
 import checkNofollow from "../../helpers/link/checkNofollow.js";
 import getWords from "../../helpers/word/getWords";
 import findKeywordInUrl from "../helpers/findKeywordInUrl.js";
 import getAnchors from "../../helpers/link/getAnchorsFromText.js";
 import getLinkType from "../../helpers/link/getLinkType.js";
-import matchTextWithArray from "../helpers/matchTextWithArray";
+import matchTextWithArray from "../../helpers/_todo/matchTextWithArray";
 import urlHelper from "../../helpers/url/url.js";
 
 import { flatten } from "lodash-es";
