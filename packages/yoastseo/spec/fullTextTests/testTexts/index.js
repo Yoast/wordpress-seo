@@ -3,7 +3,6 @@ import englishPaper1 from "./en/englishPaper1";
 import englishPaper2 from "./en/englishPaper2";
 import englishPaper3 from "./en/englishPaper3";
 import englishPaper4 from "./en/englishPaper4";
-import englishPaperForPerformanceTest from "./en/englishPaperForPerformanceTest";
 
 // Swedish papers
 import swedishPaper1 from "./sv/swedishPaper1";
@@ -28,13 +27,11 @@ import italianPaper3 from "./it/italianPaper3";
 import spanishPaper1 from "./es/spanishPaper1";
 import spanishPaper2 from "./es/spanishPaper2";
 import spanishPaper3 from "./es/spanishPaper3";
-import spanishPaperForPerformanceTest from "./es/spanishPaperForPerformanceTest";
 
 // Polish papers
 import polishPaper1 from "./pl/polishPaper1";
 import polishPaper2 from "./pl/polishPaper2";
 import polishPaper3 from "./pl/polishPaper3";
-import polishPaperForPerformanceTest from "./pl/polishPaperForPerformanceTest";
 
 // Russian papers
 import russianPaper1 from "./ru/russianPaper1";
@@ -43,6 +40,12 @@ import russianPaper3 from "./ru/russianPaper3";
 
 // Arabic papers
 import arabicPaper1 from "./ar/arabicPaper1";
+
+// Papers for comparing performance of stemmers in different languages in the content analysis app.
+import polishPaperForPerformanceTest from "./pl/polishPaperForPerformanceTest";
+import spanishPaperForPerformanceTest from "./es/spanishPaperForPerformanceTest";
+import englishPaperForPerformanceTest from "./en/englishPaperForPerformanceTest";
+
 
 export default [
 	englishPaper1,
