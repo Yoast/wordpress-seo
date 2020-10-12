@@ -6,7 +6,7 @@ use Brain\Monkey\Filters;
 use Brain\Monkey\Functions;
 use Mockery;
 use wpdb;
-use Yoast\WP\SEO\Actions\Indexation\Indexable_Term_Indexation_Action;
+use Yoast\WP\SEO\Actions\Indexing\Indexable_Term_Indexation_Action;
 use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
@@ -17,7 +17,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group actions
  * @group indexing
  *
- * @coversDefaultClass \Yoast\WP\SEO\Actions\Indexation\Indexable_Term_Indexation_Action
+ * @coversDefaultClass \Yoast\WP\SEO\Actions\Indexing\Indexable_Term_Indexation_Action
  */
 class Indexable_Term_Indexation_Action_Test extends TestCase {
 

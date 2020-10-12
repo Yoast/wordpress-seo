@@ -6,7 +6,7 @@ use Brain\Monkey\Filters;
 use Brain\Monkey\Functions;
 use Mockery;
 use wpdb;
-use Yoast\WP\SEO\Actions\Indexation\Term_Link_Indexing_Action;
+use Yoast\WP\SEO\Actions\Indexing\Term_Link_Indexing_Action;
 use Yoast\WP\SEO\Builders\Indexable_Link_Builder;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
@@ -20,7 +20,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group actions
  * @group indexing
  *
- * @coversDefaultClass \Yoast\WP\SEO\Actions\Indexation\Term_Link_Indexing_Action
+ * @coversDefaultClass \Yoast\WP\SEO\Actions\Indexing\Term_Link_Indexing_Action
  */
 class Term_Link_Indexing_Action_Test extends TestCase {
 

@@ -4,7 +4,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Actions\Indexation;
 
 use Brain\Monkey;
 use Mockery;
-use Yoast\WP\SEO\Actions\Indexation\Indexable_General_Indexation_Action;
+use Yoast\WP\SEO\Actions\Indexing\Indexable_General_Indexation_Action;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
@@ -14,7 +14,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group actions
  * @group indexing
  *
- * @coversDefaultClass \Yoast\WP\SEO\Actions\Indexation\Indexable_General_Indexation_Action
+ * @coversDefaultClass \Yoast\WP\SEO\Actions\Indexing\Indexable_General_Indexation_Action
  */
 class Indexable_General_Indexation_Action_Test extends TestCase {
 
