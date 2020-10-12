@@ -240,7 +240,7 @@ class Indexing_Tool_Integration implements Integration_Interface {
 			'general'            => Indexing_Route::FULL_GENERAL_ROUTE,
 			'indexablesComplete' => Indexing_Route::FULL_INDEXABLES_COMPLETE_ROUTE,
 			'post_link'          => Indexing_Route::FULL_POST_LINKS_INDEXING_ROUTE,
-			'term_link'          => Indexing_Route::FULL_TERMS_ROUTE,
+			'term_link'          => Indexing_Route::FULL_TERM_LINKS_INDEXING_ROUTE,
 		];
 
 		$endpoints = \apply_filters( 'wpseo_indexing_endpoints', $endpoints );
@@ -250,3 +250,5 @@ class Indexing_Tool_Integration implements Integration_Interface {
 		return $endpoints;
 	}
 }
+
+
