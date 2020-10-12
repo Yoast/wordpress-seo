@@ -254,7 +254,7 @@ class Indexing_Notification_Integration implements Integration_Interface {
 		}
 		else {
 			$total_unindexed = $this->indexing_integration->get_unindexed_count();
-			$presenter       = new Indexing_Notification_Presenter( $this->short_link_helper, $total_unindexed, $this->get_notification_message( $reason ) );
+			$presenter       = new Indexing_Notification_Presenter( $this->short_link_helper, $total_unindexed, $reason );
 		}
 
 		return $presenter;
