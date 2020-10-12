@@ -2,6 +2,7 @@ import { analysis } from "yoast-components";
 import activeMarker from "./activeMarker";
 import advancedSettings from "./advancedSettings";
 import analysisData from "./analysisData";
+import analysisResults from "./analysisResults";
 import editorContext from "./editorContext";
 import editorData from "./editorData";
 import isCornerstone from "./cornerstoneContent";
@@ -21,10 +22,11 @@ import SEMrushModal from "./SEMrushModal";
 import SEMrushRequest from "./SEMrushRequest";
 
 export default {
-	analysis,
-	advancedSettings,
 	activeMarker,
+	advancedSettings,
+	analysis,
 	analysisData,
+	analysisResults,
 	editorContext,
 	editorData,
 	isCornerstone,

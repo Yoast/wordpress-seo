@@ -1,4 +1,5 @@
 export * from "./activeMarker";
+export * from "./analysis";
 export * from "./advancedSettings";
 export * from "./cornerstoneContent";
 export * from "./editorContext";

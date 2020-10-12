@@ -1,6 +1,6 @@
 export * from "./activeMarker";
-export * from "./analysis";
 export * from "./advancedSettings";
+export * from "./analysisResults";
 export * from "./editorData";
 export * from "./focusKeyword";
 export * from "./markerButtons";
