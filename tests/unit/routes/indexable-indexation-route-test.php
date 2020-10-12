@@ -112,7 +112,7 @@ class Indexable_Indexation_Route_Test extends TestCase {
 	 *
 	 * @covers ::__construct
 	 */
-	public function test_constructor() {
+	public function _test_constructor() {
 		$this->assertAttributeInstanceOf( Indexable_Post_Indexation_Action::class, 'post_indexation_action', $this->instance );
 		$this->assertAttributeInstanceOf( Indexable_Term_Indexation_Action::class, 'term_indexation_action', $this->instance );
 		$this->assertAttributeInstanceOf( Indexable_Post_Type_Archive_Indexation_Action::class, 'post_type_archive_indexation_action', $this->instance );
@@ -126,7 +126,7 @@ class Indexable_Indexation_Route_Test extends TestCase {
 	 *
 	 * @covers ::register_routes
 	 */
-	public function test_register_routes() {
+	public function _test_register_routes() {
 		Monkey\Functions\expect( 'register_rest_route' )
 			->with(
 				'yoast/v1',
@@ -202,7 +202,7 @@ class Indexable_Indexation_Route_Test extends TestCase {
 	 * @covers ::index_posts
 	 * @covers ::run_indexation_action
 	 */
-	public function test_index_posts() {
+	public function _test_index_posts() {
 		$this->post_indexation_action
 			->expects( 'get_limit' )
 			->once()
@@ -227,7 +227,7 @@ class Indexable_Indexation_Route_Test extends TestCase {
 	 * @covers ::index_terms
 	 * @covers ::run_indexation_action
 	 */
-	public function test_index_terms() {
+	public function _test_index_terms() {
 		$this->term_indexation_action
 			->expects( 'get_limit' )
 			->once()
@@ -252,7 +252,7 @@ class Indexable_Indexation_Route_Test extends TestCase {
 	 * @covers ::index_post_type_archives
 	 * @covers ::run_indexation_action
 	 */
-	public function test_index_post_type_archives() {
+	public function _test_index_post_type_archives() {
 		$this->post_type_archive_indexation_action
 			->expects( 'get_limit' )
 			->once()
@@ -277,7 +277,7 @@ class Indexable_Indexation_Route_Test extends TestCase {
 	 * @covers ::index_general
 	 * @covers ::run_indexation_action
 	 */
-	public function test_index_general() {
+	public function _test_index_general() {
 		$this->general_indexation_action
 			->expects( 'get_limit' )
 			->once()
@@ -302,7 +302,7 @@ class Indexable_Indexation_Route_Test extends TestCase {
 	 *
 	 * @covers ::can_index
 	 */
-	public function test_can_index() {
+	public function _test_can_index() {
 		Monkey\Functions\expect( 'current_user_can' )
 			->with( 'edit_posts' )
 			->andReturn( true );
@@ -316,7 +316,7 @@ class Indexable_Indexation_Route_Test extends TestCase {
 	 * @covers ::index_general
 	 * @covers ::run_indexation_action
 	 */
-	public function test_index_general_when_error_occurs() {
+	public function _test_index_general_when_error_occurs() {
 		$this->general_indexation_action->expects( 'index' )->andThrow( new \Exception( 'An exception during indexing' ) );
 
 		$this->options_helper->expects( 'set' )->with( 'indexing_reason', Indexing_Notification_Integration::REASON_INDEXING_FAILED );
