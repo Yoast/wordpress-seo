@@ -161,26 +161,35 @@ class App extends React.Component {
 		}, { minSamples: 50, maxTime: 30 } );
 
 		suite.on( "cycle", function( event ) {
+			// eslint-disable-next-line
 			console.log( String( event.target ) );
+			// eslint-disable-next-line
 			console.log( event.target.stats.mean );
+			// eslint-disable-next-line
 			console.log( event.target.stats.deviation );
 			// More statistics:
 			// Marging of error: console.log( event.target.stats.moe );
 			// Relative marging of error (percentage of the mean): console.log( event.target.stats.rme );
 			// The array of sampled periods
+			// eslint-disable-next-line
 			console.log( event.target.stats.sample );
 			// The standard error of the mean: console.log( event.target.stats.sem );
 			// Variance: console.log( event.target.stats.variance );
 			// The time taken to complete last cycle
+			// eslint-disable-next-line
 			console.log( event.target.times.cycle );
 			// The time taken to complete the benchmark
+			// eslint-disable-next-line
 			console.log( event.target.times.elapsed );
 			// The time taken to execute the test once
+			// eslint-disable-next-line
 			console.log( event.target.times.period );
 			// Number of iterations per cycle
+			// eslint-disable-next-line
 			console.log( event.target.count );
 		} );
 		suite.on( "complete", function() {
+			// eslint-disable-next-line
 			console.log( "Fastest is " + this.filter( "fastest" ).map( "name" ) );
 		} );
 
