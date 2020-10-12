@@ -131,6 +131,8 @@ class Background_Indexing_Integration_Test extends TestCase {
 	 * Tests the enqueue_scripts method.
 	 *
 	 * @covers ::register_shutdown_indexing
+	 * @covers ::get_shutdown_limit
+	 * @covers ::get_unindexed_count
 	 */
 	public function test_register_shutdown_indexing() {
 		$this->post_indexation->expects( 'get_total_unindexed' )->andReturn( 0 );
@@ -173,6 +175,10 @@ class Background_Indexing_Integration_Test extends TestCase {
 		$this->complete_indexation_action
 			->expects( 'complete' )
 			->once();
+
+		Monkey\Filters\expectApplied( 'wpseo_shutdown_indexation_limit' )
+			->with( 25 )
+			->andReturn( 25 );
 
 		$this->instance->index();
 	}
