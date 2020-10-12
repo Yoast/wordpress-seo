@@ -114,12 +114,12 @@ class Indexable_Permalink_Watcher_Test extends TestCase {
 		$this->instance->expects( 'get_post_types' )->once()->andReturn( [ 'post' ] );
 		$this->instance->expects( 'get_taxonomies_for_post_types' )->once()->with( [ 'post' ] )->andReturn( [ 'category' ] );
 
-		$this->indexable_helper->expects( 'reset_permalink_indexables' )->with( 'post', 'post' )->once();
-		$this->indexable_helper->expects( 'reset_permalink_indexables' )->with( 'post-type-archive', 'post' )->once();
-		$this->indexable_helper->expects( 'reset_permalink_indexables' )->with( 'term', 'category' )->once();
-		$this->indexable_helper->expects( 'reset_permalink_indexables' )->with( 'user' )->once();
-		$this->indexable_helper->expects( 'reset_permalink_indexables' )->with( 'date-archive' )->once();
-		$this->indexable_helper->expects( 'reset_permalink_indexables' )->with( 'system-page' )->once();
+		$this->indexable_helper->expects( 'reset_permalink_indexables' )->with( 'post', 'post', null )->once();
+		$this->indexable_helper->expects( 'reset_permalink_indexables' )->with( 'post-type-archive', 'post', null )->once();
+		$this->indexable_helper->expects( 'reset_permalink_indexables' )->with( 'term', 'category', null )->once();
+		$this->indexable_helper->expects( 'reset_permalink_indexables' )->with( 'user', null, null )->once();
+		$this->indexable_helper->expects( 'reset_permalink_indexables' )->with( 'date-archive', null, null )->once();
+		$this->indexable_helper->expects( 'reset_permalink_indexables' )->with( 'system-page', null, null )->once();
 
 		Monkey\Functions\expect( 'get_option' )
 			->once()
@@ -160,8 +160,8 @@ class Indexable_Permalink_Watcher_Test extends TestCase {
 	 * @covers ::reset_permalinks_post_type
 	 */
 	public function test_reset_permalinks_post_type() {
-		$this->indexable_helper->expects( 'reset_permalink_indexables' )->with( 'post', 'post' )->once();
-		$this->indexable_helper->expects( 'reset_permalink_indexables' )->with( 'post-type-archive', 'post' )->once();
+		$this->indexable_helper->expects( 'reset_permalink_indexables' )->with( 'post', 'post', null )->once();
+		$this->indexable_helper->expects( 'reset_permalink_indexables' )->with( 'post-type-archive', 'post', null )->once();
 
 		$this->instance->reset_permalinks_post_type( 'post' );
 	}
@@ -174,7 +174,7 @@ class Indexable_Permalink_Watcher_Test extends TestCase {
 	public function test_reset_permalinks_term() {
 		$this->indexable_helper
 			->expects( 'reset_permalink_indexables' )
-			->with( 'term', 'category' )
+			->with( 'term', 'post_category', 'category_base_changed' )
 			->once();
 
 		$this->instance->reset_permalinks_term( null, null, 'category_base' );
@@ -188,7 +188,7 @@ class Indexable_Permalink_Watcher_Test extends TestCase {
 	public function test_reset_permalinks_for_term_tag() {
 		$this->indexable_helper
 			->expects( 'reset_permalink_indexables' )
-			->with( 'term', 'post_tag' )
+			->with( 'term', 'post_tag', 'tag_base_changed' )
 			->once();
 
 		$this->instance->reset_permalinks_term( null, null, 'tag_base' );
@@ -404,7 +404,7 @@ class Indexable_Permalink_Watcher_Test extends TestCase {
 
 		$this->indexable_helper
 			->expects( 'reset_permalink_indexables' )
-			->with( 'term', 'book-category' );
+			->with( 'term', 'book-category', null );
 
 		$this->options
 			->expects( 'set' )
