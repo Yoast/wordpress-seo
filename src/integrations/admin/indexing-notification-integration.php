@@ -50,7 +50,7 @@ class Indexing_Notification_Integration implements Integration_Interface {
 	/**
 	 * The indexing integration.
 	 *
-	 * @var Indexing_Integration
+	 * @var Indexing_Tool_Integration
 	 */
 	protected $indexing_integration;
 
@@ -106,7 +106,7 @@ class Indexing_Notification_Integration implements Integration_Interface {
 	/**
 	 * Prominent_Words_Notifier constructor.
 	 *
-	 * @param Indexing_Integration      $indexing_integration The indexing integration.
+	 * @param Indexing_Tool_Integration $indexing_integration The indexing integration.
 	 * @param Yoast_Notification_Center $notification_center  The notification center.
 	 * @param Options_Helper            $options_helper       The options helper.
 	 * @param Product_Helper            $product_helper       The product helper.
@@ -116,7 +116,7 @@ class Indexing_Notification_Integration implements Integration_Interface {
 	 * @param Notification_Helper       $notification_helper  The notification helper.
 	 */
 	public function __construct(
-		Indexing_Integration $indexing_integration,
+		Indexing_Tool_Integration $indexing_integration,
 		Yoast_Notification_Center $notification_center,
 		Options_Helper $options_helper,
 		Product_Helper $product_helper,
@@ -153,6 +153,7 @@ class Indexing_Notification_Integration implements Integration_Interface {
 
 		if ( ! \wp_next_scheduled( self::NOTIFICATION_ID ) ) {
 			\wp_schedule_event( $this->date_helper->current_time(), 'daily', self::NOTIFICATION_ID );
+
 			return;
 		}
 
@@ -208,7 +209,7 @@ class Indexing_Notification_Integration implements Integration_Interface {
 		/*
 		 * Never show a notification when nothing should be indexed.
 		 */
-		if ( $this->indexing_integration->get_total_unindexed() === 0 ) {
+		if ( $this->indexing_integration->get_unindexed_count() === 0 ) {
 			return false;
 		}
 
@@ -313,7 +314,7 @@ class Indexing_Notification_Integration implements Integration_Interface {
 			$presenter = new Indexing_Failed_Notification_Presenter( $this->product_helper );
 		}
 		else {
-			$total_unindexed = $this->indexing_integration->get_total_unindexed();
+			$total_unindexed = $this->indexing_integration->get_unindexed_count();
 			$presenter       = new Indexing_Notification_Presenter( $this->short_link_helper, $total_unindexed, $this->get_notification_message( $reason ) );
 		}
 
