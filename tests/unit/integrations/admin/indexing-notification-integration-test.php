@@ -8,7 +8,7 @@ use Yoast\WP\SEO\Helpers\Notification_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Helpers\Short_Link_Helper;
-use Yoast\WP\SEO\Integrations\Admin\Indexing_Integration;
+use Yoast\WP\SEO\Integrations\Admin\Indexing_Tool_Integration;
 use Yoast\WP\SEO\Integrations\Admin\Indexing_Notification_Integration;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
@@ -23,9 +23,9 @@ class Indexing_Notification_Integration_Test extends TestCase {
 	/**
 	 * The indexing integration.
 	 *
-	 * @var Mockery\MockInterface|Indexing_Integration
+	 * @var Mockery\MockInterface|Indexing_Tool_Integration
 	 */
-	protected $indexing_integration;
+	protected $indexing_tool_integration;
 
 	/**
 	 * The notification center.
@@ -89,17 +89,17 @@ class Indexing_Notification_Integration_Test extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->indexing_integration = Mockery::mock( Indexing_Integration::class );
-		$this->notification_center  = Mockery::mock( \Yoast_Notification_Center::class );
-		$this->options_helper       = Mockery::mock( Options_Helper::class );
-		$this->product_helper       = Mockery::mock( Product_Helper::class );
-		$this->page_helper          = Mockery::mock( Current_Page_Helper::class );
-		$this->date_helper          = Mockery::mock( Date_Helper::class );
-		$this->short_link_helper    = Mockery::mock( Short_Link_Helper::class );
-		$this->notification_helper  = Mockery::mock( Notification_Helper::class );
+		$this->indexing_tool_integration = Mockery::mock( Indexing_Tool_Integration::class );
+		$this->notification_center       = Mockery::mock( \Yoast_Notification_Center::class );
+		$this->options_helper            = Mockery::mock( Options_Helper::class );
+		$this->product_helper            = Mockery::mock( Product_Helper::class );
+		$this->page_helper               = Mockery::mock( Current_Page_Helper::class );
+		$this->date_helper               = Mockery::mock( Date_Helper::class );
+		$this->short_link_helper         = Mockery::mock( Short_Link_Helper::class );
+		$this->notification_helper       = Mockery::mock( Notification_Helper::class );
 
 		$this->instance = new Indexing_Notification_Integration(
-			$this->indexing_integration,
+			$this->indexing_tool_integration,
 			$this->notification_center,
 			$this->options_helper,
 			$this->product_helper,
@@ -117,7 +117,7 @@ class Indexing_Notification_Integration_Test extends TestCase {
 	 */
 	public function test_constructor() {
 		$this->assertAttributeInstanceOf(
-			Indexing_Integration::class,
+			Indexing_Tool_Integration::class,
 			'indexing_integration',
 			$this->instance
 		);
@@ -307,8 +307,8 @@ class Indexing_Notification_Integration_Test extends TestCase {
 	 * @covers ::should_show_notification
 	 */
 	public function test_create_notification_no_unindexed_items() {
-		$this->indexing_integration
-			->expects( 'get_total_unindexed' )
+		$this->indexing_tool_integration
+			->expects( 'get_unindexed_count' )
 			->once()
 			->andReturn( 0 );
 
@@ -331,8 +331,8 @@ class Indexing_Notification_Integration_Test extends TestCase {
 	 * @covers ::notification
 	 */
 	public function test_create_notification_with_indexing_failed_reason() {
-		$this->indexing_integration
-			->expects( 'get_total_unindexed' )
+		$this->indexing_tool_integration
+			->expects( 'get_unindexed_count' )
 			->once()
 			->andReturn( 40 );
 
@@ -373,8 +373,8 @@ class Indexing_Notification_Integration_Test extends TestCase {
 	 * @param string $reason The reason for indexing.
 	 */
 	public function test_create_notification_with_indexing_reasons( $reason ) {
-		$this->indexing_integration
-			->expects( 'get_total_unindexed' )
+		$this->indexing_tool_integration
+			->expects( 'get_unindexed_count' )
 			->twice()
 			->andReturn( 40 );
 
@@ -433,8 +433,8 @@ class Indexing_Notification_Integration_Test extends TestCase {
 			->once()
 			->andReturn( $mocked_time );
 
-		$this->indexing_integration
-			->expects( 'get_total_unindexed' )
+		$this->indexing_tool_integration
+			->expects( 'get_unindexed_count' )
 			->twice()
 			->andReturn( 40 );
 
@@ -489,8 +489,8 @@ class Indexing_Notification_Integration_Test extends TestCase {
 			->twice()
 			->andReturn( $mocked_time );
 
-		$this->indexing_integration
-			->expects( 'get_total_unindexed' )
+		$this->indexing_tool_integration
+			->expects( 'get_unindexed_count' )
 			->twice()
 			->andReturn( 40 );
 
@@ -544,8 +544,8 @@ class Indexing_Notification_Integration_Test extends TestCase {
 			->twice()
 			->andReturn( $mocked_time );
 
-		$this->indexing_integration
-			->expects( 'get_total_unindexed' )
+		$this->indexing_tool_integration
+			->expects( 'get_unindexed_count' )
 			->once()
 			->andReturn( 40 );
 
@@ -589,8 +589,8 @@ class Indexing_Notification_Integration_Test extends TestCase {
 			->expects( 'current_time' )
 			->andReturn( $mocked_time );
 
-		$this->indexing_integration
-			->expects( 'get_total_unindexed' )
+		$this->indexing_tool_integration
+			->expects( 'get_unindexed_count' )
 			->once()
 			->andReturn( 40 );
 
@@ -658,8 +658,8 @@ class Indexing_Notification_Integration_Test extends TestCase {
 			->once()
 			->andReturn( 'the_notification' );
 
-		$this->indexing_integration
-			->expects( 'get_total_unindexed' )
+		$this->indexing_tool_integration
+			->expects( 'get_unindexed_count' )
 			->once()
 			->andReturn( 40 );
 
@@ -690,8 +690,8 @@ class Indexing_Notification_Integration_Test extends TestCase {
 			->once()
 			->andReturn( new Yoast_Notification( 'the_notification_message' ) );
 
-		$this->indexing_integration
-			->expects( 'get_total_unindexed' )
+		$this->indexing_tool_integration
+			->expects( 'get_unindexed_count' )
 			->once()
 			->andReturn( 0 );
 

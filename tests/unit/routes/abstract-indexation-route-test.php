@@ -13,7 +13,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @coversDefaultClass \Yoast\WP\SEO\Routes\Abstract_Indexation_Route
  *
  * @group routes
- * @group indexation
+ * @group indexing
  */
 class Abstract_Indexation_Route_Test extends TestCase {
 
