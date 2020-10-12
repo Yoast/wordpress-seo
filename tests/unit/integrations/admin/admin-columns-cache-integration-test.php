@@ -15,7 +15,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * Class Admin_Columns_Cache_Integration_Test.
  *
  * @group integrations
- * @group indexation
+ * @group indexing
  *
  * @coversDefaultClass \Yoast\WP\SEO\Integrations\Admin\Admin_Columns_Cache_Integration
  */
