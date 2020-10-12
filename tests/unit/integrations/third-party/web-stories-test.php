@@ -68,10 +68,10 @@ class Web_Stories_Test extends TestCase {
 	public function test_register_hooks() {
 		$this->instance->register_hooks();
 
-		$this->assertTrue( \has_action( 'web_stories_story_head', [ $this->instance, 'remove_web_stories_meta_output' ] ), 'The remove Web Stories meta output function is registered.' );
-		$this->assertTrue( \has_action( 'web_stories_story_head', [ $this->front_end, 'call_wpseo_head' ] ), 'The wpseo head action is registered.' );
-		$this->assertTrue( \has_filter( 'wpseo_schema_article_post_types', [ $this->instance, 'filter_schema_article_post_types' ] ), 'The filter schema article post types function is registered.' );
-		$this->assertTrue( \has_action( 'admin_enqueue_scripts', [ $this->instance, 'dequeue_admin_assets' ] ), 'The admin_enqueue_scripts action is registered.' );
+		$this->assertNotFalse( \has_action( 'web_stories_story_head', [ $this->instance, 'remove_web_stories_meta_output' ] ), 'The remove Web Stories meta output function is registered.' );
+		$this->assertNotFalse( \has_action( 'web_stories_story_head', [ $this->front_end, 'call_wpseo_head' ] ), 'The wpseo head action is registered.' );
+		$this->assertNotFalse( \has_filter( 'wpseo_schema_article_post_types', [ $this->instance, 'filter_schema_article_post_types' ] ), 'The filter schema article post types function is registered.' );
+		$this->assertNotFalse( \has_action( 'admin_enqueue_scripts', [ $this->instance, 'dequeue_admin_assets' ] ), 'The admin_enqueue_scripts action is registered.' );
 	}
 
 	/**

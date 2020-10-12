@@ -41,7 +41,7 @@ class Option_Wpseo_Watcher_Test extends TestCase {
 	public function test_register_hooks() {
 		$this->instance->register_hooks();
 
-		$this->assertTrue( Monkey\Actions\has( 'update_option_wpseo', [ $this->instance, 'check_semrush_option_disabled' ] ) );
+		$this->assertNotFalse( Monkey\Actions\has( 'update_option_wpseo', [ $this->instance, 'check_semrush_option_disabled' ] ) );
 	}
 
 	/**

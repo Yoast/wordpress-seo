@@ -101,8 +101,8 @@ class Primary_Term_Watcher_Test extends TestCase {
 	public function test_register_hooks() {
 		$this->instance->register_hooks();
 
-		$this->assertTrue( Monkey\Actions\has( 'save_post', [ $this->instance, 'save_primary_terms' ] ) );
-		$this->assertTrue( Monkey\Actions\has( 'delete_post', [ $this->instance, 'delete_primary_terms' ] ) );
+		$this->assertNotFalse( Monkey\Actions\has( 'save_post', [ $this->instance, 'save_primary_terms' ] ) );
+		$this->assertNotFalse( Monkey\Actions\has( 'delete_post', [ $this->instance, 'delete_primary_terms' ] ) );
 	}
 
 	/**
