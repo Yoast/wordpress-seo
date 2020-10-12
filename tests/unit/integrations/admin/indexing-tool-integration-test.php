@@ -27,7 +27,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group integrations
  * @group indexing
  */
-class Indexing_Integration_Test extends TestCase {
+class Indexing_Tool_Integration_Test extends TestCase {
 
 	/**
 	 * The indexation integration under test.
@@ -198,7 +198,7 @@ class Indexing_Integration_Test extends TestCase {
 	/**
 	 * Tests the get_total_unindexed method.
 	 *
-	 * @covers ::get_total_unindexed
+	 * @covers ::get_unindexed_count
 	 */
 	public function test_get_unindexed_count() {
 		$expectations = [
