@@ -10,6 +10,9 @@ use Yoast\WP\SEO\Actions\Indexation\Indexable_Post_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexation\Indexable_Post_Type_Archive_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexation\Indexable_Prepare_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexation\Indexable_Term_Indexation_Action;
+use Yoast\WP\SEO\Actions\Indexation\Indexing_Complete_Action;
+use Yoast\WP\SEO\Actions\Indexation\Post_Link_Indexing_Action;
+use Yoast\WP\SEO\Actions\Indexation\Term_Link_Indexing_Action;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Integrations\Admin\Indexing_Notification_Integration;
 use Yoast\WP\SEO\Routes\Indexing_Route;
@@ -22,7 +25,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @group routes
  * @group indexables
- * @group indexing
+ * @group indexation
  */
 class Indexable_Indexation_Route_Test extends TestCase {
 
@@ -55,11 +58,18 @@ class Indexable_Indexation_Route_Test extends TestCase {
 	protected $general_indexation_action;
 
 	/**
-	 * Represents the indexation complete action.
+	 * Represents the indexable indexing complete action.
 	 *
 	 * @var Mockery\MockInterface|Indexable_Indexing_Complete_Action
 	 */
-	protected $complete_indexation_action;
+	protected $indexable_indexing_complete_action;
+
+	/**
+	 * Represents the indexation complete action.
+	 *
+	 * @var Mockery\MockInterface|Indexing_Complete_Action
+	 */
+	protected $indexing_complete_action;
 
 	/**
 	 * Represents the prepare indexation action.
@@ -83,6 +93,20 @@ class Indexable_Indexation_Route_Test extends TestCase {
 	protected $options_helper;
 
 	/**
+	 * Represents the Post Link Indexing Action.
+	 *
+	 * @var Mockery\LegacyMockInterface|Mockery\MockInterface|Post_Link_Indexing_Action
+	 */
+	protected $post_link_indexing_action;
+
+	/**
+	 * Represents the Term Link Indexing Action.
+	 *
+	 * @var Mockery\LegacyMockInterface|Mockery\MockInterface|Term_Link_Indexing_Action
+	 */
+	protected $term_link_indexing_action;
+
+	/**
 	 * Sets up the tests.
 	 */
 	public function setUp() {
@@ -92,9 +116,12 @@ class Indexable_Indexation_Route_Test extends TestCase {
 		$this->term_indexation_action              = Mockery::mock( Indexable_Term_Indexation_Action::class );
 		$this->post_type_archive_indexation_action = Mockery::mock( Indexable_Post_Type_Archive_Indexation_Action::class );
 		$this->general_indexation_action           = Mockery::mock( Indexable_General_Indexation_Action::class );
-		$this->complete_indexation_action          = Mockery::mock( Indexable_Indexing_Complete_Action::class );
+		$this->indexable_indexing_complete_action  = Mockery::mock( Indexable_Indexing_Complete_Action::class );
+		$this->indexing_complete_action            = Mockery::mock( Indexing_Complete_Action::class );
 		$this->prepare_indexation_action           = Mockery::mock( Indexable_Prepare_Indexation_Action::class );
 		$this->options_helper                      = Mockery::mock( Options_Helper::class );
+		$this->post_link_indexing_action           = Mockery::mock( Post_Link_Indexing_Action::class );
+		$this->term_link_indexing_action           = Mockery::mock( Term_Link_Indexing_Action::class );
 
 		/*
 		$this->instance = new Indexing_Route(
@@ -102,8 +129,11 @@ class Indexable_Indexation_Route_Test extends TestCase {
 			$this->term_indexation_action,
 			$this->post_type_archive_indexation_action,
 			$this->general_indexation_action,
-			$this->complete_indexation_action,
+			$this->indexable_indexing_complete_action,
+			$this->indexing_complete_action,
 			$this->prepare_indexation_action,
+			$this->post_link_indexing_action,
+			$this->term_link_indexing_action,
 			$this->options_helper
 		);
 		*/
@@ -118,9 +148,12 @@ class Indexable_Indexation_Route_Test extends TestCase {
 		$this->markTestSkipped( 'Indexing refactor.' );
 		$this->assertAttributeInstanceOf( Indexable_Post_Indexation_Action::class, 'post_indexation_action', $this->instance );
 		$this->assertAttributeInstanceOf( Indexable_Term_Indexation_Action::class, 'term_indexation_action', $this->instance );
+		$this->assertAttributeInstanceOf( Indexable_Post_Link_Indexation_Action::class, 'post_link_indexation_action', $this->instance );
+		$this->assertAttributeInstanceOf( Indexable_Term_Link_Indexation_Action::class, 'term_link_indexation_action', $this->instance );
 		$this->assertAttributeInstanceOf( Indexable_Post_Type_Archive_Indexation_Action::class, 'post_type_archive_indexation_action', $this->instance );
 		$this->assertAttributeInstanceOf( Indexable_General_Indexation_Action::class, 'general_indexation_action', $this->instance );
-		$this->assertAttributeInstanceOf( Indexable_Indexing_Complete_Action::class, 'complete_indexation_action', $this->instance );
+		$this->assertAttributeInstanceOf( Indexable_Indexing_Complete_Action::class, 'indexable_indexing_complete_action', $this->instance );
+		$this->assertAttributeInstanceOf( Indexing_Complete_Action::class, 'indexing_complete_action', $this->instance );
 		$this->assertAttributeInstanceOf( Indexable_Prepare_Indexation_Action::class, 'prepare_indexation_action', $this->instance );
 	}
 
