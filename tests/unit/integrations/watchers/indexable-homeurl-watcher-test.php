@@ -93,7 +93,7 @@ class Indexable_HomeUrl_Watcher_Test extends TestCase {
 	public function test_register_hooks() {
 		$this->instance->register_hooks();
 
-		$this->assertTrue( Monkey\Actions\has( 'update_option_home', [ $this->instance, 'reset_permalinks' ] ) );
+		$this->assertNotFalse( Monkey\Actions\has( 'update_option_home', [ $this->instance, 'reset_permalinks' ] ) );
 	}
 
 	/**

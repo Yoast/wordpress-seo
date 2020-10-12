@@ -12,7 +12,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * Class Indexable_Prepare_Indexation_Action_Test
  *
  * @group actions
- * @group indexation
+ * @group indexing
  *
  * @coversDefaultClass \Yoast\WP\SEO\Actions\Indexation\Indexable_Prepare_Indexation_Action
  */

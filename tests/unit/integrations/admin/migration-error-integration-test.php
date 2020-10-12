@@ -91,7 +91,7 @@ class Migration_Error_Integration_Test extends TestCase {
 
 		$this->instance->register_hooks();
 
-		$this->assertTrue( \has_action( 'admin_notices', [ $this->instance, 'render_migration_error' ] ) );
+		$this->assertNotFalse( \has_action( 'admin_notices', [ $this->instance, 'render_migration_error' ] ) );
 	}
 
 	/**
