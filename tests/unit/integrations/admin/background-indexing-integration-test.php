@@ -185,5 +185,6 @@ class Background_Indexing_Integration_Test extends TestCase {
 		$this->term_indexation->expects( 'index' )->once();
 		$this->general_indexation->expects( 'index' )->once();
 		$this->post_type_archive_indexation->expects( 'index' )->once();
+		$this->complete_indexation_action->expects( 'complete' )->once();
 	}
 }

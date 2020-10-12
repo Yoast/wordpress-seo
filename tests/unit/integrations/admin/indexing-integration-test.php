@@ -190,7 +190,8 @@ class Indexing_Integration_Test extends TestCase {
 	 *
 	 * @covers ::register_hooks
 	 */
-	public function _test_register_hooks() {
+	public function test_register_hooks() {
+		$this->markTestSkipped( 'Indexing refactor.' );
 		Monkey\Actions\expectAdded( 'wpseo_tools_overview_list_items' );
 		Monkey\Actions\expectAdded( 'admin_enqueue_scripts' )->twice();
 
@@ -202,7 +203,8 @@ class Indexing_Integration_Test extends TestCase {
 	 *
 	 * @covers ::set_indexing_integrations
 	 */
-	public function _test_set_indexing_integrations() {
+	public function test_set_indexing_integrations() {
+		$this->markTestSkipped( 'Indexing refactor.' );
 		Monkey\Filters\expectApplied( 'wpseo_indexing_instances' )
 			->with( [ $this->indexing_indexables_integration ] );
 
@@ -214,7 +216,8 @@ class Indexing_Integration_Test extends TestCase {
 	 *
 	 * @covers ::get_total_unindexed
 	 */
-	public function _test_get_total_unindexed() {
+	public function test_get_total_unindexed() {
+		$this->markTestSkipped( 'Indexing refactor.' );
 		$this->indexing_indexables_integration
 			->expects( 'get_total_unindexed' )
 			->once()
@@ -229,7 +232,8 @@ class Indexing_Integration_Test extends TestCase {
 	 * @covers ::enqueue_scripts
 	 * @covers ::get_endpoints
 	 */
-	public function _test_enqueue_scripts() {
+	public function test_enqueue_scripts() {
+		$this->markTestSkipped( 'Indexing refactor.' );
 		$this->indexing_indexables_integration
 			->expects( 'get_total_unindexed' )
 			->once()
