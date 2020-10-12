@@ -234,7 +234,7 @@ Enhancements:
 Bugfixes:
 
 * Fixes a bug where the Yoast replacement variables plugin would not be available on edit terms page for usage by other plugins.
-* Fixes a bug where the incoming link count for each post, as shown on the post overview page, was incorrect. 
+* Fixes a bug where the incoming link count for each post, as shown on the post overview page, was incorrect.
 
 Other:
 
