@@ -60,7 +60,7 @@ class Term_Link_Indexing_Action_Test extends TestCase {
 	protected $instance;
 
 	/**
-	 * @inheritDoc
+	 * Set up the tests.
 	 */
 	public function setUp() {
 		parent::setUp();
@@ -83,10 +83,22 @@ class Term_Link_Indexing_Action_Test extends TestCase {
 	}
 
 	/**
+	 * Tests that the set_helper method correctly sets the helper
+	 * as a property of the object.
+	 *
+	 * @covers ::set_helper
+	 */
+	public function test_set_helper() {
+		$this->instance->set_helper( $this->taxonomy_helper );
+		$this->assertAttributeInstanceOf( Taxonomy_Helper::class, 'taxonomy_helper', $this->instance );
+	}
+
+	/**
 	 * Tests getting the total unindexed.
 	 *
 	 * @covers ::__construct
 	 * @covers ::get_total_unindexed
+	 * @covers ::get_query
 	 */
 	public function test_get_total_unindexed() {
 		Functions\expect( 'get_transient' )
@@ -133,6 +145,7 @@ class Term_Link_Indexing_Action_Test extends TestCase {
 	 *
 	 * @covers ::__construct
 	 * @covers ::get_total_unindexed
+	 * @covers ::get_query
 	 */
 	public function test_get_total_unindexed_cached() {
 		Functions\expect( 'get_transient' )
@@ -148,6 +161,7 @@ class Term_Link_Indexing_Action_Test extends TestCase {
 	 *
 	 * @covers ::__construct
 	 * @covers ::get_total_unindexed
+	 * @covers ::get_query
 	 */
 	public function test_get_total_unindexed_failed_query() {
 		Functions\expect( 'get_transient' )
@@ -189,6 +203,8 @@ class Term_Link_Indexing_Action_Test extends TestCase {
 	 *
 	 * @covers ::__construct
 	 * @covers ::index
+	 * @covers ::get_query
+	 * @covers ::get_objects
 	 */
 	public function test_index() {
 		Filters\expectApplied( 'wpseo_link_indexing_limit' );
@@ -247,6 +263,8 @@ class Term_Link_Indexing_Action_Test extends TestCase {
 	 *
 	 * @covers ::__construct
 	 * @covers ::index
+	 * @covers ::get_query
+	 * @covers ::get_objects
 	 */
 	public function test_index_without_link_count() {
 		Filters\expectApplied( 'wpseo_link_indexing_limit' );
