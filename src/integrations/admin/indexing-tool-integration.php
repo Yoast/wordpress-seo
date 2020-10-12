@@ -250,5 +250,3 @@ class Indexing_Tool_Integration implements Integration_Interface {
 		return $endpoints;
 	}
 }
-
-
