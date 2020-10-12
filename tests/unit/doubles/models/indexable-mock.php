@@ -102,4 +102,8 @@ class Indexable_Mock extends Indexable {
 	public $schema_page_type;
 
 	public $schema_article_type;
+
+	public $language;
+
+	public $region;
 }

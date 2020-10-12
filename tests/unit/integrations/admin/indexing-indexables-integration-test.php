@@ -10,7 +10,7 @@ use Yoast\WP\SEO\Actions\Indexation\Indexable_Post_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexation\Indexable_Post_Type_Archive_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexation\Indexable_Term_Indexation_Action;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
-use Yoast\WP\SEO\Conditionals\Yoast_Tools_Page_Conditional;
+use Yoast\WP\SEO\Conditionals\Yoast_Admin_And_Dashboard_Conditional;
 use Yoast\WP\SEO\Integrations\Admin\Indexing_Indexables_Integration;
 use Yoast\WP\SEO\Integrations\Admin\Indexing_Integration;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
@@ -96,7 +96,7 @@ class Indexing_Indexables_Integration_Test extends TestCase {
 	public function test_get_conditionals() {
 		static::assertEquals(
 			[
-				Yoast_Tools_Page_Conditional::class,
+				Yoast_Admin_And_Dashboard_Conditional::class,
 				Migrations_Conditional::class,
 			],
 			Indexing_Indexables_Integration::get_conditionals()
