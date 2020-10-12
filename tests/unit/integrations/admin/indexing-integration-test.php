@@ -16,7 +16,6 @@ use Yoast\WP\SEO\Conditionals\Yoast_Tools_Page_Conditional;
 use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Short_Link_Helper;
-use Yoast\WP\SEO\Integrations\Admin\Background_Indexing_Integration;
 use Yoast\WP\SEO\Integrations\Admin\Indexing_Tool_Integration;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
@@ -113,16 +112,16 @@ class Indexing_Integration_Test extends TestCase {
 	protected function setUp() {
 		parent::setUp();
 
-		$this->asset_manager                   = Mockery::mock( WPSEO_Admin_Asset_Manager::class );
-		$this->indexable_helper                = Mockery::mock( Indexable_Helper::class );
-		$this->short_link_helper               = Mockery::mock( Short_Link_Helper::class );
-		$this->options_helper                  = Mockery::mock( Options_Helper::class );
-		$this->post_indexation                 = Mockery::mock( Indexable_Post_Indexation_Action::class );
-		$this->term_indexation                 = Mockery::mock( Indexable_Term_Indexation_Action::class );
-		$this->post_type_archive_indexation    = Mockery::mock( Indexable_Post_Type_Archive_Indexation_Action::class );
-		$this->general_indexation              = Mockery::mock( Indexable_General_Indexation_Action::class );
-		$this->post_link_indexing_action       = Mockery::mock( Post_Link_Indexing_Action::class );
-		$this->term_link_indexing_action       = Mockery::mock( Term_Link_Indexing_Action::class );
+		$this->asset_manager                = Mockery::mock( WPSEO_Admin_Asset_Manager::class );
+		$this->indexable_helper             = Mockery::mock( Indexable_Helper::class );
+		$this->short_link_helper            = Mockery::mock( Short_Link_Helper::class );
+		$this->options_helper               = Mockery::mock( Options_Helper::class );
+		$this->post_indexation              = Mockery::mock( Indexable_Post_Indexation_Action::class );
+		$this->term_indexation              = Mockery::mock( Indexable_Term_Indexation_Action::class );
+		$this->post_type_archive_indexation = Mockery::mock( Indexable_Post_Type_Archive_Indexation_Action::class );
+		$this->general_indexation           = Mockery::mock( Indexable_General_Indexation_Action::class );
+		$this->post_link_indexing_action    = Mockery::mock( Post_Link_Indexing_Action::class );
+		$this->term_link_indexing_action    = Mockery::mock( Term_Link_Indexing_Action::class );
 
 		$this->instance = new Indexing_Tool_Integration(
 			$this->asset_manager,
@@ -168,7 +167,6 @@ class Indexing_Integration_Test extends TestCase {
 		static::assertAttributeInstanceOf( Indexable_General_Indexation_Action::class, 'general_indexation', $this->instance );
 		static::assertAttributeInstanceOf( Post_Link_Indexing_Action::class, 'post_link_indexing_action', $this->instance );
 		static::assertAttributeInstanceOf( Term_Link_Indexing_Action::class, 'term_link_indexing_action', $this->instance );
-
 	}
 
 	/**
@@ -191,24 +189,10 @@ class Indexing_Integration_Test extends TestCase {
 	 * @covers ::register_hooks
 	 */
 	public function test_register_hooks() {
-		$this->markTestSkipped( 'Indexing refactor.' );
 		Monkey\Actions\expectAdded( 'wpseo_tools_overview_list_items' );
-		Monkey\Actions\expectAdded( 'admin_enqueue_scripts' )->twice();
+		Monkey\Actions\expectAdded( 'admin_enqueue_scripts' );
 
 		$this->instance->register_hooks();
-	}
-
-	/**
-	 * Tests the setting of the indexing integrations.
-	 *
-	 * @covers ::set_indexing_integrations
-	 */
-	public function test_set_indexing_integrations() {
-		$this->markTestSkipped( 'Indexing refactor.' );
-		Monkey\Filters\expectApplied( 'wpseo_indexing_instances' )
-			->with( [ $this->indexing_indexables_integration ] );
-
-		$this->instance->set_indexing_integrations();
 	}
 
 	/**
@@ -216,14 +200,19 @@ class Indexing_Integration_Test extends TestCase {
 	 *
 	 * @covers ::get_total_unindexed
 	 */
-	public function test_get_total_unindexed() {
-		$this->markTestSkipped( 'Indexing refactor.' );
-		$this->indexing_indexables_integration
-			->expects( 'get_total_unindexed' )
-			->once()
-			->andReturn( 84 );
+	public function test_get_unindexed_count() {
+		$expectations = [
+			'post_indexation'              => 20,
+			'term_indexation'              => 30,
+			'general_indexation'           => 10,
+			'post_type_archive_indexation' => 40,
+			'post_link_indexing_action'    => 12,
+			'term_link_indexing_action'    => 0,
+		];
 
-		$this->assertEquals( 84, $this->instance->get_total_unindexed() );
+		$this->mock_get_total_unindexed_methods( $expectations );
+
+		$this->assertEquals( 112, $this->instance->get_unindexed_count() );
 	}
 
 	/**
@@ -233,25 +222,16 @@ class Indexing_Integration_Test extends TestCase {
 	 * @covers ::get_endpoints
 	 */
 	public function test_enqueue_scripts() {
-		$this->markTestSkipped( 'Indexing refactor.' );
-		$this->indexing_indexables_integration
-			->expects( 'get_total_unindexed' )
-			->once()
-			->andReturn( 72 );
+		$expectations = [
+			'post_indexation'              => 20,
+			'term_indexation'              => 30,
+			'general_indexation'           => 10,
+			'post_type_archive_indexation' => 40,
+			'post_link_indexing_action'    => 12,
+			'term_link_indexing_action'    => 0,
+		];
 
-		$this->indexing_indexables_integration
-			->expects( 'get_endpoints' )
-			->once()
-			->andReturn(
-				[
-					'prepare'  => 'yoast/v1/indexation/prepare',
-					'posts'    => 'yoast/v1/indexation/posts',
-					'terms'    => 'yoast/v1/indexation/terms',
-					'archives' => 'yoast/v1/indexation/post-type-archives',
-					'general'  => 'yoast/v1/indexation/general',
-					'complete' => 'yoast/v1/indexation/complete',
-				]
-			);
+		$this->mock_get_total_unindexed_methods( $expectations );
 
 		$this->asset_manager
 			->expects( 'enqueue_script' )
@@ -279,23 +259,24 @@ class Indexing_Integration_Test extends TestCase {
 			->andReturnTrue();
 
 		$injected_data = [
-			'amount'    => 72,
 			'disabled'  => false,
+			'amount'    => 112,
 			'firstTime' => true,
-			'restApi'   =>
-				[
-					'root'      => 'https://example.org/wp-ajax/',
-					'endpoints' =>
-						[
-							'prepare'   => 'yoast/v1/indexation/prepare',
-							'posts'     => 'yoast/v1/indexation/posts',
-							'terms'     => 'yoast/v1/indexation/terms',
-							'archives'  => 'yoast/v1/indexation/post-type-archives',
-							'general'   => 'yoast/v1/indexation/general',
-							'complete'  => 'yoast/v1/indexation/complete',
-						],
-					'nonce'     => 'nonce_value',
+			'restApi'   => [
+				'root'      => 'https://example.org/wp-ajax/',
+				'endpoints' => [
+					'prepare'            => 'yoast/v1/indexation/prepare',
+					'terms'              => 'yoast/v1/indexation/terms',
+					'posts'              => 'yoast/v1/indexation/posts',
+					'archives'           => 'yoast/v1/indexation/post-type-archives',
+					'general'            => 'yoast/v1/indexation/general',
+					'indexablesComplete' => 'yoast/v1/indexation/indexables-complete',
+					'post_link'          => 'yoast/v1/link-indexing/posts',
+					'term_link'          => 'yoast/v1/indexation/terms',
+					'complete'           => 'yoast/v1/indexation/complete',
 				],
+				'nonce'     => 'nonce_value',
+			],
 		];
 
 		Monkey\Functions\expect( 'rest_url' )
@@ -341,5 +322,19 @@ class Indexing_Integration_Test extends TestCase {
 
 		// Assert.
 		$this->expectOutput( '<li><strong>Optimize SEO Data</strong><br/>You can speed up your site and get insight into your internal linking structure by letting us perform a few optimizations to the way SEO data is stored. If you have a lot of content it might take a while, but trust us, it\'s worth it. <a href="https://yoast.com" target="_blank">Learn more about the benefits of optimized SEO data.</a><div id="yoast-seo-indexing-action" style="margin: 16px 0;"></div></li>' );
+	}
+
+	/**
+	 * Mocks the get_total_unindexed methods of the given action.
+	 *
+	 * @param array $expectations The get_total_unindexed expectations, as `action => total_unindexed` pairs.
+	 */
+	protected function mock_get_total_unindexed_methods( $expectations ) {
+		foreach ( $expectations as $action => $value ) {
+			$this->{$action}
+				->expects( 'get_total_unindexed' )
+				->once()
+				->andReturn( $value );
+		}
 	}
 }
