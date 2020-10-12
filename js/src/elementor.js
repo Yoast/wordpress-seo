@@ -1,5 +1,5 @@
 import domReady from "@wordpress/dom-ready";
-// import initAnalysis from "./initializers/analysis";
+import initAnalysis from "./initializers/analysis";
 // import initElementorEditorIntegration from "./initializers/elementor-editor-integration";
 import initEditorStore from "./initializers/editor-store";
 import initElementorWatcher from "./watchers/elementorWatcher";
@@ -12,7 +12,7 @@ domReady( () => {
 	initElementorWatcher();
 
 	// Initialize analysis.
-	// initAnalysis();
+	initAnalysis();
 } );
 
 // Initialize the editor integration.
