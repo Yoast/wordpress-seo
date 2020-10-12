@@ -22,7 +22,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @group routes
  * @group indexables
- * @group indexation
+ * @group indexing
  */
 class Indexable_Indexation_Route_Test extends TestCase {
 
