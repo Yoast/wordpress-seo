@@ -27,9 +27,9 @@ class Enhanced_Data_Presenter extends Abstract_Indexable_Presenter {
 	}
 
 	/**
-	 * Returns the enhanced data array.
+	 * Gets the enhanced data array.
 	 *
-	 * @return array
+	 * @return array The enhanced data array
 	 */
 	public function get() {
 		$data         = [];
@@ -39,9 +39,11 @@ class Enhanced_Data_Presenter extends Abstract_Indexable_Presenter {
 		if ( $author_id ) {
 			$data[ __( 'Written by', 'wordpress-seo' ) ] = \get_the_author_meta( 'display_name', $author_id );
 		}
+
 		if ( ! empty( $post_content ) ) {
 			$data[ __( 'Est. reading time', 'wordpress-seo' ) ] = $this->get_reading_time( $post_content );
 		}
+
 		return \apply_filters( 'wpseo_enhanced_data', $data, $this->presentation );
 	}
 
@@ -49,6 +51,7 @@ class Enhanced_Data_Presenter extends Abstract_Indexable_Presenter {
 	 * Calculate the estimated reading time.
 	 *
 	 * @param string $post_content The post content.
+	 *
 	 * @return string Human-readable est. reading time.
 	 */
 	private function get_reading_time( $post_content ) {

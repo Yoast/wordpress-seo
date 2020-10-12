@@ -48,6 +48,7 @@ class Enhanced_Data_Presenter_Test extends TestCase {
 	 *
 	 * @covers ::present
 	 * @covers ::get
+	 * @covers ::get_reading_time
 	 */
 	public function test_present() {
 		$post_content = '';
