@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file. Releases wi
 
 We follow [Semantic Versioning](http://semver.org/).
 
-## 2.10.0 October 12th, 2020
+## 2.10.0 October 13th, 2020
 ### Enhancements
 * Adds SingleSelect component, which is based on the MultiSelect implementation.
 * Introduces the new table HTML and CSS setup.
