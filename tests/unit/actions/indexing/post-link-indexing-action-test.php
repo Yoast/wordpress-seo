@@ -59,12 +59,13 @@ class Post_Link_Indexing_Action_Test extends TestCase {
 	protected $instance;
 
 	/**
-	 * @inheritDoc
+	 * Sets up the tests.
 	 */
 	public function setUp() {
 		parent::setUp();
 
 		global $wpdb;
+		// phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- Intended, to be able to test the Abstract_Link_Indexing_Action.
 		$wpdb = (object) [ 'prefix' => 'wp_' ];
 
 		$this->link_builder     = Mockery::mock( Indexable_Link_Builder::class );
@@ -82,10 +83,21 @@ class Post_Link_Indexing_Action_Test extends TestCase {
 	}
 
 	/**
+	 * Tests setting the helper.
+	 *
+	 * @covers ::set_helper
+	 */
+	public function test_set_helper() {
+		$this->instance->set_helper( Mockery::mock( Post_Type_Helper::class ) );
+
+		static::assertAttributeInstanceOf( Post_Type_Helper::class, 'post_type_helper', $this->instance );
+	}
+
+	/**
 	 * Tests getting the total unindexed.
 	 *
-	 * @covers ::__construct
-	 * @covers ::get_total_unindexed
+	 * @covers ::get_query
+	 * @covers \Yoast\WP\SEO\Actions\Indexation\Abstract_Link_Indexing_Action::get_total_unindexed
 	 */
 	public function test_get_total_unindexed() {
 		Functions\expect( 'get_transient' )
@@ -101,9 +113,27 @@ class Post_Link_Indexing_Action_Test extends TestCase {
 		$empty_string   = '';
 		$expected_query = "SELECT COUNT(ID)
 			FROM wp_posts
-			WHERE ID NOT IN (
-				SELECT object_id FROM wp_yoast_indexable WHERE link_count IS NOT NULL AND object_type = 'post'
-			) AND post_status = 'publish' AND post_type IN (%s, %s)
+			WHERE
+				(
+					ID NOT IN (
+						SELECT object_id
+						FROM wp_yoast_indexable
+						WHERE
+							link_count IS NOT NULL
+							AND object_type = 'post'
+					)
+					OR
+					ID IN (
+						SELECT DISTINCT post_id
+						FROM wp_yoast_seo_links
+						WHERE
+							target_indexable_id IS NULL
+							AND `type` = 'internal'
+							AND target_post_id IS NOT NULL
+					)
+				)
+				AND post_status = 'publish'
+				AND post_type IN (%s, %s)
 			$empty_string
 			";
 
@@ -130,8 +160,8 @@ class Post_Link_Indexing_Action_Test extends TestCase {
 	/**
 	 * Tests getting the total unindexed.
 	 *
-	 * @covers ::__construct
-	 * @covers ::get_total_unindexed
+	 * @covers ::get_query
+	 * @covers \Yoast\WP\SEO\Actions\Indexation\Abstract_Link_Indexing_Action::get_total_unindexed
 	 */
 	public function test_get_total_unindexed_cached() {
 		Functions\expect( 'get_transient' )
@@ -145,8 +175,8 @@ class Post_Link_Indexing_Action_Test extends TestCase {
 	/**
 	 * Tests getting the total unindexed.
 	 *
-	 * @covers ::__construct
-	 * @covers ::get_total_unindexed
+	 * @covers ::get_query
+	 * @covers \Yoast\WP\SEO\Actions\Indexation\Abstract_Link_Indexing_Action::get_total_unindexed
 	 */
 	public function test_get_total_unindexed_failed_query() {
 		Functions\expect( 'get_transient' )
@@ -162,9 +192,27 @@ class Post_Link_Indexing_Action_Test extends TestCase {
 		$empty_string   = '';
 		$expected_query = "SELECT COUNT(ID)
 			FROM wp_posts
-			WHERE ID NOT IN (
-				SELECT object_id FROM wp_yoast_indexable WHERE link_count IS NOT NULL AND object_type = 'post'
-			) AND post_status = 'publish' AND post_type IN (%s, %s)
+			WHERE
+				(
+					ID NOT IN (
+						SELECT object_id
+						FROM wp_yoast_indexable
+						WHERE
+							link_count IS NOT NULL
+							AND object_type = 'post'
+					)
+					OR
+					ID IN (
+						SELECT DISTINCT post_id
+						FROM wp_yoast_seo_links
+						WHERE
+							target_indexable_id IS NULL
+							AND `type` = 'internal'
+							AND target_post_id IS NOT NULL
+					)
+				)
+				AND post_status = 'publish'
+				AND post_type IN (%s, %s)
 			$empty_string
 			";
 
@@ -186,8 +234,8 @@ class Post_Link_Indexing_Action_Test extends TestCase {
 	/**
 	 * Tests the index function.
 	 *
-	 * @covers ::__construct
-	 * @covers ::index
+	 * @covers ::get_objects
+	 * @covers ::get_query
 	 */
 	public function test_index() {
 		Filters\expectApplied( 'wpseo_link_indexing_limit' );
@@ -199,9 +247,27 @@ class Post_Link_Indexing_Action_Test extends TestCase {
 
 		$expected_query = "SELECT ID, post_content
 			FROM wp_posts
-			WHERE ID NOT IN (
-				SELECT object_id FROM wp_yoast_indexable WHERE link_count IS NOT NULL AND object_type = 'post'
-			) AND post_status = 'publish' AND post_type IN (%s, %s)
+			WHERE
+				(
+					ID NOT IN (
+						SELECT object_id
+						FROM wp_yoast_indexable
+						WHERE
+							link_count IS NOT NULL
+							AND object_type = 'post'
+					)
+					OR
+					ID IN (
+						SELECT DISTINCT post_id
+						FROM wp_yoast_seo_links
+						WHERE
+							target_indexable_id IS NULL
+							AND `type` = 'internal'
+							AND target_post_id IS NOT NULL
+					)
+				)
+				AND post_status = 'publish'
+				AND post_type IN (%s, %s)
 			LIMIT %d
 			";
 
@@ -244,8 +310,9 @@ class Post_Link_Indexing_Action_Test extends TestCase {
 	/**
 	 * Tests the index function.
 	 *
-	 * @covers ::__construct
-	 * @covers ::index
+	 * @covers ::get_objects
+	 * @covers ::get_query
+	 * @covers \Yoast\WP\SEO\Actions\Indexation\Abstract_Link_Indexing_Action::index
 	 */
 	public function test_index_without_link_count() {
 		Filters\expectApplied( 'wpseo_link_indexing_limit' );
@@ -257,9 +324,27 @@ class Post_Link_Indexing_Action_Test extends TestCase {
 
 		$expected_query = "SELECT ID, post_content
 			FROM wp_posts
-			WHERE ID NOT IN (
-				SELECT object_id FROM wp_yoast_indexable WHERE link_count IS NOT NULL AND object_type = 'post'
-			) AND post_status = 'publish' AND post_type IN (%s, %s)
+			WHERE
+				(
+					ID NOT IN (
+						SELECT object_id
+						FROM wp_yoast_indexable
+						WHERE
+							link_count IS NOT NULL
+							AND object_type = 'post'
+					)
+					OR
+					ID IN (
+						SELECT DISTINCT post_id
+						FROM wp_yoast_seo_links
+						WHERE
+							target_indexable_id IS NULL
+							AND `type` = 'internal'
+							AND target_post_id IS NOT NULL
+					)
+				)
+				AND post_status = 'publish'
+				AND post_type IN (%s, %s)
 			LIMIT %d
 			";
 

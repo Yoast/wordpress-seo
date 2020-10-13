@@ -66,6 +66,7 @@ class Term_Link_Indexing_Action_Test extends TestCase {
 		parent::setUp();
 
 		global $wpdb;
+		// phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- Intended, to be able to test the Abstract_Link_Indexing_Action.
 		$wpdb = (object) [ 'prefix' => 'wp_' ];
 
 		$this->link_builder        = Mockery::mock( Indexable_Link_Builder::class );
@@ -83,22 +84,21 @@ class Term_Link_Indexing_Action_Test extends TestCase {
 	}
 
 	/**
-	 * Tests that the set_helper method correctly sets the helper
-	 * as a property of the object.
+	 * Tests setting the helper.
 	 *
 	 * @covers ::set_helper
 	 */
 	public function test_set_helper() {
-		$this->instance->set_helper( $this->taxonomy_helper );
-		$this->assertAttributeInstanceOf( Taxonomy_Helper::class, 'taxonomy_helper', $this->instance );
+		$this->instance->set_helper( Mockery::mock( Taxonomy_Helper::class ) );
+
+		static::assertAttributeInstanceOf( Taxonomy_Helper::class, 'taxonomy_helper', $this->instance );
 	}
 
 	/**
 	 * Tests getting the total unindexed.
 	 *
-	 * @covers ::__construct
-	 * @covers ::get_total_unindexed
 	 * @covers ::get_query
+	 * @covers \Yoast\WP\SEO\Actions\Indexation\Abstract_Link_Indexing_Action::get_total_unindexed
 	 */
 	public function test_get_total_unindexed() {
 		Functions\expect( 'get_transient' )
@@ -143,9 +143,8 @@ class Term_Link_Indexing_Action_Test extends TestCase {
 	/**
 	 * Tests getting the total unindexed.
 	 *
-	 * @covers ::__construct
-	 * @covers ::get_total_unindexed
 	 * @covers ::get_query
+	 * @covers \Yoast\WP\SEO\Actions\Indexation\Abstract_Link_Indexing_Action::get_total_unindexed
 	 */
 	public function test_get_total_unindexed_cached() {
 		Functions\expect( 'get_transient' )
@@ -159,9 +158,8 @@ class Term_Link_Indexing_Action_Test extends TestCase {
 	/**
 	 * Tests getting the total unindexed.
 	 *
-	 * @covers ::__construct
-	 * @covers ::get_total_unindexed
 	 * @covers ::get_query
+	 * @covers \Yoast\WP\SEO\Actions\Indexation\Abstract_Link_Indexing_Action::get_total_unindexed
 	 */
 	public function test_get_total_unindexed_failed_query() {
 		Functions\expect( 'get_transient' )
@@ -201,10 +199,9 @@ class Term_Link_Indexing_Action_Test extends TestCase {
 	/**
 	 * Tests the index function.
 	 *
-	 * @covers ::__construct
-	 * @covers ::index
-	 * @covers ::get_query
 	 * @covers ::get_objects
+	 * @covers ::get_query
+	 * @covers \Yoast\WP\SEO\Actions\Indexation\Abstract_Link_Indexing_Action::index
 	 */
 	public function test_index() {
 		Filters\expectApplied( 'wpseo_link_indexing_limit' );
@@ -261,10 +258,9 @@ class Term_Link_Indexing_Action_Test extends TestCase {
 	/**
 	 * Tests the index function.
 	 *
-	 * @covers ::__construct
-	 * @covers ::index
-	 * @covers ::get_query
 	 * @covers ::get_objects
+	 * @covers ::get_query
+	 * @covers \Yoast\WP\SEO\Actions\Indexation\Abstract_Link_Indexing_Action::index
 	 */
 	public function test_index_without_link_count() {
 		Filters\expectApplied( 'wpseo_link_indexing_limit' );
