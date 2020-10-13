@@ -5,6 +5,7 @@ namespace Yoast\WP\SEO\Integrations\Admin;
 use WP_Post;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
+use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
 /**
@@ -93,7 +94,7 @@ class Admin_Columns_Cache_Integration implements Integration_Interface {
 			\_prime_post_caches( $post_ids );
 		}
 
-		$indexables = $this->indexable_repository->find_by_multiple_ids_and_type( $post_ids, 'post' );
+		$indexables = $this->indexable_repository->find_by_multiple_ids_and_type( $post_ids, 'post', false );
 
 		foreach ( $indexables as $indexable ) {
 			$this->indexable_cache[ $indexable->object_id ] = $indexable;

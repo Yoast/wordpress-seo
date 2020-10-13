@@ -86,6 +86,6 @@ class BbPress_Test extends TestCase {
 
 		$this->instance->register_hooks();
 
-		$this->assertTrue( \has_filter( 'bbp_get_breadcrumb', '__return_false' ) );
+		$this->assertNotFalse( \has_filter( 'bbp_get_breadcrumb', '__return_false' ) );
 	}
 }

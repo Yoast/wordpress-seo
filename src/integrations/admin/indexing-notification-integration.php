@@ -50,7 +50,7 @@ class Indexing_Notification_Integration implements Integration_Interface {
 	/**
 	 * The indexing integration.
 	 *
-	 * @var Indexing_Integration
+	 * @var Indexing_Tool_Integration
 	 */
 	protected $indexing_integration;
 
@@ -106,7 +106,7 @@ class Indexing_Notification_Integration implements Integration_Interface {
 	/**
 	 * Prominent_Words_Notifier constructor.
 	 *
-	 * @param Indexing_Integration      $indexing_integration The indexing integration.
+	 * @param Indexing_Tool_Integration $indexing_integration The indexing integration.
 	 * @param Yoast_Notification_Center $notification_center  The notification center.
 	 * @param Options_Helper            $options_helper       The options helper.
 	 * @param Product_Helper            $product_helper       The product helper.
@@ -116,7 +116,7 @@ class Indexing_Notification_Integration implements Integration_Interface {
 	 * @param Notification_Helper       $notification_helper  The notification helper.
 	 */
 	public function __construct(
-		Indexing_Integration $indexing_integration,
+		Indexing_Tool_Integration $indexing_integration,
 		Yoast_Notification_Center $notification_center,
 		Options_Helper $options_helper,
 		Product_Helper $product_helper,
@@ -144,17 +144,14 @@ class Indexing_Notification_Integration implements Integration_Interface {
 	 */
 	public function register_hooks() {
 		if ( $this->page_helper->get_current_yoast_seo_page() === 'wpseo_dashboard' ) {
-			\add_action( 'admin_init', [ $this, 'cleanup_notification' ] );
+			\add_action( 'admin_init', [ $this, 'maybe_cleanup_notification' ] );
 		}
 
-		if ( ! \wp_next_scheduled( self::NOTIFICATION_ID ) ) {
-			\wp_schedule_event( $this->date_helper->current_time(), 'daily', self::NOTIFICATION_ID );
-			\add_action( 'admin_init', [ $this, 'create_notification' ] );
-
-			return;
+		if ( $this->options_helper->get( 'indexing_reason' ) ) {
+			\add_action( 'admin_init', [ $this, 'maybe_create_notification' ] );
 		}
 
-		\add_action( self::NOTIFICATION_ID, [ $this, 'create_notification' ] );
+		\add_action( self::NOTIFICATION_ID, [ $this, 'maybe_create_notification' ] );
 	}
 
 	/**
@@ -172,7 +169,7 @@ class Indexing_Notification_Integration implements Integration_Interface {
 	 * Checks whether the notification should be shown and adds
 	 * it to the notification center if this is the case.
 	 */
-	public function create_notification() {
+	public function maybe_create_notification() {
 		if ( ! $this->should_show_notification() ) {
 			return;
 		}
@@ -187,7 +184,7 @@ class Indexing_Notification_Integration implements Integration_Interface {
 	 * Checks whether the notification should not be shown anymore and removes
 	 * it from the notification center if this is the case.
 	 */
-	public function cleanup_notification() {
+	public function maybe_cleanup_notification() {
 		$notification = $this->notification_center->get_notification_by_id( self::NOTIFICATION_ID );
 
 		if ( $notification === null || $this->should_show_notification() ) {
@@ -206,31 +203,7 @@ class Indexing_Notification_Integration implements Integration_Interface {
 		/*
 		 * Never show a notification when nothing should be indexed.
 		 */
-		if ( $this->indexing_integration->get_total_unindexed() === 0 ) {
-			return false;
-		}
-
-		$indexing_reason = $this->options_helper->get( 'indexing_reason', '' );
-
-		/*
-		 * Show a notification when we have a reason to do so.
-		 * For example when indexing has failed before and the user should try again.
-		 */
-		if ( $indexing_reason ) {
-			return true;
-		}
-
-		/**
-		 * The UNIX timestamp on which indexing has started.
-		 * Defaults to `null` to indicate that indexing has not started yet.
-		 */
-		$time_indexation_started = $this->options_helper->get( 'indexation_started' );
-
-		/*
-		 * Do not show the notification when the indexation has started, but not completed.
-		 * I.e. when the user stopped it manually.
-		 */
-		if ( $time_indexation_started && $time_indexation_started > ( $this->date_helper->current_time() - \MONTH_IN_SECONDS ) ) {
+		if ( $this->indexing_integration->get_unindexed_count() === 0 ) {
 			return false;
 		}
 
@@ -245,37 +218,6 @@ class Indexing_Notification_Integration implements Integration_Interface {
 		}
 
 		return ( $this->date_helper->current_time() > ( (int) $hide_until ) );
-	}
-
-	/**
-	 * Determines the message to show in the indexing notification.
-	 *
-	 * @param string $reason The reason identifier.
-	 *
-	 * @return string The message to show in the notification.
-	 */
-	protected function get_notification_message( $reason ) {
-		switch ( $reason ) {
-			case self::REASON_PERMALINK_SETTINGS:
-				$text = \esc_html__( 'Because of a change in your permalink structure, some of your SEO data needs to be reprocessed.', 'wordpress-seo' );
-				break;
-			case self::REASON_CATEGORY_BASE_PREFIX:
-				$text = \esc_html__( 'Because of a change in your category URL setting, some of your SEO data needs to be reprocessed.', 'wordpress-seo' );
-				break;
-			case self::REASON_HOME_URL_OPTION:
-				$text = \esc_html__( 'Because of a change in your home URL setting, some of your SEO data needs to be reprocessed.', 'wordpress-seo' );
-				break;
-			default:
-				$text = \esc_html__( 'You can speed up your site and get insight into your internal linking structure by letting us perform a few optimizations to the way SEO data is stored. ', 'wordpress-seo' );
-		}
-
-		/**
-		 * Filter: 'wpseo_indexables_indexation_alert' - Allow developers to filter the reason of the indexation
-		 *
-		 * @param string $text   The text to show as reason.
-		 * @param string $reason The reason value.
-		 */
-		return (string) \apply_filters( 'wpseo_indexables_indexation_alert', $text, $reason );
 	}
 
 	/**
@@ -311,8 +253,8 @@ class Indexing_Notification_Integration implements Integration_Interface {
 			$presenter = new Indexing_Failed_Notification_Presenter( $this->product_helper );
 		}
 		else {
-			$total_unindexed = $this->indexing_integration->get_total_unindexed();
-			$presenter       = new Indexing_Notification_Presenter( $this->short_link_helper, $total_unindexed, $this->get_notification_message( $reason ) );
+			$total_unindexed = $this->indexing_integration->get_unindexed_count();
+			$presenter       = new Indexing_Notification_Presenter( $this->short_link_helper, $total_unindexed, $reason );
 		}
 
 		return $presenter;

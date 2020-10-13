@@ -12,7 +12,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * Class Indexable_Prepare_Indexation_Action_Test
  *
  * @group actions
- * @group indexation
+ * @group indexing
  *
  * @coversDefaultClass \Yoast\WP\SEO\Actions\Indexation\Indexable_Prepare_Indexation_Action
  */
@@ -71,6 +71,7 @@ class Indexable_Prepare_Indexation_Action_Test extends TestCase {
 		$mocked_time = 1593426177;
 
 		$this->date->expects( 'current_time' )
+			->twice()
 			->andReturn( $mocked_time );
 
 		$this->options->expects( 'set' )
@@ -78,6 +79,9 @@ class Indexable_Prepare_Indexation_Action_Test extends TestCase {
 
 		$this->options->expects( 'set' )
 			->with( 'indexation_started', $mocked_time );
+
+		$this->options->expects( 'set' )
+			->with( 'indexation_warning_hide_until', $mocked_time + \MONTH_IN_SECONDS );
 
 		$this->instance->prepare();
 	}

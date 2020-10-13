@@ -38,6 +38,6 @@ class XMLRPC_Test extends TestCase {
 	public function test_register_hooks() {
 		$this->instance->register_hooks();
 
-		$this->assertTrue( \has_filter( 'xmlrpc_methods', [ $this->instance, 'robots_header' ] ), 'Has expected noindex action' );
+		$this->assertNotFalse( \has_filter( 'xmlrpc_methods', [ $this->instance, 'robots_header' ] ), 'Has expected noindex action' );
 	}
 }

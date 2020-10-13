@@ -2,23 +2,22 @@
 
 namespace Yoast\WP\SEO\Integrations\Admin;
 
-use Yoast\WP\SEO\Actions\Indexation\Indexable_Complete_Indexation_Action;
+use Yoast\WP\SEO\Actions\Indexation\Indexable_Indexing_Complete_Action;
 use Yoast\WP\SEO\Actions\Indexation\Indexable_General_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexation\Indexable_Post_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexation\Indexable_Post_Type_Archive_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexation\Indexable_Term_Indexation_Action;
+use Yoast\WP\SEO\Conditionals\Get_Request_Conditional;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
-use Yoast\WP\SEO\Conditionals\Yoast_Tools_Page_Conditional;
-use Yoast\WP\SEO\Integrations\Indexing_Interface;
+use Yoast\WP\SEO\Conditionals\Yoast_Admin_And_Dashboard_Conditional;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
-use Yoast\WP\SEO\Routes\Indexable_Indexation_Route;
 
 /**
- * Class Indexing_Indexables_Integration.
+ * Class Background_Indexing_Integration.
  *
  * @package Yoast\WP\SEO\Integrations\Admin
  */
-class Indexing_Indexables_Integration implements Indexing_Interface, Integration_Interface {
+class Background_Indexing_Integration implements Integration_Interface {
 
 	/**
 	 * The post indexation action.
@@ -49,9 +48,9 @@ class Indexing_Indexables_Integration implements Indexing_Interface, Integration
 	protected $general_indexation;
 
 	/**
-	 * Represented the indexation completed action.
+	 * Represents the indexation completed action.
 	 *
-	 * @var Indexable_Complete_Indexation_Action
+	 * @var Indexable_Indexing_Complete_Action
 	 */
 	protected $complete_indexation_action;
 
@@ -69,26 +68,27 @@ class Indexing_Indexables_Integration implements Indexing_Interface, Integration
 	 */
 	public static function get_conditionals() {
 		return [
-			Yoast_Tools_Page_Conditional::class,
+			Yoast_Admin_And_Dashboard_Conditional::class,
 			Migrations_Conditional::class,
+			Get_Request_Conditional::class,
 		];
 	}
 
 	/**
-	 * Indexing_Indexables_Integration constructor.
+	 * Shutdown_Indexing_Integration constructor.
 	 *
 	 * @param Indexable_Post_Indexation_Action              $post_indexation              The post indexing action.
 	 * @param Indexable_Term_Indexation_Action              $term_indexation              The term indexing action.
 	 * @param Indexable_Post_Type_Archive_Indexation_Action $post_type_archive_indexation The post type archive indexing action.
 	 * @param Indexable_General_Indexation_Action           $general_indexation           The general indexing action.
-	 * @param Indexable_Complete_Indexation_Action          $complete_indexation_action   The complete indexing action.
+	 * @param Indexable_Indexing_Complete_Action            $complete_indexation_action   The complete indexing action.
 	 */
 	public function __construct(
 		Indexable_Post_Indexation_Action $post_indexation,
 		Indexable_Term_Indexation_Action $term_indexation,
 		Indexable_Post_Type_Archive_Indexation_Action $post_type_archive_indexation,
 		Indexable_General_Indexation_Action $general_indexation,
-		Indexable_Complete_Indexation_Action $complete_indexation_action
+		Indexable_Indexing_Complete_Action $complete_indexation_action
 	) {
 		$this->post_indexation              = $post_indexation;
 		$this->term_indexation              = $term_indexation;
@@ -101,7 +101,7 @@ class Indexing_Indexables_Integration implements Indexing_Interface, Integration
 	 * Register hooks.
 	 */
 	public function register_hooks() {
-		\add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_scripts' ], 10 );
+		\add_action( 'admin_init', [ $this, 'register_shutdown_indexing' ], 10 );
 	}
 
 	/**
@@ -109,31 +109,10 @@ class Indexing_Indexables_Integration implements Indexing_Interface, Integration
 	 *
 	 * @return void
 	 */
-	public function enqueue_scripts() {
-		$total_unindexed = $this->get_total_unindexed();
-		if ( $total_unindexed === 0 ) {
-			$this->complete_indexation_action->complete();
+	public function register_shutdown_indexing() {
+		if ( $this->get_unindexed_count() < $this->get_shutdown_limit() ) {
+			\register_shutdown_function( [ $this, 'index' ] );
 		}
-
-		if ( $total_unindexed < $this->get_shutdown_limit() ) {
-			\register_shutdown_function( [ $this, 'shutdown_indexation' ] );
-		}
-	}
-
-	/**
-	 * Retrieves the endpoints to call.
-	 *
-	 * @return array The endpoints.
-	 */
-	public function get_endpoints() {
-		return [
-			'prepare'  => Indexable_Indexation_Route::FULL_PREPARE_ROUTE,
-			'terms'    => Indexable_Indexation_Route::FULL_TERMS_ROUTE,
-			'posts'    => Indexable_Indexation_Route::FULL_POSTS_ROUTE,
-			'archives' => Indexable_Indexation_Route::FULL_POST_TYPE_ARCHIVES_ROUTE,
-			'general'  => Indexable_Indexation_Route::FULL_GENERAL_ROUTE,
-			'complete' => Indexable_Indexation_Route::FULL_COMPLETE_ROUTE,
-		];
 	}
 
 	/**
@@ -141,31 +120,28 @@ class Indexing_Indexables_Integration implements Indexing_Interface, Integration
 	 *
 	 * @return void
 	 */
-	public function shutdown_indexation() {
+	public function index() {
 		$this->post_indexation->index();
 		$this->term_indexation->index();
 		$this->general_indexation->index();
 		$this->post_type_archive_indexation->index();
+		$this->complete_indexation_action->complete();
 	}
 
 	/**
 	 * Returns the total number of unindexed objects.
 	 *
+	 * @param int $unindexed_count The total number of unindexed objects.
+	 *
 	 * @return int The total number of unindexed objects.
 	 */
-	public function get_total_unindexed() {
-		if ( \is_null( $this->total_unindexed ) ) {
-			$this->total_unindexed  = $this->post_indexation->get_total_unindexed();
-			$this->total_unindexed += $this->term_indexation->get_total_unindexed();
-			$this->total_unindexed += $this->general_indexation->get_total_unindexed();
-			$this->total_unindexed += $this->post_type_archive_indexation->get_total_unindexed();
-		}
+	protected function get_unindexed_count( $unindexed_count = 0 ) {
+		$unindexed_count += $this->post_indexation->get_total_unindexed();
+		$unindexed_count += $this->term_indexation->get_total_unindexed();
+		$unindexed_count += $this->general_indexation->get_total_unindexed();
+		$unindexed_count += $this->post_type_archive_indexation->get_total_unindexed();
 
-		if ( $this->total_unindexed < $this->get_shutdown_limit() ) {
-			return 0;
-		}
-
-		return $this->total_unindexed;
+		return $unindexed_count;
 	}
 
 	/**

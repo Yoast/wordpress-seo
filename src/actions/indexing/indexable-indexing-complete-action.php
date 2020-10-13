@@ -5,19 +5,19 @@ namespace Yoast\WP\SEO\Actions\Indexation;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 
 /**
- * Indexation action to call when the indexable indexation process is completed.
+ * Indexing action to call when the indexable indexing process is completed.
  */
-class Indexable_Complete_Indexation_Action {
+class Indexable_Indexing_Complete_Action {
 
 	/**
 	 * The options helper.
 	 *
 	 * @var Options_Helper
 	 */
-	private $options;
+	protected $options;
 
 	/**
-	 * Indexable_Complete_Indexation_Action constructor.
+	 * Indexable_Indexing_Complete_Action constructor.
 	 *
 	 * @param Options_Helper $options The options helper.
 	 */
@@ -26,13 +26,11 @@ class Indexable_Complete_Indexation_Action {
 	}
 
 	/**
-	 * Wraps up the indexation process.
+	 * Wraps up the indexing process.
 	 *
 	 * @return void
 	 */
 	public function complete() {
-		$this->options->set( 'indexation_started', null );
-		$this->options->set( 'indexing_reason', '' );
 		$this->options->set( 'indexables_indexation_completed', true );
 	}
 }

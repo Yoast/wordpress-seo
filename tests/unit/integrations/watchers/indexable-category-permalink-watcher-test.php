@@ -93,7 +93,7 @@ class Indexable_Category_Permalink_Watcher_Test extends TestCase {
 	public function test_register_hooks() {
 		$this->instance->register_hooks();
 
-		$this->assertTrue( Monkey\Actions\has( 'update_option_wpseo_titles', [ $this->instance, 'check_option' ] ) );
+		$this->assertNotFalse( Monkey\Actions\has( 'update_option_wpseo_titles', [ $this->instance, 'check_option' ] ) );
 	}
 
 	/**

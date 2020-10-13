@@ -38,7 +38,9 @@ class Post_Link_Indexing_Action extends Abstract_Link_Indexing_Action {
 	}
 
 	/**
-	 * @inheritDoc
+	 * Returns objects to be indexed.
+	 *
+	 * @return array Objects to be indexed.
 	 */
 	protected function get_objects() {
 		$query = $this->get_query( false, $this->get_limit() );
@@ -69,6 +71,7 @@ class Post_Link_Indexing_Action extends Abstract_Link_Indexing_Action {
 		$public_post_types = $this->post_type_helper->get_accessible_post_types();
 		$placeholders      = \implode( ', ', \array_fill( 0, \count( $public_post_types ), '%s' ) );
 		$indexable_table   = Model::get_table_name( 'Indexable' );
+		$links_table       = Model::get_table_name( 'SEO_Links' );
 		$replacements      = $public_post_types;
 
 		$select = 'ID, post_content';
@@ -84,9 +87,27 @@ class Post_Link_Indexing_Action extends Abstract_Link_Indexing_Action {
 		return $this->wpdb->prepare(
 			"SELECT $select
 			FROM {$this->wpdb->posts}
-			WHERE ID NOT IN (
-				SELECT object_id FROM $indexable_table WHERE link_count IS NOT NULL AND object_type = 'post'
-			) AND post_status = 'publish' AND post_type IN ($placeholders)
+			WHERE
+				(
+					ID NOT IN (
+						SELECT object_id
+						FROM $indexable_table
+						WHERE
+							link_count IS NOT NULL
+							AND object_type = 'post'
+					)
+					OR
+					ID IN (
+						SELECT DISTINCT post_id
+						FROM $links_table
+						WHERE
+							target_indexable_id IS NULL
+							AND `type` = 'internal'
+							AND target_post_id IS NOT NULL
+					)
+				)
+				AND post_status = 'publish'
+				AND post_type IN ($placeholders)
 			$limit_query
 			",
 			$replacements

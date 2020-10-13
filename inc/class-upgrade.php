@@ -6,7 +6,7 @@
  */
 
 use Yoast\WP\Lib\Model;
-use Yoast\WP\SEO\Integrations\Admin\Indexing_Integration;
+use Yoast\WP\SEO\Integrations\Admin\Indexing_Tool_Integration;
 
 /**
  * This code handles the option upgrades.
@@ -773,6 +773,7 @@ class WPSEO_Upgrade {
 	protected function move_indexables_indexation_reason_for_151() {
 		$reason = WPSEO_Options::get( 'indexables_indexation_reason', '' );
 		WPSEO_Options::set( 'indexing_reason', $reason );
+		WPSEO_Options::set( 'indexation_warning_hide_until', false );
 	}
 
 	/**
@@ -784,11 +785,11 @@ class WPSEO_Upgrade {
 		/**
 		 * Holds the indexation integration instance.
 		 *
-		 * @var Indexing_Integration
+		 * @var Indexing_Tool_Integration $indexing_integration
 		 */
-		$indexing_integration = YoastSEO()->classes->get( Indexing_Integration::class );
+		$indexing_integration = YoastSEO()->classes->get( Indexing_Tool_Integration::class );
 
-		WPSEO_Options::set( 'indexables_indexation_completed', $indexing_integration->get_total_unindexed() === 0 );
+		WPSEO_Options::set( 'indexables_indexation_completed', $indexing_integration->get_unindexed_indexables_count() === 0 );
 	}
 
 	/**

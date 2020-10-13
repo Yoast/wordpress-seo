@@ -15,7 +15,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * Indexable_Post_Indexation_Action_Test class
  *
  * @group actions
- * @group indexation
+ * @group indexing
  *
  * @coversDefaultClass \Yoast\WP\SEO\Actions\Indexation\Indexable_Post_Indexation_Action
  */

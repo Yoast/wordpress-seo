@@ -15,7 +15,7 @@ if ( ! function_exists( 'add_filter' ) ) {
  * {@internal Nobody should be able to overrule the real version number as this can cause
  *            serious issues with the options, so no if ( ! defined() ).}}
  */
-define( 'WPSEO_VERSION', '15.1-RC5' );
+define( 'WPSEO_VERSION', '15.1-RC9' );
 
 
 if ( ! defined( 'WPSEO_PATH' ) ) {
@@ -191,6 +191,9 @@ function _wpseo_activate() {
 	if ( ! WPSEO_Utils::is_yoast_seo_premium() ) {
 		WPSEO_Options::set( 'tracking', false );
 	}
+
+	WPSEO_Options::set( 'indexing_reason', 'first_install' );
+	WPSEO_Options::set( 'indexation_warning_hide_until', false );
 
 	do_action( 'wpseo_register_roles' );
 	WPSEO_Role_Manager_Factory::get()->add();
