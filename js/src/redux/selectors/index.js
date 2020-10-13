@@ -1,4 +1,3 @@
-export * from "./activeMarker";
 export * from "./advancedSettings";
 export * from "./analysis";
 export * from "./cornerstoneContent";
@@ -8,7 +7,6 @@ export * from "./facebookEditor";
 export * from "./fallbacks";
 export * from "./focusKeyPhrase";
 export * from "./marker";
-export * from "./primaryTaxonomies";
 export * from "./preferences";
 export * from "./primaryTaxonomies";
 export * from "./results";

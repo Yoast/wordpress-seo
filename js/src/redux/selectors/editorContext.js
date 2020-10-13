@@ -1,3 +1,5 @@
+import { get } from "lodash";
+
 /**
  * Gets the editor context.
  *
@@ -17,5 +19,5 @@ export function getEditorContext( state ) {
  * @returns {string} Whether this is a page or a post editor.
  */
 export function getPostOrPageString( state ) {
-	return getEditorContext( state ).postTypeNameSingular === "Page" ? "page" : "post";
+	return get( state, "editorContext.postTypeNameSingular" ) === "Page" ? "page" : "post";
 }

@@ -1,9 +1,13 @@
-import { get } from "lodash";
 import { getEditorDataContent, getEditorDataTitle } from "./editorData";
 import { getFocusKeyphrase } from "./focusKeyPhrase";
 
-export const getAnalysisResults = ( state ) => get( state, "analysisResults" );
-
+/**
+ * Gets the analysis data.
+ *
+ * @param {Object} state The state
+ *
+ * @returns {Object} The analysis results.
+ */
 export const getAnalysisData = ( state ) => {
 	return {
 		text: getEditorDataContent( state ),
