@@ -1,12 +1,13 @@
 import domReady from "@wordpress/dom-ready";
 import initAnalysis from "./initializers/analysis";
-// import initElementorEditorIntegration from "./initializers/elementor-editor-integration";
+import initElementorEditorIntegration from "./initializers/elementor-editor-integration";
 import initEditorStore from "./initializers/editor-store";
 import initElementorWatcher from "./watchers/elementorWatcher";
 
 domReady( () => {
 	// Initialize the editor store and set it on the window.
-	const store = initEditorStore();
+	window.YoastSEO = window.YoastSEO || {};
+	window.YoastSEO.store = initEditorStore();
 
 	// Initialize the editor data watcher.
 	initElementorWatcher();
@@ -16,7 +17,7 @@ domReady( () => {
 } );
 
 // Initialize the editor integration.
-// initElementorEditorIntegration();
+initElementorEditorIntegration();
 
 // STORE INIT
 // Register our store to WP data.
