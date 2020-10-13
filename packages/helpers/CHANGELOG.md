@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file. Releases wi
 
 We follow [Semantic Versioning](http://semver.org/).
 
+## 0.14.0 October 26th, 2020
+### Enhancements
+* Adds `join` that filters an array with Boolean and then joins it.
+* Duplicates wordBoundaries, stripSpaces and html.js from `yoastseo`.
+
 ## 0.13.0 July 20th, 2020
 ### Enhancements
 * Adds functions to validate Facebook/Twitter images.
