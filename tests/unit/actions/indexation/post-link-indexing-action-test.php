@@ -82,10 +82,21 @@ class Post_Link_Indexing_Action_Test extends TestCase {
 	}
 
 	/**
+	 * Tests setting the helper.
+	 *
+	 * @covers ::set_helper
+	 */
+	public function test_set_helper() {
+		$this->instance->set_helper( Mockery::mock( Post_Type_Helper::class ) );
+
+		static::assertAttributeInstanceOf( Post_Type_Helper::class, 'post_type_helper', $this->instance );
+	}
+
+	/**
 	 * Tests getting the total unindexed.
 	 *
-	 * @covers ::__construct
-	 * @covers ::get_total_unindexed
+	 * @covers ::get_query
+	 * @covers \Yoast\WP\SEO\Actions\Indexation\Abstract_Link_Indexing_Action::get_total_unindexed
 	 */
 	public function test_get_total_unindexed() {
 		Functions\expect( 'get_transient' )
@@ -130,8 +141,8 @@ class Post_Link_Indexing_Action_Test extends TestCase {
 	/**
 	 * Tests getting the total unindexed.
 	 *
-	 * @covers ::__construct
-	 * @covers ::get_total_unindexed
+	 * @covers ::get_query
+	 * @covers \Yoast\WP\SEO\Actions\Indexation\Abstract_Link_Indexing_Action::get_total_unindexed
 	 */
 	public function test_get_total_unindexed_cached() {
 		Functions\expect( 'get_transient' )
@@ -145,8 +156,8 @@ class Post_Link_Indexing_Action_Test extends TestCase {
 	/**
 	 * Tests getting the total unindexed.
 	 *
-	 * @covers ::__construct
-	 * @covers ::get_total_unindexed
+	 * @covers ::get_query
+	 * @covers \Yoast\WP\SEO\Actions\Indexation\Abstract_Link_Indexing_Action::get_total_unindexed
 	 */
 	public function test_get_total_unindexed_failed_query() {
 		Functions\expect( 'get_transient' )
@@ -186,8 +197,8 @@ class Post_Link_Indexing_Action_Test extends TestCase {
 	/**
 	 * Tests the index function.
 	 *
-	 * @covers ::__construct
-	 * @covers ::index
+	 * @covers ::get_objects
+	 * @covers ::get_query
 	 */
 	public function test_index() {
 		Filters\expectApplied( 'wpseo_link_indexing_limit' );
@@ -244,10 +255,75 @@ class Post_Link_Indexing_Action_Test extends TestCase {
 	/**
 	 * Tests the index function.
 	 *
-	 * @covers ::__construct
-	 * @covers ::index
+	 * @covers ::get_objects
+	 * @covers ::get_query
+	 * @covers \Yoast\WP\SEO\Actions\Indexation\Abstract_Link_Indexing_Action::index
 	 */
 	public function test_index_without_link_count() {
+		Filters\expectApplied( 'wpseo_link_indexing_limit' );
+
+		$this->post_type_helper
+			->expects( 'get_accessible_post_types' )
+			->once()
+			->andReturn( [ 'post', 'page' ] );
+
+		$expected_query = "SELECT ID, post_content
+			FROM wp_posts
+			WHERE ID NOT IN (
+				SELECT object_id FROM wp_yoast_indexable WHERE link_count IS NOT NULL AND object_type = 'post'
+			) AND post_status = 'publish' AND post_type IN (%s, %s)
+			LIMIT %d
+			";
+
+		$this->wpdb
+			->expects( 'prepare' )
+			->once()
+			->with( $expected_query, [ 'post', 'page', 5 ] )
+			->andReturn( 'query' );
+
+		$this->wpdb
+			->expects( 'get_results' )
+			->once()
+			->with( 'query' )
+			->andReturn(
+				[
+					(object) [
+						'ID'           => 1,
+						'post_content' => 'foo',
+					],
+					(object) [
+						'ID'           => 3,
+						'post_content' => 'foo',
+					],
+					(object) [
+						'ID'           => 8,
+						'post_content' => 'foo',
+					],
+				]
+			);
+
+		$indexable             = Mockery::mock( Indexable_Mock::class );
+		$indexable->link_count = null;
+		$indexable->expects( 'save' )->times( 3 );
+
+		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 1, 'post' )->andReturn( $indexable );
+		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 3, 'post' )->andReturn( $indexable );
+		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 8, 'post' )->andReturn( $indexable );
+		$this->link_builder->expects( 'build' )->times( 3 )->with( $indexable, 'foo' );
+
+		Functions\expect( 'delete_transient' )->once()->with( Post_Link_Indexing_Action::UNINDEXED_COUNT_TRANSIENT );
+
+		$this->instance->index();
+	}
+
+	/**
+	 * Tests the index function with a count value given.
+	 *
+	 * @covers ::get_objects
+	 * @covers ::get_query
+	 * @covers \Yoast\WP\SEO\Actions\Indexation\Abstract_Link_Indexing_Action::index
+	 */
+	public function test_index_with_count() {
 		Filters\expectApplied( 'wpseo_link_indexing_limit' );
 
 		$this->post_type_helper
