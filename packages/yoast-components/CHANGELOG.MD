@@ -3,7 +3,7 @@
 All notable changes to this project will be documented in this file.
 We follow [Semantic Versioning](http://semver.org/).
 
-## 1.83.0 October 12th, 2020
+## 1.83.0 October 13th, 2020
 ### Enhancements
 * Changes the look of the KeyphraseInput component's errors.
 * Improves accessibility of the KeyphraseInput component's errors list.
