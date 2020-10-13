@@ -1,6 +1,5 @@
 export * from "./activeMarker";
 export * from "./advancedSettings";
-export * from "./analysisResults";
 export * from "./editorData";
 export * from "./focusKeyword";
 export * from "./markerButtons";
@@ -13,3 +12,10 @@ export * from "./SEMrushRequest";
 export * from "./snippetEditor";
 export * from "./twitterEditor";
 export * from "./facebookEditor";
+
+export {
+	setOverallReadabilityScore,
+	setOverallSeoScore,
+	setReadabilityResults,
+	setSeoResultsForKeyword,
+} from "yoast-components";
