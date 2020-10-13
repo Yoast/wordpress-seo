@@ -311,6 +311,7 @@ class Indexing_Notification_Integration_Test extends TestCase {
 	 * @covers ::should_show_notification
 	 */
 	public function test_create_notification_no_unindexed_items() {
+		$this->markTestSkipped( 'P2-436' );
 		$this->indexing_tool_integration
 			->expects( 'get_unindexed_count' )
 			->once()
@@ -335,6 +336,7 @@ class Indexing_Notification_Integration_Test extends TestCase {
 	 * @covers ::notification
 	 */
 	public function test_create_notification_with_indexing_failed_reason() {
+		$this->markTestSkipped( 'P2-436' );
 		$this->indexing_tool_integration
 			->expects( 'get_unindexed_count' )
 			->once()
@@ -377,6 +379,7 @@ class Indexing_Notification_Integration_Test extends TestCase {
 	 * @param string $reason The reason for indexing.
 	 */
 	public function test_create_notification_with_indexing_reasons( $reason ) {
+		$this->markTestSkipped( 'P2-436' );
 		$this->indexing_tool_integration
 			->expects( 'get_unindexed_count' )
 			->twice()

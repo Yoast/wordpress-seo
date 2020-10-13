@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\WP\SEO\Tests\Unit\Actions\Indexation;
+namespace Yoast\WP\SEO\Tests\Unit\Actions\Indexing;
 
 use Mockery;
 use Yoast\WP\SEO\Actions\Indexing\Indexable_Indexing_Complete_Action;

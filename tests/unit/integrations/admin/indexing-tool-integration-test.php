@@ -272,7 +272,7 @@ class Indexing_Tool_Integration_Test extends TestCase {
 					'general'            => 'yoast/v1/indexation/general',
 					'indexablesComplete' => 'yoast/v1/indexation/indexables-complete',
 					'post_link'          => 'yoast/v1/link-indexing/posts',
-					'term_link'          => 'yoast/v1/indexation/terms',
+					'term_link'          => 'yoast/v1/link-indexing/terms',
 					'complete'           => 'yoast/v1/indexation/complete',
 				],
 				'nonce'     => 'nonce_value',

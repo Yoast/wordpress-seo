@@ -125,7 +125,6 @@ class Indexable_Indexation_Route_Test extends TestCase {
 		$this->post_link_indexing_action           = Mockery::mock( Post_Link_Indexing_Action::class );
 		$this->term_link_indexing_action           = Mockery::mock( Term_Link_Indexing_Action::class );
 
-		/*
 		$this->instance = new Indexing_Route(
 			$this->post_indexation_action,
 			$this->term_indexation_action,
@@ -138,7 +137,6 @@ class Indexable_Indexation_Route_Test extends TestCase {
 			$this->term_link_indexing_action,
 			$this->options_helper
 		);
-		*/
 	}
 
 	/**
@@ -147,11 +145,8 @@ class Indexable_Indexation_Route_Test extends TestCase {
 	 * @covers ::__construct
 	 */
 	public function test_constructor() {
-		$this->markTestSkipped( 'Indexing refactor.' );
 		$this->assertAttributeInstanceOf( Indexable_Post_Indexation_Action::class, 'post_indexation_action', $this->instance );
 		$this->assertAttributeInstanceOf( Indexable_Term_Indexation_Action::class, 'term_indexation_action', $this->instance );
-		$this->assertAttributeInstanceOf( Indexable_Post_Link_Indexation_Action::class, 'post_link_indexation_action', $this->instance );
-		$this->assertAttributeInstanceOf( Indexable_Term_Link_Indexation_Action::class, 'term_link_indexation_action', $this->instance );
 		$this->assertAttributeInstanceOf( Indexable_Post_Type_Archive_Indexation_Action::class, 'post_type_archive_indexation_action', $this->instance );
 		$this->assertAttributeInstanceOf( Indexable_General_Indexation_Action::class, 'general_indexation_action', $this->instance );
 		$this->assertAttributeInstanceOf( Indexable_Indexing_Complete_Action::class, 'indexable_indexing_complete_action', $this->instance );
@@ -168,7 +163,6 @@ class Indexable_Indexation_Route_Test extends TestCase {
 	 * @covers ::register_routes
 	 */
 	public function test_register_routes() {
-		$this->markTestSkipped( 'Indexing refactor.' );
 		Monkey\Functions\expect( 'register_rest_route' )
 			->with(
 				'yoast/v1',
@@ -278,7 +272,6 @@ class Indexable_Indexation_Route_Test extends TestCase {
 	 * @covers ::run_indexation_action
 	 */
 	public function test_index_posts() {
-		$this->markTestSkipped( 'Indexing refactor.' );
 		$this->post_indexation_action
 			->expects( 'get_limit' )
 			->once()
@@ -304,7 +297,6 @@ class Indexable_Indexation_Route_Test extends TestCase {
 	 * @covers ::run_indexation_action
 	 */
 	public function test_index_terms() {
-		$this->markTestSkipped( 'Indexing refactor.' );
 		$this->term_indexation_action
 			->expects( 'get_limit' )
 			->once()
@@ -330,7 +322,6 @@ class Indexable_Indexation_Route_Test extends TestCase {
 	 * @covers ::run_indexation_action
 	 */
 	public function test_index_post_type_archives() {
-		$this->markTestSkipped( 'Indexing refactor.' );
 		$this->post_type_archive_indexation_action
 			->expects( 'get_limit' )
 			->once()
@@ -356,7 +347,6 @@ class Indexable_Indexation_Route_Test extends TestCase {
 	 * @covers ::run_indexation_action
 	 */
 	public function test_index_general() {
-		$this->markTestSkipped( 'Indexing refactor.' );
 		$this->general_indexation_action
 			->expects( 'get_limit' )
 			->once()
@@ -434,8 +424,6 @@ class Indexable_Indexation_Route_Test extends TestCase {
 	 * @covers ::can_index
 	 */
 	public function test_can_index() {
-		$this->markTestSkipped( 'Indexing refactor.' );
-
 		Monkey\Functions\expect( 'current_user_can' )
 			->with( 'edit_posts' )
 			->andReturn( true );
@@ -451,7 +439,6 @@ class Indexable_Indexation_Route_Test extends TestCase {
 	 */
 	public function test_index_general_when_error_occurs() {
 		$this->general_indexation_action->expects( 'index' )->andThrow( new \Exception( 'An exception during indexing' ) );
-		$this->markTestSkipped( 'Indexing refactor.' );
 
 		$this->options_helper->expects( 'set' )->with( 'indexing_reason', Indexing_Notification_Integration::REASON_INDEXING_FAILED );
 

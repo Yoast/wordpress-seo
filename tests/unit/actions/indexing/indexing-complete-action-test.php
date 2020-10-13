@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\WP\SEO\Tests\Unit\Actions\Indexation;
+namespace Yoast\WP\SEO\Tests\Unit\Actions\Indexing;
 
 use Mockery;
 use Yoast\WP\SEO\Actions\Indexing\Indexing_Complete_Action;
@@ -58,6 +58,7 @@ class Indexing_Complete_Action_Test extends TestCase {
 	public function test_complete_method() {
 		$this->options->expects( 'set' )->with( 'indexation_started', 0 );
 		$this->options->expects( 'set' )->with( 'indexing_reason', '' );
+		$this->options->expects( 'set' )->with( 'indexation_warning_hide_until', false );
 
 		$this->instance->complete();
 	}

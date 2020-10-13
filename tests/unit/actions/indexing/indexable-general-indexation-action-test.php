@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\WP\SEO\Tests\Unit\Actions\Indexation;
+namespace Yoast\WP\SEO\Tests\Unit\Actions\Indexing;
 
 use Brain\Monkey;
 use Mockery;
