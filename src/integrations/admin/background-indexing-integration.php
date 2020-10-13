@@ -7,6 +7,7 @@ use Yoast\WP\SEO\Actions\Indexing\Indexable_General_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexing\Indexable_Post_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexing\Indexable_Post_Type_Archive_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexing\Indexable_Term_Indexation_Action;
+use Yoast\WP\SEO\Conditionals\Get_Request_Conditional;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
 use Yoast\WP\SEO\Conditionals\Yoast_Admin_And_Dashboard_Conditional;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
@@ -69,6 +70,7 @@ class Background_Indexing_Integration implements Integration_Interface {
 		return [
 			Yoast_Admin_And_Dashboard_Conditional::class,
 			Migrations_Conditional::class,
+			Get_Request_Conditional::class,
 		];
 	}
 

@@ -260,6 +260,8 @@ class Indexing_Route extends Abstract_Indexation_Route {
 		$this->post_link_indexing_action           = $post_link_indexing_action;
 		$this->term_link_indexing_action           = $term_link_indexing_action;
 		$this->options_helper                      = $options_helper;
+		$this->post_link_indexing_action           = $post_link_indexing_action;
+		$this->term_link_indexing_action           = $term_link_indexing_action;
 	}
 
 	/**

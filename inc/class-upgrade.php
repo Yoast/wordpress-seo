@@ -765,6 +765,7 @@ class WPSEO_Upgrade {
 	protected function move_indexables_indexation_reason_for_151() {
 		$reason = WPSEO_Options::get( 'indexables_indexation_reason', '' );
 		WPSEO_Options::set( 'indexing_reason', $reason );
+		WPSEO_Options::set( 'indexation_warning_hide_until', false );
 	}
 
 	/**
@@ -780,7 +781,7 @@ class WPSEO_Upgrade {
 		 */
 		$indexing_integration = YoastSEO()->classes->get( Indexing_Tool_Integration::class );
 
-		WPSEO_Options::set( 'indexables_indexation_completed', $indexing_integration->get_unindexed_count() === 0 );
+		WPSEO_Options::set( 'indexables_indexation_completed', $indexing_integration->get_unindexed_indexables_count() === 0 );
 	}
 
 	/**

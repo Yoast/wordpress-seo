@@ -187,11 +187,11 @@ class Indexing_Tool_Integration implements Integration_Interface {
 	/**
 	 * Returns the total number of unindexed objects.
 	 *
-	 * @param int $unindexed_count The total number of unindexed objects.
+	 * @param int $unindexed_count The total number of unindexed indexables.
 	 *
 	 * @return int The total number of unindexed objects.
 	 */
-	public function get_unindexed_count( $unindexed_count = 0 ) {
+	public function get_unindexed_indexables_count( $unindexed_count = 0 ) {
 		$unindexed_count += $this->post_indexation->get_total_unindexed();
 		$unindexed_count += $this->term_indexation->get_total_unindexed();
 		$unindexed_count += $this->general_indexation->get_total_unindexed();
@@ -199,6 +199,18 @@ class Indexing_Tool_Integration implements Integration_Interface {
 		$unindexed_count += $this->post_link_indexing_action->get_total_unindexed();
 		$unindexed_count += $this->term_link_indexing_action->get_total_unindexed();
 
+		return $unindexed_count;
+	}
+
+	/**
+	 * Returns the total number of unindexed objects and applies a filter for third party integrations.
+	 *
+	 * @param int $unindexed_count The total number of unindexed objects.
+	 *
+	 * @return int The total number of unindexed objects.
+	 */
+	public function get_unindexed_count( $unindexed_count = 0 ) {
+		$unindexed_count = $this->get_unindexed_indexables_count( $unindexed_count );
 		return \apply_filters( 'wpseo_indexing_get_unindexed_count', $unindexed_count );
 	}
 
@@ -228,7 +240,7 @@ class Indexing_Tool_Integration implements Integration_Interface {
 			'general'            => Indexing_Route::FULL_GENERAL_ROUTE,
 			'indexablesComplete' => Indexing_Route::FULL_INDEXABLES_COMPLETE_ROUTE,
 			'post_link'          => Indexing_Route::FULL_POST_LINKS_INDEXING_ROUTE,
-			'term_link'          => Indexing_Route::FULL_TERMS_ROUTE,
+			'term_link'          => Indexing_Route::FULL_TERM_LINKS_INDEXING_ROUTE,
 		];
 
 		$endpoints = \apply_filters( 'wpseo_indexing_endpoints', $endpoints );

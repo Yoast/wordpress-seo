@@ -46,5 +46,9 @@ class Indexable_Prepare_Indexation_Action {
 	public function prepare() {
 		$this->options->set( 'indexing_first_time', false );
 		$this->options->set( 'indexation_started', $this->date->current_time() );
+		$this->options->set(
+			'indexation_warning_hide_until',
+			( $this->date->current_time() + \MONTH_IN_SECONDS )
+		);
 	}
 }

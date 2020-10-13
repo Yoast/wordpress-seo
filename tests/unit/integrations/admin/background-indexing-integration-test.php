@@ -4,11 +4,12 @@ namespace Yoast\WP\SEO\Tests\Unit\Integrations\Admin;
 
 use Brain\Monkey;
 use Mockery;
-use Yoast\WP\SEO\Actions\Indexing\Indexable_Indexing_Complete_Action;
-use Yoast\WP\SEO\Actions\Indexing\Indexable_General_Indexation_Action;
-use Yoast\WP\SEO\Actions\Indexing\Indexable_Post_Indexation_Action;
-use Yoast\WP\SEO\Actions\Indexing\Indexable_Post_Type_Archive_Indexation_Action;
-use Yoast\WP\SEO\Actions\Indexing\Indexable_Term_Indexation_Action;
+use Yoast\WP\SEO\Actions\Indexation\Indexable_Indexing_Complete_Action;
+use Yoast\WP\SEO\Actions\Indexation\Indexable_General_Indexation_Action;
+use Yoast\WP\SEO\Actions\Indexation\Indexable_Post_Indexation_Action;
+use Yoast\WP\SEO\Actions\Indexation\Indexable_Post_Type_Archive_Indexation_Action;
+use Yoast\WP\SEO\Actions\Indexation\Indexable_Term_Indexation_Action;
+use Yoast\WP\SEO\Conditionals\Get_Request_Conditional;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
 use Yoast\WP\SEO\Conditionals\Yoast_Admin_And_Dashboard_Conditional;
 use Yoast\WP\SEO\Integrations\Admin\Background_Indexing_Integration;
@@ -98,6 +99,7 @@ class Background_Indexing_Integration_Test extends TestCase {
 			[
 				Yoast_Admin_And_Dashboard_Conditional::class,
 				Migrations_Conditional::class,
+				Get_Request_Conditional::class,
 			],
 			Background_Indexing_Integration::get_conditionals()
 		);
@@ -131,8 +133,6 @@ class Background_Indexing_Integration_Test extends TestCase {
 	 * Tests the enqueue_scripts method.
 	 *
 	 * @covers ::register_shutdown_indexing
-	 * @covers ::get_shutdown_limit
-	 * @covers ::get_unindexed_count
 	 */
 	public function test_register_shutdown_indexing() {
 		$this->post_indexation->expects( 'get_total_unindexed' )->andReturn( 0 );
@@ -175,10 +175,6 @@ class Background_Indexing_Integration_Test extends TestCase {
 		$this->complete_indexation_action
 			->expects( 'complete' )
 			->once();
-
-		Monkey\Filters\expectApplied( 'wpseo_shutdown_indexation_limit' )
-			->with( 25 )
-			->andReturn( 25 );
 
 		$this->instance->index();
 	}
