@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 import stem from "../../../../src/languageProcessing/languages/it/morphology/stem";
-import filterFunctionWordsFromArray from "../../../../src/languageProcessing/helpers/_todo/filterFunctionWordsFromArray.js";
+import filterFunctionWordsFromArray from "../../../../src/languageProcessing/helpers/word/filterWordsFromArray.js";
 import sampleVocabulary from "./sampleVocabulary.json";
 import getMorphologyData from "../../../specHelpers/getMorphologyData";
 

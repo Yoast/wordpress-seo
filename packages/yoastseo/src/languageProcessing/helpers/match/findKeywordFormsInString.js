@@ -1,4 +1,4 @@
-import matchTextWithArray from "../helpers/matchTextWithArray.js";
+import matchTextWithArray from "./matchTextWithArray.js";
 import { sum } from "lodash-es";
 import { isEmpty } from "lodash-es";
 

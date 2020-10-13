@@ -1,10 +1,10 @@
 /** @module stringProcessing/matchTextWithArray */
 
-import stripSpaces from "../../../researches/stringProcessing/stripSpaces.js";
+import stripSpaces from "../sanitize/stripSpaces.js";
 
-import removePunctuation from "../../../researches/stringProcessing/removePunctuation.js";
+import removePunctuation from "../sanitize/removePunctuation.js";
 import matchTextWithWord from "./matchTextWithWord";
-import { normalize as normalizeQuotes } from "../../../researches/stringProcessing/quotes.js";
+import { normalize as normalizeQuotes } from "../sanitize/quotes.js";
 import { uniq as unique } from "lodash-es";
 
 /**

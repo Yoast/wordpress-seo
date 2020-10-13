@@ -1,9 +1,9 @@
 import { map } from "lodash-es";
-import addWordBoundary from "../../../researches/stringProcessing/addWordboundary.js";
-import stripSpaces from "../../../researches/stringProcessing/stripSpaces.js";
-import transliterate from "../../../researches/stringProcessing/transliterate.js";
-import transliterateWP from "../../../researches/stringProcessing/transliterateWPstyle.js";
-import { replaceTurkishIsMemoized } from "../../../researches/stringProcessing/specialCharacterMappings";
+import addWordBoundary from "../word/addWordboundary.js";
+import stripSpaces from "../sanitize/stripSpaces.js";
+import transliterate from "../transliterate/transliterate.js";
+import transliterateWP from "../transliterate/transliterateWPstyle.js";
+import { replaceTurkishIsMemoized } from "../transliterate/specialCharacterMappings";
 
 /**
  * Creates a regex from the keyword with included wordboundaries.

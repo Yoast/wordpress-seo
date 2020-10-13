@@ -1,12 +1,11 @@
 /** @module stringProcessing/matchTextWithWord */
 
-import stripSomeTags from "../../../researches/stringProcessing/stripNonTextTags.js";
-
-import stripSpaces from "../../../researches/stringProcessing/stripSpaces.js";
-import removePunctuation from "../../../researches/stringProcessing/removePunctuation.js";
-import { unifyAllSpaces as unifyWhitespace } from "../../../researches/stringProcessing/unifyWhitespace.js";
+import stripSomeTags from "../sanitize/stripNonTextTags.js";
+import stripSpaces from "../sanitize/stripSpaces.js";
+import removePunctuation from "../sanitize/removePunctuation.js";
+import { unifyAllSpaces as unifyWhitespace } from "../sanitize/unifyWhitespace.js";
 import matchStringWithTransliteration from "./matchTextWithTransliteration.js";
-import { normalize as normalizeQuotes } from "../../../researches/stringProcessing/quotes.js";
+import { normalize as normalizeQuotes } from "../sanitize/quotes.js";
 import { map } from "lodash-es";
 
 /**

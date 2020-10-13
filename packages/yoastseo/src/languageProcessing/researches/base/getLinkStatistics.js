@@ -1,18 +1,18 @@
 /** @module analyses/getLinkStatistics */
 
-import filterFunctionWordsFromArray from "../../helpers/_todo/filterFunctionWordsFromArray";
-import getLanguage from "../../helpers/getLanguage";
+import filterWordsFromArray from "../../helpers/word/filterWordsFromArray";
 import checkNofollow from "../../helpers/link/checkNofollow.js";
 import getWords from "../../helpers/word/getWords";
-import findKeywordInUrl from "../helpers/findKeywordInUrl.js";
+import findKeywordInUrl from "../../helpers/match/findKeywordInUrl.js";
 import getAnchors from "../../helpers/link/getAnchorsFromText.js";
 import getLinkType from "../../helpers/link/getLinkType.js";
-import matchTextWithArray from "../../helpers/_todo/matchTextWithArray";
+import matchTextWithArray from "../../helpers/match/matchTextWithArray";
 import urlHelper from "../../helpers/url/url.js";
 
 import { flatten } from "lodash-es";
 import { uniq } from "lodash-es";
 
+let functionWords = [];
 
 /**
  * Checks whether the link is pointing at itself.
@@ -81,7 +81,6 @@ const filterAnchorsContainedInTopic = function( anchors, topicForms, locale ) {
 		keyphraseAndSynonymsWords.push( flatten( synonymsForms[ i ] ) );
 	}
 
-	const language = getLanguage( locale );
 	const anchorsContainedInTopic = [];
 
 	anchors.forEach( function( currentAnchor ) {
@@ -89,7 +88,10 @@ const filterAnchorsContainedInTopic = function( anchors, topicForms, locale ) {
 		let anchorWords = uniq( getWords( currentAnchor ) );
 
 		// Filter function words out of the anchor text.
-		anchorWords = filterFunctionWordsFromArray( anchorWords, language );
+		const filteredAnchorWords = filterWordsFromArray( anchorWords, functionWords );
+		if ( filteredAnchorWords.length > 0 ) {
+			anchorWords = filteredAnchorWords;
+		}
 
 		// Check if anchorWords are contained in the topic phrase words
 		for ( let i = 0; i < keyphraseAndSynonymsWords.length; i++ ) {
@@ -155,6 +157,7 @@ const keywordInAnchor = function( paper, researcher, anchors, permalink ) {
  *
  * @param {Paper} paper The paper object containing text, keyword and url.
  * @param {Researcher} researcher The researcher to use for the paper.
+ * @param {Array} funcWords an array of Function words to take into account.
  *
  * @returns {object} The object containing all linktypes.
  * total: the total number of links found.
@@ -172,7 +175,8 @@ const keywordInAnchor = function( paper, researcher, anchors, permalink ) {
  * otherDofollow: other links without a nofollow attribute.
  * otherNofollow: other links with a nofollow attribute.
  */
-const countLinkTypes = function( paper, researcher ) {
+const countLinkTypes = function( paper, researcher, funcWords ) {
+	functionWords = funcWords;
 	const anchors = getAnchors( paper.getText() );
 	const permalink = paper.getPermalink();
 

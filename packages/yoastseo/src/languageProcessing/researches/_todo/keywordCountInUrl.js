@@ -1,7 +1,7 @@
 /** @module researches/countKeywordInUrl */
 
 import parseSlug from "../../helpers/url/parseSlug";
-import { findTopicFormsInString } from "./findKeywordFormsInString.js";
+import { findTopicFormsInString } from "../../helpers/match/findKeywordFormsInString.js";
 
 /**
  * Matches the keyword in the URL. Replaces dashes and underscores with whitespaces and uses whitespace as wordboundary.

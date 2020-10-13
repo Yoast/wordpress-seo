@@ -1,4 +1,4 @@
-import filterFunctionWordsFromArray from "../../src/languageProcessing/helpers/_todo/filterFunctionWordsFromArray.js";
+import filterFunctionWordsFromArray from "../../src/languageProcessing/helpers/word/filterWordsFromArray.js";
 
 describe( "A test for filtering out function words from an array of words for a given language", function() {
 	it( "returns the array of content words for absent locale", function() {

@@ -1,4 +1,4 @@
-import matchWords from "../_todo/matchTextWithArray";
+import matchWords from "../match/matchTextWithArray";
 import arrayToRegex from "../regex/createRegexFromArray";
 import addMark from "../../../markers/addMarkSingleWord";
 import Mark from "../../../values/Mark";

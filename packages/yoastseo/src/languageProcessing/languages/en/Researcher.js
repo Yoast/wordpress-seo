@@ -10,12 +10,12 @@ import getProminentWordsForInsights from "../../researches/_todo/getProminentWor
 import getProminentWordsForInternalLinking from "../../researches/_todo/getProminentWordsForInternalLinking";
 import getWordForms from "../../researches/_todo/getWordForms";
 import findKeywordInPageTitle from "../../researches/_todo/findKeywordInPageTitle";
-import getLinkStatistics from "../../researches/_todo/getLinkStatistics";
 import findKeywordInFirstParagraph from "../../researches/_todo/findKeywordInFirstParagraph";
 const keyphraseDistribution = keyphraseDistributionResearcher;
 
 import AbstractResearcher from "../../AbstractResearcher";
 
+import getLinkStatistics from "./researches/getLinkStatistics";
 import passiveVoice from "./researches/getPassiveVoice.js";
 import stopWordsInKeyword from "./researches/stopWordsInKeyword";
 import stopWordsInUrl from "./researches/stopWordsInUrl";

@@ -2,7 +2,7 @@
 
 import imageInText from "../helpers/image/imageInText";
 import imageAlttag from "../helpers/image/getAlttagContent";
-import { findTopicFormsInString } from "./_todo/findKeywordFormsInString";
+import { findTopicFormsInString } from "../helpers/match/findKeywordFormsInString";
 
 import { isEmpty } from "lodash-es";
 

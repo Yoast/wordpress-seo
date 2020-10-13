@@ -1,6 +1,6 @@
 /** @module stringProcessing/findKeywordInUrl */
 
-import { findTopicFormsInString } from "../../../languages/legacy/researches/findKeywordFormsInString.js";
+import { findTopicFormsInString } from "./findKeywordFormsInString.js";
 
 /**
  * Matches the keyword in the URL.

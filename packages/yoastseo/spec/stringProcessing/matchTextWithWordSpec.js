@@ -1,4 +1,4 @@
-import wordMatch from "../../src/languageProcessing/helpers/_todo/matchTextWithWord.js";
+import wordMatch from "../../src/languageProcessing/helpers/match/matchTextWithWord.js";
 
 describe( "Counts the occurences of a word in a string", function() {
 	it( "returns number", function() {

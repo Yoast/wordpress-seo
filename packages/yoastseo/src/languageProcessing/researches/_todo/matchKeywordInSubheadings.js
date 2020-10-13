@@ -3,7 +3,7 @@ import getFunctionWordsLanguages from "../../helpers/getFunctionWordsLanguages";
 import getLanguage from "../../helpers/getLanguage";
 import { getSubheadingContentsTopLevel } from "../../helpers/html/getSubheadings";
 import stripSomeTags from "../../helpers/sanitize/stripNonTextTags";
-import { findTopicFormsInString } from "./findKeywordFormsInString";
+import { findTopicFormsInString } from "../../helpers/match/findKeywordFormsInString";
 
 const functionWordLanguages = getFunctionWordsLanguages();
 

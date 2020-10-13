@@ -1,7 +1,7 @@
 /** @module analyses/findKeywordInPageTitle */
 
 import wordMatch from "../helpers/matchTextWithWord.js";
-import { findTopicFormsInString } from "./findKeywordFormsInString.js";
+import { findTopicFormsInString } from "../../helpers/match/findKeywordFormsInString.js";
 
 import getFunctionWordsFactory from "../helpers/getFunctionWords";
 
