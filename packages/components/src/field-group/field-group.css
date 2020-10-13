@@ -13,6 +13,7 @@
     color: var(--yoast-color-label);
     line-height: 1.5;
     padding: 0;
+    font-size: var(--yoast-font-size-default);
 }
 
 .yoast-field-group .field-group-description {

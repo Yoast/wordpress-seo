@@ -297,7 +297,7 @@ const transitionWords = [ "عندما", "مثل", "بالطبع", "لأن", "إ�
 	"إلا", "الا" ];
 
 /**
- * Returns function words for english.
+ * Returns function words for Arabic.
  *
  * @returns {Object} Arabic function words.
  */
