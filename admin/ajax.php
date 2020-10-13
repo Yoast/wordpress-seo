@@ -80,6 +80,7 @@ function wpseo_set_ignore() {
 
 	if ( $ignore_key === 'indexation_warning' ) {
 		WPSEO_Options::set( 'indexing_reason', '' );
+		WPSEO_Options::set( 'indexation_warning_hide_until', false );
 	}
 
 	die( '1' );

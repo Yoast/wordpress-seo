@@ -101,9 +101,27 @@ class Post_Link_Indexing_Action_Test extends TestCase {
 		$empty_string   = '';
 		$expected_query = "SELECT COUNT(ID)
 			FROM wp_posts
-			WHERE ID NOT IN (
-				SELECT object_id FROM wp_yoast_indexable WHERE link_count IS NOT NULL AND object_type = 'post'
-			) AND post_status = 'publish' AND post_type IN (%s, %s)
+			WHERE
+				(
+					ID NOT IN (
+						SELECT object_id
+						FROM wp_yoast_indexable
+						WHERE
+							link_count IS NOT NULL
+							AND object_type = 'post'
+					)
+					OR
+					ID IN (
+						SELECT DISTINCT post_id
+						FROM wp_yoast_seo_links
+						WHERE
+							target_indexable_id IS NULL
+							AND `type` = 'internal'
+							AND target_post_id IS NOT NULL
+					)
+				)
+				AND post_status = 'publish'
+				AND post_type IN (%s, %s)
 			$empty_string
 			";
 
@@ -162,9 +180,27 @@ class Post_Link_Indexing_Action_Test extends TestCase {
 		$empty_string   = '';
 		$expected_query = "SELECT COUNT(ID)
 			FROM wp_posts
-			WHERE ID NOT IN (
-				SELECT object_id FROM wp_yoast_indexable WHERE link_count IS NOT NULL AND object_type = 'post'
-			) AND post_status = 'publish' AND post_type IN (%s, %s)
+			WHERE
+				(
+					ID NOT IN (
+						SELECT object_id
+						FROM wp_yoast_indexable
+						WHERE
+							link_count IS NOT NULL
+							AND object_type = 'post'
+					)
+					OR
+					ID IN (
+						SELECT DISTINCT post_id
+						FROM wp_yoast_seo_links
+						WHERE
+							target_indexable_id IS NULL
+							AND `type` = 'internal'
+							AND target_post_id IS NOT NULL
+					)
+				)
+				AND post_status = 'publish'
+				AND post_type IN (%s, %s)
 			$empty_string
 			";
 
@@ -199,9 +235,27 @@ class Post_Link_Indexing_Action_Test extends TestCase {
 
 		$expected_query = "SELECT ID, post_content
 			FROM wp_posts
-			WHERE ID NOT IN (
-				SELECT object_id FROM wp_yoast_indexable WHERE link_count IS NOT NULL AND object_type = 'post'
-			) AND post_status = 'publish' AND post_type IN (%s, %s)
+			WHERE
+				(
+					ID NOT IN (
+						SELECT object_id
+						FROM wp_yoast_indexable
+						WHERE
+							link_count IS NOT NULL
+							AND object_type = 'post'
+					)
+					OR
+					ID IN (
+						SELECT DISTINCT post_id
+						FROM wp_yoast_seo_links
+						WHERE
+							target_indexable_id IS NULL
+							AND `type` = 'internal'
+							AND target_post_id IS NOT NULL
+					)
+				)
+				AND post_status = 'publish'
+				AND post_type IN (%s, %s)
 			LIMIT %d
 			";
 
@@ -257,9 +311,27 @@ class Post_Link_Indexing_Action_Test extends TestCase {
 
 		$expected_query = "SELECT ID, post_content
 			FROM wp_posts
-			WHERE ID NOT IN (
-				SELECT object_id FROM wp_yoast_indexable WHERE link_count IS NOT NULL AND object_type = 'post'
-			) AND post_status = 'publish' AND post_type IN (%s, %s)
+			WHERE
+				(
+					ID NOT IN (
+						SELECT object_id
+						FROM wp_yoast_indexable
+						WHERE
+							link_count IS NOT NULL
+							AND object_type = 'post'
+					)
+					OR
+					ID IN (
+						SELECT DISTINCT post_id
+						FROM wp_yoast_seo_links
+						WHERE
+							target_indexable_id IS NULL
+							AND `type` = 'internal'
+							AND target_post_id IS NOT NULL
+					)
+				)
+				AND post_status = 'publish'
+				AND post_type IN (%s, %s)
 			LIMIT %d
 			";
 

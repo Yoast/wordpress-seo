@@ -16,7 +16,6 @@ use Yoast\WP\SEO\Conditionals\Yoast_Tools_Page_Conditional;
 use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Short_Link_Helper;
-use Yoast\WP\SEO\Integrations\Admin\Background_Indexing_Integration;
 use Yoast\WP\SEO\Integrations\Admin\Indexing_Tool_Integration;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
@@ -113,16 +112,16 @@ class Indexing_Integration_Test extends TestCase {
 	protected function setUp() {
 		parent::setUp();
 
-		$this->asset_manager                   = Mockery::mock( WPSEO_Admin_Asset_Manager::class );
-		$this->indexable_helper                = Mockery::mock( Indexable_Helper::class );
-		$this->short_link_helper               = Mockery::mock( Short_Link_Helper::class );
-		$this->options_helper                  = Mockery::mock( Options_Helper::class );
-		$this->post_indexation                 = Mockery::mock( Indexable_Post_Indexation_Action::class );
-		$this->term_indexation                 = Mockery::mock( Indexable_Term_Indexation_Action::class );
-		$this->post_type_archive_indexation    = Mockery::mock( Indexable_Post_Type_Archive_Indexation_Action::class );
-		$this->general_indexation              = Mockery::mock( Indexable_General_Indexation_Action::class );
-		$this->post_link_indexing_action       = Mockery::mock( Post_Link_Indexing_Action::class );
-		$this->term_link_indexing_action       = Mockery::mock( Term_Link_Indexing_Action::class );
+		$this->asset_manager                = Mockery::mock( WPSEO_Admin_Asset_Manager::class );
+		$this->indexable_helper             = Mockery::mock( Indexable_Helper::class );
+		$this->short_link_helper            = Mockery::mock( Short_Link_Helper::class );
+		$this->options_helper               = Mockery::mock( Options_Helper::class );
+		$this->post_indexation              = Mockery::mock( Indexable_Post_Indexation_Action::class );
+		$this->term_indexation              = Mockery::mock( Indexable_Term_Indexation_Action::class );
+		$this->post_type_archive_indexation = Mockery::mock( Indexable_Post_Type_Archive_Indexation_Action::class );
+		$this->general_indexation           = Mockery::mock( Indexable_General_Indexation_Action::class );
+		$this->post_link_indexing_action    = Mockery::mock( Post_Link_Indexing_Action::class );
+		$this->term_link_indexing_action    = Mockery::mock( Term_Link_Indexing_Action::class );
 
 		$this->instance = new Indexing_Tool_Integration(
 			$this->asset_manager,
@@ -168,7 +167,6 @@ class Indexing_Integration_Test extends TestCase {
 		static::assertAttributeInstanceOf( Indexable_General_Indexation_Action::class, 'general_indexation', $this->instance );
 		static::assertAttributeInstanceOf( Post_Link_Indexing_Action::class, 'post_link_indexing_action', $this->instance );
 		static::assertAttributeInstanceOf( Term_Link_Indexing_Action::class, 'term_link_indexing_action', $this->instance );
-
 	}
 
 	/**

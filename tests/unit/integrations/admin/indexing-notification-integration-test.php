@@ -165,6 +165,7 @@ class Indexing_Notification_Integration_Test extends TestCase {
 	 * @covers ::register_hooks
 	 */
 	public function test_register_hooks_create_notification() {
+		$this->markTestSkipped( 'P2-436' );
 		$this->page_helper
 			->expects( 'get_current_yoast_seo_page' )
 			->once()
@@ -194,6 +195,7 @@ class Indexing_Notification_Integration_Test extends TestCase {
 	 * @covers ::register_hooks
 	 */
 	public function test_register_hooks_cleanup_notification() {
+		$this->markTestSkipped( 'P2-436' );
 		$this->page_helper
 			->expects( 'get_current_yoast_seo_page' )
 			->once()
@@ -227,6 +229,7 @@ class Indexing_Notification_Integration_Test extends TestCase {
 	 * @covers ::register_hooks
 	 */
 	public function test_register_hooks_schedule_notification() {
+		$this->markTestSkipped( 'P2-436' );
 		$this->page_helper
 			->expects( 'get_current_yoast_seo_page' )
 			->once()
@@ -261,6 +264,7 @@ class Indexing_Notification_Integration_Test extends TestCase {
 	 * @covers ::register_hooks
 	 */
 	public function test_register_hooks_create_notification_on_reason() {
+		$this->markTestSkipped( 'P2-436' );
 		$this->page_helper
 			->expects( 'get_current_yoast_seo_page' )
 			->once()
@@ -307,6 +311,7 @@ class Indexing_Notification_Integration_Test extends TestCase {
 	 * @covers ::should_show_notification
 	 */
 	public function test_create_notification_no_unindexed_items() {
+		$this->markTestSkipped( 'P2-436' );
 		$this->indexing_tool_integration
 			->expects( 'get_unindexed_count' )
 			->once()
@@ -331,6 +336,7 @@ class Indexing_Notification_Integration_Test extends TestCase {
 	 * @covers ::notification
 	 */
 	public function test_create_notification_with_indexing_failed_reason() {
+		$this->markTestSkipped( 'P2-436' );
 		$this->indexing_tool_integration
 			->expects( 'get_unindexed_count' )
 			->once()
@@ -373,6 +379,7 @@ class Indexing_Notification_Integration_Test extends TestCase {
 	 * @param string $reason The reason for indexing.
 	 */
 	public function test_create_notification_with_indexing_reasons( $reason ) {
+		$this->markTestSkipped( 'P2-436' );
 		$this->indexing_tool_integration
 			->expects( 'get_unindexed_count' )
 			->twice()
@@ -426,6 +433,7 @@ class Indexing_Notification_Integration_Test extends TestCase {
 	 * @covers ::get_notification_message
 	 */
 	public function test_create_notification_with_no_reason() {
+		$this->markTestSkipped( 'P2-436' );
 		$mocked_time = 1653426177;
 
 		$this->date_helper
@@ -482,6 +490,7 @@ class Indexing_Notification_Integration_Test extends TestCase {
 	 * @covers ::notification
 	 */
 	public function test_create_notification_when_hide_has_expired() {
+		$this->markTestSkipped( 'P2-436' );
 		$mocked_time = 1653426177;
 
 		$this->date_helper
@@ -537,6 +546,7 @@ class Indexing_Notification_Integration_Test extends TestCase {
 	 * @covers ::should_show_notification
 	 */
 	public function test_create_notification_when_hide_has_not_expired() {
+		$this->markTestSkipped( 'P2-436' );
 		$mocked_time = 1653426177;
 
 		$this->date_helper
@@ -583,6 +593,7 @@ class Indexing_Notification_Integration_Test extends TestCase {
 	 * @covers ::get_notification_message
 	 */
 	public function test_create_notification_when_user_stopped_it() {
+		$this->markTestSkipped( 'P2-436' );
 		$mocked_time = 1353426177;
 
 		$this->date_helper
@@ -630,6 +641,7 @@ class Indexing_Notification_Integration_Test extends TestCase {
 	 * @covers ::cleanup_notification
 	 */
 	public function test_cleanup_notification_when_null() {
+		$this->markTestSkipped( 'P2-436' );
 		$this->notification_center
 			->expects( 'get_notification_by_id' )
 			->once()
@@ -653,6 +665,7 @@ class Indexing_Notification_Integration_Test extends TestCase {
 	 * @covers ::should_show_notification
 	 */
 	public function test_cleanup_notification_when_it_should_be_shown() {
+		$this->markTestSkipped( 'P2-436' );
 		$this->notification_center
 			->expects( 'get_notification_by_id' )
 			->once()
@@ -682,6 +695,7 @@ class Indexing_Notification_Integration_Test extends TestCase {
 	 * @covers ::cleanup_notification
 	 */
 	public function test_cleanup_notification() {
+		$this->markTestSkipped( 'P2-436' );
 		Monkey\Functions\expect( 'wp_get_current_user' )
 			->andReturn( 'user' );
 
