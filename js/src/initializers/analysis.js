@@ -1,7 +1,9 @@
 import { dispatch, select, subscribe } from "@wordpress/data";
 import { Paper } from "yoastseo";
 import { createAnalysisWorker, getAnalysisConfiguration } from "../analysis/worker";
+import { sortResultsByIdentifier } from "../analysis/refreshAnalysis";
 import { isEqual } from "lodash";
+import handleWorkerError from "../analysis/handleWorkerError";
 
 /**
  * Runs the analysis.
@@ -13,14 +15,30 @@ import { isEqual } from "lodash";
  */
 async function runAnalysis( worker, data ) {
 	const { text, ...paperAttributes } = data;
+	const paper = new Paper( text, paperAttributes );
 
 	try {
-		const paper = new Paper( text, paperAttributes );
 		const results = await worker.analyze( paper );
 		const { seo, readability } = results.result;
 
-		dispatch( "yoast-seo/editor" ).setAnalysisResults( { seo, readability } );
+		if ( seo ) {
+			// Only update the main results, which are located under the empty string key.
+			const seoResults = seo[ "" ];
+
+			seoResults.results = sortResultsByIdentifier( seoResults.results );
+
+			dispatch( "yoast-seo/editor" ).setSeoResultsForKeyword( paper.getKeyword(), seoResults.results );
+			dispatch( "yoast-seo/editor" ).setOverallSeoScore( seoResults.score, paper.getKeyword() );
+		}
+
+		if ( readability ) {
+			readability.results = sortResultsByIdentifier( readability.results );
+
+			dispatch( "yoast-seo/editor" ).setReadabilityResults( readability.results );
+			dispatch( "yoast-seo/editor" ).setOverallReadabilityScore( readability.score );
+		}
 	} catch ( error ) {
+		handleWorkerError();
 		console.error( "An error occurred in the analysis.", error );
 	}
 }
@@ -34,10 +52,9 @@ const initAnalysis = () => {
 	// Create the worker.
 	// TODO: get/set the worker URL in the store?
 	const worker = createAnalysisWorker();
+
 	// TODO: make the analysis configuration go through the store.
-	worker.initialize( getAnalysisConfiguration() )
-		.then( () => console.log( "worker initalized" ) )
-		.catch( () => console.error( "worker initialization error" ) );
+	worker.initialize( getAnalysisConfiguration() );
 
 	let analysisData = select( "yoast-seo/editor" ).getAnalysisData();
 
