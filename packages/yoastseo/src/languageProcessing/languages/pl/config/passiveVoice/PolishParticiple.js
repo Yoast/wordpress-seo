@@ -1,7 +1,11 @@
 import Participle from "../../../../../values/Participle.js";
 import checkException from "../../../../helpers/passiveVoice/periphrastic/checkException.js";
-import directPrecedenceException from "../../../stringProcessing/directPrecedenceExceptionWithoutRegex";
 import nonDirectPrecedenceException from "../../../../helpers/passiveVoice/periphrastic/freeAuxiliaryParticipleOrder/nonDirectParticiplePrecedenceException";
+import directPrecedenceException from "../../../../helpers/passiveVoice/directPrecedenceExceptionWithoutRegex";
+import { getFunctionWords } from "../functionWords.js";
+const {
+	cannotDirectlyPrecedePassiveParticiple: cannotDirectlyPrecedePassiveParticipleList,
+} = getFunctionWords();
 
 /**
  * Creates an Participle object for the Polish language.
@@ -31,7 +35,7 @@ PolishParticiple.prototype.isPassive = function() {
 	const auxiliaries = this.getAuxiliaries();
 	const language = this.getLanguage();
 
-	return ! this.directPrecedenceException( sentencePart, participle, language ) &&
+	return ! this.directPrecedenceException( sentencePart, participle, cannotDirectlyPrecedePassiveParticipleList ) &&
 		! this.nonDirectPrecedenceException( sentencePart, participle, auxiliaries, language );
 };
 

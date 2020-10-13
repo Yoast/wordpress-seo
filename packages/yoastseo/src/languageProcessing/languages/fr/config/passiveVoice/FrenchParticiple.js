@@ -1,10 +1,16 @@
 import { forEach, includes, memoize } from "lodash-es";
 
-import directPrecedenceException from "../../../stringProcessing/directPrecedenceExceptionWithoutRegex";
-import precedenceException from "../../../stringProcessing/precedenceExceptionWithoutRegex";
 import Participle from "../../../../../values/Participle";
 import checkException from "../../../../helpers/passiveVoice/periphrastic/checkException";
 import exceptionsParticiplesFactory from "./exceptionsParticiples";
+import directPrecedenceException from "../../../../helpers/passiveVoice/directPrecedenceExceptionWithoutRegex";
+import precedenceException from "../../../../helpers/passiveVoice/precedenceExceptionWithoutRegex";
+import { getFunctionWords } from "../functionWords.js";
+const {
+	cannotDirectlyPrecedePassiveParticiple: cannotDirectlyPrecedePassiveParticipleList,
+	cannotBeBetweenPassiveAuxiliaryAndParticiple: cannotBeBetweenPassiveAuxiliaryAndParticipleList,
+} = getFunctionWords();
+
 
 const {
 	adjectivesVerbs: exceptionsParticiplesAdjectivesVerbs,
@@ -49,19 +55,18 @@ var checkIrregular = function() {
 FrenchParticiple.prototype.isPassive = function() {
 	const sentencePart = this.getSentencePart();
 	const participle = this.getParticiple();
-	const language = this.getLanguage();
 
 	// Only check precedence exceptions for irregular participles.
 	if ( checkIrregular.call( this ) ) {
-		return ! this.directPrecedenceException( sentencePart, participle, language ) &&
-			! this.precedenceException( sentencePart, participle, language );
+		return ! this.directPrecedenceException( sentencePart, participle, cannotDirectlyPrecedePassiveParticipleList ) &&
+			! this.precedenceException( sentencePart, participle, cannotBeBetweenPassiveAuxiliaryAndParticipleList );
 	}
 	// Check precedence exceptions and exception lists for regular participles.
 	return ! this.isOnAdjectivesVerbsExceptionList() &&
 		! this.isOnNounsExceptionList() &&
 		! this.isOnOthersExceptionList() &&
-		! this.directPrecedenceException( sentencePart, participle, language ) &&
-		! this.precedenceException( sentencePart, participle, language );
+		! this.directPrecedenceException( sentencePart, participle, cannotDirectlyPrecedePassiveParticipleList ) &&
+		! this.precedenceException( sentencePart, participle, cannotBeBetweenPassiveAuxiliaryAndParticipleList );
 };
 
 /**

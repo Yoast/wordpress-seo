@@ -1,8 +1,12 @@
 import Participle from "../../../../../values/Participle.js";
 import checkException from "../../../../helpers/passiveVoice/periphrastic/checkException.js";
-import directPrecedenceException from "../../../../helpers/_todo/directPrecedenceExceptionWithoutRegex";
-import precedenceException from "../../../../helpers/_todo/precedenceExceptionWithoutRegex";
-
+import directPrecedenceException from "../../../../helpers/passiveVoice/directPrecedenceExceptionWithoutRegex";
+import precedenceException from "../../../../helpers/passiveVoice/precedenceExceptionWithoutRegex";
+import { getFunctionWords } from "../functionWords.js";
+const {
+	cannotDirectlyPrecedePassiveParticiple: cannotDirectlyPrecedePassiveParticipleList,
+	cannotBeBetweenPassiveAuxiliaryAndParticiple: cannotBeBetweenPassiveAuxiliaryAndParticipleList,
+} = getFunctionWords();
 
 /**
  * Creates an Participle object for the Italian language.
@@ -29,10 +33,9 @@ require( "util" ).inherits( ItalianParticiple, Participle );
 ItalianParticiple.prototype.isPassive = function() {
 	const sentencePart = this.getSentencePart();
 	const participle = this.getParticiple();
-	const language = this.getLanguage();
 
-	return ! this.directPrecedenceException( sentencePart, participle, language ) &&
-		! this.precedenceException( sentencePart, participle, language );
+	return ! this.directPrecedenceException( sentencePart, participle, cannotDirectlyPrecedePassiveParticipleList ) &&
+		! this.precedenceException( sentencePart, participle, cannotBeBetweenPassiveAuxiliaryAndParticipleList );
 };
 
 ItalianParticiple.prototype.directPrecedenceException = directPrecedenceException;

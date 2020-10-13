@@ -1,49 +1,21 @@
-import getWordIndices from "../../../languages/legacy/researches/passiveVoice/periphrastic/getIndicesWithRegex.js";
-import precedesIndex from "../../../researches/stringProcessing/precedesIndex";
-import arrayToRegex from "../../../researches/stringProcessing/createRegexFromArray.js";
-
-import cannotBeBetweenAuxiliaryAndParticipleFrenchFactory from "../../../languages/legacy/researches/french/functionWords.js";
-const cannotBeBetweenAuxiliaryAndParticipleFrench =
-	cannotBeBetweenAuxiliaryAndParticipleFrenchFactory().cannotBeBetweenPassiveAuxiliaryAndParticiple;
-import cannotBeBetweenAuxiliaryAndParticipleEnglishFactory from "../../../languages/legacy/researches/english/functionWords.js";
-const cannotBeBetweenAuxiliaryAndParticipleEnglish =
-	cannotBeBetweenAuxiliaryAndParticipleEnglishFactory().cannotBeBetweenPassiveAuxiliaryAndParticiple;
-import cannotBeBetweenAuxiliaryAndParticipleSpanishFactory from "../../../languages/legacy/researches/spanish/functionWords.js";
-const cannotBeBetweenAuxiliaryAndParticipleSpanish =
-	cannotBeBetweenAuxiliaryAndParticipleSpanishFactory().cannotBeBetweenPassiveAuxiliaryAndParticiple;
-import cannotBeBetweenAuxiliaryAndParticipleItalianFactory from "../../../languages/legacy/researches/italian/functionWords.js";
-const cannotBeBetweenAuxiliaryAndParticipleItalian =
-	cannotBeBetweenAuxiliaryAndParticipleItalianFactory().cannotBeBetweenPassiveAuxiliaryAndParticiple;
+import getWordIndices from "../passiveVoice/periphrastic/getIndicesWithRegex.js";
+import precedesIndex from "../word/precedesIndex";
+import arrayToRegex from "../regex/createRegexFromArray.js";
 
 /**
  * Checks whether a word from the precedence exception list occurs anywhere in the sentence part before the participle.
  * If this is the case, the sentence part is not passive.
  *
+ * @todo: seems this isn't used anywhere.
  * @param {string} sentencePart The sentence part that contains the participle.
  * @param {number} participleIndex The index of the participle.
- * @param {string} language The language of the participle.
+ * @param {Array} cannotBeBetweenAuxiliaryAndParticipleList List of words which cannot be between auxiliary and participle.
  *
  * @returns {boolean} Returns true if a word from the precedence exception list occurs anywhere in the
  * sentence part before the participle, otherwise returns false.
  */
-export default function( sentencePart, participleIndex, language ) {
-	let precedenceExceptionRegex;
-	switch ( language ) {
-		case "fr":
-			precedenceExceptionRegex = arrayToRegex( cannotBeBetweenAuxiliaryAndParticipleFrench );
-			break;
-		case "es":
-			precedenceExceptionRegex = arrayToRegex( cannotBeBetweenAuxiliaryAndParticipleSpanish );
-			break;
-		case "it":
-			precedenceExceptionRegex = arrayToRegex( cannotBeBetweenAuxiliaryAndParticipleItalian );
-			break;
-		case "en":
-		default:
-			precedenceExceptionRegex = arrayToRegex( cannotBeBetweenAuxiliaryAndParticipleEnglish );
-			break;
-	}
-
+export default function( sentencePart, participleIndex, cannotBeBetweenAuxiliaryAndParticipleList = [] ) {
+	const precedenceExceptionRegex = arrayToRegex( cannotBeBetweenAuxiliaryAndParticipleList );
 	const precedenceExceptionMatch = getWordIndices( sentencePart, precedenceExceptionRegex );
 	return precedesIndex( precedenceExceptionMatch, participleIndex );
 }

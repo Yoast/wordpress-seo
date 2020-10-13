@@ -1,13 +1,15 @@
+import { includes, isEmpty, intersection } from "lodash-es";
 import Participle from "../../../../../values/Participle.js";
 import checkException from "../../../../helpers/passiveVoice/periphrastic/checkException.js";
 import nonVerbsEndingEdFactory from "./non-verb-ending-ed.js";
 const nonVerbsEndingEd = nonVerbsEndingEdFactory();
-import directPrecedenceException from "../../helpers/directPrecedenceExceptionWithoutRegex";
-import precedenceException from "../../helpers/precedenceExceptionWithoutRegex";
-
-import { includes } from "lodash-es";
-import { isEmpty } from "lodash-es";
-import { intersection } from "lodash-es";
+import directPrecedenceException from "../../../../helpers/passiveVoice/directPrecedenceExceptionWithoutRegex";
+import precedenceException from "../../../../helpers/passiveVoice/precedenceExceptionWithoutRegex";
+import { getFunctionWords } from "../functionWords.js";
+const {
+	cannotDirectlyPrecedePassiveParticiple: cannotDirectlyPrecedePassiveParticipleList,
+	cannotBeBetweenPassiveAuxiliaryAndParticiple: cannotBeBetweenPassiveAuxiliaryAndParticipleList,
+} = getFunctionWords();
 
 var irregularExclusionArray = [ "get", "gets", "getting", "got", "gotten" ];
 
@@ -36,12 +38,11 @@ require( "util" ).inherits( EnglishParticiple, Participle );
 EnglishParticiple.prototype.isPassive = function() {
 	const sentencePart = this.getSentencePart();
 	const participle = this.getParticiple();
-	const language = this.getLanguage();
 
 	return 	! this.isNonVerbEndingEd() &&
 		! this.hasRidException() &&
-		! this.directPrecedenceException( sentencePart, participle, language ) &&
-		! this.precedenceException( sentencePart, participle, language );
+		! this.directPrecedenceException( sentencePart, participle, cannotDirectlyPrecedePassiveParticipleList ) &&
+		! this.precedenceException( sentencePart, participle, cannotBeBetweenPassiveAuxiliaryAndParticipleList );
 };
 
 /**
