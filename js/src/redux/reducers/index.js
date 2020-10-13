@@ -2,7 +2,6 @@ import { analysis } from "yoast-components";
 import activeMarker from "./activeMarker";
 import advancedSettings from "./advancedSettings";
 import analysisData from "./analysisData";
-import analysisResults from "./analysisResults";
 import editorContext from "./editorContext";
 import editorData from "./editorData";
 import isCornerstone from "./cornerstoneContent";
@@ -26,7 +25,6 @@ export default {
 	advancedSettings,
 	analysis,
 	analysisData,
-	analysisResults,
 	editorContext,
 	editorData,
 	isCornerstone,
