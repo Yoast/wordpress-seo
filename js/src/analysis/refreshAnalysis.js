@@ -3,7 +3,7 @@ import {
 	setOverallSeoScore,
 	setReadabilityResults,
 	setSeoResultsForKeyword,
-} from "yoast-components/composites/Plugin/ContentAnalysis/actions/contentAnalysis";
+} from "yoast-components";
 import { refreshSnippetEditor } from "../redux/actions/snippetEditor";
 import handleWorkerError from "./handleWorkerError";
 
