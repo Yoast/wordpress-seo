@@ -258,13 +258,13 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 				case 'semrush_country_code':
 				case 'license_server_version':
 				case 'home_url':
-				case 'category_base_url':
-				case 'tag_base_url':
 					if ( isset( $dirty[ $key ] ) ) {
 						$clean[ $key ] = $dirty[ $key ];
 					}
 					break;
 				case 'indexing_reason':
+				case 'category_base_url':
+				case 'tag_base_url':
 					if ( isset( $dirty[ $key ] ) ) {
 						$clean[ $key ] = sanitize_text_field( $dirty[ $key ] );
 					}

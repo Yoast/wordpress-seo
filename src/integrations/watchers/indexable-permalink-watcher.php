@@ -100,6 +100,8 @@ class Indexable_Permalink_Watcher implements Integration_Interface {
 	 * Resets the permalinks for everything that is related to the permalink structure.
 	 */
 	public function reset_permalinks() {
+		$this->reason = $this->get_reset_reason();
+
 		$post_types = $this->get_post_types();
 		foreach ( $post_types as $post_type ) {
 			$this->reset_permalinks_post_type( $post_type );
@@ -112,7 +114,7 @@ class Indexable_Permalink_Watcher implements Integration_Interface {
 
 		$this->indexable_helper->reset_permalink_indexables( 'user', null, $this->reason );
 		$this->indexable_helper->reset_permalink_indexables( 'date-archive', null, $this->reason );
-		$this->indexable_helper->reset_permalink_indexables( 'system-page', null, $this->reason);
+		$this->indexable_helper->reset_permalink_indexables( 'system-page', null, $this->reason );
 
 		// Always update `permalink_structure`, `category_base_url` and `tag_base_url` in the wpseo option.
 		$this->options_helper->set( 'permalink_structure', \get_option( 'permalink_structure' ) );
@@ -164,7 +166,7 @@ class Indexable_Permalink_Watcher implements Integration_Interface {
 	 * @return bool Whether the reset request ran.
 	 */
 	public function force_reset_permalinks() {
-		if ( $this->should_reset_permalinks() ) {
+		if ( $this->get_reset_reason() !== null ) {
 			$this->reset_permalinks();
 
 			return true;
@@ -176,24 +178,21 @@ class Indexable_Permalink_Watcher implements Integration_Interface {
 	}
 
 	/**
-	 * Checks whether permalinks should be reset.
+	 * Checks what the reset reason is, and returns null otherwise.
 	 *
-	 * @return bool Whether the permalinks should be reset.
+	 * @return string The indexing reason.
 	 */
-	public function should_reset_permalinks() {
+	public function get_reset_reason() {
 		if ( \get_option( 'permalink_structure' ) !== $this->options_helper->get( 'permalink_structure' ) ) {
-			$this->reason = Indexing_Notification_Integration::REASON_PERMALINK_SETTINGS;
-			return true;
+			return Indexing_Notification_Integration::REASON_PERMALINK_SETTINGS;
 		}
 		elseif ( \get_option( 'category_base' ) !== $this->options_helper->get( 'category_base_url' ) ) {
-			$this->reason = Indexing_Notification_Integration::REASON_CATEGORY_BASE_PREFIX;
-			return true;
+			return Indexing_Notification_Integration::REASON_CATEGORY_BASE_PREFIX;
 		}
 		elseif ( \get_option( 'tag_base' ) !== $this->options_helper->get( 'tag_base_url' ) ) {
-			$this->reason = Indexing_Notification_Integration::REASON_TAG_BASE_PREFIX;
-			return true;
+			return Indexing_Notification_Integration::REASON_TAG_BASE_PREFIX;
 		}
-		return false;
+		return null;
 	}
 
 	/**
