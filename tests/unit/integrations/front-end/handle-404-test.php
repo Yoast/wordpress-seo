@@ -35,7 +35,7 @@ class Handle_404_Test extends TestCase {
 	protected $instance;
 
 	/**
-	 * @inheritDoc
+	 * Sets an instance for test purposes.
 	 */
 	public function setUp() {
 		parent::setUp();
@@ -66,7 +66,7 @@ class Handle_404_Test extends TestCase {
 	public function test_register_hooks() {
 		$this->instance->register_hooks();
 
-		$this->assertTrue( Monkey\Filters\has( 'pre_handle_404', [ $this->instance, 'handle_404' ] ) );
+		$this->assertNotFalse( Monkey\Filters\has( 'pre_handle_404', [ $this->instance, 'handle_404' ] ) );
 	}
 
 	/**

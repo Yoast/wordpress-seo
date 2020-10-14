@@ -292,6 +292,7 @@ class WPSEO_Admin_Asset_Manager {
 					'wp-compose',
 					'wp-element',
 					self::PREFIX . 'components',
+					'wp-api-fetch',
 				],
 				'in_footer' => false,
 			],
@@ -410,6 +411,7 @@ class WPSEO_Admin_Asset_Manager {
 					'jquery-ui-progressbar',
 					self::PREFIX . 'admin-global-script',
 					self::PREFIX . 'commons',
+					self::PREFIX . 'components',
 				],
 			],
 			[
@@ -570,6 +572,7 @@ class WPSEO_Admin_Asset_Manager {
 				'deps' => [
 					self::PREFIX . 'select2',
 					self::PREFIX . 'admin-css',
+					'wp-components',
 				],
 			],
 			[

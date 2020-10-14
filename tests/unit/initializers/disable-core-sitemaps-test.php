@@ -40,7 +40,7 @@ class Disable_Core_Sitemaps_Test extends TestCase {
 	private $redirect;
 
 	/**
-	 * Set up the test fixtures.
+	 * Sets up the tests.
 	 */
 	public function setUp() {
 		parent::setUp();
@@ -62,8 +62,8 @@ class Disable_Core_Sitemaps_Test extends TestCase {
 
 		$this->instance->initialize();
 
-		$this->assertTrue( \has_filter( 'wp_sitemaps_enabled', '__return_false' ), 'Does not have expected wp_sitemaps_enabled filter' );
-		$this->assertTrue( \has_action( 'template_redirect', [ $this->instance, 'template_redirect' ] ), 'Does not have expected template_redirect action' );
+		$this->assertNotFalse( \has_filter( 'wp_sitemaps_enabled', '__return_false' ), 'Does not have expected wp_sitemaps_enabled filter' );
+		$this->assertNotFalse( \has_action( 'template_redirect', [ $this->instance, 'template_redirect' ] ), 'Does not have expected template_redirect action' );
 	}
 
 	/**

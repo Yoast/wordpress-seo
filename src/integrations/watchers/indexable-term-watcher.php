@@ -3,6 +3,7 @@
 namespace Yoast\WP\SEO\Integrations\Watchers;
 
 use Yoast\WP\SEO\Builders\Indexable_Builder;
+use Yoast\WP\SEO\Builders\Indexable_Link_Builder;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
 use Yoast\WP\SEO\Helpers\Site_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
@@ -28,6 +29,13 @@ class Indexable_Term_Watcher implements Integration_Interface {
 	protected $builder;
 
 	/**
+	 * The link builder.
+	 *
+	 * @var Indexable_Link_Builder
+	 */
+	protected $link_builder;
+
+	/**
 	 * Represents the site helper.
 	 *
 	 * @var Site_Helper
@@ -44,14 +52,21 @@ class Indexable_Term_Watcher implements Integration_Interface {
 	/**
 	 * Indexable_Term_Watcher constructor.
 	 *
-	 * @param Indexable_Repository $repository The repository to use.
-	 * @param Indexable_Builder    $builder    The post builder to use.
-	 * @param Site_Helper          $site       The site helper.
+	 * @param Indexable_Repository   $repository   The repository to use.
+	 * @param Indexable_Builder      $builder      The post builder to use.
+	 * @param Indexable_Link_Builder $link_builder The lint builder to use.
+	 * @param Site_Helper            $site         The site helper.
 	 */
-	public function __construct( Indexable_Repository $repository, Indexable_Builder $builder, Site_Helper $site ) {
-		$this->repository = $repository;
-		$this->builder    = $builder;
-		$this->site       = $site;
+	public function __construct(
+		Indexable_Repository $repository,
+		Indexable_Builder $builder,
+		Indexable_Link_Builder $link_builder,
+		Site_Helper $site
+	) {
+		$this->repository   = $repository;
+		$this->builder      = $builder;
+		$this->link_builder = $link_builder;
+		$this->site         = $site;
 	}
 
 	/**
@@ -110,6 +125,11 @@ class Indexable_Term_Watcher implements Integration_Interface {
 		$indexable = $this->repository->find_by_id_and_type( $term_id, 'term', false );
 
 		// If we haven't found an existing indexable, create it. Otherwise update it.
-		$this->builder->build_for_id_and_type( $term_id, 'term', $indexable );
+		$indexable = $this->builder->build_for_id_and_type( $term_id, 'term', $indexable );
+
+		// Update links.
+		$this->link_builder->build( $indexable, $term->description );
+
+		$indexable->save();
 	}
 }

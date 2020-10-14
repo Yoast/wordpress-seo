@@ -21,7 +21,9 @@ class Indexable_Static_Posts_Page_Presentation extends Indexable_Post_Type_Prese
 	protected $pagination;
 
 	/**
-	 * @inheritDoc
+	 * Generates the canonical.
+	 *
+	 * @return string The canonical.
 	 */
 	public function generate_canonical() {
 		if ( $this->model->canonical ) {
@@ -29,20 +31,21 @@ class Indexable_Static_Posts_Page_Presentation extends Indexable_Post_Type_Prese
 		}
 
 		$current_page = $this->pagination->get_current_archive_page_number();
+		$permalink    = $this->get_permalink();
 
 		if ( $current_page > 1 ) {
-			return $this->pagination->get_paginated_url( $this->model->permalink, $current_page );
+			return $this->pagination->get_paginated_url( $permalink, $current_page );
 		}
 
-		return $this->model->permalink;
+		return $permalink;
 	}
 
 	/**
-	 * Generates the open graph url.
+	 * Generates the Open Graph URL.
 	 *
-	 * @return string The open graph url.
+	 * @return string The Open Graph URL.
 	 */
 	public function generate_open_graph_url() {
-		return $this->model->permalink;
+		return $this->get_permalink();
 	}
 }

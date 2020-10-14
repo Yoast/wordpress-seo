@@ -46,6 +46,7 @@ class WPSEO_Tracking_Settings_Data implements WPSEO_Collection {
 		'youtube_url',
 		'wikipedia_url',
 		'fbadminapp',
+		'semrush_tokens',
 	];
 
 	/**
@@ -74,6 +75,7 @@ class WPSEO_Tracking_Settings_Data implements WPSEO_Collection {
 		'show_onboarding_notice',
 		'first_activated_on',
 		'myyoast-oauth',
+		'dynamic_permalinks',
 		'website_name',
 		'alternate_website_name',
 		'company_logo',
@@ -156,6 +158,9 @@ class WPSEO_Tracking_Settings_Data implements WPSEO_Collection {
 		'wikipedia_url',
 		'fbadminapp',
 		'indexables_indexation_completed',
+		'semrush_integration_active',
+		'semrush_tokens',
+		'semrush_country_code',
 	];
 
 	/**

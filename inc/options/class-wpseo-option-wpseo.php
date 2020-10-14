@@ -30,10 +30,10 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'license_server_version'                   => false,
 		'ms_defaults_set'                          => false,
 		'ignore_search_engines_discouraged_notice' => false,
-		'ignore_indexation_warning'                => false,
 		'indexation_warning_hide_until'            => false,
-		'indexation_started'                       => false,
-		'indexables_indexation_reason'             => '',
+		'indexing_first_time'                      => true,
+		'indexation_started'                       => null,
+		'indexing_reason'                          => '',
 		'indexables_indexation_completed'          => false,
 		// Non-form field, should only be set via validation routine.
 		'version'                                  => '', // Leave default as empty to ensure activation/upgrade works.
@@ -64,6 +64,12 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 			],
 			'access_tokens' => [],
 		],
+		'semrush_integration_active'               => true,
+		'semrush_tokens'                           => [],
+		'semrush_country_code'                     => 'us',
+		'permalink_structure'                      => '',
+		'home_url'                                 => '',
+		'dynamic_permalinks'                       => false,
 	];
 
 	/**
@@ -245,12 +251,14 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 					$clean[ $key ] = WPSEO_VERSION;
 					break;
 				case 'previous_version':
+				case 'semrush_country_code':
 				case 'license_server_version':
+				case 'home_url':
 					if ( isset( $dirty[ $key ] ) ) {
 						$clean[ $key ] = $dirty[ $key ];
 					}
 					break;
-				case 'indexables_indexation_reason':
+				case 'indexing_reason':
 					if ( isset( $dirty[ $key ] ) ) {
 						$clean[ $key ] = sanitize_text_field( $dirty[ $key ] );
 					}
@@ -331,6 +339,28 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 					$clean[ $key ] = ( isset( $dirty[ $key ] ) ? WPSEO_Utils::validate_bool( $dirty[ $key ] ) : null );
 					break;
 
+				case 'semrush_tokens':
+					$clean[ $key ] = $old[ $key ];
+
+					if ( isset( $dirty[ $key ] ) ) {
+						$semrush_tokens = $dirty[ $key ];
+						if ( ! is_array( $semrush_tokens ) ) {
+							$semrush_tokens = json_decode( $dirty[ $key ], true );
+						}
+
+						if ( is_array( $semrush_tokens ) ) {
+							$clean[ $key ] = $dirty[ $key ];
+						}
+					}
+
+					break;
+
+				case 'permalink_structure':
+					if ( isset( $dirty[ $key ] ) ) {
+						$clean[ $key ] = sanitize_option( 'permalink_structure', $dirty[ $key ] );
+					}
+					break;
+
 				/*
 				 * Boolean (checkbox) fields.
 				 */
@@ -340,6 +370,8 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 				 *  'disableadvanced_meta'
 				 *  'enable_headless_rest_endpoints'
 				 *  'yoast_tracking'
+				 *  'dynamic_permalinks'
+				 *  'indexing_first_time'
 				 */
 				default:
 					$clean[ $key ] = ( isset( $dirty[ $key ] ) ? WPSEO_Utils::validate_bool( $dirty[ $key ] ) : false );
@@ -373,6 +405,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 			'enable_xml_sitemap'             => false,
 			'enable_text_link_counter'       => false,
 			'enable_headless_rest_endpoints' => false,
+			'semrush_integration_active'     => false,
 		];
 
 		// We can reuse this logic from the base class with the above defaults to parse with the correct feature values.

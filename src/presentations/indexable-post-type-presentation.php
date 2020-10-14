@@ -65,29 +65,33 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 	}
 
 	/**
-	 * @inheritDoc
+	 * Generates the canonical.
+	 *
+	 * @return string The canonical.
 	 */
 	public function generate_canonical() {
 		if ( $this->model->canonical ) {
 			return $this->model->canonical;
 		}
 
-		$canonical = $this->model->permalink;
+		$permalink = $this->get_permalink();
 
 		// Fix paginated pages canonical, but only if the page is truly paginated.
 		$current_page = $this->pagination->get_current_post_page_number();
 		if ( $current_page > 1 ) {
 			$number_of_pages = $this->model->number_of_pages;
 			if ( $number_of_pages && $current_page <= $number_of_pages ) {
-				$canonical = $this->get_paginated_url( $canonical, $current_page );
+				$permalink = $this->get_paginated_url( $permalink, $current_page );
 			}
 		}
 
-		return $this->url->ensure_absolute_url( $canonical );
+		return $this->url->ensure_absolute_url( $permalink );
 	}
 
 	/**
-	 * @inheritDoc
+	 * Generates the rel prev.
+	 *
+	 * @return string The rel prev value.
 	 */
 	public function generate_rel_prev() {
 		if ( $this->model->number_of_pages === null ) {
@@ -114,7 +118,9 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 	}
 
 	/**
-	 * @inheritDoc
+	 * Generates the rel next.
+	 *
+	 * @return string The rel prev next.
 	 */
 	public function generate_rel_next() {
 		if ( $this->model->number_of_pages === null ) {
@@ -134,7 +140,9 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 	}
 
 	/**
-	 * @inheritDoc
+	 * Generates the open graph title.
+	 *
+	 * @return string The open graph title.
 	 */
 	public function generate_title() {
 		if ( $this->model->title ) {
@@ -153,7 +161,9 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 	}
 
 	/**
-	 * @inheritDoc
+	 * Generates the meta description.
+	 *
+	 * @return string The meta description.
 	 */
 	public function generate_meta_description() {
 		if ( $this->model->description ) {
@@ -164,7 +174,9 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 	}
 
 	/**
-	 * @inheritDoc
+	 * Generates the open graph description.
+	 *
+	 * @return string The open graph description.
 	 */
 	public function generate_open_graph_description() {
 		if ( $this->model->open_graph_description ) {
@@ -196,7 +208,9 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 	}
 
 	/**
-	 * @inheritDoc
+	 * Generates the Open Graph type.
+	 *
+	 * @return string The Open Graph type.
 	 */
 	public function generate_open_graph_type() {
 		return 'article';
@@ -270,14 +284,18 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 	}
 
 	/**
-	 * @inheritDoc
+	 * Generates the source.
+	 *
+	 * @return array The source.
 	 */
 	public function generate_source() {
 		return \get_post( $this->model->object_id );
 	}
 
 	/**
-	 * @inheritDoc
+	 * Generates the robots value.
+	 *
+	 * @return array The robots value.
 	 */
 	public function generate_robots() {
 		$robots = $this->get_base_robots();
@@ -314,7 +332,9 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 	}
 
 	/**
-	 * @inheritDoc
+	 * Generates the Twitter description.
+	 *
+	 * @return string The Twitter description.
 	 */
 	public function generate_twitter_description() {
 		$twitter_description = parent::generate_twitter_description();
@@ -331,7 +351,9 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 	}
 
 	/**
-	 * @inheritDoc
+	 * Generates the Twitter image.
+	 *
+	 * @return string The Twitter image.
 	 */
 	public function generate_twitter_image() {
 		if ( \post_password_required() ) {
@@ -342,7 +364,9 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 	}
 
 	/**
-	 * @inheritDoc
+	 * Generates the Twitter creator.
+	 *
+	 * @return string The Twitter creator.
 	 */
 	public function generate_twitter_creator() {
 		$twitter_creator = \ltrim( \trim( \get_the_author_meta( 'twitter', $this->source->post_author ) ), '@' );

@@ -11,27 +11,33 @@ class Indexable_Home_Page_Presentation extends Indexable_Presentation {
 	use Archive_Adjacent;
 
 	/**
-	 * @inheritDoc
+	 * Generates the canonical.
+	 *
+	 * @return string The canonical.
 	 */
 	public function generate_canonical() {
 		if ( $this->model->canonical ) {
 			return $this->model->canonical;
 		}
 
-		if ( ! $this->model->permalink ) {
+		$permalink = $this->get_permalink();
+
+		if ( ! $permalink ) {
 			return '';
 		}
 
 		$current_page = $this->pagination->get_current_archive_page_number();
 		if ( $current_page > 1 ) {
-			return $this->pagination->get_paginated_url( $this->model->permalink, $current_page );
+			return $this->pagination->get_paginated_url( $permalink, $current_page );
 		}
 
-		return $this->model->permalink;
+		return $permalink;
 	}
 
 	/**
-	 * @inheritDoc
+	 * Generates the meta description.
+	 *
+	 * @return string The meta description.
 	 */
 	public function generate_meta_description() {
 		if ( $this->model->description ) {
@@ -42,7 +48,9 @@ class Indexable_Home_Page_Presentation extends Indexable_Presentation {
 	}
 
 	/**
-	 * @inheritDoc
+	 * Generates the title.
+	 *
+	 * @return string The title.
 	 */
 	public function generate_title() {
 		if ( $this->model->title ) {

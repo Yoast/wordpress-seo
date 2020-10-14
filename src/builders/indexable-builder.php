@@ -3,6 +3,7 @@
 namespace Yoast\WP\SEO\Builders;
 
 use Yoast\WP\SEO\Models\Indexable;
+use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
 /**
@@ -83,6 +84,13 @@ class Indexable_Builder {
 	private $indexable_repository;
 
 	/**
+	 * The indexable helper.
+	 *
+	 * @var Indexable_Helper
+	 */
+	protected $indexable_helper;
+
+	/**
 	 * Returns the instance of this class constructed through the ORM Wrapper.
 	 *
 	 * @param Indexable_Author_Builder            $author_builder            The author builder for creating missing indexables.
@@ -94,6 +102,7 @@ class Indexable_Builder {
 	 * @param Indexable_System_Page_Builder       $system_page_builder       The search result builder for creating missing indexables.
 	 * @param Indexable_Hierarchy_Builder         $hierarchy_builder         The hierarchy builder for creating the indexable hierarchy.
 	 * @param Primary_Term_Builder                $primary_term_builder      The primary term builder for creating primary terms for posts.
+	 * @param Indexable_Helper                    $indexable_helper          The indexable helper.
 	 */
 	public function __construct(
 		Indexable_Author_Builder $author_builder,
@@ -104,7 +113,8 @@ class Indexable_Builder {
 		Indexable_Date_Archive_Builder $date_archive_builder,
 		Indexable_System_Page_Builder $system_page_builder,
 		Indexable_Hierarchy_Builder $hierarchy_builder,
-		Primary_Term_Builder $primary_term_builder
+		Primary_Term_Builder $primary_term_builder,
+		Indexable_Helper $indexable_helper
 	) {
 		$this->author_builder            = $author_builder;
 		$this->post_builder              = $post_builder;
@@ -115,6 +125,7 @@ class Indexable_Builder {
 		$this->system_page_builder       = $system_page_builder;
 		$this->hierarchy_builder         = $hierarchy_builder;
 		$this->primary_term_builder      = $primary_term_builder;
+		$this->indexable_helper          = $indexable_helper;
 	}
 
 	/**
@@ -262,7 +273,7 @@ class Indexable_Builder {
 	}
 
 	/**
-	 * Saves and returns an indexable.
+	 * Saves and returns an indexable (on production environments only).
 	 *
 	 * @param Indexable      $indexable        The indexable.
 	 * @param Indexable|null $indexable_before The indexable before possible changes.
@@ -270,6 +281,23 @@ class Indexable_Builder {
 	 * @return Indexable The indexable.
 	 */
 	private function save_indexable( $indexable, $indexable_before = null ) {
+		$intend_to_save = $this->indexable_helper->should_index_indexables();
+
+		/**
+		 * Filter: 'wpseo_override_save_indexable' - Allow developers to enable / disable
+		 * saving the indexable when the indexable is updated. Warning: overriding
+		 * the intended action may cause problems when moving from a staging to a
+		 * production environment because indexable permalinks may get set incorrectly.
+		 *
+		 * @param Indexable $indexable The indexable to be saved.
+		 *
+		 * @api bool $intend_to_save True if YoastSEO intends to save the indexable.
+		 */
+		$intend_to_save = \apply_filters( 'wpseo_should_save_indexable', $intend_to_save, $indexable );
+
+		if ( ! $intend_to_save ) {
+			return $indexable;
+		}
 
 		// Save the indexable before running the WordPress hook.
 		$indexable->save();
@@ -279,9 +307,9 @@ class Indexable_Builder {
 			 * Action: 'wpseo_save_indexable' - Allow developers to perform an action
 			 * when the indexable is updated.
 			 *
-			 * @param Indexable The indexable before saving.
+			 * @param Indexable $indexable_before The indexable before saving.
 			 *
-			 * @api Indexable The saved indexable.
+			 * @api Indexable $indexable The saved indexable.
 			 */
 			\do_action( 'wpseo_save_indexable', $indexable, $indexable_before );
 		}

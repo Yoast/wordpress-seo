@@ -7,6 +7,7 @@ use Yoast\WP\SEO\Actions\Indexation\Indexable_Post_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexation\Indexable_Post_Type_Archive_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexation\Indexable_Term_Indexation_Action;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
+use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
@@ -35,6 +36,13 @@ class Indexable_Permalink_Watcher implements Integration_Interface {
 	private $post_type;
 
 	/**
+	 * The indexable helper.
+	 *
+	 * @var Indexable_Helper
+	 */
+	protected $indexable_helper;
+
+	/**
 	 * @inheritDoc
 	 */
 	public static function get_conditionals() {
@@ -46,10 +54,14 @@ class Indexable_Permalink_Watcher implements Integration_Interface {
 	 *
 	 * @param Post_Type_Helper $post_type The post type helper.
 	 * @param Options_Helper   $options   The options helper.
+	 * @param Indexable_Helper $indexable The indexable helper.
 	 */
-	public function __construct( Post_Type_Helper $post_type, Options_Helper $options ) {
-		$this->post_type      = $post_type;
-		$this->options_helper = $options;
+	public function __construct( Post_Type_Helper $post_type, Options_Helper $options, Indexable_Helper $indexable ) {
+		$this->post_type        = $post_type;
+		$this->options_helper   = $options;
+		$this->indexable_helper = $indexable;
+
+		$this->schedule_cron();
 	}
 
 	/**
@@ -59,6 +71,7 @@ class Indexable_Permalink_Watcher implements Integration_Interface {
 		\add_action( 'update_option_permalink_structure', [ $this, 'reset_permalinks' ] );
 		\add_action( 'update_option_category_base', [ $this, 'reset_permalinks_term' ], 10, 3 );
 		\add_action( 'update_option_tag_base', [ $this, 'reset_permalinks_term' ], 10, 3 );
+		\add_action( 'wpseo_permalink_structure_check', [ $this, 'force_reset_permalinks' ] );
 	}
 
 	/**
@@ -72,12 +85,15 @@ class Indexable_Permalink_Watcher implements Integration_Interface {
 
 		$taxonomies = $this->get_taxonomies_for_post_types( $post_types );
 		foreach ( $taxonomies as $taxonomy ) {
-			$this->reset_permalink_indexables( 'term', $taxonomy );
+			$this->indexable_helper->reset_permalink_indexables( 'term', $taxonomy );
 		}
 
-		$this->reset_permalink_indexables( 'user' );
-		$this->reset_permalink_indexables( 'date-archive' );
-		$this->reset_permalink_indexables( 'system-page' );
+		$this->indexable_helper->reset_permalink_indexables( 'user' );
+		$this->indexable_helper->reset_permalink_indexables( 'date-archive' );
+		$this->indexable_helper->reset_permalink_indexables( 'system-page' );
+
+		// Always update `permalink_structure` in the wpseo option.
+		$this->options_helper->set( 'permalink_structure', \get_option( 'permalink_structure' ) );
 	}
 
 	/**
@@ -86,8 +102,8 @@ class Indexable_Permalink_Watcher implements Integration_Interface {
 	 * @param string $post_type The post type to reset.
 	 */
 	public function reset_permalinks_post_type( $post_type ) {
-		$this->reset_permalink_indexables( 'post', $post_type );
-		$this->reset_permalink_indexables( 'post-type-archive', $post_type );
+		$this->indexable_helper->reset_permalink_indexables( 'post', $post_type );
+		$this->indexable_helper->reset_permalink_indexables( 'post-type-archive', $post_type );
 	}
 
 	/**
@@ -109,41 +125,31 @@ class Indexable_Permalink_Watcher implements Integration_Interface {
 			$subtype = 'post_tag';
 		}
 
-		$this->reset_permalink_indexables( 'term', $subtype );
+		$this->indexable_helper->reset_permalink_indexables( 'term', $subtype );
 	}
 
 	/**
-	 * Resets the permalinks of the indexables.
+	 * Resets the permalink indexables automatically, if necessary.
 	 *
-	 * @param string      $type    The type of the indexable.
-	 * @param null|string $subtype The subtype. Can be null.
-	 * @param string      $reason  The reason that the permalink has been changed.
+	 * @return bool Whether the reset request ran.
 	 */
-	public function reset_permalink_indexables( $type, $subtype = null, $reason = Indexation_Permalink_Warning_Presenter::REASON_PERMALINK_SETTINGS ) {
-		$where = [ 'object_type' => $type ];
+	public function force_reset_permalinks() {
+		if ( $this->should_reset_permalinks() ) {
+			$this->reset_permalinks();
 
-		if ( $subtype ) {
-			$where['object_sub_type'] = $subtype;
+			return true;
 		}
 
-		$result = Wrapper::get_wpdb()->update(
-			Model::get_table_name( 'Indexable' ),
-			[
-				'permalink'      => null,
-				'permalink_hash' => null,
-			],
-			$where
-		);
+		return false;
+	}
 
-		if ( $result > 0 ) {
-			$this->options_helper->set( 'indexables_indexation_reason', $reason );
-			$this->options_helper->set( 'ignore_indexation_warning', false );
-			$this->options_helper->set( 'indexation_warning_hide_until', false );
-
-			delete_transient( Indexable_Post_Indexation_Action::TRANSIENT_CACHE_KEY );
-			delete_transient( Indexable_Post_Type_Archive_Indexation_Action::TRANSIENT_CACHE_KEY );
-			delete_transient( Indexable_Term_Indexation_Action::TRANSIENT_CACHE_KEY );
-		}
+	/**
+	 * Checks whether permalinks should be reset.
+	 *
+	 * @return bool Whether the permalinks should be reset.
+	 */
+	public function should_reset_permalinks() {
+		return \get_option( 'permalink_structure' ) !== $this->options_helper->get( 'permalink_structure' );
 	}
 
 	/**
@@ -181,5 +187,36 @@ class Indexable_Permalink_Watcher implements Integration_Interface {
 		$taxonomies = \array_unique( $taxonomies );
 
 		return $taxonomies;
+	}
+
+	/**
+	 * Schedules the WP-Cron job to check the permalink_structure status.
+	 *
+	 * @return void
+	 */
+	protected function schedule_cron() {
+		if ( \wp_next_scheduled( 'wpseo_permalink_structure_check' ) ) {
+			return;
+		}
+
+		\wp_schedule_event( time(), 'daily', 'wpseo_permalink_structure_check' );
+	}
+
+	/* ********************* DEPRECATED METHODS ********************* */
+
+	/**
+	 * Resets the permalinks of the indexables.
+	 *
+	 * @deprecated 15.1
+	 * @codeCoverageIgnore
+	 *
+	 * @param string      $type    The type of the indexable.
+	 * @param null|string $subtype The subtype. Can be null.
+	 * @param string      $reason  The reason that the permalink has been changed.
+	 */
+	public function reset_permalink_indexables( $type, $subtype = null, $reason = Indexation_Permalink_Warning_Presenter::REASON_PERMALINK_SETTINGS ) {
+		_deprecated_function( __METHOD__, 'WPSEO 15.1', 'Indexable_Helper::reset_permalink_indexables' );
+
+		return $this->indexable_helper->reset_permalink_indexables( $type, $subtype, $reason );
 	}
 }

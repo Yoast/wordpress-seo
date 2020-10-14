@@ -4,7 +4,7 @@ Donate link: https://yoa.st/1up
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
-Tested up to: 5.5
+Tested up to: 5.5.1
 Stable tag: 15.0
 Requires PHP: 5.6.20
 
@@ -208,6 +208,38 @@ Your question has most likely been answered on our knowledge base: [kb.yoast.com
 
 == Changelog ==
 
+= 15.1 =
+Release Date: October 14th, 2020
+
+Wouldn’t it be cool if you could get keyword data while working on your content in Yoast SEO? Well, we asked ourselves that same question and now we have an answer! Yes, you can now find related keyphrases inside the post editor. And it’s not any old data — no, it’s powered by our good friends at SEMrush, a world-class provider of SEO and internet marketing tools! Read more about what’s new in 15.1 in [our release post](https://yoa.st/release-15-1)!
+
+Enhancements:
+
+* Adds an integration with SEMrush to search for and compare search volume of related keyphrases.
+* Moves the Ryte feature toggle to the new Integrations tab where the new SEMrush feature toggle also can be found.
+* Merges the indexable and link indexing tools on the tools page into one process.
+* Improves the user experience of the indexing tool on the tools page by showing its progress on the tools page itself, instead of in a separate pop-up modal.
+* Prevents several processes from happening on non-production environments:
+    * Indexing indexables.
+    * Pinging search engines about XML sitemaps.
+    * Sending tracking information.
+    * Checking the indexability of the site with Ryte.
+* Uses the `website` from a user's WordPress profile in that user's `SameAs` array in the Schema output.
+* Flushes all permalinks from the indexables tables when the value of the `permalink_structure` option changes, and introduces a notification to ask for a reindex in that case.
+* Flushes all permalinks from the indexables tables when the value of the `home_url` option changes, and introduces a notification to ask for a reindex in that case.
+* Registers a cron job that checks whether the `home_url` was changed manually and resets the permalinks accordingly.
+* Makes it possible to recognize keyphrases in Farsi when they have a negation prefix or an indefinite article (for example: ماشین ('car') in ماشینی ('a car')).
+* Improves keyphrase recognition in Farsi by filtering the function words such as `هفت`, چهارم`,`یا`.
+
+Bugfixes:
+
+* Fixes a bug where the Yoast replacement variables plugin would not be available on edit terms page for usage by other plugins.
+* Fixes a bug where the incoming link count for each post, as shown on the post overview page, was incorrect.
+
+Other:
+
+* Adds a filter (`wpseo_dynamic_permalinks_enabled`) to enable the dynamic permalink fallback. When this fallback is enabled, the indexable-based output of the `permalink` property is overridden by a permalink that is calculated on the fly. Using this is detrimental for performance but may be needed for some site setups.
+
 = 15.0 =
 Release Date: September 29th, 2020
 
@@ -237,38 +269,6 @@ Bugfixes:
 Other:
 
 * Adds the `wpseo_sitemap_index_links` filter to enable adding links to the sitemap index. Props to [Joseph Paul](https://github.com/jsphpl).
-
-= 14.9 =
-Release Date: September 1st, 2020
-
-Yoast SEO 14.9 comes with a new round of improvements, plus a new language-based enhancement: improved keyphrase recognition for Hebrew. Read more about those changes in [our release post](https://yoa.st/release-14-9)!
-
-Bugfixes:
-
-* Fixes a bug where a JavaScript console warning was thrown on category edit pages.
-* Fixes a bug where the page number was not shown in the breadcrumb for paginated series.
-* Fixes a bug where the `robots.txt` and `.htaccess` file editor would not work due to `get_home_path()` not being a writable path. Props to [druesome](https://github.com/druesome).
-* Fixes a bug where port numbers in the indexable permalinks were missing (when applicable).
-* Fixes a bug where the indexables table would contain incorrect permalinks for posts if the term slug had been changed and the post permalink contains the term slug.
-* Fixes a bug where the indexables table would contain incorrect permalinks for pages if the slug of the parent page had been changed.
-* Fixes a bug where a warning would occur when a query was unsuccessful while indexing post type archives. Props to [Sekiphp](https://github.com/Sekiphp).
-* Fixes a bug where closing parentheses would always be regarded as sentence endings in RTL languages.
-* Fixes a bug where closing parentheses would always be regarded as sentence endings when followed by an upper-case letter.
-
-Enhancements:
-
-* Adds an update notification for major and minor releases.
-* Improves the SQL performance by not performing unnecessary update queries when updating a post’s public status.
-* Optimizes performance by preventing regular database queries.
-* Improves keyphrase recognition in Polish by filtering more function words.
-* Improves the feedback string in the Keyphrase in Subheadings assessment by making it more explicit.
-* Improves all keyphrase-based assessments for Hebrew by filtering function words and allowing keyphrases to be recognized in the text when preceded by a prefix (e.g., “כ” or “ל”).
-* We already had a filter available to change the default Schema Article type (`wpseo_schema_article_post_types`), but it wasn't called anywhere. Now it is.
-
-Other:
-
-* Adds the weekly cron schedule to the `cron_schedules` filter to prevent overwriting the one WordPress adds. Props to [peter-webbird](https://github.com/peter-webbird).
-* Merges the googlebot and bingbot meta tag values into the robots meta tag value and deprecates the `Googlebot_Presenter` and `Bingbot_Presenter`.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).

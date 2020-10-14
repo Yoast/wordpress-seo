@@ -34,7 +34,7 @@ class AMP_Test extends TestCase {
 	protected $front_end;
 
 	/**
-	 * @inheritDoc
+	 * Sets an instance for test purposes.
 	 */
 	public function setUp() {
 		parent::setUp();
@@ -63,8 +63,8 @@ class AMP_Test extends TestCase {
 	public function test_register_hooks() {
 		$this->instance->register_hooks();
 
-		$this->assertTrue( \has_action( 'amp_post_template_head', [ $this->instance, 'remove_amp_meta_output' ] ), 'The remove AMP meta output function is registered.' );
-		$this->assertTrue( \has_action( 'amp_post_template_head', [ $this->front_end, 'call_wpseo_head' ] ), 'The wpseo head action is registered.' );
+		$this->assertNotFalse( \has_action( 'amp_post_template_head', [ $this->instance, 'remove_amp_meta_output' ] ), 'The remove AMP meta output function is registered.' );
+		$this->assertNotFalse( \has_action( 'amp_post_template_head', [ $this->front_end, 'call_wpseo_head' ] ), 'The wpseo head action is registered.' );
 	}
 
 	/**

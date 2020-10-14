@@ -6,7 +6,7 @@
  */
 
 use Yoast\WP\Lib\Model;
-use Yoast\WP\SEO\Integrations\Admin\Indexation_Integration;
+use Yoast\WP\SEO\Integrations\Admin\Indexing_Tool_Integration;
 
 /**
  * This code handles the option upgrades.
@@ -58,6 +58,7 @@ class WPSEO_Upgrade {
 			'14.2-RC0'   => 'upgrade_142',
 			'14.5-RC0'   => 'upgrade_145',
 			'14.9-RC0'   => 'upgrade_149',
+			'15.1-RC0'   => 'upgrade_151',
 		];
 
 		array_walk( $routines, [ $this, 'run_upgrade_routine' ], $version );
@@ -731,6 +732,43 @@ class WPSEO_Upgrade {
 	}
 
 	/**
+	 * Performs the 15.1 upgrade.
+	 *
+	 * @return void
+	 */
+	private function upgrade_151() {
+		$this->set_home_url_for_151();
+		$this->move_indexables_indexation_reason_for_151();
+
+		add_action( 'init', [ $this, 'set_permalink_structure_option_for_151' ] );
+	}
+
+	/**
+	 * Sets the home_url option for the 15.1 upgrade routine.
+	 *
+	 * @return void
+	 */
+	protected function set_home_url_for_151() {
+		$home_url = WPSEO_Options::get( 'home_url' );
+
+		if ( empty( $home_url ) ) {
+			WPSEO_Options::set( 'home_url', get_home_url() );
+		}
+	}
+
+	/**
+	 * Moves the `indexables_indexation_reason` option to the
+	 * renamed `indexing_reason` option.
+	 *
+	 * @return void
+	 */
+	protected function move_indexables_indexation_reason_for_151() {
+		$reason = WPSEO_Options::get( 'indexables_indexation_reason', '' );
+		WPSEO_Options::set( 'indexing_reason', $reason );
+		WPSEO_Options::set( 'indexation_warning_hide_until', false );
+	}
+
+	/**
 	 * Checks if the indexable indexation is completed.
 	 * If so, sets the `indexables_indexation_completed` option to `true`,
 	 * else to `false`.
@@ -739,11 +777,11 @@ class WPSEO_Upgrade {
 		/**
 		 * Holds the indexation integration instance.
 		 *
-		 * @var Indexation_Integration
+		 * @var Indexing_Tool_Integration $indexing_integration
 		 */
-		$indexation_integration = YoastSEO()->classes->get( Indexation_Integration::class );
+		$indexing_integration = YoastSEO()->classes->get( Indexing_Tool_Integration::class );
 
-		WPSEO_Options::set( 'indexables_indexation_completed', $indexation_integration->get_total_unindexed() === 0 );
+		WPSEO_Options::set( 'indexables_indexation_completed', $indexing_integration->get_unindexed_indexables_count() === 0 );
 	}
 
 	/**
@@ -986,5 +1024,14 @@ class WPSEO_Upgrade {
 
 			WPSEO_Options::set( 'noindex-ptarchive-product', false );
 		}
+	}
+
+	/**
+	 * Stores the initial `permalink_structure` option.
+	 *
+	 * @return void
+	 */
+	public function set_permalink_structure_option_for_151() {
+		WPSEO_Options::set( 'permalink_structure', get_option( 'permalink_structure' ) );
 	}
 }

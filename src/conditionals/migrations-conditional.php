@@ -17,7 +17,7 @@ class Migrations_Conditional implements Conditional {
 	protected $migration_status;
 
 	/**
-	 * Feature_Flag_Conditional constructor.
+	 * Migrations_Conditional constructor.
 	 *
 	 * @param Migration_Status $migration_status The migration status object.
 	 */
