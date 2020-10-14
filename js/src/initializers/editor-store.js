@@ -1,10 +1,12 @@
 import { pickBy } from "lodash";
 import { combineReducers, registerStore } from "@wordpress/data";
+import snippetEditorHelpers from "../analysis/snippetEditor";
+import SearchMetadataFields from "../helpers/fields/SearchMetadataFields";
 import reducers from "../redux/reducers";
 import * as selectors from "../redux/selectors";
 import * as actions from "../redux/actions";
 import { setSettings } from "../redux/actions/settings";
-import { setSEMrushChangeCountry } from "../redux/actions";
+import { setSEMrushChangeCountry, updateData } from "../redux/actions";
 import { setSEMrushLoginStatus } from "../redux/actions";
 
 /**
@@ -18,6 +20,17 @@ export default function initEditorStore() {
 		selectors,
 		actions: pickBy( actions, x => typeof x === "function" ),
 	} );
+
+	// Initialize the snippet editor data.
+	let snippetEditorData = {
+		title: SearchMetadataFields.title,
+		slug: window.wpseoScriptData.metabox.slug,
+		description: SearchMetadataFields.description,
+	};
+	const snippetEditorTemplates = snippetEditorHelpers.getTemplatesFromL10n( window.wpseoScriptData.metabox );
+	snippetEditorData = snippetEditorHelpers.getDataWithTemplates( snippetEditorData, snippetEditorTemplates );
+
+	store.dispatch( updateData( snippetEditorData ) );
 
 	store.dispatch(
 		setSettings( {
@@ -36,6 +49,7 @@ export default function initEditorStore() {
 			},
 		} )
 	);
+
 	store.dispatch(
 		setSEMrushChangeCountry( window.wpseoScriptData.metabox.countryCode )
 	);
