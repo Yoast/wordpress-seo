@@ -70,6 +70,9 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'permalink_structure'                      => '',
 		'home_url'                                 => '',
 		'dynamic_permalinks'                       => false,
+		'custom_taxonomy_slugs'                    => [],
+		'enable_enhanced_slack_sharing'            => true,
+		'zapier_integration_active'                => true,
 	];
 
 	/**
@@ -319,36 +322,22 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 					}
 					break;
 
-				case 'myyoast_oauth':
-					$clean[ $key ] = $old[ $key ];
-
-					if ( isset( $dirty[ $key ] ) ) {
-						$myyoast_oauth = $dirty[ $key ];
-						if ( ! is_array( $myyoast_oauth ) ) {
-							$myyoast_oauth = json_decode( $dirty[ $key ], true );
-						}
-
-						if ( is_array( $myyoast_oauth ) ) {
-							$clean[ $key ] = $dirty[ $key ];
-						}
-					}
-
-					break;
-
 				case 'tracking':
 					$clean[ $key ] = ( isset( $dirty[ $key ] ) ? WPSEO_Utils::validate_bool( $dirty[ $key ] ) : null );
 					break;
 
+				case 'myyoast_oauth':
 				case 'semrush_tokens':
+				case 'custom_taxonomy_slugs':
 					$clean[ $key ] = $old[ $key ];
 
 					if ( isset( $dirty[ $key ] ) ) {
-						$semrush_tokens = $dirty[ $key ];
-						if ( ! is_array( $semrush_tokens ) ) {
-							$semrush_tokens = json_decode( $dirty[ $key ], true );
+						$items = $dirty[ $key ];
+						if ( ! is_array( $items ) ) {
+							$items = json_decode( $dirty[ $key ], true );
 						}
 
-						if ( is_array( $semrush_tokens ) ) {
+						if ( is_array( $items ) ) {
 							$clean[ $key ] = $dirty[ $key ];
 						}
 					}
@@ -372,6 +361,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 				 *  'yoast_tracking'
 				 *  'dynamic_permalinks'
 				 *  'indexing_first_time'
+				 *  and most of the feature variables.
 				 */
 				default:
 					$clean[ $key ] = ( isset( $dirty[ $key ] ) ? WPSEO_Utils::validate_bool( $dirty[ $key ] ) : false );
@@ -406,6 +396,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 			'enable_text_link_counter'       => false,
 			'enable_headless_rest_endpoints' => false,
 			'semrush_integration_active'     => false,
+			'zapier_integration_active'      => false,
 		];
 
 		// We can reuse this logic from the base class with the above defaults to parse with the correct feature values.

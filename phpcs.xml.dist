@@ -167,6 +167,21 @@
 		<exclude-pattern>/config/php-codeshift/*</exclude-pattern>
 	</rule>
 
+	<!-- Exclude conditionals from being checked too roughly. -->
+	<rule ref="Yoast.NamingConventions.ObjectNameDepth.MaxExceeded">
+		<exclude-pattern>/src/conditionals/*</exclude-pattern>
+	</rule>
+
+	<!-- Exclude third-party from being checked too roughly. -->
+	<rule ref="Yoast.NamingConventions.ObjectNameDepth.MaxExceeded">
+		<exclude-pattern>/src/generators/schema/third-party/*</exclude-pattern>
+	</rule>
+
+	<!-- Exclude third-party from being checked too roughly. -->
+	<rule ref="Yoast.NamingConventions.NamespaceName.TooLong">
+		<exclude-pattern>/src/generators/schema/third-party/*</exclude-pattern>
+	</rule>
+
 	<!-- DEPRECATED CODE -->
 
 	<!-- Files which are excluded for code-coverage in the phpunit.xml.dist file should
