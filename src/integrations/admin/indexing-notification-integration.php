@@ -226,40 +226,6 @@ class Indexing_Notification_Integration implements Integration_Interface {
 	}
 
 	/**
-	 * Determines the message to show in the indexing notification.
-	 *
-	 * @param string $reason The reason identifier.
-	 *
-	 * @return string The message to show in the notification.
-	 */
-	protected function get_notification_message( $reason ) {
-		switch ( $reason ) {
-			case self::REASON_PERMALINK_SETTINGS:
-				$text = \esc_html__( 'Because of a change in your permalink structure, some of your SEO data needs to be reprocessed.', 'wordpress-seo' );
-				break;
-			case self::REASON_CATEGORY_BASE_PREFIX:
-				$text = \esc_html__( 'Because of a change in your category base setting, some of your SEO data needs to be reprocessed.', 'wordpress-seo' );
-				break;
-			case self::REASON_TAG_BASE_PREFIX:
-				$text = \esc_html__( 'Because of a change in your tag base setting, some of your SEO data needs to be reprocessed.', 'wordpress-seo' );
-				break;
-			case self::REASON_HOME_URL_OPTION:
-				$text = \esc_html__( 'Because of a change in your home URL setting, some of your SEO data needs to be reprocessed.', 'wordpress-seo' );
-				break;
-			default:
-				$text = \esc_html__( 'You can speed up your site and get insight into your internal linking structure by letting us perform a few optimizations to the way SEO data is stored. ', 'wordpress-seo' );
-		}
-
-		/**
-		 * Filter: 'wpseo_indexables_indexation_alert' - Allow developers to filter the reason of the indexation
-		 *
-		 * @param string $text   The text to show as reason.
-		 * @param string $reason The reason value.
-		 */
-		return (string) \apply_filters( 'wpseo_indexables_indexation_alert', $text, $reason );
-	}
-
-	/**
 	 * Returns an instance of the notification.
 	 *
 	 * @return Yoast_Notification The notification to show.

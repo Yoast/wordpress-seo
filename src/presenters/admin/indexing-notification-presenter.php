@@ -80,6 +80,12 @@ class Indexing_Notification_Presenter extends Abstract_Presenter {
 			case Indexing_Notification_Integration::REASON_HOME_URL_OPTION:
 				$text = \esc_html__( 'Because of a change in your home URL setting, some of your SEO data needs to be reprocessed.', 'wordpress-seo' );
 				break;
+			case Indexing_Notification_Integration::REASON_CATEGORY_BASE_PREFIX:
+				$text = \esc_html__( 'Because of a change in your category base setting, some of your SEO data needs to be reprocessed.', 'wordpress-seo' );
+				break;
+			case Indexing_Notification_Integration::REASON_TAG_BASE_PREFIX:
+				$text = \esc_html__( 'Because of a change in your tag base setting, some of your SEO data needs to be reprocessed.', 'wordpress-seo' );
+				break;
 			default:
 				$text = \esc_html__( 'You can speed up your site and get insight into your internal linking structure by letting us perform a few optimizations to the way SEO data is stored. ', 'wordpress-seo' );
 		}
