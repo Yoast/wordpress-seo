@@ -10,7 +10,7 @@ import getProminentWordsForInsights from "../../researches/_todo/getProminentWor
 import getProminentWordsForInternalLinking from "../../researches/_todo/getProminentWordsForInternalLinking";
 import getWordForms from "../../researches/_todo/getWordForms";
 import findKeywordInPageTitle from "../../researches/_todo/findKeywordInPageTitle";
-import findKeywordInFirstParagraph from "../../helpers/match/findKeywordInFirstParagraph";
+import findKeywordInFirstParagraph from "../../researches/findKeywordInFirstParagraph";
 const keyphraseDistribution = keyphraseDistributionResearcher;
 
 import AbstractResearcher from "../../AbstractResearcher";
@@ -53,7 +53,6 @@ export default class Researcher extends AbstractResearcher {
 			topicCount: topicCount,
 			getLinkStatistics: getLinkStatistics,
 			keyphraseDistribution: keyphraseDistribution,
-			firstParagraph: findKeywordInFirstParagraph,
 			findKeywordInPageTitle: findKeywordInPageTitle,
 			morphology: getWordForms,
 			prominentWordsForInsights: getProminentWordsForInsights,
