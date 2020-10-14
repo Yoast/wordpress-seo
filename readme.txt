@@ -5,7 +5,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
 Tested up to: 5.5.1
-Stable tag: 15.0
+Stable tag: 15.1
 Requires PHP: 5.6.20
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -229,12 +229,12 @@ Enhancements:
 * Flushes all permalinks from the indexables tables when the value of the `home_url` option changes, and introduces a notification to ask for a reindex in that case.
 * Registers a cron job that checks whether the `home_url` was changed manually and resets the permalinks accordingly.
 * Makes it possible to recognize keyphrases in Farsi when they have a negation prefix or an indefinite article (for example: ماشین ('car') in ماشینی ('a car')).
-* Improves keyphrase recognition in Farsi by filtering the function words such as `هفت`, `چهارم`, `یا `.
+* Improves keyphrase recognition in Farsi by filtering the function words such as `هفت`, چهارم`,`یا`.
 
 Bugfixes:
 
 * Fixes a bug where the Yoast replacement variables plugin would not be available on edit terms page for usage by other plugins.
-* Fixes a bug where the incoming link count for each post, as shown on the post overview page, was incorrect. 
+* Fixes a bug where the incoming link count for each post, as shown on the post overview page, was incorrect.
 
 Other:
 

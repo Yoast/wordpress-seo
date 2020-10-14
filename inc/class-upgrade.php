@@ -774,6 +774,7 @@ class WPSEO_Upgrade {
 	protected function move_indexables_indexation_reason_for_151() {
 		$reason = WPSEO_Options::get( 'indexables_indexation_reason', '' );
 		WPSEO_Options::set( 'indexing_reason', $reason );
+		WPSEO_Options::set( 'indexation_warning_hide_until', false );
 	}
 
 	/**

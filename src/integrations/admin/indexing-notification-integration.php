@@ -149,20 +149,14 @@ class Indexing_Notification_Integration implements Integration_Interface {
 	 */
 	public function register_hooks() {
 		if ( $this->page_helper->get_current_yoast_seo_page() === 'wpseo_dashboard' ) {
-			\add_action( 'admin_init', [ $this, 'cleanup_notification' ] );
+			\add_action( 'admin_init', [ $this, 'maybe_cleanup_notification' ] );
 		}
 
-		if ( $this->options_helper->get( 'indexing_reason' ) || ! \wp_next_scheduled( self::NOTIFICATION_ID ) ) {
-			\add_action( 'admin_init', [ $this, 'create_notification' ] );
+		if ( $this->options_helper->get( 'indexing_reason' ) ) {
+			\add_action( 'admin_init', [ $this, 'maybe_create_notification' ] );
 		}
 
-		if ( ! \wp_next_scheduled( self::NOTIFICATION_ID ) ) {
-			\wp_schedule_event( $this->date_helper->current_time(), 'daily', self::NOTIFICATION_ID );
-
-			return;
-		}
-
-		\add_action( self::NOTIFICATION_ID, [ $this, 'create_notification' ] );
+		\add_action( self::NOTIFICATION_ID, [ $this, 'maybe_create_notification' ] );
 	}
 
 	/**
@@ -180,7 +174,7 @@ class Indexing_Notification_Integration implements Integration_Interface {
 	 * Checks whether the notification should be shown and adds
 	 * it to the notification center if this is the case.
 	 */
-	public function create_notification() {
+	public function maybe_create_notification() {
 		if ( ! $this->should_show_notification() ) {
 			return;
 		}
@@ -195,7 +189,7 @@ class Indexing_Notification_Integration implements Integration_Interface {
 	 * Checks whether the notification should not be shown anymore and removes
 	 * it from the notification center if this is the case.
 	 */
-	public function cleanup_notification() {
+	public function maybe_cleanup_notification() {
 		$notification = $this->notification_center->get_notification_by_id( self::NOTIFICATION_ID );
 
 		if ( $notification === null || $this->should_show_notification() ) {
@@ -215,30 +209,6 @@ class Indexing_Notification_Integration implements Integration_Interface {
 		 * Never show a notification when nothing should be indexed.
 		 */
 		if ( $this->indexing_integration->get_unindexed_count() === 0 ) {
-			return false;
-		}
-
-		$indexing_reason = $this->options_helper->get( 'indexing_reason', '' );
-
-		/*
-		 * Show a notification when we have a reason to do so.
-		 * For example when indexing has failed before and the user should try again.
-		 */
-		if ( $indexing_reason ) {
-			return true;
-		}
-
-		/**
-		 * The UNIX timestamp on which indexing has started.
-		 * Defaults to `null` to indicate that indexing has not started yet.
-		 */
-		$time_indexation_started = $this->options_helper->get( 'indexation_started' );
-
-		/*
-		 * Do not show the notification when the indexation has started, but not completed.
-		 * I.e. when the user stopped it manually.
-		 */
-		if ( $time_indexation_started && $time_indexation_started > ( $this->date_helper->current_time() - \MONTH_IN_SECONDS ) ) {
 			return false;
 		}
 
@@ -323,7 +293,7 @@ class Indexing_Notification_Integration implements Integration_Interface {
 		}
 		else {
 			$total_unindexed = $this->indexing_integration->get_unindexed_count();
-			$presenter       = new Indexing_Notification_Presenter( $this->short_link_helper, $total_unindexed, $this->get_notification_message( $reason ) );
+			$presenter       = new Indexing_Notification_Presenter( $this->short_link_helper, $total_unindexed, $reason );
 		}
 
 		return $presenter;
