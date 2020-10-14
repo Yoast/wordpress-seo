@@ -5,6 +5,7 @@
  */
 function getDefaultState() {
 	return {
+		contentLocale: window.wpseoScriptData.metabox.contentLocale,
 		isPost: window.wpseoScriptData.hasOwnProperty( "isPost" ),
 		isTerm: window.wpseoScriptData.hasOwnProperty( "isTerm" ),
 		noIndex: window.wpseoAdminL10n.noIndex === "1",

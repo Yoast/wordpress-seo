@@ -21,3 +21,14 @@ export function getEditorContext( state ) {
 export function getPostOrPageString( state ) {
 	return get( state, "editorContext.postTypeNameSingular" ) === "Page" ? "page" : "post";
 }
+
+/**
+ * Gets the content locale.
+ *
+ * @param {Object} state The state.
+ *
+ * @returns {string} The content locale.
+ */
+export function getContentLocale( state ) {
+	return get( state, "editorContext.contentLocale", "en_US" );
+}
