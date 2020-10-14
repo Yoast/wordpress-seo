@@ -209,7 +209,7 @@ class Indexable_Permalink_Watcher_Test extends TestCase {
 			->with( 'permalink_structure', 'test' )
 			->once();
 
-		$this->options->set('permalink_structure' , 'test');
+		$this->options->set( 'permalink_structure', 'test' );
 
 
 
