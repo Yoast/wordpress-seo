@@ -82,7 +82,7 @@ export default class AbstractResearcher {
 	 * @returns {void}
 	 */
 	addResearch( name, research ) {
-		if (isUndefined( name ) || isEmpty( name )) {
+		if ( isUndefined( name ) || isEmpty( name ) ) {
 			throw new MissingArgument( "Research name cannot be empty" );
 		}
 
