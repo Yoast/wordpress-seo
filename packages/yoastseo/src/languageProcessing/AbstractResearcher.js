@@ -22,6 +22,7 @@ import getSubheadingTextLengths from "./researches/getSubheadingTextLengths.js";
 import readingTime from "./researches/readingTime";
 import h1s from "./researches/h1s";
 import sentences from "./researches/sentences";
+import findKeywordInFirstParagraph from "./researches/findKeywordInFirstParagraph.js";
 
 /**
  * The researches contains all the researches
@@ -54,6 +55,7 @@ export default class AbstractResearcher {
 			readingTime: readingTime,
 			h1s: h1s,
 			sentences: sentences,
+			firstParagraph: findKeywordInFirstParagraph,
 		};
 
 		this._data = {};
@@ -80,7 +82,7 @@ export default class AbstractResearcher {
 	 * @returns {void}
 	 */
 	addResearch( name, research ) {
-		if (isUndefined( name ) || isEmpty( name )) {
+		if ( isUndefined( name ) || isEmpty( name ) ) {
 			throw new MissingArgument( "Research name cannot be empty" );
 		}
 
