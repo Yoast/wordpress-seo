@@ -121,30 +121,33 @@ class Indexable_Permalink_Watcher_Test extends TestCase {
 		$this->indexable_helper->expects( 'reset_permalink_indexables' )->with( 'date-archive', null, null )->once();
 		$this->indexable_helper->expects( 'reset_permalink_indexables' )->with( 'system-page', null, null )->once();
 
-		Monkey\Functions\expect( 'get_option' )
-			->once()
+		$this->options
+			->expects( 'get' )
 			->with( 'permalink_structure' )
-			->andReturn( '/%postname%/' );
+			->andReturn( null )
+			->once();
 
 		$this->options
 			->expects( 'set' )
-			->with( 'permalink_structure', '/%postname%/' )
+			->with( 'permalink_structure', null )
 			->once();
 
-		Monkey\Functions\expect( 'get_option' )
-			->once()
-			->with( 'category_base' )
-			->andReturn( null );
+		$this->options
+			->expects( 'get' )
+			->with( 'category_base_url' )
+			->andReturn( null )
+			->once();
 
 		$this->options
 			->expects( 'set' )
 			->with( 'category_base_url', null )
 			->once();
 
-		Monkey\Functions\expect( 'get_option' )
-			->once()
-			->with( 'tag_base' )
-			->andReturn( null );
+		$this->options
+			->expects( 'get' )
+			->with( 'tag_base_url' )
+			->andReturn( null )
+			->once();
 
 		$this->options
 			->expects( 'set' )
@@ -200,10 +203,20 @@ class Indexable_Permalink_Watcher_Test extends TestCase {
 	 * @covers ::force_reset_permalinks
 	 */
 	public function test_force_reset_permalinks() {
+
+		$this->options
+			->expects( 'set' )
+			->with( 'permalink_structure', 'test' )
+			->once();
+
+		$this->options->set('permalink_structure' , 'test');
+
+
+
 		$this->instance
-			->expects( 'should_reset_permalinks' )
+			->expects( 'get_reset_reason' )
 			->once()
-			->andReturnTrue();
+			->andReturn( 'permalink_structure' );
 
 		$this->instance
 			->expects( 'reset_permalinks' )
@@ -212,6 +225,8 @@ class Indexable_Permalink_Watcher_Test extends TestCase {
 		$this->instance
 			->expects( 'reset_altered_custom_taxonomies' )
 			->never();
+
+
 
 		$this->assertTrue( $this->instance->force_reset_permalinks() );
 	}
@@ -223,9 +238,9 @@ class Indexable_Permalink_Watcher_Test extends TestCase {
 	 */
 	public function test_force_reset_permalinks_not_executing() {
 		$this->instance
-			->expects( 'should_reset_permalinks' )
+			->expects( 'get_reset_reason' )
 			->once()
-			->andReturnFalse();
+			->andReturn( null );
 
 		$this->instance
 			->expects( 'reset_altered_custom_taxonomies' )
@@ -251,7 +266,7 @@ class Indexable_Permalink_Watcher_Test extends TestCase {
 			->once()
 			->andReturn( '/%year%/%monthnum%/%postname%/' );
 
-		$this->assertTrue( $this->instance->should_reset_permalinks() );
+		$this->assertEquals( $this->instance->get_reset_reason(), 'permalink_settings_changed' );
 	}
 
 	/**
@@ -282,7 +297,7 @@ class Indexable_Permalink_Watcher_Test extends TestCase {
 			->once()
 			->andReturn( '/%category%/' );
 
-		$this->assertTrue( $this->instance->should_reset_permalinks() );
+		$this->assertEquals( $this->instance->get_reset_reason(), 'category_base_changed' );
 	}
 
 	/**
@@ -325,7 +340,7 @@ class Indexable_Permalink_Watcher_Test extends TestCase {
 			->once()
 			->andReturn( '/%tag%/' );
 
-		$this->assertTrue( $this->instance->should_reset_permalinks() );
+		$this->assertEquals( $this->instance->get_reset_reason(), 'tag_base_changed' );
 	}
 
 	/**
@@ -367,7 +382,7 @@ class Indexable_Permalink_Watcher_Test extends TestCase {
 			->once()
 			->andReturn( '/%tag%/' );
 
-		$this->assertFalse( $this->instance->should_reset_permalinks() );
+		$this->assertEquals( $this->instance->get_reset_reason(), null );
 	}
 
 	/**
