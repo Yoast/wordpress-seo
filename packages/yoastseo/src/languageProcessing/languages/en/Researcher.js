@@ -10,7 +10,7 @@ import getProminentWordsForInsights from "../../researches/_todo/getProminentWor
 import getProminentWordsForInternalLinking from "../../researches/_todo/getProminentWordsForInternalLinking";
 import getWordForms from "../../researches/_todo/getWordForms";
 import findKeywordInPageTitle from "../../researches/_todo/findKeywordInPageTitle";
-import findKeywordInFirstParagraph from "../../researches/_todo/findKeywordInFirstParagraph";
+import findKeywordInFirstParagraph from "../../helpers/match/findKeywordInFirstParagraph";
 const keyphraseDistribution = keyphraseDistributionResearcher;
 
 import AbstractResearcher from "../../AbstractResearcher";

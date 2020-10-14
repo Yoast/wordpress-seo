@@ -2,7 +2,7 @@
 
 import matchParagraphs from "../../matchParagraphs.js";
 import getSentences from "../../getSentences.js";
-import { findTopicFormsInString } from "../../helpers/match/findKeywordFormsInString.js";
+import { findTopicFormsInString } from "./findKeywordFormsInString.js";
 import imageInText from "../../imageInText";
 import findEmptyDivisions from "../../findEmptyDivisions";
 import getAnchorsFromText from "../../getAnchorsFromText";
