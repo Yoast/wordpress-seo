@@ -1,8 +1,9 @@
 import { dispatch, select, subscribe } from "@wordpress/data";
 import { Paper } from "yoastseo";
+import { refreshDelay } from "../analysis/constants";
 import { createAnalysisWorker, getAnalysisConfiguration } from "../analysis/worker";
 import { sortResultsByIdentifier } from "../analysis/refreshAnalysis";
-import { isEqual } from "lodash";
+import { debounce, isEqual } from "lodash";
 import handleWorkerError from "../analysis/handleWorkerError";
 
 /**
@@ -43,28 +44,30 @@ async function runAnalysis( worker, data ) {
 	}
 }
 
+// Create a debounced version that runs the analysis in order to avoid spamming the worker while typing.
+const debouncedRunAnalysis = debounce( runAnalysis, refreshDelay );
+
 /**
  * Sets up the analysis.
  *
  * @returns {void}
  */
 const initAnalysis = () => {
-	// Create the worker.
-	// TODO: get/set the worker URL in the store?
+	// Create and initialize the worker.
 	const worker = createAnalysisWorker();
-
-	// TODO: make the analysis configuration go through the store.
 	worker.initialize( getAnalysisConfiguration() );
 
-	let analysisData = select( "yoast-seo/editor" ).getAnalysisData();
+	// Initialize the analysis data for the dirty check.
+	let previousAnalysisData = select( "yoast-seo/editor" ).getAnalysisData();
 
+	// Listen to the store changes to keep our analysis up-to-date.
 	subscribe( () => {
 		const currentAnalysisData = select( "yoast-seo/editor" ).getAnalysisData();
-		const isDirty = ! isEqual( currentAnalysisData, analysisData );
+		const isDirty = ! isEqual( currentAnalysisData, previousAnalysisData );
 
 		if ( isDirty ) {
-			analysisData = currentAnalysisData;
-			runAnalysis( worker, analysisData );
+			previousAnalysisData = currentAnalysisData;
+			debouncedRunAnalysis( worker, previousAnalysisData );
 		}
 	} );
 };
