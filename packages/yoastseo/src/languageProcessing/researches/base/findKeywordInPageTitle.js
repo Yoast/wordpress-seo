@@ -1,15 +1,12 @@
 /** @module analyses/findKeywordInPageTitle */
 
-import wordMatch from "../helpers/matchTextWithWord.js";
+import wordMatch from "../../helpers/match/matchTextWithWord.js";
 import { findTopicFormsInString } from "../../helpers/match/findKeywordFormsInString.js";
 
-import getFunctionWordsFactory from "../helpers/getFunctionWords";
+import { escapeRegExp, filter, includes, isEmpty } from "lodash-es";
+import getWords from "../../helpers/word/getWords";
 
-import { escapeRegExp, filter, get, includes, isEmpty, isUndefined } from "lodash-es";
-import getLanguage from "../helpers/getLanguage";
-import getWords from "../../getWords";
-
-const getFunctionWords = getFunctionWordsFactory();
+let functionWords = [];
 
 /**
  * Strips all function words from the start of the given string.
@@ -56,26 +53,23 @@ const processExactMatchRequest = function( keyword ) {
  *
  * @param {string} title The title of the paper.
  * @param {number} position The position of the keyphrase in the title.
- * @param {string} locale The locale of the paper.
  *
  * @returns {number} Potentially adjusted position of the keyphrase in the title.
  */
-const adjustPosition = function( title, position, locale ) {
+const adjustPosition = function( title, position ) {
 	// Don't do anything if position if already 0.
 	if ( position === 0 ) {
 		return position;
 	}
 
-	// Don't do anything if no function words exist for this locale.
-	const language = getLanguage( locale );
-	const functionWords = get( getFunctionWords, [ language ], [] );
-	if ( isUndefined( functionWords.all ) ) {
+	// Don't do anything if no function words exist for this language.
+	if ( functionWords.length === 0 ) {
 		return position;
 	}
 
 	// Strip all function words from the beginning of the title.
 	const titleBeforeKeyword = title.substr( 0, position );
-	if ( stripFunctionWordsFromStart( functionWords.all, titleBeforeKeyword ) ) {
+	if ( stripFunctionWordsFromStart( functionWords, titleBeforeKeyword ) ) {
 		/*
 		 * Return position 0 if there are no words left in the title before the keyword after filtering
 		 * the function words (such that "keyword" in "the keyword" is still counted as position 0).
@@ -93,12 +87,15 @@ const adjustPosition = function( title, position, locale ) {
  * (2) whether all (content) words from the keyphrase were found in the title,
  * (3) at which position the exact match was found in the title.
  *
- * @param {Object} paper The paper containing title and keyword.
- * @param {Researcher} researcher The researcher to use for analysis.
+ * @param {Object} paper 			The paper containing title and keyword.
+ * @param {Researcher} researcher 	The researcher to use for analysis.
+ * @param {Array} 	   funcWords 	The list of function words for the language of the paper.
  *
  * @returns {Object} result with the information on whether the keyphrase was matched in the title and how.
  */
-export default function( paper, researcher ) {
+const findKeyphraseInPageTitle = function( paper, researcher, funcWords ) {
+	functionWords = funcWords;
+
 	let keyword = escapeRegExp( paper.getKeyword() );
 	const title = paper.getTitle();
 	const locale = paper.getLocale();
@@ -118,7 +115,7 @@ export default function( paper, researcher ) {
 	if ( keywordMatched.count > 0 ) {
 		result.exactMatchFound = true;
 		result.allWordsFound = true;
-		result.position = adjustPosition( title, keywordMatched.position, locale );
+		result.position = adjustPosition( title, keywordMatched.position );
 
 		return result;
 	}
@@ -137,3 +134,5 @@ export default function( paper, researcher ) {
 
 	return result;
 }
+
+export default findKeyphraseInPageTitle;

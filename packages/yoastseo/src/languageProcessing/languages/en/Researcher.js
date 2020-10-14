@@ -9,7 +9,7 @@ import { keyphraseDistributionResearcher } from "../../researches/_todo/keyphras
 import getProminentWordsForInsights from "../../researches/_todo/getProminentWordsForInsights";
 import getProminentWordsForInternalLinking from "../../researches/_todo/getProminentWordsForInternalLinking";
 import getWordForms from "../../researches/_todo/getWordForms";
-import findKeywordInPageTitle from "../../researches/_todo/findKeywordInPageTitle";
+import findKeywordInPageTitle from "../../researches/base/findKeywordInPageTitle";
 const keyphraseDistribution = keyphraseDistributionResearcher;
 
 import AbstractResearcher from "../../AbstractResearcher";
