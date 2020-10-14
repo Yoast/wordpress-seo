@@ -75,6 +75,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'enable_enhanced_slack_sharing'            => true,
 		'zapier_integration_active'                => true,
 		'zapier_subscription'                      => [],
+		'zapier_api_key'                           => '',
 	];
 
 	/**
