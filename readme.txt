@@ -219,7 +219,7 @@ Enhancements:
 * Adds a toggle for the "Enhanced Slack sharing" feature.
 * Adds enhanced Slack sharing tags on posts and pages.
 * Registers an additional check to the `wpseo_permalink_structure_check` cron job to check for changes in custom taxonomy slugs and resets the indexables table accordingly.
-* Improved the loading times of admin-pages where Yoast SEO places content.
+* Improves the loading times of admin-pages where Yoast SEO places content.
 
 Bugfixes:
 
