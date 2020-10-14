@@ -114,13 +114,8 @@ class Indexing_Notification_Presenter extends Abstract_Presenter {
 		$estimate .= '<li>';
 		$estimate .= \sprintf(
 		/* translators: 1: Expands to Yoast SEO, 2: Button start tag for the reminder, 3: Button closing tag */
-			\esc_html__( 'Wait for a week or so, until %1$s automatically processes most of your content in the background. %2$sRemind me in a week.%3$s', 'wordpress-seo' ),
-			'Yoast SEO',
-			\sprintf(
-				'<button type="button" id="yoast-indexation-remind-button" class="button-link hide-if-no-js dismiss" data-nonce="%s" data-json=\'{ "temp": true }\'>',
-				\esc_js( \wp_create_nonce( 'wpseo-indexation-remind' ) )
-			),
-			'</button>'
+			\esc_html__( 'Wait for a week or so, until %1$s automatically processes most of your content in the background.', 'wordpress-seo' ),
+			'Yoast SEO'
 		);
 		$estimate .= '</li>';
 		$estimate .= '<li>';

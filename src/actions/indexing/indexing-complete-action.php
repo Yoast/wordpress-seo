@@ -33,6 +33,5 @@ class Indexing_Complete_Action {
 	public function complete() {
 		$this->options->set( 'indexation_started', null );
 		$this->options->set( 'indexing_reason', '' );
-		$this->options->set( 'indexation_warning_hide_until', false );
 	}
 }
