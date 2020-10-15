@@ -1,5 +1,5 @@
 import { Slot } from "@wordpress/components";
-import sortComponentsByRenderPriority from "../../helpers/sortComponentsByRenderPriority";
+import sortComponentsByRenderPriority from "../../../helpers/sortComponentsByRenderPriority";
 
 /**
  * Renders the Elementor slot.

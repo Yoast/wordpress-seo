@@ -4,10 +4,9 @@ import domReady from "@wordpress/dom-ready";
 import { registerReactComponent } from "../helpers/reactRoot";
 import { get } from "lodash";
 import { Fragment, unmountComponentAtNode } from "@wordpress/element";
-import ElementorSlot from "../components/slots/ElementorSlot";
-import ElementorFill from "../containers/ElementorFill";
+import ElementorSlot from "../elementor/components/slots/ElementorSlot";
+import ElementorFill from "../elementor/containers/ElementorFill";
 import { renderReactRoot } from "../helpers/reactRoot";
-
 
 const YoastView = Marionette.ItemView.extend( {
 	template: false,
