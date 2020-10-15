@@ -104,6 +104,7 @@ class Post_Link_Indexing_Action extends Abstract_Link_Indexing_Action {
 							target_indexable_id IS NULL
 							AND `type` = 'internal'
 							AND target_post_id IS NOT NULL
+							AND target_post_id != 0
 					)
 				)
 				AND post_status = 'publish'

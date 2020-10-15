@@ -129,6 +129,7 @@ class Post_Link_Indexing_Action_Test extends TestCase {
 							target_indexable_id IS NULL
 							AND `type` = 'internal'
 							AND target_post_id IS NOT NULL
+							AND target_post_id != 0
 					)
 				)
 				AND post_status = 'publish'
@@ -208,6 +209,7 @@ class Post_Link_Indexing_Action_Test extends TestCase {
 							target_indexable_id IS NULL
 							AND `type` = 'internal'
 							AND target_post_id IS NOT NULL
+							AND target_post_id != 0
 					)
 				)
 				AND post_status = 'publish'
@@ -263,6 +265,7 @@ class Post_Link_Indexing_Action_Test extends TestCase {
 							target_indexable_id IS NULL
 							AND `type` = 'internal'
 							AND target_post_id IS NOT NULL
+							AND target_post_id != 0
 					)
 				)
 				AND post_status = 'publish'
@@ -297,11 +300,17 @@ class Post_Link_Indexing_Action_Test extends TestCase {
 				]
 			);
 
-		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 1, 'post' )->andReturn( (object) [ 'link_count' => 10 ] );
-		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 3, 'post' )->andReturn( (object) [ 'link_count' => 10 ] );
-		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 8, 'post' )->andReturn( (object) [ 'link_count' => 10 ] );
+		$indexable             = Mockery::mock( Indexable_Mock::class );
+		$indexable->link_count = 10;
+		$indexable->expects( 'save' )->times( 3 );
+
+		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 1, 'post' )->andReturn( $indexable );
+		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 3, 'post' )->andReturn( $indexable );
+		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 8, 'post' )->andReturn( $indexable );
 
 		Functions\expect( 'delete_transient' )->once()->with( Post_Link_Indexing_Action::UNINDEXED_COUNT_TRANSIENT );
+
+		$this->link_builder->expects( 'build' )->times( 3 )->with( $indexable, 'foo' );
 
 		$this->instance->index();
 	}
@@ -340,6 +349,7 @@ class Post_Link_Indexing_Action_Test extends TestCase {
 							target_indexable_id IS NULL
 							AND `type` = 'internal'
 							AND target_post_id IS NOT NULL
+							AND target_post_id != 0
 					)
 				)
 				AND post_status = 'publish'
