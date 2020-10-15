@@ -1,5 +1,6 @@
 export * from "./activeMarker";
 export * from "./advancedSettings";
+export * from "./analysisData";
 export * from "./cornerstoneContent";
 export * from "./editorData";
 export * from "./focusKeyword";
