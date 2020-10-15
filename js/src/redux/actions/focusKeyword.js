@@ -1,4 +1,4 @@
-import SearchMetadataFields from "../../helpers/fields/SearchMetadataFields";
+import AnalysisFields from "../../helpers/fields/AnalysisFields";
 
 const PREFIX = "WPSEO_";
 
@@ -13,7 +13,7 @@ export const SET_FOCUS_KEYWORD = `${ PREFIX }SET_FOCUS_KEYWORD`;
 export const loadFocusKeyword = () => {
 	return {
 		type: LOAD_FOCUS_KEYWORD,
-		keyword: SearchMetadataFields.keyphrase,
+		keyword: AnalysisFields.keyphrase,
 	};
 };
 
@@ -25,7 +25,7 @@ export const loadFocusKeyword = () => {
  * @returns {Object} Action.
  */
 export const setFocusKeyword = function( keyword ) {
-	SearchMetadataFields.keyphrase = keyword;
+	AnalysisFields.keyphrase = keyword;
 	return {
 		type: SET_FOCUS_KEYWORD,
 		keyword: keyword,

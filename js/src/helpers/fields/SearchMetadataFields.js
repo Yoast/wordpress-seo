@@ -21,15 +21,6 @@ export default class SearchMetadataFields {
 	}
 
 	/**
-	 * Getter for the keyphraseElement.
-	 *
-	 * @returns {HTMLElement} The keyphraseElement.
-	 */
-	static get keyphraseElement() {
-		return document.getElementById( window.wpseoScriptData.isPost ? "yoast_wpseo_focuskw" : "hidden_wpseo_focuskw" );
-	}
-
-	/**
 	 * Getter for the title.
 	 *
 	 * @returns {string} The title.
@@ -67,25 +58,5 @@ export default class SearchMetadataFields {
 	 */
 	static set description( value ) {
 		SearchMetadataFields.descriptionElement.value = value;
-	}
-
-	/**
-	 * Setter for the keyphrase.
-	 *
-	 * @param {string} value The keyphrase.
-	 *
-	 * @returns {void}
-	 */
-	static set keyphrase( value ) {
-		SearchMetadataFields.keyphraseElement.value = value;
-	}
-
-	/**
-	 * Getter for the keyphrase.
-	 *
-	 * @returns {string} The keyphrase.
-	 */
-	static get keyphrase() {
-		return SearchMetadataFields.keyphraseElement.value;
 	}
 }
