@@ -17,21 +17,21 @@ class Indexable_Prepare_Indexation_Action {
 	 *
 	 * @var Options_Helper
 	 */
-	private $options;
+	protected $options;
 
 	/**
 	 * The date helper.
 	 *
 	 * @var Date_Helper
 	 */
-	private $date;
+	protected $date;
 
 	/**
 	 * The notification center.
 	 *
 	 * @var Yoast_Notification_Center
 	 */
-	private $notification_center;
+	protected $notification_center;
 
 	/**
 	 * Action for preparing the indexable indexation routine.

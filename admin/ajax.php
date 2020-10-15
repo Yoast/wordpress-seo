@@ -61,10 +61,6 @@ function wpseo_set_ignore() {
 	$ignore_key = sanitize_text_field( filter_input( INPUT_POST, 'option' ) );
 	WPSEO_Options::set( 'ignore_' . $ignore_key, true );
 
-	if ( $ignore_key === 'indexation_warning' ) {
-		WPSEO_Options::set( 'indexing_reason', '' );
-	}
-
 	die( '1' );
 }
 

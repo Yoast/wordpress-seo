@@ -56,6 +56,7 @@ class Indexable_Prepare_Indexation_Action_Test extends TestCase {
 		$this->options             = Mockery::mock( Options_Helper::class );
 		$this->date                = Mockery::mock( Date_Helper::class );
 		$this->notification_center = Mockery::mock( Yoast_Notification_Center::class );
+
 		$this->instance = new Indexable_Prepare_Indexation_Action(
 			$this->options,
 			$this->date,
