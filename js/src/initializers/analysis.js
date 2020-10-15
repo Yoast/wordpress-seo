@@ -40,7 +40,6 @@ async function runAnalysis( worker, data ) {
 		}
 	} catch ( error ) {
 		handleWorkerError();
-		console.error( "An error occurred in the analysis.", error );
 	}
 }
 
@@ -53,21 +52,43 @@ const debouncedRunAnalysis = debounce( runAnalysis, refreshDelay );
  * @returns {void}
  */
 const initAnalysis = () => {
+	// Get the selectors.
+	const {
+		getAnalysisData,
+		isCornerstoneContent,
+	} = select( "yoast-seo/editor" );
+
 	// Create and initialize the worker.
 	const worker = createAnalysisWorker();
-	worker.initialize( getAnalysisConfiguration() );
+	worker.initialize(
+		// Get the analysis configuration and extend it with the is cornerstone content value.
+		getAnalysisConfiguration( { useCornerstone: isCornerstoneContent() } )
+	).catch( handleWorkerError );
 
-	// Initialize the analysis data for the dirty check.
-	let previousAnalysisData = select( "yoast-seo/editor" ).getAnalysisData();
+	// Initialize the data for the "is dirty" checks.
+	let previousAnalysisData = getAnalysisData();
+	let previousIsCornerstone = isCornerstoneContent();
 
-	// Listen to the store changes to keep our analysis up-to-date.
+	// Listen to store changes.
 	subscribe( () => {
-		const currentAnalysisData = select( "yoast-seo/editor" ).getAnalysisData();
-		const isDirty = ! isEqual( currentAnalysisData, previousAnalysisData );
+		// Fetch the current data.
+		const currentIsCornerstone = isCornerstoneContent();
+		const currentAnalysisData = getAnalysisData();
 
-		if ( isDirty ) {
+		// Keep the is cornerstone content up-to-date. When changed, also update the analysis results.
+		if ( currentIsCornerstone !== previousIsCornerstone ) {
+			previousIsCornerstone = currentIsCornerstone;
 			previousAnalysisData = currentAnalysisData;
-			debouncedRunAnalysis( worker, previousAnalysisData );
+			worker.initialize( { useCornerstone: currentIsCornerstone } )
+				// Run the analysis again.
+				.then( () => debouncedRunAnalysis( worker, currentAnalysisData ) )
+				.catch( handleWorkerError );
+		}
+
+		// Keep the analysis results up-to-date.
+		if ( isEqual( currentAnalysisData, previousAnalysisData ) === false ) {
+			previousAnalysisData = currentAnalysisData;
+			debouncedRunAnalysis( worker, currentAnalysisData );
 		}
 	} );
 };
