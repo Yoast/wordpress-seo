@@ -1,5 +1,7 @@
 import { connect } from "react-redux";
 import { dispatch as wpDataDispatch } from "@wordpress/data";
+//import { compose } from "@wordpress/compose";
+//import { withSelect, withDispatch } from "@wordpress/data";
 import { SnippetEditor } from "@yoast/search-metadata-previews";
 import { __ } from "@wordpress/i18n";
 
@@ -136,3 +138,81 @@ export function mapDispatchToProps( dispatch ) {
 
 export default connect( mapStateToProps, mapDispatchToProps )( SnippetEditorWrapper );
 
+//export default compose( [
+//	withSelect( select => {
+//		const {
+//			getBaseUrlFromSettings,
+//			getDateFromSettings,
+//			getFocusKeyphrase,
+//			getRecommendedReplaceVars,
+//			getReplaceVars,
+//			getSiteIconUrlFromSettings,
+//			getSnippetEditorTitle,
+//			getSnippetEditorDescription,
+//			getSnippetEditorMode,
+//			getSnippetEditorSlug,
+//			getSnippetPreviewImageUrl,
+//		} = select( "yoast-seo/editor" );
+//
+//		const replacementVariables = getReplaceVars();
+//
+//		// Replace all empty values with %%replaceVarName%% so the replacement variables plugin can do its job.
+//		replacementVariables.forEach( ( replaceVariable ) => {
+//			if ( replaceVariable.value === "" && ! [ "title", "excerpt", "excerpt_only" ].includes( replaceVariable.name ) ) {
+//				replaceVariable.value = "%%" + replaceVariable.name + "%%";
+//			}
+//		} );
+//
+//		return {
+//			// TODO: add missing data that came from `state.snippetEditor`.
+//			mode: getSnippetEditorMode(),
+//			data: {
+//				title: getSnippetEditorTitle(),
+//				description: getSnippetEditorDescription(),
+//				slug: getSnippetEditorSlug(),
+//			},
+//			keyword: getFocusKeyphrase(),
+//			baseUrl: getBaseUrlFromSettings(),
+//			date: getDateFromSettings(),
+//			replacementVariables,
+//			recommendedReplacementVariables: getRecommendedReplaceVars(),
+//			faviconSrc: getSiteIconUrlFromSettings(),
+//			mobileImageSrc: getSnippetPreviewImageUrl(),
+//		};
+//	} ),
+//	withDispatch( dispatch => {
+//		const { editPost } = dispatch( "core/editor" );
+//		const {
+//			updateData,
+//			switchMode,
+//			updateAnalysisData,
+//		} = dispatch( "yoast-seo/editor" );
+//
+//		return {
+//			onChange: ( key, value ) => {
+//				switch ( key ) {
+//					case "mode":
+//						switchMode( value );
+//						break;
+//					case "slug":
+//						/*
+//						 * Update the gutenberg store with the new slug, after updating our own store,
+//						 * to make sure our store isn't updated twice.
+//						 */
+//						if ( editPost ) {
+//							editPost( { slug: value } );
+//						}
+//						break;
+//					default:
+//						updateData( {
+//							[ key ]: value,
+//						} );
+//						break;
+//				}
+//			},
+//			onChangeAnalysisData: analysisData => {
+//				updateAnalysisData( analysisData );
+//			},
+//		};
+//	} ),
+//] )( SnippetEditorWrapper );
