@@ -93,12 +93,8 @@ abstract class Abstract_Link_Indexing_Action implements Indexation_Action_Interf
 		$indexables = [];
 		foreach ( $objects as $object ) {
 			$indexable = $this->repository->find_by_id_and_type( $object->id, $object->type );
-
-			// It's possible the indexable was created without having its links indexed.
-			if ( $indexable->link_count === null ) {
-				$this->link_builder->build( $indexable, $object->content );
-				$indexable->save();
-			}
+			$this->link_builder->build( $indexable, $object->content );
+			$indexable->save();
 
 			$indexables[] = $indexable;
 		}
