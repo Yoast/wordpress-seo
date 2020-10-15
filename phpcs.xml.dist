@@ -120,6 +120,7 @@
 				<element value="config"/>
 				<element value="src"/>
 				<element value="tests/unit"/>
+				<element value="src/deprecated/src"/>
 			</property>
 
 			<!-- Allow for the tests being in a non-standard directory in YoastSEO Free. -->

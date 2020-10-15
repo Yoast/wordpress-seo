@@ -1,12 +1,12 @@
 <?php
 
-namespace Yoast\WP\SEO\Tests\Unit\Actions\Indexation;
+namespace Yoast\WP\SEO\Tests\Unit\Actions\Indexing;
 
 use Brain\Monkey\Filters;
 use Brain\Monkey\Functions;
 use Mockery;
 use wpdb;
-use Yoast\WP\SEO\Actions\Indexation\Post_Link_Indexing_Action;
+use Yoast\WP\SEO\Actions\Indexing\Post_Link_Indexing_Action;
 use Yoast\WP\SEO\Builders\Indexable_Link_Builder;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
@@ -19,7 +19,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group actions
  * @group indexing
  *
- * @coversDefaultClass \Yoast\WP\SEO\Actions\Indexation\Post_Link_Indexing_Action
+ * @coversDefaultClass \Yoast\WP\SEO\Actions\Indexing\Post_Link_Indexing_Action
  */
 class Post_Link_Indexing_Action_Test extends TestCase {
 
@@ -59,12 +59,13 @@ class Post_Link_Indexing_Action_Test extends TestCase {
 	protected $instance;
 
 	/**
-	 * @inheritDoc
+	 * Sets up the tests.
 	 */
 	public function setUp() {
 		parent::setUp();
 
 		global $wpdb;
+		// phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- Intended, to be able to test the Abstract_Link_Indexing_Action.
 		$wpdb = (object) [ 'prefix' => 'wp_' ];
 
 		$this->link_builder     = Mockery::mock( Indexable_Link_Builder::class );

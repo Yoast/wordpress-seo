@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\WP\SEO\Actions\Indexation;
+namespace Yoast\WP\SEO\Actions\Indexing;
 
 use Yoast\WP\SEO\Builders\Indexable_Builder;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
