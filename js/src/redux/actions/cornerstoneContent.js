@@ -1,7 +1,22 @@
+import AnalysisFields from "../../helpers/fields/AnalysisFields";
+
 const PREFIX = "WPSEO_";
 
+export const LOAD_CORNERSTONE_CONTENT = `${ PREFIX }LOAD_CORNERSTONE_CONTENT`;
 export const TOGGLE_CORNERSTONE_CONTENT = `${ PREFIX }TOGGLE_CORNERSTONE_CONTENT`;
 export const SET_CORNERSTONE_CONTENT = `${ PREFIX }SET_CORNERSTONE_CONTENT`;
+
+/**
+ * An action creator for loading the cornerstone content.
+ *
+ * @returns {Object} The load cornerstone content action.
+ */
+export const loadCornerstoneContent = function() {
+	return {
+		type: SET_CORNERSTONE_CONTENT,
+		isCornerstone: AnalysisFields.isCornerstone,
+	};
+};
 
 /**
  * An action creator for setting the cornerstone content toggle.
@@ -11,6 +26,7 @@ export const SET_CORNERSTONE_CONTENT = `${ PREFIX }SET_CORNERSTONE_CONTENT`;
  * @returns {Object} The set cornerstone content action.
  */
 export const setCornerstoneContent = function( isCornerstone ) {
+	AnalysisFields.isCornerstone = isCornerstone;
 	return {
 		type: SET_CORNERSTONE_CONTENT,
 		isCornerstone,
@@ -23,6 +39,7 @@ export const setCornerstoneContent = function( isCornerstone ) {
  * @returns {Object} The toggle cornerstone content action.
  */
 export const toggleCornerstoneContent = function() {
+	AnalysisFields.isCornerstone = ! AnalysisFields.isCornerstone;
 	return {
 		type: TOGGLE_CORNERSTONE_CONTENT,
 	};

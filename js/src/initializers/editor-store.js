@@ -6,7 +6,7 @@ import reducers from "../redux/reducers";
 import * as selectors from "../redux/selectors";
 import * as actions from "../redux/actions";
 import { setSettings } from "../redux/actions/settings";
-import { loadFocusKeyword, setSEMrushChangeCountry, updateData } from "../redux/actions";
+import { loadCornerstoneContent, loadFocusKeyword, setSEMrushChangeCountry, updateData } from "../redux/actions";
 import { setSEMrushLoginStatus } from "../redux/actions";
 
 /**
@@ -21,6 +21,8 @@ export default function initEditorStore() {
 		actions: pickBy( actions, x => typeof x === "function" ),
 	} );
 
+	// Initialize the cornerstone content.
+	store.dispatch( loadCornerstoneContent() );
 	// Initialize the focus keyphrase.
 	store.dispatch( loadFocusKeyword() );
 
