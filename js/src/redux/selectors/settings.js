@@ -1,11 +1,4 @@
-/**
- * Gets the recommendedReplacementVariables from the state.
- *
- * @param {Object} state The state object.
- *
- * @returns {string} The recommendedReplacementVariables
- */
-export const getRecommendedReplaceVars = state => state.settings.snippetEditor.recommendedReplacementVariables;
+import { get } from "lodash";
 
 /**
  * Gets the authorName from the state.
@@ -14,7 +7,7 @@ export const getRecommendedReplaceVars = state => state.settings.snippetEditor.r
  *
  * @returns {string} The authorName
  */
-export const getAuthorName = state => state.settings.socialPreviews.authorName;
+export const getAuthorName = state => get( state, "settings.socialPreviews.authorName", "" );
 
 /**
  * Gets the siteName from the state.
@@ -23,4 +16,40 @@ export const getAuthorName = state => state.settings.socialPreviews.authorName;
  *
  * @returns {string} The authorName
  */
-export const getSiteName = state => state.settings.socialPreviews.siteName;
+export const getSiteName = state => get( state, "settings.socialPreviews.siteName", "" );
+
+/**
+ * Gets the base URL from the settings.
+ *
+ * @param {Object} state The state object.
+ *
+ * @returns {string} The base URL.
+ */
+export const getBaseUrlFromSettings = state => get( state, "settings.snippetEditor.baseUrl", "" );
+
+/**
+ * Gets the date from the settings.
+ *
+ * @param {Object} state The state object.
+ *
+ * @returns {string} The date.
+ */
+export const getDateFromSettings = state => get( state, "settings.snippetEditor.date", "" );
+
+/**
+ * Gets the recommendedReplacementVariables from the state.
+ *
+ * @param {Object} state The state object.
+ *
+ * @returns {string[]} The recommendedReplacementVariables
+ */
+export const getRecommendedReplaceVars = state => get( state, "settings.snippetEditor.recommendedReplacementVariables", [] );
+
+/**
+ * Gets the site icon URL from the settings.
+ *
+ * @param {Object} state The state object.
+ *
+ * @returns {string} The site icon URL.
+ */
+export const getSiteIconUrlFromSettings = state => get( state, "settings.snippetEditor.siteIconUrl", "" );
