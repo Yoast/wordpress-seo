@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import {
 	replacementVariablesShape,
 	recommendedReplacementVariablesShape,
-} from "@yoast/search-metadata-previews";
+} from "@yoast/replacement-variable-editor";
 
 import SettingsReplacementVariableField from "../SettingsReplacementVariableField";
 import Portal from "./Portal";

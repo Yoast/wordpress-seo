@@ -1,4 +1,4 @@
-/* global wpseoAdminGlobalL10n, ajaxurl, wpseoScriptData */
+/* global wpseoAdminGlobalL10n, ajaxurl, wpseoScriptData, ClipboardJS */
 
 import a11ySpeak from "a11y-speak";
 import { debounce } from "lodash-es";
@@ -343,6 +343,14 @@ export default function initAdmin( jQuery ) {
 			jQuery( "#breadcrumbsinfo" ).toggle( jQuery( this ).is( ":checked" ) );
 		} ).change();
 
+		// Toggle the Zapier connection section.
+		jQuery( "#zapier_integration_active input[type='radio']" ).change( function() {
+			// The value on is enabled, off is disabled.
+			if ( jQuery( this ).is( ":checked" ) ) {
+				jQuery( "#zapier-connection" ).toggle( jQuery( this ).val() === "on" );
+			}
+		} ).change();
+
 		// Handle the settings pages tabs.
 		jQuery( "#wpseo-tabs" ).find( "a" ).click( function() {
 			jQuery( "#wpseo-tabs" ).find( "a" ).removeClass( "nav-tab-active" );
@@ -408,6 +416,22 @@ export default function initAdmin( jQuery ) {
 				facebookSettingsContainer.toggle( event.target.checked );
 			} );
 		}
+
+		const copyZapierKeyToClipboard = new ClipboardJS( "#copy-zapier-api-key" );
+
+		/**
+		 * Copies the Zapier API Key to the clipboard.
+		 *
+		 * @param {MouseEvent} event The click event on the Copy button.
+		 *
+		 * @return {void}
+		 */
+		copyZapierKeyToClipboard.on( "success", function( event ) {
+			// Clear the selection and move focus back to the trigger.
+			event.clearSelection();
+			// Handle ClipboardJS focus bug, see https://github.com/zenorocha/clipboard.js/issues/680
+			jQuery( event.trigger ).focus();
+		} );
 
 		wpseoCopyHomeMeta();
 		setInitialActiveTab();

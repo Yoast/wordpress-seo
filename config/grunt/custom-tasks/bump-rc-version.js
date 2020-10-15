@@ -98,7 +98,7 @@ module.exports = function( grunt ) {
 				grunt.config( "gitcommit.versionBump.options.message", "Update the plugin version to " + grunt.config.data.pluginVersion );
 				grunt.task.run( "gitcommit:versionBump" );
 
-				grunt.config( "gitpush.versionBump.options", { remote: "origin", upstream: true } );
+				grunt.config( "gitpush.versionBump.options", { remote: "origin", upstream: true, branch: grunt.config.data.branchForRC } );
 				grunt.task.run( "gitpush:versionBump" );
 			}
 		}

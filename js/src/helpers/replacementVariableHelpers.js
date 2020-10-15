@@ -12,8 +12,8 @@ import {
 import { updateReplacementVariable } from "../redux/actions/snippetEditor";
 import { firstToUpperCase } from "./stringHelpers";
 
-import analysis from "yoastseo";
-const { stripHTMLTags: stripFullTags } = analysis.string;
+import { strings } from "@yoast/helpers";
+const { stripHTMLTags } = strings;
 
 export const nonReplaceVars = [ "slug", "content", "contentImage", "snippetPreviewImageURL" ];
 
@@ -248,8 +248,8 @@ const legacyReplaceUsingPlugin = function( data ) {
 
 	return {
 		url: data.url,
-		title: stripFullTags( replaceVariables( data.title ) ),
-		description: stripFullTags( replaceVariables( data.description ) ),
+		title: stripHTMLTags( replaceVariables( data.title ) ),
+		description: stripHTMLTags( replaceVariables( data.description ) ),
 	};
 };
 
@@ -274,7 +274,7 @@ export const applyReplaceUsingPlugin = function( data ) {
 
 	return {
 		url: data.url,
-		title: stripFullTags( applyModifications( "data_page_title", data.title ) ),
-		description: stripFullTags( applyModifications( "data_meta_desc", data.description ) ),
+		title: stripHTMLTags( applyModifications( "data_page_title", data.title ) ),
+		description: stripHTMLTags( applyModifications( "data_meta_desc", data.description ) ),
 	};
 };

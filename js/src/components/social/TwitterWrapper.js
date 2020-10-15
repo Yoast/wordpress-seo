@@ -3,7 +3,6 @@ import { Slot } from "@wordpress/components";
 import PropTypes from "prop-types";
 
 import SocialForm from "../social/SocialForm";
-import { LocationConsumer } from "../contexts/location";
 
 /**
  * This wrapper is connected to the twitter container. So the data is connected to both components.
@@ -11,7 +10,7 @@ import { LocationConsumer } from "../contexts/location";
  *
  * @param {Object} props The properties object.
  *
- * @returns {wp.Element} Renders the TwitterWrapper React Component.
+ * @returns {JSX.Element} The TwitterWrapper.
  */
 const TwitterWrapper = ( props ) => {
 	useEffect( () => {
@@ -19,28 +18,20 @@ const TwitterWrapper = ( props ) => {
 		setTimeout( props.onLoad );
 	}, [] );
 
-	return (
-		<LocationConsumer>
-			{
-				location => {
-					return props.isPremium
-						? <Slot
-							name={
-								"YoastTwitterPremium" +
-								`${ location.charAt( 0 ).toUpperCase() + location.slice( 1 ) }`
-							}
-							fillProps={ props }
-						/>
-						: <SocialForm { ...props } />;
-				}
+	return props.isPremium
+		? <Slot
+			name={
+				`YoastTwitterPremium${ props.location.charAt( 0 ).toUpperCase() + props.location.slice( 1 ) }`
 			}
-		</LocationConsumer>
-	);
+			fillProps={ props }
+		/>
+		: <SocialForm { ...props } />;
 };
-
-export default TwitterWrapper;
 
 TwitterWrapper.propTypes = {
 	isPremium: PropTypes.bool.isRequired,
 	onLoad: PropTypes.func.isRequired,
+	location: PropTypes.string.isRequired,
 };
+
+export default TwitterWrapper;

@@ -148,6 +148,7 @@ class Indexing_Notification_Integration implements Integration_Interface {
 		}
 
 		if ( $this->options_helper->get( 'indexing_reason' ) ) {
+
 			\add_action( 'admin_init', [ $this, 'maybe_create_notification' ] );
 		}
 
