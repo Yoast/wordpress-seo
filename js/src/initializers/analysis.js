@@ -83,6 +83,9 @@ const initAnalysis = () => {
 				// Run the analysis again.
 				.then( () => debouncedRunAnalysis( worker, currentAnalysisData ) )
 				.catch( handleWorkerError );
+
+			// The analysis results are updated with the cornerstone content already. Skip the individual check.
+			return;
 		}
 
 		// Keep the analysis results up-to-date.
