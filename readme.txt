@@ -214,8 +214,8 @@ Release Date: October 27th, 2020
 Enhancements:
 
 * Adds Open Graph integration for `The Events Calendar`. Props to [Luehrsen](https://github.com/Luehrsen)
-* Adds a filter to `WPSEO_Image_Utils` class to allow changes to image meta data. Props to [Jonny Harris](https://github.com/spacedmonkey)
-* Sets the default schema type for Web Stories to Article Props to [swissspidy](https://github.com/swissspidy)
+* Adds a filter to `WPSEO_Image_Utils` class to allow changes to image meta data. Props to [spacedmonkey](https://github.com/spacedmonkey)
+* Sets the default schema type for Web Stories to Article. Props to [swissspidy](https://github.com/swissspidy)
 * Adds a toggle for the "Enhanced Slack sharing" feature.
 * Adds enhanced Slack sharing tags on posts and pages.
 * Registers an additional check to the `wpseo_permalink_structure_check` cron job to check for changes in custom taxonomy slugs and resets the indexables table accordingly.
@@ -223,8 +223,9 @@ Enhancements:
 
 Bugfixes:
 
-* Fixes a bug where we linked to Google's Structured Data Test, which is deprecated. We now link to Google's Rich Results Test. Props to [wormeyman]
+* Fixes a bug where we linked to Google's Structured Data Test, which is deprecated. We now link to Google's Rich Results Test. Props to [wormeyman](https://github.com/wormeyman)
 * Fixes styling of the General tab in the Network admin dashboard.
+* Fixes a bug where the German passive voice assessment would show an error when the text contained a participle enclosed within curly quotation marks (e.g., `"getan"`).
 
 = 15.1 =
 Release Date: October 14th, 2020
