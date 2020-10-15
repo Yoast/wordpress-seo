@@ -227,6 +227,13 @@ Bugfixes:
 * Fixes styling of the General tab in the Network admin dashboard.
 * Fixes a bug where the German passive voice assessment would show an error when the text contained a participle enclosed within curly quotation marks (e.g., `"getan"`).
 
+= 15.1.1 =
+Release Date: October 15th, 2020
+
+Bugfixes:
+
+* Fixes a bug where the indexing button on the Tools page would keep showing up because certain objects would be detected as requiring indexing but would not actually be indexed during the indexing process.
+
 = 15.1 =
 Release Date: October 14th, 2020
 
