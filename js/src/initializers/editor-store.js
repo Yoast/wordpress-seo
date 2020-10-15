@@ -10,17 +10,13 @@ import { loadCornerstoneContent, loadFocusKeyword, setSEMrushChangeCountry, upda
 import { setSEMrushLoginStatus } from "../redux/actions";
 
 /**
- * Initializes the Yoast SEO editor store.
+ * Populates the store.
  *
- * @returns {object} The Yoast SEO editor store.
+ * @param {Object} store The store to populate.
+ *
+ * @returns {void}
  */
-export default function initEditorStore() {
-	const store = registerStore( "yoast-seo/editor", {
-		reducer: combineReducers( reducers ),
-		selectors,
-		actions: pickBy( actions, x => typeof x === "function" ),
-	} );
-
+const populateStore = store => {
 	// Initialize the cornerstone content.
 	store.dispatch( loadCornerstoneContent() );
 	// Initialize the focus keyphrase.
@@ -60,6 +56,21 @@ export default function initEditorStore() {
 	store.dispatch(
 		setSEMrushLoginStatus( window.wpseoScriptData.metabox.SEMrushLoginStatus )
 	);
+};
+
+/**
+ * Initializes the Yoast SEO editor store.
+ *
+ * @returns {object} The Yoast SEO editor store.
+ */
+export default function initEditorStore() {
+	const store = registerStore( "yoast-seo/editor", {
+		reducer: combineReducers( reducers ),
+		selectors,
+		actions: pickBy( actions, x => typeof x === "function" ),
+	} );
+
+	populateStore( store );
 
 	return store;
 }
