@@ -213,7 +213,7 @@ Release Date: October 15th, 2020
 
 Bugfixes:
 
-* Fixes a bug where the indexing button on the Tools page would keep showing up because certain objects would be detected as requiring indexing but would not actually be indexed during the indexing process.
+* Fixes a bug where the indexing button on the Tools page would keep showing up because certain objects would be detected as requiring indexing but would not actually be indexed during the indexing process. 
 
 = 15.1 =
 Release Date: October 14th, 2020
