@@ -1,9 +1,9 @@
 <?php
 
-namespace Yoast\WP\SEO\Tests\Unit\Actions\Indexation;
+namespace Yoast\WP\SEO\Tests\Unit\Actions\Indexing;
 
 use Mockery;
-use Yoast\WP\SEO\Actions\Indexation\Indexable_Indexing_Complete_Action;
+use Yoast\WP\SEO\Actions\Indexing\Indexable_Indexing_Complete_Action;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
@@ -13,7 +13,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group actions
  * @group indexing
  *
- * @coversDefaultClass \Yoast\WP\SEO\Actions\Indexation\Indexable_Indexing_Complete_Action
+ * @coversDefaultClass \Yoast\WP\SEO\Actions\Indexing\Indexable_Indexing_Complete_Action
  */
 class Indexable_Indexing_Complete_Action_Test extends TestCase {
 

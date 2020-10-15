@@ -1,12 +1,12 @@
 <?php
 
-namespace Yoast\WP\SEO\Tests\Unit\Actions\Indexation;
+namespace Yoast\WP\SEO\Tests\Unit\Actions\Indexing;
 
 use Brain\Monkey\Filters;
 use Brain\Monkey\Functions;
 use Mockery;
 use wpdb;
-use Yoast\WP\SEO\Actions\Indexation\Post_Link_Indexing_Action;
+use Yoast\WP\SEO\Actions\Indexing\Post_Link_Indexing_Action;
 use Yoast\WP\SEO\Builders\Indexable_Link_Builder;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
@@ -19,7 +19,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group actions
  * @group indexing
  *
- * @coversDefaultClass \Yoast\WP\SEO\Actions\Indexation\Post_Link_Indexing_Action
+ * @coversDefaultClass \Yoast\WP\SEO\Actions\Indexing\Post_Link_Indexing_Action
  */
 class Post_Link_Indexing_Action_Test extends TestCase {
 
@@ -59,12 +59,13 @@ class Post_Link_Indexing_Action_Test extends TestCase {
 	protected $instance;
 
 	/**
-	 * @inheritDoc
+	 * Sets up the tests.
 	 */
 	public function setUp() {
 		parent::setUp();
 
 		global $wpdb;
+		// phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- Intended, to be able to test the Abstract_Link_Indexing_Action.
 		$wpdb = (object) [ 'prefix' => 'wp_' ];
 
 		$this->link_builder     = Mockery::mock( Indexable_Link_Builder::class );
@@ -82,10 +83,21 @@ class Post_Link_Indexing_Action_Test extends TestCase {
 	}
 
 	/**
+	 * Tests setting the helper.
+	 *
+	 * @covers ::set_helper
+	 */
+	public function test_set_helper() {
+		$this->instance->set_helper( Mockery::mock( Post_Type_Helper::class ) );
+
+		static::assertAttributeInstanceOf( Post_Type_Helper::class, 'post_type_helper', $this->instance );
+	}
+
+	/**
 	 * Tests getting the total unindexed.
 	 *
-	 * @covers ::__construct
-	 * @covers ::get_total_unindexed
+	 * @covers ::get_query
+	 * @covers \Yoast\WP\SEO\Actions\Indexation\Abstract_Link_Indexing_Action::get_total_unindexed
 	 */
 	public function test_get_total_unindexed() {
 		Functions\expect( 'get_transient' )
@@ -148,8 +160,8 @@ class Post_Link_Indexing_Action_Test extends TestCase {
 	/**
 	 * Tests getting the total unindexed.
 	 *
-	 * @covers ::__construct
-	 * @covers ::get_total_unindexed
+	 * @covers ::get_query
+	 * @covers \Yoast\WP\SEO\Actions\Indexation\Abstract_Link_Indexing_Action::get_total_unindexed
 	 */
 	public function test_get_total_unindexed_cached() {
 		Functions\expect( 'get_transient' )
@@ -163,8 +175,8 @@ class Post_Link_Indexing_Action_Test extends TestCase {
 	/**
 	 * Tests getting the total unindexed.
 	 *
-	 * @covers ::__construct
-	 * @covers ::get_total_unindexed
+	 * @covers ::get_query
+	 * @covers \Yoast\WP\SEO\Actions\Indexation\Abstract_Link_Indexing_Action::get_total_unindexed
 	 */
 	public function test_get_total_unindexed_failed_query() {
 		Functions\expect( 'get_transient' )
@@ -222,8 +234,8 @@ class Post_Link_Indexing_Action_Test extends TestCase {
 	/**
 	 * Tests the index function.
 	 *
-	 * @covers ::__construct
-	 * @covers ::index
+	 * @covers ::get_objects
+	 * @covers ::get_query
 	 */
 	public function test_index() {
 		Filters\expectApplied( 'wpseo_link_indexing_limit' );
@@ -298,8 +310,9 @@ class Post_Link_Indexing_Action_Test extends TestCase {
 	/**
 	 * Tests the index function.
 	 *
-	 * @covers ::__construct
-	 * @covers ::index
+	 * @covers ::get_objects
+	 * @covers ::get_query
+	 * @covers \Yoast\WP\SEO\Actions\Indexation\Abstract_Link_Indexing_Action::index
 	 */
 	public function test_index_without_link_count() {
 		Filters\expectApplied( 'wpseo_link_indexing_limit' );
