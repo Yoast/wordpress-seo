@@ -10,6 +10,7 @@ use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
 use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
+use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Presenters\Admin\Indexation_Permalink_Warning_Presenter;
 use Yoast\WP\SEO\WordPress\Wrapper;
@@ -27,6 +28,13 @@ class Indexable_Permalink_Watcher implements Integration_Interface {
 	 * @var Options_Helper
 	 */
 	protected $options_helper;
+
+	/**
+	 * The taxonomy helper.
+	 *
+	 * @var Taxonomy_Helper
+	 */
+	protected $taxonomy_helper;
 
 	/**
 	 * The post type helper.
@@ -52,14 +60,18 @@ class Indexable_Permalink_Watcher implements Integration_Interface {
 	/**
 	 * Indexable_Permalink_Watcher constructor.
 	 *
-	 * @param Post_Type_Helper $post_type The post type helper.
-	 * @param Options_Helper   $options   The options helper.
-	 * @param Indexable_Helper $indexable The indexable helper.
+	 * @param Post_Type_Helper $post_type       The post type helper.
+	 * @param Options_Helper   $options         The options helper.
+	 * @param Indexable_Helper $indexable       The indexable helper.
+	 * @param Taxonomy_Helper  $taxonomy_helper The taxonomy helper.
 	 */
-	public function __construct( Post_Type_Helper $post_type, Options_Helper $options, Indexable_Helper $indexable ) {
+	public function __construct( Post_Type_Helper $post_type, Options_Helper $options, Indexable_Helper $indexable, Taxonomy_Helper $taxonomy_helper ) {
 		$this->post_type        = $post_type;
 		$this->options_helper   = $options;
 		$this->indexable_helper = $indexable;
+		$this->taxonomy_helper  = $taxonomy_helper;
+
+		$this->schedule_cron();
 	}
 
 	/**
@@ -69,6 +81,7 @@ class Indexable_Permalink_Watcher implements Integration_Interface {
 		\add_action( 'update_option_permalink_structure', [ $this, 'reset_permalinks' ] );
 		\add_action( 'update_option_category_base', [ $this, 'reset_permalinks_term' ], 10, 3 );
 		\add_action( 'update_option_tag_base', [ $this, 'reset_permalinks_term' ], 10, 3 );
+		\add_action( 'wpseo_permalink_structure_check', [ $this, 'force_reset_permalinks' ] );
 	}
 
 	/**
@@ -88,6 +101,9 @@ class Indexable_Permalink_Watcher implements Integration_Interface {
 		$this->indexable_helper->reset_permalink_indexables( 'user' );
 		$this->indexable_helper->reset_permalink_indexables( 'date-archive' );
 		$this->indexable_helper->reset_permalink_indexables( 'system-page' );
+
+		// Always update `permalink_structure` in the wpseo option.
+		$this->options_helper->set( 'permalink_structure', \get_option( 'permalink_structure' ) );
 	}
 
 	/**
@@ -120,6 +136,59 @@ class Indexable_Permalink_Watcher implements Integration_Interface {
 		}
 
 		$this->indexable_helper->reset_permalink_indexables( 'term', $subtype );
+	}
+
+	/**
+	 * Resets the permalink indexables automatically, if necessary.
+	 *
+	 * @return bool Whether the reset request ran.
+	 */
+	public function force_reset_permalinks() {
+		if ( $this->should_reset_permalinks() ) {
+			$this->reset_permalinks();
+
+			return true;
+		}
+
+		$this->reset_altered_custom_taxonomies();
+
+		return true;
+	}
+
+	/**
+	 * Checks whether permalinks should be reset.
+	 *
+	 * @return bool Whether the permalinks should be reset.
+	 */
+	public function should_reset_permalinks() {
+		return \get_option( 'permalink_structure' ) !== $this->options_helper->get( 'permalink_structure' );
+	}
+
+	/**
+	 * Resets custom taxonomies if their slugs have changed.
+	 *
+	 * @return void
+	 */
+	public function reset_altered_custom_taxonomies() {
+		$taxonomies            = $this->taxonomy_helper->get_custom_taxonomies();
+		$custom_taxonomy_bases = $this->options_helper->get( 'custom_taxonomy_slugs', [] );
+		$new_taxonomy_bases    = [];
+
+		foreach ( $taxonomies as $taxonomy ) {
+			$taxonomy_slug = $this->taxonomy_helper->get_taxonomy_slug( $taxonomy );
+
+			$new_taxonomy_bases[ $taxonomy ] = $taxonomy_slug;
+
+			if ( ! array_key_exists( $taxonomy, $custom_taxonomy_bases ) ) {
+				continue;
+			}
+
+			if ( $taxonomy_slug !== $custom_taxonomy_bases[ $taxonomy ] ) {
+				$this->indexable_helper->reset_permalink_indexables( 'term', $taxonomy );
+			}
+		}
+
+		$this->options_helper->set( 'custom_taxonomy_slugs', $new_taxonomy_bases );
 	}
 
 	/**
@@ -157,6 +226,19 @@ class Indexable_Permalink_Watcher implements Integration_Interface {
 		$taxonomies = \array_unique( $taxonomies );
 
 		return $taxonomies;
+	}
+
+	/**
+	 * Schedules the WP-Cron job to check the permalink_structure status.
+	 *
+	 * @return void
+	 */
+	protected function schedule_cron() {
+		if ( \wp_next_scheduled( 'wpseo_permalink_structure_check' ) ) {
+			return;
+		}
+
+		\wp_schedule_event( time(), 'daily', 'wpseo_permalink_structure_check' );
 	}
 
 	/* ********************* DEPRECATED METHODS ********************* */

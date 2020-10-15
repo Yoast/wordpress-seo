@@ -5,7 +5,7 @@ import {
 	ReplacementVariableEditor,
 	replacementVariablesShape,
 	recommendedReplacementVariablesShape,
-} from "@yoast/search-metadata-previews";
+} from "@yoast/replacement-variable-editor";
 import styled from "styled-components";
 
 /* Internal dependencies */

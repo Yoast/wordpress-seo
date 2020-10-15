@@ -15,7 +15,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * Class Admin_Columns_Cache_Integration_Test.
  *
  * @group integrations
- * @group indexation
+ * @group indexing
  *
  * @coversDefaultClass \Yoast\WP\SEO\Integrations\Admin\Admin_Columns_Cache_Integration
  */
@@ -65,7 +65,7 @@ class Admin_Columns_Cache_Integration_Test extends TestCase {
 
 		$results = [ (object) [ 'object_id' => 1 ] ];
 
-		$this->indexable_repository->expects( 'find_by_multiple_ids_and_type' )->once()->with( [ 1 ], 'post' )->andReturn( $results );
+		$this->indexable_repository->expects( 'find_by_multiple_ids_and_type' )->once()->with( [ 1 ], 'post', false )->andReturn( $results );
 
 		$this->instance->fill_cache();
 	}
@@ -91,7 +91,7 @@ class Admin_Columns_Cache_Integration_Test extends TestCase {
 
 		$results = [ (object) [ 'object_id' => 1 ] ];
 
-		$this->indexable_repository->expects( 'find_by_multiple_ids_and_type' )->once()->with( [ 1 ], 'post' )->andReturn( $results );
+		$this->indexable_repository->expects( 'find_by_multiple_ids_and_type' )->once()->with( [ 1 ], 'post', false )->andReturn( $results );
 
 		$this->instance->fill_cache();
 	}
@@ -120,7 +120,7 @@ class Admin_Columns_Cache_Integration_Test extends TestCase {
 
 		$results = [ (object) [ 'object_id' => 1 ] ];
 
-		$this->indexable_repository->expects( 'find_by_multiple_ids_and_type' )->once()->with( [ 1 ], 'post' )->andReturn( $results );
+		$this->indexable_repository->expects( 'find_by_multiple_ids_and_type' )->once()->with( [ 1 ], 'post', false )->andReturn( $results );
 
 		$this->instance->fill_cache();
 	}

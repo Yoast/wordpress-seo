@@ -4,7 +4,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Commands;
 
 use Brain\Monkey;
 use Mockery;
-use Yoast\WP\SEO\Actions\Indexation\Indexable_Complete_Indexation_Action;
+use Yoast\WP\SEO\Actions\Indexation\Indexable_Indexing_Complete_Action;
 use Yoast\WP\SEO\Actions\Indexation\Indexable_General_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexation\Indexable_Post_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexation\Indexable_Post_Type_Archive_Indexation_Action;
@@ -55,7 +55,7 @@ class Index_Command_Test extends TestCase {
 	/**
 	 * The complete indexation action.
 	 *
-	 * @var Indexable_Complete_Indexation_Action
+	 * @var Indexable_Indexing_Complete_Action
 	 */
 	private $complete_indexation_action;
 
@@ -81,7 +81,7 @@ class Index_Command_Test extends TestCase {
 		$this->term_indexation_action              = Mockery::mock( Indexable_Term_Indexation_Action::class );
 		$this->post_type_archive_indexation_action = Mockery::mock( Indexable_Post_Type_Archive_Indexation_Action::class );
 		$this->general_indexation_action           = Mockery::mock( Indexable_General_Indexation_Action::class );
-		$this->complete_indexation_action          = Mockery::mock( Indexable_Complete_Indexation_Action::class );
+		$this->complete_indexation_action          = Mockery::mock( Indexable_Indexing_Complete_Action::class );
 		$this->prepare_indexation_action           = Mockery::mock( Indexable_Prepare_Indexation_Action::class );
 
 		$this->instance = new Index_Command(

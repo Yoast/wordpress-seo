@@ -5,8 +5,8 @@ namespace Yoast\WP\SEO\Helpers;
 use Yoast\WP\SEO\Actions\Indexation\Indexable_Post_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexation\Indexable_Post_Type_Archive_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexation\Indexable_Term_Indexation_Action;
+use Yoast\WP\SEO\Integrations\Admin\Indexing_Notification_Integration;
 use Yoast\WP\SEO\Models\Indexable;
-use Yoast\WP\SEO\Presenters\Admin\Indexation_Permalink_Warning_Presenter;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
 /**
@@ -29,14 +29,32 @@ class Indexable_Helper {
 	protected $repository;
 
 	/**
+	 * The environment helper.
+	 *
+	 * @var Environment_Helper
+	 */
+	protected $environment_helper;
+
+	/**
 	 * Indexable_Helper constructor.
 	 *
-	 * @param Options_Helper       $options_helper The options helper.
-	 * @param Indexable_Repository $repository     The indexables repository.
+	 * @param Options_Helper     $options_helper     The options helper.
+	 * @param Environment_Helper $environment_helper The environment helper.
 	 */
-	public function __construct( Options_Helper $options_helper, Indexable_Repository $repository ) {
-		$this->options_helper = $options_helper;
-		$this->repository     = $repository;
+	public function __construct( Options_Helper $options_helper, Environment_Helper $environment_helper ) {
+		$this->options_helper     = $options_helper;
+		$this->environment_helper = $environment_helper;
+	}
+
+	/**
+	 * Sets the indexable repository. Done to avoid circular dependencies.
+	 *
+	 * @param Indexable_Repository $repository The indexable repository.
+	 *
+	 * @required
+	 */
+	public function set_indexable_repository( Indexable_Repository $repository ) {
+		$this->repository = $repository;
 	}
 
 	/**
@@ -52,30 +70,23 @@ class Indexable_Helper {
 				$front_page_id = (int) \get_option( 'page_on_front' );
 				if ( $indexable->object_id === $front_page_id ) {
 					return 'Static_Home_Page';
-					break;
 				}
 				$posts_page_id = (int) \get_option( 'page_for_posts' );
 				if ( $indexable->object_id === $posts_page_id ) {
 					return 'Static_Posts_Page';
-					break;
 				}
+
 				return 'Post_Type';
-				break;
 			case 'term':
 				return 'Term_Archive';
-				break;
 			case 'user':
 				return 'Author_Archive';
-				break;
 			case 'home-page':
 				return 'Home_Page';
-				break;
 			case 'post-type-archive':
 				return 'Post_Type_Archive';
-				break;
 			case 'date-archive':
 				return 'Date_Archive';
-				break;
 			case 'system-page':
 				if ( $indexable->object_sub_type === 'search-result' ) {
 					return 'Search_Result_Page';
@@ -95,17 +106,40 @@ class Indexable_Helper {
 	 * @param null|string $subtype The subtype. Can be null.
 	 * @param string      $reason  The reason that the permalink has been changed.
 	 */
-	public function reset_permalink_indexables( $type = null, $subtype = null, $reason = Indexation_Permalink_Warning_Presenter::REASON_PERMALINK_SETTINGS ) {
+	public function reset_permalink_indexables( $type = null, $subtype = null, $reason = Indexing_Notification_Integration::REASON_PERMALINK_SETTINGS ) {
 		$result = $this->repository->reset_permalink( $type, $subtype );
 
 		if ( $result !== false && $result > 0 ) {
-			$this->options_helper->set( 'indexables_indexation_reason', $reason );
-			$this->options_helper->set( 'ignore_indexation_warning', false );
+			$this->options_helper->set( 'indexing_reason', $reason );
 			$this->options_helper->set( 'indexation_warning_hide_until', false );
 
-			delete_transient( Indexable_Post_Indexation_Action::TRANSIENT_CACHE_KEY );
-			delete_transient( Indexable_Post_Type_Archive_Indexation_Action::TRANSIENT_CACHE_KEY );
-			delete_transient( Indexable_Term_Indexation_Action::TRANSIENT_CACHE_KEY );
+			\delete_transient( Indexable_Post_Indexation_Action::TRANSIENT_CACHE_KEY );
+			\delete_transient( Indexable_Post_Type_Archive_Indexation_Action::TRANSIENT_CACHE_KEY );
+			\delete_transient( Indexable_Term_Indexation_Action::TRANSIENT_CACHE_KEY );
 		}
+	}
+
+	/**
+	 * Determines whether indexing indexables is appropriate at this time.
+	 *
+	 * @return bool Whether or not the indexables should be indexed.
+	 */
+	public function should_index_indexables() {
+		// Currently the only reason to index is when we're on a production website.
+		return $this->environment_helper->is_production_mode();
+	}
+
+	/**
+	 * Returns whether or not dynamic permalinks should be used.
+	 *
+	 * @return bool Whether or not the dynamic permalinks should be used.
+	 */
+	public function dynamic_permalinks_enabled() {
+		/**
+		 * Filters the value of the `dynamic_permalinks` option.
+		 *
+		 * @param bool $value The value of the `dynamic_permalinks` option.
+		 */
+		return (bool) \apply_filters( 'wpseo_dynamic_permalinks_enabled', $this->options_helper->get( 'dynamic_permalinks', false ) );
 	}
 }

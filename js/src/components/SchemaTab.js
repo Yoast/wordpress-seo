@@ -1,6 +1,7 @@
 import { createPortal, Fragment } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { FieldGroup, Select } from "@yoast/components";
+import { join } from "@yoast/helpers";
 import interpolateComponents from "interpolate-components";
 import PropTypes from "prop-types";
 import styled from "styled-components";
@@ -70,11 +71,12 @@ const footerWithLink = ( postTypeName ) => interpolateComponents(
  *
  * @param {object} props Component props.
  *
- * @returns {React.Component} The schema tab content.
+ * @returns {JSX.Element} The schema tab content.
  */
 const Content = ( props ) => {
 	const schemaPageTypeOptions = getSchemaTypeOptions( props.pageTypeOptions, props.defaultPageType, props.postTypeName );
 	const schemaArticleTypeOptions = getSchemaTypeOptions( props.articleTypeOptions, props.defaultArticleType, props.postTypeName );
+
 	return (
 		<Fragment>
 			<FieldGroup
@@ -89,14 +91,14 @@ const Content = ( props ) => {
 				linkText={ __( "Learn more about page or content types", "wordpress-seo" ) }
 			/>
 			<Select
-				id={ `yoast_wpseo_schema_page_type_react_${ props.location }` }
+				id={ join( [ "yoast-schema-page-type", props.location ] ) }
 				options={ schemaPageTypeOptions }
 				label={ __( "Page type", "wordpress-seo" ) }
 				onChange={ props.schemaPageTypeChange }
 				selected={ props.schemaPageTypeSelected }
 			/>
 			{ props.showArticleTypeInput && <Select
-				id={ `yoast_wpseo_schema_article_type_react_${ props.location }` }
+				id={ join( [ "yoast-schema-article-type", props.location ] ) }
 				options={ schemaArticleTypeOptions }
 				label={ __( "Article type", "wordpress-seo" ) }
 				onChange={ props.schemaArticleTypeChange }

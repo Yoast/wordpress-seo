@@ -77,11 +77,11 @@ use Yoast\WP\Lib\Model;
 class Indexable extends Model {
 
 	/**
-	 * Holds the ancestors. May not be set.
+	 * Holds the ancestors.
 	 *
 	 * @var Indexable[]
 	 */
-	public $ancestors;
+	public $ancestors = [];
 
 	/**
 	 * Whether nor this model uses timestamps.

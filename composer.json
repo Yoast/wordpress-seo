@@ -28,7 +28,7 @@
 		"yoast/i18n-module": "^3.1.1",
 		"pimple/pimple": "^3.2",
 		"psr/log": "^1.0",
-		"league/oauth2-client": "^2.4",
+		"league/oauth2-client": "2.4.1",
 		"symfony/dependency-injection": "^3.4"
 	},
 	"require-dev": {
@@ -82,8 +82,8 @@
 			"Yoast\\WP\\SEO\\Composer\\Actions::check_coding_standards"
 		],
 		"check-cs-thresholds": [
-			"@putenv YOASTCS_THRESHOLD_ERRORS=838",
-			"@putenv YOASTCS_THRESHOLD_WARNINGS=263",
+			"@putenv YOASTCS_THRESHOLD_ERRORS=831",
+			"@putenv YOASTCS_THRESHOLD_WARNINGS=259",
 			"Yoast\\WP\\SEO\\Composer\\Actions::check_cs_thresholds"
 		],
 		"check-cs-summary": [

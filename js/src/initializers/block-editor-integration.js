@@ -14,6 +14,7 @@ import { __, sprintf } from "@wordpress/i18n";
 import { registerFormatType } from "@wordpress/rich-text";
 import { get } from "lodash-es";
 
+
 /* Internal dependencies */
 import PluginIcon from "../containers/PluginIcon";
 import SidebarFill from "../containers/SidebarFill";
