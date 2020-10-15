@@ -369,6 +369,26 @@ describe( "gets the sentence beginnings and the count of consecutive duplicates.
 		expect( getSentenceBeginnings()[ 1 ].count ).toBe( 1 );
 	} );
 
+	it( "returns an object with sentence beginnings and counts for three sentences in Hebrew all starting with one of the exception words.", function() {
+		changePaper( { text: "כמה ארוחה נאכלת. כמה ארוחה טובה. כמה ארוחה מוכנה.", locale: "he_IL" } );
+		expect( getSentenceBeginnings()[ 0 ].word ).toBe( "כמה ארוחה" );
+		expect( getSentenceBeginnings()[ 0 ].count ).toBe( 3 );
+	} );
+
+	it( "returns an object with sentence beginnings and counts for two sentences in Hebrew starting with different words.", function() {
+		changePaper( { text: "אתם פיקחים. אני מורה.", locale: "he_IL" } );
+		expect( getSentenceBeginnings()[ 0 ].word ).toBe( "אתם" );
+		expect( getSentenceBeginnings()[ 0 ].count ).toBe( 1 );
+		expect( getSentenceBeginnings()[ 1 ].word ).toBe( "אני" );
+		expect( getSentenceBeginnings()[ 1 ].count ).toBe( 1 );
+	} );
+
+	it( "returns an object with sentence beginnings and counts for two sentences in Hebrew starting with the same word.", function() {
+		changePaper( { text: "אני רעב. אני מורה.", locale: "he_IL" } );
+		expect( getSentenceBeginnings()[ 0 ].word ).toBe( "אני" );
+		expect( getSentenceBeginnings()[ 0 ].count ).toBe( 2 );
+	} );
+
 	it( "returns an object with sentence beginnings and counts for three sentences in Arabic all starting with one of the exception words.", function() {
 		changePaper( { text: "هؤلاء الأولاد غائبون. هؤلاء الأولاد هم طلاب. هؤلاء الأولاد في المنزل.", locale: "ar_AR" } );
 		expect( getSentenceBeginnings()[ 0 ].word ).toBe( "هؤلاء الأولاد" );
