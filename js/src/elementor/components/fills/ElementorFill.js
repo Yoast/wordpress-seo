@@ -10,7 +10,7 @@ import KeywordInput from "../../../components/contentAnalysis/KeywordInput";
 import ReadabilityAnalysis from "../../../components/contentAnalysis/ReadabilityAnalysis";
 import SeoAnalysis from "../../../components/contentAnalysis/SeoAnalysis";
 import SidebarItem from "../../../components/SidebarItem";
-import GooglePreviewModal from "../../../components/modals/editorModals/GooglePreviewModal";
+import GooglePreviewModal from "../modals/editorModals/GooglePreviewModal";
 import TwitterPreviewModal from "../../../components/modals/editorModals/TwitterPreviewModal";
 import FacebookPreviewModal from "../../../components/modals/editorModals/FacebookPreviewModal";
 import SidebarCollapsible from "../../../components/SidebarCollapsible";
