@@ -6,7 +6,7 @@ import reducers from "../redux/reducers";
 import * as selectors from "../redux/selectors";
 import * as actions from "../redux/actions";
 import { setSettings } from "../redux/actions/settings";
-import { setSEMrushChangeCountry, updateData } from "../redux/actions";
+import { loadFocusKeyword, setSEMrushChangeCountry, updateData } from "../redux/actions";
 import { setSEMrushLoginStatus } from "../redux/actions";
 
 /**
@@ -21,6 +21,9 @@ export default function initEditorStore() {
 		actions: pickBy( actions, x => typeof x === "function" ),
 	} );
 
+	// Initialize the focus keyphrase.
+	store.dispatch( loadFocusKeyword() );
+
 	// Initialize the snippet editor data.
 	let snippetEditorData = {
 		title: SearchMetadataFields.title,
@@ -29,7 +32,6 @@ export default function initEditorStore() {
 	};
 	const snippetEditorTemplates = snippetEditorHelpers.getTemplatesFromL10n( window.wpseoScriptData.metabox );
 	snippetEditorData = snippetEditorHelpers.getDataWithTemplates( snippetEditorData, snippetEditorTemplates );
-
 	store.dispatch( updateData( snippetEditorData ) );
 
 	store.dispatch(
