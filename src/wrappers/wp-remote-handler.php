@@ -21,20 +21,25 @@ class WP_Remote_Handler {
 	 * @return PromiseInterface The promise interface.
 	 */
 	public function __invoke( RequestInterface $request, array $options ) {
+		$headers = [];
+		foreach ( $request->getHeaders() as $name => $values ) {
+			$headers[ $name ] = \implode( ',', $values );
+		}
+
 		$args = [
 			'method'      => $request->getMethod(),
-			'headers'     => $request->getHeaders(),
+			'headers'     => $headers,
 			'body'        => (string) $request->getBody(),
 			'httpVersion' => $request->getProtocolVersion(),
 		];
+
 		if ( isset( $options['verify'] ) && $options['verify'] === false ) {
 			$args['sslverify'] = false;
 		}
 
 		$raw_response = \wp_remote_request( $request->getUri(), $args );
-
 		if ( \is_wp_error( $raw_response ) ) {
-			// Handle the error.
+			throw new \Exception( $raw_response->get_error_message(), $raw_response->get_error_code() );
 		}
 
 		$response = new Response(
