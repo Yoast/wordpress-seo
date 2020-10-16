@@ -5,7 +5,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
 Tested up to: 5.5.1
-Stable tag: 15.1
+Stable tag: 15.1.1
 Requires PHP: 5.6.20
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -226,6 +226,14 @@ Bugfixes:
 * Fixes a bug where we linked to Google's Structured Data Test, which is deprecated. We now link to Google's Rich Results Test. Props to [wormeyman](https://github.com/wormeyman)
 * Fixes styling of the General tab in the Network admin dashboard.
 * Fixes a bug where the German passive voice assessment would show an error when the text contained a participle enclosed within curly quotation marks (e.g., `"getan"`).
+* Fixes a bug where the WooCommerce product permalinks were not updated after a permalink structure change.
+
+= 15.1.1 =
+Release Date: October 15th, 2020
+
+Bugfixes:
+
+* Fixes a bug where the indexing button on the Tools page would keep showing up because certain objects would be detected as requiring indexing but would not actually be indexed during the indexing process.
 
 = 15.1 =
 Release Date: October 14th, 2020

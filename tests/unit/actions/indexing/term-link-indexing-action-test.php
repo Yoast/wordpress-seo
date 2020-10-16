@@ -206,6 +206,21 @@ class Term_Link_Indexing_Action_Test extends TestCase {
 	public function test_index() {
 		Filters\expectApplied( 'wpseo_link_indexing_limit' );
 
+		$terms = [
+			(object) [
+				'term_id'     => 1,
+				'description' => 'foo',
+			],
+			(object) [
+				'term_id'     => 3,
+				'description' => 'foo',
+			],
+			(object) [
+				'term_id'     => 8,
+				'description' => 'foo',
+			],
+		];
+
 		$this->taxonomy_helper
 			->expects( 'get_public_taxonomies' )
 			->once()
@@ -229,26 +244,17 @@ class Term_Link_Indexing_Action_Test extends TestCase {
 			->expects( 'get_results' )
 			->once()
 			->with( 'query' )
-			->andReturn(
-				[
-					(object) [
-						'term_id'     => 1,
-						'description' => 'foo',
-					],
-					(object) [
-						'term_id'     => 3,
-						'description' => 'foo',
-					],
-					(object) [
-						'term_id'     => 8,
-						'description' => 'foo',
-					],
-				]
-			);
+			->andReturn( $terms );
 
-		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 1, 'term' )->andReturn( (object) [ 'link_count' => 10 ] );
-		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 3, 'term' )->andReturn( (object) [ 'link_count' => 10 ] );
-		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 8, 'term' )->andReturn( (object) [ 'link_count' => 10 ] );
+		foreach ( $terms as $term ) {
+			$indexable             = Mockery::mock( Indexable_Mock::class );
+			$indexable->link_count = 10;
+			$indexable->expects( 'save' )->once();
+
+			$this->link_builder->expects( 'build' )->with( $indexable, $term->description );
+
+			$this->repository->expects( 'find_by_id_and_type' )->once()->with( $term->term_id, 'term' )->andReturn( $indexable );
+		}
 
 		Functions\expect( 'delete_transient' )->once()->with( Term_Link_Indexing_Action::UNINDEXED_COUNT_TRANSIENT );
 

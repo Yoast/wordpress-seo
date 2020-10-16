@@ -130,6 +130,7 @@ class Post_Link_Indexing_Action_Test extends TestCase {
 							target_indexable_id IS NULL
 							AND `type` = 'internal'
 							AND target_post_id IS NOT NULL
+							AND target_post_id != 0
 					)
 				)
 				AND post_status = 'publish'
@@ -209,6 +210,7 @@ class Post_Link_Indexing_Action_Test extends TestCase {
 							target_indexable_id IS NULL
 							AND `type` = 'internal'
 							AND target_post_id IS NOT NULL
+							AND target_post_id != 0
 					)
 				)
 				AND post_status = 'publish'
@@ -240,6 +242,21 @@ class Post_Link_Indexing_Action_Test extends TestCase {
 	public function test_index() {
 		Filters\expectApplied( 'wpseo_link_indexing_limit' );
 
+		$posts = [
+			(object) [
+				'ID'           => 1,
+				'post_content' => 'foo',
+			],
+			(object) [
+				'ID'           => 3,
+				'post_content' => 'foo',
+			],
+			(object) [
+				'ID'           => 8,
+				'post_content' => 'foo',
+			],
+		];
+
 		$this->post_type_helper
 			->expects( 'get_accessible_post_types' )
 			->once()
@@ -264,6 +281,7 @@ class Post_Link_Indexing_Action_Test extends TestCase {
 							target_indexable_id IS NULL
 							AND `type` = 'internal'
 							AND target_post_id IS NOT NULL
+							AND target_post_id != 0
 					)
 				)
 				AND post_status = 'publish'
@@ -281,26 +299,17 @@ class Post_Link_Indexing_Action_Test extends TestCase {
 			->expects( 'get_results' )
 			->once()
 			->with( 'query' )
-			->andReturn(
-				[
-					(object) [
-						'ID'           => 1,
-						'post_content' => 'foo',
-					],
-					(object) [
-						'ID'           => 3,
-						'post_content' => 'foo',
-					],
-					(object) [
-						'ID'           => 8,
-						'post_content' => 'foo',
-					],
-				]
-			);
+			->andReturn( $posts );
 
-		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 1, 'post' )->andReturn( (object) [ 'link_count' => 10 ] );
-		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 3, 'post' )->andReturn( (object) [ 'link_count' => 10 ] );
-		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 8, 'post' )->andReturn( (object) [ 'link_count' => 10 ] );
+		foreach ( $posts as $post ) {
+			$indexable             = Mockery::mock( Indexable_Mock::class );
+			$indexable->link_count = 10;
+			$indexable->expects( 'save' )->once();
+
+			$this->link_builder->expects( 'build' )->with( $indexable, $post->post_content );
+
+			$this->repository->expects( 'find_by_id_and_type' )->once()->with( $post->ID, 'post' )->andReturn( $indexable );
+		}
 
 		Functions\expect( 'delete_transient' )->once()->with( Post_Link_Indexing_Action::UNINDEXED_COUNT_TRANSIENT );
 
@@ -341,6 +350,7 @@ class Post_Link_Indexing_Action_Test extends TestCase {
 							target_indexable_id IS NULL
 							AND `type` = 'internal'
 							AND target_post_id IS NOT NULL
+							AND target_post_id != 0
 					)
 				)
 				AND post_status = 'publish'
