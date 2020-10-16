@@ -148,7 +148,6 @@ class Indexing_Notification_Integration implements Integration_Interface {
 		}
 
 		if ( $this->options_helper->get( 'indexing_reason' ) ) {
-
 			\add_action( 'admin_init', [ $this, 'maybe_create_notification' ] );
 		}
 
@@ -204,9 +203,7 @@ class Indexing_Notification_Integration implements Integration_Interface {
 			return false;
 		}
 
-		/*
-		 * Never show a notification when nothing should be indexed.
-		 */
+		// Never show a notification when nothing should be indexed.
 		return $this->indexing_integration->get_unindexed_count() > 0;
 	}
 
