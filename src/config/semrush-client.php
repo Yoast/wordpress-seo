@@ -69,12 +69,7 @@ class SEMrush_Client {
 				'urlResourceOwnerDetails' => 'https://oauth.semrush.com/oauth2/resource',
 			],
 			[
-				'httpClient' => new Client(
-					[
-						'verify'  => ABSPATH . 'wp-includes/certificates/ca-bundle.crt',
-						'handler' => $wp_remote_handler,
-					]
-				),
+				'httpClient' => new Client( [ 'handler' => $wp_remote_handler ] ),
 			]
 		);
 

@@ -2,8 +2,10 @@
 
 namespace Yoast\WP\SEO\Wrappers;
 
+use Exception;
 use YoastSEO_Vendor\GuzzleHttp\Promise\FulfilledPromise;
 use YoastSEO_Vendor\GuzzleHttp\Promise\PromiseInterface;
+use YoastSEO_Vendor\GuzzleHttp\Promise\RejectedPromise;
 use YoastSEO_Vendor\GuzzleHttp\Psr7\Response;
 use YoastSEO_Vendor\Psr\Http\Message\RequestInterface;
 
@@ -14,11 +16,15 @@ class WP_Remote_Handler {
 
 	/**
 	 * Calls the handler.
+	 * Cookies are currently not supported as they are not used by OAuth.
+	 * Writing responses to files is also not supported for the same reason.
 	 *
 	 * @param RequestInterface $request The request.
 	 * @param array            $options The request options.
 	 *
 	 * @return PromiseInterface The promise interface.
+	 *
+	 * @throws Exception If the request fails.
 	 */
 	public function __invoke( RequestInterface $request, array $options ) {
 		$headers = [];
@@ -36,10 +42,14 @@ class WP_Remote_Handler {
 		if ( isset( $options['verify'] ) && $options['verify'] === false ) {
 			$args['sslverify'] = false;
 		}
+		if ( isset( $options['timeout'] ) ) {
+			$args['timeout'] = ( $options['timeout'] * 1000 );
+		}
 
 		$raw_response = \wp_remote_request( $request->getUri(), $args );
 		if ( \is_wp_error( $raw_response ) ) {
-			throw new \Exception( $raw_response->get_error_message(), $raw_response->get_error_code() );
+			$exception = new Exception( $raw_response->get_error_message(), $raw_response->get_error_code() );
+			return new RejectedPromise( $exception );
 		}
 
 		$response = new Response(
