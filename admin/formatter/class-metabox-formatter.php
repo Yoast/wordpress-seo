@@ -8,7 +8,6 @@
 use Yoast\WP\SEO\Config\Schema_Types;
 use Yoast\WP\SEO\Exceptions\OAuth\Authentication_Failed_Exception;
 use Yoast\WP\SEO\Exceptions\SEMrush\Tokens\Empty_Token_Exception;
-use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Config\SEMrush_Client;
 use Yoast\WP\SEO\Exceptions\SEMrush\Tokens\Empty_Property_Exception;
 
@@ -290,8 +289,6 @@ class WPSEO_Metabox_Formatter {
 
 	/**
 	 * Checks if the user is logged in to SEMrush.
-	 *
-	 * @param {Options_Helper} $options_helper The Options Helper object.
 	 *
 	 * @return boolean The SEMrush login status.
 	 */
