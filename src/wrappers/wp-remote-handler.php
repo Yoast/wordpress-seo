@@ -27,7 +27,7 @@ class WP_Remote_Handler {
 			'body'        => (string) $request->getBody(),
 			'httpVersion' => $request->getProtocolVersion(),
 		];
-		if ( isset( $options['verify'] && $options['verify'] === false ) ) {
+		if ( isset( $options['verify'] ) && $options['verify'] === false ) {
 			$args['sslverify'] = false;
 		}
 
