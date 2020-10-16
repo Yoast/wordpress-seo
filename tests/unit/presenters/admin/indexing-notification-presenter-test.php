@@ -95,7 +95,6 @@ class Indexing_Notification_Presenter_Test extends TestCase {
 			->andReturn( 'https://example.org/wp-admin/admin.php?page=wpseo_tools' );
 
 		Monkey\Functions\expect( 'wp_create_nonce' )
-			->with( 'wpseo-indexation-remind' )
 			->andReturn( 'wp-nonce' );
 
 		$instance = new Indexing_Notification_Presenter(
