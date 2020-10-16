@@ -121,7 +121,7 @@ class Indexing_Notification_Presenter extends Abstract_Presenter {
 		$estimate .= '<li>';
 		$estimate .= \sprintf(
 		/* translators: 1: Link to article about indexation command, 2: Anchor closing tag, 3: Link to WP CLI. */
-			\esc_html__( '%1$sRun the indexation process on your server%2$s using %3$sWP CLI%2$s', 'wordpress-seo' ),
+			\esc_html__( '%1$sRun the indexation process on your server%2$s using %3$sWP CLI%2$s.', 'wordpress-seo' ),
 			'<a href="' . \esc_url( $this->short_link_helper->get( 'https://yoa.st/3-w' ) ) . '" target="_blank">',
 			'</a>',
 			'<a href="https://wp-cli.org/" target="_blank">'
