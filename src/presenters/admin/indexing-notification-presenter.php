@@ -113,7 +113,7 @@ class Indexing_Notification_Presenter extends Abstract_Presenter {
 		$estimate .= '<ul class="ul-disc">';
 		$estimate .= '<li>';
 		$estimate .= \sprintf(
-		/* translators: 1: Expands to Yoast SEO, 2: Button start tag for the reminder, 3: Button closing tag */
+		/* translators: 1: Expands to Yoast SEO */
 			\esc_html__( 'Wait for a week or so, until %1$s automatically processes most of your content in the background.', 'wordpress-seo' ),
 			'Yoast SEO'
 		);
