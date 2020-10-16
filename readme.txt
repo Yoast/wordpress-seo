@@ -226,6 +226,7 @@ Bugfixes:
 * Fixes a bug where we linked to Google's Structured Data Test, which is deprecated. We now link to Google's Rich Results Test. Props to [wormeyman](https://github.com/wormeyman)
 * Fixes styling of the General tab in the Network admin dashboard.
 * Fixes a bug where the German passive voice assessment would show an error when the text contained a participle enclosed within curly quotation marks (e.g., `"getan"`).
+* Fixes a bug where the WooCommerce product permalinks were not updated after a permalink structure change.
 
 = 15.1.1 =
 Release Date: October 15th, 2020
