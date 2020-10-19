@@ -35,3 +35,12 @@ export const getEditorDataExcerpt = state => get( state, "editorData.excerpt" );
  * @returns {string} The slug.
  */
 export const getEditorDataSlug = state => get( state, "editorData.slug", "" );
+
+/**
+ * Gets the image URL.
+ *
+ * @param {Object} state The state.
+ *
+ * @returns {string} The image URL.
+ */
+export const getEditorDataImageUrl = state => get( state, "editorData.imageUrl", "" );

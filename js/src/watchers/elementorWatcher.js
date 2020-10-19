@@ -1,11 +1,12 @@
 import { dispatch } from "@wordpress/data";
+import firstImageUrlInContent from "../helpers/firstImageUrlInContent";
 
-let editorData = {
+const editorData = {
 	content: "",
 	title: "",
 	excerpt: "",
 	slug: "",
-	featuredImage: {},
+	imageUrl: "",
 };
 
 /**
@@ -24,26 +25,20 @@ function getContent() {
 }
 
 /**
- * Checks whether the current data and the incoming data are the same.
+ * Gets the image URL. Searches for the first image in the content as fallback.
  *
- * @param {Object} currentData The current data.
- * @param {Object} newData     The incoming data.
+ * @param {string} content The content to get an image URL as fallback.
  *
- * @returns {boolean} Whether the current data and the incoming data is the same or not.
+ * @returns {string} The image URL.
  */
-function isShallowEqual( currentData, newData ) {
-	if ( Object.keys( currentData ).length !== Object.keys( newData ).length ) {
-		return false;
+function getImageUrl( content ) {
+	const { url } = window.elementor.settings.page.model.get( "post_featured_image" );
+
+	if ( ! url || url === "" ) {
+		return firstImageUrlInContent( content );
 	}
 
-	for ( const dataPoint in currentData ) {
-		if ( currentData.hasOwnProperty( dataPoint ) ) {
-			if ( ! ( dataPoint in newData ) || currentData[ dataPoint ] !== newData[ dataPoint ] ) {
-				return false;
-			}
-		}
-	}
-	return true;
+	return url;
 }
 
 /**
@@ -52,12 +47,14 @@ function isShallowEqual( currentData, newData ) {
  * @returns {Object} The editorData object.
  */
 function getEditorData() {
+	const content = getContent();
+
 	return {
-		content: getContent(),
+		content,
 		title: window.elementor.settings.page.model.get( "post_title" ),
 		excerpt: window.elementor.settings.page.model.get( "post_excerpt" ) || "",
 		slug: window.wpseoScriptData.metabox.slug,
-		featuredImage: window.elementor.settings.page.model.get( "post_featured_image" ),
+		imageUrl: getImageUrl( content ),
 	};
 }
 
@@ -69,12 +66,29 @@ function getEditorData() {
 function handleEditorChange() {
 	const data = getEditorData();
 
-	// Set isDirty to true if the current data and Gutenberg data are unequal.
-	const isDirty = ! isShallowEqual( editorData, data );
+	if ( data.content !== editorData.content ) {
+		editorData.content = data.content;
+		dispatch( "yoast-seo/editor" ).setEditorDataContent( editorData.content );
+	}
 
-	if ( isDirty ) {
-		editorData = data;
-		dispatch( "yoast-seo/editor" ).updateEditorData( editorData );
+	if ( data.title !== editorData.title ) {
+		editorData.title = data.title;
+		dispatch( "yoast-seo/editor" ).setEditorDataTitle( editorData.title );
+	}
+
+	if ( data.excerpt !== editorData.excerpt ) {
+		editorData.excerpt = data.excerpt;
+		dispatch( "yoast-seo/editor" ).setEditorDataExcerpt( editorData.excerpt );
+	}
+
+	if ( data.slug !== editorData.slug ) {
+		editorData.slug = data.slug;
+		dispatch( "yoast-seo/editor" ).setEditorDataSlug( editorData.slug );
+	}
+
+	if ( data.imageUrl !== editorData.imageUrl ) {
+		editorData.imageUrl = data.imageUrl;
+		dispatch( "yoast-seo/editor" ).setEditorDataImageUrl( editorData.imageUrl );
 	}
 }
 
@@ -88,9 +102,12 @@ export default function initialize() {
 	window.elementor.once( "preview:loaded", () => {
 		window.elementorFrontend.hooks.addAction( "frontend/element_ready/global", () => {
 			handleEditorChange();
-			// Only needed 1 time.
-			window.elementorFrontend.hooks.removeAction( "frontend/element_ready/global" );
 		} );
+
+		// Give Elementor elements 2 seconds to load in.
+		setTimeout( () => {
+			window.elementorFrontend.hooks.removeAction( "frontend/element_ready/global" );
+		}, 2000 );
 	} );
 
 	// Subscribe to Elementor changes.

@@ -1,29 +1,15 @@
-export const UPDATE_EDITOR_DATA = "UPDATE_EDITOR_DATA";
 export const SET_EDITOR_DATA_CONTENT = "SET_EDITOR_DATA_CONTENT";
 export const SET_EDITOR_DATA_TITLE = "SET_EDITOR_DATA_TITLE";
 export const SET_EDITOR_DATA_EXCERPT = "SET_EDITOR_DATA_EXCERPT";
 export const SET_EDITOR_DATA_SLUG = "SET_EDITOR_DATA_SLUG";
+export const SET_EDITOR_DATA_IMAGE_URL = "SET_EDITOR_DATA_IMAGE_URL";
 
 /**
- * Updates the editor data in redux.
- *
- * @param {Object} editorData The editor data.
- *
- * @returns {Object} An action for redux.
- */
-export function updateEditorData( editorData ) {
-	return {
-		type: UPDATE_EDITOR_DATA,
-		editorData,
-	};
-}
-
-/**
- * Sets the content in redux.
+ * Sets the content.
  *
  * @param {string} content The content.
  *
- * @returns {Object} An action for redux.
+ * @returns {Object} An action to dispatch.
  */
 export function setEditorDataContent( content ) {
 	return {
@@ -33,11 +19,11 @@ export function setEditorDataContent( content ) {
 }
 
 /**
- * Sets the title in redux.
+ * Sets the title.
  *
  * @param {string} title The title.
  *
- * @returns {Object} An action for redux.
+ * @returns {Object} An action to dispatch.
  */
 export function setEditorDataTitle( title ) {
 	return {
@@ -47,11 +33,11 @@ export function setEditorDataTitle( title ) {
 }
 
 /**
- * Sets the excerpt in redux.
+ * Sets the excerpt.
  *
  * @param {string} excerpt The excerpt.
  *
- * @returns {Object} An action for redux.
+ * @returns {Object} An action to dispatch.
  */
 export function setEditorDataExcerpt( excerpt ) {
 	return {
@@ -61,15 +47,29 @@ export function setEditorDataExcerpt( excerpt ) {
 }
 
 /**
- * Sets the slug in redux.
+ * Sets the slug.
  *
  * @param {string} slug The slug.
  *
- * @returns {Object} An action for redux.
+ * @returns {Object} An action to dispatch.
  */
 export function setEditorDataSlug( slug ) {
 	return {
 		type: SET_EDITOR_DATA_SLUG,
 		slug,
+	};
+}
+
+/**
+ * Sets the image URL.
+ *
+ * @param {string} imageUrl The image's URL.
+ *
+ * @returns {Object} An action to dispatch.
+ */
+export function setEditorDataImageUrl( imageUrl ) {
+	return {
+		type: SET_EDITOR_DATA_IMAGE_URL,
+		imageUrl,
 	};
 }

@@ -53,3 +53,29 @@ export const getSnippetEditorSlug = state => get( state, "snippetEditor.data.slu
  * @returns {string} The snippet preview image URL.
  */
 export const getSnippetPreviewImageUrl = state => get( state, "snippetEditor.data.snippetPreviewImageURL", "" );
+
+/**
+ * Determines the snippet preview image URL.
+ *
+ * @param {Object} state The state object.
+ *
+ * @returns {string} The snippet preview image URL.
+ */
+export const determineSnippetPreviewImageUrl = state => {
+	const previewImageUrl = getSnippetPreviewImageUrl( state );
+	if ( previewImageUrl === "" ) {
+	}
+};
+
+/**
+ * Gets the snippet editor data.
+ *
+ * @param {Object} state The state object.
+ *
+ * @returns {Object} The snippet editor data.
+ */
+export const getSnippetEditorData = state => get( state, "snippetEditor.data", {
+	title: getSnippetEditorTitle( state ),
+	description: getSnippetEditorDescription( state ),
+	slug: getSnippetEditorSlug( state ),
+} );

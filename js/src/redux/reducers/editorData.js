@@ -1,16 +1,17 @@
 import {
-	UPDATE_EDITOR_DATA,
 	SET_EDITOR_DATA_CONTENT,
-	SET_EDITOR_DATA_TITLE,
 	SET_EDITOR_DATA_EXCERPT,
+	SET_EDITOR_DATA_IMAGE_URL,
 	SET_EDITOR_DATA_SLUG,
-} from "../actions/editorData";
+	SET_EDITOR_DATA_TITLE,
+} from "../actions";
 
 const INITIAL_STATE = {
 	content: "",
-	title: "",
 	excerpt: "",
+	imageUrl: "",
 	slug: "",
+	title: "",
 };
 
 /* eslint-disable complexity */
@@ -24,30 +25,30 @@ const INITIAL_STATE = {
  */
 const editorDataReducer = ( state = INITIAL_STATE, action ) => {
 	switch ( action.type ) {
-		case UPDATE_EDITOR_DATA:
-			return {
-				...state,
-				...action.editorData,
-			};
 		case SET_EDITOR_DATA_CONTENT:
 			return {
 				...state,
 				content: action.content,
-			};
-		case SET_EDITOR_DATA_TITLE:
-			return {
-				...state,
-				title: action.title,
 			};
 		case SET_EDITOR_DATA_EXCERPT:
 			return {
 				...state,
 				excerpt: action.excerpt,
 			};
+		case SET_EDITOR_DATA_IMAGE_URL:
+			return {
+				...state,
+				imageUrl: action.imageUrl,
+			};
 		case SET_EDITOR_DATA_SLUG:
 			return {
 				...state,
 				slug: action.slug,
+			};
+		case SET_EDITOR_DATA_TITLE:
+			return {
+				...state,
+				title: action.title,
 			};
 	}
 	return state;
