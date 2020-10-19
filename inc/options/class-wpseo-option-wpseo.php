@@ -264,8 +264,6 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 					}
 					break;
 				case 'indexing_reason':
-				case 'category_base_url':
-				case 'tag_base_url':
 					if ( isset( $dirty[ $key ] ) ) {
 						$clean[ $key ] = sanitize_text_field( $dirty[ $key ] );
 					}
@@ -349,6 +347,8 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 					break;
 
 				case 'permalink_structure':
+				case 'category_base_url':
+				case 'tag_base_url':
 					if ( isset( $dirty[ $key ] ) ) {
 						$clean[ $key ] = sanitize_option( 'permalink_structure', $dirty[ $key ] );
 					}
