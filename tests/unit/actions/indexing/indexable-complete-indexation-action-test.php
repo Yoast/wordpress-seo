@@ -4,11 +4,11 @@ namespace Yoast\WP\SEO\Tests\Unit\Actions\Indexing;
 
 use Mockery;
 use Yoast\WP\SEO\Actions\Indexing\Indexable_Indexing_Complete_Action;
-use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
- * Class Indexable_Indexing_Complete_Action_Test
+ * Class Indexable_Indexing_Complete_Action_Test.
  *
  * @group actions
  * @group indexing
@@ -25,11 +25,11 @@ class Indexable_Indexing_Complete_Action_Test extends TestCase {
 	protected $instance;
 
 	/**
-	 * The mocked options helper.
+	 * The mocked indexable helper.
 	 *
-	 * @var Mockery\MockInterface|Options_Helper
+	 * @var Mockery\MockInterface|Indexable_Helper
 	 */
-	private $options;
+	protected $indexable_helper;
 
 	/**
 	 * Setup.
@@ -37,10 +37,10 @@ class Indexable_Indexing_Complete_Action_Test extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->options = Mockery::mock( Options_Helper::class );
+		$this->indexable_helper = Mockery::mock( Indexable_Helper::class );
 
 		$this->instance = new Indexable_Indexing_Complete_Action(
-			$this->options
+			$this->indexable_helper
 		);
 	}
 
@@ -51,10 +51,8 @@ class Indexable_Indexing_Complete_Action_Test extends TestCase {
 	 */
 	public function test_constructor() {
 		$instance = new Indexable_Indexing_Complete_Action(
-			$this->options
+			$this->indexable_helper
 		);
-
-		$this->assertAttributeInstanceOf( Options_Helper::class, 'options', $instance );
 	}
 
 	/**
@@ -63,7 +61,7 @@ class Indexable_Indexing_Complete_Action_Test extends TestCase {
 	 * @covers ::complete
 	 */
 	public function test_complete_method() {
-		$this->options->expects( 'set' )->with( 'indexables_indexation_completed', true );
+		$this->indexable_helper->expects( 'set_indexables_completed' )->with( true );
 
 		$this->instance->complete();
 	}

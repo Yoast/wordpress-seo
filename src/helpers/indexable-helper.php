@@ -150,4 +150,15 @@ class Indexable_Helper {
 		 */
 		return (bool) \apply_filters( 'wpseo_dynamic_permalinks_enabled', $this->options_helper->get( 'dynamic_permalinks', false ) );
 	}
+
+	/**
+	 * Sets a boolean that indicates whether or not the indexing of the indexables has completed.
+	 *
+	 * @param bool $value Whether or not the indexing of the indexables has completed.
+	 *
+	 * @return void
+	 */
+	public function set_indexables_completed( $value ) {
+		$this->options_helper->set( 'indexables_indexation_completed', $value );
+	}
 }

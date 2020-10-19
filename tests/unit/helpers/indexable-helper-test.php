@@ -163,6 +163,14 @@ class Indexable_Helper_Test extends TestCase {
 		$this->assertEquals( $result, $expected_result );
 	}
 
+	public function test_set_indexables_completed() {
+		$this->options
+			->expects( 'set' )
+			->once();
+
+		$this->instance->set_indexables_completed( true );
+	}
+
 	/**
 	 * DataProvider for test_should_index_for_production_environment.
 	 *
