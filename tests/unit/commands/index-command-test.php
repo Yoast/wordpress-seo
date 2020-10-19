@@ -205,12 +205,23 @@ class Index_Command_Test extends TestCase {
 			->once()
 			->with( 'TRUNCATE TABLE wp_yoast_indexable_hierarchy' );
 
-
 		$wpdb
 			->expects( 'prepare' )
 			->once()
 			->with( 'TRUNCATE TABLE %1$s', 'wp_yoast_indexable_hierarchy' )
 			->andReturn( 'TRUNCATE TABLE wp_yoast_indexable_hierarchy' );
+
+		Monkey\Functions\expect( 'delete_transient' )
+			->once()
+			->with( 'wpseo_total_unindexed_posts' );
+
+		Monkey\Functions\expect( 'delete_transient' )
+			->once()
+			->with( 'wpseo_total_unindexed_post_type_archives' );
+
+		Monkey\Functions\expect( 'delete_transient' )
+			->once()
+			->with( 'wpseo_total_unindexed_terms' );
 
 		$this->instance->index( null, [ 'reindex' => true ] );
 	}
