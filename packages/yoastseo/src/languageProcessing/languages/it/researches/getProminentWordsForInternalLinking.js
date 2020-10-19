@@ -5,16 +5,18 @@ import getFunctionWords from "../config/functionWords";
 const functionWords = getFunctionWords().all;
 
 /**
- * Counts the links found in the text.
+ * Retrieves the prominent words from the given paper.
  *
- * @inheritDoc countLinkTypes
+ * @inheritDoc getProminentWordsForInternalLinking
  */
 export default function( paper, researcher ) {
+	// Assign the stemmer to identity function for when there is no available morphology data file.
+	// eslint-disable-next-line require-jsdoc
+	let stemmerIT = word => word;
 	const morphologyData = get( researcher.getData( "morphology" ), "it", false );
-	let stemmerIT = stemmer;
 
-	if ( ! morphologyData ) {
-		stemmerIT = word => word;
+	if ( morphologyData ) {
+		stemmerIT = stemmer;
 	}
 	return getProminentWordsForInternalLinking( paper, researcher, stemmerIT, functionWords, morphologyData );
 }

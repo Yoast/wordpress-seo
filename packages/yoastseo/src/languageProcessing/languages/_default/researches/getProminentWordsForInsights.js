@@ -1,9 +1,9 @@
 import getProminentWordsForInsights from "../../../researches/base/getProminentWordsForInsights";
 
 /**
- * Counts the links found in the text.
+ * Retrieves the prominent words from the given paper.
  *
- * @inheritDoc countLinkTypes
+ * @inheritDoc getProminentWordsForInsights
  */
 export default function( paper, researcher ) {
 	return getProminentWordsForInsights( paper, researcher,  word => word, [], null );

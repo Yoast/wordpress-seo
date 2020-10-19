@@ -1,9 +1,9 @@
 import getProminentWordsForInternalLinking from "../../../researches/base/getProminentWordsForInternalLinking";
 
 /**
- * Counts the links found in the text.
+ * Retrieves the prominent words from the given paper.
  *
- * @inheritDoc countLinkTypes
+ * @inheritDoc getProminentWordsForInternalLinking
  */
 export default function( paper, researcher ) {
 	return getProminentWordsForInternalLinking( paper, researcher,  word => word, [], null );
