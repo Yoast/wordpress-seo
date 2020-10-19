@@ -276,6 +276,31 @@ export default function initAdmin( jQuery ) {
 		} );
 	}
 
+	/**
+	 * Initializes the Copy to clipboard button for the Zapier API Key.
+	 *
+	 * @returns {void}
+	 */
+	function initCopyZapierKeyToClipboard() {
+		if ( typeof ClipboardJS !== "undefined" ) {
+			const copyZapierKeyToClipboard = new ClipboardJS( "#copy-zapier-api-key" );
+
+			/**
+			 * Copies the Zapier API Key to the clipboard.
+			 *
+			 * @param {MouseEvent} event The click event on the Copy button.
+			 *
+			 * @return {void}
+			 */
+			copyZapierKeyToClipboard.on( "success", function( event ) {
+				// Clear the selection and move focus back to the trigger.
+				event.clearSelection();
+				// Handle ClipboardJS focus bug, see https://github.com/zenorocha/clipboard.js/issues/680
+				jQuery( event.trigger ).focus();
+			} );
+		}
+	}
+
 	window.wpseoDetectWrongVariables = wpseoDetectWrongVariables;
 	window.setWPOption = setWPOption;
 	window.wpseoCopyHomeMeta = wpseoCopyHomeMeta;
@@ -417,27 +442,12 @@ export default function initAdmin( jQuery ) {
 			} );
 		}
 
-		const copyZapierKeyToClipboard = new ClipboardJS( "#copy-zapier-api-key" );
-
-		/**
-		 * Copies the Zapier API Key to the clipboard.
-		 *
-		 * @param {MouseEvent} event The click event on the Copy button.
-		 *
-		 * @return {void}
-		 */
-		copyZapierKeyToClipboard.on( "success", function( event ) {
-			// Clear the selection and move focus back to the trigger.
-			event.clearSelection();
-			// Handle ClipboardJS focus bug, see https://github.com/zenorocha/clipboard.js/issues/680
-			jQuery( event.trigger ).focus();
-		} );
-
 		wpseoCopyHomeMeta();
 		setInitialActiveTab();
 		initSelect2();
 		initXmlSitemapsWarning();
 		// Should be called after the initial active tab has been set.
 		setFixedSubmitButtonVisibility();
+		initCopyZapierKeyToClipboard();
 	} );
 }
