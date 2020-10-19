@@ -52,13 +52,6 @@ class Indexable_Permalink_Watcher implements Integration_Interface {
 	protected $indexable_helper;
 
 	/**
-	 * The reindexing reason.
-	 *
-	 * @var string
-	 */
-	protected $reason;
-
-	/**
 	 * Gets the conditionals.
 	 *
 	 * @inheritDoc
@@ -100,7 +93,6 @@ class Indexable_Permalink_Watcher implements Integration_Interface {
 	 * Resets the permalinks for everything that is related to the permalink structure.
 	 */
 	public function reset_permalinks() {
-		$this->reason = $this->get_reset_reason();
 
 		$post_types = $this->get_post_types();
 		foreach ( $post_types as $post_type ) {
@@ -109,17 +101,15 @@ class Indexable_Permalink_Watcher implements Integration_Interface {
 
 		$taxonomies = $this->get_taxonomies_for_post_types( $post_types );
 		foreach ( $taxonomies as $taxonomy ) {
-			$this->indexable_helper->reset_permalink_indexables( 'term', $taxonomy, $this->reason );
+			$this->indexable_helper->reset_permalink_indexables( 'term', $taxonomy );
 		}
 
-		$this->indexable_helper->reset_permalink_indexables( 'user', null, $this->reason );
-		$this->indexable_helper->reset_permalink_indexables( 'date-archive', null, $this->reason );
-		$this->indexable_helper->reset_permalink_indexables( 'system-page', null, $this->reason );
+		$this->indexable_helper->reset_permalink_indexables( 'user', null );
+		$this->indexable_helper->reset_permalink_indexables( 'date-archive', null );
+		$this->indexable_helper->reset_permalink_indexables( 'system-page', null );
 
-		// Always update `permalink_structure`, `category_base_url` and `tag_base_url` in the wpseo option.
+		// Always update `permalink_structure` in the wpseo option.
 		$this->options_helper->set( 'permalink_structure', \get_option( 'permalink_structure' ) );
-		$this->options_helper->set( 'category_base_url', \get_option( 'category_base' ) );
-		$this->options_helper->set( 'tag_base_url', \get_option( 'tag_base' ) );
 	}
 
 	/**
@@ -128,8 +118,8 @@ class Indexable_Permalink_Watcher implements Integration_Interface {
 	 * @param string $post_type The post type to reset.
 	 */
 	public function reset_permalinks_post_type( $post_type ) {
-		$this->indexable_helper->reset_permalink_indexables( 'post', $post_type, $this->reason );
-		$this->indexable_helper->reset_permalink_indexables( 'post-type-archive', $post_type, $this->reason );
+		$this->indexable_helper->reset_permalink_indexables( 'post', $post_type );
+		$this->indexable_helper->reset_permalink_indexables( 'post-type-archive', $post_type );
 	}
 
 	/**
@@ -142,22 +132,23 @@ class Indexable_Permalink_Watcher implements Integration_Interface {
 	public function reset_permalinks_term( $old, $new, $type ) {
 		$subtype = $type;
 
+		$reason = Indexing_Notification_Integration::REASON_PERMALINK_SETTINGS;
+
 		// When the subtype contains _base, just strip it.
 		if ( \strstr( $subtype, '_base' ) ) {
 			$subtype = \substr( $type, 0, -5 );
 		}
 
-		if ( $subtype === 'category' ) {
-			$subtype      = 'post_category';
-			$this->reason = Indexing_Notification_Integration::REASON_CATEGORY_BASE_PREFIX;
-		}
-
 		if ( $subtype === 'tag' ) {
-			$this->reason = Indexing_Notification_Integration::REASON_TAG_BASE_PREFIX;
-			$subtype      = 'post_tag';
+			$subtype = 'post_tag';
+			$reason  = Indexing_Notification_Integration::REASON_TAG_BASE_PREFIX;
 		}
 
-		$this->indexable_helper->reset_permalink_indexables( 'term', $subtype, $this->reason );
+		if ( $subtype === 'category' ) {
+			$reason = Indexing_Notification_Integration::REASON_CATEGORY_BASE_PREFIX;
+		}
+
+		$this->indexable_helper->reset_permalink_indexables( 'term', $subtype, $reason );
 	}
 
 	/**
@@ -166,7 +157,16 @@ class Indexable_Permalink_Watcher implements Integration_Interface {
 	 * @return bool Whether the reset request ran.
 	 */
 	public function force_reset_permalinks() {
-		if ( $this->get_reset_reason() !== null ) {
+		if ( \get_option( 'tag_base' ) !== $this->options_helper->get( 'tag_base_url' ) ) {
+			$this->reset_permalinks_term( null, null, 'tag_base' );
+			$this->options_helper->set( 'tag_base_url', \get_option( 'tag_base' ) );
+		}
+		if ( \get_option( 'category_base' ) !== $this->options_helper->get( 'category_base_url' ) ) {
+			$this->reset_permalinks_term( null, null, 'category_base' );
+			$this->options_helper->set( 'category_base_url', \get_option( 'category_base' ) );
+		}
+
+		if ( $this->should_reset_permalinks() ) {
 			$this->reset_permalinks();
 
 			return true;
@@ -180,19 +180,10 @@ class Indexable_Permalink_Watcher implements Integration_Interface {
 	/**
 	 * Checks what the reset reason is, and returns null otherwise.
 	 *
-	 * @return string The indexing reason.
+	 * @return bool Should reset the permalinks.
 	 */
-	public function get_reset_reason() {
-		if ( \get_option( 'permalink_structure' ) !== $this->options_helper->get( 'permalink_structure' ) ) {
-			return Indexing_Notification_Integration::REASON_PERMALINK_SETTINGS;
-		}
-		elseif ( \get_option( 'category_base' ) !== $this->options_helper->get( 'category_base_url' ) ) {
-			return Indexing_Notification_Integration::REASON_CATEGORY_BASE_PREFIX;
-		}
-		elseif ( \get_option( 'tag_base' ) !== $this->options_helper->get( 'tag_base_url' ) ) {
-			return Indexing_Notification_Integration::REASON_TAG_BASE_PREFIX;
-		}
-		return null;
+	public function should_reset_permalinks() {
+		return \get_option( 'permalink_structure' ) !== $this->options_helper->get( 'permalink_structure' );
 	}
 
 	/**
@@ -215,7 +206,7 @@ class Indexable_Permalink_Watcher implements Integration_Interface {
 			}
 
 			if ( $taxonomy_slug !== $custom_taxonomy_bases[ $taxonomy ] ) {
-				$this->indexable_helper->reset_permalink_indexables( 'term', $taxonomy, $this->reason );
+				$this->indexable_helper->reset_permalink_indexables( 'term', $taxonomy );
 			}
 		}
 

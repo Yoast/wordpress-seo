@@ -9,6 +9,7 @@ use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
+use Yoast\WP\SEO\Integrations\Admin\Indexing_Notification_Integration;
 use Yoast\WP\SEO\Integrations\Watchers\Indexable_Permalink_Watcher;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
@@ -114,44 +115,21 @@ class Indexable_Permalink_Watcher_Test extends TestCase {
 		$this->instance->expects( 'get_post_types' )->once()->andReturn( [ 'post' ] );
 		$this->instance->expects( 'get_taxonomies_for_post_types' )->once()->with( [ 'post' ] )->andReturn( [ 'category' ] );
 
-		$this->indexable_helper->expects( 'reset_permalink_indexables' )->with( 'post', 'post', null )->once();
-		$this->indexable_helper->expects( 'reset_permalink_indexables' )->with( 'post-type-archive', 'post', null )->once();
-		$this->indexable_helper->expects( 'reset_permalink_indexables' )->with( 'term', 'category', null )->once();
-		$this->indexable_helper->expects( 'reset_permalink_indexables' )->with( 'user', null, null )->once();
-		$this->indexable_helper->expects( 'reset_permalink_indexables' )->with( 'date-archive', null, null )->once();
-		$this->indexable_helper->expects( 'reset_permalink_indexables' )->with( 'system-page', null, null )->once();
+		$this->indexable_helper->expects( 'reset_permalink_indexables' )->with( 'post', 'post' )->once();
+		$this->indexable_helper->expects( 'reset_permalink_indexables' )->with( 'post-type-archive', 'post' )->once();
+		$this->indexable_helper->expects( 'reset_permalink_indexables' )->with( 'term', 'category' )->once();
+		$this->indexable_helper->expects( 'reset_permalink_indexables' )->with( 'user', null )->once();
+		$this->indexable_helper->expects( 'reset_permalink_indexables' )->with( 'date-archive', null )->once();
+		$this->indexable_helper->expects( 'reset_permalink_indexables' )->with( 'system-page', null )->once();
 
-		$this->options
-			->expects( 'get' )
+		Monkey\Functions\expect( 'get_option' )
+			->once()
 			->with( 'permalink_structure' )
-			->andReturn( null )
-			->once();
+			->andReturn( '/%postname%/' );
 
 		$this->options
 			->expects( 'set' )
-			->with( 'permalink_structure', null )
-			->once();
-
-		$this->options
-			->expects( 'get' )
-			->with( 'category_base_url' )
-			->andReturn( null )
-			->once();
-
-		$this->options
-			->expects( 'set' )
-			->with( 'category_base_url', null )
-			->once();
-
-		$this->options
-			->expects( 'get' )
-			->with( 'tag_base_url' )
-			->andReturn( null )
-			->once();
-
-		$this->options
-			->expects( 'set' )
-			->with( 'tag_base_url', null )
+			->with( 'permalink_structure', '/%postname%/' )
 			->once();
 
 		$this->instance->reset_permalinks();
@@ -163,8 +141,8 @@ class Indexable_Permalink_Watcher_Test extends TestCase {
 	 * @covers ::reset_permalinks_post_type
 	 */
 	public function test_reset_permalinks_post_type() {
-		$this->indexable_helper->expects( 'reset_permalink_indexables' )->with( 'post', 'post', null )->once();
-		$this->indexable_helper->expects( 'reset_permalink_indexables' )->with( 'post-type-archive', 'post', null )->once();
+		$this->indexable_helper->expects( 'reset_permalink_indexables' )->with( 'post', 'post' )->once();
+		$this->indexable_helper->expects( 'reset_permalink_indexables' )->with( 'post-type-archive', 'post' )->once();
 
 		$this->instance->reset_permalinks_post_type( 'post' );
 	}
@@ -177,7 +155,7 @@ class Indexable_Permalink_Watcher_Test extends TestCase {
 	public function test_reset_permalinks_term() {
 		$this->indexable_helper
 			->expects( 'reset_permalink_indexables' )
-			->with( 'term', 'post_category', 'category_base_changed' )
+			->with( 'term', 'category', Indexing_Notification_Integration::REASON_CATEGORY_BASE_PREFIX )
 			->once();
 
 		$this->instance->reset_permalinks_term( null, null, 'category_base' );
@@ -191,7 +169,7 @@ class Indexable_Permalink_Watcher_Test extends TestCase {
 	public function test_reset_permalinks_for_term_tag() {
 		$this->indexable_helper
 			->expects( 'reset_permalink_indexables' )
-			->with( 'term', 'post_tag', 'tag_base_changed' )
+			->with( 'term', 'post_tag', Indexing_Notification_Integration::REASON_TAG_BASE_PREFIX )
 			->once();
 
 		$this->instance->reset_permalinks_term( null, null, 'tag_base' );
@@ -204,19 +182,33 @@ class Indexable_Permalink_Watcher_Test extends TestCase {
 	 */
 	public function test_force_reset_permalinks() {
 
+		Monkey\Functions\expect( 'get_option' )
+			->once()
+			->with( 'tag_base' );
+
 		$this->options
-			->expects( 'set' )
-			->with( 'permalink_structure', 'test' )
+			->expects( 'get' )
+			->with( 'tag_base_url' )
 			->once();
 
-		$this->options->set( 'permalink_structure', 'test' );
+		$this->instance->expects( 'reset_permalinks_term' )->never();
 
+		$this->options->expects( 'set' )->with( 'tag_base_url' )->never();
 
-
-		$this->instance
-			->expects( 'get_reset_reason' )
+		Monkey\Functions\expect( 'get_option' )
 			->once()
-			->andReturn( 'permalink_structure' );
+			->with( 'category_base' );
+
+		$this->options
+			->expects( 'get' )
+			->with( 'category_base_url' )
+			->once();
+
+		$this->instance->expects( 'reset_permalinks_term' )->never();
+
+		$this->options->expects( 'set' )->with( 'category_base_url' )->never();
+
+		$this->instance->expects( 'should_reset_permalinks' )->andReturnTrue();
 
 		$this->instance
 			->expects( 'reset_permalinks' )
@@ -226,7 +218,107 @@ class Indexable_Permalink_Watcher_Test extends TestCase {
 			->expects( 'reset_altered_custom_taxonomies' )
 			->never();
 
+		$this->assertTrue( $this->instance->force_reset_permalinks() );
+	}
 
+	/**
+	 * Test forced flushing of tag base permalinks.
+	 *
+	 * @covers ::force_reset_permalinks
+	 */
+	public function test_force_reset_tag_base() {
+
+		Monkey\Functions\expect( 'get_option' )
+			->twice()
+			->with( 'tag_base' )
+			->andReturn( '/tag' );
+
+		$this->options
+			->expects( 'get' )
+			->with( 'tag_base_url' )
+			->once()
+			->andReturn( '/tag_base' );
+
+		$this->instance->expects( 'reset_permalinks_term' )
+			->once()
+			->with( null, null, 'tag_base' );
+
+		$this->options->expects( 'set' )
+			->with( 'tag_base_url', '/tag' )->once();
+
+		Monkey\Functions\expect( 'get_option' )
+			->once()
+			->with( 'category_base' );
+
+		$this->options
+			->expects( 'get' )
+			->with( 'category_base_url' )
+			->once();
+
+		$this->instance->expects( 'reset_permalinks_term' )->never();
+
+		$this->options->expects( 'set' )->never();
+
+		$this->instance->expects( 'should_reset_permalinks' )->andReturnFalse();
+
+		$this->instance
+			->expects( 'reset_permalinks' )
+			->never();
+
+		$this->instance
+			->expects( 'reset_altered_custom_taxonomies' )
+			->once();
+
+		$this->assertTrue( $this->instance->force_reset_permalinks() );
+	}
+
+	/**
+	 * Test forced flushing of category base permalinks.
+	 *
+	 * @covers ::force_reset_permalinks
+	 */
+	public function test_force_reset_category_base() {
+
+		Monkey\Functions\expect( 'get_option' )
+			->once()
+			->with( 'tag_base' );
+
+		$this->options
+			->expects( 'get' )
+			->with( 'tag_base_url' )
+			->once();
+
+		Monkey\Functions\expect( 'get_option' )
+			->twice()
+			->with( 'category_base' )
+			->andReturn( '/category' );
+
+		$this->options
+			->expects( 'get' )
+			->with( 'category_base_url' )
+			->once()
+			->andReturn( '/category_base' );
+
+		$this->instance->expects( 'reset_permalinks_term' )
+			->once()
+			->with( null, null, 'category_base' );
+
+		$this->options->expects( 'set' )
+			->with( 'category_base_url', '/category' )->once();
+
+		$this->instance->expects( 'reset_permalinks_term' )->never();
+
+		$this->options->expects( 'set' )->never();
+
+		$this->instance->expects( 'should_reset_permalinks' )->andReturnFalse();
+
+		$this->instance
+			->expects( 'reset_permalinks' )
+			->never();
+
+		$this->instance
+			->expects( 'reset_altered_custom_taxonomies' )
+			->once();
 
 		$this->assertTrue( $this->instance->force_reset_permalinks() );
 	}
@@ -237,10 +329,38 @@ class Indexable_Permalink_Watcher_Test extends TestCase {
 	 * @covers ::force_reset_permalinks
 	 */
 	public function test_force_reset_permalinks_not_executing() {
-		$this->instance
-			->expects( 'get_reset_reason' )
+
+		Monkey\Functions\expect( 'get_option' )
 			->once()
-			->andReturn( null );
+			->with( 'tag_base' );
+
+		$this->options
+			->expects( 'get' )
+			->with( 'tag_base_url' )
+			->once();
+
+		$this->instance->expects( 'reset_permalinks_term' )->never();
+
+		$this->options->expects( 'set' )->with( 'tag_base_url' )->never();
+
+		Monkey\Functions\expect( 'get_option' )
+			->once()
+			->with( 'category_base' );
+
+		$this->options
+			->expects( 'get' )
+			->with( 'category_base_url' )
+			->once();
+
+		$this->instance->expects( 'reset_permalinks_term' )->never();
+
+		$this->options->expects( 'set' )->with( 'category_base_url' )->never();
+
+		$this->instance->expects( 'should_reset_permalinks' )->andReturnFalse();
+
+		$this->instance
+			->expects( 'reset_permalinks' )
+			->never();
 
 		$this->instance
 			->expects( 'reset_altered_custom_taxonomies' )
@@ -266,81 +386,7 @@ class Indexable_Permalink_Watcher_Test extends TestCase {
 			->once()
 			->andReturn( '/%year%/%monthnum%/%postname%/' );
 
-		$this->assertEquals( $this->instance->get_reset_reason(), 'permalink_settings_changed' );
-	}
-
-	/**
-	 * Test that permalinks should be reset when category base is changed.
-	 *
-	 * @covers ::should_reset_permalinks
-	 */
-	public function test_should_reset_permalinks_categorychanged() {
-		Monkey\Functions\expect( 'get_option' )
-			->once()
-			->with( 'permalink_structure' )
-			->andReturn( '/%postname%/' );
-
-		$this->options
-			->expects( 'get' )
-			->with( 'permalink_structure' )
-			->once()
-			->andReturn( '/%postname%/' );
-
-		Monkey\Functions\expect( 'get_option' )
-			->once()
-			->with( 'category_base' )
-			->andReturn( '/%differentcategory%/' );
-
-		$this->options
-			->expects( 'get' )
-			->with( 'category_base_url' )
-			->once()
-			->andReturn( '/%category%/' );
-
-		$this->assertEquals( $this->instance->get_reset_reason(), 'category_base_changed' );
-	}
-
-	/**
-	 * Test that permalinks should be reset when tag base is changed.
-	 *
-	 * @covers ::should_reset_permalinks
-	 */
-	public function test_should_reset_permalinks_tagchanged() {
-		Monkey\Functions\expect( 'get_option' )
-			->once()
-			->with( 'permalink_structure' )
-			->andReturn( '/%postname%/' );
-
-		$this->options
-			->expects( 'get' )
-			->with( 'permalink_structure' )
-			->once()
-			->andReturn( '/%postname%/' );
-
-		Monkey\Functions\expect( 'get_option' )
-			->once()
-			->with( 'category_base' )
-			->andReturn( '/%category%/' );
-
-		$this->options
-			->expects( 'get' )
-			->with( 'category_base_url' )
-			->once()
-			->andReturn( '/%category%/' );
-
-
-		Monkey\Functions\expect( 'get_option' )
-			->once()
-			->with( 'tag_base' )
-			->andReturn( '/%anothertag%/' );
-
-		$this->options
-			->expects( 'get' )
-			->with( 'tag_base_url' )
-			->once()
-			->andReturn( '/%tag%/' );
-
-		$this->assertEquals( $this->instance->get_reset_reason(), 'tag_base_changed' );
+		$this->assertTrue( $this->instance->should_reset_permalinks() );
 	}
 
 	/**
@@ -360,29 +406,7 @@ class Indexable_Permalink_Watcher_Test extends TestCase {
 			->once()
 			->andReturn( '/%postname%/' );
 
-		Monkey\Functions\expect( 'get_option' )
-			->once()
-			->with( 'category_base' )
-			->andReturn( '/%category%/' );
-
-		$this->options
-			->expects( 'get' )
-			->with( 'category_base_url' )
-			->once()
-			->andReturn( '/%category%/' );
-
-		Monkey\Functions\expect( 'get_option' )
-			->once()
-			->with( 'tag_base' )
-			->andReturn( '/%tag%/' );
-
-		$this->options
-			->expects( 'get' )
-			->with( 'tag_base_url' )
-			->once()
-			->andReturn( '/%tag%/' );
-
-		$this->assertEquals( $this->instance->get_reset_reason(), null );
+		$this->assertFalse( $this->instance->should_reset_permalinks() );
 	}
 
 	/**
@@ -419,7 +443,7 @@ class Indexable_Permalink_Watcher_Test extends TestCase {
 
 		$this->indexable_helper
 			->expects( 'reset_permalink_indexables' )
-			->with( 'term', 'book-category', null );
+			->with( 'term', 'book-category' );
 
 		$this->options
 			->expects( 'set' )
