@@ -100,13 +100,22 @@ module.exports = function( grunt ) {
 				} );
 			}
 
-			// Stage the changed readme.txt.
-			grunt.config( "gitadd.addChangelog.files", { src: [ "./readme.txt" ] } );
-			grunt.task.run( "gitadd:addChangelog" );
+			// Check if there is something to stage and commit with `git status` first.
+			grunt.config( "gitstatus.checkChangelog.options.callback", function( changedFiles ) {
+				if ( changedFiles.length > 0 ) {
+					// Stage the changed readme.txt.
+					grunt.config( "gitadd.addChangelog.files", { src: [ "./readme.txt" ] } );
+					grunt.task.run( "gitadd:addChangelog" );
 
-			// Commit the changed readme.txt.
-			grunt.config( "gitcommit.commitChangelog.options.message", "Add changelog" );
-			grunt.task.run( "gitcommit:commitChangelog" );
+					// Commit the changed readme.txt.
+					grunt.config( "gitcommit.commitChangelog.options.message", "Add changelog" );
+					grunt.task.run( "gitcommit:commitChangelog" );
+				} else {
+					grunt.log.writeln( "Changelog is unchanged. Nothing to commit." );
+				}
+			} );
+
+			grunt.task.run( "gitstatus:checkChangelog" );
 		}
 	);
 };
