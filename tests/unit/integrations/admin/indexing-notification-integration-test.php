@@ -1,5 +1,7 @@
 <?php
 
+namespace Yoast\WP\SEO\Tests\Unit\Integrations\Admin;
+
 use Brain\Monkey;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;

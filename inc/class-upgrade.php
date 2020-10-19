@@ -16,6 +16,8 @@ use Yoast\WP\SEO\Integrations\Admin\Indexing_Tool_Integration;
 class WPSEO_Upgrade {
 
 	/**
+	 * The taxonomy helper.
+	 *
 	 * @var \Yoast\WP\SEO\Helpers\Taxonomy_Helper
 	 */
 	private $taxonomy_helper;
