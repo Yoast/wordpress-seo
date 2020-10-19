@@ -2,6 +2,12 @@ const getUserInput = require( "../lib/get-user-input" );
 const parseVersion = require( "../lib/parse-version" );
 const _isEmpty = require( "lodash/isEmpty" );
 
+function commit( grunt ) {
+	// Commit the changed readme.txt.
+	grunt.config( "gitcommit.commitChangelog.options.message", "Add changelog" );
+	grunt.task.run( "gitcommit:commitChangelog" );
+}
+
 /**
  * ...
  *
@@ -100,13 +106,16 @@ module.exports = function( grunt ) {
 				} );
 			}
 
-			// Check if there is something to stage and commit with `git status` first.
-			grunt.config( "gitstatus.checkChangelog.options.callback", function( changedFiles ) {
-				if ( changedFiles.length > 0 ) {
-					// Stage the changed readme.txt.
-					grunt.config( "gitadd.addChangelog.files", { src: [ "./readme.txt" ] } );
-					grunt.task.run( "gitadd:addChangelog" );
+			// Stage the changed readme.txt.
+			grunt.config( "gitadd.addChangelog.files", { src: [ "./readme.txt" ] } );
+			grunt.task.run( "gitadd:addChangelog" );
 
+			// Check if there is something to commit with `git status` first.
+			grunt.config( "gitstatus.checkChangelog.options.callback", function( changedFiles ) {
+				// File's code has two parts: first character codes the status in the index (staged files).
+				const hasStagedChanges = changedFiles.some( file => file.code[ 0 ] !== " " );
+
+				if ( hasStagedChanges ) {
 					// Commit the changed readme.txt.
 					grunt.config( "gitcommit.commitChangelog.options.message", "Add changelog" );
 					grunt.task.run( "gitcommit:commitChangelog" );
