@@ -15,13 +15,6 @@ use Yoast\WP\SEO\Repositories\Indexable_Repository;
 class Indexable_Helper {
 
 	/**
-	 * Represents the options helper.
-	 *
-	 * @var Options_Helper
-	 */
-	private $options_helper;
-
-	/**
 	 * Represents the indexable repository.
 	 *
 	 * @var Indexable_Repository
@@ -29,21 +22,37 @@ class Indexable_Helper {
 	protected $repository;
 
 	/**
-	 * The environment helper.
+	 * Represents the options helper.
+	 *
+	 * @var Options_Helper
+	 */
+	protected $options_helper;
+
+	/**
+	 * Represents the environment helper.
 	 *
 	 * @var Environment_Helper
 	 */
 	protected $environment_helper;
 
 	/**
+	 * Represents the indexing helper.
+	 *
+	 * @var Indexing_Helper
+	 */
+	protected $indexing_helper;
+
+	/**
 	 * Indexable_Helper constructor.
 	 *
 	 * @param Options_Helper     $options_helper     The options helper.
 	 * @param Environment_Helper $environment_helper The environment helper.
+	 * @param Indexing_Helper    $indexing_helper    The indexing helper.
 	 */
-	public function __construct( Options_Helper $options_helper, Environment_Helper $environment_helper ) {
+	public function __construct( Options_Helper $options_helper, Environment_Helper $environment_helper, Indexing_Helper $indexing_helper ) {
 		$this->options_helper     = $options_helper;
 		$this->environment_helper = $environment_helper;
+		$this->indexing_helper    = $indexing_helper;
 	}
 
 	/**
@@ -110,7 +119,7 @@ class Indexable_Helper {
 		$result = $this->repository->reset_permalink( $type, $subtype );
 
 		if ( $result !== false && $result > 0 ) {
-			$this->options_helper->set( 'indexing_reason', $reason );
+			$this->indexing_helper->set_reason( $reason );
 
 			\delete_transient( Indexable_Post_Indexation_Action::TRANSIENT_CACHE_KEY );
 			\delete_transient( Indexable_Post_Type_Archive_Indexation_Action::TRANSIENT_CACHE_KEY );

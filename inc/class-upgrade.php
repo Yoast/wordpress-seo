@@ -6,6 +6,8 @@
  */
 
 use Yoast\WP\Lib\Model;
+use Yoast\WP\SEO\Helpers\Indexable_Helper;
+use Yoast\WP\SEO\Helpers\Indexing_Helper;
 use Yoast\WP\SEO\Integrations\Admin\Indexing_Tool_Integration;
 
 /**
@@ -19,10 +21,26 @@ class WPSEO_Upgrade {
 	private $taxonomy_helper;
 
 	/**
+	 * The indexing helper.
+	 *
+	 * @var Indexing_Helper
+	 */
+	protected $indexing_helper;
+
+	/**
+	 * The indexable helper.
+	 *
+	 * @var Indexable_Helper
+	 */
+	protected $indexable_helper;
+
+	/**
 	 * Class constructor.
 	 */
 	public function __construct() {
-		$this->taxonomy_helper = YoastSEO()->helpers->taxonomy;
+		$this->taxonomy_helper  = YoastSEO()->helpers->taxonomy;
+		$this->indexing_helper  = YoastSEO()->helpers->indexing;
+		$this->indexable_helper = YoastSEO()->helpers->indexable;
 
 		$version = WPSEO_Options::get( 'version' );
 
@@ -772,7 +790,7 @@ class WPSEO_Upgrade {
 	 */
 	protected function move_indexables_indexation_reason_for_151() {
 		$reason = WPSEO_Options::get( 'indexables_indexation_reason', '' );
-		WPSEO_Options::set( 'indexing_reason', $reason );
+		$this->indexing_helper->set_reason( $reason );
 	}
 
 	/**
@@ -788,7 +806,7 @@ class WPSEO_Upgrade {
 		 */
 		$indexing_integration = YoastSEO()->classes->get( Indexing_Tool_Integration::class );
 
-		WPSEO_Options::set( 'indexables_indexation_completed', $indexing_integration->get_unindexed_indexables_count() === 0 );
+		$this->indexable_helper->set_indexables_completed( $indexing_integration->get_unindexed_indexables_count() === 0 );
 	}
 
 	/**

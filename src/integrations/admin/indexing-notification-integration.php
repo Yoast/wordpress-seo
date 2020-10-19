@@ -5,8 +5,8 @@ namespace Yoast\WP\SEO\Integrations\Admin;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Date_Helper;
+use Yoast\WP\SEO\Helpers\Indexing_Helper;
 use Yoast\WP\SEO\Helpers\Notification_Helper;
-use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Helpers\Short_Link_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
@@ -62,13 +62,6 @@ class Indexing_Notification_Integration implements Integration_Interface {
 	protected $notification_center;
 
 	/**
-	 * The options helper.
-	 *
-	 * @var Options_Helper
-	 */
-	protected $options_helper;
-
-	/**
 	 * The product helper.
 	 *
 	 * @var Product_Helper
@@ -104,35 +97,42 @@ class Indexing_Notification_Integration implements Integration_Interface {
 	protected $notification_helper;
 
 	/**
-	 * Prominent_Words_Notifier constructor.
+	 * The indexing helper.
+	 *
+	 * @var Indexing_Helper
+	 */
+	protected $indexing_helper;
+
+	/**
+	 * Indexing_Notification_Integration constructor.
 	 *
 	 * @param Indexing_Tool_Integration $indexing_integration The indexing integration.
 	 * @param Yoast_Notification_Center $notification_center  The notification center.
-	 * @param Options_Helper            $options_helper       The options helper.
 	 * @param Product_Helper            $product_helper       The product helper.
 	 * @param Current_Page_Helper       $page_helper          The current page helper.
 	 * @param Date_Helper               $date_helper          The date helper.
 	 * @param Short_Link_Helper         $short_link_helper    The short link helper.
 	 * @param Notification_Helper       $notification_helper  The notification helper.
+	 * @param Indexing_Helper           $indexing_helper      The indexing helper.
 	 */
 	public function __construct(
 		Indexing_Tool_Integration $indexing_integration,
 		Yoast_Notification_Center $notification_center,
-		Options_Helper $options_helper,
 		Product_Helper $product_helper,
 		Current_Page_Helper $page_helper,
 		Date_Helper $date_helper,
 		Short_Link_Helper $short_link_helper,
-		Notification_Helper $notification_helper
+		Notification_Helper $notification_helper,
+		Indexing_Helper $indexing_helper
 	) {
 		$this->indexing_integration = $indexing_integration;
 		$this->notification_center  = $notification_center;
-		$this->options_helper       = $options_helper;
 		$this->product_helper       = $product_helper;
 		$this->page_helper          = $page_helper;
 		$this->date_helper          = $date_helper;
 		$this->short_link_helper    = $short_link_helper;
 		$this->notification_helper  = $notification_helper;
+		$this->indexing_helper      = $indexing_helper;
 	}
 
 	/**
@@ -147,7 +147,7 @@ class Indexing_Notification_Integration implements Integration_Interface {
 			\add_action( 'admin_init', [ $this, 'maybe_cleanup_notification' ] );
 		}
 
-		if ( $this->options_helper->get( 'indexing_reason' ) ) {
+		if ( $this->indexing_helper->get_reason() ) {
 			\add_action( 'admin_init', [ $this, 'maybe_create_notification' ] );
 		}
 
@@ -200,7 +200,7 @@ class Indexing_Notification_Integration implements Integration_Interface {
 	 */
 	protected function should_show_notification() {
 		// Don't show a notification if the indexation has already been started earlier.
-		if ( $this->options_helper->get( 'indexation_started' ) === 0 ) {
+		if ( $this->indexing_helper->get_started() === 0 ) {
 			return false;
 		}
 
@@ -214,7 +214,7 @@ class Indexing_Notification_Integration implements Integration_Interface {
 	 * @return Yoast_Notification The notification to show.
 	 */
 	protected function notification() {
-		$reason = $this->options_helper->get( 'indexing_reason', '' );
+		$reason = $this->indexing_helper->get_reason();
 
 		$presenter = $this->get_presenter( $reason );
 

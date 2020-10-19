@@ -5,13 +5,13 @@ namespace Yoast\WP\SEO\Tests\Unit\Actions\Indexing;
 use Mockery;
 use Yoast\WP\SEO\Actions\Indexing\Indexable_Prepare_Indexation_Action;
 use Yoast\WP\SEO\Helpers\Date_Helper;
-use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Helpers\Indexing_Helper;
 use Yoast\WP\SEO\Integrations\Admin\Indexing_Notification_Integration;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 use Yoast_Notification_Center;
 
 /**
- * Class Indexable_Prepare_Indexation_Action_Test
+ * Class Indexable_Prepare_Indexation_Action_Test.
  *
  * @group actions
  * @group indexing
@@ -28,11 +28,11 @@ class Indexable_Prepare_Indexation_Action_Test extends TestCase {
 	private $date;
 
 	/**
-	 * The mocked options helper.
+	 * The mocked indexing helper.
 	 *
-	 * @var Mockery\MockInterface|Options_Helper
+	 * @var Mockery\MockInterface|Indexing_Helper
 	 */
-	private $options;
+	private $indexing;
 
 	/**
 	 * The notification center.
@@ -53,13 +53,13 @@ class Indexable_Prepare_Indexation_Action_Test extends TestCase {
 	 */
 	public function setUp() {
 		parent::setUp();
-		$this->options             = Mockery::mock( Options_Helper::class );
 		$this->date                = Mockery::mock( Date_Helper::class );
+		$this->indexing            = Mockery::mock( Indexing_Helper::class );
 		$this->notification_center = Mockery::mock( Yoast_Notification_Center::class );
 
 		$this->instance = new Indexable_Prepare_Indexation_Action(
-			$this->options,
 			$this->date,
+			$this->indexing,
 			$this->notification_center
 		);
 	}
@@ -70,8 +70,8 @@ class Indexable_Prepare_Indexation_Action_Test extends TestCase {
 	 * @covers ::__construct
 	 */
 	public function test_constructor() {
-		$this->assertAttributeEquals( $this->options, 'options', $this->instance );
-		$this->assertAttributeEquals( $this->date, 'date', $this->instance );
+		$this->assertAttributeEquals( $this->date, 'date_helper', $this->instance );
+		$this->assertAttributeEquals( $this->indexing, 'indexing_helper', $this->instance );
 	}
 
 	/**
@@ -86,11 +86,11 @@ class Indexable_Prepare_Indexation_Action_Test extends TestCase {
 			->once()
 			->andReturn( $mocked_time );
 
-		$this->options->expects( 'set' )
-			->with( 'indexing_first_time', false );
+		$this->indexing->expects( 'set_first_time' )
+			->with( false );
 
-		$this->options->expects( 'set' )
-			->with( 'indexation_started', $mocked_time );
+		$this->indexing->expects( 'set_started' )
+			->with( $mocked_time );
 
 		$this->notification_center->expects( 'remove_notification_by_id' )
 			->with( Indexing_Notification_Integration::NOTIFICATION_ID );

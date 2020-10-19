@@ -13,13 +13,14 @@ use Yoast\WP\SEO\Actions\Indexing\Indexable_Term_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexing\Indexing_Complete_Action;
 use Yoast\WP\SEO\Actions\Indexing\Post_Link_Indexing_Action;
 use Yoast\WP\SEO\Actions\Indexing\Term_Link_Indexing_Action;
+use Yoast\WP\SEO\Helpers\Indexing_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Integrations\Admin\Indexing_Notification_Integration;
 use Yoast\WP\SEO\Routes\Indexing_Route;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
- * Class Indexable_Indexation_Route_Test.
+ * Class Indexing_Route_Test.
  *
  * @coversDefaultClass \Yoast\WP\SEO\Routes\Indexing_Route
  *
@@ -27,7 +28,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group indexables
  * @group indexing
  */
-class Indexable_Indexation_Route_Test extends TestCase {
+class Indexing_Route_Test extends TestCase {
 
 	/**
 	 * Represents the post indexation action.
@@ -100,6 +101,13 @@ class Indexable_Indexation_Route_Test extends TestCase {
 	protected $options_helper;
 
 	/**
+	 * Represents the indexing helper.
+	 *
+	 * @var Mockery\MockInterface|Indexing_Helper
+	 */
+	protected $indexing_helper;
+
+	/**
 	 * Represents the instance to test.
 	 *
 	 * @var Indexing_Route
@@ -122,6 +130,7 @@ class Indexable_Indexation_Route_Test extends TestCase {
 		$this->post_link_indexing_action           = Mockery::mock( Post_Link_Indexing_Action::class );
 		$this->term_link_indexing_action           = Mockery::mock( Term_Link_Indexing_Action::class );
 		$this->options_helper                      = Mockery::mock( Options_Helper::class );
+		$this->indexing_helper                     = Mockery::mock( Indexing_Helper::class );
 		$this->post_link_indexing_action           = Mockery::mock( Post_Link_Indexing_Action::class );
 		$this->term_link_indexing_action           = Mockery::mock( Term_Link_Indexing_Action::class );
 
@@ -135,7 +144,8 @@ class Indexable_Indexation_Route_Test extends TestCase {
 			$this->prepare_indexation_action,
 			$this->post_link_indexing_action,
 			$this->term_link_indexing_action,
-			$this->options_helper
+			$this->options_helper,
+			$this->indexing_helper
 		);
 	}
 
@@ -155,6 +165,7 @@ class Indexable_Indexation_Route_Test extends TestCase {
 		$this->assertAttributeInstanceOf( Post_Link_Indexing_Action::class, 'post_link_indexing_action', $this->instance );
 		$this->assertAttributeInstanceOf( Term_Link_Indexing_Action::class, 'term_link_indexing_action', $this->instance );
 		$this->assertAttributeInstanceOf( Options_Helper::class, 'options_helper', $this->instance );
+		$this->assertAttributeInstanceOf( Indexing_Helper::class, 'indexing_helper', $this->instance );
 	}
 
 	/**
@@ -440,7 +451,7 @@ class Indexable_Indexation_Route_Test extends TestCase {
 	public function test_index_general_when_error_occurs() {
 		$this->general_indexation_action->expects( 'index' )->andThrow( new \Exception( 'An exception during indexing' ) );
 
-		$this->options_helper->expects( 'set' )->with( 'indexing_reason', Indexing_Notification_Integration::REASON_INDEXING_FAILED );
+		$this->indexing_helper->expects( 'set_reason' )->with( Indexing_Notification_Integration::REASON_INDEXING_FAILED );
 
 		Mockery::mock( '\WP_Error' );
 

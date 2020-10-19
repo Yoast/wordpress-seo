@@ -14,7 +14,7 @@ use Yoast\WP\SEO\Actions\Indexing\Term_Link_Indexing_Action;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
 use Yoast\WP\SEO\Conditionals\Yoast_Tools_Page_Conditional;
 use Yoast\WP\SEO\Helpers\Indexable_Helper;
-use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Helpers\Indexing_Helper;
 use Yoast\WP\SEO\Helpers\Short_Link_Helper;
 use Yoast\WP\SEO\Integrations\Admin\Indexing_Tool_Integration;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
@@ -58,11 +58,11 @@ class Indexing_Tool_Integration_Test extends TestCase {
 	protected $short_link_helper;
 
 	/**
-	 * Represents the options helper.
+	 * The indexing helper.
 	 *
-	 * @var Mockery\MockInterface|Options_Helper
+	 * @var Mockery\MockInterface|Indexing_Helper
 	 */
-	protected $options_helper;
+	protected $indexing_helper;
 
 	/**
 	 * The post indexation action.
@@ -115,7 +115,7 @@ class Indexing_Tool_Integration_Test extends TestCase {
 		$this->asset_manager                = Mockery::mock( WPSEO_Admin_Asset_Manager::class );
 		$this->indexable_helper             = Mockery::mock( Indexable_Helper::class );
 		$this->short_link_helper            = Mockery::mock( Short_Link_Helper::class );
-		$this->options_helper               = Mockery::mock( Options_Helper::class );
+		$this->indexing_helper              = Mockery::mock( Indexing_Helper::class );
 		$this->post_indexation              = Mockery::mock( Indexable_Post_Indexation_Action::class );
 		$this->term_indexation              = Mockery::mock( Indexable_Term_Indexation_Action::class );
 		$this->post_type_archive_indexation = Mockery::mock( Indexable_Post_Type_Archive_Indexation_Action::class );
@@ -127,7 +127,7 @@ class Indexing_Tool_Integration_Test extends TestCase {
 			$this->asset_manager,
 			$this->indexable_helper,
 			$this->short_link_helper,
-			$this->options_helper,
+			$this->indexing_helper,
 			$this->post_indexation,
 			$this->term_indexation,
 			$this->post_type_archive_indexation,
@@ -159,8 +159,7 @@ class Indexing_Tool_Integration_Test extends TestCase {
 		static::assertAttributeInstanceOf( WPSEO_Admin_Asset_Manager::class, 'asset_manager', $this->instance );
 		static::assertAttributeInstanceOf( Indexable_Helper::class, 'indexable_helper', $this->instance );
 		static::assertAttributeInstanceOf( Short_Link_Helper::class, 'short_link_helper', $this->instance );
-		static::assertAttributeInstanceOf( Options_Helper::class, 'options_helper', $this->instance );
-
+		static::assertAttributeInstanceOf( Indexing_Helper::class, 'indexing_helper', $this->instance );
 		static::assertAttributeInstanceOf( Indexable_Post_Indexation_Action::class, 'post_indexation', $this->instance );
 		static::assertAttributeInstanceOf( Indexable_Term_Indexation_Action::class, 'term_indexation', $this->instance );
 		static::assertAttributeInstanceOf( Indexable_Post_Type_Archive_Indexation_Action::class, 'post_type_archive_indexation', $this->instance );
@@ -253,9 +252,9 @@ class Indexing_Tool_Integration_Test extends TestCase {
 			->with( 'wp_rest' )
 			->andReturn( 'nonce_value' );
 
-		$this->options_helper
-			->expects( 'get' )
-			->with( 'indexing_first_time', true )
+		$this->indexing_helper
+			->expects( 'get_first_time' )
+			->withNoArgs()
 			->andReturnTrue();
 
 		$injected_data = [

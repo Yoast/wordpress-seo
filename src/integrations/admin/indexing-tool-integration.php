@@ -12,6 +12,7 @@ use Yoast\WP\SEO\Actions\Indexing\Term_Link_Indexing_Action;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
 use Yoast\WP\SEO\Conditionals\Yoast_Tools_Page_Conditional;
 use Yoast\WP\SEO\Helpers\Indexable_Helper;
+use Yoast\WP\SEO\Helpers\Indexing_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Short_Link_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
@@ -47,11 +48,11 @@ class Indexing_Tool_Integration implements Integration_Interface {
 	protected $short_link_helper;
 
 	/**
-	 * Represents the options helper.
+	 * Represents the indexing helper.
 	 *
-	 * @var Options_Helper
+	 * @var Indexing_Helper
 	 */
-	protected $options_helper;
+	protected $indexing_helper;
 
 	/**
 	 * The post indexation action.
@@ -113,7 +114,7 @@ class Indexing_Tool_Integration implements Integration_Interface {
 	 * @param WPSEO_Admin_Asset_Manager                     $asset_manager                The admin asset manager.
 	 * @param Indexable_Helper                              $indexable_helper             The indexable helper.
 	 * @param Short_Link_Helper                             $short_link_helper            The short link helper.
-	 * @param Options_Helper                                $options_helper               The options helper.
+	 * @param Indexing_Helper                               $indexing_helper              The indexing helper.
 	 * @param Indexable_Post_Indexation_Action              $post_indexation              The post indexing action.
 	 * @param Indexable_Term_Indexation_Action              $term_indexation              The term indexing action.
 	 * @param Indexable_Post_Type_Archive_Indexation_Action $post_type_archive_indexation The post type archive indexing action.
@@ -125,7 +126,7 @@ class Indexing_Tool_Integration implements Integration_Interface {
 		WPSEO_Admin_Asset_Manager $asset_manager,
 		Indexable_Helper $indexable_helper,
 		Short_Link_Helper $short_link_helper,
-		Options_Helper $options_helper,
+		Indexing_Helper $indexing_helper,
 		Indexable_Post_Indexation_Action $post_indexation,
 		Indexable_Term_Indexation_Action $term_indexation,
 		Indexable_Post_Type_Archive_Indexation_Action $post_type_archive_indexation,
@@ -136,7 +137,7 @@ class Indexing_Tool_Integration implements Integration_Interface {
 		$this->asset_manager                = $asset_manager;
 		$this->indexable_helper             = $indexable_helper;
 		$this->short_link_helper            = $short_link_helper;
-		$this->options_helper               = $options_helper;
+		$this->indexing_helper              = $indexing_helper;
 		$this->post_indexation              = $post_indexation;
 		$this->term_indexation              = $term_indexation;
 		$this->post_type_archive_indexation = $post_type_archive_indexation;
@@ -166,7 +167,7 @@ class Indexing_Tool_Integration implements Integration_Interface {
 		$data = [
 			'disabled'  => ! $this->indexable_helper->should_index_indexables(),
 			'amount'    => $this->get_unindexed_count(),
-			'firstTime' => ( $this->options_helper->get( 'indexing_first_time', true ) === true ),
+			'firstTime' => ( $this->indexing_helper->get_first_time() === true ),
 			'restApi'   => [
 				'root'      => \esc_url_raw( \rest_url() ),
 				'endpoints' => $this->get_endpoints(),
