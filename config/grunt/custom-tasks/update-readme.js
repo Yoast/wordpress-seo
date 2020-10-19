@@ -2,12 +2,6 @@ const getUserInput = require( "../lib/get-user-input" );
 const parseVersion = require( "../lib/parse-version" );
 const _isEmpty = require( "lodash/isEmpty" );
 
-function commit( grunt ) {
-	// Commit the changed readme.txt.
-	grunt.config( "gitcommit.commitChangelog.options.message", "Add changelog" );
-	grunt.task.run( "gitcommit:commitChangelog" );
-}
-
 /**
  * ...
  *
