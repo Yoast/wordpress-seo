@@ -161,12 +161,12 @@ function computeProminentWords( words, abbreviations, stemmer, functionWords, mo
 }
 
 /**
- * Caches prominent words depending on the currently available morphologyData and (separately) text words and language.
+ * Caches prominent words depending on the currently available morphologyData and (separately) text words, stemmer, and function words.
  * In this way, if the morphologyData remains the same in multiple calls of this function, the function
- * that collects actual prominent words only needs to check if the text words and language also remain the
- * same to return the cached result. The joining of words and language for this function is needed,
+ * that collects actual prominent words only needs to check if the text words, stemmer, and function words also remain the
+ * same to return the cached result. The joining of words, stemmer, and function words for this function is needed,
  * because by default memoize caches by the first key only, which in the current case would mean that the function would
- * return the cached forms if the text has not changed (without checking if language was changed).
+ * return the cached forms if the text has not changed (without checking if stemmer and function words were changed).
  *
  * @param {Object|boolean}  morphologyData  The available morphology data.
  *
