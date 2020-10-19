@@ -20,7 +20,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group commands
  *
  * @coversDefaultClass \Yoast\WP\SEO\Commands\Index_Command
- * @covers ::<!public>
+ * @covers \Yoast\WP\SEO\Commands\Index_Command
  */
 class Index_Command_Test extends TestCase {
 
@@ -74,7 +74,7 @@ class Index_Command_Test extends TestCase {
 	private $instance;
 
 	/**
-	 * @inheritDoc
+	 * Prepares the test by setting up the needed properties.
 	 */
 	public function setUp() {
 		$this->post_indexation_action              = Mockery::mock( Indexable_Post_Indexation_Action::class );
@@ -187,6 +187,8 @@ class Index_Command_Test extends TestCase {
 
 		$wpdb            = Mockery::mock();
 		$wpdb->prefix    = 'wp_';
+
+		// phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- Intended override for test purpose.
 		$GLOBALS['wpdb'] = $wpdb;
 
 		$wpdb
