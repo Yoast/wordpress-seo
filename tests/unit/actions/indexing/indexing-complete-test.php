@@ -58,7 +58,6 @@ class Indexing_Complete_Test extends TestCase {
 	public function test_complete_method() {
 		$this->options->expects( 'set' )->with( 'indexation_started', 0 );
 		$this->options->expects( 'set' )->with( 'indexing_reason', '' );
-		$this->options->expects( 'set' )->with( 'indexation_warning_hide_until', false );
 
 		$this->instance->complete();
 	}
