@@ -59,7 +59,7 @@ export default class AbstractResearcher {
 			sentences: sentences,
 			firstParagraph: findKeywordInFirstParagraph,
 			getTopicDensity: getTopicDensity,
-			topicCount: topicCount
+			topicCount: topicCount,
 		};
 
 		this._data = {};

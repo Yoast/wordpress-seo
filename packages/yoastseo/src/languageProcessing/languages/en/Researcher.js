@@ -3,8 +3,6 @@ import keywordCount from "../../researches/_todo/keywordCount";
 import metaDescriptionKeyword from "../../researches/_todo/metaDescriptionKeyword.js";
 import keywordCountInUrl from "../../researches/_todo/keywordCountInUrl";
 import relevantWords from "../../researches/_todo/relevantWords";
-import getTopicDensity from "../../researches/getTopicDensity";
-import topicCount from "../../researches/topicCount";
 import { keyphraseDistributionResearcher } from "../../researches/_todo/keyphraseDistribution";
 import getProminentWordsForInsights from "../../researches/_todo/getProminentWordsForInsights";
 import getProminentWordsForInternalLinking from "../../researches/_todo/getProminentWordsForInternalLinking";
@@ -48,8 +46,6 @@ export default class Researcher extends AbstractResearcher {
 			keywordCountInUrl: keywordCountInUrl,
 			metaDescriptionKeyword: metaDescriptionKeyword,
 			relevantWords: relevantWords,
-			getTopicDensity: getTopicDensity,
-			topicCount: topicCount,
 			getLinkStatistics: getLinkStatistics,
 			keyphraseDistribution: keyphraseDistribution,
 			findKeywordInPageTitle: findKeywordInPageTitle,
