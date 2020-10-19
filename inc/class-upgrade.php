@@ -757,8 +757,8 @@ class WPSEO_Upgrade {
 	 * @return void
 	 */
 	private function upgrade_153() {
-		WPSEO_Options::set( 'category_base_url', 'category' );
-		WPSEO_Options::set( 'tag_base_url', 'tag' );
+		WPSEO_Options::set( 'category_base_url', get_option( 'category_base' ) );
+		WPSEO_Options::set( 'tag_base_url', get_option( 'tag_base' ) );
 	}
 
 	/**
@@ -1051,8 +1051,6 @@ class WPSEO_Upgrade {
 	 */
 	public function set_permalink_structure_options_for_151() {
 		WPSEO_Options::set( 'permalink_structure', get_option( 'permalink_structure' ) );
-		WPSEO_Options::set( 'category_base_url', get_option( 'category_base' ) );
-		WPSEO_Options::set( 'tag_base_url', get_option( 'tag_base' ) );
 	}
 
 	/**
