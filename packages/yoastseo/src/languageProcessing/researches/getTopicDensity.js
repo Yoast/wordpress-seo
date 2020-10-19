@@ -1,6 +1,6 @@
 /** @module analyses/getTopicDensity */
 
-import countWords from "../../helpers/word/countWords.js";
+import countWords from "../helpers/word/countWords.js";
 
 import topicCount from "./topicCount.js";
 

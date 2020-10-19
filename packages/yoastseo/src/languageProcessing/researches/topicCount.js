@@ -1,14 +1,14 @@
 /** @module analyses/getTopicCount */
 import matchTextWithArray from "../helpers/matchTextWithArray.js";
 
-import { normalize as normalizeQuotes } from "../../helpers/sanitize/quotes.js";
-import parseSynonyms from "../../helpers/sanitize/parseSynonyms";
+import { normalize as normalizeQuotes } from "../helpers/sanitize/quotes.js";
+import parseSynonyms from "../helpers/sanitize/parseSynonyms";
 import { uniq as unique } from "lodash-es";
 import { isEmpty } from "lodash-es";
-import getSentences from "../../helpers/sentence/getSentences";
-import arrayToRegex from "../../helpers/regex/createRegexFromArray";
-import addMark from "../../../markers/addMarkSingleWord";
-import Mark from "../../../values/Mark.js";
+import getSentences from "../helpers/sentence/getSentences";
+import arrayToRegex from "../helpers/regex/createRegexFromArray";
+import addMark from "../../markers/addMarkSingleWord";
+import Mark from "../../values/Mark.js";
 
 /**
  * Calculates the topic count, i.e., how many times the keyword or its synonyms were encountered in the text.
