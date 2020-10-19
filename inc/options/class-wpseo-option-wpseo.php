@@ -30,7 +30,6 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'license_server_version'                   => false,
 		'ms_defaults_set'                          => false,
 		'ignore_search_engines_discouraged_notice' => false,
-		'indexation_warning_hide_until'            => false,
 		'indexing_first_time'                      => true,
 		'indexation_started'                       => null,
 		'indexing_reason'                          => '',
@@ -313,7 +312,6 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 
 				case 'first_activated_on':
 				case 'indexation_started':
-				case 'indexation_warning_hide_until':
 					$clean[ $key ] = false;
 					if ( isset( $dirty[ $key ] ) ) {
 						if ( $dirty[ $key ] === false || WPSEO_Utils::validate_int( $dirty[ $key ] ) ) {

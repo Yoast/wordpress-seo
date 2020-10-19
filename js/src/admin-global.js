@@ -224,18 +224,6 @@
 				"json"
 			);
 		} );
-
-		$dismissible.on( "click", "#yoast-indexation-remind-button", function() {
-			const nonce = $( this ).data( "nonce" );
-
-			$.post(
-				ajaxurl,
-				{
-					action: "wpseo_set_indexation_remind",
-					_wpnonce: nonce,
-				},
-			);
-		} );
 	}
 
 	/**

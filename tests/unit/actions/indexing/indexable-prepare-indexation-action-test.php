@@ -6,7 +6,9 @@ use Mockery;
 use Yoast\WP\SEO\Actions\Indexing\Indexable_Prepare_Indexation_Action;
 use Yoast\WP\SEO\Helpers\Date_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Integrations\Admin\Indexing_Notification_Integration;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
+use Yoast_Notification_Center;
 
 /**
  * Class Indexable_Prepare_Indexation_Action_Test
@@ -33,6 +35,13 @@ class Indexable_Prepare_Indexation_Action_Test extends TestCase {
 	private $options;
 
 	/**
+	 * The notification center.
+	 *
+	 * @var Mockery\MockInterface|Yoast_Notification_Center
+	 */
+	private $notification_center;
+
+	/**
 	 * Instance under test.
 	 *
 	 * @var Indexable_Prepare_Indexation_Action
@@ -44,11 +53,14 @@ class Indexable_Prepare_Indexation_Action_Test extends TestCase {
 	 */
 	public function setUp() {
 		parent::setUp();
-		$this->options  = Mockery::mock( Options_Helper::class );
-		$this->date     = Mockery::mock( Date_Helper::class );
+		$this->options             = Mockery::mock( Options_Helper::class );
+		$this->date                = Mockery::mock( Date_Helper::class );
+		$this->notification_center = Mockery::mock( Yoast_Notification_Center::class );
+
 		$this->instance = new Indexable_Prepare_Indexation_Action(
 			$this->options,
-			$this->date
+			$this->date,
+			$this->notification_center
 		);
 	}
 
@@ -71,7 +83,7 @@ class Indexable_Prepare_Indexation_Action_Test extends TestCase {
 		$mocked_time = 1593426177;
 
 		$this->date->expects( 'current_time' )
-			->twice()
+			->once()
 			->andReturn( $mocked_time );
 
 		$this->options->expects( 'set' )
@@ -80,8 +92,8 @@ class Indexable_Prepare_Indexation_Action_Test extends TestCase {
 		$this->options->expects( 'set' )
 			->with( 'indexation_started', $mocked_time );
 
-		$this->options->expects( 'set' )
-			->with( 'indexation_warning_hide_until', $mocked_time + \MONTH_IN_SECONDS );
+		$this->notification_center->expects( 'remove_notification_by_id' )
+			->with( Indexing_Notification_Integration::NOTIFICATION_ID );
 
 		$this->instance->prepare();
 	}
