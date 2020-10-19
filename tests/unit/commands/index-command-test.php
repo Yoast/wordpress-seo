@@ -187,9 +187,7 @@ class Index_Command_Test extends TestCase {
 
 		$wpdb            = Mockery::mock();
 		$wpdb->prefix    = 'wp_';
-
-		// phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- Intended override for test purpose.
-		$GLOBALS['wpdb'] = $wpdb;
+		$GLOBALS['wpdb'] = $wpdb; // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- Intended override for test purpose.
 
 		$wpdb
 			->expects( 'query' )
