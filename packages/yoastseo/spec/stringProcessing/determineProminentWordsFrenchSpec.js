@@ -1,5 +1,5 @@
 import ProminentWord from "../../src/values/ProminentWord";
-import { getProminentWords, filterProminentWords } from "../../src/languageProcessing/helpers/_todo/determineProminentWords";
+import { getProminentWords, filterProminentWords } from "../../src/languageProcessing/helpers/prominentWords/determineProminentWords";
 
 describe( "gets French prominent words", function() {
 	it( "returns prominent words", function() {

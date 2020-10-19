@@ -4,8 +4,8 @@ import metaDescriptionKeyword from "../../researches/_todo/metaDescriptionKeywor
 import keywordCountInUrl from "../../researches/_todo/keywordCountInUrl";
 import relevantWords from "../../researches/_todo/relevantWords";
 import { keyphraseDistributionResearcher } from "../../researches/_todo/keyphraseDistribution";
-import getProminentWordsForInsights from "../../researches/_todo/getProminentWordsForInsights";
-import getProminentWordsForInternalLinking from "../../researches/_todo/getProminentWordsForInternalLinking";
+import getProminentWordsForInsights from "../../researches/base/getProminentWordsForInsights";
+import getProminentWordsForInternalLinking from "../../researches/base/getProminentWordsForInternalLinking";
 import getWordForms from "../../researches/_todo/getWordForms";
 import findKeywordInPageTitle from "../../researches/base/findKeywordInPageTitle";
 const keyphraseDistribution = keyphraseDistributionResearcher;
