@@ -228,6 +228,9 @@ Bugfixes:
 * Fixes a bug where the German passive voice assessment would show an error when the text contained a participle enclosed within curly quotation marks (e.g., `"getan"`).
 * Fixes a bug where the WooCommerce product permalinks were not updated after a permalink structure change.
 
+Other:
+ * Removes the "Remind me in 7 days" option in the SEO data optimization notification on the Yoast SEO dashboard, which was shown for large sites with more than 2500 unindexed indexables.
+
 = 15.1.1 =
 Release Date: October 15th, 2020
 
