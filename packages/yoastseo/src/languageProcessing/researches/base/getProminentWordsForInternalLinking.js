@@ -1,5 +1,4 @@
-import { get, take } from "lodash-es";
-import getLanguage from "../helpers/getLanguage";
+import { take } from "lodash-es";
 import countWords from "../../helpers/word/countWords";
 import {
 	collapseProminentWordsOnStem,
@@ -8,21 +7,27 @@ import {
 	getProminentWordsFromPaperAttributes,
 	retrieveAbbreviations,
 	sortProminentWords,
-} from "../helpers/determineProminentWords";
-import { getSubheadingsTopLevel, removeSubheadingsTopLevel } from "../../getSubheadings";
+} from "../../helpers/prominentWords/determineProminentWords";
+import { getSubheadingsTopLevel, removeSubheadingsTopLevel } from "../../helpers/html/getSubheadings";
+
+let functionWords = [];
 
 /**
  * Retrieves the prominent words from the given paper.
  *
  * @param {Paper}       paper       The paper to determine the prominent words of.
  * @param {Researcher}  researcher  The researcher to use for analysis.
+ * @param {Function} stemmer     The available stemmer function of a language.
+ * @param {Array}   funcWords       The available function words.
+ * @param {Object}  morphologyData  The available morphology data file.
  *
  * @returns {Object}          result                    A compound result object.
  * @returns {ProminentWord[]} result.prominentWords     Prominent words for this paper, filtered and sorted.
  * @returns {boolean}         result.hasMetaDescription Whether the metadescription is available in the input paper.
  * @returns {boolean}         result.hasTitle           Whether the title is available in the input paper.
  */
-function getProminentWordsForInternalLinking( paper, researcher ) {
+function getProminentWordsForInternalLinking( paper, researcher, stemmer, funcWords, morphologyData ) {
+	functionWords = funcWords;
 	const text = paper.getText();
 	const metadescription = paper.getDescription();
 	const title = paper.getTitle();
@@ -40,9 +45,6 @@ function getProminentWordsForInternalLinking( paper, researcher ) {
 		return result;
 	}
 
-	const language = getLanguage( paper.getLocale() );
-	const morphologyData = get( researcher.getData( "morphology" ), language, false );
-
 	const subheadings = getSubheadingsTopLevel( text ).map( subheading => subheading[ 2 ] );
 	const attributes = [
 		paper.getKeyword(),
@@ -54,9 +56,10 @@ function getProminentWordsForInternalLinking( paper, researcher ) {
 
 	const abbreviations = retrieveAbbreviations( text.concat( attributes.join( " " ) ) );
 
-	const prominentWordsFromText = getProminentWords( removeSubheadingsTopLevel( text ), abbreviations, language, morphologyData );
+	const prominentWordsFromText = getProminentWords( removeSubheadingsTopLevel( text ), abbreviations, stemmer, functionWords, morphologyData  );
 
-	const prominentWordsFromPaperAttributes = getProminentWordsFromPaperAttributes( attributes, abbreviations, language, morphologyData );
+	const prominentWordsFromPaperAttributes = getProminentWordsFromPaperAttributes(
+		attributes, abbreviations, stemmer, functionWords, morphologyData );
 
 	/*
 	 * If a word is used in any of the attributes, its weight is automatically high.

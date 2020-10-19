@@ -1,14 +1,10 @@
-import { get } from "lodash-es";
 import { memoize } from "lodash-es";
 import { uniq } from "lodash-es";
-import retrieveStemmer from "../../../helpers/_todo/retrieveStemmer";
 
-import getWords from "../../../researches/stringProcessing/getWords";
-import { normalizeSingle } from "../../../researches/stringProcessing/quotes";
+import getWords from "../word/getWords";
+import { normalizeSingle } from "../sanitize/quotes";
 import ProminentWord from "../../../values/ProminentWord";
-import functionWordListsFactory from "../../../helpers/_todo/getFunctionWords";
 
-const functionWordLists = functionWordListsFactory();
 const specialCharacters = /[1234567890‘’“”"'.…?!:;,¿¡«»&*@#±^%$|~=+§`[\](){}⟨⟩<>/\\–\-\u2014\u00d7\s]/g;
 
 /**
@@ -105,17 +101,6 @@ function collapseProminentWordsOnStem( prominentWords ) {
 }
 
 /**
- * Retrieves a function words list from the factory. Returns an empty array if the language does not have function words.
- *
- * @param {string} language The language to retrieve function words for.
- *
- * @returns {string[]} A list of function words for the language.
- */
-function retrieveFunctionWords( language ) {
-	return get( functionWordLists, language.concat( ".all" ), [] );
-}
-
-/**
  * Retrieves a list of all abbreviations from the text. Returns an empty array if the input text is empty.
  *
  * @param {string} text A text.
@@ -142,15 +127,13 @@ function retrieveAbbreviations( text ) {
  *
  * @param {string[]} words          The words to determine relevance for.
  * @param {string[]} abbreviations  Abbreviations that should not be stemmed.
- * @param {string} language         The paper's language.
- * @param {Object} morphologyData   The morphologyData available for the language of the paper.
+ * @param {Function} stemmer        The available stemmer.
+ * @param {Array} functionWords     The available function words list.
+ * @param {Object} morphologyData   The available morphology data file.
  *
  * @returns {ProminentWord[]} All prominent words sorted and filtered for this text.
  */
-function computeProminentWords( words, abbreviations, language, morphologyData ) {
-	const functionWords = retrieveFunctionWords( language );
-	const determineStem = retrieveStemmer( language, morphologyData );
-
+function computeProminentWords( words, abbreviations, stemmer, functionWords, morphologyData ) {
 	if ( words.length === 0 ) {
 		return [];
 	}
@@ -168,7 +151,7 @@ function computeProminentWords( words, abbreviations, language, morphologyData )
 		} else {
 			prominentWords.push( new ProminentWord(
 				word,
-				determineStem( word, morphologyData ),
+				stemmer( word, morphologyData ),
 				words.filter( element => element === word ).length
 			) );
 		}
@@ -178,22 +161,22 @@ function computeProminentWords( words, abbreviations, language, morphologyData )
 }
 
 /**
- * Caches prominent words depending on the currently available morphologyData and (separately) text words and language.
+ * Caches prominent words depending on the currently available morphologyData and (separately) text words, stemmer, and function words.
  * In this way, if the morphologyData remains the same in multiple calls of this function, the function
- * that collects actual prominent words only needs to check if the text words and language also remain the
- * same to return the cached result. The joining of words and language for this function is needed,
+ * that collects actual prominent words only needs to check if the text words, stemmer, and function words also remain the
+ * same to return the cached result. The joining of words, stemmer, and function words for this function is needed,
  * because by default memoize caches by the first key only, which in the current case would mean that the function would
- * return the cached forms if the text has not changed (without checking if language was changed).
+ * return the cached forms if the text has not changed (without checking if stemmer and function words were changed).
  *
  * @param {Object|boolean}  morphologyData  The available morphology data.
  *
  * @returns {function} The function that collects prominent words for a given set of text words, language and morphologyData.
  */
 const primeProminentWords = memoize( ( morphologyData ) => {
-	return memoize( ( words, abbreviations, language ) => {
-		return computeProminentWords( words, abbreviations, language, morphologyData );
-	}, ( words, abbreviations, language ) => {
-		return words.join( "," ) + "," + abbreviations.join( "," ) + "," + language;
+	return memoize( ( words, abbreviations, stemmer, functionWords ) => {
+		return computeProminentWords( words, abbreviations, stemmer, functionWords, morphologyData );
+	}, ( words, abbreviations, stemmer, functionWords ) => {
+		return words.join( "," ) + "," + abbreviations.join( "," ) + "," + stemmer.join( "," ) + "," + functionWords;
 	} );
 } );
 
@@ -201,14 +184,15 @@ const primeProminentWords = memoize( ( morphologyData ) => {
 /**
  * Gets prominent words from the paper text.
  *
- * @param {string}      text            The text to retrieve the prominent words from.
- * @param {string[]}    abbreviations   The abbreviations that occur in the text and attributes of the paper.
- * @param {string}      language        The paper's language.
- * @param {Object}      morphologyData  The morphologyData available for the language of the paper.
+ * @param {string} text             The text to retrieve the prominent words from.
+ * @param {string[]} abbreviations  The abbreviations that occur in the text and attributes of the paper.
+ * @param {Function} stemmer        The available stemmer.
+ * @param {Array} functionWords     The available function words list.
+ * @param {Object} morphologyData   The available morphology data file.
  *
  * @returns {ProminentWord[]} All prominent words sorted and filtered for this text.
  */
-function getProminentWords( text, abbreviations, language, morphologyData ) {
+function getProminentWords( text, abbreviations, stemmer, functionWords, morphologyData ) {
 	if ( text === "" ) {
 		return [];
 	}
@@ -216,23 +200,24 @@ function getProminentWords( text, abbreviations, language, morphologyData ) {
 	const words = getWords( normalizeSingle( text ).toLocaleLowerCase() );
 	const computeProminentWordsMemoized = primeProminentWords( morphologyData );
 
-	return computeProminentWordsMemoized( words, abbreviations, language, morphologyData );
+	return computeProminentWordsMemoized( words, abbreviations, stemmer, functionWords, morphologyData );
 }
 
 /**
  * Gets prominent words from keyphrase and synonyms, metadescription, title, and subheadings.
  *
- * @param {string[]}    attributes       The array with attributes to process.
- * @param {string[]}    abbreviations    The abbreviations that occur in the text and attributes of the paper.
- * @param {string}      language         The language of the paper.
- * @param {Object}      morphologyData   The morphologyData available for the language of the paper.
+ * @param {string[]} attributes     The array with attributes to process.
+ * @param {string[]} abbreviations  The abbreviations that occur in the text and attributes of the paper.
+ * @param {Function} stemmer        The available stemmer.
+ * @param {Array} functionWords     The available function words list.
+ * @param {Object} morphologyData   The available morphology data file.
  *
  * @returns {ProminentWord[]} Prominent words from the paper attributes.
  */
-function getProminentWordsFromPaperAttributes( attributes, abbreviations, language, morphologyData ) {
+function getProminentWordsFromPaperAttributes( attributes, abbreviations, stemmer, functionWords, morphologyData ) {
 	const wordsFromAttributes = getWords( attributes.join( " " ).toLocaleLowerCase() );
 
-	return computeProminentWords( wordsFromAttributes, abbreviations, language, morphologyData );
+	return computeProminentWords( wordsFromAttributes, abbreviations, stemmer, functionWords, morphologyData );
 }
 
 export {
