@@ -20,7 +20,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group commands
  *
  * @coversDefaultClass \Yoast\WP\SEO\Commands\Index_Command
- * @covers ::<!public>
+ * @covers \Yoast\WP\SEO\Commands\Index_Command
  */
 class Index_Command_Test extends TestCase {
 
@@ -74,7 +74,7 @@ class Index_Command_Test extends TestCase {
 	private $instance;
 
 	/**
-	 * @inheritDoc
+	 * Prepares the test by setting up the needed properties.
 	 */
 	public function setUp() {
 		$this->post_indexation_action              = Mockery::mock( Indexable_Post_Indexation_Action::class );
@@ -187,7 +187,7 @@ class Index_Command_Test extends TestCase {
 
 		$wpdb            = Mockery::mock();
 		$wpdb->prefix    = 'wp_';
-		$GLOBALS['wpdb'] = $wpdb;
+		$GLOBALS['wpdb'] = $wpdb; // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- Intended override for test purpose.
 
 		$wpdb
 			->expects( 'query' )
@@ -205,12 +205,23 @@ class Index_Command_Test extends TestCase {
 			->once()
 			->with( 'TRUNCATE TABLE wp_yoast_indexable_hierarchy' );
 
-
 		$wpdb
 			->expects( 'prepare' )
 			->once()
 			->with( 'TRUNCATE TABLE %1$s', 'wp_yoast_indexable_hierarchy' )
 			->andReturn( 'TRUNCATE TABLE wp_yoast_indexable_hierarchy' );
+
+		Monkey\Functions\expect( 'delete_transient' )
+			->once()
+			->with( 'wpseo_total_unindexed_posts' );
+
+		Monkey\Functions\expect( 'delete_transient' )
+			->once()
+			->with( 'wpseo_total_unindexed_post_type_archives' );
+
+		Monkey\Functions\expect( 'delete_transient' )
+			->once()
+			->with( 'wpseo_total_unindexed_terms' );
 
 		$this->instance->index( null, [ 'reindex' => true ] );
 	}

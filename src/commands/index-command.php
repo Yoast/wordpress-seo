@@ -156,11 +156,21 @@ class Index_Command implements Command_Interface {
 	 * @return void
 	 */
 	protected function run_indexation_actions( $assoc_args ) {
+		// See if we need to clear all indexables before repopulating.
 		if ( isset( $assoc_args['reindex'] ) ) {
+
+			// Argument --skip-confirmation to prevent confirmation (for automated systems).
 			if ( ! isset( $assoc_args['skip-confirmation'] ) ) {
 				WP_CLI::confirm( 'This will clear all previously indexed objects. Are you certain you wish to proceed?' );
 			}
+
+			// Truncate the tables.
 			$this->clear();
+
+			// Delete the transients to make sure re-indexing runs every time.
+			\delete_transient( Indexable_Post_Indexation_Action::TRANSIENT_CACHE_KEY );
+			\delete_transient( Indexable_Post_Type_Archive_Indexation_Action::TRANSIENT_CACHE_KEY );
+			\delete_transient( Indexable_Term_Indexation_Action::TRANSIENT_CACHE_KEY );
 		}
 
 		$indexation_actions = [
