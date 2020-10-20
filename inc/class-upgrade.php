@@ -6,6 +6,7 @@
  */
 
 use Yoast\WP\Lib\Model;
+use Yoast\WP\SEO\Integrations\Admin\Indexing_Notification_Integration;
 use Yoast\WP\SEO\Integrations\Admin\Indexing_Tool_Integration;
 
 /**
@@ -773,6 +774,7 @@ class WPSEO_Upgrade {
 	protected function move_indexables_indexation_reason_for_151() {
 		$reason = WPSEO_Options::get( 'indexables_indexation_reason', '' );
 		WPSEO_Options::set( 'indexing_reason', $reason );
+		Yoast_Notification_Center::get()->remove_notification_by_id( Indexing_Notification_Integration::NOTIFICATION_ID );
 	}
 
 	/**

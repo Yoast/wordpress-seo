@@ -174,9 +174,11 @@ class Indexing_Notification_Integration implements Integration_Interface {
 			return;
 		}
 
-		$notification = $this->notification();
-		$this->notification_helper->restore_notification( $notification );
-		$this->notification_center->add_notification( $notification );
+		if ( ! $this->notification_center->get_notification_by_id( self::NOTIFICATION_ID ) ) {
+			$notification = $this->notification();
+			$this->notification_helper->restore_notification( $notification );
+			$this->notification_center->add_notification( $notification );
+		}
 	}
 
 	/**
