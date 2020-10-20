@@ -5,7 +5,6 @@ namespace Yoast\WP\SEO\Integrations\Watchers;
 use Yoast\WP\SEO\Builders\Indexable_Builder;
 use Yoast\WP\SEO\Builders\Indexable_Link_Builder;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
-use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Site_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
@@ -44,9 +43,9 @@ class Indexable_Term_Watcher implements Integration_Interface {
 	protected $site;
 
 	/**
-	 * Gets the conditionals.
+	 * Returns the conditionals based in which this loadable should be active.
 	 *
-	 * @inheritDoc
+	 * @return array
 	 */
 	public static function get_conditionals() {
 		return [ Migrations_Conditional::class ];
@@ -75,7 +74,7 @@ class Indexable_Term_Watcher implements Integration_Interface {
 	/**
 	 * Registers the hooks.
 	 *
-	 * @inheritDoc
+	 * @return void
 	 */
 	public function register_hooks() {
 		\add_action( 'created_term', [ $this, 'build_indexable' ], \PHP_INT_MAX );

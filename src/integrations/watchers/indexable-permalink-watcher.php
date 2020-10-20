@@ -52,9 +52,9 @@ class Indexable_Permalink_Watcher implements Integration_Interface {
 	protected $indexable_helper;
 
 	/**
-	 * Gets the conditionals.
+	 * Returns the conditionals based in which this loadable should be active.
 	 *
-	 * @inheritDoc
+	 * @return array
 	 */
 	public static function get_conditionals() {
 		return [ Migrations_Conditional::class ];
@@ -80,7 +80,7 @@ class Indexable_Permalink_Watcher implements Integration_Interface {
 	/**
 	 * Registers the hooks.
 	 *
-	 * @inheritDoc
+	 * @return void
 	 */
 	public function register_hooks() {
 		\add_action( 'update_option_permalink_structure', [ $this, 'reset_permalinks' ] );
@@ -104,9 +104,9 @@ class Indexable_Permalink_Watcher implements Integration_Interface {
 			$this->indexable_helper->reset_permalink_indexables( 'term', $taxonomy );
 		}
 
-		$this->indexable_helper->reset_permalink_indexables( 'user', null );
-		$this->indexable_helper->reset_permalink_indexables( 'date-archive', null );
-		$this->indexable_helper->reset_permalink_indexables( 'system-page', null );
+		$this->indexable_helper->reset_permalink_indexables( 'user' );
+		$this->indexable_helper->reset_permalink_indexables( 'date-archive' );
+		$this->indexable_helper->reset_permalink_indexables( 'system-page' );
 
 		// Always update `permalink_structure` in the wpseo option.
 		$this->options_helper->set( 'permalink_structure', \get_option( 'permalink_structure' ) );

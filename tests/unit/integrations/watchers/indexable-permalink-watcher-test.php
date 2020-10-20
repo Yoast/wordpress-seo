@@ -118,9 +118,9 @@ class Indexable_Permalink_Watcher_Test extends TestCase {
 		$this->indexable_helper->expects( 'reset_permalink_indexables' )->with( 'post', 'post' )->once();
 		$this->indexable_helper->expects( 'reset_permalink_indexables' )->with( 'post-type-archive', 'post' )->once();
 		$this->indexable_helper->expects( 'reset_permalink_indexables' )->with( 'term', 'category' )->once();
-		$this->indexable_helper->expects( 'reset_permalink_indexables' )->with( 'user', null )->once();
-		$this->indexable_helper->expects( 'reset_permalink_indexables' )->with( 'date-archive', null )->once();
-		$this->indexable_helper->expects( 'reset_permalink_indexables' )->with( 'system-page', null )->once();
+		$this->indexable_helper->expects( 'reset_permalink_indexables' )->with( 'user' )->once();
+		$this->indexable_helper->expects( 'reset_permalink_indexables' )->with( 'date-archive' )->once();
+		$this->indexable_helper->expects( 'reset_permalink_indexables' )->with( 'system-page' )->once();
 
 		Monkey\Functions\expect( 'get_option' )
 			->once()
