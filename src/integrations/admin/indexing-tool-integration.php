@@ -167,7 +167,7 @@ class Indexing_Tool_Integration implements Integration_Interface {
 		$data = [
 			'disabled'  => ! $this->indexable_helper->should_index_indexables(),
 			'amount'    => $this->get_unindexed_count(),
-			'firstTime' => ( $this->indexing_helper->is_first_time() === true ),
+			'firstTime' => ( $this->indexing_helper->is_initial_indexing() === true ),
 			'restApi'   => [
 				'root'      => \esc_url_raw( \rest_url() ),
 				'endpoints' => $this->get_endpoints(),

@@ -253,7 +253,7 @@ class Indexing_Tool_Integration_Test extends TestCase {
 			->andReturn( 'nonce_value' );
 
 		$this->indexing_helper
-			->expects( 'get_first_time' )
+			->expects( 'is_initial_indexing' )
 			->withNoArgs()
 			->andReturnTrue();
 

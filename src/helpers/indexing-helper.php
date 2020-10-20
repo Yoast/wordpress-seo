@@ -108,7 +108,7 @@ class Indexing_Helper {
 	 *
 	 * @return bool Whether the site still has to be indexed for the first time.
 	 */
-	public function is_first_time() {
+	public function is_initial_indexing() {
 		return $this->options_helper->get( 'indexing_first_time', true );
 	}
 }
