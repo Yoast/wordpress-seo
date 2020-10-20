@@ -37,7 +37,7 @@ class Indexing_Helper {
 	/**
 	 * Gets the indexing reason.
 	 *
-	 * @return mixed Returns the reason if found, and an empty string otherwise.
+	 * @return string The reason if found, and an empty string otherwise.
 	 */
 	public function get_reason() {
 		return $this->options_helper->get( 'indexing_reason', '' );
@@ -75,9 +75,9 @@ class Indexing_Helper {
 	}
 
 	/**
-	 * Gets a boolean that indicates whether or not a site still has to be indexed for the first time.
+	 * Gets a boolean that indicates whether or not the site still has to be indexed for the first time.
 	 *
-	 * @return void
+	 * @return bool Whether the site still has to be indexed for the first time.
 	 */
 	public function is_first_time() {
 		return $this->options_helper->get( 'indexing_first_time', true );
