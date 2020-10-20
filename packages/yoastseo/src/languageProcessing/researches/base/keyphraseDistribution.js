@@ -4,9 +4,7 @@ import { findWordFormsInString } from "../../helpers/match/findKeywordFormsInStr
 import { max, uniq as unique } from "lodash-es";
 import { zipWith } from "lodash-es";
 import { flattenDeep } from "lodash-es";
-import { indexOf } from "lodash-es";
 import { markWordsInSentences } from "../../helpers/word/markWordsInSentences";
-import getLanguage from "../../helpers/getLanguage";
 
 let functionWords = [];
 
