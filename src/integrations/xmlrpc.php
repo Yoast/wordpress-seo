@@ -10,8 +10,11 @@ use Yoast\WP\SEO\Conditionals\XMLRPC_Conditional;
 class XMLRPC implements Integration_Interface {
 
 	/**
-	 * @codeCoverageIgnore
-	 * @inheritDoc
+	 * Returns the conditionals based on which this loadable should be active.
+	 *
+	 * In this case when the current request is an XML-RPC request.
+	 *
+	 * @return array The conditionals based on which this class should be loaded.
 	 */
 	public static function get_conditionals() {
 		return [ XMLRPC_Conditional::class ];

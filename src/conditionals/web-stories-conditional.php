@@ -8,7 +8,9 @@ namespace Yoast\WP\SEO\Conditionals;
 class Web_Stories_Conditional implements Conditional {
 
 	/**
-	 * @inheritDoc
+	 * Returns `true` when the Web Stories plugins is installed and active.
+	 *
+	 * @returns boolean `true` when the Web Stories plugins is installed and active.
 	 */
 	public function is_met() {
 		return \function_exists( '\Google\Web_Stories\get_plugin_instance' );
