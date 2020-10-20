@@ -43,6 +43,11 @@ class Indexing_Notification_Integration implements Integration_Interface {
 	const REASON_CATEGORY_BASE_PREFIX = 'category_base_changed';
 
 	/**
+	 * Represents the reason that the tag base is changed.
+	 */
+	const REASON_TAG_BASE_PREFIX = 'tag_base_changed';
+
+	/**
 	 * Represents the reason that the home url option is changed.
 	 */
 	const REASON_HOME_URL_OPTION = 'home_url_option_changed';

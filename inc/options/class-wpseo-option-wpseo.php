@@ -69,6 +69,8 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'permalink_structure'                      => '',
 		'home_url'                                 => '',
 		'dynamic_permalinks'                       => false,
+		'category_base_url'                        => '',
+		'tag_base_url'                             => '',
 		'custom_taxonomy_slugs'                    => [],
 		'enable_enhanced_slack_sharing'            => true,
 		'zapier_integration_active'                => true,
@@ -343,8 +345,10 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 					break;
 
 				case 'permalink_structure':
+				case 'category_base_url':
+				case 'tag_base_url':
 					if ( isset( $dirty[ $key ] ) ) {
-						$clean[ $key ] = sanitize_option( 'permalink_structure', $dirty[ $key ] );
+						$clean[ $key ] = sanitize_option( $key, $dirty[ $key ] );
 					}
 					break;
 

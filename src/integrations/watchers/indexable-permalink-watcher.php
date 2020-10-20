@@ -11,6 +11,7 @@ use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
+use Yoast\WP\SEO\Integrations\Admin\Indexing_Notification_Integration;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Presenters\Admin\Indexation_Permalink_Warning_Presenter;
 use Yoast\WP\SEO\WordPress\Wrapper;
@@ -51,7 +52,9 @@ class Indexable_Permalink_Watcher implements Integration_Interface {
 	protected $indexable_helper;
 
 	/**
-	 * @inheritDoc
+	 * Returns the conditionals based in which this loadable should be active.
+	 *
+	 * @return array
 	 */
 	public static function get_conditionals() {
 		return [ Migrations_Conditional::class ];
@@ -75,7 +78,9 @@ class Indexable_Permalink_Watcher implements Integration_Interface {
 	}
 
 	/**
-	 * @inheritDoc
+	 * Registers the hooks.
+	 *
+	 * @return void
 	 */
 	public function register_hooks() {
 		\add_action( 'update_option_permalink_structure', [ $this, 'reset_permalinks' ] );
@@ -88,6 +93,7 @@ class Indexable_Permalink_Watcher implements Integration_Interface {
 	 * Resets the permalinks for everything that is related to the permalink structure.
 	 */
 	public function reset_permalinks() {
+
 		$post_types = $this->get_post_types();
 		foreach ( $post_types as $post_type ) {
 			$this->reset_permalinks_post_type( $post_type );
@@ -126,6 +132,8 @@ class Indexable_Permalink_Watcher implements Integration_Interface {
 	public function reset_permalinks_term( $old, $new, $type ) {
 		$subtype = $type;
 
+		$reason = Indexing_Notification_Integration::REASON_PERMALINK_SETTINGS;
+
 		// When the subtype contains _base, just strip it.
 		if ( \strstr( $subtype, '_base' ) ) {
 			$subtype = \substr( $type, 0, -5 );
@@ -133,9 +141,14 @@ class Indexable_Permalink_Watcher implements Integration_Interface {
 
 		if ( $subtype === 'tag' ) {
 			$subtype = 'post_tag';
+			$reason  = Indexing_Notification_Integration::REASON_TAG_BASE_PREFIX;
 		}
 
-		$this->indexable_helper->reset_permalink_indexables( 'term', $subtype );
+		if ( $subtype === 'category' ) {
+			$reason = Indexing_Notification_Integration::REASON_CATEGORY_BASE_PREFIX;
+		}
+
+		$this->indexable_helper->reset_permalink_indexables( 'term', $subtype, $reason );
 	}
 
 	/**
@@ -144,6 +157,15 @@ class Indexable_Permalink_Watcher implements Integration_Interface {
 	 * @return bool Whether the reset request ran.
 	 */
 	public function force_reset_permalinks() {
+		if ( \get_option( 'tag_base' ) !== $this->options_helper->get( 'tag_base_url' ) ) {
+			$this->reset_permalinks_term( null, null, 'tag_base' );
+			$this->options_helper->set( 'tag_base_url', \get_option( 'tag_base' ) );
+		}
+		if ( \get_option( 'category_base' ) !== $this->options_helper->get( 'category_base_url' ) ) {
+			$this->reset_permalinks_term( null, null, 'category_base' );
+			$this->options_helper->set( 'category_base_url', \get_option( 'category_base' ) );
+		}
+
 		if ( $this->should_reset_permalinks() ) {
 			$this->reset_permalinks();
 
@@ -156,7 +178,7 @@ class Indexable_Permalink_Watcher implements Integration_Interface {
 	}
 
 	/**
-	 * Checks whether permalinks should be reset.
+	 * Checks whether the permalinks should be reset after `permalink_structure` has changed.
 	 *
 	 * @return bool Whether the permalinks should be reset.
 	 */

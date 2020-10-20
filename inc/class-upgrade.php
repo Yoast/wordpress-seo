@@ -66,6 +66,7 @@ class WPSEO_Upgrade {
 			'14.5-RC0'   => 'upgrade_145',
 			'14.9-RC0'   => 'upgrade_149',
 			'15.1-RC0'   => 'upgrade_151',
+			'15.3-RC0'   => 'upgrade_153',
 		];
 
 		array_walk( $routines, [ $this, 'run_upgrade_routine' ], $version );
@@ -749,6 +750,16 @@ class WPSEO_Upgrade {
 
 		add_action( 'init', [ $this, 'set_permalink_structure_option_for_151' ] );
 		add_action( 'init', [ $this, 'store_custom_taxonomy_slugs_for_151' ] );
+	}
+
+	/**
+	 * Performs the 15.3 upgrade.
+	 *
+	 * @return void
+	 */
+	private function upgrade_153() {
+		WPSEO_Options::set( 'category_base_url', get_option( 'category_base' ) );
+		WPSEO_Options::set( 'tag_base_url', get_option( 'tag_base' ) );
 	}
 
 	/**
