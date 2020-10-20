@@ -1,4 +1,4 @@
-/* global wpseoAdminGlobalL10n, ajaxurl, wpseoScriptData */
+/* global wpseoAdminGlobalL10n, ajaxurl, wpseoScriptData, ClipboardJS */
 
 import a11ySpeak from "a11y-speak";
 import { debounce } from "lodash-es";
@@ -276,6 +276,31 @@ export default function initAdmin( jQuery ) {
 		} );
 	}
 
+	/**
+	 * Initializes the Copy to clipboard button for the Zapier API Key.
+	 *
+	 * @returns {void}
+	 */
+	function initCopyZapierKeyToClipboard() {
+		if ( typeof ClipboardJS !== "undefined" ) {
+			const copyZapierKeyToClipboard = new ClipboardJS( "#copy-zapier-api-key" );
+
+			/**
+			 * Copies the Zapier API Key to the clipboard.
+			 *
+			 * @param {MouseEvent} event The click event on the Copy button.
+			 *
+			 * @return {void}
+			 */
+			copyZapierKeyToClipboard.on( "success", function( event ) {
+				// Clear the selection and move focus back to the trigger.
+				event.clearSelection();
+				// Handle ClipboardJS focus bug, see https://github.com/zenorocha/clipboard.js/issues/680
+				jQuery( event.trigger ).focus();
+			} );
+		}
+	}
+
 	window.wpseoDetectWrongVariables = wpseoDetectWrongVariables;
 	window.setWPOption = setWPOption;
 	window.wpseoCopyHomeMeta = wpseoCopyHomeMeta;
@@ -341,6 +366,14 @@ export default function initAdmin( jQuery ) {
 		// Toggle the Breadcrumbs section.
 		jQuery( "#breadcrumbs-enable" ).change( function() {
 			jQuery( "#breadcrumbsinfo" ).toggle( jQuery( this ).is( ":checked" ) );
+		} ).change();
+
+		// Toggle the Zapier connection section.
+		jQuery( "#zapier_integration_active input[type='radio']" ).change( function() {
+			// The value on is enabled, off is disabled.
+			if ( jQuery( this ).is( ":checked" ) ) {
+				jQuery( "#zapier-connection" ).toggle( jQuery( this ).val() === "on" );
+			}
 		} ).change();
 
 		// Handle the settings pages tabs.
@@ -415,5 +448,6 @@ export default function initAdmin( jQuery ) {
 		initXmlSitemapsWarning();
 		// Should be called after the initial active tab has been set.
 		setFixedSubmitButtonVisibility();
+		initCopyZapierKeyToClipboard();
 	} );
 }

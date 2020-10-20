@@ -4,7 +4,7 @@ namespace Yoast\WP\SEO\Integrations\Admin;
 
 use wpdb;
 use Yoast\WP\Lib\Model;
-use Yoast\WP\SEO\Actions\Indexation\Post_Link_Indexing_Action;
+use Yoast\WP\SEO\Actions\Indexing\Post_Link_Indexing_Action;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Conditionals\Posts_Overview_Or_Ajax_Conditional;
 use Yoast\WP\SEO\Conditionals\Should_Index_Links_Conditional;

@@ -4,11 +4,13 @@ namespace Yoast\WP\SEO\Tests\Unit\Integrations\Admin;
 
 use Brain\Monkey;
 use Mockery;
-use Yoast\WP\SEO\Actions\Indexation\Indexable_Indexing_Complete_Action;
-use Yoast\WP\SEO\Actions\Indexation\Indexable_General_Indexation_Action;
-use Yoast\WP\SEO\Actions\Indexation\Indexable_Post_Indexation_Action;
-use Yoast\WP\SEO\Actions\Indexation\Indexable_Post_Type_Archive_Indexation_Action;
-use Yoast\WP\SEO\Actions\Indexation\Indexable_Term_Indexation_Action;
+use Yoast\WP\SEO\Actions\Indexing\Indexable_Indexing_Complete_Action;
+use Yoast\WP\SEO\Actions\Indexing\Indexable_General_Indexation_Action;
+use Yoast\WP\SEO\Actions\Indexing\Indexable_Post_Indexation_Action;
+use Yoast\WP\SEO\Actions\Indexing\Indexable_Post_Type_Archive_Indexation_Action;
+use Yoast\WP\SEO\Actions\Indexing\Indexable_Term_Indexation_Action;
+use Yoast\WP\SEO\Actions\Indexing\Post_Link_Indexing_Action;
+use Yoast\WP\SEO\Actions\Indexing\Term_Link_Indexing_Action;
 use Yoast\WP\SEO\Conditionals\Get_Request_Conditional;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
 use Yoast\WP\SEO\Conditionals\Yoast_Admin_And_Dashboard_Conditional;
@@ -69,6 +71,20 @@ class Background_Indexing_Integration_Test extends TestCase {
 	protected $complete_indexation_action;
 
 	/**
+	 * The post link indexing action.
+	 *
+	 * @var Mockery\MockInterface|Indexable_Indexing_Complete_Action
+	 */
+	protected $post_link_indexing_action;
+
+	/**
+	 * The term link indexing action.
+	 *
+	 * @var Mockery\MockInterface|Term_Link_Indexing_Action
+	 */
+	protected $term_link_indexing_action;
+
+	/**
 	 * Sets up the tests.
 	 */
 	protected function setUp() {
@@ -79,13 +95,17 @@ class Background_Indexing_Integration_Test extends TestCase {
 		$this->post_type_archive_indexation = Mockery::mock( Indexable_Post_Type_Archive_Indexation_Action::class );
 		$this->general_indexation           = Mockery::mock( Indexable_General_Indexation_Action::class );
 		$this->complete_indexation_action   = Mockery::mock( Indexable_Indexing_Complete_Action::class );
+		$this->post_link_indexing_action    = Mockery::mock( Post_Link_Indexing_Action::class );
+		$this->term_link_indexing_action    = Mockery::mock( Term_Link_Indexing_Action::class );
 
 		$this->instance = new Background_Indexing_Integration(
 			$this->post_indexation,
 			$this->term_indexation,
 			$this->post_type_archive_indexation,
 			$this->general_indexation,
-			$this->complete_indexation_action
+			$this->complete_indexation_action,
+			$this->post_link_indexing_action,
+			$this->term_link_indexing_action
 		);
 	}
 
@@ -139,6 +159,8 @@ class Background_Indexing_Integration_Test extends TestCase {
 		$this->term_indexation->expects( 'get_total_unindexed' )->andReturn( 0 );
 		$this->post_type_archive_indexation->expects( 'get_total_unindexed' )->andReturn( 0 );
 		$this->general_indexation->expects( 'get_total_unindexed' )->andReturn( 0 );
+		$this->post_link_indexing_action->expects( 'get_total_unindexed' )->andReturn( 0 );
+		$this->term_link_indexing_action->expects( 'get_total_unindexed' )->andReturn( 0 );
 
 		/**
 		 * We have to register the shutdown function here to prevent a fatal PHP error,
@@ -169,6 +191,14 @@ class Background_Indexing_Integration_Test extends TestCase {
 			->once();
 
 		$this->post_type_archive_indexation
+			->expects( 'index' )
+			->once();
+
+		$this->post_link_indexing_action
+			->expects( 'index' )
+			->once();
+
+		$this->term_link_indexing_action
 			->expects( 'index' )
 			->once();
 

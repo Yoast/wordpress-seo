@@ -458,12 +458,6 @@ class Indexing_Notification_Integration_Test extends TestCase {
 			->once()
 			->andReturn( 1593426177 );
 
-		$this->options_helper
-			->expects( 'get' )
-			->with( 'indexation_warning_hide_until', false )
-			->once()
-			->andReturn( false );
-
 		Monkey\Functions\expect( 'wp_get_current_user' )
 			->andReturn( 'user' );
 
@@ -515,12 +509,6 @@ class Indexing_Notification_Integration_Test extends TestCase {
 			->once()
 			->andReturn( 1593426177 );
 
-		$this->options_helper
-			->expects( 'get' )
-			->with( 'indexation_warning_hide_until', false )
-			->once()
-			->andReturn( 1653426176 );
-
 		Monkey\Functions\expect( 'wp_get_current_user' )
 			->andReturn( 'user' );
 
@@ -570,12 +558,6 @@ class Indexing_Notification_Integration_Test extends TestCase {
 			->with( 'indexation_started' )
 			->once()
 			->andReturn( 1593426177 );
-
-		$this->options_helper
-			->expects( 'get' )
-			->with( 'indexation_warning_hide_until', false )
-			->once()
-			->andReturn( 1653426178 );
 
 		Monkey\Functions\expect( 'wp_get_current_user' )
 			->andReturn( 'user' );

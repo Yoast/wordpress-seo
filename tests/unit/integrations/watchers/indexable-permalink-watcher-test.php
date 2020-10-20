@@ -8,6 +8,7 @@ use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
 use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
+use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
 use Yoast\WP\SEO\Integrations\Watchers\Indexable_Permalink_Watcher;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
@@ -51,6 +52,13 @@ class Indexable_Permalink_Watcher_Test extends TestCase {
 	protected $indexable_helper;
 
 	/**
+	 * Represents the taxonomy helper.
+	 *
+	 * @var Mockery\MockInterface|Taxonomy_Helper
+	 */
+	protected $taxonomy_helper;
+
+	/**
 	 * Does the setup.
 	 */
 	public function setUp() {
@@ -66,7 +74,8 @@ class Indexable_Permalink_Watcher_Test extends TestCase {
 		$this->post_type        = Mockery::mock( Post_Type_Helper::class );
 		$this->options          = Mockery::mock( Options_Helper::class );
 		$this->indexable_helper = Mockery::mock( Indexable_Helper::class );
-		$this->instance         = Mockery::mock( Indexable_Permalink_Watcher::class, [ $this->post_type, $this->options, $this->indexable_helper ] )
+		$this->taxonomy_helper  = Mockery::mock( Taxonomy_Helper::class );
+		$this->instance         = Mockery::mock( Indexable_Permalink_Watcher::class, [ $this->post_type, $this->options, $this->indexable_helper, $this->taxonomy_helper ] )
 				->shouldAllowMockingProtectedMethods()
 				->makePartial();
 	}
@@ -180,6 +189,10 @@ class Indexable_Permalink_Watcher_Test extends TestCase {
 			->expects( 'reset_permalinks' )
 			->once();
 
+		$this->instance
+			->expects( 'reset_altered_custom_taxonomies' )
+			->never();
+
 		$this->assertTrue( $this->instance->force_reset_permalinks() );
 	}
 
@@ -194,7 +207,11 @@ class Indexable_Permalink_Watcher_Test extends TestCase {
 			->once()
 			->andReturnFalse();
 
-		$this->assertFalse( $this->instance->force_reset_permalinks() );
+		$this->instance
+			->expects( 'reset_altered_custom_taxonomies' )
+			->once();
+
+		$this->assertTrue( $this->instance->force_reset_permalinks() );
 	}
 
 	/**
@@ -235,5 +252,103 @@ class Indexable_Permalink_Watcher_Test extends TestCase {
 			->andReturn( '/%postname%/' );
 
 		$this->assertFalse( $this->instance->should_reset_permalinks() );
+	}
+
+	/**
+	 * Test that custom taxonomy permalinks should be reset.
+	 *
+	 * @covers ::reset_altered_custom_taxonomies
+	 */
+	public function test_should_reset_altered_custom_taxonomies() {
+		$this->taxonomy_helper
+			->expects( 'get_custom_taxonomies' )
+			->once()
+			->andReturn(
+				[
+					'book-category' => 'book-category',
+					'book-genre'    => 'book-genre',
+				]
+			);
+
+		$this->options
+			->expects( 'get' )
+			->with( 'custom_taxonomy_slugs', [] )
+			->once()
+			->andReturn(
+				[
+					'book-category' => 'yoast-book-category',
+					'book-genre'    => 'yoast-test-book-genre',
+				]
+			);
+
+		$this->taxonomy_helper
+			->expects( 'get_taxonomy_slug' )
+			->times( 2 )
+			->andReturnValues( [ 'yoast-test-book-category', 'yoast-test-book-genre' ] );
+
+		$this->indexable_helper
+			->expects( 'reset_permalink_indexables' )
+			->with( 'term', 'book-category' );
+
+		$this->options
+			->expects( 'set' )
+			->with(
+				'custom_taxonomy_slugs',
+				[
+					'book-category' => 'yoast-test-book-category',
+					'book-genre'    => 'yoast-test-book-genre',
+				]
+			);
+
+		$this->instance->reset_altered_custom_taxonomies();
+	}
+
+	/**
+	 * Test that custom taxonomy permalinks shouldn't be reset.
+	 *
+	 * @covers ::reset_altered_custom_taxonomies
+	 */
+	public function test_shouldnt_reset_altered_custom_taxonomies() {
+		$this->taxonomy_helper
+			->expects( 'get_custom_taxonomies' )
+			->once()
+			->andReturn(
+				[
+					'book-category' => 'book-category',
+					'book-genre'    => 'book-genre',
+				]
+			);
+
+		$this->options
+			->expects( 'get' )
+			->with( 'custom_taxonomy_slugs', [] )
+			->once()
+			->andReturn(
+				[
+					'book-category' => 'yoast-test-book-category',
+					'book-genre'    => 'yoast-test-book-genre',
+				]
+			);
+
+		$this->taxonomy_helper
+			->expects( 'get_taxonomy_slug' )
+			->times( 2 )
+			->andReturnValues( [ 'yoast-test-book-category', 'yoast-test-book-genre' ] );
+
+		$this->indexable_helper
+			->expects( 'reset_permalink_indexables' )
+			->never();
+
+		$this->options
+			->expects( 'set' )
+			->with(
+				'custom_taxonomy_slugs',
+				[
+					'book-category' => 'yoast-test-book-category',
+					'book-genre'    => 'yoast-test-book-genre',
+				]
+			);
+
+		$this->instance->reset_altered_custom_taxonomies();
 	}
 }

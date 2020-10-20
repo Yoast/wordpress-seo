@@ -176,7 +176,6 @@ class Indexing_Notification_Integration implements Integration_Interface {
 
 		$notification = $this->notification();
 		$this->notification_helper->restore_notification( $notification );
-		$this->options_helper->set( 'indexation_warning_hide_until', false );
 		$this->notification_center->add_notification( $notification );
 	}
 
@@ -200,24 +199,13 @@ class Indexing_Notification_Integration implements Integration_Interface {
 	 * @return bool If the notification should be shown.
 	 */
 	protected function should_show_notification() {
-		/*
-		 * Never show a notification when nothing should be indexed.
-		 */
-		if ( $this->indexing_integration->get_unindexed_count() === 0 ) {
+		// Don't show a notification if the indexation has already been started earlier.
+		if ( $this->options_helper->get( 'indexation_started' ) === 0 ) {
 			return false;
 		}
 
-		/*
-		 * Show the notification when it is not in the hide notification period.
-		 * (E.g. when the user clicked on 'hide this notification for a week').
-		 */
-		$hide_until = $this->options_helper->get( 'indexation_warning_hide_until', false );
-
-		if ( $hide_until === false ) {
-			return true;
-		}
-
-		return ( $this->date_helper->current_time() > ( (int) $hide_until ) );
+		// Never show a notification when nothing should be indexed.
+		return $this->indexing_integration->get_unindexed_count() > 0;
 	}
 
 	/**

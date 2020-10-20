@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\WP\SEO\Actions\Indexation;
+namespace Yoast\WP\SEO\Actions\Indexing;
 
 use Yoast\WP\SEO\Helpers\Options_Helper;
 
@@ -33,6 +33,5 @@ class Indexing_Complete_Action {
 	public function complete() {
 		$this->options->set( 'indexation_started', null );
 		$this->options->set( 'indexing_reason', '' );
-		$this->options->set( 'indexation_warning_hide_until', false );
 	}
 }
