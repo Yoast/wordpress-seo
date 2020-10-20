@@ -15,12 +15,40 @@ class Indexing_Helper {
 	protected $options_helper;
 
 	/**
+	 * The date helper.
+	 *
+	 * @var Date_Helper
+	 */
+	protected $date_helper;
+
+	/**
 	 * Indexing_Helper constructor.
 	 *
 	 * @param Options_Helper $options_helper The options helper.
 	 */
-	public function __construct( Options_Helper $options_helper ) {
+	public function __construct( Options_Helper $options_helper, Date_Helper $date_helper ) {
 		$this->options_helper = $options_helper;
+		$this->date_helper    = $date_helper;
+	}
+
+	/**
+	 * Sets several database options when the indexable indexing process is started.
+	 *
+	 * @return void
+	 */
+	public function start() {
+		$this->set_first_time( false );
+		$this->set_started( $this->date_helper->current_time() );
+	}
+
+	/**
+	 * Sets several database options when the indexing process is finished.
+	 *
+	 * @return void
+	 */
+	public function finish() {
+		$this->set_started( null );
+		$this->set_reason( '' );
 	}
 
 	/**

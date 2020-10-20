@@ -3,6 +3,7 @@
 namespace Yoast\WP\SEO\Tests\Unit\Helpers;
 
 use Mockery;
+use Yoast\WP\SEO\Helpers\Date_Helper;
 use Yoast\WP\SEO\Helpers\Indexing_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
@@ -33,13 +34,21 @@ class Indexing_Helper_Test extends TestCase {
 	protected $options_helper;
 
 	/**
+	 * Represents the date helper.
+	 *
+	 * @var Mockery\MockInterface|Date_Helper
+	 */
+	protected $date_helper;
+
+	/**
 	 * Sets up the class under test and mock objects.
 	 */
 	public function setUp() {
 		parent::setUp();
 
 		$this->options_helper = Mockery::mock( Options_Helper::class );
-		$this->instance       = new Indexing_Helper( $this->options_helper );
+		$this->date_helper    = Mockery::mock( Date_Helper::class );
+		$this->instance       = new Indexing_Helper( $this->options_helper, $this->date_helper );
 	}
 
 	/**
@@ -49,6 +58,57 @@ class Indexing_Helper_Test extends TestCase {
 	 */
 	public function test_construct() {
 		$this->assertAttributeInstanceOf( Options_Helper::class, 'options_helper', $this->instance );
+		$this->assertAttributeInstanceOf( Date_Helper::class, 'date_helper', $this->instance );
+	}
+
+	/**
+	 * Tests start.
+	 *
+	 * @covers ::start
+	 * @covers ::set_first_time
+	 * @covers ::set_started
+	 */
+	public function test_start() {
+		$this->options_helper
+			->expects( 'set' )
+			->once()
+			->with( 'indexing_first_time', false );
+
+		$start_time = 160934509;
+
+		$this->date_helper
+			->expects( 'current_time' )
+			->once()
+			->withNoArgs()
+			->andReturn( $start_time );
+
+		$this->options_helper
+			->expects( 'set' )
+			->once()
+			->with( 'indexation_started', $start_time );
+
+		$this->instance->start();
+	}
+
+	/**
+	 * Tests finish.
+	 *
+	 * @covers ::finish
+	 * @covers ::set_started
+	 * @covers ::set_reason
+	 */
+	public function test_finish() {
+		$this->options_helper
+			->expects( 'set' )
+			->once()
+			->with( 'indexation_started', null );
+
+		$this->options_helper
+			->expects( 'set' )
+			->once()
+			->with( 'indexing_reason', '' );
+
+		$this->instance->finish();
 	}
 
 	/**
@@ -82,22 +142,6 @@ class Indexing_Helper_Test extends TestCase {
 	}
 
 	/**
-	 * Tests setting the indexing start time.
-	 *
-	 * @covers ::set_started
-	 */
-	public function test_set_started() {
-		$start_time = 160934509;
-
-		$this->options_helper
-			->expects( 'set' )
-			->once()
-			->with( 'indexation_started', $start_time );
-
-		$this->instance->set_started( $start_time );
-	}
-
-	/**
 	 * Tests getting the indexing start time.
 	 *
 	 * @covers ::get_started
@@ -109,22 +153,6 @@ class Indexing_Helper_Test extends TestCase {
 			->with( 'indexation_started' );
 
 		$this->instance->get_started();
-	}
-
-	/**
-	 * Tests setting whether a site still has to be indexed for the first time.
-	 *
-	 * @covers ::set_first_time
-	 */
-	public function test_set_first_time() {
-		$is_first_time_indexing = false;
-
-		$this->options_helper
-			->expects( 'set' )
-			->once()
-			->with( 'indexing_first_time', $is_first_time_indexing );
-
-		$this->instance->set_first_time( $is_first_time_indexing );
 	}
 
 	/**

@@ -56,8 +56,10 @@ class Indexing_Complete_Action_Test extends TestCase {
 	 * @covers ::complete
 	 */
 	public function test_complete_method() {
-		$this->indexing->expects( 'set_started' )->with( 0 );
-		$this->indexing->expects( 'set_reason' )->with( '' );
+		$this->indexing
+			->expects( 'finish' )
+			->once()
+			->withNoArgs();
 
 		$this->instance->complete();
 	}

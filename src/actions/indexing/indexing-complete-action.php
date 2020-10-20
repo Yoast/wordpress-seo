@@ -31,7 +31,6 @@ class Indexing_Complete_Action {
 	 * @return void
 	 */
 	public function complete() {
-		$this->indexing_helper->set_started( null );
-		$this->indexing_helper->set_reason( '' );
+		$this->indexing_helper->finish();
 	}
 }
