@@ -350,7 +350,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 				case 'category_base_url':
 				case 'tag_base_url':
 					if ( isset( $dirty[ $key ] ) ) {
-						$clean[ $key ] = sanitize_option( 'permalink_structure', $dirty[ $key ] );
+						$clean[ $key ] = sanitize_option( $key, $dirty[ $key ] );
 					}
 					break;
 

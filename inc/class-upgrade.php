@@ -747,8 +747,9 @@ class WPSEO_Upgrade {
 	private function upgrade_151() {
 		$this->set_home_url_for_151();
 		$this->move_indexables_indexation_reason_for_151();
+
+		add_action( 'init', [ $this, 'set_permalink_structure_option_for_151' ] );
 		add_action( 'init', [ $this, 'store_custom_taxonomy_slugs_for_151' ] );
-		add_action( 'init', [ $this, 'set_permalink_structure_options_for_151' ] );
 	}
 
 	/**
@@ -1045,11 +1046,11 @@ class WPSEO_Upgrade {
 	}
 
 	/**
-	 * Stores the initial `permalink_structure` options.
+	 * Stores the initial `permalink_structure` option.
 	 *
 	 * @return void
 	 */
-	public function set_permalink_structure_options_for_151() {
+	public function set_permalink_structure_option_for_151() {
 		WPSEO_Options::set( 'permalink_structure', get_option( 'permalink_structure' ) );
 	}
 

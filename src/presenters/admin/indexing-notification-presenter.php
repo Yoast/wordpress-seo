@@ -74,9 +74,6 @@ class Indexing_Notification_Presenter extends Abstract_Presenter {
 			case Indexing_Notification_Integration::REASON_PERMALINK_SETTINGS:
 				$text = \esc_html__( 'Because of a change in your permalink structure, some of your SEO data needs to be reprocessed.', 'wordpress-seo' );
 				break;
-			case Indexing_Notification_Integration::REASON_CATEGORY_BASE_PREFIX:
-				$text = \esc_html__( 'Because of a change in your category URL setting, some of your SEO data needs to be reprocessed.', 'wordpress-seo' );
-				break;
 			case Indexing_Notification_Integration::REASON_HOME_URL_OPTION:
 				$text = \esc_html__( 'Because of a change in your home URL setting, some of your SEO data needs to be reprocessed.', 'wordpress-seo' );
 				break;

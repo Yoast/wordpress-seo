@@ -178,9 +178,9 @@ class Indexable_Permalink_Watcher implements Integration_Interface {
 	}
 
 	/**
-	 * Checks what the reset reason is, and returns null otherwise.
+	 * Checks whether the permalinks should be reset after `permalink_structure` has changed.
 	 *
-	 * @return bool Should reset the permalinks.
+	 * @return bool Whether the permalinks should be reset.
 	 */
 	public function should_reset_permalinks() {
 		return \get_option( 'permalink_structure' ) !== $this->options_helper->get( 'permalink_structure' );
