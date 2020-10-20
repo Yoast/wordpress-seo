@@ -548,7 +548,7 @@ class WPSEO_Upgrade {
 	 * @return void
 	 */
 	private function upgrade_772() {
-		if ( WPSEO_Utils::is_woocommerce_active() ) {
+		if ( YoastSEO()->helpers->woocommerce->is_active() ) {
 			$this->migrate_woocommerce_archive_setting_to_shop_page();
 		}
 	}
