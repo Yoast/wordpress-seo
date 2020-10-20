@@ -1,16 +1,7 @@
-import { escapeRegExp, get, uniq } from "lodash-es";
-import flattenDeep from "lodash-es/flattenDeep";
-import filterFunctionWordsFromArray from "../../helpers/filterFunctionWordsFromArray";
-import getWordFormsFactory from "../../helpers/getBasicWordForms";
-import getLanguage from "../../helpers/getLanguage";
-import retrieveStemmer from "../../helpers/retrieveStemmer";
-
-import getAlttagContent from "../../helpers/image/getAlttagContent";
-import getWords from "../../helpers/word/getWords";
-import imageInText from "../../helpers/image/imageInText";
-import parseSlug from "../../helpers/url/parseSlug";
 import { normalizeSingle } from "../../helpers/sanitize/quotes";
-import { collectStems, StemOriginalPair } from "./buildTopicStems";
+import { collectStems, StemOriginalPair } from "../../helpers/morphology/buildTopicStems";
+
+import { escapeRegExp, uniq, flattenDeep } from "lodash-es";
 
 /**
  * A stem with accompanying forms.
@@ -38,50 +29,25 @@ function Result( keyphraseForms = [], synonymsForms = [] ) {
 }
 
 /**
- * Gets all words found in the text, title, slug and meta description of a given paper.
- *
- * @param {Paper} paper     The paper for which to get the words.
- * @param {string} language The language of the paper.
- *
- * @returns {string[]} All words found.
- */
-function getAllWordsFromPaper( paper, language ) {
-	const paperText = paper.getText();
-	const altTagsInText = imageInText( paperText ).map( image => getAlttagContent( image ) );
-
-	const paperContent = [
-		paperText,
-		paper.getTitle(),
-		parseSlug( paper.getUrl() ),
-		paper.getDescription(),
-		altTagsInText.join( " " ),
-	].join( " " );
-
-	return getWords( paperContent ).map(
-		word => normalizeSingle( escapeRegExp( word.toLocaleLowerCase( language ) ) ) );
-}
-
-/**
  * Takes a stem-original pair and returns the accompanying forms for the stem that were found in the paper. Additionally
  * adds a sanitized version of the original word and (for specific languages) creates basic word forms.
  *
  * @param {StemOriginalPair}    stemOriginalPair            The stem-original pair for which to get forms.
  * @param {StemWithForms[]}     paperWordsGroupedByStems    All word forms in the paper grouped by stem.
- * @param {string}              language                    The language for which to get forms.
+ * @param {Function|null}       createBasicWordForms        A function to create basic word forms (if available).
  *
  * @returns {string[]} All forms found in the paper for the given stem, plus a sanitized version of the original word.
  */
-function replaceStemWithForms( stemOriginalPair, paperWordsGroupedByStems, language ) {
+function replaceStemWithForms( stemOriginalPair, paperWordsGroupedByStems, createBasicWordForms = false) {
 	const matchingStemFormPair = paperWordsGroupedByStems.find( element => element.stem === stemOriginalPair.stem );
-	const originalSanitized = normalizeSingle( escapeRegExp( stemOriginalPair.original.toLocaleLowerCase( language ) ) );
+	const originalSanitized = normalizeSingle( escapeRegExp( stemOriginalPair.original ) );
 
 	const forms = matchingStemFormPair
 		? [ originalSanitized, ...matchingStemFormPair.forms ]
 		: [ originalSanitized ];
 
 	// Add extra forms for languages for which we have basic word form support.
-	if ( Object.keys( getWordFormsFactory() ).includes( language ) ) {
-		const createBasicWordForms = getWordFormsFactory()[ language ];
+	if ( createBasicWordForms ) {
 		forms.push( ...createBasicWordForms( stemOriginalPair.original ) );
 	}
 
@@ -115,13 +81,13 @@ function extractStems( keyphrase, synonyms ) {
 /**
  * Constructs the result with forms for a topic phrase (i.e., a keyphrase or a synonym).
  *
- * @param {TopicPhrase}     topicPhrase                 The topic phrase for which to construct the result.
- * @param {StemWithForms[]} paperWordsGroupedByStems    All word forms in the paper grouped by stem.
- * @param {string}          language                    The language of the paper.
+ * @param {TopicPhrase}         topicPhrase                 The topic phrase for which to construct the result.
+ * @param {StemWithForms[]}     paperWordsGroupedByStems    All word forms in the paper grouped by stem.
+ * @param {Function|null}            createBasicWordForms   A function to create basic word forms (if available).
  *
  * @returns {Array.<string[]>} The word forms for a given topic phrase, grouped by original topic phrase word.
  */
-function constructTopicPhraseResult( topicPhrase, paperWordsGroupedByStems, language ) {
+function constructTopicPhraseResult( topicPhrase, paperWordsGroupedByStems, createBasicWordForms ) {
 	// Empty result for an empty topic phrase.
 	if ( topicPhrase.stemOriginalPairs.length === 0 ) {
 		return [];
@@ -132,56 +98,58 @@ function constructTopicPhraseResult( topicPhrase, paperWordsGroupedByStems, lang
 	}
 
 	return topicPhrase.stemOriginalPairs.map( function( stemOriginalPair ) {
-		return replaceStemWithForms( stemOriginalPair, paperWordsGroupedByStems, language );
+		return replaceStemWithForms( stemOriginalPair, paperWordsGroupedByStems, createBasicWordForms );
 	} );
 }
 
 /**
- * Gets all matching word forms for the stems of the keyphrase and synonyms. Stems are either colleced from
+ * Gets all matching word forms for the keyphrase and synonyms. Stems are either collected from
  * the paper or, for specific languages, directly created.
  *
- * @param {Paper}       paper       The paper to build keyphrase and synonym forms for.
- * @param {Researcher}  researcher  The researcher.
- *
+ * @param {string}          keyphrase               The keyphrase.
+ * @param {string[]}        synonyms                The synonyms.
+ * @param {Function|null}   stem                    A stemmer (if available).
+ * @param {Object}          morphologyData          The morphology data or an empty object if no morphology data is available.
+ * @param {Function|null}   createBasicWordForms    A function to create basic word forms (if available).
+ * @param {string[]}        allWordsFromPaper       All words found in the paper.
+ * @param {string[]}        functionWords           The function words for a given language.
+
  * @returns {Object} Object with an array of keyphrase forms and an array of arrays of synonyms forms, based on the forms
  * found in the text or created forms.
  */
-function getWordForms( paper, researcher ) {
-	const language = getLanguage( paper.getLocale() );
-	const morphologyData = get( researcher.getData( "morphology" ), language, false );
-	const determineStem = retrieveStemmer( language, morphologyData );
-	const topicPhrases = collectStems( paper.getKeyword(), paper.getSynonyms(), language, morphologyData );
-	const keyphrase = topicPhrases.keyphraseStems;
-	const synonyms = topicPhrases.synonymsStems;
+function getWordForms( keyphrase, synonyms, stem, createBasicWordForms, morphologyData, allWordsFromPaper, functionWords ) {
+	const topicPhrases = collectStems( keyphrase, synonyms, morphologyData );
+	const keyphraseStemmed = topicPhrases.keyphraseStems;
+	const synonymsStemmed = topicPhrases.synonymsStems;
 
 	// Return an empty result when no keyphrase and synonyms have been set.
-	if ( keyphrase.stemOriginalPairs.length === 0 && synonyms.length === 0 ) {
+	if ( keyphraseStemmed.stemOriginalPairs.length === 0 && synonymsStemmed.length === 0 ) {
 		return new Result();
 	}
 
 	// Return exact match if all topic phrases contain exact match. Forms don't need to be built in that case.
-	const allTopicPhrases = [ keyphrase, ...synonyms ];
+	const allTopicPhrases = [ keyphraseStemmed, ...synonymsStemmed ];
 
 	if ( allTopicPhrases.every( topicPhrase => topicPhrase.exactMatch === true ) ) {
 		return new Result(
-			[ [ keyphrase.stemOriginalPairs[ 0 ].stem ] ],
-			synonyms.map( synonym => [ [ synonym.stemOriginalPairs[ 0 ].stem ] ]
+			[ [ keyphraseStemmed.stemOriginalPairs[ 0 ].stem ] ],
+			synonymsStemmed.map( synonym => [ [ synonym.stemOriginalPairs[ 0 ].stem ] ]
 			)
 		);
 	}
 
 	// Get all stems from the keyphrase and synonyms.
-	const topicStemsFlat = uniq( extractStems( keyphrase, synonyms ) );
+	const topicStemsFlat = uniq( extractStems( keyphraseStemmed, synonymsStemmed ) );
 
-	// Get all words from the paper text, title, meta description and slug.
-	let paperWords = getAllWordsFromPaper( paper, language );
-
-	// Filter doubles and function words.
-	paperWords = filterFunctionWordsFromArray( uniq( paperWords ), language );
+	/*
+	 * Get all words from the paper text, title, meta description and slug.
+	 * Filter duplicates and function words.
+	 */
+	let paperWords = uniq( allWordsFromPaper.filter( word => ! functionWords.includes( word ) );
 
 	// Add stems to words from the paper, filter out all forms that aren't in the keyphrase or synonyms and order alphabetically.
 	const paperWordsWithStems = paperWords
-		.map( word => new StemOriginalPair( determineStem( word, morphologyData ), word ) )
+		.map( word => new StemOriginalPair( stem ? stem( word, morphologyData ) : word, word ) )
 		.filter( stemOriginalPair => topicStemsFlat.includes( stemOriginalPair.stem ) )
 		.sort( ( a, b ) => a.stem.localeCompare( b.stem ) );
 
@@ -199,8 +167,8 @@ function getWordForms( paper, researcher ) {
 	}, [] );
 
 	return new Result(
-		constructTopicPhraseResult( keyphrase, paperWordsGroupedByStems, language ),
-		synonyms.map( synonym => constructTopicPhraseResult( synonym, paperWordsGroupedByStems, language ) )
+		constructTopicPhraseResult( keyphraseStemmed, paperWordsGroupedByStems, createBasicWordForms ),
+		synonymsStemmed.map( synonym => constructTopicPhraseResult( synonym, paperWordsGroupedByStems, createBasicWordForms ) )
 	);
 }
 

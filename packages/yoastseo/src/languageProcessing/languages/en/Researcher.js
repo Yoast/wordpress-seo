@@ -8,7 +8,6 @@ import topicCount from "../../researches/_todo/topicCount";
 import { keyphraseDistributionResearcher } from "../../researches/_todo/keyphraseDistribution";
 import getProminentWordsForInsights from "../../researches/_todo/getProminentWordsForInsights";
 import getProminentWordsForInternalLinking from "../../researches/_todo/getProminentWordsForInternalLinking";
-import getWordForms from "../../researches/_todo/getWordForms";
 import findKeywordInPageTitle from "../../researches/base/findKeywordInPageTitle";
 const keyphraseDistribution = keyphraseDistributionResearcher;
 
@@ -22,6 +21,7 @@ import calculateFleschReading from "./researches/calculateFleshReading";
 import findTransitionWords from "./researches/findTransitionWords";
 import functionWordsInKeyphrase from "./researches/functionWordsInKeyphrase";
 import getSentenceBeginnings from "./researches/getSentenceBeginnings.js";
+import getWordForms from "./researches/getWordForms";
 
 /**
  * The researches contains all the researches
