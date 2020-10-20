@@ -175,7 +175,7 @@ class Indexing_Notification_Integration implements Integration_Interface {
 		}
 
 		$notification = $this->notification();
-		$this->maybe_restore_notification( $notification );
+		$this->notification_helper->restore_notification( $notification );
 		$this->notification_center->add_notification( $notification );
 	}
 
@@ -209,26 +209,6 @@ class Indexing_Notification_Integration implements Integration_Interface {
 	}
 
 	/**
-	 * Restore the notification when the indexing reason has changed.
-	 *
-	 * @param Yoast_Notification $notification The (new) indexing notification.
-	 */
-	protected function maybe_restore_notification( $notification ) {
-		$old_notification = $this->notification_center->get_notification_by_id( self::NOTIFICATION_ID );
-
-		if ( ! $old_notification ) {
-			return;
-		}
-
-		$old_notification_data = $old_notification->get_data();
-		$reason                = $this->options_helper->get( 'indexing_reason', '' );
-
-		if ( \array_key_exists( 'reason', $old_notification_data ) && $old_notification_data['reason'] !== $reason ) {
-			$this->notification_helper->restore_notification( $notification );
-		}
-	}
-
-	/**
 	 * Returns an instance of the notification.
 	 *
 	 * @return Yoast_Notification The notification to show.
@@ -243,7 +223,6 @@ class Indexing_Notification_Integration implements Integration_Interface {
 			[
 				'type'         => Yoast_Notification::WARNING,
 				'id'           => self::NOTIFICATION_ID,
-				'data_json'    => [ 'reason' => $reason ],
 				'capabilities' => 'wpseo_manage_options',
 				'priority'     => 0.8,
 			]
