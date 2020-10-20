@@ -1,6 +1,6 @@
 {
   "name": "@yoast/helpers",
-  "version": "0.13.0",
+  "version": "0.14.0-rc.0",
   "description": "All Yoast helper functions.",
   "main": "src/index.js",
   "repository": {
