@@ -158,7 +158,7 @@ class Indexable_Helper {
 	 *
 	 * @return void
 	 */
-	public function set_indexables_completed( $value ) {
+	public function finish_indexing( $value ) {
 		$this->options_helper->set( 'indexables_indexation_completed', $value );
 	}
 }

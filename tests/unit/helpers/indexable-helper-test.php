@@ -163,12 +163,15 @@ class Indexable_Helper_Test extends TestCase {
 		$this->assertEquals( $result, $expected_result );
 	}
 
-	public function test_set_indexables_completed() {
+	/**
+	 * Tests setting the indexables completed flag after indexing the indexables has finished.
+	 */
+	public function test_finish_indexing() {
 		$this->options
 			->expects( 'set' )
 			->once();
 
-		$this->instance->set_indexables_completed( true );
+		$this->instance->finish_indexing( true );
 	}
 
 	/**

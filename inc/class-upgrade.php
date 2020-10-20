@@ -808,7 +808,7 @@ class WPSEO_Upgrade {
 		 */
 		$indexing_integration = YoastSEO()->classes->get( Indexing_Tool_Integration::class );
 
-		$this->indexable_helper->set_indexables_completed( $indexing_integration->get_unindexed_indexables_count() === 0 );
+		$this->indexable_helper->finish_indexing( $indexing_integration->get_unindexed_indexables_count() === 0 );
 	}
 
 	/**
