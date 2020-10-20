@@ -4,7 +4,7 @@ import content from "./hebrewPaper3.html";
 const name = "hebrewPaper3";
 
 const paper = new Paper( content, {
-	keyword: "wikipedia מוזיקה",
+	keyword: "מוזיקה wikipedia",
 	synonyms: "",
 	description: "מוזיקה היא אמנות סידור הצליל בזמן. מרכיביה העיקריים הם גובה צליל (האחראי על מלודיה והרמוניה), קצב (מפעם, משקל וארטיקולציה), דינמיקה, גוון ומרקם.",
 	title: "מוזיקה",

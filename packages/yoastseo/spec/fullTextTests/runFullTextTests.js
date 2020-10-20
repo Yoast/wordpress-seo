@@ -124,26 +124,26 @@ testPapers.forEach( function( testPaper ) {
 			}
 		} );
 
-		it( "returns a score and the associated feedback text for the keywordDensity assessment", function() {
-			const isApplicable = keywordDensityAssessment.isApplicable( paper );
-			expect( isApplicable ).toBe( expectedResults.keywordDensity.isApplicable );
-
-			if ( isApplicable ) {
-				result.keywordDensity = keywordDensityAssessment.getResult(
-					paper,
-					factory.buildMockResearcher(
-						{
-							getKeywordDensity: getKeywordDensity( paper, researcher ),
-							keywordCount: keywordCount( paper, researcher ),
-						},
-						true
-					),
-					i18n
-				);
-				expect( result.keywordDensity.getScore() ).toBe( expectedResults.keywordDensity.score );
-				expect( result.keywordDensity.getText() ).toBe( expectedResults.keywordDensity.resultText );
-			}
-		} );
+		// it( "returns a score and the associated feedback text for the keywordDensity assessment", function() {
+		// 	const isApplicable = keywordDensityAssessment.isApplicable( paper );
+		// 	expect( isApplicable ).toBe( expectedResults.keywordDensity.isApplicable );
+		//
+		// 	if ( isApplicable ) {
+		// 		result.keywordDensity = keywordDensityAssessment.getResult(
+		// 			paper,
+		// 			factory.buildMockResearcher(
+		// 				{
+		// 					getKeywordDensity: getKeywordDensity( paper, researcher ),
+		// 					keywordCount: keywordCount( paper, researcher ),
+		// 				},
+		// 				true
+		// 			),
+		// 			i18n
+		// 		);
+		// 		expect( result.keywordDensity.getScore() ).toBe( expectedResults.keywordDensity.score );
+		// 		expect( result.keywordDensity.getText() ).toBe( expectedResults.keywordDensity.resultText );
+		// 	}
+		// } );
 
 		it( "returns a score and the associated feedback text for the metaDescriptionKeyword assessment", function() {
 			const isApplicable = metaDescriptionKeywordAssessment.isApplicable( paper );
@@ -160,35 +160,35 @@ testPapers.forEach( function( testPaper ) {
 			}
 		} );
 
-		it( "returns a score and the associated feedback text for the metaDescriptionLength assessment", function() {
-			const isApplicable = metaDescriptionLengthAssessment.isApplicable( paper );
-			expect( isApplicable ).toBe( expectedResults.metaDescriptionLength.isApplicable );
+		// it( "returns a score and the associated feedback text for the metaDescriptionLength assessment", function() {
+		// 	const isApplicable = metaDescriptionLengthAssessment.isApplicable( paper );
+		// 	expect( isApplicable ).toBe( expectedResults.metaDescriptionLength.isApplicable );
+		//
+		// 	if ( isApplicable ) {
+		// 		result.metaDescriptionLength = metaDescriptionLengthAssessment.getResult(
+		// 			paper,
+		// 			factory.buildMockResearcher( metaDescriptionLength( paper ) ),
+		// 			i18n
+		// 		);
+		// 		expect( result.metaDescriptionLength.getScore() ).toBe( expectedResults.metaDescriptionLength.score );
+		// 		expect( result.metaDescriptionLength.getText() ).toBe( expectedResults.metaDescriptionLength.resultText );
+		// 	}
+		// } );
 
-			if ( isApplicable ) {
-				result.metaDescriptionLength = metaDescriptionLengthAssessment.getResult(
-					paper,
-					factory.buildMockResearcher( metaDescriptionLength( paper ) ),
-					i18n
-				);
-				expect( result.metaDescriptionLength.getScore() ).toBe( expectedResults.metaDescriptionLength.score );
-				expect( result.metaDescriptionLength.getText() ).toBe( expectedResults.metaDescriptionLength.resultText );
-			}
-		} );
-
-		it( "returns a score and the associated feedback text for the subheadingsKeyword assessment", function() {
-			const isApplicable = subheadingsKeywordAssessment.isApplicable( paper );
-			expect( isApplicable ).toBe( expectedResults.subheadingsKeyword.isApplicable );
-
-			if ( isApplicable ) {
-				result.subheadingsKeyword = subheadingsKeywordAssessment.getResult(
-					paper,
-					factory.buildMockResearcher( matchKeywordInSubheadings( paper, researcher ) ),
-					i18n
-				);
-				expect( result.subheadingsKeyword.getScore() ).toBe( expectedResults.subheadingsKeyword.score );
-				expect( result.subheadingsKeyword.getText() ).toBe( expectedResults.subheadingsKeyword.resultText );
-			}
-		} );
+		// it( "returns a score and the associated feedback text for the subheadingsKeyword assessment", function() {
+		// 	const isApplicable = subheadingsKeywordAssessment.isApplicable( paper );
+		// 	expect( isApplicable ).toBe( expectedResults.subheadingsKeyword.isApplicable );
+		//
+		// 	if ( isApplicable ) {
+		// 		result.subheadingsKeyword = subheadingsKeywordAssessment.getResult(
+		// 			paper,
+		// 			factory.buildMockResearcher( matchKeywordInSubheadings( paper, researcher ) ),
+		// 			i18n
+		// 		);
+		// 		expect( result.subheadingsKeyword.getScore() ).toBe( expectedResults.subheadingsKeyword.score );
+		// 		expect( result.subheadingsKeyword.getText() ).toBe( expectedResults.subheadingsKeyword.resultText );
+		// 	}
+		// } );
 
 		it( "returns a score and the associated feedback text for the textCompetingLinks assessment", function() {
 			const isApplicable = textCompetingLinksAssessment.isApplicable( paper );
@@ -205,26 +205,26 @@ testPapers.forEach( function( testPaper ) {
 			}
 		} );
 
-		it( "returns a score and the associated feedback text for the textImages assessment", function() {
-			const isApplicable = textImagesAssessment.isApplicable( paper );
-			expect( isApplicable ).toBe( expectedResults.textImages.isApplicable );
-
-			if ( isApplicable ) {
-				result.textImages = textImagesAssessment.getResult(
-					paper,
-					factory.buildMockResearcher(
-						{
-							imageCount: imageCount( paper ),
-							altTagCount: altTagCount( paper, researcher ),
-						},
-						true
-					),
-					i18n
-				);
-				expect( result.textImages.getScore() ).toBe( expectedResults.textImages.score );
-				expect( result.textImages.getText() ).toBe( expectedResults.textImages.resultText );
-			}
-		} );
+		// it( "returns a score and the associated feedback text for the textImages assessment", function() {
+		// 	const isApplicable = textImagesAssessment.isApplicable( paper );
+		// 	expect( isApplicable ).toBe( expectedResults.textImages.isApplicable );
+		//
+		// 	if ( isApplicable ) {
+		// 		result.textImages = textImagesAssessment.getResult(
+		// 			paper,
+		// 			factory.buildMockResearcher(
+		// 				{
+		// 					imageCount: imageCount( paper ),
+		// 					altTagCount: altTagCount( paper, researcher ),
+		// 				},
+		// 				true
+		// 			),
+		// 			i18n
+		// 		);
+		// 		expect( result.textImages.getScore() ).toBe( expectedResults.textImages.score );
+		// 		expect( result.textImages.getText() ).toBe( expectedResults.textImages.resultText );
+		// 	}
+		// } );
 
 		it( "returns a score and the associated feedback text for the textLength assessment", function() {
 			const isApplicable = textLengthAssessment.isApplicable( paper );
@@ -241,50 +241,50 @@ testPapers.forEach( function( testPaper ) {
 			}
 		} );
 
-		it( "returns a score and the associated feedback text for the externalLinks assessment", function() {
-			const isApplicable = outboundLinksAssessment.isApplicable( paper );
-			expect( isApplicable ).toBe( expectedResults.externalLinks.isApplicable );
+		// it( "returns a score and the associated feedback text for the externalLinks assessment", function() {
+		// 	const isApplicable = outboundLinksAssessment.isApplicable( paper );
+		// 	expect( isApplicable ).toBe( expectedResults.externalLinks.isApplicable );
+		//
+		// 	if ( isApplicable ) {
+		// 		result.externalLinks = outboundLinksAssessment.getResult(
+		// 			paper,
+		// 			factory.buildMockResearcher( getLinkStatistics( paper, researcher ) ),
+		// 			i18n
+		// 		);
+		// 		expect( result.externalLinks.getScore() ).toBe( expectedResults.externalLinks.score );
+		// 		expect( result.externalLinks.getText() ).toBe( expectedResults.externalLinks.resultText );
+		// 	}
+		// } );
 
-			if ( isApplicable ) {
-				result.externalLinks = outboundLinksAssessment.getResult(
-					paper,
-					factory.buildMockResearcher( getLinkStatistics( paper, researcher ) ),
-					i18n
-				);
-				expect( result.externalLinks.getScore() ).toBe( expectedResults.externalLinks.score );
-				expect( result.externalLinks.getText() ).toBe( expectedResults.externalLinks.resultText );
-			}
-		} );
+		// it( "returns a score and the associated feedback text for the internalLinks assessment", function() {
+		// 	const isApplicable = internalLinksAssessment.isApplicable( paper );
+		// 	expect( isApplicable ).toBe( expectedResults.internalLinks.isApplicable );
+		//
+		// 	if ( isApplicable ) {
+		// 		result.internalLinks = internalLinksAssessment.getResult(
+		// 			paper,
+		// 			factory.buildMockResearcher( getLinkStatistics( paper, researcher ) ),
+		// 			i18n
+		// 		);
+		// 		expect( result.internalLinks.getScore() ).toBe( expectedResults.internalLinks.score );
+		// 		expect( result.internalLinks.getText() ).toBe( expectedResults.internalLinks.resultText );
+		// 	}
+		// } );
 
-		it( "returns a score and the associated feedback text for the internalLinks assessment", function() {
-			const isApplicable = internalLinksAssessment.isApplicable( paper );
-			expect( isApplicable ).toBe( expectedResults.internalLinks.isApplicable );
-
-			if ( isApplicable ) {
-				result.internalLinks = internalLinksAssessment.getResult(
-					paper,
-					factory.buildMockResearcher( getLinkStatistics( paper, researcher ) ),
-					i18n
-				);
-				expect( result.internalLinks.getScore() ).toBe( expectedResults.internalLinks.score );
-				expect( result.internalLinks.getText() ).toBe( expectedResults.internalLinks.resultText );
-			}
-		} );
-
-		it( "returns a score and the associated feedback text for the titleKeyword assessment", function() {
-			const isApplicable = titleKeywordAssessment.isApplicable( paper );
-			expect( isApplicable ).toBe( expectedResults.titleKeyword.isApplicable );
-
-			if ( isApplicable ) {
-				result.titleKeyword = titleKeywordAssessment.getResult(
-					paper,
-					factory.buildMockResearcher( findKeywordInPageTitle( paper, researcher ) ),
-					i18n
-				);
-				expect( result.titleKeyword.getScore() ).toBe( expectedResults.titleKeyword.score );
-				expect( result.titleKeyword.getText() ).toBe( expectedResults.titleKeyword.resultText );
-			}
-		} );
+		// it( "returns a score and the associated feedback text for the titleKeyword assessment", function() {
+		// 	const isApplicable = titleKeywordAssessment.isApplicable( paper );
+		// 	expect( isApplicable ).toBe( expectedResults.titleKeyword.isApplicable );
+		//
+		// 	if ( isApplicable ) {
+		// 		result.titleKeyword = titleKeywordAssessment.getResult(
+		// 			paper,
+		// 			factory.buildMockResearcher( findKeywordInPageTitle( paper, researcher ) ),
+		// 			i18n
+		// 		);
+		// 		expect( result.titleKeyword.getScore() ).toBe( expectedResults.titleKeyword.score );
+		// 		expect( result.titleKeyword.getText() ).toBe( expectedResults.titleKeyword.resultText );
+		// 	}
+		// } );
 
 		it( "returns a score and the associated feedback text for the titleWidth assessment", function() {
 			const isApplicable = titleWidthAssessment.isApplicable( paper );
@@ -301,66 +301,66 @@ testPapers.forEach( function( testPaper ) {
 			}
 		} );
 
-		it( "returns a score and the associated feedback text for the urlKeyword assessment", function() {
-			const isApplicable = urlKeywordAssessment.isApplicable( paper );
-			expect( isApplicable ).toBe( expectedResults.urlKeyword.isApplicable );
+		// it( "returns a score and the associated feedback text for the urlKeyword assessment", function() {
+		// 	const isApplicable = urlKeywordAssessment.isApplicable( paper );
+		// 	expect( isApplicable ).toBe( expectedResults.urlKeyword.isApplicable );
+		//
+		// 	if ( isApplicable ) {
+		// 		result.urlKeyword = urlKeywordAssessment.getResult(
+		// 			paper,
+		// 			factory.buildMockResearcher( keywordCountInUrl( paper, researcher ) ),
+		// 			i18n
+		// 		);
+		// 		expect( result.urlKeyword.getScore() ).toBe( expectedResults.urlKeyword.score );
+		// 		expect( result.urlKeyword.getText() ).toBe( expectedResults.urlKeyword.resultText );
+		// 	}
+		// } );
 
-			if ( isApplicable ) {
-				result.urlKeyword = urlKeywordAssessment.getResult(
-					paper,
-					factory.buildMockResearcher( keywordCountInUrl( paper, researcher ) ),
-					i18n
-				);
-				expect( result.urlKeyword.getScore() ).toBe( expectedResults.urlKeyword.score );
-				expect( result.urlKeyword.getText() ).toBe( expectedResults.urlKeyword.resultText );
-			}
-		} );
+		// it( "returns a score and the associated feedback text for the english keyphraseDistribution assessment", function() {
+		// 	const isApplicable = keyphraseDistributionAssessment.isApplicable( paper );
+		// 	expect( isApplicable ).toBe( expectedResults.keyphraseDistribution.isApplicable );
+		//
+		// 	if ( isApplicable ) {
+		// 		result.keyphraseDistribution = keyphraseDistributionAssessment.getResult(
+		// 			paper,
+		// 			factory.buildMockResearcher( keyphraseDistribution( paper, researcher ) ),
+		// 			i18n
+		// 		);
+		// 		expect( result.keyphraseDistribution.getScore() ).toBe( expectedResults.keyphraseDistribution.score );
+		// 		expect( result.keyphraseDistribution.getText() ).toBe( expectedResults.keyphraseDistribution.resultText );
+		// 	}
+		// } );
 
-		it( "returns a score and the associated feedback text for the english keyphraseDistribution assessment", function() {
-			const isApplicable = keyphraseDistributionAssessment.isApplicable( paper );
-			expect( isApplicable ).toBe( expectedResults.keyphraseDistribution.isApplicable );
+		// // Readability assessments.
+		// it( "returns a score and the associated feedback text for the fleschReadingEase assessment", function() {
+		// 	const isApplicable = fleschReadingAssessment.isApplicable( paper );
+		// 	expect( isApplicable ).toBe( expectedResults.fleschReadingEase.isApplicable );
+		//
+		// 	if ( isApplicable ) {
+		// 		result.fleschReadingEase = fleschReadingAssessment.getResult(
+		// 			paper,
+		// 			factory.buildMockResearcher( calculateFleschReading( paper ) ),
+		// 			i18n
+		// 		);
+		// 		expect( result.fleschReadingEase.getScore() ).toBe( expectedResults.fleschReadingEase.score );
+		// 		expect( result.fleschReadingEase.getText() ).toBe( expectedResults.fleschReadingEase.resultText );
+		// 	}
+		// } );
 
-			if ( isApplicable ) {
-				result.keyphraseDistribution = keyphraseDistributionAssessment.getResult(
-					paper,
-					factory.buildMockResearcher( keyphraseDistribution( paper, researcher ) ),
-					i18n
-				);
-				expect( result.keyphraseDistribution.getScore() ).toBe( expectedResults.keyphraseDistribution.score );
-				expect( result.keyphraseDistribution.getText() ).toBe( expectedResults.keyphraseDistribution.resultText );
-			}
-		} );
-
-		// Readability assessments.
-		it( "returns a score and the associated feedback text for the fleschReadingEase assessment", function() {
-			const isApplicable = fleschReadingAssessment.isApplicable( paper );
-			expect( isApplicable ).toBe( expectedResults.fleschReadingEase.isApplicable );
-
-			if ( isApplicable ) {
-				result.fleschReadingEase = fleschReadingAssessment.getResult(
-					paper,
-					factory.buildMockResearcher( calculateFleschReading( paper ) ),
-					i18n
-				);
-				expect( result.fleschReadingEase.getScore() ).toBe( expectedResults.fleschReadingEase.score );
-				expect( result.fleschReadingEase.getText() ).toBe( expectedResults.fleschReadingEase.resultText );
-			}
-		} );
-
-		it( "returns a score and the associated feedback text for the subheadingsTooLong assessment", function() {
-			const isApplicable = subheadingDistributionTooLongAssessment.isApplicable( paper );
-			expect( isApplicable ).toBe( expectedResults.subheadingsTooLong.isApplicable );
-
-			if ( isApplicable ) {
-				result.subheadingsTooLong = subheadingDistributionTooLongAssessment.getResult(
-					paper,
-					factory.buildMockResearcher( getSubheadingTextLengths( paper ) ),
-					i18n
-				);
-				expect( result.subheadingsTooLong.getScore() ).toBe( expectedResults.subheadingsTooLong.score );
-				expect( result.subheadingsTooLong.getText() ).toBe( expectedResults.subheadingsTooLong.resultText );
-			}
-		} );
+		// it( "returns a score and the associated feedback text for the subheadingsTooLong assessment", function() {
+		// 		// 	const isApplicable = subheadingDistributionTooLongAssessment.isApplicable( paper );
+		// 		// 	expect( isApplicable ).toBe( expectedResults.subheadingsTooLong.isApplicable );
+		// 		//
+		// 		// 	if ( isApplicable ) {
+		// 		// 		result.subheadingsTooLong = subheadingDistributionTooLongAssessment.getResult(
+		// 		// 			paper,
+		// 		// 			factory.buildMockResearcher( getSubheadingTextLengths( paper ) ),
+		// 		// 			i18n
+		// 		// 		);
+		// 		// 		expect( result.subheadingsTooLong.getScore() ).toBe( expectedResults.subheadingsTooLong.score );
+		// 		// 		expect( result.subheadingsTooLong.getText() ).toBe( expectedResults.subheadingsTooLong.resultText );
+		// 		// 	}
+		// 		// } );
 
 		it( "returns a score and the associated feedback text for the textParagraphTooLong assessment", function() {
 			const isApplicable = paragraphTooLongAssessment.isApplicable( paper );
@@ -377,50 +377,50 @@ testPapers.forEach( function( testPaper ) {
 			}
 		} );
 
-		it( "returns a score and the associated feedback text for the textSentenceLength assessment", function() {
-			const isApplicable = sentenceLengthInTextAssessment.isApplicable( paper );
-			expect( isApplicable ).toBe( expectedResults.textSentenceLength.isApplicable );
+		// it( "returns a score and the associated feedback text for the textSentenceLength assessment", function() {
+		// 	const isApplicable = sentenceLengthInTextAssessment.isApplicable( paper );
+		// 	expect( isApplicable ).toBe( expectedResults.textSentenceLength.isApplicable );
+		//
+		// 	if ( isApplicable ) {
+		// 		result.textSentenceLength = sentenceLengthInTextAssessment.getResult(
+		// 			paper,
+		// 			factory.buildMockResearcher( countSentencesFromText( paper ) ),
+		// 			i18n
+		// 		);
+		// 		expect( result.textSentenceLength.getScore() ).toBe( expectedResults.textSentenceLength.score );
+		// 		expect( result.textSentenceLength.getText() ).toBe( expectedResults.textSentenceLength.resultText );
+		// 	}
+		// } );
 
-			if ( isApplicable ) {
-				result.textSentenceLength = sentenceLengthInTextAssessment.getResult(
-					paper,
-					factory.buildMockResearcher( countSentencesFromText( paper ) ),
-					i18n
-				);
-				expect( result.textSentenceLength.getScore() ).toBe( expectedResults.textSentenceLength.score );
-				expect( result.textSentenceLength.getText() ).toBe( expectedResults.textSentenceLength.resultText );
-			}
-		} );
+		// it( "returns a score and the associated feedback text for the textTransitionWords assessment", function() {
+		// 	const isApplicable = transitionWordsAssessment.isApplicable( paper );
+		// 	expect( isApplicable ).toBe( expectedResults.textTransitionWords.isApplicable );
+		//
+		// 	if ( isApplicable ) {
+		// 		result.textTransitionWords = transitionWordsAssessment.getResult(
+		// 			paper,
+		// 			factory.buildMockResearcher( findTransitionWords( paper ) ),
+		// 			i18n
+		// 		);
+		// 		expect( result.textTransitionWords.getScore() ).toBe( expectedResults.textTransitionWords.score );
+		// 		expect( result.textTransitionWords.getText() ).toBe( expectedResults.textTransitionWords.resultText );
+		// 	}
+		// } );
 
-		it( "returns a score and the associated feedback text for the textTransitionWords assessment", function() {
-			const isApplicable = transitionWordsAssessment.isApplicable( paper );
-			expect( isApplicable ).toBe( expectedResults.textTransitionWords.isApplicable );
-
-			if ( isApplicable ) {
-				result.textTransitionWords = transitionWordsAssessment.getResult(
-					paper,
-					factory.buildMockResearcher( findTransitionWords( paper ) ),
-					i18n
-				);
-				expect( result.textTransitionWords.getScore() ).toBe( expectedResults.textTransitionWords.score );
-				expect( result.textTransitionWords.getText() ).toBe( expectedResults.textTransitionWords.resultText );
-			}
-		} );
-
-		it( "returns a score and the associated feedback text for the passiveVoice assessment", function() {
-			const isApplicable = passiveVoiceAssessment.isApplicable( paper );
-			expect( isApplicable ).toBe( expectedResults.passiveVoice.isApplicable );
-
-			if ( isApplicable ) {
-				result.passiveVoice = passiveVoiceAssessment.getResult(
-					paper,
-					factory.buildMockResearcher( passiveVoice( paper ) ),
-					i18n
-				);
-				expect( result.passiveVoice.getScore() ).toBe( expectedResults.passiveVoice.score );
-				expect( result.passiveVoice.getText() ).toBe( expectedResults.passiveVoice.resultText );
-			}
-		} );
+		// it( "returns a score and the associated feedback text for the passiveVoice assessment", function() {
+		// 	const isApplicable = passiveVoiceAssessment.isApplicable( paper );
+		// 	expect( isApplicable ).toBe( expectedResults.passiveVoice.isApplicable );
+		//
+		// 	if ( isApplicable ) {
+		// 		result.passiveVoice = passiveVoiceAssessment.getResult(
+		// 			paper,
+		// 			factory.buildMockResearcher( passiveVoice( paper ) ),
+		// 			i18n
+		// 		);
+		// 		expect( result.passiveVoice.getScore() ).toBe( expectedResults.passiveVoice.score );
+		// 		expect( result.passiveVoice.getText() ).toBe( expectedResults.passiveVoice.resultText );
+		// 	}
+		// } );
 
 		it( "returns a score and the associated feedback text for the textPresence assessment", function() {
 			result.textPresence = textPresenceAssessment.getResult(

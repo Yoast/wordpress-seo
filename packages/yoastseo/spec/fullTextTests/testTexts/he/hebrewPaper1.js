@@ -4,14 +4,14 @@ import content from "./hebrewPaper1.html";
 const name = "hebrewPaper1";
 
 const paper = new Paper( content, {
-	keyword: "נאפולי wikipedia",
+	keyword: "נאפולי",
 	synonyms: "",
-	description: "העיר היא עיר הבירה של פרובינציית נאפולי  ובירת מחוז קמפניה.",
+	description: "העיר היא עיר הבירה של פרובינציית נאפולי ובירת מחוז קמפניה.",
 	title: "נאפולי",
 	titleWidth: 450,
 	locale: "he_IL",
 	permalink: "https://he.wikipedia.org/wiki/%D7%A0%D7%90%D7%A4%D7%95%D7%9C%D7%99",
-	url: "%D7%A0%D7%90%D7%A4%D7%95%D7%9C%D7%99",
+	url: "wiki/%D7%A0%D7%90%D7%A4%D7%95%D7%9C%D7%99",
 } );
 
 const expectedResults = {

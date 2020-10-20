@@ -4,7 +4,7 @@ import content from "./hebrewPaper2.html";
 const name = "hebrewPaper2";
 
 const paper = new Paper( content, {
-	keyword: "wikipedia כוכב",
+	keyword: "כוכב wikipedia",
 	synonyms: "",
 	description: "כוכב (או שמש[1]) הוא גרם שמיים דמוי-כדור המורכב מחומר במצב צבירה פלזמה וגז. כוכב, בניגוד לכוכב לכת, מפיק קרינה משל עצמו על ידי היתוך גרעיני ופולט אותה לחלל החיצון.",
 	title: "כוכב",
