@@ -3,6 +3,7 @@
 namespace Yoast\WP\SEO\Tests\Unit\Integrations\Admin;
 
 use Brain\Monkey;
+use Mockery;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Date_Helper;
@@ -23,7 +24,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
 class Indexing_Notification_Integration_Test extends TestCase {
 
 	/**
-	 * The indexing integration.
+	 * The indexing tool integration.
 	 *
 	 * @var Mockery\MockInterface|Indexing_Tool_Integration
 	 */
@@ -65,13 +66,6 @@ class Indexing_Notification_Integration_Test extends TestCase {
 	protected $date_helper;
 
 	/**
-	 * The instance under test.
-	 *
-	 * @var Indexing_Notification_Integration
-	 */
-	protected $instance;
-
-	/**
 	 * The short link helper.
 	 *
 	 * @var Mockery\MockInterface|Short_Link_Helper
@@ -84,6 +78,13 @@ class Indexing_Notification_Integration_Test extends TestCase {
 	 * @var Notification_Helper
 	 */
 	protected $notification_helper;
+
+	/**
+	 * The instance under test.
+	 *
+	 * @var Indexing_Notification_Integration
+	 */
+	protected $instance;
 
 	/**
 	 * Sets up the tests.
@@ -124,7 +125,7 @@ class Indexing_Notification_Integration_Test extends TestCase {
 			$this->instance
 		);
 		$this->assertAttributeInstanceOf(
-			Yoast_Notification_Center::class,
+			\Yoast_Notification_Center::class,
 			'notification_center',
 			$this->instance
 		);
