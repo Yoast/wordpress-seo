@@ -61,7 +61,7 @@ class Indexable_Indexing_Complete_Action_Test extends TestCase {
 	 * @covers ::complete
 	 */
 	public function test_complete_method() {
-		$this->indexable_helper->expects( 'finish_indexing' )->with( true );
+		$this->indexable_helper->expects( 'finish_indexing' )->with();
 
 		$this->instance->complete();
 	}

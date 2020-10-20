@@ -171,7 +171,7 @@ class Indexable_Helper_Test extends TestCase {
 			->expects( 'set' )
 			->once();
 
-		$this->instance->finish_indexing( true );
+		$this->instance->finish_indexing();
 	}
 
 	/**

@@ -31,6 +31,6 @@ class Indexable_Indexing_Complete_Action {
 	 * @return void
 	 */
 	public function complete() {
-		$this->indexable_helper->finish_indexing( true );
+		$this->indexable_helper->finish_indexing();
 	}
 }

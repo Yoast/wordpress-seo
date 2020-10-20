@@ -152,13 +152,11 @@ class Indexable_Helper {
 	}
 
 	/**
-	 * Sets a boolean that indicates whether or not the indexing of the indexables has completed.
-	 *
-	 * @param bool $value Whether or not the indexing of the indexables has completed.
+	 * Sets a boolean to indicate that the indexing of the indexables has completed.
 	 *
 	 * @return void
 	 */
-	public function finish_indexing( $value ) {
-		$this->options_helper->set( 'indexables_indexation_completed', $value );
+	public function finish_indexing() {
+		$this->options_helper->set( 'indexables_indexation_completed', true );
 	}
 }
