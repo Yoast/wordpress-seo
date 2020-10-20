@@ -8,12 +8,10 @@ use Yoast\WP\SEO\Exceptions\SEMrush\Tokens\Failed_Storage_Exception;
 use YoastSEO_Vendor\GuzzleHttp\Client;
 use YoastSEO_Vendor\League\OAuth2\Client\Provider\Exception\IdentityProviderException;
 use YoastSEO_Vendor\League\OAuth2\Client\Provider\GenericProvider;
-use Yoast\WP\SEO\Exceptions\OAuth\OAuth_Authentication_Failed_Exception;
 use Yoast\WP\SEO\Exceptions\SEMrush\Tokens\Empty_Token_Exception;
-use Yoast\WP\SEO\Exceptions\SEMrush\Tokens\Empty_Token_Property_Exception;
-use Yoast\WP\SEO\Exceptions\SEMrush\Tokens\Failed_Token_Storage_Exception;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Values\SEMrush\SEMrush_Token;
+use Yoast\WP\SEO\Wrappers\WP_Remote_Handler;
 
 /**
  * Class SEMrush_Client
@@ -49,11 +47,15 @@ class SEMrush_Client {
 	/**
 	 * SEMrush_Client constructor.
 	 *
-	 * @param Options_Helper $options_helper The Options_Helper instance.
+	 * @param Options_Helper    $options_helper    The Options_Helper instance.
+	 * @param WP_Remote_Handler $wp_remote_handler The request handler.
 	 *
 	 * @throws Empty_Property_Exception Exception thrown if a token property is empty.
 	 */
-	public function __construct( Options_Helper $options_helper ) {
+	public function __construct(
+		Options_Helper $options_helper,
+		WP_Remote_Handler $wp_remote_handler
+	) {
 		$this->provider = new GenericProvider(
 			[
 				'clientId'                => 'yoast',
@@ -64,11 +66,7 @@ class SEMrush_Client {
 				'urlResourceOwnerDetails' => 'https://oauth.semrush.com/oauth2/resource',
 			],
 			[
-				'httpClient' => new Client(
-					[
-						'verify' => ABSPATH . 'wp-includes/certificates/ca-bundle.crt',
-					]
-				),
+				'httpClient' => new Client( [ 'handler' => $wp_remote_handler ] ),
 			]
 		);
 
