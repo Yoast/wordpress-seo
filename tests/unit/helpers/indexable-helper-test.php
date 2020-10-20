@@ -37,7 +37,7 @@ class Indexable_Helper_Test extends TestCase {
 	protected $options;
 
 	/**
-	 * Represents the options helper.
+	 * Represents the indexable repository helper.
 	 *
 	 * @var Mockery\MockInterface|Indexable_Repository
 	 */
