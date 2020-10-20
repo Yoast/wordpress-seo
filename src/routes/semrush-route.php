@@ -88,7 +88,7 @@ class SEMrush_Route implements Route_Interface {
 	private $phrases_action;
 
 	/**
-	 * Semrush_Route constructor.
+	 * SEMrush_Route constructor.
 	 *
 	 * @param SEMrush_Login_Action   $login_action   The login action.
 	 * @param SEMrush_Options_Action $options_action The options action.

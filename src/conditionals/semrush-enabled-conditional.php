@@ -17,7 +17,7 @@ class SEMrush_Enabled_Conditional implements Conditional {
 	private $options;
 
 	/**
-	 * Headless_Rest_Endpoints_Enabled_Conditional constructor.
+	 * SEMrush_Enabled_Conditional constructor.
 	 *
 	 * @param Options_Helper $options The options helper.
 	 */
