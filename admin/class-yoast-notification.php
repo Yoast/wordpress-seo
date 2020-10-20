@@ -188,6 +188,15 @@ class Yoast_Notification {
 	}
 
 	/**
+	 * Get the optional extra data as stored on the notification.
+	 *
+	 * @return array The extra data stored on the notification.
+	 */
+	public function get_data() {
+		return $this->options['data_json'];
+	}
+
+	/**
 	 * Is this Notification persistent.
 	 *
 	 * @return bool True if persistent, False if fire and forget.
