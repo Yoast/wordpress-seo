@@ -8,6 +8,8 @@ import { indexOf } from "lodash-es";
 import { markWordsInSentences } from "../../helpers/word/markWordsInSentences";
 import getLanguage from "../../helpers/getLanguage";
 
+let functionWords = [];
+
 /**
  * Checks whether at least half of the content words from the topic are found within the sentence.
  * Assigns a score to every sentence following the following schema:
@@ -138,11 +140,8 @@ const getSentenceScores = function( sentences, topicFormsInOneArray, locale ) {
 
 	const sentenceScores = Array( topicNumber );
 
-	// Determine whether the language has function words.
-	const language = getLanguage( locale );
-
 	// For languages with function words apply either full match or partial match depending on topic length
-	if ( indexOf( [ "en", "de", "nl", "fr", "es", "it", "pt", "ru", "pl" ], language  ) >= 0 ) {
+	if ( functionWords.length > 0 ) {
 		for ( let i = 0; i < topicNumber; i++ ) {
 			const topic = topicFormsInOneArray[ i ];
 			if ( topic.length < 4 ) {
@@ -182,10 +181,12 @@ const getSentenceScores = function( sentences, topicFormsInOneArray, locale ) {
  *
  * @param {Paper}       paper       The paper to check the keyphrase distribution for.
  * @param {Researcher}  researcher  The researcher to use for analysis.
+ * @param {Array}       funcWords   The function words list.
  *
  * @returns {Object} The scores of topic relevance per portion of text and an array of all word forms to highlight.
  */
-const keyphraseDistributionResearcher = function( paper, researcher ) {
+const keyphraseDistributionResearcher = function( paper, researcher, funcWords ) {
+	functionWords = funcWords;
 	let text = paper.getText();
 	text = mergeListItems( text );
 	const sentences = getSentences( text );
