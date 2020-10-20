@@ -26,7 +26,9 @@ class SEMrush_Enabled_Conditional implements Conditional {
 	}
 
 	/**
-	 * @inheritDoc
+	 * Returns whether or not this conditional is met.
+	 *
+	 * @return boolean Whether or not the conditional is met.
 	 */
 	public function is_met() {
 		return $this->options->get( 'semrush_integration_active', false );

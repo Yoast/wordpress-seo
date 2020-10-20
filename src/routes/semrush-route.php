@@ -16,7 +16,9 @@ use Yoast\WP\SEO\Main;
 class SEMrush_Route implements Route_Interface {
 
 	/**
-	 * @inheritDoc
+	 * Returns the conditionals based in which this loadable should be active.
+	 *
+	 * @return array
 	 */
 	public static function get_conditionals() {
 		return [ SEMrush_Enabled_Conditional::class ];
