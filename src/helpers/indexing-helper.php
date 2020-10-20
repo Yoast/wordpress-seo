@@ -79,7 +79,7 @@ class Indexing_Helper {
 	 *
 	 * @return void
 	 */
-	public function get_first_time() {
+	public function is_first_time() {
 		return $this->options_helper->get( 'indexing_first_time', true );
 	}
 }

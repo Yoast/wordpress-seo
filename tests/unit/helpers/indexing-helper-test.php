@@ -130,14 +130,14 @@ class Indexing_Helper_Test extends TestCase {
 	/**
 	 * Tests getting whether a site still has to be indexed for the first time.
 	 *
-	 * @covers ::get_first_time
+	 * @covers ::is_first_time
 	 */
-	public function test_get_first_time() {
+	public function test_is_first_time() {
 		$this->options_helper
 			->expects( 'get' )
 			->once()
 			->with( 'indexing_first_time', true );
 
-		$this->instance->get_first_time();
+		$this->instance->is_first_time();
 	}
 }
