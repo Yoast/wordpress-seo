@@ -50,9 +50,7 @@ class Indexable_Indexing_Complete_Action_Test extends TestCase {
 	 * @covers ::__construct
 	 */
 	public function test_constructor() {
-		$instance = new Indexable_Indexing_Complete_Action(
-			$this->indexable_helper
-		);
+		$this->assertAttributeInstanceOf( Indexable_Helper::class, 'indexable_helper', $this->instance );
 	}
 
 	/**
@@ -61,7 +59,10 @@ class Indexable_Indexing_Complete_Action_Test extends TestCase {
 	 * @covers ::complete
 	 */
 	public function test_complete_method() {
-		$this->indexable_helper->expects( 'finish_indexing' )->with();
+		$this->indexable_helper
+			->expects( 'finish_indexing' )
+			->withNoArgs()
+			->once();
 
 		$this->instance->complete();
 	}
