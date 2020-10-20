@@ -6,7 +6,6 @@ import { zipWith } from "lodash-es";
 import { flattenDeep } from "lodash-es";
 import { markWordsInSentences } from "../../helpers/word/markWordsInSentences";
 
-let functionWords = [];
 
 /**
  * Checks whether at least half of the content words from the topic are found within the sentence.
@@ -132,14 +131,14 @@ const getDistraction = function( sentenceScores ) {
  *
  * @returns {Object} An array with maximized score per sentence and an array with all sentences that do not contain the topic.
  */
-const getSentenceScores = function( sentences, topicFormsInOneArray, locale ) {
+const getSentenceScores = function( sentences, topicFormsInOneArray, locale, funcWords ) {
 	// Compute per-sentence scores of topic-relatedness.
 	const topicNumber = topicFormsInOneArray.length;
 
 	const sentenceScores = Array( topicNumber );
 
 	// For languages with function words apply either full match or partial match depending on topic length
-	if ( functionWords.length > 0 ) {
+	if ( funcWords ) {
 		for ( let i = 0; i < topicNumber; i++ ) {
 			const topic = topicFormsInOneArray[ i ];
 			if ( topic.length < 4 ) {
@@ -179,12 +178,11 @@ const getSentenceScores = function( sentences, topicFormsInOneArray, locale ) {
  *
  * @param {Paper}       paper       The paper to check the keyphrase distribution for.
  * @param {Researcher}  researcher  The researcher to use for analysis.
- * @param {Array}       funcWords   The function words list.
+ * @param {boolean}     funcWords   The function words list.
  *
  * @returns {Object} The scores of topic relevance per portion of text and an array of all word forms to highlight.
  */
 const keyphraseDistributionResearcher = function( paper, researcher, funcWords ) {
-	functionWords = funcWords;
 	let text = paper.getText();
 	text = mergeListItems( text );
 	const sentences = getSentences( text );
@@ -199,7 +197,7 @@ const keyphraseDistributionResearcher = function( paper, researcher, funcWords )
 	const allTopicWords = unique( flattenDeep( topicFormsInOneArray ) ).sort( ( a, b ) => b.length - a.length );
 
 	// Get per-sentence scores and sentences that have topic.
-	const sentenceScores = getSentenceScores( sentences, topicFormsInOneArray, locale );
+	const sentenceScores = getSentenceScores( sentences, topicFormsInOneArray, locale, funcWords );
 	const maximizedSentenceScores = sentenceScores.maximizedSentenceScores;
 	const maxLengthDistraction = getDistraction( maximizedSentenceScores );
 

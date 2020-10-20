@@ -6,5 +6,5 @@ import { keyphraseDistributionResearcher } from "../../../researches/base/keyphr
  * @inheritDoc keyphraseDistributionResearcher
  */
 export default function( paper, researcher ) {
-	return keyphraseDistributionResearcher( paper, researcher, [] );
+	return keyphraseDistributionResearcher( paper, researcher, false );
 }
