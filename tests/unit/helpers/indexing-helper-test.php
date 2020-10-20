@@ -138,7 +138,7 @@ class Indexing_Helper_Test extends TestCase {
 			->once()
 			->with( 'indexing_reason', '' );
 
-		$this->instance->has_reason();
+		$this->assertFalse( $this->instance->has_reason() );
 	}
 
 	/**
@@ -147,12 +147,14 @@ class Indexing_Helper_Test extends TestCase {
 	 * @covers ::get_started
 	 */
 	public function test_get_started() {
+		$start_time = 160934509;
 		$this->options_helper
 			->expects( 'get' )
 			->once()
-			->with( 'indexation_started' );
+			->with( 'indexation_started' )
+			->andReturn( $start_time );
 
-		$this->instance->get_started();
+		$this->assertSame( $start_time, $this->instance->get_started() );
 	}
 
 	/**
@@ -164,8 +166,9 @@ class Indexing_Helper_Test extends TestCase {
 		$this->options_helper
 			->expects( 'get' )
 			->once()
-			->with( 'indexing_first_time', true );
+			->with( 'indexing_first_time', true )
+			->andReturnTrue();
 
-		$this->instance->is_initial_indexing();
+		$this->assertTrue( $this->instance->is_initial_indexing() );
 	}
 }
