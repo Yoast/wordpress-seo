@@ -11,7 +11,6 @@ import pl from "../../premium-configuration/data/morphologyData-pl-v9.json";
 import ar from "../../premium-configuration/data/morphologyData-ar-v9.json";
 import sv from "../../premium-configuration/data/morphologyData-sv-v1.json";
 
-
 const morphologyData = {
 	en,
 	de,

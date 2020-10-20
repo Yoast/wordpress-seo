@@ -34,5 +34,8 @@
     "lerna-publish": "lerna publish --contents dist --yes from-git",
     "lerna-publish-rc": "lerna publish --contents dist --dist-tag rc --yes from-git --loglevel=verbose",
     "list-deps": "node ./scripts/list-dependencies.js"
+  },
+  "dependencies": {
+    "benchmark.js": "^2.0.0"
   }
 }
