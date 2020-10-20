@@ -35,12 +35,13 @@ class Indexing_Helper {
 	}
 
 	/**
-	 * Gets the indexing reason.
+	 * Determines whether an indexing reason has been set in the options.
 	 *
-	 * @return string The reason if found, and an empty string otherwise.
+	 * @return bool Whether an indexing reason has been set in the options.
 	 */
-	public function get_reason() {
-		return $this->options_helper->get( 'indexing_reason', '' );
+	public function has_reason() {
+		$reason = $this->options_helper->get( 'indexing_reason', '' );
+		return ! empty( $reason );
 	}
 
 	/**

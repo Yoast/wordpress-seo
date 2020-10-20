@@ -70,15 +70,15 @@ class Indexing_Helper_Test extends TestCase {
 	/**
 	 * Tests getting the indexing reason.
 	 *
-	 * @covers ::get_reason
+	 * @covers ::has_reason
 	 */
-	public function test_get_reason() {
+	public function test_has_reason() {
 		$this->options_helper
 			->expects( 'get' )
 			->once()
 			->with( 'indexing_reason', '' );
 
-		$this->instance->get_reason();
+		$this->instance->has_reason();
 	}
 
 	/**

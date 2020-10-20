@@ -147,7 +147,7 @@ class Indexing_Notification_Integration implements Integration_Interface {
 			\add_action( 'admin_init', [ $this, 'maybe_cleanup_notification' ] );
 		}
 
-		if ( $this->indexing_helper->get_reason() ) {
+		if ( $this->indexing_helper->has_reason() ) {
 			\add_action( 'admin_init', [ $this, 'maybe_create_notification' ] );
 		}
 
@@ -214,7 +214,7 @@ class Indexing_Notification_Integration implements Integration_Interface {
 	 * @return Yoast_Notification The notification to show.
 	 */
 	protected function notification() {
-		$reason = $this->indexing_helper->get_reason();
+		$reason = $this->indexing_helper->has_reason();
 
 		$presenter = $this->get_presenter( $reason );
 
