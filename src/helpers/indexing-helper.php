@@ -66,12 +66,12 @@ class Indexing_Helper {
 	/**
 	 * Sets a boolean that indicates whether or not a site still has to be indexed for the first time.
 	 *
-	 * @param bool $value Whether or not a site still has to be indexed for the first time.
+	 * @param bool $is_first_time_indexing Whether or not a site still has to be indexed for the first time.
 	 *
 	 * @return void
 	 */
-	public function set_first_time( $value ) {
-		$this->options_helper->set( 'indexing_first_time', $value );
+	public function set_first_time( $is_first_time_indexing ) {
+		$this->options_helper->set( 'indexing_first_time', $is_first_time_indexing );
 	}
 
 	/**
