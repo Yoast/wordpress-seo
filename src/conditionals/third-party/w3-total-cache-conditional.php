@@ -2,6 +2,8 @@
 
 namespace Yoast\WP\SEO\Conditionals\Third_Party;
 
+use Yoast\WP\SEO\Conditionals\Conditional;
+
 /**
  * Conditional that is only met when in the admin.
  */
