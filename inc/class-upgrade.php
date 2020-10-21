@@ -794,14 +794,7 @@ class WPSEO_Upgrade {
 	 * else to `false`.
 	 */
 	public function set_indexation_completed_option_for_145() {
-		/**
-		 * Holds the indexation integration instance.
-		 *
-		 * @var Indexing_Tool_Integration $indexing_integration
-		 */
-		$indexing_integration = YoastSEO()->classes->get( Indexing_Tool_Integration::class );
-
-		WPSEO_Options::set( 'indexables_indexation_completed', $indexing_integration->get_unindexed_indexables_count() === 0 );
+		WPSEO_Options::set( 'indexables_indexation_completed', YoastSEO()->helpers->indexing->get_unindexed_count() === 0 );
 	}
 
 	/**

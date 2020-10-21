@@ -2,6 +2,12 @@
 
 namespace Yoast\WP\SEO\Helpers;
 
+use Yoast\WP\SEO\Actions\Indexing\Indexable_General_Indexation_Action;
+use Yoast\WP\SEO\Actions\Indexing\Indexable_Post_Indexation_Action;
+use Yoast\WP\SEO\Actions\Indexing\Indexable_Post_Type_Archive_Indexation_Action;
+use Yoast\WP\SEO\Actions\Indexing\Indexable_Term_Indexation_Action;
+use Yoast\WP\SEO\Actions\Indexing\Post_Link_Indexing_Action;
+use Yoast\WP\SEO\Actions\Indexing\Term_Link_Indexing_Action;
 use Yoast\WP\SEO\Integrations\Admin\Indexing_Notification_Integration;
 use Yoast_Notification_Center;
 
@@ -29,23 +35,83 @@ class Indexing_Helper {
 	 *
 	 * @var Yoast_Notification_Center
 	 */
-	private $notification_center;
+	protected $notification_center;
+
+	/**
+	 * The post indexation action.
+	 *
+	 * @var Indexable_Post_Indexation_Action
+	 */
+	protected $post_indexation;
+
+	/**
+	 * The term indexation action.
+	 *
+	 * @var Indexable_Term_Indexation_Action
+	 */
+	protected $term_indexation;
+
+	/**
+	 * The post type archive indexation action.
+	 *
+	 * @var Indexable_Post_Type_Archive_Indexation_Action
+	 */
+	protected $post_type_archive_indexation;
+
+	/**
+	 * The post link indexing action.
+	 *
+	 * @var Post_Link_Indexing_Action
+	 */
+	protected $post_link_indexing_action;
+
+	/**
+	 * The term link indexing action.
+	 *
+	 * @var Term_Link_Indexing_Action
+	 */
+	protected $term_link_indexing_action;
+
+	/**
+	 * Represents the general indexation.
+	 *
+	 * @var Indexable_General_Indexation_Action
+	 */
+	protected $general_indexation;
 
 	/**
 	 * Indexing_Helper constructor.
 	 *
-	 * @param Options_Helper            $options_helper      The options helper.
-	 * @param Date_Helper               $date_helper         The date helper.
-	 * @param Yoast_Notification_Center $notification_center The notification center.
+	 * @param Options_Helper                                $options_helper               The options helper.
+	 * @param Date_Helper                                   $date_helper                  The date helper.
+	 * @param Yoast_Notification_Center                     $notification_center          The notification center.
+	 * @param Indexable_Post_Indexation_Action              $post_indexation              The post indexing action.
+	 * @param Indexable_Term_Indexation_Action              $term_indexation              The term indexing action.
+	 * @param Indexable_Post_Type_Archive_Indexation_Action $post_type_archive_indexation The post type archive indexing action.
+	 * @param Indexable_General_Indexation_Action           $general_indexation           The general indexing action.
+	 * @param Post_Link_Indexing_Action                     $post_link_indexing_action    The post indexing action.
+	 * @param Term_Link_Indexing_Action                     $term_link_indexing_action    The term indexing action.
 	 */
 	public function __construct(
 		Options_Helper $options_helper,
 		Date_Helper $date_helper,
-		Yoast_Notification_Center $notification_center
+		Yoast_Notification_Center $notification_center,
+		Indexable_Post_Indexation_Action $post_indexation,
+		Indexable_Term_Indexation_Action $term_indexation,
+		Indexable_Post_Type_Archive_Indexation_Action $post_type_archive_indexation,
+		Indexable_General_Indexation_Action $general_indexation,
+		Post_Link_Indexing_Action $post_link_indexing_action,
+		Term_Link_Indexing_Action $term_link_indexing_action
 	) {
-		$this->options_helper      = $options_helper;
-		$this->date_helper         = $date_helper;
-		$this->notification_center = $notification_center;
+		$this->options_helper               = $options_helper;
+		$this->date_helper                  = $date_helper;
+		$this->notification_center          = $notification_center;
+		$this->post_indexation              = $post_indexation;
+		$this->term_indexation              = $term_indexation;
+		$this->post_type_archive_indexation = $post_type_archive_indexation;
+		$this->general_indexation           = $general_indexation;
+		$this->post_link_indexing_action    = $post_link_indexing_action;
+		$this->term_link_indexing_action    = $term_link_indexing_action;
 	}
 
 	/**
@@ -145,5 +211,30 @@ class Indexing_Helper {
 	 */
 	public function is_initial_indexing() {
 		return $this->options_helper->get( 'indexing_first_time', true );
+	}
+
+	/**
+	 * Returns the total number of unindexed objects.
+	 *
+	 * @return int The total number of unindexed objects.
+	 */
+	public function get_unindexed_count() {
+		$unindexed_count  = $this->post_indexation->get_total_unindexed();
+		$unindexed_count += $this->term_indexation->get_total_unindexed();
+		$unindexed_count += $this->general_indexation->get_total_unindexed();
+		$unindexed_count += $this->post_type_archive_indexation->get_total_unindexed();
+		$unindexed_count += $this->post_link_indexing_action->get_total_unindexed();
+		$unindexed_count += $this->term_link_indexing_action->get_total_unindexed();
+
+		return $unindexed_count;
+	}
+
+	/**
+	 * Returns the total number of unindexed objects and applies a filter for third party integrations.
+	 *	 *
+	 * @return int The total number of unindexed objects.
+	 */
+	public function get_filtered_unindexed_count() {
+		return \apply_filters( 'wpseo_indexing_get_unindexed_count', $this->    get_unindexed_count() );
 	}
 }

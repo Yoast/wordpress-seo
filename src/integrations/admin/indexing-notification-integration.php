@@ -53,13 +53,6 @@ class Indexing_Notification_Integration implements Integration_Interface {
 	const REASON_HOME_URL_OPTION = 'home_url_option_changed';
 
 	/**
-	 * The indexing integration.
-	 *
-	 * @var Indexing_Tool_Integration
-	 */
-	protected $indexing_integration;
-
-	/**
 	 * The Yoast notification center.
 	 *
 	 * @var Yoast_Notification_Center
@@ -111,7 +104,6 @@ class Indexing_Notification_Integration implements Integration_Interface {
 	/**
 	 * Indexing_Notification_Integration constructor.
 	 *
-	 * @param Indexing_Tool_Integration $indexing_integration The indexing integration.
 	 * @param Yoast_Notification_Center $notification_center  The notification center.
 	 * @param Product_Helper            $product_helper       The product helper.
 	 * @param Current_Page_Helper       $page_helper          The current page helper.
@@ -121,7 +113,6 @@ class Indexing_Notification_Integration implements Integration_Interface {
 	 * @param Indexing_Helper           $indexing_helper      The indexing helper.
 	 */
 	public function __construct(
-		Indexing_Tool_Integration $indexing_integration,
 		Yoast_Notification_Center $notification_center,
 		Product_Helper $product_helper,
 		Current_Page_Helper $page_helper,
@@ -130,7 +121,6 @@ class Indexing_Notification_Integration implements Integration_Interface {
 		Notification_Helper $notification_helper,
 		Indexing_Helper $indexing_helper
 	) {
-		$this->indexing_integration = $indexing_integration;
 		$this->notification_center  = $notification_center;
 		$this->product_helper       = $product_helper;
 		$this->page_helper          = $page_helper;
@@ -212,7 +202,7 @@ class Indexing_Notification_Integration implements Integration_Interface {
 		}
 
 		// Never show a notification when nothing should be indexed.
-		return $this->indexing_integration->get_unindexed_count() > 0;
+		return $this->indexing_helper->get_filtered_unindexed_count() > 0;
 	}
 
 	/**
@@ -248,7 +238,7 @@ class Indexing_Notification_Integration implements Integration_Interface {
 			$presenter = new Indexing_Failed_Notification_Presenter( $this->product_helper );
 		}
 		else {
-			$total_unindexed = $this->indexing_integration->get_unindexed_count();
+			$total_unindexed = $this->indexing_helper->get_filtered_unindexed_count();
 			$presenter       = new Indexing_Notification_Presenter( $this->short_link_helper, $total_unindexed, $reason );
 		}
 
