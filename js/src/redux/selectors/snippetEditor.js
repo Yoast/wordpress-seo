@@ -46,13 +46,17 @@ export const getSnippetEditorDescription = state => get( state, "snippetEditor.d
 export const getSnippetEditorSlug = state => get( state, "snippetEditor.data.slug", "" );
 
 /**
- * Gets the snippet preview image URL.
+ * Gets the snippet editor data.
  *
  * @param {Object} state The state object.
  *
- * @returns {string} The snippet preview image URL.
+ * @returns {Object} The snippet editor data.
  */
-export const getSnippetPreviewImageUrl = state => get( state, "snippetEditor.data.snippetPreviewImageURL", "" );
+export const getSnippetEditorData = state => get( state, "snippetEditor.data", {
+	title: getSnippetEditorTitle( state ),
+	description: getSnippetEditorDescription( state ),
+	slug: getSnippetEditorSlug( state ),
+} );
 
 /**
  * Determines the snippet preview image URL.
