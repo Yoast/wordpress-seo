@@ -4,9 +4,8 @@ import { findWordFormsInString } from "../../helpers/match/findKeywordFormsInStr
 import { max, uniq as unique } from "lodash-es";
 import { zipWith } from "lodash-es";
 import { flattenDeep } from "lodash-es";
-import { indexOf } from "lodash-es";
 import { markWordsInSentences } from "../../helpers/word/markWordsInSentences";
-import getLanguage from "../../helpers/getLanguage";
+
 
 /**
  * Checks whether at least half of the content words from the topic are found within the sentence.
@@ -129,20 +128,18 @@ const getDistraction = function( sentenceScores ) {
  * @param {Array}  sentences              The sentences to get scores for.
  * @param {Array}  topicFormsInOneArray   The topic phrases forms to search for in the sentences.
  * @param {string} locale                 The locale to work in.
+ * @param {boolean} hasFunctionWords      Whether the function words list is available or not.
  *
  * @returns {Object} An array with maximized score per sentence and an array with all sentences that do not contain the topic.
  */
-const getSentenceScores = function( sentences, topicFormsInOneArray, locale ) {
+const getSentenceScores = function( sentences, topicFormsInOneArray, locale, hasFunctionWords ) {
 	// Compute per-sentence scores of topic-relatedness.
 	const topicNumber = topicFormsInOneArray.length;
 
 	const sentenceScores = Array( topicNumber );
 
-	// Determine whether the language has function words.
-	const language = getLanguage( locale );
-
 	// For languages with function words apply either full match or partial match depending on topic length
-	if ( indexOf( [ "en", "de", "nl", "fr", "es", "it", "pt", "ru", "pl" ], language  ) >= 0 ) {
+	if ( hasFunctionWords ) {
 		for ( let i = 0; i < topicNumber; i++ ) {
 			const topic = topicFormsInOneArray[ i ];
 			if ( topic.length < 4 ) {
@@ -180,12 +177,13 @@ const getSentenceScores = function( sentences, topicFormsInOneArray, locale ) {
 /**
  * Determines which portions of the text did not receive a lot of content words from keyphrase and synonyms.
  *
- * @param {Paper}       paper       The paper to check the keyphrase distribution for.
- * @param {Researcher}  researcher  The researcher to use for analysis.
+ * @param {Paper}       paper               The paper to check the keyphrase distribution for.
+ * @param {Researcher}  researcher          The researcher to use for analysis.
+ * @param {boolean}     hasFunctionWords    Whether the function words list is available or not.
  *
  * @returns {Object} The scores of topic relevance per portion of text and an array of all word forms to highlight.
  */
-const keyphraseDistributionResearcher = function( paper, researcher ) {
+const keyphraseDistributionResearcher = function( paper, researcher, hasFunctionWords ) {
 	let text = paper.getText();
 	text = mergeListItems( text );
 	const sentences = getSentences( text );
@@ -200,7 +198,7 @@ const keyphraseDistributionResearcher = function( paper, researcher ) {
 	const allTopicWords = unique( flattenDeep( topicFormsInOneArray ) ).sort( ( a, b ) => b.length - a.length );
 
 	// Get per-sentence scores and sentences that have topic.
-	const sentenceScores = getSentenceScores( sentences, topicFormsInOneArray, locale );
+	const sentenceScores = getSentenceScores( sentences, topicFormsInOneArray, locale, hasFunctionWords );
 	const maximizedSentenceScores = sentenceScores.maximizedSentenceScores;
 	const maxLengthDistraction = getDistraction( maximizedSentenceScores );
 

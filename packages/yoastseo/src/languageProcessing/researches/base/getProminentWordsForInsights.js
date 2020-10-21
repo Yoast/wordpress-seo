@@ -1,29 +1,32 @@
-import { get, take } from "lodash-es";
-import getLanguage from "../../helpers/getLanguage";
+import { take } from "lodash-es";
 import {
 	collapseProminentWordsOnStem,
 	filterProminentWords,
 	getProminentWords,
 	retrieveAbbreviations,
 	sortProminentWords,
-} from "../helpers/determineProminentWords";
+} from "../../helpers/prominentWords/determineProminentWords";
+
+let functionWords = [];
 
 /**
  * Retrieves the prominent words from the given paper.
  *
- * @param {Paper} paper The paper to determine the prominent words of.
- * @param {Researcher} researcher The researcher to use for analysis.
+ * @param {Paper} paper             The paper to determine the prominent words of.
+ * @param {Researcher} researcher   The researcher to use for analysis.
+ * @param {Function} stemmer        The available stemmer function of a language.
+ * @param {Array}   funcWords       The available function words.
+ * @param {Object}  morphologyData  The available morphology data file.
  *
  * @returns {WordCombination[]} Prominent words for this paper, filtered and sorted.
  */
-function getProminentWordsForInsights( paper, researcher ) {
+function getProminentWordsForInsights( paper, researcher, stemmer, funcWords, morphologyData ) {
+	functionWords = funcWords;
 	const text = paper.getText();
-	const language = getLanguage( paper.getLocale() );
-	const morphologyData = get( researcher.getData( "morphology" ), language, false );
 
 	const abbreviations = retrieveAbbreviations( text );
 
-	const prominentWordsFromText = getProminentWords( text, abbreviations, language, morphologyData );
+	const prominentWordsFromText = getProminentWords( text, abbreviations, stemmer, functionWords, morphologyData );
 
 	const collapsedWords = collapseProminentWordsOnStem( prominentWordsFromText );
 	sortProminentWords( collapsedWords );
