@@ -2,6 +2,9 @@
 
 namespace Yoast\WP\SEO\Helpers;
 
+use Yoast\WP\SEO\Integrations\Admin\Indexing_Notification_Integration;
+use Yoast_Notification_Center;
+
 /**
  * A helper object for indexing.
  */
@@ -22,13 +25,27 @@ class Indexing_Helper {
 	protected $date_helper;
 
 	/**
+	 * The notification center.
+	 *
+	 * @var Yoast_Notification_Center
+	 */
+	private $notification_center;
+
+	/**
 	 * Indexing_Helper constructor.
 	 *
-	 * @param Options_Helper $options_helper The options helper.
+	 * @param Options_Helper            $options_helper      The options helper.
+	 * @param Date_Helper               $date_helper         The date helper.
+	 * @param Yoast_Notification_Center $notification_center The notification center.
 	 */
-	public function __construct( Options_Helper $options_helper, Date_Helper $date_helper ) {
-		$this->options_helper = $options_helper;
-		$this->date_helper    = $date_helper;
+	public function __construct(
+		Options_Helper $options_helper,
+		Date_Helper $date_helper,
+		Yoast_Notification_Center $notification_center
+	) {
+		$this->options_helper      = $options_helper;
+		$this->date_helper         = $date_helper;
+		$this->notification_center = $notification_center;
 	}
 
 	/**
@@ -60,6 +77,14 @@ class Indexing_Helper {
 	 */
 	public function set_reason( $reason ) {
 		$this->options_helper->set( 'indexing_reason', $reason );
+
+		/*
+		 * Remove any pre-existing notification, so that a new notification
+		 * (with a possible new reason) can be added.
+		 */
+		$this->notification_center->remove_notification_by_id(
+			Indexing_Notification_Integration::NOTIFICATION_ID
+		);
 	}
 
 	/**
@@ -69,6 +94,7 @@ class Indexing_Helper {
 	 */
 	public function has_reason() {
 		$reason = $this->options_helper->get( 'indexing_reason', '' );
+
 		return ! empty( $reason );
 	}
 

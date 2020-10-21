@@ -130,6 +130,7 @@ module.exports = function( grunt ) {
 				gittag: "grunt-git",
 				gitfetch: "grunt-git",
 				gitadd: "grunt-git",
+				gitstatus: "grunt-git",
 				gitcommit: "grunt-git",
 				gitcheckout: "grunt-git",
 				gitpull: "grunt-git",

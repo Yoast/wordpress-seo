@@ -6,7 +6,9 @@ use Mockery;
 use Yoast\WP\SEO\Helpers\Date_Helper;
 use Yoast\WP\SEO\Helpers\Indexing_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Integrations\Admin\Indexing_Notification_Integration;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
+use Yoast_Notification_Center;
 
 /**
  * Class Indexing_Helper_Test.
@@ -41,14 +43,26 @@ class Indexing_Helper_Test extends TestCase {
 	protected $date_helper;
 
 	/**
+	 * The notification center.
+	 *
+	 * @var Mockery\MockInterface|Yoast_Notification_Center
+	 */
+	protected $notification_center;
+
+	/**
 	 * Sets up the class under test and mock objects.
 	 */
 	public function setUp() {
 		parent::setUp();
 
-		$this->options_helper = Mockery::mock( Options_Helper::class );
-		$this->date_helper    = Mockery::mock( Date_Helper::class );
-		$this->instance       = new Indexing_Helper( $this->options_helper, $this->date_helper );
+		$this->options_helper      = Mockery::mock( Options_Helper::class );
+		$this->date_helper         = Mockery::mock( Date_Helper::class );
+		$this->notification_center = Mockery::mock( Yoast_Notification_Center::class );
+		$this->instance            = new Indexing_Helper(
+			$this->options_helper,
+			$this->date_helper,
+			$this->notification_center
+		);
 	}
 
 	/**
@@ -108,6 +122,11 @@ class Indexing_Helper_Test extends TestCase {
 			->once()
 			->with( 'indexing_reason', '' );
 
+		$this->notification_center
+			->expects( 'remove_notification_by_id' )
+			->once()
+			->with( Indexing_Notification_Integration::NOTIFICATION_ID );
+
 		$this->instance->finish();
 	}
 
@@ -123,6 +142,11 @@ class Indexing_Helper_Test extends TestCase {
 			->expects( 'set' )
 			->once()
 			->with( 'indexing_reason', $reason );
+
+		$this->notification_center
+			->expects( 'remove_notification_by_id' )
+			->once()
+			->with( Indexing_Notification_Integration::NOTIFICATION_ID );
 
 		$this->instance->set_reason( $reason );
 	}

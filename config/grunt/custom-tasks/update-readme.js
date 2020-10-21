@@ -104,9 +104,21 @@ module.exports = function( grunt ) {
 			grunt.config( "gitadd.addChangelog.files", { src: [ "./readme.txt" ] } );
 			grunt.task.run( "gitadd:addChangelog" );
 
-			// Commit the changed readme.txt.
-			grunt.config( "gitcommit.commitChangelog.options.message", "Add changelog" );
-			grunt.task.run( "gitcommit:commitChangelog" );
+			// Check if there is something to commit with `git status` first.
+			grunt.config( "gitstatus.checkChangelog.options.callback", function( changes ) {
+				// First character of the code checks the status in the index.
+				const hasStagedChangelog = changes.some( change => change.code[ 0 ] !== " " && change.file === "readme.txt" );
+
+				if ( hasStagedChangelog ) {
+					// Commit the changed readme.txt.
+					grunt.config( "gitcommit.commitChangelog.options.message", "Add changelog" );
+					grunt.task.run( "gitcommit:commitChangelog" );
+				} else {
+					grunt.log.writeln( "Changelog is unchanged. Nothing to commit." );
+				}
+			} );
+
+			grunt.task.run( "gitstatus:checkChangelog" );
 		}
 	);
 };

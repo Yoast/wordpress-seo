@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Config;
 
+use Mockery;
 use YoastSEO_Vendor\League\OAuth2\Client\Provider\Exception\IdentityProviderException;
 use YoastSEO_Vendor\League\OAuth2\Client\Provider\GenericProvider;
 use YoastSEO_Vendor\League\OAuth2\Client\Token\AccessTokenInterface;
@@ -9,6 +10,7 @@ use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Doubles\Config\SEMrush_Client_Double;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 use Yoast\WP\SEO\Values\SEMrush\SEMrush_Token;
+use Yoast\WP\SEO\Wrappers\WP_Remote_Handler;
 
 /**
  * Class SEMrush_Client_Test.
@@ -18,13 +20,6 @@ use Yoast\WP\SEO\Values\SEMrush\SEMrush_Token;
  * @coversDefaultClass \Yoast\WP\SEO\Config\SEMrush_Client
  */
 class SEMrush_Client_Test extends TestCase {
-
-	/**
-	 * The breadcrumbs enabled conditional.
-	 *
-	 * @var SEMrush_Client_Double
-	 */
-	protected $instance;
 
 	/**
 	 * The response object.
@@ -55,15 +50,22 @@ class SEMrush_Client_Test extends TestCase {
 	protected $options_helper;
 
 	/**
+	 * The test instance.
+	 *
+	 * @var SEMrush_Client
+	 */
+	protected $instance;
+
+	/**
 	 * Set up the test fixtures.
 	 */
 	public function setUp() {
 		parent::setUp();
 
-		$this->response       = \Mockery::mock( AccessTokenInterface::class );
-		$this->token          = \Mockery::mock( SEMrush_Token::class );
-		$this->provider       = \Mockery::mock( GenericProvider::class );
-		$this->options_helper = \Mockery::mock( Options_Helper::class );
+		$this->response       = Mockery::mock( AccessTokenInterface::class );
+		$this->token          = Mockery::mock( SEMrush_Token::class );
+		$this->provider       = Mockery::mock( GenericProvider::class );
+		$this->options_helper = Mockery::mock( Options_Helper::class );
 	}
 
 	/**
@@ -78,7 +80,10 @@ class SEMrush_Client_Test extends TestCase {
 			->once()
 			->andReturnNull();
 
-		$instance = new SEMrush_Client_Double( $this->options_helper );
+		$instance = new SEMrush_Client_Double(
+			$this->options_helper,
+			Mockery::mock( WP_Remote_Handler::class )
+		);
 
 		$this->assertAttributeInstanceOf( GenericProvider::class, 'provider', $instance );
 		$this->assertAttributeInstanceOf( Options_Helper::class, 'options_helper', $instance );
@@ -104,7 +109,10 @@ class SEMrush_Client_Test extends TestCase {
 				]
 			);
 
-		$instance = new SEMrush_Client_Double( $this->options_helper );
+		$instance = new SEMrush_Client_Double(
+			$this->options_helper,
+			Mockery::mock( WP_Remote_Handler::class )
+		);
 
 		$this->assertAttributeInstanceOf( GenericProvider::class, 'provider', $instance );
 		$this->assertAttributeInstanceOf( Options_Helper::class, 'options_helper', $instance );
@@ -152,7 +160,10 @@ class SEMrush_Client_Test extends TestCase {
 			)
 			->andReturns( $this->token );
 
-		$instance = new SEMrush_Client_Double( $this->options_helper );
+		$instance = new SEMrush_Client_Double(
+			$this->options_helper,
+			Mockery::mock( WP_Remote_Handler::class )
+		);
 
 		$instance->set_provider( $this->provider );
 
@@ -178,7 +189,11 @@ class SEMrush_Client_Test extends TestCase {
 			->once()
 			->andReturnNull();
 
-		$instance = new SEMrush_Client_Double( $this->options_helper );
+		$instance = new SEMrush_Client_Double(
+			$this->options_helper,
+			Mockery::mock( WP_Remote_Handler::class )
+		);
+
 		$instance->set_provider( $this->provider );
 
 		$instance->request_tokens( '' );
@@ -223,7 +238,11 @@ class SEMrush_Client_Test extends TestCase {
 			->once()
 			->andReturnNull();
 
-		$instance = new SEMrush_Client_Double( $this->options_helper );
+		$instance = new SEMrush_Client_Double(
+			$this->options_helper,
+			Mockery::mock( WP_Remote_Handler::class )
+		);
+
 		$instance->set_provider( $this->provider );
 
 		$instance->store_token( $this->token );
