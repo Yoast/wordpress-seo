@@ -1,8 +1,5 @@
-import { merge } from "lodash-es";
 import InvalidTypeError from "../errors/invalidType";
 import MissingArgument from "../errors/missingArgument";
-import { isUndefined } from "lodash-es";
-import { isEmpty } from "lodash-es";
 
 import wordCountInText from "./researches/wordCountInText.js";
 import linkCount from "./researches/countLinks.js";
@@ -24,6 +21,9 @@ import h1s from "./researches/h1s";
 import sentences from "./researches/sentences";
 import findKeywordInFirstParagraph from "./researches/findKeywordInFirstParagraph.js";
 import keywordCount from "./researches/keywordCount";
+import keywordCountInUrl from "./researches/keywordCountInUrl";
+
+import { merge, isUndefined, isEmpty } from "lodash-es";
 
 /**
  * The researches contains all the researches
@@ -58,6 +58,7 @@ export default class AbstractResearcher {
 			sentences: sentences,
 			firstParagraph: findKeywordInFirstParagraph,
 			keywordCount: keywordCount,
+			keywordCountInUrl: keywordCountInUrl,
 		};
 
 		this._data = {};
