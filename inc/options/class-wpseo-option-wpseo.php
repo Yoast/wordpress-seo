@@ -74,6 +74,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'custom_taxonomy_slugs'                    => [],
 		'enable_enhanced_slack_sharing'            => true,
 		'zapier_integration_active'                => true,
+		'zapier_subscription'                      => [],
 	];
 
 	/**
@@ -329,6 +330,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 				case 'myyoast_oauth':
 				case 'semrush_tokens':
 				case 'custom_taxonomy_slugs':
+				case 'zapier_subscription':
 					$clean[ $key ] = $old[ $key ];
 
 					if ( isset( $dirty[ $key ] ) ) {
