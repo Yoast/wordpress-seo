@@ -955,15 +955,6 @@ SVG;
 	}
 
 	/**
-	 * Determines whether or not WooCommerce is active.
-	 *
-	 * @return bool Whether or not WooCommerce is active.
-	 */
-	public static function is_woocommerce_active() {
-		return class_exists( 'Woocommerce' );
-	}
-
-	/**
 	 * Determines whether the plugin is active for the entire network.
 	 *
 	 * @return bool Whether or not the plugin is network-active.
@@ -1441,5 +1432,19 @@ SVG;
 	 */
 	public static function flush_w3tc_cache() {
 		_deprecated_function( __METHOD__, 'WPSEO 15.3' );
+	}
+
+	/**
+	 * Determines whether or not WooCommerce is active.
+	 *
+	 * @deprecated 15.3
+	 * @codeCoverageIgnore
+	 *
+	 * @return bool Whether or not WooCommerce is active.
+	 */
+	public static function is_woocommerce_active() {
+		_deprecated_function( __METHOD__, 'WPSEO 15.3' );
+
+		return YoastSEO()->helpers->woocommerce->is_active();
 	}
 }
