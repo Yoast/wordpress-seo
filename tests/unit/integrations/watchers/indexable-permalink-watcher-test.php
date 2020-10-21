@@ -112,15 +112,7 @@ class Indexable_Permalink_Watcher_Test extends TestCase {
 	 * @covers ::reset_permalinks
 	 */
 	public function test_reset_permalinks() {
-		$this->instance->expects( 'get_post_types' )->once()->andReturn( [ 'post' ] );
-		$this->instance->expects( 'get_taxonomies_for_post_types' )->once()->with( [ 'post' ] )->andReturn( [ 'category' ] );
-
-		$this->indexable_helper->expects( 'reset_permalink_indexables' )->with( 'post', 'post' )->once();
-		$this->indexable_helper->expects( 'reset_permalink_indexables' )->with( 'post-type-archive', 'post' )->once();
-		$this->indexable_helper->expects( 'reset_permalink_indexables' )->with( 'term', 'category' )->once();
-		$this->indexable_helper->expects( 'reset_permalink_indexables' )->with( 'user' )->once();
-		$this->indexable_helper->expects( 'reset_permalink_indexables' )->with( 'date-archive' )->once();
-		$this->indexable_helper->expects( 'reset_permalink_indexables' )->with( 'system-page' )->once();
+		$this->indexable_helper->expects( 'reset_permalink_indexables' )->once();
 
 		Monkey\Functions\expect( 'get_option' )
 			->once()
@@ -133,18 +125,6 @@ class Indexable_Permalink_Watcher_Test extends TestCase {
 			->once();
 
 		$this->instance->reset_permalinks();
-	}
-
-	/**
-	 * Test resetting the permalinks for a post type.
-	 *
-	 * @covers ::reset_permalinks_post_type
-	 */
-	public function test_reset_permalinks_post_type() {
-		$this->indexable_helper->expects( 'reset_permalink_indexables' )->with( 'post', 'post' )->once();
-		$this->indexable_helper->expects( 'reset_permalink_indexables' )->with( 'post-type-archive', 'post' )->once();
-
-		$this->instance->reset_permalinks_post_type( 'post' );
 	}
 
 	/**

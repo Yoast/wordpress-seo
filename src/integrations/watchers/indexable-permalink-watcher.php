@@ -93,33 +93,10 @@ class Indexable_Permalink_Watcher implements Integration_Interface {
 	 * Resets the permalinks for everything that is related to the permalink structure.
 	 */
 	public function reset_permalinks() {
-
-		$post_types = $this->get_post_types();
-		foreach ( $post_types as $post_type ) {
-			$this->reset_permalinks_post_type( $post_type );
-		}
-
-		$taxonomies = $this->get_taxonomies_for_post_types( $post_types );
-		foreach ( $taxonomies as $taxonomy ) {
-			$this->indexable_helper->reset_permalink_indexables( 'term', $taxonomy );
-		}
-
-		$this->indexable_helper->reset_permalink_indexables( 'user' );
-		$this->indexable_helper->reset_permalink_indexables( 'date-archive' );
-		$this->indexable_helper->reset_permalink_indexables( 'system-page' );
+		$this->indexable_helper->reset_permalink_indexables();
 
 		// Always update `permalink_structure` in the wpseo option.
 		$this->options_helper->set( 'permalink_structure', \get_option( 'permalink_structure' ) );
-	}
-
-	/**
-	 * Resets the permalink for the given post type.
-	 *
-	 * @param string $post_type The post type to reset.
-	 */
-	public function reset_permalinks_post_type( $post_type ) {
-		$this->indexable_helper->reset_permalink_indexables( 'post', $post_type );
-		$this->indexable_helper->reset_permalink_indexables( 'post-type-archive', $post_type );
 	}
 
 	/**

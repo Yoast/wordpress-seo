@@ -79,33 +79,10 @@ class Indexable_HomeUrl_Watcher implements Integration_Interface {
 	 * @return void
 	 */
 	public function reset_permalinks() {
-		$post_types = $this->get_post_types();
-		foreach ( $post_types as $post_type ) {
-			$this->reset_permalinks_post_type( $post_type );
-		}
-
-		$taxonomies = $this->get_taxonomies_for_post_types( $post_types );
-		foreach ( $taxonomies as $taxonomy ) {
-			$this->indexable_helper->reset_permalink_indexables( 'term', $taxonomy, Indexing_Notification_Integration::REASON_HOME_URL_OPTION );
-		}
-
-		$this->indexable_helper->reset_permalink_indexables( 'home-page', null, Indexing_Notification_Integration::REASON_HOME_URL_OPTION );
-		$this->indexable_helper->reset_permalink_indexables( 'user', null, Indexing_Notification_Integration::REASON_HOME_URL_OPTION );
-		$this->indexable_helper->reset_permalink_indexables( 'date-archive', null, Indexing_Notification_Integration::REASON_HOME_URL_OPTION );
-		$this->indexable_helper->reset_permalink_indexables( 'system-page', null, Indexing_Notification_Integration::REASON_HOME_URL_OPTION );
+		$this->indexable_helper->reset_permalink_indexables( null, null, Indexing_Notification_Integration::REASON_HOME_URL_OPTION );
 
 		// Reset the home_url option.
 		$this->options_helper->set( 'home_url', get_home_url() );
-	}
-
-	/**
-	 * Resets the permalink for the given post type.
-	 *
-	 * @param string $post_type The post type to reset.
-	 */
-	public function reset_permalinks_post_type( $post_type ) {
-		$this->indexable_helper->reset_permalink_indexables( 'post', $post_type, Indexing_Notification_Integration::REASON_HOME_URL_OPTION );
-		$this->indexable_helper->reset_permalink_indexables( 'post-type-archive', $post_type, Indexing_Notification_Integration::REASON_HOME_URL_OPTION );
 	}
 
 	/**
