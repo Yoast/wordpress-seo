@@ -260,6 +260,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 				case 'semrush_country_code':
 				case 'license_server_version':
 				case 'home_url':
+				case 'zapier_api_key':
 					if ( isset( $dirty[ $key ] ) ) {
 						$clean[ $key ] = $dirty[ $key ];
 					}
