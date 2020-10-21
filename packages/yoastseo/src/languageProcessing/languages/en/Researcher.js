@@ -1,5 +1,5 @@
 import matchKeywordInSubheadings from "../../researches/_todo/matchKeywordInSubheadings.js";
-import keywordCount from "../../researches/_todo/keywordCount";
+import keywordCount from "../../researches/keywordCount";
 import metaDescriptionKeyword from "../../researches/_todo/metaDescriptionKeyword.js";
 import keywordCountInUrl from "../../researches/_todo/keywordCountInUrl";
 import relevantWords from "../../researches/_todo/relevantWords";
@@ -42,7 +42,6 @@ export default class Researcher extends AbstractResearcher {
 			getSentenceBeginnings: getSentenceBeginnings,
 			functionWordsInKeyphrase: functionWordsInKeyphrase,
 			matchKeywordInSubheadings: matchKeywordInSubheadings,
-			keywordCount: keywordCount,
 			keywordCountInUrl: keywordCountInUrl,
 			metaDescriptionKeyword: metaDescriptionKeyword,
 			relevantWords: relevantWords,
