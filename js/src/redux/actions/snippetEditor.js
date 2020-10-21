@@ -1,5 +1,4 @@
 import { decodeHTML } from "@yoast/helpers";
-import snippetEditorHelpers from "../../analysis/snippetEditor";
 import SearchMetadataFields from "../../helpers/fields/SearchMetadataFields";
 import { get } from "lodash";
 
@@ -36,6 +35,17 @@ export function switchMode( mode ) {
  * @returns {Object} An action for redux.
  */
 export function updateData( data ) {
+	/*
+	 * Update the appropriate field.
+	 * Using a truthy check (e.g. `data.title`) does not work, as it would be false when the string is empty.
+	 */
+	if ( data.hasOwnProperty( "title" ) ) {
+		SearchMetadataFields.title = data.title;
+	}
+	if ( data.hasOwnProperty( "description" ) ) {
+		SearchMetadataFields.description = data.description;
+	}
+
 	return {
 		type: UPDATE_DATA,
 		data,
