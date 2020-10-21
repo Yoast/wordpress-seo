@@ -1,12 +1,10 @@
 import { pickBy } from "lodash";
 import { combineReducers, registerStore } from "@wordpress/data";
-import snippetEditorHelpers from "../analysis/snippetEditor";
-import SearchMetadataFields from "../helpers/fields/SearchMetadataFields";
 import reducers from "../redux/reducers";
 import * as selectors from "../redux/selectors";
 import * as actions from "../redux/actions";
 import { setSettings } from "../redux/actions/settings";
-import { loadCornerstoneContent, loadFocusKeyword, setSEMrushChangeCountry, updateData } from "../redux/actions";
+import { loadCornerstoneContent, loadFocusKeyword, setSEMrushChangeCountry, loadSnippetEditorData } from "../redux/actions";
 import { setSEMrushLoginStatus } from "../redux/actions";
 
 /**
@@ -21,16 +19,6 @@ const populateStore = store => {
 	store.dispatch( loadCornerstoneContent() );
 	// Initialize the focus keyphrase.
 	store.dispatch( loadFocusKeyword() );
-
-	// Initialize the snippet editor data.
-	let snippetEditorData = {
-		title: SearchMetadataFields.title,
-		slug: window.wpseoScriptData.metabox.slug,
-		description: SearchMetadataFields.description,
-	};
-	const snippetEditorTemplates = snippetEditorHelpers.getTemplatesFromL10n( window.wpseoScriptData.metabox );
-	snippetEditorData = snippetEditorHelpers.getDataWithTemplates( snippetEditorData, snippetEditorTemplates );
-	store.dispatch( updateData( snippetEditorData ) );
 
 	store.dispatch(
 		setSettings( {

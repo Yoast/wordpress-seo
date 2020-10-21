@@ -1,11 +1,13 @@
 import { compose } from "@wordpress/compose";
 import { select, withSelect, withDispatch } from "@wordpress/data";
+import { useEffect } from "@wordpress/element";
 import { SnippetEditor } from "@yoast/search-metadata-previews";
 import { __ } from "@wordpress/i18n";
-
+import PropTypes from "prop-types";
 import { LocationConsumer } from "../../components/contexts/location";
 import SnippetPreviewSection from "../../components/SnippetPreviewSection";
 import { applyReplaceUsingPlugin } from "../../helpers/replacementVariableHelpers";
+import withLocation from "../../helpers/withLocation";
 
 /**
  * Process the snippet editor form data before it's being displayed in the snippet preview.
@@ -57,24 +59,41 @@ export const mapEditorDataToPreview = ( data, context ) => {
  *
  * @returns {wp.Element} The component.
  */
-const SnippetEditorWrapper = ( props ) => (
-	<LocationConsumer>
-		{ location =>
-			<SnippetPreviewSection
-				icon="eye"
-				hasPaperStyle={ props.hasPaperStyle }
-			>
-				<SnippetEditor
-					{ ...props }
-					descriptionPlaceholder={ __( "Please provide a meta description by editing the snippet below.", "wordpress-seo" ) }
-					mapEditorDataToPreview={ mapEditorDataToPreview }
-					showCloseButton={ false }
-					idSuffix={ location }
-				/>
-			</SnippetPreviewSection>
-		}
-	</LocationConsumer>
-);
+const SnippetEditorWrapper = ( {  isLoading, onLoad, hasPaperStyle, location, ...restProps } ) => {
+	useEffect( () => {
+		setTimeout( () => {
+			if ( isLoading ) {
+				onLoad();
+			}
+		} );
+	} );
+
+	if ( isLoading ) {
+		return null;
+	}
+
+	return (
+		<SnippetPreviewSection
+			icon="eye"
+			hasPaperStyle={ hasPaperStyle }
+		>
+			<SnippetEditor
+				{ ...restProps }
+				descriptionPlaceholder={ __( "Please provide a meta description by editing the snippet below.", "wordpress-seo" ) }
+				mapEditorDataToPreview={ mapEditorDataToPreview }
+				showCloseButton={ false }
+				idSuffix={ location }
+			/>
+		</SnippetPreviewSection>
+	);
+};
+
+SnippetEditorWrapper.propTypes = {
+	isLoading: PropTypes.bool.isRequired,
+	onLoad: PropTypes.func.isRequired,
+	hasPaperStyle: PropTypes.bool.isRequired,
+	location: PropTypes.string.isRequired,
+};
 
 export default compose( [
 	withSelect( select => {
@@ -87,7 +106,9 @@ export default compose( [
 			getReplaceVars,
 			getSiteIconUrlFromSettings,
 			getSnippetEditorData,
+			getSnippetEditorIsLoading,
 			getSnippetEditorMode,
+			getSnippetEditorWordsToHighlight,
 		} = select( "yoast-seo/editor" );
 
 		const replacementVariables = getReplaceVars();
@@ -100,25 +121,25 @@ export default compose( [
 		} );
 
 		return {
-			// TODO: add missing data that came from `state.snippetEditor`.
-			mode: getSnippetEditorMode(),
-			data: getSnippetEditorData(),
-			keyword: getFocusKeyphrase(),
 			baseUrl: getBaseUrlFromSettings(),
+			data: getSnippetEditorData(),
 			date: getDateFromSettings(),
-			replacementVariables,
-			recommendedReplacementVariables: getRecommendedReplaceVars(),
 			faviconSrc: getSiteIconUrlFromSettings(),
+			isLoading: getSnippetEditorIsLoading(),
+			keyword: getFocusKeyphrase(),
 			mobileImageSrc: getEditorDataImageUrl(),
+			mode: getSnippetEditorMode(),
+			recommendedReplacementVariables: getRecommendedReplaceVars(),
+			replacementVariables,
 			wordsToHighlight: getSnippetEditorWordsToHighlight(),
 		};
 	} ),
 	withDispatch( dispatch => {
-		const { editPost } = dispatch( "core/editor" );
 		const {
 			updateData,
 			switchMode,
 			updateAnalysisData,
+			loadSnippetEditorData,
 		} = dispatch( "yoast-seo/editor" );
 
 		return {
@@ -128,13 +149,6 @@ export default compose( [
 						switchMode( value );
 						break;
 					case "slug":
-						/*
-						 * Update the gutenberg store with the new slug, after updating our own store,
-						 * to make sure our store isn't updated twice.
-						 */
-						if ( editPost ) {
-							editPost( { slug: value } );
-						}
 						updateData( { slug: value } );
 						break;
 					default:
@@ -147,6 +161,8 @@ export default compose( [
 			onChangeAnalysisData: analysisData => {
 				updateAnalysisData( analysisData );
 			},
+			onLoad: loadSnippetEditorData,
 		};
 	} ),
+	withLocation(),
 ] )( SnippetEditorWrapper );

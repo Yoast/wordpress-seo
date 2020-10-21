@@ -1,4 +1,7 @@
 import { decodeHTML } from "@yoast/helpers";
+import snippetEditorHelpers from "../../analysis/snippetEditor";
+import SearchMetadataFields from "../../helpers/fields/SearchMetadataFields";
+import { get } from "lodash";
 
 export const SWITCH_MODE = "SNIPPET_EDITOR_SWITCH_MODE";
 export const UPDATE_DATA = "SNIPPET_EDITOR_UPDATE_DATA";
@@ -6,6 +9,7 @@ export const UPDATE_REPLACEMENT_VARIABLE = "SNIPPET_EDITOR_UPDATE_REPLACEMENT_VA
 export const REMOVE_REPLACEMENT_VARIABLE = "SNIPPET_EDITOR_REMOVE_REPLACEMENT_VARIABLE";
 export const REFRESH = "SNIPPET_EDITOR_REFRESH";
 export const UPDATE_WORDS_TO_HIGHLIGHT = "SNIPPET_EDITOR_UPDATE_WORDS_TO_HIGHLIGHT";
+export const LOAD_SNIPPET_EDITOR_DATA = "LOAD_SNIPPET_EDITOR_DATA";
 
 /**
  * Switches mode of the snippet editor.
@@ -98,3 +102,24 @@ export function refreshSnippetEditor() {
 		time: ( new Date() ).getMilliseconds(),
 	};
 }
+
+/**
+ * Loads the snippet editor data.
+ *
+ * @returns {Object} The load cornerstone content action.
+ */
+export const loadSnippetEditorData = () => {
+	return {
+		type: LOAD_SNIPPET_EDITOR_DATA,
+		data: {
+			title: SearchMetadataFields.title,
+			description: SearchMetadataFields.description,
+			slug: get( window, "wpseoScriptData.metabox.slug", "" ),
+		},
+		templates: {
+			title: get( window, "wpseoScriptData.metabox.title_template", "" ),
+			description: get( window, "wpseoScriptData.metabox.metadesc_template", "" ),
+		},
+		isLoading: false,
+	};
+};
