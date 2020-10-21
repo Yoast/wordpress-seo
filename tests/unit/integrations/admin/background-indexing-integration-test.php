@@ -14,6 +14,7 @@ use Yoast\WP\SEO\Actions\Indexing\Term_Link_Indexing_Action;
 use Yoast\WP\SEO\Conditionals\Get_Request_Conditional;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
 use Yoast\WP\SEO\Conditionals\Yoast_Admin_And_Dashboard_Conditional;
+use Yoast\WP\SEO\Helpers\Indexing_Helper;
 use Yoast\WP\SEO\Integrations\Admin\Background_Indexing_Integration;
 use Yoast\WP\SEO\Integrations\Admin\Indexing_Tool_Integration;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
@@ -85,6 +86,13 @@ class Background_Indexing_Integration_Test extends TestCase {
 	protected $term_link_indexing_action;
 
 	/**
+	 * Represents the indexing helper.
+	 *
+	 * @var Mockery\MockInterface|Indexing_Helper
+	 */
+	protected $indexing_helper;
+
+	/**
 	 * Sets up the tests.
 	 */
 	protected function setUp() {
@@ -97,6 +105,7 @@ class Background_Indexing_Integration_Test extends TestCase {
 		$this->complete_indexation_action   = Mockery::mock( Indexable_Indexing_Complete_Action::class );
 		$this->post_link_indexing_action    = Mockery::mock( Post_Link_Indexing_Action::class );
 		$this->term_link_indexing_action    = Mockery::mock( Term_Link_Indexing_Action::class );
+		$this->indexing_helper              = Mockery::mock( Indexing_Helper::class );
 
 		$this->instance = new Background_Indexing_Integration(
 			$this->post_indexation,
@@ -105,7 +114,8 @@ class Background_Indexing_Integration_Test extends TestCase {
 			$this->general_indexation,
 			$this->complete_indexation_action,
 			$this->post_link_indexing_action,
-			$this->term_link_indexing_action
+			$this->term_link_indexing_action,
+			$this->indexing_helper
 		);
 	}
 
@@ -136,6 +146,7 @@ class Background_Indexing_Integration_Test extends TestCase {
 		static::assertAttributeInstanceOf( Indexable_Post_Type_Archive_Indexation_Action::class, 'post_type_archive_indexation', $this->instance );
 		static::assertAttributeInstanceOf( Indexable_General_Indexation_Action::class, 'general_indexation', $this->instance );
 		static::assertAttributeInstanceOf( Indexable_Indexing_Complete_Action::class, 'complete_indexation_action', $this->instance );
+		static::assertAttributeInstanceOf( Indexing_Helper::class, 'indexing_helper', $this->instance );
 	}
 
 	/**
@@ -155,12 +166,10 @@ class Background_Indexing_Integration_Test extends TestCase {
 	 * @covers ::register_shutdown_indexing
 	 */
 	public function test_register_shutdown_indexing() {
-		$this->post_indexation->expects( 'get_total_unindexed' )->andReturn( 0 );
-		$this->term_indexation->expects( 'get_total_unindexed' )->andReturn( 0 );
-		$this->post_type_archive_indexation->expects( 'get_total_unindexed' )->andReturn( 0 );
-		$this->general_indexation->expects( 'get_total_unindexed' )->andReturn( 0 );
-		$this->post_link_indexing_action->expects( 'get_total_unindexed' )->andReturn( 0 );
-		$this->term_link_indexing_action->expects( 'get_total_unindexed' )->andReturn( 0 );
+		$this->indexing_helper
+			->expects( 'get_unindexed_count' )
+			->once()
+			->andReturn( 0 );
 
 		/**
 		 * We have to register the shutdown function here to prevent a fatal PHP error,

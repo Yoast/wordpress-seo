@@ -93,17 +93,15 @@ class Indexing_Notification_Integration_Test extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->indexing_tool_integration = Mockery::mock( Indexing_Tool_Integration::class );
-		$this->notification_center       = Mockery::mock( \Yoast_Notification_Center::class );
-		$this->product_helper            = Mockery::mock( Product_Helper::class );
-		$this->page_helper               = Mockery::mock( Current_Page_Helper::class );
-		$this->date_helper               = Mockery::mock( Date_Helper::class );
-		$this->short_link_helper         = Mockery::mock( Short_Link_Helper::class );
-		$this->notification_helper       = Mockery::mock( Notification_Helper::class );
-		$this->indexing_helper           = Mockery::mock( Indexing_Helper::class );
+		$this->notification_center = Mockery::mock( \Yoast_Notification_Center::class );
+		$this->product_helper      = Mockery::mock( Product_Helper::class );
+		$this->page_helper         = Mockery::mock( Current_Page_Helper::class );
+		$this->date_helper         = Mockery::mock( Date_Helper::class );
+		$this->short_link_helper   = Mockery::mock( Short_Link_Helper::class );
+		$this->notification_helper = Mockery::mock( Notification_Helper::class );
+		$this->indexing_helper     = Mockery::mock( Indexing_Helper::class );
 
 		$this->instance = new Indexing_Notification_Integration(
-			$this->indexing_tool_integration,
 			$this->notification_center,
 			$this->product_helper,
 			$this->page_helper,
@@ -120,11 +118,6 @@ class Indexing_Notification_Integration_Test extends TestCase {
 	 * @covers ::__construct
 	 */
 	public function test_constructor() {
-		$this->assertAttributeInstanceOf(
-			Indexing_Tool_Integration::class,
-			'indexing_integration',
-			$this->instance
-		);
 		$this->assertAttributeInstanceOf(
 			Yoast_Notification_Center::class,
 			'notification_center',
@@ -183,9 +176,8 @@ class Indexing_Notification_Integration_Test extends TestCase {
 			->with( [ $this->instance, 'create_notification' ] )
 			->once();
 
-		$this->options_helper
-			->expects( 'get' )
-			->with( 'indexing_reason' )
+		$this->indexing_helper
+			->expects( 'get_reason' )
 			->once()
 			->andReturn( '' );
 
@@ -316,7 +308,7 @@ class Indexing_Notification_Integration_Test extends TestCase {
 	 */
 	public function test_create_notification_no_unindexed_items() {
 		$this->markTestSkipped( 'P2-436' );
-		$this->indexing_tool_integration
+		$this->indexing_helper
 			->expects( 'get_unindexed_count' )
 			->once()
 			->andReturn( 0 );
