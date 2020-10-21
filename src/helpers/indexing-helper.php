@@ -82,20 +82,33 @@ class Indexing_Helper {
 	/**
 	 * Indexing_Helper constructor.
 	 *
-	 * @param Options_Helper                                $options_helper               The options helper.
-	 * @param Date_Helper                                   $date_helper                  The date helper.
-	 * @param Yoast_Notification_Center                     $notification_center          The notification center.
-	 * @param Indexable_Post_Indexation_Action              $post_indexation              The post indexing action.
-	 * @param Indexable_Term_Indexation_Action              $term_indexation              The term indexing action.
-	 * @param Indexable_Post_Type_Archive_Indexation_Action $post_type_archive_indexation The post type archive indexing action.
-	 * @param Indexable_General_Indexation_Action           $general_indexation           The general indexing action.
-	 * @param Post_Link_Indexing_Action                     $post_link_indexing_action    The post indexing action.
-	 * @param Term_Link_Indexing_Action                     $term_link_indexing_action    The term indexing action.
+	 * @param Options_Helper            $options_helper      The options helper.
+	 * @param Date_Helper               $date_helper         The date helper.
+	 * @param Yoast_Notification_Center $notification_center The notification center.
 	 */
 	public function __construct(
 		Options_Helper $options_helper,
 		Date_Helper $date_helper,
-		Yoast_Notification_Center $notification_center,
+		Yoast_Notification_Center $notification_center
+	) {
+		$this->options_helper      = $options_helper;
+		$this->date_helper         = $date_helper;
+		$this->notification_center = $notification_center;
+	}
+
+	/**
+	 * Sets the actions.
+	 *
+	 * @required
+	 *
+	 * @param Indexable_Post_Indexation_Action              $post_indexation
+	 * @param Indexable_Term_Indexation_Action              $term_indexation
+	 * @param Indexable_Post_Type_Archive_Indexation_Action $post_type_archive_indexation
+	 * @param Indexable_General_Indexation_Action           $general_indexation
+	 * @param Post_Link_Indexing_Action                     $post_link_indexing_action
+	 * @param Term_Link_Indexing_Action                     $term_link_indexing_action
+	 */
+	public function set_indexing_actions(
 		Indexable_Post_Indexation_Action $post_indexation,
 		Indexable_Term_Indexation_Action $term_indexation,
 		Indexable_Post_Type_Archive_Indexation_Action $post_type_archive_indexation,
@@ -103,15 +116,13 @@ class Indexing_Helper {
 		Post_Link_Indexing_Action $post_link_indexing_action,
 		Term_Link_Indexing_Action $term_link_indexing_action
 	) {
-		$this->options_helper               = $options_helper;
-		$this->date_helper                  = $date_helper;
-		$this->notification_center          = $notification_center;
 		$this->post_indexation              = $post_indexation;
 		$this->term_indexation              = $term_indexation;
 		$this->post_type_archive_indexation = $post_type_archive_indexation;
 		$this->general_indexation           = $general_indexation;
 		$this->post_link_indexing_action    = $post_link_indexing_action;
 		$this->term_link_indexing_action    = $term_link_indexing_action;
+
 	}
 
 	/**
