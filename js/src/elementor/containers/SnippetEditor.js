@@ -100,6 +100,7 @@ export default compose( [
 			recommendedReplacementVariables: getRecommendedReplaceVars(),
 			faviconSrc: getSiteIconUrlFromSettings(),
 			mobileImageSrc: getEditorDataImageUrl(),
+			wordsToHighlight: getSnippetEditorWordsToHighlight(),
 		};
 	} ),
 	withDispatch( dispatch => {

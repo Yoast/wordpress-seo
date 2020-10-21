@@ -72,14 +72,19 @@ export const determineSnippetPreviewImageUrl = state => {
 };
 
 /**
- * Gets the snippet editor data.
+ * Gets the snippet editor words to highlight.
  *
  * @param {Object} state The state object.
  *
- * @returns {Object} The snippet editor data.
+ * @returns {string} The snippet editor words to highlight.
  */
-export const getSnippetEditorData = state => get( state, "snippetEditor.data", {
-	title: getSnippetEditorTitle( state ),
-	description: getSnippetEditorDescription( state ),
-	slug: getSnippetEditorSlug( state ),
-} );
+export const getSnippetEditorWordsToHighlight = state => get( state, "snippetEditor.wordsToHighlight", [] );
+
+/**
+ * Gets the snippet editor is loading.
+ *
+ * @param {Object} state The state.
+ *
+ * @returns {String} Whether the snippet editor is loading.
+ */
+export const getSnippetEditorIsLoading = state => get( state, "snippetEditor.isLoading", true );
