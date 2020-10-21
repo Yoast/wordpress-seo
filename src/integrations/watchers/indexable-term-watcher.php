@@ -43,7 +43,9 @@ class Indexable_Term_Watcher implements Integration_Interface {
 	protected $site;
 
 	/**
-	 * @inheritDoc
+	 * Returns the conditionals based in which this loadable should be active.
+	 *
+	 * @return array
 	 */
 	public static function get_conditionals() {
 		return [ Migrations_Conditional::class ];
@@ -70,7 +72,9 @@ class Indexable_Term_Watcher implements Integration_Interface {
 	}
 
 	/**
-	 * @inheritDoc
+	 * Registers the hooks.
+	 *
+	 * @return void
 	 */
 	public function register_hooks() {
 		\add_action( 'created_term', [ $this, 'build_indexable' ], \PHP_INT_MAX );
@@ -97,10 +101,6 @@ class Indexable_Term_Watcher implements Integration_Interface {
 
 	/**
 	 * Update the taxonomy meta data on save.
-	 *
-	 * Note: This method is missing functionality to update internal links and incoming links.
-	 *       As this functionality is currently not available for terms, it has not been added in this
-	 *       class yet.
 	 *
 	 * @param int $term_id ID of the term to save data for.
 	 *

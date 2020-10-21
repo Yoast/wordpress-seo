@@ -482,17 +482,6 @@ class WPSEO_Utils {
 	}
 
 	/**
-	 * Flush W3TC cache after succesfull update/add of taxonomy meta option.
-	 *
-	 * @since 1.8.0
-	 */
-	public static function flush_w3tc_cache() {
-		if ( defined( 'W3TC_DIR' ) && function_exists( 'w3tc_objectcache_flush' ) ) {
-			w3tc_objectcache_flush();
-		}
-	}
-
-	/**
 	 * Clear rewrite rules.
 	 *
 	 * @since 1.8.0
@@ -1431,6 +1420,18 @@ SVG;
 		 * @api string $replacement The current separator.
 		 */
 		return apply_filters( 'wpseo_replacements_filter_sep', $replacement );
+	}
+
+	/**
+	 * Flush W3TC cache after successful update/add of taxonomy meta option.
+	 *
+	 * @deprecated 15.3
+	 * @codeCoverageIgnore
+	 *
+	 * @since 1.8.0
+	 */
+	public static function flush_w3tc_cache() {
+		_deprecated_function( __METHOD__, 'WPSEO 15.3' );
 	}
 
 	/**

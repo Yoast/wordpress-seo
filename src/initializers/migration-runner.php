@@ -152,6 +152,8 @@ class Migration_Runner implements Initializer_Interface {
 	 */
 	protected function run_migration( $version, $class ) {
 		/**
+		 * The migration to run.
+		 *
 		 * @var Migration
 		 */
 		$migration = new $class( $this->adapter );
