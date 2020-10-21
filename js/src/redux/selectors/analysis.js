@@ -2,6 +2,8 @@ import measureTextWidth from "../../helpers/measureTextWidth";
 import { getContentLocale } from "./editorContext";
 import { getEditorDataContent } from "./editorData";
 import { getFocusKeyphrase } from "./focusKeyPhrase";
+import { getBaseUrlFromSettings } from "./settings";
+import { getSnippetEditorDescription, getSnippetEditorSlug, getSnippetEditorTitle } from "./snippetEditor";
 import { get } from "lodash";
 
 /**
@@ -32,15 +34,6 @@ export const getDescription = ( state ) => get( state, "analysisData.snippet.des
 export const getPermalink = ( state ) => get( state, "analysisData.snippet.url", "" );
 
 /**
- * Gets the slug.
- *
- * @param {Object} state The state object.
- *
- * @returns {string} The slug.
- */
-export const getSlug = state => get( state, "snippetEditor.data.slug", "" );
-
-/**
  * Gets the analysis data.
  *
  * @param {Object} state The state.
@@ -48,16 +41,17 @@ export const getSlug = state => get( state, "snippetEditor.data.slug", "" );
  * @returns {Object} The analysis results.
  */
 export const getAnalysisData = ( state ) => {
-	const title = getSeoTitle( state );
+	const title = getSeoTitle( state ) || getSnippetEditorTitle( state );
+	const slug = getSnippetEditorSlug( state );
 
 	return {
 		text: getEditorDataContent( state ),
 		title,
 		keyword: getFocusKeyphrase( state ),
-		description: getDescription( state ),
+		description: getDescription( state ) || getSnippetEditorDescription( state ),
 		locale: getContentLocale( state ),
 		titleWidth: measureTextWidth( title ),
-		url: getSlug( state ),
-		permalink: getPermalink( state ),
+		url: slug,
+		permalink: getBaseUrlFromSettings( state ) + slug,
 	};
 };
