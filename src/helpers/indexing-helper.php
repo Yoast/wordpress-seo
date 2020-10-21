@@ -235,6 +235,11 @@ class Indexing_Helper {
 	 * @return int The total number of unindexed objects.
 	 */
 	public function get_filtered_unindexed_count() {
+		/**
+		 * Filter: 'wpseo_indexing_get_unindexed_count' - Allow changing the amount of unindexed objects.
+		 *
+		 * @param int $unindexed_count The amount of unindexed objects.
+		 */
 		return \apply_filters( 'wpseo_indexing_get_unindexed_count', $this->    get_unindexed_count() );
 	}
 }
