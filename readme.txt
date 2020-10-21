@@ -228,6 +228,7 @@ Bugfixes:
 * Fixes a bug where the German passive voice assessment would show an error when the text contained a participle enclosed within curly quotation marks (e.g., `"getan"`).
 * Fixes a bug where the WooCommerce product permalinks were not updated after a permalink structure change.
 * Fixes a bug where the replacement variable dropdown menu was partially hidden for the description inputs in all preview modals.
+* Fixes a fatal error that would occur on sites that did have curl installed but did not have the PHP curl extension installed.
 
 Other:
  * Removes the "Remind me in 7 days" option in the SEO data optimization notification on the Yoast SEO dashboard, which was shown for large sites with more than 2500 unindexed indexables.
