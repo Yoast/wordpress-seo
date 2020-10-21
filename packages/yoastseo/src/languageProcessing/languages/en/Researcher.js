@@ -1,4 +1,4 @@
-import matchKeywordInSubheadings from "../../researches/_todo/matchKeywordInSubheadings.js";
+import matchKeywordInSubheadings from "../../researches/base/matchKeywordInSubheadings.js";
 import keywordCount from "../../researches/_todo/keywordCount";
 import metaDescriptionKeyword from "../../researches/_todo/metaDescriptionKeyword.js";
 import keywordCountInUrl from "../../researches/_todo/keywordCountInUrl";

@@ -1,11 +1,6 @@
-import { includes } from "lodash-es";
-import getFunctionWordsLanguages from "../../helpers/getFunctionWordsLanguages";
-import getLanguage from "../../helpers/getLanguage";
 import { getSubheadingContentsTopLevel } from "../../helpers/html/getSubheadings";
 import stripSomeTags from "../../helpers/sanitize/stripNonTextTags";
 import { findTopicFormsInString } from "../../helpers/match/findKeywordFormsInString";
-
-const functionWordLanguages = getFunctionWordsLanguages();
 
 /**
  * Computes the amount of subheadings reflecting the topic.
@@ -14,16 +9,16 @@ const functionWordLanguages = getFunctionWordsLanguages();
  * @param {string[]}    subheadings     The subheadings to check.
  * @param {boolean}     useSynonyms     Whether to match synonyms or only main keyphrase.
  * @param {string}      locale          The current locale.
+ * @param {boolean}     hasFunctionWords	Whether a function word list is available for the given language.
  *
  * @returns {number} The amount of subheadings reflecting the topic.
  */
-const numberOfSubheadingsReflectingTopic = function( topicForms, subheadings, useSynonyms, locale ) {
-	const isFunctionWordLanguage = includes( functionWordLanguages, getLanguage( locale ) );
+const numberOfSubheadingsReflectingTopic = function( topicForms, subheadings, useSynonyms, locale, hasFunctionWords ) {
 
 	return subheadings.filter( subheading => {
 		const matchedTopicForms = findTopicFormsInString( topicForms, subheading, useSynonyms, locale );
 
-		if ( ! isFunctionWordLanguage ) {
+		if ( ! hasFunctionWords ) {
 			return matchedTopicForms.percentWordMatches === 100;
 		}
 		return matchedTopicForms.percentWordMatches > 50;
@@ -31,17 +26,15 @@ const numberOfSubheadingsReflectingTopic = function( topicForms, subheadings, us
 };
 
 /**
- * Checks if there are any subheadings like h2 in the text
- * and if they have the key phrase and the keywords' respective morphological forms in them.
+ * Checks if there are any h2 or h3 subheadings in the text and if they have the keyphrase or synonyms in them.
  *
- * Also checks for synonyms.
- *
- * @param {Object}      paper       The paper object containing the text and keyword.
- * @param {Researcher}  researcher  The researcher object.
+ * @param {Object}      paper      			The paper object containing the text and keyword.
+ * @param {Researcher}  researcher  		The researcher object.
+ * @param {boolean}     hasFunctionWords	Whether a function word list is available for the given language.
  *
  * @returns {Object} The result object.
  */
-export default function( paper, researcher ) {
+export default function matchKeywordInSubheadings( paper, researcher, hasFunctionWords ) {
 	const text = stripSomeTags( paper.getText() );
 	const topicForms = researcher.getResearch( "morphology" );
 	const locale = paper.getLocale();
@@ -51,7 +44,7 @@ export default function( paper, researcher ) {
 
 	if ( subheadings.length !== 0 ) {
 		result.count = subheadings.length;
-		result.matches = numberOfSubheadingsReflectingTopic( topicForms, subheadings, useSynonyms, locale );
+		result.matches = numberOfSubheadingsReflectingTopic( topicForms, subheadings, useSynonyms, locale, hasFunctionWords );
 		result.percentReflectingTopic = result.matches / result.count * 100;
 	}
 
