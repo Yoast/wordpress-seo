@@ -1,7 +1,6 @@
 export const SET_EDITOR_DATA_CONTENT = "SET_EDITOR_DATA_CONTENT";
 export const SET_EDITOR_DATA_TITLE = "SET_EDITOR_DATA_TITLE";
 export const SET_EDITOR_DATA_EXCERPT = "SET_EDITOR_DATA_EXCERPT";
-export const SET_EDITOR_DATA_SLUG = "SET_EDITOR_DATA_SLUG";
 export const SET_EDITOR_DATA_IMAGE_URL = "SET_EDITOR_DATA_IMAGE_URL";
 
 /**
@@ -43,20 +42,6 @@ export function setEditorDataExcerpt( excerpt ) {
 	return {
 		type: SET_EDITOR_DATA_EXCERPT,
 		excerpt,
-	};
-}
-
-/**
- * Sets the slug.
- *
- * @param {string} slug The slug.
- *
- * @returns {Object} An action to dispatch.
- */
-export function setEditorDataSlug( slug ) {
-	return {
-		type: SET_EDITOR_DATA_SLUG,
-		slug,
 	};
 }
 

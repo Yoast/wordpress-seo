@@ -53,7 +53,6 @@ function getEditorData() {
 		content,
 		title: window.elementor.settings.page.model.get( "post_title" ),
 		excerpt: window.elementor.settings.page.model.get( "post_excerpt" ) || "",
-		slug: window.wpseoScriptData.metabox.slug,
 		imageUrl: getImageUrl( content ),
 	};
 }
@@ -79,11 +78,6 @@ function handleEditorChange() {
 	if ( data.excerpt !== editorData.excerpt ) {
 		editorData.excerpt = data.excerpt;
 		dispatch( "yoast-seo/editor" ).setEditorDataExcerpt( editorData.excerpt );
-	}
-
-	if ( data.slug !== editorData.slug ) {
-		editorData.slug = data.slug;
-		dispatch( "yoast-seo/editor" ).setEditorDataSlug( editorData.slug );
 	}
 
 	if ( data.imageUrl !== editorData.imageUrl ) {
