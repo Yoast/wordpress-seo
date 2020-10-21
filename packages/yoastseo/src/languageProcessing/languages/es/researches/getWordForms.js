@@ -25,5 +25,6 @@ export default function( paper, researcher ) {
 	const keyphrase = paper.getKeyword().toLocaleLowerCase( "es" ).trim();
 	const synonyms = parseSynonyms( paper.getSynonyms().toLocaleLowerCase( "es" ).trim() );
 
-	return getWordForms( keyphrase, synonyms, stem, null, morphologyData, allWordsFromPaper, functionWords );
+	// In Spanish we have function words, a stemmer and morphology data.
+	return getWordForms( keyphrase, synonyms, allWordsFromPaper, functionWords, stem, morphologyData, null );
 }

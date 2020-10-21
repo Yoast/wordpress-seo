@@ -26,5 +26,6 @@ export default function( paper, researcher ) {
 	const keyphrase = paper.getKeyword().toLocaleLowerCase( "ar" ).trim();
 	const synonyms = parseSynonyms( paper.getSynonyms().toLocaleLowerCase( "ar" ).trim() );
 
-	return getWordForms( keyphrase, synonyms, stem, createBasicWordForms, morphologyData, allWordsFromPaper, functionWords );
+	// In Arabic we have function words, a stemmer, morphology data and a function creating basic word forms.
+	return getWordForms( keyphrase, synonyms, allWordsFromPaper, functionWords, stem, morphologyData, createBasicWordForms );
 }

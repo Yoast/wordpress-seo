@@ -25,5 +25,6 @@ export default function( paper, researcher ) {
 	const keyphrase = paper.getKeyword().toLocaleLowerCase( "fr" ).trim();
 	const synonyms = parseSynonyms( paper.getSynonyms().toLocaleLowerCase( "fr" ).trim() );
 
-	return getWordForms( keyphrase, synonyms, stem, false, null, allWordsFromPaper, functionWords );
+	// In English we have function words, a stemmer and morphology data.
+	return getWordForms( keyphrase, synonyms, allWordsFromPaper, functionWords, stem, morphologyData, null );
 }

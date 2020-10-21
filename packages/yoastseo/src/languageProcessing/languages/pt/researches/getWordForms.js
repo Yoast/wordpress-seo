@@ -25,5 +25,6 @@ export default function( paper, researcher ) {
 	const keyphrase = paper.getKeyword().toLocaleLowerCase( "pt" ).trim();
 	const synonyms = parseSynonyms( paper.getSynonyms().toLocaleLowerCase( "pt" ).trim() );
 
-	return getWordForms( keyphrase, synonyms, stem, null, morphologyData, allWordsFromPaper, functionWords );
+	// In Portuguese we have function words, a stemmer and morphology data.
+	return getWordForms( keyphrase, synonyms, allWordsFromPaper, functionWords, stem, morphologyData, null );
 }

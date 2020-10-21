@@ -108,16 +108,16 @@ function constructTopicPhraseResult( topicPhrase, paperWordsGroupedByStems, crea
  *
  * @param {string}          keyphrase               The keyphrase.
  * @param {string[]}        synonyms                The synonyms.
- * @param {Function|null}   stem                    A stemmer (if available).
- * @param {Object}          morphologyData          The morphology data or an empty object if no morphology data is available.
- * @param {Function|null}   createBasicWordForms    A function to create basic word forms (if available).
  * @param {string[]}        allWordsFromPaper       All words found in the paper.
- * @param {string[]}        functionWords           The function words for a given language.
+ * @param {string[]}        functionWords           The function words for a given language (if available).
+ * @param {Function|null}   stem                    A stemmer (if available).
+ * @param {Object|null}     morphologyData          The morphology data (if available)).
+ * @param {Function|null}   createBasicWordForms    A function to create basic word forms (if available).
 
  * @returns {Object} Object with an array of keyphrase forms and an array of arrays of synonyms forms, based on the forms
  * found in the text or created forms.
  */
-function getWordForms( keyphrase, synonyms, stem, createBasicWordForms, morphologyData, allWordsFromPaper, functionWords ) {
+function getWordForms( keyphrase, synonyms, allWordsFromPaper, functionWords = [], stem, morphologyData, createBasicWordForms ) {
 	const topicPhrases = collectStems( keyphrase, synonyms, morphologyData );
 	const keyphraseStemmed = topicPhrases.keyphraseStems;
 	const synonymsStemmed = topicPhrases.synonymsStems;

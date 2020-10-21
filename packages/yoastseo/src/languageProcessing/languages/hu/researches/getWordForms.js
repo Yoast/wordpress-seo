@@ -18,5 +18,6 @@ export default function( paper ) {
 	const keyphrase = paper.getKeyword().toLocaleLowerCase( "hu" ).trim();
 	const synonyms = parseSynonyms( paper.getSynonyms().toLocaleLowerCase( "hu" ).trim() );
 
-	return getWordForms( keyphrase, synonyms, null, null, null, allWordsFromPaper, functionWords );
+	// In Hungarian we have function words.
+	return getWordForms( keyphrase, synonyms, allWordsFromPaper, functionWords, null, null, null );
 }

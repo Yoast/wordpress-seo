@@ -19,5 +19,6 @@ export default function( paper ) {
 	const keyphrase = paper.getKeyword().toLocaleLowerCase( "he" ).trim();
 	const synonyms = parseSynonyms( paper.getSynonyms().toLocaleLowerCase( "he" ).trim() );
 
-	return getWordForms( keyphrase, synonyms, null, createBasicWordForms, null, allWordsFromPaper, functionWords );
+	// In English we have function words and a function to create basic word forms.
+	return getWordForms( keyphrase, synonyms, allWordsFromPaper, functionWords, null, null, createBasicWordForms );
 }

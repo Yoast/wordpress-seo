@@ -16,6 +16,6 @@ export default function( paper ) {
 	const keyphrase = paper.getKeyword().toLocaleLowerCase().trim();
 	const synonyms = parseSynonyms( paper.getSynonyms().toLocaleLowerCase().trim() );
 
-	// For default language support, we have no stemmer, basic stemmer, morphology data or function words.
+	// For default language support we have no stemmer, basic stemmer, morphology data or function words.
 	return getWordForms( keyphrase, synonyms, null, null, null, allWordsFromPaper, [] );
 }

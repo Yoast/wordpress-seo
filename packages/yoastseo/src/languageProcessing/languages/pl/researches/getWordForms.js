@@ -25,5 +25,6 @@ export default function( paper, researcher ) {
 	const keyphrase = paper.getKeyword().toLocaleLowerCase( "pl" ).trim();
 	const synonyms = parseSynonyms( paper.getSynonyms().toLocaleLowerCase( "pl" ).trim() );
 
-	return getWordForms( keyphrase, synonyms, stem, null, morphologyData, allWordsFromPaper, functionWords );
+	// In Polish we have function words, a stemmer and morphology data.
+	return getWordForms( keyphrase, synonyms, allWordsFromPaper, functionWords, stem, morphologyData, null );
 }

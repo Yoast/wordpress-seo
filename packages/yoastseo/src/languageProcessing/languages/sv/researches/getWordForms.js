@@ -18,5 +18,6 @@ export default function( paper ) {
 	const keyphrase = paper.getKeyword().toLocaleLowerCase( "sv" ).trim();
 	const synonyms = parseSynonyms( paper.getSynonyms().toLocaleLowerCase( "sv" ).trim() );
 
-	return getWordForms( keyphrase, synonyms, null, null, null, allWordsFromPaper, functionWords );
+	// In English we have function words.
+	return getWordForms( keyphrase, synonyms, allWordsFromPaper, functionWords, null, null, null );
 }

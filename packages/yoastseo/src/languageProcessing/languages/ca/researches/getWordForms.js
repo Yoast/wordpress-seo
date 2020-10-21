@@ -18,5 +18,6 @@ export default function( paper ) {
 	const keyphrase = paper.getKeyword().toLocaleLowerCase( "ca" ).trim();
 	const synonyms = parseSynonyms( paper.getSynonyms().toLocaleLowerCase( "ca" ).trim() );
 
-	return getWordForms( keyphrase, synonyms, null, null, null, allWordsFromPaper, functionWords );
+	// In Catalan we have function words.
+	return getWordForms( keyphrase, synonyms, allWordsFromPaper, functionWords, null, null, null );
 }
