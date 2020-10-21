@@ -193,7 +193,6 @@ function _wpseo_activate() {
 	}
 
 	WPSEO_Options::set( 'indexing_reason', 'first_install' );
-	WPSEO_Options::set( 'indexation_warning_hide_until', false );
 
 	do_action( 'wpseo_register_roles' );
 	WPSEO_Role_Manager_Factory::get()->add();

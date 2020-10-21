@@ -1,11 +1,15 @@
 <?php
 
+namespace Yoast\WP\SEO\Tests\Unit\Integrations\Admin;
+
 use Brain\Monkey;
+use Mockery;
+use Yoast_Notification_Center;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Date_Helper;
+use Yoast\WP\SEO\Helpers\Indexing_Helper;
 use Yoast\WP\SEO\Helpers\Notification_Helper;
-use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Helpers\Short_Link_Helper;
 use Yoast\WP\SEO\Integrations\Admin\Indexing_Tool_Integration;
@@ -21,7 +25,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
 class Indexing_Notification_Integration_Test extends TestCase {
 
 	/**
-	 * The indexing integration.
+	 * The indexing tool integration.
 	 *
 	 * @var Mockery\MockInterface|Indexing_Tool_Integration
 	 */
@@ -35,11 +39,11 @@ class Indexing_Notification_Integration_Test extends TestCase {
 	protected $notification_center;
 
 	/**
-	 * The options helper.
+	 * The indexing helper.
 	 *
-	 * @var Mockery\MockInterface|Options_Helper
+	 * @var Mockery\MockInterface|Indexing_Helper
 	 */
-	protected $options_helper;
+	protected $indexing_helper;
 
 	/**
 	 * The product helper.
@@ -63,13 +67,6 @@ class Indexing_Notification_Integration_Test extends TestCase {
 	protected $date_helper;
 
 	/**
-	 * The instance under test.
-	 *
-	 * @var Indexing_Notification_Integration
-	 */
-	protected $instance;
-
-	/**
 	 * The short link helper.
 	 *
 	 * @var Mockery\MockInterface|Short_Link_Helper
@@ -84,6 +81,13 @@ class Indexing_Notification_Integration_Test extends TestCase {
 	protected $notification_helper;
 
 	/**
+	 * The instance under test.
+	 *
+	 * @var Indexing_Notification_Integration
+	 */
+	protected $instance;
+
+	/**
 	 * Sets up the tests.
 	 */
 	public function setUp() {
@@ -91,22 +95,22 @@ class Indexing_Notification_Integration_Test extends TestCase {
 
 		$this->indexing_tool_integration = Mockery::mock( Indexing_Tool_Integration::class );
 		$this->notification_center       = Mockery::mock( \Yoast_Notification_Center::class );
-		$this->options_helper            = Mockery::mock( Options_Helper::class );
 		$this->product_helper            = Mockery::mock( Product_Helper::class );
 		$this->page_helper               = Mockery::mock( Current_Page_Helper::class );
 		$this->date_helper               = Mockery::mock( Date_Helper::class );
 		$this->short_link_helper         = Mockery::mock( Short_Link_Helper::class );
 		$this->notification_helper       = Mockery::mock( Notification_Helper::class );
+		$this->indexing_helper           = Mockery::mock( Indexing_Helper::class );
 
 		$this->instance = new Indexing_Notification_Integration(
 			$this->indexing_tool_integration,
 			$this->notification_center,
-			$this->options_helper,
 			$this->product_helper,
 			$this->page_helper,
 			$this->date_helper,
 			$this->short_link_helper,
-			$this->notification_helper
+			$this->notification_helper,
+			$this->indexing_helper
 		);
 	}
 
@@ -124,11 +128,6 @@ class Indexing_Notification_Integration_Test extends TestCase {
 		$this->assertAttributeInstanceOf(
 			Yoast_Notification_Center::class,
 			'notification_center',
-			$this->instance
-		);
-		$this->assertAttributeInstanceOf(
-			Options_Helper::class,
-			'options_helper',
 			$this->instance
 		);
 		$this->assertAttributeInstanceOf(
@@ -154,6 +153,11 @@ class Indexing_Notification_Integration_Test extends TestCase {
 		$this->assertAttributeInstanceOf(
 			Notification_Helper::class,
 			'notification_helper',
+			$this->instance
+		);
+		$this->assertAttributeInstanceOf(
+			Indexing_Helper::class,
+			'indexing_helper',
 			$this->instance
 		);
 	}
