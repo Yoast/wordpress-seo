@@ -17,6 +17,7 @@ use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Integrations\Admin\Indexing_Notification_Integration;
 use Yoast\WP\SEO\Routes\Indexing_Route;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
+use Yoast_Notification_Center;
 
 /**
  * Class Indexable_Indexation_Route_Test.
@@ -100,6 +101,13 @@ class Indexable_Indexation_Route_Test extends TestCase {
 	protected $options_helper;
 
 	/**
+	 * Represents the notification center.
+	 *
+	 * @var Mockery\MockInterface|Yoast_Notification_Center
+	 */
+	protected $notification_center;
+
+	/**
 	 * Represents the instance to test.
 	 *
 	 * @var Indexing_Route
@@ -124,6 +132,7 @@ class Indexable_Indexation_Route_Test extends TestCase {
 		$this->options_helper                      = Mockery::mock( Options_Helper::class );
 		$this->post_link_indexing_action           = Mockery::mock( Post_Link_Indexing_Action::class );
 		$this->term_link_indexing_action           = Mockery::mock( Term_Link_Indexing_Action::class );
+		$this->notification_center                 = Mockery::mock( Yoast_Notification_Center::class );
 
 		$this->instance = new Indexing_Route(
 			$this->post_indexation_action,
@@ -135,7 +144,8 @@ class Indexable_Indexation_Route_Test extends TestCase {
 			$this->prepare_indexation_action,
 			$this->post_link_indexing_action,
 			$this->term_link_indexing_action,
-			$this->options_helper
+			$this->options_helper,
+			$this->notification_center
 		);
 	}
 
@@ -440,7 +450,15 @@ class Indexable_Indexation_Route_Test extends TestCase {
 	public function test_index_general_when_error_occurs() {
 		$this->general_indexation_action->expects( 'index' )->andThrow( new \Exception( 'An exception during indexing' ) );
 
-		$this->options_helper->expects( 'set' )->with( 'indexing_reason', Indexing_Notification_Integration::REASON_INDEXING_FAILED );
+		$this->options_helper
+			->expects( 'set' )
+			->with( 'indexing_reason', Indexing_Notification_Integration::REASON_INDEXING_FAILED )
+			->once();
+
+		$this->notification_center
+			->expects( 'remove_notification_by_id' )
+			->with( Indexing_Notification_Integration::NOTIFICATION_ID )
+			->once();
 
 		Mockery::mock( '\WP_Error' );
 
