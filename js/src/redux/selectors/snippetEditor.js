@@ -59,17 +59,16 @@ export const getSnippetEditorData = state => get( state, "snippetEditor.data", {
 } );
 
 /**
- * Determines the snippet preview image URL.
+ * Gets the snippet editor templates.
  *
  * @param {Object} state The state object.
  *
- * @returns {string} The snippet preview image URL.
+ * @returns {string} The snippet editor templates.
  */
-export const determineSnippetPreviewImageUrl = state => {
-	const previewImageUrl = getSnippetPreviewImageUrl( state );
-	if ( previewImageUrl === "" ) {
-	}
-};
+export const getSnippetEditorTemplates = state => get( state, "snippetEditor.templates", {
+	title: "",
+	description: "",
+} );
 
 /**
  * Gets the snippet editor words to highlight.

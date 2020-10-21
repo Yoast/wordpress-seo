@@ -25,6 +25,10 @@ function getInitialState() {
 		wordsToHighlight: [],
 		replacementVariables: getDefaultReplacementVariables(),
 		uniqueRefreshValue: "",
+		templates: {
+			title: "",
+			description: "",
+		},
 	};
 }
 
