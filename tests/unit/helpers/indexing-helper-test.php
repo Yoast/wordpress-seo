@@ -142,6 +142,21 @@ class Indexing_Helper_Test extends TestCase {
 	}
 
 	/**
+	 * Tests getting the indexing reason.
+	 *
+	 * @covers ::has_reason
+	 */
+	public function test_get_reason() {
+		$this->options_helper
+			->expects( 'get' )
+			->once()
+			->with( 'indexing_reason', '' )
+			->andReturn( 'first-install' );
+
+		$this->assertSame( 'first-install', $this->instance->get_reason() );
+	}
+
+	/**
 	 * Tests getting the indexing start time.
 	 *
 	 * @covers ::get_started

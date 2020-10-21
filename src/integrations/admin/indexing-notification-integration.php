@@ -214,7 +214,7 @@ class Indexing_Notification_Integration implements Integration_Interface {
 	 * @return Yoast_Notification The notification to show.
 	 */
 	protected function notification() {
-		$reason = $this->indexing_helper->has_reason();
+		$reason = $this->indexing_helper->get_reason();
 
 		$presenter = $this->get_presenter( $reason );
 

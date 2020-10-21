@@ -73,6 +73,15 @@ class Indexing_Helper {
 	}
 
 	/**
+	 * Returns the indexing reason. The reason why the site-wide indexing process should be run.
+	 *
+	 * @return string The indexing reason, defaults to the empty string if no reason has been set.
+	 */
+	public function get_reason() {
+		return $this->options_helper->get( 'indexing_reason', '' );
+	}
+
+	/**
 	 * Sets the start time when the indexing process has started but not completed.
 	 *
 	 * @param int|bool $value The start time when the indexing process has started but not completed, false otherwise.
