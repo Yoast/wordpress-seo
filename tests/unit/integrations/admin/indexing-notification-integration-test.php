@@ -21,6 +21,9 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Integrations\Admin\Indexing_Notification_Integration
  * @covers \Yoast\WP\SEO\Integrations\Admin\Indexing_Notification_Integration
+ *
+ * @group integrations
+ * @group indexing
  */
 class Indexing_Notification_Integration_Test extends TestCase {
 
@@ -93,13 +96,13 @@ class Indexing_Notification_Integration_Test extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->notification_center = Mockery::mock( \Yoast_Notification_Center::class );
-		$this->product_helper      = Mockery::mock( Product_Helper::class );
-		$this->page_helper         = Mockery::mock( Current_Page_Helper::class );
-		$this->date_helper         = Mockery::mock( Date_Helper::class );
-		$this->short_link_helper   = Mockery::mock( Short_Link_Helper::class );
-		$this->notification_helper = Mockery::mock( Notification_Helper::class );
-		$this->indexing_helper     = Mockery::mock( Indexing_Helper::class );
+		$this->notification_center       = Mockery::mock( \Yoast_Notification_Center::class );
+		$this->product_helper            = Mockery::mock( Product_Helper::class );
+		$this->page_helper               = Mockery::mock( Current_Page_Helper::class );
+		$this->date_helper               = Mockery::mock( Date_Helper::class );
+		$this->short_link_helper         = Mockery::mock( Short_Link_Helper::class );
+		$this->notification_helper       = Mockery::mock( Notification_Helper::class );
+		$this->indexing_helper           = Mockery::mock( Indexing_Helper::class );
 
 		$this->instance = new Indexing_Notification_Integration(
 			$this->notification_center,
@@ -161,6 +164,31 @@ class Indexing_Notification_Integration_Test extends TestCase {
 	 *
 	 * @covers ::register_hooks
 	 */
+	public function test_register_hooks() {
+		$this->page_helper
+			->expects( 'get_current_yoast_seo_page' )
+			->once()
+			->andReturn( 'wpseo_dashboard' );
+
+		Monkey\Actions\expectAdded( Indexing_Notification_Integration::NOTIFICATION_ID )
+			->with( [ $this->instance, 'maybe_create_notification' ] )
+			->once();
+
+		$this->indexing_helper
+			->expects( 'has_reason' )
+			->once()
+			->andReturnFalse();
+
+		$this->instance->register_hooks();
+	}
+
+
+	/**
+	 * Tests the registration of the hooks.
+	 * Tests whether the notification is created.
+	 *
+	 * @covers ::register_hooks
+	 */
 	public function test_register_hooks_create_notification() {
 		$this->markTestSkipped( 'P2-436' );
 		$this->page_helper
@@ -176,8 +204,9 @@ class Indexing_Notification_Integration_Test extends TestCase {
 			->with( [ $this->instance, 'create_notification' ] )
 			->once();
 
-		$this->indexing_helper
-			->expects( 'get_reason' )
+		$this->options_helper
+			->expects( 'get' )
+			->with( 'indexing_reason' )
 			->once()
 			->andReturn( '' );
 
@@ -308,7 +337,7 @@ class Indexing_Notification_Integration_Test extends TestCase {
 	 */
 	public function test_create_notification_no_unindexed_items() {
 		$this->markTestSkipped( 'P2-436' );
-		$this->indexing_helper
+		$this->indexing_tool_integration
 			->expects( 'get_unindexed_count' )
 			->once()
 			->andReturn( 0 );
