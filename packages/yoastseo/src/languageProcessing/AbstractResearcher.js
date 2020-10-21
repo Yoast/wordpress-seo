@@ -23,6 +23,7 @@ import readingTime from "./researches/readingTime";
 import h1s from "./researches/h1s";
 import sentences from "./researches/sentences";
 import findKeywordInFirstParagraph from "./researches/findKeywordInFirstParagraph.js";
+import keywordCount from "./researches/keywordCount";
 
 /**
  * The researches contains all the researches
@@ -56,6 +57,7 @@ export default class AbstractResearcher {
 			h1s: h1s,
 			sentences: sentences,
 			firstParagraph: findKeywordInFirstParagraph,
+			keywordCount: keywordCount,
 		};
 
 		this._data = {};
