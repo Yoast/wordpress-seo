@@ -20,10 +20,12 @@ function renderRoot() {
 		root = document.getElementById( "yoast-seo-indexing-action" );
 	}
 
-	render( <Indexation
-		preIndexingActions={ preIndexingActions }
-		indexingActions={ indexingActions }
-	/>, root );
+	if ( root ) {
+		render( <Indexation
+			preIndexingActions={ preIndexingActions }
+			indexingActions={ indexingActions }
+		/>, root );
+	}
 }
 
 /**
