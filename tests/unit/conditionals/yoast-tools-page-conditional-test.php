@@ -73,4 +73,23 @@ class Yoast_Admin_Tools_Page_Conditional_Test extends TestCase {
 
 		$this->assertFalse( $this->instance->is_met() );
 	}
+
+	/**
+	 * Tests that the conditional is not met when on a frontend page.
+	 *
+	 * @covers ::is_met
+	 */
+	public function test_is_not_met_on_specific_tool_page() {
+		// We are on an admin page.
+		global $pagenow;
+		$pagenow = 'admin.php';
+
+		// Specifically, we are on the wpseo_tools page.
+		$_GET['page'] = 'wpseo_tools';
+
+		// But not on the main tools page.
+		$_GET['tool'] = 'import-export';
+
+		$this->assertFalse( $this->instance->is_met() );
+	}
 }

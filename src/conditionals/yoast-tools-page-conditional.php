@@ -3,7 +3,7 @@
 namespace Yoast\WP\SEO\Conditionals;
 
 /**
- * Conditional that is only met when current page is the tools page.
+ * Conditional that is only met when current page is the main tools page.
  */
 class Yoast_Tools_Page_Conditional implements Conditional {
 
@@ -19,7 +19,7 @@ class Yoast_Tools_Page_Conditional implements Conditional {
 			return false;
 		}
 
-		if ( isset( $_GET['page'] ) && $_GET['page'] === 'wpseo_tools' ) {
+		if ( isset( $_GET['page'] ) && $_GET['page'] === 'wpseo_tools' && ! isset( $_GET['tool'] ) ) {
 			return true;
 		}
 
