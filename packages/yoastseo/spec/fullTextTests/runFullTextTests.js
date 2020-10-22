@@ -256,35 +256,35 @@ testPapers.forEach( function( testPaper ) {
 			}
 		} );
 
-		// It( "returns a score and the associated feedback text for the internalLinks assessment", function() {
-		// 	Const isApplicable = internalLinksAssessment.isApplicable( paper );
-		// 	Expect( isApplicable ).toBe( expectedResults.internalLinks.isApplicable );
-		//
-		// 	If ( isApplicable ) {
-		// 		Result.internalLinks = internalLinksAssessment.getResult(
-		// 			Paper,
-		// 			Factory.buildMockResearcher( getLinkStatistics( paper, researcher ) ),
-		// 			I18n
-		// 		);
-		// 		Expect( result.internalLinks.getScore() ).toBe( expectedResults.internalLinks.score );
-		// 		Expect( result.internalLinks.getText() ).toBe( expectedResults.internalLinks.resultText );
-		// 	}
-		// } );
+		it( "returns a score and the associated feedback text for the internalLinks assessment", function() {
+			const isApplicable = internalLinksAssessment.isApplicable( paper );
+			expect( isApplicable ).toBe( expectedResults.internalLinks.isApplicable );
 
-		// It( "returns a score and the associated feedback text for the titleKeyword assessment", function() {
-		// 	Const isApplicable = titleKeywordAssessment.isApplicable( paper );
-		// 	Expect( isApplicable ).toBe( expectedResults.titleKeyword.isApplicable );
-		//
-		// 	If ( isApplicable ) {
-		// 		Result.titleKeyword = titleKeywordAssessment.getResult(
-		// 			Paper,
-		// 			Factory.buildMockResearcher( findKeywordInPageTitle( paper, researcher ) ),
-		// 			I18n
-		// 		);
-		// 		Expect( result.titleKeyword.getScore() ).toBe( expectedResults.titleKeyword.score );
-		// 		Expect( result.titleKeyword.getText() ).toBe( expectedResults.titleKeyword.resultText );
-		// 	}
-		// } );
+			if ( isApplicable ) {
+				result.internalLinks = internalLinksAssessment.getResult(
+					paper,
+					factory.buildMockResearcher( getLinkStatistics( paper, researcher ) ),
+					i18n
+				);
+				expect( result.internalLinks.getScore() ).toBe( expectedResults.internalLinks.score );
+				expect( result.internalLinks.getText() ).toBe( expectedResults.internalLinks.resultText );
+			}
+		} );
+
+		it( "returns a score and the associated feedback text for the titleKeyword assessment", function() {
+			const isApplicable = titleKeywordAssessment.isApplicable( paper );
+			expect( isApplicable ).toBe( expectedResults.titleKeyword.isApplicable );
+
+			if ( isApplicable ) {
+				result.titleKeyword = titleKeywordAssessment.getResult(
+					paper,
+					factory.buildMockResearcher( findKeywordInPageTitle( paper, researcher ) ),
+					i18n
+				);
+				expect( result.titleKeyword.getScore() ).toBe( expectedResults.titleKeyword.score );
+				expect( result.titleKeyword.getText() ).toBe( expectedResults.titleKeyword.resultText );
+			}
+		} );
 
 		it( "returns a score and the associated feedback text for the titleWidth assessment", function() {
 			const isApplicable = titleWidthAssessment.isApplicable( paper );
@@ -301,51 +301,51 @@ testPapers.forEach( function( testPaper ) {
 			}
 		} );
 
-		// It( "returns a score and the associated feedback text for the urlKeyword assessment", function() {
-		// 	Const isApplicable = urlKeywordAssessment.isApplicable( paper );
-		// 	Expect( isApplicable ).toBe( expectedResults.urlKeyword.isApplicable );
-		//
-		// 	If ( isApplicable ) {
-		// 		Result.urlKeyword = urlKeywordAssessment.getResult(
-		// 			Paper,
-		// 			Factory.buildMockResearcher( keywordCountInUrl( paper, researcher ) ),
-		// 			I18n
-		// 		);
-		// 		Expect( result.urlKeyword.getScore() ).toBe( expectedResults.urlKeyword.score );
-		// 		Expect( result.urlKeyword.getText() ).toBe( expectedResults.urlKeyword.resultText );
-		// 	}
-		// } );
+		it( "returns a score and the associated feedback text for the urlKeyword assessment", function() {
+			const isApplicable = urlKeywordAssessment.isApplicable( paper );
+			expect( isApplicable ).toBe( expectedResults.urlKeyword.isApplicable );
 
-		// It( "returns a score and the associated feedback text for the english keyphraseDistribution assessment", function() {
-		// 	Const isApplicable = keyphraseDistributionAssessment.isApplicable( paper );
-		// 	Expect( isApplicable ).toBe( expectedResults.keyphraseDistribution.isApplicable );
-		//
-		// 	If ( isApplicable ) {
-		// 		Result.keyphraseDistribution = keyphraseDistributionAssessment.getResult(
-		// 			Paper,
-		// 			Factory.buildMockResearcher( keyphraseDistribution( paper, researcher ) ),
-		// 			I18n
-		// 		);
-		// 		Expect( result.keyphraseDistribution.getScore() ).toBe( expectedResults.keyphraseDistribution.score );
-		// 		Expect( result.keyphraseDistribution.getText() ).toBe( expectedResults.keyphraseDistribution.resultText );
-		// 	}
-		// } );
+			if ( isApplicable ) {
+				result.urlKeyword = urlKeywordAssessment.getResult(
+					paper,
+					factory.buildMockResearcher( keywordCountInUrl( paper, researcher ) ),
+					i18n
+				);
+				expect( result.urlKeyword.getScore() ).toBe( expectedResults.urlKeyword.score );
+				expect( result.urlKeyword.getText() ).toBe( expectedResults.urlKeyword.resultText );
+			}
+		} );
+
+		it( "returns a score and the associated feedback text for the keyphraseDistribution assessment", function() {
+			const isApplicable = keyphraseDistributionAssessment.isApplicable( paper );
+			expect( isApplicable ).toBe( expectedResults.keyphraseDistribution.isApplicable );
+
+			if ( isApplicable ) {
+				result.keyphraseDistribution = keyphraseDistributionAssessment.getResult(
+					paper,
+					factory.buildMockResearcher( keyphraseDistribution( paper, researcher ) ),
+					i18n
+				);
+				expect( result.keyphraseDistribution.getScore() ).toBe( expectedResults.keyphraseDistribution.score );
+				expect( result.keyphraseDistribution.getText() ).toBe( expectedResults.keyphraseDistribution.resultText );
+			}
+		} );
 
 		// Readability assessments.
-		// It( "returns a score and the associated feedback text for the fleschReadingEase assessment", function() {
-		// 	Const isApplicable = fleschReadingAssessment.isApplicable( paper );
-		// 	Expect( isApplicable ).toBe( expectedResults.fleschReadingEase.isApplicable );
-		//
-		// 	If ( isApplicable ) {
-		// 		Result.fleschReadingEase = fleschReadingAssessment.getResult(
-		// 			Paper,
-		// 			Factory.buildMockResearcher( calculateFleschReading( paper ) ),
-		// 			I18n
-		// 		);
-		// 		Expect( result.fleschReadingEase.getScore() ).toBe( expectedResults.fleschReadingEase.score );
-		// 		Expect( result.fleschReadingEase.getText() ).toBe( expectedResults.fleschReadingEase.resultText );
-		// 	}
-		// } );
+		it( "returns a score and the associated feedback text for the fleschReadingEase assessment", function() {
+			const isApplicable = fleschReadingAssessment.isApplicable( paper );
+			expect( isApplicable ).toBe( expectedResults.fleschReadingEase.isApplicable );
+
+			if ( isApplicable ) {
+				result.fleschReadingEase = fleschReadingAssessment.getResult(
+					paper,
+					factory.buildMockResearcher( calculateFleschReading( paper ) ),
+					i18n
+				);
+				expect( result.fleschReadingEase.getScore() ).toBe( expectedResults.fleschReadingEase.score );
+				expect( result.fleschReadingEase.getText() ).toBe( expectedResults.fleschReadingEase.resultText );
+			}
+		} );
 
 		it( "returns a score and the associated feedback text for the subheadingsTooLong assessment", function() {
 			const isApplicable = subheadingDistributionTooLongAssessment.isApplicable( paper );
@@ -377,20 +377,20 @@ testPapers.forEach( function( testPaper ) {
 			}
 		} );
 
-		// it( "returns a score and the associated feedback text for the textSentenceLength assessment", function() {
-		// 	const isApplicable = sentenceLengthInTextAssessment.isApplicable( paper );
-		// 	expect( isApplicable ).toBe( expectedResults.textSentenceLength.isApplicable );
-		//
-		// 	if ( isApplicable ) {
-		// 		result.textSentenceLength = sentenceLengthInTextAssessment.getResult(
-		// 			paper,
-		// 			factory.buildMockResearcher( countSentencesFromText( paper ) ),
-		// 			i18n
-		// 		);
-		// 		expect( result.textSentenceLength.getScore() ).toBe( expectedResults.textSentenceLength.score );
-		// 		expect( result.textSentenceLength.getText() ).toBe( expectedResults.textSentenceLength.resultText );
-		// 	}
-		// } );
+		it( "returns a score and the associated feedback text for the textSentenceLength assessment", function() {
+			const isApplicable = sentenceLengthInTextAssessment.isApplicable( paper );
+			expect( isApplicable ).toBe( expectedResults.textSentenceLength.isApplicable );
+
+			if ( isApplicable ) {
+				result.textSentenceLength = sentenceLengthInTextAssessment.getResult(
+					paper,
+					factory.buildMockResearcher( countSentencesFromText( paper ) ),
+					i18n
+				);
+				expect( result.textSentenceLength.getScore() ).toBe( expectedResults.textSentenceLength.score );
+				expect( result.textSentenceLength.getText() ).toBe( expectedResults.textSentenceLength.resultText );
+			}
+		} );
 
 		it( "returns a score and the associated feedback text for the textTransitionWords assessment", function() {
 			const isApplicable = transitionWordsAssessment.isApplicable( paper );
@@ -407,20 +407,20 @@ testPapers.forEach( function( testPaper ) {
 			}
 		} );
 
-		// it( "returns a score and the associated feedback text for the passiveVoice assessment", function() {
-		// 	const isApplicable = passiveVoiceAssessment.isApplicable( paper );
-		// 	expect( isApplicable ).toBe( expectedResults.passiveVoice.isApplicable );
-		//
-		// 	if ( isApplicable ) {
-		// 		result.passiveVoice = passiveVoiceAssessment.getResult(
-		// 			paper,
-		// 			factory.buildMockResearcher( passiveVoice( paper ) ),
-		// 			i18n
-		// 		);
-		// 		expect( result.passiveVoice.getScore() ).toBe( expectedResults.passiveVoice.score );
-		// 		expect( result.passiveVoice.getText() ).toBe( expectedResults.passiveVoice.resultText );
-		// 	}
-		// } );
+		it( "returns a score and the associated feedback text for the passiveVoice assessment", function() {
+			const isApplicable = passiveVoiceAssessment.isApplicable( paper );
+			expect( isApplicable ).toBe( expectedResults.passiveVoice.isApplicable );
+
+			if ( isApplicable ) {
+				result.passiveVoice = passiveVoiceAssessment.getResult(
+					paper,
+					factory.buildMockResearcher( passiveVoice( paper ) ),
+					i18n
+				);
+				expect( result.passiveVoice.getScore() ).toBe( expectedResults.passiveVoice.score );
+				expect( result.passiveVoice.getText() ).toBe( expectedResults.passiveVoice.resultText );
+			}
+		} );
 
 		it( "returns a score and the associated feedback text for the textPresence assessment", function() {
 			result.textPresence = textPresenceAssessment.getResult(

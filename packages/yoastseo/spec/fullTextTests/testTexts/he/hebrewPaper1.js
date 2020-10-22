@@ -61,7 +61,7 @@ const expectedResults = {
 	textLength: {
 		isApplicable: true,
 		score: 9,
-		resultText: "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: The text contains 368 words. Good job!",
+		resultText: "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: The text contains 388 words. Good job!",
 	},
 	externalLinks: {
 		isApplicable: true,
@@ -71,16 +71,13 @@ const expectedResults = {
 	},
 	internalLinks: {
 		isApplicable: true,
-		score: 3,
-		resultText: "<a href='https://yoa.st/33z' target='_blank'>Internal links</a>: " +
-			"No internal links appear in this page, <a href='https://yoa.st/34a' target='_blank'>make sure to add some</a>!",
+		score: 9,
+		resultText: "<a href='https://yoa.st/33z' target='_blank'>Internal links</a>: You have enough internal links. Good job!",
 	},
 	titleKeyword: {
 		isApplicable: true,
-		score: 6,
-		resultText: "<a href='https://yoa.st/33g' target='_blank'>Keyphrase in title</a>:" +
-			" The exact match of the focus keyphrase appears in the SEO title, but not at the beginning." +
-			" <a href='https://yoa.st/33h' target='_blank'>Move it to the beginning for the best results</a>.",
+		score: 9,
+		resultText: "<a href='https://yoa.st/33g' target='_blank'>Keyphrase in title</a>: The exact match of the focus keyphrase appears at the beginning of the SEO title. Good job!",
 	},
 	titleWidth: {
 		isApplicable: true,
@@ -89,8 +86,8 @@ const expectedResults = {
 	},
 	urlKeyword: {
 		isApplicable: true,
-		score: 9,
-		resultText: "<a href='https://yoa.st/33o' target='_blank'>Keyphrase in slug</a>: Great work!",
+		score: 6,
+		resultText: "<a href='https://yoa.st/33o' target='_blank'>Keyphrase in slug</a>: (Part of) your keyphrase does not appear in the slug. <a href='https://yoa.st/33p' target='_blank'>Change that</a>!",
 	},
 	urlLength: {
 		isApplicable: true,
@@ -126,20 +123,18 @@ const expectedResults = {
 	},
 	textSentenceLength: {
 		isApplicable: true,
-		score: 9,
-		resultText: "<a href='https://yoa.st/34v' target='_blank'>Sentence length</a>: Great!",
+		score: 3,
+		resultText: "<a href='https://yoa.st/34v' target='_blank'>Sentence length</a>: 66.7% of the sentences contain more than 15 words, which is more than the recommended maximum of 25%. <a href='https://yoa.st/34w' target='_blank'>Try to shorten the sentences</a>.",
 	},
 	textTransitionWords: {
 		isApplicable: true,
-		score: 6,
-		resultText: "<a href='https://yoa.st/34z' target='_blank'>Transition words</a>: " +
-			"Only 23.1% of the sentences contain transition words, which is not enough. " +
-			"<a href='https://yoa.st/35a' target='_blank'>Use more of them</a>.",
+		score: 9,
+		resultText: "<a href='https://yoa.st/34z' target='_blank'>Transition words</a>: Well done!",
 	},
 	passiveVoice: {
 		isApplicable: true,
-		score: 9,
-		resultText: "<a href='https://yoa.st/34t' target='_blank'>Passive voice</a>: You're using enough active voice. That's great!",
+		score: 6,
+		resultText: "<a href='https://yoa.st/34t' target='_blank'>Passive voice</a>: 13.6% of the sentences contain passive voice, which is more than the recommended maximum of 10%. <a href='https://yoa.st/34u' target='_blank'>Try to use their active counterparts</a>.",
 	},
 	textPresence: {
 		isApplicable: true,
