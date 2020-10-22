@@ -1,10 +1,9 @@
 import { compose } from "@wordpress/compose";
-import { select, withSelect, withDispatch } from "@wordpress/data";
+import { select as wpSelect, withSelect, withDispatch } from "@wordpress/data";
 import { useEffect } from "@wordpress/element";
 import { SnippetEditor } from "@yoast/search-metadata-previews";
 import { __ } from "@wordpress/i18n";
 import PropTypes from "prop-types";
-import { LocationConsumer } from "../../components/contexts/location";
 import SnippetPreviewSection from "../../components/SnippetPreviewSection";
 import { applyReplaceUsingPlugin } from "../../helpers/replacementVariableHelpers";
 import withLocation from "../../helpers/withLocation";
@@ -22,7 +21,7 @@ import withLocation from "../../helpers/withLocation";
  * @returns {Object} The snippet preview data object.
  */
 export const mapEditorDataToPreview = ( data, context ) => {
-	const templates = select( "yoast-seo/editor" ).getSnippetEditorTemplates();
+	const templates = wpSelect( "yoast-seo/editor" ).getSnippetEditorTemplates();
 
 	// When the editor data is empty, use the templates in the preview.
 	if ( data.title === "" ) {

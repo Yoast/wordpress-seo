@@ -1,4 +1,4 @@
-import { UPDATE_SNIPPET_DATA } from "../actions/analysisData";
+import { UPDATE_SNIPPET_DATA } from "../actions/analysis";
 
 const INITIAL_STATE = {
 	snippet: {},
