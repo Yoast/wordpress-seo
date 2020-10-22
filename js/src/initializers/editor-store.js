@@ -3,6 +3,7 @@ import { combineReducers, registerStore } from "@wordpress/data";
 import reducers from "../redux/reducers";
 import * as selectors from "../redux/selectors";
 import * as actions from "../redux/actions";
+import * as controls from "../redux/controls";
 import { setSettings } from "../redux/actions/settings";
 import { loadCornerstoneContent, loadFocusKeyword, setSEMrushChangeCountry, loadSnippetEditorData } from "../redux/actions";
 import { setSEMrushLoginStatus } from "../redux/actions";
@@ -56,6 +57,7 @@ export default function initEditorStore() {
 		reducer: combineReducers( reducers ),
 		selectors,
 		actions: pickBy( actions, x => typeof x === "function" ),
+		controls,
 	} );
 
 	populateStore( store );

@@ -49,7 +49,7 @@ const debouncedRunAnalysis = debounce( runAnalysis, refreshDelay );
 /**
  * Sets up the analysis.
  *
- * @returns {void}
+ * @returns {AnalysisWorkerWrapper} The analysis worker.
  */
 const initAnalysis = () => {
 	// Get the selectors.
@@ -91,9 +91,11 @@ const initAnalysis = () => {
 		// Keep the analysis results up-to-date.
 		if ( isEqual( currentAnalysisData, previousAnalysisData ) === false ) {
 			previousAnalysisData = currentAnalysisData;
-			debouncedRunAnalysis( worker, currentAnalysisData );
+			dispatch( "yoast-seo/editor" ).runAnalysis( currentAnalysisData, worker );
 		}
 	} );
+
+	return worker;
 };
 
 export default initAnalysis;
