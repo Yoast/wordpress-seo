@@ -1,5 +1,5 @@
-import matchWords from "../helpers/matchTextWithArray";
-import getSentences from "../../helpers/sentence/getSentences";
+import matchWords from "../helpers/match/matchTextWithArray";
+import getSentences from "../helpers/sentence/getSentences";
 
 /**
  * Replaces found keyword forms in the given description.
