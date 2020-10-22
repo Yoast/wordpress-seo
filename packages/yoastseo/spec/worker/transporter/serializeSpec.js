@@ -5,7 +5,6 @@ import Participle from "../../../src/values/Participle";
 import Sentence from "../../../src/values/Sentence";
 import SentencePart from "../../../src/values/SentencePart";
 import ProminentWord from "../../../src/values/ProminentWord";
-import WordCombination from "../../../src/values/WordCombination";
 import serialize from "../../../src/worker/transporter/serialize";
 import englishFunctionWordsFactory from "../../../src/languages/legacy/researches/english/functionWords.js";
 
@@ -119,20 +118,6 @@ describe( "serialize", () => {
 			occurrences: 2,
 			word: "combinations",
 			stem: "combination",
-		} );
-	} );
-
-	it( "serializes WordCombinations", () => {
-		const thing = new WordCombination( [ "syllable", "combinations" ], 2, functionWords );
-		const words = {	syllable: 4, combinations: 4 };
-		thing.setRelevantWords( words );
-
-		expect( serialize( thing ) ).toEqual( {
-			_parseClass: "WordCombination",
-			functionWords: functionWords,
-			occurrences: 2,
-			words: [ "syllable", "combinations" ],
-			relevantWords: words,
 		} );
 	} );
 

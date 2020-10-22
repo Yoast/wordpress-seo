@@ -8,7 +8,6 @@ import Paper from "../../values/Paper";
 import Participle from "../../values/Participle";
 import Sentence from "../../values/Sentence";
 import SentencePart from "../../values/SentencePart";
-import WordCombination from "../../values/WordCombination";
 import ProminentWord from "../../values/ProminentWord";
 
 const PARSE_CLASSES = {
@@ -18,7 +17,6 @@ const PARSE_CLASSES = {
 	Participle,
 	Sentence,
 	SentencePart,
-	WordCombination,
 	ProminentWord,
 };
 
