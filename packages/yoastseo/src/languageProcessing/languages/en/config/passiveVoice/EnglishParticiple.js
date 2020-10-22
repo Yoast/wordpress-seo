@@ -3,8 +3,8 @@ import Participle from "../../../../../values/Participle.js";
 import checkException from "../../../../helpers/passiveVoice/periphrastic/checkException.js";
 import nonVerbsEndingEdFactory from "./non-verb-ending-ed.js";
 const nonVerbsEndingEd = nonVerbsEndingEdFactory();
-import directPrecedenceException from "../../../../helpers/passiveVoice/directPrecedenceExceptionWithoutRegex";
-import precedenceException from "../../../../helpers/passiveVoice/precedenceExceptionWithoutRegex";
+import directPrecedenceException from "../../../../helpers/passiveVoice/directPrecedenceException";
+import precedenceException from "../../../../helpers/passiveVoice/precedenceException";
 import { getFunctionWords } from "../functionWords.js";
 const {
 	cannotDirectlyPrecedePassiveParticiple: cannotDirectlyPrecedePassiveParticipleList,

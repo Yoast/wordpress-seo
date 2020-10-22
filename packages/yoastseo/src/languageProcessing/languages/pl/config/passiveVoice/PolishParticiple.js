@@ -1,7 +1,7 @@
 import Participle from "../../../../../values/Participle.js";
 import checkException from "../../../../helpers/passiveVoice/periphrastic/checkException.js";
 import nonDirectPrecedenceException from "../../../../helpers/passiveVoice/periphrastic/freeAuxiliaryParticipleOrder/nonDirectParticiplePrecedenceException";
-import directPrecedenceException from "../../../../helpers/passiveVoice/directPrecedenceExceptionWithoutRegex";
+import directPrecedenceException from "../../../../helpers/passiveVoice/directPrecedenceException";
 import { getFunctionWords } from "../functionWords.js";
 const {
 	cannotDirectlyPrecedePassiveParticiple: cannotDirectlyPrecedePassiveParticipleList,

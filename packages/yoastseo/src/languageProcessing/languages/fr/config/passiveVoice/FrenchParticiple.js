@@ -3,8 +3,8 @@ import { forEach, includes, memoize } from "lodash-es";
 import Participle from "../../../../../values/Participle";
 import checkException from "../../../../helpers/passiveVoice/periphrastic/checkException";
 import exceptionsParticiplesFactory from "./exceptionsParticiples";
-import directPrecedenceException from "../../../../helpers/passiveVoice/directPrecedenceExceptionWithoutRegex";
-import precedenceException from "../../../../helpers/passiveVoice/precedenceExceptionWithoutRegex";
+import directPrecedenceException from "../../../../helpers/passiveVoice/directPrecedenceException";
+import precedenceException from "../../../../helpers/passiveVoice/precedenceException";
 import { getFunctionWords } from "../functionWords.js";
 const {
 	cannotDirectlyPrecedePassiveParticiple: cannotDirectlyPrecedePassiveParticipleList,
