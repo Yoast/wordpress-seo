@@ -7,6 +7,7 @@ import getLinks from "./researches/getLinks.js";
 import urlLength from "./researches/urlIsTooLong.js";
 import getKeywordDensity from "./researches/getKeywordDensity.js";
 import metaDescriptionLength from "./researches/metaDescriptionLength.js";
+import metaDescriptionKeyword from "./researches/metaDescriptionKeyword";
 import imageCount from "./researches/imageCountInText.js";
 import altTagCount from "./researches/imageAltTags.js";
 import keyphraseLength from "./researches/keyphraseLength";
@@ -46,6 +47,7 @@ export default class AbstractResearcher {
 			altTagCount: altTagCount,
 			getKeywordDensity: getKeywordDensity,
 			metaDescriptionLength: metaDescriptionLength,
+			metaDescriptionKeyword: metaDescriptionKeyword,
 			keyphraseLength: keyphraseLength,
 			pageTitleWidth: pageTitleWidth,
 			wordComplexity: wordComplexity,
