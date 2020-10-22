@@ -381,7 +381,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 					"
 							SELECT DISTINCT post_type FROM {$subquery}
 							WHERE post_status IN ({$all_states})
-							ORDER BY 'post_type' ASC
+							ORDER BY post_type
 						"
 				);
 
@@ -960,11 +960,14 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	protected function get_meta_data_result( $post_ids ) {
 		global $wpdb;
 
+		$meta_key = WPSEO_Meta::$meta_prefix . $this->target_db_field;
+
 		$meta_data = $wpdb->get_results(
 			"
 				 	SELECT *
 				 	FROM {$wpdb->postmeta}
-				 	WHERE post_id IN({$post_ids}) && meta_key = '" . WPSEO_Meta::$meta_prefix . $this->target_db_field . "'
+				 	WHERE post_id IN({$post_ids})
+				 	  AND meta_key = '{$meta_key}'
 				"
 		);
 
