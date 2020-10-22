@@ -5,7 +5,11 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We follow [Semantic Versioning](http://semver.org/).
 
-## 1.4.0 September 14th, 2020
+## 1.6.0 October 26th, 2020
+### Enhancements
+* Adds the `SettingsSnippetEditorFields` and `SettingsSnippetEditor` from `@yoast/search-metadata-previews`.
+
+## 1.4.0 September 17th, 2020
 ### Bugfixes
 * Fixes a bug where the Google preview's variables list would be hidden under the WordPress menu when using a right-to-left language.
 

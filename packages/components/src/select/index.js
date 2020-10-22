@@ -1,7 +1,8 @@
 import "./select.css";
-import { MultiSelect, Select } from "./Select.js";
+import { SingleSelect, MultiSelect, Select } from "./Select.js";
 
 export {
+	SingleSelect,
 	MultiSelect,
 	Select,
 };

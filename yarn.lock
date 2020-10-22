@@ -6023,6 +6023,19 @@ before-after-hook@^1.4.0:
   resolved "https://registry.yarnpkg.com/before-after-hook/-/before-after-hook-1.4.0.tgz#2b6bf23dca4f32e628fd2747c10a37c74a4b484d"
   integrity sha512-l5r9ir56nda3qu14nAXIlyq1MmUSs0meCIaFAh8HwkFwP1F8eToOuS3ah2VAHHcY04jaYD7FpJC5JTXHYRbkzg==
 
+benchmark.js@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/benchmark.js/-/benchmark.js-2.0.0.tgz#780026777e1fbce2f0f21fb0c428d05e5e66b5ce"
+  integrity sha512-RyJv95bJlIw+xzHRTWX87cO5NhLY9Ceutnj96CgEQRhUvxxk3nrRDkAYSAgDhAHf0Gk3xKwEGSImefu58lZB/w==
+
+benchmark@^2.1.4:
+  version "2.1.4"
+  resolved "https://registry.yarnpkg.com/benchmark/-/benchmark-2.1.4.tgz#09f3de31c916425d498cc2ee565a0ebf3c2a5629"
+  integrity sha1-CfPeMckWQl1JjMLuVloOvzwqVik=
+  dependencies:
+    lodash "^4.17.4"
+    platform "^1.3.3"
+
 bfj@7.0.1:
   version "7.0.1"
   resolved "https://registry.yarnpkg.com/bfj/-/bfj-7.0.1.tgz#da7d3da7adb59124809675c984727a5a673feef9"
@@ -16594,6 +16607,11 @@ pkg-up@^1.0.0:
   integrity sha1-Pgj7RhUlxEIWJKM7n35tCvWwWiY=
   dependencies:
     find-up "^1.0.0"
+
+platform@^1.3.3:
+  version "1.3.6"
+  resolved "https://registry.yarnpkg.com/platform/-/platform-1.3.6.tgz#48b4ce983164b209c2d45a107adb31f473a6e7a7"
+  integrity sha512-fnWVljUchTro6RiCFvCXBbNhJc2NijN7oIQxbwsyL0buWJPG85v81ehlHI9fXrJsMNgTofEoWIQeClKpgxFLrg==
 
 pn@^1.1.0:
   version "1.1.0"

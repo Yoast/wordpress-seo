@@ -4,7 +4,27 @@ All notable changes to this project will be documented in this file. Releases wi
 
 We follow [Semantic Versioning](http://semver.org/).
 
-## 2.9.0 September 14th, 2020
+## 2.11.0 October 26th, 2020
+### Bugfixes
+* Fixes a bug where the Select's onOptionFocus would not be called.
+* Fixes a bug where the Edit variant of the NewButton had a misaligned icon.
+* Fixes a bug where the new Button component could not be imported via the package index.
+
+## 2.10.0 October 13th, 2020
+### Enhancements
+* Adds SingleSelect component, which is based on the MultiSelect implementation.
+* Introduces the new table HTML and CSS setup.
+* Includes table.css in monorepo.css.
+
+### Bugfixes
+* Fixes a bug where the new Button component could not be imported via the package index.
+* Fixes a bug where the font size for the field group and the font weight for the table header would not be set correctly.
+
+### Other
+* Adds an id to the MultiSelect's input field.
+* Adjusts the styling provided for the modal component to use it for the Gutenberg Modal component.
+
+## 2.9.0 September 17th, 2020
 ### Enhancements
 * Changes `TextInput`, `TextArea`, `LabeledRadioButton`, `Select`, and `MultiSelect` to controlled components, their value should be passed from a higher order component.
 * Changes the `MultiSelect` implementation to use `react-select` instead of `select2`.
