@@ -1,5 +1,6 @@
 import { dispatch } from "@wordpress/data";
 import firstImageUrlInContent from "../helpers/firstImageUrlInContent";
+import { get } from "lodash";
 
 const editorData = {
 	content: "",
@@ -32,9 +33,10 @@ function getContent() {
  * @returns {string} The image URL.
  */
 function getImageUrl( content ) {
-	const { url } = window.elementor.settings.page.model.get( "post_featured_image" );
+	const featuredImage = window.elementor.settings.page.model.get( "post_featured_image" );
+	const url = get( featuredImage, "url", "" );
 
-	if ( ! url || url === "" ) {
+	if ( url === "" ) {
 		return firstImageUrlInContent( content );
 	}
 
