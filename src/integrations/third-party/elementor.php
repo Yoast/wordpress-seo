@@ -158,10 +158,10 @@ class Elementor implements Integration_Interface {
 		$meta_boxes = \apply_filters( 'wpseo_save_metaboxes', [] );
 		$meta_boxes = \array_merge(
 			$meta_boxes,
-			WPSEO_Meta::get_meta_field_defs( 'general', $post ),
+			WPSEO_Meta::get_meta_field_defs( 'general', $post->post_type ),
 			WPSEO_Meta::get_meta_field_defs( 'advanced' ),
 			$social_fields,
-			WPSEO_Meta::get_meta_field_defs( 'schema', $post )
+			WPSEO_Meta::get_meta_field_defs( 'schema', $post->post_type )
 		);
 
 		foreach ( $meta_boxes as $key => $meta_box ) {
