@@ -8,7 +8,9 @@ namespace Yoast\WP\SEO\Conditionals;
 class Yoast_Admin_And_Dashboard_Conditional implements Conditional {
 
 	/**
-	 * @inheritDoc
+	 * Returns whether or not this conditional is met.
+	 *
+	 * @return boolean Whether or not the conditional is met.
 	 */
 	public function is_met() {
 		global $pagenow;
