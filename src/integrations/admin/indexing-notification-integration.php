@@ -4,7 +4,6 @@ namespace Yoast\WP\SEO\Integrations\Admin;
 
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
-use Yoast\WP\SEO\Helpers\Date_Helper;
 use Yoast\WP\SEO\Helpers\Indexing_Helper;
 use Yoast\WP\SEO\Helpers\Notification_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
@@ -53,13 +52,6 @@ class Indexing_Notification_Integration implements Integration_Interface {
 	const REASON_HOME_URL_OPTION = 'home_url_option_changed';
 
 	/**
-	 * The indexing integration.
-	 *
-	 * @var Indexing_Tool_Integration
-	 */
-	protected $indexing_integration;
-
-	/**
 	 * The Yoast notification center.
 	 *
 	 * @var Yoast_Notification_Center
@@ -79,13 +71,6 @@ class Indexing_Notification_Integration implements Integration_Interface {
 	 * @var Current_Page_Helper
 	 */
 	protected $page_helper;
-
-	/**
-	 * The date helper.
-	 *
-	 * @var Date_Helper
-	 */
-	protected $date_helper;
 
 	/**
 	 * The short link helper.
@@ -111,30 +96,24 @@ class Indexing_Notification_Integration implements Integration_Interface {
 	/**
 	 * Indexing_Notification_Integration constructor.
 	 *
-	 * @param Indexing_Tool_Integration $indexing_integration The indexing integration.
 	 * @param Yoast_Notification_Center $notification_center  The notification center.
 	 * @param Product_Helper            $product_helper       The product helper.
 	 * @param Current_Page_Helper       $page_helper          The current page helper.
-	 * @param Date_Helper               $date_helper          The date helper.
 	 * @param Short_Link_Helper         $short_link_helper    The short link helper.
 	 * @param Notification_Helper       $notification_helper  The notification helper.
 	 * @param Indexing_Helper           $indexing_helper      The indexing helper.
 	 */
 	public function __construct(
-		Indexing_Tool_Integration $indexing_integration,
 		Yoast_Notification_Center $notification_center,
 		Product_Helper $product_helper,
 		Current_Page_Helper $page_helper,
-		Date_Helper $date_helper,
 		Short_Link_Helper $short_link_helper,
 		Notification_Helper $notification_helper,
 		Indexing_Helper $indexing_helper
 	) {
-		$this->indexing_integration = $indexing_integration;
 		$this->notification_center  = $notification_center;
 		$this->product_helper       = $product_helper;
 		$this->page_helper          = $page_helper;
-		$this->date_helper          = $date_helper;
 		$this->short_link_helper    = $short_link_helper;
 		$this->notification_helper  = $notification_helper;
 		$this->indexing_helper      = $indexing_helper;
@@ -193,11 +172,15 @@ class Indexing_Notification_Integration implements Integration_Interface {
 	public function maybe_cleanup_notification() {
 		$notification = $this->notification_center->get_notification_by_id( self::NOTIFICATION_ID );
 
-		if ( $notification === null || $this->should_show_notification() ) {
+		if ( $notification === null ) {
 			return;
 		}
 
-		$this->notification_center->remove_notification( $notification );
+		if ( $this->should_show_notification() ) {
+			return;
+		}
+
+		$this->notification_center->remove_notification_by_id( self::NOTIFICATION_ID );
 	}
 
 	/**
@@ -212,7 +195,7 @@ class Indexing_Notification_Integration implements Integration_Interface {
 		}
 
 		// Never show a notification when nothing should be indexed.
-		return $this->indexing_integration->get_unindexed_count() > 0;
+		return $this->indexing_helper->get_filtered_unindexed_count() > 0;
 	}
 
 	/**
@@ -248,7 +231,7 @@ class Indexing_Notification_Integration implements Integration_Interface {
 			$presenter = new Indexing_Failed_Notification_Presenter( $this->product_helper );
 		}
 		else {
-			$total_unindexed = $this->indexing_integration->get_unindexed_count();
+			$total_unindexed = $this->indexing_helper->get_filtered_unindexed_count();
 			$presenter       = new Indexing_Notification_Presenter( $this->short_link_helper, $total_unindexed, $reason );
 		}
 

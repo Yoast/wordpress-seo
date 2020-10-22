@@ -2,7 +2,15 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Helpers;
 
+use Brain\Monkey;
 use Mockery;
+use Yoast\WP\SEO\Actions\Indexing\Indexable_General_Indexation_Action;
+use Yoast\WP\SEO\Actions\Indexing\Indexable_Indexing_Complete_Action;
+use Yoast\WP\SEO\Actions\Indexing\Indexable_Post_Indexation_Action;
+use Yoast\WP\SEO\Actions\Indexing\Indexable_Post_Type_Archive_Indexation_Action;
+use Yoast\WP\SEO\Actions\Indexing\Indexable_Term_Indexation_Action;
+use Yoast\WP\SEO\Actions\Indexing\Post_Link_Indexing_Action;
+use Yoast\WP\SEO\Actions\Indexing\Term_Link_Indexing_Action;
 use Yoast\WP\SEO\Helpers\Date_Helper;
 use Yoast\WP\SEO\Helpers\Indexing_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
@@ -50,6 +58,48 @@ class Indexing_Helper_Test extends TestCase {
 	protected $notification_center;
 
 	/**
+	 * The post indexable indexation action.
+	 *
+	 * @var Mockery\MockInterface|Indexable_Post_Indexation_Action
+	 */
+	protected $post_indexation;
+
+	/**
+	 * The term indexable indexation action.
+	 *
+	 * @var Mockery\MockInterface|Indexable_Term_Indexation_Action
+	 */
+	protected $term_indexation;
+
+	/**
+	 * The post type archive indexable indexation action.
+	 *
+	 * @var Mockery\MockInterface|Indexable_Post_Type_Archive_Indexation_Action
+	 */
+	protected $post_type_archive_indexation;
+
+	/**
+	 * The general indexable indexation action.
+	 *
+	 * @var Mockery\MockInterface|Indexable_General_Indexation_Action
+	 */
+	protected $general_indexation;
+
+	/**
+	 * The post link indexing action.
+	 *
+	 * @var Mockery\MockInterface|Indexable_Indexing_Complete_Action
+	 */
+	protected $post_link_indexing_action;
+
+	/**
+	 * The term link indexing action.
+	 *
+	 * @var Mockery\MockInterface|Term_Link_Indexing_Action
+	 */
+	protected $term_link_indexing_action;
+
+	/**
 	 * Sets up the class under test and mock objects.
 	 */
 	public function setUp() {
@@ -63,6 +113,21 @@ class Indexing_Helper_Test extends TestCase {
 			$this->date_helper,
 			$this->notification_center
 		);
+
+		$this->post_indexation              = Mockery::mock( Indexable_Post_Indexation_Action::class );
+		$this->term_indexation              = Mockery::mock( Indexable_Term_Indexation_Action::class );
+		$this->post_type_archive_indexation = Mockery::mock( Indexable_Post_Type_Archive_Indexation_Action::class );
+		$this->general_indexation           = Mockery::mock( Indexable_General_Indexation_Action::class );
+		$this->post_link_indexing_action    = Mockery::mock( Post_Link_Indexing_Action::class );
+		$this->term_link_indexing_action    = Mockery::mock( Term_Link_Indexing_Action::class );
+		$this->instance->set_indexing_actions(
+			$this->post_indexation,
+			$this->term_indexation,
+			$this->post_type_archive_indexation,
+			$this->general_indexation,
+			$this->post_link_indexing_action,
+			$this->term_link_indexing_action
+		);
 	}
 
 	/**
@@ -73,6 +138,20 @@ class Indexing_Helper_Test extends TestCase {
 	public function test_construct() {
 		$this->assertAttributeInstanceOf( Options_Helper::class, 'options_helper', $this->instance );
 		$this->assertAttributeInstanceOf( Date_Helper::class, 'date_helper', $this->instance );
+	}
+
+	/**
+	 * Sets the setting of the indexing actions.
+	 *
+	 * @covers ::set_indexing_actions
+	 */
+	public function test_set_indexing_actions() {
+		static::assertAttributeInstanceOf( Indexable_Post_Indexation_Action::class, 'post_indexation', $this->instance );
+		static::assertAttributeInstanceOf( Indexable_Term_Indexation_Action::class, 'term_indexation', $this->instance );
+		static::assertAttributeInstanceOf( Indexable_Post_Type_Archive_Indexation_Action::class, 'post_type_archive_indexation', $this->instance );
+		static::assertAttributeInstanceOf( Indexable_General_Indexation_Action::class, 'general_indexation', $this->instance );
+		static::assertAttributeInstanceOf( Post_Link_Indexing_Action::class, 'post_link_indexing_action', $this->instance );
+		static::assertAttributeInstanceOf( Term_Link_Indexing_Action::class, 'term_link_indexing_action', $this->instance );
 	}
 
 	/**
@@ -209,5 +288,86 @@ class Indexing_Helper_Test extends TestCase {
 			->andReturnTrue();
 
 		$this->assertTrue( $this->instance->is_initial_indexing() );
+	}
+
+	/**
+	 * Tests the retrieval of the unindexed count.
+	 *
+	 * @covers ::get_unindexed_count
+	 */
+	public function test_get_unindexed_count() {
+		$this->post_indexation
+			->expects( 'get_total_unindexed' )
+			->once()
+			->andReturn( 0 );
+
+		$this->term_indexation
+			->expects( 'get_total_unindexed' )
+			->once()
+			->andReturn( 0 );
+
+		$this->general_indexation
+			->expects( 'get_total_unindexed' )
+			->once()
+			->andReturn( 0 );
+
+		$this->post_type_archive_indexation
+			->expects( 'get_total_unindexed' )
+			->once()
+			->andReturn( 0 );
+
+		$this->post_link_indexing_action
+			->expects( 'get_total_unindexed' )
+			->once()
+			->andReturn( 0 );
+
+		$this->term_link_indexing_action
+			->expects( 'get_total_unindexed' )
+			->once()
+			->andReturn( 0 );
+
+		static::assertEquals( 0, $this->instance->get_unindexed_count() );
+	}
+
+	/**
+	 * Tests the retrieval of the filtered unindexed count.
+	 *
+	 * @covers ::get_filtered_unindexed_count
+	 */
+	public function test_get_filtered_unindexed_count() {
+		$this->post_indexation
+			->expects( 'get_total_unindexed' )
+			->once()
+			->andReturn( 0 );
+
+		$this->term_indexation
+			->expects( 'get_total_unindexed' )
+			->once()
+			->andReturn( 0 );
+
+		$this->general_indexation
+			->expects( 'get_total_unindexed' )
+			->once()
+			->andReturn( 0 );
+
+		$this->post_type_archive_indexation
+			->expects( 'get_total_unindexed' )
+			->once()
+			->andReturn( 0 );
+
+		$this->post_link_indexing_action
+			->expects( 'get_total_unindexed' )
+			->once()
+			->andReturn( 0 );
+
+		$this->term_link_indexing_action
+			->expects( 'get_total_unindexed' )
+			->once()
+			->andReturn( 0 );
+
+		Monkey\Filters\expectApplied( 'wpseo_indexing_get_unindexed_count' )
+			->andReturn( 20 );
+
+		static::assertEquals( 20, $this->instance->get_filtered_unindexed_count() );
 	}
 }

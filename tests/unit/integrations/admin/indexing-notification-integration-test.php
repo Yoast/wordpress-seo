@@ -7,7 +7,6 @@ use Mockery;
 use Yoast_Notification_Center;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
-use Yoast\WP\SEO\Helpers\Date_Helper;
 use Yoast\WP\SEO\Helpers\Indexing_Helper;
 use Yoast\WP\SEO\Helpers\Notification_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
@@ -21,6 +20,9 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Integrations\Admin\Indexing_Notification_Integration
  * @covers \Yoast\WP\SEO\Integrations\Admin\Indexing_Notification_Integration
+ *
+ * @group integrations
+ * @group indexing
  */
 class Indexing_Notification_Integration_Test extends TestCase {
 
@@ -60,13 +62,6 @@ class Indexing_Notification_Integration_Test extends TestCase {
 	protected $page_helper;
 
 	/**
-	 * The date helper.
-	 *
-	 * @var Mockery\MockInterface|Date_Helper
-	 */
-	protected $date_helper;
-
-	/**
 	 * The short link helper.
 	 *
 	 * @var Mockery\MockInterface|Short_Link_Helper
@@ -93,21 +88,17 @@ class Indexing_Notification_Integration_Test extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->indexing_tool_integration = Mockery::mock( Indexing_Tool_Integration::class );
-		$this->notification_center       = Mockery::mock( \Yoast_Notification_Center::class );
-		$this->product_helper            = Mockery::mock( Product_Helper::class );
-		$this->page_helper               = Mockery::mock( Current_Page_Helper::class );
-		$this->date_helper               = Mockery::mock( Date_Helper::class );
-		$this->short_link_helper         = Mockery::mock( Short_Link_Helper::class );
-		$this->notification_helper       = Mockery::mock( Notification_Helper::class );
-		$this->indexing_helper           = Mockery::mock( Indexing_Helper::class );
+		$this->notification_center = Mockery::mock( \Yoast_Notification_Center::class );
+		$this->product_helper      = Mockery::mock( Product_Helper::class );
+		$this->page_helper         = Mockery::mock( Current_Page_Helper::class );
+		$this->short_link_helper   = Mockery::mock( Short_Link_Helper::class );
+		$this->notification_helper = Mockery::mock( Notification_Helper::class );
+		$this->indexing_helper     = Mockery::mock( Indexing_Helper::class );
 
 		$this->instance = new Indexing_Notification_Integration(
-			$this->indexing_tool_integration,
 			$this->notification_center,
 			$this->product_helper,
 			$this->page_helper,
-			$this->date_helper,
 			$this->short_link_helper,
 			$this->notification_helper,
 			$this->indexing_helper
@@ -121,11 +112,6 @@ class Indexing_Notification_Integration_Test extends TestCase {
 	 */
 	public function test_constructor() {
 		$this->assertAttributeInstanceOf(
-			Indexing_Tool_Integration::class,
-			'indexing_integration',
-			$this->instance
-		);
-		$this->assertAttributeInstanceOf(
 			Yoast_Notification_Center::class,
 			'notification_center',
 			$this->instance
@@ -138,11 +124,6 @@ class Indexing_Notification_Integration_Test extends TestCase {
 		$this->assertAttributeInstanceOf(
 			Current_Page_Helper::class,
 			'page_helper',
-			$this->instance
-		);
-		$this->assertAttributeInstanceOf(
-			Date_Helper::class,
-			'date_helper',
 			$this->instance
 		);
 		$this->assertAttributeInstanceOf(
@@ -168,26 +149,20 @@ class Indexing_Notification_Integration_Test extends TestCase {
 	 *
 	 * @covers ::register_hooks
 	 */
-	public function test_register_hooks_create_notification() {
-		$this->markTestSkipped( 'P2-436' );
+	public function test_register_hooks_maybe_create_notification() {
 		$this->page_helper
 			->expects( 'get_current_yoast_seo_page' )
 			->once()
 			->andReturn( 'another_page' );
 
-		Monkey\Functions\expect( 'wp_next_scheduled' )
-			->twice()
-			->andReturn( true );
-
 		Monkey\Actions\expectAdded( Indexing_Notification_Integration::NOTIFICATION_ID )
-			->with( [ $this->instance, 'create_notification' ] )
+			->with( [ $this->instance, 'maybe_create_notification' ] )
 			->once();
 
-		$this->options_helper
-			->expects( 'get' )
-			->with( 'indexing_reason' )
+		$this->indexing_helper
+			->expects( 'has_reason' )
 			->once()
-			->andReturn( '' );
+			->andReturnFalse();
 
 		$this->instance->register_hooks();
 	}
@@ -198,65 +173,24 @@ class Indexing_Notification_Integration_Test extends TestCase {
 	 *
 	 * @covers ::register_hooks
 	 */
-	public function test_register_hooks_cleanup_notification() {
-		$this->markTestSkipped( 'P2-436' );
+	public function test_register_hooks_maybe_cleanup_notification() {
 		$this->page_helper
 			->expects( 'get_current_yoast_seo_page' )
 			->once()
 			->andReturn( 'wpseo_dashboard' );
 
 		Monkey\Actions\expectAdded( 'admin_init' )
-			->with( [ $this->instance, 'cleanup_notification' ] )
+			->with( [ $this->instance, 'maybe_cleanup_notification' ] )
 			->once();
-
-		Monkey\Functions\expect( 'wp_next_scheduled' )
-			->twice()
-			->andReturn( true );
 
 		Monkey\Actions\expectAdded( Indexing_Notification_Integration::NOTIFICATION_ID )
-			->with( [ $this->instance, 'create_notification' ] )
+			->with( [ $this->instance, 'maybe_create_notification' ] )
 			->once();
 
-		$this->options_helper
-			->expects( 'get' )
-			->with( 'indexing_reason' )
+		$this->indexing_helper
+			->expects( 'has_reason' )
 			->once()
-			->andReturn( '' );
-
-		$this->instance->register_hooks();
-	}
-
-	/**
-	 * Tests the registration of the hooks.
-	 * Tests whether the notification is scheduled.
-	 *
-	 * @covers ::register_hooks
-	 */
-	public function test_register_hooks_schedule_notification() {
-		$this->markTestSkipped( 'P2-436' );
-		$this->page_helper
-			->expects( 'get_current_yoast_seo_page' )
-			->once()
-			->andReturn( 'another_page' );
-
-		Monkey\Functions\expect( 'wp_next_scheduled' )
-			->twice()
-			->andReturn( false );
-
-		$mocked_time = 1234567;
-
-		$this->date_helper
-			->expects( 'current_time' )
-			->andReturn( $mocked_time );
-
-		Monkey\Functions\expect( 'wp_schedule_event' )
-			->with( $mocked_time, 'daily', Indexing_Notification_Integration::NOTIFICATION_ID );
-
-		$this->options_helper
-			->expects( 'get' )
-			->with( 'indexing_reason' )
-			->once()
-			->andReturn( '' );
+			->andReturnFalse();
 
 		$this->instance->register_hooks();
 	}
@@ -268,30 +202,15 @@ class Indexing_Notification_Integration_Test extends TestCase {
 	 * @covers ::register_hooks
 	 */
 	public function test_register_hooks_create_notification_on_reason() {
-		$this->markTestSkipped( 'P2-436' );
 		$this->page_helper
 			->expects( 'get_current_yoast_seo_page' )
 			->once()
 			->andReturn( 'another_page' );
 
-		Monkey\Functions\expect( 'wp_next_scheduled' )
+		$this->indexing_helper
+			->expects( 'has_reason' )
 			->once()
-			->andReturn( false );
-
-		$mocked_time = 1234567;
-
-		$this->date_helper
-			->expects( 'current_time' )
-			->andReturn( $mocked_time );
-
-		Monkey\Functions\expect( 'wp_schedule_event' )
-			->with( $mocked_time, 'daily', Indexing_Notification_Integration::NOTIFICATION_ID );
-
-		$this->options_helper
-			->expects( 'get' )
-			->with( 'indexing_reason' )
-			->once()
-			->andReturn( Indexing_Notification_Integration::REASON_CATEGORY_BASE_PREFIX );
+			->andReturnTrue();
 
 		$this->instance->register_hooks();
 	}
@@ -302,7 +221,7 @@ class Indexing_Notification_Integration_Test extends TestCase {
 	 * @covers ::get_conditionals
 	 */
 	public function test_get_conditionals() {
-		$this->assertSame(
+		static::assertSame(
 			[ Admin_Conditional::class ],
 			Indexing_Notification_Integration::get_conditionals()
 		);
@@ -311,46 +230,76 @@ class Indexing_Notification_Integration_Test extends TestCase {
 	/**
 	 * Tests creating the notification when there are no unindexed items.
 	 *
-	 * @covers ::create_notification
+	 * @covers ::maybe_create_notification
 	 * @covers ::should_show_notification
 	 */
 	public function test_create_notification_no_unindexed_items() {
-		$this->markTestSkipped( 'P2-436' );
-		$this->indexing_tool_integration
-			->expects( 'get_unindexed_count' )
+		$this->indexing_helper
+			->expects( 'get_started' )
+			->andReturn( 0 );
+
+		$this->indexing_helper
+			->expects( 'get_filtered_unindexed_count' )
 			->once()
 			->andReturn( 0 );
 
-		$this->options_helper
-			->expects( 'get' )
+		$this->notification_center
+			->expects( 'add_notification' )
+			->never();
+
+		$this->instance->maybe_create_notification();
+	}
+
+	/**
+	 * Tests creating the notification when there are items to index, but the
+	 * user has interrupted the indexing process.
+	 *
+	 * @covers ::maybe_create_notification
+	 * @covers ::should_show_notification
+	 */
+	public function test_create_notification_with_having_indexing_started() {
+		$this->indexing_helper
+			->expects( 'get_started' )
+			->andReturn( 123456789 );
+
+		$this->indexing_helper
+			->expects( 'get_filtered_unindexed_count' )
 			->never();
 
 		$this->notification_center
 			->expects( 'add_notification' )
 			->never();
 
-		$this->instance->create_notification();
+		$this->instance->maybe_create_notification();
 	}
 
 	/**
 	 * Tests creating the notification with the reason being that indexing has failed.
 	 *
-	 * @covers ::create_notification
+	 * @covers ::maybe_create_notification
 	 * @covers ::should_show_notification
 	 * @covers ::notification
 	 */
-	public function test_create_notification_with_indexing_failed_reason() {
-		$this->markTestSkipped( 'P2-436' );
-		$this->indexing_tool_integration
-			->expects( 'get_unindexed_count' )
+	public function test_maybe_create_notification_with_indexing_failed_reason() {
+		$this->indexing_helper
+			->expects( 'get_started' )
+			->andReturn( 0 );
+
+		$this->indexing_helper
+			->expects( 'get_filtered_unindexed_count' )
 			->once()
 			->andReturn( 40 );
 
-		$this->options_helper
-			->expects( 'get' )
-			->with( 'indexing_reason', '' )
-			->twice()
-			->andReturn( 'indexing_failed' );
+		$this->notification_center
+			->expects( 'get_notification_by_id' )
+			->with( Indexing_Notification_Integration::NOTIFICATION_ID )
+			->once()
+			->andReturnFalse();
+
+		$this->indexing_helper
+			->expects( 'get_reason' )
+			->once()
+			->andReturn( Indexing_Notification_Integration::REASON_INDEXING_FAILED );
 
 		Monkey\Functions\expect( 'wp_get_current_user' )
 			->andReturn( 'user' );
@@ -359,43 +308,44 @@ class Indexing_Notification_Integration_Test extends TestCase {
 			->expects( 'restore_notification' )
 			->once();
 
-		$this->options_helper
-			->expects( 'set' )
-			->once();
-
 		$this->notification_center
 			->expects( 'add_notification' )
 			->once();
 
-		$this->instance->create_notification();
+		$this->instance->maybe_create_notification();
 	}
 
 	/**
 	 * Tests creating the notification when there is an other reason to index.
 	 *
-	 * @covers ::create_notification
+	 * @covers ::maybe_create_notification
 	 * @covers ::should_show_notification
 	 * @covers ::notification
-	 * @covers ::get_notification_message
 	 *
 	 * @dataProvider reason_provider
 	 *
 	 * @param string $reason The reason for indexing.
 	 */
-	public function test_create_notification_with_indexing_reasons( $reason ) {
-		$this->markTestSkipped( 'P2-436' );
-		$this->indexing_tool_integration
-			->expects( 'get_unindexed_count' )
+	public function test_maybe_create_notification_with_indexing_reasons( $reason ) {
+		$this->indexing_helper
+			->expects( 'get_started' )
+			->andReturn( 0 );
+
+		$this->indexing_helper
+			->expects( 'get_filtered_unindexed_count' )
 			->twice()
 			->andReturn( 40 );
 
-		$this->options_helper
-			->expects( 'get' )
-			->with( 'indexing_reason', '' )
-			->twice()
-			->andReturn( $reason );
+		$this->notification_center
+			->expects( 'get_notification_by_id' )
+			->with( Indexing_Notification_Integration::NOTIFICATION_ID )
+			->once()
+			->andReturnFalse();
 
-		Monkey\Filters\expectApplied( 'wpseo_indexables_indexation_alert' );
+		$this->indexing_helper
+			->expects( 'get_reason' )
+			->once()
+			->andReturn( $reason );
 
 		Monkey\Functions\expect( 'wp_get_current_user' )
 			->andReturn( 'user' );
@@ -404,15 +354,11 @@ class Indexing_Notification_Integration_Test extends TestCase {
 			->expects( 'restore_notification' )
 			->once();
 
-		$this->options_helper
-			->expects( 'set' )
-			->once();
-
 		$this->notification_center
 			->expects( 'add_notification' )
 			->once();
 
-		$this->instance->create_notification();
+		$this->instance->maybe_create_notification();
 	}
 
 	/**
@@ -429,276 +375,109 @@ class Indexing_Notification_Integration_Test extends TestCase {
 	}
 
 	/**
-	 * Tests creating the notification when there is no indexing reason.
-	 *
-	 * @covers ::create_notification
-	 * @covers ::should_show_notification
-	 * @covers ::notification
-	 * @covers ::get_notification_message
-	 */
-	public function test_create_notification_with_no_reason() {
-		$this->markTestSkipped( 'P2-436' );
-		$mocked_time = 1653426177;
-
-		$this->date_helper
-			->expects( 'current_time' )
-			->once()
-			->andReturn( $mocked_time );
-
-		$this->indexing_tool_integration
-			->expects( 'get_unindexed_count' )
-			->twice()
-			->andReturn( 40 );
-
-		$this->options_helper
-			->expects( 'get' )
-			->with( 'indexing_reason', '' )
-			->twice()
-			->andReturn( '' );
-
-		$this->options_helper
-			->expects( 'get' )
-			->with( 'indexation_started' )
-			->once()
-			->andReturn( 1593426177 );
-
-		Monkey\Functions\expect( 'wp_get_current_user' )
-			->andReturn( 'user' );
-
-		$this->notification_helper
-			->expects( 'restore_notification' )
-			->once();
-
-		$this->options_helper
-			->expects( 'set' )
-			->once();
-
-		$this->notification_center
-			->expects( 'add_notification' )
-			->once();
-
-		$this->instance->create_notification();
-	}
-
-	/**
-	 * Tests whether a notification is shown when the "Hide for 7 days" is clicked and the 7 days have expired.
-	 *
-	 * @covers ::create_notification
-	 * @covers ::should_show_notification
-	 * @covers ::notification
-	 */
-	public function test_create_notification_when_hide_has_expired() {
-		$this->markTestSkipped( 'P2-436' );
-		$mocked_time = 1653426177;
-
-		$this->date_helper
-			->expects( 'current_time' )
-			->twice()
-			->andReturn( $mocked_time );
-
-		$this->indexing_tool_integration
-			->expects( 'get_unindexed_count' )
-			->twice()
-			->andReturn( 40 );
-
-		$this->options_helper
-			->expects( 'get' )
-			->with( 'indexing_reason', '' )
-			->twice()
-			->andReturn( '' );
-
-		$this->options_helper
-			->expects( 'get' )
-			->with( 'indexation_started' )
-			->once()
-			->andReturn( 1593426177 );
-
-		Monkey\Functions\expect( 'wp_get_current_user' )
-			->andReturn( 'user' );
-
-		$this->notification_helper
-			->expects( 'restore_notification' )
-			->once();
-
-		$this->options_helper
-			->expects( 'set' )
-			->once();
-
-		$this->notification_center
-			->expects( 'add_notification' )
-			->once();
-
-		$this->instance->create_notification();
-	}
-
-	/**
-	 * Tests whether a notification is shown when the "Hide for 7 days" is clicked and the 7 days have NOT expired.
-	 *
-	 * @covers ::create_notification
-	 * @covers ::should_show_notification
-	 */
-	public function test_create_notification_when_hide_has_not_expired() {
-		$this->markTestSkipped( 'P2-436' );
-		$mocked_time = 1653426177;
-
-		$this->date_helper
-			->expects( 'current_time' )
-			->twice()
-			->andReturn( $mocked_time );
-
-		$this->indexing_tool_integration
-			->expects( 'get_unindexed_count' )
-			->once()
-			->andReturn( 40 );
-
-		$this->options_helper
-			->expects( 'get' )
-			->with( 'indexing_reason', '' )
-			->once()
-			->andReturn( '' );
-
-		$this->options_helper
-			->expects( 'get' )
-			->with( 'indexation_started' )
-			->once()
-			->andReturn( 1593426177 );
-
-		Monkey\Functions\expect( 'wp_get_current_user' )
-			->andReturn( 'user' );
-
-		$this->instance->create_notification();
-	}
-
-	/**
-	 * Tests that no notification is created when the user stopped the
-	 * indexing process manually.
-	 *
-	 * @covers ::create_notification
-	 * @covers ::should_show_notification
-	 * @covers ::notification
-	 * @covers ::get_notification_message
-	 */
-	public function test_create_notification_when_user_stopped_it() {
-		$this->markTestSkipped( 'P2-436' );
-		$mocked_time = 1353426177;
-
-		$this->date_helper
-			->expects( 'current_time' )
-			->andReturn( $mocked_time );
-
-		$this->indexing_tool_integration
-			->expects( 'get_unindexed_count' )
-			->once()
-			->andReturn( 40 );
-
-		$this->options_helper
-			->expects( 'get' )
-			->with( 'indexing_reason', '' )
-			->once()
-			->andReturn( '' );
-
-		$this->options_helper
-			->expects( 'get' )
-			->with( 'indexation_started' )
-			->once()
-			->andReturn( 1593426177 );
-
-		Monkey\Functions\expect( 'wp_get_current_user' )
-			->andReturn( 'user' );
-
-		$this->notification_helper
-			->expects( 'restore_notification' )
-			->never();
-
-		$this->options_helper
-			->expects( 'set' )
-			->never();
-
-		$this->notification_center
-			->expects( 'add_notification' )
-			->never();
-
-		$this->instance->create_notification();
-	}
-
-	/**
 	 * Tests removing the notification from the notification center when there is no notification.
 	 *
-	 * @covers ::cleanup_notification
+	 * @covers ::maybe_cleanup_notification
 	 */
-	public function test_cleanup_notification_when_null() {
-		$this->markTestSkipped( 'P2-436' );
+	public function test_maybe_cleanup_notification_when_null() {
 		$this->notification_center
 			->expects( 'get_notification_by_id' )
 			->once()
 			->andReturnNull();
 
-		$this->options_helper
-			->expects( 'get' )
-			->never();
-
 		$this->notification_center
 			->expects( 'remove_notification' )
 			->never();
 
-		$this->instance->cleanup_notification();
+		$this->instance->maybe_cleanup_notification();
 	}
 
 	/**
-	 * Tests removing the notification from the notification center when the notification should be shown.
+	 * Tests removing the notification from the notification center when the user has started indexing, but
+	 * not completed it.
 	 *
-	 * @covers ::cleanup_notification
+	 * @covers ::maybe_cleanup_notification
 	 * @covers ::should_show_notification
 	 */
-	public function test_cleanup_notification_when_it_should_be_shown() {
-		$this->markTestSkipped( 'P2-436' );
+	public function test_maybe_cleanup_notification_when_there_is_something_to_index() {
 		$this->notification_center
 			->expects( 'get_notification_by_id' )
 			->once()
 			->andReturn( 'the_notification' );
 
-		$this->indexing_tool_integration
-			->expects( 'get_unindexed_count' )
+		$this->indexing_helper
+			->expects( 'get_started' )
+			->once()
+			->andReturn( 0 );
+
+		$this->indexing_helper
+			->expects( 'get_filtered_unindexed_count' )
 			->once()
 			->andReturn( 40 );
 
-		$this->options_helper
-			->expects( 'get' )
-			->with( 'indexing_reason', '' )
-			->once()
-			->andReturn( 'indexing_failed' );
-
 		$this->notification_center
-			->expects( 'remove_notification' )
+			->expects( 'remove_notification_by_id' )
 			->never();
 
-		$this->instance->cleanup_notification();
+		$this->instance->maybe_cleanup_notification();
+	}
+
+	/**
+	 * Tests removing the notification from the notification center when the user has started indexing, but
+	 * not completed it.
+	 *
+	 * @covers ::maybe_cleanup_notification
+	 * @covers ::should_show_notification
+	 */
+	public function test_maybe_cleanup_notification_when_the_user_has_started_indexing_without_finishing() {
+		$this->notification_center
+			->expects( 'get_notification_by_id' )
+			->once()
+			->andReturn( 'the_notification' );
+
+		$this->indexing_helper
+			->expects( 'get_started' )
+			->once()
+			->andReturn( 123456789 );
+
+		$this->indexing_helper
+			->expects( 'get_filtered_unindexed_count' )
+			->never();
+
+		$this->notification_center
+			->expects( 'remove_notification_by_id' )
+			->with( Indexing_Notification_Integration::NOTIFICATION_ID )
+			->once();
+
+		$this->instance->maybe_cleanup_notification();
 	}
 
 	/**
 	 * Tests removing the notification from the notification center.
 	 *
-	 * @covers ::cleanup_notification
+	 * @covers ::maybe_cleanup_notification
 	 */
-	public function test_cleanup_notification() {
-		$this->markTestSkipped( 'P2-436' );
-		Monkey\Functions\expect( 'wp_get_current_user' )
-			->andReturn( 'user' );
-
+	public function test_maybe_cleanup_notification() {
 		$this->notification_center
 			->expects( 'get_notification_by_id' )
 			->once()
-			->andReturn( new Yoast_Notification( 'the_notification_message' ) );
+			->andReturn( 'the_notification' );
 
-		$this->indexing_tool_integration
-			->expects( 'get_unindexed_count' )
+		$this->indexing_helper
+			->expects( 'get_started' )
+			->once()
+			->andReturn( 0 );
+
+		$this->indexing_helper
+			->expects( 'get_filtered_unindexed_count' )
 			->once()
 			->andReturn( 0 );
 
 		$this->notification_center
-			->expects( 'remove_notification' )
+			->expects( 'remove_notification_by_id' )
+			->with( Indexing_Notification_Integration::NOTIFICATION_ID )
 			->once();
 
-		$this->instance->cleanup_notification();
+		$this->instance->maybe_cleanup_notification();
 	}
 }
