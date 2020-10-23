@@ -6,7 +6,7 @@ use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
 /**
- * General reindexation action for indexables.
+ * General reindexing action for indexables.
  */
 class Indexable_General_Indexation_Action implements Indexation_Action_Interface {
 

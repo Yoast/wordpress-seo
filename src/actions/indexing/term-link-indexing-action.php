@@ -6,7 +6,7 @@ use Yoast\WP\Lib\Model;
 use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
 
 /**
- * Reindexation action for term link indexables.
+ * Reindexing action for term link indexables.
  */
 class Term_Link_Indexing_Action extends Abstract_Link_Indexing_Action {
 

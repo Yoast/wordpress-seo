@@ -8,7 +8,7 @@ use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
 /**
- * Reindexation action for post type archive indexables.
+ * Reindexing action for post type archive indexables.
  */
 class Indexable_Post_Type_Archive_Indexation_Action implements Indexation_Action_Interface {
 

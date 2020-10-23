@@ -38,21 +38,21 @@ class Indexing_Helper {
 	protected $notification_center;
 
 	/**
-	 * The post indexation action.
+	 * The post indexing action.
 	 *
 	 * @var Indexable_Post_Indexation_Action
 	 */
 	protected $post_indexation;
 
 	/**
-	 * The term indexation action.
+	 * The term indexing action.
 	 *
 	 * @var Indexable_Term_Indexation_Action
 	 */
 	protected $term_indexation;
 
 	/**
-	 * The post type archive indexation action.
+	 * The post type archive indexing action.
 	 *
 	 * @var Indexable_Post_Type_Archive_Indexation_Action
 	 */
@@ -73,7 +73,7 @@ class Indexing_Helper {
 	protected $term_link_indexing_action;
 
 	/**
-	 * Represents the general indexation.
+	 * Represents the general indexing.
 	 *
 	 * @var Indexable_General_Indexation_Action
 	 */
@@ -126,7 +126,7 @@ class Indexing_Helper {
 	}
 
 	/**
-	 * Sets several database options when the indexable indexing process is started.
+	 * Sets several database options when the indexing process is started.
 	 *
 	 * @return void
 	 */
