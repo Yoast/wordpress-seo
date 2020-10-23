@@ -21,6 +21,24 @@ export default class AnalysisFields {
 	}
 
 	/**
+	 * Getter for the SEO (overall) score hidden field.
+	 *
+	 * @returns {HTMLElement} The SEO score hidden field.
+	 */
+	static get seoScoreElement() {
+		return document.getElementById( "yoast_wpseo_linkdex" );
+	}
+
+	/**
+	 * Getter for the Readability (overall) score hidden field.
+	 *
+	 * @returns {HTMLElement} The Readability score hidden field.
+	 */
+	static get readabilityScoreElement() {
+		return document.getElementById( "yoast_wpseo_content_score" );
+	}
+
+	/**
 	 * Setter for the keyphrase.
 	 *
 	 * @param {string} value The keyphrase.
@@ -58,5 +76,45 @@ export default class AnalysisFields {
 	 */
 	static get isCornerstone() {
 		return AnalysisFields.isCornerstoneElement.value === "true";
+	}
+
+	/**
+	 * Setter for the SEO (overall) score.
+	 *
+	 * @param {string} value The SEO (overall) score.
+	 *
+	 * @returns {void}
+	 */
+	static set seoScore( value ) {
+		AnalysisFields.seoScoreElement.value = value;
+	}
+
+	/**
+	 * Getter for the SEO (overall) score.
+	 *
+	 * @returns {string} The SEO (overall) score.
+	 */
+	static get seoScore() {
+		return AnalysisFields.seoScoreElement.value;
+	}
+
+	/**
+	 * Setter for the Readbility (overall) score.
+	 *
+	 * @param {string} value The Readbility (overall) score.
+	 *
+	 * @returns {void}
+	 */
+	static set readabilityScore( value ) {
+		AnalysisFields.readabilityScoreElement.value = value;
+	}
+
+	/**
+	 * Getter for the Readbility (overall) score.
+	 *
+	 * @returns {string} The Readbility (overall) score.
+	 */
+	static get readabilityScore() {
+		return AnalysisFields.readabilityScoreElement.value;
 	}
 }
