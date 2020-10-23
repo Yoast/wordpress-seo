@@ -8,7 +8,7 @@ use Yoast\WP\SEO\Actions\Indexing\Indexable_Indexing_Complete_Action;
 use Yoast\WP\SEO\Actions\Indexing\Indexable_General_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexing\Indexable_Post_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexing\Indexable_Post_Type_Archive_Indexation_Action;
-use Yoast\WP\SEO\Actions\Indexing\Indexable_Prepare_Indexation_Action;
+use Yoast\WP\SEO\Actions\Indexing\Indexing_Prepare_Action;
 use Yoast\WP\SEO\Actions\Indexing\Indexable_Term_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexing\Indexation_Action_Interface;
 use Yoast\WP\SEO\Actions\Indexing\Indexing_Complete_Action;
@@ -186,7 +186,7 @@ class Indexing_Route extends Abstract_Indexation_Route {
 	/**
 	 * The prepare indexing action.
 	 *
-	 * @var Indexable_Prepare_Indexation_Action
+	 * @var Indexing_Prepare_Action
 	 */
 	protected $prepare_indexation_action;
 
@@ -233,7 +233,7 @@ class Indexing_Route extends Abstract_Indexation_Route {
 	protected $indexing_helper;
 
 	/**
-	 * Indexable_Indexation_Route constructor.
+	 * Indexing_Route constructor.
 	 *
 	 * @param Indexable_Post_Indexation_Action              $post_indexation_action              The post indexing action.
 	 * @param Indexable_Term_Indexation_Action              $term_indexation_action              The term indexing action.
@@ -241,7 +241,7 @@ class Indexing_Route extends Abstract_Indexation_Route {
 	 * @param Indexable_General_Indexation_Action           $general_indexation_action           The general indexing action.
 	 * @param Indexable_Indexing_Complete_Action            $indexable_indexing_complete_action  The complete indexing action.
 	 * @param Indexing_Complete_Action                      $indexing_complete_action            The complete indexing action.
-	 * @param Indexable_Prepare_Indexation_Action           $prepare_indexation_action           The prepare indexing action.
+	 * @param Indexing_Prepare_Action                       $prepare_indexation_action           The prepare indexing action.
 	 * @param Post_Link_Indexing_Action                     $post_link_indexing_action           The post link indexing action.
 	 * @param Term_Link_Indexing_Action                     $term_link_indexing_action           The term link indexing action.
 	 * @param Options_Helper                                $options_helper                      The options helper.
@@ -254,7 +254,7 @@ class Indexing_Route extends Abstract_Indexation_Route {
 		Indexable_General_Indexation_Action $general_indexation_action,
 		Indexable_Indexing_Complete_Action $indexable_indexing_complete_action,
 		Indexing_Complete_Action $indexing_complete_action,
-		Indexable_Prepare_Indexation_Action $prepare_indexation_action,
+		Indexing_Prepare_Action $prepare_indexation_action,
 		Post_Link_Indexing_Action $post_link_indexing_action,
 		Term_Link_Indexing_Action $term_link_indexing_action,
 		Options_Helper $options_helper,
