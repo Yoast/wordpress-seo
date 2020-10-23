@@ -41,7 +41,7 @@ const wrappedSetReadabilityScore = ( readabilityScore ) => {
  * @returns {Object} A set overall seo score action.
  */
 const wrappedSetSeoScore = ( seoScore, keyword ) => {
-	AnalysisFields.readabilityScore = seoScore;
+	AnalysisFields.seoScore = seoScore;
 	return setOverallSeoScore( seoScore, keyword );
 };
 
