@@ -5,11 +5,11 @@ namespace Yoast\WP\SEO\Tests\Unit\Integrations\Watchers;
 use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
+use Yoast\WP\SEO\Config\Indexing_Reasons;
 use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
-use Yoast\WP\SEO\Integrations\Admin\Indexing_Notification_Integration;
 use Yoast\WP\SEO\Integrations\Watchers\Indexable_Permalink_Watcher;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
@@ -155,7 +155,7 @@ class Indexable_Permalink_Watcher_Test extends TestCase {
 	public function test_reset_permalinks_term() {
 		$this->indexable_helper
 			->expects( 'reset_permalink_indexables' )
-			->with( 'term', 'category', Indexing_Notification_Integration::REASON_CATEGORY_BASE_PREFIX )
+			->with( 'term', 'category', Indexing_Reasons::REASON_CATEGORY_BASE_PREFIX )
 			->once();
 
 		$this->instance->reset_permalinks_term( null, null, 'category_base' );
@@ -169,7 +169,7 @@ class Indexable_Permalink_Watcher_Test extends TestCase {
 	public function test_reset_permalinks_for_term_tag() {
 		$this->indexable_helper
 			->expects( 'reset_permalink_indexables' )
-			->with( 'term', 'post_tag', Indexing_Notification_Integration::REASON_TAG_BASE_PREFIX )
+			->with( 'term', 'post_tag', Indexing_Reasons::REASON_TAG_BASE_PREFIX )
 			->once();
 
 		$this->instance->reset_permalinks_term( null, null, 'tag_base' );

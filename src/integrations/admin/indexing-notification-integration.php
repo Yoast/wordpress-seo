@@ -3,6 +3,7 @@
 namespace Yoast\WP\SEO\Integrations\Admin;
 
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
+use Yoast\WP\SEO\Config\Indexing_Reasons;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Indexing_Helper;
 use Yoast\WP\SEO\Helpers\Notification_Helper;
@@ -237,7 +238,7 @@ class Indexing_Notification_Integration implements Integration_Interface {
 	 * @return Indexing_Failed_Notification_Presenter|Indexing_Notification_Presenter
 	 */
 	protected function get_presenter( $reason ) {
-		if ( $reason === self::REASON_INDEXING_FAILED ) {
+		if ( $reason === Indexing_Reasons::REASON_INDEXING_FAILED ) {
 			$presenter = new Indexing_Failed_Notification_Presenter( $this->product_helper );
 		}
 		else {
