@@ -768,7 +768,6 @@ class WPSEO_Upgrade {
 
 		$indexables_indexing_completed_value = WPSEO_Options::get( 'indexables_indexation_completed' );
 		WPSEO_Options::set( 'indexables_indexing_completed', $indexables_indexing_completed_value);
-
 	}
 
 	/**
