@@ -34,7 +34,7 @@ class Indexing_Route extends Abstract_Indexation_Route {
 	 *
 	 * @var string
 	 */
-	const COMPLETE_ROUTE = 'indexation/complete';
+	const COMPLETE_ROUTE = 'indexing/complete';
 
 	/**
 	 * The full indexing complete route constant.
@@ -48,7 +48,7 @@ class Indexing_Route extends Abstract_Indexation_Route {
 	 *
 	 * @var string
 	 */
-	const INDEXABLES_COMPLETE_ROUTE = 'indexation/indexables-complete';
+	const INDEXABLES_COMPLETE_ROUTE = 'indexing/indexables-complete';
 
 	/**
 	 * The full indexing complete route constant.
@@ -62,7 +62,7 @@ class Indexing_Route extends Abstract_Indexation_Route {
 	 *
 	 * @var string
 	 */
-	const PREPARE_ROUTE = 'indexation/prepare';
+	const PREPARE_ROUTE = 'indexing/prepare';
 
 	/**
 	 * The full indexing prepare route constant.
@@ -76,7 +76,7 @@ class Indexing_Route extends Abstract_Indexation_Route {
 	 *
 	 * @var string
 	 */
-	const POSTS_ROUTE = 'indexation/posts';
+	const POSTS_ROUTE = 'indexing/posts';
 
 	/**
 	 * The full posts route constant.
@@ -90,7 +90,7 @@ class Indexing_Route extends Abstract_Indexation_Route {
 	 *
 	 * @var string
 	 */
-	const TERMS_ROUTE = 'indexation/terms';
+	const TERMS_ROUTE = 'indexing/terms';
 
 	/**
 	 * The full terms route constant.
@@ -104,7 +104,7 @@ class Indexing_Route extends Abstract_Indexation_Route {
 	 *
 	 * @var string
 	 */
-	const POST_TYPE_ARCHIVES_ROUTE = 'indexation/post-type-archives';
+	const POST_TYPE_ARCHIVES_ROUTE = 'indexing/post-type-archives';
 
 	/**
 	 * The full terms route constant.
@@ -118,7 +118,7 @@ class Indexing_Route extends Abstract_Indexation_Route {
 	 *
 	 * @var string
 	 */
-	const GENERAL_ROUTE = 'indexation/general';
+	const GENERAL_ROUTE = 'indexing/general';
 
 	/**
 	 * The full general route constant.
