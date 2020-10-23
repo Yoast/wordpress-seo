@@ -8,9 +8,9 @@ namespace Yoast\WP\SEO\Conditionals;
 class Yoast_Admin_And_Dashboard_Conditional implements Conditional {
 
 	/**
-	 * Returns `true` when on the admin dashboard, update or Yoast SEO page.
+	 * Returns `true` when on the admin dashboard, update or Yoast SEO pages.
 	 *
-	 * @returns boolean `true` when on the admin dashboard, update or Yoast SEO page.
+	 * @returns bool `true` when on the admin dashboard, update or Yoast SEO pages.
 	 */
 	public function is_met() {
 		global $pagenow;
