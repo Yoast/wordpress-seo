@@ -12,6 +12,7 @@ use Yoast\WP\SEO\Actions\Indexing\Indexable_Term_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexing\Post_Link_Indexing_Action;
 use Yoast\WP\SEO\Actions\Indexing\Term_Link_Indexing_Action;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
+use Yoast\WP\SEO\Conditionals\No_Tool_Selected_Conditional;
 use Yoast\WP\SEO\Conditionals\Yoast_Tools_Page_Conditional;
 use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
@@ -177,8 +178,9 @@ class Indexing_Tool_Integration_Test extends TestCase {
 	public function test_get_conditionals() {
 		$actual   = Indexing_Tool_Integration::get_conditionals();
 		$expected = [
-			Yoast_Tools_Page_Conditional::class,
 			Migrations_Conditional::class,
+			No_Tool_Selected_Conditional::class,
+			Yoast_Tools_Page_Conditional::class,
 		];
 		$this->assertEquals( $expected, $actual );
 	}
