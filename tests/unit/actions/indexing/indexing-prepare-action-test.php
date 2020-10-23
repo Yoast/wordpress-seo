@@ -3,21 +3,21 @@
 namespace Yoast\WP\SEO\Tests\Unit\Actions\Indexing;
 
 use Mockery;
-use Yoast\WP\SEO\Actions\Indexing\Indexable_Prepare_Indexation_Action;
+use Yoast\WP\SEO\Actions\Indexing\Indexing_Prepare_Action;
 use Yoast\WP\SEO\Helpers\Indexing_Helper;
 use Yoast\WP\SEO\Integrations\Admin\Indexing_Notification_Integration;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 use Yoast_Notification_Center;
 
 /**
- * Class Indexable_Prepare_Indexation_Action_Test.
+ * Class Indexing_Prepare_Action.
  *
  * @group actions
  * @group indexing
  *
- * @coversDefaultClass \Yoast\WP\SEO\Actions\Indexing\Indexable_Prepare_Indexation_Action
+ * @coversDefaultClass \Yoast\WP\SEO\Actions\Indexing\Indexing_Prepare_Action
  */
-class Indexable_Prepare_Indexation_Action_Test extends TestCase {
+class Indexing_Prepare_Action_Test extends TestCase {
 
 	/**
 	 * The mocked indexing helper.
@@ -36,7 +36,7 @@ class Indexable_Prepare_Indexation_Action_Test extends TestCase {
 	/**
 	 * Instance under test.
 	 *
-	 * @var Indexable_Prepare_Indexation_Action
+	 * @var Indexing_Prepare_Action
 	 */
 	protected $instance;
 
@@ -48,7 +48,7 @@ class Indexable_Prepare_Indexation_Action_Test extends TestCase {
 		$this->indexing            = Mockery::mock( Indexing_Helper::class );
 		$this->notification_center = Mockery::mock( Yoast_Notification_Center::class );
 
-		$this->instance = new Indexable_Prepare_Indexation_Action(
+		$this->instance = new Indexing_Prepare_Action(
 			$this->indexing,
 			$this->notification_center
 		);
