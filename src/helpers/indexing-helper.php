@@ -192,7 +192,7 @@ class Indexing_Helper {
 	 * @return void
 	 */
 	public function set_started( $value ) {
-		$this->options_helper->set( 'indexation_started', $value );
+		$this->options_helper->set( 'indexing_started', $value );
 	}
 
 	/**
@@ -201,7 +201,7 @@ class Indexing_Helper {
 	 * @return int|bool $start_time The start time when the indexing process has started but not completed, false otherwise.
 	 */
 	public function get_started() {
-		return $this->options_helper->get( 'indexation_started' );
+		return $this->options_helper->get( 'indexing_started' );
 	}
 
 	/**
