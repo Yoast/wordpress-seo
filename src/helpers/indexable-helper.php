@@ -118,9 +118,9 @@ class Indexable_Helper {
 	public function reset_permalink_indexables( $type = null, $subtype = null, $reason = Indexing_Notification_Integration::REASON_PERMALINK_SETTINGS ) {
 		$result = $this->repository->reset_permalink( $type, $subtype );
 
-		if ( $result !== false && $result > 0 ) {
-			$this->indexing_helper->set_reason( $reason );
+		$this->indexing_helper->set_reason( $reason );
 
+		if ( $result !== false && $result > 0 ) {
 			\delete_transient( Indexable_Post_Indexation_Action::TRANSIENT_CACHE_KEY );
 			\delete_transient( Indexable_Post_Type_Archive_Indexation_Action::TRANSIENT_CACHE_KEY );
 			\delete_transient( Indexable_Term_Indexation_Action::TRANSIENT_CACHE_KEY );
