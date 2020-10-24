@@ -276,6 +276,155 @@ class WPSEO_Replace_Vars {
 		return $replacements;
 	}
 
+	/* *********************** BASIC VARIABLES ************************** */
+
+	/**
+	 * Retrieve the post/cpt categories (comma separated) for use as replacement string.
+	 *
+	 * @return string|null
+	 */
+	private function retrieve_category() {
+		$replacement = null;
+
+		if ( ! empty( $this->args->ID ) ) {
+			$cat = $this->get_terms( $this->args->ID, 'category' );
+			if ( $cat !== '' ) {
+				return $cat;
+			}
+		}
+
+		if ( isset( $this->args->cat_name ) && ! empty( $this->args->cat_name ) ) {
+			$replacement = $this->args->cat_name;
+		}
+
+		return $replacement;
+	}
+
+	/**
+	 * Retrieve the category description for use as replacement string.
+	 *
+	 * @return string|null
+	 */
+	private function retrieve_category_description() {
+		return $this->retrieve_term_description();
+	}
+
+	/**
+	 * Retrieve the date of the post/page/cpt for use as replacement string.
+	 *
+	 * @return string|null
+	 */
+	private function retrieve_date() {
+		$replacement = null;
+
+		if ( $this->args->post_date !== '' ) {
+			// Returns a string.
+			$replacement = $this->date->format_translated( $this->args->post_date, get_option( 'date_format' ) );
+		}
+		else {
+			if ( get_query_var( 'day' ) && get_query_var( 'day' ) !== '' ) {
+				// Returns a string.
+				$replacement = get_the_date();
+			}
+			else {
+				if ( single_month_title( ' ', false ) && single_month_title( ' ', false ) !== '' ) {
+					// Returns a string.
+					$replacement = single_month_title( ' ', false );
+				}
+				elseif ( get_query_var( 'year' ) !== '' ) {
+					// Returns an integer, let's cast to string.
+					$replacement = (string) get_query_var( 'year' );
+				}
+			}
+		}
+
+		return $replacement;
+	}
+
+	/**
+	 * Retrieve the post/page/cpt excerpt for use as replacement string.
+	 * The excerpt will be auto-generated if it does not exist.
+	 *
+	 * @return string|null
+	 */
+	private function retrieve_excerpt() {
+		$replacement = null;
+
+		// The check `post_password_required` is because excerpt must be hidden for a post with a password.
+		if ( ! empty( $this->args->ID ) && ! post_password_required( $this->args->ID ) ) {
+			if ( $this->args->post_excerpt !== '' ) {
+				$replacement = wp_strip_all_tags( $this->args->post_excerpt );
+			}
+			elseif ( $this->args->post_content !== '' ) {
+				$content = strip_shortcodes( $this->args->post_content );
+				$content = wp_strip_all_tags( $content );
+
+				if ( strlen( utf8_decode( $content ) ) <= 156 ) {
+					return $content;
+				}
+
+				$replacement = wp_html_excerpt( $content, 156 );
+
+				// Trim the auto-generated string to a word boundary.
+				$replacement = substr( $replacement, 0, strrpos( $replacement, ' ' ) );
+			}
+		}
+
+		return $replacement;
+	}
+
+	/**
+	 * Retrieve the post/page/cpt excerpt for use as replacement string (without auto-generation).
+	 *
+	 * @return string|null
+	 */
+	private function retrieve_excerpt_only() {
+		$replacement = null;
+
+		// The check `post_password_required` is because excerpt must be hidden for a post with a password.
+		if ( ! empty( $this->args->ID ) && $this->args->post_excerpt !== '' && ! post_password_required( $this->args->ID ) ) {
+			$replacement = wp_strip_all_tags( $this->args->post_excerpt );
+		}
+
+		return $replacement;
+	}
+
+	/**
+	 * Retrieve the title of the parent page of the current page/cpt for use as replacement string.
+	 * Only applicable for hierarchical post types.
+	 *
+	 * @todo Check: shouldn't this use $this->args as well ?
+	 *
+	 * @return string|null
+	 */
+	private function retrieve_parent_title() {
+		$replacement = null;
+
+		if ( ( is_singular() || is_admin() ) && isset( $GLOBALS['post'] ) ) {
+			if ( isset( $GLOBALS['post']->post_parent ) && $GLOBALS['post']->post_parent !== 0 ) {
+				$replacement = get_the_title( $GLOBALS['post']->post_parent );
+			}
+		}
+
+		return $replacement;
+	}
+
+	/**
+	 * Retrieve the current search phrase for use as replacement string.
+	 *
+	 * @return string|null
+	 */
+	private function retrieve_searchphrase() {
+		$replacement = null;
+
+		$search = get_query_var( 's' );
+		if ( $search !== '' ) {
+			$replacement = esc_html( $search );
+		}
+
+		return $replacement;
+	}
+
 	/**
 	 * Retrieve the separator for use as replacement string.
 	 *
@@ -300,6 +449,154 @@ class WPSEO_Replace_Vars {
 		 * @api string $replacement The current separator.
 		 */
 		return apply_filters( 'wpseo_replacements_filter_sep', $replacement );
+	}
+
+	/**
+	 * Retrieve the site's tag line / description for use as replacement string.
+	 *
+	 * The `$replacement` variable is static because it doesn't change depending
+	 * on the context. See https://github.com/Yoast/wordpress-seo/pull/1172#issuecomment-46019482.
+	 *
+	 * @return string|null
+	 */
+	private function retrieve_sitedesc() {
+		static $replacement;
+
+		if ( ! isset( $replacement ) ) {
+			$description = wp_strip_all_tags( get_bloginfo( 'description' ) );
+			if ( $description !== '' ) {
+				$replacement = $description;
+			}
+		}
+
+		return $replacement;
+	}
+
+	/**
+	 * Retrieve the site's name for use as replacement string.
+	 *
+	 * The `$replacement` variable is static because it doesn't change depending
+	 * on the context. See https://github.com/Yoast/wordpress-seo/pull/1172#issuecomment-46019482.
+	 *
+	 * @return string|null
+	 */
+	private function retrieve_sitename() {
+		static $replacement;
+
+		if ( ! isset( $replacement ) ) {
+			$sitename = YoastSEO()->helpers->site->get_site_name();
+			if ( $sitename !== '' ) {
+				$replacement = $sitename;
+			}
+		}
+
+		return $replacement;
+	}
+
+	/**
+	 * Retrieve the current tag/tags for use as replacement string.
+	 *
+	 * @return string|null
+	 */
+	private function retrieve_tag() {
+		$replacement = null;
+
+		if ( isset( $this->args->ID ) ) {
+			$tags = $this->get_terms( $this->args->ID, 'post_tag' );
+			if ( $tags !== '' ) {
+				$replacement = $tags;
+			}
+		}
+
+		return $replacement;
+	}
+
+	/**
+	 * Retrieve the tag description for use as replacement string.
+	 *
+	 * @return string|null
+	 */
+	private function retrieve_tag_description() {
+		return $this->retrieve_term_description();
+	}
+
+	/**
+	 * Retrieve the term description for use as replacement string.
+	 *
+	 * @return string|null
+	 */
+	private function retrieve_term_description() {
+		$replacement = null;
+
+		if ( isset( $this->args->term_id ) && ! empty( $this->args->taxonomy ) ) {
+			$term_desc = get_term_field( 'description', $this->args->term_id, $this->args->taxonomy );
+			if ( $term_desc !== '' ) {
+				$replacement = wp_strip_all_tags( $term_desc );
+			}
+		}
+
+		return $replacement;
+	}
+
+	/**
+	 * Retrieve the term name for use as replacement string.
+	 *
+	 * @return string|null
+	 */
+	private function retrieve_term_title() {
+		$replacement = null;
+
+		if ( ! empty( $this->args->taxonomy ) && ! empty( $this->args->name ) ) {
+			$replacement = $this->args->name;
+		}
+
+		return $replacement;
+	}
+
+	/**
+	 * Retrieve the title of the post/page/cpt for use as replacement string.
+	 *
+	 * @return string|null
+	 */
+	private function retrieve_title() {
+		$replacement = null;
+
+		if ( is_string( $this->args->post_title ) && $this->args->post_title !== '' ) {
+			$replacement = $this->args->post_title;
+		}
+
+		return $replacement;
+	}
+
+	/**
+	 * Retrieve primary category for use as replacement string.
+	 *
+	 * @return bool|int|null
+	 */
+	private function retrieve_primary_category() {
+		$primary_category = null;
+
+		if ( ! empty( $this->args->ID ) ) {
+			$wpseo_primary_category = new WPSEO_Primary_Term( 'category', $this->args->ID );
+
+			$term_id = $wpseo_primary_category->get_primary_term();
+			$term    = get_term( $term_id );
+
+			if ( ! is_wp_error( $term ) && ! empty( $term ) ) {
+				$primary_category = $term->name;
+			}
+		}
+
+		return $primary_category;
+	}
+
+	/**
+	 * Retrieve the string generated by get_the_archive_title().
+	 *
+	 * @return string|null
+	 */
+	private function retrieve_archive_title() {
+		return get_the_archive_title();
 	}
 
 	/* *********************** ADVANCED VARIABLES ************************** */
@@ -411,6 +708,15 @@ class WPSEO_Replace_Vars {
 	}
 
 	/**
+	 * Retrieve the attachment caption for use as replacement string.
+	 *
+	 * @return string|null
+	 */
+	private function retrieve_caption() {
+		return $this->retrieve_excerpt_only();
+	}
+
+	/**
 	 * Retrieve a post/page/cpt's custom field value for use as replacement string.
 	 *
 	 * @param string $var The complete variable to replace which includes the name of
@@ -491,6 +797,311 @@ class WPSEO_Replace_Vars {
 				}
 			}
 		}
+
+		return $replacement;
+	}
+
+	/**
+	 * Retrieve the current date for use as replacement string.
+	 *
+	 * The `$replacement` variable is static because it doesn't change depending
+	 * on the context. See https://github.com/Yoast/wordpress-seo/pull/1172#issuecomment-46019482.
+	 *
+	 * @return string The formatted current date.
+	 */
+	private function retrieve_currentdate() {
+		static $replacement;
+
+		if ( ! isset( $replacement ) ) {
+			$replacement = date_i18n( get_option( 'date_format' ) );
+		}
+
+		return $replacement;
+	}
+
+	/**
+	 * Retrieve the current day for use as replacement string.
+	 *
+	 * The `$replacement` variable is static because it doesn't change depending
+	 * on the context. See https://github.com/Yoast/wordpress-seo/pull/1172#issuecomment-46019482.
+	 *
+	 * @return string The current day.
+	 */
+	private function retrieve_currentday() {
+		static $replacement;
+
+		if ( ! isset( $replacement ) ) {
+			$replacement = date_i18n( 'j' );
+		}
+
+		return $replacement;
+	}
+
+	/**
+	 * Retrieve the current month for use as replacement string.
+	 *
+	 * The `$replacement` variable is static because it doesn't change depending
+	 * on the context. See https://github.com/Yoast/wordpress-seo/pull/1172#issuecomment-46019482.
+	 *
+	 * @return string The current month.
+	 */
+	private function retrieve_currentmonth() {
+		static $replacement;
+
+		if ( ! isset( $replacement ) ) {
+			$replacement = date_i18n( 'F' );
+		}
+
+		return $replacement;
+	}
+
+	/**
+	 * Retrieve the current time for use as replacement string.
+	 *
+	 * The `$replacement` variable is static because it doesn't change depending
+	 * on the context. See https://github.com/Yoast/wordpress-seo/pull/1172#issuecomment-46019482.
+	 *
+	 * @return string The formatted current time.
+	 */
+	private function retrieve_currenttime() {
+		static $replacement;
+
+		if ( ! isset( $replacement ) ) {
+			$replacement = date_i18n( get_option( 'time_format' ) );
+		}
+
+		return $replacement;
+	}
+
+	/**
+	 * Retrieve the current year for use as replacement string.
+	 *
+	 * The `$replacement` variable is static because it doesn't change depending
+	 * on the context. See https://github.com/Yoast/wordpress-seo/pull/1172#issuecomment-46019482.
+	 *
+	 * @return string The current year.
+	 */
+	private function retrieve_currentyear() {
+		static $replacement;
+
+		if ( ! isset( $replacement ) ) {
+			$replacement = date_i18n( 'Y' );
+		}
+
+		return $replacement;
+	}
+
+	/**
+	 * Retrieve the post/page/cpt's focus keyword for use as replacement string.
+	 *
+	 * @return string|null
+	 */
+	private function retrieve_focuskw() {
+		// Retrieve focuskw from a Post.
+		if ( ! empty( $this->args->ID ) ) {
+			$focus_kw = WPSEO_Meta::get_value( 'focuskw', $this->args->ID );
+			if ( $focus_kw !== '' ) {
+				return $focus_kw;
+			}
+
+			return null;
+		}
+
+		// Retrieve focuskw from a Term.
+		if ( ! empty( $this->args->term_id ) ) {
+			$focus_kw = WPSEO_Taxonomy_Meta::get_term_meta( $this->args->term_id, $this->args->taxonomy, 'focuskw' );
+			if ( $focus_kw !== '' ) {
+				return $focus_kw;
+			}
+		}
+
+		return null;
+	}
+
+	/**
+	 * Retrieve the post/page/cpt ID for use as replacement string.
+	 *
+	 * @return string|null
+	 */
+	private function retrieve_id() {
+		$replacement = null;
+
+		if ( ! empty( $this->args->ID ) ) {
+			// The post/page/cpt ID is an integer, let's cast to string.
+			$replacement = (string) $this->args->ID;
+		}
+
+		return $replacement;
+	}
+
+	/**
+	 * Retrieve the post/page/cpt modified time for use as replacement string.
+	 *
+	 * @return string|null
+	 */
+	private function retrieve_modified() {
+		$replacement = null;
+
+		if ( ! empty( $this->args->post_modified ) ) {
+			$replacement = $this->date->format_translated( $this->args->post_modified, get_option( 'date_format' ) );
+		}
+
+		return $replacement;
+	}
+
+	/**
+	 * Retrieve the post/page/cpt author's "nice name" for use as replacement string.
+	 *
+	 * @return string|null
+	 */
+	private function retrieve_name() {
+		$replacement = null;
+
+		$user_id = (int) $this->retrieve_userid();
+		$name    = get_the_author_meta( 'display_name', $user_id );
+		if ( $name !== '' ) {
+			$replacement = $name;
+		}
+
+		return $replacement;
+	}
+
+	/**
+	 * Retrieve the post/page/cpt author's users description for use as a replacement string.
+	 *
+	 * @return null|string
+	 */
+	private function retrieve_user_description() {
+		$replacement = null;
+
+		$user_id     = (int) $this->retrieve_userid();
+		$description = get_the_author_meta( 'description', $user_id );
+		if ( $description !== '' ) {
+			$replacement = $description;
+		}
+
+		return $replacement;
+	}
+
+	/**
+	 * Retrieve the current page number with context (i.e. 'page 2 of 4') for use as replacement string.
+	 *
+	 * @return string
+	 */
+	private function retrieve_page() {
+		$replacement = null;
+
+		$max = $this->determine_pagenumbering( 'max' );
+		$nr  = $this->determine_pagenumbering( 'nr' );
+		$sep = $this->retrieve_sep();
+
+		if ( $max > 1 && $nr > 1 ) {
+			/* translators: 1: current page number, 2: total number of pages. */
+			$replacement = sprintf( $sep . ' ' . __( 'Page %1$d of %2$d', 'wordpress-seo' ), $nr, $max );
+		}
+
+		return $replacement;
+	}
+
+	/**
+	 * Retrieve the current page number for use as replacement string.
+	 *
+	 * @return string|null
+	 */
+	private function retrieve_pagenumber() {
+		$replacement = null;
+
+		$nr = $this->determine_pagenumbering( 'nr' );
+		if ( isset( $nr ) && $nr > 0 ) {
+			$replacement = (string) $nr;
+		}
+
+		return $replacement;
+	}
+
+	/**
+	 * Retrieve the current page total for use as replacement string.
+	 *
+	 * @return string|null
+	 */
+	private function retrieve_pagetotal() {
+		$replacement = null;
+
+		$max = $this->determine_pagenumbering( 'max' );
+		if ( isset( $max ) && $max > 0 ) {
+			$replacement = (string) $max;
+		}
+
+		return $replacement;
+	}
+
+	/**
+	 * Retrieve the post type plural label for use as replacement string.
+	 *
+	 * @return string|null
+	 */
+	private function retrieve_pt_plural() {
+		$replacement = null;
+
+		$name = $this->determine_pt_names( 'plural' );
+		if ( isset( $name ) && $name !== '' ) {
+			$replacement = $name;
+		}
+
+		return $replacement;
+	}
+
+	/**
+	 * Retrieve the post type single label for use as replacement string.
+	 *
+	 * @return string|null
+	 */
+	private function retrieve_pt_single() {
+		$replacement = null;
+
+		$name = $this->determine_pt_names( 'single' );
+		if ( isset( $name ) && $name !== '' ) {
+			$replacement = $name;
+		}
+
+		return $replacement;
+	}
+
+	/**
+	 * Retrieve the slug which caused the 404 for use as replacement string.
+	 *
+	 * @return string|null
+	 */
+	private function retrieve_term404() {
+		$replacement = null;
+
+		if ( $this->args->term404 !== '' ) {
+			$replacement = sanitize_text_field( str_replace( '-', ' ', $this->args->term404 ) );
+		}
+		else {
+			$error_request = get_query_var( 'pagename' );
+			if ( $error_request !== '' ) {
+				$replacement = sanitize_text_field( str_replace( '-', ' ', $error_request ) );
+			}
+			else {
+				$error_request = get_query_var( 'name' );
+				if ( $error_request !== '' ) {
+					$replacement = sanitize_text_field( str_replace( '-', ' ', $error_request ) );
+				}
+			}
+		}
+
+		return $replacement;
+	}
+
+	/**
+	 * Retrieve the post/page/cpt author's user id for use as replacement string.
+	 *
+	 * @return string
+	 */
+	private function retrieve_userid() {
+		// The user ID is an integer, let's cast to string.
+		$replacement = ! empty( $this->args->post_author ) ? (string) $this->args->post_author : (string) get_query_var( 'author' );
 
 		return $replacement;
 	}
@@ -794,5 +1405,24 @@ class WPSEO_Replace_Vars {
 			get_term_parents_list( $this->args->term_id, $this->args->taxonomy, $args ),
 			$separator
 		);
+	}
+
+	/**
+	 * Retrieves the term ancestors hierarchy.
+	 *
+	 * @return string|null The term ancestors hierarchy.
+	 */
+	private function retrieve_term_hierarchy() {
+		$replacement = null;
+
+		if ( isset( $this->args->term_id ) && ! empty( $this->args->taxonomy ) ) {
+			$hierarchy = $this->get_term_hierarchy();
+
+			if ( $hierarchy !== '' ) {
+				$replacement = esc_html( $hierarchy );
+			}
+		}
+
+		return $replacement;
 	}
 }

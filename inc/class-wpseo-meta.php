@@ -717,6 +717,58 @@ class WPSEO_Meta {
 	}
 
 	/**
+	 * Used for imports, this functions imports the value of $old_metakey into $new_metakey for those post
+	 * where no WPSEO meta data has been set.
+	 * Optionally deletes the $old_metakey values.
+	 *
+	 * @param string $old_metakey The old key of the meta value.
+	 * @param string $new_metakey The new key, usually the WPSEO meta key (including prefix).
+	 * @param bool   $delete_old  Whether to delete the old meta key/value-sets.
+	 *
+	 * @return void
+	 */
+	public static function replace_meta( $old_metakey, $new_metakey, $delete_old = false ) {
+		global $wpdb;
+
+		/*
+		 * Get only those rows where no wpseo meta values exist for the same post
+		 * (with the exception of linkdex as that will be set independently of whether the post has been edited).
+		 *
+		 * {@internal Query is pretty well optimized this way.}}
+		 */
+		$query  = $wpdb->prepare(
+			"
+				SELECT `a`.*
+				FROM {$wpdb->postmeta} AS a
+				WHERE `a`.`meta_key` = %s
+					AND NOT	EXISTS (
+						SELECT DISTINCT `post_id` , count( `meta_id` ) AS count
+						FROM {$wpdb->postmeta} AS b
+						WHERE `a`.`post_id` = `b`.`post_id`
+							AND `meta_key` LIKE %s
+							AND `meta_key` <> %s
+						GROUP BY `post_id`
+					)
+				;",
+			$old_metakey,
+			$wpdb->esc_like( self::$meta_prefix . '%' ),
+			self::$meta_prefix . 'linkdex'
+		);
+		$oldies = $wpdb->get_results( $query );
+
+		if ( is_array( $oldies ) && $oldies !== [] ) {
+			foreach ( $oldies as $old ) {
+				update_post_meta( $old->post_id, $new_metakey, $old->meta_value );
+			}
+		}
+
+		// Delete old keys.
+		if ( $delete_old === true ) {
+			delete_post_meta_by_key( $old_metakey );
+		}
+	}
+
+	/**
 	 * General clean-up of the saved meta values.
 	 * - Remove potentially lingering old meta keys;
 	 * - Remove all default and invalid values.
