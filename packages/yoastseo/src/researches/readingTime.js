@@ -1,3 +1,4 @@
+import getLanguage from "../helpers/getLanguage";
 import wordCountInText from "./wordCountInText.js";
 import imageCount from "./imageCountInText.js";
 
@@ -5,12 +6,21 @@ import imageCount from "./imageCountInText.js";
  * Calculates the expected reading time of a text.
  *
  * @param {Paper} paper The paper to calculate the reading time for.
- * @returns {number} The expected reading time in minutes.
+ * @returns {number|null} The expected reading time in minutes or null if we don't have reading time configuration for a given language.
  */
 export default function( paper ) {
+	const language = getLanguage( paper.getLocale() );
+
 	// These numbers are based on research into average reading times.
-	const wordsPerMinute = 200;
+	const wordsPerMinute = {
+		en: 200,
+	};
 	const minutesPerImage = 0.2;
+
+	if ( ! wordsPerMinute[ language ] ) {
+		return null;
+	}
+
 
 	const numberOfWords = wordCountInText( paper );
 	const numberOfImages = imageCount( paper );
@@ -20,5 +30,5 @@ export default function( paper ) {
 	 * plus extra time for each image in the text. It returns the expected reading time in whole minutes,
 	 * rounded up to the nearest minute.
 	 */
-	return Math.ceil( ( numberOfWords / wordsPerMinute ) + ( numberOfImages * minutesPerImage ) );
+	return Math.ceil( ( numberOfWords / wordsPerMinute[ language ] ) + ( numberOfImages * minutesPerImage ) );
 }

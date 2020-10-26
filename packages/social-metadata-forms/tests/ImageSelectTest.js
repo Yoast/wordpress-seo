@@ -12,6 +12,10 @@ describe( "The ImageSelect component", () => {
 				title="Facebook image"
 				socialMediumName="facebook"
 				isPremium={ true }
+				imageUrlInputId="facebook-url-input"
+				selectImageButtonId="facebook-select-button"
+				replaceImageButtonId="facebook-replace-button"
+				removeImageButtonId="facebook-remove-button"
 			/>,
 		).toJSON();
 		expect( tree ).toMatchSnapshot();
@@ -28,6 +32,10 @@ describe( "The ImageSelect component", () => {
 					"Your image is too small",
 					"Wow, I like writing tests",
 				] }
+				imageUrlInputId="twitter-url-input"
+				selectImageButtonId="twitter-select-button"
+				replaceImageButtonId="twitter-replace-button"
+				removeImageButtonId="twitter-remove-button"
 			/>,
 		).toJSON();
 		expect( tree ).toMatchSnapshot();

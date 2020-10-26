@@ -86,7 +86,7 @@ export const YoastReactSelect = ( props ) => {
 	return (
 		<FieldGroup
 			{ ...fieldGroupProps }
-			htmlFor={ id }
+			htmlFor={ inputId }
 		>
 			<ReactSelect
 				isMulti={ isMulti }
@@ -209,7 +209,7 @@ export class Select extends React.Component {
 	onInputHandler( event ) {
 		// Need to update the state in order to show the selected result before blurring.
 		this.setState( { selected: event.target.value } );
-		if ( this.onOptionFocus ) {
+		if ( this.props.onOptionFocus ) {
 			this.props.onOptionFocus( event.target.name, event.target.value );
 		}
 	}

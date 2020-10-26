@@ -29,12 +29,12 @@ const expectedResults = {
 		isApplicable: true,
 		score: 9,
 		resultText: "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: " +
-			"The focus keyphrase was found 17 times. This is great!",
+			"The focus keyphrase was found 21 times. This is great!",
 	},
 	metaDescriptionKeyword: {
 		isApplicable: true,
-		score: 9,
-		resultText: "<a href='https://yoa.st/33k' target='_blank'>Keyphrase in meta description</a>: Keyphrase or synonym appear in the meta description. Well done!",
+		score: 3,
+		resultText: "<a href='https://yoa.st/33k' target='_blank'>Keyphrase in meta description</a>: The meta description contains the keyphrase 3 times, which is over the advised maximum of 2 times. <a href='https://yoa.st/33l' target='_blank'>Limit that</a>!",
 	},
 	metaDescriptionLength: {
 		isApplicable: true,

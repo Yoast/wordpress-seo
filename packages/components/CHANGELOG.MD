@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file. Releases wi
 
 We follow [Semantic Versioning](http://semver.org/).
 
+## 2.11.0 October 26th, 2020
+### Bugfixes
+* Fixes a bug where the Select's onOptionFocus would not be called.
+* Fixes a bug where the Edit variant of the NewButton had a misaligned icon.
+* Fixes a bug where the new Button component could not be imported via the package index.
+
 ## 2.10.0 October 13th, 2020
 ### Enhancements
 * Adds SingleSelect component, which is based on the MultiSelect implementation.

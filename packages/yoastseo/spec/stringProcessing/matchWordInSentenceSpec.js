@@ -13,6 +13,11 @@ describe( "returns whether the character is in the word boundary list", function
 		const expected = false;
 		expect( characterInBoundary( input ) ).toEqual( expected );
 	} );
+	it( "recognizes special quotation marks as word boundaries", function() {
+		const input = "‟";
+		const expected = true;
+		expect( characterInBoundary( input ) ).toEqual( expected );
+	} );
 } );
 
 describe( "returns whether a word is in the sentence", function() {

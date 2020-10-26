@@ -8,8 +8,9 @@ export {
 	ReplacementVariableEditor,
 	replacementVariablesShape,
 	recommendedReplacementVariablesShape,
+	SettingsSnippetEditor,
 } from "@yoast/replacement-variable-editor";
-export { default as SettingsSnippetEditor } from "./snippet-editor/SettingsSnippetEditor";
+
 export { default as SnippetEditor } from "./snippet-editor/SnippetEditor";
 
 export {

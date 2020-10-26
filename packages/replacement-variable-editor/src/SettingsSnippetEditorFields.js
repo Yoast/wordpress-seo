@@ -4,12 +4,11 @@ import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
 import styled from "styled-components";
 
-// Internal dependencies.
+import ReplacementVariableEditor from "./ReplacementVariableEditor";
 import {
-	ReplacementVariableEditor,
 	replacementVariablesShape,
 	recommendedReplacementVariablesShape,
-} from "@yoast/replacement-variable-editor";
+} from "./constants";
 
 export const StyledEditor = styled.section`
 	padding: ${ ( props ) => props.padding ? props.padding : "0 20px" };

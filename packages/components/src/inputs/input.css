@@ -7,7 +7,7 @@
 	width: 100%;
 	font-size: var(--yoast-font-size-default);
 	padding: 8px;
-	background: white;
+	background: var(--yoast-color-white);
 	border: var(--yoast-border-default);
 	box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
 	box-sizing: border-box;
@@ -38,6 +38,12 @@
 .yoast-field-group .description + .yoast-field-group__inputfield {
 	margin-top: 8px;
 	margin-bottom: 24px;
+}
+
+.yoast .yoast-field-group__inputfield:read-only,
+.yoast .yoast-field-group__inputfield:disabled,
+.yoast .yoast-field-group__inputfield[aria-disabled="true"] {
+	background: var(--yoast-color-inactive-grey-light);
 }
 
 /* Edge. */

@@ -1,7 +1,6 @@
 import { EditorState, Modifier, SelectionState, ContentState } from "draft-js";
 
-import { string } from "yoastseo";
-const { wordBoundaries } = string;
+import { getWordBoundaries } from "@yoast/helpers";
 
 const CIRCUMFIX = "%%";
 
@@ -385,7 +384,7 @@ function addSpaceAfterVariable( editorState, selection, blockKey, variable ) {
 	 * look like they aren't when looking at the entities because of the margin
 	 * between entities.
 	 */
-	if ( ! wordBoundaries().includes( characterAfterVariable ) ) {
+	if ( ! getWordBoundaries().includes( characterAfterVariable ) ) {
 		// We want to place a space after the variable, so we need to know where that is.
 		const selectionAfterVariable = SelectionState.createEmpty( blockKey ).merge( {
 			anchorOffset: variable.end,
