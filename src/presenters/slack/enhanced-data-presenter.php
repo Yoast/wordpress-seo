@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Presenters\Slack;
 
+use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 use Yoast\WP\SEO\Presenters\Abstract_Indexable_Presenter;
 
 /**
@@ -44,7 +45,14 @@ class Enhanced_Data_Presenter extends Abstract_Indexable_Presenter {
 			$data[ __( 'Est. reading time', 'wordpress-seo' ) ] = $this->get_reading_time( $post_content );
 		}
 
-		return \apply_filters( 'wpseo_enhanced_data', $data, $this->presentation );
+		/**
+		 * Filter: 'wpseo_enhanced_slack_data' - Allows filtering of the enhanced data for sharing on Slack.
+		 *
+		 * @api array $data The enhanced slack sharing data.
+		 *
+		 * @param Indexable_Presentation $presentation The presentation of an indexable.
+		 */
+		return \apply_filters( 'wpseo_enhanced_slack_data', $data, $this->presentation );
 	}
 
 	/**
