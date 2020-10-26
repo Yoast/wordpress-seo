@@ -11,7 +11,7 @@ use Yoast\WP\SEO\Integrations\Third_Party\Woocommerce_Permalinks;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
- * Class WooCommerce_Test.
+ * Class WooCommerce_Permalinks_Test.
  *
  * @coversDefaultClass \Yoast\WP\SEO\Integrations\Third_Party\Woocommerce_Permalinks
  * @covers \Yoast\WP\SEO\Integrations\Third_Party\Woocommerce_Permalinks
@@ -183,5 +183,4 @@ class WooCommerce_Permalinks_Test extends TestCase {
 
 		$this->instance->reset_woocommerce_permalinks( $old, $new );
 	}
-
 }
