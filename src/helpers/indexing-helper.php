@@ -140,7 +140,6 @@ class Indexing_Helper {
 	 * @return void
 	 */
 	public function finish() {
-		$this->set_started( null );
 		$this->set_reason( '' );
 	}
 
@@ -161,6 +160,8 @@ class Indexing_Helper {
 		$this->notification_center->remove_notification_by_id(
 			Indexing_Notification_Integration::NOTIFICATION_ID
 		);
+
+		$this->set_started( null );
 	}
 
 	/**
