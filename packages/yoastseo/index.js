@@ -3,7 +3,6 @@ import * as assessments from "./src/scoring/assessments";
 import * as bundledPlugins from "./src/bundledPlugins";
 import * as helpers from "./src/helpers/_todo";
 import * as markers from "./src/markers";
-import * as string from "./src/languageProcessing/helpers/_todo";
 import * as interpreters from "./src/scoring/interpreters";
 import * as researchers from "./src/languageProcessing";
 import * as config from "./src/config/_todo";
@@ -74,6 +73,5 @@ export default {
 	config,
 	helpers,
 	markers,
-	string,
 	interpreters,
 };
