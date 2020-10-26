@@ -1,5 +1,6 @@
 // External dependencies.
 import { Fill } from "@wordpress/components";
+import { useEffect } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import PropTypes from "prop-types";
 
@@ -20,13 +21,25 @@ import AdvancedSettings from "../../../containers/AdvancedSettings";
 /**
  * Creates the ElementorFill component.
  *
- * @param {Object} settings The feature toggles.
+ * @param {Object} props The props.
  *
  * @returns {wp.Element} The Sidebar component.
  *
  * @constructor
  */
-export default function ElementorFill( { settings } ) {
+export default function ElementorFill( { isLoading, onLoad, settings } ) {
+	useEffect( () => {
+		setTimeout( () => {
+			if ( isLoading ) {
+				onLoad();
+			}
+		} );
+	} );
+
+	if ( isLoading ) {
+		return null;
+	}
+
 	return (
 		<Fill name="YoastElementor">
 			<SidebarItem renderPriority={ 1 }>
@@ -75,5 +88,7 @@ export default function ElementorFill( { settings } ) {
 }
 
 ElementorFill.propTypes = {
+	isLoading: PropTypes.bool.isRequired,
+	onLoad: PropTypes.func.isRequired,
 	settings: PropTypes.object.isRequired,
 };
