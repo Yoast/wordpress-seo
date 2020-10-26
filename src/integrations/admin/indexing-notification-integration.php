@@ -122,12 +122,12 @@ class Indexing_Notification_Integration implements Integration_Interface {
 		Notification_Helper $notification_helper,
 		Indexing_Helper $indexing_helper
 	) {
-		$this->notification_center  = $notification_center;
-		$this->product_helper       = $product_helper;
-		$this->page_helper          = $page_helper;
-		$this->short_link_helper    = $short_link_helper;
-		$this->notification_helper  = $notification_helper;
-		$this->indexing_helper      = $indexing_helper;
+		$this->notification_center = $notification_center;
+		$this->product_helper      = $product_helper;
+		$this->page_helper         = $page_helper;
+		$this->short_link_helper   = $short_link_helper;
+		$this->notification_helper = $notification_helper;
+		$this->indexing_helper     = $indexing_helper;
 	}
 
 	/**
