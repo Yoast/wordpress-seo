@@ -41,6 +41,12 @@ import russianPaper3 from "./ru/russianPaper3";
 // Arabic papers
 import arabicPaper1 from "./ar/arabicPaper1";
 
+// Papers for comparing performance of stemmers in different languages in the content analysis app.
+import polishPaperForPerformanceTest from "./pl/polishPaperForPerformanceTest";
+import spanishPaperForPerformanceTest from "./es/spanishPaperForPerformanceTest";
+import englishPaperForPerformanceTest from "./en/englishPaperForPerformanceTest";
+
+
 export default [
 	englishPaper1,
 	englishPaper2,
@@ -67,5 +73,8 @@ export default [
 	russianPaper2,
 	russianPaper3,
 	arabicPaper1,
+	englishPaperForPerformanceTest,
+	spanishPaperForPerformanceTest,
+	polishPaperForPerformanceTest,
 ];
 
