@@ -13,7 +13,7 @@ import { sum } from "lodash-es";
 import { memoize } from "lodash-es";
 import { flatMap } from "lodash-es";
 
-import SyllableCountIterator from "../../../helpers/_todo/syllableCountIterator.js";
+import SyllableCountIterator from "./syllableCountIterator.js";
 import DeviationFragment from "./DeviationFragment";
 
 /**
