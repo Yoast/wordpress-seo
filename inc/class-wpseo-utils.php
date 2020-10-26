@@ -834,6 +834,7 @@ class WPSEO_Utils {
 	 *
 	 * @deprecated
 	 * @codeCoverageIgnore
+	 *
 	 * @return string
 	 */
 	public static function traffic_light_svg() {
