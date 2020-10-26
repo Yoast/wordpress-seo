@@ -210,25 +210,6 @@ class Indexable_Permalink_Watcher implements Integration_Interface {
 	}
 
 	/**
-	 * Retrieves the taxonomies that belongs to the public post types.
-	 *
-	 * @param array $post_types The post types to get taxonomies for.
-	 *
-	 * @return array The retrieved taxonomies.
-	 */
-	protected function get_taxonomies_for_post_types( $post_types ) {
-		$taxonomies = [];
-		foreach ( $post_types as $post_type ) {
-			$taxonomies[] = \get_object_taxonomies( $post_type, 'names' );
-		}
-
-		$taxonomies = \array_merge( [], ...$taxonomies );
-		$taxonomies = \array_unique( $taxonomies );
-
-		return $taxonomies;
-	}
-
-	/**
 	 * Schedules the WP-Cron job to check the permalink_structure status.
 	 *
 	 * @return void
