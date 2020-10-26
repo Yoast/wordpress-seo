@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Integrations\Admin;
 
 use Brain\Monkey;
 use Mockery;
+use Yoast\WP\SEO\Config\Indexing_Reasons;
 use Yoast_Notification_Center;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
@@ -299,7 +300,7 @@ class Indexing_Notification_Integration_Test extends TestCase {
 		$this->indexing_helper
 			->expects( 'get_reason' )
 			->once()
-			->andReturn( Indexing_Notification_Integration::REASON_INDEXING_FAILED );
+			->andReturn( Indexing_Reasons::REASON_INDEXING_FAILED );
 
 		Monkey\Functions\expect( 'wp_get_current_user' )
 			->andReturn( 'user' );
