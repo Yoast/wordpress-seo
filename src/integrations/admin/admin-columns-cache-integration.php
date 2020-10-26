@@ -5,6 +5,7 @@ namespace Yoast\WP\SEO\Integrations\Admin;
 use WP_Post;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
+use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
 /**
@@ -27,7 +28,11 @@ class Admin_Columns_Cache_Integration implements Integration_Interface {
 	protected $indexable_repository;
 
 	/**
-	 * @inheritDoc
+	 * Returns the conditionals based on which this loadable should be active.
+	 *
+	 * In this case: only when on an admin page.
+	 *
+	 * @returns array The conditionals.
 	 */
 	public static function get_conditionals() {
 		return [ Admin_Conditional::class ];
@@ -43,7 +48,11 @@ class Admin_Columns_Cache_Integration implements Integration_Interface {
 	}
 
 	/**
-	 * @inheritDoc
+	 * Registers the appropriate actions and filters to fill the cache with
+	 * indexables on admin pages.
+	 *
+	 * This cache is used in showing the Yoast SEO columns on the posts overview
+	 * page (e.g. keyword score, incoming link count, etc.)
 	 */
 	public function register_hooks() {
 		if ( \wp_doing_ajax() ) {
@@ -93,7 +102,7 @@ class Admin_Columns_Cache_Integration implements Integration_Interface {
 			\_prime_post_caches( $post_ids );
 		}
 
-		$indexables = $this->indexable_repository->find_by_multiple_ids_and_type( $post_ids, 'post' );
+		$indexables = $this->indexable_repository->find_by_multiple_ids_and_type( $post_ids, 'post', false );
 
 		foreach ( $indexables as $indexable ) {
 			$this->indexable_cache[ $indexable->object_id ] = $indexable;

@@ -54,8 +54,8 @@ class Category_Term_Description_Test extends TestCase {
 	public function test_register_hooks() {
 		$this->instance->register_hooks();
 
-		$this->assertTrue( Monkey\Filters\has( 'category_description', [ $this->instance, 'add_shortcode_support' ] ) );
-		$this->assertTrue( Monkey\Filters\has( 'term_description', [ $this->instance, 'add_shortcode_support' ] ) );
+		$this->assertNotFalse( Monkey\Filters\has( 'category_description', [ $this->instance, 'add_shortcode_support' ] ) );
+		$this->assertNotFalse( Monkey\Filters\has( 'term_description', [ $this->instance, 'add_shortcode_support' ] ) );
 	}
 
 	/**

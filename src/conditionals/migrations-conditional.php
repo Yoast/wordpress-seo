@@ -26,7 +26,9 @@ class Migrations_Conditional implements Conditional {
 	}
 
 	/**
-	 * @inheritDoc
+	 * Returns `true` when all database migrations have been run.
+	 *
+	 * @returns boolean `true` when all database migrations have been run.
 	 */
 	public function is_met() {
 		return $this->migration_status->is_version( 'free', \WPSEO_VERSION );

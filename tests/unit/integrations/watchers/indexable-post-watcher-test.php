@@ -344,11 +344,29 @@ class Indexable_Post_Watcher_Test extends TestCase {
 
 		$updated_indexable              = Mockery::mock( Indexable_Mock::class );
 		$updated_indexable->object_type = 'post';
+		$updated_indexable->object_id   = 23;
 		$updated_indexable->is_public   = false;
 
 		$this->instance
 			->expects( 'update_has_public_posts' )
 			->with( $updated_indexable )
+			->once();
+
+		$post = (object) [
+			'post_content' => 'This is post content with a <a href="">link</a>.',
+		];
+
+		$this->post
+			->expects( 'get_post' )
+			->with( 23 )
+			->andReturn( $post );
+
+		$this->link_builder
+			->expects( 'build' )
+			->with( $updated_indexable, 'This is post content with a <a href="">link</a>.' );
+
+		$updated_indexable
+			->expects( 'save' )
 			->once();
 
 		$this->instance->updated_indexable( $updated_indexable, $old_indexable );
@@ -381,6 +399,10 @@ class Indexable_Post_Watcher_Test extends TestCase {
 		$this->instance
 			->expects( 'update_has_public_posts' )
 			->with( $updated_indexable )
+			->once();
+
+		$updated_indexable
+			->expects( 'save' )
 			->once();
 
 		$this->instance->updated_indexable( $updated_indexable, $old_indexable );
