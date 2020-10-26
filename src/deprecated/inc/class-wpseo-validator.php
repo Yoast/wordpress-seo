@@ -18,6 +18,7 @@ class WPSEO_Validator {
 	 * Validates whether the passed variable is a boolean.
 	 *
 	 * @deprecated 15.1.2
+	 * @codeCoverageIgnore
 	 *
 	 * @param mixed $variable The variable to validate.
 	 *
@@ -37,6 +38,7 @@ class WPSEO_Validator {
 	 * Validates whether the passed variable is a string.
 	 *
 	 * @deprecated 15.1.2
+	 * @codeCoverageIgnore
 	 *
 	 * @param mixed $variable The variable to validate.
 	 *
@@ -52,6 +54,7 @@ class WPSEO_Validator {
 	 * Validates whether the passed variable is a non-empty string.
 	 *
 	 * @deprecated 15.1.2
+	 * @codeCoverageIgnore
 	 *
 	 * @param mixed $variable The variable to validate.
 	 *
@@ -67,6 +70,7 @@ class WPSEO_Validator {
 	 * Validates whether the passed variable is an integer.
 	 *
 	 * @deprecated 15.1.2
+	 * @codeCoverageIgnore
 	 *
 	 * @param mixed $variable The variable to validate.
 	 *
@@ -82,6 +86,7 @@ class WPSEO_Validator {
 	 * Determines whether a particular key exists within the passed dataset.
 	 *
 	 * @deprecated 15.1.2
+	 * @codeCoverageIgnore
 	 *
 	 * @param array  $data The dataset to search through.
 	 * @param string $key  The key to search for.
