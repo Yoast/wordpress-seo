@@ -117,7 +117,7 @@ class WPSEO_Image_Utils {
 		}
 
 		/**
-		 * Filter: 'wpseo_image_get_data' - Filter image data.
+		 * Filter: 'wpseo_image_data' - Filter image data.
 		 *
 		 * Elements with keys not listed in the section will be discarded.
 		 *
@@ -137,7 +137,7 @@ class WPSEO_Image_Utils {
 		 * }
 		 * @api int  Attachment ID.
 		 */
-		$image = apply_filters( 'wpseo_image_get_data', $image, $attachment_id );
+		$image = apply_filters( 'wpseo_image_data', $image, $attachment_id );
 
 		// Keep only the keys we need, and nothing else.
 		return array_intersect_key( $image, array_flip( [ 'id', 'alt', 'path', 'width', 'height', 'pixels', 'type', 'size', 'url', 'filesize' ] ) );

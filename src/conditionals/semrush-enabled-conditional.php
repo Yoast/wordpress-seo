@@ -5,9 +5,9 @@ namespace Yoast\WP\SEO\Conditionals;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 
 /**
- * Conditional that is only met when the Open Graph feature is enabled.
+ * Conditional that is only met when the SEMrush integration is enabled.
  */
-class Open_Graph_Conditional implements Conditional {
+class SEMrush_Enabled_Conditional implements Conditional {
 
 	/**
 	 * The options helper.
@@ -17,7 +17,7 @@ class Open_Graph_Conditional implements Conditional {
 	private $options;
 
 	/**
-	 * Open_Graph_Conditional constructor.
+	 * SEMrush_Enabled_Conditional constructor.
 	 *
 	 * @param Options_Helper $options The options helper.
 	 */
@@ -26,11 +26,11 @@ class Open_Graph_Conditional implements Conditional {
 	}
 
 	/**
-	 * Returns `true` when the Open Graph feature is enabled.
+	 * Returns whether or not this conditional is met.
 	 *
-	 * @returns boolean `true` when the Open Graph feature is enabled.
+	 * @return boolean Whether or not the conditional is met.
 	 */
 	public function is_met() {
-		return $this->options->get( 'opengraph' ) === true;
+		return $this->options->get( 'semrush_integration_active', false );
 	}
 }

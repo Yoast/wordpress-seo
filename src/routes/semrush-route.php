@@ -7,7 +7,7 @@ use WP_REST_Response;
 use Yoast\WP\SEO\Actions\Semrush\Semrush_Login_Action;
 use Yoast\WP\SEO\Actions\Semrush\SEMrush_Options_Action;
 use Yoast\WP\SEO\Actions\SEMrush\SEMrush_Phrases_Action;
-use Yoast\WP\SEO\Conditionals\No_Conditionals;
+use Yoast\WP\SEO\Conditionals\SEMrush_Enabled_Conditional;
 use Yoast\WP\SEO\Main;
 
 /**
@@ -15,7 +15,14 @@ use Yoast\WP\SEO\Main;
  */
 class SEMrush_Route implements Route_Interface {
 
-	use No_Conditionals;
+	/**
+	 * Returns the conditionals based in which this loadable should be active.
+	 *
+	 * @return array
+	 */
+	public static function get_conditionals() {
+		return [ SEMrush_Enabled_Conditional::class ];
+	}
 
 	/**
 	 * The SEMrush route prefix.
@@ -81,7 +88,7 @@ class SEMrush_Route implements Route_Interface {
 	private $phrases_action;
 
 	/**
-	 * Semrush_Route constructor.
+	 * SEMrush_Route constructor.
 	 *
 	 * @param SEMrush_Login_Action   $login_action   The login action.
 	 * @param SEMrush_Options_Action $options_action The options action.

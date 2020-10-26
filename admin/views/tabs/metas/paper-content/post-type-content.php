@@ -19,7 +19,7 @@ echo '<h3>' . esc_html( sprintf( __( 'Settings for single %s URLs', 'wordpress-s
 
 require __DIR__ . '/post_type/post-type.php';
 
-if ( $wpseo_post_type->name === 'product' && WPSEO_Utils::is_woocommerce_active() ) {
+if ( $wpseo_post_type->name === 'product' && YoastSEO()->helpers->woocommerce->is_active() ) {
 	require __DIR__ . '/post_type/woocommerce-shop-page.php';
 
 	return;

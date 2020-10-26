@@ -8,7 +8,6 @@
 use Yoast\WP\SEO\Config\Schema_Types;
 use Yoast\WP\SEO\Exceptions\OAuth\Authentication_Failed_Exception;
 use Yoast\WP\SEO\Exceptions\SEMrush\Tokens\Empty_Token_Exception;
-use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Config\SEMrush_Client;
 use Yoast\WP\SEO\Exceptions\SEMrush\Tokens\Empty_Property_Exception;
 
@@ -54,7 +53,6 @@ class WPSEO_Metabox_Formatter {
 		$analysis_seo         = new WPSEO_Metabox_Analysis_SEO();
 		$analysis_readability = new WPSEO_Metabox_Analysis_Readability();
 		$schema_types         = new Schema_Types();
-		$options              = new Options_Helper();
 
 		return [
 			'author_name'               => get_the_author_meta( 'display_name' ),
@@ -85,7 +83,7 @@ class WPSEO_Metabox_Formatter {
 			'wordFormRecognitionActive' => YoastSEO()->helpers->language->is_word_form_recognition_active( WPSEO_Language_Utils::get_language( get_locale() ) ),
 			'siteIconUrl'               => get_site_icon_url(),
 			'countryCode'               => WPSEO_Options::get( 'semrush_country_code', false ),
-			'SEMrushLoginStatus'        => WPSEO_Options::get( 'semrush_integration_active', true ) ? $this->get_semrush_login_status( $options ) : false,
+			'SEMrushLoginStatus'        => WPSEO_Options::get( 'semrush_integration_active', true ) ? $this->get_semrush_login_status() : false,
 			'showSocial'                => [
 				'facebook' => WPSEO_Options::get( 'opengraph', false ),
 				'twitter'  => WPSEO_Options::get( 'twitter', false ),
@@ -95,7 +93,7 @@ class WPSEO_Metabox_Formatter {
 				'pageTypeOptions'    => $schema_types->get_page_type_options(),
 				'articleTypeOptions' => $schema_types->get_article_type_options(),
 			],
-			'twitterCardType'           => $options->get( 'twitter_card_type' ),
+			'twitterCardType'           => YoastSEO()->helpers->options->get( 'twitter_card_type' ),
 
 			/**
 			 * Filter to determine if the markers should be enabled or not.
@@ -292,13 +290,11 @@ class WPSEO_Metabox_Formatter {
 	/**
 	 * Checks if the user is logged in to SEMrush.
 	 *
-	 * @param {Options_Helper} $options_helper The Options Helper object.
-	 *
 	 * @return boolean The SEMrush login status.
 	 */
-	private function get_semrush_login_status( $options_helper ) {
+	private function get_semrush_login_status() {
 		try {
-			$semrush_client = new SEMrush_Client( $options_helper );
+			$semrush_client = YoastSEO()->classes->get( SEMrush_Client::class );
 		} catch ( Empty_Property_Exception $e ) {
 			// return false if token is malformed (empty property).
 			return false;
