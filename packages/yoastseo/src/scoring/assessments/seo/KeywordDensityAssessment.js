@@ -5,7 +5,7 @@ import Assessment from "../assessment";
 import getLanguage from "../../../helpers/_todo/getLanguage";
 import getLanguagesWithWordFormSupport from "../../../helpers/_todo/getLanguagesWithWordFormSupport";
 import AssessmentResult from "../../../values/AssessmentResult";
-import { inRangeEndInclusive, inRangeStartEndInclusive, inRangeStartInclusive } from "../../../helpers/inRange";
+import { inRangeEndInclusive, inRangeStartEndInclusive, inRangeStartInclusive } from "../../helpers/assessments/inRange";
 import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
 import keyphraseLengthFactor from "../../../helpers/keyphraseLengthFactor.js";
 import countWords from "../../../../researches/stringProcessing/countWords";

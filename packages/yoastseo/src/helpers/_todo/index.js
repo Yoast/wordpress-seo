@@ -8,4 +8,4 @@ export {
 	getLanguagesWithWordFormSupport,
 };
 
-export * from "../inRange";
+export * from "../../scoring/helpers/assessments/inRange";

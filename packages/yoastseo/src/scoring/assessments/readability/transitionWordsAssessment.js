@@ -1,7 +1,7 @@
 import { map } from "lodash-es";
 
 import formatNumber from "../../../helpers/formatNumber";
-import { inRangeStartInclusive as inRange } from "../../../helpers/inRange";
+import { inRangeStartInclusive as inRange } from "../../helpers/assessments/inRange";
 import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
 import { stripIncompleteTags as stripTags } from "../../../../researches/stringProcessing/stripHTMLTags";
 import AssessmentResult from "../../../values/AssessmentResult";

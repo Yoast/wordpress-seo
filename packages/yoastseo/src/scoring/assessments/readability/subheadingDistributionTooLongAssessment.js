@@ -1,7 +1,7 @@
 import { filter, merge } from "lodash-es";
 
 import Assessment from "../assessment";
-import { inRangeEndInclusive as inRange } from "../../../helpers/inRange";
+import { inRangeEndInclusive as inRange } from "../../helpers/assessments/inRange";
 import isTextTooLong from "../../../helpers/isValueTooLong";
 import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
 import { getSubheadings } from "../../../../researches/stringProcessing/getSubheadings";

@@ -1,6 +1,6 @@
 import { filter, map } from "lodash-es";
 
-import { inRangeEndInclusive as inRange } from "../../../helpers/inRange";
+import { inRangeEndInclusive as inRange } from "../../helpers/assessments/inRange";
 import isParagraphTooLong from "../../../helpers/isValueTooLong";
 import marker from "../../../markers/addMark";
 import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
