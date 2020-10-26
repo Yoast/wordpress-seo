@@ -66,6 +66,20 @@ class Elementor implements Integration_Interface {
 	protected $is_advanced_metadata_enabled;
 
 	/**
+	 * Helper to determine whether or not the SEO analysis is enabled.
+	 *
+	 * @var WPSEO_Metabox_Analysis_SEO
+	 */
+	protected $seo_analysis;
+
+	/**
+	 * Helper to determine whether or not the readability analysis is enabled.
+	 *
+	 * @var WPSEO_Metabox_Analysis_Readability
+	 */
+	protected $readability_analysis;
+
+	/**
 	 * Returns the conditionals based in which this loadable should be active.
 	 *
 	 * @return array
