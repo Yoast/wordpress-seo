@@ -13,9 +13,9 @@ use Yoast\WP\SEO\Actions\Indexing\Indexable_Term_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexing\Indexing_Complete_Action;
 use Yoast\WP\SEO\Actions\Indexing\Post_Link_Indexing_Action;
 use Yoast\WP\SEO\Actions\Indexing\Term_Link_Indexing_Action;
+use Yoast\WP\SEO\Config\Indexing_Reasons;
 use Yoast\WP\SEO\Helpers\Indexing_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
-use Yoast\WP\SEO\Integrations\Admin\Indexing_Notification_Integration;
 use Yoast\WP\SEO\Routes\Indexing_Route;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
@@ -451,7 +451,7 @@ class Indexing_Route_Test extends TestCase {
 	public function test_index_general_when_error_occurs() {
 		$this->general_indexation_action->expects( 'index' )->andThrow( new \Exception( 'An exception during indexing' ) );
 
-		$this->indexing_helper->expects( 'set_reason' )->with( Indexing_Notification_Integration::REASON_INDEXING_FAILED );
+		$this->indexing_helper->expects( 'set_reason' )->with( Indexing_Reasons::REASON_INDEXING_FAILED );
 
 		Mockery::mock( '\WP_Error' );
 
