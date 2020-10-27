@@ -95,9 +95,7 @@ function registerFills( store ) {
 	};
 	const preferences = store.getState().preferences;
 	const analysesEnabled = preferences.isKeywordAnalysisActive || preferences.isContentAnalysisActive;
-	const zapierEnabled = preferences.isZapierIntegrationActive;
-	const zapierConnected = preferences.isZapierConnected;
-	const showZapierPanel = zapierEnabled && zapierConnected;
+	const showZapierPanel = preferences.isZapierIntegrationActive && preferences.isZapierConnected;
 	initiallyOpenDocumentSettings();
 
 	/**
