@@ -122,7 +122,6 @@ class Indexing_Helper {
 		$this->general_indexation           = $general_indexation;
 		$this->post_link_indexing_action    = $post_link_indexing_action;
 		$this->term_link_indexing_action    = $term_link_indexing_action;
-
 	}
 
 	/**
@@ -242,7 +241,7 @@ class Indexing_Helper {
 
 	/**
 	 * Returns the total number of unindexed objects and applies a filter for third party integrations.
-	 *	 *
+	 *
 	 * @return int The total number of unindexed objects.
 	 */
 	public function get_filtered_unindexed_count() {
