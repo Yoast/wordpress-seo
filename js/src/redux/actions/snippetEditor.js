@@ -45,6 +45,9 @@ export function updateData( data ) {
 	if ( data.hasOwnProperty( "description" ) ) {
 		SearchMetadataFields.description = data.description;
 	}
+	if ( data.hasOwnProperty( "slug" ) ) {
+		SearchMetadataFields.slug = data.slug;
+	}
 
 	return {
 		type: UPDATE_DATA,
@@ -124,7 +127,7 @@ export const loadSnippetEditorData = () => {
 		data: {
 			title: SearchMetadataFields.title,
 			description: SearchMetadataFields.description,
-			slug: get( window, "wpseoScriptData.metabox.slug", "" ),
+			slug: SearchMetadataFields.slug,
 		},
 		templates: {
 			title: get( window, "wpseoScriptData.metabox.title_template", "" ),
