@@ -1,4 +1,4 @@
-import getLanguage from "../../../helpers/_todo/getLanguage";
+import getLanguage from "../../../languageProcessing/helpers/language/getLanguage";
 import { scoreToRating } from "../../../scoring/interpreters";
 
 /* Internal dependencies */

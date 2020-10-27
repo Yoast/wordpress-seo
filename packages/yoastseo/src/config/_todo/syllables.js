@@ -1,6 +1,6 @@
 /** @module config/syllables */
 
-import getLanguage from '../../helpers/_todo/getLanguage.js';
+import getLanguage from '../../languageProcessing/helpers/language/getLanguage.js';
 
 import { isUndefined } from "lodash-es";
 
