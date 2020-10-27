@@ -133,22 +133,20 @@ class Elementor implements Integration_Interface {
 	 *
 	 * {@internal $_POST parameters are validated via sanitize_post_meta().}}
 	 *
-	 * @param int $post_id Post ID.
-	 *
-	 * @return bool|void Boolean false if invalid save post request.
+	 * @return void Outputs JSON via wp_send_json then stops code execution.
 	 */
 	public function save_postdata() {
 		$post_id = \filter_input( INPUT_POST, 'post_id', FILTER_SANITIZE_NUMBER_INT );
 
 		if ( ! \current_user_can( 'manage_options' ) ) {
-			return false;
+			\wp_send_json_error( 'Unauthorized', 401 );
 		}
 
 		\check_ajax_referer( 'wpseo_elementor_save', '_wpseo_elementor_nonce' );
 
 		// Bail if this is a multisite installation and the site has been switched.
 		if ( \is_multisite() && \ms_is_switched() ) {
-			return false;
+			\wp_send_json_error( 'Switched multisite', 409 );
 		}
 
 		\clean_post_cache( $post_id );
@@ -156,7 +154,7 @@ class Elementor implements Integration_Interface {
 
 		if ( ! \is_object( $post ) ) {
 			// Non-existent post.
-			return false;
+			\wp_send_json_error( 'Post not found', 400 );
 		}
 
 		\do_action( 'wpseo_save_compare_data', $post );
@@ -216,7 +214,28 @@ class Elementor implements Integration_Interface {
 			}
 		}
 
+		// Saving the WP post to save the slug.
+		$slug = \filter_input( INPUT_POST, WPSEO_Meta::$form_prefix . 'slug', FILTER_SANITIZE_STRING );
+		if ( $post->post_name !== $slug ) {
+			$post_array = $post->to_array();
+			$post_array['post_name'] = $slug;
+
+			$save_succesful = \wp_insert_post( $post_array );
+			if ( \is_wp_error( $save_succesful ) ) {
+				\wp_send_json_error( 'Slug not saved', 400 );
+			}
+
+			// Update the post object to ensure we have the actual slug.
+			$post = \get_post( $post_id );
+			if ( ! \is_object( $post ) ) {
+				\wp_send_json_error( 'Updated slug not found', 400 );
+			}
+		}
+
 		\do_action( 'wpseo_saved_postdata' );
+
+		// Output the slug, because it is processed by WP and we need the actual slug again.
+		\wp_send_json_success( [ 'slug' => $post->post_name ] );
 	}
 
 	/**

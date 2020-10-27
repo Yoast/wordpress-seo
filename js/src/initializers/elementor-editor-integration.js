@@ -3,6 +3,7 @@
 import domReady from "@wordpress/dom-ready";
 import { registerReactComponent } from "../helpers/reactRoot";
 import { get } from "lodash";
+import { dispatch } from "@wordpress/data";
 import { Fragment, unmountComponentAtNode } from "@wordpress/element";
 import ElementorSlot from "../elementor/components/slots/ElementorSlot";
 import ElementorFill from "../elementor/containers/ElementorFill";
@@ -94,7 +95,18 @@ const sendFormData = ( form ) => {
 
 		return result;
 	}, {} );
-	jQuery.post( form.getAttribute( "action" ), data );
+
+	jQuery.post( form.getAttribute( "action" ), data, ( { success, data: responseData } ) => {
+		if ( ! success ) {
+			// Something went wrong while saving.
+			return;
+		}
+
+		// Update the slug in our store if WP changed it.
+		if ( responseData.slug && responseData.slug !== data.slug ) {
+			dispatch( "yoast-seo/editor" ).updateData( { slug: responseData.slug } );
+		}
+	} );
 };
 
 /**
