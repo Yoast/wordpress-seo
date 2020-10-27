@@ -153,8 +153,7 @@ const transitionWordsMarker = function( paper, researcher ) {
  * @returns {boolean} Returns true if the language is available and the paper is not empty.
  */
 const isApplicable = function( paper ) {
-	const isLanguageAvailable = getLanguageAvailability( paper.getLocale(), availableLanguages );
-	return ( isLanguageAvailable && paper.hasText() );
+	return paper.hasText();
 };
 
 export default {

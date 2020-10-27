@@ -8,9 +8,6 @@ import Mark from "../../../values/Mark";
 
 const maximumConsecutiveDuplicates = 2;
 
-import getLanguageAvailability from "../../../helpers/_todo/getLanguageAvailability.js";
-const availableLanguages = [ "en", "de", "es", "fr", "nl", "it", "ru", "pl", "sv", "pt", "id", "ar" ];
-
 /**
  * Counts and groups the number too often used sentence beginnings and determines the lowest count within that group.
  * @param {array} sentenceBeginnings The array containing the objects containing the beginning words and counts.
@@ -131,8 +128,7 @@ const sentenceBeginningsAssessment = function( paper, researcher, i18n ) {
  * @returns {boolean} Returns true if the language is available and the paper is not empty.
  */
 const isApplicable = function( paper ) {
-	const isLanguageAvailable = getLanguageAvailability( paper.getLocale(), availableLanguages );
-	return ( isLanguageAvailable && paper.hasText() );
+	return paper.hasText();
 };
 
 export default {
