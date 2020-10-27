@@ -138,13 +138,13 @@ class Elementor implements Integration_Interface {
 	 * @return bool|void Boolean false if invalid save post request.
 	 */
 	public function save_postdata() {
-		$post_id = $_POST['post_id'];
+		$post_id = \filter_input( INPUT_POST, 'post_id', FILTER_SANITIZE_NUMBER_INT );
 
 		if ( ! \current_user_can( 'manage_options' ) ) {
 			return false;
 		}
 
-		\check_ajax_referer( 'wpseo_elementor_save' );
+		\check_ajax_referer( 'wpseo_elementor_save', '_wpseo_elementor_nonce' );
 
 		// Bail if this is a multisite installation and the site has been switched.
 		if ( \is_multisite() && \ms_is_switched() ) {
@@ -161,7 +161,7 @@ class Elementor implements Integration_Interface {
 
 		\do_action( 'wpseo_save_compare_data', $post );
 
-		// Initialize social fields.
+		// Initialize meta, amongst other things it registers sanitization.
 		WPSEO_Meta::init();
 
 		$social_fields = [];
@@ -319,9 +319,14 @@ class Elementor implements Integration_Interface {
 	 * Renders the metabox hidden fields.
 	 */
 	protected function render_hidden_fields() {
-		printf( '<form id="yoast-form" method="post" action="%1$s"><input type="hidden" name="action" value="wpseo_elementor_save" /><input type="hidden" name="post_id" value="%2$s" />', \admin_url( 'admin-ajax.php' ), $this->get_metabox_post()->ID );
+		// Wrap in a form with an action and post_id for the submit.
+		printf(
+			'<form id="yoast-form" method="post" action="%1$s"><input type="hidden" name="action" value="wpseo_elementor_save" /><input type="hidden" name="post_id" value="%2$s" />',
+			\esc_url( \admin_url( 'admin-ajax.php' ) ),
+			\esc_attr( $this->get_metabox_post()->ID )
+		);
 
-		\wp_nonce_field( 'wpseo_elementor_save', '_wpnonce' );
+		\wp_nonce_field( 'wpseo_elementor_save', '_wpseo_elementor_nonce' );
 		echo new Meta_Fields_Presenter( $this->get_metabox_post(), 'general' );
 
 		if ( $this->is_advanced_metadata_enabled ) {
