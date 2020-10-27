@@ -8,11 +8,14 @@ use Mockery;
 use WPSEO_Replace_Vars;
 use Yoast\WP\SEO\Context\Meta_Tags_Context;
 use Yoast\WP\SEO\Helpers\Image_Helper;
+use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Helpers\Permalink_Helper;
 use Yoast\WP\SEO\Helpers\Schema\ID_Helper;
 use Yoast\WP\SEO\Helpers\Site_Helper;
 use Yoast\WP\SEO\Helpers\Url_Helper;
 use Yoast\WP\SEO\Helpers\User_Helper;
+use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
@@ -23,41 +26,75 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group context
  */
 class Meta_Tags_Context_Test extends TestCase {
-
 	/**
+	 * The options helper.
+	 *
 	 * @var Options_Helper
 	 */
 	private $options;
 
 	/**
+	 * The URL helper.
+	 *
 	 * @var Url_Helper
 	 */
 	private $url;
 
 	/**
+	 * The image helper.
+	 *
 	 * @var Image_Helper
 	 */
 	private $image;
 
 	/**
+	 * The ID helper.
+	 *
 	 * @var ID_Helper
 	 */
-	private $id;
+	private $id_helper;
 
 	/**
+	 * The WPSEO Replace Vars object.
+	 *
 	 * @var WPSEO_Replace_Vars
 	 */
 	private $replace_vars;
 
 	/**
+	 * The site helper.
+	 *
 	 * @var Site_Helper
 	 */
 	private $site;
 
 	/**
+	 * The user helper.
+	 *
 	 * @var User_Helper
 	 */
 	private $user;
+
+	/**
+	 * The permalink helper.
+	 *
+	 * @var Permalink_Helper
+	 */
+	private $permalink_helper;
+
+	/**
+	 * The indexable helper.
+	 *
+	 * @var Indexable_Helper
+	 */
+	private $indexable_helper;
+
+	/**
+	 * The indexable repository.
+	 *
+	 * @var Indexable_Repository
+	 */
+	private $indexable_repository;
 
 	/**
 	 * @var Meta_Tags_Context
@@ -70,22 +107,28 @@ class Meta_Tags_Context_Test extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->options      = Mockery::mock( Options_Helper::class );
-		$this->url          = Mockery::mock( Url_Helper::class );
-		$this->image        = Mockery::mock( Image_Helper::class );
-		$this->id           = Mockery::mock( ID_Helper::class );
-		$this->replace_vars = Mockery::mock( WPSEO_Replace_Vars::class );
-		$this->site         = Mockery::mock( Site_Helper::class );
-		$this->user         = Mockery::mock( User_Helper::class );
+		$this->options              = Mockery::mock( Options_Helper::class );
+		$this->url                  = Mockery::mock( Url_Helper::class );
+		$this->image                = Mockery::mock( Image_Helper::class );
+		$this->id_helper            = Mockery::mock( ID_Helper::class );
+		$this->replace_vars         = Mockery::mock( WPSEO_Replace_Vars::class );
+		$this->site                 = Mockery::mock( Site_Helper::class );
+		$this->user                 = Mockery::mock( User_Helper::class );
+		$this->permalink_helper     = Mockery::mock( Permalink_Helper::class );
+		$this->indexable_helper     = Mockery::mock( Indexable_Helper::class );
+		$this->indexable_repository = Mockery::mock( Indexable_Repository::class );
 
 		$this->instance = new Meta_Tags_Context(
 			$this->options,
 			$this->url,
 			$this->image,
-			$this->id,
+			$this->id_helper,
 			$this->replace_vars,
 			$this->site,
-			$this->user
+			$this->user,
+			$this->permalink_helper,
+			$this->indexable_helper,
+			$this->indexable_repository
 		);
 	}
 

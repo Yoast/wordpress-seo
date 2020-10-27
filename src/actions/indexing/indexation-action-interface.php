@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\WP\SEO\Actions\Indexation;
+namespace Yoast\WP\SEO\Actions\Indexing;
 
 /**
  * Interface definition of reindexation action for indexables.

@@ -7,6 +7,7 @@ use Mockery;
 use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
+use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
 use Yoast\WP\SEO\Integrations\Admin\Indexing_Notification_Integration;
 use Yoast\WP\SEO\Integrations\Watchers\Indexable_Category_Permalink_Watcher;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
@@ -52,6 +53,13 @@ class Indexable_Category_Permalink_Watcher_Test extends TestCase {
 	protected $indexable_helper;
 
 	/**
+	 * Represents the taxonomy helper.
+	 *
+	 * @var Mockery\MockInterface|Taxonomy_Helper
+	 */
+	protected $taxonomy_helper;
+
+	/**
 	 * Sets up the tests.
 	 */
 	public function setUp() {
@@ -65,7 +73,14 @@ class Indexable_Category_Permalink_Watcher_Test extends TestCase {
 		$this->options          = Mockery::mock( Options_Helper::class );
 		$this->post_type        = Mockery::mock( Post_Type_Helper::class );
 		$this->indexable_helper = Mockery::mock( Indexable_Helper::class );
-		$this->instance         = new Indexable_Category_Permalink_Watcher( $this->post_type, $this->options, $this->indexable_helper );
+		$this->taxonomy_helper  = Mockery::mock( Taxonomy_Helper::class );
+
+		$this->instance = new Indexable_Category_Permalink_Watcher(
+			$this->post_type,
+			$this->options,
+			$this->indexable_helper,
+			$this->taxonomy_helper
+		);
 
 		parent::setUp();
 	}

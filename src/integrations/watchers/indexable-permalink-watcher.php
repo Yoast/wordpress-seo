@@ -3,13 +3,14 @@
 namespace Yoast\WP\SEO\Integrations\Watchers;
 
 use Yoast\WP\Lib\Model;
-use Yoast\WP\SEO\Actions\Indexation\Indexable_Post_Indexation_Action;
-use Yoast\WP\SEO\Actions\Indexation\Indexable_Post_Type_Archive_Indexation_Action;
-use Yoast\WP\SEO\Actions\Indexation\Indexable_Term_Indexation_Action;
+use Yoast\WP\SEO\Actions\Indexing\Indexable_Post_Indexation_Action;
+use Yoast\WP\SEO\Actions\Indexing\Indexable_Post_Type_Archive_Indexation_Action;
+use Yoast\WP\SEO\Actions\Indexing\Indexable_Term_Indexation_Action;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
 use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
+use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Presenters\Admin\Indexation_Permalink_Warning_Presenter;
 use Yoast\WP\SEO\WordPress\Wrapper;
@@ -27,6 +28,13 @@ class Indexable_Permalink_Watcher implements Integration_Interface {
 	 * @var Options_Helper
 	 */
 	protected $options_helper;
+
+	/**
+	 * The taxonomy helper.
+	 *
+	 * @var Taxonomy_Helper
+	 */
+	protected $taxonomy_helper;
 
 	/**
 	 * The post type helper.
@@ -52,14 +60,16 @@ class Indexable_Permalink_Watcher implements Integration_Interface {
 	/**
 	 * Indexable_Permalink_Watcher constructor.
 	 *
-	 * @param Post_Type_Helper $post_type The post type helper.
-	 * @param Options_Helper   $options   The options helper.
-	 * @param Indexable_Helper $indexable The indexable helper.
+	 * @param Post_Type_Helper $post_type       The post type helper.
+	 * @param Options_Helper   $options         The options helper.
+	 * @param Indexable_Helper $indexable       The indexable helper.
+	 * @param Taxonomy_Helper  $taxonomy_helper The taxonomy helper.
 	 */
-	public function __construct( Post_Type_Helper $post_type, Options_Helper $options, Indexable_Helper $indexable ) {
+	public function __construct( Post_Type_Helper $post_type, Options_Helper $options, Indexable_Helper $indexable, Taxonomy_Helper $taxonomy_helper ) {
 		$this->post_type        = $post_type;
 		$this->options_helper   = $options;
 		$this->indexable_helper = $indexable;
+		$this->taxonomy_helper  = $taxonomy_helper;
 
 		$this->schedule_cron();
 	}
@@ -140,7 +150,9 @@ class Indexable_Permalink_Watcher implements Integration_Interface {
 			return true;
 		}
 
-		return false;
+		$this->reset_altered_custom_taxonomies();
+
+		return true;
 	}
 
 	/**
@@ -150,6 +162,33 @@ class Indexable_Permalink_Watcher implements Integration_Interface {
 	 */
 	public function should_reset_permalinks() {
 		return \get_option( 'permalink_structure' ) !== $this->options_helper->get( 'permalink_structure' );
+	}
+
+	/**
+	 * Resets custom taxonomies if their slugs have changed.
+	 *
+	 * @return void
+	 */
+	public function reset_altered_custom_taxonomies() {
+		$taxonomies            = $this->taxonomy_helper->get_custom_taxonomies();
+		$custom_taxonomy_bases = $this->options_helper->get( 'custom_taxonomy_slugs', [] );
+		$new_taxonomy_bases    = [];
+
+		foreach ( $taxonomies as $taxonomy ) {
+			$taxonomy_slug = $this->taxonomy_helper->get_taxonomy_slug( $taxonomy );
+
+			$new_taxonomy_bases[ $taxonomy ] = $taxonomy_slug;
+
+			if ( ! array_key_exists( $taxonomy, $custom_taxonomy_bases ) ) {
+				continue;
+			}
+
+			if ( $taxonomy_slug !== $custom_taxonomy_bases[ $taxonomy ] ) {
+				$this->indexable_helper->reset_permalink_indexables( 'term', $taxonomy );
+			}
+		}
+
+		$this->options_helper->set( 'custom_taxonomy_slugs', $new_taxonomy_bases );
 	}
 
 	/**

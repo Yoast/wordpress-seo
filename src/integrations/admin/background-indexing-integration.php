@@ -2,11 +2,13 @@
 
 namespace Yoast\WP\SEO\Integrations\Admin;
 
-use Yoast\WP\SEO\Actions\Indexation\Indexable_Indexing_Complete_Action;
-use Yoast\WP\SEO\Actions\Indexation\Indexable_General_Indexation_Action;
-use Yoast\WP\SEO\Actions\Indexation\Indexable_Post_Indexation_Action;
-use Yoast\WP\SEO\Actions\Indexation\Indexable_Post_Type_Archive_Indexation_Action;
-use Yoast\WP\SEO\Actions\Indexation\Indexable_Term_Indexation_Action;
+use Yoast\WP\SEO\Actions\Indexing\Indexable_Indexing_Complete_Action;
+use Yoast\WP\SEO\Actions\Indexing\Indexable_General_Indexation_Action;
+use Yoast\WP\SEO\Actions\Indexing\Indexable_Post_Indexation_Action;
+use Yoast\WP\SEO\Actions\Indexing\Indexable_Post_Type_Archive_Indexation_Action;
+use Yoast\WP\SEO\Actions\Indexing\Indexable_Term_Indexation_Action;
+use Yoast\WP\SEO\Actions\Indexing\Post_Link_Indexing_Action;
+use Yoast\WP\SEO\Actions\Indexing\Term_Link_Indexing_Action;
 use Yoast\WP\SEO\Conditionals\Get_Request_Conditional;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
 use Yoast\WP\SEO\Conditionals\Yoast_Admin_And_Dashboard_Conditional;
@@ -55,6 +57,20 @@ class Background_Indexing_Integration implements Integration_Interface {
 	protected $complete_indexation_action;
 
 	/**
+	 * The post link indexing action.
+	 *
+	 * @var Post_Link_Indexing_Action
+	 */
+	protected $post_link_indexing_action;
+
+	/**
+	 * The term link indexing action.
+	 *
+	 * @var Term_Link_Indexing_Action
+	 */
+	protected $term_link_indexing_action;
+
+	/**
 	 * The total number of unindexed objects.
 	 *
 	 * @var int
@@ -82,19 +98,25 @@ class Background_Indexing_Integration implements Integration_Interface {
 	 * @param Indexable_Post_Type_Archive_Indexation_Action $post_type_archive_indexation The post type archive indexing action.
 	 * @param Indexable_General_Indexation_Action           $general_indexation           The general indexing action.
 	 * @param Indexable_Indexing_Complete_Action            $complete_indexation_action   The complete indexing action.
+	 * @param Post_Link_Indexing_Action                     $post_link_indexing_action    The post indexing action.
+	 * @param Term_Link_Indexing_Action                     $term_link_indexing_action    The term indexing action.
 	 */
 	public function __construct(
 		Indexable_Post_Indexation_Action $post_indexation,
 		Indexable_Term_Indexation_Action $term_indexation,
 		Indexable_Post_Type_Archive_Indexation_Action $post_type_archive_indexation,
 		Indexable_General_Indexation_Action $general_indexation,
-		Indexable_Indexing_Complete_Action $complete_indexation_action
+		Indexable_Indexing_Complete_Action $complete_indexation_action,
+		Post_Link_Indexing_Action $post_link_indexing_action,
+		Term_Link_Indexing_Action $term_link_indexing_action
 	) {
 		$this->post_indexation              = $post_indexation;
 		$this->term_indexation              = $term_indexation;
 		$this->post_type_archive_indexation = $post_type_archive_indexation;
 		$this->general_indexation           = $general_indexation;
 		$this->complete_indexation_action   = $complete_indexation_action;
+		$this->post_link_indexing_action    = $post_link_indexing_action;
+		$this->term_link_indexing_action    = $term_link_indexing_action;
 	}
 
 	/**
@@ -110,7 +132,8 @@ class Background_Indexing_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function register_shutdown_indexing() {
-		if ( $this->get_unindexed_count() < $this->get_shutdown_limit() ) {
+		$total = $this->get_unindexed_count();
+		if ( $total > 0 && $total < $this->get_shutdown_limit() ) {
 			\register_shutdown_function( [ $this, 'index' ] );
 		}
 	}
@@ -125,6 +148,8 @@ class Background_Indexing_Integration implements Integration_Interface {
 		$this->term_indexation->index();
 		$this->general_indexation->index();
 		$this->post_type_archive_indexation->index();
+		$this->post_link_indexing_action->index();
+		$this->term_link_indexing_action->index();
 		$this->complete_indexation_action->complete();
 	}
 
@@ -140,6 +165,8 @@ class Background_Indexing_Integration implements Integration_Interface {
 		$unindexed_count += $this->term_indexation->get_total_unindexed();
 		$unindexed_count += $this->general_indexation->get_total_unindexed();
 		$unindexed_count += $this->post_type_archive_indexation->get_total_unindexed();
+		$unindexed_count += $this->post_link_indexing_action->get_total_unindexed();
+		$unindexed_count += $this->term_link_indexing_action->get_total_unindexed();
 
 		return $unindexed_count;
 	}

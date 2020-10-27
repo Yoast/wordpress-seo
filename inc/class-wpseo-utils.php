@@ -135,35 +135,6 @@ class WPSEO_Utils {
 	}
 
 	/**
-	 * Standardize whitespace in a string.
-	 *
-	 * Replace line breaks, carriage returns, tabs with a space, then remove double spaces.
-	 *
-	 * @since 1.8.0
-	 *
-	 * @param string $string String input to standardize.
-	 *
-	 * @return string
-	 */
-	public static function standardize_whitespace( $string ) {
-		return trim( str_replace( '  ', ' ', str_replace( [ "\t", "\n", "\r", "\f" ], ' ', $string ) ) );
-	}
-
-	/**
-	 * First strip out registered and enclosing shortcodes using native WordPress strip_shortcodes function.
-	 * Then strip out the shortcodes with a filthy regex, because people don't properly register their shortcodes.
-	 *
-	 * @since 1.8.0
-	 *
-	 * @param string $text Input string that might contain shortcodes.
-	 *
-	 * @return string $text String without shortcodes.
-	 */
-	public static function strip_shortcode( $text ) {
-		return preg_replace( '`\[[^\]]+\]`s', '', strip_shortcodes( $text ) );
-	}
-
-	/**
 	 * Recursively trim whitespace round a string value or of string values within an array.
 	 * Only trims strings to avoid typecasting a variable (to string).
 	 *
@@ -759,34 +730,6 @@ class WPSEO_Utils {
 	 */
 	public static function get_site_name() {
 		return YoastSEO()->helpers->site->get_site_name();
-	}
-
-	/**
-	 * Retrieves the title separator.
-	 *
-	 * @since 3.0.0
-	 *
-	 * @return string
-	 */
-	public static function get_title_separator() {
-		$replacement = WPSEO_Options::get_default( 'wpseo_titles', 'separator' );
-
-		// Get the titles option and the separator options.
-		$separator         = WPSEO_Options::get( 'separator' );
-		$seperator_options = WPSEO_Option_Titles::get_instance()->get_separator_options();
-
-		// This should always be set, but just to be sure.
-		if ( isset( $seperator_options[ $separator ] ) ) {
-			// Set the new replacement.
-			$replacement = $seperator_options[ $separator ];
-		}
-
-		/**
-		 * Filter: 'wpseo_replacements_filter_sep' - Allow customization of the separator character(s).
-		 *
-		 * @api string $replacement The current separator.
-		 */
-		return apply_filters( 'wpseo_replacements_filter_sep', $replacement );
 	}
 
 	/**
@@ -1425,5 +1368,77 @@ SVG;
 		$enabled_features = apply_filters( 'wpseo_enable_feature', $enabled_features );
 
 		return $enabled_features;
+	}
+
+	/**
+	 * Standardize whitespace in a string.
+	 *
+	 * Replace line breaks, carriage returns, tabs with a space, then remove double spaces.
+	 *
+	 * @deprecated 15.2
+	 * @codeCoverageIgnore
+	 *
+	 * @since 1.8.0
+	 *
+	 * @param string $string String input to standardize.
+	 *
+	 * @return string
+	 */
+	public static function standardize_whitespace( $string ) {
+		_deprecated_function( __METHOD__, 'WPSEO 15.2' );
+
+		return YoastSEO()->helpers->string->standardize_whitespace( $string );
+	}
+
+	/**
+	 * First strip out registered and enclosing shortcodes using native WordPress strip_shortcodes function.
+	 * Then strip out the shortcodes with a filthy regex, because people don't properly register their shortcodes.
+	 *
+	 * @deprecated 15.2
+	 * @codeCoverageIgnore
+	 *
+	 * @since 1.8.0
+	 *
+	 * @param string $text Input string that might contain shortcodes.
+	 *
+	 * @return string $text String without shortcodes.
+	 */
+	public static function strip_shortcode( $text ) {
+		_deprecated_function( __METHOD__, 'WPSEO 15.2' );
+
+		return YoastSEO()->helpers->string->strip_shortcode( $text );
+	}
+
+	/**
+	 * Retrieves the title separator.
+	 *
+	 * @deprecated 15.2
+	 * @codeCoverageIgnore
+	 *
+	 * @since 3.0.0
+	 *
+	 * @return string
+	 */
+	public static function get_title_separator() {
+		_deprecated_function( __METHOD__, 'WPSEO 15.2' );
+
+		$replacement = WPSEO_Options::get_default( 'wpseo_titles', 'separator' );
+
+		// Get the titles option and the separator options.
+		$separator         = WPSEO_Options::get( 'separator' );
+		$seperator_options = WPSEO_Option_Titles::get_instance()->get_separator_options();
+
+		// This should always be set, but just to be sure.
+		if ( isset( $seperator_options[ $separator ] ) ) {
+			// Set the new replacement.
+			$replacement = $seperator_options[ $separator ];
+		}
+
+		/**
+		 * Filter: 'wpseo_replacements_filter_sep' - Allow customization of the separator character(s).
+		 *
+		 * @api string $replacement The current separator.
+		 */
+		return apply_filters( 'wpseo_replacements_filter_sep', $replacement );
 	}
 }

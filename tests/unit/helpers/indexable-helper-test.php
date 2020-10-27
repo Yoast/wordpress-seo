@@ -50,15 +50,27 @@ class Indexable_Helper_Test extends TestCase {
 	protected $environment_helper;
 
 	/**
+	 * Represents the notification center.
+	 *
+	 * @var Mockery\MockInterface|\Yoast_Notification_Center
+	 */
+	protected $notification_center;
+
+	/**
 	 * Sets up the class under test and mock objects.
 	 */
 	public function setUp() {
 		parent::setUp();
 
-		$this->options            = Mockery::mock( Options_Helper::class );
-		$this->repository         = Mockery::mock( Indexable_Repository::class );
-		$this->environment_helper = Mockery::mock( Environment_Helper::class );
-		$this->instance           = new Indexable_Helper( $this->options, $this->environment_helper );
+		$this->options             = Mockery::mock( Options_Helper::class );
+		$this->repository          = Mockery::mock( Indexable_Repository::class );
+		$this->environment_helper  = Mockery::mock( Environment_Helper::class );
+		$this->notification_center = Mockery::mock( \Yoast_Notification_Center::class );
+		$this->instance            = new Indexable_Helper(
+			$this->options,
+			$this->environment_helper,
+			$this->notification_center
+		);
 		$this->instance->set_indexable_repository( $this->repository );
 	}
 
@@ -71,6 +83,7 @@ class Indexable_Helper_Test extends TestCase {
 		$this->assertAttributeInstanceOf( Options_Helper::class, 'options_helper', $this->instance );
 		$this->assertAttributeInstanceOf( Indexable_Repository::class, 'repository', $this->instance );
 		$this->assertAttributeInstanceOf( Environment_Helper::class, 'environment_helper', $this->instance );
+		$this->assertAttributeInstanceOf( \Yoast_Notification_Center::class, 'notification_center', $this->instance );
 	}
 
 	/**

@@ -1,4 +1,3 @@
-import { DEFAULT_MODE } from "yoast-components";
 import getDefaultReplacementVariables from "../../values/defaultReplaceVariables";
 import {
 	SWITCH_MODE,
@@ -17,7 +16,7 @@ import { pushNewReplaceVar } from "../../helpers/replacementVariableHelpers";
  */
 function getInitialState() {
 	return {
-		mode: DEFAULT_MODE,
+		mode: "mobile",
 		data: {
 			title: "",
 			slug: "",

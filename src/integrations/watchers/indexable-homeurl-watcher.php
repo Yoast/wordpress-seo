@@ -59,8 +59,6 @@ class Indexable_HomeUrl_Watcher implements Integration_Interface {
 		$this->post_type        = $post_type;
 		$this->options_helper   = $options;
 		$this->indexable_helper = $indexable;
-
-		$this->schedule_cron();
 	}
 
 	/**
@@ -72,7 +70,7 @@ class Indexable_HomeUrl_Watcher implements Integration_Interface {
 	 */
 	public function register_hooks() {
 		\add_action( 'update_option_home', [ $this, 'reset_permalinks' ] );
-		\add_action( 'wpseo_home_url_check', [ $this, 'force_reset_permalinks' ] );
+		\add_action( 'wpseo_permalink_structure_check', [ $this, 'force_reset_permalinks' ] );
 	}
 
 	/**
@@ -171,18 +169,5 @@ class Indexable_HomeUrl_Watcher implements Integration_Interface {
 		$taxonomies = \array_unique( $taxonomies );
 
 		return $taxonomies;
-	}
-
-	/**
-	 * Schedules the cronjob to check the home_url status.
-	 *
-	 * @return void
-	 */
-	protected function schedule_cron() {
-		if ( \wp_next_scheduled( 'wpseo_home_url_check' ) ) {
-			return;
-		}
-
-		\wp_schedule_event( time(), 'daily', 'wpseo_home_url_check' );
 	}
 }

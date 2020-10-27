@@ -208,6 +208,34 @@ Your question has most likely been answered on our knowledge base: [kb.yoast.com
 
 == Changelog ==
 
+= 15.2 =
+Release Date: October 27th, 2020
+
+Today, we are releasing Yoast SEO 15.2 into the wild. In this release, we've added an interesting improvement for Slack users — better visibility for your content when your URL is shared on Slack. We also improved the performance of the plugin in the backend due to us loading less JavaScript. Read more about what’s new in 15.2 in [our release post](https://yoa.st/release-15-2)!
+
+Enhancements:
+
+* Adds an Open Graph integration for The Events Calendar plugin. Props to [Luehrsen](https://github.com/Luehrsen)
+* Sets the default schema type for Web Stories to Article. Props to [swissspidy](https://github.com/swissspidy)
+* Adds enhanced Slack sharing tags on posts and pages.
+* Adds a toggle for the above enhanced Slack sharing feature.
+* Flushes the permalinks from the indexable tables when a custom taxonomy base changes, and shows a reindex notification in that case.
+* Improves the loading times of admin pages where Yoast SEO is present.
+
+Bugfixes:
+
+* Fixes a bug where we linked to Google's Structured Data Test, which is deprecated. We now link to Google's Rich Results Test. Props to [wormeyman](https://github.com/wormeyman)
+* Fixes a bug where the styling of the General tab in the network admin dashboard was broken.
+* Fixes a bug where the German passive voice assessment would show an error when the text contained a participle enclosed within curly quotation marks (e.g., `"getan"`).
+* Fixes a bug where the WooCommerce product permalinks were not updated after a permalink structure change.
+* Fixes a bug where the replacement variable dropdown menu was partially hidden for the description inputs in all preview modals.
+* Fixes a bug where a fatal error would be thrown on sites that did have curl installed but did not have the PHP curl extension installed.
+
+Other:
+
+* Removes the "Remind me in 7 days" link from the SEO data optimization notification on the Yoast SEO dashboard, which was shown for large sites with more than 2500 unindexed indexables. The notification can still be hidden by clicking the default dismiss button.
+* Adds the `wpseo_image_data` filter to enable the filtering of image metadata. Props to [spacedmonkey](https://github.com/spacedmonkey).
+
 = 15.1.1 =
 Release Date: October 15th, 2020
 
@@ -246,36 +274,6 @@ Bugfixes:
 Other:
 
 * Adds a filter (`wpseo_dynamic_permalinks_enabled`) to enable the dynamic permalink fallback. When this fallback is enabled, the indexable-based output of the `permalink` property is overridden by a permalink that is calculated on the fly. Using this is detrimental for performance but may be needed for some site setups.
-
-= 15.0 =
-Release Date: September 29th, 2020
-
-Today, we’re launching Yoast SEO 15.0. This release features some awesome new additions and enhancements. We’ve added full support for Arabic and made the Yoast SEO block editor sidebar fully-featured. Read more about those changes in [our release post](https://yoa.st/release-15-0)!
-
-Enhancements:
-
-* Introduces an advanced settings tab in the sidebar.
-* Introduces buttons in the sidebar to open the Facebook and Twitter Preview in a modal.
-* Changes the Google Preview modal styling to match the other new modals.
-* Always shows the Google Preview editor fields and as a result removes the 'Edit snippet' button.
-* Changes the styling of the Yoast SEO sidebar to match the standard Gutenberg styling.
-* Slightly rearranges the order of items in the Yoast SEO sidebar.
-* Adds a hover state styling to the items in the Metabox.
-* Improves the English transition word assessment by adding the following words to the transition word list: 'note that', 'not only', 'initially', 'as opposed to'.
-* Improves the keyphrase and prominent word recognition when words in the text occur with specific Arabic or Urdu punctuation marks.
-
-Bugfixes:
-
-* Fixes a bug where the value of the schema `@type` could contain `null`.
-* Fixes a bug where the `archive`, `imageindex` and `snippet` robot values would be output when `noindex` was present as well.
-* Fixes a bug where the indexable permalinks could have an incorrect value when the term slug was changed.
-* Fixes a bug where parts of the content of a password protected post could be output in the schema.
-* Fixes a bug where the 'Stop counting' button in the text link counter modal wouldn't stop the counting of links.
-* Fixes a bug where indexable hierarchies were not being created during bulk indexing.
-
-Other:
-
-* Adds the `wpseo_sitemap_index_links` filter to enable adding links to the sitemap index. Props to [Joseph Paul](https://github.com/jsphpl).
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).

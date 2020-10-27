@@ -3,7 +3,6 @@ import { Slot } from "@wordpress/components";
 import PropTypes from "prop-types";
 
 import SocialForm from "../social/SocialForm";
-import { LocationConsumer } from "../contexts/location";
 
 /**
  * This wrapper is connected to the facebook container. So the data is connected to both components.
@@ -11,7 +10,7 @@ import { LocationConsumer } from "../contexts/location";
  *
  * @param {Object} props The properties object.
  *
- * @returns {Component} Renders the FacebookWrapper React Component.
+ * @returns {JSX.Element} The FacebookWrapper.
  */
 const FacebookWrapper = ( props ) => {
 	useEffect( () => {
@@ -19,26 +18,20 @@ const FacebookWrapper = ( props ) => {
 		setTimeout( props.onLoad );
 	}, [] );
 
-	return (
-		<LocationConsumer>
-			{ location => {
-				return props.isPremium
-					? <Slot
-						name={
-							"YoastFacebookPremium" +
-							`${ location.charAt( 0 ).toUpperCase() + location.slice( 1 ) }`
-						}
-						fillProps={ props }
-					/>
-					: <SocialForm { ...props } />;
-			} }
-		</LocationConsumer>
-	);
+	return props.isPremium
+		? <Slot
+			name={
+				`YoastFacebookPremium${ props.location.charAt( 0 ).toUpperCase() + props.location.slice( 1 ) }`
+			}
+			fillProps={ props }
+		/>
+		: <SocialForm { ...props } />;
 };
 
 FacebookWrapper.propTypes = {
 	isPremium: PropTypes.bool.isRequired,
 	onLoad: PropTypes.func.isRequired,
+	location: PropTypes.string.isRequired,
 };
 
 export default FacebookWrapper;

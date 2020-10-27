@@ -2,12 +2,13 @@
 
 namespace Yoast\WP\SEO\Helpers;
 
-use Yoast\WP\SEO\Actions\Indexation\Indexable_Post_Indexation_Action;
-use Yoast\WP\SEO\Actions\Indexation\Indexable_Post_Type_Archive_Indexation_Action;
-use Yoast\WP\SEO\Actions\Indexation\Indexable_Term_Indexation_Action;
+use Yoast\WP\SEO\Actions\Indexing\Indexable_Post_Indexation_Action;
+use Yoast\WP\SEO\Actions\Indexing\Indexable_Post_Type_Archive_Indexation_Action;
+use Yoast\WP\SEO\Actions\Indexing\Indexable_Term_Indexation_Action;
 use Yoast\WP\SEO\Integrations\Admin\Indexing_Notification_Integration;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
+use Yoast_Notification_Center;
 
 /**
  * A helper object for indexables.
@@ -36,14 +37,27 @@ class Indexable_Helper {
 	protected $environment_helper;
 
 	/**
+	 * The notification center.
+	 *
+	 * @var Yoast_Notification_Center
+	 */
+	protected $notification_center;
+
+	/**
 	 * Indexable_Helper constructor.
 	 *
-	 * @param Options_Helper     $options_helper     The options helper.
-	 * @param Environment_Helper $environment_helper The environment helper.
+	 * @param Options_Helper            $options_helper      The options helper.
+	 * @param Environment_Helper        $environment_helper  The environment helper.
+	 * @param Yoast_Notification_Center $notification_center The notifification center.
 	 */
-	public function __construct( Options_Helper $options_helper, Environment_Helper $environment_helper ) {
-		$this->options_helper     = $options_helper;
-		$this->environment_helper = $environment_helper;
+	public function __construct(
+		Options_Helper $options_helper,
+		Environment_Helper $environment_helper,
+		Yoast_Notification_Center $notification_center
+	) {
+		$this->options_helper      = $options_helper;
+		$this->environment_helper  = $environment_helper;
+		$this->notification_center = $notification_center;
 	}
 
 	/**
@@ -111,7 +125,8 @@ class Indexable_Helper {
 
 		if ( $result !== false && $result > 0 ) {
 			$this->options_helper->set( 'indexing_reason', $reason );
-			$this->options_helper->set( 'indexation_warning_hide_until', false );
+			// Remove the notification so it can be added again with the new reason.
+			$this->notification_center->remove_notification_by_id( Indexing_Notification_Integration::NOTIFICATION_ID );
 
 			\delete_transient( Indexable_Post_Indexation_Action::TRANSIENT_CACHE_KEY );
 			\delete_transient( Indexable_Post_Type_Archive_Indexation_Action::TRANSIENT_CACHE_KEY );

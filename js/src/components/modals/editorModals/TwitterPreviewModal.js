@@ -15,7 +15,7 @@ const TwitterPreviewModal = () => {
 		<EditorModal
 			title={ __( "Twitter preview", "wordpress-seo" ) }
 		>
-			<TwitterEditor location="modal" />
+			<TwitterEditor />
 		</EditorModal>
 	);
 };

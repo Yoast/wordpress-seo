@@ -44,23 +44,6 @@ function wpseo_set_option() {
 add_action( 'wp_ajax_wpseo_set_option', 'wpseo_set_option' );
 
 /**
- * Sets an option in the database to hide the index warning for a week.
- *
- * This function is used in AJAX calls and dies on exit.
- */
-function wpseo_set_indexation_remind() {
-	if ( ! current_user_can( 'manage_options' ) ) {
-		die( '-1' );
-	}
-
-	check_ajax_referer( 'wpseo-indexation-remind' );
-
-	WPSEO_Options::set( 'indexation_warning_hide_until', ( time() + WEEK_IN_SECONDS ) );
-	die( '1' );
-}
-add_action( 'wp_ajax_wpseo_set_indexation_remind', 'wpseo_set_indexation_remind' );
-
-/**
  * Since 3.2 Notifications are dismissed in the Notification Center.
  */
 add_action( 'wp_ajax_yoast_dismiss_notification', [ 'Yoast_Notification_Center', 'ajax_dismiss_notification' ] );
@@ -77,11 +60,6 @@ function wpseo_set_ignore() {
 
 	$ignore_key = sanitize_text_field( filter_input( INPUT_POST, 'option' ) );
 	WPSEO_Options::set( 'ignore_' . $ignore_key, true );
-
-	if ( $ignore_key === 'indexation_warning' ) {
-		WPSEO_Options::set( 'indexing_reason', '' );
-		WPSEO_Options::set( 'indexation_warning_hide_until', false );
-	}
 
 	die( '1' );
 }

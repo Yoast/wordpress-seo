@@ -7,6 +7,7 @@ use Mockery;
 use Yoast\WP\SEO\Actions\Semrush\SEMrush_Login_Action;
 use Yoast\WP\SEO\Actions\Semrush\SEMrush_Options_Action;
 use Yoast\WP\SEO\Actions\SEMrush\SEMrush_Phrases_Action;
+use Yoast\WP\SEO\Conditionals\SEMrush_Enabled_Conditional;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
@@ -76,7 +77,10 @@ class SEMrush_Route_Test extends TestCase {
 	 * @covers ::get_conditionals
 	 */
 	public function test_get_conditionals() {
-		$this->assertEquals( [], SEMrush_Route::get_conditionals() );
+		$this->assertEquals(
+			[ SEMrush_Enabled_Conditional::class ],
+			SEMrush_Route::get_conditionals()
+		);
 	}
 
 	/**
