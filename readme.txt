@@ -209,9 +209,9 @@ Your question has most likely been answered on our knowledge base: [kb.yoast.com
 == Changelog ==
 
 = 15.2 =
-Today, we are releasing Yoast SEO 15.2 into the wild. In this release, we've added an interesting improvement for Slack users — better visibility for your content when your URL is shared on Slack. We also improved the performance of the plugin in the backend due to us loading less JavaScript. Read more about what’s new in 15.2 in [our release post](https://yoa.st/release-15-2)!
-
 Release Date: October 27th, 2020
+
+Today, we are releasing Yoast SEO 15.2 into the wild. In this release, we've added an interesting improvement for Slack users — better visibility for your content when your URL is shared on Slack. We also improved the performance of the plugin in the backend due to us loading less JavaScript. Read more about what’s new in 15.2 in [our release post](https://yoa.st/release-15-2)!
 
 Enhancements:
 
