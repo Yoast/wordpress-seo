@@ -3,9 +3,6 @@ import { combineReducers, registerStore } from "@wordpress/data";
 import reducers from "../redux/reducers";
 import * as selectors from "../redux/selectors";
 import * as actions from "../redux/actions";
-import { setSettings } from "../redux/actions/settings";
-import { loadCornerstoneContent, loadFocusKeyword, setSEMrushChangeCountry, loadSnippetEditorData } from "../redux/actions";
-import { setSEMrushLoginStatus } from "../redux/actions";
 
 /**
  * Populates the store.
@@ -15,13 +12,8 @@ import { setSEMrushLoginStatus } from "../redux/actions";
  * @returns {void}
  */
 const populateStore = store => {
-	// Initialize the cornerstone content.
-	store.dispatch( loadCornerstoneContent() );
-	// Initialize the focus keyphrase.
-	store.dispatch( loadFocusKeyword() );
-
 	store.dispatch(
-		setSettings( {
+		actions.setSettings( {
 			socialPreviews: {
 				sitewideImage: window.wpseoScriptData.metabox.sitewide_social_image,
 				authorName: window.wpseoScriptData.metabox.author_name,
@@ -38,12 +30,8 @@ const populateStore = store => {
 		} )
 	);
 
-	store.dispatch(
-		setSEMrushChangeCountry( window.wpseoScriptData.metabox.countryCode )
-	);
-	store.dispatch(
-		setSEMrushLoginStatus( window.wpseoScriptData.metabox.SEMrushLoginStatus )
-	);
+	store.dispatch( actions.setSEMrushChangeCountry( window.wpseoScriptData.metabox.countryCode ) );
+	store.dispatch( actions.setSEMrushLoginStatus( window.wpseoScriptData.metabox.SEMrushLoginStatus ) );
 };
 
 /**
