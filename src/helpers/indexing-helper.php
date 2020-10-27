@@ -141,6 +141,7 @@ class Indexing_Helper {
 	 */
 	public function finish() {
 		$this->set_reason( '' );
+		$this->set_started( null );
 	}
 
 	/**
