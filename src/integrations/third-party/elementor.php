@@ -339,6 +339,12 @@ class Elementor implements Integration_Interface {
 			echo new Meta_Fields_Presenter( $this->get_metabox_post(), 'social' );
 		}
 
+		printf(
+			'<input type="hidden" id="%1$s" name="%1$s" value="%2$s" />',
+			\esc_attr( WPSEO_Meta::$form_prefix . "slug" ),
+			\esc_attr( $this->get_metabox_post()->post_name )
+		);
+
 		/**
 		 * Filter: 'wpseo_content_meta_section_content' - Allow filtering the metabox content before outputting.
 		 *
