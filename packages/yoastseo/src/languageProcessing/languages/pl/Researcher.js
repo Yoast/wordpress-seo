@@ -14,6 +14,7 @@ import stopWordsInUrl from "./researches/stopWordsInUrl";
 import findTransitionWords from "./researches/findTransitionWords";
 import functionWordsInKeyphrase from "./researches/functionWordsInKeyphrase";
 import getSentenceBeginnings from "./researches/getSentenceBeginnings.js";
+import keyphraseLength from "./researches/keyphraseLength";
 
 /**
  * The researches contains all the researches
@@ -41,6 +42,7 @@ export default class Researcher extends AbstractResearcher {
 			morphology: getWordForms,
 			prominentWordsForInsights: getProminentWordsForInsights,
 			prominentWordsForInternalLinking: getProminentWordsForInternalLinking,
+			keyphraseLength: keyphraseLength,
 		} );
 	}
 }

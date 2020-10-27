@@ -8,13 +8,6 @@ import { keyphraseDistributionResearcher as keyphraseDistribution } from "../../
 import AbstractResearcher from "../../AbstractResearcher";
 
 import getLinkStatistics from "./researches/getLinkStatistics";
-import passiveVoice from "./researches/getPassiveVoice.js";
-import stopWordsInKeyword from "./researches/stopWordsInKeyword";
-import stopWordsInUrl from "./researches/stopWordsInUrl";
-import calculateFleschReading from "./researches/calculateFleshReading";
-import findTransitionWords from "./researches/findTransitionWords";
-import functionWordsInKeyphrase from "./researches/functionWordsInKeyphrase";
-import getSentenceBeginnings from "./researches/getSentenceBeginnings.js";
 import keyphraseLength from "./researches/keyphraseLength";
 
 /**
@@ -30,13 +23,6 @@ export default class Researcher extends AbstractResearcher {
 		super( paper );
 
 		Object.assign( this.defaultResearches, {
-			calculateFleschReading: calculateFleschReading,
-			stopWordsInKeyword: stopWordsInKeyword,
-			stopWordsInUrl: stopWordsInUrl,
-			findTransitionWords: findTransitionWords,
-			passiveVoice: passiveVoice,
-			getSentenceBeginnings: getSentenceBeginnings,
-			functionWordsInKeyphrase: functionWordsInKeyphrase,
 			matchKeywordInSubheadings: matchKeywordInSubheadings,
 			getLinkStatistics: getLinkStatistics,
 			keyphraseDistribution: keyphraseDistribution,
