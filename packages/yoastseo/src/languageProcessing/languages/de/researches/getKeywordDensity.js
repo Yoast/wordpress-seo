@@ -1,7 +1,7 @@
 import getKeywordDensity from "../../../researches/base/getKeywordDensity";
 
 /**
- * Calculates the keyword density.
+ * Calculates the keyword density and returns the information whether a stemmer is available or not.
  *
  * @inheritDoc getKeywordDensity
  */
