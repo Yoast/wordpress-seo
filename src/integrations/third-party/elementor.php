@@ -382,15 +382,14 @@ class Elementor implements Integration_Interface {
 
 		if ( \is_object( $this->get_metabox_post() ) ) {
 			$permalink = \get_sample_permalink( $this->get_metabox_post()->ID );
+			$permalink = $permalink[0];
 		}
 
 		$post_formatter = new WPSEO_Metabox_Formatter(
-			new WPSEO_Post_Metabox_Formatter( $this->get_metabox_post(), [], $permalink[0] )
+			new WPSEO_Post_Metabox_Formatter( $this->get_metabox_post(), [], $permalink )
 		);
 
 		$values = $post_formatter->get_values();
-
-		$values['slug'] = $permalink[1];
 
 		/** This filter is documented in admin/filters/class-cornerstone-filter.php. */
 		$post_types = \apply_filters( 'wpseo_cornerstone_post_types', YoastSEO()->helpers->post_type->get_accessible_post_types() );
