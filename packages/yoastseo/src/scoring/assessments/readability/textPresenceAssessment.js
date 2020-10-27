@@ -1,5 +1,5 @@
 import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
-import { stripFullTags as stripHTMLTags } from "../../../../researches/stringProcessing/stripHTMLTags";
+import { stripFullTags as stripHTMLTags } from "../../../../../helpers/src/strings/stripHTMLTags";
 import AssessmentResult from "../../../values/AssessmentResult";
 
 /**

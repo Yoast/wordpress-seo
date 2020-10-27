@@ -2,7 +2,7 @@ import { filter, flatten, map, partition, sortBy } from "lodash-es";
 
 import marker from "../../../markers/addMark";
 import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
-import { stripIncompleteTags as stripTags } from "../../../../researches/stringProcessing/stripHTMLTags";
+import { stripIncompleteTags as stripTags } from "../../../../../helpers/src/strings/stripHTMLTags";
 import AssessmentResult from "../../../values/AssessmentResult";
 import Mark from "../../../values/Mark";
 

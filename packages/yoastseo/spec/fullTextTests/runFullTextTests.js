@@ -1,5 +1,5 @@
 import contentConfiguration from "../../src/config/_todo/content/combinedConfig";
-import getLanguage from "../../src/helpers/_todo/getLanguage";
+import getLanguage from "../../src/languageProcessing/helpers/language/getLanguage";
 import factory from "../specHelpers/factory.js";
 const i18n = factory.buildJed();
 import Researcher from "../../src/researcher";
