@@ -5,7 +5,7 @@ import wordCountInText from "./researches/wordCountInText.js";
 import linkCount from "./researches/countLinks.js";
 import getLinks from "./researches/getLinks.js";
 import urlLength from "./researches/urlIsTooLong.js";
-import getKeywordDensity from "./researches/getKeywordDensity.js";
+import getKeywordDensity from "./researches/base/getKeywordDensity.js";
 import metaDescriptionLength from "./researches/metaDescriptionLength.js";
 import metaDescriptionKeyword from "./researches/metaDescriptionKeyword";
 import imageCount from "./researches/imageCountInText.js";
