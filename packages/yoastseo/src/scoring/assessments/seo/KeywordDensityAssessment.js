@@ -7,7 +7,7 @@ import getLanguagesWithWordFormSupport from "../../../helpers/_todo/getLanguages
 import AssessmentResult from "../../../values/AssessmentResult";
 import { inRangeEndInclusive, inRangeStartEndInclusive, inRangeStartInclusive } from "../../helpers/assessments/inRange";
 import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
-import keyphraseLengthFactor from "../../../helpers/keyphraseLengthFactor.js";
+import keyphraseLengthFactor from "../../helpers/assessments/keyphraseLengthFactor.js";
 import countWords from "../../../../researches/stringProcessing/countWords";
 
 /**
