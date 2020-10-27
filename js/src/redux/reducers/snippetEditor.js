@@ -20,8 +20,8 @@ function getInitialState() {
 		mode: "mobile",
 		data: {
 			title: "",
-			slug: "",
 			description: "",
+			slug: "",
 		},
 		wordsToHighlight: [],
 		replacementVariables: getDefaultReplacementVariables(),
