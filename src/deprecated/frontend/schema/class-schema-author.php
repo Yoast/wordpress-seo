@@ -5,8 +5,9 @@
  * @package WPSEO\Frontend\Schema
  */
 
-use Yoast\WP\SEO\Config\Schema_IDs;
 use Yoast\WP\SEO\Generators\Schema\Author;
+
+use const Yoast\WP\SEO\Constants\Schema\AUTHOR_LOGO_HASH;
 
 /**
  * Returns schema Person data.
@@ -22,7 +23,7 @@ class WPSEO_Schema_Author extends WPSEO_Deprecated_Graph_Piece {
 	 *
 	 * @var string
 	 */
-	protected $image_hash = Schema_IDs::AUTHOR_LOGO_HASH;
+	protected $image_hash = AUTHOR_LOGO_HASH;
 
 	/**
 	 * The Schema type we use for this class.

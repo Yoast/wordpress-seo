@@ -19,6 +19,9 @@ use Yoast\WP\SEO\Presentations\Abstract_Presentation;
 use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
+use const Yoast\WP\SEO\Constants\Schema\ORGANIZATION_HASH;
+use const Yoast\WP\SEO\Constants\Schema\WEBPAGE_HASH;
+
 /**
  * Class Meta_Tags_Context.
  *
@@ -346,7 +349,7 @@ class Meta_Tags_Context extends Abstract_Presentation {
 			return [ '@id' => $this->id_helper->get_user_schema_id( $this->site_user_id, $this ) ];
 		}
 		if ( $this->site_represents === 'company' ) {
-			return [ '@id' => $this->site_url . Schema_IDs::ORGANIZATION_HASH ];
+			return [ '@id' => $this->site_url . ORGANIZATION_HASH ];
 		}
 
 		return false;
@@ -490,7 +493,7 @@ class Meta_Tags_Context extends Abstract_Presentation {
 	 * The main schema id.
 	 */
 	public function generate_main_schema_id() {
-		return $this->canonical . Schema_IDs::WEBPAGE_HASH;
+		return $this->canonical . WEBPAGE_HASH;
 	}
 
 	/**

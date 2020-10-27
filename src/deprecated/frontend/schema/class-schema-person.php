@@ -5,8 +5,9 @@
  * @package WPSEO\Frontend\Schema
  */
 
-use Yoast\WP\SEO\Config\Schema_IDs;
 use Yoast\WP\SEO\Generators\Schema\Person;
+
+use const Yoast\WP\SEO\Constants\Schema\PERSON_LOGO_HASH;
 
 /**
  * Returns schema Person data.
@@ -22,7 +23,7 @@ class WPSEO_Schema_Person extends WPSEO_Deprecated_Graph_Piece {
 	 *
 	 * @var string
 	 */
-	protected $image_hash = Schema_IDs::PERSON_LOGO_HASH;
+	protected $image_hash = PERSON_LOGO_HASH;
 
 	/**
 	 * Array of the social profiles we display for a Person.

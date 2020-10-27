@@ -4,6 +4,10 @@ namespace Yoast\WP\SEO\Generators\Schema;
 
 use Yoast\WP\SEO\Config\Schema_IDs;
 
+use const Yoast\WP\SEO\Constants\Schema\ARTICLE_HASH;
+use const Yoast\WP\SEO\Constants\Schema\PRIMARY_IMAGE_HASH;
+use const Yoast\WP\SEO\Constants\Schema\WEBPAGE_HASH;
+
 /**
  * Returns schema Article data.
  */
@@ -30,7 +34,7 @@ class Article extends Abstract_Schema_Piece {
 		}
 
 		if ( $this->context->schema_article_type !== 'None' ) {
-			$this->context->main_schema_id = $this->context->canonical . Schema_IDs::ARTICLE_HASH;
+			$this->context->main_schema_id = $this->context->canonical . ARTICLE_HASH;
 
 			return true;
 		}
@@ -46,13 +50,13 @@ class Article extends Abstract_Schema_Piece {
 	public function generate() {
 		$data = [
 			'@type'            => $this->context->schema_article_type,
-			'@id'              => $this->context->canonical . Schema_IDs::ARTICLE_HASH,
-			'isPartOf'         => [ '@id' => $this->context->canonical . Schema_IDs::WEBPAGE_HASH ],
+			'@id'              => $this->context->canonical . ARTICLE_HASH,
+			'isPartOf'         => [ '@id' => $this->context->canonical . WEBPAGE_HASH ],
 			'author'           => [ '@id' => $this->helpers->schema->id->get_user_schema_id( $this->context->post->post_author, $this->context ) ],
 			'headline'         => $this->helpers->schema->html->smart_strip_tags( $this->helpers->post->get_post_title_with_fallback( $this->context->id ) ),
 			'datePublished'    => $this->helpers->date->format( $this->context->post->post_date_gmt ),
 			'dateModified'     => $this->helpers->date->format( $this->context->post->post_modified_gmt ),
-			'mainEntityOfPage' => [ '@id' => $this->context->canonical . Schema_IDs::WEBPAGE_HASH ],
+			'mainEntityOfPage' => [ '@id' => $this->context->canonical . WEBPAGE_HASH ],
 		];
 
 		// If the comments are open -or- there are comments approved, show the count.
@@ -155,7 +159,7 @@ class Article extends Abstract_Schema_Piece {
 	private function add_image( $data ) {
 		if ( $this->context->has_image ) {
 			$data['image'] = [
-				'@id' => $this->context->canonical . Schema_IDs::PRIMARY_IMAGE_HASH,
+				'@id' => $this->context->canonical . PRIMARY_IMAGE_HASH,
 			];
 		}
 

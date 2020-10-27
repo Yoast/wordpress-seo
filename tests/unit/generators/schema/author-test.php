@@ -6,7 +6,6 @@ use Brain\Monkey\Expectation\Exception\ExpectationArgsRequired;
 use Brain\Monkey\Filters;
 use Brain\Monkey\Functions;
 use Mockery;
-use Yoast\WP\SEO\Config\Schema_IDs;
 use Yoast\WP\SEO\Helpers\Image_Helper;
 use Yoast\WP\SEO\Helpers\Schema;
 use Yoast\WP\SEO\Helpers\Schema\Article_Helper;
@@ -14,6 +13,8 @@ use Yoast\WP\SEO\Tests\Unit\Doubles\Context\Meta_Tags_Context_Mock;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Generators\Schema\Author_Mock;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
+
+use const Yoast\WP\SEO\Constants\Schema\PERSON_LOGO_HASH;
 
 /**
  * Class Author_Test
@@ -274,7 +275,7 @@ class Author_Test extends TestCase {
 
 		$this->instance->helpers->schema->image
 			->expects( 'simple_image_object' )
-			->with( Schema_IDs::PERSON_LOGO_HASH, $this->person_data['image']['url'], $user_data->display_name )
+			->with( PERSON_LOGO_HASH, $this->person_data['image']['url'], $user_data->display_name )
 			->andReturn( $this->person_data['image'] );
 
 		Filters\expectApplied( 'wpseo_schema_person_user_id' );
@@ -394,7 +395,7 @@ class Author_Test extends TestCase {
 		$this->instance->helpers->schema->image
 			->expects( 'generate_from_attachment_id' )
 			->with(
-				$this->instance->context->site_url . Schema_IDs::PERSON_LOGO_HASH,
+				$this->instance->context->site_url . PERSON_LOGO_HASH,
 				$person_logo_id,
 				$user_data->display_name
 			)

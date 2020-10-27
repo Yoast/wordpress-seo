@@ -5,7 +5,6 @@ namespace Yoast\WP\SEO\Tests\Unit\Generators\Schema;
 use Brain\Monkey\Filters;
 use Brain\Monkey\Functions;
 use Mockery;
-use Yoast\WP\SEO\Config\Schema_IDs;
 use Yoast\WP\SEO\Generators\Schema\Person;
 use Yoast\WP\SEO\Helpers\Image_Helper;
 use Yoast\WP\SEO\Helpers\Schema\Article_Helper;
@@ -15,6 +14,8 @@ use Yoast\WP\SEO\Helpers\Schema\Image_Helper as Schema_Image_Helper;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Context\Meta_Tags_Context_Mock;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
+
+use const Yoast\WP\SEO\Constants\Schema\PERSON_LOGO_HASH;
 
 /**
  * Class Person_Test,
@@ -93,7 +94,7 @@ class Person_Test extends TestCase {
 			'description'  => 'Description',
 		];
 		$person_logo_id        = 42;
-		$person_schema_logo_id = $this->instance->context->site_url . Schema_IDs::PERSON_LOGO_HASH;
+		$person_schema_logo_id = $this->instance->context->site_url . PERSON_LOGO_HASH;
 		$image_schema          = [
 			'@type'      => 'ImageObject',
 			'@id'        => $person_schema_logo_id,
@@ -549,7 +550,7 @@ class Person_Test extends TestCase {
 	protected function expects_for_set_image_from_avatar( $user_data, $scenario = 'default' ) {
 		$image_schema = [
 			'@type'      => 'ImageObject',
-			'@id'        => $this->instance->context->site_url . Schema_IDs::PERSON_LOGO_HASH,
+			'@id'        => $this->instance->context->site_url . PERSON_LOGO_HASH,
 			'inLanguage' => 'en-US',
 			'url'        => 'https://example.com/image.png',
 			'width'      => 64,

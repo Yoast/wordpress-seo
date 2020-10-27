@@ -4,6 +4,8 @@ namespace Yoast\WP\SEO\Generators\Schema;
 
 use Yoast\WP\SEO\Config\Schema_IDs;
 
+use const Yoast\WP\SEO\Constants\Schema\PRIMARY_IMAGE_HASH;
+
 /**
  * Returns ImageObject schema data.
  */
@@ -26,7 +28,7 @@ class Main_Image extends Abstract_Schema_Piece {
 	 * @return false|array $data Image Schema.
 	 */
 	public function generate() {
-		$image_id = $this->context->canonical . Schema_IDs::PRIMARY_IMAGE_HASH;
+		$image_id = $this->context->canonical . PRIMARY_IMAGE_HASH;
 
 		$image_schema = $this->get_featured_image( $this->context->id, $image_id );
 

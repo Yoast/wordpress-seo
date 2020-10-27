@@ -4,13 +4,14 @@ namespace Yoast\WP\SEO\Tests\Unit\Generators\Schema;
 
 use Brain\Monkey;
 use Mockery;
-use Yoast\WP\SEO\Config\Schema_IDs;
 use Yoast\WP\SEO\Generators\Schema\Main_Image;
 use Yoast\WP\SEO\Helpers\Image_Helper;
 use Yoast\WP\SEO\Helpers\Schema;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Context\Meta_Tags_Context_Mock;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
+
+use const Yoast\WP\SEO\Constants\Schema\PRIMARY_IMAGE_HASH;
 
 /**
  * Class Main_Image_Test.
@@ -214,6 +215,6 @@ class Main_Image_Test extends TestCase {
 	 * @return string The image id.
 	 */
 	protected function generate_image_id() {
-		return $this->meta_tags_context->canonical . Schema_IDs::PRIMARY_IMAGE_HASH;
+		return $this->meta_tags_context->canonical . PRIMARY_IMAGE_HASH;
 	}
 }

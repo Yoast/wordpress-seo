@@ -2,7 +2,8 @@
 
 namespace Yoast\WP\SEO\Generators\Schema;
 
-use Yoast\WP\SEO\Config\Schema_IDs;
+use const Yoast\WP\SEO\Constants\Schema\ORGANIZATION_HASH;
+use const Yoast\WP\SEO\Constants\Schema\ORGANIZATION_LOGO_HASH;
 
 /**
  * Returns schema Organization data.
@@ -24,11 +25,11 @@ class Organization extends Abstract_Schema_Piece {
 	 * @return array $data The Organization schema.
 	 */
 	public function generate() {
-		$logo_schema_id = $this->context->site_url . Schema_IDs::ORGANIZATION_LOGO_HASH;
+		$logo_schema_id = $this->context->site_url . ORGANIZATION_LOGO_HASH;
 
 		return [
 			'@type'  => 'Organization',
-			'@id'    => $this->context->site_url . Schema_IDs::ORGANIZATION_HASH,
+			'@id'    => $this->context->site_url . ORGANIZATION_HASH,
 			'name'   => $this->helpers->schema->html->smart_strip_tags( $this->context->company_name ),
 			'url'    => $this->context->site_url,
 			'sameAs' => $this->fetch_social_profiles(),
