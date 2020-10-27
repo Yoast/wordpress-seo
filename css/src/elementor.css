@@ -1,0 +1,8 @@
+.elementor-panel .elementor-tab-control-new-tab a:before {
+	content: "";
+	background-image: var(--yoast-svg-icon-yoast);
+	background-size: cover;
+	background-repeat: no-repeat;
+	height: 16px;
+	width: 16px;
+}
