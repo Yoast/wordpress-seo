@@ -18,7 +18,7 @@ const recommendedValue = 150;
  */
 const getTooLongParagraphs = function( paragraphsLength  ) {
 	return filter( paragraphsLength, function( paragraph ) {
-		return isParagraphTooLong( recommendedValue, paragraph.wordCount );
+		return paragraph.wordCount > recommendedValue;
 	} );
 };
 

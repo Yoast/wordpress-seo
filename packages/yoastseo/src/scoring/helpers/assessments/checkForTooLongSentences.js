@@ -1,5 +1,4 @@
 import { filter } from "lodash-es";
-import isSentenceTooLong from "../../../helpers/isValueTooLong";
 
 /**
  * Checks for too long sentences.
@@ -9,7 +8,7 @@ import isSentenceTooLong from "../../../helpers/isValueTooLong";
  */
 export default function( sentences, recommendedValue ) {
 	var tooLongSentences = filter( sentences, function( sentence ) {
-		return isSentenceTooLong( recommendedValue, sentence.sentenceLength );
+		return sentence.sentenceLength > recommendedValue;
 	} );
 
 	return tooLongSentences;
