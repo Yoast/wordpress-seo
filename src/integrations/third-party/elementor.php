@@ -220,8 +220,8 @@ class Elementor implements Integration_Interface {
 			$post_array = $post->to_array();
 			$post_array['post_name'] = $slug;
 
-			$save_succesful = \wp_insert_post( $post_array );
-			if ( \is_wp_error( $save_succesful ) ) {
+			$save_successful = \wp_insert_post( $post_array );
+			if ( \is_wp_error( $save_successful ) ) {
 				\wp_send_json_error( 'Slug not saved', 400 );
 			}
 
