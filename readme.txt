@@ -232,6 +232,7 @@ Bugfixes:
 * Fixes a bug where a fatal error would be thrown on sites that did have curl installed but did not have the PHP curl extension installed.
 
 Other:
+
 * Removes the "Remind me in 7 days" link from the SEO data optimization notification on the Yoast SEO dashboard, which was shown for large sites with more than 2500 unindexed indexables. The notification can still be hidden by clicking the default dismiss button.
 * Adds the `wpseo_image_data` filter to enable the filtering of image metadata. Props to [spacedmonkey](https://github.com/spacedmonkey).
 
