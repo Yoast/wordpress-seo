@@ -18,8 +18,6 @@ var hiddenElement = templates.hiddenSpan;
 import SnippetPreviewToggler from "./snippetPreviewToggler";
 import domManipulation from "../helpers/domManipulation.js";
 
-import Config from "../config/_todo/config";
-
 var defaults = {
 	data: {
 		title: "",
@@ -52,7 +50,7 @@ var defaults = {
 };
 
 var titleMaxLength = 600;
-const maximumMetaDescriptionLength = Config.maxMeta;
+const maximumMetaDescriptionLength = 156;
 
 var inputPreviewBindings = [
 	{

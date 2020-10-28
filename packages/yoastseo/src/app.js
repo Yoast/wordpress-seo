@@ -1,4 +1,3 @@
-import "./config/_todo/config.js";
 import SnippetPreview from "./snippetPreview/snippetPreview.js";
 
 import { defaultsDeep } from "lodash-es";
