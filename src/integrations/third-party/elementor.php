@@ -161,23 +161,14 @@ class Elementor implements Integration_Interface {
 			return;
 		}
 
+		// This is needed to get the tab to appear, but will be overwritten in the JavaScript.
 		$document->start_controls_section(
-			'new_section',
+			'yoast_temporary_section',
 			[
 				'label' => __( 'Yoast SEO', 'wordpress-seo' ),
 				'tab' => self::YOAST_TAB,
 			]
 		);
-			
-		$document->add_control(
-			'yoast-html',
-			[
-				'tab' => self::YOAST_TAB,
-				'type' => Controls_Manager::RAW_HTML,
-				'raw' => '<div id="elementor-panel-yoast-2" />',
-			]
-		);
-		// var_dump( $document ); die;
 
 		$document->end_controls_section();
 	}
