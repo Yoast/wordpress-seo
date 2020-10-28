@@ -1,5 +1,5 @@
 import { defaultsDeep } from "lodash-es";
-import getLanguage from "../../../helpers/_todo/getLanguage";
+import getLanguage from "../../../languageProcessing/helpers/language/getLanguage";
 import defaultConfig from "./default";
 import it from "./it";
 import ru from "./ru";

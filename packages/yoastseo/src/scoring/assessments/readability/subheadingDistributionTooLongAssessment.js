@@ -4,8 +4,8 @@ import Assessment from "../assessment";
 import { inRangeEndInclusive as inRange } from "../../../helpers/inRange";
 import isTextTooLong from "../../../helpers/isValueTooLong";
 import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
-import { getSubheadings } from "../../../../researches/stringProcessing/getSubheadings";
-import getWords from "../../../../researches/stringProcessing/getWords";
+import { getSubheadings } from "../../../languageProcessing/helpers/html/getSubheadings";
+import getWords from "../../../languageProcessing/helpers/word/getWords";
 import AssessmentResult from "../../../values/AssessmentResult";
 
 /**
