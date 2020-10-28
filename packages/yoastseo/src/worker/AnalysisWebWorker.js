@@ -11,7 +11,7 @@ import * as bundledPlugins from "../bundledPlugins";
 import * as helpers from "../helpers/_todo";
 import * as markers from "../markers";
 import * as interpreters from "../scoring/interpreters";
-import * as config from "../config/_todo";
+import * as config from "../config";
 
 import Assessor from "../scoring/assessor";
 import Assessment from "../scoring/assessments/assessment";
