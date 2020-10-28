@@ -1,9 +1,15 @@
 .elementor-panel .elementor-tab-control-yoast-tab a:before {
-	content: "";
 	background-image: var(--yoast-svg-icon-yoast);
 	background-size: cover;
 	background-repeat: no-repeat;
 	height: 16px;
 	width: 16px;
 	margin: 0 auto;
+
+	/*
+	Content should contain some text, because that's how Elementor spaces their nav.
+	Set color to transparent because we don't wan't to see the before's text.
+	*/
+	content: ".";
+	color: transparent;
 }
