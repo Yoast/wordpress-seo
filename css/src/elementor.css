@@ -41,6 +41,9 @@
     cursor: pointer;
 }
 
+#elementor-panel-yoast .UpsellLinkButton {
+    color: var(--yoast-color-label);
+}
 
 /* All hover effects */
 @media(hover:hover) {
