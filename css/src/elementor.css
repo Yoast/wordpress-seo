@@ -1,3 +1,8 @@
+/*
+ * Style adaptions for the Elementor integration
+ * Mostly fills in the gaps for pieces that normally receive their styles through the block-editor
+*/
+
 .elementor-panel .elementor-tab-control-new-tab a:before {
 	content: "";
 	background-image: var(--yoast-svg-icon-yoast);
@@ -7,3 +12,43 @@
 	width: 16px;
 	margin: 0 auto;
 }
+
+/* Sidebar */
+.yoast-elementor.yoast-sidebar-panel {
+	margin-top: 10px;
+	padding: 5px 5px 0 5px;
+	color: var(--yoast-color-font-default);
+	background-color: var(--yoast-color-white);
+	-webkit-font-smoothing: subpixel-antialiased;
+}
+
+.yoast-elementor.yoast-sidebar-panel li {
+	margin-bottom: 6px;
+}
+
+.yoast-elementor.yoast-sidebar-panel p {
+	line-height: 1.5;
+}
+
+.yoast-elementor.yoast-sidebar-panel p a, .button-link {
+	color: var(--yoast-color-link);
+	text-decoration: underline;
+}
+
+.button-link {
+    border: none;
+    background: none;
+    cursor: pointer;
+}
+
+
+/* All hover effects */
+@media(hover:hover) {
+	
+	.yoast-elementor.yoast-sidebar-panel p a:hover, .button-link:hover {
+		color: var(--yoast-color-primary-darker);
+	}
+}
+
+
+/*# sourceMappingURL=elementor.css.map */
