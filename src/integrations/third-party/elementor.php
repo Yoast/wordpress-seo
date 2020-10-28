@@ -56,11 +56,15 @@ class Elementor implements Integration_Interface {
 	protected $capability;
 
 	/**
+	 * Holds whether the socials are enabled.
+	 *
 	 * @var bool
 	 */
 	protected $social_is_enabled;
 
 	/**
+	 * Holds whether the advanced settings are enabled.
+	 *
 	 * @var bool
 	 */
 	protected $is_advanced_metadata_enabled;
@@ -107,8 +111,11 @@ class Elementor implements Integration_Interface {
 	}
 
 	/**
-	 * @codeCoverageIgnore
-	 * @inheritDoc
+	 * Initializes the integration.
+	 *
+	 * This is the place to register hooks and filters.
+	 *
+	 * @return void
 	 */
 	public function register_hooks() {
 		\add_action( 'elementor/editor/before_enqueue_scripts', [ $this, 'init' ] );
@@ -118,7 +125,7 @@ class Elementor implements Integration_Interface {
 	/**
 	 * Renders the breadcrumbs.
 	 *
-	 * @return string The rendered breadcrumbs.
+	 * @return void
 	 */
 	public function init() {
 		$this->asset_manager->register_assets();
@@ -193,6 +200,7 @@ class Elementor implements Integration_Interface {
 			}
 			else {
 				if ( isset( $_POST[ $field_name ] ) ) {
+					// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: Sanitized through sanitize_post_meta.
 					$data = \wp_unslash( $_POST[ $field_name ] );
 
 					// For multi-select.
@@ -241,11 +249,12 @@ class Elementor implements Integration_Interface {
 	/**
 	 * Enqueues all the needed JS and CSS.
 	 *
+	 * @return void
 	 */
 	public function enqueue() {
 		$post_id = \get_queried_object_id();
-		if ( empty( $post_id ) && isset( $_GET['post'] ) ) {
-			$post_id = \sanitize_text_field( $_GET['post'] );
+		if ( empty( $post_id ) ) {
+			$post_id = \sanitize_text_field( \filter_input( INPUT_GET, 'post' ) );
 		}
 
 		if ( $post_id !== 0 ) {
@@ -317,37 +326,36 @@ class Elementor implements Integration_Interface {
 
 	/**
 	 * Renders the metabox hidden fields.
+	 *
+	 * @return void
 	 */
 	protected function render_hidden_fields() {
 		printf( '<form id="yoast-form" method="post" action="%1$s"><input type="hidden" name="action" value="wpseo_elementor_save" /><input type="hidden" name="post_id" value="%2$s" />', \admin_url( 'admin-ajax.php' ), $this->get_metabox_post()->ID );
 
 		\wp_nonce_field( 'wpseo_elementor_save', '_wpnonce' );
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: Meta_Fields_Presenter->present is considered safe.
 		echo new Meta_Fields_Presenter( $this->get_metabox_post(), 'general' );
 
 		if ( $this->is_advanced_metadata_enabled ) {
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: Meta_Fields_Presenter->present is considered safe.
 			echo new Meta_Fields_Presenter( $this->get_metabox_post(), 'advanced' );
 		}
 
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: Meta_Fields_Presenter->present is considered safe.
 		echo new Meta_Fields_Presenter( $this->get_metabox_post(), 'schema' );
 
 		if ( $this->social_is_enabled ) {
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: Meta_Fields_Presenter->present is considered safe.
 			echo new Meta_Fields_Presenter( $this->get_metabox_post(), 'social' );
 		}
 
-		/**
-		 * Filter: 'wpseo_content_meta_section_content' - Allow filtering the metabox content before outputting.
-		 *
-		 * @api string $post_content The metabox content string.
-		 */
-		echo \apply_filters( 'wpseo_content_meta_section_content', '' );
-
-		echo "</form>";
+		echo '</form>';
 	}
 
 	/**
 	 * Returns post in metabox context.
 	 *
-	 * @returns WP_Post|null
+	 * @return WP_Post|null
 	 */
 	protected function get_metabox_post() {
 		if ( $this->post !== null ) {
