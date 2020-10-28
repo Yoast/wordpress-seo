@@ -9,7 +9,7 @@ import AbstractResearcher from "../../AbstractResearcher";
 
 import getLinkStatistics from "./researches/getLinkStatistics";
 import passiveVoice from "./researches/getPassiveVoice.js";
-import calculateFleschReading from "./researches/calculateFleshReading";
+import calculateFleschReading from "./researches/calculateFleschReading";
 import findTransitionWords from "./researches/findTransitionWords";
 import functionWordsInKeyphrase from "./researches/functionWordsInKeyphrase";
 import getSentenceBeginnings from "./researches/getSentenceBeginnings.js";
