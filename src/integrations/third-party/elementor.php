@@ -253,6 +253,7 @@ class Elementor implements Integration_Interface {
 			\wp_enqueue_media( [ 'post' => $post_id ] );
 		}
 
+		$this->asset_manager->enqueue_style( 'admin-global' );
 		$this->asset_manager->enqueue_style( 'metabox-css' );
 		$this->asset_manager->enqueue_style( 'scoring' );
 		$this->asset_manager->enqueue_style( 'select2' );
