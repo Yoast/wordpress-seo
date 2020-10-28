@@ -3,7 +3,7 @@ import { map } from "lodash-es";
 import formatNumber from "../../../helpers/formatNumber";
 import { inRangeStartInclusive as inRange } from "../../../helpers/inRange";
 import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
-import { stripIncompleteTags as stripTags } from "../../../../researches/stringProcessing/stripHTMLTags";
+import { stripIncompleteTags as stripTags } from "../../../../../helpers/src/strings/stripHTMLTags";
 import AssessmentResult from "../../../values/AssessmentResult";
 import Mark from "../../../values/Mark.js";
 import marker from "../../../markers/addMark.js";
@@ -153,8 +153,7 @@ const transitionWordsMarker = function( paper, researcher ) {
  * @returns {boolean} Returns true if the language is available and the paper is not empty.
  */
 const isApplicable = function( paper ) {
-	const isLanguageAvailable = getLanguageAvailability( paper.getLocale(), availableLanguages );
-	return ( isLanguageAvailable && paper.hasText() );
+	return paper.hasText();
 };
 
 export default {

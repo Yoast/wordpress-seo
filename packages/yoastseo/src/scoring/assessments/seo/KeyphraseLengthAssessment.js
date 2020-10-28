@@ -2,7 +2,7 @@ import { isUndefined, merge, inRange } from "lodash-es";
 
 import Assessment from "../assessment";
 import getFunctionWordsLanguages from "../../../helpers/_todo/getFunctionWordsLanguages";
-import getLanguage from "../../../helpers/_todo/getLanguage";
+import getLanguage from "../../../languageProcessing/helpers/language/getLanguage";
 import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
 import AssessmentResult from "../../../values/AssessmentResult";
 

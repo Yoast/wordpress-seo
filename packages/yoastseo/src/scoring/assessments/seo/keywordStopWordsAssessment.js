@@ -1,8 +1,5 @@
-import getLanguageAvailability from "../../../helpers/_todo/getLanguageAvailability";
 import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
 import AssessmentResult from "../../../values/AssessmentResult";
-
-const availableLanguages = [ "en" ];
 
 /**
  * Calculate the score based on the amount of stop words in the keyword.
@@ -65,8 +62,7 @@ const keywordHasStopWordsAssessment = function( paper, researcher, i18n ) {
  * @returns {boolean} Returns true if the language is available and the paper has a keyword.
  */
 const isApplicable = function( paper ) {
-	const isLanguageAvailable = getLanguageAvailability( paper.getLocale(), availableLanguages );
-	return paper.hasKeyword() && isLanguageAvailable;
+	return paper.hasKeyword();
 };
 
 export default {

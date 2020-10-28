@@ -1,4 +1,4 @@
-import syllableCountIterator from "../../src/helpers/_todo/syllableCountIterator.js";
+import syllableCountIterator from "../../src/languageProcessing/helpers/syllables/syllableCountIterator.js";
 
 describe( "creating a language syllable regex master", function() {
 	it( "returns an empty language syllable regex master", function() {
