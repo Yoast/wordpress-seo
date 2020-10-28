@@ -108,30 +108,20 @@ export default function initElementEditorIntegration() {
 	window.YoastSEO._registerReactComponent = registerReactComponent;
 
 	domReady( () => {
-		window.elementor.once( "preview:loaded", () => {
-			// Connects the tab to the panel.
-			window.$e.components
-				.get( "panel/elements" )
-				.addTab( "yoast", { title: "Yoast SEO" } );
-		} );
+		window.$e.routes.on( "run:after", function( component, route ) {
+			if ( route === "panel/page-settings/yoast-tab" ) {
+			   renderReactRoot( window.YoastSEO.store, "elementor-panel-page-settings-controls", (
+				  <Fragment>
+					 <ElementorSlot />
+					 <ElementorFill />
+				  </Fragment>
+			   ) );
+			}
+		 } );
 
 		// Hook into the save.
 		 const handleSave = sendFormData.bind( null, document.getElementById( "yoast-form" ) );
 		 window.elementor.saver.on( "before:save", handleSave );
-	} );
-
-	jQuery( window ).on( "elementor:init", () => {
-		// Adds the tab to the template.
-		const templateElement = document.getElementById( "tmpl-elementor-panel-elements" );
-		templateElement.innerHTML = templateElement.innerHTML.replace(
-			/(<div class="elementor-component-tab elementor-panel-navigation-tab" data-tab="global">.*<\/div>)/,
-			"$1<div class=\"elementor-component-tab elementor-panel-navigation-tab elementor-active\" data-tab=\"yoast\">Yoast SEO</div>",
-		);
-
-		window.elementor.hooks.addFilter(
-			"panel/elements/regionViews",
-			addYoastRegion,
-		);
 	} );
 
 	const yoastInputs = document.querySelectorAll( "input[name^='yoast']" );
