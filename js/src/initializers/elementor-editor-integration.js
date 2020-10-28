@@ -129,7 +129,7 @@ export default function initElementEditorIntegration() {
 
 		// Hook into the save.
 		 const handleSave = sendFormData.bind( null, document.getElementById( "yoast-form" ) );
-		 window.elementor.saver.on( "before:save", handleSave );
+		 window.elementor.saver.on( "after:save", handleSave );
 	} );
 
 	jQuery( window ).on( "elementor:init", () => {
