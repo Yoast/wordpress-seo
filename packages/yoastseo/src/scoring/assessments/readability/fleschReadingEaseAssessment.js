@@ -152,8 +152,7 @@ class FleschReadingEaseAssessment extends Assessment {
 	 * @returns {boolean} Returns true if the language is available and the paper is not empty.
 	 */
 	isApplicable( paper ) {
-		const isLanguageAvailable = getLanguageAvailability( paper.getLocale(), availableLanguages );
-		return ( isLanguageAvailable && paper.hasText() );
+		return paper.hasText();
 	}
 }
 

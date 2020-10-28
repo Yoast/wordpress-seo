@@ -1,4 +1,4 @@
-import getLanguage from "../../src/helpers/_todo/getLanguage.js";
+import getLanguage from "../../src/languageProcessing/helpers/language/getLanguage.js";
 
 describe( "a function to get the language from the locale ", function() {
 	it( "returns en in case of en_US", function() {
