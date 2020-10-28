@@ -3,8 +3,8 @@ import { filter, merge } from "lodash-es";
 import Assessment from "../assessment";
 import { inRangeEndInclusive as inRange } from "../../helpers/assessments/inRange";
 import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
-import { getSubheadings } from "../../../../researches/stringProcessing/getSubheadings";
-import getWords from "../../../../researches/stringProcessing/getWords";
+import { getSubheadings } from "../../../languageProcessing/helpers/html/getSubheadings";
+import getWords from "../../../languageProcessing/helpers/word/getWords";
 import AssessmentResult from "../../../values/AssessmentResult";
 
 /**

@@ -1,15 +1,12 @@
 import { map } from "lodash-es";
 
 import formatNumber from "../../../helpers/formatNumber";
-import getLanguageAvailability from "../../../helpers/_todo/getLanguageAvailability";
 import { inRangeEndInclusive as inRange } from "../../helpers/assessments/inRange";
 import marker from "../../../markers/addMark";
 import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
-import { stripIncompleteTags as stripTags } from "../../../../researches/stringProcessing/stripHTMLTags";
+import { stripIncompleteTags as stripTags } from "../../../../../helpers/src/strings/stripHTMLTags";
 import AssessmentResult from "../../../values/AssessmentResult";
 import Mark from "../../../values/Mark";
-
-const availableLanguages = [ "en", "de", "fr", "es", "ru", "it", "nl", "pl", "sv", "pt", "id", "ar" ];
 
 /**
  * Calculates the result based on the number of sentences and passives.
@@ -129,8 +126,7 @@ const passiveVoiceAssessment = function( paper, researcher, i18n ) {
  * @returns {boolean} Returns true if the language is available and the paper is not empty.
  */
 const isApplicable = function( paper ) {
-	const isLanguageAvailable = getLanguageAvailability( paper.getLocale(), availableLanguages );
-	return ( isLanguageAvailable && paper.hasText() );
+	return paper.hasText();
 };
 
 export default {
