@@ -3,6 +3,19 @@
  * Mostly fills in the gaps for pieces that normally receive their styles through the block-editor
 */
 
+:root {
+	--yoast-elementor-color-paragraph: #555D66;
+}
+
+.yoast {
+	font-family: var(--yoast-font-family) !important;
+}
+
+.yoast h2 {
+	color: var(--yoast-color-font-default);
+	margin-bottom: 1em;
+}
+
 .elementor-panel .elementor-tab-control-new-tab a:before {
 	content: "";
 	background-image: var(--yoast-svg-icon-yoast);
@@ -13,7 +26,6 @@
 	margin: 0 auto;
 }
 
-/* Sidebar */
 .yoast-elementor.yoast-sidebar-panel {
 	margin-top: 10px;
 	padding: 5px 5px 0 5px;
@@ -22,15 +34,13 @@
 	-webkit-font-smoothing: subpixel-antialiased;
 }
 
-.yoast-elementor.yoast-sidebar-panel li {
+.yoast-elementor.yoast-sidebar-panel li, .yoast li, .yoast p, .yoast small, .yoast a {
 	margin-bottom: 6px;
-}
-
-.yoast-elementor.yoast-sidebar-panel p {
 	line-height: 1.5;
+	color: var(--yoast-elementor-color-paragraph);
 }
 
-.yoast-elementor.yoast-sidebar-panel p a, .button-link {
+.yoast-elementor.yoast-sidebar-panel p a, .button-link, .yoast a, .yoast a p {
 	color: var(--yoast-color-link);
 	text-decoration: underline;
 }
@@ -41,15 +51,21 @@
     cursor: pointer;
 }
 
-#elementor-panel-yoast .UpsellLinkButton {
-    color: var(--yoast-color-label);
+.yoast-elementor.yoast-sidebar-panel .UpsellLinkButton, .yoast .yoast-button-upsell {
+	color: var(--yoast-color-label);
+	text-decoration: none;
 }
 
 /* All hover effects */
 @media(hover:hover) {
 	
-	.yoast-elementor.yoast-sidebar-panel p a:hover, .button-link:hover {
+	.yoast a:hover, .yoast a:hover p, .yoast-elementor.yoast-sidebar-panel p a:hover, .button-link:hover {
 		color: var(--yoast-color-primary-darker);
+	}
+
+	.yoast-elementor.yoast-sidebar-panel .UpsellLinkButton:hover, .yoast .yoast-button-upsell:hover {
+		color: var(--yoast-color-label);
+		
 	}
 }
 
