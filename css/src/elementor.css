@@ -1,4 +1,4 @@
-.elementor-panel .elementor-tab-control-new-tab a:before {
+.elementor-panel .elementor-tab-control-yoast-tab a:before {
 	content: "";
 	background-image: var(--yoast-svg-icon-yoast);
 	background-size: cover;
