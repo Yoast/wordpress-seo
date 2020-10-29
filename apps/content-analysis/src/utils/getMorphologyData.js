@@ -34,7 +34,7 @@ function loadLocalMorphologyData() {
 		// eslint-disable-next-line global-require
 		dataSV = require( "../../../../packages/yoastseo/premium-configuration/data/morphologyData-sv-v1.json" );
 		// eslint-disable-next-line global-require
-		dataHE = require( "../../../../packages/yoastseo/premium-configuration/data/morphologyData-he-v9.json" );
+		dataHE = require( "../../../../packages/yoastseo/premium-configuration/data/morphologyData-he-v1.json" );
 	} catch ( error ) {
 		// Falling back to empty data.
 	}
