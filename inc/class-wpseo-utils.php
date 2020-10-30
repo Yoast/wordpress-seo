@@ -1056,15 +1056,6 @@ SVG;
 	 * In case of a multisite setup we return the network_home_url.
 	 *
 	 * @return string The home url.
-	 */
-
-	/**
-	 * Returns the unfiltered home URL.
-	 *
-	 * In case WPML is installed, returns the original home_url and not the WPML version.
-	 * In case of a multisite setup we return the network_home_url.
-	 *
-	 * @return string The home url.
 	 *
 	 * @codeCoverageIgnore
 	 */
