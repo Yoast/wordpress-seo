@@ -8,6 +8,7 @@ use Yoast\WP\SEO\Actions\Indexing\Indexable_Post_Type_Archive_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexing\Indexable_Term_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexing\Post_Link_Indexing_Action;
 use Yoast\WP\SEO\Actions\Indexing\Term_Link_Indexing_Action;
+use Yoast\WP\SEO\Config\Indexing_Reasons;
 use Yoast\WP\SEO\Integrations\Admin\Indexing_Notification_Integration;
 use Yoast_Notification_Center;
 
