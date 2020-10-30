@@ -50,6 +50,5 @@ export const loadSnippetEditorData = () => {
 			title: get( window, "wpseoScriptData.metabox.title_template", "" ),
 			description: get( window, "wpseoScriptData.metabox.metadesc_template", "" ),
 		},
-		isLoading: false,
 	};
 };

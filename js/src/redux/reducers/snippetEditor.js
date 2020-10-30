@@ -120,7 +120,7 @@ function snippetEditorReducer( state = getInitialState(), action ) {
 					title: action.templates.title,
 					description: action.templates.description,
 				},
-				isLoading: action.isLoading,
+				isLoading: false,
 			};
 	}
 
