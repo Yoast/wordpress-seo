@@ -1123,44 +1123,6 @@ SVG;
 	}
 
 	/**
-	 * Output a Schema blob.
-	 *
-	 * @param array  $graph The Schema graph array to output.
-	 * @param string $class The (optional) class to add to the script tag.
-	 *
-	 * @return bool
-	 */
-	public static function schema_output( $graph, $class = 'yoast-schema-graph' ) {
-		if ( ! is_array( $graph ) || empty( $graph ) ) {
-			return false;
-		}
-
-		// phpcs:ignore WordPress.Security.EscapeOutput -- Escaping happens in WPSEO_Utils::schema_tag, which should be whitelisted.
-		echo self::schema_tag( $graph, $class );
-		return true;
-	}
-
-	/**
-	 * Returns a script tag with Schema blob.
-	 *
-	 * @param array  $graph The Schema graph array to output.
-	 * @param string $class The (optional) class to add to the script tag.
-	 *
-	 * @return false|string A schema blob with script tags.
-	 */
-	public static function schema_tag( $graph, $class = 'yoast-schema-graph' ) {
-		if ( ! is_array( $graph ) || empty( $graph ) ) {
-			return false;
-		}
-
-		$output = [
-			'@context' => 'https://schema.org',
-			'@graph'   => $graph,
-		];
-		return "<script type='application/ld+json' class='" . esc_attr( $class ) . "'>" . self::format_json_encode( $output ) . '</script>' . "\n";
-	}
-
-	/**
 	 * Extends the allowed post tags with accessibility-related attributes.
 	 *
 	 * @param array $allowed_post_tags The allowed post tags.
@@ -1425,5 +1387,53 @@ SVG;
 		_deprecated_function( __METHOD__, 'WPSEO 15.3' );
 
 		return YoastSEO()->helpers->woocommerce->is_active();
+	}
+
+	/**
+	 * Output a Schema blob.
+	 *
+	 * @deprecated 15.4
+	 * @codeCoverageIgnore
+	 *
+	 * @param array  $graph The Schema graph array to output.
+	 * @param string $class The (optional) class to add to the script tag.
+	 *
+	 * @return bool
+	 */
+	public static function schema_output( $graph, $class = 'yoast-schema-graph' ) {
+		_deprecated_function( __METHOD__, 'WPSEO 15.4' );
+
+		if ( ! is_array( $graph ) || empty( $graph ) ) {
+			return false;
+		}
+
+		// phpcs:ignore WordPress.Security.EscapeOutput -- Escaping happens in WPSEO_Utils::schema_tag, which should be whitelisted.
+		echo self::schema_tag( $graph, $class );
+		return true;
+	}
+
+	/**
+	 * Returns a script tag with Schema blob.
+	 *
+	 * @deprecated 15.4
+	 * @codeCoverageIgnore
+	 *
+	 * @param array  $graph The Schema graph array to output.
+	 * @param string $class The (optional) class to add to the script tag.
+	 *
+	 * @return false|string A schema blob with script tags.
+	 */
+	public static function schema_tag( $graph, $class = 'yoast-schema-graph' ) {
+		_deprecated_function( __METHOD__, 'WPSEO 15.4' );
+
+		if ( ! is_array( $graph ) || empty( $graph ) ) {
+			return false;
+		}
+
+		$output = [
+			'@context' => 'https://schema.org',
+			'@graph'   => $graph,
+		];
+		return "<script type='application/ld+json' class='" . esc_attr( $class ) . "'>" . self::format_json_encode( $output ) . '</script>' . "\n";
 	}
 }
