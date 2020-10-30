@@ -27,8 +27,16 @@ class Cron_Integration_Test extends TestCase {
 	 */
 	protected $instance;
 
+	/**
+	 * Date Helper class mock.
+	 *
+	 * @var Date_Helper
+	 */
 	protected $date_helper;
 
+	/**
+	 * Set up the fixtures for the tests.
+	 */
 	public function setUp() {
 		parent::setUp();
 

@@ -27,6 +27,9 @@ class Health_Check_Ryte_Test extends TestCase {
 	 */
 	private $health_check;
 
+	/**
+	 * Set up the mock classes.
+	 */
 	public function setUp() {
 		parent::setUp();
 
