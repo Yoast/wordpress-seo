@@ -419,7 +419,7 @@ class Indexing_Route extends Abstract_Indexation_Route {
 		try {
 			return parent::run_indexation_action( $indexation_action, $url );
 		} catch ( \Exception $exception ) {
-			$this->indexing_helper->set_reason( Indexing_Reasons::REASON_INDEXING_FAILED );
+			$this->indexing_helper->indexing_failed();
 
 			return new WP_Error( 'wpseo_error_indexing', $exception->getMessage() );
 		}

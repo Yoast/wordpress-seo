@@ -101,12 +101,12 @@ class Indexing_Helper {
 	 *
 	 * @required
 	 *
-	 * @param Indexable_Post_Indexation_Action              $post_indexation
-	 * @param Indexable_Term_Indexation_Action              $term_indexation
-	 * @param Indexable_Post_Type_Archive_Indexation_Action $post_type_archive_indexation
-	 * @param Indexable_General_Indexation_Action           $general_indexation
-	 * @param Post_Link_Indexing_Action                     $post_link_indexing_action
-	 * @param Term_Link_Indexing_Action                     $term_link_indexing_action
+	 * @param Indexable_Post_Indexation_Action              $post_indexation                The post indexing action.
+	 * @param Indexable_Term_Indexation_Action              $term_indexation                The term indexing action.
+	 * @param Indexable_Post_Type_Archive_Indexation_Action $post_type_archive_indexation   The posttype indexing action.
+	 * @param Indexable_General_Indexation_Action           $general_indexation             The general indexation (homepage etc) action.
+	 * @param Post_Link_Indexing_Action                     $post_link_indexing_action      The post crosslink indexation action.
+	 * @param Term_Link_Indexing_Action                     $term_link_indexing_action      The term crossling indexation action.
 	 */
 	public function set_indexing_actions(
 		Indexable_Post_Indexation_Action $post_indexation,
