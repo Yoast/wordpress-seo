@@ -1029,20 +1029,6 @@ class WPSEO_Utils {
 	}
 
 	/**
-	 * Checks if the current installation supports MyYoast access tokens.
-	 *
-	 * @codeCoverageIgnore
-	 *
-	 * @return bool True if access_tokens are supported.
-	 *
-	 * @deprecated 15.0
-	 */
-	public static function has_access_token_support() {
-		_deprecated_function( __METHOD__, 'WPSEO 15.0' );
-		return false;
-	}
-
-	/**
 	 * Prepares data for outputting as JSON.
 	 *
 	 * @param array $data The data to format.
@@ -1251,6 +1237,20 @@ class WPSEO_Utils {
 		$roles = $wp_roles->get_names();
 
 		return $roles;
+	}
+
+	/**
+	 * Checks if the current installation supports MyYoast access tokens.
+	 *
+	 * @codeCoverageIgnore
+	 *
+	 * @return bool True if access_tokens are supported.
+	 *
+	 * @deprecated 15.0
+	 */
+	public static function has_access_token_support() {
+		_deprecated_function( __METHOD__, 'WPSEO 15.0' );
+		return false;
 	}
 
 	/**
