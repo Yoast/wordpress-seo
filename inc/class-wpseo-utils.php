@@ -117,24 +117,6 @@ class WPSEO_Utils {
 	}
 
 	/**
-	 * List all the available user roles.
-	 *
-	 * @since 1.8.0
-	 * @deprecated 15.0
-	 * @codeCoverageIgnore
-	 *
-	 * @return array $roles
-	 */
-	public static function get_roles() {
-		_deprecated_function( __METHOD__, '15.0', 'wp_roles()->get_names()' );
-		$wp_roles = wp_roles();
-
-		$roles = $wp_roles->get_names();
-
-		return $roles;
-	}
-
-	/**
 	 * Recursively trim whitespace round a string value or of string values within an array.
 	 * Only trims strings to avoid typecasting a variable (to string).
 	 *
@@ -1342,6 +1324,26 @@ SVG;
 		$enabled_features = apply_filters( 'wpseo_enable_feature', $enabled_features );
 
 		return $enabled_features;
+	}
+
+	/* ********************* DEPRECATED METHODS ********************* */
+
+	/**
+	 * List all the available user roles.
+	 *
+	 * @since 1.8.0
+	 * @deprecated 15.0
+	 * @codeCoverageIgnore
+	 *
+	 * @return array $roles
+	 */
+	public static function get_roles() {
+		_deprecated_function( __METHOD__, '15.0', 'wp_roles()->get_names()' );
+		$wp_roles = wp_roles();
+
+		$roles = $wp_roles->get_names();
+
+		return $roles;
 	}
 
 	/**
