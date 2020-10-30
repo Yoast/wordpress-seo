@@ -2,28 +2,10 @@
 
 namespace Yoast\WP\SEO\Helpers;
 
-use WPSEO_Date_Helper;
-
 /**
  * A helper object for dates.
  */
 class Date_Helper {
-
-	/**
-	 * The date helper.
-	 *
-	 * @var WPSEO_Date_Helper
-	 */
-	protected $date;
-
-	/**
-	 * Date_Helper constructor.
-	 *
-	 * @codeCoverageIgnore It only sets dependencies.
-	 */
-	public function __construct() {
-		$this->date = new WPSEO_Date_Helper();
-	}
 
 	/**
 	 * Convert given date string to the W3C format.
@@ -33,8 +15,6 @@ class Date_Helper {
 	 *
 	 * @param string $date      Date string to convert.
 	 * @param bool   $translate Whether the return date should be translated. Default false.
-	 *
-	 * @codeCoverageIgnore It just wraps an external function.
 	 *
 	 * @return string Formatted date string.
 	 */
@@ -48,12 +28,46 @@ class Date_Helper {
 	 * @param string $date   String representing the date / time.
 	 * @param string $format The format that the passed date should be in.
 	 *
-	 * @codeCoverageIgnore - We have to write test when this method contains own code.
-	 *
 	 * @return string The formatted date.
 	 */
 	public function format( $date, $format = \DATE_W3C ) {
-		return $this->date->format( $date, $format );
+		$immutable_date = \date_create_immutable_from_format( 'Y-m-d H:i:s', $date, new \DateTimeZone( 'UTC' ) );
+
+		if ( ! $immutable_date ) {
+			return $date;
+		}
+
+		return $immutable_date->format( $format );
+	}
+
+	/**
+	 * Formats the given timestamp to the needed format.
+	 *
+	 * @param int    $timestamp The timestamp to use for the formatting.
+	 * @param string $format    The format that the passed date should be in.
+	 *
+	 * @return string The formatted date.
+	 */
+	public function format_timestamp( $timestamp, $format = DATE_W3C ) {
+		$immutable_date = \date_create_immutable_from_format( 'U', $timestamp, new \DateTimeZone( 'UTC' ) );
+
+		if ( ! $immutable_date ) {
+			return $timestamp;
+		}
+
+		return $immutable_date->format( $format );
+	}
+
+	/**
+	 * Formats a given date in UTC TimeZone format and translate it to the set language.
+	 *
+	 * @param string $date   String representing the date / time.
+	 * @param string $format The format that the passed date should be in.
+	 *
+	 * @return string The formatted and translated date.
+	 */
+	public function format_translated( $date, $format = DATE_W3C ) {
+		return \date_i18n( $format, $this->format( $date, 'U' ) );
 	}
 
 	/**
@@ -63,5 +77,24 @@ class Date_Helper {
 	 */
 	public function current_time() {
 		return \time();
+	}
+
+	/**
+	 * Check if a string is a valid datetime.
+	 *
+	 * @param string $datetime String input to check as valid input for DateTime class.
+	 *
+	 * @return bool True when datatime is valid.
+	 */
+	public function is_valid_datetime( $datetime ) {
+		if ( \substr( $datetime, 0, 1 ) === '-' ) {
+			return false;
+		}
+
+		try {
+			return new \DateTime( $datetime ) !== false;
+		} catch ( \Exception $exception ) {
+			return false;
+		}
 	}
 }
