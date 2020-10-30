@@ -1,6 +1,6 @@
 /** @module config/transitionWords */
 
-var singleWords = [ "accordingly", "additionally", "afterward", "afterwards", "albeit", "also", "although", "altogether",
+export const singleWords = [ "accordingly", "additionally", "afterward", "afterwards", "albeit", "also", "although", "altogether",
 	"another", "basically", "because", "before", "besides", "but", "certainly", "chiefly", "comparatively",
 	"concurrently", "consequently", "contrarily", "conversely", "correspondingly", "despite", "doubtedly", "during",
 	"e.g.", "earlier", "emphatically", "equally", "especially", "eventually", "evidently", "explicitly", "finally",
@@ -12,7 +12,7 @@ var singleWords = [ "accordingly", "additionally", "afterward", "afterwards", "a
 	"subsequently", "surely", "surprisingly", "than", "then", "thereafter", "therefore", "thereupon", "thirdly", "though",
 	"thus", "till", "undeniably", "undoubtedly", "unless", "unlike", "unquestionably", "until", "when", "whenever",
 	"whereas", "while" ];
-var multipleWords = [ "above all", "after all", "after that", "all in all", "all of a sudden", "all things considered",
+export const multipleWords = [ "above all", "after all", "after that", "all in all", "all of a sudden", "all things considered",
 	"analogous to", "although this may be true", "analogous to", "another key point", "as a matter of fact", "as a result",
 	"as an illustration", "as can be seen", "as has been noted", "as I have noted", "as I have said", "as I have shown",
 	"as long as", "as much as", "as opposed to", "as shown above", "as soon as", "as well as", "at any rate", "at first", "at last",
@@ -42,14 +42,6 @@ var multipleWords = [ "above all", "after all", "after that", "all in all", "all
 	"with attention to", "with the result that", "with this in mind", "with this intention", "with this purpose in mind",
 	"without a doubt", "without delay", "without doubt", "without reservation" ];
 
-/**
- * Returns lists with transition words to be used by the assessments.
- * @returns {Object} The object with transition word lists.
- */
-export default function() {
-	return {
-		singleWords: singleWords,
-		multipleWords: multipleWords,
-		allWords: singleWords.concat( multipleWords ),
-	};
-}
+export const allWords = singleWords.concat( multipleWords );
+
+export default allWords;

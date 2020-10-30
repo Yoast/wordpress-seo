@@ -6,8 +6,8 @@ import { includes, isUndefined, escapeRegExp, memoize } from "lodash-es";
 /**
  * A topic phrase (i.e., a keyphrase or synonym) with stem-original pairs for the words in the topic phrase.
  *
- * @param {StemOriginalPair[]} stemOriginalPairs   The stem-original pairs for the words in the topic phrase.
- * @param {boolean}            exactMatch          Whether the topic phrase is an exact match.
+ * @param {StemOriginalPair[]} stemOriginalPairs The stem-original pairs for the words in the topic phrase.
+ * @param {boolean}            exactMatch        Whether the topic phrase is an exact match.
  *
  * @constructor
  */
@@ -33,8 +33,8 @@ TopicPhrase.prototype.getStems = function() {
 /**
  * A stem-original pair ƒor a word in a topic phrase.
  *
- * @param {string}  stem        The stem of the topic phrase word.
- * @param {string}  original    The original word form the topic phrase (unsanitized)
+ * @param {string} stem     The stem of the topic phrase word.
+ * @param {string} original The original word form the topic phrase (unsanitized)
  *
  * @constructor
  */
@@ -49,15 +49,14 @@ function StemOriginalPair( stem, original ) {
  * If morphology is required the module finds a stem for all words (if no function words list available) or
  * for all content words (i.e., excluding prepositions, articles, conjunctions, if the function words list is available).
  *
- * @param {string}          keyphrase       The keyphrase of the paper (or a synonym phrase) to get stem for.
- * @param {Function|null}   stem            The language-specific stemmer (if available).
- * @param {Object}          morphologyData  The available morphology data per language (false if unavailable).
- * @param {string[]}        functionWords   The language-specific function words.
+ * @param {string}   keyphrase     The keyphrase of the paper (or a synonym phrase) to get stem for.
+ * @param {Function} stemmer       The language-specific stemmer.
+ * @param {string[]} functionWords The language-specific function words.
  *
  * @returns {TopicPhrase} Object with an array of StemOriginalPairs of all (content) words in the keyphrase or synonym
  * phrase and information about whether the keyphrase/synonym should be matched exactly.
  */
-const buildStems = function( keyphrase, stem, morphologyData, functionWords ) {
+const buildStems = function( keyphrase, stemmer, functionWords ) {
 	if ( isUndefined( keyphrase ) || keyphrase === "" ) {
 		return new TopicPhrase();
 	}
@@ -75,17 +74,14 @@ const buildStems = function( keyphrase, stem, morphologyData, functionWords ) {
 	let keyphraseWords = getWords( keyphrase );
 
 	// Filter function words from keyphrase. Don't filter if the keyphrase only consists of function words.
-	const wordsWithoutFunctionWords = keyphraseWords.filter( keyphraseWords, ( word ) => ! functionWords.includes( word ) );
+	const wordsWithoutFunctionWords = keyphraseWords.filter( ( word ) => ! functionWords.includes( word ) );
 	if ( wordsWithoutFunctionWords.length > 0 ) {
 		keyphraseWords = wordsWithoutFunctionWords;
 	}
 
-	// Return a stem-original pair with a stem or the original word as stem if no stemmer is available.
+	// Return a stem-original pair with a stem.
 	const stemOriginalPairs = keyphraseWords.map( word => {
-		return new StemOriginalPair(
-			stem ? stem( normalizeSingle( escapeRegExp( word ) ), morphologyData ) : word,
-			word,
-		);
+		return new StemOriginalPair( stemmer( normalizeSingle( escapeRegExp( word ) ) ), word );
 	} );
 
 	return new TopicPhrase( stemOriginalPairs );
@@ -94,17 +90,16 @@ const buildStems = function( keyphrase, stem, morphologyData, functionWords ) {
 /**
  * Builds stems of words of the keyphrase and of each synonym phrase.
  *
- * @param {string}          keyphrase       The paper's keyphrase.
- * @param {string[]}        synonyms        The paper's synonyms.
- * @param {Function|null}   stem            The language-specific stemmer (if available).
- * @param {Object}          morphologyData  The available morphology data to be used by the getStem function (language specific).
- * @param {string[]}        functionWords   The language-specific function words.
+ * @param {string}   keyphrase     The paper's keyphrase.
+ * @param {string[]} synonyms      The paper's synonyms.
+ * @param {Function} stemmer       The language-specific stemmer (if available).
+ * @param {string[]} functionWords The language-specific function words.
  *
  * @returns {Object} Object with an array of stems of words in the keyphrase and an array of arrays of stems of words in the synonyms.
  */
-const collectKeyphraseAndSynonymsStems = function( keyphrase, synonyms, stem, morphologyData, functionWords ) {
-	const keyphraseStems = buildStems( keyphrase, stem, morphologyData, functionWords );
-	const synonymsStems = synonyms.map( synonym => buildStems( synonym, stem, morphologyData, functionWords ) );
+const collectKeyphraseAndSynonymsStems = function( keyphrase, synonyms, stemmer, functionWords ) {
+	const keyphraseStems = buildStems( keyphrase, stemmer, functionWords );
+	const synonymsStems = synonyms.map( synonym => buildStems( synonym, stemmer, functionWords ) );
 
 	return {
 		keyphraseStems,
@@ -113,43 +108,21 @@ const collectKeyphraseAndSynonymsStems = function( keyphrase, synonyms, stem, mo
 };
 
 /**
- * Caches stems depending on the currently available morphologyData and (separately) keyphrase, synonyms,
- * stemmer and function words. In this way, if the morphologyData remains the same in multiple calls of this function, the function
- * that collects actual stems only needs to check if the keyphrase, synonyms, stemmer an function words also remain the
- * same to return the cached result. The joining of keyphrase, synonyms, stemmer and function words for this function is needed,
- * because by default memoize caches by the first key only, which in the current case would mean that the function would
- * return the cached forms if the keyphrase has not changed (without checking if synonyms, stemmer, or function words were changed).
- *
- * @param {Object|boolean} morphologyData The available morphology data.
- *
- * @returns {function} The function that collects the stems for a given set of keyphrase, synonyms, stemmer,
- * morphology data and function words.
- */
-const primeMorphologyData = memoize( ( morphologyData ) => {
-	return memoize( ( keyphrase, synonyms, stem, functionWords ) => {
-		return collectKeyphraseAndSynonymsStems( keyphrase, synonyms, stem, morphologyData, functionWords );
-	}, ( keyphrase, synonyms, stem, functionWords ) => {
-		return keyphrase + "," + synonyms + "," + stem + "," + functionWords;
-	} );
-} );
-
-/**
  * Retrieves stems of words of the keyphrase and of each synonym phrase using the function that caches
  * the results of previous calls of this function.
  *
- * @param {string}          keyphrase       The keyphrase.
- * @param {string[]}        synonyms        The synonyms.
- * @param {Function|null}   stem            The language-specific stemmer (if available).
- * @param {Object}          morphologyData  The language-specific morphology data.
- * @param {string[]}        functionWords   The language-specific function words.
+ * @param {string}   keyphrase     The keyphrase.
+ * @param {string[]} synonyms      The synonyms.
+ * @param {Function} stemmer       The language-specific stemmer (if available).
+ * @param {string[]} functionWords The language-specific function words.
  *
  * @returns {Object} Object with an array of stems of words in the keyphrase and an array of arrays of stems of words in the synonyms.
  */
-function collectStems( keyphrase, synonyms, stem, morphologyData, functionWords ) {
-	const collectStemsWithMorphologyData = primeMorphologyData( morphologyData );
-
-	return collectStemsWithMorphologyData( keyphrase, synonyms, stem, functionWords );
-}
+const collectStems = memoize( ( keyphrase, synonyms, stemmer, functionWords ) => {
+	return collectKeyphraseAndSynonymsStems( keyphrase, synonyms, stemmer, functionWords );
+}, ( keyphrase, synonyms ) => {
+	return keyphrase + "," + synonyms.join( "," );
+} );
 
 export {
 	buildStems,
