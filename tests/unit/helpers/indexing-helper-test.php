@@ -227,11 +227,6 @@ class Indexing_Helper_Test extends TestCase {
 			->once()
 			->with( Indexing_Notification_Integration::NOTIFICATION_ID );
 
-		$this->options_helper
-			->expects( 'set' )
-			->once()
-			->with( 'indexation_started', null );
-
 		$this->instance->set_reason( $reason );
 	}
 
