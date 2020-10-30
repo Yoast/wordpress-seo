@@ -668,25 +668,6 @@ class WPSEO_Utils {
 	}
 
 	/**
-	 * Get plugin name from file.
-	 *
-	 * @since 2.3.3
-	 *
-	 * @param string $plugin Plugin path relative to plugins directory.
-	 *
-	 * @return string|bool
-	 */
-	public static function get_plugin_name( $plugin ) {
-		$plugin_details = get_plugin_data( WP_PLUGIN_DIR . '/' . $plugin );
-
-		if ( $plugin_details['Name'] !== '' ) {
-			return $plugin_details['Name'];
-		}
-
-		return false;
-	}
-
-	/**
 	 * Retrieves the sitename.
 	 *
 	 * @since 3.0.0
@@ -1431,5 +1412,29 @@ class WPSEO_Utils {
 </g>
 </svg>
 SVG;
+	}
+
+	/**
+	 * Get plugin name from file.
+	 *
+	 * @deprecated 15.4
+	 * @codeCoverageIgnore
+	 *
+	 * @since 2.3.3
+	 *
+	 * @param string $plugin Plugin path relative to plugins directory.
+	 *
+	 * @return string|bool
+	 */
+	public static function get_plugin_name( $plugin ) {
+		_deprecated_function( __METHOD__, 'WPSEO 15.4' );
+
+		$plugin_details = get_plugin_data( WP_PLUGIN_DIR . '/' . $plugin );
+
+		if ( $plugin_details['Name'] !== '' ) {
+			return $plugin_details['Name'];
+		}
+
+		return false;
 	}
 }
