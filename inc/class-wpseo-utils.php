@@ -22,28 +22,6 @@ class WPSEO_Utils {
 	public static $has_filters;
 
 	/**
-	 * Check whether the current user is allowed to access the configuration.
-	 *
-	 * @since 1.8.0
-	 *
-	 * @return boolean
-	 */
-	public static function grant_access() {
-		// @todo Add deprecation warning.
-		if ( ! is_multisite() ) {
-			return true;
-		}
-
-		$options = get_site_option( 'wpseo_ms' );
-
-		if ( empty( $options['access'] ) || $options['access'] === 'admin' ) {
-			return current_user_can( 'wpseo_manage_options' );
-		}
-
-		return is_super_admin();
-	}
-
-	/**
 	 * Check whether file editing is allowed for the .htaccess and robots.txt files.
 	 *
 	 * {@internal current_user_can() checks internally whether a user is on wp-ms and adjusts accordingly.}}
@@ -1441,5 +1419,31 @@ SVG;
 		}
 
 		return $svg;
+	}
+
+	/**
+	 * Check whether the current user is allowed to access the configuration.
+	 *
+	 * @deprecated 15.4
+	 * @codeCoverageIgnore
+	 *
+	 * @since 1.8.0
+	 *
+	 * @return boolean
+	 */
+	public static function grant_access() {
+		_deprecated_function( __METHOD__, 'WPSEO 15.4' );
+
+		if ( ! is_multisite() ) {
+			return true;
+		}
+
+		$options = get_site_option( 'wpseo_ms' );
+
+		if ( empty( $options['access'] ) || $options['access'] === 'admin' ) {
+			return current_user_can( 'wpseo_manage_options' );
+		}
+
+		return is_super_admin();
 	}
 }
