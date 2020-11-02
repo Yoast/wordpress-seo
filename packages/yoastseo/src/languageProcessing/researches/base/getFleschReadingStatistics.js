@@ -1,9 +1,9 @@
 /** @module analyses/calculateFleschReading */
 
-import stripNumbers from "../sanitize/stripNumbers.js";
-import countSentences from "../sentence/countSentences.js";
-import countWords from "../word/countWords.js";
-import countSyllables from "../syllables/count.js";
+import stripNumbers from "../../helpers/sanitize/stripNumbers.js";
+import countSentences from "../../helpers/sentence/countSentences.js";
+import countWords from "../../helpers/word/countWords.js";
+import countSyllables from "../../helpers/syllables/count.js";
 
 /**
  * Calculates an average from a total and an amount
@@ -19,10 +19,12 @@ const getAverage = function( total, amount ) {
 /**
  * This calculates the flesch reading score for a given text.
  *
- * @param {object} paper The paper containing the text
+ * @param {object} paper        The paper containing the text.
+ * @param {Object} syllables    The syllables data for the specific language.
+ *
  * @returns {object} The flesch reading statistics
  */
-export default function( paper ) {
+export default function( paper, syllables ) {
 	let text = paper.getText();
 	if ( text === "" ) {
 		return 0;
@@ -39,7 +41,7 @@ export default function( paper ) {
 		return 0;
 	}
 
-	const numberOfSyllables = countSyllables( text, locale );
+	const numberOfSyllables = countSyllables( text, syllables );
 	const averageWordsPerSentence = getAverage( numberOfWords, numberOfSentences );
 	const syllablesPer100Words = numberOfSyllables * ( 100 / numberOfWords );
 
@@ -48,6 +50,6 @@ export default function( paper ) {
 		numberOfWords,
 		numberOfSyllables,
 		averageWordsPerSentence,
-		syllablesPer100Words
+		syllablesPer100Words,
 	};
 }
