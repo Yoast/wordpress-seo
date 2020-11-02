@@ -208,6 +208,13 @@ Your question has most likely been answered on our knowledge base: [kb.yoast.com
 
 == Changelog ==
 
+= 15.2.1 =
+Release Date: November 2nd, 2020
+
+Bugfixes:
+
+* Fixes a bug where AMP and W3C validation would break because Twitter meta tags would contain 'value' attributes instead of 'content' attributes.
+
 = 15.2 =
 Release Date: October 27th, 2020
 
