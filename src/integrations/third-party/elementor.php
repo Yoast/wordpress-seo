@@ -21,6 +21,8 @@ use Yoast\WP\SEO\Helpers\Capability_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Presenters\Admin\Meta_Fields_Presenter;
+use Elementor\Controls_Manager;
+use Elementor\Core\DocumentTypes\PageBase;
 
 /**
  * Adds customizations to the front end for breadcrumbs.
@@ -56,11 +58,15 @@ class Elementor implements Integration_Interface {
 	protected $capability;
 
 	/**
+	 * Holds whether the socials are enabled.
+	 *
 	 * @var bool
 	 */
 	protected $social_is_enabled;
 
 	/**
+	 * Holds whether the advanced settings are enabled.
+	 *
 	 * @var bool
 	 */
 	protected $is_advanced_metadata_enabled;
@@ -78,6 +84,11 @@ class Elementor implements Integration_Interface {
 	 * @var WPSEO_Metabox_Analysis_Readability
 	 */
 	protected $readability_analysis;
+
+	/**
+	 * The identifier for the elementor tab.
+	 */
+	const YOAST_TAB = "yoast-tab";
 
 	/**
 	 * Returns the conditionals based in which this loadable should be active.
@@ -107,23 +118,66 @@ class Elementor implements Integration_Interface {
 	}
 
 	/**
-	 * @codeCoverageIgnore
-	 * @inheritDoc
+	 * Initializes the integration.
+	 *
+	 * This is the place to register hooks and filters.
+	 *
+	 * @return void
 	 */
 	public function register_hooks() {
 		\add_action( 'elementor/editor/before_enqueue_scripts', [ $this, 'init' ] );
+
+		// We are too late for elementor/init. We should see if we can be on time, or else this workaround works (we do always get the "else" though).
+		if ( ! \did_action( 'elementor/init' ) ) {
+			\add_action( 'elementor/init', [ $this, 'add_yoast_panel_tab' ] );
+		} else {
+			$this->add_yoast_panel_tab();
+		}
+		\add_action( 'elementor/documents/register_controls', [ $this, 'register_document_controls' ] );
+
 		\add_action( 'wp_ajax_wpseo_elementor_save', [ $this, 'save_postdata' ] );
 	}
 
 	/**
 	 * Renders the breadcrumbs.
 	 *
-	 * @return string The rendered breadcrumbs.
+	 * @return void
 	 */
 	public function init() {
 		$this->asset_manager->register_assets();
 		$this->enqueue();
 		$this->render_hidden_fields();
+	}
+
+	/**
+	 * Register a panel tab slug, in order to allow adding controls to this tab.
+	 */
+	public function add_yoast_panel_tab() {
+		Controls_Manager::add_tab( $this::YOAST_TAB, __( "Yoast SEO", 'wordpress-seo' ) );
+	}
+
+	/**
+	 * Register additional document controls.
+	 *
+	 * @param PageBase $document
+	 */
+	public function register_document_controls( $document ) {
+		// PageBase is the base class for documents like `post` `page` and etc.
+		// In this example we check also if the document supports elements. (e.g. a Kit doesn't has elements)
+		if ( ! $document instanceof PageBase || ! $document::get_property( 'has_elements' ) ) {
+			return;
+		}
+
+		// This is needed to get the tab to appear, but will be overwritten in the JavaScript.
+		$document->start_controls_section(
+			'yoast_temporary_section',
+			[
+				'label' => __( 'Yoast SEO', 'wordpress-seo' ),
+				'tab' => self::YOAST_TAB,
+			]
+		);
+
+		$document->end_controls_section();
 	}
 
 	// Below is mostly copied from `class-metabox.php`. That constructor has side-effects we do not need.
@@ -191,6 +245,7 @@ class Elementor implements Integration_Interface {
 			}
 			else {
 				if ( isset( $_POST[ $field_name ] ) ) {
+					// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: Sanitized through sanitize_post_meta.
 					$data = \wp_unslash( $_POST[ $field_name ] );
 
 					// For multi-select.
@@ -260,11 +315,12 @@ class Elementor implements Integration_Interface {
 	/**
 	 * Enqueues all the needed JS and CSS.
 	 *
+	 * @return void
 	 */
 	public function enqueue() {
 		$post_id = \get_queried_object_id();
-		if ( empty( $post_id ) && isset( $_GET['post'] ) ) {
-			$post_id = \sanitize_text_field( $_GET['post'] );
+		if ( empty( $post_id ) ) {
+			$post_id = \sanitize_text_field( \filter_input( INPUT_GET, 'post' ) );
 		}
 
 		if ( $post_id !== 0 ) {
@@ -336,6 +392,8 @@ class Elementor implements Integration_Interface {
 
 	/**
 	 * Renders the metabox hidden fields.
+	 *
+	 * @return void
 	 */
 	protected function render_hidden_fields() {
 		// Wrap in a form with an action and post_id for the submit.
@@ -346,15 +404,19 @@ class Elementor implements Integration_Interface {
 		);
 
 		\wp_nonce_field( 'wpseo_elementor_save', '_wpseo_elementor_nonce' );
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: Meta_Fields_Presenter->present is considered safe.
 		echo new Meta_Fields_Presenter( $this->get_metabox_post(), 'general' );
 
 		if ( $this->is_advanced_metadata_enabled ) {
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: Meta_Fields_Presenter->present is considered safe.
 			echo new Meta_Fields_Presenter( $this->get_metabox_post(), 'advanced' );
 		}
 
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: Meta_Fields_Presenter->present is considered safe.
 		echo new Meta_Fields_Presenter( $this->get_metabox_post(), 'schema' );
 
 		if ( $this->social_is_enabled ) {
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: Meta_Fields_Presenter->present is considered safe.
 			echo new Meta_Fields_Presenter( $this->get_metabox_post(), 'social' );
 		}
 
@@ -377,7 +439,7 @@ class Elementor implements Integration_Interface {
 	/**
 	 * Returns post in metabox context.
 	 *
-	 * @returns WP_Post|null
+	 * @return WP_Post|null
 	 */
 	protected function get_metabox_post() {
 		if ( $this->post !== null ) {
