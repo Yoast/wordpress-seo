@@ -1,6 +1,6 @@
 {
   "name": "@yoast/example-component-app",
-  "version": "1.0.76-rc.0",
+  "version": "1.0.76",
   "description": "This app demonstrates the possibilites of our components",
   "main": "index.js",
   "author": "Yoast",
