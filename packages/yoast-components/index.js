@@ -16,34 +16,34 @@ import { default as LinkSuggestions } from "./composites/LinkSuggestions/LinkSug
 const getRtlStyle = getDirectionalStyle;
 
 /**
- * @deprecated since 15.2.1. Use the `OnboardingWizard` from the `@yoast/configuration-wizard` package instead.
+ * @deprecated since 5.13.1. Use the `OnboardingWizard` from the `@yoast/configuration-wizard` package instead.
  *
  * @returns {null} returns nothing.
  */
 const OnboardingWizard = () => {
-	console.warn( "Deprecation Warning: Deprecated since 15.2.1. " +
+	console.warn( "Deprecation Warning: Deprecated since 5.13.1. " +
 		"Use the `OnboardingWizard` from the `@yoast/configuration-wizard` package instead." );
 	return null;
 };
 
 /**
- * @deprecated since 15.2.1. Use the `MessageBox` from the `@yoast/configuration-wizard` package instead.
+ * @deprecated since 5.13.1. Use the `MessageBox` from the `@yoast/configuration-wizard` package instead.
  *
  * @returns {null} returns nothing.
  */
 const MessageBox = () => {
-	console.warn( "Deprecation Warning: Deprecated since 15.2.1. " +
+	console.warn( "Deprecation Warning: Deprecated since 5.13.1. " +
 		"Use the `MessageBox` from the `@yoast/configuration-wizard` package instead." );
 	return null;
 };
 
 /**
- * @deprecated since 15.2.1. Use the `LoadingIndicator` from the `@yoast/configuration-wizard` package instead.
+ * @deprecated since 5.13.1. Use the `LoadingIndicator` from the `@yoast/configuration-wizard` package instead.
  *
  * @returns {null} returns nothing.
  */
 const LoadingIndicator = () => {
-	console.warn( "Deprecation Warning: Deprecated since 15.2.1. " +
+	console.warn( "Deprecation Warning: Deprecated since 5.13.1. " +
 		"Use the `LoadingIndicator` from the `@yoast/configuration-wizard` package instead." );
 	return null;
 };
