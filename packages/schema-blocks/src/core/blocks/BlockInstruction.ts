@@ -61,7 +61,7 @@ export default abstract class BlockInstruction extends Instruction {
 
 	/**
 	 * Checks if the instruction block is valid.
-	 * 
+	 *
 	 * @returns {boolean} True if the instruction block is valid, False if the block contains errors.
 	 */
 	valid(): boolean {

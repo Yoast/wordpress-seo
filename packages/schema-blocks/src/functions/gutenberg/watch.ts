@@ -37,6 +37,7 @@ function shouldRenderSchema( definition: SchemaDefinition, parentHasSchema: bool
 function renderSchema( block: BlockInstance, definition: SchemaDefinition ) {
 	const schema = definition.render( block );
 
+	// eslint-disable-next-line no-console
 	console.log( "Generated shema for block: ", block, schema );
 
 	if ( isEqual( schema, block.attributes[ "yoast-schema" ] ) ) {
@@ -54,6 +55,7 @@ function renderSchema( block: BlockInstance, definition: SchemaDefinition ) {
  * @param parentHasSchema Optional. Whether or not the parent has already rendered schema.
  */
 function generateSchemaForBlocks( blocks: BlockInstance[], previousBlocks: BlockInstance[] = [], parentHasSchema = false ) {
+	// eslint-disable-next-line no-console
 	console.log( "Generating schema!" );
 	for ( let i = 0; i < blocks.length; i++ ) {
 		const block = blocks[ i ];

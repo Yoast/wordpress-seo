@@ -13,6 +13,7 @@ export default function filter() {
 			if ( ! Object.keys( schemaDefinitions ).includes( name ) ) {
 				return settings;
 			}
+			// eslint-disable-next-line no-console
 			console.log( "Adding schema to: ", name );
 			if ( ! settings.attributes ) {
 				settings.attributes = {};

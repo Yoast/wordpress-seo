@@ -83,7 +83,7 @@ export default class BlockDefinition extends Definition {
 
 	/**
 	 * Checks if the definition block is valid.
-	 * 
+	 *
 	 * @returns {boolean} True if the definition block is valid, False if the block contains errors.
 	 */
 	valid(): boolean {
