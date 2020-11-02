@@ -13,6 +13,6 @@ import wordsInText from "../helpers/word/wordsInText";
  */
 export default function( paper, researcher ) {
 	const stopWords = researcher.getConfig( "stopWords" );
-	var keyword = escapeRegExp( paper.getKeyword() );
+	const keyword   = escapeRegExp( paper.getKeyword() );
 	return wordsInText( keyword, stopWords );
 }

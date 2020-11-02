@@ -1,5 +1,5 @@
 import wordCountInText from "./wordCountInText.js";
-import imageCount from "./imageCountInText.js";
+import imageCount from "./imageCount.js";
 
 /**
  * Calculates the expected reading time of a text.
