@@ -21,6 +21,8 @@ use Yoast\WP\SEO\Helpers\Capability_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Presenters\Admin\Meta_Fields_Presenter;
+use Elementor\Controls_Manager;
+use Elementor\Core\DocumentTypes\PageBase;
 
 /**
  * Adds customizations to the front end for breadcrumbs.
@@ -84,6 +86,11 @@ class Elementor implements Integration_Interface {
 	protected $readability_analysis;
 
 	/**
+	 * The identifier for the elementor tab.
+	 */
+	const YOAST_TAB = "yoast-tab";
+
+	/**
 	 * Returns the conditionals based in which this loadable should be active.
 	 *
 	 * @return array
@@ -119,6 +126,15 @@ class Elementor implements Integration_Interface {
 	 */
 	public function register_hooks() {
 		\add_action( 'elementor/editor/before_enqueue_scripts', [ $this, 'init' ] );
+
+		// We are too late for elementor/init. We should see if we can be on time, or else this workaround works (we do always get the "else" though).
+		if ( ! \did_action( 'elementor/init' ) ) {
+			\add_action( 'elementor/init', [ $this, 'add_yoast_panel_tab' ] );
+		} else {
+			$this->add_yoast_panel_tab();
+		}
+		\add_action( 'elementor/documents/register_controls', [ $this, 'register_document_controls' ] );
+
 		\add_action( 'wp_ajax_wpseo_elementor_save', [ $this, 'save_postdata' ] );
 	}
 
@@ -131,6 +147,37 @@ class Elementor implements Integration_Interface {
 		$this->asset_manager->register_assets();
 		$this->enqueue();
 		$this->render_hidden_fields();
+	}
+
+	/**
+	 * Register a panel tab slug, in order to allow adding controls to this tab.
+	 */
+	public function add_yoast_panel_tab() {
+		Controls_Manager::add_tab( $this::YOAST_TAB, __( "Yoast SEO", 'wordpress-seo' ) );
+	}
+
+	/**
+	 * Register additional document controls.
+	 *
+	 * @param PageBase $document
+	 */
+	public function register_document_controls( $document ) {
+		// PageBase is the base class for documents like `post` `page` and etc.
+		// In this example we check also if the document supports elements. (e.g. a Kit doesn't has elements)
+		if ( ! $document instanceof PageBase || ! $document::get_property( 'has_elements' ) ) {
+			return;
+		}
+
+		// This is needed to get the tab to appear, but will be overwritten in the JavaScript.
+		$document->start_controls_section(
+			'yoast_temporary_section',
+			[
+				'label' => __( 'Yoast SEO', 'wordpress-seo' ),
+				'tab' => self::YOAST_TAB,
+			]
+		);
+
+		$document->end_controls_section();
 	}
 
 	// Below is mostly copied from `class-metabox.php`. That constructor has side-effects we do not need.

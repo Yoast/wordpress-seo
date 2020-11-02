@@ -1,53 +1,12 @@
 /* eslint-disable require-jsdoc */
-/* global jQuery, Marionette, elementor */
+/* global jQuery, window */
 import domReady from "@wordpress/dom-ready";
 import { registerReactComponent } from "../helpers/reactRoot";
 import { get } from "lodash";
-import { Fragment, unmountComponentAtNode } from "@wordpress/element";
+import { Fragment } from "@wordpress/element";
 import ElementorSlot from "../elementor/components/slots/ElementorSlot";
 import ElementorFill from "../elementor/containers/ElementorFill";
 import { renderReactRoot } from "../helpers/reactRoot";
-
-const YoastView = Marionette.ItemView.extend( {
-	template: false,
-	id: "elementor-panel-yoast",
-	className: "yoast-elementor yoast-sidebar-panel",
-
-	initialize() {
-		// Hide the search widget.
-		elementor.getPanelView().getCurrentPageView().search.reset();
-	},
-
-	onShow() {
-		renderReactRoot( window.YoastSEO.store, this.id, (
-			<Fragment>
-				<ElementorSlot />
-				<ElementorFill />
-			</Fragment>
-		) );
-	},
-
-	onDestroy() {
-		unmountComponentAtNode( this.$el[0] );
-	},
-} );
-
-
-/**
- * Adds the Yoast region to the Elementor regionviews.
- *
- * @param {array} regions The regions to be filtered.
- * @returns {array} The filtered regions.
- */
-const addYoastRegion = ( regions ) => {
-	regions.yoast = {
-		region: regions.global.region,
-		view: YoastView,
-		options: {},
-	};
-
-	return regions;
-};
 
 /**
  * Activates the Elementor save button.
@@ -108,30 +67,21 @@ export default function initElementEditorIntegration() {
 	window.YoastSEO._registerReactComponent = registerReactComponent;
 
 	domReady( () => {
-		window.elementor.once( "preview:loaded", () => {
-			// Connects the tab to the panel.
-			window.$e.components
-				.get( "panel/elements" )
-				.addTab( "yoast", { title: "Yoast SEO" } );
-		} );
+		// Check whether the route to our tab is active. If so, render our React root.
+		window.$e.routes.on( "run:after", function( component, route ) {
+			if ( route === "panel/page-settings/yoast-tab" ) {
+			   renderReactRoot( window.YoastSEO.store, "elementor-panel-page-settings-controls", (
+				  <Fragment>
+					 <ElementorSlot />
+					 <ElementorFill />
+				  </Fragment>
+			   ) );
+			}
+		 } );
 
 		// Hook into the save.
 		 const handleSave = sendFormData.bind( null, document.getElementById( "yoast-form" ) );
 		 window.elementor.saver.on( "before:save", handleSave );
-	} );
-
-	jQuery( window ).on( "elementor:init", () => {
-		// Adds the tab to the template.
-		const templateElement = document.getElementById( "tmpl-elementor-panel-elements" );
-		templateElement.innerHTML = templateElement.innerHTML.replace(
-			/(<div class="elementor-component-tab elementor-panel-navigation-tab" data-tab="global">.*<\/div>)/,
-			"$1<div class=\"elementor-component-tab elementor-panel-navigation-tab elementor-active\" data-tab=\"yoast\">Yoast SEO</div>",
-		);
-
-		window.elementor.hooks.addFilter(
-			"panel/elements/regionViews",
-			addYoastRegion,
-		);
 	} );
 
 	const yoastInputs = document.querySelectorAll( "input[name^='yoast']" );
