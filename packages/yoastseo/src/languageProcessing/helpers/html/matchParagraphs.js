@@ -2,7 +2,7 @@ import { map } from "lodash-es";
 import { flatMap } from "lodash-es";
 import { filter } from "lodash-es";
 
-import { getBlocks } from "../../../helpers/html";
+import { getBlocks } from "./html";
 
 /**
  * Matches the paragraphs in <p>-tags and returns the text in them.

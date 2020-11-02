@@ -1,10 +1,7 @@
 import { merge } from "lodash-es";
 import Assessment from "../assessment";
-import Config from "../../../config/config";
 import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
 import AssessmentResult from "../../../values/AssessmentResult";
-
-const maximumMetaDescriptionLength = Config.maxMeta;
 
 /**
  * Assessment for calculating the length of the meta description.
@@ -22,7 +19,7 @@ export default class MetaDescriptionLengthAssessment extends Assessment {
 
 		const defaultConfig = {
 			recommendedMaximumLength: 120,
-			maximumLength: maximumMetaDescriptionLength,
+			maximumLength: 156,
 			scores: {
 				noMetaDescription: 1,
 				tooLong: 6,

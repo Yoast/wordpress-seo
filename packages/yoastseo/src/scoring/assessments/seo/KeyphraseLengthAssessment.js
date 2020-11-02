@@ -1,8 +1,6 @@
 import { isUndefined, merge, inRange } from "lodash-es";
 
 import Assessment from "../assessment";
-import getFunctionWordsLanguages from "../../../helpers/_todo/getFunctionWordsLanguages";
-import getLanguage from "../../../languageProcessing/helpers/language/getLanguage";
 import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
 import AssessmentResult from "../../../values/AssessmentResult";
 
@@ -59,14 +57,12 @@ class KeyphraseLengthAssessment extends Assessment {
 	 * @returns {AssessmentResult} The result of this assessment.
 	 */
 	getResult( paper, researcher, i18n ) {
-		this._keyphraseLength = researcher.getResearch( "keyphraseLength" );
+		this._keyphraseLengthData = researcher.getResearch( "keyphraseLength" );
 		const assessmentResult = new AssessmentResult();
 		this._boundaries = this._config.parameters;
 
-		const languagesWithFunctionWords = getFunctionWordsLanguages();
-
 		// Make the boundaries less strict if the language of the current paper doesn't have function word support.
-		if ( languagesWithFunctionWords.includes( getLanguage( paper.getLocale() ) ) === false ) {
+		if ( this._keyphraseLengthData.hasFunctionWords === false ) {
 			this._boundaries = merge( {}, this._config.parameters, this._config.parametersNoFunctionWordSupport  );
 		}
 
@@ -88,7 +84,7 @@ class KeyphraseLengthAssessment extends Assessment {
 	 * @returns {Object} Object with score and text.
 	 */
 	calculateResult( i18n ) {
-		if ( this._keyphraseLength < this._boundaries.recommendedMinimum ) {
+		if ( this._keyphraseLengthData.keyphraseLength < this._boundaries.recommendedMinimum ) {
 			if ( this._config.isRelatedKeyphrase ) {
 				return {
 					score: this._config.scores.veryBad,
@@ -121,7 +117,7 @@ class KeyphraseLengthAssessment extends Assessment {
 			};
 		}
 
-		if ( inRange( this._keyphraseLength, this._boundaries.recommendedMinimum, this._boundaries.recommendedMaximum + 1 ) ) {
+		if ( inRange( this._keyphraseLengthData.keyphraseLength, this._boundaries.recommendedMinimum, this._boundaries.recommendedMaximum + 1 ) ) {
 			return {
 				score: this._config.scores.good,
 				resultText: i18n.sprintf(
@@ -136,7 +132,7 @@ class KeyphraseLengthAssessment extends Assessment {
 			};
 		}
 
-		if ( inRange( this._keyphraseLength, this._boundaries.recommendedMaximum + 1, this._boundaries.acceptableMaximum + 1 ) ) {
+		if ( inRange( this._keyphraseLengthData.keyphraseLength, this._boundaries.recommendedMaximum + 1, this._boundaries.acceptableMaximum + 1 ) ) {
 			return {
 				score: this._config.scores.okay,
 				resultText: i18n.sprintf(
@@ -150,7 +146,7 @@ class KeyphraseLengthAssessment extends Assessment {
 						"%3$sKeyphrase length%5$s: The keyphrase is %1$d words long. That's more than the recommended maximum of %2$d words. " +
 							"%4$sMake it shorter%5$s!"
 					),
-					this._keyphraseLength,
+					this._keyphraseLengthData.keyphraseLength,
 					this._boundaries.recommendedMaximum,
 					this._config.urlTitle,
 					this._config.urlCallToAction,
@@ -172,7 +168,7 @@ class KeyphraseLengthAssessment extends Assessment {
 					"%3$sKeyphrase length%5$s: The keyphrase is %1$d words long. That's way more than the recommended maximum of %2$d words. " +
 					"%4$sMake it shorter%5$s!"
 				),
-				this._keyphraseLength,
+				this._keyphraseLengthData.keyphraseLength,
 				this._boundaries.recommendedMaximum,
 				this._config.urlTitle,
 				this._config.urlCallToAction,

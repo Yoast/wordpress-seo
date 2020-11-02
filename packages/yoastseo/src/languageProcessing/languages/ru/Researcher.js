@@ -9,10 +9,12 @@ import AbstractResearcher from "../../AbstractResearcher";
 
 import getLinkStatistics from "./researches/getLinkStatistics";
 import passiveVoice from "./researches/getPassiveVoice.js";
-import calculateFleschReading from "./researches/calculateFleshReading";
+import calculateFleschReading from "./researches/calculateFleschReading";
 import findTransitionWords from "./researches/findTransitionWords";
 import functionWordsInKeyphrase from "./researches/functionWordsInKeyphrase";
 import getSentenceBeginnings from "./researches/getSentenceBeginnings.js";
+import keyphraseLength from "./researches/keyphraseLength";
+import getKeywordDensity from "./researches/getKeywordDensity";
 
 /**
  * The researches contains all the researches
@@ -39,6 +41,8 @@ export default class Researcher extends AbstractResearcher {
 			morphology: getWordForms,
 			prominentWordsForInsights: getProminentWordsForInsights,
 			prominentWordsForInternalLinking: getProminentWordsForInternalLinking,
+			keyphraseLength: keyphraseLength,
+			getKeywordDensity: getKeywordDensity,
 		} );
 	}
 }

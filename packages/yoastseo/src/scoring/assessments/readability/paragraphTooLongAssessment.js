@@ -1,6 +1,6 @@
 import { filter, map } from "lodash-es";
 
-import { inRangeEndInclusive as inRange } from "../../../helpers/inRange";
+import { inRangeEndInclusive as inRange } from "../../helpers/assessments/inRange";
 import isParagraphTooLong from "../../../helpers/isValueTooLong";
 import marker from "../../../markers/addMark";
 import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
@@ -18,7 +18,7 @@ const recommendedValue = 150;
  */
 const getTooLongParagraphs = function( paragraphsLength  ) {
 	return filter( paragraphsLength, function( paragraph ) {
-		return isParagraphTooLong( recommendedValue, paragraph.wordCount );
+		return paragraph.wordCount > recommendedValue;
 	} );
 };
 
