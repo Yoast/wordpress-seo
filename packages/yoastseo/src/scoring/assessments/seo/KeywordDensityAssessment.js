@@ -2,8 +2,6 @@ import { merge } from "lodash-es";
 
 import recommendedKeywordCount from "../../helpers/assessments/recommendedKeywordCount.js";
 import Assessment from "../assessment";
-import getLanguage from "../../../languageProcessing/helpers/language/getLanguage";
-import getLanguagesWithWordFormSupport from "../../../helpers/_todo/getLanguagesWithWordFormSupport";
 import AssessmentResult from "../../../values/AssessmentResult";
 import { inRangeEndInclusive, inRangeStartEndInclusive, inRangeStartInclusive } from "../../../helpers/inRange";
 import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
@@ -101,9 +99,6 @@ class KeywordDensityAssessment extends Assessment {
 	 * @returns {AssessmentResult} The result of the assessment.
 	 */
 	getResult( paper, researcher, i18n ) {
-		this._hasMorphologicalForms = researcher.getData( "morphology" ) !== false &&
-			getLanguagesWithWordFormSupport().includes( getLanguage( paper.getLocale() ) );
-
 		this._keywordCount = researcher.getResearch( "keywordCount" );
 		const keyphraseLength = this._keywordCount.length;
 
@@ -111,9 +106,12 @@ class KeywordDensityAssessment extends Assessment {
 
 		const assessmentResult = new AssessmentResult();
 
-		this._keywordDensity = researcher.getResearch( "getKeywordDensity" );
+		this._keywordDensityData = researcher.getResearch( "getKeywordDensity" );
 
-		this._keywordDensity = this._keywordDensity * keyphraseLengthFactor( keyphraseLength );
+		this._hasMorphologicalForms = researcher.getData( "morphology" ) !== false &&
+			this._keywordDensityData.stemmer === true;
+
+		this._keywordDensity = this._keywordDensityData.keywordDensity * keyphraseLengthFactor( keyphraseLength );
 		const calculatedScore = this.calculateResult( i18n );
 
 		assessmentResult.setScore( calculatedScore.score );
