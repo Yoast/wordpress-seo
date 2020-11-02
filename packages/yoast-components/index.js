@@ -32,7 +32,8 @@ const OnboardingWizard = () => {
  * @returns {null} returns nothing.
  */
 const MessageBox = () => {
-	console.warn( "Deprecation Warning: Deprecated since 15.2.1. Use the `MessageBox` from the `@yoast/configuration-wizard` package instead." );
+	console.warn( "Deprecation Warning: Deprecated since 15.2.1. " +
+		"Use the `MessageBox` from the `@yoast/configuration-wizard` package instead." );
 	return null;
 };
 
