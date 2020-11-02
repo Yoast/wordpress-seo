@@ -324,7 +324,6 @@ export default function() {
 		"typecast",
 		"typeset",
 		"upheld",
-		"upset",
 		"waylaid",
 		"wept",
 		"wet",
