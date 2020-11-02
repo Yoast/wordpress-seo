@@ -2,7 +2,6 @@
  * Composites imports.
  */
 // Composites/ConfigurationWizard imports.
-import { default as OnboardingWizard, LoadingIndicator, MessageBox } from "@yoast/configuration-wizard";
 import { decodeHTML, getDirectionalStyle, sendRequest } from "@yoast/helpers";
 // Import colors from the style guide.
 import { colors } from "@yoast/style-guide";
@@ -16,6 +15,37 @@ import { default as LinkSuggestions } from "./composites/LinkSuggestions/LinkSug
 
 const getRtlStyle = getDirectionalStyle;
 
+/**
+ * @deprecated since 15.2.1. Use the `OnboardingWizard` from the `@yoast/configuration-wizard` package instead.
+ *
+ * @returns {null} returns nothing.
+ */
+const OnboardingWizard = () => {
+	console.warn( "Deprecation Warning: Deprecated since 15.2.1. " +
+		"Use the `OnboardingWizard` from the `@yoast/configuration-wizard` package instead." );
+	return null;
+};
+
+/**
+ * @deprecated since 15.2.1. Use the `MessageBox` from the `@yoast/configuration-wizard` package instead.
+ *
+ * @returns {null} returns nothing.
+ */
+const MessageBox = () => {
+	console.warn( "Deprecation Warning: Deprecated since 15.2.1. Use the `MessageBox` from the `@yoast/configuration-wizard` package instead." );
+	return null;
+};
+
+/**
+ * @deprecated since 15.2.1. Use the `LoadingIndicator` from the `@yoast/configuration-wizard` package instead.
+ *
+ * @returns {null} returns nothing.
+ */
+const LoadingIndicator = () => {
+	console.warn( "Deprecation Warning: Deprecated since 15.2.1. " +
+		"Use the `LoadingIndicator` from the `@yoast/configuration-wizard` package instead." );
+	return null;
+};
 
 export {
 	OnboardingWizard,
