@@ -7,8 +7,8 @@
 	--yoast-elementor-color-paragraph: #555D66;
 }
 
-.yoast {
-	font-family: var(--yoast-font-family) !important;
+.yoast, .yoast-elementor {
+	font-family: var(--yoast-font-family);
 }
 
 .yoast h2 {
