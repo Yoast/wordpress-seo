@@ -2,7 +2,7 @@
 
 import stripSpaces from "./stripSpaces.js";
 
-import { blockElements } from "../../../helpers/html.js";
+import { blockElements } from "../html/html.js";
 
 var blockElementStartRegex = new RegExp( "^<(" + blockElements.join( "|" ) + ")[^>]*?>", "i" );
 var blockElementEndRegex = new RegExp( "</(" + blockElements.join( "|" ) + ")[^>]*?>$", "i" );

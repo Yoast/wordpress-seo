@@ -3,7 +3,7 @@ import { map, merge } from "lodash-es";
 import Assessment from "../assessment";
 import countTooLongSentences from "../../helpers/assessments/checkForTooLongSentences";
 import formatNumber from "../../../helpers/formatNumber";
-import { inRangeEndInclusive as inRange } from "../../../helpers/inRange";
+import { inRangeEndInclusive as inRange } from "../../helpers/assessments/inRange";
 import addMark from "../../../markers/addMark";
 import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
 import { stripIncompleteTags as stripTags } from "../../../../../helpers/src/strings/stripHTMLTags";

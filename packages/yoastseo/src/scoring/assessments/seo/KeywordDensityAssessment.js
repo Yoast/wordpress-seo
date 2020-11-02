@@ -3,10 +3,10 @@ import { merge } from "lodash-es";
 import recommendedKeywordCount from "../../helpers/assessments/recommendedKeywordCount.js";
 import Assessment from "../assessment";
 import AssessmentResult from "../../../values/AssessmentResult";
-import { inRangeEndInclusive, inRangeStartEndInclusive, inRangeStartInclusive } from "../../../helpers/inRange";
+import { inRangeEndInclusive, inRangeStartEndInclusive, inRangeStartInclusive } from "../../helpers/assessments/inRange";
 import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
-import keyphraseLengthFactor from "../../../helpers/keyphraseLengthFactor.js";
-import countWords from "../../../languageProcessing/helpers/word/countWords";
+import keyphraseLengthFactor from "../../helpers/assessments/keyphraseLengthFactor.js";
+import countWords from "./../../../languageProcessing/helpers/word/countWords";
 
 /**
  * Represents the assessment that will look if the keyphrase density is within the recommended range.

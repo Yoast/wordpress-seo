@@ -1,5 +1,5 @@
 import countWords from "../../researches/stringProcessing/countWords.js";
-import keyphraseLengthFactor from "../../../helpers/keyphraseLengthFactor.js";
+import keyphraseLengthFactor from "./keyphraseLengthFactor.js";
 
 /**
  * Calculates a recommended keyword count for a text. The formula to calculate this number is based on the
