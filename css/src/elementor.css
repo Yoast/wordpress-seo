@@ -46,9 +46,9 @@
 }
 
 .button-link {
-    border: none;
-    background: none;
-    cursor: pointer;
+	border: none;
+	background: none;
+	cursor: pointer;
 }
 
 .yoast-elementor.yoast-sidebar-panel .UpsellLinkButton, .yoast .yoast-button-upsell {
