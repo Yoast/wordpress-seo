@@ -8,11 +8,9 @@ import transitionWords from "./config/transitionWords";
 import twoPartTransitionWords from "./config/twoPartTransitionWords";
 
 // All helpers
-import determineStem from "./helpers/internal/determineStem";
-import getAdjectiveStem from "./helpers/internal/getAdjectiveStem";
 import getParticiples from "./helpers/getParticiples";
 import getSentenceParts from "./helpers/getSentenceParts";
-import * as getVerbStem from "./helpers/internal/getVerbStem";
+import getStemmer from "./helpers/getStemmer";
 import isPassiveSentencePart from "./helpers/isPassiveSentencePart";
 
 // All researches
@@ -45,11 +43,9 @@ export default class Researcher extends AbstractResearcher {
 		} );
 
 		Object.assign( this.helpers, {
-			determineStem,
-			getAdjectiveStem,
 			getParticiples,
 			getSentenceParts,
-			getVerbStem,
+			getStemmer,
 			isPassiveSentencePart,
 		} );
 	}

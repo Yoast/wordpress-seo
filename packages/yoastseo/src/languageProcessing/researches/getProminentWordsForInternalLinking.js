@@ -53,10 +53,10 @@ function getProminentWordsForInternalLinking( paper, researcher ) {
 
 	const abbreviations = retrieveAbbreviations( text.concat( attributes.join( " " ) ) );
 
-	const prominentWordsFromText = getProminentWords( removeSubheadingsTopLevel( text ), abbreviations, stemmer, functionWords, morphologyData  );
+	const prominentWordsFromText = getProminentWords( removeSubheadingsTopLevel( text ), abbreviations, stemmer, functionWords );
 
 	const prominentWordsFromPaperAttributes = getProminentWordsFromPaperAttributes(
-		attributes, abbreviations, stemmer, functionWords, morphologyData );
+		attributes, abbreviations, stemmer, functionWords );
 
 	/*
 	 * If a word is used in any of the attributes, its weight is automatically high.
