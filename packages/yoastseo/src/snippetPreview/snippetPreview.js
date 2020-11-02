@@ -18,7 +18,7 @@ var hiddenElement = templates.hiddenSpan;
 import SnippetPreviewToggler from "./snippetPreviewToggler";
 import domManipulation from "../helpers/domManipulation.js";
 
-import Config from "../config/_todo/config";
+import Config from "../config/config";
 
 var defaults = {
 	data: {
