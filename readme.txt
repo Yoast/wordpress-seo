@@ -222,8 +222,8 @@ Today, we are releasing Yoast SEO 15.2 into the wild. In this release, we've add
 
 Enhancements:
 
-* Adds an Open Graph integration for The Events Calendar plugin. Props to [Luehrsen](https://github.com/Luehrsen)
-* Sets the default schema type for Web Stories to Article. Props to [swissspidy](https://github.com/swissspidy)
+* Adds an Open Graph integration for The Events Calendar plugin. Props to [Luehrsen](https://github.com/Luehrsen).
+* Sets the default schema type for Web Stories to Article. Props to [swissspidy](https://github.com/swissspidy).
 * Adds enhanced Slack sharing tags on posts and pages.
 * Adds a toggle for the above enhanced Slack sharing feature.
 * Flushes the permalinks from the indexable tables when a custom taxonomy base changes, and shows a reindex notification in that case.
@@ -231,7 +231,7 @@ Enhancements:
 
 Bugfixes:
 
-* Fixes a bug where we linked to Google's Structured Data Test, which is deprecated. We now link to Google's Rich Results Test. Props to [wormeyman](https://github.com/wormeyman)
+* Fixes a bug where we linked to Google's Structured Data Test, which is deprecated. We now link to Google's Rich Results Test. Props to [wormeyman](https://github.com/wormeyman).
 * Fixes a bug where the styling of the General tab in the network admin dashboard was broken.
 * Fixes a bug where the German passive voice assessment would show an error when the text contained a participle enclosed within curly quotation marks (e.g., `"getan"`).
 * Fixes a bug where the WooCommerce product permalinks were not updated after a permalink structure change.
