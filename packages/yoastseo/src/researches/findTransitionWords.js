@@ -10,7 +10,7 @@ let regexFromDoubleArray = null;
 let regexFromDoubleArrayCacheKey = "";
 
 /**
- * Memoizes the createRegexFromDoubleArray with the twoPartTransitionWords.
+ * Memorizes the createRegexFromDoubleArray with the twoPartTransitionWords.
  *
  * @param {Array} twoPartTransitionWords The array containing two-part transition words.
  *

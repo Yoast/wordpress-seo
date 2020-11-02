@@ -421,6 +421,13 @@ describe( "a test for finding transition words from a string", function() {
 		expect( result.totalSentences ).toBe( 1 );
 		expect( result.transitionWordSentences ).toBe( 1 );
 	} );
+	it( "returns 1 when a three-part transition word is found in a sentence (Hungarian)", function() {
+		// Transition word: nemcsak, hanem, is
+		mockPaper = new Paper( "Nemcsak a csokoládét szeretem, hanem a süteményt is.", { locale: "hu_HU" } );
+		result = transitionWordsResearch( mockPaper );
+		expect( result.totalSentences ).toBe( 1 );
+		expect( result.transitionWordSentences ).toBe( 1 );
+	} );
 	it( "returns 1 when a multiple transition word is found in a sentence (Hungarian)", function() {
 		// Transition word: azzal a feltétellel, hogy
 		mockPaper = new Paper( "Azzal a feltétellel, hogy én forgathatom a kést.", { locale: "hu_HU" } );
