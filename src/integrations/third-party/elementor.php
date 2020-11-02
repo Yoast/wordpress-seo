@@ -187,22 +187,20 @@ class Elementor implements Integration_Interface {
 	 *
 	 * {@internal $_POST parameters are validated via sanitize_post_meta().}}
 	 *
-	 * @param int $post_id Post ID.
-	 *
-	 * @return bool|void Boolean false if invalid save post request.
+	 * @return void Outputs JSON via wp_send_json then stops code execution.
 	 */
 	public function save_postdata() {
-		$post_id = $_POST['post_id'];
+		$post_id = \filter_input( INPUT_POST, 'post_id', FILTER_SANITIZE_NUMBER_INT );
 
 		if ( ! \current_user_can( 'manage_options' ) ) {
-			return false;
+			\wp_send_json_error( 'Unauthorized', 401 );
 		}
 
-		\check_ajax_referer( 'wpseo_elementor_save' );
+		\check_ajax_referer( 'wpseo_elementor_save', '_wpseo_elementor_nonce' );
 
 		// Bail if this is a multisite installation and the site has been switched.
 		if ( \is_multisite() && \ms_is_switched() ) {
-			return false;
+			\wp_send_json_error( 'Switched multisite', 409 );
 		}
 
 		\clean_post_cache( $post_id );
@@ -210,12 +208,12 @@ class Elementor implements Integration_Interface {
 
 		if ( ! \is_object( $post ) ) {
 			// Non-existent post.
-			return false;
+			\wp_send_json_error( 'Post not found', 400 );
 		}
 
 		\do_action( 'wpseo_save_compare_data', $post );
 
-		// Initialize social fields.
+		// Initialize meta, amongst other things it registers sanitization.
 		WPSEO_Meta::init();
 
 		$social_fields = [];
@@ -271,7 +269,28 @@ class Elementor implements Integration_Interface {
 			}
 		}
 
+		// Saving the WP post to save the slug.
+		$slug = \filter_input( INPUT_POST, WPSEO_Meta::$form_prefix . 'slug', FILTER_SANITIZE_STRING );
+		if ( $post->post_name !== $slug ) {
+			$post_array = $post->to_array();
+			$post_array['post_name'] = $slug;
+
+			$save_successful = \wp_insert_post( $post_array );
+			if ( \is_wp_error( $save_successful ) ) {
+				\wp_send_json_error( 'Slug not saved', 400 );
+			}
+
+			// Update the post object to ensure we have the actual slug.
+			$post = \get_post( $post_id );
+			if ( ! \is_object( $post ) ) {
+				\wp_send_json_error( 'Updated slug not found', 400 );
+			}
+		}
+
 		\do_action( 'wpseo_saved_postdata' );
+
+		// Output the slug, because it is processed by WP and we need the actual slug again.
+		\wp_send_json_success( [ 'slug' => $post->post_name ] );
 	}
 
 	/**
@@ -377,9 +396,14 @@ class Elementor implements Integration_Interface {
 	 * @return void
 	 */
 	protected function render_hidden_fields() {
-		printf( '<form id="yoast-form" method="post" action="%1$s"><input type="hidden" name="action" value="wpseo_elementor_save" /><input type="hidden" name="post_id" value="%2$s" />', \admin_url( 'admin-ajax.php' ), $this->get_metabox_post()->ID );
+		// Wrap in a form with an action and post_id for the submit.
+		printf(
+			'<form id="yoast-form" method="post" action="%1$s"><input type="hidden" name="action" value="wpseo_elementor_save" /><input type="hidden" name="post_id" value="%2$s" />',
+			\esc_url( \admin_url( 'admin-ajax.php' ) ),
+			\esc_attr( $this->get_metabox_post()->ID )
+		);
 
-		\wp_nonce_field( 'wpseo_elementor_save', '_wpnonce' );
+		\wp_nonce_field( 'wpseo_elementor_save', '_wpseo_elementor_nonce' );
 		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: Meta_Fields_Presenter->present is considered safe.
 		echo new Meta_Fields_Presenter( $this->get_metabox_post(), 'general' );
 
@@ -396,7 +420,20 @@ class Elementor implements Integration_Interface {
 			echo new Meta_Fields_Presenter( $this->get_metabox_post(), 'social' );
 		}
 
-		echo '</form>';
+		printf(
+			'<input type="hidden" id="%1$s" name="%1$s" value="%2$s" />',
+			\esc_attr( WPSEO_Meta::$form_prefix . "slug" ),
+			\esc_attr( $this->get_metabox_post()->post_name )
+		);
+
+		/**
+		 * Filter: 'wpseo_content_meta_section_content' - Allow filtering the metabox content before outputting.
+		 *
+		 * @api string $post_content The metabox content string.
+		 */
+		echo \apply_filters( 'wpseo_content_meta_section_content', '' );
+
+		echo "</form>";
 	}
 
 	/**
@@ -437,15 +474,14 @@ class Elementor implements Integration_Interface {
 
 		if ( \is_object( $this->get_metabox_post() ) ) {
 			$permalink = \get_sample_permalink( $this->get_metabox_post()->ID );
+			$permalink = $permalink[0];
 		}
 
 		$post_formatter = new WPSEO_Metabox_Formatter(
-			new WPSEO_Post_Metabox_Formatter( $this->get_metabox_post(), [], $permalink[0] )
+			new WPSEO_Post_Metabox_Formatter( $this->get_metabox_post(), [], $permalink )
 		);
 
 		$values = $post_formatter->get_values();
-
-		$values['slug'] = $permalink[1];
 
 		/** This filter is documented in admin/filters/class-cornerstone-filter.php. */
 		$post_types = \apply_filters( 'wpseo_cornerstone_post_types', YoastSEO()->helpers->post_type->get_accessible_post_types() );

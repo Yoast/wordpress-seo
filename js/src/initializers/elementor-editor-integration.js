@@ -3,6 +3,7 @@
 import domReady from "@wordpress/dom-ready";
 import { registerReactComponent } from "../helpers/reactRoot";
 import { get } from "lodash";
+import { dispatch } from "@wordpress/data";
 import { Fragment } from "@wordpress/element";
 import ElementorSlot from "../elementor/components/slots/ElementorSlot";
 import ElementorFill from "../elementor/containers/ElementorFill";
@@ -53,7 +54,18 @@ const sendFormData = ( form ) => {
 
 		return result;
 	}, {} );
-	jQuery.post( form.getAttribute( "action" ), data );
+
+	jQuery.post( form.getAttribute( "action" ), data, ( { success, data: responseData } ) => {
+		if ( ! success ) {
+			// Something went wrong while saving.
+			return;
+		}
+
+		// Update the slug in our store if WP changed it.
+		if ( responseData.slug && responseData.slug !== data.slug ) {
+			dispatch( "yoast-seo/editor" ).updateData( { slug: responseData.slug } );
+		}
+	} );
 };
 
 /**
@@ -81,7 +93,7 @@ export default function initElementEditorIntegration() {
 
 		// Hook into the save.
 		 const handleSave = sendFormData.bind( null, document.getElementById( "yoast-form" ) );
-		 window.elementor.saver.on( "before:save", handleSave );
+		 window.elementor.saver.on( "after:save", handleSave );
 	} );
 
 	const yoastInputs = document.querySelectorAll( "input[name^='yoast']" );

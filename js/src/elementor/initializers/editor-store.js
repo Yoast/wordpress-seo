@@ -1,8 +1,9 @@
 import { pickBy } from "lodash";
 import { combineReducers, registerStore } from "@wordpress/data";
-import reducers from "../redux/reducers";
-import * as selectors from "../redux/selectors";
-import * as actions from "../redux/actions";
+import reducers from "../../redux/reducers";
+import * as selectors from "../../redux/selectors";
+import * as actions from "../../redux/actions";
+import * as snippetEditorActions from "../redux/actions/snippetEditor";
 
 /**
  * Populates the store.
@@ -12,6 +13,11 @@ import * as actions from "../redux/actions";
  * @returns {void}
  */
 const populateStore = store => {
+	// Initialize the cornerstone content.
+	store.dispatch( actions.loadCornerstoneContent() );
+	// Initialize the focus keyphrase.
+	store.dispatch( actions.loadFocusKeyword() );
+
 	store.dispatch(
 		actions.setSettings( {
 			socialPreviews: {
@@ -43,7 +49,11 @@ export default function initEditorStore() {
 	const store = registerStore( "yoast-seo/editor", {
 		reducer: combineReducers( reducers ),
 		selectors,
-		actions: pickBy( actions, x => typeof x === "function" ),
+		actions: pickBy( {
+			...actions,
+			// Add or override actions that are specific for Elementor.
+			...snippetEditorActions,
+		}, x => typeof x === "function" ),
 	} );
 
 	populateStore( store );
