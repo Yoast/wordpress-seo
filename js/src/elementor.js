@@ -1,7 +1,7 @@
 import domReady from "@wordpress/dom-ready";
 import initAnalysis from "./initializers/analysis";
 import initElementorEditorIntegration from "./initializers/elementor-editor-integration";
-import initEditorStore from "./initializers/editor-store";
+import initEditorStore from "./elementor/initializers/editor-store";
 import initElementorWatcher from "./watchers/elementorWatcher";
 
 domReady( () => {

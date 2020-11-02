@@ -1,6 +1,4 @@
 import { decodeHTML } from "@yoast/helpers";
-import SearchMetadataFields from "../../helpers/fields/SearchMetadataFields";
-import { get } from "lodash";
 
 export const SWITCH_MODE = "SNIPPET_EDITOR_SWITCH_MODE";
 export const UPDATE_DATA = "SNIPPET_EDITOR_UPDATE_DATA";
@@ -35,17 +33,6 @@ export function switchMode( mode ) {
  * @returns {Object} An action for redux.
  */
 export function updateData( data ) {
-	/*
-	 * Update the appropriate field.
-	 * Using a truthy check (e.g. `data.title`) does not work, as it would be false when the string is empty.
-	 */
-	if ( data.hasOwnProperty( "title" ) ) {
-		SearchMetadataFields.title = data.title;
-	}
-	if ( data.hasOwnProperty( "description" ) ) {
-		SearchMetadataFields.description = data.description;
-	}
-
 	return {
 		type: UPDATE_DATA,
 		data,
@@ -112,24 +99,3 @@ export function refreshSnippetEditor() {
 		time: ( new Date() ).getMilliseconds(),
 	};
 }
-
-/**
- * Loads the snippet editor data.
- *
- * @returns {Object} The load cornerstone content action.
- */
-export const loadSnippetEditorData = () => {
-	return {
-		type: LOAD_SNIPPET_EDITOR_DATA,
-		data: {
-			title: SearchMetadataFields.title,
-			description: SearchMetadataFields.description,
-			slug: get( window, "wpseoScriptData.metabox.slug", "" ),
-		},
-		templates: {
-			title: get( window, "wpseoScriptData.metabox.title_template", "" ),
-			description: get( window, "wpseoScriptData.metabox.metadesc_template", "" ),
-		},
-		isLoading: false,
-	};
-};

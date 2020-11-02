@@ -20,8 +20,8 @@ function getInitialState() {
 		mode: "mobile",
 		data: {
 			title: "",
-			slug: "",
 			description: "",
+			slug: "",
 		},
 		wordsToHighlight: [],
 		replacementVariables: getDefaultReplacementVariables(),
@@ -120,7 +120,7 @@ function snippetEditorReducer( state = getInitialState(), action ) {
 					title: action.templates.title,
 					description: action.templates.description,
 				},
-				isLoading: action.isLoading,
+				isLoading: false,
 			};
 	}
 
