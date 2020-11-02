@@ -46,7 +46,8 @@
   "scripts": {
     "build": "tsc",
     "watch": "tsc --watch",
-    "prepare": "yarn build"
+    "prepare": "yarn build",
+    "lint": "eslint 'src/**'"
   },
   "publishConfig": {
     "access": "public"
