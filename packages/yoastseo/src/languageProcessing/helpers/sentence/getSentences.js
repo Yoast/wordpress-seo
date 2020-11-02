@@ -6,7 +6,7 @@ import { negate } from "lodash-es";
 import { memoize } from "lodash-es";
 
 // Internal dependencies.
-import { getBlocks } from "../../../helpers/html.js";
+import { getBlocks } from "../html/html.js";
 import { unifyNonBreakingSpace as unifyWhitespace } from "../sanitize/unifyWhitespace.js";
 import SentenceTokenizer from "./SentenceTokenizer";
 

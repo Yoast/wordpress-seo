@@ -1,8 +1,7 @@
 import { filter, merge } from "lodash-es";
 
 import Assessment from "../assessment";
-import { inRangeEndInclusive as inRange } from "../../../helpers/inRange";
-import isTextTooLong from "../../../helpers/isValueTooLong";
+import { inRangeEndInclusive as inRange } from "../../helpers/assessments/inRange";
 import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
 import { getSubheadings } from "../../../languageProcessing/helpers/html/getSubheadings";
 import getWords from "../../../languageProcessing/helpers/word/getWords";
@@ -106,7 +105,7 @@ class SubheadingsDistributionTooLong extends Assessment {
 	 */
 	getTooLongSubheadingTexts() {
 		return filter( this._subheadingTextsLength, function( subheading ) {
-			return isTextTooLong( this._config.parameters.recommendedMaximumWordCount, subheading.wordCount );
+			return subheading.wordCount > this._config.parameters.recommendedMaximumWordCount;
 		}.bind( this ) );
 	}
 

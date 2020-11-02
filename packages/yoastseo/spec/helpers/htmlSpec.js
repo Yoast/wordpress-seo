@@ -1,4 +1,4 @@
-import html from "../../src/helpers/html";
+import html from "../../src/languageProcessing/helpers/html/html";
 
 var blockElements = html.blockElements;
 var inlineElements = html.inlineElements;
