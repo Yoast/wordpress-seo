@@ -214,6 +214,7 @@ Release Date: November 2nd, 2020
 Bugfixes:
 
 * Fixes a bug where AMP and W3C validation would break because Twitter meta tags would contain 'value' attributes instead of 'content' attributes.
+* Fixes a bug where the Yoast metabox could not be loaded in the post editor when the `configuration-wizard-1520.js` JavaScript file is blocked from loading.
 
 = 15.2 =
 Release Date: October 27th, 2020
