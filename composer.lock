@@ -868,16 +868,16 @@
         },
         {
             "name": "brain/monkey",
-            "version": "2.4.0",
+            "version": "2.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Brain-WP/BrainMonkey.git",
-                "reference": "b3ce8b619c26db6abd01b9dcfd6a2c0254060956"
+                "reference": "f2295a57da59ff88621cd959dbdb4b288feefd19"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Brain-WP/BrainMonkey/zipball/b3ce8b619c26db6abd01b9dcfd6a2c0254060956",
-                "reference": "b3ce8b619c26db6abd01b9dcfd6a2c0254060956",
+                "url": "https://api.github.com/repos/Brain-WP/BrainMonkey/zipball/f2295a57da59ff88621cd959dbdb4b288feefd19",
+                "reference": "f2295a57da59ff88621cd959dbdb4b288feefd19",
                 "shasum": ""
             },
             "require": {
@@ -886,9 +886,9 @@
                 "php": ">=5.6.0"
             },
             "require-dev": {
-                "dealerdirect/phpcodesniffer-composer-installer": "^0.4",
+                "dealerdirect/phpcodesniffer-composer-installer": "^0.6 || ^0.7",
                 "phpcompatibility/php-compatibility": "^9.3.0",
-                "phpunit/phpunit": "^5.7.9 || ^6.0 || ^7.0"
+                "phpunit/phpunit": "^5.7.9 || ^6.0 || ^7.0 || ^8.0 || ^9.0"
             },
             "type": "library",
             "extra": {
@@ -930,7 +930,7 @@
                 "test",
                 "testing"
             ],
-            "time": "2019-11-24T16:03:21+00:00"
+            "time": "2020-10-09T06:55:33+00:00"
         },
         {
             "name": "dealerdirect/phpcodesniffer-composer-installer",

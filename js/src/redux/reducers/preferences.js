@@ -4,6 +4,8 @@ import isKeywordAnalysisActive from "../../analysis/isKeywordAnalysisActive";
 import isCornerstoneActive from "../../analysis/isCornerstoneContentActive";
 import isWordFormRecognitionActive from "../../analysis/isWordFormRecognitionActive";
 import isSEMrushIntegrationActive from "../../analysis/isSEMrushIntegrationActive";
+import isZapierIntegrationActive from "../../analysis/isZapierIntegrationActive";
+import isZapierConnected from "../../analysis/isZapierConnected";
 
 /**
  * Gets the default state.
@@ -27,6 +29,8 @@ function getDefaultState() {
 		displaySchemaSettingsFooter: window.wpseoScriptData.metabox.schema.displayFooter,
 		displayFacebook: window.wpseoScriptData.metabox.showSocial.facebook,
 		displayTwitter: window.wpseoScriptData.metabox.showSocial.twitter,
+		isZapierIntegrationActive: isZapierIntegrationActive(),
+		isZapierConnected: isZapierConnected(),
 	};
 }
 

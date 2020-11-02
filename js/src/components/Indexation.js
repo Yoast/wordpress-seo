@@ -265,7 +265,7 @@ export class Indexation extends Component {
 					this.state.inProgress
 						? <NewButton
 							variant="secondary"
-							disabled={ true }
+							onClick={ this.stopIndexing }
 						>
 							{ __( "Stop SEO data optimization", "wordpress-seo" ) }
 						</NewButton>

@@ -6,7 +6,7 @@
  */
 
 use Yoast\WP\Lib\Model;
-use Yoast\WP\SEO\Integrations\Admin\Indexing_Integration;
+use Yoast\WP\SEO\Integrations\Admin\Indexing_Tool_Integration;
 
 /**
  * This code handles the option upgrades.
@@ -14,6 +14,8 @@ use Yoast\WP\SEO\Integrations\Admin\Indexing_Integration;
 class WPSEO_Upgrade {
 
 	/**
+	 * The taxonomy helper.
+	 *
 	 * @var \Yoast\WP\SEO\Helpers\Taxonomy_Helper
 	 */
 	private $taxonomy_helper;
@@ -66,6 +68,7 @@ class WPSEO_Upgrade {
 			'14.5-RC0'   => 'upgrade_145',
 			'14.9-RC0'   => 'upgrade_149',
 			'15.1-RC0'   => 'upgrade_151',
+			'15.3-RC0'   => 'upgrade_153',
 		];
 
 		array_walk( $routines, [ $this, 'run_upgrade_routine' ], $version );
@@ -548,7 +551,7 @@ class WPSEO_Upgrade {
 	 * @return void
 	 */
 	private function upgrade_772() {
-		if ( WPSEO_Utils::is_woocommerce_active() ) {
+		if ( YoastSEO()->helpers->woocommerce->is_active() ) {
 			$this->migrate_woocommerce_archive_setting_to_shop_page();
 		}
 	}
@@ -752,6 +755,16 @@ class WPSEO_Upgrade {
 	}
 
 	/**
+	 * Performs the 15.3 upgrade.
+	 *
+	 * @return void
+	 */
+	private function upgrade_153() {
+		WPSEO_Options::set( 'category_base_url', get_option( 'category_base' ) );
+		WPSEO_Options::set( 'tag_base_url', get_option( 'tag_base' ) );
+	}
+
+	/**
 	 * Sets the home_url option for the 15.1 upgrade routine.
 	 *
 	 * @return void
@@ -781,14 +794,7 @@ class WPSEO_Upgrade {
 	 * else to `false`.
 	 */
 	public function set_indexation_completed_option_for_145() {
-		/**
-		 * Holds the indexation integration instance.
-		 *
-		 * @var Indexing_Integration
-		 */
-		$indexing_integration = YoastSEO()->classes->get( Indexing_Integration::class );
-
-		WPSEO_Options::set( 'indexables_indexation_completed', $indexing_integration->get_total_unindexed() === 0 );
+		WPSEO_Options::set( 'indexables_indexation_completed', YoastSEO()->helpers->indexing->get_unindexed_count() === 0 );
 	}
 
 	/**

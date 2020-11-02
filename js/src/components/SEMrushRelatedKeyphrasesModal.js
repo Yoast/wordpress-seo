@@ -147,6 +147,8 @@ class SEMrushRelatedKeyphrasesModal extends Component {
 			if ( response.status === 200 ) {
 				this.props.onAuthentication( true );
 				this.onModalOpen();
+				// Close the popup if it's been opened again by mistake.
+				this.popup.close();
 			} else {
 				console.error( response.error );
 			}

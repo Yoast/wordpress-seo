@@ -153,6 +153,14 @@ class Yoast_Feature_Toggles {
 				),
 				'order'   => 100,
 			],
+			(object) [
+				'name'            => __( 'Enhanced Slack sharing', 'wordpress-seo' ),
+				'setting'         => 'enable_enhanced_slack_sharing',
+				'label'           => __( 'This adds an author byline and reading time estimate to the article’s snippet when shared on Slack.', 'wordpress-seo' ),
+				'read_more_label' => __( 'Find out how a rich snippet can improve visibility and click-through-rate.', 'wordpress-seo' ),
+				'read_more_url'   => 'https://yoa.st/help-slack-share',
+				'order'           => 105,
+			],
 		];
 
 		/**

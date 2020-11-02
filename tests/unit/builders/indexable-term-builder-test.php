@@ -69,24 +69,15 @@ class Indexable_Term_Builder_Test extends TestCase {
 	protected $twitter_image;
 
 	/**
-	 * The link builder mock.
-	 *
-	 * @var Mockery\MockInterface|Indexable_Link_Builder
-	 */
-	protected $link_builder;
-
-	/**
 	 * Sets up the tests.
 	 */
 	public function setUp() {
 		parent::setUp();
 
-		$this->taxonomy     = Mockery::mock( Taxonomy_Helper::class );
-		$this->link_builder = Mockery::mock( Indexable_Link_Builder::class );
+		$this->taxonomy = Mockery::mock( Taxonomy_Helper::class );
 
 		$this->instance = new Indexable_Term_Builder_Double(
-			$this->taxonomy,
-			$this->link_builder
+			$this->taxonomy
 		);
 
 		$this->image            = Mockery::mock( Image_Helper::class );
@@ -166,9 +157,7 @@ class Indexable_Term_Builder_Test extends TestCase {
 	 * @covers ::__construct
 	 */
 	public function test_constructor() {
-		$instance = new Indexable_Term_Builder( $this->taxonomy, $this->link_builder );
-		$this->assertAttributeInstanceOf( Taxonomy_Helper::class, 'taxonomy', $instance );
-		$this->assertAttributeInstanceOf( Indexable_Link_Builder::class, 'link_builder', $instance );
+		$this->assertAttributeInstanceOf( Taxonomy_Helper::class, 'taxonomy', $this->instance );
 	}
 
 	/**
@@ -215,8 +204,6 @@ class Indexable_Term_Builder_Test extends TestCase {
 
 		$indexable_mock      = Mockery::mock( Indexable::class );
 		$indexable_mock->orm = Mockery::mock( ORM::class );
-
-		$this->link_builder->expects( 'build' )->with( $indexable_mock, 'description' );
 
 		$indexable_expectations = [
 			'object_id'                   => 1,
