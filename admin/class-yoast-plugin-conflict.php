@@ -311,7 +311,7 @@ class Yoast_Plugin_Conflict {
 	 *
 	 * @param string $plugin Plugin path relative to plugins directory.
 	 *
-	 * @return string|bool
+	 * @return string|bool Plugin name or false when no name is set.
 	 */
 	protected function get_plugin_name( $plugin ) {
 		$plugin_details = get_plugin_data( WP_PLUGIN_DIR . '/' . $plugin );
