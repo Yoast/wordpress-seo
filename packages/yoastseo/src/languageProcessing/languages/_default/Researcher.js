@@ -8,12 +8,7 @@ import { keyphraseDistributionResearcher as keyphraseDistribution } from "../../
 import AbstractResearcher from "../../AbstractResearcher";
 
 import getLinkStatistics from "./researches/getLinkStatistics";
-import passiveVoice from "./researches/getPassiveVoice.js";
-import findTransitionWords from "./researches/findTransitionWords";
-import functionWordsInKeyphrase from "./researches/functionWordsInKeyphrase";
-import getSentenceBeginnings from "./researches/getSentenceBeginnings.js";
 import keyphraseLength from "./researches/keyphraseLength";
-import getKeywordDensity from "./researches/getKeywordDensity";
 
 /**
  * The researches contains all the researches
@@ -28,10 +23,6 @@ export default class Researcher extends AbstractResearcher {
 		super( paper );
 
 		Object.assign( this.defaultResearches, {
-			findTransitionWords: findTransitionWords,
-			passiveVoice: passiveVoice,
-			getSentenceBeginnings: getSentenceBeginnings,
-			functionWordsInKeyphrase: functionWordsInKeyphrase,
 			matchKeywordInSubheadings: matchKeywordInSubheadings,
 			getLinkStatistics: getLinkStatistics,
 			keyphraseDistribution: keyphraseDistribution,
@@ -39,7 +30,6 @@ export default class Researcher extends AbstractResearcher {
 			morphology: getWordForms,
 			prominentWordsForInsights: getProminentWordsForInsights,
 			prominentWordsForInternalLinking: getProminentWordsForInternalLinking,
-			getKeywordDensity: getKeywordDensity,
 			keyphraseLength: keyphraseLength,
 		} );
 	}

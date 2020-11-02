@@ -9,7 +9,6 @@ import metaDescriptionLength from "./researches/metaDescriptionLength.js";
 import metaDescriptionKeyword from "./researches/metaDescriptionKeyword";
 import imageCount from "./researches/imageCountInText.js";
 import altTagCount from "./researches/imageAltTags.js";
-import keyphraseLength from "./researches/keyphraseLength";
 import pageTitleWidth from "./researches/pageTitleWidth.js";
 import wordComplexity from "./researches/getWordComplexity.js";
 import getParagraphLength from "./researches/getParagraphLength.js";
@@ -46,7 +45,6 @@ export default class AbstractResearcher {
 			altTagCount: altTagCount,
 			metaDescriptionLength: metaDescriptionLength,
 			metaDescriptionKeyword: metaDescriptionKeyword,
-			keyphraseLength: keyphraseLength,
 			pageTitleWidth: pageTitleWidth,
 			wordComplexity: wordComplexity,
 			getParagraphLength: getParagraphLength,
