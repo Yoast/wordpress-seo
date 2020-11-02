@@ -7,7 +7,7 @@ import addWordBoundary from "../stringProcessing/addWordboundary.js";
  * @param {array} array The array containing the various parts of a transition word combination.
  * @returns {array} The array with replaced entries.
  */
-var wordCombinationToRegexString = function( array ) {
+const wordCombinationToRegexString = function( array ) {
 	array = array.map( function( word ) {
 		return addWordBoundary( word );
 	} );
@@ -23,6 +23,6 @@ export default function( array ) {
 	array = array.map( function( wordCombination ) {
 		return wordCombinationToRegexString( wordCombination );
 	} );
-	var regexString = "(" + array.join( ")|(" ) + ")";
+	const regexString = "(" + array.join( ")|(" ) + ")";
 	return new RegExp( regexString, "ig" );
 }
