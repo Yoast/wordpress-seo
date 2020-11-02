@@ -21,6 +21,15 @@ export default class SearchMetadataFields {
 	}
 
 	/**
+	 * Getter for the slugElement.
+	 *
+	 * @returns {HTMLElement} The slugElement.
+	 */
+	static get slugElement() {
+		return document.getElementById( "yoast_wpseo_slug" );
+	}
+
+	/**
 	 * Getter for the title.
 	 *
 	 * @returns {string} The title.
@@ -58,5 +67,25 @@ export default class SearchMetadataFields {
 	 */
 	static set description( value ) {
 		SearchMetadataFields.descriptionElement.value = value;
+	}
+
+	/**
+	 * Getter for the slug.
+	 *
+	 * @returns {string} The slug.
+	 */
+	static get slug() {
+		return SearchMetadataFields.slugElement.value;
+	}
+
+	/**
+	 * Setter for the slug.
+	 *
+	 * @param {string} value The slug.
+	 *
+	 * @returns {void}
+	 */
+	static set slug( value ) {
+		SearchMetadataFields.slugElement.value = value;
 	}
 }
