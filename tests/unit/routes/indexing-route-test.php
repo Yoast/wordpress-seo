@@ -451,7 +451,7 @@ class Indexing_Route_Test extends TestCase {
 	public function test_index_general_when_error_occurs() {
 		$this->general_indexation_action->expects( 'index' )->andThrow( new \Exception( 'An exception during indexing' ) );
 
-		$this->indexing_helper->expects( 'set_reason' )->with( Indexing_Reasons::REASON_INDEXING_FAILED );
+		$this->indexing_helper->expects( 'indexing_failed' )->withNoArgs();
 
 		Mockery::mock( '\WP_Error' );
 

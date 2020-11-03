@@ -93,8 +93,6 @@ class Woocommerce_Permalinks implements Integration_Interface {
 	/**
 	 * Retrieves the taxonomies based on the attributes.
 	 *
-	 * @codeCoverageIgnore
-	 *
 	 * @return array The taxonomies.
 	 */
 	protected function get_attribute_taxonomies() {
