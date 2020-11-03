@@ -10,4 +10,13 @@ describe( "The select function", () => {
 
 		expect( arrayOrObjectToOptions( [ "a", "b", "c" ] ) ).toEqual( expected );
 	} );
+
+	it( "converts an object to an array of options", () => {
+		const expected = [
+			{ label: "labelA", value: "a" },
+			{ label: "labelB", value: "b" },
+		];
+
+		expect( arrayOrObjectToOptions( { labelA: "a", labelB: "b" } ) ).toEqual( expected );
+	} );
 } );
