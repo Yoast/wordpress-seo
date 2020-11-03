@@ -1,9 +1,9 @@
 import { dispatch, select, subscribe } from "@wordpress/data";
 import { Paper } from "yoastseo";
+import { debounce, isEqual } from "lodash";
 import { refreshDelay } from "../analysis/constants";
 import { createAnalysisWorker, getAnalysisConfiguration } from "../analysis/worker";
 import { sortResultsByIdentifier } from "../analysis/refreshAnalysis";
-import { debounce, isEqual } from "lodash";
 import handleWorkerError from "../analysis/handleWorkerError";
 
 /**
