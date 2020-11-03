@@ -1,6 +1,8 @@
 import { dispatch } from "@wordpress/data";
+import { get, debounce } from "lodash";
+import { refreshDelay } from "../analysis/constants";
 import firstImageUrlInContent from "../helpers/firstImageUrlInContent";
-import { get } from "lodash";
+import registerElementorHook from "../helpers/elementorHook";
 
 const editorData = {
 	content: "",
@@ -18,7 +20,7 @@ const editorData = {
 function getContent() {
 	const content = [];
 
-	window.elementor.$preview.contents().find( "[data-elementor-type]" ).find( ".elementor-widget-container" ).each( ( index, element ) => {
+	window.elementor.documents.getCurrent().$element.find( ".elementor-widget-container" ).each( ( index, element ) => {
 		content.push( element.innerHTML.trim() );
 	} );
 
@@ -88,24 +90,17 @@ function handleEditorChange() {
 	}
 }
 
+const debouncedHandleEditorChange = debounce( handleEditorChange, refreshDelay );
+
 /**
  * Initializes the watcher by coupling the change handler to the change event.
  *
  * @returns {void}
  */
 export default function initialize() {
-	// Initialize Elementor data one time after the preview is available.
-	window.elementor.once( "preview:loaded", () => {
-		window.elementorFrontend.hooks.addAction( "frontend/element_ready/global", () => {
-			handleEditorChange();
-		} );
+	// This hook will fire when the Elementor preview becomes available.
+	registerElementorHook( "editor/documents/attach-preview", "yoast-seo-content-scraper-attach-preview", debouncedHandleEditorChange );
 
-		// Give Elementor elements 2 seconds to load in.
-		setTimeout( () => {
-			window.elementorFrontend.hooks.removeAction( "frontend/element_ready/global" );
-		}, 2000 );
-	} );
-
-	// Subscribe to Elementor changes.
-	window.elementor.channels.editor.on( "status:change", handleEditorChange );
+	// This hook will fire when the contents of the editor are modified.
+	registerElementorHook( "document/save/set-is-modified", "yoast-seo-content-scraper-on-modified", debouncedHandleEditorChange );
 }
