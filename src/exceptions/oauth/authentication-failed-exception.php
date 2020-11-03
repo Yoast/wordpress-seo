@@ -1,9 +1,4 @@
 <?php
-/**
- * Yoast SEO plugin file.
- *
- * @package Yoast\WP\SEO\Exceptions\OAuth
- */
 
 namespace Yoast\WP\SEO\Exceptions\OAuth;
 

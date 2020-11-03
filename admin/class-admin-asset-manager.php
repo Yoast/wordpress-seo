@@ -446,6 +446,7 @@ class WPSEO_Admin_Asset_Manager {
 					self::PREFIX . 'helpers',
 					self::PREFIX . 'legacy-components',
 					self::PREFIX . 'commons',
+					self::PREFIX . 'configuration-wizard-package',
 				],
 			],
 			[

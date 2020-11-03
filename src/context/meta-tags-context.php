@@ -154,16 +154,16 @@ class Meta_Tags_Context extends Abstract_Presentation {
 	/**
 	 * Meta_Tags_Context constructor.
 	 *
-	 * @param Options_Helper       $options                  The options helper.
-	 * @param Url_Helper           $url                      The url helper.
-	 * @param Image_Helper         $image                    The image helper.
-	 * @param ID_Helper            $id_helper                The schema id helper.
-	 * @param WPSEO_Replace_Vars   $replace_vars             The replace vars helper.
-	 * @param Site_Helper          $site                     The site helper.
-	 * @param User_Helper          $user                     The user helper.
-	 * @param Permalink_Helper     $permalink_helper         The permalink helper.
-	 * @param Indexable_Helper     $indexable_helper         The indexable helper.
-	 * @param Indexable_Repository $indexable_repository     The indexable repository.
+	 * @param Options_Helper       $options              The options helper.
+	 * @param Url_Helper           $url                  The url helper.
+	 * @param Image_Helper         $image                The image helper.
+	 * @param ID_Helper            $id_helper            The schema id helper.
+	 * @param WPSEO_Replace_Vars   $replace_vars         The replace vars helper.
+	 * @param Site_Helper          $site                 The site helper.
+	 * @param User_Helper          $user                 The user helper.
+	 * @param Permalink_Helper     $permalink_helper     The permalink helper.
+	 * @param Indexable_Helper     $indexable_helper     The indexable helper.
+	 * @param Indexable_Repository $indexable_repository The indexable repository.
 	 */
 	public function __construct(
 		Options_Helper $options,

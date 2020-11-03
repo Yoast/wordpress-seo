@@ -47,7 +47,7 @@ class Indexation_Integration implements Integration_Interface {
 	 * @param Indexable_Term_Indexation_Action              $term_indexation              The term indexation action.
 	 * @param Indexable_Post_Type_Archive_Indexation_Action $post_type_archive_indexation The archive indexation action.
 	 * @param Indexable_General_Indexation_Action           $general_indexation           The general indexation action.
-	 * @param Indexable_Indexing_Complete_Action            $complete_indexation_action The complete indexation action.
+	 * @param Indexable_Indexing_Complete_Action            $complete_indexation_action   The complete indexation action.
 	 * @param Options_Helper                                $options_helper               The options helper.
 	 * @param WPSEO_Admin_Asset_Manager                     $asset_manager                The admin asset manager.
 	 * @param Yoast_Tools_Page_Conditional                  $yoast_tools_page_conditional The Yoast tools page conditional.

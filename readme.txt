@@ -231,6 +231,27 @@ Your question has most likely been answered on our knowledge base: [kb.yoast.com
 
 == Changelog ==
 
+= 15.3 =
+Release Date: November 17th, 2020
+
+Bugfixes:
+
+* Fixes a bug where no notification to reindex your site would be shown when the indexing process failed.
+* Fixes a bug where no notification to reindex your site was shown when changing the permalink structure, category base or home URL multiple times in a row and hiding the notification in between.
+* Fixes a bug where the `ctype_digit()` function would be redeclared.
+* Fixes a bug where reindexing via WP-CLI did not always repopulate the indexables tables.
+* Fixes a bug where unfiltered HTML could be inserted in taxonomy descriptions by administrators and editors.
+* Fixes a bug where the indexable permalinks could have an incorrect taxonomy base.
+
+Enhancements:
+
+* Adds the consecutive sentences assessment for Hebrew.
+* Adds the sentence length assessment for Hebrew.
+* Adds the assessment for transition words in Hebrew.
+* Adds the assessment for the recognition of the passive voice in Hebrew.
+* Does not mark the words 'annoyed', 'depressed', 'disappointed', and 'upset' as passives anymore, since most of the time they are closer to adjectives rather than passive verbs in meaning.
+* Improves the results for the keyphrase distribution assessment for Swedish, Indonesian, Arabic, Hebrew and Farsi by allowing a partial match (instead of a full match) for long keyphrases (4 or more content words).
+
 = 15.2.1 =
 Release Date: November 2nd, 2020
 
@@ -266,45 +287,6 @@ Other:
 
 * Removes the "Remind me in 7 days" link from the SEO data optimization notification on the Yoast SEO dashboard, which was shown for large sites with more than 2500 unindexed indexables. The notification can still be hidden by clicking the default dismiss button.
 * Adds the `wpseo_image_data` filter to enable the filtering of image metadata. Props to [spacedmonkey](https://github.com/spacedmonkey).
-
-= 15.1.1 =
-Release Date: October 15th, 2020
-
-Bugfixes:
-
-* Fixes a bug where the indexing button on the Tools page would keep showing up because certain objects would be detected as requiring indexing but would not actually be indexed during the indexing process.
-
-= 15.1 =
-Release Date: October 14th, 2020
-
-Wouldn’t it be cool if you could get keyword data while working on your content in Yoast SEO? Well, we asked ourselves that same question and now we have an answer! Yes, you can now find related keyphrases inside the post editor. And it’s not any old data — no, it’s powered by our good friends at SEMrush, a world-class provider of SEO and internet marketing tools! Read more about what’s new in 15.1 in [our release post](https://yoa.st/release-15-1)!
-
-Enhancements:
-
-* Adds an integration with SEMrush to search for and compare search volume of related keyphrases.
-* Moves the Ryte feature toggle to the new Integrations tab where the new SEMrush feature toggle also can be found.
-* Merges the indexable and link indexing tools on the tools page into one process.
-* Improves the user experience of the indexing tool on the tools page by showing its progress on the tools page itself, instead of in a separate pop-up modal.
-* Prevents several processes from happening on non-production environments:
-    * Indexing indexables.
-    * Pinging search engines about XML sitemaps.
-    * Sending tracking information.
-    * Checking the indexability of the site with Ryte.
-* Uses the `website` from a user's WordPress profile in that user's `SameAs` array in the Schema output.
-* Flushes all permalinks from the indexables tables when the value of the `permalink_structure` option changes, and introduces a notification to ask for a reindex in that case.
-* Flushes all permalinks from the indexables tables when the value of the `home_url` option changes, and introduces a notification to ask for a reindex in that case.
-* Registers a cron job that checks whether the `home_url` was changed manually and resets the permalinks accordingly.
-* Makes it possible to recognize keyphrases in Farsi when they have a negation prefix or an indefinite article (for example: ماشین ('car') in ماشینی ('a car')).
-* Improves keyphrase recognition in Farsi by filtering the function words such as `هفت`, چهارم`,`یا`.
-
-Bugfixes:
-
-* Fixes a bug where the Yoast replacement variables plugin would not be available on edit terms page for usage by other plugins.
-* Fixes a bug where the incoming link count for each post, as shown on the post overview page, was incorrect.
-
-Other:
-
-* Adds a filter (`wpseo_dynamic_permalinks_enabled`) to enable the dynamic permalink fallback. When this fallback is enabled, the indexable-based output of the `permalink` property is overridden by a permalink that is calculated on the fly. Using this is detrimental for performance but may be needed for some site setups.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).

@@ -141,13 +141,13 @@
     "select2": "^4.0.5",
     "styled-components": "^4.2.0",
     "tokenizr": "^1.5.7",
-    "yoast-components": "^5.14.0-rc.0",
+    "yoast-components": "^5.14.0-rc.1",
     "yoastseo": "^1.85.0-rc.0"
   },
   "browserslist": [
     "extends @yoast/browserslist-config"
   ],
   "yoast": {
-    "pluginVersion": "15.2.1"
+    "pluginVersion": "15.3-RC1"
   }
 }

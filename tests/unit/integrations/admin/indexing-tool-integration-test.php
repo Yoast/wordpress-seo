@@ -21,7 +21,7 @@ use Yoast\WP\SEO\Integrations\Admin\Indexing_Tool_Integration;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
- * Class Indexing_Integration_Test.
+ * Class Indexing_Tool_Integration_Test.
  *
  * @coversDefaultClass \Yoast\WP\SEO\Integrations\Admin\Indexing_Tool_Integration
  *
@@ -168,15 +168,15 @@ class Indexing_Tool_Integration_Test extends TestCase {
 			'restApi'   => [
 				'root'      => 'https://example.org/wp-ajax/',
 				'endpoints' => [
-					'prepare'            => 'yoast/v1/indexation/prepare',
-					'terms'              => 'yoast/v1/indexation/terms',
-					'posts'              => 'yoast/v1/indexation/posts',
-					'archives'           => 'yoast/v1/indexation/post-type-archives',
-					'general'            => 'yoast/v1/indexation/general',
-					'indexablesComplete' => 'yoast/v1/indexation/indexables-complete',
+					'prepare'            => 'yoast/v1/indexing/prepare',
+					'terms'              => 'yoast/v1/indexing/terms',
+					'posts'              => 'yoast/v1/indexing/posts',
+					'archives'           => 'yoast/v1/indexing/post-type-archives',
+					'general'            => 'yoast/v1/indexing/general',
+					'indexablesComplete' => 'yoast/v1/indexing/indexables-complete',
 					'post_link'          => 'yoast/v1/link-indexing/posts',
 					'term_link'          => 'yoast/v1/link-indexing/terms',
-					'complete'           => 'yoast/v1/indexation/complete',
+					'complete'           => 'yoast/v1/indexing/complete',
 				],
 				'nonce'     => 'nonce_value',
 			],
