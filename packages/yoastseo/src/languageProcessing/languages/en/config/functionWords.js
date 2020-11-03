@@ -1,14 +1,8 @@
-import filteredPassiveAuxiliariesFactory from "./passiveVoice/auxiliaries.js";
-const filteredPassiveAuxiliaries = filteredPassiveAuxiliariesFactory().filteredAuxiliaries;
-import notFilteredPassiveAuxiliariesFactory from "./passiveVoice/auxiliaries.js";
-const notFilteredPassiveAuxiliaries = notFilteredPassiveAuxiliariesFactory().notFilteredAuxiliaries;
-import transitionWordsFactory from "./transitionWords.js";
-const transitionWords = transitionWordsFactory().singleWords;
-
-/**
- * Returns an object with exceptions for the prominent words researcher
- * @returns {Object} The object filled with exception arrays.
- */
+import {
+	filteredAuxiliaries as filteredPassiveAuxiliaries,
+	notFilteredAuxiliaries as notFilteredPassiveAuxiliaries,
+} from "./internal/passiveVoiceAuxiliaries.js";
+import { singleWords as transitionWords } from "./transitionWords.js";
 
 const articles = [ "the", "an", "a" ];
 const cardinalNumerals = [ "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve", "thirteen",
@@ -134,44 +128,37 @@ const titlesPreceding = [ "ms", "mss", "mrs", "mr", "dr", "prof" ];
 
 const titlesFollowing = [ "jr", "sr" ];
 
-/**
- * Returns function words for en.
- *
- * @returns {Object} English function words.
- */
-export default function() {
-	return {
-		// These word categories are filtered at the ending of word combinations.
-		filteredAtEnding: [].concat( ordinalNumerals, continuousVerbs, generalAdjectivesAdverbs ),
+// These word categories are filtered at the ending of word combinations.
+export const filteredAtEnding = [].concat( ordinalNumerals, continuousVerbs, generalAdjectivesAdverbs );
 
-		// These word categories are filtered at the beginning and ending of word combinations.
-		filteredAtBeginningAndEnding: [].concat( articles, prepositions, coordinatingConjunctions, demonstrativePronouns, intensifiers,
-			quantifiers, possessivePronouns ),
+// These word categories are filtered at the beginning and ending of word combinations.
+export const filteredAtBeginningAndEnding = [].concat( articles, prepositions, coordinatingConjunctions, demonstrativePronouns, intensifiers,
+	quantifiers, possessivePronouns );
 
-		// These word categories are filtered everywhere within word combinations.
-		filteredAnywhere: [].concat( transitionWords, adverbialGenitives, personalPronounsNominative, personalPronounsAccusative,
-			reflexivePronouns, interjections, cardinalNumerals, filteredPassiveAuxiliaries, otherAuxiliaries, copula, interviewVerbs,
-			delexicalizedVerbs, indefinitePronouns, correlativeConjunctions, subordinatingConjunctions, interrogativeDeterminers,
-			interrogativePronouns, interrogativeProAdverbs, locativeAdverbs, miscellaneous, prepositionalAdverbs, pronominalAdverbs,
-			recipeWords, timeWords, vagueNouns ),
+// These word categories are filtered everywhere within word combinations.
+export const filteredAnywhere = [].concat( transitionWords, adverbialGenitives, personalPronounsNominative, personalPronounsAccusative,
+	reflexivePronouns, interjections, cardinalNumerals, filteredPassiveAuxiliaries, otherAuxiliaries, copula, interviewVerbs,
+	delexicalizedVerbs, indefinitePronouns, correlativeConjunctions, subordinatingConjunctions, interrogativeDeterminers,
+	interrogativePronouns, interrogativeProAdverbs, locativeAdverbs, miscellaneous, prepositionalAdverbs, pronominalAdverbs,
+	recipeWords, timeWords, vagueNouns );
 
-		// These categories are used in the passive voice assessment. If they directly precede a participle, the sentence part is not passive.
-		cannotDirectlyPrecedePassiveParticiple: [].concat( articles, prepositions, demonstrativePronouns, possessivePronouns, ordinalNumerals,
-			continuousVerbs, quantifiers ),
+// These categories are used in the passive voice assessment. If they directly precede a participle, the sentence part is not passive.
+export const cannotDirectlyPrecedePassiveParticiple = [].concat( articles, prepositions, demonstrativePronouns, possessivePronouns, ordinalNumerals,
+	continuousVerbs, quantifiers );
 
-		/*
-		These categories are used in the passive voice assessment. If they appear between an auxiliary and a participle,
-		the sentence part is not passive.
-		*/
-		cannotBeBetweenPassiveAuxiliaryAndParticiple: [].concat( otherAuxiliaries, copula, interviewVerbs, delexicalizedVerbs ),
+/*
+These categories are used in the passive voice assessment. If they appear between an auxiliary and a participle,
+the sentence part is not passive.
+*/
+export const cannotBeBetweenPassiveAuxiliaryAndParticiple = [].concat( otherAuxiliaries, copula, interviewVerbs, delexicalizedVerbs );
 
-		// This export contains all of the above words.
-		all: [].concat( articles, cardinalNumerals, ordinalNumerals, demonstrativePronouns, possessivePronouns, reflexivePronouns,
-			personalPronounsNominative, personalPronounsAccusative, quantifiers, indefinitePronouns, continuousVerbs,
-			indefinitePronounsPossessive, interrogativeDeterminers, interrogativePronouns, interrogativeProAdverbs,
-			pronominalAdverbs, locativeAdverbs, adverbialGenitives, prepositionalAdverbs, filteredPassiveAuxiliaries, notFilteredPassiveAuxiliaries,
-			otherAuxiliaries, copula, prepositions, coordinatingConjunctions, correlativeConjunctions, subordinatingConjunctions, interviewVerbs,
-			transitionWords, additionalTransitionWords, intensifiers, delexicalizedVerbs, interjections, generalAdjectivesAdverbs,
-			recipeWords, vagueNouns, miscellaneous, titlesPreceding, titlesFollowing ),
-	};
-}
+// This export contains all of the above words.
+export const all = [].concat( articles, cardinalNumerals, ordinalNumerals, demonstrativePronouns, possessivePronouns, reflexivePronouns,
+	personalPronounsNominative, personalPronounsAccusative, quantifiers, indefinitePronouns, continuousVerbs,
+	indefinitePronounsPossessive, interrogativeDeterminers, interrogativePronouns, interrogativeProAdverbs,
+	pronominalAdverbs, locativeAdverbs, adverbialGenitives, prepositionalAdverbs, filteredPassiveAuxiliaries, notFilteredPassiveAuxiliaries,
+	otherAuxiliaries, copula, prepositions, coordinatingConjunctions, correlativeConjunctions, subordinatingConjunctions, interviewVerbs,
+	transitionWords, additionalTransitionWords, intensifiers, delexicalizedVerbs, interjections, generalAdjectivesAdverbs,
+	recipeWords, vagueNouns, miscellaneous, titlesPreceding, titlesFollowing );
+
+export default {};
