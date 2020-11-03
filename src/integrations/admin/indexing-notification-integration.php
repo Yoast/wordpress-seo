@@ -200,7 +200,7 @@ class Indexing_Notification_Integration implements Integration_Interface {
 	 * @return bool If the notification should be shown.
 	 */
 	protected function should_show_notification() {
-		// Don't show a notification if the indexation has already been started earlier.
+		// Don't show a notification if the indexing has already been started earlier.
 		if ( $this->indexing_helper->get_started() > 0 ) {
 			return false;
 		}

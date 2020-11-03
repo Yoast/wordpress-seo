@@ -6,7 +6,6 @@
  */
 
 use Yoast\WP\Lib\Model;
-use Yoast\WP\SEO\Integrations\Admin\Indexing_Tool_Integration;
 
 /**
  * This code handles the option upgrades.
@@ -762,6 +761,13 @@ class WPSEO_Upgrade {
 	private function upgrade_153() {
 		WPSEO_Options::set( 'category_base_url', get_option( 'category_base' ) );
 		WPSEO_Options::set( 'tag_base_url', get_option( 'tag_base' ) );
+
+		// Rename a couple of options.
+		$indexation_started_value = WPSEO_Options::get( 'indexation_started' );
+		WPSEO_Options::set( 'indexing_started', $indexation_started_value );
+
+		$indexables_indexing_completed_value = WPSEO_Options::get( 'indexables_indexation_completed' );
+		WPSEO_Options::set( 'indexables_indexing_completed', $indexables_indexing_completed_value);
 	}
 
 	/**
@@ -803,7 +809,7 @@ class WPSEO_Upgrade {
 	public function clean_up_private_taxonomies_for_141() {
 		global $wpdb;
 
-		// If migrations haven't been completed succesfully the following may give false errors. So suppress them.
+		// If migrations haven't been completed successfully the following may give false errors. So suppress them.
 		$show_errors       = $wpdb->show_errors;
 		$wpdb->show_errors = false;
 
