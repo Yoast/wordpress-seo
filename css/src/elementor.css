@@ -42,7 +42,7 @@
 	-webkit-font-smoothing: subpixel-antialiased;
 }
 
-.yoast li, .yoast p, .yoast small, .yoast a {
+.yoast li, .yoast p, .yoast small, .button-link {
 	margin-bottom: 6px;
 	line-height: 1.5;
 	color: var(--yoast-elementor-color-paragraph);
