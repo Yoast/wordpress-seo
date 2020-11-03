@@ -17,19 +17,21 @@
 }
 
 .elementor-panel .elementor-tab-control-yoast-tab a:before {
-	background-image: var(--yoast-svg-icon-yoast);
-	background-size: cover;
-	background-repeat: no-repeat;
-	height: 16px;
-	width: 16px;
+    mask-image: var(--yoast-svg-icon-yoast);
+    -webkit-mask-image: var(--yoast-svg-icon-yoast);
+    mask-size: 100% 100%;
+    -webkit-mask-size: 100% 100%;
+    height: 16px;
+    width: 16px;
 	margin: 0 auto;
-
+	
 	/*
 	Content should contain some text, because that's how Elementor spaces their nav.
 	Set color to transparent because we don't wan't to see the before's text.
 	*/
-	content: ".";
-	color: transparent;
+    content: ".";
+    color: transparent;
+    background-color: #6d7882;
 }
 
 .yoast-elementor-panel__fills {
