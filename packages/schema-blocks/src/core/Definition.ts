@@ -40,7 +40,7 @@ export default abstract class Definition {
 	/**
 	 * Returns the configuration of this BlockDefinition.
 	 *
-	 *@returns The configuration.
+	 * @returns The configuration.
 	 */
 	configuration(): Record<string, unknown> {
 		return Object.values( this.instructions ).reduce( ( config, instruction ) => merge( config, instruction.configuration() ), {} );
