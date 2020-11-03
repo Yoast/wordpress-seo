@@ -1,6 +1,6 @@
 {
   "name": "@yoast/example-component-app",
-  "version": "1.0.76",
+  "version": "1.0.77-rc.0",
   "description": "This app demonstrates the possibilites of our components",
   "main": "index.js",
   "author": "Yoast",
@@ -49,7 +49,7 @@
     "webpack": "4.19.1",
     "webpack-cli": "^2.1.3",
     "webpack-dev-server": "3.1.14",
-    "yoast-components": "^5.14.0-rc.0"
+    "yoast-components": "^5.14.0-rc.1"
   },
   "peerDependencies": {
     "material-ui": "^0.18.6",
