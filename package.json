@@ -116,6 +116,7 @@
     "@yoast/feature-flag": "^0.5.2",
     "@yoast/helpers": "^0.14.0",
     "@yoast/replacement-variable-editor": "^1.7.0-rc.0",
+    "@yoast/schema-blocks": "^1.0.0-RC3",
     "@yoast/search-metadata-previews": "^2.14.0-rc.0",
     "@yoast/social-metadata-forms": "^1.7.0-rc.0",
     "@yoast/style-guide": "^0.13.0",
@@ -139,6 +140,7 @@
     "redux-thunk": "^2.2.0",
     "select2": "^4.0.5",
     "styled-components": "^4.2.0",
+    "tokenizr": "^1.5.7",
     "yoast-components": "^5.14.0-rc.1",
     "yoastseo": "^1.85.0-rc.0"
   },

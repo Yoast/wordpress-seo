@@ -882,6 +882,13 @@
     styled-components "^4.4.1"
     yoastseo "^1.85.0-rc.0"
 
+"@yoast/schema-blocks@^1.0.0-RC3":
+  version "1.0.0-RC3"
+  resolved "https://registry.yarnpkg.com/@yoast/schema-blocks/-/schema-blocks-1.0.0-RC3.tgz#9ae9631404ddae589922bf87184aa75853cb67d0"
+  integrity sha512-MlO7YH0Jc/jVyIs/iHXgsYrczGT1e4s1VMMHvvOQtE9US7KQNcQBsTrgfxitHY4WP05BIrKLfV3ibN7YeccuiA==
+  dependencies:
+    tokenizr "^1.5.2"
+
 "@yoast/search-metadata-previews@^2.14.0-rc.0":
   version "2.14.0-rc.0"
   resolved "https://registry.yarnpkg.com/@yoast/search-metadata-previews/-/search-metadata-previews-2.14.0-rc.0.tgz#38894f5cd0994cc7d2f269ca8529afaf479cb9b8"
@@ -12744,6 +12751,11 @@ tokenizer2@^2.0.1:
   integrity sha512-WAUyv8sbJuFMq4OgQAcXVYrJj1YALGz2Ah4yMyMxRD5DrMnogbtQV3r2RDZ69/Zxh3yYc/olp8rURZ0t3mLevQ==
   dependencies:
     through2 "^2.0.0"
+
+tokenizr@^1.5.2, tokenizr@^1.5.7:
+  version "1.5.7"
+  resolved "https://registry.yarnpkg.com/tokenizr/-/tokenizr-1.5.7.tgz#80702775ac9d61899bd3c60e4c7ac36b9845bcbf"
+  integrity sha512-w6qS6F5PNtY30DxoRD4a7nC7zOlPM2SlpQ4zLhOmqBaB1VCZrlV82bLpc/lKNOdNmrwIwcsJLDcjEJ8f7UG6Mg==
 
 tough-cookie@>=2.3.3, tough-cookie@^2.3.4, tough-cookie@~2.4.3:
   version "2.4.3"
