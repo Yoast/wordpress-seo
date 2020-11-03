@@ -10,7 +10,9 @@ namespace Yoast\WP\SEO\Presentations;
 class Indexable_Search_Result_Page_Presentation extends Indexable_Presentation {
 
 	/**
-	 * @inheritDoc
+	 * Generates the robots value.
+	 *
+	 * @return array The robots value.
 	 */
 	public function generate_robots() {
 		$robots = $this->get_base_robots();
@@ -21,7 +23,9 @@ class Indexable_Search_Result_Page_Presentation extends Indexable_Presentation {
 	}
 
 	/**
-	 * @inheritDoc
+	 * Generates the title.
+	 *
+	 * @return string The title.
 	 */
 	public function generate_title() {
 		if ( $this->model->title ) {
@@ -32,16 +36,18 @@ class Indexable_Search_Result_Page_Presentation extends Indexable_Presentation {
 	}
 
 	/**
-	 * @inheritDoc
+	 * Generates the Twitter title.
+	 *
+	 * @return string The Twitter title.
 	 */
 	public function generate_twitter_title() {
 		return $this->title;
 	}
 
 	/**
-	 * Generates the open graph url.
+	 * Generates the Open Graph URL.
 	 *
-	 * @return string The open graph url.
+	 * @return string The Open Graph URL.
 	 */
 	public function generate_open_graph_url() {
 		$search_query = \get_search_query();

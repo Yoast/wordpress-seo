@@ -411,11 +411,27 @@ class Current_Page_Helper {
 		static $is_yoast_seo;
 
 		if ( $is_yoast_seo === null ) {
-			$current_page = filter_input( INPUT_GET, 'page' );
-			$is_yoast_seo = ( strpos( $current_page, 'wpseo_' ) === 0 );
+			$current_page = \filter_input( INPUT_GET, 'page' );
+			$is_yoast_seo = ( \strpos( $current_page, 'wpseo_' ) === 0 );
 		}
 
 		return $is_yoast_seo;
+	}
+
+	/**
+	 * Returns the current Yoast SEO page.
+	 * (E.g. the `page` query variable in the URL).
+	 *
+	 * @return string The current Yoast SEO page.
+	 */
+	public function get_current_yoast_seo_page() {
+		static $current_yoast_seo_page;
+
+		if ( $current_yoast_seo_page === null ) {
+			$current_yoast_seo_page = \filter_input( INPUT_GET, 'page' );
+		}
+
+		return $current_yoast_seo_page;
 	}
 
 	/**

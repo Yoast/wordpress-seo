@@ -19,7 +19,9 @@ class Backwards_Compatibility implements Integration_Interface {
 	protected $options;
 
 	/**
-	 * @inheritDoc
+	 * Returns the conditionals based in which this loadable should be active.
+	 *
+	 * @return array
 	 */
 	public static function get_conditionals() {
 		return [ Front_End_Conditional::class ];
@@ -35,7 +37,11 @@ class Backwards_Compatibility implements Integration_Interface {
 	}
 
 	/**
-	 * @inheritDoc
+	 * Initializes the integration.
+	 *
+	 * This is the place to register hooks and filters.
+	 *
+	 * @return void
 	 */
 	public function register_hooks() {
 		if ( $this->options->get( 'opengraph' ) === true ) {

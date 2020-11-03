@@ -403,9 +403,9 @@
 	margin-bottom: 0;
 }
 
-/* Set overflow-y to scroll and hide the scrollbar on FireFox. */
 .yoast-post-settings-modal .yoast-content-container {
 	overflow-y: auto;
+	flex-grow: 1;
 }
 
 .yoast-post-settings-modal .yoast-button-container {
@@ -446,4 +446,28 @@
 	.yoast-post-settings-modal .yoast-button-container p {
 		padding-right: 0;
 	}
+}
+
+/* Specific styling for the SEMrushRelatedKeyphrasesModal */
+.yoast-related-keyphrases-modal {
+	max-width: 712px;
+}
+
+#yoast-get-related-keyphrases-sidebar,
+#yoast-get-related-keyphrases-metabox {
+	margin-top: 8px;
+}
+
+.yoast-gutenberg-modal .yoast-related-keyphrases-modal__content {
+	min-height: 66vh;
+	position: relative;
+}
+
+#yoast-semrush-country-selector {
+	position: relative;
+	border: none;
+}
+
+.yoast-related-keyphrases-modal__chart {
+	display: block;
 }

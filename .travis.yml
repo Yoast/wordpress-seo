@@ -83,6 +83,7 @@ jobs:
         - grunt composer-artifact
       if: ( tag IS present OR branch =~ /^feature\// OR branch =~ /^release\// OR branch = trunk ) AND type != pull_request
       before_install:
+        - composer self-update 1.10.16
         - nvm install lts/*
         - curl -o- -L https://yarnpkg.com/install.sh | bash
         - export PATH=$HOME/.yarn/bin:$PATH
@@ -114,6 +115,7 @@ cache:
     - node_modules
 
 before_install:
+  - composer self-update 1.10.16
   - export SECURITYCHECK_DIR=/tmp/security-checker
   - if [[ -z "$CC_TEST_REPORTER_ID" ]]; then COVERAGE="0"; fi
   - if [[ -d "premium" ]]; then IS_PREMIUM=1; fi
@@ -198,7 +200,11 @@ before_script:
       if [[ -z "$PLUGIN_TAGS" ]]; then
         git clone https://github.com/yoast/javascript /tmp/javascript
         echo '{"monorepo-location":"/tmp/javascript"}' > .yoast
-        yarn link-monorepo
+        if [[ ( $TRAVIS_BRANCH =~ ^feature\/* || $TRAVIS_BRANCH =~ ^release\/* || $TRAVIS_BRANCH = "trunk" ) && $TRAVIS_EVENT_TYPE = "pull_request" ]]; then
+          AUTO_CHECKOUT_MONOREPO_BRANCH=1 yarn link-monorepo
+        else
+          yarn link-monorepo
+        fi
       fi
     fi
   - phpenv rehash
@@ -248,9 +254,7 @@ script:
     if [[ "$PHPLINT" == "1" ]]; then
       travis_fold start "PHP.check" && travis_time_start
       if [[ "$IS_PREMIUM" == "1" ]]; then
-        cd premium
-        composer lint
-        cd -
+        cd premium && composer lint && cd -
       else
         composer lint
       fi
@@ -261,9 +265,7 @@ script:
     if [[ "$PHPCS" == "1" ]]; then
       travis_fold start "PHP.code-style" && travis_time_start
       if [[ "$IS_PREMIUM" == "1" ]]; then
-        cd premium
-        composer check-cs
-        cd -
+        cd premium && composer check-cs && cd -
       else
         composer check-cs-threshold
       fi

@@ -95,6 +95,8 @@ class WPSEO_Option_MS extends WPSEO_Option {
 			"{$allow_prefix}enable_text_link_counter"       => true,
 			"{$allow_prefix}enable_headless_rest_endpoints" => true,
 			"{$allow_prefix}tracking"                       => true,
+			"{$allow_prefix}semrush_integration_active"     => true,
+			"{$allow_prefix}zapier_integration_active"      => true,
 		];
 
 		if ( is_multisite() ) {

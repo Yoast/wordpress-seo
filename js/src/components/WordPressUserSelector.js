@@ -6,8 +6,8 @@ import PropTypes from "prop-types";
 import { debounce } from "lodash-es";
 import { createGlobalStyle } from "styled-components";
 import { __ } from "@wordpress/i18n";
-import { SvgIcon } from "yoast-components";
-import { sendRequest } from "yoast-components";
+import { SvgIcon } from "@yoast/components";
+import { sendRequest } from "@yoast/helpers";
 
 /**
  * Styles to overwrite react-select styles.

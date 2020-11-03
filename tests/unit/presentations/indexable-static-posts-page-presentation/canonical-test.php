@@ -30,9 +30,9 @@ class Canonical_Test extends TestCase {
 	 * @covers ::generate_canonical
 	 */
 	public function test_with_canonical() {
-		$this->indexable->canonical = 'https://example.com/canonical';
+		$this->indexable->canonical = 'https://example.com/canonical/';
 
-		$this->assertEquals( 'https://example.com/canonical', $this->instance->generate_canonical() );
+		$this->assertEquals( 'https://example.com/canonical/', $this->instance->generate_canonical() );
 	}
 
 	/**
@@ -41,14 +41,19 @@ class Canonical_Test extends TestCase {
 	 * @covers ::generate_canonical
 	 */
 	public function test_with_permalink() {
-		$this->indexable->permalink = 'https://example.com/permalink';
+		$this->indexable->permalink = 'https://example.com/permalink/';
+
+		$this->indexable_helper
+			->expects( 'dynamic_permalinks_enabled' )
+			->once()
+			->andReturn( false );
 
 		$this->pagination
 			->expects( 'get_current_archive_page_number' )
 			->once()
 			->andReturn( 1 );
 
-		$this->assertEquals( 'https://example.com/permalink', $this->instance->generate_canonical() );
+		$this->assertEquals( 'https://example.com/permalink/', $this->instance->generate_canonical() );
 	}
 
 	/**
@@ -57,6 +62,11 @@ class Canonical_Test extends TestCase {
 	 * @covers ::generate_canonical
 	 */
 	public function test_without_canonical_or_permalink() {
+		$this->indexable_helper
+			->expects( 'dynamic_permalinks_enabled' )
+			->once()
+			->andReturn( false );
+
 		$this->pagination
 			->expects( 'get_current_archive_page_number' )
 			->once()
@@ -71,7 +81,12 @@ class Canonical_Test extends TestCase {
 	 * @covers ::generate_canonical
 	 */
 	public function test_with_pagination() {
-		$this->indexable->permalink = 'https://example.com/permalink';
+		$this->indexable->permalink = 'https://example.com/permalink/';
+
+		$this->indexable_helper
+			->expects( 'dynamic_permalinks_enabled' )
+			->once()
+			->andReturn( false );
 
 		$this->pagination
 			->expects( 'get_current_archive_page_number' )
@@ -81,9 +96,69 @@ class Canonical_Test extends TestCase {
 		$this->pagination
 			->expects( 'get_paginated_url' )
 			->once()
-			->with( 'https://example.com/permalink', 2 )
+			->with( 'https://example.com/permalink/', 2 )
 			->andReturn( 'https://example.com/permalink/page/2/' );
 
 		$this->assertEquals( 'https://example.com/permalink/page/2/', $this->instance->generate_canonical() );
+	}
+
+	/**
+	 * Tests the situation where the permalink is given with dynamic permalinks enabled.
+	 *
+	 * @covers ::generate_canonical
+	 */
+	public function test_with_permalink_with_dynamic_permalinks() {
+		$this->indexable->permalink = 'https://example.com/permalink/';
+
+		$this->indexable_helper
+			->expects( 'dynamic_permalinks_enabled' )
+			->once()
+			->andReturn( true );
+
+		$this->permalink_helper
+			->expects( 'get_permalink_for_indexable' )
+			->with( $this->instance->model )
+			->once()
+			->andReturn( 'https://example.com/dynamic-permalink/' );
+
+		$this->pagination
+			->expects( 'get_current_archive_page_number' )
+			->once()
+			->andReturn( 1 );
+
+		$this->assertEquals( 'https://example.com/dynamic-permalink/', $this->instance->generate_canonical() );
+	}
+
+	/**
+	 * Tests the situation where a canonical is paginated with dynamic permalinks enabled.
+	 *
+	 * @covers ::generate_canonical
+	 */
+	public function test_with_pagination_with_dynamic_permalinks() {
+		$this->indexable->permalink = 'https://example.com/permalink/';
+
+		$this->indexable_helper
+			->expects( 'dynamic_permalinks_enabled' )
+			->once()
+			->andReturn( true );
+
+		$this->permalink_helper
+			->expects( 'get_permalink_for_indexable' )
+			->with( $this->instance->model )
+			->once()
+			->andReturn( 'https://example.com/dynamic-permalink/' );
+
+		$this->pagination
+			->expects( 'get_current_archive_page_number' )
+			->once()
+			->andReturn( 2 );
+
+		$this->pagination
+			->expects( 'get_paginated_url' )
+			->once()
+			->with( 'https://example.com/dynamic-permalink/', 2 )
+			->andReturn( 'https://example.com/dynamic-permalink/page/2/' );
+
+		$this->assertEquals( 'https://example.com/dynamic-permalink/page/2/', $this->instance->generate_canonical() );
 	}
 }

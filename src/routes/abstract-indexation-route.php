@@ -3,7 +3,7 @@
 namespace Yoast\WP\SEO\Routes;
 
 use WP_REST_Response;
-use Yoast\WP\SEO\Actions\Indexation\Indexation_Action_Interface;
+use Yoast\WP\SEO\Actions\Indexing\Indexation_Action_Interface;
 
 /**
  * Abstract_Indexation_Route class.

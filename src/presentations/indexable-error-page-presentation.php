@@ -10,9 +10,9 @@ namespace Yoast\WP\SEO\Presentations;
 class Indexable_Error_Page_Presentation extends Indexable_Presentation {
 
 	/**
-	 * Generates the robots.
+	 * Generates the robots value.
 	 *
-	 * @inheritDoc
+	 * @return array The robots value.
 	 */
 	public function generate_robots() {
 		$robots = $this->get_base_robots();
@@ -25,7 +25,7 @@ class Indexable_Error_Page_Presentation extends Indexable_Presentation {
 	/**
 	 * Generates the title.
 	 *
-	 * @inheritDoc
+	 * @return string The title.
 	 */
 	public function generate_title() {
 		if ( $this->model->title ) {

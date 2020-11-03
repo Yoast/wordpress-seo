@@ -65,16 +65,16 @@ class Indexable_Post_Meta_Watcher_Test extends TestCase {
 		$this->instance->register_hooks();
 
 		// Register all posts whose meta have changed.
-		$this->assertTrue( \has_action( 'added_post_meta', [ $this->instance, 'add_post_id' ] ) );
-		$this->assertTrue( \has_action( 'updated_post_meta', [ $this->instance, 'add_post_id' ] ) );
-		$this->assertTrue( \has_action( 'deleted_post_meta', [ $this->instance, 'add_post_id' ] ) );
+		$this->assertNotFalse( \has_action( 'added_post_meta', [ $this->instance, 'add_post_id' ] ) );
+		$this->assertNotFalse( \has_action( 'updated_post_meta', [ $this->instance, 'add_post_id' ] ) );
+		$this->assertNotFalse( \has_action( 'deleted_post_meta', [ $this->instance, 'add_post_id' ] ) );
 
 		// Remove posts that get saved as they are handled by the Indexable_Post_Watcher.
-		$this->assertTrue( \has_action( 'wp_insert_post', [ $this->instance, 'remove_post_id' ] ) );
-		$this->assertTrue( \has_action( 'delete_post', [ $this->instance, 'remove_post_id' ] ) );
-		$this->assertTrue( \has_action( 'edit_attachment', [ $this->instance, 'remove_post_id' ] ) );
-		$this->assertTrue( \has_action( 'add_attachment', [ $this->instance, 'remove_post_id' ] ) );
-		$this->assertTrue( \has_action( 'delete_attachment', [ $this->instance, 'remove_post_id' ] ) );
+		$this->assertNotFalse( \has_action( 'wp_insert_post', [ $this->instance, 'remove_post_id' ] ) );
+		$this->assertNotFalse( \has_action( 'delete_post', [ $this->instance, 'remove_post_id' ] ) );
+		$this->assertNotFalse( \has_action( 'edit_attachment', [ $this->instance, 'remove_post_id' ] ) );
+		$this->assertNotFalse( \has_action( 'add_attachment', [ $this->instance, 'remove_post_id' ] ) );
+		$this->assertNotFalse( \has_action( 'delete_attachment', [ $this->instance, 'remove_post_id' ] ) );
 	}
 
 	/**

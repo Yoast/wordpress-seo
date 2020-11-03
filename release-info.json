@@ -1,5 +1,5 @@
 {
-  "version": "15.0",
-  "release_description": "Arabic readability analysis and all settings are now in the Yoast sidebar for the block editor.",
-  "shortlink": "https://yoa.st/yoast15-0"
+  "version": "15.2",
+  "release_description": "You’re now able to optimize URLs for more visibility when shared on Slack!",
+  "shortlink": "https://yoa.st/yoast15-2"
 }

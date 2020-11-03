@@ -2,12 +2,14 @@
 
 namespace Yoast\WP\SEO\Integrations\Watchers;
 
-use Yoast\WP\SEO\Conditionals\Admin_Conditional;
+use WP_CLI;
+use WP_CLI\Utils;
+use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
+use Yoast\WP\SEO\Config\Indexing_Reasons;
 use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
-use Yoast\WP\SEO\Presenters\Admin\Indexation_Permalink_Warning_Presenter;
 
 /**
  * Home url option watcher.
@@ -43,11 +45,11 @@ class Indexable_HomeUrl_Watcher implements Integration_Interface {
 	 * @return array
 	 */
 	public static function get_conditionals() {
-		return [ Admin_Conditional::class ];
+		return [ Migrations_Conditional::class ];
 	}
 
 	/**
-	 * Indexable_Permalink_Watcher constructor.
+	 * Indexable_HomeUrl_Watcher constructor.
 	 *
 	 * @param Post_Type_Helper $post_type The post type helper.
 	 * @param Options_Helper   $options   The options helper.
@@ -68,6 +70,7 @@ class Indexable_HomeUrl_Watcher implements Integration_Interface {
 	 */
 	public function register_hooks() {
 		\add_action( 'update_option_home', [ $this, 'reset_permalinks' ] );
+		\add_action( 'wpseo_permalink_structure_check', [ $this, 'force_reset_permalinks' ] );
 	}
 
 	/**
@@ -83,13 +86,16 @@ class Indexable_HomeUrl_Watcher implements Integration_Interface {
 
 		$taxonomies = $this->get_taxonomies_for_post_types( $post_types );
 		foreach ( $taxonomies as $taxonomy ) {
-			$this->indexable_helper->reset_permalink_indexables( 'term', $taxonomy, Indexation_Permalink_Warning_Presenter::REASON_HOME_URL_OPTION );
+			$this->indexable_helper->reset_permalink_indexables( 'term', $taxonomy, Indexing_Reasons::REASON_HOME_URL_OPTION );
 		}
 
-		$this->indexable_helper->reset_permalink_indexables( 'home-page', null, Indexation_Permalink_Warning_Presenter::REASON_HOME_URL_OPTION );
-		$this->indexable_helper->reset_permalink_indexables( 'user', null, Indexation_Permalink_Warning_Presenter::REASON_HOME_URL_OPTION );
-		$this->indexable_helper->reset_permalink_indexables( 'date-archive', null, Indexation_Permalink_Warning_Presenter::REASON_HOME_URL_OPTION );
-		$this->indexable_helper->reset_permalink_indexables( 'system-page', null, Indexation_Permalink_Warning_Presenter::REASON_HOME_URL_OPTION );
+		$this->indexable_helper->reset_permalink_indexables( 'home-page', null, Indexing_Reasons::REASON_HOME_URL_OPTION );
+		$this->indexable_helper->reset_permalink_indexables( 'user', null, Indexing_Reasons::REASON_HOME_URL_OPTION );
+		$this->indexable_helper->reset_permalink_indexables( 'date-archive', null, Indexing_Reasons::REASON_HOME_URL_OPTION );
+		$this->indexable_helper->reset_permalink_indexables( 'system-page', null, Indexing_Reasons::REASON_HOME_URL_OPTION );
+
+		// Reset the home_url option.
+		$this->options_helper->set( 'home_url', get_home_url() );
 	}
 
 	/**
@@ -98,8 +104,36 @@ class Indexable_HomeUrl_Watcher implements Integration_Interface {
 	 * @param string $post_type The post type to reset.
 	 */
 	public function reset_permalinks_post_type( $post_type ) {
-		$this->indexable_helper->reset_permalink_indexables( 'post', $post_type, Indexation_Permalink_Warning_Presenter::REASON_HOME_URL_OPTION );
-		$this->indexable_helper->reset_permalink_indexables( 'post-type-archive', $post_type, Indexation_Permalink_Warning_Presenter::REASON_HOME_URL_OPTION );
+		$this->indexable_helper->reset_permalink_indexables( 'post', $post_type, Indexing_Reasons::REASON_HOME_URL_OPTION );
+		$this->indexable_helper->reset_permalink_indexables( 'post-type-archive', $post_type, Indexing_Reasons::REASON_HOME_URL_OPTION );
+	}
+
+	/**
+	 * Resets the permalink indexables automatically, if necessary.
+	 *
+	 * @return bool Whether the request ran.
+	 */
+	public function force_reset_permalinks() {
+		if ( $this->should_reset_permalinks() ) {
+			$this->reset_permalinks();
+
+			if ( \defined( 'WP_CLI' ) && \WP_CLI ) {
+				WP_CLI::success( __( 'All permalinks were successfully reset', 'wordpress-seo' ) );
+			}
+
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Checks whether permalinks should be reset.
+	 *
+	 * @return bool Whether the permalinks should be reset.
+	 */
+	public function should_reset_permalinks() {
+		return \get_home_url() !== $this->options_helper->get( 'home_url' );
 	}
 
 	/**
