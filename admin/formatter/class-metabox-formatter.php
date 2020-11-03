@@ -167,6 +167,8 @@ class WPSEO_Metabox_Formatter {
 			],
 			'markdownEnabled'           => $this->is_markdown_enabled(),
 			'analysisHeadingTitle'      => __( 'Analysis', 'wordpress-seo' ),
+			'zapierIntegrationActive'   => WPSEO_Options::get( 'zapier_integration_active', false ) ? 1 : 0,
+			'zapierConnectedStatus'     => ! empty( WPSEO_Options::get( 'zapier_subscription', [] ) ) ? 1 : 0,
 		];
 	}
 
