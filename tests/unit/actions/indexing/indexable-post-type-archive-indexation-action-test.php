@@ -51,6 +51,9 @@ class Indexable_Post_Type_Archive_Indexation_Action_Test extends TestCase {
 	 */
 	protected $instance;
 
+	/**
+	 * Set up the mocks before each test.
+	 */
 	public function setUp() {
 		$this->repository = Mockery::mock( Indexable_Repository::class );
 		$this->builder    = Mockery::mock( Indexable_Builder::class );
