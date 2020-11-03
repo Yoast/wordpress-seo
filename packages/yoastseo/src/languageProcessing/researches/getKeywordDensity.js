@@ -8,7 +8,7 @@ import countWords from "../helpers/word/countWords.js";
  * @param {Object} paper        The paper containing keyword and text.
  * @param {Object} researcher   The researcher.
  *
- * @returns {Object} The keyword density.
+ * @returns {Object} The keyword density and the stemmer.
  */
 export default function( paper, researcher ) {
 	const wordCount = countWords( paper.getText() );
