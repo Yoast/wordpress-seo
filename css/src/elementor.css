@@ -7,7 +7,7 @@
 	--yoast-elementor-color-paragraph: #555D66;
 }
 
-.yoast, .yoast-elementor {
+.yoast {
 	font-family: var(--yoast-font-family);
 }
 
@@ -23,8 +23,8 @@
 	height: 16px;
 	width: 16px;
 	margin: 0 auto;
-  
-  /*
+
+	/*
 	Content should contain some text, because that's how Elementor spaces their nav.
 	Set color to transparent because we don't wan't to see the before's text.
 	*/
@@ -32,7 +32,7 @@
 	color: transparent;
 }
 
-.yoast-elementor.yoast-sidebar-panel {
+.yoast-elementor-panel__fills {
 	margin-top: 10px;
 	padding: 5px 5px 0 5px;
 	color: var(--yoast-color-font-default);
@@ -40,13 +40,13 @@
 	-webkit-font-smoothing: subpixel-antialiased;
 }
 
-.yoast-elementor.yoast-sidebar-panel li, .yoast li, .yoast p, .yoast small, .yoast a {
+.yoast li, .yoast p, .yoast small, .yoast a {
 	margin-bottom: 6px;
 	line-height: 1.5;
 	color: var(--yoast-elementor-color-paragraph);
 }
 
-.yoast-elementor.yoast-sidebar-panel p a, .button-link, .yoast a, .yoast a p {
+.yoast-elementor-panel__fills p a, .button-link, .yoast a, .yoast a p {
 	color: var(--yoast-color-link);
 	text-decoration: underline;
 }
@@ -57,7 +57,7 @@
 	cursor: pointer;
 }
 
-.yoast-elementor.yoast-sidebar-panel .UpsellLinkButton, .yoast .yoast-button-upsell {
+.yoast-elementor-panel__fills .UpsellLinkButton, .yoast .yoast-button-upsell {
 	color: var(--yoast-color-label);
 	text-decoration: none;
 }
@@ -65,11 +65,11 @@
 /* All hover effects */
 @media(hover:hover) {
 	
-	.yoast a:hover, .yoast a:hover p, .yoast-elementor.yoast-sidebar-panel p a:hover, .button-link:hover {
+	.yoast a:hover, .yoast a:hover p, .yoast-elementor-panel__fills p a:hover, .button-link:hover {
 		color: var(--yoast-color-primary-darker);
 	}
 
-	.yoast-elementor.yoast-sidebar-panel .UpsellLinkButton:hover, .yoast .yoast-button-upsell:hover {
+	.yoast-elementor-panel__fills .UpsellLinkButton:hover, .yoast .yoast-button-upsell:hover {
 		color: var(--yoast-color-label);
 		
 	}
