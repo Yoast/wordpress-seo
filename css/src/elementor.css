@@ -24,7 +24,7 @@
     height: 16px;
     width: 16px;
 	margin: 0 auto;
-	
+
 	/*
 	Content should contain some text, because that's how Elementor spaces their nav.
 	Set color to transparent because we don't wan't to see the before's text.
@@ -53,6 +53,10 @@
 	text-decoration: underline;
 }
 
+.yoast a.dashicons {
+	color: var(--yoast-color-inactive-text);
+}
+
 .button-link {
 	border: none;
 	background: none;
@@ -69,6 +73,10 @@
 	
 	.yoast a:hover, .yoast a:hover p, .yoast-elementor-panel__fills p a:hover, .button-link:hover {
 		color: var(--yoast-color-primary-darker);
+	}
+
+	.yoast a.dashicons:hover {
+		color: var(--yoast-color-link);
 	}
 
 	.yoast-elementor-panel__fills .UpsellLinkButton:hover, .yoast .yoast-button-upsell:hover {
