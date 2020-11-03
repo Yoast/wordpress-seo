@@ -14,7 +14,7 @@ import getStemmer from "./helpers/getStemmer";
 import isPassiveSentencePart from "./helpers/isPassiveSentencePart";
 
 // All researches
-import calculateFleschReading from "./researches/calculateFleshReading";
+import calculateFleschReading from "./researches/calculateFleschReading";
 
 /**
  * The researches contains all the researches
