@@ -90,7 +90,7 @@ function handleEditorChange() {
 	}
 }
 
-const debouncedHandleEditorChange = debounce( handleEditorChange, refreshDelay );
+const debouncedHandleEditorChange = debounce( handleEditorChange, 500 );
 
 /**
  * Initializes the watcher by coupling the change handler to the change event.
