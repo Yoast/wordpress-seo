@@ -6023,11 +6023,6 @@ before-after-hook@^1.4.0:
   resolved "https://registry.yarnpkg.com/before-after-hook/-/before-after-hook-1.4.0.tgz#2b6bf23dca4f32e628fd2747c10a37c74a4b484d"
   integrity sha512-l5r9ir56nda3qu14nAXIlyq1MmUSs0meCIaFAh8HwkFwP1F8eToOuS3ah2VAHHcY04jaYD7FpJC5JTXHYRbkzg==
 
-benchmark.js@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/benchmark.js/-/benchmark.js-2.0.0.tgz#780026777e1fbce2f0f21fb0c428d05e5e66b5ce"
-  integrity sha512-RyJv95bJlIw+xzHRTWX87cO5NhLY9Ceutnj96CgEQRhUvxxk3nrRDkAYSAgDhAHf0Gk3xKwEGSImefu58lZB/w==
-
 benchmark@^2.1.4:
   version "2.1.4"
   resolved "https://registry.yarnpkg.com/benchmark/-/benchmark-2.1.4.tgz#09f3de31c916425d498cc2ee565a0ebf3c2a5629"
