@@ -3,12 +3,12 @@
  *
  * @param {Paper} paper 			The paper to research
  * @param {Researcher} researcher 	The researcher to use for analysis
- * @param {boolean} hasFunctionWords Whether the language has a list of function words available.
  *
- * @returns {Object} The length of the keyphrase and whether the language has function words or not.
+ * @returns {Object} The length of the keyphrase and whether the function words list is available or not.
  */
-export default function( paper, researcher, hasFunctionWords ) {
+export default function( paper, researcher ) {
 	const topicForms = researcher.getResearch( "morphology" );
+	const hasFunctionWords = researcher.getConfig( "functionWords" );
 
 	return {
 		keyphraseLength: topicForms.keyphraseForms.length,

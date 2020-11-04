@@ -20,7 +20,6 @@ import getProminentWordsForInsights from "./researches/getProminentWordsForInsig
 import getProminentWordsForInternalLinking from "./researches/getProminentWordsForInternalLinking";
 import getSentenceBeginnings from "./researches/getSentenceBeginnings";
 import getSubheadingTextLengths from "./researches/getSubheadingTextLengths.js";
-import getWordForms from "./researches/getWordForms";
 import h1s from "./researches/h1s";
 import imageCount from "./researches/imageCount.js";
 import keyphraseDistribution from "./researches/keyphraseDistribution";
@@ -31,6 +30,7 @@ import linkCount from "./researches/linkCount.js";
 import matchKeywordInSubheadings from "./researches/matchKeywordInSubheadings";
 import metaDescriptionKeyword from "./researches/metaDescriptionKeyword";
 import metaDescriptionLength from "./researches/metaDescriptionLength.js";
+import morphology from "./researches/getWordForms";
 import pageTitleWidth from "./researches/pageTitleWidth.js";
 import readingTime from "./researches/readingTime";
 import sentences from "./researches/sentences";
@@ -70,7 +70,6 @@ export default class AbstractResearcher {
 			getProminentWordsForInternalLinking,
 			getSentenceBeginnings,
 			getSubheadingTextLengths,
-			getWordForms,
 			h1s,
 			imageCount,
 			keyphraseDistribution,
@@ -81,6 +80,7 @@ export default class AbstractResearcher {
 			matchKeywordInSubheadings,
 			metaDescriptionKeyword,
 			metaDescriptionLength,
+			morphology,
 			pageTitleWidth,
 			readingTime,
 			sentences,
