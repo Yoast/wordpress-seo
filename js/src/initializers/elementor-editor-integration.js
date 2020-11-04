@@ -4,7 +4,6 @@ import domReady from "@wordpress/dom-ready";
 import { registerReactComponent } from "../helpers/reactRoot";
 import { get } from "lodash";
 import { dispatch } from "@wordpress/data";
-import { Fragment } from "@wordpress/element";
 import ElementorSlot from "../elementor/components/slots/ElementorSlot";
 import ElementorFill from "../elementor/containers/ElementorFill";
 import { renderReactRoot } from "../helpers/reactRoot";
@@ -82,18 +81,18 @@ export default function initElementEditorIntegration() {
 		// Check whether the route to our tab is active. If so, render our React root.
 		window.$e.routes.on( "run:after", function( component, route ) {
 			if ( route === "panel/page-settings/yoast-tab" ) {
-			   renderReactRoot( window.YoastSEO.store, "elementor-panel-page-settings-controls", (
-				  <Fragment>
-					 <ElementorSlot />
-					 <ElementorFill />
-				  </Fragment>
-			   ) );
+				renderReactRoot( window.YoastSEO.store, "elementor-panel-page-settings-controls", (
+					<div className="yoast yoast-elementor-panel__fills">
+						<ElementorSlot />
+						<ElementorFill />
+					</div>
+				) );
 			}
-		 } );
+		} );
 
 		// Hook into the save.
-		 const handleSave = sendFormData.bind( null, document.getElementById( "yoast-form" ) );
-		 window.elementor.saver.on( "after:save", handleSave );
+		const handleSave = sendFormData.bind( null, document.getElementById( "yoast-form" ) );
+		window.elementor.saver.on( "after:save", handleSave );
 	} );
 
 	const yoastInputs = document.querySelectorAll( "input[name^='yoast']" );
