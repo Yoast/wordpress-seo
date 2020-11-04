@@ -39,7 +39,7 @@ class FleschReadingEaseAssessment extends Assessment {
 	 * @returns {Object} An assessmentResult with the score and formatted text.
 	 */
 	getResult( paper, researcher, i18n ) {
-		this.fleschReadingResult = researcher.getResearch( "calculateFleschReading" );
+		this.fleschReadingResult = researcher.getResearch( "getFleschReadingScore" );
 		if ( this.isApplicable( paper ) ) {
 			const assessmentResult =  new AssessmentResult( i18n );
 			const calculatedResult = this.calculateResult( i18n );

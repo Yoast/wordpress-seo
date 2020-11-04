@@ -1,19 +1,26 @@
-/** @module analyses/calculateFleschReading */
-
 import formatNumber from "../../../../helpers/formatNumber.js";
-import getFleschReadingStatistics from "../../../helpers/fleschReading/getFleschReadingStatistics";
-import syllables from "../config/internal/syllables";
 
 /**
- * This calculates the flesch reading score for a given text in English.
+ * Returns the flesch reading score for English.
+ *
+ * @param {Object} statistics   The flesch reading statistics.
+ *
+ * @returns {number}    The flesch reading score for English.
+ */
+function calculateScore( statistics ) {
+	const score = 206.835 - ( 1.015 * ( statistics.averageWordsPerSentence ) ) -
+		( 84.6 * ( statistics.numberOfSyllables / statistics.numberOfWords ) );
+	return formatNumber( score );
+}
+
+/**
+ * Returns the function that calculates the score of the flesch reading test for a given text in English.
  *
  * @param {Object} paper The paper containing the text.
+ * @param {Object} statistics   The flesch reading statistics.
  *
- * @returns {number} The score of the flesch reading test in English.
+ * @returns {Function} The function that calculates the score of the flesch reading test in English.
  */
-export default function( paper ) {
-	const { averageWordsPerSentence, numberOfSyllables, numberOfWords } = getFleschReadingStatistics( paper, syllables );
-
-	const score = 206.835 - ( 1.015 * ( averageWordsPerSentence ) ) - ( 84.6 * ( numberOfSyllables / numberOfWords ) );
-	return formatNumber( score );
+export default function( paper, statistics ) {
+	return calculateScore( statistics );
 }

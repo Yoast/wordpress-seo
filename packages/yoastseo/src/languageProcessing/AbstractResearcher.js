@@ -11,6 +11,7 @@ import findKeywordInFirstParagraph from "./researches/findKeywordInFirstParagrap
 import findKeywordInPageTitle from "./researches/findKeywordInPageTitle";
 import findTransitionWords from "./researches/findTransitionWords";
 import functionWordsInKeyphrase from "./researches/functionWordsInKeyphrase";
+import getFleschReadingScore from "./researches/getFleschReadingScore";
 import getKeywordDensity from "./researches/getKeywordDensity.js";
 import getLinks from "./researches/getLinks.js";
 import getLinkStatistics from "./researches/getLinkStatistics";
@@ -61,6 +62,7 @@ export default class AbstractResearcher {
 			findKeywordInPageTitle,
 			findTransitionWords,
 			functionWordsInKeyphrase,
+			getFleschReadingScore,
 			getKeywordDensity,
 			getLinks,
 			getLinkStatistics,
