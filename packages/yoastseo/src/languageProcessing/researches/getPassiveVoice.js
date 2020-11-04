@@ -18,7 +18,7 @@ import { forEach } from "lodash-es";
  * @returns {Object} The found passive sentences.
  */
 export const getMorphologicalPassives = function( paper, researcher ) {
-	const isPassiveSentence = researcher.getHelper( "isPassiveSentencePart" );
+	const isPassiveSentence = researcher.getHelper( "isPassiveSentence" );
 	const text = paper.getText();
 	const sentences = getSentences( text )
 		.map( function( sentence ) {
