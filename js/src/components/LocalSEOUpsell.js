@@ -2,7 +2,7 @@
 import { __, sprintf } from "@wordpress/i18n";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import { utils, getRtlStyle } from "yoast-components";
+import { makeOutboundLink, getDirectionalStyle as getRtlStyle } from "@yoast/helpers";
 
 /* Internal dependencies */
 import LocalAssistantImage from "../../../images/local_assistant.svg";
@@ -52,7 +52,7 @@ const Paragraph = styled.p`
 	margin: 4px 0;
 `;
 
-const OutboundLink = styled( utils.makeOutboundLink() )`
+const OutboundLink = styled( makeOutboundLink() )`
 	margin: 4px 0;
 `;
 

@@ -1,8 +1,7 @@
-import { Component } from "@wordpress/element";
+import { Component, Fragment } from "@wordpress/element";
 import { __, _n, sprintf } from "@wordpress/i18n";
 import { Alert, Select, FieldGroup } from "@yoast/components";
 import PropTypes from "prop-types";
-import { Fragment } from "@wordpress/element";
 import linkHiddenFields, { linkFieldsShape } from "./higherorder/linkHiddenField";
 
 /**

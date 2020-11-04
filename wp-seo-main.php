@@ -15,7 +15,7 @@ if ( ! function_exists( 'add_filter' ) ) {
  * {@internal Nobody should be able to overrule the real version number as this can cause
  *            serious issues with the options, so no if ( ! defined() ).}}
  */
-define( 'WPSEO_VERSION', '15.1-RC3' );
+define( 'WPSEO_VERSION', '15.3-RC1' );
 
 
 if ( ! defined( 'WPSEO_PATH' ) ) {
@@ -191,6 +191,8 @@ function _wpseo_activate() {
 	if ( ! WPSEO_Utils::is_yoast_seo_premium() ) {
 		WPSEO_Options::set( 'tracking', false );
 	}
+
+	WPSEO_Options::set( 'indexing_reason', 'first_install' );
 
 	do_action( 'wpseo_register_roles' );
 	WPSEO_Role_Manager_Factory::get()->add();

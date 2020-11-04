@@ -5,12 +5,12 @@ namespace Yoast\WP\SEO\Tests\Unit\Integrations\Watchers;
 use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
+use Yoast\WP\SEO\Config\Indexing_Reasons;
 use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
-use Yoast\WP\SEO\Integrations\Admin\Indexing_Notification_Integration;
 use Yoast\WP\SEO\Integrations\Watchers\Indexable_HomeUrl_Watcher;
-use Yoast\WP\SEO\Presenters\Admin\Indexation_Permalink_Warning_Presenter;
+use Yoast\WP\SEO\Presenters\Admin\Indexing_Permalink_Warning_Presenter;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
@@ -93,7 +93,7 @@ class Indexable_HomeUrl_Watcher_Test extends TestCase {
 	public function test_register_hooks() {
 		$this->instance->register_hooks();
 
-		$this->assertTrue( Monkey\Actions\has( 'update_option_home', [ $this->instance, 'reset_permalinks' ] ) );
+		$this->assertNotFalse( Monkey\Actions\has( 'update_option_home', [ $this->instance, 'reset_permalinks' ] ) );
 	}
 
 	/**
@@ -105,13 +105,13 @@ class Indexable_HomeUrl_Watcher_Test extends TestCase {
 		$this->instance->expects( 'get_post_types' )->once()->andReturn( [ 'post' ] );
 		$this->instance->expects( 'get_taxonomies_for_post_types' )->once()->with( [ 'post' ] )->andReturn( [ 'category' ] );
 
-		$this->indexable_helper->expects( 'reset_permalink_indexables' )->with( 'post', 'post', Indexing_Notification_Integration::REASON_HOME_URL_OPTION )->once();
-		$this->indexable_helper->expects( 'reset_permalink_indexables' )->with( 'post-type-archive', 'post', Indexing_Notification_Integration::REASON_HOME_URL_OPTION )->once();
-		$this->indexable_helper->expects( 'reset_permalink_indexables' )->with( 'term', 'category', Indexing_Notification_Integration::REASON_HOME_URL_OPTION )->once();
-		$this->indexable_helper->expects( 'reset_permalink_indexables' )->with( 'user', null, Indexing_Notification_Integration::REASON_HOME_URL_OPTION )->once();
-		$this->indexable_helper->expects( 'reset_permalink_indexables' )->with( 'home-page', null, Indexing_Notification_Integration::REASON_HOME_URL_OPTION )->once();
-		$this->indexable_helper->expects( 'reset_permalink_indexables' )->with( 'date-archive', null, Indexing_Notification_Integration::REASON_HOME_URL_OPTION )->once();
-		$this->indexable_helper->expects( 'reset_permalink_indexables' )->with( 'system-page', null, Indexing_Notification_Integration::REASON_HOME_URL_OPTION )->once();
+		$this->indexable_helper->expects( 'reset_permalink_indexables' )->with( 'post', 'post', Indexing_Reasons::REASON_HOME_URL_OPTION )->once();
+		$this->indexable_helper->expects( 'reset_permalink_indexables' )->with( 'post-type-archive', 'post', Indexing_Reasons::REASON_HOME_URL_OPTION )->once();
+		$this->indexable_helper->expects( 'reset_permalink_indexables' )->with( 'term', 'category', Indexing_Reasons::REASON_HOME_URL_OPTION )->once();
+		$this->indexable_helper->expects( 'reset_permalink_indexables' )->with( 'user', null, Indexing_Reasons::REASON_HOME_URL_OPTION )->once();
+		$this->indexable_helper->expects( 'reset_permalink_indexables' )->with( 'home-page', null, Indexing_Reasons::REASON_HOME_URL_OPTION )->once();
+		$this->indexable_helper->expects( 'reset_permalink_indexables' )->with( 'date-archive', null, Indexing_Reasons::REASON_HOME_URL_OPTION )->once();
+		$this->indexable_helper->expects( 'reset_permalink_indexables' )->with( 'system-page', null, Indexing_Reasons::REASON_HOME_URL_OPTION )->once();
 
 		Monkey\Functions\expect( 'get_home_url' )
 			->once()
@@ -131,8 +131,8 @@ class Indexable_HomeUrl_Watcher_Test extends TestCase {
 	 * @covers ::reset_permalinks_post_type
 	 */
 	public function test_reset_permalinks_post_type() {
-		$this->indexable_helper->expects( 'reset_permalink_indexables' )->with( 'post', 'post', Indexing_Notification_Integration::REASON_HOME_URL_OPTION )->once();
-		$this->indexable_helper->expects( 'reset_permalink_indexables' )->with( 'post-type-archive', 'post', Indexing_Notification_Integration::REASON_HOME_URL_OPTION )->once();
+		$this->indexable_helper->expects( 'reset_permalink_indexables' )->with( 'post', 'post', Indexing_Reasons::REASON_HOME_URL_OPTION )->once();
+		$this->indexable_helper->expects( 'reset_permalink_indexables' )->with( 'post-type-archive', 'post', Indexing_Reasons::REASON_HOME_URL_OPTION )->once();
 
 		$this->instance->reset_permalinks_post_type( 'post' );
 	}

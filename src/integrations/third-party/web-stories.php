@@ -8,6 +8,7 @@ use WPSEO_Admin_Asset_Manager;
 use Yoast\WP\SEO\Conditionals\Web_Stories_Conditional;
 use Yoast\WP\SEO\Integrations\Front_End_Integration;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
+use Yoast\WP\SEO\Models\Indexable;
 
 /**
  * Web Stories integration.
@@ -50,6 +51,7 @@ class Web_Stories implements Integration_Interface {
 		\add_action( 'web_stories_story_head', [ $this, 'remove_web_stories_meta_output' ], 0 );
 		\add_action( 'web_stories_story_head', [ $this->front_end, 'call_wpseo_head' ], 9 );
 		\add_filter( 'wpseo_schema_article_post_types', [ $this, 'filter_schema_article_post_types' ] );
+		\add_filter( 'wpseo_schema_article_type', [ $this, 'filter_schema_article_type' ], 10, 2 );
 		\add_action( 'admin_enqueue_scripts', [ $this, 'dequeue_admin_assets' ] );
 	}
 
@@ -104,5 +106,24 @@ class Web_Stories implements Integration_Interface {
 	public function filter_schema_article_post_types( $post_types ) {
 		$post_types[] = Google_Web_Stories\Story_Post_Type::POST_TYPE_SLUG;
 		return $post_types;
+	}
+
+	/**
+	 * Filters Article type for Web Stories.
+	 *
+	 * @param string|string[] $type      The Article type.
+	 * @param Indexable       $indexable The indexable.
+	 * @return string|string[] Article type.
+	 */
+	public function filter_schema_article_type( $type, $indexable ) {
+		if ( Google_Web_Stories\Story_Post_Type::POST_TYPE_SLUG !== $indexable->object_sub_type ) {
+			return $type;
+		}
+
+		if ( is_string( $type ) && $type === 'None' ) {
+			return 'Article';
+		}
+
+		return $type;
 	}
 }

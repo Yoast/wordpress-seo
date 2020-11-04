@@ -30,7 +30,7 @@ class Options_Helper {
 	 * @param string $key   The key to set.
 	 * @param mixed  $value The value to set.
 	 *
-	 * @return mixed|null Returns value if found, $default if not.
+	 * @return mixed|null Returns value if found.
 	 */
 	public function set( $key, $value ) {
 		return WPSEO_Options::set( $key, $value );

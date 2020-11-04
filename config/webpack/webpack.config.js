@@ -7,6 +7,9 @@ const paths = require( "./paths" );
 const BundleAnalyzerPlugin = require( "webpack-bundle-analyzer" ).BundleAnalyzerPlugin;
 const MiniCssExtractPlugin = require( "mini-css-extract-plugin" );
 
+const { externals, yoastExternals, wordpressExternals } = require( './externals' );
+const { YOAST_PACKAGE_NAMESPACE } = require( './externals' );
+
 const root = path.join( __dirname, "../../" );
 const mainEntry = mapValues( paths.entry, entry => {
 	if ( ! isString( entry ) ) {
@@ -15,59 +18,6 @@ const mainEntry = mapValues( paths.entry, entry => {
 
 	return "./" + path.join( "js/src/", entry );
 } );
-
-const externals = {
-	// This is necessary for Gutenberg to work.
-	tinymce: "window.tinymce",
-
-	yoastseo: "window.yoast.analysis",
-	"yoast-components": "window.yoast.components",
-	react: "React",
-	"react-dom": "ReactDOM",
-	redux: "window.yoast.redux",
-	"react-redux": "window.yoast.reactRedux",
-	jed: "window.yoast.jed",
-
-	lodash: "window.lodash",
-	"lodash-es": "window.lodash",
-	"styled-components": "window.yoast.styledComponents",
-	"draft-js": "window.yoast.draftJs",
-};
-
-const wordpressExternals = {
-	"@wordpress/api-fetch": "window.wp.apiFetch",
-	"@wordpress/block-editor": "window.wp.blockEditor",
-	"@wordpress/blocks": "window.wp.blocks",
-	"@wordpress/components": "window.wp.components",
-	"@wordpress/compose": "window.wp.compose",
-	"@wordpress/data": "window.wp.data",
-	"@wordpress/dom": "window.wp.dom",
-	"@wordpress/element": "window.wp.element",
-	"@wordpress/html-entities": "window.wp.htmlEntities",
-	"@wordpress/edit-post": "window.wp.editPost",
-	"@wordpress/i18n": "window.wp.i18n",
-	"@wordpress/is-shallow-equal": "window.wp.isShallowEqual",
-	"@wordpress/keycodes": "window.wp.keycodes",
-	"@wordpress/plugins": "window.wp.plugins",
-	"@wordpress/rich-text": "window.wp.richText",
-	"@wordpress/server-side-render": "window.wp.serverSideRender",
-	"@wordpress/url": "window.wp.url",
-	"@wordpress/dom-ready": "window.wp.domReady",
-	"@wordpress/a11y": "window.wp.a11y",
-};
-
-// Make sure all these packages are exposed in `./js/src/components.js`.
-const yoastExternals = {
-	"@yoast/analysis-report": "window.yoast.analysisReport",
-	"@yoast/components": "window.yoast.componentsNew",
-	"@yoast/configuration-wizard": "window.yoast.configurationWizard",
-	"@yoast/feature-flag": "window.yoast.featureFlag",
-	"@yoast/helpers": "window.yoast.helpers",
-	"@yoast/replacement-variable-editor": "window.yoast.replacementVariableEditor",
-	"@yoast/search-metadata-previews": "window.yoast.searchMetadataPreviews",
-	"@yoast/social-metadata-forms": "window.yoast.socialMetadataForms",
-	"@yoast/style-guide": "window.yoast.styleGuide",
-};
 
 const defaultAllowedHosts = [
 	"local.wordpress.test",
@@ -244,28 +194,6 @@ module.exports = function( env ) {
 			] ),
 		},
 
-		// Config for components, which doesn't need all '@yoast' externals.
-		{
-			...base,
-			entry: {
-				components: "./js/src/externals/components.js",
-			},
-			output: {
-				path: path.resolve(),
-				filename: "js/dist/[name]-" + pluginVersionSlug + ".js",
-				jsonpFunction: "yoastWebpackJsonp",
-			},
-			externals: {
-				...externals,
-				...wordpressExternals,
-			},
-			plugins: addBundleAnalyzer( [
-				...plugins,
-			] ),
-			optimization: {
-				runtimeChunk: false,
-			},
-		},
 		// Config for files that should not use any externals at all.
 		{
 			...base,
@@ -313,6 +241,42 @@ module.exports = function( env ) {
 			},
 		},
 	];
+
+	/**
+	 * Add the Yoast Externals to the config.
+	 *
+	 * These all need to have all -other- externals configured, but not their self.
+	 */
+	for (const [key, value] of Object.entries(yoastExternals)) {
+		const yoastExternalsExcludingCurrent = Object.assign({}, yoastExternals);
+		// Remove the current external to avoid self-reference.
+		delete yoastExternalsExcludingCurrent[key];
+
+		const packageName = key.replace( YOAST_PACKAGE_NAMESPACE, '' );
+
+		config.push({
+			...base,
+			entry: {
+				[packageName]: "./js/src/externals/yoast/" + packageName + ".js",
+			},
+			output: {
+				path: path.resolve(),
+				filename: "js/dist/yoast/[name]-" + pluginVersionSlug + ".js",
+				jsonpFunction: "yoastWebpackJsonp",
+			},
+			externals: {
+				...externals,
+				...yoastExternalsExcludingCurrent,
+				...wordpressExternals,
+			},
+			plugins: addBundleAnalyzer([
+				...plugins,
+			]),
+			optimization: {
+				runtimeChunk: false,
+			},
+		});
+	}
 
 	if ( env.environment === "development" ) {
 		config[ 0 ].devServer = {

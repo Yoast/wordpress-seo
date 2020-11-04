@@ -24,6 +24,7 @@ export class Indexation extends Component {
 			processed: 0,
 			amount: this.settings.amount,
 			error: null,
+			firstTime: ( this.settings.firstTime === "1" ),
 		};
 
 		this.startIndexing = this.startIndexing.bind( this );
@@ -45,7 +46,15 @@ export class Indexation extends Component {
 				"X-WP-Nonce": nonce,
 			},
 		} );
-		return response.json();
+
+		const data = await response.json();
+
+		// Throw an error when the response's status code is not in the 200-299 range.
+		if ( ! response.ok ) {
+			throw new Error( data.message );
+		}
+
+		return data;
 	}
 
 	/**
@@ -92,12 +101,19 @@ export class Indexation extends Component {
 				await this.doPostIndexingAction( endpoint, response );
 
 				this.setState( previousState => (
-					{ processed: previousState.processed + response.objects.length }
+					{
+						processed: previousState.processed + response.objects.length,
+						firstTime: false,
+					}
 				) );
 
 				url = response.next_url;
 			} catch ( error ) {
-				this.setState( { inProgress: false, error } );
+				this.setState( {
+					inProgress: false,
+					firstTime: false,
+					error,
+				} );
 			}
 		}
 	}
@@ -163,6 +179,41 @@ export class Indexation extends Component {
 	}
 
 	/**
+	 * Start indexation on mount, when redirected from the "Start SEO data optimization" button in the dashboard notification.
+	 *
+	 * @returns {void}
+	 */
+	componentDidMount() {
+		if ( this.settings.disabled ) {
+			return;
+		}
+
+		const shouldStart = new URLSearchParams( window.location.search ).get( "start-indexation" ) === "true";
+
+		if ( shouldStart ) {
+			this.startIndexing();
+		}
+	}
+
+
+	/**
+	 * Renders a notice if it is the first time the indexation is performed.
+	 *
+	 * @returns {JSX.Element} The rendered component.
+	 */
+	renderFirstIndexationNotice() {
+		if ( this.state.inProgress || ! this.state.firstTime ) {
+			return null;
+		}
+
+		return (
+			<Alert type={ "info" }>
+				{ __( "This feature includes and replaces the Text Link Counter and Internal Linking Analysis", "wordpress-seo" ) }
+			</Alert>
+		);
+	}
+
+	/**
 	 * Renders the component
 	 *
 	 * @returns {JSX.Element} The rendered component.
@@ -179,7 +230,7 @@ export class Indexation extends Component {
 					</NewButton>
 				</p>
 				<Alert type={ "info" }>
-					{ __( "This button to optimize the SEO data for your website is disabled for non-production environments.", "wordpress-seo" ) }
+					{ __( "SEO data optimization is disabled for non-production environments.", "wordpress-seo" ) }
 				</Alert>
 			</Fragment>;
 		}
@@ -209,11 +260,12 @@ export class Indexation extends Component {
 							  "Please click the button again to re-start the process.", "wordpress-seo" ) }
 					</Alert>
 				}
+				{ this.renderFirstIndexationNotice() }
 				{
 					this.state.inProgress
 						? <NewButton
 							variant="secondary"
-							disabled={ true }
+							onClick={ this.stopIndexing }
 						>
 							{ __( "Stop SEO data optimization", "wordpress-seo" ) }
 						</NewButton>

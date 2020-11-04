@@ -4,12 +4,12 @@ namespace Yoast\WP\SEO\Tests\Unit\Commands;
 
 use Brain\Monkey;
 use Mockery;
-use Yoast\WP\SEO\Actions\Indexation\Indexable_Complete_Indexation_Action;
-use Yoast\WP\SEO\Actions\Indexation\Indexable_General_Indexation_Action;
-use Yoast\WP\SEO\Actions\Indexation\Indexable_Post_Indexation_Action;
-use Yoast\WP\SEO\Actions\Indexation\Indexable_Post_Type_Archive_Indexation_Action;
-use Yoast\WP\SEO\Actions\Indexation\Indexable_Prepare_Indexation_Action;
-use Yoast\WP\SEO\Actions\Indexation\Indexable_Term_Indexation_Action;
+use Yoast\WP\SEO\Actions\Indexing\Indexable_Indexing_Complete_Action;
+use Yoast\WP\SEO\Actions\Indexing\Indexable_General_Indexation_Action;
+use Yoast\WP\SEO\Actions\Indexing\Indexable_Post_Indexation_Action;
+use Yoast\WP\SEO\Actions\Indexing\Indexable_Post_Type_Archive_Indexation_Action;
+use Yoast\WP\SEO\Actions\Indexing\Indexable_Prepare_Indexation_Action;
+use Yoast\WP\SEO\Actions\Indexing\Indexable_Term_Indexation_Action;
 use Yoast\WP\SEO\Commands\Index_Command;
 use Yoast\WP\SEO\Main;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
@@ -20,7 +20,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group commands
  *
  * @coversDefaultClass \Yoast\WP\SEO\Commands\Index_Command
- * @covers ::<!public>
+ * @covers \Yoast\WP\SEO\Commands\Index_Command
  */
 class Index_Command_Test extends TestCase {
 
@@ -55,7 +55,7 @@ class Index_Command_Test extends TestCase {
 	/**
 	 * The complete indexation action.
 	 *
-	 * @var Indexable_Complete_Indexation_Action
+	 * @var Indexable_Indexing_Complete_Action
 	 */
 	private $complete_indexation_action;
 
@@ -74,14 +74,14 @@ class Index_Command_Test extends TestCase {
 	private $instance;
 
 	/**
-	 * @inheritDoc
+	 * Prepares the test by setting up the needed properties.
 	 */
 	public function setUp() {
 		$this->post_indexation_action              = Mockery::mock( Indexable_Post_Indexation_Action::class );
 		$this->term_indexation_action              = Mockery::mock( Indexable_Term_Indexation_Action::class );
 		$this->post_type_archive_indexation_action = Mockery::mock( Indexable_Post_Type_Archive_Indexation_Action::class );
 		$this->general_indexation_action           = Mockery::mock( Indexable_General_Indexation_Action::class );
-		$this->complete_indexation_action          = Mockery::mock( Indexable_Complete_Indexation_Action::class );
+		$this->complete_indexation_action          = Mockery::mock( Indexable_Indexing_Complete_Action::class );
 		$this->prepare_indexation_action           = Mockery::mock( Indexable_Prepare_Indexation_Action::class );
 
 		$this->instance = new Index_Command(
@@ -187,7 +187,7 @@ class Index_Command_Test extends TestCase {
 
 		$wpdb            = Mockery::mock();
 		$wpdb->prefix    = 'wp_';
-		$GLOBALS['wpdb'] = $wpdb;
+		$GLOBALS['wpdb'] = $wpdb; // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- Intended override for test purpose.
 
 		$wpdb
 			->expects( 'query' )
@@ -205,12 +205,23 @@ class Index_Command_Test extends TestCase {
 			->once()
 			->with( 'TRUNCATE TABLE wp_yoast_indexable_hierarchy' );
 
-
 		$wpdb
 			->expects( 'prepare' )
 			->once()
 			->with( 'TRUNCATE TABLE %1$s', 'wp_yoast_indexable_hierarchy' )
 			->andReturn( 'TRUNCATE TABLE wp_yoast_indexable_hierarchy' );
+
+		Monkey\Functions\expect( 'delete_transient' )
+			->once()
+			->with( 'wpseo_total_unindexed_posts' );
+
+		Monkey\Functions\expect( 'delete_transient' )
+			->once()
+			->with( 'wpseo_total_unindexed_post_type_archives' );
+
+		Monkey\Functions\expect( 'delete_transient' )
+			->once()
+			->with( 'wpseo_total_unindexed_terms' );
 
 		$this->instance->index( null, [ 'reindex' => true ] );
 	}

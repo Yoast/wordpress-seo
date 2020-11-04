@@ -5,10 +5,10 @@ namespace Yoast\WP\SEO\Integrations\Watchers;
 use WP_CLI;
 use WP_CLI\Utils;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
+use Yoast\WP\SEO\Config\Indexing_Reasons;
 use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
-use Yoast\WP\SEO\Integrations\Admin\Indexing_Notification_Integration;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 
 /**
@@ -59,8 +59,6 @@ class Indexable_HomeUrl_Watcher implements Integration_Interface {
 		$this->post_type        = $post_type;
 		$this->options_helper   = $options;
 		$this->indexable_helper = $indexable;
-
-		$this->schedule_cron();
 	}
 
 	/**
@@ -72,7 +70,7 @@ class Indexable_HomeUrl_Watcher implements Integration_Interface {
 	 */
 	public function register_hooks() {
 		\add_action( 'update_option_home', [ $this, 'reset_permalinks' ] );
-		\add_action( 'wpseo_home_url_check', [ $this, 'force_reset_permalinks' ] );
+		\add_action( 'wpseo_permalink_structure_check', [ $this, 'force_reset_permalinks' ] );
 	}
 
 	/**
@@ -88,13 +86,13 @@ class Indexable_HomeUrl_Watcher implements Integration_Interface {
 
 		$taxonomies = $this->get_taxonomies_for_post_types( $post_types );
 		foreach ( $taxonomies as $taxonomy ) {
-			$this->indexable_helper->reset_permalink_indexables( 'term', $taxonomy, Indexing_Notification_Integration::REASON_HOME_URL_OPTION );
+			$this->indexable_helper->reset_permalink_indexables( 'term', $taxonomy, Indexing_Reasons::REASON_HOME_URL_OPTION );
 		}
 
-		$this->indexable_helper->reset_permalink_indexables( 'home-page', null, Indexing_Notification_Integration::REASON_HOME_URL_OPTION );
-		$this->indexable_helper->reset_permalink_indexables( 'user', null, Indexing_Notification_Integration::REASON_HOME_URL_OPTION );
-		$this->indexable_helper->reset_permalink_indexables( 'date-archive', null, Indexing_Notification_Integration::REASON_HOME_URL_OPTION );
-		$this->indexable_helper->reset_permalink_indexables( 'system-page', null, Indexing_Notification_Integration::REASON_HOME_URL_OPTION );
+		$this->indexable_helper->reset_permalink_indexables( 'home-page', null, Indexing_Reasons::REASON_HOME_URL_OPTION );
+		$this->indexable_helper->reset_permalink_indexables( 'user', null, Indexing_Reasons::REASON_HOME_URL_OPTION );
+		$this->indexable_helper->reset_permalink_indexables( 'date-archive', null, Indexing_Reasons::REASON_HOME_URL_OPTION );
+		$this->indexable_helper->reset_permalink_indexables( 'system-page', null, Indexing_Reasons::REASON_HOME_URL_OPTION );
 
 		// Reset the home_url option.
 		$this->options_helper->set( 'home_url', get_home_url() );
@@ -106,8 +104,8 @@ class Indexable_HomeUrl_Watcher implements Integration_Interface {
 	 * @param string $post_type The post type to reset.
 	 */
 	public function reset_permalinks_post_type( $post_type ) {
-		$this->indexable_helper->reset_permalink_indexables( 'post', $post_type, Indexing_Notification_Integration::REASON_HOME_URL_OPTION );
-		$this->indexable_helper->reset_permalink_indexables( 'post-type-archive', $post_type, Indexing_Notification_Integration::REASON_HOME_URL_OPTION );
+		$this->indexable_helper->reset_permalink_indexables( 'post', $post_type, Indexing_Reasons::REASON_HOME_URL_OPTION );
+		$this->indexable_helper->reset_permalink_indexables( 'post-type-archive', $post_type, Indexing_Reasons::REASON_HOME_URL_OPTION );
 	}
 
 	/**
@@ -171,18 +169,5 @@ class Indexable_HomeUrl_Watcher implements Integration_Interface {
 		$taxonomies = \array_unique( $taxonomies );
 
 		return $taxonomies;
-	}
-
-	/**
-	 * Schedules the cronjob to check the home_url status.
-	 *
-	 * @return void
-	 */
-	protected function schedule_cron() {
-		if ( \wp_next_scheduled( 'wpseo_home_url_check' ) ) {
-			return;
-		}
-
-		\wp_schedule_event( time(), 'daily', 'wpseo_home_url_check' );
 	}
 }

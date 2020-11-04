@@ -18,8 +18,10 @@ use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
  * @property Helpers\Home_Url_Helper       $home_url
  * @property Helpers\Image_Helper          $image
  * @property Helpers\Indexable_Helper      $indexable
+ * @property Helpers\Indexing_Helper       $indexing
  * @property Helpers\Language_Helper       $language
  * @property Helpers\Meta_Helper           $meta
+ * @property Helpers\Notification_Helper   $notification
  * @property Helpers\Options_Helper        $options
  * @property Helpers\Pagination_Helper     $pagination
  * @property Helpers\Post_Helper           $post
