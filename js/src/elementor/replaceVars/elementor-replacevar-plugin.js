@@ -1,82 +1,69 @@
+import ReplaceVar from "../../values/replaceVar";
 import * as replaceFunctions from "../replaceVars/general";
-import {
-	forEach,
-} from "lodash-es";
-import {
-	refreshSnippetEditor,
-} from "../../redux/actions";
+import { dispatch } from "@wordpress/data";
+
+const PLUGIN_NAME = "replaceVariablePlugin";
 
 /**
  * Variable replacement plugin for WordPress.
- *
- * @param {app}    app   The app object.
- * @param {Object} store The redux store.
- *
- * @returns {void}
  */
-var YoastReplaceVarPlugin = function( app, store ) {
-	this._app = app;
-	this._app.registerPlugin( "replaceVariablePlugin", { status: "ready" } );
-
-	this._store = store;
-
-	this.registerModifications();
-	this.registerEvents();
-};
-
-/**
- * Registers the modifications for the plugin on initial load.
- *
- * @returns {void}
- */
-YoastReplaceVarPlugin.prototype.registerModifications = function() {
-	const currentScope = window.wpseoScriptData.analysis.plugins.replaceVars.scope;
-	let replacements = [];
-	if ( currentScope === "post" ) {
-		replacements = [
-			"replaceCategory",
-			"replaceCurrentDay",
-			"replaceCurrentDate",
-			"replaceCurrentMonth",
-			"replaceCurrentTime",
-			"replaceCurrentYear",
-			"replaceDate",
-			"replaceExcerpt",
-			"replaceId",
-			"replaceKeyword",
-			"replacePage",
-			"replacePrimaryCategory",
-			"replaceSearchPhrase",
-			"replaceSeparator",
-			"replaceSiteDesc",
-			"replaceSiteName",
-			"replaceTitle",
-			"replaceUserId",
-		];
-	} else if ( currentScope === "page" ) {
-		replacements = [
-			"replaceCategory",
-			"replaceCurrentDay",
-			"replaceCurrentDate",
-			"replaceCurrentMonth",
-			"replaceCurrentTime",
-			"replaceCurrentYear",
-			"replaceDate",
-			"replaceExcerpt",
-			"replaceId",
-			"replaceKeyword",
-			"replacePage",
-			"replacePrimaryCategory",
-			"replaceSearchPhrase",
-			"replaceSeparator",
-			"replaceSiteDesc",
-			"replaceSiteName",
-			"replaceTitle",
-			"replaceUserId",
-		];
+class YoastReplaceVarPlugin {
+	/**
+	 * Creates an instance of YoastReplaceVarPlugin.
+	 *
+	 * @param {function} registerPlugin Registers a plugin.
+	 * @param {function} registerModification Registers a modification.
+	 * @param {function} pluginReloaded Notifies the plugin data has changed.
+	 *
+	 * @returns {void}
+	 */
+	constructor( registerPlugin, registerModification, pluginReloaded ) {
+		this._registerPlugin = registerPlugin;
+		this._registerModification = registerModification;
+		this._pluginReloaded = pluginReloaded;
 	}
 
-	forEach(
+	/**
+	 * Initializes the replaceVarPlugin.
+	 *
+	 * @returns {void}
+	 */
+	initialize() {
+		this._registerPlugin( PLUGIN_NAME, { status: "ready" } );
+		this.registerModifications();
+	}
+
+	/**
+	 * Registers a replaceVar.
+	 *
+	 * @param {ReplaceVar} replaceVar The replaceVar.
+	 *
+	 * @returns {void}
+	 */
+	addReplacement( replaceVar ) {
+		this._registerReplaceVar( text => {
+			return text.replace(
+				new RegExp( replaceVar.placeholder, "g" ),
+				replaceVar.replacement
+			);
+		} );
+	}
+
+	declareReloaded() {
+		this._pluginReloaded( PLUGIN_NAME );
+		dispatch( "yoast-seo/editor" ).refreshSnippetEditor();
+	}
+
+	/**
+	 * Registers modifications with the given replacevar callback.
+	 *
+	 * @private
+	 *
+	 * @param {function} callback The function that replaces.
+	 *
+	 * @returns {void}
+	 */
+	_registerReplaceVar( callback ) {
 		[
 			"content",
 			"title",
@@ -86,31 +73,68 @@ YoastReplaceVarPlugin.prototype.registerModifications = function() {
 			"data_page_title",
 			"data_meta_desc",
 			"excerpt",
-		],
-		function( field ) {
-			forEach(
-				replacements,
-				function( functionName ) {
-					this._app.registerModification( field, replaceFunctions[ functionName ], functionName, 10 );
-				}.bind( this )
-			);
-		}.bind( this )
-	);
-};
+		].forEach( field => {
+			this._registerModification( field, callback, PLUGIN_NAME, 10 );
+		} );
+	}
 
-/**
- * Declares reloaded with YoastSEO.
- *
- * @returns {void}
- */
-YoastReplaceVarPlugin.prototype.declareReloaded = function() {
-	this._app.pluginReloaded( "replaceVariablePlugin" );
-	this._store.dispatch( refreshSnippetEditor() );
-};
+	/**
+	 * Registers the modifications for the plugin on initial load.
+	 *
+	 * @returns {void}
+	 */
+	registerModifications() {
+		const currentScope = window.wpseoScriptData.analysis.plugins.replaceVars.scope;
+		let replacements = [];
 
-/*
- * STATIC VARIABLES
- */
+		switch ( currentScope ) {
+			case "post":
+				replacements = [
+					"replaceCategory",
+					"replaceCurrentDay",
+					"replaceCurrentDate",
+					"replaceCurrentMonth",
+					"replaceCurrentTime",
+					"replaceCurrentYear",
+					"replaceDate",
+					"replaceExcerpt",
+					"replaceId",
+					"replaceKeyword",
+					"replacePage",
+					"replaceSearchPhrase",
+					"replaceSeparator",
+					"replaceSiteDesc",
+					"replaceSiteName",
+					"replaceTitle",
+					"replaceUserId",
+				];
+				break;
+			case "page":
+				replacements = [
+					"replaceCategory",
+					"replaceCurrentDay",
+					"replaceCurrentDate",
+					"replaceCurrentMonth",
+					"replaceCurrentTime",
+					"replaceCurrentYear",
+					"replaceDate",
+					"replaceExcerpt",
+					"replaceId",
+					"replaceKeyword",
+					"replacePage",
+					"replaceSearchPhrase",
+					"replaceSeparator",
+					"replaceSiteDesc",
+					"replaceSiteName",
+					"replaceTitle",
+					"replaceUserId",
+				];
+				break;
+		}
+
+		replacements.forEach( functionName => this._registerReplaceVar( replaceFunctions[ functionName ] ) );
+	}
+}
 
 // Exposes the ReplaceVar class for functionality of plugins integrating.
 YoastReplaceVarPlugin.ReplaceVar = ReplaceVar;
