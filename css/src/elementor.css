@@ -68,6 +68,12 @@
 	text-decoration: none;
 }
 
+.yoast-elementor-panel__fills h3 > button {
+	border: none;
+	box-shadow: none;
+	background: none;
+}
+
 /* All hover effects */
 @media(hover:hover) {
 	
@@ -80,7 +86,7 @@
 	}
 
 	.yoast-elementor-panel__fills .UpsellLinkButton:hover, .yoast .yoast-button-upsell:hover {
-		color: var(--yoast-color-label);	
+		color: var(--yoast-color-label);
 	}
 }
 
