@@ -52,21 +52,6 @@
     "lint": "eslint 'src/**'",
     "test": "jest"
   },
-  "jest": {
-    "roots": [
-      "<rootDir>/tests",
-      "<rootDir>/src"
-    ],
-    "testRegex": ".*\\.test.ts$",
-    "testURL": "http://localhost",
-    "transform": {
-      "^.+\\.(t|j)s$": "ts-jest",
-      "^.+\\.jsx?$": "babel-jest"
-    },
-    "transformIgnorePatterns": [
-      "/node_modules/(?!yoastseo|lodash-es).+\\.js$"
-    ]
-  },
   "publishConfig": {
     "access": "public"
   },
