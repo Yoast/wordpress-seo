@@ -1,9 +1,9 @@
 /** @module analyses/calculateFleschReading */
 
-import stripNumbers from "../../helpers/sanitize/stripNumbers.js";
-import countSentences from "../../helpers/sentence/countSentences.js";
-import countWords from "../../helpers/word/countWords.js";
-import countSyllables from "../../helpers/syllables/count.js";
+import stripNumbers from "../sanitize/stripNumbers.js";
+import countSentences from "../sentence/countSentences.js";
+import countWords from "../word/countWords.js";
+import countSyllables from "../syllables/count.js";
 
 /**
  * Calculates an average from a total and an amount
