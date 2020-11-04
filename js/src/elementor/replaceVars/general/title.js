@@ -1,9 +1,11 @@
+import { select } from "@wordpress/data";
+
 /**
  * Returns the replacement for the %%title%% variable.
  * @returns {string} The title string.
  */
 function getReplacement() {
-	return window.YoastSEO.app.rawData.title || "";
+	return select( "yoast-seo/editor" ).getEditorDataTitle();
 }
 
 /**

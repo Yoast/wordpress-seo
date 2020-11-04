@@ -1,9 +1,11 @@
+import { get } from "lodash";
+
 /**
  * Returns the replacement for the %%term_description%% variable.
  * @returns {string} The term_description string.
  */
 function getReplacement() {
-	return window.YoastSEO.app.rawData.text || "";
+	return get( window, "YoastSEO.app.rawData.text", "" );
 }
 
 /**

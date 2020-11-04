@@ -1,6 +1,4 @@
-import {
-	isUndefined,
-} from "lodash-es";
+import { get, isUndefined } from "lodash";
 
 /**
  * Returns the replacement for the %%parent_title%% variable.
@@ -13,7 +11,7 @@ function getReplacement() {
 	if ( ! isUndefined( parent ) && ! isUndefined( parent.prop( "options" ) ) ) {
 		const parentText = parent.find( "option:selected" ).text();
 
-		if ( parentText !== window.wpseoScriptData.analysis.plugins.replaceVars.no_parent_text ) {
+		if ( parentText !== get( window, "wpseoScriptData.analysis.plugins.replaceVars.replace_vars.no_parent_text", "" ) ) {
 			text = parentText;
 		}
 	}

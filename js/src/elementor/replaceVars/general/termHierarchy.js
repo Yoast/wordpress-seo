@@ -1,9 +1,11 @@
+import { get } from "lodash";
+
 /**
  * Returns the replacement for the %%term_hierarchy%% variable.
  * @returns {string} The term_hierarchy string.
  */
 function getReplacement() {
-	return window.wpseoScriptData.analysis.plugins.replaceVars.term_hierarchy || "";
+	return get( window, "wpseoScriptData.analysis.plugins.replaceVars.replace_vars.term_hierarchy", "" );
 }
 
 /**

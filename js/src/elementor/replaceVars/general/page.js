@@ -1,9 +1,11 @@
+import { get } from "lodash";
+
 /**
  * Returns the replacement for the %%page%% variable.
  * @returns {string} The page string.
  */
 function getReplacement() {
-	return window.wpseoScriptData.analysis.plugins.replaceVars.page || "";
+	return get( window, "wpseoScriptData.analysis.plugins.replaceVars.replace_vars.page", "" );
 }
 
 /**

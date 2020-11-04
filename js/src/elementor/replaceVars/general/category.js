@@ -1,9 +1,11 @@
+import { get } from "lodash";
+
 /**
  * Returns the replacement for the %%category%% variable.
  * @returns {string} The category string.
  */
 function getReplacement() {
-	return window.wpseoScriptData.analysis.plugins.replaceVars.category || "";
+	return get( window, "wpseoScriptData.analysis.plugins.replaceVars.replace_vars.category", "" );
 }
 
 /**

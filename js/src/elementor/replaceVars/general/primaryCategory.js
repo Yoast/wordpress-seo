@@ -1,9 +1,11 @@
+import { get } from "lodash";
+
 /**
  * Returns the replacement for the %%primary_category%% variable.
  * @returns {string} The primary_category string.
  */
 function getReplacement() {
-	return window.YoastSEO.app.rawData.primaryCategory || "";
+	return get( window, "YoastSEO.app.rawData.primaryCategory", "" );
 }
 
 /**

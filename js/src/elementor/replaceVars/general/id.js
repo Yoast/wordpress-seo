@@ -1,9 +1,11 @@
+import { get } from "lodash";
+
 /**
  * Returns the replacement for the %%id%% variable.
  * @returns {string} The id string.
  */
 function getReplacement() {
-	return window.wpseoScriptData.analysis.plugins.replaceVars.id || "";
+	return get( window, "wpseoScriptData.analysis.plugins.replaceVars.replace_vars.id", "" );
 }
 
 /**

@@ -1,9 +1,11 @@
+import { get } from "lodash";
+
 /**
  * Returns the replacement for the %%currentdate%% variable.
  * @returns {string} The current date string.
  */
 function getReplacement() {
-	return window.wpseoScriptData.analysis.plugins.replaceVars.currentdate || "";
+	return get( window, "wpseoScriptData.analysis.plugins.replaceVars.replace_vars.currentdate", "" );
 }
 
 /**

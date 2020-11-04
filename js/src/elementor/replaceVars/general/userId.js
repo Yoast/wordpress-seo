@@ -1,9 +1,11 @@
+import { get } from "lodash";
+
 /**
  * Returns the replacement for the %%userid%% variable.
  * @returns {string} The userid string.
  */
 function getReplacement() {
-	return window.wpseoScriptData.analysis.plugins.replaceVars.userid || "";
+	return get( window, "wpseoScriptData.analysis.plugins.replaceVars.replace_vars.userid", "" );
 }
 
 /**

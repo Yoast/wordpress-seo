@@ -1,9 +1,11 @@
+import { select } from "@wordpress/data";
+
 /**
  * Returns the replacement for the %%excerpt%% variable.
  * @returns {string} The excerpt string.
  */
 function getReplacement() {
-	return window.YoastSEO.app.rawData.excerpt || "";
+	return select( "yoast-seo/editor" ).getEditorDataExcerpt();
 }
 
 /**

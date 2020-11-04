@@ -16,7 +16,7 @@ function getReplacement() {
  */
 export default function replace( text ) {
 	return text.replace(
-		new RegExp( "%%keyword|focuskw%%", "g" ),
+		new RegExp( "%%keyword%%|%%focuskw%%", "g" ),
 		getReplacement()
 	);
 }

@@ -1,9 +1,11 @@
+import { get } from "lodash";
+
 /**
  * Returns the replacement for the %%term_title%% variable.
  * @returns {string} The term_title string.
  */
 function getReplacement() {
-	return window.wpseoScriptData.analysis.plugins.replaceVars.term_title || "";
+	return get( window, "wpseoScriptData.analysis.plugins.replaceVars.replace_vars.term_title", "" );
 }
 
 /**

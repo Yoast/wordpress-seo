@@ -1,9 +1,11 @@
+import { get } from "lodash";
+
 /**
  * Returns the replacement for the %%sitename%% variable.
  * @returns {string} The sitename string.
  */
 function getReplacement() {
-	return window.wpseoScriptData.analysis.plugins.replaceVars.sitename || "";
+	return get( window, "wpseoScriptData.analysis.plugins.replaceVars.replace_vars.sitename", "" );
 }
 
 /**

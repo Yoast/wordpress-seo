@@ -1,9 +1,11 @@
+import { get } from "lodash";
+
 /**
  * Returns the replacement for the %%currentmonth%% variable.
  * @returns {string} The current month string.
  */
 function getReplacement() {
-	return window.wpseoScriptData.analysis.plugins.replaceVars.currentmonth || "";
+	return get( window, "wpseoScriptData.analysis.plugins.replaceVars.replace_vars.currentmonth", "" );
 }
 
 /**

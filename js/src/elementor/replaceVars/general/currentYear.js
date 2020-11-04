@@ -1,9 +1,11 @@
+import { get } from "lodash";
+
 /**
  * Returns the replacement for the %%currentyear%% variable.
  * @returns {string} The current year string.
  */
 function getReplacement() {
-	return window.wpseoScriptData.analysis.plugins.replaceVars.currentyear || "";
+	return get( window, "wpseoScriptData.analysis.plugins.replaceVars.replace_vars.currentyear", "" );
 }
 
 /**
