@@ -16,11 +16,10 @@ function calculateScore( statistics ) {
 /**
  * Returns the function that calculates the score of the flesch reading test for a given text in English.
  *
- * @param {Object} paper The paper containing the text.
  * @param {Object} statistics   The flesch reading statistics.
  *
  * @returns {Function} The function that calculates the score of the flesch reading test in English.
  */
-export default function( paper, statistics ) {
+export default function( statistics ) {
 	return calculateScore( statistics );
 }
