@@ -17,12 +17,12 @@ const getAverage = function( total, amount ) {
 };
 
 /**
- * This calculates the flesch reading score for a given text.
+ * This calculates the Flesch reading score for a given text.
  *
- * @param {object} paper    The paper containing the text.
+ * @param {object} paper   			 The paper containing the text.
  * @param {Researcher} researcher    The researcher.
  *
- * @returns {object} The flesch reading statistics
+ * @returns {int} The Flesch reading score.
  */
 export default function( paper, researcher ) {
 	const syllables = researcher.getConfig( "syllables" );
