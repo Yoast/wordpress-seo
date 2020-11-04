@@ -12,7 +12,9 @@
 }
 
 .yoast h2 {
-	color: var(--yoast-color-font-default);
+	color: var(--yoast-color-dark);
+	font-size: 1.3em;
+	font-weight: var(--yoast-font-weight-bold);
 	margin-bottom: 1em;
 }
 
