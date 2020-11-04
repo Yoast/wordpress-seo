@@ -7,6 +7,7 @@ import { dispatch } from "@wordpress/data";
 import ElementorSlot from "../elementor/components/slots/ElementorSlot";
 import ElementorFill from "../elementor/containers/ElementorFill";
 import { renderReactRoot } from "../helpers/reactRoot";
+import { StyleSheetManager } from "styled-components";
 
 /**
  * Activates the Elementor save button.
@@ -82,10 +83,12 @@ export default function initElementEditorIntegration() {
 		window.$e.routes.on( "run:after", function( component, route ) {
 			if ( route === "panel/page-settings/yoast-tab" ) {
 				renderReactRoot( window.YoastSEO.store, "elementor-panel-page-settings-controls", (
-					<div className="yoast yoast-elementor-panel__fills">
-						<ElementorSlot />
-						<ElementorFill />
-					</div>
+					<StyleSheetManager target={ window.document.body }>
+						<div className="yoast yoast-elementor-panel__fills">
+							<ElementorSlot />
+							<ElementorFill />
+						</div>
+					</StyleSheetManager>
 				) );
 			}
 		} );
