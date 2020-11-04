@@ -74,6 +74,30 @@
 	background: none;
 }
 
+/* Upsell modal close-button tooltips */
+.yoast-gutenberg-modal {
+	overflow: visible;
+}
+
+.yoast-gutenberg-modal .components-modal__header .components-button {
+	overflow: visible;
+}
+
+.yoast-gutenberg-modal .components-modal__header .components-button > span {
+	width: 0;
+	height: 0;
+}
+
+.yoast-gutenberg-modal .components-modal__header .components-button .components-tooltip {
+	position: absolute;
+	top: 0 !important;
+	left: 20px !important;
+}
+
+.yoast-gutenberg-modal .components-modal__header .components-tooltip::before, .yoast-gutenberg-modal .components-modal__header .components-tooltip::after {
+	top: 0;
+}
+
 /* All hover effects */
 @media(hover:hover) {
 	
