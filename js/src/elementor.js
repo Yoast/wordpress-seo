@@ -1,11 +1,11 @@
 import { dispatch } from "@wordpress/data";
 import domReady from "@wordpress/dom-ready";
-import initPluggable from "./elementor/initializers/pluggable";
+import { pluginReady, pluginReloaded, registerPlugin, registerModification } from "./elementor/initializers/pluggable";
 import initAnalysis from "./initializers/analysis";
 import initElementorEditorIntegration from "./initializers/elementor-editor-integration";
 import initEditorStore from "./elementor/initializers/editor-store";
 import initElementorWatcher from "./watchers/elementorWatcher";
-import YoastReplaceVarPlugin from "./elementor/replaceVars/elementor-replacevar-plugin";
+import initReplaceVarPlugin, { addReplacement, ReplaceVar } from "./elementor/replaceVars/elementor-replacevar-plugin";
 
 domReady( () => {
 	// Initialize the editor store and set it on the window.
@@ -15,30 +15,29 @@ domReady( () => {
 	// Initialize the editor data watcher.
 	initElementorWatcher();
 
-	// Initialize pluggable.
-	const pluggable = initPluggable();
 	/*
+	 * Expose pluggable.
+	 *
 	 * Note: this is exposed on YoastSEO directly instead of in a pluggable scope.
 	 * This is so we don't have to adapt Premium or plugins.
 	 */
-	window.YoastSEO.pluginReady = pluggable.pluginReady;
-	window.YoastSEO.pluginReloaded = pluggable.pluginReloaded;
-	window.YoastSEO.registerModification = pluggable.registerModification;
-	window.YoastSEO.registerPlugin = pluggable.registerPlugin;
+	window.YoastSEO.pluginReady = pluginReady;
+	window.YoastSEO.pluginReloaded = pluginReloaded;
+	window.YoastSEO.registerModification = registerModification;
+	window.YoastSEO.registerPlugin = registerPlugin;
 
 	// Initialize analysis.
 	window.YoastSEO.analysis = window.YoastSEO.analysis || {};
 	window.YoastSEO.analysis.run = dispatch( "yoast-seo/editor" ).refreshAnalysisDataTimestamp;
-	window.YoastSEO.analysis.worker = initAnalysis( pluggable.applyAnalysisModifications );
+	window.YoastSEO.analysis.worker = initAnalysis();
 
-	// Initialize replacement variables.
+	// Initialize replacement variables plugin.
+	initReplaceVarPlugin();
 	window.YoastSEO.wp = window.YoastSEO.wp || {};
-	window.YoastSEO.wp.replaceVarsPlugin = new YoastReplaceVarPlugin(
-		pluggable.registerPlugin,
-		pluggable.registerModification,
-		pluggable.pluginReloaded
-	);
-	window.YoastSEO.wp.replaceVarsPlugin.initialize();
+	window.YoastSEO.wp.replaceVarsPlugin = {
+		addReplacement,
+		ReplaceVar,
+	};
 } );
 
 // Initialize the editor integration.
