@@ -7,7 +7,7 @@ use Yoast\WP\SEO\Conditionals\No_Conditionals;
 /**
  * Class to manage the integration with Yoast Duplicate Post.
  */
-class Duplicate_Post implements Integration_Interface {
+class Duplicate_Post_Integration implements Integration_Interface {
 
 	use No_Conditionals;
 
@@ -19,7 +19,7 @@ class Duplicate_Post implements Integration_Interface {
 	 * @return void
 	 */
 	public function register_hooks() {
-		\add_action( 'duplicate_post_excludelist_filter', [ $this, 'exclude_zapier_meta' ] );
+		\add_filter( 'duplicate_post_excludelist_filter', [ $this, 'exclude_zapier_meta' ] );
 	}
 
 	/**
