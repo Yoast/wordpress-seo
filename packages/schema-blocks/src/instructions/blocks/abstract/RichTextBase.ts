@@ -5,8 +5,6 @@ import BlockInstruction from "../../../core/blocks/BlockInstruction";
 import { RenderSaveProps, RenderEditProps } from "../../../core/blocks/BlockDefinition";
 import BlockLeaf from "../../../core/blocks/BlockLeaf";
 import { BlockConfiguration } from "@wordpress/blocks";
-import attributeExists from "../../../functions/validators/attributeExists";
-import attributeNotEmpty from "../../../functions/validators/attributeNotEmpty";
 
 export interface RichTextSaveProps extends WordPressRichText.ContentProps<keyof HTMLElementTagNameMap> {
 	"data-id": string;

@@ -6,8 +6,6 @@ import BlockInstruction from "../../core/blocks/BlockInstruction";
 import { RenderEditProps, RenderSaveProps } from "../../core/blocks/BlockDefinition";
 import { arrayOrObjectToOptions } from "../../functions/select";
 import SidebarBase from "./abstract/SidebarBase";
-import attributeNotEmpty from "../../functions/validators/attributeNotEmpty";
-import attributeExists from "../../functions/validators/attributeExists";
 
 /**
  * SidebarSelect class
