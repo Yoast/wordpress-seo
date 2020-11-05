@@ -57,6 +57,9 @@
 
 .yoast a.dashicons {
 	color: var(--yoast-color-inactive-text);
+	height: 24px;
+	width: 24px;
+	vertical-align: middle;
 }
 
 .button-link {
@@ -74,6 +77,37 @@
 	border: none;
 	box-shadow: none;
 	background: none;
+}
+
+.yoast-gutenberg-modal input[type="radio"] {
+	appearance: none;
+	border-radius: 50%;
+	border: 2px solid #6c7781;
+	margin-right: 12px;
+	transition: none;
+	box-shadow: 0 0 0 transparent;
+	height: 1rem;
+	padding: 0;
+	vertical-align: middle;
+	width: 1rem;
+	min-width: 1rem;
+}
+
+.yoast-gutenberg-modal input[type="radio"]:checked {
+	background: #11a0d2;
+	border-color: #11a0d2;
+}
+
+input[type="radio"]:checked::before {
+	content: "";
+	float: left;
+	vertical-align: middle;
+	border-radius: 50%;
+	line-height: 1.14285714;
+	width: 6px;
+	height: 6px;
+	margin: 3px 0 0 3px;
+	background-color: #fff;
 }
 
 /* Upsell modal close-button tooltips */
@@ -98,6 +132,34 @@
 
 .yoast-gutenberg-modal .components-modal__header .components-tooltip::before, .yoast-gutenberg-modal .components-modal__header .components-tooltip::after {
 	top: 0;
+}
+
+/* Tab-focus styling */
+.yoast div:focus {
+	outline: 0;
+}
+
+.yoast a:focus, .yoast .button-link:focus {
+	color: #124964;
+	box-shadow: 0 0 0 1px #5b9dd9, 0 0 2px 1px rgba(30, 140, 190, 0.8);
+	outline: 1px solid transparent;
+}
+
+.yoast a.dashicons:focus {
+	color: #1e8cbe;
+}
+
+.yoast input[type="radio"]:checked:focus {
+	box-shadow: 0 0 0 2px #555d66;
+}
+
+.yoast input[type="radio"]:focus {
+	box-shadow: 0 0 0 1px #6c7781;
+}
+
+.yoast .yoast-button-upsell:focus {
+	color: #000;
+	box-shadow: inset 0 -4px 0 rgba(0, 0, 0, 0.2), 0 0 0 1px #5b9dd9, 0 0 2px 1px rgba(30, 140, 190, 0.8);
 }
 
 /* All hover effects */
