@@ -9,7 +9,7 @@ export type DefinitionClass<T extends Definition> = {
 };
 
 /**
- * Definition clas
+ * Definition class
  */
 export default abstract class Definition {
 	public separator: string;
@@ -46,6 +46,7 @@ export default abstract class Definition {
 		return Object.values( this.instructions ).reduce( ( config, instruction ) => merge( config, instruction.configuration() ), {} );
 	}
 
+	/* eslint-disable @typescript-eslint/no-unused-vars */
 	/**
 	 * Checks if the Definition block is valid.
 	 *
@@ -55,6 +56,7 @@ export default abstract class Definition {
 	valid( attributes: object ): boolean {
 		return true;
 	}
+	/* eslint-enable @typescript-eslint/no-unused-vars */
 
 	/**
 	 * Registers a definition.
