@@ -23,6 +23,9 @@ export default class Researcher extends AbstractResearcher {
 	constructor( paper ) {
 		super( paper );
 
+		delete this.defaultResearches.stopWordsInUrl;
+		delete this.defaultResearches.stopWordsInKeyword;
+
 		Object.assign( this.config, {
 			language: "ar",
 			isPeriphrastic: false,
