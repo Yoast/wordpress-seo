@@ -20,6 +20,12 @@ export default class Researcher extends AbstractResearcher {
 	constructor( paper ) {
 		super( paper );
 
+		// Delete the researches from the Abstract Researcher that currently are not available for Farsi.
+		delete this.defaultResearches.getFleschReadingScore;
+		delete this.defaultResearches.findTransitionWords;
+		delete this.defaultResearches.getPassiveVoice;
+		delete this.defaultResearches.getSentenceBeginnings;
+
 		Object.assign( this.config, {
 			language: "fa",
 			functionWords,
