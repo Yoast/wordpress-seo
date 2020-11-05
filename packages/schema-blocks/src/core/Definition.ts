@@ -47,6 +47,16 @@ export default abstract class Definition {
 	}
 
 	/**
+	 * Checks if the Definition block is valid.
+	 *
+	 * @param attributes: The attributes object from RenderSaveProps or RenderEditProps
+	 * @returns {boolean} True if the instruction block is valid, False if the block contains errors.
+	 */
+	valid( attributes: object ): boolean {
+		return true;
+	}
+
+	/**
 	 * Registers a definition.
 	 */
 	abstract register(): void;

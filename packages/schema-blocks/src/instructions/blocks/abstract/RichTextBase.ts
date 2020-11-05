@@ -22,6 +22,7 @@ export default abstract class RichTextBase extends BlockInstruction {
 		name: string;
 		default: string;
 		placeholder: string;
+		required: boolean;
 	};
 
 	/**
@@ -69,6 +70,7 @@ export default abstract class RichTextBase extends BlockInstruction {
 					source: "html",
 					selector: `[data-id=${this.options.name}]`,
 					"default": this.options.default,
+					required: this.options.required === true
 				},
 			},
 		};

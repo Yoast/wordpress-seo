@@ -1,3 +1,5 @@
+import Attribute from "../instructions/schema/Attribute";
+
 export type InstructionOptions =
 	Record<string, string | boolean | number | Array<string | boolean | number> | Record<string, string | boolean | number>>;
 export type InstructionClass<T extends Instruction> = {
@@ -42,6 +44,16 @@ export default abstract class Instruction {
 	 * @returns Whether or not to render this instruction.
 	 */
 	renderable(): boolean {
+		return true;
+	}
+
+	/**
+	 * Checks if the instruction block is valid.
+	 *
+	 * @param attributes: The attributes from RenderSaveProps or RenderEditProps.
+	 * @returns {boolean} True if the instruction block is valid, False if the block contains errors.
+	 */
+	valid( attributes: object ): boolean {
 		return true;
 	}
 

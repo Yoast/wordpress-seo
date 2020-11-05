@@ -6,6 +6,9 @@ import BlockInstruction from "../../core/blocks/BlockInstruction";
 import { RenderEditProps, RenderSaveProps } from "../../core/blocks/BlockDefinition";
 import { arrayOrObjectToOptions } from "../../functions/select";
 import SidebarBase from "./abstract/SidebarBase";
+import requiredAttribute from "../../functions/configurators/requiredAttributeConfigurator";
+import simpleAttribute from "../../functions/configurators/simpleAttributeConfigurator";
+import attributeNotEmpty from "../../functions/validators/attributeNotEmptyValidator";
 
 /**
  * SidebarSelect class
@@ -18,6 +21,7 @@ class SidebarSelect extends SidebarBase {
 		help?: string;
 		output?: boolean;
 		multiple?: boolean;
+		required?: boolean; // is this still necessary since sidebarbase already defines required?
 	}
 
 	/**
@@ -50,13 +54,14 @@ class SidebarSelect extends SidebarBase {
 	 * @returns The block configuration.
 	 */
 	configuration(): Partial<BlockConfiguration> {
-		return {
-			attributes: {
-				[ this.options.name ]: {
-					type: this.options.multiple === true ? "array" : "string",
-				},
-			},
-		};
+		const type = this.options.multiple === true ? "array" : "string";
+
+		// returns { "month": { type:"string",required:false }
+		
+		if ( this.options.required === true ) {
+			return requiredAttribute(this.options.name, type);
+		}
+		return simpleAttribute(this.options.name, type);
 	}
 
 	/**
@@ -68,6 +73,20 @@ class SidebarSelect extends SidebarBase {
 	 */
 	protected value( props: RenderSaveProps | RenderEditProps ): string {
 		return props.attributes[ this.options.name ] as string || arrayOrObjectToOptions( this.options.options )[ 0 ].value;
+	}
+
+	/**
+	 * Checks if the instruction block is valid.
+	 *
+	 * @param attributes de attributes uit RenderSaveProps of RenderEditProps
+	 * @returns {boolean} True if the instruction block is valid, False if the block contains errors.
+	 */
+	valid( attributes: object ): boolean {
+		if (this.options.required===true){
+			return attributeNotEmpty(attributes [ this.options.name ]);
+		}
+		
+		return true;
 	}
 }
 
