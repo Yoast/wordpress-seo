@@ -8,7 +8,8 @@ import { arrayOrObjectToOptions } from "../../functions/select";
 import SidebarBase from "./abstract/SidebarBase";
 import requiredAttribute from "../../functions/configurators/requiredAttributeConfigurator";
 import simpleAttribute from "../../functions/configurators/simpleAttributeConfigurator";
-import attributeNotEmpty from "../../functions/validators/attributeNotEmptyValidator";
+import attributeNotEmpty from "../../functions/validators/attributeNotEmpty";
+import attributeExists from "../../functions/validators/attributeExists";
 
 /**
  * SidebarSelect class
@@ -21,7 +22,7 @@ class SidebarSelect extends SidebarBase {
 		help?: string;
 		output?: boolean;
 		multiple?: boolean;
-		required?: boolean; // is this still necessary since sidebarbase already defines required?
+		required?: boolean;
 	}
 
 	/**
@@ -56,12 +57,10 @@ class SidebarSelect extends SidebarBase {
 	configuration(): Partial<BlockConfiguration> {
 		const type = this.options.multiple === true ? "array" : "string";
 
-		// returns { "month": { type:"string",required:false }
-		
 		if ( this.options.required === true ) {
-			return requiredAttribute(this.options.name, type);
+			return requiredAttribute( this.options.name, type );
 		}
-		return simpleAttribute(this.options.name, type);
+		return simpleAttribute( this.options.name, type );
 	}
 
 	/**
@@ -78,14 +77,15 @@ class SidebarSelect extends SidebarBase {
 	/**
 	 * Checks if the instruction block is valid.
 	 *
-	 * @param attributes de attributes uit RenderSaveProps of RenderEditProps
-	 * @returns {boolean} True if the instruction block is valid, False if the block contains errors.
+	 * @param props de attributes uit RenderSaveProps of RenderEditProps.
+	 *
+	 * @returns `true` if the instruction block is valid, `false` if the block contains errors.
 	 */
-	valid( attributes: object ): boolean {
-		if (this.options.required===true){
-			return attributeNotEmpty(attributes [ this.options.name ]);
+	valid( props: RenderSaveProps | RenderEditProps ): boolean {
+		if ( this.options.required === true ) {
+			return attributeExists( props.attributes, this.options.name ) && attributeNotEmpty( props.attributes, this.options.name );
 		}
-		
+
 		return true;
 	}
 }

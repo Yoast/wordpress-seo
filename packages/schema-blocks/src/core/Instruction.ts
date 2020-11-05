@@ -1,4 +1,4 @@
-import Attribute from "../instructions/schema/Attribute";
+import { RenderEditProps, RenderSaveProps } from "./blocks/BlockDefinition";
 
 export type InstructionOptions =
 	Record<string, string | boolean | number | Array<string | boolean | number> | Record<string, string | boolean | number>>;
@@ -47,15 +47,18 @@ export default abstract class Instruction {
 		return true;
 	}
 
+	/* eslint-disable @typescript-eslint/no-unused-vars */
 	/**
 	 * Checks if the instruction block is valid.
 	 *
-	 * @param attributes: The attributes from RenderSaveProps or RenderEditProps.
-	 * @returns {boolean} True if the instruction block is valid, False if the block contains errors.
+	 * @param props The properties to check.
+	 *
+	 * @returns `true` if the instruction block is valid, `false` if the block contains errors.
 	 */
-	valid( attributes: object ): boolean {
+	valid( props: RenderSaveProps | RenderEditProps ): boolean {
 		return true;
 	}
+	/* eslint-enable @typescript-eslint/no-unused-vars */
 
 	/**
 	 * Register a new instruction.
