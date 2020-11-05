@@ -1,10 +1,11 @@
 import { dispatch, select, subscribe } from "@wordpress/data";
+import { debounce, isEqual } from "lodash";
 import { Paper } from "yoastseo";
 import { refreshDelay } from "../analysis/constants";
-import { createAnalysisWorker, getAnalysisConfiguration } from "../analysis/worker";
-import { sortResultsByIdentifier } from "../analysis/refreshAnalysis";
-import { debounce, isEqual } from "lodash";
 import handleWorkerError from "../analysis/handleWorkerError";
+import { sortResultsByIdentifier } from "../analysis/refreshAnalysis";
+import { createAnalysisWorker, getAnalysisConfiguration } from "../analysis/worker";
+import { applyModifications } from "../elementor/initializers/pluggable";
 
 /**
  * Runs the analysis.
@@ -47,11 +48,27 @@ async function runAnalysis( worker, data ) {
 const debouncedRunAnalysis = debounce( runAnalysis, refreshDelay );
 
 /**
+ * Applies the relevant pluggable modifications to the analysis data.
+ *
+ * @param {Object} analysisData The analysis data.
+ *
+ * @returns {Object} The analysis data.
+ */
+const applyAnalysisModifications = ( analysisData ) => {
+	analysisData.title = applyModifications( "data_page_title", analysisData.title );
+	analysisData.title = applyModifications( "title", analysisData.title );
+	analysisData.description = applyModifications( "data_meta_desc", analysisData.description );
+	analysisData.text = applyModifications( "content", analysisData.text );
+
+	return analysisData;
+};
+
+/**
  * Sets up the analysis.
  *
  * @returns {AnalysisWorkerWrapper} The analysis worker.
  */
-const initAnalysis = applyAnalysisModifications => {
+const initAnalysis = () => {
 	// Get the selectors.
 	const {
 		getAnalysisData,
