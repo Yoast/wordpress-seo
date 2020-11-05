@@ -14,7 +14,9 @@ const ordinalNumerals = [ "első", "második", "harmadik", "negyedik", "ötödik
 	"tizenhatodik", "tizenhetedik", "tizennyolcadik", "tizenkilencedik", "huszadik", "századik", "ezredik", "tízezredik",
 	"százezredik", "milliomodik", "egymilliomodik" ];
 
-const pronouns = [ "én", "engem", "enyém", "nekem", "velem", "értem", "bennem", "belém", "belőlem", "nálam", "hozzám", "tőlem",
+const pronouns = [
+	// Personal pronouns.
+	"én", "engem", "enyém", "nekem", "velem", "értem", "bennem", "belém", "belőlem", "nálam", "hozzám", "tőlem",
 	"rajtam", "rám", "rólam", "te", "téged", "tiéd", "neked", "veled", "érted", "benned", "beléd", "belőled", "nálad", "hozzád",
 	"tőled", "rajtad", "rád", "rólad", "ő", "őt", "övé", "neki", "vele", "érte", "benne", "bele", "belé", "nála", "hozzá", "tőle",
 	"rajta", "rá", "róla", "mi", "minket", "mienk", "nekünk", "velünk", "értünk", "bennünk", "belénk", "nálunk", "hozzánk", "tőlünk",
@@ -83,7 +85,38 @@ const pronouns = [ "én", "engem", "enyém", "nekem", "velem", "értem", "bennem
 	"ugyanolyanokban", "olyanokba", "amolyanokba", "ugyanolyanokba", "olyanokból", "amolyanokból", "ugyanolyanokból", "olyanoknál",
 	"amolyanoknál", "ugyanolyanoknál", "olyanokhoz", "amolyanokhoz", "ugyanolyanokhoz", "olyanoktól", "amolyanoktól", "ugyanolyanoktól",
 	"olyanokon", "amolyanokon", "ugyanolyanokon", "olyanokra", "amolyanokra", "ugyanolyanokra", "olyanokról", "amolyanokról", "ugyanolyanokról",
-	"olyanokká", "amolyanokká", "ugyanolyanokká" ];
+	"olyanokká", "amolyanokká", "ugyanolyanokká",
+	// Relative pronouns.
+	"aki", "akit", "akié", "akinek", "akivel", "akiért", "akiben", "akibe", "akiből", "akinél", "akihez", "akitől", "akin",
+	"akire", "akiről", "akivé", "ami", "amit", "amié", "aminek", "amivel", "amiért", "amiben", "amibe", "amiből", "aminél",
+	"amihez", "amitől", "amin", "amire", "amiről", "amivé", "amilyen", "amilyet", "amilyennek", "amilyennel", "amilyenért",
+	"amilyenben", "amilyenbe", "amilyenből", "amilyennél", "amilyenhez", "amilyentől", "amilyenen", "amilyenre", "amilyenről",
+	"amilyenné", "amekkora", "amekkorát", "amekkorának", "amekkorával", "amekkoráért", "amekkorában", "amekkorába", "amekkorából",
+	"amekkoránál", "amekkorához", "amekkorától", "amekkorán", "amekkorára", "amekkoráról", "amekkorává", "amely", "amelyet",
+	"amelynek", "amellyel", "amelyért", "amelyben", "amelybe", "amelyből", "amelynél", "amelyhez", "amelytől", "amelyen", "amelyre",
+	"amelyről", "amellyé", "ahány", "ahányat", "ahánynak", "ahánnyal", "ahányért", "ahányban", "ahányba", "ahányból", "ahánynál",
+	"ahányhoz", "ahánytól", "ahányan", "ahányra", "ahányról", "ahánnyá", "amennyi", "amennyit", "amennyinek", "amennyivel",
+	"amennyiért", "amennyiben", "amennyibe", "amennyiből", "amennyinél", "amennyihez", "amennyitől", "amennyin", "amennyire",
+	"amennyiről", "amennyivé", "ahányadik", "ahányadikat", "ahányadiknak", "ahányadika", "ahányadikért", "ahányadikban",
+	"ahányadikba", "ahányadikból", "ahányadiknál", "ahányadikhoz", "ahányadiktól", "ahányadikon", "ahányadikra", "ahányadikról",
+	"ahányadikká", "ahová", "ahonnan", "ahonnantól", "amerre", "amerről", "ahogy", "ahogyan", "amiért", "amikor", "amikortól",
+	"amikorra", "akik", "akiket", "akiké", "akiknek", "akikkel", "akikért", "akikben", "akikbe", "akikból", "akiknél", "akikhez",
+	"akiktől", "akiken", "akikre", "akikről", "akikké", "amik", "amiket", "amiké", "amiknek", "amikkel", "amikért", "amikben",
+	"amikbe", "amikból", "amiknél", "amikhez", "amiktől", "amiken", "amikre", "amikről", "amikké", "amilyenek", "amilyeneket",
+	"amilyeneknek", "amilyenekkel", "amilyenekért", "amilyenekben", "amilyenekbe", "amilyenekből", "amilyeneknél", "amilyenekhez",
+	"amilyenektől", "amilyeneken", "amilyenekre", "amilyenekről", "amekkorák", "amekkorákat", "amekkoráknak", "amekkorákkal",
+	"amekkorákért", "amekkorákban", "amekkorákba", "amekkorákból", "amekkoráknál", "amekkorákhoz", "amekkoráktól", "amekkorákon",
+	"amekkorákra", "amekkorákról", "amekkorákká", "amelyek", "amelyeket", "amelyeknek", "amelyekkel", "amelyekért", "amelyekben",
+	"amelyekbe", "amelyekből", "amelyeknél", "amelyekhez", "amelyektől", "amelyeken", "amelyekre", "amelyekről", "ahányak", "ahányakat",
+	"ahányaknak", "ahányakkal", "ahányakért", "ahányakban", "ahányakba", "ahányakból", "ahányaknál", "ahányakhoz", "ahányaktól", "ahányakon",
+	"ahányakra", "ahányakról", "ahányakká", "amennyik", "amennyiket", "amennyiknek", "amennyikkel", "amennyikért", "amennyikben", "amennyikbe",
+	"amennyikből", "amennyiknél", "amennyikhez", "amennyiktől", "amennyiken", "amennyikre", "amennyikről", "amennyikké", "ahányadikak",
+	"ahányadikat", "ahányadiknak", "ahányadikkal", "ahányadikért", "ahányadikban", "ahányadikba", "ahányadikból", "ahányadiknál",
+	"ahányadikhoz", "ahányadiktól", "ahányadikon", "ahányadikra", "ahányadikról", "ahányadikká", "amikért",
+	// Reciprocal pronouns.
+	"egymás", "egymást", "egymásé", "egymásnak", "egymással", "egymásért", "egymásban", "egymásba", "egymásból", "egymásnál",
+	"egymáshoz", "egymástól", "egymáson", "egymásra", "egymásról", "egymássá" ];
+
 
 const interrogatives = [ "ki", "kit", "kié", "kinek", "kivel", "kiért", "kiben", "kibe", "kiből", "kinél", "kihez", "kitől",
 	"kin", "kire", "kiről", "kicsoda", "kicsodát", "kicsodának", "kicsodával", "kicsodáért", "kicsodában", "kicsodába",
@@ -119,33 +152,126 @@ const interrogatives = [ "ki", "kit", "kié", "kinek", "kivel", "kiért", "kiben
 	"hányadikaknak", "hányadikakkal", "hányadikakért", "hányadikakban", "hányadikakba", "hányadikakból", "hányadikaknál",
 	"hányadikakhoz", "hányadikaktól", "hányadikakon", "hányadikakra", "hányadikakról" ];
 
-const quantifiers = [  ];
+const quantifiers = [ "sok", "kevés", "elég", "jónéhány", "néhány", "rengeteg", "töredék", "temérdek", "tengernyi", "számtalan",
+	"számos", "elegendő", "kevéske", "egy csomó", "egy rakás", "egy halom" ];
 
-const reflexivePronouns = [  ];
+const reflexivePronouns = [ "magam", "magamat", "magamé", "magamnak", "magammal", "magamért", "magamban", "magamba", "magamból",
+	"magamnál", "magamhoz", "magamtól", "magamon", "magamra", "magamról", "magammá", "magad", "magadat", "magadé", "magadnak",
+	"magaddal", "magadért", "magadban", "magadba", "magadból", "magadnál", "magadhoz", "magadtól", "magadon", "magadra", "magadról",
+	"magaddá", "maga", "magát", "magáé", "magának", "magával", "magáért", "magában", "magába", "magából", "magánál", "magához",
+	"magától", "magán", "magára", "magáról", "magává", "magunk", "magunkat", "magunké", "magunknak", "magunkkal", "magunkért",
+	"magunkban", "magunkba", "magunkból", "magunknál", "magunkhoz", "magunktól", "magunkon", "magunkra", "magunkról", "magunkká",
+	"magatok", "magatokat", "magatoké", "magatoknak", "magatokkal", "magatokért", "magatokban", "magatokba", "magatokból",
+	"magatoknál", "magatokhoz", "magatoktól", "magatokon", "magatokra", "magatokról", "magatokká", "maguk", "magukat", "maguké",
+	"maguknak", "magukkal", "magukért", "magukban", "magukba", "magukból", "maguknál", "magukhoz", "maguktól", "magukon",
+	"magukra", "magukról", "magukká" ];
 
-const indefinitePronouns = [  ];
+const indefinitePronouns = [ "valaki", "valakit", "valakié", "valakinek", "valakivel", "valakiért", "valakiben", "valakibe", "valakiből", "valakinél",
+	"valakihez", "valakitől", "valakin", "valakire", "valakiről", "valakivé", "valami", "valamit", "valamié", "valaminek",
+	"valamivel", "valamiért", "valamiben", "valamibe", "valamiből", "valaminél", "valamihez", "valamitől", "valamin", "valamire",
+	"valamiről", "valamivé", "valamilyen", "valamilyet", "valamilyennek", "valamilyennel", "valamilyenért", "valamilyenben",
+	"valamilyenbe", "valamilyenből", "valamilyennél", "valamilyenhez", "valamilyentől", "valamilyenen", "valamilyenre", "valamilyenről",
+	"valaminő", "valamelyes", "valamelyest", "valamekkora", "valamekkorát", "valamekkorának", "valamekkorával", "valamekkoráért",
+	"valamekkorában", "valamekkorába", "valamekkorából", "valamekkoránál", "valamekkorához", "valamekkorától", "valamekkorán",
+	"valamekkorára", "valamekkoráról", "valamekkorává", "valamely", "valamelyet", "valamelynek", "valamellyel", "valamelyért",
+	"valamelyben", "valamelybe", "valamelyből", "valamelynél", "valamelyhez", "valamelytől", "valamelyen", "valamelyre",
+	"valamelyről", "valamellyé", "valamelyik", "valamelyiket", "valemelyiknek", "valamelyikkel", "valamelyikért", "valamelyikben",
+	"valamelyikbe", "valamelyikből", "valamelyiknél", "valamelyikhez", "valamelyiktől", "valamelyiken", "valamelyikre", "valamelyikről",
+	"valamelyikké", "valamiféle", "valamifélét", "valamifélének", "valamifélével", "valamiféléért", "valamifélében", "valamifélébe",
+	"valamiféléből", "valamifélénél", "valamiféléhez", "valamifélétől", "valamifélén", "valamifélére", "valamiféléről", "valamennyi",
+	"valamennyit", "valamennyié", "valamennyinek", "valamennyivel", "valamennyiért", "valamennyiben", "valamennyibe", "valamennyiből",
+	"valamennyinél", "valamennyihez", "valamennyitől", "valamennyin", "valamennyire", "valamennyiről", "valamennyivé", "valahány",
+	"valahányat", "valahánynak", "valahánnyal", "valahányért", "valahányban", "valahányba", "valahányból", "valahánynál", "valahányhoz",
+	"valahánytól", "valahányon", "valahányra", "valahányról", "valahánnyá", "némely", "némelyet", "némelynek", "némelynél", "némelyért",
+	"némelyben", "némelybe", "némelyből", "némelynél", "némelyhez", "némelytől", "némelyen", "némelyre", "némelyről", "némi",
+	"némelyik", "némelyiket", "némelyiknek", "némelyikkel", "némelyikért", "némelyikben", "némelyikbe", "némelyikből", "némelyiknél",
+	"némelyikhez", "némelyiktől", "némelyiken", "némelyikre", "némelyikről", "néminemű", "néhány", "néhányat", "néhánynak", "néhánnyal",
+	"néhányért", "néhányban", "néhányba", "néhányból", "néhánynál", "néhányhoz", "néhánytól", "néhányon", "néhányra", "néhányról",
+	"valahol", "valahová", "valamerre", "valahonnan", "valamikor", "valaha", "valaha", "valahogyan", "valamiképpen", "valamiért",
+	"néhol", "néha", "némelykor", "némiképpen", "némileg", "mindenki", "mindenféle", "mindegyik", "mindahány", "mindenhol", "mindenütt",
+	"mindenhová", "mindenhonnan", "mindenkor", "mindenhogyan", "mindenképpen", "bárki", "bármi", "bármelyik", "bármilyen", "bármennyi",
+	"bárhol", "bárhová", "bárhonnan", "bármikor", "bármeddig", "bárhogyan", "akárki", "akármi", "akármelyik", "akármilyen", "akármennyi",
+	"akárhány", "akárhol", "akárhová", "akárhonnan", "akármikor", "akárhogyan", "senki", "semmi", "semmilyen", "semennyi", "sehány",
+	"sehol", "sehová", "sehonnan", "semmikor", "sehogy", "semmiképp", "valakik", "valakiket", "valakiké", "valakiknek", "valakikkel",
+	"valakikért", "valakikben", "valakikbe", "valakikből", "valakiknél", "valakikhez", "valakiktől", "valakiken", "valakikre",
+	"valakikről", "valakikké", "valamik", "valamiket", "valamiké", "valamiknek", "valamikkel", "valamikért", "valamikben",
+	"valamikbe", "valamikből", "valamiknél", "valamikhez", "valamiktől", "valamiken", "valamikre", "valamikről", "valamikké",
+	"valamilyenek", "valamilyeneket", "valamilyeneknek", "valamilyenekkel", "valamilyenekért", "valamilyenekben", "valamilyenekbe",
+	"valamilyenekből", "valamilyeneknél", "valamilyenekhez", "valamilyenektől", "valamilyeneken", "valamilyenekre", "valamilyenekről",
+	"valamilyenekké", "valaminők", "valamekkorák", "valamekkorákat", "valamekkoráknak", "valamekkorákkal", "valamekkorákért",
+	"valamekkorákban", "valamekkorákba", "valamekkorákból", "valamekkoráknál", "valamekkorákhoz", "valamekkoráktól", "valamekkorákon",
+	"valamekkorákra", "valamekkorákról", "valamelyek", "valamelyeket", "valamelyeknek", "valamelyekkel", "valamelyekért",
+	"valamelyekben", "valamelyekbe", "valamelyekből", "valamelyeknél", "valamelyekhez", "valamelyektől", "valamelyeken",
+	"valamelyekre", "valamelyekről", "valamelyekké", "valamelyikek", "valamelyikeket", "valamelyikeknek", "valamelyikekkel",
+	"valamelyikekért", "valamelyikekben", "valamelyikekbe", "valamelyikekből", "valamelyikeknél", "valamelyikekhez", "valamelyikektől",
+	"valamelyikeken", "valamelyikekre", "valamelyikekről", "valamifélék", "valamiféléket", "valamiféléknek", "valamifélékkel",
+	"valamifélékért", "valamifélékben", "valamifélékbe", "valamifélékből", "valamiféléknél", "valamifélékhez", "valamiféléktől",
+	"valamiféléken", "valamifélékre", "valamifélékről", "valamennyik", "valamennyiket", "valamennyiknek", "valamennyikkel",
+	"valamennyikért", "valamennyikben", "valamennyikbe", "valamennyikből", "valamennyiknél", "valamennyikhez", "valamennyiktől",
+	"valamennyiken", "valamennyikre", "valamennyikről", "valahányak", "valahányakat", "valahányaknak", "valahányakkal",
+	"valahányakért", "valahányakban", "valahányakba", "valahányakból", "valahányaknál", "valahányakhoz", "valahányaktól",
+	"valahányakon", "valahányakra", "valahányakról", "némelyek", "némelyeket", "némelyeknek", "némelyekkel", "némelyekért",
+	"némelyekben", "némelyekbe", "némelyekből", "némelyeknél", "némelyekhez", "némelyektől", "némelyeken", "némelyekre", "némelyekről",
+	"némelyikek", "némelyikeket", "némelyikeknek", "némelyikekkel", "némelyikekért", "némelyikekben", "némelyikekbe", "némelyikekből",
+	"némelyikeknél", "némelyikekhez", "némelyikektől", "némelyikeken", "némelyikekre", "némelyikekről", "néhányak", "néhányakat",
+	"néhányaknak", "néhányakkal", "néhányakért", "néhányakban", "néhányakba", "néhányakból", "néhányaknál", "néhányakhoz",
+	"néhányaktól", "néhányakon", "néhányakra", "néhányakról" ];
 
-const prepositions = [  ];
+const prepositions = [];
 
-const conjunctions = [  ];
+const postpositions = [ "előtt", "elé", "elől", "alatt", "alá", "alól", "túl", "alatt", "belül", "előtt", "fogva", "hosszat",
+	"múlva", "óta", "tájt", "ellen", "helyett", "iránt", "miatt", "nélkül", "részére", "számára", "végett", "között" ];
 
-const interviewVerbs = [  ];
+const conjunctions = [ "és", "s", "se", "sem", "vagy", "is", "de" ];
 
-const intensifiers = [  ];
+const interviewVerbs = [ "mond", "bejelent", "megerősít", "kijelent", "javasol", "említ", "tájékoztat", "értesít", "kérdez",
+	"beszél", "megkérdez", "állít", "elmagyaráz", "magyaráz", "gondol", "hisz", "megtárgyal", "tárgyal", "vitat", "megvitat",
+	"ért", "megért", "elmond", "elmesél", "tud", "megtud", "megbeszél", "megmond", "megmagyaráz" ];
 
-const auxiliariesAndDelexicalizedVerbs = [ ];
+const intensifiers = [ "alig", "kissé", "különösen", "nagyon", "teljesen", "túl", "túlságosan", "kevésbé", "nagyrészt",
+	"kicsit", "picit", "szörnyen", "borzasztóan", "iszonyatosan", "irtó", "irtózatosan", "komolyan", "súlyosan", "könnyedén",
+	"nehezen" ];
 
-const generalAdjectivesAdverbs = [ ];
+const auxiliariesAndDelexicalizedVerbs = [ "fog", "volna", "akar", "bír", "kell", "kíván", "látszik", "lehet", "tud",
+	"szabad", "tetszik", "méltóztatik", "szokott" ];
 
-const interjections = [  ];
+const generalAdjectivesAdverbs = [
+	// General adjective.
+	"nagy", "kicsi", "gyors", "lassú", "jó", "rossz", "drága", "olcsó", "vastag", "vékony",
+	"keskeny", "széles", "puha", "hangos", "halk", "intelligens", "buta", "nedves", "száraz", "nehéz", "könnyű", "kemény",
+	"lágy", "sekély", "mély", "gyönge", "erős", "gazdag", "szegény", "fiatal", "öreg", "hosszú", "rövid", "magas", "alacsony",
+	"bőkezű", "fukar", "igaz", "hamis", "gyönyörű", "csúnya", "új", "régi", "boldog", "szomorú", "idős", "gyenge", "biztonságos",
+	"veszélyes", "korán", "későn", "világos", "sötét", "nyitva", "zárva", "szoros", "laza", "teli", "üres", "sok", "kevés", "élő",
+	"halott", "meleg", "hideg", "érdekes", "unalmas", "szerencsés", "szerencsétlen", "fontos", "lényegtelen", "messze", "közel",
+	"tiszta", "piszkos", "kedves", "gonosz", "kellemes", "kellemetlen", "kiváló", "borzalmas", "normális", "szép",
+	// General adverbs.
+	"nagyon", "kicsit", "gyorsan", "lassan", "jól", "rosszul", "drágán", "olcsón", "hangosan", "halkan", "nehezen", "könnyen",
+	"gyengén", "erősen", "gazdagon", "fiatalon", "öreg", "hosszan", "röviden", "magasan", "alacsonyan", "bőkezűen", "gyönyörűen",
+	"csúnyán", "boldogan", "szomorúan", "gyengéden", "biztonságosan", "veszélyesen", "világosan", "szorosan", "lazán", "sokan",
+	"kevesen", "élve", "melegen", "hidegen", "érdekesen", "unalmasan", "szerencsésen", "szerencsétlenül", "tisztán", "piszkosan",
+	"kedvesen", "gonoszan", "kellemesen", "kellemetlenül", "kiválóan", "borzalmasan", "normálisan", "szépen" ];
 
-const recipeWords = [  ];
+const interjections = [ "ó", "óh", "jaj", "a kutyafáját", "a fenébe", "a csudába", "a francba", "atyaég", "atyavilág", "azta",
+	"aztamindenit", "juj", "juhú", "éljen", "jé", "hű", "hú", "ajjaj", "pszt", "csitt", "hess", "hé", "ej", "ejnye", "na",
+	"nicsak", "nocsak", "natessék", "nahát", "rajta", "hajrá", "juhú", "teringettét", "nosza", "uccu", "csitt", "kuss",
+	"dirr", "durr" ];
 
-const timeWords = [ ];
+const recipeWords = [ "liter", "l", "deciliter", "dl", "milliliter", "gramm", "g", "dekagramm", "dkg", "kilogramm", "kg",
+	"milligramm", "mg", "tucat", "centiliter", "cl", "méter", "m", "deciméter", "dm", "centiméter", "cm", "milliméter", "mm",
+	"evőkanál", "ek.", "mokkáskanál", "mk.", "kávéskanál", "kk.", "gyermekkanál", "gyk.", "kávéscsésze", "kcs.", "teáscsésze",
+	"tcs.", "csésze", "csé.", "bögre", "bgr.", "mélytányér", "ujjnyi", "csomag", "gerezd", "csokor" ];
 
-const vagueNouns = [  ];
+const timeWords = [ "másodperc", "perc", "óra", "nap", "hét", "hónap", "év", "évtized", "évszázad", "évezred", "ma", "holnap",
+	"tegnap", "jövő héten", "jövő hónapban", "jövő évben", "múlt héten", "múlt hónapban", "múlt évben", "tavaly", "jövőre",
+	"reggel", "délben", "este", "éjszaka", "hajnalban", "délután", "délelőtt" ];
 
-const miscellaneous = [ ];
+const vagueNouns = [ "dolog", "izé", "valami", "személy", "ember", "alkalom", "eset", "ügy", "tárgy", "valamicsoda",
+	"téma", "ötlet" ];
+
+const miscellaneous = [
+	// Fractions.
+	"fél", "harmad", "negyed", "ötöd", "hatod", "heted", "nyolcad", "kilenced", "tized", "egyharmad", "egynegyed", "egyötöd",
+	"egyhatod", "egyheted", "egynyolcad", "egykilenced", "egytized", "század", "ezred" ];
 
 const transitionWords = [  ];
 
@@ -158,7 +284,7 @@ export default function() {
 	return {
 		// This export contains all of the above words.
 		all: [].concat( articles, cardinalNumerals, ordinalNumerals, pronouns, interrogatives,
-			quantifiers, reflexivePronouns, indefinitePronouns, prepositions, conjunctions, interviewVerbs,
+			quantifiers, reflexivePronouns, indefinitePronouns, prepositions, postpositions, conjunctions, interviewVerbs,
 			intensifiers, auxiliariesAndDelexicalizedVerbs, generalAdjectivesAdverbs, interjections, recipeWords,
 			timeWords, vagueNouns, miscellaneous, transitionWords ),
 	};
