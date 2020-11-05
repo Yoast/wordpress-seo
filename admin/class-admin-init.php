@@ -558,17 +558,21 @@ class WPSEO_Admin_Init {
 	/**
 	 * Adds a custom Yoast section within the Classic Editor publish box.
 	 *
+	 * @param \WP_Post $post The current post object.
+	 *
 	 * @return void
 	 */
-	public function add_publish_box_section() {
+	public function add_publish_box_section( $post ) {
 		if ( in_array( $this->pagenow, [ 'post.php', 'post-new.php' ], true ) ) {
 			?>
 			<div id="yoast-seo-publishbox-section"></div>
 			<?php
 			/**
 			 * Fires after the post time/date setting in the Publish meta box.
+			 *
+			 * @api \WP_Post The current post object.
 			 */
-			do_action( 'wpseo_publishbox_misc_actions' );
+			do_action( 'wpseo_publishbox_misc_actions', $post );
 		}
 	}
 
