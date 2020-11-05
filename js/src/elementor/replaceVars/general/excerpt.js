@@ -20,7 +20,7 @@ export default {
 	placeholder: "%%excerpt%%",
 	aliases: [
 		{
-			name: "excerptOnly",
+			name: "excerpt_only",
 			label: "Excerpt only",
 			placeholder: "%%excerpt_only%%",
 		},
