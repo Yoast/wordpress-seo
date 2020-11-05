@@ -2,21 +2,23 @@ import { get } from "lodash";
 
 /**
  * Returns the replacement for the %%sep%% variable.
- * @returns {string} The current time string.
+ *
+ * @returns {string} The separator.
  */
 function getReplacement() {
 	return get( window, "wpseoScriptData.analysis.plugins.replaceVars.replace_vars.sep", "" );
 }
 
 /**
- * Replaces the %%sep%% variable in a text if in scope.
+ * Represents the sep replacement variable.
  *
- * @param {string} text The text to replace the variable in.
- * @returns {string} The modified text.
+ * @returns {Object} The sep replacement variable.
  */
-export default function replace( text ) {
-	return text.replace(
-		new RegExp( "%%sep%%(\\s*%%sep%%)*", "g" ),
-		getReplacement()
-	);
-}
+export default {
+	name: "sep",
+	label: "Separator",
+	placeholder: "%%sep%%",
+	aliases: [],
+	getReplacement,
+	regexp: new RegExp( "%%sep%%(\\s*%%sep%%)*", "g" ),
+};

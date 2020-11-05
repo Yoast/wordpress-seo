@@ -2,21 +2,23 @@ import { get } from "lodash";
 
 /**
  * Returns the replacement for the %%searchphrase%% variable.
- * @returns {string} The searchphrase string.
+ *
+ * @returns {string} The searchphrase.
  */
 function getReplacement() {
 	return get( window, "wpseoScriptData.analysis.plugins.replaceVars.replace_vars.searchphrase", "" );
 }
 
 /**
- * Replaces the %%searchphrase%% variable in a text if in scope.
+ * Represents the searchphrase replacement variable.
  *
- * @param {string} text The text to replace the variable in.
- * @returns {string} The modified text.
+ * @returns {Object} The searchphrase replacement variable.
  */
-export default function replace( text ) {
-	return text.replace(
-		new RegExp( "%%searchphrase%%", "g" ),
-		getReplacement()
-	);
-}
+export default {
+	name: "searchphrase",
+	label: "Search phrase",
+	placeholder: "%%searchphrase%%",
+	aliases: [],
+	getReplacement,
+	regexp: new RegExp( "%%searchphrase%%", "g" ),
+};

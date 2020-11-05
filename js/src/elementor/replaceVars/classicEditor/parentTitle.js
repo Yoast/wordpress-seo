@@ -19,14 +19,15 @@ function getReplacement() {
 }
 
 /**
- * Replaces the %%parent_title%% variable in a text if in scope.
+ * Represents the parent_title replacement variable.
  *
- * @param {string} text The text to replace the variable in.
- * @returns {string} The modified text.
+ * @returns {Object} The parent_title replacement variable.
  */
-export default function replace( text ) {
-	return text.replace(
-		new RegExp( "%%parent_title%%", "g" ),
-		getReplacement()
-	);
-}
+export default {
+	name: "parent_title",
+	label: "Category",
+	placeholder: "%%parent_title%%",
+	aliases: [],
+	getReplacement,
+	regexp: new RegExp( "%%parent_title%%", "g" ),
+};

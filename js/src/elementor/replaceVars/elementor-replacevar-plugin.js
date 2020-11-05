@@ -1,142 +1,170 @@
-import ReplaceVar from "../../values/replaceVar";
-import * as replaceFunctions from "../replaceVars/general";
-import { dispatch } from "@wordpress/data";
+import { get } from "lodash";
+import { registerPlugin, registerModification } from "../initializers/pluggable";
+import * as replacementVariables from "../replaceVars/general";
 
 const PLUGIN_NAME = "replaceVariablePlugin";
 
+// Holds a singleton used in getCurrentReplacementVariables.
+let currentReplaceVars = null;
+// Holds a singleton used in getCurrentReplacementVariablesForEditor.
+let currentReplaceVarsForEditor = null;
+
 /**
- * Variable replacement plugin for WordPress.
+ * Registers modifications for the given replace callback.
+ *
+ * @param {function} replace Callback function that replaces.
+ *
+ * @returns {void}
  */
-class YoastReplaceVarPlugin {
-	/**
-	 * Creates an instance of YoastReplaceVarPlugin.
-	 *
-	 * @param {function} registerPlugin Registers a plugin.
-	 * @param {function} registerModification Registers a modification.
-	 * @param {function} pluginReloaded Notifies the plugin data has changed.
-	 *
-	 * @returns {void}
-	 */
-	constructor( registerPlugin, registerModification, pluginReloaded ) {
-		this._registerPlugin = registerPlugin;
-		this._registerModification = registerModification;
-		this._pluginReloaded = pluginReloaded;
+const registerModifications = replace => {
+	[
+		"content",
+		"title",
+		"snippet_title",
+		"snippet_meta",
+		"primary_category",
+		"data_page_title",
+		"data_meta_desc",
+		"excerpt",
+	].forEach( field => {
+		registerModification( field, replace, PLUGIN_NAME, 10 );
+	} );
+};
+
+/**
+ * Gets the replacement for a scope.
+ *
+ * @param {string} [scope] The scope, i.e. post, page, etc. Defaults to the current scope.
+ *
+ * @returns {string[]} The list of replacement variables for the given scope.
+ */
+const getReplacements = ( scope = "" ) => {
+	if ( scope === "" ) {
+		scope = get( window, "wpseoScriptData.analysis.plugins.replaceVars.scope", "" );
 	}
 
-	/**
-	 * Initializes the replaceVarPlugin.
-	 *
-	 * @returns {void}
-	 */
-	initialize() {
-		this._registerPlugin( PLUGIN_NAME, { status: "ready" } );
-		this.registerModifications();
+	switch ( scope ) {
+		case "post":
+			return [
+				"category",
+				"currentYear",
+				"date",
+				"excerpt",
+				"id",
+				"focusKeyphrase",
+				"page",
+				"searchPhrase",
+				"separator",
+				"siteDescription",
+				"siteName",
+				"title",
+			];
+		case "page":
+			return [
+				"category",
+				"currentYear",
+				"date",
+				"excerpt",
+				"id",
+				"focusKeyphrase",
+				"page",
+				"searchPhrase",
+				"separator",
+				"siteDescription",
+				"siteName",
+				"title",
+			];
 	}
 
-	/**
-	 * Registers a replaceVar.
-	 *
-	 * @param {ReplaceVar} replaceVar The replaceVar.
-	 *
-	 * @returns {void}
-	 */
-	addReplacement( replaceVar ) {
-		this._registerReplaceVar( text => {
-			return text.replace(
-				new RegExp( replaceVar.placeholder, "g" ),
-				replaceVar.replacement
-			);
-		} );
-	}
+	return [];
+};
 
-	declareReloaded() {
-		this._pluginReloaded( PLUGIN_NAME );
-		dispatch( "yoast-seo/editor" ).refreshSnippetEditor();
-	}
+/**
+ * Creates a replace function for the given replacement variable.
+ *
+ * @param {Object} replacementVariable The replacement variable.
+ * @param {function} replacementVariable.getReplacement Should return the replacement text.
+ * @param {RegExp} replacementVariable.regexp The regular expression to search with.
+ *
+ * @returns {function(string): void} The replace function.
+ */
+const createReplaceFunction = ( { getReplacement, regexp } ) => {
+	return text => text.replace(
+		regexp,
+		getReplacement(),
+	);
+};
 
-	/**
-	 * Registers modifications with the given replacevar callback.
-	 *
-	 * @private
-	 *
-	 * @param {function} callback The function that replaces.
-	 *
-	 * @returns {void}
-	 */
-	_registerReplaceVar( callback ) {
-		[
-			"content",
-			"title",
-			"snippet_title",
-			"snippet_meta",
-			"primary_category",
-			"data_page_title",
-			"data_meta_desc",
-			"excerpt",
-		].forEach( field => {
-			this._registerModification( field, callback, PLUGIN_NAME, 10 );
-		} );
-	}
+/**
+ * Registers the modifications for the given replacements.
+ *
+ * @param {string[]} replacements The replacement.
+ *
+ * @returns {void}
+ */
+const registerReplacementVariables = replacements => {
+	replacements.forEach( name => {
+		const replace = createReplaceFunction( replacementVariables[ name ] );
 
-	/**
-	 * Registers the modifications for the plugin on initial load.
-	 *
-	 * @returns {void}
-	 */
-	registerModifications() {
-		const currentScope = window.wpseoScriptData.analysis.plugins.replaceVars.scope;
-		let replacements = [];
+		registerModifications( replace );
+	} );
+};
 
-		switch ( currentScope ) {
-			case "post":
-				replacements = [
-					"replaceCategory",
-					"replaceCurrentDay",
-					"replaceCurrentDate",
-					"replaceCurrentMonth",
-					"replaceCurrentTime",
-					"replaceCurrentYear",
-					"replaceDate",
-					"replaceExcerpt",
-					"replaceId",
-					"replaceKeyword",
-					"replacePage",
-					"replaceSearchPhrase",
-					"replaceSeparator",
-					"replaceSiteDesc",
-					"replaceSiteName",
-					"replaceTitle",
-					"replaceUserId",
-				];
-				break;
-			case "page":
-				replacements = [
-					"replaceCategory",
-					"replaceCurrentDay",
-					"replaceCurrentDate",
-					"replaceCurrentMonth",
-					"replaceCurrentTime",
-					"replaceCurrentYear",
-					"replaceDate",
-					"replaceExcerpt",
-					"replaceId",
-					"replaceKeyword",
-					"replacePage",
-					"replaceSearchPhrase",
-					"replaceSeparator",
-					"replaceSiteDesc",
-					"replaceSiteName",
-					"replaceTitle",
-					"replaceUserId",
-				];
-				break;
-		}
-
-		replacements.forEach( functionName => this._registerReplaceVar( replaceFunctions[ functionName ] ) );
-	}
-}
+/**
+ * Registers a replaceVar.
+ *
+ * @param {ReplaceVar} replaceVar The replaceVar.
+ *
+ * @returns {void}
+ */
+export const addReplacement = replaceVar => registerModifications( text => {
+	return text.replace(
+		new RegExp( replaceVar.placeholder, "g" ),
+		replaceVar.replacement
+	);
+} );
 
 // Exposes the ReplaceVar class for functionality of plugins integrating.
-YoastReplaceVarPlugin.ReplaceVar = ReplaceVar;
+export { default as ReplaceVar } from "../../values/replaceVar";
 
-export default YoastReplaceVarPlugin;
+/**
+ * Gets the replacement variables for the current scope.
+ *
+ * @returns {Object} The replacement variables.
+ */
+const getCurrentReplacementVariables = () => {
+	if ( currentReplaceVars === null ) {
+		currentReplaceVars = getReplacements().map( name => replacementVariables[ name ] );
+	}
+
+	return currentReplaceVars;
+};
+
+/**
+ * Gets the replacementVariables from the replaceVarPlugin.
+ *
+ * For the insert variable of the SnippetEditor / ReplacementVariableEditor.
+ *
+ * @returns {Object[]} The replacementVariables's name, label and value.
+ */
+export const getCurrentReplacementVariablesForEditor = () => {
+	if ( currentReplaceVarsForEditor === null ) {
+		currentReplaceVarsForEditor = getCurrentReplacementVariables().map( replacementVariable => ( {
+			name: replacementVariable.name,
+			label: replacementVariable.label,
+			value: replacementVariable.placeholder,
+		} ) );
+	}
+
+	return currentReplaceVarsForEditor;
+};
+
+/**
+ * Initializes the replaceVarPlugin.
+ *
+ * @returns {void}
+ */
+export default function initReplaceVarPlugin() {
+	registerPlugin( PLUGIN_NAME, { status: "ready" } );
+	registerReplacementVariables( getReplacements() );
+}

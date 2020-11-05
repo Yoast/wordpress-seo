@@ -2,21 +2,29 @@ import { select } from "@wordpress/data";
 
 /**
  * Returns the replacement for the %%excerpt%% variable.
- * @returns {string} The excerpt string.
+ *
+ * @returns {string} The excerpt.
  */
 function getReplacement() {
 	return select( "yoast-seo/editor" ).getEditorDataExcerpt();
 }
 
 /**
- * Replaces the %%excerpt%% variable in a text if in scope.
+ * Represents the excerpt replacement variable.
  *
- * @param {string} text The text to replace the variable in.
- * @returns {string} The modified text.
+ * @returns {Object} The excerpt replacement variable.
  */
-export default function replace( text ) {
-	return text.replace(
-		new RegExp( "%%excerpt%%|%%excerpt_only%%", "g" ),
-		getReplacement()
-	);
-}
+export default {
+	name: "excerpt",
+	label: "Excerpt",
+	placeholder: "%%excerpt%%",
+	aliases: [
+		{
+			name: "excerptOnly",
+			label: "Excerpt only",
+			placeholder: "%%excerpt_only%%",
+		},
+	],
+	getReplacement,
+	regexp: new RegExp( "%%excerpt%%|%%excerpt_only%%", "g" ),
+};

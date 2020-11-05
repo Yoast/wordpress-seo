@@ -2,21 +2,23 @@ import { get } from "lodash";
 
 /**
  * Returns the replacement for the %%term_hierarchy%% variable.
- * @returns {string} The term_hierarchy string.
+ *
+ * @returns {string} The term_hierarchy.
  */
 function getReplacement() {
 	return get( window, "wpseoScriptData.analysis.plugins.replaceVars.replace_vars.term_hierarchy", "" );
 }
 
 /**
- * Replaces the %%term_hierarchy%% variable in a text if in scope.
+ * Represents the term_hierarchy replacement variable.
  *
- * @param {string} text The text to replace the variable in.
- * @returns {string} The modified text.
+ * @returns {Object} The term_hierarchy replacement variable.
  */
-export default function replace( text ) {
-	return text.replace(
-		new RegExp( "%%term_hierarchy%%", "g" ),
-		getReplacement()
-	);
-}
+export default {
+	name: "term_hierarchy",
+	label: "Term hierarchy",
+	placeholder: "%%term_hierarchy%%",
+	aliases: [],
+	getReplacement,
+	regexp: new RegExp( "%%term_hierarchy%%", "g" ),
+};

@@ -2,21 +2,34 @@ import { get } from "lodash";
 
 /**
  * Returns the replacement for the %%term_description%% variable.
- * @returns {string} The term_description string.
+ *
+ * @returns {string} The term_description.
  */
 function getReplacement() {
 	return get( window, "YoastSEO.app.rawData.text", "" );
 }
 
 /**
- * Replaces the %%term_description%% variable in a text if in scope.
+ * Represents the term_description replacement variable.
  *
- * @param {string} text The text to replace the variable in.
- * @returns {string} The modified text.
+ * @returns {Object} The term_description replacement variable.
  */
-export default function replace( text ) {
-	return text.replace(
-		new RegExp( "%%term_description%%|%%tag_description%%|%%category_description%%", "g" ),
-		getReplacement()
-	);
-}
+export default {
+	name: "term_description",
+	label: "Term description",
+	placeholder: "%%term_description%%",
+	aliases: [
+		{
+			name: "tag_description",
+			label: "Tag description",
+			placeholder: "%%tag_description%%",
+		},
+		{
+			name: "category_description",
+			label: "Category description",
+			placeholder: "%%category_description%%",
+		},
+	],
+	getReplacement,
+	regexp: new RegExp( "%%term_description%%|%%tag_description%%|%%category_description%%", "g" ),
+};
