@@ -1,0 +1,31 @@
+name: WordPress Coding Standards
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  phpcs:
+      name: PHPCS
+      runs-on: ubuntu-latest
+      steps:
+         - uses: actions/checkout@v2
+         - name: Get Composer Cache Directory
+           id: composer-cache
+           run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+         - name: Install dependencies
+           run: composer install --prefer-dist --no-progress 
+         - name: Cache dependencies
+           uses: actions/cache@v1
+           with:
+            path: ${{ steps.composer-cache.outputs.dir }}
+            key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+            restore-keys: ${{ runner.os }}-composer
+         - name: PHPCS check
+           uses: chekalsky/phpcs-action@v1
+           with:
+             phpcs_bin_path: './vendor/bin/phpcs'
