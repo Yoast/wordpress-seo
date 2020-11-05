@@ -16,7 +16,7 @@ export default abstract class BlockInstruction extends Instruction {
 	/**
 	 * Renders editing the element.
 	 *
-	 * @param props props The props.
+	 * @param props The props.
 	 * @param leaf  The leaf being rendered.
 	 * @param i     The number the rendered element is of it's parent.
 	 *
@@ -29,7 +29,7 @@ export default abstract class BlockInstruction extends Instruction {
 	/**
 	 * Renders saving the element.
 	 *
-	 * @param props props The props.
+	 * @param props The props.
 	 * @param leaf  The leaf being rendered.
 	 * @param i     The number the rendered element is of it's parent.
 	 *
