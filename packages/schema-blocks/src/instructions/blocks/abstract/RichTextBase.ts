@@ -5,6 +5,8 @@ import BlockInstruction from "../../../core/blocks/BlockInstruction";
 import { RenderSaveProps, RenderEditProps } from "../../../core/blocks/BlockDefinition";
 import BlockLeaf from "../../../core/blocks/BlockLeaf";
 import { BlockConfiguration } from "@wordpress/blocks";
+import attributeExists from "../../../functions/validators/attributeExists";
+import attributeNotEmpty from "../../../functions/validators/attributeNotEmpty";
 
 export interface RichTextSaveProps extends WordPressRichText.ContentProps<keyof HTMLElementTagNameMap> {
 	"data-id": string;
@@ -22,7 +24,7 @@ export default abstract class RichTextBase extends BlockInstruction {
 		name: string;
 		default: string;
 		placeholder: string;
-		required: boolean;
+		required?: boolean;
 	};
 
 	/**
@@ -70,10 +72,25 @@ export default abstract class RichTextBase extends BlockInstruction {
 					source: "html",
 					selector: `[data-id=${this.options.name}]`,
 					"default": this.options.default,
-					required: this.options.required === true
+					required: this.options.required === true,
 				},
 			},
 		};
+	}
+
+	/**
+	 * Checks if the instruction block is valid.
+	 *
+	 * @param props de attributes uit RenderSaveProps of RenderEditProps.
+	 *
+	 * @returns `true` if the instruction block is valid, `false` if the block contains errors.
+	 */
+	valid( props: RenderSaveProps | RenderEditProps ): boolean {
+		if ( this.options.required === true ) {
+			return attributeExists( props.attributes, this.options.name ) && attributeNotEmpty( props.attributes, this.options.name );
+		}
+
+		return true;
 	}
 
 	/**
