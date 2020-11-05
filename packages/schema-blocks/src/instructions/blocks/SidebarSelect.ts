@@ -6,8 +6,6 @@ import BlockInstruction from "../../core/blocks/BlockInstruction";
 import { RenderEditProps, RenderSaveProps } from "../../core/blocks/BlockDefinition";
 import { arrayOrObjectToOptions } from "../../functions/select";
 import SidebarBase from "./abstract/SidebarBase";
-import requiredAttribute from "../../functions/configurators/requiredAttributeConfigurator";
-import simpleAttribute from "../../functions/configurators/simpleAttributeConfigurator";
 import attributeNotEmpty from "../../functions/validators/attributeNotEmpty";
 import attributeExists from "../../functions/validators/attributeExists";
 
@@ -55,12 +53,14 @@ class SidebarSelect extends SidebarBase {
 	 * @returns The block configuration.
 	 */
 	configuration(): Partial<BlockConfiguration> {
-		const type = this.options.multiple === true ? "array" : "string";
-
-		if ( this.options.required === true ) {
-			return requiredAttribute( this.options.name, type );
-		}
-		return simpleAttribute( this.options.name, type );
+		return {
+			attributes: {
+				[ this.options.name ]: {
+					type: this.options.multiple === true ? "array" : "string",
+					required: this.options.required === true,
+				},
+			},
+		};
 	}
 
 	/**
