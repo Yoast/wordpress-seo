@@ -100,6 +100,7 @@ class SidebarDuration extends SidebarBase {
 			attributes: {
 				[ this.options.name ]: {
 					type: "string",
+					required: this.options.required === true,
 				},
 			},
 		};

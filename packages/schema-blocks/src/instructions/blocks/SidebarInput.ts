@@ -56,6 +56,7 @@ class SidebarInput extends SidebarBase {
 			attributes: {
 				[ this.options.name ]: {
 					type: this.options.type === "number" ? "number" : "string",
+					required: this.options.required === true,
 				},
 			},
 		};
