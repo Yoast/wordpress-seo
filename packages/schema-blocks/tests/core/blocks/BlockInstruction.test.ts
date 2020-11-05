@@ -6,8 +6,8 @@ import BlockInstruction from "../../../src/core/blocks/BlockInstruction";
 class TestBlockInstruction extends BlockInstruction {
 }
 
-describe( "BlockInstruction", () => {
-	describe( "valid", () => {
+describe( "The BlockInstruction class", () => {
+	describe( "valid method", () => {
 		it( "considers a required attribute to be valid if it exists and is not empty", () => {
 			const blockInstruction = new TestBlockInstruction( 11, { name: "title", required: true } );
 
