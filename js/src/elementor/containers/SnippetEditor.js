@@ -5,8 +5,12 @@ import { SnippetEditor } from "@yoast/search-metadata-previews";
 import { __ } from "@wordpress/i18n";
 import PropTypes from "prop-types";
 import SnippetPreviewSection from "../../components/SnippetPreviewSection";
-import { applyReplaceUsingPlugin } from "../../helpers/replacementVariableHelpers";
 import withLocation from "../../helpers/withLocation";
+import { strings } from "@yoast/helpers";
+import { applyModifications } from "../initializers/pluggable";
+import { getCurrentReplacementVariablesForEditor } from "../replaceVars/elementor-replacevar-plugin";
+
+const { stripHTMLTags } = strings;
 
 /**
  * Process the snippet editor form data before it's being displayed in the snippet preview.
@@ -20,7 +24,7 @@ import withLocation from "../../helpers/withLocation";
  *
  * @returns {Object} The snippet preview data object.
  */
-export const mapEditorDataToPreview = ( data, context ) => {
+const mapEditorDataToPreview = ( data, context ) => {
 	const templates = wpSelect( "yoast-seo/editor" ).getSnippetEditorTemplates();
 
 	// When the editor data is empty, use the templates in the preview.
@@ -48,7 +52,11 @@ export const mapEditorDataToPreview = ( data, context ) => {
 		data.url = data.url.slice( 0, baseUrlLength ) + data.url.slice( baseUrlLength + 1 );
 	}
 
-	return applyReplaceUsingPlugin( data );
+	return {
+		url: data.url,
+		title: stripHTMLTags( applyModifications( "data_page_title", data.title ) ),
+		description: stripHTMLTags( applyModifications( "data_meta_desc", data.description ) ),
+	};
 };
 
 /**
@@ -102,22 +110,12 @@ export default compose( [
 			getEditorDataImageUrl,
 			getFocusKeyphrase,
 			getRecommendedReplaceVars,
-			getReplaceVars,
 			getSiteIconUrlFromSettings,
 			getSnippetEditorData,
 			getSnippetEditorIsLoading,
 			getSnippetEditorMode,
 			getSnippetEditorWordsToHighlight,
 		} = select( "yoast-seo/editor" );
-
-		const replacementVariables = getReplaceVars();
-
-		// Replace all empty values with %%replaceVarName%% so the replacement variables plugin can do its job.
-		replacementVariables.forEach( ( replaceVariable ) => {
-			if ( replaceVariable.value === "" && ! [ "title", "excerpt", "excerpt_only" ].includes( replaceVariable.name ) ) {
-				replaceVariable.value = "%%" + replaceVariable.name + "%%";
-			}
-		} );
 
 		return {
 			baseUrl: getBaseUrlFromSettings(),
@@ -129,7 +127,7 @@ export default compose( [
 			mobileImageSrc: getEditorDataImageUrl(),
 			mode: getSnippetEditorMode(),
 			recommendedReplacementVariables: getRecommendedReplaceVars(),
-			replacementVariables,
+			replacementVariables: getCurrentReplacementVariablesForEditor(),
 			wordsToHighlight: getSnippetEditorWordsToHighlight(),
 		};
 	} ),
