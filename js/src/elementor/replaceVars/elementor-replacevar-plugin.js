@@ -149,11 +149,24 @@ const getCurrentReplacementVariables = () => {
  */
 export const getCurrentReplacementVariablesForEditor = () => {
 	if ( currentReplaceVarsForEditor === null ) {
-		currentReplaceVarsForEditor = getCurrentReplacementVariables().map( replacementVariable => ( {
-			name: replacementVariable.name,
-			label: replacementVariable.label,
-			value: replacementVariable.placeholder,
-		} ) );
+		currentReplaceVarsForEditor = [];
+		getCurrentReplacementVariables().forEach( replacementVariable => {
+			// Add the main replacement variable.
+			currentReplaceVarsForEditor.push( {
+				name: replacementVariable.name,
+				label: replacementVariable.label,
+				value: replacementVariable.placeholder,
+			} );
+
+			// Add the aliases.
+			replacementVariable.aliases.forEach( alias => {
+				currentReplaceVarsForEditor.push( {
+					name: alias.name,
+					label: alias.label,
+					value: alias.placeholder,
+				} );
+			} );
+		});
 	}
 
 	return currentReplaceVarsForEditor;
