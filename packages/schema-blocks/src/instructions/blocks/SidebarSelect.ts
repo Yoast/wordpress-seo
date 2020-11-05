@@ -73,21 +73,6 @@ class SidebarSelect extends SidebarBase {
 	protected value( props: RenderSaveProps | RenderEditProps ): string {
 		return props.attributes[ this.options.name ] as string || arrayOrObjectToOptions( this.options.options )[ 0 ].value;
 	}
-
-	/**
-	 * Checks if the instruction block is valid.
-	 *
-	 * @param props de attributes uit RenderSaveProps of RenderEditProps.
-	 *
-	 * @returns `true` if the instruction block is valid, `false` if the block contains errors.
-	 */
-	valid( props: RenderSaveProps | RenderEditProps ): boolean {
-		if ( this.options.required === true ) {
-			return attributeExists( props.attributes, this.options.name ) && attributeNotEmpty( props.attributes, this.options.name );
-		}
-
-		return true;
-	}
 }
 
 BlockInstruction.register( "sidebar-select", SidebarSelect );

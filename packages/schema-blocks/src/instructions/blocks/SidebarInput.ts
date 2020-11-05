@@ -5,8 +5,6 @@ import BlockInstruction from "../../core/blocks/BlockInstruction";
 import { RenderSaveProps, RenderEditProps } from "../../core/blocks/BlockDefinition";
 import { BlockEditProps, BlockConfiguration } from "@wordpress/blocks";
 import SidebarBase from "./abstract/SidebarBase";
-import attributeExists from "../../functions/validators/attributeExists";
-import attributeNotEmpty from "../../functions/validators/attributeNotEmpty";
 
 /**
  * Sidebar input instruction
@@ -61,21 +59,6 @@ class SidebarInput extends SidebarBase {
 				},
 			},
 		};
-	}
-
-	/**
-	 * Checks if the instruction block is valid.
-	 *
-	 * @param props de attributes uit RenderSaveProps of RenderEditProps.
-	 *
-	 * @returns `true` if the instruction block is valid, `false` if the block contains errors.
-	 */
-	valid( props: RenderSaveProps | RenderEditProps ): boolean {
-		if ( this.options.required === true ) {
-			return attributeExists( props.attributes, this.options.name ) && attributeNotEmpty( props.attributes, this.options.name );
-		}
-
-		return true;
 	}
 
 	/**

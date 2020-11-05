@@ -3,6 +3,8 @@ import { RenderSaveProps, RenderEditProps } from "./BlockDefinition";
 import { ReactElement } from "@wordpress/element";
 import { BlockConfiguration } from "@wordpress/blocks";
 import Instruction, { InstructionOptions } from "../Instruction";
+import attributeExists from "../../functions/validators/attributeExists";
+import attributeNotEmpty from "../../functions/validators/attributeNotEmpty";
 
 export type BlockInstructionClass = { new( id: number, options: InstructionOptions ): BlockInstruction };
 
@@ -57,5 +59,21 @@ export default abstract class BlockInstruction extends Instruction {
 	 */
 	configuration(): Partial<BlockConfiguration> {
 		return {};
+	}
+
+	/**
+	 * Checks if the instruction block is valid.
+	 *
+	 * @param props The properties from the save or edit methods.
+	 *
+	 * @returns `true` if the instruction block is valid, `false` if the block contains errors.
+	 */
+	valid( props: RenderSaveProps | RenderEditProps ): boolean {
+		if ( this.options.required === true ) {
+			return attributeExists( props.attributes, this.options.name as string ) &&
+				attributeNotEmpty( props.attributes, this.options.name as string );
+		}
+
+		return true;
 	}
 }

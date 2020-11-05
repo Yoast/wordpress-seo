@@ -7,8 +7,6 @@ import { RenderSaveProps, RenderEditProps } from "../../core/blocks/BlockDefinit
 import { BlockEditProps, BlockConfiguration } from "@wordpress/blocks";
 import SidebarBase from "./abstract/SidebarBase";
 import { __ } from "@wordpress/i18n";
-import attributeExists from "../../functions/validators/attributeExists";
-import attributeNotEmpty from "../../functions/validators/attributeNotEmpty";
 
 /**
  * Updates a duration.
@@ -105,21 +103,6 @@ class SidebarDuration extends SidebarBase {
 				},
 			},
 		};
-	}
-
-	/**
-	 * Checks if the instruction block is valid.
-	 *
-	 * @param props de attributes uit RenderSaveProps of RenderEditProps.
-	 *
-	 * @returns `true` if the instruction block is valid, `false` if the block contains errors.
-	 */
-	valid( props: RenderSaveProps | RenderEditProps ): boolean {
-		if ( this.options.required === true ) {
-			return attributeExists( props.attributes, this.options.name ) && attributeNotEmpty( props.attributes, this.options.name );
-		}
-
-		return true;
 	}
 
 	/**

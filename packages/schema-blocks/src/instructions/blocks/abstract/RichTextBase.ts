@@ -79,21 +79,6 @@ export default abstract class RichTextBase extends BlockInstruction {
 	}
 
 	/**
-	 * Checks if the instruction block is valid.
-	 *
-	 * @param props de attributes uit RenderSaveProps of RenderEditProps.
-	 *
-	 * @returns `true` if the instruction block is valid, `false` if the block contains errors.
-	 */
-	valid( props: RenderSaveProps | RenderEditProps ): boolean {
-		if ( this.options.required === true ) {
-			return attributeExists( props.attributes, this.options.name ) && attributeNotEmpty( props.attributes, this.options.name );
-		}
-
-		return true;
-	}
-
-	/**
 	 * Gets the base attributes of the rich text.
 	 *
 	 * @param props The props.
