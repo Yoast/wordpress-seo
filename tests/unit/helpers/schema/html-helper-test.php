@@ -20,6 +20,9 @@ class HTML_Helper_Test extends TestCase {
 	 */
 	private $instance;
 
+	/**
+	 * Set up a new instance of the class under test before each test.
+	 */
 	public function setUp() {
 		parent::setUp();
 

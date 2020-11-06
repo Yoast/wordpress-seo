@@ -23,35 +23,35 @@ use Yoast\WP\SEO\Integrations\Integration_Interface;
 class Background_Indexing_Integration implements Integration_Interface {
 
 	/**
-	 * The post indexation action.
+	 * The post indexing action.
 	 *
 	 * @var Indexable_Post_Indexation_Action
 	 */
 	protected $post_indexation;
 
 	/**
-	 * The term indexation action.
+	 * The term indexing action.
 	 *
 	 * @var Indexable_Term_Indexation_Action
 	 */
 	protected $term_indexation;
 
 	/**
-	 * The post type archive indexation action.
+	 * The post type archive indexing action.
 	 *
 	 * @var Indexable_Post_Type_Archive_Indexation_Action
 	 */
 	protected $post_type_archive_indexation;
 
 	/**
-	 * Represents the general indexation.
+	 * Represents the general indexing.
 	 *
 	 * @var Indexable_General_Indexation_Action
 	 */
 	protected $general_indexation;
 
 	/**
-	 * Represents the indexation completed action.
+	 * Represents the indexing completed action.
 	 *
 	 * @var Indexable_Indexing_Complete_Action
 	 */

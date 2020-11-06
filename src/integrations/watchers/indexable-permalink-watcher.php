@@ -2,19 +2,13 @@
 
 namespace Yoast\WP\SEO\Integrations\Watchers;
 
-use Yoast\WP\Lib\Model;
-use Yoast\WP\SEO\Actions\Indexing\Indexable_Post_Indexation_Action;
-use Yoast\WP\SEO\Actions\Indexing\Indexable_Post_Type_Archive_Indexation_Action;
-use Yoast\WP\SEO\Actions\Indexing\Indexable_Term_Indexation_Action;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
+use Yoast\WP\SEO\Config\Indexing_Reasons;
 use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
-use Yoast\WP\SEO\Integrations\Admin\Indexing_Notification_Integration;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
-use Yoast\WP\SEO\Presenters\Admin\Indexation_Permalink_Warning_Presenter;
-use Yoast\WP\SEO\WordPress\Wrapper;
 
 /**
  * WordPress Permalink structure watcher.
@@ -132,7 +126,7 @@ class Indexable_Permalink_Watcher implements Integration_Interface {
 	public function reset_permalinks_term( $old, $new, $type ) {
 		$subtype = $type;
 
-		$reason = Indexing_Notification_Integration::REASON_PERMALINK_SETTINGS;
+		$reason = Indexing_Reasons::REASON_PERMALINK_SETTINGS;
 
 		// When the subtype contains _base, just strip it.
 		if ( \strstr( $subtype, '_base' ) ) {
@@ -141,11 +135,11 @@ class Indexable_Permalink_Watcher implements Integration_Interface {
 
 		if ( $subtype === 'tag' ) {
 			$subtype = 'post_tag';
-			$reason  = Indexing_Notification_Integration::REASON_TAG_BASE_PREFIX;
+			$reason  = Indexing_Reasons::REASON_TAG_BASE_PREFIX;
 		}
 
 		if ( $subtype === 'category' ) {
-			$reason = Indexing_Notification_Integration::REASON_CATEGORY_BASE_PREFIX;
+			$reason = Indexing_Reasons::REASON_CATEGORY_BASE_PREFIX;
 		}
 
 		$this->indexable_helper->reset_permalink_indexables( 'term', $subtype, $reason );
@@ -275,9 +269,9 @@ class Indexable_Permalink_Watcher implements Integration_Interface {
 	 * @param null|string $subtype The subtype. Can be null.
 	 * @param string      $reason  The reason that the permalink has been changed.
 	 */
-	public function reset_permalink_indexables( $type, $subtype = null, $reason = Indexation_Permalink_Warning_Presenter::REASON_PERMALINK_SETTINGS ) {
+	public function reset_permalink_indexables( $type, $subtype = null, $reason = Indexing_Reasons::REASON_PERMALINK_SETTINGS ) {
 		_deprecated_function( __METHOD__, 'WPSEO 15.1', 'Indexable_Helper::reset_permalink_indexables' );
 
-		return $this->indexable_helper->reset_permalink_indexables( $type, $subtype, $reason );
+		$this->indexable_helper->reset_permalink_indexables( $type, $subtype, $reason );
 	}
 }
