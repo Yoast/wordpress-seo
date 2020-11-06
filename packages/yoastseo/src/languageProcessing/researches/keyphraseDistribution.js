@@ -128,18 +128,18 @@ const getDistraction = function( sentenceScores ) {
  * @param {Array}  sentences              The sentences to get scores for.
  * @param {Array}  topicFormsInOneArray   The topic phrases forms to search for in the sentences.
  * @param {string} locale                 The locale to work in.
- * @param {boolean} hasFunctionWords      Whether the function words list is available or not.
+ * @param {Array} functionWords           The function words list.
  *
  * @returns {Object} An array with maximized score per sentence and an array with all sentences that do not contain the topic.
  */
-const getSentenceScores = function( sentences, topicFormsInOneArray, locale, hasFunctionWords ) {
+const getSentenceScores = function( sentences, topicFormsInOneArray, locale, functionWords ) {
 	// Compute per-sentence scores of topic-relatedness.
 	const topicNumber = topicFormsInOneArray.length;
 
 	const sentenceScores = Array( topicNumber );
 
 	// For languages with function words apply either full match or partial match depending on topic length
-	if ( hasFunctionWords ) {
+	if ( functionWords.length > 0 ) {
 		for ( let i = 0; i < topicNumber; i++ ) {
 			const topic = topicFormsInOneArray[ i ];
 			if ( topic.length < 4 ) {
@@ -183,7 +183,7 @@ const getSentenceScores = function( sentences, topicFormsInOneArray, locale, has
  * @returns {Object} The scores of topic relevance per portion of text and an array of all word forms to highlight.
  */
 const keyphraseDistributionResearcher = function( paper, researcher ) {
-	const hasFunctionWords = researcher.hasConfig( "functionWords" );
+	const functionWords = researcher.hasConfig( "functionWords" );
 	let text = paper.getText();
 	text = mergeListItems( text );
 	const sentences = getSentences( text );
@@ -198,7 +198,7 @@ const keyphraseDistributionResearcher = function( paper, researcher ) {
 	const allTopicWords = unique( flattenDeep( topicFormsInOneArray ) ).sort( ( a, b ) => b.length - a.length );
 
 	// Get per-sentence scores and sentences that have topic.
-	const sentenceScores = getSentenceScores( sentences, topicFormsInOneArray, locale, hasFunctionWords );
+	const sentenceScores = getSentenceScores( sentences, topicFormsInOneArray, locale, functionWords );
 	const maximizedSentenceScores = sentenceScores.maximizedSentenceScores;
 	const maxLengthDistraction = getDistraction( maximizedSentenceScores );
 

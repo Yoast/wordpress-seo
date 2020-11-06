@@ -8,10 +8,10 @@
  */
 export default function( paper, researcher ) {
 	const topicForms = researcher.getResearch( "morphology" );
-	const hasFunctionWords = researcher.getConfig( "functionWords" );
+	const functionWords = researcher.getConfig( "functionWords" );
 
 	return {
 		keyphraseLength: topicForms.keyphraseForms.length,
-		hasFunctionWords: hasFunctionWords,
+		functionWords: functionWords,
 	};
 }
