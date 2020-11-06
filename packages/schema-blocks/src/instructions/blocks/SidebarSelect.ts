@@ -18,6 +18,7 @@ class SidebarSelect extends SidebarBase {
 		help?: string;
 		output?: boolean;
 		multiple?: boolean;
+		required?: boolean;
 	}
 
 	/**
@@ -54,6 +55,7 @@ class SidebarSelect extends SidebarBase {
 			attributes: {
 				[ this.options.name ]: {
 					type: this.options.multiple === true ? "array" : "string",
+					required: this.options.required === true,
 				},
 			},
 		};
