@@ -1,13 +1,11 @@
-import matchKeywordInSubheadings from "../../researches/base/matchKeywordInSubheadings.js";
-import getProminentWordsForInsights from "../../researches/base/getProminentWordsForInsights";
-import getProminentWordsForInternalLinking from "../../researches/base/getProminentWordsForInternalLinking";
-import getWordForms from "../../researches/_todo/getWordForms";
-import findKeywordInPageTitle from "../../researches/base/findKeywordInPageTitle";
-import { keyphraseDistributionResearcher as keyphraseDistribution } from "../../researches/base/keyphraseDistribution";
-
 import AbstractResearcher from "../../AbstractResearcher";
 
-import findTransitionWords from "./researches/findTransitionWords";
+// All config
+import transitionWords from "./config/transitionWords";
+import twoPartTransitionWords from "./config/twoPartTransitionWords";
+
+// All helpers
+import getStemmer from "../../helpers/morphology/baseStemmer";
 
 /**
  * The researches contains all the researches
@@ -21,14 +19,15 @@ export default class Researcher extends AbstractResearcher {
 	constructor( paper ) {
 		super( paper );
 
-		Object.assign( this.defaultResearches, {
-			findTransitionWords: findTransitionWords,
-			matchKeywordInSubheadings: matchKeywordInSubheadings,
-			keyphraseDistribution: keyphraseDistribution,
-			findKeywordInPageTitle: findKeywordInPageTitle,
-			morphology: getWordForms,
-			prominentWordsForInsights: getProminentWordsForInsights,
-			prominentWordsForInternalLinking: getProminentWordsForInternalLinking,
+		Object.assign( this.config, {
+			language: "ca",
+			functionWords: [],
+			transitionWords,
+			twoPartTransitionWords,
+		} );
+
+		Object.assign( this.config, {
+			getStemmer
 		} );
 	}
 }
