@@ -1,5 +1,5 @@
 import SentencePart from "../../../../values/SentencePart.js";
-import getParticiples from "../helpers/getParticiples.js";
+import getParticiples from "../helpers/internal/getParticiples.js";
 
 /**
  * Creates a English specific sentence part.

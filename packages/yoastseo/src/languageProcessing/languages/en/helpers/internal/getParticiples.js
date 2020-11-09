@@ -1,8 +1,8 @@
 import { forEach, includes } from "lodash-es";
-import getWords from "../../../helpers/word/getWords";
-import matchRegularParticiples from "../../../helpers/passiveVoice/periphrastic/matchRegularParticiples";
-import irregularParticiples from "../config/internal/passiveVoiceIrregulars";
-import EnglishParticiple from "../values/EnglishParticiple";
+import getWords from "../../../../helpers/word/getWords";
+import matchRegularParticiples from "../../../../helpers/passiveVoice/periphrastic/matchRegularParticiples";
+import irregularParticiples from "../../config/internal/passiveVoiceIrregulars";
+import EnglishParticiple from "../../values/EnglishParticiple";
 
 /**
  * Creates participle objects for the participles found in a sentence part.

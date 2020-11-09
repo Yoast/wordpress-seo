@@ -1,7 +1,7 @@
 import { forEach, includes } from "lodash-es";
-import getWords from "../../../helpers/word/getWords";
-import participlesFactory from "../config/internal/participles";
-import PolishParticiple from "../values/PolishParticiple";
+import getWords from "../../../../helpers/word/getWords";
+import participlesFactory from "../../config/internal/participles";
+import PolishParticiple from "../../values/PolishParticiple";
 
 const participles = participlesFactory();
 

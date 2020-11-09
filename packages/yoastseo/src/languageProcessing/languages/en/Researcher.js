@@ -8,7 +8,6 @@ import transitionWords from "./config/transitionWords";
 import twoPartTransitionWords from "./config/twoPartTransitionWords";
 
 // All helpers
-import getParticiples from "./helpers/getParticiples";
 import getSentenceParts from "./helpers/getSentenceParts";
 import getStemmer from "./helpers/getStemmer";
 import isPassiveSentencePart from "./helpers/isPassiveSentencePart";
@@ -43,7 +42,6 @@ export default class Researcher extends AbstractResearcher {
 		} );
 
 		Object.assign( this.helpers, {
-			getParticiples,
 			getSentenceParts,
 			getStemmer,
 			isPassiveSentencePart,

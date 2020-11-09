@@ -1,4 +1,4 @@
-import getParticiples from "./getParticiples";
+import getParticiples from "./internal/getParticiples";
 import determineSentencePartIsPassive from "../../../helpers/passiveVoice/periphrastic/determineSentencePartIsPassive";
 
 /**
