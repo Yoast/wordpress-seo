@@ -166,7 +166,7 @@ export const getCurrentReplacementVariablesForEditor = () => {
 					value: alias.placeholder,
 				} );
 			} );
-		});
+		} );
 	}
 
 	return currentReplaceVarsForEditor;
