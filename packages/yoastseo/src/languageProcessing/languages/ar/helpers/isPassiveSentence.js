@@ -1,4 +1,5 @@
-import getPassiveVerbs from "../config/passiveVoice/passiveVerbsWithLongVowel";
+import getPassiveVerbs from "../config/internal/passiveVerbsWithLongVowel";
+import getWords from "../../../helpers/word/getWords";
 
 /**
  * Checks the passed sentence to see if it contains Arabic passive verb-forms.
@@ -27,4 +28,4 @@ export default function isPassiveSentence( sentence ) {
 	}
 
 	return passiveVerbs.length !== 0;
-};
+}
