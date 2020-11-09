@@ -14,7 +14,7 @@ domReady( () => {
 	initElementorWatcher();
 
 	// Initialize analysis.
-	initAnalysis();
+	const worker = initAnalysis();
 
 	initHighlightFocusKeyphraseForms( worker.runResearch );
 } );

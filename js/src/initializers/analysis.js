@@ -94,6 +94,8 @@ const initAnalysis = () => {
 			debouncedRunAnalysis( worker, currentAnalysisData );
 		}
 	} );
+
+	return worker;
 };
 
 export default initAnalysis;
