@@ -19,8 +19,8 @@ const getAverage = function( total, amount ) {
 /**
  * This calculates the Flesch reading score for a given text.
  *
- * @param {object} paper   			 The paper containing the text.
- * @param {Researcher} researcher    The researcher.
+ * @param {Paper}       paper           The paper containing the text.
+ * @param {Researcher}  researcher      The researcher.
  *
  * @returns {int} The Flesch reading score.
  */
