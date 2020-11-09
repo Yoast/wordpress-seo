@@ -235,6 +235,8 @@ Your question has most likely been answered on our knowledge base: [kb.yoast.com
 = 15.3 =
 Release Date: November 17th, 2020
 
+Out now: Yoast SEO 15.3! In this release, you’ll find full language support for Hebrew in our analysis! This makes it a lot more natural to optimize your posts and it lets you focus on the writing part. Read more about what’s new in Yoast SEO 15.3 in [our release post](https://yoa.st/release-15-3)!
+
 Bugfixes:
 
 * Fixes a bug where no notification to reindex your site would be shown when the indexing process failed.
