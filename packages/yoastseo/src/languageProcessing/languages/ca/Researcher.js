@@ -35,7 +35,7 @@ export default class Researcher extends AbstractResearcher {
 		} );
 
 		Object.assign( this.config, {
-			getStemmer
+			getStemmer,
 		} );
 	}
 }
