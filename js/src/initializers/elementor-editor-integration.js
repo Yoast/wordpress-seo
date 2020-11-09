@@ -1,12 +1,11 @@
 /* eslint-disable require-jsdoc */
 /* global jQuery, window */
 import domReady from "@wordpress/dom-ready";
-import { registerReactComponent } from "../helpers/reactRoot";
-import { get } from "lodash";
 import { dispatch } from "@wordpress/data";
+import { get } from "lodash";
+import { registerReactComponent, renderReactRoot } from "../helpers/reactRoot";
 import ElementorSlot from "../elementor/components/slots/ElementorSlot";
 import ElementorFill from "../elementor/containers/ElementorFill";
-import { renderReactRoot } from "../helpers/reactRoot";
 import { StyleSheetManager } from "styled-components";
 
 /**

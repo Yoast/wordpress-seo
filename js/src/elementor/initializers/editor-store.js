@@ -1,5 +1,5 @@
-import { pickBy } from "lodash";
 import { combineReducers, registerStore } from "@wordpress/data";
+import { pickBy } from "lodash";
 import reducers from "../../redux/reducers";
 import * as selectors from "../../redux/selectors";
 import * as actions from "../../redux/actions";
