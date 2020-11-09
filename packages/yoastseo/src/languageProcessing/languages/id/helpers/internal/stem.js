@@ -1,7 +1,7 @@
 import { buildOneFormFromRegex } from "../morphoHelpers/buildFormRule";
 import createRulesFromMorphologyData from "../morphoHelpers/createRulesFromMorphologyData";
 import { flattenSortLength } from "../morphoHelpers/flattenSortLength";
-import { calculateTotalNumberOfSyllables, removeEnding, checkBeginningsList } from "./helpers";
+import { calculateTotalNumberOfSyllables, removeEnding, checkBeginningsList } from "./stemHelpers";
 
 /**
  * MIT License

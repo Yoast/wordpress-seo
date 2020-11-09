@@ -1,4 +1,5 @@
-import nonPassives from "../config/passiveVoice/nonPassiveVerbsStartingDi";
+import nonPassives from "../config/internal/nonPassiveVerbsStartingDi";
+import getWords from "../../../helpers/word/getWords";
 const passivePrefix = "di";
 
 /**
@@ -32,4 +33,4 @@ export default function isPassiveSentence( sentence ) {
 	} );
 
 	return matchedPassives.length !== 0;
-};
+}
