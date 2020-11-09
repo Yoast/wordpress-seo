@@ -40,6 +40,7 @@ export default class Researcher extends AbstractResearcher {
 		} );
 
 		Object.assign( this.helpers, {
+			getParticiples,
 			getSentenceParts,
 			getStemmer,
 			isPassiveSentencePart,
