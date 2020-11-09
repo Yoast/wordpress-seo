@@ -5,7 +5,7 @@ import transitionWords from "./config/transitionWords";
 import twoPartTransitionWords from "./config/twoPartTransitionWords";
 
 // All helpers
-import { baseStemmer as getStemmer } from "../../helpers/morphology/baseStemmer";
+import getStemmer from "../../helpers/morphology/baseStemmer";
 
 /**
  * The researches contains all the researches

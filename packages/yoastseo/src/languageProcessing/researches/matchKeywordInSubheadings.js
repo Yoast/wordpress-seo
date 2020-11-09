@@ -9,7 +9,7 @@ import { findTopicFormsInString } from "../helpers/match/findKeywordFormsInStrin
  * @param {string[]}    subheadings     The subheadings to check.
  * @param {boolean}     useSynonyms     Whether to match synonyms or only main keyphrase.
  * @param {string}      locale          The current locale.
- * @param {Array}     functionWords	    The function words list.
+ * @param {Array}       functionWords	The function words list.
  *
  * @returns {number} The amount of subheadings reflecting the topic.
  */
@@ -33,7 +33,7 @@ const numberOfSubheadingsReflectingTopic = function( topicForms, subheadings, us
  * @returns {Object} The result object.
  */
 export default function matchKeywordInSubheadings( paper, researcher ) {
-	const functionWords = researcher.hasConfig( "functionWords" );
+	const functionWords = researcher.getConfig( "functionWords" );
 	const text = stripSomeTags( paper.getText() );
 	const topicForms = researcher.getResearch( "morphology" );
 	const locale = paper.getLocale();

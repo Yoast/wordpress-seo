@@ -183,7 +183,7 @@ const getSentenceScores = function( sentences, topicFormsInOneArray, locale, fun
  * @returns {Object} The scores of topic relevance per portion of text and an array of all word forms to highlight.
  */
 const keyphraseDistributionResearcher = function( paper, researcher ) {
-	const functionWords = researcher.hasConfig( "functionWords" );
+	const functionWords = researcher.getConfig( "functionWords" );
 	let text = paper.getText();
 	text = mergeListItems( text );
 	const sentences = getSentences( text );
