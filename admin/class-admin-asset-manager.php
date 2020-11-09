@@ -733,6 +733,7 @@ class WPSEO_Admin_Asset_Manager {
 					'wp-compose',
 					'wp-i18n',
 					'wp-sanitize',
+					'wp-api-fetch',
 					self::PREFIX . 'components',
 					self::PREFIX . 'analysis',
 					self::PREFIX . 'commons',
