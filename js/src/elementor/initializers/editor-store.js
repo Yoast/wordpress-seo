@@ -4,6 +4,7 @@ import reducers from "../../redux/reducers";
 import * as selectors from "../../redux/selectors";
 import * as actions from "../../redux/actions";
 import * as snippetEditorActions from "../redux/actions/snippetEditor";
+import * as analysisSelectors from "../redux/selectors/analysis";
 
 /**
  * Populates the store.
@@ -48,7 +49,11 @@ const populateStore = store => {
 export default function initEditorStore() {
 	const store = registerStore( "yoast-seo/editor", {
 		reducer: combineReducers( reducers ),
-		selectors,
+		selectors: {
+			...selectors,
+			// Add or override selectors that are specific for Elementor.
+			...analysisSelectors,
+		},
 		actions: pickBy( {
 			...actions,
 			// Add or override actions that are specific for Elementor.
