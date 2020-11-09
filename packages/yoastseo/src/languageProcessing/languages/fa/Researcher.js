@@ -1,15 +1,12 @@
-import matchKeywordInSubheadings from "../../researches/base/matchKeywordInSubheadings.js";
-import getProminentWordsForInsights from "../../researches/base/getProminentWordsForInsights";
-import getProminentWordsForInternalLinking from "../../researches/base/getProminentWordsForInternalLinking";
-import getWordForms from "../../researches/_todo/getWordForms";
-import findKeywordInPageTitle from "../../researches/base/findKeywordInPageTitle";
-import { keyphraseDistributionResearcher as keyphraseDistribution } from "../../researches/base/keyphraseDistribution";
-
 import AbstractResearcher from "../../AbstractResearcher";
 
-import getLinkStatistics from "./researches/getLinkStatistics";
-import functionWordsInKeyphrase from "./researches/functionWordsInKeyphrase";
-import keyphraseLength from "./researches/keyphraseLength";
+// All config
+import functionWords from "./config/functionWords";
+
+// All helpers
+import createBasicWordForms from "./helpers/createBasicWordForms";
+import getStemmer from "../../helpers/morphology/baseStemmer";
+
 
 /**
  * The researches contains all the researches
@@ -23,16 +20,22 @@ export default class Researcher extends AbstractResearcher {
 	constructor( paper ) {
 		super( paper );
 
-		Object.assign( this.defaultResearches, {
-			functionWordsInKeyphrase: functionWordsInKeyphrase,
-			matchKeywordInSubheadings: matchKeywordInSubheadings,
-			getLinkStatistics: getLinkStatistics,
-			keyphraseDistribution: keyphraseDistribution,
-			findKeywordInPageTitle: findKeywordInPageTitle,
-			morphology: getWordForms,
-			prominentWordsForInsights: getProminentWordsForInsights,
-			prominentWordsForInternalLinking: getProminentWordsForInternalLinking,
-			keyphraseLength: keyphraseLength,
+		// Delete the researches from the Abstract Researcher that currently are not available for Farsi.
+		delete this.defaultResearches.getFleschReadingScore;
+		delete this.defaultResearches.findTransitionWords;
+		delete this.defaultResearches.getPassiveVoice;
+		delete this.defaultResearches.getSentenceBeginnings;
+		delete this.defaultResearches.stopWordsInUrl;
+		delete this.defaultResearches.stopWordsInKeyword;
+
+		Object.assign( this.config, {
+			language: "fa",
+			functionWords,
+		} );
+
+		Object.assign( this.helpers, {
+			createBasicWordForms,
+			getStemmer,
 		} );
 	}
 }
