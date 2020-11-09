@@ -1,5 +1,5 @@
-import SentencePart from "../../../../../values/SentencePart.js";
-import getParticiples from "../../../../helpers/passiveVoice/periphrastic/getParticiples.js";
+import SentencePart from "../../../../values/SentencePart.js";
+import getParticiples from "../helpers/getParticiples.js";
 
 /**
  * Creates a Polish-specific sentence part.

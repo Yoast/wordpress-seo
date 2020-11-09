@@ -1,6 +1,6 @@
 import getParticiples from "./getParticiples";
 import determineSentencePartIsPassive from "../../../helpers/passiveVoice/periphrastic/determineSentencePartIsPassive";
-import auxiliariesFactory from "../config/passiveVoice/auxiliaries.js";
+import auxiliariesFactory from "../config/internal/auxiliaries.js";
 const auxiliaries = auxiliariesFactory();
 
 /**
@@ -16,7 +16,7 @@ export default function isPassiveSentencePart( sentencePartText, sentencePartAux
 		return false;
 	}
 
-	let participles = getParticiples( sentencePartText, sentencePartAuxiliaries );
+	const participles = getParticiples( sentencePartText, sentencePartAuxiliaries );
 
 	return determineSentencePartIsPassive( participles );
 }
