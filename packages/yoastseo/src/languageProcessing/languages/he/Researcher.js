@@ -5,7 +5,7 @@ import functionWords from "./config/functionWords";
 
 // All helpers
 import createBasicWordForms from "./helpers/createBasicWordForms";
-import { baseStemmer as getStemmer } from "../../helpers/morphology/baseStemmer";
+import getStemmer from "../../helpers/morphology/baseStemmer";
 
 /**
  * The researches contains all the researches
