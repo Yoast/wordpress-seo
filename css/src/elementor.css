@@ -1,7 +1,26 @@
+/*
+ * Style adaptions for the Elementor integration
+ * Mostly fills in the gaps for pieces that normally receive their styles through the block-editor
+*/
+
+:root {
+	--yoast-elementor-color-paragraph: #555D66;
+}
+
+.yoast {
+	font-family: var(--yoast-font-family);
+}
+
+.yoast h2 {
+	color: var(--yoast-color-font-default);
+	margin-bottom: 1em;
+}
+
 .elementor-panel .elementor-tab-control-yoast-tab a:before {
-	background-image: var(--yoast-svg-icon-yoast);
-	background-size: cover;
-	background-repeat: no-repeat;
+	mask-image: var(--yoast-svg-icon-yoast);
+	-webkit-mask-image: var(--yoast-svg-icon-yoast);
+	mask-size: 100% 100%;
+	-webkit-mask-size: 100% 100%;
 	height: 16px;
 	width: 16px;
 	margin: 0 auto;
@@ -12,4 +31,64 @@
 	*/
 	content: ".";
 	color: transparent;
+	background-color: #6d7882;
 }
+
+.yoast-elementor-panel__fills {
+	margin-top: 10px;
+	padding: 5px 5px 0 5px;
+	color: var(--yoast-color-font-default);
+	background-color: var(--yoast-color-white);
+	-webkit-font-smoothing: subpixel-antialiased;
+}
+
+.yoast li, .yoast p, .yoast small, .button-link {
+	margin-bottom: 6px;
+	line-height: 1.5;
+	color: var(--yoast-elementor-color-paragraph);
+}
+
+.yoast-elementor-panel__fills p a, .button-link, .yoast a, .yoast a p {
+	color: var(--yoast-color-link);
+	text-decoration: underline;
+}
+
+.yoast a.dashicons {
+	color: var(--yoast-color-inactive-text);
+}
+
+.button-link {
+	border: none;
+	background: none;
+	cursor: pointer;
+}
+
+.yoast-elementor-panel__fills .UpsellLinkButton, .yoast .yoast-button-upsell {
+	color: var(--yoast-color-label);
+	text-decoration: none;
+}
+
+.yoast-elementor-panel__fills h3 > button {
+	border: none;
+	box-shadow: none;
+	background: none;
+}
+
+/* All hover effects */
+@media(hover:hover) {
+	
+	.yoast a:hover, .yoast a:hover p, .yoast-elementor-panel__fills p a:hover, .button-link:hover {
+		color: var(--yoast-color-primary-darker);
+	}
+
+	.yoast a.dashicons:hover {
+		color: var(--yoast-color-link);
+	}
+
+	.yoast-elementor-panel__fills .UpsellLinkButton:hover, .yoast .yoast-button-upsell:hover {
+		color: var(--yoast-color-label);
+	}
+}
+
+
+/*# sourceMappingURL=elementor.css.map */

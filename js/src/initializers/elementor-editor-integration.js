@@ -2,11 +2,11 @@
 /* global jQuery, window */
 import domReady from "@wordpress/dom-ready";
 import { dispatch } from "@wordpress/data";
-import { Fragment } from "@wordpress/element";
 import { get } from "lodash";
 import { registerReactComponent, renderReactRoot } from "../helpers/reactRoot";
 import ElementorSlot from "../elementor/components/slots/ElementorSlot";
 import ElementorFill from "../elementor/containers/ElementorFill";
+import { StyleSheetManager } from "styled-components";
 
 /**
  * Activates the Elementor save button.
@@ -82,10 +82,12 @@ export default function initElementEditorIntegration() {
 		window.$e.routes.on( "run:after", function( component, route ) {
 			if ( route === "panel/page-settings/yoast-tab" ) {
 				renderReactRoot( window.YoastSEO.store, "elementor-panel-page-settings-controls", (
-					<Fragment>
-						<ElementorSlot />
-						<ElementorFill />
-					</Fragment>
+					<StyleSheetManager target={ window.document.body }>
+						<div className="yoast yoast-elementor-panel__fills">
+							<ElementorSlot />
+							<ElementorFill />
+						</div>
+					</StyleSheetManager>
 				) );
 			}
 		} );
