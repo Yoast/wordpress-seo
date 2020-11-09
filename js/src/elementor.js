@@ -40,6 +40,7 @@ domReady( () => {
 		ReplaceVar,
 	};
 
+	// Initialize focus keyphrase forms highlighting.
 	initHighlightFocusKeyphraseForms( window.YoastSEO.analysis.worker.runResearch );
 } );
 
