@@ -1,5 +1,5 @@
 import areWordsInSentence from "../../../helpers/word/areWordsInSentence";
-import getPassiveVerbs from "../config/internal/participles";
+import getPassiveVerbs from "../config/internal/passiveVerbs";
 
 /**
  * Checks the passed sentence to see if it contains passive verbs.
