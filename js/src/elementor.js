@@ -3,6 +3,7 @@ import initAnalysis from "./initializers/analysis";
 import initElementorEditorIntegration from "./initializers/elementor-editor-integration";
 import initEditorStore from "./elementor/initializers/editor-store";
 import initElementorWatcher from "./watchers/elementorWatcher";
+import initHighlightFocusKeyphraseForms from "./elementor/initializers/highlightFocusKeyphraseForms";
 
 domReady( () => {
 	// Initialize the editor store and set it on the window.
@@ -14,6 +15,8 @@ domReady( () => {
 
 	// Initialize analysis.
 	initAnalysis();
+
+	initHighlightFocusKeyphraseForms( worker.runResearch );
 } );
 
 // Initialize the editor integration.
