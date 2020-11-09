@@ -4,6 +4,7 @@ import { pluginReady, pluginReloaded, registerPlugin, registerModification } fro
 import initAnalysis from "./initializers/analysis";
 import initElementorEditorIntegration from "./initializers/elementor-editor-integration";
 import initEditorStore from "./elementor/initializers/editor-store";
+import initializeUsedKeywords from "./elementor/initializers/used-keywords-assessment";
 import initElementorWatcher from "./watchers/elementorWatcher";
 import initReplaceVarPlugin, { addReplacement, ReplaceVar } from "./elementor/replaceVars/elementor-replacevar-plugin";
 
@@ -38,6 +39,9 @@ domReady( () => {
 		addReplacement,
 		ReplaceVar,
 	};
+
+	// Initialize the Used Keywords Assessment.
+	initializeUsedKeywords( dispatch( "yoast-seo/editor" ).refreshAnalysisDataTimestamp, "get_focus_keyword_usage" );
 } );
 
 // Initialize the editor integration.
