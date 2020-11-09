@@ -1,20 +1,24 @@
+import { get } from "lodash";
+
 /**
  * Returns the replacement for the %%sitename%% variable.
- * @returns {string} The sitename string.
+ *
+ * @returns {string} The sitename.
  */
 function getReplacement() {
-	return window.wpseoScriptData.analysis.plugins.replaceVars.sitename || "";
+	return get( window, "wpseoScriptData.analysis.plugins.replaceVars.replace_vars.sitename", "" );
 }
 
 /**
- * Replaces the %%sitename%% variable in a text if in scope.
+ * Represents the sitename replacement variable.
  *
- * @param {string} text The text to replace the variable in.
- * @returns {string} The modified text.
+ * @returns {Object} The sitename replacement variable.
  */
-export default function replace( text ) {
-	return text.replace(
-		new RegExp( "%%sitename%%", "g" ),
-		getReplacement()
-	);
-}
+export default {
+	name: "sitename",
+	label: "Site title",
+	placeholder: "%%sitename%%",
+	aliases: [],
+	getReplacement,
+	regexp: new RegExp( "%%sitename%%", "g" ),
+};

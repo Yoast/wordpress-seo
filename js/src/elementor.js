@@ -1,9 +1,12 @@
+import { dispatch } from "@wordpress/data";
 import domReady from "@wordpress/dom-ready";
+import { pluginReady, pluginReloaded, registerPlugin, registerModification } from "./elementor/initializers/pluggable";
 import initAnalysis from "./initializers/analysis";
 import initElementorEditorIntegration from "./initializers/elementor-editor-integration";
 import initEditorStore from "./elementor/initializers/editor-store";
 import initElementorWatcher from "./watchers/elementorWatcher";
 import initHighlightFocusKeyphraseForms from "./elementor/initializers/highlightFocusKeyphraseForms";
+import initReplaceVarPlugin, { addReplacement, ReplaceVar } from "./elementor/replaceVars/elementor-replacevar-plugin";
 
 domReady( () => {
 	// Initialize the editor store and set it on the window.
@@ -13,30 +16,32 @@ domReady( () => {
 	// Initialize the editor data watcher.
 	initElementorWatcher();
 
-	// Initialize analysis.
-	const worker = initAnalysis();
+	/*
+	 * Expose pluggable.
+	 *
+	 * Note: this is exposed on YoastSEO directly instead of in a pluggable scope.
+	 * This is so we don't have to adapt Premium or plugins.
+	 */
+	window.YoastSEO.pluginReady = pluginReady;
+	window.YoastSEO.pluginReloaded = pluginReloaded;
+	window.YoastSEO.registerModification = registerModification;
+	window.YoastSEO.registerPlugin = registerPlugin;
 
-	initHighlightFocusKeyphraseForms( worker.runResearch );
+	// Initialize analysis.
+	window.YoastSEO.analysis = window.YoastSEO.analysis || {};
+	window.YoastSEO.analysis.run = dispatch( "yoast-seo/editor" ).refreshAnalysisDataTimestamp;
+	window.YoastSEO.analysis.worker = initAnalysis();
+
+	// Initialize replacement variables plugin.
+	initReplaceVarPlugin();
+	window.YoastSEO.wp = window.YoastSEO.wp || {};
+	window.YoastSEO.wp.replaceVarsPlugin = {
+		addReplacement,
+		ReplaceVar,
+	};
+
+	initHighlightFocusKeyphraseForms( window.YoastSEO.analysis.worker.runResearch );
 } );
 
 // Initialize the editor integration.
 initElementorEditorIntegration();
-
-// STORE INIT
-// Register our store to WP data.
-// Added:
-// - editorData (title, description, slug)
-//		Is slug really an editor data thing? Also, do we need the extra draft slug checks?
-// - searchMetadata (seo title, seo description, focus keyphrase)
-
-// WATCHER INIT
-// Only for non-component data flow into the store.
-// Added: editorData for Elementor
-
-// PAGE INIT
-// - Render React root.
-// > PER COMPONENT INIT
-//   Example: analysis: subscribe to store and refresh when data changed
-
-// Create replacement variable initalization that replaces the `fillReplacementVariables` in the analysis data.
-// Use the new searchMetadata.keyphrase in the KeywordInput component.
