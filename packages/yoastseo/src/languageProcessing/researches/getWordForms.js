@@ -146,7 +146,7 @@ function getWordForms( keyphrase, synonyms, allWordsFromPaper, functionWords = [
 	 * Get all words from the paper text, title, meta description and slug.
 	 * Filter duplicates and function words.
 	 */
-	let paperWords = uniq( allWordsFromPaper.filter( word => ! functionWords.includes( word ) );
+	const paperWords = uniq( allWordsFromPaper.filter( word => ! functionWords.includes( word ) ) );
 
 	// Add stems to words from the paper, filter out all forms that aren't in the keyphrase or synonyms and order alphabetically.
 	const paperWordsWithStems = paperWords
