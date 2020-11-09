@@ -17,6 +17,7 @@ import FacebookPreviewModal from "../../../components/modals/editorModals/Facebo
 import SidebarCollapsible from "../../../components/SidebarCollapsible";
 import SchemaTabContainer from "../../../containers/SchemaTab";
 import AdvancedSettings from "../../../containers/AdvancedSettings";
+import SEMrushRelatedKeyphrases from "../../../containers/SEMrushRelatedKeyphrases";
 
 /**
  * Creates the ElementorFill component.
@@ -46,7 +47,12 @@ export default function ElementorFill( { isLoading, onLoad, settings } ) {
 				<Warning />
 			</SidebarItem>
 			{ settings.isKeywordAnalysisActive && <SidebarItem renderPriority={ 8 }>
-				<KeywordInput />
+				<KeywordInput
+					isSEMrushIntegrationActive={ settings.isSEMrushIntegrationActive }
+				/>
+				{ ! window.wpseoScriptData.metabox.isPremium && <Fill name="YoastRelatedKeyphrases">
+					<SEMrushRelatedKeyphrases />
+				</Fill> }
 			</SidebarItem> }
 			<SidebarItem renderPriority={ 23 }>
 				<GooglePreviewModal />
