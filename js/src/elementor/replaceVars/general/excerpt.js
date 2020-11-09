@@ -1,4 +1,5 @@
 import { select } from "@wordpress/data";
+import { excerptFromContent } from "../../../helpers/replacementVariableHelpers";
 
 /**
  * Returns the replacement for the %%excerpt%% variable.
@@ -6,7 +7,18 @@ import { select } from "@wordpress/data";
  * @returns {string} The excerpt.
  */
 function getReplacement() {
-	return select( "yoast-seo/editor" ).getEditorDataExcerpt();
+	const {
+		getEditorDataContent,
+		getEditorDataExcerpt,
+	} = select( "yoast-seo/editor" );
+	const excerpt = getEditorDataExcerpt();
+
+	// Fallback to the first piece of the content.
+	if ( excerpt === "" ) {
+		return excerptFromContent( getEditorDataContent() );
+	}
+
+	return excerpt;
 }
 
 /**
