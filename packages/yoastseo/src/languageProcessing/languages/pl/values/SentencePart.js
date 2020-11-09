@@ -20,7 +20,7 @@ require( "util" ).inherits( PolishSentencePart, SentencePart );
  * @returns {Array} The array of Participle Objects.
  */
 PolishSentencePart.prototype.getParticiples = function() {
-	return getParticiples( this.getSentencePartText(), this.getAuxiliaries(), "pl" );
+	return getParticiples( this.getSentencePartText(), this.getAuxiliaries() );
 };
 
 export default PolishSentencePart;
