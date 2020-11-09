@@ -1,20 +1,24 @@
+import { select } from "@wordpress/data";
+
 /**
  * Returns the replacement for the %%title%% variable.
- * @returns {string} The title string.
+ *
+ * @returns {string} The title.
  */
 function getReplacement() {
-	return window.YoastSEO.app.rawData.title || "";
+	return select( "yoast-seo/editor" ).getEditorDataTitle();
 }
 
 /**
- * Replaces the %%title%% variable in a text if in scope.
+ * Represents the title replacement variable.
  *
- * @param {string} text The text to replace the variable in.
- * @returns {string} The modified text.
+ * @returns {Object} The title replacement variable.
  */
-export default function replace( text ) {
-	return text.replace(
-		new RegExp( "%%title%%", "g" ),
-		getReplacement()
-	);
-}
+export default {
+	name: "title",
+	label: "Title",
+	placeholder: "%%title%%",
+	aliases: [],
+	getReplacement,
+	regexp: new RegExp( "%%title%%", "g" ),
+};

@@ -1,6 +1,4 @@
-import {
-	isUndefined,
-} from "lodash-es";
+import { get, isUndefined } from "lodash";
 
 /**
  * Returns the replacement for the %%parent_title%% variable.
@@ -13,7 +11,7 @@ function getReplacement() {
 	if ( ! isUndefined( parent ) && ! isUndefined( parent.prop( "options" ) ) ) {
 		const parentText = parent.find( "option:selected" ).text();
 
-		if ( parentText !== window.wpseoScriptData.analysis.plugins.replaceVars.no_parent_text ) {
+		if ( parentText !== get( window, "wpseoScriptData.analysis.plugins.replaceVars.replace_vars.no_parent_text", "" ) ) {
 			text = parentText;
 		}
 	}
@@ -21,14 +19,15 @@ function getReplacement() {
 }
 
 /**
- * Replaces the %%parent_title%% variable in a text if in scope.
+ * Represents the parent_title replacement variable.
  *
- * @param {string} text The text to replace the variable in.
- * @returns {string} The modified text.
+ * @returns {Object} The parent_title replacement variable.
  */
-export default function replace( text ) {
-	return text.replace(
-		new RegExp( "%%parent_title%%", "g" ),
-		getReplacement()
-	);
-}
+export default {
+	name: "parent_title",
+	label: "Category",
+	placeholder: "%%parent_title%%",
+	aliases: [],
+	getReplacement,
+	regexp: new RegExp( "%%parent_title%%", "g" ),
+};

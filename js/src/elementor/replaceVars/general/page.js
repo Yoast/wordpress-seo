@@ -1,20 +1,24 @@
+import { get } from "lodash";
+
 /**
  * Returns the replacement for the %%page%% variable.
- * @returns {string} The page string.
+ *
+ * @returns {string} The page.
  */
 function getReplacement() {
-	return window.wpseoScriptData.analysis.plugins.replaceVars.page || "";
+	return get( window, "wpseoScriptData.analysis.plugins.replaceVars.replace_vars.page", "" );
 }
 
 /**
- * Replaces the %%page%% variable in a text if in scope.
+ * Represents the page replacement variable.
  *
- * @param {string} text The text to replace the variable in.
- * @returns {string} The modified text.
+ * @returns {Object} The page replacement variable.
  */
-export default function replace( text ) {
-	return text.replace(
-		new RegExp( "%%page%%", "g" ),
-		getReplacement()
-	);
-}
+export default {
+	name: "page",
+	label: "Page",
+	placeholder: "%%page%%",
+	aliases: [],
+	getReplacement,
+	regexp: new RegExp( "%%page%%", "g" ),
+};

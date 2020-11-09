@@ -1,20 +1,24 @@
+import { get } from "lodash";
+
 /**
  * Returns the replacement for the %%primary_category%% variable.
- * @returns {string} The primary_category string.
+ *
+ * @returns {string} The primary_category.
  */
 function getReplacement() {
-	return window.YoastSEO.app.rawData.primaryCategory || "";
+	return get( window, "YoastSEO.app.rawData.primaryCategory", "" );
 }
 
 /**
- * Replaces the %%primary_category%% variable in a text if in scope.
+ * Represents the primary category replacement variable.
  *
- * @param {string} text The text to replace the variable in.
- * @returns {string} The modified text.
+ * @returns {Object} The primary category replacement variable.
  */
-export default function replace( text ) {
-	return text.replace(
-		new RegExp( "%%primary_category%%", "g" ),
-		getReplacement()
-	);
-}
+export default {
+	name: "primary_category",
+	label: "Primary category",
+	placeholder: "%%primary_category%%",
+	aliases: [],
+	getReplacement,
+	regexp: new RegExp( "%%primary_category%%", "g" ),
+};

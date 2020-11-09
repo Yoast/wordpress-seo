@@ -1,10 +1,11 @@
 import { dispatch, select, subscribe } from "@wordpress/data";
-import { Paper } from "yoastseo";
 import { debounce, isEqual } from "lodash";
+import { Paper } from "yoastseo";
 import { refreshDelay } from "../analysis/constants";
-import { createAnalysisWorker, getAnalysisConfiguration } from "../analysis/worker";
-import { sortResultsByIdentifier } from "../analysis/refreshAnalysis";
 import handleWorkerError from "../analysis/handleWorkerError";
+import { sortResultsByIdentifier } from "../analysis/refreshAnalysis";
+import { createAnalysisWorker, getAnalysisConfiguration } from "../analysis/worker";
+import { applyModifications } from "../elementor/initializers/pluggable";
 
 /**
  * Runs the analysis.
@@ -47,9 +48,25 @@ async function runAnalysis( worker, data ) {
 const debouncedRunAnalysis = debounce( runAnalysis, refreshDelay );
 
 /**
+ * Applies the relevant pluggable modifications to the analysis data.
+ *
+ * @param {Object} analysisData The analysis data.
+ *
+ * @returns {Object} The analysis data.
+ */
+const applyAnalysisModifications = ( analysisData ) => {
+	analysisData.title = applyModifications( "data_page_title", analysisData.title );
+	analysisData.title = applyModifications( "title", analysisData.title );
+	analysisData.description = applyModifications( "data_meta_desc", analysisData.description );
+	analysisData.text = applyModifications( "content", analysisData.text );
+
+	return analysisData;
+};
+
+/**
  * Sets up the analysis.
  *
- * @returns {void}
+ * @returns {AnalysisWorkerWrapper} The analysis worker.
  */
 const initAnalysis = () => {
 	// Get the selectors.
@@ -66,14 +83,20 @@ const initAnalysis = () => {
 	).catch( handleWorkerError );
 
 	// Initialize the data for the "is dirty" checks.
-	let previousAnalysisData = getAnalysisData();
+	let previousAnalysisData = applyAnalysisModifications( getAnalysisData() );
 	let previousIsCornerstone = isCornerstoneContent();
 
-	// Listen to store changes.
+	/*
+	 * Listen to store changes.
+	 *
+	 * Because the modifications in pluggable are not in the store, they can change without our subscribe triggering.
+	 * We offer a "refresh": `dispatch( "yoast-seo/editor" ).refreshAnalysisDataTimestamp`, that stores a timestamp in the store.
+	 * When this timestamp changes, the subscribe runs and we check whether the data (including modifications) has changed.
+	 */
 	subscribe( () => {
 		// Fetch the current data.
 		const currentIsCornerstone = isCornerstoneContent();
-		const currentAnalysisData = getAnalysisData();
+		const currentAnalysisData = applyAnalysisModifications( getAnalysisData() );
 
 		// Keep the is cornerstone content up-to-date. When changed, also update the analysis results.
 		if ( currentIsCornerstone !== previousIsCornerstone ) {
@@ -94,6 +117,8 @@ const initAnalysis = () => {
 			debouncedRunAnalysis( worker, currentAnalysisData );
 		}
 	} );
+
+	return worker;
 };
 
 export default initAnalysis;

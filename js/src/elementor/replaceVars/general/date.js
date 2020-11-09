@@ -1,20 +1,24 @@
+import { get } from "lodash";
+
 /**
  * Returns the replacement for the %%date%% variable.
- * @returns {string} The date string.
+ *
+ * @returns {string} The date.
  */
 function getReplacement() {
-	return window.wpseoScriptData.analysis.plugins.replaceVars.date || "";
+	return get( window, "wpseoScriptData.analysis.plugins.replaceVars.replace_vars.date", "" );
 }
 
 /**
- * Replaces the %%date%% variable in a text if in scope.
+ * Represents the date replacement variable.
  *
- * @param {string} text The text to replace the variable in.
- * @returns {string} The modified text.
+ * @returns {Object} The date replacement variable.
  */
-export default function replace( text ) {
-	return text.replace(
-		new RegExp( "%%date%%", "g" ),
-		getReplacement()
-	);
-}
+export default {
+	name: "date",
+	label: "Date",
+	placeholder: "%%date%%",
+	aliases: [],
+	getReplacement,
+	regexp: new RegExp( "%%date%%", "g" ),
+};
