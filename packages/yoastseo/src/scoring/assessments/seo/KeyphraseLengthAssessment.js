@@ -62,7 +62,7 @@ class KeyphraseLengthAssessment extends Assessment {
 		this._boundaries = this._config.parameters;
 
 		// Make the boundaries less strict if the language of the current paper doesn't have function word support.
-		if ( this._keyphraseLengthData.hasFunctionWords === false ) {
+		if ( this._keyphraseLengthData.functionWords.length === 0 ) {
 			this._boundaries = merge( {}, this._config.parameters, this._config.parametersNoFunctionWordSupport  );
 		}
 
