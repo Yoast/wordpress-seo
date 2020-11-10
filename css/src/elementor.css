@@ -59,7 +59,7 @@
 	color: var(--yoast-color-inactive-text);
 	height: 24px;
 	width: 24px;
-	vertical-align: middle;
+	vertical-align: text-bottom;
 }
 
 .button-link {
