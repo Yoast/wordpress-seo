@@ -204,6 +204,13 @@ module.exports = function( grunt ) {
 			command: "yarn list --pattern 'yoastseo|yoast-components' --depth=0",
 		},
 
+		"install-schema-blocks": {
+			// If no dist directory exists in schema-blocks then build the package.
+			command: "if [ ! -d node_modules/@yoast/schema-blocks/dist ]; then " +
+				"cd node_modules/@yoast/schema-blocks && yarn install && yarn build; " +
+				"fi",
+		},
+
 		"check-for-uncommitted-changes": {
 			// --porcelain gives the output in an easy-to-parse format for scripts.
 			command: "git status --porcelain",
