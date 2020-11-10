@@ -1,11 +1,8 @@
 import { inRange, merge } from "lodash-es";
 
 import Assessment from "../assessment";
-import getLanguageAvailability from "../../../helpers/_todo/getLanguageAvailability";
 import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
 import AssessmentResult from "../../../values/AssessmentResult";
-
-const availableLanguages = [ "en", "nl", "de", "it", "ru", "fr", "es", "pt" ];
 
 /**
  * Assessment to check how readable the text is, based on the Flesch reading ease test.
@@ -39,7 +36,7 @@ class FleschReadingEaseAssessment extends Assessment {
 	 * @returns {Object} An assessmentResult with the score and formatted text.
 	 */
 	getResult( paper, researcher, i18n ) {
-		this.fleschReadingResult = researcher.getResearch( "calculateFleschReading" );
+		this.fleschReadingResult = researcher.getResearch( "getFleschReadingScore" );
 		if ( this.isApplicable( paper ) ) {
 			const assessmentResult =  new AssessmentResult( i18n );
 			const calculatedResult = this.calculateResult( i18n );

@@ -6,14 +6,13 @@ import functionWords from "./config/functionWords";
 import stopWords from "./config/stopWords";
 import transitionWords from "./config/transitionWords";
 import twoPartTransitionWords from "./config/twoPartTransitionWords";
+import syllables from "./config/syllables.json";
 
 // All helpers
 import getSentenceParts from "./helpers/getSentenceParts";
 import getStemmer from "./helpers/getStemmer";
 import isPassiveSentencePart from "./helpers/isPassiveSentencePart";
-
-// All researches
-import calculateFleschReading from "./researches/calculateFleschReading";
+import fleschReadingScore from "./helpers/calculateFleschReadingScore";
 
 /**
  * The researches contains all the researches
@@ -27,10 +26,6 @@ export default class Researcher extends AbstractResearcher {
 	constructor( paper ) {
 		super( paper );
 
-		Object.assign( this.defaultResearches, {
-			calculateFleschReading,
-		} );
-
 		Object.assign( this.config, {
 			language: "en",
 			isPeriphrastic: true,
@@ -39,12 +34,14 @@ export default class Researcher extends AbstractResearcher {
 			stopWords,
 			transitionWords,
 			twoPartTransitionWords,
+			syllables,
 		} );
 
 		Object.assign( this.helpers, {
 			getSentenceParts,
 			getStemmer,
 			isPassiveSentencePart,
+			fleschReadingScore,
 		} );
 	}
 }
