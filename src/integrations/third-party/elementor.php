@@ -399,7 +399,7 @@ class Elementor implements Integration_Interface {
 	protected function render_hidden_fields() {
 		// Wrap in a form with an action and post_id for the submit.
 		printf(
-			'<form id="yoast-form" method="post" action="%1$s"><input type="hidden" name="action" value="wpseo_elementor_save" /><input type="hidden" name="post_id" value="%2$s" />',
+			'<form id="yoast-form" method="post" action="%1$s"><input type="hidden" name="action" value="wpseo_elementor_save" /><input type="hidden" id="post_ID" name="post_id" value="%2$s" />',
 			\esc_url( \admin_url( 'admin-ajax.php' ) ),
 			\esc_attr( $this->get_metabox_post()->ID )
 		);
