@@ -108,7 +108,7 @@ class Schema_Blocks_Test extends TestCase {
 	 */
 	public function test_load_with_filter() {
 		// First add a template.
-		Monkey\Filters\expectApplied( 'wpseo_schema_templates' )
+		Monkey\Filters\expectApplied( 'wpseo_load_schema_templates' )
 			->andReturn( [ WPSEO_PATH . '/src/schema-templates/recipe.block.php' ] );
 
 		Monkey\Functions\expect( 'wp_enqueue_script' )->once();
@@ -126,7 +126,7 @@ class Schema_Blocks_Test extends TestCase {
 	 */
 	public function test_load_with_filter_returning_faulty_value() {
 		// First add a template.
-		Monkey\Filters\expectApplied( 'wpseo_schema_templates' )
+		Monkey\Filters\expectApplied( 'wpseo_load_schema_templates' )
 			->andReturnFalse();
 
 		Monkey\Functions\expect( 'wp_enqueue_script' )->never();
@@ -157,7 +157,7 @@ class Schema_Blocks_Test extends TestCase {
 	 * @covers ::load
 	 */
 	public function test_load_with_having_no_templates_set() {
-		Monkey\Filters\expectApplied( 'wpseo_schema_templates' );
+		Monkey\Filters\expectApplied( 'wpseo_load_schema_templates' );
 
 		Monkey\Functions\expect( 'wp_enqueue_script' )->never();
 		Monkey\Functions\expect( 'wp_enqueue_style' )->never();

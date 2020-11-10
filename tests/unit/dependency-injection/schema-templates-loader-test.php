@@ -36,18 +36,20 @@ class Schema_Templates_Loader_Test extends TestCase {
 	 * @covers ::get_templates
 	 */
 	public function test_get_templates() {
+		$schema_directory = dirname( WPSEO_FILE ) . '/config/dependency-injection/../../src/schema-templates/';
+
 		$expected_schema_blocks = [
-			dirname( WPSEO_FILE ) . '/config/dependency-injection/../../src/schema-templates/address.block.php',
-			dirname( WPSEO_FILE ) . '/config/dependency-injection/../../src/schema-templates/address.schema.php',
-			dirname( WPSEO_FILE ) . '/config/dependency-injection/../../src/schema-templates/image.schema.php',
-			dirname( WPSEO_FILE ) . '/config/dependency-injection/../../src/schema-templates/ingredients.block.php',
-			dirname( WPSEO_FILE ) . '/config/dependency-injection/../../src/schema-templates/ingredients.schema.php',
-			dirname( WPSEO_FILE ) . '/config/dependency-injection/../../src/schema-templates/recipe.block.php',
-			dirname( WPSEO_FILE ) . '/config/dependency-injection/../../src/schema-templates/recipe.schema.php',
-			dirname( WPSEO_FILE ) . '/config/dependency-injection/../../src/schema-templates/step.block.php',
-			dirname( WPSEO_FILE ) . '/config/dependency-injection/../../src/schema-templates/step.schema.php',
-			dirname( WPSEO_FILE ) . '/config/dependency-injection/../../src/schema-templates/steps.block.php',
-			dirname( WPSEO_FILE ) . '/config/dependency-injection/../../src/schema-templates/steps.schema.php',
+			$schema_directory . 'address.block.php',
+			$schema_directory . 'address.schema.php',
+			$schema_directory . 'image.schema.php',
+			$schema_directory . 'ingredients.block.php',
+			$schema_directory . 'ingredients.schema.php',
+			$schema_directory . 'recipe.block.php',
+			$schema_directory . 'recipe.schema.php',
+			$schema_directory . 'step.block.php',
+			$schema_directory . 'step.schema.php',
+			$schema_directory . 'steps.block.php',
+			$schema_directory . 'steps.schema.php',
 		];
 
 		static::assertEquals(

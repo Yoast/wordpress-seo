@@ -66,7 +66,7 @@ class Schema_Blocks implements Integration_Interface {
 		 *
 		 * @param array $templates The templates to filter.
 		 */
-		$templates = \apply_filters( 'wpseo_schema_templates', $this->templates );
+		$templates = \apply_filters( 'wpseo_load_schema_templates', $this->templates );
 		if ( ! is_array( $templates ) || empty( $templates ) ) {
 			return;
 		}
