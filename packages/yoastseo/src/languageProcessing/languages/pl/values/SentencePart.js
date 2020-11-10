@@ -1,5 +1,5 @@
-import SentencePart from "../../../../../values/SentencePart.js";
-import getParticiples from "../../../../helpers/passiveVoice/periphrastic/getParticiples.js";
+import SentencePart from "../../../../values/SentencePart.js";
+import getParticiples from "../helpers/internal/getParticiples.js";
 
 /**
  * Creates a Polish-specific sentence part.
@@ -20,7 +20,7 @@ require( "util" ).inherits( PolishSentencePart, SentencePart );
  * @returns {Array} The array of Participle Objects.
  */
 PolishSentencePart.prototype.getParticiples = function() {
-	return getParticiples( this.getSentencePartText(), this.getAuxiliaries(), "pl" );
+	return getParticiples( this.getSentencePartText(), this.getAuxiliaries() );
 };
 
 export default PolishSentencePart;

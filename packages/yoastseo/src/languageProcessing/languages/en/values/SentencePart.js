@@ -1,16 +1,15 @@
 import SentencePart from "../../../../values/SentencePart.js";
-import getParticiples from "../helpers/getParticiples.js";
+import getParticiples from "../helpers/internal/getParticiples.js";
 
 /**
  * Creates a English specific sentence part.
  *
  * @param {string} sentencePartText The text from the sentence part.
  * @param {Array} auxiliaries The list of auxiliaries from the sentence part.
- * @param {string} locale The locale used for this sentence part.
  * @constructor
  */
-var EnglishSentencePart = function( sentencePartText, auxiliaries, locale ) {
-	SentencePart.call( this, sentencePartText, auxiliaries, locale );
+var EnglishSentencePart = function( sentencePartText, auxiliaries ) {
+	SentencePart.call( this, sentencePartText, auxiliaries, "en_EN" );
 };
 
 require( "util" ).inherits( EnglishSentencePart, SentencePart );
@@ -21,7 +20,7 @@ require( "util" ).inherits( EnglishSentencePart, SentencePart );
  */
 
 EnglishSentencePart.prototype.getParticiples = function() {
-	return getParticiples( this.getSentencePartText(), this.getAuxiliaries(), "en" );
+	return getParticiples( this.getSentencePartText(), this.getAuxiliaries() );
 };
 
 export default EnglishSentencePart;
