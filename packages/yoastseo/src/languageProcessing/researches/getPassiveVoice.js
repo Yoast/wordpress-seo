@@ -4,13 +4,11 @@ import Sentence from "../../values/Sentence.js";
 
 import { forEach } from "lodash-es";
 
-/* Languages that employ both morphological and periphrastic passive voice marking have not been implemented yet.
- * const morphologicalAndPeriphrasticLanguages = [ "da", "nb" ];
- */
+// Languages that employ both morphological and periphrastic passive voice marking have not been implemented yet: "da", "nb".
 
 /**
  * Looks for morphological passive voice.
- * Supported morphological languages: "ru", "tr", "sv", "id", "ar".
+ * Supported morphological languages: "ru", "sv", "id", "ar".
  *
  * @param {Paper}      paper      The paper object.
  * @param {Researcher} researcher The researcher.
@@ -45,7 +43,7 @@ export const getMorphologicalPassives = function( paper, researcher ) {
 
 /**
  * Looks for periphrastic passive voice.
- * Supported periphrastic languages: "en", "de", "nl", "fr", "es", "it", "pt", "cn", "pl".
+ * Supported periphrastic languages: "en", "de", "nl", "fr", "es", "it", "pt", "pl".
  *
  * @param {Paper}      paper      The paper object.
  * @param {Researcher} researcher The researcher.
