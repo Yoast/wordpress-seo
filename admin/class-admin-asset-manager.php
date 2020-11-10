@@ -225,6 +225,13 @@ class WPSEO_Admin_Asset_Manager {
 				],
 			],
 			[
+				'name' => 'schema-blocks',
+				'src'  => 'schema-blocks-' . $flat_version,
+				'deps' => [
+					self::PREFIX . 'schema-blocks-package',
+				],
+			],
+			[
 				'name' => 'yoast-modal',
 				'src'  => 'modal-' . $flat_version,
 				'deps' => [
@@ -439,6 +446,7 @@ class WPSEO_Admin_Asset_Manager {
 					self::PREFIX . 'helpers',
 					self::PREFIX . 'legacy-components',
 					self::PREFIX . 'commons',
+					self::PREFIX . 'configuration-wizard-package',
 				],
 			],
 			[
@@ -454,6 +462,22 @@ class WPSEO_Admin_Asset_Manager {
 					self::PREFIX . 'style-guide',
 					self::PREFIX . 'yoast-components',
 					self::PREFIX . 'commons',
+				],
+			],
+			[
+				'name' => 'schema-blocks-package',
+				'src'  => 'yoast/schema-blocks-' . $flat_version,
+				'deps' => [
+					'lodash',
+					'moment',
+					'wp-element',
+					'wp-blocks',
+					'wp-block-editor',
+					'wp-data',
+					'wp-hooks',
+					'wp-components',
+					'wp-i18n',
+					'wp-editor',
 				],
 			],
 			[
@@ -586,7 +610,6 @@ class WPSEO_Admin_Asset_Manager {
 					self::PREFIX . 'helpers',
 					self::PREFIX . 'yoast-components',
 					self::PREFIX . 'analysis-report',
-					self::PREFIX . 'configuration-wizard-package',
 					self::PREFIX . 'search-metadata-previews',
 					self::PREFIX . 'replacement-variable-editor',
 					self::PREFIX . 'jed',
@@ -851,6 +874,10 @@ class WPSEO_Admin_Asset_Manager {
 				'name' => 'structured-data-blocks',
 				'src'  => 'structured-data-blocks-' . $flat_version,
 				'deps' => [ 'wp-edit-blocks' ],
+			],
+			[
+				'name' => 'schema-blocks',
+				'src'  => 'schema-blocks-' . $flat_version,
 			],
 			[
 				'name' => 'elementor',

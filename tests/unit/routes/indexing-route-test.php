@@ -177,7 +177,7 @@ class Indexing_Route_Test extends TestCase {
 		Monkey\Functions\expect( 'register_rest_route' )
 			->with(
 				'yoast/v1',
-				'indexation/prepare',
+				'indexing/prepare',
 				[
 					'methods'             => 'POST',
 					'callback'            => [ $this->instance, 'prepare' ],
@@ -188,7 +188,7 @@ class Indexing_Route_Test extends TestCase {
 		Monkey\Functions\expect( 'register_rest_route' )
 			->with(
 				'yoast/v1',
-				'indexation/complete',
+				'indexing/complete',
 				[
 					'methods'             => 'POST',
 					'callback'            => [ $this->instance, 'complete' ],
@@ -199,7 +199,7 @@ class Indexing_Route_Test extends TestCase {
 		Monkey\Functions\expect( 'register_rest_route' )
 			->with(
 				'yoast/v1',
-				'indexation/posts',
+				'indexing/posts',
 				[
 					'methods'             => 'POST',
 					'callback'            => [ $this->instance, 'index_posts' ],
@@ -210,7 +210,7 @@ class Indexing_Route_Test extends TestCase {
 		Monkey\Functions\expect( 'register_rest_route' )
 			->with(
 				'yoast/v1',
-				'indexation/terms',
+				'indexing/terms',
 				[
 					'methods'             => 'POST',
 					'callback'            => [ $this->instance, 'index_terms' ],
@@ -221,7 +221,7 @@ class Indexing_Route_Test extends TestCase {
 		Monkey\Functions\expect( 'register_rest_route' )
 			->with(
 				'yoast/v1',
-				'indexation/post-type-archives',
+				'indexing/post-type-archives',
 				[
 					'methods'             => 'POST',
 					'callback'            => [ $this->instance, 'index_post_type_archives' ],
@@ -232,7 +232,7 @@ class Indexing_Route_Test extends TestCase {
 		Monkey\Functions\expect( 'register_rest_route' )
 			->with(
 				'yoast/v1',
-				'indexation/general',
+				'indexing/general',
 				[
 					'methods'             => 'POST',
 					'callback'            => [ $this->instance, 'index_general' ],
@@ -243,7 +243,7 @@ class Indexing_Route_Test extends TestCase {
 		Monkey\Functions\expect( 'register_rest_route' )
 			->with(
 				'yoast/v1',
-				'indexation/indexables-complete',
+				'indexing/indexables-complete',
 				[
 					'methods'             => 'POST',
 					'callback'            => [ $this->instance, 'indexables_complete' ],
@@ -293,7 +293,7 @@ class Indexing_Route_Test extends TestCase {
 			->andReturn( \array_fill( 0, 25, true ) );
 
 		Monkey\Functions\expect( 'rest_url' )
-			->with( 'yoast/v1/indexation/posts' )
+			->with( 'yoast/v1/indexing/posts' )
 			->andReturnFirstArg();
 
 		Mockery::mock( 'overload:WP_REST_Response' );
@@ -318,7 +318,7 @@ class Indexing_Route_Test extends TestCase {
 			->andReturn( \array_fill( 0, 25, true ) );
 
 		Monkey\Functions\expect( 'rest_url' )
-			->with( 'yoast/v1/indexation/terms' )
+			->with( 'yoast/v1/indexing/terms' )
 			->andReturnFirstArg();
 
 		Mockery::mock( 'overload:WP_REST_Response' );
@@ -343,7 +343,7 @@ class Indexing_Route_Test extends TestCase {
 			->andReturn( \array_fill( 0, 25, true ) );
 
 		Monkey\Functions\expect( 'rest_url' )
-			->with( 'yoast/v1/indexation/post-type-archives' )
+			->with( 'yoast/v1/indexing/post-type-archives' )
 			->andReturnFirstArg();
 
 		Mockery::mock( 'overload:WP_REST_Response' );
@@ -369,7 +369,7 @@ class Indexing_Route_Test extends TestCase {
 			->andReturn( \array_fill( 0, 25, true ) );
 
 		Monkey\Functions\expect( 'rest_url' )
-			->with( 'yoast/v1/indexation/general' )
+			->with( 'yoast/v1/indexing/general' )
 			->andReturnFirstArg();
 
 		Mockery::mock( 'overload:WP_REST_Response' );
@@ -451,7 +451,7 @@ class Indexing_Route_Test extends TestCase {
 	public function test_index_general_when_error_occurs() {
 		$this->general_indexation_action->expects( 'index' )->andThrow( new \Exception( 'An exception during indexing' ) );
 
-		$this->indexing_helper->expects( 'set_reason' )->with( Indexing_Reasons::REASON_INDEXING_FAILED );
+		$this->indexing_helper->expects( 'indexing_failed' )->withNoArgs();
 
 		Mockery::mock( '\WP_Error' );
 

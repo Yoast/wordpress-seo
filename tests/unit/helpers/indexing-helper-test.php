@@ -178,7 +178,7 @@ class Indexing_Helper_Test extends TestCase {
 		$this->options_helper
 			->expects( 'set' )
 			->once()
-			->with( 'indexation_started', $start_time );
+			->with( 'indexing_started', $start_time );
 
 		$this->instance->start();
 	}
@@ -194,7 +194,7 @@ class Indexing_Helper_Test extends TestCase {
 		$this->options_helper
 			->expects( 'set' )
 			->once()
-			->with( 'indexation_started', null );
+			->with( 'indexing_started', null );
 
 		$this->options_helper
 			->expects( 'set' )
@@ -269,7 +269,7 @@ class Indexing_Helper_Test extends TestCase {
 		$this->options_helper
 			->expects( 'get' )
 			->once()
-			->with( 'indexation_started' )
+			->with( 'indexing_started' )
 			->andReturn( $start_time );
 
 		$this->assertSame( $start_time, $this->instance->get_started() );

@@ -8,6 +8,7 @@ use Yoast\WP\SEO\Actions\Indexing\Indexable_Post_Type_Archive_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexing\Indexable_Term_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexing\Post_Link_Indexing_Action;
 use Yoast\WP\SEO\Actions\Indexing\Term_Link_Indexing_Action;
+use Yoast\WP\SEO\Config\Indexing_Reasons;
 use Yoast\WP\SEO\Integrations\Admin\Indexing_Notification_Integration;
 use Yoast_Notification_Center;
 
@@ -38,21 +39,21 @@ class Indexing_Helper {
 	protected $notification_center;
 
 	/**
-	 * The post indexation action.
+	 * The post indexing action.
 	 *
 	 * @var Indexable_Post_Indexation_Action
 	 */
 	protected $post_indexation;
 
 	/**
-	 * The term indexation action.
+	 * The term indexing action.
 	 *
 	 * @var Indexable_Term_Indexation_Action
 	 */
 	protected $term_indexation;
 
 	/**
-	 * The post type archive indexation action.
+	 * The post type archive indexing action.
 	 *
 	 * @var Indexable_Post_Type_Archive_Indexation_Action
 	 */
@@ -73,7 +74,7 @@ class Indexing_Helper {
 	protected $term_link_indexing_action;
 
 	/**
-	 * Represents the general indexation.
+	 * Represents the general indexing.
 	 *
 	 * @var Indexable_General_Indexation_Action
 	 */
@@ -101,12 +102,12 @@ class Indexing_Helper {
 	 *
 	 * @required
 	 *
-	 * @param Indexable_Post_Indexation_Action              $post_indexation
-	 * @param Indexable_Term_Indexation_Action              $term_indexation
-	 * @param Indexable_Post_Type_Archive_Indexation_Action $post_type_archive_indexation
-	 * @param Indexable_General_Indexation_Action           $general_indexation
-	 * @param Post_Link_Indexing_Action                     $post_link_indexing_action
-	 * @param Term_Link_Indexing_Action                     $term_link_indexing_action
+	 * @param Indexable_Post_Indexation_Action              $post_indexation              The post indexing action.
+	 * @param Indexable_Term_Indexation_Action              $term_indexation              The term indexing action.
+	 * @param Indexable_Post_Type_Archive_Indexation_Action $post_type_archive_indexation The posttype indexing action.
+	 * @param Indexable_General_Indexation_Action           $general_indexation           The general indexing (homepage etc) action.
+	 * @param Post_Link_Indexing_Action                     $post_link_indexing_action    The post crosslink indexing action.
+	 * @param Term_Link_Indexing_Action                     $term_link_indexing_action    The term crossling indexing action.
 	 */
 	public function set_indexing_actions(
 		Indexable_Post_Indexation_Action $post_indexation,
@@ -125,7 +126,7 @@ class Indexing_Helper {
 	}
 
 	/**
-	 * Sets several database options when the indexable indexing process is started.
+	 * Sets several database options when the indexing process is started.
 	 *
 	 * @return void
 	 */
@@ -140,8 +141,18 @@ class Indexing_Helper {
 	 * @return void
 	 */
 	public function finish() {
-		$this->set_started( null );
 		$this->set_reason( '' );
+		$this->set_started( null );
+	}
+
+	/**
+	 * Sets appropriate flags when the indexing process fails.
+	 *
+	 * @return void
+	 */
+	public function indexing_failed() {
+		$this->set_reason( Indexing_Reasons::REASON_INDEXING_FAILED );
+		$this->set_started( null );
 	}
 
 	/**
@@ -169,7 +180,7 @@ class Indexing_Helper {
 	 * @return bool Whether an indexing reason has been set in the options.
 	 */
 	public function has_reason() {
-		$reason = $this->options_helper->get( 'indexing_reason', '' );
+		$reason = $this->get_reason();
 
 		return ! empty( $reason );
 	}
@@ -186,12 +197,12 @@ class Indexing_Helper {
 	/**
 	 * Sets the start time when the indexing process has started but not completed.
 	 *
-	 * @param int|bool $value The start time when the indexing process has started but not completed, false otherwise.
+	 * @param int|bool $timestamp The start time when the indexing process has started but not completed, false otherwise.
 	 *
 	 * @return void
 	 */
-	public function set_started( $value ) {
-		$this->options_helper->set( 'indexation_started', $value );
+	public function set_started( $timestamp ) {
+		$this->options_helper->set( 'indexing_started', $timestamp );
 	}
 
 	/**
@@ -200,7 +211,7 @@ class Indexing_Helper {
 	 * @return int|bool $start_time The start time when the indexing process has started but not completed, false otherwise.
 	 */
 	public function get_started() {
-		return $this->options_helper->get( 'indexation_started' );
+		return $this->options_helper->get( 'indexing_started' );
 	}
 
 	/**

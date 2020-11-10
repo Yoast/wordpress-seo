@@ -42,6 +42,7 @@ class WPSEO_Admin_Init {
 		add_action( 'admin_init', [ $this, 'show_hook_deprecation_warnings' ] );
 		add_action( 'admin_init', [ 'WPSEO_Plugin_Conflict', 'hook_check_for_plugin_conflicts' ] );
 		add_action( 'admin_notices', [ $this, 'permalink_settings_notice' ] );
+		add_action( 'post_submitbox_misc_actions', [ $this, 'add_publish_box_section' ] );
 
 		/*
 		 * The `admin_notices` hook fires on single site admin pages vs.
@@ -552,6 +553,27 @@ class WPSEO_Admin_Init {
 			esc_js( wp_create_nonce( 'wpseo-ignore' ) ),
 			esc_html__( 'I don\'t want this site to show in the search results.', 'wordpress-seo' )
 		);
+	}
+
+	/**
+	 * Adds a custom Yoast section within the Classic Editor publish box.
+	 *
+	 * @param \WP_Post $post The current post object.
+	 *
+	 * @return void
+	 */
+	public function add_publish_box_section( $post ) {
+		if ( in_array( $this->pagenow, [ 'post.php', 'post-new.php' ], true ) ) {
+			?>
+			<div id="yoast-seo-publishbox-section"></div>
+			<?php
+			/**
+			 * Fires after the post time/date setting in the Publish meta box.
+			 *
+			 * @api \WP_Post The current post object.
+			 */
+			do_action( 'wpseo_publishbox_misc_actions', $post );
+		}
 	}
 
 	/* ********************* DEPRECATED METHODS ********************* */
