@@ -1,3 +1,5 @@
+import { RenderEditProps, RenderSaveProps } from "./blocks/BlockDefinition";
+
 export type InstructionOptions =
 	Record<string, string | boolean | number | Array<string | boolean | number> | Record<string, string | boolean | number>>;
 export type InstructionClass<T extends Instruction> = {
@@ -44,6 +46,19 @@ export default abstract class Instruction {
 	renderable(): boolean {
 		return true;
 	}
+
+	/* eslint-disable @typescript-eslint/no-unused-vars */
+	/**
+	 * Checks if the instruction block is valid.
+	 *
+	 * @param props The properties to check.
+	 *
+	 * @returns `true` if the instruction block is valid, `false` if the block contains errors.
+	 */
+	valid( props: RenderSaveProps | RenderEditProps ): boolean {
+		return true;
+	}
+	/* eslint-enable @typescript-eslint/no-unused-vars */
 
 	/**
 	 * Register a new instruction.
