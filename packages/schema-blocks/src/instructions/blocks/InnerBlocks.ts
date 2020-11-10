@@ -3,10 +3,20 @@ import { InnerBlocks as WordPressInnerBlocks } from "@wordpress/block-editor";
 
 import BlockInstruction from "../../core/blocks/BlockInstruction";
 import recurseOverBlocks from "../../functions/blocks/recurseOverBlocks";
+import { select } from "@wordpress/data";
+import { RenderEditProps, RenderSaveProps } from "../../core/blocks/BlockDefinition";
+import { BlockInstance } from "@wordpress/blocks";
 export type RequiredBlockCollection = Record<string, RequiredBlockOption>
+
 enum RequiredBlockOption {
-	one = 1,
-	OneOrMore = 2
+	One = 1,
+	OneOrMore = 2	
+}
+
+export type InvalidBlockCollection = Record <string, InvalidBlockReason>
+enum InvalidBlockReason {
+	Missing = 1,
+	TooMany = 3
 }
 
 /**
@@ -72,42 +82,62 @@ class InnerBlocks extends BlockInstruction {
 	/**
 	 * Checks if the instruction block is valid.
 	 *
-	 * @param attributes: The attributes from RenderSaveProps or RenderEditProps.
-	 * @returns {boolean} True if the instruction block is valid, False if the block contains errors.
+	 * @param props The properties from the save or edit methods.
+	 *
+	 * @returns `true` if the instruction block is valid, `false` if the block contains errors.
 	 */
-	valid( attributes: object ): boolean {
+	valid( props: RenderSaveProps | RenderEditProps ): boolean {
 		if ( this.options.requiredBlocks ) {
-			const existingBlocks = this.getBlocksOfType ( this.options.requiredBlocks.keys() );
-			const invalids = this.getInvalidBlocks(existingBlocks);
+			var output : InvalidBlockCollection;
 
-			if (invalids.length > 0) {
-				return false;
+			var innerBlocks = this.getInnerBlocks( props.clientId );
+			var keys = Object.keys( this.options.requiredBlocks );
+			
+			// We now have all instances of required blocks on the page
+			const existingBlocks = this.getBlocksOfType ( innerBlocks, keys );
+			
+			// find all keys that do not have a matching block in existingBlocks
+			const missingBlocks = keys.filter( name => { existingBlocks.every ( block => block.name !== name) });			
+			missingBlocks.forEach(missing => {
+				output[missing] = InvalidBlockReason.Missing;
+			});
+
+			var onlyOneAllowed = this.options.requiredBlocks.filter( block => { block.RequiredBlockOption === RequiredBlockOption.One } );
+			if (  onlyOneAllowed ) {
+				// find all keys that have too many occurrences, by counting the occurrences of each block name.
+				var countPerBlockType : Record<string, number> = {};
+				existingBlocks.reduce( (countPerBlockType, block) => { 
+					countPerBlockType[block.name] = (countPerBlockType[block.name] || 0) + 1;
+					return countPerBlockType;
+				}, countPerBlockType); 
 			}
 		}
 		
 		return true;
 	}
 
-	getBlocksOfType (haystack: BlockInstruction[], needles : string[]) : BlockInstruction[] {
-		var foundBlocks = BlockInstruction[];
+	// todo export this neat tool function
+	getBlocksOfType (haystack: BlockInstance[], needles : string[]) : BlockInstance[] {
+		var foundBlocks : BlockInstance[];
 		
-		recurseOverBlocks (haystack, ( block : BlockInstruction, ) => {
+		recurseOverBlocks (haystack, ( block : BlockInstance ) => {
 			// check if the current block is one of the required types
-			if (needles.includes(block.name)) {
-				
+			if ( needles.includes( block.name )) {
 				foundBlocks.push ( block );
-			}			
+			}
 		});
+		return foundBlocks;
 	}
 
-	getInvalidBlocks (existingBlocks: BlockInstruction[]) : BlockInstruction[] {
+
+	getInvalidBlocks (existingBlocks: BlockInstance[]) : InvalidBlock[] {
 		const requiredBlocks = this.options.requiredBlocks;
 		
 		var foundBlocks   = string[];
 		var invalidBlocks = string[];
 
 		if ( requiredBlocks ) {
-			recurseOverBlocks (existingBlocks, (block : BlockInstruction) => {
+			recurseOverBlocks (existingBlocks, (block : BlockInstance) => {
 				
 				// check if the current block is one of the required types
 				if (requiredBlocks.containsKey(block.name)) {
@@ -126,8 +156,8 @@ class InnerBlocks extends BlockInstruction {
 		return invalidBlocks
 	}
 
-	getInnerBlocks() : BlockInstruction[] {
-		return select( "core/block-editor" ).getBlock( this.options.name ).innerBlocks;
+	getInnerBlocks(clientId : string) : BlockInstance[] {
+		return select( "core/block-editor" ).getBlock( clientId ).innerBlocks;
 	}
 }
 
