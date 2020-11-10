@@ -71,6 +71,7 @@
 }
 
 .yoast-elementor-panel__fills .UpsellLinkButton, .yoast .yoast-button-upsell {
+	line-height: 1.4em;
 	color: var(--yoast-color-label);
 	text-decoration: none;
 }
