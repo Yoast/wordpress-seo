@@ -98,6 +98,10 @@
 	border-color: #11a0d2;
 }
 
+.yoast-post-settings-modal .yoast-notice-container {
+	bottom: auto;
+}
+
 input[type="radio"]:checked::before {
 	content: "";
 	float: left;
