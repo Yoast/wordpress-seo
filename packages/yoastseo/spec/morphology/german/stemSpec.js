@@ -1,4 +1,4 @@
-import stem from "../../../src/languageProcessing/languages/de/morphology/stem";
+import stem from "../../../src/languageProcessing/languages/de/helpers/internal/stem";
 import getMorphologyData from "../../specHelpers/getMorphologyData";
 
 const morphologyDataDE = getMorphologyData( "de" ).de;

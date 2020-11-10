@@ -1,5 +1,5 @@
 // These passive auxiliaries start with be-, ge- or er- en and with -t, and therefore look like a participle.
-var participleLike = [
+const participleLike = [
 	"bekommst",
 	"bekommt",
 	"bekamst",
@@ -27,7 +27,7 @@ var participleLike = [
 ];
 
 // These are all other passive auxiliaries.
-var otherAuxiliaries = [
+const otherAuxiliaries = [
 	"werde",
 	"wirst",
 	"wird",
@@ -72,7 +72,7 @@ var otherAuxiliaries = [
 ];
 
 // These first person plural auxiliaries also function as an infinitive.
-var infinitiveAuxiliaries = [
+const infinitiveAuxiliaries = [
 	"werden",
 	"bekommen",
 	"kriegen",

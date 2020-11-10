@@ -1,5 +1,5 @@
-import SentencePart from "../../../../../values/SentencePart.js";
-import getParticiples from "../../helpers/getParticiples.js";
+import SentencePart from "../../../../values/SentencePart.js";
+import getParticiples from "../helpers/internal/getParticiples.js";
 
 /**
  * Creates a German-specific sentence part.
@@ -8,7 +8,7 @@ import getParticiples from "../../helpers/getParticiples.js";
  * @param {Array} auxiliaries The list with auxiliaries.
  * @constructor
  */
-var GermanSentencePart = function( sentencePartText, auxiliaries ) {
+const GermanSentencePart = function( sentencePartText, auxiliaries ) {
 	SentencePart.call( this, sentencePartText, auxiliaries, "de_DE" );
 };
 
