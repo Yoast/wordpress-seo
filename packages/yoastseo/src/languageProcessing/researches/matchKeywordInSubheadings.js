@@ -9,16 +9,15 @@ import { findTopicFormsInString } from "../helpers/match/findKeywordFormsInStrin
  * @param {string[]}    subheadings     The subheadings to check.
  * @param {boolean}     useSynonyms     Whether to match synonyms or only main keyphrase.
  * @param {string}      locale          The current locale.
- * @param {boolean}     hasFunctionWords	Whether a function word list is available for the given language.
+ * @param {Array}       functionWords	The function words list.
  *
  * @returns {number} The amount of subheadings reflecting the topic.
  */
-const numberOfSubheadingsReflectingTopic = function( topicForms, subheadings, useSynonyms, locale, hasFunctionWords ) {
-
+const numberOfSubheadingsReflectingTopic = function( topicForms, subheadings, useSynonyms, locale, functionWords ) {
 	return subheadings.filter( subheading => {
 		const matchedTopicForms = findTopicFormsInString( topicForms, subheading, useSynonyms, locale );
 
-		if ( ! hasFunctionWords ) {
+		if ( functionWords.length === 0 ) {
 			return matchedTopicForms.percentWordMatches === 100;
 		}
 		return matchedTopicForms.percentWordMatches > 50;
@@ -34,7 +33,7 @@ const numberOfSubheadingsReflectingTopic = function( topicForms, subheadings, us
  * @returns {Object} The result object.
  */
 export default function matchKeywordInSubheadings( paper, researcher ) {
-	const hasFunctionWords = researcher.hasConfig( "functionWords" );
+	const functionWords = researcher.getConfig( "functionWords" );
 	const text = stripSomeTags( paper.getText() );
 	const topicForms = researcher.getResearch( "morphology" );
 	const locale = paper.getLocale();
@@ -44,7 +43,7 @@ export default function matchKeywordInSubheadings( paper, researcher ) {
 
 	if ( subheadings.length !== 0 ) {
 		result.count = subheadings.length;
-		result.matches = numberOfSubheadingsReflectingTopic( topicForms, subheadings, useSynonyms, locale, hasFunctionWords );
+		result.matches = numberOfSubheadingsReflectingTopic( topicForms, subheadings, useSynonyms, locale, functionWords );
 		result.percentReflectingTopic = result.matches / result.count * 100;
 	}
 

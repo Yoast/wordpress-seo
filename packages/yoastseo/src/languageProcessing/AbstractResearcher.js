@@ -225,17 +225,6 @@ export default class AbstractResearcher {
 	}
 
 	/**
-	 * Return whether or not language specific configuration exists by configuration name.
-	 *
-	 * @param {string} name The name of the configuration.
-	 *
-	 * @returns {boolean} Whether or not the configuration exists.
-	 */
-	hasConfig( name ) {
-		return this.config.hasOwnProperty( name );
-	}
-
-	/**
 	 * Return language specific helper by helper name.
 	 *
 	 * @param {string} name The name of the helper.
