@@ -423,8 +423,8 @@ describe( "gets the sentence beginnings and the count of consecutive duplicates.
 	} );
 
 	it( "returns an object with sentence beginnings and counts for three sentences in Hungarian all starting with one of the exception words.", function() {
-		changePaper( { text: "Nem fázom. Nem vagyok éhes. Nem akarok enni.", locale: "hu_HU" } );
-		expect( getSentenceBeginnings()[ 0 ].word ).toBe( "nem" );
+		changePaper( { text: "Nem fázom. Nem fázom, vagyok éhes. Nem fázom, akarok enni.", locale: "hu_HU" } );
+		expect( getSentenceBeginnings()[ 0 ].word ).toBe( "nem fázom" );
 		expect( getSentenceBeginnings()[ 0 ].count ).toBe( 3 );
 	} );
 } );

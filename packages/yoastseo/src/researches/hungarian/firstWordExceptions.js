@@ -8,6 +8,8 @@ export default function() {
 		"az", "a",
 		// Indefinite article:
 		"egy",
+		// Numbers 0 to 10, 100, 1000:
+		"nulla", "egy", "kettő", "kettő", "három", "négy", "öt", "hat", "hét", "nyolc", "kilenc", "tíz", "száz", "ezer",
 		// Conjunctions:
 		"és", "se", "sem", "vagy", "de",
 		// Adverbs:
@@ -15,7 +17,11 @@ export default function() {
 		// Demonstrative pronouns:
 		"ez", "ezek", "az", "azok", "néhány", "aki", "ami",
 		// Personal pronouns:
-		"én", "mi", "ő", "ők",
+		"én", "mi", "ő", "ők", "engem", "nekem", "velem", "nálam", "hozzám", "tőlem", "rajtam", "rám", "rólam", "téged",
+		"neked", "veled", "érted", "nálad", "hozzád", "tőled", "rólad", "őt", "neki", "vele", "érte", "nála", "hozzá", "tőle",
+		"rajta", "rá", "róla", "minket", "nekünk", "velünk", "értünk", "nálunk", "hozzánk", "tőlünk", "rólunk", "titeket",
+		"nektek", "veletek", "értetek", "nálatok", "hozzátok", "tőletek", "rajtatok", "rátok", "rólatok", "őket", "nekik",
+		"velük", "értük", "bennük", "náluk", "hozzájuk", "tőlük", "rajtuk", "rájuk", "róluk",
 		// Demonstrative pronouns:
 		"ini", "itu", "hal", "ia",
 		// Transition words:
@@ -25,6 +31,8 @@ export default function() {
 		"honnan", "hová", "mivel", "milyen",
 		// Interjections:
 		"ó", "óh", "jaj",
+		// Colours:
+		"kék", "zöld", "fekete", "sárga", "piros", "szürke",
 		// Miscellaneous:
 		"ne", "nem", "hát", "nos",
 	];
