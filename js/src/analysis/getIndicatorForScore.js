@@ -1,68 +1,60 @@
-/* global YoastSEO */
-
+import { __ } from "@wordpress/i18n";
 import { helpers } from "yoastseo";
-const { scoreToRating } = helpers;
-import {
-	isUndefined,
-	isNil,
-} from "lodash-es";
+import { isNil } from "lodash";
 
 /**
- * Returns whether or not the current page has presenters.
+ * Gets a score indicator for a given rating.
  *
- * @returns {boolean} Whether or not the page has presenters.
- */
-var hasPresenter = function() {
-	var app = YoastSEO.app || {};
-
-	return ( ! isUndefined( app.seoAssessorPresenter ) || ! isUndefined( app.contentAssessorPresenter ) );
-};
-
-/**
- * Returns the presenter that is currently present on the page. Prevent errors if one of the analyses is disabled.
+ * @param {string} rating The rating.
  *
- * @returns {AssessorPresenter} An active assessor presenter.
+ * @returns {Object} The score indicator for the given rating.
  */
-var getPresenter = function() {
-	var app = YoastSEO.app;
-
-	if ( ! isUndefined( app.seoAssessorPresenter ) ) {
-		return app.seoAssessorPresenter;
+function getIndicatorForRating( rating ) {
+	switch ( rating ) {
+		case "feedback":
+			return {
+				className: "na",
+				screenReaderText: __( "Feedback", "wordpress-seo" ),
+				screenReaderReadabilityText: "",
+			};
+		case "bad":
+			return {
+				className: "bad",
+				screenReaderText: __( "Needs improvement", "wordpress-seo" ),
+				screenReaderReadabilityText: __( "Needs improvement", "wordpress-seo" ),
+			};
+		case "ok":
+			return {
+				className: "ok",
+				screenReaderText: __( "OK SEO score", "wordpress-seo" ),
+				screenReaderReadabilityText: __( "OK", "wordpress-seo" ),
+			};
+		case "good":
+			return {
+				className: "good",
+				screenReaderText: __( "Good SEO score", "wordpress-seo" ),
+				screenReaderReadabilityText: __( "Good", "wordpress-seo" ),
+			};
+		default:
+			return {
+				className: "loading",
+				screenReaderText: "",
+				screenReaderReadabilityText: "",
+			};
 	}
-
-	if ( ! isUndefined( app.contentAssessorPresenter ) ) {
-		return app.contentAssessorPresenter;
-	}
-};
+}
 
 /**
- * Simple helper function that returns the indicator for a given total score
+ * Gets an indicator for a given total score.
  *
  * @param {number} score The score from 0 to 100.
  * @returns {Object} The indicator for the given score.
  */
 export default function getIndicatorForScore( score ) {
-	var indicator = {
-		className: "",
-		screenReaderText: "",
-		fullText: "",
-		screenReaderReadabilityText: "",
-	};
-
-	if ( ! hasPresenter() ) {
-		return indicator;
+	if ( ! isNil( score ) ) {
+		// Scale because scoreToRating works from 0 to 10.
+		score /= 10;
 	}
 
-	if ( isNil( score ) ) {
-		indicator.className = "loading";
-
-		return indicator;
-	}
-
-	// Scale because scoreToRating works from 0 to 10.
-	score /= 10;
-
-	var presenter = getPresenter();
-
-	return presenter.getIndicator( scoreToRating( score ) );
+	return getIndicatorForRating( helpers.scoreToRating( score ) );
 }
