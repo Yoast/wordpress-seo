@@ -205,8 +205,8 @@ module.exports = function( grunt ) {
 		},
 
 		"install-schema-blocks": {
-			// If no dist directory exists in schema-blocks then build the package.
-			command: "if [ ! -d node_modules/@yoast/schema-blocks/dist ]; then " +
+			// If no index.js exists in schema-blocks then build the package as it means the development version has been linked.
+			command: "if [ ! -f node_modules/@yoast/schema-blocks/index.js ]; then " +
 				"cd node_modules/@yoast/schema-blocks && yarn install && yarn build; " +
 				"fi",
 		},
