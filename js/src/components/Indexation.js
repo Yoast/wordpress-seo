@@ -193,7 +193,7 @@ export class Indexation extends Component {
 
 		if ( shouldStart ) {
 			const currentURL = removeSearchParam( window.location.href, "start-indexation" );
-			addHistoryState( null, "", currentURL );
+			addHistoryState( null, document.title, currentURL );
 
 			this.startIndexing();
 		}
