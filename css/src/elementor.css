@@ -44,7 +44,7 @@
 	-webkit-font-smoothing: subpixel-antialiased;
 }
 
-.yoast li, .yoast p, .yoast small, .button-link {
+.yoast li, .yoast p, .yoast small {
 	margin-bottom: 6px;
 	line-height: 1.5;
 	color: var(--yoast-elementor-color-paragraph);
@@ -66,6 +66,7 @@
 	border: none;
 	background: none;
 	cursor: pointer;
+	line-height: 1.5;
 }
 
 .yoast-elementor-panel__fills .UpsellLinkButton, .yoast .yoast-button-upsell {
