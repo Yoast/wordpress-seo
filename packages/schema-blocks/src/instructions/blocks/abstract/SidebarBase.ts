@@ -7,6 +7,7 @@ import { RenderSaveProps, RenderEditProps } from "../../../core/blocks/BlockDefi
 export default abstract class SidebarBase extends BlockInstruction {
 	public options: {
 		output?: boolean;
+		required?: boolean;
 	}
 
 	/**
@@ -39,7 +40,6 @@ export default abstract class SidebarBase extends BlockInstruction {
 	renderable(): boolean {
 		return this.options.output !== false;
 	}
-
 
 	protected abstract value( props: RenderSaveProps | RenderEditProps ): JSX.Element | string;
 }
