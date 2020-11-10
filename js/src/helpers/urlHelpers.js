@@ -1,4 +1,3 @@
-
 /**
  * Removes the query parameter from the given url.
  *
@@ -8,11 +7,11 @@
  * @returns {string} The altered url object.
  */
 export function removeSearchParam( url, parameter ) {
-    let currentURL = new URL( url );
+	const currentURL = new URL( url );
 
-    currentURL.searchParams.delete( parameter );
+	currentURL.searchParams.delete( parameter );
 
-    return currentURL.href;
+	return currentURL.href;
 }
 
 /**
@@ -21,7 +20,9 @@ export function removeSearchParam( url, parameter ) {
  * @param {any}    data  The data to set.
  * @param {string} title The new title.
  * @param {string} url   The new url.
+ *
+ * @returns {void}
  */
 export function addHistoryState( data, title, url ) {
-    window.history.pushState( data, title, url );
+	window.history.pushState( data, title, url );
 }
