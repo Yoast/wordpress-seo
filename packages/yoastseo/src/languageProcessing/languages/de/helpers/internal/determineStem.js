@@ -1,6 +1,6 @@
 import { flatten } from "lodash-es";
 import { detectAndStemRegularParticiple } from "./detectAndStemRegularParticiple";
-import { flattenSortLength } from "../morphoHelpers/flattenSortLength";
+import { flattenSortLength } from "../../../../helpers/morphology/flattenSortLength";
 
 import stem from "./stem";
 
@@ -105,7 +105,7 @@ const findStemOnVerbExceptionList = function( morphologyDataVerbs, stemmedWord )
  *
  * @returns {string} Stemmed form of the word.
  */
-export function determineStem( word, morphologyDataGerman ) {
+export default function determineStem( word, morphologyDataGerman ) {
 	const verbData = morphologyDataGerman.verbs;
 	const stemmedWord = stem( verbData, word );
 
