@@ -41,14 +41,12 @@ const storeValueAsOldValue = ( input ) => {
  * @returns {void}
  */
 const detectChange = input => {
-	let value = input.value;
-
-	// We don't store linkdex values below 0 so treat them as 0 for the purpose of changes.
-	if ( input.name === "yoast_wpseo_linkdex" && parseInt( input.value, 10 ) < 0 ) {
-		value = "0";
+	// The SEO score and the content score changing do not require a new save.
+	if ( input.name === "yoast_wpseo_linkdex" || input.name === "yoast_wpseo_content_score" ) {
+		return;
 	}
 
-	if ( value !== input.oldValue ) {
+	if ( input.value !== input.oldValue ) {
 		activateSaveButton();
 		storeValueAsOldValue( input );
 	}
