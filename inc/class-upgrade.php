@@ -761,7 +761,8 @@ class WPSEO_Upgrade {
 	private function upgrade_153() {
 		WPSEO_Options::set( 'category_base_url', get_option( 'category_base' ) );
 		WPSEO_Options::set( 'tag_base_url', get_option( 'tag_base' ) );
-		WPSEO_Options::set( 'permalinks_indexables_types', $this->get_permalink_sample_array_for_153() );
+		$permalinks_indexables_types =  $this->get_permalink_sample_array_for_153();
+		WPSEO_Options::set( 'permalinks_indexables_types', $permalinks_indexables_types);
 
 		// Rename a couple of options.
 		$indexation_started_value = WPSEO_Options::get( 'indexation_started' );
