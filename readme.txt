@@ -245,6 +245,7 @@ Bugfixes:
 * Fixes a bug where reindexing via the WP-CLI would not always repopulate the indexables tables.
 * Fixes a bug where unfiltered HTML could be inserted in taxonomy descriptions by administrators and editors.
 * Fixes a bug where the indexable permalinks could have an incorrect taxonomy base.
+* Fixes a bug where the SEO optimization process sometimes had to be run twice before everything was correctly indexed.
 
 Enhancements:
 
@@ -255,6 +256,10 @@ Enhancements:
    * Passive voice assessment.
 * Does not mark the words 'annoyed', 'depressed', 'disappointed', and 'upset' as passives in English anymore, since most of the time they are closer to adjectives rather than passive verbs in meaning.
 * Improves the results for the keyphrase distribution assessment for Swedish, Indonesian, Arabic, Hebrew and Farsi by allowing a partial match (instead of a full match) for long keyphrases (4 or more content words).
+
+Other:
+
+* Prevents the SEO optimization process from restart automatically when the optimization tool is started via the link in the dashboard notification and the Yoast SEO tools page is reloaded during indexing.
 
 = 15.2.1 =
 Release Date: November 2nd, 2020
