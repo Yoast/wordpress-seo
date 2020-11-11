@@ -65,7 +65,7 @@ class Schema_Templates_Pass_Test extends TestCase {
 			->andReturn( $schema_blocks_definition );
 
 		$expected_schema_blocks = [
-			'config/src/schema-templates/address.block.php',
+			'src/schema-templates/address.block.php',
 		];
 
 		$this->templates_loader

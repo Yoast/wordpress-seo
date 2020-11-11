@@ -36,8 +36,6 @@ class Schema_Templates_Pass implements CompilerPassInterface {
 		$schema_blocks_definition = $container->getDefinition( Schema_Blocks::class );
 
 		foreach ( $this->schema_templates_loader->get_templates() as $template ) {
-			$template = str_replace( __DIR__, '', $template );
-			$template = substr( $template, 7 );
 			$schema_blocks_definition->addMethodCall( 'register_template', [ $template ] );
 		}
 	}

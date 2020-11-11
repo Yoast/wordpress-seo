@@ -36,7 +36,7 @@ class Schema_Templates_Loader_Test extends TestCase {
 	 * @covers ::get_templates
 	 */
 	public function test_get_templates() {
-		$schema_directory = dirname( WPSEO_FILE ) . '/config/dependency-injection/../../src/schema-templates/';
+		$schema_directory = dirname( WPSEO_FILE ) . '/src/schema-templates/';
 
 		$expected_schema_blocks = [
 			$schema_directory . 'address.block.php',
