@@ -54,21 +54,32 @@ const debouncedRunAnalysis = debounce( runAnalysis, refreshDelay );
  *
  * @returns {Object} The analysis data.
  */
-const applyAnalysisModifications = ( analysisData ) => {
+function applyAnalysisModifications( analysisData ) {
 	analysisData.title = applyModifications( "data_page_title", analysisData.title );
 	analysisData.title = applyModifications( "title", analysisData.title );
 	analysisData.description = applyModifications( "data_meta_desc", analysisData.description );
 	analysisData.text = applyModifications( "content", analysisData.text );
 
 	return analysisData;
-};
+}
+
+/**
+ * Returns the analysis data.
+ *
+ * @returns {Object} The analysis data.
+ */
+export function collectData() {
+	const { getAnalysisData } = select( "yoast-seo/editor" );
+
+	return applyAnalysisModifications( getAnalysisData() );
+}
 
 /**
  * Sets up the analysis.
  *
  * @returns {AnalysisWorkerWrapper} The analysis worker.
  */
-const initAnalysis = () => {
+export default function initAnalysis() {
 	// Get the selectors.
 	const {
 		getAnalysisData,
@@ -122,6 +133,4 @@ const initAnalysis = () => {
 	} );
 
 	return worker;
-};
-
-export default initAnalysis;
+}

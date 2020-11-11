@@ -1,7 +1,7 @@
 import { dispatch } from "@wordpress/data";
 import domReady from "@wordpress/dom-ready";
 import { pluginReady, pluginReloaded, registerPlugin, registerModification } from "./elementor/initializers/pluggable";
-import initAnalysis from "./initializers/analysis";
+import initAnalysis, { collectData } from "./initializers/analysis";
 import initElementorEditorIntegration from "./initializers/elementor-editor-integration";
 import initEditorStore from "./elementor/initializers/editor-store";
 import initializeUsedKeywords from "./elementor/initializers/used-keywords-assessment";
@@ -32,6 +32,7 @@ domReady( () => {
 	window.YoastSEO.analysis = window.YoastSEO.analysis || {};
 	window.YoastSEO.analysis.run = dispatch( "yoast-seo/editor" ).runAnalysis;
 	window.YoastSEO.analysis.worker = initAnalysis();
+	window.YoastSEO.analysis.collectData = collectData;
 
 	// Initialize replacement variables plugin.
 	initReplaceVarPlugin();
