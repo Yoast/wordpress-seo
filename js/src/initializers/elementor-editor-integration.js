@@ -95,6 +95,24 @@ export default function initElementEditorIntegration() {
 		// Hook into the save.
 		const handleSave = sendFormData.bind( null, document.getElementById( "yoast-form" ) );
 		window.elementor.saver.on( "after:save", handleSave );
+
+		// Register with the menu.
+		const menu = window.elementor.modules.layouts.panel.pages.menu.Menu;
+		menu.addItem( {
+			name: "yoast",
+			icon: "yoast yoast-element-menu-icon",
+			title: "Yoast SEO",
+			type: "page",
+			callback: () => {
+				try {
+					window.$e.routes.run( "panel/page-settings/yoast-tab" );
+				} catch ( error ) {
+					// The yoast tab is only available if the page settings have been visited.
+					window.$e.routes.run( "panel/page-settings/settings" );
+					window.$e.routes.run( "panel/page-settings/yoast-tab" );
+				}
+			},
+		}, "style" );
 	} );
 
 	const yoastInputs = document.querySelectorAll( "input[name^='yoast']" );
