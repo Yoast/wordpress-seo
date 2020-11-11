@@ -5,7 +5,7 @@ import getMorphologyData from "../../../specHelpers/getMorphologyData";
 import sampleVocabulary from "../stemmerCoverage/sampleVocabulary.json";
 
 const wordsToStemWithoutFunctionWords = filterFunctionWordsFromArray( sampleVocabulary.words, "hu" );
-const morphologyDataSV = getMorphologyData( "hu" ).hu;
+const morphologyDataHU = getMorphologyData( "hu" ).hu;
 
 describe( "Generate stems for Hungarian words", () => {
 	const corpusWithStems = wordsToStemWithoutFunctionWords.map( word => [ word, stem( word, morphologyDataHU ) ] );

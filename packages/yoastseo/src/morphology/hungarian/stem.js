@@ -1,22 +1,22 @@
 /**
  * Checks if the input character is a Hungarian vowel.
  *
- * @parman {string} word The word to check
  * @param {Object} morphologyData   The Hungarian morphology data.
- *
+ * @param {string} word The word to check
  * @returns {boolean} Whether the input character is a Hungarian vowel.
  */
+
 const isVowel = function( morphologyData, word ) {
-	const regex = new RegExp( morphologyData.externalStemmer.vowels )
+	const vowels = morphologyData.externalStemmer.vowels 
+	const regex = new RegExp( vowels )
 	return regex.test( word );
 };
 /**
  * Checks if the input character is a Hungarian double consonant.
  *
  * @param {string} char             The character to be checked.
- * @param {strong} word The word to check
  * @param {Object} morphologyData   The Hungarian morphology data.
- *
+ * @param {string} word The word to check
  * @returns {boolean} Whether the input character is a Hungarian vowel.
  */
 const isDoubleConsonant = function( morphologyData, word ) {
@@ -28,11 +28,11 @@ const isDoubleConsonant = function( morphologyData, word ) {
  * Checks if the word begins with a vowel: defines R1 as the region after the first consonant or diagraph
  * Checks if the word begsin with a consonant: defines R1 as the region after the first vowel
  *
- * @param {string} word the word to check
  * @param {Object} morphologyData Morphology data file
+ * @param {string} word the word to check
  * @returns {number} the position of the digraph or consonant
  */
-const consonantOrDigraphPosition = function( word, morphologyData ) {
+const consonantOrDigraphPosition = function( morphologyData, word ) {
 	const digraphRegex = new RegExp( morphologyData.externalStemmer.digraphs )
 	const consonantRegex = new RegExp( morphologyData.externalStemmer.consonants )
 	const digraphPosition = digraphRegex.test( word );
@@ -45,14 +45,15 @@ const consonantOrDigraphPosition = function( word, morphologyData ) {
 
 /**
  * Defines the R1 region
- * @param {string} word The word to stem
  * @param {Object} morphologyData Morphology data file
+ * @param {string} word The word to stem
  * @returns {number} The R1 region
  */
-const findR1Position = function( word, morphologyData ) {
-	const vowelPosition = isVowel(word, morphologyData);
+const findR1Position = function( morphologyData, word ) {
+	const vowelPosition = isVowel( morphologyData, word );
+	console.log( morphologyData )
 	if (vowelPosition === 0) {
-		const consonantOrDigraphPosition = consonantOrDigraphPosition(word, morphologyData);// for consonantorDigraph- we don't have digraph and consonants in one regex
+		const consonantOrDigraphPosition = consonantOrDigraphPosition(morphologyData, word );
 		return ( consonantOrDigraphPosition + 1 );
 	}
 	return ( vowelPosition + 1 );
@@ -61,12 +62,12 @@ const findR1Position = function( word, morphologyData ) {
 /**
  * Searches on of the following noun case suffixes: al, el and stems the suffix if found in R1 and preceded by a double consonant
  * and removes one of the double consonants
- * @param {string} word The word to stem
  * @param {Object} morphologyData Morpology data file with suffix list
+ * @param {string} word The word to stem
  * @param {number} r1Position The R1 region
  *
 */
-const stemSuffixes1 = function( r1Position, word, suffixes1 ){
+const stemSuffixes1 = function( word, r1Position, suffixes1 ){
 	const doubleConsonant = morphologyData.doubleConsonants
 
 	if ( word.test( suffixes1 ) && r1Position ) {
@@ -77,7 +78,7 @@ const stemSuffixes1 = function( r1Position, word, suffixes1 ){
 		}
 		return wordAfterStemming;
 	}
-	return word;// why we add?
+	return word;
 }
 
 /**
@@ -85,8 +86,10 @@ const stemSuffixes1 = function( r1Position, word, suffixes1 ){
  * ról   rõl   ból   bõl   hoz   hez   höz   nál   nél   ig   at   et   ot   öt   ért   képp   képpen   kor   ul   ül
  * vá   vé   onként   enként   anként   ként   en   on   an   ön   n   t and stems the suffix if found in R1
  * If the suffix is preceded by á replaces with a. If the suffix is preceded by é replaces with e
- * @param {string} word The word to stem
+ *
  * @param {Object} morphologyData Morphology data file with suffix list
+ * @param {string} word The word to stem
+ * @param {number} r1Position The R1 region
  */
 const stemSuffixes2 = function( word, r1Position, suffixes2 ) {
 	if ( word.test( suffixes2 ) && r1Position ) {
@@ -104,7 +107,7 @@ const stemSuffixes2 = function( word, r1Position, suffixes2 ) {
  *Search for én in R1 and replace with e
  *
  * @param {string} word             The word to check for the suffix.
- * @param  {string} r1Text          The R1 region of the word to stem.
+ * @param  {string} r1Position      The R1 region of the word to stem.
  * @param {Object} regions          The object that contains the string within the R1 region and the rest string of the word.
  * @param {Object} morphologyData   The morphology data for Hungarian.
  *
@@ -251,19 +254,19 @@ return word;
  */
 export default function stem( word, morphologyData ) {
 	const r1Position = findR1Position(word, morphologyData);
-	const suffixes1 = stemSuffixes1(word, morphologyData, suffixes1);
-	const suffixes2 = stemSuffixes2(word, morphologyData, suffixes2);
-	const suffixes3 = stemSuffixes3(word, morphologyData, suffixes3);
-	const suffixes4 = stemSuffixes4(word, morphologyData, suffixes4);
-	const suffixes5 = stemSuffixes5(word, morphologyData, suffixes5);
-	const suffixes6 = stemSuffixes6(word, morphologyData, suffixes6);
-	const suffixes7 = stemSuffixes6(word, morphologyData, suffixes7);
-	const suffixes8 = stemSuffixes8(word, morphologyData, suffixes8);
-	const suffixes9 = stemSuffixes9(word, morphologyData, suffixes9);
-	const suffixes10 = stemSuffixes10(word, morphologyData, suffixes10);
-	const suffixes11 = stemSuffixes11(word, morphologyData, suffixes11);
-	const suffixes12 = stemSuffixes12(word, morphologyData, suffixes12);
-	const suffixes13 = stemSuffixes13(word, morphologyData, suffixes13);
+	const wordAfterSuffixes1 = stemSuffixes1(word, r1Position, morphologyData.suffixes1);
+	const wordAfterSuffixes2 = stemSuffixes2(wordAfterSuffixes1,r1Position, morphologyData.externalStemmer.suffixes2);
+	const wordAfterSuffixes3 = stemSuffixes3(wordAfterSuffixes2, r1Position, morphologyData.externalStemmer.suffixes3);
+	const wordAfterSuffixes4 = stemSuffixes4(wordAfterSuffixes3, r1Position, morphologyData.externalStemmer.suffixes4);
+	const wordAfterSuffixes5 = stemSuffixes5(wordAfterSuffixes4, r1Position, morphologyData.externalStemmer.suffixes5);
+	const wordAfterSuffixes6 = stemSuffixes6(wordAfterSuffixes5, r1Position, morphologyData.externalStemmer.suffixes6);
+	const wordAfterSuffixes7 = stemSuffixes6(wordAfterSuffixes6, r1Position, morphologyData.externalStemmer.suffixes7);
+	const wordAfterSuffixes8 = stemSuffixes8(wordAfterSuffixes7, r1Position, morphologyData.externalStemmer.suffixes8);
+	const wordAfterSuffixes9 = stemSuffixes9(wordAfterSuffixes8, r1Position, morphologyData.externalStemmer.suffixes9);
+	const wordAfterSuffixes10 = stemSuffixes10(wordAfterSuffixes9, r1Position, morphologyData.externalStemmer.suffixes10);
+	const wordAfterSuffixes11 = stemSuffixes11(wordAfterSuffixes10, r1Position, morphologyData.externalStemmer.suffixes11);
+	const wordAfterSuffixes12 = stemSuffixes12(wordAfterSuffixes11, r1Position, morphologyData.externalStemmer.suffixes12);
+	return( stemSuffixes13(wordAfterSuffixes12,r1Position, morphologyData.externalStemmer.suffixes13) );
 }
 
 
