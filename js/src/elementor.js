@@ -41,7 +41,7 @@ domReady( () => {
 	};
 
 	// Initialize the Used Keywords Assessment.
-	initializeUsedKeywords( dispatch( "yoast-seo/editor" ).refreshAnalysisDataTimestamp, "get_focus_keyword_usage" );
+	initializeUsedKeywords();
 } );
 
 // Initialize the editor integration.

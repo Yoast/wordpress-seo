@@ -1,5 +1,5 @@
 import { get } from "lodash-es";
-import { subscribe, select } from "@wordpress/data";
+import { subscribe, select, dispatch } from "@wordpress/data";
 
 import getL10nObject from "../../analysis/getL10nObject";
 import UsedKeywords from "../../analysis/usedKeywords";
@@ -7,12 +7,9 @@ import UsedKeywords from "../../analysis/usedKeywords";
 /**
  * Initialize used keyword analysis.
  *
- * @param {Function} refreshAnalysis Function that triggers a refresh of the analysis.
- * @param {string}   ajaxAction      The ajax action to use when retrieving the used keywords data.
- *
  * @returns {void}
  */
-export default function initializeUsedKeywords( refreshAnalysis, ajaxAction ) {
+export default function initializeUsedKeywords() {
 	const localizedData = getL10nObject();
 	const scriptUrl     = get(
 		window,
@@ -21,9 +18,9 @@ export default function initializeUsedKeywords( refreshAnalysis, ajaxAction ) {
 	);
 
 	const usedKeywords = new UsedKeywords(
-		ajaxAction,
+		"get_focus_keyword_usage",
 		localizedData,
-		refreshAnalysis,
+		dispatch( "yoast-seo/editor" ).refreshAnalysisDataTimestamp,
 		scriptUrl
 	);
 	usedKeywords.init();
