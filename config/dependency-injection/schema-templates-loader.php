@@ -13,7 +13,8 @@ class Schema_Templates_Loader {
 	 * @return array Array with all the template files.
 	 */
 	public function get_templates() {
-		$root_directory = dirname( __DIR__, 2 );
+		// When we have minimal PHP 7.0 support, we can replace the nested dirname call by using the levels argument.
+		$root_directory = dirname( dirname( __DIR__ ) );
 		$templates = glob( $root_directory . '/src/schema-templates/*.php' );
 		if ( ! $templates ) {
 			$templates = [];
