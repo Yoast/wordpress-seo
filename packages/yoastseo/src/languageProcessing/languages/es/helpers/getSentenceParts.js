@@ -1,7 +1,7 @@
 import getPeriphrasticSentenceParts from "../../../helpers/passiveVoice/periphrastic/getSentenceParts.js";
 import arrayToRegex from "../../../helpers/regex/createRegexFromArray";
 import SentencePart from "../values/SentencePart";
-import auxiliaries from "../config/internal/auxiliaries.js";
+import auxiliaries from "../config/internal/passiveVoiceAuxiliaries.js";
 import stopWords from "../config/stopwords.js";
 const followingAuxiliaryExceptionWords = [ "el", "la", "los", "las", "una" ];
 
