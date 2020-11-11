@@ -37,6 +37,9 @@ export default function initHighlightFocusKeyphraseForms( runResearch ) {
 
 	let previousFocusKeyphrase = getFocusKeyphrase();
 
+	// Runs the research on the initial focus keyphrase.
+	runMorphologyResearch( runResearch, previousFocusKeyphrase );
+
 	// Listen to focus keyphrase changes.
 	subscribe( () => {
 		const currentFocusKeyphrase = getFocusKeyphrase();
@@ -46,7 +49,4 @@ export default function initHighlightFocusKeyphraseForms( runResearch ) {
 			runMorphologyResearch( runResearch, currentFocusKeyphrase );
 		}
 	} );
-
-	// Runs the research on the initial focus keyphrase.
-	runMorphologyResearch( runResearch, previousFocusKeyphrase );
 }
