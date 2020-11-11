@@ -18,7 +18,7 @@
 	margin-bottom: 1em;
 }
 
-.elementor-panel .elementor-tab-control-yoast-tab a:before {
+.elementor-panel .elementor-tab-control-yoast-tab a:before, .yoast-element-menu-icon:before {
 	mask-image: var(--yoast-svg-icon-yoast);
 	-webkit-mask-image: var(--yoast-svg-icon-yoast);
 	mask-size: 100% 100%;
@@ -34,6 +34,16 @@
 	content: ".";
 	color: transparent;
 	background-color: #6d7882;
+}
+
+.yoast-element-menu-icon {
+	display: inline-flex;
+}
+
+.yoast-element-menu-icon:before {
+	height: 19px;
+	width: 19px;
+	background-color: #a4afb7;
 }
 
 .yoast-elementor-panel__fills {
