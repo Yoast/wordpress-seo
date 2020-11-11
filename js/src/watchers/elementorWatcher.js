@@ -1,6 +1,5 @@
 import { dispatch } from "@wordpress/data";
 import { get, debounce } from "lodash";
-import { refreshDelay } from "../analysis/constants";
 import firstImageUrlInContent from "../helpers/firstImageUrlInContent";
 import registerElementorHook from "../helpers/elementorHook";
 
