@@ -1,4 +1,5 @@
 import { dispatch, select, subscribe } from "@wordpress/data";
+import { applyFilters } from "@wordpress/hooks";
 import { debounce, isEqual } from "lodash";
 import { Paper } from "yoastseo";
 import { refreshDelay } from "../analysis/constants";
@@ -71,7 +72,9 @@ function applyAnalysisModifications( analysisData ) {
 export function collectData() {
 	const { getAnalysisData } = select( "yoast-seo/editor" );
 
-	return applyAnalysisModifications( getAnalysisData() );
+	const analysisData = applyAnalysisModifications( getAnalysisData() );
+
+	return applyFilters( "wpseoAnalysisData", analysisData );
 }
 
 /**
