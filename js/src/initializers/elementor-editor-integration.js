@@ -41,7 +41,14 @@ const storeValueAsOldValue = ( input ) => {
  * @returns {void}
  */
 const detectChange = input => {
-	if ( input.value !== input.oldValue ) {
+	let value = input.value;
+
+	// We don't store linkdex values below 0 so treat them as 0 for the purpose of changes.
+	if ( input.name === "yoast_wpseo_linkdex" && parseInt( input.value, 10 ) < 0 ) {
+		value = "0";
+	}
+
+	if ( value !== input.oldValue ) {
 		activateSaveButton();
 		storeValueAsOldValue( input );
 	}
