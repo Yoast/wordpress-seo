@@ -428,27 +428,10 @@ class WPSEO_Replace_Vars {
 	/**
 	 * Retrieve the separator for use as replacement string.
 	 *
-	 * @return string
+	 * @return string Retrieves the title separator.
 	 */
 	private function retrieve_sep() {
-		$replacement = WPSEO_Options::get_default( 'wpseo_titles', 'separator' );
-
-		// Get the titles option and the separator options.
-		$separator         = WPSEO_Options::get( 'separator' );
-		$seperator_options = WPSEO_Option_Titles::get_instance()->get_separator_options();
-
-		// This should always be set, but just to be sure.
-		if ( isset( $seperator_options[ $separator ] ) ) {
-			// Set the new replacement.
-			$replacement = $seperator_options[ $separator ];
-		}
-
-		/**
-		 * Filter: 'wpseo_replacements_filter_sep' - Allow customization of the separator character(s).
-		 *
-		 * @api string $replacement The current separator.
-		 */
-		return apply_filters( 'wpseo_replacements_filter_sep', $replacement );
+		return YoastSEO()->helpers->options->get_title_separator();
 	}
 
 	/**

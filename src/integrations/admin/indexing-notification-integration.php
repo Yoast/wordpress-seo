@@ -107,12 +107,12 @@ class Indexing_Notification_Integration implements Integration_Interface {
 	/**
 	 * Indexing_Notification_Integration constructor.
 	 *
-	 * @param Yoast_Notification_Center $notification_center  The notification center.
-	 * @param Product_Helper            $product_helper       The product helper.
-	 * @param Current_Page_Helper       $page_helper          The current page helper.
-	 * @param Short_Link_Helper         $short_link_helper    The short link helper.
-	 * @param Notification_Helper       $notification_helper  The notification helper.
-	 * @param Indexing_Helper           $indexing_helper      The indexing helper.
+	 * @param Yoast_Notification_Center $notification_center The notification center.
+	 * @param Product_Helper            $product_helper      The product helper.
+	 * @param Current_Page_Helper       $page_helper         The current page helper.
+	 * @param Short_Link_Helper         $short_link_helper   The short link helper.
+	 * @param Notification_Helper       $notification_helper The notification helper.
+	 * @param Indexing_Helper           $indexing_helper     The indexing helper.
 	 */
 	public function __construct(
 		Yoast_Notification_Center $notification_center,
@@ -200,7 +200,7 @@ class Indexing_Notification_Integration implements Integration_Interface {
 	 * @return bool If the notification should be shown.
 	 */
 	protected function should_show_notification() {
-		// Don't show a notification if the indexation has already been started earlier.
+		// Don't show a notification if the indexing has already been started earlier.
 		if ( $this->indexing_helper->get_started() > 0 ) {
 			return false;
 		}

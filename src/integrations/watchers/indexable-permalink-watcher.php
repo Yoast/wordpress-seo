@@ -81,6 +81,7 @@ class Indexable_Permalink_Watcher implements Integration_Interface {
 		\add_action( 'update_option_category_base', [ $this, 'reset_permalinks_term' ], 10, 3 );
 		\add_action( 'update_option_tag_base', [ $this, 'reset_permalinks_term' ], 10, 3 );
 		\add_action( 'wpseo_permalink_structure_check', [ $this, 'force_reset_permalinks' ] );
+		\add_action( 'wpseo_deactivate', [ $this, 'unschedule_cron' ] );
 	}
 
 	/**
@@ -255,6 +256,19 @@ class Indexable_Permalink_Watcher implements Integration_Interface {
 		}
 
 		\wp_schedule_event( time(), 'daily', 'wpseo_permalink_structure_check' );
+	}
+
+	/**
+	 * Unschedules the WP-Cron job to check the permalink_structure status.
+	 *
+	 * @return void
+	 */
+	public function unschedule_cron() {
+		if ( ! \wp_next_scheduled( 'wpseo_permalink_structure_check' ) ) {
+			return;
+		}
+
+		\wp_clear_scheduled_hook( 'wpseo_permalink_structure_check' );
 	}
 
 	/* ********************* DEPRECATED METHODS ********************* */

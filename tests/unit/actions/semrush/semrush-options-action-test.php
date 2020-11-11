@@ -28,7 +28,6 @@ class SEMrush_Options_Action_Test extends TestCase {
 	protected $instance;
 
 	/**
-	 *
 	 * The options helper.
 	 *
 	 * @var Mockery\MockInterface|Options_Helper

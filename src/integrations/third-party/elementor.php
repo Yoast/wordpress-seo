@@ -88,7 +88,7 @@ class Elementor implements Integration_Interface {
 	/**
 	 * The identifier for the elementor tab.
 	 */
-	const YOAST_TAB = "yoast-tab";
+	const YOAST_TAB = 'yoast-tab';
 
 	/**
 	 * Returns the conditionals based in which this loadable should be active.
@@ -130,7 +130,8 @@ class Elementor implements Integration_Interface {
 		// We are too late for elementor/init. We should see if we can be on time, or else this workaround works (we do always get the "else" though).
 		if ( ! \did_action( 'elementor/init' ) ) {
 			\add_action( 'elementor/init', [ $this, 'add_yoast_panel_tab' ] );
-		} else {
+		}
+		else {
 			$this->add_yoast_panel_tab();
 		}
 		\add_action( 'elementor/documents/register_controls', [ $this, 'register_document_controls' ] );
@@ -153,17 +154,16 @@ class Elementor implements Integration_Interface {
 	 * Register a panel tab slug, in order to allow adding controls to this tab.
 	 */
 	public function add_yoast_panel_tab() {
-		Controls_Manager::add_tab( $this::YOAST_TAB, __( "Yoast SEO", 'wordpress-seo' ) );
+		Controls_Manager::add_tab( $this::YOAST_TAB, __( 'Yoast SEO', 'wordpress-seo' ) );
 	}
 
 	/**
 	 * Register additional document controls.
 	 *
-	 * @param PageBase $document
+	 * @param PageBase $document The PageBase document.
 	 */
 	public function register_document_controls( $document ) {
 		// PageBase is the base class for documents like `post` `page` and etc.
-		// In this example we check also if the document supports elements. (e.g. a Kit doesn't has elements)
 		if ( ! $document instanceof PageBase || ! $document::get_property( 'has_elements' ) ) {
 			return;
 		}
@@ -173,7 +173,7 @@ class Elementor implements Integration_Interface {
 			'yoast_temporary_section',
 			[
 				'label' => __( 'Yoast SEO', 'wordpress-seo' ),
-				'tab' => self::YOAST_TAB,
+				'tab'   => self::YOAST_TAB,
 			]
 		);
 
@@ -272,7 +272,7 @@ class Elementor implements Integration_Interface {
 		// Saving the WP post to save the slug.
 		$slug = \filter_input( INPUT_POST, WPSEO_Meta::$form_prefix . 'slug', FILTER_SANITIZE_STRING );
 		if ( $post->post_name !== $slug ) {
-			$post_array = $post->to_array();
+			$post_array              = $post->to_array();
 			$post_array['post_name'] = $slug;
 
 			$save_successful = \wp_insert_post( $post_array );
@@ -423,18 +423,11 @@ class Elementor implements Integration_Interface {
 
 		printf(
 			'<input type="hidden" id="%1$s" name="%1$s" value="%2$s" />',
-			\esc_attr( WPSEO_Meta::$form_prefix . "slug" ),
+			\esc_attr( WPSEO_Meta::$form_prefix . 'slug' ),
 			\esc_attr( $this->get_metabox_post()->post_name )
 		);
 
-		/**
-		 * Filter: 'wpseo_content_meta_section_content' - Allow filtering the metabox content before outputting.
-		 *
-		 * @api string $post_content The metabox content string.
-		 */
-		echo \apply_filters( 'wpseo_content_meta_section_content', '' );
-
-		echo "</form>";
+		echo '</form>';
 	}
 
 	/**

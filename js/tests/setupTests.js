@@ -42,3 +42,5 @@ global.wpApiSettings = {
 	nonce: "nonce",
 	root: "http://example.com",
 };
+
+global.jQuery = jest.fn();

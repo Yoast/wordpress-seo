@@ -37,6 +37,44 @@ class Options_Helper {
 	}
 
 	/**
+	 * Get a specific default value for an option.
+	 *
+	 * @param string $option_name The option for which you want to retrieve a default.
+	 * @param string $key         The key within the option who's default you want.
+	 *
+	 * @return mixed The default value.
+	 */
+	public function get_default( $option_name, $key ) {
+		return WPSEO_Options::get_default( $option_name, $key );
+	}
+
+	/**
+	 * Retrieves the title separator.
+	 *
+	 * @return string The title separator.
+	 */
+	public function get_title_separator() {
+		$replacement = $this->get_default( 'wpseo_titles', 'separator' );
+
+		// Get the titles option and the separator options.
+		$separator         = $this->get( 'separator' );
+		$seperator_options = $this->get_separator_options();
+
+		// This should always be set, but just to be sure.
+		if ( isset( $seperator_options[ $separator ] ) ) {
+			// Set the new replacement.
+			$replacement = $seperator_options[ $separator ];
+		}
+
+		/**
+		 * Filter: 'wpseo_replacements_filter_sep' - Allow customization of the separator character(s).
+		 *
+		 * @api string $replacement The current separator.
+		 */
+		return \apply_filters( 'wpseo_replacements_filter_sep', $replacement );
+	}
+
+	/**
 	 * Retrieves a default value from the option titles.
 	 *
 	 * @param string $option_titles_key The key of the option title you wish to get.
@@ -61,5 +99,14 @@ class Options_Helper {
 	 */
 	protected function get_title_defaults() {
 		return WPSEO_Option_Titles::get_instance()->get_defaults();
+	}
+
+	/**
+	 * Get the available separator options.
+	 *
+	 * @return array
+	 */
+	protected function get_separator_options() {
+		return WPSEO_Option_Titles::get_instance()->get_separator_options();
 	}
 }

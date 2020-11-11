@@ -1,6 +1,8 @@
 <?php
 
+namespace Yoast\WP\SEO\Tests\Unit\Presenters\Admin;
 
+use Mockery;
 use Yoast\WP\SEO\Helpers\Short_Link_Helper;
 use Yoast\WP\SEO\Presenters\Admin\Indexing_List_Item_Presenter;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
