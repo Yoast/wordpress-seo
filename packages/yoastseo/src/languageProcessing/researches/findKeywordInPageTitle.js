@@ -11,12 +11,11 @@ let functionWords = [];
 /**
  * Strips all function words from the start of the given string.
  *
- * @param {string[]} functionWords The array of function words to strip from the start.
  * @param {string} str The string from which to strip the function words.
  *
  * @returns {boolean} Whether the string consists of function words only.
  */
-const stripFunctionWordsFromStart = function( functionWords, str ) {
+const stripFunctionWordsFromStart = function( str ) {
 	str = str.toLocaleLowerCase();
 	let titleWords = getWords( str.toLocaleLowerCase() );
 
@@ -69,7 +68,7 @@ const adjustPosition = function( title, position ) {
 
 	// Strip all function words from the beginning of the title.
 	const titleBeforeKeyword = title.substr( 0, position );
-	if ( stripFunctionWordsFromStart( functionWords, titleBeforeKeyword ) ) {
+	if ( stripFunctionWordsFromStart( titleBeforeKeyword ) ) {
 		/*
 		 * Return position 0 if there are no words left in the title before the keyword after filtering
 		 * the function words (such that "keyword" in "the keyword" is still counted as position 0).
@@ -132,6 +131,6 @@ const findKeyphraseInPageTitle = function( paper, researcher ) {
 	}
 
 	return result;
-}
+};
 
 export default findKeyphraseInPageTitle;

@@ -1,9 +1,9 @@
 /* eslint-disable max-statements, require-jsdoc, complexity */
 // The function will be further adjected anyways, so it makes no sense to randomly split it in smaller functions now.
 // The orginal stemmer is available at https://github.com/dmarman/lorca/blob/master/src/stemmer.js.
-import { buildOneFormFromRegex } from "../morphoHelpers/buildFormRule";
-import createRulesFromMorphologyData from "../morphoHelpers/createRulesFromMorphologyData";
-import { findMatchingEndingInArray } from "../morphoHelpers/findMatchingEndingInArray";
+import { buildOneFormFromRegex } from "../../../../helpers/morphology/buildFormRule";
+import createRulesFromMorphologyData from "../../../../helpers/morphology/createRulesFromMorphologyData";
+import { findMatchingEndingInArray } from "../../../../helpers/morphology/findMatchingEndingInArray";
 
 /**
  * Copyright (C) 2018 Domingo Martín Mancera
@@ -199,7 +199,6 @@ const canonicalizeStem = function( stemmedWord, stemsThatBelongToOneWord ) {
  * @param {string}  wordAfter1          The word after step 1.
  * @param {string}  rvText              The text of the RV.
  * @param {number}  rv                  The start position of the RV.
- * @param {Object}  morphologyData      The Spanish morphology data.
  *
  * @returns {string} The word with the verb suffixes removed (if applicable).
  */
@@ -408,7 +407,7 @@ export default function stem( word, morphologyData ) {
 			 */
 			word = wordWithoutS;
 		} else {
-			word = stemVerbSuffixes( word, wordAfter1, rvText, rv, morphologyData );
+			word = stemVerbSuffixes( word, wordAfter1, rvText, rv );
 		}
 	}
 
