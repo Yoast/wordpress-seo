@@ -1,6 +1,6 @@
 import getWords from "../../../../helpers/word/getWords.js";
-import regexFunction from "../../config/internal/regex.js";
-import irregularParticiples from "../../config/internal/irregulars.js";
+import regexFunction from "../../config/internal/passiveVoiceRegex.js";
+import irregularParticiples from "../../config/internal/passiveVoiceIrregulars.js";
 import GermanParticiple from "../../values/GermanParticiple.js";
 import { forEach } from "lodash-es";
 import { includes } from "lodash-es";

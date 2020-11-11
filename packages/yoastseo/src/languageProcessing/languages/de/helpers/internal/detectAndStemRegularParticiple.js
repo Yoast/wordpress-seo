@@ -1,5 +1,5 @@
 import exceptionsParticiplesActive from "../../config/internal/exceptionsParticiplesActive";
-import { exceptions } from "../../config/internal/regex";
+import { exceptions } from "../../config/internal/passiveVoiceRegex";
 
 /**
  * Detects whether a word is a regular participle without a prefix and if so, returns the stem.

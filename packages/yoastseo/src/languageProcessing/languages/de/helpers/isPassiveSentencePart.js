@@ -1,6 +1,6 @@
 import getParticiples from "./internal/getParticiples";
 import determineSentencePartIsPassive from "../../../helpers/passiveVoice/periphrastic/determineSentencePartIsPassive";
-import auxiliaries from "../config/internal/auxiliaries.js";
+import auxiliaries from "../config/internal/passiveVoiceAuxiliaries.js";
 
 /**
  * Determines whether a sentence part is passive.

@@ -4,7 +4,7 @@ import { getIndicesByWordList as getIndicesOfList } from "../../../helpers/word/
 import exceptionsParticiplesActiveFactory from "../config/internal/exceptionsParticiplesActive.js";
 const exceptionsParticiplesActive = exceptionsParticiplesActiveFactory();
 
-import auxiliariesFactory from "../config/internal/auxiliaries.js";
+import auxiliariesFactory from "../config/internal/passiveVoiceAuxiliaries.js";
 const auxiliaries = auxiliariesFactory().participleLike;
 
 const exceptionsRegex =
