@@ -1,10 +1,10 @@
-var verbsBeginningWithGeRegex = /^((ge)\S+t($|[ \n\r\t.,'()"+\-;!?:/»«‹›<>]))/ig;
-var verbsBeginningWithErVerEntBeZerHerUberRegex = /^(((be|ent|er|her|ver|zer|über|ueber)\S+([^s]t|sst))($|[ \n\r\t.,'()"+\-;!?:/»«‹›<>]))/ig;
-var verbsWithGeInMiddleRegex = /(ab|an|auf|aus|vor|wieder|zurück)(ge)\S+t($|[ \n\r\t.,'()"+\-;!?:/»«‹›<>])/ig;
-var verbsWithErVerEntBeZerHerUberInMiddleRegex =
+const verbsBeginningWithGeRegex = /^((ge)\S+t($|[ \n\r\t.,'()"+\-;!?:/»«‹›<>]))/ig;
+const verbsBeginningWithErVerEntBeZerHerUberRegex = /^(((be|ent|er|her|ver|zer|über|ueber)\S+([^s]t|sst))($|[ \n\r\t.,'()"+\-;!?:/»«‹›<>]))/ig;
+const verbsWithGeInMiddleRegex = /(ab|an|auf|aus|vor|wieder|zurück)(ge)\S+t($|[ \n\r\t.,'()"+\-;!?:/»«‹›<>])/ig;
+const verbsWithErVerEntBeZerHerUberInMiddleRegex =
 	/((ab|an|auf|aus|vor|wieder|zurück)(be|ent|er|her|ver|zer|über|ueber)\S+([^s]t|sst))($|[ \n\r\t.,'()"+\-;!?:/»«‹›<>])/ig;
-var verbsEndingWithIertRegex = /\S+iert($|[ \n\r\t.,'()"+\-;!?:/»«‹›<>])/ig;
-var exceptionsRegex = /\S+(apparat|arbeit|dienst|haft|halt|kraft|not|pflicht|schaft|schrift|tät|wert|zeit)($|[ \n\r\t.,'()"+\-;!?:/»«‹›<>])/ig;
+const verbsEndingWithIertRegex = /\S+iert($|[ \n\r\t.,'()"+\-;!?:/»«‹›<>])/ig;
+const exceptionsRegex = /\S+(apparat|arbeit|dienst|haft|halt|kraft|not|pflicht|schaft|schrift|tät|wert|zeit)($|[ \n\r\t.,'()"+\-;!?:/»«‹›<>])/ig;
 
 /**
  * Checks if the word starts with 'ge'.
@@ -12,7 +12,7 @@ var exceptionsRegex = /\S+(apparat|arbeit|dienst|haft|halt|kraft|not|pflicht|sch
  * @param {string} word The word to match.
  * @returns {Array} A list with matches.
  */
-var verbsBeginningWithGe = function( word ) {
+const verbsBeginningWithGe = function( word ) {
 	return word.match( verbsBeginningWithGeRegex ) || [];
 };
 
@@ -22,7 +22,7 @@ var verbsBeginningWithGe = function( word ) {
  * @param {string} word The word to match.
  * @returns {Array} A list with matches.
  */
-var verbsBeginningWithErVerEntBeZerHerUber = function( word ) {
+const verbsBeginningWithErVerEntBeZerHerUber = function( word ) {
 	return word.match( verbsBeginningWithErVerEntBeZerHerUberRegex ) || [];
 };
 
@@ -32,7 +32,7 @@ var verbsBeginningWithErVerEntBeZerHerUber = function( word ) {
  * @param {string} word The word to match.
  * @returns {Array} A list with matches.
  */
-var verbsWithGeInMiddle = function( word ) {
+const verbsWithGeInMiddle = function( word ) {
 	return word.match( verbsWithGeInMiddleRegex ) || [];
 };
 
@@ -43,7 +43,7 @@ var verbsWithGeInMiddle = function( word ) {
  * @param {string} word The word to match.
  * @returns {Array} A list with matches.
  */
-var verbsWithErVerEntBeZerHerUberInMiddle = function( word ) {
+const verbsWithErVerEntBeZerHerUberInMiddle = function( word ) {
 	return word.match( verbsWithErVerEntBeZerHerUberInMiddleRegex ) || [];
 };
 
@@ -53,7 +53,7 @@ var verbsWithErVerEntBeZerHerUberInMiddle = function( word ) {
  * @param {string} word The word to match.
  * @returns {Array} A list with matches.
  */
-var verbsEndingWithIert = function( word ) {
+const verbsEndingWithIert = function( word ) {
 	return word.match( verbsEndingWithIertRegex ) || [];
 };
 

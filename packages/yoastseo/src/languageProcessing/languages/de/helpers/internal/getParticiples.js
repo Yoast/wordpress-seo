@@ -1,31 +1,28 @@
-import getWords from "../../../helpers/word/getWords.js";
-import regexFunctionFactory from "../config/passiveVoice/regex.js";
-const regexFunction = regexFunctionFactory();
-var verbsBeginningWithErVerEntBeZerHerUber = regexFunction.verbsBeginningWithErVerEntBeZerHerUber;
-var verbsBeginningWithGe = regexFunction.verbsBeginningWithGe;
-var verbsWithGeInMiddle = regexFunction.verbsWithGeInMiddle;
-var verbsWithErVerEntBeZerHerUberInMiddle = regexFunction.verbsWithErVerEntBeZerHerUberInMiddle;
-var verbsEndingWithIert = regexFunction.verbsEndingWithIert;
-import irregularParticiplesFactory from "../config/passiveVoice/irregulars.js";
-const irregularParticiples = irregularParticiplesFactory();
-import GermanParticiple from "../config/passiveVoice/GermanParticiple.js";
-
+import getWords from "../../../../helpers/word/getWords.js";
+import regexFunction from "../../config/internal/passiveVoiceRegex.js";
+import irregularParticiples from "../../config/internal/passiveVoiceIrregulars.js";
+import GermanParticiple from "../../values/GermanParticiple.js";
 import { forEach } from "lodash-es";
 import { includes } from "lodash-es";
+
+const verbsBeginningWithErVerEntBeZerHerUber = regexFunction.verbsBeginningWithErVerEntBeZerHerUber;
+const verbsBeginningWithGe = regexFunction.verbsBeginningWithGe;
+const verbsWithGeInMiddle = regexFunction.verbsWithGeInMiddle;
+const verbsWithErVerEntBeZerHerUberInMiddle = regexFunction.verbsWithErVerEntBeZerHerUberInMiddle;
+const verbsEndingWithIert = regexFunction.verbsEndingWithIert;
 
 /**
  * Creates GermanParticiple Objects for the participles found in a sentence.
  *
  * @param {string} sentencePartText The sentence to finds participles in.
  * @param {Array} auxiliaries The list of auxiliaries from the sentence part.
- * @param {string} language The language.
  *
  * @returns {Array} The array with GermanParticiple Objects.
  */
-export default function( sentencePartText, auxiliaries, language ) {
-	var words = getWords( sentencePartText );
+export default function( sentencePartText, auxiliaries ) {
+	const words = getWords( sentencePartText );
 
-	var foundParticiples = [];
+	const foundParticiples = [];
 
 	forEach( words, function( word ) {
 		if ( verbsBeginningWithGe( word ).length !== 0 ) {
