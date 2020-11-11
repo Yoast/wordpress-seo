@@ -1,5 +1,5 @@
 {
-  "version": "15.2",
-  "release_description": "You’re now able to optimize URLs for more visibility when shared on Slack!",
-  "shortlink": "https://yoa.st/yoast15-2"
+  "version": "15.3",
+  "release_description": "Writing in Hebrew? You can now check if your texts are easy to read in the readability analysis.",
+  "shortlink": "https://yoa.st/yoast15-3"
 }

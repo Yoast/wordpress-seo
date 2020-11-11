@@ -42,7 +42,7 @@ We know content is king, that's why Yoast SEO is famous for its **state-of-the-a
 
 * **SEO analysis**: an invaluable tool while writing SEO-friendly content with the right (focus) keyphrases in mind.
 * **Readability analysis**: ensures that humans and search engines can read and understand your content.
-* **Full language support** for: English, German, French, Dutch, Spanish, Italian, Russian, Indonesian, Polish, Portuguese, Arabic and Swedish.
+* **Full language support** for: English, German, French, Dutch, Spanish, Italian, Russian, Indonesian, Polish, Portuguese, Arabic, Swedish and Hebrew.
 * **A Google preview**, which shows what your listings will look like in the search results. Even on mobile devices!
 * **Innovative Schema blocks** for the WordPress block editor, so that your FAQ and HowTo content can be shown directly in the search results.
 * **[Premium] Internal linking blocks** to easily improve the structure of your content. Easily add a **table of contents block**, a **related links block**, a **subpages** block, or **siblings block**! Plus, we’ll keep adding these easy-to-add blocks to improve your site structure.
@@ -82,6 +82,7 @@ Did you know that [Yoast SEO Premium](https://yoa.st/1v8) contains a lot of extr
 * **Internal linking suggestions** while you’re writing.
 * Preview your content to see what it will look like in the search results and when shared on social media using the **Google preview** and **social preview**.
 * **Cornerstone content checks** that point search engines to your most important pages.
+* Connect Yoast SEO to Zapier to easily **create zaps that instantly share your published posts** with 2000+ destinations like Twitter, Facebook, and much more.
 
 If you are serious about your WordPress SEO, install the [Yoast SEO Premium plugin](https://yoa.st/1v8)! **Costs a little, saves a lot of time!**
 
@@ -234,23 +235,31 @@ Your question has most likely been answered on our knowledge base: [kb.yoast.com
 = 15.3 =
 Release Date: November 17th, 2020
 
+Out now: Yoast SEO 15.3! In this release, you’ll find full language support for Hebrew in our analysis! This makes it a lot more natural to optimize your posts and it lets you focus on the writing part. Read more about what’s new in Yoast SEO 15.3 in [our release post](https://yoa.st/release-15-3)!
+
 Bugfixes:
 
 * Fixes a bug where no notification to reindex your site would be shown when the indexing process failed.
-* Fixes a bug where no notification to reindex your site was shown when changing the permalink structure, category base or home URL multiple times in a row and hiding the notification in between.
-* Fixes a bug where the `ctype_digit()` function would be redeclared.
-* Fixes a bug where reindexing via WP-CLI did not always repopulate the indexables tables.
+* Fixes a bug where no notification to reindex your site would be shown when changing the permalink structure, category base or home URL multiple times in a row and hiding the notification in between.
+* Fixes a bug where a fatal error would be thrown when there is no ctype extension loaded and `ctype_digit` had been polyfilled before.
+* Fixes a bug where reindexing via the WP-CLI would not always repopulate the indexables tables.
 * Fixes a bug where unfiltered HTML could be inserted in taxonomy descriptions by administrators and editors.
 * Fixes a bug where the indexable permalinks could have an incorrect taxonomy base.
+* Fixes a bug where the SEO optimization process sometimes had to be run twice before everything was correctly indexed.
 
 Enhancements:
 
-* Adds the consecutive sentences assessment for Hebrew.
-* Adds the sentence length assessment for Hebrew.
-* Adds the assessment for transition words in Hebrew.
-* Adds the assessment for the recognition of the passive voice in Hebrew.
-* Does not mark the words 'annoyed', 'depressed', 'disappointed', and 'upset' as passives anymore, since most of the time they are closer to adjectives rather than passive verbs in meaning.
+* Adds the following assessments for Hebrew:
+   * Consecutive sentences assessment.
+   * Sentence length assessment.
+   * Transition words assessment.
+   * Passive voice assessment.
+* Does not mark the words 'annoyed', 'depressed', 'disappointed', and 'upset' as passives in English anymore, since most of the time they are closer to adjectives rather than passive verbs in meaning.
 * Improves the results for the keyphrase distribution assessment for Swedish, Indonesian, Arabic, Hebrew and Farsi by allowing a partial match (instead of a full match) for long keyphrases (4 or more content words).
+
+Other:
+
+* Prevents the SEO optimization process from restart automatically when the optimization tool is started via the link in the dashboard notification and the Yoast SEO tools page is reloaded during indexing.
 
 = 15.2.1 =
 Release Date: November 2nd, 2020
