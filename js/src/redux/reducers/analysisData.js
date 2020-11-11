@@ -1,4 +1,4 @@
-import { UPDATE_SNIPPET_DATA, REFRESH_ANALYSIS_DATA_TIMESTAMP } from "../actions";
+import { UPDATE_SNIPPET_DATA, RUN_ANALYSIS } from "../actions";
 
 const INITIAL_STATE = {
 	snippet: {},
@@ -20,7 +20,7 @@ function analysisDataReducer( state = INITIAL_STATE, action ) {
 				...state,
 				snippet: action.data,
 			};
-		case REFRESH_ANALYSIS_DATA_TIMESTAMP:
+		case RUN_ANALYSIS:
 			return {
 				...state,
 				timestamp: action.timestamp,

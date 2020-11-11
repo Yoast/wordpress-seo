@@ -30,7 +30,7 @@ domReady( () => {
 
 	// Initialize analysis.
 	window.YoastSEO.analysis = window.YoastSEO.analysis || {};
-	window.YoastSEO.analysis.run = dispatch( "yoast-seo/editor" ).refreshAnalysisDataTimestamp;
+	window.YoastSEO.analysis.run = dispatch( "yoast-seo/editor" ).runAnalysis;
 	window.YoastSEO.analysis.worker = initAnalysis();
 
 	// Initialize replacement variables plugin.

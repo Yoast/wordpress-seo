@@ -2,6 +2,7 @@ import { dispatch, select, subscribe } from "@wordpress/data";
 import {
 	flatten,
 	uniq,
+	debounce,
 } from "lodash";
 import { Paper } from "yoastseo";
 
@@ -25,6 +26,8 @@ function runMorphologyResearch( runResearch, focusKeyphrase ) {
 		} );
 }
 
+const debouncedRunMorphologyResearch = debounce( runMorphologyResearch, 500 );
+
 /**
  * Initializes the focus keyphrase forms watcher.
  *
@@ -46,7 +49,7 @@ export default function initHighlightFocusKeyphraseForms( runResearch ) {
 
 		if ( previousFocusKeyphrase !== currentFocusKeyphrase ) {
 			previousFocusKeyphrase = currentFocusKeyphrase;
-			runMorphologyResearch( runResearch, currentFocusKeyphrase );
+			debouncedRunMorphologyResearch( runResearch, currentFocusKeyphrase );
 		}
 	} );
 }

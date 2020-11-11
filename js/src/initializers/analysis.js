@@ -72,6 +72,7 @@ const initAnalysis = () => {
 	// Get the selectors.
 	const {
 		getAnalysisData,
+		getAnalysisTimestamp,
 		isCornerstoneContent,
 	} = select( "yoast-seo/editor" );
 
@@ -85,18 +86,19 @@ const initAnalysis = () => {
 	// Initialize the data for the "is dirty" checks.
 	let previousAnalysisData = applyAnalysisModifications( getAnalysisData() );
 	let previousIsCornerstone = isCornerstoneContent();
+	let previousAnalysisTimestamp = getAnalysisTimestamp();
 
 	/*
 	 * Listen to store changes.
 	 *
 	 * Because the modifications in pluggable are not in the store, they can change without our subscribe triggering.
-	 * We offer a "refresh": `dispatch( "yoast-seo/editor" ).refreshAnalysisDataTimestamp`, that stores a timestamp in the store.
-	 * When this timestamp changes, the subscribe runs and we check whether the data (including modifications) has changed.
+	 * We offer a "refresh": `dispatch( "yoast-seo/editor" ).runAnalysis`, that stores a timestamp in the store.
 	 */
 	subscribe( () => {
 		// Fetch the current data.
 		const currentIsCornerstone = isCornerstoneContent();
 		const currentAnalysisData = applyAnalysisModifications( getAnalysisData() );
+		const currentAnalysisTimestamp = getAnalysisTimestamp();
 
 		// Keep the is cornerstone content up-to-date. When changed, also update the analysis results.
 		if ( currentIsCornerstone !== previousIsCornerstone ) {
@@ -112,8 +114,9 @@ const initAnalysis = () => {
 		}
 
 		// Keep the analysis results up-to-date.
-		if ( isEqual( currentAnalysisData, previousAnalysisData ) === false ) {
+		if ( currentAnalysisTimestamp !== previousAnalysisTimestamp || isEqual( currentAnalysisData, previousAnalysisData ) === false ) {
 			previousAnalysisData = currentAnalysisData;
+			previousAnalysisTimestamp = currentAnalysisTimestamp;
 			debouncedRunAnalysis( worker, currentAnalysisData );
 		}
 	} );

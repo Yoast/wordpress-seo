@@ -34,6 +34,15 @@ export const getDescription = ( state ) => get( state, "analysisData.snippet.des
 export const getPermalink = ( state ) => get( state, "analysisData.snippet.url", "" );
 
 /**
+ * Gets the analysis timestamp.
+ *
+ * @param {Object} state The state.
+ *
+ * @returns {string} The analysis timestamp.
+ */
+export const getAnalysisTimestamp = ( state ) => parseInt( get( state, "analysisData.timestamp", 0 ), 10 );
+
+/**
  * Gets the analysis data.
  *
  * @param {Object} state The state.

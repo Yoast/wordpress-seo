@@ -1,5 +1,5 @@
 export const UPDATE_SNIPPET_DATA = "SNIPPET_EDITOR_UPDATE_ANALYSIS_DATA";
-export const REFRESH_ANALYSIS_DATA_TIMESTAMP = "REFRESH_ANALYSIS_DATA_TIMESTAMP";
+export const RUN_ANALYSIS = "RUN_ANALYSIS";
 
 /**
  * Updates the analysis data in redux.
@@ -16,13 +16,13 @@ export function updateAnalysisData( data ) {
 }
 
 /**
- * Refreshes the analysis data timestamp.
+ * Refreshes the analysis data timestamp which triggers store subscriptions (including the analysis).
  *
  * @returns {Object} An action to dispatch.
  */
-export function refreshAnalysisDataTimestamp() {
+export function runAnalysis() {
 	return {
-		type: REFRESH_ANALYSIS_DATA_TIMESTAMP,
+		type: RUN_ANALYSIS,
 		timestamp: Date.now(),
 	};
 }

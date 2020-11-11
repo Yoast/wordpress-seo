@@ -11,7 +11,7 @@ let pluggable = null;
  */
 const getPluggable = () => {
 	if ( pluggable === null ) {
-		const refresh = dispatch( "yoast-seo/editor" ).refreshAnalysisDataTimestamp;
+		const refresh = dispatch( "yoast-seo/editor" ).runAnalysis;
 		pluggable = new Pluggable( refresh );
 	}
 

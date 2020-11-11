@@ -20,7 +20,7 @@ export default function initializeUsedKeywords() {
 	const usedKeywords = new UsedKeywords(
 		"get_focus_keyword_usage",
 		localizedData,
-		dispatch( "yoast-seo/editor" ).refreshAnalysisDataTimestamp,
+		dispatch( "yoast-seo/editor" ).runAnalysis,
 		scriptUrl
 	);
 	usedKeywords.init();
