@@ -4,6 +4,7 @@ import { __ } from "@wordpress/i18n";
 import { ProgressBar, NewButton, Alert } from "@yoast/components";
 import { colors } from "@yoast/style-guide";
 import PropTypes from "prop-types";
+import { removeSearchParam, addHistoryState } from "../helpers/urlHelpers";
 
 const STATE = {
 	/**
@@ -204,6 +205,9 @@ export class Indexation extends Component {
 		const shouldStart = new URLSearchParams( window.location.search ).get( "start-indexation" ) === "true";
 
 		if ( shouldStart ) {
+			const currentURL = removeSearchParam( window.location.href, "start-indexation" );
+			addHistoryState( null, document.title, currentURL );
+
 			this.startIndexing();
 		}
 	}
@@ -218,7 +222,6 @@ export class Indexation extends Component {
 	isState( state ) {
 		return this.state.state === state;
 	}
-
 
 	/**
 	 * Renders a notice if it is the first time the indexation is performed.
