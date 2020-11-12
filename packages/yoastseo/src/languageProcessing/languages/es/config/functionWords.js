@@ -273,48 +273,40 @@ const titlesPreceding = [ "sra", "sras", "srta", "sr", "sres", "dra", "dr", "pro
 
 const titlesFollowing = [ "jr", "sr" ];
 
-/**
- * Returns the function words for Spanish.
- *
- * @returns {Object} The Spanish function words.
- */
-export default function() {
-	return {
+// These word categories are filtered at the beginning of word combinations.
+export const filteredAtBeginning = generalAdjectivesAdverbs;
 
-		// These word categories are filtered at the beginning of word combinations.
-		filteredAtBeginning: generalAdjectivesAdverbs,
+// These word categories are filtered at the ending of word combinations.
+export const filteredAtEnding = [].concat( ordinalNumerals, otherAuxiliariesInfinitive, copulaEstarInfinitive, copulaSerInfinitive,
+	delexicalizedVerbsInfinitive );
 
-		// These word categories are filtered at the ending of word combinations.
-		filteredAtEnding: [].concat( ordinalNumerals, otherAuxiliariesInfinitive, copulaEstarInfinitive, copulaSerInfinitive,
-			delexicalizedVerbsInfinitive ),
+// These word categories are filtered at the beginning and ending of word combinations.
+export const filteredAtBeginningAndEnding = [].concat( articles, prepositions, coordinatingConjunctions, demonstrativePronouns, intensifiers,
+	quantifiers, possessivePronouns );
 
-		// These word categories are filtered at the beginning and ending of word combinations.
-		filteredAtBeginningAndEnding: [].concat( articles, prepositions, coordinatingConjunctions, demonstrativePronouns, intensifiers,
-			quantifiers, possessivePronouns ),
+// These word categories are filtered everywhere within word combinations.
+export const filteredAnywhere = [].concat( transitionWords, personalPronounsNominative, personalPronounsAccusative, personalPronounsPrepositional,
+	personalPronounsComitative, interjections, cardinalNumerals, otherAuxiliaries, copulaEstar, copulaSer, interviewVerbs, delexicalizedVerbs,
+	indefinitePronouns, correlativeConjunctions, subordinatingConjunctions, interrogativeDeterminers, interrogativePronouns,
+	interrogativeProAdverbs, locativeAdverbs, miscellaneous, prepositionalAdverbs, recipeWords, timeWords, vagueNouns );
 
-		// These word categories are filtered everywhere within word combinations.
-		filteredAnywhere: [].concat( transitionWords, personalPronounsNominative, personalPronounsAccusative, personalPronounsPrepositional,
-			personalPronounsComitative, interjections, cardinalNumerals, otherAuxiliaries, copulaEstar, copulaSer, interviewVerbs, delexicalizedVerbs,
-			indefinitePronouns, correlativeConjunctions, subordinatingConjunctions, interrogativeDeterminers, interrogativePronouns,
-			interrogativeProAdverbs, locativeAdverbs, miscellaneous, prepositionalAdverbs, recipeWords, timeWords, vagueNouns ),
+// These word categories cannot directly precede a passive participle.
+export const cannotDirectlyPrecedePassiveParticiple = [].concat( articles, prepositions, personalPronounsAccusative, possessivePronouns,
+	indefinitePronouns, interrogativeProAdverbs, cardinalNumerals, ordinalNumerals, delexicalizedVerbs, delexicalizedVerbsInfinitive,
+	interviewVerbs, interrogativeDeterminers, interrogativePronouns, personalPronounsComitative, personalPronounsPrepositional,
+	prepositionalAdverbs );
 
-		// These word categories cannot directly precede a passive participle.
-		cannotDirectlyPrecedePassiveParticiple: [].concat( articles, prepositions, personalPronounsAccusative, possessivePronouns,
-			indefinitePronouns, interrogativeProAdverbs, cardinalNumerals, ordinalNumerals, delexicalizedVerbs, delexicalizedVerbsInfinitive,
-			interviewVerbs, interrogativeDeterminers, interrogativePronouns, personalPronounsComitative, personalPronounsPrepositional,
-			prepositionalAdverbs ),
+// These word categories cannot intervene between an auxiliary and a corresponding passive participle.
+export const cannotBeBetweenPassiveAuxiliaryAndParticiple = [].concat( copulaEstar, copulaEstarInfinitive );
 
-		// These word categories cannot intervene between an auxiliary and a corresponding passive participle.
-		cannotBeBetweenPassiveAuxiliaryAndParticiple: [].concat( copulaEstar, copulaEstarInfinitive ),
+// This export contains all of the above words.
+export const all = [].concat( articles, cardinalNumerals, ordinalNumerals, demonstrativePronouns, possessivePronouns,
+	personalPronounsNominative, personalPronounsComitative, personalPronounsPrepositional,
+	personalPronounsAccusative, quantifiers, indefinitePronouns, interrogativeDeterminers, interrogativePronouns,
+	interrogativeProAdverbs, locativeAdverbs, prepositionalAdverbs, otherAuxiliaries, otherAuxiliariesInfinitive, copulaEstar, copulaSer,
+	copulaEstarInfinitive, copulaSerInfinitive, prepositions, coordinatingConjunctions, correlativeConjunctions,
+	subordinatingConjunctions, interviewVerbs, transitionWords, additionalTransitionWords, intensifiers, delexicalizedVerbs,
+	delexicalizedVerbsInfinitive, interjections, generalAdjectivesAdverbs, recipeWords, vagueNouns, miscellaneous,
+	titlesPreceding, titlesFollowing );
 
-		// This export contains all of the above words.
-		all: [].concat( articles, cardinalNumerals, ordinalNumerals, demonstrativePronouns, possessivePronouns,
-			personalPronounsNominative, personalPronounsComitative, personalPronounsPrepositional,
-			personalPronounsAccusative, quantifiers, indefinitePronouns, interrogativeDeterminers, interrogativePronouns,
-			interrogativeProAdverbs, locativeAdverbs, prepositionalAdverbs, otherAuxiliaries, otherAuxiliariesInfinitive, copulaEstar, copulaSer,
-			copulaEstarInfinitive, copulaSerInfinitive, prepositions, coordinatingConjunctions, correlativeConjunctions,
-			subordinatingConjunctions, interviewVerbs, transitionWords, additionalTransitionWords, intensifiers, delexicalizedVerbs,
-			delexicalizedVerbsInfinitive, interjections, generalAdjectivesAdverbs, recipeWords, vagueNouns, miscellaneous,
-			titlesPreceding, titlesFollowing ),
-	};
-}
+export default {};

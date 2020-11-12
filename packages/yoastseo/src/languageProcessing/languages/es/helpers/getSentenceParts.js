@@ -1,14 +1,13 @@
 import getPeriphrasticSentenceParts from "../../../helpers/passiveVoice/periphrastic/getSentenceParts.js";
 import arrayToRegex from "../../../helpers/regex/createRegexFromArray";
-import SentencePart from "../config/passiveVoice/SentencePart";
-import auxiliariesFactory from "../config/passiveVoice/auxiliaries.js";
-import stopwordsFactory from "../config/stopwords.js";
-const auxiliaries = auxiliariesFactory();
+import SentencePart from "../values/SentencePart";
+import auxiliaries from "../config/internal/passiveVoiceAuxiliaries.js";
+import stopWords from "../config/stopwords.js";
 const followingAuxiliaryExceptionWords = [ "el", "la", "los", "las", "una" ];
 
 const options = {
 	SentencePart: SentencePart,
-	stopwords: stopwordsFactory(),
+	stopwords: stopWords,
 	auxiliaries: auxiliaries,
 	regexes: {
 		auxiliaryRegex: arrayToRegex( auxiliaries ),
@@ -21,8 +20,9 @@ const options = {
  * Gets the sentence parts from a sentence by determining sentence breakers.
  *
  * @param {string} sentence The sentence to split up in sentence parts.
+ *
  * @returns {Array} The array with all parts of a sentence that have an auxiliary.
  */
-export default function getSentenceParts( sentence) {
+export default function getSentenceParts( sentence ) {
 	return getPeriphrasticSentenceParts( sentence, options );
-};
+}
