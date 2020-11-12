@@ -2,6 +2,7 @@ import { createElement, ComponentClass } from "@wordpress/element";
 import { InnerBlocks as WordPressInnerBlocks } from "@wordpress/block-editor";
 
 import BlockInstruction from "../../core/blocks/BlockInstruction";
+import { TemplateArray } from "@wordpress/blocks";
 
 /**
  * InnerBlocks instruction
@@ -9,6 +10,7 @@ import BlockInstruction from "../../core/blocks/BlockInstruction";
 class InnerBlocks extends BlockInstruction {
 	public options: {
 		allowedBlocks: string[];
+		template: TemplateArray;
 		appender: string;
 		appenderLabel: string;
 	};
@@ -50,6 +52,10 @@ class InnerBlocks extends BlockInstruction {
 		}
 		if ( this.options.allowedBlocks ) {
 			attributes.allowedBlocks = this.options.allowedBlocks;
+		}
+
+		if ( this.options.template ) {
+			attributes.template = this.options.template;
 		}
 
 		return createElement( WordPressInnerBlocks, attributes );
