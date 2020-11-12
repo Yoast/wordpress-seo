@@ -398,7 +398,7 @@ class Elementor implements Integration_Interface {
 			'isElementorEditor' => true,
 		];
 
-		if ( post_type_supports( get_post_type(), 'thumbnail' ) ) {
+		if ( \post_type_supports( $this->get_metabox_post()->post_type, 'thumbnail' ) ) {
 			$this->asset_manager->enqueue_style( 'featured-image' );
 
 			$script_data['featuredImage'] = [
