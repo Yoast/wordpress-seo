@@ -79,7 +79,7 @@ class Permalink_Integrity_Watcher implements Integration_Interface {
 		foreach ($permalinks_indexables_types as $link) {
 			if ($link >= \time() - (60 * 60 * 24 * 7)) {
 				//less then a week ago, do nothing
-				//return;
+				return;
 			}
 		}
 
