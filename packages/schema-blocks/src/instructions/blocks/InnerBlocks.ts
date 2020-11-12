@@ -6,14 +6,14 @@ import recurseOverBlocks from "../../functions/blocks/recurseOverBlocks";
 import { select } from "@wordpress/data";
 import { RenderEditProps, RenderSaveProps } from "../../core/blocks/BlockDefinition";
 import { BlockInstance } from "@wordpress/blocks";
-export type RequiredBlockCollection = Record<string, RequiredBlockOption>
+export type RequiredBlocks = Record<string, RequiredBlockOption>
 
 enum RequiredBlockOption {
 	One = 1,
 	OneOrMore = 2	
 }
 
-export type InvalidBlockCollection = Record <string, InvalidBlockReason>
+export type InvalidBlocks = Record <string, InvalidBlockReason>
 enum InvalidBlockReason {
 	Missing = 1,
 	TooMany = 3
@@ -27,7 +27,7 @@ class InnerBlocks extends BlockInstruction {
 		allowedBlocks: string[];
 		appender: string;
 		appenderLabel: string;		
-		requiredBlocks: RequiredBlockCollection;
+		requiredBlocks: RequiredBlocks;
 		recommendedBlocks: string[];
 	};
 
@@ -46,7 +46,7 @@ class InnerBlocks extends BlockInstruction {
 	 * @returns The inner blocks.
 	 */
 	edit(): JSX.Element {
-		const attributes: WordPressInnerBlocks.Props = {};
+		var attributes: WordPressInnerBlocks.Props = {};
 
 		if ( this.options.appender === "button" ) {
 			attributes.renderAppender = () => {
@@ -88,25 +88,28 @@ class InnerBlocks extends BlockInstruction {
 	 */
 	valid( props: RenderSaveProps | RenderEditProps ): boolean {
 		if ( this.options.requiredBlocks ) {
-			var output : InvalidBlockCollection;
+			var output : InvalidBlocks;
 
 			var innerBlocks = this.getInnerBlocks( props.clientId );
-			var keys = Object.keys( this.options.requiredBlocks );
+			var requiredBlockKeys = Object.keys( this.options.requiredBlocks );
 			
-			// We now have all instances of required blocks on the page
-			const existingBlocks = this.getBlocksOfType ( innerBlocks, keys );
+			// Find all instances of required block types.
+			const existingRequiredBlocks = this.getBlocksOfType ( innerBlocks, requiredBlockKeys );
 			
-			// find all keys that do not have a matching block in existingBlocks
-			const missingBlocks = keys.filter( name => { existingBlocks.every ( block => block.name !== name) });			
-			missingBlocks.forEach(missing => {
+			// Find all block types that do not occur in existingBlocks.
+			const missingRequiredBlocks = this.findMissingBlocks(requiredBlockKeys, existingRequiredBlocks);
+			
+			// These blocks should've been in here somewhere, but they're not.
+			missingRequiredBlocks.forEach(missing => {
 				output[missing] = InvalidBlockReason.Missing;
 			});
 
+			// 
 			var onlyOneAllowed = this.options.requiredBlocks.filter( block => { block.RequiredBlockOption === RequiredBlockOption.One } );
-			if (  onlyOneAllowed ) {
+			if ( onlyOneAllowed ) {
 				// find all keys that have too many occurrences, by counting the occurrences of each block name.
 				var countPerBlockType : Record<string, number> = {};
-				existingBlocks.reduce( (countPerBlockType, block) => { 
+				existingRequiredBlocks.reduce( (countPerBlockType, block) => { 
 					countPerBlockType[block.name] = (countPerBlockType[block.name] || 0) + 1;
 					return countPerBlockType;
 				}, countPerBlockType); 
@@ -114,6 +117,13 @@ class InnerBlocks extends BlockInstruction {
 		}
 		
 		return true;
+	}
+
+	private findMissingBlocks(requiredBlockKeys: string[], existingRequiredBlocks: BlockInstance<{ [k: string]: any; }>[]) {
+		return requiredBlockKeys.filter(requiredblockname => {
+			// Every block in the found blocks collection does not match the requiredblock, i.e. we haven't found the requiredblock.
+			existingRequiredBlocks.every(block => block.name !== requiredblockname);
+		});
 	}
 
 	// todo export this neat tool function
