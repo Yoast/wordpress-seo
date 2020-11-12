@@ -51,7 +51,7 @@ class WPSEO_Yoast_Columns implements WPSEO_WordPress_Integration {
 				'<em>',
 				'</em>'
 			);
-		};
+		}
 
 		$screen = get_current_screen();
 		$screen->add_help_tab(

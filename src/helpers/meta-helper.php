@@ -1,9 +1,4 @@
 <?php
-/**
- * A helper object for meta.
- *
- * @package Yoast\YoastSEO\Helpers
- */
 
 namespace Yoast\WP\SEO\Helpers;
 
@@ -11,7 +6,7 @@ use WPSEO_Meta;
 use WPSEO_Taxonomy_Meta;
 
 /**
- * Class Meta_Helper
+ * A helper object for meta.
  */
 class Meta_Helper {
 
@@ -55,5 +50,18 @@ class Meta_Helper {
 	 */
 	public function get_term_value( $term, $taxonomy, $meta = null ) {
 		return WPSEO_Taxonomy_Meta::get_term_meta( $term, $taxonomy, $meta );
+	}
+
+	/**
+	 * Set a custom post meta value.
+	 *
+	 * @param string $key        Internal key of the value to set (without prefix).
+	 * @param mixed  $meta_value The value to set the meta value to.
+	 * @param int    $post_id    Post ID of the post to set the value for.
+	 *
+	 * @return bool Whether the value was changed.
+	 */
+	public function set_value( $key, $meta_value, $post_id ) {
+		return WPSEO_Meta::set_value( $key, $meta_value, $post_id );
 	}
 }

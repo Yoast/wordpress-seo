@@ -1,9 +1,4 @@
 <?php
-/**
- * Yoast SEO Plugin File.
- *
- * @package Yoast\YoastSEO\Dependency_Injection
- */
 
 namespace Yoast\WP\SEO\Dependency_Injection;
 
@@ -37,6 +32,8 @@ class Container_Compiler {
 
 			$container_builder = new ContainerBuilder();
 			$container_builder->addCompilerPass( new Loader_Pass() );
+			$container_builder->addCompilerPass( new Schema_Templates_Pass() );
+			$container_builder->addCompilerPass( new Interface_Injection_Pass() );
 			$loader = new Custom_Loader( $container_builder );
 			$loader->load( 'config/dependency-injection/services.php' );
 			$container_builder->compile();

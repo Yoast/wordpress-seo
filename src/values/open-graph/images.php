@@ -1,9 +1,4 @@
 <?php
-/**
- * Value object for the Open Graph Images.
- *
- * @package Yoast\WP\SEO\Values
- */
 
 namespace Yoast\WP\SEO\Values\Open_Graph;
 
@@ -11,7 +6,7 @@ use Yoast\WP\SEO\Helpers\Open_Graph\Image_Helper as Open_Graph_Image_Helper;
 use Yoast\WP\SEO\Values\Images as Base_Images;
 
 /**
- * Class Images.
+ * Value object for the Open Graph Images.
  */
 class Images extends Base_Images {
 
@@ -42,9 +37,7 @@ class Images extends Base_Images {
 	 *
 	 * @return void
 	 */
-	public function show() {
-
-	}
+	public function show() {}
 
 	/**
 	 * Adds an image to the list by image ID.

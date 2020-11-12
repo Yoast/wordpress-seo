@@ -1,9 +1,4 @@
 <?php
-/**
- * Yoast extension of the Model class.
- *
- * @package Yoast\WP\SEO\Repositories
- */
 
 namespace Yoast\WP\SEO\Repositories;
 
@@ -14,11 +9,12 @@ use Yoast\WP\Lib\ORM;
 use Yoast\WP\SEO\Builders\Indexable_Builder;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Indexable_Helper;
+use Yoast\WP\SEO\Helpers\Permalink_Helper;
 use Yoast\WP\SEO\Loggers\Logger;
 use Yoast\WP\SEO\Models\Indexable;
 
 /**
- * Class Indexable_Repository
+ * Class Indexable_Repository.
  */
 class Indexable_Repository {
 
@@ -65,6 +61,13 @@ class Indexable_Repository {
 	protected $indexable_helper;
 
 	/**
+	 * Represents the permalink helper.
+	 *
+	 * @var Permalink_Helper
+	 */
+	protected $permalink_helper;
+
+	/**
 	 * Returns the instance of this class constructed through the ORM Wrapper.
 	 *
 	 * @param Indexable_Builder              $builder              The indexable builder.
@@ -72,7 +75,7 @@ class Indexable_Repository {
 	 * @param Logger                         $logger               The logger.
 	 * @param Indexable_Hierarchy_Repository $hierarchy_repository The hierarchy repository.
 	 * @param wpdb                           $wpdb                 The WordPress database instance.
-	 * @param Indexable_Helper               $indexable_helper     The indexable helper.
+	 * @param Permalink_Helper               $permalink_helper     The permalink helper.
 	 */
 	public function __construct(
 		Indexable_Builder $builder,
@@ -80,14 +83,14 @@ class Indexable_Repository {
 		Logger $logger,
 		Indexable_Hierarchy_Repository $hierarchy_repository,
 		wpdb $wpdb,
-		Indexable_Helper $indexable_helper
+		Permalink_Helper $permalink_helper
 	) {
 		$this->builder              = $builder;
 		$this->current_page         = $current_page;
 		$this->logger               = $logger;
 		$this->hierarchy_repository = $hierarchy_repository;
 		$this->wpdb                 = $wpdb;
-		$this->indexable_helper     = $indexable_helper;
+		$this->permalink_helper     = $permalink_helper;
 	}
 
 	/**
@@ -331,9 +334,9 @@ class Indexable_Repository {
 	}
 
 	/**
-	 * Retrieves multiple indexables at once by their IDs and type.
+	 * Retrieves multiple indexables at once by their id's and type.
 	 *
-	 * @param int[]  $object_ids  The array of indexable object IDs.
+	 * @param int[]  $object_ids  The array of indexable object id's.
 	 * @param string $object_type The indexable object type.
 	 * @param bool   $auto_create Optional. Create the indexable if it does not exist.
 	 *
@@ -366,6 +369,26 @@ class Indexable_Repository {
 				$indexables[] = $this->builder->build_for_id_and_type( $indexable_to_create, $object_type );
 			}
 		}
+
+		return \array_map( [ $this, 'ensure_permalink' ], $indexables );
+	}
+
+	/**
+	 * Finds the indexables by id's.
+	 *
+	 * @param array $indexable_ids The indexable id's.
+	 *
+	 * @return Indexable[] The found indexables.
+	 */
+	public function find_by_ids( array $indexable_ids ) {
+		if ( empty( $indexable_ids ) ) {
+			return [];
+		}
+
+		$indexables = $this
+			->query()
+			->where_in( 'id', $indexable_ids )
+			->find_many();
 
 		return \array_map( [ $this, 'ensure_permalink' ], $indexables );
 	}
@@ -407,33 +430,10 @@ class Indexable_Repository {
 	}
 
 	/**
-	 * Returns all children of a given indexable.
-	 *
-	 * @param Indexable $indexable The indexable to find the children of.
-	 *
-	 * @return Indexable[] All children of the given indexable.
-	 */
-	public function get_children( Indexable $indexable ) {
-		$indexable_ids = $this->hierarchy_repository->find_children( $indexable );
-
-		if ( empty( $indexable_ids ) ) {
-			return [];
-		}
-
-		$indexables = $this
-			->query()
-			->where_in( 'id', $indexable_ids )
-			->order_by_expr( 'FIELD(id,' . \implode( ',', $indexable_ids ) . ')' )
-			->find_many();
-
-		return \array_map( [ $this, 'ensure_permalink' ], $indexables );
-	}
-
-	/**
 	 * Returns all subpages with a given post_parent.
 	 *
 	 * @param int   $post_parent The post parent.
-	 * @param array $exclude_ids The ids to exclude.
+	 * @param array $exclude_ids The id's to exclude.
 	 *
 	 * @return Indexable[] array of indexables.
 	 */
@@ -452,7 +452,7 @@ class Indexable_Repository {
 	/**
 	 * Updates the incoming link count for an indexable without first fetching it.
 	 *
-	 * @param int $indexable_id The indexable ID.
+	 * @param int $indexable_id The indexable id.
 	 * @param int $count        The incoming link count.
 	 *
 	 * @return bool Whether or not the update was succeful.
@@ -473,7 +473,7 @@ class Indexable_Repository {
 	 */
 	protected function ensure_permalink( $indexable ) {
 		if ( $indexable && $indexable->permalink === null ) {
-			$indexable->permalink = $this->indexable_helper->get_permalink_for_indexable( $indexable );
+			$indexable->permalink = $this->permalink_helper->get_permalink_for_indexable( $indexable );
 
 			// Only save if changed.
 			if ( $indexable->permalink !== null ) {
@@ -481,5 +481,52 @@ class Indexable_Repository {
 			}
 		}
 		return $indexable;
+	}
+
+	/* ********************* DEPRECATED METHODS ********************* */
+
+	/**
+	 * Returns all children of a given indexable.
+	 *
+	 * @deprecated 15.0
+	 * @codeCoverageIgnore
+	 *
+	 * @param Indexable $indexable The indexable to find the children of.
+	 *
+	 * @return Indexable[] All children of the given indexable.
+	 */
+	public function get_children( Indexable $indexable ) {
+		_deprecated_function( __METHOD__, 'WPSEO 15.0' );
+
+		$indexable_ids = $this->hierarchy_repository->find_children( $indexable );
+
+		return $this->find_by_ids( $indexable_ids );
+	}
+
+	/**
+	 * Resets the permalinks of the passed object type and subtype.
+	 *
+	 * @param string      $type    The type of the indexable. Can be null.
+	 * @param null|string $subtype The subtype. Can be null.
+	 *
+	 * @return int|bool The number of permalinks changed if the query was succesful. False otherwise.
+	 */
+	public function reset_permalink( $type = null, $subtype = null ) {
+		$query = $this->query()->set(
+			[
+				'permalink'      => null,
+				'permalink_hash' => null,
+			]
+		);
+
+		if ( $type !== null ) {
+			$query->where( 'object_type', $type );
+		}
+
+		if ( $type !== null && $subtype !== null ) {
+			$query->where( 'object_sub_type', $subtype );
+		}
+
+		return $query->update_many();
 	}
 }

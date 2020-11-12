@@ -1,16 +1,9 @@
 <?php
-/**
- * WPSEO plugin file.
- *
- * @package Yoast\WP\SEO\Helpers\Schema
- */
 
 namespace Yoast\WP\SEO\Helpers\Schema;
 
 /**
- * Class Article_Helper
- *
- * @package Yoast\WP\SEO\Helpers
+ * Class Article_Helper.
  */
 class Article_Helper {
 

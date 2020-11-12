@@ -1,9 +1,4 @@
 <?php
-/**
- * Yoast SEO Plugin File.
- *
- * @package Yoast\YoastSEO\Composer
- */
 
 namespace Yoast\WP\SEO\Composer;
 
@@ -218,7 +213,7 @@ class Actions {
 			return 0;
 		}
 
-		\system( 'composer check-cs -- ' . \implode( ' ', \array_map( 'escapeshellarg', $php_files ) ), $exit_code );
+		\system( 'composer check-cs-warnings -- ' . \implode( ' ', \array_map( 'escapeshellarg', $php_files ) ), $exit_code );
 		return $exit_code;
 	}
 
@@ -375,6 +370,7 @@ TPL;
 
 		echo "Running coding standards checks, this may take some time.\n";
 		$command = 'composer check-cs-summary';
+		// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged -- Non-WP context, this is fine.
 		@exec( $command, $phpcs_output, $return );
 
 		$statistics = self::extract_cs_statistics( $phpcs_output );
@@ -384,19 +380,21 @@ TPL;
 		}
 
 		echo PHP_EOL;
-		echo 'CODE SNIFFER SUMMARY' . PHP_EOL;
-		echo '--------------------' . PHP_EOL;
-		echo implode( PHP_EOL, $phpcs_output );
-
-		echo PHP_EOL;
 		echo 'CODE SNIFFER RESULTS' . PHP_EOL;
 		echo '--------------------' . PHP_EOL;
 
 		$error_count   = $statistics['error_count'];
 		$warning_count = $statistics['warning_count'];
 
-		echo "Coding standards errors: $error_count/$error_threshold.\n";
-		echo "Coding standards warnings: $warning_count/$warning_threshold.\n";
+		self::color_line_success(
+			"Coding standards errors: $error_count/$error_threshold.",
+			( $error_count <= $error_threshold )
+		);
+
+		self::color_line_success(
+			"Coding standards warnings: $warning_count/$warning_threshold.",
+			( $warning_count <= $warning_threshold )
+		);
 
 		$above_threshold = false;
 
@@ -427,6 +425,40 @@ TPL;
 			echo "Coding standards checks have passed!\n";
 		}
 
+		if ( $above_threshold ) {
+			echo "\n";
+			echo "Running check-branch-cs.\n";
+			echo "This might show problems on untouched lines. Focus on the lines you've changed first.\n";
+			echo "\n";
+
+			// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged -- Non-WP context, this is fine.
+			@passthru( 'composer check-branch-cs' );
+		}
+
 		exit( ( $above_threshold ) ? 1 : 0 );
+	}
+
+	/**
+	 * Color the output of the line.
+	 *
+	 * @param string $line  Line to output.
+	 * @param string $color Color to give the line.
+	 *
+	 * @returns void
+	 */
+	private static function color_line( $line, $color ) {
+		echo $color . $line . "\e[0m\n";
+	}
+
+	/**
+	 * Color the line based on success status.
+	 *
+	 * @param string $line    Line to output.
+	 * @param bool   $success Success status.
+	 *
+	 * @returns void
+	 */
+	private static function color_line_success( $line, $success ) {
+		self::color_line( $line, ( $success ) ? "\e[32m" : "\e[31m" );
 	}
 }

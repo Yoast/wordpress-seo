@@ -1,15 +1,11 @@
 <?php
-/**
- * WPSEO plugin test file.
- *
- * @package Yoast\WP\SEO\Tests\Unit\Integrations\Watchers
- */
 
 namespace Yoast\WP\SEO\Tests\Unit\Integrations\Watchers;
 
 use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Builders\Indexable_Builder;
+use Yoast\WP\SEO\Builders\Indexable_Link_Builder;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
 use Yoast\WP\SEO\Helpers\Site_Helper;
 use Yoast\WP\SEO\Integrations\Watchers\Indexable_Term_Watcher;
@@ -18,7 +14,7 @@ use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
- * Class Indexable_Term_Test.
+ * Class Indexable_Term_Watcher_Test.
  *
  * @group indexables
  * @group integrations
@@ -44,6 +40,13 @@ class Indexable_Term_Watcher_Test extends TestCase {
 	private $builder;
 
 	/**
+	 * The link builder.
+	 *
+	 * @var Mockery\MockInterface|Indexable_Link_Builder
+	 */
+	protected $link_builder;
+
+	/**
 	 * Represents the site helper.
 	 *
 	 * @var Mockery\MockInterface|Site_Helper
@@ -63,10 +66,17 @@ class Indexable_Term_Watcher_Test extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->repository = Mockery::mock( Indexable_Repository::class );
-		$this->builder    = Mockery::mock( Indexable_Builder::class );
-		$this->site       = Mockery::mock( Site_Helper::class );
-		$this->instance   = new Indexable_Term_Watcher( $this->repository, $this->builder, $this->site );
+		$this->repository   = Mockery::mock( Indexable_Repository::class );
+		$this->builder      = Mockery::mock( Indexable_Builder::class );
+		$this->link_builder = Mockery::mock( Indexable_Link_Builder::class );
+		$this->site         = Mockery::mock( Site_Helper::class );
+
+		$this->instance = new Indexable_Term_Watcher(
+			$this->repository,
+			$this->builder,
+			$this->link_builder,
+			$this->site
+		);
 	}
 
 	/**
@@ -139,7 +149,10 @@ class Indexable_Term_Watcher_Test extends TestCase {
 			->expects( 'is_multisite_and_switched' )
 			->andReturnFalse();
 
-		$term = (object) [ 'taxonomy' => 'tag' ];
+		$term = (object) [
+			'taxonomy'    => 'tag',
+			'description' => 'This is a term description, with a <a href="https://example.org/target">link</a>.',
+		];
 
 		Monkey\Functions\expect( 'get_term' )
 			->once()
@@ -167,6 +180,17 @@ class Indexable_Term_Watcher_Test extends TestCase {
 			->once()
 			->with( 1, 'term', $indexable )
 			->andReturn( $indexable );
+
+		$this->link_builder
+			->expects( 'build' )
+			->with(
+				$indexable,
+				'This is a term description, with a <a href="https://example.org/target">link</a>.'
+			);
+
+		$indexable
+			->expects( 'save' )
+			->once();
 
 		$this->instance->build_indexable( 1 );
 	}
@@ -274,7 +298,10 @@ class Indexable_Term_Watcher_Test extends TestCase {
 			->expects( 'is_multisite_and_switched' )
 			->andReturnFalse();
 
-		$term = (object) [ 'taxonomy' => 'tag' ];
+		$term = (object) [
+			'taxonomy'    => 'tag',
+			'description' => 'This is a term description, with a <a href="https://example.org/target">link</a>.',
+		];
 
 		Monkey\Functions\expect( 'get_term' )
 			->once()
@@ -302,6 +329,17 @@ class Indexable_Term_Watcher_Test extends TestCase {
 			->once()
 			->with( 1, 'term', false )
 			->andReturn( $indexable );
+
+		$this->link_builder
+			->expects( 'build' )
+			->with(
+				$indexable,
+				'This is a term description, with a <a href="https://example.org/target">link</a>.'
+			);
+
+		$indexable
+			->expects( 'save' )
+			->once();
 
 		$this->instance->build_indexable( 1 );
 	}

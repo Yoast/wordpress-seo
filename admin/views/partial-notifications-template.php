@@ -52,9 +52,9 @@ if ( ! function_exists( '_yoast_display_notifications' ) ) {
 				esc_attr( $notification->get_id() ),
 				esc_attr( $notification->get_nonce() ),
 				esc_attr( $notification->get_json() ),
-				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: Needs to be fixed in https://github.com/Yoast/wordpress-seo-premium/issues/2548.
+				// This needs to be fixed in https://github.com/Yoast/wordpress-seo-premium/issues/2548.
 				$notification,
-				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: $button is properly escaped.
+				// Note: $button is properly escaped above.
 				$button
 			);
 		}
@@ -82,7 +82,7 @@ if ( ! $active ) {
 
 		<div class="container yoast-notifications-active" id="<?php echo esc_attr( 'yoast-' . $type . '-active' ); ?>">
 			<?php
-			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: _yoast_display_notifications is considered a safe function.
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: _yoast_display_notifications() as declared above is safe.
 			echo _yoast_display_notifications( $active, 'active' );
 			?>
 		</div>
@@ -101,7 +101,7 @@ if ( ! $active ) {
 					'collapsible_header_class' => 'yoast-notification',
 				]
 			);
-			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: current usage is considered safe.
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: get_output() output is properly escaped.
 			echo $dismissed_paper->get_output();
 		}
 		?>

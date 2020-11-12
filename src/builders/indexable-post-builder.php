@@ -1,9 +1,4 @@
 <?php
-/**
- * Post Builder for the indexables.
- *
- * @package Yoast\YoastSEO\Builders
- */
 
 namespace Yoast\WP\SEO\Builders;
 
@@ -13,17 +8,12 @@ use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
 /**
+ * Post Builder for the indexables.
+ *
  * Formats the post meta to indexable format.
  */
 class Indexable_Post_Builder {
 	use Indexable_Social_Image_Trait;
-
-	/**
-	 * The link builder.
-	 *
-	 * @var Indexable_Link_Builder
-	 */
-	protected $link_builder;
 
 	/**
 	 * The indexable repository.
@@ -42,15 +32,12 @@ class Indexable_Post_Builder {
 	/**
 	 * Indexable_Post_Builder constructor.
 	 *
-	 * @param Indexable_Link_Builder $link_builder The link builder.
-	 * @param Post_Helper            $post         The post helper.
+	 * @param Post_Helper $post The post helper.
 	 */
 	public function __construct(
-		Indexable_Link_Builder $link_builder,
 		Post_Helper $post
 	) {
-		$this->link_builder = $link_builder;
-		$this->post         = $post;
+		$this->post = $post;
 	}
 
 	/**
@@ -115,8 +102,6 @@ class Indexable_Post_Builder {
 		}
 
 		$this->handle_social_images( $indexable );
-
-		$this->link_builder->build( $indexable, $post->post_content );
 
 		$indexable->author_id   = $post->post_author;
 		$indexable->post_parent = $post->post_parent;

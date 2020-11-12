@@ -31,6 +31,11 @@ class Open_Graph_URL_Test extends TestCase {
 	public function test_generate_open_graph_url_and_return_permalink() {
 		$this->indexable->permalink = 'https://example.com/static-posts-page';
 
+		$this->indexable_helper
+			->expects( 'dynamic_permalinks_enabled' )
+			->once()
+			->andReturn( false );
+
 		$this->assertEquals( 'https://example.com/static-posts-page', $this->instance->generate_open_graph_url() );
 	}
 }

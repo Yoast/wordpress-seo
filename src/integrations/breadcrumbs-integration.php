@@ -1,9 +1,4 @@
 <?php
-/**
- * WPSEO plugin file.
- *
- * @package Yoast\WP\SEO\Integrations\Front_End
- */
 
 namespace Yoast\WP\SEO\Integrations;
 
@@ -51,15 +46,18 @@ class Breadcrumbs_Integration implements Integration_Interface {
 	}
 
 	/**
-	 * @inheritDoc
+	 * Returns the conditionals based in which this loadable should be active.
+	 *
+	 * @return array The array of conditionals.
 	 */
 	public static function get_conditionals() {
 		return [ Breadcrumbs_Enabled_Conditional::class ];
 	}
 
 	/**
+	 * Registers the `wpseo_breadcrumb` shortcode.
+	 *
 	 * @codeCoverageIgnore
-	 * @inheritDoc
 	 */
 	public function register_hooks() {
 		\add_shortcode( 'wpseo_breadcrumb', [ $this, 'render' ] );

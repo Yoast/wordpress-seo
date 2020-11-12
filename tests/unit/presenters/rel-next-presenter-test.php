@@ -1,7 +1,4 @@
 <?php
-/**
- * WPSEO plugin test file.
- */
 
 namespace Yoast\WP\SEO\Tests\Unit\Presenters;
 
@@ -12,7 +9,7 @@ use Yoast\WP\SEO\Presenters\Rel_Next_Presenter;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
- * Class Rel_Next_Presenter_Test
+ * Class Rel_Next_Presenter_Test.
  *
  * @coversDefaultClass \Yoast\WP\SEO\Presenters\Rel_Next_Presenter
  *

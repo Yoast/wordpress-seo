@@ -1,9 +1,4 @@
 <?php
-/**
- * A helper object for Open Graph images.
- *
- * @package \Yoast\WP\SEO\Helpers\Open_Graph
- */
 
 namespace Yoast\WP\SEO\Helpers\Open_Graph;
 
@@ -11,7 +6,7 @@ use Yoast\WP\SEO\Helpers\Image_Helper as Base_Image_Helper;
 use Yoast\WP\SEO\Helpers\Url_Helper;
 
 /**
- * Class Image_Helper
+ * A helper object for Open Graph images.
  */
 class Image_Helper {
 

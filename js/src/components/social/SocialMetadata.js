@@ -15,10 +15,10 @@ import TwitterContainer from "../../containers/TwitterEditor";
  *
  * @returns {wp.Element} The social metadata collapsibles.
  */
-const SocialMetadata = ( { isFacebookEnabled, isTwitterEnabled } ) => {
+const SocialMetadata = ( { displayFacebook, displayTwitter } ) => {
 	return (
 		<Fragment>
-			{ isFacebookEnabled && <MetaboxCollapsible
+			{ displayFacebook && <MetaboxCollapsible
 				hasSeparator={ false }
 				/* Translators: %s expands to Facebook. */
 				title={ sprintf( __( "%s preview", "wordpress-seo" ), "Facebook" ) }
@@ -26,11 +26,11 @@ const SocialMetadata = ( { isFacebookEnabled, isTwitterEnabled } ) => {
 			>
 				<FacebookContainer />
 			</MetaboxCollapsible> }
-			{ isTwitterEnabled && <MetaboxCollapsible
+			{ displayTwitter && <MetaboxCollapsible
 				/* Translators: %s expands to Twitter. */
 				title={ sprintf( __( "%s preview", "wordpress-seo" ), "Twitter" ) }
 				// If facebook is NOT enabled, Twitter collapsible should NOT have a separator.
-				hasSeparator={ isFacebookEnabled }
+				hasSeparator={ displayFacebook }
 				initialIsOpen={ true }
 			>
 				<TwitterContainer />
@@ -40,13 +40,8 @@ const SocialMetadata = ( { isFacebookEnabled, isTwitterEnabled } ) => {
 };
 
 SocialMetadata.propTypes = {
-	isFacebookEnabled: PropTypes.bool,
-	isTwitterEnabled: PropTypes.bool,
-};
-
-SocialMetadata.defaultProps = {
-	isFacebookEnabled: true,
-	isTwitterEnabled: true,
+	displayFacebook: PropTypes.bool.isRequired,
+	displayTwitter: PropTypes.bool.isRequired,
 };
 
 export default SocialMetadata;

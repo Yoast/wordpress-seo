@@ -1,9 +1,4 @@
 <?php
-/**
- * WPSEO plugin test file.
- *
- * @package Yoast\WP\SEO\Tests\Unit\Integrations
- */
 
 namespace Yoast\WP\SEO\Tests\Unit\Integrations;
 
@@ -13,7 +8,7 @@ use Yoast\WP\SEO\Integrations\Primary_Category;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
- * Unit Test Class.
+ * Class Primary_Category_Test.
  *
  * @coversDefaultClass \Yoast\WP\SEO\Integrations\Primary_Category
  *

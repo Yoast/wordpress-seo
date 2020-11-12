@@ -54,11 +54,11 @@ class WPSEO_Taxonomy_Metabox {
 	 * @param stdClass $term     The term.
 	 */
 	public function __construct( $taxonomy, $term ) {
-		$this->term                 = $term;
-		$this->taxonomy             = $taxonomy;
+		$this->term              = $term;
+		$this->taxonomy          = $taxonomy;
 		$this->is_social_enabled = WPSEO_Options::get( 'opengraph', false ) || WPSEO_Options::get( 'twitter', false );
 
-		$this->seo_analysis = new WPSEO_Metabox_Analysis_SEO();
+		$this->seo_analysis         = new WPSEO_Metabox_Analysis_SEO();
 		$this->readability_analysis = new WPSEO_Metabox_Analysis_Readability();
 	}
 
@@ -66,7 +66,7 @@ class WPSEO_Taxonomy_Metabox {
 	 * Shows the Yoast SEO metabox for the term.
 	 */
 	public function display() {
-		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: $product_title is hardcoded.
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: $this->get_product_title() returns a hard-coded string.
 		printf( '<div id="wpseo_meta" class="postbox yoast wpseo-taxonomy-metabox-postbox"><h2><span>%1$s</span></h2>', $this->get_product_title() );
 
 		echo '<div class="inside">';
@@ -85,7 +85,7 @@ class WPSEO_Taxonomy_Metabox {
 	 * @return void
 	 */
 	protected function render_hidden_fields() {
-		$fields_presenter = new WPSEO_Taxonomy_Fields_Presenter( $this->term );
+		$fields_presenter  = new WPSEO_Taxonomy_Fields_Presenter( $this->term );
 		$field_definitions = new WPSEO_Taxonomy_Fields();
 
 		echo $fields_presenter->html( $field_definitions->get( 'content' ) );
@@ -105,7 +105,7 @@ class WPSEO_Taxonomy_Metabox {
 	 */
 	protected function render_tabs() {
 		echo '<div class="wpseo-metabox-content">';
-		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: $this->get_product_title is considered safe.
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: $this->get_product_title() returns a hard-coded string.
 		printf( '<div class="wpseo-metabox-menu"><ul role="tablist" class="yoast-aria-tabs" aria-label="%s">', $this->get_product_title() );
 
 		$tabs = $this->get_tabs();
@@ -131,7 +131,7 @@ class WPSEO_Taxonomy_Metabox {
 	private function get_tabs() {
 		$tabs = [];
 
-		$label        = __( 'SEO', 'wordpress-seo' );
+		$label = __( 'SEO', 'wordpress-seo' );
 		if ( $this->seo_analysis->is_enabled() ) {
 			$label = '<span class="wpseo-score-icon-container" id="wpseo-seo-score-icon"></span>' . $label;
 		}

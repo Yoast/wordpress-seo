@@ -1,9 +1,4 @@
 <?php
-/**
- * Presenter class for Alert boxes.
- *
- * @package Yoast\YoastSEO\Presenters\Admin
- */
 
 namespace Yoast\WP\SEO\Presenters\Admin;
 
@@ -11,7 +6,7 @@ use WPSEO_Admin_Asset_Manager;
 use Yoast\WP\SEO\Presenters\Abstract_Presenter;
 
 /**
- * Represents the class for Alerts.
+ * Represents the presenter class for Alert boxes.
  */
 class Alert_Presenter extends Abstract_Presenter {
 

@@ -1,16 +1,9 @@
 <?php
-/**
- * Yoast SEO Plugin File.
- *
- * @package Yoast\YoastSEO\Conditionals
- */
 
 namespace Yoast\WP\SEO\Conditionals;
 
 /**
- * Class WPML_Conditional
- *
- * @package Yoast\WP\SEO\Conditionals
+ * Conditional that is only met when WPML is active.
  */
 class WPML_Conditional implements Conditional {
 

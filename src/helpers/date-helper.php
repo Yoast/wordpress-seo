@@ -1,16 +1,11 @@
 <?php
-/**
- * A helper object for dates.
- *
- * @package Yoast\YoastSEO\Helpers
- */
 
 namespace Yoast\WP\SEO\Helpers;
 
 use WPSEO_Date_Helper;
 
 /**
- * Class Date_Helper
+ * A helper object for dates.
  */
 class Date_Helper {
 

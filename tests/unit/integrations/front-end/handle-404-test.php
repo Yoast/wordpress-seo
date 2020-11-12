@@ -1,9 +1,4 @@
 <?php
-/**
- * WPSEO plugin test file.
- *
- * @package Yoast\WP\SEO\Tests\Unit\Integrations\Front_End
- */
 
 namespace Yoast\WP\SEO\Tests\Unit\Integrations\Front_End;
 
@@ -16,7 +11,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
 use Yoast\WP\SEO\Wrappers\WP_Query_Wrapper;
 
 /**
- * Unit Test Class.
+ * Class Handle_404_Test.
  *
  * @coversDefaultClass \Yoast\WP\SEO\Integrations\Front_End\Handle_404
  *
@@ -40,7 +35,7 @@ class Handle_404_Test extends TestCase {
 	protected $instance;
 
 	/**
-	 * @inheritDoc
+	 * Sets an instance for test purposes.
 	 */
 	public function setUp() {
 		parent::setUp();
@@ -71,7 +66,7 @@ class Handle_404_Test extends TestCase {
 	public function test_register_hooks() {
 		$this->instance->register_hooks();
 
-		$this->assertTrue( Monkey\Filters\has( 'pre_handle_404', [ $this->instance, 'handle_404' ] ) );
+		$this->assertNotFalse( Monkey\Filters\has( 'pre_handle_404', [ $this->instance, 'handle_404' ] ) );
 	}
 
 	/**

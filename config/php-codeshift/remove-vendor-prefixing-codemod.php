@@ -1,16 +1,11 @@
 <?php
-/**
- * Yoast SEO Plugin File.
- *
- * @package Yoast\YoastSEO\PHP_CodeShift
- */
 
 namespace Yoast\WP\SEO\PHP_CodeShift;
 
 use Codeshift\AbstractCodemod;
 
 /**
- * Class Vendor_Prefixing_Codemod
+ * Class Remove_Vendor_Prefixing_Codemod.
  */
 class Remove_Vendor_Prefixing_Codemod extends AbstractCodemod {
 

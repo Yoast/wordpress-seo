@@ -1,16 +1,11 @@
 <?php
-/**
- * Yoast SEO plugin file.
- *
- * @package Yoast\YoastSEO\Conditionals
- */
 
 namespace Yoast\WP\SEO\Conditionals;
 
 use Yoast\WP\SEO\Helpers\Options_Helper;
 
 /**
- * Index_Links_Conditional class
+ * Should_Index_Links_Conditional class.
  */
 class Should_Index_Links_Conditional implements Conditional {
 
@@ -31,7 +26,9 @@ class Should_Index_Links_Conditional implements Conditional {
 	}
 
 	/**
-	 * @inheritDoc
+	 * Returns `true` when the links on this website should be indexed.
+	 *
+	 * @returns boolean `true` when the links on this website should be indexed.
 	 */
 	public function is_met() {
 		$should_index_links = $this->options_helper->get( 'enable_text_link_counter' );

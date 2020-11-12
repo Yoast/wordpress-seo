@@ -1,9 +1,4 @@
 <?php
-/**
- * Yoast SEO plugin file.
- *
- * @package Yoast\WP\SEO\Conditionals
- */
 
 namespace Yoast\WP\SEO\Conditionals;
 

@@ -1,9 +1,4 @@
 <?php
-/**
- * Model for the Indexable table.
- *
- * @package Yoast\YoastSEO\Models
- */
 
 namespace Yoast\WP\SEO\Models;
 
@@ -82,11 +77,11 @@ use Yoast\WP\Lib\Model;
 class Indexable extends Model {
 
 	/**
-	 * Holds the ancestors. May not be set.
+	 * Holds the ancestors.
 	 *
 	 * @var Indexable[]
 	 */
-	public $ancestors;
+	public $ancestors = [];
 
 	/**
 	 * Whether nor this model uses timestamps.

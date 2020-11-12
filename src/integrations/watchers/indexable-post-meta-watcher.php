@@ -1,9 +1,4 @@
 <?php
-/**
- * WordPress post meta watcher.
- *
- * @package Yoast\YoastSEO\Watchers
- */
 
 namespace Yoast\WP\SEO\Integrations\Watchers;
 
@@ -12,7 +7,7 @@ use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 
 /**
- * Indexable_Postmeta_Watcher class
+ * WordPress post meta watcher.
  */
 class Indexable_Post_Meta_Watcher implements Integration_Interface {
 

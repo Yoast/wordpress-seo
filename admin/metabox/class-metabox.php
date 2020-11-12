@@ -77,7 +77,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$this->social_is_enabled            = WPSEO_Options::get( 'opengraph', false ) || WPSEO_Options::get( 'twitter', false );
 		$this->is_advanced_metadata_enabled = WPSEO_Capability_Utils::current_user_can( 'wpseo_edit_advanced_metadata' ) || WPSEO_Options::get( 'disableadvanced_meta' ) === false;
 
-		$this->seo_analysis = new WPSEO_Metabox_Analysis_SEO();
+		$this->seo_analysis         = new WPSEO_Metabox_Analysis_SEO();
 		$this->readability_analysis = new WPSEO_Metabox_Analysis_Readability();
 	}
 
@@ -278,6 +278,10 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			$values['cornerstoneActive'] = false;
 		}
 
+		if ( $values['semrushIntegrationActive'] && $this->post->post_type === 'attachment' ) {
+			$values['semrushIntegrationActive'] = 0;
+		}
+
 		return $values;
 	}
 
@@ -325,13 +329,13 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		echo new Meta_Fields_Presenter( $this->get_metabox_post(), 'general' );
 
 		if ( $this->is_advanced_metadata_enabled ) {
-			echo new Meta_Fields_Presenter( $this->get_metabox_post(),'advanced' );
+			echo new Meta_Fields_Presenter( $this->get_metabox_post(), 'advanced' );
 		}
 
 		echo new Meta_Fields_Presenter( $this->get_metabox_post(), 'schema', $this->get_metabox_post()->post_type );
 
 		if ( $this->social_is_enabled ) {
-			echo new Meta_Fields_Presenter( $this->get_metabox_post(),'social' );
+			echo new Meta_Fields_Presenter( $this->get_metabox_post(), 'social' );
 		}
 
 		/**
@@ -349,7 +353,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 */
 	protected function render_tabs() {
 		echo '<div class="wpseo-metabox-content">';
-		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: $this->get_product_title is considered safe.
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: $this->get_product_title() returns a hard-coded string.
 		printf( '<div class="wpseo-metabox-menu"><ul role="tablist" class="yoast-aria-tabs" aria-label="%s">', $this->get_product_title() );
 
 		$tabs = $this->get_tabs();
@@ -450,8 +454,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		foreach ( $requested_tabs as $tab ) {
 			if ( is_array( $tab ) && array_key_exists( 'name', $tab ) && array_key_exists( 'link_content', $tab ) && array_key_exists( 'content', $tab ) ) {
-				$options    = array_key_exists( 'options', $tab ) ? $tab['options'] : [];
-				$tabs[] = new WPSEO_Metabox_Section_Additional(
+				$options = array_key_exists( 'options', $tab ) ? $tab['options'] : [];
+				$tabs[]  = new WPSEO_Metabox_Section_Additional(
 					$tab['name'],
 					$tab['link_content'],
 					$tab['content'],
@@ -822,7 +826,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$asset_manager->enqueue_style( 'select2' );
 		$asset_manager->enqueue_style( 'monorepo' );
 
-		$is_block_editor = WP_Screen::get()->is_block_editor();
+		$is_block_editor  = WP_Screen::get()->is_block_editor();
 		$post_edit_handle = 'post-edit';
 		if ( ! $is_block_editor ) {
 			$post_edit_handle = 'post-edit-classic';

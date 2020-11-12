@@ -1,16 +1,11 @@
 <?php
-/**
- * WPSEO plugin file.
- *
- * @package Yoast\WP\SEO\Integrations\Blocks
- */
 
 namespace Yoast\WP\SEO\Integrations\Blocks;
 
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 
 /**
- * Breadcrumbs block class
+ * Dynamic_Block class.
  */
 abstract class Dynamic_Block implements Integration_Interface {
 

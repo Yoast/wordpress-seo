@@ -98,9 +98,9 @@ if ( $company_or_person === 'person' ) {
 }
 
 if ( $company_or_person === 'company' ) {
-	// phpcs:ignore WordPress --sniffs=WordPress.Security.EscapeOutput -- get_button_html output is properly escaped.
+	// phpcs:ignore WordPress.Security.EscapeOutput -- get_button_html() output is properly escaped.
 	echo '<h2 class="help-button-inline">' . esc_html__( 'Organization social profiles', 'wordpress-seo' ) . $social_profiles_help->get_button_html() . '</h2>';
-	// phpcs:ignore WordPress --sniffs=WordPress.Security.EscapeOutput -- get_panel_html output is properly escaped.
+	// phpcs:ignore WordPress.Security.EscapeOutput -- get_panel_html() output is properly escaped.
 	echo $social_profiles_help->get_panel_html();
 
 	foreach ( $organization_social_fields as $organization ) {

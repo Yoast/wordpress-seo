@@ -1,9 +1,4 @@
 <?php
-/**
- * WPSEO plugin test file.
- *
- * @package Yoast\WP\SEO\Tests\Unit\Integrations\Third_Party
- */
 
 namespace Yoast\WP\SEO\Tests\Unit\Integrations\Third_Party;
 
@@ -14,7 +9,7 @@ use Yoast\WP\SEO\Integrations\Third_Party\Jetpack;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
- * Unit Test Class.
+ * Class Jetpack_Test.
  *
  * @coversDefaultClass \Yoast\WP\SEO\Integrations\Third_Party\Jetpack
  * @covers ::<!public>
@@ -32,7 +27,7 @@ class Jetpack_Test extends TestCase {
 	protected $instance;
 
 	/**
-	 * @inheritDoc
+	 * Sets an instance for test purposes.
 	 */
 	public function setUp() {
 		parent::setUp();
@@ -59,6 +54,6 @@ class Jetpack_Test extends TestCase {
 	public function test_register_hooks() {
 		$this->instance->register_hooks();
 
-		$this->assertTrue( \has_filter( 'jetpack_enable_open_graph', '__return_false' ) );
+		$this->assertNotFalse( \has_filter( 'jetpack_enable_open_graph', '__return_false' ) );
 	}
 }

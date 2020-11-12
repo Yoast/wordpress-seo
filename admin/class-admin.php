@@ -97,14 +97,12 @@ class WPSEO_Admin {
 		}
 
 		$integrations[] = new WPSEO_Yoast_Columns();
-		$integrations[] = new WPSEO_License_Page_Manager();
 		$integrations[] = new WPSEO_Statistic_Integration();
 		$integrations[] = new WPSEO_Capability_Manager_Integration( WPSEO_Capability_Manager_Factory::get() );
 		$integrations[] = new WPSEO_Admin_Media_Purge_Notification();
 		$integrations[] = new WPSEO_Admin_Gutenberg_Compatibility_Notification();
 		$integrations[] = new WPSEO_Expose_Shortlinks();
 		$integrations[] = new WPSEO_MyYoast_Proxy();
-		$integrations[] = new WPSEO_MyYoast_Route();
 		$integrations[] = new WPSEO_Schema_Person_Upgrade_Notification();
 		$integrations[] = new WPSEO_Tracking( 'https://tracking.yoast.com/stats', ( WEEK_IN_SECONDS * 2 ) );
 		$integrations[] = new WPSEO_Admin_Settings_Changed_Listener();
@@ -170,7 +168,8 @@ class WPSEO_Admin {
 	 * Maps the manage_options cap on saving an options page to wpseo_manage_options.
 	 */
 	public function map_manage_options_cap() {
-		$option_page = ! empty( $_POST['option_page'] ) ? $_POST['option_page'] : ''; // WPCS: CSRF ok.
+		// phpcs:ignore WordPress.Security -- The variable is only used in strpos and thus safe to not unslash or sanitize.
+		$option_page = ! empty( $_POST['option_page'] ) ? $_POST['option_page'] : '';
 
 		if ( strpos( $option_page, 'yoast_wpseo' ) === 0 ) {
 			add_filter( 'option_page_capability_' . $option_page, [ $this, 'get_manage_options_cap' ] );
@@ -224,18 +223,26 @@ class WPSEO_Admin {
 			array_unshift( $links, $settings_link );
 		}
 
-		$addon_manager = new WPSEO_Addon_Manager();
-		if ( WPSEO_Utils::is_yoast_seo_premium() && $addon_manager->has_valid_subscription( WPSEO_Addon_Manager::PREMIUM_SLUG ) ) {
-			return $links;
-		}
-
-		// Add link to premium support landing page.
-		$premium_link = '<a style="font-weight: bold;" href="' . esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/1yb' ) ) . '" target="_blank">' . __( 'Premium Support', 'wordpress-seo' ) . '</a>';
-		array_unshift( $links, $premium_link );
-
 		// Add link to docs.
 		$faq_link = '<a href="' . esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/1yc' ) ) . '" target="_blank">' . __( 'FAQ', 'wordpress-seo' ) . '</a>';
 		array_unshift( $links, $faq_link );
+
+		$addon_manager = new WPSEO_Addon_Manager();
+		if ( WPSEO_Utils::is_yoast_seo_premium() ) {
+			if ( $addon_manager->has_valid_subscription( WPSEO_Addon_Manager::PREMIUM_SLUG ) ) {
+				return $links;
+			}
+
+			// Add link to where premium can be activated.
+			$activation_link = '<a style="font-weight: bold;" href="' . esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/activate-my-yoast' ) ) . '" target="_blank">' . __( 'Activate your subscription', 'wordpress-seo' ) . '</a>';
+			array_unshift( $links, $activation_link );
+
+			return $links;
+		}
+
+		// Add link to premium landing page.
+		$premium_link = '<a style="font-weight: bold;" href="' . esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/1yb' ) ) . '" target="_blank">' . __( 'Get Premium', 'wordpress-seo' ) . '</a>';
+		array_unshift( $links, $premium_link );
 
 		return $links;
 	}

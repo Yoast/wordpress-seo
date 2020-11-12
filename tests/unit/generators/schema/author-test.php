@@ -92,6 +92,7 @@ class Author_Test extends TestCase {
 			'caption' => 'Ad Minnie',
 		],
 		'sameAs' => [
+			'https://piet.blog/',
 			'https://facebook.example.org/admin',
 			'https://instagram.example.org/admin',
 			'https://linkedin.example.org/admin',
@@ -212,6 +213,7 @@ class Author_Test extends TestCase {
 		$user_data       = (object) [
 			'display_name' => $this->person_data['name'],
 			'user_email'   => 'bla@example.org',
+			'user_url'     => 'https://piet.blog/',
 		];
 
 		$this->instance->context->site_represents = 'person';
@@ -288,7 +290,7 @@ class Author_Test extends TestCase {
 	 * @param int   $user_id    The user id.
 	 * @param array $site_array The array of socials, mapping social site name to URL.
 	 *
-	 * @throws ExpectationArgsRequired
+	 * @throws ExpectationArgsRequired When args missing / wrong.
 	 */
 	private function expect_socials( $user_id, $site_array ) {
 		Filters\expectApplied( 'wpseo_schema_person_social_profiles' )
@@ -312,6 +314,7 @@ class Author_Test extends TestCase {
 		$person_logo_id                                  = 'person_logo_id';
 		$user_data                                       = (object) [
 			'display_name' => 'Piet',
+			'user_url'     => 'https://piet.blog/',
 		];
 		$this->instance->context->site_user_id           = 123;
 		$this->instance->context->site_url               = 'http://example.com';
@@ -343,6 +346,7 @@ class Author_Test extends TestCase {
 		$person_logo_id                                  = 'person_logo_id';
 		$user_data                                       = (object) [
 			'display_name' => 'Piet',
+			'user_url'     => 'https://piet.blog/',
 		];
 		$this->instance->context->site_user_id           = 123;
 		$this->instance->context->site_url               = 'http://example.com';

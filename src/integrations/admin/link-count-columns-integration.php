@@ -1,15 +1,10 @@
 <?php
-/**
- * WPSEO plugin file.
- *
- * @package Yoast\WP\SEO\Integrations\Admin
- */
 
 namespace Yoast\WP\SEO\Integrations\Admin;
 
 use wpdb;
 use Yoast\WP\Lib\Model;
-use Yoast\WP\SEO\Actions\Indexation\Post_Link_Indexing_Action;
+use Yoast\WP\SEO\Actions\Indexing\Post_Link_Indexing_Action;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Conditionals\Posts_Overview_Or_Ajax_Conditional;
 use Yoast\WP\SEO\Conditionals\Should_Index_Links_Conditional;
@@ -19,7 +14,7 @@ use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
 /**
- * Link_Count_Columns_Integration class
+ * Link_Count_Columns_Integration class.
  */
 class Link_Count_Columns_Integration implements Integration_Interface {
 

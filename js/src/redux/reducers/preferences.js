@@ -1,8 +1,11 @@
-import { isUndefined, get } from "lodash-es";
+import { isUndefined } from "lodash-es";
 import isContentAnalysisActive from "../../analysis/isContentAnalysisActive";
 import isKeywordAnalysisActive from "../../analysis/isKeywordAnalysisActive";
 import isCornerstoneActive from "../../analysis/isCornerstoneContentActive";
 import isWordFormRecognitionActive from "../../analysis/isWordFormRecognitionActive";
+import isSEMrushIntegrationActive from "../../analysis/isSEMrushIntegrationActive";
+import isZapierIntegrationActive from "../../analysis/isZapierIntegrationActive";
+import isZapierConnected from "../../analysis/isZapierConnected";
 
 /**
  * Gets the default state.
@@ -17,17 +20,24 @@ function getDefaultState() {
 		isKeywordAnalysisActive: isKeywordAnalysisActive(),
 		isWordFormRecognitionActive: isUndefined( window.wpseoPremiumMetaboxData ) && isWordFormRecognitionActive(),
 		isCornerstoneActive: isCornerstoneActive(),
+		isBreadcrumbsDisabled: ! ! window.wpseoAdminL10n.isBreadcrumbsDisabled,
+		isPrivateBlog: ! ! window.wpseoAdminL10n.isPrivateBlog,
+		isSEMrushIntegrationActive: isSEMrushIntegrationActive(),
 		shouldUpsell: isUndefined( window.wpseoPremiumMetaboxData ),
 		displayAdvancedTab: displayAdvancedTab,
 		displaySchemaSettings: displayAdvancedTab && !! window.wpseoScriptData.isPost,
-		displaySchemaSettingsFooter: get( window, "wpseoScriptData.metabox.schema.displayFooter", false ),
+		displaySchemaSettingsFooter: window.wpseoScriptData.metabox.schema.displayFooter,
+		displayFacebook: window.wpseoScriptData.metabox.showSocial.facebook,
+		displayTwitter: window.wpseoScriptData.metabox.showSocial.twitter,
+		isZapierIntegrationActive: isZapierIntegrationActive(),
+		isZapierConnected: isZapierConnected(),
 	};
 }
 
 /**
  * A reducer for the preferences.
  *
- * @param {Object} state  The current state of the object.
+ * @param {Object} state The current state of the object.
  *
  * @returns {Object} The state.
  */

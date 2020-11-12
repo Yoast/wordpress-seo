@@ -19,7 +19,7 @@ class WPSEO_Taxonomy_Content_Fields {
 	public function get() {
 		_deprecated_function( __METHOD__, '14.9', 'WPSEO_Taxonomy_Fields::get' );
 
-		$fields =  new WPSEO_Taxonomy_Fields();
+		$fields = new WPSEO_Taxonomy_Fields();
 		return $fields->get( 'social' );
 	}
 }

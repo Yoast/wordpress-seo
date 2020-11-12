@@ -1,16 +1,11 @@
 <?php
-/**
- * WPSEO plugin test file.
- *
- * @package Yoast\WP\SEO\Tests\Unit\Mocks
- */
 
 namespace Yoast\WP\SEO\Tests\Unit\Doubles\Context;
 
 use Yoast\WP\SEO\Context\Meta_Tags_Context;
 
 /**
- * Class Meta_Tags_Context_Mock
+ * Class Meta_Tags_Context_Mock.
  */
 class Meta_Tags_Context_Mock extends Meta_Tags_Context {
 

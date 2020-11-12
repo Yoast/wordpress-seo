@@ -1,16 +1,11 @@
 <?php
-/**
- * Wrapper for WP_Rewrite.
- *
- * @package Yoast\YoastSEO\Wrappers
- */
 
 namespace Yoast\WP\SEO\Wrappers;
 
 use WP_Rewrite;
 
 /**
- * Class WP_Rewrite_Wrapper
+ * Wrapper for WP_Rewrite.
  */
 class WP_Rewrite_Wrapper {
 

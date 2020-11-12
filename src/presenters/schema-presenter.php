@@ -1,16 +1,11 @@
 <?php
-/**
- * Presenter class for the schema object.
- *
- * @package Yoast\YoastSEO\Presenters
- */
 
 namespace Yoast\WP\SEO\Presenters;
 
 use WPSEO_Utils;
 
 /**
- * Class Schema_Presenter
+ * Presenter class for the schema object.
  */
 class Schema_Presenter extends Abstract_Indexable_Presenter {
 

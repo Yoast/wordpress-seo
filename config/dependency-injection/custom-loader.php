@@ -1,9 +1,4 @@
 <?php
-/**
- * Yoast SEO Plugin File.
- *
- * @package Yoast\YoastSEO\Dependency_Injection
- */
 
 namespace Yoast\WP\SEO\Dependency_Injection;
 

@@ -282,7 +282,7 @@ class Yoast_Network_Admin_Test extends WPSEO_UnitTestCase {
 		$e = null;
 		try {
 			$admin->verify_request( 'my_action' );
-		} catch ( WPDieException $e ) {
+		} catch ( WPDieException $e ) { // phpcs:ignore Generic.CodeAnalysis.EmptyStatement.DetectedCatch -- Deliberately left empty.
 			// WP_die has been called in the verify request function.
 		}
 
@@ -342,7 +342,7 @@ class Yoast_Network_Admin_Test extends WPSEO_UnitTestCase {
 		$e = null;
 		try {
 			$admin->verify_request( 'my_action' );
-		} catch ( WPDieException $e ) {
+		} catch ( WPDieException $e ) { // phpcs:ignore Generic.CodeAnalysis.EmptyStatement.DetectedCatch -- Deliberately left empty.
 			// WP_die has been called in the verify request function.
 		}
 

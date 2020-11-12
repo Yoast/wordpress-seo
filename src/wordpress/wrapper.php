@@ -1,9 +1,4 @@
 <?php
-/**
- * Yoast SEO Plugin File.
- *
- * @package Yoast\YoastSEO\WordPress
- */
 
 namespace Yoast\WP\SEO\WordPress;
 
@@ -14,6 +9,7 @@ use Yoast_Notification_Center;
 
 /**
  * Wrapper class for WordPress globals.
+ *
  * This consists of factory functions to inject WP globals into the dependency container.
  */
 class Wrapper {

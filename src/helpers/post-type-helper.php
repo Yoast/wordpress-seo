@@ -1,14 +1,9 @@
 <?php
-/**
- * A helper object for post types.
- *
- * @package Yoast\YoastSEO\Helpers
- */
 
 namespace Yoast\WP\SEO\Helpers;
 
 /**
- * Class Post_Type_Helper
+ * A helper object for post types.
  */
 class Post_Type_Helper {
 

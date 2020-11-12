@@ -1,14 +1,9 @@
 <?php
-/**
- * Presenter class for the rel prev meta tag.
- *
- * @package Yoast\YoastSEO\Presenters
- */
 
 namespace Yoast\WP\SEO\Presenters;
 
 /**
- * Class Rel_Prev_Presenter
+ * Presenter class for the rel prev meta tag.
  */
 class Rel_Prev_Presenter extends Abstract_Indexable_Tag_Presenter {
 

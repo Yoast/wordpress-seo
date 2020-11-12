@@ -1,9 +1,4 @@
 <?php
-/**
- * Yoast ORM class.
- *
- * @package Yoast\WP\Lib
- */
 
 namespace Yoast\WP\Lib;
 
@@ -11,7 +6,9 @@ use wpdb;
 use Yoast\WP\SEO\Config\Migration_Status;
 
 /**
- * Based on Idiorm.
+ * Yoast ORM class.
+ *
+ * Based on Idiorm
  *
  * URL: http://github.com/j4mie/idiorm/
  *
@@ -538,8 +535,8 @@ class ORM implements \ArrayAccess {
 			if ( ! \is_numeric( $result->{$alias} ) ) {
 				$return_value = $result->{$alias};
 			}
-			// @codingStandardsIgnoreLine
-			elseif ( (int) $result->{$alias} == (float) $result->{$alias} ) { // phpcs:ignore WordPress.PHP.StrictComparisons.LooseComparison -- Reason: This loose comparison seems intended.
+			// phpcs:ignore WordPress.PHP.StrictComparisons.LooseComparison -- Reason: This loose comparison seems intended.
+			elseif ( (int) $result->{$alias} == (float) $result->{$alias} ) {
 				$return_value = (int) $result->{$alias};
 			}
 			else {
@@ -2178,7 +2175,8 @@ class ORM implements \ArrayAccess {
 				if ( \is_array( $column ) ) {
 					$column = \reset( $column );
 				}
-				$this->_data[ $column ] = $wpdb->insert_id;
+				// Explicitly cast to int to make dealing with Id's simpler.
+				$this->_data[ $column ] = (int) $wpdb->insert_id;
 			}
 		}
 		$this->_dirty_fields = [];
@@ -2202,13 +2200,11 @@ class ORM implements \ArrayAccess {
 			return true;
 		}
 
-		$query = $this->join_if_not_empty( ' ', [
-			$this->build_update(),
-			$this->build_where(),
-		] );
+		$query = $this->join_if_not_empty( ' ', [ $this->build_update(), $this->build_where() ] );
 
 		$success             = self::execute( $query, \array_merge( $values, $this->_values ) );
-		$this->_dirty_fields = $this->_expr_fields = [];
+		$this->_dirty_fields = [];
+		$this->_expr_fields  = [];
 
 		return $success;
 	}

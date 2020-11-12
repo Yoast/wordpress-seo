@@ -1,14 +1,9 @@
 <?php
-/**
- * A helper object for redirects.
- *
- * @package Yoast\YoastSEO\Helpers
- */
 
 namespace Yoast\WP\SEO\Helpers;
 
 /**
- * Class Redirect_Helper
+ * A helper object for redirects.
  */
 class Redirect_Helper {
 

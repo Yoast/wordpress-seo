@@ -1,16 +1,13 @@
 <?php
-/**
- * Surface for the indexables.
- *
- * @package Yoast\YoastSEO\Surfaces
- */
 
 namespace Yoast\WP\SEO\Surfaces;
 
 use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Class Classes_Surface
+ * Class Classes_Surface.
+ *
+ * Surface for the indexables.
  */
 class Classes_Surface {
 

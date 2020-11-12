@@ -1,9 +1,4 @@
 <?php
-/**
- * Author Builder for the indexables.
- *
- * @package Yoast\YoastSEO\Builders
- */
 
 namespace Yoast\WP\SEO\Builders;
 
@@ -11,6 +6,8 @@ use Yoast\WP\SEO\Helpers\Author_Archive_Helper;
 use Yoast\WP\SEO\Models\Indexable;
 
 /**
+ * Author Builder for the indexables.
+ *
  * Formats the author meta to indexable format.
  */
 class Indexable_Author_Builder {

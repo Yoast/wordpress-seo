@@ -1,9 +1,4 @@
 <?php
-/**
- * WPSEO plugin test file.
- *
- * @package Yoast\WP\SEO\Tests\Unit\Integrations\Front_End
- */
 
 namespace Yoast\WP\SEO\Tests\Unit\Integrations\Front_End;
 
@@ -16,7 +11,7 @@ use Yoast\WP\SEO\Integrations\Front_End\Comment_Link_Fixer;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
- * Unit Test Class.
+ * Class Comment_Link_Fixer_Test.
  *
  * @coversDefaultClass \Yoast\WP\SEO\Integrations\Front_End\Comment_Link_Fixer
  * @covers ::<!public>
@@ -48,7 +43,7 @@ class Comment_Link_Fixer_Test extends TestCase {
 	protected $robots;
 
 	/**
-	 * @inheritDoc
+	 * Sets an instance for test purposes.
 	 */
 	public function setUp() {
 		parent::setUp();
@@ -87,9 +82,9 @@ class Comment_Link_Fixer_Test extends TestCase {
 
 		\add_filter( 'wpseo_remove_reply_to_com', '__return_false' );
 
-		$this->assertTrue( \has_filter( 'comment_reply_link', [ $this->instance, 'remove_reply_to_com' ] ) );
-		$this->assertTrue( \has_action( 'template_redirect', [ $this->instance, 'replytocom_redirect' ] ) );
-		$this->assertTrue( \has_filter( 'wpseo_robots_array', [ $this->robots, 'set_robots_no_index' ] ) );
+		$this->assertNotFalse( \has_filter( 'comment_reply_link', [ $this->instance, 'remove_reply_to_com' ] ) );
+		$this->assertNotFalse( \has_action( 'template_redirect', [ $this->instance, 'replytocom_redirect' ] ) );
+		$this->assertNotFalse( \has_filter( 'wpseo_robots_array', [ $this->robots, 'set_robots_no_index' ] ) );
 	}
 
 	/**

@@ -1,9 +1,4 @@
 <?php
-/**
- * WPSEO plugin test file.
- *
- * @package Yoast\WP\SEO\Tests\Unit\Integrations\Admin
- */
 
 namespace Yoast\WP\SEO\Tests\Unit\Integrations\Admin;
 
@@ -16,7 +11,7 @@ use Yoast\WP\SEO\Integrations\Admin\Migration_Error_Integration;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
- * Class Migration_Error_Integration_Test
+ * Class Migration_Error_Integration_Test.
  *
  * @group integrations
  * @group migrations
@@ -96,7 +91,7 @@ class Migration_Error_Integration_Test extends TestCase {
 
 		$this->instance->register_hooks();
 
-		$this->assertTrue( \has_action( 'admin_notices', [ $this->instance, 'render_migration_error' ] ) );
+		$this->assertNotFalse( \has_action( 'admin_notices', [ $this->instance, 'render_migration_error' ] ) );
 	}
 
 	/**

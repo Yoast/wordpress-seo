@@ -1,16 +1,11 @@
 <?php
-/**
- * The abstract presentation class.
- *
- * @package Yoast\YoastSEO\Presentations
- */
 
 namespace Yoast\WP\SEO\Presentations;
 
 use Exception;
 
 /**
- * Class Abstract_Presentation
+ * The abstract presentation class.
  */
 class Abstract_Presentation {
 

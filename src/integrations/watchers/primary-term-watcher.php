@@ -1,9 +1,4 @@
 <?php
-/**
- * Primary Term watcher.
- *
- * @package Yoast\YoastSEO\Watchers
- */
 
 namespace Yoast\WP\SEO\Integrations\Watchers;
 
@@ -15,6 +10,8 @@ use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Repositories\Primary_Term_Repository;
 
 /**
+ * Primary Term watcher.
+ *
  * Watches Posts to save the primary term when set.
  */
 class Primary_Term_Watcher implements Integration_Interface {

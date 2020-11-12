@@ -1,9 +1,4 @@
 <?php
-/**
- * Yoast SEO plugin file.
- *
- * @package Yoast\YoastSEO\Conditionals
- */
 
 namespace Yoast\WP\SEO\Conditionals;
 
@@ -31,7 +26,9 @@ class Headless_Rest_Endpoints_Enabled_Conditional implements Conditional {
 	}
 
 	/**
-	 * @inheritDoc
+	 * Returns `true` whether the headless REST endpoints have been enabled.
+	 *
+	 * @returns boolean `true` when the headless REST endpoints have been enabled.
 	 */
 	public function is_met() {
 		return $this->options->get( 'enable_headless_rest_endpoints' );

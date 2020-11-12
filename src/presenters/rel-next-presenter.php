@@ -1,16 +1,11 @@
 <?php
-/**
- * Presenter class for the rel next meta tag.
- *
- * @package Yoast\YoastSEO\Presenters
- */
 
 namespace Yoast\WP\SEO\Presenters;
 
 use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 
 /**
- * Class Rel_Next_Presenter
+ * Presenter class for the rel next meta tag.
  */
 class Rel_Next_Presenter extends Abstract_Indexable_Tag_Presenter {
 
