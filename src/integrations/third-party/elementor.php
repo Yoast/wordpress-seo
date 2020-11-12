@@ -125,6 +125,10 @@ class Elementor implements Integration_Interface {
 	 * @return void
 	 */
 	public function register_hooks() {
+		if ( ! $this->display_metabox( $this->get_metabox_post()->post_type ) ) {
+			return;
+		}
+
 		\add_action( 'elementor/editor/before_enqueue_scripts', [ $this, 'init' ] );
 
 		// We are too late for elementor/init. We should see if we can be on time, or else this workaround works (we do always get the "else" though).
@@ -181,6 +185,20 @@ class Elementor implements Integration_Interface {
 	}
 
 	// Below is mostly copied from `class-metabox.php`. That constructor has side-effects we do not need.
+
+	/**
+	 * Determines whether the metabox should be shown for the passed identifier.
+	 *
+	 * By default the check is done for post types, but can also be used for taxonomies.
+	 *
+	 * @param string|null $identifier The identifier to check.
+	 * @param string      $type       The type of object to check. Defaults to post_type.
+	 *
+	 * @return bool Whether or not the metabox should be displayed.
+	 */
+	public function display_metabox( $identifier = null, $type = 'post_type' ) {
+		return WPSEO_Utils::is_metabox_active( $identifier, $type );
+	}
 
 	/**
 	 * Saves the WP SEO metadata for posts.
