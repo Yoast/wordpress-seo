@@ -58,8 +58,6 @@ class WPSEO_Metabox_Formatter {
 			'author_name'               => get_the_author_meta( 'display_name' ),
 			'site_name'                 => get_bloginfo( 'name' ),
 			'sitewide_social_image'     => WPSEO_Options::get( 'og_default_image' ),
-			'language'                  => WPSEO_Language_Utils::get_site_language_name(),
-			'settings_link'             => $this->get_settings_link(),
 			'search_url'                => '',
 			'post_edit_url'             => '',
 			'base_url'                  => '',
@@ -173,20 +171,6 @@ class WPSEO_Metabox_Formatter {
 	}
 
 	/**
-	 * Returns a link to the General Settings page, if the user has the right capabilities.
-	 * Returns an empty string otherwise.
-	 *
-	 * @return string The General Settings link.
-	 */
-	private function get_settings_link() {
-		if ( current_user_can( 'manage_options' ) ) {
-			return esc_url( admin_url( 'options-general.php' ) );
-		}
-
-		return '';
-	}
-
-	/**
 	 * Returns required yoast-component translations.
 	 *
 	 * @return array
@@ -195,14 +179,11 @@ class WPSEO_Metabox_Formatter {
 		// Esc_html is not needed because React already handles HTML in the (translations of) these strings.
 		return [
 			'locale'                                         => WPSEO_Language_Utils::get_user_locale(),
-			'content-analysis.language-notice-link'          => __( 'Change language', 'wordpress-seo' ),
 			'content-analysis.errors'                        => __( 'Errors', 'wordpress-seo' ),
 			'content-analysis.problems'                      => __( 'Problems', 'wordpress-seo' ),
 			'content-analysis.improvements'                  => __( 'Improvements', 'wordpress-seo' ),
 			'content-analysis.considerations'                => __( 'Considerations', 'wordpress-seo' ),
 			'content-analysis.good'                          => __( 'Good results', 'wordpress-seo' ),
-			'content-analysis.language-notice'               => __( 'Your site language is set to {language}.', 'wordpress-seo' ),
-			'content-analysis.language-notice-contact-admin' => __( 'Your site language is set to {language}. If this is not correct, contact your site administrator.', 'wordpress-seo' ),
 			'content-analysis.highlight'                     => __( 'Highlight this result in the text', 'wordpress-seo' ),
 			'content-analysis.nohighlight'                   => __( 'Remove highlight from the text', 'wordpress-seo' ),
 			'content-analysis.disabledButton'                => __( 'Marks are disabled in current view', 'wordpress-seo' ),
