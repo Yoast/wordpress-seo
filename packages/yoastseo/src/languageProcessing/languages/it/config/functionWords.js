@@ -227,49 +227,42 @@ const titlesPreceding = [ "sig.na", "sig.ra", "sig", "sigg", "dr", "dr.ssa", "do
 	"gent.mi", "gent.ma", "gent.me", "egr", "egr.i", "egr.ia", "egr.ie", "preg.mo", "preg.mo", "preg.ma", "preg.me", "ill", "ill.mo",
 	"ill.mi", "ill.ma", "ill.me", "cav", "on", "spett" ];
 
-/**
- * Exports all function words concatenated, and specific word categories and category combinations
- * to be used as filters for the prominent words.
- *
- * @returns {Object} Italian function words.
- */
-export default function() {
-	return {
-		// These word categories are filtered at the beginning of word combinations.
-		filteredAtBeginning: generalAdjectivesAdverbs,
 
-		// These word categories are filtered at the ending of word combinations.
-		filteredAtEnding: [].concat( ordinalNumerals, interviewVerbsInfinitive, passiveAuxiliariesInfinitive, otherAuxiliariesInfinitive,
-			copulaInfinitive, delexicalizedVerbsInfinitive, generalAdjectivesAdverbsPreceding ),
+// These word categories are filtered at the beginning of word combinations.
+export const filteredAtBeginning = generalAdjectivesAdverbs;
 
-		// These word categories are filtered at the beginning and ending of word combinations.
-		filteredAtBeginningAndEnding: [].concat( articles, prepositions, coordinatingConjunctions, demonstrativePronouns, intensifiers, quantifiers,
-			possessivePronouns ),
+// These word categories are filtered at the ending of word combinations.
+export const filteredAtEnding = [].concat( ordinalNumerals, interviewVerbsInfinitive, passiveAuxiliariesInfinitive, otherAuxiliariesInfinitive,
+	copulaInfinitive, delexicalizedVerbsInfinitive, generalAdjectivesAdverbsPreceding );
 
-		// These word categories are filtered everywhere within word combinations.
-		filteredAnywhere: [].concat( transitionWords, personalPronounsNominative, personalPronounsAccusative, personalPronounsPrepositional,
-			interjections, cardinalNumerals, filteredPassiveAuxiliaries, otherAuxiliaries, copula, interviewVerbs, delexicalizedVerbs,
-			indefinitePronouns, correlativeConjunctions, subordinatingConjunctions, interrogativeDeterminers, interrogativePronouns,
-			interrogativeAdverbs, locativeAdverbs, miscellaneous, pronominalAdverbs, recipeWords, timeWords, vagueNouns ),
+// These word categories are filtered at the beginning and ending of word combinations.
+export const filteredAtBeginningAndEnding = [].concat( articles, prepositions, coordinatingConjunctions, demonstrativePronouns,
+	intensifiers, quantifiers, possessivePronouns );
 
-		// These word categories cannot directly precede a passive participle.
-		cannotDirectlyPrecedePassiveParticiple: [].concat( articles, prepositions, personalPronounsAccusative, possessivePronouns,
-			indefinitePronouns, cardinalNumerals, ordinalNumerals, delexicalizedVerbs, delexicalizedVerbsInfinitive,
-			interviewVerbs, interrogativeDeterminers, interrogativePronouns, personalPronounsPrepositional, interrogativeAdverbs ),
+// These word categories are filtered everywhere within word combinations.
+export const filteredAnywhere = [].concat( transitionWords, personalPronounsNominative, personalPronounsAccusative, personalPronounsPrepositional,
+	interjections, cardinalNumerals, filteredPassiveAuxiliaries, otherAuxiliaries, copula, interviewVerbs, delexicalizedVerbs,
+	indefinitePronouns, correlativeConjunctions, subordinatingConjunctions, interrogativeDeterminers, interrogativePronouns,
+	interrogativeAdverbs, locativeAdverbs, miscellaneous, pronominalAdverbs, recipeWords, timeWords, vagueNouns );
 
-		// These word categories cannot intervene between an auxiliary and a corresponding passive participle.
-		cannotBeBetweenPassiveAuxiliaryAndParticiple: [].concat( otherAuxiliaries, otherAuxiliariesInfinitive ),
+// These word categories cannot directly precede a passive participle.
+export const cannotDirectlyPrecedePassiveParticiple = [].concat( articles, prepositions, personalPronounsAccusative, possessivePronouns,
+	indefinitePronouns, cardinalNumerals, ordinalNumerals, delexicalizedVerbs, delexicalizedVerbsInfinitive,
+	interviewVerbs, interrogativeDeterminers, interrogativePronouns, personalPronounsPrepositional, interrogativeAdverbs );
 
-		// This export contains all of the above words.
-		all: [].concat( articles, cardinalNumerals, ordinalNumerals, demonstrativePronouns, possessivePronouns,
-			personalPronounsNominative, personalPronounsAccusative, personalPronounsPrepositional, quantifiers,
-			indefinitePronouns, interrogativePronouns, interrogativeAdverbs, interrogativeDeterminers,
-			pronominalAdverbs, locativeAdverbs, filteredPassiveAuxiliaries, passiveAuxiliariesInfinitive,
-			otherAuxiliaries, otherAuxiliariesInfinitive, copula, copulaInfinitive, prepositions, coordinatingConjunctions, correlativeConjunctions,
-			subordinatingConjunctions, interviewVerbs, interviewVerbsInfinitive,
-			transitionWords, additionalTransitionWords, intensifiers, delexicalizedVerbs, delexicalizedVerbsInfinitive,
-			interjections, generalAdjectivesAdverbs, generalAdjectivesAdverbsPreceding, recipeWords, vagueNouns, miscellaneous, timeWords,
-			titlesPreceding ),
-	};
-}
+// These word categories cannot intervene between an auxiliary and a corresponding passive participle.
+export const cannotBeBetweenPassiveAuxiliaryAndParticiple = [].concat( otherAuxiliaries, otherAuxiliariesInfinitive );
+
+// This export contains all of the above words.
+export const all = [].concat( articles, cardinalNumerals, ordinalNumerals, demonstrativePronouns, possessivePronouns,
+	personalPronounsNominative, personalPronounsAccusative, personalPronounsPrepositional, quantifiers,
+	indefinitePronouns, interrogativePronouns, interrogativeAdverbs, interrogativeDeterminers,
+	pronominalAdverbs, locativeAdverbs, filteredPassiveAuxiliaries, passiveAuxiliariesInfinitive,
+	otherAuxiliaries, otherAuxiliariesInfinitive, copula, copulaInfinitive, prepositions, coordinatingConjunctions, correlativeConjunctions,
+	subordinatingConjunctions, interviewVerbs, interviewVerbsInfinitive,
+	transitionWords, additionalTransitionWords, intensifiers, delexicalizedVerbs, delexicalizedVerbsInfinitive,
+	interjections, generalAdjectivesAdverbs, generalAdjectivesAdverbsPreceding, recipeWords, vagueNouns, miscellaneous, timeWords,
+	titlesPreceding );
+
+export default {};
 

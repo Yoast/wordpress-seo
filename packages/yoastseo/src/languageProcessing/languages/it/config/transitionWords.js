@@ -1,6 +1,6 @@
 /** @module config/transitionWords */
 
-const singleWords = [ "abbastanza", "acciocché", "acciocchè", "adesso", "affinché", "affinchè", "allora", "almeno", "alquanto", "altrettanto",
+export const singleWords = [ "abbastanza", "acciocché", "acciocchè", "adesso", "affinché", "affinchè", "allora", "almeno", "alquanto", "altrettanto",
 	"altrimenti", "analogamente", "anche", "ancora", "antecedentemente", "anzi", "anzitutto",
 	"apertamente", "appena", "assai", "attualmente", "benché", "benchè", "beninteso", "bensì", "brevemente", "bruscamente",
 	"casomai", "celermente", "certamente", "certo", "chiaramente", "ciononostante", "cioé", "cioè", "comparabilmente", "come",
@@ -28,7 +28,7 @@ const singleWords = [ "abbastanza", "acciocché", "acciocchè", "adesso", "affin
 	"talmente", "terzo", "totalmente", "tranne", "tuttavia", "ugualmente", "ulteriormente", "ultimamente", "veramente",
 	"verosimilmente", "visto" ];
 
-const multipleWords = [ "a breve", "a causa", "a causa di", "a condizione che", "a conseguenza", "a conti fatti",
+export const multipleWords = [ "a breve", "a causa", "a causa di", "a condizione che", "a conseguenza", "a conti fatti",
 	"a differenza di", "a differenza del", "a differenza della", "a differenza dei", "a differenza degli",
 	"a differenza delle", "a dire il vero", "a dire la verità", "a dirla tutta", "a dispetto di", "a lungo",
 	"a lungo termine", "a maggior ragione", "a meno che non", "a parte", "a patto che", "a prescindere", "a prima vista",
@@ -99,14 +99,6 @@ const multipleWords = [ "a breve", "a causa", "a causa di", "a condizione che", 
 	"tutto d'un tratto", "tutto considerato", "tutto sommato", "un passo alla volta", "un tempo", "una volta",
 	"una volta ogni tanto", "unito a", "va chiarito che", "va considerato che", "vada come vada", "vale a dire", "visto che" ];
 
-/**
- * Returns lists with transition words to be used by the assessments.
- * @returns {Object} The object with transition word lists.
- */
-export default function() {
-	return {
-		singleWords: singleWords,
-		multipleWords: multipleWords,
-		allWords: singleWords.concat( multipleWords ),
-	};
-}
+export const allWords = singleWords.concat( multipleWords );
+
+export default allWords;

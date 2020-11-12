@@ -1,12 +1,11 @@
-import Participle from "../../../../../values/Participle.js";
-import checkException from "../../../../helpers/passiveVoice/periphrastic/checkException.js";
-import directPrecedenceException from "../../../../helpers/passiveVoice/directPrecedenceException";
-import precedenceException from "../../../../helpers/passiveVoice/precedenceException";
-import { getFunctionWords } from "../functionWords.js";
-const {
-	cannotDirectlyPrecedePassiveParticiple: cannotDirectlyPrecedePassiveParticipleList,
-	cannotBeBetweenPassiveAuxiliaryAndParticiple: cannotBeBetweenPassiveAuxiliaryAndParticipleList,
-} = getFunctionWords();
+import Participle from "../../../../values/Participle.js";
+import checkException from "../../../helpers/passiveVoice/periphrastic/checkException.js";
+import directPrecedenceException from "../../../helpers/passiveVoice/directPrecedenceException";
+import precedenceException from "../../../helpers/passiveVoice/precedenceException";
+import { cannotDirectlyPrecedePassiveParticiple,
+	cannotBeBetweenPassiveAuxiliaryAndParticiple,
+} from "../config/functionWords.js";
+
 
 /**
  * Creates an Participle object for the Italian language.
@@ -17,7 +16,7 @@ const {
  *
  * @constructor
  */
-var ItalianParticiple = function( participle, sentencePart, attributes ) {
+const ItalianParticiple = function( participle, sentencePart, attributes ) {
 	Participle.call( this, participle, sentencePart, attributes );
 	checkException.call( this );
 };
@@ -34,8 +33,8 @@ ItalianParticiple.prototype.isPassive = function() {
 	const sentencePart = this.getSentencePart();
 	const participle = this.getParticiple();
 
-	return ! this.directPrecedenceException( sentencePart, participle, cannotDirectlyPrecedePassiveParticipleList ) &&
-		! this.precedenceException( sentencePart, participle, cannotBeBetweenPassiveAuxiliaryAndParticipleList );
+	return ! this.directPrecedenceException( sentencePart, participle, cannotDirectlyPrecedePassiveParticiple ) &&
+		! this.precedenceException( sentencePart, participle, cannotBeBetweenPassiveAuxiliaryAndParticiple );
 };
 
 ItalianParticiple.prototype.directPrecedenceException = directPrecedenceException;
