@@ -82,7 +82,7 @@ class Schema_Generator implements Generator_Interface {
 		foreach ( $pieces_to_generate as $identifier => $piece ) {
 			$graph_pieces = $piece->generate();
 			// If only a single graph piece was returned.
-			if ( \array_key_exists( '@type', $graph_pieces ) ) {
+			if ( $graph_pieces !== false && \array_key_exists( '@type', $graph_pieces ) ) {
 				$graph_pieces = [ $graph_pieces ];
 			}
 
@@ -120,6 +120,10 @@ class Schema_Generator implements Generator_Interface {
 				 */
 				$block_type = \strtolower( $block['blockName'] );
 				$graph      = \apply_filters( 'wpseo_schema_block_' . $block_type, $graph, $block, $context );
+
+				if ( isset( $block['attrs']['yoast-schema'] ) ) {
+					$graph[] = $block['attrs']['yoast-schema'];
+				}
 			}
 		}
 

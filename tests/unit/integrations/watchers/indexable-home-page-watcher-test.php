@@ -79,7 +79,6 @@ class Indexable_Home_Page_Watcher_Test extends TestCase {
 		$this->assertNotFalse( \has_action( 'update_option_wpseo_social', [ $this->instance, 'check_option' ] ) );
 		$this->assertNotFalse( \has_action( 'update_option_blog_public', [ $this->instance, 'build_indexable' ] ) );
 		$this->assertNotFalse( \has_action( 'update_option_blogdescription', [ $this->instance, 'build_indexable' ] ) );
-		$this->assertNotFalse( \has_action( 'update_option_home', [ $this->instance, 'build_indexable' ] ) );
 	}
 
 	/**

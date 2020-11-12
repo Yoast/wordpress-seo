@@ -59,6 +59,7 @@ class Indexable_Hierarchy_Repository {
 				'blog_id'      => \get_current_blog_id(),
 			]
 		);
+
 		return $hierarchy->save();
 	}
 

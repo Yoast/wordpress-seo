@@ -23,7 +23,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group builders
  *
  * @coversDefaultClass \Yoast\WP\SEO\Builders\Indexable_Post_Builder
- * @covers ::<!public>
+ * @covers \Yoast\WP\SEO\Builders\Indexable_Post_Builder
  */
 class Indexable_Post_Builder_Test extends TestCase {
 
@@ -63,13 +63,6 @@ class Indexable_Post_Builder_Test extends TestCase {
 	protected $twitter_image;
 
 	/**
-	 * Holds the link builder instance.
-	 *
-	 * @var Indexable_Link_Builder|Mockery\MockInterface
-	 */
-	protected $link_builder;
-
-	/**
 	 * Holds the Post_Helper instance.
 	 *
 	 * @var Post_Helper|Mockery\MockInterface
@@ -92,11 +85,9 @@ class Indexable_Post_Builder_Test extends TestCase {
 		$this->image                = Mockery::mock( Image_Helper::class );
 		$this->open_graph_image     = Mockery::mock( Open_Graph_Image_Helper::class );
 		$this->twitter_image        = Mockery::mock( Twitter_Image_Helper::class );
-		$this->link_builder         = Mockery::mock( Indexable_Link_Builder::class );
 		$this->post                 = Mockery::mock( Post_Helper::class );
 
 		$this->instance = new Indexable_Post_Builder_Double(
-			$this->link_builder,
 			$this->post
 		);
 
@@ -173,7 +164,6 @@ class Indexable_Post_Builder_Test extends TestCase {
 	 * @covers ::__construct
 	 */
 	public function test_constructor() {
-		$this->assertAttributeInstanceOf( Indexable_Link_Builder::class, 'link_builder', $this->instance );
 		$this->assertAttributeInstanceOf( Post_Helper::class, 'post', $this->instance );
 	}
 
@@ -275,8 +265,6 @@ class Indexable_Post_Builder_Test extends TestCase {
 		$this->indexable->orm = Mockery::mock( ORM::class );
 
 		$this->set_indexable_set_expectations( $this->indexable, $indexable_expectations );
-
-		$this->link_builder->expects( 'build' )->with( $this->indexable, 'The content of the post' );
 
 		// Reset all social images first.
 		$this->set_indexable_set_expectations(

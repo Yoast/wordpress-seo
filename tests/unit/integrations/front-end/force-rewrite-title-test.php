@@ -43,7 +43,7 @@ class Force_Rewrite_Title_Test extends TestCase {
 	private $instance;
 
 	/**
-	 * @inheritDoc
+	 * Sets an instance for test purposes.
 	 */
 	public function setUp() {
 		parent::setUp();

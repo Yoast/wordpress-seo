@@ -20,6 +20,7 @@
 # Build JavaScript from assets to production
 'build:js':
   - 'clean:build-assets-js'
+  - 'shell:install-schema-blocks'
   - 'copy:js-dependencies'
   - 'webpack:buildDev'
 
@@ -113,6 +114,7 @@ clean:build-assets:
 
 # Get the project ready for release-candidate
 'create-rc':
+  - 'ensure-monorepo-is-unlinked'
   - 'ensure-clean-branch'
   - 'ensure-pre-release-branch'
   - 'update-readme'
@@ -121,8 +123,10 @@ clean:build-assets:
   - 'artifact'
   - 'github-pre-release'
   - 'notify-slack:rc'
+  - 'sync-readme-stable-tag'
   - 'check-deploy-allowed'
   - 'wp_deploy:trunk'
+  - 'shell:readme-reset-txt'
   - 'verify-zip-size'
   - 'celebrate'
 
@@ -137,6 +141,7 @@ release:
   - 'release:css'
   - 'build:i18n'
 'release:js':
+  - 'shell:install-schema-blocks'
   - 'copy:js-dependencies'
   - 'webpack:buildProd'
 

@@ -4,23 +4,23 @@ namespace Yoast\WP\SEO\Tests\Unit\Integrations\Watchers;
 
 use Brain\Monkey;
 use Mockery;
-use Yoast\WP\SEO\Actions\Indexation\Indexable_Post_Indexation_Action;
-use Yoast\WP\SEO\Actions\Indexation\Indexable_Post_Type_Archive_Indexation_Action;
-use Yoast\WP\SEO\Actions\Indexation\Indexable_Term_Indexation_Action;
+use Yoast\WP\SEO\Config\Indexing_Reasons;
+use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
+use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
 use Yoast\WP\SEO\Integrations\Watchers\Indexable_Category_Permalink_Watcher;
-use Yoast\WP\SEO\Presenters\Admin\Indexation_Permalink_Warning_Presenter;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
  * Class Indexable_Category_Permalink_Watcher_Test.
  *
+ * @group indexables
  * @group integrations
  * @group watchers
  *
  * @coversDefaultClass \Yoast\WP\SEO\Integrations\Watchers\Indexable_Category_Permalink_Watcher
- * @covers ::<!public>
+ * @covers \Yoast\WP\SEO\Integrations\Watchers\Indexable_Category_Permalink_Watcher
  */
 class Indexable_Category_Permalink_Watcher_Test extends TestCase {
 
@@ -46,12 +46,41 @@ class Indexable_Category_Permalink_Watcher_Test extends TestCase {
 	private $instance;
 
 	/**
-	 * @inheritDoc
+	 * Represents the indexable helper.
+	 *
+	 * @var Mockery\MockInterface|Indexable_Helper
+	 */
+	protected $indexable_helper;
+
+	/**
+	 * Represents the taxonomy helper.
+	 *
+	 * @var Mockery\MockInterface|Taxonomy_Helper
+	 */
+	protected $taxonomy_helper;
+
+	/**
+	 * Sets up the tests.
 	 */
 	public function setUp() {
-		$this->options   = Mockery::mock( Options_Helper::class );
-		$this->post_type = Mockery::mock( Post_Type_Helper::class );
-		$this->instance  = new Indexable_Category_Permalink_Watcher( $this->post_type, $this->options );
+		Monkey\Functions\stubs(
+			[
+				'wp_next_scheduled' => false,
+				'wp_schedule_event' => false,
+			]
+		);
+
+		$this->options          = Mockery::mock( Options_Helper::class );
+		$this->post_type        = Mockery::mock( Post_Type_Helper::class );
+		$this->indexable_helper = Mockery::mock( Indexable_Helper::class );
+		$this->taxonomy_helper  = Mockery::mock( Taxonomy_Helper::class );
+
+		$this->instance = new Indexable_Category_Permalink_Watcher(
+			$this->post_type,
+			$this->options,
+			$this->indexable_helper,
+			$this->taxonomy_helper
+		);
 
 		parent::setUp();
 	}
@@ -64,7 +93,7 @@ class Indexable_Category_Permalink_Watcher_Test extends TestCase {
 	public function test_register_hooks() {
 		$this->instance->register_hooks();
 
-		$this->assertTrue( Monkey\Actions\has( 'update_option_wpseo_titles', [ $this->instance, 'check_option' ] ) );
+		$this->assertNotFalse( Monkey\Actions\has( 'update_option_wpseo_titles', [ $this->instance, 'check_option' ] ) );
 	}
 
 	/**
@@ -73,13 +102,8 @@ class Indexable_Category_Permalink_Watcher_Test extends TestCase {
 	 * @covers ::check_option
 	 */
 	public function test_check_option_with_old_value_being_false() {
-		global $wpdb;
-
-		$wpdb         = Mockery::mock();
-		$wpdb->prefix = 'wp_';
-
-		$wpdb
-			->expects( 'update' )
+		$this->indexable_helper
+			->expects( 'reset_permalink_indexables' )
 			->never();
 
 		$this->instance->check_option( false, [] );
@@ -91,13 +115,8 @@ class Indexable_Category_Permalink_Watcher_Test extends TestCase {
 	 * @covers ::check_option
 	 */
 	public function test_check_option_with_one_value_not_being_an_array() {
-		global $wpdb;
-
-		$wpdb         = Mockery::mock();
-		$wpdb->prefix = 'wp_';
-
-		$wpdb
-			->expects( 'update' )
+		$this->indexable_helper
+			->expects( 'reset_permalink_indexables' )
 			->never();
 
 		$this->instance->check_option( 'string', [] );
@@ -109,13 +128,8 @@ class Indexable_Category_Permalink_Watcher_Test extends TestCase {
 	 * @covers ::check_option
 	 */
 	public function test_check_option_with_values_not_being_an_array() {
-		global $wpdb;
-
-		$wpdb         = Mockery::mock();
-		$wpdb->prefix = 'wp_';
-
-		$wpdb
-			->expects( 'update' )
+		$this->indexable_helper
+			->expects( 'reset_permalink_indexables' )
 			->never();
 
 		$this->instance->check_option( 'string', 'string' );
@@ -127,13 +141,8 @@ class Indexable_Category_Permalink_Watcher_Test extends TestCase {
 	 * @covers ::check_option
 	 */
 	public function test_check_option_with_values_not_being_set() {
-		global $wpdb;
-
-		$wpdb         = Mockery::mock();
-		$wpdb->prefix = 'wp_';
-
-		$wpdb
-			->expects( 'update' )
+		$this->indexable_helper
+			->expects( 'reset_permalink_indexables' )
 			->never();
 
 		$this->instance->check_option( [ 'stripcategorybase' ], [ 'stripcategorybase' ] );
@@ -145,45 +154,10 @@ class Indexable_Category_Permalink_Watcher_Test extends TestCase {
 	 * @covers ::check_option
 	 */
 	public function test_check_option_stripcategorybase_changed() {
-		global $wpdb;
-
-		$wpdb         = Mockery::mock();
-		$wpdb->prefix = 'wp_';
-
-		$wpdb
-			->expects( 'update' )
-			->once()
-			->with(
-				'wp_yoast_indexable',
-				[
-					'permalink'      => null,
-					'permalink_hash' => null,
-				],
-				[
-					'object_type'     => 'term',
-					'object_sub_type' => 'category',
-				]
-			)
-			->andReturn( 1 );
-
-		$this->options
-			->expects( 'set' )
-			->with( 'indexables_indexation_reason', Indexation_Permalink_Warning_Presenter::REASON_CATEGORY_BASE_PREFIX )
+		$this->indexable_helper
+			->expects( 'reset_permalink_indexables' )
+			->with( 'term', 'category', Indexing_Reasons::REASON_CATEGORY_BASE_PREFIX )
 			->once();
-
-		$this->options
-			->expects( 'set' )
-			->with( 'ignore_indexation_warning', false )
-			->once();
-
-		$this->options
-			->expects( 'set' )
-			->with( 'indexation_warning_hide_until', false )
-			->once();
-
-		Monkey\Functions\expect( 'delete_transient' )->with( Indexable_Post_Indexation_Action::TRANSIENT_CACHE_KEY );
-		Monkey\Functions\expect( 'delete_transient' )->with( Indexable_Post_Type_Archive_Indexation_Action::TRANSIENT_CACHE_KEY );
-		Monkey\Functions\expect( 'delete_transient' )->with( Indexable_Term_Indexation_Action::TRANSIENT_CACHE_KEY );
 
 		$this->instance->check_option( [ 'stripcategorybase' => 0 ], [ 'stripcategorybase' => 1 ] );
 	}

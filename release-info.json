@@ -1,5 +1,5 @@
 {
-  "version": "15.0",
-  "release_description": "Arabic readability analysis and all settings are now in the Yoast sidebar for the block editor.",
-  "shortlink": "https://yoa.st/yoast15-0"
+  "version": "15.3",
+  "release_description": "Writing in Hebrew? You can now check if your texts are easy to read in the readability analysis.",
+  "shortlink": "https://yoa.st/yoast15-3"
 }

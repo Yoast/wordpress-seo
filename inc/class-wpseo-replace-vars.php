@@ -156,15 +156,15 @@ class WPSEO_Replace_Vars {
 
 		// Let's see if we can bail super early.
 		if ( strpos( $string, '%%' ) === false ) {
-			return WPSEO_Utils::standardize_whitespace( $string );
+			return YoastSEO()->helpers->string->standardize_whitespace( $string );
 		}
 
 		$args = (array) $args;
 		if ( isset( $args['post_content'] ) && ! empty( $args['post_content'] ) ) {
-			$args['post_content'] = WPSEO_Utils::strip_shortcode( $args['post_content'] );
+			$args['post_content'] = YoastSEO()->helpers->string->strip_shortcode( $args['post_content'] );
 		}
 		if ( isset( $args['post_excerpt'] ) && ! empty( $args['post_excerpt'] ) ) {
-			$args['post_excerpt'] = WPSEO_Utils::strip_shortcode( $args['post_excerpt'] );
+			$args['post_excerpt'] = YoastSEO()->helpers->string->strip_shortcode( $args['post_excerpt'] );
 		}
 		$this->args = (object) wp_parse_args( $args, $this->defaults );
 
@@ -220,7 +220,7 @@ class WPSEO_Replace_Vars {
 		}
 
 		// Remove superfluous whitespace.
-		$string = WPSEO_Utils::standardize_whitespace( $string );
+		$string = YoastSEO()->helpers->string->standardize_whitespace( $string );
 
 		return $string;
 	}
@@ -428,10 +428,10 @@ class WPSEO_Replace_Vars {
 	/**
 	 * Retrieve the separator for use as replacement string.
 	 *
-	 * @return string
+	 * @return string Retrieves the title separator.
 	 */
 	private function retrieve_sep() {
-		return WPSEO_Utils::get_title_separator();
+		return YoastSEO()->helpers->options->get_title_separator();
 	}
 
 	/**

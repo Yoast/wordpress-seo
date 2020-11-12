@@ -89,10 +89,11 @@ class WPSEO_Image_Utils {
 	 *     Array of image data
 	 *
 	 *     @type string $alt      Image's alt text.
-	 *     @type string $alt      Image's alt text.
+	 *     @type string $path     Path of image.
 	 *     @type int    $width    Width of image.
 	 *     @type int    $height   Height of image.
 	 *     @type string $type     Image's MIME type.
+	 *     @type string $size     Image's size.
 	 *     @type string $url      Image's URL.
 	 *     @type int    $filesize The file size in bytes, if already set.
 	 * }
@@ -114,6 +115,29 @@ class WPSEO_Image_Utils {
 		if ( ! isset( $image['type'] ) ) {
 			$image['type'] = get_post_mime_type( $attachment_id );
 		}
+
+		/**
+		 * Filter: 'wpseo_image_data' - Filter image data.
+		 *
+		 * Elements with keys not listed in the section will be discarded.
+		 *
+		 * @api array {
+		 *     Array of image data
+		 *
+		 *     @type int    id       Image's ID as an attachment.
+		 *     @type string alt      Image's alt text.
+		 *     @type string path     Image's path.
+		 *     @type int    width    Width of image.
+		 *     @type int    height   Height of image.
+		 *     @type int    pixels   Number of pixels in the image.
+		 *     @type string type     Image's MIME type.
+		 *     @type string size     Image's size.
+		 *     @type string url      Image's URL.
+		 *     @type int    filesize The file size in bytes, if already set.
+		 * }
+		 * @api int  Attachment ID.
+		 */
+		$image = apply_filters( 'wpseo_image_data', $image, $attachment_id );
 
 		// Keep only the keys we need, and nothing else.
 		return array_intersect_key( $image, array_flip( [ 'id', 'alt', 'path', 'width', 'height', 'pixels', 'type', 'size', 'url', 'filesize' ] ) );

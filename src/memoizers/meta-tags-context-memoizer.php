@@ -18,42 +18,42 @@ class Meta_Tags_Context_Memoizer {
 	 *
 	 * @var Blocks_Helper
 	 */
-	private $blocks;
+	protected $blocks;
 
 	/**
 	 * The current page helper.
 	 *
 	 * @var Current_Page_Helper
 	 */
-	private $current_page;
+	protected $current_page;
 
 	/**
 	 * The indexable repository.
 	 *
 	 * @var Indexable_Repository
 	 */
-	private $repository;
+	protected $repository;
 
 	/**
 	 * The meta tags context.
 	 *
 	 * @var Meta_Tags_Context
 	 */
-	private $context_prototype;
+	protected $context_prototype;
 
 	/**
 	 * The presentation memoizer.
 	 *
 	 * @var Presentation_Memoizer
 	 */
-	private $presentation_memoizer;
+	protected $presentation_memoizer;
 
 	/**
 	 * The meta tags context.
 	 *
 	 * @var Meta_Tags_Context[]
 	 */
-	private $cache = [];
+	protected $cache = [];
 
 	/**
 	 * Meta_Tags_Context_Memoizer constructor.
@@ -133,7 +133,6 @@ class Meta_Tags_Context_Memoizer {
 	 * Clears the memoization of either a specific indexable or all indexables.
 	 *
 	 * @param Indexable|int|string $indexable Optional. The indexable or indexable id to clear the memoization of.
-	 *                                        "current-page" clears the current-page context.
 	 */
 	public function clear( $indexable = null ) {
 		if ( $indexable instanceof Indexable ) {

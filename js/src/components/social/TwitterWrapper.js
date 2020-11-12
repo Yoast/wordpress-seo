@@ -1,4 +1,4 @@
-import { Fragment, useEffect } from "@wordpress/element";
+import { useEffect } from "@wordpress/element";
 import { Slot } from "@wordpress/components";
 import PropTypes from "prop-types";
 
@@ -10,7 +10,7 @@ import SocialForm from "../social/SocialForm";
  *
  * @param {Object} props The properties object.
  *
- * @returns {wp.Element} Renders the TwitterWrapper React Component.
+ * @returns {JSX.Element} The TwitterWrapper.
  */
 const TwitterWrapper = ( props ) => {
 	useEffect( () => {
@@ -18,31 +18,20 @@ const TwitterWrapper = ( props ) => {
 		setTimeout( props.onLoad );
 	}, [] );
 
-	return (
-		<Fragment>
-			{
-				props.isPremium
-					? <Slot
-						name={
-							"YoastTwitterPremium" +
-							`${ props.location.charAt( 0 ).toUpperCase() + props.location.slice( 1 ) }`
-						}
-						fillProps={ props }
-					/>
-					: <SocialForm { ...props } />
+	return props.isPremium
+		? <Slot
+			name={
+				`YoastTwitterPremium${ props.location.charAt( 0 ).toUpperCase() + props.location.slice( 1 ) }`
 			}
-		</Fragment>
-	);
+			fillProps={ props }
+		/>
+		: <SocialForm { ...props } />;
 };
-
-export default TwitterWrapper;
 
 TwitterWrapper.propTypes = {
 	isPremium: PropTypes.bool.isRequired,
 	onLoad: PropTypes.func.isRequired,
-	location: PropTypes.string,
+	location: PropTypes.string.isRequired,
 };
 
-TwitterWrapper.defaultProps = {
-	location: "",
-};
+export default TwitterWrapper;

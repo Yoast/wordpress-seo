@@ -26,7 +26,6 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group watchers
  *
  * @coversDefaultClass \Yoast\WP\SEO\Integrations\Watchers\Indexable_Post_Watcher
- * @covers ::<!public>
  */
 class Indexable_Post_Watcher_Test extends TestCase {
 
@@ -198,18 +197,46 @@ class Indexable_Post_Watcher_Test extends TestCase {
 	 * @covers ::is_post_indexable
 	 */
 	public function test_build_indexable() {
-		$id = 1;
+		$post_id      = 1;
+		$post_content = '<p>A post with a <a href="https://example.com/post-2">a link</a>.</p>';
+		$post         = (object) [
+			'post_content' => $post_content,
+		];
 
-		Monkey\Functions\expect( 'wp_is_post_revision' )->once()->with( $id )->andReturn( false );
-		Monkey\Functions\expect( 'wp_is_post_autosave' )->once()->with( $id )->andReturn( false );
+		Monkey\Functions\expect( 'wp_is_post_revision' )->once()->with( $post_id )->andReturn( false );
+		Monkey\Functions\expect( 'wp_is_post_autosave' )->once()->with( $post_id )->andReturn( false );
 
 		$indexable_mock = Mockery::mock( Indexable_Mock::class );
 
-		$this->repository->expects( 'find_by_id_and_type' )->once()->with( $id, 'post', false )->andReturn( $indexable_mock );
-		$this->repository->expects( 'create_for_id_and_type' )->never();
-		$this->builder->expects( 'build_for_id_and_type' )->once()->with( $id, 'post', $indexable_mock )->andReturn( $indexable_mock );
+		$indexable_mock
+			->expects( 'save' )
+			->once();
 
-		$this->instance->build_indexable( $id );
+		$this->repository
+			->expects( 'find_by_id_and_type' )
+			->once()
+			->with( $post_id, 'post', false )
+			->andReturn( $indexable_mock );
+
+		$this->repository->expects( 'create_for_id_and_type' )->never();
+		$this->builder
+			->expects( 'build_for_id_and_type' )
+			->once()
+			->with( $post_id, 'post', $indexable_mock )
+			->andReturn( $indexable_mock );
+
+		$this->post
+			->expects( 'get_post' )
+			->once()
+			->with( $post_id )
+			->andReturn( $post );
+
+		$this->link_builder
+			->expects( 'build' )
+			->once()
+			->with( $indexable_mock, $post_content );
+
+		$this->instance->build_indexable( $post_id );
 	}
 
 	/**
@@ -299,17 +326,33 @@ class Indexable_Post_Watcher_Test extends TestCase {
 	 * @covers ::build_indexable
 	 */
 	public function test_build_indexable_does_not_exist() {
-		$id = 1;
+		$post_id      = 1;
+		$post_content = '<p>A post with a <a href="https://example.com/post-2">a link</a>.</p>';
+		$post         = (object) [
+			'post_content' => $post_content,
+		];
 
-		Monkey\Functions\expect( 'wp_is_post_revision' )->once()->with( $id )->andReturn( false );
-		Monkey\Functions\expect( 'wp_is_post_autosave' )->once()->with( $id )->andReturn( false );
+		Monkey\Functions\expect( 'wp_is_post_revision' )->once()->with( $post_id )->andReturn( false );
+		Monkey\Functions\expect( 'wp_is_post_autosave' )->once()->with( $post_id )->andReturn( false );
 
 		$indexable_mock = Mockery::mock( Indexable_Mock::class );
+		$indexable_mock->expects( 'save' )->once();
 
-		$this->repository->expects( 'find_by_id_and_type' )->once()->with( $id, 'post', false )->andReturn( false );
-		$this->builder->expects( 'build_for_id_and_type' )->once()->with( $id, 'post', false )->andReturn( $indexable_mock );
+		$this->repository->expects( 'find_by_id_and_type' )->once()->with( $post_id, 'post', false )->andReturn( false );
+		$this->builder->expects( 'build_for_id_and_type' )->once()->with( $post_id, 'post', false )->andReturn( $indexable_mock );
 
-		$this->instance->build_indexable( $id );
+		$this->post
+			->expects( 'get_post' )
+			->once()
+			->with( $post_id )
+			->andReturn( $post );
+
+		$this->link_builder
+			->expects( 'build' )
+			->once()
+			->with( $indexable_mock, $post_content );
+
+		$this->instance->build_indexable( $post_id );
 	}
 
 	/**
@@ -344,11 +387,23 @@ class Indexable_Post_Watcher_Test extends TestCase {
 
 		$updated_indexable              = Mockery::mock( Indexable_Mock::class );
 		$updated_indexable->object_type = 'post';
+		$updated_indexable->object_id   = 23;
 		$updated_indexable->is_public   = false;
 
 		$this->instance
 			->expects( 'update_has_public_posts' )
 			->with( $updated_indexable )
+			->once();
+
+		$post = Mockery::mock( \WP_Post::class );
+
+		$this->post
+			->expects( 'get_post' )
+			->with( 23 )
+			->andReturn( $post );
+
+		$updated_indexable
+			->expects( 'save' )
 			->once();
 
 		$this->instance->updated_indexable( $updated_indexable, $old_indexable );
@@ -381,6 +436,10 @@ class Indexable_Post_Watcher_Test extends TestCase {
 		$this->instance
 			->expects( 'update_has_public_posts' )
 			->with( $updated_indexable )
+			->once();
+
+		$updated_indexable
+			->expects( 'save' )
 			->once();
 
 		$this->instance->updated_indexable( $updated_indexable, $old_indexable );

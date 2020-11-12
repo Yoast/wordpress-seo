@@ -8,7 +8,7 @@
  *
  * @wordpress-plugin
  * Plugin Name: Yoast SEO
- * Version:     15.0-RC3
+ * Version:     15.3-RC3
  * Plugin URI:  https://yoa.st/1uj
  * Description: The first true all-in-one SEO solution for WordPress, including on-page content analysis, XML sitemaps and much more.
  * Author:      Team Yoast
@@ -20,7 +20,7 @@
  * Requires PHP: 5.6.20
  *
  * WC requires at least: 3.0
- * WC tested up to: 4.5
+ * WC tested up to: 4.7
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by

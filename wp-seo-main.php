@@ -15,7 +15,7 @@ if ( ! function_exists( 'add_filter' ) ) {
  * {@internal Nobody should be able to overrule the real version number as this can cause
  *            serious issues with the options, so no if ( ! defined() ).}}
  */
-define( 'WPSEO_VERSION', '15.0-RC3' );
+define( 'WPSEO_VERSION', '15.3-RC3' );
 
 
 if ( ! defined( 'WPSEO_PATH' ) ) {
@@ -35,7 +35,7 @@ define( 'YOAST_VENDOR_DEFINE_PREFIX', 'YOASTSEO_VENDOR__' );
 define( 'YOAST_VENDOR_PREFIX_DIRECTORY', 'vendor_prefixed' );
 
 define( 'YOAST_SEO_PHP_REQUIRED', '5.6' );
-define( 'YOAST_SEO_WP_TESTED', '5.5' );
+define( 'YOAST_SEO_WP_TESTED', '5.5.1' );
 define( 'YOAST_SEO_WP_REQUIRED', '5.4' );
 
 if ( ! defined( 'WPSEO_NAMESPACES' ) ) {
@@ -191,6 +191,8 @@ function _wpseo_activate() {
 	if ( ! WPSEO_Utils::is_yoast_seo_premium() ) {
 		WPSEO_Options::set( 'tracking', false );
 	}
+
+	WPSEO_Options::set( 'indexing_reason', 'first_install' );
 
 	do_action( 'wpseo_register_roles' );
 	WPSEO_Role_Manager_Factory::get()->add();

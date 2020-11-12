@@ -67,7 +67,7 @@ function createScoresInPublishBox( type, status ) {
 		.attr( "class", imageScoreClass + " na" );
 
 	publishSection.append( imgElem ).append( spanElem );
-	$( "#misc-publishing-actions" ).append( publishSection );
+	$( "#yoast-seo-publishbox-section" ).prepend( publishSection );
 }
 
 /**
@@ -112,12 +112,12 @@ function scrollToCollapsible( id ) {
 export function initialize() {
 	var notAvailableStatus = "na";
 
-	if ( wpseoScriptData.metabox.contentAnalysisActive ) {
-		createScoresInPublishBox( "content", notAvailableStatus );
-	}
-
 	if ( wpseoScriptData.metabox.keywordAnalysisActive ) {
 		createScoresInPublishBox( "keyword", notAvailableStatus );
+	}
+
+	if ( wpseoScriptData.metabox.contentAnalysisActive ) {
+		createScoresInPublishBox( "content", notAvailableStatus );
 	}
 
 	// Target only the link and use event delegation, as this link doesn't exist on dom ready yet.

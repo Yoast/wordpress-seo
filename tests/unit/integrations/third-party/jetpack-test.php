@@ -27,7 +27,7 @@ class Jetpack_Test extends TestCase {
 	protected $instance;
 
 	/**
-	 * @inheritDoc
+	 * Sets an instance for test purposes.
 	 */
 	public function setUp() {
 		parent::setUp();
@@ -54,6 +54,6 @@ class Jetpack_Test extends TestCase {
 	public function test_register_hooks() {
 		$this->instance->register_hooks();
 
-		$this->assertTrue( \has_filter( 'jetpack_enable_open_graph', '__return_false' ) );
+		$this->assertNotFalse( \has_filter( 'jetpack_enable_open_graph', '__return_false' ) );
 	}
 }

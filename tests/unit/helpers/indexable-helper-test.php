@@ -4,14 +4,19 @@ namespace Yoast\WP\SEO\Tests\Unit\Helpers;
 
 use Brain\Monkey;
 use Mockery;
+use Yoast\WP\SEO\Helpers\Environment_Helper;
 use Yoast\WP\SEO\Helpers\Indexable_Helper;
+use Yoast\WP\SEO\Helpers\Indexing_Helper;
+use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
- * Class Indexable_Helper_Test
+ * Class Indexable_Helper_Test.
  *
  * @coversDefaultClass \Yoast\WP\SEO\Helpers\Indexable_Helper
+ * @covers \Yoast\WP\SEO\Helpers\Indexable_Helper
  *
  * @group helpers
  */
@@ -25,219 +30,56 @@ class Indexable_Helper_Test extends TestCase {
 	protected $instance;
 
 	/**
-	 * @inheritDoc
+	 * Represents the options helper.
+	 *
+	 * @var Mockery\MockInterface|Options_Helper
+	 */
+	protected $options;
+
+	/**
+	 * Represents the indexable repository helper.
+	 *
+	 * @var Mockery\MockInterface|Indexable_Repository
+	 */
+	protected $repository;
+
+	/**
+	 * Represents the environment helper.
+	 *
+	 * @var Mockery\MockInterface|Environment_Helper
+	 */
+	protected $environment_helper;
+
+	/**
+	 * Represents the indexing helper.
+	 *
+	 * @var Mockery\MockInterface|Indexing_Helper
+	 */
+	protected $indexing_helper;
+
+	/**
+	 * Sets up the class under test and mock objects.
 	 */
 	public function setUp() {
 		parent::setUp();
 
-		$this->instance = new Indexable_Helper();
+		$this->options            = Mockery::mock( Options_Helper::class );
+		$this->repository         = Mockery::mock( Indexable_Repository::class );
+		$this->environment_helper = Mockery::mock( Environment_Helper::class );
+		$this->indexing_helper    = Mockery::mock( Indexing_Helper::class );
+		$this->instance           = new Indexable_Helper( $this->options, $this->environment_helper, $this->indexing_helper );
+		$this->instance->set_indexable_repository( $this->repository );
 	}
 
 	/**
-	 * Retrieves the permalink for a post indexable.
+	 * Tests if the class attributes are set properly.
 	 *
-	 * @covers ::get_permalink_for_indexable
+	 * @covers ::__construct
 	 */
-	public function test_get_permalink_for_post_indexable() {
-		$indexable              = Mockery::mock( Indexable_Mock::class );
-		$indexable->object_type = 'post';
-
-		Monkey\Functions\expect( 'get_permalink' )
-			->andReturn( 'https://example.org/permalink' );
-
-		$this->assertEquals(
-			'https://example.org/permalink',
-			$this->instance->get_permalink_for_indexable( $indexable )
-		);
-	}
-
-	/**
-	 * Retrieves the permalink for an attachment indexable.
-	 *
-	 * @covers ::get_permalink_for_indexable
-	 */
-	public function test_get_permalink_for_attachment_indexable() {
-		$indexable                  = Mockery::mock( Indexable_Mock::class );
-		$indexable->object_type     = 'post';
-		$indexable->object_sub_type = 'attachment';
-
-		Monkey\Functions\expect( 'wp_get_attachment_url' )
-			->andReturn( 'https://example.org/attachment' );
-
-		$this->assertEquals(
-			'https://example.org/attachment',
-			$this->instance->get_permalink_for_indexable( $indexable )
-		);
-	}
-
-	/**
-	 * Retrieves the permalink for a home page indexable.
-	 *
-	 * @covers ::get_permalink_for_indexable
-	 */
-	public function test_get_permalink_for_homepage_indexable() {
-		$indexable              = Mockery::mock( Indexable_Mock::class );
-		$indexable->object_type = 'home-page';
-
-		Monkey\Functions\expect( 'get_permalink' )
-			->andReturn( 'https://example.org/homepage' );
-
-		$this->assertEquals(
-			'https://example.org/homepage',
-			$this->instance->get_permalink_for_indexable( $indexable )
-		);
-	}
-
-	/**
-	 * Retrieves the permalink for a term indexable.
-	 *
-	 * @covers ::get_permalink_for_indexable
-	 */
-	public function test_get_permalink_for_term_indexable() {
-		$indexable              = Mockery::mock( Indexable_Mock::class );
-		$indexable->object_id   = 2;
-		$indexable->object_type = 'term';
-
-		$term = (object) [
-			'taxonomy' => 'category',
-		];
-
-		Monkey\Functions\expect( 'get_term' )
-			->with( 2 )
-			->andReturn( $term );
-
-		Monkey\Functions\expect( 'is_wp_error' )
-			->with( $term )
-			->andReturn( false );
-
-		Monkey\Functions\expect( 'get_term_link' )
-			->with( $term, 'category' )
-			->andReturn( 'https://example.org/term' );
-
-		$this->assertEquals(
-			'https://example.org/term',
-			$this->instance->get_permalink_for_indexable( $indexable )
-		);
-	}
-
-	/**
-	 * Retrieves the permalink for a term indexable and term not found.
-	 *
-	 * @covers ::get_permalink_for_indexable
-	 */
-	public function test_get_permalink_for_term_indexable_term_not_found() {
-		$indexable              = Mockery::mock( Indexable_Mock::class );
-		$indexable->object_id   = 2;
-		$indexable->object_type = 'term';
-
-		Monkey\Functions\expect( 'get_term' )
-			->with( 2 )
-			->andReturn( null );
-
-
-		$this->assertNull(
-			$this->instance->get_permalink_for_indexable( $indexable )
-		);
-	}
-
-	/**
-	 * Retrieves the permalink for a term indexable with term being wp_error.
-	 *
-	 * @covers ::get_permalink_for_indexable
-	 */
-	public function test_get_permalink_for_term_indexable_term_is_wp_error() {
-		$indexable              = Mockery::mock( Indexable_Mock::class );
-		$indexable->object_id   = 2;
-		$indexable->object_type = 'term';
-
-		$term = (object) [
-			'taxonomy' => 'category',
-		];
-
-		Monkey\Functions\expect( 'get_term' )
-			->with( 2 )
-			->andReturn( $term );
-
-		Monkey\Functions\expect( 'is_wp_error' )
-			->with( $term )
-			->andReturn( true );
-
-		$this->assertNull(
-			$this->instance->get_permalink_for_indexable( $indexable )
-		);
-	}
-
-	/**
-	 * Retrieves the permalink for a search page indexable.
-	 *
-	 * @covers ::get_permalink_for_indexable
-	 */
-	public function test_get_permalink_for_search_page_indexable() {
-		$indexable                  = Mockery::mock( Indexable_Mock::class );
-		$indexable->object_type     = 'system-page';
-		$indexable->object_sub_type = 'search-page';
-
-		Monkey\Functions\expect( 'get_search_link' )
-			->andReturn( 'https://example.org/search' );
-
-		$this->assertEquals(
-			'https://example.org/search',
-			$this->instance->get_permalink_for_indexable( $indexable )
-		);
-	}
-
-	/**
-	 * Retrieves the permalink for a search page indexable.
-	 *
-	 * @covers ::get_permalink_for_indexable
-	 */
-	public function test_get_permalink_for_post_type_archive_indexable() {
-		$indexable                  = Mockery::mock( Indexable_Mock::class );
-		$indexable->object_type     = 'post-type-archive';
-		$indexable->object_sub_type = 'post-type';
-
-		Monkey\Functions\expect( 'get_post_type_archive_link' )
-			->with( 'post-type' )
-			->andReturn( 'https://example.org/post-type' );
-
-		$this->assertEquals(
-			'https://example.org/post-type',
-			$this->instance->get_permalink_for_indexable( $indexable )
-		);
-	}
-
-	/**
-	 * Retrieves the permalink for a search page indexable.
-	 *
-	 * @covers ::get_permalink_for_indexable
-	 */
-	public function test_get_permalink_for_user_indexable() {
-		$indexable              = Mockery::mock( Indexable_Mock::class );
-		$indexable->object_type = 'user';
-		$indexable->object_id   = 1;
-
-		Monkey\Functions\expect( 'get_author_posts_url' )
-			->with( 1 )
-			->andReturn( 'https://example.org/user/1' );
-
-		$this->assertEquals(
-			'https://example.org/user/1',
-			$this->instance->get_permalink_for_indexable( $indexable )
-		);
-	}
-
-	/**
-	 * Retrieves the permalink for a search page indexable.
-	 *
-	 * @covers ::get_permalink_for_indexable
-	 */
-	public function test_get_permalink_for_unknown_type_indexable() {
-		$indexable              = Mockery::mock( Indexable_Mock::class );
-		$indexable->object_type = 'unknown';
-
-		$this->assertNull(
-			$this->instance->get_permalink_for_indexable( $indexable )
-		);
+	public function test_construct() {
+		$this->assertAttributeInstanceOf( Options_Helper::class, 'options_helper', $this->instance );
+		$this->assertAttributeInstanceOf( Environment_Helper::class, 'environment_helper', $this->instance );
+		$this->assertAttributeInstanceOf( Indexing_Helper::class, 'indexing_helper', $this->instance );
 	}
 
 	/**
@@ -291,6 +133,61 @@ class Indexable_Helper_Test extends TestCase {
 			[ 'post-type-archive', 'post', false, false, 'Post_Type_Archive' ],
 			[ 'system-page', 'search-result', false, false, 'Search_Result_Page' ],
 			[ 'system-page', '404', false, false, 'Error_Page' ],
+		];
+	}
+
+	/**
+	 * Tests should_index_indexables method.
+	 *
+	 * @param string $wp_environment  The WordPress environment to test for.
+	 * @param bool   $expected_result Either true or false.
+	 *
+	 * @covers ::should_index_indexables
+	 * @dataProvider should_index_for_production_environment_provider
+	 */
+	public function test_should_index_for_production_environment(
+		$wp_environment, $expected_result
+	) {
+		// Arrange.
+		$this->environment_helper
+			->shouldReceive( 'is_production_mode' )
+			->passthru();
+		$this->environment_helper
+			->shouldReceive( 'get_wp_environment' )
+			->andReturn( $wp_environment );
+
+		// Act.
+		$result = $this->instance->should_index_indexables();
+
+		// Assert.
+		$this->assertEquals( $result, $expected_result );
+	}
+
+	/**
+	 * Tests setting the indexables completed flag after indexing the indexables has finished.
+	 */
+	public function test_finish_indexing() {
+		$this->options
+			->expects( 'set' )
+			->once()
+			->with( 'indexables_indexing_completed', true );
+
+		$this->instance->finish_indexing();
+	}
+
+	/**
+	 * DataProvider for test_should_index_for_production_environment.
+	 *
+	 * @return array[]
+	 */
+	public function should_index_for_production_environment_provider() {
+		return [
+			[ 'production', true ],
+			[ 'staging', false ],
+			[ 'test', false ],
+			[ 'development', false ],
+			[ 'random letters and 1234567890', false ],
+			[ null, false ],
 		];
 	}
 }
