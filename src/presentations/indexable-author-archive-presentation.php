@@ -114,10 +114,10 @@ class Indexable_Author_Archive_Presentation extends Indexable_Presentation {
 			return $this->filter_robots( $robots );
 		}
 
-		$public_post_types = $this->post_type->get_public_post_types();
+		$author_archive_post_types = $this->author_archive->get_author_archive_post_types();
 
 		// Global option: "Show archives for authors without posts in search results".
-		if ( $this->options->get( 'noindex-author-noposts-wpseo', false ) && $this->user->count_posts( $current_author->ID, $public_post_types ) === 0 ) {
+		if ( $this->options->get( 'noindex-author-noposts-wpseo', false ) && $this->user->count_posts( $current_author->ID, $author_archive_post_types ) === 0 ) {
 			$robots['index'] = 'noindex';
 			return $this->filter_robots( $robots );
 		}
