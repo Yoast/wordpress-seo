@@ -76,7 +76,7 @@ export function collectData() {
 
 	const analysisData = applyAnalysisModifications( getAnalysisData() );
 
-	return applyFilters( "wpseoAnalysisData", analysisData );
+	return applyFilters( "yoast.analysis.data", analysisData );
 }
 
 /**
