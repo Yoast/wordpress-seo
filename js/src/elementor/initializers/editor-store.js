@@ -37,6 +37,10 @@ const populateStore = store => {
 		} )
 	);
 
+	// Initialize the Social Preview data
+	store.dispatch( actions.loadFacebookPreviewData() );
+	store.dispatch( actions.loadTwitterPreviewData() );
+
 	store.dispatch( actions.setSEMrushChangeCountry( window.wpseoScriptData.metabox.countryCode ) );
 	store.dispatch( actions.setSEMrushLoginStatus( window.wpseoScriptData.metabox.SEMrushLoginStatus ) );
 };
