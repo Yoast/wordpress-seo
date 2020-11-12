@@ -1,12 +1,14 @@
 import { dispatch, select, subscribe } from "@wordpress/data";
-import { applyFilters } from "@wordpress/hooks";
-import { debounce, isEqual } from "lodash";
+import { debounce, get, identity, isEqual } from "lodash";
 import { Paper } from "yoastseo";
 import { refreshDelay } from "../analysis/constants";
 import handleWorkerError from "../analysis/handleWorkerError";
 import { sortResultsByIdentifier } from "../analysis/refreshAnalysis";
 import { createAnalysisWorker, getAnalysisConfiguration } from "../analysis/worker";
 import { applyModifications } from "../elementor/initializers/pluggable";
+
+// Needs to be from the global because the imported version is not shared.
+const applyFilters = get( window, "wp.hooks.applyFilters", identity );
 
 /**
  * Runs the analysis.
@@ -85,7 +87,6 @@ export function collectData() {
 export default function initAnalysis() {
 	// Get the selectors.
 	const {
-		getAnalysisData,
 		getAnalysisTimestamp,
 		isCornerstoneContent,
 	} = select( "yoast-seo/editor" );
@@ -98,7 +99,7 @@ export default function initAnalysis() {
 	).catch( handleWorkerError );
 
 	// Initialize the data for the "is dirty" checks.
-	let previousAnalysisData = applyAnalysisModifications( getAnalysisData() );
+	let previousAnalysisData = collectData();
 	let previousIsCornerstone = isCornerstoneContent();
 	let previousAnalysisTimestamp = getAnalysisTimestamp();
 
@@ -111,7 +112,7 @@ export default function initAnalysis() {
 	subscribe( () => {
 		// Fetch the current data.
 		const currentIsCornerstone = isCornerstoneContent();
-		const currentAnalysisData = applyAnalysisModifications( getAnalysisData() );
+		const currentAnalysisData = collectData();
 		const currentAnalysisTimestamp = getAnalysisTimestamp();
 
 		// Keep the is cornerstone content up-to-date. When changed, also update the analysis results.
