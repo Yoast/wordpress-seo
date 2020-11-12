@@ -19,6 +19,7 @@ import SchemaTabContainer from "../../../containers/SchemaTab";
 import AdvancedSettings from "../../../containers/AdvancedSettings";
 import SEMrushRelatedKeyphrases from "../../../containers/SEMrushRelatedKeyphrases";
 
+/* eslint-disable complexity */
 /**
  * Creates the ElementorFill component.
  *
@@ -98,3 +99,4 @@ ElementorFill.propTypes = {
 	onLoad: PropTypes.func.isRequired,
 	settings: PropTypes.object.isRequired,
 };
+/* eslint-enable complexity */
