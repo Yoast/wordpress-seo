@@ -4,7 +4,7 @@ These participles have an irregular stem but follow a regular conjugation patter
 The following participles were excluded because they are intransitive verbs that cannot be passive:
 apparu, réapparu, devenu, redevenu, intervenu, mort, parti, parvenu, provenu, resurvenu, revenu, survenu, venu.
  */
-var irregularsRegular = [
+const irregularsRegular = [
 	"abâtardi",
 	"abattu",
 	"abêti",
@@ -495,7 +495,7 @@ var irregularsRegular = [
 This is a list of irregular participles used in French.
 These participles have an irregular stem and follow an irregular conjugation pattern. Therefore all forms are included in the list.
  */
-var irregularsIrregular = [
+const irregularsIrregular = [
 	"absous",
 	"absoute",
 	"absoutes",
@@ -520,7 +520,7 @@ This is a list of irregular participles used in French.
 These participles have an irregular stem ending in -s. They have the same form in the masculine singular and plural.
 For feminine singular and feminine plural forms -e and -es are added.
  */
-var irregularsEndingInS = [
+const irregularsEndingInS = [
 	"repris",
 	"démis",
 	"omis",
@@ -558,15 +558,8 @@ var irregularsEndingInS = [
 	"requis",
 ];
 
-/**
- * Returns a list of irregulars for French.
- *
- * @returns {Object} French irregulars.
- */
-export default function() {
-	return {
-		irregularsRegular: irregularsRegular,
-		irregularsIrregular: irregularsIrregular,
-		irregularsEndingInS: irregularsEndingInS,
-	};
-}
+export {
+	irregularsRegular,
+	irregularsIrregular,
+	irregularsEndingInS,
+};

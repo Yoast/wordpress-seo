@@ -1,23 +1,20 @@
 import { forEach, includes, memoize } from "lodash-es";
 
-import Participle from "../../../../../values/Participle";
-import checkException from "../../../../helpers/passiveVoice/periphrastic/checkException";
-import exceptionsParticiplesFactory from "./exceptionsParticiples";
-import directPrecedenceException from "../../../../helpers/passiveVoice/directPrecedenceException";
-import precedenceException from "../../../../helpers/passiveVoice/precedenceException";
-import { getFunctionWords } from "../functionWords.js";
-const {
-	cannotDirectlyPrecedePassiveParticiple: cannotDirectlyPrecedePassiveParticipleList,
-	cannotBeBetweenPassiveAuxiliaryAndParticiple: cannotBeBetweenPassiveAuxiliaryAndParticipleList,
-} = getFunctionWords();
+import Participle from "../../../../values/Participle";
+import checkException from "../../../helpers/passiveVoice/periphrastic/checkException";
+import directPrecedenceException from "../../../helpers/passiveVoice/directPrecedenceException";
+import precedenceException from "../../../helpers/passiveVoice/precedenceException";
+import {
+	cannotDirectlyPrecedePassiveParticiple,
+	cannotBeBetweenPassiveAuxiliaryAndParticiple,
+} from "../config/functionWords.js";
+import {
+	adjectivesVerbs as exceptionsParticiplesAdjectivesVerbs,
+	nounsStartingWithVowel as exceptionsParticiplesNounsVowel,
+	nounsStartingWithConsonant as exceptionsParticiplesNounsConsonant,
+	others as exceptionsParticiplesOthers,
+} from "../config/internal/exceptionsParticiplesActive";
 
-
-const {
-	adjectivesVerbs: exceptionsParticiplesAdjectivesVerbs,
-	nounsStartingWithVowel: exceptionsParticiplesNounsVowel,
-	nounsStartingWithConsonant: exceptionsParticiplesNounsConsonant,
-	others: exceptionsParticiplesOthers,
-} = exceptionsParticiplesFactory();
 
 /**
  * Creates an Participle object for the French language.
@@ -28,7 +25,7 @@ const {
  *
  * @constructor
  */
-var FrenchParticiple = function( participle, sentencePart, attributes ) {
+const FrenchParticiple = function( participle, sentencePart, attributes ) {
 	Participle.call( this, participle, sentencePart, attributes );
 	checkException.call( this );
 };
@@ -40,7 +37,7 @@ require( "util" ).inherits( FrenchParticiple, Participle );
  *
  * @returns {boolean} Returns true if the passive is irregular.
  */
-var checkIrregular = function() {
+const checkIrregular = function() {
 	if ( this.getType() === "irregular" ) {
 		return true;
 	}
@@ -58,15 +55,15 @@ FrenchParticiple.prototype.isPassive = function() {
 
 	// Only check precedence exceptions for irregular participles.
 	if ( checkIrregular.call( this ) ) {
-		return ! this.directPrecedenceException( sentencePart, participle, cannotDirectlyPrecedePassiveParticipleList ) &&
-			! this.precedenceException( sentencePart, participle, cannotBeBetweenPassiveAuxiliaryAndParticipleList );
+		return ! this.directPrecedenceException( sentencePart, participle, cannotDirectlyPrecedePassiveParticiple ) &&
+			! this.precedenceException( sentencePart, participle, cannotBeBetweenPassiveAuxiliaryAndParticiple );
 	}
 	// Check precedence exceptions and exception lists for regular participles.
 	return ! this.isOnAdjectivesVerbsExceptionList() &&
 		! this.isOnNounsExceptionList() &&
 		! this.isOnOthersExceptionList() &&
-		! this.directPrecedenceException( sentencePart, participle, cannotDirectlyPrecedePassiveParticipleList ) &&
-		! this.precedenceException( sentencePart, participle, cannotBeBetweenPassiveAuxiliaryAndParticipleList );
+		! this.directPrecedenceException( sentencePart, participle, cannotDirectlyPrecedePassiveParticiple ) &&
+		! this.precedenceException( sentencePart, participle, cannotBeBetweenPassiveAuxiliaryAndParticiple );
 };
 
 /**
@@ -74,7 +71,7 @@ FrenchParticiple.prototype.isPassive = function() {
  *
  * @returns {Array} Returns an array with all adjective and verb participle exceptions.
  */
-var getExceptionsParticiplesAdjectivesVerbsRegexes = memoize( function() {
+const getExceptionsParticiplesAdjectivesVerbsRegexes = memoize( function() {
 	const exceptionsParticiplesAdjectivesVerbsRegexes = [];
 	forEach( exceptionsParticiplesAdjectivesVerbs, function( exceptionParticiplesAdjectivesVerbs ) {
 		exceptionsParticiplesAdjectivesVerbsRegexes.push( new RegExp( "^" + exceptionParticiplesAdjectivesVerbs + "(e|s|es)?$", "ig" ) );
@@ -87,7 +84,7 @@ var getExceptionsParticiplesAdjectivesVerbsRegexes = memoize( function() {
  *
  * @returns {Array} Returns an array with all noun participle exceptions.
  */
-var getExceptionsParticiplesNounsRegexes = memoize( function() {
+const getExceptionsParticiplesNounsRegexes = memoize( function() {
 	const exceptionsParticiplesNounsRegexes = [];
 
 	// Nouns starting with a vowel are checked with -s suffix and l' and d' prefixes.
@@ -108,22 +105,18 @@ var getExceptionsParticiplesNounsRegexes = memoize( function() {
  * @param {Array} participleExceptionRegexes The array of regexes to check.
  * @returns {boolean} Returns true if the participle matches a regex.
  */
-var checkParticipleExceptionRegexes = function( participleExceptionRegexes ) {
-	var participle = this.getParticiple();
-	var match = [];
+const checkParticipleExceptionRegexes = function( participleExceptionRegexes ) {
+	const participle = this.getParticiple();
+	const match = [];
 
 	forEach( participleExceptionRegexes, function( participleExceptionRegex ) {
-		var exceptionMatch = participle.match( participleExceptionRegex );
+		const exceptionMatch = participle.match( participleExceptionRegex );
 		if ( exceptionMatch ) {
 			match.push( exceptionMatch[ 0 ] );
 		}
 	} );
 
-	if ( match.length > 0 ) {
-		return true;
-	}
-
-	return false;
+	return match.length > 0;
 };
 
 /**
@@ -134,7 +127,7 @@ var checkParticipleExceptionRegexes = function( participleExceptionRegexes ) {
  * @returns {boolean} Returns true if it is in the exception list of adjectives and verbs, otherwise returns false.
  */
 FrenchParticiple.prototype.isOnAdjectivesVerbsExceptionList = function() {
-	var exceptionParticiplesAdjectivesVerbs = getExceptionsParticiplesAdjectivesVerbsRegexes();
+	const exceptionParticiplesAdjectivesVerbs = getExceptionsParticiplesAdjectivesVerbsRegexes();
 	return checkParticipleExceptionRegexes.call( this, exceptionParticiplesAdjectivesVerbs );
 };
 
@@ -146,7 +139,7 @@ FrenchParticiple.prototype.isOnAdjectivesVerbsExceptionList = function() {
  * @returns {boolean} Returns true if it is in the exception list of nouns, otherwise returns false.
  */
 FrenchParticiple.prototype.isOnNounsExceptionList = function() {
-	var exceptionsParticiplesNouns = getExceptionsParticiplesNounsRegexes();
+	const exceptionsParticiplesNouns = getExceptionsParticiplesNounsRegexes();
 	return checkParticipleExceptionRegexes.call( this, exceptionsParticiplesNouns );
 };
 

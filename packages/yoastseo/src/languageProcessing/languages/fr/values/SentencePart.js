@@ -1,14 +1,15 @@
-import SentencePart from "../../../../../values/SentencePart.js";
-import getParticiples from "../../../../helpers/passiveVoice/periphrastic/getParticiples.js";
+import SentencePart from "../../../../values/SentencePart.js";
+import getParticiples from "../helpers/internal/getParticiples.js";
 
 /**
  * Creates a French-specific sentence part.
  *
  * @param {string} sentencePartText The text from the sentence part.
  * @param {Array} auxiliaries The list with auxiliaries.
+ *
  * @constructor
  */
-var FrenchSentencePart = function( sentencePartText, auxiliaries ) {
+const FrenchSentencePart = function( sentencePartText, auxiliaries ) {
 	SentencePart.call( this, sentencePartText, auxiliaries, "fr_FR" );
 };
 
@@ -20,7 +21,7 @@ require( "util" ).inherits( FrenchSentencePart, SentencePart );
  * @returns {Array} The array of Participle Objects.
  */
 FrenchSentencePart.prototype.getParticiples = function() {
-	return getParticiples( this.getSentencePartText(), this.getAuxiliaries(), "fr" );
+	return getParticiples( this.getSentencePartText(), this.getAuxiliaries() );
 };
 
 export default FrenchSentencePart;

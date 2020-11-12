@@ -1,5 +1,5 @@
 // These word need to be checked with s/e/es suffixes.
-var adjectivesVerbs = [
+const adjectivesVerbs = [
 	// The following words are participles of verbs that cannot be passives.
 	"allé",
 	"arrivé",
@@ -351,7 +351,7 @@ var adjectivesVerbs = [
 The following words are nouns ending in -é or -ée and starting with a vowel.
 These words need to be checked with -s suffixes and l' and d' prefixes.
  */
-var nounsStartingWithVowel = [
+const nounsStartingWithVowel = [
 	"à-côté",
 	"abbé",
 	"absurdité",
@@ -645,7 +645,7 @@ var nounsStartingWithVowel = [
 The following words are nouns ending in -é or -ée and starting with a consonant.
 These words need to be checked with -s suffixes.
 */
-var nounsStartingWithConsonant = [
+const nounsStartingWithConsonant = [
 	"banalité",
 	"bas-côté",
 	"beaupré",
@@ -1492,7 +1492,7 @@ var nounsStartingWithConsonant = [
 ];
 
 // These words do not need to be checked with any suffixes.
-var others = [
+const others = [
 	"bé",
 	"cré",
 	"crédié",
@@ -1510,17 +1510,10 @@ var others = [
 	"quasi-instantanée",
 ];
 
+export {
+	adjectivesVerbs,
+	nounsStartingWithVowel,
+	nounsStartingWithConsonant,
+	others,
+};
 
-/**
- * Returns a list of participle exceptions for French.
- *
- * @returns {Object} French participle exceptions.
- */
-export default function() {
-	return {
-		adjectivesVerbs: adjectivesVerbs,
-		nounsStartingWithVowel: nounsStartingWithVowel,
-		nounsStartingWithConsonant: nounsStartingWithConsonant,
-		others: others,
-	};
-}
