@@ -46,22 +46,14 @@ class Permalink_Integrity_Watcher implements Integration_Interface {
 	protected $options_helper;
 
 	/**
-	 * The permalink helper.
-	 *
-	 * @var Permalink_Helper
-	 */
-	protected $permalink_helper;
-
-	/**
 	 * Permalink_Integrity_Watcher constructor.
 	 *
 	 * @param Indexable_Helper $indexable The indexable helper.
 	 */
-	public function __construct( Indexable_Helper $indexable, Options_Helper $option, Permalink_Helper $permalink_helper,
-								 Indexable_Permalink_Watcher $permalink_watcher, Indexable_HomeUrl_Watcher $homeurl_watcher ) {
+	public function __construct( Indexable_Helper $indexable, Options_Helper $option, Indexable_Permalink_Watcher $permalink_watcher,
+								 Indexable_HomeUrl_Watcher $homeurl_watcher ) {
 		$this->indexable_helper 		   = $indexable;
 		$this->options_helper   		   = $option;
-		$this->permalink_helper 		   = $permalink_helper;
 		$this->indexable_permalink_watcher = $permalink_watcher;
 		$this->indexable_homeurl_watcher   = $homeurl_watcher;
 	}
@@ -125,7 +117,7 @@ class Permalink_Integrity_Watcher implements Integration_Interface {
 
 	private function updatePermalinkSamples()
 	{
-		$new_permalinks_indexables_types = $this->permalink_helper->take_permalink_sample_array();
+		$new_permalinks_indexables_types = $this->indexable_helper->take_permalink_sample_array();
 		$this->options_helper->set( 'permalinks_indexables_types', $new_permalinks_indexables_types);
 	}
 
@@ -137,7 +129,6 @@ class Permalink_Integrity_Watcher implements Integration_Interface {
 	 */
 	protected function get_notification() {
 		$message = 'We had to activate legacy mode in our plugin to solve permalink issues. This may be caused by a plugin conflict. Please send diagnostics data to our servers so we can track down this issue';
-
 
 		$notification = new \Yoast_Notification(
 			$message,

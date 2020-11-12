@@ -20,18 +20,18 @@ class WPSEO_Upgrade {
 	private $taxonomy_helper;
 
 	/**
-	 * The permalink helper.
+	 * The indexable helper.
 	 *
-	 * @var \Yoast\WP\SEO\Helpers\Permalink_Helper
+	 * @var \Yoast\WP\SEO\Helpers\Indexable_Helper
 	 */
-	private $permalink_helper;
+	private $indexable_helper;
 
 	/**
 	 * Class constructor.
 	 */
 	public function __construct() {
 		$this->taxonomy_helper  = YoastSEO()->helpers->taxonomy;
-		$this->permalink_helper = YoastSEO()->helpers->permalink;
+		$this->indexable_helper = YoastSEO()->helpers->indexable;
 
 		$version = WPSEO_Options::get( 'version' );
 
@@ -769,7 +769,7 @@ class WPSEO_Upgrade {
 	private function upgrade_153() {
 		WPSEO_Options::set( 'category_base_url', get_option( 'category_base' ) );
 		WPSEO_Options::set( 'tag_base_url', get_option( 'tag_base' ) );
-		$permalinks_indexables_types =  $this->permalink_helper->take_permalink_sample_array();
+		$permalinks_indexables_types =  $this->indexable_helper->take_permalink_sample_array();
 		WPSEO_Options::set( 'permalinks_indexables_types', $permalinks_indexables_types);
 
 		// Rename a couple of options.
