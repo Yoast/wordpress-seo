@@ -1,5 +1,5 @@
-import { checkIfWordEndingIsOnExceptionList, checkIfWordIsOnVerbExceptionList } from "../morphoHelpers/exceptionListHelpers";
-import { doesWordMatchRegex, searchAndReplaceWithRegex } from "../morphoHelpers/regexHelpers";
+import { checkIfWordEndingIsOnExceptionList, checkIfWordIsOnVerbExceptionList } from "../../../../helpers/morphology/exceptionListHelpers";
+import { doesWordMatchRegex, searchAndReplaceWithRegex } from "../../../../helpers/morphology/regexHelpers";
 import { isVowelDoublingAllowed } from "./stemModificationHelpers";
 
 /**

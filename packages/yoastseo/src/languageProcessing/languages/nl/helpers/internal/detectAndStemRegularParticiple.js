@@ -1,5 +1,5 @@
-import nonParticiples from "../../researches/dutch/passiveVoice/nonParticiples.js";
-import { doesWordMatchRegex } from "../morphoHelpers/regexHelpers";
+import nonParticiples from "../../config/internal/nonParticiples.js";
+import { doesWordMatchRegex } from "../../../../helpers/morphology/regexHelpers";
 import { modifyStem } from "./stemModificationHelpers";
 
 /**

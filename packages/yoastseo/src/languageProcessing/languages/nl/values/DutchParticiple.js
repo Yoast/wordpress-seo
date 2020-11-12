@@ -1,13 +1,10 @@
 import { includes } from "lodash-es";
 
-import Participle from "../../../../../values/Participle.js";
-import checkException from "../../../../helpers/passiveVoice/periphrastic/checkException.js";
-import nonParticiples from "./nonParticiples";
-import directPrecedenceException from "../../../../helpers/passiveVoice/directPrecedenceException";
-import { getFunctionWords } from "../functionWords.js";
-const {
-	cannotDirectlyPrecedePassiveParticiple: cannotDirectlyPrecedePassiveParticipleList,
-} = getFunctionWords();
+import Participle from "../../../../values/Participle.js";
+import checkException from "../../../helpers/passiveVoice/periphrastic/checkException.js";
+import nonParticiples from "../config/internal/nonParticiples";
+import directPrecedenceException from "../../../helpers/passiveVoice/directPrecedenceException";
+import { cannotDirectlyPrecedePassiveParticiple } from "../config/functionWords.js";
 
 /**
  * Creates an Participle object for the Dutch language.
@@ -37,7 +34,7 @@ DutchParticiple.prototype.isPassive = function() {
 
 	return ! this.isOnNonParticiplesList() &&
 		! this.hasNonParticipleEnding() &&
-		! this.directPrecedenceException( sentencePart, participle, cannotDirectlyPrecedePassiveParticipleList );
+		! this.directPrecedenceException( sentencePart, participle, cannotDirectlyPrecedePassiveParticiple );
 };
 
 /**

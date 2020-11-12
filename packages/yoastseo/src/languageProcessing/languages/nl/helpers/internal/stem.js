@@ -1,8 +1,8 @@
-import { checkIfWordEndingIsOnExceptionList, checkIfWordIsOnVerbExceptionList } from "../morphoHelpers/exceptionListHelpers";
-import { removeSuffixFromFullForm, removeSuffixesFromFullForm } from "../morphoHelpers/stemHelpers";
+import { checkIfWordEndingIsOnExceptionList, checkIfWordIsOnVerbExceptionList } from "../../../../helpers/morphology/exceptionListHelpers";
+import { removeSuffixFromFullForm, removeSuffixesFromFullForm } from "../../../../helpers/morphology/stemHelpers";
 import detectAndStemSuffixes from "./detectAndStemSuffixes";
 import { generateCorrectStemWithTAndDEnding } from "./getStemWordsWithTAndDEnding.js";
-import checkExceptionsWithFullForms from "../morphoHelpers/checkExceptionsWithFullForms";
+import checkExceptionsWithFullForms from "../../../../helpers/morphology/checkExceptionsWithFullForms";
 import { detectAndStemRegularParticiple } from "./detectAndStemRegularParticiple";
 import { modifyStem, isVowelDoublingAllowed } from "./stemModificationHelpers";
 

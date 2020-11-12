@@ -1,4 +1,4 @@
-import stem from "../../../src/languageProcessing/languages/nl/morphology/stem";
+import stem from "../../../src/languageProcessing/languages/nl/helpers/internal/stem";
 import getMorphologyData from "../../specHelpers/getMorphologyData";
 
 
