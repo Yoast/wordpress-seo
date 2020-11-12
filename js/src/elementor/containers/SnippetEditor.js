@@ -12,6 +12,7 @@ import { getCurrentReplacementVariablesForEditor } from "../replaceVars/elemento
 
 const { stripHTMLTags } = strings;
 
+/* eslint-disable complexity */
 /**
  * Process the snippet editor form data before it's being displayed in the snippet preview.
  *
@@ -163,3 +164,4 @@ export default compose( [
 	} ),
 	withLocation(),
 ] )( SnippetEditorWrapper );
+/* eslint-enable complexity */

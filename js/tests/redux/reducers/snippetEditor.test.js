@@ -19,8 +19,13 @@ describe( "snippet editor reducers", () => {
 					slug: "",
 					description: "",
 				},
+				isLoading: true,
 				wordsToHighlight: [],
 				replacementVariables: getDefaultReplaceVariables(),
+				templates: {
+					description: "",
+					title: "",
+				},
 				uniqueRefreshValue: "",
 			} );
 		} );
