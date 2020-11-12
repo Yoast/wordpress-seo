@@ -169,6 +169,7 @@ class WPSEO_Metabox_Formatter {
 			'analysisHeadingTitle'        => __( 'Analysis', 'wordpress-seo' ),
 			'zapierIntegrationActive'     => WPSEO_Options::get( 'zapier_integration_active', false ) ? 1 : 0,
 			'zapierConnectedStatus'       => ! empty( WPSEO_Options::get( 'zapier_subscription', [] ) ) ? 1 : 0,
+
 			/**
 			 * Filter to determine whether the PreviouslyUsedKeyword assessment should run.
 			 *
