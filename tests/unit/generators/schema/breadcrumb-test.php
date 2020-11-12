@@ -13,7 +13,7 @@ use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
- * Class Breadcrumb_Test
+ * Class Breadcrumb_Test.
  *
  * @group generators
  * @group breadcrumbs
@@ -110,6 +110,7 @@ class Breadcrumb_Test extends TestCase {
 		$this->meta_tags_context->presentation->breadcrumbs = $breadcrumb_data;
 
 		$this->current_page->expects( 'is_paged' )->andReturnFalse();
+		$this->current_page->expects( 'is_home_static_page' )->once()->andReturnFalse();
 
 		$this->html
 			->expects( 'smart_strip_tags' )
@@ -182,6 +183,7 @@ class Breadcrumb_Test extends TestCase {
 		$this->meta_tags_context->presentation->breadcrumbs = $breadcrumb_data;
 
 		$this->current_page->expects( 'is_paged' )->andReturnFalse();
+		$this->current_page->expects( 'is_home_static_page' )->once()->andReturnFalse();
 
 		$this->html
 			->expects( 'smart_strip_tags' )
@@ -271,6 +273,7 @@ class Breadcrumb_Test extends TestCase {
 		$this->meta_tags_context->title                     = 'Page title';
 
 		$this->current_page->expects( 'is_paged' )->andReturnTrue();
+		$this->current_page->expects( 'is_home_static_page' )->once()->andReturnFalse();
 
 		$this->html
 			->expects( 'smart_strip_tags' )
@@ -362,6 +365,7 @@ class Breadcrumb_Test extends TestCase {
 		$this->meta_tags_context->indexable->number_of_pages = 3;
 
 		$this->current_page->expects( 'is_paged' )->andReturnFalse();
+		$this->current_page->expects( 'is_home_static_page' )->andReturnFalse();
 
 		$this->html
 			->expects( 'smart_strip_tags' )
@@ -451,6 +455,7 @@ class Breadcrumb_Test extends TestCase {
 		$this->meta_tags_context->title                     = 'Page title';
 
 		$this->current_page->expects( 'is_paged' )->andReturnFalse();
+		$this->current_page->expects( 'is_home_static_page' )->once()->andReturnFalse();
 
 		$this->html
 			->expects( 'smart_strip_tags' )
@@ -525,6 +530,8 @@ class Breadcrumb_Test extends TestCase {
 		$this->meta_tags_context->title                     = 'Page title';
 
 		$this->current_page->expects( 'is_paged' )->andReturnFalse();
+		$this->current_page->expects( 'is_home_static_page' )->once()->andReturnFalse();
+
 		$this->html->expects( 'smart_strip_tags' )->once()->with( 'Home' )->andReturn( 'Home' );
 		$this->html->expects( 'smart_strip_tags' )->twice()->with( 'Page title' )->andReturn( 'Page title' );
 
