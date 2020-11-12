@@ -82,10 +82,6 @@ class Permalink_Integrity_Watcher implements Integration_Interface {
 	 */
 	public function compare_indexable_permalinks( $presentation )
 	{
-		//\Yoast_Notification_Center::get()->remove_notification_by_id('permalink-integrity-warning');
-		//$this->options_helper->set( 'dynamic_permalinks', false );
-
-
 		//check if last samples were taken 1 week ago or more and if so take more samples
 		$permalinks_indexables_types = $this->options_helper->get('permalinks_indexables_types');
 		foreach ($permalinks_indexables_types as $link) {
@@ -95,13 +91,14 @@ class Permalink_Integrity_Watcher implements Integration_Interface {
 			}
 		}
 
-
 		//compare the permalinks
-		//if ($presentation->model->permalink === $this->permalink_helper->get_permalink_for_indexable($presentation->model)) {
-		//	//update the timestamps
-		//	$this->updatePermalinkSamples();
-		//	return;
-		//}
+		if ($presentation->model->permalink === $this->permalink_helper->get_permalink_for_indexable($presentation->model)) {
+			//update the timestamps and clear the possible notification
+			$this->updatePermalinkSamples();
+			\Yoast_Notification_Center::get()->remove_notification_by_id('permalink-integrity-warning');
+			$this->options_helper->set( 'dynamic_permalinks', false );
+			return;
+		}
 
 		//permalinks differ, find cause
 		//reset the permalinks and taxonomies if necessary
@@ -110,6 +107,7 @@ class Permalink_Integrity_Watcher implements Integration_Interface {
 			$this->indexable_permalink_watcher->should_reset_tags()) {
 			//in case of the categories or tags, they will be automatically reset and no notification will be thrown.
 			$this->indexable_permalink_watcher->force_reset_permalinks();
+			die();
 			return;
 		}
 
@@ -120,8 +118,8 @@ class Permalink_Integrity_Watcher implements Integration_Interface {
 			return;
 		}
 
+		//unknown cause, show notification
 		$this->options_helper->set( 'dynamic_permalinks', true );
-
 		\Yoast_Notification_Center::get()->add_notification( $this->get_notification() );
 	}
 
