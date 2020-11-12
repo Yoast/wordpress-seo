@@ -11,7 +11,12 @@ import imageCount from "./imageCountInText.js";
 export default function( paper ) {
 	const language = getLanguage( paper.getLocale() );
 
-	// These numbers are based on research into average reading times.
+	/*
+	 * These numbers are based on research into average reading times:
+	 * Susanne Trauzettel-Klosinski, Klaus Dietz, the IReST Study Group;
+	 * Standardized Assessment of Reading Performance: The New International Reading Speed Texts IReST.
+	 * Invest. Ophthalmol. Vis. Sci. 2012;53(9):5452-5461
+	 */
 	const wordsPerMinute = {
 		ar: 138,
 		cn: 158,
