@@ -193,6 +193,7 @@ class Actions {
 		}
 
 		\system( 'composer lint-files -- ' . \implode( ' ', \array_map( 'escapeshellarg', $php_files ) ), $exit_code );
+
 		return $exit_code;
 	}
 
@@ -214,6 +215,7 @@ class Actions {
 		}
 
 		\system( 'composer check-cs-warnings -- ' . \implode( ' ', \array_map( 'escapeshellarg', $php_files ) ), $exit_code );
+
 		return $exit_code;
 	}
 
@@ -460,5 +462,19 @@ TPL;
 	 */
 	private static function color_line_success( $line, $success ) {
 		self::color_line( $line, ( $success ) ? "\e[32m" : "\e[31m" );
+	}
+
+	public static function generate_unit_test( Event $event ) {
+		$args = $event->getArguments();
+
+		if ( empty( $args[0] ) ) {
+			throw new \RuntimeException( 'You must provide an argument with the FQN to generate a unit test for.' );
+		}
+
+		$fqn = $args[0];
+
+		echo 'Generating unit test for ', $fqn;
+
+		\Unit_Test_Generator::generate( $fqn );
 	}
 }

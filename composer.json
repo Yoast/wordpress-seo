@@ -136,6 +136,9 @@
 		],
 		"generate-migration": [
 			"Yoast\\WP\\SEO\\Composer\\Actions::generate_migration"
-		]
+		],
+        "generate-unit-test": [
+          "Yoast\\WP\\SEO\\Composer\\Actions::generate_unit_test"
+        ]
 	}
 }
