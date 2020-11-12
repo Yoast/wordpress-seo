@@ -125,6 +125,8 @@ class Elementor implements Integration_Interface {
 	 * @return void
 	 */
 	public function register_hooks() {
+		\add_action( 'wp_ajax_wpseo_elementor_save', [ $this, 'save_postdata' ] );
+
 		if ( ! $this->display_metabox( $this->get_metabox_post()->post_type ) ) {
 			return;
 		}
@@ -139,8 +141,6 @@ class Elementor implements Integration_Interface {
 			$this->add_yoast_panel_tab();
 		}
 		\add_action( 'elementor/documents/register_controls', [ $this, 'register_document_controls' ] );
-
-		\add_action( 'wp_ajax_wpseo_elementor_save', [ $this, 'save_postdata' ] );
 	}
 
 	/**
