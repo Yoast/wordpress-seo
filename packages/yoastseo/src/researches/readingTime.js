@@ -37,13 +37,13 @@ export default function( paper ) {
 		tr: 166,
 	};
 	const minutesPerImage = 0.2;
-	const sumWordsPerMinute = Object.values( wordsPerMinute ).reduce( ( a, b ) => a + b );
-	const sumNumberOfLanguages = Object.keys( wordsPerMinute ).length;
 
 	let wordsPerMinuteScore = wordsPerMinute[ language ];
 
-	// If the language is not on the list, assign the average of wordPerMinute as the score.
+	// If the language is not on the list, assign the average of all language-dependent reading times as the score.
 	if ( ! wordsPerMinuteScore ) {
+		const sumWordsPerMinute = Object.values( wordsPerMinute ).reduce( ( a, b ) => a + b );
+		const sumNumberOfLanguages = Object.keys( wordsPerMinute ).length;
 		wordsPerMinuteScore = sumWordsPerMinute / sumNumberOfLanguages;
 	}
 
