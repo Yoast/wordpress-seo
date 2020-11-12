@@ -5,11 +5,12 @@
  * @package WPSEO\Admin
  */
 
+// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound -- Reason: The class is deprecated.
+
 /**
  * Class to print out the translatable strings for the Keyword Synonyms modal.
  *
  * @deprecated 15.5
- *
  */
 class WPSEO_Keyword_Synonyms_Modal {
 
