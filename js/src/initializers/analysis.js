@@ -1,14 +1,12 @@
 import { dispatch, select, subscribe } from "@wordpress/data";
-import { debounce, get, identity, isEqual } from "lodash";
+import { applyFilters } from "@wordpress/hooks";
+import { debounce, isEqual } from "lodash";
 import { Paper } from "yoastseo";
 import { refreshDelay } from "../analysis/constants";
 import handleWorkerError from "../analysis/handleWorkerError";
 import { sortResultsByIdentifier } from "../analysis/refreshAnalysis";
 import { createAnalysisWorker, getAnalysisConfiguration } from "../analysis/worker";
 import { applyModifications } from "../elementor/initializers/pluggable";
-
-// Needs to be from the global because the imported version is not shared.
-const applyFilters = get( window, "wp.hooks.applyFilters", identity );
 
 /**
  * Runs the analysis.
