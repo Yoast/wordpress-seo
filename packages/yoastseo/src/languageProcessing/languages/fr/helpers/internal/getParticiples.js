@@ -1,13 +1,12 @@
 import { forEach, includes } from "lodash-es";
-import getWords from "../../../helpers/word/getWords";
-import matchRegularParticiples from "../../../helpers/passiveVoice/periphrastic/matchRegularParticiples";
-import irregularParticiplesFactory from "../config/passiveVoice/irregulars";
-import FrenchParticiple from "../config/passiveVoice/FrenchParticiple";
-
-const irregularParticiples = irregularParticiplesFactory();
-const irregularsRegular = irregularParticiples.irregularsRegular;
-const irregularsEndingInS = irregularParticiples.irregularsEndingInS;
-const irregularsIrregular = irregularParticiples.irregularsIrregular;
+import getWords from "../../../../helpers/word/getWords";
+import matchRegularParticiples from "../../../../helpers/passiveVoice/periphrastic/matchRegularParticiples";
+import FrenchParticiple from "../../values/FrenchParticiple";
+import {
+	irregularsRegular,
+	irregularsEndingInS,
+	irregularsIrregular,
+} from "../../config/internal/passiveVoiceIrregulars";
 
 /**
  * Returns an array of matches of irregular participles with suffixes.
@@ -43,7 +42,7 @@ const matchIrregularParticiples = function( word ) {
 
 	// Match irregular participles that don't require adding a suffix.
 	if ( includes( irregularsIrregular, word ) ) {
-		matches.push( irregularParticiple );
+		matches.push( word );
 	}
 
 	return matches;

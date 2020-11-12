@@ -1,6 +1,6 @@
 /* eslint-disable max-statements, complexity */
-import { checkIfWordEndingIsOnExceptionList } from "../morphoHelpers/exceptionListHelpers";
-import { applyAllReplacements } from "../morphoHelpers/regexHelpers";
+import { checkIfWordEndingIsOnExceptionList } from "../../../../helpers/morphology/exceptionListHelpers";
+import { applyAllReplacements } from "../../../../helpers/morphology/regexHelpers";
 
 /*
  * MIT License

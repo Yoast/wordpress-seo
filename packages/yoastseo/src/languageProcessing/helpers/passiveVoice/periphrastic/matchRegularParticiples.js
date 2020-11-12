@@ -8,7 +8,7 @@ import { flattenDeep } from "lodash-es";
  *
  * @returns {Array} A list with the matches.
  */
-export default function regularParticiples = function( word, regexes ) {
+export default function regularParticiples( word, regexes ) {
 	// Matches word with language-specific participle regexes.
 	let matches = [];
 
