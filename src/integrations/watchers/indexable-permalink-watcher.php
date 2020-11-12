@@ -182,6 +182,24 @@ class Indexable_Permalink_Watcher implements Integration_Interface {
 	}
 
 	/**
+	 * Checks whether the permalinks should be reset after `categories` has changed.
+	 *
+	 * @return bool Whether the permalinks should be reset.
+	 */
+	public function should_reset_categories() {
+		return \get_option( 'tag_base' ) !== $this->options_helper->get( 'tag_base_url' );
+	}
+
+	/**
+	 * Checks whether the permalinks should be reset after `tags` has changed.
+	 *
+	 * @return bool Whether the permalinks should be reset.
+	 */
+	public function should_reset_tags() {
+		return \get_option( 'category_base' ) !== $this->options_helper->get( 'category_base_url' );
+	}
+
+	/**
 	 * Resets custom taxonomies if their slugs have changed.
 	 *
 	 * @return void

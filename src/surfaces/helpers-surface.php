@@ -36,6 +36,7 @@ use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
  * @property Helpers\Url_Helper            $url
  * @property Helpers\User_Helper           $user
  * @property Helpers\Woocommerce_Helper    $woocommerce
+ * @property Helpers\Permalink_Helper      $permalink
  */
 class Helpers_Surface {
 

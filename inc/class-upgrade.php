@@ -20,10 +20,18 @@ class WPSEO_Upgrade {
 	private $taxonomy_helper;
 
 	/**
+	 * The permalink helper.
+	 *
+	 * @var \Yoast\WP\SEO\Helpers\Permalink_Helper
+	 */
+	private $permalink_helper;
+
+	/**
 	 * Class constructor.
 	 */
 	public function __construct() {
-		$this->taxonomy_helper = YoastSEO()->helpers->taxonomy;
+		$this->taxonomy_helper  = YoastSEO()->helpers->taxonomy;
+		$this->permalink_helper = YoastSEO()->helpers->permalink;
 
 		$version = WPSEO_Options::get( 'version' );
 
@@ -761,7 +769,7 @@ class WPSEO_Upgrade {
 	private function upgrade_153() {
 		WPSEO_Options::set( 'category_base_url', get_option( 'category_base' ) );
 		WPSEO_Options::set( 'tag_base_url', get_option( 'tag_base' ) );
-		$permalinks_indexables_types =  $this->get_permalink_sample_array_for_153();
+		$permalinks_indexables_types =  $this->permalink_helper->take_permalink_sample_array();
 		WPSEO_Options::set( 'permalinks_indexables_types', $permalinks_indexables_types);
 
 		// Rename a couple of options.
@@ -784,33 +792,6 @@ class WPSEO_Upgrade {
 			WPSEO_Options::set( 'home_url', get_home_url() );
 		}
 	}
-
-	/**
-	 * Gets the permalink sample array for the 15.3 upgrade routine.
-	 *
-	 * @return array|mixed The keys as permalink types for indexables (object_type-object_sub_type) with a timestamp as value, otherwise an empty array.
-	 */
-	protected function get_permalink_sample_array_for_153() {
-		global $wpdb;
-		$indexable_permalinks = [];
-
-		$results = $wpdb->get_results(
-		"SELECT DISTINCT object_type, object_sub_type 
-		FROM `{$wpdb->prefix}yoast_indexable` 
-		WHERE object_sub_type IS NOT NULL"
-		, OBJECT );
-
-		if( !empty($results) )
-		{
-			foreach ( $results as $result )
-			{
-				$indexable_permalinks[ $result->object_type . '-' . $result->object_sub_type ] = \time();
-			}
-		}
-
-		return $indexable_permalinks;
-	}
-
 
 	/**
 	 * Moves the `indexables_indexation_reason` option to the
