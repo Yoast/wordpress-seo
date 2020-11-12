@@ -58,8 +58,6 @@ class WPSEO_Metabox_Formatter {
 			'author_name'               => get_the_author_meta( 'display_name' ),
 			'site_name'                 => get_bloginfo( 'name' ),
 			'sitewide_social_image'     => WPSEO_Options::get( 'og_default_image' ),
-			'language'                  => WPSEO_Language_Utils::get_site_language_name(),
-			'settings_link'             => $this->get_settings_link(),
 			'search_url'                => '',
 			'post_edit_url'             => '',
 			'base_url'                  => '',
@@ -170,20 +168,6 @@ class WPSEO_Metabox_Formatter {
 			'zapierIntegrationActive'   => WPSEO_Options::get( 'zapier_integration_active', false ) ? 1 : 0,
 			'zapierConnectedStatus'     => ! empty( WPSEO_Options::get( 'zapier_subscription', [] ) ) ? 1 : 0,
 		];
-	}
-
-	/**
-	 * Returns a link to the General Settings page, if the user has the right capabilities.
-	 * Returns an empty string otherwise.
-	 *
-	 * @return string The General Settings link.
-	 */
-	private function get_settings_link() {
-		if ( current_user_can( 'manage_options' ) ) {
-			return esc_url( admin_url( 'options-general.php' ) );
-		}
-
-		return '';
 	}
 
 	/**
