@@ -236,14 +236,14 @@ class Elementor implements Integration_Interface {
 
 		$social_fields = [];
 		if ( $this->social_is_enabled ) {
-			$social_fields = WPSEO_Meta::get_meta_field_defs( 'social' );
+			$social_fields = WPSEO_Meta::get_meta_field_defs( 'social', $post->post_type );
 		}
 
 		$meta_boxes = \apply_filters( 'wpseo_save_metaboxes', [] );
 		$meta_boxes = \array_merge(
 			$meta_boxes,
 			WPSEO_Meta::get_meta_field_defs( 'general', $post->post_type ),
-			WPSEO_Meta::get_meta_field_defs( 'advanced' ),
+			WPSEO_Meta::get_meta_field_defs( 'advanced', $post->post_type ),
 			$social_fields,
 			WPSEO_Meta::get_meta_field_defs( 'schema', $post->post_type )
 		);
