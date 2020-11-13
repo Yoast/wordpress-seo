@@ -224,6 +224,7 @@ class Elementor implements Integration_Interface {
 		}
 
 		\clean_post_cache( $post_id );
+		// phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- To setup the post we need to do this explicitly.
 		$post = \get_post( $post_id );
 
 		if ( ! \is_object( $post ) ) {
