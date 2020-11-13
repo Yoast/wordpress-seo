@@ -117,7 +117,7 @@ export default function initElementEditorIntegration() {
 					window.$e.routes.run( "panel/page-settings/yoast-tab" );
 				}
 			},
-		}, "style" );
+		}, "more" );
 	} );
 
 	const yoastInputs = document.querySelectorAll( "input[name^='yoast']" );
