@@ -59,7 +59,7 @@ class Breadcrumb_Test extends TestCase {
 	private $meta_tags_context;
 
 	/**
-	 * Set up tests.
+	 * Sets up the tests.
 	 */
 	public function setUp() {
 		parent::setUp();
@@ -595,7 +595,6 @@ class Breadcrumb_Test extends TestCase {
 	 * @covers ::is_needed
 	 */
 	public function test_is_not_needed_on_static_home_page() {
-		$this->current_page->expects( 'is_home_static_page' )->andReturnTrue();
 		$this->assertFalse( $this->instance->is_needed() );
 	}
 
@@ -605,7 +604,6 @@ class Breadcrumb_Test extends TestCase {
 	 * @covers ::is_needed
 	 */
 	public function test_is_needed_when_breadcrumbs_are_enabled() {
-		$this->current_page->expects( 'is_home_static_page' )->andReturnFalse();
 		$this->meta_tags_context->breadcrumbs_enabled = true;
 		$this->assertTrue( $this->instance->is_needed() );
 	}
@@ -616,7 +614,6 @@ class Breadcrumb_Test extends TestCase {
 	 * @covers ::is_needed
 	 */
 	public function test_is_not_needed_when_breadcrumbs_are_disabled() {
-		$this->current_page->expects( 'is_home_static_page' )->andReturnFalse();
 		$this->meta_tags_context->breadcrumbs_enabled = false;
 		$this->assertFalse( $this->instance->is_needed() );
 	}
