@@ -239,6 +239,8 @@ class Elementor implements Integration_Interface {
 			$social_fields = WPSEO_Meta::get_meta_field_defs( 'social', $post->post_type );
 		}
 
+		// The below methods use the global post so make sure it is setup.
+		\setup_postdata( $post );
 		$meta_boxes = \apply_filters( 'wpseo_save_metaboxes', [] );
 		$meta_boxes = \array_merge(
 			$meta_boxes,
