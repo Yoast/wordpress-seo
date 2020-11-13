@@ -128,7 +128,7 @@ input[type="radio"]:checked::before {
 }
 
 /* Tab-focus styling */
-.yoast div:focus {
+.yoast div:focus, div.yoast:focus {
 	outline: 0;
 }
 
