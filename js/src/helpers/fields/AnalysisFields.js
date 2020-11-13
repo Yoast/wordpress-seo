@@ -59,23 +59,23 @@ export default class AnalysisFields {
 	}
 
 	/**
-	 * Setter for the isCornerstone.
+	 * Setter for the isCornerstone. The element returns "true" and "false" but we should save "1" and "0".
 	 *
 	 * @param {boolean} value The isCornerstone.
 	 *
 	 * @returns {void}
 	 */
 	static set isCornerstone( value ) {
-		AnalysisFields.isCornerstoneElement.value = value ? "true" : "false";
+		AnalysisFields.isCornerstoneElement.value = value ? "1" : "0";
 	}
 
 	/**
-	 * Getter for the isCornerstone.
+	 * Getter for the isCornerstone. True if value = "1".
 	 *
 	 * @returns {boolean} The isCornerstone.
 	 */
 	static get isCornerstone() {
-		return AnalysisFields.isCornerstoneElement.value === "true";
+		return AnalysisFields.isCornerstoneElement.value === "1";
 	}
 
 	/**
