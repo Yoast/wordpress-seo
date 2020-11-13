@@ -70,7 +70,7 @@ class WPSEO_Meta_Columns {
 		}
 
 		add_filter( 'request', [ $this, 'column_sort_orderby' ] );
-		add_filter( 'default_hidden_columns', [ $this, 'column_hidden' ], 10, 2 );
+		add_filter( 'default_hidden_columns', [ $this, 'column_hidden' ], 10, 1 );
 	}
 
 	/**
@@ -183,12 +183,11 @@ class WPSEO_Meta_Columns {
 	/**
 	 * Hides the SEO title, meta description and focus keyword columns if the user hasn't chosen which columns to hide.
 	 *
-	 * @param array  $hidden The hidden columns.
-	 * @param object $screen The current screen.
+	 * @param array $hidden The hidden columns.
 	 *
 	 * @return array Array containing the columns to hide.
 	 */
-	public function column_hidden( $hidden, $screen ) {
+	public function column_hidden( $hidden ) {
 		if ( ! is_array( $hidden ) ) {
 			$hidden = [];
 		}
@@ -196,7 +195,7 @@ class WPSEO_Meta_Columns {
 		array_push( $hidden, 'wpseo-title', 'wpseo-metadesc' );
 
 		if ( $this->analysis_seo->is_enabled() ) {
-			array_push( $hidden, 'wpseo-focuskw' );
+			$hidden[] = 'wpseo-focuskw';
 		}
 
 		return $hidden;

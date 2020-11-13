@@ -326,7 +326,7 @@ class WPSEO_Meta_Columns_Test extends WPSEO_UnitTestCase {
 			->will( $this->returnValue( false ) );
 
 		$expected = [ 'wpseo-title', 'wpseo-metadesc', 'wpseo-focuskw' ];
-		$received = self::$class_instance->column_hidden( [], 'option-name', $user );
+		$received = self::$class_instance->column_hidden( [] );
 
 		$this->assertEquals( $expected, $received );
 	}
@@ -352,7 +352,7 @@ class WPSEO_Meta_Columns_Test extends WPSEO_UnitTestCase {
 			'wpseo-metadesc',
 			'wpseo-focuskw',
 		];
-		$received = self::$class_instance->column_hidden( [], 'option-name', $user );
+		$received = self::$class_instance->column_hidden( [] );
 
 		$this->assertEquals( $expected, $received );
 	}
@@ -372,10 +372,10 @@ class WPSEO_Meta_Columns_Test extends WPSEO_UnitTestCase {
 
 		$expected = [ 'wpseo-title', 'wpseo-metadesc', 'wpseo-focuskw' ];
 
-		$received = self::$class_instance->column_hidden( false, 'option-name' );
+		$received = self::$class_instance->column_hidden( false );
 		$this->assertEquals( $expected, $received );
 
-		$received = self::$class_instance->column_hidden( 'bad-value', 'option-name' );
+		$received = self::$class_instance->column_hidden( 'bad-value' );
 		$this->assertEquals( $expected, $received );
 	}
 
