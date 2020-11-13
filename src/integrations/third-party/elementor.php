@@ -208,6 +208,8 @@ class Elementor implements Integration_Interface {
 	 * @return void Outputs JSON via wp_send_json then stops code execution.
 	 */
 	public function save_postdata() {
+		global $post;
+
 		$post_id = \filter_input( INPUT_POST, 'post_id', FILTER_SANITIZE_NUMBER_INT );
 
 		if ( ! \current_user_can( 'manage_options' ) ) {
