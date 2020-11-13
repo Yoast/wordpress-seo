@@ -57,6 +57,9 @@
 .yoast li, .yoast p, .yoast small {
 	margin-bottom: 6px;
 	line-height: 1.5;
+}
+
+.yoast ul[role='list'] li, .yoast p, .yoast small {
 	color: var(--yoast-elementor-color-paragraph);
 }
 
