@@ -1,6 +1,6 @@
 import { dispatch } from "@wordpress/data";
 import domReady from "@wordpress/dom-ready";
-import { pluginReady, pluginReloaded, registerPlugin, registerModification } from "./elementor/initializers/pluggable";
+import { applyModifications, pluginReady, pluginReloaded, registerPlugin, registerModification } from "./elementor/initializers/pluggable";
 import initAnalysis, { collectData } from "./initializers/analysis";
 import initElementorEditorIntegration from "./initializers/elementor-editor-integration";
 import initEditorStore from "./elementor/initializers/editor-store";
@@ -27,6 +27,7 @@ domReady( () => {
 	window.YoastSEO.pluginReloaded = pluginReloaded;
 	window.YoastSEO.registerModification = registerModification;
 	window.YoastSEO.registerPlugin = registerPlugin;
+	window.YoastSEO.applyModifications = applyModifications;
 
 	// Initialize analysis.
 	window.YoastSEO.analysis = window.YoastSEO.analysis || {};
