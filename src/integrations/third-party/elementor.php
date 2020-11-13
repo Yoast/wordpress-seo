@@ -208,6 +208,8 @@ class Elementor implements Integration_Interface {
 	 * @return void Outputs JSON via wp_send_json then stops code execution.
 	 */
 	public function save_postdata() {
+		global $post;
+
 		$post_id = \filter_input( INPUT_POST, 'post_id', FILTER_SANITIZE_NUMBER_INT );
 
 		if ( ! \current_user_can( 'manage_options' ) ) {
@@ -222,6 +224,7 @@ class Elementor implements Integration_Interface {
 		}
 
 		\clean_post_cache( $post_id );
+		// phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- To setup the post we need to do this explicitly.
 		$post = \get_post( $post_id );
 
 		if ( ! \is_object( $post ) ) {
@@ -236,14 +239,16 @@ class Elementor implements Integration_Interface {
 
 		$social_fields = [];
 		if ( $this->social_is_enabled ) {
-			$social_fields = WPSEO_Meta::get_meta_field_defs( 'social' );
+			$social_fields = WPSEO_Meta::get_meta_field_defs( 'social', $post->post_type );
 		}
 
+		// The below methods use the global post so make sure it is setup.
+		\setup_postdata( $post );
 		$meta_boxes = \apply_filters( 'wpseo_save_metaboxes', [] );
 		$meta_boxes = \array_merge(
 			$meta_boxes,
 			WPSEO_Meta::get_meta_field_defs( 'general', $post->post_type ),
-			WPSEO_Meta::get_meta_field_defs( 'advanced' ),
+			WPSEO_Meta::get_meta_field_defs( 'advanced', $post->post_type ),
 			$social_fields,
 			WPSEO_Meta::get_meta_field_defs( 'schema', $post->post_type )
 		);
