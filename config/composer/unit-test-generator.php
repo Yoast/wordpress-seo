@@ -1,13 +1,17 @@
 <?php
 
+/**
+ * Class for generating a unit test scaffold, based on the dependency injection
+ * and other conventions of Yoast.
+ */
 class Unit_Test_Generator {
 
 	/**
-	 * Generates a new unit test for the given class.
+	 * Generates a new unit test scaffold for the given class.
 	 *
 	 * @param string $fully_qualified_class_name The fully qualified class name of the class to generate a unit test for.
 	 *
-	 * @throws ReflectionException
+	 * @throws ReflectionException If the class for which to generate a unit test does not exist.
 	 */
 	public static function generate( $fully_qualified_class_name ) {
 		$reflector = new \ReflectionClass( $fully_qualified_class_name );
@@ -36,6 +40,13 @@ class Unit_Test_Generator {
 		\file_put_contents( __DIR__ . '/../../tests/unit/' . $unit_test_path, $filled_in_template );
 	}
 
+	/**
+	 * Generates the namespace of the test class.
+	 *
+	 * @param string $fully_qualified_class_name The fully qualified class name of the class under test.
+	 *
+	 * @return string The namespace of the test class.
+	 */
 	private static function generate_namespace( $fully_qualified_class_name ) {
 		$matches = [];
 		\preg_match( '/Yoast\\\WP\\\SEO\\\(.*)\\\.*$/', $fully_qualified_class_name, $matches );
@@ -43,6 +54,13 @@ class Unit_Test_Generator {
 		return $matches[1];
 	}
 
+	/**
+	 * Generates the file name of the test class.
+	 *
+	 * @param string $path The path of the class under test.
+	 *
+	 * @return string The file name of the test class.
+	 */
 	private static function generate_file_name( $path ) {
 		$matches = [];
 		\preg_match( '/\/src\/(.*)\.php$/', $path, $matches );
@@ -50,6 +68,20 @@ class Unit_Test_Generator {
 		return $matches[1] . '-test.php';
 	}
 
+	/**
+	 * Generates a unit test scaffold based on the given parameters.
+	 *
+	 * @param string $fully_qualified_class_name   The fully qualified class name of the class that is tested.
+	 * @param string $name                         The name of the class that is tested.
+	 * @param string $namespace                    The namespace of the test class.
+	 * @param string $use_statements               The use statements, one for each mocked constructor argument.
+	 * @param string $property_statements          The property statements, one for each mocked constructor argument.
+	 * @param string $create_mock_statements       The creation statements, one for each mocked constructor argument.
+	 * @param string $instance_argument_statements The arguments given to the instance constructor,
+	 *                                             one for each mocked constructor argument.
+	 *
+	 * @return string The generated unit test scaffold.
+	 */
 	private static function unit_test_template(
 		$fully_qualified_class_name,
 		$name,
@@ -72,12 +104,14 @@ use Mockery;
 use {$fully_qualified_class_name};
 
 {$use_statements}
+
 /**
  * {$name} test.
  */
 class {$name}_Test extends TestCase {
 
 {$property_statements}
+
 	/**
 	 * Instance under test.
 	 *
@@ -117,58 +151,95 @@ TPL;
 		return $constructor->getParameters();
 	}
 
-	private static function generate_use_statements( array $constructor_arguments ) {
-		return self::combine(
-			$constructor_arguments,
-			function( $argument ) {
-				return 'use ' . $argument->getClass()->getName() . ';';
-			}
-		);
-	}
-
-	private static function generate_property_statements( array $constructor_arguments ) {
-		return self::combine(
-			$constructor_arguments,
-			function( $argument ) {
-				return <<<TPL
 	/**
-	 * {$argument->getClass()->getShortName()} mock.
+	 * Generates `use` statements for each of the given constructor arguments.
 	 *
-	 * @var Mockery\MockInterface|{$argument->getClass()->getShortName()}
+	 * @param array $constructor_arguments The constructor arguments.
+	 *
+	 * @return string The generated use statements.
 	 */
-	protected \${$argument->getName()};
+	private static function generate_use_statements( array $constructor_arguments ) {
+		$statements = \array_map(
+			static function( $argument ) {
+				return 'use ' . $argument->getClass()->getName() . ';';
+			},
+			$constructor_arguments
+		);
+
+		return \implode( PHP_EOL, $statements );
+	}
+
+	/**
+	 * Generates property statements for the given array of arguments.
+	 *
+	 * @param array $constructor_arguments The array of constructor arguments.
+	 *
+	 * @return string The generated property statements.
+	 */
+	private static function generate_property_statements( array $constructor_arguments ) {
+		$statements = \array_map(
+			static function( $argument ) {
+				return self::generate_mocked_property_statement( $argument->getClass(), $argument->getName() );
+			},
+			$constructor_arguments
+		);
+
+		return \implode( PHP_EOL . PHP_EOL, $statements );
+	}
+
+	/**
+	 * Generates a property statement of the given name, with as its type the given class and `Mockery\MockInterface`.
+	 *
+	 * @param ReflectionClass $class         The class for which to generate a property.
+	 * @param string          $property_name The name of the property.
+	 *
+	 * @return string The generated property statement.
+	 */
+	private static function generate_mocked_property_statement( ReflectionClass $class, $property_name ) {
+		return <<<TPL
+	/**
+	 * {$class->getShortName()} mock.
+	 *
+	 * @var Mockery\MockInterface|{$class->getShortName()}
+	 */
+	protected \${$property_name};
 TPL;
-			}
-		);
 	}
 
+	/**
+	 * Generates the construction of the mocked class that should be given
+	 * to the instance under test.
+	 *
+	 * @param array $constructor_arguments The array of constructor arguments.
+	 *
+	 * @return string The generated created mock statements.
+	 */
 	private static function generate_create_mock_statements( array $constructor_arguments ) {
-		return self::combine(
-			$constructor_arguments,
-			function( $argument ) {
+		$statements = \array_map(
+			static function( $argument ) {
 				return '$this->' . $argument->getName() . ' = Mockery::mock( ' . $argument->getClass()->getShortName() . '::class );';
-			}
+			},
+			$constructor_arguments
 		);
+
+		return \implode( PHP_EOL, $statements );
 	}
 
+	/**
+	 * Generates the arguments for constructing the instance under test.
+	 *
+	 * @param array $constructor_arguments The array of constructor arguments.
+	 *
+	 * @return string The generated arguments to give the instance.
+	 */
 	private static function generate_instance_argument_statements( array $constructor_arguments ) {
 		$statements = \array_map(
-			function( $argument ) {
+			static function( $argument ) {
 				return '$this->' . $argument->getName();
 			},
 			$constructor_arguments
 		);
+
 		return \implode( ',' . PHP_EOL, $statements );
-	}
-
-	private static function combine( $arguments, $callback ) {
-		return \array_reduce(
-			$arguments,
-			static function( $combined, $argument ) use ( $callback ) {
-				$property = $callback( $argument );
-
-				return $combined . $property . PHP_EOL;
-			}
-		);
 	}
 }

@@ -468,7 +468,10 @@ TPL;
 		$args = $event->getArguments();
 
 		if ( empty( $args[0] ) ) {
-			throw new \RuntimeException( 'You must provide an argument with the FQN to generate a unit test for.' );
+			throw new \RuntimeException(
+				'You must provide an argument with the fully qualified class name' .
+				'for which you want a unit test to be generated.'
+			);
 		}
 
 		$fqn = $args[0];
