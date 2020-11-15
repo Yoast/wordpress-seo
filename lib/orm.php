@@ -100,7 +100,7 @@ class ORM implements \ArrayAccess {
 	 *
 	 * @var bool
 	 */
-	protected $_using_default_result_columns = true;
+	protected $using_default_result_columns = true;
 
 	/**
 	 * Holds the join sources.
@@ -616,9 +616,9 @@ class ORM implements \ArrayAccess {
 		if ( ! \is_null( $alias ) ) {
 			$expr .= ' AS ' . $this->quote_identifier( $alias );
 		}
-		if ( $this->_using_default_result_columns ) {
-			$this->result_columns                = [ $expr ];
-			$this->_using_default_result_columns = false;
+		if ( $this->using_default_result_columns ) {
+			$this->result_columns               = [ $expr ];
+			$this->using_default_result_columns = false;
 		}
 		else {
 			$this->result_columns[] = $expr;
@@ -1966,9 +1966,9 @@ class ORM implements \ArrayAccess {
 	 * Resets the Idiorm instance state.
 	 */
 	private function reset_idiorm_state() {
-		$this->values                        = [];
-		$this->result_columns                = [ '*' ];
-		$this->_using_default_result_columns = true;
+		$this->values                       = [];
+		$this->result_columns               = [ '*' ];
+		$this->using_default_result_columns = true;
 	}
 
 	/**
