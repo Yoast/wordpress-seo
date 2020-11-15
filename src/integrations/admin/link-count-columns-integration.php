@@ -33,17 +33,6 @@ class Link_Count_Columns_Integration implements Integration_Interface {
 	const COLUMN_LINKS = 'links';
 
 	/**
-	 * @inheritDoc
-	 */
-	public static function get_conditionals() {
-		return [
-			Admin_Conditional::class,
-			Posts_Overview_Or_Ajax_Conditional::class,
-			Should_Index_Links_Conditional::class,
-		];
-	}
-
-	/**
 	 * The post type helper.
 	 *
 	 * @var Post_Type_Helper
@@ -70,6 +59,17 @@ class Link_Count_Columns_Integration implements Integration_Interface {
 	 * @var Admin_Columns_Cache_Integration
 	 */
 	protected $admin_columns_cache;
+
+	/**
+	 * @inheritDoc
+	 */
+	public static function get_conditionals() {
+		return [
+			Admin_Conditional::class,
+			Posts_Overview_Or_Ajax_Conditional::class,
+			Should_Index_Links_Conditional::class,
+		];
+	}
 
 	/**
 	 * Link_Count_Columns_Integration constructor

@@ -10,6 +10,13 @@ use Yoast\WP\SEO\Conditionals\Schema_Blocks_Conditional;
 class Schema_Blocks implements Integration_Interface {
 
 	/**
+	 * The registered templates.
+	 *
+	 * @var string[]
+	 */
+	protected $templates = [];
+
+	/**
 	 * Returns the conditionals based in which this loadable should be active.
 	 *
 	 * @return array
@@ -19,13 +26,6 @@ class Schema_Blocks implements Integration_Interface {
 			Schema_Blocks_Conditional::class,
 		];
 	}
-
-	/**
-	 * The registered templates.
-	 *
-	 * @var string[]
-	 */
-	protected $templates = [];
 
 	/**
 	 * Initializes the integration.
