@@ -300,7 +300,7 @@ class Indexable_Post_Builder_Test extends TestCase {
 		$this->indexable->orm->expects( 'set' )
 			->with( 'open_graph_image', 'http://basic.wordpress.test/wp-content/uploads/2020/07/WordPress5.jpg' );
 		$this->indexable->orm->expects( 'set' )
-			->with( 'open_graph_image_meta', \json_encode( $image_meta, ( JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES ) ) );
+			->with( 'open_graph_image_meta', \json_encode( $image_meta, ( \JSON_PRETTY_PRINT | \JSON_UNESCAPED_SLASHES ) ) );
 
 		// We expect the twitter image and its source to be set.
 		$this->indexable->orm->expects( 'set' )->with( 'twitter_image_source', 'set-by-user' );

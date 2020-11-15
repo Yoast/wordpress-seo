@@ -187,7 +187,7 @@ class Actions {
 
 		$php_files = self::filter_files( $files, '.php' );
 		if ( empty( $php_files ) ) {
-			echo 'No files to compare! Exiting.' . PHP_EOL;
+			echo 'No files to compare! Exiting.' . \PHP_EOL;
 
 			return 0;
 		}
@@ -208,7 +208,7 @@ class Actions {
 
 		$php_files = self::filter_files( $files, '.php' );
 		if ( empty( $php_files ) ) {
-			echo 'No files to compare! Exiting.' . PHP_EOL;
+			echo 'No files to compare! Exiting.' . \PHP_EOL;
 
 			return 0;
 		}
@@ -375,13 +375,13 @@ TPL;
 
 		$statistics = self::extract_cs_statistics( $phpcs_output );
 		if ( ! $statistics ) {
-			echo 'Error occurred when parsing the coding standards results.' . PHP_EOL;
+			echo 'Error occurred when parsing the coding standards results.' . \PHP_EOL;
 			exit( 1 );
 		}
 
-		echo PHP_EOL;
-		echo 'CODE SNIFFER RESULTS' . PHP_EOL;
-		echo '--------------------' . PHP_EOL;
+		echo \PHP_EOL;
+		echo 'CODE SNIFFER RESULTS' . \PHP_EOL;
+		echo '--------------------' . \PHP_EOL;
 
 		$error_count   = $statistics['error_count'];
 		$warning_count = $statistics['warning_count'];
@@ -404,7 +404,7 @@ TPL;
 		}
 
 		if ( $error_count < $error_threshold ) {
-			echo PHP_EOL;
+			echo \PHP_EOL;
 			echo "Found less errors than the threshold, great job!\n";
 			echo "Please update the error threshold in the composer.json file to $error_count.\n";
 		}
@@ -415,13 +415,13 @@ TPL;
 		}
 
 		if ( $warning_count < $warning_threshold ) {
-			echo PHP_EOL;
+			echo \PHP_EOL;
 			echo "Found less warnings than the threshold, great job!\n";
 			echo "Please update the warning threshold in the composer.json file to $warning_count.\n";
 		}
 
 		if ( ! $above_threshold ) {
-			echo PHP_EOL;
+			echo \PHP_EOL;
 			echo "Coding standards checks have passed!\n";
 		}
 
