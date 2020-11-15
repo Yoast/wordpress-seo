@@ -1,9 +1,10 @@
 <?php
 
-namespace Yoast\WP\SEO\Values\SEMrush;
+namespace Yoast\WP\SEO\Tests\Unit\Values\SEMrush;
 
 use Mockery;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
+use Yoast\WP\SEO\Values\SEMrush\SEMrush_Token;
 use YoastSEO_Vendor\League\OAuth2\Client\Token\AccessTokenInterface;
 
 /**

@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\WP\SEO\Config;
+namespace Yoast\WP\SEO\Tests\Unit\Config;
 
 use Mockery;
 use Mockery\LegacyMockInterface;
