@@ -2,12 +2,12 @@
 
 namespace Yoast\WP\SEO\Generators\Schema\Third_Party;
 
-use Yoast\WP\SEO\Generators\Schema\Abstract_Schema_Piece;
-use Yoast\WP\SEO\Config\Schema_IDs;
 use stdClass;
 use Tribe__Events__JSON_LD__Event;
 use Tribe__Events__Template__Month;
+use Yoast\WP\SEO\Config\Schema_IDs;
 use Yoast\WP\SEO\Context\Meta_Tags_Context;
+use Yoast\WP\SEO\Generators\Schema\Abstract_Schema_Piece;
 use Yoast\WP\SEO\Surfaces\Helpers_Surface;
 
 /**

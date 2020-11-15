@@ -2,9 +2,9 @@
 
 namespace Yoast\WP\SEO\Values\SEMrush;
 
-use YoastSEO_Vendor\League\OAuth2\Client\Token\AccessTokenInterface;
 use Mockery;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
+use YoastSEO_Vendor\League\OAuth2\Client\Token\AccessTokenInterface;
 
 /**
  * Class SEMrush_Token_Test

@@ -2,8 +2,8 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Inc;
 
-use Mockery;
 use Brain\Monkey;
+use Mockery;
 use stdClass;
 use WPSEO_Utils;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Inc\Addon_Manager_Double;

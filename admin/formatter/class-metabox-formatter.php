@@ -6,10 +6,10 @@
  */
 
 use Yoast\WP\SEO\Config\Schema_Types;
-use Yoast\WP\SEO\Exceptions\OAuth\Authentication_Failed_Exception;
-use Yoast\WP\SEO\Exceptions\SEMrush\Tokens\Empty_Token_Exception;
 use Yoast\WP\SEO\Config\SEMrush_Client;
+use Yoast\WP\SEO\Exceptions\OAuth\Authentication_Failed_Exception;
 use Yoast\WP\SEO\Exceptions\SEMrush\Tokens\Empty_Property_Exception;
+use Yoast\WP\SEO\Exceptions\SEMrush\Tokens\Empty_Token_Exception;
 
 /**
  * This class forces needed methods for the metabox localization.
