@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\WP\SEO\Doubles\Config;
+namespace Yoast\WP\SEO\Tests\Unit\Doubles\Config;
 
 use Yoast\WP\SEO\Config\SEMrush_Client;
 use YoastSEO_Vendor\League\OAuth2\Client\Provider\AbstractProvider;
