@@ -191,7 +191,7 @@ class ORM implements \ArrayAccess {
 	 *
 	 * @var array
 	 */
-	protected $_dirty_fields = [];
+	protected $dirty_fields = [];
 
 	/**
 	 * Fields that are to be inserted in the DB raw.
@@ -568,7 +568,7 @@ class ORM implements \ArrayAccess {
 	 * @return ORM
 	 */
 	public function force_all_dirty() {
-		$this->_dirty_fields = $this->data;
+		$this->dirty_fields = $this->data;
 
 		return $this;
 	}
@@ -2097,8 +2097,8 @@ class ORM implements \ArrayAccess {
 			$key = [ $key => $value ];
 		}
 		foreach ( $key as $field => $value ) {
-			$this->data[ $field ]          = $value;
-			$this->_dirty_fields[ $field ] = $value;
+			$this->data[ $field ]         = $value;
+			$this->dirty_fields[ $field ] = $value;
 			if ( $expr === false && isset( $this->_expr_fields[ $field ] ) ) {
 				unset( $this->_expr_fields[ $field ] );
 			}
@@ -2120,7 +2120,7 @@ class ORM implements \ArrayAccess {
 	 * @return bool
 	 */
 	public function is_dirty( $key ) {
-		return \array_key_exists( $key, $this->_dirty_fields );
+		return \array_key_exists( $key, $this->dirty_fields );
 	}
 
 	/**
@@ -2144,7 +2144,7 @@ class ORM implements \ArrayAccess {
 		global $wpdb;
 
 		// Remove any expression fields as they are already baked into the query.
-		$values = \array_values( \array_diff_key( $this->_dirty_fields, $this->_expr_fields ) );
+		$values = \array_values( \array_diff_key( $this->dirty_fields, $this->_expr_fields ) );
 		if ( ! $this->_is_new ) {
 			// UPDATE.
 			// If there are no dirty values, do nothing.
@@ -2179,8 +2179,8 @@ class ORM implements \ArrayAccess {
 				$this->data[ $column ] = (int) $wpdb->insert_id;
 			}
 		}
-		$this->_dirty_fields = [];
-		$this->_expr_fields  = [];
+		$this->dirty_fields = [];
+		$this->_expr_fields = [];
 
 		return $success;
 	}
@@ -2192,7 +2192,7 @@ class ORM implements \ArrayAccess {
 	 */
 	public function update_many() {
 		// Remove any expression fields as they are already baked into the query.
-		$values = \array_values( \array_diff_key( $this->_dirty_fields, $this->_expr_fields ) );
+		$values = \array_values( \array_diff_key( $this->dirty_fields, $this->_expr_fields ) );
 
 		// UPDATE.
 		// If there are no dirty values, do nothing.
@@ -2202,9 +2202,9 @@ class ORM implements \ArrayAccess {
 
 		$query = $this->join_if_not_empty( ' ', [ $this->build_update(), $this->build_where() ] );
 
-		$success             = self::execute( $query, \array_merge( $values, $this->values ) );
-		$this->_dirty_fields = [];
-		$this->_expr_fields  = [];
+		$success            = self::execute( $query, \array_merge( $values, $this->values ) );
+		$this->dirty_fields = [];
+		$this->_expr_fields = [];
 
 		return $success;
 	}
@@ -2241,7 +2241,7 @@ class ORM implements \ArrayAccess {
 		$query      = [];
 		$query[]    = "UPDATE {$this->quote_identifier($this->table_name)} SET";
 		$field_list = [];
-		foreach ( $this->_dirty_fields as $key => $value ) {
+		foreach ( $this->dirty_fields as $key => $value ) {
 			if ( ! \array_key_exists( $key, $this->_expr_fields ) ) {
 				$value = ( $value === null ) ? 'NULL' : '%s';
 			}
@@ -2261,10 +2261,10 @@ class ORM implements \ArrayAccess {
 		$query        = [];
 		$query[]      = 'INSERT INTO';
 		$query[]      = $this->quote_identifier( $this->table_name );
-		$field_list   = \array_map( [ $this, 'quote_identifier' ], \array_keys( $this->_dirty_fields ) );
+		$field_list   = \array_map( [ $this, 'quote_identifier' ], \array_keys( $this->dirty_fields ) );
 		$query[]      = '(' . \join( ', ', $field_list ) . ')';
 		$query[]      = 'VALUES';
-		$placeholders = $this->create_placeholders( $this->_dirty_fields );
+		$placeholders = $this->create_placeholders( $this->dirty_fields );
 		$query[]      = "({$placeholders})";
 
 		return \join( ' ', $query );
@@ -2350,7 +2350,7 @@ class ORM implements \ArrayAccess {
 	 */
 	public function offsetUnset( $key ) {
 		unset( $this->data[ $key ] );
-		unset( $this->_dirty_fields[ $key ] );
+		unset( $this->dirty_fields[ $key ] );
 	}
 
 	/*
