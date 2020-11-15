@@ -135,7 +135,7 @@ class ORM implements \ArrayAccess {
 	 *
 	 * @var array
 	 */
-	protected $_raw_parameters = [];
+	protected $raw_parameters = [];
 
 	/**
 	 * Array of WHERE clauses.
@@ -584,9 +584,9 @@ class ORM implements \ArrayAccess {
 	 * @return ORM
 	 */
 	public function raw_query( $query, $parameters = [] ) {
-		$this->is_raw_query    = true;
-		$this->raw_query       = $query;
-		$this->_raw_parameters = $parameters;
+		$this->is_raw_query   = true;
+		$this->raw_query      = $query;
+		$this->raw_parameters = $parameters;
 
 		return $this;
 	}
@@ -1716,7 +1716,7 @@ class ORM implements \ArrayAccess {
 	protected function build_select() {
 		// If the query is raw, just set the $this->values to be the raw query parameters and return the raw query.
 		if ( $this->is_raw_query ) {
-			$this->values = $this->_raw_parameters;
+			$this->values = $this->raw_parameters;
 
 			return $this->raw_query;
 		}
