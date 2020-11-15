@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\WP\SEO\Actions\SEMrush;
+namespace Yoast\WP\SEO\Tests\Unit\Actions\SEMrush;
 
 use League\OAuth2\Client\Token\AccessTokenInterface;
 use Mockery;
