@@ -107,7 +107,7 @@ class ORM implements \ArrayAccess {
 	 *
 	 * @var array
 	 */
-	protected $_join_sources = [];
+	protected $join_sources = [];
 
 	/**
 	 * Should the query include a DISTINCT keyword?
@@ -816,7 +816,7 @@ class ORM implements \ArrayAccess {
 			$second_column = $this->quote_identifier( $second_column );
 			$constraint    = "{$first_column} {$operator} {$second_column}";
 		}
-		$this->_join_sources[] = "{$join_operator} {$table} ON {$constraint}";
+		$this->join_sources[] = "{$join_operator} {$table} ON {$constraint}";
 
 		return $this;
 	}
@@ -846,7 +846,7 @@ class ORM implements \ArrayAccess {
 			$second_column = $this->quote_identifier( $second_column );
 			$constraint    = "{$first_column} {$operator} {$second_column}";
 		}
-		$this->_join_sources[] = "{$table} ON {$constraint}";
+		$this->join_sources[] = "{$table} ON {$constraint}";
 
 		return $this;
 	}
@@ -1100,7 +1100,7 @@ class ORM implements \ArrayAccess {
 		$result   = $this;
 		foreach ( $multiple as $key => $val ) {
 			// Add the table name in case of ambiguous columns.
-			if ( \count( $result->_join_sources ) > 0 && \strpos( $key, '.' ) === false ) {
+			if ( \count( $result->join_sources ) > 0 && \strpos( $key, '.' ) === false ) {
 				$table = $result->table_name;
 				if ( ! \is_null( $result->table_alias ) ) {
 					$table = $result->table_alias;
@@ -1762,11 +1762,11 @@ class ORM implements \ArrayAccess {
 	 * @return string
 	 */
 	protected function build_join() {
-		if ( \count( $this->_join_sources ) === 0 ) {
+		if ( \count( $this->join_sources ) === 0 ) {
 			return '';
 		}
 
-		return \join( ' ', $this->_join_sources );
+		return \join( ' ', $this->join_sources );
 	}
 
 	/**
