@@ -43,7 +43,9 @@ class FAQ_Test extends TestCase {
 	/**
 	 * @inheritDoc
 	 */
-	public function setUp() {
+	protected function set_up() {
+		parent::set_up();
+
 		$this->html     = Mockery::mock( HTML_Helper::class );
 		$this->language = Mockery::mock( Language_Helper::class );
 
@@ -55,7 +57,6 @@ class FAQ_Test extends TestCase {
 				'html'     => $this->html,
 			],
 		];
-		parent::setUp();
 	}
 
 	/**

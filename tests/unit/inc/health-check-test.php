@@ -26,12 +26,12 @@ class Health_Check_Test extends TestCase {
 	 *
 	 * @return void
 	 */
-	public function setUp() {
+	protected function set_up() {
+		parent::set_up();
+
 		$this->instance = Mockery::mock( WPSEO_Health_Check::class )
 			->shouldAllowMockingProtectedMethods()
 			->makePartial();
-
-		parent::setUp();
 	}
 
 	/**

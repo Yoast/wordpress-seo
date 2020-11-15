@@ -42,12 +42,12 @@ class Addon_Manager_Test extends TestCase {
 	/**
 	 * Setup the tests.
 	 */
-	public function setUp() {
+	protected function set_up() {
+		parent::set_up();
+
 		$this->instance = Mockery::mock( Addon_Manager_Double::class )
 				->shouldAllowMockingProtectedMethods()
 					->makePartial();
-
-		parent::setUp();
 	}
 
 	/**

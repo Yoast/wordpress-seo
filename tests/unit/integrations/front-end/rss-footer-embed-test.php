@@ -37,13 +37,13 @@ class RSS_Footer_Embed_Test extends TestCase {
 	/**
 	 * Setup the class instance.
 	 */
-	public function setUp() {
+	protected function set_up() {
+		parent::set_up();
+
 		$this->options  = Mockery::mock( Options_Helper::class );
 		$this->instance = Mockery::mock( RSS_Footer_Embed::class, [ $this->options ] )
 			->makePartial()
 			->shouldAllowMockingProtectedMethods();
-
-		parent::setUp();
 	}
 
 	/**

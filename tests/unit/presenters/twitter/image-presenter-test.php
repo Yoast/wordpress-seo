@@ -35,12 +35,12 @@ class Image_Presenter_Test extends TestCase {
 	/**
 	 * Sets up the test class.
 	 */
-	public function setUp() {
+	protected function set_up() {
+		parent::set_up();
+
 		$this->instance               = new Image_Presenter();
 		$this->instance->presentation = new Indexable_Presentation();
 		$this->presentation           = $this->instance->presentation;
-
-		parent::setUp();
 
 		Monkey\Functions\expect( 'post_password_required' )->andReturn( false );
 	}
