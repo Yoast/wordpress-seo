@@ -156,7 +156,7 @@ class ORM implements \ArrayAccess {
 	 *
 	 * @var int
 	 */
-	protected $_offset = null;
+	protected $offset = null;
 
 	/**
 	 * ORDER BY.
@@ -1438,7 +1438,7 @@ class ORM implements \ArrayAccess {
 	 * @return ORM
 	 */
 	public function offset( $offset ) {
-		$this->_offset = $offset;
+		$this->offset = $offset;
 
 		return $this;
 	}
@@ -1848,8 +1848,8 @@ class ORM implements \ArrayAccess {
 	 * Builds OFFSET.
 	 */
 	protected function build_offset() {
-		if ( ! \is_null( $this->_offset ) ) {
-			return 'OFFSET ' . $this->_offset;
+		if ( ! \is_null( $this->offset ) ) {
+			return 'OFFSET ' . $this->offset;
 		}
 
 		return '';
