@@ -22,7 +22,7 @@ class Enhanced_Data_Presenter extends Abstract_Indexable_Presenter {
 		foreach ( $enhanced_data as $label => $value ) {
 			$twitter_tags .= sprintf( "\t" . '<meta name="twitter:label%1$d" content="%2$s">' . "\n", $i, $label );
 			$twitter_tags .= sprintf( "\t" . '<meta name="twitter:data%1$d" content="%2$s">' . "\n", $i, $value );
-			$i++;
+			++$i;
 		}
 		return \trim( $twitter_tags );
 	}

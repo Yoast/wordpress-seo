@@ -184,7 +184,7 @@ class Admin_Columns_Cache_Integration implements Integration_Interface {
 				$to_display[] = $page->ID;
 			}
 
-			$count++;
+			++$count;
 
 			$this->get_child_page_ids( $children_pages, $count, $page->ID, $start, $end, $to_display, $pages_map );
 		}
@@ -201,7 +201,7 @@ class Admin_Columns_Cache_Integration implements Integration_Interface {
 						$to_display[] = $op->ID;
 					}
 
-					$count++;
+					++$count;
 				}
 			}
 		}
@@ -260,7 +260,7 @@ class Admin_Columns_Cache_Integration implements Integration_Interface {
 				$to_display[] = $page->ID;
 			}
 
-			$count++;
+			++$count;
 
 			$this->get_child_page_ids( $children_pages, $count, $page->ID, $start, $end, $to_display, $pages_map );
 		}
