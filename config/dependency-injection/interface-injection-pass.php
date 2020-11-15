@@ -57,7 +57,7 @@ class Interface_Injection_Pass implements CompilerPassInterface {
 				$argument_index = $definition_class->splat_argument->getPosition();
 				foreach ( $subclasses_of_splat_type as $subclass ) {
 					$definition->setArgument( $argument_index, new Reference( $subclass->getClass() ) );
-					$argument_index++;
+					++$argument_index;
 				}
 			}
 		} catch ( \Exception $e ) {

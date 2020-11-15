@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Yoast\WP\SEO\Tests\Helpers;
 
 use Brain\Monkey;

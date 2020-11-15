@@ -1,4 +1,5 @@
 <?php
+
 namespace Yoast\WP\SEO\Tests\Unit\Doubles;
 
 use Yoast\WP\SEO\Builders\Indexable_Social_Image_Trait;
