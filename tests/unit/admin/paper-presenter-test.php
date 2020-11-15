@@ -26,6 +26,6 @@ class Paper_Presenter_Test extends TestCase {
 		$paper_presenter = new WPSEO_Paper_Presenter( 'paper', null, [ 'content' => 'This is some content' ] );
 		$output          = $paper_presenter->get_output();
 
-		$this->assertContains( 'This is some content', $output );
+		$this->assertStringContainsString( 'This is some content', $output );
 	}
 }
