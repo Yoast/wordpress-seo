@@ -184,7 +184,7 @@ class ORM implements \ArrayAccess {
 	 *
 	 * @var array
 	 */
-	protected $_data = [];
+	protected $data = [];
 
 	/**
 	 * Lifetime of the object.
@@ -302,7 +302,7 @@ class ORM implements \ArrayAccess {
 	 */
 	protected function __construct( $table_name, $data = [] ) {
 		$this->table_name = $table_name;
-		$this->_data      = $data;
+		$this->data       = $data;
 	}
 
 	/**
@@ -556,7 +556,7 @@ class ORM implements \ArrayAccess {
 	 * @return ORM
 	 */
 	public function hydrate( $data = [] ) {
-		$this->_data = $data;
+		$this->data = $data;
 
 		return $this;
 	}
@@ -568,7 +568,7 @@ class ORM implements \ArrayAccess {
 	 * @return ORM
 	 */
 	public function force_all_dirty() {
-		$this->_dirty_fields = $this->_data;
+		$this->_dirty_fields = $this->data;
 
 		return $this;
 	}
@@ -1979,11 +1979,11 @@ class ORM implements \ArrayAccess {
 	 */
 	public function as_array() {
 		if ( \func_num_args() === 0 ) {
-			return $this->_data;
+			return $this->data;
 		}
 		$args = \func_get_args();
 
-		return \array_intersect_key( $this->_data, \array_flip( $args ) );
+		return \array_intersect_key( $this->data, \array_flip( $args ) );
 	}
 
 	/**
@@ -2000,13 +2000,13 @@ class ORM implements \ArrayAccess {
 		if ( \is_array( $key ) ) {
 			$result = [];
 			foreach ( $key as $column ) {
-				$result[ $column ] = isset( $this->_data[ $column ] ) ? $this->_data[ $column ] : null;
+				$result[ $column ] = isset( $this->data[ $column ] ) ? $this->data[ $column ] : null;
 			}
 
 			return $result;
 		}
 		else {
-			return isset( $this->_data[ $key ] ) ? $this->_data[ $key ] : null;
+			return isset( $this->data[ $key ] ) ? $this->data[ $key ] : null;
 		}
 	}
 
@@ -2097,7 +2097,7 @@ class ORM implements \ArrayAccess {
 			$key = [ $key => $value ];
 		}
 		foreach ( $key as $field => $value ) {
-			$this->_data[ $field ]         = $value;
+			$this->data[ $field ]          = $value;
 			$this->_dirty_fields[ $field ] = $value;
 			if ( $expr === false && isset( $this->_expr_fields[ $field ] ) ) {
 				unset( $this->_expr_fields[ $field ] );
@@ -2176,7 +2176,7 @@ class ORM implements \ArrayAccess {
 					$column = \reset( $column );
 				}
 				// Explicitly cast to int to make dealing with Id's simpler.
-				$this->_data[ $column ] = (int) $wpdb->insert_id;
+				$this->data[ $column ] = (int) $wpdb->insert_id;
 			}
 		}
 		$this->_dirty_fields = [];
@@ -2316,7 +2316,7 @@ class ORM implements \ArrayAccess {
 	 * @return bool Whether the data has the key.
 	 */
 	public function offsetExists( $key ) {
-		return \array_key_exists( $key, $this->_data );
+		return \array_key_exists( $key, $this->data );
 	}
 
 	/**
@@ -2349,7 +2349,7 @@ class ORM implements \ArrayAccess {
 	 * @param mixed $key Key.
 	 */
 	public function offsetUnset( $key ) {
-		unset( $this->_data[ $key ] );
+		unset( $this->data[ $key ] );
 		unset( $this->_dirty_fields[ $key ] );
 	}
 
