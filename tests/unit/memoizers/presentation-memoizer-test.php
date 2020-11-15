@@ -3,10 +3,8 @@
 namespace Yoast\WP\SEO\Tests\Unit\Memoizers;
 
 use Mockery;
-use Yoast\WP\SEO\Context\Presentation;
 use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Context\Meta_Tags_Context_Mock;
-use Yoast\WP\SEO\Tests\Unit\Doubles\Context\Presentation_Mock;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Memoizers\Presentation_Memoizer_Double;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
 use Yoast\WP\SEO\Tests\Unit\TestCase;

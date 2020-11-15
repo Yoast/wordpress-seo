@@ -2,8 +2,6 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Presentations\Indexable_Presentation;
 
-use Mockery;
-use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**

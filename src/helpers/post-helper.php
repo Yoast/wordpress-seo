@@ -3,7 +3,6 @@
 namespace Yoast\WP\SEO\Helpers;
 
 use WP_Post;
-use Yoast\WP\Lib\Model;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
 /**
