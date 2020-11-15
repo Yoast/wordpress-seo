@@ -5,14 +5,14 @@ namespace Yoast\WP\SEO\Config;
 use Mockery;
 use Mockery\LegacyMockInterface;
 use Mockery\MockInterface;
-use YoastSEO_Vendor\League\OAuth2\Client\Provider\Exception\IdentityProviderException;
-use YoastSEO_Vendor\League\OAuth2\Client\Provider\GenericProvider;
-use YoastSEO_Vendor\League\OAuth2\Client\Token\AccessTokenInterface;
-use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Doubles\Config\SEMrush_Client_Double;
+use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 use Yoast\WP\SEO\Values\SEMrush\SEMrush_Token;
 use Yoast\WP\SEO\Wrappers\WP_Remote_Handler;
+use YoastSEO_Vendor\League\OAuth2\Client\Provider\Exception\IdentityProviderException;
+use YoastSEO_Vendor\League\OAuth2\Client\Provider\GenericProvider;
+use YoastSEO_Vendor\League\OAuth2\Client\Token\AccessTokenInterface;
 
 /**
  * Class SEMrush_Client_Test.

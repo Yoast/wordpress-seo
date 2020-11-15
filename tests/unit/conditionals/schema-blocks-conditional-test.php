@@ -2,8 +2,8 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Conditionals;
 
-use Yoast\WP\SEO\Tests\Unit\TestCase;
 use Yoast\WP\SEO\Conditionals\Schema_Blocks_Conditional;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
  * Class Schema_Blocks_Conditional_Test.

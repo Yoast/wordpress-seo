@@ -2,8 +2,8 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Doubles\Inc;
 
-use stdClass;
 use Brain\Monkey;
+use stdClass;
 use WPSEO_Addon_Manager;
 
 /**

@@ -2,8 +2,8 @@
 
 namespace Yoast\WP\SEO\Doubles\Config;
 
-use YoastSEO_Vendor\League\OAuth2\Client\Provider\AbstractProvider;
 use Yoast\WP\SEO\Config\SEMrush_Client;
+use YoastSEO_Vendor\League\OAuth2\Client\Provider\AbstractProvider;
 
 /**
  * Class SEMrush_Client_Double

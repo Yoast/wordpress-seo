@@ -2,9 +2,9 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Admin\Tracking;
 
+use Brain\Monkey;
 use WPSEO_Options;
 use WPSEO_Tracking;
-use Brain\Monkey;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**

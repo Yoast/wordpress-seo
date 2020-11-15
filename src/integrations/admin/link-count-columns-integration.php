@@ -2,8 +2,8 @@
 
 namespace Yoast\WP\SEO\Integrations\Admin;
 
-use wpdb;
 use WP_Query;
+use wpdb;
 use Yoast\WP\Lib\Model;
 use Yoast\WP\SEO\Actions\Indexing\Post_Link_Indexing_Action;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;

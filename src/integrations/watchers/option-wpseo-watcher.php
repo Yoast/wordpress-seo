@@ -2,8 +2,8 @@
 
 namespace Yoast\WP\SEO\Integrations\Watchers;
 
-use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Conditionals\No_Conditionals;
+use Yoast\WP\SEO\Integrations\Integration_Interface;
 
 /**
  * Watcher for the wpseo option.

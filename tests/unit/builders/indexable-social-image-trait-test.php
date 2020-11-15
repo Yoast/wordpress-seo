@@ -3,12 +3,12 @@
 namespace Yoast\WP\SEO\Tests\Unit\Builders;
 
 use Mockery;
-use Yoast\WP\SEO\Helpers\Image_Helper;
-use Yoast\WP\SEO\Helpers\Twitter;
-use Yoast\WP\SEO\Helpers\Open_Graph;
 use Yoast\WP\Lib\ORM;
-use Yoast\WP\SEO\Tests\Unit\Doubles\Indexable_Social_Image_Trait_Double;
+use Yoast\WP\SEO\Helpers\Image_Helper;
+use Yoast\WP\SEO\Helpers\Open_Graph;
+use Yoast\WP\SEO\Helpers\Twitter;
 use Yoast\WP\SEO\Models\Indexable;
+use Yoast\WP\SEO\Tests\Unit\Doubles\Indexable_Social_Image_Trait_Double;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
