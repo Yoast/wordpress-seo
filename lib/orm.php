@@ -213,7 +213,7 @@ class ORM implements \ArrayAccess {
 	 *
 	 * @var string
 	 */
-	protected $_instance_id_column = null;
+	protected $instance_id_column = null;
 
 	/*
 	 * --- STATIC METHODS ---
@@ -346,7 +346,7 @@ class ORM implements \ArrayAccess {
 	 * @return ORM
 	 */
 	public function use_id_column( $id_column ) {
-		$this->_instance_id_column = $id_column;
+		$this->instance_id_column = $id_column;
 
 		return $this;
 	}
@@ -360,7 +360,7 @@ class ORM implements \ArrayAccess {
 	 */
 	protected function create_instance_from_row( $row ) {
 		$instance = self::for_table( $this->table_name );
-		$instance->use_id_column( $this->_instance_id_column );
+		$instance->use_id_column( $this->instance_id_column );
 		$instance->hydrate( $row );
 
 		return $this->create_model_instance( $instance );
@@ -2016,8 +2016,8 @@ class ORM implements \ArrayAccess {
 	 * @return string The primary key ID of the row.
 	 */
 	protected function get_id_column_name() {
-		if ( ! \is_null( $this->_instance_id_column ) ) {
-			return $this->_instance_id_column;
+		if ( ! \is_null( $this->instance_id_column ) ) {
+			return $this->instance_id_column;
 		}
 
 		return 'id';
