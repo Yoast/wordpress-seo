@@ -79,7 +79,7 @@ class ORM implements \ArrayAccess {
 	 *
 	 * @var string
 	 */
-	protected $_table_alias = null;
+	protected $table_alias = null;
 
 	/**
 	 * Values to be bound to the query.
@@ -599,7 +599,7 @@ class ORM implements \ArrayAccess {
 	 * @return ORM
 	 */
 	public function table_alias( $alias ) {
-		$this->_table_alias = $alias;
+		$this->table_alias = $alias;
 
 		return $this;
 	}
@@ -1102,8 +1102,8 @@ class ORM implements \ArrayAccess {
 			// Add the table name in case of ambiguous columns.
 			if ( \count( $result->_join_sources ) > 0 && \strpos( $key, '.' ) === false ) {
 				$table = $result->table_name;
-				if ( ! \is_null( $result->_table_alias ) ) {
-					$table = $result->_table_alias;
+				if ( ! \is_null( $result->table_alias ) ) {
+					$table = $result->table_alias;
 				}
 				$key = "{$table}.{$key}";
 			}
@@ -1749,8 +1749,8 @@ class ORM implements \ArrayAccess {
 			$result_columns = 'DISTINCT ' . $result_columns;
 		}
 		$fragment .= "{$result_columns} FROM " . $this->quote_identifier( $this->table_name );
-		if ( ! \is_null( $this->_table_alias ) ) {
-			$fragment .= ' ' . $this->quote_identifier( $this->_table_alias );
+		if ( ! \is_null( $this->table_alias ) ) {
+			$fragment .= ' ' . $this->quote_identifier( $this->table_alias );
 		}
 
 		return $fragment;
