@@ -205,7 +205,7 @@ class ORM implements \ArrayAccess {
 	 *
 	 * @var bool
 	 */
-	protected $_is_new = false;
+	protected $is_new = false;
 
 	/**
 	 * Name of the column to use as the primary key for
@@ -326,7 +326,7 @@ class ORM implements \ArrayAccess {
 	 * @return bool|Model|ORM
 	 */
 	public function create( $data = null ) {
-		$this->_is_new = true;
+		$this->is_new = true;
 		if ( ! \is_null( $data ) ) {
 			$this->hydrate( $data )->force_all_dirty();
 		}
@@ -2129,7 +2129,7 @@ class ORM implements \ArrayAccess {
 	 * @return bool
 	 */
 	public function is_new() {
-		return $this->_is_new;
+		return $this->is_new;
 	}
 
 	/**
@@ -2145,7 +2145,7 @@ class ORM implements \ArrayAccess {
 
 		// Remove any expression fields as they are already baked into the query.
 		$values = \array_values( \array_diff_key( $this->dirty_fields, $this->expr_fields ) );
-		if ( ! $this->_is_new ) {
+		if ( ! $this->is_new ) {
 			// UPDATE.
 			// If there are no dirty values, do nothing.
 			if ( empty( $values ) && empty( $this->expr_fields ) ) {
@@ -2167,8 +2167,8 @@ class ORM implements \ArrayAccess {
 		}
 		$success = self::execute( $query, $values );
 		// If we've just inserted a new record, set the ID of this object.
-		if ( $this->_is_new ) {
-			$this->_is_new = false;
+		if ( $this->is_new ) {
+			$this->is_new = false;
 			if ( $this->count_null_id_columns() !== 0 ) {
 				$column = $this->get_id_column_name();
 				// If the primary key is compound, assign the last inserted id to the first column.
