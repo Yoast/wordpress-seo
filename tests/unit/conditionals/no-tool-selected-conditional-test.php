@@ -25,7 +25,9 @@ class No_Tool_Selected_Conditional_Test extends TestCase {
 	/**
 	 * Sets up the tests.
 	 */
-	public function setUp() {
+	protected function set_up() {
+		parent::set_up();
+
 		$this->instance = new No_Tool_Selected_Conditional();
 	}
 

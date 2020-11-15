@@ -52,7 +52,9 @@ class Indexable_Term_Indexation_Action_Test extends TestCase {
 	/**
 	 * Sets up the test class.
 	 */
-	public function setUp() {
+	protected function set_up() {
+		parent::set_up();
+
 		global $wpdb;
 		$wpdb = (object) [ 'prefix' => 'wp_' ];
 

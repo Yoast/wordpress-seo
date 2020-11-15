@@ -52,7 +52,9 @@ class Yoast_Head_REST_Field_Test extends TestCase {
 	/**
 	 * @inheritDoc
 	 */
-	public function setUp() {
+	protected function set_up() {
+		parent::set_up();
+
 		$this->post_type_helper = Mockery::mock( Post_Type_Helper::class );
 		$this->taxonomy_helper  = Mockery::mock( Taxonomy_Helper::class );
 		$this->head_action      = Mockery::mock( Indexable_Head_Action::class );
