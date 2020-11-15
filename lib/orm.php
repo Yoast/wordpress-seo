@@ -198,7 +198,7 @@ class ORM implements \ArrayAccess {
 	 *
 	 * @var array
 	 */
-	protected $_expr_fields = [];
+	protected $expr_fields = [];
 
 	/**
 	 * Is this a new object (has create() been called)?
@@ -1127,7 +1127,7 @@ class ORM implements \ArrayAccess {
 			$db_fields = [];
 			foreach ( $fields as $key => $value ) {
 				// Process expression fields directly into the query.
-				if ( \array_key_exists( $key, $this->_expr_fields ) ) {
+				if ( \array_key_exists( $key, $this->expr_fields ) ) {
 					$db_fields[] = $value;
 				}
 				else {
@@ -2099,12 +2099,12 @@ class ORM implements \ArrayAccess {
 		foreach ( $key as $field => $value ) {
 			$this->data[ $field ]         = $value;
 			$this->dirty_fields[ $field ] = $value;
-			if ( $expr === false && isset( $this->_expr_fields[ $field ] ) ) {
-				unset( $this->_expr_fields[ $field ] );
+			if ( $expr === false && isset( $this->expr_fields[ $field ] ) ) {
+				unset( $this->expr_fields[ $field ] );
 			}
 			else {
 				if ( $expr === true ) {
-					$this->_expr_fields[ $field ] = true;
+					$this->expr_fields[ $field ] = true;
 				}
 			}
 		}
@@ -2144,11 +2144,11 @@ class ORM implements \ArrayAccess {
 		global $wpdb;
 
 		// Remove any expression fields as they are already baked into the query.
-		$values = \array_values( \array_diff_key( $this->dirty_fields, $this->_expr_fields ) );
+		$values = \array_values( \array_diff_key( $this->dirty_fields, $this->expr_fields ) );
 		if ( ! $this->_is_new ) {
 			// UPDATE.
 			// If there are no dirty values, do nothing.
-			if ( empty( $values ) && empty( $this->_expr_fields ) ) {
+			if ( empty( $values ) && empty( $this->expr_fields ) ) {
 				return true;
 			}
 			$query = \join( ' ', [ $this->build_update(), $this->add_id_column_conditions() ] );
@@ -2180,7 +2180,7 @@ class ORM implements \ArrayAccess {
 			}
 		}
 		$this->dirty_fields = [];
-		$this->_expr_fields = [];
+		$this->expr_fields  = [];
 
 		return $success;
 	}
@@ -2192,11 +2192,11 @@ class ORM implements \ArrayAccess {
 	 */
 	public function update_many() {
 		// Remove any expression fields as they are already baked into the query.
-		$values = \array_values( \array_diff_key( $this->dirty_fields, $this->_expr_fields ) );
+		$values = \array_values( \array_diff_key( $this->dirty_fields, $this->expr_fields ) );
 
 		// UPDATE.
 		// If there are no dirty values, do nothing.
-		if ( empty( $values ) && empty( $this->_expr_fields ) ) {
+		if ( empty( $values ) && empty( $this->expr_fields ) ) {
 			return true;
 		}
 
@@ -2204,7 +2204,7 @@ class ORM implements \ArrayAccess {
 
 		$success            = self::execute( $query, \array_merge( $values, $this->values ) );
 		$this->dirty_fields = [];
-		$this->_expr_fields = [];
+		$this->expr_fields  = [];
 
 		return $success;
 	}
@@ -2242,7 +2242,7 @@ class ORM implements \ArrayAccess {
 		$query[]    = "UPDATE {$this->quote_identifier($this->table_name)} SET";
 		$field_list = [];
 		foreach ( $this->dirty_fields as $key => $value ) {
-			if ( ! \array_key_exists( $key, $this->_expr_fields ) ) {
+			if ( ! \array_key_exists( $key, $this->expr_fields ) ) {
 				$value = ( $value === null ) ? 'NULL' : '%s';
 			}
 			$field_list[] = "{$this->quote_identifier($key)} = {$value}";
