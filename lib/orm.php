@@ -142,7 +142,7 @@ class ORM implements \ArrayAccess {
 	 *
 	 * @var array
 	 */
-	protected $_where_conditions = [];
+	protected $where_conditions = [];
 
 	/**
 	 * LIMIT.
@@ -177,7 +177,7 @@ class ORM implements \ArrayAccess {
 	 *
 	 * @var array
 	 */
-	protected $_having_conditions = [];
+	protected $having_conditions = [];
 
 	/**
 	 * The data for a hydrated instance of the class.
@@ -1066,7 +1066,7 @@ class ORM implements \ArrayAccess {
 	 * @return ORM
 	 */
 	protected function add_condition( $type, $fragment, $values = [] ) {
-		$conditions_class_property_name = "_{$type}_conditions";
+		$conditions_class_property_name = "{$type}_conditions";
 		if ( ! \is_array( $values ) ) {
 			$values = [ $values ];
 		}
@@ -1808,7 +1808,7 @@ class ORM implements \ArrayAccess {
 	 * @return string
 	 */
 	protected function build_conditions( $type ) {
-		$conditions_class_property_name = "_{$type}_conditions";
+		$conditions_class_property_name = "{$type}_conditions";
 		// If there are no clauses, return empty string.
 		if ( \count( $this->{$conditions_class_property_name} ) === 0 ) {
 			return '';
