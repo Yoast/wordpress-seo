@@ -350,7 +350,7 @@ class Indexing_Route extends Abstract_Indexation_Route {
 	/**
 	 * Indexes a number of posts for post links.
 	 *
-	 * @return WP_Rest_Response The response.
+	 * @return WP_REST_Response The response.
 	 */
 	public function index_post_links() {
 		return $this->run_indexation_action( $this->post_link_indexing_action, self::FULL_POST_LINKS_INDEXING_ROUTE );
@@ -359,7 +359,7 @@ class Indexing_Route extends Abstract_Indexation_Route {
 	/**
 	 * Indexes a number of terms for term links.
 	 *
-	 * @return WP_Rest_Response The response.
+	 * @return WP_REST_Response The response.
 	 */
 	public function index_term_links() {
 		return $this->run_indexation_action( $this->term_link_indexing_action, self::FULL_TERM_LINKS_INDEXING_ROUTE );
