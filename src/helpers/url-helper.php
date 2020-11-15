@@ -24,7 +24,7 @@ class Url_Helper {
 			return $home_url;
 		}
 
-		$home_path = \wp_parse_url( $home_url, PHP_URL_PATH );
+		$home_path = \wp_parse_url( $home_url, \PHP_URL_PATH );
 
 		if ( $home_path === '/' ) { // Home at site root, already slashed.
 			return $home_url;

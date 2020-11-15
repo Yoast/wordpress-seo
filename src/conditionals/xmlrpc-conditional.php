@@ -13,7 +13,7 @@ class XMLRPC_Conditional implements Conditional {
 	 * @return boolean `true` when the current request is an XML-RPC request, `false` if not.
 	 */
 	public function is_met() {
-		return ( \defined( 'XMLRPC_REQUEST' ) && XMLRPC_REQUEST );
+		return ( \defined( 'XMLRPC_REQUEST' ) && \XMLRPC_REQUEST );
 	}
 }
 

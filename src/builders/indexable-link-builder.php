@@ -142,7 +142,7 @@ class Indexable_Link_Builder {
 		$links  = [];
 		$regexp = '<a\s[^>]*href=("??)([^" >]*?)\1[^>]*>';
 		// Used modifiers iU to match case insensitive and make greedy quantifiers lazy.
-		if ( \preg_match_all( "/$regexp/iU", $content, $matches, PREG_SET_ORDER ) ) {
+		if ( \preg_match_all( "/$regexp/iU", $content, $matches, \PREG_SET_ORDER ) ) {
 			foreach ( $matches as $match ) {
 				$links[] = \trim( $match[2], "'" );
 			}
@@ -167,7 +167,7 @@ class Indexable_Link_Builder {
 		$images = [];
 		$regexp = '<img\s[^>]*src=("??)([^" >]*?)\\1[^>]*>';
 		// Used modifiers iU to match case insensitive and make greedy quantifiers lazy.
-		if ( \preg_match_all( "/$regexp/iU", $content, $matches, PREG_SET_ORDER ) ) {
+		if ( \preg_match_all( "/$regexp/iU", $content, $matches, \PREG_SET_ORDER ) ) {
 			foreach ( $matches as $match ) {
 				$images[] = \trim( $match[2], "'" );
 			}

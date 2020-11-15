@@ -50,7 +50,7 @@ class Schema_Blocks implements Integration_Interface {
 	 */
 	public function register_template( $template ) {
 		if ( \substr( $template, 0, 1 ) !== '/' ) {
-			$template = WPSEO_PATH . '/' . $template;
+			$template = \WPSEO_PATH . '/' . $template;
 		}
 
 		$this->templates[] = $template;

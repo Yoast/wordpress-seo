@@ -37,7 +37,7 @@ class WPSEO_Tracking_Test extends TestCase {
 
 		WPSEO_Options::set( 'tracking', true );
 
-		$instance = new WPSEO_Tracking( 'https://tracking.yoast.com/stats', ( WEEK_IN_SECONDS * 2 ) );
+		$instance = new WPSEO_Tracking( 'https://tracking.yoast.com/stats', ( \WEEK_IN_SECONDS * 2 ) );
 
 		$this->assertAttributeEquals( 0, 'threshold', $instance );
 		$this->assertAttributeEquals( '', 'endpoint', $instance );
@@ -59,9 +59,9 @@ class WPSEO_Tracking_Test extends TestCase {
 		);
 		WPSEO_Options::set( 'tracking', true );
 
-		$instance = new WPSEO_Tracking( 'https://tracking.yoast.com/stats', ( WEEK_IN_SECONDS * 2 ) );
+		$instance = new WPSEO_Tracking( 'https://tracking.yoast.com/stats', ( \WEEK_IN_SECONDS * 2 ) );
 
-		$this->assertAttributeEquals( ( WEEK_IN_SECONDS * 2 ), 'threshold', $instance );
+		$this->assertAttributeEquals( ( \WEEK_IN_SECONDS * 2 ), 'threshold', $instance );
 		$this->assertAttributeEquals( 'https://tracking.yoast.com/stats', 'endpoint', $instance );
 		$this->assertAttributeEquals( \time(), 'current_time', $instance );
 
