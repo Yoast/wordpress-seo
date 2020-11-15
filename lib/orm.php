@@ -86,7 +86,7 @@ class ORM implements \ArrayAccess {
 	 *
 	 * @var array
 	 */
-	protected $_values = [];
+	protected $values = [];
 
 	/**
 	 * Columns to select in the result.
@@ -837,7 +837,7 @@ class ORM implements \ArrayAccess {
 			$table_alias = $this->quote_identifier( $table_alias );
 			$table      .= " {$table_alias}";
 		}
-		$this->_values = \array_merge( $this->_values, $parameters );
+		$this->values = \array_merge( $this->values, $parameters );
 		// Build the constraint.
 		if ( \is_array( $constraint ) ) {
 			list( $first_column, $operator, $second_column ) = $constraint;
@@ -1714,9 +1714,9 @@ class ORM implements \ArrayAccess {
 	 * @return string
 	 */
 	protected function build_select() {
-		// If the query is raw, just set the $this->_values to be the raw query parameters and return the raw query.
+		// If the query is raw, just set the $this->values to be the raw query parameters and return the raw query.
 		if ( $this->_is_raw_query ) {
-			$this->_values = $this->_raw_parameters;
+			$this->values = $this->_raw_parameters;
 
 			return $this->_raw_query;
 		}
@@ -1815,8 +1815,8 @@ class ORM implements \ArrayAccess {
 		}
 		$conditions = [];
 		foreach ( $this->{$conditions_class_property_name} as $condition ) {
-			$conditions[]  = $condition[ self::CONDITION_FRAGMENT ];
-			$this->_values = \array_merge( $this->_values, $condition[ self::CONDITION_VALUES ] );
+			$conditions[] = $condition[ self::CONDITION_FRAGMENT ];
+			$this->values = \array_merge( $this->values, $condition[ self::CONDITION_VALUES ] );
 		}
 
 		return \strtoupper( $type ) . ' ' . \join( ' AND ', $conditions );
@@ -1939,13 +1939,13 @@ class ORM implements \ArrayAccess {
 		global $wpdb;
 
 		$query   = $this->build_select();
-		$success = self::execute( $query, $this->_values );
+		$success = self::execute( $query, $this->values );
 
 		if ( $success === false ) {
 			// If the query fails run the migrations and try again.
 			// Action is intentionally undocumented and should not be used by third-parties.
 			\do_action( '_yoast_run_migrations' );
-			$success = self::execute( $query, $this->_values );
+			$success = self::execute( $query, $this->values );
 		}
 
 		$this->reset_idiorm_state();
@@ -1966,7 +1966,7 @@ class ORM implements \ArrayAccess {
 	 * Resets the Idiorm instance state.
 	 */
 	private function reset_idiorm_state() {
-		$this->_values                       = [];
+		$this->values                        = [];
 		$this->_result_columns               = [ '*' ];
 		$this->_using_default_result_columns = true;
 	}
@@ -2202,7 +2202,7 @@ class ORM implements \ArrayAccess {
 
 		$query = $this->join_if_not_empty( ' ', [ $this->build_update(), $this->build_where() ] );
 
-		$success             = self::execute( $query, \array_merge( $values, $this->_values ) );
+		$success             = self::execute( $query, \array_merge( $values, $this->values ) );
 		$this->_dirty_fields = [];
 		$this->_expr_fields  = [];
 
@@ -2301,7 +2301,7 @@ class ORM implements \ArrayAccess {
 			]
 		);
 
-		return self::execute( $query, $this->_values );
+		return self::execute( $query, $this->values );
 	}
 
 	/*
