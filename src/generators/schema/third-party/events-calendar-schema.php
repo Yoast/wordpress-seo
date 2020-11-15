@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Generators\Schema\Third_Party;
 
 use Yoast\WP\SEO\Generators\Schema\Abstract_Schema_Piece;
 use Yoast\WP\SEO\Config\Schema_IDs;
+use stdClass;
 use Tribe__Events__JSON_LD__Event;
 use Tribe__Events__Template__Month;
 use Yoast\WP\SEO\Context\Meta_Tags_Context;
@@ -164,7 +165,7 @@ class Events_Calendar_Schema extends Abstract_Schema_Piece {
 			// ORGANIZER.
 			if ( \tribe_has_organizer( $post_id ) ) {
 				if ( ! $d->organizer ) {
-					$d->organizer = new \stdClass();
+					$d->organizer = new stdClass();
 				}
 
 				$organizer_id              = \tribe_get_organizer_id( $post_id );
@@ -180,7 +181,7 @@ class Events_Calendar_Schema extends Abstract_Schema_Piece {
 			// VENUE / LOCATION.
 			if ( \tribe_has_venue( $post_id ) ) {
 				if ( ! $d->location ) {
-					$d->location = new \stdClass();
+					$d->location = new stdClass();
 				}
 
 				$venue_id                 = \tribe_get_venue_id( $post_id );

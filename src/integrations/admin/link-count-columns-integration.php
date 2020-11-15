@@ -3,6 +3,7 @@
 namespace Yoast\WP\SEO\Integrations\Admin;
 
 use wpdb;
+use WP_Query;
 use Yoast\WP\Lib\Model;
 use Yoast\WP\SEO\Actions\Indexing\Post_Link_Indexing_Action;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
@@ -42,7 +43,7 @@ class Link_Count_Columns_Integration implements Integration_Interface {
 	/**
 	 * The database object.
 	 *
-	 * @var \wpdb
+	 * @var wpdb
 	 */
 	protected $wpdb;
 
@@ -153,8 +154,8 @@ class Link_Count_Columns_Integration implements Integration_Interface {
 	/**
 	 * Modifies the query pieces to allow ordering column by links to post.
 	 *
-	 * @param array     $pieces Array of Query pieces.
-	 * @param \WP_Query $query  The Query on which to apply.
+	 * @param array    $pieces Array of Query pieces.
+	 * @param WP_Query $query  The Query on which to apply.
 	 *
 	 * @return array
 	 */
@@ -169,8 +170,8 @@ class Link_Count_Columns_Integration implements Integration_Interface {
 	/**
 	 * Modifies the query pieces to allow ordering column by links to post.
 	 *
-	 * @param array     $pieces Array of Query pieces.
-	 * @param \WP_Query $query  The Query on which to apply.
+	 * @param array    $pieces Array of Query pieces.
+	 * @param WP_Query $query  The Query on which to apply.
 	 *
 	 * @return array
 	 */
@@ -185,9 +186,9 @@ class Link_Count_Columns_Integration implements Integration_Interface {
 	/**
 	 * Builds the pieces for a sorting query.
 	 *
-	 * @param array     $pieces Array of Query pieces.
-	 * @param \WP_Query $query  The Query on which to apply.
-	 * @param string    $field  The field in the table to JOIN on.
+	 * @param array    $pieces Array of Query pieces.
+	 * @param WP_Query $query  The Query on which to apply.
+	 * @param string   $field  The field in the table to JOIN on.
 	 *
 	 * @return array Modified Query pieces.
 	 */
