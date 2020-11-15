@@ -188,13 +188,8 @@ class Option_Social_Test extends TestCase {
 				'wp_remote_retrieve_response_code' => function () {
 					return 200;
 				},
-			]
-		);
-
-		// Return an invalid Facebook API response from `http://graph.facebook.com/<APP_ID>` with an invalid ID.
-		Monkey\Functions\stubs(
-			[
-				'wp_remote_retrieve_body' => function () {
+				// Return an invalid Facebook API response from `http://graph.facebook.com/<APP_ID>` with an invalid ID.
+				'wp_remote_retrieve_body'          => function () {
 					return WPSEO_Utils::format_json_encode(
 						[
 							'error' => [
@@ -250,13 +245,8 @@ class Option_Social_Test extends TestCase {
 				'wp_remote_retrieve_response_code' => function () use ( $response_code ) {
 					return $response_code;
 				},
-			]
-		);
-
-		// Return an invalid Facebook API response from `http://graph.facebook.com/<APP_ID>` with an invalid ID.
-		Monkey\Functions\stubs(
-			[
-				'wp_remote_retrieve_body' => function () {
+				// Return an invalid Facebook API response from `http://graph.facebook.com/<APP_ID>` with an invalid ID.
+				'wp_remote_retrieve_body'          => function () {
 					return WPSEO_Utils::format_json_encode(
 						[
 							'category' => 'Just For Fun',
@@ -302,13 +292,8 @@ class Option_Social_Test extends TestCase {
 				'wp_remote_retrieve_response_code' => function () {
 					return 200;
 				},
-			]
-		);
-
-		// Return an invalid Facebook API response from `http://graph.facebook.com/<APP_ID>` with an invalid ID.
-		Monkey\Functions\stubs(
-			[
-				'wp_remote_retrieve_body' => function () {
+				// Return an invalid Facebook API response from `http://graph.facebook.com/<APP_ID>` with an invalid ID.
+				'wp_remote_retrieve_body'          => function () {
 					return WPSEO_Utils::format_json_encode(
 						[
 							'error' => [
