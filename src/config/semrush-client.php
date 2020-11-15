@@ -227,10 +227,10 @@ class SEMrush_Client {
 			],
 		];
 
-		$options = array_merge_recursive( $defaults, $options );
+		$options = \array_merge_recursive( $defaults, $options );
 
-		if ( array_key_exists( 'params', $options ) ) {
-			$url .= '?' . http_build_query( $options['params'] );
+		if ( \array_key_exists( 'params', $options ) ) {
+			$url .= '?' . \http_build_query( $options['params'] );
 			unset( $options['params'] );
 		}
 

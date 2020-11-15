@@ -38,6 +38,6 @@ class SEO_Meta extends Model {
 	 * @codeCoverageIgnore
 	 */
 	public function __construct() {
-		_deprecated_function( __METHOD__, '14.8' );
+		\_deprecated_function( __METHOD__, '14.8' );
 	}
 }

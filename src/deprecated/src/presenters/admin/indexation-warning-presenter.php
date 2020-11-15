@@ -59,7 +59,7 @@ class Indexation_Warning_Presenter extends Abstract_Presenter {
 	 * @param string         $action_type     The action type.
 	 */
 	public function __construct( $total_unindexed, Options_Helper $options_helper, $action_type ) {
-		_deprecated_function( __METHOD__, 'WPSEO 15.1' );
+		\_deprecated_function( __METHOD__, 'WPSEO 15.1' );
 	}
 
 	/**
@@ -71,7 +71,7 @@ class Indexation_Warning_Presenter extends Abstract_Presenter {
 	 * @return string The warning HTML.
 	 */
 	public function present() {
-		_deprecated_function( __METHOD__, 'WPSEO 15.1' );
+		\_deprecated_function( __METHOD__, 'WPSEO 15.1' );
 
 		return '';
 	}

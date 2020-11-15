@@ -15,7 +15,7 @@ class Site_Helper {
 	 * @return string
 	 */
 	public function get_site_name() {
-		return wp_strip_all_tags( get_bloginfo( 'name' ), true );
+		return \wp_strip_all_tags( \get_bloginfo( 'name' ), true );
 	}
 
 	/**

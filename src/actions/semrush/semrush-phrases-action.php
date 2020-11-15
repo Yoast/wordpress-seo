@@ -47,7 +47,7 @@ class SEMrush_Phrases_Action {
 	 */
 	public function get_related_keyphrases( $keyphrase, $database ) {
 		try {
-			$transient_key = sprintf( static::TRANSIENT_CACHE_KEY, $keyphrase, $database );
+			$transient_key = \sprintf( static::TRANSIENT_CACHE_KEY, $keyphrase, $database );
 			$transient     = \get_transient( $transient_key );
 
 			if ( $transient !== false ) {
