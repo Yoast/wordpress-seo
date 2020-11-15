@@ -46,6 +46,8 @@ class Title_Presenter_Test extends TestCase {
 	protected function set_up() {
 		parent::set_up();
 
+		$this->stubEscapeFunctions();
+
 		$this->instance               = new Title_Presenter();
 		$this->instance->presentation = new Indexable_Presentation();
 		$this->indexable_presentation = $this->instance->presentation;

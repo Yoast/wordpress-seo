@@ -48,6 +48,8 @@ class FB_App_ID_Presenter_Test extends TestCase {
 	 * @covers ::present
 	 */
 	public function test_present() {
+		$this->stubEscapeFunctions();
+
 		$this->presentation->open_graph_fb_app_id = '12345';
 
 		$expected = '<meta property="fb:app_id" content="12345" />';

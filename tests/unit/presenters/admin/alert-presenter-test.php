@@ -17,6 +17,17 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
 class Alert_Presenter_Test extends TestCase {
 
 	/**
+	 * Set up function stubs.
+	 *
+	 * @return void
+	 */
+	protected function set_up() {
+		parent::set_up();
+
+		$this->stubEscapeFunctions();
+	}
+
+	/**
 	 * Test constructor
 	 *
 	 * @covers ::__construct

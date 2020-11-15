@@ -44,6 +44,8 @@ class Pinterest_Presenter_Test extends TestCase {
 	protected function set_up() {
 		parent::set_up();
 
+		$this->stubEscapeFunctions();
+
 		$this->instance = new Pinterest_Presenter();
 
 		$this->options = Mockery::mock( Options_Helper::class );

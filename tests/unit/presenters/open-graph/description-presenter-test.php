@@ -46,6 +46,8 @@ class Description_Presenter_Test extends TestCase {
 	protected function set_up() {
 		parent::set_up();
 
+		$this->stubEscapeFunctions();
+
 		$this->instance     = new Description_Presenter();
 		$this->presentation = new Indexable_Presentation();
 		$this->replace_vars = Mockery::mock( WPSEO_Replace_Vars::class );

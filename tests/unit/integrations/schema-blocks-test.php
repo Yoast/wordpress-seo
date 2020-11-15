@@ -132,6 +132,9 @@ class Schema_Blocks_Test extends TestCase {
 	 * @covers ::output
 	 */
 	public function test_output() {
+		$this->stubEscapeFunctions();
+		$this->stubTranslationFunctions();
+
 		$this->asset_manager
 			->expects( 'is_script_enqueued' )
 			->with( 'schema-blocks' )
@@ -168,6 +171,9 @@ class Schema_Blocks_Test extends TestCase {
 	 * @covers ::output
 	 */
 	public function test_load_with_filter() {
+		$this->stubEscapeFunctions();
+		$this->stubTranslationFunctions();
+
 		$this->asset_manager
 			->expects( 'is_script_enqueued' )
 			->with( 'schema-blocks' )

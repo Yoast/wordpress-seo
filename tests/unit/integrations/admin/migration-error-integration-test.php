@@ -40,6 +40,9 @@ class Migration_Error_Integration_Test extends TestCase {
 	protected function set_up() {
 		parent::set_up();
 
+		$this->stubTranslationFunctions();
+		$this->stubEscapeFunctions();
+
 		$this->migration_status = Mockery::mock( Migration_Status::class );
 		$this->instance         = new Migration_Error_Integration( $this->migration_status );
 	}

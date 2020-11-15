@@ -31,6 +31,8 @@ class Rel_Prev_Presenter_Test extends TestCase {
 	protected function set_up() {
 		parent::set_up();
 
+		$this->stubEscapeFunctions();
+
 		$this->instance = new Rel_Prev_Presenter();
 	}
 

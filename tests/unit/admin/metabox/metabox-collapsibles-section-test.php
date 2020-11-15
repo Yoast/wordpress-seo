@@ -15,6 +15,18 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
 class Metabox_Collapsibles_Section_Test extends TestCase {
 
 	/**
+	 * Set up function stubs.
+	 *
+	 * @return void
+	 */
+	protected function set_up() {
+		parent::set_up();
+
+		$this->stubEscapeFunctions();
+		$this->stubTranslationFunctions();
+	}
+
+	/**
 	 * Tests the output of \WPSEO_Metabox_Collapsibles_Section::display_content.
 	 *
 	 * @covers WPSEO_Metabox_Collapsibles_Sections::__construct
@@ -26,8 +38,6 @@ class Metabox_Collapsibles_Section_Test extends TestCase {
 	 * @covers WPSEO_Metabox_Collapsible::link
 	 */
 	public function test_display_content_with_collapsible() {
-		$this->stubTranslationFunctions();
-
 		$collapsibles = [];
 
 		$collapsibles[] = new WPSEO_Metabox_Collapsible(

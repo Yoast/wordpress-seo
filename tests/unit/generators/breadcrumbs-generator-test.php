@@ -323,6 +323,8 @@ class Breadcrumbs_Generator_Test extends TestCase {
 	 * @covers ::add_paged_crumb
 	 */
 	public function test_with_date_archive( $scenario, $is_paged, $current_page, $expected ) {
+		$this->stubEscapeFunctions();
+		$this->stubTranslationFunctions();
 		$this->setup_expectations_for_date_archive( $scenario, $is_paged, $current_page );
 
 		$this->assertEquals(

@@ -46,6 +46,8 @@ class Breadcrumbs_Presenter_Test extends TestCase {
 	protected function set_up() {
 		parent::set_up();
 
+		$this->stubEscapeFunctions();
+
 		$this->options = Mockery::mock( Options_Helper::class );
 
 		$this->instance = Mockery::mock( Breadcrumbs_Presenter::class )

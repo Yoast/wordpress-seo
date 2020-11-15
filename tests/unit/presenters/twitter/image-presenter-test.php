@@ -38,6 +38,8 @@ class Image_Presenter_Test extends TestCase {
 	protected function set_up() {
 		parent::set_up();
 
+		$this->stubEscapeFunctions();
+
 		$this->instance               = new Image_Presenter();
 		$this->instance->presentation = new Indexable_Presentation();
 		$this->presentation           = $this->instance->presentation;

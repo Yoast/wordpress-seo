@@ -14,6 +14,17 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
 class Health_Check_Postname_Permalink_Test extends TestCase {
 
 	/**
+	 * Set up function stubs.
+	 *
+	 * @return void
+	 */
+	protected function set_up() {
+		parent::set_up();
+
+		$this->stubTranslationFunctions();
+	}
+
+	/**
 	 * Tests the run method when the permalink structure is set to "Post name".
 	 *
 	 * @covers WPSEO_Health_Check_Postname_Permalink::run

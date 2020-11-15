@@ -21,6 +21,9 @@ class Input_Validation_Test extends TestCase {
 	protected function set_up() {
 		parent::set_up();
 
+		$this->stubEscapeFunctions();
+		$this->stubTranslationFunctions();
+
 		Monkey\Functions\stubs( [ 'add_settings_error' => null ] );
 	}
 

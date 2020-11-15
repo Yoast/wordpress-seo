@@ -16,6 +16,18 @@ use Yoast_Input_Validation;
 class Option_Social_Test extends TestCase {
 
 	/**
+	 * Set up function stubs.
+	 *
+	 * @return void
+	 */
+	protected function set_up() {
+		parent::set_up();
+
+		$this->stubEscapeFunctions();
+		$this->stubTranslationFunctions();
+	}
+
+	/**
 	 * Tests validate_option with valid data.
 	 *
 	 * @param string $expected The expected value.

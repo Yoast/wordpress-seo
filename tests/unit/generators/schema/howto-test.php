@@ -141,6 +141,8 @@ class HowTo_Test extends TestCase {
 	protected function set_up() {
 		parent::set_up();
 
+		$this->stubEscapeFunctions();
+
 		$id = 1234;
 
 		$this->meta_tags_context = Mockery::mock( Meta_Tags_Context_Mock::class );

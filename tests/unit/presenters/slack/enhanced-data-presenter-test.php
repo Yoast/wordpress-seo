@@ -39,6 +39,8 @@ class Enhanced_Data_Presenter_Test extends TestCase {
 	protected function set_up() {
 		parent::set_up();
 
+		$this->stubTranslationFunctions();
+
 		$this->instance                       = new Enhanced_Data_Presenter();
 		$this->instance->presentation         = Mockery::mock( Indexable_Presentation::class );
 		$this->instance->presentation->source = Mockery::mock( WP_Post::class );

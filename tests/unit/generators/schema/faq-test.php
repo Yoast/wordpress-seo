@@ -67,6 +67,8 @@ class FAQ_Test extends TestCase {
 	 * @covers ::add_accepted_answer_property
 	 */
 	public function test_generate() {
+		$this->stubEscapeFunctions();
+
 		$blocks = [
 			'yoast/faq-block' => [
 				[
@@ -165,6 +167,8 @@ class FAQ_Test extends TestCase {
 	 * @covers ::add_accepted_answer_property
 	 */
 	public function test_generate_does_not_output_questions_with_no_answer() {
+		$this->stubEscapeFunctions();
+
 		$blocks = [
 			'yoast/faq-block' => [
 				[

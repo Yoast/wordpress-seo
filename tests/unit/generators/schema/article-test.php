@@ -287,6 +287,8 @@ class Article_Test extends TestCase {
 	 * @covers ::add_terms
 	 */
 	public function test_add_terms_happy_path() {
+		$this->stubTranslationFunctions();
+
 		$terms = [
 			(object) [ 'name' => 'Tag1' ],
 			(object) [ 'name' => 'Tag2' ],

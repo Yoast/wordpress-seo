@@ -38,6 +38,8 @@ class Type_Presenter_Test extends TestCase {
 	protected function set_up() {
 		parent::set_up();
 
+		$this->stubEscapeFunctions();
+
 		$this->instance     = new Type_Presenter();
 		$this->presentation = new Indexable_Presentation();
 

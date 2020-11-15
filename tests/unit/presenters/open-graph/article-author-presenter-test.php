@@ -37,6 +37,8 @@ class Article_Author_Presenter_Test extends TestCase {
 	protected function set_up() {
 		parent::set_up();
 
+		$this->stubEscapeFunctions();
+
 		$this->instance     = new Article_Author_Presenter();
 		$this->presentation = new Indexable_Presentation();
 

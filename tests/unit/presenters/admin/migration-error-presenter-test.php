@@ -22,6 +22,9 @@ class Migration_Error_Presenter_Test extends TestCase {
 	 * @covers ::present
 	 */
 	public function test_present() {
+		$this->stubEscapeFunctions();
+		$this->stubTranslationFunctions();
+
 		$migration_error = [ 'message' => 'test error' ];
 
 		Monkey\Functions\expect( 'add_query_arg' )

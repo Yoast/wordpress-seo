@@ -98,6 +98,8 @@ class Indexables_Head_Route_Test extends TestCase {
 	 * @covers ::get_head
 	 */
 	public function test_get_head() {
+		$this->stubEscapeFunctions();
+
 		$request = Mockery::mock( 'WP_REST_Request', 'ArrayAccess' );
 		$request
 			->expects( 'offsetGet' )

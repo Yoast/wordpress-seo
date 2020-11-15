@@ -37,6 +37,8 @@ class Url_Presenter_Test extends TestCase {
 	protected function set_up() {
 		parent::set_up();
 
+		$this->stubEscapeFunctions();
+
 		$this->instance     = new Url_Presenter();
 		$this->presentation = new Indexable_Presentation();
 

@@ -120,6 +120,9 @@ class WPML_WPSEO_Notification_Test extends TestCase {
 	 * @covers ::notification
 	 */
 	public function test_notifies_when_not_installed() {
+		$this->stubEscapeFunctions();
+		$this->stubTranslationFunctions();
+
 		// Mock that the Yoast SEO Multilingual plugin is not installed and activated.
 		$this->wpml_wpseo_conditional->expects( 'is_met' )->andReturnFalse();
 

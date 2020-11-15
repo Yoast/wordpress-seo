@@ -51,6 +51,8 @@ class Robots_Presenter_Test extends TestCase {
 	 * @covers ::present
 	 */
 	public function test_present() {
+		$this->stubEscapeFunctions();
+
 		$this->presentation->robots = [
 			'index'  => 'index',
 			'follow' => 'nofollow',

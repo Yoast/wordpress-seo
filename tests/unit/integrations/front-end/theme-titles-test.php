@@ -64,6 +64,8 @@ class Theme_Titles_Test extends TestCase {
 	 * @covers ::title
 	 */
 	public function test_title() {
+		$this->stubTranslationFunctions();
+
 		Monkey\Functions\expect( '_deprecated_function' )
 			->once()
 			->with(

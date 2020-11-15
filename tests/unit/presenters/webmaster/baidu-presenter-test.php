@@ -44,6 +44,8 @@ class Baidu_Presenter_Test extends TestCase {
 	protected function set_up() {
 		parent::set_up();
 
+		$this->stubEscapeFunctions();
+
 		$this->instance = new Baidu_Presenter();
 
 		$this->options = Mockery::mock( Options_Helper::class );

@@ -48,6 +48,8 @@ class Article_Modified_Time_Presenter_Test extends TestCase {
 	 * @covers ::present
 	 */
 	public function test_present() {
+		$this->stubEscapeFunctions();
+
 		$this->presentation->open_graph_article_modified_time = '2019-10-08T12:26:31+00:00';
 
 		$expected = '<meta property="article:modified_time" content="2019-10-08T12:26:31+00:00" />';

@@ -62,6 +62,8 @@ class Image_Presenter_Test extends TestCase {
 	 * @covers ::present
 	 */
 	public function test_present_with_a_set_image() {
+		$this->stubEscapeFunctions();
+
 		$image = [
 			'url'    => 'https://example.com/image.jpg',
 			'width'  => 100,

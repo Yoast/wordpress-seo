@@ -14,6 +14,18 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
 class Health_Check_Default_Tagline_Test extends TestCase {
 
 	/**
+	 * Set up function stubs.
+	 *
+	 * @return void
+	 */
+	protected function set_up() {
+		parent::set_up();
+
+		$this->stubEscapeFunctions();
+		$this->stubTranslationFunctions();
+	}
+
+	/**
 	 * Tests the run method when the WordPress tagline is the default one.
 	 *
 	 * @covers WPSEO_Health_Check_Default_Tagline::run

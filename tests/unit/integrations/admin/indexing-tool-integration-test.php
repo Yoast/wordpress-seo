@@ -65,6 +65,9 @@ class Indexing_Tool_Integration_Test extends TestCase {
 	protected function set_up() {
 		parent::set_up();
 
+		$this->stubTranslationFunctions();
+		$this->stubEscapeFunctions();
+
 		$this->asset_manager     = Mockery::mock( WPSEO_Admin_Asset_Manager::class );
 		$this->indexable_helper  = Mockery::mock( Indexable_Helper::class );
 		$this->short_link_helper = Mockery::mock( Short_Link_Helper::class );

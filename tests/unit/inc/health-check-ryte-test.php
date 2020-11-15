@@ -291,6 +291,8 @@ class Health_Check_Ryte_Test extends TestCase {
 	 * @throws Monkey\Expectation\Exception\ExpectationArgsRequired
 	 */
 	private function ryte_enabled_and_blog_public() {
+		$this->stubTranslationFunctions();
+
 		Monkey\Functions\expect( 'get_option' )
 			->once()
 			->with( 'blog_public' )

@@ -49,6 +49,8 @@ class Creator_Presenter_Test extends TestCase {
 	 * @covers ::present
 	 */
 	public function test_present() {
+		$this->stubEscapeFunctions();
+
 		$this->presentation->twitter_creator = '@TwitterHandle';
 
 		$this->assertEquals(
