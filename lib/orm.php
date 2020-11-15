@@ -114,7 +114,7 @@ class ORM implements \ArrayAccess {
 	 *
 	 * @var bool
 	 */
-	protected $_distinct = false;
+	protected $distinct = false;
 
 	/**
 	 * Is this a raw query?
@@ -765,7 +765,7 @@ class ORM implements \ArrayAccess {
 	 * @return ORM
 	 */
 	public function distinct() {
-		$this->_distinct = true;
+		$this->distinct = true;
 
 		return $this;
 	}
@@ -1745,7 +1745,7 @@ class ORM implements \ArrayAccess {
 	protected function build_select_start() {
 		$fragment       = 'SELECT ';
 		$result_columns = \join( ', ', $this->result_columns );
-		if ( $this->_distinct ) {
+		if ( $this->distinct ) {
 			$result_columns = 'DISTINCT ' . $result_columns;
 		}
 		$fragment .= "{$result_columns} FROM " . $this->quote_identifier( $this->table_name );
