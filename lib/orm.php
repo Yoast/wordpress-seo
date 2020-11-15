@@ -163,14 +163,14 @@ class ORM implements \ArrayAccess {
 	 *
 	 * @var array
 	 */
-	protected $_order_by = [];
+	protected $order_by = [];
 
 	/**
 	 * GROUP BY.
 	 *
 	 * @var array
 	 */
-	protected $_group_by = [];
+	protected $group_by = [];
 
 	/**
 	 * HAVING.
@@ -1452,8 +1452,8 @@ class ORM implements \ArrayAccess {
 	 * @return ORM
 	 */
 	protected function add_order_by( $column_name, $ordering ) {
-		$column_name       = $this->quote_identifier( $column_name );
-		$this->_order_by[] = "{$column_name} {$ordering}";
+		$column_name      = $this->quote_identifier( $column_name );
+		$this->order_by[] = "{$column_name} {$ordering}";
 
 		return $this;
 	}
@@ -1488,7 +1488,7 @@ class ORM implements \ArrayAccess {
 	 * @return ORM
 	 */
 	public function order_by_expr( $clause ) {
-		$this->_order_by[] = $clause;
+		$this->order_by[] = $clause;
 
 		return $this;
 	}
@@ -1501,8 +1501,8 @@ class ORM implements \ArrayAccess {
 	 * @return ORM
 	 */
 	public function group_by( $column_name ) {
-		$column_name       = $this->quote_identifier( $column_name );
-		$this->_group_by[] = $column_name;
+		$column_name      = $this->quote_identifier( $column_name );
+		$this->group_by[] = $column_name;
 
 		return $this;
 	}
@@ -1515,7 +1515,7 @@ class ORM implements \ArrayAccess {
 	 * @return ORM
 	 */
 	public function group_by_expr( $expr ) {
-		$this->_group_by[] = $expr;
+		$this->group_by[] = $expr;
 
 		return $this;
 	}
@@ -1793,11 +1793,11 @@ class ORM implements \ArrayAccess {
 	 * @return string
 	 */
 	protected function build_group_by() {
-		if ( \count( $this->_group_by ) === 0 ) {
+		if ( \count( $this->group_by ) === 0 ) {
 			return '';
 		}
 
-		return 'GROUP BY ' . \join( ', ', $this->_group_by );
+		return 'GROUP BY ' . \join( ', ', $this->group_by );
 	}
 
 	/**
@@ -1826,11 +1826,11 @@ class ORM implements \ArrayAccess {
 	 * Builds ORDER BY.
 	 */
 	protected function build_order_by() {
-		if ( \count( $this->_order_by ) === 0 ) {
+		if ( \count( $this->order_by ) === 0 ) {
 			return '';
 		}
 
-		return 'ORDER BY ' . \join( ', ', $this->_order_by );
+		return 'ORDER BY ' . \join( ', ', $this->order_by );
 	}
 
 	/**
