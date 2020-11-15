@@ -149,7 +149,7 @@ class ORM implements \ArrayAccess {
 	 *
 	 * @var int
 	 */
-	protected $_limit = null;
+	protected $limit = null;
 
 	/**
 	 * OFFSET.
@@ -1425,7 +1425,7 @@ class ORM implements \ArrayAccess {
 	 * @return ORM
 	 */
 	public function limit( $limit ) {
-		$this->_limit = $limit;
+		$this->limit = $limit;
 
 		return $this;
 	}
@@ -1837,8 +1837,8 @@ class ORM implements \ArrayAccess {
 	 * Builds LIMIT.
 	 */
 	protected function build_limit() {
-		if ( ! \is_null( $this->_limit ) ) {
-			return "LIMIT {$this->_limit}";
+		if ( ! \is_null( $this->limit ) ) {
+			return "LIMIT {$this->limit}";
 		}
 
 		return '';
