@@ -43,7 +43,9 @@ class Title_Presenter_Test extends TestCase {
 	/**
 	 * Sets up the test class.
 	 */
-	public function setUp() {
+	protected function set_up() {
+		parent::set_up();
+
 		$this->instance               = new Title_Presenter();
 		$this->instance->presentation = new Indexable_Presentation();
 		$this->indexable_presentation = $this->instance->presentation;
@@ -51,8 +53,6 @@ class Title_Presenter_Test extends TestCase {
 
 		$this->instance->replace_vars         = $this->replace_vars;
 		$this->indexable_presentation->source = [];
-
-		return parent::setUp();
 	}
 
 	/**

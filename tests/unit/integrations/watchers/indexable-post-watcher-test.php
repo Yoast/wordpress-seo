@@ -89,7 +89,9 @@ class Indexable_Post_Watcher_Test extends TestCase {
 	/**
 	 * Initializes the test mocks.
 	 */
-	public function setUp() {
+	protected function set_up() {
+		parent::set_up();
+
 		$this->repository           = Mockery::mock( Indexable_Repository::class );
 		$this->builder              = Mockery::mock( Indexable_Builder::class );
 		$this->hierarchy_repository = Mockery::mock( Indexable_Hierarchy_Repository::class );
@@ -111,8 +113,6 @@ class Indexable_Post_Watcher_Test extends TestCase {
 		)
 			->makePartial()
 			->shouldAllowMockingProtectedMethods();
-
-		return parent::setUp();
 	}
 
 	/**

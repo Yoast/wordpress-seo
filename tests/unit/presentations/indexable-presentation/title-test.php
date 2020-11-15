@@ -18,10 +18,10 @@ class Title_Test extends TestCase {
 	/**
 	 * Does the setup for testing.
 	 */
-	public function setUp() {
-		$this->set_instance();
+	protected function set_up() {
+		parent::set_up();
 
-		return parent::setUp();
+		$this->set_instance();
 	}
 
 	/**

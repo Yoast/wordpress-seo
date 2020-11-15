@@ -34,13 +34,13 @@ class Site_Name_Presenter_Test extends TestCase {
 	/**
 	 * Sets up the test class.
 	 */
-	public function setUp() {
+	protected function set_up() {
+		parent::set_up();
+
 		$this->instance     = new Site_Name_Presenter();
 		$this->presentation = new Indexable_Presentation();
 
 		$this->instance->presentation = $this->presentation;
-
-		return parent::setUp();
 	}
 
 	/**

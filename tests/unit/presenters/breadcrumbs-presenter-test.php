@@ -43,7 +43,9 @@ class Breadcrumbs_Presenter_Test extends TestCase {
 	/**
 	 * Sets up the test class.
 	 */
-	public function setUp() {
+	protected function set_up() {
+		parent::set_up();
+
 		$this->options = Mockery::mock( Options_Helper::class );
 
 		$this->instance = Mockery::mock( Breadcrumbs_Presenter::class )
@@ -56,8 +58,6 @@ class Breadcrumbs_Presenter_Test extends TestCase {
 
 		$this->instance->presentation = new Indexable_Presentation();
 		$this->presentation           = $this->instance->presentation;
-
-		return parent::setUp();
 	}
 
 	/**

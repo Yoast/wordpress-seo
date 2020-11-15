@@ -78,7 +78,9 @@ class Indexable_Post_Builder_Test extends TestCase {
 	/**
 	 * Initializes the test mocks.
 	 */
-	public function setUp() {
+	protected function set_up() {
+		parent::set_up();
+
 		$this->indexable            = Mockery::mock();
 		$this->indexable_repository = Mockery::mock( Indexable_Repository::class );
 		$this->image                = Mockery::mock( Image_Helper::class );
@@ -96,8 +98,6 @@ class Indexable_Post_Builder_Test extends TestCase {
 			$this->open_graph_image,
 			$this->twitter_image
 		);
-
-		return parent::setUp();
 	}
 
 	/**
