@@ -49,7 +49,7 @@ class Schema_Blocks implements Integration_Interface {
 	 * @return void
 	 */
 	public function register_template( $template ) {
-		if ( substr( $template, 0, 1 ) !== '/' ) {
+		if ( \substr( $template, 0, 1 ) !== '/' ) {
 			$template = WPSEO_PATH . '/' . $template;
 		}
 
@@ -63,10 +63,10 @@ class Schema_Blocks implements Integration_Interface {
 	 */
 	public function load() {
 		foreach ( $this->templates as $template ) {
-			if ( ! file_exists( $template ) ) {
+			if ( ! \file_exists( $template ) ) {
 				continue;
 			}
-			$type = ( substr( $template, -10 ) === '.block.php' ) ? 'block' : 'schema';
+			$type = ( \substr( $template, -10 ) === '.block.php' ) ? 'block' : 'schema';
 			echo '<script type="text/' . \esc_html( $type ) . '-template">';
 			include $template;
 			echo '</script>';

@@ -347,7 +347,7 @@ class Indexable_Presentation extends Abstract_Presentation {
 	 * @return array The robots value with opt-in snippets.
 	 */
 	public function generate_googlebot() {
-		_deprecated_function( __METHOD__, 'WPSEO 14.9' );
+		\_deprecated_function( __METHOD__, 'WPSEO 14.9' );
 
 		return [];
 	}
@@ -361,7 +361,7 @@ class Indexable_Presentation extends Abstract_Presentation {
 	 * @return array The robots value with opt-in snippets.
 	 */
 	public function generate_bingbot() {
-		_deprecated_function( __METHOD__, 'WPSEO 14.9' );
+		\_deprecated_function( __METHOD__, 'WPSEO 14.9' );
 
 		return [];
 	}

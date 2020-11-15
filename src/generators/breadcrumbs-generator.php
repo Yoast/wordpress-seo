@@ -376,9 +376,9 @@ class Breadcrumbs_Generator implements Generator_Interface {
 		}
 
 		$crumbs[] = [
-			'text' => sprintf(
+			'text' => \sprintf(
 				/* translators: %s expands to the current page number */
-				__( 'Page %s', 'wordpress-seo' ),
+				\__( 'Page %s', 'wordpress-seo' ),
 				$current_page_number
 			),
 		];

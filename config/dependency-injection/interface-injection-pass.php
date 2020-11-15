@@ -64,7 +64,7 @@ class Interface_Injection_Pass implements CompilerPassInterface {
 			}
 		} catch ( \Exception $e ) {
 			// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_var_dump
-			var_dump( $e );
+			\var_dump( $e );
 		}
 	}
 
@@ -101,7 +101,7 @@ class Interface_Injection_Pass implements CompilerPassInterface {
 		// Get the constructor's last argument.
 		// We only care about the last constructor argument; the '...' splat operator is always last.
 		$constructor_arguments = $class_constructor->getParameters();
-		$splat_argument        = end( $constructor_arguments );
+		$splat_argument        = \end( $constructor_arguments );
 
 		// isVariadic means "is it a 'splat' argument".
 		if ( ! $splat_argument || ! $splat_argument->isVariadic() ) {
@@ -111,7 +111,7 @@ class Interface_Injection_Pass implements CompilerPassInterface {
 		$splat_argument_type = $splat_argument->getType();
 
 		// Analyse the type of the splat argument.
-		if ( ! is_a( $splat_argument_type, ReflectionNamedType::class ) ) {
+		if ( ! \is_a( $splat_argument_type, ReflectionNamedType::class ) ) {
 			// If the argument is not a class, we cannot inject it as a dependency.
 			return null;
 		}

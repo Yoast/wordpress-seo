@@ -157,7 +157,7 @@ class SEMrush_Client_Test extends TestCase {
 					'refresh_token' => '000001',
 					'expires'       => 604800,
 					'has_expired'   => true,
-					'created_at'    => time(),
+					'created_at'    => \time(),
 				]
 			)
 			->andReturns( $this->token );
@@ -216,7 +216,7 @@ class SEMrush_Client_Test extends TestCase {
 				'refresh_token' => '000001',
 				'expires'       => 604800,
 				'has_expired'   => true,
-				'created_at'    => time(),
+				'created_at'    => \time(),
 			]
 		);
 
@@ -229,7 +229,7 @@ class SEMrush_Client_Test extends TestCase {
 					'refresh_token' => '000001',
 					'expires'       => 604800,
 					'has_expired'   => true,
-					'created_at'    => time(),
+					'created_at'    => \time(),
 				]
 			)
 			->once()

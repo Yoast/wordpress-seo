@@ -63,7 +63,7 @@ class WPSEO_Tracking_Test extends TestCase {
 
 		$this->assertAttributeEquals( ( WEEK_IN_SECONDS * 2 ), 'threshold', $instance );
 		$this->assertAttributeEquals( 'https://tracking.yoast.com/stats', 'endpoint', $instance );
-		$this->assertAttributeEquals( time(), 'current_time', $instance );
+		$this->assertAttributeEquals( \time(), 'current_time', $instance );
 
 		WPSEO_Options::clear_cache();
 	}

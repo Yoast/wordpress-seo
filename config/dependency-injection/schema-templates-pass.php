@@ -19,9 +19,9 @@ class Schema_Templates_Pass implements CompilerPassInterface {
 	public function process( ContainerBuilder $container ) {
 		$schema_blocks_definition = $container->getDefinition( Schema_Blocks::class );
 
-		foreach ( glob( __DIR__ . '/../../src/schema-templates/*.php' ) as $template ) {
-			$template = str_replace( __DIR__, '', $template );
-			$template = substr( $template, 7 );
+		foreach ( \glob( __DIR__ . '/../../src/schema-templates/*.php' ) as $template ) {
+			$template = \str_replace( __DIR__, '', $template );
+			$template = \substr( $template, 7 );
 			$schema_blocks_definition->addMethodCall( 'register_template', [ $template ] );
 		}
 	}

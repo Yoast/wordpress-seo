@@ -205,7 +205,7 @@ class SEMrush_Route implements Route_Interface {
 	 * @return boolean Whether or not the keyphrase is valid.
 	 */
 	public function has_valid_keyphrase( $keyphrase ) {
-		return trim( $keyphrase ) !== '';
+		return \trim( $keyphrase ) !== '';
 	}
 
 	/**
@@ -234,7 +234,7 @@ class SEMrush_Route implements Route_Interface {
 	 * @return bool Whether or not the country code is valid.
 	 */
 	public function has_valid_country_code( $country_code ) {
-		return ( $country_code !== '' && preg_match( '/^[a-z]{2}$/', $country_code ) === 1 );
+		return ( $country_code !== '' && \preg_match( '/^[a-z]{2}$/', $country_code ) === 1 );
 	}
 
 	/**

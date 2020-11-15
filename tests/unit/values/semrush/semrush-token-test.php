@@ -29,7 +29,7 @@ class SEMrush_Token_Test extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->created_at = time();
+		$this->created_at = \time();
 	}
 
 	/**

@@ -109,9 +109,9 @@ class Link_Count_Columns_Integration implements Integration_Interface {
 	 * Register hooks that need to be registered after `init` due to all post types not yet being registered.
 	 */
 	public function register_init_hooks() {
-		$public_post_types = apply_filters( 'wpseo_link_count_post_types', $this->post_type_helper->get_accessible_post_types() );
+		$public_post_types = \apply_filters( 'wpseo_link_count_post_types', $this->post_type_helper->get_accessible_post_types() );
 
-		if ( ! is_array( $public_post_types ) || empty( $public_post_types ) ) {
+		if ( ! \is_array( $public_post_types ) || empty( $public_post_types ) ) {
 			return;
 		}
 
@@ -130,21 +130,21 @@ class Link_Count_Columns_Integration implements Integration_Interface {
 	 * @return array The extended array with columns.
 	 */
 	public function add_post_columns( $columns ) {
-		if ( ! is_array( $columns ) ) {
+		if ( ! \is_array( $columns ) ) {
 			return $columns;
 		}
 
-		$columns[ 'wpseo-' . self::COLUMN_LINKS ] = sprintf(
+		$columns[ 'wpseo-' . self::COLUMN_LINKS ] = \sprintf(
 			'<span class="yoast-linked-to yoast-column-header-has-tooltip" data-tooltip-text="%1$s"><span class="screen-reader-text">%2$s</span></span>',
-			esc_attr__( 'Number of outgoing internal links in this post. See "Yoast Columns" text in the help tab for more info.', 'wordpress-seo' ),
-			esc_html__( 'Outgoing internal links', 'wordpress-seo' )
+			\esc_attr__( 'Number of outgoing internal links in this post. See "Yoast Columns" text in the help tab for more info.', 'wordpress-seo' ),
+			\esc_html__( 'Outgoing internal links', 'wordpress-seo' )
 		);
 
 		if ( $this->post_link_indexing_action->get_total_unindexed() === 0 ) {
-			$columns[ 'wpseo-' . self::COLUMN_LINKED ] = sprintf(
+			$columns[ 'wpseo-' . self::COLUMN_LINKED ] = \sprintf(
 				'<span class="yoast-linked-from yoast-column-header-has-tooltip" data-tooltip-text="%1$s"><span class="screen-reader-text">%2$s</span></span>',
-				esc_attr__( 'Number of internal links linking to this post. See "Yoast Columns" text in the help tab for more info.', 'wordpress-seo' ),
-				esc_html__( 'Received internal links', 'wordpress-seo' )
+				\esc_attr__( 'Number of internal links linking to this post. See "Yoast Columns" text in the help tab for more info.', 'wordpress-seo' ),
+				\esc_html__( 'Received internal links', 'wordpress-seo' )
 			);
 		}
 
@@ -199,10 +199,10 @@ class Link_Count_Columns_Integration implements Integration_Interface {
 		}
 
 		// Get the order query variable - ASC or DESC.
-		$order = strtoupper( $query->get( 'order' ) );
+		$order = \strtoupper( $query->get( 'order' ) );
 
 		// Make sure the order setting qualifies. If not, set default as ASC.
-		if ( ! in_array( $order, [ 'ASC', 'DESC' ], true ) ) {
+		if ( ! \in_array( $order, [ 'ASC', 'DESC' ], true ) ) {
 			$order = 'ASC';
 		}
 
@@ -232,7 +232,7 @@ class Link_Count_Columns_Integration implements Integration_Interface {
 				echo (int) $indexable->link_count;
 				return;
 			case 'wpseo-' . self::COLUMN_LINKED:
-				if ( get_post_status( $post_id ) === 'publish' ) {
+				if ( \get_post_status( $post_id ) === 'publish' ) {
 					echo (int) $indexable->incoming_link_count;
 				}
 		}

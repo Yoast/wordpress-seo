@@ -84,10 +84,10 @@ class Admin_Columns_Cache_Integration implements Integration_Interface {
 		$post_ids = [];
 
 		// Post lists return a list of objects.
-		if ( isset( $posts[0] ) && is_a( $posts[0], 'WP_Post' ) ) {
+		if ( isset( $posts[0] ) && \is_a( $posts[0], 'WP_Post' ) ) {
 			$post_ids = \wp_list_pluck( $posts, 'ID' );
 		}
-		elseif ( isset( $posts[0] ) && is_object( $posts[0] ) ) {
+		elseif ( isset( $posts[0] ) && \is_object( $posts[0] ) ) {
 			$post_ids = $this->get_current_page_page_ids( $posts );
 		}
 		elseif ( ! empty( $posts ) ) {
@@ -136,8 +136,8 @@ class Admin_Columns_Cache_Integration implements Integration_Interface {
 	 */
 	private function get_current_page_page_ids( $pages ) {
 		global $per_page;
-		$pagenum = isset( $_REQUEST['paged'] ) ? absint( $_REQUEST['paged'] ) : 0;
-		$pagenum = max( 1, $pagenum );
+		$pagenum = isset( $_REQUEST['paged'] ) ? \absint( $_REQUEST['paged'] ) : 0;
+		$pagenum = \max( 1, $pagenum );
 
 		/*
 		 * Arrange pages into two parts: top level pages and children_pages
@@ -240,7 +240,7 @@ class Admin_Columns_Cache_Integration implements Integration_Interface {
 				while ( $my_parent ) {
 					// Get the ID from the list or the attribute if my_parent is an object.
 					$parent_id = $my_parent;
-					if ( is_object( $my_parent ) ) {
+					if ( \is_object( $my_parent ) ) {
 						$parent_id = $my_parent->ID;
 					}
 
@@ -251,7 +251,7 @@ class Admin_Columns_Cache_Integration implements Integration_Interface {
 					}
 					$my_parent = $my_parent->post_parent;
 				}
-				while ( $my_parent = array_pop( $my_parents ) ) {
+				while ( $my_parent = \array_pop( $my_parents ) ) {
 					$to_display[] = $my_parent->ID;
 				}
 			}

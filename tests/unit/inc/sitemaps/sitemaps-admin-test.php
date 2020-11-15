@@ -113,7 +113,7 @@ class WPSEO_Sitemaps_Admin_Test extends TestCase {
 
 		Monkey\Functions\expect( 'wp_schedule_single_event' )
 			->once()
-			->with( ( time() + 300 ), 'wpseo_ping_search_engines' );
+			->with( ( \time() + 300 ), 'wpseo_ping_search_engines' );
 
 		$this->instance->status_transition( 'publish', 'draft', $this->mock_post );
 	}
