@@ -12,7 +12,7 @@ use Yoast\WP\SEO\Helpers\Open_Graph\Image_Helper as OG_Image_Helper;
 use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
 use Yoast\WP\SEO\Helpers\Twitter\Image_Helper as Twitter_Image_Helper;
 use Yoast\WP\SEO\Models\Indexable;
-use Yoast\WP\SEO\Tests\Unit\Doubles\Indexable_Term_Builder_Double;
+use Yoast\WP\SEO\Tests\Unit\Doubles\Builders\Indexable_Term_Builder_Double;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
