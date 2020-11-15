@@ -2,7 +2,6 @@
 
 namespace Yoast\WP\SEO\Helpers;
 
-use WPSEO_Utils;
 use Yoast\WP\SEO\Models\SEO_Links;
 
 /**

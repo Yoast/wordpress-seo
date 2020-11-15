@@ -2,7 +2,6 @@
 
 namespace Yoast\WP\SEO\Presenters\Admin;
 
-use WPSEO_Shortlinker;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Presenters\Abstract_Presenter;
 

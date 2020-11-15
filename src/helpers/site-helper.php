@@ -2,8 +2,6 @@
 
 namespace Yoast\WP\SEO\Helpers;
 
-use WPSEO_Utils;
-
 /**
  * A helper object for site options.
  */

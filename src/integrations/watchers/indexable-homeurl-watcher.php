@@ -3,7 +3,6 @@
 namespace Yoast\WP\SEO\Integrations\Watchers;
 
 use WP_CLI;
-use WP_CLI\Utils;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
 use Yoast\WP\SEO\Config\Indexing_Reasons;
 use Yoast\WP\SEO\Helpers\Indexable_Helper;
