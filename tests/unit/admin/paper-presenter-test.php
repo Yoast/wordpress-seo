@@ -20,7 +20,7 @@ class Paper_Presenter_Test extends TestCase {
 	 * @covers WPSEO_Paper_Presenter::collapsible_config
 	 */
 	public function test_get_paper_presenter_output_without_view_file() {
-		Monkey\Functions\stubs( [ 'esc_attr_e' ] );
+		$this->stubTranslationFunctions();
 
 		$paper_presenter = new WPSEO_Paper_Presenter( 'paper', null, [ 'content' => 'This is some content' ] );
 		$output          = $paper_presenter->get_output();

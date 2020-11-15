@@ -26,7 +26,7 @@ class Metabox_Collapsibles_Section_Test extends TestCase {
 	 * @covers WPSEO_Metabox_Collapsible::link
 	 */
 	public function test_display_content_with_collapsible() {
-		Monkey\Functions\stubs( [ 'esc_attr_e' ] );
+		$this->stubTranslationFunctions();
 
 		$collapsibles = [];
 
