@@ -2,6 +2,8 @@
 
 namespace Yoast\WP\SEO\Dependency_Injection;
 
+use ReflectionClass;
+use ReflectionException;
 use ReflectionNamedType;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -73,7 +75,7 @@ class Interface_Injection_Pass implements CompilerPassInterface {
 	 *
 	 * @return Constructor_Details|null
 	 *
-	 * @throws \ReflectionException If the reflection class couldn't be found.
+	 * @throws ReflectionException If the reflection class couldn't be found.
 	 *
 	 * @example If we had a class Fruit_Basket with this constructor:
 	 * __construct(Fruit ...$all_our_fruit), then this method would find it.
@@ -86,7 +88,7 @@ class Interface_Injection_Pass implements CompilerPassInterface {
 		}
 
 		// Apply reflection to the class definition, to retrieve the constructor.
-		$class_reflection_info = new \ReflectionClass( $definition_class );
+		$class_reflection_info = new ReflectionClass( $definition_class );
 		$class_constructor     = $class_reflection_info->getConstructor();
 		if ( ! $class_constructor ) {
 			/*

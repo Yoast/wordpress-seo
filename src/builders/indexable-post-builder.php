@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Builders;
 
+use WP_Error;
 use WPSEO_Meta;
 use Yoast\WP\SEO\Helpers\Post_Helper;
 use Yoast\WP\SEO\Models\Indexable;
@@ -125,7 +126,7 @@ class Indexable_Post_Builder {
 	 * @param string  $post_type The post type.
 	 * @param integer $post_id   The post ID.
 	 *
-	 * @return false|string|\WP_Error The permalink.
+	 * @return false|string|WP_Error The permalink.
 	 */
 	protected function get_permalink( $post_type, $post_id ) {
 		if ( $post_type !== 'attachment' ) {

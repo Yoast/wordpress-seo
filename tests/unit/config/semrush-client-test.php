@@ -3,6 +3,8 @@
 namespace Yoast\WP\SEO\Config;
 
 use Mockery;
+use Mockery\LegacyMockInterface;
+use Mockery\MockInterface;
 use YoastSEO_Vendor\League\OAuth2\Client\Provider\Exception\IdentityProviderException;
 use YoastSEO_Vendor\League\OAuth2\Client\Provider\GenericProvider;
 use YoastSEO_Vendor\League\OAuth2\Client\Token\AccessTokenInterface;
@@ -24,28 +26,28 @@ class SEMrush_Client_Test extends TestCase {
 	/**
 	 * The response object.
 	 *
-	 * @var AccessTokenInterface|\Mockery\LegacyMockInterface|\Mockery\MockInterface
+	 * @var AccessTokenInterface|LegacyMockInterface|MockInterface
 	 */
 	protected $response;
 
 	/**
 	 * The token object.
 	 *
-	 * @var \Mockery\LegacyMockInterface|\Mockery\MockInterface|SEMrush_Token
+	 * @var LegacyMockInterface|MockInterface|SEMrush_Token
 	 */
 	protected $token;
 
 	/**
 	 * The OAuth provider.
 	 *
-	 * @var GenericProvider|\Mockery\LegacyMockInterface|\Mockery\MockInterface
+	 * @var GenericProvider|LegacyMockInterface|MockInterface
 	 */
 	protected $provider;
 
 	/**
 	 * The optins helper.
 	 *
-	 * @var \Mockery\LegacyMockInterface|\Mockery\MockInterface|Options_Helper
+	 * @var LegacyMockInterface|MockInterface|Options_Helper
 	 */
 	protected $options_helper;
 

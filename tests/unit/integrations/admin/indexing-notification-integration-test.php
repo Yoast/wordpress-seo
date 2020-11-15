@@ -89,7 +89,7 @@ class Indexing_Notification_Integration_Test extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->notification_center = Mockery::mock( \Yoast_Notification_Center::class );
+		$this->notification_center = Mockery::mock( Yoast_Notification_Center::class );
 		$this->product_helper      = Mockery::mock( Product_Helper::class );
 		$this->page_helper         = Mockery::mock( Current_Page_Helper::class );
 		$this->short_link_helper   = Mockery::mock( Short_Link_Helper::class );
