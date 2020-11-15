@@ -3,6 +3,7 @@
 namespace Yoast\WP\SEO\Tests\Unit\Values\SEMrush;
 
 use Mockery;
+use Yoast\WP\SEO\Exceptions\SEMrush\Tokens\Empty_Property_Exception;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 use Yoast\WP\SEO\Values\SEMrush\SEMrush_Token;
 use YoastSEO_Vendor\League\OAuth2\Client\Token\AccessTokenInterface;
@@ -48,9 +49,10 @@ class SEMrush_Token_Test extends TestCase {
 	 * Test creating a new instance with an empty property.
 	 *
 	 * @covers ::__construct
-	 * @expectedException Yoast\WP\SEO\Exceptions\SEMrush\Tokens\Empty_Property_Exception
 	 */
 	public function test_creating_new_instance_empty_property() {
+		$this->expectException( Empty_Property_Exception::class );
+
 		$instance = new SEMrush_Token( '', '000001', 604800, true, $this->created_at );
 	}
 

@@ -5,6 +5,8 @@ namespace Yoast\WP\SEO\Tests\Unit\Config;
 use Mockery;
 use Mockery\LegacyMockInterface;
 use Mockery\MockInterface;
+use Yoast\WP\SEO\Exceptions\OAuth\Authentication_Failed_Exception;
+use Yoast\WP\SEO\Exceptions\SEMrush\Tokens\Failed_Storage_Exception;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Config\SEMrush_Client_Double;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
@@ -176,10 +178,10 @@ class SEMrush_Client_Test extends TestCase {
 	 * Tests the scenario where no code is passed along to the OAuth client.
 	 *
 	 * @covers ::request_tokens
-	 *
-	 * @expectedException Yoast\WP\SEO\Exceptions\OAuth\Authentication_Failed_Exception
 	 */
 	public function test_invalid_request_tokens_when_no_code_is_set() {
+		$this->expectException( Authentication_Failed_Exception::class );
+
 		$this->provider
 			->expects( 'getAccessToken' )
 			->once()
@@ -205,10 +207,9 @@ class SEMrush_Client_Test extends TestCase {
 	 * Tests the scenario where the token storing fails.
 	 *
 	 * @covers ::store_token
-	 *
-	 * @expectedException Yoast\WP\SEO\Exceptions\SEMrush\Tokens\Failed_Storage_Exception
 	 */
 	public function test_storing_token_failure() {
+		$this->expectException( Failed_Storage_Exception::class );
 
 		$this->token->expects( 'to_array' )->once()->andReturns(
 			[

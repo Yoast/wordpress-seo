@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Database;
 
+use Exception;
 use Mockery;
 use wpdb;
 use Yoast\WP\Lib\Migrations\Adapter;
@@ -146,11 +147,11 @@ class Migration_Runner_Test extends TestCase {
 	 * Tests the initializing when everything goes wrong.
 	 *
 	 * @covers ::run_migrations
-	 *
-	 * @expectedException \Exception
-	 * @expectedExceptionMessage Migration error
 	 */
 	public function test_migration_error() {
+		$this->expectException( Exception::class );
+		$this->expectExceptionMessage( 'Migration error' );
+
 		$status_mock  = Mockery::mock( Migration_Status::class );
 		$loader_mock  = Mockery::mock( Loader::class );
 		$adapter_mock = Mockery::mock( Adapter::class );
