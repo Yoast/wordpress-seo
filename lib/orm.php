@@ -93,7 +93,7 @@ class ORM implements \ArrayAccess {
 	 *
 	 * @var array
 	 */
-	protected $_result_columns = [ '*' ];
+	protected $result_columns = [ '*' ];
 
 	/**
 	 * Are we using the default result column or have these been manually changed?
@@ -525,12 +525,12 @@ class ORM implements \ArrayAccess {
 		if ( $column !== '*' ) {
 			$column = $this->quote_identifier( $column );
 		}
-		$result_columns        = $this->_result_columns;
-		$this->_result_columns = [];
+		$result_columns       = $this->result_columns;
+		$this->result_columns = [];
 		$this->select_expr( "{$sql_function}({$column})", $alias );
-		$result                = $this->find_one();
-		$this->_result_columns = $result_columns;
-		$return_value          = 0;
+		$result               = $this->find_one();
+		$this->result_columns = $result_columns;
+		$return_value         = 0;
 		if ( $result !== false && isset( $result->{$alias} ) ) {
 			if ( ! \is_numeric( $result->{$alias} ) ) {
 				$return_value = $result->{$alias};
@@ -617,11 +617,11 @@ class ORM implements \ArrayAccess {
 			$expr .= ' AS ' . $this->quote_identifier( $alias );
 		}
 		if ( $this->_using_default_result_columns ) {
-			$this->_result_columns               = [ $expr ];
+			$this->result_columns                = [ $expr ];
 			$this->_using_default_result_columns = false;
 		}
 		else {
-			$this->_result_columns[] = $expr;
+			$this->result_columns[] = $expr;
 		}
 
 		return $this;
@@ -1744,7 +1744,7 @@ class ORM implements \ArrayAccess {
 	 */
 	protected function build_select_start() {
 		$fragment       = 'SELECT ';
-		$result_columns = \join( ', ', $this->_result_columns );
+		$result_columns = \join( ', ', $this->result_columns );
 		if ( $this->_distinct ) {
 			$result_columns = 'DISTINCT ' . $result_columns;
 		}
@@ -1967,7 +1967,7 @@ class ORM implements \ArrayAccess {
 	 */
 	private function reset_idiorm_state() {
 		$this->values                        = [];
-		$this->_result_columns               = [ '*' ];
+		$this->result_columns                = [ '*' ];
 		$this->_using_default_result_columns = true;
 	}
 
