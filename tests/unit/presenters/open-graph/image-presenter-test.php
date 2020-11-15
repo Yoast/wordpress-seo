@@ -36,8 +36,8 @@ class Image_Presenter_Test extends TestCase {
 	/**
 	 * Setup some mocks.
 	 */
-	public function setUp() {
-		parent::setUp();
+	protected function set_up() {
+		parent::set_up();
 
 		$this->instance     = Mockery::mock( Image_Presenter::class )->makePartial();
 		$this->presentation = new Indexable_Presentation();

@@ -52,8 +52,8 @@ class Primary_Term_Builder_Test extends TestCase {
 	/**
 	 * Sets up the test class.
 	 */
-	public function setUp() {
-		parent::setUp();
+	protected function set_up() {
+		parent::set_up();
 
 		$this->repository   = Mockery::mock( Primary_Term_Repository::class );
 		$this->primary_term = Mockery::mock( Primary_Term_Helper::class );

@@ -45,8 +45,8 @@ class Force_Rewrite_Title_Test extends TestCase {
 	/**
 	 * Sets an instance for test purposes.
 	 */
-	public function setUp() {
-		parent::setUp();
+	protected function set_up() {
+		parent::set_up();
 
 		$this->options  = Mockery::mock( Options_Helper::class );
 		$this->wp_query = Mockery::mock( WP_Query_Wrapper::class );

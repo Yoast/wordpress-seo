@@ -84,8 +84,8 @@ class Schema_Generator_Test extends TestCase {
 	/**
 	 * Sets up the test.
 	 */
-	public function setUp() {
-		parent::setUp();
+	protected function set_up() {
+		parent::set_up();
 
 		$this->id           = Mockery::mock( ID_Helper::class );
 		$this->current_page = Mockery::mock( Current_Page_Helper::class );

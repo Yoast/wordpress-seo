@@ -45,8 +45,8 @@ class Breadcrumbs_Integration_Test extends TestCase {
 	/**
 	 * Set up the class which will be tested.
 	 */
-	public function setUp() {
-		parent::setUp();
+	protected function set_up() {
+		parent::set_up();
 
 		$this->context_memoizer = Mockery::mock( Meta_Tags_Context_Memoizer::class );
 		$this->instance         = new Breadcrumbs_Integration(

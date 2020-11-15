@@ -33,8 +33,8 @@ class Robots_Presenter_Test extends TestCase {
 	/**
 	 * Sets up the test class.
 	 */
-	public function setUp() {
-		parent::setUp();
+	protected function set_up() {
+		parent::set_up();
 
 		$this->presentation = new Indexable_Presentation();
 		$this->instance     = Mockery::mock( Robots_Presenter::class )

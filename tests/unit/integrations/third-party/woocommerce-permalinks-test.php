@@ -38,8 +38,8 @@ class WooCommerce_Permalinks_Test extends TestCase {
 	/**
 	 * Sets an instance for test purposes.
 	 */
-	public function setUp() {
-		parent::setUp();
+	protected function set_up() {
+		parent::set_up();
 
 		$this->indexable_helper = Mockery::mock( Indexable_Helper::class );
 		$this->instance         = new Woocommerce_Permalinks( $this->indexable_helper );

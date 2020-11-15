@@ -36,8 +36,8 @@ class Enhanced_Data_Presenter_Test extends TestCase {
 	/**
 	 * Setup of the tests.
 	 */
-	public function setUp() {
-		parent::setUp();
+	protected function set_up() {
+		parent::set_up();
 
 		$this->instance                       = new Enhanced_Data_Presenter();
 		$this->instance->presentation         = Mockery::mock( Indexable_Presentation::class );

@@ -64,8 +64,8 @@ class Indexable_Link_Builder_Test extends TestCase {
 	/**
 	 * Sets up the tests.
 	 */
-	public function setUp() {
-		parent::setUp();
+	protected function set_up() {
+		parent::set_up();
 
 		$this->seo_links_repository = Mockery::mock( SEO_Links_Repository::class );
 		$this->url_helper           = Mockery::mock( Url_Helper::class );

@@ -28,8 +28,8 @@ class Indexable_Test extends TestCase {
 	/**
 	 * Sets up the class which will be tested.
 	 */
-	public function setUp() {
-		parent::setUp();
+	protected function set_up() {
+		parent::set_up();
 
 		$this->instance      = new Indexable_Double();
 		$this->instance->orm = Mockery::mock( ORM::class );

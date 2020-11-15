@@ -52,8 +52,9 @@ class WPML_WPSEO_Notification_Test extends TestCase {
 	/**
 	 * Sets up the class under test and mock objects.
 	 */
-	public function setUp() {
-		parent::setUp();
+	public function set_up() {
+		parent::set_up();
+
 		$this->short_link_helper      = Mockery::mock( Short_Link_Helper::class );
 		$this->notification_center    = Mockery::mock( Yoast_Notification_Center::class );
 		$this->wpml_wpseo_conditional = Mockery::mock( WPML_WPSEO_Conditional::class );

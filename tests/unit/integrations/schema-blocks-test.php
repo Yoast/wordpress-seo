@@ -36,8 +36,8 @@ class Schema_Blocks_Test extends TestCase {
 	/**
 	 * Runs the setup to prepare the needed instance.
 	 */
-	public function setUp() {
-		parent::setUp();
+	public function set_up() {
+		parent::set_up();
 
 		$this->asset_manager = Mockery::mock( WPSEO_Admin_Asset_Manager::class );
 		$this->instance      = new Schema_Blocks( $this->asset_manager );

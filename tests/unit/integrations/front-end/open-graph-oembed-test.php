@@ -37,8 +37,8 @@ class Open_Graph_OEmbed_Test extends TestCase {
 	/**
 	 * Sets an instance for test purposes.
 	 */
-	public function setUp() {
-		parent::setUp();
+	protected function set_up() {
+		parent::set_up();
 
 		$this->meta = Mockery::mock( Meta_Surface::class )
 			->makePartial()

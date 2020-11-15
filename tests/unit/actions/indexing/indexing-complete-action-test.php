@@ -34,8 +34,8 @@ class Indexing_Complete_Action_Test extends TestCase {
 	/**
 	 * Runs the setup.
 	 */
-	public function setUp() {
-		parent::setUp();
+	protected function set_up() {
+		parent::set_up();
 
 		$this->indexing = Mockery::mock( Indexing_Helper::class );
 		$this->instance = new Indexing_Complete_Action( $this->indexing );

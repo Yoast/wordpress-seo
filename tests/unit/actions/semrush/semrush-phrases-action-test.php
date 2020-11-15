@@ -34,8 +34,8 @@ class SEMrush_Phrases_Action_Test extends TestCase {
 	/**
 	 * Set up the test fixtures.
 	 */
-	public function setUp() {
-		parent::setUp();
+	protected function set_up() {
+		parent::set_up();
 
 		$this->client_instance = Mockery::mock( SEMrush_Client::class );
 		$this->instance        = new SEMrush_Phrases_Action( $this->client_instance );

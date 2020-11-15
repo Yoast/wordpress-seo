@@ -24,8 +24,8 @@ class Health_Check_Curl_Version_Test extends TestCase {
 	/**
 	 * Set up the class which will be tested.
 	 */
-	public function setUp() {
-		parent::setUp();
+	protected function set_up() {
+		parent::set_up();
 
 		$this->instance = Mockery::mock( WPSEO_Health_Check_Curl_Version::class )
 			->shouldAllowMockingProtectedMethods()

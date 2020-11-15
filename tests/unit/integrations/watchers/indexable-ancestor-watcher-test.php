@@ -77,8 +77,8 @@ class Indexable_Ancestor_Watcher_Test extends TestCase {
 	/**
 	 * Sets up the tests.
 	 */
-	public function setUp() {
-		parent::setUp();
+	protected function set_up() {
+		parent::set_up();
 
 		$this->indexable_repository           = Mockery::mock( Indexable_Repository::class );
 		$this->indexable_hierarchy_builder    = Mockery::mock( Indexable_Hierarchy_Builder::class );

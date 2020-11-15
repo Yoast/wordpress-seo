@@ -19,8 +19,8 @@ class WPSEO_Tracking_Test extends TestCase {
 	 *
 	 * @return void
 	 */
-	public function setUp() {
-		parent::setUp();
+	protected function set_up() {
+		parent::set_up();
 	}
 
 	/**

@@ -30,8 +30,8 @@ class Health_Check_Ryte_Test extends TestCase {
 	/**
 	 * Set up the mock classes.
 	 */
-	public function setUp() {
-		parent::setUp();
+	protected function set_up() {
+		parent::set_up();
 
 		$this->ryte_option = Mockery::mock( WPSEO_Ryte_Option::class )
 			->shouldAllowMockingProtectedMethods()

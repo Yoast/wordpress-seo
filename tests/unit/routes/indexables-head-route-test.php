@@ -36,8 +36,8 @@ class Indexables_Head_Route_Test extends TestCase {
 	/**
 	 * @inheritDoc
 	 */
-	public function setUp() {
-		parent::setUp();
+	protected function set_up() {
+		parent::set_up();
 
 		$this->head_action = Mockery::mock( Indexable_Head_Action::class );
 		$this->instance    = new Indexables_Head_Route( $this->head_action );

@@ -43,8 +43,8 @@ class Indexing_Prepare_Action_Test extends TestCase {
 	/**
 	 * Set up the tests.
 	 */
-	public function setUp() {
-		parent::setUp();
+	protected function set_up() {
+		parent::set_up();
 		$this->indexing            = Mockery::mock( Indexing_Helper::class );
 		$this->notification_center = Mockery::mock( Yoast_Notification_Center::class );
 

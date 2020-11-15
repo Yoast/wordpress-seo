@@ -76,8 +76,8 @@ class Indexable_Repository_Test extends TestCase {
 	/**
 	 * @inheritDoc
 	 */
-	public function setUp() {
-		parent::setUp();
+	protected function set_up() {
+		parent::set_up();
 
 		$this->builder              = Mockery::mock( Indexable_Builder::class );
 		$this->current_page         = Mockery::mock( Current_Page_Helper::class );

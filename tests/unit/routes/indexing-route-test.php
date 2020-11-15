@@ -116,8 +116,8 @@ class Indexing_Route_Test extends TestCase {
 	/**
 	 * Sets up the tests.
 	 */
-	public function setUp() {
-		parent::setUp();
+	protected function set_up() {
+		parent::set_up();
 
 		$this->post_indexation_action              = Mockery::mock( Indexable_Post_Indexation_Action::class );
 		$this->term_indexation_action              = Mockery::mock( Indexable_Term_Indexation_Action::class );

@@ -86,8 +86,8 @@ class Indexing_Notification_Integration_Test extends TestCase {
 	/**
 	 * Sets up the tests.
 	 */
-	public function setUp() {
-		parent::setUp();
+	protected function set_up() {
+		parent::set_up();
 
 		$this->notification_center = Mockery::mock( Yoast_Notification_Center::class );
 		$this->product_helper      = Mockery::mock( Product_Helper::class );

@@ -51,8 +51,8 @@ class Title_Presenter_Test extends TestCase {
 	/**
 	 * Sets up the test class.
 	 */
-	public function setUp() {
-		parent::setUp();
+	protected function set_up() {
+		parent::set_up();
 
 		$this->replace_vars = Mockery::mock( WPSEO_Replace_Vars::class );
 		$this->string       = Mockery::mock( String_Helper::class );

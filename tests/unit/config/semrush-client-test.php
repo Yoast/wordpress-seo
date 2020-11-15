@@ -61,8 +61,8 @@ class SEMrush_Client_Test extends TestCase {
 	/**
 	 * Set up the test fixtures.
 	 */
-	public function setUp() {
-		parent::setUp();
+	protected function set_up() {
+		parent::set_up();
 
 		$this->response       = Mockery::mock( AccessTokenInterface::class );
 		$this->token          = Mockery::mock( SEMrush_Token::class );

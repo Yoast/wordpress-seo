@@ -60,8 +60,8 @@ class Indexable_Helper_Test extends TestCase {
 	/**
 	 * Sets up the class under test and mock objects.
 	 */
-	public function setUp() {
-		parent::setUp();
+	protected function set_up() {
+		parent::set_up();
 
 		$this->options            = Mockery::mock( Options_Helper::class );
 		$this->repository         = Mockery::mock( Indexable_Repository::class );

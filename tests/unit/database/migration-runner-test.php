@@ -24,8 +24,8 @@ class Migration_Runner_Test extends TestCase {
 	/**
 	 * Setup the tests.
 	 */
-	public function setUp() {
-		parent::setUp();
+	protected function set_up() {
+		parent::set_up();
 
 		global $wpdb;
 		$wpdb = $this->get_wpdb_mock();

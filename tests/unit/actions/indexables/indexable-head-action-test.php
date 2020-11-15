@@ -34,8 +34,8 @@ class Indexable_Head_Action_Test extends TestCase {
 	/**
 	 * Sets up the test class.
 	 */
-	public function setUp() {
-		parent::setUp();
+	protected function set_up() {
+		parent::set_up();
 
 		$this->meta_surface = Mockery::mock( Meta_Surface::class );
 		$this->instance     = new Indexable_Head_Action( $this->meta_surface );

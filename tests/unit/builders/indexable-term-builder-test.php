@@ -71,8 +71,8 @@ class Indexable_Term_Builder_Test extends TestCase {
 	/**
 	 * Sets up the tests.
 	 */
-	public function setUp() {
-		parent::setUp();
+	protected function set_up() {
+		parent::set_up();
 
 		$this->taxonomy = Mockery::mock( Taxonomy_Helper::class );
 

@@ -60,8 +60,8 @@ class Main_Image_Test extends TestCase {
 	/**
 	 * Setup the test.
 	 */
-	public function setUp() {
-		parent::setUp();
+	protected function set_up() {
+		parent::set_up();
 
 		$this->schema_image = Mockery::mock( Schema\Image_Helper::class );
 		$this->image        = Mockery::mock( Image_Helper::class );

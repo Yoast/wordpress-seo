@@ -37,8 +37,8 @@ class Cron_Integration_Test extends TestCase {
 	/**
 	 * Set up the fixtures for the tests.
 	 */
-	public function setUp() {
-		parent::setUp();
+	protected function set_up() {
+		parent::set_up();
 
 		$this->date_helper = Mockery::mock( Date_Helper::class );
 		$this->instance    = new Cron_Integration( $this->date_helper );

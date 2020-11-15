@@ -37,8 +37,8 @@ class Indexable_Hierarchy_Repository_Test extends TestCase {
 	/**
 	 * @inheritDoc
 	 */
-	public function setUp() {
-		parent::setUp();
+	protected function set_up() {
+		parent::set_up();
 
 		$this->instance = Mockery::mock( Indexable_Hierarchy_Repository::class )->makePartial();
 		$this->builder  = Mockery::mock( Indexable_Hierarchy_Builder::class );

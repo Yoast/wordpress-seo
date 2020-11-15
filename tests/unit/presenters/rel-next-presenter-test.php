@@ -28,8 +28,8 @@ class Rel_Next_Presenter_Test extends TestCase {
 	/**
 	 * Sets up the test class.
 	 */
-	public function setUp() {
-		parent::setUp();
+	protected function set_up() {
+		parent::set_up();
 
 		$this->instance = new Rel_Next_Presenter();
 	}

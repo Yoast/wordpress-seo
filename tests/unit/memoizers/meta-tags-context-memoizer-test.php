@@ -90,8 +90,8 @@ class Meta_Tags_Context_Memoizer_Test extends TestCase {
 	/**
 	 * Sets up the test class.
 	 */
-	public function setUp() {
-		parent::setUp();
+	protected function set_up() {
+		parent::set_up();
 
 		$this->blocks                = Mockery::mock( Blocks_Helper::class );
 		$this->current_page          = Mockery::mock( Current_Page_Helper::class );

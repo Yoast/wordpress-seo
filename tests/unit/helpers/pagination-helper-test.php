@@ -38,8 +38,8 @@ class Pagination_Helper_Test extends TestCase {
 	/**
 	 * Sets up the test class.
 	 */
-	public function setUp() {
-		parent::setUp();
+	protected function set_up() {
+		parent::set_up();
 
 		$this->wp_rewrite_wrapper = Mockery::mock( WP_Rewrite_Wrapper::class );
 		$this->wp_query_wrapper   = Mockery::mock( WP_Query_Wrapper::class );

@@ -60,8 +60,8 @@ class Indexable_Social_Image_Trait_Test extends TestCase {
 	/**
 	 * Sets up the tests.
 	 */
-	protected function setUp() {
-		parent::setUp();
+	protected function set_up() {
+		parent::set_up();
 
 		$this->instance = Mockery::mock( Indexable_Social_Image_Trait_Double::class );
 

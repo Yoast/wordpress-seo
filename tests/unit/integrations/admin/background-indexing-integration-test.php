@@ -95,8 +95,8 @@ class Background_Indexing_Integration_Test extends TestCase {
 	/**
 	 * Sets up the tests.
 	 */
-	protected function setUp() {
-		parent::setUp();
+	protected function set_up() {
+		parent::set_up();
 
 		$this->post_indexation              = Mockery::mock( Indexable_Post_Indexation_Action::class );
 		$this->term_indexation              = Mockery::mock( Indexable_Term_Indexation_Action::class );

@@ -91,8 +91,8 @@ class Breadcrumbs_Generator_Test extends TestCase {
 	/**
 	 * @inheritDoc
 	 */
-	public function setUp() {
-		parent::setUp();
+	protected function set_up() {
+		parent::set_up();
 
 		$this->repository        = Mockery::mock( Indexable_Repository::class );
 		$this->options           = Mockery::mock( Options_Helper::class );

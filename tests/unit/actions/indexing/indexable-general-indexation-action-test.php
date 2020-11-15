@@ -35,8 +35,8 @@ class Indexable_General_Indexation_Action_Test extends TestCase {
 	/**
 	 * Sets up the test class.
 	 */
-	public function setUp() {
-		parent::setUp();
+	protected function set_up() {
+		parent::set_up();
 
 		$this->indexable_repository = Mockery::mock( Indexable_Repository::class );
 		$this->instance             = new Indexable_General_Indexation_Action( $this->indexable_repository );
