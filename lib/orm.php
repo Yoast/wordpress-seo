@@ -72,7 +72,7 @@ class ORM implements \ArrayAccess {
 	 *
 	 * @var string
 	 */
-	protected $_table_name;
+	protected $table_name;
 
 	/**
 	 * Holds the alias for the table to be used in SELECT queries.
@@ -301,8 +301,8 @@ class ORM implements \ArrayAccess {
 	 * @param array  $data       Data to populate table.
 	 */
 	protected function __construct( $table_name, $data = [] ) {
-		$this->_table_name = $table_name;
-		$this->_data       = $data;
+		$this->table_name = $table_name;
+		$this->_data      = $data;
 	}
 
 	/**
@@ -359,7 +359,7 @@ class ORM implements \ArrayAccess {
 	 * @return bool|Model
 	 */
 	protected function create_instance_from_row( $row ) {
-		$instance = self::for_table( $this->_table_name );
+		$instance = self::for_table( $this->table_name );
 		$instance->use_id_column( $this->_instance_id_column );
 		$instance->hydrate( $row );
 
@@ -1101,7 +1101,7 @@ class ORM implements \ArrayAccess {
 		foreach ( $multiple as $key => $val ) {
 			// Add the table name in case of ambiguous columns.
 			if ( \count( $result->_join_sources ) > 0 && \strpos( $key, '.' ) === false ) {
-				$table = $result->_table_name;
+				$table = $result->table_name;
 				if ( ! \is_null( $result->_table_alias ) ) {
 					$table = $result->_table_alias;
 				}
@@ -1748,7 +1748,7 @@ class ORM implements \ArrayAccess {
 		if ( $this->_distinct ) {
 			$result_columns = 'DISTINCT ' . $result_columns;
 		}
-		$fragment .= "{$result_columns} FROM " . $this->quote_identifier( $this->_table_name );
+		$fragment .= "{$result_columns} FROM " . $this->quote_identifier( $this->table_name );
 		if ( ! \is_null( $this->_table_alias ) ) {
 			$fragment .= ' ' . $this->quote_identifier( $this->_table_alias );
 		}
@@ -2239,7 +2239,7 @@ class ORM implements \ArrayAccess {
 	 */
 	protected function build_update() {
 		$query      = [];
-		$query[]    = "UPDATE {$this->quote_identifier($this->_table_name)} SET";
+		$query[]    = "UPDATE {$this->quote_identifier($this->table_name)} SET";
 		$field_list = [];
 		foreach ( $this->_dirty_fields as $key => $value ) {
 			if ( ! \array_key_exists( $key, $this->_expr_fields ) ) {
@@ -2260,7 +2260,7 @@ class ORM implements \ArrayAccess {
 	protected function build_insert() {
 		$query        = [];
 		$query[]      = 'INSERT INTO';
-		$query[]      = $this->quote_identifier( $this->_table_name );
+		$query[]      = $this->quote_identifier( $this->table_name );
 		$field_list   = \array_map( [ $this, 'quote_identifier' ], \array_keys( $this->_dirty_fields ) );
 		$query[]      = '(' . \join( ', ', $field_list ) . ')';
 		$query[]      = 'VALUES';
@@ -2279,7 +2279,7 @@ class ORM implements \ArrayAccess {
 	 * @return string The delete query.
 	 */
 	public function delete() {
-		$query = [ 'DELETE FROM', $this->quote_identifier( $this->_table_name ), $this->add_id_column_conditions() ];
+		$query = [ 'DELETE FROM', $this->quote_identifier( $this->table_name ), $this->add_id_column_conditions() ];
 
 		return self::execute( \join( ' ', $query ), \is_array( $this->id( true ) ) ? \array_values( $this->id( true ) ) : [ $this->id( true ) ] );
 	}
@@ -2296,7 +2296,7 @@ class ORM implements \ArrayAccess {
 			' ',
 			[
 				'DELETE FROM',
-				$this->quote_identifier( $this->_table_name ),
+				$this->quote_identifier( $this->table_name ),
 				$this->build_where(),
 			]
 		);
