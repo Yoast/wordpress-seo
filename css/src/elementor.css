@@ -7,8 +7,8 @@
 	--yoast-elementor-color-paragraph: #555D66;
 }
 
-.yoast {
-	font-family: var(--yoast-font-family);
+.yoast, .yoast h2, .yoast h3 {
+	font-family: var(--yoast-font-family) !important;
 }
 
 .yoast h2 {
@@ -19,7 +19,11 @@
 }
 
 .yoast.components-panel__body .yoast-title {
-	font-weight: var(--yoast-font-weight-bold);
+	font-weight: 500;
+}
+
+.yoast h3 span > span {
+	font-weight: 400;
 }
 
 .elementor-panel .elementor-tab-control-yoast-tab a:before, .yoast-element-menu-icon:before {
