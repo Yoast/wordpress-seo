@@ -1,5 +1,5 @@
-import SentencePart from "../../../../../values/SentencePart.js";
-import getParticiples from "../../../../helpers/passiveVoice/periphrastic/getParticiples.js";
+import SentencePart from "../../../../values/SentencePart.js";
+import getParticiples from "../helpers/internal/getParticiples.js";
 
 /**
  * Creates an Italian-specific sentence part.
@@ -8,7 +8,7 @@ import getParticiples from "../../../../helpers/passiveVoice/periphrastic/getPar
  * @param {Array} auxiliaries The list with auxiliaries.
  * @constructor
  */
-var ItalianSentencePart = function( sentencePartText, auxiliaries ) {
+const ItalianSentencePart = function( sentencePartText, auxiliaries ) {
 	SentencePart.call( this, sentencePartText, auxiliaries, "it_IT" );
 };
 
@@ -20,7 +20,7 @@ require( "util" ).inherits( ItalianSentencePart, SentencePart );
  * @returns {Array} The array of Participle Objects.
  */
 ItalianSentencePart.prototype.getParticiples = function() {
-	return getParticiples( this.getSentencePartText(), this.getAuxiliaries(), "it" );
+	return getParticiples( this.getSentencePartText(), this.getAuxiliaries() );
 };
 
 export default ItalianSentencePart;

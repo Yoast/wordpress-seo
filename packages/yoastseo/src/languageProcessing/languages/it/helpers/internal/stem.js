@@ -19,7 +19,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
-import { createSingleRuleFromMorphologyData, createRulesFromMorphologyData } from "../morphoHelpers/createRulesFromMorphologyData";
+import { createSingleRuleFromMorphologyData, createRulesFromMorphologyData } from "../../../../helpers/morphology/createRulesFromMorphologyData";
 
 /**
  * Determines whether a letter is a vowel.
