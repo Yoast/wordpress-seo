@@ -67,7 +67,7 @@ class Health_Check_Ryte_Test extends TestCase {
 		$this->health_check->run();
 
 		// We just want to verify that the label attribute hasn't been set.
-		$this->assertAttributeEquals( '', 'label', $this->health_check );
+		$this->assertEquals( '', $this->getPropertyValue( $this->health_check, 'label' ) );
 	}
 
 	/**
@@ -100,7 +100,7 @@ class Health_Check_Ryte_Test extends TestCase {
 		$this->health_check->run();
 
 		// We just want to verify that the label attribute hasn't been set.
-		$this->assertAttributeEquals( '', 'label', $this->health_check );
+		$this->assertEquals( '', $this->getPropertyValue( $this->health_check, 'label' ) );
 	}
 
 	/**
@@ -138,7 +138,7 @@ class Health_Check_Ryte_Test extends TestCase {
 		$this->health_check->run();
 
 		// We just want to verify that the label attribute hasn't been set.
-		$this->assertAttributeEquals( '', 'label', $this->health_check );
+		$this->assertEquals( '', $this->getPropertyValue( $this->health_check, 'label' ) );
 	}
 
 	/**
@@ -174,8 +174,11 @@ class Health_Check_Ryte_Test extends TestCase {
 
 		$this->health_check->run();
 
-		$this->assertAttributeEquals( 'Your site cannot be found by search engines', 'label', $this->health_check );
-		$this->assertAttributeEquals( 'critical', 'status', $this->health_check );
+		$this->assertEquals(
+			'Your site cannot be found by search engines',
+			$this->getPropertyValue( $this->health_check, 'label' )
+		);
+		$this->assertEquals( 'critical', $this->getPropertyValue( $this->health_check, 'status' ) );
 	}
 
 	/**
@@ -213,8 +216,11 @@ class Health_Check_Ryte_Test extends TestCase {
 		Monkey\Functions\expect( 'plugin_dir_url' )->andReturn( '' );
 
 		$this->health_check->run();
-		$this->assertAttributeEquals( 'Ryte cannot determine whether your site can be found by search engines', 'label', $this->health_check );
-		$this->assertAttributeEquals( 'recommended', 'status', $this->health_check );
+		$this->assertEquals(
+			'Ryte cannot determine whether your site can be found by search engines',
+			$this->getPropertyValue( $this->health_check, 'label' )
+		);
+		$this->assertEquals( 'recommended', $this->getPropertyValue( $this->health_check, 'status' ) );
 	}
 
 	/**
@@ -249,8 +255,11 @@ class Health_Check_Ryte_Test extends TestCase {
 		Monkey\Functions\expect( 'update_option' )->andReturn( true );
 
 		$this->health_check->run();
-		$this->assertAttributeEquals( 'Your site can be found by search engines', 'label', $this->health_check );
-		$this->assertAttributeEquals( 'good', 'status', $this->health_check );
+		$this->assertEquals(
+			'Your site can be found by search engines',
+			$this->getPropertyValue( $this->health_check, 'label' )
+		);
+		$this->assertEquals( 'good', $this->getPropertyValue( $this->health_check, 'status' ) );
 	}
 
 	/**
@@ -281,8 +290,11 @@ class Health_Check_Ryte_Test extends TestCase {
 		Monkey\Functions\expect( 'update_option' )->andReturn( true );
 
 		$this->health_check->run();
-		$this->assertAttributeEquals( 'An error occurred while checking whether your site can be found by search engines', 'label', $this->health_check );
-		$this->assertAttributeEquals( 'recommended', 'status', $this->health_check );
+		$this->assertEquals(
+			'An error occurred while checking whether your site can be found by search engines',
+			$this->getPropertyValue( $this->health_check, 'label' )
+		);
+		$this->assertEquals( 'recommended', $this->getPropertyValue( $this->health_check, 'status' ) );
 	}
 
 	/**
@@ -328,6 +340,6 @@ class Health_Check_Ryte_Test extends TestCase {
 		$this->health_check->run();
 
 		// We just want to verify that the label attribute hasn't been set.
-		$this->assertAttributeEquals( '', 'label', $this->health_check );
+		$this->assertEquals( '', $this->getPropertyValue( $this->health_check, 'label' ) );
 	}
 }

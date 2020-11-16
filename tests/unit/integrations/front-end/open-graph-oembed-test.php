@@ -65,7 +65,7 @@ class Open_Graph_OEmbed_Test extends TestCase {
 	 * @covers ::__construct
 	 */
 	public function test_construct() {
-		$this->assertAttributeEquals( $this->meta, 'meta', $this->instance );
+		$this->assertEquals( $this->meta, $this->getPropertyValue( $this->instance, 'meta' ) );
 	}
 
 	/**

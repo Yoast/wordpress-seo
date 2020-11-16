@@ -37,8 +37,8 @@ class Alert_Presenter_Test extends TestCase {
 
 		$test = new Alert_Presenter( 'content', 'error' );
 
-		$this->assertAttributeSame( 'content', 'content', $test );
-		$this->assertAttributeSame( 'error', 'type', $test );
+		$this->assertSame( 'content', $this->getPropertyValue( $test, 'content' ) );
+		$this->assertSame( 'error', $this->getPropertyValue( $test, 'type' ) );
 
 		$this->assertInstanceOf(
 			WPSEO_Admin_Asset_Manager::class,

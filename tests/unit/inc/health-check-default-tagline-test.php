@@ -49,7 +49,10 @@ class Health_Check_Default_Tagline_Test extends TestCase {
 		$health_check->run();
 
 		// We just want to verify that the label attribute is the "not passed" message.
-		$this->assertAttributeEquals( 'You should change the default WordPress tagline', 'label', $health_check );
+		$this->assertEquals(
+			'You should change the default WordPress tagline',
+			$this->getPropertyValue( $health_check, 'label' )
+		);
 	}
 
 	/**
@@ -68,7 +71,10 @@ class Health_Check_Default_Tagline_Test extends TestCase {
 		$health_check->run();
 
 		// We just want to verify that the label attribute is the "passed" message.
-		$this->assertAttributeEquals( 'You changed the default WordPress tagline', 'label', $health_check );
+		$this->assertEquals(
+			'You changed the default WordPress tagline',
+			$this->getPropertyValue( $health_check, 'label' )
+		);
 	}
 
 	/**
@@ -87,6 +93,9 @@ class Health_Check_Default_Tagline_Test extends TestCase {
 		$health_check->run();
 
 		// We just want to verify that the label attribute is the "passed" message.
-		$this->assertAttributeEquals( 'You changed the default WordPress tagline', 'label', $health_check );
+		$this->assertEquals(
+			'You changed the default WordPress tagline',
+			$this->getPropertyValue( $health_check, 'label' )
+		);
 	}
 }

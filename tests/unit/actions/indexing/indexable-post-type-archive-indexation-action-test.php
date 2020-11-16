@@ -80,9 +80,9 @@ class Indexable_Post_Type_Archive_Indexation_Action_Test extends TestCase {
 			$this->post_type
 		);
 
-		$this->assertAttributeEquals( $this->repository, 'repository', $instance );
-		$this->assertAttributeEquals( $this->builder, 'builder', $instance );
-		$this->assertAttributeEquals( $this->post_type, 'post_type', $instance );
+		$this->assertEquals( $this->repository, $this->getPropertyValue( $instance, 'repository' ) );
+		$this->assertEquals( $this->builder, $this->getPropertyValue( $instance, 'builder' ) );
+		$this->assertEquals( $this->post_type, $this->getPropertyValue( $instance, 'post_type' ) );
 	}
 
 	/**

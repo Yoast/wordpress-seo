@@ -231,7 +231,7 @@ class Indexable_Hierarchy_Repository_Test extends TestCase {
 
 		$query = $this->instance->query();
 
-		$this->assertAttributeEquals( '\Yoast\WP\SEO\Models\Indexable_Hierarchy', 'class_name', $query );
+		$this->assertEquals( '\Yoast\WP\SEO\Models\Indexable_Hierarchy', $this->getPropertyValue( $query, 'class_name' ) );
 		$this->assertInstanceOf( ORM::class, $query );
 	}
 

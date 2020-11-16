@@ -85,10 +85,9 @@ class Schema_Blocks_Test extends TestCase {
 	public function test_register_template_not_starting_with_slash() {
 		$this->instance->register_template( 'template.php' );
 
-		static::assertAttributeEquals(
+		static::assertEquals(
 			[ WPSEO_PATH . '/template.php' ],
-			'templates',
-			$this->instance
+			$this->getPropertyValue( $this->instance, 'templates' )
 		);
 	}
 
@@ -100,10 +99,9 @@ class Schema_Blocks_Test extends TestCase {
 	public function test_register_template() {
 		$this->instance->register_template( '/template.php' );
 
-		static::assertAttributeEquals(
+		static::assertEquals(
 			[ '/template.php' ],
-			'templates',
-			$this->instance
+			$this->getPropertyValue( $this->instance, 'templates' )
 		);
 	}
 

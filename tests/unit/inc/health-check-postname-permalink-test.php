@@ -40,7 +40,10 @@ class Health_Check_Postname_Permalink_Test extends TestCase {
 		$health_check->run();
 
 		// We just want to verify that the label attribute is the "passed" message.
-		$this->assertAttributeEquals( 'Your permalink structure includes the post name', 'label', $health_check );
+		$this->assertEquals(
+			'Your permalink structure includes the post name',
+			$this->getPropertyValue( $health_check, 'label' )
+		);
 	}
 
 	/**
@@ -59,7 +62,10 @@ class Health_Check_Postname_Permalink_Test extends TestCase {
 		$health_check->run();
 
 		// We just want to verify that the label attribute is the "passed" message.
-		$this->assertAttributeEquals( 'Your permalink structure includes the post name', 'label', $health_check );
+		$this->assertEquals(
+			'Your permalink structure includes the post name',
+			$this->getPropertyValue( $health_check, 'label' )
+		);
 	}
 
 	/**
@@ -80,6 +86,9 @@ class Health_Check_Postname_Permalink_Test extends TestCase {
 		$health_check->run();
 
 		// We just want to verify that the label attribute is the "not passed" message.
-		$this->assertAttributeEquals( 'You do not have your postname in the URL of your posts and pages', 'label', $health_check );
+		$this->assertEquals(
+			'You do not have your postname in the URL of your posts and pages',
+			$this->getPropertyValue( $health_check, 'label' )
+		);
 	}
 }

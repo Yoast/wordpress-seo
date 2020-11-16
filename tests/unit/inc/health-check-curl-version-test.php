@@ -49,7 +49,7 @@ class Health_Check_Curl_Version_Test extends TestCase {
 		$this->instance->run();
 
 		// We just want to verify that the label is empty because the health check test didn't run.
-		$this->assertAttributeEquals( '', 'label', $this->instance );
+		$this->assertEquals( '', $this->getPropertyValue( $this->instance, 'label' ) );
 	}
 
 	/**
@@ -80,9 +80,13 @@ class Health_Check_Curl_Version_Test extends TestCase {
 		$this->instance->run();
 
 		// We want to verify that the label attribute is the "not passed" message.
-		$this->assertAttributeEquals( 'Your site can not connect to my.yoast.com', 'label', $this->instance );
+		$this->assertEquals(
+			'Your site can not connect to my.yoast.com',
+			$this->getPropertyValue( $this->instance, 'label' )
+		);
+
 		// We want to verify that the status attribute is "critical".
-		$this->assertAttributeEquals( 'critical', 'status', $this->instance );
+		$this->assertEquals( 'critical', $this->getPropertyValue( $this->instance, 'status' ) );
 	}
 
 	/**
@@ -113,9 +117,13 @@ class Health_Check_Curl_Version_Test extends TestCase {
 		$this->instance->run();
 
 		// We want to verify that the label attribute is the "not passed" message.
-		$this->assertAttributeEquals( 'Your site can not connect to my.yoast.com', 'label', $this->instance );
+		$this->assertEquals(
+			'Your site can not connect to my.yoast.com',
+			$this->getPropertyValue( $this->instance, 'label' )
+		);
+
 		// We want to verify that the status attribute is "critical".
-		$this->assertAttributeEquals( 'critical', 'status', $this->instance );
+		$this->assertEquals( 'critical', $this->getPropertyValue( $this->instance, 'status' ) );
 	}
 
 	/**
@@ -137,6 +145,9 @@ class Health_Check_Curl_Version_Test extends TestCase {
 		$this->instance->run();
 
 		// We just want to verify that the label attribute is the "passed" message.
-		$this->assertAttributeEquals( 'Your site can connect to my.yoast.com', 'label', $this->instance );
+		$this->assertEquals(
+			'Your site can connect to my.yoast.com',
+			$this->getPropertyValue( $this->instance, 'label' )
+		);
 	}
 }

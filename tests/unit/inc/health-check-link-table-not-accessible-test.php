@@ -49,7 +49,7 @@ class Health_Check_Link_Table_Not_Accessible_Test extends TestCase {
 		$this->instance->run();
 
 		// We just want to verify that the label is empty because the health check test didn't run.
-		$this->assertAttributeEquals( '', 'label', $this->instance );
+		$this->assertEquals( '', $this->getPropertyValue( $this->instance, 'label' ) );
 	}
 
 	/**
@@ -76,9 +76,13 @@ class Health_Check_Link_Table_Not_Accessible_Test extends TestCase {
 		$this->instance->run();
 
 		// We want to verify that the label attribute is the "passed" message.
-		$this->assertAttributeEquals( 'The text link counter is working as expected', 'label', $this->instance );
+		$this->assertEquals(
+			'The text link counter is working as expected',
+			$this->getPropertyValue( $this->instance, 'label' )
+		);
+
 		// We want to verify that the status attribute is "good".
-		$this->assertAttributeEquals( 'good', 'status', $this->instance );
+		$this->assertEquals( 'good', $this->getPropertyValue( $this->instance, 'status' ) );
 	}
 
 	/**
@@ -105,8 +109,12 @@ class Health_Check_Link_Table_Not_Accessible_Test extends TestCase {
 		$this->instance->run();
 
 		// We want to verify that the label attribute is the "not passed" message.
-		$this->assertAttributeEquals( 'The text link counter feature is not working as expected', 'label', $this->instance );
+		$this->assertEquals(
+			'The text link counter feature is not working as expected',
+			$this->getPropertyValue( $this->instance, 'label' )
+		);
+
 		// We want to verify that the status attribute is "recommended".
-		$this->assertAttributeEquals( 'recommended', 'status', $this->instance );
+		$this->assertEquals( 'recommended', $this->getPropertyValue( $this->instance, 'status' ) );
 	}
 }

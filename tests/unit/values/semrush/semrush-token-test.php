@@ -117,10 +117,10 @@ class SEMrush_Token_Test extends TestCase {
 		$instance = SEMrush_Token::from_response( $response );
 
 		$this->assertInstanceOf( SEMrush_Token::class, $instance );
-		$this->assertAttributeEquals( '000000', 'access_token', $instance );
-		$this->assertAttributeEquals( '000001', 'refresh_token', $instance );
-		$this->assertAttributeEquals( 604800, 'expires', $instance );
-		$this->assertAttributeEquals( false, 'has_expired', $instance );
-		$this->assertAttributeEquals( $this->created_at, 'created_at', $instance );
+		$this->assertEquals( '000000', $this->getPropertyValue( $instance, 'access_token' ) );
+		$this->assertEquals( '000001', $this->getPropertyValue( $instance, 'refresh_token' ) );
+		$this->assertEquals( 604800, $this->getPropertyValue( $instance, 'expires' ) );
+		$this->assertEquals( false, $this->getPropertyValue( $instance, 'has_expired' ) );
+		$this->assertEquals( $this->created_at, $this->getPropertyValue( $instance, 'created_at' ) );
 	}
 }
