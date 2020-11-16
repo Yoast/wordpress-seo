@@ -27,7 +27,6 @@ export default class Researcher extends AbstractResearcher {
 		super( paper );
 
 		Object.assign( this.config, {
-			language: "fr",
 			isPeriphrastic: true,
 			firstWordExceptions,
 			functionWords,

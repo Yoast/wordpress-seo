@@ -27,7 +27,6 @@ export default class Researcher extends AbstractResearcher {
 		delete this.defaultResearches.stopWordsInKeyword;
 
 		Object.assign( this.config, {
-			language: "ar",
 			isPeriphrastic: false,
 			firstWordExceptions,
 			functionWords,

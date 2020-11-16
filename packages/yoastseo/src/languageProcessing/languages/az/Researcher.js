@@ -1,10 +1,6 @@
 import AbstractResearcher from "../../AbstractResearcher";
 
-// All config
-import functionWords from "./config/functionWords";
-
 // All helpers
-import createBasicWordForms from "./helpers/createBasicWordForms";
 import getStemmer from "../../helpers/morphology/baseStemmer";
 
 /**
@@ -19,21 +15,21 @@ export default class Researcher extends AbstractResearcher {
 	constructor( paper ) {
 		super( paper );
 
-		// Deletes researches that are currently not available in Hebrew.
+		// Deletes researches that are currently not available in Azeri.
 		// When the research is available, this line should be removed.
-		delete this.defaultResearches.findTransitionWords;
 		delete this.defaultResearches.getFleschReadingScore;
 		delete this.defaultResearches.getPassiveVoice;
 		delete this.defaultResearches.getSentenceBeginnings;
 		delete this.defaultResearches.stopWordsInKeyword;
 		delete this.defaultResearches.stopWordsInUrl;
+		delete this.defaultResearches.findTransitionWords;
 
 		Object.assign( this.config, {
-			functionWords,
+			language: "az",
+			functionWords: [],
 		} );
 
-		Object.assign( this.helpers, {
-			createBasicWordForms,
+		Object.assign( this.config, {
 			getStemmer,
 		} );
 	}
