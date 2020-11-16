@@ -96,9 +96,7 @@ class Permalink_Integrity_Watcher implements Integration_Interface {
 	/**
 	 * Checks if the permalink integrity check should be performed.
 	 *
-	 * Returns true if the dynamic permalink mode has not been activated,
-	 * and the type has not been checked in the past week.
-	 * Returns false otherwise.
+	 * Returns true if the type has not been checked in the past week, false otherwise.
 	 *
 	 * @param string $type              "type-subtype" string of the indexable.
 	 * @param array  $permalink_samples The permalink samples array.
@@ -106,8 +104,7 @@ class Permalink_Integrity_Watcher implements Integration_Interface {
 	 * @return boolean Whether the permalink integrity check should be performed.
 	 */
 	public function should_perform_check( $type, $permalink_samples ) {
-		return ! $this->options_helper->get( 'dynamic_permalinks', false )
-				&& $permalink_samples[ $type ] >= ( \time() - ( 60 * 60 * 24 * 7 ) );
+		return $permalink_samples[ $type ] >= ( \time() - ( 60 * 60 * 24 * 7 ) );
 	}
 
 	/**
@@ -119,6 +116,10 @@ class Permalink_Integrity_Watcher implements Integration_Interface {
 	 * @return void
 	 */
 	public function compare_permalink_for_page( $presentation ) {
+		if ( $this->options_helper->get( 'dynamic_permalinks', true ) ) {
+			return;
+		}
+
 		$model = $presentation->model;
 
 		$permalink_samples = $this->options_helper->get( 'dynamic_permalink_samples' );
