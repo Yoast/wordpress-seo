@@ -48,9 +48,9 @@ class Permalink_Integrity_Watcher implements Integration_Interface {
 	protected $permalink_helper;
 
 	/**
-	 * The permalink helper.
+	 * The post type helper.
 	 *
-	 * @var Permalink_Helper
+	 * @var Post_Type_Helper
 	 */
 	protected $post_type_helper;
 
@@ -61,12 +61,13 @@ class Permalink_Integrity_Watcher implements Integration_Interface {
 	 */
 	protected $taxonomy_helper;
 
-
 	/**
 	 * Permalink_Integrity_Watcher constructor.
 	 *
 	 * @param Options_Helper              $option            The options helper.
 	 * @param Permalink_Helper            $permalink_helper  The permalink helper.
+	 * @param Post_Type_Helper            $post_type_helper  The post type helper.
+	 * @param Taxonomy_Helper             $taxonomy_helper   The taxonomy helper.
 	 * @param Indexable_Permalink_Watcher $permalink_watcher The indexable permalink watcher.
 	 * @param Indexable_HomeUrl_Watcher   $homeurl_watcher   The home url watcher.
 	 */
@@ -116,12 +117,11 @@ class Permalink_Integrity_Watcher implements Integration_Interface {
 	 * @return void
 	 */
 	public function compare_permalink_for_page( $presentation ) {
-		if ( $this->options_helper->get( 'dynamic_permalinks', true ) ) {
+		if ( $this->options_helper->get( 'dynamic_permalinks', false ) ) {
 			return;
 		}
 
-		$indexable = $presentation->model;
-
+		$indexable         = $presentation->model;
 		$permalink_samples = $this->options_helper->get( 'dynamic_permalink_samples' );
 		$type              = $indexable->object_type . '-' . $indexable->object_sub_type;
 
@@ -130,9 +130,11 @@ class Permalink_Integrity_Watcher implements Integration_Interface {
 			return;
 		}
 
+		$permalink_samples = $this->maybe_get_new_permalink_samples( $permalink_samples );
+		$this->update_permalink_samples( $type, $permalink_samples );
+
 		// if permalink of current page is the same as the indexable permalink, do nothing.
 		if ( $indexable->permalink === $this->permalink_helper->get_permalink_for_indexable( $indexable ) ) {
-			$this->update_permalink_samples( $type, $permalink_samples );
 			return;
 		}
 
@@ -141,13 +143,11 @@ class Permalink_Integrity_Watcher implements Integration_Interface {
 			$this->indexable_permalink_watcher->should_reset_tags()
 		) {
 			$this->indexable_permalink_watcher->force_reset_permalinks();
-			$this->update_permalink_samples( $type, $permalink_samples );
 			return;
 		}
 
 		if ( $this->indexable_homeurl_watcher->should_reset_permalinks() ) {
 			$this->indexable_homeurl_watcher->force_reset_permalinks();
-			$this->update_permalink_samples( $type, $permalink_samples );
 			return;
 		}
 
@@ -162,20 +162,38 @@ class Permalink_Integrity_Watcher implements Integration_Interface {
 	 * @return array The associative array with the object-type and object-sub-type as the key
 	 * and a timestamp value as the value.
 	 */
-	public function collect_dynamic_permalink_samples() {
+	public function get_dynamic_permalink_samples() {
 		$permalink_samples = [];
 
 		$post_types = $this->post_type_helper->get_public_post_types();
 		foreach ( $post_types as $type ) {
-			$permalink_samples[ "post-" . $type ] = \time();
+			$permalink_samples[ 'post-' . $type ] = \time();
 		}
 
 		$taxonomies = $this->taxonomy_helper->get_public_taxonomies();
 		foreach ( $taxonomies as $type ) {
-			$permalink_samples[ "term-" . $type ] = \time();
+			$permalink_samples[ 'term-' . $type ] = \time();
 		}
 
 		return $permalink_samples;
+	}
+
+	/**
+	 * Checks if the dynamic_permalink_samples_array has changed and updates the option if this is the case.
+	 *
+	 * @param array $permalink_samples The current dynamic_permalink_samples option array.
+	 *
+	 * @return array The dynamic_permalink_samples.
+	 */
+	private function maybe_get_new_permalink_samples( $permalink_samples ) {
+		$new_permalink_samples = $this->get_dynamic_permalink_samples();
+
+		if ( empty( array_diff_key( $permalink_samples, $new_permalink_samples ) ) ) {
+			return $permalink_samples;
+		}
+
+		$this->options_helper->set( 'dynamic_permalink_samples', $new_permalink_samples );
+		return $new_permalink_samples;
 	}
 
 	/**
