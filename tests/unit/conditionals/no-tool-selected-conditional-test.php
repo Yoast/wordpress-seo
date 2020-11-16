@@ -11,7 +11,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group indexables
  * @group conditionals
  *
- * @coversDefaultClass \Yoast\WP\SEO\Conditionals\No_Tool_Selected_Conditional()
+ * @coversDefaultClass \Yoast\WP\SEO\Conditionals\No_Tool_Selected_Conditional
  */
 class No_Tool_Selected_Conditional_Test extends TestCase {
 
