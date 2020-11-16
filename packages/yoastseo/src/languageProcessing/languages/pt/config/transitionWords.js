@@ -1,4 +1,4 @@
-const singleWords = [
+export const singleWords = [
 	"ademais", "afinal", "aliás", "analogamente", "anteriormente", "assim", "certamente", "conforme",
 	"conquanto", "contudo", "decerto", "embora", "enfim", "enquanto", "então", "entretanto", "eventualmente",
 	"igualmente", "inegavelmente", "inesperadamente", "mas", "outrossim", "pois", "porquanto", "porque", "portanto",
@@ -6,7 +6,7 @@ const singleWords = [
 	"semelhantemente", "similarmente", "sobretudo", "surpreendentemente", "todavia",
 ];
 
-const multipleWords = [
+export const multipleWords = [
 	"a fim de", "a fim de que", "a menos que", "a princípio", "a saber", "acima de tudo", "ainda assim", "ainda mais", "ainda que",
 	"além disso", "antes de mais nada", "antes de tudo", "antes que", "ao mesmo tempo", "ao passo que", "ao propósito",
 	"apesar de", "às vezes", "assim como", "assim que", "assim sendo", "assim também", "bem como", "com a finalidade de",
@@ -22,14 +22,7 @@ const multipleWords = [
 	"só para ilustrar", "só que", "sob o mesmo ponto de vista", "talvez provavelmente", "tanto quanto", "uma vez que", "visto que",
 ];
 
-/**
- * Returns lists with transition words to be used by the assessments.
- * @returns {Object} The object with transition word lists.
- */
-export default function() {
-	return {
-		singleWords: singleWords,
-		multipleWords: multipleWords,
-		allWords: singleWords.concat( multipleWords ),
-	};
-}
+export const allWords = singleWords.concat( multipleWords );
+
+export default allWords;
+

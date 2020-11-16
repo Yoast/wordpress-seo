@@ -1,8 +1,7 @@
-import Participle from "../../../../../values/Participle.js";
-import checkException from "../../../../helpers/passiveVoice/periphrastic/checkException.js";
-import directPrecedenceException from "../../../../helpers/passiveVoice/directPrecedenceException";
-import precedenceException from "../../../../helpers/passiveVoice/precedenceException";
-
+import Participle from "../../../../values/Participle.js";
+import checkException from "../../../helpers/passiveVoice/periphrastic/checkException.js";
+import directPrecedenceException from "../../../helpers/passiveVoice/directPrecedenceException";
+import precedenceException from "../../../helpers/passiveVoice/precedenceException";
 
 /**
  * Creates an Participle object for the Portuguese language.
