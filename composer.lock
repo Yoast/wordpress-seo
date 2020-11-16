@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "995bd264fa2eb66682443404abca7f17",
+    "content-hash": "5be03975264da3fde70672e88d3ee05f",
     "packages": [
         {
             "name": "composer/installers",
@@ -1166,19 +1166,20 @@
         },
         {
             "name": "humbug/php-scoper",
-            "version": "dev-yoast",
+            "version": "0.12.4",
             "source": {
                 "type": "git",
-                "url": "https://github.com/herregroen/php-scoper.git",
-                "reference": "ac49d078db3866c40527f60062ffa522cf035bee"
+                "url": "https://github.com/humbug/php-scoper.git",
+                "reference": "50c84a4d4feaeb22ce41854fd3c525cfcd6d5903"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/herregroen/php-scoper/zipball/ac49d078db3866c40527f60062ffa522cf035bee",
-                "reference": "ac49d078db3866c40527f60062ffa522cf035bee",
+                "url": "https://api.github.com/repos/humbug/php-scoper/zipball/50c84a4d4feaeb22ce41854fd3c525cfcd6d5903",
+                "reference": "50c84a4d4feaeb22ce41854fd3c525cfcd6d5903",
                 "shasum": ""
             },
             "require": {
+                "jetbrains/phpstorm-stubs": "dev-master",
                 "nikic/php-parser": "^4.0",
                 "ocramius/package-versions": "^1.1",
                 "php": "^7.2",
@@ -1192,7 +1193,6 @@
             "require-dev": {
                 "bamarni/composer-bin-plugin": "^1.1",
                 "humbug/box": "^3.8",
-                "jetbrains/phpstorm-stubs": "dev-master",
                 "phpunit/phpunit": "^8.0"
             },
             "bin": [
@@ -1216,15 +1216,7 @@
                     "Humbug\\PhpScoper\\": "src/"
                 }
             },
-            "autoload-dev": {
-                "files": [
-                    "tests/functions.php",
-                    "src/json.php"
-                ],
-                "psr-4": {
-                    "Humbug\\PhpScoper\\": "tests/"
-                }
-            },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -1243,10 +1235,7 @@
                 }
             ],
             "description": "Prefixes all PHP namespaces in a file or directory.",
-            "support": {
-                "source": "https://github.com/herregroen/php-scoper/tree/yoast"
-            },
-            "time": "2020-11-16T11:10:55+00:00"
+            "time": "2019-06-26T11:34:47+00:00"
         },
         {
             "name": "jetbrains/phpstorm-stubs",
@@ -1254,43 +1243,64 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/JetBrains/phpstorm-stubs.git",
-                "reference": "3f4e4949dc39aa8e28d5565366a24fea47116bc7"
+                "reference": "fa7eb6f286c024a2dd9b3e1227ce640f055e02f4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/JetBrains/phpstorm-stubs/zipball/3f4e4949dc39aa8e28d5565366a24fea47116bc7",
-                "reference": "3f4e4949dc39aa8e28d5565366a24fea47116bc7",
+                "url": "https://api.github.com/repos/JetBrains/phpstorm-stubs/zipball/fa7eb6f286c024a2dd9b3e1227ce640f055e02f4",
+                "reference": "fa7eb6f286c024a2dd9b3e1227ce640f055e02f4",
                 "shasum": ""
             },
             "require-dev": {
-                "nikic/php-parser": "v4.0.1",
-                "php": "^7.1",
-                "phpdocumentor/reflection-docblock": "^4.3",
-                "phpunit/phpunit": "7.1.4"
+                "friendsofphp/php-cs-fixer": "^2.16",
+                "nikic/php-parser": "dev-master",
+                "php": "^8.0",
+                "phpdocumentor/reflection-docblock": "dev-master",
+                "phpunit/phpunit": "^9"
             },
             "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2020.x"
+                }
+            },
             "autoload": {
                 "files": [
                     "PhpStormStubsMap.php"
                 ]
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "autoload-dev": {
+                "psr-4": {
+                    "StubTests\\": "tests/"
+                }
+            },
+            "scripts": {
+                "cs": [
+                    "php-cs-fixer fix -v --diff --dry-run"
+                ],
+                "cs-fix": [
+                    "php-cs-fixer fix -v --diff"
+                ]
+            },
             "license": [
                 "Apache-2.0"
             ],
             "description": "PHP runtime & extensions header files for PhpStorm",
             "homepage": "https://www.jetbrains.com/phpstorm",
             "keywords": [
+                "JetBrains",
+                "PHPStorm",
                 "autocomplete",
                 "code",
                 "inference",
                 "inspection",
-                "jetbrains",
-                "phpstorm",
                 "stubs",
                 "type"
             ],
-            "time": "2019-08-28T15:48:22+00:00"
+            "support": {
+                "source": "https://github.com/JetBrains/phpstorm-stubs/tree/master"
+            },
+            "time": "2020-11-16T09:04:11+00:00"
         },
         {
             "name": "mockery/mockery",
@@ -3658,9 +3668,7 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": {
-        "humbug/php-scoper": 20
-    },
+    "stability-flags": [],
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
