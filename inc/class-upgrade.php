@@ -24,7 +24,7 @@ class WPSEO_Upgrade {
 	 * Class constructor.
 	 */
 	public function __construct() {
-		$this->taxonomy_helper  = YoastSEO()->helpers->taxonomy;
+		$this->taxonomy_helper = YoastSEO()->helpers->taxonomy;
 
 		$version = WPSEO_Options::get( 'version' );
 
