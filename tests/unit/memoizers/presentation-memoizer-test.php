@@ -81,7 +81,10 @@ class Presentation_Memoizer_Test extends TestCase {
 	 * @covers ::__construct
 	 */
 	public function test_constructor() {
-		$this->assertAttributeInstanceOf( ContainerInterface::class, 'container', $this->instance );
+		$this->assertInstanceOf(
+			ContainerInterface::class,
+			$this->getPropertyValue( $this->instance, 'container' )
+		);
 	}
 
 	/**

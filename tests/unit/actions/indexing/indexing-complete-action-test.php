@@ -47,7 +47,10 @@ class Indexing_Complete_Action_Test extends TestCase {
 	 * @covers ::__construct
 	 */
 	public function test_constructor() {
-		self::assertAttributeInstanceOf( Indexing_Helper::class, 'indexing_helper', $this->instance );
+		self::assertInstanceOf(
+			Indexing_Helper::class,
+			$this->getPropertyValue( $this->instance, 'indexing_helper' )
+		);
 	}
 
 	/**

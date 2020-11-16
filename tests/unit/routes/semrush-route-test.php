@@ -67,9 +67,18 @@ class SEMrush_Route_Test extends TestCase {
 	 * @covers ::__construct
 	 */
 	public function test_construct() {
-		$this->assertAttributeInstanceOf( SEMrush_Login_Action::class, 'login_action', $this->instance );
-		$this->assertAttributeInstanceOf( SEMrush_Options_Action::class, 'options_action', $this->instance );
-		$this->assertAttributeInstanceOf( SEMrush_Phrases_Action::class, 'phrases_action', $this->instance );
+		$this->assertInstanceOf(
+			SEMrush_Login_Action::class,
+			$this->getPropertyValue( $this->instance, 'login_action' )
+		);
+		$this->assertInstanceOf(
+			SEMrush_Options_Action::class,
+			$this->getPropertyValue( $this->instance, 'options_action' )
+		);
+		$this->assertInstanceOf(
+			SEMrush_Phrases_Action::class,
+			$this->getPropertyValue( $this->instance, 'phrases_action' )
+		);
 	}
 
 	/**

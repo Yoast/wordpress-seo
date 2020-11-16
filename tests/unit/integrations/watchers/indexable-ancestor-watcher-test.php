@@ -132,9 +132,18 @@ class Indexable_Ancestor_Watcher_Test extends TestCase {
 	 * @covers ::__construct
 	 */
 	public function test_construct() {
-		$this->assertAttributeInstanceOf( Indexable_Repository::class, 'indexable_repository', $this->instance );
-		$this->assertAttributeInstanceOf( Indexable_Hierarchy_Builder::class, 'indexable_hierarchy_builder', $this->instance );
-		$this->assertAttributeInstanceOf( Permalink_Helper::class, 'permalink_helper', $this->instance );
+		$this->assertInstanceOf(
+			Indexable_Repository::class,
+			$this->getPropertyValue( $this->instance, 'indexable_repository' )
+		);
+		$this->assertInstanceOf(
+			Indexable_Hierarchy_Builder::class,
+			$this->getPropertyValue( $this->instance, 'indexable_hierarchy_builder' )
+		);
+		$this->assertInstanceOf(
+			Permalink_Helper::class,
+			$this->getPropertyValue( $this->instance, 'permalink_helper' )
+		);
 	}
 
 	/**

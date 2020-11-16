@@ -102,10 +102,22 @@ class Index_Command_Test extends TestCase {
 	 * @covers ::__construct
 	 */
 	public function test_construct() {
-		$this->assertAttributeInstanceOf( Indexable_Post_Indexation_Action::class, 'post_indexation_action', $this->instance );
-		$this->assertAttributeInstanceOf( Indexable_Term_Indexation_Action::class, 'term_indexation_action', $this->instance );
-		$this->assertAttributeInstanceOf( Indexable_Post_Type_Archive_Indexation_Action::class, 'post_type_archive_indexation_action', $this->instance );
-		$this->assertAttributeInstanceOf( Indexable_General_Indexation_Action::class, 'general_indexation_action', $this->instance );
+		$this->assertInstanceOf(
+			Indexable_Post_Indexation_Action::class,
+			$this->getPropertyValue( $this->instance, 'post_indexation_action' )
+		);
+		$this->assertInstanceOf(
+			Indexable_Term_Indexation_Action::class,
+			$this->getPropertyValue( $this->instance, 'term_indexation_action' )
+		);
+		$this->assertInstanceOf(
+			Indexable_Post_Type_Archive_Indexation_Action::class,
+			$this->getPropertyValue( $this->instance, 'post_type_archive_indexation_action' )
+		);
+		$this->assertInstanceOf(
+			Indexable_General_Indexation_Action::class,
+			$this->getPropertyValue( $this->instance, 'general_indexation_action' )
+		);
 	}
 
 	/**

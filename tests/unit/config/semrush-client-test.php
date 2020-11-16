@@ -89,8 +89,14 @@ class SEMrush_Client_Test extends TestCase {
 			Mockery::mock( WP_Remote_Handler::class )
 		);
 
-		$this->assertAttributeInstanceOf( GenericProvider::class, 'provider', $instance );
-		$this->assertAttributeInstanceOf( Options_Helper::class, 'options_helper', $instance );
+		$this->assertInstanceOf(
+			GenericProvider::class,
+			$this->getPropertyValue( $instance, 'provider' )
+		);
+		$this->assertInstanceOf(
+			Options_Helper::class,
+			$this->getPropertyValue( $instance, 'options_helper' )
+		);
 	}
 
 	/**
@@ -118,9 +124,18 @@ class SEMrush_Client_Test extends TestCase {
 			Mockery::mock( WP_Remote_Handler::class )
 		);
 
-		$this->assertAttributeInstanceOf( GenericProvider::class, 'provider', $instance );
-		$this->assertAttributeInstanceOf( Options_Helper::class, 'options_helper', $instance );
-		$this->assertAttributeInstanceOf( SEMrush_Token::class, 'token', $instance );
+		$this->assertInstanceOf(
+			GenericProvider::class,
+			$this->getPropertyValue( $instance, 'provider' )
+		);
+		$this->assertInstanceOf(
+			Options_Helper::class,
+			$this->getPropertyValue( $instance, 'options_helper' )
+		);
+		$this->assertInstanceOf(
+			SEMrush_Token::class,
+			$this->getPropertyValue( $instance, 'token' )
+		);
 	}
 
 	/**

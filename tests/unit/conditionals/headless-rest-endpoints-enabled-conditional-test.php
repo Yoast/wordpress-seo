@@ -46,7 +46,10 @@ class Headless_Rest_Endpoints_Enabled_Conditional_Test extends TestCase {
 	 * @covers ::__construct
 	 */
 	public function test_construct() {
-		$this->assertAttributeInstanceOf( Options_Helper::class, 'options', $this->instance );
+		$this->assertInstanceOf(
+			Options_Helper::class,
+			$this->getPropertyValue( $this->instance, 'options' )
+		);
 	}
 
 	/**

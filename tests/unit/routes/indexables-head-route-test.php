@@ -49,7 +49,10 @@ class Indexables_Head_Route_Test extends TestCase {
 	 * @covers ::__construct
 	 */
 	public function test_construct() {
-		$this->assertAttributeInstanceOf( Indexable_Head_Action::class, 'head_action', $this->instance );
+		$this->assertInstanceOf(
+			Indexable_Head_Action::class,
+			$this->getPropertyValue( $this->instance, 'head_action' )
+		);
 	}
 
 	/**

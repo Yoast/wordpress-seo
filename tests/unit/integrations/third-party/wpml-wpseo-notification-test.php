@@ -71,20 +71,17 @@ class WPML_WPSEO_Notification_Test extends TestCase {
 	 * @covers ::__construct
 	 */
 	public function test_constructor() {
-		self::assertAttributeInstanceOf(
+		self::assertInstanceOf(
 			Yoast_Notification_Center::class,
-			'notification_center',
-			$this->instance
+			$this->getPropertyValue( $this->instance, 'notification_center' )
 		);
-		self::assertAttributeInstanceOf(
+		self::assertInstanceOf(
 			WPML_WPSEO_Conditional::class,
-			'wpml_wpseo_conditional',
-			$this->instance
+			$this->getPropertyValue( $this->instance, 'wpml_wpseo_conditional' )
 		);
-		self::assertAttributeInstanceOf(
+		self::assertInstanceOf(
 			Short_Link_Helper::class,
-			'short_link_helper',
-			$this->instance
+			$this->getPropertyValue( $this->instance, 'short_link_helper' )
 		);
 	}
 

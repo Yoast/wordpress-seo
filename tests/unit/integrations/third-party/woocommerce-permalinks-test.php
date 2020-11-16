@@ -63,7 +63,10 @@ class WooCommerce_Permalinks_Test extends TestCase {
 	 * @covers ::__construct
 	 */
 	public function test_constructor() {
-		static::assertAttributeInstanceOf( Indexable_Helper::class, 'indexable_helper', $this->instance );
+		static::assertInstanceOf(
+			Indexable_Helper::class,
+			$this->getPropertyValue( $this->instance, 'indexable_helper' )
+		);
 	}
 
 	/**

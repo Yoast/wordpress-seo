@@ -49,7 +49,10 @@ class SEMrush_Login_Action_Test extends TestCase {
 	 * @covers ::__construct
 	 */
 	public function test_constructor() {
-		$this->assertAttributeInstanceOf( SEMrush_Client::class, 'client', $this->instance );
+		$this->assertInstanceOf(
+			SEMrush_Client::class,
+			$this->getPropertyValue( $this->instance, 'client' )
+		);
 	}
 
 	/**

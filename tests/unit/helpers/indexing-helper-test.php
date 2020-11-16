@@ -136,8 +136,14 @@ class Indexing_Helper_Test extends TestCase {
 	 * @covers ::__construct
 	 */
 	public function test_construct() {
-		$this->assertAttributeInstanceOf( Options_Helper::class, 'options_helper', $this->instance );
-		$this->assertAttributeInstanceOf( Date_Helper::class, 'date_helper', $this->instance );
+		$this->assertInstanceOf(
+			Options_Helper::class,
+			$this->getPropertyValue( $this->instance, 'options_helper' )
+		);
+		$this->assertInstanceOf(
+			Date_Helper::class,
+			$this->getPropertyValue( $this->instance, 'date_helper' )
+		);
 	}
 
 	/**
@@ -146,12 +152,30 @@ class Indexing_Helper_Test extends TestCase {
 	 * @covers ::set_indexing_actions
 	 */
 	public function test_set_indexing_actions() {
-		static::assertAttributeInstanceOf( Indexable_Post_Indexation_Action::class, 'post_indexation', $this->instance );
-		static::assertAttributeInstanceOf( Indexable_Term_Indexation_Action::class, 'term_indexation', $this->instance );
-		static::assertAttributeInstanceOf( Indexable_Post_Type_Archive_Indexation_Action::class, 'post_type_archive_indexation', $this->instance );
-		static::assertAttributeInstanceOf( Indexable_General_Indexation_Action::class, 'general_indexation', $this->instance );
-		static::assertAttributeInstanceOf( Post_Link_Indexing_Action::class, 'post_link_indexing_action', $this->instance );
-		static::assertAttributeInstanceOf( Term_Link_Indexing_Action::class, 'term_link_indexing_action', $this->instance );
+		static::assertInstanceOf(
+			Indexable_Post_Indexation_Action::class,
+			$this->getPropertyValue( $this->instance, 'post_indexation' )
+		);
+		static::assertInstanceOf(
+			Indexable_Term_Indexation_Action::class,
+			$this->getPropertyValue( $this->instance, 'term_indexation' )
+		);
+		static::assertInstanceOf(
+			Indexable_Post_Type_Archive_Indexation_Action::class,
+			$this->getPropertyValue( $this->instance, 'post_type_archive_indexation' )
+		);
+		static::assertInstanceOf(
+			Indexable_General_Indexation_Action::class,
+			$this->getPropertyValue( $this->instance, 'general_indexation' )
+		);
+		static::assertInstanceOf(
+			Post_Link_Indexing_Action::class,
+			$this->getPropertyValue( $this->instance, 'post_link_indexing_action' )
+		);
+		static::assertInstanceOf(
+			Term_Link_Indexing_Action::class,
+			$this->getPropertyValue( $this->instance, 'term_link_indexing_action' )
+		);
 	}
 
 	/**

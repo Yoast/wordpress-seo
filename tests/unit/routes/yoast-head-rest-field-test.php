@@ -81,9 +81,18 @@ class Yoast_Head_REST_Field_Test extends TestCase {
 	 * @covers ::__construct
 	 */
 	public function test_constructor() {
-		$this->assertAttributeInstanceOf( Post_Type_Helper::class, 'post_type_helper', $this->instance );
-		$this->assertAttributeInstanceOf( Taxonomy_Helper::class, 'taxonomy_helper', $this->instance );
-		$this->assertAttributeInstanceOf( Indexable_Head_Action::class, 'head_action', $this->instance );
+		$this->assertInstanceOf(
+			Post_Type_Helper::class,
+			$this->getPropertyValue( $this->instance, 'post_type_helper' )
+		);
+		$this->assertInstanceOf(
+			Taxonomy_Helper::class,
+			$this->getPropertyValue( $this->instance, 'taxonomy_helper' )
+		);
+		$this->assertInstanceOf(
+			Indexable_Head_Action::class,
+			$this->getPropertyValue( $this->instance, 'head_action' )
+		);
 	}
 
 	/**

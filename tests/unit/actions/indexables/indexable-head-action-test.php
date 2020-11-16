@@ -47,7 +47,10 @@ class Indexable_Head_Action_Test extends TestCase {
 	 * @covers ::__construct
 	 */
 	public function test_constructor() {
-		$this->assertAttributeInstanceOf( Meta_Surface::class, 'meta_surface', $this->instance );
+		$this->assertInstanceOf(
+			Meta_Surface::class,
+			$this->getPropertyValue( $this->instance, 'meta_surface' )
+		);
 	}
 
 	/**

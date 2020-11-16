@@ -53,7 +53,10 @@ class Migration_Error_Integration_Test extends TestCase {
 	 * @covers ::__construct
 	 */
 	public function test_construct() {
-		$this->assertAttributeInstanceOf( Migration_Status::class, 'migration_status', $this->instance );
+		$this->assertInstanceOf(
+			Migration_Status::class,
+			$this->getPropertyValue( $this->instance, 'migration_status' )
+		);
 	}
 
 	/**

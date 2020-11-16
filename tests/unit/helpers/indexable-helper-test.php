@@ -77,9 +77,18 @@ class Indexable_Helper_Test extends TestCase {
 	 * @covers ::__construct
 	 */
 	public function test_construct() {
-		$this->assertAttributeInstanceOf( Options_Helper::class, 'options_helper', $this->instance );
-		$this->assertAttributeInstanceOf( Environment_Helper::class, 'environment_helper', $this->instance );
-		$this->assertAttributeInstanceOf( Indexing_Helper::class, 'indexing_helper', $this->instance );
+		$this->assertInstanceOf(
+			Options_Helper::class,
+			$this->getPropertyValue( $this->instance, 'options_helper' )
+		);
+		$this->assertInstanceOf(
+			Environment_Helper::class,
+			$this->getPropertyValue( $this->instance, 'environment_helper' )
+		);
+		$this->assertInstanceOf(
+			Indexing_Helper::class,
+			$this->getPropertyValue( $this->instance, 'indexing_helper' )
+		);
 	}
 
 	/**

@@ -87,10 +87,22 @@ class Indexing_Tool_Integration_Test extends TestCase {
 	 * @covers ::__construct
 	 */
 	public function test_constructor() {
-		static::assertAttributeInstanceOf( WPSEO_Admin_Asset_Manager::class, 'asset_manager', $this->instance );
-		static::assertAttributeInstanceOf( Indexable_Helper::class, 'indexable_helper', $this->instance );
-		static::assertAttributeInstanceOf( Short_Link_Helper::class, 'short_link_helper', $this->instance );
-		static::assertAttributeInstanceOf( Indexing_Helper::class, 'indexing_helper', $this->instance );
+		static::assertInstanceOf(
+			WPSEO_Admin_Asset_Manager::class,
+			$this->getPropertyValue( $this->instance, 'asset_manager' )
+		);
+		static::assertInstanceOf(
+			Indexable_Helper::class,
+			$this->getPropertyValue( $this->instance, 'indexable_helper' )
+		);
+		static::assertInstanceOf(
+			Short_Link_Helper::class,
+			$this->getPropertyValue( $this->instance, 'short_link_helper' )
+		);
+		static::assertInstanceOf(
+			Indexing_Helper::class,
+			$this->getPropertyValue( $this->instance, 'indexing_helper' )
+		);
 	}
 
 	/**

@@ -52,7 +52,10 @@ class Indexable_Hierarchy_Repository_Test extends TestCase {
 	public function test_set_builder() {
 		$this->instance->set_builder( $this->builder );
 
-		$this->assertAttributeInstanceOf( Indexable_Hierarchy_Builder::class, 'builder', $this->instance );
+		$this->assertInstanceOf(
+			Indexable_Hierarchy_Builder::class,
+			$this->getPropertyValue( $this->instance, 'builder' )
+		);
 	}
 
 	/**

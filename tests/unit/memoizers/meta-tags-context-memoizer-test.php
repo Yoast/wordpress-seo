@@ -121,11 +121,26 @@ class Meta_Tags_Context_Memoizer_Test extends TestCase {
 	 * @covers ::__construct
 	 */
 	public function test_constructor() {
-		$this->assertAttributeInstanceOf( Blocks_Helper::class, 'blocks', $this->instance );
-		$this->assertAttributeInstanceOf( Current_Page_Helper::class, 'current_page', $this->instance );
-		$this->assertAttributeInstanceOf( Indexable_Repository::class, 'repository', $this->instance );
-		$this->assertAttributeInstanceOf( Meta_Tags_Context::class, 'context_prototype', $this->instance );
-		$this->assertAttributeInstanceOf( Presentation_Memoizer::class, 'presentation_memoizer', $this->instance );
+		$this->assertInstanceOf(
+			Blocks_Helper::class,
+			$this->getPropertyValue( $this->instance, 'blocks' )
+		);
+		$this->assertInstanceOf(
+			Current_Page_Helper::class,
+			$this->getPropertyValue( $this->instance, 'current_page' )
+		);
+		$this->assertInstanceOf(
+			Indexable_Repository::class,
+			$this->getPropertyValue( $this->instance, 'repository' )
+		);
+		$this->assertInstanceOf(
+			Meta_Tags_Context::class,
+			$this->getPropertyValue( $this->instance, 'context_prototype' )
+		);
+		$this->assertInstanceOf(
+			Presentation_Memoizer::class,
+			$this->getPropertyValue( $this->instance, 'presentation_memoizer' )
+		);
 	}
 
 	/**

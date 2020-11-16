@@ -49,7 +49,7 @@ class Schema_Blocks_Test extends TestCase {
 	 * @covers ::__construct
 	 */
 	public function test_constructor() {
-		static::assertAttributeInstanceOf( WPSEO_Admin_Asset_Manager::class, 'asset_manager', $this );
+		static::assertInstanceOf( WPSEO_Admin_Asset_Manager::class, $this->getPropertyValue( $this, 'asset_manager' ) );
 	}
 
 	/**

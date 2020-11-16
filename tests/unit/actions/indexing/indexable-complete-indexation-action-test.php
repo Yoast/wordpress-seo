@@ -50,7 +50,10 @@ class Indexable_Indexing_Complete_Action_Test extends TestCase {
 	 * @covers ::__construct
 	 */
 	public function test_constructor() {
-		$this->assertAttributeInstanceOf( Indexable_Helper::class, 'indexable_helper', $this->instance );
+		$this->assertInstanceOf(
+			Indexable_Helper::class,
+			$this->getPropertyValue( $this->instance, 'indexable_helper' )
+		);
 	}
 
 	/**
