@@ -119,7 +119,6 @@ class Permalink_Integrity_Watcher implements Integration_Interface {
 
 		// If no reason is found for the difference in permalinks, the dynamic permalink mode is enabled.
 		$this->options_helper->set( 'dynamic_permalinks', true );
-		Yoast_Notification_Center::get()->add_notification( $this->get_notification() );
 	}
 
 	/**
@@ -133,26 +132,5 @@ class Permalink_Integrity_Watcher implements Integration_Interface {
 	private function update_permalink_samples( $type, $permalink_samples ) {
 		$permalink_samples[ $type ] = \time();
 		$this->options_helper->set( 'dynamic_permalink_samples', $permalink_samples );
-	}
-
-	/**
-	 * Gets the notification object.
-	 *
-	 * @return Yoast_Notification
-	 */
-	protected function get_notification() {
-		$message = 'We had to activate legacy mode in our plugin to solve permalink issues. This may be caused by a plugin conflict. Please send diagnostics data to our servers so we can track down this issue';
-
-		$notification = new Yoast_Notification(
-			$message,
-			[
-				'type'         => Yoast_Notification::WARNING,
-				'id'           => 'permalink-integrity-warning',
-				'capabilities' => 'wpseo_manage_options',
-				'priority'     => 0.8,
-			]
-		);
-
-		return $notification;
 	}
 }
