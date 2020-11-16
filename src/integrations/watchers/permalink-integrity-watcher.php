@@ -3,10 +3,8 @@
 namespace Yoast\WP\SEO\Integrations\Watchers;
 
 use Yoast\WP\SEO\Helpers\Options_Helper;
-use Yoast\WP\SEO\Helpers\Permalink_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Conditionals\No_Conditionals;
-use Yoast\WP\SEO\Helpers\Indexable_Helper;
 
 /**
  * WordPress Permalink structure watcher.
@@ -32,13 +30,6 @@ class Permalink_Integrity_Watcher implements Integration_Interface {
 	protected $indexable_homeurl_watcher;
 
 	/**
-	 * The indexable helper.
-	 *
-	 * @var Indexable_Helper
-	 */
-	protected $indexable_helper;
-
-	/**
 	 * The options helper.
 	 *
 	 * @var Options_Helper
@@ -48,11 +39,13 @@ class Permalink_Integrity_Watcher implements Integration_Interface {
 	/**
 	 * Permalink_Integrity_Watcher constructor.
 	 *
-	 * @param Indexable_Helper $indexable The indexable helper.
+	 * @param Options_Helper $option The options helper.
+	 * @param Indexable_Permalink_Watcher $permalink_watcher The indexable permalink watcher.
+	 * @param Indexable_HomeUrl_Watcher $homeurl_watcher The home url watcher.
 	 */
-	public function __construct( Indexable_Helper $indexable, Options_Helper $option, Indexable_Permalink_Watcher $permalink_watcher,
+	public function __construct( Options_Helper $option,
+								 Indexable_Permalink_Watcher $permalink_watcher,
 								 Indexable_HomeUrl_Watcher $homeurl_watcher ) {
-		$this->indexable_helper            = $indexable;
 		$this->options_helper              = $option;
 		$this->indexable_permalink_watcher = $permalink_watcher;
 		$this->indexable_homeurl_watcher   = $homeurl_watcher;
@@ -64,58 +57,82 @@ class Permalink_Integrity_Watcher implements Integration_Interface {
 	 * @return void
 	 */
 	public function register_hooks() {
-		\add_action( 'wpseo_frontend_presentation', [ $this, 'compare_indexable_permalinks' ], 10, 1 );
+		\add_action( 'wpseo_frontend_presentation', [ $this, 'compare_permalink_for_page' ], 10, 1 );
 	}
 
 	/**
-	 * Compares the indexable permalinks and tries to find the cause if they differ.
+	 * Checks if the permalink integrity check should be performed.
+	 *
+	 * Returns true if the dynamic permalink mode has not been activated,
+	 * and the type has not been checked in the past week.
+	 * Returns false otherwise.
+	 *
+	 * @param string $type String containing the type - subtype of the indexable.
+	 * @param array $permalink_samples The permalink samples array.
+	 *
+	 * @return boolean Whether the permalink integrity check should be performed.
+	 */
+	public function should_perform_check( $type, $permalink_samples ) {
+		return ! $this->options_helper->get( 'dynamic_permalinks', false )
+			    && $permalink_samples[ $type ] >= ( \time() - ( 60 * 60 * 24 * 7 ) );
+	}
+
+	/**
+	 * Compares the permalink of the current page to the indexable permalink. If it is not the same, the
+	 * First checks if the type of the current page has been checked in the past week, if not performs the check.
+	 *
+	 * @param Indexable_Presentation $presentation The indexables presentation.
 	 *
 	 * @return void
 	 */
-	public function compare_indexable_permalinks( $presentation ) {
-		 // check if last samples were taken 1 week ago or more and if so take more samples
-		$permalinks_indexables_types = $this->options_helper->get( 'permalinks_indexables_types' );
-		foreach ( $permalinks_indexables_types as $link ) {
-			if ( $link >= ( \time() - ( 60 * 60 * 24 * 7 ) ) ) {
-				// less then a week ago, do nothing
-				return;
-			}
-		}
+	public function compare_permalink_for_page( $presentation ) {
+		$model = $presentation->model;
 
-		// compare the permalinks
-		if ( $presentation->model->permalink === $this->permalink_helper->get_permalink_for_indexable( $presentation->model ) ) {
-			// update the timestamps and clear the possible notification
-			$this->updatePermalinkSamples();
-			\Yoast_Notification_Center::get()->remove_notification_by_id( 'permalink-integrity-warning' );
-			$this->options_helper->set( 'dynamic_permalinks', false );
+		$permalink_samples = $this->options_helper->get( 'permalinks_indexables_types' );
+		$type 			   = $model->indexable->object_type . '-' . $model->indexable->object_sub_type;
+
+		if ( ! $this->should_perform_check( $type, $permalink_samples ) ) {
+			update_permalink_samples( $type, $permalink_samples );
 			return;
 		}
 
-		// permalinks differ, find cause
-		// reset the permalinks and taxonomies if necessary
+		// if permalink of current page is the same as the indexable permalink, do nothing.
+		if ( $model->permalink === $this->permalink_helper->get_permalink_for_indexable( $model ) ) {
+			update_permalink_samples( $type, $permalink_samples );
+			return;
+		}
+
 		if ( $this->indexable_permalink_watcher->should_reset_permalinks() ||
-			$this->indexable_permalink_watcher->should_reset_categories() ||
-			$this->indexable_permalink_watcher->should_reset_tags() ) {
-			// in case of the categories or tags, they will be automatically reset and no notification will be thrown.
+			 $this->indexable_permalink_watcher->should_reset_categories() ||
+			 $this->indexable_permalink_watcher->should_reset_tags()
+		) {
 			$this->indexable_permalink_watcher->force_reset_permalinks();
-			die();
+			update_permalink_samples( $type, $permalink_samples );
 			return;
 		}
 
-		// try to reset the home url indexables
 		if ( $this->indexable_homeurl_watcher->should_reset_permalinks() ) {
 			$this->indexable_homeurl_watcher->force_reset_permalinks();
+			update_permalink_samples( $type, $permalink_samples );
 			return;
 		}
 
-		// unknown cause, show notification
+		// If no reason is found for the difference in permalinks, the dynamic permalink mode is enabled.
 		$this->options_helper->set( 'dynamic_permalinks', true );
-		\Yoast_Notification_Center::get()->add_notification( $this->get_notification() );
+		Yoast_Notification_Center::get()->add_notification( $this->get_notification() );
 	}
 
-	private function updatePermalinkSamples() {
-		 $new_permalinks_indexables_types = $this->indexable_helper->take_permalink_sample_array();
-		$this->options_helper->set( 'permalinks_indexables_types', $new_permalinks_indexables_types );
+	/**
+	 * Updated the permalinks_indexables_types options with a new timestamp for $type.
+	 *
+	 * @param string $type String containing the type - subtype of the indexable.
+	 * @param array $permalink_samples The permalink samples array.
+	 *
+	 * @return void
+	 */
+	private function update_permalink_samples( $type, $permalink_samples ) {
+		$permalink_samples[ $type ] = \time();
+		$this->options_helper->set( 'permalinks_indexables_types', $permalink_samples );
 	}
 
 	/**
@@ -126,10 +143,10 @@ class Permalink_Integrity_Watcher implements Integration_Interface {
 	protected function get_notification() {
 		$message = 'We had to activate legacy mode in our plugin to solve permalink issues. This may be caused by a plugin conflict. Please send diagnostics data to our servers so we can track down this issue';
 
-		$notification = new \Yoast_Notification(
+		$notification = new Yoast_Notification(
 			$message,
 			[
-				'type'         => \Yoast_Notification::WARNING,
+				'type'         => Yoast_Notification::WARNING,
 				'id'           => 'permalink-integrity-warning',
 				'capabilities' => 'wpseo_manage_options',
 				'priority'     => 0.8,
