@@ -6,6 +6,7 @@
  */
 
 use Yoast\WP\Lib\Model;
+use Yoast\WP\SEO\Integrations\Watchers\Permalink_Integrity_Watcher;
 
 /**
  * This code handles the option upgrades.
@@ -20,18 +21,10 @@ class WPSEO_Upgrade {
 	private $taxonomy_helper;
 
 	/**
-	 * The indexable helper.
-	 *
-	 * @var \Yoast\WP\SEO\Helpers\Indexable_Helper
-	 */
-	private $indexable_helper;
-
-	/**
 	 * Class constructor.
 	 */
 	public function __construct() {
 		$this->taxonomy_helper  = YoastSEO()->helpers->taxonomy;
-		$this->indexable_helper = YoastSEO()->helpers->indexable;
 
 		$version = WPSEO_Options::get( 'version' );
 
@@ -769,7 +762,9 @@ class WPSEO_Upgrade {
 	private function upgrade_153() {
 		WPSEO_Options::set( 'category_base_url', get_option( 'category_base' ) );
 		WPSEO_Options::set( 'tag_base_url', get_option( 'tag_base' ) );
-		$dynamic_permalink_samples = $this->indexable_helper->take_permalink_sample_array();
+
+		$permalink_integrity_watcher = YoastSEO()->classes->get( Permalink_Integrity_Watcher::class );
+		$dynamic_permalink_samples   = $permalink_integrity_watcher->collect_dynamic_permalink_samples();
 		WPSEO_Options::set( 'dynamic_permalink_samples', $dynamic_permalink_samples );
 
 		// Rename a couple of options.
