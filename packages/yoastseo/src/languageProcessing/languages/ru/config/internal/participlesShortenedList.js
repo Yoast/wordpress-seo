@@ -2908,12 +2908,7 @@ const adjectiveParticiples = [ "взбудоражен", "взволнован",
 	"сконфужена", "сконфужено", "сконфужены", "смазан", "титулован", "утомлен", "утомлена", "утомлено", "утомлены",
 ];
 
-/**
- * Returns lists with passive verb-forms to be used by the passive voice assessment.
- * @returns {Object} The object with passive verb-form lists.
- */
-export default function() {
-	return {
-		all: passiveVerbs.concat( orthographicFormsPassiveVerbs, alternativeVerbForms, adjectiveParticiples ),
-	};
-}
+
+export const all = passiveVerbs.concat( orthographicFormsPassiveVerbs, alternativeVerbForms, adjectiveParticiples );
+
+export default all;

@@ -488,33 +488,26 @@ const titlesPreceding = [ "г-н", "г-жа", "тов", "гр-н", "гр-а", "�
 // "ст" is already included in recipe words
 const titlesFollowing = [ "мл" ];
 
-/**
- * Returns the Russian function words.
- *
- * @returns {Object} Russian function words.
- */
-export default function() {
-	return {
-		// These word categories are filtered at the ending of word combinations.
-		filteredAtEnding: [].concat( ordinalNumerals, generalAdjectivesAdverbs ),
+// These word categories are filtered at the ending of word combinations.
+export const filteredAtEnding = [].concat( ordinalNumerals, generalAdjectivesAdverbs );
 
-		// These word categories are filtered at the beginning and ending of word combinations.
-		filteredAtBeginningAndEnding: [].concat( prepositions, coordinatingConjunctions, demonstrativePronouns, intensifiers,
-			quantifiers, possessivePronouns ),
+// These word categories are filtered at the beginning and ending of word combinations.
+export const filteredAtBeginningAndEnding = [].concat( prepositions, coordinatingConjunctions, demonstrativePronouns, intensifiers,
+	quantifiers, possessivePronouns );
 
-		// These word categories are filtered everywhere within word combinations.
-		filteredAnywhere: [].concat( transitionWords, adverbialGenitives, personalPronouns,
-			reflexivePronouns, interjections, cardinalNumerals, filteredPassiveAuxiliaries, otherAuxiliaries, copula, interviewVerbs,
-			delexicalizedVerbs, indefinitePronouns, subordinatingConjunctions, interrogativeDeterminers,
-			interrogativePronouns, interrogativeProAdverbs, locativeAdverbs, miscellaneous, recipeWords, timeWords, vagueNouns ),
+// These word categories are filtered everywhere within word combinations.
+export const filteredAnywhere = [].concat( transitionWords, adverbialGenitives, personalPronouns,
+	reflexivePronouns, interjections, cardinalNumerals, filteredPassiveAuxiliaries, otherAuxiliaries, copula, interviewVerbs,
+	delexicalizedVerbs, indefinitePronouns, subordinatingConjunctions, interrogativeDeterminers,
+	interrogativePronouns, interrogativeProAdverbs, locativeAdverbs, miscellaneous, recipeWords, timeWords, vagueNouns );
 
-		// This export contains all of the above words.
-		all: [].concat( cardinalNumerals, ordinalNumerals, demonstrativePronouns, possessivePronouns, reflexivePronouns,
-			personalPronouns, quantifiers, indefinitePronouns, indefinitePronounsPossessive, interrogativeDeterminers,
-			interrogativePronouns, interrogativeProAdverbs,
-			locativeAdverbs, adverbialGenitives, filteredPassiveAuxiliaries,
-			otherAuxiliaries, copula, prepositions, coordinatingConjunctions, subordinatingConjunctions, interviewVerbs,
-			transitionWords, intensifiers, delexicalizedVerbs, interjections, generalAdjectivesAdverbs,
-			recipeWords, vagueNouns, miscellaneous, titlesPreceding, titlesFollowing ),
-	};
-}
+// This export contains all of the above words.
+export const all = [].concat( cardinalNumerals, ordinalNumerals, demonstrativePronouns, possessivePronouns, reflexivePronouns,
+	personalPronouns, quantifiers, indefinitePronouns, indefinitePronounsPossessive, interrogativeDeterminers,
+	interrogativePronouns, interrogativeProAdverbs,
+	locativeAdverbs, adverbialGenitives, filteredPassiveAuxiliaries,
+	otherAuxiliaries, copula, prepositions, coordinatingConjunctions, subordinatingConjunctions, interviewVerbs,
+	transitionWords, intensifiers, delexicalizedVerbs, interjections, generalAdjectivesAdverbs,
+	recipeWords, vagueNouns, miscellaneous, titlesPreceding, titlesFollowing );
+
+export default {};

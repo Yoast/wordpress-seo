@@ -1,5 +1,5 @@
 import areWordsInSentence from "../../../helpers/word/areWordsInSentence";
-import getPassiveVerbs from "../config/passiveVoice/participlesShortenedList.js";
+import getPassiveVerbs from "../config/internal/participlesShortenedList.js";
 
 /**
  * Checks the passed sentence to see if it contains passive verbs.
@@ -8,5 +8,5 @@ import getPassiveVerbs from "../config/passiveVoice/participlesShortenedList.js"
  * @returns {Boolean} Whether the sentence contains passive voice.
  */
 export default function isPassiveSentence( sentence ) {
-	return areWordsInSentence( getPassiveVerbs().all, sentence );
+	return areWordsInSentence( getPassiveVerbs, sentence );
 }
