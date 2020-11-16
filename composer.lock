@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c8d80cef3307dfd31088307bffaba47e",
+    "content-hash": "995bd264fa2eb66682443404abca7f17",
     "packages": [
         {
             "name": "composer/installers",
@@ -1166,22 +1166,22 @@
         },
         {
             "name": "humbug/php-scoper",
-            "version": "dev-master",
+            "version": "dev-yoast",
             "source": {
                 "type": "git",
                 "url": "https://github.com/herregroen/php-scoper.git",
-                "reference": "a2fd6897850d5dd01b9020e316257e0db773dfce"
+                "reference": "ac49d078db3866c40527f60062ffa522cf035bee"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/herregroen/php-scoper/zipball/a2fd6897850d5dd01b9020e316257e0db773dfce",
-                "reference": "a2fd6897850d5dd01b9020e316257e0db773dfce",
+                "url": "https://api.github.com/repos/herregroen/php-scoper/zipball/ac49d078db3866c40527f60062ffa522cf035bee",
+                "reference": "ac49d078db3866c40527f60062ffa522cf035bee",
                 "shasum": ""
             },
             "require": {
-                "composer/package-versions-deprecated": "^1.8",
                 "nikic/php-parser": "^4.0",
-                "php": "^7.3",
+                "ocramius/package-versions": "^1.1",
+                "php": "^7.2",
                 "symfony/console": "^3.2 || ^4.0",
                 "symfony/filesystem": "^3.2 || ^4.0",
                 "symfony/finder": "^3.2 || ^4.0"
@@ -1244,9 +1244,9 @@
             ],
             "description": "Prefixes all PHP namespaces in a file or directory.",
             "support": {
-                "source": "https://github.com/herregroen/php-scoper/tree/master"
+                "source": "https://github.com/herregroen/php-scoper/tree/yoast"
             },
-            "time": "2020-11-16T10:48:09+00:00"
+            "time": "2020-11-16T11:10:55+00:00"
         },
         {
             "name": "jetbrains/phpstorm-stubs",

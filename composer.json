@@ -39,7 +39,7 @@
 	"require-dev": {
 		"yoast/php-development-environment": "^1.0",
 		"yoast/yoastcs": "^2.1.0",
-		"humbug/php-scoper": "dev-master",
+		"humbug/php-scoper": "dev-yoast",
 		"brain/monkey": "^2.4",
 		"phpunit/phpunit": "^5.7",
 		"atanamo/php-codeshift": "^1.0",
