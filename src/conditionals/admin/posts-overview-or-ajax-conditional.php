@@ -1,6 +1,8 @@
 <?php
 
-namespace Yoast\WP\SEO\Conditionals;
+namespace Yoast\WP\SEO\Conditionals\Admin;
+
+use Yoast\WP\SEO\Conditionals\Conditional;
 
 /**
  * Conditional that is only met when on a post overview page or during an ajax request.

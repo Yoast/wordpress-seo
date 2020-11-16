@@ -2,6 +2,8 @@
 
 namespace Yoast\WP\SEO\Dependency_Injection;
 
+use ReflectionClass;
+use ReflectionException;
 use ReflectionNamedType;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -57,12 +59,12 @@ class Interface_Injection_Pass implements CompilerPassInterface {
 				$argument_index = $definition_class->splat_argument->getPosition();
 				foreach ( $subclasses_of_splat_type as $subclass ) {
 					$definition->setArgument( $argument_index, new Reference( $subclass->getClass() ) );
-					$argument_index++;
+					++$argument_index;
 				}
 			}
 		} catch ( \Exception $e ) {
 			// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_var_dump
-			var_dump( $e );
+			\var_dump( $e );
 		}
 	}
 
@@ -73,7 +75,7 @@ class Interface_Injection_Pass implements CompilerPassInterface {
 	 *
 	 * @return Constructor_Details|null
 	 *
-	 * @throws \ReflectionException If the reflection class couldn't be found.
+	 * @throws ReflectionException If the reflection class couldn't be found.
 	 *
 	 * @example If we had a class Fruit_Basket with this constructor:
 	 * __construct(Fruit ...$all_our_fruit), then this method would find it.
@@ -86,7 +88,7 @@ class Interface_Injection_Pass implements CompilerPassInterface {
 		}
 
 		// Apply reflection to the class definition, to retrieve the constructor.
-		$class_reflection_info = new \ReflectionClass( $definition_class );
+		$class_reflection_info = new ReflectionClass( $definition_class );
 		$class_constructor     = $class_reflection_info->getConstructor();
 		if ( ! $class_constructor ) {
 			/*
@@ -99,7 +101,7 @@ class Interface_Injection_Pass implements CompilerPassInterface {
 		// Get the constructor's last argument.
 		// We only care about the last constructor argument; the '...' splat operator is always last.
 		$constructor_arguments = $class_constructor->getParameters();
-		$splat_argument        = end( $constructor_arguments );
+		$splat_argument        = \end( $constructor_arguments );
 
 		// isVariadic means "is it a 'splat' argument".
 		if ( ! $splat_argument || ! $splat_argument->isVariadic() ) {
@@ -109,7 +111,7 @@ class Interface_Injection_Pass implements CompilerPassInterface {
 		$splat_argument_type = $splat_argument->getType();
 
 		// Analyse the type of the splat argument.
-		if ( ! is_a( $splat_argument_type, ReflectionNamedType::class ) ) {
+		if ( ! \is_a( $splat_argument_type, ReflectionNamedType::class ) ) {
 			// If the argument is not a class, we cannot inject it as a dependency.
 			return null;
 		}

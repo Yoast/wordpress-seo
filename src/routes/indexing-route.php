@@ -4,18 +4,17 @@ namespace Yoast\WP\SEO\Routes;
 
 use WP_Error;
 use WP_REST_Response;
-use Yoast\WP\SEO\Actions\Indexing\Indexable_Indexing_Complete_Action;
 use Yoast\WP\SEO\Actions\Indexing\Indexable_General_Indexation_Action;
+use Yoast\WP\SEO\Actions\Indexing\Indexable_Indexing_Complete_Action;
 use Yoast\WP\SEO\Actions\Indexing\Indexable_Post_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexing\Indexable_Post_Type_Archive_Indexation_Action;
-use Yoast\WP\SEO\Actions\Indexing\Indexing_Prepare_Action;
 use Yoast\WP\SEO\Actions\Indexing\Indexable_Term_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexing\Indexation_Action_Interface;
 use Yoast\WP\SEO\Actions\Indexing\Indexing_Complete_Action;
+use Yoast\WP\SEO\Actions\Indexing\Indexing_Prepare_Action;
 use Yoast\WP\SEO\Actions\Indexing\Post_Link_Indexing_Action;
 use Yoast\WP\SEO\Actions\Indexing\Term_Link_Indexing_Action;
 use Yoast\WP\SEO\Conditionals\No_Conditionals;
-use Yoast\WP\SEO\Config\Indexing_Reasons;
 use Yoast\WP\SEO\Helpers\Indexing_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Main;
@@ -350,7 +349,7 @@ class Indexing_Route extends Abstract_Indexation_Route {
 	/**
 	 * Indexes a number of posts for post links.
 	 *
-	 * @return WP_Rest_Response The response.
+	 * @return WP_REST_Response The response.
 	 */
 	public function index_post_links() {
 		return $this->run_indexation_action( $this->post_link_indexing_action, self::FULL_POST_LINKS_INDEXING_ROUTE );
@@ -359,7 +358,7 @@ class Indexing_Route extends Abstract_Indexation_Route {
 	/**
 	 * Indexes a number of terms for term links.
 	 *
-	 * @return WP_Rest_Response The response.
+	 * @return WP_REST_Response The response.
 	 */
 	public function index_term_links() {
 		return $this->run_indexation_action( $this->term_link_indexing_action, self::FULL_TERM_LINKS_INDEXING_ROUTE );

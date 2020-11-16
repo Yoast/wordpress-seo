@@ -1,10 +1,11 @@
 <?php
 
-namespace Yoast\WP\SEO\Values\SEMrush;
+namespace Yoast\WP\SEO\Tests\Unit\Values\SEMrush;
 
-use YoastSEO_Vendor\League\OAuth2\Client\Token\AccessTokenInterface;
 use Mockery;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
+use Yoast\WP\SEO\Values\SEMrush\SEMrush_Token;
+use YoastSEO_Vendor\League\OAuth2\Client\Token\AccessTokenInterface;
 
 /**
  * Class SEMrush_Token_Test
@@ -29,7 +30,7 @@ class SEMrush_Token_Test extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->created_at = time();
+		$this->created_at = \time();
 	}
 
 	/**

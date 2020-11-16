@@ -3,7 +3,6 @@
 namespace Yoast\WP\SEO\Integrations\Watchers;
 
 use WP_CLI;
-use WP_CLI\Utils;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
 use Yoast\WP\SEO\Config\Indexing_Reasons;
 use Yoast\WP\SEO\Helpers\Indexable_Helper;
@@ -82,7 +81,7 @@ class Indexable_HomeUrl_Watcher implements Integration_Interface {
 		$this->indexable_helper->reset_permalink_indexables( null, null, Indexing_Reasons::REASON_HOME_URL_OPTION );
 
 		// Reset the home_url option.
-		$this->options_helper->set( 'home_url', get_home_url() );
+		$this->options_helper->set( 'home_url', \get_home_url() );
 	}
 
 	/**
@@ -95,7 +94,7 @@ class Indexable_HomeUrl_Watcher implements Integration_Interface {
 			$this->reset_permalinks();
 
 			if ( \defined( 'WP_CLI' ) && \WP_CLI ) {
-				WP_CLI::success( __( 'All permalinks were successfully reset', 'wordpress-seo' ) );
+				WP_CLI::success( \__( 'All permalinks were successfully reset', 'wordpress-seo' ) );
 			}
 
 			return true;

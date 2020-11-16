@@ -5,6 +5,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Integrations\Watchers;
 use Brain\Monkey;
 use Exception;
 use Mockery;
+use WP_Post;
 use Yoast\WP\SEO\Builders\Indexable_Builder;
 use Yoast\WP\SEO\Builders\Indexable_Link_Builder;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
@@ -395,7 +396,7 @@ class Indexable_Post_Watcher_Test extends TestCase {
 			->with( $updated_indexable )
 			->once();
 
-		$post = Mockery::mock( \WP_Post::class );
+		$post = Mockery::mock( WP_Post::class );
 
 		$this->post
 			->expects( 'get_post' )

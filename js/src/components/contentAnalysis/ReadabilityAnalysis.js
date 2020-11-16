@@ -5,7 +5,7 @@ import { withSelect } from "@wordpress/data";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { __ } from "@wordpress/i18n";
-import { isNil, get } from "lodash-es";
+import { isNil } from "lodash-es";
 
 /* Internal components */
 import ScoreIconPortal from "../portals/ScoreIconPortal";
@@ -27,8 +27,6 @@ const AnalysisHeader = styled.span`
 const ReadabilityResultsTabContainer = styled.div`
 	padding: 16px;
 `;
-
-const localizedData = get( window, "wpseoScriptData.metabox", {} );
 
 const StyledHelpLink = styled( HelpLink )`
 	margin: -8px 0 -4px 4px;
@@ -58,10 +56,6 @@ class ReadabilityAnalysis extends Component {
 					</StyledHelpLink>
 				</AnalysisHeader>
 				<Results
-					canChangeLanguage={ ! ( localizedData.settings_link === "" ) }
-					showLanguageNotice={ false }
-					changeLanguageLink={ localizedData.settings_link }
-					language={ localizedData.language }
 					results={ this.props.results }
 					marksButtonClassName="yoast-tooltip yoast-tooltip-w"
 					marksButtonStatus={ this.props.marksButtonStatus }

@@ -2,7 +2,6 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Conditionals;
 
-use Brain\Monkey;
 use Yoast\WP\SEO\Conditionals\Get_Request_Conditional;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 

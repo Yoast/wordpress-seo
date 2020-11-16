@@ -16,15 +16,6 @@ use Yoast\WP\SEO\Main;
 class SEMrush_Route implements Route_Interface {
 
 	/**
-	 * Returns the conditionals based in which this loadable should be active.
-	 *
-	 * @return array
-	 */
-	public static function get_conditionals() {
-		return [ SEMrush_Enabled_Conditional::class ];
-	}
-
-	/**
 	 * The SEMrush route prefix.
 	 *
 	 * @var string
@@ -86,6 +77,15 @@ class SEMrush_Route implements Route_Interface {
 	 * @var SEMrush_Phrases_Action
 	 */
 	private $phrases_action;
+
+	/**
+	 * Returns the conditionals based in which this loadable should be active.
+	 *
+	 * @return array
+	 */
+	public static function get_conditionals() {
+		return [ SEMrush_Enabled_Conditional::class ];
+	}
 
 	/**
 	 * SEMrush_Route constructor.
@@ -205,7 +205,7 @@ class SEMrush_Route implements Route_Interface {
 	 * @return boolean Whether or not the keyphrase is valid.
 	 */
 	public function has_valid_keyphrase( $keyphrase ) {
-		return trim( $keyphrase ) !== '';
+		return \trim( $keyphrase ) !== '';
 	}
 
 	/**
@@ -234,7 +234,7 @@ class SEMrush_Route implements Route_Interface {
 	 * @return bool Whether or not the country code is valid.
 	 */
 	public function has_valid_country_code( $country_code ) {
-		return ( $country_code !== '' && preg_match( '/^[a-z]{2}$/', $country_code ) === 1 );
+		return ( $country_code !== '' && \preg_match( '/^[a-z]{2}$/', $country_code ) === 1 );
 	}
 
 	/**
