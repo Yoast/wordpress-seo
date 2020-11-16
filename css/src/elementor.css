@@ -99,6 +99,11 @@
 	background: none;
 }
 
+.yoast-gutenberg-modal .yoast-notice-container > hr {
+	border-top-color: #ddd;
+	border-top-style: solid;
+}
+
 .yoast-gutenberg-modal input[type="radio"] {
 	appearance: none;
 	border-radius: 50%;
