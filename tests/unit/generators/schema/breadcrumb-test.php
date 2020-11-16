@@ -157,6 +157,56 @@ class Breadcrumb_Test extends TestCase {
 	}
 
 	/**
+	 * Tests the generation of the breadcrumbs when a non-nested page is set as the static front page.
+	 *
+	 * @covers ::generate
+	 * @covers ::not_hidden
+	 * @covers ::is_broken
+	 * @covers ::create_breadcrumb
+	 * @covers ::format_last_breadcrumb
+	 */
+	public function test_generate_non_nested_static_front_page() {
+		$breadcrumb_data = [
+			[
+				'url'  => 'https://basic.wordpress.test/',
+				'text' => 'Home',
+			],
+		];
+
+		$this->meta_tags_context->presentation->breadcrumbs = $breadcrumb_data;
+
+		$this->current_page->expects( 'is_paged' )->andReturnFalse();
+		$this->current_page->expects( 'is_home_static_page' )->once()->andReturnTrue();
+
+		$this->html
+			->expects( 'smart_strip_tags' )
+			->with( 'Home' )
+			->once()
+			->andReturnArg( 0 );
+
+		$actual = $this->instance->generate();
+
+		$expected = [
+			'@type'           => 'BreadcrumbList',
+			'@id'             => 'https://wordpress.example.com/canonical#breadcrumb',
+			'itemListElement' => [
+				[
+					'@type'    => 'ListItem',
+					'position' => 1,
+					'item'     => [
+						'@type' => 'WebPage',
+						'@id'   => 'https://basic.wordpress.test/',
+						'url'   => 'https://basic.wordpress.test/',
+						'name'  => 'Home',
+					],
+				],
+			],
+		];
+
+		$this->assertEquals( $expected, $actual );
+	}
+
+	/**
 	 * Tests the generation of the breadcrumbs when a nested page is set as the static front page.
 	 *
 	 * @covers ::generate
@@ -185,7 +235,7 @@ class Breadcrumb_Test extends TestCase {
 
 		$this->html
 			->expects( 'smart_strip_tags' )
-			->with( 'Test post' )
+			->with( 'Home' )
 			->once()
 			->andReturnArg( 0 );
 
@@ -202,7 +252,7 @@ class Breadcrumb_Test extends TestCase {
 						'@type' => 'WebPage',
 						'@id'   => 'https://basic.wordpress.test/',
 						'url'   => 'https://basic.wordpress.test/',
-						'name'  => 'Test post',
+						'name'  => 'Home',
 					],
 				],
 			],
