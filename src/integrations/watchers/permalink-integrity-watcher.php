@@ -120,10 +120,10 @@ class Permalink_Integrity_Watcher implements Integration_Interface {
 			return;
 		}
 
-		$model = $presentation->model;
+		$indexable = $presentation->model;
 
 		$permalink_samples = $this->options_helper->get( 'dynamic_permalink_samples' );
-		$type              = $model->indexable->object_type . '-' . $model->indexable->object_sub_type;
+		$type              = $indexable->object_type . '-' . $indexable->object_sub_type;
 
 		if ( ! $this->should_perform_check( $type, $permalink_samples ) ) {
 			$this->update_permalink_samples( $type, $permalink_samples );
@@ -131,7 +131,7 @@ class Permalink_Integrity_Watcher implements Integration_Interface {
 		}
 
 		// if permalink of current page is the same as the indexable permalink, do nothing.
-		if ( $model->permalink === $this->permalink_helper->get_permalink_for_indexable( $model ) ) {
+		if ( $indexable->permalink === $this->permalink_helper->get_permalink_for_indexable( $indexable ) ) {
 			$this->update_permalink_samples( $type, $permalink_samples );
 			return;
 		}
