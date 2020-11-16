@@ -88,7 +88,7 @@ class Permalink_Integrity_Watcher implements Integration_Interface {
 	public function compare_permalink_for_page( $presentation ) {
 		$model = $presentation->model;
 
-		$permalink_samples = $this->options_helper->get( 'permalinks_indexables_types' );
+		$permalink_samples = $this->options_helper->get( 'dynamic_permalink_samples' );
 		$type 			   = $model->indexable->object_type . '-' . $model->indexable->object_sub_type;
 
 		if ( ! $this->should_perform_check( $type, $permalink_samples ) ) {
@@ -123,7 +123,7 @@ class Permalink_Integrity_Watcher implements Integration_Interface {
 	}
 
 	/**
-	 * Updated the permalinks_indexables_types options with a new timestamp for $type.
+	 * Updated the dynamic_permalink_samples options with a new timestamp for $type.
 	 *
 	 * @param string $type String containing the type - subtype of the indexable.
 	 * @param array $permalink_samples The permalink samples array.
@@ -132,7 +132,7 @@ class Permalink_Integrity_Watcher implements Integration_Interface {
 	 */
 	private function update_permalink_samples( $type, $permalink_samples ) {
 		$permalink_samples[ $type ] = \time();
-		$this->options_helper->set( 'permalinks_indexables_types', $permalink_samples );
+		$this->options_helper->set( 'dynamic_permalink_samples', $permalink_samples );
 	}
 
 	/**
