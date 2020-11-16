@@ -105,38 +105,42 @@
 }
 
 .yoast-gutenberg-modal input[type="radio"] {
-	appearance: none;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	width: 18px;
+	height: 18px;
+	padding: 2px;
+	margin: 0 8px 0 0;
+	vertical-align: text-bottom;
 	border-radius: 50%;
-	border: 2px solid #6c7781;
-	margin-right: 12px;
-	transition: none;
-	box-shadow: 0 0 0 transparent;
-	height: 1rem;
-	padding: 0;
-	vertical-align: middle;
-	width: 1rem;
-	min-width: 1rem;
+	transition: all 150ms ease-out 0s;
+	border: var(--yoast-border-default);
+	box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+	position: relative;
+	overflow: hidden;
+	cursor: pointer;
 }
 
 .yoast-gutenberg-modal input[type="radio"]:checked {
-	background: #11a0d2;
-	border-color: #11a0d2;
+	border-color: var(--yoast-color-primary);
+	background-color: inherit;
+}
+
+.yoast-gutenberg-modal input[type='radio']:checked:after {
+	background: var(--yoast-color-primary);
+	width: 10px;
+	height: 10px;
+	background: var(--yoast-color-primary);
+	position: absolute;
+	left: 3px;
+	top: 3px;
+	content: "";
+	display: block;
+	border-radius: 50%;
 }
 
 .yoast-post-settings-modal .yoast-notice-container {
 	bottom: auto;
-}
-
-input[type="radio"]:checked::before {
-	content: "";
-	float: left;
-	vertical-align: middle;
-	border-radius: 50%;
-	line-height: 1.14285714;
-	width: 6px;
-	height: 6px;
-	margin: 3px 0 0 3px;
-	background-color: #fff;
 }
 
 /* Tab-focus styling */
@@ -155,11 +159,8 @@ input[type="radio"]:checked::before {
 }
 
 .yoast input[type="radio"]:checked:focus {
-	box-shadow: 0 0 0 2px #555d66;
-}
-
-.yoast input[type="radio"]:focus {
-	box-shadow: 0 0 0 1px #6c7781;
+	box-shadow: var(--yoast-color-focus);
+	border-color: #fff;
 }
 
 .yoast .yoast-button-upsell:focus {
