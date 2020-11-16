@@ -48,17 +48,17 @@ class Permalink_Integrity_Watcher implements Integration_Interface {
 	/**
 	 * Permalink_Integrity_Watcher constructor.
 	 *
-	 * @param Options_Helper $option The options helper.
-	 * @param Permalink_Helper $permalink_helper The permalink helper.
+	 * @param Options_Helper              $option            The options helper.
+	 * @param Permalink_Helper            $permalink_helper  The permalink helper.
 	 * @param Indexable_Permalink_Watcher $permalink_watcher The indexable permalink watcher.
-	 * @param Indexable_HomeUrl_Watcher $homeurl_watcher The home url watcher.
+	 * @param Indexable_HomeUrl_Watcher   $homeurl_watcher   The home url watcher.
 	 */
 	public function __construct( Options_Helper $option,
-								 Permalink_Helper $permalink_helper,
-								 Indexable_Permalink_Watcher $permalink_watcher,
-								 Indexable_HomeUrl_Watcher $homeurl_watcher ) {
+								Permalink_Helper $permalink_helper,
+								Indexable_Permalink_Watcher $permalink_watcher,
+								Indexable_HomeUrl_Watcher $homeurl_watcher ) {
 		$this->options_helper              = $option;
-		$this->permalink_helper			   = $permalink_helper;
+		$this->permalink_helper            = $permalink_helper;
 		$this->indexable_permalink_watcher = $permalink_watcher;
 		$this->indexable_homeurl_watcher   = $homeurl_watcher;
 	}
@@ -79,14 +79,14 @@ class Permalink_Integrity_Watcher implements Integration_Interface {
 	 * and the type has not been checked in the past week.
 	 * Returns false otherwise.
 	 *
-	 * @param string $type String containing the type - subtype of the indexable.
-	 * @param array $permalink_samples The permalink samples array.
+	 * @param string $type              "type-subtype" string of the indexable.
+	 * @param array  $permalink_samples The permalink samples array.
 	 *
 	 * @return boolean Whether the permalink integrity check should be performed.
 	 */
 	public function should_perform_check( $type, $permalink_samples ) {
 		return ! $this->options_helper->get( 'dynamic_permalinks', false )
-			    && $permalink_samples[ $type ] >= ( \time() - ( 60 * 60 * 24 * 7 ) );
+				&& $permalink_samples[ $type ] >= ( \time() - ( 60 * 60 * 24 * 7 ) );
 	}
 
 	/**
@@ -101,7 +101,7 @@ class Permalink_Integrity_Watcher implements Integration_Interface {
 		$model = $presentation->model;
 
 		$permalink_samples = $this->options_helper->get( 'dynamic_permalink_samples' );
-		$type 			   = $model->indexable->object_type . '-' . $model->indexable->object_sub_type;
+		$type              = $model->indexable->object_type . '-' . $model->indexable->object_sub_type;
 
 		if ( ! $this->should_perform_check( $type, $permalink_samples ) ) {
 			$this->update_permalink_samples( $type, $permalink_samples );
@@ -115,8 +115,8 @@ class Permalink_Integrity_Watcher implements Integration_Interface {
 		}
 
 		if ( $this->indexable_permalink_watcher->should_reset_permalinks() ||
-			 $this->indexable_permalink_watcher->should_reset_categories() ||
-			 $this->indexable_permalink_watcher->should_reset_tags()
+			$this->indexable_permalink_watcher->should_reset_categories() ||
+			$this->indexable_permalink_watcher->should_reset_tags()
 		) {
 			$this->indexable_permalink_watcher->force_reset_permalinks();
 			$this->update_permalink_samples( $type, $permalink_samples );
@@ -136,8 +136,8 @@ class Permalink_Integrity_Watcher implements Integration_Interface {
 	/**
 	 * Updated the dynamic_permalink_samples options with a new timestamp for $type.
 	 *
-	 * @param string $type String containing the type - subtype of the indexable.
-	 * @param array $permalink_samples The permalink samples array.
+	 * @param string $type              "type-subtype" string of the indexable.
+	 * @param array  $permalink_samples The permalink samples array.
 	 *
 	 * @return void
 	 */
