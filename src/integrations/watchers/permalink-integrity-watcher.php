@@ -3,8 +3,10 @@
 namespace Yoast\WP\SEO\Integrations\Watchers;
 
 use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Helpers\Permalink_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Conditionals\No_Conditionals;
+use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 
 /**
  * WordPress Permalink structure watcher.
@@ -37,16 +39,26 @@ class Permalink_Integrity_Watcher implements Integration_Interface {
 	protected $options_helper;
 
 	/**
+	 * The permalink helper.
+	 *
+	 * @var Permalink_Helper
+	 */
+	protected $permalink_helper;
+
+	/**
 	 * Permalink_Integrity_Watcher constructor.
 	 *
 	 * @param Options_Helper $option The options helper.
+	 * @param Permalink_Helper $permalink_helper The permalink helper.
 	 * @param Indexable_Permalink_Watcher $permalink_watcher The indexable permalink watcher.
 	 * @param Indexable_HomeUrl_Watcher $homeurl_watcher The home url watcher.
 	 */
 	public function __construct( Options_Helper $option,
+								 Permalink_Helper $permalink_helper,
 								 Indexable_Permalink_Watcher $permalink_watcher,
 								 Indexable_HomeUrl_Watcher $homeurl_watcher ) {
 		$this->options_helper              = $option;
+		$this->permalink_helper			   = $permalink_helper;
 		$this->indexable_permalink_watcher = $permalink_watcher;
 		$this->indexable_homeurl_watcher   = $homeurl_watcher;
 	}
@@ -92,13 +104,13 @@ class Permalink_Integrity_Watcher implements Integration_Interface {
 		$type 			   = $model->indexable->object_type . '-' . $model->indexable->object_sub_type;
 
 		if ( ! $this->should_perform_check( $type, $permalink_samples ) ) {
-			update_permalink_samples( $type, $permalink_samples );
+			$this->update_permalink_samples( $type, $permalink_samples );
 			return;
 		}
 
 		// if permalink of current page is the same as the indexable permalink, do nothing.
 		if ( $model->permalink === $this->permalink_helper->get_permalink_for_indexable( $model ) ) {
-			update_permalink_samples( $type, $permalink_samples );
+			$this->update_permalink_samples( $type, $permalink_samples );
 			return;
 		}
 
@@ -107,13 +119,13 @@ class Permalink_Integrity_Watcher implements Integration_Interface {
 			 $this->indexable_permalink_watcher->should_reset_tags()
 		) {
 			$this->indexable_permalink_watcher->force_reset_permalinks();
-			update_permalink_samples( $type, $permalink_samples );
+			$this->update_permalink_samples( $type, $permalink_samples );
 			return;
 		}
 
 		if ( $this->indexable_homeurl_watcher->should_reset_permalinks() ) {
 			$this->indexable_homeurl_watcher->force_reset_permalinks();
-			update_permalink_samples( $type, $permalink_samples );
+			$this->update_permalink_samples( $type, $permalink_samples );
 			return;
 		}
 
