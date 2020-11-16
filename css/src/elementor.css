@@ -18,6 +18,10 @@
 	margin-bottom: 1em;
 }
 
+.yoast.components-panel__body .yoast-title {
+	font-weight: var(--yoast-font-weight-bold);
+}
+
 .elementor-panel .elementor-tab-control-yoast-tab a:before, .yoast-element-menu-icon:before {
 	mask-image: var(--yoast-svg-icon-yoast);
 	-webkit-mask-image: var(--yoast-svg-icon-yoast);
