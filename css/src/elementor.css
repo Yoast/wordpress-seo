@@ -18,6 +18,20 @@
 	margin-bottom: 1em;
 }
 
+.yoast label, .yoast input, .yoast select:not(:focus), .yoast input:focus, .yoast select:focus {
+	color: var(--yoast-color-font-default);
+	background-color: rgba(0,0,0,0);
+	border-color: var(--yoast-color-secondary-darker);
+}
+
+.yoast label {
+	color: var(--yoast-color-label-help);
+}
+
+.yoast input[disabled] {
+	background-color: var(--yoast-color-inactive-grey-light);
+}
+
 .elementor-panel .elementor-tab-control-yoast-tab a:before, .yoast-element-menu-icon:before {
 	mask-image: var(--yoast-svg-icon-yoast);
 	-webkit-mask-image: var(--yoast-svg-icon-yoast);
