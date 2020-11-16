@@ -55,51 +55,51 @@ class WPSEO_Metabox_Formatter {
 		$schema_types         = new Schema_Types();
 
 		return [
-			'author_name'               => get_the_author_meta( 'display_name' ),
-			'site_name'                 => get_bloginfo( 'name' ),
-			'sitewide_social_image'     => WPSEO_Options::get( 'og_default_image' ),
-			'search_url'                => '',
-			'post_edit_url'             => '',
-			'base_url'                  => '',
-			'contentTab'                => __( 'Readability', 'wordpress-seo' ),
-			'keywordTab'                => __( 'Keyphrase:', 'wordpress-seo' ),
-			'removeKeyword'             => __( 'Remove keyphrase', 'wordpress-seo' ),
-			'contentLocale'             => get_locale(),
-			'userLocale'                => WPSEO_Language_Utils::get_user_locale(),
-			'translations'              => $this->get_translations(),
-			'keyword_usage'             => [],
-			'title_template'            => '',
-			'metadesc_template'         => '',
-			'contentAnalysisActive'     => $analysis_readability->is_enabled() ? 1 : 0,
-			'keywordAnalysisActive'     => $analysis_seo->is_enabled() ? 1 : 0,
-			'cornerstoneActive'         => WPSEO_Options::get( 'enable_cornerstone_content', false ) ? 1 : 0,
-			'semrushIntegrationActive'  => WPSEO_Options::get( 'semrush_integration_active', true ) ? 1 : 0,
-			'intl'                      => $this->get_content_analysis_component_translations(),
-			'isRtl'                     => is_rtl(),
-			'isPremium'                 => WPSEO_Utils::is_yoast_seo_premium(),
-			'addKeywordUpsell'          => $this->get_add_keyword_upsell_translations(),
-			'wordFormRecognitionActive' => YoastSEO()->helpers->language->is_word_form_recognition_active( WPSEO_Language_Utils::get_language( get_locale() ) ),
-			'siteIconUrl'               => get_site_icon_url(),
-			'countryCode'               => WPSEO_Options::get( 'semrush_country_code', false ),
-			'SEMrushLoginStatus'        => WPSEO_Options::get( 'semrush_integration_active', true ) ? $this->get_semrush_login_status() : false,
-			'showSocial'                => [
+			'author_name'                 => get_the_author_meta( 'display_name' ),
+			'site_name'                   => get_bloginfo( 'name' ),
+			'sitewide_social_image'       => WPSEO_Options::get( 'og_default_image' ),
+			'search_url'                  => '',
+			'post_edit_url'               => '',
+			'base_url'                    => '',
+			'contentTab'                  => __( 'Readability', 'wordpress-seo' ),
+			'keywordTab'                  => __( 'Keyphrase:', 'wordpress-seo' ),
+			'removeKeyword'               => __( 'Remove keyphrase', 'wordpress-seo' ),
+			'contentLocale'               => get_locale(),
+			'userLocale'                  => WPSEO_Language_Utils::get_user_locale(),
+			'translations'                => $this->get_translations(),
+			'keyword_usage'               => [],
+			'title_template'              => '',
+			'metadesc_template'           => '',
+			'contentAnalysisActive'       => $analysis_readability->is_enabled() ? 1 : 0,
+			'keywordAnalysisActive'       => $analysis_seo->is_enabled() ? 1 : 0,
+			'cornerstoneActive'           => WPSEO_Options::get( 'enable_cornerstone_content', false ) ? 1 : 0,
+			'semrushIntegrationActive'    => WPSEO_Options::get( 'semrush_integration_active', true ) ? 1 : 0,
+			'intl'                        => $this->get_content_analysis_component_translations(),
+			'isRtl'                       => is_rtl(),
+			'isPremium'                   => WPSEO_Utils::is_yoast_seo_premium(),
+			'addKeywordUpsell'            => $this->get_add_keyword_upsell_translations(),
+			'wordFormRecognitionActive'   => YoastSEO()->helpers->language->is_word_form_recognition_active( WPSEO_Language_Utils::get_language( get_locale() ) ),
+			'siteIconUrl'                 => get_site_icon_url(),
+			'countryCode'                 => WPSEO_Options::get( 'semrush_country_code', false ),
+			'SEMrushLoginStatus'          => WPSEO_Options::get( 'semrush_integration_active', true ) ? $this->get_semrush_login_status() : false,
+			'showSocial'                  => [
 				'facebook' => WPSEO_Options::get( 'opengraph', false ),
 				'twitter'  => WPSEO_Options::get( 'twitter', false ),
 			],
-			'schema'                    => [
+			'schema'                      => [
 				'displayFooter'      => WPSEO_Capability_Utils::current_user_can( 'wpseo_manage_options' ),
 				'pageTypeOptions'    => $schema_types->get_page_type_options(),
 				'articleTypeOptions' => $schema_types->get_article_type_options(),
 			],
-			'twitterCardType'           => YoastSEO()->helpers->options->get( 'twitter_card_type' ),
+			'twitterCardType'             => YoastSEO()->helpers->options->get( 'twitter_card_type' ),
 
 			/**
 			 * Filter to determine if the markers should be enabled or not.
 			 *
 			 * @param bool $showMarkers Should the markers being enabled. Default = true.
 			 */
-			'show_markers'              => apply_filters( 'wpseo_enable_assessment_markers', true ),
-			'publish_box'               => [
+			'show_markers'                => apply_filters( 'wpseo_enable_assessment_markers', true ),
+			'publish_box'                 => [
 				'labels' => [
 					'content' => [
 						'na'   => sprintf(
