@@ -22,8 +22,6 @@ export default function() {
 		"rajta", "rá", "róla", "minket", "nekünk", "velünk", "értünk", "nálunk", "hozzánk", "tőlünk", "rólunk", "titeket",
 		"nektek", "veletek", "értetek", "nálatok", "hozzátok", "tőletek", "rajtatok", "rátok", "rólatok", "őket", "nekik",
 		"velük", "értük", "bennük", "náluk", "hozzájuk", "tőlük", "rajtuk", "rájuk", "róluk",
-		// Demonstrative pronouns:
-		"ini", "itu", "hal", "ia",
 		// Transition words:
 		"azonban", "ám", "ha", "szerintem", "míg", "bár", "habár", "hát", "ha", "amennyiben", "mivel", "azonban", "amíg", "azért", "ezért",
 		// Interrogatives:
