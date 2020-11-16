@@ -2,6 +2,8 @@
 
 namespace Yoast\WP\SEO\Dependency_Injection\Util;
 
+use ReflectionMethod;
+
 /**
  * Helper class to wrap the reflected constructor.
  */
@@ -17,7 +19,7 @@ class Constructor_Details {
 	/**
 	 * Represents the constructor function.
 	 *
-	 * @var \ReflectionMethod
+	 * @var ReflectionMethod
 	 */
 	public $constructor;
 

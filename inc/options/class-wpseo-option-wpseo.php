@@ -73,7 +73,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'tag_base_url'                             => '',
 		'custom_taxonomy_slugs'                    => [],
 		'enable_enhanced_slack_sharing'            => true,
-		'zapier_integration_active'                => true,
+		'zapier_integration_active'                => false,
 		'zapier_subscription'                      => [],
 		'zapier_api_key'                           => '',
 	];

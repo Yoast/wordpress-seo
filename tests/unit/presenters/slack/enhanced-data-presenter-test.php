@@ -3,6 +3,8 @@
 namespace Yoast\WP\SEO\Tests\Unit\Presenters\Slack;
 
 use Brain\Monkey\Functions;
+use Mockery;
+use WP_Post;
 use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 use Yoast\WP\SEO\Presenters\Slack\Enhanced_Data_Presenter;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
@@ -38,8 +40,8 @@ class Enhanced_Data_Presenter_Test extends TestCase {
 		parent::setUp();
 
 		$this->instance                       = new Enhanced_Data_Presenter();
-		$this->instance->presentation         = \Mockery::mock( Indexable_Presentation::class );
-		$this->instance->presentation->source = \Mockery::mock( \WP_Post::class );
+		$this->instance->presentation         = Mockery::mock( Indexable_Presentation::class );
+		$this->instance->presentation->source = Mockery::mock( WP_Post::class );
 		$this->presentation                   = $this->instance->presentation;
 	}
 

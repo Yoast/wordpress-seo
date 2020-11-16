@@ -2,9 +2,6 @@
 
 namespace Yoast\WP\SEO\Actions\Indexation;
 
-use Yoast\WP\Lib\Model;
-use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
-
 /**
  * Reindexation action for term link indexables.
  *

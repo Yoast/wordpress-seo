@@ -2,8 +2,8 @@
 
 namespace Yoast\WP\SEO\Builders;
 
-use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Helpers\Indexable_Helper;
+use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
 /**

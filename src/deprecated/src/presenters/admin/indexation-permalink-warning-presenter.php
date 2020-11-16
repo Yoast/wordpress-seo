@@ -34,7 +34,7 @@ class Indexation_Permalink_Warning_Presenter extends Indexation_Warning_Presente
 	 * @return string The warning HTML.
 	 */
 	public function present() {
-		_deprecated_function( __METHOD__, 'WPSEO 15.1' );
+		\_deprecated_function( __METHOD__, 'WPSEO 15.1' );
 
 		return '';
 	}

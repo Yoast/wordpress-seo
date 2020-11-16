@@ -29,7 +29,7 @@ class Link_Count_Notification_Integration implements Integration_Interface {
 	 * @codeCoverageIgnore
 	 */
 	public static function get_conditionals() {
-		_deprecated_function( __METHOD__, 'WPSEO 15.1' );
+		\_deprecated_function( __METHOD__, 'WPSEO 15.1' );
 
 		return [ Admin_Conditional::class ];
 	}
@@ -47,7 +47,7 @@ class Link_Count_Notification_Integration implements Integration_Interface {
 		Yoast_Notification_Center $notification_center,
 		Post_Link_Indexing_Action $post_link_indexing_action
 	) {
-		_deprecated_function( __METHOD__, 'WPSEO 15.1' );
+		\_deprecated_function( __METHOD__, 'WPSEO 15.1' );
 	}
 
 	/**
@@ -57,7 +57,7 @@ class Link_Count_Notification_Integration implements Integration_Interface {
 	 * @codeCoverageIgnore
 	 */
 	public function register_hooks() {
-		_deprecated_function( __METHOD__, 'WPSEO 15.1' );
+		\_deprecated_function( __METHOD__, 'WPSEO 15.1' );
 	}
 
 	/**
@@ -67,7 +67,7 @@ class Link_Count_Notification_Integration implements Integration_Interface {
 	 * @codeCoverageIgnore
 	 */
 	public function cleanup_notification() {
-		_deprecated_function( __METHOD__, 'WPSEO 15.1' );
+		\_deprecated_function( __METHOD__, 'WPSEO 15.1' );
 	}
 
 	/**
@@ -78,6 +78,6 @@ class Link_Count_Notification_Integration implements Integration_Interface {
 	 * @codeCoverageIgnore
 	 */
 	public function manage_notification() {
-		_deprecated_function( __METHOD__, 'WPSEO 15.1' );
+		\_deprecated_function( __METHOD__, 'WPSEO 15.1' );
 	}
 }

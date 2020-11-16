@@ -81,6 +81,7 @@ class Indexable_Permalink_Watcher implements Integration_Interface {
 		\add_action( 'update_option_category_base', [ $this, 'reset_permalinks_term' ], 10, 3 );
 		\add_action( 'update_option_tag_base', [ $this, 'reset_permalinks_term' ], 10, 3 );
 		\add_action( 'wpseo_permalink_structure_check', [ $this, 'force_reset_permalinks' ] );
+		\add_action( 'wpseo_deactivate', [ $this, 'unschedule_cron' ] );
 	}
 
 	/**
@@ -195,7 +196,7 @@ class Indexable_Permalink_Watcher implements Integration_Interface {
 
 			$new_taxonomy_bases[ $taxonomy ] = $taxonomy_slug;
 
-			if ( ! array_key_exists( $taxonomy, $custom_taxonomy_bases ) ) {
+			if ( ! \array_key_exists( $taxonomy, $custom_taxonomy_bases ) ) {
 				continue;
 			}
 
@@ -254,7 +255,20 @@ class Indexable_Permalink_Watcher implements Integration_Interface {
 			return;
 		}
 
-		\wp_schedule_event( time(), 'daily', 'wpseo_permalink_structure_check' );
+		\wp_schedule_event( \time(), 'daily', 'wpseo_permalink_structure_check' );
+	}
+
+	/**
+	 * Unschedules the WP-Cron job to check the permalink_structure status.
+	 *
+	 * @return void
+	 */
+	public function unschedule_cron() {
+		if ( ! \wp_next_scheduled( 'wpseo_permalink_structure_check' ) ) {
+			return;
+		}
+
+		\wp_clear_scheduled_hook( 'wpseo_permalink_structure_check' );
 	}
 
 	/* ********************* DEPRECATED METHODS ********************* */
@@ -270,7 +284,7 @@ class Indexable_Permalink_Watcher implements Integration_Interface {
 	 * @param string      $reason  The reason that the permalink has been changed.
 	 */
 	public function reset_permalink_indexables( $type, $subtype = null, $reason = Indexing_Reasons::REASON_PERMALINK_SETTINGS ) {
-		_deprecated_function( __METHOD__, 'WPSEO 15.1', 'Indexable_Helper::reset_permalink_indexables' );
+		\_deprecated_function( __METHOD__, 'WPSEO 15.1', 'Indexable_Helper::reset_permalink_indexables' );
 
 		$this->indexable_helper->reset_permalink_indexables( $type, $subtype, $reason );
 	}

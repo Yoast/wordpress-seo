@@ -33,8 +33,8 @@
 	"require-dev": {
 		"yoast/php-development-environment": "^1.0",
 		"yoast/yoastcs": "^2.1.0",
-		"humbug/php-scoper": "^0.12.0",
-		"brain/monkey": "^2.4",
+		"humbug/php-scoper": "^0.13.4",
+		"brain/monkey": "^2.5.0",
 		"phpunit/phpunit": "^5.7",
 		"atanamo/php-codeshift": "^1.0",
 		"symfony/config": "^3.4",

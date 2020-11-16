@@ -2,12 +2,20 @@
 
 namespace Yoast\WP\SEO\Integrations;
 
+use WPSEO_Admin_Asset_Manager;
 use Yoast\WP\SEO\Conditionals\Schema_Blocks_Conditional;
 
 /**
  * Loads schema block templates into Gutenberg.
  */
 class Schema_Blocks implements Integration_Interface {
+
+	/**
+	 * The registered templates.
+	 *
+	 * @var string[]
+	 */
+	protected $templates = [];
 
 	/**
 	 * Returns the conditionals based in which this loadable should be active.
@@ -19,13 +27,6 @@ class Schema_Blocks implements Integration_Interface {
 			Schema_Blocks_Conditional::class,
 		];
 	}
-
-	/**
-	 * The registered templates.
-	 *
-	 * @var string[]
-	 */
-	protected $templates = [];
 
 	/**
 	 * Initializes the integration.
@@ -48,8 +49,8 @@ class Schema_Blocks implements Integration_Interface {
 	 * @return void
 	 */
 	public function register_template( $template ) {
-		if ( substr( $template, 0, 1 ) !== '/' ) {
-			$template = WPSEO_PATH . '/' . $template;
+		if ( \substr( $template, 0, 1 ) !== '/' ) {
+			$template = \WPSEO_PATH . '/' . $template;
 		}
 
 		$this->templates[] = $template;
@@ -72,16 +73,16 @@ class Schema_Blocks implements Integration_Interface {
 		}
 
 		foreach ( $templates as $template ) {
-			if ( ! file_exists( $template ) ) {
+			if ( ! \file_exists( $template ) ) {
 				continue;
 			}
-			$type = ( substr( $template, -10 ) === '.block.php' ) ? 'block' : 'schema';
+			$type = ( \substr( $template, -10 ) === '.block.php' ) ? 'block' : 'schema';
 			echo '<script type="text/' . \esc_html( $type ) . '-template">';
 			include $template;
 			echo '</script>';
 		}
 
-		$asset_manager = new \WPSEO_Admin_Asset_Manager();
+		$asset_manager = new WPSEO_Admin_Asset_Manager();
 		$asset_manager->enqueue_script( 'schema-blocks' );
 		$asset_manager->enqueue_style( 'schema-blocks' );
 	}
