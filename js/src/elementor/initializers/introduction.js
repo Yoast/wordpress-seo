@@ -7,7 +7,7 @@ import { __ } from "@wordpress/i18n";
  */
 export default function initializeIntroduction() {
 	const introduction = new window.elementorModules.editor.utils.Introduction( {
-		introductionKey: "yoast-introduction3",
+		introductionKey: "yoast-introduction",
 		dialogOptions: {
 			id: "yoast-introduction",
 			className: "elementor-right-click-introduction",
