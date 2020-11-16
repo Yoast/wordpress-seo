@@ -52,8 +52,8 @@ class Permalink_Integrity_Watcher implements Integration_Interface {
 	 */
 	public function __construct( Indexable_Helper $indexable, Options_Helper $option, Indexable_Permalink_Watcher $permalink_watcher,
 								 Indexable_HomeUrl_Watcher $homeurl_watcher ) {
-		$this->indexable_helper 		   = $indexable;
-		$this->options_helper   		   = $option;
+		$this->indexable_helper            = $indexable;
+		$this->options_helper              = $option;
 		$this->indexable_permalink_watcher = $permalink_watcher;
 		$this->indexable_homeurl_watcher   = $homeurl_watcher;
 	}
@@ -72,55 +72,51 @@ class Permalink_Integrity_Watcher implements Integration_Interface {
 	 *
 	 * @return void
 	 */
-	public function compare_indexable_permalinks( $presentation )
-	{
-		//check if last samples were taken 1 week ago or more and if so take more samples
-		$permalinks_indexables_types = $this->options_helper->get('permalinks_indexables_types');
-		foreach ($permalinks_indexables_types as $link) {
-			if ($link >= \time() - (60 * 60 * 24 * 7)) {
-				//less then a week ago, do nothing
+	public function compare_indexable_permalinks( $presentation ) {
+		 // check if last samples were taken 1 week ago or more and if so take more samples
+		$permalinks_indexables_types = $this->options_helper->get( 'permalinks_indexables_types' );
+		foreach ( $permalinks_indexables_types as $link ) {
+			if ( $link >= ( \time() - ( 60 * 60 * 24 * 7 ) ) ) {
+				// less then a week ago, do nothing
 				return;
 			}
 		}
 
-		//compare the permalinks
-		if ($presentation->model->permalink === $this->permalink_helper->get_permalink_for_indexable($presentation->model)) {
-			//update the timestamps and clear the possible notification
+		// compare the permalinks
+		if ( $presentation->model->permalink === $this->permalink_helper->get_permalink_for_indexable( $presentation->model ) ) {
+			// update the timestamps and clear the possible notification
 			$this->updatePermalinkSamples();
-			\Yoast_Notification_Center::get()->remove_notification_by_id('permalink-integrity-warning');
+			\Yoast_Notification_Center::get()->remove_notification_by_id( 'permalink-integrity-warning' );
 			$this->options_helper->set( 'dynamic_permalinks', false );
 			return;
 		}
 
-		//permalinks differ, find cause
-		//reset the permalinks and taxonomies if necessary
-		if ($this->indexable_permalink_watcher->should_reset_permalinks() ||
+		// permalinks differ, find cause
+		// reset the permalinks and taxonomies if necessary
+		if ( $this->indexable_permalink_watcher->should_reset_permalinks() ||
 			$this->indexable_permalink_watcher->should_reset_categories() ||
-			$this->indexable_permalink_watcher->should_reset_tags()) {
-			//in case of the categories or tags, they will be automatically reset and no notification will be thrown.
+			$this->indexable_permalink_watcher->should_reset_tags() ) {
+			// in case of the categories or tags, they will be automatically reset and no notification will be thrown.
 			$this->indexable_permalink_watcher->force_reset_permalinks();
 			die();
 			return;
 		}
 
-		//try to reset the home url indexables
-		if ($this->indexable_homeurl_watcher->should_reset_permalinks())
-		{
+		// try to reset the home url indexables
+		if ( $this->indexable_homeurl_watcher->should_reset_permalinks() ) {
 			$this->indexable_homeurl_watcher->force_reset_permalinks();
 			return;
 		}
 
-		//unknown cause, show notification
+		// unknown cause, show notification
 		$this->options_helper->set( 'dynamic_permalinks', true );
 		\Yoast_Notification_Center::get()->add_notification( $this->get_notification() );
 	}
 
-	private function updatePermalinkSamples()
-	{
-		$new_permalinks_indexables_types = $this->indexable_helper->take_permalink_sample_array();
-		$this->options_helper->set( 'permalinks_indexables_types', $new_permalinks_indexables_types);
+	private function updatePermalinkSamples() {
+		 $new_permalinks_indexables_types = $this->indexable_helper->take_permalink_sample_array();
+		$this->options_helper->set( 'permalinks_indexables_types', $new_permalinks_indexables_types );
 	}
-
 
 	/**
 	 * Gets the notification object.

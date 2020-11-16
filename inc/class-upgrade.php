@@ -769,15 +769,15 @@ class WPSEO_Upgrade {
 	private function upgrade_153() {
 		WPSEO_Options::set( 'category_base_url', get_option( 'category_base' ) );
 		WPSEO_Options::set( 'tag_base_url', get_option( 'tag_base' ) );
-		$permalinks_indexables_types =  $this->indexable_helper->take_permalink_sample_array();
-		WPSEO_Options::set( 'permalinks_indexables_types', $permalinks_indexables_types);
+		$permalinks_indexables_types = $this->indexable_helper->take_permalink_sample_array();
+		WPSEO_Options::set( 'permalinks_indexables_types', $permalinks_indexables_types );
 
 		// Rename a couple of options.
 		$indexation_started_value = WPSEO_Options::get( 'indexation_started' );
 		WPSEO_Options::set( 'indexing_started', $indexation_started_value );
 
 		$indexables_indexing_completed_value = WPSEO_Options::get( 'indexables_indexation_completed' );
-		WPSEO_Options::set( 'indexables_indexing_completed', $indexables_indexing_completed_value);
+		WPSEO_Options::set( 'indexables_indexing_completed', $indexables_indexing_completed_value );
 	}
 
 	/**

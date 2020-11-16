@@ -160,7 +160,6 @@ class Indexable_Helper {
 		$this->options_helper->set( 'indexables_indexing_completed', true );
 	}
 
-
 	/**
 	 * Gets the permalink sample array for the 15.3 upgrade routine.
 	 *
@@ -173,13 +172,12 @@ class Indexable_Helper {
 		$results = $wpdb->get_results(
 			"SELECT DISTINCT object_type, object_sub_type 
 		FROM `{$wpdb->prefix}yoast_indexable` 
-		WHERE object_sub_type IS NOT NULL"
-			, OBJECT );
+		WHERE object_sub_type IS NOT NULL",
+			OBJECT
+		);
 
-		if( !empty($results) )
-		{
-			foreach ( $results as $result )
-			{
+		if ( ! empty( $results ) ) {
+			foreach ( $results as $result ) {
 				$indexable_permalinks[ $result->object_type . '-' . $result->object_sub_type ] = \time();
 			}
 		}

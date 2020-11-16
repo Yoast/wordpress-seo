@@ -76,7 +76,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'zapier_integration_active'                => false,
 		'zapier_subscription'                      => [],
 		'zapier_api_key'                           => '',
-		'permalinks_indexables_types'			   => [],
+		'permalinks_indexables_types'              => [],
 	];
 
 	/**
