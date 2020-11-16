@@ -208,7 +208,7 @@ const canonicalizeStems = function( word, wordsWithMultipleStems ) {
 };
 
 /**
- * Stems ru words.
+ * Stems Russian words.
  *
  * @param {string} word             The word to stem.
  * @param {Object} morphologyData   The Russian morphology data.
