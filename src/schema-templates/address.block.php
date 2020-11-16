@@ -1,5 +1,5 @@
 <?php // phpcs:ignore Internal.NoCodeFound ?>
-{{block name="yoast/address-table" title="Adress table" category="common" parent=[ "yoast/job-posting" ] }}
+{{block name="yoast/address-table" title="Address table" category="common" parent=[ "yoast/job-posting" ] }}
 <table class={{class-name}}>
 	<tr>
 		<th>{{rich-text tag="span" name="address-title" default="Address"}}</th>

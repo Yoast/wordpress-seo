@@ -62,7 +62,17 @@ class Schema_Blocks implements Integration_Interface {
 	 * @return void
 	 */
 	public function load() {
-		foreach ( $this->templates as $template ) {
+		/**
+		 * Filter: 'wpseo_schema_templates' - Allow adding additional schema templates.
+		 *
+		 * @param array $templates The templates to filter.
+		 */
+		$templates = \apply_filters( 'wpseo_load_schema_templates', $this->templates );
+		if ( ! is_array( $templates ) || empty( $templates ) ) {
+			return;
+		}
+
+		foreach ( $templates as $template ) {
 			if ( ! \file_exists( $template ) ) {
 				continue;
 			}
