@@ -143,6 +143,13 @@
 	bottom: auto;
 }
 
+.yoast-gutenberg-modal .components-popover.components-tooltip {
+	position: relative;
+	left: unset !important;
+	top: 15px !important;
+	right: 40px;
+}
+
 /* Tab-focus styling */
 .yoast div:focus, div.yoast:focus {
 	outline: 0;
