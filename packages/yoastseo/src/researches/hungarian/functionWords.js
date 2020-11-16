@@ -269,6 +269,7 @@ const vagueNouns = [ "dolog", "izé", "valami", "személy", "ember", "alkalom", 
 	"téma", "ötlet" ];
 
 const miscellaneous = [
+	"stb.",
 	// Fractions.
 	"fél", "harmad", "negyed", "ötöd", "hatod", "heted", "nyolcad", "kilenced", "tized", "egyharmad", "egynegyed", "egyötöd",
 	"egyhatod", "egyheted", "egynyolcad", "egykilenced", "egytized", "század", "ezred" ];
