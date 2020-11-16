@@ -163,10 +163,17 @@ class WPSEO_Metabox_Formatter {
 					],
 				],
 			],
-			'markdownEnabled'           => $this->is_markdown_enabled(),
-			'analysisHeadingTitle'      => __( 'Analysis', 'wordpress-seo' ),
-			'zapierIntegrationActive'   => WPSEO_Options::get( 'zapier_integration_active', false ) ? 1 : 0,
-			'zapierConnectedStatus'     => ! empty( WPSEO_Options::get( 'zapier_subscription', [] ) ) ? 1 : 0,
+			'markdownEnabled'             => $this->is_markdown_enabled(),
+			'analysisHeadingTitle'        => __( 'Analysis', 'wordpress-seo' ),
+			'zapierIntegrationActive'     => WPSEO_Options::get( 'zapier_integration_active', false ) ? 1 : 0,
+			'zapierConnectedStatus'       => ! empty( WPSEO_Options::get( 'zapier_subscription', [] ) ) ? 1 : 0,
+
+			/**
+			 * Filter to determine whether the PreviouslyUsedKeyword assessment should run.
+			 *
+			 * @param bool $previouslyUsedKeywordActive Whether the PreviouslyUsedKeyword assessment should run.
+			 */
+			'previouslyUsedKeywordActive' => apply_filters( 'wpseo_previously_used_keyword_active', true ),
 		];
 	}
 
