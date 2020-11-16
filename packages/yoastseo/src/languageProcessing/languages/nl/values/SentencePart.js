@@ -1,5 +1,5 @@
-import SentencePart from "../../../../../values/SentencePart.js";
-import getParticiples from "../../../../helpers/passiveVoice/periphrastic/getParticiples.js";
+import SentencePart from "../../../../values/SentencePart.js";
+import getParticiples from "../helpers/internal/getParticiples.js";
 
 /**
  * Creates a Dutch-specific sentence part.
@@ -8,7 +8,7 @@ import getParticiples from "../../../../helpers/passiveVoice/periphrastic/getPar
  * @param {Array} auxiliaries The list with auxiliaries.
  * @constructor
  */
-var DutchSentencePart = function( sentencePartText, auxiliaries ) {
+const DutchSentencePart = function( sentencePartText, auxiliaries ) {
 	SentencePart.call( this, sentencePartText, auxiliaries, "nl_NL" );
 };
 
@@ -20,7 +20,7 @@ require( "util" ).inherits( DutchSentencePart, SentencePart );
  * @returns {Array} The array of Participle Objects.
  */
 DutchSentencePart.prototype.getParticiples = function() {
-	return getParticiples( this.getSentencePartText(), this.getAuxiliaries(), "nl" );
+	return getParticiples( this.getSentencePartText(), this.getAuxiliaries() );
 };
 
 export default DutchSentencePart;

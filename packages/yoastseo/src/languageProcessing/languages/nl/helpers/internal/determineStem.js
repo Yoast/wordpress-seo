@@ -1,8 +1,8 @@
-import { flattenSortLength } from "../morphoHelpers/flattenSortLength";
+import { flattenSortLength } from "../../../../helpers/morphology/flattenSortLength";
 import { flatten } from "lodash-es";
 import stem from "./stem";
 import { stemTOrDFromEndOfWord } from "./stemTOrDFromEndOfWord";
-import { checkExceptionListWithTwoStems } from "../morphoHelpers/exceptionListHelpers";
+import { checkExceptionListWithTwoStems } from "../../../../helpers/morphology/exceptionListHelpers";
 
 /**
  * Checks if the word checked is in the list of strong verbs exceptions. If it is, only return the first stem from the stem set.
@@ -84,7 +84,7 @@ const findStemOnVerbExceptionList = function( morphologyDataNL, stemmedWord ) {
  *
  * @returns {string} The unique stem.
  */
-export function determineStem( word, morphologyDataNL ) {
+export default function determineStem( word, morphologyDataNL ) {
 	const stemmedWord = stem( word, morphologyDataNL );
 
 	// Check whether the stemmed word is on an exception list of words with multiple stems. If it is, return the canonical stem.
