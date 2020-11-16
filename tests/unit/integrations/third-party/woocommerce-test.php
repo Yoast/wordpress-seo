@@ -112,8 +112,16 @@ class WooCommerce_Test extends TestCase {
 	 * @covers ::__construct
 	 */
 	public function test_constructor() {
-		$this->assertAttributeInstanceOf( Options_Helper::class, 'options', $this->instance );
-		$this->assertAttributeInstanceOf( WPSEO_Replace_Vars::class, 'replace_vars', $this->instance );
+		$instance = new WooCommerce( $this->options, $this->replace_vars, $this->context_memoizer, $this->repository );
+
+		$this->assertInstanceOf(
+			Options_Helper::class,
+			$this->getPropertyValue( $instance, 'options' )
+		);
+		$this->assertInstanceOf(
+			WPSEO_Replace_Vars::class,
+			$this->getPropertyValue( $instance, 'replace_vars' )
+		);
 	}
 
 	/**
