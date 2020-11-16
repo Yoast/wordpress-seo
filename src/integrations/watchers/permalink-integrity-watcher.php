@@ -4,6 +4,8 @@ namespace Yoast\WP\SEO\Integrations\Watchers;
 
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Permalink_Helper;
+use Yoast\WP\SEO\Helpers\Post_Type_Helper;
+use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Conditionals\No_Conditionals;
 use Yoast\WP\SEO\Presentations\Indexable_Presentation;
@@ -46,6 +48,21 @@ class Permalink_Integrity_Watcher implements Integration_Interface {
 	protected $permalink_helper;
 
 	/**
+	 * The permalink helper.
+	 *
+	 * @var Permalink_Helper
+	 */
+	protected $post_type_helper;
+
+	/**
+	 * The taxonomy helper.
+	 *
+	 * @var Taxonomy_Helper
+	 */
+	protected $taxonomy_helper;
+
+
+	/**
 	 * Permalink_Integrity_Watcher constructor.
 	 *
 	 * @param Options_Helper              $option            The options helper.
@@ -55,10 +72,14 @@ class Permalink_Integrity_Watcher implements Integration_Interface {
 	 */
 	public function __construct( Options_Helper $option,
 								Permalink_Helper $permalink_helper,
+								Post_Type_Helper $post_type_helper,
+								Taxonomy_Helper $taxonomy_helper,
 								Indexable_Permalink_Watcher $permalink_watcher,
 								Indexable_HomeUrl_Watcher $homeurl_watcher ) {
 		$this->options_helper              = $option;
 		$this->permalink_helper            = $permalink_helper;
+		$this->post_type_helper            = $post_type_helper;
+		$this->taxonomy_helper             = $taxonomy_helper;
 		$this->indexable_permalink_watcher = $permalink_watcher;
 		$this->indexable_homeurl_watcher   = $homeurl_watcher;
 	}
@@ -131,6 +152,29 @@ class Permalink_Integrity_Watcher implements Integration_Interface {
 
 		// If no reason is found for the difference in permalinks, the dynamic permalink mode is enabled.
 		$this->options_helper->set( 'dynamic_permalinks', true );
+	}
+
+	/**
+	 * Collects all public post and taxonomy types and saves them in an associative holding the combination of
+	 * indexable object_type and object_sub_type as the key and a timestamp as the value.
+	 *
+	 * @return array The associative array with the object-type and object-sub-type as the key
+	 * and a timestamp value as the value.
+	 */
+	public function collect_dynamic_permalink_samples() {
+		$permalink_samples = [];
+
+		$post_types = $this->post_type_helper->get_public_post_types();
+		foreach ( $post_types as $type ) {
+			$permalink_samples[ "post-" . $type ] = \time();
+		}
+
+		$taxonomies = $this->taxonomy_helper->get_public_taxonomies();
+		foreach ( $taxonomies as $type ) {
+			$permalink_samples[ "term-" . $type ] = \time();
+		}
+
+		return $permalink_samples;
 	}
 
 	/**
