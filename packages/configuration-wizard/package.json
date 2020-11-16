@@ -1,6 +1,6 @@
 {
   "name": "@yoast/configuration-wizard",
-  "version": "2.14.0-rc.0",
+  "version": "2.14.0-rc.1",
   "description": "Package for our configuration wizard",
   "main": "src/index.js",
   "repository": {
