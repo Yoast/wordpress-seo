@@ -8,6 +8,7 @@ import initializeUsedKeywords from "./elementor/initializers/used-keywords-asses
 import initElementorWatcher from "./watchers/elementorWatcher";
 import initHighlightFocusKeyphraseForms from "./elementor/initializers/highlightFocusKeyphraseForms";
 import initReplaceVarPlugin, { addReplacement, ReplaceVar } from "./elementor/replaceVars/elementor-replacevar-plugin";
+import initializeIntroduction from "./elementor/initializers/introduction";
 
 domReady( () => {
 	// Initialize the editor store and set it on the window.
@@ -48,6 +49,9 @@ domReady( () => {
 
 	// Initialize focus keyphrase forms highlighting.
 	initHighlightFocusKeyphraseForms( window.YoastSEO.analysis.worker.runResearch );
+
+	// Initialize the introduction.
+	initializeIntroduction();
 } );
 
 // Initialize the editor integration.

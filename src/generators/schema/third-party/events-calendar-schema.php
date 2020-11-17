@@ -2,11 +2,12 @@
 
 namespace Yoast\WP\SEO\Generators\Schema\Third_Party;
 
-use Yoast\WP\SEO\Generators\Schema\Abstract_Schema_Piece;
-use Yoast\WP\SEO\Config\Schema_IDs;
+use stdClass;
 use Tribe__Events__JSON_LD__Event;
 use Tribe__Events__Template__Month;
+use Yoast\WP\SEO\Config\Schema_IDs;
 use Yoast\WP\SEO\Context\Meta_Tags_Context;
+use Yoast\WP\SEO\Generators\Schema\Abstract_Schema_Piece;
 use Yoast\WP\SEO\Surfaces\Helpers_Surface;
 
 /**
@@ -74,11 +75,11 @@ class Events_Calendar_Schema extends Abstract_Schema_Piece {
 		}
 
 		// If the resulting array only has one entry, print it directly.
-		if ( count( $data ) === 1 ) {
+		if ( \count( $data ) === 1 ) {
 			$data                     = $data[0];
 			$data['mainEntityOfPage'] = [ '@id' => $this->context->canonical . Schema_IDs::WEBPAGE_HASH ];
 		}
-		elseif ( count( $data ) === 0 ) {
+		elseif ( \count( $data ) === 0 ) {
 			$data = false;
 		}
 
@@ -100,7 +101,7 @@ class Events_Calendar_Schema extends Abstract_Schema_Piece {
 		];
 
 		$tribe_data = Tribe__Events__JSON_LD__Event::instance()->get_data( $posts, $args );
-		$type       = \strtolower( esc_attr( Tribe__Events__JSON_LD__Event::instance()->type ) );
+		$type       = \strtolower( \esc_attr( Tribe__Events__JSON_LD__Event::instance()->type ) );
 
 		foreach ( $tribe_data as $post_id => $_data ) {
 			Tribe__Events__JSON_LD__Event::instance()->set_type( $post_id, $type );
@@ -137,7 +138,7 @@ class Events_Calendar_Schema extends Abstract_Schema_Piece {
 
 			// EVENT.
 			// Generate an @id for the event.
-			$d->{'@id'} = $permalink . '#' . strtolower( esc_attr( $d->{'@type'} ) );
+			$d->{'@id'} = $permalink . '#' . \strtolower( \esc_attr( $d->{'@type'} ) );
 
 			// Transform the post_thumbnail from the url to the @id of #primaryimage.
 			if ( \has_post_thumbnail( $post_id ) ) {
@@ -164,7 +165,7 @@ class Events_Calendar_Schema extends Abstract_Schema_Piece {
 			// ORGANIZER.
 			if ( \tribe_has_organizer( $post_id ) ) {
 				if ( ! $d->organizer ) {
-					$d->organizer = new \stdClass();
+					$d->organizer = new stdClass();
 				}
 
 				$organizer_id              = \tribe_get_organizer_id( $post_id );
@@ -180,7 +181,7 @@ class Events_Calendar_Schema extends Abstract_Schema_Piece {
 			// VENUE / LOCATION.
 			if ( \tribe_has_venue( $post_id ) ) {
 				if ( ! $d->location ) {
-					$d->location = new \stdClass();
+					$d->location = new stdClass();
 				}
 
 				$venue_id                 = \tribe_get_venue_id( $post_id );
@@ -195,7 +196,7 @@ class Events_Calendar_Schema extends Abstract_Schema_Piece {
 			unset( $d->performer );
 
 			// OFFERS.
-			if ( isset( $d->offers ) && is_array( $d->offers ) ) {
+			if ( isset( $d->offers ) && \is_array( $d->offers ) ) {
 				foreach ( $d->offers as $key => $offer ) {
 					unset( $d->offers[ $key ]->category );
 				}

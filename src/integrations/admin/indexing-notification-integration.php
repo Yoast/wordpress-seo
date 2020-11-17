@@ -10,8 +10,8 @@ use Yoast\WP\SEO\Helpers\Notification_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Helpers\Short_Link_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
-use Yoast\WP\SEO\Presenters\Admin\Indexing_Notification_Presenter;
 use Yoast\WP\SEO\Presenters\Admin\Indexing_Failed_Notification_Presenter;
+use Yoast\WP\SEO\Presenters\Admin\Indexing_Notification_Presenter;
 use Yoast_Notification;
 use Yoast_Notification_Center;
 

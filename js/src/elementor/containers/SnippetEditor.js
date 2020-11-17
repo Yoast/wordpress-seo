@@ -67,7 +67,7 @@ const mapEditorDataToPreview = ( data, context ) => {
  *
  * @returns {wp.Element} The component.
  */
-const SnippetEditorWrapper = ( {  isLoading, onLoad, hasPaperStyle, location, ...restProps } ) => {
+const SnippetEditorWrapper = ( {  isLoading, onLoad, location, ...restProps } ) => {
 	useEffect( () => {
 		setTimeout( () => {
 			if ( isLoading ) {
@@ -83,7 +83,7 @@ const SnippetEditorWrapper = ( {  isLoading, onLoad, hasPaperStyle, location, ..
 	return (
 		<SnippetPreviewSection
 			icon="eye"
-			hasPaperStyle={ hasPaperStyle }
+			hasPaperStyle={ restProps.hasPaperStyle }
 		>
 			<SnippetEditor
 				{ ...restProps }

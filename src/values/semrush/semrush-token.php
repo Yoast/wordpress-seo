@@ -2,8 +2,8 @@
 
 namespace Yoast\WP\SEO\Values\SEMrush;
 
-use YoastSEO_Vendor\League\OAuth2\Client\Token\AccessTokenInterface;
 use Yoast\WP\SEO\Exceptions\SEMrush\Tokens\Empty_Property_Exception;
+use YoastSEO_Vendor\League\OAuth2\Client\Token\AccessTokenInterface;
 
 /**
  * Class SEMrush_Token
@@ -76,7 +76,7 @@ class SEMrush_Token {
 
 		$this->expires = $expires;
 
-		if ( is_null( $has_expired ) ) {
+		if ( \is_null( $has_expired ) ) {
 			throw new Empty_Property_Exception( 'has_expired' );
 		}
 
@@ -99,7 +99,7 @@ class SEMrush_Token {
 			$response->getRefreshToken(),
 			$response->getExpires(),
 			$response->hasExpired(),
-			time()
+			\time()
 		);
 	}
 
@@ -109,7 +109,7 @@ class SEMrush_Token {
 	 * @return bool Whether or not the token has expired.
 	 */
 	public function has_expired() {
-		return ( time() >= $this->expires ) || $this->has_expired === true;
+		return ( \time() >= $this->expires ) || $this->has_expired === true;
 	}
 
 	/**

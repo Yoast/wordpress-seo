@@ -56,51 +56,51 @@ class Schema_Types {
 	public function get_page_type_options() {
 		return [
 			[
-				'name'  => __( 'Web Page', 'wordpress-seo' ),
+				'name'  => \__( 'Web Page', 'wordpress-seo' ),
 				'value' => 'WebPage',
 			],
 			[
-				'name'  => __( 'Item Page', 'wordpress-seo' ),
+				'name'  => \__( 'Item Page', 'wordpress-seo' ),
 				'value' => 'ItemPage',
 			],
 			[
-				'name'  => __( 'About Page', 'wordpress-seo' ),
+				'name'  => \__( 'About Page', 'wordpress-seo' ),
 				'value' => 'AboutPage',
 			],
 			[
-				'name'  => __( 'FAQ Page', 'wordpress-seo' ),
+				'name'  => \__( 'FAQ Page', 'wordpress-seo' ),
 				'value' => 'FAQPage',
 			],
 			[
-				'name'  => __( 'QA Page', 'wordpress-seo' ),
+				'name'  => \__( 'QA Page', 'wordpress-seo' ),
 				'value' => 'QAPage',
 			],
 			[
-				'name'  => __( 'Profile Page', 'wordpress-seo' ),
+				'name'  => \__( 'Profile Page', 'wordpress-seo' ),
 				'value' => 'ProfilePage',
 			],
 			[
-				'name'  => __( 'Contact Page', 'wordpress-seo' ),
+				'name'  => \__( 'Contact Page', 'wordpress-seo' ),
 				'value' => 'ContactPage',
 			],
 			[
-				'name'  => __( 'Medical Web Page', 'wordpress-seo' ),
+				'name'  => \__( 'Medical Web Page', 'wordpress-seo' ),
 				'value' => 'MedicalWebPage',
 			],
 			[
-				'name'  => __( 'Collection Page', 'wordpress-seo' ),
+				'name'  => \__( 'Collection Page', 'wordpress-seo' ),
 				'value' => 'CollectionPage',
 			],
 			[
-				'name'  => __( 'Checkout Page', 'wordpress-seo' ),
+				'name'  => \__( 'Checkout Page', 'wordpress-seo' ),
 				'value' => 'CheckoutPage',
 			],
 			[
-				'name'  => __( 'Real Estate Listing', 'wordpress-seo' ),
+				'name'  => \__( 'Real Estate Listing', 'wordpress-seo' ),
 				'value' => 'RealEstateListing',
 			],
 			[
-				'name'  => __( 'Search Results Page', 'wordpress-seo' ),
+				'name'  => \__( 'Search Results Page', 'wordpress-seo' ),
 				'value' => 'SearchResultsPage',
 			],
 		];
@@ -114,39 +114,39 @@ class Schema_Types {
 	public function get_article_type_options() {
 		return [
 			[
-				'name'  => __( 'Article', 'wordpress-seo' ),
+				'name'  => \__( 'Article', 'wordpress-seo' ),
 				'value' => 'Article',
 			],
 			[
-				'name'  => __( 'Social Media Posting', 'wordpress-seo' ),
+				'name'  => \__( 'Social Media Posting', 'wordpress-seo' ),
 				'value' => 'SocialMediaPosting',
 			],
 			[
-				'name'  => __( 'News Article', 'wordpress-seo' ),
+				'name'  => \__( 'News Article', 'wordpress-seo' ),
 				'value' => 'NewsArticle',
 			],
 			[
-				'name'  => __( 'Advertiser Content Article', 'wordpress-seo' ),
+				'name'  => \__( 'Advertiser Content Article', 'wordpress-seo' ),
 				'value' => 'AdvertiserContentArticle',
 			],
 			[
-				'name'  => __( 'Satirical Article', 'wordpress-seo' ),
+				'name'  => \__( 'Satirical Article', 'wordpress-seo' ),
 				'value' => 'SatiricalArticle',
 			],
 			[
-				'name'  => __( 'Scholary Article', 'wordpress-seo' ),
+				'name'  => \__( 'Scholary Article', 'wordpress-seo' ),
 				'value' => 'ScholarlyArticle',
 			],
 			[
-				'name'  => __( 'Tech Article', 'wordpress-seo' ),
+				'name'  => \__( 'Tech Article', 'wordpress-seo' ),
 				'value' => 'TechArticle',
 			],
 			[
-				'name'  => __( 'Report', 'wordpress-seo' ),
+				'name'  => \__( 'Report', 'wordpress-seo' ),
 				'value' => 'Report',
 			],
 			[
-				'name'  => __( 'None', 'wordpress-seo' ),
+				'name'  => \__( 'None', 'wordpress-seo' ),
 				'value' => 'None',
 			],
 		];

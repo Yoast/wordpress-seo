@@ -21,7 +21,7 @@ class Link_Count_Indexing_List_Item_Presenter extends Abstract_Presenter {
 	 * @param int $total_unindexed The number of objects that need to be indexed.
 	 */
 	public function __construct( $total_unindexed ) {
-		_deprecated_function( __METHOD__, 'WPSEO 15.1' );
+		\_deprecated_function( __METHOD__, 'WPSEO 15.1' );
 	}
 
 	/**
@@ -31,7 +31,7 @@ class Link_Count_Indexing_List_Item_Presenter extends Abstract_Presenter {
 	 * @codeCoverageIgnore
 	 */
 	public function present() {
-		_deprecated_function( __METHOD__, 'WPSEO 15.1' );
+		\_deprecated_function( __METHOD__, 'WPSEO 15.1' );
 
 		return '';
 	}

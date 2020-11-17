@@ -5,8 +5,6 @@
  * @package WPSEO\Admin
  */
 
-use Yoast\WP\SEO\Presenters\Admin\Meta_Fields_Presenter;
-
 /**
  * This class generates the metabox on the edit term page.
  */
