@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\WP\SEO\Routes;
+namespace Yoast\WP\SEO\Tests\Unit\Routes;
 
 use Brain\Monkey;
 use Mockery;
@@ -8,6 +8,7 @@ use Yoast\WP\SEO\Actions\SEMrush\SEMrush_Login_Action;
 use Yoast\WP\SEO\Actions\SEMrush\SEMrush_Options_Action;
 use Yoast\WP\SEO\Actions\SEMrush\SEMrush_Phrases_Action;
 use Yoast\WP\SEO\Conditionals\SEMrush_Enabled_Conditional;
+use Yoast\WP\SEO\Routes\SEMrush_Route;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**

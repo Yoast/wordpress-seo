@@ -4,9 +4,9 @@ namespace Yoast\WP\SEO\Integrations\Third_Party;
 
 use Yoast\WP\SEO\Conditionals\Front_End_Conditional;
 use Yoast\WP\SEO\Conditionals\Open_Graph_Conditional;
-use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Conditionals\The_Events_Calendar_Conditional;
 use Yoast\WP\SEO\Generators\Schema\Third_Party\Events_Calendar_Schema;
+use Yoast\WP\SEO\Integrations\Integration_Interface;
 
 /**
  * Class The_Events_Calendar

@@ -42,7 +42,7 @@ class WooCommerce_Permalinks_Test extends TestCase {
 		parent::setUp();
 
 		$this->indexable_helper = Mockery::mock( Indexable_Helper::class );
-		$this->instance = new Woocommerce_Permalinks( $this->indexable_helper );
+		$this->instance         = new Woocommerce_Permalinks( $this->indexable_helper );
 	}
 
 	/**
@@ -131,7 +131,7 @@ class WooCommerce_Permalinks_Test extends TestCase {
 			->once()
 			->with( 'term', 'my_attribute' );
 
-		$attribute = ( object ) [
+		$attribute = (object) [
 			'attribute_name' => 'my_attribute',
 		];
 

@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Generators;
 
 use Brain\Monkey;
 use Mockery;
+use WPSEO_Replace_Vars;
 use Yoast\WP\SEO\Generators\Schema\FAQ;
 use Yoast\WP\SEO\Generators\Schema\Organization;
 use Yoast\WP\SEO\Generators\Schema_Generator;
@@ -113,7 +114,7 @@ class Schema_Generator_Test extends TestCase {
 				Mockery::mock( Url_Helper::class ),
 				Mockery::mock( Image_Helper::class ),
 				Mockery::mock( ID_Helper::class ),
-				Mockery::mock( \WPSEO_Replace_Vars::class ),
+				Mockery::mock( WPSEO_Replace_Vars::class ),
 				Mockery::mock( Site_Helper::class ),
 				Mockery::mock( User_Helper::class ),
 			]

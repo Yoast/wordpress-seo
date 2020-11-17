@@ -3,12 +3,12 @@
 namespace Yoast\WP\SEO\Tests\Unit\Builders;
 
 use Mockery;
-use Yoast\WP\SEO\Helpers\Image_Helper;
-use Yoast\WP\SEO\Helpers\Twitter;
-use Yoast\WP\SEO\Helpers\Open_Graph;
 use Yoast\WP\Lib\ORM;
-use Yoast\WP\SEO\Tests\Unit\Doubles\Indexable_Social_Image_Trait_Double;
+use Yoast\WP\SEO\Helpers\Image_Helper;
+use Yoast\WP\SEO\Helpers\Open_Graph;
+use Yoast\WP\SEO\Helpers\Twitter;
 use Yoast\WP\SEO\Models\Indexable;
+use Yoast\WP\SEO\Tests\Unit\Doubles\Builders\Indexable_Social_Image_Trait_Double;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
@@ -142,7 +142,7 @@ class Indexable_Social_Image_Trait_Test extends TestCase {
 		$this->indexable->orm->expects( 'set' )
 			->with( 'open_graph_image', 'http://basic.wordpress.test/wp-content/uploads/2020/07/WordPress5.jpg' );
 		$this->indexable->orm->expects( 'set' )
-			->with( 'open_graph_image_meta', \json_encode( $image_meta, ( JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES ) ) );
+			->with( 'open_graph_image_meta', \json_encode( $image_meta, ( \JSON_PRETTY_PRINT | \JSON_UNESCAPED_SLASHES ) ) );
 
 		// We expect twitter image meta to be set.
 		$this->indexable->orm->expects( 'set' )
@@ -193,7 +193,7 @@ class Indexable_Social_Image_Trait_Test extends TestCase {
 		$this->indexable->orm->expects( 'set' )
 			->with( 'open_graph_image', 'http://basic.wordpress.test/wp-content/uploads/2020/07/WordPress5.jpg' );
 		$this->indexable->orm->expects( 'set' )
-			->with( 'open_graph_image_meta', \json_encode( $image_meta, ( JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES ) ) );
+			->with( 'open_graph_image_meta', \json_encode( $image_meta, ( \JSON_PRETTY_PRINT | \JSON_UNESCAPED_SLASHES ) ) );
 
 		$alternative_image = [
 			'image_id' => 'featured-image-id',
@@ -308,7 +308,7 @@ class Indexable_Social_Image_Trait_Test extends TestCase {
 		$this->indexable->orm->expects( 'set' )
 			->with( 'open_graph_image', 'http://basic.wordpress.test/wp-content/uploads/2020/07/WordPress5.jpg' );
 		$this->indexable->orm->expects( 'set' )
-			->with( 'open_graph_image_meta', \json_encode( $image_meta, ( JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES ) ) );
+			->with( 'open_graph_image_meta', \json_encode( $image_meta, ( \JSON_PRETTY_PRINT | \JSON_UNESCAPED_SLASHES ) ) );
 
 		$alternative_image = [
 			'image'  => 'featured-image.jpeg',

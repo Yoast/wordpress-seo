@@ -196,7 +196,7 @@ class Indexable_Permalink_Watcher implements Integration_Interface {
 
 			$new_taxonomy_bases[ $taxonomy ] = $taxonomy_slug;
 
-			if ( ! array_key_exists( $taxonomy, $custom_taxonomy_bases ) ) {
+			if ( ! \array_key_exists( $taxonomy, $custom_taxonomy_bases ) ) {
 				continue;
 			}
 
@@ -255,7 +255,7 @@ class Indexable_Permalink_Watcher implements Integration_Interface {
 			return;
 		}
 
-		\wp_schedule_event( time(), 'daily', 'wpseo_permalink_structure_check' );
+		\wp_schedule_event( \time(), 'daily', 'wpseo_permalink_structure_check' );
 	}
 
 	/**
@@ -284,7 +284,7 @@ class Indexable_Permalink_Watcher implements Integration_Interface {
 	 * @param string      $reason  The reason that the permalink has been changed.
 	 */
 	public function reset_permalink_indexables( $type, $subtype = null, $reason = Indexing_Reasons::REASON_PERMALINK_SETTINGS ) {
-		_deprecated_function( __METHOD__, 'WPSEO 15.1', 'Indexable_Helper::reset_permalink_indexables' );
+		\_deprecated_function( __METHOD__, 'WPSEO 15.1', 'Indexable_Helper::reset_permalink_indexables' );
 
 		$this->indexable_helper->reset_permalink_indexables( $type, $subtype, $reason );
 	}

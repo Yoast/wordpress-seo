@@ -10,7 +10,6 @@ use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Integrations\Watchers\Indexable_HomeUrl_Watcher;
-use Yoast\WP\SEO\Presenters\Admin\Indexing_Permalink_Warning_Presenter;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**

@@ -1,10 +1,9 @@
 <?php
 
-namespace Yoast\WP\SEO\Doubles\Config;
+namespace Yoast\WP\SEO\Tests\Unit\Doubles\Config;
 
-use YoastSEO_Vendor\League\OAuth2\Client\Provider\AbstractProvider;
 use Yoast\WP\SEO\Config\SEMrush_Client;
-use Yoast\WP\SEO\Config\SEMrush_Token_Manager;
+use YoastSEO_Vendor\League\OAuth2\Client\Provider\AbstractProvider;
 
 /**
  * Class SEMrush_Client_Double

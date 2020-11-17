@@ -4,7 +4,7 @@ namespace Yoast\WP\SEO\Presenters;
 
 use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 
-_deprecated_file( basename( __FILE__ ), 'WPSEO 14.9' );
+\_deprecated_file( \basename( __FILE__ ), 'WPSEO 14.9' );
 
 /**
  * Presenter class for the googlebot output.
@@ -20,7 +20,7 @@ class Googlebot_Presenter extends Abstract_Indexable_Presenter {
 	 * @return string The googlebot output tag.
 	 */
 	public function present() {
-		_deprecated_function( __METHOD__, 'WPSEO 14.9' );
+		\_deprecated_function( __METHOD__, 'WPSEO 14.9' );
 
 		$googlebot = \implode( ', ', $this->get() );
 		$googlebot = $this->filter( $googlebot );
@@ -41,7 +41,7 @@ class Googlebot_Presenter extends Abstract_Indexable_Presenter {
 	 * @return array The raw value.
 	 */
 	public function get() {
-		_deprecated_function( __METHOD__, 'WPSEO 14.9' );
+		\_deprecated_function( __METHOD__, 'WPSEO 14.9' );
 
 		return $this->presentation->googlebot;
 	}

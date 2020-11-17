@@ -167,7 +167,7 @@ class Indexing_Tool_Integration implements Integration_Interface {
 	 * @return int The total number of unindexed objects.
 	 */
 	public function get_unindexed_indexables_count( $unindexed_count = 0 ) {
-		_deprecated_function( __METHOD__, 'WPSEO 15.3' );
+		\_deprecated_function( __METHOD__, 'WPSEO 15.3' );
 
 		return $this->indexing_helper->get_unindexed_count();
 	}
@@ -183,7 +183,7 @@ class Indexing_Tool_Integration implements Integration_Interface {
 	 * @return int The total number of unindexed objects.
 	 */
 	public function get_unindexed_count( $unindexed_count = 0 ) {
-		_deprecated_function( __METHOD__, 'WPSEO 15.3' );
+		\_deprecated_function( __METHOD__, 'WPSEO 15.3' );
 
 		return $this->indexing_helper->get_filtered_unindexed_count();
 	}
