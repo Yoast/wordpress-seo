@@ -21,6 +21,12 @@
 		"wiki": "https://github.com/Yoast/wordpress-seo/wiki",
 		"source": "https://github.com/Yoast/wordpress-seo"
 	},
+	"repositories": [
+		{
+			"type": "vcs",
+			"url": "https://github.com/JetBrains/phpstorm-stubs"
+		}
+	],
 	"require": {
 		"php": "^5.6.20||^7.0",
 		"composer/installers": "^1.9.0",
@@ -81,8 +87,8 @@
 			"Yoast\\WP\\SEO\\Composer\\Actions::check_coding_standards"
 		],
 		"check-cs-thresholds": [
-			"@putenv YOASTCS_THRESHOLD_ERRORS=746",
-			"@putenv YOASTCS_THRESHOLD_WARNINGS=239",
+			"@putenv YOASTCS_THRESHOLD_ERRORS=555",
+			"@putenv YOASTCS_THRESHOLD_WARNINGS=229",
 			"Yoast\\WP\\SEO\\Composer\\Actions::check_cs_thresholds"
 		],
 		"check-cs-summary": [

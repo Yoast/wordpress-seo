@@ -5,7 +5,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
 Tested up to: 5.5.1
-Stable tag: 15.2.1
+Stable tag: 15.3
 Requires PHP: 5.6.20
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -259,7 +259,7 @@ Enhancements:
 
 Other:
 
-* Prevents the SEO optimization process from restart automatically when the optimization tool is started via the link in the dashboard notification and the Yoast SEO tools page is reloaded during indexing.
+* Prevents the SEO optimization process from restarting automatically when the optimization tool is started via the link in the dashboard notification and the Yoast SEO Tools page is reloaded during indexing.
 
 = 15.2.1 =
 Release Date: November 2nd, 2020
