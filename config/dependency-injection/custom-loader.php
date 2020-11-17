@@ -38,12 +38,11 @@ class Custom_Loader extends PhpFileLoader {
 		if ( ! $class_map ) {
 			$class_map = require __DIR__ . '/../../vendor/composer/autoload_classmap.php';
 			$class_map = \array_map( [ $this, 'normalize_slashes' ], $class_map );
+			$class_map = \array_flip( $class_map );
 		}
 
-		foreach ( $class_map as $class => $class_path ) {
-			if ( $path === $class_path ) {
-				return $class;
-			}
+		if ( isset( $class_map[ $path ] ) ) {
+			return $class_map[ $path ];
 		}
 
 		return false;
