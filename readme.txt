@@ -244,7 +244,7 @@ Bugfixes:
 Enhancements: 
 
 * Adds the Yoast SEO sidebar in the Elementor editor.
-* Makes it possible to recognize forms of keyphrases in Arabic when they are preceded by certain multi-letter prefixes, e.g. والقبعة, فسحرية, or وبالمفتاح. 
+* Makes it possible to recognize forms of keyphrases in Arabic when they are preceded by certain multi-letter prefixes, e.g. والقبعة ,فسحرية, or وبالمفتاح. 
 
 Other:
 
