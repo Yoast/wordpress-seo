@@ -28,7 +28,7 @@
 	color: var(--yoast-color-label-help);
 }
 
-label[for="focus-keyword-input-sidebar"] {
+label[for="focus-keyword-input-sidebar"], .yoast-field-group__title > label {
 	color: var(--yoast-color-font-default);
 }
 
