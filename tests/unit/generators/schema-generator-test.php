@@ -82,7 +82,7 @@ class Schema_Generator_Test extends TestCase {
 	protected $faq;
 
 	/**
-	 * Setup the test.
+	 * Sets up the test.
 	 */
 	public function setUp() {
 		parent::setUp();
@@ -184,7 +184,7 @@ class Schema_Generator_Test extends TestCase {
 
 		$this->current_page
 			->expects( 'is_home_static_page' )
-			->twice()
+			->once()
 			->andReturnTrue();
 
 		$this->current_page
@@ -256,7 +256,7 @@ class Schema_Generator_Test extends TestCase {
 
 		$this->current_page
 			->expects( 'is_home_static_page' )
-			->twice()
+			->once()
 			->andReturnTrue();
 
 		$this->current_page
@@ -324,7 +324,7 @@ class Schema_Generator_Test extends TestCase {
 
 		$this->current_page
 			->expects( 'is_home_static_page' )
-			->twice()
+			->once()
 			->andReturnTrue();
 
 		$this->current_page
@@ -365,7 +365,7 @@ class Schema_Generator_Test extends TestCase {
 
 		$this->current_page
 			->expects( 'is_home_static_page' )
-			->twice()
+			->once()
 			->andReturnTrue();
 
 		$this->current_page
@@ -435,7 +435,7 @@ class Schema_Generator_Test extends TestCase {
 
 		$this->current_page
 			->expects( 'is_home_static_page' )
-			->twice()
+			->once()
 			->andReturnTrue();
 
 		$this->current_page
