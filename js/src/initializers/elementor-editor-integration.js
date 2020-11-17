@@ -87,7 +87,7 @@ export default function initElementEditorIntegration() {
 		window.$e.routes.on( "run:after", function( component, route ) {
 			if ( route === "panel/page-settings/yoast-tab" ) {
 				renderReactRoot( window.YoastSEO.store, "elementor-panel-page-settings-controls", (
-					<StyleSheetManager target={ window.document.body }>
+					<StyleSheetManager target={ document.getElementById( "elementor-panel-page-settings-controls" ) }>
 						<div className="yoast yoast-elementor-panel__fills">
 							<ElementorSlot />
 							<ElementorFill />
