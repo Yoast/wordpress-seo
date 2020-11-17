@@ -51,7 +51,8 @@
     "watch": "tsc --watch",
     "prepare": "yarn build",
     "lint": "eslint 'src/**'",
-    "test": "jest"
+    "test": "jest",
+    "prepublishOnly": "rm -rf dist && tsc && cp package.json dist/package.json && json -I -f dist/package.json -e \"this.main='index.js'\""
   },
   "publishConfig": {
     "access": "public"
