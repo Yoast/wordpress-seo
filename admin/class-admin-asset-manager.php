@@ -744,6 +744,28 @@ class WPSEO_Admin_Asset_Manager {
 				'name' => 'draft-js',
 				'src'  => 'draft-js-' . $flat_version,
 			],
+			[
+				'name' => 'elementor',
+				'src'  => 'elementor-' . $flat_version,
+				'deps' => [
+					'jquery',
+					'lodash',
+					'wp-data',
+					'wp-element',
+					'wp-components',
+					'wp-compose',
+					'wp-i18n',
+					'wp-sanitize',
+					'wp-api-fetch',
+					'wp-hooks',
+					self::PREFIX . 'components',
+					self::PREFIX . 'analysis',
+					self::PREFIX . 'commons',
+					self::PREFIX . 'redux',
+					self::PREFIX . 'select2',
+					self::PREFIX . 'select2-translations',
+				],
+			],
 		];
 	}
 
@@ -857,6 +879,10 @@ class WPSEO_Admin_Asset_Manager {
 			[
 				'name' => 'schema-blocks',
 				'src'  => 'schema-blocks-' . $flat_version,
+			],
+			[
+				'name' => 'elementor',
+				'src'  => 'elementor-' . $flat_version,
 			],
 		];
 	}

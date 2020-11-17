@@ -13,7 +13,7 @@ import { LocationProvider } from "../../contexts/location";
  *
  * @returns {boolean} False when this event should not lead to closing to modal. True otherwise.
  */
-const isCloseEvent = ( event ) => {
+export const isCloseEvent = ( event ) => {
 	if ( event.type === "blur" ) {
 		// The blur event type should only close the modal when the screen overlay is clicked.
 		if ( event.relatedTarget && event.relatedTarget.querySelector( ".components-modal__screen-overlay" ) ) {

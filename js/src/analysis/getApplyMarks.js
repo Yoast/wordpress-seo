@@ -1,7 +1,6 @@
 /* global tinyMCE */
-
 import { noop } from "lodash-es";
-
+import { select } from "@wordpress/data";
 import * as tinyMCEHelper from "../lib/tinymce";
 import { tinyMCEDecorator } from "../decorator/tinyMCE";
 import { isAnnotationAvailable, applyAsAnnotations } from "../decorator/gutenberg";
@@ -33,12 +32,10 @@ function applyMarks( paper, marks ) {
 /**
  * Gets the applyMarks or empty function depending on the marksButtonStatus.
  *
- * @param {Object} store The store.
- *
  * @returns {Function} The marker function or an empty function.
  */
-export default function getApplyMarks( store ) {
-	const showMarkers = store.getState().marksButtonStatus === "enabled";
+export default function getApplyMarks() {
+	const showMarkers = select( "yoast-seo/editor" ).isMarkingAvailable();
 
 	if ( ! showMarkers ) {
 		return noop;

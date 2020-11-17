@@ -7,8 +7,8 @@ import { LocationConsumer } from "../components/contexts/location";
 import {
 	switchMode,
 	updateData,
-} from "../redux/actions/snippetEditor";
-import { updateAnalysisData } from "../redux/actions/analysisData";
+	updateAnalysisData,
+} from "../redux/actions";
 import SnippetPreviewSection from "../components/SnippetPreviewSection";
 import { applyReplaceUsingPlugin } from "../helpers/replacementVariableHelpers";
 

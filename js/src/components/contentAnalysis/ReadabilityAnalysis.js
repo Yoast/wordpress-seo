@@ -1,8 +1,8 @@
 /* global wpseoAdminL10n */
 /* External components */
 import { Component, Fragment } from "@wordpress/element";
+import { withSelect } from "@wordpress/data";
 import PropTypes from "prop-types";
-import { connect } from "react-redux";
 import styled from "styled-components";
 import { __ } from "@wordpress/i18n";
 import { isNil } from "lodash-es";
@@ -122,22 +122,14 @@ ReadabilityAnalysis.defaultProps = {
 	overallScore: null,
 };
 
-/**
- * Maps redux state to ContentAnalysis props.
- *
- * @param {Object} state The redux state.
- * @param {Object} ownProps The component's props.
- *
- * @returns {Object} Props that should be passed to ContentAnalysis.
- */
-function mapStateToProps( state, ownProps ) {
-	const marksButtonStatus = ownProps.hideMarksButtons ? "disabled" : state.marksButtonStatus;
+export default withSelect( select => {
+	const {
+		getReadabilityResults,
+		getMarkButtonStatus,
+	} = select( "yoast-seo/editor" );
 
 	return {
-		results: state.analysis.readability.results || [],
-		marksButtonStatus: marksButtonStatus,
-		overallScore: state.analysis.readability.overallScore,
+		...getReadabilityResults(),
+		marksButtonStatus: getMarkButtonStatus(),
 	};
-}
-
-export default connect( mapStateToProps )( ReadabilityAnalysis );
+} )( ReadabilityAnalysis );
