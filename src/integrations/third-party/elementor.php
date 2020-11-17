@@ -304,6 +304,7 @@ class Elementor implements Integration_Interface {
 			}
 
 			// Update the post object to ensure we have the actual slug.
+			// phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- Updating the post is needed to get the current slug.
 			$post = \get_post( $post_id );
 			if ( ! \is_object( $post ) ) {
 				\wp_send_json_error( 'Updated slug not found', 400 );
