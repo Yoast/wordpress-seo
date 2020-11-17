@@ -259,7 +259,7 @@ Enhancements:
 
 Other:
 
-* Prevents the SEO optimization process from restart automatically when the optimization tool is started via the link in the dashboard notification and the Yoast SEO tools page is reloaded during indexing.
+* Prevents the SEO optimization process from restarting automatically when the optimization tool is started via the link in the dashboard notification and the Yoast SEO Tools page is reloaded during indexing.
 
 = 15.2.1 =
 Release Date: November 2nd, 2020
