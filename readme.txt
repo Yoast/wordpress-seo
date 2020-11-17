@@ -232,6 +232,26 @@ Your question has most likely been answered on our knowledge base: [kb.yoast.com
 
 == Changelog ==
 
+= 15.4 =
+Release Date: December 2nd, 2020
+
+Bugfixes:
+
+* Fixes a bug where `post-sitemap.xml` would cause a fatal error when the filter `post_link` required a `WP_Post` object. Props to [stodorovic](https://github.com/stodorovic).
+* Fixes a bug where we would break the core `default_hidden_columns` filter. Props [thomasmb](https://github.com/thomasmb).
+* Fixes a bug where memory could be exhaused on the page overview for users with a large number of pages.
+
+Enhancements: 
+
+* Adds the Yoast SEO sidebar in the Elementor editor.
+* Makes it possible to recognize forms of keyphrases in Arabic when they are preceded by certain multi-letter prefixes, e.g. والقبعة, فسحرية, or وبالمفتاح. 
+
+Other:
+
+* Improves compatibility with PHP 8.0.
+* Provides an alternative for the method `get_title_separator`.
+* Adds a filter to deactivate the Previously Used Keyword analysis assessment.
+
 = 15.3 =
 Release Date: November 17th, 2020
 
@@ -260,42 +280,6 @@ Enhancements:
 Other:
 
 * Prevents the SEO optimization process from restarting automatically when the optimization tool is started via the link in the dashboard notification and the Yoast SEO Tools page is reloaded during indexing.
-
-= 15.2.1 =
-Release Date: November 2nd, 2020
-
-Bugfixes:
-
-* Fixes a bug where AMP and W3C validation would break because Twitter meta tags would contain 'value' attributes instead of 'content' attributes.
-* Fixes a bug where the Yoast metabox could not be loaded in the post editor when the `configuration-wizard-1520.js` JavaScript file is blocked from loading.
-
-= 15.2 =
-Release Date: October 27th, 2020
-
-Today, we are releasing Yoast SEO 15.2 into the wild. In this release, we've added an interesting improvement for Slack users — better visibility for your content when your URL is shared on Slack. We also improved the performance of the plugin in the backend due to us loading less JavaScript. Read more about what’s new in 15.2 in [our release post](https://yoa.st/release-15-2)!
-
-Enhancements:
-
-* Adds an Open Graph integration for The Events Calendar plugin. Props to [Luehrsen](https://github.com/Luehrsen).
-* Sets the default schema type for Web Stories to Article. Props to [swissspidy](https://github.com/swissspidy).
-* Adds enhanced Slack sharing tags on posts and pages.
-* Adds a toggle for the above enhanced Slack sharing feature.
-* Flushes the permalinks from the indexable tables when a custom taxonomy base changes, and shows a reindex notification in that case.
-* Improves the loading times of admin pages where Yoast SEO is present.
-
-Bugfixes:
-
-* Fixes a bug where we linked to Google's Structured Data Test, which is deprecated. We now link to Google's Rich Results Test. Props to [wormeyman](https://github.com/wormeyman).
-* Fixes a bug where the styling of the General tab in the network admin dashboard was broken.
-* Fixes a bug where the German passive voice assessment would show an error when the text contained a participle enclosed within curly quotation marks (e.g., `"getan"`).
-* Fixes a bug where the WooCommerce product permalinks were not updated after a permalink structure change.
-* Fixes a bug where the replacement variable dropdown menu was partially hidden for the description inputs in all preview modals.
-* Fixes a bug where a fatal error would be thrown on sites that did have curl installed but did not have the PHP curl extension installed.
-
-Other:
-
-* Removes the "Remind me in 7 days" link from the SEO data optimization notification on the Yoast SEO dashboard, which was shown for large sites with more than 2500 unindexed indexables. The notification can still be hidden by clicking the default dismiss button.
-* Adds the `wpseo_image_data` filter to enable the filtering of image metadata. Props to [spacedmonkey](https://github.com/spacedmonkey).
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).
