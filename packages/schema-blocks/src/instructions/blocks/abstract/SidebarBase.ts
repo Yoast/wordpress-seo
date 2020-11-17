@@ -40,6 +40,5 @@ export default abstract class SidebarBase extends BlockInstruction {
 		return this.options.output !== false;
 	}
 
-
 	protected abstract value( props: RenderSaveProps | RenderEditProps ): JSX.Element | string;
 }

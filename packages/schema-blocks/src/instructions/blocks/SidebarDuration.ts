@@ -33,6 +33,7 @@ class SidebarDuration extends SidebarBase {
 		label?: string;
 		help?: string;
 		output?: boolean;
+		required?: boolean;
 	}
 
 	/**
@@ -99,6 +100,7 @@ class SidebarDuration extends SidebarBase {
 			attributes: {
 				[ this.options.name ]: {
 					type: "string",
+					required: this.options.required === true,
 				},
 			},
 		};
