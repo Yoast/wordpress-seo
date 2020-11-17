@@ -28,6 +28,10 @@
 	color: var(--yoast-color-label-help);
 }
 
+label[for="focus-keyword-input-sidebar"] {
+	color: var(--yoast-color-font-default);
+}
+
 .yoast input[disabled] {
 	background-color: var(--yoast-color-inactive-grey-light);
 }
