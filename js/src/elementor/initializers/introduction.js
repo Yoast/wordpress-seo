@@ -6,6 +6,11 @@ import { __ } from "@wordpress/i18n";
  * @returns {void}
  */
 export default function initializeIntroduction() {
+	// Do nothing if the user already closed the introduction.
+	if ( window.elementor.config.user.introduction[ "yoast-introduction" ] === true ) {
+		return;
+	}
+
 	const introduction = new window.elementorModules.editor.utils.Introduction( {
 		introductionKey: "yoast-introduction",
 		dialogOptions: {
