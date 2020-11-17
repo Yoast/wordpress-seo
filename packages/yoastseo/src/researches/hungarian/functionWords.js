@@ -1,3 +1,6 @@
+import transitionWordsFactory from "./transitionWords.js";
+const transitionWords = transitionWordsFactory().singleWords;
+
 /**
  * Returns an object with function words.
  *
@@ -217,8 +220,6 @@ const indefinitePronouns = [ "valaki", "valakit", "valakié", "valakinek", "vala
 	"néhányaknak", "néhányakkal", "néhányakért", "néhányakban", "néhányakba", "néhányakból", "néhányaknál", "néhányakhoz",
 	"néhányaktól", "néhányakon", "néhányakra", "néhányakról" ];
 
-const prepositions = [];
-
 const postpositions = [ "előtt", "elé", "elől", "alatt", "alá", "alól", "túl", "alatt", "belül", "előtt", "fogva", "hosszat",
 	"múlva", "óta", "tájt", "ellen", "helyett", "iránt", "miatt", "nélkül", "részére", "számára", "végett", "között" ];
 
@@ -274,8 +275,6 @@ const miscellaneous = [
 	"fél", "harmad", "negyed", "ötöd", "hatod", "heted", "nyolcad", "kilenced", "tized", "egyharmad", "egynegyed", "egyötöd",
 	"egyhatod", "egyheted", "egynyolcad", "egykilenced", "egytized", "század", "ezred" ];
 
-const transitionWords = [  ];
-
 /**
  * Returns function words for Hungarian.
  *
@@ -285,7 +284,7 @@ export default function() {
 	return {
 		// This export contains all of the above words.
 		all: [].concat( articles, cardinalNumerals, ordinalNumerals, pronouns, interrogatives,
-			quantifiers, reflexivePronouns, indefinitePronouns, prepositions, postpositions, conjunctions, interviewVerbs,
+			quantifiers, reflexivePronouns, indefinitePronouns, postpositions, conjunctions, interviewVerbs,
 			intensifiers, auxiliariesAndDelexicalizedVerbs, generalAdjectivesAdverbs, interjections, recipeWords,
 			timeWords, vagueNouns, miscellaneous, transitionWords ),
 	};
