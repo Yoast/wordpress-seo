@@ -8,9 +8,9 @@ namespace Yoast\WP\SEO\Conditionals;
 class Yoast_Admin_And_Dashboard_Conditional implements Conditional {
 
 	/**
-	 * Returns whether or not this conditional is met.
+	 * Returns `true` when on the admin dashboard, update or Yoast SEO pages.
 	 *
-	 * @return boolean Whether or not the conditional is met.
+	 * @returns bool `true` when on the admin dashboard, update or Yoast SEO pages.
 	 */
 	public function is_met() {
 		global $pagenow;

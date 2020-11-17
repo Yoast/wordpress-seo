@@ -13,6 +13,7 @@ import { select, dispatch } from "@wordpress/data";
 import { __, sprintf } from "@wordpress/i18n";
 import { registerFormatType } from "@wordpress/rich-text";
 import { get } from "lodash-es";
+import { Slot } from "@wordpress/components";
 
 
 /* Internal dependencies */
@@ -82,7 +83,8 @@ function initiallyOpenDocumentSettings() {
  */
 function registerFills( store ) {
 	const localizedData = getL10nObject();
-	const pluginTitle = localizedData.isPremium ? "Yoast SEO Premium" : "Yoast SEO";
+	const isPremium = localizedData.isPremium;
+	const pluginTitle = isPremium ? "Yoast SEO Premium" : "Yoast SEO";
 
 	const icon = <YoastIcon />;
 	updateCategory( "yoast-structured-data-blocks", { icon } );
@@ -93,6 +95,7 @@ function registerFills( store ) {
 	};
 	const preferences = store.getState().preferences;
 	const analysesEnabled = preferences.isKeywordAnalysisActive || preferences.isContentAnalysisActive;
+	const showZapierPanel = preferences.isZapierIntegrationActive && ! preferences.isZapierConnected;
 	initiallyOpenDocumentSettings();
 
 	/**
@@ -125,6 +128,14 @@ function registerFills( store ) {
 				icon={ <Fragment /> }
 			>
 				<PrePublish />
+			</PluginPrePublishPanel> }
+			{ isPremium && showZapierPanel && <PluginPrePublishPanel
+				className="yoast-seo-sidebar-panel"
+				title="Zapier"
+				initialOpen={ true }
+				icon={ <Fragment /> }
+			>
+				<Slot name="YoastZapierPrePublish" />
 			</PluginPrePublishPanel> }
 			<PluginPostPublishPanel
 				className="yoast-seo-sidebar-panel"

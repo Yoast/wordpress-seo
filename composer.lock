@@ -4,32 +4,35 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "55fea29ef00b17062f3eced4ebdaaa6e",
+    "content-hash": "5be03975264da3fde70672e88d3ee05f",
     "packages": [
         {
             "name": "composer/installers",
-            "version": "v1.6.0",
+            "version": "v1.9.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/installers.git",
-                "reference": "cfcca6b1b60bc4974324efb5783c13dca6932b5b"
+                "reference": "b93bcf0fa1fccb0b7d176b0967d969691cd74cca"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/installers/zipball/cfcca6b1b60bc4974324efb5783c13dca6932b5b",
-                "reference": "cfcca6b1b60bc4974324efb5783c13dca6932b5b",
+                "url": "https://api.github.com/repos/composer/installers/zipball/b93bcf0fa1fccb0b7d176b0967d969691cd74cca",
+                "reference": "b93bcf0fa1fccb0b7d176b0967d969691cd74cca",
                 "shasum": ""
             },
             "require": {
-                "composer-plugin-api": "^1.0"
+                "composer-plugin-api": "^1.0 || ^2.0"
             },
             "replace": {
                 "roundcube/plugin-installer": "*",
                 "shama/baton": "*"
             },
             "require-dev": {
-                "composer/composer": "1.0.*@dev",
-                "phpunit/phpunit": "^4.8.36"
+                "composer/composer": "1.6.* || 2.0.*@dev",
+                "composer/semver": "1.0.* || 2.0.*@dev",
+                "phpunit/phpunit": "^4.8.36",
+                "sebastian/comparator": "^1.2.4",
+                "symfony/process": "^2.3"
             },
             "type": "composer-plugin",
             "extra": {
@@ -65,6 +68,7 @@
                 "Kanboard",
                 "Lan Management System",
                 "MODX Evo",
+                "MantisBT",
                 "Mautic",
                 "Maya",
                 "OXID",
@@ -73,6 +77,7 @@
                 "RadPHP",
                 "SMF",
                 "Thelia",
+                "Whmcs",
                 "WolfCMS",
                 "agl",
                 "aimeos",
@@ -95,6 +100,7 @@
                 "installer",
                 "itop",
                 "joomla",
+                "known",
                 "kohana",
                 "laravel",
                 "lavalite",
@@ -117,6 +123,7 @@
                 "shopware",
                 "silverstripe",
                 "sydes",
+                "sylius",
                 "symfony",
                 "typo3",
                 "wordpress",
@@ -124,7 +131,7 @@
                 "zend",
                 "zikula"
             ],
-            "time": "2018-08-27T06:10:37+00:00"
+            "time": "2020-04-07T06:57:05+00:00"
         },
         {
             "name": "guzzlehttp/guzzle",
@@ -772,51 +779,6 @@
                 "wordpress"
             ],
             "time": "2019-05-07T06:45:05+00:00"
-        },
-        {
-            "name": "yoast/license-manager",
-            "version": "1.6.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Yoast/License-Manager.git",
-                "reference": "fbacabb06d788912fead4f32d0d1d8b9a2d883c9"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Yoast/License-Manager/zipball/fbacabb06d788912fead4f32d0d1d8b9a2d883c9",
-                "reference": "fbacabb06d788912fead4f32d0d1d8b9a2d883c9",
-                "shasum": ""
-            },
-            "type": "library",
-            "autoload": {
-                "classmap": [
-                    "class-api-request.php",
-                    "class-license-manager.php",
-                    "class-plugin-license-manager.php",
-                    "class-plugin-update-manager.php",
-                    "class-product.php",
-                    "class-theme-license-manager.php",
-                    "class-theme-update-manager.php",
-                    "class-update-manager.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "GPL-2.0+"
-            ],
-            "authors": [
-                {
-                    "name": "Team Yoast",
-                    "email": "support@yoast.com",
-                    "homepage": "https://yoast.com"
-                }
-            ],
-            "description": "Yoast License Manager.",
-            "homepage": "https://github.com/Yoast/License-Manager",
-            "keywords": [
-                "wordpress"
-            ],
-            "time": "2017-08-22T07:59:16+00:00"
         }
     ],
     "packages-dev": [
@@ -978,23 +940,78 @@
             "time": "2020-10-09T06:55:33+00:00"
         },
         {
-            "name": "dealerdirect/phpcodesniffer-composer-installer",
-            "version": "v0.6.2",
+            "name": "composer/package-versions-deprecated",
+            "version": "1.8.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/Dealerdirect/phpcodesniffer-composer-installer.git",
-                "reference": "8001af8eb107fbfcedc31a8b51e20b07d85b457a"
+                "url": "https://github.com/composer/package-versions-deprecated.git",
+                "reference": "98df7f1b293c0550bd5b1ce6b60b59bdda23aa47"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Dealerdirect/phpcodesniffer-composer-installer/zipball/8001af8eb107fbfcedc31a8b51e20b07d85b457a",
-                "reference": "8001af8eb107fbfcedc31a8b51e20b07d85b457a",
+                "url": "https://api.github.com/repos/composer/package-versions-deprecated/zipball/98df7f1b293c0550bd5b1ce6b60b59bdda23aa47",
+                "reference": "98df7f1b293c0550bd5b1ce6b60b59bdda23aa47",
                 "shasum": ""
             },
             "require": {
-                "composer-plugin-api": "^1.0",
-                "php": "^5.3|^7",
-                "squizlabs/php_codesniffer": "^2|^3"
+                "composer-plugin-api": "^1.1.0 || ^2.0",
+                "php": "^7"
+            },
+            "replace": {
+                "ocramius/package-versions": "1.2 - 1.8.99"
+            },
+            "require-dev": {
+                "composer/composer": "^1.9.3 || ^2.0@dev",
+                "ext-zip": "^1.13",
+                "phpunit/phpunit": "^6.5 || ^7"
+            },
+            "type": "composer-plugin",
+            "extra": {
+                "class": "PackageVersions\\Installer",
+                "branch-alias": {
+                    "dev-master": "1.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "PackageVersions\\": "src/PackageVersions"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Marco Pivetta",
+                    "email": "ocramius@gmail.com"
+                },
+                {
+                    "name": "Jordi Boggiano",
+                    "email": "j.boggiano@seld.be"
+                }
+            ],
+            "description": "Composer plugin that provides efficient querying for installed package versions (no runtime IO)",
+            "time": "2020-04-23T11:49:37+00:00"
+        },
+        {
+            "name": "dealerdirect/phpcodesniffer-composer-installer",
+            "version": "v0.7.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Dealerdirect/phpcodesniffer-composer-installer.git",
+                "reference": "e8d808670b8f882188368faaf1144448c169c0b7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Dealerdirect/phpcodesniffer-composer-installer/zipball/e8d808670b8f882188368faaf1144448c169c0b7",
+                "reference": "e8d808670b8f882188368faaf1144448c169c0b7",
+                "shasum": ""
+            },
+            "require": {
+                "composer-plugin-api": "^1.0 || ^2.0",
+                "php": ">=5.3",
+                "squizlabs/php_codesniffer": "^2 || ^3 || 4.0.x-dev"
             },
             "require-dev": {
                 "composer/composer": "*",
@@ -1041,7 +1058,7 @@
                 "stylecheck",
                 "tests"
             ],
-            "time": "2020-01-29T20:22:20+00:00"
+            "time": "2020-06-25T14:57:39+00:00"
         },
         {
             "name": "doctrine/instantiator",
@@ -1226,43 +1243,64 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/JetBrains/phpstorm-stubs.git",
-                "reference": "3f4e4949dc39aa8e28d5565366a24fea47116bc7"
+                "reference": "fa7eb6f286c024a2dd9b3e1227ce640f055e02f4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/JetBrains/phpstorm-stubs/zipball/3f4e4949dc39aa8e28d5565366a24fea47116bc7",
-                "reference": "3f4e4949dc39aa8e28d5565366a24fea47116bc7",
+                "url": "https://api.github.com/repos/JetBrains/phpstorm-stubs/zipball/fa7eb6f286c024a2dd9b3e1227ce640f055e02f4",
+                "reference": "fa7eb6f286c024a2dd9b3e1227ce640f055e02f4",
                 "shasum": ""
             },
             "require-dev": {
-                "nikic/php-parser": "v4.0.1",
-                "php": "^7.1",
-                "phpdocumentor/reflection-docblock": "^4.3",
-                "phpunit/phpunit": "7.1.4"
+                "friendsofphp/php-cs-fixer": "^2.16",
+                "nikic/php-parser": "dev-master",
+                "php": "^8.0",
+                "phpdocumentor/reflection-docblock": "dev-master",
+                "phpunit/phpunit": "^9"
             },
             "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2020.x"
+                }
+            },
             "autoload": {
                 "files": [
                     "PhpStormStubsMap.php"
                 ]
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "autoload-dev": {
+                "psr-4": {
+                    "StubTests\\": "tests/"
+                }
+            },
+            "scripts": {
+                "cs": [
+                    "php-cs-fixer fix -v --diff --dry-run"
+                ],
+                "cs-fix": [
+                    "php-cs-fixer fix -v --diff"
+                ]
+            },
             "license": [
                 "Apache-2.0"
             ],
             "description": "PHP runtime & extensions header files for PhpStorm",
             "homepage": "https://www.jetbrains.com/phpstorm",
             "keywords": [
+                "JetBrains",
+                "PHPStorm",
                 "autocomplete",
                 "code",
                 "inference",
                 "inspection",
-                "jetbrains",
-                "phpstorm",
                 "stubs",
                 "type"
             ],
-            "time": "2019-08-28T15:48:22+00:00"
+            "support": {
+                "source": "https://github.com/JetBrains/phpstorm-stubs/tree/master"
+            },
+            "time": "2020-11-16T09:04:11+00:00"
         },
         {
             "name": "mockery/mockery",
@@ -1428,56 +1466,6 @@
                 "php"
             ],
             "time": "2019-05-25T20:07:01+00:00"
-        },
-        {
-            "name": "ocramius/package-versions",
-            "version": "1.4.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Ocramius/PackageVersions.git",
-                "reference": "a4d4b60d0e60da2487bd21a2c6ac089f85570dbb"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Ocramius/PackageVersions/zipball/a4d4b60d0e60da2487bd21a2c6ac089f85570dbb",
-                "reference": "a4d4b60d0e60da2487bd21a2c6ac089f85570dbb",
-                "shasum": ""
-            },
-            "require": {
-                "composer-plugin-api": "^1.0.0",
-                "php": "^7.1.0"
-            },
-            "require-dev": {
-                "composer/composer": "^1.6.3",
-                "doctrine/coding-standard": "^5.0.1",
-                "ext-zip": "*",
-                "infection/infection": "^0.7.1",
-                "phpunit/phpunit": "^7.0.0"
-            },
-            "type": "composer-plugin",
-            "extra": {
-                "class": "PackageVersions\\Installer",
-                "branch-alias": {
-                    "dev-master": "2.0.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "PackageVersions\\": "src/PackageVersions"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Marco Pivetta",
-                    "email": "ocramius@gmail.com"
-                }
-            ],
-            "description": "Composer plugin that provides efficient querying for installed package versions (no runtime IO)",
-            "time": "2019-02-21T12:16:21+00:00"
         },
         {
             "name": "php-parallel-lint/php-console-color",
@@ -2908,16 +2896,16 @@
         },
         {
             "name": "squizlabs/php_codesniffer",
-            "version": "3.5.6",
+            "version": "3.5.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/squizlabs/PHP_CodeSniffer.git",
-                "reference": "e97627871a7eab2f70e59166072a6b767d5834e0"
+                "reference": "9d583721a7157ee997f235f327de038e7ea6dac4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/squizlabs/PHP_CodeSniffer/zipball/e97627871a7eab2f70e59166072a6b767d5834e0",
-                "reference": "e97627871a7eab2f70e59166072a6b767d5834e0",
+                "url": "https://api.github.com/repos/squizlabs/PHP_CodeSniffer/zipball/9d583721a7157ee997f235f327de038e7ea6dac4",
+                "reference": "9d583721a7157ee997f235f327de038e7ea6dac4",
                 "shasum": ""
             },
             "require": {
@@ -2955,7 +2943,7 @@
                 "phpcs",
                 "standards"
             ],
-            "time": "2020-08-10T04:50:15+00:00"
+            "time": "2020-10-23T02:01:07+00:00"
         },
         {
             "name": "symfony/config",
@@ -3144,20 +3132,6 @@
             ],
             "description": "Symfony Filesystem Component",
             "homepage": "https://symfony.com",
-            "funding": [
-                {
-                    "url": "https://symfony.com/sponsor",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/fabpot",
-                    "type": "github"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
-                    "type": "tidelift"
-                }
-            ],
             "time": "2020-05-30T18:50:54+00:00"
         },
         {
@@ -3268,20 +3242,6 @@
                 "ctype",
                 "polyfill",
                 "portable"
-            ],
-            "funding": [
-                {
-                    "url": "https://symfony.com/sponsor",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/fabpot",
-                    "type": "github"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
-                    "type": "tidelift"
-                }
             ],
             "time": "2020-07-14T12:35:20+00:00"
         },
@@ -3656,28 +3616,28 @@
         },
         {
             "name": "yoast/yoastcs",
-            "version": "2.0.2",
+            "version": "2.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Yoast/yoastcs.git",
-                "reference": "0f6d2a18545e4b0751d7966a61f0cfc95a9f8d72"
+                "reference": "8cc5cb79b950588f05a45d68c3849ccfcfef6298"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Yoast/yoastcs/zipball/0f6d2a18545e4b0751d7966a61f0cfc95a9f8d72",
-                "reference": "0f6d2a18545e4b0751d7966a61f0cfc95a9f8d72",
+                "url": "https://api.github.com/repos/Yoast/yoastcs/zipball/8cc5cb79b950588f05a45d68c3849ccfcfef6298",
+                "reference": "8cc5cb79b950588f05a45d68c3849ccfcfef6298",
                 "shasum": ""
             },
             "require": {
-                "dealerdirect/phpcodesniffer-composer-installer": "^0.5 || ^0.6",
+                "dealerdirect/phpcodesniffer-composer-installer": "^0.5 || ^0.6.2 || ^0.7",
                 "php": ">=5.4",
                 "phpcompatibility/phpcompatibility-wp": "^2.1.0",
                 "squizlabs/php_codesniffer": "^3.5.0",
                 "wp-coding-standards/wpcs": "^2.2.0"
             },
             "require-dev": {
-                "jakub-onderka/php-console-highlighter": "^0.4",
-                "jakub-onderka/php-parallel-lint": "^1.0",
+                "php-parallel-lint/php-console-highlighter": "^0.5",
+                "php-parallel-lint/php-parallel-lint": "^1.2",
                 "phpcompatibility/php-compatibility": "^9.2.0",
                 "phpcsstandards/phpcsdevtools": "^1.0",
                 "phpunit/phpunit": "^4.0 || ^5.0 || ^6.0 || ^7.0",
@@ -3703,7 +3663,7 @@
                 "wordpress",
                 "yoast"
             ],
-            "time": "2020-04-02T17:16:18+00:00"
+            "time": "2020-10-27T09:51:49+00:00"
         }
     ],
     "aliases": [],
@@ -3714,6 +3674,5 @@
     "platform": {
         "php": "^5.6.20||^7.0"
     },
-    "platform-dev": [],
-    "plugin-api-version": "1.1.0"
+    "platform-dev": []
 }

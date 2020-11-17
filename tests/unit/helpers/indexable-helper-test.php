@@ -6,6 +6,7 @@ use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Helpers\Environment_Helper;
 use Yoast\WP\SEO\Helpers\Indexable_Helper;
+use Yoast\WP\SEO\Helpers\Indexing_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
@@ -36,7 +37,7 @@ class Indexable_Helper_Test extends TestCase {
 	protected $options;
 
 	/**
-	 * Represents the options helper.
+	 * Represents the indexable repository helper.
 	 *
 	 * @var Mockery\MockInterface|Indexable_Repository
 	 */
@@ -50,11 +51,11 @@ class Indexable_Helper_Test extends TestCase {
 	protected $environment_helper;
 
 	/**
-	 * Represents the notification center.
+	 * Represents the indexing helper.
 	 *
-	 * @var Mockery\MockInterface|\Yoast_Notification_Center
+	 * @var Mockery\MockInterface|Indexing_Helper
 	 */
-	protected $notification_center;
+	protected $indexing_helper;
 
 	/**
 	 * Sets up the class under test and mock objects.
@@ -62,15 +63,11 @@ class Indexable_Helper_Test extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->options             = Mockery::mock( Options_Helper::class );
-		$this->repository          = Mockery::mock( Indexable_Repository::class );
-		$this->environment_helper  = Mockery::mock( Environment_Helper::class );
-		$this->notification_center = Mockery::mock( \Yoast_Notification_Center::class );
-		$this->instance            = new Indexable_Helper(
-			$this->options,
-			$this->environment_helper,
-			$this->notification_center
-		);
+		$this->options            = Mockery::mock( Options_Helper::class );
+		$this->repository         = Mockery::mock( Indexable_Repository::class );
+		$this->environment_helper = Mockery::mock( Environment_Helper::class );
+		$this->indexing_helper    = Mockery::mock( Indexing_Helper::class );
+		$this->instance           = new Indexable_Helper( $this->options, $this->environment_helper, $this->indexing_helper );
 		$this->instance->set_indexable_repository( $this->repository );
 	}
 
@@ -81,9 +78,8 @@ class Indexable_Helper_Test extends TestCase {
 	 */
 	public function test_construct() {
 		$this->assertAttributeInstanceOf( Options_Helper::class, 'options_helper', $this->instance );
-		$this->assertAttributeInstanceOf( Indexable_Repository::class, 'repository', $this->instance );
 		$this->assertAttributeInstanceOf( Environment_Helper::class, 'environment_helper', $this->instance );
-		$this->assertAttributeInstanceOf( \Yoast_Notification_Center::class, 'notification_center', $this->instance );
+		$this->assertAttributeInstanceOf( Indexing_Helper::class, 'indexing_helper', $this->instance );
 	}
 
 	/**
@@ -141,7 +137,7 @@ class Indexable_Helper_Test extends TestCase {
 	}
 
 	/**
-	 * Tests should_index_indexables method
+	 * Tests should_index_indexables method.
 	 *
 	 * @param string $wp_environment  The WordPress environment to test for.
 	 * @param bool   $expected_result Either true or false.
@@ -165,6 +161,18 @@ class Indexable_Helper_Test extends TestCase {
 
 		// Assert.
 		$this->assertEquals( $result, $expected_result );
+	}
+
+	/**
+	 * Tests setting the indexables completed flag after indexing the indexables has finished.
+	 */
+	public function test_finish_indexing() {
+		$this->options
+			->expects( 'set' )
+			->once()
+			->with( 'indexables_indexing_completed', true );
+
+		$this->instance->finish_indexing();
 	}
 
 	/**

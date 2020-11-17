@@ -2,8 +2,8 @@
 
 namespace Yoast\WP\SEO\Presenters\Admin;
 
+use Yoast\WP\SEO\Config\Indexing_Reasons;
 use Yoast\WP\SEO\Helpers\Short_Link_Helper;
-use Yoast\WP\SEO\Integrations\Admin\Indexing_Notification_Integration;
 use Yoast\WP\SEO\Presenters\Abstract_Presenter;
 
 /**
@@ -71,14 +71,17 @@ class Indexing_Notification_Presenter extends Abstract_Presenter {
 	 */
 	protected function get_message( $reason ) {
 		switch ( $reason ) {
-			case Indexing_Notification_Integration::REASON_PERMALINK_SETTINGS:
+			case Indexing_Reasons::REASON_PERMALINK_SETTINGS:
 				$text = \esc_html__( 'Because of a change in your permalink structure, some of your SEO data needs to be reprocessed.', 'wordpress-seo' );
 				break;
-			case Indexing_Notification_Integration::REASON_CATEGORY_BASE_PREFIX:
-				$text = \esc_html__( 'Because of a change in your category URL setting, some of your SEO data needs to be reprocessed.', 'wordpress-seo' );
-				break;
-			case Indexing_Notification_Integration::REASON_HOME_URL_OPTION:
+			case Indexing_Reasons::REASON_HOME_URL_OPTION:
 				$text = \esc_html__( 'Because of a change in your home URL setting, some of your SEO data needs to be reprocessed.', 'wordpress-seo' );
+				break;
+			case Indexing_Reasons::REASON_CATEGORY_BASE_PREFIX:
+				$text = \esc_html__( 'Because of a change in your category base setting, some of your SEO data needs to be reprocessed.', 'wordpress-seo' );
+				break;
+			case Indexing_Reasons::REASON_TAG_BASE_PREFIX:
+				$text = \esc_html__( 'Because of a change in your tag base setting, some of your SEO data needs to be reprocessed.', 'wordpress-seo' );
 				break;
 			default:
 				$text = \esc_html__( 'You can speed up your site and get insight into your internal linking structure by letting us perform a few optimizations to the way SEO data is stored. ', 'wordpress-seo' );

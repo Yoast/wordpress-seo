@@ -2,7 +2,7 @@
 
 namespace Yoast\WP\SEO\Actions\Indexing;
 
-use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Helpers\Indexable_Helper;
 
 /**
  * Indexing action to call when the indexable indexing process is completed.
@@ -12,17 +12,17 @@ class Indexable_Indexing_Complete_Action {
 	/**
 	 * The options helper.
 	 *
-	 * @var Options_Helper
+	 * @var Indexable_Helper
 	 */
-	protected $options;
+	protected $indexable_helper;
 
 	/**
 	 * Indexable_Indexing_Complete_Action constructor.
 	 *
-	 * @param Options_Helper $options The options helper.
+	 * @param Indexable_Helper $indexable_helper The indexable helper.
 	 */
-	public function __construct( Options_Helper $options ) {
-		$this->options = $options;
+	public function __construct( Indexable_Helper $indexable_helper ) {
+		$this->indexable_helper = $indexable_helper;
 	}
 
 	/**
@@ -31,6 +31,6 @@ class Indexable_Indexing_Complete_Action {
 	 * @return void
 	 */
 	public function complete() {
-		$this->options->set( 'indexables_indexation_completed', true );
+		$this->indexable_helper->finish_indexing();
 	}
 }

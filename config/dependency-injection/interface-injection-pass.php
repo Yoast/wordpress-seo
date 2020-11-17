@@ -42,14 +42,14 @@ class Interface_Injection_Pass implements CompilerPassInterface {
 					continue;
 				}
 
-				echo "Found" . $definition_class->target_class_name;
+				echo 'Found' . $definition_class->target_class_name;
 
 				// Find all subclasses of the requested type in our DI definition.
 				$subclasses_of_splat_type = $this->get_registered_subclasses_of( $definitions, $definition_class );
 
 				/*
 				 * The constructor needs to be called with a comma separated enumeration of objects.
-				 * example:				 function __construct( Fruit ...$allFruit )
+				 * example:              function __construct( Fruit ...$allFruit )
 				 * actually expands to:  function __construct( Fruit $f1, Fruit $f2, Fruit $f3, Fruit $fn )
 				 * We have to start this array at the position of the splat argument, and inject the next
 				 * matching type on the next position, and so on, until all matching types have been injected.

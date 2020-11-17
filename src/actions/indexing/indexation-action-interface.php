@@ -3,7 +3,7 @@
 namespace Yoast\WP\SEO\Actions\Indexing;
 
 /**
- * Interface definition of reindexation action for indexables.
+ * Interface definition of reindexing action for indexables.
  */
 interface Indexation_Action_Interface {
 
@@ -19,7 +19,7 @@ interface Indexation_Action_Interface {
 	 *
 	 * NOTE: ALWAYS use limits, this method is intended to be called multiple times over several requests.
 	 *
-	 * For indexation that requires JavaScript simply return the objects that should be indexed.
+	 * For indexing that requires JavaScript simply return the objects that should be indexed.
 	 *
 	 * @return array The reindexed objects.
 	 */

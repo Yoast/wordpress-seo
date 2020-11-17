@@ -482,17 +482,6 @@ class WPSEO_Utils {
 	}
 
 	/**
-	 * Flush W3TC cache after succesfull update/add of taxonomy meta option.
-	 *
-	 * @since 1.8.0
-	 */
-	public static function flush_w3tc_cache() {
-		if ( defined( 'W3TC_DIR' ) && function_exists( 'w3tc_objectcache_flush' ) ) {
-			w3tc_objectcache_flush();
-		}
-	}
-
-	/**
 	 * Clear rewrite rules.
 	 *
 	 * @since 1.8.0
@@ -966,15 +955,6 @@ SVG;
 	}
 
 	/**
-	 * Determines whether or not WooCommerce is active.
-	 *
-	 * @return bool Whether or not WooCommerce is active.
-	 */
-	public static function is_woocommerce_active() {
-		return class_exists( 'Woocommerce' );
-	}
-
-	/**
 	 * Determines whether the plugin is active for the entire network.
 	 *
 	 * @return bool Whether or not the plugin is network-active.
@@ -1440,5 +1420,31 @@ SVG;
 		 * @api string $replacement The current separator.
 		 */
 		return apply_filters( 'wpseo_replacements_filter_sep', $replacement );
+	}
+
+	/**
+	 * Flush W3TC cache after successful update/add of taxonomy meta option.
+	 *
+	 * @deprecated 15.3
+	 * @codeCoverageIgnore
+	 *
+	 * @since 1.8.0
+	 */
+	public static function flush_w3tc_cache() {
+		_deprecated_function( __METHOD__, 'WPSEO 15.3' );
+	}
+
+	/**
+	 * Determines whether or not WooCommerce is active.
+	 *
+	 * @deprecated 15.3
+	 * @codeCoverageIgnore
+	 *
+	 * @return bool Whether or not WooCommerce is active.
+	 */
+	public static function is_woocommerce_active() {
+		_deprecated_function( __METHOD__, 'WPSEO 15.3' );
+
+		return YoastSEO()->helpers->woocommerce->is_active();
 	}
 }

@@ -5,22 +5,14 @@ namespace Yoast\WP\SEO\Helpers;
 use Yoast\WP\SEO\Actions\Indexing\Indexable_Post_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexing\Indexable_Post_Type_Archive_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexing\Indexable_Term_Indexation_Action;
-use Yoast\WP\SEO\Integrations\Admin\Indexing_Notification_Integration;
+use Yoast\WP\SEO\Config\Indexing_Reasons;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
-use Yoast_Notification_Center;
 
 /**
  * A helper object for indexables.
  */
 class Indexable_Helper {
-
-	/**
-	 * Represents the options helper.
-	 *
-	 * @var Options_Helper
-	 */
-	private $options_helper;
 
 	/**
 	 * Represents the indexable repository.
@@ -30,34 +22,37 @@ class Indexable_Helper {
 	protected $repository;
 
 	/**
-	 * The environment helper.
+	 * Represents the options helper.
+	 *
+	 * @var Options_Helper
+	 */
+	protected $options_helper;
+
+	/**
+	 * Represents the environment helper.
 	 *
 	 * @var Environment_Helper
 	 */
 	protected $environment_helper;
 
 	/**
-	 * The notification center.
+	 * Represents the indexing helper.
 	 *
-	 * @var Yoast_Notification_Center
+	 * @var Indexing_Helper
 	 */
-	protected $notification_center;
+	protected $indexing_helper;
 
 	/**
 	 * Indexable_Helper constructor.
 	 *
-	 * @param Options_Helper            $options_helper      The options helper.
-	 * @param Environment_Helper        $environment_helper  The environment helper.
-	 * @param Yoast_Notification_Center $notification_center The notifification center.
+	 * @param Options_Helper     $options_helper     The options helper.
+	 * @param Environment_Helper $environment_helper The environment helper.
+	 * @param Indexing_Helper    $indexing_helper    The indexing helper.
 	 */
-	public function __construct(
-		Options_Helper $options_helper,
-		Environment_Helper $environment_helper,
-		Yoast_Notification_Center $notification_center
-	) {
-		$this->options_helper      = $options_helper;
-		$this->environment_helper  = $environment_helper;
-		$this->notification_center = $notification_center;
+	public function __construct( Options_Helper $options_helper, Environment_Helper $environment_helper, Indexing_Helper $indexing_helper ) {
+		$this->options_helper     = $options_helper;
+		$this->environment_helper = $environment_helper;
+		$this->indexing_helper    = $indexing_helper;
 	}
 
 	/**
@@ -120,14 +115,12 @@ class Indexable_Helper {
 	 * @param null|string $subtype The subtype. Can be null.
 	 * @param string      $reason  The reason that the permalink has been changed.
 	 */
-	public function reset_permalink_indexables( $type = null, $subtype = null, $reason = Indexing_Notification_Integration::REASON_PERMALINK_SETTINGS ) {
+	public function reset_permalink_indexables( $type = null, $subtype = null, $reason = Indexing_Reasons::REASON_PERMALINK_SETTINGS ) {
 		$result = $this->repository->reset_permalink( $type, $subtype );
 
-		if ( $result !== false && $result > 0 ) {
-			$this->options_helper->set( 'indexing_reason', $reason );
-			// Remove the notification so it can be added again with the new reason.
-			$this->notification_center->remove_notification_by_id( Indexing_Notification_Integration::NOTIFICATION_ID );
+		$this->indexing_helper->set_reason( $reason );
 
+		if ( $result !== false && $result > 0 ) {
 			\delete_transient( Indexable_Post_Indexation_Action::TRANSIENT_CACHE_KEY );
 			\delete_transient( Indexable_Post_Type_Archive_Indexation_Action::TRANSIENT_CACHE_KEY );
 			\delete_transient( Indexable_Term_Indexation_Action::TRANSIENT_CACHE_KEY );
@@ -156,5 +149,14 @@ class Indexable_Helper {
 		 * @param bool $value The value of the `dynamic_permalinks` option.
 		 */
 		return (bool) \apply_filters( 'wpseo_dynamic_permalinks_enabled', $this->options_helper->get( 'dynamic_permalinks', false ) );
+	}
+
+	/**
+	 * Sets a boolean to indicate that the indexing of the indexables has completed.
+	 *
+	 * @return void
+	 */
+	public function finish_indexing() {
+		$this->options_helper->set( 'indexables_indexing_completed', true );
 	}
 }

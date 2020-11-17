@@ -26,6 +26,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group context
  */
 class Meta_Tags_Context_Test extends TestCase {
+
 	/**
 	 * The options helper.
 	 *
@@ -97,6 +98,8 @@ class Meta_Tags_Context_Test extends TestCase {
 	private $indexable_repository;
 
 	/**
+	 * The meta tags context.
+	 *
 	 * @var Meta_Tags_Context
 	 */
 	private $instance;

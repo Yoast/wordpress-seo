@@ -6,7 +6,6 @@
  */
 
 use Yoast\WP\Lib\Model;
-use Yoast\WP\SEO\Integrations\Admin\Indexing_Tool_Integration;
 
 /**
  * This code handles the option upgrades.
@@ -14,6 +13,8 @@ use Yoast\WP\SEO\Integrations\Admin\Indexing_Tool_Integration;
 class WPSEO_Upgrade {
 
 	/**
+	 * The taxonomy helper.
+	 *
 	 * @var \Yoast\WP\SEO\Helpers\Taxonomy_Helper
 	 */
 	private $taxonomy_helper;
@@ -66,6 +67,7 @@ class WPSEO_Upgrade {
 			'14.5-RC0'   => 'upgrade_145',
 			'14.9-RC0'   => 'upgrade_149',
 			'15.1-RC0'   => 'upgrade_151',
+			'15.3-RC0'   => 'upgrade_153',
 		];
 
 		array_walk( $routines, [ $this, 'run_upgrade_routine' ], $version );
@@ -548,7 +550,7 @@ class WPSEO_Upgrade {
 	 * @return void
 	 */
 	private function upgrade_772() {
-		if ( WPSEO_Utils::is_woocommerce_active() ) {
+		if ( YoastSEO()->helpers->woocommerce->is_active() ) {
 			$this->migrate_woocommerce_archive_setting_to_shop_page();
 		}
 	}
@@ -733,7 +735,7 @@ class WPSEO_Upgrade {
 	 * Performs the 14.9 upgrade.
 	 */
 	private function upgrade_149() {
-		$version = get_option( 'wpseo_license_server_version', WPSEO_License_Page_Manager::VERSION_BACKWARDS_COMPATIBILITY );
+		$version = get_option( 'wpseo_license_server_version', 2 );
 		WPSEO_Options::set( 'license_server_version', $version );
 		delete_option( 'wpseo_license_server_version' );
 	}
@@ -749,6 +751,23 @@ class WPSEO_Upgrade {
 
 		add_action( 'init', [ $this, 'set_permalink_structure_option_for_151' ] );
 		add_action( 'init', [ $this, 'store_custom_taxonomy_slugs_for_151' ] );
+	}
+
+	/**
+	 * Performs the 15.3 upgrade.
+	 *
+	 * @return void
+	 */
+	private function upgrade_153() {
+		WPSEO_Options::set( 'category_base_url', get_option( 'category_base' ) );
+		WPSEO_Options::set( 'tag_base_url', get_option( 'tag_base' ) );
+
+		// Rename a couple of options.
+		$indexation_started_value = WPSEO_Options::get( 'indexation_started' );
+		WPSEO_Options::set( 'indexing_started', $indexation_started_value );
+
+		$indexables_indexing_completed_value = WPSEO_Options::get( 'indexables_indexation_completed' );
+		WPSEO_Options::set( 'indexables_indexing_completed', $indexables_indexing_completed_value);
 	}
 
 	/**
@@ -781,14 +800,7 @@ class WPSEO_Upgrade {
 	 * else to `false`.
 	 */
 	public function set_indexation_completed_option_for_145() {
-		/**
-		 * Holds the indexation integration instance.
-		 *
-		 * @var Indexing_Tool_Integration $indexing_integration
-		 */
-		$indexing_integration = YoastSEO()->classes->get( Indexing_Tool_Integration::class );
-
-		WPSEO_Options::set( 'indexables_indexation_completed', $indexing_integration->get_unindexed_indexables_count() === 0 );
+		WPSEO_Options::set( 'indexables_indexation_completed', YoastSEO()->helpers->indexing->get_unindexed_count() === 0 );
 	}
 
 	/**
@@ -797,7 +809,7 @@ class WPSEO_Upgrade {
 	public function clean_up_private_taxonomies_for_141() {
 		global $wpdb;
 
-		// If migrations haven't been completed succesfully the following may give false errors. So suppress them.
+		// If migrations haven't been completed successfully the following may give false errors. So suppress them.
 		$show_errors       = $wpdb->show_errors;
 		$wpdb->show_errors = false;
 
@@ -809,15 +821,18 @@ class WPSEO_Upgrade {
 		}
 
 		$indexable_table = Model::get_table_name( 'Indexable' );
-		$query           = $wpdb->prepare(
-			"DELETE FROM $indexable_table
+
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Reason: Is it prepared already.
+		$query = $wpdb->prepare(
+			// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: Too hard to fix.
+			"DELETE FROM $indexable_table 
 			WHERE object_type = 'term'
 			AND object_sub_type IN ("
 				. \implode( ', ', \array_fill( 0, \count( $private_taxonomies ), '%s' ) )
 				. ')',
 			$private_taxonomies
 		);
-		$wpdb->query( $query );
+		$wpdb->query( $query ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Reason: Is it prepared already.
 
 		$wpdb->show_errors = $show_errors;
 	}
@@ -835,7 +850,7 @@ class WPSEO_Upgrade {
 		// Reset the permalinks of the attachments in the indexable table.
 		$indexable_table = Model::get_table_name( 'Indexable' );
 		$query           = "UPDATE $indexable_table SET permalink = NULL WHERE object_type = 'post' AND object_sub_type = 'attachment'";
-		$wpdb->query( $query );
+		$wpdb->query( $query ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Reason: There is no user input.
 
 		$wpdb->show_errors = $show_errors;
 	}
@@ -913,7 +928,7 @@ class WPSEO_Upgrade {
 
 		// Load option directly from the database, to avoid filtering and sanitization.
 		$sql     = $wpdb->prepare( 'SELECT option_value FROM ' . $wpdb->options . ' WHERE option_name = %s', $option_name );
-		$results = $wpdb->get_results( $sql, ARRAY_A );
+		$results = $wpdb->get_results( $sql, ARRAY_A ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Reason: Is is already prepared.
 		if ( ! empty( $results ) ) {
 			return maybe_unserialize( $results[0]['option_value'] );
 		}
