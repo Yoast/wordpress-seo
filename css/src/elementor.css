@@ -18,6 +18,24 @@
 	margin-bottom: 1em;
 }
 
+.yoast label, .yoast input, .yoast select:not(:focus), .yoast input:focus, .yoast select:focus {
+	color: var(--yoast-color-font-default);
+	background-color: rgba(0,0,0,0);
+	border-color: var(--yoast-color-secondary-darker);
+}
+
+.yoast label {
+	color: var(--yoast-color-label-help);
+}
+
+label[for="focus-keyword-input-sidebar"], .yoast-field-group__title > label {
+	color: var(--yoast-color-font-default);
+}
+
+.yoast input[disabled] {
+	background-color: var(--yoast-color-inactive-grey-light);
+}
+
 .yoast.components-panel__body .yoast-title {
 	font-weight: 500;
 }
