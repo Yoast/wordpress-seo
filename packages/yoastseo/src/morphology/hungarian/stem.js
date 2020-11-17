@@ -6,7 +6,6 @@ import { findMatchingEndingInArray } from "../morphoHelpers/findMatchingEndingIn
  * @param {string} word The word to check
  * @returns {boolean} Whether the input character is a Hungarian vowel.
  */
-
 const isVowel = function( morphologyData, word ) {
 	const vowels = morphologyData.externalStemmer.vowels;
 	const regex = new RegExp( vowels );
@@ -15,10 +14,9 @@ const isVowel = function( morphologyData, word ) {
 /**
  * Checks if the input character is a Hungarian double consonant.
  *
- * @param {string} char             The character to be checked.
  * @param {Object} morphologyData   The Hungarian morphology data.
  * @param {string} word The word to check
- * @returns {boolean} Whether the input character is a Hungarian vowel.
+ * @returns {boolean} Whether the input character is a Hungarian double consonant.
  */
 const isDoubleConsonant = function( morphologyData, word ) {
 	const regex = new RegExp( morphologyData.externalStemmer.doubleConsonants );
@@ -64,17 +62,16 @@ const findR1Position = function( morphologyData, word ) {
  * and removes one of the double consonants
  * @param {Object} morphologyData Morpology data file with suffix list
  * @param {string} word The word to stem
- * @param {number} r1Position The R1 region
+ * @param {number} r1Text The text of the R1 region
  *
 */
-const stemSuffixes1 = function( word, r1Position, morphologyData ) {
-	const doubleConsonant = morphologyData.externalStemmer.doubleConsonants;
-	const suffixes1 = new RegExp( morphologyData.externalStemmer.suffixes1 );
-	if ( suffixes1.test( word ) && r1Position ) {
-		let wordAfterStemming = word.slice( -2 );
-		const checkIfWordEndsOnDoubleConsonant = doubleConsonant.map( consonants => wordAfterStemming.endsWith( consonants ) );
+const stemSuffixes1 = function( word, r1Text, morphologyData ) {
+	const suffix = findMatchingEndingInArray( r1Text, morphologyData.externalStemmer.suffixes1 );
+	if ( suffix !== "" ) {
+		let wordAfterStemming = word.slice( 0, -2 );
+		const checkIfWordEndsOnDoubleConsonant = isDoubleConsonant( morphologyData, wordAfterStemming );
 		if ( checkIfWordEndsOnDoubleConsonant ) {
-			wordAfterStemming = wordAfterStemming.slice( -1 );
+			wordAfterStemming = wordAfterStemming.slice( 0, -1 );
 		}
 		return wordAfterStemming;
 	}
@@ -95,8 +92,8 @@ const stemSuffixes2 = function( word, r1Text, suffixes2 ) {
 	const suffix = findMatchingEndingInArray( r1Text, suffixes2 );
 	if ( suffix !== "" ) {
 		let wordAfterStemming = word.slice( 0, -suffix.length );
-		const checkIfWordEndsOnÉorÁ = ( wordAfterStemming.endsWith( "á" ) || wordAfterStemming.endsWith( "é" ) );
-		if ( checkIfWordEndsOnÉorÁ ) {
+		const checkIfWordEndsOnAccentedEorE = ( wordAfterStemming.endsWith( "á" ) || wordAfterStemming.endsWith( "é" ) );
+		if ( checkIfWordEndsOnAccentedEorE ) {
 			wordAfterStemming = wordAfterStemming.replace( /á$/i, "a" || /é$/i, "e" );
 		}
 		return wordAfterStemming;
@@ -108,20 +105,19 @@ const stemSuffixes2 = function( word, r1Text, suffixes2 ) {
  *Search for én in R1 and replace with e
  *
  * @param {string} word             The word to check for the suffix.
- * @param  {string} r1Position      The R1 region of the word to stem.
  * @param {Object} regions          The object that contains the string within the R1 region and the rest string of the word.
  * @param {Object} morphologyData   The morphology data for Hungarian.
  *
  * @returns {string} The word without the suffix.
  */
-const stemSuffixes3 = function( word, r1Text, r1Position, suffixes3 ) {
+const stemSuffixes3 = function( word, r1Text, suffixes3 ) {
 	const suffix3a = findMatchingEndingInArray( r1Text, suffixes3.suffixes3a );
 	if ( suffix3a !== "" ) {
 		return ( word.slice( 0, -suffix3a.length ) + "a" );
 	}
-	const suffix3b = new RegExp( suffixes3.suffix3b );
-	if ( suffix3b.test( word ) && r1Position ) {
-		return ( word.slice( -suffix3b ) + "e" );
+	const suffix3b = findMatchingEndingInArray( r1Text, suffixes3.suffixes3b );
+	if ( suffix3b !== "" ) {
+		return ( word.slice( 0, -suffix3b.length ) + "e" );
 	}
 	return word;
 };
@@ -131,7 +127,7 @@ const stemSuffixes3 = function( word, r1Text, r1Position, suffixes3 ) {
 const stemSuffixes4 = function( word, r1Text, suffixes4 ) {
 	const suffix4 = findMatchingEndingInArray( r1Text, suffixes4 );
 	if ( suffix4 !== "" ) {
-		return ( word.slice( -suffix4.length ) );
+		return ( word.slice( 0, -suffix4.length ) );
 	}
 	return word;
 };
@@ -139,28 +135,27 @@ const stemSuffixes4 = function( word, r1Text, suffixes4 ) {
 
 /* Searh for one of the suffixes ástul éstül, and replace ástul with a and éstül with e
  */
-const stemSuffixes5 = function( word, r1Position, suffixes5 ) {
-	const suffix5a = new RegExp( suffixes5.suffixes5a );
-	if ( suffix5a.test( word ) && r1Position ) {
-		return ( word.slice( -suffix5a ) + "a" );
+const stemSuffixes5 = function( word, r1Text, suffixes5 ) {
+	const suffix5a = findMatchingEndingInArray( r1Text, suffixes5.suffixes5a );
+	if ( suffix5a !== "" ) {
+		return ( word.slice( 0, -suffix5a.length ) + "a" );
 	}
-	const suffix5b = new RegExp( suffixes5.suffixes5b );
-	if ( suffix5b.test( word ) && r1Position ) {
-		return ( word.slice( -suffix5b ) + "e" );
+	const suffix5b = findMatchingEndingInArray( r1Text, suffixes5.suffixes5b );
+	if ( suffix5b !== "" ) {
+		return ( word.slice( 0, -suffix5b.length ) + "a" );
 	}
 	return word;
 };
 
 // Search for one of the suffixes Search for one of the following suffixes: á   é and delete. If preceded by double
 // Consonant, remove one of the double consonants.
-const stemSuffixes6 = function( word, r1Position, morphologyData ) {
-	const doubleConsonant = morphologyData.externalStemmer.doubleConsonants;
-	const suffixes6 = new RegExp( morphologyData.externalStemmer.suffixes6 );
-	if ( suffixes6.test( word ) && r1Position ) {
-		let wordAfterStemming = word.slice( -1 );
-		const checkIfWordEndsOnDoubleConsonant = doubleConsonant.map( consonants => wordAfterStemming.endsWith( consonants ) );
-		if ( checkIfWordEndsOnDoubleConsonant ) {
-			wordAfterStemming = wordAfterStemming.slice( -1 );
+const stemSuffixes6 = function( word, r1Text, suffixes6 ) {
+	const suffix6 = findMatchingEndingInArray( r1Text, suffixes6 );
+	if ( suffix6 !== "" ) {
+		let wordAfterStemming = word.slice( 0, -1 );
+		const checkIfWordEndsOnAccentedEorE = ( wordAfterStemming.endsWith( "á" ) || wordAfterStemming.endsWith( "é" ) );
+		if ( checkIfWordEndsOnAccentedEorE ) {
+			wordAfterStemming = wordAfterStemming.replace( /á$/i, "a" || /é$/i, "e" );
 		}
 		return wordAfterStemming;
 	}
@@ -172,7 +167,7 @@ const stemSuffixes6 = function( word, r1Position, morphologyData ) {
 const stemSuffixes7 = function( word, r1Text, suffixes7 ) {
 	const suffix7 = findMatchingEndingInArray( r1Text, suffixes7 );
 	if ( suffix7 !== "" ) {
-		return ( word.slice( -suffix7.length ) );
+		return ( word.slice( 0, -suffix7.length ) );
 	}
 	return word;
 };
@@ -244,11 +239,11 @@ const stemSuffixes12 = function( word, r1Text, suffixes12 ) {
 const stemSuffixes13 = function( word, r1Position, suffixes13 ) {
 	const suffix13a = new RegExp( suffixes13.suffixes13a );
 	if ( suffix13a.test( word ) && r1Position ) {
-		return ( word.slice( -2 ) + "a" );
+		return ( word.slice( 0, -2 ) + "a" );
 	}
 	const suffix13b = new RegExp( suffixes13.suffixes13b );
 	if ( suffix13b.test( word ) && r1Position ) {
-		return ( word.slice( -2 ) + "e" );
+		return ( word.slice( 0, -2 ) + "e" );
 	}
 	return word;
 };
@@ -273,12 +268,12 @@ const stemSuffixes14 = function( word, r1Text, suffixes14 ) {
 export default function stem( word, morphologyData ) {
 	const r1Position = findR1Position( morphologyData, word );
 	const r1Text = word.slice( r1Position );
-	const wordAfterSuffixes1 = stemSuffixes1( word, r1Position, morphologyData );
+	const wordAfterSuffixes1 = stemSuffixes1( word, r1Text, morphologyData );
 	const wordAfterSuffixes2 = stemSuffixes2( wordAfterSuffixes1, r1Text, morphologyData.externalStemmer.suffixes2 );
-	const wordAfterSuffixes3 = stemSuffixes3( wordAfterSuffixes2, r1Text, r1Position, morphologyData.externalStemmer.suffixes3 );
+	const wordAfterSuffixes3 = stemSuffixes3( wordAfterSuffixes2, r1Text, morphologyData.externalStemmer.suffixes3 );
 	const wordAfterSuffixes4 = stemSuffixes4( wordAfterSuffixes3, r1Text, morphologyData.externalStemmer.suffixes4 );
-	const wordAfterSuffixes5 = stemSuffixes5( wordAfterSuffixes4, r1Position, morphologyData.externalStemmer.suffixes5 );
-	const wordAfterSuffixes6 = stemSuffixes6( wordAfterSuffixes5, r1Position, morphologyData );
+	const wordAfterSuffixes5 = stemSuffixes5( wordAfterSuffixes4, r1Text, morphologyData.externalStemmer.suffixes5 );
+	const wordAfterSuffixes6 = stemSuffixes6( wordAfterSuffixes5, r1Text, morphologyData );
 	const wordAfterSuffixes7 = stemSuffixes7( wordAfterSuffixes6, r1Text, morphologyData.externalStemmer.suffixes7 );
 	const wordAfterSuffixes8 = stemSuffixes8( wordAfterSuffixes7, r1Text, morphologyData.externalStemmer.suffixes8 );
 	const wordAfterSuffixes9 = stemSuffixes9( wordAfterSuffixes8, r1Text, morphologyData.externalStemmer.suffixes9 );

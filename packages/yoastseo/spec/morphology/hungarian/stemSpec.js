@@ -44,17 +44,17 @@ const wordsToStem = [
 	[ "magyarázatként", "magyarázat" ],
 	[ "megszegné", "megszegn" ],
 	// Input a word with one of the following suffixes: ünk   unk   nk   juk   jük   uk   ük   em   om   am   m   od
-	// ed ad   öd   d   ja   je   a   e o
+	// Ed ad   öd   d   ja   je   a   e o
 	[ "megszüntethetünk", "megszüntethet" ],
-	[ "megvetettünk", "megvetett"],
+	[ "megvetettünk", "megvetett" ],
 	// Input a word with one of the following suffixes: ánk ájuk ám ád á énk éjük ém éd é
 	[ "munkájuk", "munka" ],
 	[ "akarnád", "akarna" ],
 	[ "barátosném", "barátosne" ],
 	[ "képzelné", "képzeln" ],
 	// Input a word with one of the following suffixes: jaim   jeim   aim   eim   im   jaid   jeid   aid   eid id   jai
-	// jei   ai   ei   i   jaink   jeink   eink   aink   ink   jaitok   jeitek   aitok   eitek   itek   jeik jaik   aik
-	// eik   ik
+	// Jei   ai   ei   i   jaink   jeink   eink   aink   ink   jaitok   jeitek   aitok   eitek   itek   jeik jaik   aik
+	// Eik   ik
 	[ "mindennapjaim", "mindennap" ],
 	[ "nagyszüleim", "nagyszül" ],
 	[ "napjai", "nap" ],
@@ -62,27 +62,12 @@ const wordsToStem = [
 	// Input a word with one of the following suffixes: áim   áid   ái   áink   áitok   áik éim   éid     éi   éink   éitek   éik
 	// Input a word with one of the following suffixes: ák ék
 	// Input a word with one of the following suffixes: ök ok ek ak k
-	];
+];
 
-	describe( "Test for stemming Hungarian words", () => {
-		it( "stems Hungarian words", () => {
-			wordsToStem.forEach( wordToStem => expect( stem( wordToStem[ 0 ], morphologyDataHU ) ).toBe( wordToStem[ 1 ] ) );
-		} );
+describe( "Test for stemming Hungarian words", () => {
+	it( "stems Hungarian words", () => {
+		wordsToStem.forEach( wordToStem => expect( stem( wordToStem[ 0 ], morphologyDataHU ) ).toBe( wordToStem[ 1 ] ) );
 	} );
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+} );
 
 
