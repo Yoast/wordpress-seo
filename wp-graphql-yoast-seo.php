@@ -1,4 +1,4 @@
-<?php
+<?php // phpcs:ignore
 
 /**
  * Plugin Name:     Add WPGraphQL SEO
@@ -10,7 +10,7 @@
  * Domain Path:     /languages
  * Version:         4.8.0
  *
- * @package WP_Graphql_YOAST_SEO
+ * @package         WP_Graphql_YOAST_SEO
  */
 
 if (!defined('ABSPATH')) {
@@ -35,7 +35,8 @@ add_action('admin_init', function () {
               <p><?php esc_html_e(
                   'The WPGraphQL Yoast SEO plugin can\'t be loaded because these dependencies are missing:',
                   'wp-graphql-yoast-seo'
-              ); ?></p>
+              ); ?>
+              </p>
               <ul>
                 <?php foreach ($missing_dependencies as $missing_dependency): ?>
                   <li><?php echo esc_html($missing_dependency); ?></li>
@@ -77,7 +78,7 @@ add_action('graphql_init', function () {
                 return __return_empty_string();
             }
 
-            return attachment_url_to_postid($image['url']);
+            return wpcom_vip_attachment_url_to_postid($image['url']);
         }
     }
     if (!function_exists('wp_gql_seo_get_field_key')) {
@@ -89,6 +90,43 @@ add_action('graphql_init', function () {
             $field_key = lcfirst(str_replace(' ', '', ucwords($field_key, ' ')));
 
             return $field_key;
+        }
+    }
+
+    if (!function_exists('wpcom_vip_attachment_url_to_postid')) {
+        function wpcom_vip_attachment_cache_key($url)
+        {
+            return 'wpcom_vip_attachment_url_post_id_' . md5($url);
+        }
+    }
+
+    if (!function_exists('wpcom_vip_attachment_url_to_postid')) {
+        function wpcom_vip_attachment_url_to_postid($url)
+        {
+            $cache_key = wpcom_vip_attachment_cache_key($url);
+            $id = wp_cache_get($cache_key);
+            if (false === $id) {
+                $id = attachment_url_to_postid($url); // phpcs:ignore
+                if (empty($id)) {
+                    wp_cache_set(
+                        $cache_key,
+                        'not_found',
+                        'default',
+                        12 * HOUR_IN_SECONDS + mt_rand(0, 4 * HOUR_IN_SECONDS) // phpcs:ignore
+                    );
+                } else {
+                    wp_cache_set(
+                        $cache_key,
+                        $id,
+                        'default',
+                        24 * HOUR_IN_SECONDS + mt_rand(0, 12 * HOUR_IN_SECONDS) // phpcs:ignore
+                    );
+                }
+            } elseif ('not_found' === $id) {
+                return false;
+            }
+
+            return $id;
         }
     }
 
@@ -458,10 +496,9 @@ add_action('graphql_init', function () {
                     'social' => [
                         'facebook' => [
                             'url' => wp_gql_seo_format_string($all['facebook_site']),
-                            'defaultImage' => DataSource::resolve_post_object(
-                                $all['og_default_image_id'],
-                                $context
-                            ),
+                            'defaultImage' => $context
+                                ->get_loader('post')
+                                ->load_deferred($all['og_default_image_id']),
                         ],
                         'twitter' => [
                             'username' => wp_gql_seo_format_string(
@@ -688,7 +725,7 @@ add_action('graphql_init', function () {
                                             ->twitter_description
                                     ),
                                     'twitterImage' => DataSource::resolve_post_object(
-                                        attachment_url_to_postid(
+                                        wpcom_vip_attachment_url_to_postid(
                                             YoastSEO()->meta->for_post($post->ID)
                                                 ->twitter_image
                                         ),
@@ -858,7 +895,7 @@ add_action('graphql_init', function () {
                         $seo = [
                             'title' => wp_gql_seo_format_string(
                                 html_entity_decode(
-                                    strip_tags(
+                                    wp_strip_all_tags(
                                         YoastSEO()->meta->for_term($term->term_id)
                                             ->title
                                     )
