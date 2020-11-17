@@ -1,21 +1,12 @@
 /**
- * Default attributes to be used by the Sentence if they are left undefined.
- * @type {{locale: string}}
- */
-var defaultAttributes = {
-	locale: "en_US",
-};
-
-/**
  * Construct the Sentence object and set the sentence text and locale.
  *
  * @param {string} sentence The text of the sentence.
  * @param {string} locale The locale.
  * @constructor
  */
-var Sentence = function( sentence, locale ) {
+var Sentence = function( sentence ) {
 	this._sentenceText = sentence || "";
-	this._locale = locale || defaultAttributes.locale;
 	this._isPassive = false;
 };
 
@@ -25,14 +16,6 @@ var Sentence = function( sentence, locale ) {
  */
 Sentence.prototype.getSentenceText = function() {
 	return this._sentenceText;
-};
-
-/**
- * Returns the locale.
- * @returns {String} The locale.
- */
-Sentence.prototype.getLocale = function() {
-	return this._locale;
 };
 
 /**
@@ -63,7 +46,6 @@ Sentence.prototype.serialize = function() {
 	return {
 		_parseClass: "Sentence",
 		sentenceText: this._sentenceText,
-		locale: this._locale,
 		isPassive: this._isPassive,
 	};
 };
