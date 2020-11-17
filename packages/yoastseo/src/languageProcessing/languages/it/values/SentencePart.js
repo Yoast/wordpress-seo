@@ -9,7 +9,7 @@ import getParticiples from "../helpers/internal/getParticiples.js";
  * @constructor
  */
 const ItalianSentencePart = function( sentencePartText, auxiliaries ) {
-	SentencePart.call( this, sentencePartText, auxiliaries, "it_IT" );
+	SentencePart.call( this, sentencePartText, auxiliaries );
 };
 
 require( "util" ).inherits( ItalianSentencePart, SentencePart );
