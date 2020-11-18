@@ -192,6 +192,13 @@
 		<exclude-pattern>/src/generators/schema/third-party/*</exclude-pattern>
 	</rule>
 
+	<!-- The Yoast SEO Multilingual plugin (short: WPSEOML) is not made by us, but by WPML.
+		 The 'wpseo' part is thus not our own plugin prefix, but rather part of the plugin name by WPML. -->
+	<rule ref="Yoast.Files.FileName.InvalidClassFileName">
+		<exclude-pattern>src/conditionals/third-party/wpseoml-conditional.php</exclude-pattern>
+		<exclude-pattern>src/integrations/third-party/wpseoml-notification.php</exclude-pattern>
+	</rule>
+
 	<!-- DEPRECATED CODE -->
 
 	<!-- Files which are excluded for code-coverage in the phpunit.xml.dist file should
