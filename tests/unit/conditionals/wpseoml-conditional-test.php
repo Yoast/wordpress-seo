@@ -45,6 +45,7 @@ class WPSEOML_Conditional_Test extends TestCase {
 	 */
 	public function test_is_met() {
 		if ( ! \defined( 'WPSEOML_VERSION' ) ) {
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedConstantFound -- This is used in a test, not in production code.
 			\define( 'WPSEOML_VERSION', '1.2.3' );
 		}
 
