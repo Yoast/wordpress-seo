@@ -18,6 +18,7 @@ use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 class Permalink_Integrity_Watcher implements Integration_Interface {
 
 	use No_Conditionals;
+
 	/**
 	 * The indexable permalink watcher.
 	 *
@@ -125,7 +126,7 @@ class Permalink_Integrity_Watcher implements Integration_Interface {
 		$type              = $indexable->object_type . '-' . $indexable->object_sub_type;
 
 		if ( ! $this->should_perform_check( $type, $permalink_samples ) ) {
-			//not more than a week ago, do not perform check
+			// Not more than a week ago, do not perform check.
 			return;
 		}
 

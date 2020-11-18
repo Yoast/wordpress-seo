@@ -69,6 +69,7 @@ class WPSEO_Upgrade {
 			'14.9-RC0'   => 'upgrade_149',
 			'15.1-RC0'   => 'upgrade_151',
 			'15.3-RC0'   => 'upgrade_153',
+			'15.4-RC0'   => 'upgrade_154',
 		];
 
 		array_walk( $routines, [ $this, 'run_upgrade_routine' ], $version );
@@ -773,6 +774,17 @@ class WPSEO_Upgrade {
 
 		$indexables_indexing_completed_value = WPSEO_Options::get( 'indexables_indexation_completed' );
 		WPSEO_Options::set( 'indexables_indexing_completed', $indexables_indexing_completed_value );
+	}
+
+	/**
+	 * Performs the 15.4 upgrade.
+	 *
+	 * @return void
+	 */
+	private function upgrade_154() {
+		$permalink_integrity_watcher = YoastSEO()->classes->get( Permalink_Integrity_Watcher::class );
+		$dynamic_permalink_samples   = $permalink_integrity_watcher->get_dynamic_permalink_samples();
+		WPSEO_Options::set( 'dynamic_permalink_samples', $dynamic_permalink_samples );
 	}
 
 	/**

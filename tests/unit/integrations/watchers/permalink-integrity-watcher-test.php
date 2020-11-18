@@ -87,12 +87,12 @@ class Permalink_Integrity_Watcher_Test extends TestCase {
 		$this->taxonomy_helper             = Mockery::mock( Taxonomy_Helper::class );
 
 		$this->instance = new Permalink_Integrity_Watcher(
-				$this->options_helper,
-				$this->permalink_helper,
-				$this->post_type_helper,
-				$this->taxonomy_helper,
-				$this->indexable_permalink_watcher,
-				$this->indexable_homeurl_watcher
+			$this->options_helper,
+			$this->permalink_helper,
+			$this->post_type_helper,
+			$this->taxonomy_helper,
+			$this->indexable_permalink_watcher,
+			$this->indexable_homeurl_watcher
 		);
 	}
 
@@ -102,10 +102,9 @@ class Permalink_Integrity_Watcher_Test extends TestCase {
 	 * @covers ::should_perform_check
 	 */
 	public function test_should_perform_check() {
-		$array              = [];
-		//more than a week ago
-		$array['post-post'] = ( \time() - ( 60 * 60 * 24 * 7 ) ) -1;
-
+		$array = [
+			'post-post' => ( \time() - ( 60 * 60 * 24 * 7 ) - 1 ),
+		];
 		$this->assertTrue( $this->instance->should_perform_check( 'post-post', $array ) );
 	}
 
@@ -115,9 +114,9 @@ class Permalink_Integrity_Watcher_Test extends TestCase {
 	 * @covers ::should_perform_check
 	 */
 	public function test_should_not_perform_check() {
-		$array              = [];
-		//less than a week ago
-		$array['post-post'] = ( \time() - ( 60 * 60 * 24 * 7 ) ) + 1;
+		$array = [
+			'post-post' => ( \time() - ( 60 * 60 * 24 * 7 ) + 1 ),
+		];
 
 		$this->assertFalse( $this->instance->should_perform_check( 'post-post', $array ) );
 	}
@@ -128,17 +127,17 @@ class Permalink_Integrity_Watcher_Test extends TestCase {
 	 * @covers ::get_dynamic_permalink_samples
 	 */
 	public function test_get_dynamic_permalink_samples() {
-		$post_types_array = array(
-			"post",
-			"page",
-			"attachment"
-		);
+		$post_types_array = [
+			'post',
+			'page',
+			'attachment',
+		];
 
-		$taxonomy_types_array = array(
-			"category",
-			"post_tag",
-			"post_format",
-		);
+		$taxonomy_types_array = [
+			'category',
+			'post_tag',
+			'post_format',
+		];
 
 		$this->post_type_helper->expects( 'get_public_post_types' )
 			->once()
@@ -148,14 +147,14 @@ class Permalink_Integrity_Watcher_Test extends TestCase {
 			->once()
 			->andReturn( $taxonomy_types_array );
 
-		$result = array(
-			"post-post" 		=> \time(),
-			"post-page"       	=> \time(),
-			"post-attachment"   => \time(),
-			"term-category"     => \time(),
-			"term-post_tag"     => \time(),
-			"term-post_format"  => \time(),
-		);
+		$result = [
+			'post-post'         => \time(),
+			'post-page'         => \time(),
+			'post-attachment'   => \time(),
+			'term-category'     => \time(),
+			'term-post_tag'     => \time(),
+			'term-post_format'  => \time(),
+		];
 
 		$this->assertEquals( $this->instance->get_dynamic_permalink_samples(), $result );
 	}
@@ -183,12 +182,12 @@ class Permalink_Integrity_Watcher_Test extends TestCase {
 	 */
 	public function test_compare_permalink_for_page_not_executing_time() {
 
-		$presentation = (object) array(
-			'model' 	=> (object) array(
-				'object_type' => 'post',
+		$presentation = (object) [
+			'model' => (object) [
+				'object_type'     => 'post',
 				'object_sub_type' => 'post',
-			)
-		);
+			],
+		];
 
 		$this->options_helper
 			->expects( 'get' )
@@ -196,10 +195,10 @@ class Permalink_Integrity_Watcher_Test extends TestCase {
 			->once()
 			->andReturnFalse();
 
-		//more than a week ago
-		$result = array(
-			"post-post" 		=> \time() - ( 60 * 60 * 24 * 7 ) + 1,
-		);
+		// More than a week ago.
+		$result = [
+			'post-post'         => ( \time() - ( 60 * 60 * 24 * 7 ) + 1 ),
+		];
 
 		$this->options_helper
 			->expects( 'get' )
@@ -207,9 +206,9 @@ class Permalink_Integrity_Watcher_Test extends TestCase {
 			->once()
 			->andReturn( $result );
 
-		$value = array(
-			"post-post" => \time(),
-		);
+		$value = [
+			'post-post' => \time(),
+		];
 
 		$this->options_helper
 			->expects( 'set' )
@@ -226,13 +225,13 @@ class Permalink_Integrity_Watcher_Test extends TestCase {
 	 */
 	public function test_compare_permalink_for_page_not_executing_permalink_matches() {
 
-		$presentation = (object) array(
-			'model' 	=> (object) array(
-				'object_type' => 'post',
+		$presentation = (object) [
+			'model' => (object) [
+				'object_type'     => 'post',
 				'object_sub_type' => 'post',
-				'permalink' => 'http://basic.wordpress.test/2020/11/testpage/'
-			)
-		);
+				'permalink'       => 'http://basic.wordpress.test/2020/11/testpage/',
+			],
+		];
 
 		$this->options_helper
 			->expects( 'get' )
@@ -240,10 +239,10 @@ class Permalink_Integrity_Watcher_Test extends TestCase {
 			->once()
 			->andReturnFalse();
 
-		//more than a week ago
-		$result = array(
-			"post-post" 		=> \time() - ( 60 * 60 * 24 * 7 ) - 1,
-		);
+		// More than a week ago.
+		$result = [
+			'post-post'         => ( \time() - ( 60 * 60 * 24 * 7 ) - 1 ),
+		];
 
 		$this->options_helper
 			->expects( 'get' )
@@ -251,17 +250,17 @@ class Permalink_Integrity_Watcher_Test extends TestCase {
 			->once()
 			->andReturn( $result );
 
-		$post_types_array = array(
-			"post",
-			"page",
-			"attachment"
-		);
+		$post_types_array = [
+			'post',
+			'page',
+			'attachment',
+		];
 
-		$taxonomy_types_array = array(
-			"category",
-			"post_tag",
-			"post_format",
-		);
+		$taxonomy_types_array = [
+			'category',
+			'post_tag',
+			'post_format',
+		];
 
 		$this->post_type_helper->expects( 'get_public_post_types' )
 			->once()
@@ -271,16 +270,16 @@ class Permalink_Integrity_Watcher_Test extends TestCase {
 			->once()
 			->andReturn( $taxonomy_types_array );
 
-		$value = array(
-			"post-post" => \time(),
-		);
+		$value = [
+			'post-post' => \time(),
+		];
 
 		$this->options_helper
 			->expects( 'set' )
 			->with( 'dynamic_permalink_samples', $value )
 			->once();
 
-		$this->permalink_helper->expects('get_permalink_for_indexable' )
+		$this->permalink_helper->expects( 'get_permalink_for_indexable' )
 			->with( $presentation->model )
 			->andReturn( 'http://basic.wordpress.test/2020/11/testpage/' );
 
@@ -294,13 +293,13 @@ class Permalink_Integrity_Watcher_Test extends TestCase {
 	 */
 	public function test_compare_permalink_for_page_executing_permalinks() {
 
-		$presentation = (object) array(
-			'model' 	=> (object) array(
-				'object_type' => 'post',
+		$presentation = (object) [
+			'model' => (object) [
+				'object_type'     => 'post',
 				'object_sub_type' => 'post',
-				'permalink' => 'http://basic.wordpress.test/2020/11/testpage/'
-			)
-		);
+				'permalink'       => 'http://basic.wordpress.test/2020/11/testpage/',
+			],
+		];
 
 		$this->options_helper
 			->expects( 'get' )
@@ -308,10 +307,10 @@ class Permalink_Integrity_Watcher_Test extends TestCase {
 			->once()
 			->andReturnFalse();
 
-		//more than a week ago
-		$result = array(
-			"post-post" 		=> \time() - ( 60 * 60 * 24 * 7 ) - 1,
-		);
+		// More than a week ago.
+		$result = [
+			'post-post'         => ( \time() - ( 60 * 60 * 24 * 7 ) - 1 ),
+		];
 
 		$this->options_helper
 			->expects( 'get' )
@@ -319,17 +318,17 @@ class Permalink_Integrity_Watcher_Test extends TestCase {
 			->once()
 			->andReturn( $result );
 
-		$post_types_array = array(
-			"post",
-			"page",
-			"attachment"
-		);
+		$post_types_array = [
+			'post',
+			'page',
+			'attachment',
+		];
 
-		$taxonomy_types_array = array(
-			"category",
-			"post_tag",
-			"post_format",
-		);
+		$taxonomy_types_array = [
+			'category',
+			'post_tag',
+			'post_format',
+		];
 
 		$this->post_type_helper->expects( 'get_public_post_types' )
 			->once()
@@ -339,16 +338,16 @@ class Permalink_Integrity_Watcher_Test extends TestCase {
 			->once()
 			->andReturn( $taxonomy_types_array );
 
-		$value = array(
-			"post-post" => \time(),
-		);
+		$value = [
+			'post-post' => \time(),
+		];
 
 		$this->options_helper
 			->expects( 'set' )
 			->with( 'dynamic_permalink_samples', $value )
 			->once();
 
-		$this->permalink_helper->expects('get_permalink_for_indexable' )
+		$this->permalink_helper->expects( 'get_permalink_for_indexable' )
 			->with( $presentation->model )
 			->andReturn( 'http://basic.wordpress.test/2020/11/error/' );
 
@@ -376,13 +375,13 @@ class Permalink_Integrity_Watcher_Test extends TestCase {
 	 */
 	public function test_compare_permalink_for_page_executing_homeurl() {
 
-		$presentation = (object) array(
-			'model' 	=> (object) array(
-				'object_type' => 'post',
+		$presentation = (object) [
+			'model' => (object) [
+				'object_type'     => 'post',
 				'object_sub_type' => 'post',
-				'permalink' => 'http://basic.wordpress.test/2020/11/testpage/'
-			)
-		);
+				'permalink'       => 'http://basic.wordpress.test/2020/11/testpage/',
+			],
+		];
 
 		$this->options_helper
 			->expects( 'get' )
@@ -390,10 +389,10 @@ class Permalink_Integrity_Watcher_Test extends TestCase {
 			->once()
 			->andReturnFalse();
 
-		//more than a week ago
-		$result = array(
-			"post-post" 		=> \time() - ( 60 * 60 * 24 * 7 ) - 1,
-		);
+		// More than a week ago.
+		$result = [
+			'post-post'         => ( \time() - ( 60 * 60 * 24 * 7 ) - 1 ),
+		];
 
 		$this->options_helper
 			->expects( 'get' )
@@ -401,17 +400,17 @@ class Permalink_Integrity_Watcher_Test extends TestCase {
 			->once()
 			->andReturn( $result );
 
-		$post_types_array = array(
-			"post",
-			"page",
-			"attachment"
-		);
+		$post_types_array = [
+			'post',
+			'page',
+			'attachment',
+		];
 
-		$taxonomy_types_array = array(
-			"category",
-			"post_tag",
-			"post_format",
-		);
+		$taxonomy_types_array = [
+			'category',
+			'post_tag',
+			'post_format',
+		];
 
 		$this->post_type_helper->expects( 'get_public_post_types' )
 			->once()
@@ -421,16 +420,16 @@ class Permalink_Integrity_Watcher_Test extends TestCase {
 			->once()
 			->andReturn( $taxonomy_types_array );
 
-		$value = array(
-			"post-post" => \time(),
-		);
+		$value = [
+			'post-post' => \time(),
+		];
 
 		$this->options_helper
 			->expects( 'set' )
 			->with( 'dynamic_permalink_samples', $value )
 			->once();
 
-		$this->permalink_helper->expects('get_permalink_for_indexable' )
+		$this->permalink_helper->expects( 'get_permalink_for_indexable' )
 			->with( $presentation->model )
 			->andReturn( 'http://basic.wordpress.test/2020/11/error/' );
 
@@ -463,13 +462,13 @@ class Permalink_Integrity_Watcher_Test extends TestCase {
 	 */
 	public function test_compare_permalink_for_page_executing_permalink_mode_enable() {
 
-		$presentation = (object) array(
-			'model' 	=> (object) array(
-				'object_type' => 'post',
+		$presentation = (object) [
+			'model' => (object) [
+				'object_type'     => 'post',
 				'object_sub_type' => 'post',
-				'permalink' => 'http://basic.wordpress.test/2020/11/testpage/'
-			)
-		);
+				'permalink'       => 'http://basic.wordpress.test/2020/11/testpage/',
+			],
+		];
 
 		$this->options_helper
 			->expects( 'get' )
@@ -477,10 +476,10 @@ class Permalink_Integrity_Watcher_Test extends TestCase {
 			->once()
 			->andReturnFalse();
 
-		//more than a week ago
-		$result = array(
-			"post-post" 		=> \time() - ( 60 * 60 * 24 * 7 ) - 1,
-		);
+		// More than a week ago.
+		$result = [
+			'post-post'         => ( \time() - ( 60 * 60 * 24 * 7 ) - 1 ),
+		];
 
 		$this->options_helper
 			->expects( 'get' )
@@ -488,17 +487,17 @@ class Permalink_Integrity_Watcher_Test extends TestCase {
 			->once()
 			->andReturn( $result );
 
-		$post_types_array = array(
-			"post",
-			"page",
-			"attachment"
-		);
+		$post_types_array = [
+			'post',
+			'page',
+			'attachment',
+		];
 
-		$taxonomy_types_array = array(
-			"category",
-			"post_tag",
-			"post_format",
-		);
+		$taxonomy_types_array = [
+			'category',
+			'post_tag',
+			'post_format',
+		];
 
 		$this->post_type_helper->expects( 'get_public_post_types' )
 			->once()
@@ -508,16 +507,16 @@ class Permalink_Integrity_Watcher_Test extends TestCase {
 			->once()
 			->andReturn( $taxonomy_types_array );
 
-		$value = array(
-			"post-post" => \time(),
-		);
+		$value = [
+			'post-post' => \time(),
+		];
 
 		$this->options_helper
 			->expects( 'set' )
 			->with( 'dynamic_permalink_samples', $value )
 			->once();
 
-		$this->permalink_helper->expects('get_permalink_for_indexable' )
+		$this->permalink_helper->expects( 'get_permalink_for_indexable' )
 			->with( $presentation->model )
 			->andReturn( 'http://basic.wordpress.test/2020/11/error/' );
 
