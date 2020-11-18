@@ -197,6 +197,7 @@
 	<rule ref="Yoast.Files.FileName.InvalidClassFileName">
 		<exclude-pattern>src/conditionals/third-party/wpseoml-conditional.php</exclude-pattern>
 		<exclude-pattern>src/integrations/third-party/wpseoml-notification.php</exclude-pattern>
+		<exclude-pattern>tests/unit/integrations/third-party/wpseoml-notification-test.php</exclude-pattern>
 	</rule>
 
 	<!-- DEPRECATED CODE -->
