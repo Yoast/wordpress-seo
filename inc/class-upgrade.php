@@ -764,7 +764,7 @@ class WPSEO_Upgrade {
 		WPSEO_Options::set( 'tag_base_url', get_option( 'tag_base' ) );
 
 		$permalink_integrity_watcher = YoastSEO()->classes->get( Permalink_Integrity_Watcher::class );
-		$dynamic_permalink_samples   = $permalink_integrity_watcher->collect_dynamic_permalink_samples();
+		$dynamic_permalink_samples   = $permalink_integrity_watcher->get_dynamic_permalink_samples();
 		WPSEO_Options::set( 'dynamic_permalink_samples', $dynamic_permalink_samples );
 
 		// Rename a couple of options.
