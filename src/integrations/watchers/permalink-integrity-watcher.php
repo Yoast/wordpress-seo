@@ -17,8 +17,6 @@ use Yoast\WP\SEO\Presentations\Indexable_Presentation;
  */
 class Permalink_Integrity_Watcher implements Integration_Interface {
 
-	use No_Conditionals;
-
 	/**
 	 * The indexable permalink watcher.
 	 *
@@ -60,6 +58,15 @@ class Permalink_Integrity_Watcher implements Integration_Interface {
 	 * @var Taxonomy_Helper
 	 */
 	protected $taxonomy_helper;
+
+	/**
+	 * Returns the conditionals based in which this loadable should be active.
+	 *
+	 * @return array
+	 */
+	public static function get_conditionals() {
+		return [ Migrations_Conditional::class ];
+	}
 
 	/**
 	 * Permalink_Integrity_Watcher constructor.
