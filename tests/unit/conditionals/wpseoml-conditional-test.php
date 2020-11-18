@@ -2,6 +2,8 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Conditionals;
 
+use Brain\Monkey;
+
 use Yoast\WP\SEO\Conditionals\Third_Party\WPSEOML_Conditional;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
@@ -35,6 +37,10 @@ class WPSEOML_Conditional_Test extends TestCase {
 	 * @covers ::is_met
 	 */
 	public function test_is_not_met() {
+		Monkey\Functions\expect( 'is_plugin_active' )
+			->with( 'wp-seo-multilingual/plugin.php' )
+			->andReturn( false );
+
 		self::assertFalse( $this->instance->is_met() );
 	}
 
@@ -44,10 +50,9 @@ class WPSEOML_Conditional_Test extends TestCase {
 	 * @covers ::is_met
 	 */
 	public function test_is_met() {
-		if ( ! \defined( 'WPSEOML_VERSION' ) ) {
-			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedConstantFound -- This is used in a test, not in production code.
-			\define( 'WPSEOML_VERSION', '1.2.3' );
-		}
+		Monkey\Functions\expect( 'is_plugin_active' )
+			->with( 'wp-seo-multilingual/plugin.php' )
+			->andReturn( true );
 
 		self::assertTrue( $this->instance->is_met() );
 	}

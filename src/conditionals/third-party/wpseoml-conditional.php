@@ -10,12 +10,14 @@ use Yoast\WP\SEO\Conditionals\Conditional;
  */
 class WPSEOML_Conditional implements Conditional {
 
+	const PATH_TO_WPSEOML_PLUGIN_FILE = 'wp-seo-multilingual/plugin.php';
+
 	/**
 	 * Returns whether or not the Yoast SEO Multilingual plugin is active.
 	 *
 	 * @return boolean Whether or not the Yoast SEO Multilingual plugin is active.
 	 */
 	public function is_met() {
-		return \defined( 'WPSEOML_VERSION' );
+		return \is_plugin_active( self::PATH_TO_WPSEOML_PLUGIN_FILE );
 	}
 }
