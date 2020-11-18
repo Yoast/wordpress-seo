@@ -249,7 +249,7 @@ Bugfixes:
 
 Other:
 
-* Provides an alternative for the method `get_title_separator`.
+* Provides `YoastSEO->helpers->options->get_title_separator()` as an alternative for the previously removed `get_title_separator` method.
 * Adds a `wpseo_previously_used_keyword_active` filter to deactivate the Previously Used Keyword analysis assessment.
 
 = 15.3 =
