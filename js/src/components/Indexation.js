@@ -4,6 +4,26 @@ import { __ } from "@wordpress/i18n";
 import { ProgressBar, NewButton, Alert } from "@yoast/components";
 import { colors } from "@yoast/style-guide";
 import PropTypes from "prop-types";
+import { removeSearchParam, addHistoryState } from "../helpers/urlHelpers";
+
+const STATE = {
+	/**
+	 * When the process has not started yet, or has been stopped manually.
+	 */
+	IDLE: "idle",
+	/**
+	 * When the indexing process is in progress.
+	 */
+	IN_PROGRESS: "in_progress",
+	/**
+	 * When an error has occurred during the indexing process that has stopped the process.
+	 */
+	ERRORED: "errored",
+	/**
+	 * When the indexing process has finished.
+	 */
+	COMPLETED: "completed",
+};
 
 /**
  * Indexes the site and shows a progress bar indicating the indexing process' progress.
@@ -20,10 +40,9 @@ export class Indexation extends Component {
 		this.settings = yoastIndexingData;
 
 		this.state = {
-			inProgress: false,
+			state: STATE.IDLE,
 			processed: 0,
-			amount: this.settings.amount,
-			error: null,
+			amount: parseInt( this.settings.amount, 10 ),
 			firstTime: ( this.settings.firstTime === "1" ),
 		};
 
@@ -94,7 +113,7 @@ export class Indexation extends Component {
 	async doIndexing( endpoint ) {
 		let url = this.settings.restApi.root + this.settings.restApi.endpoints[ endpoint ];
 
-		while ( this.state.inProgress && url !== false && this.state.processed <= this.state.amount ) {
+		while ( this.isState( STATE.IN_PROGRESS ) && url !== false ) {
 			try {
 				await this.doPreIndexingAction( endpoint );
 				const response = await this.doIndexingRequest( url, this.settings.restApi.nonce );
@@ -110,9 +129,8 @@ export class Indexation extends Component {
 				url = response.next_url;
 			} catch ( error ) {
 				this.setState( {
-					inProgress: false,
+					state: STATE.ERRORED,
 					firstTime: false,
-					error,
 				} );
 			}
 		}
@@ -131,7 +149,7 @@ export class Indexation extends Component {
 		 * Set the indexing process as completed only when there is no error
 		 * and the user has not stopped the process manually.
 		 */
-		if ( ! this.state.error && this.state.inProgress ) {
+		if ( ! this.isState( STATE.ERRORED ) && ! this.isState( STATE.IDLE ) ) {
 			this.completeIndexing();
 		}
 	}
@@ -147,7 +165,7 @@ export class Indexation extends Component {
 		 * to make sure the state is correctly set before trying to call the first
 		 * endpoint.
 		 */
-		this.setState( { processed: 0, inProgress: true, error: null }, this.index );
+		this.setState( { processed: 0, state: STATE.IN_PROGRESS }, this.index );
 	}
 
 	/**
@@ -156,12 +174,7 @@ export class Indexation extends Component {
 	 * @returns {void}
 	 */
 	completeIndexing() {
-		this.setState( previousState => (
-			{
-				inProgress: false,
-				processed: previousState.amount,
-			}
-		) );
+		this.setState( { state: STATE.COMPLETED } );
 	}
 
 	/**
@@ -172,7 +185,8 @@ export class Indexation extends Component {
 	stopIndexing() {
 		this.setState( previousState => (
 			{
-				inProgress: false,
+				state: STATE.IDLE,
+				processed: 0,
 				amount: previousState.amount - previousState.processed,
 			}
 		) );
@@ -191,10 +205,23 @@ export class Indexation extends Component {
 		const shouldStart = new URLSearchParams( window.location.search ).get( "start-indexation" ) === "true";
 
 		if ( shouldStart ) {
+			const currentURL = removeSearchParam( window.location.href, "start-indexation" );
+			addHistoryState( null, document.title, currentURL );
+
 			this.startIndexing();
 		}
 	}
 
+	/**
+	 * If the current state of the indexing process is the given state.
+	 *
+	 * @param {STATE.IDLE|STATE.ERRORED|STATE.IN_PROGRESS|STATE.COMPLETED} state The state value to check against.
+	 *
+	 * @returns {boolean} If the current state of the indexing process is the given state.
+	 */
+	isState( state ) {
+		return this.state.state === state;
+	}
 
 	/**
 	 * Renders a notice if it is the first time the indexation is performed.
@@ -202,14 +229,109 @@ export class Indexation extends Component {
 	 * @returns {JSX.Element} The rendered component.
 	 */
 	renderFirstIndexationNotice() {
-		if ( this.state.inProgress || ! this.state.firstTime ) {
-			return null;
-		}
-
 		return (
 			<Alert type={ "info" }>
 				{ __( "This feature includes and replaces the Text Link Counter and Internal Linking Analysis", "wordpress-seo" ) }
 			</Alert>
+		);
+	}
+
+	/**
+	 * Renders the start button.
+	 *
+	 * @returns {JSX.Element|null} The start button.
+	 */
+	renderStartButton() {
+		return <NewButton
+			variant="primary"
+			onClick={ this.startIndexing }
+		>
+			{ __( "Start SEO data optimization", "wordpress-seo" ) }
+		</NewButton>;
+	}
+
+	/**
+	 * Renders the stop button.
+	 *
+	 * @returns {JSX.Element|null} The stop button.
+	 */
+	renderStopButton() {
+		return <NewButton
+			variant="secondary"
+			onClick={ this.stopIndexing }
+		>
+			{ __( "Stop SEO data optimization", "wordpress-seo" ) }
+		</NewButton>;
+	}
+
+	/**
+	 * Renders the disabled tool.
+	 *
+	 * @returns {JSX.Element} The disabled tool.
+	 */
+	renderDisabledTool() {
+		return <Fragment>
+			<p>
+				<NewButton
+					variant="secondary"
+					disabled={ true }
+				>
+					{ __( "Start SEO data optimization", "wordpress-seo" ) }
+				</NewButton>
+			</p>
+			<Alert type={ "info" }>
+				{ __( "SEO data optimization is disabled for non-production environments.", "wordpress-seo" ) }
+			</Alert>
+		</Fragment>;
+	}
+
+	/**
+	 * Renders the progress bar, plus caption.
+	 *
+	 * @returns {JSX.Element} The progress bar, plus caption.
+	 */
+	renderProgressBar() {
+		return <Fragment>
+			<ProgressBar
+				style={ { height: "16px", margin: "8px 0" } }
+				progressColor={ colors.$color_pink_dark }
+				max={ parseInt( this.state.amount, 10 ) }
+				value={ this.state.processed }
+			/>
+			<p style={ { color: colors.$palette_grey_text } }>
+				{ __( "Optimizing SEO data... This may take a while.", "wordpress-seo" ) }
+			</p>
+		</Fragment>;
+	}
+
+	/**
+	 * Renders the error alert.
+	 *
+	 * @returns {JSX.Element} The error alert.
+	 */
+	renderErrorAlert() {
+		return <Alert type={ "error" }>
+			{ __( "Oops, something has gone wrong and we couldn't complete the optimization of your SEO data. " +
+				  "Please click the button again to re-start the process.", "wordpress-seo" ) }
+		</Alert>;
+	}
+
+	/**
+	 * Renders the indexing tool.
+	 *
+	 * @returns {JSX.Element} The indexing tool.
+	 */
+	renderTool() {
+		return (
+			<Fragment>
+				{ this.isState( STATE.IN_PROGRESS ) && this.renderProgressBar() }
+				{ this.isState( STATE.ERRORED ) && this.renderErrorAlert() }
+				{ this.isState( STATE.IDLE ) && this.state.firstTime && this.renderFirstIndexationNotice() }
+				{ this.isState( STATE.IN_PROGRESS )
+					? this.renderStopButton()
+					: this.renderStartButton()
+				}
+			</Fragment>
 		);
 	}
 
@@ -220,64 +342,14 @@ export class Indexation extends Component {
 	 */
 	render() {
 		if ( this.settings.disabled ) {
-			return <Fragment>
-				<p>
-					<NewButton
-						variant="secondary"
-						disabled={ true }
-					>
-						{ __( "Start SEO data optimization", "wordpress-seo" ) }
-					</NewButton>
-				</p>
-				<Alert type={ "info" }>
-					{ __( "SEO data optimization is disabled for non-production environments.", "wordpress-seo" ) }
-				</Alert>
-			</Fragment>;
+			return this.renderDisabledTool();
 		}
 
-		if ( this.state.processed >= this.state.amount ) {
+		if ( this.isState( STATE.COMPLETED ) || this.state.amount === 0 ) {
 			return <Alert type={ "success" }>{ __( "SEO data optimization complete", "wordpress-seo" ) }</Alert>;
 		}
 
-		return (
-			<Fragment>
-				{
-					this.state.inProgress && <Fragment>
-						<ProgressBar
-							style={ { height: "16px", margin: "8px 0" } }
-							progressColor={ colors.$color_pink_dark }
-							max={ parseInt( this.state.amount, 10 ) }
-							value={ this.state.processed }
-						/>
-						<p style={ { color: colors.$palette_grey_text } }>
-							{ __( "Optimizing SEO data... This may take a while.", "wordpress-seo" ) }
-						</p>
-					</Fragment>
-				}
-				{
-					this.state.error && <Alert type={ "error" }>
-						{ __( "Oops, something has gone wrong and we couldn't complete the optimization of your SEO data. " +
-							  "Please click the button again to re-start the process.", "wordpress-seo" ) }
-					</Alert>
-				}
-				{ this.renderFirstIndexationNotice() }
-				{
-					this.state.inProgress
-						? <NewButton
-							variant="secondary"
-							onClick={ this.stopIndexing }
-						>
-							{ __( "Stop SEO data optimization", "wordpress-seo" ) }
-						</NewButton>
-						: <NewButton
-							variant="primary"
-							onClick={ this.startIndexing }
-						>
-							{ __( "Start SEO data optimization", "wordpress-seo" ) }
-						</NewButton>
-				}
-			</Fragment>
-		);
+		return this.renderTool();
 	}
 }
 

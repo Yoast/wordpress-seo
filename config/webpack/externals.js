@@ -35,6 +35,7 @@ const wordpressPackages = [
 	"@wordpress/dom-ready",
 	"@wordpress/edit-post",
 	"@wordpress/element",
+	"@wordpress/hooks",
 	"@wordpress/html-entities",
 	"@wordpress/i18n",
 	"@wordpress/is-shallow-equal",

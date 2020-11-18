@@ -20,9 +20,9 @@ class Enhanced_Data_Presenter extends Abstract_Indexable_Presenter {
 		$twitter_tags  = '';
 		$i             = 1;
 		foreach ( $enhanced_data as $label => $value ) {
-			$twitter_tags .= sprintf( "\t" . '<meta name="twitter:label%1$d" content="%2$s">' . "\n", $i, $label );
-			$twitter_tags .= sprintf( "\t" . '<meta name="twitter:data%1$d" content="%2$s">' . "\n", $i, $value );
-			$i++;
+			$twitter_tags .= \sprintf( "\t" . '<meta name="twitter:label%1$d" content="%2$s">' . "\n", $i, $label );
+			$twitter_tags .= \sprintf( "\t" . '<meta name="twitter:data%1$d" content="%2$s">' . "\n", $i, $value );
+			++$i;
 		}
 		return \trim( $twitter_tags );
 	}
@@ -38,11 +38,11 @@ class Enhanced_Data_Presenter extends Abstract_Indexable_Presenter {
 		$author_id    = $this->presentation->source->post_author;
 
 		if ( $author_id ) {
-			$data[ __( 'Written by', 'wordpress-seo' ) ] = \get_the_author_meta( 'display_name', $author_id );
+			$data[ \__( 'Written by', 'wordpress-seo' ) ] = \get_the_author_meta( 'display_name', $author_id );
 		}
 
 		if ( ! empty( $post_content ) ) {
-			$data[ __( 'Est. reading time', 'wordpress-seo' ) ] = $this->get_reading_time( $post_content );
+			$data[ \__( 'Est. reading time', 'wordpress-seo' ) ] = $this->get_reading_time( $post_content );
 		}
 
 		/**

@@ -3,7 +3,7 @@
 namespace Yoast\WP\SEO\Tests\Unit\Conditionals;
 
 use Brain\Monkey\Functions;
-use Yoast\WP\SEO\Conditionals\Posts_Overview_Or_Ajax_Conditional;
+use Yoast\WP\SEO\Conditionals\Admin\Posts_Overview_Or_Ajax_Conditional;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
@@ -11,7 +11,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @group conditionals
  *
- * @coversDefaultClass \Yoast\WP\SEO\Conditionals\Posts_Overview_Or_Ajax_Conditional
+ * @coversDefaultClass \Yoast\WP\SEO\Conditionals\Admin\Posts_Overview_Or_Ajax_Conditional
  */
 class Posts_Overview_Or_Ajax_Conditional_Test extends TestCase {
 

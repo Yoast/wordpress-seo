@@ -61,18 +61,18 @@ class Post_Type_Helper {
 	 * @return array Array with all the accessible post_types.
 	 */
 	public function get_accessible_post_types() {
-		$post_types = get_post_types( [ 'public' => true ] );
-		$post_types = array_filter( $post_types, 'is_post_type_viewable' );
+		$post_types = \get_post_types( [ 'public' => true ] );
+		$post_types = \array_filter( $post_types, 'is_post_type_viewable' );
 
 		/**
 		 * Filter: 'wpseo_accessible_post_types' - Allow changing the accessible post types.
 		 *
 		 * @api array $post_types The public post types.
 		 */
-		$post_types = apply_filters( 'wpseo_accessible_post_types', $post_types );
+		$post_types = \apply_filters( 'wpseo_accessible_post_types', $post_types );
 
 		// When the array gets messed up somewhere.
-		if ( ! is_array( $post_types ) ) {
+		if ( ! \is_array( $post_types ) ) {
 			return [];
 		}
 

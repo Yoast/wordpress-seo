@@ -2,16 +2,15 @@
 
 namespace Yoast\WP\SEO\Integrations\Admin;
 
+use WP_Query;
 use wpdb;
 use Yoast\WP\Lib\Model;
 use Yoast\WP\SEO\Actions\Indexing\Post_Link_Indexing_Action;
+use Yoast\WP\SEO\Conditionals\Admin\Posts_Overview_Or_Ajax_Conditional;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
-use Yoast\WP\SEO\Conditionals\Posts_Overview_Or_Ajax_Conditional;
 use Yoast\WP\SEO\Conditionals\Should_Index_Links_Conditional;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
-use Yoast\WP\SEO\Models\Indexable;
-use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
 /**
  * Link_Count_Columns_Integration class.
@@ -33,17 +32,6 @@ class Link_Count_Columns_Integration implements Integration_Interface {
 	const COLUMN_LINKS = 'links';
 
 	/**
-	 * @inheritDoc
-	 */
-	public static function get_conditionals() {
-		return [
-			Admin_Conditional::class,
-			Posts_Overview_Or_Ajax_Conditional::class,
-			Should_Index_Links_Conditional::class,
-		];
-	}
-
-	/**
 	 * The post type helper.
 	 *
 	 * @var Post_Type_Helper
@@ -53,7 +41,7 @@ class Link_Count_Columns_Integration implements Integration_Interface {
 	/**
 	 * The database object.
 	 *
-	 * @var \wpdb
+	 * @var wpdb
 	 */
 	protected $wpdb;
 
@@ -70,6 +58,17 @@ class Link_Count_Columns_Integration implements Integration_Interface {
 	 * @var Admin_Columns_Cache_Integration
 	 */
 	protected $admin_columns_cache;
+
+	/**
+	 * @inheritDoc
+	 */
+	public static function get_conditionals() {
+		return [
+			Admin_Conditional::class,
+			Posts_Overview_Or_Ajax_Conditional::class,
+			Should_Index_Links_Conditional::class,
+		];
+	}
 
 	/**
 	 * Link_Count_Columns_Integration constructor
@@ -108,9 +107,9 @@ class Link_Count_Columns_Integration implements Integration_Interface {
 	 * Register hooks that need to be registered after `init` due to all post types not yet being registered.
 	 */
 	public function register_init_hooks() {
-		$public_post_types = apply_filters( 'wpseo_link_count_post_types', $this->post_type_helper->get_accessible_post_types() );
+		$public_post_types = \apply_filters( 'wpseo_link_count_post_types', $this->post_type_helper->get_accessible_post_types() );
 
-		if ( ! is_array( $public_post_types ) || empty( $public_post_types ) ) {
+		if ( ! \is_array( $public_post_types ) || empty( $public_post_types ) ) {
 			return;
 		}
 
@@ -129,21 +128,21 @@ class Link_Count_Columns_Integration implements Integration_Interface {
 	 * @return array The extended array with columns.
 	 */
 	public function add_post_columns( $columns ) {
-		if ( ! is_array( $columns ) ) {
+		if ( ! \is_array( $columns ) ) {
 			return $columns;
 		}
 
-		$columns[ 'wpseo-' . self::COLUMN_LINKS ] = sprintf(
+		$columns[ 'wpseo-' . self::COLUMN_LINKS ] = \sprintf(
 			'<span class="yoast-linked-to yoast-column-header-has-tooltip" data-tooltip-text="%1$s"><span class="screen-reader-text">%2$s</span></span>',
-			esc_attr__( 'Number of outgoing internal links in this post. See "Yoast Columns" text in the help tab for more info.', 'wordpress-seo' ),
-			esc_html__( 'Outgoing internal links', 'wordpress-seo' )
+			\esc_attr__( 'Number of outgoing internal links in this post. See "Yoast Columns" text in the help tab for more info.', 'wordpress-seo' ),
+			\esc_html__( 'Outgoing internal links', 'wordpress-seo' )
 		);
 
 		if ( $this->post_link_indexing_action->get_total_unindexed() === 0 ) {
-			$columns[ 'wpseo-' . self::COLUMN_LINKED ] = sprintf(
+			$columns[ 'wpseo-' . self::COLUMN_LINKED ] = \sprintf(
 				'<span class="yoast-linked-from yoast-column-header-has-tooltip" data-tooltip-text="%1$s"><span class="screen-reader-text">%2$s</span></span>',
-				esc_attr__( 'Number of internal links linking to this post. See "Yoast Columns" text in the help tab for more info.', 'wordpress-seo' ),
-				esc_html__( 'Received internal links', 'wordpress-seo' )
+				\esc_attr__( 'Number of internal links linking to this post. See "Yoast Columns" text in the help tab for more info.', 'wordpress-seo' ),
+				\esc_html__( 'Received internal links', 'wordpress-seo' )
 			);
 		}
 
@@ -153,8 +152,8 @@ class Link_Count_Columns_Integration implements Integration_Interface {
 	/**
 	 * Modifies the query pieces to allow ordering column by links to post.
 	 *
-	 * @param array     $pieces Array of Query pieces.
-	 * @param \WP_Query $query  The Query on which to apply.
+	 * @param array    $pieces Array of Query pieces.
+	 * @param WP_Query $query  The Query on which to apply.
 	 *
 	 * @return array
 	 */
@@ -169,8 +168,8 @@ class Link_Count_Columns_Integration implements Integration_Interface {
 	/**
 	 * Modifies the query pieces to allow ordering column by links to post.
 	 *
-	 * @param array     $pieces Array of Query pieces.
-	 * @param \WP_Query $query  The Query on which to apply.
+	 * @param array    $pieces Array of Query pieces.
+	 * @param WP_Query $query  The Query on which to apply.
 	 *
 	 * @return array
 	 */
@@ -185,9 +184,9 @@ class Link_Count_Columns_Integration implements Integration_Interface {
 	/**
 	 * Builds the pieces for a sorting query.
 	 *
-	 * @param array     $pieces Array of Query pieces.
-	 * @param \WP_Query $query  The Query on which to apply.
-	 * @param string    $field  The field in the table to JOIN on.
+	 * @param array    $pieces Array of Query pieces.
+	 * @param WP_Query $query  The Query on which to apply.
+	 * @param string   $field  The field in the table to JOIN on.
 	 *
 	 * @return array Modified Query pieces.
 	 */
@@ -198,10 +197,10 @@ class Link_Count_Columns_Integration implements Integration_Interface {
 		}
 
 		// Get the order query variable - ASC or DESC.
-		$order = strtoupper( $query->get( 'order' ) );
+		$order = \strtoupper( $query->get( 'order' ) );
 
 		// Make sure the order setting qualifies. If not, set default as ASC.
-		if ( ! in_array( $order, [ 'ASC', 'DESC' ], true ) ) {
+		if ( ! \in_array( $order, [ 'ASC', 'DESC' ], true ) ) {
 			$order = 'ASC';
 		}
 
@@ -231,7 +230,7 @@ class Link_Count_Columns_Integration implements Integration_Interface {
 				echo (int) $indexable->link_count;
 				return;
 			case 'wpseo-' . self::COLUMN_LINKED:
-				if ( get_post_status( $post_id ) === 'publish' ) {
+				if ( \get_post_status( $post_id ) === 'publish' ) {
 					echo (int) $indexable->incoming_link_count;
 				}
 		}

@@ -4,17 +4,17 @@ namespace Yoast\WP\SEO\Tests\Unit\Integrations\Admin;
 
 use Brain\Monkey;
 use Mockery;
-use Yoast\WP\SEO\Config\Indexing_Reasons;
-use Yoast_Notification_Center;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
+use Yoast\WP\SEO\Config\Indexing_Reasons;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Indexing_Helper;
 use Yoast\WP\SEO\Helpers\Notification_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Helpers\Short_Link_Helper;
-use Yoast\WP\SEO\Integrations\Admin\Indexing_Tool_Integration;
 use Yoast\WP\SEO\Integrations\Admin\Indexing_Notification_Integration;
+use Yoast\WP\SEO\Integrations\Admin\Indexing_Tool_Integration;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
+use Yoast_Notification_Center;
 
 /**
  * Class Indexing_Notification_Integration_Test.
@@ -89,7 +89,7 @@ class Indexing_Notification_Integration_Test extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->notification_center = Mockery::mock( \Yoast_Notification_Center::class );
+		$this->notification_center = Mockery::mock( Yoast_Notification_Center::class );
 		$this->product_helper      = Mockery::mock( Product_Helper::class );
 		$this->page_helper         = Mockery::mock( Current_Page_Helper::class );
 		$this->short_link_helper   = Mockery::mock( Short_Link_Helper::class );

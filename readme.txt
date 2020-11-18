@@ -4,8 +4,8 @@ Donate link: https://yoa.st/1up
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
-Tested up to: 5.5.1
-Stable tag: 15.2.1
+Tested up to: 5.5.3
+Stable tag: 15.3
 Requires PHP: 5.6.20
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -42,7 +42,7 @@ We know content is king, that's why Yoast SEO is famous for its **state-of-the-a
 
 * **SEO analysis**: an invaluable tool while writing SEO-friendly content with the right (focus) keyphrases in mind.
 * **Readability analysis**: ensures that humans and search engines can read and understand your content.
-* **Full language support** for: English, German, French, Dutch, Spanish, Italian, Russian, Indonesian, Polish, Portuguese, Arabic and Swedish.
+* **Full language support** for: English, German, French, Dutch, Spanish, Italian, Russian, Indonesian, Polish, Portuguese, Arabic, Swedish and Hebrew.
 * **A Google preview**, which shows what your listings will look like in the search results. Even on mobile devices!
 * **Innovative Schema blocks** for the WordPress block editor, so that your FAQ and HowTo content can be shown directly in the search results.
 * **[Premium] Internal linking blocks** to easily improve the structure of your content. Easily add a **table of contents block**, a **related links block**, a **subpages** block, or **siblings block**! Plus, we’ll keep adding these easy-to-add blocks to improve your site structure.
@@ -82,6 +82,7 @@ Did you know that [Yoast SEO Premium](https://yoa.st/1v8) contains a lot of extr
 * **Internal linking suggestions** while you’re writing.
 * Preview your content to see what it will look like in the search results and when shared on social media using the **Google preview** and **social preview**.
 * **Cornerstone content checks** that point search engines to your most important pages.
+* Connect Yoast SEO to Zapier to easily **create zaps that instantly share your published posts** with 2000+ destinations like Twitter, Facebook, and much more.
 
 If you are serious about your WordPress SEO, install the [Yoast SEO Premium plugin](https://yoa.st/1v8)! **Costs a little, saves a lot of time!**
 
@@ -231,62 +232,54 @@ Your question has most likely been answered on our knowledge base: [kb.yoast.com
 
 == Changelog ==
 
+= 15.4 =
+Release Date: December 2nd, 2020
+
+Bugfixes:
+
+* Fixes a bug where `post-sitemap.xml` would cause a fatal error when the filter `post_link` required a `WP_Post` object. Props to [stodorovic](https://github.com/stodorovic).
+* Fixes a bug where we would break the core `default_hidden_columns` filter. Props [thomasmb](https://github.com/thomasmb).
+* Fixes a bug where memory could be exhaused on the page overview for users with a large number of pages.
+
+Enhancements: 
+
+* Adds the Yoast SEO sidebar in the Elementor editor.
+* Makes it possible to recognize forms of keyphrases in Arabic when they are preceded by certain multi-letter prefixes, e.g. والقبعة ,فسحرية, or وبالمفتاح. 
+
+Other:
+
+* Improves compatibility with PHP 8.0.
+* Provides an alternative for the method `get_title_separator`.
+* Adds a filter to deactivate the Previously Used Keyword analysis assessment.
+
 = 15.3 =
 Release Date: November 17th, 2020
+
+Out now: Yoast SEO 15.3! In this release, you’ll find full language support for Hebrew in our analysis! This makes it a lot more natural to optimize your posts and it lets you focus on the writing part. Read more about what’s new in Yoast SEO 15.3 in [our release post](https://yoa.st/release-15-3)!
 
 Bugfixes:
 
 * Fixes a bug where no notification to reindex your site would be shown when the indexing process failed.
-* Fixes a bug where no notification to reindex your site was shown when changing the permalink structure, category base or home URL multiple times in a row and hiding the notification in between.
-* Fixes a bug where the `ctype_digit()` function would be redeclared.
-* Fixes a bug where reindexing via WP-CLI did not always repopulate the indexables tables.
+* Fixes a bug where no notification to reindex your site would be shown when changing the permalink structure, category base or home URL multiple times in a row and hiding the notification in between.
+* Fixes a bug where a fatal error would be thrown when there is no ctype extension loaded and `ctype_digit` had been polyfilled before.
+* Fixes a bug where reindexing via the WP-CLI would not always repopulate the indexables tables.
 * Fixes a bug where unfiltered HTML could be inserted in taxonomy descriptions by administrators and editors.
 * Fixes a bug where the indexable permalinks could have an incorrect taxonomy base.
+* Fixes a bug where the SEO optimization process sometimes had to be run twice before everything was correctly indexed.
 
 Enhancements:
 
-* Adds the consecutive sentences assessment for Hebrew.
-* Adds the sentence length assessment for Hebrew.
-* Adds the assessment for transition words in Hebrew.
-* Adds the assessment for the recognition of the passive voice in Hebrew.
-* Does not mark the words 'annoyed', 'depressed', 'disappointed', and 'upset' as passives anymore, since most of the time they are closer to adjectives rather than passive verbs in meaning.
+* Adds the following assessments for Hebrew:
+   * Consecutive sentences assessment.
+   * Sentence length assessment.
+   * Transition words assessment.
+   * Passive voice assessment.
+* Does not mark the words 'annoyed', 'depressed', 'disappointed', and 'upset' as passives in English anymore, since most of the time they are closer to adjectives rather than passive verbs in meaning.
 * Improves the results for the keyphrase distribution assessment for Swedish, Indonesian, Arabic, Hebrew and Farsi by allowing a partial match (instead of a full match) for long keyphrases (4 or more content words).
-
-= 15.2.1 =
-Release Date: November 2nd, 2020
-
-Bugfixes:
-
-* Fixes a bug where AMP and W3C validation would break because Twitter meta tags would contain 'value' attributes instead of 'content' attributes.
-* Fixes a bug where the Yoast metabox could not be loaded in the post editor when the `configuration-wizard-1520.js` JavaScript file is blocked from loading.
-
-= 15.2 =
-Release Date: October 27th, 2020
-
-Today, we are releasing Yoast SEO 15.2 into the wild. In this release, we've added an interesting improvement for Slack users — better visibility for your content when your URL is shared on Slack. We also improved the performance of the plugin in the backend due to us loading less JavaScript. Read more about what’s new in 15.2 in [our release post](https://yoa.st/release-15-2)!
-
-Enhancements:
-
-* Adds an Open Graph integration for The Events Calendar plugin. Props to [Luehrsen](https://github.com/Luehrsen).
-* Sets the default schema type for Web Stories to Article. Props to [swissspidy](https://github.com/swissspidy).
-* Adds enhanced Slack sharing tags on posts and pages.
-* Adds a toggle for the above enhanced Slack sharing feature.
-* Flushes the permalinks from the indexable tables when a custom taxonomy base changes, and shows a reindex notification in that case.
-* Improves the loading times of admin pages where Yoast SEO is present.
-
-Bugfixes:
-
-* Fixes a bug where we linked to Google's Structured Data Test, which is deprecated. We now link to Google's Rich Results Test. Props to [wormeyman](https://github.com/wormeyman).
-* Fixes a bug where the styling of the General tab in the network admin dashboard was broken.
-* Fixes a bug where the German passive voice assessment would show an error when the text contained a participle enclosed within curly quotation marks (e.g., `"getan"`).
-* Fixes a bug where the WooCommerce product permalinks were not updated after a permalink structure change.
-* Fixes a bug where the replacement variable dropdown menu was partially hidden for the description inputs in all preview modals.
-* Fixes a bug where a fatal error would be thrown on sites that did have curl installed but did not have the PHP curl extension installed.
 
 Other:
 
-* Removes the "Remind me in 7 days" link from the SEO data optimization notification on the Yoast SEO dashboard, which was shown for large sites with more than 2500 unindexed indexables. The notification can still be hidden by clicking the default dismiss button.
-* Adds the `wpseo_image_data` filter to enable the filtering of image metadata. Props to [spacedmonkey](https://github.com/spacedmonkey).
+* Prevents the SEO optimization process from restarting automatically when the optimization tool is started via the link in the dashboard notification and the Yoast SEO Tools page is reloaded during indexing.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).

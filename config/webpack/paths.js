@@ -16,6 +16,7 @@ const entry = {
 	"configuration-wizard": "./configuration-wizard.js",
 	"dashboard-widget": "./dashboard-widget.js",
 	"edit-page": "./edit-page.js",
+	"elementor": "./elementor.js",
 	"filter-explanation": "./filter-explanation.js",
 	"help-scout-beacon": "./help-scout-beacon.js",
 	indexation: "./indexation.js",

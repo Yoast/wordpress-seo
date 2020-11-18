@@ -10,11 +10,11 @@ use Yoast\WP\SEO\Generators\Schema_Generator;
 use Yoast\WP\SEO\Generators\Twitter_Image_Generator;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Image_Helper;
+use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Helpers\Permalink_Helper;
 use Yoast\WP\SEO\Helpers\Url_Helper;
 use Yoast\WP\SEO\Helpers\User_Helper;
-use Yoast\WP\SEO\Helpers\Indexable_Helper;
-use Yoast\WP\SEO\Helpers\Permalink_Helper;
 use Yoast\WP\SEO\Models\Indexable;
 
 /**
@@ -347,7 +347,7 @@ class Indexable_Presentation extends Abstract_Presentation {
 	 * @return array The robots value with opt-in snippets.
 	 */
 	public function generate_googlebot() {
-		_deprecated_function( __METHOD__, 'WPSEO 14.9' );
+		\_deprecated_function( __METHOD__, 'WPSEO 14.9' );
 
 		return [];
 	}
@@ -361,7 +361,7 @@ class Indexable_Presentation extends Abstract_Presentation {
 	 * @return array The robots value with opt-in snippets.
 	 */
 	public function generate_bingbot() {
-		_deprecated_function( __METHOD__, 'WPSEO 14.9' );
+		\_deprecated_function( __METHOD__, 'WPSEO 14.9' );
 
 		return [];
 	}

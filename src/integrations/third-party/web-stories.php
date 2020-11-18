@@ -120,7 +120,7 @@ class Web_Stories implements Integration_Interface {
 			return $type;
 		}
 
-		if ( is_string( $type ) && $type === 'None' ) {
+		if ( \is_string( $type ) && $type === 'None' ) {
 			return 'Article';
 		}
 
