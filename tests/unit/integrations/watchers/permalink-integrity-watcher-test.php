@@ -103,7 +103,8 @@ class Permalink_Integrity_Watcher_Test extends TestCase {
 	 */
 	public function test_should_perform_check() {
 		$array              = [];
-		$array['post-post'] = ( \time() - ( 60 * 60 * 24 * 7 ) );
+		//more than a week ago
+		$array['post-post'] = ( \time() - ( 60 * 60 * 24 * 7 ) ) -1;
 
 		$this->assertTrue( $this->instance->should_perform_check( 'post-post', $array ) );
 	}
@@ -115,7 +116,8 @@ class Permalink_Integrity_Watcher_Test extends TestCase {
 	 */
 	public function test_should_not_perform_check() {
 		$array              = [];
-		$array['post-post'] = ( \time() - ( 60 * 60 * 24 * 7 ) ) -1;
+		//less than a week ago
+		$array['post-post'] = ( \time() - ( 60 * 60 * 24 * 7 ) ) + 1;
 
 		$this->assertFalse( $this->instance->should_perform_check( 'post-post', $array ) );
 	}
@@ -156,5 +158,64 @@ class Permalink_Integrity_Watcher_Test extends TestCase {
 		);
 
 		$this->assertEquals( $this->instance->get_dynamic_permalink_samples(), $result );
+	}
+
+	/**
+	 * Tests if the permalinks are not compared when dynamic_permalinks returns true.
+	 *
+	 * @covers ::compare_permalink_for_page
+	 */
+	public function test_compare_permalink_for_page_not_executing_dynamic_permalinks() {
+
+		$this->options_helper
+			->expects( 'get' )
+			->with( 'dynamic_permalinks' )
+			->once()
+			->andReturnTrue();
+
+		$this->instance->compare_permalink_for_page( null );
+	}
+
+	/**
+	 * Tests if the permalinks are not compared when dynamic_permalinks returns true.
+	 *
+	 * @covers ::compare_permalink_for_page
+	 */
+	public function test_compare_permalink_for_page_not_executing_time() {
+
+		$presentation = (object) array(
+			'model' => (object) array(
+				'object_type' => 'post',
+				'object_sub_type' => 'post',
+			)
+		);
+
+		$this->options_helper
+			->expects( 'get' )
+			->with( 'dynamic_permalinks' )
+			->once()
+			->andReturnFalse();
+
+		//more than a week ago
+		$result = array(
+			"post-post" 		=> \time() - ( 60 * 60 * 24 * 7 ) + 1,
+		);
+
+		$this->options_helper
+			->expects( 'get' )
+			->with( 'dynamic_permalink_samples' )
+			->once()
+			->andReturn( $result );
+
+		$value = array(
+			"post-post" => \time(),
+		);
+
+		$this->options_helper
+			->expects( 'set' )
+			->with( 'dynamic_permalink_samples', $value )
+			->never();
+
+		$this->assertEquals( $this->instance->compare_permalink_for_page( $presentation ), null );
 	}
 }

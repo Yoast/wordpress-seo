@@ -104,7 +104,7 @@ class Permalink_Integrity_Watcher implements Integration_Interface {
 	 * @return boolean Whether the permalink integrity check should be performed.
 	 */
 	public function should_perform_check( $type, $permalink_samples ) {
-		return $permalink_samples[ $type ] >= ( \time() - ( 60 * 60 * 24 * 7 ) );
+		return $permalink_samples[ $type ] < ( \time() - ( 60 * 60 * 24 * 7 ) );
 	}
 
 	/**
@@ -116,7 +116,7 @@ class Permalink_Integrity_Watcher implements Integration_Interface {
 	 * @return void
 	 */
 	public function compare_permalink_for_page( $presentation ) {
-		if ( $this->options_helper->get( 'dynamic_permalinks', false ) ) {
+		if ( $this->options_helper->get( 'dynamic_permalinks' ) ) {
 			return;
 		}
 
@@ -125,7 +125,7 @@ class Permalink_Integrity_Watcher implements Integration_Interface {
 		$type              = $indexable->object_type . '-' . $indexable->object_sub_type;
 
 		if ( ! $this->should_perform_check( $type, $permalink_samples ) ) {
-			$this->update_permalink_samples( $type, $permalink_samples );
+			//not more than a week ago, do not perform check
 			return;
 		}
 
