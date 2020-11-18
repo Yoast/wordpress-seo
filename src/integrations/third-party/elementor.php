@@ -475,6 +475,7 @@ class Elementor implements Integration_Interface {
 
 		if ( isset( $GLOBALS['post'] ) ) {
 			$this->post = $GLOBALS['post'];
+
 			return $this->post;
 		}
 
