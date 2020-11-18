@@ -46,6 +46,11 @@ const detectChange = input => {
 		return;
 	}
 
+	// The prominent words do not require a new save (based on the content anyway).
+	if ( input.name === "yoast_wpseo_words_for_linking" ) {
+		return;
+	}
+
 	if ( input.value !== input.oldValue ) {
 		activateSaveButton();
 		storeValueAsOldValue( input );
