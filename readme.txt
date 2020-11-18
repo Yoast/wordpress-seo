@@ -237,7 +237,7 @@ Release Date: December 2nd, 2020
 
 Enhancements:
 
-* Integrates the Yoast SEO sidebar into the Elementor editor.
+* Introduces a seamless integration of Yoast SEO content analysis into the Elementor editor.
 * Makes it possible to recognize forms of keyphrases in Arabic when they are preceded by certain multi-letter prefixes, e.g. والقبعة ,فسحرية, or وبالمفتاح.
 
 Bugfixes:
