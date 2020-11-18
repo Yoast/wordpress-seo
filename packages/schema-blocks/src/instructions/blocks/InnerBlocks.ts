@@ -7,7 +7,7 @@ import { TemplateArray } from "@wordpress/blocks";
 /**
  * InnerBlocks instruction
  */
-class InnerBlocks extends BlockInstruction {
+export default class InnerBlocks extends BlockInstruction {
 	public options: {
 		allowedBlocks: string[];
 		template: TemplateArray;
@@ -27,7 +27,6 @@ class InnerBlocks extends BlockInstruction {
 
 	/**
 	 * Renders editing the instruction.
-	 *
 	 *
 	 * @returns The inner blocks.
 	 */
