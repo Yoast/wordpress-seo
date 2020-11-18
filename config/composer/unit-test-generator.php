@@ -16,20 +16,34 @@ class Unit_Test_Generator {
 	public static function generate( $fully_qualified_class_name ) {
 		$reflector = new \ReflectionClass( $fully_qualified_class_name );
 
-		$name                  = $reflector->getShortName();
-		$constructor_arguments = self::get_constructor_arguments( $reflector );
+		$name = $reflector->getShortName();
 
-		$namespace                    = self::generate_namespace( $fully_qualified_class_name );
-		$use_statements               = self::generate_use_statements( $constructor_arguments );
-		$property_statements          = self::generate_property_statements( $constructor_arguments );
-		$create_mock_statements       = self::generate_create_mock_statements( $constructor_arguments );
-		$instance_argument_statements = self::generate_instance_argument_statements( $constructor_arguments );
+		$constructor = $reflector->getConstructor();
+
+		if ( ! $constructor ) {
+			$use_statements               = '';
+			$property_statements          = '';
+			$create_mock_statements       = '';
+			$instance_argument_statements = '';
+		}
+		else {
+			$constructor_arguments = $constructor->getParameters();
+
+			$use_statements               = self::generate_use_statements( $constructor_arguments );
+			$property_statements          = self::generate_property_statements( $constructor_arguments );
+			$create_mock_statements       = self::generate_create_mock_statements( $constructor_arguments );
+			$instance_argument_statements = self::generate_instance_argument_statements( $constructor_arguments );
+		}
+
+		$namespace = self::generate_namespace( $fully_qualified_class_name );
+		$group     = self::generate_group( $reflector->getFileName() );
 
 		$filled_in_template = self::unit_test_template(
 			$fully_qualified_class_name,
 			$name,
 			$namespace,
 			$use_statements,
+			$group,
 			$property_statements,
 			$create_mock_statements,
 			$instance_argument_statements
@@ -69,12 +83,27 @@ class Unit_Test_Generator {
 	}
 
 	/**
+	 * Generates the unit test group to use in the unit test.
+	 *
+	 * @param string $path The path to the class.
+	 *
+	 * @return string The group.
+	 */
+	private static function generate_group( $path ) {
+		$matches = [];
+		\preg_match( '/\/src\/(.*)\/.*\.php$/', $path, $matches );
+
+		return $matches[1];
+	}
+
+	/**
 	 * Generates a unit test scaffold based on the given parameters.
 	 *
 	 * @param string $fully_qualified_class_name   The fully qualified class name of the class that is tested.
 	 * @param string $name                         The name of the class that is tested.
 	 * @param string $namespace                    The namespace of the test class.
 	 * @param string $use_statements               The use statements, one for each mocked constructor argument.
+	 * @param string $group                        The unit test group.
 	 * @param string $property_statements          The property statements, one for each mocked constructor argument.
 	 * @param string $create_mock_statements       The creation statements, one for each mocked constructor argument.
 	 * @param string $instance_argument_statements The arguments given to the instance constructor,
@@ -87,6 +116,7 @@ class Unit_Test_Generator {
 		$name,
 		$namespace,
 		$use_statements,
+		$group,
 		$property_statements,
 		$create_mock_statements,
 		$instance_argument_statements
@@ -107,6 +137,10 @@ use {$fully_qualified_class_name};
 
 /**
  * {$name} test.
+ *
+ * @group {$group}
+ *
+ * @coversDefaultClass {$fully_qualified_class_name}
  */
 class {$name}_Test extends TestCase {
 
@@ -131,24 +165,6 @@ class {$name}_Test extends TestCase {
 	}
 }
 TPL;
-	}
-
-	/**
-	 * Retrieves the arguments from the given reflected class.
-	 *
-	 * @param ReflectionClass $reflector The reflected class from which to retrieve the constructor arguments.
-	 *
-	 * @return ReflectionParameter[] The arguments in the constructor.
-	 * @throws RuntimeException If the reflected class does not have a constructor.
-	 */
-	private static function get_constructor_arguments( ReflectionClass $reflector ) {
-		$constructor = $reflector->getConstructor();
-
-		if ( ! $constructor ) {
-			throw new RuntimeException( 'The class for which to generate a unit test does not have a constructor.' );
-		}
-
-		return $constructor->getParameters();
 	}
 
 	/**
