@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Integrations\Third_Party;
 
+use Yoast\WP\SEO\Conditionals\WPML_Conditional;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 use Brain\Monkey;
@@ -51,5 +52,95 @@ class WPSEOML_Notification_Test extends TestCase {
 			$this->notification_center,
 			$this->wpseoml_conditional
 		);
+	}
+
+	/**
+	 * Tests the constructor.
+	 *
+	 * @covers ::__construct
+	 */
+	public function test_constructor() {
+		self::assertAttributeInstanceOf(
+			Yoast_Notification_Center::class,
+			'notification_center',
+			$this->instance
+		);
+		self::assertAttributeInstanceOf(
+			WPSEOML_Conditional::class,
+			'wpseoml_conditional',
+			$this->instance
+		);
+	}
+
+	/**
+	 * Tests whether the right hooks and actions are registered.
+	 *
+	 * @covers ::register_hooks
+	 */
+	public function test_registers_the_right_hooks() {
+		Monkey\Actions\expectAdded( 'admin_notices' )
+			->with( [ $this->instance, 'notify_not_installed' ] )
+			->once();
+
+		$this->instance->register_hooks();
+	}
+
+	/**
+	 * Tests whether the right conditionals are set
+	 * for the integration to load. E.g. when the WPML plugin is active.
+	 *
+	 * @covers ::get_conditionals
+	 */
+	public function test_conditionals() {
+		$expected = [ WPML_Conditional::class ];
+		self::assertSame( $expected, WPSEOML_Notification::get_conditionals() );
+	}
+
+	/**
+	 * Tests whether the notification is added when the WPSEOML plugin
+	 * is not installed and activated.
+	 *
+	 * @covers ::notify_not_installed
+	 * @covers ::notification
+	 */
+	public function test_notifies_when_not_installed() {
+		// Mock that WPSEOML is not installed and activated.
+		$this->wpseoml_conditional->expects( 'is_met' )->andReturnFalse();
+
+		Monkey\Functions\expect( 'wp_get_current_user' )
+			->andReturn( 'user' );
+
+		$this->notification_center
+			->expects( 'add_notification' )
+			->withAnyArgs()
+			->once();
+
+		$this->instance->notify_not_installed();
+	}
+
+	/**
+	 * Tests whether the notification is added when the WPSEOML plugin
+	 * is not installed and activated.
+	 *
+	 * @covers ::notify_not_installed
+	 * @covers ::notification
+	 */
+	public function test_does_not_notify_when_installed() {
+		// Mock that WPSEOML is installed and activated.
+		$this->wpseoml_conditional->expects( 'is_met' )->andReturnTrue();
+
+		Monkey\Functions\expect( 'wp_get_current_user' )
+			->andReturn( 'user' );
+
+		$this->notification_center
+			->expects( 'add_notification' )
+			->never();
+
+		$this->notification_center
+			->expects( 'remove_notification_by_id' )
+			->with( WPSEOML_Notification::NOTIFICATION_ID )
+			->once();
+
+		$this->instance->notify_not_installed();
 	}
 }
