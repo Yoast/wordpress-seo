@@ -117,6 +117,10 @@ const languageVariables = {
 		followingAuxiliaryExceptionRegex: arrayToRegex( followingAuxiliaryExceptionWordsItalian ),
 		directPrecedenceExceptionRegex: directPrecedenceExceptionRegexItalian,
 	},
+	hu: {
+		SentencePart: SentencePartHungarian,
+		auxiliaries: auxiliariesHungarian,
+	},
 };
 
 /**
