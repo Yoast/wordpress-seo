@@ -9,17 +9,17 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
 use Brain\Monkey;
 use Mockery;
 
-use Yoast\WP\SEO\Integrations\Third_Party\WPSEOML_Notification;
+use Yoast\WP\SEO\Integrations\Third_Party\WPML_WPSEO_Notification;
 
 use Yoast_Notification_Center;
-use Yoast\WP\SEO\Conditionals\Third_Party\WPSEOML_Conditional;
+use Yoast\WP\SEO\Conditionals\Third_Party\WPML_WPSEO_Conditional;
 
 /**
- * WPSEOML_Notification test.
+ * WPML_WPSEO_Notification test.
  *
- * @coversDefaultClass \Yoast\WP\SEO\Integrations\Third_Party\WPSEOML_Notification
+ * @coversDefaultClass \Yoast\WP\SEO\Integrations\Third_Party\WPML_WPSEO_Notification
  */
-class WPSEOML_Notification_Test extends TestCase {
+class WPML_WPSEO_Notification_Test extends TestCase {
 
 	/**
 	 * Yoast_Notification_Center mock.
@@ -29,11 +29,11 @@ class WPSEOML_Notification_Test extends TestCase {
 	protected $notification_center;
 
 	/**
-	 * WPSEOML_Conditional mock.
+	 * WPML_WPSEO_Conditional mock.
 	 *
-	 * @var Mockery\MockInterface|WPSEOML_Conditional
+	 * @var Mockery\MockInterface|WPML_WPSEO_Conditional
 	 */
-	protected $wpseoml_conditional;
+	protected $wpml_wpseo_conditional;
 
 	/**
 	 * Mock of the short link helper.
@@ -45,7 +45,7 @@ class WPSEOML_Notification_Test extends TestCase {
 	/**
 	 * Instance under test.
 	 *
-	 * @var WPSEOML_Notification
+	 * @var WPML_WPSEO_Notification
 	 */
 	protected $instance;
 
@@ -54,13 +54,13 @@ class WPSEOML_Notification_Test extends TestCase {
 	 */
 	public function setUp() {
 		parent::setUp();
-		$this->short_link_helper   = Mockery::mock( Short_Link_Helper::class );
-		$this->notification_center = Mockery::mock( Yoast_Notification_Center::class );
-		$this->wpseoml_conditional = Mockery::mock( WPSEOML_Conditional::class );
-		$this->instance            = new WPSEOML_Notification(
+		$this->short_link_helper      = Mockery::mock( Short_Link_Helper::class );
+		$this->notification_center    = Mockery::mock( Yoast_Notification_Center::class );
+		$this->wpml_wpseo_conditional = Mockery::mock( WPML_WPSEO_Conditional::class );
+		$this->instance               = new WPML_WPSEO_Notification(
 			$this->short_link_helper,
 			$this->notification_center,
-			$this->wpseoml_conditional
+			$this->wpml_wpseo_conditional
 		);
 	}
 
@@ -76,8 +76,8 @@ class WPSEOML_Notification_Test extends TestCase {
 			$this->instance
 		);
 		self::assertAttributeInstanceOf(
-			WPSEOML_Conditional::class,
-			'wpseoml_conditional',
+			WPML_WPSEO_Conditional::class,
+			'wpml_wpseo_conditional',
 			$this->instance
 		);
 	}
@@ -103,19 +103,19 @@ class WPSEOML_Notification_Test extends TestCase {
 	 */
 	public function test_conditionals() {
 		$expected = [ WPML_Conditional::class ];
-		self::assertSame( $expected, WPSEOML_Notification::get_conditionals() );
+		self::assertSame( $expected, WPML_WPSEO_Notification::get_conditionals() );
 	}
 
 	/**
-	 * Tests whether the notification is added when the WPSEOML plugin
+	 * Tests whether the notification is added when the Yoast SEO Multilingual plugin
 	 * is not installed and activated.
 	 *
 	 * @covers ::notify_not_installed
 	 * @covers ::notification
 	 */
 	public function test_notifies_when_not_installed() {
-		// Mock that WPSEOML is not installed and activated.
-		$this->wpseoml_conditional->expects( 'is_met' )->andReturnFalse();
+		// Mock that the Yoast SEO Multilingual plugin is not installed and activated.
+		$this->wpml_wpseo_conditional->expects( 'is_met' )->andReturnFalse();
 
 		Monkey\Functions\expect( 'wp_get_current_user' )
 			->andReturn( 'user' );
@@ -132,15 +132,15 @@ class WPSEOML_Notification_Test extends TestCase {
 	}
 
 	/**
-	 * Tests whether the notification is added when the WPSEOML plugin
+	 * Tests whether the notification is added when the Yoast SEO Multilingual plugin
 	 * is not installed and activated.
 	 *
 	 * @covers ::notify_not_installed
 	 * @covers ::notification
 	 */
 	public function test_does_not_notify_when_installed() {
-		// Mock that WPSEOML is installed and activated.
-		$this->wpseoml_conditional->expects( 'is_met' )->andReturnTrue();
+		// Mock that Yoast SEO Multilingual plugin is installed and activated.
+		$this->wpml_wpseo_conditional->expects( 'is_met' )->andReturnTrue();
 
 		Monkey\Functions\expect( 'wp_get_current_user' )
 			->andReturn( 'user' );
@@ -151,7 +151,7 @@ class WPSEOML_Notification_Test extends TestCase {
 
 		$this->notification_center
 			->expects( 'remove_notification_by_id' )
-			->with( WPSEOML_Notification::NOTIFICATION_ID )
+			->with( WPML_WPSEO_Notification::NOTIFICATION_ID )
 			->once();
 
 		$this->instance->notify_not_installed();

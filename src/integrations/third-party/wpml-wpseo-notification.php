@@ -2,7 +2,7 @@
 
 namespace Yoast\WP\SEO\Integrations\Third_Party;
 
-use Yoast\WP\SEO\Conditionals\Third_Party\WPSEOML_Conditional;
+use Yoast\WP\SEO\Conditionals\Third_Party\WPML_WPSEO_Conditional;
 use Yoast\WP\SEO\Conditionals\WPML_Conditional;
 use Yoast\WP\SEO\Helpers\Short_Link_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
@@ -14,7 +14,7 @@ use Yoast_Notification_Center;
  * but the Yoast SEO Multilingual plugin (a glue plugin to make Yoast SEO and WPML work nicely together)
  * is not.
  */
-class WPSEOML_Notification implements Integration_Interface {
+class WPML_WPSEO_Notification implements Integration_Interface {
 
 	/**
 	 * The short link helper.
@@ -31,29 +31,29 @@ class WPSEOML_Notification implements Integration_Interface {
 	protected $notification_center;
 
 	/**
-	 * The WPSEOML conditional.
+	 * The WPML WPSEO conditional.
 	 *
-	 * @var WPSEOML_Conditional
+	 * @var WPML_WPSEO_Conditional
 	 */
-	protected $wpseoml_conditional;
+	protected $wpml_wpseo_conditional;
 
 	const NOTIFICATION_ID = 'wpseoml-not-installed';
 
 	/**
-	 * WPSEOML notification constructor.
+	 * WPML WPSEO notification constructor.
 	 *
-	 * @param Short_Link_Helper         $short_link_helper   The short link helper.
-	 * @param Yoast_Notification_Center $notification_center The notification center.
-	 * @param WPSEOML_Conditional       $wpseoml_conditional The WPSEOML conditional.
+	 * @param Short_Link_Helper         $short_link_helper      The short link helper.
+	 * @param Yoast_Notification_Center $notification_center    The notification center.
+	 * @param WPML_WPSEO_Conditional    $wpml_wpseo_conditional The WPML WPSEO conditional.
 	 */
 	public function __construct(
 		Short_Link_Helper $short_link_helper,
 		Yoast_Notification_Center $notification_center,
-		WPSEOML_Conditional $wpseoml_conditional
+		WPML_WPSEO_Conditional $wpml_wpseo_conditional
 	) {
-		$this->short_link_helper   = $short_link_helper;
-		$this->notification_center = $notification_center;
-		$this->wpseoml_conditional = $wpseoml_conditional;
+		$this->short_link_helper      = $short_link_helper;
+		$this->notification_center    = $notification_center;
+		$this->wpml_wpseo_conditional = $wpml_wpseo_conditional;
 	}
 
 	/**
@@ -83,7 +83,7 @@ class WPSEOML_Notification implements Integration_Interface {
 	 * Remove the notification again when it is installed.
 	 */
 	public function notify_not_installed() {
-		if ( ! $this->wpseoml_conditional->is_met() ) {
+		if ( ! $this->wpml_wpseo_conditional->is_met() ) {
 			$this->notification_center->add_notification( $this->notification() );
 		}
 		else {
@@ -100,7 +100,7 @@ class WPSEOML_Notification implements Integration_Interface {
 	protected function notification() {
 		return new Yoast_Notification(
 			\sprintf(
-				/* translators: %1$s expands to an opening anchor tag, %2$s expands to an closing anchor tag. */
+			/* translators: %1$s expands to an opening anchor tag, %2$s expands to an closing anchor tag. */
 				__( 'We notice that you have installed WPML. To make sure your canonical URLs are set correctly, %1$sinstall and activate the Yoast SEO Multilingual add-on%2$s as well!', 'wordpress-seo' ),
 				'<a href="' . \esc_url( $this->short_link_helper->get( 'https://yoa.st/wpml-yoast-seo' ) ) . '" target="_blank">',
 				'</a>'

@@ -4,22 +4,22 @@ namespace Yoast\WP\SEO\Tests\Unit\Conditionals;
 
 use Brain\Monkey;
 
-use Yoast\WP\SEO\Conditionals\Third_Party\WPSEOML_Conditional;
+use Yoast\WP\SEO\Conditionals\Third_Party\WPML_WPSEO_Conditional;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
- * WPSEOML_Conditional test.
+ * WPML_WPSEO_Conditional test.
  *
  * @group conditionals.
  *
- * @coversDefaultClass Yoast\WP\SEO\Conditionals\Third_Party\WPSEOML_Conditional
+ * @coversDefaultClass Yoast\WP\SEO\Conditionals\Third_Party\WPML_WPSEO_Conditional
  */
-class WPSEOML_Conditional_Test extends TestCase {
+class WPML_WPSEO_Conditional_Test extends TestCase {
 
 	/**
 	 * The schema blocks feature flag conditional.
 	 *
-	 * @var WPSEOML_Conditional
+	 * @var WPML_WPSEO_Conditional
 	 */
 	private $instance;
 
@@ -28,11 +28,11 @@ class WPSEOML_Conditional_Test extends TestCase {
 	 */
 	public function setUp() {
 		parent::setUp();
-		$this->instance = new WPSEOML_Conditional();
+		$this->instance = new WPML_WPSEO_Conditional();
 	}
 
 	/**
-	 * Tests whether the conditional is not met when the WPSEOML_VERSION constant is not defined.
+	 * Tests whether the conditional is not met when the plugin is inactive.
 	 *
 	 * @covers ::is_met
 	 */
@@ -45,7 +45,7 @@ class WPSEOML_Conditional_Test extends TestCase {
 	}
 
 	/**
-	 * Tests whether the conditional is met when the WPSEOML_VERSION constant is not defined.
+	 * Tests whether the conditional is met when the plugin is active.
 	 *
 	 * @covers ::is_met
 	 */
