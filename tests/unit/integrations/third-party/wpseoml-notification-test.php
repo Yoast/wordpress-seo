@@ -3,6 +3,7 @@
 namespace Yoast\WP\SEO\Tests\Unit\Integrations\Third_Party;
 
 use Yoast\WP\SEO\Conditionals\WPML_Conditional;
+use Yoast\WP\SEO\Helpers\Short_Link_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 use Brain\Monkey;
@@ -35,6 +36,13 @@ class WPSEOML_Notification_Test extends TestCase {
 	protected $wpseoml_conditional;
 
 	/**
+	 * Mock of the short link helper.
+	 *
+	 * @var Mockery\MockInterface|Short_Link_Helper
+	 */
+	protected $short_link_helper;
+
+	/**
 	 * Instance under test.
 	 *
 	 * @var WPSEOML_Notification
@@ -46,9 +54,11 @@ class WPSEOML_Notification_Test extends TestCase {
 	 */
 	public function setUp() {
 		parent::setUp();
+		$this->short_link_helper   = Mockery::mock( Short_Link_Helper::class );
 		$this->notification_center = Mockery::mock( Yoast_Notification_Center::class );
 		$this->wpseoml_conditional = Mockery::mock( WPSEOML_Conditional::class );
 		$this->instance            = new WPSEOML_Notification(
+			$this->short_link_helper,
 			$this->notification_center,
 			$this->wpseoml_conditional
 		);
@@ -114,6 +124,9 @@ class WPSEOML_Notification_Test extends TestCase {
 			->expects( 'add_notification' )
 			->withAnyArgs()
 			->once();
+
+		$this->short_link_helper->expects( 'get' )
+			->with( 'https://yoa.st/wpml-yoast-seo' );
 
 		$this->instance->notify_not_installed();
 	}

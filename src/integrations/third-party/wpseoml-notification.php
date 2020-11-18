@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Integrations\Third_Party;
 
 use Yoast\WP\SEO\Conditionals\Third_Party\WPSEOML_Conditional;
 use Yoast\WP\SEO\Conditionals\WPML_Conditional;
+use Yoast\WP\SEO\Helpers\Short_Link_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast_Notification;
 use Yoast_Notification_Center;
@@ -14,6 +15,13 @@ use Yoast_Notification_Center;
  * is not.
  */
 class WPSEOML_Notification implements Integration_Interface {
+
+	/**
+	 * The short link helper.
+	 *
+	 * @var Short_Link_Helper
+	 */
+	protected $short_link_helper;
 
 	/**
 	 * The notification center.
@@ -32,15 +40,18 @@ class WPSEOML_Notification implements Integration_Interface {
 	const NOTIFICATION_ID = 'wpseoml-not-installed';
 
 	/**
-	 * WPSEOML constructor.
+	 * WPSEOML notification constructor.
 	 *
+	 * @param Short_Link_Helper         $short_link_helper   The short link helper.
 	 * @param Yoast_Notification_Center $notification_center The notification center.
 	 * @param WPSEOML_Conditional       $wpseoml_conditional The WPSEOML conditional.
 	 */
 	public function __construct(
+		Short_Link_Helper $short_link_helper,
 		Yoast_Notification_Center $notification_center,
 		WPSEOML_Conditional $wpseoml_conditional
 	) {
+		$this->short_link_helper   = $short_link_helper;
 		$this->notification_center = $notification_center;
 		$this->wpseoml_conditional = $wpseoml_conditional;
 	}
@@ -88,9 +99,15 @@ class WPSEOML_Notification implements Integration_Interface {
 	 */
 	protected function notification() {
 		return new Yoast_Notification(
-			'We notice that you have installed WPML. To make sure your canonical URLs are set correctly, install and activate the Yoast SEO Multilingual add-on as well!',
+			\sprintf(
+				/* translators: %1$s expands to an opening anchor tag, %2$s expands to an closing anchor tag. */
+				__( 'We notice that you have installed WPML. To make sure your canonical URLs are set correctly, %1$sinstall and activate the Yoast SEO Multilingual add-on%2$s as well!', 'wordpress-seo' ),
+				'<a href="' . \esc_url( $this->short_link_helper->get( 'https://yoa.st/wpml-yoast-seo' ) ) . '" target="_blank">',
+				'</a>'
+			),
 			[
-				'id' => self::NOTIFICATION_ID,
+				'id'   => self::NOTIFICATION_ID,
+				'type' => Yoast_Notification::WARNING,
 			]
 		);
 	}
