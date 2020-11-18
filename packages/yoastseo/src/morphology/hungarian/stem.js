@@ -4,12 +4,12 @@ import { findMatchingEndingInArray } from "../morphoHelpers/findMatchingEndingIn
  *
  * @param {Object} morphologyData   The Hungarian morphology data.
  * @param {string} word The word to check
- * @returns {boolean} Whether the input character is a Hungarian vowel.
+ * @returns {number} Whether the input character is a Hungarian vowel.
  */
 const isVowel = function( morphologyData, word ) {
 	const vowels = morphologyData.externalStemmer.vowels;
 	const regex = new RegExp( vowels );
-	return regex.test( word );
+	return word.search( regex );
 };
 /**
  * Checks if the input character is a Hungarian double consonant.
@@ -18,9 +18,8 @@ const isVowel = function( morphologyData, word ) {
  * @param {string} word The word to check
  * @returns {boolean} Whether the input character is a Hungarian double consonant.
  */
-const isDoubleConsonant = function( morphologyData, word ) {
-	const regex = new RegExp( morphologyData.externalStemmer.doubleConsonants );
-	return regex.test( word );
+const isDoubleOrTripleConsonant = function( morphologyData, word, consonantRegex ) {
+	return consonantRegex.test( word );
 };
 
 /**
@@ -34,8 +33,8 @@ const isDoubleConsonant = function( morphologyData, word ) {
 const consonantOrDigraphPosition = function( morphologyData, word ) {
 	const digraphRegex = new RegExp( morphologyData.externalStemmer.digraphs );
 	const consonantRegex = new RegExp( morphologyData.externalStemmer.consonants );
-	const digraphPosition = digraphRegex.test( word );
-	const consonantPosition = consonantRegex.test( word );
+	const digraphPosition = word.search( digraphRegex );
+	const consonantPosition = word.search( consonantRegex );
 	if ( digraphPosition < consonantPosition ) {
 		return digraphPosition;
 	}
@@ -62,18 +61,30 @@ const findR1Position = function( morphologyData, word ) {
  * and removes one of the double consonants
  * @param {Object} morphologyData Morpology data file with suffix list
  * @param {string} word The word to stem
- * @param {number} r1Text The text of the R1 region
+ * @param {string} r1Text The text of the R1 region
  *
 */
 const stemSuffixes1 = function( word, r1Text, morphologyData ) {
-	const suffix = findMatchingEndingInArray( r1Text, morphologyData.externalStemmer.suffixes1 );
+	const suffix = findMatchingEndingInArray( word, morphologyData.externalStemmer.suffixes1 );
+
 	if ( suffix !== "" ) {
 		let wordAfterStemming = word.slice( 0, -2 );
-		const checkIfWordEndsOnDoubleConsonant = isDoubleConsonant( morphologyData, wordAfterStemming );
+
+		const tripleConsonantsRegex = new RegExp( morphologyData.externalStemmer.tripleDoubleConsonants );
+		const checkIfWordEndsOnTripleDoubleConsonant = isDoubleOrTripleConsonant( morphologyData, wordAfterStemming, tripleConsonantsRegex );
+		if ( checkIfWordEndsOnTripleDoubleConsonant ) {
+			wordAfterStemming = wordAfterStemming.slice( 0, -2 ) + wordAfterStemming.charAt( wordAfterStemming.length - 1 );
+		}
+
+		const doubleConsonantRegex = new RegExp( morphologyData.externalStemmer.doubleConsonants );
+		const checkIfWordEndsOnDoubleConsonant = isDoubleOrTripleConsonant( morphologyData, wordAfterStemming, doubleConsonantRegex );
 		if ( checkIfWordEndsOnDoubleConsonant ) {
 			wordAfterStemming = wordAfterStemming.slice( 0, -1 );
 		}
-		return wordAfterStemming;
+
+		if ( wordAfterStemming.length !== word.slice( 0, -2 ).length ) {
+			return wordAfterStemming;
+		}
 	}
 	return word;
 };
@@ -86,10 +97,10 @@ const stemSuffixes1 = function( word, r1Text, morphologyData ) {
  *
  * @param {string} word The word to stem
  * @param {string} r1Text The text of R1 region
- * @param {string} suffixes2 suffixes from group 2
+ * @param {string[]} suffixes2 suffixes from group 2
  */
 const stemSuffixes2 = function( word, r1Text, suffixes2 ) {
-	const suffix = findMatchingEndingInArray( r1Text, suffixes2 );
+	const suffix = findMatchingEndingInArray( word, suffixes2 );
 	if ( suffix !== "" ) {
 		let wordAfterStemming = word.slice( 0, -suffix.length );
 		const checkIfWordEndsOnAccentedEorE = ( wordAfterStemming.endsWith( "á" ) || wordAfterStemming.endsWith( "é" ) );
@@ -111,11 +122,11 @@ const stemSuffixes2 = function( word, r1Text, suffixes2 ) {
  * @returns {string} The word without the suffix.
  */
 const stemSuffixes3 = function( word, r1Text, suffixes3 ) {
-	const suffix3a = findMatchingEndingInArray( r1Text, suffixes3.suffixes3a );
+	const suffix3a = findMatchingEndingInArray( word, suffixes3.suffixes3a );
 	if ( suffix3a !== "" ) {
 		return ( word.slice( 0, -suffix3a.length ) + "a" );
 	}
-	const suffix3b = findMatchingEndingInArray( r1Text, suffixes3.suffixes3b );
+	const suffix3b = findMatchingEndingInArray( word, suffixes3.suffixes3b );
 	if ( suffix3b !== "" ) {
 		return ( word.slice( 0, -suffix3b.length ) + "e" );
 	}
@@ -125,7 +136,7 @@ const stemSuffixes3 = function( word, r1Text, suffixes3 ) {
 /* Search for the longest among following suffixes astul   estül   stul   stül in R1 and delete
  */
 const stemSuffixes4 = function( word, r1Text, suffixes4 ) {
-	const suffix4 = findMatchingEndingInArray( r1Text, suffixes4 );
+	const suffix4 = findMatchingEndingInArray( word, suffixes4 );
 	if ( suffix4 !== "" ) {
 		return ( word.slice( 0, -suffix4.length ) );
 	}
@@ -136,11 +147,11 @@ const stemSuffixes4 = function( word, r1Text, suffixes4 ) {
 /* Searh for one of the suffixes ástul éstül, and replace ástul with a and éstül with e
  */
 const stemSuffixes5 = function( word, r1Text, suffixes5 ) {
-	const suffix5a = findMatchingEndingInArray( r1Text, suffixes5.suffixes5a );
+	const suffix5a = findMatchingEndingInArray( word, suffixes5.suffixes5a );
 	if ( suffix5a !== "" ) {
 		return ( word.slice( 0, -suffix5a.length ) + "a" );
 	}
-	const suffix5b = findMatchingEndingInArray( r1Text, suffixes5.suffixes5b );
+	const suffix5b = findMatchingEndingInArray( word, suffixes5.suffixes5b );
 	if ( suffix5b !== "" ) {
 		return ( word.slice( 0, -suffix5b.length ) + "a" );
 	}
@@ -150,7 +161,7 @@ const stemSuffixes5 = function( word, r1Text, suffixes5 ) {
 // Search for one of the suffixes Search for one of the following suffixes: á   é and delete. If preceded by double
 // Consonant, remove one of the double consonants.
 const stemSuffixes6 = function( word, r1Text, suffixes6 ) {
-	const suffix6 = findMatchingEndingInArray( r1Text, suffixes6 );
+	const suffix6 = findMatchingEndingInArray( word, suffixes6 );
 	if ( suffix6 !== "" ) {
 		let wordAfterStemming = word.slice( 0, -1 );
 		const checkIfWordEndsOnAccentedEorE = ( wordAfterStemming.endsWith( "á" ) || wordAfterStemming.endsWith( "é" ) );
@@ -165,7 +176,7 @@ const stemSuffixes6 = function( word, r1Text, suffixes6 ) {
 
 // Search for one of the suffixes in R1 and delete oké   öké   aké   eké   ké   éi   é
 const stemSuffixes7 = function( word, r1Text, suffixes7 ) {
-	const suffix7 = findMatchingEndingInArray( r1Text, suffixes7 );
+	const suffix7 = findMatchingEndingInArray( word, suffixes7 );
 	if ( suffix7 !== "" ) {
 		return ( word.slice( 0, -suffix7.length ) );
 	}
@@ -174,11 +185,11 @@ const stemSuffixes7 = function( word, r1Text, suffixes7 ) {
 
 // Search for one of the suffixes if R1 : áké   áéi and replace with a, or éké   ééi   éé and replace with e
 const stemSuffixes8 = function( word, r1Text, suffixes8 ) {
-	const suffix8a = findMatchingEndingInArray( r1Text, suffixes8.suffix8a );
+	const suffix8a = findMatchingEndingInArray( word, suffixes8.suffix8a );
 	if ( suffix8a !== "" ) {
 		return ( word.slice( 0, -suffix8a.length ) + "a" );
 	}
-	const suffix8b = findMatchingEndingInArray( r1Text, suffixes8.suffix8b );
+	const suffix8b = findMatchingEndingInArray( word, suffixes8.suffix8b );
 	if ( suffix8b !== "" ) {
 		return ( word.slice( 0, -suffix8b.length ) + "e" );
 	}
@@ -188,7 +199,7 @@ const stemSuffixes8 = function( word, r1Text, suffixes8 ) {
 // Search for the longest one of the suffixes in R1 and delete: ünk   unk   nk   juk   jük   uk   ük   em   om   am   m   od   ed
 // Ad   öd   d   ja   je   a   e o
 const stemSuffixes9 = function( word, r1Text, suffixes9 ) {
-	const suffix9 = findMatchingEndingInArray( r1Text, suffixes9 );
+	const suffix9 = findMatchingEndingInArray( word, suffixes9 );
 	if ( suffix9 !== "" ) {
 		return ( word.slice( 0, -suffix9.length ) );
 	}
@@ -198,11 +209,11 @@ const stemSuffixes9 = function( word, r1Text, suffixes9 ) {
 // Search for the longest one of these suffixes in R1 ánk ájuk ám ád á and replace  with a
 // Search the longest one of the suffixes in R1 énk éjük ém éd é and replace with e
 const stemSuffixes10 = function( word, r1Text, suffixes10 ) {
-	const suffix10a = findMatchingEndingInArray( r1Text, suffixes10.suffix8a );
+	const suffix10a = findMatchingEndingInArray( word, suffixes10.suffix8a );
 	if ( suffix10a !== "" ) {
 		return ( word.slice( 0, -suffix10a.length ) + "a" );
 	}
-	const suffix10b = findMatchingEndingInArray( r1Text, suffixes10.suffix8b );
+	const suffix10b = findMatchingEndingInArray( word, suffixes10.suffix8b );
 	if ( suffix10b !== "" ) {
 		return ( word.slice( 0, -suffix10b.length ) + "e" );
 	}
@@ -213,7 +224,7 @@ const stemSuffixes10 = function( word, r1Text, suffixes10 ) {
 // Id   jai   jei   ai   ei   i   jaink   jeink   eink   aink   ink   jaitok   jeitek   aitok   eitek   itek   jeik
 // Jaik   aik   eik   ik
 const stemSuffixes11 = function( word, r1Text, suffixes11 ) {
-	const suffix11 = findMatchingEndingInArray( r1Text, suffixes11 );
+	const suffix11 = findMatchingEndingInArray( word, suffixes11 );
 	if ( suffix11 !== "" ) {
 		return ( word.slice( 0, -suffix11.length ) );
 	}
@@ -223,11 +234,11 @@ const stemSuffixes11 = function( word, r1Text, suffixes11 ) {
 // Search for the longest one of these suffixes in R1 áim   áid   ái   áink   áitok   áik and replace with a
 // Search for the longest one of the suffixes in R1 éim   éid     éi   éink   éitek   éik and replace with e
 const stemSuffixes12 = function( word, r1Text, suffixes12 ) {
-	const suffix12a = findMatchingEndingInArray( r1Text, suffixes12.suffix12a );
+	const suffix12a = findMatchingEndingInArray( word, suffixes12.suffix12a );
 	if ( suffix12a !== "" ) {
 		return ( word.slice( 0, -suffix12a.length ) + "a" );
 	}
-	const suffix12b = findMatchingEndingInArray( r1Text, suffixes12.suffix12b );
+	const suffix12b = findMatchingEndingInArray( word, suffixes12.suffix12b );
 	if ( suffix12b !== "" ) {
 		return ( word.slice( 0, -suffix12b.length ) + "e" );
 	}
@@ -250,7 +261,7 @@ const stemSuffixes13 = function( word, r1Position, suffixes13 ) {
 
 // Search for the longest of these suffixes ök ok ek ak k in R1 and delte
 const stemSuffixes14 = function( word, r1Text, suffixes14 ) {
-	const suffix14 = findMatchingEndingInArray( r1Text, suffixes14 );
+	const suffix14 = findMatchingEndingInArray( word, suffixes14 );
 	if ( suffix14 !== "" ) {
 		return ( word.slice( 0, -suffix14.length ) );
 	}
@@ -261,7 +272,7 @@ const stemSuffixes14 = function( word, r1Text, suffixes14 ) {
  * Stems Hungarian words.
  *
  * @param {string} word            The word to stem.
- * @param {Object} morphologyData  The Spanish morphology data.
+ * @param {Object} morphologyData  The Hungarian morphology data.
  *
  * @returns {string} The stemmed word.
  */
@@ -281,6 +292,7 @@ export default function stem( word, morphologyData ) {
 	const wordAfterSuffixes11 = stemSuffixes11( wordAfterSuffixes10, r1Text, morphologyData.externalStemmer.suffixes11 );
 	const wordAfterSuffixes12 = stemSuffixes12( wordAfterSuffixes11, r1Text, morphologyData.externalStemmer.suffixes12 );
 	const wordAfterSuffixes13 = stemSuffixes13( wordAfterSuffixes12, r1Text, morphologyData.externalStemmer.suffixes13 );
+
 	return ( stemSuffixes14( wordAfterSuffixes13, r1Text, morphologyData.externalStemmer.suffixes14 ) );
 }
 
