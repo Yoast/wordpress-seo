@@ -4,7 +4,7 @@ Donate link: https://yoa.st/1up
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
-Tested up to: 5.5.1
+Tested up to: 5.5.3
 Stable tag: 15.3
 Requires PHP: 5.6.20
 
@@ -244,7 +244,7 @@ Bugfixes:
 Enhancements: 
 
 * Adds the Yoast SEO sidebar in the Elementor editor.
-* Makes it possible to recognize forms of keyphrases in Arabic when they are preceded by certain multi-letter prefixes, e.g. والقبعة, فسحرية, or وبالمفتاح. 
+* Makes it possible to recognize forms of keyphrases in Arabic when they are preceded by certain multi-letter prefixes, e.g. والقبعة ,فسحرية, or وبالمفتاح. 
 
 Other:
 
