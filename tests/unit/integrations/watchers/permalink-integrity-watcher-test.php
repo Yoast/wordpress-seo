@@ -184,7 +184,7 @@ class Permalink_Integrity_Watcher_Test extends TestCase {
 	public function test_compare_permalink_for_page_not_executing_time() {
 
 		$presentation = (object) array(
-			'model' => (object) array(
+			'model' 	=> (object) array(
 				'object_type' => 'post',
 				'object_sub_type' => 'post',
 			)
@@ -215,6 +215,331 @@ class Permalink_Integrity_Watcher_Test extends TestCase {
 			->expects( 'set' )
 			->with( 'dynamic_permalink_samples', $value )
 			->never();
+
+		$this->assertEquals( $this->instance->compare_permalink_for_page( $presentation ), null );
+	}
+
+	/**
+	 * Tests if the permalinks are not compared when dynamic_permalinks returns true.
+	 *
+	 * @covers ::compare_permalink_for_page
+	 */
+	public function test_compare_permalink_for_page_not_executing_permalink_matches() {
+
+		$presentation = (object) array(
+			'model' 	=> (object) array(
+				'object_type' => 'post',
+				'object_sub_type' => 'post',
+				'permalink' => 'http://basic.wordpress.test/2020/11/testpage/'
+			)
+		);
+
+		$this->options_helper
+			->expects( 'get' )
+			->with( 'dynamic_permalinks' )
+			->once()
+			->andReturnFalse();
+
+		//more than a week ago
+		$result = array(
+			"post-post" 		=> \time() - ( 60 * 60 * 24 * 7 ) - 1,
+		);
+
+		$this->options_helper
+			->expects( 'get' )
+			->with( 'dynamic_permalink_samples' )
+			->once()
+			->andReturn( $result );
+
+		$post_types_array = array(
+			"post",
+			"page",
+			"attachment"
+		);
+
+		$taxonomy_types_array = array(
+			"category",
+			"post_tag",
+			"post_format",
+		);
+
+		$this->post_type_helper->expects( 'get_public_post_types' )
+			->once()
+			->andReturn( $post_types_array );
+
+		$this->taxonomy_helper->expects( 'get_public_taxonomies' )
+			->once()
+			->andReturn( $taxonomy_types_array );
+
+		$value = array(
+			"post-post" => \time(),
+		);
+
+		$this->options_helper
+			->expects( 'set' )
+			->with( 'dynamic_permalink_samples', $value )
+			->once();
+
+		$this->permalink_helper->expects('get_permalink_for_indexable' )
+			->with( $presentation->model )
+			->andReturn( 'http://basic.wordpress.test/2020/11/testpage/' );
+
+		$this->assertEquals( $this->instance->compare_permalink_for_page( $presentation ), null );
+	}
+
+	/**
+	 * Tests if the permalinks are not compared when dynamic_permalinks returns true.
+	 *
+	 * @covers ::compare_permalink_for_page
+	 */
+	public function test_compare_permalink_for_page_executing_permalinks() {
+
+		$presentation = (object) array(
+			'model' 	=> (object) array(
+				'object_type' => 'post',
+				'object_sub_type' => 'post',
+				'permalink' => 'http://basic.wordpress.test/2020/11/testpage/'
+			)
+		);
+
+		$this->options_helper
+			->expects( 'get' )
+			->with( 'dynamic_permalinks' )
+			->once()
+			->andReturnFalse();
+
+		//more than a week ago
+		$result = array(
+			"post-post" 		=> \time() - ( 60 * 60 * 24 * 7 ) - 1,
+		);
+
+		$this->options_helper
+			->expects( 'get' )
+			->with( 'dynamic_permalink_samples' )
+			->once()
+			->andReturn( $result );
+
+		$post_types_array = array(
+			"post",
+			"page",
+			"attachment"
+		);
+
+		$taxonomy_types_array = array(
+			"category",
+			"post_tag",
+			"post_format",
+		);
+
+		$this->post_type_helper->expects( 'get_public_post_types' )
+			->once()
+			->andReturn( $post_types_array );
+
+		$this->taxonomy_helper->expects( 'get_public_taxonomies' )
+			->once()
+			->andReturn( $taxonomy_types_array );
+
+		$value = array(
+			"post-post" => \time(),
+		);
+
+		$this->options_helper
+			->expects( 'set' )
+			->with( 'dynamic_permalink_samples', $value )
+			->once();
+
+		$this->permalink_helper->expects('get_permalink_for_indexable' )
+			->with( $presentation->model )
+			->andReturn( 'http://basic.wordpress.test/2020/11/error/' );
+
+		$this->indexable_permalink_watcher->expects( 'should_reset_permalinks' )
+			->once()
+			->andReturnFalse();
+
+		$this->indexable_permalink_watcher->expects( 'should_reset_categories' )
+			->once()
+			->andReturnTrue();
+
+		$this->indexable_permalink_watcher->expects( 'should_reset_tags' )
+			->never();
+
+		$this->indexable_permalink_watcher->expects( 'force_reset_permalinks' )
+			->once();
+
+		$this->assertEquals( $this->instance->compare_permalink_for_page( $presentation ), null );
+	}
+
+	/**
+	 * Tests if the permalinks are not compared when dynamic_permalinks returns true.
+	 *
+	 * @covers ::compare_permalink_for_page
+	 */
+	public function test_compare_permalink_for_page_executing_homeurl() {
+
+		$presentation = (object) array(
+			'model' 	=> (object) array(
+				'object_type' => 'post',
+				'object_sub_type' => 'post',
+				'permalink' => 'http://basic.wordpress.test/2020/11/testpage/'
+			)
+		);
+
+		$this->options_helper
+			->expects( 'get' )
+			->with( 'dynamic_permalinks' )
+			->once()
+			->andReturnFalse();
+
+		//more than a week ago
+		$result = array(
+			"post-post" 		=> \time() - ( 60 * 60 * 24 * 7 ) - 1,
+		);
+
+		$this->options_helper
+			->expects( 'get' )
+			->with( 'dynamic_permalink_samples' )
+			->once()
+			->andReturn( $result );
+
+		$post_types_array = array(
+			"post",
+			"page",
+			"attachment"
+		);
+
+		$taxonomy_types_array = array(
+			"category",
+			"post_tag",
+			"post_format",
+		);
+
+		$this->post_type_helper->expects( 'get_public_post_types' )
+			->once()
+			->andReturn( $post_types_array );
+
+		$this->taxonomy_helper->expects( 'get_public_taxonomies' )
+			->once()
+			->andReturn( $taxonomy_types_array );
+
+		$value = array(
+			"post-post" => \time(),
+		);
+
+		$this->options_helper
+			->expects( 'set' )
+			->with( 'dynamic_permalink_samples', $value )
+			->once();
+
+		$this->permalink_helper->expects('get_permalink_for_indexable' )
+			->with( $presentation->model )
+			->andReturn( 'http://basic.wordpress.test/2020/11/error/' );
+
+		$this->indexable_permalink_watcher->expects( 'should_reset_permalinks' )
+			->once()
+			->andReturnFalse();
+
+		$this->indexable_permalink_watcher->expects( 'should_reset_categories' )
+			->once()
+			->andReturnFalse();
+
+		$this->indexable_permalink_watcher->expects( 'should_reset_tags' )
+			->once()
+			->andReturnFalse();
+
+		$this->indexable_homeurl_watcher->expects( 'should_reset_permalinks' )
+			->once()
+			->andReturnTrue();
+
+		$this->indexable_homeurl_watcher->expects( 'force_reset_permalinks' )
+			->once();
+
+		$this->assertEquals( $this->instance->compare_permalink_for_page( $presentation ), null );
+	}
+
+	/**
+	 * Tests if the permalinks are not compared when dynamic_permalinks returns true.
+	 *
+	 * @covers ::compare_permalink_for_page
+	 */
+	public function test_compare_permalink_for_page_executing_permalink_mode_enable() {
+
+		$presentation = (object) array(
+			'model' 	=> (object) array(
+				'object_type' => 'post',
+				'object_sub_type' => 'post',
+				'permalink' => 'http://basic.wordpress.test/2020/11/testpage/'
+			)
+		);
+
+		$this->options_helper
+			->expects( 'get' )
+			->with( 'dynamic_permalinks' )
+			->once()
+			->andReturnFalse();
+
+		//more than a week ago
+		$result = array(
+			"post-post" 		=> \time() - ( 60 * 60 * 24 * 7 ) - 1,
+		);
+
+		$this->options_helper
+			->expects( 'get' )
+			->with( 'dynamic_permalink_samples' )
+			->once()
+			->andReturn( $result );
+
+		$post_types_array = array(
+			"post",
+			"page",
+			"attachment"
+		);
+
+		$taxonomy_types_array = array(
+			"category",
+			"post_tag",
+			"post_format",
+		);
+
+		$this->post_type_helper->expects( 'get_public_post_types' )
+			->once()
+			->andReturn( $post_types_array );
+
+		$this->taxonomy_helper->expects( 'get_public_taxonomies' )
+			->once()
+			->andReturn( $taxonomy_types_array );
+
+		$value = array(
+			"post-post" => \time(),
+		);
+
+		$this->options_helper
+			->expects( 'set' )
+			->with( 'dynamic_permalink_samples', $value )
+			->once();
+
+		$this->permalink_helper->expects('get_permalink_for_indexable' )
+			->with( $presentation->model )
+			->andReturn( 'http://basic.wordpress.test/2020/11/error/' );
+
+		$this->indexable_permalink_watcher->expects( 'should_reset_permalinks' )
+			->once()
+			->andReturnFalse();
+
+		$this->indexable_permalink_watcher->expects( 'should_reset_categories' )
+			->once()
+			->andReturnFalse();
+
+		$this->indexable_permalink_watcher->expects( 'should_reset_tags' )
+			->once()
+			->andReturnFalse();
+
+		$this->indexable_homeurl_watcher->expects( 'should_reset_permalinks' )
+			->once()
+			->andReturnFalse();
+
+		$this->options_helper->expects( 'set' )
+			->with( 'dynamic_permalinks', true )
+			->once();
 
 		$this->assertEquals( $this->instance->compare_permalink_for_page( $presentation ), null );
 	}
