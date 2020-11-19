@@ -37,7 +37,12 @@ class WPML_WPSEO_Notification implements Integration_Interface {
 	 */
 	protected $wpml_wpseo_conditional;
 
-	const NOTIFICATION_ID = 'wpseoml-not-installed';
+	/**
+	 * The notification ID.
+	 *
+	 * @internal
+	 */
+	const NOTIFICATION_ID = 'wpml-wpseo-not-installed';
 
 	/**
 	 * WPML WPSEO notification constructor.
