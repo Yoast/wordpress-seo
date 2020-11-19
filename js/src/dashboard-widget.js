@@ -64,7 +64,7 @@ class DashboardWidget extends Component {
 	 * @returns {string} The color to use for this score. Defaults to grey if no such color exists.
 	 */
 	static getColorFromScore( score ) {
-		return colors[ `$color_${ score }` ] || colors.$color_grey;
+		return colors[ `$color_${score}` ] || colors.$color_grey;
 	}
 
 	/**
@@ -80,14 +80,16 @@ class DashboardWidget extends Component {
 				return;
 			}
 
-			statistics.seoScores = response.seo_scores.map( ( score ) => ( {
-				value: parseInt( score.count, 10 ),
-				color: DashboardWidget.getColorFromScore( score.seo_rank ),
-				html: `<a href="${ score.link }">${ score.label }</a>`,
-			} ) );
+			statistics.seoScores = response.seo_scores.map( ( score ) => (
+				{
+					value: parseInt( score.count, 10 ),
+					color: DashboardWidget.getColorFromScore( score.seo_rank ),
+					html: `<a href="${score.link}">${score.label}</a>`,
+				}
+			) );
 
 			// Wrap in a div and get the text to HTML decode.
-			statistics.header = jQuery( `<div>${ response.header }</div>` ).text();
+			statistics.header = jQuery( `<div>${response.header}</div>` ).text();
 
 			this.setState( { statistics } );
 		} );
@@ -103,12 +105,12 @@ class DashboardWidget extends Component {
 		getPostFeed(
 			"https://yoast.com/feed/widget/?wp_version=" + wpseoDashboardWidgetL10n.wp_version +
 			"&php_version=" + wpseoDashboardWidgetL10n.php_version,
-			2
+			2,
 		)
 			.then( ( feed ) => {
 				feed.items = feed.items.map( ( item ) => {
-					item.description = jQuery( `<div>${ item.description }</div>` ).text();
-					item.description = item.description.replace( `The post ${ item.title } appeared first on Yoast.`, "" ).trim();
+					item.description = jQuery( `<div>${item.description}</div>` ).text();
+					item.description = item.description.replace( `The post ${item.title} appeared first on Yoast.`, "" ).trim();
 
 					return item;
 				} );
@@ -131,8 +133,8 @@ class DashboardWidget extends Component {
 
 		return <SeoAssessment
 			key="yoast-seo-posts-assessment"
-			seoAssessmentText={ this.state.statistics.header }
-			seoAssessmentItems={ this.state.statistics.seoScores }
+			seoAssessmentText={this.state.statistics.header}
+			seoAssessmentItems={this.state.statistics.seoScores}
 		/>;
 	}
 
@@ -149,9 +151,9 @@ class DashboardWidget extends Component {
 		return <WordpressFeed
 			className="wordpress-feed"
 			key="yoast-seo-blog-feed"
-			title={ wpseoDashboardWidgetL10n.feed_header }
-			feed={ this.state.feed }
-			footerLinkText={ wpseoDashboardWidgetL10n.feed_footer }
+			title={wpseoDashboardWidgetL10n.feed_header}
+			feed={this.state.feed}
+			footerLinkText={wpseoDashboardWidgetL10n.feed_footer}
 		/>;
 	}
 
@@ -170,7 +172,7 @@ class DashboardWidget extends Component {
 			return null;
 		}
 
-		return <div>{ contents }</div>;
+		return <div>{contents}</div>;
 	}
 }
 
@@ -179,5 +181,5 @@ const element = document.getElementById( "yoast-seo-dashboard-widget" );
 if ( element ) {
 	setYoastComponentsL10n();
 
-	render( <DashboardWidget />, element );
+	render( <DashboardWidget/>, element );
 }
