@@ -10,6 +10,11 @@ use Yoast\WP\SEO\Conditionals\Conditional;
  */
 class WPML_WPSEO_Conditional implements Conditional {
 
+	/**
+	 * Path to the Yoast SEO Multilingual plugin file.
+	 *
+	 * @internal
+	 */
 	const PATH_TO_WPML_WPSEO_PLUGIN_FILE = 'wp-seo-multilingual/plugin.php';
 
 	/**
