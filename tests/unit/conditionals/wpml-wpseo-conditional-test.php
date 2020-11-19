@@ -21,7 +21,7 @@ class WPML_WPSEO_Conditional_Test extends TestCase {
 	 *
 	 * @var WPML_WPSEO_Conditional
 	 */
-	private $instance;
+	protected $instance;
 
 	/**
 	 * Does the setup for testing.
