@@ -1,7 +1,7 @@
 /**
  * Returns a list of the participles used for the Hungarian passive voice assessment.
  * This list only includes participles ending in -re and -ra.
- * @returns {Array}                            The list with participles.
+ * @returns {Array}                The list with participles.
  */
 export default function() {
 	return [

@@ -3,6 +3,8 @@ import regexFunctionFactory from "./regex.js";
 const regexFunction = regexFunctionFactory();
 const verbsEndingWithVe = regexFunction.verbsEndingWithVe
 const verbsEndingWithVa = regexFunction.verbsEndingWithVa
+const verbsEndingWithNi = regexFunction.verbsEndingWithNi
+
 import HungarianParticiple from "./HungarianParticiple.js";
 
 import { forEach } from "lodash-es";
@@ -32,6 +34,12 @@ export default function( sentencePartText, auxiliaries, language ) {
 		if ( verbsEndingWithVa( word ).length !== 0 ) {
 			foundParticiples.push(
 				new HungarianParticiple( word, sentencePartText, { auxiliaries: auxiliaries, type: "va at the end", language: language } )
+			);
+			return;
+		}
+		if ( verbsEndingWithNi( word ).length !== 0 ) {
+			foundParticiples.push(
+				new HungarianParticiple( word, sentencePartText, { auxiliaries: auxiliaries, type: "ni at the end", language: language } )
 			);
 			return;
 		}

@@ -1,6 +1,8 @@
 var verbsBeginningWithGeRegex = /^((ge)\S+t($|[ \n\r\t.,'()"+\-;!?:/»«‹›<>]))/ig;
 const verbsEndingWithVeRegex = /\S+ve($|[ \n\r\t.,'()"+\-;!?:/»«‹›<>„”])/ig;
 const verbsEndingWithVaRegex = /\S+va($|[ \n\r\t.,'()"+\-;!?:/»«‹›<>„”])/ig;
+const verbsEndingWithNiRegex = /\S+ni($|[ \n\r\t.,'()"+\-;!?:/»«‹›<>„”])/ig;
+
 var verbsBeginningWithErVerEntBeZerHerUberRegex = /^(((be|ent|er|her|ver|zer|über|ueber)\S+([^s]t|sst))($|[ \n\r\t.,'()"+\-;!?:/»«‹›<>]))/ig;
 var verbsWithGeInMiddleRegex = /(ab|an|auf|aus|vor|wieder|zurück)(ge)\S+t($|[ \n\r\t.,'()"+\-;!?:/»«‹›<>])/ig;
 var verbsWithErVerEntBeZerHerUberInMiddleRegex =
@@ -29,6 +31,16 @@ const verbsEndingWithVa = function( word ) {
 };
 
 /**
+ * Checks if the word ends in 'ni'.
+ *
+ * @param {string} word     The word to match.
+ * @returns {Array}         A list with matches.
+ */
+const verbsEndingWithNi = function( word ) {
+	return word.match( verbsEndingWithNiRegex ) || [];
+};
+
+/**
  * Returns lists of verbs that are relevant for determining passive voice in Hungarian.
  *
  * @returns {Object}               Hungarian lists of words relevant for passive voice.
@@ -37,5 +49,6 @@ export default function() {
 	return {
 		verbsEndingWithVe: verbsEndingWithVe,
 		verbsEndingWithVa: verbsEndingWithVa,
+		verbsEndingWithNi: verbsEndingWithNi,
 	};
 }
