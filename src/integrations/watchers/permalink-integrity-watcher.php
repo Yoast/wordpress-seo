@@ -91,7 +91,7 @@ class Permalink_Integrity_Watcher implements Integration_Interface {
 	 * @return void
 	 */
 	public function register_hooks() {
-		\add_action( 'wpseo_frontend_presentation', [ $this, 'compare_permalink_for_page' ], 10, 1 );
+		\add_filter( 'wpseo_frontend_presentation', [ $this, 'compare_permalink_for_page' ], 10, 1 );
 	}
 
 	/**
@@ -105,6 +105,9 @@ class Permalink_Integrity_Watcher implements Integration_Interface {
 	 * @return boolean Whether the permalink integrity check should be performed.
 	 */
 	public function should_perform_check( $type, $permalink_samples ) {
+		if ( ! array_key_exists( $type, $permalink_samples ) ) {
+			return false;
+		}
 		return $permalink_samples[ $type ] < ( \time() - ( 60 * 60 * 24 * 7 ) );
 	}
 
@@ -114,20 +117,24 @@ class Permalink_Integrity_Watcher implements Integration_Interface {
 	 *
 	 * @param Indexable_Presentation $presentation The indexables presentation.
 	 *
-	 * @return void
+	 * @return Indexable_Presentation The untouched presentation of the indexable.
 	 */
 	public function compare_permalink_for_page( $presentation ) {
 		if ( $this->options_helper->get( 'dynamic_permalinks' ) ) {
-			return;
+			return $presentation;
 		}
 
 		$indexable         = $presentation->model;
 		$permalink_samples = $this->options_helper->get( 'dynamic_permalink_samples' );
 		$type              = $indexable->object_type . '-' . $indexable->object_sub_type;
 
+		if ( empty( $permalink_samples ) ) {
+			return $presentation;
+		}
+
 		if ( ! $this->should_perform_check( $type, $permalink_samples ) ) {
 			// Not more than a week ago, do not perform check.
-			return;
+			return $presentation;
 		}
 
 		$permalink_samples = $this->maybe_get_new_permalink_samples( $permalink_samples );
@@ -135,7 +142,7 @@ class Permalink_Integrity_Watcher implements Integration_Interface {
 
 		// if permalink of current page is the same as the indexable permalink, do nothing.
 		if ( $indexable->permalink === $this->permalink_helper->get_permalink_for_indexable( $indexable ) ) {
-			return;
+			return $presentation;
 		}
 
 		if ( $this->indexable_permalink_watcher->should_reset_permalinks() ||
@@ -143,16 +150,17 @@ class Permalink_Integrity_Watcher implements Integration_Interface {
 			$this->indexable_permalink_watcher->should_reset_tags()
 		) {
 			$this->indexable_permalink_watcher->force_reset_permalinks();
-			return;
+			return $presentation;
 		}
 
 		if ( $this->indexable_homeurl_watcher->should_reset_permalinks() ) {
 			$this->indexable_homeurl_watcher->force_reset_permalinks();
-			return;
+			return $presentation;
 		}
 
 		// If no reason is found for the difference in permalinks, the dynamic permalink mode is enabled.
 		$this->options_helper->set( 'dynamic_permalinks', true );
+		return $presentation;
 	}
 
 	/**

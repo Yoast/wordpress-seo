@@ -215,7 +215,7 @@ class Permalink_Integrity_Watcher_Test extends TestCase {
 			->with( 'dynamic_permalink_samples', $value )
 			->never();
 
-		$this->assertEquals( $this->instance->compare_permalink_for_page( $presentation ), null );
+		$this->assertEquals( $this->instance->compare_permalink_for_page( $presentation ), $presentation );
 	}
 
 	/**
@@ -283,7 +283,7 @@ class Permalink_Integrity_Watcher_Test extends TestCase {
 			->with( $presentation->model )
 			->andReturn( 'http://basic.wordpress.test/2020/11/testpage/' );
 
-		$this->assertEquals( $this->instance->compare_permalink_for_page( $presentation ), null );
+		$this->assertEquals( $this->instance->compare_permalink_for_page( $presentation ), $presentation );
 	}
 
 	/**
@@ -365,7 +365,7 @@ class Permalink_Integrity_Watcher_Test extends TestCase {
 		$this->indexable_permalink_watcher->expects( 'force_reset_permalinks' )
 			->once();
 
-		$this->assertEquals( $this->instance->compare_permalink_for_page( $presentation ), null );
+		$this->assertEquals( $this->instance->compare_permalink_for_page( $presentation ), $presentation );
 	}
 
 	/**
@@ -452,7 +452,7 @@ class Permalink_Integrity_Watcher_Test extends TestCase {
 		$this->indexable_homeurl_watcher->expects( 'force_reset_permalinks' )
 			->once();
 
-		$this->assertEquals( $this->instance->compare_permalink_for_page( $presentation ), null );
+		$this->assertEquals( $this->instance->compare_permalink_for_page( $presentation ), $presentation );
 	}
 
 	/**
@@ -540,6 +540,6 @@ class Permalink_Integrity_Watcher_Test extends TestCase {
 			->with( 'dynamic_permalinks', true )
 			->once();
 
-		$this->assertEquals( $this->instance->compare_permalink_for_page( $presentation ), null );
+		$this->assertEquals( $this->instance->compare_permalink_for_page( $presentation ), $presentation );
 	}
 }
