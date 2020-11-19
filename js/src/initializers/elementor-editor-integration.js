@@ -1,6 +1,7 @@
 /* global jQuery, window */
 import domReady from "@wordpress/dom-ready";
 import { dispatch } from "@wordpress/data";
+import { registerElementorDataHook } from "../helpers/elementorHook";
 import { registerReactComponent, renderReactRoot } from "../helpers/reactRoot";
 import ElementorSlot from "../elementor/components/slots/ElementorSlot";
 import ElementorFill from "../elementor/containers/ElementorFill";
@@ -104,7 +105,7 @@ export default function initElementEditorIntegration() {
 
 		// Hook into the save.
 		const handleSave = sendFormData.bind( null, document.getElementById( "yoast-form" ) );
-		window.elementor.saver.on( "after:save", handleSave );
+		registerElementorDataHook( "document/save/save", "yoast-seo-save", handleSave );
 
 		// Register with the menu.
 		const menu = window.elementor.modules.layouts.panel.pages.menu.Menu;
