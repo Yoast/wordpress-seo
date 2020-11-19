@@ -100,7 +100,7 @@ class WPML_WPSEO_Notification implements Integration_Interface {
 	protected function notification() {
 		return new Yoast_Notification(
 			\sprintf(
-			/* translators: %1$s expands to an opening anchor tag, %2$s expands to an closing anchor tag. */
+				/* translators: %1$s expands to an opening anchor tag, %2$s expands to an closing anchor tag. */
 				__( 'We notice that you have installed WPML. To make sure your canonical URLs are set correctly, %1$sinstall and activate the Yoast SEO Multilingual add-on%2$s as well!', 'wordpress-seo' ),
 				'<a href="' . \esc_url( $this->short_link_helper->get( 'https://yoa.st/wpml-yoast-seo' ) ) . '" target="_blank">',
 				'</a>'
