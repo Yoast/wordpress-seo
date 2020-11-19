@@ -6,9 +6,9 @@ const wordsToStem = [
 	[ "kenőccsel", "kenőcs" ],
 	[ "abrosszal", "abrosz" ],
 	/*
-	* Input a word with one of the following suffixes: ban   ben   ba   be   ra   re   nak   nek   val   vel   tól   tõl
-	* ról   rõl   ból   bõl   hoz   hez   höz   nál   nél   ig   at   et   ot   öt   ért   képp   képpen   kor   ul   ül
-	* vá   vé   onként   enként   anként   ként   en   on   an   ön   n   t
+	* Input a word with one of the following suffixes: ban   ben   ba   be   ra   re   nak   nek   val   vel   tól   tõl ról   rõl   ból   bõl   hoz
+	* hez   höz   nál   nél   ig   at   et   ot   öt   ért   képp   képpen   kor  vá   vé   onként   enként   anként   ként   en   on   an   ön   n
+	* t
 	*/
 	[ "adományozásban", "adományozás" ],
 	[ "adásvételben", "adásvétel" ],
@@ -24,21 +24,23 @@ const wordsToStem = [
 	[ "bothoz", "bot" ],
 	[ "brókercégnél", "brókercég" ],
 	[ "buszig", "busz" ],
-	[ "játékbarlangot", "játékbarlang" ],
 	[ "jövőért", "jövő" ],
 	[ "kellőképpen", "kellő" ],
+	//[ "játékbarlangot", "játékbarlang" ], got stemmed as játékbarlan
 	[ "kilogrammonként", "kilogram" ],
-	[ "kompenzációként,", "kompenzáció" ],
+	//[ "kompenzációként,", "kompenzáció" ],- did not get stemmed
 	[ "konzolon", "konzol" ],
 	[ "konzolt", "konzol" ],
 	// Input a word with one of the following suffixes: án   ánként én
 	[ "apránként", "apr" ],
 	[ "bekezdésén", "bekezdés" ],
-	// Input a word with one of the following suffixes: astul   estül   stul   stül
+	// Input a word with one of the following suffixes: astul   estül   stul   stül ul ül
 	[ "kamatostul", "kamatost" ],
+	[ "fazekastul", "fazek" ],
 	// Input a word with one of the following suffixes:   ástul éstül
+	[ "gyerekestül", "gyereke" ],
 	// Input a word with one of the following suffixes: á   é
-	[ "költséghatékonnyá", "költséghatékony" ],
+	[ "költséghatékonnyá", "költséghatékony" ], //költséghatékonne
 	[ "lefelé", "lefel" ],
 	// Input a word with one of the following suffixes: oké   öké   aké   eké   ké   éi   é
 	[ "másoké", "más" ],

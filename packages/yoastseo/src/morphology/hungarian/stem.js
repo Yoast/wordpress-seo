@@ -143,7 +143,6 @@ const stemSuffixes4 = function( word, r1Text, suffixes4 ) {
 	return word;
 };
 
-
 /* Searh for one of the suffixes ástul éstül, and replace ástul with a and éstül with e
  */
 const stemSuffixes5 = function( word, r1Text, suffixes5 ) {
@@ -153,7 +152,7 @@ const stemSuffixes5 = function( word, r1Text, suffixes5 ) {
 	}
 	const suffix5b = findMatchingEndingInArray( word, suffixes5.suffixes5b );
 	if ( suffix5b !== "" ) {
-		return ( word.slice( 0, -suffix5b.length ) + "a" );
+		return ( word.slice( 0, -suffix5b.length ) + "e" );
 	}
 	return word;
 };
