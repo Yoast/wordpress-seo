@@ -97,7 +97,8 @@ class Permalink_Integrity_Watcher implements Integration_Interface {
 	/**
 	 * Checks if the permalink integrity check should be performed.
 	 *
-	 * Returns true if the type has not been checked in the past week, false otherwise.
+	 * Returns true if the type is a key in the samples array and it has not been checked in the past week,
+	 * false otherwise.
 	 *
 	 * @param string $type              "type-subtype" string of the indexable.
 	 * @param array  $permalink_samples The permalink samples array.
@@ -112,8 +113,12 @@ class Permalink_Integrity_Watcher implements Integration_Interface {
 	}
 
 	/**
-	 * Compares the permalink of the current page to the indexable permalink. If it is not the same, the
-	 * First checks if the type of the current page has been checked in the past week, if not performs the check.
+	 * Compares the permalink of the current page to the indexable permalink. If there is a difference and the problem
+	 * can be linked to a home url or permalink structure change, the affected permalink are reset. If no reason is
+	 * found, the dynamic permalink fallback is enabled.
+	 *
+	 * The comparison is only done when the dynamic permalink fallback is not already enabled, and the type of the
+	 * current page has not been checked in the past week.
 	 *
 	 * @param Indexable_Presentation $presentation The indexables presentation.
 	 *
@@ -124,23 +129,23 @@ class Permalink_Integrity_Watcher implements Integration_Interface {
 			return $presentation;
 		}
 
-		$indexable         = $presentation->model;
 		$permalink_samples = $this->options_helper->get( 'dynamic_permalink_samples' );
-		$type              = $indexable->object_type . '-' . $indexable->object_sub_type;
 
 		if ( empty( $permalink_samples ) ) {
-			return $presentation;
+			$permalink_samples = $this->get_dynamic_permalink_samples();
 		}
 
+		$indexable = $presentation->model;
+		$type      = $indexable->object_type . '-' . $indexable->object_sub_type;
+
 		if ( ! $this->should_perform_check( $type, $permalink_samples ) ) {
-			// Not more than a week ago, do not perform check.
 			return $presentation;
 		}
 
 		$permalink_samples = $this->maybe_get_new_permalink_samples( $permalink_samples );
 		$this->update_permalink_samples( $type, $permalink_samples );
 
-		// if permalink of current page is the same as the indexable permalink, do nothing.
+		// If permalink of current page is the same as the indexable permalink, do nothing.
 		if ( $indexable->permalink === $this->permalink_helper->get_permalink_for_indexable( $indexable ) ) {
 			return $presentation;
 		}

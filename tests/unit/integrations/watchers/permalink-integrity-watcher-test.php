@@ -84,15 +84,17 @@ class Permalink_Integrity_Watcher_Test extends TestCase {
 		$this->permalink_helper            = Mockery::mock( Permalink_Helper::class );
 		$this->post_type_helper            = Mockery::mock( Post_Type_Helper::class );
 		$this->taxonomy_helper             = Mockery::mock( Taxonomy_Helper::class );
-
-		$this->instance = new Permalink_Integrity_Watcher(
-			$this->options_helper,
-			$this->permalink_helper,
-			$this->post_type_helper,
-			$this->taxonomy_helper,
-			$this->indexable_permalink_watcher,
-			$this->indexable_homeurl_watcher
-		);
+		$this->instance = Mockery::mock(
+			Permalink_Integrity_Watcher::class,
+			[
+				$this->options_helper,
+				$this->permalink_helper,
+				$this->post_type_helper,
+				$this->taxonomy_helper,
+				$this->indexable_permalink_watcher,
+				$this->indexable_homeurl_watcher
+			]
+		)->makePartial();
 	}
 
 	/**
@@ -195,6 +197,28 @@ class Permalink_Integrity_Watcher_Test extends TestCase {
 			->with( 'dynamic_permalink_samples' )
 			->once()
 			->andReturn( [] );
+
+		$post_types_array = [
+			'post',
+		];
+
+		$this->post_type_helper->expects( 'get_public_post_types' )
+			->twice()
+			->andReturn( $post_types_array );
+
+		$taxonomy_types_array = [
+			'category',
+		];
+
+		$this->taxonomy_helper->expects( 'get_public_taxonomies' )
+			->twice()
+			->andReturn( $taxonomy_types_array );
+
+		$permalink_samples = $this->instance->get_dynamic_permalink_samples();
+
+		$this->instance->expects( 'should_perform_check' )
+			->once()
+			->andReturnFalse();
 
 		$this->assertEquals( $this->instance->compare_permalink_for_page( $presentation ), $presentation );
 	}
