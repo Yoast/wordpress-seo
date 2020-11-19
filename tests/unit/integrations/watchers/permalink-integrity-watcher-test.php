@@ -154,10 +154,6 @@ class Permalink_Integrity_Watcher_Test extends TestCase {
 			'post_format',
 		];
 
-		$this->post_type_helper->expects( 'get_public_post_types' )
-			->once()
-			->andReturn( $post_types_array );
-
 		$this->taxonomy_helper->expects( 'get_public_taxonomies' )
 			->once()
 			->andReturn( $taxonomy_types_array );
@@ -182,16 +178,12 @@ class Permalink_Integrity_Watcher_Test extends TestCase {
 	public function test_empty_dynamic_permalink_samples() {
 		$presentation = (object) [
 			'model' => (object) [
-				'object_type'     => 'post',
-				'object_sub_type' => 'post',
+				'object_type'     => 'system-page',
+				'object_sub_type' => '404',
 			],
 		];
 
-		$this->options_helper
-			->expects( 'get' )
-			->with( 'dynamic_permalinks' )
-			->once()
-			->andReturnFalse();
+		$this->dynamic_permalinks_mode_off();
 
 		$this->options_helper
 			->expects( 'get' )
@@ -199,26 +191,20 @@ class Permalink_Integrity_Watcher_Test extends TestCase {
 			->once()
 			->andReturn( [] );
 
-		$post_types_array = [
-			'post',
+		$result = [
+			'post-post'     => \time(),
+			'term-category' => \time(),
 		];
 
-		$this->post_type_helper->expects( 'get_public_post_types' )
-			->twice()
-			->andReturn( $post_types_array );
+		$this->instance->expects( 'get_dynamic_permalink_samples' )
+			->once()
+			->andReturn( $result );
 
-		$taxonomy_types_array = [
-			'category',
-		];
-
-		$this->taxonomy_helper->expects( 'get_public_taxonomies' )
-			->twice()
-			->andReturn( $taxonomy_types_array );
-
-		$permalink_samples = $this->instance->get_dynamic_permalink_samples();
-
+		// We are only testing whether get_dynamic_samples is called when the array is empty,
+		// so we just let should_perform_check return false to end the function.
 		$this->instance->expects( 'should_perform_check' )
 			->once()
+			->with( 'system-page-404', $result )
 			->andReturnFalse();
 
 		$this->assertEquals( $this->instance->compare_permalink_for_page( $presentation ), $presentation );
@@ -230,7 +216,6 @@ class Permalink_Integrity_Watcher_Test extends TestCase {
 	 * @covers ::compare_permalink_for_page
 	 */
 	public function test_compare_permalink_for_page_not_executing_dynamic_permalinks() {
-
 		$this->options_helper
 			->expects( 'get' )
 			->with( 'dynamic_permalinks' )
@@ -246,13 +231,7 @@ class Permalink_Integrity_Watcher_Test extends TestCase {
 	 * @covers ::compare_permalink_for_page
 	 */
 	public function test_compare_permalink_for_page_not_executing_time() {
-
-		$presentation = (object) [
-			'model' => (object) [
-				'object_type'     => 'post',
-				'object_sub_type' => 'post',
-			],
-		];
+		$presentation = $this->get_indexable();
 
 		$this->options_helper
 			->expects( 'get' )
@@ -289,20 +268,8 @@ class Permalink_Integrity_Watcher_Test extends TestCase {
 	 * @covers ::compare_permalink_for_page
 	 */
 	public function test_compare_permalink_for_page_not_executing_permalink_matches() {
-
-		$presentation = (object) [
-			'model' => (object) [
-				'object_type'     => 'post',
-				'object_sub_type' => 'post',
-				'permalink'       => 'http://basic.wordpress.test/2020/11/testpage/',
-			],
-		];
-
-		$this->options_helper
-			->expects( 'get' )
-			->with( 'dynamic_permalinks' )
-			->once()
-			->andReturnFalse();
+		$presentation = $this->get_indexable();
+		$this->dynamic_permalinks_mode_off();
 
 		// More than a week ago.
 		$result = [
@@ -321,15 +288,15 @@ class Permalink_Integrity_Watcher_Test extends TestCase {
 			'attachment',
 		];
 
+		$this->post_type_helper->expects( 'get_public_post_types' )
+			->once()
+			->andReturn( $post_types_array );
+
 		$taxonomy_types_array = [
 			'category',
 			'post_tag',
 			'post_format',
 		];
-
-		$this->post_type_helper->expects( 'get_public_post_types' )
-			->once()
-			->andReturn( $post_types_array );
 
 		$this->taxonomy_helper->expects( 'get_public_taxonomies' )
 			->once()
@@ -357,20 +324,8 @@ class Permalink_Integrity_Watcher_Test extends TestCase {
 	 * @covers ::compare_permalink_for_page
 	 */
 	public function test_compare_permalink_for_page_executing_permalinks() {
-
-		$presentation = (object) [
-			'model' => (object) [
-				'object_type'     => 'post',
-				'object_sub_type' => 'post',
-				'permalink'       => 'http://basic.wordpress.test/2020/11/testpage/',
-			],
-		];
-
-		$this->options_helper
-			->expects( 'get' )
-			->with( 'dynamic_permalinks' )
-			->once()
-			->andReturnFalse();
+		$presentation = $this->get_indexable();
+		$this->dynamic_permalinks_mode_off();
 
 		// More than a week ago.
 		$result = [
@@ -439,20 +394,8 @@ class Permalink_Integrity_Watcher_Test extends TestCase {
 	 * @covers ::compare_permalink_for_page
 	 */
 	public function test_compare_permalink_for_page_executing_homeurl() {
-
-		$presentation = (object) [
-			'model' => (object) [
-				'object_type'     => 'post',
-				'object_sub_type' => 'post',
-				'permalink'       => 'http://basic.wordpress.test/2020/11/testpage/',
-			],
-		];
-
-		$this->options_helper
-			->expects( 'get' )
-			->with( 'dynamic_permalinks' )
-			->once()
-			->andReturnFalse();
+		$presentation = $this->get_indexable();
+		$this->dynamic_permalinks_mode_off();
 
 		// More than a week ago.
 		$result = [
@@ -526,20 +469,8 @@ class Permalink_Integrity_Watcher_Test extends TestCase {
 	 * @covers ::compare_permalink_for_page
 	 */
 	public function test_compare_permalink_for_page_executing_permalink_mode_enable() {
-
-		$presentation = (object) [
-			'model' => (object) [
-				'object_type'     => 'post',
-				'object_sub_type' => 'post',
-				'permalink'       => 'http://basic.wordpress.test/2020/11/testpage/',
-			],
-		];
-
-		$this->options_helper
-			->expects( 'get' )
-			->with( 'dynamic_permalinks' )
-			->once()
-			->andReturnFalse();
+		$presentation = $this->get_indexable();
+		$this->dynamic_permalinks_mode_off();
 
 		// More than a week ago.
 		$result = [
@@ -606,5 +537,31 @@ class Permalink_Integrity_Watcher_Test extends TestCase {
 			->once();
 
 		$this->assertEquals( $this->instance->compare_permalink_for_page( $presentation ), $presentation );
+	}
+
+	/**
+	 * Returns the presentation of an example indexable.
+	 *
+	 * @return object
+	 */
+	private function get_indexable() {
+		return (object) [
+			'model' => (object) [
+				'object_type'     => 'post',
+				'object_sub_type' => 'post',
+				'permalink'       => 'http://basic.wordpress.test/2020/11/testpage/',
+			],
+		];
+	}
+
+	/**
+	 * Mocks dynamic_permalinks option is set to false.
+	 */
+	private function dynamic_permalinks_mode_off() {
+		$this->options_helper
+			->expects( 'get' )
+			->with( 'dynamic_permalinks' )
+			->once()
+			->andReturnFalse();
 	}
 }
