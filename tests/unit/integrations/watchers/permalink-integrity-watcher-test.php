@@ -2,7 +2,6 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Integrations\Watchers;
 
-use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Permalink_Helper;
@@ -97,7 +96,7 @@ class Permalink_Integrity_Watcher_Test extends TestCase {
 	}
 
 	/**
-	 * Tests when the permalink samples should be taken.
+	 * Tests when the permalink integrity check should be performed.
 	 *
 	 * @covers ::should_perform_check
 	 */
@@ -109,16 +108,29 @@ class Permalink_Integrity_Watcher_Test extends TestCase {
 	}
 
 	/**
-	 * Tests when the permalink samples should not be taken.
+	 * Tests whether the permalink integrity check is not performed, when the previous check was less than a week ago.
 	 *
 	 * @covers ::should_perform_check
 	 */
-	public function test_should_not_perform_check() {
+	public function test_should_not_perform_check_time() {
 		$array = [
 			'post-post' => ( \time() - ( 60 * 60 * 24 * 7 ) + 1 ),
 		];
 
 		$this->assertFalse( $this->instance->should_perform_check( 'post-post', $array ) );
+	}
+
+	/**
+	 * Tests whether the permalink integrity check is not performed, when the given array key does not exist.
+	 *
+	 * @covers ::should_perform_check
+	 */
+	public function test_should_not_perform_check_invalid_key() {
+		$array = [
+			'post-post' => ( \time() - ( 60 * 60 * 24 * 7 ) - 1 ),
+		];
+
+		$this->assertFalse( $this->instance->should_perform_check( 'system-page-404', $array ) );
 	}
 
 	/**
@@ -157,6 +169,34 @@ class Permalink_Integrity_Watcher_Test extends TestCase {
 		];
 
 		$this->assertEquals( $this->instance->get_dynamic_permalink_samples(), $result );
+	}
+
+	/**
+	 * Tests if the permalinks are not compared when dynamic_permalinks_samples is empty.
+	 *
+	 * @covers ::compare_permalink_for_page
+	 */
+	public function test_empty_dynamic_permalink_samples() {
+		$presentation = (object) [
+			'model' => (object) [
+				'object_type'     => 'post',
+				'object_sub_type' => 'post',
+			],
+		];
+
+		$this->options_helper
+			->expects( 'get' )
+			->with( 'dynamic_permalinks' )
+			->once()
+			->andReturnFalse();
+
+		$this->options_helper
+			->expects( 'get' )
+			->with( 'dynamic_permalink_samples' )
+			->once()
+			->andReturn( [] );
+
+		$this->assertEquals( $this->instance->compare_permalink_for_page( $presentation ), $presentation );
 	}
 
 	/**
