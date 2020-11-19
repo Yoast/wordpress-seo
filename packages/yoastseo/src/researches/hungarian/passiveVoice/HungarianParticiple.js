@@ -20,7 +20,7 @@ require( "util" ).inherits( HungarianParticiple, Participle );
 /**
  * All Hungarian participles are passives.
  *
- * @returns {boolean} Returns true.
+ * @returns {boolean}       Returns true.
  */
 HungarianParticiple.prototype.isPassive = function() {
 	return true
