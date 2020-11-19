@@ -86,14 +86,15 @@ class WPML_WPSEO_Notification implements Integration_Interface {
 	 * (when the WPML plugin is installed).
 	 *
 	 * Remove the notification again when it is installed.
+	 *
+	 * @return void
 	 */
 	public function notify_not_installed() {
 		if ( ! $this->wpml_wpseo_conditional->is_met() ) {
-			$this->notification_center->add_notification( $this->notification() );
+			$this->notification_center->add_notification( $this->get_notification() );
+			return;
 		}
-		else {
-			$this->notification_center->remove_notification_by_id( self::NOTIFICATION_ID );
-		}
+		$this->notification_center->remove_notification_by_id( self::NOTIFICATION_ID );
 	}
 
 	/**
