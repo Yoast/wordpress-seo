@@ -16,10 +16,10 @@ const isVowel = function( morphologyData, word ) {
  *
  * @param {Object} morphologyData   The Hungarian morphology data.
  * @param {string} word The word to check
- * @returns {boolean} Whether the input character is a Hungarian double consonant.
+ * @returns {number} Whether the input character is a Hungarian double consonant.
  */
-const isDoubleOrTripleConsonant = function( morphologyData, word, consonantRegex ) {
-	return consonantRegex.test( word );
+const isDoubleOrTripleConsonant = function( word, consonantRegex ) {
+	return word.search( consonantRegex );
 };
 
 /**
@@ -65,21 +65,21 @@ const findR1Position = function( morphologyData, word ) {
  *
 */
 const stemSuffixes1 = function( word, r1Text, morphologyData ) {
-	const suffix = findMatchingEndingInArray( word, morphologyData.externalStemmer.suffixes1 );
+	const suffix = findMatchingEndingInArray( r1Text, morphologyData.externalStemmer.suffixes1 );
 
 	if ( suffix !== "" ) {
 		let wordAfterStemming = word.slice( 0, -2 );
 
-		const tripleConsonantsRegex = new RegExp( morphologyData.externalStemmer.tripleDoubleConsonants );
-		const checkIfWordEndsOnTripleDoubleConsonant = isDoubleOrTripleConsonant( morphologyData, wordAfterStemming, tripleConsonantsRegex );
-		if ( checkIfWordEndsOnTripleDoubleConsonant ) {
-			wordAfterStemming = wordAfterStemming.slice( 0, -2 ) + wordAfterStemming.charAt( wordAfterStemming.length - 1 );
+		const doubleConsonantRegex = new RegExp( morphologyData.externalStemmer.doubleConsonants );
+		const checkIfWordEndsOnDoubleConsonant = wordAfterStemming.search( doubleConsonantRegex );
+		if ( checkIfWordEndsOnDoubleConsonant !== -1 ) {
+			wordAfterStemming = wordAfterStemming.slice( 0, -1 );
 		}
 
-		const doubleConsonantRegex = new RegExp( morphologyData.externalStemmer.doubleConsonants );
-		const checkIfWordEndsOnDoubleConsonant = isDoubleOrTripleConsonant( morphologyData, wordAfterStemming, doubleConsonantRegex );
-		if ( checkIfWordEndsOnDoubleConsonant ) {
-			wordAfterStemming = wordAfterStemming.slice( 0, -1 );
+		const tripleConsonantsRegex = new RegExp( morphologyData.externalStemmer.tripleDoubleConsonants );
+		const checkIfWordEndsOnTripleDoubleConsonant = wordAfterStemming.search( tripleConsonantsRegex );
+		if ( checkIfWordEndsOnTripleDoubleConsonant !== -1 ) {
+			wordAfterStemming = wordAfterStemming.slice( 0, -2 ) + wordAfterStemming.charAt( wordAfterStemming.length - 1 );
 		}
 
 		if ( wordAfterStemming.length !== word.slice( 0, -2 ).length ) {

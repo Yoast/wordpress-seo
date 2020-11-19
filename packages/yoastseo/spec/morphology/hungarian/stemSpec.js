@@ -3,7 +3,7 @@ import getMorphologyData from "../../specHelpers/getMorphologyData";
 const morphologyDataHU = getMorphologyData( "hu" ).hu;
 const wordsToStem = [
 	// Input a word with one of the following suffixes: al, el
-	[ "abrossal", "abros" ],
+	[ "kenőccsel", "kenőcs" ],
 	[ "abrosszal", "abrosz" ],
 	/*
 	* Input a word with one of the following suffixes: ban   ben   ba   be   ra   re   nak   nek   val   vel   tól   tõl
