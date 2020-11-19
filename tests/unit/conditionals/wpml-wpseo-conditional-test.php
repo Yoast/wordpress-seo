@@ -10,7 +10,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
 /**
  * WPML_WPSEO_Conditional test.
  *
- * @group conditionals.
+ * @group conditionals
  *
  * @coversDefaultClass Yoast\WP\SEO\Conditionals\Third_Party\WPML_WPSEO_Conditional
  */
