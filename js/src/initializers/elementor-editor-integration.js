@@ -1,4 +1,3 @@
-/* eslint-disable require-jsdoc */
 /* global jQuery, window */
 import domReady from "@wordpress/dom-ready";
 import { dispatch } from "@wordpress/data";
@@ -23,9 +22,9 @@ function activateSaveButton() {
  *
  * @returns {void}
  */
-const storeValueAsOldValue = ( input ) => {
+function storeValueAsOldValue( input ) {
 	input.oldValue = input.value;
-};
+}
 
 /**
  * Activates the save button if a change is detected.
@@ -34,7 +33,7 @@ const storeValueAsOldValue = ( input ) => {
  *
  * @returns {void}
  */
-const detectChange = input => {
+function detectChange( input ) {
 	// The SEO score and the content score changing do not require a new save.
 	if ( input.name === "yoast_wpseo_linkdex" || input.name === "yoast_wpseo_content_score" ) {
 		return;
@@ -49,9 +48,16 @@ const detectChange = input => {
 		activateSaveButton();
 		storeValueAsOldValue( input );
 	}
-};
+}
 
-const sendFormData = ( form ) => {
+/**
+ * Saves the form via AJAX action.
+ *
+ * @param {HTMLElement} form The form to submit.
+ *
+ * @returns {void}
+ */
+function sendFormData( form ) {
 	const data = jQuery( form ).serializeArray().reduce( ( result, { name, value } ) => {
 		result[ name ] = value;
 
@@ -69,7 +75,7 @@ const sendFormData = ( form ) => {
 			dispatch( "yoast-seo/editor" ).updateData( { slug: responseData.slug } );
 		}
 	} );
-};
+}
 
 /**
  * Initializes the Yoast elementor editor integration.
