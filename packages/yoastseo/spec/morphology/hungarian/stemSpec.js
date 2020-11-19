@@ -34,8 +34,9 @@ const wordsToStem = [
 	// Input a word with one of the following suffixes: án   ánként én
 	[ "apránként", "apr" ],
 	[ "bekezdésén", "bekezdés" ],
+	[ "amelyekről", "amely" ],
 	// Input a word with one of the following suffixes: astul   estül   stul   stül ul ül
-	[ "kamatostul", "kamatost" ],
+	[ "kamatostul", "kamat" ],
 	[ "fazekastul", "fazek" ],
 	// Input a word with one of the following suffixes:   ástul éstül
 	[ "gyerekestül", "gyereke" ],

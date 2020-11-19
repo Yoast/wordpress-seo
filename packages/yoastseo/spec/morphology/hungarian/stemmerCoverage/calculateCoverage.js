@@ -3,7 +3,7 @@ import stem from "../../../../src/morphology/hungarian/stem";
 import getMorphologyData from "../../../specHelpers/getMorphologyData";
 import goldStandard from "./goldStandardStems.json";
 
-const morphologyDataSV = getMorphologyData( "hu" ).hu;
+const morphologyDataHU = getMorphologyData( "hu" ).hu;
 
 const coverageThreshold = 0.8;
 
@@ -17,5 +17,6 @@ describe( "Calculate coverage for the Hungarian stemmer", () => {
 
 		expect( coverage ).toBeGreaterThan( coverageThreshold );
 		console.log( "The current coverage of the Hungarian stemmer is", coverage * 100, "%. The number of errors is", errors.length + "." );
+		console.log( errors );
 	} );
 } );

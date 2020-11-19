@@ -66,7 +66,9 @@ const findR1Position = function( morphologyData, word ) {
 */
 const stemSuffixes1 = function( word, r1Text, morphologyData ) {
 	const suffix = findMatchingEndingInArray( r1Text, morphologyData.externalStemmer.suffixes1 );
-
+	if ( word.length < 3 ) {
+		return word;
+	}
 	if ( suffix !== "" ) {
 		let wordAfterStemming = word.slice( 0, -2 );
 
@@ -100,9 +102,13 @@ const stemSuffixes1 = function( word, r1Text, morphologyData ) {
  * @param {string[]} suffixes2 suffixes from group 2
  */
 const stemSuffixes2 = function( word, r1Text, suffixes2 ) {
-	const suffix = findMatchingEndingInArray( word, suffixes2 );
-	if ( suffix !== "" ) {
-		let wordAfterStemming = word.slice( 0, -suffix.length );
+	const suffix2 = findMatchingEndingInArray( word, suffixes2 );
+	if ( word.length < 3 ) {
+		return word;
+	}
+	console.log( suffix2 !== "" );
+	if ( suffix2 !== "" ) {
+		let wordAfterStemming = word.slice( 0, -suffix2.length );
 		const checkIfWordEndsOnAccentedEorE = ( wordAfterStemming.endsWith( "á" ) || wordAfterStemming.endsWith( "é" ) );
 		if ( checkIfWordEndsOnAccentedEorE ) {
 			wordAfterStemming = wordAfterStemming.replace( /á$/i, "a" || /é$/i, "e" );
@@ -122,6 +128,9 @@ const stemSuffixes2 = function( word, r1Text, suffixes2 ) {
  * @returns {string} The word without the suffix.
  */
 const stemSuffixes3 = function( word, r1Text, suffixes3 ) {
+	if ( word.length < 3 ) {
+		return word;
+	}
 	const suffix3a = findMatchingEndingInArray( word, suffixes3.suffixes3a );
 	if ( suffix3a !== "" ) {
 		return ( word.slice( 0, -suffix3a.length ) + "a" );
@@ -137,6 +146,9 @@ const stemSuffixes3 = function( word, r1Text, suffixes3 ) {
  */
 const stemSuffixes4 = function( word, r1Text, suffixes4 ) {
 	const suffix4 = findMatchingEndingInArray( word, suffixes4 );
+	if ( word.length < 3 ) {
+		return word;
+	}
 	if ( suffix4 !== "" ) {
 		return ( word.slice( 0, -suffix4.length ) );
 	}
@@ -146,7 +158,13 @@ const stemSuffixes4 = function( word, r1Text, suffixes4 ) {
 /* Searh for one of the suffixes ástul éstül, and replace ástul with a and éstül with e
  */
 const stemSuffixes5 = function( word, r1Text, suffixes5 ) {
+	if ( word.length < 3 ) {
+		return word;
+	}
 	const suffix5a = findMatchingEndingInArray( word, suffixes5.suffixes5a );
+	if ( word.length < 3 ) {
+		return word;
+	}
 	if ( suffix5a !== "" ) {
 		return ( word.slice( 0, -suffix5a.length ) + "a" );
 	}
@@ -161,6 +179,9 @@ const stemSuffixes5 = function( word, r1Text, suffixes5 ) {
 // Consonant, remove one of the double consonants.
 const stemSuffixes6 = function( word, r1Text, suffixes6 ) {
 	const suffix6 = findMatchingEndingInArray( word, suffixes6 );
+	if ( word.length < 3 ) {
+		return word;
+	}
 	if ( suffix6 !== "" ) {
 		let wordAfterStemming = word.slice( 0, -1 );
 		const checkIfWordEndsOnAccentedEorE = ( wordAfterStemming.endsWith( "á" ) || wordAfterStemming.endsWith( "é" ) );
@@ -176,6 +197,9 @@ const stemSuffixes6 = function( word, r1Text, suffixes6 ) {
 // Search for one of the suffixes in R1 and delete oké   öké   aké   eké   ké   éi   é
 const stemSuffixes7 = function( word, r1Text, suffixes7 ) {
 	const suffix7 = findMatchingEndingInArray( word, suffixes7 );
+	if ( word.length < 3 ) {
+		return word;
+	}
 	if ( suffix7 !== "" ) {
 		return ( word.slice( 0, -suffix7.length ) );
 	}
@@ -184,6 +208,9 @@ const stemSuffixes7 = function( word, r1Text, suffixes7 ) {
 
 // Search for one of the suffixes if R1 : áké   áéi and replace with a, or éké   ééi   éé and replace with e
 const stemSuffixes8 = function( word, r1Text, suffixes8 ) {
+	if ( word.length < 3 ) {
+		return word;
+	}
 	const suffix8a = findMatchingEndingInArray( word, suffixes8.suffix8a );
 	if ( suffix8a !== "" ) {
 		return ( word.slice( 0, -suffix8a.length ) + "a" );
@@ -199,6 +226,9 @@ const stemSuffixes8 = function( word, r1Text, suffixes8 ) {
 // Ad   öd   d   ja   je   a   e o
 const stemSuffixes9 = function( word, r1Text, suffixes9 ) {
 	const suffix9 = findMatchingEndingInArray( word, suffixes9 );
+	if ( word.length < 3 ) {
+		return word;
+	}
 	if ( suffix9 !== "" ) {
 		return ( word.slice( 0, -suffix9.length ) );
 	}
@@ -208,6 +238,9 @@ const stemSuffixes9 = function( word, r1Text, suffixes9 ) {
 // Search for the longest one of these suffixes in R1 ánk ájuk ám ád á and replace  with a
 // Search the longest one of the suffixes in R1 énk éjük ém éd é and replace with e
 const stemSuffixes10 = function( word, r1Text, suffixes10 ) {
+	if ( word.length < 3 ) {
+		return word;
+	}
 	const suffix10a = findMatchingEndingInArray( word, suffixes10.suffix8a );
 	if ( suffix10a !== "" ) {
 		return ( word.slice( 0, -suffix10a.length ) + "a" );
@@ -224,6 +257,9 @@ const stemSuffixes10 = function( word, r1Text, suffixes10 ) {
 // Jaik   aik   eik   ik
 const stemSuffixes11 = function( word, r1Text, suffixes11 ) {
 	const suffix11 = findMatchingEndingInArray( word, suffixes11 );
+	if ( word.length < 3 ) {
+		return word;
+	}
 	if ( suffix11 !== "" ) {
 		return ( word.slice( 0, -suffix11.length ) );
 	}
@@ -233,6 +269,9 @@ const stemSuffixes11 = function( word, r1Text, suffixes11 ) {
 // Search for the longest one of these suffixes in R1 áim   áid   ái   áink   áitok   áik and replace with a
 // Search for the longest one of the suffixes in R1 éim   éid     éi   éink   éitek   éik and replace with e
 const stemSuffixes12 = function( word, r1Text, suffixes12 ) {
+	if ( word.length < 3 ) {
+		return word;
+	}
 	const suffix12a = findMatchingEndingInArray( word, suffixes12.suffix12a );
 	if ( suffix12a !== "" ) {
 		return ( word.slice( 0, -suffix12a.length ) + "a" );
@@ -246,13 +285,16 @@ const stemSuffixes12 = function( word, r1Text, suffixes12 ) {
 
 // Search for suffix ák in R1 and replace with a // check if we can unite this step and step above
 // Search for suffix ék in R1 and replace with e
-const stemSuffixes13 = function( word, r1Position, suffixes13 ) {
+const stemSuffixes13 = function( word, r1Text, suffixes13 ) {
+	if ( word.length < 3 ) {
+		return word;
+	}
 	const suffix13a = new RegExp( suffixes13.suffixes13a );
-	if ( suffix13a.test( word ) && r1Position ) {
+	if ( suffix13a.test( word ) && r1Text ) {
 		return ( word.slice( 0, -2 ) + "a" );
 	}
 	const suffix13b = new RegExp( suffixes13.suffixes13b );
-	if ( suffix13b.test( word ) && r1Position ) {
+	if ( suffix13b.test( word ) && r1Text ) {
 		return ( word.slice( 0, -2 ) + "e" );
 	}
 	return word;
@@ -261,6 +303,9 @@ const stemSuffixes13 = function( word, r1Position, suffixes13 ) {
 // Search for the longest of these suffixes ök ok ek ak k in R1 and delte
 const stemSuffixes14 = function( word, r1Text, suffixes14 ) {
 	const suffix14 = findMatchingEndingInArray( word, suffixes14 );
+	if ( word.length < 3 ) {
+		return word;
+	}
 	if ( suffix14 !== "" ) {
 		return ( word.slice( 0, -suffix14.length ) );
 	}
