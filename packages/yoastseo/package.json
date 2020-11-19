@@ -129,7 +129,9 @@
       "/spec/morphology/arabic/stemmerCoverage/sampleVocabulary.json",
       "/spec/morphology/swedish/stemmerCoverage/goldStandardStems.json",
       "/spec/morphology/swedish/stemmerCoverage/sampleVocabulary.json",
-      "/spec/morphology/swedish/stemmerCoverage/generateStems.js"
+      "/spec/morphology/swedish/stemmerCoverage/generateStems.js",
+      "/spec/morphology/norwegian/stemmerCoverage/goldStandardStems.js",
+      "/spec/morphology/norwegian/stemmerCoverage/sampleVocabulary.json"
     ],
     "coveragePathIgnorePatterns": [
       "js/templates.js"
