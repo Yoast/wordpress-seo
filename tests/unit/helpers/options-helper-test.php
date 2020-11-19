@@ -23,7 +23,7 @@ class Options_Helper_Test extends TestCase {
 	private $instance;
 
 	/**
-	 * @inheritDoc
+	 * Prepares the test.
 	 */
 	public function setUp() {
 		parent::setUp();

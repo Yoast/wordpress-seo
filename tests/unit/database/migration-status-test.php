@@ -12,7 +12,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group db-migrations
  *
  * @coversDefaultClass \Yoast\WP\SEO\Config\Migration_Status
- * @covers ::<!public>
+ * @covers \Yoast\WP\SEO\Config\Migration_Status
  */
 class Migration_Status_Test extends TestCase {
 
@@ -71,6 +71,8 @@ class Migration_Status_Test extends TestCase {
 	}
 
 	/**
+	 * Tests that the migration doesn't run.
+	 *
 	 * @covers ::should_run_migration
 	 */
 	public function test_should_not_run_migration() {
@@ -86,6 +88,8 @@ class Migration_Status_Test extends TestCase {
 	}
 
 	/**
+	 * Tests that the migration does not run because of a lock.
+	 *
 	 * @covers ::should_run_migration
 	 */
 	public function test_should_not_run_migration_with_lock() {
@@ -106,6 +110,8 @@ class Migration_Status_Test extends TestCase {
 	}
 
 	/**
+	 * Tests the is version check.
+	 *
 	 * @covers ::is_version
 	 */
 	public function test_is_version() {
@@ -121,6 +127,8 @@ class Migration_Status_Test extends TestCase {
 	}
 
 	/**
+	 * Tests the default case of the version comparison.
+	 *
 	 * @covers ::is_version
 	 */
 	public function test_is_version_default() {
@@ -136,6 +144,8 @@ class Migration_Status_Test extends TestCase {
 	}
 
 	/**
+	 * Tests comparison of the version with having the version lower than the saved on.
+	 *
 	 * @covers ::is_version
 	 */
 	public function test_is_version_lower() {
@@ -151,6 +161,8 @@ class Migration_Status_Test extends TestCase {
 	}
 
 	/**
+	 * Tests the comparison of a version, with having a higher version.
+	 *
 	 * @covers ::is_version
 	 */
 	public function test_is_version_higher() {
@@ -166,6 +178,8 @@ class Migration_Status_Test extends TestCase {
 	}
 
 	/**
+	 * Tests the comparison agains a version, with having the saved version value empty.
+	 *
 	 * @covers ::is_version
 	 */
 	public function test_is_version_empty() {
@@ -181,6 +195,8 @@ class Migration_Status_Test extends TestCase {
 	}
 
 	/**
+	 * Tests getting the set error.
+	 *
 	 * @covers ::get_error
 	 */
 	public function test_get_error() {
@@ -207,6 +223,8 @@ class Migration_Status_Test extends TestCase {
 	}
 
 	/**
+	 * Tests the retrieval of an error which isn't set.
+	 *
 	 * @covers ::get_error
 	 */
 	public function test_get_error_with_no_error() {
@@ -222,6 +240,8 @@ class Migration_Status_Test extends TestCase {
 	}
 
 	/**
+	 * Tests setting the error.
+	 *
 	 * @covers ::set_error
 	 */
 	public function test_set_error() {
@@ -251,6 +271,8 @@ class Migration_Status_Test extends TestCase {
 	}
 
 	/**
+	 * Tests the success status setting.
+	 *
 	 * @covers ::set_success
 	 */
 	public function test_set_success() {
@@ -272,6 +294,8 @@ class Migration_Status_Test extends TestCase {
 	}
 
 	/**
+	 * Tests the locking of a migration.
+	 *
 	 * @covers ::lock_migration
 	 */
 	public function test_lock_migration() {
