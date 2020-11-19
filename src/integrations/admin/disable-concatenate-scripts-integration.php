@@ -1,9 +1,4 @@
 <?php
-/**
- * WPSEO plugin file.
- *
- * @package Yoast\WP\SEO\Integrations\Admin
- */
 
 namespace Yoast\WP\SEO\Integrations\Admin;
 
@@ -11,19 +6,23 @@ use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 
 /**
- * Disable_Concatenate_Scripts_Integration class
+ * Disable_Concatenate_Scripts_Integration class.
  */
 class Disable_Concatenate_Scripts_Integration implements Integration_Interface {
 
 	/**
-	 * @inheritDoc
+	 * Returns the conditionals based in which this loadable should be active.
+	 *
+	 * In this case: when on an admin page.
+	 *
+	 * @return array The conditionals.
 	 */
 	public static function get_conditionals() {
 		return [ Admin_Conditional::class ];
 	}
 
 	/**
-	 * @inheritDoc
+	 * Registers an action to disable script concatenation.
 	 */
 	public function register_hooks() {
 		\add_action( 'wp_print_scripts', [ $this, 'disable_concatenate_scripts' ] );

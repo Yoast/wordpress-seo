@@ -1,16 +1,11 @@
 <?php
-/**
- * Presenter class for the Google Search Console verification setting.
- *
- * @package Yoast\YoastSEO\Presenters\Webmaster
- */
 
 namespace Yoast\WP\SEO\Presenters\Webmaster;
 
 use Yoast\WP\SEO\Presenters\Abstract_Indexable_Tag_Presenter;
 
 /**
- * Class Google_Presenter
+ * Presenter class for the Google Search Console verification setting.
  */
 class Google_Presenter extends Abstract_Indexable_Tag_Presenter {
 

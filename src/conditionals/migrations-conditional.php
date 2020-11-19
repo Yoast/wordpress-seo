@@ -1,16 +1,11 @@
 <?php
-/**
- * Yoast SEO plugin file.
- *
- * @package Yoast\YoastSEO\Conditionals
- */
 
 namespace Yoast\WP\SEO\Conditionals;
 
 use Yoast\WP\SEO\Config\Migration_Status;
 
 /**
- * Class for integrations that depend on having all migration run.
+ * Class for integrations that depend on having all migrations run.
  */
 class Migrations_Conditional implements Conditional {
 
@@ -22,7 +17,7 @@ class Migrations_Conditional implements Conditional {
 	protected $migration_status;
 
 	/**
-	 * Feature_Flag_Conditional constructor.
+	 * Migrations_Conditional constructor.
 	 *
 	 * @param Migration_Status $migration_status The migration status object.
 	 */
@@ -31,7 +26,9 @@ class Migrations_Conditional implements Conditional {
 	}
 
 	/**
-	 * @inheritDoc
+	 * Returns `true` when all database migrations have been run.
+	 *
+	 * @returns boolean `true` when all database migrations have been run.
 	 */
 	public function is_met() {
 		return $this->migration_status->is_version( 'free', \WPSEO_VERSION );

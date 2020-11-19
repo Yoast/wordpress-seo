@@ -34,7 +34,7 @@ class WPSEO_Taxonomy_Fields {
 				break;
 		}
 
-		return  $this->filter_hidden_fields( $fields );
+		return $this->filter_hidden_fields( $fields );
 	}
 
 	/**

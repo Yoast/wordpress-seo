@@ -1,9 +1,4 @@
 <?php
-/**
- * Final presenter class for the Open Graph locale.
- *
- * @package Yoast\YoastSEO\Presenters\Open_Graph
- */
 
 namespace Yoast\WP\SEO\Presenters\Open_Graph;
 
@@ -11,7 +6,7 @@ use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 use Yoast\WP\SEO\Presenters\Abstract_Indexable_Tag_Presenter;
 
 /**
- * Class Site_Open_Graph_Locale_Presenter
+ * Final presenter class for the Open Graph locale.
  */
 final class Locale_Presenter extends Abstract_Indexable_Tag_Presenter {
 

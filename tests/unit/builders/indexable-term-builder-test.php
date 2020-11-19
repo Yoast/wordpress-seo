@@ -12,7 +12,7 @@ use Yoast\WP\SEO\Helpers\Open_Graph\Image_Helper as OG_Image_Helper;
 use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
 use Yoast\WP\SEO\Helpers\Twitter\Image_Helper as Twitter_Image_Helper;
 use Yoast\WP\SEO\Models\Indexable;
-use Yoast\WP\SEO\Tests\Unit\Doubles\Indexable_Term_Builder_Double;
+use Yoast\WP\SEO\Tests\Unit\Doubles\Builders\Indexable_Term_Builder_Double;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
@@ -22,7 +22,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group builders
  *
  * @coversDefaultClass \Yoast\WP\SEO\Builders\Indexable_Term_Builder
- * @covers ::<!public>
+ * @covers \Yoast\WP\SEO\Builders\Indexable_Term_Builder
  */
 class Indexable_Term_Builder_Test extends TestCase {
 
@@ -69,24 +69,15 @@ class Indexable_Term_Builder_Test extends TestCase {
 	protected $twitter_image;
 
 	/**
-	 * The link builder mock.
-	 *
-	 * @var Mockery\MockInterface|Indexable_Link_Builder
-	 */
-	protected $link_builder;
-
-	/**
 	 * Sets up the tests.
 	 */
 	public function setUp() {
 		parent::setUp();
 
-		$this->taxonomy     = Mockery::mock( Taxonomy_Helper::class );
-		$this->link_builder = Mockery::mock( Indexable_Link_Builder::class );
+		$this->taxonomy = Mockery::mock( Taxonomy_Helper::class );
 
 		$this->instance = new Indexable_Term_Builder_Double(
-			$this->taxonomy,
-			$this->link_builder
+			$this->taxonomy
 		);
 
 		$this->image            = Mockery::mock( Image_Helper::class );
@@ -166,9 +157,7 @@ class Indexable_Term_Builder_Test extends TestCase {
 	 * @covers ::__construct
 	 */
 	public function test_constructor() {
-		$instance = new Indexable_Term_Builder( $this->taxonomy, $this->link_builder );
-		$this->assertAttributeInstanceOf( Taxonomy_Helper::class, 'taxonomy', $instance );
-		$this->assertAttributeInstanceOf( Indexable_Link_Builder::class, 'link_builder', $instance );
+		$this->assertAttributeInstanceOf( Taxonomy_Helper::class, 'taxonomy', $this->instance );
 	}
 
 	/**
@@ -215,8 +204,6 @@ class Indexable_Term_Builder_Test extends TestCase {
 
 		$indexable_mock      = Mockery::mock( Indexable::class );
 		$indexable_mock->orm = Mockery::mock( ORM::class );
-
-		$this->link_builder->expects( 'build' )->with( $indexable_mock, 'description' );
 
 		$indexable_expectations = [
 			'object_id'                   => 1,
@@ -271,7 +258,7 @@ class Indexable_Term_Builder_Test extends TestCase {
 			'id'     => 13,
 			'alt'    => '',
 			'pixels' => 307200,
-			'type'   => 'image/jpeg'
+			'type'   => 'image/jpeg',
 		];
 
 		// Mock that the open graph and twitter images have been set by the user.
@@ -283,7 +270,8 @@ class Indexable_Term_Builder_Test extends TestCase {
 		$indexable_mock->orm->expects( 'set' )
 			->with( 'open_graph_image', 'http://basic.wordpress.test/wp-content/uploads/2020/07/WordPress5.jpg' );
 		$indexable_mock->orm->expects( 'set' )
-			->with( 'open_graph_image_meta', \json_encode( $image_meta, ( JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES ) ) );
+			// phpcs:ignore Yoast.Yoast.AlternativeFunctions.json_encode_json_encodeWithAdditionalParams -- Test code, mocking WP.
+			->with( 'open_graph_image_meta', \json_encode( $image_meta, ( \JSON_PRETTY_PRINT | \JSON_UNESCAPED_SLASHES ) ) );
 
 		// We expect the twitter image and its source to be set.
 		$indexable_mock->orm->expects( 'set' )->with( 'twitter_image_source', 'set-by-user' );
@@ -404,7 +392,7 @@ class Indexable_Term_Builder_Test extends TestCase {
 
 		$expected = [
 			'image'  => $image,
-			'source' => 'first-content-image'
+			'source' => 'first-content-image',
 		];
 		$actual   = $this->instance->find_alternative_image( $indexable_mock );
 	}
@@ -489,5 +477,4 @@ class Indexable_Term_Builder_Test extends TestCase {
 
 		$this->assertNull( $this->instance->get_meta_value( 'wpseo_title', $term_meta ) );
 	}
-
 }

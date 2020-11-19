@@ -1,4 +1,3 @@
-import { DEFAULT_MODE } from "yoast-components";
 import getDefaultReplacementVariables from "../../values/defaultReplaceVariables";
 import {
 	SWITCH_MODE,
@@ -7,6 +6,7 @@ import {
 	REMOVE_REPLACEMENT_VARIABLE,
 	REFRESH,
 	UPDATE_WORDS_TO_HIGHLIGHT,
+	LOAD_SNIPPET_EDITOR_DATA,
 } from "../actions/snippetEditor";
 import { pushNewReplaceVar } from "../../helpers/replacementVariableHelpers";
 
@@ -17,15 +17,20 @@ import { pushNewReplaceVar } from "../../helpers/replacementVariableHelpers";
  */
 function getInitialState() {
 	return {
-		mode: DEFAULT_MODE,
+		mode: "mobile",
 		data: {
 			title: "",
-			slug: "",
 			description: "",
+			slug: "",
 		},
 		wordsToHighlight: [],
 		replacementVariables: getDefaultReplacementVariables(),
 		uniqueRefreshValue: "",
+		templates: {
+			title: "",
+			description: "",
+		},
+		isLoading: true,
 	};
 }
 
@@ -100,6 +105,23 @@ function snippetEditorReducer( state = getInitialState(), action ) {
 				wordsToHighlight: action.wordsToHighlight,
 			};
 		}
+
+		case LOAD_SNIPPET_EDITOR_DATA:
+			return {
+				...state,
+				data: {
+					...state.data,
+					title: action.data.title,
+					description: action.data.description,
+					slug: action.data.slug,
+				},
+				templates: {
+					...state.templates,
+					title: action.templates.title,
+					description: action.templates.description,
+				},
+				isLoading: false,
+			};
 	}
 
 	return state;

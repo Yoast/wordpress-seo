@@ -22,9 +22,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group builders
  *
  * @coversDefaultClass \Yoast\WP\SEO\Builders\Indexable_Hierarchy_Builder
- * @covers ::<!public>
- * @covers ::__construct
- * @covers ::set_indexable_repository
+ * @covers \Yoast\WP\SEO\Builders\Indexable_Hierarchy_Builder
  *
  * @package Yoast\Tests\Builders
  */
@@ -143,7 +141,7 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 
 		$this->indexable_hierarchy_repository
 			->expects( 'clear_ancestors' )
-			->never();
+			->once();
 
 		$this->options
 			->expects( 'get' )

@@ -129,7 +129,7 @@ $new_tab_message      = WPSEO_Admin_Utils::get_new_tab_message();
 				$url = WPSEO_Shortlinker::get( 'https://yoa.st/3t6' );
 
 				/* translators: %1$s expands to Yoast SEO academy, which is a clickable link. */
-				printf( esc_html__( 'Want to learn SEO from Team Yoast? Check out our %1$s!', 'wordpress-seo' ), '<a href="' . $url . '"><strong>Yoast SEO academy</strong></a>' );
+				printf( esc_html__( 'Want to learn SEO from Team Yoast? Check out our %1$s!', 'wordpress-seo' ), '<a href="' . esc_url( $url ) . '"><strong>Yoast SEO academy</strong></a>' );
 				echo '<br/>';
 				esc_html_e( 'We have both free and premium online courses to learn everything you need to know about SEO.', 'wordpress-seo' );
 				?>

@@ -15,6 +15,7 @@ async function logError( response, grunt ) {
 
 	grunt.log.error( `Status: ${ response.status }` );
 	grunt.log.error( `Message: ${ responseObject.message }` );
+	grunt.log.error( `URL: ${ response.url }` );
 
 	if ( responseObject.errors ) {
 		responseObject.errors.forEach( error => {

@@ -1,16 +1,9 @@
 <?php
-/**
- * Yoast SEO plugin file.
- *
- * @package Yoast\YoastSEO\Conditionals
- */
 
 namespace Yoast\WP\SEO\Conditionals;
 
 /**
  * Conditional interface, used to prevent integrations from loading.
- *
- * @package Yoast\WP\SEO\Conditionals
  */
 interface Conditional {
 

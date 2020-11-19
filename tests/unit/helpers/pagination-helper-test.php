@@ -50,12 +50,13 @@ class Pagination_Helper_Test extends TestCase {
 	/**
 	 * Tests if given dependencies are set as expected.
 	 *
-	 * @covers ::__construct()
+	 * @covers ::__construct
 	 */
 	public function test_constructor() {
-		$this->assertAttributeInstanceOf( WP_Rewrite_Wrapper::class, 'wp_rewrite_wrapper', $this->instance  );
-		$this->assertAttributeInstanceOf( WP_Query_Wrapper::class, 'wp_query_wrapper', $this->instance  );
+		$this->assertAttributeInstanceOf( WP_Rewrite_Wrapper::class, 'wp_rewrite_wrapper', $this->instance );
+		$this->assertAttributeInstanceOf( WP_Query_Wrapper::class, 'wp_query_wrapper', $this->instance );
 	}
+
 	/**
 	 * Tests that `is_disabled` returns false by default.
 	 *
@@ -223,13 +224,15 @@ class Pagination_Helper_Test extends TestCase {
 	public function test_get_current_page_number_fallback_to_page() {
 		Monkey\Functions\expect( 'get_query_var' )
 			->twice()
-			->andReturnUsing( function( $query_var, $default ) {
-				if ( $query_var === 'page' ) {
-					$default = 2;
-				}
+			->andReturnUsing(
+				static function( $query_var, $default ) {
+					if ( $query_var === 'page' ) {
+						$default = 2;
+					}
 
-				return $default;
-			} );
+					return $default;
+				}
+			);
 
 		$this->assertSame( 2, $this->instance->get_current_page_number() );
 	}

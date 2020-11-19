@@ -39,7 +39,7 @@ if ( is_array( $wpseo_taxonomies ) && $wpseo_taxonomies !== [] ) {
 			]
 		);
 
-		// phpcs:ignore WordPress --sniffs=WordPress.Security.EscapeOutput -- get_output output is properly escaped.
+		// phpcs:ignore WordPress.Security.EscapeOutput -- get_output() output is properly escaped.
 		echo $wpseo_taxonomy_presenter->get_output();
 	}
 

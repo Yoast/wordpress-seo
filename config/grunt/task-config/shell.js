@@ -144,8 +144,10 @@ module.exports = function( grunt ) {
 		},
 
 		"remove-prefixed-sources": {
-			command: "composer remove league/oauth2-client pimple/pimple psr/log " +
-			"symfony/dependency-injection --update-no-dev --optimize-autoloader --no-scripts",
+			command: "composer remove " +
+				"league/oauth2-client pimple/pimple psr/log " +
+				"symfony/dependency-injection " +
+				"--update-no-dev --optimize-autoloader --no-scripts",
 		},
 
 		"composer-install": {
@@ -202,11 +204,24 @@ module.exports = function( grunt ) {
 			command: "yarn list --pattern 'yoastseo|yoast-components' --depth=0",
 		},
 
+		"install-schema-blocks": {
+			// If a src directory exists in the schema-blocks but not dist directory then it needs to be built.
+			command: "if [ -d node_modules/@yoast/schema-blocks/src ] && [ ! -d node_modules/@yoast/schema-blocks/dist ]; then " +
+				"cd node_modules/@yoast/schema-blocks && yarn install && yarn build; " +
+				"fi",
+		},
+
 		"check-for-uncommitted-changes": {
 			// --porcelain gives the output in an easy-to-parse format for scripts.
 			command: "git status --porcelain",
 			options: {
 				callback: throwUncommittedChangesError,
+			},
+		},
+		"readme-reset-txt": {
+			command: "git checkout readme.txt",
+			options: {
+				failOnError: false,
 			},
 		},
 	};

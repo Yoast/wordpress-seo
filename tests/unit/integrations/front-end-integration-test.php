@@ -1,9 +1,4 @@
 <?php
-/**
- * Yoast SEO Plugin File.
- *
- * @package Yoast\YoastSEO\Integrations
- */
 
 namespace Yoast\WP\SEO\Tests\Unit\Integrations;
 
@@ -21,7 +16,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
 use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Unit Test Class.
+ * Class Front_End_Integration_Test.
  *
  * @coversDefaultClass \Yoast\WP\SEO\Integrations\Front_End_Integration
  *
@@ -99,9 +94,9 @@ class Front_End_Integration_Test extends TestCase {
 	public function test_register_hooks() {
 		$this->instance->register_hooks();
 
-		$this->assertTrue( \has_action( 'wp_head', [ $this->instance, 'call_wpseo_head' ] ), 'Does not have expected wp_head action' );
-		$this->assertTrue( \has_action( 'wpseo_head', [ $this->instance, 'present_head' ] ), 'Does not have expected wpseo_head action' );
-		$this->assertTrue( \has_filter( 'wp_title', [ $this->instance, 'filter_title' ] ), 'Does not have expected wp_title filter' );
+		$this->assertNotFalse( \has_action( 'wp_head', [ $this->instance, 'call_wpseo_head' ] ), 'Does not have expected wp_head action' );
+		$this->assertNotFalse( \has_action( 'wpseo_head', [ $this->instance, 'present_head' ] ), 'Does not have expected wpseo_head action' );
+		$this->assertNotFalse( \has_filter( 'wp_title', [ $this->instance, 'filter_title' ] ), 'Does not have expected wp_title filter' );
 	}
 
 	/**
@@ -170,6 +165,7 @@ class Front_End_Integration_Test extends TestCase {
 
 		$this->options->expects( 'get' )->with( 'opengraph' )->andReturnTrue();
 		$this->options->expects( 'get' )->with( 'twitter' )->andReturnTrue();
+		$this->options->expects( 'get' )->with( 'enable_enhanced_slack_sharing' )->andReturnTrue();
 
 		$expected = [
 			'Yoast\WP\SEO\Presenters\Debug\Marker_Open_Presenter',
@@ -197,6 +193,7 @@ class Front_End_Integration_Test extends TestCase {
 			'Yoast\WP\SEO\Presenters\Twitter\Image_Presenter',
 			'Yoast\WP\SEO\Presenters\Twitter\Creator_Presenter',
 			'Yoast\WP\SEO\Presenters\Twitter\Site_Presenter',
+			'Yoast\WP\SEO\Presenters\Slack\Enhanced_Data_Presenter',
 			'Yoast\WP\SEO\Presenters\Schema_Presenter',
 			'Yoast\WP\SEO\Presenters\Debug\Marker_Close_Presenter',
 		];
@@ -267,6 +264,11 @@ class Front_End_Integration_Test extends TestCase {
 		$this->options
 			->expects( 'get' )
 			->with( 'twitter' )
+			->andReturnTrue();
+
+		$this->options
+			->expects( 'get' )
+			->with( 'enable_enhanced_slack_sharing' )
 			->andReturnTrue();
 
 		$callback = function ( $presenter ) {

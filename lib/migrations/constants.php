@@ -1,17 +1,11 @@
 <?php
-/**
- * Yoast migrations constants class.
- *
- * @package Yoast\WP\Lib\Migrations
- */
 
 namespace Yoast\WP\Lib\Migrations;
 
 /**
- * Constants class
+ * Yoast migrations constants class.
  */
 class Constants {
-	// @codingStandardsIgnoreLine WordPress.DB.RestrictedFunctions.mysql
 	const MYSQL_MAX_IDENTIFIER_LENGTH = 64;
 	const SQL_UNKNOWN_QUERY_TYPE      = 1;
 	const SQL_SELECT                  = 2;

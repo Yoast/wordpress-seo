@@ -198,7 +198,7 @@
 					action: "yoast_dismiss_notification",
 					notification: $source.attr( "id" ),
 					nonce: $source.data( "nonce" ),
-					data: $source.data( "json" ),
+					data: $this.data( "json" ) || $source.data( "json" ),
 				},
 				handleDismissRestoreResponse.bind( this, $source ),
 				"json"

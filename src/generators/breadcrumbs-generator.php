@@ -1,9 +1,4 @@
 <?php
-/**
- * Generator object for the breadcrumbs.
- *
- * @package Yoast\YoastSEO\Generators
- */
 
 namespace Yoast\WP\SEO\Generators;
 
@@ -17,7 +12,7 @@ use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
 /**
- * Represents the generator class for the Open Graph images.
+ * Represents the generator class for the breadcrumbs.
  */
 class Breadcrumbs_Generator implements Generator_Interface {
 
@@ -381,9 +376,9 @@ class Breadcrumbs_Generator implements Generator_Interface {
 		}
 
 		$crumbs[] = [
-			'text' => sprintf(
+			'text' => \sprintf(
 				/* translators: %s expands to the current page number */
-				__( 'Page %s', 'wordpress-seo' ),
+				\__( 'Page %s', 'wordpress-seo' ),
 				$current_page_number
 			),
 		];

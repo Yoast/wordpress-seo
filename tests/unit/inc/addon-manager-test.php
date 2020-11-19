@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Inc;
 
+use Brain\Monkey;
 use Mockery;
 use stdClass;
 use WPSEO_Utils;
@@ -43,8 +44,8 @@ class Addon_Manager_Test extends TestCase {
 	 */
 	public function setUp() {
 		$this->instance = Mockery::mock( Addon_Manager_Double::class )
-			->shouldAllowMockingProtectedMethods()
-			->makePartial();
+				->shouldAllowMockingProtectedMethods()
+					->makePartial();
 
 		parent::setUp();
 	}
@@ -314,6 +315,19 @@ class Addon_Manager_Test extends TestCase {
 			->times( 1 )
 			->andReturn( $this->get_subscriptions() );
 
+		Monkey\Functions\expect( 'get_plugin_updates' )
+			->andReturn(
+				[
+					'wordpress-seo/wp-seo.php' => [
+						'update' => [
+							'tested'       => '5.5',
+							'requires_php' => '5.6',
+							'requires'     => '5.4',
+						],
+					],
+				]
+			);
+
 		$this->assertEquals(
 			$expected,
 			$this->instance->get_plugin_information( false, $action, (object) $args ),
@@ -395,6 +409,18 @@ class Addon_Manager_Test extends TestCase {
 			->shouldReceive( 'get_subscriptions' )
 			->andReturn( $this->get_subscriptions() );
 
+		Monkey\Functions\expect( 'get_plugin_updates' )
+			->andReturn(
+				[
+					'wordpress-seo/wp-seo.php' => [
+						'update' => [
+							'tested'       => '5.5',
+							'requires_php' => '5.6',
+						],
+					],
+				]
+			);
+
 		$this->assertEquals( $expected, $this->instance->check_for_updates( $data ), $message );
 	}
 
@@ -437,7 +463,18 @@ class Addon_Manager_Test extends TestCase {
 				'package'       => 'https://example.org/extension.zip',
 				'sections'      => [
 					'changelog' => 'changelog',
+					'support'   => '<h4>Need support?</h4><p>You can probably find an answer to your question in our <a href="https://yoast.com/help/">help center</a>. If you still need support and have an active subscription for this product, please email <a href="mailto:support@yoast.com">support@yoast.com</a>.</p>',
 				],
+				'icons'         => [
+					'2x' => 'https://yoa.st/yoast-seo-icon',
+				],
+				'banners'       => [
+					'high' => 'https://yoa.st/yoast-seo-banner-premium',
+					'low'  => 'https://yoa.st/yoast-seo-banner-low-premium',
+				],
+				'tested'        => \YOAST_SEO_WP_TESTED,
+				'requires_php'  => \YOAST_SEO_PHP_REQUIRED,
+				'requires'      => \YOAST_SEO_WP_REQUIRED,
 			],
 			$this->instance->convert_subscription_to_plugin(
 				(object) [
@@ -633,7 +670,18 @@ class Addon_Manager_Test extends TestCase {
 							'package'       => 'https://example.org/extension.zip',
 							'sections'      => [
 								'changelog' => 'changelog',
+								'support'   => '<h4>Need support?</h4><p>You can probably find an answer to your question in our <a href="https://yoast.com/help/">help center</a>. If you still need support and have an active subscription for this product, please email <a href="mailto:support@yoast.com">support@yoast.com</a>.</p>',
 							],
+							'icons'         => [
+								'2x' => 'https://yoa.st/yoast-seo-icon',
+							],
+							'banners'       => [
+								'high' => 'https://yoa.st/yoast-seo-banner-premium',
+								'low'  => 'https://yoa.st/yoast-seo-banner-low-premium',
+							],
+							'tested'        => \YOAST_SEO_WP_TESTED,
+							'requires_php'  => \YOAST_SEO_PHP_REQUIRED,
+							'requires'      => \YOAST_SEO_WP_REQUIRED,
 						],
 					],
 				],
@@ -681,7 +729,18 @@ class Addon_Manager_Test extends TestCase {
 					'package'       => 'https://example.org/extension.zip',
 					'sections'      => [
 						'changelog' => 'changelog',
+						'support'   => '<h4>Need support?</h4><p>You can probably find an answer to your question in our <a href="https://yoast.com/help/">help center</a>. If you still need support and have an active subscription for this product, please email <a href="mailto:support@yoast.com">support@yoast.com</a>.</p>',
 					],
+					'icons'         => [
+						'2x' => 'https://yoa.st/yoast-seo-icon',
+					],
+					'banners'       => [
+						'high' => 'https://yoa.st/yoast-seo-banner-premium',
+						'low'  => 'https://yoa.st/yoast-seo-banner-low-premium',
+					],
+					'tested'        => \YOAST_SEO_WP_TESTED,
+					'requires_php'  => \YOAST_SEO_PHP_REQUIRED,
+					'requires'      => \YOAST_SEO_WP_REQUIRED,
 				],
 				'message'  => 'Tests with a Yoast addon slug given as argument.',
 			],
@@ -713,7 +772,7 @@ class Addon_Manager_Test extends TestCase {
 							'changelog'    => 'changelog',
 						],
 					],
-					'wpseo-news.php' => [
+					'wpseo-news.php'     => [
 						'expiry_date' => $this->get_past_date(),
 						'product'     => [
 							'version'      => '10.0',
@@ -753,6 +812,7 @@ class Addon_Manager_Test extends TestCase {
 		if ( $this->past_date === null ) {
 			$this->past_date = \gmdate( 'Y-m-d\TH:i:s\Z', ( \time() - \DAY_IN_SECONDS ) );
 		}
+
 		return $this->past_date;
 	}
 }

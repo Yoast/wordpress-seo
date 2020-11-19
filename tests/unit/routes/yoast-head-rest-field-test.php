@@ -1,9 +1,4 @@
 <?php
-/**
- * WPSEO plugin test file.
- *
- * @package Yoast\WP\SEO\Tests\Unit\Routes
- */
 
 namespace Yoast\WP\SEO\Tests\Unit\Routes;
 
@@ -17,7 +12,7 @@ use Yoast\WP\SEO\Routes\Yoast_Head_REST_Field;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
- * Yoast_Head_REST_Field_Test class
+ * Yoast_Head_REST_Field_Test class.
  *
  * @coversDefaultClass Yoast\WP\SEO\Routes\Yoast_Head_REST_Field
  *

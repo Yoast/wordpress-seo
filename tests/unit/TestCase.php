@@ -53,6 +53,7 @@ abstract class TestCase extends BaseTestCase {
 				'wp_kses_post'         => null,
 				'site_url'             => 'https://www.example.org',
 				'wp_json_encode'       => function( $data, $options = 0, $depth = 512 ) {
+					// phpcs:ignore Yoast.Yoast.AlternativeFunctions.json_encode_json_encodeWithAdditionalParams -- Usage in tests is fine.
 					return \json_encode( $data, $options, $depth );
 				},
 				'wp_slash'             => null,
@@ -74,7 +75,7 @@ abstract class TestCase extends BaseTestCase {
 				},
 				'wp_strip_all_tags'    => function( $string, $remove_breaks = false ) {
 					$string = \preg_replace( '@<(script|style)[^>]*?>.*?</\\1>@si', '', $string );
-					// phpcs:ignore WordPress.WP.AlternativeFunctions.strip_tags -- We are stubbing the wp_strip_all_tags.
+					// phpcs:ignore WordPress.WP.AlternativeFunctions.strip_tags_strip_tags -- We are stubbing the wp_strip_all_tags.
 					$string = \strip_tags( $string );
 
 					if ( $remove_breaks ) {

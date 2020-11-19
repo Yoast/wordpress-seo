@@ -145,7 +145,13 @@ install:
     fi
   - |
     if [[ $TRAVIS_PHP_VERSION == "nightly" && "$PHPLINT" == "1" ]]; then
-      composer install --no-interaction --ignore-platform-reqs --no-scripts --no-suggest
+      if [[ "$IS_PREMIUM" == "1" ]]; then
+        cd premium
+        composer install --no-interaction --ignore-platform-reqs --no-scripts --no-suggest
+        cd -
+      else
+        composer install --no-interaction --ignore-platform-reqs --no-scripts --no-suggest
+      fi
     elif [[ "$PHPUNIT" == "1" || "$COVERAGE" == "1" || "$PHPCS" == "1" || "$PHPLINT" == "1" ]]; then
       # Run composer update as we have dev dependencies locked at PHP ^7.0 versions.
       composer update
@@ -198,7 +204,11 @@ before_script:
       if [[ -z "$PLUGIN_TAGS" ]]; then
         git clone https://github.com/yoast/javascript /tmp/javascript
         echo '{"monorepo-location":"/tmp/javascript"}' > .yoast
-        yarn link-monorepo
+        if [[ ( $TRAVIS_BRANCH =~ ^feature\/* || $TRAVIS_BRANCH =~ ^release\/* || $TRAVIS_BRANCH = "trunk" ) && $TRAVIS_EVENT_TYPE = "pull_request" ]]; then
+          AUTO_CHECKOUT_MONOREPO_BRANCH=1 yarn link-monorepo
+        else
+          yarn link-monorepo
+        fi
       fi
     fi
   - phpenv rehash
@@ -248,9 +258,7 @@ script:
     if [[ "$PHPLINT" == "1" ]]; then
       travis_fold start "PHP.check" && travis_time_start
       if [[ "$IS_PREMIUM" == "1" ]]; then
-        cd premium
-        composer lint
-        cd -
+        cd premium && composer lint && cd -
       else
         composer lint
       fi
@@ -261,16 +269,9 @@ script:
     if [[ "$PHPCS" == "1" ]]; then
       travis_fold start "PHP.code-style" && travis_time_start
       if [[ "$IS_PREMIUM" == "1" ]]; then
-        cd premium
-        composer check-cs
-        cd -
-      elif [[ "$TRAVIS_PULL_REQUEST" == "false" ]]; then
-          composer check-cs-threshold
+        cd premium && composer check-cs && cd -
       else
-        # For pull requests the $TRAVIS_BRANCH contains the target branch.
-        # We want to avoid introducing any new CS errors or warnings in PRs.
         composer check-cs-threshold
-        composer check-branch-cs $TRAVIS_BRANCH
       fi
       travis_time_finish && travis_fold end "PHP.code-style"
     fi

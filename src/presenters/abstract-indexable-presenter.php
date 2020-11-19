@@ -1,9 +1,4 @@
 <?php
-/**
- * Abstract presenter class for indexable presentations.
- *
- * @package Yoast\YoastSEO\Presenters
- */
 
 namespace Yoast\WP\SEO\Presenters;
 
@@ -12,7 +7,7 @@ use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 use Yoast\WP\SEO\Surfaces\Helpers_Surface;
 
 /**
- * Class Abstract_Indexable_Presenter
+ * Abstract presenter class for indexable presentations.
  */
 abstract class Abstract_Indexable_Presenter extends Abstract_Presenter {
 

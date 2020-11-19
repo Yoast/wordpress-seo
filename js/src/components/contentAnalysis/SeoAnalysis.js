@@ -12,7 +12,7 @@ import { colors } from "@yoast/style-guide";
 import ScoreIconPortal from "../portals/ScoreIconPortal";
 import SidebarCollapsible from "../SidebarCollapsible";
 import MetaboxCollapsible from "../MetaboxCollapsible";
-import Results from "./Results";
+import Results from "../../containers/Results";
 import getIndicatorForScore from "../../analysis/getIndicatorForScore";
 import { getIconForScore } from "./mapResults";
 import KeywordSynonyms from "../modals/KeywordSynonyms";
@@ -244,7 +244,6 @@ class SeoAnalysis extends Component {
 									{ __( "Analysis results", "wordpress-seo" ) }
 								</AnalysisHeader>
 								<Results
-									showLanguageNotice={ false }
 									results={ this.props.results }
 									marksButtonClassName="yoast-tooltip yoast-tooltip-w"
 									marksButtonStatus={ this.props.marksButtonStatus }

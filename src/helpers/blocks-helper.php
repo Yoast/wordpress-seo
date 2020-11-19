@@ -1,16 +1,11 @@
 <?php
-/**
- * A helper object for blocks.
- *
- * @package Yoast\WP\SEO\Helpers
- */
 
 namespace Yoast\WP\SEO\Helpers;
 
 use WP_Block_Parser_Block;
 
 /**
- * Class Blocks_Helper
+ * A helper object for blocks.
  */
 class Blocks_Helper {
 

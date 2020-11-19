@@ -1,11 +1,11 @@
 import { createPortal, Fragment } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { FieldGroup, Select } from "@yoast/components";
+import { join } from "@yoast/helpers";
 import interpolateComponents from "interpolate-components";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { schemaTypeOptionsPropType } from "./SchemaSettings";
-import SidebarCollapsible from "./SidebarCollapsible";
 
 const SchemaContainer = styled.div`
 	padding: 16px;
@@ -71,11 +71,12 @@ const footerWithLink = ( postTypeName ) => interpolateComponents(
  *
  * @param {object} props Component props.
  *
- * @returns {React.Component} The schema tab content.
+ * @returns {JSX.Element} The schema tab content.
  */
 const Content = ( props ) => {
 	const schemaPageTypeOptions = getSchemaTypeOptions( props.pageTypeOptions, props.defaultPageType, props.postTypeName );
 	const schemaArticleTypeOptions = getSchemaTypeOptions( props.articleTypeOptions, props.defaultArticleType, props.postTypeName );
+
 	return (
 		<Fragment>
 			<FieldGroup
@@ -90,14 +91,14 @@ const Content = ( props ) => {
 				linkText={ __( "Learn more about page or content types", "wordpress-seo" ) }
 			/>
 			<Select
-				id="yoast_wpseo_schema_page_type_react"
+				id={ join( [ "yoast-schema-page-type", props.location ] ) }
 				options={ schemaPageTypeOptions }
 				label={ __( "Page type", "wordpress-seo" ) }
 				onChange={ props.schemaPageTypeChange }
 				selected={ props.schemaPageTypeSelected }
 			/>
 			{ props.showArticleTypeInput && <Select
-				id="yoast_wpseo_schema_article_type_react"
+				id={ join( [ "yoast-schema-article-type", props.location ] ) }
 				options={ schemaArticleTypeOptions }
 				label={ __( "Article type", "wordpress-seo" ) }
 				onChange={ props.schemaArticleTypeChange }
@@ -124,6 +125,7 @@ Content.propTypes = {
 	displayFooter: PropTypes.bool,
 	defaultPageType: PropTypes.string.isRequired,
 	defaultArticleType: PropTypes.string.isRequired,
+	location: PropTypes.string.isRequired,
 };
 
 Content.defaultProps = {
@@ -152,11 +154,7 @@ const SchemaTab = ( props ) => {
 	}
 
 	return (
-		<SidebarCollapsible
-			title={ __( "Schema", "wordpress-seo" ) }
-		>
-			<Content { ...props } />
-		</SidebarCollapsible>
+		<Content { ...props } />
 	);
 };
 
@@ -173,6 +171,7 @@ SchemaTab.propTypes = {
 	displayFooter: PropTypes.bool,
 	loadSchemaArticleData: PropTypes.func.isRequired,
 	loadSchemaPageData: PropTypes.func.isRequired,
+	location: PropTypes.string.isRequired,
 };
 
 SchemaTab.defaultProps = {

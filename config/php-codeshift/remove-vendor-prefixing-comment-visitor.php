@@ -1,9 +1,4 @@
 <?php
-/**
- * Yoast SEO Plugin File.
- *
- * @package Yoast\YoastSEO\PHP_CodeShift
- */
 
 namespace Yoast\WP\SEO\PHP_CodeShift;
 
@@ -12,7 +7,7 @@ use PhpParser\Node;
 use PhpParser\NodeVisitorAbstract;
 
 /**
- * Class Vendor_Prefixing_Visitor
+ * Class Remove_Vendor_Prefixing_Comment_Visitor.
  */
 class Remove_Vendor_Prefixing_Comment_Visitor extends NodeVisitorAbstract {
 

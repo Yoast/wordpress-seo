@@ -10,9 +10,11 @@ use Yoast\WP\SEO\Generators\Schema_Generator;
 use Yoast\WP\SEO\Generators\Twitter_Image_Generator;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Image_Helper;
+use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Helpers\Open_Graph\Image_Helper as Open_Graph_Image_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Pagination_Helper;
+use Yoast\WP\SEO\Helpers\Permalink_Helper;
 use Yoast\WP\SEO\Helpers\Twitter\Image_Helper as Twitter_Image_Helper;
 use Yoast\WP\SEO\Helpers\Url_Helper;
 use Yoast\WP\SEO\Helpers\User_Helper;
@@ -54,6 +56,20 @@ trait Presentation_Instance_Dependencies {
 	 * @var User_Helper|Mockery\MockInterface
 	 */
 	protected $user;
+
+	/**
+	 * Holds the indexable helper.
+	 *
+	 * @var Indexable_Helper|Mockery\MockInterface
+	 */
+	protected $indexable_helper;
+
+	/**
+	 * Holds the permalink helper.
+	 *
+	 * @var Permalink_Helper|Mockery\MockInterface
+	 */
+	protected $permalink_helper;
 
 	/**
 	 * Holds the opengraph image helper.
@@ -101,6 +117,8 @@ trait Presentation_Instance_Dependencies {
 		$this->current_page     = Mockery::mock( Current_Page_Helper::class );
 		$this->url              = Mockery::mock( Url_Helper::class );
 		$this->user             = Mockery::mock( User_Helper::class );
+		$this->indexable_helper = Mockery::mock( Indexable_Helper::class );
+		$this->permalink_helper = Mockery::mock( Permalink_Helper::class );
 		$this->open_graph_image = Mockery::mock( Open_Graph_Image_Helper::class );
 		$this->twitter          = Mockery::mock( Twitter_Image_Helper::class );
 
@@ -109,7 +127,9 @@ trait Presentation_Instance_Dependencies {
 			$this->options,
 			$this->current_page,
 			$this->url,
-			$this->user
+			$this->user,
+			$this->indexable_helper,
+			$this->permalink_helper
 		);
 
 		$this->open_graph_image_generator = Mockery::mock(

@@ -1,16 +1,13 @@
 <?php
-/**
- * Presentation object for indexables.
- *
- * @package Yoast\YoastSEO\Presentations
- */
 
 namespace Yoast\WP\SEO\Presentations;
 
 use Yoast\WP\SEO\Helpers\Pagination_Helper;
 
 /**
- * Class Indexable_Date_Archive_Presentation
+ * Class Indexable_Date_Archive_Presentation.
+ *
+ * Presentation object for indexables.
  */
 class Indexable_Date_Archive_Presentation extends Indexable_Presentation {
 
@@ -31,7 +28,9 @@ class Indexable_Date_Archive_Presentation extends Indexable_Presentation {
 	}
 
 	/**
-	 * @inheritDoc
+	 * Generates the canonical.
+	 *
+	 * @return string The canonical.
 	 */
 	public function generate_canonical() {
 		$canonical = $this->current_page->get_date_archive_permalink();
@@ -45,7 +44,9 @@ class Indexable_Date_Archive_Presentation extends Indexable_Presentation {
 	}
 
 	/**
-	 * @inheritDoc
+	 * Generates the robots value.
+	 *
+	 * @return array The robots value.
 	 */
 	public function generate_robots() {
 		$robots = $this->get_base_robots();
@@ -58,7 +59,9 @@ class Indexable_Date_Archive_Presentation extends Indexable_Presentation {
 	}
 
 	/**
-	 * @inheritDoc
+	 * Generates the title.
+	 *
+	 * @return string The title.
 	 */
 	public function generate_title() {
 		if ( $this->model->title ) {
@@ -69,7 +72,9 @@ class Indexable_Date_Archive_Presentation extends Indexable_Presentation {
 	}
 
 	/**
-	 * @inheritDoc
+	 * Generates the rel prev.
+	 *
+	 * @return string The rel prev value.
 	 */
 	public function generate_rel_prev() {
 		if ( $this->pagination->is_rel_adjacent_disabled() ) {
@@ -90,7 +95,9 @@ class Indexable_Date_Archive_Presentation extends Indexable_Presentation {
 	}
 
 	/**
-	 * @inheritDoc
+	 * Generates the rel next.
+	 *
+	 * @return string The rel prev next.
 	 */
 	public function generate_rel_next() {
 		if ( $this->pagination->is_rel_adjacent_disabled() ) {

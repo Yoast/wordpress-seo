@@ -244,7 +244,7 @@ class Url_Helper_Test extends TestCase {
 			->andReturn( 'https://example.org' );
 
 		Monkey\Functions\expect( 'wp_parse_url' )
-			->with( 'https://example.org/', PHP_URL_PATH )
+			->with( 'https://example.org/', \PHP_URL_PATH )
 			->andReturn( null );
 
 		Monkey\Functions\expect( 'trailingslashit' )
@@ -264,7 +264,7 @@ class Url_Helper_Test extends TestCase {
 			->andReturn( 'https://example.org/' );
 
 		Monkey\Functions\expect( 'wp_parse_url' )
-			->with( 'https://example.org/', PHP_URL_PATH )
+			->with( 'https://example.org/', \PHP_URL_PATH )
 			->andReturn( '/' );
 
 		$this->assertEquals( 'https://example.org/', $this->instance->home() );
@@ -280,7 +280,7 @@ class Url_Helper_Test extends TestCase {
 			->andReturn( 'https://example.org' );
 
 		Monkey\Functions\expect( 'wp_parse_url' )
-			->with( 'https://example.org/', PHP_URL_PATH )
+			->with( 'https://example.org/', \PHP_URL_PATH )
 			->andReturn( 'https://example.org/subdirectory' );
 
 		Monkey\Functions\expect( 'user_trailingslashit' )
@@ -289,7 +289,6 @@ class Url_Helper_Test extends TestCase {
 
 		$this->assertEquals( 'https://example.org/', $this->instance->home() );
 	}
-
 
 	/**
 	 * Tests the home url with the home in a subdirectory.
@@ -301,7 +300,7 @@ class Url_Helper_Test extends TestCase {
 			->andReturn( 'https://example.org' );
 
 		Monkey\Functions\expect( 'wp_parse_url' )
-			->with( 'https://example.org/', PHP_URL_PATH )
+			->with( 'https://example.org/', \PHP_URL_PATH )
 			->andReturn( false );
 
 		$this->assertEquals( 'https://example.org', $this->instance->home() );
@@ -360,29 +359,55 @@ class Url_Helper_Test extends TestCase {
 				'URLs with a non http(s)? scheme should be external',
 			],
 			[
-				[ 'scheme' => 'http', 'host' => 'not-example.com' ],
+				[
+					'scheme' => 'http',
+					'host'   => 'not-example.com',
+				],
 				null,
 				false,
 				SEO_Links::TYPE_EXTERNAL,
 				'When no home_url is passed home_url and wp_parse_url should be called',
 			],
 			[
-				[ 'scheme' => 'http', 'host' => 'example.com', 'path' => 'test' ],
-				[ 'scheme' => 'http', 'host' => 'example.com' ],
+				[
+					'scheme' => 'http',
+					'host'   => 'example.com',
+					'path'   => 'test',
+				],
+				[
+					'scheme' => 'http',
+					'host'   => 'example.com',
+				],
 				false,
 				SEO_Links::TYPE_INTERNAL,
 				'When home_url has no path and the hosts match the URL should be internal',
 			],
 			[
-				[ 'scheme' => 'http', 'host' => 'example.com', 'path' => 'test' ],
-				[ 'scheme' => 'http', 'host' => 'example.com', 'path' => 'home' ],
+				[
+					'scheme' => 'http',
+					'host'   => 'example.com',
+					'path'   => 'test',
+				],
+				[
+					'scheme' => 'http',
+					'host'   => 'example.com',
+					'path'   => 'home',
+				],
 				false,
 				SEO_Links::TYPE_EXTERNAL,
 				'When home_url has a path URLs that don\'t start with it should be external',
 			],
 			[
-				[ 'scheme' => 'http', 'host' => 'example.com', 'path' => 'home/test' ],
-				[ 'scheme' => 'http', 'host' => 'example.com', 'path' => 'home' ],
+				[
+					'scheme' => 'http',
+					'host'   => 'example.com',
+					'path'   => 'home/test',
+				],
+				[
+					'scheme' => 'http',
+					'host'   => 'example.com',
+					'path'   => 'home',
+				],
 				false,
 				SEO_Links::TYPE_INTERNAL,
 				'When home_url has a path URLs that do start with it should be internal',

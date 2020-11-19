@@ -1,9 +1,4 @@
 <?php
-/**
- * WPSEO plugin file.
- *
- * @package Yoast\WP\SEO\Helpers
- */
 
 namespace Yoast\WP\SEO\Helpers;
 
@@ -42,8 +37,8 @@ class Woocommerce_Helper {
 	public function is_shop_page() {
 		if ( ! \function_exists( 'is_shop' ) ) {
 			return false;
-
 		}
+
 		if ( ! \is_shop() ) {
 			return false;
 		}

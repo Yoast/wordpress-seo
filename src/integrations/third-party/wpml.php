@@ -1,9 +1,4 @@
 <?php
-/**
- * Yoast SEO Plugin File.
- *
- * @package Yoast\YoastSEO\Integrations
- */
 
 namespace Yoast\WP\SEO\Integrations\Third_Party;
 
@@ -11,14 +6,16 @@ use Yoast\WP\SEO\Conditionals\WPML_Conditional;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 
 /**
- * Class WPML
- *
- * @package Yoast\WP\SEO\Integration\Third_Party
+ * WPML integration.
  */
 class WPML implements Integration_Interface {
 
 	/**
-	 * @inheritDoc
+	 * Initializes the integration.
+	 *
+	 * This is the place to register hooks and filters.
+	 *
+	 * @return void
 	 */
 	public function register_hooks() {
 		\add_action( 'wpseo_home_url', [ $this, 'filter_home_url_before' ] );
@@ -26,7 +23,9 @@ class WPML implements Integration_Interface {
 	}
 
 	/**
-	 * @inheritDoc
+	 * Returns the conditionals based in which this loadable should be active.
+	 *
+	 * @return array
 	 */
 	public static function get_conditionals() {
 		return [ WPML_Conditional::class ];

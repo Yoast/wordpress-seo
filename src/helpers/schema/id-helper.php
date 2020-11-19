@@ -1,9 +1,4 @@
 <?php
-/**
- * WPSEO plugin file.
- *
- * @package Yoast\WP\SEO\Helpers\Schema
- */
 
 namespace Yoast\WP\SEO\Helpers\Schema;
 

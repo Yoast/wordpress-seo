@@ -1,14 +1,14 @@
 import { connect } from "react-redux";
 import { SnippetEditor } from "@yoast/search-metadata-previews";
-import { Fragment } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { dispatch as wpDataDispatch } from "@wordpress/data";
+import { LocationConsumer } from "../components/contexts/location";
 
 import {
 	switchMode,
 	updateData,
-} from "../redux/actions/snippetEditor";
-import { updateAnalysisData } from "../redux/actions/analysisData";
+	updateAnalysisData,
+} from "../redux/actions";
 import SnippetPreviewSection from "../components/SnippetPreviewSection";
 import { applyReplaceUsingPlugin } from "../helpers/replacementVariableHelpers";
 
@@ -53,18 +53,22 @@ export const mapEditorDataToPreview = function( data, context ) {
  * @returns {wp.Element} The component.
  */
 const SnippetEditorWrapper = ( props ) => (
-	<Fragment>
-		<SnippetPreviewSection
-			icon="eye"
-			hasPaperStyle={ props.hasPaperStyle }
-		>
-			<SnippetEditor
-				{ ...props }
-				descriptionPlaceholder={ __( "Please provide a meta description by editing the snippet below.", "wordpress-seo" ) }
-				mapEditorDataToPreview={ mapEditorDataToPreview }
-			/>
-		</SnippetPreviewSection>
-	</Fragment>
+	<LocationConsumer>
+		{ location =>
+			<SnippetPreviewSection
+				icon="eye"
+				hasPaperStyle={ props.hasPaperStyle }
+			>
+				<SnippetEditor
+					{ ...props }
+					descriptionPlaceholder={ __( "Please provide a meta description by editing the snippet below.", "wordpress-seo" ) }
+					mapEditorDataToPreview={ mapEditorDataToPreview }
+					showCloseButton={ false }
+					idSuffix={ location }
+				/>
+			</SnippetPreviewSection>
+		}
+	</LocationConsumer>
 );
 
 /**

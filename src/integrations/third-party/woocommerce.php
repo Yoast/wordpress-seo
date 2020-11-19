@@ -1,9 +1,4 @@
 <?php
-/**
- * WPSEO plugin file.
- *
- * @package Yoast\WP\SEO\Integrations\Third_Party
- */
 
 namespace Yoast\WP\SEO\Integrations\Third_Party;
 
@@ -18,7 +13,7 @@ use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
 /**
- * Class WooCommerce
+ * WooCommerce integration.
  */
 class WooCommerce implements Integration_Interface {
 
@@ -44,12 +39,16 @@ class WooCommerce implements Integration_Interface {
 	protected $context_memoizer;
 
 	/**
+	 * The indexable repository.
+	 *
 	 * @var Indexable_Repository
 	 */
 	private $repository;
 
 	/**
-	 * @inheritDoc
+	 * Returns the conditionals based in which this loadable should be active.
+	 *
+	 * @return array
 	 */
 	public static function get_conditionals() {
 		return [ WooCommerce_Conditional::class, Front_End_Conditional::class ];
@@ -76,7 +75,11 @@ class WooCommerce implements Integration_Interface {
 	}
 
 	/**
-	 * @inheritDoc
+	 * Initializes the integration.
+	 *
+	 * This is the place to register hooks and filters.
+	 *
+	 * @return void
 	 */
 	public function register_hooks() {
 		\add_filter( 'wpseo_frontend_page_type_simple_page_id', [ $this, 'get_page_id' ] );

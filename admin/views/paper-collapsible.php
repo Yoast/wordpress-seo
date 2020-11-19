@@ -41,7 +41,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 				// phpcs:ignore WordPress.Security.EscapeOutput -- $button_id_attr is escaped above.
 				$button_id_attr,
 				esc_attr( $collapsible_config['expanded'] ),
-				// phpcs:ignore WordPress.Security.EscapeOutput -- $help_text is and instance of WPSEO_Admin_Help_Panel, which escapes it's own output.
+				// phpcs:ignore WordPress.Security.EscapeOutput -- $help_text is an instance of WPSEO_Admin_Help_Panel, which escapes it's own output.
 				$help_text->get_button_html(),
 				esc_html( $title ) . wp_kses_post( $title_after ),
 				wp_kses_post( $collapsible_config['toggle_icon'] )
@@ -51,7 +51,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 			echo '<div class="paper-title"><h2 class="help-button-inline">',
 				esc_html( $title ),
 				wp_kses_post( $title_after ),
-				// phpcs:ignore WordPress.Security.EscapeOutput -- $help_text is and instance of WPSEO_Admin_Help_Panel, which escapes it's own output.
+				// phpcs:ignore WordPress.Security.EscapeOutput -- $help_text is an instance of WPSEO_Admin_Help_Panel, which escapes it's own output.
 				$help_text->get_button_html(),
 				'</h2></div>';
 		}
@@ -59,7 +59,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	?>
 	<?php
 
-	// phpcs:ignore WordPress.Security.EscapeOutput -- $help_text is and instance of WPSEO_Admin_Help_Panel, which escapes it's own output.
+	// phpcs:ignore WordPress.Security.EscapeOutput -- $help_text is an instance of WPSEO_Admin_Help_Panel, which escapes it's own output.
 	echo $help_text->get_panel_html();
 
 	$container_id_attr = '';
@@ -72,7 +72,6 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 		// phpcs:ignore WordPress.Security.EscapeOutput -- $container_id_attr is escaped above.
 		$container_id_attr,
 		esc_attr( 'paper-container ' . $collapsible_config['class'] ),
-		// phpcs:ignore WordPress.Security.EscapeOutput -- $content is escaped above.
 		$content
 	);
 	?>

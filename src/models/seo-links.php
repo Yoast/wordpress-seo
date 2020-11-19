@@ -1,16 +1,11 @@
 <?php
-/**
- * Model for the SEO Meta table.
- *
- * @package Yoast\YoastSEO\Models
- */
 
 namespace Yoast\WP\SEO\Models;
 
 use Yoast\WP\Lib\Model;
 
 /**
- * Table definition for the SEO Meta table.
+ * Table definition for the SEO Links table.
  *
  * @property int    $id
  * @property string $url

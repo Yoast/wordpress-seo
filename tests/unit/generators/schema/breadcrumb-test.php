@@ -13,7 +13,7 @@ use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
- * Class Breadcrumb_Test
+ * Class Breadcrumb_Test.
  *
  * @group generators
  * @group breadcrumbs
@@ -59,7 +59,7 @@ class Breadcrumb_Test extends TestCase {
 	private $meta_tags_context;
 
 	/**
-	 * Set up tests.
+	 * Sets up the tests.
 	 */
 	public function setUp() {
 		parent::setUp();
@@ -110,6 +110,7 @@ class Breadcrumb_Test extends TestCase {
 		$this->meta_tags_context->presentation->breadcrumbs = $breadcrumb_data;
 
 		$this->current_page->expects( 'is_paged' )->andReturnFalse();
+		$this->current_page->expects( 'is_home_static_page' )->once()->andReturnFalse();
 
 		$this->html
 			->expects( 'smart_strip_tags' )
@@ -156,6 +157,111 @@ class Breadcrumb_Test extends TestCase {
 	}
 
 	/**
+	 * Tests the generation of the breadcrumbs when a non-nested page is set as the static front page.
+	 *
+	 * @covers ::generate
+	 * @covers ::not_hidden
+	 * @covers ::is_broken
+	 * @covers ::create_breadcrumb
+	 * @covers ::format_last_breadcrumb
+	 */
+	public function test_generate_non_nested_static_front_page() {
+		$breadcrumb_data = [
+			[
+				'url'  => 'https://basic.wordpress.test/',
+				'text' => 'Home',
+			],
+		];
+
+		$this->meta_tags_context->presentation->breadcrumbs = $breadcrumb_data;
+
+		$this->current_page->expects( 'is_paged' )->andReturnFalse();
+		$this->current_page->expects( 'is_home_static_page' )->once()->andReturnTrue();
+
+		$this->html
+			->expects( 'smart_strip_tags' )
+			->with( 'Home' )
+			->once()
+			->andReturnArg( 0 );
+
+		$actual = $this->instance->generate();
+
+		$expected = [
+			'@type'           => 'BreadcrumbList',
+			'@id'             => 'https://wordpress.example.com/canonical#breadcrumb',
+			'itemListElement' => [
+				[
+					'@type'    => 'ListItem',
+					'position' => 1,
+					'item'     => [
+						'@type' => 'WebPage',
+						'@id'   => 'https://basic.wordpress.test/',
+						'url'   => 'https://basic.wordpress.test/',
+						'name'  => 'Home',
+					],
+				],
+			],
+		];
+
+		$this->assertEquals( $expected, $actual );
+	}
+
+	/**
+	 * Tests the generation of the breadcrumbs when a nested page is set as the static front page.
+	 *
+	 * @covers ::generate
+	 * @covers ::not_hidden
+	 * @covers ::is_broken
+	 * @covers ::create_breadcrumb
+	 * @covers ::format_last_breadcrumb
+	 */
+	public function test_generate_nested_static_front_page() {
+		$breadcrumb_data = [
+			[
+				'url'  => 'https://wordpress.example.com/',
+				'text' => 'Home',
+			],
+			[
+				'url'  => 'https://basic.wordpress.test/',
+				'text' => 'Test post',
+				'id'   => '123',
+			],
+		];
+
+		$this->meta_tags_context->presentation->breadcrumbs = $breadcrumb_data;
+
+		$this->current_page->expects( 'is_paged' )->andReturnFalse();
+		$this->current_page->expects( 'is_home_static_page' )->once()->andReturnTrue();
+
+		$this->html
+			->expects( 'smart_strip_tags' )
+			->with( 'Home' )
+			->once()
+			->andReturnArg( 0 );
+
+		$actual = $this->instance->generate();
+
+		$expected = [
+			'@type'           => 'BreadcrumbList',
+			'@id'             => 'https://wordpress.example.com/canonical#breadcrumb',
+			'itemListElement' => [
+				[
+					'@type'    => 'ListItem',
+					'position' => 1,
+					'item'     => [
+						'@type' => 'WebPage',
+						'@id'   => 'https://basic.wordpress.test/',
+						'url'   => 'https://basic.wordpress.test/',
+						'name'  => 'Home',
+					],
+				],
+			],
+		];
+
+		$this->assertEquals( $expected, $actual );
+	}
+
+	/**
 	 * Tests whether a breadcrumb is hidden when it has a `hide_in_schema` property set to `true`.
 	 *
 	 * @covers ::generate
@@ -182,6 +288,7 @@ class Breadcrumb_Test extends TestCase {
 		$this->meta_tags_context->presentation->breadcrumbs = $breadcrumb_data;
 
 		$this->current_page->expects( 'is_paged' )->andReturnFalse();
+		$this->current_page->expects( 'is_home_static_page' )->once()->andReturnFalse();
 
 		$this->html
 			->expects( 'smart_strip_tags' )
@@ -271,6 +378,7 @@ class Breadcrumb_Test extends TestCase {
 		$this->meta_tags_context->title                     = 'Page title';
 
 		$this->current_page->expects( 'is_paged' )->andReturnTrue();
+		$this->current_page->expects( 'is_home_static_page' )->once()->andReturnFalse();
 
 		$this->html
 			->expects( 'smart_strip_tags' )
@@ -362,6 +470,7 @@ class Breadcrumb_Test extends TestCase {
 		$this->meta_tags_context->indexable->number_of_pages = 3;
 
 		$this->current_page->expects( 'is_paged' )->andReturnFalse();
+		$this->current_page->expects( 'is_home_static_page' )->andReturnFalse();
 
 		$this->html
 			->expects( 'smart_strip_tags' )
@@ -451,6 +560,7 @@ class Breadcrumb_Test extends TestCase {
 		$this->meta_tags_context->title                     = 'Page title';
 
 		$this->current_page->expects( 'is_paged' )->andReturnFalse();
+		$this->current_page->expects( 'is_home_static_page' )->once()->andReturnFalse();
 
 		$this->html
 			->expects( 'smart_strip_tags' )
@@ -525,6 +635,8 @@ class Breadcrumb_Test extends TestCase {
 		$this->meta_tags_context->title                     = 'Page title';
 
 		$this->current_page->expects( 'is_paged' )->andReturnFalse();
+		$this->current_page->expects( 'is_home_static_page' )->once()->andReturnFalse();
+
 		$this->html->expects( 'smart_strip_tags' )->once()->with( 'Home' )->andReturn( 'Home' );
 		$this->html->expects( 'smart_strip_tags' )->twice()->with( 'Page title' )->andReturn( 'Page title' );
 
@@ -588,7 +700,6 @@ class Breadcrumb_Test extends TestCase {
 	 * @covers ::is_needed
 	 */
 	public function test_is_not_needed_on_static_home_page() {
-		$this->current_page->expects( 'is_home_static_page' )->andReturnTrue();
 		$this->assertFalse( $this->instance->is_needed() );
 	}
 
@@ -598,7 +709,6 @@ class Breadcrumb_Test extends TestCase {
 	 * @covers ::is_needed
 	 */
 	public function test_is_needed_when_breadcrumbs_are_enabled() {
-		$this->current_page->expects( 'is_home_static_page' )->andReturnFalse();
 		$this->meta_tags_context->breadcrumbs_enabled = true;
 		$this->assertTrue( $this->instance->is_needed() );
 	}
@@ -609,7 +719,6 @@ class Breadcrumb_Test extends TestCase {
 	 * @covers ::is_needed
 	 */
 	public function test_is_not_needed_when_breadcrumbs_are_disabled() {
-		$this->current_page->expects( 'is_home_static_page' )->andReturnFalse();
 		$this->meta_tags_context->breadcrumbs_enabled = false;
 		$this->assertFalse( $this->instance->is_needed() );
 	}

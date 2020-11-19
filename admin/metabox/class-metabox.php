@@ -279,6 +279,10 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			$values['cornerstoneActive'] = false;
 		}
 
+		if ( $values['semrushIntegrationActive'] && $this->post->post_type === 'attachment' ) {
+			$values['semrushIntegrationActive'] = 0;
+		}
+
 		return $values;
 	}
 
@@ -355,7 +359,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 */
 	protected function render_tabs() {
 		echo '<div class="wpseo-metabox-content">';
-		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: $this->get_product_title is considered safe.
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: $this->get_product_title() returns a hard-coded string.
 		printf( '<div class="wpseo-metabox-menu"><ul role="tablist" class="yoast-aria-tabs" aria-label="%s">', $this->get_product_title() );
 
 		$tabs = $this->get_tabs();

@@ -1,9 +1,4 @@
 <?php
-/**
- * WPSEO plugin test file.
- *
- * @package Yoast\WP\SEO\Tests\Unit\Integrations\Third_Party
- */
 
 namespace Yoast\WP\SEO\Tests\Unit\Integrations\Third_Party;
 
@@ -21,7 +16,7 @@ use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
- * Unit Test Class.
+ * Class WooCommerce_Test.
  *
  * @coversDefaultClass \Yoast\WP\SEO\Integrations\Third_Party\WooCommerce
  *
@@ -74,6 +69,8 @@ class WooCommerce_Test extends TestCase {
 	protected $context_memoizer;
 
 	/**
+	 * The indexable repository.
+	 *
 	 * @var Indexable_Repository
 	 */
 	private $repository;
@@ -127,9 +124,9 @@ class WooCommerce_Test extends TestCase {
 	public function test_register_hooks() {
 		$this->instance->register_hooks();
 
-		$this->assertTrue( Monkey\Filters\has( 'wpseo_frontend_page_type_simple_page_id', [ $this->instance, 'get_page_id' ] ) );
-		$this->assertTrue( Monkey\Filters\has( 'wpseo_title', [ $this->instance, 'title' ] ) );
-		$this->assertTrue( Monkey\Filters\has( 'wpseo_metadesc', [ $this->instance, 'description' ] ) );
+		$this->assertNotFalse( Monkey\Filters\has( 'wpseo_frontend_page_type_simple_page_id', [ $this->instance, 'get_page_id' ] ) );
+		$this->assertNotFalse( Monkey\Filters\has( 'wpseo_title', [ $this->instance, 'title' ] ) );
+		$this->assertNotFalse( Monkey\Filters\has( 'wpseo_metadesc', [ $this->instance, 'description' ] ) );
 	}
 
 	/**

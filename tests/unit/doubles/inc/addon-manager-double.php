@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Doubles\Inc;
 
+use Brain\Monkey;
 use stdClass;
 use WPSEO_Addon_Manager;
 
@@ -40,6 +41,10 @@ class Addon_Manager_Double extends WPSEO_Addon_Manager {
 	 * @return stdClass The converted subscription.
 	 */
 	public function convert_subscription_to_plugin( $subscription ) {
+		Monkey\Functions\expect( '_get_plugin_data_markup_translate' )
+			->withAnyArgs()
+			->andReturn( (object) $subscription );
+
 		return parent::convert_subscription_to_plugin( $subscription );
 	}
 

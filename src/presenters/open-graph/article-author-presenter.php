@@ -1,9 +1,4 @@
 <?php
-/**
- * Presenter class for the Open Graph article author.
- *
- * @package Yoast\YoastSEO\Presenters\Open_Graph
- */
 
 namespace Yoast\WP\SEO\Presenters\Open_Graph;
 
@@ -11,7 +6,7 @@ use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 use Yoast\WP\SEO\Presenters\Abstract_Indexable_Tag_Presenter;
 
 /**
- * Class Article_Author_Presenter
+ * Presenter class for the Open Graph article author.
  */
 class Article_Author_Presenter extends Abstract_Indexable_Tag_Presenter {
 

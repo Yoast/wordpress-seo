@@ -1,36 +1,29 @@
-/* External dependencies */
-import { connect } from "react-redux";
-
-/* Internal dependencies */
+/* globals wpseoAdminL10n */
+import { compose } from "@wordpress/compose";
+import { withDispatch, withSelect } from "@wordpress/data";
 import CollapsibleCornerstone from "../components/CollapsibleCornerstone";
-import { toggleCornerstoneContent } from "../redux/actions/cornerstoneContent";
+import withLocation from "../helpers/withLocation";
 
 /**
- * Maps the state to props.
+ * Composes the CollapsibleCornerstone container.
  *
- * @param {Object} state The state.
- *
- * @returns {Object} The props for the CollapsibleCornerstone component.
+ * @returns {Component} The composed CollapsibleCornerstone component.
  */
-function mapStateToProps( state ) {
-	return {
-		isCornerstone: state.isCornerstone,
-	};
-}
+export default compose( [
+	withSelect( select => {
+		const { isCornerstoneContent } = select( "yoast-seo/editor" );
 
-/**
- * Maps the dispatch to props.
- *
- * @param {function} dispatch The dispatch function.
- *
- * @returns {Object} The dispatch props.
- */
-function mapDispatchToProps( dispatch ) {
-	return {
-		onChange: () => {
-			dispatch( toggleCornerstoneContent() );
-		},
-	};
-}
+		return {
+			isCornerstone: isCornerstoneContent(),
+			learnMoreUrl: wpseoAdminL10n[ "shortlinks.cornerstone_content_info" ],
+		};
+	} ),
+	withDispatch( dispatch => {
+		const { toggleCornerstoneContent } = dispatch( "yoast-seo/editor" );
 
-export default connect( mapStateToProps, mapDispatchToProps )( CollapsibleCornerstone );
+		return {
+			onChange: toggleCornerstoneContent,
+		};
+	} ),
+	withLocation(),
+] )( CollapsibleCornerstone );

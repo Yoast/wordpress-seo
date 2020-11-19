@@ -113,15 +113,17 @@ class Yoast_Network_Admin implements WPSEO_WordPress_Integration, WPSEO_WordPres
 			return;
 		}
 
+		// phpcs:disable WordPress.Security.NonceVerification -- Nonce verified via `verify_request()` above.
 		foreach ( $whitelist_options as $option_name ) {
 			$value = null;
-			if ( isset( $_POST[ $option_name ] ) ) { // WPCS: CSRF ok.
+			if ( isset( $_POST[ $option_name ] ) ) {
 				// Adding sanitize_text_field around this will break the saving of settings because it expects a string: https://github.com/Yoast/wordpress-seo/issues/12440.
-				$value = wp_unslash( $_POST[ $option_name ] ); // WPCS: CSRF ok.
+				$value = wp_unslash( $_POST[ $option_name ] );
 			}
 
 			WPSEO_Options::update_site_option( $option_name, $value );
 		}
+		// phpcs:enable WordPress.Security.NonceVerification
 
 		$settings_errors = get_settings_errors();
 		if ( empty( $settings_errors ) ) {
@@ -141,7 +143,8 @@ class Yoast_Network_Admin implements WPSEO_WordPress_Integration, WPSEO_WordPres
 
 		$option_group = 'wpseo_ms';
 
-		$site_id = ! empty( $_POST[ $option_group ]['site_id'] ) ? (int) $_POST[ $option_group ]['site_id'] : 0; // WPCS: CSRF ok.
+		// phpcs:ignore WordPress.Security.NonceVerification -- Nonce verified via `verify_request()` above.
+		$site_id = ! empty( $_POST[ $option_group ]['site_id'] ) ? (int) $_POST[ $option_group ]['site_id'] : 0;
 		if ( ! $site_id ) {
 			add_settings_error( $option_group, 'settings_updated', __( 'No site has been selected to restore.', 'wordpress-seo' ), 'error' );
 

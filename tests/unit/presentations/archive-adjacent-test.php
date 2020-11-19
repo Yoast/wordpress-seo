@@ -78,6 +78,11 @@ class Archive_Adjacent_Test extends TestCase {
 	public function test_generate_rel_prev_is_second_page() {
 		$this->indexable->permalink = 'https://example.com/permalink/';
 
+		$this->indexable_helper
+			->expects( 'dynamic_permalinks_enabled' )
+			->once()
+			->andReturn( false );
+
 		$this->pagination
 			->expects( 'is_rel_adjacent_disabled' )
 			->once()
@@ -98,6 +103,11 @@ class Archive_Adjacent_Test extends TestCase {
 	 */
 	public function test_generate_rel_prev_is_third_page() {
 		$this->indexable->permalink = 'https://example.com/permalink/';
+
+		$this->indexable_helper
+			->expects( 'dynamic_permalinks_enabled' )
+			->once()
+			->andReturn( false );
 
 		$this->pagination
 			->expects( 'is_rel_adjacent_disabled' )
@@ -163,6 +173,11 @@ class Archive_Adjacent_Test extends TestCase {
 	 */
 	public function test_generate_rel_prev_is_not_the_last_page() {
 		$this->indexable->permalink = 'https://example.com/permalink/';
+
+		$this->indexable_helper
+			->expects( 'dynamic_permalinks_enabled' )
+			->once()
+			->andReturn( false );
 
 		$this->pagination
 			->expects( 'is_rel_adjacent_disabled' )

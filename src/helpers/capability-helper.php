@@ -1,16 +1,9 @@
 <?php
-/**
- * A helper object for user capabilities.
- *
- * @package Yoast\WP\SEO\Helpers
- */
 
 namespace Yoast\WP\SEO\Helpers;
 
 /**
- * Class Capability_Helper
- *
- * @package Yoast\WP\SEO\Helpers
+ * A helper object for user capabilities.
  */
 class Capability_Helper {
 

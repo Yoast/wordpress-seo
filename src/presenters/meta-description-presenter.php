@@ -1,16 +1,11 @@
 <?php
-/**
- * Presenter class for the meta description.
- *
- * @package Yoast\YoastSEO\Presenters
- */
 
 namespace Yoast\WP\SEO\Presenters;
 
 use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 
 /**
- * Class Abstract_Meta_Description_Presenter
+ * Presenter class for the meta description.
  */
 class Meta_Description_Presenter extends Abstract_Indexable_Tag_Presenter {
 

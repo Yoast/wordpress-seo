@@ -1,9 +1,4 @@
 <?php
-/**
- * Value object for the Images.
- *
- * @package Yoast\WP\SEO\Values
- */
 
 namespace Yoast\WP\SEO\Values;
 
@@ -13,7 +8,7 @@ use Yoast\WP\SEO\Helpers\Url_Helper;
 /**
  * Class Images
  *
- * @package Yoast\WP\SEO\Values
+ * Value object for the Images.
  */
 class Images {
 

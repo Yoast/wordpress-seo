@@ -1,9 +1,4 @@
 <?php
-/**
- * WPSEO plugin file.
- *
- * @package Yoast\WP\SEO\Generators\Schema
- */
 
 namespace Yoast\WP\SEO\Generators\Schema;
 
@@ -21,10 +16,6 @@ class Breadcrumb extends Abstract_Schema_Piece {
 	 */
 	public function is_needed() {
 		if ( $this->context->indexable->object_type === 'system-page' && $this->context->indexable->object_sub_type === '404' ) {
-			return false;
-		}
-
-		if ( $this->context->indexable->object_type === 'home-page' || $this->helpers->current_page->is_home_static_page() ) {
 			return false;
 		}
 
@@ -70,9 +61,25 @@ class Breadcrumb extends Abstract_Schema_Piece {
 				return false;
 			}
 		}
+
 		// Create the last breadcrumb.
 		$last_breadcrumb = \array_pop( $breadcrumbs );
 		$breadcrumbs[]   = $this->format_last_breadcrumb( $last_breadcrumb );
+
+		// If this is a static front page, prevent nested pages from creating a trail.
+		if ( $this->helpers->current_page->is_home_static_page() ) {
+
+			// Check if we're dealing with a nested page.
+			if ( \count( $breadcrumbs ) > 1 ) {
+
+				// Store the breadcrumbs home variable before dropping the parent page from the Schema.
+				$breadcrumbs_home = $breadcrumbs[0]['text'];
+				$breadcrumbs = [ \array_pop( $breadcrumbs ) ];
+
+				// Make the child page show the breadcrumbs home variable rather than its own title.
+				$breadcrumbs[0]['text'] = $breadcrumbs_home;
+			}
+		}
 
 		// Create intermediate breadcrumbs.
 		foreach ( $breadcrumbs as $index => $breadcrumb ) {

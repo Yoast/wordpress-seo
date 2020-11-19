@@ -1,9 +1,4 @@
 <?php
-/**
- * Yoast SEO Plugin File.
- *
- * @package Yoast\YoastSEO\Dependency_Injection
- */
 
 namespace Yoast\WP\SEO\Dependency_Injection;
 
@@ -18,6 +13,8 @@ use Yoast_Notification_Center;
 use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
+ * Holds the dependency injection container.
+ *
  * @var $container \Symfony\Component\DependencyInjection\ContainerBuilder
  */
 // WordPress factory functions.
@@ -38,33 +35,37 @@ $container->setAlias( ContainerInterface::class, 'service_container' );
 // Required for the migrations framework.
 $container->register( Adapter::class, Adapter::class )->setAutowired( true )->setPublic( true );
 
-$excluded_files = [
+$yoast_seo_excluded_files = [
 	'main.php',
 ];
 
-$excluded_directories = [
+$yoast_seo_excluded_directories = [
 	'deprecated',
 	'generated',
 	'loaders',
 	'models',
 	'presenters',
+	'exceptions',
+	'values/semrush',
 	'surfaces/values',
 	'wordpress',
 ];
 
-$excluded = \implode( ',', \array_merge( $excluded_directories, $excluded_files ) );
+$yoast_seo_excluded = \implode( ',', \array_merge( $yoast_seo_excluded_directories, $yoast_seo_excluded_files ) );
 
-$base_definition = new Definition();
+$yoast_seo_base_definition = new Definition();
 
-$base_definition
+$yoast_seo_base_definition
 	->setAutowired( true )
 	->setAutoconfigured( true )
 	->setPublic( true );
 
 /**
+ * Holds the dependency injection loader.
+ *
  * @var $loader \Yoast\WP\SEO\Dependency_Injection\Custom_Loader
  */
-$loader->registerClasses( $base_definition, 'Yoast\\WP\\SEO\\', 'src/*', 'src/{' . $excluded . '}' );
+$loader->registerClasses( $yoast_seo_base_definition, 'Yoast\\WP\\SEO\\', 'src/*', 'src/{' . $yoast_seo_excluded . '}' );
 
 if ( \file_exists( __DIR__ . '/../../premium/config/dependency-injection/services.php' ) ) {
 	include __DIR__ . '/../../premium/config/dependency-injection/services.php';

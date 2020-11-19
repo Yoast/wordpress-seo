@@ -1,9 +1,4 @@
 <?php
-/**
- * WPSEO plugin test file.
- *
- * @package Yoast\WP\SEO\Tests\Unit\Models
- */
 
 namespace Yoast\WP\SEO\Tests\Unit\Models;
 
@@ -14,7 +9,7 @@ use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Double;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
- * Class Indexable_Test
+ * Class Indexable_Test.
  *
  * @coversDefaultClass \Yoast\WP\SEO\Models\Indexable
  *

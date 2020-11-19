@@ -1,9 +1,4 @@
 <?php
-/**
- * Yoast SEO plugin file.
- *
- * @package Yoast\YoastSEO\Conditionals
- */
 
 namespace Yoast\WP\SEO\Conditionals;
 
@@ -33,7 +28,9 @@ class Breadcrumbs_Enabled_Conditional implements Conditional {
 	}
 
 	/**
-	 * @inheritDoc
+	 * Checks whether the breadcrumbs enabled option has been set.
+	 *
+	 * @return boolean Whether or not the breadcrumbs enabled option has been set.
 	 */
 	public function is_met() {
 		return $this->options->get( 'breadcrumbs-enable' );

@@ -1,20 +1,20 @@
 /* global wpseoAdminL10n */
 /* External components */
 import { Component, Fragment } from "@wordpress/element";
+import { withSelect } from "@wordpress/data";
 import PropTypes from "prop-types";
-import { connect } from "react-redux";
 import styled from "styled-components";
 import { __ } from "@wordpress/i18n";
-import { isNil, get } from "lodash-es";
+import { isNil } from "lodash-es";
 
 /* Internal components */
 import ScoreIconPortal from "../portals/ScoreIconPortal";
-import Results from "./Results";
+import Results from "../../containers/Results";
 import Collapsible from "../SidebarCollapsible";
 import getIndicatorForScore from "../../analysis/getIndicatorForScore";
 import { getIconForScore } from "./mapResults";
 import { LocationConsumer } from "../contexts/location";
-import HelpLink from "./HelpLink";
+import HelpLink from "../HelpLink";
 import ReadabilityResultsPortal from "../portals/ReadabilityResultsPortal";
 
 const AnalysisHeader = styled.span`
@@ -27,8 +27,6 @@ const AnalysisHeader = styled.span`
 const ReadabilityResultsTabContainer = styled.div`
 	padding: 16px;
 `;
-
-const localizedData = get( window, "wpseoScriptData.metabox", {} );
 
 const StyledHelpLink = styled( HelpLink )`
 	margin: -8px 0 -4px 4px;
@@ -58,10 +56,6 @@ class ReadabilityAnalysis extends Component {
 					</StyledHelpLink>
 				</AnalysisHeader>
 				<Results
-					canChangeLanguage={ ! ( localizedData.settings_link === "" ) }
-					showLanguageNotice={ false }
-					changeLanguageLink={ localizedData.settings_link }
-					language={ localizedData.language }
 					results={ this.props.results }
 					marksButtonClassName="yoast-tooltip yoast-tooltip-w"
 					marksButtonStatus={ this.props.marksButtonStatus }
@@ -128,22 +122,14 @@ ReadabilityAnalysis.defaultProps = {
 	overallScore: null,
 };
 
-/**
- * Maps redux state to ContentAnalysis props.
- *
- * @param {Object} state The redux state.
- * @param {Object} ownProps The component's props.
- *
- * @returns {Object} Props that should be passed to ContentAnalysis.
- */
-function mapStateToProps( state, ownProps ) {
-	const marksButtonStatus = ownProps.hideMarksButtons ? "disabled" : state.marksButtonStatus;
+export default withSelect( select => {
+	const {
+		getReadabilityResults,
+		getMarkButtonStatus,
+	} = select( "yoast-seo/editor" );
 
 	return {
-		results: state.analysis.readability.results || [],
-		marksButtonStatus: marksButtonStatus,
-		overallScore: state.analysis.readability.overallScore,
+		...getReadabilityResults(),
+		marksButtonStatus: getMarkButtonStatus(),
 	};
-}
-
-export default connect( mapStateToProps )( ReadabilityAnalysis );
+} )( ReadabilityAnalysis );

@@ -1,9 +1,6 @@
 import PropTypes from "prop-types";
-import { LanguageNotice } from "@yoast/components";
 import { ContentAnalysis } from "@yoast/analysis-report";
 import { Component, Fragment } from "@wordpress/element";
-import { compose } from "@wordpress/compose";
-import { withDispatch, withSelect } from "@wordpress/data";
 import { Paper } from "yoastseo";
 
 import mapResults from "./mapResults";
@@ -103,12 +100,6 @@ class Results extends Component {
 		} = mappedResults;
 		return (
 			<Fragment>
-				<LanguageNotice
-					changeLanguageLink={ this.props.changeLanguageLink }
-					language={ this.props.language }
-					showLanguageNotice={ this.props.showLanguageNotice }
-					canChangeLanguage={ this.props.canChangeLanguage }
-				/>
 				<ContentAnalysis
 					errorsResults={ errorsResults }
 					problemsResults={ problemsResults }
@@ -129,10 +120,6 @@ class Results extends Component {
 
 Results.propTypes = {
 	results: PropTypes.array,
-	language: PropTypes.string,
-	changeLanguageLink: PropTypes.string,
-	showLanguageNotice: PropTypes.bool.isRequired,
-	canChangeLanguage: PropTypes.bool,
 	marksButtonClassName: PropTypes.string,
 	marksButtonStatus: PropTypes.string,
 	setActiveMarker: PropTypes.func.isRequired,
@@ -143,34 +130,10 @@ Results.propTypes = {
 
 Results.defaultProps = {
 	results: null,
-	language: "",
-	changeLanguageLink: "#",
-	canChangeLanguage: false,
 	marksButtonStatus: "enabled",
 	marksButtonClassName: "",
 	activeMarker: null,
 	keywordKey: "",
 };
 
-export default compose( [
-	withSelect( select => {
-		const {
-			getActiveMarker,
-		} = select( "yoast-seo/editor" );
-
-		return {
-			activeMarker: getActiveMarker(),
-		};
-	} ),
-	withDispatch( dispatch => {
-		const {
-			setActiveMarker,
-			setMarkerPauseStatus,
-		} = dispatch( "yoast-seo/editor" );
-
-		return {
-			setActiveMarker,
-			setMarkerPauseStatus,
-		};
-	} ),
-] )( Results );
+export default Results;

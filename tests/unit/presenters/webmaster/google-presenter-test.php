@@ -19,7 +19,7 @@ class Google_Presenter_Test extends TestCase {
 
 	/**
 	 * Represents the instance to test.
-	 * 
+	 *
 	 * @var Google_Presenter
 	 */
 	protected $instance;

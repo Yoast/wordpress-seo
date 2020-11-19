@@ -1,9 +1,4 @@
 <?php
-/**
- * WPSEO plugin test file.
- *
- * @package Yoast\WP\SEO\Tests\Unit\Presenters
- */
 
 namespace Yoast\WP\SEO\Tests\Unit\Presenters;
 
@@ -14,7 +9,7 @@ use Yoast\WP\SEO\Presenters\Abstract_Indexable_Presenter;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
- * Class Abstract_Presenter_Test
+ * Class Abstract_Indexable_Presenter_Test.
  *
  * @coversDefaultClass \Yoast\WP\SEO\Presenters\Abstract_Indexable_Presenter
  *

@@ -1,18 +1,12 @@
 <?php
-/**
- * Yoast SEO Plugin File.
- *
- * @package Yoast\YoastSEO\Integrations
- */
 
 namespace Yoast\WP\SEO\Tests\Unit\Integrations;
 
 use Yoast\WP\SEO\Integrations\XMLRPC;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
-
 /**
- * Unit Test Class.
+ * Class XMLRPC_Test.
  *
  * @coversDefaultClass \Yoast\WP\SEO\Integrations\XMLRPC
  *
@@ -44,6 +38,6 @@ class XMLRPC_Test extends TestCase {
 	public function test_register_hooks() {
 		$this->instance->register_hooks();
 
-		$this->assertTrue( \has_filter( 'xmlrpc_methods', [ $this->instance, 'robots_header' ] ), 'Has expected noindex action' );
+		$this->assertNotFalse( \has_filter( 'xmlrpc_methods', [ $this->instance, 'robots_header' ] ), 'Has expected noindex action' );
 	}
 }

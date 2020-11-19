@@ -5,7 +5,6 @@ namespace Yoast\WP\SEO\Tests\Unit\Builders;
 use Brain\Monkey;
 use Mockery;
 use Yoast\WP\Lib\ORM;
-use Yoast\WP\SEO\Builders\Indexable_Link_Builder;
 use Yoast\WP\SEO\Builders\Indexable_Post_Builder;
 use Yoast\WP\SEO\Helpers\Image_Helper;
 use Yoast\WP\SEO\Helpers\Open_Graph\Image_Helper as Open_Graph_Image_Helper;
@@ -23,7 +22,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group builders
  *
  * @coversDefaultClass \Yoast\WP\SEO\Builders\Indexable_Post_Builder
- * @covers ::<!public>
+ * @covers \Yoast\WP\SEO\Builders\Indexable_Post_Builder
  */
 class Indexable_Post_Builder_Test extends TestCase {
 
@@ -63,13 +62,6 @@ class Indexable_Post_Builder_Test extends TestCase {
 	protected $twitter_image;
 
 	/**
-	 * Holds the link builder instance.
-	 *
-	 * @var Indexable_Link_Builder|Mockery\MockInterface
-	 */
-	protected $link_builder;
-
-	/**
 	 * Holds the Post_Helper instance.
 	 *
 	 * @var Post_Helper|Mockery\MockInterface
@@ -92,11 +84,9 @@ class Indexable_Post_Builder_Test extends TestCase {
 		$this->image                = Mockery::mock( Image_Helper::class );
 		$this->open_graph_image     = Mockery::mock( Open_Graph_Image_Helper::class );
 		$this->twitter_image        = Mockery::mock( Twitter_Image_Helper::class );
-		$this->link_builder         = Mockery::mock( Indexable_Link_Builder::class );
 		$this->post                 = Mockery::mock( Post_Helper::class );
 
 		$this->instance = new Indexable_Post_Builder_Double(
-			$this->link_builder,
 			$this->post
 		);
 
@@ -173,7 +163,6 @@ class Indexable_Post_Builder_Test extends TestCase {
 	 * @covers ::__construct
 	 */
 	public function test_constructor() {
-		$this->assertAttributeInstanceOf( Indexable_Link_Builder::class, 'link_builder', $this->instance );
 		$this->assertAttributeInstanceOf( Post_Helper::class, 'post', $this->instance );
 	}
 
@@ -276,8 +265,6 @@ class Indexable_Post_Builder_Test extends TestCase {
 
 		$this->set_indexable_set_expectations( $this->indexable, $indexable_expectations );
 
-		$this->link_builder->expects( 'build' )->with( $this->indexable, 'The content of the post' );
-
 		// Reset all social images first.
 		$this->set_indexable_set_expectations(
 			$this->indexable,
@@ -301,7 +288,7 @@ class Indexable_Post_Builder_Test extends TestCase {
 			'id'     => 13,
 			'alt'    => '',
 			'pixels' => 307200,
-			'type'   => 'image/jpeg'
+			'type'   => 'image/jpeg',
 		];
 
 		// Mock that the open graph and twitter images have been set by the user.
@@ -313,7 +300,8 @@ class Indexable_Post_Builder_Test extends TestCase {
 		$this->indexable->orm->expects( 'set' )
 			->with( 'open_graph_image', 'http://basic.wordpress.test/wp-content/uploads/2020/07/WordPress5.jpg' );
 		$this->indexable->orm->expects( 'set' )
-			->with( 'open_graph_image_meta', \json_encode( $image_meta, ( JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES ) ) );
+			// phpcs:ignore Yoast.Yoast.AlternativeFunctions.json_encode_json_encodeWithAdditionalParams -- Test code, mocking WP.
+			->with( 'open_graph_image_meta', \json_encode( $image_meta, ( \JSON_PRETTY_PRINT | \JSON_UNESCAPED_SLASHES ) ) );
 
 		// We expect the twitter image and its source to be set.
 		$this->indexable->orm->expects( 'set' )->with( 'twitter_image_source', 'set-by-user' );
@@ -364,7 +352,7 @@ class Indexable_Post_Builder_Test extends TestCase {
 
 		$expected = [
 			'image_id' => 123,
-			'source'   => 'attachment-image'
+			'source'   => 'attachment-image',
 		];
 
 		$this->assertEquals( $expected, $actual );
@@ -395,7 +383,7 @@ class Indexable_Post_Builder_Test extends TestCase {
 
 		$expected = [
 			'image_id' => 456,
-			'source'   => 'featured-image'
+			'source'   => 'featured-image',
 		];
 
 		$this->assertEquals( $expected, $actual );
@@ -484,7 +472,7 @@ class Indexable_Post_Builder_Test extends TestCase {
 			'id'     => 13,
 			'alt'    => '',
 			'pixels' => 307200,
-			'type'   => 'image/jpeg'
+			'type'   => 'image/jpeg',
 		];
 
 		$this->image->allows( 'get_post_content_image' )
@@ -495,7 +483,7 @@ class Indexable_Post_Builder_Test extends TestCase {
 
 		$expected = [
 			'image'  => $image_meta,
-			'source' => 'first-content-image'
+			'source' => 'first-content-image',
 		];
 
 		$this->assertEquals( $expected, $actual );

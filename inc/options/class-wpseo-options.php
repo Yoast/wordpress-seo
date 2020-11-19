@@ -334,9 +334,11 @@ class WPSEO_Options {
 		if ( $value === false ) {
 			$passed_default = func_num_args() > 1;
 
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals -- Using WP native filter.
 			return apply_filters( "default_option_{$option}", $default, $option, $passed_default );
 		}
 
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals -- Using WP native filter.
 		return apply_filters( "option_{$option}", maybe_unserialize( $value ), $option );
 	}
 

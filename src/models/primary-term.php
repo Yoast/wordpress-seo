@@ -1,9 +1,4 @@
 <?php
-/**
- * Model for the Primary Term table.
- *
- * @package Yoast\YoastSEO\Models
- */
 
 namespace Yoast\WP\SEO\Models;
 

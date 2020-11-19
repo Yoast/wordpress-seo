@@ -1,9 +1,4 @@
 <?php
-/**
- * Class that contains all relevant data for rendering the meta tags.
- *
- * @package Yoast\YoastSEO\Context
- */
 
 namespace Yoast\WP\SEO\Context;
 
@@ -12,7 +7,9 @@ use WP_Post;
 use WPSEO_Replace_Vars;
 use Yoast\WP\SEO\Config\Schema_IDs;
 use Yoast\WP\SEO\Helpers\Image_Helper;
+use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Helpers\Permalink_Helper;
 use Yoast\WP\SEO\Helpers\Schema\ID_Helper;
 use Yoast\WP\SEO\Helpers\Site_Helper;
 use Yoast\WP\SEO\Helpers\Url_Helper;
@@ -20,9 +17,12 @@ use Yoast\WP\SEO\Helpers\User_Helper;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Presentations\Abstract_Presentation;
 use Yoast\WP\SEO\Presentations\Indexable_Presentation;
+use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
 /**
- * Class Meta_Tags_Context
+ * Class Meta_Tags_Context.
+ *
+ * Class that contains all relevant data for rendering the meta tags.
  *
  * @property string      $canonical
  * @property string      $title
@@ -131,15 +131,39 @@ class Meta_Tags_Context extends Abstract_Presentation {
 	private $user;
 
 	/**
+	 * The permalink helper.
+	 *
+	 * @var Permalink_Helper
+	 */
+	private $permalink_helper;
+
+	/**
+	 * The indexable helper.
+	 *
+	 * @var Indexable_Helper
+	 */
+	private $indexable_helper;
+
+	/**
+	 * The indexable repository.
+	 *
+	 * @var Indexable_Repository
+	 */
+	private $indexable_repository;
+
+	/**
 	 * Meta_Tags_Context constructor.
 	 *
-	 * @param Options_Helper     $options      The options helper.
-	 * @param Url_Helper         $url          The url helper.
-	 * @param Image_Helper       $image        The image helper.
-	 * @param ID_Helper          $id_helper    The schema id helper.
-	 * @param WPSEO_Replace_Vars $replace_vars The replace vars helper.
-	 * @param Site_Helper        $site         The site helper.
-	 * @param User_Helper        $user         The user helper.
+	 * @param Options_Helper       $options              The options helper.
+	 * @param Url_Helper           $url                  The url helper.
+	 * @param Image_Helper         $image                The image helper.
+	 * @param ID_Helper            $id_helper            The schema id helper.
+	 * @param WPSEO_Replace_Vars   $replace_vars         The replace vars helper.
+	 * @param Site_Helper          $site                 The site helper.
+	 * @param User_Helper          $user                 The user helper.
+	 * @param Permalink_Helper     $permalink_helper     The permalink helper.
+	 * @param Indexable_Helper     $indexable_helper     The indexable helper.
+	 * @param Indexable_Repository $indexable_repository The indexable repository.
 	 */
 	public function __construct(
 		Options_Helper $options,
@@ -148,15 +172,21 @@ class Meta_Tags_Context extends Abstract_Presentation {
 		ID_Helper $id_helper,
 		WPSEO_Replace_Vars $replace_vars,
 		Site_Helper $site,
-		User_Helper $user
+		User_Helper $user,
+		Permalink_Helper $permalink_helper,
+		Indexable_Helper $indexable_helper,
+		Indexable_Repository $indexable_repository
 	) {
-		$this->options      = $options;
-		$this->url          = $url;
-		$this->image        = $image;
-		$this->id_helper    = $id_helper;
-		$this->replace_vars = $replace_vars;
-		$this->site         = $site;
-		$this->user         = $user;
+		$this->options              = $options;
+		$this->url                  = $url;
+		$this->image                = $image;
+		$this->id_helper            = $id_helper;
+		$this->replace_vars         = $replace_vars;
+		$this->site                 = $site;
+		$this->user                 = $user;
+		$this->permalink_helper     = $permalink_helper;
+		$this->indexable_helper     = $indexable_helper;
+		$this->indexable_repository = $indexable_repository;
 	}
 
 	/**
@@ -224,7 +254,13 @@ class Meta_Tags_Context extends Abstract_Presentation {
 	 * @return string The site url.
 	 */
 	public function generate_site_url() {
-		return \trailingslashit( $this->url->home() );
+		$home_page_indexable = $this->indexable_repository->find_for_home_page();
+
+		if ( $this->indexable_helper->dynamic_permalinks_enabled() ) {
+			return \trailingslashit( $this->permalink_helper->get_permalink_for_indexable( $home_page_indexable ) );
+		}
+
+		return \trailingslashit( $home_page_indexable->permalink );
 	}
 
 	/**
@@ -397,13 +433,13 @@ class Meta_Tags_Context extends Abstract_Presentation {
 
 				$type = [ 'WebPage', $additional_type ];
 
-				// Is this indexable set as a page for posts, e.g. in the wordpress reading settings as a static homepage?
+				// Is this indexable set as a page for posts, e.g. in the WordPress reading settings as a static homepage?
 				if ( (int) \get_option( 'page_for_posts' ) === $this->indexable->object_id ) {
 					$type[] = 'CollectionPage';
 				}
 
-				// Ensure we get only unique values, and remove the index.
-				$type = \array_values( \array_unique( $type ) );
+				// Ensure we get only unique values, and remove any null values and the index.
+				$type = \array_filter( \array_values( \array_unique( $type ) ) );
 		}
 
 		/**

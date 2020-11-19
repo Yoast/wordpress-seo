@@ -1,14 +1,9 @@
 <?php
-/**
- * Abstract presenter class for indexable presentations.
- *
- * @package Yoast\YoastSEO\Presenters
- */
 
 namespace Yoast\WP\SEO\Presenters;
 
 /**
- * Abstract_Indexable_Tag_Presenter class
+ * Abstract presenter class for indexable tag presentations.
  */
 abstract class Abstract_Indexable_Tag_Presenter extends Abstract_Indexable_Presenter {
 

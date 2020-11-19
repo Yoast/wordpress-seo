@@ -42,7 +42,7 @@ $editor = new WPSEO_Replacevar_Editor(
 $editor->render();
 
 // Schema settings.
-$article_helper 			= new Article_Helper();
+$article_helper             = new Article_Helper();
 $schema_page_type_option    = 'schema-page-type-' . $wpseo_post_type->name;
 $schema_article_type_option = 'schema-article-type-' . $wpseo_post_type->name;
 $yform->hidden( $schema_page_type_option );

@@ -1,10 +1,4 @@
 <?php
-/**
- * Registers the yoast head REST field.
- * Not technically a route but behaves the same so is included here.
- *
- * @package Yoast\WP\SEO\Routes\Routes
- */
 
 namespace Yoast\WP\SEO\Routes;
 
@@ -14,7 +8,10 @@ use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
 
 /**
- * Yoast_Head_REST_Field class
+ * Yoast_Head_REST_Field class.
+ *
+ * Registers the yoast head REST field.
+ * Not technically a route but behaves the same so is included here.
  */
 class Yoast_Head_REST_Field implements Route_Interface {
 

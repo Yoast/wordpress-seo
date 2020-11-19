@@ -28,7 +28,10 @@ $wpseo_contributors_phrase = sprintf(
 <div class="tab-block">
 	<div class="yoast-notifications">
 
-		<?php echo $notifier->notify(); ?>
+		<?php
+		// phpcs:ignore WordPress.Security.EscapeOutput -- WPSEO_Configuration_Notifier::notify() escapes correctly.
+		echo $notifier->notify();
+		?>
 
 		<div class="yoast-container yoast-container__error">
 			<?php require WPSEO_PATH . 'admin/views/partial-notifications-errors.php'; ?>

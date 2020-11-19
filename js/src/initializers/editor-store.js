@@ -3,7 +3,36 @@ import { combineReducers, registerStore } from "@wordpress/data";
 import reducers from "../redux/reducers";
 import * as selectors from "../redux/selectors";
 import * as actions from "../redux/actions";
-import { setSettings } from "../redux/actions/settings";
+
+/**
+ * Populates the store.
+ *
+ * @param {Object} store The store to populate.
+ *
+ * @returns {void}
+ */
+const populateStore = store => {
+	store.dispatch(
+		actions.setSettings( {
+			socialPreviews: {
+				sitewideImage: window.wpseoScriptData.metabox.sitewide_social_image,
+				authorName: window.wpseoScriptData.metabox.author_name,
+				siteName: window.wpseoScriptData.metabox.site_name,
+				contentImage: window.wpseoScriptData.metabox.first_content_image,
+				twitterCardType: window.wpseoScriptData.metabox.twitterCardType,
+			},
+			snippetEditor: {
+				baseUrl: window.wpseoScriptData.metabox.base_url,
+				date: window.wpseoScriptData.metabox.metaDescriptionDate,
+				recommendedReplacementVariables: window.wpseoScriptData.analysis.plugins.replaceVars.recommended_replace_vars,
+				siteIconUrl: window.wpseoScriptData.metabox.siteIconUrl,
+			},
+		} )
+	);
+
+	store.dispatch( actions.setSEMrushChangeCountry( window.wpseoScriptData.metabox.countryCode ) );
+	store.dispatch( actions.setSEMrushLoginStatus( window.wpseoScriptData.metabox.SEMrushLoginStatus ) );
+};
 
 /**
  * Initializes the Yoast SEO editor store.
@@ -17,21 +46,7 @@ export default function initEditorStore() {
 		actions: pickBy( actions, x => typeof x === "function" ),
 	} );
 
-	store.dispatch( setSettings( {
-		socialPreviews: {
-			sitewideImage: window.wpseoScriptData.metabox.sitewide_social_image,
-			authorName: window.wpseoScriptData.metabox.author_name,
-			siteName: window.wpseoScriptData.metabox.site_name,
-			contentImage: window.wpseoScriptData.metabox.first_content_image,
-			twitterCardType: window.wpseoScriptData.metabox.twitterCardType,
-		},
-		snippetEditor: {
-			baseUrl: window.wpseoScriptData.metabox.base_url,
-			date: window.wpseoScriptData.metabox.metaDescriptionDate,
-			recommendedReplacementVariables: window.wpseoScriptData.analysis.plugins.replaceVars.recommended_replace_vars,
-			siteIconUrl: window.wpseoScriptData.metabox.siteIconUrl,
-		},
-	} ) );
+	populateStore( store );
 
 	return store;
 }

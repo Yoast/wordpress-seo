@@ -1,16 +1,11 @@
 <?php
-/**
- * Presenter class for the Open Graph article modified time.
- *
- * @package Yoast\YoastSEO\Presenters\Open_Graph
- */
 
 namespace Yoast\WP\SEO\Presenters\Open_Graph;
 
 use Yoast\WP\SEO\Presenters\Abstract_Indexable_Tag_Presenter;
 
 /**
- * Class Article_Modified_Time_Presenter
+ * Presenter class for the Open Graph article modified time.
  */
 class Article_Modified_Time_Presenter extends Abstract_Indexable_Tag_Presenter {
 

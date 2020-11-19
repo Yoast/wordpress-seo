@@ -1,9 +1,4 @@
 <?php
-/**
- * WPSEO plugin test file.
- *
- * @package Yoast\WP\SEO\Tests\Unit\Integrations\Third_Party
- */
 
 namespace Yoast\WP\SEO\Tests\Unit\Integrations\Third_Party;
 
@@ -12,7 +7,7 @@ use Yoast\WP\SEO\Integrations\Third_Party\WPML;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
- * Unit Test Class.
+ * Class WPML_Test.
  *
  * @coversDefaultClass \Yoast\WP\SEO\Integrations\Third_Party\WPML
  * @covers ::<!public>
@@ -30,7 +25,7 @@ class WPML_Test extends TestCase {
 	protected $instance;
 
 	/**
-	 * @inheritDoc
+	 * Sets an instance for test purposes.
 	 */
 	public function setUp() {
 		parent::setUp();
@@ -58,8 +53,8 @@ class WPML_Test extends TestCase {
 	public function test_register_hooks() {
 		$this->instance->register_hooks();
 
-		$this->assertTrue( \has_action( 'wpseo_home_url', [ $this->instance, 'filter_home_url_before' ] ) );
-		$this->assertTrue( \has_filter( 'home_url', [ $this->instance, 'filter_home_url_after' ] ) );
+		$this->assertNotFalse( \has_action( 'wpseo_home_url', [ $this->instance, 'filter_home_url_before' ] ) );
+		$this->assertNotFalse( \has_filter( 'home_url', [ $this->instance, 'filter_home_url_after' ] ) );
 	}
 
 	/**
@@ -70,7 +65,7 @@ class WPML_Test extends TestCase {
 	public function test_filter_home_url_before() {
 		$this->instance->filter_home_url_before();
 
-		$this->assertTrue( \has_filter( 'wpml_get_home_url', [ $this->instance, 'wpml_get_home_url' ] ) );
+		$this->assertNotFalse( \has_filter( 'wpml_get_home_url', [ $this->instance, 'wpml_get_home_url' ] ) );
 	}
 
 	/**

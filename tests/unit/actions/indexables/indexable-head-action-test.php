@@ -1,9 +1,4 @@
 <?php
-/**
- * WPSEO plugin test file.
- *
- * @package Yoast\WP\SEO\Tests\Unit\Actions\Indexables
- */
 
 namespace Yoast\WP\SEO\Tests\Unit\Actions\Indexables;
 
@@ -13,7 +8,7 @@ use Yoast\WP\SEO\Surfaces\Meta_Surface;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
- * Indexable_Post_Indexation_Action_Test class
+ * Indexable_Head_Action_Test class.
  *
  * @group actions
  * @group indexables

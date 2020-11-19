@@ -1,14 +1,9 @@
 <?php
-/**
- * A helper object for the robots meta tag.
- *
- * @package Yoast\WP\SEO\Helpers
- */
 
 namespace Yoast\WP\SEO\Helpers;
 
 /**
- * Class Robots_Helper
+ * A helper object for the robots meta tag.
  */
 class Robots_Helper {
 
