@@ -10,7 +10,9 @@ use Yoast\WP\SEO\Presentations\Abstract_Presentation;
 class Abstract_Presentation_Mock extends Abstract_Presentation {
 
 	/**
-	 * @inheritDoc
+	 * Returns `true` if this class is a prototype.
+	 *
+	 * @return bool If this class is a prototype or not.
 	 */
 	public function is_prototype() {
 		return parent::is_prototype();

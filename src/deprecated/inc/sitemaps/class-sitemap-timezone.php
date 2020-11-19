@@ -27,9 +27,7 @@ class WPSEO_Sitemap_Timezone {
 	public function format_date( $datetime_string, $format = 'c' ) {
 		_deprecated_function( __METHOD__, 'WPSEO 12.8', 'Date_Helper::format' );
 
-		$date_helper = new WPSEO_Date_Helper();
-
-		return $date_helper->format( $format );
+		return YoastSEO()->helpers->date->format( $format );
 	}
 
 	/**
