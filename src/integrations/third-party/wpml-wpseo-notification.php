@@ -97,7 +97,7 @@ class WPML_WPSEO_Notification implements Integration_Interface {
 	 *
 	 * @return Yoast_Notification The notification.
 	 */
-	protected function notification() {
+	protected function get_notification() {
 		return new Yoast_Notification(
 			\sprintf(
 				/* translators: %1$s expands to an opening anchor tag, %2$s expands to an closing anchor tag. */
