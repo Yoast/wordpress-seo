@@ -464,6 +464,15 @@ TPL;
 		self::color_line( $line, ( $success ) ? "\e[32m" : "\e[31m" );
 	}
 
+	/**
+	 * Generates a unit test template for a class with the
+	 * fully qualified class name given as the command line argument.
+	 *
+	 * @param Event $event Composer event.
+	 *
+	 * @throws \ReflectionException When the class to generate the unit test for cannot be found.
+	 * @throws \RuntimeException    When the required command line argument is missing.
+	 */
 	public static function generate_unit_test( Event $event ) {
 		$args = $event->getArguments();
 
