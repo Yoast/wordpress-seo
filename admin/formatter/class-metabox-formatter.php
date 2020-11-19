@@ -77,7 +77,6 @@ class WPSEO_Metabox_Formatter {
 			'intl'                        => $this->get_content_analysis_component_translations(),
 			'isRtl'                       => is_rtl(),
 			'isPremium'                   => WPSEO_Utils::is_yoast_seo_premium(),
-			'addKeywordUpsell'            => $this->get_add_keyword_upsell_translations(),
 			'wordFormRecognitionActive'   => YoastSEO()->helpers->language->is_word_form_recognition_active( WPSEO_Language_Utils::get_language( get_locale() ) ),
 			'siteIconUrl'                 => get_site_icon_url(),
 			'countryCode'                 => WPSEO_Options::get( 'semrush_country_code', false ),
@@ -199,39 +198,6 @@ class WPSEO_Metabox_Formatter {
 	}
 
 	/**
-	 * Returns the translations for the Add Keyword modal.
-	 *
-	 * These strings are not escaped because they're meant to be used with React
-	 * which already takes care of that. If used in PHP, they should be escaped.
-	 *
-	 * @return array Translated text strings for the Add Keyword modal.
-	 */
-	public function get_add_keyword_upsell_translations() {
-		return [
-			'title'                    => __( 'Would you like to add more than one keyphrase?', 'wordpress-seo' ),
-			'intro'                    => sprintf(
-				/* translators: %s expands to a 'Yoast SEO Premium' text linked to the yoast.com website. */
-				__( 'Great news: you can, with %s!', 'wordpress-seo' ),
-				'{{link}}Yoast SEO Premium{{/link}}'
-			),
-			'link'                     => WPSEO_Shortlinker::get( 'https://yoa.st/pe-premium-page' ),
-			'other'                    => sprintf(
-				/* translators: %s expands to 'Yoast SEO Premium'. */
-				__( 'Other benefits of %s for you:', 'wordpress-seo' ),
-				'Yoast SEO Premium'
-			),
-			'buylink'                  => WPSEO_Shortlinker::get( 'https://yoa.st/add-keywords-popup' ),
-			'buy'                      => sprintf(
-				/* translators: %s expands to 'Yoast SEO Premium'. */
-				__( 'Get %s', 'wordpress-seo' ),
-				'Yoast SEO Premium'
-			),
-			'small'                    => __( '1 year free support and updates included!', 'wordpress-seo' ),
-			'a11yNotice.opensInNewTab' => __( '(Opens in a new browser tab)', 'wordpress-seo' ),
-		];
-	}
-
-	/**
 	 * Returns Jed compatible YoastSEO.js translations.
 	 *
 	 * @return array
@@ -300,5 +266,45 @@ class WPSEO_Metabox_Formatter {
 		}
 
 		return $semrush_client->has_valid_tokens();
+	}
+
+	/* ********************* DEPRECATED METHODS ********************* */
+
+	/**
+	 * Returns the translations for the Add Keyword modal.
+	 *
+	 * These strings are not escaped because they're meant to be used with React
+	 * which already takes care of that. If used in PHP, they should be escaped.
+	 *
+	 * @deprecated 15.5
+	 * @codeCoverageIgnore
+	 *
+	 * @return array Translated text strings for the Add Keyword modal.
+	 */
+	public function get_add_keyword_upsell_translations() {
+		_deprecated_function( __METHOD__, 'WPSEO 15.5' );
+
+		return [
+			'title'                    => __( 'Would you like to add more than one keyphrase?', 'wordpress-seo' ),
+			'intro'                    => sprintf(
+			/* translators: %s expands to a 'Yoast SEO Premium' text linked to the yoast.com website. */
+				__( 'Great news: you can, with %s!', 'wordpress-seo' ),
+				'{{link}}Yoast SEO Premium{{/link}}'
+			),
+			'link'                     => WPSEO_Shortlinker::get( 'https://yoa.st/pe-premium-page' ),
+			'other'                    => sprintf(
+			/* translators: %s expands to 'Yoast SEO Premium'. */
+				__( 'Other benefits of %s for you:', 'wordpress-seo' ),
+				'Yoast SEO Premium'
+			),
+			'buylink'                  => WPSEO_Shortlinker::get( 'https://yoa.st/add-keywords-popup' ),
+			'buy'                      => sprintf(
+			/* translators: %s expands to 'Yoast SEO Premium'. */
+				__( 'Get %s', 'wordpress-seo' ),
+				'Yoast SEO Premium'
+			),
+			'small'                    => __( '1 year free support and updates included!', 'wordpress-seo' ),
+			'a11yNotice.opensInNewTab' => __( '(Opens in a new browser tab)', 'wordpress-seo' ),
+		];
 	}
 }

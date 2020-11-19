@@ -39,13 +39,6 @@ class WPSEO_Sitemaps_Renderer {
 	protected $needs_conversion = false;
 
 	/**
-	 * The date helper.
-	 *
-	 * @var WPSEO_Date_Helper
-	 */
-	protected $date;
-
-	/**
 	 * Set up object properties.
 	 */
 	public function __construct() {
@@ -53,7 +46,6 @@ class WPSEO_Sitemaps_Renderer {
 		$this->stylesheet     = '<?xml-stylesheet type="text/xsl" href="' . esc_url( $stylesheet_url ) . '"?>';
 		$this->charset        = get_bloginfo( 'charset' );
 		$this->output_charset = $this->charset;
-		$this->date           = new WPSEO_Date_Helper();
 
 		if (
 			$this->charset !== 'UTF-8'
@@ -192,7 +184,7 @@ class WPSEO_Sitemaps_Renderer {
 		$date = null;
 
 		if ( ! empty( $url['lastmod'] ) ) {
-			$date = $this->date->format( $url['lastmod'] );
+			$date = YoastSEO()->helpers->date->format( $url['lastmod'] );
 		}
 
 		$url['loc'] = htmlspecialchars( $url['loc'], ENT_COMPAT, $this->output_charset, false );
@@ -221,7 +213,7 @@ class WPSEO_Sitemaps_Renderer {
 
 		if ( ! empty( $url['mod'] ) ) {
 			// Create a DateTime object date in the correct timezone.
-			$date = $this->date->format( $url['mod'] );
+			$date = YoastSEO()->helpers->date->format( $url['mod'] );
 		}
 
 		$url['loc'] = htmlspecialchars( $url['loc'], ENT_COMPAT, $this->output_charset, false );

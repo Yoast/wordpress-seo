@@ -5,8 +5,12 @@
  * @package WPSEO\Admin
  */
 
+// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound -- Reason: The class is deprecated.
+
 /**
  * Class to print out the translatable strings for the Keyword Synonyms modal.
+ *
+ * @deprecated 15.5
  */
 class WPSEO_Keyword_Synonyms_Modal {
 
@@ -16,9 +20,14 @@ class WPSEO_Keyword_Synonyms_Modal {
 	 * These strings are not escaped because they're meant to be used with React
 	 * which already takes care of that. If used in PHP, they should be escaped.
 	 *
+	 * @deprecated 15.5
+	 * @codeCoverageIgnore
+	 *
 	 * @return array Translated text strings for the Keyword Synonyms modal.
 	 */
 	public function get_translations() {
+		_deprecated_function( __METHOD__, 'WPSEO 15.5' );
+
 		return [
 			'title'                    => __( 'Would you like to add keyphrase synonyms?', 'wordpress-seo' ),
 			'intro'                    => sprintf(
@@ -46,9 +55,14 @@ class WPSEO_Keyword_Synonyms_Modal {
 	/**
 	 * Passes translations to JS for the Keyword Synonyms modal component.
 	 *
+	 * @deprecated 15.5
+	 * @codeCoverageIgnore
+	 *
 	 * @return array Translated text strings for the Keyword Synonyms modal component.
 	 */
 	public function get_translations_for_js() {
+		_deprecated_function( __METHOD__, 'WPSEO 15.5' );
+
 		$translations = $this->get_translations();
 
 		return [
@@ -60,9 +74,14 @@ class WPSEO_Keyword_Synonyms_Modal {
 	/**
 	 * Prints the localized Keyword Synonyms modal translations for JS.
 	 *
+	 * @deprecated 15.5
+	 * @codeCoverageIgnore
+	 *
 	 * @return void
 	 */
 	public function enqueue_translations() {
+		_deprecated_function( __METHOD__, 'WPSEO 15.5' );
+
 		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'admin-global-script', 'yoastKeywordSynonymsModalL10n', $this->get_translations_for_js() );
 	}
 }
