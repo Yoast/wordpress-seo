@@ -36,7 +36,7 @@ class Indexable_Author_Builder_Test extends TestCase {
 	private $author_archive;
 
 	/**
-	 * @inheritDoc
+	 * Sets up the test class.
 	 */
 	public function setUp() {
 		parent::setUp();
