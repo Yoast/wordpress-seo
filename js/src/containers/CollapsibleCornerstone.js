@@ -22,9 +22,7 @@ export default compose( [
 		const { toggleCornerstoneContent } = dispatch( "yoast-seo/editor" );
 
 		return {
-			onChange: () => {
-				dispatch( toggleCornerstoneContent() );
-			},
+			onChange: toggleCornerstoneContent,
 		};
 	} ),
 	withLocation(),

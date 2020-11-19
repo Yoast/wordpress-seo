@@ -3,8 +3,8 @@
 namespace Yoast\WP\SEO\Integrations\Admin;
 
 use WPSEO_Admin_Asset_Manager;
-use Yoast\WP\SEO\Actions\Indexing\Indexable_Indexing_Complete_Action;
 use Yoast\WP\SEO\Actions\Indexing\Indexable_General_Indexation_Action;
+use Yoast\WP\SEO\Actions\Indexing\Indexable_Indexing_Complete_Action;
 use Yoast\WP\SEO\Actions\Indexing\Indexable_Post_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexing\Indexable_Post_Type_Archive_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexing\Indexable_Term_Indexation_Action;
@@ -31,7 +31,7 @@ class Indexation_Integration implements Integration_Interface {
 	 * @codeCoverageIgnore
 	 */
 	public static function get_conditionals() {
-		_deprecated_function( __METHOD__, 'WPSEO 15.1' );
+		\_deprecated_function( __METHOD__, 'WPSEO 15.1' );
 
 		return [
 			Admin_Conditional::class,
@@ -67,7 +67,7 @@ class Indexation_Integration implements Integration_Interface {
 		Yoast_Tools_Page_Conditional $yoast_tools_page_conditional,
 		Indexable_Helper $indexable_helper
 	) {
-		_deprecated_function( __METHOD__, 'WPSEO 15.1' );
+		\_deprecated_function( __METHOD__, 'WPSEO 15.1' );
 	}
 
 	/**
@@ -77,7 +77,7 @@ class Indexation_Integration implements Integration_Interface {
 	 * @codeCoverageIgnore
 	 */
 	public function register_hooks() {
-		_deprecated_function( __METHOD__, 'WPSEO 15.1' );
+		\_deprecated_function( __METHOD__, 'WPSEO 15.1' );
 	}
 
 	/**
@@ -89,7 +89,7 @@ class Indexation_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function enqueue_scripts() {
-		_deprecated_function( __METHOD__, 'WPSEO 15.1' );
+		\_deprecated_function( __METHOD__, 'WPSEO 15.1' );
 	}
 
 	/**
@@ -101,7 +101,7 @@ class Indexation_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function render_indexation_warning() {
-		_deprecated_function( __METHOD__, 'WPSEO 15.1' );
+		\_deprecated_function( __METHOD__, 'WPSEO 15.1' );
 	}
 
 	/**
@@ -113,7 +113,7 @@ class Indexation_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function render_indexation_modal() {
-		_deprecated_function( __METHOD__, 'WPSEO 15.1' );
+		\_deprecated_function( __METHOD__, 'WPSEO 15.1' );
 	}
 
 	/**
@@ -125,7 +125,7 @@ class Indexation_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function render_indexation_list_item() {
-		_deprecated_function( __METHOD__, 'WPSEO 15.1' );
+		\_deprecated_function( __METHOD__, 'WPSEO 15.1' );
 	}
 
 	/**
@@ -137,7 +137,7 @@ class Indexation_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function render_indexation_permalink_warning() {
-		_deprecated_function( __METHOD__, 'WPSEO 15.1' );
+		\_deprecated_function( __METHOD__, 'WPSEO 15.1' );
 	}
 
 	/**
@@ -149,7 +149,7 @@ class Indexation_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function shutdown_indexation() {
-		_deprecated_function( __METHOD__, 'WPSEO 15.1' );
+		\_deprecated_function( __METHOD__, 'WPSEO 15.1' );
 	}
 
 	/**
@@ -161,7 +161,7 @@ class Indexation_Integration implements Integration_Interface {
 	 * @return int The total number of unindexed objects.
 	 */
 	public function get_total_unindexed() {
-		_deprecated_function( __METHOD__, 'WPSEO 15.1' );
+		\_deprecated_function( __METHOD__, 'WPSEO 15.1' );
 
 		return 0;
 	}

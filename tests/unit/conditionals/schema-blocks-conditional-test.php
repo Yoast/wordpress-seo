@@ -2,8 +2,8 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Conditionals;
 
-use Yoast\WP\SEO\Tests\Unit\TestCase;
 use Yoast\WP\SEO\Conditionals\Schema_Blocks_Conditional;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
  * Class Schema_Blocks_Conditional_Test.
@@ -45,8 +45,8 @@ class Schema_Blocks_Conditional_Test extends TestCase {
 	 * @covers ::is_met
 	 */
 	public function test_is_met() {
-		if ( ! defined( 'YOAST_SEO_SCHEMA_BLOCKS' ) ) {
-			define( 'YOAST_SEO_SCHEMA_BLOCKS', true );
+		if ( ! \defined( 'YOAST_SEO_SCHEMA_BLOCKS' ) ) {
+			\define( 'YOAST_SEO_SCHEMA_BLOCKS', true );
 		}
 
 		$this->assertEquals( true, $this->instance->is_met() );

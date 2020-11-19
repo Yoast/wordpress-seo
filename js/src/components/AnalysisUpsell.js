@@ -56,7 +56,7 @@ const AnalysisUpsell = ( props ) => {
 				) }
 			</TextContainer>
 			<div>
-				<OutboundLinkButton href={ url }>
+				<OutboundLinkButton href={ url } className={ "UpsellLinkButton" }>
 					{ sprintf(
 						/* translators: %s expands to Premium */
 						__( "Go %s!", "wordpress-seo" ),

@@ -496,7 +496,7 @@ class Indexable_Repository {
 	 * @return Indexable[] All children of the given indexable.
 	 */
 	public function get_children( Indexable $indexable ) {
-		_deprecated_function( __METHOD__, 'WPSEO 15.0' );
+		\_deprecated_function( __METHOD__, 'WPSEO 15.0' );
 
 		$indexable_ids = $this->hierarchy_repository->find_children( $indexable );
 

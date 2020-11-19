@@ -12,6 +12,7 @@ import { NewButton, ButtonStyledLink } from "@yoast/components";
 import { ModalContainer } from "./modals/Container";
 import Modal from "./modals/Modal";
 import YoastIcon from "../../../images/Yoast_icon_kader.svg";
+import { isCloseEvent } from "./modals/editorModals/EditorModal.js";
 
 /**
  * Redux container for the RelatedKeyPhrasesModal modal.
@@ -50,9 +51,15 @@ class SEMrushRelatedKeyphrasesModal extends Component {
 	/**
 	 * Handles the close event for the modal.
 	 *
+	 * @param {Event} event The event passed to the onRequestClose.
+	 *
 	 * @returns {void}
 	 */
-	onModalClose() {
+	onModalClose( event ) {
+		if ( ! isCloseEvent( event ) ) {
+			return;
+		}
+
 		this.props.onClose();
 	}
 

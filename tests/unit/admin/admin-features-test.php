@@ -8,7 +8,6 @@ use WP_User;
 use WPSEO_Admin;
 use WPSEO_Primary_Term_Admin;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
-use Yoast\WP\SEO\Main;
 use Yoast\WP\SEO\Surfaces\Helpers_Surface;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Shortlinker_Double;
 use Yoast\WP\SEO\Tests\Unit\TestCase;

@@ -134,7 +134,7 @@ class Indexable_Link_Builder {
 	 * @return string[] An array of urls.
 	 */
 	protected function gather_links( $content ) {
-		if ( strpos( $content, 'href' ) === false ) {
+		if ( \strpos( $content, 'href' ) === false ) {
 			// Nothing to do.
 			return [];
 		}
@@ -142,9 +142,9 @@ class Indexable_Link_Builder {
 		$links  = [];
 		$regexp = '<a\s[^>]*href=("??)([^" >]*?)\1[^>]*>';
 		// Used modifiers iU to match case insensitive and make greedy quantifiers lazy.
-		if ( \preg_match_all( "/$regexp/iU", $content, $matches, PREG_SET_ORDER ) ) {
+		if ( \preg_match_all( "/$regexp/iU", $content, $matches, \PREG_SET_ORDER ) ) {
 			foreach ( $matches as $match ) {
-				$links[] = trim( $match[2], "'" );
+				$links[] = \trim( $match[2], "'" );
 			}
 		}
 
@@ -159,7 +159,7 @@ class Indexable_Link_Builder {
 	 * @return string[] An array of urls.
 	 */
 	protected function gather_images( $content ) {
-		if ( strpos( $content, 'src' ) === false ) {
+		if ( \strpos( $content, 'src' ) === false ) {
 			// Nothing to do.
 			return [];
 		}
@@ -167,9 +167,9 @@ class Indexable_Link_Builder {
 		$images = [];
 		$regexp = '<img\s[^>]*src=("??)([^" >]*?)\\1[^>]*>';
 		// Used modifiers iU to match case insensitive and make greedy quantifiers lazy.
-		if ( preg_match_all( "/$regexp/iU", $content, $matches, PREG_SET_ORDER ) ) {
+		if ( \preg_match_all( "/$regexp/iU", $content, $matches, \PREG_SET_ORDER ) ) {
 			foreach ( $matches as $match ) {
-				$images[] = trim( $match[2], "'" );
+				$images[] = \trim( $match[2], "'" );
 			}
 		}
 
@@ -397,7 +397,7 @@ class Indexable_Link_Builder {
 
 		// Strip 'www.' if it is present and shouldn't be.
 		if ( \strpos( $home_url['host'], 'www.' ) !== 0 ) {
-			$link = str_replace( '://www.', '://', $link );
+			$link = \str_replace( '://www.', '://', $link );
 		}
 
 		return $link;
