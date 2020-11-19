@@ -11,7 +11,8 @@ class Unit_Test_Generator {
 	 *
 	 * @param string $fully_qualified_class_name The fully qualified class name of the class to generate a unit test for.
 	 *
-	 * @throws RuntimeException|ReflectionException If the class for which to generate a unit test does not exist.
+	 * @throws ReflectionException If the class for which to generate a unit test does not exist.
+	 * @throws RuntimeException    If there is already a unit test.
 	 */
 	public static function generate( $fully_qualified_class_name ) {
 		$reflector = new \ReflectionClass( $fully_qualified_class_name );
@@ -163,11 +164,13 @@ class {$name}_Test extends TestCase {
 	public function setUp() {
 		parent::setUp();
 		{$create_mock_statements}
+		
 		\$this->instance = new {$name}(
 			{$instance_argument_statements}
 		);
 	}
 }
+
 TPL;
 	}
 
@@ -181,7 +184,11 @@ TPL;
 	private static function generate_use_statements( array $constructor_arguments ) {
 		$statements = \array_map(
 			static function( $argument ) {
-				return 'use ' . $argument->getClass()->getName() . ';';
+				try {
+					return 'use ' . $argument->getClass()->getName() . ';';
+				} catch ( ReflectionException $exception ) {
+					return 'use ' . $argument->getClass()->getShortName() . ';';
+				}
 			},
 			$constructor_arguments
 		);
@@ -199,7 +206,7 @@ TPL;
 	private static function generate_property_statements( array $constructor_arguments ) {
 		$statements = \array_map(
 			static function( $argument ) {
-				return self::generate_mocked_property_statement( $argument->getClass(), $argument->getName() );
+				return self::generate_mocked_property_statement( $argument->getClass()->getShortName(), $argument->getName() );
 			},
 			$constructor_arguments
 		);
@@ -210,17 +217,17 @@ TPL;
 	/**
 	 * Generates a property statement of the given name, with as its type the given class and `Mockery\MockInterface`.
 	 *
-	 * @param ReflectionClass $class         The class for which to generate a property.
-	 * @param string          $property_name The name of the property.
+	 * @param string $class_name    The class for which to generate a property.
+	 * @param string $property_name The name of the property.
 	 *
 	 * @return string The generated property statement.
 	 */
-	private static function generate_mocked_property_statement( ReflectionClass $class, $property_name ) {
+	private static function generate_mocked_property_statement( $class_name, $property_name ) {
 		return <<<TPL
 	/**
-	 * {$class->getShortName()} mock.
+	 * {$class_name} mock.
 	 *
-	 * @var Mockery\MockInterface|{$class->getShortName()}
+	 * @var Mockery\MockInterface|{$class_name}
 	 */
 	protected \${$property_name};
 TPL;
@@ -242,7 +249,7 @@ TPL;
 			$constructor_arguments
 		);
 
-		return \implode( PHP_EOL, $statements );
+		return \implode( PHP_EOL . "\t\t", $statements );
 	}
 
 	/**
@@ -260,6 +267,6 @@ TPL;
 			$constructor_arguments
 		);
 
-		return \implode( ',' . PHP_EOL, $statements );
+		return \implode( ',' . PHP_EOL . "\t\t\t", $statements );
 	}
 }
