@@ -1269,9 +1269,9 @@ class WPSEO_Utils {
 	}
 
 	/**
-	 * Output a Schema blob.
+	 * Outputs a Schema blob.
 	 *
-	 * @deprecated 15.4
+	 * @deprecated 15.5
 	 * @codeCoverageIgnore
 	 *
 	 * @param array  $graph The Schema graph array to output.
@@ -1280,7 +1280,7 @@ class WPSEO_Utils {
 	 * @return bool
 	 */
 	public static function schema_output( $graph, $class = 'yoast-schema-graph' ) {
-		_deprecated_function( __METHOD__, 'WPSEO 15.4' );
+		_deprecated_function( __METHOD__, 'WPSEO 15.5' );
 
 		if ( ! is_array( $graph ) || empty( $graph ) ) {
 			return false;
@@ -1294,7 +1294,7 @@ class WPSEO_Utils {
 	/**
 	 * Returns a script tag with Schema blob.
 	 *
-	 * @deprecated 15.4
+	 * @deprecated 15.5
 	 * @codeCoverageIgnore
 	 *
 	 * @param array  $graph The Schema graph array to output.
@@ -1303,7 +1303,7 @@ class WPSEO_Utils {
 	 * @return false|string A schema blob with script tags.
 	 */
 	public static function schema_tag( $graph, $class = 'yoast-schema-graph' ) {
-		_deprecated_function( __METHOD__, 'WPSEO 15.4' );
+		_deprecated_function( __METHOD__, 'WPSEO 15.5' );
 
 		if ( ! is_array( $graph ) || empty( $graph ) ) {
 			return false;
@@ -1319,13 +1319,13 @@ class WPSEO_Utils {
 	/**
 	 * Returns the SVG for the traffic light in the metabox.
 	 *
-	 * @deprecated 15.4
+	 * @deprecated 15.5
 	 * @codeCoverageIgnore
 	 *
 	 * @return string
 	 */
 	public static function traffic_light_svg() {
-		_deprecated_function( __METHOD__, 'WPSEO 15.4' );
+		_deprecated_function( __METHOD__, 'WPSEO 15.5' );
 
 		return <<<'SVG'
 <svg class="yst-traffic-light init" version="1.1" xmlns="http://www.w3.org/2000/svg"
@@ -1374,9 +1374,9 @@ SVG;
 	}
 
 	/**
-	 * Get plugin name from file.
+	 * Gets the plugin name from file.
 	 *
-	 * @deprecated 15.4
+	 * @deprecated 15.5
 	 * @codeCoverageIgnore
 	 *
 	 * @since 2.3.3
@@ -1386,7 +1386,7 @@ SVG;
 	 * @return string|bool
 	 */
 	public static function get_plugin_name( $plugin ) {
-		_deprecated_function( __METHOD__, 'WPSEO 15.4' );
+		_deprecated_function( __METHOD__, 'WPSEO 15.5' );
 
 		$plugin_details = get_plugin_data( WP_PLUGIN_DIR . '/' . $plugin );
 
@@ -1400,7 +1400,7 @@ SVG;
 	/**
 	 * Returns a base64 URL for the svg for use in the menu.
 	 *
-	 * @deprecated 15.4
+	 * @deprecated 15.5
 	 * @codeCoverageIgnore
 	 *
 	 * @since 3.3.0
@@ -1410,7 +1410,7 @@ SVG;
 	 * @return string
 	 */
 	public static function get_icon_svg( $base64 = true ) {
-		_deprecated_function( __METHOD__, 'WPSEO 15.4' );
+		_deprecated_function( __METHOD__, 'WPSEO 15.5' );
 
 		$svg = '<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="100%" height="100%" style="fill:#82878c" viewBox="0 0 512 512" role="img" aria-hidden="true" focusable="false"><g><g><g><g><path d="M203.6,395c6.8-17.4,6.8-36.6,0-54l-79.4-204h70.9l47.7,149.4l74.8-207.6H116.4c-41.8,0-76,34.2-76,76V357c0,41.8,34.2,76,76,76H173C189,424.1,197.6,410.3,203.6,395z"/></g><g><path d="M471.6,154.8c0-41.8-34.2-76-76-76h-3L285.7,365c-9.6,26.7-19.4,49.3-30.3,68h216.2V154.8z"/></g></g><path stroke-width="2.974" stroke-miterlimit="10" d="M338,1.3l-93.3,259.1l-42.1-131.9h-89.1l83.8,215.2c6,15.5,6,32.5,0,48c-7.4,19-19,37.3-53,41.9l-7.2,1v76h8.3c81.7,0,118.9-57.2,149.6-142.9L431.6,1.3H338z M279.4,362c-32.9,92-67.6,128.7-125.7,131.8v-45c37.5-7.5,51.3-31,59.1-51.1c7.5-19.3,7.5-40.7,0-60l-75-192.7h52.8l53.3,166.8l105.9-294h58.1L279.4,362z"/></g></g></svg>';
 
@@ -1422,9 +1422,9 @@ SVG;
 	}
 
 	/**
-	 * Check whether the current user is allowed to access the configuration.
+	 * Checks whether the current user is allowed to access the configuration.
 	 *
-	 * @deprecated 15.4
+	 * @deprecated 15.5
 	 * @codeCoverageIgnore
 	 *
 	 * @since 1.8.0
@@ -1432,7 +1432,7 @@ SVG;
 	 * @return boolean
 	 */
 	public static function grant_access() {
-		_deprecated_function( __METHOD__, 'WPSEO 15.4' );
+		_deprecated_function( __METHOD__, 'WPSEO 15.5' );
 
 		if ( ! is_multisite() ) {
 			return true;
