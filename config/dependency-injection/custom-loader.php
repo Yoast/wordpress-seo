@@ -193,11 +193,11 @@ class Custom_Loader extends PhpFileLoader {
 	}
 
 	/**
-	 * Normalize all slashes in a file path to forward slashes.
+	 * Normalizes all slashes in a file path to forward slashes.
 	 *
 	 * @param string $path File path.
 	 *
-	 * @return string
+	 * @return string The file path with normalized slashes.
 	 */
 	private function normalize_slashes( $path ) {
 		return \str_replace( '\\', '/', $path );
