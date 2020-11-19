@@ -50,7 +50,7 @@ class Primary_Term_Builder_Test extends TestCase {
 	private $meta;
 
 	/**
-	 * @inheritDoc
+	 * Sets up the test class.
 	 */
 	public function setUp() {
 		parent::setUp();
@@ -213,6 +213,8 @@ class Primary_Term_Builder_Test extends TestCase {
 	}
 
 	/**
+	 * Tests the saving of a primary term when no term is selected.
+	 *
 	 * @covers ::save_primary_term
 	 */
 	public function test_save_primary_term_with_no_term_selected() {

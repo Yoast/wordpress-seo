@@ -30,7 +30,11 @@ class Primary_Term_Repository {
 	 * @return Primary_Term|null Instance of a primary term.
 	 */
 	public function find_by_post_id_and_taxonomy( $post_id, $taxonomy, $auto_create = true ) {
-		/** @var Primary_Term $primary_term */
+		/**
+		 * Instance of the primary term.
+		 *
+		 * @var Primary_Term $primary_term
+		 */
 		$primary_term = $this->query()
 			->where( 'post_id', $post_id )
 			->where( 'taxonomy', $taxonomy )

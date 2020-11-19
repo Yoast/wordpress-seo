@@ -32,7 +32,7 @@ class Indexable_Head_Action_Test extends TestCase {
 	protected $instance;
 
 	/**
-	 * @inheritDoc
+	 * Sets up the test class.
 	 */
 	public function setUp() {
 		parent::setUp();

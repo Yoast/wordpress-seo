@@ -33,7 +33,7 @@ class Indexable_General_Indexation_Action_Test extends TestCase {
 	protected $indexable_repository;
 
 	/**
-	 * @inheritDoc
+	 * Sets up the test class.
 	 */
 	public function setUp() {
 		parent::setUp();

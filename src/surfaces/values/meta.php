@@ -60,6 +60,8 @@ use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
 class Meta {
 
 	/**
+	 * The container.
+	 *
 	 * @var ContainerInterface
 	 */
 	protected $container;
@@ -180,6 +182,8 @@ class Meta {
 
 		if ( \class_exists( $presenter_class ) ) {
 			/**
+			 * The indexable presenter.
+			 *
 			 * @var Abstract_Indexable_Presenter
 			 */
 			$presenter               = new $presenter_class();
