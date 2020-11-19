@@ -80,6 +80,11 @@ class WPML_WPSEO_Notification_Test extends TestCase {
 			'wpml_wpseo_conditional',
 			$this->instance
 		);
+		self::assertAttributeInstanceOf(
+			Short_Link_Helper::class,
+			'short_link_helper',
+			$this->instance
+		);
 	}
 
 	/**
