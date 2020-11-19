@@ -22,6 +22,8 @@ class Indexable_Date_Archive_Watcher implements Integration_Interface {
 	protected $repository;
 
 	/**
+	 * The indexable builder.
+	 *
 	 * @var Indexable_Builder
 	 */
 	protected $builder;
