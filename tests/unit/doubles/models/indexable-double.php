@@ -3,7 +3,6 @@
 namespace Yoast\WP\SEO\Tests\Unit\Doubles\Models;
 
 use Mockery\MockInterface;
-use Yoast\WP\Lib\ORM;
 use Yoast\WP\SEO\Models\Indexable as Indexable_Model;
 use Yoast\WP\SEO\Models\Indexable_Extension;
 
