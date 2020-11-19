@@ -11,10 +11,16 @@ class Unit_Test_Generator {
 	 *
 	 * @param string $fully_qualified_class_name The fully qualified class name of the class to generate a unit test for.
 	 *
-	 * @throws ReflectionException If the class for which to generate a unit test does not exist.
+	 * @throws RuntimeException|ReflectionException If the class for which to generate a unit test does not exist.
 	 */
 	public static function generate( $fully_qualified_class_name ) {
 		$reflector = new \ReflectionClass( $fully_qualified_class_name );
+
+		$unit_test_path = self::generate_file_name( $reflector->getFileName() );
+
+		if ( \file_exists( __DIR__ . '/../../tests/unit/' . $unit_test_path ) ) {
+			throw new RuntimeException( \sprintf( 'A unit test already exists at path "tests/unit/%1$s"', $unit_test_path ) );
+		}
 
 		$name = $reflector->getShortName();
 
@@ -48,8 +54,6 @@ class Unit_Test_Generator {
 			$create_mock_statements,
 			$instance_argument_statements
 		);
-
-		$unit_test_path = self::generate_file_name( $reflector->getFileName() );
 
 		\file_put_contents( __DIR__ . '/../../tests/unit/' . $unit_test_path, $filled_in_template );
 	}
