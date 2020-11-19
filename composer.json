@@ -81,7 +81,7 @@
 			"Yoast\\WP\\SEO\\Composer\\Actions::check_coding_standards"
 		],
 		"check-cs-thresholds": [
-			"@putenv YOASTCS_THRESHOLD_ERRORS=542",
+			"@putenv YOASTCS_THRESHOLD_ERRORS=544",
 			"@putenv YOASTCS_THRESHOLD_WARNINGS=228",
 			"Yoast\\WP\\SEO\\Composer\\Actions::check_cs_thresholds"
 		],

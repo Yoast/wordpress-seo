@@ -692,8 +692,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			return false;
 		}
 
-		$nonce = filter_input( INPUT_POST, 'yoast_free_metabox_nonce' );
-		if ( empty( $nonce ) || ! wp_verify_nonce( $nonce, 'yoast_free_metabox' ) ) {
+		if ( ! isset( $_POST['yoast_free_metabox_nonce'] ) || ! wp_verify_nonce( $_POST['yoast_free_metabox_nonce'], 'yoast_free_metabox' ) ) {
 			return false;
 		}
 
