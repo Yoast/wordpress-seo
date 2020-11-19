@@ -84,6 +84,7 @@ class Permalink_Integrity_Watcher_Test extends TestCase {
 		$this->permalink_helper            = Mockery::mock( Permalink_Helper::class );
 		$this->post_type_helper            = Mockery::mock( Post_Type_Helper::class );
 		$this->taxonomy_helper             = Mockery::mock( Taxonomy_Helper::class );
+
 		$this->instance = Mockery::mock(
 			Permalink_Integrity_Watcher::class,
 			[
@@ -92,7 +93,7 @@ class Permalink_Integrity_Watcher_Test extends TestCase {
 				$this->post_type_helper,
 				$this->taxonomy_helper,
 				$this->indexable_permalink_watcher,
-				$this->indexable_homeurl_watcher
+				$this->indexable_homeurl_watcher,
 			]
 		)->makePartial();
 	}
