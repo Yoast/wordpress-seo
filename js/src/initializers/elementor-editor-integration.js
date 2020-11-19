@@ -2,7 +2,6 @@
 /* global jQuery, window */
 import domReady from "@wordpress/dom-ready";
 import { dispatch } from "@wordpress/data";
-import { get } from "lodash";
 import { registerReactComponent, renderReactRoot } from "../helpers/reactRoot";
 import ElementorSlot from "../elementor/components/slots/ElementorSlot";
 import ElementorFill from "../elementor/containers/ElementorFill";
@@ -13,14 +12,9 @@ import { StyleSheetManager } from "styled-components";
  *
  * @returns {void}
  */
-const activateSaveButton = () => {
-	const footerSaver = get( window.elementor, "saver.footerSaver", false );
-	if ( false !== footerSaver ) {
-		footerSaver.activateSaveButtons( document, true );
-		return;
-	}
-	window.elementor.channels.editor.trigger( "status:change", true );
-};
+function activateSaveButton() {
+	window.$e.internal( "document/save/set-is-modified", { status: true } );
+}
 
 /**
  * Copies the current value to the oldValue.
