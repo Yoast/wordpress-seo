@@ -148,6 +148,10 @@ class Permalink_Integrity_Watcher_Test extends TestCase {
 			'attachment',
 		];
 
+		$this->post_type_helper->expects( 'get_public_post_types' )
+			->once()
+			->andReturn( $post_types_array );
+
 		$taxonomy_types_array = [
 			'category',
 			'post_tag',
