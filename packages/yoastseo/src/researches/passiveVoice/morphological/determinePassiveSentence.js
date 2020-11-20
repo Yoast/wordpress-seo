@@ -208,6 +208,7 @@ const determineSentenceIsPassiveHebrew = function( sentence ) {
 	return false;
 };
 
+const determineSentenceIsPassiveHungarian
 /**
  * Determines whether a sentence is passive.
  *

@@ -68,9 +68,16 @@ const followingAuxiliaryExceptionWordsItalian = [ "il", "i", "la", "le", "lo", "
 const reflexivePronounsItalian = [ "mi", "ti", "si", "ci", "vi" ];
 const directPrecedenceExceptionRegexItalian = arrayToRegex( reflexivePronounsItalian );
 
+// Hugarian-specific variables and imports.
+import SentencePartHungarian from "../../hungarian/passiveVoice/SentencePart";
+import auxiliariesHungarianFactory from "../../hungarian/passiveVoice/auxiliaries.js";
+const auxiliariesHungarian = auxiliariesHungarianFactory();
+const stopCharacterRegexHungarian = /([:,])(?=[ \n\r\t'"+\-»«‹›<>„”])/ig;
+
+
 /*
  * Variables applying to multiple languages
- * This regex applies to Spanish, Italian and Portuguese.
+ * This regex applies to Spanish, Italian and  Portuguese.
  */
 const stopCharacterRegexOthers = /([:,])(?=[ \n\r\t'"+\-»«‹›<>])/ig;
 
@@ -118,16 +125,19 @@ const languageVariables = {
 		directPrecedenceExceptionRegex: directPrecedenceExceptionRegexItalian,
 	},
 	hu: {
+		auxiliaryRegex: arrayToRegex( auxiliariesHungarian ),
 		SentencePart: SentencePartHungarian,
 		auxiliaries: auxiliariesHungarian,
+		stopCharacterRegex: stopCharacterRegexHungarian,
 	},
 };
 
 /**
  * Gets active verbs (ending in ing) to determine sentence breakers in English.
  *
- * @param {string} sentence The sentence to get the active verbs from.
- * @returns {Array} The array with valid matches.
+ * @param {string} sentence             The sentence to get the active verbs from.
+ *
+ * @returns {Array}                     The array with valid matches.
  */
 const getVerbsEndingInIng = function( sentence ) {
 	// Matches the sentences with words ending in ing.
@@ -141,9 +151,10 @@ const getVerbsEndingInIng = function( sentence ) {
 /**
  * Gets stop characters to determine sentence breakers.
  *
- * @param {string} sentence The sentence to get the stop characters from.
- * @param {string} language The language for which to get the stop characters.
- * @returns {Array} The array with stop characters.
+ * @param {string} sentence             The sentence to get the stop characters from.
+ * @param {string} language             The language for which to get the stop characters.
+ *
+ * @returns {Array}                     The array with stop characters.
  */
 const getStopCharacters = function( sentence, language ) {
 	const stopCharacterRegex = languageVariables[ language ].stopCharacterRegex;
@@ -166,11 +177,11 @@ const getStopCharacters = function( sentence, language ) {
 /**
  * Filters auxiliaries preceded by a reflexive pronoun.
  *
- * @param {string} text The text part in which to check.
- * @param {Array} auxiliaryMatches The auxiliary matches for which to check.
- * @param {string} language The language for which to check auxiliary precedence exceptions.
+ * @param {string} text                      The text part in which to check.
+ * @param {Array} auxiliaryMatches           The auxiliary matches for which to check.
+ * @param {string} language                  The language for which to check auxiliary precedence exceptions.
  *
- * @returns {Array} The filtered list of auxiliary indices.
+ * @returns {Array}                          The filtered list of auxiliary indices.
  */
 const auxiliaryPrecedenceExceptionFilter = function( text, auxiliaryMatches, language ) {
 	const directPrecedenceExceptionMatches = getWordIndices( text, languageVariables[ language ].directPrecedenceExceptionRegex );
@@ -189,10 +200,11 @@ const auxiliaryPrecedenceExceptionFilter = function( text, auxiliaryMatches, lan
 /**
  * Filters auxiliaries followed by a word on the followingAuxiliaryExceptionWords list.
  *
- * @param {string} text The text part in which to check.
- * @param {Array} auxiliaryMatches The auxiliary matches for which to check.
- * @param {string} language The language for which to filter the auxiliaries.
- * @returns {Array} The filtered list of auxiliary indices.
+ * @param {string} text                       The text part in which to check.
+ * @param {Array} auxiliaryMatches            The auxiliary matches for which to check.
+ * @param {string} language                   The language for which to filter the auxiliaries.
+ *
+ * @returns {Array}                           The filtered list of auxiliary indices.
  */
 const followingAuxiliaryExceptionFilter = function( text, auxiliaryMatches, language ) {
 	const followingAuxiliaryExceptionRegex = languageVariables[ language ].followingAuxiliaryExceptionRegex;
@@ -212,9 +224,10 @@ const followingAuxiliaryExceptionFilter = function( text, auxiliaryMatches, lang
 /**
  * Filters auxiliaries preceded by an elided word (e.g., s') on the elisionAuxiliaryExceptionWords list.
  *
- * @param {string} text The text part in which to check.
- * @param {Array} auxiliaryMatches The auxiliary matches for which to check.
- * @returns {Array} The filtered list of auxiliary indices.
+ * @param {string} text                         The text part in which to check.
+ * @param {Array} auxiliaryMatches              The auxiliary matches for which to check.
+ *
+ * @returns {Array}                             The filtered list of auxiliary indices.
  */
 const elisionAuxiliaryExceptionFilter = function( text, auxiliaryMatches ) {
 	const elisionAuxiliaryExceptionMatches = getWordIndices( text, elisionAuxiliaryExceptionRegex );
@@ -236,9 +249,10 @@ const elisionAuxiliaryExceptionFilter = function( text, auxiliaryMatches ) {
  * Indices are filtered because there could be duplicate matches, like "even though" and "though".
  * In addition, 'having' will be matched both as a -ing verb as well as an auxiliary.
  *
- * @param {string} sentence The sentence to check for indices of sentence breakers.
- * @param {string} language The language for which to match the sentence breakers.
- * @returns {Array} The array with valid indices to use for determining sentence parts.
+ * @param {string} sentence                       The sentence to check for indices of sentence breakers.
+ * @param {string} language                       The language for which to match the sentence breakers.
+ *
+ * @returns {Array}                               The array with valid indices to use for determining sentence parts.
  */
 const getSentenceBreakers = function( sentence, language ) {
 	sentence = sentence.toLocaleLowerCase();
@@ -284,9 +298,10 @@ const getSentenceBreakers = function( sentence, language ) {
 /**
  * Gets the auxiliaries from a sentence.
  *
- * @param {string} sentencePart The part of the sentence to match for auxiliaries.
- * @param {string} language The language for which to match the auxiliaries.
- * @returns {Array} All formatted matches from the sentence part.
+ * @param {string} sentencePart                The part of the sentence to match for auxiliaries.
+ * @param {string} language                    The language for which to match the auxiliaries.
+ *
+ * @returns {Array}                            All formatted matches from the sentence part.
  */
 const getAuxiliaryMatches = function( sentencePart, language ) {
 	const auxiliaryRegex = languageVariables[ language ].auxiliaryRegex;
@@ -328,9 +343,10 @@ const getAuxiliaryMatches = function( sentencePart, language ) {
 /**
  * Gets the sentence parts from a sentence by determining sentence breakers.
  *
- * @param {string} sentence The sentence to split up in sentence parts.
- * @param {string} language The language for which to get the sentence parts.
- * @returns {Array} The array with all parts of a sentence that have an auxiliary.
+ * @param {string} sentence                 The sentence to split up in sentence parts.
+ * @param {string} language                 The language for which to get the sentence parts.
+ *
+ * @returns {Array}                         The array with all parts of a sentence that have an auxiliary.
  */
 const getSentenceParts = function( sentence, language ) {
 	const sentenceParts = [];
@@ -367,9 +383,10 @@ const getSentenceParts = function( sentence, language ) {
 /**
  * Split the sentence in sentence parts based on auxiliaries.
  *
- * @param {string} sentence The sentence to split in parts.
- * @param {string} language The language for which to get the sentence parts.
- * @returns {Array} A list with sentence parts.
+ * @param {string} sentence             The sentence to split in parts.
+ * @param {string} language             The language for which to get the sentence parts.
+ *
+ * @returns {Array}                     A list with sentence parts.
  */
 export default function( sentence, language ) {
 	return getSentenceParts( sentence, language );
