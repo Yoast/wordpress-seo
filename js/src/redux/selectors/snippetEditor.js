@@ -10,6 +10,18 @@ import { get } from "lodash";
 export const getReplaceVars = state => get( state, "snippetEditor.replacementVariables", [] );
 
 /**
+ * Gets the snippet editor templates.
+ *
+ * @param {Object} state The state object.
+ *
+ * @returns {string} The snippet editor templates.
+ */
+export const getSnippetEditorTemplates = state => get( state, "snippetEditor.templates", {
+	title: "",
+	description: "",
+} );
+
+/**
  * Gets the snippet editor mode.
  *
  * @param {Object} state The state object.
@@ -19,13 +31,13 @@ export const getReplaceVars = state => get( state, "snippetEditor.replacementVar
 export const getSnippetEditorMode = state => get( state, "snippetEditor.mode", "mobile" );
 
 /**
- * Gets the snippet editor title.
+ * Gets the snippet editor title. Falls back to the title template.
  *
  * @param {Object} state The state object.
  *
  * @returns {string} The snippet editor title.
  */
-export const getSnippetEditorTitle = state => get( state, "snippetEditor.data.title", "" );
+export const getSnippetEditorTitle = state => get( state, "snippetEditor.data.title", getSnippetEditorTemplates( state ).title );
 
 /**
  * Gets the snippet editor description.
@@ -35,6 +47,15 @@ export const getSnippetEditorTitle = state => get( state, "snippetEditor.data.ti
  * @returns {string} The snippet editor description.
  */
 export const getSnippetEditorDescription = state => get( state, "snippetEditor.data.description", "" );
+
+/**
+ * Gets the snippet editor for analysis. If description is empty, falls back to template.
+ *
+ * @param {Object} state The state object.
+ *
+ * @returns {string} The snippet editor description.
+ */
+export const getSnippetEditorDescriptionForAnalysis = state => getSnippetEditorDescription( state ) || getSnippetEditorTemplates( state ).description;
 
 /**
  * Gets the snippet editor slug.
@@ -56,18 +77,6 @@ export const getSnippetEditorData = state => get( state, "snippetEditor.data", {
 	title: getSnippetEditorTitle( state ),
 	description: getSnippetEditorDescription( state ),
 	slug: getSnippetEditorSlug( state ),
-} );
-
-/**
- * Gets the snippet editor templates.
- *
- * @param {Object} state The state object.
- *
- * @returns {string} The snippet editor templates.
- */
-export const getSnippetEditorTemplates = state => get( state, "snippetEditor.templates", {
-	title: "",
-	description: "",
 } );
 
 /**

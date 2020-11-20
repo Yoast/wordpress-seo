@@ -42,7 +42,7 @@ export const loadSnippetEditorData = () => {
 	return {
 		type: LOAD_SNIPPET_EDITOR_DATA,
 		data: {
-			title: SearchMetadataFields.title,
+			title: SearchMetadataFields.title || get( window, "wpseoScriptData.metabox.title_template", "" ),
 			description: SearchMetadataFields.description,
 			slug: SearchMetadataFields.slug,
 		},
