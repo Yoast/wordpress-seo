@@ -21,7 +21,7 @@ function processArray( tokens: IToken[] ): InstructionArray {
 	// Consume the array-open token.
 	tokens.shift();
 	while ( ! tokens[ 0 ].isA( "array-close" ) ) {
-		value.push( processToken( tokens ) );
+		value.push( processToken( tokens[ 0 ], tokens ) );
 	}
 	// Consume the array-close token.
 	tokens.shift();
@@ -47,7 +47,7 @@ function processObject( tokens: IToken[] ): InstructionObject {
 		}
 		const objectKey = tokens.shift().value as string;
 
-		value[ objectKey ] = processToken( tokens );
+		value[ objectKey ] = processToken( tokens[ 0 ], tokens );
 	}
 	// Consume the object-close token.
 	tokens.shift();
@@ -58,22 +58,23 @@ function processObject( tokens: IToken[] ): InstructionObject {
 /**
  * Processes a token from a list of tokens.
  *
- * @param tokens The remaining tokens.
+ * @param {IToken}   currentToken The current token.
+ * @param {IToken[]} tokens       The remaining tokens.
  *
  * @returns The value of the first token.
  */
-function processToken( tokens: IToken[] ): InstructionValue {
-	if ( tokens[ 0 ].isA( "array-open" ) ) {
+function processToken( currentToken: IToken, tokens: IToken[] ): InstructionValue {
+	if ( currentToken.isA( "array-open" ) ) {
 		return processArray( tokens );
 	}
-	if ( tokens[ 0 ].isA( "object-open" ) ) {
+	if ( currentToken.isA( "object-open" ) ) {
 		return processObject( tokens );
 	}
-	if ( tokens[ 0 ].isA( "empty-object" ) ) {
+	if ( currentToken.isA( "empty-object" ) ) {
 		tokens.shift();
 		return {};
 	}
-	if ( tokens[ 0 ].isA( "value" ) ) {
+	if ( currentToken.isA( "value" ) ) {
 		return tokens.shift().value as InstructionPrimitive;
 	}
 	throw "Invalid token found.";
@@ -93,7 +94,7 @@ function processBlockInstruction( token: IToken<string>, tokens: IToken[], instr
 
 	while ( tokens[ 0 ] && tokens[ 0 ].isA( "key" ) ) {
 		const key = camelCase( ( tokens.shift() as IToken<string> ).value );
-		instruction.options[ key ] = processToken( tokens );
+		instruction.options[ key ] = processToken( tokens[ 0 ], tokens );
 	}
 
 	return instruction;
