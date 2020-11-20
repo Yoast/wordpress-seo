@@ -2,7 +2,7 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Integrations\Third_Party;
 
-use Yoast\WP\SEO\Conditionals\WPML_Conditional;
+use Yoast\WP\SEO\Conditionals\Third_Party\WPML_Conditional;
 use Yoast\WP\SEO\Helpers\Short_Link_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
