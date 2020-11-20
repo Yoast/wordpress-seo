@@ -18,10 +18,21 @@ export function updateData( data ) {
 	 * Using a truthy check (e.g. `data.title`) does not work, as it would be false when the string is empty.
 	 */
 	if ( data.hasOwnProperty( "title" ) ) {
-		SearchMetadataFields.title = data.title;
+		let titleToBeSaved = data.title;
+		// Test whether this is actually the template, which we don't want to save.
+		if ( data.title === get( window, "wpseoScriptData.metabox.title_template", "" ) ) {
+			titleToBeSaved = "";
+		}
+
+		SearchMetadataFields.title = titleToBeSaved;
 	}
 	if ( data.hasOwnProperty( "description" ) ) {
-		SearchMetadataFields.description = data.description;
+		let metaDescToBeSaved = data.description;
+		// Test whether this is actually the template, which we don't want to save.
+		if ( data.description === get( window, "wpseoScriptData.metabox.metadesc_template", "" ) ) {
+			metaDescToBeSaved = "";
+		}
+		SearchMetadataFields.description = metaDescToBeSaved;
 	}
 	if ( data.hasOwnProperty( "slug" ) ) {
 		SearchMetadataFields.slug = data.slug;
@@ -39,15 +50,16 @@ export function updateData( data ) {
  * @returns {Object} The load cornerstone content action.
  */
 export const loadSnippetEditorData = () => {
+	const titleTemplate = get( window, "wpseoScriptData.metabox.title_template", "" );
 	return {
 		type: LOAD_SNIPPET_EDITOR_DATA,
 		data: {
-			title: SearchMetadataFields.title || get( window, "wpseoScriptData.metabox.title_template", "" ),
+			title: SearchMetadataFields.title || titleTemplate,
 			description: SearchMetadataFields.description,
 			slug: SearchMetadataFields.slug,
 		},
 		templates: {
-			title: get( window, "wpseoScriptData.metabox.title_template", "" ),
+			title: titleTemplate,
 			description: get( window, "wpseoScriptData.metabox.metadesc_template", "" ),
 		},
 	};
