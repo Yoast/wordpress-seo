@@ -50,7 +50,8 @@
     "build": "tsc",
     "watch": "tsc --watch",
     "prepare": "yarn build",
-    "lint": "eslint 'src/**'",
+    "lint": "eslint \"src/**\"",
+    "lint-fix": "eslint \"src/**\" --fix",
     "test": "jest"
   },
   "publishConfig": {

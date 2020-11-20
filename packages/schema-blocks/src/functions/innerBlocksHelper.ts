@@ -2,21 +2,32 @@ import { BlockInstance } from "@wordpress/blocks";
 import { select } from "@wordpress/data";
 import recurseOverBlocks from "./blocks/recurseOverBlocks";
 
-function getInnerblocksOfType ( needles : string[], haystack: BlockInstance[] ) : BlockInstance[] {
-    var foundBlocks : BlockInstance[];
-            
-    recurseOverBlocks ( haystack, ( block : BlockInstance ) => {
-        // check if the current block is one of the required types
-        if ( needles.includes( block.name )) {
-            foundBlocks.push ( block );
-        }
-    });
-    return foundBlocks;
+/**
+ * Searches recursively in the innerblocks to get all instances of blocks whose name occurs in blockNames.
+ * @param blockNames     The names of the blocks you're searching for.
+ * @param blockInstances The array of blocks you're searching in.
+ * @returns              The block instances that have a name that occurs in blockNames
+ */
+function getInnerblocksOfType( blockNames: string[], blockInstances: BlockInstance[] ): BlockInstance[] {
+	const foundBlocks: BlockInstance[] = [];
+
+	recurseOverBlocks( blockInstances, ( block: BlockInstance ) => {
+		// Checks if the current block is one of the required types
+		if ( blockNames.includes( block.name ) ) {
+			foundBlocks.push( block );
+		}
+	} );
+	return foundBlocks;
 }
 
-// Get the current block from the core/block-editor store
-function getInnerBlocks( clientId : string ) : BlockInstance[] {
-    return select( "core/block-editor" ).getBlock( clientId ).innerBlocks;
+/**
+ * Gets the innerblocks of the block with the given clientId from the core/block-editor store
+ * @param clientId The clientId of the block whose InnerBlocks you want.
+ * @returns        The block's innerblocks.
+ */
+function getInnerBlocks( clientId: string ): BlockInstance[] {
+	/* istanbul ignore next */
+	return select( "core/block-editor" ).getBlock( clientId ).innerBlocks;
 }
 
 export { getInnerBlocks, getInnerblocksOfType };

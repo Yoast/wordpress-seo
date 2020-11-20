@@ -4,7 +4,6 @@ import BlockInstruction from "../../core/blocks/BlockInstruction";
 import { RenderEditProps, RenderSaveProps } from "../../core/blocks/BlockDefinition";
 import { RequiredBlock } from "./dto";
 import getInvalidInnerBlocks from "../../functions/validators/innerBlocksValid";
-import { getInnerBlocks } from "../../functions/innerBlocksHelper";
 
 /**
  * InnerBlocks instruction
@@ -13,7 +12,7 @@ export class InnerBlocks extends BlockInstruction {
 	public options: {
 		allowedBlocks: string[];
 		appender: string;
-		appenderLabel: string;		
+		appenderLabel: string;
 		requiredBlocks: RequiredBlock[];
 		recommendedBlocks: string[];
 	};
@@ -69,14 +68,15 @@ export class InnerBlocks extends BlockInstruction {
 	 * @returns The sidebar element to render.
 	 */
 	sidebar( props: RenderEditProps, i: number ): ReactElement | string {
-		var invalidBlocks = getInvalidInnerBlocks( this.options.requiredBlocks, props );
-		// todo: loop over all blocks (not just the invalid ones!), add a div to the block depending on their status.
-		// block OK? div with a green check,
-		// block missing? add button,
-		// block occurs too often? remove button,
-		// block internal validation? 
+		// Loop over all blocks (not just the invalid ones!), add a div to the block depending on their status.
+		// Block OK? div with a green check,
+		// Block missing? add button,
+		// Block occurs too often? remove button,
+		// Block internal validation?
+
+		// Const invalidBlocks = getInvalidInnerBlocks( this.options.requiredBlocks, props );
 		return "todo innerblock sidebar, P2-505, P2-506";
-	} 
+	}
 
 	/**
 	 * Checks if the instruction block is valid.
@@ -86,9 +86,9 @@ export class InnerBlocks extends BlockInstruction {
 	 * @returns `true` if the instruction block is valid, `false` if the block contains errors.
 	 */
 	valid( props: RenderSaveProps | RenderEditProps ): boolean {
-		var invalidBlocks = getInvalidInnerBlocks( this.options.requiredBlocks, props );	
-		
-		return invalidBlocks.length === 0 ;
+		const invalidBlocks = getInvalidInnerBlocks( this.options.requiredBlocks, props.clientId );
+
+		return invalidBlocks.length === 0;
 	}
 }
 

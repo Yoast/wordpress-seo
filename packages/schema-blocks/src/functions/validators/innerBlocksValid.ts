@@ -1,81 +1,111 @@
 import { BlockInstance } from "@wordpress/blocks";
 import { countBy } from "lodash";
-import { RenderEditProps, RenderSaveProps } from "../../core/blocks/BlockDefinition";
 import { RequiredBlockOption, InvalidBlockReason } from "../../instructions/blocks/enums";
 import { RequiredBlock, InvalidBlock } from "../../instructions/blocks/dto";
 import { getInnerBlocks, getInnerblocksOfType } from "../innerBlocksHelper";
 
-function findMissingBlocks( requiredBlockKeys: string[], existingRequiredBlocks: BlockInstance[] ) : InvalidBlock[] {
-    let invalidBlocks : InvalidBlock[];
-    const missingRequiredBlocks = requiredBlockKeys.filter( requiredblockname => {
-        // Every block in the found blocks collection does not match the requiredblock, i.e. we haven't found the requiredblock.
-        existingRequiredBlocks.every( block => block.name !== requiredblockname );
-    });
+/**
+ * Finds all blocks that should be in the innerblocks, but aren't.
+ * @param requiredBlockNames     All names of the blocks that should occur in the innerblocks.
+ * @param existingRequiredBlocks The actual array of all innerblocks.
+ * @returns {InvalidBlock[]}     The names of blocks that should occur but don't, with reason 'missing'.
+ */
+function findMissingBlocks( requiredBlockNames: string[], existingRequiredBlocks: BlockInstance[] ): InvalidBlock[] {
+	let invalidBlocks: InvalidBlock[];
+	const missingRequiredBlocks = requiredBlockNames.filter( requiredBlockName => {
+		// Every block in the found blocks collection does not match the requiredblock, i.e. we haven't found the requiredblock.
+		existingRequiredBlocks.every( block => block.name !== requiredBlockName );
+	} );
 
-    // These blocks should've been in here somewhere, but they're not.
-    missingRequiredBlocks.forEach( missingBlockName => {
-        invalidBlocks.push( createInvalidBlock( missingBlockName, InvalidBlockReason.Missing ));
-    });
+	// These blocks should've been in here somewhere, but they're not.
+	missingRequiredBlocks.forEach( missingBlockName => {
+		invalidBlocks.push( createInvalidBlock( missingBlockName, InvalidBlockReason.Missing ) );
+	} );
 
-    return invalidBlocks;
+	return invalidBlocks;
 }
 
-function findRedundantBlocks( requiredBlocks: RequiredBlock[], existingRequiredBlocks: BlockInstance[] ) : InvalidBlock[] {
-    let onlyOneAllowed: string[];
-    let invalidBlocks : InvalidBlock[];
+/**
+ * Finds all blocks that occur more than once in the innerblocks.
+ * @param requiredBlocks         Requirements of the blocks that should occur only once in the innerblocks.
+ * @param existingRequiredBlocks The actual array of all innerblocks.
+ * @returns {InvalidBlock[]}     The names of blocks that occur more than once in the innerblocks with reason 'TooMany'.
+ */
+function findRedundantBlocks( requiredBlocks: RequiredBlock[], existingRequiredBlocks: BlockInstance[] ): InvalidBlock[] {
+	let onlyOneAllowed: string[];
+	let invalidBlocks: InvalidBlock[];
 
-    requiredBlocks
-        .filter( block => { block.option === RequiredBlockOption.One; })
-        .forEach( block => { onlyOneAllowed.push( block.type ); });
-    if ( onlyOneAllowed ) {
-        // Count the occurrences of each block so we can find all keys that have too many occurrences.
-        let countPerBlockType = countBy( existingRequiredBlocks, block => block.name );
-        for ( let blockName in countPerBlockType ) {
-            if ( countPerBlockType[ blockName ] > 1 ) {
-                invalidBlocks.push( createInvalidBlock ( blockName, InvalidBlockReason.TooMany ));
-            }
-        }
-    }
-    return invalidBlocks;
+	requiredBlocks
+		.filter( block => {
+			block.option === RequiredBlockOption.One;
+		} )
+		.forEach( block => {
+			onlyOneAllowed.push( block.type );
+		} );
+	if ( onlyOneAllowed ) {
+		// Count the occurrences of each block so we can find all keys that have too many occurrences.
+		const countPerBlockType = countBy( existingRequiredBlocks, block => block.name );
+		for ( const blockName in countPerBlockType ) {
+			if ( countPerBlockType[ blockName ] > 1 ) {
+				invalidBlocks.push( createInvalidBlock( blockName, InvalidBlockReason.TooMany ) );
+			}
+		}
+	}
+	return invalidBlocks;
 }
 
-function findSelfInvalidatedBlocks( innerBlocks : BlockInstance[] ) : InvalidBlock[] {
-    let invalidBlocks : InvalidBlock[];
-    innerBlocks.forEach( block => {
-        if ( !block.isValid ){
-            invalidBlocks.push( createInvalidBlock ( block.name, InvalidBlockReason.Internal ));
-        }
-    });
-    return invalidBlocks;
+/**
+ * Finds all blocks that have found themselves invalid.
+ * @param blocks             The blocks to validate.
+ * @returns {InvalidBlock[]} The array of blocks that have invalidated themselves.
+ */
+function validateBlocks( blocks: BlockInstance[] ): InvalidBlock[] {
+	let invalidBlocks: InvalidBlock[];
+	blocks.forEach( block => {
+		if ( ! block.isValid ) {
+			invalidBlocks.push( createInvalidBlock( block.name, InvalidBlockReason.Internal ) );
+		}
+	} );
+	return invalidBlocks;
 }
 
-function getInvalidInnerBlocks( requiredBlocks : RequiredBlock[], props: RenderEditProps | RenderSaveProps ) : InvalidBlock[]  {
-    let invalidBlocks: InvalidBlock[];
+/**
+ * Validates all innerblocks recursively and returns all invalid blocks.
+ * @param requiredBlocks Requirements of the blocks that should occur in the innerblocks.
+ * @param clientId       The clientId of the block whose innerblocks need to be validated.
+ */
+function getInvalidInnerBlocks( requiredBlocks: RequiredBlock[], clientId: string ): InvalidBlock[]  {
+	let invalidBlocks: InvalidBlock[];
 
-    const innerBlocks = getInnerBlocks( props.clientId );
-    const requiredBlockKeys = Object.keys( requiredBlocks );
+	const innerBlocks = getInnerBlocks( clientId );
+	const requiredBlockKeys = Object.keys( requiredBlocks );
 
-    // Find all instances of required block types.
-    const existingRequiredBlocks = getInnerblocksOfType( requiredBlockKeys, innerBlocks );
+	// Find all instances of required block types.
+	const existingRequiredBlocks = getInnerblocksOfType( requiredBlockKeys, innerBlocks );
 
-    // Find all block types that do not occur in existingBlocks.
-    invalidBlocks.push( ...findMissingBlocks( requiredBlockKeys, existingRequiredBlocks ));
+	// Find all block types that do not occur in existingBlocks.
+	invalidBlocks.push( ...findMissingBlocks( requiredBlockKeys, existingRequiredBlocks ) );
 
-    // Find all block types that allow only one occurrence.
-    invalidBlocks.push( ...findRedundantBlocks( requiredBlocks, existingRequiredBlocks ));
+	// Find all block types that allow only one occurrence.
+	invalidBlocks.push( ...findRedundantBlocks( requiredBlocks, existingRequiredBlocks ) );
 
-    // Find all blocks that have decided for themselves that they're invalid
-    invalidBlocks.push( ...findSelfInvalidatedBlocks( innerBlocks ));
+	// Find all blocks that have decided for themselves that they're invalid.
+	invalidBlocks.push( ...validateBlocks( innerBlocks ) );
 
-    return invalidBlocks;
+	return invalidBlocks;
 }
 
-function createInvalidBlock( type : string, reason : InvalidBlockReason ) {
-    return {
-        type,
-        reason,
-    } as InvalidBlock;
+/**
+ * Helper function to create an invalid block.
+ * @param type   The block name.
+ * @param reason The reason this block is invalid.
+ */
+function createInvalidBlock( type: string, reason: InvalidBlockReason ) {
+	return {
+		type,
+		reason,
+	} as InvalidBlock;
 }
 
 export default getInvalidInnerBlocks;
-export { findMissingBlocks, findRedundantBlocks, findSelfInvalidatedBlocks, createInvalidBlock };
+export { findMissingBlocks, findRedundantBlocks, validateBlocks as findSelfInvalidatedBlocks, createInvalidBlock };

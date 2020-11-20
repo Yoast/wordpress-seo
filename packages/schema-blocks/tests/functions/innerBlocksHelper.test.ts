@@ -36,14 +36,14 @@ const unwanted_needles = [ "unwanted_nested_innerblock", "innerblock_immediate_u
 describe( "The getInnerBlocks function", () => {    
     const result = getInnerblocksOfType( needles, blocks );
 
-	it( "return all wanted innerblocks.", () => {
+	it( "returns all of the wanted innerblocks.", () => {
         expect( result.length ).toEqual( 2 );
         // Do not loop over needles so the test error message shows which test fails
-		expect( result.some( block => block.name === needles[0] )).toBeTrue();
-		expect( result.some( block => block.name === needles[1] )).toBeTrue();
+		expect( result.some( block => block.name === needles[0] ) === true).toBe( true );
+		expect( result.some( block => block.name === needles[1] ) === true).toBe( true );
 	} );
 
-	it( "validates that none of the unwanted blocks are returned.", () => {
-		expect( result.every( block => block.name !== unwanted_needles[0] )).toBeTrue();
+	it( "returns none of the unwanted innerblocks.", () => {
+		expect( result.every( block => block.name !== unwanted_needles[0] )).toBe( true );
 	} );
 } );
