@@ -2,7 +2,7 @@ import { BlockInstance } from "@wordpress/blocks";
 import { select } from "@wordpress/data";
 import recurseOverBlocks from "./blocks/recurseOverBlocks";
 
-export function getInnerblocksOfType ( needles : string[], haystack: BlockInstance[] ) : BlockInstance[] {
+function getInnerblocksOfType ( needles : string[], haystack: BlockInstance[] ) : BlockInstance[] {
     var foundBlocks : BlockInstance[];
             
     recurseOverBlocks ( haystack, ( block : BlockInstance ) => {
@@ -15,6 +15,8 @@ export function getInnerblocksOfType ( needles : string[], haystack: BlockInstan
 }
 
 // Get the current block from the core/block-editor store
-export function getInnerBlocks( clientId : string ) : BlockInstance[] {
+function getInnerBlocks( clientId : string ) : BlockInstance[] {
     return select( "core/block-editor" ).getBlock( clientId ).innerBlocks;
 }
+
+export { getInnerBlocks, getInnerblocksOfType };

@@ -4,11 +4,12 @@ import BlockInstruction from "../../core/blocks/BlockInstruction";
 import { RenderEditProps, RenderSaveProps } from "../../core/blocks/BlockDefinition";
 import { RequiredBlock } from "./dto";
 import getInvalidInnerBlocks from "../../functions/validators/innerBlocksValid";
+import { getInnerBlocks } from "../../functions/innerBlocksHelper";
 
 /**
  * InnerBlocks instruction
  */
-class InnerBlocks extends BlockInstruction {
+export class InnerBlocks extends BlockInstruction {
 	public options: {
 		allowedBlocks: string[];
 		appender: string;
