@@ -37,7 +37,7 @@ export const getSnippetEditorMode = state => get( state, "snippetEditor.mode", "
  *
  * @returns {string} The snippet editor title.
  */
-export const getSnippetEditorTitle = state => get( state, "snippetEditor.data.title", getSnippetEditorTemplates( state ).title );
+export const getSnippetEditorTitle = state => get( state, "snippetEditor.data.title", "" ) || getSnippetEditorTemplates( state ).title;
 
 /**
  * Gets the snippet editor description.
