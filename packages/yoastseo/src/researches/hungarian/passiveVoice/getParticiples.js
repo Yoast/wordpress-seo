@@ -3,7 +3,9 @@ import regexFunctionFactory from "./regex.js";
 const regexFunction = regexFunctionFactory();
 const verbsEndingWithVe = regexFunction.verbsEndingWithVe
 const verbsEndingWithVa = regexFunction.verbsEndingWithVa
-const verbsEndingWithNi = regexFunction.verbsEndingWithNi
+const verbsEndingWithOdni1 = regexFunction.verbsEndingWithOdni1
+const verbsEndingWithOdni2 = regexFunction.verbsEndingWithOdni2
+
 
 import HungarianParticiple from "./HungarianParticiple.js";
 
@@ -37,11 +39,16 @@ export default function( sentencePartText, auxiliaries, language ) {
 			);
 			return;
 		}
-		if ( verbsEndingWithNi( word ).length !== 0 ) {
+		if ( verbsEndingWithOdni1( word ).length !== 0 ) {
 			foundParticiples.push(
-				new HungarianParticiple( word, sentencePartText, { auxiliaries: auxiliaries, type: "ni at the end", language: language } )
+				new HungarianParticiple( word, sentencePartText, { auxiliaries: auxiliaries, type: "ódni at the end", language: language } )
 			);
 			return;
+		}
+		if ( verbsEndingWithOdni2( word ).length !== 0 ) {
+			foundParticiples.push(
+				new HungarianParticiple( word, sentencePartText, { auxiliaries: auxiliaries, type: "ődik at the end", language: language } )
+			);
 		}
 	} );
 	return foundParticiples;

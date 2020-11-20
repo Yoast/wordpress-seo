@@ -8,13 +8,14 @@ import getParticiplesGerman from "../../german/passiveVoice/getParticiples.js";
 
 // Imports specific for Dutch.
 import auxiliariesDutchFactory from "../../dutch/passiveVoice/auxiliaries.js";
-
 const auxiliariesDutch = auxiliariesDutchFactory();
 
 // Imports specific for Polish.
 import auxiliariesPolishFactory from "../../polish/passiveVoice/auxiliaries.js";
-
 const auxiliariesPolish = auxiliariesPolishFactory();
+
+// Imports specific for Hungarian.
+import getParticiplesHungarian from "../../hungarian/passiveVoice/getParticiples.js";
 
 // The language-specific auxiliaries.
 const languageVariables = {

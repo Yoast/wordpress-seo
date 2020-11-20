@@ -1,14 +1,7 @@
-var verbsBeginningWithGeRegex = /^((ge)\S+t($|[ \n\r\t.,'()"+\-;!?:/»«‹›<>]))/ig;
 const verbsEndingWithVeRegex = /\S+ve($|[ \n\r\t.,'()"+\-;!?:/»«‹›<>„”])/ig;
 const verbsEndingWithVaRegex = /\S+va($|[ \n\r\t.,'()"+\-;!?:/»«‹›<>„”])/ig;
-const verbsEndingWithNiRegex = /\S+ni($|[ \n\r\t.,'()"+\-;!?:/»«‹›<>„”])/ig;
-
-var verbsBeginningWithErVerEntBeZerHerUberRegex = /^(((be|ent|er|her|ver|zer|über|ueber)\S+([^s]t|sst))($|[ \n\r\t.,'()"+\-;!?:/»«‹›<>]))/ig;
-var verbsWithGeInMiddleRegex = /(ab|an|auf|aus|vor|wieder|zurück)(ge)\S+t($|[ \n\r\t.,'()"+\-;!?:/»«‹›<>])/ig;
-var verbsWithErVerEntBeZerHerUberInMiddleRegex =
-	/((ab|an|auf|aus|vor|wieder|zurück)(be|ent|er|her|ver|zer|über|ueber)\S+([^s]t|sst))($|[ \n\r\t.,'()"+\-;!?:/»«‹›<>])/ig;
-var verbsEndingWithIertRegex = /\S+iert($|[ \n\r\t.,'()"+\-;!?:/»«‹›<>])/ig;
-var exceptionsRegex = /\S+(apparat|arbeit|dienst|haft|halt|kraft|not|pflicht|schaft|schrift|tät|wert|zeit)($|[ \n\r\t.,'()"+\-;!?:/»«‹›<>])/ig;
+const verbsEndingWithOdniRegex1 = /\S+ódni($|[ \n\r\t.,'()"+\-;!?:/»«‹›<>„”])/ig;
+const verbsEndingWithOdniRegex2 = /\S+ődni($|[ \n\r\t.,'()"+\-;!?:/»«‹›<>„”])/ig;
 
 /**
  * Checks if the word ends in 've'.
@@ -31,13 +24,23 @@ const verbsEndingWithVa = function( word ) {
 };
 
 /**
- * Checks if the word ends in 'ni'.
+ * Checks if the word ends in 'ódni'.
  *
  * @param {string} word     The word to match.
  * @returns {Array}         A list with matches.
  */
-const verbsEndingWithNi = function( word ) {
-	return word.match( verbsEndingWithNiRegex ) || [];
+const verbsEndingWithOdni1 = function( word ) {
+	return word.match( verbsEndingWithOdniRegex1 ) || [];
+};
+
+/**
+ * Checks if the word ends in 'ődni'.
+ *
+ * @param {string} word     The word to match.
+ * @returns {Array}         A list with matches.
+ */
+const verbsEndingWithOdni2 = function( word ) {
+	return word.match( verbsEndingWithOdniRegex2 ) || [];
 };
 
 /**
@@ -49,6 +52,7 @@ export default function() {
 	return {
 		verbsEndingWithVe: verbsEndingWithVe,
 		verbsEndingWithVa: verbsEndingWithVa,
-		verbsEndingWithNi: verbsEndingWithNi,
+		verbsEndingWithOdni1: verbsEndingWithOdni1,
+		verbsEndingWithOdni2: verbsEndingWithOdni2,
 	};
 }

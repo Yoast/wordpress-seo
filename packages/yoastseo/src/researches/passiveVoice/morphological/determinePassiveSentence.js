@@ -24,6 +24,9 @@ const pualVerbsHebrew = getPualVerbsHebrewFactory();
 import getHufalVerbsHebrewFactory from "../../hebrew/passiveVoice/regularRootsHufal";
 const hufalVerbsHebrew = getHufalVerbsHebrewFactory();
 
+import getPassiveVerbsHungarian from "../../hungarian/passiveVoice/odikVerbs";
+import getPassiveAffixesHungarian from "../../hungarian/passiveVoice/morphologicalPassiveAffixes";
+
 /**
  * Matches the sentence against passive verbs.
  *
@@ -208,7 +211,56 @@ const determineSentenceIsPassiveHebrew = function( sentence ) {
 	return false;
 };
 
-const determineSentenceIsPassiveHungarian
+/**
+ * Checks if the input word's root is in the Hungarian verb roots list.
+ *
+ * @param {string} word             The word to check.
+ * @param {string[]} verbRootsList  The Hebrew verb roots list.
+ * @param {string[]} prefixes       The list of prefixes.
+ * @param {string[]} suffixes       The list of suffixes.
+ *
+ * @returns {Boolean}               Returns true if the root of the input word is in the list.
+ */
+const checkHungarianPassive = function( word, verbRootsList, prefixes, suffixes ) {
+	return verbRootsList.some( root => {
+		return prefixes.some( prefix => suffixes.some( function( suffix ) {
+			const pattern1 = new RegExp( "^" + prefix + root + suffix + "$" );
+			const pattern2 = new RegExp( "^" + root + suffix + "$" );
+			if ( pattern1 ) {
+				return pattern1.test( word );
+			}
+			return pattern2;
+		} ) );
+	} );
+};
+
+/**
+ * Checks the passed sentence to see if it contains Hungarian passive verb-forms.
+ *
+ * @param {string} sentence     The sentence to match against.
+ *
+ * @returns {Boolean}           Whether the sentence contains Arabic passive voice.
+ */
+const determineSentenceIsPassiveHungarian = function( sentence ) {
+	const words = getWords( sentence );
+	for ( const word of words ) {
+		const passiveVerbs1 = getPassiveVerbsHungarian.odikVerbStems1;
+		const passiveSuffixes1 = getPassiveAffixesHungarian.odikSuffixes1;
+		const passivePrefixes = getPassiveAffixesHungarian.verbPrefixes;
+		const checkPassiveVerb1 = checkHungarianPassive( word, passiveVerbs1, passivePrefixes, passiveSuffixes1 );
+		if ( checkPassiveVerb1 ) {
+			return true;
+		}
+		const passiveVerbs2 = getPassiveVerbsHungarian.odikVerbStems2;
+		const passiveSuffixes2 = getPassiveAffixesHungarian.odikSuffixes2;
+		const  checkPassiveVerbs2 = checkHungarianPassive( word, passiveVerbs2, passivePrefixes, passiveSuffixes2 );
+		if ( checkPassiveVerbs2 ) {
+			return true;
+		}
+	}
+	return false;
+};
+
 /**
  * Determines whether a sentence is passive.
  *
@@ -231,5 +283,8 @@ export default function( sentenceText, language ) {
 	}
 	if ( language === "he" ) {
 		return determineSentenceIsPassiveHebrew( sentenceText );
+	}
+	if ( language === "hu" ) {
+		return determineSentenceIsPassiveHungarian( sentenceText );
 	}
 }

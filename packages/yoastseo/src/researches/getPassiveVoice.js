@@ -13,6 +13,7 @@ import getPeriphrasticSentencePartsSplitOnStopwords from "./passiveVoice/periphr
 
 const morphologicalLanguages = [ "ru", "tr", "sv", "id", "ar", "he" ];
 const periphrasticLanguages = [ "en", "de", "nl", "fr", "es", "it", "pt", "cn", "pl" ];
+const morphologicalAndPeriphrasticLanguages = [ "hu" ];
 
 /* Languages that employ both morphological and periphrastic passive voice marking have not been implemented yet.
  * const morphologicalAndPeriphrasticLanguages = [ "da", "nb" ];
@@ -79,58 +80,21 @@ const getPeriphrasticPassives = function( sentences, language ) {
 };
 
 /**
- * Looks for Hungarian passive voice.
+ * Looks for both morphological and periphrastic passive voice
  *
  * @param {Array} sentences Sentences extracted from the text.
+ * @param {string} language Language of the text.
  *
  * @returns {Object} The found passive sentences.
  */
-const getHungarianPassives = function( sentences ) {
-	const passiveSentences = [];
-
-	forEach( sentences, function( sentence ) {
-		const strippedSentence = stripHTMLTags( sentence.getSentenceText() ).toLocaleLowerCase();
-		// Look for periphrastic passive
-
-
-			// The functionality based on sentencePart objects should be rewritten using array indices of stopwords and auxiliaries.
-			let sentenceParts = [];
-
-			if ( language === "hu" )  {
-				sentenceParts = getPeriphrasticSentencePartsDefault( strippedSentence, language );
-			}
-
-			let passive = false;
-			forEach( sentenceParts, function( sentencePart ) {
-				sentencePart.setPassive( isPassiveSentencePart( sentencePart.getSentencePartText(), sentencePart.getAuxiliaries(), language ) );
-				passive = passive || sentencePart.isPassive();
-			} );
-			if ( passive ) {
-				passiveSentences.push( sentence.getSentenceText() );
-			}
-		} );
-		// the sentence contains an auxiliary and a participle ending with certain suffixes or the word is found in a list
-		// if found save in passiveSentences
-		// Look for morphological passive
-
-
-
-
-		sentence.setPassive( isPassiveSentence( strippedSentence ) );
-
-			if ( sentence.isPassive() === true ) {
-				passiveSentences.push( sentence.getSentenceText() );
-			}
-
-
-
-		// the sentence contains words with certain suffixes
-		// if found save in passiveSentences
-
-	} );
-
-	return passiveSentences;
-}
+const getMorphologicalAndPeriphrasticPassive = function( sentences, language ) {
+	const morphologicalSentences = getMorphologicalPassives( sentences, language );
+	const periphrasticSentences = getPeriphrasticPassives( sentences, language );
+	const passiveSentences = morphologicalSentences.concat( periphrasticSentences );
+	return {
+		passiveSentences,
+	};
+};
 
 /**
  * Determines the number of passive sentences in the text.
@@ -144,7 +108,7 @@ export default function( paper ) {
 	const language = getLanguage( locale );
 	const sentences = getSentences( text )
 		.map( function( sentence ) {
-			return new Sentence( sentence );
+			return new Sentence( sentence, locale );
 		} );
 	const totalNumberSentences = sentences.length;
 
@@ -160,10 +124,10 @@ export default function( paper ) {
 			passives: getPeriphrasticPassives( sentences, language ).passiveSentences,
 		};
 	}
-	if ( language === "hu" ) {
+	if ( morphologicalAndPeriphrasticLanguages.includes( language ) ) {
 		return {
 			total: totalNumberSentences,
-			passives: getHungarianPassives( sentences ),
+			passives: getMorphologicalAndPeriphrasticPassive( sentences, language ),
 		};
 	}
 }

@@ -72,8 +72,9 @@ const directPrecedenceExceptionRegexItalian = arrayToRegex( reflexivePronounsIta
 import SentencePartHungarian from "../../hungarian/passiveVoice/SentencePart";
 import auxiliariesHungarianFactory from "../../hungarian/passiveVoice/auxiliaries.js";
 const auxiliariesHungarian = auxiliariesHungarianFactory();
+import stopwordsHungarianFactory from "../../hungarian/passiveVoice/stopwords.js";
+const stopwordsHungarian = stopwordsHungarianFactory();
 const stopCharacterRegexHungarian = /([:,])(?=[ \n\r\t'"+\-»«‹›<>„”])/ig;
-
 
 /*
  * Variables applying to multiple languages
@@ -125,6 +126,7 @@ const languageVariables = {
 		directPrecedenceExceptionRegex: directPrecedenceExceptionRegexItalian,
 	},
 	hu: {
+		stopwords: stopwordsHungarian,
 		auxiliaryRegex: arrayToRegex( auxiliariesHungarian ),
 		SentencePart: SentencePartHungarian,
 		auxiliaries: auxiliariesHungarian,
@@ -284,10 +286,13 @@ const getSentenceBreakers = function( sentence, language ) {
 			auxiliaryIndices = auxiliaryPrecedenceExceptionFilter( sentence, auxiliaryIndices, "it" );
 			indices = [].concat( auxiliaryIndices, stopwordIndices, stopCharacterIndices );
 			break;
+		case "hu":
+			indices = [].concat( auxiliaryIndices, stopwordIndices, stopCharacterIndices );
+			break;
 		case "en":
 		default:
-			var ingVerbs = getVerbsEndingInIng( sentence );
-			var ingVerbsIndices = getIndicesOfList( ingVerbs, sentence );
+			const ingVerbs = getVerbsEndingInIng( sentence );
+			const ingVerbsIndices = getIndicesOfList( ingVerbs, sentence );
 			indices = [].concat( auxiliaryIndices, stopwordIndices, ingVerbsIndices, stopCharacterIndices );
 			break;
 	}
@@ -312,8 +317,9 @@ const getAuxiliaryMatches = function( sentencePart, language ) {
 		case "es":
 		case "pt":
 		case "it":
+		case "hu":
 			// An array with the matched auxiliaries and their indices.
-			var auxiliaryMatchIndices = getIndicesOfList( auxiliaryMatches, sentencePart );
+			let auxiliaryMatchIndices = getIndicesOfList( auxiliaryMatches, sentencePart );
 
 			if ( ( language ===  "fr" ) || ( language === "it" ) ) {
 				// Filters auxiliaries matched in the sentence part based on a precedence exception filter.
@@ -323,7 +329,7 @@ const getAuxiliaryMatches = function( sentencePart, language ) {
 			auxiliaryMatchIndices = followingAuxiliaryExceptionFilter( sentencePart, auxiliaryMatchIndices, language );
 
 			// An array with the matched auxiliary verbs (without indices).
-			var auxiliaryMatchWords = [];
+			let auxiliaryMatchWords = [];
 
 			forEach( auxiliaryMatchIndices, function( auxiliaryMatchIndex ) {
 				auxiliaryMatchWords.push( auxiliaryMatchIndex.match );
