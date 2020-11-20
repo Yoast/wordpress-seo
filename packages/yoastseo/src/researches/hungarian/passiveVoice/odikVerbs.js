@@ -1,4 +1,4 @@
-// The verb stems that can have -ódik suffix
+// The verb stems that can have -ódik suffix.
 const odikVerbStems1 = [
 	"megváltoztat",
 	"foglalkoztat",
@@ -211,7 +211,8 @@ const odikVerbStems1 = [
 	"ír",
 	"ás",
 ];
-// The verb stems that can have -ődik suffix
+
+// The verb stems that can have -ődik suffix.
 const odikVerbStems2 = [
 	"továbbfejleszt",
 	"leegyszerűsít",

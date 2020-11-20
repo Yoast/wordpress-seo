@@ -12,10 +12,16 @@ describe( "detecting passive voice in sentences", function() {
 	// 	var paper = new Paper( "Una manzana be van fejezve.", { locale: "hu_HU" } );
 	// 	expect( passiveVoice( paper ).passives.length ).toBe( 1 );
 	// } );
+	//
+	// it( "returns passive voice (in -re)", function() {
+	// 	// Passive: Aktiválásra.
+	// 	var paper = new Paper( "Una manzana aktiválásra kerül.", { locale: "hu_HU" } );
+	// 	expect( passiveVoice( paper ).passives.length ).toBe( 1 );
+	// } );
 
-	it( "returns passive voice (in -re)", function() {
-		// Passive: Aktiválásra.
-		var paper = new Paper( "Una manzana aktiválásra kerül.", { locale: "hu_HU" } );
+	it( "returns passive voice", function() {
+		// Passive: összeállítódik.
+		var paper = new Paper( "Una manzana összeállítódik.", { locale: "hu_HU" } );
 		expect( passiveVoice( paper ).passives.length ).toBe( 1 );
 	} );
 } );

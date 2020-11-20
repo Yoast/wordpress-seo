@@ -16,6 +16,8 @@ const auxiliariesPolish = auxiliariesPolishFactory();
 
 // Imports specific for Hungarian.
 import getParticiplesHungarian from "../../hungarian/passiveVoice/getParticiples.js";
+import auxiliariesHungarianFactory from "../../hungarian/passiveVoice/auxiliaries.js";
+const auxiliariesHungarian = auxiliariesHungarianFactory();
 
 // The language-specific auxiliaries.
 const languageVariables = {
@@ -27,6 +29,9 @@ const languageVariables = {
 	},
 	pl: {
 		auxiliaries: auxiliariesPolish,
+	},
+	hu: {
+		auxiliaries: auxiliariesHungarian,
 	},
 };
 
@@ -54,6 +59,9 @@ export default function( sentencePartText, sentencePartAuxiliaries, language ) {
 		// For Dutch and Polish, we use the same function as for other languages.
 		if ( language === "nl" || language === "pl" ) {
 			participles = getParticiples( sentencePartText, sentencePartAuxiliaries, language );
+		}
+		if ( language === "hu" ) {
+			participles = getParticiplesHungarian( sentencePartText, sentencePartAuxiliaries, language );
 		}
 	} else {
 		participles = getParticiples( sentencePartText, sentencePartAuxiliaries, language );

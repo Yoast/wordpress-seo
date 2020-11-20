@@ -41,6 +41,4 @@ HungarianParticiple.prototype.isPassive = function() {
 	return  ! this.isNonPassivesInVaAndVe()
 };
 
-
-
 export default HungarianParticiple;

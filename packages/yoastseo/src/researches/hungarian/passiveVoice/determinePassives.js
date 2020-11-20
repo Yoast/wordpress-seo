@@ -2,7 +2,7 @@ import arrayToRegex from "../../../stringProcessing/createRegexFromArray.js";
 import auxiliariesHungarianFactory from "../../hungarian/passiveVoice/auxiliaries.js";
 const hungarianAuxiliaries = auxiliariesHungarianFactory().allAuxiliaries;
 import getParticiples from "./getParticiples.js";
-//import determineSentencePartIsPassive from "../../passiveVoice/periphrastic/determineSentencePartIsPassive.js";
+import determineSentencePartIsPassive from "../../passiveVoice/periphrastic/determineSentencePartIsPassive.js";
 
 const auxiliaryRegex = arrayToRegex( hungarianAuxiliaries );
 

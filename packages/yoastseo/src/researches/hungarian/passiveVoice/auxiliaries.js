@@ -80,7 +80,7 @@ const auxiliariesParticipleVaAndVe = [
 	"lettek volna",
 ];
 
-const auxiliariesParticipleNi = [
+const auxiliariesParticipleOdni = [
 	"fogok",
 	"fogsz",
 	"fog",
@@ -97,7 +97,7 @@ module.exports = function() {
 	return {
 		auxiliaries1: auxiliariesParticipleRaAndRe,
 		auxiliaries2: auxiliariesParticipleVaAndVe,
-		auxiliaries3: auxiliariesParticipleNi,
-		allWords: auxiliariesParticipleRaAndRe.concat( auxiliariesParticipleVaAndVe, auxiliariesParticipleNi ),
+		auxiliaries3: auxiliariesParticipleOdni,
+		allWords: auxiliariesParticipleRaAndRe.concat( auxiliariesParticipleVaAndVe, auxiliariesParticipleOdni ),
 	};
 };
