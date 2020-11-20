@@ -28,30 +28,35 @@ export default function( sentencePartText, auxiliaries, language ) {
 	forEach( words, function( word ) {
 		if ( verbsEndingWithVe( word ).length !== 0 ) {
 			foundParticiples.push(
-				new HungarianParticiple( word, sentencePartText, { auxiliaries: auxiliaries.auxiliaries2, type: "ve at the end", language: language } )
+				new HungarianParticiple( word, sentencePartText,
+					{ auxiliaries: auxiliaries.auxiliaries2, type: "ve at the end", language: language } )
 			);
 			return;
 		}
 		if ( verbsEndingWithVa( word ).length !== 0 ) {
 			foundParticiples.push(
-				new HungarianParticiple( word, sentencePartText, { auxiliaries: auxiliaries.auxiliaries2, type: "va at the end", language: language } )
+				new HungarianParticiple( word, sentencePartText,
+					{ auxiliaries: auxiliaries.auxiliaries2, type: "va at the end", language: language } )
 			);
 			return;
 		}
 		if ( verbsEndingWithOdni1( word ).length !== 0 ) {
 			foundParticiples.push(
-				new HungarianParticiple( word, sentencePartText, { auxiliaries: auxiliaries.auxiliaries3, type: "ódni at the end", language: language } )
+				new HungarianParticiple( word, sentencePartText,
+					{ auxiliaries: auxiliaries.auxiliaries3, type: "ódni at the end", language: language } )
 			);
 			return;
 		}
 		if ( verbsEndingWithOdni2( word ).length !== 0 ) {
 			foundParticiples.push(
-				new HungarianParticiple( word, sentencePartText, { auxiliaries: auxiliaries.auxiliaries3, type: "ődni at the end", language: language } )
+				new HungarianParticiple( word, sentencePartText,
+					{ auxiliaries: auxiliaries.auxiliaries3, type: "ődni at the end", language: language } )
 			);
 		}
-		if ( participlesInReAndRa.includes( word )) {
+		if ( participlesInReAndRa.includes( word ) ) {
 			foundParticiples.push(
-				new HungarianParticiple( word, sentencePartText, { auxiliaries: auxiliaries.auxiliaries1, type: "re/ra at the end", language: language } )
+				new HungarianParticiple( word, sentencePartText,
+					{ auxiliaries: auxiliaries.auxiliaries1, type: "re/ra at the end", language: language } )
 			);
 		}
 	} );

@@ -1,4 +1,3 @@
-import includes from "lodash-es/includes";
 import Participle from "../../../values/Participle.js";
 import checkException from "../../passiveVoice/periphrastic/checkException.js";
 import nonPassivesInVaAndVe from "./nonPassivesInVaAndVe";
@@ -26,10 +25,7 @@ require( "util" ).inherits( HungarianParticiple, Participle );
  * @returns {boolean} Returns true if it is in the nonVerbsEndingEd list, otherwise returns false.
  */
 HungarianParticiple.prototype.isNonPassivesInVaAndVe = function() {
-	if ( this.getType() === "irregular" ) {
-		return false;
-	}
-	return includes( nonPassivesInVaAndVe, this.getParticiple() );
+	return nonPassivesInVaAndVe.includes( this.getParticiple() );
 };
 
 /**
@@ -38,7 +34,7 @@ HungarianParticiple.prototype.isNonPassivesInVaAndVe = function() {
  * @returns {boolean}       Returns Hungarian participles used as passives unless they are on an exception list.
  */
 HungarianParticiple.prototype.isPassive = function() {
-	return  ! this.isNonPassivesInVaAndVe()
+	return ! this.isNonPassivesInVaAndVe();
 };
 
 export default HungarianParticiple;

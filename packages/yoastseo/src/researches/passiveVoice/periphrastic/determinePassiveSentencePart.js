@@ -47,7 +47,7 @@ const languageVariables = {
 export default function( sentencePartText, sentencePartAuxiliaries, language ) {
 	let participles = [];
 	// For German, Dutch and Polish, this path is taken in order to ensure that sentence parts without auxiliaries are not set to passive.
-	if ( language === "de" || language === "nl" || language === "pl" ) {
+	if ( language === "de" || language === "nl" || language === "pl" || language === "hu" ) {
 		// Return false if there are no auxiliaries in the sentence part.
 		if ( ! sentencePartAuxiliaries.some( auxiliary => languageVariables[ language ].auxiliaries.includes( auxiliary ) ) ) {
 			return false;

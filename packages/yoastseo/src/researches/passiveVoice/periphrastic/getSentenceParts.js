@@ -316,8 +316,8 @@ const getAuxiliaryMatches = function( sentencePart, language ) {
 		case "fr":
 		case "es":
 		case "pt":
-		case "it":
 		case "hu":
+		case "it":
 			// An array with the matched auxiliaries and their indices.
 			let auxiliaryMatchIndices = getIndicesOfList( auxiliaryMatches, sentencePart );
 
