@@ -22,6 +22,7 @@ class Twitter_Creator_Test extends TestCase {
 	 */
 	public function setUp() {
 		$this->set_instance();
+		$this->indexable->object_sub_type = 'post';
 
 		$source = (object) [ 'post_author' => 1337 ];
 		$this->instance->expects( 'generate_source' )->once()->andReturn( $source );
