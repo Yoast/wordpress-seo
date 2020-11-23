@@ -1,6 +1,9 @@
+import { includes } from "lodash-es";
 import Participle from "../../../values/Participle.js";
 import checkException from "../../passiveVoice/periphrastic/checkException.js";
-import nonPassivesInVaAndVe from "./nonPassivesInVaAndVe";
+import nonPassivesInVaAndVe from "./nonPassivesInVaAndVe.js";
+
+
 
 /**
  * Creates an Participle object for the Hungarian language.
@@ -31,7 +34,7 @@ HungarianParticiple.prototype.isNonPassivesInVaAndVe = function() {
 /**
  * Returns Hungarian participles used as passives unless they are on an exception list.
  *
- * @returns {boolean}       Returns Hungarian participles used as passives unless they are on an exception list.
+ * @returns {boolean}       Returns true unless the participles are on an exception list.
  */
 HungarianParticiple.prototype.isPassive = function() {
 	return ! this.isNonPassivesInVaAndVe();

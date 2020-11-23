@@ -6,6 +6,7 @@
  */
 export default [
 	// Participles ending in -re.
+	"megvételre",
 	"megrendezésre",
 	"képzésre",
 	"kifejezésre",
@@ -177,6 +178,7 @@ export default [
 	"hasznosításra",
 	"foglalkoztatásra",
 	"finanszírozásra",
+	"megfinanszírozásra",
 	"benyújtásra",
 	"pontosításra",
 	"forgalmazásra",

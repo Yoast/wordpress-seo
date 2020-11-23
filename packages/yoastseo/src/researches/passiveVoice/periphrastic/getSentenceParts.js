@@ -286,9 +286,6 @@ const getSentenceBreakers = function( sentence, language ) {
 			auxiliaryIndices = auxiliaryPrecedenceExceptionFilter( sentence, auxiliaryIndices, "it" );
 			indices = [].concat( auxiliaryIndices, stopwordIndices, stopCharacterIndices );
 			break;
-		case "hu":
-			indices = [].concat( auxiliaryIndices, stopwordIndices, stopCharacterIndices );
-			break;
 		case "en":
 		default:
 			const ingVerbs = getVerbsEndingInIng( sentence );

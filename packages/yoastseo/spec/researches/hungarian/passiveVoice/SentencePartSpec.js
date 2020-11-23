@@ -16,17 +16,35 @@ describe( "creates a hungarian sentence part", function() {
 // } )
 
 describe( "gets periprhastic participles of hungarian sentence", function() {
-	it( "returns periprhastic participles", function() {
+	it( "returns periprhastic participles ending in -va", function() {
 		const mockPart = new HungarianSentencePart( "Ki van plakátolva a képe", [ "van" ], "hu" );
 		const foundParticiples = mockPart.getParticiples()[ 0 ];
 		expect( foundParticiples.getParticiple() ).toEqual( "plakátolva" );
 	} );
 } );
 
-// describe( "gets periprhastic participles of hungarian sentence", function() {
-// 	it( "returns periprhastic participles", function() {
-// 		const mockPart = new HungarianSentencePart( "Ki finanszírozásra kerül a képe", [ "kerül" ], "hu" );
-// 		const foundParticiples = mockPart.getParticiples()[ 0 ];
-// 		expect( foundParticiples.getParticiple() ).toEqual( "finanszírozásra" );
-// 	} );
-// } )
+describe( "gets periprhastic participles of hungarian sentence", function() {
+	it( "returns periprhastic participles ending in -ve", function() {
+		const mockPart = new HungarianSentencePart( "A könyv oda van téve az asztalra", [ "van" ], "hu" );
+		const foundParticiples = mockPart.getParticiples()[ 0 ];
+		expect( foundParticiples.getParticiple() ).toEqual( "téve" );
+	} );
+} );
+
+describe( "gets periprhastic participles of hungarian sentence", function() {
+	it( "returns periprhastic participles ending in -ra", function() {
+		const mockPart = new HungarianSentencePart( "megfinanszírozásra került a projekt", [ "került" ], "hu" );
+		const foundParticiples = mockPart.getParticiples()[ 0 ];
+		expect( foundParticiples.getParticiple() ).toEqual( "megfinanszírozásra" );
+	} );
+} );
+
+describe( "gets periprhastic participles of hungarian sentence", function() {
+	it( "returns periprhastic participles ending in -re", function() {
+		const mockPart = new HungarianSentencePart( "beszállításra került a beteg", [ "került" ], "hu" );
+		const foundParticiples = mockPart.getParticiples()[ 0 ];
+		expect( foundParticiples.getParticiple() ).toEqual( "beszállításra" );
+	} );
+} );
+
+

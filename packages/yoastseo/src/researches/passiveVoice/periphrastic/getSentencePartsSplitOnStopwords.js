@@ -30,6 +30,16 @@ const stopwordsPolish = stopwordsPolishFactory();
 import auxiliariesPolishFactory from "../../polish/passiveVoice/auxiliaries.js";
 const auxiliariesPolish = auxiliariesPolishFactory();
 
+// Hungarian-specific imports.
+import SentencePartHungarian from "../../hungarian/passiveVoice/SentencePart.js";
+
+import stopwordsHungarianFactory from "../../hungarian/passiveVoice/stopwords.js";
+const stopwordsHungarian = stopwordsHungarianFactory();
+import auxiliariesHungarianFactory from "../../hungarian/passiveVoice/auxiliaries.js";
+const auxiliariesHungarian = auxiliariesHungarianFactory().allAuxiliaries;
+
+
+
 
 // The language-specific variables.
 const languageVariables = {
@@ -50,6 +60,12 @@ const languageVariables = {
 		stopwordRegex: arrayToRegex( stopwordsPolish ),
 		auxiliaryRegex: arrayToRegex( auxiliariesPolish ),
 		locale: "pl_PL",
+	},
+	hu: {
+		SentencePart: SentencePartHungarian,
+		stopwordRegex: arrayToRegex( stopwordsHungarian ),
+		auxiliaryRegex: arrayToRegex( auxiliariesHungarian ),
+		locale: "hu_HU",
 	},
 };
 
