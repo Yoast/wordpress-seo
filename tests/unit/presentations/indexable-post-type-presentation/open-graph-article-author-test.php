@@ -22,7 +22,7 @@ class Open_Graph_Article_Author_Test extends TestCase {
 		parent::setUp();
 
 		$this->set_instance();
-		$this->indexable->object_id = 1;
+		$this->indexable->object_id       = 1;
 		$this->indexable->object_sub_type = 'post';
 	}
 
