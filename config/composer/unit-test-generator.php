@@ -21,7 +21,7 @@ class Unit_Test_Generator {
 		$unit_test_path = self::generate_file_name( $reflector->getFileName() );
 
 		if ( \file_exists( __DIR__ . '/../../tests/unit/' . $unit_test_path ) ) {
-			throw new RuntimeException( \sprintf( 'A unit test already exists at path "tests/unit/%1$s"', $unit_test_path ) );
+			throw new \RuntimeException( \sprintf( 'A unit test already exists at path "tests/unit/%1$s"', $unit_test_path ) );
 		}
 
 		$name = $reflector->getShortName();
