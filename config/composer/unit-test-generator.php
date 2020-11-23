@@ -1,5 +1,6 @@
 <?php
 
+namespace Yoast\WP\SEO\Composer;
 /**
  * Class for generating a unit test scaffold, based on the dependency injection
  * and other conventions of Yoast.
