@@ -51,16 +51,18 @@ export function updateData( data ) {
  */
 export const loadSnippetEditorData = () => {
 	const titleTemplate = get( window, "wpseoScriptData.metabox.title_template", "" );
+	const descriptionTemplate = get( window, "wpseoScriptData.metabox.metadesc_template", "" );
+
 	return {
 		type: LOAD_SNIPPET_EDITOR_DATA,
 		data: {
 			title: SearchMetadataFields.title || titleTemplate,
-			description: SearchMetadataFields.description,
+			description: SearchMetadataFields.description || descriptionTemplate,
 			slug: SearchMetadataFields.slug,
 		},
 		templates: {
 			title: titleTemplate,
-			description: get( window, "wpseoScriptData.metabox.metadesc_template", "" ),
+			description: descriptionTemplate,
 		},
 	};
 };

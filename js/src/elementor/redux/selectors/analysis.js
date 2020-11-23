@@ -5,9 +5,9 @@ import {
 	getContentLocale,
 	getEditorDataContent,
 	getFocusKeyphrase,
-	getSnippetEditorDescriptionForAnalysis,
+	getSnippetEditorDescriptionWithTemplate,
 	getSnippetEditorSlug,
-	getSnippetEditorTitle,
+	getSnippetEditorTitleWithTemplate,
 } from "../../../redux/selectors";
 import { applyModifications } from "../../initializers/pluggable";
 
@@ -19,8 +19,8 @@ import { applyModifications } from "../../initializers/pluggable";
  * @returns {Object} The analysis results.
  */
 export const getAnalysisData = ( state ) => {
-	let title = getSnippetEditorTitle( state );
-	let description = getSnippetEditorDescriptionForAnalysis( state );
+	let title = getSnippetEditorTitleWithTemplate( state );
+	let description = getSnippetEditorDescriptionWithTemplate( state );
 	let slug = getSnippetEditorSlug( state );
 	let baseUrl = getBaseUrlFromSettings( state );
 
