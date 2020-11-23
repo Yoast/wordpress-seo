@@ -31,16 +31,4 @@ class Option_Social_Double extends WPSEO_Option_Social {
 	public function validate_option( $dirty, $clean, $old ) {
 		return parent::validate_option( $dirty, $clean, $old );
 	}
-
-	/**
-	 * Validates a Facebook App ID.
-	 *
-	 * @param string $key   Key to check, in this case: the Facebook App ID field name.
-	 * @param array  $dirty Dirty data with the new values.
-	 * @param array  $old   Old data.
-	 * @param array  $clean Clean data by reference, normally the default values.
-	 */
-	public function validate_facebook_app_id( $key, $dirty, $old, &$clean ) {
-		return parent::validate_facebook_app_id( $key, $dirty, $old, $clean );
-	}
 }

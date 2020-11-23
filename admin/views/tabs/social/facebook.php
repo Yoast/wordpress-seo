@@ -27,8 +27,6 @@ $yform->light_switch( 'opengraph', __( 'Add Open Graph meta data', 'wordpress-se
 <div id="wpseo-opengraph-settings" style="display: none;">
 <?php
 
-$yform->textinput( 'fbadminapp', __( 'Facebook App ID', 'wordpress-seo' ) );
-
 if ( get_option( 'show_on_front' ) === 'posts' ) {
 	$social_facebook_frontpage_help = new WPSEO_Admin_Help_Panel(
 		'social-facebook-frontpage',
