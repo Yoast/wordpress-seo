@@ -1,4 +1,4 @@
-import { createElement, ComponentClass, ReactElement } from "@wordpress/element";
+import { createElement, ComponentClass } from "@wordpress/element";
 import { InnerBlocks as WordPressInnerBlocks } from "@wordpress/block-editor";
 import BlockInstruction from "../../core/blocks/BlockInstruction";
 import { RenderEditProps, RenderSaveProps } from "../../core/blocks/BlockDefinition";
@@ -66,17 +66,19 @@ export class InnerBlocks extends BlockInstruction {
 	 * @param i     The number the rendered element is of it's parent.
 	 *
 	 * @returns The sidebar element to render.
-	 */
 	sidebar( props: RenderEditProps, i: number ): ReactElement | string {
 		// Loop over all blocks (not just the invalid ones!), add a div to the block depending on their status.
+		const invalidBlocks = getInvalidInnerBlocks( this.options.requiredBlocks, props.clientId );
 		// Block OK? div with a green check,
 		// Block missing? add button,
 		// Block occurs too often? remove button,
 		// Block internal validation?
+		const count = ( invalidBlocks || [] ).length;
 
-		// Const invalidBlocks = getInvalidInnerBlocks( this.options.requiredBlocks, props );
-		return "todo innerblock sidebar, P2-505, P2-506";
-	}
+		// The innerblock sidebar is handled in P2-505, P2-506.
+		console.log( "Found " + count + " invalid blocks." );
+		return "";
+	}*/
 
 	/**
 	 * Checks if the instruction block is valid.

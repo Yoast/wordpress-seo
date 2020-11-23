@@ -36,12 +36,8 @@ function findRedundantBlocks( requiredBlocks: RequiredBlock[], existingRequiredB
 	let invalidBlocks: InvalidBlock[];
 
 	requiredBlocks
-		.filter( block => {
-			block.option === RequiredBlockOption.One;
-		} )
-		.forEach( block => {
-			onlyOneAllowed.push( block.type );
-		} );
+		.filter( block => block.option === RequiredBlockOption.One )
+		.forEach( block => onlyOneAllowed.push( block.type ) );
 	if ( onlyOneAllowed ) {
 		// Count the occurrences of each block so we can find all keys that have too many occurrences.
 		const countPerBlockType = countBy( existingRequiredBlocks, block => block.name );
@@ -71,8 +67,9 @@ function validateBlocks( blocks: BlockInstance[] ): InvalidBlock[] {
 
 /**
  * Validates all innerblocks recursively and returns all invalid blocks.
- * @param requiredBlocks Requirements of the blocks that should occur in the innerblocks.
- * @param clientId       The clientId of the block whose innerblocks need to be validated.
+ * @param requiredBlocks     Requirements of the blocks that should occur in the innerblocks.
+ * @param clientId           The clientId of the block whose innerblocks need to be validated.
+ * @returns {InvalidBlock[]} The names and reasons of the innerblock that are invalid.
  */
 function getInvalidInnerBlocks( requiredBlocks: RequiredBlock[], clientId: string ): InvalidBlock[]  {
 	let invalidBlocks: InvalidBlock[];
@@ -99,8 +96,9 @@ function getInvalidInnerBlocks( requiredBlocks: RequiredBlock[], clientId: strin
  * Helper function to create an invalid block.
  * @param type   The block name.
  * @param reason The reason this block is invalid.
+ * @returns {InvalidBlock} The invalid block.
  */
-function createInvalidBlock( type: string, reason: InvalidBlockReason ) {
+function createInvalidBlock( type: string, reason: InvalidBlockReason ): InvalidBlock {
 	return {
 		type,
 		reason,
