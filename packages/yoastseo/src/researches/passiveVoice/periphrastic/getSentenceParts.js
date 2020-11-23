@@ -127,7 +127,7 @@ const languageVariables = {
 	},
 	hu: {
 		stopwords: stopwordsHungarian,
-		auxiliaryRegex: arrayToRegex( auxiliariesHungarian ),
+		auxiliaryRegex: arrayToRegex( auxiliariesHungarian.allWords ),
 		SentencePart: SentencePartHungarian,
 		auxiliaries: auxiliariesHungarian,
 		stopCharacterRegex: stopCharacterRegexHungarian,

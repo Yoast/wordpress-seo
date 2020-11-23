@@ -382,7 +382,6 @@ const odikVerbStems2 = [
 ];
 
 
-
 export default {
 	odikVerbStems1: odikVerbStems1,
 	odikVerbStems2: odikVerbStems2,

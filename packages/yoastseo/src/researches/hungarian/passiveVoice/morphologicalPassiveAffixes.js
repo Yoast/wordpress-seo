@@ -1,5 +1,5 @@
 // These are the suffixes for the verbs in -ódik.
-const odikSuffixes1 = [
+export const odikSuffixes1 = [
 	"ódom",
 	"ódsz",
 	"ódik",
@@ -26,7 +26,7 @@ const odikSuffixes1 = [
 	"ódnának",
 ];
 // These are the suffixes for the verbs in -ődik.
-const odikSuffixes2 = [
+export const odikSuffixes2 = [
 	"ődöm",
 	"ődsz",
 	"ődik",
@@ -53,7 +53,7 @@ const odikSuffixes2 = [
 	"ődnének",
 ];
 
-const verbPrefixes = [
+export const verbPrefixes = [
 	"abba",
 	"agyon",
 	"alul",
@@ -129,11 +129,11 @@ const verbPrefixes = [
  *
  * @returns {Object}        The list filled with morphological suffixes lists.
  */
-module.exports = function() {
+export default function() {
 	return {
 		odikSuffixes1: odikSuffixes1,
 		odikSuffixes2: odikSuffixes2,
 		verbPrefixes: verbPrefixes,
-		allWords: odikSuffixes1.concat( odikSuffixes2, verbPrefixes ),
+		allWords: [].concat( odikSuffixes1, odikSuffixes2, verbPrefixes ),
 	};
-};
+}

@@ -25,7 +25,7 @@ import getHufalVerbsHebrewFactory from "../../hebrew/passiveVoice/regularRootsHu
 const hufalVerbsHebrew = getHufalVerbsHebrewFactory();
 
 import getPassiveVerbsHungarian from "../../hungarian/passiveVoice/odikVerbs";
-import getPassiveAffixesHungarian from "../../hungarian/passiveVoice/morphologicalPassiveAffixes";
+import { verbPrefixes, odikSuffixes1, odikSuffixes2 } from "../../hungarian/passiveVoice/morphologicalPassiveAffixes";
 
 /**
  * Matches the sentence against passive verbs.
@@ -215,7 +215,7 @@ const determineSentenceIsPassiveHebrew = function( sentence ) {
  * Checks if the input word's root is in the Hungarian verb roots list.
  *
  * @param {string} word             The word to check.
- * @param {string[]} verbRootsList  The Hebrew verb roots list.
+ * @param {string[]} verbRootsList  The Hungarian verb roots list.
  * @param {string[]} prefixes       The list of prefixes.
  * @param {string[]} suffixes       The list of suffixes.
  *
@@ -245,15 +245,12 @@ const determineSentenceIsPassiveHungarian = function( sentence ) {
 	const words = getWords( sentence );
 	for ( const word of words ) {
 		const passiveVerbs1 = getPassiveVerbsHungarian.odikVerbStems1;
-		const passiveSuffixes1 = getPassiveAffixesHungarian.odikSuffixes1;
-		const passivePrefixes = getPassiveAffixesHungarian.verbPrefixes;
-		const checkPassiveVerb1 = checkHungarianPassive( word, passiveVerbs1, passivePrefixes, passiveSuffixes1 );
+		const checkPassiveVerb1 = checkHungarianPassive( word, passiveVerbs1, verbPrefixes, odikSuffixes1 );
 		if ( checkPassiveVerb1 ) {
 			return true;
 		}
 		const passiveVerbs2 = getPassiveVerbsHungarian.odikVerbStems2;
-		const passiveSuffixes2 = getPassiveAffixesHungarian.odikSuffixes2;
-		const  checkPassiveVerbs2 = checkHungarianPassive( word, passiveVerbs2, passivePrefixes, passiveSuffixes2 );
+		const  checkPassiveVerbs2 = checkHungarianPassive( word, passiveVerbs2, verbPrefixes, odikSuffixes2 );
 		if ( checkPassiveVerbs2 ) {
 			return true;
 		}

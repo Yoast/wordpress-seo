@@ -98,6 +98,6 @@ module.exports = function() {
 		auxiliaries1: auxiliariesParticipleRaAndRe,
 		auxiliaries2: auxiliariesParticipleVaAndVe,
 		auxiliaries3: auxiliariesParticipleOdni,
-		allWords: auxiliariesParticipleRaAndRe.concat( auxiliariesParticipleVaAndVe, auxiliariesParticipleOdni ),
+		allWords: [].concat( auxiliariesParticipleRaAndRe, auxiliariesParticipleVaAndVe, auxiliariesParticipleOdni ),
 	};
 };

@@ -21,7 +21,16 @@ describe( "detecting passive voice in sentences", function() {
 
 	it( "returns passive voice", function() {
 		// Passive: összeállítódik.
-		var paper = new Paper( "Una manzana összeállítódik.", { locale: "hu_HU" } );
+		const paper = new Paper( "Una manzana összeállítódik.", { locale: "hu_HU" } );
+		expect( passiveVoice( paper ).passives.length ).toBe( 1 );
+	} );
+	it( "returns active voice", function() {
+		const paper = new Paper( "Eszem egy pohár joghurtot", { locale: "hu" } );
+		expect( passiveVoice( paper ).passives.length ).toBe( 0 );
+	} );
+	it( "returns passive voice", function() {
+		// Passive: .
+		const paper = new Paper( "Eszem egy pohár joghurtot átnéződöm", { locale: "hu" } );
 		expect( passiveVoice( paper ).passives.length ).toBe( 1 );
 	} );
 } );
