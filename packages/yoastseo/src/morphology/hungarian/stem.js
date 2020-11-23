@@ -200,7 +200,6 @@ const stemSuffixes6 = function( word, r1Position, suffixes6 ) {
 		const checkIfWordEndsOnAccentedEorE = ( wordAfterStemming.endsWith( "á" ) || wordAfterStemming.endsWith( "é" ) );
 		if ( checkIfWordEndsOnAccentedEorE ) {
 			wordAfterStemming = wordAfterStemming.replace( /á$/i, "a" || /é$/i, "e" );
-			console.log( wordAfterStemming );
 		}
 		return wordAfterStemming;
 	}
@@ -272,47 +271,47 @@ const stemSuffixes9 = function( word, r1Position, suffixes9 ) {
 };
 
 /**
- * Searches for the longest one of these suffixes in R1 ánk ájuk ám ád á and replace  with a
- * Searches the longest one of the suffixes in R1 énk éjük ém éd é and replace with e
- *
- * @param {string} word             The word to check for the suffix.
- * @param {int} r1Position          The index of R1 region.
- * @param {string[]} suffixes10     The suffixes to check.
- *
- * @returns {string} The word without the suffix.
- */
-const stemSuffixes10 = function( word, r1Position, suffixes10 ) {
-	if ( word.length < 3 ) {
-		return word;
-	}
-	const suffixes10a = findMatchingEndingInArray( word, suffixes10.suffixes10a );
-	if ( suffixes10a !== "" && word.length >= r1Position ) {
-		return ( word.slice( 0, -suffixes10a.length ) + "a" );
-	}
-	const suffixes10b = findMatchingEndingInArray( word, suffixes10.suffixes10b );
-	if ( suffixes10b !== "" && word.length >= r1Position ) {
-		return ( word.slice( 0, -suffixes10b.length ) + "e" );
-	}
-	return word;
-};
-
-/**
  * Searches for the longest one of these suffixes in R1: jaim, jeim, aim, eim, im, jaid, eid, aid, eid, id, jai, jei, ai,
  * ei, i, jaink, jeink, eink, aink, ink, jaitok, jeitek, aitok, eitek, itek, jeik, jaik, aik, eik, ik and stem it
  *
  * @param {string} word         The word to check.
  * @param {int} r1Position      The index of R1 region.
- * @param {string[]}suffixes11  The suffixes to stem.
+ * @param {string[]} suffixes10     The suffixes to check.
  *
  * @returns {string}    The stemmed word.
  */
-const stemSuffixes11 = function( word, r1Position, suffixes11 ) {
-	const suffix11 = findMatchingEndingInArray( word, suffixes11 );
+const stemSuffixes10 = function( word, r1Position, suffixes10 ) {
+	const suffix10 = findMatchingEndingInArray( word, suffixes10 );
 	if ( word.length < 3 ) {
 		return word;
 	}
-	if ( suffix11 !== "" && word.length >= r1Position ) {
-		return ( word.slice( 0, -suffix11.length ) );
+	if ( suffix10 !== "" && word.length >= r1Position ) {
+		return ( word.slice( 0, -suffix10.length ) );
+	}
+	return word;
+};
+
+/**
+ * Searches for the longest one of these suffixes in R1 ánk ájuk ám ád á and replace  with a
+ * Searches the longest one of the suffixes in R1 énk éjük ém éd é and replace with e
+ *
+ * @param {string} word             The word to check for the suffix.
+ * @param {int} r1Position          The index of R1 region.
+ * @param {string[]} suffixes11     The suffixes to check.
+ *
+ * @returns {string} The word without the suffix.
+ */
+const stemSuffixes11 = function( word, r1Position, suffixes11 ) {
+	if ( word.length < 3 ) {
+		return word;
+	}
+	const suffixes11a = findMatchingEndingInArray( word, suffixes11.suffixes11a );
+	if ( suffixes11a !== "" && word.length >= r1Position ) {
+		return ( word.slice( 0, -suffixes11a.length ) + "a" );
+	}
+	const suffixes11b = findMatchingEndingInArray( word, suffixes11.suffixes11b );
+	if ( suffixes11b !== "" && word.length >= r1Position ) {
+		return ( word.slice( 0, -suffixes11b.length ) + "e" );
 	}
 	return word;
 };
@@ -355,12 +354,12 @@ const stemSuffixes13 = function( word, r1Position, suffixes13 ) {
 	if ( word.length < 3 ) {
 		return word;
 	}
-	const suffix13a = new RegExp( suffixes13.suffixes13a );
-	if ( suffix13a.test( word ) && word.length >= r1Position ) {
+	const suffix13a = findMatchingEndingInArray( word, suffixes13.suffixes13a );
+	if ( suffix13a !== "" && word.length >= r1Position ) {
 		return ( word.slice( 0, -2 ) + "a" );
 	}
-	const suffix13b = new RegExp( suffixes13.suffixes13b );
-	if ( suffix13b.test( word ) && word.length >= r1Position ) {
+	const suffix13b = findMatchingEndingInArray( word, suffixes13.suffixes13b );
+	if ( suffix13b !== "" && word.length >= r1Position ) {
 		return ( word.slice( 0, -2 ) + "e" );
 	}
 	return word;
