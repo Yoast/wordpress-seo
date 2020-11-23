@@ -3,7 +3,7 @@ const parseVersion = require( "../lib/parse-version" );
 const _isEmpty = require( "lodash/isEmpty" );
 
 /**
- * ...
+ * A task to remove old changelog entries and add new ones in readme.txt.
  *
  * @param {Object} grunt The grunt helper object.
  * @returns {void}
@@ -84,7 +84,12 @@ module.exports = function( grunt ) {
 				} );
 			} else {
 				// If the current version is not in the changelog, allow the user to enter new changelog items.
-				const changelogVersionNumber = versionNumber.major + "." + versionNumber.minor + "." + versionNumber.patch;
+				let changelogVersionNumber = versionNumber.major + "." + versionNumber.minor;
+
+				// Only add the patch number if we're actually doing a patch.
+				if ( versionNumber.patch !== 0 ) {
+					changelogVersionNumber += "." + versionNumber.patch;
+				}
 
 				// Present the user with only the version number.
 				getUserInput( { initialContent: `= ${changelogVersionNumber} =` } ).then( newChangelog => {
@@ -104,9 +109,21 @@ module.exports = function( grunt ) {
 			grunt.config( "gitadd.addChangelog.files", { src: [ "./readme.txt" ] } );
 			grunt.task.run( "gitadd:addChangelog" );
 
-			// Commit the changed readme.txt.
-			grunt.config( "gitcommit.commitChangelog.options.message", "Add changelog" );
-			grunt.task.run( "gitcommit:commitChangelog" );
+			// Check if there is something to commit with `git status` first.
+			grunt.config( "gitstatus.checkChangelog.options.callback", function( changes ) {
+				// First character of the code checks the status in the index.
+				const hasStagedChangelog = changes.some( change => change.code[ 0 ] !== " " && change.file === "readme.txt" );
+
+				if ( hasStagedChangelog ) {
+					// Commit the changed readme.txt.
+					grunt.config( "gitcommit.commitChangelog.options.message", "Add changelog" );
+					grunt.task.run( "gitcommit:commitChangelog" );
+				} else {
+					grunt.log.writeln( "Changelog is unchanged. Nothing to commit." );
+				}
+			} );
+
+			grunt.task.run( "gitstatus:checkChangelog" );
 		}
 	);
 };

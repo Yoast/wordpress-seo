@@ -48,13 +48,6 @@ class WPSEO_Replace_Vars {
 	protected $args;
 
 	/**
-	 * The date helper.
-	 *
-	 * @var WPSEO_Date_Helper
-	 */
-	protected $date;
-
-	/**
 	 * Help texts for use in WPSEO -> Search appearance tabs.
 	 *
 	 * @var array
@@ -67,13 +60,6 @@ class WPSEO_Replace_Vars {
 	 * @var array
 	 */
 	protected static $external_replacements = [];
-
-	/**
-	 * Constructor.
-	 */
-	public function __construct() {
-		$this->date = new WPSEO_Date_Helper();
-	}
 
 	/**
 	 * Setup the help texts and external replacements as statics so they will be available to all instances.
@@ -319,7 +305,7 @@ class WPSEO_Replace_Vars {
 
 		if ( $this->args->post_date !== '' ) {
 			// Returns a string.
-			$replacement = $this->date->format_translated( $this->args->post_date, get_option( 'date_format' ) );
+			$replacement = YoastSEO()->helpers->date->format_translated( $this->args->post_date, get_option( 'date_format' ) );
 		}
 		else {
 			if ( get_query_var( 'day' ) && get_query_var( 'day' ) !== '' ) {
@@ -428,27 +414,10 @@ class WPSEO_Replace_Vars {
 	/**
 	 * Retrieve the separator for use as replacement string.
 	 *
-	 * @return string
+	 * @return string Retrieves the title separator.
 	 */
 	private function retrieve_sep() {
-		$replacement = WPSEO_Options::get_default( 'wpseo_titles', 'separator' );
-
-		// Get the titles option and the separator options.
-		$separator         = WPSEO_Options::get( 'separator' );
-		$seperator_options = WPSEO_Option_Titles::get_instance()->get_separator_options();
-
-		// This should always be set, but just to be sure.
-		if ( isset( $seperator_options[ $separator ] ) ) {
-			// Set the new replacement.
-			$replacement = $seperator_options[ $separator ];
-		}
-
-		/**
-		 * Filter: 'wpseo_replacements_filter_sep' - Allow customization of the separator character(s).
-		 *
-		 * @api string $replacement The current separator.
-		 */
-		return apply_filters( 'wpseo_replacements_filter_sep', $replacement );
+		return YoastSEO()->helpers->options->get_title_separator();
 	}
 
 	/**
@@ -943,7 +912,7 @@ class WPSEO_Replace_Vars {
 		$replacement = null;
 
 		if ( ! empty( $this->args->post_modified ) ) {
-			$replacement = $this->date->format_translated( $this->args->post_modified, get_option( 'date_format' ) );
+			$replacement = YoastSEO()->helpers->date->format_translated( $this->args->post_modified, get_option( 'date_format' ) );
 		}
 
 		return $replacement;

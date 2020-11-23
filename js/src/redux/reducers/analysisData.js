@@ -1,7 +1,8 @@
-import { UPDATE_SNIPPET_DATA } from "../actions/analysisData";
+import { UPDATE_SNIPPET_DATA, RUN_ANALYSIS } from "../actions";
 
 const INITIAL_STATE = {
 	snippet: {},
+	timestamp: 0,
 };
 
 /**
@@ -19,7 +20,13 @@ function analysisDataReducer( state = INITIAL_STATE, action ) {
 				...state,
 				snippet: action.data,
 			};
+		case RUN_ANALYSIS:
+			return {
+				...state,
+				timestamp: action.timestamp,
+			};
 	}
+
 	return state;
 }
 

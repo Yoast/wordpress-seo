@@ -20,6 +20,7 @@
 # Build JavaScript from assets to production
 'build:js':
   - 'clean:build-assets-js'
+  - 'shell:install-schema-blocks'
   - 'copy:js-dependencies'
   - 'webpack:buildDev'
 
@@ -140,6 +141,7 @@ release:
   - 'release:css'
   - 'build:i18n'
 'release:js':
+  - 'shell:install-schema-blocks'
   - 'copy:js-dependencies'
   - 'webpack:buildProd'
 

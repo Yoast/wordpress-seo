@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Generators;
 
 use Brain\Monkey;
 use Mockery;
+use WPSEO_Replace_Vars;
 use Yoast\WP\SEO\Generators\Schema\FAQ;
 use Yoast\WP\SEO\Generators\Schema\Organization;
 use Yoast\WP\SEO\Generators\Schema_Generator;
@@ -81,7 +82,7 @@ class Schema_Generator_Test extends TestCase {
 	protected $faq;
 
 	/**
-	 * Setup the test.
+	 * Sets up the test.
 	 */
 	public function setUp() {
 		parent::setUp();
@@ -113,7 +114,7 @@ class Schema_Generator_Test extends TestCase {
 				Mockery::mock( Url_Helper::class ),
 				Mockery::mock( Image_Helper::class ),
 				Mockery::mock( ID_Helper::class ),
-				Mockery::mock( \WPSEO_Replace_Vars::class ),
+				Mockery::mock( WPSEO_Replace_Vars::class ),
 				Mockery::mock( Site_Helper::class ),
 				Mockery::mock( User_Helper::class ),
 			]
@@ -183,7 +184,7 @@ class Schema_Generator_Test extends TestCase {
 
 		$this->current_page
 			->expects( 'is_home_static_page' )
-			->twice()
+			->once()
 			->andReturnTrue();
 
 		$this->current_page
@@ -255,7 +256,7 @@ class Schema_Generator_Test extends TestCase {
 
 		$this->current_page
 			->expects( 'is_home_static_page' )
-			->twice()
+			->once()
 			->andReturnTrue();
 
 		$this->current_page
@@ -323,7 +324,7 @@ class Schema_Generator_Test extends TestCase {
 
 		$this->current_page
 			->expects( 'is_home_static_page' )
-			->twice()
+			->once()
 			->andReturnTrue();
 
 		$this->current_page
@@ -364,7 +365,7 @@ class Schema_Generator_Test extends TestCase {
 
 		$this->current_page
 			->expects( 'is_home_static_page' )
-			->twice()
+			->once()
 			->andReturnTrue();
 
 		$this->current_page
@@ -434,7 +435,7 @@ class Schema_Generator_Test extends TestCase {
 
 		$this->current_page
 			->expects( 'is_home_static_page' )
-			->twice()
+			->once()
 			->andReturnTrue();
 
 		$this->current_page

@@ -1,6 +1,9 @@
 <?php
 
+namespace Yoast\WP\SEO\Tests\Unit\Presenters\Admin;
+
 use Brain\Monkey;
+use Mockery;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Presenters\Admin\Indexing_Failed_Notification_Presenter;
 use Yoast\WP\SEO\Tests\Unit\TestCase;

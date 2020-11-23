@@ -60,14 +60,14 @@ trait Presentation_Instance_Dependencies {
 	/**
 	 * Holds the indexable helper.
 	 *
-	 * @var \Yoast\WP\SEO\Helpers\Indexable_Helper|Mockery\MockInterface
+	 * @var Indexable_Helper|Mockery\MockInterface
 	 */
 	protected $indexable_helper;
 
 	/**
 	 * Holds the permalink helper.
 	 *
-	 * @var \Yoast\WP\SEO\Helpers\Permalink_Helper|Mockery\MockInterface
+	 * @var Permalink_Helper|Mockery\MockInterface
 	 */
 	protected $permalink_helper;
 

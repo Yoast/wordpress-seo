@@ -30,11 +30,10 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'license_server_version'                   => false,
 		'ms_defaults_set'                          => false,
 		'ignore_search_engines_discouraged_notice' => false,
-		'indexation_warning_hide_until'            => false,
 		'indexing_first_time'                      => true,
-		'indexation_started'                       => null,
+		'indexing_started'                         => null,
 		'indexing_reason'                          => '',
-		'indexables_indexation_completed'          => false,
+		'indexables_indexing_completed'            => false,
 		// Non-form field, should only be set via validation routine.
 		'version'                                  => '', // Leave default as empty to ensure activation/upgrade works.
 		'previous_version'                         => '',
@@ -70,8 +69,13 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'permalink_structure'                      => '',
 		'home_url'                                 => '',
 		'dynamic_permalinks'                       => false,
+		'category_base_url'                        => '',
+		'tag_base_url'                             => '',
 		'custom_taxonomy_slugs'                    => [],
 		'enable_enhanced_slack_sharing'            => true,
+		'zapier_integration_active'                => false,
+		'zapier_subscription'                      => [],
+		'zapier_api_key'                           => '',
 	];
 
 	/**
@@ -256,6 +260,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 				case 'semrush_country_code':
 				case 'license_server_version':
 				case 'home_url':
+				case 'zapier_api_key':
 					if ( isset( $dirty[ $key ] ) ) {
 						$clean[ $key ] = $dirty[ $key ];
 					}
@@ -311,8 +316,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 					break;
 
 				case 'first_activated_on':
-				case 'indexation_started':
-				case 'indexation_warning_hide_until':
+				case 'indexing_started':
 					$clean[ $key ] = false;
 					if ( isset( $dirty[ $key ] ) ) {
 						if ( $dirty[ $key ] === false || WPSEO_Utils::validate_int( $dirty[ $key ] ) ) {
@@ -328,6 +332,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 				case 'myyoast_oauth':
 				case 'semrush_tokens':
 				case 'custom_taxonomy_slugs':
+				case 'zapier_subscription':
 					$clean[ $key ] = $old[ $key ];
 
 					if ( isset( $dirty[ $key ] ) ) {
@@ -344,8 +349,10 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 					break;
 
 				case 'permalink_structure':
+				case 'category_base_url':
+				case 'tag_base_url':
 					if ( isset( $dirty[ $key ] ) ) {
-						$clean[ $key ] = sanitize_option( 'permalink_structure', $dirty[ $key ] );
+						$clean[ $key ] = sanitize_option( $key, $dirty[ $key ] );
 					}
 					break;
 
@@ -360,6 +367,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 				 *  'yoast_tracking'
 				 *  'dynamic_permalinks'
 				 *  'indexing_first_time'
+				 *  and most of the feature variables.
 				 */
 				default:
 					$clean[ $key ] = ( isset( $dirty[ $key ] ) ? WPSEO_Utils::validate_bool( $dirty[ $key ] ) : false );
@@ -394,6 +402,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 			'enable_text_link_counter'       => false,
 			'enable_headless_rest_endpoints' => false,
 			'semrush_integration_active'     => false,
+			'zapier_integration_active'      => false,
 		];
 
 		// We can reuse this logic from the base class with the above defaults to parse with the correct feature values.

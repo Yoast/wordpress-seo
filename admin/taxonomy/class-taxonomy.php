@@ -242,23 +242,13 @@ class WPSEO_Taxonomy {
 	}
 
 	/**
-	 * Allows HTML in descriptions.
+	 * Allows post-kses-filtered HTML in term descriptions.
 	 */
 	public function custom_category_descriptions_allow_html() {
-		$filters = [
-			'pre_term_description',
-			'pre_link_description',
-			'pre_link_notes',
-			'pre_user_description',
-		];
-
-		foreach ( $filters as $filter ) {
-			remove_filter( $filter, 'wp_filter_kses' );
-			if ( ! current_user_can( 'unfiltered_html' ) ) {
-				add_filter( $filter, 'wp_filter_post_kses' );
-			}
-		}
 		remove_filter( 'term_description', 'wp_kses_data' );
+		remove_filter( 'pre_term_description', 'wp_filter_kses' );
+		add_filter( 'term_description', 'wp_kses_post' );
+		add_filter( 'pre_term_description', 'wp_filter_post_kses' );
 	}
 
 	/**

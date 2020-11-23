@@ -44,14 +44,18 @@ class Indexables_Head_Route implements Route_Interface {
 	}
 
 	/**
-	 * @inheritDoc
+	 * Returns the conditionals based in which this loadable should be active.
+	 *
+	 * @return array
 	 */
 	public static function get_conditionals() {
 		return [ Headless_Rest_Endpoints_Enabled_Conditional::class ];
 	}
 
 	/**
-	 * @inheritDoc
+	 * Registers routes with WordPress.
+	 *
+	 * @return void
 	 */
 	public function register_routes() {
 		$route_args = [

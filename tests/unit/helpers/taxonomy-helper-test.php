@@ -40,7 +40,7 @@ class Taxonomy_Helper_Test extends TestCase {
 	private $string;
 
 	/**
-	 * @inheritDoc
+	 * Prepares the test.
 	 */
 	public function setUp() {
 		parent::setUp();

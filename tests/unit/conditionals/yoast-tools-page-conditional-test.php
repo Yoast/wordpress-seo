@@ -23,7 +23,7 @@ class Yoast_Admin_Tools_Page_Conditional_Test extends TestCase {
 	private $instance;
 
 	/**
-	 * @inheritDoc
+	 * Sets up the test class.
 	 */
 	public function setUp() {
 		$this->instance = new Yoast_Tools_Page_Conditional();

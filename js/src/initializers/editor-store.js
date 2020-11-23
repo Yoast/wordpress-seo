@@ -3,24 +3,17 @@ import { combineReducers, registerStore } from "@wordpress/data";
 import reducers from "../redux/reducers";
 import * as selectors from "../redux/selectors";
 import * as actions from "../redux/actions";
-import { setSettings } from "../redux/actions/settings";
-import { setSEMrushChangeCountry } from "../redux/actions";
-import { setSEMrushLoginStatus } from "../redux/actions";
 
 /**
- * Initializes the Yoast SEO editor store.
+ * Populates the store.
  *
- * @returns {object} The Yoast SEO editor store.
+ * @param {Object} store The store to populate.
+ *
+ * @returns {void}
  */
-export default function initEditorStore() {
-	const store = registerStore( "yoast-seo/editor", {
-		reducer: combineReducers( reducers ),
-		selectors,
-		actions: pickBy( actions, x => typeof x === "function" ),
-	} );
-
+const populateStore = store => {
 	store.dispatch(
-		setSettings( {
+		actions.setSettings( {
 			socialPreviews: {
 				sitewideImage: window.wpseoScriptData.metabox.sitewide_social_image,
 				authorName: window.wpseoScriptData.metabox.author_name,
@@ -36,12 +29,24 @@ export default function initEditorStore() {
 			},
 		} )
 	);
-	store.dispatch(
-		setSEMrushChangeCountry( window.wpseoScriptData.metabox.countryCode )
-	);
-	store.dispatch(
-		setSEMrushLoginStatus( window.wpseoScriptData.metabox.SEMrushLoginStatus )
-	);
+
+	store.dispatch( actions.setSEMrushChangeCountry( window.wpseoScriptData.metabox.countryCode ) );
+	store.dispatch( actions.setSEMrushLoginStatus( window.wpseoScriptData.metabox.SEMrushLoginStatus ) );
+};
+
+/**
+ * Initializes the Yoast SEO editor store.
+ *
+ * @returns {object} The Yoast SEO editor store.
+ */
+export default function initEditorStore() {
+	const store = registerStore( "yoast-seo/editor", {
+		reducer: combineReducers( reducers ),
+		selectors,
+		actions: pickBy( actions, x => typeof x === "function" ),
+	} );
+
+	populateStore( store );
 
 	return store;
 }

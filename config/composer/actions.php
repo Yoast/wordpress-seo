@@ -187,7 +187,7 @@ class Actions {
 
 		$php_files = self::filter_files( $files, '.php' );
 		if ( empty( $php_files ) ) {
-			echo 'No files to compare! Exiting.' . PHP_EOL;
+			echo 'No files to compare! Exiting.' . \PHP_EOL;
 
 			return 0;
 		}
@@ -208,7 +208,7 @@ class Actions {
 
 		$php_files = self::filter_files( $files, '.php' );
 		if ( empty( $php_files ) ) {
-			echo 'No files to compare! Exiting.' . PHP_EOL;
+			echo 'No files to compare! Exiting.' . \PHP_EOL;
 
 			return 0;
 		}
@@ -334,18 +334,18 @@ TPL;
 		 * The only key of the filtered array already holds the summary.
 		 * $summary is NULL, if the summary was not present in the output
 		 */
-		$summary = array_filter(
+		$summary = \array_filter(
 			$output,
 			static function( $value ) {
-				return strpos( $value, 'A TOTAL OF' ) !== false;
+				return \strpos( $value, 'A TOTAL OF' ) !== false;
 			}
 		);
 
 		// Extract the stats for the summary.
 		if ( $summary ) {
-			preg_match(
+			\preg_match(
 				'/A TOTAL OF (?P<error_count>\d+) ERRORS AND (?P<warning_count>\d+) WARNINGS WERE FOUND IN \d+ FILES/',
-				end( $summary ),
+				\end( $summary ),
 				$matches
 			);
 		}
@@ -353,7 +353,7 @@ TPL;
 		// Validate the result of extraction.
 		if ( isset( $matches['error_count'] ) && isset( $matches['warning_count'] ) ) {
 			// We need integers for the further processing.
-			$result = array_map( 'intval', $matches );
+			$result = \array_map( 'intval', $matches );
 		}
 
 		return $result;
@@ -365,23 +365,23 @@ TPL;
 	 * Thanks for the inspiration from https://github.com/OXID-eSales/coding_standards_wrapper
 	 */
 	public static function check_cs_thresholds() {
-		$error_threshold   = (int) getenv( 'YOASTCS_THRESHOLD_ERRORS' );
-		$warning_threshold = (int) getenv( 'YOASTCS_THRESHOLD_WARNINGS' );
+		$error_threshold   = (int) \getenv( 'YOASTCS_THRESHOLD_ERRORS' );
+		$warning_threshold = (int) \getenv( 'YOASTCS_THRESHOLD_WARNINGS' );
 
 		echo "Running coding standards checks, this may take some time.\n";
 		$command = 'composer check-cs-summary';
 		// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged -- Non-WP context, this is fine.
-		@exec( $command, $phpcs_output, $return );
+		@\exec( $command, $phpcs_output, $return );
 
 		$statistics = self::extract_cs_statistics( $phpcs_output );
 		if ( ! $statistics ) {
-			echo 'Error occurred when parsing the coding standards results.' . PHP_EOL;
+			echo 'Error occurred when parsing the coding standards results.' . \PHP_EOL;
 			exit( 1 );
 		}
 
-		echo PHP_EOL;
-		echo 'CODE SNIFFER RESULTS' . PHP_EOL;
-		echo '--------------------' . PHP_EOL;
+		echo \PHP_EOL;
+		echo 'CODE SNIFFER RESULTS' . \PHP_EOL;
+		echo '--------------------' . \PHP_EOL;
 
 		$error_count   = $statistics['error_count'];
 		$warning_count = $statistics['warning_count'];
@@ -404,7 +404,7 @@ TPL;
 		}
 
 		if ( $error_count < $error_threshold ) {
-			echo PHP_EOL;
+			echo \PHP_EOL;
 			echo "Found less errors than the threshold, great job!\n";
 			echo "Please update the error threshold in the composer.json file to $error_count.\n";
 		}
@@ -415,13 +415,13 @@ TPL;
 		}
 
 		if ( $warning_count < $warning_threshold ) {
-			echo PHP_EOL;
+			echo \PHP_EOL;
 			echo "Found less warnings than the threshold, great job!\n";
 			echo "Please update the warning threshold in the composer.json file to $warning_count.\n";
 		}
 
 		if ( ! $above_threshold ) {
-			echo PHP_EOL;
+			echo \PHP_EOL;
 			echo "Coding standards checks have passed!\n";
 		}
 
@@ -432,7 +432,7 @@ TPL;
 			echo "\n";
 
 			// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged -- Non-WP context, this is fine.
-			@passthru( 'composer check-branch-cs' );
+			@\passthru( 'composer check-branch-cs' );
 		}
 
 		exit( ( $above_threshold ) ? 1 : 0 );

@@ -14,7 +14,12 @@ import UsedKeywords from "../analysis/usedKeywords";
  */
 export default function initializeUsedKeywords( refreshAnalysis, ajaxAction, store ) {
 	const localizedData = getL10nObject();
-	const scriptUrl     = get(
+
+	if ( ! localizedData.previouslyUsedKeywordActive ) {
+		return;
+	}
+
+	const scriptUrl = get(
 		window,
 		[ "wpseoScriptData", "analysis", "worker", "keywords_assessment_url" ],
 		"used-keywords-assessment.js"

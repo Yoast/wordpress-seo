@@ -55,7 +55,7 @@ class Migration_Runner_Test extends TestCase {
 
 		$instance->initialize();
 
-		$this->assertTrue( \has_action( '_yoast_run_migrations', [ $instance, 'run_free_migrations' ] ) );
+		$this->assertNotFalse( \has_action( '_yoast_run_migrations', [ $instance, 'run_free_migrations' ] ) );
 	}
 
 	/**

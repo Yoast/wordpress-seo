@@ -25,13 +25,6 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 	private $permalink;
 
 	/**
-	 * The date helper.
-	 *
-	 * @var WPSEO_Date_Helper
-	 */
-	protected $date;
-
-	/**
 	 * Constructor.
 	 *
 	 * @param WP_Post|array $post      Post object.
@@ -41,7 +34,6 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 	public function __construct( $post, array $options, $structure ) {
 		$this->post      = $post;
 		$this->permalink = $structure;
-		$this->date      = new WPSEO_Date_Helper();
 	}
 
 	/**
@@ -227,6 +219,6 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 	 * @return string
 	 */
 	private function get_metadesc_date() {
-		return $this->date->format_translated( $this->post->post_date, 'M j, Y' );
+		return YoastSEO()->helpers->date->format_translated( $this->post->post_date, 'M j, Y' );
 	}
 }

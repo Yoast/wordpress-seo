@@ -120,6 +120,7 @@
 				<element value="config"/>
 				<element value="src"/>
 				<element value="tests/unit"/>
+				<element value="src/deprecated/src"/>
 			</property>
 
 			<!-- Allow for the tests being in a non-standard directory in YoastSEO Free. -->
@@ -161,6 +162,16 @@
 		<exclude-pattern>/config/composer/*</exclude-pattern>
 	</rule>
 
+	<!-- Exclude the "lib" folder from select naming conventions.
+		 The intention is to extract this to a separate package, so the names are
+		 based on the "future" package. -->
+	<rule ref="Yoast.NamingConventions.NamespaceName">
+		<exclude-pattern>/lib/*</exclude-pattern>
+	</rule>
+	<rule ref="WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedNamespaceFound">
+		<exclude-pattern>/lib/*</exclude-pattern>
+	</rule>
+
 	<!-- Exclude php-codeshift from being checked too roughly. -->
 	<rule ref="Yoast.NamingConventions.ObjectNameDepth">
 		<exclude-pattern>/config/php-codeshift/*</exclude-pattern>
@@ -197,6 +208,17 @@
 		<exclude-pattern>/inc/wpseo-functions-deprecated\.php$</exclude-pattern>
 	</rule>
 
+	<!-- Exclude deprecated code from select sniffs regarding naming conventions.
+		 These classes are still available to prevent BC-breaks and renaming them would
+		 create a BC-break. -->
+	<rule ref="WordPress.NamingConventions.PrefixAllGlobals">
+		<exclude-pattern>/src/deprecated/*</exclude-pattern>
+	</rule>
+	<rule ref="Yoast.Files.FileName">
+		<exclude-pattern>/src/deprecated/*</exclude-pattern>
+	</rule>
+
+
 	<!-- TEST CODE -->
 
 	<!-- Valid usage: For testing purposes, some non-prefixed globals are being created, which is fine. -->
@@ -217,6 +239,11 @@
 	<!-- Changing the cron interval to test things, is fine. -->
 	<rule ref="WordPress.WP.CronInterval">
 		<exclude-pattern>/tests/*</exclude-pattern>
+	</rule>
+
+	<!-- The unit tests are not run within the context of a WP install, so overwritting globals is fine. -->
+	<rule ref="WordPress.WP.GlobalVariablesOverride">
+		<exclude-pattern>/tests/unit/*</exclude-pattern>
 	</rule>
 
 	<!-- Allow for the double/mock classes to override methods just to change the visibility. -->

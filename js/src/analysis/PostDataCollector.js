@@ -390,10 +390,6 @@ PostDataCollector.prototype.saveScores = function( score, keyword ) {
 			"js-text-analysis",
 			"Enter a focus keyphrase to calculate the SEO score"
 		);
-		indicator.fullText = i18n.dgettext(
-			"js-text-analysis",
-			"Content optimization: Enter a focus keyphrase to calculate the SEO score"
-		);
 	}
 
 	updateTrafficLight( indicator );

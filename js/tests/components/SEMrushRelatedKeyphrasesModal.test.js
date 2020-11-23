@@ -73,7 +73,7 @@ describe( "SEMrushRelatedKeyphrasesModal", () => {
 	describe( "onModalClose", () => {
 		it( "successfully calls the close method", () => {
 			const component = shallow( <SEMrushRelatedKeyphrasesModal { ...props } /> );
-			component.instance().onModalClose();
+			component.instance().onModalClose( { type: "not-blur" } );
 
 			expect( props.onClose ).toHaveBeenCalled();
 		} );

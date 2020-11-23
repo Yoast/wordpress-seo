@@ -4,7 +4,6 @@ namespace Yoast\WP\SEO\Tests\Unit\Integrations\Admin;
 
 use Brain\Monkey\Functions;
 use Mockery;
-use stdClass;
 use WP_Post;
 use WP_Query;
 use Yoast\WP\SEO\Integrations\Admin\Admin_Columns_Cache_Integration;
@@ -15,7 +14,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * Class Admin_Columns_Cache_Integration_Test.
  *
  * @group integrations
- * @group indexation
+ * @group indexing
  *
  * @coversDefaultClass \Yoast\WP\SEO\Integrations\Admin\Admin_Columns_Cache_Integration
  */
@@ -54,6 +53,7 @@ class Admin_Columns_Cache_Integration_Test extends TestCase {
 
 		$posts = [ Mockery::mock( WP_Post::class ) ];
 
+		// phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
 		$wp_query        = Mockery::mock( WP_Query::class );
 		$wp_query->posts = [];
 		$wp_query->expects( 'get_posts' )->once()->andReturn( $posts );
@@ -81,6 +81,7 @@ class Admin_Columns_Cache_Integration_Test extends TestCase {
 
 		$posts = [ Mockery::mock( WP_Post::class ) ];
 
+		// phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
 		$wp_query        = Mockery::mock( WP_Query::class );
 		$wp_query->posts = $posts;
 
@@ -104,17 +105,21 @@ class Admin_Columns_Cache_Integration_Test extends TestCase {
 	 */
 	public function test_fill_cache_with_non_post_query() {
 		global $wp_query;
+		global $per_page;
+		// phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
+		$per_page = 10;
 
-		$posts = [ new stdClass() ];
+		$posts = [
+			(object) [
+				'ID'          => 1,
+				'post_parent' => 0,
+			],
+		];
 
+		// phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
 		$wp_query        = Mockery::mock( WP_Query::class );
 		$wp_query->posts = [];
 		$wp_query->expects( 'get_posts' )->once()->andReturn( $posts );
-
-		Functions\expect( 'wp_list_pluck' )
-			->once()
-			->with( $posts, 'ID' )
-			->andReturn( [ 1 ] );
 
 		Functions\expect( '_prime_post_caches' )->once()->with( [ 1 ] );
 
@@ -136,6 +141,7 @@ class Admin_Columns_Cache_Integration_Test extends TestCase {
 
 		$posts = [];
 
+		// phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
 		$wp_query        = Mockery::mock( WP_Query::class );
 		$wp_query->posts = [];
 		$wp_query->expects( 'get_posts' )->once()->andReturn( $posts );

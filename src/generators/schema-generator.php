@@ -120,6 +120,10 @@ class Schema_Generator implements Generator_Interface {
 				 */
 				$block_type = \strtolower( $block['blockName'] );
 				$graph      = \apply_filters( 'wpseo_schema_block_' . $block_type, $graph, $block, $context );
+
+				if ( isset( $block['attrs']['yoast-schema'] ) ) {
+					$graph[] = $block['attrs']['yoast-schema'];
+				}
 			}
 		}
 

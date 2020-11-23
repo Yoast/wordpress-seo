@@ -155,7 +155,7 @@ describe( "Indexation", () => {
 			indexingActions={ { indexation: postIndexingAction } }
 		/> );
 
-		component.instance().setState( { inProgress: true } );
+		component.instance().setState( { state: "in_progress" } );
 
 		await component.instance().doIndexing( "indexation" );
 
