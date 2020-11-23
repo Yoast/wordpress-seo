@@ -1,6 +1,10 @@
 <?php
 
 namespace Yoast\WP\SEO\Composer;
+
+use ReflectionException;
+use RuntimeException;
+
 /**
  * Class for generating a unit test scaffold, based on the dependency injection
  * and other conventions of Yoast.
@@ -16,12 +20,17 @@ class Unit_Test_Generator {
 	 * @throws RuntimeException    If there is already a unit test.
 	 */
 	public function generate( $fully_qualified_class_name ) {
-		$reflector = new \ReflectionClass( $fully_qualified_class_name );
+		try {
+			$reflector = new \ReflectionClass( $fully_qualified_class_name );
+		}
+		catch ( ReflectionException $exception ) {
+			throw $exception;
+		}
 
 		$unit_test_path = self::generate_file_name( $reflector->getFileName() );
 
 		if ( \file_exists( __DIR__ . '/../../tests/unit/' . $unit_test_path ) ) {
-			throw new \RuntimeException( \sprintf( 'A unit test already exists at path "tests/unit/%1$s"', $unit_test_path ) );
+			throw new RuntimeException( \sprintf( 'A unit test already exists at path "tests/unit/%1$s"', $unit_test_path ) );
 		}
 
 		$name = $reflector->getShortName();

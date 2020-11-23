@@ -4,6 +4,8 @@ namespace Yoast\WP\SEO\Composer;
 
 use Composer\Script\Event;
 use Exception;
+use ReflectionException;
+use RuntimeException;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Yoast\WP\SEO\Dependency_Injection\Container_Compiler;
 
@@ -470,14 +472,14 @@ TPL;
 	 *
 	 * @param Event $event Composer event.
 	 *
-	 * @throws \ReflectionException When the class to generate the unit test for cannot be found.
-	 * @throws \RuntimeException    When the required command line argument is missing.
+	 * @throws ReflectionException When the class to generate the unit test for cannot be found.
+	 * @throws RuntimeException    When the required command line argument is missing.
 	 */
 	public static function generate_unit_test( Event $event ) {
 		$args = $event->getArguments();
 
 		if ( empty( $args[0] ) ) {
-			throw new \RuntimeException(
+			throw new RuntimeException(
 				'You must provide an argument with the fully qualified class name' .
 				'for which you want a unit test to be generated.'
 			);
@@ -488,6 +490,11 @@ TPL;
 		echo 'Generating unit test for ', $fqn;
 
 		$generator = new Unit_Test_Generator();
-		$generator->generate( $fqn );
+		try {
+			$generator->generate( $fqn );
+		}
+		catch ( Exception $exception ) {
+			throw $exception;
+		}
 	}
 }
