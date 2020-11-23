@@ -27,7 +27,7 @@ class Unit_Test_Generator {
 			throw $exception;
 		}
 
-		$unit_test_path = self::generate_file_name( $reflector->getFileName() );
+		$unit_test_path = $this->generate_file_name( $reflector->getFileName() );
 
 		if ( \file_exists( __DIR__ . '/../../tests/unit/' . $unit_test_path ) ) {
 			throw new RuntimeException( \sprintf( 'A unit test already exists at path "tests/unit/%1$s"', $unit_test_path ) );
@@ -46,16 +46,16 @@ class Unit_Test_Generator {
 		else {
 			$constructor_arguments = $constructor->getParameters();
 
-			$use_statements               = self::generate_use_statements( $constructor_arguments );
-			$property_statements          = self::generate_property_statements( $constructor_arguments );
-			$create_mock_statements       = self::generate_create_mock_statements( $constructor_arguments );
-			$instance_argument_statements = self::generate_instance_argument_statements( $constructor_arguments );
+			$use_statements               = $this->generate_use_statements( $constructor_arguments );
+			$property_statements          = $this->generate_property_statements( $constructor_arguments );
+			$create_mock_statements       = $this->generate_create_mock_statements( $constructor_arguments );
+			$instance_argument_statements = $this->generate_instance_argument_statements( $constructor_arguments );
 		}
 
-		$namespace = self::generate_namespace( $fully_qualified_class_name );
-		$group     = self::generate_group( $reflector->getFileName() );
+		$namespace = $this->generate_namespace( $fully_qualified_class_name );
+		$group     = $this->generate_group( $reflector->getFileName() );
 
-		$filled_in_template = self::unit_test_template(
+		$filled_in_template = $this->unit_test_template(
 			$fully_qualified_class_name,
 			$name,
 			$namespace,
