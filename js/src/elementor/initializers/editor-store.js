@@ -37,9 +37,14 @@ const populateStore = store => {
 		} )
 	);
 
-	// Initialize the Social Preview data
-	store.dispatch( actions.loadFacebookPreviewData() );
-	store.dispatch( actions.loadTwitterPreviewData() );
+	// Initialize the Social Preview data depending on which platform should be present
+	const { facebook: showFacebook, twitter: showTwitter } = window.wpseoScriptData.metabox.showSocial;
+	if ( showFacebook ) {
+		store.dispatch( actions.loadFacebookPreviewData() );
+	}
+	if ( showTwitter ) {
+		store.dispatch( actions.loadTwitterPreviewData() );
+	}
 
 	store.dispatch( actions.setSEMrushChangeCountry( window.wpseoScriptData.metabox.countryCode ) );
 	store.dispatch( actions.setSEMrushLoginStatus( window.wpseoScriptData.metabox.SEMrushLoginStatus ) );
