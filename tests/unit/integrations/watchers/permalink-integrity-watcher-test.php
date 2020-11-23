@@ -99,7 +99,8 @@ class Permalink_Integrity_Watcher_Test extends TestCase {
 	}
 
 	/**
-	 * Tests when the permalink integrity check should be performed.
+	 * Tests whether the permalink integrity check is performed, when the previous check of the type was more than a
+	 * week ago.
 	 *
 	 * @covers ::should_perform_check
 	 */
@@ -111,7 +112,8 @@ class Permalink_Integrity_Watcher_Test extends TestCase {
 	}
 
 	/**
-	 * Tests whether the permalink integrity check is not performed, when the previous check was less than a week ago.
+	 * Tests whether the permalink integrity check is not performed, when the previous check of the type was less than
+	 * a week ago.
 	 *
 	 * @covers ::should_perform_check
 	 */
@@ -124,7 +126,8 @@ class Permalink_Integrity_Watcher_Test extends TestCase {
 	}
 
 	/**
-	 * Tests whether the permalink integrity check is not performed, when the given array key does not exist.
+	 * Tests whether the permalink integrity check is not performed, when the given array key does not exist
+	 * (i.e., type should not be checked).
 	 *
 	 * @covers ::should_perform_check
 	 */
@@ -142,25 +145,7 @@ class Permalink_Integrity_Watcher_Test extends TestCase {
 	 * @covers ::get_dynamic_permalink_samples
 	 */
 	public function test_get_dynamic_permalink_samples() {
-		$post_types_array = [
-			'post',
-			'page',
-			'attachment',
-		];
-
-		$this->post_type_helper->expects( 'get_public_post_types' )
-			->once()
-			->andReturn( $post_types_array );
-
-		$taxonomy_types_array = [
-			'category',
-			'post_tag',
-			'post_format',
-		];
-
-		$this->taxonomy_helper->expects( 'get_public_taxonomies' )
-			->once()
-			->andReturn( $taxonomy_types_array );
+		$this->get_public_post_and_taxonomy_types();
 
 		$result = [
 			'post-post'         => \time(),
@@ -175,7 +160,7 @@ class Permalink_Integrity_Watcher_Test extends TestCase {
 	}
 
 	/**
-	 * Tests if the permalinks are not compared when dynamic_permalinks_samples is empty.
+	 * Tests if the permalink samples are collected again when the dynamic_permalink_samples is empty.
 	 *
 	 * @covers ::compare_permalink_for_page
 	 */
@@ -215,7 +200,7 @@ class Permalink_Integrity_Watcher_Test extends TestCase {
 	}
 
 	/**
-	 * Tests if the permalinks are not compared when dynamic_permalinks returns true.
+	 * Tests if the permalinks are not compared when the dynamic permalink fallback is activated.
 	 *
 	 * @covers ::compare_permalink_for_page
 	 */
@@ -230,7 +215,7 @@ class Permalink_Integrity_Watcher_Test extends TestCase {
 	}
 
 	/**
-	 * Tests if the permalinks are not compared when dynamic_permalinks returns true.
+	 * Tests if the permalinks are not compared when the type of the presentation has been checked less than a week ago.
 	 *
 	 * @covers ::compare_permalink_for_page
 	 */
@@ -243,7 +228,7 @@ class Permalink_Integrity_Watcher_Test extends TestCase {
 			->once()
 			->andReturnFalse();
 
-		// More than a week ago.
+		// Less than a week ago.
 		$result = [
 			'post-post'         => ( \time() - ( 60 * 60 * 24 * 7 ) + 1 ),
 		];
@@ -267,7 +252,7 @@ class Permalink_Integrity_Watcher_Test extends TestCase {
 	}
 
 	/**
-	 * Tests if the permalinks are not compared when dynamic_permalinks returns true.
+	 * Tests when the permalink of the current page and the indexable are the same.
 	 *
 	 * @covers ::compare_permalink_for_page
 	 */
@@ -276,44 +261,10 @@ class Permalink_Integrity_Watcher_Test extends TestCase {
 		$this->dynamic_permalinks_mode_off();
 
 		// More than a week ago.
-		$result = [
-			'post-post'         => ( \time() - ( 60 * 60 * 24 * 7 ) - 1 ),
-		];
+		$this->get_dynamic_permalink_samples_should_check();
 
-		$this->options_helper
-			->expects( 'get' )
-			->with( 'dynamic_permalink_samples' )
-			->once()
-			->andReturn( $result );
-
-		$post_types_array = [
-			'post',
-			'page',
-			'attachment',
-		];
-
-		$this->post_type_helper->expects( 'get_public_post_types' )
-			->once()
-			->andReturn( $post_types_array );
-
-		$taxonomy_types_array = [
-			'category',
-			'post_tag',
-			'post_format',
-		];
-
-		$this->taxonomy_helper->expects( 'get_public_taxonomies' )
-			->once()
-			->andReturn( $taxonomy_types_array );
-
-		$value = [
-			'post-post' => \time(),
-		];
-
-		$this->options_helper
-			->expects( 'set' )
-			->with( 'dynamic_permalink_samples', $value )
-			->once();
+		$this->get_public_post_and_taxonomy_types();
+		$this->update_dynamic_permalink_samples();
 
 		$this->permalink_helper->expects( 'get_permalink_for_indexable' )
 			->with( $presentation->model )
@@ -323,7 +274,8 @@ class Permalink_Integrity_Watcher_Test extends TestCase {
 	}
 
 	/**
-	 * Tests if the permalinks are not compared when dynamic_permalinks returns true.
+	 * Tests if the related permalinks are cleared in the database, when the permalink of the current page and the
+	 * indexable are different, but the difference can be linked to a permalink structure change.
 	 *
 	 * @covers ::compare_permalink_for_page
 	 */
@@ -332,44 +284,10 @@ class Permalink_Integrity_Watcher_Test extends TestCase {
 		$this->dynamic_permalinks_mode_off();
 
 		// More than a week ago.
-		$result = [
-			'post-post'         => ( \time() - ( 60 * 60 * 24 * 7 ) - 1 ),
-		];
+		$this->get_dynamic_permalink_samples_should_check();
 
-		$this->options_helper
-			->expects( 'get' )
-			->with( 'dynamic_permalink_samples' )
-			->once()
-			->andReturn( $result );
-
-		$post_types_array = [
-			'post',
-			'page',
-			'attachment',
-		];
-
-		$taxonomy_types_array = [
-			'category',
-			'post_tag',
-			'post_format',
-		];
-
-		$this->post_type_helper->expects( 'get_public_post_types' )
-			->once()
-			->andReturn( $post_types_array );
-
-		$this->taxonomy_helper->expects( 'get_public_taxonomies' )
-			->once()
-			->andReturn( $taxonomy_types_array );
-
-		$value = [
-			'post-post' => \time(),
-		];
-
-		$this->options_helper
-			->expects( 'set' )
-			->with( 'dynamic_permalink_samples', $value )
-			->once();
+		$this->get_public_post_and_taxonomy_types();
+		$this->update_dynamic_permalink_samples();
 
 		$this->permalink_helper->expects( 'get_permalink_for_indexable' )
 			->with( $presentation->model )
@@ -393,7 +311,8 @@ class Permalink_Integrity_Watcher_Test extends TestCase {
 	}
 
 	/**
-	 * Tests if the permalinks are not compared when dynamic_permalinks returns true.
+	 * Tests if the related permalinks are cleared in the database, when the permalink of the current page and the
+	 * indexable are different, but the difference can be linked to a home url structure change.
 	 *
 	 * @covers ::compare_permalink_for_page
 	 */
@@ -402,44 +321,10 @@ class Permalink_Integrity_Watcher_Test extends TestCase {
 		$this->dynamic_permalinks_mode_off();
 
 		// More than a week ago.
-		$result = [
-			'post-post'         => ( \time() - ( 60 * 60 * 24 * 7 ) - 1 ),
-		];
+		$this->get_dynamic_permalink_samples_should_check();
 
-		$this->options_helper
-			->expects( 'get' )
-			->with( 'dynamic_permalink_samples' )
-			->once()
-			->andReturn( $result );
-
-		$post_types_array = [
-			'post',
-			'page',
-			'attachment',
-		];
-
-		$taxonomy_types_array = [
-			'category',
-			'post_tag',
-			'post_format',
-		];
-
-		$this->post_type_helper->expects( 'get_public_post_types' )
-			->once()
-			->andReturn( $post_types_array );
-
-		$this->taxonomy_helper->expects( 'get_public_taxonomies' )
-			->once()
-			->andReturn( $taxonomy_types_array );
-
-		$value = [
-			'post-post' => \time(),
-		];
-
-		$this->options_helper
-			->expects( 'set' )
-			->with( 'dynamic_permalink_samples', $value )
-			->once();
+		$this->get_public_post_and_taxonomy_types();
+		$this->update_dynamic_permalink_samples();
 
 		$this->permalink_helper->expects( 'get_permalink_for_indexable' )
 			->with( $presentation->model )
@@ -468,7 +353,8 @@ class Permalink_Integrity_Watcher_Test extends TestCase {
 	}
 
 	/**
-	 * Tests if the permalinks are not compared when dynamic_permalinks returns true.
+	 * Tests whether the dynamic permalink fallback is enabled when the permalink of the current page and the
+	 * indexable are different and the difference cannot be linked to a permalink or home url structure change.
 	 *
 	 * @covers ::compare_permalink_for_page
 	 */
@@ -477,44 +363,10 @@ class Permalink_Integrity_Watcher_Test extends TestCase {
 		$this->dynamic_permalinks_mode_off();
 
 		// More than a week ago.
-		$result = [
-			'post-post'         => ( \time() - ( 60 * 60 * 24 * 7 ) - 1 ),
-		];
+		$this->get_dynamic_permalink_samples_should_check();
 
-		$this->options_helper
-			->expects( 'get' )
-			->with( 'dynamic_permalink_samples' )
-			->once()
-			->andReturn( $result );
-
-		$post_types_array = [
-			'post',
-			'page',
-			'attachment',
-		];
-
-		$taxonomy_types_array = [
-			'category',
-			'post_tag',
-			'post_format',
-		];
-
-		$this->post_type_helper->expects( 'get_public_post_types' )
-			->once()
-			->andReturn( $post_types_array );
-
-		$this->taxonomy_helper->expects( 'get_public_taxonomies' )
-			->once()
-			->andReturn( $taxonomy_types_array );
-
-		$value = [
-			'post-post' => \time(),
-		];
-
-		$this->options_helper
-			->expects( 'set' )
-			->with( 'dynamic_permalink_samples', $value )
-			->once();
+		$this->get_public_post_and_taxonomy_types();
+		$this->update_dynamic_permalink_samples();
 
 		$this->permalink_helper->expects( 'get_permalink_for_indexable' )
 			->with( $presentation->model )
@@ -567,5 +419,60 @@ class Permalink_Integrity_Watcher_Test extends TestCase {
 			->with( 'dynamic_permalinks' )
 			->once()
 			->andReturnFalse();
+	}
+
+	/**
+	 * Mocks the options helper returning a time more than a week ago (i.e., the check should be performed again).
+	 */
+	private function get_dynamic_permalink_samples_should_check() {
+		// More than a week ago.
+		$result = [
+			'post-post' => ( \time() - ( 60 * 60 * 24 * 7 ) - 1 ),
+		];
+
+		$this->options_helper
+			->expects( 'get' )
+			->with( 'dynamic_permalink_samples' )
+			->once()
+			->andReturn( $result );
+	}
+
+	/**
+	 * Mocks the get_public_post_types and get_public_taxonomies functions.
+	 */
+	private function get_public_post_and_taxonomy_types() {
+		$post_types_array = [
+			'post',
+			'page',
+			'attachment',
+		];
+
+		$this->post_type_helper->expects( 'get_public_post_types' )
+			->once()
+			->andReturn( $post_types_array );
+
+		$taxonomy_types_array = [
+			'category',
+			'post_tag',
+			'post_format',
+		];
+
+		$this->taxonomy_helper->expects( 'get_public_taxonomies' )
+			->once()
+			->andReturn( $taxonomy_types_array );
+	}
+
+	/**
+	 * Mocks the updating of the dynamic_permalink_samples.
+	 */
+	private function update_dynamic_permalink_samples() {
+		$value = [
+			'post-post' => \time(),
+		];
+
+		$this->options_helper
+			->expects( 'set' )
+			->with( 'dynamic_permalink_samples', $value )
+			->once();
 	}
 }
