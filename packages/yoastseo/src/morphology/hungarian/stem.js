@@ -117,7 +117,7 @@ const stemSuffixes2 = function( word, r1Position, suffixes2 ) {
  *
  * @param {string} word         The word to check for the suffix.
  * @param {int} r1Position   The index of R1 region
- * @param {string[]} suffixes3    The morphology data for Hungarian.
+ * @param {string[]} suffixes3    The suffixes to check.
  *
  * @returns {string} The word without the suffix.
  */
@@ -141,7 +141,7 @@ const stemSuffixes3 = function( word, r1Position, suffixes3 ) {
  *
  * @param {string} word         The word to check for the suffix.
  * @param {int} r1Position   The index of R1 region
- * @param {string[]} suffixes4    The morphology data for Hungarian.
+ * @param {string[]} suffixes4    The suffixes to check.
  *
  * @returns {string} The word without the suffix.
  */
@@ -160,8 +160,8 @@ const stemSuffixes4 = function( word, r1Position, suffixes4 ) {
  * Searhes for one of the suffixes ástul éstül, and replace ástul with a and éstül with e.
  *
  * @param {string} word         The word to check for the suffix.
- * @param {int} r1Position   The index of R1 region
- * @param {string[]} suffixes5    The morphology data for Hungarian.
+ * @param {int} r1Position      The index of R1 region
+ * @param {string[]} suffixes5  The suffixes to check.
  *
  * @returns {string} The word without the suffix.
  */
@@ -185,8 +185,8 @@ const stemSuffixes5 = function( word, r1Position, suffixes5 ) {
  * Consonant, remove one of the double consonants.
  *
  * @param {string} word         The word to check for the suffix.
- * @param {int} r1Position   The index of R1 region
- * @param {string[]} suffixes6    The morphology data for Hungarian.
+ * @param {int} r1Position      The index of R1 region
+ * @param {string[]} suffixes6  The suffixes to check.
  *
  * @returns {string} The word without the suffix.
  */
@@ -200,6 +200,7 @@ const stemSuffixes6 = function( word, r1Position, suffixes6 ) {
 		const checkIfWordEndsOnAccentedEorE = ( wordAfterStemming.endsWith( "á" ) || wordAfterStemming.endsWith( "é" ) );
 		if ( checkIfWordEndsOnAccentedEorE ) {
 			wordAfterStemming = wordAfterStemming.replace( /á$/i, "a" || /é$/i, "e" );
+			console.log( wordAfterStemming );
 		}
 		return wordAfterStemming;
 	}
@@ -210,8 +211,8 @@ const stemSuffixes6 = function( word, r1Position, suffixes6 ) {
  * Searches for one of the suffixes in R1 and delete oké   öké   aké   eké   ké   éi   é.
  *
  * @param {string} word         The word to check for the suffix.
- * @param {int} r1Position   The index of R1 region
- * @param {string[]} suffixes7    The morphology data for Hungarian.
+ * @param {int} r1Position      The index of R1 region
+ * @param {string[]} suffixes7  The suffixes to check.
  *
  * @returns {string} The word without the suffix.
  */
@@ -230,8 +231,8 @@ const stemSuffixes7 = function( word, r1Position, suffixes7 ) {
  * Searches for one of the suffixes if R1 : áké   áéi and replace with a, or éké   ééi   éé and replace with e.
  *
  * @param {string} word         The word to check for the suffix.
- * @param {int} r1Position   The index of R1 region
- * @param {string[]} suffixes8    The morphology data for Hungarian.
+ * @param {int} r1Position      The index of R1 region
+ * @param {string[]} suffixes8  The suffixes to check.
  *
  * @returns {string} The word without the suffix.
  */
@@ -251,12 +252,11 @@ const stemSuffixes8 = function( word, r1Position, suffixes8 ) {
 };
 
 /**
- * Searches for the longest one of these suffixes in R1 ánk ájuk ám ád á and replace  with a
- * Searches the longest one of the suffixes in R1 énk éjük ém éd é and replace with e
- *
+ * Searches for the longest one of the suffixes in R1 and delete: ünk   unk   nk   juk   jük   uk   ük   em   om   am
+ * m   od   ed ad   öd   d   ja   je   a   e o
  * @param {string} word         The word to check for the suffix.
- * @param {int} r1Position   The index of R1 region
- * @param {string[]} suffixes9    The morphology data for Hungarian.
+ * @param {int} r1Position      The index of R1 region.
+ * @param {string[]} suffixes9  The suffixes to check.
  *
  * @returns {string} The word without the suffix.
  */
@@ -264,33 +264,34 @@ const stemSuffixes9 = function( word, r1Position, suffixes9 ) {
 	if ( word.length < 3 ) {
 		return word;
 	}
-	const suffix10a = findMatchingEndingInArray( word, suffixes9.suffixes9a );
-	if ( suffix10a !== "" && word.length >= r1Position ) {
-		return ( word.slice( 0, -suffix10a.length ) + "a" );
-	}
-	const suffix10b = findMatchingEndingInArray( word, suffixes9.suffixes9b );
-	if ( suffix10b !== "" && word.length >= r1Position ) {
-		return ( word.slice( 0, -suffix10b.length ) + "e" );
+	const suffix9 = findMatchingEndingInArray( word, suffixes9 );
+	if ( suffix9 !== "" && word.length >= r1Position ) {
+		return ( word.slice( 0, -suffix9.length ) );
 	}
 	return word;
 };
 
 /**
- * Searches for the longest one of the suffixes in R1 and delete: ünk   unk   nk   juk   jük   uk   ük   em   om   am
- * m   od   ed ad   öd   d   ja   je   a   e o
- * @param {string} word         The word to check for the suffix.
- * @param {int} r1Position   The index of R1 region
- * @param {string[]} suffixes10    The morphology data for Hungarian.
+ * Searches for the longest one of these suffixes in R1 ánk ájuk ám ád á and replace  with a
+ * Searches the longest one of the suffixes in R1 énk éjük ém éd é and replace with e
+ *
+ * @param {string} word             The word to check for the suffix.
+ * @param {int} r1Position          The index of R1 region.
+ * @param {string[]} suffixes10     The suffixes to check.
  *
  * @returns {string} The word without the suffix.
  */
 const stemSuffixes10 = function( word, r1Position, suffixes10 ) {
-	const suffix9 = findMatchingEndingInArray( word, suffixes10 );
 	if ( word.length < 3 ) {
 		return word;
 	}
-	if ( suffix9 !== "" && word.length >= r1Position ) {
-		return ( word.slice( 0, -suffix9.length ) );
+	const suffixes10a = findMatchingEndingInArray( word, suffixes10.suffixes10a );
+	if ( suffixes10a !== "" && word.length >= r1Position ) {
+		return ( word.slice( 0, -suffixes10a.length ) + "a" );
+	}
+	const suffixes10b = findMatchingEndingInArray( word, suffixes10.suffixes10b );
+	if ( suffixes10b !== "" && word.length >= r1Position ) {
+		return ( word.slice( 0, -suffixes10b.length ) + "e" );
 	}
 	return word;
 };
@@ -300,8 +301,8 @@ const stemSuffixes10 = function( word, r1Position, suffixes10 ) {
  * ei, i, jaink, jeink, eink, aink, ink, jaitok, jeitek, aitok, eitek, itek, jeik, jaik, aik, eik, ik and stem it
  *
  * @param {string} word         The word to check.
- * @param {int} r1Position   The index of R1 region
- * @param {string[]}suffixes11  The suffixes to stem
+ * @param {int} r1Position      The index of R1 region.
+ * @param {string[]}suffixes11  The suffixes to stem.
  *
  * @returns {string}    The stemmed word.
  */
@@ -321,8 +322,8 @@ const stemSuffixes11 = function( word, r1Position, suffixes11 ) {
  * Search for the longest one of the suffixes in R1 éim   éid     éi   éink   éitek   éik and replace with e
  *
  * @param {string} word         The word to check.
- * @param {int} r1Position   The index of R1 region
- * @param {string[]}suffixes12  The suffixes to stem
+ * @param {int} r1Position      The index of R1 region.
+ * @param {string[]}suffixes12  The suffixes to stem.
  *
  * @returns {string}    The stemmed word.
  */
@@ -345,8 +346,8 @@ const stemSuffixes12 = function( word, r1Position, suffixes12 ) {
  * Searches for suffix ák and ék in R1 and replace with a and e respectively.
  *
  * @param {string} word         The word to check.
- * @param {int} r1Position   The index of R1 region
- * @param {string[]}suffixes13  The suffixes to stem
+ * @param {int} r1Position      The index of R1 region.
+ * @param {string[]}suffixes13  The suffixes to stem.
  *
  * @returns {string}    The stemmed word.
  */
@@ -369,8 +370,8 @@ const stemSuffixes13 = function( word, r1Position, suffixes13 ) {
  * Searches for the longest of these suffixes ök ok ek ak k in R1 and stem the suffix
  *
  * @param {string} word         The word to check.
- * @param {int} r1Position   The index of R1 region
- * @param {string[]}suffixes14  The suffixes to stem
+ * @param {int} r1Position      The index of R1 region.
+ * @param {string[]}suffixes14  The suffixes to stem.
  *
  * @returns {string}    The stemmed word.
  */
