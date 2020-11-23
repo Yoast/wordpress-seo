@@ -455,6 +455,14 @@ class WPSEO_Admin_Init {
 				'version'     => '14.0',
 				'alternative' => 'wpseo_breadcrumb_links',
 			],
+			'validate_facebook_app_id_api_response_code' => [
+				'version'     => '15.5',
+				'alternative' => null,
+			],
+			'validate_facebook_app_id_api_response_body' => [
+				'version'     => '15.5',
+				'alternative' => null,
+			],
 		];
 
 		// Determine which filters have been registered.

@@ -432,54 +432,7 @@ abstract class WPSEO_Option {
 	 * @param array  $clean Clean data by reference, normally the default values.
 	 */
 	public function validate_facebook_app_id( $key, $dirty, $old, &$clean ) {
-		if ( isset( $dirty[ $key ] ) && $dirty[ $key ] !== '' ) {
-			$url = 'https://graph.facebook.com/' . $dirty[ $key ];
-
-			$response = wp_remote_get( $url );
-			// These filters are used in the tests.
-			/**
-			 * Filter: 'validate_facebook_app_id_api_response_code' - Allows to filter the Faceboook API response code.
-			 *
-			 * @api int $response_code The Facebook API response header code.
-			 */
-			$response_code = apply_filters( 'validate_facebook_app_id_api_response_code', wp_remote_retrieve_response_code( $response ) );
-			/**
-			 * Filter: 'validate_facebook_app_id_api_response_body' - Allows to filter the Faceboook API response body.
-			 *
-			 * @api string $response_body The Facebook API JSON response body.
-			 */
-			$response_body   = apply_filters( 'validate_facebook_app_id_api_response_body', wp_remote_retrieve_body( $response ) );
-			$response_object = json_decode( $response_body );
-
-			/*
-			 * When the request is successful the response code will be 200 and
-			 * the response object will contain an `id` property.
-			 */
-			if ( $response_code === 200 && isset( $response_object->id ) ) {
-				$clean[ $key ] = $dirty[ $key ];
-				return;
-			}
-
-			// Restore the previous value, if any.
-			if ( isset( $old[ $key ] ) && $old[ $key ] !== '' ) {
-				$clean[ $key ] = $old[ $key ];
-			}
-
-			if ( function_exists( 'add_settings_error' ) ) {
-				add_settings_error(
-					$this->group_name, // Slug title of the setting.
-					$key, // Suffix-ID for the error message box. WordPress prepends `setting-error-`.
-					sprintf(
-						/* translators: %s expands to an invalid Facebook App ID. */
-						__( '%s does not seem to be a valid Facebook App ID. Please correct.', 'wordpress-seo' ),
-						'<strong>' . esc_html( $dirty[ $key ] ) . '</strong>'
-					), // The error message.
-					'error' // CSS class for the WP notice, either the legacy 'error' / 'updated' or the new `notice-*` ones.
-				);
-			}
-
-			Yoast_Input_Validation::add_dirty_value_to_settings_errors( $key, $dirty[ $key ] );
-		}
+		_deprecated_function( __METHOD__, 'WPSEO 15.5' );
 	}
 
 	/**
