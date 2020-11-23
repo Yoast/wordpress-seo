@@ -106,7 +106,6 @@ const stemSuffixes2 = function( word, r1Text, suffixes2 ) {
 	if ( word.length < 3 ) {
 		return word;
 	}
-	console.log( suffix2 !== "" );
 	if ( suffix2 !== "" ) {
 		let wordAfterStemming = word.slice( 0, -suffix2.length );
 		const checkIfWordEndsOnAccentedEorE = ( wordAfterStemming.endsWith( "á" ) || wordAfterStemming.endsWith( "é" ) );
@@ -241,20 +240,28 @@ const stemSuffixes10 = function( word, r1Text, suffixes10 ) {
 	if ( word.length < 3 ) {
 		return word;
 	}
-	const suffix10a = findMatchingEndingInArray( word, suffixes10.suffix8a );
+	const suffix10a = findMatchingEndingInArray( word, suffixes10.suffix10a );
+	console.log( suffixes10.suffix10a );
 	if ( suffix10a !== "" ) {
 		return ( word.slice( 0, -suffix10a.length ) + "a" );
 	}
-	const suffix10b = findMatchingEndingInArray( word, suffixes10.suffix8b );
+	const suffix10b = findMatchingEndingInArray( word, suffixes10.suffix10b );
 	if ( suffix10b !== "" ) {
 		return ( word.slice( 0, -suffix10b.length ) + "e" );
 	}
 	return word;
 };
 
-// Search for the longest one of these suffixes in R1 and delete jaim   jeim   aim   eim   im   jaid   jeid   aid   eid
-// Id   jai   jei   ai   ei   i   jaink   jeink   eink   aink   ink   jaitok   jeitek   aitok   eitek   itek   jeik
-// Jaik   aik   eik   ik
+/**
+ * Searches for the longest one of these suffixes in R1: jaim, jeim, aim, eim, im, jaid, eid, aid, eid, id, jai, jei, ai,
+ * ei, i, jaink, jeink, eink, aink, ink, jaitok, jeitek, aitok, eitek, itek, jeik, jaik, aik, eik, ik and stem it
+ *
+ * @param {string} word         The word to check.
+ * @param {string} r1Text       The string in R1 position.
+ * @param {string[]}suffixes11  The suffixes to stem
+ *
+ * @returns {string}    The stemmed word.
+ */
 const stemSuffixes11 = function( word, r1Text, suffixes11 ) {
 	const suffix11 = findMatchingEndingInArray( word, suffixes11 );
 	if ( word.length < 3 ) {
@@ -266,8 +273,16 @@ const stemSuffixes11 = function( word, r1Text, suffixes11 ) {
 	return word;
 };
 
-// Search for the longest one of these suffixes in R1 áim   áid   ái   áink   áitok   áik and replace with a
-// Search for the longest one of the suffixes in R1 éim   éid     éi   éink   éitek   éik and replace with e
+/**
+ * Searches for the longest one of these suffixes in R1 áim   áid   ái   áink   áitok   áik and replace with a, and
+ * Search for the longest one of the suffixes in R1 éim   éid     éi   éink   éitek   éik and replace with e
+ *
+ * @param {string} word         The word to check.
+ * @param {string} r1Text       The string in R1 position.
+ * @param {string[]}suffixes12  The suffixes to stem
+ *
+ * @returns {string}    The stemmed word.
+ */
 const stemSuffixes12 = function( word, r1Text, suffixes12 ) {
 	if ( word.length < 3 ) {
 		return word;
@@ -283,8 +298,15 @@ const stemSuffixes12 = function( word, r1Text, suffixes12 ) {
 	return word;
 };
 
-// Search for suffix ák in R1 and replace with a // check if we can unite this step and step above
-// Search for suffix ék in R1 and replace with e
+/**
+ * Searches for suffix ák and ék in R1 and replace with a and e respectively.
+ *
+ * @param {string} word         The word to check.
+ * @param {string} r1Text       The string in R1 position.
+ * @param {string[]}suffixes13  The suffixes to stem
+ *
+ * @returns {string}    The stemmed word.
+ */
 const stemSuffixes13 = function( word, r1Text, suffixes13 ) {
 	if ( word.length < 3 ) {
 		return word;
@@ -300,7 +322,15 @@ const stemSuffixes13 = function( word, r1Text, suffixes13 ) {
 	return word;
 };
 
-// Search for the longest of these suffixes ök ok ek ak k in R1 and delte
+/**
+ * Searches for the longest of these suffixes ök ok ek ak k in R1 and stem the suffix
+ *
+ * @param {string} word         The word to check.
+ * @param {string} r1Text       The string in R1 position.
+ * @param {string[]}suffixes14  The suffixes to stem
+ *
+ * @returns {string}    The stemmed word.
+ */
 const stemSuffixes14 = function( word, r1Text, suffixes14 ) {
 	const suffix14 = findMatchingEndingInArray( word, suffixes14 );
 	if ( word.length < 3 ) {
