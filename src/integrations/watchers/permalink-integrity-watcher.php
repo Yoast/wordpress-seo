@@ -197,7 +197,7 @@ class Permalink_Integrity_Watcher implements Integration_Interface {
 	 *
 	 * @return array The dynamic_permalink_samples.
 	 */
-	private function maybe_get_new_permalink_samples( $permalink_samples ) {
+	public function maybe_get_new_permalink_samples( $permalink_samples ) {
 		$new_permalink_samples = $this->get_dynamic_permalink_samples();
 
 		if ( empty( array_diff_key( $permalink_samples, $new_permalink_samples ) ) ) {
@@ -216,7 +216,7 @@ class Permalink_Integrity_Watcher implements Integration_Interface {
 	 *
 	 * @return void
 	 */
-	private function update_permalink_samples( $type, $permalink_samples ) {
+	public function update_permalink_samples( $type, $permalink_samples ) {
 		$permalink_samples[ $type ] = \time();
 		$this->options_helper->set( 'dynamic_permalink_samples', $permalink_samples );
 	}
