@@ -106,7 +106,7 @@ Yoast SEO integrates seamlessly into a range of themes and plugins. We work part
 * The official [AMP](https://wordpress.org/plugins/amp/) plugin, which changes your templates to use the ‘AMP’ HTML format.
 * Google’s [Web Stories](https://wordpress.org/plugins/web-stories/) plugin, which helps you to create ‘[web stories](https://amp.dev/about/stories/)’.
 * The [Advanced Custom Fields](https://wordpress.org/plugins/advanced-custom-fields/) plugin, when you also activate the [ACF Content Analysis for Yoast SEO](https://wordpress.org/plugins/acf-content-analysis-for-yoast-seo/) plugin.
-* The Elementor website builder.
+* The [Elementor](https://wordpress.org/plugins/elementor/) website builder.
 * Zapier, which helps you automate your publishing flow.
 
 ### BUG REPORTS
