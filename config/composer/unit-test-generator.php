@@ -14,7 +14,7 @@ class Unit_Test_Generator {
 	 * @throws ReflectionException If the class for which to generate a unit test does not exist.
 	 * @throws RuntimeException    If there is already a unit test.
 	 */
-	public static function generate( $fully_qualified_class_name ) {
+	public function generate( $fully_qualified_class_name ) {
 		$reflector = new \ReflectionClass( $fully_qualified_class_name );
 
 		$unit_test_path = self::generate_file_name( $reflector->getFileName() );
@@ -66,7 +66,7 @@ class Unit_Test_Generator {
 	 *
 	 * @return string The namespace of the test class.
 	 */
-	private static function generate_namespace( $fully_qualified_class_name ) {
+	protected function generate_namespace( $fully_qualified_class_name ) {
 		$matches = [];
 		\preg_match( '/Yoast\\\WP\\\SEO\\\(.*)\\\.*$/', $fully_qualified_class_name, $matches );
 
@@ -80,7 +80,7 @@ class Unit_Test_Generator {
 	 *
 	 * @return string The file name of the test class.
 	 */
-	private static function generate_file_name( $path ) {
+	protected function generate_file_name( $path ) {
 		$matches = [];
 		\preg_match( '/\/src\/(.*)\.php$/', $path, $matches );
 
@@ -94,7 +94,7 @@ class Unit_Test_Generator {
 	 *
 	 * @return string The group.
 	 */
-	private static function generate_group( $path ) {
+	protected function generate_group( $path ) {
 		$matches = [];
 		\preg_match( '/\/src\/(.*)\/.*\.php$/', $path, $matches );
 
@@ -116,7 +116,7 @@ class Unit_Test_Generator {
 	 *
 	 * @return string The generated unit test scaffold.
 	 */
-	private static function unit_test_template(
+	protected function unit_test_template(
 		$fully_qualified_class_name,
 		$name,
 		$namespace,
@@ -181,7 +181,7 @@ TPL;
 	 *
 	 * @return string The generated use statements.
 	 */
-	private static function generate_use_statements( array $constructor_arguments ) {
+	protected function generate_use_statements( array $constructor_arguments ) {
 		$statements = \array_map(
 			static function( $argument ) {
 				try {
@@ -203,9 +203,9 @@ TPL;
 	 *
 	 * @return string The generated property statements.
 	 */
-	private static function generate_property_statements( array $constructor_arguments ) {
+	protected function generate_property_statements( array $constructor_arguments ) {
 		$statements = \array_map(
-			static function( $argument ) {
+			function( $argument ) {
 				return self::generate_mocked_property_statement( $argument->getClass()->getShortName(), $argument->getName() );
 			},
 			$constructor_arguments
@@ -222,7 +222,7 @@ TPL;
 	 *
 	 * @return string The generated property statement.
 	 */
-	private static function generate_mocked_property_statement( $class_name, $property_name ) {
+	protected function generate_mocked_property_statement( $class_name, $property_name ) {
 		return <<<TPL
 	/**
 	 * {$class_name} mock.
@@ -241,7 +241,7 @@ TPL;
 	 *
 	 * @return string The generated created mock statements.
 	 */
-	private static function generate_create_mock_statements( array $constructor_arguments ) {
+	protected function generate_create_mock_statements( array $constructor_arguments ) {
 		$statements = \array_map(
 			static function( $argument ) {
 				return '$this->' . $argument->getName() . ' = Mockery::mock( ' . $argument->getClass()->getShortName() . '::class );';
@@ -259,7 +259,7 @@ TPL;
 	 *
 	 * @return string The generated arguments to give the instance.
 	 */
-	private static function generate_instance_argument_statements( array $constructor_arguments ) {
+	protected function generate_instance_argument_statements( array $constructor_arguments ) {
 		$statements = \array_map(
 			static function( $argument ) {
 				return '$this->' . $argument->getName();

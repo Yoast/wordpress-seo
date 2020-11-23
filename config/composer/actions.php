@@ -487,6 +487,7 @@ TPL;
 
 		echo 'Generating unit test for ', $fqn;
 
-		\Unit_Test_Generator::generate( $fqn );
+		$generator = new Unit_Test_Generator();
+		$generator->generate( $fqn );
 	}
 }
