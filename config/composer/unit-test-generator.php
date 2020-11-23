@@ -141,18 +141,18 @@ use {$fully_qualified_class_name};
 {$use_statements}
 
 /**
- * {$name} test.
+ * Class {$name}_Test.
  *
  * @group {$group}
  *
- * @coversDefaultClass {$fully_qualified_class_name}
+ * @coversDefaultClass \\{$fully_qualified_class_name}
  */
 class {$name}_Test extends TestCase {
 
 {$property_statements}
 
 	/**
-	 * Instance under test.
+	 * The instance under test.
 	 *
 	 * @var {$name}
 	 */
@@ -163,8 +163,9 @@ class {$name}_Test extends TestCase {
 	 */
 	public function setUp() {
 		parent::setUp();
+
 		{$create_mock_statements}
-		
+
 		\$this->instance = new {$name}(
 			{$instance_argument_statements}
 		);
