@@ -1,7 +1,7 @@
 import { dispatch } from "@wordpress/data";
 import { get, debounce } from "lodash";
 import firstImageUrlInContent from "../helpers/firstImageUrlInContent";
-import { registerElementorUIHook } from "../helpers/elementorHook";
+import { registerElementorUIHookAfter } from "../helpers/elementorHook";
 
 const editorData = {
 	content: "",
@@ -98,8 +98,8 @@ const debouncedHandleEditorChange = debounce( handleEditorChange, 500 );
  */
 export default function initialize() {
 	// This hook will fire when the Elementor preview becomes available.
-	registerElementorUIHook( "editor/documents/attach-preview", "yoast-seo-content-scraper-attach-preview", debouncedHandleEditorChange );
+	registerElementorUIHookAfter( "editor/documents/attach-preview", "yoast-seo-content-scraper-attach-preview", debouncedHandleEditorChange );
 
 	// This hook will fire when the contents of the editor are modified.
-	registerElementorUIHook( "document/save/set-is-modified", "yoast-seo-content-scraper-on-modified", debouncedHandleEditorChange );
+	registerElementorUIHookAfter( "document/save/set-is-modified", "yoast-seo-content-scraper-on-modified", debouncedHandleEditorChange );
 }

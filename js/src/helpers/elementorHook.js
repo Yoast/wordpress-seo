@@ -5,7 +5,7 @@
  *
  * Specifically, this is a UI After hook.
  */
-class ElementorUIHook extends $e.modules.hookUI.After {
+class ElementorUIHook extends $e.modules.hookUI.Base {
 	/**
 	 * Constructs this class.
 	 *
@@ -41,11 +41,11 @@ class ElementorUIHook extends $e.modules.hookUI.After {
 	/**
 	 * This function is called when the hook is fired.
 	 *
-	 * @returns {void}
+	 * @returns {*}
 	 */
 	apply() {
 		// Give some milliseconds to ensure the UI has been updated.
-		this.callback();
+		return this.callback();
 	}
 }
 
@@ -55,7 +55,7 @@ class ElementorUIHook extends $e.modules.hookUI.After {
  *
  * Specifically, this is a Data After hook.
  */
-class ElementorDataHook extends $e.modules.hookData.After {
+class ElementorDataHook extends $e.modules.hookData.Base {
 	/**
 	 * Constructs this class.
 	 *
@@ -91,11 +91,11 @@ class ElementorDataHook extends $e.modules.hookData.After {
 	/**
 	 * This function is called when the hook is fired.
 	 *
-	 * @returns {void}
+	 * @returns {*}
 	 */
 	apply() {
 		// Give some milliseconds to ensure the UI has been updated.
-		this.callback();
+		return this.callback();
 	}
 }
 
@@ -108,7 +108,7 @@ class ElementorDataHook extends $e.modules.hookData.After {
  *
  * @returns {void}
  */
-export function registerElementorUIHook( hook, id, callback ) {
+export function registerElementorUIHookAfter( hook, id, callback ) {
 	$e.hooks.registerUIAfter( new ElementorUIHook( hook, id, callback ) );
 }
 
@@ -121,6 +121,6 @@ export function registerElementorUIHook( hook, id, callback ) {
  *
  * @returns {void}
  */
-export function registerElementorDataHook( hook, id, callback ) {
+export function registerElementorDataHookAfter( hook, id, callback ) {
 	$e.hooks.registerDataAfter( new ElementorDataHook( hook, id, callback ) );
 }
