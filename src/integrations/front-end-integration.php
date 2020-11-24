@@ -92,7 +92,6 @@ class Front_End_Integration implements Integration_Interface {
 		'Open_Graph\Article_Published_Time',
 		'Open_Graph\Article_Modified_Time',
 		'Open_Graph\Image',
-		'Open_Graph\FB_App_ID',
 	];
 
 	/**
