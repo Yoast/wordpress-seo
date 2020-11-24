@@ -14,8 +14,7 @@ function findMissingBlocks( requiredBlocks: RequiredBlock[], existingRequiredBlo
 	let invalidBlocks: InvalidBlock[] = [];
 	const missingRequiredBlocks = requiredBlocks.filter( requiredBlock => {
 		// Every block in the found blocks collection does not match the requiredblock, i.e. we haven't found the requiredblock.
-		return false;
-		// ! existingRequiredBlocks.some( block => block.name === requiredBlock.name );
+		! existingRequiredBlocks.some( block => block.name === requiredBlock.name );
 	} );
 
 	// These blocks should've been in here somewhere, but they're not.
