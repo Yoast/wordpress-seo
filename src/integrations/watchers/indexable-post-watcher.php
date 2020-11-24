@@ -73,7 +73,9 @@ class Indexable_Post_Watcher implements Integration_Interface {
 	protected $logger;
 
 	/**
-	 * @inheritDoc
+	 * Returns the conditionals based in which this loadable should be active.
+	 *
+	 * @return array
 	 */
 	public static function get_conditionals() {
 		return [ Migrations_Conditional::class ];
@@ -109,7 +111,11 @@ class Indexable_Post_Watcher implements Integration_Interface {
 	}
 
 	/**
-	 * @inheritDoc
+	 * Initializes the integration.
+	 *
+	 * This is the place to register hooks and filters.
+	 *
+	 * @return void
 	 */
 	public function register_hooks() {
 		\add_action( 'wp_insert_post', [ $this, 'build_indexable' ], \PHP_INT_MAX );
@@ -207,12 +213,27 @@ class Indexable_Post_Watcher implements Integration_Interface {
 			return;
 		}
 
+		$post = $this->post->get_post( $post_id );
+
+		/**
+		 * Filter: 'wpseo_indexable_excluded_post_types' - Allow developers to prevent posts of a certain post
+		 * type from being saved to the indexable table.
+		 *
+		 * @param array $excluded_post_types The.
+		 *
+		 * @api bool $intend_to_save True if YoastSEO intends to save the indexable.
+		 */
+		$excluded_post_types = \apply_filters( 'wpseo_indexable_excluded_post_types', [] );
+
+		if ( $post && \in_array( $post->post_type, $excluded_post_types, true ) ) {
+			return;
+		}
+
 		try {
 			$indexable = $this->repository->find_by_id_and_type( $post_id, 'post', false );
 			$indexable = $this->builder->build_for_id_and_type( $post_id, 'post', $indexable );
 
 			// Build links for this post.
-			$post = $this->post->get_post( $post_id );
 			if ( $post ) {
 				$this->link_builder->build( $indexable, $post->post_content );
 				// Save indexable to persist the updated link count.
@@ -272,7 +293,7 @@ class Indexable_Post_Watcher implements Integration_Interface {
 		/**
 		 * The related indexables.
 		 *
-		 * @var Indexable[] $related_indexables.
+		 * @var Indexable[] $related_indexables .
 		 */
 		$related_indexables   = [];
 		$related_indexables[] = $this->repository->find_by_id_and_type( $post->post_author, 'user', false );
