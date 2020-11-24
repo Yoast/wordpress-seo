@@ -139,7 +139,7 @@ class WPSEO_Taxonomy {
 			$asset_manager->enqueue_script( 'term-edit' );
 
 			$yoast_components_l10n = new WPSEO_Admin_Asset_Yoast_Components_L10n();
-			$yoast_components_l10n->localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'term-edit' );
+			$yoast_components_l10n->localize_script( 'term-edit' );
 
 			$analysis_worker_location          = new WPSEO_Admin_Asset_Analysis_Worker_Location( $asset_manager->flatten_version( WPSEO_VERSION ) );
 			$used_keywords_assessment_location = new WPSEO_Admin_Asset_Analysis_Worker_Location( $asset_manager->flatten_version( WPSEO_VERSION ), 'used-keywords-assessment' );

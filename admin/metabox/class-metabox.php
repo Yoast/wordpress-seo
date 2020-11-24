@@ -835,7 +835,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$asset_manager->enqueue_style( 'admin-css' );
 
 		$yoast_components_l10n = new WPSEO_Admin_Asset_Yoast_Components_L10n();
-		$yoast_components_l10n->localize_script( WPSEO_Admin_Asset_Manager::PREFIX . $post_edit_handle );
+		$yoast_components_l10n->localize_script( $post_edit_handle );
 
 		/**
 		 * Removes the emoji script as it is incompatible with both React and any
