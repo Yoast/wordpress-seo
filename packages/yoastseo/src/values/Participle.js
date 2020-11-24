@@ -102,7 +102,7 @@ Participle.prototype.getType = function() {
 };
 
 /**
- * Returns the auxiliaries.
+ * Returns the getAes.
  * @returns {String} The auxiliaries.
  */
 Participle.prototype.getAuxiliaries = function() {
