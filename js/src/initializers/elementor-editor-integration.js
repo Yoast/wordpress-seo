@@ -1,7 +1,7 @@
 /* global jQuery, window */
 import domReady from "@wordpress/dom-ready";
 import { dispatch } from "@wordpress/data";
-import { registerElementorDataHook } from "../helpers/elementorHook";
+import { registerElementorDataHookAfter } from "../helpers/elementorHook";
 import { registerReactComponent, renderReactRoot } from "../helpers/reactRoot";
 import ElementorSlot from "../elementor/components/slots/ElementorSlot";
 import ElementorFill from "../elementor/containers/ElementorFill";
@@ -105,7 +105,19 @@ export default function initElementEditorIntegration() {
 
 		// Hook into the save.
 		const handleSave = sendFormData.bind( null, document.getElementById( "yoast-form" ) );
-		registerElementorDataHook( "document/save/save", "yoast-seo-save", handleSave );
+		registerElementorDataHookAfter( "document/save/save", "yoast-seo-save", () => {
+			/*
+			 * Do not save our data to a revision.
+			 *
+			 * WordPress saves the metadata to the post parent, not the revision. See `update_post_meta`.
+			 * Most likely this is because saving a revision on a published post will unpublish in WordPress itself.
+			 * But Elementor does not unpublish your post when you save a draft.
+			 * This would result in Yoast SEO data being live while saving a draft.
+			 */
+			if ( window.elementor.config.document.id === window.elementor.config.document.revisions.current_id  ) {
+				handleSave();
+			}
+		} );
 
 		// Register with the menu.
 		const menu = window.elementor.modules.layouts.panel.pages.menu.Menu;
