@@ -222,20 +222,6 @@ class WPSEO_Admin_Asset_Manager {
 				],
 			],
 			[
-				'name' => 'search-appearance',
-				'src'  => 'search-appearance-' . $flat_version,
-				'deps' => [
-					'lodash',
-					'wp-api',
-					'wp-element',
-					'wp-i18n',
-					self::PREFIX . 'styled-components',
-					self::PREFIX . 'yoast-components',
-					self::PREFIX . 'replacement-variable-editor',
-					self::PREFIX . 'commons',
-				],
-			],
-			[
 				'name' => 'schema-blocks',
 				'src'  => 'schema-blocks-' . $flat_version,
 				'deps' => [
