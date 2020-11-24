@@ -1,3 +1,3 @@
 import { InvalidBlockReason } from "../enums";
 
-export type InvalidBlock = { type: string; reason: InvalidBlockReason };
+export type InvalidBlock = { name: string; reason: InvalidBlockReason };

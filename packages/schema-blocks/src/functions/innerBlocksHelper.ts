@@ -8,7 +8,7 @@ import recurseOverBlocks from "./blocks/recurseOverBlocks";
  * @param blockInstances The array of blocks you're searching in.
  * @returns              The block instances that have a name that occurs in blockNames
  */
-function getInnerblocksOfType( blockNames: string[], blockInstances: BlockInstance[] ): BlockInstance[] {
+function getInnerblocksByName( blockNames: string[], blockInstances: BlockInstance[] ): BlockInstance[] {
 	const foundBlocks: BlockInstance[] = [];
 
 	recurseOverBlocks( blockInstances, ( block: BlockInstance ) => {
@@ -30,4 +30,4 @@ function getInnerBlocks( clientId: string ): BlockInstance[] {
 	return select( "core/block-editor" ).getBlock( clientId ).innerBlocks;
 }
 
-export { getInnerBlocks, getInnerblocksOfType };
+export { getInnerBlocks, getInnerblocksByName };
