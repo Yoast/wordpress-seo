@@ -29,6 +29,7 @@ const wordsToStem = [
 	[ "kilogrammonként", "kilogram" ],
 	[ "konzolon", "konzol" ],
 	[ "konzolt", "konzol" ],
+	[ "játékbarlangot", "játékbarlang" ],
 	// Input a word with one of the following suffixes: án   ánként én
 	[ "apránként", "apr" ],
 	[ "bekezdésén", "bekezdés" ],
@@ -62,13 +63,12 @@ const wordsToStem = [
 	// Input a word with one of the following suffixes: ök ok ek ak k
 
 	// Words that currently are not stemmed correctly
-	// [ "játékbarlangot", "játékbarlang" ],
 	// [ "fazekastul", "fazek" ],
-	// // Input a word with one of the following suffixes:   ástul éstül
-	// 	[ "gyerekestül", "gyereke" ],
+	// Input a word with one of the following suffixes:   ástul éstül
+	// [ "gyerekestül", "gyereke" ],
 	// Words that currently are not stemmed at all
 	// [ "kompenzációként,", "kompenzáció" ],
-	// // Input a word with one of the following suffixes: á   é
+	// Input a word with one of the following suffixes: á   é
 	// [ "költséghatékonnyá", "költséghatékony" ],
 ];
 

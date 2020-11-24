@@ -17,6 +17,5 @@ describe( "Calculate coverage for the Hungarian stemmer", () => {
 
 		expect( coverage ).toBeGreaterThan( coverageThreshold );
 		console.log( "The current coverage of the Hungarian stemmer is", coverage * 100, "%. The number of errors is", errors.length + "." );
-		console.log( errors );
 	} );
 } );
