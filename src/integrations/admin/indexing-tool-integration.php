@@ -117,7 +117,7 @@ class Indexing_Tool_Integration implements Integration_Interface {
 		 */
 		$data = \apply_filters( 'wpseo_indexing_data', $data );
 
-		\wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'indexation', 'yoastIndexingData', $data );
+		$this->asset_manager->localize_script( 'indexation', 'yoastIndexingData', $data );
 	}
 
 	/**

@@ -123,7 +123,7 @@ class WPSEO_Admin_Pages {
 			$this->enqueue_tools_scripts();
 		}
 
-		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'settings', 'wpseoScriptData', $script_data );
+		$this->asset_manager->localize_script( 'settings', 'wpseoScriptData', $script_data );
 	}
 
 	/**
