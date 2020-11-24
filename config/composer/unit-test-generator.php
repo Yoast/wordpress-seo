@@ -18,6 +18,8 @@ class Unit_Test_Generator {
 	 *
 	 * @throws ReflectionException If the class for which to generate a unit test does not exist.
 	 * @throws RuntimeException    If there is already a unit test.
+	 *
+	 * @return string The path to the generated unit test.
 	 */
 	public function generate( $fully_qualified_class_name ) {
 		try {
@@ -69,6 +71,8 @@ class Unit_Test_Generator {
 		);
 
 		\file_put_contents( __DIR__ . '/../../tests/unit/' . $unit_test_path, $filled_in_template );
+
+		return $unit_test_path;
 	}
 
 	/**
