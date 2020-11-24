@@ -37,13 +37,11 @@ describe( "The getInnerBlocks function", () => {
     const result = getInnerblocksOfType( needles, blocks );
 
 	it( "returns all of the wanted innerblocks.", () => {
-        expect( result.length ).toEqual( 2 );
-        // Do not loop over needles so the test error message shows which test fails
-		expect( result.some( block => block.name === needles[0] ) === true).toBe( true );
-		expect( result.some( block => block.name === needles[1] ) === true).toBe( true );
+        expect( needles.every( needle => result.some( block => block.name === needle ) ) );
+        expect( result.length ).toEqual( needles.length );
 	} );
 
 	it( "returns none of the unwanted innerblocks.", () => {
-		expect( result.every( block => block.name !== unwanted_needles[0] )).toBe( true );
+		expect( result.every( block => unwanted_needles.every( needle => block.name !== needle ) ) ).toBe( true );
 	} );
 } );

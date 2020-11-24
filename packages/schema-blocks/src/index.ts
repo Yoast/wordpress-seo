@@ -34,8 +34,6 @@ export default function initialize() {
 		}
 	} );
 
-	// https://developer.wordpress.org/block-editor/developers/block-api/block-registration/
-
 	// Watch Gutenberg for block changes that require schema updates.
 	watch();
 }

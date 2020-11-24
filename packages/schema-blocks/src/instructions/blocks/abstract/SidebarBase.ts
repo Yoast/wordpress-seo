@@ -7,7 +7,6 @@ import { RenderSaveProps, RenderEditProps } from "../../../core/blocks/BlockDefi
 export default abstract class SidebarBase extends BlockInstruction {
 	public options: {
 		output?: boolean;
-		required?: boolean;
 	}
 
 	/**
