@@ -1,5 +1,4 @@
-import { getInnerblocksOfType } from "../../src/functions/innerBlocksHelper";
-import { InnerBlocks } from "../../src/instructions/blocks/InnerBlocks";
+import { getInnerblocksByName } from "../../src/functions/innerBlocksHelper";
 import { BlockInstance } from "@wordpress/blocks";
 
 const blocks = [
@@ -34,7 +33,7 @@ const needles = [ "innerblock_nested", "innerblock_immediate" ];
 const unwanted_needles = [ "unwanted_nested_innerblock", "innerblock_immediate_unwanted" ];
 
 describe( "The getInnerBlocks function", () => {    
-    const result = getInnerblocksOfType( needles, blocks );
+    const result: BlockInstance[] = getInnerblocksByName( needles, blocks );
 
 	it( "returns all of the wanted innerblocks.", () => {
         expect( needles.every( needle => result.some( block => block.name === needle ) ) );
