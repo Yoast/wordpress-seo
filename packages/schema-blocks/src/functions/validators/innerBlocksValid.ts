@@ -52,14 +52,18 @@ function findRedundantBlocks( requiredBlocks: RequiredBlock[], existingRequiredB
 
 /**
  * Finds all blocks that have found themselves invalid.
+ * @param requiredBlocks     Requirements of the blocks that should occur in the innerblocks.
  * @param blocks             The blocks to validate.
  * @returns {InvalidBlock[]} The array of blocks that have invalidated themselves.
  */
-function validateBlocks( blocks: BlockInstance[] ): InvalidBlock[] {
+function validateBlocks( requiredBlocks: RequiredBlock[], blocks: BlockInstance[] ): InvalidBlock[] {
 	const invalidBlocks: InvalidBlock[] = [];
 	blocks.forEach( block => {
 		if ( ! block.isValid ) {
-			invalidBlocks.push( createInvalidBlock( block.name, InvalidBlockReason.Internal ) );
+			const isRequired: boolean = requiredBlocks.some( requiredBlock => requiredBlock.name === block.name );
+			const reason: InvalidBlockReason = isRequired ? InvalidBlockReason.Internal : InvalidBlockReason.Optional;
+
+			invalidBlocks.push( createInvalidBlock( block.name, reason ) );
 		}
 	} );
 	return invalidBlocks;
@@ -87,7 +91,7 @@ function getInvalidInnerBlocks( requiredBlocks: RequiredBlock[], clientId: strin
 	invalidBlocks.push( ...findRedundantBlocks( requiredBlocks, existingRequiredBlocks ) );
 
 	// Find all blocks that have decided for themselves that they're invalid.
-	invalidBlocks.push( ...validateBlocks( innerBlocks ) );
+	invalidBlocks.push( ...validateBlocks( requiredBlocks, innerBlocks ) );
 
 	return invalidBlocks;
 }
