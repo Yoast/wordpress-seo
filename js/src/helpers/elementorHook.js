@@ -41,7 +41,7 @@ class ElementorUIHook extends $e.modules.hookUI.Base {
 	/**
 	 * This function is called when the hook is fired.
 	 *
-	 * @returns {*}
+	 * @returns {*} The callback result.
 	 */
 	apply() {
 		// Give some milliseconds to ensure the UI has been updated.
@@ -91,7 +91,7 @@ class ElementorDataHook extends $e.modules.hookData.Base {
 	/**
 	 * This function is called when the hook is fired.
 	 *
-	 * @returns {*}
+	 * @returns {*} The callback result.
 	 */
 	apply() {
 		// Give some milliseconds to ensure the UI has been updated.
