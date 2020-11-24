@@ -2,6 +2,7 @@
 /* global jQuery, window */
 import domReady from "@wordpress/dom-ready";
 import { dispatch } from "@wordpress/data";
+import { doAction } from "@wordpress/hooks";
 import { get } from "lodash";
 import { registerReactComponent, renderReactRoot } from "../helpers/reactRoot";
 import ElementorSlot from "../elementor/components/slots/ElementorSlot";
@@ -64,11 +65,13 @@ const sendFormData = ( form ) => {
 		return result;
 	}, {} );
 
-	jQuery.post( form.getAttribute( "action" ), data, ( { success, data: responseData } ) => {
+	jQuery.post( form.getAttribute( "action" ), data, ( { success, data: responseData }, status, xhr ) => {
 		if ( ! success ) {
 			// Something went wrong while saving.
 			return;
 		}
+
+		doAction( "yoast.elementor.save.success", xhr );
 
 		// Update the slug in our store if WP changed it.
 		if ( responseData.slug && responseData.slug !== data.slug ) {
