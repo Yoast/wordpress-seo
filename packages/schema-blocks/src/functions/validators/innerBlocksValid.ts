@@ -6,19 +6,19 @@ import { getInnerBlocks, getInnerblocksByName } from "../innerBlocksHelper";
 
 /**
  * Finds all blocks that should be in the innerblocks, but aren't.
- * @param requiredBlock          All of the blocks that should occur in the innerblocks.
+ * @param requiredBlocks         All of the blocks that should occur in the innerblocks.
  * @param existingRequiredBlocks The actual array of all innerblocks.
  * @returns {InvalidBlock[]}     The names of blocks that should occur but don't, with reason 'missing'.
  */
 function findMissingBlocks( requiredBlocks: RequiredBlock[], existingRequiredBlocks: BlockInstance[] ): InvalidBlock[] {
-	let invalidBlocks: InvalidBlock[] = [];
 	const missingRequiredBlocks = requiredBlocks.filter( requiredBlock => {
-		// Every block in the found blocks collection does not match the requiredblock, i.e. we haven't found the requiredblock.
-		! existingRequiredBlocks.some( block => block.name === requiredBlock.name );
+		// If there are some (at least one) blocks with the name of a required block, that required block is NOT missing.
+		return ! existingRequiredBlocks.some( block => block.name === requiredBlock.name );
 	} );
 
-	// These blocks should've been in here somewhere, but they're not.
+	const invalidBlocks: InvalidBlock[] = [];
 	missingRequiredBlocks.forEach( missingBlock => {
+		// These blocks should've existed, but they don't.
 		invalidBlocks.push( createInvalidBlock( missingBlock.name, InvalidBlockReason.Missing ) );
 	} );
 
@@ -32,8 +32,8 @@ function findMissingBlocks( requiredBlocks: RequiredBlock[], existingRequiredBlo
  * @returns {InvalidBlock[]}     The names of blocks that occur more than once in the innerblocks with reason 'TooMany'.
  */
 function findRedundantBlocks( requiredBlocks: RequiredBlock[], existingRequiredBlocks: BlockInstance[] ): InvalidBlock[] {
-	let onlyOneAllowed: string[] = [];
-	let invalidBlocks: InvalidBlock[] = [];
+	const onlyOneAllowed: string[] = [];
+	const invalidBlocks: InvalidBlock[] = [];
 
 	requiredBlocks
 		.filter( block => block.option === RequiredBlockOption.One )
@@ -56,7 +56,7 @@ function findRedundantBlocks( requiredBlocks: RequiredBlock[], existingRequiredB
  * @returns {InvalidBlock[]} The array of blocks that have invalidated themselves.
  */
 function validateBlocks( blocks: BlockInstance[] ): InvalidBlock[] {
-	let invalidBlocks: InvalidBlock[] = [];
+	const invalidBlocks: InvalidBlock[] = [];
 	blocks.forEach( block => {
 		if ( ! block.isValid ) {
 			invalidBlocks.push( createInvalidBlock( block.name, InvalidBlockReason.Internal ) );
@@ -72,7 +72,7 @@ function validateBlocks( blocks: BlockInstance[] ): InvalidBlock[] {
  * @returns {InvalidBlock[]} The names and reasons of the innerblock that are invalid.
  */
 function getInvalidInnerBlocks( requiredBlocks: RequiredBlock[], clientId: string ): InvalidBlock[]  {
-	let invalidBlocks: InvalidBlock[] = [];
+	const invalidBlocks: InvalidBlock[] = [];
 
 	const innerBlocks = getInnerBlocks( clientId );
 	const requiredBlockKeys = Object.keys( requiredBlocks );
