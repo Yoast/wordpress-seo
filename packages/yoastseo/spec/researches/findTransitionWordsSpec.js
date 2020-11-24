@@ -421,6 +421,13 @@ describe( "a test for finding transition words from a string", function() {
 		expect( result.totalSentences ).toBe( 1 );
 		expect( result.transitionWordSentences ).toBe( 1 );
 	} );
+	it( "returns 1 when a three-part transition word is found in a sentence (Hungarian)", function() {
+		// Transition word: nemcsak, hanem, is
+		mockPaper = new Paper( "Nemcsak a csokoládét szeretem, hanem a süteményt is.", { locale: "hu_HU" } );
+		result = transitionWordsResearch( mockPaper );
+		expect( result.totalSentences ).toBe( 1 );
+		expect( result.transitionWordSentences ).toBe( 1 );
+	} );
 	it( "returns 1 when a multiple transition word is found in a sentence (Hungarian)", function() {
 		// Transition word: azzal a feltétellel, hogy
 		mockPaper = new Paper( "Azzal a feltétellel, hogy én forgathatom a kést.", { locale: "hu_HU" } );
@@ -453,6 +460,29 @@ describe( "a test for finding transition words from a string", function() {
 
 	it( "returns 0 when no transition words are present in a sentence (Indonesian)", function() {
 		mockPaper = new Paper( "Ibu itu membeli beras.", { locale: "id_ID" } );
+		result = transitionWordsResearch( mockPaper );
+		expect( result.totalSentences ).toBe( 1 );
+		expect( result.transitionWordSentences ).toBe( 0 );
+	} );
+
+	it( "returns 1 when a transition word is found in a sentence (Hebrew)", function() {
+		// Transition word: בגלל.
+		mockPaper = new Paper( "ביטלנו את הטיול בגלל הגשם.", { locale: "he_IL" } );
+		result = transitionWordsResearch( mockPaper );
+		expect( result.totalSentences ).toBe( 1 );
+		expect( result.transitionWordSentences ).toBe( 1 );
+	} );
+
+	it( "returns 1 when a two-part transition word is found in a sentence (Hebrew)", function() {
+		// Transition word: או, או.
+		mockPaper = new Paper( " או חברותא או מיתותא.", { locale: "he_IL" } );
+		result = transitionWordsResearch( mockPaper );
+		expect( result.totalSentences ).toBe( 1 );
+		expect( result.transitionWordSentences ).toBe( 1 );
+	} );
+
+	it( "returns 0 when no transition words are present in a sentence (Hebrew)", function() {
+		mockPaper = new Paper( "האם קנתה אורז.", { locale: "he_IL" } );
 		result = transitionWordsResearch( mockPaper );
 		expect( result.totalSentences ).toBe( 1 );
 		expect( result.transitionWordSentences ).toBe( 0 );

@@ -142,7 +142,7 @@ const getSentenceScores = function( sentences, topicFormsInOneArray, locale ) {
 	const language = getLanguage( locale );
 
 	// For languages with function words apply either full match or partial match depending on topic length
-	if ( indexOf( [ "en", "de", "nl", "fr", "es", "it", "pt", "ru", "pl" ], language  ) >= 0 ) {
+	if ( indexOf( [ "en", "de", "nl", "fr", "es", "it", "pt", "ru", "pl", "sv", "id", "ar", "he", "fa" ], language  ) >= 0 ) {
 		for ( let i = 0; i < topicNumber; i++ ) {
 			const topic = topicFormsInOneArray[ i ];
 			if ( topic.length < 4 ) {

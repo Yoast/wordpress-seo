@@ -49,6 +49,10 @@ import transitionWordsIndonesianFactory from "../researches/indonesian/transitio
 const transitionWordsIndonesian = transitionWordsIndonesianFactory().allWords;
 import twoPartTransitionWordsIndonesian from "../researches/indonesian/twoPartTransitionWords.js";
 
+import transitionWordsHebrewFactory from "../researches/hebrew/transitionWords.js";
+const transitionWordsHebrew = transitionWordsHebrewFactory().allWords;
+import twoPartTransitionWordsHebrew from "../researches/hebrew/twoPartTransitionWords.js";
+
 import getLanguage from "./getLanguage.js";
 
 import transitionWordsArabicFactory from "../researches/arabic/transitionWords.js";
@@ -123,6 +127,11 @@ export default function( locale ) {
 			return {
 				transitionWords: transitionWordsIndonesian,
 				twoPartTransitionWords: twoPartTransitionWordsIndonesian,
+			};
+		case "he":
+			return {
+				transitionWords: transitionWordsHebrew,
+				twoPartTransitionWords: twoPartTransitionWordsHebrew,
 			};
 		case "ar":
 			return {

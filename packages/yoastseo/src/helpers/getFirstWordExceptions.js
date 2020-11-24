@@ -9,15 +9,17 @@ import firstWordExceptionsPolish from "../researches/polish/firstWordExceptions.
 import firstWordExceptionsSwedish from "../researches/swedish/firstWordExceptions.js";
 import firstWordExceptionsPortuguese from "../researches/portuguese/firstWordExceptions.js";
 import firstWordExceptionsIndonesian from "../researches/indonesian/firstWordExceptions.js";
+import firstWordExceptionsHebrew from "../researches/hebrew/firstWordExceptions.js";
 import firstWordExceptionsArabic from "../researches/arabic/firstWordExceptions.js";
+import firstWordExceptionsHungarian from "../researches/hungarian/firstWordExceptions.js";
 import getLanguage from "./getLanguage.js";
 
 /**
  * Returns the first word exceptions function for a locale.
  *
- * @param {string} locale The locale to return word exceptions for.
+ * @param {string} locale     The locale to return word exceptions for.
  *
- * @returns {Function} A function that will return the first word exceptions.
+ * @returns {Function}        A function that will return the first word exceptions.
  */
 export default function( locale ) {
 	const firstWordExceptions = {
@@ -32,7 +34,9 @@ export default function( locale ) {
 		sv: firstWordExceptionsSwedish,
 		pt: firstWordExceptionsPortuguese,
 		id: firstWordExceptionsIndonesian,
+		he: firstWordExceptionsHebrew,
 		ar: firstWordExceptionsArabic,
+		hu: firstWordExceptionsHungarian,
 	};
 
 	// If available, return the language-specific first word exceptions.
