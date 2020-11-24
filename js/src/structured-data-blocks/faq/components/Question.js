@@ -361,12 +361,12 @@ export default class Question extends Component {
 				<RichText
 					className="schema-faq-question"
 					tagName="p"
-					unstableOnSetup={ this.setQuestionRef }
+					setRef={ this.setQuestionRef }
 					key={ id + "-question" }
 					value={ question }
 					onChange={ this.onChangeQuestion }
 					isSelected={ isSelected && subElement === "question" }
-					setFocusedElement={ this.onFocusQuestion }
+					unstableOnFocus={ this.onFocusQuestion }
 					placeholder={ __( "Enter a question", "wordpress-seo" ) }
 					keepPlaceholderOnFocus={ true }
 					formattingControls={ [ "italic", "strikethrough", "link" ] }
@@ -374,12 +374,12 @@ export default class Question extends Component {
 				<RichText
 					className="schema-faq-answer"
 					tagName="p"
-					unstableOnSetup={ this.setAnswerRef }
+					setRef={ this.setAnswerRef }
 					key={ id + "-answer" }
 					value={ answer }
 					onChange={ this.onChangeAnswer }
 					isSelected={ isSelected && subElement === "answer" }
-					setFocusedElement={ this.onFocusAnswer }
+					unstableOnFocus={ this.onFocusAnswer }
 					placeholder={ __( "Enter the answer to the question", "wordpress-seo" ) }
 					keepPlaceholderOnFocus={ true }
 				/>

@@ -352,26 +352,26 @@ export default class HowToStep extends Component {
 				<RichTextWithAppendedSpace
 					className="schema-how-to-step-name"
 					tagName="p"
-					unstableOnSetup={ this.setTitleRef }
+					setRef={ this.setTitleRef }
 					key={ `${ id }-name` }
 					value={ name }
 					onChange={ this.onChangeTitle }
 					isSelected={ isSelected && subElement === "name" }
 					placeholder={ __( "Enter a step title", "wordpress-seo" ) }
-					setFocusedElement={ this.onFocusTitle }
+					unstableOnFocus={ this.onFocusTitle }
 					keepPlaceholderOnFocus={ true }
 					formattingControls={ [ "italic", "strikethrough", "link" ] }
 				/>
 				<RichTextWithAppendedSpace
 					className="schema-how-to-step-text"
 					tagName="p"
-					unstableOnSetup={ this.setTextRef }
+					setRef={ this.setTextRef }
 					key={ `${ id }-text` }
 					value={ text }
 					onChange={ this.onChangeText }
 					isSelected={ isSelected && subElement === "text" }
 					placeholder={ __( "Enter a step description", "wordpress-seo" ) }
-					setFocusedElement={ this.onFocusText }
+					unstableOnFocus={ this.onFocusText }
 					keepPlaceholderOnFocus={ true }
 				/>
 				{ isSelected &&
@@ -395,7 +395,7 @@ HowToStep.propTypes = {
 	editorRef: PropTypes.func.isRequired,
 	onMoveUp: PropTypes.func.isRequired,
 	onMoveDown: PropTypes.func.isRequired,
-	subElement: PropTypes.string.isRequired,
+	subElement: PropTypes.string,
 	isSelected: PropTypes.bool.isRequired,
 	isFirst: PropTypes.bool.isRequired,
 	isLast: PropTypes.bool.isRequired,
@@ -404,4 +404,5 @@ HowToStep.propTypes = {
 
 HowToStep.defaultProps = {
 	isUnorderedList: false,
+	subElement: "",
 };
