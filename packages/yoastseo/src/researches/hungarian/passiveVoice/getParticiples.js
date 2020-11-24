@@ -15,12 +15,13 @@ import { forEach } from "lodash-es";
  * Creates HungarianParticiple Objects for the participles found in a sentence.
  *
  * @param {string} sentencePartText         The sentence to finds participles in.
- * @param {Object} auxiliaries               The list of auxiliaries from the sentence part.
+ * @param {Object} auxiliaries              The list of auxiliaries from the sentence part.
  * @param {string} language                 The language.
  *
  * @returns {Array}                         The array with HungarianParticiple Objects.
  */
 export default function( sentencePartText, auxiliaries, language ) {
+	console.log(sentencePartText)
 	const words = getWords( sentencePartText );
 
 	const foundParticiples = [];

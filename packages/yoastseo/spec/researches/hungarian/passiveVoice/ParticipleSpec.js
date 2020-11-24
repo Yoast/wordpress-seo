@@ -33,5 +33,5 @@ describe( "A test for checking the Hungarian Participle", function() {
 		// expect(mockParticiple.participlesInReAndRa() ).toBe( false );
 		expect( mockParticiple.determinesSentencePartIsPassive() ).toBe( true );
 	} );
-	
+
 } );

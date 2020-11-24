@@ -223,13 +223,15 @@ const determineSentenceIsPassiveHebrew = function( sentence ) {
  */
 const checkHungarianPassive = function( word, verbRootsList, prefixes, suffixes ) {
 	return verbRootsList.some( root => {
-		return prefixes.some( prefix => suffixes.some( function( suffix ) {
+		return suffixes.some( suffix => prefixes.some( function( prefix ) {
 			const pattern1 = new RegExp( "^" + prefix + root + suffix + "$" );
 			const pattern2 = new RegExp( "^" + root + suffix + "$" );
 			if ( pattern1 ) {
 				return pattern1.test( word );
 			}
-			return pattern2;
+			else if ( pattern2 ) {
+				return pattern2.test( word );
+			}
 		} ) );
 	} );
 };
@@ -239,7 +241,7 @@ const checkHungarianPassive = function( word, verbRootsList, prefixes, suffixes 
  *
  * @param {string} sentence     The sentence to match against.
  *
- * @returns {Boolean}           Whether the sentence contains Arabic passive voice.
+ * @returns {Boolean}           Whether the sentence contains Hungarian passive voice.
  */
 const determineSentenceIsPassiveHungarian = function( sentence ) {
 	const words = getWords( sentence );

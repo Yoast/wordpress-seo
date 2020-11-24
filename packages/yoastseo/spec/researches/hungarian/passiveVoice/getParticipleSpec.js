@@ -13,6 +13,18 @@ describe( "Test for matching Hungarian participles", function() {
 		expect( foundParticiples[ 0 ].getLanguage() ).toEqual( "hu" );
 	} );
 
+	it( "returns matched participles with 'va' at the end followed by the auxiliary.", function() {
+		const sentence = "A függöny ki mosva van.";
+		const auxiliaries = [ "van" ];
+		const foundParticiples = getParticiples( sentence, auxiliaries, "hu" );
+		expect( foundParticiples[ 0 ].getParticiple() ).toEqual( "mosva" );
+		expect( foundParticiples[ 0 ].getType() ).toEqual( "va at the end" );
+		expect( foundParticiples[ 0 ].getSentencePart() ).toEqual( "A függöny ki mosva van." );
+		expect( foundParticiples[ 0 ].determinesSentencePartIsPassive() ).toEqual( true );
+		expect( foundParticiples[ 0 ].getAuxiliaries() ).toEqual( [ "van" ] );
+		expect( foundParticiples[ 0 ].getLanguage() ).toEqual( "hu" );
+	} );
+
 	it( "returns matched participles with 'va' at the end.", function() {
 		const sentence = "A függöny ki van mosva.";
 		const auxiliaries = [ "van" ];

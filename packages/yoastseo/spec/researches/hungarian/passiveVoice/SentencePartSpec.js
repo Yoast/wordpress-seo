@@ -33,7 +33,7 @@ describe( "gets periprhastic participles of hungarian sentence", function() {
 
 describe( "gets periprhastic participles of hungarian sentence", function() {
 	it( "returns periprhastic participles ending in -ra", function() {
-		const mockPart = new HungarianSentencePart( "megfinanszírozásra került a projekt", [ "került" ], "hu" );
+			const mockPart = new HungarianSentencePart( "Megfinanszírozásra került a projekt", [ "került" ], "hu" );
 		const foundParticiples = mockPart.getParticiples()[ 0 ];
 		expect( foundParticiples.getParticiple() ).toEqual( "megfinanszírozásra" );
 	} );
@@ -41,10 +41,8 @@ describe( "gets periprhastic participles of hungarian sentence", function() {
 
 describe( "gets periprhastic participles of hungarian sentence", function() {
 	it( "returns periprhastic participles ending in -re", function() {
-		const mockPart = new HungarianSentencePart( "beszállításra került a beteg", [ "került" ], "hu" );
+		const mockPart = new HungarianSentencePart( "Beszállításra került a beteg", [ "került" ], "hu" );
 		const foundParticiples = mockPart.getParticiples()[ 0 ];
 		expect( foundParticiples.getParticiple() ).toEqual( "beszállításra" );
 	} );
 } );
-
-

@@ -123,6 +123,7 @@ function createSentenceParts( sentences, language ) {
 		const foundAuxiliaries = sanitizeMatches( part.match( auxiliaryRegex || [] ) );
 		sentenceParts.push( new SentencePart( part, foundAuxiliaries, languageVariables[ language ].locale ) );
 	} );
+	console.log(sentenceParts)
 	return sentenceParts;
 }
 
