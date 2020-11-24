@@ -134,7 +134,7 @@ class Schema_Blocks_Test extends TestCase {
 	public function test_output() {
 		$this->asset_manager
 			->expects( 'is_script_enqueued' )
-			->with('schema-blocks')
+			->with( 'schema-blocks' )
 			->once()
 			->andReturnTrue();
 
@@ -152,7 +152,7 @@ class Schema_Blocks_Test extends TestCase {
 	public function test_output_with_scripts_not_enqueued() {
 		$this->asset_manager
 			->expects( 'is_script_enqueued' )
-			->with('schema-blocks')
+			->with( 'schema-blocks' )
 			->once()
 			->andReturnFalse();
 
@@ -170,7 +170,7 @@ class Schema_Blocks_Test extends TestCase {
 	public function test_load_with_filter() {
 		$this->asset_manager
 			->expects( 'is_script_enqueued' )
-			->with('schema-blocks')
+			->with( 'schema-blocks' )
 			->once()
 			->andReturnTrue();
 
@@ -191,7 +191,7 @@ class Schema_Blocks_Test extends TestCase {
 	public function test_load_with_filter_returning_faulty_value() {
 		$this->asset_manager
 			->expects( 'is_script_enqueued' )
-			->with('schema-blocks')
+			->with( 'schema-blocks' )
 			->once()
 			->andReturnTrue();
 
@@ -212,7 +212,7 @@ class Schema_Blocks_Test extends TestCase {
 	public function test_output_with_non_existing_template() {
 		$this->asset_manager
 			->expects( 'is_script_enqueued' )
-			->with('schema-blocks')
+			->with( 'schema-blocks' )
 			->once()
 			->andReturnTrue();
 
@@ -231,7 +231,7 @@ class Schema_Blocks_Test extends TestCase {
 	public function test_output_with_having_no_templates_set() {
 		$this->asset_manager
 			->expects( 'is_script_enqueued' )
-			->with('schema-blocks')
+			->with( 'schema-blocks' )
 			->once()
 			->andReturnTrue();
 
