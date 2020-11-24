@@ -202,9 +202,10 @@ const stemSuffixes6 = function( word, suffixes6, morphologyData ) {
 	const suffix6 = word.search( new RegExp( suffixes6 ) );
 	if ( suffix6 >= r1Position ) {
 		let wordAfterStemming = word.slice( 0, -1 );
-		const checkIfWordEndsOnAccentedEorE = ( wordAfterStemming.endsWith( "á" ) || wordAfterStemming.endsWith( "é" ) );
-		if ( checkIfWordEndsOnAccentedEorE ) {
-			wordAfterStemming = wordAfterStemming.replace( /á$/i, "a" || /é$/i, "e" );
+		const doubleConsonantRegex = new RegExp( morphologyData.externalStemmer.doubleConsonants );
+		const checkIfWordEndsOnDoubleConsonant = wordAfterStemming.search( doubleConsonantRegex );
+		if ( checkIfWordEndsOnDoubleConsonant !== -1 ) {
+			wordAfterStemming = wordAfterStemming.slice( 0, -1 );
 		}
 		return wordAfterStemming;
 	}
