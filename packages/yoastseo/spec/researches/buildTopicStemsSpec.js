@@ -385,6 +385,16 @@ describe( "A test for filtering function words in supported languages", function
 	);
 } );
 
+describe( "A test for filtering function words in supported languages", function() {
+	// Function word: négy
+	const forms = buildStems( "négy macska", "hu", false );
+	expect( forms ).toEqual(
+		new TopicPhrase(
+			[ new StemOriginalPair( "macska", "macska" ) ],
+			false )
+	);
+} );
+
 describe( "A test for topic phrase objects", function() {
 	const testTopicPhrase = new TopicPhrase(
 		[

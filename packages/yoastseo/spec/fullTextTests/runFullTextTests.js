@@ -316,7 +316,7 @@ testPapers.forEach( function( testPaper ) {
 			}
 		} );
 
-		it( "returns a score and the associated feedback text for the english keyphraseDistribution assessment", function() {
+		it( "returns a score and the associated feedback text for the keyphraseDistribution assessment", function() {
 			const isApplicable = keyphraseDistributionAssessment.isApplicable( paper );
 			expect( isApplicable ).toBe( expectedResults.keyphraseDistribution.isApplicable );
 
