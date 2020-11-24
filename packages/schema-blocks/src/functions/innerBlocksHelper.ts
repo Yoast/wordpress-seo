@@ -4,9 +4,9 @@ import recurseOverBlocks from "./blocks/recurseOverBlocks";
 
 /**
  * Searches recursively in the innerblocks to get all instances of blocks whose name occurs in blockNames.
- * @param blockNames     The names of the blocks you're searching for.
- * @param blockInstances The array of blocks you're searching in.
- * @returns              The block instances that have a name that occurs in blockNames
+ * @param blockNames          The names of the blocks you're searching for.
+ * @param blockInstances      The array of blocks you're searching in.
+ * @returns {BlockInstance[]} The block instances that have a name that occurs in blockNames
  */
 function getInnerblocksByName( blockNames: string[], blockInstances: BlockInstance[] ): BlockInstance[] {
 	const foundBlocks: BlockInstance[] = [];
@@ -22,8 +22,8 @@ function getInnerblocksByName( blockNames: string[], blockInstances: BlockInstan
 
 /**
  * Gets the innerblocks of the block with the given clientId from the core/block-editor store
- * @param clientId The clientId of the block whose InnerBlocks you want.
- * @returns        The block's innerblocks.
+ * @param clientId            The clientId of the block whose InnerBlocks you want.
+ * @returns {BlockInstance[]} The block's innerblocks.
  */
 function getInnerBlocks( clientId: string ): BlockInstance[] {
 	/* istanbul ignore next */
