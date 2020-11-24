@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Integrations;
 
 use Brain\Monkey;
 use Mockery;
+use WPSEO_Admin_Asset_Manager;
 use Yoast\WP\SEO\Conditionals\Schema_Blocks_Conditional;
 use Yoast\WP\SEO\Integrations\Schema_Blocks;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
@@ -15,7 +16,6 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @group integrations
  * @group schema
- * @group test
  */
 class Schema_Blocks_Test extends TestCase {
 
@@ -26,10 +26,30 @@ class Schema_Blocks_Test extends TestCase {
 	 */
 	protected $instance;
 
+	/**
+	 * Represents the asset manager.
+	 *
+	 * @var Mockery\MockInterface|WPSEO_Admin_Asset_Manager
+	 */
+	protected $asset_manager;
+
+	/**
+	 * Runs the setup to prepare the needed instance.
+	 */
 	public function setUp() {
 		parent::setUp();
 
-		$this->instance = new Schema_Blocks();
+		$this->asset_manager = Mockery::mock( WPSEO_Admin_Asset_Manager::class );
+		$this->instance      = new Schema_Blocks( $this->asset_manager );
+	}
+
+	/**
+	 * Tests the constructor by checking the set attributes.
+	 *
+	 * @covers ::__construct
+	 */
+	public function test_constructor() {
+		static::assertAttributeInstanceOf( WPSEO_Admin_Asset_Manager::class, 'asset_manager', $this );
 	}
 
 	/**
@@ -89,32 +109,76 @@ class Schema_Blocks_Test extends TestCase {
 
 	/**
 	 * Tests the loading of all schema block templates.
+	 *
+	 * @covers ::load
 	 */
 	public function test_load() {
-		$this->instance->register_template( WPSEO_PATH . '/src/schema-templates/recipe.block.php' );
+		$this->asset_manager
+			->expects( 'enqueue_script' )
+			->with( 'schema-blocks' )
+			->once();
 
-		Monkey\Functions\expect( 'wp_enqueue_script' )->once();
-		Monkey\Functions\expect( 'wp_enqueue_style' )->once();
+		$this->asset_manager
+			->expects( 'enqueue_style' )
+			->with( 'schema-blocks' )
+			->once();
 
 		$this->instance->load();
+	}
+
+	/**
+	 * Tests the outputting of a template.
+	 *
+	 * @covers ::output
+	 */
+	public function test_output() {
+		$this->asset_manager
+			->expects( 'is_script_enqueued' )
+			->with( 'schema-blocks' )
+			->once()
+			->andReturnTrue();
+
+		$this->instance->register_template( WPSEO_PATH . '/src/schema-templates/recipe.block.php' );
+		$this->instance->output();
 
 		$this->expectOutputContains( '<script type="text/block-template">' );
 	}
 
 	/**
+	 * Tests the outputting of the templates without having the needed scripts enqueued.
+	 *
+	 * @covers ::output
+	 */
+	public function test_output_with_scripts_not_enqueued() {
+		$this->asset_manager
+			->expects( 'is_script_enqueued' )
+			->with( 'schema-blocks' )
+			->once()
+			->andReturnFalse();
+
+		$this->instance->output();
+
+		$this->instance->register_template( WPSEO_PATH . '/src/schema-templates/recipe.block.php' );
+		$this->expectOutputNotContains( '<script type="text/block-template">' );
+	}
+
+	/**
 	 * Tests the loading of schema block templates by using the filter.
 	 *
-	 * @covers ::load
+	 * @covers ::output
 	 */
 	public function test_load_with_filter() {
+		$this->asset_manager
+			->expects( 'is_script_enqueued' )
+			->with( 'schema-blocks' )
+			->once()
+			->andReturnTrue();
+
 		// First add a template.
 		Monkey\Filters\expectApplied( 'wpseo_load_schema_templates' )
 			->andReturn( [ WPSEO_PATH . '/src/schema-templates/recipe.block.php' ] );
 
-		Monkey\Functions\expect( 'wp_enqueue_script' )->once();
-		Monkey\Functions\expect( 'wp_enqueue_style' )->once();
-
-		$this->instance->load();
+		$this->instance->output();
 
 		$this->expectOutputContains( '<script type="text/block-template">' );
 	}
@@ -122,46 +186,59 @@ class Schema_Blocks_Test extends TestCase {
 	/**
 	 * Tests the loading of schema block templates by using the filter that returns a faulty value.
 	 *
-	 * @covers ::load
+	 * @covers ::output
 	 */
 	public function test_load_with_filter_returning_faulty_value() {
+		$this->asset_manager
+			->expects( 'is_script_enqueued' )
+			->with( 'schema-blocks' )
+			->once()
+			->andReturnTrue();
+
 		// First add a template.
 		Monkey\Filters\expectApplied( 'wpseo_load_schema_templates' )
 			->andReturnFalse();
 
-		Monkey\Functions\expect( 'wp_enqueue_script' )->never();
-		Monkey\Functions\expect( 'wp_enqueue_style' )->never();
+		$this->instance->output();
 
-		$this->instance->load();
+		$this->expectEmptyOutput();
 	}
 
 	/**
-	 * Tests the loading of a schema block template that doesn't exists.
+	 * Tests the outputting of a schema block template that doesn't exists.
 	 *
-	 * @covers ::load
+	 * @covers ::output
 	 */
-	public function test_load_with_non_existing_template() {
+	public function test_output_with_non_existing_template() {
+		$this->asset_manager
+			->expects( 'is_script_enqueued' )
+			->with( 'schema-blocks' )
+			->once()
+			->andReturnTrue();
+
 		$this->instance->register_template( WPSEO_PATH . '/src/schema-templates/nonexisting.block.php' );
 
-		Monkey\Functions\expect( 'wp_enqueue_script' )->once();
-		Monkey\Functions\expect( 'wp_enqueue_style' )->once();
+		$this->instance->output();
 
-		$this->instance->load();
-
-		$this->expectOutput( '' );
+		$this->expectEmptyOutput();
 	}
 
 	/**
-	 * Tests the loading of schema block templates with no templates being set.
+	 * Tests the outputting of schema block templates with no templates being set.
 	 *
-	 * @covers ::load
+	 * @covers ::output
 	 */
-	public function test_load_with_having_no_templates_set() {
+	public function test_output_with_having_no_templates_set() {
+		$this->asset_manager
+			->expects( 'is_script_enqueued' )
+			->with( 'schema-blocks' )
+			->once()
+			->andReturnTrue();
+
 		Monkey\Filters\expectApplied( 'wpseo_load_schema_templates' );
 
-		Monkey\Functions\expect( 'wp_enqueue_script' )->never();
-		Monkey\Functions\expect( 'wp_enqueue_style' )->never();
+		$this->instance->output();
 
-		$this->instance->load();
+		$this->expectEmptyOutput();
 	}
 }
