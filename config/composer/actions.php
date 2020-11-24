@@ -487,7 +487,7 @@ TPL;
 
 		$fqn = $args[0];
 
-		echo 'Generating unit test for ', $fqn;
+		echo 'Generating unit test for ', $fqn . "\n";
 
 		$generator = new Unit_Test_Generator();
 		try {
