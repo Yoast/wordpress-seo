@@ -179,8 +179,9 @@ class Indexing_Tool_Integration_Test extends TestCase {
 		Monkey\Functions\expect( 'rest_url' )
 			->andReturn( 'https://example.org/wp-ajax/' );
 
-		Monkey\Functions\expect( 'wp_localize_script' )
-			->with( 'yoast-seo-indexation', 'yoastIndexingData', $injected_data );
+		$this->asset_manager
+			->expects( 'localize_script' )
+			->with( 'indexation', 'yoastIndexingData', $injected_data );
 
 		Monkey\Filters\expectApplied( 'wpseo_indexing_data' )
 			->with( $injected_data );
