@@ -1,6 +1,5 @@
 /* eslint-disable require-jsdoc */
 /* global jQuery, window */
-import domReady from "@wordpress/dom-ready";
 import { dispatch } from "@wordpress/data";
 import { get } from "lodash";
 import { registerReactComponent, renderReactRoot } from "../helpers/reactRoot";
@@ -87,43 +86,41 @@ export default function initElementEditorIntegration() {
 	window.YoastSEO = window.YoastSEO || {};
 	window.YoastSEO._registerReactComponent = registerReactComponent;
 
-	domReady( () => {
-		// Check whether the route to our tab is active. If so, render our React root.
-		window.$e.routes.on( "run:after", function( component, route ) {
-			if ( route === "panel/page-settings/yoast-tab" ) {
-				renderReactRoot( window.YoastSEO.store, "elementor-panel-page-settings-controls", (
-					<StyleSheetManager target={ document.getElementById( "elementor-panel-page-settings-controls" ) }>
-						<div className="yoast yoast-elementor-panel__fills">
-							<ElementorSlot />
-							<ElementorFill />
-						</div>
-					</StyleSheetManager>
-				) );
-			}
-		} );
-
-		// Hook into the save.
-		const handleSave = sendFormData.bind( null, document.getElementById( "yoast-form" ) );
-		window.elementor.saver.on( "after:save", handleSave );
-
-		// Register with the menu.
-		const menu = window.elementor.modules.layouts.panel.pages.menu.Menu;
-		menu.addItem( {
-			name: "yoast",
-			icon: "yoast yoast-element-menu-icon",
-			title: "Yoast SEO",
-			type: "page",
-			callback: () => {
-				try {
-					window.$e.routes.run( "panel/page-settings/yoast-tab" );
-				} catch ( error ) {
-					// The yoast tab is only available if the page settings have been visited.
-					window.$e.routes.run( "panel/page-settings/settings" );
-					window.$e.routes.run( "panel/page-settings/yoast-tab" );
-				}
-			},
-		}, "more" );
+	// Check whether the route to our tab is active. If so, render our React root.
+	window.$e.routes.on( "run:after", function( component, route ) {
+		if ( route === "panel/page-settings/yoast-tab" ) {
+			renderReactRoot( window.YoastSEO.store, "elementor-panel-page-settings-controls", (
+				<StyleSheetManager target={ document.getElementById( "elementor-panel-page-settings-controls" ) }>
+					<div className="yoast yoast-elementor-panel__fills">
+						<ElementorSlot />
+						<ElementorFill />
+					</div>
+				</StyleSheetManager>
+			) );
+		}
 	} );
+
+	// Hook into the save.
+	const handleSave = sendFormData.bind( null, document.getElementById( "yoast-form" ) );
+	window.elementor.saver.on( "after:save", handleSave );
+
+	// Register with the menu.
+	const menu = window.elementor.modules.layouts.panel.pages.menu.Menu;
+	menu.addItem( {
+		name: "yoast",
+		icon: "yoast yoast-element-menu-icon",
+		title: "Yoast SEO",
+		type: "page",
+		callback: () => {
+			try {
+				window.$e.routes.run( "panel/page-settings/yoast-tab" );
+			} catch ( error ) {
+				// The yoast tab is only available if the page settings have been visited.
+				window.$e.routes.run( "panel/page-settings/settings" );
+				window.$e.routes.run( "panel/page-settings/yoast-tab" );
+			}
+		},
+	}, "more" );
 
 	const yoastInputs = document.querySelectorAll( "input[name^='yoast']" );
 	yoastInputs.forEach( input => storeValueAsOldValue( input ) );
