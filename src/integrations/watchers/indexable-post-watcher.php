@@ -219,11 +219,14 @@ class Indexable_Post_Watcher implements Integration_Interface {
 		 * Filter: 'wpseo_indexable_excluded_post_types' - Allow developers to prevent posts of a certain post
 		 * type from being saved to the indexable table.
 		 *
-		 * @param array $excluded_post_types The.
-		 *
-		 * @api bool $intend_to_save True if YoastSEO intends to save the indexable.
+		 * @param array $excluded_post_types The currently excluded post types.
 		 */
 		$excluded_post_types = \apply_filters( 'wpseo_indexable_excluded_post_types', [] );
+
+		// Failsafe, to always make sure that `excluded_post_types` is an array.
+		if ( ! \is_array( $excluded_post_types ) ) {
+			$excluded_post_types = [];
+		}
 
 		if ( $post && \in_array( $post->post_type, $excluded_post_types, true ) ) {
 			return;
