@@ -53,11 +53,9 @@ export default class HowTo extends Component {
 		this.toggleListType       = this.toggleListType.bind( this );
 		this.setDurationText      = this.setDurationText.bind( this );
 		this.setFocusToStep       = this.setFocusToStep.bind( this );
-		this.setStepRef           = this.setStepRef.bind( this );
-		this.moveStepUp           = this.moveStepUp.bind( this );
+		this.moveStepUp           = this.moveStepUp.bind( this );``
 		this.moveStepDown         = this.moveStepDown.bind( this );
 		this.focusDescription     = this.focusDescription.bind( this );
-		this.setDescriptionRef    = this.setDescriptionRef.bind( this );
 		this.addDuration          = this.addDuration.bind( this );
 		this.removeDuration       = this.removeDuration.bind( this );
 		this.onChangeDescription  = this.onChangeDescription.bind( this );
@@ -70,8 +68,6 @@ export default class HowTo extends Component {
 
 		const defaultDurationText = this.getDefaultDurationText();
 		this.setDefaultDurationText( defaultDurationText );
-
-		this.editorRefs = {};
 	}
 
 	/**
@@ -201,13 +197,6 @@ export default class HowTo extends Component {
 			index = steps.length - 1;
 		}
 
-		let lastIndex = steps.length - 1;
-		while ( lastIndex > index ) {
-			this.editorRefs[ `${ lastIndex + 1 }:name` ] = this.editorRefs[ `${ lastIndex }:name` ];
-			this.editorRefs[ `${ lastIndex + 1 }:text` ] = this.editorRefs[ `${ lastIndex }:text` ];
-			lastIndex--;
-		}
-
 		steps.splice( index + 1, 0, {
 			id: HowTo.generateId( "how-to-step" ),
 			name,
@@ -242,14 +231,6 @@ export default class HowTo extends Component {
 		steps[ index1 ] = steps[ index2 ];
 		steps[ index2 ] = step;
 
-		const NameEditorRef = this.editorRefs[ `${ index1 }:name` ];
-		this.editorRefs[ `${ index1 }:name` ] = this.editorRefs[ `${ index2 }:name` ];
-		this.editorRefs[ `${ index2 }:name` ] = NameEditorRef;
-
-		const TextEditorRef = this.editorRefs[ `${ index1 }:text` ];
-		this.editorRefs[ `${ index1 }:text` ] = this.editorRefs[ `${ index2 }:text` ];
-		this.editorRefs[ `${ index2 }:text` ] = TextEditorRef;
-
 		this.props.setAttributes( { steps } );
 
 		const [ focusIndex, subElement ] = this.state.focus.split( ":" );
@@ -275,24 +256,10 @@ export default class HowTo extends Component {
 		steps.splice( index, 1 );
 		this.props.setAttributes( { steps } );
 
-		delete this.editorRefs[ `${ index }:name` ];
-		delete this.editorRefs[ `${ index }:text` ];
-
-		let nextIndex = index + 1;
-		while ( this.editorRefs[ `${ nextIndex }:name` ] || this.editorRefs[ `${ nextIndex }:text` ] ) {
-			this.editorRefs[ `${ nextIndex - 1 }:name` ] = this.editorRefs[ `${ nextIndex }:name` ];
-			this.editorRefs[ `${ nextIndex - 1 }:text` ] = this.editorRefs[ `${ nextIndex }:text` ];
-			nextIndex++;
-		}
-
-		const indexToRemove = steps.length;
-		delete this.editorRefs[ `${ indexToRemove }:name` ];
-		delete this.editorRefs[ `${ indexToRemove }:text` ];
-
 		let fieldToFocus = "description";
-		if ( this.editorRefs[ `${ index }:name` ] ) {
+		if ( steps[ index ] ) {
 			fieldToFocus = `${ index }:name`;
-		} else if ( this.editorRefs[ `${ index - 1 }:text` ] ) {
+		} else if ( steps[ index - 1 ] ) {
 			fieldToFocus = `${ index - 1 }:text`;
 		}
 
@@ -312,10 +279,6 @@ export default class HowTo extends Component {
 		}
 
 		this.setState( { focus: elementToFocus } );
-
-		if ( this.editorRefs[ elementToFocus ] ) {
-			this.editorRefs[ elementToFocus ].focus();
-		}
 	}
 
 	/**
@@ -353,19 +316,6 @@ export default class HowTo extends Component {
 	}
 
 	/**
-	 * Set a reference to the specified step
-	 *
-	 * @param {number} stepIndex Index of the step that should be moved.
-	 * @param {string} part      The part to set a reference too.
-	 * @param {object} ref       The reference object.
-	 *
-	 * @returns {void}
-	 */
-	setStepRef( stepIndex, part, ref ) {
-		this.editorRefs[ `${ stepIndex }:${ part }` ] = ref;
-	}
-
-	/**
 	 * Returns an array of How-to step components to be rendered on screen.
 	 *
 	 * @returns {Component[]} The step components.
@@ -383,7 +333,6 @@ export default class HowTo extends Component {
 					key={ step.id }
 					step={ step }
 					index={ index }
-					editorRef={ this.setStepRef }
 					onChange={ this.changeStep }
 					insertStep={ this.insertStep }
 					removeStep={ this.removeStep }
@@ -556,17 +505,6 @@ export default class HowTo extends Component {
 	 */
 	focusDescription() {
 		this.setFocus( "description" );
-	}
-
-	/**
-	 * Set focus to the description field.
-	 *
-	 * @param {object} ref The reference object.
-	 *
-	 * @returns {void}
-	 */
-	setDescriptionRef( ref ) {
-		this.editorRefs.description = ref;
 	}
 
 	/**
@@ -799,7 +737,6 @@ export default class HowTo extends Component {
 					isSelected={ this.state.focus === "description" }
 					unstableOnFocus={ this.focusDescription }
 					onChange={ this.onChangeDescription }
-					setRef={ this.setDescriptionRef }
 					placeholder={ __( "Enter a description", "wordpress-seo" ) }
 					keepPlaceholderOnFocus={ true }
 				/>

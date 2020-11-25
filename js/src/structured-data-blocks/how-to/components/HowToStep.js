@@ -30,8 +30,6 @@ export default class HowToStep extends Component {
 		this.onRemoveStep   = this.onRemoveStep.bind( this );
 		this.onMoveStepUp   = this.onMoveStepUp.bind( this );
 		this.onMoveStepDown = this.onMoveStepDown.bind( this );
-		this.setTextRef     = this.setTextRef.bind( this );
-		this.setTitleRef    = this.setTitleRef.bind( this );
 		this.onFocusText    = this.onFocusText.bind( this );
 		this.onFocusTitle   = this.onFocusTitle.bind( this );
 		this.onChangeTitle  = this.onChangeTitle.bind( this );
@@ -78,28 +76,6 @@ export default class HowToStep extends Component {
 			return;
 		}
 		this.props.onMoveDown( this.props.index );
-	}
-
-	/**
-	 * Pass the title editor reference down to the parent component.
-	 *
-	 * @param {object} ref Reference to the title editor.
-	 *
-	 * @returns {void}
-	 */
-	setTitleRef( ref ) {
-		this.props.editorRef( this.props.index, "name", ref );
-	}
-
-	/**
-	 * Pass the text editor reference down to the parent component.
-	 *
-	 * @param {object} ref Reference to the text editor.
-	 *
-	 * @returns {void}
-	 */
-	setTextRef( ref ) {
-		this.props.editorRef( this.props.index, "text", ref );
 	}
 
 	/**
@@ -352,7 +328,6 @@ export default class HowToStep extends Component {
 				<RichTextWithAppendedSpace
 					className="schema-how-to-step-name"
 					tagName="p"
-					setRef={ this.setTitleRef }
 					key={ `${ id }-name` }
 					value={ name }
 					onChange={ this.onChangeTitle }
@@ -365,7 +340,6 @@ export default class HowToStep extends Component {
 				<RichTextWithAppendedSpace
 					className="schema-how-to-step-text"
 					tagName="p"
-					setRef={ this.setTextRef }
 					key={ `${ id }-text` }
 					value={ text }
 					onChange={ this.onChangeText }
@@ -392,7 +366,6 @@ HowToStep.propTypes = {
 	insertStep: PropTypes.func.isRequired,
 	removeStep: PropTypes.func.isRequired,
 	onFocus: PropTypes.func.isRequired,
-	editorRef: PropTypes.func.isRequired,
 	onMoveUp: PropTypes.func.isRequired,
 	onMoveDown: PropTypes.func.isRequired,
 	subElement: PropTypes.string,
