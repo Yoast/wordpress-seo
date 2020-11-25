@@ -1,7 +1,11 @@
 import { RenderEditProps, RenderSaveProps } from "./blocks/BlockDefinition";
 
-export type InstructionOptions =
-	Record<string, string | boolean | number | Array<string | boolean | number> | Record<string, string | boolean | number>>;
+export type InstructionPrimitive = string | number | boolean;
+export type InstructionValue = InstructionPrimitive | InstructionObject | InstructionArray;
+export type InstructionObject = { [member: string]: InstructionValue };
+export type InstructionArray = readonly InstructionValue[];
+
+export type InstructionOptions = InstructionObject;
 export type InstructionClass<T extends Instruction> = {
 	new( id: number, options: InstructionOptions ): T;
 };
