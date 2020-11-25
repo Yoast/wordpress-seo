@@ -31,6 +31,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @group generators
  * @group schema
+ * @group test
  */
 class Schema_Generator_Test extends TestCase {
 
@@ -323,16 +324,16 @@ class Schema_Generator_Test extends TestCase {
 			'@id'              => 'http://example.com/#/schema/yoast-recipe',
 			'@type'            => 'Recipe',
 			'author'           => [
-				'@id' => '%%author_id%%'
+				'@id' => '%%author_id%%',
 			],
 			'mainEntityOfPage' => [
-				'@id' => '%%main_schema_id%%'
+				'@id' => '%%main_schema_id%%',
 			],
 			'name'             => 'Recipe',
 			'recipeIngredient' => [
 				'Ingredient One',
 				'Ingredient Two',
-			]
+			],
 		];
 
 		$this->context->blocks = [
@@ -379,8 +380,6 @@ class Schema_Generator_Test extends TestCase {
 			->once()
 			->andReturn( '#main' );
 
-
-
 		$expected = [
 			'@context' => 'https://schema.org',
 			'@graph'   => [
@@ -388,24 +387,22 @@ class Schema_Generator_Test extends TestCase {
 					'@id'              => 'http://example.com/#/schema/yoast-recipe',
 					'@type'            => 'Recipe',
 					'author'           => [
-						'@id' => '#author-1337'
+						'@id' => '#author-1337',
 					],
 					'mainEntityOfPage' => [
-						'@id' => '#main'
+						'@id' => '#main',
 					],
 					'name'             => 'Recipe',
 					'recipeIngredient' => [
 						'Ingredient One',
 						'Ingredient Two',
-					]
-				]
+					],
+				],
 			],
 		];
 
 		static::assertEquals( $expected, $this->instance->generate( $this->context ) );
 	}
-
-
 
 	/**
 	 * Tests the generate with having an identifier for the FAQ block.

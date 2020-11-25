@@ -26,7 +26,7 @@ class Schema_Generator implements Generator_Interface {
 	 *
 	 * @var WPSEO_Replace_Vars
 	 */
-	protected $replace_Vars;
+	protected $replace_vars;
 
 	/**
 	 * Generator constructor.
@@ -36,7 +36,7 @@ class Schema_Generator implements Generator_Interface {
 	 */
 	public function __construct( Helpers_Surface $helpers, WPSEO_Replace_Vars $replace_vars ) {
 		$this->helpers      = $helpers;
-		$this->replace_Vars = $replace_vars;
+		$this->replace_vars = $replace_vars;
 	}
 
 	/**
@@ -256,7 +256,7 @@ class Schema_Generator implements Generator_Interface {
 				continue;
 			}
 
-			$schema_data[ $key ] = $this->replace_Vars->replace( $value, $presentation->source );
+			$schema_data[ $key ] = $this->replace_vars->replace( $value, $presentation->source );
 		}
 
 		return $schema_data;
