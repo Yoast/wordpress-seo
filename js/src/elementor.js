@@ -1,4 +1,5 @@
 import { dispatch } from "@wordpress/data";
+import { doAction } from "@wordpress/hooks";
 import { applyModifications, pluginReady, pluginReloaded, registerPlugin, registerModification } from "./elementor/initializers/pluggable";
 import initAnalysis, { collectData } from "./initializers/analysis";
 import initElementorEditorIntegration from "./initializers/elementor-editor-integration";
@@ -59,6 +60,9 @@ function initialize() {
 
 	// Initialize the editor integration.
 	initElementorEditorIntegration();
+
+	// Offer an action after our load.
+	doAction( "yoast.elementor.loaded" );
 }
 
 // Wait on `window.elementor`.
