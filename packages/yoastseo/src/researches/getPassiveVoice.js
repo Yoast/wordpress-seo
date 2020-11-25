@@ -1,4 +1,3 @@
-import uniq from "lodash-es/uniq";
 import getSentences from "../stringProcessing/getSentences.js";
 import { stripFullTags as stripHTMLTags } from "../stringProcessing/stripHTMLTags.js";
 import getLanguage from "../helpers/getLanguage.js";

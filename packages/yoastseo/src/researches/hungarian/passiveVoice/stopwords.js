@@ -194,8 +194,5 @@ export default function() {
 		"való",
 		"vissza",
 		"viszont",
-	]
-};
-
-
-
+	];
+}

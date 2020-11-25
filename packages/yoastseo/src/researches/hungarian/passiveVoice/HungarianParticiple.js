@@ -1,9 +1,6 @@
-import { includes } from "lodash-es";
 import Participle from "../../../values/Participle.js";
 import checkException from "../../passiveVoice/periphrastic/checkException.js";
 import nonPassivesInVaAndVe from "./nonPassivesInVaAndVe.js";
-
-
 
 /**
  * Creates an Participle object for the Hungarian language.

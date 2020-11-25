@@ -273,8 +273,8 @@ const getSentenceBreakers = function( sentence, language ) {
 			break;
 		case "en":
 		default:
-			const ingVerbs = getVerbsEndingInIng( sentence );
-			const ingVerbsIndices = getIndicesOfList( ingVerbs, sentence );
+			var ingVerbs = getVerbsEndingInIng( sentence );
+			var ingVerbsIndices = getIndicesOfList( ingVerbs, sentence );
 			indices = [].concat( auxiliaryIndices, stopwordIndices, ingVerbsIndices, stopCharacterIndices );
 			break;
 	}
@@ -300,7 +300,7 @@ const getAuxiliaryMatches = function( sentencePart, language ) {
 		case "pt":
 		case "it":
 			// An array with the matched auxiliaries and their indices.
-			let auxiliaryMatchIndices = getIndicesOfList( auxiliaryMatches, sentencePart );
+			var auxiliaryMatchIndices = getIndicesOfList( auxiliaryMatches, sentencePart );
 
 			if ( ( language ===  "fr" ) || ( language === "it" ) ) {
 				// Filters auxiliaries matched in the sentence part based on a precedence exception filter.
@@ -310,7 +310,7 @@ const getAuxiliaryMatches = function( sentencePart, language ) {
 			auxiliaryMatchIndices = followingAuxiliaryExceptionFilter( sentencePart, auxiliaryMatchIndices, language );
 
 			// An array with the matched auxiliary verbs (without indices).
-			let auxiliaryMatchWords = [];
+			var auxiliaryMatchWords = [];
 
 			forEach( auxiliaryMatchIndices, function( auxiliaryMatchIndex ) {
 				auxiliaryMatchWords.push( auxiliaryMatchIndex.match );

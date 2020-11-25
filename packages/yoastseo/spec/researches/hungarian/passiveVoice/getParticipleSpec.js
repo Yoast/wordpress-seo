@@ -84,5 +84,4 @@ describe( "Test for matching Hungarian participles", function() {
 		expect( foundParticiples[ 0 ].getAuxiliaries() ).toEqual( [ "fog" ] );
 		expect( foundParticiples[ 0 ].getLanguage() ).toEqual( "hu" );
 	} );
-
 } );

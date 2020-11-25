@@ -7,18 +7,19 @@ describe( "detecting passive voice in sentences", function() {
 		expect( passiveVoice( paper ).passives.length ).toBe( 0 );
 	} );
 
-	// Imperative has not been implemented yet.
-	// it( "returns passive voice (imperative without a prefix)", function() {
-	// 	// Passive: Foglalj.
-	// 	const paper = new Paper( "Foglalj szobát holnapra.", { locale: "hu_HU" } );
-	// 	expect( passiveVoice( paper ).passives.length ).toBe( 1 );
-	// } );
-	//
-	// it( "returns passive voice (imperative with a prefix)", function() {
-	// 	// Passive: Menj el.
-	// 	const paper = new Paper( "Menj el a boltba.", { locale: "hu_HU" } );
-	// 	expect( passiveVoice( paper ).passives.length ).toBe( 1 );
-	// } );
+	/*
+	Imperative has not been implemented yet.
+	it( "returns passive voice (imperative without a prefix)", function() {
+		// Passive: Foglalj.
+		const paper = new Paper( "Foglalj szobát holnapra.", { locale: "hu_HU" } );
+		expect( passiveVoice( paper ).passives.length ).toBe( 1 );
+	} );
+
+	it( "returns passive voice (imperative with a prefix)", function() {
+		// Passive: Menj el.
+		const paper = new Paper( "Menj el a boltba.", { locale: "hu_HU" } );
+		expect( passiveVoice( paper ).passives.length ).toBe( 1 );
+	} );*/
 
 	it( "returns passive voice (conditional without a prefix)", function() {
 		// Passive: ültetve.
@@ -32,17 +33,20 @@ describe( "detecting passive voice in sentences", function() {
 		expect( passiveVoice( paper ).passives.length ).toBe( 1 );
 	} );
 
-	// it( "returns passive voice (morphological conditional present)", function() {
-	// 	// Passive: kikötődne.
-	// 	const paper = new Paper( "Ha kikötődne a cipőfűzőm futás közben, elesnék.", { locale: "hu_HU" } );
-	// 	expect( passiveVoice( paper ).passives.length ).toBe( 1 );
-	// } );
-	//
-	// it( "returns passive voice (morphological conditional past)", function() {
-	// 	// Passive: kikötődött volna.
-	// 	const paper = new Paper( "Ha kikötődött volna a cipőfűzőm, eleshettem volna futás közben.", { locale: "hu_HU" } );
-	// 	expect( passiveVoice( paper ).passives.length ).toBe( 1 );
-	// } );
+
+	/*
+	Conditional has not been implemented yet.
+	it( "returns passive voice (morphological conditional present)", function() {
+		// Passive: kikötődne.
+		const paper = new Paper( "Ha kikötődne a cipőfűzőm futás közben, elesnék.", { locale: "hu_HU" } );
+		expect( passiveVoice( paper ).passives.length ).toBe( 1 );
+	} );
+
+	it( "returns passive voice (morphological conditional past)", function() {
+		// Passive: kikötődött volna.
+		const paper = new Paper( "Ha kikötődött volna a cipőfűzőm, eleshettem volna futás közben.", { locale: "hu_HU" } );
+		expect( passiveVoice( paper ).passives.length ).toBe( 1 );
+	} );*/
 
 	it( "returns passive voice (in -ra)", function() {
 		// Passive: kiszállításra került.

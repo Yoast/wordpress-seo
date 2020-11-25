@@ -226,7 +226,7 @@ const checkHungarianPassive = function( word, verbRootsList, prefixes, suffixes 
 		return suffixes.some( suffix => prefixes.some( function( prefix ) {
 			const pattern1 = new RegExp( "^" + prefix + root + suffix + "$" );
 			const pattern2 = new RegExp( "^" + root + suffix + "$" );
-			if ( pattern1.test( word ) || pattern2.test( word ) ) { 
+			if ( pattern1.test( word ) || pattern2.test( word ) ) {
 				return true;
 			}
 		} ) );
