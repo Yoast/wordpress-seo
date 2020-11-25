@@ -22,7 +22,7 @@ export const getAnalysisData = ( state ) => {
 	let title = getSnippetEditorTitleWithTemplate( state );
 	let description = getSnippetEditorDescriptionWithTemplate( state );
 	let slug = getSnippetEditorSlug( state );
-	let baseUrl = getBaseUrlFromSettings( state );
+	const baseUrl = getBaseUrlFromSettings( state );
 
 	/*
 	 * Process the raw snippet editor data.
@@ -34,7 +34,6 @@ export const getAnalysisData = ( state ) => {
 	 */
 	title = strings.stripHTMLTags( applyModifications( "data_page_title", title ) );
 	description = strings.stripHTMLTags( applyModifications( "data_meta_desc", description ) );
-	baseUrl = baseUrl.replace( /^https?:\/\//i, "" );
 	// Trim whitespace and replace internal whitespaces in the url with dashes.
 	slug = slug.trim().replace( /\s+/g, "-" );
 
