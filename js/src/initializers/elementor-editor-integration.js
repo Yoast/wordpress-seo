@@ -2,7 +2,6 @@
 import domReady from "@wordpress/dom-ready";
 import { dispatch } from "@wordpress/data";
 import { doAction } from "@wordpress/hooks";
-import { get } from "lodash";
 import { registerElementorDataHookAfter } from "../helpers/elementorHook";
 import { registerReactComponent, renderReactRoot } from "../helpers/reactRoot";
 import ElementorSlot from "../elementor/components/slots/ElementorSlot";
