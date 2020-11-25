@@ -15,7 +15,6 @@ use WPSEO_Metabox_Analysis_Readability;
 use WPSEO_Metabox_Analysis_SEO;
 use WPSEO_Metabox_Formatter;
 use WPSEO_Post_Metabox_Formatter;
-use WPSEO_Post_Watcher;
 use WPSEO_Utils;
 use Yoast\WP\SEO\Conditionals\Admin\Elementor_Edit_Conditional;
 use Yoast\WP\SEO\Helpers\Capability_Helper;
@@ -87,13 +86,6 @@ class Elementor implements Integration_Interface {
 	protected $readability_analysis;
 
 	/**
-	 * Holds the post watcher instance.
-	 *
-	 * @var WPSEO_Post_Watcher
-	 */
-	protected $post_watcher;
-
-	/**
 	 * The identifier for the elementor tab.
 	 */
 	const YOAST_TAB = 'yoast-tab';
@@ -121,7 +113,6 @@ class Elementor implements Integration_Interface {
 
 		$this->seo_analysis                 = new WPSEO_Metabox_Analysis_SEO();
 		$this->readability_analysis         = new WPSEO_Metabox_Analysis_Readability();
-		$this->post_watcher                 = new WPSEO_Post_Watcher();
 		$this->social_is_enabled            = $this->options->get( 'opengraph', false ) || $this->options->get( 'twitter', false );
 		$this->is_advanced_metadata_enabled = $this->capability->current_user_can( 'wpseo_edit_advanced_metadata' ) || $this->options->get( 'disableadvanced_meta' ) === false;
 	}
@@ -135,8 +126,6 @@ class Elementor implements Integration_Interface {
 	 */
 	public function register_hooks() {
 		\add_action( 'wp_ajax_wpseo_elementor_save', [ $this, 'save_postdata' ] );
-
-		\add_action( 'post_updated', [ $this->post_watcher, 'detect_slug_change' ], 12, 3 );
 
 		if ( ! $this->display_metabox( $this->get_metabox_post()->post_type ) ) {
 			return;
