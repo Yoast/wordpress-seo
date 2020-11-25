@@ -10,7 +10,7 @@ import getParticiples from "../helpers/internal/getParticiples.js";
  * @constructor
  */
 const SpanishSentencePart = function( sentencePartText, auxiliaries ) {
-	SentencePart.call( this, sentencePartText, auxiliaries, "es_ES" );
+	SentencePart.call( this, sentencePartText, auxiliaries );
 };
 
 require( "util" ).inherits( SpanishSentencePart, SentencePart );

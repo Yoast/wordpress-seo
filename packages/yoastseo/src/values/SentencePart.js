@@ -3,14 +3,12 @@
  *
  * @param {string} sentencePartText The text in the sentence part.
  * @param {Array} auxiliaries The list of auxiliaries from the sentence part.
- * @param {string} locale The locale used for this sentence part.
  *
  * @constructor
  */
-var SentencePart = function( sentencePartText, auxiliaries, locale ) {
+const SentencePart = function( sentencePartText, auxiliaries ) {
 	this._sentencePartText = sentencePartText;
 	this._auxiliaries = auxiliaries;
-	this._locale = locale;
 	this._isPassive = false;
 };
 
@@ -42,15 +40,6 @@ SentencePart.prototype.getAuxiliaries = function() {
 };
 
 /**
- * Returns the locale of the sentence part.
- *
- * @returns {string} The locale of the sentence part.
- */
-SentencePart.prototype.getLocale = function() {
-	return this._locale;
-};
-
-/**
  * Sets the passiveness of the sentence part.
  *
  * @param {boolean} passive Whether the sentence part is passive or not.
@@ -70,7 +59,6 @@ SentencePart.prototype.serialize = function() {
 		_parseClass: "SentencePart",
 		sentencePartText: this._sentencePartText,
 		auxiliaries: this._auxiliaries,
-		locale: this._locale,
 		isPassive: this._isPassive,
 	};
 };
@@ -83,7 +71,7 @@ SentencePart.prototype.serialize = function() {
  * @returns {SentencePart} The parsed SentencePart.
  */
 SentencePart.parse = function( serialized ) {
-	const sentencePart = new SentencePart( serialized.sentencePartText, serialized.auxiliaries, serialized.locale );
+	const sentencePart = new SentencePart( serialized.sentencePartText, serialized.auxiliaries );
 	sentencePart.setPassive( serialized.isPassive );
 
 	return sentencePart;
