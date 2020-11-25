@@ -1,7 +1,6 @@
-/* eslint-disable require-jsdoc */
 /* global jQuery, window */
 import { dispatch } from "@wordpress/data";
-import { get } from "lodash";
+import { registerElementorDataHookAfter } from "../helpers/elementorHook";
 import { registerReactComponent, renderReactRoot } from "../helpers/reactRoot";
 import ElementorSlot from "../elementor/components/slots/ElementorSlot";
 import ElementorFill from "../elementor/containers/ElementorFill";
@@ -12,14 +11,9 @@ import { StyleSheetManager } from "styled-components";
  *
  * @returns {void}
  */
-const activateSaveButton = () => {
-	const footerSaver = get( window.elementor, "saver.footerSaver", false );
-	if ( false !== footerSaver ) {
-		footerSaver.activateSaveButtons( document, true );
-		return;
-	}
-	window.elementor.channels.editor.trigger( "status:change", true );
-};
+function activateSaveButton() {
+	window.$e.internal( "document/save/set-is-modified", { status: true } );
+}
 
 /**
  * Copies the current value to the oldValue.
@@ -28,9 +22,9 @@ const activateSaveButton = () => {
  *
  * @returns {void}
  */
-const storeValueAsOldValue = ( input ) => {
+function storeValueAsOldValue( input ) {
 	input.oldValue = input.value;
-};
+}
 
 /**
  * Activates the save button if a change is detected.
@@ -39,7 +33,7 @@ const storeValueAsOldValue = ( input ) => {
  *
  * @returns {void}
  */
-const detectChange = input => {
+function detectChange( input ) {
 	// The SEO score and the content score changing do not require a new save.
 	if ( input.name === "yoast_wpseo_linkdex" || input.name === "yoast_wpseo_content_score" ) {
 		return;
@@ -54,9 +48,16 @@ const detectChange = input => {
 		activateSaveButton();
 		storeValueAsOldValue( input );
 	}
-};
+}
 
-const sendFormData = ( form ) => {
+/**
+ * Saves the form via AJAX action.
+ *
+ * @param {HTMLElement} form The form to submit.
+ *
+ * @returns {void}
+ */
+function sendFormData( form ) {
 	const data = jQuery( form ).serializeArray().reduce( ( result, { name, value } ) => {
 		result[ name ] = value;
 
@@ -74,7 +75,7 @@ const sendFormData = ( form ) => {
 			dispatch( "yoast-seo/editor" ).updateData( { slug: responseData.slug } );
 		}
 	} );
-};
+}
 
 /**
  * Initializes the Yoast elementor editor integration.
@@ -102,7 +103,19 @@ export default function initElementEditorIntegration() {
 
 	// Hook into the save.
 	const handleSave = sendFormData.bind( null, document.getElementById( "yoast-form" ) );
-	window.elementor.saver.on( "after:save", handleSave );
+	registerElementorDataHookAfter( "document/save/save", "yoast-seo-save", () => {
+		/*
+			* Do not save our data to a revision.
+			*
+			* WordPress saves the metadata to the post parent, not the revision. See `update_post_meta`.
+			* Most likely this is because saving a revision on a published post will unpublish in WordPress itself.
+			* But Elementor does not unpublish your post when you save a draft.
+			* This would result in Yoast SEO data being live while saving a draft.
+			*/
+		if ( window.elementor.config.document.id === window.elementor.config.document.revisions.current_id  ) {
+			handleSave();
+		}
+	} );
 
 	// Register with the menu.
 	const menu = window.elementor.modules.layouts.panel.pages.menu.Menu;
