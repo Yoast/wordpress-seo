@@ -7,14 +7,6 @@ describe( "creates a hungarian sentence part", function() {
 	} );
 } );
 
-// describe( "gets morphological participles of hungarian sentence", function() {
-// 	it( "returns morphological participles", function() {
-// 		const mockPart = new HungarianSentencePart( "Minden játékosnak 3 játék garantálódik", "hu");
-// 		const foundParticiples = mockPart.getParticiples()[ 0 ];
-// 		expect( foundParticiples.getParticiple() ).toEqual( "garantálódik" );
-// 	} );
-// } )
-
 describe( "gets periprhastic participles of hungarian sentence", function() {
 	it( "returns periprhastic participles ending in -va", function() {
 		const mockPart = new HungarianSentencePart( "Ki van plakátolva a képe", [ "van" ], "hu" );
@@ -33,7 +25,7 @@ describe( "gets periprhastic participles of hungarian sentence", function() {
 
 describe( "gets periprhastic participles of hungarian sentence", function() {
 	it( "returns periprhastic participles ending in -ra", function() {
-			const mockPart = new HungarianSentencePart( "megfinanszírozásra került a projekt", [ "került" ], "hu" );
+		const mockPart = new HungarianSentencePart( "megfinanszírozásra került a projekt", [ "került" ], "hu" );
 		const foundParticiples = mockPart.getParticiples()[ 0 ];
 		expect( foundParticiples.getParticiple() ).toEqual( "megfinanszírozásra" );
 	} );
@@ -41,7 +33,7 @@ describe( "gets periprhastic participles of hungarian sentence", function() {
 
 describe( "gets periprhastic participles of hungarian sentence", function() {
 	it( "returns periprhastic participles ending in -re", function() {
-			const mockPart = new HungarianSentencePart( "beszállításra került a beteg", [ "került" ], "hu" );
+		const mockPart = new HungarianSentencePart( "beszállításra került a beteg", [ "került" ], "hu" );
 		const foundParticiples = mockPart.getParticiples()[ 0 ];
 		expect( foundParticiples.getParticiple() ).toEqual( "beszállításra" );
 	} );

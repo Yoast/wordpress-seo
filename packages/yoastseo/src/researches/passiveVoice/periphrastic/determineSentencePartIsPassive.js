@@ -11,7 +11,6 @@ export default function( participles ) {
 	forEach( participles, function( participle ) {
 		if ( participle.determinesSentencePartIsPassive() ) {
 			passive = true;
-			console.log( "passive", passive );
 		}
 	} );
 	return passive;

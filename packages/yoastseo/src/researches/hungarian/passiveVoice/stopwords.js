@@ -192,17 +192,8 @@ export default function() {
 		"valami",
 		"valamint",
 		"való",
-		// "vagyok",
-		// "van",
-		// "vannak",
-		// "volt",
-		// "voltam",
-		// "voltak",
-		// "voltunk",
-		// "vissza",
-		// "vele",
-		// "viszont",
-		// "volna",
+		"vissza",
+		"viszont",
 	]
 };
 

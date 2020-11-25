@@ -7,6 +7,7 @@ describe( "detecting passive voice in sentences", function() {
 		expect( passiveVoice( paper ).passives.length ).toBe( 0 );
 	} );
 
+	// Imperative has not been implemented yet.
 	// it( "returns passive voice (imperative without a prefix)", function() {
 	// 	// Passive: Foglalj.
 	// 	const paper = new Paper( "Foglalj szobát holnapra.", { locale: "hu_HU" } );

@@ -62,7 +62,6 @@ export default function( sentencePartText, sentencePartAuxiliaries, language ) {
 		}
 		if ( language === "hu" ) {
 			participles = getParticiplesHungarian( sentencePartText, sentencePartAuxiliaries, language );
-			console.log( participles );
 		}
 	} else {
 		participles = getParticiples( sentencePartText, sentencePartAuxiliaries, language );
