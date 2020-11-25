@@ -123,17 +123,3 @@ export const verbPrefixes = [
 	"végig",
 	"vissza",
 ];
-
-/**
- * Returns an list with morphological suffixes for the passive voice in Hungarian.
- *
- * @returns {Object}        The list filled with morphological suffixes lists.
- */
-export default function() {
-	return {
-		odikSuffixes1: odikSuffixes1,
-		odikSuffixes2: odikSuffixes2,
-		verbPrefixes: verbPrefixes,
-		allWords: [].concat( odikSuffixes1, odikSuffixes2, verbPrefixes ),
-	};
-}

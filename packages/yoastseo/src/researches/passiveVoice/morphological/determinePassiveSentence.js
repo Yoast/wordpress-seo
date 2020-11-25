@@ -224,9 +224,9 @@ const determineSentenceIsPassiveHebrew = function( sentence ) {
 const checkHungarianPassive = function( word, verbRootsList, prefixes, suffixes ) {
 	return verbRootsList.some( root => {
 		return suffixes.some( suffix => prefixes.some( function( prefix ) {
-			const pattern1 = new RegExp( "^" + prefix + root + suffix + "$" );
-			const pattern2 = new RegExp( "^" + root + suffix + "$" );
-			if ( pattern1.test( word ) || pattern2.test( word ) ) {
+			const pattern1 = prefix + root + suffix;
+			const pattern2 = root + suffix;
+			if ( pattern1 === word || pattern2 === word ) {
 				return true;
 			}
 		} ) );
