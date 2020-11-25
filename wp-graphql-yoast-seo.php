@@ -77,8 +77,13 @@ add_action('graphql_init', function () {
             if (!isset($image['url'])) {
                 return __return_empty_string();
             }
-
-            return wpcom_vip_attachment_url_to_postid($image['url']);
+            // Remove image sizes from url
+            $url = preg_replace(
+                '/(.*)-\d+x\d+\.(jpg|png|gif)$/',
+                '$1.$2',
+                $image['url']
+            );
+            return wpcom_vip_attachment_url_to_postid($url);
         }
     }
     if (!function_exists('wp_gql_seo_get_field_key')) {
