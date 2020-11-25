@@ -32,13 +32,10 @@ export default class FAQ extends Component {
 		this.insertQuestion           = this.insertQuestion.bind( this );
 		this.removeQuestion           = this.removeQuestion.bind( this );
 		this.swapQuestions            = this.swapQuestions.bind( this );
-		this.setQuestionRef           = this.setQuestionRef.bind( this );
 		this.moveQuestionDown         = this.moveQuestionDown.bind( this );
 		this.moveQuestionUp           = this.moveQuestionUp.bind( this );
 		this.setFocus                 = this.setFocus.bind( this );
 		this.onAddQuestionButtonClick = this.onAddQuestionButtonClick.bind( this );
-
-		this.editorRefs = {};
 	}
 
 	/**
@@ -62,19 +59,6 @@ export default class FAQ extends Component {
 	 */
 	onAddQuestionButtonClick() {
 		this.insertQuestion( null, [], [], false );
-	}
-
-	/**
-	 * Set ref to a specific question editor.
-	 *
-	 * @param {string} part  Name of the editor to set the ref of.
-	 * @param {object} ref   Ref to the element.
-	 * @param {number} index Index of the Question.
-	 *
-	 * @returns {void}
-	 */
-	setQuestionRef( part, ref, index ) {
-		this.editorRefs[ `${ index }:${ part }` ] = ref;
 	}
 
 	/**
@@ -132,13 +116,6 @@ export default class FAQ extends Component {
 			index = questions.length - 1;
 		}
 
-		let lastIndex = questions.length - 1;
-		while ( lastIndex > index ) {
-			this.editorRefs[ `${ lastIndex + 1 }:question` ] = this.editorRefs[ `${ lastIndex }:question` ];
-			this.editorRefs[ `${ lastIndex + 1}:answer` ]    = this.editorRefs[ `${ lastIndex }:answer` ];
-			lastIndex--;
-		}
-
 		questions.splice( index + 1, 0, {
 			id: FAQ.generateId( "faq-question" ),
 			question,
@@ -150,7 +127,7 @@ export default class FAQ extends Component {
 		this.props.setAttributes( { questions } );
 
 		if ( focus ) {
-			setTimeout( this.setFocus.bind( this, `${ index + 1 }:question` ) );
+			setTimeout( this.setFocus.bind( this, "question", index ) );
 			// When moving focus to a newly created question, return and don't use the speak() message.
 			return;
 		}
@@ -172,13 +149,6 @@ export default class FAQ extends Component {
 
 		questions[ index1 ] = questions[ index2 ];
 		questions[ index2 ] = question;
-
-		const QuestionEditorRef = this.editorRefs[ `${ index1 }:question` ];
-		this.editorRefs[ `${ index1 }:question` ] = this.editorRefs[ `${ index2 }:question` ];
-		this.editorRefs[ `${ index2 }:question` ] = QuestionEditorRef;
-		const AnswerEditorRef = this.editorRefs[ `${ index1 }:answer` ];
-		this.editorRefs[ `${ index1 }:answer` ] = this.editorRefs[ `${ index2 }:answer` ];
-		this.editorRefs[ `${ index2 }:answer` ] = AnswerEditorRef;
 
 		this.props.setAttributes( { questions } );
 
@@ -225,28 +195,14 @@ export default class FAQ extends Component {
 		questions.splice( index, 1 );
 		this.props.setAttributes( { questions } );
 
-		delete this.editorRefs[ `${ index }:question` ];
-		delete this.editorRefs[ `${ index }:answer` ];
-
-		let nextIndex = index + 1;
-		while ( this.editorRefs[ `${ nextIndex }:question` ] || this.editorRefs[ `${ nextIndex }:answer` ] ) {
-			this.editorRefs[ `${ nextIndex - 1 }:question` ] = this.editorRefs[ `${ nextIndex }:question` ];
-			this.editorRefs[ `${ nextIndex - 1 }:answer` ] = this.editorRefs[ `${ nextIndex }:answer` ];
-			nextIndex++;
+		let fieldToFocus = 0;
+		if ( questions[ index ] ) {
+			fieldToFocus = index;
+		} else if ( questions[ index - 1 ] ) {
+			fieldToFocus = index - 1;
 		}
 
-		const deletedIndex = questions.length;
-		delete this.editorRefs[ `${ deletedIndex }:question` ];
-		delete this.editorRefs[ `${ deletedIndex }:answer` ];
-
-		let fieldToFocus = "0:question";
-		if ( this.editorRefs[ `${ index }:question` ] ) {
-			fieldToFocus = `${ index }:question`;
-		} else if ( this.editorRefs[ `${ index - 1 }:answer` ] ) {
-			fieldToFocus = `${ index - 1 }:answer`;
-		}
-
-		this.setFocus( fieldToFocus );
+		this.setFocus( "question", fieldToFocus );
 	}
 	/**
 	 * Sets the focus to a specific QA pair in the FAQ block.
@@ -264,10 +220,6 @@ export default class FAQ extends Component {
 		}
 
 		this.setState( { focus: elementToFocus } );
-
-		if ( this.editorRefs[ elementToFocus ] ) {
-			this.editorRefs[ elementToFocus ].focus();
-		}
 	}
 
 	/**
@@ -311,7 +263,6 @@ export default class FAQ extends Component {
 							attributes={ question }
 							insertQuestion={ this.insertQuestion }
 							removeQuestion={ this.removeQuestion }
-							editorRef={ this.setQuestionRef }
 							onChange={ this.changeQuestion }
 							onFocus={ this.setFocus }
 							isSelected={ focusIndex === `${ index }` }
