@@ -53,7 +53,7 @@ export default class HowTo extends Component {
 		this.toggleListType       = this.toggleListType.bind( this );
 		this.setDurationText      = this.setDurationText.bind( this );
 		this.setFocusToStep       = this.setFocusToStep.bind( this );
-		this.moveStepUp           = this.moveStepUp.bind( this );``
+		this.moveStepUp           = this.moveStepUp.bind( this );
 		this.moveStepDown         = this.moveStepDown.bind( this );
 		this.focusDescription     = this.focusDescription.bind( this );
 		this.addDuration          = this.addDuration.bind( this );
