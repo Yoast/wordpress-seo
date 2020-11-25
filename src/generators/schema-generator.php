@@ -3,9 +3,12 @@
 namespace Yoast\WP\SEO\Generators;
 
 use WP_Block_Parser_Block;
+use WPSEO_Replace_Vars;
+use Yoast\WP\SEO\Config\Schema_IDs;
 use Yoast\WP\SEO\Context\Meta_Tags_Context;
 use Yoast\WP\SEO\Generators\Schema\Abstract_Schema_Piece;
 use Yoast\WP\SEO\Surfaces\Helpers_Surface;
+use Yoast\WP\SEO\Values\Schema_Output;
 
 /**
  * Class Schema_Generator.
@@ -17,15 +20,24 @@ class Schema_Generator implements Generator_Interface {
 	 *
 	 * @var Helpers_Surface
 	 */
-	private $helpers;
+	protected $helpers;
+
+	/**
+	 * The schema output.
+	 *
+	 * @var Schema_Output
+	 */
+	protected $schema_output;
 
 	/**
 	 * Generator constructor.
 	 *
-	 * @param Helpers_Surface $helpers The helpers surface.
+	 * @param Helpers_Surface $helpers       The helpers surface.
+	 * @param Schema_Output   $schema_output The schema output object.
 	 */
-	public function __construct( Helpers_Surface $helpers ) {
-		$this->helpers = $helpers;
+	public function __construct( Helpers_Surface $helpers, Schema_Output $schema_output ) {
+		$this->helpers       = $helpers;
+		$this->schema_output = $schema_output;
 	}
 
 	/**
@@ -108,6 +120,8 @@ class Schema_Generator implements Generator_Interface {
 			}
 		}
 
+		$this->schema_output->register_replace_vars( $context );
+
 		foreach ( $context->blocks as $block_type => $blocks ) {
 			foreach ( $blocks as $block ) {
 				/**
@@ -122,7 +136,7 @@ class Schema_Generator implements Generator_Interface {
 				$graph      = \apply_filters( 'wpseo_schema_block_' . $block_type, $graph, $block, $context );
 
 				if ( isset( $block['attrs']['yoast-schema'] ) ) {
-					$graph[] = $block['attrs']['yoast-schema'];
+					$graph[] = $this->schema_output->replace( $block['attrs']['yoast-schema'], $context->presentation );
 				}
 			}
 		}

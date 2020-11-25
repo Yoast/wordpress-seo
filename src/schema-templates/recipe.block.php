@@ -5,5 +5,5 @@
 {{sidebar-input name="yield" output=false type="number" label="Serves #" }}
 <div class={{class-name}}>
 	{{variable-tag-rich-text name="title" tags=[ "h1", "h2", "h3", "h4", "h5", "h6", "strong" ] placeholder="Recipe title" }}
-	{{inner-blocks allowed-blocks=[ "core/paragraph", "core/image", "yoast/ingredients" ] appender="button" appenderLabel="Add to recipe" }}
+	{{inner-blocks allowed-blocks=[ "core/paragraph", "core/image", "yoast/ingredients" ] template=[ [ "core/image" ] ] appender="button" appenderLabel="Add to recipe" }}
 </div>
