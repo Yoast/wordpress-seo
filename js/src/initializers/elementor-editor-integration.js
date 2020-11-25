@@ -1,5 +1,4 @@
 /* global jQuery, window */
-import domReady from "@wordpress/dom-ready";
 import { dispatch } from "@wordpress/data";
 import { doAction } from "@wordpress/hooks";
 import { registerElementorDataHookAfter } from "../helpers/elementorHook";
@@ -91,55 +90,53 @@ export default function initElementEditorIntegration() {
 	window.YoastSEO = window.YoastSEO || {};
 	window.YoastSEO._registerReactComponent = registerReactComponent;
 
-	domReady( () => {
-		// Check whether the route to our tab is active. If so, render our React root.
-		window.$e.routes.on( "run:after", function( component, route ) {
-			if ( route === "panel/page-settings/yoast-tab" ) {
-				renderReactRoot( window.YoastSEO.store, "elementor-panel-page-settings-controls", (
-					<StyleSheetManager target={ document.getElementById( "elementor-panel-page-settings-controls" ) }>
-						<div className="yoast yoast-elementor-panel__fills">
-							<ElementorSlot />
-							<ElementorFill />
-						</div>
-					</StyleSheetManager>
-				) );
-			}
-		} );
-
-		// Hook into the save.
-		const handleSave = sendFormData.bind( null, document.getElementById( "yoast-form" ) );
-		registerElementorDataHookAfter( "document/save/save", "yoast-seo-save", () => {
-			/*
-			 * Do not save our data to a revision.
-			 *
-			 * WordPress saves the metadata to the post parent, not the revision. See `update_post_meta`.
-			 * Most likely this is because saving a revision on a published post will unpublish in WordPress itself.
-			 * But Elementor does not unpublish your post when you save a draft.
-			 * This would result in Yoast SEO data being live while saving a draft.
-			 */
-			if ( window.elementor.config.document.id === window.elementor.config.document.revisions.current_id  ) {
-				handleSave();
-			}
-		} );
-
-		// Register with the menu.
-		const menu = window.elementor.modules.layouts.panel.pages.menu.Menu;
-		menu.addItem( {
-			name: "yoast",
-			icon: "yoast yoast-element-menu-icon",
-			title: "Yoast SEO",
-			type: "page",
-			callback: () => {
-				try {
-					window.$e.routes.run( "panel/page-settings/yoast-tab" );
-				} catch ( error ) {
-					// The yoast tab is only available if the page settings have been visited.
-					window.$e.routes.run( "panel/page-settings/settings" );
-					window.$e.routes.run( "panel/page-settings/yoast-tab" );
-				}
-			},
-		}, "more" );
+	// Check whether the route to our tab is active. If so, render our React root.
+	window.$e.routes.on( "run:after", function( component, route ) {
+		if ( route === "panel/page-settings/yoast-tab" ) {
+			renderReactRoot( window.YoastSEO.store, "elementor-panel-page-settings-controls", (
+				<StyleSheetManager target={ document.getElementById( "elementor-panel-page-settings-controls" ) }>
+					<div className="yoast yoast-elementor-panel__fills">
+						<ElementorSlot />
+						<ElementorFill />
+					</div>
+				</StyleSheetManager>
+			) );
+		}
 	} );
+
+	// Hook into the save.
+	const handleSave = sendFormData.bind( null, document.getElementById( "yoast-form" ) );
+	registerElementorDataHookAfter( "document/save/save", "yoast-seo-save", () => {
+		/*
+			* Do not save our data to a revision.
+			*
+			* WordPress saves the metadata to the post parent, not the revision. See `update_post_meta`.
+			* Most likely this is because saving a revision on a published post will unpublish in WordPress itself.
+			* But Elementor does not unpublish your post when you save a draft.
+			* This would result in Yoast SEO data being live while saving a draft.
+			*/
+		if ( window.elementor.config.document.id === window.elementor.config.document.revisions.current_id  ) {
+			handleSave();
+		}
+	} );
+
+	// Register with the menu.
+	const menu = window.elementor.modules.layouts.panel.pages.menu.Menu;
+	menu.addItem( {
+		name: "yoast",
+		icon: "yoast yoast-element-menu-icon",
+		title: "Yoast SEO",
+		type: "page",
+		callback: () => {
+			try {
+				window.$e.routes.run( "panel/page-settings/yoast-tab" );
+			} catch ( error ) {
+				// The yoast tab is only available if the page settings have been visited.
+				window.$e.routes.run( "panel/page-settings/settings" );
+				window.$e.routes.run( "panel/page-settings/yoast-tab" );
+			}
+		},
+	}, "more" );
 
 	const yoastInputs = document.querySelectorAll( "input[name^='yoast']" );
 	yoastInputs.forEach( input => storeValueAsOldValue( input ) );
