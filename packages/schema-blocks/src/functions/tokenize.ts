@@ -10,6 +10,7 @@ lexer.rule( "default", /(.*?)({{[a-zA-Z-]+|$)/, ( ctx, matches ) => {
 	if ( matches[ 2 ] && matches[ 2 ].slice( 0, 2 ) === "{{" ) {
 		ctx.state( "definition" );
 		ctx.accept( "definition", matches[ 2 ].slice( 2 ) );
+		ctx.data( "nested", [] );
 	}
 }, "open-instruction" );
 
@@ -25,18 +26,46 @@ lexer.rule( "definition", /\s*([a-zA-Z][a-zA-Z0-9-_]*)=/, ( ctx, matches ) => {
 	ctx.state( "definition-value" );
 }, "options-object-key" );
 
+// Empty object
+lexer.rule( "definition-value", /\s*\{\s*}/, ctx => {
+	ctx.accept( "empty-object" );
+	if ( ! ctx.tagged( "array" ) && ! ctx.tagged( "object" ) ) {
+		ctx.state( "definition" );
+	}
+}, "empty-object" );
+
 // Open object
 lexer.rule( "definition-value", /\s*\{/, ( ctx ) => {
 	ctx.tag( "object" );
 	ctx.accept( "object-open" );
 	ctx.state( "definition-key" );
+
+	const nested = ctx.data( "nested" ) as string[];
+	nested.push( "object" );
+	ctx.data( "nested", nested );
+
+	if ( ctx.tagged( "array" ) ) {
+		ctx.untag( "array" );
+	}
 }, "open-object" );
 
 // Close object
 lexer.rule( "definition-value #object", /\s*}/, ( ctx ) => {
-	ctx.untag( "object" );
+	const nested = ctx.data( "nested" ) as string[];
+	nested.pop();
+	ctx.data( "nested", nested );
+
 	ctx.accept( "object-close" );
-	ctx.state( "definition" );
+	if ( nested.length === 0 ) {
+		ctx.untag( "object" );
+		ctx.state( "definition" );
+		return;
+	}
+	const next = nested[ nested.length - 1 ];
+	if ( next === "array" ) {
+		ctx.untag( "object" );
+		ctx.tag( "array" );
+	}
 }, "close-object" );
 
 // Object keys
@@ -55,13 +84,35 @@ lexer.rule( "definition-value #object", /\s*,/, ( ctx ) => {
 lexer.rule( "definition-value", /\s*\[/, ( ctx ) => {
 	ctx.tag( "array" );
 	ctx.accept( "array-open" );
+
+	const nested = ctx.data( "nested" ) as string[];
+	nested.push( "array" );
+	ctx.data( "nested", nested );
+
+	if ( ctx.tagged( "object" ) ) {
+		ctx.untag( "object" );
+	}
 }, "open-array" );
+
+// {{instruction option1=[1,2,{ foo: "bar" }] option2=true}}
 
 // Close array
 lexer.rule( "definition-value #array", /\s*]/, ( ctx ) => {
-	ctx.untag( "array" );
+	const nested = ctx.data( "nested" ) as string[];
+	nested.pop();
+	ctx.data( "nested", nested );
+
 	ctx.accept( "array-close" );
-	ctx.state( "definition" );
+	if ( nested.length === 0 ) {
+		ctx.untag( "array" );
+		ctx.state( "definition" );
+		return;
+	}
+	const next = nested[ nested.length - 1 ];
+	if ( next === "object" ) {
+		ctx.untag( "array" );
+		ctx.tag( "object" );
+	}
 }, "close-array" );
 
 // Comma in array
