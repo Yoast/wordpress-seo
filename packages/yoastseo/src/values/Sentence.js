@@ -2,7 +2,6 @@
  * Construct the Sentence object and set the sentence text and locale.
  *
  * @param {string} sentence The text of the sentence.
- * @param {string} locale The locale.
  * @constructor
  */
 var Sentence = function( sentence ) {
@@ -58,7 +57,7 @@ Sentence.prototype.serialize = function() {
  * @returns {Sentence} The parsed Sentence.
  */
 Sentence.parse = function( serialized ) {
-	const sentence = new Sentence( serialized.sentenceText, serialized.locale );
+	const sentence = new Sentence( serialized.sentenceText );
 	sentence.setPassive( serialized.isPassive );
 
 	return sentence;

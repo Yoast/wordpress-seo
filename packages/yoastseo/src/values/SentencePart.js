@@ -3,11 +3,10 @@
  *
  * @param {string} sentencePartText The text in the sentence part.
  * @param {Array} auxiliaries The list of auxiliaries from the sentence part.
- * @param {string} locale The locale used for this sentence part.
  *
  * @constructor
  */
-var SentencePart = function( sentencePartText, auxiliaries ) {
+const SentencePart = function( sentencePartText, auxiliaries ) {
 	this._sentencePartText = sentencePartText;
 	this._auxiliaries = auxiliaries;
 	this._isPassive = false;
