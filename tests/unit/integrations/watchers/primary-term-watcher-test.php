@@ -61,8 +61,8 @@ class Primary_Term_Watcher_Test extends TestCase {
 	/**
 	 * @inheritDoc
 	 */
-	public function setUp() {
-		parent::setUp();
+	protected function set_up() {
+		parent::set_up();
 
 		$this->repository           = Mockery::mock( Primary_Term_Repository::class );
 		$this->site                 = Mockery::mock( Site_Helper::class );

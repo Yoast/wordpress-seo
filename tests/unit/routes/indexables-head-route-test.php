@@ -36,8 +36,8 @@ class Indexables_Head_Route_Test extends TestCase {
 	/**
 	 * @inheritDoc
 	 */
-	public function setUp() {
-		parent::setUp();
+	protected function set_up() {
+		parent::set_up();
 
 		$this->head_action = Mockery::mock( Indexable_Head_Action::class );
 		$this->instance    = new Indexables_Head_Route( $this->head_action );
@@ -49,7 +49,10 @@ class Indexables_Head_Route_Test extends TestCase {
 	 * @covers ::__construct
 	 */
 	public function test_construct() {
-		$this->assertAttributeInstanceOf( Indexable_Head_Action::class, 'head_action', $this->instance );
+		$this->assertInstanceOf(
+			Indexable_Head_Action::class,
+			$this->getPropertyValue( $this->instance, 'head_action' )
+		);
 	}
 
 	/**
@@ -98,6 +101,8 @@ class Indexables_Head_Route_Test extends TestCase {
 	 * @covers ::get_head
 	 */
 	public function test_get_head() {
+		$this->stubEscapeFunctions();
+
 		$request = Mockery::mock( 'WP_REST_Request', 'ArrayAccess' );
 		$request
 			->expects( 'offsetGet' )

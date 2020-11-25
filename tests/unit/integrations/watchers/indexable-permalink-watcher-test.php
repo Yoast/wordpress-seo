@@ -62,8 +62,8 @@ class Indexable_Permalink_Watcher_Test extends TestCase {
 	/**
 	 * Does the setup.
 	 */
-	public function setUp() {
-		parent::setUp();
+	protected function set_up() {
+		parent::set_up();
 
 		Monkey\Functions\stubs(
 			[

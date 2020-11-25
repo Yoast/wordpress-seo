@@ -84,8 +84,8 @@ class Schema_Generator_Test extends TestCase {
 	/**
 	 * Sets up the test.
 	 */
-	public function setUp() {
-		parent::setUp();
+	protected function set_up() {
+		parent::set_up();
 
 		$this->id           = Mockery::mock( ID_Helper::class );
 		$this->current_page = Mockery::mock( Current_Page_Helper::class );
@@ -244,6 +244,8 @@ class Schema_Generator_Test extends TestCase {
 	 * @covers ::get_graph_pieces
 	 */
 	public function test_generate_with_blocks() {
+		$this->stubEscapeFunctions();
+
 		Monkey\Functions\expect( 'post_password_required' )
 			->once()
 			->withNoArgs()
@@ -288,6 +290,8 @@ class Schema_Generator_Test extends TestCase {
 	 * @covers ::get_graph_pieces
 	 */
 	public function test_generate_with_generator_have_identifier() {
+		$this->stubEscapeFunctions();
+
 		$piece             = new FAQ();
 		$piece->identifier = 'faq_block';
 		$this->instance
@@ -312,6 +316,8 @@ class Schema_Generator_Test extends TestCase {
 	 * @covers ::get_graph_pieces
 	 */
 	public function test_generate_with_block_not_having_generated_output() {
+		$this->stubEscapeFunctions();
+
 		Monkey\Functions\expect( 'is_single' )
 			->once()
 			->withNoArgs()

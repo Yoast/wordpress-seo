@@ -27,8 +27,8 @@ class Url_Helper_Test extends TestCase {
 	/**
 	 * Sets up the test class.
 	 */
-	public function setUp() {
-		parent::setUp();
+	protected function set_up() {
+		parent::set_up();
 
 		$this->instance = Mockery::mock( Url_Helper::class )->makePartial();
 	}

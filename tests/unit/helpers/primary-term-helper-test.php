@@ -24,8 +24,8 @@ class Primary_Term_Helper_Test extends TestCase {
 	/**
 	 * @inheritDoc
 	 */
-	public function setUp() {
-		parent::setUp();
+	protected function set_up() {
+		parent::set_up();
 
 		$this->instance = Mockery::mock( Primary_Term_Helper::class )
 			->shouldAllowMockingProtectedMethods()

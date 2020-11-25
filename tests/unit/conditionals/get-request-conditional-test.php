@@ -25,7 +25,9 @@ class Get_Request_Conditional_Test extends TestCase {
 	/**
 	 * Set up the test fixtures.
 	 */
-	public function setUp() {
+	protected function set_up() {
+		parent::set_up();
+
 		$this->instance = new Get_Request_Conditional();
 	}
 

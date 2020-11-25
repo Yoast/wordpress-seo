@@ -36,8 +36,8 @@ class Schema_Blocks_Test extends TestCase {
 	/**
 	 * Runs the setup to prepare the needed instance.
 	 */
-	public function setUp() {
-		parent::setUp();
+	public function set_up() {
+		parent::set_up();
 
 		$this->asset_manager = Mockery::mock( WPSEO_Admin_Asset_Manager::class );
 		$this->instance      = new Schema_Blocks( $this->asset_manager );
@@ -49,7 +49,7 @@ class Schema_Blocks_Test extends TestCase {
 	 * @covers ::__construct
 	 */
 	public function test_constructor() {
-		static::assertAttributeInstanceOf( WPSEO_Admin_Asset_Manager::class, 'asset_manager', $this );
+		static::assertInstanceOf( WPSEO_Admin_Asset_Manager::class, $this->getPropertyValue( $this, 'asset_manager' ) );
 	}
 
 	/**
@@ -85,10 +85,9 @@ class Schema_Blocks_Test extends TestCase {
 	public function test_register_template_not_starting_with_slash() {
 		$this->instance->register_template( 'template.php' );
 
-		static::assertAttributeEquals(
+		static::assertEquals(
 			[ WPSEO_PATH . '/template.php' ],
-			'templates',
-			$this->instance
+			$this->getPropertyValue( $this->instance, 'templates' )
 		);
 	}
 
@@ -100,10 +99,9 @@ class Schema_Blocks_Test extends TestCase {
 	public function test_register_template() {
 		$this->instance->register_template( '/template.php' );
 
-		static::assertAttributeEquals(
+		static::assertEquals(
 			[ '/template.php' ],
-			'templates',
-			$this->instance
+			$this->getPropertyValue( $this->instance, 'templates' )
 		);
 	}
 
@@ -132,6 +130,9 @@ class Schema_Blocks_Test extends TestCase {
 	 * @covers ::output
 	 */
 	public function test_output() {
+		$this->stubEscapeFunctions();
+		$this->stubTranslationFunctions();
+
 		$this->asset_manager
 			->expects( 'is_script_enqueued' )
 			->with( 'schema-blocks' )
@@ -168,6 +169,9 @@ class Schema_Blocks_Test extends TestCase {
 	 * @covers ::output
 	 */
 	public function test_load_with_filter() {
+		$this->stubEscapeFunctions();
+		$this->stubTranslationFunctions();
+
 		$this->asset_manager
 			->expects( 'is_script_enqueued' )
 			->with( 'schema-blocks' )

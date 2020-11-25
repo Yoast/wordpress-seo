@@ -26,8 +26,8 @@ class Primary_Category_Test extends TestCase {
 	/**
 	 * Set up the class which will be tested.
 	 */
-	public function setUp() {
-		parent::setUp();
+	protected function set_up() {
+		parent::set_up();
 
 		$this->instance = Mockery::mock( Primary_Category::class )
 			->makePartial()

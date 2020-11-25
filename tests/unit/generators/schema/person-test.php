@@ -54,8 +54,8 @@ class Person_Test extends TestCase {
 	/**
 	 * Initializes the test environment.
 	 */
-	public function setUp() {
-		parent::setUp();
+	protected function set_up() {
+		parent::set_up();
 
 		$this->instance                     = new Person();
 		$this->instance->context            = new Meta_Tags_Context_Mock();

@@ -19,10 +19,10 @@ class Open_Graph_Images_Test extends TestCase {
 	/**
 	 * Sets up the test class.
 	 */
-	public function setUp() {
-		$this->set_instance();
+	protected function set_up() {
+		parent::set_up();
 
-		parent::setUp();
+		$this->set_instance();
 	}
 
 	/**

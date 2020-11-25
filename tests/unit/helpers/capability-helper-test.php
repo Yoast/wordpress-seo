@@ -28,8 +28,8 @@ class Capability_Helper_Test extends TestCase {
 	/**
 	 * Set up the tests.
 	 */
-	public function setUp() {
-		parent::setUp();
+	protected function set_up() {
+		parent::set_up();
 
 		$this->instance = new Capability_Helper();
 	}

@@ -34,8 +34,10 @@ class Post_Helper_Test extends TestCase {
 	/**
 	 * Sets up the test class.
 	 */
-	public function setUp() {
-		parent::setUp();
+	protected function set_up() {
+		parent::set_up();
+
+		$this->stubTranslationFunctions();
 
 		$this->string   = Mockery::mock( String_Helper::class );
 		$this->instance = new Post_Helper( $this->string );

@@ -107,8 +107,8 @@ class Meta_Tags_Context_Test extends TestCase {
 	/**
 	 * Set up the test.
 	 */
-	public function setUp() {
-		parent::setUp();
+	protected function set_up() {
+		parent::set_up();
 
 		$this->options              = Mockery::mock( Options_Helper::class );
 		$this->url                  = Mockery::mock( Url_Helper::class );
