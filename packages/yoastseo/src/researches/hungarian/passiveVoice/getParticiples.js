@@ -21,7 +21,6 @@ import { forEach } from "lodash-es";
  * @returns {Array}                         The array with HungarianParticiple Objects.
  */
 export default function( sentencePartText, auxiliaries, language ) {
-	console.log(sentencePartText)
 	const words = getWords( sentencePartText );
 
 	const foundParticiples = [];

@@ -72,8 +72,9 @@ const languageVariables = {
 /**
  * Strips spaces from the auxiliary matches.
  *
- * @param {Array} matches A list with matches of auxiliaries.
- * @returns {Array} A list with matches with spaces removed.
+ * @param {Array} matches       A list with matches of auxiliaries.
+ *
+ * @returns {Array}             A list with matches with spaces removed.
  */
 function sanitizeMatches( matches ) {
 	return map( matches, function( match ) {
@@ -84,9 +85,10 @@ function sanitizeMatches( matches ) {
 /**
  * Splits sentences into sentence parts based on stopwords.
  *
- * @param {string} sentence The sentence to split.
- * @param {Array} stopwords The array with matched stopwords.
- * @returns {Array} The array with sentence parts.
+ * @param {string} sentence     The sentence to split.
+ * @param {Array} stopwords     The array with matched stopwords.
+ *
+ * @returns {Array}             The array with sentence parts.
  */
 function splitOnWords( sentence, stopwords ) {
 	const splitSentences = [];
@@ -113,7 +115,7 @@ function splitOnWords( sentence, stopwords ) {
  * @param {Array}   sentences   The array with split sentences.
  * @param {string}  language    The language for which to create sentence parts.
  *
- * @returns {Array} The array with sentence parts.
+ * @returns {Array}             The array with sentence parts.
  */
 function createSentenceParts( sentences, language ) {
 	const auxiliaryRegex = languageVariables[ language ].auxiliaryRegex;
@@ -123,17 +125,16 @@ function createSentenceParts( sentences, language ) {
 		const foundAuxiliaries = sanitizeMatches( part.match( auxiliaryRegex || [] ) );
 		sentenceParts.push( new SentencePart( part, foundAuxiliaries, languageVariables[ language ].locale ) );
 	} );
-	console.log(sentenceParts)
 	return sentenceParts;
 }
 
 /**
  * Splits the sentence into sentence parts based on stopwords.
  *
- * @param {string} sentence The text to split into sentence parts.
- * @param {string} language The language for which to split sentences.
+ * @param {string} sentence     The text to split into sentence parts.
+ * @param {string} language     The language for which to split sentences.
  *
- * @returns {Array} The array with sentence parts.
+ * @returns {Array}             The array with sentence parts.
  */
 function splitSentence( sentence, language ) {
 	const stopwordRegex = languageVariables[ language ].stopwordRegex;

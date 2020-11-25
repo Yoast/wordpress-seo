@@ -68,14 +68,6 @@ const followingAuxiliaryExceptionWordsItalian = [ "il", "i", "la", "le", "lo", "
 const reflexivePronounsItalian = [ "mi", "ti", "si", "ci", "vi" ];
 const directPrecedenceExceptionRegexItalian = arrayToRegex( reflexivePronounsItalian );
 
-// Hugarian-specific variables and imports.
-import SentencePartHungarian from "../../hungarian/passiveVoice/SentencePart";
-import auxiliariesHungarianFactory from "../../hungarian/passiveVoice/auxiliaries.js";
-const auxiliariesHungarian = auxiliariesHungarianFactory();
-import stopwordsHungarianFactory from "../../hungarian/passiveVoice/stopwords.js";
-const stopwordsHungarian = stopwordsHungarianFactory();
-const stopCharacterRegexHungarian = /([:,])(?=[ \n\r\t'"+\-»«‹›<>„”])/ig;
-
 /*
  * Variables applying to multiple languages
  * This regex applies to Spanish, Italian and  Portuguese.
@@ -124,13 +116,6 @@ const languageVariables = {
 		stopCharacterRegex: stopCharacterRegexOthers,
 		followingAuxiliaryExceptionRegex: arrayToRegex( followingAuxiliaryExceptionWordsItalian ),
 		directPrecedenceExceptionRegex: directPrecedenceExceptionRegexItalian,
-	},
-	hu: {
-		stopwords: stopwordsHungarian,
-		auxiliaryRegex: arrayToRegex( auxiliariesHungarian.allWords ),
-		SentencePart: SentencePartHungarian,
-		auxiliaries: auxiliariesHungarian,
-		stopCharacterRegex: stopCharacterRegexHungarian,
 	},
 };
 
@@ -313,7 +298,6 @@ const getAuxiliaryMatches = function( sentencePart, language ) {
 		case "fr":
 		case "es":
 		case "pt":
-		case "hu":
 		case "it":
 			// An array with the matched auxiliaries and their indices.
 			let auxiliaryMatchIndices = getIndicesOfList( auxiliaryMatches, sentencePart );

@@ -69,7 +69,6 @@ const getPeriphrasticPassives = function( sentences, language ) {
 		forEach( sentenceParts, function( sentencePart ) {
 			sentencePart.setPassive( isPassiveSentencePart( sentencePart.getSentencePartText(), sentencePart.getAuxiliaries(), language ) );
 			passive = passive || sentencePart.isPassive();
-			console.log("passiveInGetPassiveVoice", passive)
 		} );
 		if ( passive ) {
 			passiveSentences.push( sentence.getSentenceText() );
@@ -90,11 +89,8 @@ const getPeriphrasticPassives = function( sentences, language ) {
  */
 const getMorphologicalAndPeriphrasticPassive = function( sentences, language ) {
 	const morphologicalSentences = getMorphologicalPassives( sentences, language );
-	console.log( "morphologicalSentences", morphologicalSentences )
 	const periphrasticSentences = getPeriphrasticPassives( sentences, language );
-	console.log( "periphrasticSentences", periphrasticSentences)
 	const passiveSentences = morphologicalSentences.passiveSentences.concat( periphrasticSentences.passiveSentences );
-	console.log( "passiveSentences", passiveSentences )
 	return {
 		passiveSentences,
 	};

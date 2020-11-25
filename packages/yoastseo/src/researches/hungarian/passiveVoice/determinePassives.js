@@ -18,7 +18,6 @@ const auxiliaryRegex = arrayToRegex( hungarianAuxiliaries );
 export default function( sentencePartText, auxiliaries, language ) {
 	const passive = false;
 	const auxiliaryMatches = sentencePartText.match( auxiliaryRegex );
-	console.log( "auxiliaryMatches", auxiliaryMatches );
 	if ( auxiliaryMatches === null ) {
 		return passive;
 	}
