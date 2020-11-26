@@ -2,7 +2,7 @@ import { camelCase } from "lodash";
 import { IToken } from "tokenizr";
 
 import Definition, { DefinitionClass } from "../core/Definition";
-import Instruction from "../core/Instruction";
+import Instruction, { InstructionArray, InstructionObject, InstructionValue, InstructionPrimitive } from "../core/Instruction";
 import { generateUniqueSeparator } from "./separator";
 import tokenize from "./tokenize";
 
@@ -15,16 +15,13 @@ let id = 0;
  *
  * @returns The array.
  */
-function processArray( tokens: IToken[] ): unknown[] {
-	const value = [];
+function processArray( tokens: IToken[] ): InstructionArray {
+	const value: Array<InstructionValue> = [];
 
 	// Consume the array-open token.
 	tokens.shift();
 	while ( ! tokens[ 0 ].isA( "array-close" ) ) {
-		if ( ! tokens[ 0 ].isA( "value" ) ) {
-			throw "Template parse error: Array must contain values";
-		}
-		value.push( tokens.shift().value );
+		value.push( processToken( tokens[ 0 ], tokens ) );
 	}
 	// Consume the array-close token.
 	tokens.shift();
@@ -39,23 +36,48 @@ function processArray( tokens: IToken[] ): unknown[] {
  *
  * @returns The object.
  */
-function processObject( tokens: IToken[] ): Record<string, unknown> {
-	const value: Record<string, unknown> = {};
+function processObject( tokens: IToken[] ): InstructionObject {
+	const value: InstructionObject = {};
 
 	// Consume the object-open token.
 	tokens.shift();
 	while ( ! tokens[ 0 ].isA( "object-close" ) ) {
-		if ( ! tokens[ 0 ].isA( "key" ) || ! tokens[ 1 ].isA( "value" ) ) {
+		if ( ! tokens[ 0 ].isA( "key" ) ) {
 			throw "Template parse error: Object must contain key-value pairs";
 		}
 		const objectKey = tokens.shift().value as string;
 
-		value[ objectKey ] = tokens.shift().value;
+		value[ objectKey ] = processToken( tokens[ 0 ], tokens );
 	}
 	// Consume the object-close token.
 	tokens.shift();
 
 	return value;
+}
+
+/**
+ * Processes a token from a list of tokens.
+ *
+ * @param {IToken}   currentToken The current token.
+ * @param {IToken[]} tokens       The remaining tokens.
+ *
+ * @returns The value of the first token.
+ */
+function processToken( currentToken: IToken, tokens: IToken[] ): InstructionValue {
+	if ( currentToken.isA( "array-open" ) ) {
+		return processArray( tokens );
+	}
+	if ( currentToken.isA( "object-open" ) ) {
+		return processObject( tokens );
+	}
+	if ( currentToken.isA( "empty-object" ) ) {
+		tokens.shift();
+		return {};
+	}
+	if ( currentToken.isA( "value" ) ) {
+		return tokens.shift().value as InstructionPrimitive;
+	}
+	throw "Invalid token found.";
 }
 
 /**
@@ -72,15 +94,7 @@ function processBlockInstruction( token: IToken<string>, tokens: IToken[], instr
 
 	while ( tokens[ 0 ] && tokens[ 0 ].isA( "key" ) ) {
 		const key = camelCase( ( tokens.shift() as IToken<string> ).value );
-		let value;
-		if ( tokens[ 0 ].isA( "array-open" ) ) {
-			value = processArray( tokens );
-		} else if ( tokens[ 0 ].isA( "object-open" ) ) {
-			value = processObject( tokens );
-		} else if ( tokens[ 0 ].isA( "value" ) ) {
-			value = tokens.shift().value;
-		}
-		instruction.options[ key ] = value as string | boolean | number | Array<string> | Array<boolean> | Array<number>;
+		instruction.options[ key ] = processToken( tokens[ 0 ], tokens );
 	}
 
 	return instruction;
