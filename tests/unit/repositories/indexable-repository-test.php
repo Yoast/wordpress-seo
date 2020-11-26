@@ -76,8 +76,8 @@ class Indexable_Repository_Test extends TestCase {
 	/**
 	 * @inheritDoc
 	 */
-	public function setUp() {
-		parent::setUp();
+	protected function set_up() {
+		parent::set_up();
 
 		$this->builder              = Mockery::mock( Indexable_Builder::class );
 		$this->current_page         = Mockery::mock( Current_Page_Helper::class );
@@ -315,7 +315,7 @@ class Indexable_Repository_Test extends TestCase {
 
 		$query = $this->instance->query();
 
-		$this->assertAttributeEquals( '\Yoast\WP\SEO\Models\Indexable', 'class_name', $query );
+		$this->assertEquals( '\Yoast\WP\SEO\Models\Indexable', $this->getPropertyValue( $query, 'class_name' ) );
 		$this->assertInstanceOf( ORM::class, $query );
 	}
 

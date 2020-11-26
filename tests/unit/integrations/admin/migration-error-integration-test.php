@@ -37,8 +37,11 @@ class Migration_Error_Integration_Test extends TestCase {
 	/**
 	 * @inheritDoc
 	 */
-	public function setUp() {
-		parent::setUp();
+	protected function set_up() {
+		parent::set_up();
+
+		$this->stubTranslationFunctions();
+		$this->stubEscapeFunctions();
 
 		$this->migration_status = Mockery::mock( Migration_Status::class );
 		$this->instance         = new Migration_Error_Integration( $this->migration_status );
@@ -50,7 +53,10 @@ class Migration_Error_Integration_Test extends TestCase {
 	 * @covers ::__construct
 	 */
 	public function test_construct() {
-		$this->assertAttributeInstanceOf( Migration_Status::class, 'migration_status', $this->instance );
+		$this->assertInstanceOf(
+			Migration_Status::class,
+			$this->getPropertyValue( $this->instance, 'migration_status' )
+		);
 	}
 
 	/**

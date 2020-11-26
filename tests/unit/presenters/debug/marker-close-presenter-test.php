@@ -24,6 +24,8 @@ class Marker_Close_Presenter_Test extends TestCase {
 	 * @covers ::present
 	 */
 	public function test_present() {
+		$this->stubEscapeFunctions();
+
 		$product = Mockery::mock( Product_Helper::class );
 		$product->expects( 'get_name' )->andReturn( 'Yoast SEO plugin' );
 

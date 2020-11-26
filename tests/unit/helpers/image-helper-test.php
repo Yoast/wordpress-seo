@@ -26,12 +26,12 @@ class Image_Helper_Test extends TestCase {
 	/**
 	 * Setup.
 	 */
-	public function setUp() {
+	protected function set_up() {
+		parent::set_up();
+
 		$this->instance = Mockery::mock( Image_Helper::class )
 			->makePartial()
 			->shouldAllowMockingProtectedMethods();
-
-		parent::setUp();
 	}
 
 	/**

@@ -10,7 +10,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @group conditionals
  *
- * @coversDefaultClass Y\oast\WP\SEO\Conditionals\Schema_Blocks_Conditional
+ * @coversDefaultClass \Yoast\WP\SEO\Conditionals\Schema_Blocks_Conditional
  */
 class Schema_Blocks_Conditional_Test extends TestCase {
 
@@ -24,8 +24,8 @@ class Schema_Blocks_Conditional_Test extends TestCase {
 	/**
 	 * Does the setup for testing.
 	 */
-	public function setUp() {
-		parent::setUp();
+	protected function set_up() {
+		parent::set_up();
 
 		$this->instance = new Schema_Blocks_Conditional();
 	}

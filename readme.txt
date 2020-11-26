@@ -4,7 +4,7 @@ Donate link: https://yoa.st/1up
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
-Tested up to: 5.5.3
+Tested up to: 5.6
 Stable tag: 15.3
 Requires PHP: 5.6.20
 
@@ -106,6 +106,8 @@ Yoast SEO integrates seamlessly into a range of themes and plugins. We work part
 * The official [AMP](https://wordpress.org/plugins/amp/) plugin, which changes your templates to use the ‘AMP’ HTML format.
 * Google’s [Web Stories](https://wordpress.org/plugins/web-stories/) plugin, which helps you to create ‘[web stories](https://amp.dev/about/stories/)’.
 * The [Advanced Custom Fields](https://wordpress.org/plugins/advanced-custom-fields/) plugin, when you also activate the [ACF Content Analysis for Yoast SEO](https://wordpress.org/plugins/acf-content-analysis-for-yoast-seo/) plugin.
+* The [Elementor](https://wordpress.org/plugins/elementor/) website builder.
+* [Zapier](https://zapier.com/apps/yoast-seo/integrations), which helps you automate your publishing flow.
 
 ### BUG REPORTS
 
@@ -235,37 +237,29 @@ Your question has most likely been answered on our knowledge base: [kb.yoast.com
 = 15.4 =
 Release Date: December 2nd, 2020
 
+It’s here: Yoast SEO 15.4! In this release, you’ll find a seamless, easy-to-use integration of Yoast SEO with Elementor. Building websites and optimizing content for the search engines now in one workflow! Read more about what’s new in Yoast SEO 15.4 in [our release post](https://yoa.st/release-15-4)!
+
+Enhancements:
+
+* Introduces a seamless integration of Yoast SEO content analysis into the Elementor editor.
+* Makes it possible to recognize forms of keyphrases in Arabic when they are preceded by certain multi-letter prefixes, e.g. والقبعة ,فسحرية, or وبالمفتاح.
+
 Bugfixes:
 
 * Fixes a bug where `post-sitemap.xml` would cause a fatal error when the filter `post_link` required a `WP_Post` object. Props to [stodorovic](https://github.com/stodorovic).
-* Fixes a bug where we would break the core `default_hidden_columns` filter. Props [thomasmb](https://github.com/thomasmb).
+* Fixes a bug where the core `default_hidden_columns` filter would be broken. Props [thomasmb](https://github.com/thomasmb).
 * Fixes a bug where memory could be exhaused on the page overview for users with a large number of pages.
-
-Enhancements: 
-
-* Adds the Yoast SEO sidebar in the Elementor editor.
-* Makes it possible to recognize forms of keyphrases in Arabic when they are preceded by certain multi-letter prefixes, e.g. والقبعة ,فسحرية, or وبالمفتاح. 
+* Fixes a bug where a ArgumentCountError would be thrown on the Search Appearance settings page when using PHP 8.0.
 
 Other:
 
-* Improves compatibility with PHP 8.0.
-* Provides an alternative for the method `get_title_separator`.
-* Adds a filter to deactivate the Previously Used Keyword analysis assessment.
+* Provides `YoastSEO->helpers->options->get_title_separator()` as an alternative for the previously removed `get_title_separator` method.
+* Adds a `wpseo_previously_used_keyword_active` filter to deactivate the Previously Used Keyword analysis assessment.
 
 = 15.3 =
 Release Date: November 17th, 2020
 
 Out now: Yoast SEO 15.3! In this release, you’ll find full language support for Hebrew in our analysis! This makes it a lot more natural to optimize your posts and it lets you focus on the writing part. Read more about what’s new in Yoast SEO 15.3 in [our release post](https://yoa.st/release-15-3)!
-
-Bugfixes:
-
-* Fixes a bug where no notification to reindex your site would be shown when the indexing process failed.
-* Fixes a bug where no notification to reindex your site would be shown when changing the permalink structure, category base or home URL multiple times in a row and hiding the notification in between.
-* Fixes a bug where a fatal error would be thrown when there is no ctype extension loaded and `ctype_digit` had been polyfilled before.
-* Fixes a bug where reindexing via the WP-CLI would not always repopulate the indexables tables.
-* Fixes a bug where unfiltered HTML could be inserted in taxonomy descriptions by administrators and editors.
-* Fixes a bug where the indexable permalinks could have an incorrect taxonomy base.
-* Fixes a bug where the SEO optimization process sometimes had to be run twice before everything was correctly indexed.
 
 Enhancements:
 
@@ -276,6 +270,16 @@ Enhancements:
    * Passive voice assessment.
 * Does not mark the words 'annoyed', 'depressed', 'disappointed', and 'upset' as passives in English anymore, since most of the time they are closer to adjectives rather than passive verbs in meaning.
 * Improves the results for the keyphrase distribution assessment for Swedish, Indonesian, Arabic, Hebrew and Farsi by allowing a partial match (instead of a full match) for long keyphrases (4 or more content words).
+
+Bugfixes:
+
+* Fixes a bug where no notification to reindex your site would be shown when the indexing process failed.
+* Fixes a bug where no notification to reindex your site would be shown when changing the permalink structure, category base or home URL multiple times in a row and hiding the notification in between.
+* Fixes a bug where a fatal error would be thrown when there is no ctype extension loaded and `ctype_digit` had been polyfilled before.
+* Fixes a bug where reindexing via the WP-CLI would not always repopulate the indexables tables.
+* Fixes a bug where unfiltered HTML could be inserted in taxonomy descriptions by administrators and editors.
+* Fixes a bug where the indexable permalinks could have an incorrect taxonomy base.
+* Fixes a bug where the SEO optimization process sometimes had to be run twice before everything was correctly indexed.
 
 Other:
 

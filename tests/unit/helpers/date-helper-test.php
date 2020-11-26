@@ -25,8 +25,8 @@ class Date_Helper_Test extends TestCase {
 	/**
 	 * Performs the setup.
 	 */
-	public function setUp() {
-		parent::setUp();
+	protected function set_up() {
+		parent::set_up();
 
 		$this->instance = new Date_Helper();
 	}

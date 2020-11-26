@@ -59,8 +59,8 @@ class Abstract_Link_Indexing_Action_Test extends TestCase {
 	/**
 	 * Does the setup.
 	 */
-	public function setUp() {
-		parent::setUp();
+	protected function set_up() {
+		parent::set_up();
 
 		global $wpdb;
 		// phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- Intended, to be able to test the Abstract_Link_Indexing_Action.
@@ -87,9 +87,18 @@ class Abstract_Link_Indexing_Action_Test extends TestCase {
 	 * @covers ::__construct
 	 */
 	public function test_construct() {
-		static::assertAttributeInstanceOf( Indexable_Link_Builder::class, 'link_builder', $this->instance );
-		static::assertAttributeInstanceOf( Indexable_Repository::class, 'repository', $this->instance );
-		static::assertAttributeInstanceOf( 'wpdb', 'wpdb', $this->instance );
+		static::assertInstanceOf(
+			Indexable_Link_Builder::class,
+			$this->getPropertyValue( $this->instance, 'link_builder' )
+		);
+		static::assertInstanceOf(
+			Indexable_Repository::class,
+			$this->getPropertyValue( $this->instance, 'repository' )
+		);
+		static::assertInstanceOf(
+			'wpdb',
+			$this->getPropertyValue( $this->instance, 'wpdb' )
+		);
 	}
 
 	/**

@@ -14,6 +14,18 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
 class Health_Check_Page_Comments_Test extends TestCase {
 
 	/**
+	 * Set up function stubs.
+	 *
+	 * @return void
+	 */
+	protected function set_up() {
+		parent::set_up();
+
+		$this->stubEscapeFunctions();
+		$this->stubTranslationFunctions();
+	}
+
+	/**
 	 * Tests the run method when page_comments are disabled.
 	 *
 	 * @covers WPSEO_Health_Check_Page_Comments::run
@@ -29,7 +41,10 @@ class Health_Check_Page_Comments_Test extends TestCase {
 		$health_check->run();
 
 		// We just want to verify that the label attribute is the "passed" message.
-		$this->assertAttributeEquals( 'Comments are displayed on a single page', 'label', $health_check );
+		$this->assertEquals(
+			'Comments are displayed on a single page',
+			$this->getPropertyValue( $health_check, 'label' )
+		);
 	}
 
 	/**
@@ -50,6 +65,9 @@ class Health_Check_Page_Comments_Test extends TestCase {
 		$health_check->run();
 
 		// We just want to verify that the label attribute is the "not passed" message.
-		$this->assertAttributeEquals( 'Comments break into multiple pages', 'label', $health_check );
+		$this->assertEquals(
+			'Comments break into multiple pages',
+			$this->getPropertyValue( $health_check, 'label' )
+		);
 	}
 }

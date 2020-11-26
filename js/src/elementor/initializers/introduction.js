@@ -17,7 +17,7 @@ export default function initializeIntroduction() {
 			id: "yoast-introduction",
 			className: "elementor-right-click-introduction",
 			headerMessage: __( "New: Yoast SEO for Elementor", "wordpress-seo" ),
-			message: __( "Click here to get started with Yoast SEO's content analysis for Elementor!", "wordpress-seo" ),
+			message: __( "Get started with Yoast SEO's content analysis for Elementor!", "wordpress-seo" ),
 			position: {
 				my: "left top",
 				at: "right top",

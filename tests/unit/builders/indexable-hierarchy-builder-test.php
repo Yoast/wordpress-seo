@@ -73,7 +73,9 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 	/**
 	 * Runs the setup steps.
 	 */
-	public function setUp() {
+	protected function set_up() {
+		parent::set_up();
+
 		$this->indexable_hierarchy_repository = Mockery::mock( Indexable_Hierarchy_Repository::class );
 		$this->primary_term_repository        = Mockery::mock( Primary_Term_Repository::class );
 		$this->options                        = Mockery::mock( Options_Helper::class );
@@ -87,8 +89,6 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 			$this->post
 		);
 		$this->instance->set_indexable_repository( $this->indexable_repository );
-
-		return parent::setUp();
 	}
 
 	/**

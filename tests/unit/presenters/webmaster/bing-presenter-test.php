@@ -41,8 +41,10 @@ class Bing_Presenter_Test extends TestCase {
 	/**
 	 * Setup of the tests.
 	 */
-	public function setUp() {
-		parent::setUp();
+	protected function set_up() {
+		parent::set_up();
+
+		$this->stubEscapeFunctions();
 
 		$this->instance = new Bing_Presenter();
 

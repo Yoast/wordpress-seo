@@ -34,8 +34,8 @@ class Indexable_Head_Action_Test extends TestCase {
 	/**
 	 * Sets up the test class.
 	 */
-	public function setUp() {
-		parent::setUp();
+	protected function set_up() {
+		parent::set_up();
 
 		$this->meta_surface = Mockery::mock( Meta_Surface::class );
 		$this->instance     = new Indexable_Head_Action( $this->meta_surface );
@@ -47,7 +47,10 @@ class Indexable_Head_Action_Test extends TestCase {
 	 * @covers ::__construct
 	 */
 	public function test_constructor() {
-		$this->assertAttributeInstanceOf( Meta_Surface::class, 'meta_surface', $this->instance );
+		$this->assertInstanceOf(
+			Meta_Surface::class,
+			$this->getPropertyValue( $this->instance, 'meta_surface' )
+		);
 	}
 
 	/**

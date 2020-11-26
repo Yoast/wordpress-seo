@@ -37,8 +37,8 @@ class Indexable_Hierarchy_Repository_Test extends TestCase {
 	/**
 	 * @inheritDoc
 	 */
-	public function setUp() {
-		parent::setUp();
+	protected function set_up() {
+		parent::set_up();
 
 		$this->instance = Mockery::mock( Indexable_Hierarchy_Repository::class )->makePartial();
 		$this->builder  = Mockery::mock( Indexable_Hierarchy_Builder::class );
@@ -52,7 +52,10 @@ class Indexable_Hierarchy_Repository_Test extends TestCase {
 	public function test_set_builder() {
 		$this->instance->set_builder( $this->builder );
 
-		$this->assertAttributeInstanceOf( Indexable_Hierarchy_Builder::class, 'builder', $this->instance );
+		$this->assertInstanceOf(
+			Indexable_Hierarchy_Builder::class,
+			$this->getPropertyValue( $this->instance, 'builder' )
+		);
 	}
 
 	/**
@@ -228,7 +231,7 @@ class Indexable_Hierarchy_Repository_Test extends TestCase {
 
 		$query = $this->instance->query();
 
-		$this->assertAttributeEquals( '\Yoast\WP\SEO\Models\Indexable_Hierarchy', 'class_name', $query );
+		$this->assertEquals( '\Yoast\WP\SEO\Models\Indexable_Hierarchy', $this->getPropertyValue( $query, 'class_name' ) );
 		$this->assertInstanceOf( ORM::class, $query );
 	}
 
