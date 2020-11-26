@@ -10,7 +10,7 @@ const createInvalidBlockTestArrangement = [
     { name: "Optionalblock", reason: InvalidBlockReason.Optional },
 ];
 
-describe.each( createInvalidBlockTestArrangement )( "The createInvalidBlock function", input => {    
+describe.each( createInvalidBlockTestArrangement )( "The createInvalidBlock function", input => {
     it ( `creates an InvalidBlock instance with name '${input.name}' and reason '${input.reason}'.`, () => {
         var result = innerBlocksValid.createInvalidBlock( input.name, input.reason );
         expect( result.name ).toBe ( input.name );
@@ -21,21 +21,21 @@ describe.each( createInvalidBlockTestArrangement )( "The createInvalidBlock func
 describe( "The findMissingBlocks function", () => {
     it ( "creates an InvalidBlock instance with and reason 'missing' when a required block is missing.", () => {
         // Arrange.
-        const requiredBlocks : RequiredBlock[] = [ 
-            { 
+        const requiredBlocks : RequiredBlock[] = [
+            {
                 name: "existingblock",
-                option : RequiredBlockOption.Multiple, 
-            } as RequiredBlock, 
+                option : RequiredBlockOption.Multiple,
+            } as RequiredBlock,
             {
                 name: "missingblock",
                 option : RequiredBlockOption.Multiple,
             } as RequiredBlock,
         ];
-        const existingRequiredBlocks : BlockInstance[] = [ 
+        const existingRequiredBlocks : BlockInstance[] = [
             {
                 name: "existingblock",
             } as BlockInstance,
-        ]; 
+        ];
 
         // Act.
         const result: InvalidBlock[] = innerBlocksValid.findMissingBlocks( requiredBlocks, existingRequiredBlocks );
@@ -47,17 +47,17 @@ describe( "The findMissingBlocks function", () => {
     });
     it ( "creates no InvalidBlocks when all required blocks are present.", () => {
         // Arrange.
-        const requiredBlocks : RequiredBlock[] = [ 
-            { 
+        const requiredBlocks : RequiredBlock[] = [
+            {
                 name: "existingblock",
-                option : RequiredBlockOption.Multiple, 
+                option : RequiredBlockOption.Multiple,
             } as RequiredBlock,
         ];
-        const existingRequiredBlocks : BlockInstance[] = [ 
+        const existingRequiredBlocks : BlockInstance[] = [
             {
                 name: "existingblock",
             } as BlockInstance,
-        ]; 
+        ];
 
         // Act.
         const result: InvalidBlock[] = innerBlocksValid.findMissingBlocks( requiredBlocks, existingRequiredBlocks );
@@ -67,23 +67,23 @@ describe( "The findMissingBlocks function", () => {
     });
 });
 
-describe( "The findRedundantBlocks function", () => {    
+describe( "The findRedundantBlocks function", () => {
     it ( "creates an InvalidBlock instance with reason 'toomany' when a block occurs more than once.", () => {
         // Arrange.
-        const requiredBlocks : RequiredBlock[] = [ 
-            { 
+        const requiredBlocks : RequiredBlock[] = [
+            {
                 name: "duplicateBlock",
-                option : RequiredBlockOption.One, 
+                option : RequiredBlockOption.One,
             } as RequiredBlock,
         ];
-        const existingRequiredBlocks : BlockInstance[] = [ 
+        const existingRequiredBlocks : BlockInstance[] = [
             {
                 name: "duplicateBlock",
             } as BlockInstance,
             {
                 name: "duplicateBlock",
             } as BlockInstance,
-        ]; 
+        ];
 
         // Act.
         const result: InvalidBlock[] = innerBlocksValid.findRedundantBlocks( requiredBlocks, existingRequiredBlocks );
@@ -95,17 +95,17 @@ describe( "The findRedundantBlocks function", () => {
     });
     it ( "creates no InvalidBlocks when no redundant blocks are present.", () => {
         // Arrange.
-        const requiredBlocks : RequiredBlock[] = [ 
-            { 
+        const requiredBlocks : RequiredBlock[] = [
+            {
                 name: "duplicateBlock",
-                option : RequiredBlockOption.One, 
+                option : RequiredBlockOption.One,
             } as RequiredBlock,
         ];
-        const existingRequiredBlocks : BlockInstance[] = [ 
+        const existingRequiredBlocks : BlockInstance[] = [
             {
                 name: "duplicateBlock",
             } as BlockInstance,
-        ]; 
+        ];
 
         // Act.
         const result: InvalidBlock[] = innerBlocksValid.findRedundantBlocks( requiredBlocks, existingRequiredBlocks );
@@ -127,8 +127,8 @@ describe( "The findSelfInvalidatedBlocks function", () => {
                 name: "invalidBlock",
                 option: RequiredBlockOption.One,
             },
-        ]
-        const existingBlocks: BlockInstance[] = [ 
+        ];
+        const existingBlocks: BlockInstance[] = [
             {
                 name: "validBlock",
                 isValid: true,
@@ -139,9 +139,9 @@ describe( "The findSelfInvalidatedBlocks function", () => {
             } as BlockInstance,
             {
                 name: "invalidOptionalBlock",
-                isValid: false,                
+                isValid: false,
             } as BlockInstance,
-        ]; 
+        ];
 
         // Act.
         const result: InvalidBlock[] = innerBlocksValid.findSelfInvalidatedBlocks ( requiredBlocks, existingBlocks );
@@ -157,21 +157,21 @@ describe( "The findSelfInvalidatedBlocks function", () => {
         expect( invalidOptionalBlock.name ).toBe( "invalidOptionalBlock" );
         expect( invalidOptionalBlock.reason ).toBe( InvalidBlockReason.Optional );
     })
-})
+});
 
 describe( "the getInvalidInnerBlocks function", () => {
     it( "returns all InvalidBlocks for a given block's innerblocks.", () => {
         // Arrange.
-        const requiredBlocks : RequiredBlock[] = [ 
-            { 
+        const requiredBlocks : RequiredBlock[] = [
+            {
                 name: "existingblock",
-                option : RequiredBlockOption.Multiple, 
-            } as RequiredBlock, 
+                option : RequiredBlockOption.Multiple,
+            } as RequiredBlock,
 
-            { 
+            {
                 name: "redundantblock",
-                option : RequiredBlockOption.One, 
-            } as RequiredBlock, 
+                option : RequiredBlockOption.One,
+            } as RequiredBlock,
             {
                 name: "missingblock",
                 option : RequiredBlockOption.Multiple,
@@ -181,7 +181,7 @@ describe( "the getInvalidInnerBlocks function", () => {
                 option : RequiredBlockOption.One,
             } as RequiredBlock,
         ];
-        const existingBlocks : BlockInstance[] = [ 
+        const existingBlocks : BlockInstance[] = [
             {
                 name: "existingblock", // ok
                 isValid: true,
@@ -220,7 +220,7 @@ describe( "the getInvalidInnerBlocks function", () => {
 
         // // Assert.
         // expect ( result.length ).toBe( 3 );
-        
+
         // const missingBlock = result.find(invalidBlock => invalidBlock.reason == InvalidBlockReason.Missing );
         // expect( missingBlock.name ).toBe( "missingblock" );
 
@@ -230,4 +230,4 @@ describe( "the getInvalidInnerBlocks function", () => {
         // const invalidOptionalBlock = result.find(invalidBlock => invalidBlock.reason == InvalidBlockReason.Optional );
         // expect( invalidOptionalBlock.name ).toBe( "optionalblock" );
     })
-})
+});
