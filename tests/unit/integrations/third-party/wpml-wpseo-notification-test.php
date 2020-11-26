@@ -114,7 +114,7 @@ class WPML_WPSEO_Notification_Test extends TestCase {
 	 * is not installed and activated.
 	 *
 	 * @covers ::notify_not_installed
-	 * @covers ::notification
+	 * @covers ::get_notification
 	 */
 	public function test_notifies_when_not_installed() {
 		$this->stubEscapeFunctions();
@@ -138,11 +138,11 @@ class WPML_WPSEO_Notification_Test extends TestCase {
 	}
 
 	/**
-	 * Tests whether the notification is added when the Yoast SEO Multilingual plugin
-	 * is not installed and activated.
+	 * Tests whether the notification is not added when the Yoast SEO Multilingual plugin
+	 * is installed and activated.
 	 *
 	 * @covers ::notify_not_installed
-	 * @covers ::notification
+	 * @covers ::get_notification
 	 */
 	public function test_does_not_notify_when_installed() {
 		// Mock that Yoast SEO Multilingual plugin is installed and activated.
