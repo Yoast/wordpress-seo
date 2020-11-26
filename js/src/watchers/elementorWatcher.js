@@ -14,12 +14,14 @@ const editorData = {
 /**
  * Gets the post content.
  *
+ * @param {Document} editorDocument The current document.
+ *
  * @returns {string} The post's content.
  */
-function getContent() {
+function getContent( editorDocument ) {
 	const content = [];
 
-	window.elementor.documents.getCurrent().$element.find( ".elementor-widget-container" ).each( ( index, element ) => {
+	editorDocument.$element.find( ".elementor-widget-container" ).each( ( index, element ) => {
 		content.push( element.innerHTML.trim() );
 	} );
 
@@ -47,10 +49,12 @@ function getImageUrl( content ) {
 /**
  * Gets the data that is specific to this editor.
  *
+ * @param {Document} editorDocument The current document.
+ *
  * @returns {Object} The editorData object.
  */
-function getEditorData() {
-	const content = getContent();
+function getEditorData( editorDocument ) {
+	const content = getContent( editorDocument );
 
 	return {
 		content,
@@ -66,7 +70,17 @@ function getEditorData() {
  * @returns {void}
  */
 function handleEditorChange() {
-	const data = getEditorData();
+	const currentDocument = window.elementor.documents.getCurrent();
+
+	/*
+	Quit early if the change was caused by switching out of the wp-post/page document.
+	This can happen when users go to Site Settings, for example.
+	*/
+	if ( ! [ "wp-post", "wp-page" ].includes( currentDocument.config.type ) ) {
+		return;
+	}
+
+	const data = getEditorData( currentDocument );
 
 	if ( data.content !== editorData.content ) {
 		editorData.content = data.content;
