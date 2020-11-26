@@ -756,9 +756,9 @@ class WPSEO_Admin_Asset_Manager {
 				'src'  => 'draft-js-' . $flat_version,
 			],
 			[
-				'name' => 'elementor',
-				'src'  => 'elementor-' . $flat_version,
-				'deps' => [
+				'name'   => 'elementor',
+				'src'    => 'elementor-' . $flat_version,
+				'deps'   => [
 					'jquery',
 					'lodash',
 					'wp-data',
@@ -776,6 +776,7 @@ class WPSEO_Admin_Asset_Manager {
 					self::PREFIX . 'select2',
 					self::PREFIX . 'select2-translations',
 				],
+				'footer' => true,
 			],
 		];
 	}

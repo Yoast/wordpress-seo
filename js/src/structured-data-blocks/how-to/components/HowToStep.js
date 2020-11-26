@@ -30,8 +30,6 @@ export default class HowToStep extends Component {
 		this.onRemoveStep   = this.onRemoveStep.bind( this );
 		this.onMoveStepUp   = this.onMoveStepUp.bind( this );
 		this.onMoveStepDown = this.onMoveStepDown.bind( this );
-		this.setTextRef     = this.setTextRef.bind( this );
-		this.setTitleRef    = this.setTitleRef.bind( this );
 		this.onFocusText    = this.onFocusText.bind( this );
 		this.onFocusTitle   = this.onFocusTitle.bind( this );
 		this.onChangeTitle  = this.onChangeTitle.bind( this );
@@ -78,28 +76,6 @@ export default class HowToStep extends Component {
 			return;
 		}
 		this.props.onMoveDown( this.props.index );
-	}
-
-	/**
-	 * Pass the title editor reference down to the parent component.
-	 *
-	 * @param {object} ref Reference to the title editor.
-	 *
-	 * @returns {void}
-	 */
-	setTitleRef( ref ) {
-		this.props.editorRef( this.props.index, "name", ref );
-	}
-
-	/**
-	 * Pass the text editor reference down to the parent component.
-	 *
-	 * @param {object} ref Reference to the text editor.
-	 *
-	 * @returns {void}
-	 */
-	setTextRef( ref ) {
-		this.props.editorRef( this.props.index, "text", ref );
 	}
 
 	/**
@@ -352,26 +328,24 @@ export default class HowToStep extends Component {
 				<RichTextWithAppendedSpace
 					className="schema-how-to-step-name"
 					tagName="p"
-					unstableOnSetup={ this.setTitleRef }
 					key={ `${ id }-name` }
 					value={ name }
 					onChange={ this.onChangeTitle }
 					isSelected={ isSelected && subElement === "name" }
 					placeholder={ __( "Enter a step title", "wordpress-seo" ) }
-					setFocusedElement={ this.onFocusTitle }
+					unstableOnFocus={ this.onFocusTitle }
 					keepPlaceholderOnFocus={ true }
 					formattingControls={ [ "italic", "strikethrough", "link" ] }
 				/>
 				<RichTextWithAppendedSpace
 					className="schema-how-to-step-text"
 					tagName="p"
-					unstableOnSetup={ this.setTextRef }
 					key={ `${ id }-text` }
 					value={ text }
 					onChange={ this.onChangeText }
 					isSelected={ isSelected && subElement === "text" }
 					placeholder={ __( "Enter a step description", "wordpress-seo" ) }
-					setFocusedElement={ this.onFocusText }
+					unstableOnFocus={ this.onFocusText }
 					keepPlaceholderOnFocus={ true }
 				/>
 				{ isSelected &&
@@ -392,10 +366,9 @@ HowToStep.propTypes = {
 	insertStep: PropTypes.func.isRequired,
 	removeStep: PropTypes.func.isRequired,
 	onFocus: PropTypes.func.isRequired,
-	editorRef: PropTypes.func.isRequired,
 	onMoveUp: PropTypes.func.isRequired,
 	onMoveDown: PropTypes.func.isRequired,
-	subElement: PropTypes.string.isRequired,
+	subElement: PropTypes.string,
 	isSelected: PropTypes.bool.isRequired,
 	isFirst: PropTypes.bool.isRequired,
 	isLast: PropTypes.bool.isRequired,
@@ -404,4 +377,5 @@ HowToStep.propTypes = {
 
 HowToStep.defaultProps = {
 	isUnorderedList: false,
+	subElement: "",
 };
