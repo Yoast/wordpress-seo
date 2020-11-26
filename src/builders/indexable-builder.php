@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Builders;
 
+use Yoast\WP\SEO\Exceptions\Indexable\Source_Exception;
 use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
@@ -154,33 +155,34 @@ class Indexable_Builder {
 			->query()
 			->create( $indexable->as_array() );
 
-		switch ( $object_type ) {
-			case 'post':
-				$indexable = $this->post_builder->build( $object_id, $indexable );
-				if ( $indexable === false ) {
+		try {
+			switch ( $object_type ) {
+				case 'post':
+					$indexable = $this->post_builder->build( $object_id, $indexable );
+					if ( $indexable === false ) {
+						// Post was not built for a reason, for example if its post type is excluded.
+						return $indexable;
+					}
+
+					$this->primary_term_builder->build( $object_id );
+
+					$author = $this->indexable_repository->find_by_id_and_type( $indexable->author_id, 'user', false );
+					if ( ! $author ) {
+						$this->build_for_id_and_type( $indexable->author_id, 'user' );
+					}
+
 					break;
-				}
-
-				$this->primary_term_builder->build( $object_id );
-
-				$author = $this->indexable_repository->find_by_id_and_type( $indexable->author_id, 'user', false );
-				if ( ! $author ) {
-					$this->build_for_id_and_type( $indexable->author_id, 'user' );
-				}
-
-				break;
-			case 'user':
-				$indexable = $this->author_builder->build( $object_id, $indexable );
-				break;
-			case 'term':
-				$indexable = $this->term_builder->build( $object_id, $indexable );
-				break;
-			default:
-				return $indexable;
+				case 'user':
+					$indexable = $this->author_builder->build( $object_id, $indexable );
+					break;
+				case 'term':
+					$indexable = $this->term_builder->build( $object_id, $indexable );
+					break;
+				default:
+					return $indexable;
+			}
 		}
-
-		// Something went wrong building, create a false indexable.
-		if ( $indexable === false ) {
+		catch ( Source_Exception $exception ) {
 			$indexable = $this->indexable_repository->query()->create(
 				[
 					'object_id'   => $object_id,

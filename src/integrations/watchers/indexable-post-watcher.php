@@ -213,31 +213,14 @@ class Indexable_Post_Watcher implements Integration_Interface {
 			return;
 		}
 
-		$post = $this->post->get_post( $post_id );
-
-		/**
-		 * Filter: 'wpseo_indexable_excluded_post_types' - Allow developers to prevent posts of a certain post
-		 * type from being saved to the indexable table.
-		 *
-		 * @param array $excluded_post_types The currently excluded post types.
-		 */
-		$excluded_post_types = \apply_filters( 'wpseo_indexable_excluded_post_types', [] );
-
-		// Failsafe, to always make sure that `excluded_post_types` is an array.
-		if ( ! \is_array( $excluded_post_types ) ) {
-			$excluded_post_types = [];
-		}
-
-		if ( $post && \in_array( $post->post_type, $excluded_post_types, true ) ) {
-			return;
-		}
-
 		try {
 			$indexable = $this->repository->find_by_id_and_type( $post_id, 'post', false );
 			$indexable = $this->builder->build_for_id_and_type( $post_id, 'post', $indexable );
 
+			$post = $this->post->get_post( $post_id );
+
 			// Build links for this post.
-			if ( $post ) {
+			if ( $post && $indexable ) {
 				$this->link_builder->build( $indexable, $post->post_content );
 				// Save indexable to persist the updated link count.
 				$indexable->save();

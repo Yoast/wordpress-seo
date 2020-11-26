@@ -202,13 +202,10 @@ class Indexable_Post_Watcher_Test extends TestCase {
 		$post_content = '<p>A post with a <a href="https://example.com/post-2">a link</a>.</p>';
 		$post         = (object) [
 			'post_content' => $post_content,
-			'post_type'    => 'post',
 		];
 
 		Monkey\Functions\expect( 'wp_is_post_revision' )->once()->with( $post_id )->andReturn( false );
 		Monkey\Functions\expect( 'wp_is_post_autosave' )->once()->with( $post_id )->andReturn( false );
-
-		Monkey\Filters\expectApplied( 'wpseo_indexable_excluded_post_types' )->once()->with( [] )->andReturn( [] );
 
 		$indexable_mock = Mockery::mock( Indexable_Mock::class );
 
@@ -300,20 +297,7 @@ class Indexable_Post_Watcher_Test extends TestCase {
 	 * @covers ::build_indexable
 	 */
 	public function test_build_indexable_with_thrown_exception() {
-		$post_id      = 1;
-		$post_content = '<p>A post with a <a href="https://example.com/post-2">a link</a>.</p>';
-		$post         = (object) [
-			'post_content' => $post_content,
-			'post_type'    => 'post',
-		];
-
-		Monkey\Filters\expectApplied( 'wpseo_indexable_excluded_post_types' )->once()->with( [] )->andReturn( [] );
-
-		$this->post
-			->expects( 'get_post' )
-			->once()
-			->with( $post_id )
-			->andReturn( $post );
+		$post_id = 1;
 
 		$this->instance
 			->expects( 'is_multisite_and_switched' )
@@ -349,13 +333,10 @@ class Indexable_Post_Watcher_Test extends TestCase {
 		$post_content = '<p>A post with a <a href="https://example.com/post-2">a link</a>.</p>';
 		$post         = (object) [
 			'post_content' => $post_content,
-			'post_type'    => 'post',
 		];
 
 		Monkey\Functions\expect( 'wp_is_post_revision' )->once()->with( $post_id )->andReturn( false );
 		Monkey\Functions\expect( 'wp_is_post_autosave' )->once()->with( $post_id )->andReturn( false );
-
-		Monkey\Filters\expectApplied( 'wpseo_indexable_excluded_post_types' )->once()->with( [] )->andReturn( [] );
 
 		$indexable_mock = Mockery::mock( Indexable_Mock::class );
 		$indexable_mock->expects( 'save' )->once();
@@ -372,47 +353,6 @@ class Indexable_Post_Watcher_Test extends TestCase {
 		$this->link_builder
 			->expects( 'build' )
 			->once()
-			->with( $indexable_mock, $post_content );
-
-		$this->instance->build_indexable( $post_id );
-	}
-
-	/**
-	 * Tests that no indexable is built when it has a post type that is excluded.
-	 *
-	 * @covers ::build_indexable
-	 */
-	public function test_build_indexable_excluded_post_type() {
-		$post_id      = 1;
-		$post_content = '<p>A post with a <a href="https://example.com/post-2">a link</a>.</p>';
-		$post         = (object) [
-			'post_content' => $post_content,
-			'post_type'    => 'excluded_post_type',
-		];
-
-		Monkey\Functions\expect( 'wp_is_post_revision' )->once()->with( $post_id )->andReturn( false );
-		Monkey\Functions\expect( 'wp_is_post_autosave' )->once()->with( $post_id )->andReturn( false );
-
-		Monkey\Filters\expectApplied( 'wpseo_indexable_excluded_post_types' )
-			->once()
-			->with( [] )
-			->andReturn( [ 'excluded_post_type' ] );
-
-		$indexable_mock = Mockery::mock( Indexable_Mock::class );
-		$indexable_mock->expects( 'save' )->never();
-
-		$this->repository->expects( 'find_by_id_and_type' )->never()->with( $post_id, 'post', false )->andReturn( false );
-		$this->builder->expects( 'build_for_id_and_type' )->never()->with( $post_id, 'post', false )->andReturn( $indexable_mock );
-
-		$this->post
-			->expects( 'get_post' )
-			->once()
-			->with( $post_id )
-			->andReturn( $post );
-
-		$this->link_builder
-			->expects( 'build' )
-			->never()
 			->with( $indexable_mock, $post_content );
 
 		$this->instance->build_indexable( $post_id );

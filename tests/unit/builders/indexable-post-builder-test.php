@@ -6,9 +6,11 @@ use Brain\Monkey;
 use Mockery;
 use Yoast\WP\Lib\ORM;
 use Yoast\WP\SEO\Builders\Indexable_Post_Builder;
+use Yoast\WP\SEO\Exceptions\Indexable\Post_Not_Found_Exception;
 use Yoast\WP\SEO\Helpers\Image_Helper;
 use Yoast\WP\SEO\Helpers\Open_Graph\Image_Helper as Open_Graph_Image_Helper;
 use Yoast\WP\SEO\Helpers\Post_Helper;
+use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Helpers\Twitter\Image_Helper as Twitter_Image_Helper;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
@@ -69,6 +71,13 @@ class Indexable_Post_Builder_Test extends TestCase {
 	protected $post;
 
 	/**
+	 * The post type helper.
+	 *
+	 * @var Mockery\MockInterface|Post_Type_Helper
+	 */
+	protected $post_type_helper;
+
+	/**
 	 * Holds the Indexable_Post_Builder instance.
 	 *
 	 * @var Indexable_Post_Builder|Indexable_Post_Builder_Double|Mockery\MockInterface
@@ -85,9 +94,11 @@ class Indexable_Post_Builder_Test extends TestCase {
 		$this->open_graph_image     = Mockery::mock( Open_Graph_Image_Helper::class );
 		$this->twitter_image        = Mockery::mock( Twitter_Image_Helper::class );
 		$this->post                 = Mockery::mock( Post_Helper::class );
+		$this->post_type_helper     = Mockery::mock( Post_Type_Helper::class );
 
 		$this->instance = new Indexable_Post_Builder_Double(
-			$this->post
+			$this->post,
+			$this->post_type_helper
 		);
 
 		$this->instance->set_indexable_repository( $this->indexable_repository );
@@ -163,7 +174,8 @@ class Indexable_Post_Builder_Test extends TestCase {
 	 * @covers ::__construct
 	 */
 	public function test_constructor() {
-		$this->assertAttributeInstanceOf( Post_Helper::class, 'post', $this->instance );
+		self::assertAttributeInstanceOf( Post_Helper::class, 'post_helper', $this->instance );
+		self::assertAttributeInstanceOf( Post_Type_Helper::class, 'post_type_helper', $this->instance );
 	}
 
 	/**
@@ -221,6 +233,9 @@ class Indexable_Post_Builder_Test extends TestCase {
 					'post_parent'   => '0',
 				]
 			);
+
+		$this->post_type_helper->expects( 'get_excluded_post_types_for_indexables' )
+			->andReturn( [] );
 
 		$indexable_expectations = [
 			'object_id'                   => 1,
@@ -803,13 +818,41 @@ class Indexable_Post_Builder_Test extends TestCase {
 	}
 
 	/**
-	 * Tests that build returns false when no term was returned.
+	 * Tests that build throws an exception when no post could be found.
 	 *
 	 * @covers ::build
 	 */
 	public function test_build_term_null() {
 		$this->post->expects( 'get_post' )->once()->with( 1 )->andReturn( null );
 
-		$this->assertFalse( $this->instance->build( 1, false ) );
+		$this->expectException( Post_Not_Found_Exception::class );
+
+		$this->instance->build( 1, false );
+	}
+
+	/**
+	 * Tests that the builder does not build an indexable for a post
+	 * when the post type of the post is excluded from indexing.
+	 *
+	 * @covers ::build
+	 * @covers ::should_exclude_post
+	 */
+	public function test_build_post_type_excluded() {
+		$post_id = 1;
+
+		$this->post->expects( 'get_post' )
+			->once()
+			->with( $post_id )
+			->andReturn(
+				(object) [
+					'post_type'     => 'excluded_post_type',
+				]
+			);
+
+		$this->post_type_helper->expects( 'get_excluded_post_types_for_indexables' )
+			->once()
+			->andReturn( [ 'excluded_post_type' ] );
+
+		self::assertFalse( $this->instance->build( $post_id, false ) );
 	}
 }

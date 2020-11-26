@@ -43,7 +43,6 @@ class Elementor_Exclude_Post_Types implements Integration_Interface {
 			$excluded_post_types,
 			[
 				'elementor_library',
-				'oembed_cache',
 			]
 		);
 

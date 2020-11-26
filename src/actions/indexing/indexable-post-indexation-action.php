@@ -124,11 +124,10 @@ class Indexable_Post_Indexation_Action implements Indexation_Action_Interface {
 	 * @return string The query.
 	 */
 	protected function get_query( $count, $limit = 1 ) {
-		$public_post_types       = $this->post_type_helper->get_public_post_types();
-		$indexable_table         = Model::get_table_name( 'Indexable' );
-		$non_excluded_post_types = $this->filter_out_excluded_post_types( $public_post_types );
+		$indexable_table = Model::get_table_name( 'Indexable' );
+		$post_types      = $this->get_post_types();
 
-		$replacements = $non_excluded_post_types;
+		$replacements = $post_types;
 
 		$select = 'ID';
 		if ( $count ) {
@@ -150,34 +149,21 @@ class Indexable_Post_Indexation_Action implements Indexation_Action_Interface {
 				WHERE object_type = 'post'
 				AND permalink_hash IS NOT NULL
 			)
-			AND post_type IN (" . \implode( ', ', \array_fill( 0, \count( $non_excluded_post_types ), '%s' ) ) . ")
+			AND post_type IN (" . \implode( ', ', \array_fill( 0, \count( $post_types ), '%s' ) ) . ")
 			$limit_query",
 			$replacements
 		);
 	}
 
 	/**
-	 * Filters out any excluded post types that should not be saved to the indexable table
-	 * from the given list of post types.
+	 * Returns the post types that should be indexed.
 	 *
-	 * @param array $post_types A list of post types to filter out the excluded ones.
-	 *
-	 * @return array The list of post types for which to save posts to the indexable table.
+	 * @return array The post types that should be indexed.
 	 */
-	protected function filter_out_excluded_post_types( array $post_types ) {
-		/**
-		 * Filter: 'wpseo_indexable_excluded_post_types' - Allow developers to prevent posts of a certain post
-		 * type from being saved to the indexable table.
-		 *
-		 * @param array $excluded_post_types The currently excluded post types.
-		 */
-		$excluded_post_types = \apply_filters( 'wpseo_indexable_excluded_post_types', [] );
+	protected function get_post_types() {
+		$public_post_types   = $this->post_type_helper->get_public_post_types();
+		$excluded_post_types = $this->post_type_helper->get_excluded_post_types_for_indexables();
 
-		// Failsafe, to always make sure that `excluded_post_types` is an array.
-		if ( ! \is_array( $excluded_post_types ) ) {
-			return $post_types;
-		}
-
-		return \array_diff( $post_types, $excluded_post_types );
+		return \array_diff( $public_post_types, $excluded_post_types );
 	}
 }
