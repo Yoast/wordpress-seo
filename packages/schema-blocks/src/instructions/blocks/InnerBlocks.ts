@@ -4,13 +4,15 @@ import BlockInstruction from "../../core/blocks/BlockInstruction";
 import { RenderEditProps, RenderSaveProps } from "../../core/blocks/BlockDefinition";
 import { RequiredBlock } from "./dto";
 import getInvalidInnerBlocks from "../../functions/validators/innerBlocksValid";
+import { TemplateArray } from "@wordpress/blocks";
 
 /**
  * InnerBlocks instruction
  */
-export class InnerBlocks extends BlockInstruction {
+export default class InnerBlocks extends BlockInstruction {
 	public options: {
 		allowedBlocks: string[];
+		template: TemplateArray;
 		appender: string;
 		appenderLabel: string;
 		requiredBlocks: RequiredBlock[];
@@ -54,6 +56,10 @@ export class InnerBlocks extends BlockInstruction {
 
 		if ( this.options.allowedBlocks ) {
 			attributes.allowedBlocks = this.options.allowedBlocks;
+		}
+
+		if ( this.options.template ) {
+			attributes.template = this.options.template;
 		}
 
 		return createElement( WordPressInnerBlocks, attributes );
