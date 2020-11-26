@@ -164,6 +164,7 @@ class Indexable_Post_Indexation_Action implements Indexation_Action_Interface {
 		$public_post_types   = $this->post_type_helper->get_public_post_types();
 		$excluded_post_types = $this->post_type_helper->get_excluded_post_types_for_indexables();
 
-		return \array_diff( $public_post_types, $excluded_post_types );
+		// `array_values`, to make sure that the keys are reset.
+		return \array_values( \array_diff( $public_post_types, $excluded_post_types ) );
 	}
 }
