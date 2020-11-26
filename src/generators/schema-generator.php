@@ -246,7 +246,7 @@ class Schema_Generator implements Generator_Interface {
 	 * @param array                  $schema_data  The schema data.
 	 * @param Indexable_Presentation $presentation The indexable presentation.
 	 *
-	 * @return mixed
+	 * @return array The array with replaced vars.
 	 */
 	protected function replace_vars( array $schema_data, Indexable_Presentation $presentation ) {
 		foreach ( $schema_data as $key => $value ) {

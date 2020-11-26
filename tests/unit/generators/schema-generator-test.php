@@ -31,7 +31,6 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @group generators
  * @group schema
- * @group test
  */
 class Schema_Generator_Test extends TestCase {
 
