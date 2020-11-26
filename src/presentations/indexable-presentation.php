@@ -511,6 +511,9 @@ class Indexable_Presentation extends Abstract_Presentation {
 	/**
 	 * Generates the open graph Facebook app ID.
 	 *
+	 * @deprecated 15.5
+	 * @codeCoverageIgnore
+	 *
 	 * @return string The open graph Facebook app ID.
 	 */
 	public function generate_open_graph_fb_app_id() {

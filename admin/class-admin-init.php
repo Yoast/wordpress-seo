@@ -435,25 +435,33 @@ class WPSEO_Admin_Init {
 				'version'     => '9.4',
 				'alternative' => null,
 			],
-			'wpseo_opengraph'                       => [
+			'wpseo_opengraph' => [
 				'version'     => '14.0',
 				'alternative' => null,
 			],
-			'wpseo_twitter'                         => [
+			'wpseo_twitter' => [
 				'version'     => '14.0',
 				'alternative' => null,
 			],
-			'wpseo_twitter_taxonomy_image'          => [
+			'wpseo_twitter_taxonomy_image' => [
 				'version'     => '14.0',
 				'alternative' => null,
 			],
-			'wpseo_twitter_metatag_key'             => [
+			'wpseo_twitter_metatag_key' => [
 				'version'     => '14.0',
 				'alternative' => null,
 			],
-			'wp_seo_get_bc_ancestors'               => [
+			'wp_seo_get_bc_ancestors' => [
 				'version'     => '14.0',
 				'alternative' => 'wpseo_breadcrumb_links',
+			],
+			'validate_facebook_app_id_api_response_code' => [
+				'version'     => '15.5',
+				'alternative' => null,
+			],
+			'validate_facebook_app_id_api_response_body' => [
+				'version'     => '15.5',
+				'alternative' => null,
 			],
 		];
 

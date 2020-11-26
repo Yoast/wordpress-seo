@@ -426,29 +426,37 @@ abstract class WPSEO_Option {
 	/**
 	 * Validates a Facebook App ID.
 	 *
+	 * @deprecated 15.5
+	 * @codeCoverageIgnore
+	 *
 	 * @param string $key   Key to check, in this case: the Facebook App ID field name.
 	 * @param array  $dirty Dirty data with the new values.
 	 * @param array  $old   Old data.
 	 * @param array  $clean Clean data by reference, normally the default values.
 	 */
 	public function validate_facebook_app_id( $key, $dirty, $old, &$clean ) {
+		_deprecated_function( __METHOD__, 'WPSEO 15.5' );
+
 		if ( isset( $dirty[ $key ] ) && $dirty[ $key ] !== '' ) {
 			$url = 'https://graph.facebook.com/' . $dirty[ $key ];
 
 			$response = wp_remote_get( $url );
-			// These filters are used in the tests.
 			/**
 			 * Filter: 'validate_facebook_app_id_api_response_code' - Allows to filter the Faceboook API response code.
 			 *
+			 * @deprecated 15.5
+			 *
 			 * @api int $response_code The Facebook API response header code.
 			 */
-			$response_code = apply_filters( 'validate_facebook_app_id_api_response_code', wp_remote_retrieve_response_code( $response ) );
+			$response_code = apply_filters_deprecated( 'validate_facebook_app_id_api_response_code', wp_remote_retrieve_response_code( $response ), 'WPSEO 15.5' );
 			/**
 			 * Filter: 'validate_facebook_app_id_api_response_body' - Allows to filter the Faceboook API response body.
 			 *
+			 * @deprecated 15.5
+			 *
 			 * @api string $response_body The Facebook API JSON response body.
 			 */
-			$response_body   = apply_filters( 'validate_facebook_app_id_api_response_body', wp_remote_retrieve_body( $response ) );
+			$response_body   = apply_filters_deprecated( 'validate_facebook_app_id_api_response_body', wp_remote_retrieve_body( $response ), 'WPSEO 15.5' );
 			$response_object = json_decode( $response_body );
 
 			/*
