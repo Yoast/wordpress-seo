@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 
 // Internal dependencies.
 import CollapsibleCornerstone from "../../../containers/CollapsibleCornerstone";
-import Warning from "../../../containers/Warning";
+import Alert from "../../containers/Alert";
 import KeywordInput from "../../../components/contentAnalysis/KeywordInput";
 import ReadabilityAnalysis from "../../../components/contentAnalysis/ReadabilityAnalysis";
 import SeoAnalysis from "../../../components/contentAnalysis/SeoAnalysis";
@@ -45,7 +45,7 @@ export default function ElementorFill( { isLoading, onLoad, settings } ) {
 	return (
 		<Fill name="YoastElementor">
 			<SidebarItem renderPriority={ 1 }>
-				<Warning />
+				<Alert />
 			</SidebarItem>
 			{ settings.isKeywordAnalysisActive && <SidebarItem renderPriority={ 8 }>
 				<KeywordInput
