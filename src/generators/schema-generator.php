@@ -220,9 +220,11 @@ class Schema_Generator implements Generator_Interface {
 	}
 
 	/**
-	 * Registers the schema related replace vars.
+	 * Registers the Schema related replace vars.
 	 *
 	 * @param Meta_Tags_Context $context The meta tags context.
+	 *
+	 * @return void
 	 */
 	protected function register_replace_vars( Meta_Tags_Context $context ) {
 		WPSEO_Replace_Vars::register_replacement(
@@ -243,7 +245,7 @@ class Schema_Generator implements Generator_Interface {
 	/**
 	 * Replaces the variables.
 	 *
-	 * @param array                  $schema_data  The schema data.
+	 * @param array                  $schema_data  The Schema data.
 	 * @param Indexable_Presentation $presentation The indexable presentation.
 	 *
 	 * @return array The array with replaced vars.
