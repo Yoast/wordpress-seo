@@ -234,8 +234,8 @@ class Schema_Generator implements Generator_Interface {
 
 		WPSEO_Replace_Vars::register_replacement(
 			'%%author_id%%',
-			static function() use ( $context ) {
-				return $context->indexable->author_id;
+			function() use ( $context ) {
+				return $this->helpers->schema->id->get_user_schema_id( $context->indexable->author_id, $context );
 			}
 		);
 	}
