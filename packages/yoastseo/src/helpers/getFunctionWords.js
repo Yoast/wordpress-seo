@@ -32,6 +32,8 @@ import arabicFunctionWordsFactory from "../researches/arabic/functionWords.js";
 const arabicFunctionWords = arabicFunctionWordsFactory();
 import farsiFunctionWordsFactory from "../researches/farsi/functionWords.js";
 const farsiFunctionWords = farsiFunctionWordsFactory();
+import hungarianFunctionWordsFactory from "../researches/hungarian/functionWords.js";
+const hungarianFunctionWords = hungarianFunctionWordsFactory();
 
 /**
  * Returns the function words for all languages.
@@ -54,5 +56,6 @@ export default function() {
 		he: hebrewFunctionWords,
 		ar: arabicFunctionWords,
 		fa: farsiFunctionWords,
+		hu: hungarianFunctionWords,
 	};
 }
