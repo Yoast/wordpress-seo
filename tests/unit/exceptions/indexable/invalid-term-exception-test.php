@@ -20,6 +20,8 @@ class Invalid_Term_Exception_Test extends TestCase {
 	 * @covers ::__construct
 	 */
 	public function test_constructor() {
+		$this->stubTranslationFunctions();
+
 		$instance = new Invalid_Term_Exception( 'A WordPress reason.' );
 
 		self::assertEquals(
