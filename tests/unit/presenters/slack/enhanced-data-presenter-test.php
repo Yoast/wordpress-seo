@@ -64,7 +64,8 @@ class Enhanced_Data_Presenter_Test extends TestCase {
 
 		Functions\stubs(
 			[
-				'get_the_author_meta'   => 'Agatha Christie',
+				'get_the_author_meta' => 'Agatha Christie',
+				'is_singular'         => true,
 			]
 		);
 
