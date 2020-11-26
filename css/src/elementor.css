@@ -36,6 +36,10 @@
 	font-weight: 500;
 }
 
+.yoast-field-group__title b {
+	font-weight: var(--yoast-font-weight-bold);
+}
+
 .yoast h3 span > span {
 	font-weight: 400;
 }
