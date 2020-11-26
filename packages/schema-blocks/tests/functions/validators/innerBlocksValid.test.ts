@@ -1,6 +1,4 @@
 import { BlockInstance } from "@wordpress/blocks";
-import { select } from "@wordpress/data";
-import { groupBy } from "lodash";
 import * as innerBlocksValid from "../../../src/functions/validators/innerBlocksValid";
 import { InvalidBlock, RequiredBlock } from "../../../src/instructions/blocks/dto";
 import { InvalidBlockReason, RequiredBlockOption } from "../../../src/instructions/blocks/enums";
