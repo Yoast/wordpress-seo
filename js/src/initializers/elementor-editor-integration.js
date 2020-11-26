@@ -1,11 +1,15 @@
 /* global jQuery, window */
 import { dispatch } from "@wordpress/data";
 import { doAction } from "@wordpress/hooks";
+import { __ } from "@wordpress/i18n";
 import { registerElementorDataHookAfter } from "../helpers/elementorHook";
 import { registerReactComponent, renderReactRoot } from "../helpers/reactRoot";
 import ElementorSlot from "../elementor/components/slots/ElementorSlot";
 import ElementorFill from "../elementor/containers/ElementorFill";
 import { StyleSheetManager } from "styled-components";
+
+// Keep track of unsaved SEO setting changes.
+let hasUnsavedSeoChanges = false;
 
 /**
  * Activates the Elementor save button.
@@ -28,6 +32,44 @@ function storeValueAsOldValue( input ) {
 }
 
 /**
+ * Updates the save warning message.
+ *
+ * @returns {void}
+ */
+function updateSaveAsDraftWarning() {
+	let message;
+
+	if ( hasUnsavedSeoChanges ) {
+		message = __(
+			"Unfortunately we cannot save changes to your SEO settings while you are working on a draft of an already-published post. " +
+			"If you want to save your SEO changes, make sure to click 'Update', or wait to make your SEO changes until you are ready to do so.",
+			"wordpress-seo"
+		);
+	}
+
+	// Don't show the warning for drafts.
+	if ( window.elementor.settings.page.model.get( "post_status" ) === "draft" ) {
+		message = "";
+	}
+
+	dispatch( "yoast-seo/editor" ).setWarningMessage( message );
+}
+
+/**
+ * Initializes the post status change listener.
+ *
+ * @returns {void}
+ */
+function initializePostStatusListener() {
+	window.elementor.settings.page.model.on( "change", model => {
+		if ( model.changed && model.changed.post_status ) {
+			// The post status has changed: update our warning.
+			updateSaveAsDraftWarning();
+		}
+	} );
+}
+
+/**
  * Activates the save button if a change is detected.
  *
  * @param {HTMLElement} input The input.
@@ -46,6 +88,8 @@ function detectChange( input ) {
 	}
 
 	if ( input.value !== input.oldValue ) {
+		hasUnsavedSeoChanges = true;
+		updateSaveAsDraftWarning();
 		activateSaveButton();
 		storeValueAsOldValue( input );
 	}
@@ -70,6 +114,9 @@ function sendFormData( form ) {
 			// Something went wrong while saving.
 			return;
 		}
+
+		hasUnsavedSeoChanges = false;
+		updateSaveAsDraftWarning();
 
 		doAction( "yoast.elementor.save.success", xhr );
 
@@ -104,18 +151,20 @@ export default function initElementEditorIntegration() {
 		}
 	} );
 
+	initializePostStatusListener();
+
 	// Hook into the save.
 	const handleSave = sendFormData.bind( null, document.getElementById( "yoast-form" ) );
 	registerElementorDataHookAfter( "document/save/save", "yoast-seo-save", () => {
 		/*
-			* Do not save our data to a revision.
-			*
-			* WordPress saves the metadata to the post parent, not the revision. See `update_post_meta`.
-			* Most likely this is because saving a revision on a published post will unpublish in WordPress itself.
-			* But Elementor does not unpublish your post when you save a draft.
-			* This would result in Yoast SEO data being live while saving a draft.
-			*/
-		if ( window.elementor.config.document.id === window.elementor.config.document.revisions.current_id  ) {
+		* Do not save our data to a revision.
+		*
+		* WordPress saves the metadata to the post parent, not the revision. See `update_post_meta`.
+		* Most likely this is because saving a revision on a published post will unpublish in WordPress itself.
+		* But Elementor does not unpublish your post when you save a draft.
+		* This would result in Yoast SEO data being live while saving a draft.
+		*/
+		if ( window.elementor.config.document.id === window.elementor.config.document.revisions.current_id ) {
 			handleSave();
 		}
 	} );
