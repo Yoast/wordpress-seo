@@ -38,8 +38,8 @@ class Indexable_Author_Builder_Test extends TestCase {
 	/**
 	 * Sets up the test class.
 	 */
-	public function setUp() {
-		parent::setUp();
+	protected function set_up() {
+		parent::set_up();
 
 		$this->indexable_mock      = Mockery::mock( Indexable::class );
 		$this->indexable_mock->orm = Mockery::mock( ORM::class );

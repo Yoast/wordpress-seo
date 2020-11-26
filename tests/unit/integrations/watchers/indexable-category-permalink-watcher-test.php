@@ -62,7 +62,9 @@ class Indexable_Category_Permalink_Watcher_Test extends TestCase {
 	/**
 	 * Sets up the tests.
 	 */
-	public function setUp() {
+	protected function set_up() {
+		parent::set_up();
+
 		Monkey\Functions\stubs(
 			[
 				'wp_next_scheduled' => false,
@@ -81,8 +83,6 @@ class Indexable_Category_Permalink_Watcher_Test extends TestCase {
 			$this->indexable_helper,
 			$this->taxonomy_helper
 		);
-
-		parent::setUp();
 	}
 
 	/**

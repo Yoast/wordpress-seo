@@ -41,8 +41,8 @@ class Images_Test extends TestCase {
 	/**
 	 * Setup the tests.
 	 */
-	public function setUp() {
-		parent::setUp();
+	protected function set_up() {
+		parent::set_up();
 
 		$this->image    = Mockery::mock( Image_Helper::class );
 		$this->url      = Mockery::mock( Url_Helper::class );

@@ -25,6 +25,7 @@ premium/node_modules/
 phpcs.xml
 .phpcs.xml
 phpunit.xml
+.phpunit.result.cache
 
 ############
 ## OSes

@@ -26,8 +26,8 @@ class WPML_WPSEO_Conditional_Test extends TestCase {
 	/**
 	 * Does the setup for testing.
 	 */
-	public function setUp() {
-		parent::setUp();
+	public function set_up() {
+		parent::set_up();
 		$this->instance = new WPML_WPSEO_Conditional();
 	}
 

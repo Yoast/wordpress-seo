@@ -78,7 +78,9 @@ class Indexable_Post_Builder_Test extends TestCase {
 	/**
 	 * Initializes the test mocks.
 	 */
-	public function setUp() {
+	protected function set_up() {
+		parent::set_up();
+
 		$this->indexable            = Mockery::mock();
 		$this->indexable_repository = Mockery::mock( Indexable_Repository::class );
 		$this->image                = Mockery::mock( Image_Helper::class );
@@ -96,8 +98,6 @@ class Indexable_Post_Builder_Test extends TestCase {
 			$this->open_graph_image,
 			$this->twitter_image
 		);
-
-		return parent::setUp();
 	}
 
 	/**
@@ -163,7 +163,10 @@ class Indexable_Post_Builder_Test extends TestCase {
 	 * @covers ::__construct
 	 */
 	public function test_constructor() {
-		$this->assertAttributeInstanceOf( Post_Helper::class, 'post', $this->instance );
+		$this->assertInstanceOf(
+			Post_Helper::class,
+			$this->getPropertyValue( $this->instance, 'post' )
+		);
 	}
 
 	/**
@@ -173,7 +176,11 @@ class Indexable_Post_Builder_Test extends TestCase {
 	 */
 	public function test_set_indexable_repository() {
 		$this->instance->set_indexable_repository( $this->indexable_repository );
-		$this->assertAttributeInstanceOf( Indexable_Repository::class, 'indexable_repository', $this->instance );
+
+		$this->assertInstanceOf(
+			Indexable_Repository::class,
+			$this->getPropertyValue( $this->instance, 'indexable_repository' )
+		);
 	}
 
 	/**

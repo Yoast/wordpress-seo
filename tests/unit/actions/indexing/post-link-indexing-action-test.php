@@ -61,8 +61,8 @@ class Post_Link_Indexing_Action_Test extends TestCase {
 	/**
 	 * Sets up the tests.
 	 */
-	public function setUp() {
-		parent::setUp();
+	protected function set_up() {
+		parent::set_up();
 
 		global $wpdb;
 		// phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- Intended, to be able to test the Abstract_Link_Indexing_Action.
@@ -90,7 +90,10 @@ class Post_Link_Indexing_Action_Test extends TestCase {
 	public function test_set_helper() {
 		$this->instance->set_helper( Mockery::mock( Post_Type_Helper::class ) );
 
-		static::assertAttributeInstanceOf( Post_Type_Helper::class, 'post_type_helper', $this->instance );
+		static::assertInstanceOf(
+			Post_Type_Helper::class,
+			$this->getPropertyValue( $this->instance, 'post_type_helper' )
+		);
 	}
 
 	/**

@@ -36,8 +36,10 @@ class Enhanced_Data_Presenter_Test extends TestCase {
 	/**
 	 * Setup of the tests.
 	 */
-	public function setUp() {
-		parent::setUp();
+	protected function set_up() {
+		parent::set_up();
+
+		$this->stubTranslationFunctions();
 
 		$this->instance                       = new Enhanced_Data_Presenter();
 		$this->instance->presentation         = Mockery::mock( Indexable_Presentation::class );
@@ -62,7 +64,8 @@ class Enhanced_Data_Presenter_Test extends TestCase {
 
 		Functions\stubs(
 			[
-				'get_the_author_meta'   => 'Agatha Christie',
+				'get_the_author_meta' => 'Agatha Christie',
+				'is_singular'         => true,
 			]
 		);
 

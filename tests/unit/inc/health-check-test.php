@@ -26,12 +26,12 @@ class Health_Check_Test extends TestCase {
 	 *
 	 * @return void
 	 */
-	public function setUp() {
+	protected function set_up() {
+		parent::set_up();
+
 		$this->instance = Mockery::mock( WPSEO_Health_Check::class )
 			->shouldAllowMockingProtectedMethods()
 			->makePartial();
-
-		parent::setUp();
 	}
 
 	/**
@@ -110,6 +110,9 @@ class Health_Check_Test extends TestCase {
 	 * @covers WPSEO_Health_Check::get_test_result
 	 */
 	public function test_get_test_result() {
+		$this->stubEscapeFunctions();
+		$this->stubTranslationFunctions();
+
 		$this->instance->shouldReceive( 'run' )->once();
 
 		Monkey\Functions\expect( 'plugin_dir_url' )->andReturn( '' );

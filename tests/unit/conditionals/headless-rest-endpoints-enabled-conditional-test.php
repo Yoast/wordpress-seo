@@ -33,8 +33,8 @@ class Headless_Rest_Endpoints_Enabled_Conditional_Test extends TestCase {
 	/**
 	 * Does the setup for testing.
 	 */
-	public function setUp() {
-		parent::setUp();
+	protected function set_up() {
+		parent::set_up();
 
 		$this->options  = Mockery::mock( Options_Helper::class );
 		$this->instance = new Headless_Rest_Endpoints_Enabled_Conditional( $this->options );
@@ -46,7 +46,10 @@ class Headless_Rest_Endpoints_Enabled_Conditional_Test extends TestCase {
 	 * @covers ::__construct
 	 */
 	public function test_construct() {
-		$this->assertAttributeInstanceOf( Options_Helper::class, 'options', $this->instance );
+		$this->assertInstanceOf(
+			Options_Helper::class,
+			$this->getPropertyValue( $this->instance, 'options' )
+		);
 	}
 
 	/**

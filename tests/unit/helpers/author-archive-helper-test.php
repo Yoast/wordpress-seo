@@ -28,8 +28,8 @@ class Author_Archive_Helper_Test extends TestCase {
 	 *
 	 * @return void
 	 */
-	public function setUp() {
-		parent::setUp();
+	protected function set_up() {
+		parent::set_up();
 
 		$this->instance = Mockery::mock( Author_Archive_Helper::class )
 			->shouldAllowMockingProtectedMethods()

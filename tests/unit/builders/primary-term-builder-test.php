@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Builders;
 
 use Brain\Monkey\Functions;
 use Mockery;
+use Yoast\WP\SEO\Builders\Primary_Term_Builder;
 use Yoast\WP\SEO\Helpers\Meta_Helper;
 use Yoast\WP\SEO\Helpers\Primary_Term_Helper;
 use Yoast\WP\SEO\Repositories\Primary_Term_Repository;
@@ -52,8 +53,8 @@ class Primary_Term_Builder_Test extends TestCase {
 	/**
 	 * Sets up the test class.
 	 */
-	public function setUp() {
-		parent::setUp();
+	protected function set_up() {
+		parent::set_up();
 
 		$this->repository   = Mockery::mock( Primary_Term_Repository::class );
 		$this->primary_term = Mockery::mock( Primary_Term_Helper::class );
@@ -72,28 +73,25 @@ class Primary_Term_Builder_Test extends TestCase {
 	 * @covers ::__construct
 	 */
 	public function test_successfully_creates_primary_term_builder() {
-		$primary_term_builder = new Primary_Term_Builder_Double(
+		$primary_term_builder = new Primary_Term_Builder(
 			$this->repository,
 			$this->primary_term,
 			$this->meta
 		);
 
-		$this->assertAttributeInstanceOf(
+		$this->assertInstanceOf(
 			Primary_Term_Repository::class,
-			'repository',
-			$primary_term_builder
+			$this->getPropertyValue( $primary_term_builder, 'repository' )
 		);
 
-		$this->assertAttributeInstanceOf(
+		$this->assertInstanceOf(
 			Primary_Term_Helper::class,
-			'primary_term',
-			$primary_term_builder
+			$this->getPropertyValue( $primary_term_builder, 'primary_term' )
 		);
 
-		$this->assertAttributeInstanceOf(
+		$this->assertInstanceOf(
 			Meta_Helper::class,
-			'meta',
-			$primary_term_builder
+			$this->getPropertyValue( $primary_term_builder, 'meta' )
 		);
 	}
 

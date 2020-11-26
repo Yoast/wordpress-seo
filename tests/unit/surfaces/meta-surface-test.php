@@ -83,7 +83,9 @@ class Meta_Surface_Test extends TestCase {
 	 *
 	 * @return void
 	 */
-	protected function setUp() {
+	protected function set_up() {
+		parent::set_up();
+
 		$this->container          = Mockery::mock( ContainerInterface::class );
 		$this->context_memoizer   = Mockery::mock( Meta_Tags_Context_Memoizer::class );
 		$this->repository         = Mockery::mock( Indexable_Repository::class );
@@ -101,8 +103,6 @@ class Meta_Surface_Test extends TestCase {
 		);
 
 		$this->context->presentation = (object) [ 'test' => 'succeeds' ];
-
-		parent::setUp();
 	}
 
 	/**

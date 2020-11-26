@@ -19,8 +19,8 @@ class Robots_Test extends TestCase {
 	/**
 	 * Sets up the test class.
 	 */
-	public function setUp() {
-		parent::setUp();
+	protected function set_up() {
+		parent::set_up();
 
 		$this->set_instance();
 	}

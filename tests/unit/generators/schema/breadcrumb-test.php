@@ -61,8 +61,8 @@ class Breadcrumb_Test extends TestCase {
 	/**
 	 * Sets up the tests.
 	 */
-	public function setUp() {
-		parent::setUp();
+	protected function set_up() {
+		parent::set_up();
 
 		$this->current_page = Mockery::mock( Current_Page_Helper::class );
 		$this->id           = Mockery::mock( ID_Helper::class );
