@@ -267,6 +267,8 @@ class Schema_Generator_Test extends TestCase {
 	 * @covers ::get_graph_pieces
 	 */
 	public function test_generate_with_blocks() {
+		$this->stubEscapeFunctions();
+
 		$this->instance
 			->expects( 'register_replace_vars' )
 			->with( $this->context )
