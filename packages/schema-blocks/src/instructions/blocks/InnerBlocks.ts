@@ -7,7 +7,7 @@ import getInvalidInnerBlocks from "../../functions/validators/innerBlocksValid";
 import { TemplateArray } from "@wordpress/blocks";
 
 /**
- * InnerBlocks instruction
+ * The InnerBlocks instruction.
  */
 export default class InnerBlocks extends BlockInstruction {
 	public options: {

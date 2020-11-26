@@ -5,10 +5,12 @@ import { RequiredBlock, InvalidBlock } from "../../instructions/blocks/dto";
 import { getInnerBlocks, getInnerblocksByName } from "../innerBlocksHelper";
 
 /**
- * Finds all blocks that should be in the innerblocks, but aren't.
- * @param requiredBlocks         All of the blocks that should occur in the innerblocks.
- * @param existingRequiredBlocks The actual array of all innerblocks.
- * @returns {InvalidBlock[]}     The names of blocks that should occur but don't, with reason 'missing'.
+ * Finds all blocks that should be in the inner blocks, but aren't.
+ *
+ * @param requiredBlocks         All of the blocks that should occur in the inner blocks.
+ * @param existingRequiredBlocks The actual array of all inner blocks.
+ *
+ * @returns {InvalidBlock[]} The names of blocks that should occur but don't, with reason 'missing'.
  */
 function findMissingBlocks( requiredBlocks: RequiredBlock[], existingRequiredBlocks: BlockInstance[] ): InvalidBlock[] {
 	const missingRequiredBlocks = requiredBlocks.filter( requiredBlock => {
@@ -26,10 +28,12 @@ function findMissingBlocks( requiredBlocks: RequiredBlock[], existingRequiredBlo
 }
 
 /**
- * Finds all blocks that occur more than once in the innerblocks.
- * @param requiredBlocks         Requirements of the blocks that should occur only once in the innerblocks.
- * @param existingRequiredBlocks The actual array of all innerblocks.
- * @returns {InvalidBlock[]}     The names of blocks that occur more than once in the innerblocks with reason 'TooMany'.
+ * Finds all blocks that occur more than once in the inner blocks.
+ *
+ * @param requiredBlocks         Requirements of the blocks that should occur only once in the inner blocks.
+ * @param existingRequiredBlocks The actual array of all inner blocks.
+ *
+ * @returns {InvalidBlock[]} The names of blocks that occur more than once in the inner blocks with reason 'TooMany'.
  */
 function findRedundantBlocks( requiredBlocks: RequiredBlock[], existingRequiredBlocks: BlockInstance[] ): InvalidBlock[] {
 	const onlyOneAllowed: string[] = [];
@@ -52,8 +56,10 @@ function findRedundantBlocks( requiredBlocks: RequiredBlock[], existingRequiredB
 
 /**
  * Finds all blocks that have found themselves invalid.
- * @param requiredBlocks     Requirements of the blocks that should occur in the innerblocks.
- * @param blocks             The blocks to validate.
+ *
+ * @param requiredBlocks Requirements of the blocks that should occur in the inner blocks.
+ * @param blocks         The blocks to validate.
+ *
  * @returns {InvalidBlock[]} The array of blocks that have invalidated themselves.
  */
 function validateBlocks( requiredBlocks: RequiredBlock[], blocks: BlockInstance[] ): InvalidBlock[] {
@@ -70,10 +76,12 @@ function validateBlocks( requiredBlocks: RequiredBlock[], blocks: BlockInstance[
 }
 
 /**
- * Validates all innerblocks recursively and returns all invalid blocks.
- * @param requiredBlocks     Requirements of the blocks that should occur in the innerblocks.
- * @param clientId           The clientId of the block whose innerblocks need to be validated.
- * @returns {InvalidBlock[]} The names and reasons of the innerblock that are invalid.
+ * Validates all inner blocks recursively and returns all invalid blocks.
+ *
+ * @param requiredBlocks Requirements of the blocks that should occur in the inner blocks.
+ * @param clientId       The clientId of the block whose inner blocks need to be validated.
+ *
+ * @returns {InvalidBlock[]} The names and reasons of the inner block that are invalid.
  */
 function getInvalidInnerBlocks( requiredBlocks: RequiredBlock[], clientId: string ): InvalidBlock[]  {
 	const invalidBlocks: InvalidBlock[] = [];
@@ -98,8 +106,10 @@ function getInvalidInnerBlocks( requiredBlocks: RequiredBlock[], clientId: strin
 
 /**
  * Helper function to create an invalid block.
+ *
  * @param type   The block name.
  * @param reason The reason this block is invalid.
+ *
  * @returns {InvalidBlock} The invalid block.
  */
 function createInvalidBlock( type: string, reason: InvalidBlockReason ): InvalidBlock {
