@@ -14,6 +14,17 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
 class Health_Check_Postname_Permalink_Test extends TestCase {
 
 	/**
+	 * Set up function stubs.
+	 *
+	 * @return void
+	 */
+	protected function set_up() {
+		parent::set_up();
+
+		$this->stubTranslationFunctions();
+	}
+
+	/**
 	 * Tests the run method when the permalink structure is set to "Post name".
 	 *
 	 * @covers WPSEO_Health_Check_Postname_Permalink::run
@@ -29,7 +40,10 @@ class Health_Check_Postname_Permalink_Test extends TestCase {
 		$health_check->run();
 
 		// We just want to verify that the label attribute is the "passed" message.
-		$this->assertAttributeEquals( 'Your permalink structure includes the post name', 'label', $health_check );
+		$this->assertEquals(
+			'Your permalink structure includes the post name',
+			$this->getPropertyValue( $health_check, 'label' )
+		);
 	}
 
 	/**
@@ -48,7 +62,10 @@ class Health_Check_Postname_Permalink_Test extends TestCase {
 		$health_check->run();
 
 		// We just want to verify that the label attribute is the "passed" message.
-		$this->assertAttributeEquals( 'Your permalink structure includes the post name', 'label', $health_check );
+		$this->assertEquals(
+			'Your permalink structure includes the post name',
+			$this->getPropertyValue( $health_check, 'label' )
+		);
 	}
 
 	/**
@@ -69,6 +86,9 @@ class Health_Check_Postname_Permalink_Test extends TestCase {
 		$health_check->run();
 
 		// We just want to verify that the label attribute is the "not passed" message.
-		$this->assertAttributeEquals( 'You do not have your postname in the URL of your posts and pages', 'label', $health_check );
+		$this->assertEquals(
+			'You do not have your postname in the URL of your posts and pages',
+			$this->getPropertyValue( $health_check, 'label' )
+		);
 	}
 }

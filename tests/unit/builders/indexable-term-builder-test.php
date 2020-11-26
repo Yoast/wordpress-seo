@@ -73,8 +73,10 @@ class Indexable_Term_Builder_Test extends TestCase {
 	/**
 	 * Sets up the tests.
 	 */
-	public function setUp() {
-		parent::setUp();
+	protected function set_up() {
+		parent::set_up();
+
+		$this->stubTranslationFunctions();
 
 		$this->taxonomy = Mockery::mock( Taxonomy_Helper::class );
 
@@ -159,7 +161,12 @@ class Indexable_Term_Builder_Test extends TestCase {
 	 * @covers ::__construct
 	 */
 	public function test_constructor() {
-		$this->assertAttributeInstanceOf( Taxonomy_Helper::class, 'taxonomy', $this->instance );
+		$instance = new Indexable_Term_Builder( $this->taxonomy );
+
+		$this->assertInstanceOf(
+			Taxonomy_Helper::class,
+			$this->getPropertyValue( $instance, 'taxonomy' )
+		);
 	}
 
 	/**

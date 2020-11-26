@@ -18,8 +18,8 @@ class Open_Graph_Article_Author_Test extends TestCase {
 	/**
 	 * Sets up the test class.
 	 */
-	public function setUp() {
-		parent::setUp();
+	protected function set_up() {
+		parent::set_up();
 
 		$this->set_instance();
 	}

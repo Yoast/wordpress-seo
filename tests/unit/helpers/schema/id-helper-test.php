@@ -27,8 +27,8 @@ class ID_Helper_Test extends TestCase {
 	/**
 	 * Sets up the test.
 	 */
-	public function setUp() {
-		parent::setUp();
+	protected function set_up() {
+		parent::set_up();
 
 		$this->instance = Mockery::mock( ID_Helper::class )->makePartial();
 	}

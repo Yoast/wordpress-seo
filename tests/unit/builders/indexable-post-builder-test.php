@@ -20,8 +20,8 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
 /**
  * Class Indexable_Post_Builder_Test.
  *
- * @group indexables
- * @group builders
+ * @group  indexables
+ * @group  builders
  *
  * @coversDefaultClass \Yoast\WP\SEO\Builders\Indexable_Post_Builder
  * @covers \Yoast\WP\SEO\Builders\Indexable_Post_Builder
@@ -87,7 +87,11 @@ class Indexable_Post_Builder_Test extends TestCase {
 	/**
 	 * Initializes the test mocks.
 	 */
-	public function setUp() {
+	protected function set_up() {
+		parent::set_up();
+
+		$this->stubTranslationFunctions();
+
 		$this->indexable            = Mockery::mock();
 		$this->indexable_repository = Mockery::mock( Indexable_Repository::class );
 		$this->image                = Mockery::mock( Image_Helper::class );
@@ -107,8 +111,6 @@ class Indexable_Post_Builder_Test extends TestCase {
 			$this->open_graph_image,
 			$this->twitter_image
 		);
-
-		return parent::setUp();
 	}
 
 	/**
@@ -174,8 +176,14 @@ class Indexable_Post_Builder_Test extends TestCase {
 	 * @covers ::__construct
 	 */
 	public function test_constructor() {
-		self::assertAttributeInstanceOf( Post_Helper::class, 'post_helper', $this->instance );
-		self::assertAttributeInstanceOf( Post_Type_Helper::class, 'post_type_helper', $this->instance );
+		$this->assertInstanceOf(
+			Post_Type_Helper::class,
+			$this->getPropertyValue( $this->instance, 'post_type_helper' )
+		);
+		$this->assertInstanceOf(
+			Post_Helper::class,
+			$this->getPropertyValue( $this->instance, 'post_helper' )
+		);
 	}
 
 	/**
@@ -185,7 +193,11 @@ class Indexable_Post_Builder_Test extends TestCase {
 	 */
 	public function test_set_indexable_repository() {
 		$this->instance->set_indexable_repository( $this->indexable_repository );
-		$this->assertAttributeInstanceOf( Indexable_Repository::class, 'indexable_repository', $this->instance );
+
+		$this->assertInstanceOf(
+			Indexable_Repository::class,
+			$this->getPropertyValue( $this->instance, 'indexable_repository' )
+		);
 	}
 
 	/**
@@ -316,7 +328,7 @@ class Indexable_Post_Builder_Test extends TestCase {
 			->with( 'open_graph_image', 'http://basic.wordpress.test/wp-content/uploads/2020/07/WordPress5.jpg' );
 		$this->indexable->orm->expects( 'set' )
 			// phpcs:ignore Yoast.Yoast.AlternativeFunctions.json_encode_json_encodeWithAdditionalParams -- Test code, mocking WP.
-			->with( 'open_graph_image_meta', \json_encode( $image_meta, ( \JSON_PRETTY_PRINT | \JSON_UNESCAPED_SLASHES ) ) );
+			->with( 'open_graph_image_meta', \json_encode( $image_meta, ( \JSON_PRETTY_PRINT|\JSON_UNESCAPED_SLASHES ) ) );
 
 		// We expect the twitter image and its source to be set.
 		$this->indexable->orm->expects( 'set' )->with( 'twitter_image_source', 'set-by-user' );
@@ -845,7 +857,7 @@ class Indexable_Post_Builder_Test extends TestCase {
 			->with( $post_id )
 			->andReturn(
 				(object) [
-					'post_type'     => 'excluded_post_type',
+					'post_type' => 'excluded_post_type',
 				]
 			);
 

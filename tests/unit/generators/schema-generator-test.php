@@ -17,6 +17,7 @@ use Yoast\WP\SEO\Helpers\Schema\Language_Helper;
 use Yoast\WP\SEO\Helpers\Site_Helper;
 use Yoast\WP\SEO\Helpers\Url_Helper;
 use Yoast\WP\SEO\Helpers\User_Helper;
+use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 use Yoast\WP\SEO\Surfaces\Helpers_Surface;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Context\Meta_Tags_Context_Mock;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
@@ -26,6 +27,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * Class Schema_Generator_Test.
  *
  * @coversDefaultClass \Yoast\WP\SEO\Generators\Schema_Generator
+ * @covers             \Yoast\WP\SEO\Generators\Schema_Generator
  *
  * @group generators
  * @group schema
@@ -82,10 +84,17 @@ class Schema_Generator_Test extends TestCase {
 	protected $faq;
 
 	/**
+	 * Represents the replace vars.
+	 *
+	 * @var Mockery\Mock|WPSEO_Replace_Vars
+	 */
+	protected $replace_vars;
+
+	/**
 	 * Sets up the test.
 	 */
-	public function setUp() {
-		parent::setUp();
+	protected function set_up() {
+		parent::set_up();
 
 		$this->id           = Mockery::mock( ID_Helper::class );
 		$this->current_page = Mockery::mock( Current_Page_Helper::class );
@@ -102,9 +111,11 @@ class Schema_Generator_Test extends TestCase {
 			'language' => Mockery::mock( Language_Helper::class )->makePartial(),
 		];
 
+		$this->replace_vars = Mockery::mock( WPSEO_Replace_Vars::class );
+
 		$this->instance = Mockery::mock(
 			Schema_Generator::class,
-			[ $helpers ]
+			[ $helpers, $this->replace_vars ]
 		)->shouldAllowMockingProtectedMethods()->makePartial();
 
 		$this->context = Mockery::mock(
@@ -144,7 +155,9 @@ class Schema_Generator_Test extends TestCase {
 		$this->context->shouldReceive( 'is_prototype' )->andReturnFalse();
 		$this->context->shouldReceive( 'generate_schema_page_type' )->andReturn( 'WebPage' );
 
-		$this->context->indexable = Mockery::mock( Indexable_Mock::class );
+		$this->context->indexable            = Mockery::mock( Indexable_Mock::class );
+		$this->context->presentation         = Mockery::mock( Indexable_Presentation::class );
+		$this->context->presentation->source = Mockery::mock();
 	}
 
 	/**
@@ -154,6 +167,11 @@ class Schema_Generator_Test extends TestCase {
 	 * @covers ::generate
 	 */
 	public function test_generate_with_no_graph() {
+		$this->instance
+			->expects( 'register_replace_vars' )
+			->with( $this->context )
+			->once();
+
 		$this->instance
 			->expects( 'get_graph_pieces' )
 			->once()
@@ -175,6 +193,11 @@ class Schema_Generator_Test extends TestCase {
 	 * @covers ::get_graph_pieces
 	 */
 	public function test_generate_with_no_blocks() {
+		$this->instance
+			->expects( 'register_replace_vars' )
+			->with( $this->context )
+			->once();
+
 		$this->context->indexable->object_sub_type = 'super-custom-post-type';
 
 		Monkey\Functions\expect( 'is_single' )
@@ -244,6 +267,13 @@ class Schema_Generator_Test extends TestCase {
 	 * @covers ::get_graph_pieces
 	 */
 	public function test_generate_with_blocks() {
+		$this->stubEscapeFunctions();
+
+		$this->instance
+			->expects( 'register_replace_vars' )
+			->with( $this->context )
+			->once();
+
 		Monkey\Functions\expect( 'post_password_required' )
 			->once()
 			->withNoArgs()
@@ -281,6 +311,103 @@ class Schema_Generator_Test extends TestCase {
 	}
 
 	/**
+	 * Tests the generate method with having a yoast-schema block.
+	 *
+	 * @covers ::generate
+	 */
+	public function test_generate_with_yoast_schema_block() {
+		$this->stubEscapeFunctions();
+
+		$this->instance
+			->expects( 'get_graph_pieces' )
+			->once()
+			->andReturn( [] );
+
+		$yoast_schema = [
+			'@id'              => 'http://example.com/#/schema/yoast-recipe',
+			'@type'            => 'Recipe',
+			'author'           => [
+				'@id' => '%%author_id%%',
+			],
+			'mainEntityOfPage' => [
+				'@id' => '%%main_schema_id%%',
+			],
+			'name'             => 'Recipe',
+			'recipeIngredient' => [
+				'Ingredient One',
+				'Ingredient Two',
+			],
+		];
+
+		$this->context->blocks = [
+			'yoast/recipe' => [
+				[
+					'blockName' => 'Recipe Block',
+					'attrs'     => [
+						'yoast-schema' => $yoast_schema,
+					],
+				],
+			],
+		];
+
+		$this->replace_vars
+			->expects( 'replace' )
+			->with( 'http://example.com/#/schema/yoast-recipe', $this->context->presentation->source )
+			->andReturnArg( 0 );
+
+		$this->replace_vars
+			->expects( 'replace' )
+			->with( 'Recipe', $this->context->presentation->source )
+			->twice()
+			->andReturnArg( 0 );
+
+		$this->replace_vars
+			->expects( 'replace' )
+			->with( 'Ingredient One', $this->context->presentation->source )
+			->andReturnArg( 0 );
+
+		$this->replace_vars
+			->expects( 'replace' )
+			->with( 'Ingredient Two', $this->context->presentation->source )
+			->andReturnArg( 0 );
+
+		$this->replace_vars
+			->expects( 'replace' )
+			->with( '%%author_id%%', $this->context->presentation->source )
+			->once()
+			->andReturn( '#author-1337' );
+
+		$this->replace_vars
+			->expects( 'replace' )
+			->with( '%%main_schema_id%%', $this->context->presentation->source )
+			->once()
+			->andReturn( '#main' );
+
+		$expected = [
+			'@context' => 'https://schema.org',
+			'@graph'   => [
+				[
+					'@id'              => 'http://example.com/#/schema/yoast-recipe',
+					'@type'            => 'Recipe',
+					'author'           => [
+						'@id' => '#author-1337',
+					],
+					'mainEntityOfPage' => [
+						'@id' => '#main',
+					],
+					'name'             => 'Recipe',
+					'recipeIngredient' => [
+						'Ingredient One',
+						'Ingredient Two',
+					],
+				],
+			],
+		];
+
+		static::assertEquals( $expected, $this->instance->generate( $this->context ) );
+	}
+
+	/**
 	 * Tests the generate with having an identifier for the FAQ block.
 	 *
 	 * @covers ::__construct
@@ -288,6 +415,13 @@ class Schema_Generator_Test extends TestCase {
 	 * @covers ::get_graph_pieces
 	 */
 	public function test_generate_with_generator_have_identifier() {
+		$this->stubEscapeFunctions();
+
+		$this->instance
+			->expects( 'register_replace_vars' )
+			->with( $this->context )
+			->once();
+
 		$piece             = new FAQ();
 		$piece->identifier = 'faq_block';
 		$this->instance
@@ -312,6 +446,13 @@ class Schema_Generator_Test extends TestCase {
 	 * @covers ::get_graph_pieces
 	 */
 	public function test_generate_with_block_not_having_generated_output() {
+		$this->stubEscapeFunctions();
+
+		$this->instance
+			->expects( 'register_replace_vars' )
+			->with( $this->context )
+			->once();
+
 		Monkey\Functions\expect( 'is_single' )
 			->once()
 			->withNoArgs()
@@ -351,6 +492,11 @@ class Schema_Generator_Test extends TestCase {
 	 * @covers ::validate_type
 	 */
 	public function test_validate_type_singular_array() {
+		$this->instance
+			->expects( 'register_replace_vars' )
+			->with( $this->context )
+			->once();
+
 		$this->context->blocks = [];
 
 		Monkey\Functions\expect( 'is_single' )
@@ -421,6 +567,11 @@ class Schema_Generator_Test extends TestCase {
 	 * @covers ::validate_type
 	 */
 	public function test_validate_type_unique_array() {
+		$this->instance
+			->expects( 'register_replace_vars' )
+			->with( $this->context )
+			->once();
+
 		$this->context->blocks = [];
 
 		Monkey\Functions\expect( 'is_single' )
@@ -489,6 +640,11 @@ class Schema_Generator_Test extends TestCase {
 	 * @covers ::get_graph_pieces
 	 */
 	public function test_get_graph_pieces_on_single_post_with_password_required() {
+		$this->instance
+			->expects( 'register_replace_vars' )
+			->with( $this->context )
+			->once();
+
 		Monkey\Functions\expect( 'is_single' )
 			->once()
 			->withNoArgs()

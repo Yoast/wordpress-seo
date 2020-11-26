@@ -68,8 +68,8 @@ class Organization_Test extends TestCase {
 	/**
 	 * Initializes the test environment.
 	 */
-	public function setUp() {
-		parent::setUp();
+	protected function set_up() {
+		parent::set_up();
 
 		$this->image    = Mockery::mock( Image_Helper::class );
 		$this->options  = Mockery::mock( Options_Helper::class );

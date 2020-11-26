@@ -58,28 +58,6 @@ export default class Question extends Component {
 	}
 
 	/**
-	 * Pass the question editor reference down to the parent component.
-	 *
-	 * @param {object} ref Reference to the question editor.
-	 *
-	 * @returns {void}
-	 */
-	setQuestionRef( ref ) {
-		this.props.editorRef( "question", ref, this.props.index );
-	}
-
-	/**
-	 * Pass the answer editor reference down to the parent component.
-	 *
-	 * @param {object} ref Reference to the question editor.
-	 *
-	 * @returns {void}
-	 */
-	setAnswerRef( ref ) {
-		this.props.editorRef( "answer", ref, this.props.index );
-	}
-
-	/**
 	 * Handle the focus event on the question editor.
 	 *
 	 * @returns {void}
@@ -361,12 +339,11 @@ export default class Question extends Component {
 				<RichText
 					className="schema-faq-question"
 					tagName="p"
-					unstableOnSetup={ this.setQuestionRef }
 					key={ id + "-question" }
 					value={ question }
 					onChange={ this.onChangeQuestion }
 					isSelected={ isSelected && subElement === "question" }
-					setFocusedElement={ this.onFocusQuestion }
+					unstableOnFocus={ this.onFocusQuestion }
 					placeholder={ __( "Enter a question", "wordpress-seo" ) }
 					keepPlaceholderOnFocus={ true }
 					formattingControls={ [ "italic", "strikethrough", "link" ] }
@@ -374,12 +351,11 @@ export default class Question extends Component {
 				<RichText
 					className="schema-faq-answer"
 					tagName="p"
-					unstableOnSetup={ this.setAnswerRef }
 					key={ id + "-answer" }
 					value={ answer }
 					onChange={ this.onChangeAnswer }
 					isSelected={ isSelected && subElement === "answer" }
-					setFocusedElement={ this.onFocusAnswer }
+					unstableOnFocus={ this.onFocusAnswer }
 					placeholder={ __( "Enter the answer to the question", "wordpress-seo" ) }
 					keepPlaceholderOnFocus={ true }
 				/>
@@ -401,11 +377,14 @@ Question.propTypes = {
 	insertQuestion: PropTypes.func.isRequired,
 	removeQuestion: PropTypes.func.isRequired,
 	onFocus: PropTypes.func.isRequired,
-	editorRef: PropTypes.func.isRequired,
 	onMoveUp: PropTypes.func.isRequired,
 	onMoveDown: PropTypes.func.isRequired,
-	subElement: PropTypes.string.isRequired,
+	subElement: PropTypes.string,
 	isSelected: PropTypes.bool.isRequired,
 	isFirst: PropTypes.bool.isRequired,
 	isLast: PropTypes.bool.isRequired,
+};
+
+Question.defaultProps = {
+	subElement: "",
 };

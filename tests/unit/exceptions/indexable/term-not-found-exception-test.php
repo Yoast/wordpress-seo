@@ -20,6 +20,8 @@ class Term_Not_Found_Exception_Test extends TestCase {
 	 * @covers ::__construct
 	 */
 	public function test_constructor() {
+		$this->stubTranslationFunctions();
+
 		$instance = new Term_Not_Found_Exception();
 
 		self::assertEquals(

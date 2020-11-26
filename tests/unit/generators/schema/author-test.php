@@ -102,8 +102,8 @@ class Author_Test extends TestCase {
 	/**
 	 * Sets up the test.
 	 */
-	public function setUp() {
-		parent::setUp();
+	protected function set_up() {
+		parent::set_up();
 
 		$this->article      = Mockery::mock( Article_Helper::class );
 		$this->image        = Mockery::mock( Image_Helper::class );

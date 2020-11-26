@@ -126,8 +126,10 @@ class Indexable_Builder_Test extends TestCase {
 	/**
 	 * Sets up the test.
 	 */
-	public function setUp() {
-		parent::setUp();
+	protected function set_up() {
+		parent::set_up();
+
+		$this->stubTranslationFunctions();
 
 		$this->author_builder            = Mockery::mock( Indexable_Author_Builder::class );
 		$this->post_builder              = Mockery::mock( Indexable_Post_Builder::class );

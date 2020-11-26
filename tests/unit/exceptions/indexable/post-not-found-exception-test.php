@@ -20,6 +20,8 @@ class Post_Not_Found_Exception_Test extends TestCase {
 	 * @covers ::__construct
 	 */
 	public function test_constructor() {
+		$this->stubTranslationFunctions();
+
 		$instance = new Post_Not_Found_Exception();
 
 		self::assertEquals(

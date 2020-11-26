@@ -38,8 +38,8 @@ class WooCommerce_Permalinks_Test extends TestCase {
 	/**
 	 * Sets an instance for test purposes.
 	 */
-	public function setUp() {
-		parent::setUp();
+	protected function set_up() {
+		parent::set_up();
 
 		$this->indexable_helper = Mockery::mock( Indexable_Helper::class );
 		$this->instance         = new Woocommerce_Permalinks( $this->indexable_helper );
@@ -63,7 +63,10 @@ class WooCommerce_Permalinks_Test extends TestCase {
 	 * @covers ::__construct
 	 */
 	public function test_constructor() {
-		static::assertAttributeInstanceOf( Indexable_Helper::class, 'indexable_helper', $this->instance );
+		static::assertInstanceOf(
+			Indexable_Helper::class,
+			$this->getPropertyValue( $this->instance, 'indexable_helper' )
+		);
 	}
 
 	/**

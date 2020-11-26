@@ -116,8 +116,8 @@ class Indexing_Route_Test extends TestCase {
 	/**
 	 * Sets up the tests.
 	 */
-	public function setUp() {
-		parent::setUp();
+	protected function set_up() {
+		parent::set_up();
 
 		$this->post_indexation_action              = Mockery::mock( Indexable_Post_Indexation_Action::class );
 		$this->term_indexation_action              = Mockery::mock( Indexable_Term_Indexation_Action::class );
@@ -154,17 +154,50 @@ class Indexing_Route_Test extends TestCase {
 	 * @covers ::__construct
 	 */
 	public function test_constructor() {
-		$this->assertAttributeInstanceOf( Indexable_Post_Indexation_Action::class, 'post_indexation_action', $this->instance );
-		$this->assertAttributeInstanceOf( Indexable_Term_Indexation_Action::class, 'term_indexation_action', $this->instance );
-		$this->assertAttributeInstanceOf( Indexable_Post_Type_Archive_Indexation_Action::class, 'post_type_archive_indexation_action', $this->instance );
-		$this->assertAttributeInstanceOf( Indexable_General_Indexation_Action::class, 'general_indexation_action', $this->instance );
-		$this->assertAttributeInstanceOf( Indexable_Indexing_Complete_Action::class, 'indexable_indexing_complete_action', $this->instance );
-		$this->assertAttributeInstanceOf( Indexing_Complete_Action::class, 'indexing_complete_action', $this->instance );
-		$this->assertAttributeInstanceOf( Indexable_Prepare_Indexation_Action::class, 'prepare_indexation_action', $this->instance );
-		$this->assertAttributeInstanceOf( Post_Link_Indexing_Action::class, 'post_link_indexing_action', $this->instance );
-		$this->assertAttributeInstanceOf( Term_Link_Indexing_Action::class, 'term_link_indexing_action', $this->instance );
-		$this->assertAttributeInstanceOf( Options_Helper::class, 'options_helper', $this->instance );
-		$this->assertAttributeInstanceOf( Indexing_Helper::class, 'indexing_helper', $this->instance );
+		$this->assertInstanceOf(
+			Indexable_Post_Indexation_Action::class,
+			$this->getPropertyValue( $this->instance, 'post_indexation_action' )
+		);
+		$this->assertInstanceOf(
+			Indexable_Term_Indexation_Action::class,
+			$this->getPropertyValue( $this->instance, 'term_indexation_action' )
+		);
+		$this->assertInstanceOf(
+			Indexable_Post_Type_Archive_Indexation_Action::class,
+			$this->getPropertyValue( $this->instance, 'post_type_archive_indexation_action' )
+		);
+		$this->assertInstanceOf(
+			Indexable_General_Indexation_Action::class,
+			$this->getPropertyValue( $this->instance, 'general_indexation_action' )
+		);
+		$this->assertInstanceOf(
+			Indexable_Indexing_Complete_Action::class,
+			$this->getPropertyValue( $this->instance, 'indexable_indexing_complete_action' )
+		);
+		$this->assertInstanceOf(
+			Indexing_Complete_Action::class,
+			$this->getPropertyValue( $this->instance, 'indexing_complete_action' )
+		);
+		$this->assertInstanceOf(
+			Indexable_Prepare_Indexation_Action::class,
+			$this->getPropertyValue( $this->instance, 'prepare_indexation_action' )
+		);
+		$this->assertInstanceOf(
+			Post_Link_Indexing_Action::class,
+			$this->getPropertyValue( $this->instance, 'post_link_indexing_action' )
+		);
+		$this->assertInstanceOf(
+			Term_Link_Indexing_Action::class,
+			$this->getPropertyValue( $this->instance, 'term_link_indexing_action' )
+		);
+		$this->assertInstanceOf(
+			Options_Helper::class,
+			$this->getPropertyValue( $this->instance, 'options_helper' )
+		);
+		$this->assertInstanceOf(
+			Indexing_Helper::class,
+			$this->getPropertyValue( $this->instance, 'indexing_helper' )
+		);
 	}
 
 	/**

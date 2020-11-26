@@ -43,8 +43,8 @@ class Indexing_Prepare_Action_Test extends TestCase {
 	/**
 	 * Set up the tests.
 	 */
-	public function setUp() {
-		parent::setUp();
+	protected function set_up() {
+		parent::set_up();
 		$this->indexing            = Mockery::mock( Indexing_Helper::class );
 		$this->notification_center = Mockery::mock( Yoast_Notification_Center::class );
 
@@ -60,8 +60,8 @@ class Indexing_Prepare_Action_Test extends TestCase {
 	 * @covers ::__construct
 	 */
 	public function test_constructor() {
-		$this->assertAttributeEquals( $this->indexing, 'indexing_helper', $this->instance );
-		$this->assertAttributeEquals( $this->notification_center, 'notification_center', $this->instance );
+		$this->assertEquals( $this->indexing, $this->getPropertyValue( $this->instance, 'indexing_helper' ) );
+		$this->assertEquals( $this->notification_center, $this->getPropertyValue( $this->instance, 'notification_center' ) );
 	}
 
 	/**

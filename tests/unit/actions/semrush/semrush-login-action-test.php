@@ -36,8 +36,8 @@ class SEMrush_Login_Action_Test extends TestCase {
 	/**
 	 * Set up the test fixtures.
 	 */
-	public function setUp() {
-		parent::setUp();
+	protected function set_up() {
+		parent::set_up();
 
 		$this->client_instance = Mockery::mock( SEMrush_Client::class );
 		$this->instance        = new SEMrush_Login_Action( $this->client_instance );
@@ -49,7 +49,10 @@ class SEMrush_Login_Action_Test extends TestCase {
 	 * @covers ::__construct
 	 */
 	public function test_constructor() {
-		$this->assertAttributeInstanceOf( SEMrush_Client::class, 'client', $this->instance );
+		$this->assertInstanceOf(
+			SEMrush_Client::class,
+			$this->getPropertyValue( $this->instance, 'client' )
+		);
 	}
 
 	/**

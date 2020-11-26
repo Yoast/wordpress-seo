@@ -20,6 +20,7 @@ export * from "./settings";
 export * from "./snippetEditor";
 export * from "./twitterEditor";
 export * from "./facebookEditor";
+export * from "./warning";
 
 /**
  * A wrapper function so that we can wrap the field helper to the monorepo action.

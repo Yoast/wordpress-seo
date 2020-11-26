@@ -17,6 +17,17 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
 class Indexing_Failed_Notification_Presenter_Test extends TestCase {
 
 	/**
+	 * Set up function stubs.
+	 *
+	 * @return void
+	 */
+	protected function set_up() {
+		parent::set_up();
+
+		$this->stubTranslationFunctions();
+	}
+
+	/**
 	 * Tests the present method when not in Premium.
 	 *
 	 * @covers ::__construct
