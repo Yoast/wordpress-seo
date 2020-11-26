@@ -3,12 +3,12 @@ import stem from "../../../../src/morphology/norwegian/stem";
 import getMorphologyData from "../../../specHelpers/getMorphologyData";
 import goldStandard from "./goldStandardStems.json";
 
-const morphologyDataNN = getMorphologyData( "nn" ).nn;
+const morphologyDataNB = getMorphologyData( "nb" ).nb;
 
 const coverageThreshold = 0.8;
 
 describe( "Calculate coverage for the Norwegian stemmer", () => {
-	const stemsComparison = goldStandard.stems.map( word => [ word[ 0 ], word[ 1 ], stem( word[ 0 ], morphologyDataNN ) ] );
+	const stemsComparison = goldStandard.stems.map( word => [ word[ 0 ], word[ 1 ], stem( word[ 0 ], morphologyDataNB ) ] );
 
 	const errors = stemsComparison.filter( word => word[ 1 ] !== word[ 2 ] );
 
@@ -17,6 +17,5 @@ describe( "Calculate coverage for the Norwegian stemmer", () => {
 
 		expect( coverage ).toBeGreaterThan( coverageThreshold );
 		console.log( "The current coverage of the Norwegian stemmer is", coverage * 100, "%. The number of errors is", errors.length + "." );
-		console.log( errors );
 	} );
 } );

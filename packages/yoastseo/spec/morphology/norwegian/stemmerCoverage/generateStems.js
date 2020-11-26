@@ -4,11 +4,11 @@ import filterFunctionWordsFromArray from "../../../../src/helpers/filterFunction
 import sampleVocabulary from "./sampleVocabulary.json";
 import getMorphologyData from "../../../specHelpers/getMorphologyData";
 
-const morphologyDataNN = getMorphologyData( "nn" ).nn;
+const morphologyDataNB = getMorphologyData( "nb" ).nb;
 const wordsToStemWithoutFunctionWords = filterFunctionWordsFromArray( sampleVocabulary.words, "nn" );
 
 describe( "Generate stems for Norwegian words", () => {
-	const corpusWithStems = wordsToStemWithoutFunctionWords.map( word => [ word, stem( word, morphologyDataNN ) ] );
+	const corpusWithStems = wordsToStemWithoutFunctionWords.map( word => [ word, stem( word, morphologyDataNB ) ] );
 
 	console.log( JSON.stringify( corpusWithStems ) );
 } );
