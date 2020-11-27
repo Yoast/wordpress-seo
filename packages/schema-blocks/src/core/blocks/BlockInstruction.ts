@@ -18,7 +18,7 @@ export default abstract class BlockInstruction extends Instruction {
 	 *
 	 * @param props The props.
 	 * @param leaf  The leaf being rendered.
-	 * @param i     The number the rendered element is of it's parent.
+	 * @param i     The number the rendered element is of its parent.
 	 *
 	 * @returns {JSX.Element} The element to render.
 	 */
@@ -31,7 +31,7 @@ export default abstract class BlockInstruction extends Instruction {
 	 *
 	 * @param props The props.
 	 * @param leaf  The leaf being rendered.
-	 * @param i     The number the rendered element is of it's parent.
+	 * @param i     The number the rendered element is of its parent.
 	 *
 	 * @returns {JSX.Element} The element to render.
 	 */
@@ -43,7 +43,7 @@ export default abstract class BlockInstruction extends Instruction {
 	 * Renders the sidebar.
 	 *
 	 * @param props The props.
-	 * @param i     The number the rendered element is of it's parent.
+	 * @param i     The number the rendered element is of its parent.
 	 *
 	 * @returns The sidebar element to render.
 	 */

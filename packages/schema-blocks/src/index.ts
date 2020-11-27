@@ -8,7 +8,7 @@ import watch from "./functions/gutenberg/watch";
 import filter from "./functions/gutenberg/filter";
 
 /**
- * Initializes schema-templates.
+ * Initializes the Schema templates and block templates.
  */
 export default function initialize() {
 	jQuery( 'script[type="text/schema-template"]' ).each( function() {

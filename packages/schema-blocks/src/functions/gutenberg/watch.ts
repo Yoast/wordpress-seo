@@ -38,7 +38,7 @@ function renderSchema( block: BlockInstance, definition: SchemaDefinition ) {
 	const schema = definition.render( block );
 
 	// eslint-disable-next-line no-console
-	console.log( "Generated shema for block: ", block, schema );
+	console.log( "Generated schema for block: ", block, schema );
 
 	if ( isEqual( schema, block.attributes[ "yoast-schema" ] ) ) {
 		return;
