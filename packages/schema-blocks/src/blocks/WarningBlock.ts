@@ -74,12 +74,12 @@ export const WarningBlock: BlockConfiguration = {
 						createElement(
 							"button",
 							{},
-							"Yes",
+							__( "Yes" ),
 						),
 						createElement(
 							"button",
 							{},
-							"No, please undo this",
+							__( "No, please undo this" ),
 						),
 					],
 				),
