@@ -12,7 +12,7 @@ export default withSelect( select => {
 
 	return {
 		message: getWarningMessage(),
-		type: "warning",
+		type: "info",
 	};
 } )( WrappedAlert );
 
