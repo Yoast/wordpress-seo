@@ -1,5 +1,6 @@
 import { Alert } from "@yoast/components";
 import { withSelect } from "@wordpress/data";
+import PropTypes from "prop-types";
 
 /**
  * Wraps the Alert as a quick fix for the way it is used in Elementor.
@@ -13,6 +14,11 @@ import { withSelect } from "@wordpress/data";
 function WrappedAlert( props ) {
 	return ( props.message.length === 0 ? null : <Alert type={ props.type }>{ props.message }</Alert> );
 }
+
+WrappedAlert.propTypes = {
+	message: PropTypes.oneOfType( [ PropTypes.array, PropTypes.string ] ).isRequired,
+	type: PropTypes.string.isRequired,
+};
 
 export default withSelect( select => {
 	const {
