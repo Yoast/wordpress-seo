@@ -26,6 +26,12 @@ export const WarningBlock: BlockConfiguration = {
 		removedAttributes: {
 			type: "object",
 		},
+		warningText: {
+			type: "string",
+		},
+		required: {
+			type: "boolean",
+		}
 	},
 
 	// Make sure users cannot select this block.
@@ -39,64 +45,37 @@ export const WarningBlock: BlockConfiguration = {
 	 * @return The rendered component.
 	 */
 	edit( props: RenderEditProps ): JSX.Element {
-		const { attributes: { removedBlock, removedAttributes } } = props;
+		const { attributes: { removedBlock, removedAttributes, warningText, required } } = { attributes: { removedBlock: 'Recipe', removedAttributes: {}, warningText: 'You have removed the Recipe block, but this is a required block for Schema output. Do you want this?', required: false } };
 
 		return createElement(
 			"div",
 			{
+				className: "yoast-warning-block",
 				style: {
-					background: "#F8EBEA",
-					border: "#CD423B solid",
-					"border-width": "0 0 0 4px",
-					padding: "16px",
-					"font-size": "13",
-					"font-family": "Arial, Roboto-Regular, HelveticaNeue, sans-serif",
+					background: ( required ? "#F8EBEA" : "#FEF8EE" ),
+					border: ( required ? "#CD423B" : "#F0B650" ) + " solid",
 				},
 			},
 			[
 				createElement(
 					"p",
 					{
-						style: {
-							margin: "0",
-							"font-family": "Arial, Roboto-Regular, HelveticaNeue, sans-serif",
-						},
+						className: "yoast-warning-block-message"
 					},
-					`You've just removed the ${ removedBlock }, which is required for Schema output.
-			Now your Post title is used as ${ removedBlock }. Do you want this?`,
+					warningText,
 				),
 				createElement(
 					"div",
-					{
-						style: {
-							"text-align": "right",
-							"padding-top": "8px",
-						},
-					},
+					{},
 					[
 						createElement(
 							"button",
-							{
-								style: {
-									"margin-right": "24px",
-									background: "none",
-									border: "none",
-									"text-decoration": "underline",
-									color: "#0073aa",
-								},
-							},
+							{},
 							"Yes",
 						),
 						createElement(
 							"button",
-							{
-								style: {
-									background: "none",
-									border: "none",
-									"text-decoration": "underline",
-									color: "#0073aa",
-								},
-							},
+							{},
 							"No, please undo this",
 						),
 					],
