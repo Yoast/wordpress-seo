@@ -6,14 +6,14 @@ import BlockDefinition from "./core/blocks/BlockDefinition";
 import BlockInstruction from "./core/blocks/BlockInstruction";
 import watch from "./functions/gutenberg/watch";
 import filter from "./functions/gutenberg/filter";
-import { registerBlockType } from '@wordpress/blocks';
+import { registerBlockType } from "@wordpress/blocks";
 import { WarningBlock } from "./blocks/WarningBlock";
 
 /**
  * Initializes the Schema templates and block templates.
  */
 export default function initialize() {
-	registerBlockType( 'yoast/warning-block', WarningBlock );
+	registerBlockType( "yoast/warning-block", WarningBlock );
 
 	jQuery( 'script[type="text/schema-template"]' ).each( function() {
 		try {
