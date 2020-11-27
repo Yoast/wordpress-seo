@@ -31,7 +31,7 @@ export const WarningBlock: BlockConfiguration = {
 		},
 		required: {
 			type: "boolean",
-		}
+		},
 	},
 
 	// Make sure users cannot select this block.
@@ -45,22 +45,25 @@ export const WarningBlock: BlockConfiguration = {
 	 * @return The rendered component.
 	 */
 	edit( props: RenderEditProps ): JSX.Element {
-		const { attributes: { removedBlock, removedAttributes, warningText, required } } = { attributes: { removedBlock: 'Recipe', removedAttributes: {}, warningText: 'You have removed the Recipe block, but this is a required block for Schema output. Do you want this?', required: false } };
+		const { attributes: { removedBlock, removedAttributes, warningText, required } } = {
+			attributes: {
+				removedBlock: "Recipe",
+				removedAttributes: {},
+				warningText: "You have removed the Recipe block, but this is a required block for Schema output. Do you want this?",
+				required: true,
+			},
+		};
 
 		return createElement(
 			"div",
 			{
-				className: "yoast-warning-block",
-				style: {
-					background: ( required ? "#F8EBEA" : "#FEF8EE" ),
-					border: ( required ? "#CD423B" : "#F0B650" ) + " solid",
-				},
+				className: [ "yoast-warning-block", required ? "required" : "recommended" ].join( " " ),
 			},
 			[
 				createElement(
 					"p",
 					{
-						className: "yoast-warning-block-message"
+						className: "yoast-warning-block-message",
 					},
 					warningText,
 				),
