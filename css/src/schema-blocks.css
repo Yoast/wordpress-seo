@@ -17,12 +17,23 @@
 
 .yoast-warning-block {
 	border-width: 0 0 0 4px;
+	border-style: solid;
 	padding: 16px;
 	font-size: 13px;
 	font-family: Arial, Roboto-Regular, HelveticaNeue, sans-serif;
 }
 
-.yoast-warning-block-message {
+.yoast-warning-block.required {
+	background: #F8EBEA;
+	border-color: #CD423B;
+}
+
+.yoast-warning-block.recommended {
+	background: #FEF8EE;
+	border-color: #F0B650;
+}
+
+.yoast-warning-block > .yoast-warning-block-message {
 	margin: 0 0;
 	font-family: Arial, Roboto-Regular, HelveticaNeue, sans-serif;
 }
