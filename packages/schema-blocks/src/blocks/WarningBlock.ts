@@ -5,14 +5,13 @@ import { RenderEditProps } from "../core/blocks/BlockDefinition";
 
 export const WarningBlock: BlockConfiguration = {
 	/**
-	 * This is the display title for your block, which can be translated with `i18n` functions.
-	 * The block inserter will show this name.
+	 * The title. It's not translatable, since we don't want to show the warning block in the block inserter.
 	 */
-	title: __( "Warning", "warning" ),
+	title: "Warning",
 
 	/**
-	 * Blocks are grouped into categories to help users browse and discover them.
-	 * The categories provided by core are `common`, `embed`, `formatting`, `layout` and `widgets`.
+	 * The category is there to help users browse and discover blocks.
+	 * We actually don't want the warning block to be discoverable, but category is not optional.
 	 */
 	category: "common",
 
@@ -34,7 +33,9 @@ export const WarningBlock: BlockConfiguration = {
 		},
 	},
 
-	// Make sure users cannot select this block.
+	/**
+	 * Makes sure users cannot select this block.
+	 */
 	// Parent: [ '' ],
 
 	/**
