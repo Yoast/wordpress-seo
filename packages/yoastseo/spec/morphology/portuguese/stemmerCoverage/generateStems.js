@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import stem from "../../../../src/languageProcessing/languages/pt/morphology/stem";
+import stem from "../../../../src/languageProcessing/languages/pt/helpers/internal/stem";
 import filterFunctionWordsFromArray from "../../../../src/languageProcessing/helpers/word/filterWordsFromArray.js";
 import sampleVocabulary from "../stemmerCoverage/sampleVocabulary.json";
 

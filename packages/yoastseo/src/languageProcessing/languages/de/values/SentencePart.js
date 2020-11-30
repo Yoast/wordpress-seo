@@ -9,7 +9,7 @@ import getParticiples from "../helpers/internal/getParticiples.js";
  * @constructor
  */
 const GermanSentencePart = function( sentencePartText, auxiliaries ) {
-	SentencePart.call( this, sentencePartText, auxiliaries, "de_DE" );
+	SentencePart.call( this, sentencePartText, auxiliaries );
 };
 
 require( "util" ).inherits( GermanSentencePart, SentencePart );

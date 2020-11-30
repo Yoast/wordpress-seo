@@ -6,7 +6,6 @@ import stopwordsFactory from "../config/stopwords.js";
 
 const options = {
 	SentencePart: SentencePart,
-	locale: "pl_PL",
 	regexes: {
 		auxiliaryRegex: arrayToRegex( auxiliariesFactory().all ),
 		stopwordRegex: arrayToRegex( stopwordsFactory() ),

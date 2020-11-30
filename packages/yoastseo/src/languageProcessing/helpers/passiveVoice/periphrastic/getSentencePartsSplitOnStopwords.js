@@ -54,7 +54,7 @@ function createSentenceParts( sentences, options ) {
 	const sentenceParts = [];
 	forEach( sentences, function( part ) {
 		const foundAuxiliaries = sanitizeMatches( part.match( options.regexes.auxiliaryRegex || [] ) );
-		sentenceParts.push( new options.SentencePart( part, foundAuxiliaries, options.locale ) );
+		sentenceParts.push( new options.SentencePart( part, foundAuxiliaries ) );
 	} );
 	return sentenceParts;
 }
