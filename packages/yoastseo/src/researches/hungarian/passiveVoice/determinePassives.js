@@ -16,11 +16,12 @@ const auxiliaryRegex = arrayToRegex( hungarianAuxiliaries );
  * @returns {boolean}                       Returns true if passive, otherwise returns false.
  */
 export default function( sentencePartText, auxiliaries, language ) {
-	const passive = false;
 	const auxiliaryMatches = sentencePartText.match( auxiliaryRegex );
+
 	if ( auxiliaryMatches === null ) {
-		return passive;
+		return false;
 	}
+
 	const participles = getParticiples( sentencePartText, auxiliaries, language );
 	return determineSentencePartIsPassive( participles );
 }

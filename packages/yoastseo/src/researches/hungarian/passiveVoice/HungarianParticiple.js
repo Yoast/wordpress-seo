@@ -3,7 +3,7 @@ import checkException from "../../passiveVoice/periphrastic/checkException.js";
 import nonPassivesInVaAndVe from "./nonPassivesInVaAndVe.js";
 
 /**
- * Creates an Participle object for the Hungarian language.
+ * Creates a Participle object for the Hungarian language.
  *
  * @param {string} participle           The participle.
  * @param {string} sentencePart         The sentence part that contains the participle.
