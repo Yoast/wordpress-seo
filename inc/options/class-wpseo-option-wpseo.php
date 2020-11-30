@@ -401,6 +401,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 			'enable_xml_sitemap'             => false,
 			'enable_text_link_counter'       => false,
 			'enable_headless_rest_endpoints' => false,
+			'tracking'                       => false,
 			'semrush_integration_active'     => false,
 			'zapier_integration_active'      => false,
 		];
