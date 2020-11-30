@@ -11,6 +11,11 @@ use RuntimeException;
  */
 class Unit_Test_Generator {
 
+	const UNIT_TESTS_FOLDER = 'tests/unit';
+
+	const UNIT_TESTS_FOLDER_PREMIUM = 'tests/unit/premium';
+
+
 	/**
 	 * Generates a new unit test scaffold for the given class.
 	 *
@@ -30,8 +35,8 @@ class Unit_Test_Generator {
 
 		$unit_test_path = $this->generate_file_name( $reflector->getFileName() );
 
-		if ( \file_exists( __DIR__ . '/../../tests/unit/' . $unit_test_path ) ) {
-			throw new RuntimeException( \sprintf( 'A unit test already exists at path "tests/unit/%1$s"', $unit_test_path ) );
+		if ( \file_exists( __DIR__ . '/../../' . $unit_test_path ) ) {
+			throw new RuntimeException( \sprintf( 'A unit test already exists at path "%1$s"', $unit_test_path ) );
 		}
 
 		$name = $reflector->getShortName();
@@ -70,9 +75,20 @@ class Unit_Test_Generator {
 			$constructor_test
 		);
 
-		\file_put_contents( __DIR__ . '/../../tests/unit/' . $unit_test_path, $filled_in_template );
+		\file_put_contents( __DIR__ . '/../../' . $unit_test_path, $filled_in_template );
 
 		return $unit_test_path;
+	}
+
+	/**
+	 * Checks if the class is a Premium class.
+	 *
+	 * @param string $file_path The path to the class for which to generate a unit test.
+	 *
+	 * @return false|int returns 1 if the unit test is in Premium, 0 if it does not, or FALSE if an error occurred.
+	 */
+	protected function is_premium_class( $file_path ) {
+		return \preg_match( '/\/premium\/src\/.*\.php$/', $file_path );
 	}
 
 	/**
@@ -98,9 +114,14 @@ class Unit_Test_Generator {
 	 */
 	protected function generate_file_name( $path ) {
 		$matches = [];
-		\preg_match( '/\/src\/(.*)\.php$/', $path, $matches );
+		\preg_match( '/\/src\/(.*)\/(.*)\.php$/', $path, $matches );
 
-		return $matches[1] . '-test.php';
+		$folders = $matches[1];
+		$file    = $matches[2];
+
+		$unit_test_folder = $this->is_premium_class( $path ) ? self::UNIT_TESTS_FOLDER_PREMIUM : self::UNIT_TESTS_FOLDER;
+
+		return $unit_test_folder . '/' . $folders . '/' . $file . '-test.php';
 	}
 
 	/**
