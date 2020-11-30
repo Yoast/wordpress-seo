@@ -321,7 +321,8 @@ class Indexable_Term_Builder_Test extends TestCase {
 	 */
 	public function test_build_term_error() {
 		$error = Mockery::mock( '\WP_Error' );
-		$error->expects( 'get_error_message' )
+		$error
+			->expects( 'get_error_message' )
 			->andReturn( 'An error message' );
 
 		Monkey\Functions\expect( 'get_term' )
@@ -343,7 +344,8 @@ class Indexable_Term_Builder_Test extends TestCase {
 		$term = (object) [ 'taxonomy' => 'tax' ];
 
 		$error = Mockery::mock( '\WP_Error' );
-		$error->expects( 'get_error_message' )
+		$error
+			->expects( 'get_error_message' )
 			->andReturn( 'An error message' );
 
 		Monkey\Functions\expect( 'get_term' )
