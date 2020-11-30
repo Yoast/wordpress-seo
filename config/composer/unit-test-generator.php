@@ -57,7 +57,6 @@ class Unit_Test_Generator {
 			$property_statements          = '';
 			$create_mock_statements       = '';
 			$instance_argument_statements = '';
-			$constructor_test             = '';
 		}
 		else {
 			$constructor_arguments = $constructor->getParameters();
@@ -69,14 +68,14 @@ class Unit_Test_Generator {
 		}
 
 		$namespace = $this->generate_namespace( $fully_qualified_class_name );
-		$group     = $this->generate_group( $reflector->getFileName() );
+		$groups    = $this->generate_groups( $reflector->getFileName() );
 
 		$filled_in_template = $this->unit_test_template(
 			$fully_qualified_class_name,
 			$name,
 			$namespace,
 			$use_statements,
-			$group,
+			$groups,
 			$property_statements,
 			$create_mock_statements,
 			$instance_argument_statements
@@ -132,17 +131,26 @@ class Unit_Test_Generator {
 	}
 
 	/**
-	 * Generates the unit test group to use in the unit test.
+	 * Generates the unit test groups to use in the unit test.
 	 *
 	 * @param string $path The path to the class.
 	 *
-	 * @return string The group.
+	 * @return string The groups.
 	 */
-	protected function generate_group( $path ) {
+	protected function generate_groups( $path ) {
 		$matches = [];
 		\preg_match( '/\/src\/(.*)\/.*\.php$/', $path, $matches );
 
-		return $matches[1];
+		$groups = \explode( '/', $matches[1] );
+
+		$groups = \array_map(
+			static function( $group ) {
+				return ' * @group ' . $group;
+			},
+			$groups
+		);
+
+		return \implode( PHP_EOL, $groups );
 	}
 
 	/**
@@ -152,7 +160,7 @@ class Unit_Test_Generator {
 	 * @param string $name                         The name of the class that is tested.
 	 * @param string $namespace                    The namespace of the test class.
 	 * @param string $use_statements               The use statements, one for each mocked constructor argument.
-	 * @param string $group                        The unit test group.
+	 * @param string $groups                       The unit test groups.
 	 * @param string $property_statements          The property statements, one for each mocked constructor argument.
 	 * @param string $create_mock_statements       The creation statements, one for each mocked constructor argument.
 	 * @param string $instance_argument_statements The arguments given to the instance constructor,
@@ -165,7 +173,7 @@ class Unit_Test_Generator {
 		$name,
 		$namespace,
 		$use_statements,
-		$group,
+		$groups,
 		$property_statements,
 		$create_mock_statements,
 		$instance_argument_statements
@@ -187,7 +195,7 @@ use {$fully_qualified_class_name};
 /**
  * Class {$name}_Test.
  *
- * @group {$group}
+{$groups}
  *
  * @coversDefaultClass \\{$fully_qualified_class_name}
  */
