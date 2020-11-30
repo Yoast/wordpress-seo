@@ -33,8 +33,6 @@ describe( "detecting passive voice in sentences", function() {
 		expect( passiveVoice( paper ).passives.length ).toBe( 1 );
 	} );
 
-
-
 	it( "returns passive voice (morphological conditional present)", function() {
 		// Passive: kikötődne.
 		const paper = new Paper( "Ha kikötődne a cipőfűzőm futás közben, elesnék.", { locale: "hu_HU" } );

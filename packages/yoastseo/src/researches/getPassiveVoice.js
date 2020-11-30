@@ -14,10 +14,6 @@ const morphologicalLanguages = [ "ru", "tr", "sv", "id", "ar", "he" ];
 const periphrasticLanguages = [ "en", "de", "nl", "fr", "es", "it", "pt", "cn", "pl" ];
 const morphologicalAndPeriphrasticLanguages = [ "hu" ];
 
-/* Languages that employ both morphological and periphrastic passive voice marking have not been implemented yet.
- * const morphologicalAndPeriphrasticLanguages = [ "da", "nb" ];
- */
-
 /**
  * Looks for morphological passive voice.
  *
@@ -37,9 +33,8 @@ const getMorphologicalPassives = function( sentences, language ) {
 			passiveSentences.push( sentence.getSentenceText() );
 		}
 	} );
-	return {
-		passiveSentences,
-	};
+
+	return passiveSentences;
 };
 
 /**
@@ -73,9 +68,8 @@ const getPeriphrasticPassives = function( sentences, language ) {
 			passiveSentences.push( sentence.getSentenceText() );
 		}
 	} );
-	return {
-		passiveSentences,
-	};
+
+	return passiveSentences;
 };
 
 /**
@@ -89,10 +83,8 @@ const getPeriphrasticPassives = function( sentences, language ) {
 const getMorphologicalAndPeriphrasticPassive = function( sentences, language ) {
 	const morphologicalSentences = getMorphologicalPassives( sentences, language );
 	const periphrasticSentences = getPeriphrasticPassives( sentences, language );
-	const passiveSentences = morphologicalSentences.passiveSentences.concat( periphrasticSentences.passiveSentences );
-	return {
-		passiveSentences,
-	};
+
+	return morphologicalSentences.concat( periphrasticSentences );
 };
 
 /**
@@ -114,19 +106,19 @@ export default function( paper ) {
 	if ( morphologicalLanguages.includes( language ) ) {
 		return {
 			total: totalNumberSentences,
-			passives: getMorphologicalPassives( sentences, language ).passiveSentences,
+			passives: getMorphologicalPassives( sentences, language ),
 		};
 	}
 	if ( periphrasticLanguages.includes( language ) ) {
 		return {
 			total: totalNumberSentences,
-			passives: getPeriphrasticPassives( sentences, language ).passiveSentences,
+			passives: getPeriphrasticPassives( sentences, language ),
 		};
 	}
 	if ( morphologicalAndPeriphrasticLanguages.includes( language ) ) {
 		return {
 			total: totalNumberSentences,
-			passives: getMorphologicalAndPeriphrasticPassive( sentences, language ).passiveSentences,
+			passives: getMorphologicalAndPeriphrasticPassive( sentences, language ),
 		};
 	}
 }
