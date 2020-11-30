@@ -28,6 +28,7 @@ export default class Researcher extends AbstractResearcher {
 		delete this.defaultResearches.stopWordsInUrl;
 
 		Object.assign( this.config, {
+			language: "ca",
 			functionWords: [],
 			transitionWords,
 			twoPartTransitionWords,

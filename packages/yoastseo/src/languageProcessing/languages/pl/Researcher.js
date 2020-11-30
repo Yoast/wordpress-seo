@@ -29,6 +29,7 @@ export default class Researcher extends AbstractResearcher {
 		delete this.defaultResearches.getFleschReadingScore;
 
 		Object.assign( this.config, {
+			language: "pl",
 			isPeriphrastic: true,
 			firstWordExceptions,
 			functionWords,
