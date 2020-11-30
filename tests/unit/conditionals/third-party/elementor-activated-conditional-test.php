@@ -10,7 +10,8 @@ use Yoast\WP\SEO\Conditionals\Third_Party\Elementor_Activated_Conditional;
 /**
  * Class Elementor_Activated_Conditional_Test.
  *
- * @group conditionals/third-party
+ * @group conditionals
+ * @group third-party
  *
  * @coversDefaultClass \Yoast\WP\SEO\Conditionals\Third_Party\Elementor_Activated_Conditional
  */
