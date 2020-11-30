@@ -205,14 +205,28 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 
 		Filters\expectApplied( 'wpseo_post_indexation_limit' )->andReturn( 25 );
 
-		$this->post_type_helper->expects( 'get_public_post_types' )->once()->andReturn( [ 'public_post_type' ] );
-		$this->post_type_helper->expects( 'get_excluded_post_types_for_indexables' )->once()->andReturn( [] );
+		$this->post_type_helper
+			->expects( 'get_public_post_types' )
+			->once()
+			->andReturn( [ 'public_post_type' ] );
+		$this->post_type_helper
+			->expects( 'get_excluded_post_types_for_indexables' )
+			->once()
+			->andReturn( [] );
 
-		$this->wpdb->expects( 'prepare' )->once()->with(
-			$expected_query,
-			[ 'public_post_type', 25 ]
-		)->andReturn( 'query' );
-		$this->wpdb->expects( 'get_col' )->once()->with( 'query' )->andReturn( [ '1', '3', '8' ] );
+		$this->wpdb
+			->expects( 'prepare' )
+			->once()
+			->with(
+				$expected_query,
+				[ 'public_post_type', 25 ]
+			)
+			->andReturn( 'query' );
+		$this->wpdb
+			->expects( 'get_col' )
+			->once()
+			->with( 'query' )
+			->andReturn( [ '1', '3', '8' ] );
 
 		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 1, 'post' );
 		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 3, 'post' );
@@ -274,14 +288,27 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 
 		Filters\expectApplied( 'wpseo_post_indexation_limit' )->andReturn( 25 );
 
-		$this->post_type_helper->expects( 'get_public_post_types' )->once()->andReturn( $public_post_types );
-		$this->post_type_helper->expects( 'get_excluded_post_types_for_indexables' )->once()->andReturn( $excluded_post_types );
+		$this->post_type_helper
+			->expects( 'get_public_post_types' )
+			->once()
+			->andReturn( $public_post_types );
+		$this->post_type_helper
+			->expects( 'get_excluded_post_types_for_indexables' )
+			->once()
+			->andReturn( $excluded_post_types );
 
-		$this->wpdb->expects( 'prepare' )->once()->with(
-			$expected_query,
-			[ 'public_post_type', 25 ]
-		)->andReturn( 'query' );
-		$this->wpdb->expects( 'get_col' )->once()->with( 'query' )->andReturn( [ '1', '3', '8' ] );
+		$this->wpdb->expects( 'prepare' )
+			->once()
+			->with(
+				$expected_query,
+				[ 'public_post_type', 25 ]
+			)
+			->andReturn( 'query' );
+		$this->wpdb
+			->expects( 'get_col' )
+			->once()
+			->with( 'query' )
+			->andReturn( [ '1', '3', '8' ] );
 
 		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 1, 'post' );
 		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 3, 'post' );
