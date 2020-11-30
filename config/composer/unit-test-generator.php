@@ -209,8 +209,8 @@ class {$name}_Test extends TestCase {
 	/**
 	 * Sets up the class under test and mock objects.
 	 */
-	public function setUp() {
-		parent::setUp();
+	public function set_up() {
+		parent::set_up();
 
 		{$create_mock_statements}
 
