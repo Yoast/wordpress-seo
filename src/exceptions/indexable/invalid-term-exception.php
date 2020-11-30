@@ -17,9 +17,9 @@ class Invalid_Term_Exception extends Source_Exception {
 	 */
 	public function __construct( $reason ) {
 		parent::__construct(
-			sprintf(
+			\sprintf(
 				/* translators: %s is the reason given by WordPress. */
-				esc_html__( 'The term is considered invalid. The following reason was given by WordPress: %s', 'wordpress-seo' ),
+				\esc_html__( 'The term is considered invalid. The following reason was given by WordPress: %s', 'wordpress-seo' ),
 				$reason
 			)
 		);
