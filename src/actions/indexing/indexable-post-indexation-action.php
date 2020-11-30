@@ -126,8 +126,7 @@ class Indexable_Post_Indexation_Action implements Indexation_Action_Interface {
 	protected function get_query( $count, $limit = 1 ) {
 		$indexable_table = Model::get_table_name( 'Indexable' );
 		$post_types      = $this->get_post_types();
-
-		$replacements = $post_types;
+		$replacements    = $post_types;
 
 		$select = 'ID';
 		if ( $count ) {
