@@ -352,7 +352,12 @@ TPL;
 	protected function generate_attribute_assertions( array $constructor_arguments ) {
 		$statements = \array_map(
 			static function( $argument ) {
-				return 'self::assertAttributeInstanceOf( ' . $argument->getClass()->getShortName() . '::class, \'' . $argument->getName() . '\', $this->instance );';
+				return <<<TPL
+self::assertInstanceOf(
+			{$argument->getClass()->getShortName()}::class,
+			\$this->getPropertyValue( \$this->instance, '{$argument->getName()}' )
+		);
+TPL;
 			},
 			$constructor_arguments
 		);
