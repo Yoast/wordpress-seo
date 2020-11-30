@@ -230,7 +230,7 @@ const checkHungarianPassive = function( word, verbRootsList, prefixes, suffixes 
 			if ( word.endsWith( rootAndSuffix ) ) {
 				const beforeRoot = word.slice( 0, word.indexOf( rootAndSuffix ) );
 
-				// Word is if passive nothing precedes the root or the root is preceded by one of the verb prefixes.
+				// Word is passive if nothing precedes the root or the root is preceded by a valid prefix.
 				return beforeRoot === "" || prefixes.includes( beforeRoot );
 			}
 		} );
