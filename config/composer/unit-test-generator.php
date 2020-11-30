@@ -66,7 +66,6 @@ class Unit_Test_Generator {
 			$property_statements          = $this->generate_property_statements( $constructor_arguments );
 			$create_mock_statements       = $this->generate_create_mock_statements( $constructor_arguments );
 			$instance_argument_statements = $this->generate_instance_argument_statements( $constructor_arguments );
-			$constructor_test             = $this->generate_constructor_test( $constructor_arguments );
 		}
 
 		$namespace = $this->generate_namespace( $fully_qualified_class_name );
@@ -80,8 +79,7 @@ class Unit_Test_Generator {
 			$group,
 			$property_statements,
 			$create_mock_statements,
-			$instance_argument_statements,
-			$constructor_test
+			$instance_argument_statements
 		);
 
 		\file_put_contents( __DIR__ . '/../../' . $unit_test_path, $filled_in_template );
@@ -159,7 +157,6 @@ class Unit_Test_Generator {
 	 * @param string $create_mock_statements       The creation statements, one for each mocked constructor argument.
 	 * @param string $instance_argument_statements The arguments given to the instance constructor,
 	 *                                             one for each mocked constructor argument.
-	 * @param string $constructor_test             The constructor test.
 	 *
 	 * @return string The generated unit test scaffold.
 	 */
@@ -171,8 +168,7 @@ class Unit_Test_Generator {
 		$group,
 		$property_statements,
 		$create_mock_statements,
-		$instance_argument_statements,
-		$constructor_test
+		$instance_argument_statements
 	) {
 		return <<<TPL
 <?php
@@ -218,8 +214,6 @@ class {$name}_Test extends TestCase {
 			{$instance_argument_statements}
 		);
 	}
-	
-	{$constructor_test}
 }
 
 TPL;
@@ -319,49 +313,5 @@ TPL;
 		);
 
 		return \implode( ',' . PHP_EOL . "\t\t\t", $statements );
-	}
-
-	/**
-	 * Generates a test for the constructor.
-	 *
-	 * @param array $constructor_arguments The constructor arguments.
-	 *
-	 * @return string The test for the constructor.
-	 */
-	protected function generate_constructor_test( array $constructor_arguments ) {
-		$attribute_tests = $this->generate_attribute_assertions( $constructor_arguments );
-		return <<<TPL
-/**
-	 * Tests the constructor.
-	 *
-	 * @covers ::__construct
-	 */
-	public function test_constructor() {
-		{$attribute_tests}
-	}
-TPL;
-	}
-
-	/**
-	 * Generates attribute assertions for the constructor test.
-	 *
-	 * @param array $constructor_arguments The constructor arguments.
-	 *
-	 * @return string The attribute assertions.
-	 */
-	protected function generate_attribute_assertions( array $constructor_arguments ) {
-		$statements = \array_map(
-			static function( $argument ) {
-				return <<<TPL
-self::assertInstanceOf(
-			{$argument->getClass()->getShortName()}::class,
-			\$this->getPropertyValue( \$this->instance, '{$argument->getName()}' )
-		);
-TPL;
-			},
-			$constructor_arguments
-		);
-
-		return \implode( PHP_EOL . "\t\t", $statements );
 	}
 }
