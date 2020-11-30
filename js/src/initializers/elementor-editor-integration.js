@@ -1,7 +1,7 @@
 /* global jQuery, window */
 import { dispatch } from "@wordpress/data";
 import { doAction } from "@wordpress/hooks";
-import { __ } from "@wordpress/i18n";
+import { __, sprintf } from "@wordpress/i18n";
 import { StyleSheetManager } from "styled-components";
 import { debounce } from "lodash";
 import { registerElementorDataHookAfter } from "../helpers/elementorHook";
@@ -51,11 +51,13 @@ function updateSaveAsDraftWarning() {
 	let message;
 
 	if ( hasUnsavedSeoChanges ) {
-		message = __(
-			"Unfortunately we cannot save changes to your SEO settings while you are working on a draft of an already-published post. " +
-			"If you want to save your SEO changes, make sure to click 'Update', or wait to make your SEO changes until you are ready to do so.",
+		/* Translators: %1$s translates to the Post Label in singular form */
+		message = sprintf( __(
+			"Unfortunately we cannot save changes to your SEO settings while you are working on a draft of an already-published %1$s. " +
+			"If you want to save your SEO changes, make sure to click 'Update', " +
+			"or wait to make your SEO changes until you are ready to update the %1$s.",
 			"wordpress-seo"
-		);
+		), window.wpseoAdminL10n.postTypeNameSingular.toLowerCase() );
 	}
 
 	// Don't show the warning for drafts.
