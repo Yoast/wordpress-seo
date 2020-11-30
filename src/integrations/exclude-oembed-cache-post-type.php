@@ -35,12 +35,7 @@ class Exclude_Oembed_Cache_Post_Type implements Integration_Interface {
 	 * @return array The excluded post types, including the oembed_cache post types.
 	 */
 	public function exclude_oembed_cache_post_type( $excluded_post_types ) {
-		$excluded_post_types = \array_merge(
-			$excluded_post_types,
-			[
-				'oembed_cache',
-			]
-		);
+		$excluded_post_types[] = 'oembed_cache';
 
 		return $excluded_post_types;
 	}

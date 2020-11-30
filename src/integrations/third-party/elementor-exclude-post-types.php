@@ -39,12 +39,7 @@ class Elementor_Exclude_Post_Types implements Integration_Interface {
 	 * @return array The excluded post types, including the excluded Elementor post types.
 	 */
 	public function exclude_elementor_post_types( $excluded_post_types ) {
-		$excluded_post_types = \array_merge(
-			$excluded_post_types,
-			[
-				'elementor_library',
-			]
-		);
+		$excluded_post_types[] = 'elementor_library';
 
 		return $excluded_post_types;
 	}
