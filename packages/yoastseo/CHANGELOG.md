@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. Releases without a changelog entry contain only minor changes that are irrelevant for users of this library.
 We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwards.
 
+## 1.86.0 November 30th, 2020
+### Enhancements
+* Adds prefixes `وبال, مست, تنن, است, نست, ولل, كال, فال, بال, وال, لن, سن, ست, ات, وس, فل, فب, فس, لل, ول, وب, ال` to the list of ignored prefixes for Arabic. When the Arabic keyphrase is preceded by one of these prefixes, the basic keyphrase forms will also be created.
+
+### Bugfixes
+* Fixes a bug where links that contain line terminators (`\n`, `\r`, `\u2028` or `\u2029`) would not be detected as a link.
+
 ## 1.85.0 November 16th, 2020
 ### Enhancements
 * Implements Hebrew stemmer.
