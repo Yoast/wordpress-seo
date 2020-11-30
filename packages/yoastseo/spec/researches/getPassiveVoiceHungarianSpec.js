@@ -34,14 +34,15 @@ describe( "detecting passive voice in sentences", function() {
 	} );
 
 
-	/*
-	Conditional has not been implemented yet.
+
 	it( "returns passive voice (morphological conditional present)", function() {
 		// Passive: kikötődne.
 		const paper = new Paper( "Ha kikötődne a cipőfűzőm futás közben, elesnék.", { locale: "hu_HU" } );
 		expect( passiveVoice( paper ).passives.length ).toBe( 1 );
 	} );
 
+	/*
+	Conditional past has not been implemented yet.
 	it( "returns passive voice (morphological conditional past)", function() {
 		// Passive: kikötődött volna.
 		const paper = new Paper( "Ha kikötődött volna a cipőfűzőm, eleshettem volna futás közben.", { locale: "hu_HU" } );

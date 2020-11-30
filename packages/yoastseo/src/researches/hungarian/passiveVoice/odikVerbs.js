@@ -375,6 +375,7 @@ const odikVerbStems2 = [
 	"ültet",
 	"üldöz",
 	"beköt",
+	"köt",
 	"tölt",
 	"emel",
 	"idéz",
