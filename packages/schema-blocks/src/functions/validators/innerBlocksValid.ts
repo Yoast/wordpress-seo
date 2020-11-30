@@ -119,5 +119,18 @@ function createInvalidBlock( type: string, reason: InvalidBlockReason ): Invalid
 	} as InvalidBlock;
 }
 
+/**
+ * Helper function to determine the urgency of an invalidation.
+ * 
+ * @param reason      The reason to check.
+ * @returns {boolean} True if the invalidation is for an optional block (a warning), false if the invalidation is for a required block (an error). 
+ */
+function isOptional ( reason: InvalidBlockReason ): boolean {
+	switch( reason ){
+		case InvalidBlockReason.Optional: return true;
+		default: return false;
+	}
+}
+
 export default getInvalidInnerBlocks;
-export { findMissingBlocks, findRedundantBlocks, validateBlocks as findSelfInvalidatedBlocks, createInvalidBlock };
+export { findMissingBlocks, findRedundantBlocks, validateBlocks as findSelfInvalidatedBlocks, createInvalidBlock, isOptional };

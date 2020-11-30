@@ -5,6 +5,7 @@ import { RenderEditProps, RenderSaveProps } from "../../core/blocks/BlockDefinit
 import { RequiredBlock } from "./dto";
 import getInvalidInnerBlocks from "../../functions/validators/innerBlocksValid";
 import { TemplateArray } from "@wordpress/blocks";
+import { InvalidBlockReason } from "./enums";
 
 /**
  * The InnerBlocks instruction.
@@ -96,7 +97,8 @@ export default class InnerBlocks extends BlockInstruction {
 	valid( props: RenderSaveProps | RenderEditProps ): boolean {
 		const invalidBlocks = getInvalidInnerBlocks( this.options.requiredBlocks, props.clientId );
 
-		return invalidBlocks.length === 0;
+		return invalidBlocks.length === 0 || invalidBlocks.every( block => block.reason === InvalidBlockReason.Optional )		
+		;
 	}
 }
 
