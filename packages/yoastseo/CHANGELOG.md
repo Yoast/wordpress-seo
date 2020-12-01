@@ -5,6 +5,7 @@ We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwa
 
 ## 1.87.0 December 14th, 2020
 ### Enhancements
+* Implements the Hungarian passive voice.
 * Implements Hungarian stemmer.
 * Edits typos and add more transition words for Hungarian.
 * Adds function words for Hungarian.
