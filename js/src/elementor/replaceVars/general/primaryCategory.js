@@ -1,3 +1,4 @@
+import { __ } from "@wordpress/i18n";
 import { get } from "lodash";
 
 /**
@@ -16,7 +17,7 @@ function getReplacement() {
  */
 export default {
 	name: "primary_category",
-	label: "Primary category",
+	label: __( "Primary category", "wordpress-seo" ),
 	placeholder: "%%primary_category%%",
 	aliases: [],
 	getReplacement,

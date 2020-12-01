@@ -1,3 +1,4 @@
+import { __ } from "@wordpress/i18n";
 import { get } from "lodash";
 
 /**
@@ -16,7 +17,7 @@ function getReplacement() {
  */
 export default {
 	name: "term_hierarchy",
-	label: "Term hierarchy",
+	label: __( "Term hierarchy", "wordpress-seo" ),
 	placeholder: "%%term_hierarchy%%",
 	aliases: [],
 	getReplacement,

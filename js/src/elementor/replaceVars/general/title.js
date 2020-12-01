@@ -1,3 +1,4 @@
+import { __ } from "@wordpress/i18n";
 import { select } from "@wordpress/data";
 
 /**
@@ -16,7 +17,7 @@ function getReplacement() {
  */
 export default {
 	name: "title",
-	label: "Title",
+	label: __( "Title", "wordpress-seo" ),
 	placeholder: "%%title%%",
 	aliases: [],
 	getReplacement,

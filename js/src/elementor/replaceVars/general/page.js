@@ -1,3 +1,4 @@
+import { __ } from "@wordpress/i18n";
 import { get } from "lodash";
 
 /**
@@ -16,7 +17,7 @@ function getReplacement() {
  */
 export default {
 	name: "page",
-	label: "Page",
+	label: __( "Page", "wordpress-seo" ),
 	placeholder: "%%page%%",
 	aliases: [],
 	getReplacement,

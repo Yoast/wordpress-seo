@@ -1,3 +1,4 @@
+import { __ } from "@wordpress/i18n";
 import { get, isUndefined } from "lodash";
 
 /**
@@ -25,7 +26,7 @@ function getReplacement() {
  */
 export default {
 	name: "parent_title",
-	label: "Category",
+	label: __( "Parent title", "wordpress-seo" ),
 	placeholder: "%%parent_title%%",
 	aliases: [],
 	getReplacement,

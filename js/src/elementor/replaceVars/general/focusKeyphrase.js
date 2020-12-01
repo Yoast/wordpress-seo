@@ -1,3 +1,4 @@
+import { __ } from "@wordpress/i18n";
 import { select } from "@wordpress/data";
 
 /**
@@ -16,7 +17,7 @@ function getReplacement() {
  */
 export default {
 	name: "focuskw",
-	label: "Focus keyphrase",
+	label: __( "Focus keyphrase", "wordpress-seo" ),
 	placeholder: "%%focuskw%%",
 	aliases: [],
 	getReplacement,

@@ -1,3 +1,4 @@
+import { __ } from "@wordpress/i18n";
 import { select } from "@wordpress/data";
 import { excerptFromContent } from "../../../helpers/replacementVariableHelpers";
 
@@ -28,7 +29,7 @@ function getReplacement() {
  */
 export default {
 	name: "excerpt",
-	label: "Excerpt",
+	label: __( "Excerpt", "wordpress-seo" ),
 	placeholder: "%%excerpt%%",
 	aliases: [
 		{

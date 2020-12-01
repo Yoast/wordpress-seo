@@ -1,3 +1,4 @@
+import { __ } from "@wordpress/i18n";
 import { get } from "lodash";
 
 /**
@@ -16,7 +17,7 @@ function getReplacement() {
  */
 export default {
 	name: "sep",
-	label: "Separator",
+	label: __( "Separator", "wordpress-seo" ),
 	placeholder: "%%sep%%",
 	aliases: [],
 	getReplacement,

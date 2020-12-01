@@ -1,3 +1,4 @@
+import { __ } from "@wordpress/i18n";
 import { get } from "lodash";
 
 /**
@@ -16,7 +17,7 @@ function getReplacement() {
  */
 export default {
 	name: "currentyear",
-	label: "Current year",
+	label: __( "Current year", "wordpress-seo" ),
 	placeholder: "%%currentyear%%",
 	aliases: [],
 	getReplacement,
