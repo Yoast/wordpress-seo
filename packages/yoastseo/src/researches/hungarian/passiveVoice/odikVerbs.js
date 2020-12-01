@@ -1,3 +1,11 @@
+/*
+ * Adapted from: Kornai, A, Halácsy, P, Nagy, V, Oravecz, Cs, Trón, V, and Varga, D (2006). Web-based frequency
+ * dictionaries for medium density languages. In: Proceedings of the 2nd International Workshop on Web as Corpus,
+ * edited by Adam Kilgarriff, Marco Baroni  ACL-06, pages 1-9, under Creative Commons Attribution-ShareAlike 4.0
+ * Internation (CC BY-SA 4.0) license. Common Crawl Terms of Use apply. The corpus user-interface can be found here:
+ * http://szotar.mokk.bme.hu/szoszablya/searchq.php
+ */
+
 // The verb stems that can have -ódik suffix.
 const odikVerbStems1 = [
 	"megváltoztat",
