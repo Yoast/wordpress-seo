@@ -25,7 +25,7 @@ class Link_Count_Tools_Integration implements Integration_Interface {
 	 * @codeCoverageIgnore
 	 */
 	public static function get_conditionals() {
-		_deprecated_function( __METHOD__, 'WPSEO 15.1' );
+		\_deprecated_function( __METHOD__, 'WPSEO 15.1' );
 
 		return [
 			Admin_Conditional::class,
@@ -49,7 +49,7 @@ class Link_Count_Tools_Integration implements Integration_Interface {
 		Term_Link_Indexing_Action $term_link_indexing_action,
 		WPSEO_Admin_Asset_Manager $asset_manager
 	) {
-		_deprecated_function( __METHOD__, 'WPSEO 15.1' );
+		\_deprecated_function( __METHOD__, 'WPSEO 15.1' );
 	}
 
 	/**
@@ -59,7 +59,7 @@ class Link_Count_Tools_Integration implements Integration_Interface {
 	 * @codeCoverageIgnore
 	 */
 	public function register_hooks() {
-		_deprecated_function( __METHOD__, 'WPSEO 15.1' );
+		\_deprecated_function( __METHOD__, 'WPSEO 15.1' );
 	}
 
 	/**
@@ -71,7 +71,7 @@ class Link_Count_Tools_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function enqueue_assets() {
-		_deprecated_function( __METHOD__, 'WPSEO 15.1' );
+		\_deprecated_function( __METHOD__, 'WPSEO 15.1' );
 	}
 
 	/**
@@ -83,7 +83,7 @@ class Link_Count_Tools_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function render_tools_overview_item() {
-		_deprecated_function( __METHOD__, 'WPSEO 15.1' );
+		\_deprecated_function( __METHOD__, 'WPSEO 15.1' );
 	}
 
 	/**
@@ -95,7 +95,7 @@ class Link_Count_Tools_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function render_modal() {
-		_deprecated_function( __METHOD__, 'WPSEO 15.1' );
+		\_deprecated_function( __METHOD__, 'WPSEO 15.1' );
 	}
 
 	/**
@@ -107,7 +107,7 @@ class Link_Count_Tools_Integration implements Integration_Interface {
 	 * @return int
 	 */
 	protected function get_total_unindexed() {
-		_deprecated_function( __METHOD__, 'WPSEO 15.1' );
+		\_deprecated_function( __METHOD__, 'WPSEO 15.1' );
 
 		return 0;
 	}

@@ -83,7 +83,6 @@ jobs:
         - grunt composer-artifact
       if: ( tag IS present OR branch =~ /^feature\// OR branch =~ /^release\// OR branch = trunk ) AND type != pull_request
       before_install:
-        - composer self-update 1.10.16
         - nvm install lts/*
         - curl -o- -L https://yarnpkg.com/install.sh | bash
         - export PATH=$HOME/.yarn/bin:$PATH
@@ -115,7 +114,6 @@ cache:
     - node_modules
 
 before_install:
-  - composer self-update 1.10.16
   - export SECURITYCHECK_DIR=/tmp/security-checker
   - if [[ -z "$CC_TEST_REPORTER_ID" ]]; then COVERAGE="0"; fi
   - if [[ -d "premium" ]]; then IS_PREMIUM=1; fi
@@ -147,7 +145,13 @@ install:
     fi
   - |
     if [[ $TRAVIS_PHP_VERSION == "nightly" && "$PHPLINT" == "1" ]]; then
-      composer install --no-interaction --ignore-platform-reqs --no-scripts --no-suggest
+      if [[ "$IS_PREMIUM" == "1" ]]; then
+        cd premium
+        composer install --no-interaction --ignore-platform-reqs --no-scripts --no-suggest
+        cd -
+      else
+        composer install --no-interaction --ignore-platform-reqs --no-scripts --no-suggest
+      fi
     elif [[ "$PHPUNIT" == "1" || "$COVERAGE" == "1" || "$PHPCS" == "1" || "$PHPLINT" == "1" ]]; then
       # Run composer update as we have dev dependencies locked at PHP ^7.0 versions.
       composer update

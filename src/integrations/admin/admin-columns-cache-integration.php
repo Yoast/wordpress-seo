@@ -84,8 +84,11 @@ class Admin_Columns_Cache_Integration implements Integration_Interface {
 		$post_ids = [];
 
 		// Post lists return a list of objects.
-		if ( isset( $posts[0] ) && is_object( $posts[0] ) ) {
+		if ( isset( $posts[0] ) && \is_a( $posts[0], 'WP_Post' ) ) {
 			$post_ids = \wp_list_pluck( $posts, 'ID' );
+		}
+		elseif ( isset( $posts[0] ) && \is_object( $posts[0] ) ) {
+			$post_ids = $this->get_current_page_page_ids( $posts );
 		}
 		elseif ( ! empty( $posts ) ) {
 			// Page list returns an array of post IDs.
@@ -121,5 +124,147 @@ class Admin_Columns_Cache_Integration implements Integration_Interface {
 			$this->indexable_cache[ $post_id ] = $this->indexable_repository->find_by_id_and_type( $post_id, 'post' );
 		}
 		return $this->indexable_cache[ $post_id ];
+	}
+
+	/**
+	 * Gets all the page IDs set to be shown on the current page.
+	 * This is copied over with some changes from WP_Posts_List_Table::_display_rows_hierarchical.
+	 *
+	 * @param array $pages The pages, each containing an ID and post_parent.
+	 *
+	 * @return array The IDs of all pages shown on the current page.
+	 */
+	private function get_current_page_page_ids( $pages ) {
+		global $per_page;
+		$pagenum = isset( $_REQUEST['paged'] ) ? \absint( $_REQUEST['paged'] ) : 0;
+		$pagenum = \max( 1, $pagenum );
+
+		/*
+		 * Arrange pages into two parts: top level pages and children_pages
+		 * children_pages is two dimensional array, eg.
+		 * children_pages[10][] contains all sub-pages whose parent is 10.
+		 * It only takes O( N ) to arrange this and it takes O( 1 ) for subsequent lookup operations
+		 * If searching, ignore hierarchy and treat everything as top level
+		 */
+		if ( empty( $_REQUEST['s'] ) ) {
+			$top_level_pages = [];
+			$children_pages  = [];
+			$pages_map       = [];
+
+			foreach ( $pages as $page ) {
+
+				// Catch and repair bad pages.
+				if ( $page->post_parent === $page->ID ) {
+					$page->post_parent = 0;
+				}
+
+				if ( $page->post_parent === 0 ) {
+					$top_level_pages[] = $page;
+				}
+				else {
+					$children_pages[ $page->post_parent ][] = $page;
+				}
+				$pages_map[ $page->ID ] = $page;
+			}
+
+			$pages = &$top_level_pages;
+		}
+
+		$count      = 0;
+		$start      = ( ( $pagenum - 1 ) * $per_page );
+		$end        = ( $start + $per_page );
+		$to_display = [];
+
+		foreach ( $pages as $page ) {
+			if ( $count >= $end ) {
+				break;
+			}
+
+			if ( $count >= $start ) {
+				$to_display[] = $page->ID;
+			}
+
+			++$count;
+
+			$this->get_child_page_ids( $children_pages, $count, $page->ID, $start, $end, $to_display, $pages_map );
+		}
+
+		// If it is the last pagenum and there are orphaned pages, display them with paging as well.
+		if ( isset( $children_pages ) && $count < $end ) {
+			foreach ( $children_pages as $orphans ) {
+				foreach ( $orphans as $op ) {
+					if ( $count >= $end ) {
+						break;
+					}
+
+					if ( $count >= $start ) {
+						$to_display[] = $op->ID;
+					}
+
+					++$count;
+				}
+			}
+		}
+
+		return $to_display;
+	}
+
+	/**
+	 * Adds all child pages due to be shown on the current page to the $to_display array.
+	 * Copied over with some changes from WP_Posts_List_Table::_page_rows.
+	 *
+	 * @param array $children_pages The full map of child pages.
+	 * @param int   $count          The number of pages already processed.
+	 * @param int   $parent         The parent that's currently being processed.
+	 * @param int   $start          The number at which the current overview starts.
+	 * @param int   $end            The number at which the current overview ends.
+	 * @param int   $to_display     The page IDs to be shown.
+	 * @param int   $pages_map      A map of page ID to an object with ID and post_parent.
+	 *
+	 * @return void
+	 */
+	private function get_child_page_ids( &$children_pages, &$count, $parent, $start, $end, &$to_display, &$pages_map ) {
+		if ( ! isset( $children_pages[ $parent ] ) ) {
+			return;
+		}
+
+		foreach ( $children_pages[ $parent ] as $page ) {
+			if ( $count >= $end ) {
+				break;
+			}
+
+			// If the page starts in a subtree, print the parents.
+			if ( $count === $start && $page->post_parent > 0 ) {
+				$my_parents = [];
+				$my_parent  = $page->post_parent;
+				while ( $my_parent ) {
+					// Get the ID from the list or the attribute if my_parent is an object.
+					$parent_id = $my_parent;
+					if ( \is_object( $my_parent ) ) {
+						$parent_id = $my_parent->ID;
+					}
+
+					$my_parent    = $pages_map[ $parent_id ];
+					$my_parents[] = $my_parent;
+					if ( ! $my_parent->post_parent ) {
+						break;
+					}
+					$my_parent = $my_parent->post_parent;
+				}
+				while ( $my_parent = \array_pop( $my_parents ) ) {
+					$to_display[] = $my_parent->ID;
+				}
+			}
+
+			if ( $count >= $start ) {
+				$to_display[] = $page->ID;
+			}
+
+			++$count;
+
+			$this->get_child_page_ids( $children_pages, $count, $page->ID, $start, $end, $to_display, $pages_map );
+		}
+
+		unset( $children_pages[ $parent ] ); // Required in order to keep track of orphans.
 	}
 }

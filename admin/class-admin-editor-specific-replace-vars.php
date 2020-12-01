@@ -59,7 +59,7 @@ class WPSEO_Admin_Editor_Specific_Replace_Vars {
 		/**
 		 * Filter: Adds the possibility to add extra editor specific replacement variables.
 		 *
-		 * @api array $replacement_variables Empty array to add the editor specific replace vars to.
+		 * @api array $replacement_variables Array of editor specific replace vars.
 		 */
 		$replacement_variables = apply_filters(
 			'wpseo_editor_specific_replace_vars',
@@ -220,7 +220,7 @@ class WPSEO_Admin_Editor_Specific_Replace_Vars {
 	 * @return array The list of unique editor specific replacement variables.
 	 */
 	protected function get_unique_replacement_variables() {
-		$merged_replacement_variables = call_user_func_array( 'array_merge', $this->get() );
+		$merged_replacement_variables = call_user_func_array( 'array_merge', array_values( $this->get() ) );
 
 		return array_unique( $merged_replacement_variables );
 	}

@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\WP\SEO\Actions\SEMrush;
+namespace Yoast\WP\SEO\Tests\Unit\Actions\SEMrush;
 
 use Brain\Monkey;
 use Mockery;

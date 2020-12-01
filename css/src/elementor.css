@@ -1,0 +1,247 @@
+/*
+ * Style adaptions for the Elementor integration
+ * Mostly fills in the gaps for pieces that normally receive their styles through the block-editor
+*/
+
+:root {
+	--yoast-elementor-color-paragraph: #555D66;
+}
+
+.yoast, .yoast h2, .yoast h3 {
+	font-family: var(--yoast-font-family) !important;
+}
+
+.yoast h2 {
+	color: var(--yoast-color-dark);
+	font-size: 1.3em;
+	font-weight: var(--yoast-font-weight-bold);
+	margin-bottom: 1em;
+}
+
+.yoast label, .yoast input, .yoast select:not(:focus), .yoast input:focus, .yoast select:focus {
+	color: var(--yoast-color-font-default);
+	background-color: rgba(0,0,0,0);
+	border-color: var(--yoast-color-secondary-darker);
+}
+
+.yoast label {
+	color: var(--yoast-color-label);
+}
+
+.yoast input[disabled] {
+	background-color: var(--yoast-color-inactive-grey-light);
+}
+
+.yoast.components-panel__body .yoast-title {
+	font-weight: 500;
+}
+
+.yoast-field-group__title b {
+	font-weight: var(--yoast-font-weight-bold);
+}
+
+.yoast h3 span > span {
+	font-weight: 400;
+}
+
+.elementor-panel .elementor-tab-control-yoast-tab a:before, .yoast-element-menu-icon:before {
+	mask-image: var(--yoast-svg-icon-yoast);
+	-webkit-mask-image: var(--yoast-svg-icon-yoast);
+	mask-size: 100% 100%;
+	-webkit-mask-size: 100% 100%;
+	height: 16px;
+	width: 16px;
+	margin: 0 auto;
+
+	/*
+	Content should contain some text, because that's how Elementor spaces their nav.
+	Set color to transparent because we don't wan't to see the before's text.
+	*/
+	content: ".";
+	color: transparent;
+	background-color: #6d7882;
+}
+
+.yoast-element-menu-icon {
+	display: inline-flex;
+}
+
+.yoast-element-menu-icon:before {
+	height: 19px;
+	width: 19px;
+	background-color: #a4afb7;
+}
+
+.yoast-elementor-panel__fills {
+	margin-top: 10px;
+	padding: 5px 5px 0 5px;
+	color: var(--yoast-color-dark);
+	background-color: var(--yoast-color-white);
+	-webkit-font-smoothing: subpixel-antialiased;
+}
+
+.yoast li, .yoast p, .yoast small {
+	margin-bottom: 6px;
+	line-height: 1.5;
+}
+
+.yoast ul[role='list'] li, .yoast p, .yoast small {
+	color: var(--yoast-elementor-color-paragraph);
+}
+
+.yoast-elementor-panel__fills p a, .button-link, .yoast a, .yoast a p {
+	color: var(--yoast-color-link);
+	text-decoration: underline;
+}
+
+.yoast a.dashicons {
+	color: var(--yoast-color-inactive-text);
+	height: 24px;
+	width: 24px;
+	vertical-align: text-bottom;
+}
+
+.button-link {
+	border: none;
+	background: none;
+	cursor: pointer;
+	font-size: 1em;
+	line-height: 1.5;
+}
+
+.yoast-elementor-panel__fills .UpsellLinkButton, .yoast .yoast-button-upsell {
+	line-height: 1.4em;
+	color: var(--yoast-color-label);
+	text-decoration: none;
+}
+
+.yoast-elementor-panel__fills h3 > button {
+	border: none;
+	box-shadow: none;
+	background: none;
+}
+
+.yoast-gutenberg-modal .yoast-notice-container > hr {
+	border-top-color: #ddd;
+	border-top-style: solid;
+}
+
+.yoast-gutenberg-modal input[type="radio"] {
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	width: 18px;
+	height: 18px;
+	padding: 2px;
+	margin: 0 8px 0 0;
+	vertical-align: text-bottom;
+	border-radius: 50%;
+	transition: all 150ms ease-out 0s;
+	border: var(--yoast-border-default);
+	box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+	position: relative;
+	overflow: hidden;
+	cursor: pointer;
+}
+
+.yoast-gutenberg-modal input[type="radio"]:checked {
+	border-color: var(--yoast-color-primary);
+	background-color: inherit;
+}
+
+.yoast-gutenberg-modal input[type='radio']:checked:after {
+	background: var(--yoast-color-primary);
+	width: 10px;
+	height: 10px;
+	background: var(--yoast-color-primary);
+	position: absolute;
+	left: 3px;
+	top: 3px;
+	content: "";
+	display: block;
+	border-radius: 50%;
+}
+
+.yoast-post-settings-modal .yoast-notice-container {
+	bottom: auto;
+}
+
+.yoast-gutenberg-modal .components-popover.components-tooltip {
+	position: relative;
+	left: unset !important;
+	top: 15px !important;
+	right: 40px;
+}
+
+/* Tab-focus styling */
+.yoast div:focus, div.yoast:focus {
+	outline: 0;
+}
+
+.yoast a:focus, .yoast .button-link:focus {
+	color: #124964;
+	box-shadow: 0 0 0 1px #5b9dd9, 0 0 2px 1px rgba(30, 140, 190, 0.8);
+	outline: 1px solid transparent;
+}
+
+.yoast a.dashicons:focus {
+	color: #1e8cbe;
+}
+
+.yoast input[type="radio"]:checked:focus {
+	box-shadow: var(--yoast-color-focus);
+	border-color: #fff;
+}
+
+.yoast .yoast-button-upsell:focus {
+	color: #000;
+	box-shadow: inset 0 -4px 0 rgba(0, 0, 0, 0.2), 0 0 0 1px #5b9dd9, 0 0 2px 1px rgba(30, 140, 190, 0.8);
+}
+
+/* Introduction message */
+#yoast-introduction {
+	z-index: 1;
+	top: 5px!important;
+	left: 41px!important;
+	box-shadow: var(--yoast-shadow-default);
+	text-align: left;
+	padding: 20px;
+}
+
+#yoast-introduction::before {
+	left: -12px;
+	top: 8px;
+	transform: rotate(-90deg);
+}
+
+#yoast-introduction > div {
+	color: var(--yoast-color-default);
+}
+
+#yoast-introduction > .dialog-header {
+	font-weight: var(--yoast-font-weight-bold);
+	line-height: 1.3;
+}
+
+#yoast-introduction > .dialog-buttons-wrapper {
+	justify-content: flex-end;
+	margin-top: 12px;
+}
+
+/* All hover effects */
+@media(hover:hover) {
+	
+	.yoast a:hover, .yoast a:hover p, .yoast-elementor-panel__fills p a:hover, .button-link:hover {
+		color: var(--yoast-color-primary-darker);
+	}
+
+	.yoast a.dashicons:hover {
+		color: var(--yoast-color-link);
+	}
+
+	.yoast-elementor-panel__fills .UpsellLinkButton:hover, .yoast .yoast-button-upsell:hover {
+		color: var(--yoast-color-label);
+	}
+}
+
+
+/*# sourceMappingURL=elementor.css.map */

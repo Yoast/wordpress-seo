@@ -26,7 +26,7 @@ class Indexation_List_Item_Presenter extends Abstract_Presenter {
 		$total_unindexed,
 		Indexable_Helper $indexable_helper
 	) {
-		_deprecated_function( __METHOD__, 'WPSEO 15.1' );
+		\_deprecated_function( __METHOD__, 'WPSEO 15.1' );
 	}
 
 	/**
@@ -38,7 +38,7 @@ class Indexation_List_Item_Presenter extends Abstract_Presenter {
 	 * @return string The list item HTML.
 	 */
 	public function present() {
-		_deprecated_function( __METHOD__, 'WPSEO 15.1' );
+		\_deprecated_function( __METHOD__, 'WPSEO 15.1' );
 
 		return '';
 	}

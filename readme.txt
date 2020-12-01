@@ -4,7 +4,7 @@ Donate link: https://yoa.st/1up
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
-Tested up to: 5.5.1
+Tested up to: 5.6
 Stable tag: 15.3
 Requires PHP: 5.6.20
 
@@ -106,6 +106,8 @@ Yoast SEO integrates seamlessly into a range of themes and plugins. We work part
 * The official [AMP](https://wordpress.org/plugins/amp/) plugin, which changes your templates to use the ‘AMP’ HTML format.
 * Google’s [Web Stories](https://wordpress.org/plugins/web-stories/) plugin, which helps you to create ‘[web stories](https://amp.dev/about/stories/)’.
 * The [Advanced Custom Fields](https://wordpress.org/plugins/advanced-custom-fields/) plugin, when you also activate the [ACF Content Analysis for Yoast SEO](https://wordpress.org/plugins/acf-content-analysis-for-yoast-seo/) plugin.
+* The [Elementor](https://wordpress.org/plugins/elementor/) website builder.
+* [Zapier](https://zapier.com/apps/yoast-seo/integrations), which helps you automate your publishing flow.
 
 ### BUG REPORTS
 
@@ -232,20 +234,34 @@ Your question has most likely been answered on our knowledge base: [kb.yoast.com
 
 == Changelog ==
 
+= 15.4 =
+Release Date: December 2nd, 2020
+
+It’s here: Yoast SEO 15.4! In this release, you’ll find a seamless, easy-to-use integration of Yoast SEO with Elementor. Building websites and optimizing content for the search engines now in one workflow! Read more about what’s new in Yoast SEO 15.4 in [our release post](https://yoa.st/release-15-4)!
+
+Enhancements:
+
+* Introduces a seamless integration of Yoast SEO content analysis into the Elementor editor.
+* Makes it possible to recognize forms of keyphrases in Arabic when they are preceded by certain multi-letter prefixes, e.g. والقبعة ,فسحرية, or وبالمفتاح.
+
+Bugfixes:
+
+* Fixes a bug where `post-sitemap.xml` would cause a fatal error when the filter `post_link` required a `WP_Post` object. Props to [stodorovic](https://github.com/stodorovic).
+* Fixes a bug where the core `default_hidden_columns` filter would be broken. Props to [thomasmb](https://github.com/thomasmb).
+* Fixes a bug where memory could be exhausted on the page overview for users with a large number of pages.
+* Fixes a bug where an `ArgumentCountError` would be thrown on the Search Appearance settings page when using PHP 8.0.
+* Fixes a bug where disabling the tracking network-wide in a multisite environment did not automatically disable tracking on the sites in the network.
+* Fixes a bug where tracking would send partial data.
+
+Other:
+
+* Provides `YoastSEO->helpers->options->get_title_separator()` as an alternative for the previously removed `get_title_separator` method.
+* Adds a `wpseo_previously_used_keyword_active` filter to deactivate the Previously Used Keyword analysis assessment.
+
 = 15.3 =
 Release Date: November 17th, 2020
 
 Out now: Yoast SEO 15.3! In this release, you’ll find full language support for Hebrew in our analysis! This makes it a lot more natural to optimize your posts and it lets you focus on the writing part. Read more about what’s new in Yoast SEO 15.3 in [our release post](https://yoa.st/release-15-3)!
-
-Bugfixes:
-
-* Fixes a bug where no notification to reindex your site would be shown when the indexing process failed.
-* Fixes a bug where no notification to reindex your site would be shown when changing the permalink structure, category base or home URL multiple times in a row and hiding the notification in between.
-* Fixes a bug where a fatal error would be thrown when there is no ctype extension loaded and `ctype_digit` had been polyfilled before.
-* Fixes a bug where reindexing via the WP-CLI would not always repopulate the indexables tables.
-* Fixes a bug where unfiltered HTML could be inserted in taxonomy descriptions by administrators and editors.
-* Fixes a bug where the indexable permalinks could have an incorrect taxonomy base.
-* Fixes a bug where the SEO optimization process sometimes had to be run twice before everything was correctly indexed.
 
 Enhancements:
 
@@ -257,45 +273,19 @@ Enhancements:
 * Does not mark the words 'annoyed', 'depressed', 'disappointed', and 'upset' as passives in English anymore, since most of the time they are closer to adjectives rather than passive verbs in meaning.
 * Improves the results for the keyphrase distribution assessment for Swedish, Indonesian, Arabic, Hebrew and Farsi by allowing a partial match (instead of a full match) for long keyphrases (4 or more content words).
 
+Bugfixes:
+
+* Fixes a bug where no notification to reindex your site would be shown when the indexing process failed.
+* Fixes a bug where no notification to reindex your site would be shown when changing the permalink structure, category base or home URL multiple times in a row and hiding the notification in between.
+* Fixes a bug where a fatal error would be thrown when there is no ctype extension loaded and `ctype_digit` had been polyfilled before.
+* Fixes a bug where reindexing via the WP-CLI would not always repopulate the indexables tables.
+* Fixes a bug where unfiltered HTML could be inserted in taxonomy descriptions by administrators and editors.
+* Fixes a bug where the indexable permalinks could have an incorrect taxonomy base.
+* Fixes a bug where the SEO optimization process sometimes had to be run twice before everything was correctly indexed.
+
 Other:
 
 * Prevents the SEO optimization process from restarting automatically when the optimization tool is started via the link in the dashboard notification and the Yoast SEO Tools page is reloaded during indexing.
-
-= 15.2.1 =
-Release Date: November 2nd, 2020
-
-Bugfixes:
-
-* Fixes a bug where AMP and W3C validation would break because Twitter meta tags would contain 'value' attributes instead of 'content' attributes.
-* Fixes a bug where the Yoast metabox could not be loaded in the post editor when the `configuration-wizard-1520.js` JavaScript file is blocked from loading.
-
-= 15.2 =
-Release Date: October 27th, 2020
-
-Today, we are releasing Yoast SEO 15.2 into the wild. In this release, we've added an interesting improvement for Slack users — better visibility for your content when your URL is shared on Slack. We also improved the performance of the plugin in the backend due to us loading less JavaScript. Read more about what’s new in 15.2 in [our release post](https://yoa.st/release-15-2)!
-
-Enhancements:
-
-* Adds an Open Graph integration for The Events Calendar plugin. Props to [Luehrsen](https://github.com/Luehrsen).
-* Sets the default schema type for Web Stories to Article. Props to [swissspidy](https://github.com/swissspidy).
-* Adds enhanced Slack sharing tags on posts and pages.
-* Adds a toggle for the above enhanced Slack sharing feature.
-* Flushes the permalinks from the indexable tables when a custom taxonomy base changes, and shows a reindex notification in that case.
-* Improves the loading times of admin pages where Yoast SEO is present.
-
-Bugfixes:
-
-* Fixes a bug where we linked to Google's Structured Data Test, which is deprecated. We now link to Google's Rich Results Test. Props to [wormeyman](https://github.com/wormeyman).
-* Fixes a bug where the styling of the General tab in the network admin dashboard was broken.
-* Fixes a bug where the German passive voice assessment would show an error when the text contained a participle enclosed within curly quotation marks (e.g., `"getan"`).
-* Fixes a bug where the WooCommerce product permalinks were not updated after a permalink structure change.
-* Fixes a bug where the replacement variable dropdown menu was partially hidden for the description inputs in all preview modals.
-* Fixes a bug where a fatal error would be thrown on sites that did have curl installed but did not have the PHP curl extension installed.
-
-Other:
-
-* Removes the "Remind me in 7 days" link from the SEO data optimization notification on the Yoast SEO dashboard, which was shown for large sites with more than 2500 unindexed indexables. The notification can still be hidden by clicking the default dismiss button.
-* Adds the `wpseo_image_data` filter to enable the filtering of image metadata. Props to [spacedmonkey](https://github.com/spacedmonkey).
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).

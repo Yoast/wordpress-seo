@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Presenters\Admin;
 
+use WP_Post;
 use WPSEO_Meta;
 use Yoast\WP\SEO\Presenters\Abstract_Presenter;
 
@@ -18,16 +19,16 @@ class Meta_Fields_Presenter extends Abstract_Presenter {
 	private $meta_fields;
 
 	/**
-	 * @var \WP_Post the metabox post.
+	 * @var WP_Post The metabox post.
 	 */
 	private $post;
 
 	/**
 	 * Meta_Fields_Presenter constructor.
 	 *
-	 * @param \WP_Post $post        The metabox post.
-	 * @param string   $field_group The key under which a group of fields is grouped.
-	 * @param string   $post_type   The post type.
+	 * @param WP_Post $post        The metabox post.
+	 * @param string  $field_group The key under which a group of fields is grouped.
+	 * @param string  $post_type   The post type.
 	 */
 	public function __construct( $post, $field_group, $post_type = 'post' ) {
 		$this->post        = $post;

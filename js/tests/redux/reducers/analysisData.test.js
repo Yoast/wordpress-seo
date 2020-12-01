@@ -1,11 +1,11 @@
-import { updateAnalysisData } from "../../../src/redux/actions/analysisData";
+import { updateAnalysisData } from "../../../src/redux/actions/analysis";
 import analysisDataReducer from "../../../src/redux/reducers/analysisData";
 
 describe( "Analysis data reducer", () => {
 	it( "has a default state", () => {
 		const result = analysisDataReducer( undefined, { type: "undefined" } );
 
-		expect( result ).toEqual( { snippet: {} } );
+		expect( result ).toEqual( { snippet: {}, timestamp: 0 } );
 	} );
 
 	it( "ignores unrecognized actions", () => {

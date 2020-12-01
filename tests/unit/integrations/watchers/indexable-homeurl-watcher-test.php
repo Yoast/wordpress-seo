@@ -10,7 +10,6 @@ use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Integrations\Watchers\Indexable_HomeUrl_Watcher;
-use Yoast\WP\SEO\Presenters\Admin\Indexing_Permalink_Warning_Presenter;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
@@ -102,16 +101,7 @@ class Indexable_HomeUrl_Watcher_Test extends TestCase {
 	 * @covers ::reset_permalinks
 	 */
 	public function test_reset_permalinks() {
-		$this->instance->expects( 'get_post_types' )->once()->andReturn( [ 'post' ] );
-		$this->instance->expects( 'get_taxonomies_for_post_types' )->once()->with( [ 'post' ] )->andReturn( [ 'category' ] );
-
-		$this->indexable_helper->expects( 'reset_permalink_indexables' )->with( 'post', 'post', Indexing_Reasons::REASON_HOME_URL_OPTION )->once();
-		$this->indexable_helper->expects( 'reset_permalink_indexables' )->with( 'post-type-archive', 'post', Indexing_Reasons::REASON_HOME_URL_OPTION )->once();
-		$this->indexable_helper->expects( 'reset_permalink_indexables' )->with( 'term', 'category', Indexing_Reasons::REASON_HOME_URL_OPTION )->once();
-		$this->indexable_helper->expects( 'reset_permalink_indexables' )->with( 'user', null, Indexing_Reasons::REASON_HOME_URL_OPTION )->once();
-		$this->indexable_helper->expects( 'reset_permalink_indexables' )->with( 'home-page', null, Indexing_Reasons::REASON_HOME_URL_OPTION )->once();
-		$this->indexable_helper->expects( 'reset_permalink_indexables' )->with( 'date-archive', null, Indexing_Reasons::REASON_HOME_URL_OPTION )->once();
-		$this->indexable_helper->expects( 'reset_permalink_indexables' )->with( 'system-page', null, Indexing_Reasons::REASON_HOME_URL_OPTION )->once();
+		$this->indexable_helper->expects( 'reset_permalink_indexables' )->with( null, null, Indexing_Reasons::REASON_HOME_URL_OPTION )->once();
 
 		Monkey\Functions\expect( 'get_home_url' )
 			->once()
@@ -123,18 +113,6 @@ class Indexable_HomeUrl_Watcher_Test extends TestCase {
 			->once();
 
 		$this->instance->reset_permalinks();
-	}
-
-	/**
-	 * Test resetting the permalinks for a post type.
-	 *
-	 * @covers ::reset_permalinks_post_type
-	 */
-	public function test_reset_permalinks_post_type() {
-		$this->indexable_helper->expects( 'reset_permalink_indexables' )->with( 'post', 'post', Indexing_Reasons::REASON_HOME_URL_OPTION )->once();
-		$this->indexable_helper->expects( 'reset_permalink_indexables' )->with( 'post-type-archive', 'post', Indexing_Reasons::REASON_HOME_URL_OPTION )->once();
-
-		$this->instance->reset_permalinks_post_type( 'post' );
 	}
 
 	/**

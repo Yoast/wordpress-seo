@@ -225,6 +225,13 @@ class WPSEO_Admin_Asset_Manager {
 				],
 			],
 			[
+				'name' => 'schema-blocks',
+				'src'  => 'schema-blocks-' . $flat_version,
+				'deps' => [
+					self::PREFIX . 'schema-blocks-package',
+				],
+			],
+			[
 				'name' => 'yoast-modal',
 				'src'  => 'modal-' . $flat_version,
 				'deps' => [
@@ -455,6 +462,22 @@ class WPSEO_Admin_Asset_Manager {
 					self::PREFIX . 'style-guide',
 					self::PREFIX . 'yoast-components',
 					self::PREFIX . 'commons',
+				],
+			],
+			[
+				'name' => 'schema-blocks-package',
+				'src'  => 'yoast/schema-blocks-' . $flat_version,
+				'deps' => [
+					'lodash',
+					'moment',
+					'wp-element',
+					'wp-blocks',
+					'wp-block-editor',
+					'wp-data',
+					'wp-hooks',
+					'wp-components',
+					'wp-i18n',
+					'wp-editor',
 				],
 			],
 			[
@@ -721,6 +744,29 @@ class WPSEO_Admin_Asset_Manager {
 				'name' => 'draft-js',
 				'src'  => 'draft-js-' . $flat_version,
 			],
+			[
+				'name'   => 'elementor',
+				'src'    => 'elementor-' . $flat_version,
+				'deps'   => [
+					'jquery',
+					'lodash',
+					'wp-data',
+					'wp-element',
+					'wp-components',
+					'wp-compose',
+					'wp-i18n',
+					'wp-sanitize',
+					'wp-api-fetch',
+					'wp-hooks',
+					self::PREFIX . 'components',
+					self::PREFIX . 'analysis',
+					self::PREFIX . 'commons',
+					self::PREFIX . 'redux',
+					self::PREFIX . 'select2',
+					self::PREFIX . 'select2-translations',
+				],
+				'footer' => true,
+			],
 		];
 	}
 
@@ -830,6 +876,14 @@ class WPSEO_Admin_Asset_Manager {
 				'name' => 'structured-data-blocks',
 				'src'  => 'structured-data-blocks-' . $flat_version,
 				'deps' => [ 'wp-edit-blocks' ],
+			],
+			[
+				'name' => 'schema-blocks',
+				'src'  => 'schema-blocks-' . $flat_version,
+			],
+			[
+				'name' => 'elementor',
+				'src'  => 'elementor-' . $flat_version,
 			],
 		];
 	}
