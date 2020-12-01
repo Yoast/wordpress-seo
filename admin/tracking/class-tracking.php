@@ -146,7 +146,7 @@ class WPSEO_Tracking implements WPSEO_WordPress_Integration {
 		global $pagenow;
 
 		// Only send tracking on the main site of a multi-site instance. This returns true on non-multisite installs.
-		if ( ! is_main_site() ) {
+		if ( is_network_admin() || ! is_main_site() ) {
 			return false;
 		}
 
