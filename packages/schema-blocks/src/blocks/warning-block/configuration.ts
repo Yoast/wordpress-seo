@@ -34,7 +34,7 @@ export const WarningBlock: BlockConfiguration = {
 	/**
 	 * Makes sure users cannot select this block.
 	 */
-	// Parent: [ '' ],
+	parent: [ "" ],
 
 	/**
 	 * Renders editing the warning block.
