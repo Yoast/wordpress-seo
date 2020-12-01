@@ -26,7 +26,7 @@ export const WarningBlock: BlockConfiguration = {
 		warningText: {
 			type: "string",
 		},
-		required: {
+		isRequired: {
 			type: "boolean",
 		},
 	},

@@ -14,13 +14,13 @@ import { RenderEditProps } from "../../core/blocks/BlockDefinition";
 export function edit( props: RenderEditProps ): JSX.Element {
 	const { clientId } = props;
 
-	const { removedBlock, removedAttributes, warningText, required } = props.attributes;
+	const { removedBlock, removedAttributes, warningText, isRequired } = props.attributes;
 
 	return createElement(
 		"div",
 		{
 			key: "warning-div",
-			className: [ "yoast-warning-block", required ? "required" : "recommended" ].join( " " ),
+			className: [ "yoast-warning-block", isRequired ? "required" : "recommended" ].join( " " ),
 		},
 		[
 			createElement(
