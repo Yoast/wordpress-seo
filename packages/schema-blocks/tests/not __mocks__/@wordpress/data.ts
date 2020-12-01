@@ -1,4 +1,5 @@
 import { BlockInstance } from "@wordpress/blocks";
+const data = jest.createMockFromModule( "@wordpress/data" ) as any;
 
 let mockedInnerblocks: BlockInstance[] = [];
 
@@ -25,5 +26,6 @@ function select( store: string ) {
 	};
 }
 
-export default { select };
-export { mockedInnerblocks };
+data.select = select;
+data.mockInnerBlocks = mockInnerBlocks;
+export default data;

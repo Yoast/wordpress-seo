@@ -1,10 +1,9 @@
 import { createElement, ComponentClass } from "@wordpress/element";
 import { InnerBlocks as WordPressInnerBlocks } from "@wordpress/block-editor";
 import BlockInstruction from "../../core/blocks/BlockInstruction";
-import { RenderEditProps, RenderSaveProps } from "../../core/blocks/BlockDefinition";
 import { RequiredBlock } from "./dto";
 import getInvalidInnerBlocks from "../../functions/validators/innerBlocksValid";
-import { TemplateArray } from "@wordpress/blocks";
+import { BlockInstance, TemplateArray } from "@wordpress/blocks";
 import { InvalidBlockReason } from "./enums";
 
 /**
@@ -35,19 +34,19 @@ export default class InnerBlocks extends BlockInstruction {
 	 * @returns The inner blocks.
 	 */
 	edit(): JSX.Element {
-		const attributes: WordPressInnerBlocks.Props = {};
+		const properties: WordPressInnerBlocks.Props = {};
 
 		if ( this.options.appender === "button" ) {
-			attributes.renderAppender = () => {
+			properties.renderAppender = () => {
 				// The type definition of InnerBlocks are wrong so cast to fix them.
 				return createElement( ( WordPressInnerBlocks as unknown as { ButtonBlockAppender: ComponentClass } ).ButtonBlockAppender );
 			};
 		} else {
-			attributes.renderAppender = () => createElement( WordPressInnerBlocks.DefaultBlockAppender );
+			properties.renderAppender = () => createElement( WordPressInnerBlocks.DefaultBlockAppender );
 		}
 
 		if ( typeof this.options.appenderLabel === "string" ) {
-			attributes.renderAppender = () =>
+			properties.renderAppender = () =>
 				createElement(
 					"div",
 					{ className: "yoast-labeled-inserter", "data-label": this.options.appenderLabel },
@@ -56,14 +55,14 @@ export default class InnerBlocks extends BlockInstruction {
 		}
 
 		if ( this.options.allowedBlocks ) {
-			attributes.allowedBlocks = this.options.allowedBlocks;
+			properties.allowedBlocks = this.options.allowedBlocks;
 		}
 
 		if ( this.options.template ) {
-			attributes.template = this.options.template;
+			properties.template = this.options.template;
 		}
 
-		return createElement( WordPressInnerBlocks, attributes );
+		return createElement( WordPressInnerBlocks, properties );
 	}
 
 	/**
@@ -90,15 +89,14 @@ export default class InnerBlocks extends BlockInstruction {
 	/**
 	 * Checks if the instruction block is valid.
 	 *
-	 * @param props The properties from the save or edit methods.
+	 * @param blockInstance The block instance being validated.
 	 *
 	 * @returns `true` if the instruction block is valid, `false` if the block contains errors.
 	 */
-	valid( props: RenderSaveProps | RenderEditProps ): boolean {
-		const invalidBlocks = getInvalidInnerBlocks( this.options.requiredBlocks, props.clientId );
+	valid( blockInstance: BlockInstance ): boolean {
+		const invalidBlocks = getInvalidInnerBlocks( blockInstance, this.options.requiredBlocks );
 
-		return invalidBlocks.length === 0 || invalidBlocks.every( block => block.reason === InvalidBlockReason.Optional )		
-		;
+		return invalidBlocks.length === 0 || invalidBlocks.every( block => block.reason === InvalidBlockReason.Optional );
 	}
 }
 

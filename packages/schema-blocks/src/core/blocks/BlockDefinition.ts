@@ -15,6 +15,8 @@ export interface RenderSaveProps extends BlockSaveProps<Record<string, unknown>>
 	clientId?: string;
 }
 
+export const registeredBlockDefinitions: Record<string, BlockDefinition> = {};
+
 export type MutableBlockConfiguration = {
 	-readonly [K in keyof BlockConfiguration]: BlockConfiguration[K]
 }
@@ -79,5 +81,6 @@ export default class BlockDefinition extends Definition {
 		configuration.save = props => this.save( props );
 
 		registerBlockType( name, configuration );
+		registeredBlockDefinitions[ name ] = this;
 	}
 }

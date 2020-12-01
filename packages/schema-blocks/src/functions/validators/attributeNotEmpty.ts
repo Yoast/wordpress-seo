@@ -1,15 +1,16 @@
+import { BlockInstance } from "@wordpress/blocks";
 import { isEmpty } from "lodash";
 
 /**
  * Validates that an attribute is not empty.
  *
- * @param attributes The attributes.
- * @param name The name of the attribute to check.
+ * @param blockInstance The blockInstance to check for a specific attribute.
+ * @param name          The name of the attribute to check.
  *
  * @returns If the attribute is considered empty.
  */
-function attributeNotEmpty( attributes: Readonly<Record<string, unknown>>, name: string ): boolean {
-	return ! isEmpty( attributes[ name ] as object );
+function attributeNotEmpty( blockInstance: BlockInstance, name: string ): boolean {
+	return ! isEmpty( blockInstance.attributes[ name ] as object );
 }
 
 export default attributeNotEmpty;

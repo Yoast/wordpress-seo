@@ -1,3 +1,4 @@
+import { BlockInstance } from "@wordpress/blocks";
 import { merge } from "lodash";
 import Instruction from "./Instruction";
 import Leaf from "./Leaf";
@@ -50,11 +51,11 @@ export default abstract class Definition {
 	/**
 	 * Checks if the Definition block is valid.
 	 *
-	 * @param attributes: The attributes object from RenderSaveProps or RenderEditProps
-	 * @returns {boolean} True if the instruction block is valid, False if the block contains errors.
+	 * @param blockInstance The block to be validated.
+	 * @returns {boolean}   True if all instructions in the block are valid, False if any of the block contains errors.
 	 */
-	valid( attributes: object ): boolean {
-		return true;
+	valid( blockInstance: BlockInstance ): boolean {
+		return Object.values( this.instructions ).every( instruction => instruction.valid( blockInstance ) && blockInstance.attributes.req );
 	}
 	/* eslint-enable @typescript-eslint/no-unused-vars */
 

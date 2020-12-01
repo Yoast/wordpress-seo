@@ -1,7 +1,7 @@
 import BlockLeaf from "./BlockLeaf";
 import { RenderSaveProps, RenderEditProps } from "./BlockDefinition";
 import { ReactElement } from "@wordpress/element";
-import { BlockConfiguration } from "@wordpress/blocks";
+import { BlockConfiguration, BlockInstance } from "@wordpress/blocks";
 import Instruction, { InstructionOptions } from "../Instruction";
 import attributeExists from "../../functions/validators/attributeExists";
 import attributeNotEmpty from "../../functions/validators/attributeNotEmpty";
@@ -64,14 +64,14 @@ export default abstract class BlockInstruction extends Instruction {
 	/**
 	 * Checks if the instruction block is valid.
 	 *
-	 * @param props The properties from the save or edit methods.
+	 * @param blockInstance The attributes from the block.
 	 *
 	 * @returns `true` if the instruction block is valid, `false` if the block contains errors.
 	 */
-	valid( props: RenderSaveProps | RenderEditProps ): boolean {
+	valid( blockInstance: BlockInstance ): boolean {
 		if ( this.options.required === true ) {
-			return attributeExists( props.attributes, this.options.name as string ) &&
-				attributeNotEmpty( props.attributes, this.options.name as string );
+			return attributeExists( blockInstance, this.options.name as string ) &&
+				attributeNotEmpty( blockInstance, this.options.name as string );
 		}
 
 		return true;
