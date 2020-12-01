@@ -247,12 +247,11 @@ Enhancements:
 Bugfixes:
 
 * Fixes a bug where `post-sitemap.xml` would cause a fatal error when the filter `post_link` required a `WP_Post` object. Props to [stodorovic](https://github.com/stodorovic).
-* Fixes a bug where the core `default_hidden_columns` filter would be broken. Props [thomasmb](https://github.com/thomasmb).
-* Fixes a bug where memory could be exhaused on the page overview for users with a large number of pages.
-* Fixes a bug where a ArgumentCountError would be thrown on the Search Appearance settings page when using PHP 8.0.
+* Fixes a bug where the core `default_hidden_columns` filter would be broken. Props to [thomasmb](https://github.com/thomasmb).
+* Fixes a bug where memory could be exhausted on the page overview for users with a large number of pages.
+* Fixes a bug where an `ArgumentCountError` would be thrown on the Search Appearance settings page when using PHP 8.0.
 * Fixes a bug where disabling the tracking network-wide in a multisite environment did not automatically disable tracking on the sites in the network.
 * Fixes a bug where tracking would send partial data.
-
 
 Other:
 
