@@ -251,6 +251,8 @@ Bugfixes:
 * Fixes a bug where memory could be exhaused on the page overview for users with a large number of pages.
 * Fixes a bug where a ArgumentCountError would be thrown on the Search Appearance settings page when using PHP 8.0.
 * Fixes a bug where disabling the tracking network-wide in a multisite environment did not automatically disable tracking on the sites in the network.
+* Fixes a bug where tracking would send partial data.
+
 
 Other:
 
