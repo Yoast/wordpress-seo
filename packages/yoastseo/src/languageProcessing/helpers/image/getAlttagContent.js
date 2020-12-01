@@ -2,18 +2,18 @@
 
 import stripSpaces from "../sanitize/stripSpaces.js";
 
-var regexAltTag = /alt=(['"])(.*?)\1/i;
+const regexAltTag = /alt=(['"])(.*?)\1/i;
 
 /**
- * Checks for an alttag in the image and returns its content
+ * Checks for an alt tag in the image and returns its content
  *
- * @param {String} text Textstring to match alt
- * @returns {String} the contents of the alttag, empty if none is set.
+ * @param {String} text Text string to match alt
+ * @returns {String} the contents of the alt tag, empty if none is set.
  */
 export default function( text ) {
-	var alt = "";
+	let alt = "";
 
-	var matches = text.match( regexAltTag );
+	const matches = text.match( regexAltTag );
 
 	if ( matches !== null ) {
 		alt = stripSpaces( matches[ 2 ] );
