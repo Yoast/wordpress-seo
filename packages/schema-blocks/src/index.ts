@@ -7,7 +7,7 @@ import BlockInstruction from "./core/blocks/BlockInstruction";
 import watch from "./functions/gutenberg/watch";
 import filter from "./functions/gutenberg/filter";
 import { registerBlockType } from "@wordpress/blocks";
-import { WarningBlock } from "./blocks/WarningBlock";
+import { WarningBlock } from "./blocks/warning-block/configuration";
 
 /**
  * Initializes the Schema templates and block templates.
