@@ -1,4 +1,4 @@
-import htmlParser from "../../src/researches/stringProcessing/htmlParser.js";
+import htmlParser from "../../../../src/languageProcessing/helpers/html/htmlParser.js";
 
 describe( "A function to remove the entire HTML style/script tag block.", function() {
 	it( "filters an entire style block", function() {
@@ -20,7 +20,8 @@ describe( "A function to remove the entire HTML style/script tag block.", functi
 		expect( htmlParser( "<div class='hello'>Hello</div>" ) ).toEqual( "<div class='hello'>Hello</div>" );
 	} );
 	it( "doesn't remove an image block", function() {
-		expect( htmlParser( "<img src='yoast_logo.png' alt='Yoast logo' width='50px' height='50px' />" ) ).toEqual( "<img src='yoast_logo.png' alt='Yoast logo' width='50px' height='50px'></img>" );
+		expect( htmlParser( "<img src='yoast_logo.png' alt='Yoast logo' width='50px' height='50px' />" ) )
+			.toEqual( "<img src='yoast_logo.png' alt='Yoast logo' width='50px' height='50px'></img>" );
 	} );
 	it( "filters an entire code block", function() {
 		expect( htmlParser( "<code>Test</code>" ) ).toEqual( "" );

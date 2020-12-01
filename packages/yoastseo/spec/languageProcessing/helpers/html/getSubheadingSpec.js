@@ -4,7 +4,7 @@ import {
 	getSubheadingContents,
 	getSubheadingContentsTopLevel,
 	removeSubheadingsTopLevel,
-} from "../../src/researches/stringProcessing/getSubheadings";
+} from "../../../../src/languageProcessing/helpers/html/getSubheadings";
 
 describe( "getSubheadingContents", function() {
 	it( "returns subheadings", function() {

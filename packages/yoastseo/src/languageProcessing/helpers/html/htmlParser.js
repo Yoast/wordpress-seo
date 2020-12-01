@@ -23,6 +23,7 @@ const parser = new htmlparser.Parser( {
 	 *
 	 * @param {string} tagName The tag name.
 	 * @param {object} nodeValue The attribute with the keys and values of the tag.
+	 *
 	 * @returns {void}
 	 */
 	onopentag: function( tagName, nodeValue ) {
@@ -75,6 +76,7 @@ const parser = new htmlparser.Parser( {
  * Calls the htmlparser and returns the text without the HTML blocks as defined in the inlineTags array.
  *
  * @param {string} text The text to parse.
+ *
  * @returns {string} The text without the HTML blocks as defined in the inlineTags array.
  */
 export default function( text ) {

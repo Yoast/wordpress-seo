@@ -1,33 +1,33 @@
-var blockElements = [ "address", "article", "aside", "blockquote", "canvas", "dd", "div", "dl", "fieldset", "figcaption",
+const blockElements = [ "address", "article", "aside", "blockquote", "canvas", "dd", "div", "dl", "fieldset", "figcaption",
 	"figure", "footer", "form", "h1", "h2", "h3", "h4", "h5", "h6", "header", "hgroup", "hr", "li", "main", "nav",
 	"noscript", "ol", "output", "p", "pre", "section", "table", "tfoot", "ul", "video" ];
-var inlineElements = [ "b", "big", "i", "small", "tt", "abbr", "acronym", "cite", "code", "dfn", "em", "kbd", "strong",
+const inlineElements = [ "b", "big", "i", "small", "tt", "abbr", "acronym", "cite", "code", "dfn", "em", "kbd", "strong",
 	"samp", "time", "var", "a", "bdo", "br", "img", "map", "object", "q", "script", "span", "sub", "sup", "button",
 	"input", "label", "select", "textarea" ];
 
-var blockElementsRegex = new RegExp( "^(" + blockElements.join( "|" ) + ")$", "i" );
-var inlineElementsRegex = new RegExp( "^(" + inlineElements.join( "|" ) + ")$", "i" );
+const blockElementsRegex = new RegExp( "^(" + blockElements.join( "|" ) + ")$", "i" );
+const inlineElementsRegex = new RegExp( "^(" + inlineElements.join( "|" ) + ")$", "i" );
 
-var blockElementStartRegex = new RegExp( "^<(" + blockElements.join( "|" ) + ")[^>]*?>$", "i" );
-var blockElementEndRegex = new RegExp( "^</(" + blockElements.join( "|" ) + ")[^>]*?>$", "i" );
+const blockElementStartRegex = new RegExp( "^<(" + blockElements.join( "|" ) + ")[^>]*?>$", "i" );
+const blockElementEndRegex = new RegExp( "^</(" + blockElements.join( "|" ) + ")[^>]*?>$", "i" );
 
-var inlineElementStartRegex = new RegExp( "^<(" + inlineElements.join( "|" ) + ")[^>]*>$", "i" );
-var inlineElementEndRegex = new RegExp( "^</(" + inlineElements.join( "|" ) + ")[^>]*>$", "i" );
+const inlineElementStartRegex = new RegExp( "^<(" + inlineElements.join( "|" ) + ")[^>]*>$", "i" );
+const inlineElementEndRegex = new RegExp( "^</(" + inlineElements.join( "|" ) + ")[^>]*>$", "i" );
 
-var otherElementStartRegex = /^<([^>\s/]+)[^>]*>$/;
-var otherElementEndRegex = /^<\/([^>\s]+)[^>]*>$/;
+const otherElementStartRegex = /^<([^>\s/]+)[^>]*>$/;
+const otherElementEndRegex = /^<\/([^>\s]+)[^>]*>$/;
 
-var contentRegex = /^[^<]+$/;
-var greaterThanContentRegex = /^<[^><]*$/;
+const contentRegex = /^[^<]+$/;
+const greaterThanContentRegex = /^<[^><]*$/;
 
-var commentRegex = /<!--(.|[\r\n])*?-->/g;
+const commentRegex = /<!--(.|[\r\n])*?-->/g;
 
 import core from "tokenizer2/core";
 import { forEach } from "lodash-es";
 import { memoize } from "lodash-es";
 
-var tokens = [];
-var htmlBlockTokenizer;
+let tokens = [];
+let htmlBlockTokenizer;
 
 /**
  * Creates a tokenizer to tokenize HTML into blocks.
@@ -80,7 +80,8 @@ function isInlineElement( htmlElementName ) {
  * @returns {Array} A list of blocks based on HTML block elements.
  */
 function getBlocks( text ) {
-	var blocks = [], depth = 0,
+	const blocks = [];
+	let depth = 0,
 		blockStartTag = "",
 		currentBlock = "",
 		blockEndTag = "";
@@ -93,7 +94,7 @@ function getBlocks( text ) {
 	htmlBlockTokenizer.end();
 
 	forEach( tokens, function( token, i ) {
-		var nextToken = tokens[ i + 1 ];
+		const nextToken = tokens[ i + 1 ];
 
 		switch ( token.type ) {
 			case "content":
