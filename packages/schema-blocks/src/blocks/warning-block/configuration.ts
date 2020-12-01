@@ -1,6 +1,5 @@
 import { BlockConfiguration } from "@wordpress/blocks";
 import { edit } from "./edit";
-import { RenderEditProps } from "../../core/blocks/BlockDefinition";
 
 export const WarningBlock: BlockConfiguration = {
 	/**
