@@ -17,6 +17,11 @@ describe( "Matches paragraphs in a text", function() {
 		expect( matchParagraphs( text ) ).toContain( "This is a text without any paragraphs" );
 	} );
 
+	it( "returns empty string if there is no text", function() {
+		const text = "";
+		expect( matchParagraphs( text ) ).toContain( "" );
+	} );
+
 	it( "splits on headings", function() {
 		const text = "A piece of text<h2>More piece of text</h2>Another piece of text.";
 		const expected = [ "A piece of text", "Another piece of text." ];
