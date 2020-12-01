@@ -188,6 +188,15 @@ describe( "html", function() {
 			expect( actual ).toEqual( expected );
 		} );
 
+		it( "should handle too many closing tags", function() {
+			const text = "<div>Some content</div></div>";
+			const expected = [ "<div>Some content</div>" ];
+
+			const actual = getBlocks( text );
+
+			expect( actual ).toEqual( expected );
+		} );
+
 		it( "should ignore comments", function() {
 			const text = "<div>More content<!-- ignored> -->Many more</div>";
 			const expected = [ "<div>More contentMany more</div>" ];
