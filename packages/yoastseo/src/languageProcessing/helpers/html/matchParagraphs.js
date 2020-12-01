@@ -6,14 +6,16 @@ import { getBlocks } from "./html";
 
 /**
  * Matches the paragraphs in <p>-tags and returns the text in them.
+ *
  * @param {string} text The text to match paragraph in.
+ *
  * @returns {array} An array containing all paragraphs texts.
  */
-var getParagraphsInTags = function( text ) {
-	var paragraphs = [];
+const getParagraphsInTags = function( text ) {
+	const paragraphs = [];
 	// Matches everything between the <p> and </p> tags.
-	var regex = /<p(?:[^>]+)?>(.*?)<\/p>/ig;
-	var match;
+	const regex = /<p(?:[^>]+)?>(.*?)<\/p>/ig;
+	let match;
 
 	while ( ( match = regex.exec( text ) ) !== null ) {
 		paragraphs.push( match );
@@ -27,18 +29,20 @@ var getParagraphsInTags = function( text ) {
 
 /**
  * Returns an array with all paragraphs from the text.
+ *
  * @param {string} text The text to match paragraph in.
+ *
  * @returns {Array} The array containing all paragraphs from the text.
  */
 export default function( text ) {
-	var paragraphs = getParagraphsInTags( text );
+	let paragraphs = getParagraphsInTags( text );
 
 	if ( paragraphs.length > 0 ) {
 		return paragraphs;
 	}
 
 	// If no <p> tags found, split on double linebreaks.
-	var blocks = getBlocks( text );
+	let blocks = getBlocks( text );
 
 	blocks = filter( blocks, function( block ) {
 		// Match explicit paragraph tags, or if a block has no HTML tags.
