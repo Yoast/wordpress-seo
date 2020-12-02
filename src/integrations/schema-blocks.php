@@ -3,7 +3,11 @@
 namespace Yoast\WP\SEO\Integrations;
 
 use WPSEO_Admin_Asset_Manager;
+use WPSEO_Replace_Vars;
 use Yoast\WP\SEO\Conditionals\Schema_Blocks_Conditional;
+use Yoast\WP\SEO\Context\Meta_Tags_Context;
+use Yoast\WP\SEO\Helpers\Schema\ID_Helper;
+use Yoast\WP\SEO\Memoizers\Meta_Tags_Context_Memoizer;
 
 /**
  * Loads schema block templates into Gutenberg.
@@ -25,6 +29,20 @@ class Schema_Blocks implements Integration_Interface {
 	protected $asset_manager;
 
 	/**
+	 * The meta tags context memoizer.
+	 *
+	 * @var Meta_Tags_Context_Memoizer
+	 */
+	protected $meta_tags_context_memoizer;
+
+	/**
+	 * The ID helper.
+	 *
+	 * @var ID_Helper
+	 */
+	protected $id_helper;
+
+	/**
 	 * Returns the conditionals based in which this loadable should be active.
 	 *
 	 * @return array
@@ -38,10 +56,18 @@ class Schema_Blocks implements Integration_Interface {
 	/**
 	 * Schema_Blocks constructor.
 	 *
-	 * @param WPSEO_Admin_Asset_Manager $asset_manager The asset manager.
+	 * @param WPSEO_Admin_Asset_Manager  $asset_manager              The asset manager.
+	 * @param Meta_Tags_Context_Memoizer $meta_tags_context_memoizer The meta tags context memoizer.
+	 * @param ID_Helper                  $id_helper                  The ID helper.
 	 */
-	public function __construct( WPSEO_Admin_Asset_Manager $asset_manager ) {
-		$this->asset_manager = $asset_manager;
+	public function __construct(
+		WPSEO_Admin_Asset_Manager $asset_manager,
+		Meta_Tags_Context_Memoizer $meta_tags_context_memoizer,
+		ID_Helper $id_helper
+	) {
+		$this->asset_manager              = $asset_manager;
+		$this->meta_tags_context_memoizer = $meta_tags_context_memoizer;
+		$this->id_helper                  = $id_helper;
 	}
 
 	/**
@@ -54,6 +80,7 @@ class Schema_Blocks implements Integration_Interface {
 	public function register_hooks() {
 		\add_action( 'enqueue_block_editor_assets', [ $this, 'load' ] );
 		\add_action( 'admin_enqueue_scripts', [ $this, 'output' ] );
+		\add_action( 'wpseo_json_ld', [ $this, 'register_replace_vars' ] );
 	}
 
 	/**
@@ -81,6 +108,29 @@ class Schema_Blocks implements Integration_Interface {
 	public function load() {
 		$this->asset_manager->enqueue_script( 'schema-blocks' );
 		$this->asset_manager->enqueue_style( 'schema-blocks' );
+	}
+
+	/**
+	 * Registers the Schema related replace vars.
+	 *
+	 * @return void
+	 */
+	public function register_replace_vars() {
+		$context = $this->meta_tags_context_memoizer->for_current_page();
+
+		WPSEO_Replace_Vars::register_replacement(
+			'%%main_schema_id%%',
+			static function() use ( $context ) {
+				return $context->main_schema_id;
+			}
+		);
+
+		WPSEO_Replace_Vars::register_replacement(
+			'%%author_id%%',
+			function() use ( $context ) {
+				return $this->id_helper->get_user_schema_id( $context->indexable->author_id, $context );
+			}
+		);
 	}
 
 	/**
