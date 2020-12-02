@@ -234,6 +234,29 @@ Your question has most likely been answered on our knowledge base: [kb.yoast.com
 
 == Changelog ==
 
+= 15.5 =
+Release Date: December 15th, 2020
+
+Enhancements:
+
+* Removes the Open Graph and Twitter author metadata on pages and other non-post post types.
+* Adds the breadcrumb Schema to the homepage.
+* Adds the assessment for detecting passive voice in Hungarian.
+* Improves keyphrase recognition and internal linking in Hungarian by filtering the function words such as harmadik, tiétek, valaki.
+* Improves the transition words assessment for Hungarian.
+* Implements the consecutive sentences assessment for Hungarian to ensure variety in a text.
+
+Bugfixes:
+
+* Fixes a bug which prevented network disabling of the Enhanced Slack Sharing feature.
+* Fixes a bug where the translations on Search Appearance pages would be broken.
+* Fixes a bug where the Yoast SEO dashboard widget would still fetch data even when it was hidden.
+
+Other:
+
+* Removes support for the Facebook App ID.
+* Adds a notification that tells the user to install and activate the Yoast SEO Multilingual plugin when the WPML plugin is installed and activated.
+
 = 15.4 =
 Release Date: December 2nd, 2020
 
@@ -257,35 +280,6 @@ Other:
 
 * Provides `YoastSEO->helpers->options->get_title_separator()` as an alternative for the previously removed `get_title_separator` method.
 * Adds a `wpseo_previously_used_keyword_active` filter to deactivate the Previously Used Keyword analysis assessment.
-
-= 15.3 =
-Release Date: November 17th, 2020
-
-Out now: Yoast SEO 15.3! In this release, you’ll find full language support for Hebrew in our analysis! This makes it a lot more natural to optimize your posts and it lets you focus on the writing part. Read more about what’s new in Yoast SEO 15.3 in [our release post](https://yoa.st/release-15-3)!
-
-Enhancements:
-
-* Adds the following assessments for Hebrew:
-   * Consecutive sentences assessment.
-   * Sentence length assessment.
-   * Transition words assessment.
-   * Passive voice assessment.
-* Does not mark the words 'annoyed', 'depressed', 'disappointed', and 'upset' as passives in English anymore, since most of the time they are closer to adjectives rather than passive verbs in meaning.
-* Improves the results for the keyphrase distribution assessment for Swedish, Indonesian, Arabic, Hebrew and Farsi by allowing a partial match (instead of a full match) for long keyphrases (4 or more content words).
-
-Bugfixes:
-
-* Fixes a bug where no notification to reindex your site would be shown when the indexing process failed.
-* Fixes a bug where no notification to reindex your site would be shown when changing the permalink structure, category base or home URL multiple times in a row and hiding the notification in between.
-* Fixes a bug where a fatal error would be thrown when there is no ctype extension loaded and `ctype_digit` had been polyfilled before.
-* Fixes a bug where reindexing via the WP-CLI would not always repopulate the indexables tables.
-* Fixes a bug where unfiltered HTML could be inserted in taxonomy descriptions by administrators and editors.
-* Fixes a bug where the indexable permalinks could have an incorrect taxonomy base.
-* Fixes a bug where the SEO optimization process sometimes had to be run twice before everything was correctly indexed.
-
-Other:
-
-* Prevents the SEO optimization process from restarting automatically when the optimization tool is started via the link in the dashboard notification and the Yoast SEO Tools page is reloaded during indexing.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).
