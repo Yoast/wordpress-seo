@@ -112,7 +112,7 @@
     "@wordpress/dom-ready": "^2.10.0",
     "@yoast/analysis-report": "^1.13.0",
     "@yoast/components": "^2.11.0",
-    "@yoast/configuration-wizard": "^2.14.0-rc.1",
+    "@yoast/configuration-wizard": "^2.14.0",
     "@yoast/feature-flag": "^0.5.2",
     "@yoast/helpers": "^0.14.0",
     "@yoast/replacement-variable-editor": "^1.9.0-rc.1",
@@ -148,6 +148,6 @@
     "extends @yoast/browserslist-config"
   ],
   "yoast": {
-    "pluginVersion": "15.4-RC2"
+    "pluginVersion": "15.4"
   }
 }

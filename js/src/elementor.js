@@ -1,6 +1,7 @@
 import { dispatch } from "@wordpress/data";
-import domReady from "@wordpress/dom-ready";
+import { doAction } from "@wordpress/hooks";
 import { applyModifications, pluginReady, pluginReloaded, registerPlugin, registerModification } from "./elementor/initializers/pluggable";
+import { setWordPressSeoL10n, setYoastComponentsL10n } from "./helpers/i18n";
 import initAnalysis, { collectData } from "./initializers/analysis";
 import initElementorEditorIntegration from "./initializers/elementor-editor-integration";
 import initEditorStore from "./elementor/initializers/editor-store";
@@ -10,7 +11,15 @@ import initHighlightFocusKeyphraseForms from "./elementor/initializers/highlight
 import initReplaceVarPlugin, { addReplacement, ReplaceVar } from "./elementor/replaceVars/elementor-replacevar-plugin";
 import initializeIntroduction from "./elementor/initializers/introduction";
 
-domReady( () => {
+setYoastComponentsL10n();
+setWordPressSeoL10n();
+
+/**
+ * Initializes Yoast SEO for Elementor.
+ *
+ * @returns {void}
+ */
+function initialize() {
 	// Initialize the editor store and set it on the window.
 	window.YoastSEO = window.YoastSEO || {};
 	window.YoastSEO.store = initEditorStore();
@@ -52,7 +61,18 @@ domReady( () => {
 
 	// Initialize the introduction.
 	initializeIntroduction();
-} );
 
-// Initialize the editor integration.
-initElementorEditorIntegration();
+	// Initialize the editor integration.
+	initElementorEditorIntegration();
+
+	// Offer an action after our load.
+	doAction( "yoast.elementor.loaded" );
+}
+
+// Wait on `window.elementor`.
+jQuery( window ).on( "elementor:init", () => {
+	// Wait on Elementor app to have started.
+	window.elementor.on( "panel:init", () => {
+		setTimeout( initialize );
+	} );
+} );

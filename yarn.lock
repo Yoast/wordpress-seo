@@ -815,19 +815,6 @@
     lodash "^4.17.11"
     prop-types "^15.7.2"
 
-"@yoast/configuration-wizard@^2.14.0-rc.1":
-  version "2.14.0-rc.1"
-  resolved "https://registry.yarnpkg.com/@yoast/configuration-wizard/-/configuration-wizard-2.14.0-rc.1.tgz#9464ae3f515b3e8083131862ab95c177dbed824f"
-  integrity sha512-48KNoKn146s3hjWpGZiLM80WiIb30kmjTBUr++CTm5rO0YMZdVK7L761OCsno7TLUUoHWGRqkuOhCnCKo6Yifw==
-  dependencies:
-    "@wordpress/i18n" "^1.1.0"
-    "@yoast/components" "^2.11.0"
-    "@yoast/helpers" "^0.14.0"
-    "@yoast/style-guide" "^0.13.0"
-    interpolate-components "^1.1.1"
-    lodash "^4.17.11"
-    prop-types "^15.7.2"
-
 "@yoast/feature-flag@^0.5.2":
   version "0.5.2"
   resolved "https://registry.yarnpkg.com/@yoast/feature-flag/-/feature-flag-0.5.2.tgz#ef4cd8ddb959c5857c5d68639ab09ab75c381508"
