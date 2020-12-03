@@ -73,6 +73,8 @@ use Yoast\WP\Lib\Model;
  * @property string  $schema_article_type
  *
  * @property bool    $has_ancestors
+ *
+ * @property int     $estimated_reading_time_minutes
  */
 class Indexable extends Model {
 
@@ -124,6 +126,7 @@ class Indexable extends Model {
 		'number_of_pages',
 		'prominent_words_version',
 		'blog_id',
+		'estimated_reading_time_minutes',
 	];
 
 	/**
