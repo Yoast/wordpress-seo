@@ -1,11 +1,12 @@
 <?php
 
-namespace Yoast\WP\SEO\Conditionals\Admin;
+namespace Yoast\WP\SEO\Conditionals\Third_Party;
 
 use Yoast\WP\SEO\Conditionals\Conditional;
 
 /**
- * Conditional that is only met when on a post overview page or during an ajax request.
+ * Conditional that is only met when on an Elementor edit page or when the current
+ * request is an ajax request for saving our post meta data.
  */
 class Elementor_Edit_Conditional implements Conditional {
 
