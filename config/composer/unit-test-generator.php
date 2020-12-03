@@ -12,6 +12,20 @@ use RuntimeException;
 class Unit_Test_Generator {
 
 	/**
+	 * Path to the unit test folder.
+	 *
+	 * @private
+	 */
+	const UNIT_TESTS_FOLDER = 'tests/unit';
+
+	/**
+	 * Path to the unit test folder in Premium.
+	 *
+	 * @private
+	 */
+	const UNIT_TESTS_FOLDER_PREMIUM = 'tests/unit/premium';
+
+	/**
 	 * Generates a new unit test scaffold for the given class.
 	 *
 	 * @param string $fully_qualified_class_name The fully qualified class name of the class to generate a unit test for.
@@ -30,8 +44,8 @@ class Unit_Test_Generator {
 
 		$unit_test_path = $this->generate_file_name( $reflector->getFileName() );
 
-		if ( \file_exists( __DIR__ . '/../../tests/unit/' . $unit_test_path ) ) {
-			throw new RuntimeException( \sprintf( 'A unit test already exists at path "tests/unit/%1$s"', $unit_test_path ) );
+		if ( \file_exists( __DIR__ . '/../../' . $unit_test_path ) ) {
+			throw new RuntimeException( \sprintf( 'A unit test already exists at path "%1$s"', $unit_test_path ) );
 		}
 
 		$name = $reflector->getShortName();
@@ -43,7 +57,6 @@ class Unit_Test_Generator {
 			$property_statements          = '';
 			$create_mock_statements       = '';
 			$instance_argument_statements = '';
-			$constructor_test             = '';
 		}
 		else {
 			$constructor_arguments = $constructor->getParameters();
@@ -52,27 +65,36 @@ class Unit_Test_Generator {
 			$property_statements          = $this->generate_property_statements( $constructor_arguments );
 			$create_mock_statements       = $this->generate_create_mock_statements( $constructor_arguments );
 			$instance_argument_statements = $this->generate_instance_argument_statements( $constructor_arguments );
-			$constructor_test             = $this->generate_constructor_test( $constructor_arguments );
 		}
 
 		$namespace = $this->generate_namespace( $fully_qualified_class_name );
-		$group     = $this->generate_group( $reflector->getFileName() );
+		$groups    = $this->generate_groups( $reflector->getFileName() );
 
 		$filled_in_template = $this->unit_test_template(
 			$fully_qualified_class_name,
 			$name,
 			$namespace,
 			$use_statements,
-			$group,
+			$groups,
 			$property_statements,
 			$create_mock_statements,
-			$instance_argument_statements,
-			$constructor_test
+			$instance_argument_statements
 		);
 
-		\file_put_contents( __DIR__ . '/../../tests/unit/' . $unit_test_path, $filled_in_template );
+		\file_put_contents( __DIR__ . '/../../' . $unit_test_path, $filled_in_template );
 
 		return $unit_test_path;
+	}
+
+	/**
+	 * Checks if the class is a Premium class.
+	 *
+	 * @param string $file_path The path to the class for which to generate a unit test.
+	 *
+	 * @return false|int returns 1 if the unit test is in Premium, 0 if it does not, or FALSE if an error occurred.
+	 */
+	protected function is_premium_class( $file_path ) {
+		return \preg_match( '/\/premium\/src\/.*\.php$/', $file_path );
 	}
 
 	/**
@@ -98,23 +120,37 @@ class Unit_Test_Generator {
 	 */
 	protected function generate_file_name( $path ) {
 		$matches = [];
-		\preg_match( '/\/src\/(.*)\.php$/', $path, $matches );
+		\preg_match( '/\/src\/(.*)\/(.*)\.php$/', $path, $matches );
 
-		return $matches[1] . '-test.php';
+		$folders = $matches[1];
+		$file    = $matches[2];
+
+		$unit_test_folder = $this->is_premium_class( $path ) ? self::UNIT_TESTS_FOLDER_PREMIUM : self::UNIT_TESTS_FOLDER;
+
+		return $unit_test_folder . '/' . $folders . '/' . $file . '-test.php';
 	}
 
 	/**
-	 * Generates the unit test group to use in the unit test.
+	 * Generates the unit test groups to use in the unit test.
 	 *
 	 * @param string $path The path to the class.
 	 *
-	 * @return string The group.
+	 * @return string The groups.
 	 */
-	protected function generate_group( $path ) {
+	protected function generate_groups( $path ) {
 		$matches = [];
 		\preg_match( '/\/src\/(.*)\/.*\.php$/', $path, $matches );
 
-		return $matches[1];
+		$groups = \explode( '/', $matches[1] );
+
+		$groups = \array_map(
+			static function( $group ) {
+				return ' * @group ' . $group;
+			},
+			$groups
+		);
+
+		return \implode( PHP_EOL, $groups );
 	}
 
 	/**
@@ -124,12 +160,11 @@ class Unit_Test_Generator {
 	 * @param string $name                         The name of the class that is tested.
 	 * @param string $namespace                    The namespace of the test class.
 	 * @param string $use_statements               The use statements, one for each mocked constructor argument.
-	 * @param string $group                        The unit test group.
+	 * @param string $groups                       The unit test groups.
 	 * @param string $property_statements          The property statements, one for each mocked constructor argument.
 	 * @param string $create_mock_statements       The creation statements, one for each mocked constructor argument.
 	 * @param string $instance_argument_statements The arguments given to the instance constructor,
 	 *                                             one for each mocked constructor argument.
-	 * @param string $constructor_test             The constructor test.
 	 *
 	 * @return string The generated unit test scaffold.
 	 */
@@ -138,11 +173,10 @@ class Unit_Test_Generator {
 		$name,
 		$namespace,
 		$use_statements,
-		$group,
+		$groups,
 		$property_statements,
 		$create_mock_statements,
-		$instance_argument_statements,
-		$constructor_test
+		$instance_argument_statements
 	) {
 		return <<<TPL
 <?php
@@ -161,7 +195,7 @@ use {$fully_qualified_class_name};
 /**
  * Class {$name}_Test.
  *
- * @group {$group}
+{$groups}
  *
  * @coversDefaultClass \\{$fully_qualified_class_name}
  */
@@ -179,8 +213,8 @@ class {$name}_Test extends TestCase {
 	/**
 	 * Sets up the class under test and mock objects.
 	 */
-	public function setUp() {
-		parent::setUp();
+	public function set_up() {
+		parent::set_up();
 
 		{$create_mock_statements}
 
@@ -188,8 +222,6 @@ class {$name}_Test extends TestCase {
 			{$instance_argument_statements}
 		);
 	}
-	
-	{$constructor_test}
 }
 
 TPL;
@@ -289,44 +321,5 @@ TPL;
 		);
 
 		return \implode( ',' . PHP_EOL . "\t\t\t", $statements );
-	}
-
-	/**
-	 * Generates a test for the constructor.
-	 *
-	 * @param array $constructor_arguments The constructor arguments.
-	 *
-	 * @return string The test for the constructor.
-	 */
-	protected function generate_constructor_test( array $constructor_arguments ) {
-		$attribute_tests = $this->generate_attribute_assertions( $constructor_arguments );
-		return <<<TPL
-/**
-	 * Tests the constructor.
-	 *
-	 * @covers ::__construct
-	 */
-	public function test_constructor() {
-		{$attribute_tests}
-	}
-TPL;
-	}
-
-	/**
-	 * Generates attribute assertions for the constructor test.
-	 *
-	 * @param array $constructor_arguments The constructor arguments.
-	 *
-	 * @return string The attribute assertions.
-	 */
-	protected function generate_attribute_assertions( array $constructor_arguments ) {
-		$statements = \array_map(
-			static function( $argument ) {
-				return 'self::assertAttributeInstanceOf( ' . $argument->getClass()->getShortName() . '::class, \'' . $argument->getName() . '\', $this->instance );';
-			},
-			$constructor_arguments
-		);
-
-		return \implode( PHP_EOL . "\t\t", $statements );
 	}
 }
