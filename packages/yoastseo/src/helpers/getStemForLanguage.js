@@ -10,7 +10,6 @@ import indonesianDetermineStem from "../morphology/indonesian/stem";
 import polishDetermineStem from "../morphology/polish/stem";
 import arabicDetermineStem from "../morphology/arabic/stem";
 import swedishDetermineStem from "../morphology/swedish/stem";
-import hungarianDetermineStem from "../morphology/hungarian/stem";
 import hebrewDetermineStem from "../morphology/hebrew/stem";
 import norwegianDetermineStem from "../morphology/norwegian/stem";
 
@@ -33,7 +32,6 @@ export default function() {
 		pl: polishDetermineStem,
 		ar: arabicDetermineStem,
 		sv: swedishDetermineStem,
-		hu: hungarianDetermineStem,
 		he: hebrewDetermineStem,
 		nb: norwegianDetermineStem,
 	};
