@@ -10,6 +10,7 @@ import id from "../../premium-configuration/data/morphologyData-id-v9.json";
 import pl from "../../premium-configuration/data/morphologyData-pl-v9.json";
 import ar from "../../premium-configuration/data/morphologyData-ar-v9.json";
 import sv from "../../premium-configuration/data/morphologyData-sv-v1.json";
+import hu from "../../premium-configuration/data/morphologyData-hu-v1.json";
 import he from "../../premium-configuration/data/morphologyData-he-v1.json";
 import nb from "../../premium-configuration/data/morphologyData-nb-v1.json";
 
@@ -26,6 +27,7 @@ const morphologyData = {
 	pl,
 	ar,
 	sv,
+	hu,
 	he,
 	nb,
 };
