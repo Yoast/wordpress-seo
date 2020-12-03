@@ -32,7 +32,7 @@ const SocialUpsell = ( props ) => {
 	const previewText = sprintf(
 		/* Translators: %s expands to the social medium name, which is either Twitter or Facebook. %s expands to Yoast SEO Premium */
 		__(
-			"Do you want to preview what it will look like if people share this post on %s? You can, with %s.", "yoast-components"
+			"Do you want to preview what it will look like if people share this post on %s? You can, with %s.", "wordpress-seo"
 		), props.socialMediumName, " {{strong}}Yoast SEO Premium{{/strong}}"
 	);
 

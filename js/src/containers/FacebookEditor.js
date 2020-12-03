@@ -14,14 +14,14 @@ const socialMediumName = "Facebook";
 /* Translators: %s expands to the social medium name, i.e. Faceboook. */
 const titleInputPlaceholder  = sprintf(
 	/* Translators: %s expands to the social medium name, i.e. Faceboook. */
-	__( "Modify your %s title by editing it right here...", "yoast-components" ),
+	__( "Modify your %s title by editing it right here...", "wordpress-seo" ),
 	socialMediumName
 );
 
 /* Translators: %s expands to the social medium name, i.e. Faceboook. */
 const descriptionInputPlaceholder  = sprintf(
 	/* Translators: %s expands to the social medium name, i.e. Faceboook. */
-	__( "Modify your %s description by editing it right here...", "yoast-components" ),
+	__( "Modify your %s description by editing it right here...", "wordpress-seo" ),
 	socialMediumName
 );
 
