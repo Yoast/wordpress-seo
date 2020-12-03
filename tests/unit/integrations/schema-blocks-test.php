@@ -73,6 +73,8 @@ class Schema_Blocks_Test extends TestCase {
 	 */
 	public function test_constructor() {
 		static::assertInstanceOf( WPSEO_Admin_Asset_Manager::class, $this->getPropertyValue( $this, 'asset_manager' ) );
+		static::assertInstanceOf( Meta_Tags_Context_Memoizer::class, $this->getPropertyValue( $this, 'meta_tags_context_memoizer' ) );
+		static::assertInstanceOf( ID_Helper::class, $this->getPropertyValue( $this, 'id_helper' ) );
 	}
 
 	/**
@@ -98,6 +100,7 @@ class Schema_Blocks_Test extends TestCase {
 		$this->instance->register_hooks();
 
 		Monkey\Actions\has( 'enqueue_block_editor_assets', [ $this->instance, 'load' ] );
+		Monkey\Actions\has( 'wpseo_json_ld', [ $this->instance, 'register_replace_vars' ] );
 	}
 
 	/**
