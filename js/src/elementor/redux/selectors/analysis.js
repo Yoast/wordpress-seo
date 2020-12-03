@@ -5,9 +5,9 @@ import {
 	getContentLocale,
 	getEditorDataContent,
 	getFocusKeyphrase,
-	getSnippetEditorDescription,
+	getSnippetEditorDescriptionWithTemplate,
 	getSnippetEditorSlug,
-	getSnippetEditorTitle,
+	getSnippetEditorTitleWithTemplate,
 } from "../../../redux/selectors";
 import { applyModifications } from "../../initializers/pluggable";
 
@@ -19,10 +19,10 @@ import { applyModifications } from "../../initializers/pluggable";
  * @returns {Object} The analysis results.
  */
 export const getAnalysisData = ( state ) => {
-	let title = getSnippetEditorTitle( state );
-	let description = getSnippetEditorDescription( state );
+	let title = getSnippetEditorTitleWithTemplate( state );
+	let description = getSnippetEditorDescriptionWithTemplate( state );
 	let slug = getSnippetEditorSlug( state );
-	let baseUrl = getBaseUrlFromSettings( state );
+	const baseUrl = getBaseUrlFromSettings( state );
 
 	/*
 	 * Process the raw snippet editor data.
@@ -34,7 +34,6 @@ export const getAnalysisData = ( state ) => {
 	 */
 	title = strings.stripHTMLTags( applyModifications( "data_page_title", title ) );
 	description = strings.stripHTMLTags( applyModifications( "data_meta_desc", description ) );
-	baseUrl = baseUrl.replace( /^https?:\/\//i, "" );
 	// Trim whitespace and replace internal whitespaces in the url with dashes.
 	slug = slug.trim().replace( /\s+/g, "-" );
 

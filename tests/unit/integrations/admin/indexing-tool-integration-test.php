@@ -62,8 +62,11 @@ class Indexing_Tool_Integration_Test extends TestCase {
 	/**
 	 * Sets up the tests.
 	 */
-	protected function setUp() {
-		parent::setUp();
+	protected function set_up() {
+		parent::set_up();
+
+		$this->stubTranslationFunctions();
+		$this->stubEscapeFunctions();
 
 		$this->asset_manager     = Mockery::mock( WPSEO_Admin_Asset_Manager::class );
 		$this->indexable_helper  = Mockery::mock( Indexable_Helper::class );
@@ -84,10 +87,22 @@ class Indexing_Tool_Integration_Test extends TestCase {
 	 * @covers ::__construct
 	 */
 	public function test_constructor() {
-		static::assertAttributeInstanceOf( WPSEO_Admin_Asset_Manager::class, 'asset_manager', $this->instance );
-		static::assertAttributeInstanceOf( Indexable_Helper::class, 'indexable_helper', $this->instance );
-		static::assertAttributeInstanceOf( Short_Link_Helper::class, 'short_link_helper', $this->instance );
-		static::assertAttributeInstanceOf( Indexing_Helper::class, 'indexing_helper', $this->instance );
+		static::assertInstanceOf(
+			WPSEO_Admin_Asset_Manager::class,
+			$this->getPropertyValue( $this->instance, 'asset_manager' )
+		);
+		static::assertInstanceOf(
+			Indexable_Helper::class,
+			$this->getPropertyValue( $this->instance, 'indexable_helper' )
+		);
+		static::assertInstanceOf(
+			Short_Link_Helper::class,
+			$this->getPropertyValue( $this->instance, 'short_link_helper' )
+		);
+		static::assertInstanceOf(
+			Indexing_Helper::class,
+			$this->getPropertyValue( $this->instance, 'indexing_helper' )
+		);
 	}
 
 	/**

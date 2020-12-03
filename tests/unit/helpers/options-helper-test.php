@@ -25,8 +25,8 @@ class Options_Helper_Test extends TestCase {
 	/**
 	 * Prepares the test.
 	 */
-	public function setUp() {
-		parent::setUp();
+	protected function set_up() {
+		parent::set_up();
 
 		$this->instance = Mockery::mock( Options_Helper::class )
 			->shouldAllowMockingProtectedMethods()

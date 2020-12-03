@@ -37,8 +37,8 @@ class Indexable_Post_Meta_Watcher_Test extends TestCase {
 	/**
 	 * Initializes the test mocks.
 	 */
-	public function setUp() {
-		parent::setUp();
+	protected function set_up() {
+		parent::set_up();
 		$this->post_watcher = Mockery::mock( Indexable_Post_Watcher::class );
 		$this->instance     = new Indexable_Post_Meta_Watcher( $this->post_watcher );
 	}

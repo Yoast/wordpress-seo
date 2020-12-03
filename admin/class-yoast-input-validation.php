@@ -112,11 +112,6 @@ class Yoast_Input_Validation {
 				esc_html__( 'Please check the format of the Facebook Page URL you entered. %s', 'wordpress-seo' ),
 				self::get_dirty_value_message( 'facebook_site' )
 			),
-			'fbadminapp'      => sprintf(
-				/* translators: %s: additional message with the submitted invalid value */
-				esc_html__( 'The Facebook App ID you entered doesn\'t exist. %s', 'wordpress-seo' ),
-				self::get_dirty_value_message( 'fbadminapp' )
-			),
 			'googleverify'    => sprintf(
 				/* translators: %s: additional message with the submitted invalid value */
 				esc_html__( 'Google verification codes can only contain letters, numbers, hyphens, and underscores. %s', 'wordpress-seo' ),

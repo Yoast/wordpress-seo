@@ -52,8 +52,9 @@ class WPML_WPSEO_Notification_Test extends TestCase {
 	/**
 	 * Sets up the class under test and mock objects.
 	 */
-	public function setUp() {
-		parent::setUp();
+	public function set_up() {
+		parent::set_up();
+
 		$this->short_link_helper      = Mockery::mock( Short_Link_Helper::class );
 		$this->notification_center    = Mockery::mock( Yoast_Notification_Center::class );
 		$this->wpml_wpseo_conditional = Mockery::mock( WPML_WPSEO_Conditional::class );
@@ -70,20 +71,17 @@ class WPML_WPSEO_Notification_Test extends TestCase {
 	 * @covers ::__construct
 	 */
 	public function test_constructor() {
-		self::assertAttributeInstanceOf(
+		self::assertInstanceOf(
 			Yoast_Notification_Center::class,
-			'notification_center',
-			$this->instance
+			$this->getPropertyValue( $this->instance, 'notification_center' )
 		);
-		self::assertAttributeInstanceOf(
+		self::assertInstanceOf(
 			WPML_WPSEO_Conditional::class,
-			'wpml_wpseo_conditional',
-			$this->instance
+			$this->getPropertyValue( $this->instance, 'wpml_wpseo_conditional' )
 		);
-		self::assertAttributeInstanceOf(
+		self::assertInstanceOf(
 			Short_Link_Helper::class,
-			'short_link_helper',
-			$this->instance
+			$this->getPropertyValue( $this->instance, 'short_link_helper' )
 		);
 	}
 
@@ -116,9 +114,12 @@ class WPML_WPSEO_Notification_Test extends TestCase {
 	 * is not installed and activated.
 	 *
 	 * @covers ::notify_not_installed
-	 * @covers ::notification
+	 * @covers ::get_notification
 	 */
 	public function test_notifies_when_not_installed() {
+		$this->stubEscapeFunctions();
+		$this->stubTranslationFunctions();
+
 		// Mock that the Yoast SEO Multilingual plugin is not installed and activated.
 		$this->wpml_wpseo_conditional->expects( 'is_met' )->andReturnFalse();
 
@@ -137,11 +138,11 @@ class WPML_WPSEO_Notification_Test extends TestCase {
 	}
 
 	/**
-	 * Tests whether the notification is added when the Yoast SEO Multilingual plugin
-	 * is not installed and activated.
+	 * Tests whether the notification is not added when the Yoast SEO Multilingual plugin
+	 * is installed and activated.
 	 *
 	 * @covers ::notify_not_installed
-	 * @covers ::notification
+	 * @covers ::get_notification
 	 */
 	public function test_does_not_notify_when_installed() {
 		// Mock that Yoast SEO Multilingual plugin is installed and activated.

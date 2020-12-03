@@ -33,8 +33,8 @@ class SEMrush_Options_Action_Test extends TestCase {
 	/**
 	 * Set up the test fixtures.
 	 */
-	public function setUp() {
-		parent::setUp();
+	protected function set_up() {
+		parent::set_up();
 
 		$this->options_helper = Mockery::mock( Options_Helper::class );
 		$this->instance       = new SEMrush_Options_Action( $this->options_helper );
@@ -46,7 +46,10 @@ class SEMrush_Options_Action_Test extends TestCase {
 	 * @covers ::__construct
 	 */
 	public function test_constructor() {
-		$this->assertAttributeInstanceOf( Options_Helper::class, 'options_helper', $this->instance );
+		$this->assertInstanceOf(
+			Options_Helper::class,
+			$this->getPropertyValue( $this->instance, 'options_helper' )
+		);
 	}
 
 	/**

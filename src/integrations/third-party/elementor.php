@@ -16,7 +16,7 @@ use WPSEO_Metabox_Analysis_SEO;
 use WPSEO_Metabox_Formatter;
 use WPSEO_Post_Metabox_Formatter;
 use WPSEO_Utils;
-use Yoast\WP\SEO\Conditionals\Admin\Elementor_Edit_Conditional;
+use Yoast\WP\SEO\Conditionals\Third_Party\Elementor_Edit_Conditional;
 use Yoast\WP\SEO\Helpers\Capability_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
@@ -25,7 +25,7 @@ use Elementor\Controls_Manager;
 use Elementor\Core\DocumentTypes\PageBase;
 
 /**
- * Adds customizations to the front end for breadcrumbs.
+ * Integrates the Yoast SEO metabox in the Elementor editor.
  */
 class Elementor implements Integration_Interface {
 
@@ -144,7 +144,7 @@ class Elementor implements Integration_Interface {
 	}
 
 	/**
-	 * Renders the breadcrumbs.
+	 * Initializes the integration.
 	 *
 	 * @return void
 	 */

@@ -87,7 +87,9 @@ class Article_Test extends TestCase {
 	/**
 	 * Sets up the tests.
 	 */
-	public function setUp() {
+	protected function set_up() {
+		parent::set_up();
+
 		$this->id                      = Mockery::mock( ID_Helper::class );
 		$this->article                 = Mockery::mock( Article_Helper::class );
 		$this->date                    = Mockery::mock( Date_Helper::class );
@@ -113,8 +115,6 @@ class Article_Test extends TestCase {
 				'language' => $this->language,
 			],
 		];
-
-		return parent::setUp();
 	}
 
 	/**
@@ -287,6 +287,8 @@ class Article_Test extends TestCase {
 	 * @covers ::add_terms
 	 */
 	public function test_add_terms_happy_path() {
+		$this->stubTranslationFunctions();
+
 		$terms = [
 			(object) [ 'name' => 'Tag1' ],
 			(object) [ 'name' => 'Tag2' ],

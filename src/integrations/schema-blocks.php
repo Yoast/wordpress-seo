@@ -18,6 +18,13 @@ class Schema_Blocks implements Integration_Interface {
 	protected $templates = [];
 
 	/**
+	 * Contains the asset manager.
+	 *
+	 * @var WPSEO_Admin_Asset_Manager
+	 */
+	protected $asset_manager;
+
+	/**
 	 * Returns the conditionals based in which this loadable should be active.
 	 *
 	 * @return array
@@ -29,6 +36,15 @@ class Schema_Blocks implements Integration_Interface {
 	}
 
 	/**
+	 * Schema_Blocks constructor.
+	 *
+	 * @param WPSEO_Admin_Asset_Manager $asset_manager The asset manager.
+	 */
+	public function __construct( WPSEO_Admin_Asset_Manager $asset_manager ) {
+		$this->asset_manager = $asset_manager;
+	}
+
+	/**
 	 * Initializes the integration.
 	 *
 	 * This is the place to register hooks and filters.
@@ -37,6 +53,7 @@ class Schema_Blocks implements Integration_Interface {
 	 */
 	public function register_hooks() {
 		\add_action( 'enqueue_block_editor_assets', [ $this, 'load' ] );
+		\add_action( 'admin_enqueue_scripts', [ $this, 'output' ] );
 	}
 
 	/**
@@ -62,6 +79,18 @@ class Schema_Blocks implements Integration_Interface {
 	 * @return void
 	 */
 	public function load() {
+		$this->asset_manager->enqueue_script( 'schema-blocks' );
+		$this->asset_manager->enqueue_style( 'schema-blocks' );
+	}
+
+	/**
+	 * Outputs the set templates.
+	 */
+	public function output() {
+		if ( ! $this->asset_manager->is_script_enqueued( 'schema-blocks' ) ) {
+			return;
+		}
+
 		/**
 		 * Filter: 'wpseo_schema_templates' - Allow adding additional schema templates.
 		 *
@@ -81,9 +110,5 @@ class Schema_Blocks implements Integration_Interface {
 			include $template;
 			echo '</script>';
 		}
-
-		$asset_manager = new WPSEO_Admin_Asset_Manager();
-		$asset_manager->enqueue_script( 'schema-blocks' );
-		$asset_manager->enqueue_style( 'schema-blocks' );
 	}
 }

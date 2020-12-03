@@ -25,8 +25,8 @@ class Image_Utils_Test extends TestCase {
 	/**
 	 * Set up the class which will be tested.
 	 */
-	public function setUp() {
-		parent::setUp();
+	protected function set_up() {
+		parent::set_up();
 
 		$this->instance = new Image_Utils_Double();
 	}

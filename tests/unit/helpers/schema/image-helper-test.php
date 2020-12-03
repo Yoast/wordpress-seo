@@ -50,8 +50,8 @@ class Image_Helper_Test extends TestCase {
 	/**
 	 * Sets up the tests.
 	 */
-	public function setUp() {
-		parent::setUp();
+	protected function set_up() {
+		parent::set_up();
 
 		$this->html     = Mockery::mock( HTML_Helper::class );
 		$this->language = Mockery::mock( Language_Helper::class );

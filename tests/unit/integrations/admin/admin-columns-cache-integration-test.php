@@ -37,7 +37,9 @@ class Admin_Columns_Cache_Integration_Test extends TestCase {
 	/**
 	 * @inheritDoc
 	 */
-	public function setUp() {
+	protected function set_up() {
+		parent::set_up();
+
 		$this->indexable_repository = Mockery::mock( Indexable_Repository::class );
 		$this->instance             = new Admin_Columns_Cache_Integration( $this->indexable_repository );
 	}

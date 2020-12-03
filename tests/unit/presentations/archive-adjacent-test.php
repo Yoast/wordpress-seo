@@ -28,8 +28,8 @@ class Archive_Adjacent_Test extends TestCase {
 	/**
 	 * Does the setup for testing.
 	 */
-	public function setUp() {
-		parent::setUp();
+	protected function set_up() {
+		parent::set_up();
 
 		$this->pagination = Mockery::mock( Pagination_Helper::class );
 

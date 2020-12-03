@@ -4,6 +4,8 @@ namespace Yoast\WP\SEO\Composer;
 
 use Composer\Script\Event;
 use Exception;
+use ReflectionException;
+use RuntimeException;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Yoast\WP\SEO\Dependency_Injection\Container_Compiler;
 
@@ -193,6 +195,7 @@ class Actions {
 		}
 
 		\system( 'composer lint-files -- ' . \implode( ' ', \array_map( 'escapeshellarg', $php_files ) ), $exit_code );
+
 		return $exit_code;
 	}
 
@@ -214,6 +217,7 @@ class Actions {
 		}
 
 		\system( 'composer check-cs-warnings -- ' . \implode( ' ', \array_map( 'escapeshellarg', $php_files ) ), $exit_code );
+
 		return $exit_code;
 	}
 
@@ -460,5 +464,38 @@ TPL;
 	 */
 	private static function color_line_success( $line, $success ) {
 		self::color_line( $line, ( $success ) ? "\e[32m" : "\e[31m" );
+	}
+
+	/**
+	 * Generates a unit test template for a class with the
+	 * fully qualified class name given as the command line argument.
+	 *
+	 * @param Event $event Composer event.
+	 *
+	 * @throws ReflectionException When the class to generate the unit test for cannot be found.
+	 * @throws RuntimeException    When the required command line argument is missing.
+	 */
+	public static function generate_unit_test( Event $event ) {
+		$args = $event->getArguments();
+
+		if ( empty( $args[0] ) ) {
+			throw new RuntimeException(
+				'You must provide an argument with the fully qualified class name' .
+				'for which you want a unit test to be generated.'
+			);
+		}
+
+		$fqn = $args[0];
+
+		echo 'Generating unit test for ', $fqn . "\n";
+
+		$generator = new Unit_Test_Generator();
+		try {
+			$path = $generator->generate( $fqn );
+			printf( 'Unit test generated at \'%s\'' . "\n", $path );
+		}
+		catch ( Exception $exception ) {
+			throw $exception;
+		}
 	}
 }

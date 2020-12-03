@@ -70,8 +70,8 @@ class Open_Graph_Image_Generator_Test extends TestCase {
 	/**
 	 * Setup the test.
 	 */
-	public function setUp() {
-		parent::setUp();
+	protected function set_up() {
+		parent::set_up();
 
 		$this->image            = Mockery::mock( Image_Helper::class );
 		$this->url              = Mockery::mock( Url_Helper::class );

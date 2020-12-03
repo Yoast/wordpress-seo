@@ -25,8 +25,12 @@ class Indexing_List_Item_Presenter_Test extends TestCase {
 	/**
 	 * Sets up the tests.
 	 */
-	public function setUp() {
-		parent::setUp();
+	protected function set_up() {
+		parent::set_up();
+
+		$this->stubEscapeFunctions();
+		$this->stubTranslationFunctions();
+
 		$this->short_link_helper = Mockery::mock( Short_Link_Helper::class );
 	}
 

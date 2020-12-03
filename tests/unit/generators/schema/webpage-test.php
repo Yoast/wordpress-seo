@@ -75,8 +75,8 @@ class WebPage_Test extends TestCase {
 	/**
 	 * Sets up the tests.
 	 */
-	public function setUp() {
-		parent::setUp();
+	protected function set_up() {
+		parent::set_up();
 
 		$this->current_page      = Mockery::mock( Current_Page_Helper::class );
 		$this->html              = Mockery::mock( HTML_Helper::class );

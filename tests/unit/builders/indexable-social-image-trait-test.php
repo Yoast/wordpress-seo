@@ -60,8 +60,8 @@ class Indexable_Social_Image_Trait_Test extends TestCase {
 	/**
 	 * Sets up the tests.
 	 */
-	protected function setUp() {
-		parent::setUp();
+	protected function set_up() {
+		parent::set_up();
 
 		$this->instance = Mockery::mock( Indexable_Social_Image_Trait_Double::class );
 
@@ -80,9 +80,18 @@ class Indexable_Social_Image_Trait_Test extends TestCase {
 	public function test_set_social_image_helpers() {
 		$this->instance->set_social_image_helpers( $this->image, $this->open_graph_image, $this->twitter_image );
 
-		self::assertAttributeInstanceOf( Twitter\Image_Helper::class, 'twitter_image', $this->instance );
-		self::assertAttributeInstanceOf( Open_Graph\Image_Helper::class, 'open_graph_image', $this->instance );
-		self::assertAttributeInstanceOf( Image_Helper::class, 'image', $this->instance );
+		self::assertInstanceOf(
+			Twitter\Image_Helper::class,
+			$this->getPropertyValue( $this->instance, 'twitter_image' )
+		);
+		self::assertInstanceOf(
+			Open_Graph\Image_Helper::class,
+			$this->getPropertyValue( $this->instance, 'open_graph_image' )
+		);
+		self::assertInstanceOf(
+			Image_Helper::class,
+			$this->getPropertyValue( $this->instance, 'image' )
+		);
 	}
 
 	/**
