@@ -5,6 +5,7 @@ import { ArticleList as WordpressFeed } from "@yoast/components";
 import { colors } from "@yoast/style-guide";
 import { SiteSEOReport as SeoAssessment } from "@yoast/analysis-report";
 import { getPostFeed } from "@yoast/helpers";
+import domReady from "@wordpress/dom-ready";
 
 // Internal dependencies.
 import { setYoastComponentsL10n } from "./helpers/i18n";
@@ -51,8 +52,10 @@ class DashboardWidget extends Component {
 		this.getStatistics();
 		this.getFeed();
 
-		this.setState( {
-			isDataFetched: true,
+		domReady( () => {
+			this.setState( {
+				isDataFetched: true,
+			} );
 		} );
 	}
 
