@@ -38,8 +38,8 @@ class Pagination_Helper_Test extends TestCase {
 	/**
 	 * Sets up the test class.
 	 */
-	public function setUp() {
-		parent::setUp();
+	protected function set_up() {
+		parent::set_up();
 
 		$this->wp_rewrite_wrapper = Mockery::mock( WP_Rewrite_Wrapper::class );
 		$this->wp_query_wrapper   = Mockery::mock( WP_Query_Wrapper::class );
@@ -53,8 +53,14 @@ class Pagination_Helper_Test extends TestCase {
 	 * @covers ::__construct
 	 */
 	public function test_constructor() {
-		$this->assertAttributeInstanceOf( WP_Rewrite_Wrapper::class, 'wp_rewrite_wrapper', $this->instance );
-		$this->assertAttributeInstanceOf( WP_Query_Wrapper::class, 'wp_query_wrapper', $this->instance );
+		$this->assertInstanceOf(
+			WP_Rewrite_Wrapper::class,
+			$this->getPropertyValue( $this->instance, 'wp_rewrite_wrapper' )
+		);
+		$this->assertInstanceOf(
+			WP_Query_Wrapper::class,
+			$this->getPropertyValue( $this->instance, 'wp_query_wrapper' )
+		);
 	}
 
 	/**

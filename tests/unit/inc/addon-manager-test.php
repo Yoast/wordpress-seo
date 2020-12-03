@@ -42,12 +42,12 @@ class Addon_Manager_Test extends TestCase {
 	/**
 	 * Setup the tests.
 	 */
-	public function setUp() {
+	protected function set_up() {
+		parent::set_up();
+
 		$this->instance = Mockery::mock( Addon_Manager_Double::class )
 				->shouldAllowMockingProtectedMethods()
 					->makePartial();
-
-		parent::setUp();
 	}
 
 	/**
@@ -309,6 +309,8 @@ class Addon_Manager_Test extends TestCase {
 	 * @param string $message  The message when test fails.
 	 */
 	public function test_get_plugin_information( $action, $args, $expected, $message ) {
+		$this->stubTranslationFunctions();
+
 		$this->instance
 			->shouldReceive( 'get_subscriptions' )
 			->atMost()
@@ -399,6 +401,8 @@ class Addon_Manager_Test extends TestCase {
 	 * @param string $message  Message to show when test fails.
 	 */
 	public function test_check_for_updates( $addons, $data, $expected, $message ) {
+		$this->stubTranslationFunctions();
+
 		$this->instance
 			->shouldReceive( 'get_installed_addons' )
 			->atMost()
@@ -451,6 +455,8 @@ class Addon_Manager_Test extends TestCase {
 	 * @covers ::convert_subscription_to_plugin
 	 */
 	public function test_convert_subscription_to_plugin() {
+		$this->stubTranslationFunctions();
+
 		$this->assertEquals(
 			(object) [
 				'new_version'   => '10.0',

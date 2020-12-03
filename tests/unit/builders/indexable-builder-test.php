@@ -14,6 +14,8 @@ use Yoast\WP\SEO\Builders\Indexable_Post_Type_Archive_Builder;
 use Yoast\WP\SEO\Builders\Indexable_System_Page_Builder;
 use Yoast\WP\SEO\Builders\Indexable_Term_Builder;
 use Yoast\WP\SEO\Builders\Primary_Term_Builder;
+use Yoast\WP\SEO\Exceptions\Indexable\Invalid_Term_Exception;
+use Yoast\WP\SEO\Exceptions\Indexable\Post_Not_Found_Exception;
 use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
@@ -124,8 +126,10 @@ class Indexable_Builder_Test extends TestCase {
 	/**
 	 * Sets up the test.
 	 */
-	public function setUp() {
-		parent::setUp();
+	protected function set_up() {
+		parent::set_up();
+
+		$this->stubTranslationFunctions();
 
 		$this->author_builder            = Mockery::mock( Indexable_Author_Builder::class );
 		$this->post_builder              = Mockery::mock( Indexable_Post_Builder::class );
@@ -312,7 +316,7 @@ class Indexable_Builder_Test extends TestCase {
 	}
 
 	/**
-	 * Tests building an indexable for a post with having the post builder return false.
+	 * Tests building an indexable for a post when the post builder throws an exception.
 	 *
 	 * @covers ::__construct
 	 * @covers ::set_indexable_repository
@@ -340,7 +344,7 @@ class Indexable_Builder_Test extends TestCase {
 			->expects( 'build' )
 			->once()
 			->with( 1337, $this->indexable )
-			->andReturnFalse();
+			->andThrows( Post_Not_Found_Exception::class );
 
 		$this->primary_term_builder
 			->expects( 'build' )
@@ -633,7 +637,7 @@ class Indexable_Builder_Test extends TestCase {
 	}
 
 	/**
-	 * Tests that build returns false when a build returns false.
+	 * Tests that build returns false when a build returns an exception.
 	 *
 	 * @covers ::build_for_id_and_type
 	 */
@@ -657,7 +661,7 @@ class Indexable_Builder_Test extends TestCase {
 		$this->term_builder->expects( 'build' )
 			->once()
 			->with( 1, $this->indexable )
-			->andReturn( false );
+			->andThrows( Invalid_Term_Exception::class );
 
 		$fake_indexable              = Mockery::mock( Indexable_Mock::class );
 		$fake_indexable->post_status = 'unindexed';

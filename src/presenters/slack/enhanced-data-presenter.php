@@ -37,7 +37,7 @@ class Enhanced_Data_Presenter extends Abstract_Indexable_Presenter {
 		$post_content = $this->presentation->source->post_content;
 		$author_id    = $this->presentation->source->post_author;
 
-		if ( $author_id ) {
+		if ( \is_singular( 'post' ) && $author_id ) {
 			$data[ \__( 'Written by', 'wordpress-seo' ) ] = \get_the_author_meta( 'display_name', $author_id );
 		}
 

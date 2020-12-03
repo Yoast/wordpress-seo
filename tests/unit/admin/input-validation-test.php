@@ -14,6 +14,20 @@ use Yoast_Input_Validation;
 class Input_Validation_Test extends TestCase {
 
 	/**
+	 * Set up the class which will be tested.
+	 *
+	 * @return void
+	 */
+	protected function set_up() {
+		parent::set_up();
+
+		$this->stubEscapeFunctions();
+		$this->stubTranslationFunctions();
+
+		Monkey\Functions\stubs( [ 'add_settings_error' => null ] );
+	}
+
+	/**
 	 * Tests the document title is updated when there's an error.
 	 *
 	 * @covers Yoast_Input_Validation::add_yoast_admin_document_title_errors
@@ -21,8 +35,6 @@ class Input_Validation_Test extends TestCase {
 	 */
 	public function test_document_title_updated_with_error() {
 		$admin_title = 'Original title';
-
-		Monkey\Functions\stubs( [ 'add_settings_error' => null ] );
 
 		Monkey\Functions\expect( 'get_settings_errors' )
 			->once()
@@ -50,8 +62,6 @@ class Input_Validation_Test extends TestCase {
 	 */
 	public function test_document_title_updated_with_errors() {
 		$admin_title = 'Original title';
-
-		Monkey\Functions\stubs( [ 'add_settings_error' => null ] );
 
 		Monkey\Functions\expect( 'get_settings_errors' )
 			->once()
@@ -86,8 +96,6 @@ class Input_Validation_Test extends TestCase {
 	public function test_document_title_not_updated_with_non_yoast_errors() {
 		$admin_title = 'Original title';
 
-		Monkey\Functions\stubs( [ 'add_settings_error' => null ] );
-
 		Monkey\Functions\expect( 'get_settings_errors' )
 			->once()
 			->andReturn(
@@ -114,8 +122,6 @@ class Input_Validation_Test extends TestCase {
 	 */
 	public function test_document_title_not_updated_with_settings_updated_error() {
 		$admin_title = 'Original title';
-
-		Monkey\Functions\stubs( [ 'add_settings_error' => null ] );
 
 		Monkey\Functions\expect( 'get_settings_errors' )
 			->once()
@@ -150,8 +156,6 @@ class Input_Validation_Test extends TestCase {
 				'type'    => 'error',
 			],
 		];
-
-		Monkey\Functions\stubs( [ 'add_settings_error' => null ] );
 
 		Monkey\Functions\expect( 'get_settings_errors' )
 			->once()
@@ -190,8 +194,6 @@ class Input_Validation_Test extends TestCase {
 				'type'    => 'error',
 			],
 		];
-
-		Monkey\Functions\stubs( [ 'add_settings_error' => null ] );
 
 		Monkey\Functions\expect( 'get_settings_errors' )
 			->once()

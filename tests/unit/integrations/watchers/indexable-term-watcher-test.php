@@ -63,8 +63,8 @@ class Indexable_Term_Watcher_Test extends TestCase {
 	/**
 	 * @inheritDoc
 	 */
-	public function setUp() {
-		parent::setUp();
+	protected function set_up() {
+		parent::set_up();
 
 		$this->repository   = Mockery::mock( Indexable_Repository::class );
 		$this->builder      = Mockery::mock( Indexable_Builder::class );

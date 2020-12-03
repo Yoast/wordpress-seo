@@ -24,8 +24,8 @@ class Schema_Templates_Loader_Test extends TestCase {
 	/**
 	 * Sets the instances to test.
 	 */
-	public function setUp() {
-		parent::setUp();
+	public function set_up() {
+		parent::set_up();
 
 		$this->instance = new Schema_Templates_Loader();
 	}

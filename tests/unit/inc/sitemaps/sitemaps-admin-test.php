@@ -42,8 +42,8 @@ class WPSEO_Sitemaps_Admin_Test extends TestCase {
 	 *
 	 * @return void
 	 */
-	public function setUp() {
-		parent::setUp();
+	protected function set_up() {
+		parent::set_up();
 
 		$this->instance             = Mockery::mock( WPSEO_Sitemaps_Admin::class )->makePartial();
 		$this->options_mock         = Mockery::mock( WPSEO_Options::class )->shouldAllowMockingProtectedMethods();

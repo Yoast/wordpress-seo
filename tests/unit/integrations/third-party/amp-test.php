@@ -36,8 +36,8 @@ class AMP_Test extends TestCase {
 	/**
 	 * Sets an instance for test purposes.
 	 */
-	public function setUp() {
-		parent::setUp();
+	protected function set_up() {
+		parent::set_up();
 
 		$this->front_end = Mockery::mock( Front_End_Integration::class );
 		$this->instance  = new AMP( $this->front_end );

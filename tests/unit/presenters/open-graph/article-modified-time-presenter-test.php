@@ -33,13 +33,13 @@ class Article_Modified_Time_Presenter_Test extends TestCase {
 	/**
 	 * Sets up the test class.
 	 */
-	public function setUp() {
+	protected function set_up() {
+		parent::set_up();
+
 		$this->instance     = new Article_Modified_Time_Presenter();
 		$this->presentation = new Indexable_Presentation();
 
 		$this->instance->presentation = $this->presentation;
-
-		return parent::setUp();
 	}
 
 	/**
@@ -48,6 +48,8 @@ class Article_Modified_Time_Presenter_Test extends TestCase {
 	 * @covers ::present
 	 */
 	public function test_present() {
+		$this->stubEscapeFunctions();
+
 		$this->presentation->open_graph_article_modified_time = '2019-10-08T12:26:31+00:00';
 
 		$expected = '<meta property="article:modified_time" content="2019-10-08T12:26:31+00:00" />';

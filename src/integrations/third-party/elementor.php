@@ -16,7 +16,7 @@ use WPSEO_Metabox_Analysis_SEO;
 use WPSEO_Metabox_Formatter;
 use WPSEO_Post_Metabox_Formatter;
 use WPSEO_Utils;
-use Yoast\WP\SEO\Conditionals\Admin\Elementor_Edit_Conditional;
+use Yoast\WP\SEO\Conditionals\Third_Party\Elementor_Edit_Conditional;
 use Yoast\WP\SEO\Helpers\Capability_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
@@ -25,7 +25,7 @@ use Elementor\Controls_Manager;
 use Elementor\Core\DocumentTypes\PageBase;
 
 /**
- * Adds customizations to the front end for breadcrumbs.
+ * Integrates the Yoast SEO metabox in the Elementor editor.
  */
 class Elementor implements Integration_Interface {
 
@@ -144,7 +144,7 @@ class Elementor implements Integration_Interface {
 	}
 
 	/**
-	 * Renders the breadcrumbs.
+	 * Initializes the integration.
 	 *
 	 * @return void
 	 */
@@ -438,7 +438,7 @@ class Elementor implements Integration_Interface {
 		}
 
 		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: Meta_Fields_Presenter->present is considered safe.
-		echo new Meta_Fields_Presenter( $this->get_metabox_post(), 'schema' );
+		echo new Meta_Fields_Presenter( $this->get_metabox_post(), 'schema', $this->get_metabox_post()->post_type );
 
 		if ( $this->social_is_enabled ) {
 			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: Meta_Fields_Presenter->present is considered safe.

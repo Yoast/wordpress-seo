@@ -37,8 +37,8 @@ class Handle_404_Test extends TestCase {
 	/**
 	 * Sets an instance for test purposes.
 	 */
-	public function setUp() {
-		parent::setUp();
+	protected function set_up() {
+		parent::set_up();
 
 		$this->query_wrapper = Mockery::mock( WP_Query_Wrapper::class )->makePartial();
 		$this->instance      = Mockery::mock( Handle_404::class, [ $this->query_wrapper ] )

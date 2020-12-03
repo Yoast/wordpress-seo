@@ -11,28 +11,29 @@ use Yoast\WP\SEO\Models\Indexable;
 class Indexable_Post_Watcher_Double extends Indexable_Post_Watcher {
 
 	/**
-	 * @inheritDoc
+	 * Updates the has_public_posts when the post indexable is built.
+	 *
+	 * @param Indexable $indexable The indexable to check.
 	 */
 	public function update_has_public_posts( $indexable ) {
 		parent::update_has_public_posts( $indexable );
 	}
 
 	/**
-	 * @inheritDoc
-	 */
-	public function attachment_has_public_posts( $parent_id, Indexable $indexable ) {
-		return parent::attachment_has_public_posts( $parent_id, $indexable );
-	}
-
-	/**
-	 * @inheritDoc
+	 * Updates the relations on post save or post status change.
+	 *
+	 * @param \WP_Post $post The post that has been updated.
 	 */
 	public function update_relations( $post ) {
 		parent::update_relations( $post );
 	}
 
 	/**
-	 * @inheritDoc
+	 * Retrieves the related indexables for given post.
+	 *
+	 * @param \WP_Post $post The post to get the indexables for.
+	 *
+	 * @return Indexable[] The indexables.
 	 */
 	public function get_related_indexables( $post ) {
 		return parent::get_related_indexables( $post );

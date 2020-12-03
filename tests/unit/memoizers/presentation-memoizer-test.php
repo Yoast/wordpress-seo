@@ -57,8 +57,8 @@ class Presentation_Memoizer_Test extends TestCase {
 	/**
 	 * Sets up the test class.
 	 */
-	public function setUp() {
-		parent::setUp();
+	protected function set_up() {
+		parent::set_up();
 
 		// Mock classes.
 		$this->container              = Mockery::mock( ContainerInterface::class );
@@ -81,7 +81,10 @@ class Presentation_Memoizer_Test extends TestCase {
 	 * @covers ::__construct
 	 */
 	public function test_constructor() {
-		$this->assertAttributeInstanceOf( ContainerInterface::class, 'container', $this->instance );
+		$this->assertInstanceOf(
+			ContainerInterface::class,
+			$this->getPropertyValue( $this->instance, 'container' )
+		);
 	}
 
 	/**

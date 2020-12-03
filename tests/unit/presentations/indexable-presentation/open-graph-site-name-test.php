@@ -18,10 +18,10 @@ class Open_Graph_Site_Name_Test extends TestCase {
 	/**
 	 * Sets up the test class.
 	 */
-	public function setUp() {
-		$this->set_instance();
+	protected function set_up() {
+		parent::set_up();
 
-		return parent::setUp();
+		$this->set_instance();
 	}
 
 	/**

@@ -42,8 +42,8 @@ class Schema_Templates_Pass_Test extends TestCase {
 	/**
 	 * Sets the instances to test.
 	 */
-	public function setUp() {
-		parent::setUp();
+	public function set_up() {
+		parent::set_up();
 
 		$this->container_builder = Mockery::mock( ContainerBuilder::class );
 		$this->templates_loader  = Mockery::mock( Schema_Templates_Loader::class );

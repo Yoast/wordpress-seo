@@ -37,12 +37,12 @@ class Custom_Loader extends PhpFileLoader {
 
 		if ( ! $class_map ) {
 			$class_map = require __DIR__ . '/../../vendor/composer/autoload_classmap.php';
+			$class_map = \array_map( [ $this, 'normalize_slashes' ], $class_map );
+			$class_map = \array_flip( $class_map );
 		}
 
-		foreach ( $class_map as $class => $class_path ) {
-			if ( $path === $class_path ) {
-				return $class;
-			}
+		if ( isset( $class_map[ $path ] ) ) {
+			return $class_map[ $path ];
 		}
 
 		return false;
@@ -124,7 +124,8 @@ class Custom_Loader extends PhpFileLoader {
 				}
 
 				// Normalize Windows slashes.
-				$exclude_paths[ \str_replace( '\\', '/', $path ) ] = true;
+				$path                   = $this->normalize_slashes( $path );
+				$exclude_paths[ $path ] = true;
 			}
 		}
 
@@ -141,7 +142,10 @@ class Custom_Loader extends PhpFileLoader {
 				}
 			}
 
-			if ( isset( $exclude_paths[ \str_replace( '\\', '/', $path ) ] ) ) {
+			// Normalize Windows slashes.
+			$path = $this->normalize_slashes( $path );
+
+			if ( isset( $exclude_paths[ $path ] ) ) {
 				continue;
 			}
 
@@ -186,5 +190,16 @@ class Custom_Loader extends PhpFileLoader {
 		}
 
 		return $classes;
+	}
+
+	/**
+	 * Normalizes all slashes in a file path to forward slashes.
+	 *
+	 * @param string $path File path.
+	 *
+	 * @return string The file path with normalized slashes.
+	 */
+	private function normalize_slashes( $path ) {
+		return \str_replace( '\\', '/', $path );
 	}
 }
