@@ -6,7 +6,9 @@ use Brain\Monkey;
 use Mockery;
 use WPSEO_Admin_Asset_Manager;
 use Yoast\WP\SEO\Conditionals\Schema_Blocks_Conditional;
+use Yoast\WP\SEO\Helpers\Schema\ID_Helper;
 use Yoast\WP\SEO\Integrations\Schema_Blocks;
+use Yoast\WP\SEO\Memoizers\Meta_Tags_Context_Memoizer;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
@@ -34,13 +36,34 @@ class Schema_Blocks_Test extends TestCase {
 	protected $asset_manager;
 
 	/**
+	 * The meta tags context memoizer.
+	 *
+	 * @var Mockery\MockInterface|Meta_Tags_Context_Memoizer
+	 */
+	protected $meta_tags_context_memoizer;
+
+	/**
+	 * The ID helper.
+	 *
+	 * @var Mockery\MockInterface|ID_Helper
+	 */
+	protected $id_helper;
+
+	/**
 	 * Runs the setup to prepare the needed instance.
 	 */
 	public function set_up() {
 		parent::set_up();
 
-		$this->asset_manager = Mockery::mock( WPSEO_Admin_Asset_Manager::class );
-		$this->instance      = new Schema_Blocks( $this->asset_manager );
+		$this->asset_manager              = Mockery::mock( WPSEO_Admin_Asset_Manager::class );
+		$this->meta_tags_context_memoizer = Mockery::mock( Meta_Tags_Context_Memoizer::class );
+		$this->id_helper                  = Mockery::mock( ID_Helper::class );
+
+		$this->instance = new Schema_Blocks(
+			$this->asset_manager,
+			$this->meta_tags_context_memoizer,
+			$this->id_helper
+		);
 	}
 
 	/**
