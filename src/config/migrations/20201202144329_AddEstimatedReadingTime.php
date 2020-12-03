@@ -1,9 +1,4 @@
 <?php
-/**
- * Yoast SEO Plugin File.
- *
- * @package Yoast\WP\SEO\Config\Migrations
- */
 
 namespace Yoast\WP\SEO\Config\Migrations;
 
@@ -28,8 +23,8 @@ class AddEstimatedReadingTime extends Migration {
 	 * @return void
 	 */
 	public function up() {
-		$table_name = $this->get_table_name();	
-		
+		$table_name = $this->get_table_name();
+
 		$this->add_column( $table_name, 'estimated_reading_time_minutes', 'integer' );
 	}
 
@@ -39,8 +34,8 @@ class AddEstimatedReadingTime extends Migration {
 	 * @return void
 	 */
 	public function down() {
-		$table_name = $this->get_table_name();	
-		
+		$table_name = $this->get_table_name();
+
 		$this->remove_column( $table_name, 'estimated_reading_time_minutes' );
 	}
 
