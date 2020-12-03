@@ -57,11 +57,13 @@ class Schema_Blocks_Test extends TestCase {
 
 		$this->asset_manager              = Mockery::mock( WPSEO_Admin_Asset_Manager::class );
 		$this->meta_tags_context_memoizer = Mockery::mock( Meta_Tags_Context_Memoizer::class );
+		$this->replace_vars               = Mockery::mock( \WPSEO_Replace_Vars::class );
 		$this->id_helper                  = Mockery::mock( ID_Helper::class );
 
 		$this->instance = new Schema_Blocks(
 			$this->asset_manager,
 			$this->meta_tags_context_memoizer,
+			$this->replace_vars,
 			$this->id_helper
 		);
 	}
@@ -74,6 +76,7 @@ class Schema_Blocks_Test extends TestCase {
 	public function test_constructor() {
 		static::assertInstanceOf( WPSEO_Admin_Asset_Manager::class, $this->getPropertyValue( $this, 'asset_manager' ) );
 		static::assertInstanceOf( Meta_Tags_Context_Memoizer::class, $this->getPropertyValue( $this, 'meta_tags_context_memoizer' ) );
+		static::assertInstanceOf( \WPSEO_Replace_Vars::class, $this->getPropertyValue( $this, 'replace_vars' ) );
 		static::assertInstanceOf( ID_Helper::class, $this->getPropertyValue( $this, 'id_helper' ) );
 	}
 

@@ -43,6 +43,13 @@ class Schema_Blocks implements Integration_Interface {
 	protected $id_helper;
 
 	/**
+	 * The replace vars helper.
+	 *
+	 * @var WPSEO_Replace_Vars
+	 */
+	protected $replace_vars;
+
+	/**
 	 * Returns the conditionals based in which this loadable should be active.
 	 *
 	 * @return array
@@ -58,15 +65,18 @@ class Schema_Blocks implements Integration_Interface {
 	 *
 	 * @param WPSEO_Admin_Asset_Manager  $asset_manager              The asset manager.
 	 * @param Meta_Tags_Context_Memoizer $meta_tags_context_memoizer The meta tags context memoizer.
+	 * @param WPSEO_Replace_Vars         $replace_vars               The replace vars helper.
 	 * @param ID_Helper                  $id_helper                  The ID helper.
 	 */
 	public function __construct(
 		WPSEO_Admin_Asset_Manager $asset_manager,
 		Meta_Tags_Context_Memoizer $meta_tags_context_memoizer,
+		WPSEO_Replace_Vars $replace_vars,
 		ID_Helper $id_helper
 	) {
 		$this->asset_manager              = $asset_manager;
 		$this->meta_tags_context_memoizer = $meta_tags_context_memoizer;
+		$this->replace_vars               = $replace_vars;
 		$this->id_helper                  = $id_helper;
 	}
 
@@ -118,19 +128,23 @@ class Schema_Blocks implements Integration_Interface {
 	public function register_replace_vars() {
 		$context = $this->meta_tags_context_memoizer->for_current_page();
 
-		WPSEO_Replace_Vars::register_replacement(
-			'%%main_schema_id%%',
-			static function() use ( $context ) {
-				return $context->main_schema_id;
-			}
-		);
+		if ( ! $this->replace_vars->has_been_registered( '%%main_schema_id%%' ) ) {
+			WPSEO_Replace_Vars::register_replacement(
+				'%%main_schema_id%%',
+				static function() use ( $context ) {
+					return $context->main_schema_id;
+				}
+			);
+		}
 
-		WPSEO_Replace_Vars::register_replacement(
-			'%%author_id%%',
-			function() use ( $context ) {
-				return $this->id_helper->get_user_schema_id( $context->indexable->author_id, $context );
-			}
-		);
+		if ( ! $this->replace_vars->has_been_registered( '%%author_id%%' ) ) {
+			WPSEO_Replace_Vars::register_replacement(
+				'%%author_id%%',
+				function() use ( $context ) {
+					return $this->id_helper->get_user_schema_id( $context->indexable->author_id, $context );
+				}
+			);
+		}
 	}
 
 	/**
