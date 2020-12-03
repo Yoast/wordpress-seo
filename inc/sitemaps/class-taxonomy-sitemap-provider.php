@@ -193,7 +193,15 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		$hide_empty = apply_filters( 'wpseo_sitemap_exclude_empty_terms', true, [ $taxonomy->name ] );
 		/** This filter is documented in inc/sitemaps/class-taxonomy-sitemap-provider.php */
 		$hide_empty_tax = apply_filters( 'wpseo_sitemap_exclude_empty_terms_taxonomy', $hide_empty, $taxonomy->name );
-		$terms          = get_terms( $taxonomy->name, [ 'hide_empty' => $hide_empty_tax, 'update_term_meta_cache' => false, 'offset' => $offset, 'number' => $steps ] );
+		$terms          = get_terms(
+			[
+				'taxonomy'               => $taxonomy->name,
+				'hide_empty'             => $hide_empty_tax,
+				'update_term_meta_cache' => false,
+				'offset'                 => $offset,
+				'number'                 => $steps,
+			]
+		);
 
 		// If there are no terms fetched for this range, we are on an invalid page.
 		if ( empty( $terms ) ) {
