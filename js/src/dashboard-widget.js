@@ -24,7 +24,14 @@ class DashboardWidget extends Component {
 			feed: null,
 			isDataFetched: false,
 		};
+	}
 
+	/**
+	 * Watches whether the data for the widget should be fetched.
+	 *
+	 * @returns {void}
+	 */
+	componentDidMount() {
 		const widgetCheckbox = jQuery( "#wpseo-dashboard-overview-hide" );
 
 		// Only fetch the data if the Yoast SEO dashboard widget is checked in the Screen Options.
