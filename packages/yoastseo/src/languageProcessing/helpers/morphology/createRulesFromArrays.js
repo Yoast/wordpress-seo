@@ -32,13 +32,13 @@ const createSingleRuleFromMorphologyData = function( rule, flags = "i" ) {
  *
  * @returns {Array} Array of objects to be used in the regex-based rules.
  */
-const createRulesFromMorphologyData = function( rules, flags = "i" ) {
+const createRulesFromArrays = function( rules, flags = "i" ) {
 	return rules.map( rule => createSingleRuleFromMorphologyData( rule, flags ) );
 };
 
 export {
 	createSingleRuleFromMorphologyData,
-	createRulesFromMorphologyData,
+	createRulesFromArrays,
 };
 
-export default createRulesFromMorphologyData;
+export default createRulesFromArrays;

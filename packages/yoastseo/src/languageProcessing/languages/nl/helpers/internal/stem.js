@@ -1,4 +1,4 @@
-import { checkIfWordEndingIsOnExceptionList, checkIfWordIsOnVerbExceptionList } from "../../../../helpers/morphology/exceptionListHelpers";
+import { checkIfWordEndingIsOnExceptionList, checkIfWordIsOnListThatCanHavePrefix } from "../../../../helpers/morphology/exceptionListHelpers";
 import { removeSuffixFromFullForm, removeSuffixesFromFullForm } from "../../../../helpers/morphology/stemHelpers";
 import detectAndStemSuffixes from "./detectAndStemSuffixes";
 import { generateCorrectStemWithTAndDEnding } from "./getStemWordsWithTAndDEnding.js";
@@ -86,7 +86,7 @@ export default function stem( word, morphologyDataNL ) {
 
 	// Check whether the word is on the list of words that should not be stemmed, and if yes, return the word. Example: gans -> gans
 	const wordsNotToBeStemmed = morphologyDataNL.stemExceptions.wordsNotToBeStemmedExceptions;
-	if ( checkIfWordIsOnVerbExceptionList( word, wordsNotToBeStemmed.verbs, morphologyDataNL.pastParticipleStemmer.compoundVerbsPrefixes ) ||
+	if ( checkIfWordIsOnListThatCanHavePrefix( word, wordsNotToBeStemmed.verbs, morphologyDataNL.pastParticipleStemmer.compoundVerbsPrefixes ) ||
 		 checkIfWordEndingIsOnExceptionList( word, wordsNotToBeStemmed.endingMatch ) ||
 		 wordsNotToBeStemmed.exactMatch.includes( word ) ) {
 		return word;

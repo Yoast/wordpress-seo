@@ -1,4 +1,4 @@
-import { checkIfWordEndingIsOnExceptionList, checkIfWordIsOnVerbExceptionList } from "../../../../helpers/morphology/exceptionListHelpers";
+import { checkIfWordEndingIsOnExceptionList, checkIfWordIsOnListThatCanHavePrefix } from "../../../../helpers/morphology/exceptionListHelpers";
 import { detectAndStemRegularParticiple } from "./detectAndStemRegularParticiple";
 import { generateCorrectStemWithTAndDEnding } from "./getStemWordsWithTAndDEnding";
 import checkExceptionsWithFullForms from "../../../../helpers/morphology/checkExceptionsWithFullForms";
@@ -21,7 +21,7 @@ const checkIfTorDIsUnambiguous = function( morphologyDataNL, stemmedWord, word )
 	// Run the checks below. If one of the conditions returns true, return the stem.
 	if ( detectAndStemRegularParticiple( morphologyDataNL, word ) ||
 		 generateCorrectStemWithTAndDEnding( morphologyDataNL, word ) ||
-		 checkIfWordIsOnVerbExceptionList( word, wordsNotToBeStemmed.verbs, morphologyDataNL.pastParticipleStemmer.compoundVerbsPrefixes ) ||
+		 checkIfWordIsOnListThatCanHavePrefix( word, wordsNotToBeStemmed.verbs, morphologyDataNL.pastParticipleStemmer.compoundVerbsPrefixes ) ||
 		 checkIfWordEndingIsOnExceptionList( word, wordsNotToBeStemmed.endingMatch ) ||
 		 wordsNotToBeStemmed.exactMatch.includes( word ) ||
 		 adjectivesEndingInRd.includes( stemmedWord ) ||

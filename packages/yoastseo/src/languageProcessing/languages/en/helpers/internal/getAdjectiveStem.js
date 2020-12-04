@@ -1,6 +1,6 @@
 // "use strict";
 import { buildOneFormFromRegex } from "../../../../helpers/morphology/buildFormRule";
-import createRulesFromMorphologyData from "../../../../helpers/morphology/createRulesFromMorphologyData";
+import createRulesFromArrays from "../../../../helpers/morphology/createRulesFromArrays";
 
 /**
  * Constructs a function that checks if the input word can be a specific adjectival form.
@@ -45,7 +45,7 @@ export default function( word, regexAdjective, stopAdjectives ) {
 	 */
 	const canBeComparative = constructCanBeFunction( "er", 4, stopAdjectives.erExceptions );
 	if ( canBeComparative( word ) ) {
-		const comparativeToBaseRegex = createRulesFromMorphologyData( regexAdjective.comparativeToBase );
+		const comparativeToBaseRegex = createRulesFromArrays( regexAdjective.comparativeToBase );
 		return {
 			base: buildOneFormFromRegex( word, comparativeToBaseRegex ) || word,
 			guessedForm: "er",
@@ -58,7 +58,7 @@ export default function( word, regexAdjective, stopAdjectives ) {
 	 */
 	const canBeSuperlative = constructCanBeFunction( "est", 5, stopAdjectives.estExceptions );
 	if ( canBeSuperlative( word ) ) {
-		const superlativeToBaseRegex = createRulesFromMorphologyData( regexAdjective.superlativeToBase );
+		const superlativeToBaseRegex = createRulesFromArrays( regexAdjective.superlativeToBase );
 		return {
 			base: buildOneFormFromRegex( word, superlativeToBaseRegex ) || word,
 			guessedForm: "est",
@@ -71,7 +71,7 @@ export default function( word, regexAdjective, stopAdjectives ) {
 	 */
 	const canBeLyAdverb = constructCanBeFunction( "ly", 5, stopAdjectives.lyExceptions );
 	if ( canBeLyAdverb( word ) ) {
-		const adverbToBaseRegex = createRulesFromMorphologyData( regexAdjective.adverbToBase );
+		const adverbToBaseRegex = createRulesFromArrays( regexAdjective.adverbToBase );
 		return {
 			base: buildOneFormFromRegex( word, adverbToBaseRegex ),
 			guessedForm: "ly",

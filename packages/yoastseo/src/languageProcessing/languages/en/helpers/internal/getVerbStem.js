@@ -1,7 +1,7 @@
 // "use strict";
 import { isUndefined } from "lodash-es";
 
-import createRulesFromMorphologyData from "../../../../helpers/morphology/createRulesFromMorphologyData.js";
+import createRulesFromArrays from "../../../../helpers/morphology/createRulesFromArrays.js";
 import { buildOneFormFromRegex } from "../../../../helpers/morphology/buildFormRule";
 
 const vowelRegex = /([aeiouy])/g;
@@ -202,9 +202,9 @@ const endsWithEd = function( word ) {
  * @returns {Object} The infinitive of the input word.
  */
 const getInfinitive = function( word, regexVerb ) {
-	const sFormToInfinitiveRegex = createRulesFromMorphologyData( regexVerb.sFormToInfinitive );
-	const ingFormToInfinitiveRegex = createRulesFromMorphologyData( regexVerb.ingFormToInfinitive );
-	const edFormToInfinitiveRegex = createRulesFromMorphologyData( regexVerb.edFormToInfinitive );
+	const sFormToInfinitiveRegex = createRulesFromArrays( regexVerb.sFormToInfinitive );
+	const ingFormToInfinitiveRegex = createRulesFromArrays( regexVerb.ingFormToInfinitive );
+	const edFormToInfinitiveRegex = createRulesFromArrays( regexVerb.edFormToInfinitive );
 
 	if ( endsWithS( word ) ) {
 		return {

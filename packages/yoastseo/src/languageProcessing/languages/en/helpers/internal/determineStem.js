@@ -2,7 +2,7 @@ import { isUndefined } from "lodash-es";
 import { flatten } from "lodash-es";
 
 import { buildOneFormFromRegex } from "../../../../helpers/morphology/buildFormRule";
-import createRulesFromMorphologyData from "../../../../helpers/morphology/createRulesFromMorphologyData";
+import createRulesFromArrays from "../../../../helpers/morphology/createRulesFromArrays";
 import getAdjectiveStem from "./getAdjectiveStem";
 import { getInfinitive, checkIrregulars as getIrregularVerbParadigm, endsWithIng } from "./getVerbStem.js";
 
@@ -82,18 +82,18 @@ export function determineIrregularVerbStem( word, verbMorphology ) {
 export function determineRegularStem( word, morphologyData ) {
 	// Try to singularize as a noun.
 	const regexVerb = morphologyData.verbs.regexVerb;
-	const baseIfPluralNoun = buildOneFormFromRegex( word, createRulesFromMorphologyData( morphologyData.nouns.regexNoun.singularize ) );
+	const baseIfPluralNoun = buildOneFormFromRegex( word, createRulesFromArrays( morphologyData.nouns.regexNoun.singularize ) );
 	if ( ! isUndefined( baseIfPluralNoun ) ) {
 		// Bring ing-nouns to base forms ("blessings" -> "bless").
 		if ( endsWithIng( baseIfPluralNoun ) ) {
-			return buildOneFormFromRegex( baseIfPluralNoun, createRulesFromMorphologyData( regexVerb.ingFormToInfinitive ) );
+			return buildOneFormFromRegex( baseIfPluralNoun, createRulesFromArrays( regexVerb.ingFormToInfinitive ) );
 		}
 		return baseIfPluralNoun;
 	}
 
 	// Check if the word ends with "ic", "ical" or "ically". Return the "ical" form for consistency.
 	const regexAdjective = morphologyData.adjectives.regexAdjective;
-	const baseIfIcally = buildOneFormFromRegex( word, createRulesFromMorphologyData( regexAdjective.icallyToBase ) );
+	const baseIfIcally = buildOneFormFromRegex( word, createRulesFromArrays( regexAdjective.icallyToBase ) );
 	if ( ! isUndefined( baseIfIcally ) ) {
 		return baseIfIcally;
 	}
@@ -126,7 +126,7 @@ export function determineRegularStem( word, morphologyData ) {
 export function determineStem( word, morphologyData ) {
 	const nounMorphology = morphologyData.nouns;
 
-	const baseIfPossessive = buildOneFormFromRegex( word, createRulesFromMorphologyData( nounMorphology.regexNoun.possessiveToBase ) );
+	const baseIfPossessive = buildOneFormFromRegex( word, createRulesFromArrays( nounMorphology.regexNoun.possessiveToBase ) );
 
 	let stem, irregular;
 
