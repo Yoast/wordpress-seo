@@ -239,22 +239,23 @@ Release Date: December 15th, 2020
 
 Enhancements:
 
+* Improves and expands Hungarian language support:
+    * Improves keyphrase recognition and internal linking by filtering function words such as 'harmadik', 'tiétek', and 'valaki'.
+    * Improves the transition words assessment.
+    * Adds the passive voice assessment.
+    * Adds the consecutive sentences assessment to ensure variety in a text.
 * Removes the Open Graph and Twitter author metadata on pages and other non-post post types.
-* Adds the breadcrumb Schema to the homepage.
-* Adds the assessment for detecting passive voice in Hungarian.
-* Improves keyphrase recognition and internal linking in Hungarian by filtering the function words such as harmadik, tiétek, valaki.
-* Improves the transition words assessment for Hungarian.
-* Implements the consecutive sentences assessment for Hungarian to ensure variety in a text.
+* Adds breadcrumb Schema to the homepage.
 
 Bugfixes:
 
-* Fixes a bug which prevented network disabling of the Enhanced Slack Sharing feature.
-* Fixes a bug where the translations on Search Appearance pages would be broken.
-* Fixes a bug where the Yoast SEO dashboard widget would still fetch data even when it was hidden.
+* Fixes a bug where network-wide settings about the Enhanced Slack Sharing feature would not be saved.
+* Fixes a bug where translations on the Search Appearance pages would be missing.
+* Fixes a bug where the Yoast SEO dashboard widget would still fetch data even when the dashboard itself was hidden.
 
 Other:
 
-* Removes support for the Facebook App ID.
+* Removes support for the Facebook App ID, as our research strongly suggests that this feature is deprecated on Facebook's side.
 * Adds a notification that tells the user to install and activate the Yoast SEO Multilingual plugin when the WPML plugin is installed and activated.
 
 = 15.4 =
