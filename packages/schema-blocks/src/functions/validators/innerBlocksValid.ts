@@ -108,16 +108,17 @@ function getInvalidInnerBlocks( blockInstance: BlockInstance, requiredBlocks: Re
 /**
  * Helper function to create an invalid block.
  *
- * @param type   The block name.
+ * @param name   The block name.
  * @param reason The reason this block is invalid.
  *
  * @returns {InvalidBlock} The invalid block.
  */
-function createInvalidBlock( type: string, reason: InvalidBlockReason ): InvalidBlock {
-	return {
-		name: type,
+function createInvalidBlock( name: string, reason: InvalidBlockReason ): InvalidBlock {
+	const block: InvalidBlock = {
+		name: name,
 		reason,
-	} as InvalidBlock;
+	};
+	return block;
 }
 
 /**

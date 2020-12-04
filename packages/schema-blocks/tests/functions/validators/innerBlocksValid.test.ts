@@ -1,7 +1,10 @@
+import "../../matchMedia.mock";
 import { BlockInstance } from "@wordpress/blocks";
 import * as innerBlocksValid from "../../../src/functions/validators/innerBlocksValid";
 import { InvalidBlock, RequiredBlock } from "../../../src/instructions/blocks/dto";
 import { InvalidBlockReason, RequiredBlockOption } from "../../../src/instructions/blocks/enums";
+import BlockDefinition from "../../../src/core/blocks/BlockDefinition";
+import Definition from "../../../src/core/Definition";
 
 const createInvalidBlockTestArrangement = [
 	{ name: "missingblock", reason: InvalidBlockReason.Missing },
@@ -18,7 +21,7 @@ const createOptionalInvalidBlockReasonTestArrangement = [
 ];
 
 describe.each( createInvalidBlockTestArrangement )( "The createInvalidBlock function", input => {
-	it( `creates an InvalidBlock instance with name '${input.name}' and reason '${input.reason}'.`, () => {
+	it( "creates an InvalidBlock instance with name " + input.name + " and reason " + input.reason + ".", () => {
 		const result = innerBlocksValid.createInvalidBlock( input.name, input.reason );
 		expect( result.name ).toEqual( input.name );
 		expect( result.reason ).toEqual( input.reason );
@@ -26,7 +29,7 @@ describe.each( createInvalidBlockTestArrangement )( "The createInvalidBlock func
 } );
 
 describe.each( createOptionalInvalidBlockReasonTestArrangement )( "The isOptional function", input => {
-	it( `verifies that reason '${input.reason}' is ${input.expected ? "" : "not "} optional.`, () => {
+	it( "verifies that reason " + input.reason + " is " + ( input.expected ? "" : "not " ) + "optional.", () => {
 		const result = innerBlocksValid.isOptional( input.reason );
 		expect( result ).toBe( input.expected );
 	} );
@@ -195,6 +198,7 @@ describe( "the getInvalidInnerBlocks function", () => {
 		const testBlock = {
 			innerBlocks: existingBlocks,
 		} as BlockInstance;
+		Definition.register()
 
 		// Act.
 		const result: InvalidBlock[] = innerBlocksValid.default( testBlock, requiredBlocks );
@@ -202,9 +206,6 @@ describe( "the getInvalidInnerBlocks function", () => {
 		// Assert.
 		expect( result.length ).toEqual( 0 );
 	} );
-} );
-
-describe( "the getInvalidInnerBlocks function", () => {
 	it( "returns no InvalidBlocks when all required blocks (and some extra's) are present in a nested InnerBlock.", () => {
 		// Arrange.
 		const requiredBlocks: RequiredBlock[] = [
@@ -238,9 +239,6 @@ describe( "the getInvalidInnerBlocks function", () => {
 		// Assert.
 		expect( result.length ).toEqual( 0 );
 	} );
-} );
-
-describe( "the getInvalidInnerBlocks function", () => {
 	it( "returns InvalidBlocks when some required blocks are invalid.", () => {
 		// Arrange.
 		const requiredBlocks: RequiredBlock[] = [

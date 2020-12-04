@@ -1,32 +1,29 @@
 import { getInnerblocksByName } from "../../src/functions/innerBlocksHelper";
 import { BlockInstance } from "@wordpress/blocks";
 
-const innerBlocks = [
-	{
-		name: "InnerBlocks",
-		innerBlocks: [
-			{
-				name: "innerblock_nested",
-		        innerBlocks: [],
-			} as BlockInstance,
-			{
-				name: "unwanted_nested_innerblock",
-		        innerBlocks: [],
-			} as BlockInstance,
-		],
-	} as BlockInstance,
-	{
-		name: "innerblock_immediate",
-		innerBlocks: [],
-	} as BlockInstance,
-	{
-		name: "innerblock_immediate_unwanted",
-		innerBlocks: [],
-	} as BlockInstance,
-];
 const testBlock = {
 	name: "testBlock",
-	innerBlocks: innerBlocks,
+	innerBlocks: [
+		{
+			name: "InnerBlocks",
+			innerBlocks: [
+				{
+					name: "innerblock_nested",
+				} as BlockInstance,
+				{
+					name: "unwanted_nested_innerblock",
+				} as BlockInstance,
+			],
+		} as BlockInstance,
+
+		{
+			name: "innerblock_immediate",
+		} as BlockInstance,
+
+		{
+			name: "innerblock_immediate_unwanted",
+		} as BlockInstance,
+	],
 } as BlockInstance;
 
 const needles = [ "innerblock_nested", "innerblock_immediate" ];

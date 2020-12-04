@@ -1,7 +1,6 @@
 import { createElement, Fragment } from "@wordpress/element";
 import { registerBlockType, BlockConfiguration, BlockEditProps, BlockSaveProps } from "@wordpress/blocks";
 import { InspectorControls } from "@wordpress/block-editor";
-
 import BlockInstruction from "./BlockInstruction";
 import Definition from "../Definition";
 import BlockRootLeaf from "../../leaves/blocks/BlockRootLeaf";
@@ -15,6 +14,7 @@ export interface RenderSaveProps extends BlockSaveProps<Record<string, unknown>>
 	clientId?: string;
 }
 
+// Internal store of all known BlockDefinitions.
 export const registeredBlockDefinitions: Record<string, BlockDefinition> = {};
 
 export type MutableBlockConfiguration = {

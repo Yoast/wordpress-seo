@@ -1,3 +1,4 @@
+import { BlockInstance } from "@wordpress/blocks";
 import BlockInstruction from "../../../src/core/blocks/BlockInstruction";
 
 /**
@@ -11,57 +12,77 @@ describe( "The BlockInstruction class", () => {
 		it( "considers a required attribute to be valid if it exists and is not empty", () => {
 			const blockInstruction = new TestBlockInstruction( 11, { name: "title", required: true } );
 
-			const properties = {
+			const blockInstance: BlockInstance = {
+				clientId: "clientid",
+				name: "name",
+				innerBlocks: [],
+				isValid: true,
 				attributes: {
 					title: "Hello, world!",
 				},
 			};
 
-			expect( blockInstruction.valid( properties ) ).toEqual( true );
+			expect( blockInstruction.valid( blockInstance ) ).toEqual( true );
 		} );
 
 		it( "considers a required attribute to be invalid if it does not exist", () => {
 			const blockInstruction = new TestBlockInstruction( 11, { name: "title", required: true } );
 
-			const properties = {
+			const blockInstance: BlockInstance = {
+				clientId: "clientid",
+				name: "name",
+				innerBlocks: [],
+				isValid: true,
 				attributes: {},
 			};
 
-			expect( blockInstruction.valid( properties ) ).toEqual( false );
+			expect( blockInstruction.valid( blockInstance ) ).toEqual( false );
 		} );
 
 		it( "considers a required attribute to be invalid if it is empty", () => {
 			const blockInstruction = new TestBlockInstruction( 11, { name: "title", required: true } );
 
-			const properties = {
+			const blockInstance: BlockInstance = {
+				clientId: "clientid",
+				name: "name",
+				innerBlocks: [],
+				isValid: true,
 				attributes: {
 					title: "",
 				},
 			};
 
-			expect( blockInstruction.valid( properties ) ).toEqual( false );
+			expect( blockInstruction.valid( blockInstance ) ).toEqual( false );
 		} );
 
 		it( "considers an attribute without a required option to always be valid.", () => {
 			const blockInstruction = new TestBlockInstruction( 11, { name: "title" } );
 
-			const properties = {
+			const blockInstance: BlockInstance = {
+				clientId: "clientid",
+				name: "name",
+				innerBlocks: [],
+				isValid: true,
 				attributes: {
 					title: "",
 				},
 			};
 
-			expect( blockInstruction.valid( properties ) ).toEqual( true );
+			expect( blockInstruction.valid( blockInstance ) ).toEqual( true );
 		} );
 
 		it( "considers a not required attribute to always be valid.", () => {
 			const blockInstruction = new TestBlockInstruction( 11, { name: "title", required: false } );
 
-			const properties = {
+			const blockInstance: BlockInstance = {
+				clientId: "clientid",
+				name: "name",
+				innerBlocks: [],
+				isValid: true,
 				attributes: {},
 			};
 
-			expect( blockInstruction.valid( properties ) ).toEqual( true );
+			expect( blockInstruction.valid( blockInstance ) ).toEqual( true );
 		} );
 	} );
 } );

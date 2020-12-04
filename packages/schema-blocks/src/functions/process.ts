@@ -1,8 +1,12 @@
 import { camelCase } from "lodash";
 import { IToken } from "tokenizr";
+import BlockDefinition from "../core/blocks/BlockDefinition";
+import BlockInstruction from "../core/blocks/BlockInstruction";
 
 import Definition, { DefinitionClass } from "../core/Definition";
 import Instruction, { InstructionArray, InstructionObject, InstructionValue, InstructionPrimitive } from "../core/Instruction";
+import SchemaDefinition from "../core/schema/SchemaDefinition";
+import SchemaInstruction from "../core/schema/SchemaInstruction";
 import { generateUniqueSeparator } from "./separator";
 import tokenize from "./tokenize";
 
@@ -101,6 +105,28 @@ function processBlockInstruction( token: IToken<string>, tokens: IToken[], instr
 }
 
 /**
+ * Transforms an array of tokens into a template SchemaDefinition.
+ *
+ * @param template The template to process.
+ *
+ * @return {SchemaDefinition} The template SchemaDefinition.
+ */
+function processSchema( template: string ): SchemaDefinition {
+	return process( template, SchemaDefinition, SchemaInstruction );
+}
+
+/**
+ * Transforms an array of tokens into a template BlockDefinition.
+ *
+ * @param template The template to process.
+ *
+ * @return {BlockDefinition} The template BlockDefinition.
+ */
+function processBlock( template: string ): BlockDefinition {
+	return process( template, BlockDefinition, BlockInstruction );
+}
+
+/**
  * Transforms an array of tokens into a template BlockDefinition.
  *
  * @param template         The template to process.
@@ -109,7 +135,7 @@ function processBlockInstruction( token: IToken<string>, tokens: IToken[], instr
  *
  * @return The template BlockDefinition.
  */
-export default function process<T extends Definition>(
+function process<T extends Definition>(
 	template: string,
 	definitionClass: DefinitionClass<T>,
 	instructionClass: typeof Instruction,
@@ -141,3 +167,6 @@ export default function process<T extends Definition>(
 
 	return definitionClass.parser( definition );
 }
+
+export default process;
+export { processSchema, processBlock };
