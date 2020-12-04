@@ -35,7 +35,7 @@ class Admin_Columns_Cache_Integration_Test extends TestCase {
 	protected $indexable_repository;
 
 	/**
-	 * @inheritDoc
+	 * Sets up the test fixtures.
 	 */
 	protected function set_up() {
 		parent::set_up();

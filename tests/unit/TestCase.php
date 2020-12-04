@@ -19,7 +19,7 @@ abstract class TestCase extends YoastTestCase {
 	protected $mocked_options = [ 'wpseo', 'wpseo_titles', 'wpseo_taxonomy_meta', 'wpseo_social', 'wpseo_ms' ];
 
 	/**
-	 * Set up the test fixtures.
+	 * Sets up the test fixtures.
 	 */
 	protected function set_up() {
 		parent::set_up();
