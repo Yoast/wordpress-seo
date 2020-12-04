@@ -119,8 +119,6 @@ class Schema_Generator implements Generator_Interface {
 			}
 		}
 
-		$this->register_replace_vars( $context );
-
 		foreach ( $context->blocks as $block_type => $blocks ) {
 			foreach ( $blocks as $block ) {
 				/**
@@ -217,29 +215,6 @@ class Schema_Generator implements Generator_Interface {
 		 * @api array $pieces The schema pieces.
 		 */
 		return \apply_filters( 'wpseo_schema_graph_pieces', $schema_pieces, $context );
-	}
-
-	/**
-	 * Registers the Schema related replace vars.
-	 *
-	 * @param Meta_Tags_Context $context The meta tags context.
-	 *
-	 * @return void
-	 */
-	protected function register_replace_vars( Meta_Tags_Context $context ) {
-		WPSEO_Replace_Vars::register_replacement(
-			'%%main_schema_id%%',
-			static function() use ( $context ) {
-				return $context->main_schema_id;
-			}
-		);
-
-		WPSEO_Replace_Vars::register_replacement(
-			'%%author_id%%',
-			function() use ( $context ) {
-				return $this->helpers->schema->id->get_user_schema_id( $context->indexable->author_id, $context );
-			}
-		);
 	}
 
 	/**
