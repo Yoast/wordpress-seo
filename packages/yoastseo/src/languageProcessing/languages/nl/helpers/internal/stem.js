@@ -2,7 +2,7 @@ import { checkIfWordEndingIsOnExceptionList, checkIfWordIsOnListThatCanHavePrefi
 import { removeSuffixFromFullForm, removeSuffixesFromFullForm } from "../../../../helpers/morphology/stemHelpers";
 import detectAndStemSuffixes from "./detectAndStemSuffixes";
 import { generateCorrectStemWithTAndDEnding } from "./getStemWordsWithTAndDEnding.js";
-import checkExceptionsWithFullForms from "../../../../helpers/morphology/checkExceptionsWithFullForms";
+import checkExceptionsWithFullForms from "./checkExceptionsWithFullForms";
 import { detectAndStemRegularParticiple } from "./detectAndStemRegularParticiple";
 import { modifyStem, isVowelDoublingAllowed } from "./stemModificationHelpers";
 
