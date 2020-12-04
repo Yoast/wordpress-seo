@@ -322,9 +322,9 @@ class Addon_Manager_Test extends TestCase {
 				[
 					'wordpress-seo/wp-seo.php' => [
 						'update' => [
-							'tested'       => '5.5',
+							'tested'       => '5.6',
 							'requires_php' => '5.6',
-							'requires'     => '5.4',
+							'requires'     => '5.5',
 						],
 					],
 				]
@@ -418,7 +418,7 @@ class Addon_Manager_Test extends TestCase {
 				[
 					'wordpress-seo/wp-seo.php' => [
 						'update' => [
-							'tested'       => '5.5',
+							'tested'       => '5.6',
 							'requires_php' => '5.6',
 						],
 					],

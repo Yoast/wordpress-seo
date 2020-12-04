@@ -168,11 +168,6 @@ class Schema_Generator_Test extends TestCase {
 	 */
 	public function test_generate_with_no_graph() {
 		$this->instance
-			->expects( 'register_replace_vars' )
-			->with( $this->context )
-			->once();
-
-		$this->instance
 			->expects( 'get_graph_pieces' )
 			->once()
 			->andReturn( [] );
@@ -193,11 +188,6 @@ class Schema_Generator_Test extends TestCase {
 	 * @covers ::get_graph_pieces
 	 */
 	public function test_generate_with_no_blocks() {
-		$this->instance
-			->expects( 'register_replace_vars' )
-			->with( $this->context )
-			->once();
-
 		$this->context->indexable->object_sub_type = 'super-custom-post-type';
 
 		Monkey\Functions\expect( 'is_single' )
@@ -268,11 +258,6 @@ class Schema_Generator_Test extends TestCase {
 	 */
 	public function test_generate_with_blocks() {
 		$this->stubEscapeFunctions();
-
-		$this->instance
-			->expects( 'register_replace_vars' )
-			->with( $this->context )
-			->once();
 
 		Monkey\Functions\expect( 'post_password_required' )
 			->once()
@@ -417,11 +402,6 @@ class Schema_Generator_Test extends TestCase {
 	public function test_generate_with_generator_have_identifier() {
 		$this->stubEscapeFunctions();
 
-		$this->instance
-			->expects( 'register_replace_vars' )
-			->with( $this->context )
-			->once();
-
 		$piece             = new FAQ();
 		$piece->identifier = 'faq_block';
 		$this->instance
@@ -447,11 +427,6 @@ class Schema_Generator_Test extends TestCase {
 	 */
 	public function test_generate_with_block_not_having_generated_output() {
 		$this->stubEscapeFunctions();
-
-		$this->instance
-			->expects( 'register_replace_vars' )
-			->with( $this->context )
-			->once();
 
 		Monkey\Functions\expect( 'is_single' )
 			->once()
@@ -492,11 +467,6 @@ class Schema_Generator_Test extends TestCase {
 	 * @covers ::validate_type
 	 */
 	public function test_validate_type_singular_array() {
-		$this->instance
-			->expects( 'register_replace_vars' )
-			->with( $this->context )
-			->once();
-
 		$this->context->blocks = [];
 
 		Monkey\Functions\expect( 'is_single' )
@@ -567,11 +537,6 @@ class Schema_Generator_Test extends TestCase {
 	 * @covers ::validate_type
 	 */
 	public function test_validate_type_unique_array() {
-		$this->instance
-			->expects( 'register_replace_vars' )
-			->with( $this->context )
-			->once();
-
 		$this->context->blocks = [];
 
 		Monkey\Functions\expect( 'is_single' )
@@ -640,11 +605,6 @@ class Schema_Generator_Test extends TestCase {
 	 * @covers ::get_graph_pieces
 	 */
 	public function test_get_graph_pieces_on_single_post_with_password_required() {
-		$this->instance
-			->expects( 'register_replace_vars' )
-			->with( $this->context )
-			->once();
-
 		Monkey\Functions\expect( 'is_single' )
 			->once()
 			->withNoArgs()
