@@ -1,5 +1,5 @@
 import { flatten } from "lodash-es";
-import { flattenSortLength } from "./flattenSortLength";
+import { flattenSortLength } from "../../../../helpers/morphology/flattenSortLength";
 
 /**
  * Checks whether the word is on the verbs sub-list of the full forms list. Before checking the list, checks whether the word
