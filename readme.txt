@@ -255,7 +255,7 @@ Bugfixes:
 
 Other:
 
-* Removes support for the Facebook App ID, as our research strongly suggests that this feature is deprecated on Facebook's side.
+* Removes support for the Facebook App ID, as Facebook has indicated this feature is deprecated on their side.
 * Adds a notification that tells the user to install and activate the Yoast SEO Multilingual plugin when the WPML plugin is installed and activated.
 
 = 15.4 =
