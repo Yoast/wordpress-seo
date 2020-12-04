@@ -1,4 +1,4 @@
-import createRulesFromMorphologyData from "../../../../src/languageProcessing/helpers/morphology/createRulesFromMorphologyData";
+import createRulesFromArrays from "../../../../src/languageProcessing/helpers/morphology/createRulesFromArrays";
 
 describe( "Test for creating regex-based rules for arrays of strings", function() {
 	it( "returns an array of pairs `reg` and `repl`", function() {
@@ -18,7 +18,7 @@ describe( "Test for creating regex-based rules for arrays of strings", function(
 			{ reg: /([bcdfghjklmnpqrstvwxz])y$/i, repl: "$1ied" },
 			{ reg: /(.*)/i, repl: "$1ed" },
 		];
-		expect( createRulesFromMorphologyData( inputArray ) ).toEqual( outputArray );
+		expect( createRulesFromArrays( inputArray ) ).toEqual( outputArray );
 	} );
 
 	it( "returns an array of triplets `reg`, `repl1` and `repl2`", function() {
@@ -32,7 +32,7 @@ describe( "Test for creating regex-based rules for arrays of strings", function(
 			{ reg: /(ad|al|an|ang|anj|arg|at|ed|ent|er|esc|et|ett|in|ing|it|ott)os$/i, repl1: "$1o", repl2: "$1oes" },
 			{ reg: /(ad|al|an|ang|anj|arg|at|ed|ent|er|esc|et|ett|in|ing|it|ott)oes$/i, repl1: "$1o", repl2: "$1os" },
 		];
-		expect( createRulesFromMorphologyData( inputArray ) ).toEqual( outputArray );
+		expect( createRulesFromArrays( inputArray ) ).toEqual( outputArray );
 	} );
 
 	it( "returns null if the regex doesn't contain pairs or triplets `reg` and `repl`", function() {
@@ -40,6 +40,6 @@ describe( "Test for creating regex-based rules for arrays of strings", function(
 			"'etje$",
 			"(e)(etje)$",
 		];
-		expect( createRulesFromMorphologyData( inputArray ) ).toEqual( [ undefined, undefined ] );
+		expect( createRulesFromArrays( inputArray ) ).toEqual( [ undefined, undefined ] );
 	} );
 } );
