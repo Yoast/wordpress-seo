@@ -19,7 +19,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
-import { createSingleRuleFromMorphologyData, createRulesFromArrays } from "../../../../helpers/morphology/createRulesFromArrays";
+import { createSingleRuleFromArray, createRulesFromArrays } from "../../../../helpers/morphology/createRulesFromArrays";
 
 /**
  * Determines whether a letter is a vowel.
@@ -141,7 +141,7 @@ function vowelMarking( word, morphologyData ) {
 function preProcess( word, morphologyData ) {
 	word = word.toLowerCase();
 	word = replaceAcute( word, morphologyData );
-	const quReplacement = createSingleRuleFromMorphologyData(
+	const quReplacement = createSingleRuleFromArray(
 		morphologyData.externalStemmer.preProcessing.quReplacement,
 		"g"
 	);

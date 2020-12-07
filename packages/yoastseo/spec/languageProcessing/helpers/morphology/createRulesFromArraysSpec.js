@@ -1,4 +1,5 @@
-import createRulesFromArrays from "../../../../src/languageProcessing/helpers/morphology/createRulesFromArrays";
+import { createSingleRuleFromArray,
+	createRulesFromArrays } from "../../../../src/languageProcessing/helpers/morphology/createRulesFromArrays";
 
 describe( "Test for creating regex-based rules for arrays of strings", function() {
 	it( "returns an array of pairs `reg` and `repl`", function() {
@@ -35,11 +36,17 @@ describe( "Test for creating regex-based rules for arrays of strings", function(
 		expect( createRulesFromArrays( inputArray ) ).toEqual( outputArray );
 	} );
 
-	it( "returns null if the regex doesn't contain pairs or triplets `reg` and `repl`", function() {
+	it( "returns an array of undefined if the regex doesn't contain pairs or triplets `reg` and `repl`", function() {
 		const inputArray = [
 			"'etje$",
 			"(e)(etje)$",
 		];
 		expect( createRulesFromArrays( inputArray ) ).toEqual( [ undefined, undefined ] );
+	} );
+
+	it( "returns a rule of triplets `reg`, `repl1` and `repl2` from a single array", function() {
+		const inputArray = [ "(ad|al|an|ang|anj|arg|at|ed|ent|er|esc|et|ett|in|ing|it|ott)o$", "$1os", "$1oes" ];
+		const outputArray = { reg: /(ad|al|an|ang|anj|arg|at|ed|ent|er|esc|et|ett|in|ing|it|ott)o$/i, repl1: "$1os", repl2: "$1oes" };
+		expect( createSingleRuleFromArray( inputArray ) ).toEqual( outputArray );
 	} );
 } );
