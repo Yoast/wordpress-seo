@@ -25,7 +25,15 @@ class AddEstimatedReadingTime extends Migration {
 	public function up() {
 		$table_name = $this->get_table_name();
 
-		$this->add_column( $table_name, 'estimated_reading_time_minutes', 'integer' );
+		$this->add_column(
+			$table_name,
+			'estimated_reading_time_minutes',
+			'integer',
+			[
+				'null'     => true,
+				'default'  => null,
+			]
+		);
 	}
 
 	/**
