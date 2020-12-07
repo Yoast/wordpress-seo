@@ -1125,7 +1125,7 @@ var transliterations = {
 		{ letter: /[\u00d2\u00d3]/g, alternative: "O" },
 		{ letter: /[\u00fa\u00fc]/g, alternative: "u" },
 		{ letter: /[\u00da\u00dc]/g, alternative: "U" },
-		{ letter: /[\u00b7]/g, alternative: "" }
+		{ letter: /[\u00b7]/g, alternative: "" },
 	],
 	// Language: Oromo.
 	// Source: http://www.omniglot.com/writing/occitan.htm

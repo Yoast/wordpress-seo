@@ -68,4 +68,8 @@ describe( "matches a string to it's transliterated value", function() {
 		expect( matchTextWithTransliteration( "İstanbul  Istanbul  istanbul  ıstanbul", "ıstanbul", "tr_TR" ) ).toContain( "ıstanbul" );
 		expect( matchTextWithTransliteration( "İstanbul  Istanbul  istanbul  ıstanbul", "ıstanbul", "tr_TR" ).length ).toBe( 4 );
 	} );
+
+	it( "returns empty array in case the regular and WP transliterations are different and the keyword is not found in the text.", function() {
+		expect( matchTextWithTransliteration( "sentence without keyword", "ceŀla", "ca_ES" ) ).toEqual( [ ] );
+	} );
 } );
