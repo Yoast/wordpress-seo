@@ -5,6 +5,7 @@ import BlockInstruction from "./BlockInstruction";
 import Definition from "../Definition";
 import BlockRootLeaf from "../../leaves/blocks/BlockRootLeaf";
 import parse from "../../functions/blocks/parse";
+import { registerBlockDefinition } from "./BlockDefinitionRepository";
 
 export interface RenderEditProps extends BlockEditProps<Record<string, unknown>> {
 	clientId?: string;
@@ -13,9 +14,6 @@ export interface RenderEditProps extends BlockEditProps<Record<string, unknown>>
 export interface RenderSaveProps extends BlockSaveProps<Record<string, unknown>> {
 	clientId?: string;
 }
-
-// Internal store of all known BlockDefinitions.
-export const registeredBlockDefinitions: Record<string, BlockDefinition> = {};
 
 export type MutableBlockConfiguration = {
 	-readonly [K in keyof BlockConfiguration]: BlockConfiguration[K]
@@ -80,7 +78,9 @@ export default class BlockDefinition extends Definition {
 		configuration.edit = props => this.edit( props );
 		configuration.save = props => this.save( props );
 
+		// Register the block to WordPress.
 		registerBlockType( name, configuration );
-		registeredBlockDefinitions[ name ] = this;
+		// Register the block with our own code.
+		registerBlockDefinition( name, this );
 	}
 }

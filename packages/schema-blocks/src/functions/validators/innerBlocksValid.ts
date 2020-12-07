@@ -1,6 +1,6 @@
 import { BlockInstance } from "@wordpress/blocks";
 import { countBy } from "lodash";
-import { registeredBlockDefinitions } from "../../core/blocks/BlockDefinition";
+import { getBlockDefinition } from "../../core/blocks/BlockDefinitionRepository";
 import { RequiredBlockOption, InvalidBlockReason } from "../../instructions/blocks/enums";
 import { RequiredBlock, InvalidBlock } from "../../instructions/blocks/dto";
 import { getInnerblocksByName } from "../innerBlocksHelper";
@@ -43,7 +43,7 @@ function findRedundantBlocks( existingRequiredBlocks: BlockInstance[], requiredB
 	requiredBlocks
 		.filter( block => block.option === RequiredBlockOption.One )
 		.forEach( block => onlyOneAllowed.push( block.name ) );
-	if ( onlyOneAllowed ) {
+	if ( onlyOneAllowed.length > 0 ) {
 		// Count the occurrences of each block so we can find all keys that have too many occurrences.
 		const countPerBlockType = countBy( existingRequiredBlocks, block => block.name );
 		for ( const blockName in countPerBlockType ) {
@@ -67,7 +67,10 @@ function findSelfInvalidatedBlocks( blockInstance: BlockInstance, requiredBlocks
 	const invalidBlocks: InvalidBlock[] = [];
 
 	blockInstance.innerBlocks.forEach( block => {
-		const definition = registeredBlockDefinitions[ block.name ];
+		const definition = getBlockDefinition( block.name );
+		if ( ! definition ) {
+			throw new Error( "block definition for '" + block.name + "' is not registered." );
+		}
 		if ( ! definition.valid( block ) ) {
 			const isRequired: boolean = requiredBlocks.some( requiredBlock => requiredBlock.name === block.name );
 			const reason: InvalidBlockReason = isRequired ? InvalidBlockReason.Internal : InvalidBlockReason.Optional;
@@ -87,7 +90,7 @@ function findSelfInvalidatedBlocks( blockInstance: BlockInstance, requiredBlocks
  * @returns {InvalidBlock[]} The names and reasons of the inner block that are invalid.
  */
 function getInvalidInnerBlocks( blockInstance: BlockInstance, requiredBlocks: RequiredBlock[] ): InvalidBlock[]  {
-	const requiredBlockKeys = Object.keys( requiredBlocks );
+	const requiredBlockKeys = requiredBlocks.map( rblock => rblock.name );
 	const invalidBlocks: InvalidBlock[] = [];
 
 	// Find all instances of required block types.
@@ -100,7 +103,7 @@ function getInvalidInnerBlocks( blockInstance: BlockInstance, requiredBlocks: Re
 	invalidBlocks.push( ...findRedundantBlocks( existingRequiredBlocks, requiredBlocks ) );
 
 	// Find all blocks that have decided for themselves that they're invalid.
-	invalidBlocks.push( ...findSelfInvalidatedBlocks( blockInstance, requiredBlocks ) );
+	// InvalidBlocks.push( ...findSelfInvalidatedBlocks( blockInstance, requiredBlocks ) );
 
 	return invalidBlocks;
 }
