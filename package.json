@@ -1,6 +1,6 @@
 {
     "name": "wp-graphql-yoast-seo",
-    "version": "4.2.0",
+    "version": "4.10.0",
     "description": "A WPGraphQL Extension that adds support for Yoast SEO",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",

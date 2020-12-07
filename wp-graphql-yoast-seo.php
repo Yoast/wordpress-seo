@@ -8,7 +8,7 @@
  * Author URI:      https://www.ashleyhitchcock.com
  * Text Domain:     wp-graphql-yoast-seo
  * Domain Path:     /languages
- * Version:         4.9.0
+ * Version:         4.10.0
  *
  * @package         WP_Graphql_YOAST_SEO
  */
@@ -196,6 +196,16 @@ add_action('graphql_init', function () {
             'fields' => [
                 'pageType' => ['type' => ['list_of' => 'String']],
                 'articleType' => ['type' => ['list_of' => 'String']],
+                'raw' => ['type' => 'String'],
+            ],
+        ]);
+        register_graphql_object_type('SEOTaxonomySchema', [
+            'description' => __(
+                'The Schema types for Taxonomy',
+                'wp-graphql-yoast-seo'
+            ),
+            'fields' => [
+                'raw' => ['type' => 'String'],
             ],
         ]);
 
@@ -225,7 +235,9 @@ add_action('graphql_init', function () {
         ];
 
         register_graphql_object_type('TaxonomySEO', [
-            'fields' => $baseSEOFields,
+            'fields' => array_merge($baseSEOFields, [
+                'schema' => ['type' => 'SEOTaxonomySchema'],
+            ]),
         ]);
 
         register_graphql_object_type('PostTypeSEO', [
@@ -443,6 +455,13 @@ add_action('graphql_init', function () {
             ],
         ]);
 
+        register_graphql_object_type('SEOUserSchema', [
+            'description' => __('The Schema types for User', 'wp-graphql-yoast-seo'),
+            'fields' => [
+                'raw' => ['type' => 'String'],
+            ],
+        ]);
+
         register_graphql_object_type('SEOUser', [
             'fields' => [
                 'title' => ['type' => 'String'],
@@ -450,6 +469,7 @@ add_action('graphql_init', function () {
                 'metaRobotsNoindex' => ['type' => 'String'],
                 'metaRobotsNofollow' => ['type' => 'String'],
                 'social' => ['type' => 'SEOUserSocial'],
+                'schema' => ['type' => 'SEOUserSchema'],
             ],
         ]);
 
@@ -645,6 +665,16 @@ add_action('graphql_init', function () {
                                 // Base array
                                 $seo = [];
 
+                                $map = [
+                                    '@id' => 'id',
+                                    '@type' => 'type',
+                                    '@graph' => 'graph',
+                                    '@context' => 'context',
+                                ];
+
+                                $schemaArray = YoastSEO()->meta->for_post($post->ID)
+                                    ->schema;
+
                                 // https://developer.yoast.com/blog/yoast-seo-14-0-using-yoast-seo-surfaces/
                                 $robots = YoastSEO()->meta->for_post($post->ID)
                                     ->robots;
@@ -762,6 +792,10 @@ add_action('graphql_init', function () {
                                             ? YoastSEO()->meta->for_post($post->ID)
                                                 ->schema_article_type
                                             : [],
+                                        'raw' => json_encode(
+                                            $schemaArray,
+                                            JSON_UNESCAPED_SLASHES
+                                        ),
                                     ],
                                 ];
 
@@ -826,6 +860,8 @@ add_action('graphql_init', function () {
             'resolve' => function ($user, array $args, AppContext $context) {
                 $robots = YoastSEO()->meta->for_author($user->userId)->robots;
 
+                $schemaArray = YoastSEO()->meta->for_author($user->userId)->schema;
+
                 $userSeo = [
                     'title' => wp_gql_seo_format_string(
                         YoastSEO()->meta->for_author($user->userId)->title
@@ -865,6 +901,9 @@ add_action('graphql_init', function () {
                             get_the_author_meta('wikipedia', $user->userId)
                         ),
                     ],
+                    'schema' => [
+                        'raw' => json_encode($schemaArray, JSON_UNESCAPED_SLASHES),
+                    ],
                 ];
 
                 return !empty($userSeo) ? $userSeo : [];
@@ -895,6 +934,9 @@ add_action('graphql_init', function () {
                             $term_obj->taxonomy
                         );
                         $robots = YoastSEO()->meta->for_term($term->term_id)->robots;
+
+                        $schemaArray = YoastSEO()->meta->for_term($term->term_id)
+                            ->schema;
 
                         // Get data
                         $seo = [
@@ -984,6 +1026,12 @@ add_action('graphql_init', function () {
                                 YoastSEO()->meta->for_term($term->term_id)
                                     ->is_cornerstone
                             ),
+                            'schema' => [
+                                'raw' => json_encode(
+                                    $schemaArray,
+                                    JSON_UNESCAPED_SLASHES
+                                ),
+                            ],
                         ];
                         wp_reset_query();
 
