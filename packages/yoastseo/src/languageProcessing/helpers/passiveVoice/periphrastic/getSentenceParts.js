@@ -237,6 +237,7 @@ const getSentenceParts = function( sentence, options ) {
 			sentenceParts.push( new SentencePart( sentencePart, auxiliaryMatches ) );
 		}
 	}
+	console.log( sentenceParts );
 	return sentenceParts;
 };
 

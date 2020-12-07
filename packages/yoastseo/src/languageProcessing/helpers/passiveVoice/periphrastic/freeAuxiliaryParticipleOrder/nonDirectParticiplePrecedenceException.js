@@ -10,7 +10,7 @@ import { getIndicesByWordListSorted } from "../../../word/indices.js";
  *
  * @param {string} sentencePart 									The sentence part that contains the participle.
  * @param {string} participle 										The participle in the sentence part.
- * @param {string} auxiliaries 										One or more auxiliaries in the sentence part.
+ * @param {string[]} auxiliaries 										One or more auxiliaries in the sentence part.
  * @param {string[]} cannotBeBetweenPassiveAuxiliaryAndParticiple 	The list of words that cannot be between the auxiliary and participle.
  *
  * @returns {boolean} Returns true if a word from the 'cannot be between passive auxiliary and participle' exception list
