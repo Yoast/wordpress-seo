@@ -1,4 +1,4 @@
-import getLanguage from '../languageProcessing/helpers/language/getLanguage.js';
+import getLanguage from "../languageProcessing/helpers/language/getLanguage.js";
 import { isUndefined } from "lodash-es";
 
 
@@ -18,7 +18,7 @@ var transliterations = {
 		{ letter: /[\u00F3]/g, alternative: "o" },
 		{ letter: /[\u00D3]/g, alternative: "O" },
 		{ letter: /[\u00FA\u00FC]/g, alternative: "u" },
-		{ letter: /[\u00DA\u00DC]/g, alternative: "U" }
+		{ letter: /[\u00DA\u00DC]/g, alternative: "U" },
 	],
 	// Language: Polish.
 	// Source: https://en.wikipedia.org/wiki/Polish_orthography
