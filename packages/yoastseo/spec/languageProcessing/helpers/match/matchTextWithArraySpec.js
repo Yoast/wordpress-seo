@@ -1,4 +1,4 @@
-import arrayMatch from "../../src/languageProcessing/helpers/match/matchTextWithArray.js";
+import arrayMatch from "../../../../src/languageProcessing/helpers/match/matchTextWithArray.js";
 
 describe( "a test matching strings in an array", function() {
 	it( "returns the matches in the array", function() {

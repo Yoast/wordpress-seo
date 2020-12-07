@@ -258,6 +258,22 @@ describe( "Test findTopicFormsInString: checks for the keyword or synonyms forms
 		} );
 	} );
 
+	it( "does not break if the keyphrase forms array is empty", function() {
+		expect( findTopicFormsInString(
+			{
+				keyphraseForms: [],
+				synonymsForms: [ [ [ "lunch", "lunches" ], [ "moment", "moments" ] ] ],
+			},
+			"It's lunch time!",
+			true,
+			"en_EN"
+		) ).toEqual( {
+			countWordMatches: 1,
+			percentWordMatches: 50,
+			keyphraseOrSynonym: "synonym",
+		} );
+	} );
+
 	it( "does not break if the locale is empty", function() {
 		expect( findTopicFormsInString(
 			{
