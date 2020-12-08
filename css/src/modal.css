@@ -364,6 +364,11 @@
 	padding: 16px;
 }
 
+.yoast-modal-content--columns {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+}
+
 .yoast-post-settings-modal__button-container {
 	padding: 16px;
 	display: flex;
