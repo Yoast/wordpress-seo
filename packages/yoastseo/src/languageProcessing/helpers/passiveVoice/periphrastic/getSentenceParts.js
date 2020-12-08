@@ -132,7 +132,7 @@ const elisionAuxiliaryExceptionFilter = function( text, auxiliaryMatches, elisio
  * @param {Object} options The language options for which to match the sentence breakers.
  * @returns {Array} The array with valid indices to use for determining sentence parts.
  */
-const getSentenceBreakers = function( sentence, options) {
+const getSentenceBreakers = function( sentence, options ) {
 	sentence = sentence.toLocaleLowerCase();
 	const { regexes } = options;
 	let auxiliaryIndices = getIndicesOfList( options.auxiliaries, sentence );
@@ -148,14 +148,14 @@ const getSentenceBreakers = function( sentence, options) {
 
 	if ( typeof regexes.elisionAuxiliaryExceptionRegex !== "undefined" ) {
 		// Filters auxiliaries matched in the sentence based on a elision exception filter.
-		auxiliaryIndices = elisionAuxiliaryExceptionFilter( sentence, auxiliaryIndices, regexes.elisionAuxiliaryExceptionRegex);
+		auxiliaryIndices = elisionAuxiliaryExceptionFilter( sentence, auxiliaryIndices, regexes.elisionAuxiliaryExceptionRegex );
 	}
 
 	indices = [].concat( auxiliaryIndices, stopwordIndices, stopCharacterIndices );
 
 	if ( typeof regexes.verbEndingInIngRegex !== "undefined" ) {
-		var ingVerbs = getVerbsEndingInIng( sentence, regexes.verbEndingInIngRegex, options.ingExclusions );
-		var ingVerbsIndices = getIndicesOfList( ingVerbs, sentence );
+		const ingVerbs = getVerbsEndingInIng( sentence, regexes.verbEndingInIngRegex, options.ingExclusions );
+		const ingVerbsIndices = getIndicesOfList( ingVerbs, sentence );
 
 		indices = indices.concat( ingVerbsIndices );
 	}
@@ -193,7 +193,6 @@ const getAuxiliaryMatches = function(
 		forEach( auxiliaryMatchIndices, function( auxiliaryMatchIndex ) {
 			auxiliaryMatches.push( auxiliaryMatchIndex.match );
 		} );
-
 	}
 
 	return map( auxiliaryMatches, function( auxiliaryMatch ) {
@@ -237,7 +236,7 @@ const getSentenceParts = function( sentence, options ) {
 			sentenceParts.push( new SentencePart( sentencePart, auxiliaryMatches ) );
 		}
 	}
-	console.log( sentenceParts );
+
 	return sentenceParts;
 };
 
