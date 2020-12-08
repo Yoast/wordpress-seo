@@ -1,15 +1,15 @@
 import matchTextWithTransliteration from "../../../../src/languageProcessing/helpers/match/matchTextWithTransliteration.js";
 
 describe( "matches a string to it's transliterated value", function() {
-	var str = "this is a string with the keyword in it";
-	var keyword = "keyword";
+	const str = "this is a string with the keyword in it";
+	let keyword = "keyword";
 	it( "returns a match in a string", function() {
-		expect( matchTextWithTransliteration( str, keyword )[ 0 ] ).toBe( "keyword" );
+		expect( matchTextWithTransliteration( str, keyword, "en_US" )[ 0 ] ).toBe( "keyword" );
 	} );
 
 	it( "returns a match in a string with spaces", function() {
 		keyword = "the keyword";
-		expect( matchTextWithTransliteration( str, keyword )[ 0 ] ).toBe( "the keyword" );
+		expect( matchTextWithTransliteration( str, keyword, "en_US" )[ 0 ] ).toBe( "the keyword" );
 	} );
 
 	it( "matches transliteration", function() {
@@ -28,8 +28,10 @@ describe( "matches a string to it's transliterated value", function() {
 	} );
 
 	it( "matches transliteration and WP-style transliteration in Swedish", function() {
-		expect( matchTextWithTransliteration( "oeverlaatelsebesiktning and overlatelsebesiktning", "överlåtelsebesiktning", "sv_SE" ) ).toContain( "oeverlaatelsebesiktning" );
-		expect( matchTextWithTransliteration( "oeverlaatelsebesiktning and overlatelsebesiktning", "överlåtelsebesiktning", "sv_SE" ) ).toContain( "overlatelsebesiktning" );
+		expect( matchTextWithTransliteration( "oeverlaatelsebesiktning and overlatelsebesiktning",
+			"överlåtelsebesiktning", "sv_SE" ) ).toContain( "oeverlaatelsebesiktning" );
+		expect( matchTextWithTransliteration( "oeverlaatelsebesiktning and overlatelsebesiktning",
+			"överlåtelsebesiktning", "sv_SE" ) ).toContain( "overlatelsebesiktning" );
 	} );
 
 	it( "matches transliteration and WP-style transliteration in Norwegian", function() {

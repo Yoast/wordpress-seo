@@ -18,16 +18,19 @@ describe( "a test matching strings in an array", function() {
 			{ count: 3, matches: [ "test", "Test", "Words" ] }
 		);
 
-		expect( arrayMatch( "This is a test with some test's words. Now comes another Test with more Words", [ "test", "string", "words" ] ) ).toEqual(
+		expect( arrayMatch( "This is a test with some test's words. Now comes another Test with more Words",
+			[ "test", "string", "words" ] ) ).toEqual(
 			{ count: 4, matches: [ "test", "Test", "words", "Words" ] }
 		);
 
-		expect( arrayMatch( "This is a test with some test's words. Now comes another Test with more Words", [ "test", "test's", "string", "words" ] ) ).toEqual(
+		expect( arrayMatch( "This is a test with some test's words. Now comes another Test with more Words",
+			[ "test", "test's", "string", "words" ] ) ).toEqual(
 			{ count: 5, matches: [ "test", "Test", "test's", "words", "Words" ] }
 		);
 
 		// Test if the matches are found correctly if one of the words in the array is a substring of another word in the array.
-		expect( arrayMatch( "This is a test with some test’s words. Now comes another Test with more Words", [ "test", "te", "string", "words" ] ) ).toEqual(
+		expect( arrayMatch( "This is a test with some test’s words. Now comes another Test with more Words"
+			, [ "test", "te", "string", "words" ] ) ).toEqual(
 			{ count: 4, matches: [ "test", "Test", "words", "Words" ] }
 		);
 
