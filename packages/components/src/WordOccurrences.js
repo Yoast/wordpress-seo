@@ -62,13 +62,13 @@ class WordOccurrences extends React.Component {
 	 */
 	render() {
 		return (
-			<React.Fragment>
+			<div>
 				{ this.props.header }
 				<DataModel
 					items={ this.state.words }
 				/>
 				{ this.props.footer }
-			</React.Fragment>
+			</div>
 		);
 	}
 }
