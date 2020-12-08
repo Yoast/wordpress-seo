@@ -14,7 +14,7 @@ export type BlockInstructionClass = { new( id: number, options: InstructionOptio
 export default abstract class BlockInstruction extends Instruction {
 	/* eslint-disable @typescript-eslint/no-unused-vars */
 	/**
-	 * Renders editing the element.
+	 * Renders saving the element.
 	 *
 	 * @param props The props.
 	 * @param leaf  The leaf being rendered.
@@ -27,7 +27,7 @@ export default abstract class BlockInstruction extends Instruction {
 	}
 
 	/**
-	 * Renders saving the element.
+	 * Renders editing the element.
 	 *
 	 * @param props The props.
 	 * @param leaf  The leaf being rendered.
