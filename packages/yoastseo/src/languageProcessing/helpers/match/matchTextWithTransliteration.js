@@ -37,16 +37,13 @@ export default function( text, keyword, locale ) {
 	text = text.replace( keywordRegex, "" );
 
 	const transliterateKeyword = transliterate( keyword, locale );
-	console.log("transliteration", transliterateKeyword)
 	const transliterateKeywordRegex = toRegex( transliterateKeyword, locale );
 	const transliterateMatches = text.match( transliterateKeywordRegex ) || [];
 	let combinedArray = matches.concat( transliterateMatches );
 
 	const transliterateWPKeyword = transliterateWP( keyword, locale );
-	console.log("WPtransliteration", transliterateWPKeyword)
 
 	if ( ! ( transliterateWPKeyword === transliterateKeyword ) ) {
-		console.log(true)
 		const transliterateWPKeywordRegex = toRegex( transliterateWPKeyword, locale );
 		const transliterateWPMatches = text.match( transliterateWPKeywordRegex ) || [];
 
