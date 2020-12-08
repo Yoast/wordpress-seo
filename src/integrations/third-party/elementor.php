@@ -526,6 +526,13 @@ class Elementor implements Integration_Interface {
 			'sep',
 			'page',
 			'currentyear',
+			'pt_single',
+			'pt_plural',
+			'modified',
+			'name',
+			'user_description',
+			'pagetotal',
+			'pagenumber',
 		];
 
 		foreach ( $vars_to_cache as $var ) {

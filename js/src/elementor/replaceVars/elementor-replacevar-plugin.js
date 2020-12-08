@@ -52,12 +52,19 @@ const getReplacements = ( scope = "" ) => {
 				"excerpt",
 				"id",
 				"focusKeyphrase",
+				"modified",
+				"name",
 				"page",
+				"pageNumber",
+				"pageTotal",
+				"postTypeNamePlural",
+				"postTypeNameSingular",
 				"searchPhrase",
 				"separator",
 				"siteDescription",
 				"siteName",
 				"title",
+				"userDescription",
 			];
 		case "page":
 			return [
@@ -67,12 +74,19 @@ const getReplacements = ( scope = "" ) => {
 				"excerpt",
 				"id",
 				"focusKeyphrase",
+				"modified",
+				"name",
 				"page",
+				"pageNumber",
+				"pageTotal",
+				"postTypeNamePlural",
+				"postTypeNameSingular",
 				"searchPhrase",
 				"separator",
 				"siteDescription",
 				"siteName",
 				"title",
+				"userDescription",
 			];
 	}
 
