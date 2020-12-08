@@ -36,7 +36,7 @@ class Schema_Templates_Loader_Test extends TestCase {
 	 * @covers ::get_templates
 	 */
 	public function test_get_templates() {
-		$schema_directory = dirname( WPSEO_FILE ) . '/src/schema-templates/';
+		$schema_directory = \dirname( WPSEO_FILE ) . '/src/schema-templates/';
 
 		$expected_schema_blocks = [
 			$schema_directory . 'address.block.php',
@@ -44,6 +44,8 @@ class Schema_Templates_Loader_Test extends TestCase {
 			$schema_directory . 'image.schema.php',
 			$schema_directory . 'ingredients.block.php',
 			$schema_directory . 'ingredients.schema.php',
+			$schema_directory . 'job-title.block.php',
+			$schema_directory . 'job-title.schema.php',
 			$schema_directory . 'recipe.block.php',
 			$schema_directory . 'recipe.schema.php',
 			$schema_directory . 'step.block.php',
