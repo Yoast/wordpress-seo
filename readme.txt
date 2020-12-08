@@ -253,6 +253,7 @@ Bugfixes:
 
 * Fixes a bug where network-wide settings about the Enhanced Slack Sharing feature would not be saved.
 * Fixes a bug where translations on the Search Appearance pages would be missing.
+* Fixes a bug where subsites in a multisite network could have an enabled feature toggle for the `Usage tracking` feature, even though subsites never send tracking data.
 * Fixes a bug where the Yoast SEO dashboard widget would still fetch data even when the dashboard itself was hidden.
 
 Other:
