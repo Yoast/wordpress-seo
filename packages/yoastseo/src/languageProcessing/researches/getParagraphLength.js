@@ -9,9 +9,9 @@ import { filter } from "lodash-es";
  * @returns {Array} The array containing an object with the paragraph word count and paragraph text.
  */
 export default function( paper ) {
-	var text = paper.getText();
-	var paragraphs = matchParagraphs( text );
-	var paragraphsLength = [];
+	const text = paper.getText();
+	const paragraphs = matchParagraphs( text );
+	const paragraphsLength = [];
 	paragraphs.map( function( paragraph ) {
 		paragraphsLength.push( {
 			wordCount: countWords( paragraph ),

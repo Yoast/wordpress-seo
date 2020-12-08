@@ -14,11 +14,7 @@ import { filter } from "lodash-es";
  * @returns {boolean} Returns true if sentence beginnings match.
  */
 const startsWithSameWord = function( currentSentenceBeginning, nextSentenceBeginning ) {
-	if ( ! isEmpty( currentSentenceBeginning ) && currentSentenceBeginning === nextSentenceBeginning ) {
-		return true;
-	}
-
-	return false;
+	return ! isEmpty( currentSentenceBeginning ) && currentSentenceBeginning === nextSentenceBeginning;
 };
 
 /**
