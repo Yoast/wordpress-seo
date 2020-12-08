@@ -10,7 +10,7 @@ export type DefinitionClass<T extends Definition> = {
 };
 
 /**
- * Definition class
+ * Definition class.
  */
 export default abstract class Definition {
 	public separator: string;
@@ -52,7 +52,8 @@ export default abstract class Definition {
 	 * Checks if the Definition block is valid.
 	 *
 	 * @param blockInstance The block to be validated.
-	 * @returns {boolean}   True if all instructions in the block are valid, False if any of the block contains errors.
+	 *
+	 * @returns {boolean} True if all instructions in the block are valid, false if any of the block instructions contains errors.
 	 */
 	valid( blockInstance: BlockInstance ): boolean {
 		return Object.values( this.instructions ).every( instruction => instruction.valid( blockInstance ) && blockInstance.attributes.req );

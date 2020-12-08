@@ -69,7 +69,7 @@ function findSelfInvalidatedBlocks( blockInstance: BlockInstance, requiredBlocks
 	blockInstance.innerBlocks.forEach( block => {
 		const definition = getBlockDefinition( block.name );
 		if ( ! definition ) {
-			throw new Error( "block definition for '" + block.name + "' is not registered." );
+			throw new Error( "Block definition for '" + block.name + "' is not registered." );
 		}
 		if ( ! definition.valid( block ) ) {
 			const isRequired: boolean = requiredBlocks.some( requiredBlock => requiredBlock.name === block.name );
@@ -127,7 +127,8 @@ function createInvalidBlock( name: string, reason: InvalidBlockReason ): Invalid
 /**
  * Helper function to determine the urgency of an invalidation.
  *
- * @param reason      The reason to check.
+ * @param reason The reason to check.
+ *
  * @returns {boolean} True if the invalidation is for an optional block (a warning), false if the invalidation is for a required block (an error).
  */
 function isOptional( reason: InvalidBlockReason ): boolean {
