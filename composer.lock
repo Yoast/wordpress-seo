@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4086f1ca0fa58866e06eaee474ecc5e2",
+    "content-hash": "cfb0b23edefd7f8b5ea05940dd1e6b49",
     "packages": [
         {
             "name": "composer/installers",
@@ -885,16 +885,16 @@
         },
         {
             "name": "brain/monkey",
-            "version": "2.5.0",
+            "version": "2.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Brain-WP/BrainMonkey.git",
-                "reference": "f2295a57da59ff88621cd959dbdb4b288feefd19"
+                "reference": "7042140000b4b18034c0c0010d86274a00f25442"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Brain-WP/BrainMonkey/zipball/f2295a57da59ff88621cd959dbdb4b288feefd19",
-                "reference": "f2295a57da59ff88621cd959dbdb4b288feefd19",
+                "url": "https://api.github.com/repos/Brain-WP/BrainMonkey/zipball/7042140000b4b18034c0c0010d86274a00f25442",
+                "reference": "7042140000b4b18034c0c0010d86274a00f25442",
                 "shasum": ""
             },
             "require": {
@@ -947,7 +947,7 @@
                 "test",
                 "testing"
             ],
-            "time": "2020-10-09T06:55:33+00:00"
+            "time": "2020-10-13T17:56:14+00:00"
         },
         {
             "name": "composer/package-versions-deprecated",
@@ -3861,20 +3861,20 @@
         },
         {
             "name": "yoast/wp-test-utils",
-            "version": "0.1.1",
+            "version": "0.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Yoast/wp-test-utils.git",
-                "reference": "206df89cfefe4d2cbdf354e4a6212869de8bd942"
+                "reference": "c5cdabd58f2aa6f2a93f734cf48125f880c90101"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Yoast/wp-test-utils/zipball/206df89cfefe4d2cbdf354e4a6212869de8bd942",
-                "reference": "206df89cfefe4d2cbdf354e4a6212869de8bd942",
+                "url": "https://api.github.com/repos/Yoast/wp-test-utils/zipball/c5cdabd58f2aa6f2a93f734cf48125f880c90101",
+                "reference": "c5cdabd58f2aa6f2a93f734cf48125f880c90101",
                 "shasum": ""
             },
             "require": {
-                "brain/monkey": "^2.5.0",
+                "brain/monkey": "^2.6.0",
                 "php": ">=5.6",
                 "yoast/phpunit-polyfills": "^0.2.0"
             },
@@ -3919,7 +3919,7 @@
                 "unit-testing",
                 "wordpress"
             ],
-            "time": "2020-11-25T12:40:18+00:00"
+            "time": "2020-12-09T15:26:02+00:00"
         },
         {
             "name": "yoast/yoastcs",
