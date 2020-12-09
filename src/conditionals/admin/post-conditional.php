@@ -25,7 +25,7 @@ class Post_Conditional implements Conditional {
 		}
 
 		// Current page is the edit page of an existing post (type, i.e. post, page, custom post or attachment).
-		if ( $pagenow === 'post.php' || $get_action === 'edit' ) {
+		if ( $pagenow === 'post.php' ) {
 			return true;
 		}
 
