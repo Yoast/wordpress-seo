@@ -64,6 +64,7 @@ class WordOccurrences extends React.Component {
 		return (
 			<div>
 				{ this.props.header }
+				{ this.props.introduction }
 				<DataModel
 					items={ this.state.words }
 				/>
@@ -76,11 +77,13 @@ class WordOccurrences extends React.Component {
 WordOccurrences.propTypes = {
 	words: PropTypes.array.isRequired,
 	header: PropTypes.element,
+	introduction: PropTypes.element,
 	footer: PropTypes.element,
 };
 
 WordOccurrences.defaultProps = {
 	header: null,
+	introduction: null,
 	footer: null,
 };
 
