@@ -60,6 +60,10 @@ const getExplanation = keywords => {
 	);
 };
 
+const getHeader = () => {
+	return __("Prominent words", "yoast-components");
+}
+
 /**
  * @summary WordList component.
  *
@@ -69,12 +73,14 @@ const getExplanation = keywords => {
  * @returns {JSX.Element} Rendered WordList component.
  */
 const WordOccurrenceInsights = ( { words } ) => {
-	const header = <p>{ getExplanation( words ) }</p>;
+	const header = <h2>{ getHeader() }</h2>;
+	const introduction = <p>{ getExplanation( words ) }</p>;
 	const footer = <p>{ getKeywordResearchArticleLink() }</p>;
 	return (
 		<WordOccurrences
 			words={ words }
 			header={ header }
+			introduction={ introduction }
 			footer={ footer }
 		/>
 	);
