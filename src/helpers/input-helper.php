@@ -6,6 +6,7 @@ namespace Yoast\WP\SEO\Helpers;
  * A helper object for the filter_input.
  */
 class Input_Helper {
+
 	/**
 	 * Returns the result of the filter_input. This is mostly a wrapper so we can test.
 	 *
