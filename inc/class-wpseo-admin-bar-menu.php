@@ -77,7 +77,9 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 	public function add_menu( WP_Admin_Bar $wp_admin_bar ) {
 
 		// On block editor pages, the admin bar only shows on mobile, where having this menu icon is not very helpful.
-		$screen = get_current_screen();
+		if ( is_admin() ) {
+			$screen = get_current_screen();
+		}
 		if ( isset( $screen ) && $screen->is_block_editor() ) {
 			return;
 		}
