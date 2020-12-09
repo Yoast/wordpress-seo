@@ -1,4 +1,4 @@
-import ProminentWord from "../../src/values/ProminentWord";
+import ProminentWord from "../../../../src/values/ProminentWord";
 import {
 	getProminentWords,
 	getProminentWordsFromPaperAttributes,
@@ -6,11 +6,8 @@ import {
 	collapseProminentWordsOnStem,
 	sortProminentWords,
 	retrieveAbbreviations,
-} from "../../src/languageProcessing/helpers/prominentWords/determineProminentWords";
-import getMorphologyData from "../specHelpers/getMorphologyData";
-
-
-const morphologyData = getMorphologyData( "en" ).en;
+} from "../../../../src/languageProcessing/helpers/prominentWords/determineProminentWords";
+import baseStemmer from "../../../../src/languageProcessing/helpers/morphology/baseStemmer";
 
 describe( "retrieveAbbreviations", function() {
 	it( "makes a list of all abbreviations from the input text", function() {
@@ -69,6 +66,18 @@ describe( "filterProminentWords", function() {
 		const expected = [];
 
 		const actual = filterProminentWords( input, 2 );
+
+		expect( actual ).toEqual( expected );
+	} );
+	it( "removes numbers and punctuation", function() {
+		const input = [
+			new ProminentWord( "*", "*", 2 ),
+			new ProminentWord( "/)*8%$", "/)*8%$", 2 ),
+			new ProminentWord( "100", "100", 2 ),
+		];
+		const expected = [];
+
+		const actual = filterProminentWords( input );
 
 		expect( actual ).toEqual( expected );
 	} );
@@ -317,7 +326,7 @@ describe( "collapseProminentWordsOnStem collapses over duplicates by stem", func
 } );
 
 describe( "getProminentWords", function() {
-	it( "does not break and returns the word itself for a language without a stemmer", function() {
+	it( "does not break and returns the word itself for a language without a language specific stemmer", function() {
 		const input = "A text consists of words. This is a text.";
 		const expected = [
 			new ProminentWord( "a", "a", 2 ),
@@ -329,7 +338,7 @@ describe( "getProminentWords", function() {
 			new ProminentWord( "words", "words", 1 ),
 		];
 
-		const words = getProminentWords( input, [], "ee", morphologyData );
+		const words = getProminentWords( input, [], baseStemmer, [] );
 
 		expect( words ).toEqual( expected );
 	} );
@@ -337,7 +346,7 @@ describe( "getProminentWords", function() {
 	it( "does not break if the input is empty", function() {
 		const input = "";
 
-		const words = getProminentWords( input, "en", morphologyData );
+		const words = getProminentWords( input, [], baseStemmer, [] );
 
 		expect( words ).toEqual( [] );
 	} );
@@ -345,20 +354,21 @@ describe( "getProminentWords", function() {
 	it( "does not break if there are no words in the input", function() {
 		const input = "! - ?.... ";
 		const expected = [];
-
-		const words = getProminentWords( input, [], "en", morphologyData );
+		const functionWords = [];
+		const words = getProminentWords( input, [], baseStemmer, functionWords );
 
 		expect( words ).toEqual( expected );
 	} );
 
-	it( "correctly takes single words from the text, orders them by number of occurrences and alphabetically", function() {
+	it( "correctly takes single words from the text, orders them alphabetically", function() {
 		const input = "A text consists of words. This is a text.";
+		const functionWords = [ "a", "consists", "of", "this", "is" ];
 		const expected = [
 			new ProminentWord( "text", "text", 2 ),
-			new ProminentWord( "words", "word", 1 ),
+			new ProminentWord( "words", "words", 1 ),
 		];
 
-		const words = getProminentWords( input, [], "en", morphologyData );
+		const words = getProminentWords( input, [], baseStemmer, functionWords );
 
 		expect( words ).toEqual( expected );
 	} );
@@ -372,36 +382,11 @@ describe( "getProminentWords", function() {
 			new ProminentWord( "3", "3", 1 ),
 			new ProminentWord( "sentence", "sentence", 2 ),
 			new ProminentWord( "whole", "whole", 2 ),
-			new ProminentWord( "word", "word", 21 ),
+			new ProminentWord( "word", "word", 10 ),
+			new ProminentWord( "words", "words", 11 ),
 		];
 
-		const words = getProminentWords( input, [], "en", morphologyData );
-
-		expect( words ).toEqual( expected );
-	} );
-
-	it( "also does well with a longer and more complex text", function() {
-		const input = "Here are a ton of syllables. Syllables are very important, syllables are the best. " +
-			"Every syllable is a pain when it comes to producing them on demand. " +
-			"It's so different when it's just free speech! A syllable then costs a tiny effort, almost " +
-			"no effort at all! That is wonderful!! And here it comes again! " +
-			"Here are a ton of syllables. Syllables are very important, syllables are the best. " +
-			"Every syllable is a pain when it comes to producing them on demand. " +
-			"It's so different when it's just free speech! A syllable then costs a tiny effort, almost " +
-			"no effort at all! That is wonderful!!";
-		const expected = [
-			new ProminentWord( "costs", "cost", 2 ),
-			new ProminentWord( "demand", "demand", 2 ),
-			new ProminentWord( "effort", "effort", 4 ),
-			new ProminentWord( "free", "free", 2 ),
-			new ProminentWord( "pain", "pain", 2 ),
-			new ProminentWord( "producing", "produce", 2 ),
-			new ProminentWord( "speech", "speech", 2 ),
-			new ProminentWord( "syllable", "syllable", 10 ),
-			new ProminentWord( "wonderful", "wonderful", 2 ),
-		];
-
-		const words = getProminentWords( input, [], "en", morphologyData );
+		const words = getProminentWords( input, [], baseStemmer, [ "more", "a", "new", "with", "here" ] );
 
 		expect( words ).toEqual( expected );
 	} );
@@ -416,19 +401,23 @@ describe( "getProminentWords", function() {
 			"It's so different when it's just free speech! A syllable then costs a tiny effort, almost " +
 			"no effort at all! That is wonderful!!";
 		const expected = [
-			new ProminentWord( "costs", "cost", 2 ),
+			new ProminentWord( "costs", "costs", 2 ),
 			new ProminentWord( "CTA", "cta", 2 ),
 			new ProminentWord( "demand", "demand", 2 ),
 			new ProminentWord( "effort", "effort", 4 ),
 			new ProminentWord( "free", "free", 2 ),
 			new ProminentWord( "pain", "pain", 2 ),
-			new ProminentWord( "producing", "produce", 2 ),
+			new ProminentWord( "producing", "producing", 2 ),
 			new ProminentWord( "speech", "speech", 2 ),
-			new ProminentWord( "syllable", "syllable", 10 ),
+			new ProminentWord( "syllable", "syllable", 4 ),
+			new ProminentWord( "syllables", "syllables", 6 ),
 			new ProminentWord( "wonderful", "wonderful", 2 ),
 		];
+		const functionWords = [ "here", "are", "a", "ton", "tons", "of", "about", "very", "important", "the", "best", "every",
+			"is", "when", "it", "to", "comes", "them", "on", "it's", "so", "different", "just", "then", "tiny", "almost",
+			"no", "at", "all", "that", "and", "again" ];
 
-		const words = getProminentWords( input, [ "cta" ], "en", morphologyData );
+		const words = getProminentWords( input, [ "cta" ], baseStemmer, functionWords );
 
 		expect( words ).toEqual( expected );
 	} );
@@ -444,7 +433,7 @@ describe( "getProminentWords", function() {
 			new ProminentWord( "ton", "ton", 2 ),
 		];
 
-		const words = getProminentWords( input, [], "ee", morphologyData );
+		const words = getProminentWords( input, [], baseStemmer, [] );
 
 		expect( words ).toEqual( expected );
 	} );
@@ -453,17 +442,16 @@ describe( "getProminentWords", function() {
 describe( "getRelevantWordsFromPaperAttributes", function() {
 	it( "gets all non-function words from the attributes", function() {
 		const expected = [
-			new ProminentWord( "analysing", "analyse", 1 ),
-			new ProminentWord( "interest", "interest", 2 ),
+			new ProminentWord( "analysing", "analysing", 1 ),
+			new ProminentWord( "interest", "interest", 1 ),
 			new ProminentWord( "keyphrase", "keyphrase", 1 ),
 			new ProminentWord( "metadescription", "metadescription", 1 ),
 			new ProminentWord( "o-my", "o-my", 1 ),
 			new ProminentWord( "paper", "paper", 1 ),
 			new ProminentWord( "pretty", "pretty", 1 ),
-			new ProminentWord( "subheading", "subhead", 2 ),
+			new ProminentWord( "subheading", "subheading", 2 ),
 			new ProminentWord( "synonym", "synonym", 3 ),
 			new ProminentWord( "title", "title", 1 ),
-
 		];
 
 		const words = getProminentWordsFromPaperAttributes(
@@ -475,8 +463,8 @@ describe( "getRelevantWordsFromPaperAttributes", function() {
 				[ "subheading one", "subheading two" ].join( " " ),
 			],
 			[ "nice" ],
-			"en",
-			morphologyData
+			baseStemmer,
+			[ "interesting", "this", "is", "a", "an", "one", "two", "and", "long", "of", "the", "that", "we", "are", "have", "in", "nice" ]
 		);
 
 		expect( words ).toEqual( expected );
