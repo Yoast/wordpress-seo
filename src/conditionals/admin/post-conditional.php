@@ -17,8 +17,6 @@ class Post_Conditional implements Conditional {
 	public function is_met() {
 		global $pagenow;
 
-		$get_action = \filter_input( INPUT_GET, 'action', FILTER_SANITIZE_STRING );
-
 		// Current page is the creation of a new post (type, i.e. post, page, custom post or attachment).
 		if ( $pagenow === 'post-new.php' ) {
 			return true;
