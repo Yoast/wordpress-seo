@@ -2,7 +2,7 @@
  * The list of accent characters and their ASCII alternatives is taken from wordpress-develop-mirror/blob/master/src/wp-includes/formatting.php.
  */
 
-import getLanguage from '../languages/en/helpers/getLanguage.js';
+import getLanguage from "../languageProcessing/helpers/language/getLanguage.js";
 
 import { isUndefined } from "lodash-es";
 

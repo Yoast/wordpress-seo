@@ -1,4 +1,6 @@
-import { findWordFormsInString as findKeywordFormsInString, findTopicFormsInString } from "../../src/languages/legacy/researches/findKeywordFormsInString.js";
+import {
+	findWordFormsInString as findKeywordFormsInString,
+	findTopicFormsInString } from "../../../../src/languageProcessing/helpers/match/findKeywordFormsInString.js";
 
 describe( "Test findKeywordFormsInString: checks for the keyword forms are in the supplied string", function() {
 	it( "returns the number and the percentage of words matched", function() {
@@ -255,6 +257,22 @@ describe( "Test findTopicFormsInString: checks for the keyword or synonyms forms
 			countWordMatches: 0,
 			percentWordMatches: 0,
 			keyphraseOrSynonym: "keyphrase",
+		} );
+	} );
+
+	it( "does not break if the keyphrase forms array is empty", function() {
+		expect( findTopicFormsInString(
+			{
+				keyphraseForms: [],
+				synonymsForms: [ [ [ "lunch", "lunches" ], [ "moment", "moments" ] ] ],
+			},
+			"It's lunch time!",
+			true,
+			"en_EN"
+		) ).toEqual( {
+			countWordMatches: 1,
+			percentWordMatches: 50,
+			keyphraseOrSynonym: "synonym",
 		} );
 	} );
 

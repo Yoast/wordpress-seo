@@ -14,16 +14,16 @@ import { map } from "lodash-es";
  * @param {string} text The text to use for matching the wordToMatch.
  * @param {string} wordToMatch The word to match in the text
  * @param {string} locale The locale used for transliteration.
- * @param {string} [extraBoundary] An extra string that can be added to the wordboundary regex
+ *
  * @returns {Object} The matches found and the number of matches.
  */
-export default function( text, wordToMatch, locale, extraBoundary ) {
+export default function( text, wordToMatch, locale ) {
 	text = stripSomeTags( text );
 	text = unifyWhitespace( text );
 	text = normalizeQuotes( text );
 	wordToMatch = stripSpaces( normalizeQuotes( wordToMatch ) );
 
-	let matches = matchStringWithTransliteration( text, wordToMatch, locale, extraBoundary );
+	let matches = matchStringWithTransliteration( text, wordToMatch, locale );
 	matches = map( matches, function( keyword ) {
 		return stripSpaces( removePunctuation( keyword ) );
 	} );

@@ -7,11 +7,10 @@ import transliterationsMap from "../../../config/transliterations.js";
  *
  * @param {string} text The text to remove special characters from.
  * @param {string} locale The locale.
- * @param {array} config The transliteration config.
  * @returns {string} The text with all special characters replaced.
  */
-export default function( text, locale, config ) {
-	var map = config( locale );
+export default function( text, locale ) {
+	var map = transliterationsMap( locale );
 	for ( var i = 0; i < map.length; i++ ) {
 		text = text.replace(
 			map[ i ].letter,

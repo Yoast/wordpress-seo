@@ -1,4 +1,4 @@
-import getLanguage from '../languageProcessing/helpers/language/getLanguage.js';
+import getLanguage from "../languageProcessing/helpers/language/getLanguage.js";
 import { isUndefined } from "lodash-es";
 
 
@@ -18,7 +18,7 @@ var transliterations = {
 		{ letter: /[\u00F3]/g, alternative: "o" },
 		{ letter: /[\u00D3]/g, alternative: "O" },
 		{ letter: /[\u00FA\u00FC]/g, alternative: "u" },
-		{ letter: /[\u00DA\u00DC]/g, alternative: "U" }
+		{ letter: /[\u00DA\u00DC]/g, alternative: "U" },
 	],
 	// Language: Polish.
 	// Source: https://en.wikipedia.org/wiki/Polish_orthography
@@ -1125,7 +1125,7 @@ var transliterations = {
 		{ letter: /[\u00d2\u00d3]/g, alternative: "O" },
 		{ letter: /[\u00fa\u00fc]/g, alternative: "u" },
 		{ letter: /[\u00da\u00dc]/g, alternative: "U" },
-		{ letter: /[\u00b7]/g, alternative: "" }
+		{ letter: /[\u00b7]/g, alternative: "" },
 	],
 	// Language: Oromo.
 	// Source: http://www.omniglot.com/writing/occitan.htm
