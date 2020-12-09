@@ -526,6 +526,9 @@ class Elementor implements Integration_Interface {
 			'sep',
 			'page',
 			'currentyear',
+			'tag',
+			'category',
+			'primary_category',
 		];
 
 		foreach ( $vars_to_cache as $var ) {

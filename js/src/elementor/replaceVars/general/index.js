@@ -10,6 +10,7 @@ export { default as searchPhrase } from "./searchPhrase";
 export { default as separator } from "./separator";
 export { default as siteDescription } from "./siteDescription";
 export { default as siteName } from "./siteName";
+export { default as tag } from "./tag";
 export { default as termDescription } from "./termDescription";
 export { default as termHierarchy } from "./termHierarchy";
 export { default as termTitle } from "./termTitle";
