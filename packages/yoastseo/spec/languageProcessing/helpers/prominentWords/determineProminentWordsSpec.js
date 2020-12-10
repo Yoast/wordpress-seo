@@ -361,14 +361,13 @@ describe( "getProminentWords", function() {
 	} );
 
 	it( "correctly takes single words from the text, orders them alphabetically", function() {
-		const input = "A text consists of words. This is a text.";
-		const functionWords = [ "a", "consists", "of", "this", "is" ];
+		const input = "A text contains words. This is a text.";
 		const expected = [
 			new ProminentWord( "text", "text", 2 ),
 			new ProminentWord( "words", "words", 1 ),
 		];
 
-		const words = getProminentWords( input, [], baseStemmer, functionWords );
+		const words = getProminentWords( input, [], baseStemmer, [ "a", "of", "contains", "this", "is" ] );
 
 		expect( words ).toEqual( expected );
 	} );
