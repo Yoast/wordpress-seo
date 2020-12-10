@@ -12,6 +12,11 @@ describe( "Test to check whether a word is started with one of the words in a gi
 		expect( removeSuffixesFromFullForm( [ "verklaard", "beteuterd", "gehumeurd", "gesmoord" ],
 			[ "er", "ers", "ere" ], "residuen" ) ).toBeUndefined();
 	} );
+
+	it( "returns undefined if there is no word.", () => {
+		expect( removeSuffixesFromFullForm( [ "verklaard", "beteuterd", "gehumeurd", "gesmoord" ],
+			[ "er", "ers", "ere" ], "" ) ).toBeUndefined();
+	} );
 } );
 
 describe( "Test to check whether a word ends in one of the word on a given list of exceptions.", () => {
@@ -28,5 +33,10 @@ describe( "Test to check whether a word ends in one of the word on a given list 
 	it( "returns undefined if a word is not on a given list of exceptions.", () => {
 		expect( removeSuffixFromFullForm( [  "zeges", "modes" ],
 			"s", "sites" ) ).toBeUndefined();
+	} );
+
+	it( "returns undefined if there is no word.", () => {
+		expect( removeSuffixFromFullForm( [  "zeges", "modes" ],
+			"s", "" ) ).toBeUndefined();
 	} );
 } );
