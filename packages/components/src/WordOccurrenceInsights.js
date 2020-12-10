@@ -73,7 +73,7 @@ const getHeader = () => {
  * @returns {JSX.Element} Rendered WordList component.
  */
 const WordOccurrenceInsights = ( { words } ) => {
-	const header = <h2>{ getHeader() }</h2>;
+	const header = <p className="yoast-field-group__title">{ getHeader() }</p>;
 	const introduction = <p>{ getExplanation( words ) }</p>;
 	const footer = <p>{ getKeywordResearchArticleLink() }</p>;
 	return (
