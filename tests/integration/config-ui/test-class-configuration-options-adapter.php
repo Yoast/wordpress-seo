@@ -79,11 +79,11 @@ class WPSEO_Configuration_Options_Adapter_Test extends TestCase {
 	 * Tests adding a custom lookup with no get callable get argument given.
 	 *
 	 * @covers WPSEO_Configuration_Options_Adapter::add_custom_lookup
-	 *
-	 * @expectedException        InvalidArgumentException
-	 * @expectedExceptionMessage Custom option must be callable.
 	 */
 	public function test_add_custom_lookup_not_a_callback_get() {
+		$this->expectException( InvalidArgumentException::class );
+		$this->expectExceptionMessage( 'Custom option must be callable.' );
+
 		$this->adapter->add_custom_lookup( 'stdClass', 'not_callable', '__return_true' );
 	}
 
@@ -91,11 +91,11 @@ class WPSEO_Configuration_Options_Adapter_Test extends TestCase {
 	 * Tests adding a custom lookup with no set callable argument given.
 	 *
 	 * @covers WPSEO_Configuration_Options_Adapter::add_custom_lookup
-	 *
-	 * @expectedException        InvalidArgumentException
-	 * @expectedExceptionMessage Custom option must be callable.
 	 */
 	public function test_add_custom_lookup_not_a_callback_set() {
+		$this->expectException( InvalidArgumentException::class );
+		$this->expectExceptionMessage( 'Custom option must be callable.' );
+
 		$this->adapter->add_custom_lookup( 'stdClass', '__return_true', 'not_callable' );
 	}
 
@@ -143,11 +143,11 @@ class WPSEO_Configuration_Options_Adapter_Test extends TestCase {
 	 * Test adding a WordPress lookup for a non string. Resulting in an exception.
 	 *
 	 * @covers WPSEO_Configuration_Options_Adapter::add_wordpress_lookup
-	 *
-	 * @expectedException        InvalidArgumentException
-	 * @expectedExceptionMessage WordPress option must be a string.
 	 */
 	public function test_add_wordpress_lookup_option_non_string() {
+		$this->expectException( InvalidArgumentException::class );
+		$this->expectExceptionMessage( 'WordPress option must be a string.' );
+
 		$this->adapter->add_wordpress_lookup( 'stdClass', [] );
 	}
 
