@@ -6,11 +6,12 @@
  */
 
 use Yoast\WP\SEO\Initializers\Migration_Runner;
+use Yoast\WPTestUtils\WPIntegration\TestCase;
 
 /**
  * TestCase base class for convenience methods.
  */
-abstract class WPSEO_UnitTestCase extends WP_UnitTestCase {
+abstract class WPSEO_UnitTestCase extends TestCase {
 
 	/**
 	 * Make sure to do migrations before WP_UnitTestCase starts messing with the DB.
@@ -23,33 +24,6 @@ abstract class WPSEO_UnitTestCase extends WP_UnitTestCase {
 		// Run migrations.
 		$migration_runner = YoastSEO()->classes->get( Migration_Runner::class );
 		$migration_runner->run_migrations( 'free' );
-	}
-
-	/**
-	 * Adds slashes to the value of $key in the $_POST array, and then updates the $_REQUEST array.
-	 *
-	 * @param string $key   Key to be used with PHP superglobals.
-	 * @param mixed  $value Value to assign to it.
-	 */
-	protected function set_post( $key, $value ) {
-		$_POST[ $key ]    = addslashes( $value );
-		$_REQUEST[ $key ] = $_POST[ $key ];
-	}
-
-	/**
-	 * Unsets a given variable in $_POST and $_REQUEST.
-	 *
-	 * @param string $key Key as used with PHP superglobal.
-	 */
-	protected function unset_post( $key ) {
-		unset( $_POST[ $key ], $_REQUEST[ $key ] );
-	}
-
-	/**
-	 * Fake a request to the WP front page.
-	 */
-	protected function go_to_home() {
-		$this->go_to( home_url( '/' ) );
 	}
 
 	/**
