@@ -1,5 +1,5 @@
-var urlFromAnchorRegex = /href=(["'])([^"']+)\1/i;
-import urlMethods from "packages/yoastseo/src/researches/stringProcessing/url";
+const urlFromAnchorRegex = /href=(["'])([^"']+)\1/i;
+import urlMethods from "url";
 
 /**
  * Removes a hash from a URL, assumes a well formed URL.
@@ -48,7 +48,7 @@ function addTrailingSlash( url ) {
  * @returns {string} The URL in the anchor tag.
  */
 function getFromAnchorTag( anchorTag ) {
-	var urlMatch = urlFromAnchorRegex.exec( anchorTag );
+	const urlMatch = urlFromAnchorRegex.exec( anchorTag );
 
 	return ( urlMatch === null ) ? "" : urlMatch[ 2 ];
 }
