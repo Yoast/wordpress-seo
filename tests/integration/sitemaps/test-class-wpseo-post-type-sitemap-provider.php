@@ -131,7 +131,7 @@ class WPSEO_Post_Type_Sitemap_Provider_Test extends WPSEO_UnitTestCase {
 		$sitemaps->redirect( $GLOBALS['wp_the_query'] );
 
 		// Expect an empty page (404) to be returned.
-		$this->expectOutput( '' );
+		$this->expectOutputString( '' );
 	}
 
 	/**

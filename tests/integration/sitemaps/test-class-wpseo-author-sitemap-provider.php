@@ -149,7 +149,7 @@ class Test_WPSEO_Author_Sitemap_Provider extends WPSEO_UnitTestCase {
 		$sitemaps->redirect( $GLOBALS['wp_the_query'] );
 
 		// Expects an empty page (404) to be returned.
-		$this->expectOutput( '' );
+		$this->expectOutputString( '' );
 	}
 
 	/**
@@ -172,7 +172,7 @@ class Test_WPSEO_Author_Sitemap_Provider extends WPSEO_UnitTestCase {
 		$sitemaps->redirect( $GLOBALS['wp_the_query'] );
 
 		// Expects an empty page (404) to be returned.
-		$this->expectOutput( '' );
+		$this->expectOutputString( '' );
 
 		// Cleanup.
 		WPSEO_Options::set( 'disable-author', false );

@@ -126,7 +126,7 @@ class Yoast_Input_Select_Test extends WPSEO_UnitTestCase {
 		$select->output_html();
 
 		// Because the output has empty values.
-		$this->expectOutput( "<select name=\"test-field\" id=\"test-id\">\n\t</select>\n" );
+		$this->expectOutputString( "<select name=\"test-field\" id=\"test-id\">\n\t</select>\n" );
 	}
 
 	/**

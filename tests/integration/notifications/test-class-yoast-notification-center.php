@@ -371,7 +371,7 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 		$subject->add_notification( $notification );
 		$subject->display_notifications();
 
-		$this->expectOutput( 'a' );
+		$this->expectOutputString( 'a' );
 	}
 
 	/**
@@ -404,7 +404,7 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 		$subject->add_notification( $notification );
 		$subject->display_notifications();
 
-		$this->expectOutput( '' );
+		$this->expectOutputString( '' );
 	}
 
 	/**
@@ -433,7 +433,7 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 		$subject->display_notifications();
 
 		// It should not be displayed.
-		$this->expectOutput( '' );
+		$this->expectOutputString( '' );
 	}
 
 	/**
