@@ -36,12 +36,7 @@ export default {
 			label: "Excerpt only",
 			placeholder: "%%excerpt_only%%",
 		},
-		{
-			name: "caption",
-			label: "Caption",
-			placeholder: "%%caption%%",
-		},
 	],
 	getReplacement,
-	regexp: new RegExp( "%%excerpt%%|%%excerpt_only%%|%%caption%%", "g" ),
+	regexp: new RegExp( "%%excerpt%%|%%excerpt_only%%", "g" ),
 };
