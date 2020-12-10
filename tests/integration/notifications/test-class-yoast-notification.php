@@ -7,6 +7,8 @@
 
 /**
  * Class Test_Yoast_Notification.
+ *
+ * @covers Yoast_Notification
  */
 class Test_Yoast_Notification extends WPSEO_UnitTestCase {
 
