@@ -42,7 +42,7 @@ class WPSEO_File_Size_Service_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_get_with_unknown_failure() {
 
-		$this->bypass_php74_mockbuilder_deprecation_warning();
+		$this->expect_reflection_deprecation_warning_php74();
 
 		$instance = $this
 			->getMockBuilder( 'WPSEO_File_Size_Service' )
@@ -72,7 +72,7 @@ class WPSEO_File_Size_Service_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_get_on_success() {
 
-		$this->bypass_php74_mockbuilder_deprecation_warning();
+		$this->expect_reflection_deprecation_warning_php74();
 
 		$instance = $this
 			->getMockBuilder( 'WPSEO_File_Size_Service' )

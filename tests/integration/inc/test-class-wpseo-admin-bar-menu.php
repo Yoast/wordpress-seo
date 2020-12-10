@@ -74,7 +74,7 @@ class WPSEO_Admin_Bar_Menu_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_add_menu_lacking_capabilities() {
 
-		$this->bypass_php74_mockbuilder_deprecation_warning();
+		$this->expect_reflection_deprecation_warning_php74();
 
 		$admin_bar_menu = $this
 			->getMockBuilder( 'WPSEO_Admin_Bar_Menu' )
@@ -112,7 +112,7 @@ class WPSEO_Admin_Bar_Menu_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_add_menu() {
 
-		$this->bypass_php74_mockbuilder_deprecation_warning();
+		$this->expect_reflection_deprecation_warning_php74();
 
 		wp_set_current_user( self::$wpseo_manager );
 

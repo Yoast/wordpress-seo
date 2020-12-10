@@ -728,7 +728,7 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_remove_notification_by_id_when_no_notification_is_found() {
 
-		$this->bypass_php74_mockbuilder_deprecation_warning();
+		$this->expect_reflection_deprecation_warning_php74();
 
 		$notification_center = $this
 			->getMockBuilder( 'Yoast_Notification_Center' )
@@ -750,7 +750,7 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_remove_notification_by_id_when_notification_is_found() {
 
-		$this->bypass_php74_mockbuilder_deprecation_warning();
+		$this->expect_reflection_deprecation_warning_php74();
 
 		$notification_center = $this
 			->getMockBuilder( 'Yoast_Notification_Center' )

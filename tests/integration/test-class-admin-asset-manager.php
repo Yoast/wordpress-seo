@@ -226,7 +226,7 @@ class WPSEO_Admin_Asset_Manager_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_register_scripts() {
 
-		$this->bypass_php74_mockbuilder_deprecation_warning();
+		$this->expect_reflection_deprecation_warning_php74();
 
 		$asset_args = [
 			0 => [
@@ -270,7 +270,7 @@ class WPSEO_Admin_Asset_Manager_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_register_styles() {
 
-		$this->bypass_php74_mockbuilder_deprecation_warning();
+		$this->expect_reflection_deprecation_warning_php74();
 
 		$asset_args = [
 			0 => [

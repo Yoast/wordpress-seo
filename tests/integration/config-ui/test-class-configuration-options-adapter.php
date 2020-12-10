@@ -12,6 +12,8 @@ use Yoast\WPTestUtils\WPIntegration\TestCase;
  */
 class WPSEO_Configuration_Options_Adapter_Test extends TestCase {
 
+	use Yoast_SEO_ReflectionToString_Deprecation_Handler;
+
 	/**
 	 * Holds the instance of the class being tested.
 	 *
@@ -241,11 +243,7 @@ class WPSEO_Configuration_Options_Adapter_Test extends TestCase {
 	 */
 	public function test_get_unknown_type() {
 
-		// See WPSEO_UnitTestCase::bypass_php74_mockbuilder_deprecation_warning() for context.
-		if ( version_compare( PHP_VERSION_ID, 70399, '>' ) ) {
-			$this->expectException( 'PHPUnit_Framework_Error_Deprecated' );
-			$this->expectExceptionMessage( 'Function ReflectionType::__toString() is deprecated' );
-		}
+		$this->expect_reflection_deprecation_warning_php74();
 
 		$field_name = 'field';
 
