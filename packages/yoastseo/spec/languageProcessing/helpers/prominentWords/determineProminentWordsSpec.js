@@ -65,19 +65,20 @@ describe( "filterProminentWords", function() {
 		];
 		const expected = [];
 
-		const actual = filterProminentWords( input, 2 );
+		const actual = filterProminentWords( input );
 
 		expect( actual ).toEqual( expected );
 	} );
-	it( "removes numbers and punctuation", function() {
+
+	it( "removes numbers and punctuation regardless of number of occurrences and the minimalNumberOfOccurrences parameter", function() {
 		const input = [
-			new ProminentWord( "*", "*", 2 ),
-			new ProminentWord( "/)*8%$", "/)*8%$", 2 ),
+			new ProminentWord( "*", "*", 6 ),
+			new ProminentWord( "/)*8%$", "/)*8%$", 1 ),
 			new ProminentWord( "100", "100", 2 ),
 		];
 		const expected = [];
 
-		const actual = filterProminentWords( input );
+		const actual = filterProminentWords( input, 3 );
 
 		expect( actual ).toEqual( expected );
 	} );
