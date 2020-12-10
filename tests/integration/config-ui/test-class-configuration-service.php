@@ -147,7 +147,7 @@ class WPSEO_Configuration_Service_Test extends TestCase {
 
 		$result = $this->configuration_service->get_configuration();
 
-		$this->assertInternalType( 'array', $result );
+		$this->assertIsArray( $result );
 
 		$this->assertEquals(
 			[

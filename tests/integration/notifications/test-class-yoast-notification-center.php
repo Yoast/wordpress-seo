@@ -201,7 +201,7 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 
 		$test = [ $notification->to_array() ];
 
-		$this->assertInternalType( 'array', $stored_notifications );
+		$this->assertIsArray( $stored_notifications );
 		$this->assertEquals( $test, $stored_notifications );
 	}
 
@@ -271,7 +271,7 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 
 		$sorted = $subject->get_sorted_notifications();
 
-		$this->assertInternalType( 'array', $sorted );
+		$this->assertIsArray( $sorted );
 		$this->assertEquals( [ $notification ], $sorted );
 	}
 
@@ -285,7 +285,7 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 
 		$sorted = $subject->get_sorted_notifications();
 
-		$this->assertInternalType( 'array', $sorted );
+		$this->assertIsArray( $sorted );
 		$this->assertEquals( [], $sorted );
 	}
 
@@ -461,7 +461,7 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 
 		$notifications = $notification_center->get_notifications();
 
-		$this->assertInternalType( 'array', $notifications );
+		$this->assertIsArray( $notifications );
 
 		$notification = array_shift( $notifications );
 
@@ -483,7 +483,7 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 
 		$new = $notification_center->get_new_notifications();
 
-		$this->assertInternalType( 'array', $new );
+		$this->assertIsArray( $new );
 		$this->assertContains( $notification, $new );
 	}
 

@@ -98,7 +98,7 @@ class WPSEO_Config_Field_Test extends TestCase {
 
 		$result = $field->to_array();
 
-		$this->assertInternalType( 'array', $result );
+		$this->assertIsArray( $result );
 		$this->assertArrayHasKey( 'componentName', $result );
 	}
 

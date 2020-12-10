@@ -214,9 +214,9 @@ class WPSEO_Admin_Bar_Menu_Test extends WPSEO_UnitTestCase {
 			->will( $this->returnValue( true ) );
 
 		$admin_bar_menu->register_hooks();
-		$this->assertInternalType( 'int', has_action( 'admin_bar_menu', [ $admin_bar_menu, 'add_menu' ], 95 ) );
-		$this->assertInternalType( 'int', has_action( 'wp_enqueue_scripts', [ $admin_bar_menu, 'enqueue_assets' ] ) );
-		$this->assertInternalType( 'int', has_action( 'admin_enqueue_scripts', [ $admin_bar_menu, 'enqueue_assets' ] ) );
+		$this->assertIsInt( has_action( 'admin_bar_menu', [ $admin_bar_menu, 'add_menu' ], 95 ) );
+		$this->assertIsInt( has_action( 'wp_enqueue_scripts', [ $admin_bar_menu, 'enqueue_assets' ] ) );
+		$this->assertIsInt( has_action( 'admin_enqueue_scripts', [ $admin_bar_menu, 'enqueue_assets' ] ) );
 	}
 
 	/**

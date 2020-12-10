@@ -201,8 +201,8 @@ class Yoast_Network_Admin_Test extends WPSEO_UnitTestCase {
 			->will( $this->returnValue( true ) );
 
 		$admin->register_hooks();
-		$this->assertInternalType( 'int', has_action( 'admin_action_' . Yoast_Network_Admin::UPDATE_OPTIONS_ACTION, [ $admin, 'handle_update_options_request' ] ) );
-		$this->assertInternalType( 'int', has_action( 'admin_action_' . Yoast_Network_Admin::RESTORE_SITE_ACTION, [ $admin, 'handle_restore_site_request' ] ) );
+		$this->assertIsInt( has_action( 'admin_action_' . Yoast_Network_Admin::UPDATE_OPTIONS_ACTION, [ $admin, 'handle_update_options_request' ] ) );
+		$this->assertIsInt( has_action( 'admin_action_' . Yoast_Network_Admin::RESTORE_SITE_ACTION, [ $admin, 'handle_restore_site_request' ] ) );
 	}
 
 	/**
@@ -214,8 +214,8 @@ class Yoast_Network_Admin_Test extends WPSEO_UnitTestCase {
 		$admin = new Yoast_Network_Admin();
 
 		$admin->register_ajax_hooks();
-		$this->assertInternalType( 'int', has_action( 'wp_ajax_' . Yoast_Network_Admin::UPDATE_OPTIONS_ACTION, [ $admin, 'handle_update_options_request' ] ) );
-		$this->assertInternalType( 'int', has_action( 'wp_ajax_' . Yoast_Network_Admin::RESTORE_SITE_ACTION, [ $admin, 'handle_restore_site_request' ] ) );
+		$this->assertIsInt( has_action( 'wp_ajax_' . Yoast_Network_Admin::UPDATE_OPTIONS_ACTION, [ $admin, 'handle_update_options_request' ] ) );
+		$this->assertIsInt( has_action( 'wp_ajax_' . Yoast_Network_Admin::RESTORE_SITE_ACTION, [ $admin, 'handle_restore_site_request' ] ) );
 	}
 
 	/**

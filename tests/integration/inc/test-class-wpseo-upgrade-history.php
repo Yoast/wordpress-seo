@@ -68,7 +68,7 @@ class WPSEO_Upgrade_History_Test extends WPSEO_UnitTestCase {
 		$upgrade_history = $this->get_instance();
 		$history         = $upgrade_history->get();
 
-		$this->assertInternalType( 'array', $history );
+		$this->assertIsArray( $history );
 		$this->assertEmpty( $history );
 	}
 
@@ -111,7 +111,7 @@ class WPSEO_Upgrade_History_Test extends WPSEO_UnitTestCase {
 		$history = $upgrade_history->get();
 		$entry   = current( $history );
 
-		$this->assertInternalType( 'array', $entry, 'There should be an entry added.' );
+		$this->assertIsArray( $entry, 'There should be an entry added.' );
 		$this->assertArrayHasKey( 'options', $entry );
 		$this->assertEmpty( $entry['options'], 'There should be no options.' );
 		$this->assertEquals( '1.0.0', $entry['old_version'] );
@@ -130,7 +130,7 @@ class WPSEO_Upgrade_History_Test extends WPSEO_UnitTestCase {
 		$history = $upgrade_history->get();
 		$entry   = current( $history );
 
-		$this->assertInternalType( 'array', $entry, 'There should be an entry added.' );
+		$this->assertIsArray( $entry, 'There should be an entry added.' );
 		$this->assertArrayHasKey( 'options', $entry );
 		$this->assertEmpty( $entry['options'], 'The non-existing option should not be returned.' );
 		$this->assertEquals( '1.0.0', $entry['old_version'] );
