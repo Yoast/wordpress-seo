@@ -246,7 +246,9 @@ class Yoast_Network_Admin_Test extends WPSEO_UnitTestCase {
 			$expected_message = 'Are you sure you want to do this?';
 		}
 
-		$this->setExpectedException( 'WPDieException', $expected_message );
+		$this->expectException( 'WPDieException' );
+		$this->expectExceptionMessage( $expected_message );
+
 		$admin->verify_request( 'my_action' );
 	}
 
@@ -261,7 +263,9 @@ class Yoast_Network_Admin_Test extends WPSEO_UnitTestCase {
 		$_REQUEST['_wp_http_referer'] = admin_url();
 		$_REQUEST['_wpnonce']         = wp_create_nonce( 'my_action' );
 
-		$this->setExpectedException( 'WPDieException', 'You are not allowed to perform this action.' );
+		$this->expectException( 'WPDieException' );
+		$this->expectExceptionMessage( 'You are not allowed to perform this action.' );
+
 		$admin->verify_request( 'my_action' );
 	}
 
@@ -302,7 +306,9 @@ class Yoast_Network_Admin_Test extends WPSEO_UnitTestCase {
 
 		$_REQUEST['_wpnonce'] = '';
 
-		$this->setExpectedException( 'WPDieException', '-1' );
+		$this->expectException( 'WPDieException' );
+		$this->expectExceptionMessage( '-1' );
+
 		$admin->verify_request( 'my_action' );
 	}
 
@@ -319,7 +325,9 @@ class Yoast_Network_Admin_Test extends WPSEO_UnitTestCase {
 
 		$_REQUEST['_wpnonce'] = wp_create_nonce( 'my_action' );
 
-		$this->setExpectedException( 'WPDieException', '-1' );
+		$this->expectException( 'WPDieException' );
+		$this->expectExceptionMessage( '-1' );
+
 		$admin->verify_request( 'my_action' );
 	}
 
@@ -387,7 +395,8 @@ class Yoast_Network_Admin_Test extends WPSEO_UnitTestCase {
 
 		$_REQUEST['_wpnonce'] = wp_create_nonce( 'my_action' );
 
-		$this->setExpectedException( 'WPDieException', '' );
+		$this->expectException( 'WPDieException' );
+		$this->expectExceptionMessage( '' );
 
 		ob_start();
 
