@@ -43,5 +43,5 @@ export default {
 		},
 	],
 	getReplacement,
-	regexp: new RegExp( "%%excerpt%%|%%excerpt_only%%|%%caption", "g" ),
+	regexp: new RegExp( "%%excerpt%%|%%excerpt_only%%|%%caption%%", "g" ),
 };
