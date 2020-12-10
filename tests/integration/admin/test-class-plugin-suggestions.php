@@ -36,7 +36,7 @@ class WPSEO_Plugin_Suggestions_Test extends WPSEO_UnitTestCase {
 
 		/*
 		 * Silencing errors for PHP 7.4 in combination with the Mock Builder.
-		 * See WPSEO_UnitTestCase::bypass_php74_mockbuilder_deprecation_warning() for context.
+		 * See {@see `Yoast_SEO_ReflectionToString_Deprecation_Handler`} for context.
 		 *
 		 * phpcs:disable WordPress.PHP.NoSilencedErrors.Discouraged
 		 */

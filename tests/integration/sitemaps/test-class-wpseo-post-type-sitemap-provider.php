@@ -131,7 +131,7 @@ class WPSEO_Post_Type_Sitemap_Provider_Test extends WPSEO_UnitTestCase {
 		$sitemaps->redirect( $GLOBALS['wp_the_query'] );
 
 		// Expect an empty page (404) to be returned.
-		$this->expectOutput( '' );
+		$this->expectOutputString( '' );
 	}
 
 	/**
@@ -268,7 +268,7 @@ class WPSEO_Post_Type_Sitemap_Provider_Test extends WPSEO_UnitTestCase {
 		$post_object = $this->factory()->post->create_and_get();
 		$post_url    = $sitemap_provider->get_url( $post_object );
 
-		$this->assertContains( $current_home, $post_url['loc'] );
+		$this->assertStringContainsString( $current_home, $post_url['loc'] );
 
 		// Change home URL.
 		update_option( 'home', 'http://example.com' );

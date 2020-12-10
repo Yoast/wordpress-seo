@@ -14,10 +14,10 @@ class WPSEO_Admin_Asset_Test extends WPSEO_UnitTestCase {
 	 * Tests the constructor when no name and src are passed.
 	 *
 	 * @covers WPSEO_Admin_Asset::__construct
-	 *
-	 * @expectedException InvalidArgumentException
 	 */
 	public function test_constructor_missing_name() {
+		$this->expectException( InvalidArgumentException::class );
+
 		new WPSEO_Admin_Asset( [] );
 	}
 
@@ -25,10 +25,10 @@ class WPSEO_Admin_Asset_Test extends WPSEO_UnitTestCase {
 	 * Tests the constructor when no src is passed.
 	 *
 	 * @covers WPSEO_Admin_Asset::__construct
-	 *
-	 * @expectedException InvalidArgumentException
 	 */
 	public function test_constructor_missing_src() {
+		$this->expectException( InvalidArgumentException::class );
+
 		$asset_args = [
 			'name' => 'name',
 		];

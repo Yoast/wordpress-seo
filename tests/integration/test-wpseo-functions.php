@@ -59,6 +59,6 @@ class WPSEO_Functions_Test extends WPSEO_UnitTestCase {
 	public function test_wpseo_get_capabilities() {
 		$capabilities = wpseo_get_capabilities();
 
-		$this->assertInternalType( 'array', $capabilities );
+		$this->assertIsArray( $capabilities );
 	}
 }

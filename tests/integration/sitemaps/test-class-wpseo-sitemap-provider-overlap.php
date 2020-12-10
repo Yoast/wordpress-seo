@@ -9,6 +9,8 @@
  * Class Test_WPSEO_Sitemap_Provider_Overlap.
  *
  * @group sitemaps
+ *
+ * @covers WPSEO_Sitemaps
  */
 class Test_WPSEO_Sitemap_Provider_Overlap extends WPSEO_UnitTestCase {
 

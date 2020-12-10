@@ -12,6 +12,8 @@ class WPSEO_Register_Capabilities_Tests extends WPSEO_UnitTestCase {
 
 	/**
 	 * Tests whether the list of registered capabilities contains the correct capabilities.
+	 *
+	 * @covers WPSEO_Register_Capabilities::register
 	 */
 	public function test_register() {
 		$manager = WPSEO_Capability_Manager_Factory::get();

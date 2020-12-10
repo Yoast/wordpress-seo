@@ -78,7 +78,7 @@ class WPSEO_Metabox_Formatter_Test extends WPSEO_UnitTestCase {
 	 * Test that wordFormRecognitionActive is true for English.
 	 *
 	 * @covers WPSEO_Metabox_Formatter::__construct
-	 * @covers WPSEO_Metabox_Formatter::is_word_form_recognition_active
+	 * @covers Yoast\WP\SEO\Helpers\Language_Helper::is_word_form_recognition_active
 	 */
 	public function test_word_form_recognition_is_active() {
 		add_filter(
@@ -106,7 +106,7 @@ class WPSEO_Metabox_Formatter_Test extends WPSEO_UnitTestCase {
 	 * Test that wordFormRecognitionActive is false for Afrikaans.
 	 *
 	 * @covers WPSEO_Metabox_Formatter::__construct
-	 * @covers WPSEO_Metabox_Formatter::is_word_form_recognition_active
+	 * @covers Yoast\WP\SEO\Helpers\Language_Helper::is_word_form_recognition_active
 	 */
 	public function test_word_form_recognition_is_not_active() {
 		add_filter(

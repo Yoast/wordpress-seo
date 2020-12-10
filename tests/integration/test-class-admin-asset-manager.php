@@ -226,7 +226,7 @@ class WPSEO_Admin_Asset_Manager_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_register_scripts() {
 
-		$this->bypass_php74_mockbuilder_deprecation_warning();
+		$this->expect_reflection_deprecation_warning_php74();
 
 		$asset_args = [
 			0 => [
@@ -247,17 +247,11 @@ class WPSEO_Admin_Asset_Manager_Test extends WPSEO_UnitTestCase {
 			->getMock();
 
 		$class_instance
-			->expects( $this->at( 0 ) )
+			->expects( $this->exactly( 2 ) )
 			->method( 'register_script' )
-			->with(
-				$this->equalTo( new WPSEO_Admin_Asset( $asset_args[0] ) )
-			);
-
-		$class_instance
-			->expects( $this->at( 1 ) )
-			->method( 'register_script' )
-			->with(
-				$this->equalTo( new WPSEO_Admin_Asset( $asset_args[1] ) )
+			->withConsecutive(
+				[ $this->equalTo( new WPSEO_Admin_Asset( $asset_args[0] ) ) ],
+				[ $this->equalTo( new WPSEO_Admin_Asset( $asset_args[1] ) ) ]
 			);
 
 		$class_instance->register_scripts( $asset_args );
@@ -270,7 +264,7 @@ class WPSEO_Admin_Asset_Manager_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_register_styles() {
 
-		$this->bypass_php74_mockbuilder_deprecation_warning();
+		$this->expect_reflection_deprecation_warning_php74();
 
 		$asset_args = [
 			0 => [
@@ -291,17 +285,11 @@ class WPSEO_Admin_Asset_Manager_Test extends WPSEO_UnitTestCase {
 			->getMock();
 
 		$class_instance
-			->expects( $this->at( 0 ) )
+			->expects( $this->exactly( 2 ) )
 			->method( 'register_style' )
-			->with(
-				$this->equalTo( new WPSEO_Admin_Asset( $asset_args[0] ) )
-			);
-
-		$class_instance
-			->expects( $this->at( 1 ) )
-			->method( 'register_style' )
-			->with(
-				$this->equalTo( new WPSEO_Admin_Asset( $asset_args[1] ) )
+			->withConsecutive(
+				[ $this->equalTo( new WPSEO_Admin_Asset( $asset_args[0] ) ) ],
+				[ $this->equalTo( new WPSEO_Admin_Asset( $asset_args[1] ) ) ]
 			);
 
 		$class_instance->register_styles( $asset_args );

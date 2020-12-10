@@ -5,10 +5,12 @@
  * @package WPSEO\Tests\Capabilities
  */
 
+use Yoast\WPTestUtils\WPIntegration\TestCase;
+
 /**
  * Unit Test Class.
  */
-class Capability_Manager_Tests extends PHPUnit_Framework_TestCase {
+class Capability_Manager_Tests extends TestCase {
 
 	/**
 	 * Tests whether capabilities are correctly registered.
