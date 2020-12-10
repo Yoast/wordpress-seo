@@ -2,7 +2,7 @@
 // The function will be further adjected anyways, so it makes no sense to randomly split it in smaller functions now.
 // The orginal stemmer is available at https://github.com/dmarman/lorca/blob/master/src/stemmer.js.
 import { buildOneFormFromRegex } from "../../../../helpers/morphology/buildFormRule";
-import createRulesFromMorphologyData from "../../../../helpers/morphology/createRulesFromMorphologyData";
+import createRulesFromArrays from "../../../../helpers/morphology/createRulesFromArrays";
 import { findMatchingEndingInArray } from "../../../../helpers/morphology/findMatchingEndingInArray";
 
 /**
@@ -103,7 +103,7 @@ const tryStemAsMente = function( word, r1Text, menteStemming ) {
 		return word;
 	}
 
-	return buildOneFormFromRegex( word, createRulesFromMorphologyData( menteStemming.menteToStem ) ) || word;
+	return buildOneFormFromRegex( word, createRulesFromArrays( menteStemming.menteToStem ) ) || word;
 };
 
 /**
@@ -124,7 +124,7 @@ const tryStemAsSuperlative = function( word, r1Text, superlativesStemming ) {
 		return word;
 	}
 
-	return buildOneFormFromRegex( word, createRulesFromMorphologyData( superlativesStemming.superlativeToStem ) ) || word;
+	return buildOneFormFromRegex( word, createRulesFromArrays( superlativesStemming.superlativeToStem ) ) || word;
 };
 
 /**
@@ -156,7 +156,7 @@ const tryStemAsDiminutive = function( word, diminutivesStemming ) {
 		}
 	}
 
-	return buildOneFormFromRegex( word, createRulesFromMorphologyData(  diminutivesStemming.diminutiveToStem ) ) || word;
+	return buildOneFormFromRegex( word, createRulesFromArrays(  diminutivesStemming.diminutiveToStem ) ) || word;
 };
 
 /**
