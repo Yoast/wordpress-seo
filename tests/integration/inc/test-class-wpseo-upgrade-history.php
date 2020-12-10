@@ -45,7 +45,7 @@ class WPSEO_Upgrade_History_Test extends WPSEO_UnitTestCase {
 	public function test_construct_with_default_option_name() {
 		$instance = new WPSEO_Upgrade_History();
 
-		$this->assertAttributeEquals( 'wpseo_upgrade_history', 'option_name', $instance );
+		$this->assertEquals( 'wpseo_upgrade_history', $this->getPropertyValue( $instance, 'option_name' ) );
 	}
 
 	/**
@@ -56,7 +56,7 @@ class WPSEO_Upgrade_History_Test extends WPSEO_UnitTestCase {
 	public function test_construct_with_given_option_name() {
 		$instance = new WPSEO_Upgrade_History( 'my_option_name' );
 
-		$this->assertAttributeEquals( 'my_option_name', 'option_name', $instance );
+		$this->assertEquals( 'my_option_name', $this->getPropertyValue( $instance, 'option_name' ) );
 	}
 
 	/**

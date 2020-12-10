@@ -62,7 +62,7 @@ class WPSEO_MyYoast_Api_Request_Test extends WPSEO_UnitTestCase {
 			->method( 'decode_response' );
 
 		$this->assertFalse( $instance->fire() );
-		$this->assertAttributeEquals( 'Request went wrong', 'error_message', $instance );
+		$this->assertEquals( 'Request went wrong', $this->getPropertyValue( $instance, 'error_message' ) );
 		$this->assertEquals( 'Request went wrong', $instance->get_error_message() );
 	}
 
@@ -89,7 +89,7 @@ class WPSEO_MyYoast_Api_Request_Test extends WPSEO_UnitTestCase {
 			->will( $this->returnValue( WPSEO_Utils::format_json_encode( $response ) ) );
 
 		$this->assertTrue( $instance->fire() );
-		$this->assertAttributeEquals( (object) $response, 'response', $instance );
+		$this->assertEquals( (object) $response, $this->getPropertyValue( $instance, 'response' ) );
 		$this->assertEquals( (object) $response, $instance->get_response() );
 	}
 
@@ -112,7 +112,7 @@ class WPSEO_MyYoast_Api_Request_Test extends WPSEO_UnitTestCase {
 			->will( $this->returnValue( 'raw_response' ) );
 
 		$this->assertFalse( $instance->fire() );
-		$this->assertAttributeEquals( 'No JSON object was returned.', 'error_message', $instance );
+		$this->assertEquals( 'No JSON object was returned.', $this->getPropertyValue( $instance, 'error_message' ) );
 	}
 
 	/**
