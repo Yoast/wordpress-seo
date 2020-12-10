@@ -121,7 +121,10 @@ class WPSEO_Taxonomy_Presenter_Test extends WPSEO_UnitTestCase {
 			]
 		);
 
-		$this->assertContains( '<select name="wpseo_fieldname" id="wpseo_fieldname"><option  value="value">option_value</option></select>', $output );
+		$this->assertStringContainsString(
+			'<select name="wpseo_fieldname" id="wpseo_fieldname"><option  value="value">option_value</option></select>',
+			$output
+		);
 	}
 
 	/**
@@ -145,7 +148,10 @@ class WPSEO_Taxonomy_Presenter_Test extends WPSEO_UnitTestCase {
 			]
 		);
 
-		$this->assertContains( '<input name="wpseo_fieldname" id="wpseo_fieldname" type="checkbox" />', $output );
+		$this->assertStringContainsString(
+			'<input name="wpseo_fieldname" id="wpseo_fieldname" type="checkbox" />',
+			$output
+		);
 	}
 
 	/**
@@ -165,7 +171,10 @@ class WPSEO_Taxonomy_Presenter_Test extends WPSEO_UnitTestCase {
 			]
 		);
 
-		$this->assertContains( '<input name="wpseo_fieldname" id="hidden_wpseo_fieldname" type="hidden" value="" />', $output );
+		$this->assertStringContainsString(
+			'<input name="wpseo_fieldname" id="hidden_wpseo_fieldname" type="hidden" value="" />',
+			$output
+		);
 	}
 
 	/**
@@ -185,8 +194,11 @@ class WPSEO_Taxonomy_Presenter_Test extends WPSEO_UnitTestCase {
 			]
 		);
 
-		$this->assertContains( '<input id="wpseo_fieldname" type="text" size="36" name="wpseo_fieldname" value="" readonly="readonly" />', $output );
-		$this->assertContains(
+		$this->assertStringContainsString(
+			'<input id="wpseo_fieldname" type="text" size="36" name="wpseo_fieldname" value="" readonly="readonly" />',
+			$output
+		);
+		$this->assertStringContainsString(
 			'<input id="wpseo_fieldname_button" class="wpseo_image_upload_button button" data-target="wpseo_fieldname" data-target-id="hidden_wpseo_fieldname-id" type="button" value="Upload Image" />',
 			$output
 		);
@@ -209,6 +221,9 @@ class WPSEO_Taxonomy_Presenter_Test extends WPSEO_UnitTestCase {
 			]
 		);
 
-		$this->assertContains( '<p id="wpseo_fieldname-desc" class="yoast-metabox__description">description for the field</p>', $output );
+		$this->assertStringContainsString(
+			'<p id="wpseo_fieldname-desc" class="yoast-metabox__description">description for the field</p>',
+			$output
+		);
 	}
 }

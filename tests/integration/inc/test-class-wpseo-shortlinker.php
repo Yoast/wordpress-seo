@@ -24,9 +24,9 @@ class WPSEO_Shortlinker_Test extends TestCase {
 
 		$shortlink = $shortlinks->build_shortlink( 'http://yoa.st/abcdefg' );
 
-		$this->assertContains( 'php_version', $shortlink );
-		$this->assertContains( 'platform_version', $shortlink );
-		$this->assertContains( 'software', $shortlink );
+		$this->assertStringContainsString( 'php_version', $shortlink );
+		$this->assertStringContainsString( 'platform_version', $shortlink );
+		$this->assertStringContainsString( 'software', $shortlink );
 	}
 
 	/**
@@ -39,9 +39,9 @@ class WPSEO_Shortlinker_Test extends TestCase {
 	public function test_get() {
 		$shortlink = WPSEO_Shortlinker::get( 'http://yoa.st/blaat' );
 
-		$this->assertContains( 'php_version', $shortlink );
-		$this->assertContains( 'platform_version', $shortlink );
-		$this->assertContains( 'software', $shortlink );
+		$this->assertStringContainsString( 'php_version', $shortlink );
+		$this->assertStringContainsString( 'platform_version', $shortlink );
+		$this->assertStringContainsString( 'software', $shortlink );
 	}
 
 	/**
