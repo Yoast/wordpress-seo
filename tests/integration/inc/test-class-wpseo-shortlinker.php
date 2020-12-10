@@ -5,10 +5,12 @@
  * @package WPSEO\Tests\Inc
  */
 
+use Yoast\WPTestUtils\WPIntegration\TestCase;
+
 /**
  * Unit Test Class.
  */
-class WPSEO_Shortlinker_Test extends PHPUnit_Framework_TestCase {
+class WPSEO_Shortlinker_Test extends TestCase {
 
 	/**
 	 * Tests building a shortlink.

@@ -5,10 +5,12 @@
  * @package WPSEO\Tests\Admin
  */
 
+use Yoast\WPTestUtils\WPIntegration\TestCase;
+
 /**
  * Tests WPSEO_Admin_Asset.
  */
-final class Test_WPSEO_Admin_Asset_SEO_Location extends PHPUnit_Framework_TestCase {
+final class Test_WPSEO_Admin_Asset_SEO_Location extends TestCase {
 
 	/**
 	 * Tests the get_url function.

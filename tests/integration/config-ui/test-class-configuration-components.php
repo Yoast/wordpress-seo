@@ -5,10 +5,12 @@
  * @package WPSEO\Tests\ConfigUI
  */
 
+use Yoast\WPTestUtils\WPIntegration\TestCase;
+
 /**
  * Class WPSEO_Configuration_Components_Tests.
  */
-class WPSEO_Configuration_Components_Tests extends PHPUnit_Framework_TestCase {
+class WPSEO_Configuration_Components_Tests extends TestCase {
 
 	/**
 	 * Holds the instance of the class being tested.

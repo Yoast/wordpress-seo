@@ -5,10 +5,12 @@
  * @package WPSEO\Tests\Admin
  */
 
+use Yoast\WPTestUtils\WPIntegration\TestCase;
+
 /**
  * Tests WPSEO_Admin_Asset_Dev_Server_Location.
  */
-final class Test_Admin_Asset_Dev_Server_Location extends PHPUnit_Framework_TestCase {
+final class Test_Admin_Asset_Dev_Server_Location extends TestCase {
 
 	/**
 	 * Default arguments to use for creating a new Admin_Asset.
