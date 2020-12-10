@@ -41,7 +41,7 @@ describe( "Test for creating regex-based rules for arrays of strings", function(
 			"'etje$",
 			"(e)(etje)$",
 		];
-		expect( createRulesFromArrays( inputArray ) ).toEqual( [ undefined, undefined ] );
+		expect( createRulesFromArrays( inputArray ) ).toEqual(   [ null, null ] );
 	} );
 
 	it( "returns a rule of triplets `reg`, `repl1` and `repl2` from a single array", function() {

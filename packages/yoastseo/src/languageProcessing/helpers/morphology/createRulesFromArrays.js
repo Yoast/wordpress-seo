@@ -5,7 +5,7 @@
  *                              and the second (and the third) is the replacement.
  * @param {string}  [flags=i]   The regex flags to use.
  *
- * @returns {{ reg: RegExp, repl: string }|{ reg: RegExp, repl1: string, repl2: string }} Object to be used in the regex-based rules.
+ * @returns {{ reg: RegExp, repl: string }|{ reg: RegExp, repl1: string, repl2: string }|null} Object to be used in the regex-based rules.
  */
 const createSingleRuleFromArray = function( rule, flags = "i" ) {
 	if ( rule.length === 2 ) {
@@ -21,6 +21,7 @@ const createSingleRuleFromArray = function( rule, flags = "i" ) {
 			repl2: rule[ 2 ],
 		};
 	}
+	return null;
 };
 
 /**

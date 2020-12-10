@@ -5,7 +5,7 @@ describe( "A test for building stems for an array of words", function() {
 	it( "returns an empty array if the input keyphrase is undefined", function() {
 		let keyphrase;
 		const forms = buildStems( keyphrase, baseStemmer, [] );
-		expect( forms ).toEqual( { exactMatch: false, stemOriginalPairs: [] } );
+		expect( forms ).toEqual( new TopicPhrase( [], false )  );
 	} );
 
 	it( "returns the exact match if the input string is embedded in quotation marks (the language and morphAnalyzer do not matter)", function() {
@@ -204,7 +204,7 @@ describe( "A test for topic phrase objects", function() {
 		const exactMatchTopicPhrase = new TopicPhrase(
 			[
 				new StemOriginalPair( "movie", "movie" ),
-				new StemOriginalPair( "work", "word" ),
+				new StemOriginalPair( "work", "work" ),
 			],
 			true,
 		);
