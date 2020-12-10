@@ -24,8 +24,8 @@ class Post_Conditional_Test extends TestCase {
 	/**
 	 * Does the setup for testing.
 	 */
-	public function setUp() {
-		parent::setUp();
+	public function set_up() {
+		parent::set_up();
 
 		$this->instance = new Post_Conditional();
 	}
