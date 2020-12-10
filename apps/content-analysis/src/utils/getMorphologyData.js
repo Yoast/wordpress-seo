@@ -40,7 +40,7 @@ function loadLocalMorphologyData() {
 	} catch ( error ) {
 		// Falling back to empty data.
 	}
-	return merge( data, dataDe, dataNL, dataES, dataFR, dataRU, dataIT, dataPT, dataID, dataPL, dataAR, dataSV, dataHE, dataHU );
+	return merge( data, dataDe, dataNL, dataES, dataFR, dataRU, dataIT, dataPT, dataID, dataPL, dataAR, dataSV, dataHE, dataHU, );
 }
 
 /**

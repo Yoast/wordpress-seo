@@ -12,6 +12,8 @@ import arabicDetermineStem from "../morphology/arabic/stem";
 import swedishDetermineStem from "../morphology/swedish/stem";
 import hungarianDetermineStem from "../morphology/hungarian/stem";
 import hebrewDetermineStem from "../morphology/hebrew/stem";
+import turkishDetermineStem from "../morphology/turkish/stem";
+
 
 /**
  * Collects all functions for determining a stem per language and returns this collection to a Researcher
@@ -34,5 +36,6 @@ export default function() {
 		sv: swedishDetermineStem,
 		hu: hungarianDetermineStem,
 		he: hebrewDetermineStem,
+		tr: turkishDetermineStem,
 	};
 }
