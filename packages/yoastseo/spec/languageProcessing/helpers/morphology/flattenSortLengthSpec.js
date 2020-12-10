@@ -1,4 +1,4 @@
-import { flattenSortLength } from "../../../src/languages/legacy/morphology/morphoHelpers/flattenSortLength";
+import { flattenSortLength } from "../../../../src/languageProcessing/helpers/morphology/flattenSortLength";
 
 const prefixesTestData = {
 	categoryA: [
@@ -13,8 +13,8 @@ const prefixesTestData = {
 	],
 };
 
-describe( "Test for getting all verb prefixes sorted by length", () => {
-	it( "gets all verb prefixes sorted by length", () => {
+describe( "Test for getting all strings/words sorted by length", () => {
+	it( "gets all strings/words sorted by length", () => {
 		expect( flattenSortLength( prefixesTestData ) ).toEqual( [
 			"aaa",
 			"bbb",
