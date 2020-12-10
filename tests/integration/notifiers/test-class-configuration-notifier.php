@@ -42,7 +42,9 @@ class WPSEO_Configuration_Notifier_Test extends WPSEO_UnitTestCase {
 	public function test_listen_when_notification_will_be_shown_and_dismissal_trigger_is_on() {
 		$notifier = $this
 			->getMockBuilder( 'WPSEO_Configuration_Notifier' )
-			->setConstructorArgs( [ 'show_onboarding_notice' => true ] )
+			->setConstructorArgs(
+				[ true ] // 'show_onboarding_notice'.
+			)
 			->setMethods( [ 'show_notification', 'dismissal_is_triggered', 'set_dismissed' ] )
 			->getMock();
 
@@ -71,7 +73,9 @@ class WPSEO_Configuration_Notifier_Test extends WPSEO_UnitTestCase {
 	public function test_listen_when_notification_is_not_shown() {
 		$notifier = $this
 			->getMockBuilder( 'WPSEO_Configuration_Notifier' )
-			->setConstructorArgs( [ 'show_onboarding_notice' => true ] )
+			->setConstructorArgs(
+				[ true ] // 'show_onboarding_notice'.
+			)
 			->setMethods( [ 'show_notification', 'dismissal_is_triggered', 'set_dismissed' ] )
 			->getMock();
 
@@ -99,7 +103,9 @@ class WPSEO_Configuration_Notifier_Test extends WPSEO_UnitTestCase {
 	public function test_listen_when_notification_is_show_but_trigger_is_not_on() {
 		$notifier = $this
 			->getMockBuilder( 'WPSEO_Configuration_Notifier' )
-			->setConstructorArgs( [ 'show_onboarding_notice' => true ] )
+			->setConstructorArgs(
+				[ true ] // 'show_onboarding_notice'.
+			)
 			->setMethods( [ 'show_notification', 'dismissal_is_triggered', 'set_dismissed' ] )
 			->getMock();
 
