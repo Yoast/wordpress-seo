@@ -1,4 +1,4 @@
-import { checkIfWordEndingIsOnExceptionList, checkIfWordIsOnVerbExceptionList } from "../../../../helpers/morphology/exceptionListHelpers.js";
+import { checkIfWordEndingIsOnExceptionList, checkIfWordIsOnListThatCanHavePrefix } from "../../../../helpers/morphology/exceptionListHelpers.js";
 
 /**
  * Checks whether the word is on any of the sub-lists of the noVowelDoublingList (ending match, exact match,
@@ -12,7 +12,7 @@ import { checkIfWordEndingIsOnExceptionList, checkIfWordIsOnVerbExceptionList } 
  */
 const checkIfWordIsOnNoVowelDoublingList = function( word, noVowelDoublingList, compoundVerbPrefixes ) {
 	if ( checkIfWordEndingIsOnExceptionList( word, noVowelDoublingList.endingMatch ) ||
-		checkIfWordIsOnVerbExceptionList( word, noVowelDoublingList.verbs, compoundVerbPrefixes ) ||
+		checkIfWordIsOnListThatCanHavePrefix( word, noVowelDoublingList.verbs, compoundVerbPrefixes ) ||
 		noVowelDoublingList.exactMatch.includes( word ) ) {
 		return true;
 	}
@@ -72,7 +72,7 @@ export function modifyStem( word, modificationGroup ) {
  */
 export function isVowelDoublingAllowed( word, morphologyDataNLStemmingExceptions, morphologyDataNLVerbPrefixes ) {
 	// Check whether the word is on the list of verbs which should have the vowel doubled (exception to third check)
-	const firstCheck = checkIfWordIsOnVerbExceptionList( word, morphologyDataNLStemmingExceptions.getVowelDoubling, morphologyDataNLVerbPrefixes );
+	const firstCheck = checkIfWordIsOnListThatCanHavePrefix( word, morphologyDataNLStemmingExceptions.getVowelDoubling, morphologyDataNLVerbPrefixes );
 	// Check whether the word is on the list of words which should NOT have the vowel doubled
 	const secondCheck = checkIfWordIsOnNoVowelDoublingList( word, morphologyDataNLStemmingExceptions.noVowelDoubling,
 		morphologyDataNLVerbPrefixes );

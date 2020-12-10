@@ -1,4 +1,5 @@
-import createRulesFromMorphologyData from "../../../src/languages/legacy/morphology/morphoHelpers/createRulesFromMorphologyData";
+import { createSingleRuleFromArray,
+	createRulesFromArrays } from "../../../../src/languageProcessing/helpers/morphology/createRulesFromArrays";
 
 describe( "Test for creating regex-based rules for arrays of strings", function() {
 	it( "returns an array of pairs `reg` and `repl`", function() {
@@ -18,7 +19,7 @@ describe( "Test for creating regex-based rules for arrays of strings", function(
 			{ reg: /([bcdfghjklmnpqrstvwxz])y$/i, repl: "$1ied" },
 			{ reg: /(.*)/i, repl: "$1ed" },
 		];
-		expect( createRulesFromMorphologyData( inputArray ) ).toEqual( outputArray );
+		expect( createRulesFromArrays( inputArray ) ).toEqual( outputArray );
 	} );
 
 	it( "returns an array of triplets `reg`, `repl1` and `repl2`", function() {
@@ -32,6 +33,20 @@ describe( "Test for creating regex-based rules for arrays of strings", function(
 			{ reg: /(ad|al|an|ang|anj|arg|at|ed|ent|er|esc|et|ett|in|ing|it|ott)os$/i, repl1: "$1o", repl2: "$1oes" },
 			{ reg: /(ad|al|an|ang|anj|arg|at|ed|ent|er|esc|et|ett|in|ing|it|ott)oes$/i, repl1: "$1o", repl2: "$1os" },
 		];
-		expect( createRulesFromMorphologyData( inputArray ) ).toEqual( outputArray );
+		expect( createRulesFromArrays( inputArray ) ).toEqual( outputArray );
+	} );
+
+	it( "returns an array of undefined if the regex doesn't contain pairs or triplets `reg` and `repl`", function() {
+		const inputArray = [
+			"'etje$",
+			"(e)(etje)$",
+		];
+		expect( createRulesFromArrays( inputArray ) ).toEqual(   [ null, null ] );
+	} );
+
+	it( "returns a rule of triplets `reg`, `repl1` and `repl2` from a single array", function() {
+		const inputArray = [ "(ad|al|an|ang|anj|arg|at|ed|ent|er|esc|et|ett|in|ing|it|ott)o$", "$1os", "$1oes" ];
+		const outputArray = { reg: /(ad|al|an|ang|anj|arg|at|ed|ent|er|esc|et|ett|in|ing|it|ott)o$/i, repl1: "$1os", repl2: "$1oes" };
+		expect( createSingleRuleFromArray( inputArray ) ).toEqual( outputArray );
 	} );
 } );

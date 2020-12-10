@@ -1,4 +1,4 @@
-import { checkIfWordEndingIsOnExceptionList, checkIfWordIsOnVerbExceptionList } from "../../../../helpers/morphology/exceptionListHelpers";
+import { checkIfWordEndingIsOnExceptionList, checkIfWordIsOnListThatCanHavePrefix } from "../../../../helpers/morphology/exceptionListHelpers";
 import { doesWordMatchRegex, searchAndReplaceWithRegex } from "../../../../helpers/morphology/regexHelpers";
 import { isVowelDoublingAllowed } from "./stemModificationHelpers";
 
@@ -64,7 +64,7 @@ const checkWhetherTOrDIsPartOfStem = function( word, morphologyDataNL ) {
 	}
 
 	if ( checkIfWordEndingIsOnExceptionList( word, tAndDPartOfStemData.wordsStemOnlyEnEnding.endingMatch ) ||
-		checkIfWordIsOnVerbExceptionList( word,
+		checkIfWordIsOnListThatCanHavePrefix( word,
 			tAndDPartOfStemData.wordsStemOnlyEnEnding.verbs, morphologyDataNL.pastParticipleStemmer.compoundVerbsPrefixes ) ||
 		doesWordMatchRegex( word, tAndDPartOfStemData.denEnding ) ) {
 		stemmedWord = word.slice( 0, -2 );

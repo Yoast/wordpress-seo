@@ -5,9 +5,9 @@
  *                              and the second (and the third) is the replacement.
  * @param {string}  [flags=i]   The regex flags to use.
  *
- * @returns {{ reg: RegExp, repl: string }|{ reg: RegExp, repl1: string, repl2: string }} Object to be used in the regex-based rules.
+ * @returns {{ reg: RegExp, repl: string }|{ reg: RegExp, repl1: string, repl2: string }|null} Object to be used in the regex-based rules.
  */
-const createSingleRuleFromMorphologyData = function( rule, flags = "i" ) {
+const createSingleRuleFromArray = function( rule, flags = "i" ) {
 	if ( rule.length === 2 ) {
 		return {
 			reg: new RegExp( rule[ 0 ], flags ),
@@ -21,6 +21,7 @@ const createSingleRuleFromMorphologyData = function( rule, flags = "i" ) {
 			repl2: rule[ 2 ],
 		};
 	}
+	return null;
 };
 
 /**
@@ -32,13 +33,13 @@ const createSingleRuleFromMorphologyData = function( rule, flags = "i" ) {
  *
  * @returns {Array} Array of objects to be used in the regex-based rules.
  */
-const createRulesFromMorphologyData = function( rules, flags = "i" ) {
-	return rules.map( rule => createSingleRuleFromMorphologyData( rule, flags ) );
+const createRulesFromArrays = function( rules, flags = "i" ) {
+	return rules.map( rule => createSingleRuleFromArray( rule, flags ) );
 };
 
 export {
-	createSingleRuleFromMorphologyData,
-	createRulesFromMorphologyData,
+	createSingleRuleFromArray,
+	createRulesFromArrays,
 };
 
-export default createRulesFromMorphologyData;
+export default createRulesFromArrays;
