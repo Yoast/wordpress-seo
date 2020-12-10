@@ -398,15 +398,14 @@ class Yoast_Network_Admin_Test extends WPSEO_UnitTestCase {
 		$this->expectException( 'WPDieException' );
 		$this->expectExceptionMessage( '' );
 
-		ob_start();
+		$this->expectOutputContains( 'success' );
 
 		try {
 			$admin->terminate_request();
 		} catch ( WPDieException $e ) {
-			$this->assertArrayHasKey( 'success', json_decode( ob_get_clean(), true ) );
+			$output_decoded = json_decode( $this->getActualOutput(), true );
+			$this->assertArrayHasKey( 'success', $output_decoded );
 			throw $e;
 		}
-
-		ob_get_clean();
 	}
 }

@@ -47,18 +47,31 @@ class WPSEO_Shortlinker_Test extends TestCase {
 	/**
 	 * Tests getting a shortlink.
 	 *
+	 * @dataProvider data_show
+	 *
 	 * @covers WPSEO_Shortlinker::show
 	 * @covers WPSEO_Shortlinker::get_php_version
 	 * @covers WPSEO_Shortlinker::get_software
+	 *
+	 * @param string $expected_output Substring expected to be found in the actual output.
 	 */
-	public function test_show() {
-		ob_start();
+	public function test_show( $expected_output ) {
 		WPSEO_Shortlinker::show( 'http://yoa.st/blaat' );
-		$shortlink = ob_get_clean();
 
-		$this->assertContains( 'php_version', $shortlink );
-		$this->assertContains( 'platform_version', $shortlink );
-		$this->assertContains( 'software', $shortlink );
+		$this->expectOutputContains( $expected_output );
+	}
+
+	/**
+	 * Data provider for the `test_show()` test.
+	 *
+	 * @return array
+	 */
+	public function data_show() {
+		return [
+			[ 'php_version' ],
+			[ 'platform_version' ],
+			[ 'software' ],
+		];
 	}
 
 	/**
