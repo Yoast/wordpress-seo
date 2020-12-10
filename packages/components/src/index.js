@@ -90,6 +90,7 @@ export { default as WordList } from "./WordList";
 export { default as WordOccurrences } from "./WordOccurrences";
 export { default as Checkbox } from "./Checkbox";
 export { VariableEditorInputContainer } from "./input/InputContainer";
+export { default as InsightsCard } from "./InsightsCard";
 
 export { ListTable, ZebrafiedListTable } from "./table/ListTable";
 export { Row } from "./table/Row";
