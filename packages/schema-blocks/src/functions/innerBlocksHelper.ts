@@ -22,4 +22,4 @@ function getInnerblocksByName( blockInstance: BlockInstance, blockNames: string[
 	return foundBlocks;
 }
 
-export { getInnerblocksByName };
+export getInnerblocksByName;
