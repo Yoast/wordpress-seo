@@ -40,9 +40,8 @@ function findRedundantBlocks( existingRequiredBlocks: BlockInstance[], requiredB
 	const onlyOneAllowed: string[] = [];
 	const invalidBlocks: InvalidBlock[] = [];
 
-	requiredBlocks
-		.filter( block => block.option === RequiredBlockOption.One )
-		.forEach( block => onlyOneAllowed.push( block.name ) );
+	onlyOneAllowed = requiredBlocks
+		.filter( block => block.option === RequiredBlockOption.One );
 	if ( onlyOneAllowed.length > 0 ) {
 		// Count the occurrences of each block so we can find all keys that have too many occurrences.
 		const countPerBlockType = countBy( existingRequiredBlocks, block => block.name );
