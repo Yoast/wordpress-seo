@@ -1,5 +1,5 @@
 // Replace all other punctuation characters at the beginning or at the end of a word.
-const punctuationRegexString = "[\\–\\-\\(\\)_\\[\\]’'.?!:;,¿¡«»‹›\u2014\u00d7\u002b\u0026\<\>]+";
+const punctuationRegexString = "[\\–\\-\\(\\)_\\[\\]’'.?!:;,¿¡«»‹›\u2014\u00d7\u002b\u0026<>]+";
 const punctuationRegexStart = new RegExp( "^" + punctuationRegexString );
 const punctuationRegexEnd = new RegExp( punctuationRegexString + "$" );
 

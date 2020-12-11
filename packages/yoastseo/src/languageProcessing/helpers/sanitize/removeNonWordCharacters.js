@@ -1,7 +1,7 @@
 /** @module stringProcessing/removeNonWordCharacters.js */
 
 /**
- * Removes all spaces and nonwordcharacters from a string.
+ * Removes all spaces and non-word characters from a string.
  *
  * @param {string} string The string to replace spaces from.
  * @returns {string} string The string without spaces.
