@@ -5,7 +5,7 @@ namespace Yoast\WP\SEO\Integrations;
 use WPSEO_Admin_Asset_Manager;
 use WPSEO_Replace_Vars;
 use Yoast\WP\SEO\Conditionals\Schema_Blocks_Conditional;
-use Yoast\WP\SEO\Context\Meta_Tags_Context;
+use Yoast\WP\SEO\Config\Schema_IDs;
 use Yoast\WP\SEO\Helpers\Schema\ID_Helper;
 use Yoast\WP\SEO\Memoizers\Meta_Tags_Context_Memoizer;
 
@@ -128,20 +128,32 @@ class Schema_Blocks implements Integration_Interface {
 	public function register_replace_vars() {
 		$context = $this->meta_tags_context_memoizer->for_current_page();
 
-		if ( ! $this->replace_vars->has_been_registered( '%%main_schema_id%%' ) ) {
-			WPSEO_Replace_Vars::register_replacement(
-				'%%main_schema_id%%',
-				static function() use ( $context ) {
-					return $context->main_schema_id;
-				}
-			);
-		}
+		$replace_vars = [
+			'main_schema_id'   => $context->main_schema_id,
+			'author_id'        => $this->id_helper->get_user_schema_id( $context->indexable->author_id, $context ),
+			'person_id'        => $context->site_url . Schema_IDs::PERSON_HASH,
+			'primary_image_id' => $context->canonical . Schema_IDs::PRIMARY_IMAGE_HASH,
+			'webpage_id'       => $context->canonical . Schema_IDs::WEBPAGE_HASH,
+			'website_id'       => $context->site_url . Schema_IDs::WEBSITE_HASH,
+		];
 
-		if ( ! $this->replace_vars->has_been_registered( '%%author_id%%' ) ) {
+		foreach ( $replace_vars as $var => $replace_function ) {
+			$this->maybe_register_replacement( $var, $replace_function );
+		}
+	}
+
+	/**
+	 * Registers a replace var and its replace function if it has not been registered yet.
+	 *
+	 * @param string $variable The replace variable, in the form of '%%variable%%'.
+	 * @param string $value    The value that the variable should be replaced with.
+	 */
+	protected function maybe_register_replacement( $variable, $value ) {
+		if ( ! $this->replace_vars->has_been_registered( $variable ) ) {
 			WPSEO_Replace_Vars::register_replacement(
-				'%%author_id%%',
-				function() use ( $context ) {
-					return $this->id_helper->get_user_schema_id( $context->indexable->author_id, $context );
+				$variable,
+				static function() use ( $value ) {
+					return $value;
 				}
 			);
 		}
@@ -169,7 +181,7 @@ class Schema_Blocks implements Integration_Interface {
 			if ( ! \file_exists( $template ) ) {
 				continue;
 			}
-			$type = ( \substr( $template, -10 ) === '.block.php' ) ? 'block' : 'schema';
+			$type = ( \substr( $template, - 10 ) === '.block.php' ) ? 'block' : 'schema';
 			echo '<script type="text/' . \esc_html( $type ) . '-template">';
 			include $template;
 			echo '</script>';
