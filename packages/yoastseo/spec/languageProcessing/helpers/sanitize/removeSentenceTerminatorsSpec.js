@@ -1,4 +1,4 @@
-import removeSentenceTerminators from "../../src/researches/stringProcessing/removeSentenceTerminators";
+import removeSentenceTerminators from "../../../../src/languageProcessing/helpers/sanitize/removeSentenceTerminators";
 
 describe( "a test removing sentence terminators from a string", function() {
 	it( "returns string without full stops", function() {

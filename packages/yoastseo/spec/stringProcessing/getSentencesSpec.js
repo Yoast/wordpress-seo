@@ -11,7 +11,7 @@ import {
 	listSentencesProcessed,
 	listParagraphsProcessed,
 	listParagraphsAndSentencesProcessed,
-} from "../stringProcessing/mergeListItemsSpec";
+} from "../languageProcessing/helpers/sanitize/mergeListItemsSpec";
 
 import { forEach } from "lodash-es";
 

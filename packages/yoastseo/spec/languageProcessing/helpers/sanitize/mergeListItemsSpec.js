@@ -1,4 +1,4 @@
-import { mergeListItems } from "../../src/researches/stringProcessing/mergeListItems";
+import { mergeListItems } from "../../../../src/languageProcessing/helpers/sanitize/mergeListItems";
 
 const paragraph1 = "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. In sit amet semper sem, id faucibus massa.</p>";
 
