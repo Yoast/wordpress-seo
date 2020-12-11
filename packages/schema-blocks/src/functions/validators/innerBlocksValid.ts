@@ -102,7 +102,7 @@ function getInvalidInnerBlocks( blockInstance: BlockInstance, requiredBlocks: Re
 	invalidBlocks.push( ...findRedundantBlocks( existingRequiredBlocks, requiredBlocks ) );
 
 	// Find all blocks that have decided for themselves that they're invalid.
-	// InvalidBlocks.push( ...findSelfInvalidatedBlocks( blockInstance, requiredBlocks ) );
+	// Need Herre: InvalidBlocks.push( ...findSelfInvalidatedBlocks( blockInstance, requiredBlocks ) );
 
 	return invalidBlocks;
 }
