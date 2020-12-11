@@ -4,17 +4,25 @@ export { default as date } from "./date";
 export { default as excerpt } from "./excerpt";
 export { default as focusKeyphrase } from "./focusKeyphrase";
 export { default as id } from "./id";
+export { default as modified } from "./modified";
+export { default as name } from "./name";
 export { default as page } from "./page";
+export { default as pageNumber } from "./pageNumber";
+export { default as pageTotal } from "./pageTotal";
+export { default as postTypeNamePlural } from "./postTypeNamePlural";
+export { default as postTypeNameSingular } from "./postTypeNameSingular";
 export { default as primaryCategory } from "./primaryCategory";
 export { default as searchPhrase } from "./searchPhrase";
 export { default as separator } from "./separator";
 export { default as siteDescription } from "./siteDescription";
 export { default as siteName } from "./siteName";
 export { default as tag } from "./tag";
+export { default as term404 } from "./term404";
 export { default as termDescription } from "./termDescription";
 export { default as termHierarchy } from "./termHierarchy";
 export { default as termTitle } from "./termTitle";
 export { default as title } from "./title";
+export { default as userDescription } from "./userDescription";
 
 /*
  * Exports all the general replacement variables.

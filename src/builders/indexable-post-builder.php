@@ -301,19 +301,20 @@ class Indexable_Post_Builder {
 	 */
 	protected function get_indexable_lookup() {
 		return [
-			'focuskw'               => 'primary_focus_keyword',
-			'canonical'             => 'canonical',
-			'title'                 => 'title',
-			'metadesc'              => 'description',
-			'bctitle'               => 'breadcrumb_title',
-			'opengraph-title'       => 'open_graph_title',
-			'opengraph-image'       => 'open_graph_image',
-			'opengraph-image-id'    => 'open_graph_image_id',
-			'opengraph-description' => 'open_graph_description',
-			'twitter-title'         => 'twitter_title',
-			'twitter-image'         => 'twitter_image',
-			'twitter-image-id'      => 'twitter_image_id',
-			'twitter-description'   => 'twitter_description',
+			'focuskw'                        => 'primary_focus_keyword',
+			'canonical'                      => 'canonical',
+			'title'                          => 'title',
+			'metadesc'                       => 'description',
+			'bctitle'                        => 'breadcrumb_title',
+			'opengraph-title'                => 'open_graph_title',
+			'opengraph-image'                => 'open_graph_image',
+			'opengraph-image-id'             => 'open_graph_image_id',
+			'opengraph-description'          => 'open_graph_description',
+			'twitter-title'                  => 'twitter_title',
+			'twitter-image'                  => 'twitter_image',
+			'twitter-image-id'               => 'twitter_image_id',
+			'twitter-description'            => 'twitter_description',
+			'estimated-reading-time-minutes' => 'estimated_reading_time_minutes',
 		];
 	}
 

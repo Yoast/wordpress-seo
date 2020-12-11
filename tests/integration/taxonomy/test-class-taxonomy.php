@@ -5,12 +5,14 @@
  * @package WPSEO\Tests\Taxonomy
  */
 
+use Yoast\WPTestUtils\WPIntegration\TestCase;
+
 /**
  * Unit Test Class.
  *
  * @coversDefaultClass WPSEO_Taxonomy
  */
-class WPSEO_Taxonomy_Test extends PHPUnit_Framework_TestCase {
+class WPSEO_Taxonomy_Test extends TestCase {
 
 	/**
 	 * Make sure certain pages are marked as term edit.

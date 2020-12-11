@@ -64,9 +64,11 @@ abstract class TestCase extends YoastTestCase {
 	/**
 	 * Tests if the output buffer contains the provided strings.
 	 *
-	 * @param string|array $expected Expected output.
+	 * @param string|array $expected        Expected output.
+	 * @param bool         $ignore_eol_diff Ignore. Temporary until this method has been removed
+	 *                                      in favour of the WP Test Utils `expectOutputContains()` method.
 	 */
-	protected function expectOutputContains( $expected ) {
+	public function expectOutputContains( $expected, $ignore_eol_diff = true ) {
 		$output = \preg_replace( '|\R|', "\r\n", \ob_get_contents() );
 		\ob_clean();
 

@@ -35,7 +35,7 @@ class WPSEO_Configuration_Endpoint_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_set_service() {
 
-		$this->bypass_php74_mockbuilder_deprecation_warning();
+		$this->expect_reflection_deprecation_warning_php74();
 
 		$service = $this->getMockBuilder( 'WPSEO_Configuration_Service' )->getMock();
 

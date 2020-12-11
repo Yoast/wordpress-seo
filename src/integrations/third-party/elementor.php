@@ -529,6 +529,13 @@ class Elementor implements Integration_Interface {
 			'tag',
 			'category',
 			'primary_category',
+			'pt_single',
+			'pt_plural',
+			'modified',
+			'name',
+			'user_description',
+			'pagetotal',
+			'pagenumber',
 		];
 
 		foreach ( $vars_to_cache as $var ) {

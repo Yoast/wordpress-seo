@@ -93,9 +93,9 @@ class WPSEO_Import_Premium_SEO_Pack_Test extends WPSEO_UnitTestCase {
 	 *
 	 * @covers WPSEO_Import_Premium_SEO_Pack::run_import
 	 * @covers WPSEO_Import_Premium_SEO_Pack::import
-	 * @covers WPSEO_Import_Premium_SEO_Pack::import_post_values
-	 * @covers WPSEO_Import_Premium_SEO_Pack::retrieve_post_data
-	 * @covers WPSEO_Import_Premium_SEO_Pack::maybe_add_focus_kw
+	 * @covers WPSEO_Import_Squirrly::import_post_values
+	 * @covers WPSEO_Import_Squirrly::retrieve_post_data
+	 * @covers WPSEO_Import_Squirrly::maybe_add_focus_kw
 	 * @covers WPSEO_Import_Premium_SEO_Pack::retrieve_posts_query
 	 * @covers WPSEO_Import_Premium_SEO_Pack::retrieve_posts
 	 */
@@ -127,9 +127,9 @@ class WPSEO_Import_Premium_SEO_Pack_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Import_Premium_SEO_Pack::run_import
 	 * @covers WPSEO_Import_Premium_SEO_Pack::import
 	 * @covers WPSEO_Import_Premium_SEO_Pack::import_meta_helper
-	 * @covers WPSEO_Import_Premium_SEO_Pack::import_post_values
+	 * @covers WPSEO_Import_Squirrly::import_post_values
 	 * @covers WPSEO_Import_Premium_SEO_Pack::maybe_save_post_meta
-	 * @covers WPSEO_Import_Premium_SEO_Pack::retrieve_post_data
+	 * @covers WPSEO_Import_Squirrly::retrieve_post_data
 	 */
 	public function test_import_without_overwriting_data() {
 		$post_id = $this->setup_post( true );
@@ -157,8 +157,8 @@ class WPSEO_Import_Premium_SEO_Pack_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Import_Premium_SEO_Pack::run_import
 	 * @covers WPSEO_Import_Premium_SEO_Pack::import
 	 * @covers WPSEO_Import_Premium_SEO_Pack::import_meta_helper
-	 * @covers WPSEO_Import_Premium_SEO_Pack::import_post_values
-	 * @covers WPSEO_Import_Premium_SEO_Pack::retrieve_post_data
+	 * @covers WPSEO_Import_Squirrly::import_post_values
+	 * @covers WPSEO_Import_Squirrly::retrieve_post_data
 	 */
 	public function test_import_without_seo_column_in_db() {
 		$this->setup_post();

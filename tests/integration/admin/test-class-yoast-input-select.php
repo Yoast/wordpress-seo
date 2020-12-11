@@ -31,9 +31,9 @@ class Yoast_Input_Select_Test extends WPSEO_UnitTestCase {
 		);
 		$html   = $select->get_html();
 
-		$this->assertContains( '<select name="test-field" id="test-id">', $html );
-		$this->assertContains( '<option value="foo">bar</option>', $html );
-		$this->assertContains( '<option value="baz">foo</option>', $html );
+		$this->assertStringContainsString( '<select name="test-field" id="test-id">', $html );
+		$this->assertStringContainsString( '<option value="foo">bar</option>', $html );
+		$this->assertStringContainsString( '<option value="baz">foo</option>', $html );
 	}
 
 	/**
@@ -49,9 +49,9 @@ class Yoast_Input_Select_Test extends WPSEO_UnitTestCase {
 		$select = new Yoast_Input_Select( 'test-id', 'test-field', [], false );
 		$html   = $select->get_html();
 
-		$this->assertContains( '<select name="test-field" id="test-id">', $html );
-		$this->assertNotContains( '<option', $html );
-		$this->assertNotContains( '</option>', $html );
+		$this->assertStringContainsString( '<select name="test-field" id="test-id">', $html );
+		$this->assertStringNotContainsString( '<option', $html );
+		$this->assertStringNotContainsString( '</option>', $html );
 	}
 
 	/**
@@ -74,9 +74,9 @@ class Yoast_Input_Select_Test extends WPSEO_UnitTestCase {
 		);
 		$html   = $select->get_html();
 
-		$this->assertContains( '<select name="test-field" id="test-id">', $html );
-		$this->assertContains( '<option value="foo">bar</option>', $html );
-		$this->assertContains( '<option value="baz" selected=\'selected\'>foo</option>', $html );
+		$this->assertStringContainsString( '<select name="test-field" id="test-id">', $html );
+		$this->assertStringContainsString( '<option value="foo">bar</option>', $html );
+		$this->assertStringContainsString( '<option value="baz" selected=\'selected\'>foo</option>', $html );
 	}
 
 	/**
@@ -92,8 +92,8 @@ class Yoast_Input_Select_Test extends WPSEO_UnitTestCase {
 		$select = new Yoast_Input_Select( 'test-id', 'test-field', [ '' => 'bar' ], false );
 		$html   = $select->get_html();
 
-		$this->assertContains( '<select name="test-field" id="test-id">', $html );
-		$this->assertContains( '<option value="" selected=\'selected\'>bar</option>', $html );
+		$this->assertStringContainsString( '<select name="test-field" id="test-id">', $html );
+		$this->assertStringContainsString( '<option value="" selected=\'selected\'>bar</option>', $html );
 	}
 
 	/**
@@ -109,8 +109,8 @@ class Yoast_Input_Select_Test extends WPSEO_UnitTestCase {
 		$select = new Yoast_Input_Select( 'test-id', 'test-field', [ 'foo' => '' ], false );
 		$html   = $select->get_html();
 
-		$this->assertContains( '<select name="test-field" id="test-id">', $html );
-		$this->assertContains( '<option value="foo"></option>', $html );
+		$this->assertStringContainsString( '<select name="test-field" id="test-id">', $html );
+		$this->assertStringContainsString( '<option value="foo"></option>', $html );
 	}
 
 	/**
@@ -126,7 +126,7 @@ class Yoast_Input_Select_Test extends WPSEO_UnitTestCase {
 		$select->output_html();
 
 		// Because the output has empty values.
-		$this->expectOutput( "<select name=\"test-field\" id=\"test-id\">\n\t</select>\n" );
+		$this->expectOutputString( "<select name=\"test-field\" id=\"test-id\">\n\t</select>\n" );
 	}
 
 	/**
@@ -144,6 +144,6 @@ class Yoast_Input_Select_Test extends WPSEO_UnitTestCase {
 		$select->add_attribute( 'class', 'test' );
 		$html = $select->get_html();
 
-		$this->assertContains( '<select class="test" name="test-field" id="test-id">', $html );
+		$this->assertStringContainsString( '<select class="test" name="test-field" id="test-id">', $html );
 	}
 }
