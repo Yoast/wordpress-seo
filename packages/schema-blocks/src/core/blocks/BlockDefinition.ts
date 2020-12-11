@@ -20,7 +20,7 @@ export type MutableBlockConfiguration = {
 }
 
 /**
- * BlockDefinition class
+ * BlockDefinition class.
  */
 export default class BlockDefinition extends Definition {
 	public static separatorCharacters = [ "@", "#", "$", "%", "^", "&", "*", "(", ")", "{", "}", "[", "]" ];
