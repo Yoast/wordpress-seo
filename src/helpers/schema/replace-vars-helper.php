@@ -1,17 +1,17 @@
 <?php
 
-namespace Yoast\WP\SEO\Integrations;
+namespace Yoast\WP\SEO\Helpers\Schema;
 
 use WPSEO_Replace_Vars;
 use Yoast\WP\SEO\Conditionals\No_Conditionals;
 use Yoast\WP\SEO\Config\Schema_IDs;
-use Yoast\WP\SEO\Helpers\Schema\ID_Helper;
 use Yoast\WP\SEO\Memoizers\Meta_Tags_Context_Memoizer;
+use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 
 /**
- * Registers the Schema replace variables.
+ * Registers the Schema replace variables and exposes a method to replace variables on a Schema graph.
  */
-class Schema_Replace_Vars implements Integration_Interface {
+class Replace_Vars_Helper {
 
 	use No_Conditionals;
 
@@ -54,10 +54,25 @@ class Schema_Replace_Vars implements Integration_Interface {
 	}
 
 	/**
-	 * Registers the appropriate hooks needed for this integration to work.
+	 * Replaces the variables.
+	 *
+	 * @param array                  $schema_data  The Schema data.
+	 * @param Indexable_Presentation $presentation The indexable presentation.
+	 *
+	 * @return array The array with replaced vars.
 	 */
-	public function register_hooks() {
-		\add_action( 'wpseo_json_ld', [ $this, 'register_replace_vars' ] );
+	public function replace( array $schema_data, Indexable_Presentation $presentation ) {
+		foreach ( $schema_data as $key => $value ) {
+			if ( \is_array( $value ) ) {
+				$schema_data[ $key ] = $this->replace( $value, $presentation );
+
+				continue;
+			}
+
+			$schema_data[ $key ] = $this->replace_vars->replace( $value, $presentation->source );
+		}
+
+		return $schema_data;
 	}
 
 	/**

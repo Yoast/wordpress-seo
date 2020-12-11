@@ -3,10 +3,9 @@
 namespace Yoast\WP\SEO\Generators;
 
 use WP_Block_Parser_Block;
-use WPSEO_Replace_Vars;
 use Yoast\WP\SEO\Context\Meta_Tags_Context;
 use Yoast\WP\SEO\Generators\Schema\Abstract_Schema_Piece;
-use Yoast\WP\SEO\Presentations\Indexable_Presentation;
+use Yoast\WP\SEO\Helpers\Schema\Replace_Vars_Helper;
 use Yoast\WP\SEO\Surfaces\Helpers_Surface;
 
 /**
@@ -22,21 +21,24 @@ class Schema_Generator implements Generator_Interface {
 	protected $helpers;
 
 	/**
-	 * The replace vars.
+	 * The Schema replace vars helper.
 	 *
-	 * @var WPSEO_Replace_Vars
+	 * @var Replace_Vars_Helper
 	 */
-	protected $replace_vars;
+	protected $schema_replace_vars_helper;
 
 	/**
 	 * Generator constructor.
 	 *
-	 * @param Helpers_Surface    $helpers      The helpers surface.
-	 * @param WPSEO_Replace_Vars $replace_vars The replace vars.
+	 * @param Helpers_Surface     $helpers                    The helpers surface.
+	 * @param Replace_Vars_Helper $schema_replace_vars_helper The replace vars helper.
 	 */
-	public function __construct( Helpers_Surface $helpers, WPSEO_Replace_Vars $replace_vars ) {
-		$this->helpers      = $helpers;
-		$this->replace_vars = $replace_vars;
+	public function __construct(
+		Helpers_Surface $helpers,
+		Replace_Vars_Helper $schema_replace_vars_helper
+	) {
+		$this->helpers                    = $helpers;
+		$this->schema_replace_vars_helper = $schema_replace_vars_helper;
 	}
 
 	/**
@@ -138,7 +140,8 @@ class Schema_Generator implements Generator_Interface {
 			}
 		}
 
-		$graph = $this->replace_vars( $graph, $context->presentation );
+		$this->schema_replace_vars_helper->register_replace_vars();
+		$graph = $this->schema_replace_vars_helper->replace( $graph, $context->presentation );
 
 		return [
 			'@context' => 'https://schema.org',
@@ -217,28 +220,6 @@ class Schema_Generator implements Generator_Interface {
 		 * @api array $pieces The schema pieces.
 		 */
 		return \apply_filters( 'wpseo_schema_graph_pieces', $schema_pieces, $context );
-	}
-
-	/**
-	 * Replaces the variables.
-	 *
-	 * @param array                  $schema_data  The Schema data.
-	 * @param Indexable_Presentation $presentation The indexable presentation.
-	 *
-	 * @return array The array with replaced vars.
-	 */
-	protected function replace_vars( array $schema_data, Indexable_Presentation $presentation ) {
-		foreach ( $schema_data as $key => $value ) {
-			if ( \is_array( $value ) ) {
-				$schema_data[ $key ] = $this->replace_vars( $value, $presentation );
-
-				continue;
-			}
-
-			$schema_data[ $key ] = $this->replace_vars->replace( $value, $presentation->source );
-		}
-
-		return $schema_data;
 	}
 
 	/**
