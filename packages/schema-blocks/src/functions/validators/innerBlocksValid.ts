@@ -117,7 +117,7 @@ function getInvalidInnerBlocks( blockInstance: BlockInstance, requiredBlocks: Re
  */
 function createInvalidBlock( name: string, reason: InvalidBlockReason ): InvalidBlock {
 	const block: InvalidBlock = {
-		name: name,
+	name,
 		reason,
 	};
 	return block;
