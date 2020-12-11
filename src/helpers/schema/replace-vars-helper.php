@@ -92,25 +92,35 @@ class Replace_Vars_Helper {
 			'website_id'       => $context->site_url . Schema_IDs::WEBSITE_HASH,
 		];
 
-		foreach ( $replace_vars as $var => $replace_function ) {
-			$this->maybe_register_replacement( $var, $replace_function );
+		foreach ( $replace_vars as $var => $value ) {
+			$this->maybe_register_replacement( $var, $value );
 		}
 	}
 
 	/**
-	 * Registers a replace var and its replace function if it has not been registered yet.
+	 * Registers a replace var and its value if it has not been registered yet.
 	 *
-	 * @param string $variable The replace variable, in the form of '%%variable%%'.
+	 * @param string $variable The replace variable.
 	 * @param string $value    The value that the variable should be replaced with.
 	 */
 	protected function maybe_register_replacement( $variable, $value ) {
 		if ( ! $this->replace_vars->has_been_registered( $variable ) ) {
-			WPSEO_Replace_Vars::register_replacement(
-				$variable,
-				static function() use ( $value ) {
-					return $value;
-				}
-			);
+			$this->register_replacement( $variable, $value );
 		}
+	}
+
+	/**
+	 * Registers a replace var and its value.
+	 *
+	 * @param string $variable The replace variable.
+	 * @param string $value    The value that the variable should be replaced with.
+	 */
+	protected function register_replacement( $variable, $value ) {
+		WPSEO_Replace_Vars::register_replacement(
+			$variable,
+			static function() use ( $value ) {
+				return $value;
+			}
+		);
 	}
 }
