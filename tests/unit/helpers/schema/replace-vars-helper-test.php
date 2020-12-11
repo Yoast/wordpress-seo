@@ -142,8 +142,30 @@ class Replace_Vars_Helper_Test extends TestCase {
 	 * @covers ::replace
 	 */
 	public function test_replace() {
-		$presentation = Mockery::mock( Indexable_Presentation::class );
+		$schema_data = [
+			'blockName' => 'FAQ Block',
+			'attrs'     => [
+				'questions' => [
+					[
+						'id'           => 'id-1',
+						'jsonQuestion' => 'This is a question',
+						'jsonAnswer'   => 'This is an answer',
+					],
+					[
+						'id'           => 'id-2',
+						'jsonQuestion' => 'This is a question with no answer',
+					],
+				],
+			],
+		];
 
-		$this->instance->replace( [], $presentation );
+		$presentation         = Mockery::mock( Indexable_Presentation::class );
+		$presentation->source = [];
+
+		$this->replace_vars
+			->expects( 'replace' )
+			->times( 6 );
+
+		$this->instance->replace( $schema_data, $presentation );
 	}
 }
