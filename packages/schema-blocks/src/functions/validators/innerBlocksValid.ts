@@ -37,14 +37,13 @@ function findMissingBlocks( existingRequiredBlocks: BlockInstance[], requiredBlo
  * @returns {InvalidBlock[]} The names of blocks that occur more than once in the inner blocks with reason 'TooMany'.
  */
 function findRedundantBlocks( existingRequiredBlocks: BlockInstance[], requiredBlocks: RequiredBlock[] ): InvalidBlock[] {
-	const onlyOneAllowed: string[] = [];
 	const invalidBlocks: InvalidBlock[] = [];
 
-	onlyOneAllowed = requiredBlocks
-		.filter( block => block.option === RequiredBlockOption.One );
+	const onlyOneAllowed = requiredBlocks.filter( block => block.option === RequiredBlockOption.One );
+
 	if ( onlyOneAllowed.length > 0 ) {
 		// Count the occurrences of each block so we can find all keys that have too many occurrences.
-		const countPerBlockType = countBy( existingRequiredBlocks, block => block.name );
+		const countPerBlockType = countBy( existingRequiredBlocks, ( block: BlockInstance ) => block.name );
 		for ( const blockName in countPerBlockType ) {
 			if ( countPerBlockType[ blockName ] > 1 ) {
 				invalidBlocks.push( createInvalidBlock( blockName, InvalidBlockReason.TooMany ) );
@@ -117,7 +116,7 @@ function getInvalidInnerBlocks( blockInstance: BlockInstance, requiredBlocks: Re
  */
 function createInvalidBlock( name: string, reason: InvalidBlockReason ): InvalidBlock {
 	const block: InvalidBlock = {
-	name,
+		name,
 		reason,
 	};
 	return block;
