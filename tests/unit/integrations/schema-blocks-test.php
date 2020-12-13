@@ -234,7 +234,7 @@ class Schema_Blocks_Test extends TestCase {
 
 		$this->instance->output();
 
-		$this->expectEmptyOutput();
+		$this->expectOutputString( '' );
 	}
 
 	/**
@@ -253,7 +253,7 @@ class Schema_Blocks_Test extends TestCase {
 
 		$this->instance->output();
 
-		$this->expectEmptyOutput();
+		$this->expectOutputString( '' );
 	}
 
 	/**
@@ -272,6 +272,6 @@ class Schema_Blocks_Test extends TestCase {
 
 		$this->instance->output();
 
-		$this->expectEmptyOutput();
+		$this->expectOutputString( '' );
 	}
 }

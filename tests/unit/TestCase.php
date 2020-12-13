@@ -46,22 +46,6 @@ abstract class TestCase extends YoastTestCase {
 	}
 
 	/**
-	 * Tests for expected output.
-	 *
-	 * @param string $expected    Expected output.
-	 * @param string $description Explanation why this result is expected.
-	 */
-	protected function expectOutput( $expected, $description = '' ) {
-		$output = \ob_get_contents();
-		\ob_clean();
-
-		$output   = \preg_replace( '|\R|', "\r\n", $output );
-		$expected = \preg_replace( '|\R|', "\r\n", $expected );
-
-		$this->assertEquals( $expected, $output, $description );
-	}
-
-	/**
 	 * Tests if the output buffer contains the provided strings.
 	 *
 	 * @param string|array $expected        Expected output.
@@ -99,19 +83,5 @@ abstract class TestCase extends YoastTestCase {
 			$found = \strpos( $output, $needle );
 			$this->assertTrue( $found === false, \sprintf( 'Expected "%s" to be found in "%s" but couldn\'t find it.', $needle, $output ) );
 		}
-	}
-
-	/**
-	 * Tests for expected empty output.
-	 *
-	 * @param string $description Explanation why this result is expected.
-	 */
-	protected function expectEmptyOutput( $description = '' ) {
-		$output = \ob_get_contents();
-		\ob_clean();
-
-		$output = \preg_replace( '|\R|', "\r\n", $output );
-
-		$this->assertEmpty( $output, $description );
 	}
 }

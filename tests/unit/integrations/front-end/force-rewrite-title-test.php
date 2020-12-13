@@ -133,7 +133,7 @@ class Force_Rewrite_Title_Test extends TestCase {
 
 		$this->instance->flush_cache();
 
-		$this->expectOutput( $expected_output );
+		$this->expectOutputString( $expected_output );
 	}
 
 	/**
@@ -175,7 +175,7 @@ class Force_Rewrite_Title_Test extends TestCase {
 		$expected_output .= '<meta rel="yoast" value="meta" />';
 		$expected_output .= '<!-- / Yoast SEO plugin. -->';
 
-		$this->expectOutput( $expected_output );
+		$this->expectOutputString( $expected_output );
 	}
 
 	/**
@@ -218,7 +218,7 @@ class Force_Rewrite_Title_Test extends TestCase {
 		$expected_output .= '<meta rel="yoast" value="meta" />';
 		$expected_output .= '<!-- / Yoast SEO plugin. -->';
 
-		$this->expectOutput( $expected_output );
+		$this->expectOutputString( $expected_output );
 	}
 
 	/**
