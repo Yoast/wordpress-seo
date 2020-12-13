@@ -168,7 +168,7 @@ class Schema_Blocks_Test extends TestCase {
 			->once()
 			->andReturnTrue();
 
-		$this->instance->register_template( WPSEO_PATH . '/src/schema-templates/recipe.block.php' );
+		$this->instance->register_template( 'src/schema-templates/recipe.block.php' );
 		$this->instance->output();
 
 		$this->expectOutputContains( '<script type="text/block-template">' );
