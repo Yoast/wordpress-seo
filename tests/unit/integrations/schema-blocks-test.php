@@ -188,8 +188,7 @@ class Schema_Blocks_Test extends TestCase {
 
 		$this->instance->output();
 
-		$this->instance->register_template( WPSEO_PATH . '/src/schema-templates/recipe.block.php' );
-		$this->expectOutputNotContains( '<script type="text/block-template">' );
+		$this->expectOutputString( '' );
 	}
 
 	/**

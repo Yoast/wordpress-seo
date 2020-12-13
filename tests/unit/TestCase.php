@@ -44,23 +44,4 @@ abstract class TestCase extends YoastTestCase {
 		// This is required to ensure backfill and other statics are set.
 		WPSEO_Options::get_instance();
 	}
-
-	/**
-	 * Tests if the output buffer doesn't contain the provided strings.
-	 *
-	 * @param string|array $needles Expected output.
-	 */
-	protected function expectOutputNotContains( $needles ) {
-		$output = \preg_replace( '|\R|', "\r\n", \ob_get_contents() );
-		\ob_clean();
-
-		if ( ! \is_array( $needles ) ) {
-			$needles = [ $needles ];
-		}
-
-		foreach ( $needles as $needle ) {
-			$found = \strpos( $output, $needle );
-			$this->assertTrue( $found === false, \sprintf( 'Expected "%s" to be found in "%s" but couldn\'t find it.', $needle, $output ) );
-		}
-	}
 }

@@ -104,10 +104,17 @@ class Metabox_Section_Additional_Test extends TestCase {
 	 * @covers WPSEO_Metabox_Section_Additional::display_link
 	 */
 	public function test_display_link_no_aria_label() {
-		$section = new WPSEO_Metabox_Section_Additional( 'additional-tab', 'Additional Tab', 'Additional Content', [ 'link_class' => 'additional-class' ] );
+		$section = new WPSEO_Metabox_Section_Additional(
+			'additional-tab',
+			'Additional Tab',
+			'Additional Content',
+			[ 'link_class' => 'additional-class' ]
+		);
 
 		$section->display_link();
 
-		$this->expectOutputNotContains( [ 'aria-label' ] );
+		$this->expectOutputContains( 'href="#wpseo-meta-section-additional-tab"' );
+
+		$this->assertStringNotContainsString( 'aria-label', $this->getActualOutput() );
 	}
 }
