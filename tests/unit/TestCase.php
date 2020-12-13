@@ -46,27 +46,6 @@ abstract class TestCase extends YoastTestCase {
 	}
 
 	/**
-	 * Tests if the output buffer contains the provided strings.
-	 *
-	 * @param string|array $expected        Expected output.
-	 * @param bool         $ignore_eol_diff Ignore. Temporary until this method has been removed
-	 *                                      in favour of the WP Test Utils `expectOutputContains()` method.
-	 */
-	public function expectOutputContains( $expected, $ignore_eol_diff = true ) {
-		$output = \preg_replace( '|\R|', "\r\n", \ob_get_contents() );
-		\ob_clean();
-
-		if ( ! \is_array( $expected ) ) {
-			$expected = [ $expected ];
-		}
-
-		foreach ( $expected as $needle ) {
-			$found = \strpos( $output, $needle );
-			$this->assertTrue( $found !== false, \sprintf( 'Expected "%s" to be found in "%s" but couldn\'t find it.', $needle, $output ) );
-		}
-	}
-
-	/**
 	 * Tests if the output buffer doesn't contain the provided strings.
 	 *
 	 * @param string|array $needles Expected output.
