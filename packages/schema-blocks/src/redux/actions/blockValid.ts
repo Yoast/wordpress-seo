@@ -8,7 +8,7 @@ export const SET_BLOCK_VALID = "SET_BLOCK_VALID";
  *
  * @returns {Object} An action for redux.
  */
-export function setBlockIsValid( clientID, validStatus ) {
+export function setBlockIsValid( clientID: string, validStatus: boolean ): Record<string, string | boolean> {
 	return {
 		type: SET_BLOCK_VALID,
 		clientID: clientID,
