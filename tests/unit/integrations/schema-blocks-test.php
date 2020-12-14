@@ -168,7 +168,7 @@ class Schema_Blocks_Test extends TestCase {
 			->once()
 			->andReturnTrue();
 
-		$this->instance->register_template( WPSEO_PATH . '/src/schema-templates/recipe.block.php' );
+		$this->instance->register_template( 'src/schema-templates/recipe.block.php' );
 		$this->instance->output();
 
 		$this->expectOutputContains( '<script type="text/block-template">' );
@@ -188,8 +188,7 @@ class Schema_Blocks_Test extends TestCase {
 
 		$this->instance->output();
 
-		$this->instance->register_template( WPSEO_PATH . '/src/schema-templates/recipe.block.php' );
-		$this->expectOutputNotContains( '<script type="text/block-template">' );
+		$this->expectOutputString( '' );
 	}
 
 	/**
@@ -234,7 +233,7 @@ class Schema_Blocks_Test extends TestCase {
 
 		$this->instance->output();
 
-		$this->expectEmptyOutput();
+		$this->expectOutputString( '' );
 	}
 
 	/**
@@ -253,7 +252,7 @@ class Schema_Blocks_Test extends TestCase {
 
 		$this->instance->output();
 
-		$this->expectEmptyOutput();
+		$this->expectOutputString( '' );
 	}
 
 	/**
@@ -272,6 +271,6 @@ class Schema_Blocks_Test extends TestCase {
 
 		$this->instance->output();
 
-		$this->expectEmptyOutput();
+		$this->expectOutputString( '' );
 	}
 }

@@ -123,6 +123,6 @@ class Migration_Error_Integration_Test extends TestCase {
 
 		$this->instance->render_migration_error();
 
-		$this->expectOutput( $expected );
+		$this->expectOutputString( $expected );
 	}
 }
