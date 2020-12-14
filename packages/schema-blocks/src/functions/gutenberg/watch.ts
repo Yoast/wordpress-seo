@@ -101,6 +101,6 @@ export default function watch() {
 		updatingSchema = false;
 
 		console.log( rootBlocks );
-		updateValidStatus( rootBlocks );
+		// updateValidStatus( rootBlocks );
 	} );
 }

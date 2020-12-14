@@ -37,3 +37,5 @@ export default function initialize() {
 	// Watch Gutenberg for block changes that require schema updates.
 	watch();
 }
+
+export { setBlockIsValid } from "./redux/actions/blockValid";
