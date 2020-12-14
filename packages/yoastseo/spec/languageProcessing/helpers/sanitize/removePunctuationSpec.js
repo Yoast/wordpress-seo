@@ -1,6 +1,6 @@
-import removePunctuation from "../../src/researches/stringProcessing/removePunctuation.js";
+import removePunctuation from "../../../../src/languageProcessing/helpers/sanitize/removePunctuation.js";
 
-describe( "a test removing punctuation from a string", function() {
+describe( "a test for removing punctuation from a string", function() {
 	it( "returns string without dash at the end", function() {
 		expect( removePunctuation( "test-" ) ).toBe( "test" );
 	} );
@@ -36,6 +36,7 @@ describe( "Removing punctuation at the begin and end of a word", function() {
 		expect( removePunctuation( "'word×" ) ).toBe( "word" );
 		expect( removePunctuation( "'word+" ) ).toBe( "word" );
 		expect( removePunctuation( "'word&" ) ).toBe( "word" );
+		expect( removePunctuation( "“word”" ) ).toBe( "word" );
 	} );
 } );
 

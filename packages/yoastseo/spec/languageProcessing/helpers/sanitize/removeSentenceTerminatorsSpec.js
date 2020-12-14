@@ -1,4 +1,4 @@
-import removeSentenceTerminators from "../../src/researches/stringProcessing/removeSentenceTerminators";
+import removeSentenceTerminators from "../../../../src/languageProcessing/helpers/sanitize/removeSentenceTerminators";
 
 describe( "a test removing sentence terminators from a string", function() {
 	it( "returns string without full stops", function() {
@@ -9,7 +9,7 @@ describe( "a test removing sentence terminators from a string", function() {
 		expect( removeSentenceTerminators( "te-st" ) ).toBe( "te-st" );
 	} );
 
-	it( "returns string width question marks in the words", function() {
+	it( "returns string without question marks in the words", function() {
 		expect( removeSentenceTerminators( "t?e?st" ) ).toBe( "test" );
 	} );
 } );

@@ -1,5 +1,5 @@
 // These are sentence terminators, that never should be in the middle of a word.
-var sentenceTerminators = /[.?!:;,]/g;
+const sentenceTerminators = /[.?!:;,]/g;
 
 /**
  * Replaces sentence terminators from the text.
