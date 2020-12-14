@@ -3,6 +3,7 @@ import { subscribe, select, dispatch } from "@wordpress/data";
 
 import SchemaDefinition, { schemaDefinitions } from "../../core/schema/SchemaDefinition";
 import { BlockInstance } from "@wordpress/blocks";
+import updateValidStatus from "./updateValidStatus";
 
 let updatingSchema = false;
 let previousRootBlocks: BlockInstance[];
@@ -98,5 +99,8 @@ export default function watch() {
 		generateSchemaForBlocks( rootBlocks, previousRootBlocks );
 		previousRootBlocks = rootBlocks;
 		updatingSchema = false;
+
+		console.log( rootBlocks );
+		updateValidStatus( rootBlocks );
 	} );
 }
