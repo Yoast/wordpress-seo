@@ -1,6 +1,6 @@
 import removePunctuationExceptQuotes from "../../../../src/languageProcessing/helpers/sanitize/removePunctuationExceptQuotes.js";
 
-describe( "a test removing punctuation from a string", function() {
+describe( "a test for removing punctuation from a string", function() {
 	it( "returns string without dash at the end", function() {
 		expect( removePunctuationExceptQuotes( "test-" ) ).toBe( "test" );
 	} );
@@ -22,7 +22,7 @@ describe( "a test removing punctuation from a string", function() {
 	} );
 } );
 
-describe( "Removing punctuation at the begin and end of a word", function() {
+describe( "Removing punctuation at the beginning and end of a word", function() {
 	it( "returns a word without punctuation.", function() {
 		expect( removePunctuationExceptQuotes( "word." ) ).toBe( "word" );
 		expect( removePunctuationExceptQuotes( "10.000" ) ).toBe( "10.000" );

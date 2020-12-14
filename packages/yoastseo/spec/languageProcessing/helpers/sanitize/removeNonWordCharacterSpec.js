@@ -1,6 +1,6 @@
 import removeNonWord from "../../../../src/languageProcessing/helpers/sanitize/removeNonWordCharacters.js";
 
-describe( "a test removing spaces from a string", function() {
+describe( "a test for removing non-word characters from a string", function() {
 	it( "returns string without spaces", function() {
 		expect( removeNonWord( " test " ) ).toBe( "test" );
 		expect( removeNonWord( " test. " ) ).toBe( "test" );
