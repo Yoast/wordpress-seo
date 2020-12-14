@@ -4,7 +4,7 @@ import {
 	stripWordBoundariesEverywhere,
 } from "../../../../src/languageProcessing/helpers/sanitize/stripWordBoundaries.js";
 
-describe( "function to remove word boundaries from words", function() {
+describe( "A test to check if word boundaries are removed from words.", function() {
 	it( "returns a string with word boundaries in the beginning of the word removed", function() {
 		expect( stripWordBoundariesStart( "?keyword" ) ).toBe( "keyword" );
 		expect( stripWordBoundariesStart( ".keyword" ) ).toBe( "keyword" );

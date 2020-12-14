@@ -1,6 +1,6 @@
 import sanitizeString from "../../../../src/languageProcessing/helpers/sanitize/sanitizeString.js";
 
-describe( "Test for removing unwanted characters", function() {
+describe( "Test for removing unwanted characters.", function() {
 	it( "returns cleaned string", function() {
 		// Because regexes are now properly escaped, there is no need to strip characters like * from the keyword.
 		expect( sanitizeString( "keyword*?!.+-[]()<>«»:;/\\‹›" ) ).toBe( "keyword*?!.+-[]()<>«»:;/\\‹›" );
