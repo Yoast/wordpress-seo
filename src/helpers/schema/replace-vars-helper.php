@@ -112,6 +112,8 @@ class Replace_Vars_Helper {
 	/**
 	 * Registers a replace var and its value.
 	 *
+	 * @codeCoverageIgnore Wraps a static method that cannot be tested.
+	 *
 	 * @param string $variable The replace variable.
 	 * @param string $value    The value that the variable should be replaced with.
 	 */

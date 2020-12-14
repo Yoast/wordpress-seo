@@ -75,6 +75,7 @@ class Replace_Vars_Helper_Test extends TestCase {
 	/**
 	 * Tests the registration of the Schema ID replace vars.
 	 *
+	 * @covers ::__construct
 	 * @covers ::register_replace_vars
 	 * @covers ::maybe_register_replacement
 	 */
@@ -139,6 +140,7 @@ class Replace_Vars_Helper_Test extends TestCase {
 	/**
 	 * Tests the replace method.
 	 *
+	 * @covers ::__construct
 	 * @covers ::replace
 	 */
 	public function test_replace() {
@@ -160,12 +162,39 @@ class Replace_Vars_Helper_Test extends TestCase {
 		];
 
 		$presentation         = Mockery::mock( Indexable_Presentation::class );
-		$presentation->source = [];
+		$presentation->source = [ 'post_content' => 'some text' ];
 
-		$this->replace_vars
-			->expects( 'replace' )
-			->times( 6 );
+		$values = $this->array_values_recursively( $schema_data );
+
+		// We expect all the schema values (the leafs) to be run through the replace vars.
+		foreach ( $values as $value ) {
+			$this->replace_vars
+				->expects( 'replace' )
+				->with( $value, $presentation->source );
+		}
 
 		$this->instance->replace( $schema_data, $presentation );
+	}
+
+	/**
+	 * Returns all the values of the given nested array as one flat array.
+	 *
+	 * @param array $array A nested array of key-value pairs.
+	 *
+	 * @return array All of the values in the nested array.
+	 */
+	protected function array_values_recursively( $array ) {
+		$merged = [];
+
+		foreach ( $array as $value ) {
+			if ( is_array( $value ) ) {
+				$merged[] = $this->array_values_recursively( $value );
+			}
+			else {
+				$merged[] = [ $value ];
+			}
+		}
+
+		return \array_merge( ...$merged );
 	}
 }
