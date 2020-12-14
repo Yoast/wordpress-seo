@@ -121,6 +121,8 @@ class Schema_Generator implements Generator_Interface {
 			}
 		}
 
+		$this->schema_replace_vars_helper->register_replace_vars();
+
 		foreach ( $context->blocks as $block_type => $blocks ) {
 			foreach ( $blocks as $block ) {
 				/**
@@ -135,13 +137,10 @@ class Schema_Generator implements Generator_Interface {
 				$graph      = \apply_filters( 'wpseo_schema_block_' . $block_type, $graph, $block, $context );
 
 				if ( isset( $block['attrs']['yoast-schema'] ) ) {
-					$graph[] = $block['attrs']['yoast-schema'];
+					$graph[] = $this->schema_replace_vars_helper->replace( $block['attrs']['yoast-schema'], $context->presentation );
 				}
 			}
 		}
-
-		$this->schema_replace_vars_helper->register_replace_vars();
-		$graph = $this->schema_replace_vars_helper->replace( $graph, $context->presentation );
 
 		return [
 			'@context' => 'https://schema.org',
