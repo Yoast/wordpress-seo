@@ -58,9 +58,9 @@ const transitionWords = [ "دوباره", "قطعاً", "حتماً", "اصلا�
 	"وقتی", "زمانی که", "به خاطر", "مخصوصاً", "مشخصاً", "در کل", "بعد", "قبل", "تا" ];
 
 /**
- * Returns function words for Hebrew.
+ * Returns function words for Farsi.
  *
- * @returns {Object} Hebrew function words.
+ * @returns {Object} Farsi function words.
  */
 export default function() {
 	return {
