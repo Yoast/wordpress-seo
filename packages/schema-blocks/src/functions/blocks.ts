@@ -1,4 +1,4 @@
-import { select } from "@wordpress/data";
+import { dispatch, select } from "@wordpress/data";
 
 /**
  * Gets attributes of inner blocks.
@@ -20,4 +20,24 @@ export function getInnerBlocksAttributes( clientId: string, blocks: Record<strin
 	}
 
 	return values;
+}
+
+/**
+ * Removes a block from the editor.
+ *
+ * @param {string} clientId The client id of the block to remove.
+ */
+export function removeBlock( clientId: string ) {
+	dispatch( "core/block-editor" ).removeBlock( clientId );
+}
+
+/**
+ * Finds the block type in the list of registered blocks in the block editor.
+ *
+ * @param {string} blockName The block to search for.
+ *
+ * @return {BlockInstruction} The found block.
+ */
+export function getBlockType( blockName: string ) {
+	return select( "core/blocks" ).getBlockType( blockName );
 }

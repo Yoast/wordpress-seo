@@ -1,16 +1,14 @@
 import { createElement, ComponentClass, Fragment } from "@wordpress/element";
 import { InnerBlocks as WordPressInnerBlocks, InspectorControls } from "@wordpress/block-editor";
 import { PanelBody, PanelRow } from "@wordpress/components";
-import { TemplateArray, createBlock, BlockInstance } from "@wordpress/blocks";
-import { dispatch, select } from "@wordpress/data";
-import {Component, DetailedReactHTMLElement, ReactElement} from "react";
+import { TemplateArray, createBlock } from "@wordpress/blocks";
 
 import BlockInstruction from "../../core/blocks/BlockInstruction";
 import { RenderEditProps, RenderSaveProps } from "../../core/blocks/BlockDefinition";
 import { RequiredBlock } from "./dto";
 import getInvalidInnerBlocks from "../../functions/validators/innerBlocksValid";
-import { getInnerBlocks, getInnerblocksByName } from "../../functions/innerBlocksHelper";
-import getBlockType from "../../functions/blocks/getBlockType";
+import { getInnerBlocks, getInnerblocksByName, insertBlockToInnerBlock } from "../../functions/innerBlocksHelper";
+import { removeBlock, getBlockType } from "../../functions/blocks";
 
 /**
  * The InnerBlocks instruction.
@@ -92,7 +90,7 @@ export default class InnerBlocks extends BlockInstruction {
 						onClick: () => {
 							const blocksToRemove = getInnerblocksByName( [ requiredBlockName ], innerBlocks );
 							blocksToRemove.forEach( ( blockToRemove ) => {
-								dispatch( "core/block-editor" ).removeBlock( blockToRemove.clientId );
+								removeBlock( blockToRemove.clientId );
 							} );
 						},
 					}, blockType.title + " -" ) );
@@ -106,8 +104,7 @@ export default class InnerBlocks extends BlockInstruction {
 						{
 							onClick: () => {
 								const block = createBlock( requiredBlockName );
-								// @ts-ignore
-								dispatch( "core/block-editor" ).insertBlocks( block, null, props.clientId );
+								insertBlockToInnerBlock( block, props.clientId );
 							},
 						},
 						blockType.title + " +",
