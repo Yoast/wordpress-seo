@@ -1,6 +1,6 @@
 import { removeSuffixesFromFullForm, removeSuffixFromFullForm } from "../../../../src/languageProcessing/helpers/morphology/stemHelpers";
 
-describe( "Test to check whether a word is started with one of the words in a given list of exceptions" +
+describe( "Test to check whether a word starts with one of the words in a given list" +
 	" and ends in one of the suffixes in a given suffixes list.", () => {
 	it( "deletes the suffix if a word is started with one of the words in a given list of exceptions" +
 		" and ends in one of the suffixes in a given suffixes list.", () => {

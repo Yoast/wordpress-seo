@@ -1,6 +1,6 @@
 import { flattenSortLength } from "../../../../src/languageProcessing/helpers/morphology/flattenSortLength";
 
-const prefixesTestData = {
+const stringsTestData = {
 	categoryA: [
 		"aaa",
 		"bbb",
