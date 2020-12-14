@@ -15,9 +15,9 @@ const ordinalNumerals = [ "første", "først", "sekund", "tredje", "fjerde", "fe
 
 const pronouns = [
 	// Personal pronouns.
-	"jeg", "du", "den", "vi", "de", "han", "hun", "henne", "oss", "hennes", "meg", "ham", "dem",
+	"jeg", "du", "den", "vi", "de", "han", "hun", "henne", "oss", "meg", "ham", "dem",
 	// Possessive pronouns.
-	"vår", "deres", "ditt", "mitt", "våre", "vårt", "egen", "egne",
+	"vår", "deres", "ditt", "mitt", "våre", "vårt", "hans", "hennes", "dens", "egen", "egne",
 	// Demonstrative pronouns.
 	"denne", "dette", "disse",
 	// Relative pronouns.
