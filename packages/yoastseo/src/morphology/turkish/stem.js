@@ -1,0 +1,19 @@
+import TurkishStemmer from "../../../vendor/turkishStemmer";
+
+/**
+ * Stems Turkish words.
+ *
+ * @param {string} word            The word to stem.
+ * @param {Object} morphologyData  The Turkish morphology data.
+ *
+ * @returns {string} The stemmed word.
+ */
+export default function stem( word, morphologyData ) {
+	word = word.toLowerCase();
+
+	const stemmer = new TurkishStemmer();
+	stemmer.setCurrent( word );
+	stemmer.stem();
+
+	return stemmer.getCurrent();
+}
