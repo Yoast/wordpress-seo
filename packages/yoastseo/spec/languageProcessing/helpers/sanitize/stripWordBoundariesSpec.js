@@ -1,6 +1,8 @@
-import { stripWordBoundariesStart } from "../../src/researches/stringProcessing/stripWordBoundaries.js";
-import { stripWordBoundariesEnd } from "../../src/researches/stringProcessing/stripWordBoundaries.js";
-import { stripWordBoundariesEverywhere } from "../../src/researches/stringProcessing/stripWordBoundaries.js";
+import {
+	stripWordBoundariesStart,
+	stripWordBoundariesEnd,
+	stripWordBoundariesEverywhere,
+} from "../../../../src/languageProcessing/helpers/sanitize/stripWordBoundaries.js";
 
 describe( "function to remove word boundaries from words", function() {
 	it( "returns a string with word boundaries in the beginning of the word removed", function() {
@@ -24,9 +26,7 @@ describe( "function to remove word boundaries from words", function() {
 		expect( stripWordBoundariesStart( "›keyword" ) ).toBe( "keyword" );
 		expect( stripWordBoundariesStart( "<keyword" ) ).toBe( "keyword" );
 		expect( stripWordBoundariesStart( ">keyword" ) ).toBe( "keyword" );
-
 		expect( stripWordBoundariesStart( ">! \"keyword" ) ).toBe( "keyword" );
-
 		expect( stripWordBoundariesStart( "keyword" ) ).toBe( "keyword" );
 	} );
 
@@ -50,9 +50,7 @@ describe( "function to remove word boundaries from words", function() {
 		expect( stripWordBoundariesEnd( "keyword›" ) ).toBe( "keyword" );
 		expect( stripWordBoundariesEnd( "keyword<" ) ).toBe( "keyword" );
 		expect( stripWordBoundariesEnd( "keyword>" ) ).toBe( "keyword" );
-
 		expect( stripWordBoundariesEnd( "keyword< ?." ) ).toBe( "keyword" );
-
 		expect( stripWordBoundariesEnd( "keyword" ) ).toBe( "keyword" );
 	} );
 

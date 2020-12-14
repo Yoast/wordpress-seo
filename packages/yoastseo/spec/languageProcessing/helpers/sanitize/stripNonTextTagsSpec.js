@@ -1,4 +1,4 @@
-import stripSomeTags from "../../src/researches/stringProcessing/stripNonTextTags.js";
+import stripSomeTags from "../../../../src/languageProcessing/helpers/sanitize/stripNonTextTags.js";
 
 describe( "a test for removing the tags from a given text", function() {
 	it( "returns a text without tags, except h1-6, li, dd and p", function() {
