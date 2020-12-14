@@ -1,5 +1,5 @@
-import transitionWordsFactory from "./transitionWords.js";
-const transitionWords = transitionWordsFactory().singleWords;
+// import transitionWordsFactory from "./transitionWords.js";
+// const transitionWords = transitionWordsFactory().singleWords;
 
 /**
  * Returns an object with function words.
@@ -77,6 +77,6 @@ export default function() {
 		all: [].concat( articles, cardinalNumerals, ordinalNumerals, pronouns, interrogatives,
 			quantifiers, reflexivePronouns, indefinitePronouns, prepositions, conjunctions, interviewVerbs,
 			intensifiers, auxiliariesAndDelexicalizedVerbs, generalAdjectivesAdverbs, interjections, recipeWords,
-			timeWords, vagueNouns, miscellaneous, transitionWords ),
+			timeWords, vagueNouns, miscellaneous ),
 	};
 }
