@@ -1,5 +1,5 @@
 import getWords from "../helpers/word/getWords.js";
-import countSyllables from "../helpers/syllables/count.js";
+import countSyllables from "../helpers/syllables/countSyllables.js";
 import getSentences from "../helpers/sentence/getSentences.js";
 
 import { map } from "lodash-es";

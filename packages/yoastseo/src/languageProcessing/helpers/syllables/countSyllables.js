@@ -22,11 +22,11 @@ import DeviationFragment from "./DeviationFragment";
  *
  * @returns {number} the syllable count.
  */
-var countVowelGroups = function( word, syllables ) {
-	var numberOfSyllables = 0;
-	var vowelRegex = new RegExp( "[^" + syllables.vowels + "]", "ig" );
-	var foundVowels = word.split( vowelRegex );
-	var filteredWords = filter( foundVowels, function( vowel ) {
+const countVowelGroups = function( word, syllables ) {
+	let numberOfSyllables = 0;
+	const vowelRegex = new RegExp( "[^" + syllables.vowels + "]", "ig" );
+	const foundVowels = word.split( vowelRegex );
+	const filteredWords = filter( foundVowels, function( vowel ) {
 		return vowel !== "";
 	} );
 	numberOfSyllables += filteredWords.length;
@@ -43,8 +43,8 @@ var countVowelGroups = function( word, syllables ) {
  *
  * @returns {number} The number of syllables found in the given word.
  */
-var countVowelDeviations = function( word, syllables ) {
-	var syllableCountIterator = new SyllableCountIterator( syllables );
+const countVowelDeviations = function( word, syllables ) {
+	const syllableCountIterator = new SyllableCountIterator( syllables );
 	return syllableCountIterator.countSyllables( word );
 };
 
@@ -56,10 +56,10 @@ var countVowelDeviations = function( word, syllables ) {
  *
  * @returns {number} The number of syllables found.
  */
-var countFullWordDeviations = function( word, syllables ) {
-	var fullWordDeviations = syllables.deviations.words.full;
+const countFullWordDeviations = function( word, syllables ) {
+	const fullWordDeviations = syllables.deviations.words.full;
 
-	var deviation = find( fullWordDeviations, function( fullWordDeviation ) {
+	const deviation = find( fullWordDeviations, function( fullWordDeviation ) {
 		return fullWordDeviation.word === word;
 	} );
 
@@ -77,9 +77,9 @@ var countFullWordDeviations = function( word, syllables ) {
  * @returns {DeviationFragment[]} A list of deviation fragments
  */
 function createDeviationFragments( syllableConfig ) {
-	var deviationFragments = [];
+	let deviationFragments = [];
 
-	var deviations = syllableConfig.deviations;
+	const deviations = syllableConfig.deviations;
 
 	if ( ! isUndefined( deviations.words ) && ! isUndefined( deviations.words.fragments ) ) {
 		deviationFragments = flatMap( deviations.words.fragments, function( fragments, fragmentLocation ) {
@@ -94,7 +94,7 @@ function createDeviationFragments( syllableConfig ) {
 	return deviationFragments;
 }
 
-var createDeviationFragmentsMemoized = memoize( createDeviationFragments );
+const createDeviationFragmentsMemoized = memoize( createDeviationFragments );
 
 /**
  * Counts syllables in partial exclusions. If these are found, returns the number of syllables  found, and the modified word.
@@ -105,10 +105,10 @@ var createDeviationFragmentsMemoized = memoize( createDeviationFragments );
  *
  * @returns {object} The number of syllables found and the modified word.
  */
-var countPartialWordDeviations = function( word, syllables ) {
-	var deviationFragments = createDeviationFragmentsMemoized( syllables );
-	var remainingParts = word;
-	var syllableCount = 0;
+const countPartialWordDeviations = function( word, syllables ) {
+	const deviationFragments = createDeviationFragmentsMemoized( syllables );
+	let remainingParts = word;
+	let syllableCount = 0;
 
 	forEach( deviationFragments, function( deviationFragment ) {
 		if ( deviationFragment.occursIn( remainingParts ) ) {
@@ -128,8 +128,8 @@ var countPartialWordDeviations = function( word, syllables ) {
  *
  * @returns {number} The number of syllables found in a word.
  */
-var countUsingVowels = function( word, syllables ) {
-	var syllableCount = 0;
+const countUsingVowels = function( word, syllables ) {
+	let syllableCount = 0;
 
 	syllableCount += countVowelGroups( word, syllables );
 	syllableCount += countVowelDeviations( word, syllables );
@@ -145,15 +145,15 @@ var countUsingVowels = function( word, syllables ) {
  *
  * @returns {number} The syllable count for the word.
  */
-var countSyllablesInWord = function( word, syllables ) {
-	var syllableCount = 0;
+const countSyllablesInWord = function( word, syllables ) {
+	let syllableCount = 0;
 
-	var fullWordExclusion = countFullWordDeviations( word, syllables );
+	const fullWordExclusion = countFullWordDeviations( word, syllables );
 	if ( fullWordExclusion !== 0 ) {
 		return fullWordExclusion;
 	}
 
-	var partialExclusions = countPartialWordDeviations( word, syllables );
+	const partialExclusions = countPartialWordDeviations( word, syllables );
 	word = partialExclusions.word;
 	syllableCount += partialExclusions.syllableCount;
 	syllableCount += countUsingVowels( word, syllables );
@@ -170,11 +170,11 @@ var countSyllablesInWord = function( word, syllables ) {
  *
  * @returns {int} The total number of syllables found in the text.
  */
-var countSyllablesInText = function( text, syllables ) {
+const countSyllablesInText = function( text, syllables ) {
 	text = text.toLocaleLowerCase();
-	var words = getWords( text );
+	const words = getWords( text );
 
-	var syllableCounts = map( words,  function( word ) {
+	const syllableCounts = map( words,  function( word ) {
 		return countSyllablesInWord( word, syllables );
 	} );
 
