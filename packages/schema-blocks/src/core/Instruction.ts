@@ -1,10 +1,9 @@
-import { RenderEditProps, RenderSaveProps } from "./blocks/BlockDefinition";
+import { BlockInstance } from "@wordpress/blocks";
 
 export type InstructionPrimitive = string | number | boolean;
 export type InstructionValue = InstructionPrimitive | InstructionObject | InstructionArray;
 export type InstructionObject = { [member: string]: InstructionValue };
 export type InstructionArray = readonly InstructionValue[];
-
 export type InstructionOptions = InstructionObject;
 export type InstructionClass<T extends Instruction> = {
 	new( id: number, options: InstructionOptions ): T;
@@ -55,11 +54,11 @@ export default abstract class Instruction {
 	/**
 	 * Checks if the instruction block is valid.
 	 *
-	 * @param props The properties to check.
+	 * @param blockInstance The block to check.
 	 *
 	 * @returns `true` if the instruction block is valid, `false` if the block contains errors.
 	 */
-	valid( props: RenderSaveProps | RenderEditProps ): boolean {
+	valid( blockInstance: BlockInstance ): boolean {
 		return true;
 	}
 	/* eslint-enable @typescript-eslint/no-unused-vars */
