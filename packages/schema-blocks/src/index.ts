@@ -1,11 +1,18 @@
 import "./instructions";
-import process from "./functions/process";
-import SchemaDefinition from "./core/schema/SchemaDefinition";
-import SchemaInstruction from "./core/schema/SchemaInstruction";
-import BlockDefinition from "./core/blocks/BlockDefinition";
-import BlockInstruction from "./core/blocks/BlockInstruction";
+import { processSchema, processBlock } from "./functions/process";
 import watch from "./functions/gutenberg/watch";
 import filter from "./functions/gutenberg/filter";
+
+/**
+ * Removes all whitespace including line breaks from a string.
+ *
+ * @param text The text to remove the whitespace from.
+ *
+ * @returns {string} The converted string.
+ */
+function removeWhitespace( text: string ): string {
+	return text.split( "\n" ).map( ( s: string ) => s.trim() ).join( "" );
+}
 
 /**
  * Initializes schema-templates.
@@ -13,11 +20,11 @@ import filter from "./functions/gutenberg/filter";
 export default function initialize() {
 	jQuery( 'script[type="text/schema-template"]' ).each( function() {
 		try {
-			const template = this.innerHTML.split( "\n" ).map( s => s.trim() ).join( "" );
-			const definition = process( template, SchemaDefinition, SchemaInstruction );
+			const template = removeWhitespace( this.innerHTML );
+			const definition = processSchema( template );
 			definition.register();
 		} catch ( e ) {
-			console.error( "Failed parsing schema-template", e, this );
+			console.error( "Failed to parse schema-template", e, this );
 		}
 	} );
 
@@ -26,11 +33,11 @@ export default function initialize() {
 
 	jQuery( 'script[type="text/block-template"]' ).each( function() {
 		try {
-			const template = this.innerHTML.split( "\n" ).map( s => s.trim() ).join( "" );
-			const definition = process( template, BlockDefinition, BlockInstruction );
+			const template = removeWhitespace( this.innerHTML );
+			const definition = processBlock( template );
 			definition.register();
 		} catch ( e ) {
-			console.error( "Failed parsing guten-template", e, this );
+			console.error( "Failed to parse gutenberg-template", e, this );
 		}
 	} );
 
