@@ -17,11 +17,8 @@ const pronouns = [
 	"vår", "deres", "ditt", "mitt", "våre", "vårt", "hans", "hennes", "dens", "egen", "egne",
 	// Demonstrative pronouns.
 	"denne", "dette", "disse",
-	// Relative pronouns.
-
 	// Reciprocal pronouns.
-	"hverandre", "hvert"
-	 ];
+	"hverandre", "hvert" ];
 
 const interrogatives = [ "hvem", "hvordan", "hvorfor", "hvor", "hva", "hvilken", "hvilket" ];
 
