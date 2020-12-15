@@ -89,10 +89,16 @@ export default function watch() {
 		}
 
 		const rootBlocks = select( "core/block-editor" ).getBlocks();
-
 		if ( rootBlocks === previousRootBlocks ) {
 			return;
 		}
+
+		// Const validations = {};
+		// For ( const block of rootBlocks ) {
+		// 	Const def = getBlockDefinition( block.name ); // not all blocks are ours, some have innerblocks that may contain our blocks
+		// 	Const result = def.valid( block );
+		// 	Validations[ block.clientId ] = result; // => to store
+		// }
 
 		updatingSchema = true;
 		generateSchemaForBlocks( rootBlocks, previousRootBlocks );

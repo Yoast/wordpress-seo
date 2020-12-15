@@ -65,6 +65,7 @@ function findSelfInvalidatedBlocks( blockInstance: BlockInstance, requiredBlocks
 	const invalidBlocks: InvalidBlock[] = [];
 
 	blockInstance.innerBlocks.forEach( block => {
+		// E.g. JobTitleDefinition
 		const definition = getBlockDefinition( block.name );
 		if ( ! definition ) {
 			throw new Error( "Block definition for '" + block.name + "' is not registered." );
@@ -101,7 +102,7 @@ function getInvalidInnerBlocks( blockInstance: BlockInstance, requiredBlocks: Re
 	invalidBlocks.push( ...findRedundantBlocks( existingRequiredBlocks, requiredBlocks ) );
 
 	// Find all blocks that have decided for themselves that they're invalid.
-	// Need Herre: InvalidBlocks.push( ...findSelfInvalidatedBlocks( blockInstance, requiredBlocks ) );
+	invalidBlocks.push( ...findSelfInvalidatedBlocks( blockInstance, requiredBlocks ) );
 
 	return invalidBlocks;
 }
