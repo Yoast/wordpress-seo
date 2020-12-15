@@ -35,8 +35,8 @@ class Open_Graph_Locale_Generator_Test extends TestCase {
 	/**
 	 * Setup the test.
 	 */
-	public function setUp() {
-		parent::setUp();
+	protected function set_up() {
+		parent::set_up();
 
 		$this->instance = new Open_Graph_Locale_Generator();
 		$this->context  = Mockery::mock( Meta_Tags_Context_Mock::class );

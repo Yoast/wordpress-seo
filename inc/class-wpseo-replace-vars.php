@@ -48,13 +48,6 @@ class WPSEO_Replace_Vars {
 	protected $args;
 
 	/**
-	 * The date helper.
-	 *
-	 * @var WPSEO_Date_Helper
-	 */
-	protected $date;
-
-	/**
 	 * Help texts for use in WPSEO -> Search appearance tabs.
 	 *
 	 * @var array
@@ -67,13 +60,6 @@ class WPSEO_Replace_Vars {
 	 * @var array
 	 */
 	protected static $external_replacements = [];
-
-	/**
-	 * Constructor.
-	 */
-	public function __construct() {
-		$this->date = new WPSEO_Date_Helper();
-	}
 
 	/**
 	 * Setup the help texts and external replacements as statics so they will be available to all instances.
@@ -226,6 +212,19 @@ class WPSEO_Replace_Vars {
 	}
 
 	/**
+	 * Checks whether the given replacement variable has already been registered or not.
+	 *
+	 * @param string $replacement_variable The replacement variable to check, including the variable delimiter (e.g. `%%var%%`).
+	 *
+	 * @return bool `true` if the replacement variable has already been registered.
+	 */
+	public function has_been_registered( $replacement_variable ) {
+		$replacement_variable = self::remove_var_delimiter( $replacement_variable );
+
+		return isset( self::$external_replacements[ $replacement_variable ] );
+	}
+
+	/**
 	 * Retrieve the replacements for the variables found.
 	 *
 	 * @param array $matches Variables found in the original string - regex result.
@@ -319,7 +318,7 @@ class WPSEO_Replace_Vars {
 
 		if ( $this->args->post_date !== '' ) {
 			// Returns a string.
-			$replacement = $this->date->format_translated( $this->args->post_date, get_option( 'date_format' ) );
+			$replacement = YoastSEO()->helpers->date->format_translated( $this->args->post_date, get_option( 'date_format' ) );
 		}
 		else {
 			if ( get_query_var( 'day' ) && get_query_var( 'day' ) !== '' ) {
@@ -926,7 +925,7 @@ class WPSEO_Replace_Vars {
 		$replacement = null;
 
 		if ( ! empty( $this->args->post_modified ) ) {
-			$replacement = $this->date->format_translated( $this->args->post_modified, get_option( 'date_format' ) );
+			$replacement = YoastSEO()->helpers->date->format_translated( $this->args->post_modified, get_option( 'date_format' ) );
 		}
 
 		return $replacement;

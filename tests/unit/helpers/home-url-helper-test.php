@@ -25,8 +25,8 @@ class Home_Url_Helper_Test extends TestCase {
 	/**
 	 * @inheritDoc
 	 */
-	public function setUp() {
-		parent::setUp();
+	protected function set_up() {
+		parent::set_up();
 
 		$this->instance = new Home_Url_Helper();
 	}

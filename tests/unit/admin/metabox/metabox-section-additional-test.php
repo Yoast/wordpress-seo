@@ -13,6 +13,17 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
 class Metabox_Section_Additional_Test extends TestCase {
 
 	/**
+	 * Set up function stubs.
+	 *
+	 * @return void
+	 */
+	protected function set_up() {
+		parent::set_up();
+
+		$this->stubEscapeFunctions();
+	}
+
+	/**
 	 * Tests the output of \WPSEO_Metabox_Section_Additional::display_content.
 	 *
 	 * @covers WPSEO_Metabox_Section_Additional::__construct

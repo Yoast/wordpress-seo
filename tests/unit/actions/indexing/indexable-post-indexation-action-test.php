@@ -50,9 +50,11 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 	protected $instance;
 
 	/**
-	 * @inheritDoc
+	 * Sets up the test class.
 	 */
-	public function setUp() {
+	protected function set_up() {
+		parent::set_up();
+
 		global $wpdb;
 		$wpdb = (object) [ 'prefix' => 'wp_' ];
 

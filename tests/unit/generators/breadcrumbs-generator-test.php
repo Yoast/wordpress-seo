@@ -91,8 +91,8 @@ class Breadcrumbs_Generator_Test extends TestCase {
 	/**
 	 * @inheritDoc
 	 */
-	public function setUp() {
-		parent::setUp();
+	protected function set_up() {
+		parent::set_up();
 
 		$this->repository        = Mockery::mock( Indexable_Repository::class );
 		$this->options           = Mockery::mock( Options_Helper::class );
@@ -323,6 +323,8 @@ class Breadcrumbs_Generator_Test extends TestCase {
 	 * @covers ::add_paged_crumb
 	 */
 	public function test_with_date_archive( $scenario, $is_paged, $current_page, $expected ) {
+		$this->stubEscapeFunctions();
+		$this->stubTranslationFunctions();
 		$this->setup_expectations_for_date_archive( $scenario, $is_paged, $current_page );
 
 		$this->assertEquals(

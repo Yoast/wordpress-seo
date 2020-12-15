@@ -24,8 +24,8 @@ class Language_Helper_Test extends TestCase {
 	/**
 	 * Sets up the tests.
 	 */
-	public function setUp() {
-		parent::setUp();
+	protected function set_up() {
+		parent::set_up();
 		$this->instance = new Language_Helper();
 	}
 
@@ -48,7 +48,7 @@ class Language_Helper_Test extends TestCase {
 	 * @return string[][] The dataset.
 	 */
 	public function supported_language_provider() {
-		return [ [ 'de' ], [ 'en' ], [ 'es' ], [ 'fr' ], [ 'it' ], [ 'nl' ], [ 'ru' ] ];
+		return [ [ 'de' ], [ 'en' ], [ 'es' ], [ 'fr' ], [ 'it' ], [ 'nl' ], [ 'ru' ], [ 'id' ], [ 'pt' ], [ 'pl' ], [ 'ar' ], [ 'sv' ], [ 'he' ], [ 'hu' ] ];
 	}
 
 	/**
@@ -84,6 +84,7 @@ class Language_Helper_Test extends TestCase {
 			[ 'id' ],
 			[ 'he' ],
 			[ 'ar' ],
+			[ 'hu' ],
 		];
 	}
 }

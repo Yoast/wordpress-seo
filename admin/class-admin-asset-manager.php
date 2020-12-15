@@ -179,6 +179,17 @@ class WPSEO_Admin_Asset_Manager {
 	}
 
 	/**
+	 * Checks if the given script is enqueued.
+	 *
+	 * @param string $script The script to check.
+	 *
+	 * @return bool True when the script is enqueued.
+	 */
+	public function is_script_enqueued( $script ) {
+		return \wp_script_is( $this->prefix . $script );
+	}
+
+	/**
 	 * Returns the scripts that need to be registered.
 	 *
 	 * @todo Data format is not self-documenting. Needs explanation inline. R.
@@ -208,20 +219,6 @@ class WPSEO_Admin_Asset_Manager {
 				'deps'      => [
 					'lodash',
 					'wp-polyfill',
-				],
-			],
-			[
-				'name' => 'search-appearance',
-				'src'  => 'search-appearance-' . $flat_version,
-				'deps' => [
-					'lodash',
-					'wp-api',
-					'wp-element',
-					'wp-i18n',
-					self::PREFIX . 'styled-components',
-					self::PREFIX . 'yoast-components',
-					self::PREFIX . 'replacement-variable-editor',
-					self::PREFIX . 'commons',
 				],
 			],
 			[

@@ -44,7 +44,9 @@ class Yoast_Head_REST_Field implements Route_Interface {
 	protected $head_action;
 
 	/**
-	 * @inheritDoc
+	 * Returns the conditionals based in which this loadable should be active.
+	 *
+	 * @return array
 	 */
 	public static function get_conditionals() {
 		return [ Headless_Rest_Endpoints_Enabled_Conditional::class ];
@@ -68,7 +70,9 @@ class Yoast_Head_REST_Field implements Route_Interface {
 	}
 
 	/**
-	 * @inheritDoc
+	 * Registers routes with WordPress.
+	 *
+	 * @return void
 	 */
 	public function register_routes() {
 		$public_post_types = $this->post_type_helper->get_public_post_types();

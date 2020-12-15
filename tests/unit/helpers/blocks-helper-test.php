@@ -34,8 +34,8 @@ class Blocks_Helper_Test extends TestCase {
 	/**
 	 * @inheritDoc
 	 */
-	public function setUp() {
-		parent::setUp();
+	protected function set_up() {
+		parent::set_up();
 
 		$this->post = Mockery::mock( Post_Helper::class );
 

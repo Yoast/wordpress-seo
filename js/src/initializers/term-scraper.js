@@ -444,5 +444,5 @@ export default function initTermScraper( $, store, editorData ) {
 		window.YoastSEO.app.refresh();
 	}
 
-	jQuery( document ).ready( initializeTermAnalysis );
+	initializeTermAnalysis();
 }

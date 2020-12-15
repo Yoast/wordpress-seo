@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Presentations;
 
+use Exception;
 use Mockery;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Presentations\Abstract_Presentation_Mock;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
@@ -24,8 +25,8 @@ class Abstract_Presentation_Test extends TestCase {
 	/**
 	 * @inheritDoc
 	 */
-	public function setUp() {
-		parent::setUp();
+	protected function set_up() {
+		parent::set_up();
 
 		$this->instance = Mockery::mock( Abstract_Presentation_Mock::class )->makePartial();
 	}
@@ -50,10 +51,11 @@ class Abstract_Presentation_Test extends TestCase {
 	/**
 	 * Tests whether the`of`-method throws an exception when called on a prototype.
 	 *
-	 * @expectedException \Exception
 	 * @covers ::of
 	 */
 	public function test_of_throws_exception_on_prototype() {
+		$this->expectException( Exception::class );
+
 		$this->instance
 			->expects( 'is_prototype' )
 			->andReturnFalse();
@@ -70,10 +72,11 @@ class Abstract_Presentation_Test extends TestCase {
 	 * Tests whether an exception is thrown when trying to access a property
 	 * with no generator method.
 	 *
-	 * @expectedException \Exception
 	 * @covers ::__get
 	 */
 	public function test_get_throws_exception_when_accessing_property_with_no_generator() {
+		$this->expectException( Exception::class );
+
 		$this->instance
 			->expects( 'is_prototype' )
 			->andReturnTrue();
@@ -85,10 +88,11 @@ class Abstract_Presentation_Test extends TestCase {
 	 * Tests whether an exception is thrown when trying to access a property
 	 * with no generator method.
 	 *
-	 * @expectedException \Exception
 	 * @covers ::__get
 	 */
 	public function test_get_throws_exception_when_accessing_property_on_prototype() {
+		$this->expectException( Exception::class );
+
 		$this->instance->expects( 'is_prototype' )
 			->andReturnFalse();
 

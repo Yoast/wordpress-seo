@@ -34,12 +34,12 @@
 		"yoast/php-development-environment": "^1.0",
 		"yoast/yoastcs": "^2.1.0",
 		"humbug/php-scoper": "^0.13.4",
-		"brain/monkey": "^2.5.0",
 		"phpunit/phpunit": "^5.7",
 		"atanamo/php-codeshift": "^1.0",
 		"symfony/config": "^3.4",
 		"php-parallel-lint/php-parallel-lint": "^1.2.0",
-		"php-parallel-lint/php-console-highlighter": "^0.5"
+		"php-parallel-lint/php-console-highlighter": "^0.5",
+		"yoast/wp-test-utils": "^0.1.1"
 	},
 	"minimum-stability": "dev",
 	"prefer-stable": true,
@@ -81,8 +81,8 @@
 			"Yoast\\WP\\SEO\\Composer\\Actions::check_coding_standards"
 		],
 		"check-cs-thresholds": [
-			"@putenv YOASTCS_THRESHOLD_ERRORS=555",
-			"@putenv YOASTCS_THRESHOLD_WARNINGS=229",
+			"@putenv YOASTCS_THRESHOLD_ERRORS=460",
+			"@putenv YOASTCS_THRESHOLD_WARNINGS=228",
 			"Yoast\\WP\\SEO\\Composer\\Actions::check_cs_thresholds"
 		],
 		"check-cs-summary": [
@@ -136,6 +136,9 @@
 		],
 		"generate-migration": [
 			"Yoast\\WP\\SEO\\Composer\\Actions::generate_migration"
-		]
+		],
+        "generate-unit-test": [
+          "Yoast\\WP\\SEO\\Composer\\Actions::generate_unit_test"
+        ]
 	}
 }

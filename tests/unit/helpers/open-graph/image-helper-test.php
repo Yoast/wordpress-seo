@@ -19,16 +19,22 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
 class Image_Helper_Test extends TestCase {
 
 	/**
+	 * Represents the instance to test.
+	 *
 	 * @var Image_Helper|Mockery\Mock
 	 */
 	protected $instance;
 
 	/**
+	 * Represents the url helper.
+	 *
 	 * @var Url_Helper
 	 */
 	protected $url;
 
 	/**
+	 * Represents the base image helper.
+	 *
 	 * @var Base_Image_Helper
 	 */
 	protected $image;
@@ -36,8 +42,8 @@ class Image_Helper_Test extends TestCase {
 	/**
 	 * Setup.
 	 */
-	public function setUp() {
-		parent::setUp();
+	protected function set_up() {
+		parent::set_up();
 
 		$this->url   = Mockery::mock( Url_Helper::class )->makePartial();
 		$this->image = Mockery::mock( Base_Image_Helper::class )->makePartial();

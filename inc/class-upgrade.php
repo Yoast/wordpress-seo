@@ -68,6 +68,7 @@ class WPSEO_Upgrade {
 			'14.9-RC0'   => 'upgrade_149',
 			'15.1-RC0'   => 'upgrade_151',
 			'15.3-RC0'   => 'upgrade_153',
+			'15.5-RC0'   => 'upgrade_155',
 		];
 
 		array_walk( $routines, [ $this, 'run_upgrade_routine' ], $version );
@@ -771,6 +772,21 @@ class WPSEO_Upgrade {
 	}
 
 	/**
+	 * Performs the 15.5 upgrade.
+	 *
+	 * @return void
+	 */
+	private function upgrade_155() {
+		// Unset the fbadminapp value in the wpseo_social option.
+		$wpseo_social_option = get_option( 'wpseo_social' );
+
+		if ( isset( $wpseo_social_option['fbadminapp'] ) ) {
+			unset( $wpseo_social_option['fbadminapp'] );
+			update_option( 'wpseo_social', $wpseo_social_option );
+		}
+	}
+
+	/**
 	 * Sets the home_url option for the 15.1 upgrade routine.
 	 *
 	 * @return void
@@ -825,7 +841,7 @@ class WPSEO_Upgrade {
 		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Reason: Is it prepared already.
 		$query = $wpdb->prepare(
 			// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: Too hard to fix.
-			"DELETE FROM $indexable_table 
+			"DELETE FROM $indexable_table
 			WHERE object_type = 'term'
 			AND object_sub_type IN ("
 				. \implode( ', ', \array_fill( 0, \count( $private_taxonomies ), '%s' ) )

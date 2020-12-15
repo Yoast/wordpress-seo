@@ -402,6 +402,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 			'enable_text_link_counter'       => false,
 			'enable_headless_rest_endpoints' => false,
 			'tracking'                       => false,
+			'enable_enhanced_slack_sharing'  => false,
 			'semrush_integration_active'     => false,
 			'zapier_integration_active'      => false,
 		];

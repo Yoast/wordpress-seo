@@ -5,22 +5,31 @@
  * @package WPSEO\Admin
  */
 
+// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound -- Reason: The class is deprecated.
+
 /**
- * Class to print out the translatable strings for the Multiple Keywords modal.
+ * Class to print out the translatable strings for the Add Keyword modal.
+ *
+ * @deprecated 15.5
  */
-class WPSEO_Multiple_Keywords_Modal {
+class WPSEO_Add_Keyword_Modal {
 
 	/**
-	 * Returns the translations for the Multiple Keywords modal.
+	 * Returns the translations for the Add Keyword modal.
 	 *
 	 * These strings are not escaped because they're meant to be used with React
 	 * which already takes care of that. If used in PHP, they should be escaped.
 	 *
-	 * @return array Translated text strings for the Multiple Keywords modal.
+	 * @deprecated 15.5
+	 * @codeCoverageIgnore
+	 *
+	 * @return array Translated text strings for the Add Keyword modal.
 	 */
 	public function get_translations() {
+		_deprecated_function( __METHOD__, 'WPSEO 15.5' );
+
 		return [
-			'title'                    => __( 'Would you like to add another keyphrase?', 'wordpress-seo' ),
+			'title'                    => __( 'Would you like to add more than one keyphrase?', 'wordpress-seo' ),
 			'intro'                    => sprintf(
 				/* translators: %s expands to a 'Yoast SEO Premium' text linked to the yoast.com website. */
 				__( 'Great news: you can, with %s!', 'wordpress-seo' ),
@@ -44,13 +53,17 @@ class WPSEO_Multiple_Keywords_Modal {
 	}
 
 	/**
-	 * Passes translations to JS for the Multiple Keywords modal component.
+	 * Passes translations to JS for the Add Keyword modal component.
 	 *
-	 * @return array Translated text strings for the Multiple Keywords modal component.
+	 * @deprecated 15.5
+	 * @codeCoverageIgnore
+	 *
+	 * @return array Translated text strings for the Add Keyword modal component.
 	 */
 	public function get_translations_for_js() {
-		$translations = $this->get_translations();
+		_deprecated_function( __METHOD__, 'WPSEO 15.5' );
 
+		$translations = $this->get_translations();
 		return [
 			'locale' => WPSEO_Language_Utils::get_user_locale(),
 			'intl'   => $translations,
@@ -58,11 +71,14 @@ class WPSEO_Multiple_Keywords_Modal {
 	}
 
 	/**
-	 * Prints the localized Multiple Keywords modal translations for JS.
+	 * Prints the localized Add Keyword modal translations for JS.
 	 *
-	 * @return void
+	 * @deprecated 15.5
+	 * @codeCoverageIgnore
 	 */
 	public function enqueue_translations() {
-		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'admin-global-script', 'yoastMultipleKeywordsModalL10n', $this->get_translations_for_js() );
+		_deprecated_function( __METHOD__, 'WPSEO 15.5' );
+
+		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'admin-global-script', 'yoastAddKeywordModalL10n', $this->get_translations_for_js() );
 	}
 }

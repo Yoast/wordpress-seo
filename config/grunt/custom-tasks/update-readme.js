@@ -3,7 +3,7 @@ const parseVersion = require( "../lib/parse-version" );
 const _isEmpty = require( "lodash/isEmpty" );
 
 /**
- * ...
+ * A task to remove old changelog entries and add new ones in readme.txt.
  *
  * @param {Object} grunt The grunt helper object.
  * @returns {void}
@@ -84,7 +84,12 @@ module.exports = function( grunt ) {
 				} );
 			} else {
 				// If the current version is not in the changelog, allow the user to enter new changelog items.
-				const changelogVersionNumber = versionNumber.major + "." + versionNumber.minor + "." + versionNumber.patch;
+				let changelogVersionNumber = versionNumber.major + "." + versionNumber.minor;
+
+				// Only add the patch number if we're actually doing a patch.
+				if ( versionNumber.patch !== 0 ) {
+					changelogVersionNumber += "." + versionNumber.patch;
+				}
 
 				// Present the user with only the version number.
 				getUserInput( { initialContent: `= ${changelogVersionNumber} =` } ).then( newChangelog => {

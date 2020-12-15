@@ -20,13 +20,14 @@ class Twitter_Creator_Test extends TestCase {
 	/**
 	 * Does the setup for testing.
 	 */
-	public function setUp() {
+	protected function set_up() {
+		parent::set_up();
+
 		$this->set_instance();
+		$this->indexable->object_sub_type = 'post';
 
 		$source = (object) [ 'post_author' => 1337 ];
 		$this->instance->expects( 'generate_source' )->once()->andReturn( $source );
-
-		parent::setUp();
 	}
 
 	/**

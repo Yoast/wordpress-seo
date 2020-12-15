@@ -3,13 +3,13 @@
 namespace Yoast\WP\SEO\Tests\Unit\Helpers;
 
 use Brain\Monkey;
-use WPSEO_Date_Helper;
+use Yoast\WP\SEO\Helpers\Date_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
  * Unit Test Class.
  *
- * @coversDefaultClass \WPSEO_Date_Helper
+ * @coversDefaultClass \Yoast\WP\SEO\Helpers\Date_Helper
  *
  * @group helpers
  */
@@ -18,17 +18,17 @@ class Date_Helper_Test extends TestCase {
 	/**
 	 * The date helper instance.
 	 *
-	 * @var WPSEO_Date_Helper
+	 * @var Date_Helper
 	 */
 	protected $instance;
 
 	/**
 	 * Performs the setup.
 	 */
-	public function setUp() {
-		parent::setUp();
+	protected function set_up() {
+		parent::set_up();
 
-		$this->instance = new WPSEO_Date_Helper();
+		$this->instance = new Date_Helper();
 	}
 
 	/**
@@ -44,7 +44,7 @@ class Date_Helper_Test extends TestCase {
 	 * @covers ::format
 	 */
 	public function test_format( $date, $format, $expected, $message ) {
-		$this->assertEquals( $expected, $this->instance->format( $date, $format ), $message );
+		static::assertEquals( $expected, $this->instance->format( $date, $format ), $message );
 	}
 
 	/**
@@ -118,7 +118,7 @@ class Date_Helper_Test extends TestCase {
 	 * @covers ::format_timestamp
 	 */
 	public function test_format_timestamp( $timestamp, $format, $expected, $message ) {
-		$this->assertEquals( $expected, $this->instance->format_timestamp( $timestamp, $format ), $message );
+		static::assertEquals( $expected, $this->instance->format_timestamp( $timestamp, $format ), $message );
 	}
 
 	/**
@@ -160,7 +160,7 @@ class Date_Helper_Test extends TestCase {
 			->with( \DATE_W3C, '1609421820' )
 			->andReturn( '2020-12-31' );
 
-		$this->assertEquals(
+		static::assertEquals(
 			'2020-12-31',
 			$this->instance->format_translated( '2020-12-31 13:37:00' )
 		);
@@ -172,7 +172,7 @@ class Date_Helper_Test extends TestCase {
 	 * @covers ::is_valid_datetime
 	 */
 	public function test_is_valid_datetime_WITH_valid_datetime() {
-		$this->assertTrue( $this->instance->is_valid_datetime( '2015-02-25T04:44:44+00:00' ) );
+		static::assertTrue( $this->instance->is_valid_datetime( '2015-02-25T04:44:44+00:00' ) );
 	}
 
 	/**
@@ -181,6 +181,6 @@ class Date_Helper_Test extends TestCase {
 	 * @covers ::is_valid_datetime
 	 */
 	public function test_is_valid_datetime_WITH_invalid_datetime() {
-		$this->assertFalse( $this->instance->is_valid_datetime( '-0001-11-30T00:00:00+00:00' ) );
+		static::assertFalse( $this->instance->is_valid_datetime( '-0001-11-30T00:00:00+00:00' ) );
 	}
 }

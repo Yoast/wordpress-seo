@@ -3,8 +3,10 @@
 namespace Yoast\WP\SEO\Generators;
 
 use WP_Block_Parser_Block;
+use WPSEO_Replace_Vars;
 use Yoast\WP\SEO\Context\Meta_Tags_Context;
 use Yoast\WP\SEO\Generators\Schema\Abstract_Schema_Piece;
+use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 use Yoast\WP\SEO\Surfaces\Helpers_Surface;
 
 /**
@@ -17,15 +19,24 @@ class Schema_Generator implements Generator_Interface {
 	 *
 	 * @var Helpers_Surface
 	 */
-	private $helpers;
+	protected $helpers;
+
+	/**
+	 * The replace vars.
+	 *
+	 * @var WPSEO_Replace_Vars
+	 */
+	protected $replace_vars;
 
 	/**
 	 * Generator constructor.
 	 *
-	 * @param Helpers_Surface $helpers The helpers surface.
+	 * @param Helpers_Surface    $helpers      The helpers surface.
+	 * @param WPSEO_Replace_Vars $replace_vars The replace vars.
 	 */
-	public function __construct( Helpers_Surface $helpers ) {
-		$this->helpers = $helpers;
+	public function __construct( Helpers_Surface $helpers, WPSEO_Replace_Vars $replace_vars ) {
+		$this->helpers      = $helpers;
+		$this->replace_vars = $replace_vars;
 	}
 
 	/**
@@ -122,7 +133,7 @@ class Schema_Generator implements Generator_Interface {
 				$graph      = \apply_filters( 'wpseo_schema_block_' . $block_type, $graph, $block, $context );
 
 				if ( isset( $block['attrs']['yoast-schema'] ) ) {
-					$graph[] = $block['attrs']['yoast-schema'];
+					$graph[] = $this->replace_vars( $block['attrs']['yoast-schema'], $context->presentation );
 				}
 			}
 		}
@@ -204,6 +215,28 @@ class Schema_Generator implements Generator_Interface {
 		 * @api array $pieces The schema pieces.
 		 */
 		return \apply_filters( 'wpseo_schema_graph_pieces', $schema_pieces, $context );
+	}
+
+	/**
+	 * Replaces the variables.
+	 *
+	 * @param array                  $schema_data  The Schema data.
+	 * @param Indexable_Presentation $presentation The indexable presentation.
+	 *
+	 * @return array The array with replaced vars.
+	 */
+	protected function replace_vars( array $schema_data, Indexable_Presentation $presentation ) {
+		foreach ( $schema_data as $key => $value ) {
+			if ( \is_array( $value ) ) {
+				$schema_data[ $key ] = $this->replace_vars( $value, $presentation );
+
+				continue;
+			}
+
+			$schema_data[ $key ] = $this->replace_vars->replace( $value, $presentation->source );
+		}
+
+		return $schema_data;
 	}
 
 	/**

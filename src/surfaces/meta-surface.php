@@ -19,26 +19,36 @@ use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
 class Meta_Surface {
 
 	/**
+	 * The container.
+	 *
 	 * @var ContainerInterface
 	 */
 	private $container;
 
 	/**
+	 * The memoizer for the meta tags context.
+	 *
 	 * @var Meta_Tags_Context_Memoizer
 	 */
 	private $context_memoizer;
 
 	/**
+	 * The indexable repository.
+	 *
 	 * @var Indexable_Repository
 	 */
 	private $repository;
 
 	/**
+	 * Holds the WP rewrite wrapper instance.
+	 *
 	 * @var WP_Rewrite_Wrapper
 	 */
 	private $wp_rewrite_wrapper;
 
 	/**
+	 * The indexable helper.
+	 *
 	 * @var Indexable_Helper
 	 */
 	private $indexable_helper;

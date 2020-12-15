@@ -10,7 +10,7 @@ import { getPostFeed } from "@yoast/helpers";
 import { setYoastComponentsL10n } from "./helpers/i18n";
 
 /**
- * The Yoast dashboardwidget component used on the WordPress admin dashboard.
+ * The Yoast dashboard widget component used on the WordPress admin dashboard.
  */
 class DashboardWidget extends Component {
 	/**
@@ -22,10 +22,45 @@ class DashboardWidget extends Component {
 		this.state = {
 			statistics: null,
 			feed: null,
+			isDataFetched: false,
 		};
+	}
+
+	/**
+	 * Watches whether the data for the widget should be fetched.
+	 *
+	 * @returns {void}
+	 */
+	componentDidMount() {
+		const widgetCheckbox = jQuery( "#wpseo-dashboard-overview-hide" );
+
+		// Only fetch the data if the Yoast SEO dashboard widget is checked in the Screen Options.
+		if ( widgetCheckbox.is( ":checked" ) ) {
+			this.fetchData();
+		}
+
+		// Whenever the checkbox gets clicked, fetch the data if needed.
+		widgetCheckbox.on( "click", () => {
+			this.fetchData();
+		} );
+	}
+
+	/**
+	 * Fetches the relevant data, if they haven't been fetched before.
+	 *
+	 * @returns {void}
+	 */
+	fetchData() {
+		if ( this.state.isDataFetched ) {
+			return;
+		}
 
 		this.getStatistics();
 		this.getFeed();
+
+		this.setState( {
+			isDataFetched: true,
+		} );
 	}
 
 	/**

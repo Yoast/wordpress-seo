@@ -45,8 +45,8 @@ class Comment_Link_Fixer_Test extends TestCase {
 	/**
 	 * Sets an instance for test purposes.
 	 */
-	public function setUp() {
-		parent::setUp();
+	protected function set_up() {
+		parent::set_up();
 
 		$this->redirect = Mockery::mock( Redirect_Helper::class );
 		$this->robots   = Mockery::mock( Robots_Helper::class );

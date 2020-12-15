@@ -26,8 +26,8 @@ final class Capabilities_Utils_Test extends TestCase {
 	/**
 	 * Does the setup.
 	 */
-	public function setUp() {
-		parent::setUp();
+	protected function set_up() {
+		parent::set_up();
 
 		$this->roles = Mockery::mock();
 

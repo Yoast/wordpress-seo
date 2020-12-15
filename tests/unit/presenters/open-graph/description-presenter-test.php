@@ -43,8 +43,10 @@ class Description_Presenter_Test extends TestCase {
 	/**
 	 * Sets up the test class.
 	 */
-	public function setUp() {
-		parent::setUp();
+	protected function set_up() {
+		parent::set_up();
+
+		$this->stubEscapeFunctions();
 
 		$this->instance     = new Description_Presenter();
 		$this->presentation = new Indexable_Presentation();
