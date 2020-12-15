@@ -77,6 +77,8 @@
                 "requireReturnType": false,
                 "requireParamType": false
             }
-        ]
+        ],
+        // We use `wp.element.createElement` instead of the `react` package directly.
+        "react/react-in-jsx-scope": 0
     }
 }
