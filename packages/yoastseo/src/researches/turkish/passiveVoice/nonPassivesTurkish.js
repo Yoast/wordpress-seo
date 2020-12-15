@@ -1,6 +1,6 @@
 /**
- * Returns a list with auxiliaries for the Hungarian passive voice assessment.
- * @returns {Array}             The list with auxiliaries.
+ * Returns a list with nonPassive exceptions for the Turkish passive voice assessment.
+ * @returns {Array}             The list with non-passive words
  */
 const nonPassivesFullForms = [
 	"övünür",

@@ -35,7 +35,6 @@ import getPualVerbsHebrewFactory from "../../hebrew/passiveVoice/regularRootsPua
 const pualVerbsHebrew = getPualVerbsHebrewFactory();
 
 import getHufalVerbsHebrewFactory from "../../hebrew/passiveVoice/regularRootsHufal";
-import { removeSuffixesFromFullForm, removeSuffixFromFullForm } from "../../../morphology/morphoHelpers/stemHelpers";
 const hufalVerbsHebrew = getHufalVerbsHebrewFactory();
 
 import getPassiveVerbsHungarian from "../../hungarian/passiveVoice/odikVerbs";
@@ -111,12 +110,13 @@ const determineSentenceIsPassiveIndonesian = function( sentence ) {
 };
 
 /**
- * Checks the passed sentence to see if it contains Turkish passive verb forms. check exception full forms.
- * then remove ending. check for stemming exceptionss. if not found in tsemming exceptions, it is passive.
+ * Checks that the passive verb is not found in the non-passive stems exception list.
  *
- * @param {string} word   The word to check
+ * @param {string} nonPassivesTurkish      The list of exceptions to check
+ * @param {string} passiveEndings          The list of passive verb endings
+ * @param {array} matchedPassives        The verb with the passive ending
+ * @returns {boolean} pattern              Whether the verb has a stem from the stems exception list and a passive verb ending
  *
- * @returns {array}       The filtered passive
  */
 const checkTurkishNonPassivesList = function( nonPassivesTurkish, passiveEndings, matchedPassives ) {
 	return matchedPassives.filter( passive => nonPassivesTurkish.some( stem => passiveEndings.some( function( ending ) {
@@ -126,20 +126,18 @@ const checkTurkishNonPassivesList = function( nonPassivesTurkish, passiveEndings
 };
 
 /**
- * Checks the passed sentence to see if it contains Turkish passive verb forms. check exception full forms.
- * then remove ending. check for stemming exceptionss. if not found in tsemming exceptions, it is passive.
+ * Checks the passed sentence to see if it contains Turkish passive verb forms and is not found in the non-passive full forms exception list.
  *
  * @param {string} sentence   The sentence to match against.
  *
- * @returns {Boolean}         Whether the sentence contains Turkish passive voice.
+ * @returns {Boolean}         Whether the sentence contains a Turkish verb passive voice.
  */
 const determineSentenceIsPassiveTurkish = function( sentence ) {
 	const words = getWords( sentence );
 	let matchedPassives = words.filter( word => ( word.length > 5 ) );
 	matchedPassives = matchedPassives.filter( word => ! nonPassivesFullForms.includes( word ) );
 	matchedPassives = checkTurkishNonPassivesList( nonPassiveStems, passiveEndingsTurkish, matchedPassives );
-	console.log(matchedPassives )
-	return  matchedPassives.some( word => passiveEndingsTurkish.some( ending => word.endsWith( ending ) ) );
+	return matchedPassives.some( word => passiveEndingsTurkish.some( ending => word.endsWith( ending ) ) );
 };
 
 /**
