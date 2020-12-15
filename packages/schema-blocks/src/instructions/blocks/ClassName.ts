@@ -6,7 +6,7 @@ import { RenderEditProps } from "../../core/blocks/BlockDefinition";
  */
 class ClassName extends BlockInstruction {
 	/**
-	 * Renders the class name
+	 * Renders the class name.
 	 *
 	 * @param props The render props.
 	 *

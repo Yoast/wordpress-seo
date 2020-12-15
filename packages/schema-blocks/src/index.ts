@@ -1,13 +1,18 @@
 import "./instructions";
-import process from "./functions/process";
-import SchemaDefinition from "./core/schema/SchemaDefinition";
-import SchemaInstruction from "./core/schema/SchemaInstruction";
-import BlockDefinition from "./core/blocks/BlockDefinition";
-import BlockInstruction from "./core/blocks/BlockInstruction";
+import { processSchema, processBlock } from "./functions/process";
 import watch from "./functions/gutenberg/watch";
 import filter from "./functions/gutenberg/filter";
 import { registerBlockType } from "@wordpress/blocks";
 import { WarningBlock } from "./blocks/warning-block/configuration";
+
+/**
+ * Removes all line breaks from a string.
+ *
+ * @returns {string} The converted string.
+ */
+function getTemplate(): string {
+	return this.innerHTML.split( "\n" ).map( s => s.trim() ).join( "" );
+}
 
 /**
  * Initializes the Schema templates and block templates.
@@ -17,11 +22,11 @@ export default function initialize() {
 
 	jQuery( 'script[type="text/schema-template"]' ).each( function() {
 		try {
-			const template = this.innerHTML.split( "\n" ).map( s => s.trim() ).join( "" );
-			const definition = process( template, SchemaDefinition, SchemaInstruction );
+			const template = getTemplate();
+			const definition = processSchema( template );
 			definition.register();
 		} catch ( e ) {
-			console.error( "Failed parsing schema-template", e, this );
+			console.error( "Failed to parse schema-template", e, this );
 		}
 	} );
 
@@ -30,11 +35,11 @@ export default function initialize() {
 
 	jQuery( 'script[type="text/block-template"]' ).each( function() {
 		try {
-			const template = this.innerHTML.split( "\n" ).map( s => s.trim() ).join( "" );
-			const definition = process( template, BlockDefinition, BlockInstruction );
+			const template = getTemplate();
+			const definition = processBlock( template );
 			definition.register();
 		} catch ( e ) {
-			console.error( "Failed parsing guten-template", e, this );
+			console.error( "Failed to parse gutenberg-template", e, this );
 		}
 	} );
 

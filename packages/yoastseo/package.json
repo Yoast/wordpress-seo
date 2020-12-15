@@ -9,7 +9,7 @@
   ],
   "main": "index.js",
   "license": "GPL-3.0",
-  "version": "1.86.0-rc.2",
+  "version": "1.87.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/Yoast/javascript.git",
@@ -129,7 +129,10 @@
       "/spec/morphology/arabic/stemmerCoverage/sampleVocabulary.json",
       "/spec/morphology/swedish/stemmerCoverage/goldStandardStems.json",
       "/spec/morphology/swedish/stemmerCoverage/sampleVocabulary.json",
-      "/spec/morphology/swedish/stemmerCoverage/generateStems.js"
+      "/spec/morphology/swedish/stemmerCoverage/generateStems.js",
+      "/spec/morphology/hungarian/stemmerCoverage/goldStandardStems.json",
+      "/spec/morphology/hungarian/stemmerCoverage/sampleVocabulary.json",
+      "/spec/morphology/hungarian/stemmerCoverage/generateStems.js"
     ],
     "coveragePathIgnorePatterns": [
       "js/templates.js"

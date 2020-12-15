@@ -1,11 +1,11 @@
 import { createElement, Fragment } from "@wordpress/element";
 import { registerBlockType, BlockConfiguration, BlockEditProps, BlockSaveProps } from "@wordpress/blocks";
 import { InspectorControls } from "@wordpress/block-editor";
-
 import BlockInstruction from "./BlockInstruction";
 import Definition from "../Definition";
 import BlockRootLeaf from "../../leaves/blocks/BlockRootLeaf";
 import parse from "../../functions/blocks/parse";
+import { registerBlockDefinition } from "./BlockDefinitionRepository";
 
 export interface RenderEditProps extends BlockEditProps<Record<string, unknown>> {
 	clientId?: string;
@@ -78,6 +78,9 @@ export default class BlockDefinition extends Definition {
 		configuration.edit = props => this.edit( props );
 		configuration.save = props => this.save( props );
 
+		// Register the block to WordPress.
 		registerBlockType( name, configuration );
+		// Register the block with our own code.
+		registerBlockDefinition( name, this );
 	}
 }

@@ -7,7 +7,7 @@ import { SelectControl } from "@wordpress/components";
 import { arrayOrObjectToOptions } from "../../functions/select";
 
 /**
- * VariableTagRichText instruction.
+ * RichText instruction.
  */
 class VariableTagRichText extends RichTextBase {
 	public options: {
