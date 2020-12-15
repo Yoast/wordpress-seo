@@ -3,6 +3,23 @@ import { BlockInstance } from "@wordpress/blocks";
 import * as innerBlocksValid from "../../../src/functions/validators/innerBlocksValid";
 import { InvalidBlock, RequiredBlock } from "../../../src/instructions/blocks/dto";
 import { InvalidBlockReason, RequiredBlockOption } from "../../../src/instructions/blocks/enums";
+import BlockDefinition from "../../../src/core/blocks/BlockDefinition";
+import * as blockDefinitionRepository from "../../../src/core/blocks/BlockDefinitionRepository";
+
+const mockBlockRegistry: Record<string, BlockDefinition> = {};
+const getBlockDefinitionMock = jest.spyOn( blockDefinitionRepository, "getBlockDefinition" );
+getBlockDefinitionMock.mockImplementation( ( name: string ) => {
+	return mockBlockRegistry[ name ];
+} );
+
+mockDefinition( "validBlock", true );
+mockDefinition( "existingBlock", true );
+mockDefinition( "invalidBlock", false );
+mockDefinition( "invalidOptionalBlock", false );
+mockDefinition( "innerBlock", true );
+mockDefinition( "requiredBlock", true );
+mockDefinition( "redundantBlock", true );
+
 
 const createInvalidBlockTestArrangement = [
 	{ name: "missingblock", reason: InvalidBlockReason.Missing },
@@ -44,7 +61,7 @@ describe( "The findMissingBlocks function", () => {
 		// Arrange.
 		const requiredBlocks: RequiredBlock[] = [
 			{
-				name: "existingblock",
+				name: "existingBlock",
 				option: RequiredBlockOption.Multiple,
 			} as RequiredBlock,
 			{
@@ -54,7 +71,7 @@ describe( "The findMissingBlocks function", () => {
 		];
 		const existingRequiredBlocks: BlockInstance[] = [
 			{
-				name: "existingblock",
+				name: "existingBlock",
 			} as BlockInstance,
 		];
 
@@ -70,13 +87,13 @@ describe( "The findMissingBlocks function", () => {
 		// Arrange.
 		const requiredBlocks: RequiredBlock[] = [
 			{
-				name: "existingblock",
+				name: "existingBlock",
 				option: RequiredBlockOption.Multiple,
 			} as RequiredBlock,
 		];
 		const existingRequiredBlocks: BlockInstance[] = [
 			{
-				name: "existingblock",
+				name: "existingBlock",
 			} as BlockInstance,
 		];
 
@@ -136,33 +153,18 @@ describe( "The findRedundantBlocks function", () => {
 	} );
 } );
 
-/*
-This commented code was left behind intentionally as is the starting point for a follow up ticket.
-
-
-/*import BlockDefinition from "../../../src/core/blocks/BlockDefinition";
-import InnerBlocks from "../../../src/instructions/blocks/InnerBlocks";
-import * as blockDefinitionRepository from "../../../src/core/blocks/BlockDefinitionRepository";
-import recurseOverBlocks from "../../../src/functions/blocks/recurseOverBlocks";
-
-const mockBlockRegistry: BlockDefinition[] = [];
-const getBlockDefinitionMock = jest.spyOn( blockDefinitionRepository, "getBlockDefinition" );
-getBlockDefinitionMock.mockImplementation( ( name: string ) => {
-	return mockBlockRegistry[ name ];
-} );
-
 /**
  * Add a definition for a block to the mocked block definition.
- * @param block The block to setup.
- 8/
-function mockDefinition( block: BlockInstance ) {
-	const definition = new BlockDefinition( "", null, {}, null );
-	definition.instructions[ block.name ] = new InnerBlocks( 1, {} );
-	mockBlockRegistry[ block.name ] = definition;
+ * @param name          The name of the block to mock.
+ * @param expectedValue The validation output of the block.
+ */
+function mockDefinition( name: string, expectedValue: boolean ) {
+	mockBlockRegistry[ name ] = {
+		valid: () => expectedValue,
+	} as unknown as BlockDefinition;
 }
-8/
 
-Describe( "The findSelfInvalidatedBlocks function", () => {
+describe( "The findSelfInvalidatedBlocks function", () => {
 	it( "creates an InvalidBlock instance with reason 'internal' when a block invalidates itself.", () => {
 		// Arrange.
 		const requiredBlocks: RequiredBlock[] = [
@@ -179,22 +181,19 @@ Describe( "The findSelfInvalidatedBlocks function", () => {
 		const existingBlocks: BlockInstance[] = [
 			{
 				name: "validBlock",
-				isValid: true,
 			} as BlockInstance,
 			{
 				name: "invalidBlock",
-				isValid: false,
 			} as BlockInstance,
 			{
 				name: "invalidOptionalBlock",
-				isValid: false,
 			} as BlockInstance,
 		];
+
 		const testBlock = {
 			name: "test",
 			innerBlocks: existingBlocks,
 		} as BlockInstance;
-		mockDefinition( testBlock );
 
 		// Act.
 		const result: InvalidBlock[] = innerBlocksValid.findSelfInvalidatedBlocks( testBlock, requiredBlocks );
@@ -211,20 +210,20 @@ Describe( "The findSelfInvalidatedBlocks function", () => {
 		expect( invalidOptionalBlock.reason ).toEqual( InvalidBlockReason.Optional );
 	} );
 } );
-*/
+
 
 describe( "the getInvalidInnerBlocks function", () => {
 	it( "returns no InvalidBlocks when all required blocks are present immediately in the InnerBlock.", () => {
 		// Arrange.
 		const requiredBlocks: RequiredBlock[] = [
 			{
-				name: "existingblock",
+				name: "existingBlock",
 				option: RequiredBlockOption.Multiple,
 			} as RequiredBlock,
 		];
 		const existingBlocks: BlockInstance[] = [
 			{
-				name: "existingblock",
+				name: "existingBlock",
 			} as BlockInstance,
 		];
 
@@ -243,20 +242,18 @@ describe( "the getInvalidInnerBlocks function", () => {
 		// Arrange.
 		const requiredBlocks: RequiredBlock[] = [
 			{
-				name: "requiredblock",
+				name: "requiredBlock",
 				option: RequiredBlockOption.Multiple,
 			} as RequiredBlock,
 		];
 		const existingBlocks: BlockInstance[] = [
 			{
 				// Not required, should be ignored.
-				name: "innerblocks",
-				isValid: true,
+				name: "innerBlock",
 				innerBlocks: [
 					{
 						// Required and Valid.
-						name: "requiredblock",
-						isValid: true,
+						name: "requiredBlock",
 					} as BlockInstance,
 				],
 			} as BlockInstance,
@@ -278,15 +275,15 @@ describe( "the getInvalidInnerBlocks function", () => {
 
 		const requiredBlocks: RequiredBlock[] = [
 			{
-				name: "existingblock",
+				name: "existingBlock",
 				option: RequiredBlockOption.Multiple,
 			} as RequiredBlock,
 			{
-				name: "redundantblock",
+				name: "redundantBlock",
 				option: RequiredBlockOption.One,
 			} as RequiredBlock,
 			{
-				name: "missingblock",
+				name: "missingBlock",
 				option: RequiredBlockOption.Multiple,
 			} as RequiredBlock,
 		];
@@ -294,15 +291,15 @@ describe( "the getInvalidInnerBlocks function", () => {
 		const existingBlocks: BlockInstance[] = [
 			{
 				// Required and valid.
-				name: "existingblock",
+				name: "existingBlock",
 			} as BlockInstance,
 			{
 				// Required once, valid, but too often.
-				name: "redundantblock",
+				name: "redundantBlock",
 				innerBlocks: [
 					{
 						// Required once, valid, but too often.
-						name: "redundantblock",
+						name: "redundantBlock",
 					} as BlockInstance,
 				],
 			} as BlockInstance,
@@ -320,10 +317,10 @@ describe( "the getInvalidInnerBlocks function", () => {
 
 		const missingBlock = result.filter( invalidBlock => invalidBlock.reason === InvalidBlockReason.Missing );
 		expect( missingBlock.length ).toEqual( 1 );
-		expect( missingBlock[ 0 ].name ).toEqual( "missingblock" );
+		expect( missingBlock[ 0 ].name ).toEqual( "missingBlock" );
 
 		const redundantBlocks = result.filter( invalidBlock => invalidBlock.reason === InvalidBlockReason.TooMany );
 		expect( redundantBlocks.length ).toEqual( 1 );
-		expect( redundantBlocks[ 0 ].name ).toEqual( "redundantblock" );
+		expect( redundantBlocks[ 0 ].name ).toEqual( "redundantBlock" );
 	} );
 } );

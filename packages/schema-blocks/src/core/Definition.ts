@@ -56,7 +56,7 @@ export default abstract class Definition {
 	 * @returns {boolean} True if all instructions in the block are valid, false if any of the block instructions contains errors.
 	 */
 	valid( blockInstance: BlockInstance ): boolean {
-		return Object.values( this.instructions ).every( instruction => instruction.valid( blockInstance ) && blockInstance.attributes.req );
+		return Object.values( this.instructions ).every( instruction => instruction.valid( blockInstance ) );
 	}
 	/* eslint-enable @typescript-eslint/no-unused-vars */
 

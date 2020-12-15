@@ -3,6 +3,7 @@ import { subscribe, select, dispatch } from "@wordpress/data";
 
 import SchemaDefinition, { schemaDefinitions } from "../../core/schema/SchemaDefinition";
 import { BlockInstance } from "@wordpress/blocks";
+import { getBlockDefinition } from "../../core/blocks/BlockDefinitionRepository";
 
 let updatingSchema = false;
 let previousRootBlocks: BlockInstance[];
@@ -89,6 +90,13 @@ export default function watch() {
 		}
 
 		const rootBlocks = select( "core/block-editor" ).getBlocks();
+
+		const validations = {};
+		for ( const block of rootBlocks ) {
+			const def = getBlockDefinition( block.name );
+			const result = def.valid( block );
+			validations[ block.clientId ] = result;
+		}
 
 		if ( rootBlocks === previousRootBlocks ) {
 			return;
