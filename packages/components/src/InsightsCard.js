@@ -33,7 +33,7 @@ class InsightsCard extends React.Component {
 					{ this.getHelpIcon() }
 				</div>
 				<div className="yoast-insights-card__content">
-					<p className="yoast-insights-card__score"><span className="yoast-insights-card__amount">{ this.props.amount }</span> { this.props.measurement }</p>
+					<p className="yoast-insights-card__score"><span className="yoast-insights-card__amount">{ this.props.amount }</span> { this.props.unit }</p>
 					<div className="yoast-insights-card__description">{ this.getDescription() }</div>
 				</div>
 			</div>
@@ -45,7 +45,7 @@ InsightsCard.propTypes = {
 	title: PropTypes.string,
 	amount: PropTypes.number,
 	description: PropTypes.element,
-	measurement: PropTypes.string,
+	unit: PropTypes.string,
 	linkTo: PropTypes.string,
 	linkText: PropTypes.string,
 }
