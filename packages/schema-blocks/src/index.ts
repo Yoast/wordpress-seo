@@ -4,12 +4,14 @@ import watch from "./functions/gutenberg/watch";
 import filter from "./functions/gutenberg/filter";
 
 /**
- * Removes all line breaks from a string.
+ * Removes all whitespace including line breaks from a string.
+ *
+ * @param text The text to remove the whitespace from.
  *
  * @returns {string} The converted string.
  */
-function getTemplate(): string {
-	return this.innerHTML.split( "\n" ).map( s => s.trim() ).join( "" );
+function removeWhitespace( text: string ): string {
+	return text.split( "\n" ).map( ( s: string ) => s.trim() ).join( "" );
 }
 
 /**
@@ -18,7 +20,7 @@ function getTemplate(): string {
 export default function initialize() {
 	jQuery( 'script[type="text/schema-template"]' ).each( function() {
 		try {
-			const template = getTemplate();
+			const template = removeWhitespace( this.innerHTML );
 			const definition = processSchema( template );
 			definition.register();
 		} catch ( e ) {
@@ -31,7 +33,7 @@ export default function initialize() {
 
 	jQuery( 'script[type="text/block-template"]' ).each( function() {
 		try {
-			const template = getTemplate();
+			const template = removeWhitespace( this.innerHTML );
 			const definition = processBlock( template );
 			definition.register();
 		} catch ( e ) {
