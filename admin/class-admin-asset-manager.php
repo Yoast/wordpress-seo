@@ -592,6 +592,27 @@ class WPSEO_Admin_Asset_Manager {
 				],
 			],
 			[
+				/**
+				 * Asset exposing Yoast editor modules which are used in Yoast add-ons.
+				 */
+				'name' => 'editor-modules',
+				'src'  => false,
+				'deps' => [
+					'lodash',
+					'wp-compose',
+					'wp-data',
+					'wp-element',
+					'wp-i18n',
+					self::PREFIX . 'analysis',
+					self::PREFIX . 'analysis-report',
+					self::PREFIX . 'helpers',
+					self::PREFIX . 'legacy-components',
+					self::PREFIX . 'style-guide',
+					self::PREFIX . 'styled-components',
+					self::PREFIX . 'yoast-components',
+				],
+			],
+			[
 				// The `@yoast/components` package.
 				'name' => 'yoast-components',
 				'src'  => 'yoast/components-' . $flat_version,
