@@ -9,7 +9,7 @@ import { forEach } from "lodash-es";
  * @param {object} config The config object containing an array with syllable exclusions.
  * @constructor
  */
-var SyllableCountIterator = function( config ) {
+const SyllableCountIterator = function( config ) {
 	this.countSteps = [];
 	if ( ! isUndefined( config ) ) {
 		this.createSyllableCountSteps( config.deviations.vowels );

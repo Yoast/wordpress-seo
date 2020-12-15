@@ -43,8 +43,8 @@ const syllablesTestDataWithoutFragmentWordDeviations = {
 	deviations: {
 		vowels: [
 			{
-				fragments: [ "cial" ],
-				countModifier: -1,
+				fragments: [ "ia" ],
+				countModifier: 1,
 			},
 		],
 		words: {
@@ -59,8 +59,11 @@ const syllablesTestDataWithoutFragmentWordDeviations = {
 };
 
 describe( "a syllable counter for text strings", function() {
-	it( "counts syllables when the syllables object contains no deviations", function() {
+	it( "counts syllables when the syllables object has no deviations property", function() {
 		expect( countSyllables( "two cats", syllablesTestDataWithoutDeviations ) ).toBe( 2 );
+	} );
+	it( "counts syllables for a word without deviations when the syllable object has the deviations property", function() {
+		expect( countSyllables( "cat", syllablesTestDataWithoutFragmentWordDeviations ) ).toBe( 1 );
 	} );
 	it( "counts syllables in words for which the number of syllables is specified (full word deviations)", function() {
 		expect( countSyllables( "ok ok", syllablesTestDataWithoutFragmentWordDeviations ) ).toBe( 4 );
@@ -70,10 +73,7 @@ describe( "a syllable counter for text strings", function() {
 		expect( countSyllables( "unclosed", syllablesTestDataWithoutFullWordDeviations ) ).toBe( 2 );
 		expect( countSyllables( "ducttapes", syllablesTestDataWithoutFullWordDeviations ) ).toBe( 2 );
 	} );
-	it( "counts syllables when the syllable object contains vowel deviations and no word deviations", function() {
+	it( "counts syllables when the syllable object contains vowel deviations (and no word deviations)", function() {
 		expect( countSyllables( "trial", syllablesTestDataWithoutWordDeviations ) ).toBe( 2 );
-	} );
-	it( "counts syllables when the syllable object contains no fragment word deviations", function() {
-		expect( countSyllables( "cat", syllablesTestDataWithoutFragmentWordDeviations ) ).toBe( 1 );
 	} );
 } );

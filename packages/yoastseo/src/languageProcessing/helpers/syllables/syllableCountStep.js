@@ -56,7 +56,7 @@ SyllableCountStep.prototype.getRegex = function() {
  */
 SyllableCountStep.prototype.countSyllables = function( word ) {
 	if ( this._hasRegex ) {
-		var match = word.match( this._regex ) || [];
+		const match = word.match( this._regex ) || [];
 		return match.length * this._multiplier;
 	}
 	return 0;
