@@ -3,7 +3,6 @@ import { subscribe, select, dispatch } from "@wordpress/data";
 
 import SchemaDefinition, { schemaDefinitions } from "../../core/schema/SchemaDefinition";
 import { BlockInstance } from "@wordpress/blocks";
-import { getBlockDefinition } from "../../core/blocks/BlockDefinitionRepository";
 
 let updatingSchema = false;
 let previousRootBlocks: BlockInstance[];
