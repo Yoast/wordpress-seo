@@ -8,6 +8,19 @@ const getPassiveVerbsRussian = getPassiveVerbsRussianFactory().all;
 import getPassiveVerbsSwedishFactory from "../../swedish/passiveVoice/participles.js";
 const getPassiveVerbsSwedish = getPassiveVerbsSwedishFactory().all;
 
+const passiveEndingsTurkish = [ "nmak", "nmek", "nir", "nır", "nür", "nur", "nıyor", "niyor", "ndı", "ndi", "ndu", "ndü", "nmış", "nmiş", "nmuş",
+	"nmüş", "necek", "nacak", "nmıştı", "nmişti", "nmuştu", "nmüştü", "nıyordu", "niyordu", "nuyordu", "nüyordu", "necekti", "nacaktı", "nsa", "nse",
+	"nmalı", "nmeli", "nmaz", "nmez", "anmak", "enmek", "ınmak", "inmek", "unmak", "ünmek", "anır", "enir", "ınır", "inir", "unur", "ünür", "anıyor",
+	"eniyor", "ınıyor", "iniyor", "unuyor", "ünüyor", "andı", "endi", "ındı", "indi", "undu", "ündü", "anmış", "enmiş", "ınmış", "inmiş", "unmuş",
+	"ünmüş", "anacak", "enecek", "ınacak", "inecek", "unacak", "ünecek", "ınmıştı", "inmişti", "unmuştu", "ünmüştü", "ınıyordu", "iniyordu",
+	"unuyordu", "ünüyordu", "necekti", "nacaktı", "ansa", "ense", "ınsa", "inse", "unsa", "ünse", "anmalı", "enmeli", "ınmalı", "inmeli", "unmalı",
+	"ünmeli", "anmaz", "enmez", "ınmaz", "inmez", "unmaz", "ünmez", "ılmak", "ilmek", "ulmak", "ülmek", "ılır", "ilir", "ulur", "ülür", "ılınıyor",
+	"iliniyor", "ulunuyor", "ülüyor", "ıldı", "ildi", "uldu", "üldü", "ılmış", "ilmiş", "ulmuş", "ülmül", "ılacak", "ilecek", "ulacak", "ülecek",
+	"ılmıştı", "ilmişti", "ulmuştu", "ülmüştü", "ılıyordu", "iliyordu", "uluyordu", "ülüyordu", "necekti", "nacaktı", "ılsa", "ilse", "ulsa", "ülse",
+	"ılmalı", "ilmeli", "ulmalı", "ülmeli", "ılmaz", "ilmez", "ulmaz", "ülmez" ];
+
+import { nonPassivesFullForms, nonPassiveStems } from "../../turkish/passiveVoice/nonPassivesTurkish";
+
 const passivePrefixIndonesian = "di";
 import nonPassivesIndonesianFactory from "../../indonesian/passiveVoice/nonPassiveVerbsStartingDi";
 const nonPassivesIndonesian = nonPassivesIndonesianFactory();
@@ -22,6 +35,7 @@ import getPualVerbsHebrewFactory from "../../hebrew/passiveVoice/regularRootsPua
 const pualVerbsHebrew = getPualVerbsHebrewFactory();
 
 import getHufalVerbsHebrewFactory from "../../hebrew/passiveVoice/regularRootsHufal";
+import { removeSuffixesFromFullForm, removeSuffixFromFullForm } from "../../../morphology/morphoHelpers/stemHelpers";
 const hufalVerbsHebrew = getHufalVerbsHebrewFactory();
 
 /**
@@ -90,8 +104,39 @@ const determineSentenceIsPassiveIndonesian = function( sentence ) {
 		}
 		return matchedPassivesShouldStay;
 	} );
-
 	return matchedPassives.length !== 0;
+};
+
+/**
+ * Checks the passed sentence to see if it contains Turkish passive verb forms. check exception full forms.
+ * then remove ending. check for stemming exceptionss. if not found in tsemming exceptions, it is passive.
+ *
+ * @param {string} word   The word to check
+ *
+ * @returns {array}       The filtered passive
+ */
+const checkTurkishNonPassivesList = function( nonPassivesTurkish, passiveEndings, matchedPassives ) {
+	return matchedPassives.filter( passive => nonPassivesTurkish.some( stem => passiveEndings.some( function( ending ) {
+		const pattern =  new RegExp( "^" + stem + ending + "$" );
+		return ! pattern.test( passive );
+	} ) ) );
+};
+
+/**
+ * Checks the passed sentence to see if it contains Turkish passive verb forms. check exception full forms.
+ * then remove ending. check for stemming exceptionss. if not found in tsemming exceptions, it is passive.
+ *
+ * @param {string} sentence   The sentence to match against.
+ *
+ * @returns {Boolean}         Whether the sentence contains Turkish passive voice.
+ */
+const determineSentenceIsPassiveTurkish = function( sentence ) {
+	const words = getWords( sentence );
+	let matchedPassives = words.filter( word => ( word.length > 5 ) );
+	matchedPassives = matchedPassives.filter( word => ! nonPassivesFullForms.includes( word ) );
+	matchedPassives = checkTurkishNonPassivesList( nonPassiveStems, passiveEndingsTurkish, matchedPassives );
+	console.log(matchedPassives )
+	return  matchedPassives.some( word => passiveEndingsTurkish.some( ending => word.endsWith( ending ) ) );
 };
 
 /**
@@ -223,6 +268,10 @@ export default function( sentenceText, language ) {
 
 	if ( language === "id" ) {
 		return determineSentenceIsPassiveIndonesian( sentenceText );
+	}
+
+	if ( language === "tr" ) {
+		return determineSentenceIsPassiveTurkish( sentenceText );
 	}
 
 	if ( language === "ar" ) {
