@@ -1,11 +1,25 @@
 import React, { Fragment } from "react";
 import PropTypes from "prop-types";
+import HelpIcon from "./help-icon/HelpIcon";
 
 class InsightsCard extends React.Component {
 
 	getDescription() {
 		if ( this.props.description ) {
-			return <p className="yoast-insights-card__description">{ this.props.description }</p>;
+			return this.props.description;
+		}
+
+		return;
+	}
+
+	getHelpIcon() {
+		if ( this.props.linkTo ) {
+			return (
+				<HelpIcon
+					linkTo={ this.props.linkTo }
+					linkText={ this.props.linkText }
+				/>
+			);
 		}
 
 		return;
@@ -14,26 +28,26 @@ class InsightsCard extends React.Component {
 	render() {
 		return (
 			<div className="yoast-insights-card">
-				<p className="yoast-field-group__title">{ this.props.title }</p>
+				<div className="yoast-field-group__title">
+					<b>{ this.props.title }</b>
+					{ this.getHelpIcon() }
+				</div>
 				<div className="yoast-insights-card__content">
-					<p><span className="yoast-insights-card__amount">{ this.props.amount }</span> minutes</p>
-					{ this.getDescription() }
+					<p className="yoast-insights-card__score"><span className="yoast-insights-card__amount">{ this.props.amount }</span> { this.props.measurement }</p>
+					<div className="yoast-insights-card__description">{ this.getDescription() }</div>
 				</div>
 			</div>
 		);
 	}
 }
 
-export default InsightsCard;
-
 InsightsCard.propTypes = {
-	title: PropTypes.String,
-	amount: PropTypes.String.isRequired,
-	description: PropTypes.String,
+	title: PropTypes.string,
+	amount: PropTypes.number,
+	description: PropTypes.element,
+	measurement: PropTypes.string,
+	linkTo: PropTypes.string,
+	linkText: PropTypes.string,
 }
 
-InsightsCard.defaultProps = {
-	title: "",
-	amount: "",
-	description: "",
-}
+export default InsightsCard;
