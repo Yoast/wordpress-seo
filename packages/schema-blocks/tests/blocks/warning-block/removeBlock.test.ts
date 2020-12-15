@@ -1,6 +1,6 @@
 import { dispatch } from "@wordpress/data";
 
-import removeBlock from "../../src/blocks/warning-block/removeBlock";
+import removeBlock from "../../../src/blocks/warning-block/removeBlock";
 
 jest.mock( "@wordpress/data", () => {
 	return {

@@ -1,7 +1,7 @@
 import { createBlock } from "@wordpress/blocks";
 import { dispatch } from "@wordpress/data";
 
-import restoreBlock from "../../src/blocks/warning-block/restoreBlock";
+import restoreBlock from "../../../src/blocks/warning-block/restoreBlock";
 
 jest.mock( "@wordpress/data", () => {
 	return {
