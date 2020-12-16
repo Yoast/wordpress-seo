@@ -12,3 +12,31 @@
 .yoast-labeled-inserter > .block-editor-inserter {
 	width: 100%;
 }
+
+.yoast-block-sidebar-title {
+	font-weight: 600;
+	color: #303030;
+}
+
+.yoast-block-suggestions {
+	width:100%;
+	padding: 0 0 0 15px;
+}
+
+.yoast-block-suggestion {
+	list-style: disc;
+	color: #707070;
+}
+
+.yoast-block-suggestion--added {
+	color: #404040;
+}
+
+.yoast-block-suggestion-button {
+	cursor: pointer;
+	float:right;
+	color: #006DAC;
+	text-decoration: underline;
+	border: 0;
+	background: 0;
+}

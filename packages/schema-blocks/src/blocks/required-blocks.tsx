@@ -5,7 +5,7 @@ import { RequiredBlock } from "../instructions/blocks/dto";
 
 import { getInnerblocksByName, insertBlockToInnerBlock } from "../functions/innerBlocksHelper";
 import { getBlockType } from "../functions/blocks";
-import { PanelBody, PanelRow } from "@wordpress/components";
+import { PanelBody } from "@wordpress/components";
 
 /**
  * Renders a list with the required block names and an button to add/remove one.
@@ -60,12 +60,11 @@ export default function RequiredBlocks( block: BlockInstance, requiredBlocks: Re
 	} );
 
 	return (
-		<PanelBody title="Required blocks">
-			<PanelRow>
-				<ul className="yoast-block-suggestions">
-					{ requiredBlockItems }
-				</ul>
-			</PanelRow>
+		<PanelBody>
+			<div className="yoast-block-sidebar-title">Required blocks</div>
+			<ul className="yoast-block-suggestions">
+				{ requiredBlockItems }
+			</ul>
 		</PanelBody>
 	);
 }
