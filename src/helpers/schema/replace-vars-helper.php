@@ -81,15 +81,25 @@ class Replace_Vars_Helper {
 	 * @return void
 	 */
 	public function register_replace_vars() {
-		$context = $this->meta_tags_context_memoizer->for_current_page();
-
 		$replace_vars = [
-			'main_schema_id'   => $context->main_schema_id,
-			'author_id'        => $this->id_helper->get_user_schema_id( $context->indexable->author_id, $context ),
-			'person_id'        => $context->site_url . Schema_IDs::PERSON_HASH,
-			'primary_image_id' => $context->canonical . Schema_IDs::PRIMARY_IMAGE_HASH,
-			'webpage_id'       => $context->canonical . Schema_IDs::WEBPAGE_HASH,
-			'website_id'       => $context->site_url . Schema_IDs::WEBSITE_HASH,
+			'main_schema_id'   => function( $context ) {
+				return $context->main_schema_id;
+			},
+			'author_id'        => function( $context ) {
+				return $this->id_helper->get_user_schema_id( $context->indexable->author_id, $context );
+			},
+			'person_id'        => function( $context ) {
+				return $context->site_url . Schema_IDs::PERSON_HASH;
+			},
+			'primary_image_id' => function( $context ) {
+				return $context->canonical . Schema_IDs::PRIMARY_IMAGE_HASH;
+			},
+			'webpage_id'       => function( $context ) {
+				return $context->canonical . Schema_IDs::WEBPAGE_HASH;
+			},
+			'website_id'       => function( $context ) {
+				return $context->site_url . Schema_IDs::WEBSITE_HASH;
+			},
 		];
 
 		foreach ( $replace_vars as $var => $value ) {
@@ -105,23 +115,26 @@ class Replace_Vars_Helper {
 	 */
 	protected function maybe_register_replacement( $variable, $value ) {
 		if ( ! $this->replace_vars->has_been_registered( $variable ) ) {
-			$this->register_replacement( $variable, $value );
+			$this->register_replacement( $variable, $value, $this->meta_tags_context_memoizer );
 		}
 	}
 
 	/**
-	 * Registers a replace var and its value.
+	 * Registers a replace var and its replace function.
 	 *
 	 * @codeCoverageIgnore Wraps a static method that cannot be tested.
 	 *
-	 * @param string $variable The replace variable.
-	 * @param string $value    The value that the variable should be replaced with.
+	 * @param string                     $variable                   The replace variable.
+	 * @param Callable                   $replace_function           The value that the variable should be replaced with.
+	 * @param Meta_Tags_Context_Memoizer $meta_tags_context_memoizer The meta tags context memoizer.
 	 */
-	protected function register_replacement( $variable, $value ) {
+	protected function register_replacement( $variable, $replace_function, $meta_tags_context_memoizer ) {
 		WPSEO_Replace_Vars::register_replacement(
 			$variable,
-			static function() use ( $value ) {
-				return $value;
+			static function() use ( $replace_function, $meta_tags_context_memoizer ) {
+				$context = $meta_tags_context_memoizer->for_current_page();
+
+				return $replace_function( $context );
 			}
 		);
 	}

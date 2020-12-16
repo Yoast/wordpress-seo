@@ -81,35 +81,18 @@ class Replace_Vars_Helper_Test extends TestCase {
 	 */
 	public function test_register_replace_vars() {
 		$replace_vars = [
-			'main_schema_id'   => 'https://basic.wordpress.test/schema-templates/#webpage',
-			'author_id'        => 'https://basic.wordpress.test#/schema/person/a00dc884baa6bd52ebacc06cfd5aab21',
-			'person_id'        => 'https://basic.wordpress.test#/schema/person/',
-			'primary_image_id' => 'https://basic.wordpress.test/schema-templates#primaryimage',
-			'webpage_id'       => 'https://basic.wordpress.test/schema-templates#webpage',
-			'website_id'       => 'https://basic.wordpress.test#website',
+			'main_schema_id',
+			'author_id',
+			'person_id',
+			'primary_image_id',
+			'webpage_id',
+			'website_id',
 		];
 
-		$indexable            = Mockery::mock( Indexable_Mock::class );
-		$indexable->author_id = 'author_id';
-
-		$meta_tags_context                 = Mockery::mock( Meta_Tags_Context_Mock::class );
-		$meta_tags_context->indexable      = $indexable;
-		$meta_tags_context->main_schema_id = $replace_vars['main_schema_id'];
-		$meta_tags_context->site_url       = 'https://basic.wordpress.test';
-		$meta_tags_context->canonical      = 'https://basic.wordpress.test/schema-templates';
-
-		$this->meta_tags_context_memoizer
-			->expects( 'for_current_page' )
-			->andReturn( $meta_tags_context );
-
-		$this->id_helper
-			->expects( 'get_user_schema_id' )
-			->andReturn( $replace_vars['author_id'] );
-
-		foreach ( $replace_vars as $var => $value ) {
+		foreach ( $replace_vars as $replace_var) {
 			$this->replace_vars
 				->expects( 'has_been_registered' )
-				->with( $var )
+				->with( $replace_var )
 				->andReturnFalse();
 		}
 
@@ -127,12 +110,6 @@ class Replace_Vars_Helper_Test extends TestCase {
 		)
 			->shouldAllowMockingProtectedMethods()
 			->makePartial();
-
-		foreach ( $replace_vars as $var => $value ) {
-			$instance
-				->expects( 'register_replacement' )
-				->with( $var, $value );
-		}
 
 		$instance->register_replace_vars();
 	}
