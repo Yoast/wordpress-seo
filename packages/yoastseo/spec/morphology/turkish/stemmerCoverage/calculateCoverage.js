@@ -3,7 +3,7 @@ import stem from "../../../../src/morphology/turkish/stem";
 import getMorphologyData from "../../../specHelpers/getMorphologyData";
 import goldStandard from "./goldStandardStems.json";
 
-const morphologyDataHU = getMorphologyData( "tr" ).hu;
+const morphologyDataTR = getMorphologyData( "tr" ).hu;
 
 const coverageThreshold = 0.8;
 
