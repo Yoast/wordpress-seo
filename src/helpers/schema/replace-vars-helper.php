@@ -103,33 +103,19 @@ class Replace_Vars_Helper {
 		];
 
 		foreach ( $replace_vars as $var => $value ) {
-			$this->maybe_register_replacement( $var, $value );
-		}
-	}
-
-	/**
-	 * Registers a replace var and its value if it has not been registered yet.
-	 *
-	 * @param string $variable The replace variable.
-	 * @param string $value    The value that the variable should be replaced with.
-	 */
-	protected function maybe_register_replacement( $variable, $value ) {
-		if ( ! $this->replace_vars->has_been_registered( $variable ) ) {
-			$this->register_replacement( $variable, $value, $this->meta_tags_context_memoizer );
+			$this->register_replacement( $var, $value, $this->meta_tags_context_memoizer );
 		}
 	}
 
 	/**
 	 * Registers a replace var and its replace function.
 	 *
-	 * @codeCoverageIgnore Wraps a static method that cannot be tested.
-	 *
 	 * @param string                     $variable                   The replace variable.
 	 * @param Callable                   $replace_function           The value that the variable should be replaced with.
 	 * @param Meta_Tags_Context_Memoizer $meta_tags_context_memoizer The meta tags context memoizer.
 	 */
 	protected function register_replacement( $variable, $replace_function, $meta_tags_context_memoizer ) {
-		WPSEO_Replace_Vars::register_replacement(
+		$this->replace_vars->safe_register_replacement(
 			$variable,
 			static function() use ( $replace_function, $meta_tags_context_memoizer ) {
 				$context = $meta_tags_context_memoizer->for_current_page();

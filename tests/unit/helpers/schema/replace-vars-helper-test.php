@@ -2,13 +2,9 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Helpers\Schema;
 
-use Yoast\WP\SEO\Context\Meta_Tags_Context;
 use Yoast\WP\SEO\Presentations\Indexable_Presentation;
-use Yoast\WP\SEO\Tests\Unit\Doubles\Context\Meta_Tags_Context_Mock;
-use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
-use Brain\Monkey;
 use Mockery;
 
 use Yoast\WP\SEO\Helpers\Schema\Replace_Vars_Helper;
@@ -77,41 +73,14 @@ class Replace_Vars_Helper_Test extends TestCase {
 	 *
 	 * @covers ::__construct
 	 * @covers ::register_replace_vars
-	 * @covers ::maybe_register_replacement
+	 * @covers ::register_replacement
 	 */
 	public function test_register_replace_vars() {
-		$replace_vars = [
-			'main_schema_id',
-			'author_id',
-			'person_id',
-			'primary_image_id',
-			'webpage_id',
-			'website_id',
-		];
+		$this->replace_vars
+			->expects( 'safe_register_replacement' )
+			->times( 6 );
 
-		foreach ( $replace_vars as $replace_var) {
-			$this->replace_vars
-				->expects( 'has_been_registered' )
-				->with( $replace_var )
-				->andReturnFalse();
-		}
-
-		/*
-		 * Need to make a partial mock, since we are not able to mock
-		 * the static WPSEO_Replace_Vars::register_replacement method.
-		 */
-		$instance = Mockery::mock(
-			Replace_Vars_Helper::class,
-			[
-				$this->meta_tags_context_memoizer,
-				$this->replace_vars,
-				$this->id_helper,
-			]
-		)
-			->shouldAllowMockingProtectedMethods()
-			->makePartial();
-
-		$instance->register_replace_vars();
+		$this->instance->register_replace_vars();
 	}
 
 	/**
