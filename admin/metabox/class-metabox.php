@@ -88,8 +88,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$this->is_advanced_metadata_enabled = WPSEO_Capability_Utils::current_user_can( 'wpseo_edit_advanced_metadata' ) || WPSEO_Options::get( 'disableadvanced_meta' ) === false;
 
 		$this->estimated_reading_time_conditional = new Estimated_Reading_Time_Conditional(
-			YoastSEO()->classes->get( Post_Conditional::class ),
-			YoastSEO()->classes->get( Input_Helper::class )
+			new Post_Conditional(),
+			new Input_Helper()
 		);
 
 		$this->seo_analysis         = new WPSEO_Metabox_Analysis_SEO();
