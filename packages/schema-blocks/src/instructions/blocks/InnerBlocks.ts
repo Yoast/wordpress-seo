@@ -1,16 +1,15 @@
-import { createElement, ComponentClass, Fragment } from "@wordpress/element";
-import { InnerBlocks as WordPressInnerBlocks, InspectorControls } from "@wordpress/block-editor";
-import { PanelBody, PanelRow } from "@wordpress/components";
-import { BlockInstance, TemplateArray, createBlock } from "@wordpress/blocks";
+import { ReactElement } from "react";
+import { createElement, ComponentClass } from "@wordpress/element";
+import { InnerBlocks as WordPressInnerBlocks } from "@wordpress/block-editor";
+import { BlockInstance, TemplateArray } from "@wordpress/blocks";
 
 import BlockInstruction from "../../core/blocks/BlockInstruction";
 import { RequiredBlock } from "./dto";
 import getInvalidInnerBlocks from "../../functions/validators/innerBlocksValid";
 import { InvalidBlockReason } from "./enums";
-import { getInnerblocksByName, insertBlockToInnerBlock } from "../../functions/innerBlocksHelper";
-import { removeBlock, getBlockType } from "../../functions/blocks";
-import { RenderEditProps, RenderSaveProps } from "../../core/blocks/BlockDefinition";
+import { RenderEditProps } from "../../core/blocks/BlockDefinition";
 import { getBlockByClientId } from "../../functions/BlockHelper";
+import RequiredBlocks from "../../blocks/required-blocks";
 
 /**
  * The InnerBlocks instruction.
@@ -39,7 +38,7 @@ export default class InnerBlocks extends BlockInstruction {
 	 *
 	 * @returns The inner blocks.
 	 */
-	edit( props: RenderSaveProps | RenderEditProps ): JSX.Element {
+	edit(): JSX.Element {
 		const properties: WordPressInnerBlocks.Props = {};
 
 		if ( this.options.appender === "button" ) {
@@ -68,100 +67,46 @@ export default class InnerBlocks extends BlockInstruction {
 			properties.template = this.options.template;
 		}
 
-		const requiredBlocks: any[] = [];
-		const currentBlock = getBlockByClientId( props.clientId );
-		if ( this.options.requiredBlocks ) {
-			// Get innerblocks for current block.
-			const requiredBlockNames = this.options.requiredBlocks.map( ( requiredBlock ) => {
-				return requiredBlock.name;
-			} );
-			const findPresentBlocks = getInnerblocksByName( currentBlock, requiredBlockNames );
-			const presentBlockNames = findPresentBlocks.map( ( presentBlock ) => {
-				return presentBlock.name;
-			} );
-
-			requiredBlockNames.forEach( ( requiredBlockName: string ) => {
-				const blockType = getBlockType( requiredBlockName );
-
-				if ( typeof blockType === "undefined" ) {
-					return;
-				}
-
-				if ( presentBlockNames.includes( requiredBlockName ) ) {
-					requiredBlocks.push( createElement( "div", {
-						onClick: () => {
-							const blocksToRemove = getInnerblocksByName( currentBlock, [ requiredBlockName ] );
-							blocksToRemove.forEach( ( blockToRemove ) => {
-								removeBlock( blockToRemove.clientId );
-							} );
-						},
-					}, blockType.title + " -" ) );
-
-					return;
-				}
-
-				requiredBlocks.push(
-					createElement(
-						"div",
-						{
-							onClick: () => {
-								const block = createBlock( requiredBlockName );
-								insertBlockToInnerBlock( block, props.clientId );
-							},
-						},
-						blockType.title + " +",
-					),
-				);
-			} );
-		}
-
-		const requiredBlocksPanel = createElement(
-			PanelBody,
-			{
-				title: "Required blocks",
-				children: [
-					createElement( PanelRow, {}, ...requiredBlocks ),
-				],
-			},
-		);
-
-		return createElement(
-			Fragment,
-			{
-				children: [
-					createElement( WordPressInnerBlocks, properties ),
-					createElement( InspectorControls,
-						{
-							children: [
-								requiredBlocksPanel,
-							],
-						},
-					),
-				],
-			},
-		);
+		return createElement( WordPressInnerBlocks, properties );
 	}
 
 	/**
 	 * Renders the sidebar.
 	 *
 	 * @param props The props.
-	 * @param i     The number the rendered element is of it's parent.
 	 *
 	 * @returns The sidebar element to render.
-	sidebar( props: RenderEditProps, i: number ): ReactElement | string {
+	 */
+	sidebar( props: RenderEditProps ): ReactElement | string {
+		//
+		// const requiredBlocksPanel = createElement(
+		// 	PanelBody,
+		// 	{
+		// 		title: "Required blocks",
+		// 	},
+		// );
+
+		const currentBlock = getBlockByClientId( props.clientId );
+
+		if ( this.options.requiredBlocks ) {
+			return RequiredBlocks( currentBlock, this.options.requiredBlocks );
+		}
+
+		// return requiredBlocksPanel;
+
+
 		// Loop over all blocks (not just the invalid ones!), add a div to the block depending on their status.
-		const invalidBlocks = getInvalidInnerBlocks( this.options.requiredBlocks, props.clientId );
+		// const invalidBlocks = getInvalidInnerBlocks( this.options.requiredBlocks, props.clientId );
 		// Block OK? div with a green check,
 		// Block missing? add button,
 		// Block occurs too often? remove button,
 		// Block internal validation?
-		const count = ( invalidBlocks || [] ).length;
+		// const count = ( invalidBlocks || [] ).length;
 
 		// The innerblock sidebar is handled in P2-505, P2-506.
-		console.log( "Found " + count + " invalid blocks." );
+		// console.log( "Found " + count + " invalid blocks." );
 		return "";
-	}*/
+	}
 
 	/**
 	 * Checks if the instruction block is valid.
