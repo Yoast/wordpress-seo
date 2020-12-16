@@ -23,7 +23,7 @@ use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Presenters\Admin\Meta_Fields_Presenter;
 use Elementor\Controls_Manager;
 use Elementor\Core\DocumentTypes\PageBase;
-use Yoast\WP\SEO\Conditionals\Estimated_Reading_Time_Conditional;
+use Yoast\WP\SEO\Conditionals\Admin\Estimated_Reading_Time_Conditional;
 
 /**
  * Integrates the Yoast SEO metabox in the Elementor editor.

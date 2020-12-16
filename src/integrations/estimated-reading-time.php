@@ -2,7 +2,7 @@
 
 namespace Yoast\WP\SEO\Integrations;
 
-use Yoast\WP\SEO\Conditionals\Estimated_Reading_Time_Conditional;
+use Yoast\WP\SEO\Conditionals\Admin\Estimated_Reading_Time_Conditional;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 
 /**

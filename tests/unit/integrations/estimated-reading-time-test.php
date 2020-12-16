@@ -3,7 +3,7 @@
 namespace Yoast\WP\SEO\Tests\Unit\Integrations;
 
 use Brain\Monkey;
-use Yoast\WP\SEO\Conditionals\Estimated_Reading_Time_Conditional;
+use Yoast\WP\SEO\Conditionals\Admin\Estimated_Reading_Time_Conditional;
 use Yoast\WP\SEO\Integrations\Estimated_Reading_Time;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 

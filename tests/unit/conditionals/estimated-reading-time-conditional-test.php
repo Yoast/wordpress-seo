@@ -5,7 +5,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Conditionals;
 use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Conditionals\Admin\Post_Conditional;
-use Yoast\WP\SEO\Conditionals\Estimated_Reading_Time_Conditional;
+use Yoast\WP\SEO\Conditionals\Admin\Estimated_Reading_Time_Conditional;
 use Yoast\WP\SEO\Helpers\Input_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
