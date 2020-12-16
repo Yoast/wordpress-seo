@@ -5,6 +5,9 @@
  * @package WPSEO\Admin
  */
 
+use Yoast\WP\SEO\Conditionals\Admin\Post_Conditional;
+use Yoast\WP\SEO\Conditionals\Estimated_Reading_Time_Conditional;
+use Yoast\WP\SEO\Helpers\Input_Helper;
 use Yoast\WP\SEO\Presenters\Admin\Alert_Presenter;
 use Yoast\WP\SEO\Presenters\Admin\Meta_Fields_Presenter;
 
@@ -56,6 +59,13 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	protected $is_advanced_metadata_enabled;
 
 	/**
+	 * Represents the estimated_reading_time_conditional.
+	 *
+	 * @var Estimated_Reading_Time_Conditional
+	 */
+	protected $estimated_reading_time_conditional;
+
+	/**
 	 * Class constructor.
 	 */
 	public function __construct() {
@@ -76,6 +86,11 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		$this->social_is_enabled            = WPSEO_Options::get( 'opengraph', false ) || WPSEO_Options::get( 'twitter', false );
 		$this->is_advanced_metadata_enabled = WPSEO_Capability_Utils::current_user_can( 'wpseo_edit_advanced_metadata' ) || WPSEO_Options::get( 'disableadvanced_meta' ) === false;
+
+		$this->estimated_reading_time_conditional = new Estimated_Reading_Time_Conditional(
+			YoastSEO()->classes->get( Post_Conditional::class ),
+			YoastSEO()->classes->get( Input_Helper::class ),
+		);
 
 		$this->seo_analysis         = new WPSEO_Metabox_Analysis_SEO();
 		$this->readability_analysis = new WPSEO_Metabox_Analysis_Readability();
@@ -871,6 +886,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 					// We need to make the feature flags separately available inside of the analysis web worker.
 					'enabled_features'        => WPSEO_Utils::retrieve_enabled_features(),
 				],
+				'estimatedReadingTimeEnabled' => $this->estimated_reading_time_conditional->is_met(),
 			],
 			'media'            => [
 				// @todo replace this translation with JavaScript translations.

@@ -23,6 +23,7 @@ use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Presenters\Admin\Meta_Fields_Presenter;
 use Elementor\Controls_Manager;
 use Elementor\Core\DocumentTypes\PageBase;
+use Yoast\WP\SEO\Conditionals\Estimated_Reading_Time_Conditional;
 
 /**
  * Integrates the Yoast SEO metabox in the Elementor editor.
@@ -86,6 +87,13 @@ class Elementor implements Integration_Interface {
 	protected $readability_analysis;
 
 	/**
+	 * Represents the estimated_reading_time_conditional.
+	 *
+	 * @var Estimated_Reading_Time_Conditional
+	 */
+	protected $estimated_reading_time_conditional;
+
+	/**
 	 * The identifier for the elementor tab.
 	 */
 	const YOAST_TAB = 'yoast-tab';
@@ -102,19 +110,26 @@ class Elementor implements Integration_Interface {
 	/**
 	 * Constructor.
 	 *
-	 * @param WPSEO_Admin_Asset_Manager $asset_manager The asset manager.
-	 * @param Options_Helper            $options       The options helper.
-	 * @param Capability_Helper         $capability    The capability helper.
+	 * @param WPSEO_Admin_Asset_Manager          $asset_manager                      The asset manager.
+	 * @param Options_Helper                     $options                            The options helper.
+	 * @param Capability_Helper                  $capability                         The capability helper.
+	 * @param Estimated_Reading_Time_Conditional $estimated_reading_time_conditional The Estimated Reading Time conditional.
 	 */
-	public function __construct( WPSEO_Admin_Asset_Manager $asset_manager, Options_Helper $options, Capability_Helper $capability ) {
+	public function __construct(
+		WPSEO_Admin_Asset_Manager $asset_manager,
+		Options_Helper $options,
+		Capability_Helper $capability,
+		Estimated_Reading_Time_Conditional $estimated_reading_time_conditional
+	) {
 		$this->asset_manager = $asset_manager;
 		$this->options       = $options;
 		$this->capability    = $capability;
 
-		$this->seo_analysis                 = new WPSEO_Metabox_Analysis_SEO();
-		$this->readability_analysis         = new WPSEO_Metabox_Analysis_Readability();
-		$this->social_is_enabled            = $this->options->get( 'opengraph', false ) || $this->options->get( 'twitter', false );
-		$this->is_advanced_metadata_enabled = $this->capability->current_user_can( 'wpseo_edit_advanced_metadata' ) || $this->options->get( 'disableadvanced_meta' ) === false;
+		$this->seo_analysis                       = new WPSEO_Metabox_Analysis_SEO();
+		$this->readability_analysis               = new WPSEO_Metabox_Analysis_Readability();
+		$this->social_is_enabled                  = $this->options->get( 'opengraph', false ) || $this->options->get( 'twitter', false );
+		$this->is_advanced_metadata_enabled       = $this->capability->current_user_can( 'wpseo_edit_advanced_metadata' ) || $this->options->get( 'disableadvanced_meta' ) === false;
+		$this->estimated_reading_time_conditional = $estimated_reading_time_conditional;
 	}
 
 	/**
@@ -393,6 +408,7 @@ class Elementor implements Integration_Interface {
 					// We need to make the feature flags separately available inside of the analysis web worker.
 					'enabled_features'        => WPSEO_Utils::retrieve_enabled_features(),
 				],
+				'estimatedReadingTimeEnabled' => $this->estimated_reading_time_conditional->is_met(),
 			],
 			'media'             => [
 				'choose_image' => __( 'Use Image', 'wordpress-seo' ),
