@@ -60,9 +60,15 @@ const getExplanation = keywords => {
 	);
 };
 
+/**
+ * Returns the title for the header.
+ *
+ *
+ * @returns {string} The title.
+ */
 const getHeader = () => {
-	return __("Prominent words", "yoast-components");
-}
+	return __( "Prominent words", "yoast-components" );
+};
 
 /**
  * @summary WordList component.
