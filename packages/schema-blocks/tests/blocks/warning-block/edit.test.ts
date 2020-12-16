@@ -1,11 +1,11 @@
 import renderer from "react-test-renderer";
 import { shallow } from "enzyme";
 
-import { removeBlock, restoreBlock } from "../../src/functions/BlockHelper";
-import { edit } from "../../src/blocks/warning-block/edit";
-import { RenderEditProps } from "../../src/core/blocks/BlockDefinition";
+import { removeBlock, restoreBlock } from "../../../src/functions/BlockHelper";
+import { edit } from "../../../src/blocks/warning-block/edit";
+import { RenderEditProps } from "../../../src/core/blocks/BlockDefinition";
 
-jest.mock( "../../src/functions/BlockHelper", () => {
+jest.mock( "../../../src/functions/BlockHelper", () => {
 	return {
 		removeBlock: jest.fn(),
 		restoreBlock: jest.fn(),

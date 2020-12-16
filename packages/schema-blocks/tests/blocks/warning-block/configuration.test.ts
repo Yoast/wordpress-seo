@@ -1,5 +1,5 @@
 
-import { WarningBlock } from "../../src/blocks/warning-block/configuration";
+import { WarningBlock } from "../../../src/blocks/warning-block/configuration";
 
 describe( "the warning block configuration", () => {
 	it( "should have a removedBlock attribute of type string", () => {
