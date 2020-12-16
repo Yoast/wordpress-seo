@@ -596,7 +596,7 @@ class WPSEO_Admin_Asset_Manager {
 				 * Asset exposing Yoast editor modules which are used in Yoast add-ons.
 				 */
 				'name' => 'editor-modules',
-				'src'  => false,
+				'src'  => 'editor-modules-' . $flat_version,
 				'deps' => [
 					'lodash',
 					'wp-compose',
