@@ -1,8 +1,8 @@
 <?php
 
-namespace Yoast\WP\SEO\Conditionals;
+namespace Yoast\WP\SEO\Conditionals\Admin;
 
-use Yoast\WP\SEO\Conditionals\Admin\Post_Conditional;
+use Yoast\WP\SEO\Conditionals\Conditional;
 use Yoast\WP\SEO\Helpers\Input_Helper;
 
 /**

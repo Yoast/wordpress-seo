@@ -57,10 +57,8 @@ function initialize() {
 	// Initialize the Used Keywords Assessment.
 	initializeUsedKeywords();
 
-	console.time( "readingtime init" );
 	// Initialize Estimated Reading Time.
 	initializeEstimatedReadingTime();
-	console.timeEnd( "readingtime init" );
 
 	// Initialize focus keyphrase forms highlighting.
 	initHighlightFocusKeyphraseForms( window.YoastSEO.analysis.worker.runResearch );

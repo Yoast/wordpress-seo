@@ -89,7 +89,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		$this->estimated_reading_time_conditional = new Estimated_Reading_Time_Conditional(
 			YoastSEO()->classes->get( Post_Conditional::class ),
-			YoastSEO()->classes->get( Input_Helper::class ),
+			YoastSEO()->classes->get( Input_Helper::class )
 		);
 
 		$this->seo_analysis         = new WPSEO_Metabox_Analysis_SEO();
@@ -865,7 +865,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$used_keywords_assessment_location = new WPSEO_Admin_Asset_Analysis_Worker_Location( $asset_manager->flatten_version( WPSEO_VERSION ), 'used-keywords-assessment' );
 
 		$script_data = [
-			'analysis'         => [
+			'analysis' => [
 				'plugins' => [
 					'replaceVars' => [
 						'no_parent_text'           => __( '(no parent)', 'wordpress-seo' ),
