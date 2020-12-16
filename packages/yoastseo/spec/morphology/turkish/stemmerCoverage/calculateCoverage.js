@@ -8,7 +8,7 @@ const morphologyDataHU = getMorphologyData( "tr" ).hu;
 const coverageThreshold = 0.8;
 
 describe( "Calculate coverage for the Turkish stemmer", () => {
-	const stemsComparison = goldStandard.stems.map( word => [ word[ 0 ], word[ 1 ], stem( word[ 0 ], morphologyDataHU ) ] );
+	const stemsComparison = goldStandard.stems.map( word => [ word[ 0 ], word[ 1 ], stem( word[ 0 ], morphologyDataTR ) ] );
 
 	const errors = stemsComparison.filter( word => word[ 1 ] !== word[ 2 ] );
 
