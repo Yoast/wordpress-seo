@@ -16,7 +16,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group conditionals
  * @group estimated-reading-time
  *
- * @coversDefaultClass \Yoast\WP\SEO\Conditionals\Estimated_Reading_Time_Conditional
+ * @coversDefaultClass \Yoast\WP\SEO\Conditionals\Admin\Estimated_Reading_Time_Conditional
  */
 class Estimated_Reading_Time_Conditional_Test extends TestCase {
 
