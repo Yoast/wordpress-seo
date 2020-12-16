@@ -1,7 +1,6 @@
 import { createElement } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
-import restoreBlock from "./restoreBlock";
-import removeBlock from "./removeBlock";
+import { removeBlock, restoreBlock } from "../../functions/BlockHelper";
 import { RenderEditProps } from "../../core/blocks/BlockDefinition";
 
 /**
