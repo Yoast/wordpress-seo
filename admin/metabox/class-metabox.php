@@ -864,38 +864,40 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$analysis_worker_location          = new WPSEO_Admin_Asset_Analysis_Worker_Location( $asset_manager->flatten_version( WPSEO_VERSION ) );
 		$used_keywords_assessment_location = new WPSEO_Admin_Asset_Analysis_Worker_Location( $asset_manager->flatten_version( WPSEO_VERSION ), 'used-keywords-assessment' );
 
+		$plugins_script_data = [
+			'replaceVars' => [
+				'no_parent_text'           => __( '(no parent)', 'wordpress-seo' ),
+				'replace_vars'             => $this->get_replace_vars(),
+				'recommended_replace_vars' => $this->get_recommended_replace_vars(),
+				'scope'                    => $this->determine_scope(),
+				'has_taxonomies'           => $this->current_post_type_has_taxonomies(),
+			],
+			'shortcodes' => [
+				'wpseo_filter_shortcodes_nonce' => wp_create_nonce( 'wpseo-filter-shortcodes' ),
+				'wpseo_shortcode_tags'          => $this->get_valid_shortcode_tags(),
+			],
+		];
+
+		$worker_script_data = [
+			'url'                     => $analysis_worker_location->get_url( $analysis_worker_location->get_asset(), WPSEO_Admin_Asset::TYPE_JS ),
+			'keywords_assessment_url' => $used_keywords_assessment_location->get_url( $used_keywords_assessment_location->get_asset(), WPSEO_Admin_Asset::TYPE_JS ),
+			'log_level'               => WPSEO_Utils::get_analysis_worker_log_level(),
+			// We need to make the feature flags separately available inside of the analysis web worker.
+			'enabled_features'        => WPSEO_Utils::retrieve_enabled_features(),
+		];
+
 		$script_data = [
-			'analysis' => [
-				'plugins' => [
-					'replaceVars' => [
-						'no_parent_text'           => __( '(no parent)', 'wordpress-seo' ),
-						'replace_vars'             => $this->get_replace_vars(),
-						'recommended_replace_vars' => $this->get_recommended_replace_vars(),
-						'scope'                    => $this->determine_scope(),
-						'has_taxonomies'           => $this->current_post_type_has_taxonomies(),
-					],
-					'shortcodes' => [
-						'wpseo_filter_shortcodes_nonce' => wp_create_nonce( 'wpseo-filter-shortcodes' ),
-						'wpseo_shortcode_tags'          => $this->get_valid_shortcode_tags(),
-					],
-				],
-				'worker'  => [
-					'url'                     => $analysis_worker_location->get_url( $analysis_worker_location->get_asset(), WPSEO_Admin_Asset::TYPE_JS ),
-					'keywords_assessment_url' => $used_keywords_assessment_location->get_url( $used_keywords_assessment_location->get_asset(), WPSEO_Admin_Asset::TYPE_JS ),
-					'log_level'               => WPSEO_Utils::get_analysis_worker_log_level(),
-					// We need to make the feature flags separately available inside of the analysis web worker.
-					'enabled_features'        => WPSEO_Utils::retrieve_enabled_features(),
-				],
-				'estimatedReadingTimeEnabled' => $this->estimated_reading_time_conditional->is_met(),
-			],
-			'media'            => [
-				// @todo replace this translation with JavaScript translations.
-				'choose_image' => __( 'Use Image', 'wordpress-seo' ),
-			],
+			// @todo replace this translation with JavaScript translations.
+			'media'            => [ 'choose_image' => __( 'Use Image', 'wordpress-seo' ) ],
 			'metabox'          => $this->get_metabox_script_data(),
 			'userLanguageCode' => WPSEO_Language_Utils::get_language( WPSEO_Language_Utils::get_user_locale() ),
 			'isPost'           => true,
 			'isBlockEditor'    => $is_block_editor,
+			'analysis'         => [
+				'plugins'                     => $plugins_script_data,
+				'worker'                      => $worker_script_data,
+				'estimatedReadingTimeEnabled' => $this->estimated_reading_time_conditional->is_met(),
+			],
 		];
 
 		if ( post_type_supports( get_post_type(), 'thumbnail' ) ) {

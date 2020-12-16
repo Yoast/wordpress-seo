@@ -9,6 +9,7 @@ use Yoast\WP\SEO\Conditionals\Admin\Estimated_Reading_Time_Conditional;
 use Yoast\WP\SEO\Helpers\Input_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
+// phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded -- Base class can't be written shorter without abbreviating.
 /**
  * Class Estimated_Reading_Time_Conditional.
  *
@@ -141,3 +142,4 @@ class Estimated_Reading_Time_Conditional_Test extends TestCase {
 		$this->assertEquals( true, $this->instance->is_met() );
 	}
 }
+// phpcs:enable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
