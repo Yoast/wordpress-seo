@@ -4,43 +4,8 @@ import { createElement } from "@wordpress/element";
 import { RequiredBlock } from "../instructions/blocks/dto";
 
 import { getInnerblocksByName, insertBlockToInnerBlock } from "../functions/innerBlocksHelper";
-import { getBlockType, removeBlock } from "../functions/blocks";
+import { getBlockType } from "../functions/blocks";
 import { PanelBody, PanelRow } from "@wordpress/components";
-
-/**
- * Renders a required block button.
- *
- * @param {BlockInstance} block             The block to render the button for.
- * @param {string}        requiredBlockName The required block name.
- * @param {boolean}       blockDoesExists   Is the block already added.
- *
- * @returns {ReactElement} The rendered button.
- */
-const RequiredBlockButton = ( block: BlockInstance, requiredBlockName: string, blockDoesExists: boolean ): ReactElement => {
-	if ( blockDoesExists ) {
-		/**
-		 * Onclick handler for the remove block.
-		 */
-		const removeBlockClick = () => {
-			const blocksToRemove = getInnerblocksByName( block, [ requiredBlockName ] );
-			blocksToRemove.forEach( ( blockToRemove ) => {
-				removeBlock( blockToRemove.clientId );
-			} );
-		};
-
-		return <button className="yoast-block-suggestion-button" onClick={ removeBlockClick }>Remove</button>;
-	}
-
-	/**
-	 * Onclick handler for the remove block.
-	 */
-	const addBlockClick = () => {
-		const blockToAdd = createBlock( requiredBlockName );
-		insertBlockToInnerBlock( blockToAdd, block.clientId );
-	};
-
-	return <button className="yoast-block-suggestion-button" onClick={ addBlockClick }>Add</button>;
-};
 
 /**
  * Renders a list with the required block names and an button to add/remove one.
@@ -48,7 +13,7 @@ const RequiredBlockButton = ( block: BlockInstance, requiredBlockName: string, b
  * @param {BlockInstance}   block          The block to render the list for.
  * @param {RequiredBlock[]} requiredBlocks The required blocks.
  *
- * @returns {ReactElement}
+ * @returns {ReactElement} The rendered block.
  */
 export default function RequiredBlocks( block: BlockInstance, requiredBlocks: RequiredBlock[] ): ReactElement {
 	// Retrieve a list with names.
@@ -70,9 +35,28 @@ export default function RequiredBlocks( block: BlockInstance, requiredBlocks: Re
 			return;
 		}
 
-		const button = RequiredBlockButton( block, requiredBlockName, presentBlockNames.includes( requiredBlockName ) );
+		if ( presentBlockNames.includes( requiredBlockName ) ) {
+			requiredBlockItems.push( <li className="yoast-block-suggestion yoast-block-suggestion--added">{ blockType.title }</li> );
 
-		requiredBlockItems.push( <li className="yoast-block-suggestion">{ blockType.title }{ button }</li> );
+			return;
+		}
+
+		/**
+		 * Onclick handler for the remove block.
+		 */
+		const addBlockClick = () => {
+			const blockToAdd = createBlock( requiredBlockName );
+			insertBlockToInnerBlock( blockToAdd, block.clientId );
+		};
+
+		requiredBlockItems.push(
+			(
+				<li className="yoast-block-suggestion">
+					{ blockType.title }
+					<button className="yoast-block-suggestion-button" onClick={ addBlockClick }>Add</button>
+				</li>
+			),
+		);
 	} );
 
 	return (
