@@ -49,9 +49,9 @@ class Schema_Generator implements Generator_Interface {
 	 * @return array The graph.
 	 */
 	public function generate( Meta_Tags_Context $context ) {
-		$graph = [];
-
 		$pieces = $this->get_graph_pieces( $context );
+
+		$this->schema_replace_vars_helper->register_replace_vars();
 
 		foreach ( \array_keys( $context->blocks ) as $block_type ) {
 			/**
@@ -72,8 +72,27 @@ class Schema_Generator implements Generator_Interface {
 			}
 		}
 
+		$pieces_to_generate = $this->filter_graph_pieces_to_generate( $pieces );
+		$graph              = $this->generate_graph( $pieces_to_generate, $context );
+		$graph              = $this->add_schema_blocks_graph_pieces( $graph, $context );
+
+		return [
+			'@context' => 'https://schema.org',
+			'@graph'   => $graph,
+		];
+	}
+
+	/**
+	 * Filters out any graph pieces that should not be generated.
+	 * (Using the `wpseo_schema_needs_<graph_piece_identifier>` series of filters).
+	 *
+	 * @param array $graph_pieces The current list of graph pieces that we want to generate.
+	 *
+	 * @return array The graph pieces to generate.
+	 */
+	protected function filter_graph_pieces_to_generate( $graph_pieces ) {
 		$pieces_to_generate = [];
-		foreach ( $pieces as $piece ) {
+		foreach ( $graph_pieces as $piece ) {
 			$identifier = \strtolower( \str_replace( 'Yoast\WP\SEO\Generators\Schema\\', '', \get_class( $piece ) ) );
 			if ( \property_exists( $piece, 'identifier' ) ) {
 				$identifier = $piece->identifier;
@@ -92,6 +111,19 @@ class Schema_Generator implements Generator_Interface {
 			$pieces_to_generate[ $identifier ] = $piece;
 		}
 
+		return $pieces_to_generate;
+	}
+
+	/**
+	 * Generates the schema graph.
+	 *
+	 * @param array             $pieces_to_generate The schema graph pieces to generate.
+	 * @param Meta_Tags_Context $context            The meta tags context to use.
+	 *
+	 * @return array The generate schema graph.
+	 */
+	protected function generate_graph( $pieces_to_generate, $context ) {
+		$graph = [];
 		foreach ( $pieces_to_generate as $identifier => $piece ) {
 			$graph_pieces = $piece->generate();
 			// If only a single graph piece was returned.
@@ -121,17 +153,30 @@ class Schema_Generator implements Generator_Interface {
 			}
 		}
 
-		$this->schema_replace_vars_helper->register_replace_vars();
+		return $graph;
+	}
 
+	/**
+	 * Adds schema graph pieces from Gutenberg blocks on the current page to
+	 * the given schema graph.
+	 *
+	 * Think of blocks like the Yoast FAQ block or the How To block.
+	 *
+	 * @param array             $graph   The current schema graph.
+	 * @param Meta_Tags_Context $context The meta tags context.
+	 *
+	 * @return array The graph with the schema blocks graph pieces added.
+	 */
+	protected function add_schema_blocks_graph_pieces( $graph, $context ) {
 		foreach ( $context->blocks as $block_type => $blocks ) {
 			foreach ( $blocks as $block ) {
 				/**
 				 * Filter: 'wpseo_schema_block_<block-type>' - Allows filtering graph output per block.
 				 *
+				 * @api array $graph Our Schema output.
+				 *
 				 * @param WP_Block_Parser_Block $block   The block.
 				 * @param Meta_Tags_Context     $context A value object with context variables.
-				 *
-				 * @api array $graph Our Schema output.
 				 */
 				$block_type = \strtolower( $block['blockName'] );
 				$graph      = \apply_filters( 'wpseo_schema_block_' . $block_type, $graph, $block, $context );
@@ -142,10 +187,7 @@ class Schema_Generator implements Generator_Interface {
 			}
 		}
 
-		return [
-			'@context' => 'https://schema.org',
-			'@graph'   => $graph,
-		];
+		return $graph;
 	}
 
 	/**
