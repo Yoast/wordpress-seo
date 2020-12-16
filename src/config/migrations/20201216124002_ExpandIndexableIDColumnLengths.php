@@ -1,9 +1,4 @@
 <?php
-/**
- * Yoast SEO Plugin File.
- *
- * @package Yoast\WP\SEO\Config\Migrations
- */
 
 namespace Yoast\WP\SEO\Config\Migrations;
 
@@ -55,14 +50,6 @@ class ExpandIndexableIDColumnLengths extends Migration {
 	 * @return void
 	 */
 	public function down() {
-		foreach ( self::$columns_to_change as $column ) {
-			$this->change_column(
-				$this->get_table_name(),
-				$column,
-				'integer',
-				[ 'limit' => 11 ]
-			);
-		}
 	}
 
 	/**
