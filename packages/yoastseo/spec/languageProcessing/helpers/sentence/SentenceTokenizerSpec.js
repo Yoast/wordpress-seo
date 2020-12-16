@@ -152,9 +152,13 @@ describe( "A test for tokenizing a (html) text into sentences", function() {
 		};
 
 		const consoleSpy = jest.spyOn( console, "error" );
+		console.error.mockImplementation( () => {} );
 
 		mockTokenizer.tokenize( tokenizer.tokenizer, "This is a string." );
 
 		expect( consoleSpy ).toHaveBeenCalledWith( "Tokenizer end error:", new Error( errorMessage ), "test" );
+
+		console.error.mockRestore();
 	} );
 } );
+
