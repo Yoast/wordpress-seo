@@ -132,7 +132,10 @@
       "/spec/morphology/swedish/stemmerCoverage/generateStems.js",
       "/spec/morphology/hungarian/stemmerCoverage/goldStandardStems.json",
       "/spec/morphology/hungarian/stemmerCoverage/sampleVocabulary.json",
-      "/spec/morphology/hungarian/stemmerCoverage/generateStems.js"
+      "/spec/morphology/hungarian/stemmerCoverage/generateStems.js",
+      "/spec/morphology/turkish/stemmerCoverage/goldStandardStems.json",
+      "/spec/morphology/turkish/stemmerCoverage/sampleVocabulary.json",
+      "/spec/morphology/turkish/stemmerCoverage/generateStems.js"
     ],
     "coveragePathIgnorePatterns": [
       "js/templates.js"
