@@ -1,14 +1,16 @@
 import { createElement, ComponentClass, Fragment } from "@wordpress/element";
 import { InnerBlocks as WordPressInnerBlocks, InspectorControls } from "@wordpress/block-editor";
 import { PanelBody, PanelRow } from "@wordpress/components";
-import { TemplateArray, createBlock } from "@wordpress/blocks";
+import { BlockInstance, TemplateArray, createBlock } from "@wordpress/blocks";
 
 import BlockInstruction from "../../core/blocks/BlockInstruction";
-import { RenderEditProps, RenderSaveProps } from "../../core/blocks/BlockDefinition";
 import { RequiredBlock } from "./dto";
 import getInvalidInnerBlocks from "../../functions/validators/innerBlocksValid";
-import { getInnerBlocks, getInnerblocksByName, insertBlockToInnerBlock } from "../../functions/innerBlocksHelper";
+import { InvalidBlockReason } from "./enums";
+import { getInnerblocksByName, insertBlockToInnerBlock } from "../../functions/innerBlocksHelper";
 import { removeBlock, getBlockType } from "../../functions/blocks";
+import { RenderEditProps, RenderSaveProps } from "../../core/blocks/BlockDefinition";
+import { getBlockByClientId } from "../../functions/BlockHelper";
 
 /**
  * The InnerBlocks instruction.
@@ -38,19 +40,19 @@ export default class InnerBlocks extends BlockInstruction {
 	 * @returns The inner blocks.
 	 */
 	edit( props: RenderSaveProps | RenderEditProps ): JSX.Element {
-		const attributes: WordPressInnerBlocks.Props = {};
+		const properties: WordPressInnerBlocks.Props = {};
 
 		if ( this.options.appender === "button" ) {
-			attributes.renderAppender = () => {
+			properties.renderAppender = () => {
 				// The type definition of InnerBlocks are wrong so cast to fix them haha.
 				return createElement( ( WordPressInnerBlocks as unknown as { ButtonBlockAppender: ComponentClass } ).ButtonBlockAppender );
 			};
 		} else {
-			attributes.renderAppender = () => createElement( WordPressInnerBlocks.DefaultBlockAppender );
+			properties.renderAppender = () => createElement( WordPressInnerBlocks.DefaultBlockAppender );
 		}
 
 		if ( typeof this.options.appenderLabel === "string" ) {
-			attributes.renderAppender = () =>
+			properties.renderAppender = () =>
 				createElement(
 					"div",
 					{ className: "yoast-labeled-inserter", "data-label": this.options.appenderLabel },
@@ -59,21 +61,21 @@ export default class InnerBlocks extends BlockInstruction {
 		}
 
 		if ( this.options.allowedBlocks ) {
-			attributes.allowedBlocks = this.options.allowedBlocks;
+			properties.allowedBlocks = this.options.allowedBlocks;
 		}
 
 		if ( this.options.template ) {
-			attributes.template = this.options.template;
+			properties.template = this.options.template;
 		}
 
 		const requiredBlocks: any[] = [];
+		const currentBlock = getBlockByClientId( props.clientId );
 		if ( this.options.requiredBlocks ) {
 			// Get innerblocks for current block.
-			const innerBlocks        = getInnerBlocks( props.clientId );
 			const requiredBlockNames = this.options.requiredBlocks.map( ( requiredBlock ) => {
 				return requiredBlock.name;
 			} );
-			const findPresentBlocks = getInnerblocksByName( requiredBlockNames, innerBlocks );
+			const findPresentBlocks = getInnerblocksByName( currentBlock, requiredBlockNames );
 			const presentBlockNames = findPresentBlocks.map( ( presentBlock ) => {
 				return presentBlock.name;
 			} );
@@ -88,7 +90,7 @@ export default class InnerBlocks extends BlockInstruction {
 				if ( presentBlockNames.includes( requiredBlockName ) ) {
 					requiredBlocks.push( createElement( "div", {
 						onClick: () => {
-							const blocksToRemove = getInnerblocksByName( [ requiredBlockName ], innerBlocks );
+							const blocksToRemove = getInnerblocksByName( currentBlock, [ requiredBlockName ] );
 							blocksToRemove.forEach( ( blockToRemove ) => {
 								removeBlock( blockToRemove.clientId );
 							} );
@@ -127,7 +129,7 @@ export default class InnerBlocks extends BlockInstruction {
 			Fragment,
 			{
 				children: [
-					createElement( WordPressInnerBlocks, attributes ),
+					createElement( WordPressInnerBlocks, properties ),
 					createElement( InspectorControls,
 						{
 							children: [
@@ -164,14 +166,14 @@ export default class InnerBlocks extends BlockInstruction {
 	/**
 	 * Checks if the instruction block is valid.
 	 *
-	 * @param props The properties from the save or edit methods.
+	 * @param blockInstance The block instance being validated.
 	 *
 	 * @returns `true` if the instruction block is valid, `false` if the block contains errors.
 	 */
-	valid( props: RenderSaveProps | RenderEditProps ): boolean {
-		const invalidBlocks = getInvalidInnerBlocks( this.options.requiredBlocks, props.clientId );
+	valid( blockInstance: BlockInstance ): boolean {
+		const invalidBlocks = getInvalidInnerBlocks( blockInstance, this.options.requiredBlocks );
 
-		return invalidBlocks.length === 0;
+		return invalidBlocks.length === 0 || invalidBlocks.every( block => block.reason === InvalidBlockReason.Optional );
 	}
 }
 

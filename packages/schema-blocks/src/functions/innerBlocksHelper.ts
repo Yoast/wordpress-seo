@@ -1,21 +1,32 @@
 import { BlockInstance } from "@wordpress/blocks";
-import {dispatch, select} from "@wordpress/data";
+import { dispatch } from "@wordpress/data";
 import recurseOverBlocks from "./blocks/recurseOverBlocks";
 
 /**
  * Searches recursively in the inner blocks to get all instances of blocks whose name occurs in blockNames.
  *
- * @param blockNames     The names of the blocks you're searching for.
- * @param blockInstances The array of blocks you're searching in.
+ * @param blockInstance The array of blocks you're searching in.
+ * @param blockNames    The names of the blocks you're searching for.
  *
  * @returns {BlockInstance[]} The block instances that have a name that occurs in blockNames.
  */
-function getInnerblocksByName( blockNames: string[], blockInstances: BlockInstance[] ): BlockInstance[] {
+function getInnerblocksByName( blockInstance: BlockInstance, blockNames: string[] ): BlockInstance[] {
+	return filterBlocksRecursively( blockInstance, block => blockNames.includes( block.name ) );
+}
+
+/**
+ * Finds all innerblocks of a blockinstance that conform to the predicate.
+ *
+ * @param blockInstance The block whose innerblocks should be searched
+ * @param predicate     The function to decide which blocks should be kept.
+ * @returns {BlockInstance[]} The subset of innerblocks that conform to predicate.
+ */
+function filterBlocksRecursively( blockInstance: BlockInstance, predicate: ( blockInstance: BlockInstance ) => boolean ): BlockInstance[] {
 	const foundBlocks: BlockInstance[] = [];
 
-	recurseOverBlocks( blockInstances, ( block: BlockInstance ) => {
+	recurseOverBlocks( blockInstance.innerBlocks, ( block: BlockInstance ) => {
 		// Checks if the current block is one of the required types.
-		if ( blockNames.includes( block.name ) ) {
+		if ( predicate( block ) ) {
 			foundBlocks.push( block );
 		}
 	} );
@@ -23,17 +34,6 @@ function getInnerblocksByName( blockNames: string[], blockInstances: BlockInstan
 	return foundBlocks;
 }
 
-/**
- * Gets the inner blocks of the block with the given clientId from the core/block-editor store.
- *
- * @param clientId The clientId of the block whose InnerBlocks you want.
- *
- * @returns {BlockInstance[]} The block's inner blocks.
- */
-function getInnerBlocks( clientId: string ): BlockInstance[] {
-	/* istanbul ignore next */
-	return select( "core/block-editor" ).getBlock( clientId ).innerBlocks;
-}
 /**
  * Inserts a block to the inner block.
  *
@@ -46,4 +46,4 @@ function insertBlockToInnerBlock( block: BlockInstance, clientId: string, index?
 	dispatch( "core/block-editor" ).insertBlocks( block, index, clientId );
 }
 
-export { getInnerBlocks, getInnerblocksByName, insertBlockToInnerBlock };
+export { filterBlocksRecursively, getInnerblocksByName, insertBlockToInnerBlock };
