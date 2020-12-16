@@ -43,7 +43,7 @@ export default class InnerBlocks extends BlockInstruction {
 
 		if ( this.options.appender === "button" ) {
 			properties.renderAppender = () => {
-				// The type definition of InnerBlocks are wrong so cast to fix them haha.
+				// The type definition of InnerBlocks are wrong so cast to fix them.
 				return createElement( ( WordPressInnerBlocks as unknown as { ButtonBlockAppender: ComponentClass } ).ButtonBlockAppender );
 			};
 		} else {
@@ -78,22 +78,11 @@ export default class InnerBlocks extends BlockInstruction {
 	 * @returns The sidebar element to render.
 	 */
 	sidebar( props: RenderEditProps ): ReactElement | string {
-		//
-		// const requiredBlocksPanel = createElement(
-		// 	PanelBody,
-		// 	{
-		// 		title: "Required blocks",
-		// 	},
-		// );
-
 		const currentBlock = getBlockByClientId( props.clientId );
 
 		if ( this.options.requiredBlocks ) {
 			return RequiredBlocks( currentBlock, this.options.requiredBlocks );
 		}
-
-		// return requiredBlocksPanel;
-
 
 		// Loop over all blocks (not just the invalid ones!), add a div to the block depending on their status.
 		// const invalidBlocks = getInvalidInnerBlocks( this.options.requiredBlocks, props.clientId );
@@ -105,7 +94,6 @@ export default class InnerBlocks extends BlockInstruction {
 
 		// The innerblock sidebar is handled in P2-505, P2-506.
 		// console.log( "Found " + count + " invalid blocks." );
-		return "";
 	}
 
 	/**
