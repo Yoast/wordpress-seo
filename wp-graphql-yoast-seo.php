@@ -8,7 +8,7 @@
  * Author URI:      https://www.ashleyhitchcock.com
  * Text Domain:     wp-graphql-yoast-seo
  * Domain Path:     /languages
- * Version:         4.10.0
+ * Version:         4.10.1
  *
  * @package         WP_Graphql_YOAST_SEO
  */
@@ -473,6 +473,19 @@ add_action('graphql_init', function () {
             ],
         ]);
 
+        register_graphql_object_type('SEOPageInfoSchema', [
+            'description' => __('The Schema for post type', 'wp-graphql-yoast-seo'),
+            'fields' => [
+                'raw' => ['type' => 'String'],
+            ],
+        ]);
+        register_graphql_object_type('SEOPostTypePageInfo', [
+            'description' => __('The page info SEO details', 'wp-graphql-yoast-seo'),
+            'fields' => [
+                'schema' => ['type' => 'SEOPageInfoSchema'],
+            ],
+        ]);
+
         register_graphql_field('RootQuery', 'seo', [
             'type' => 'SEOConfig',
             'description' => __('Returns seo site data', 'wp-graphql-yoast-seo'),
@@ -803,6 +816,40 @@ add_action('graphql_init', function () {
                             },
                         ]
                     );
+
+                    // register field on edge for arch
+
+                    $name =
+                        'WP' .
+                        ucfirst($post_type_object->graphql_single_name) .
+                        'Info';
+
+                    register_graphql_field($name, 'seo', [
+                        'type' => 'SEOPostTypePageInfo',
+                        'description' => __(
+                            'Raw schema for ' .
+                                $post_type_object->graphql_single_name,
+                            'wp-graphql-yoast-seo'
+                        ),
+                        'resolve' => function (
+                            $item,
+                            array $args,
+                            AppContext $context
+                        ) use ($post_type) {
+                            $schemaArray = YoastSEO()->meta->for_post_type_archive(
+                                $post_type
+                            )->schema;
+
+                            return [
+                                'schema' => [
+                                    'raw' => json_encode(
+                                        $schemaArray,
+                                        JSON_UNESCAPED_SLASHES
+                                    ),
+                                ],
+                            ];
+                        },
+                    ]);
 
                     // Loop each taxonomy to register on the edge if a category is the primary one.
                     $taxonomiesPostObj = get_object_taxonomies(

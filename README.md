@@ -16,26 +16,26 @@ This is an extension to the WPGraphQL plugin (https://github.com/wp-graphql/wp-g
 
 **Currently returning SEO data for:**
 
-- Pages
-- Posts
-- Custom post types
-- Products (WooCommerce)
-- Categories
-- Custom taxonomies
-- WooCommerce Products
-- Yoast Configuration
-  - Webmaster verification
-  - Social profiles
-  - Schemas
-  - Breadcrumbs
+-   Pages
+-   Posts
+-   Custom post types
+-   Products (WooCommerce)
+-   Categories
+-   Custom taxonomies
+-   WooCommerce Products
+-   Yoast Configuration
+    -   Webmaster verification
+    -   Social profiles
+    -   Schemas
+    -   Breadcrumbs
 
 > If there is any Yoast data that is not currently returned, please raise an issue so we can add it to the roadmap.
 
 ## Quick Install
 
-- Install from the [WordPress Plugin Directory](https://wordpress.org/plugins/add-wpgraphql-seo/)
-- Clone or download the zip of this repository into your WordPress plugin directory & activate the **WP GraphQL Yoast SEO** plugin
-- Install & activate [WPGraphQL](https://www.wpgraphql.com/)
+-   Install from the [WordPress Plugin Directory](https://wordpress.org/plugins/add-wpgraphql-seo/)
+-   Clone or download the zip of this repository into your WordPress plugin directory & activate the **WP GraphQL Yoast SEO** plugin
+-   Install & activate [WPGraphQL](https://www.wpgraphql.com/)
 
 ## Composer
 
@@ -61,72 +61,73 @@ To query for the Yoast Data simply add the seo object to your query:
 
 ```graphql
 query GetPages {
-  pages(first: 10) {
-    edges {
-      node {
-        id
-        title
-        seo {
-          canonical
-          title
-          metaDesc
-          focuskw
-          metaRobotsNoindex
-          metaRobotsNofollow
-          opengraphAuthor
-          opengraphDescription
-          opengraphTitle
-          opengraphDescription
-          opengraphImage {
-            altText
-            sourceUrl
-            srcSet
-          }
-          opengraphUrl
-          opengraphSiteName
-          opengraphPublishedTime
-          opengraphModifiedTime
-          twitterTitle
-          twitterDescription
-          twitterImage {
-            altText
-            sourceUrl
-            srcSet
-          }
-          breadcrumbs {
-            url
-            text
-          }
-          cornerstone
-          schema {
-            pageType
-            articleType
-          }
-        }
-        author {
-          node {
-            seo {
-              metaDesc
-              metaRobotsNofollow
-              metaRobotsNoindex
-              title
-              social {
-                youTube
-                wikipedia
-                twitter
-                soundCloud
-                pinterest
-                mySpace
-                linkedIn
-                instagram
-                facebook
-              }
+    pages(first: 10) {
+        edges {
+            node {
+                id
+                title
+                seo {
+                    canonical
+                    title
+                    metaDesc
+                    focuskw
+                    metaRobotsNoindex
+                    metaRobotsNofollow
+                    opengraphAuthor
+                    opengraphDescription
+                    opengraphTitle
+                    opengraphDescription
+                    opengraphImage {
+                        altText
+                        sourceUrl
+                        srcSet
+                    }
+                    opengraphUrl
+                    opengraphSiteName
+                    opengraphPublishedTime
+                    opengraphModifiedTime
+                    twitterTitle
+                    twitterDescription
+                    twitterImage {
+                        altText
+                        sourceUrl
+                        srcSet
+                    }
+                    breadcrumbs {
+                        url
+                        text
+                    }
+                    cornerstone
+                    schema {
+                        pageType
+                        articleType
+                        raw
+                    }
+                }
+                author {
+                    node {
+                        seo {
+                            metaDesc
+                            metaRobotsNofollow
+                            metaRobotsNoindex
+                            title
+                            social {
+                                youTube
+                                wikipedia
+                                twitter
+                                soundCloud
+                                pinterest
+                                mySpace
+                                linkedIn
+                                instagram
+                                facebook
+                            }
+                        }
+                    }
+                }
             }
-          }
         }
-      }
     }
-  }
 }
 ```
 
@@ -134,42 +135,42 @@ query GetPages {
 
 ```graphql
 query GetCategories {
-  categories(first: 10) {
-    edges {
-      node {
-        id
-        seo {
-          canonical
-          title
-          metaDesc
-          focuskw
-          metaRobotsNoindex
-          metaRobotsNofollow
-          opengraphAuthor
-          opengraphDescription
-          opengraphTitle
-          opengraphDescription
-          opengraphImage {
-            altText
-            sourceUrl
-            srcSet
-          }
-          twitterTitle
-          twitterDescription
-          twitterImage {
-            altText
-            sourceUrl
-            srcSet
-          }
-          breadcrumbs {
-            url
-            text
-          }
+    categories(first: 10) {
+        edges {
+            node {
+                id
+                seo {
+                    canonical
+                    title
+                    metaDesc
+                    focuskw
+                    metaRobotsNoindex
+                    metaRobotsNofollow
+                    opengraphAuthor
+                    opengraphDescription
+                    opengraphTitle
+                    opengraphDescription
+                    opengraphImage {
+                        altText
+                        sourceUrl
+                        srcSet
+                    }
+                    twitterTitle
+                    twitterDescription
+                    twitterImage {
+                        altText
+                        sourceUrl
+                        srcSet
+                    }
+                    breadcrumbs {
+                        url
+                        text
+                    }
+                }
+                name
+            }
         }
-        name
-      }
     }
-  }
 }
 ```
 
@@ -177,159 +178,167 @@ query GetCategories {
 
 ```graphql
 query GetUsers {
-  users {
-    nodes {
-      seo {
-        metaDesc
-        metaRobotsNofollow
-        metaRobotsNoindex
-        title
-        social {
-          youTube
-          wikipedia
-          twitter
-          soundCloud
-          pinterest
-          mySpace
-          linkedIn
-          instagram
-          facebook
+    users {
+        nodes {
+            seo {
+                metaDesc
+                metaRobotsNofollow
+                metaRobotsNoindex
+                title
+                social {
+                    youTube
+                    wikipedia
+                    twitter
+                    soundCloud
+                    pinterest
+                    mySpace
+                    linkedIn
+                    instagram
+                    facebook
+                }
+            }
         }
-      }
     }
-  }
 }
 ```
 
-### Edge Data
+### Edge and Page Info Data
 
 ```graphql
 query GetPostsWithIsPrimary {
-  posts {
-    nodes {
-      title
-      slug
-      categories {
-        edges {
-          isPrimary
-          node {
-            name
-            count
-          }
+    posts {
+        pageInfo {
+            startCursor
+            seo {
+                schema {
+                    raw
+                }
+            }
         }
-      }
+        nodes {
+            title
+            slug
+            categories {
+                edges {
+                    isPrimary
+                    node {
+                        name
+                        count
+                    }
+                }
+            }
+        }
     }
-  }
 }
 ```
 
-### Yoast COnfig Data
+### Yoast Config Data
 
 ```graphql
 query GetSeoConfig {
-  seo {
-    webmaster {
-      googleVerify
-      yandexVerify
-      msVerify
-      baiduVerify
-    }
-    schema {
-      siteName
-      wordpressSiteName
-      siteUrl
-      inLanguage
-      companyName
-      companyOrPerson
-      companyLogo {
-        mediaItemUrl
-      }
-      logo {
-        mediaItemUrl
-      }
-      personLogo {
-        mediaItemUrl
-      }
-    }
-    breadcrumbs {
-      showBlogPage
-      separator
-      searchPrefix
-      prefix
-      homeText
-      enabled
-      boldLast
-      archivePrefix
-      notFoundText
-    }
-    social {
-      facebook {
-        url
-        defaultImage {
-          mediaItemUrl
+    seo {
+        webmaster {
+            googleVerify
+            yandexVerify
+            msVerify
+            baiduVerify
         }
-      }
-      instagram {
-        url
-      }
-      linkedIn {
-        url
-      }
-      mySpace {
-        url
-      }
-      pinterest {
-        url
-        metaTag
-      }
-      twitter {
-        cardType
-        username
-      }
-      wikipedia {
-        url
-      }
-      youTube {
-        url
-      }
-    }
-    openGraph {
-      frontPage {
-        title
-        description
-        image {
-          altText
-          sourceUrl
-          mediaItemUrl
+        schema {
+            siteName
+            wordpressSiteName
+            siteUrl
+            inLanguage
+            companyName
+            companyOrPerson
+            companyLogo {
+                mediaItemUrl
+            }
+            logo {
+                mediaItemUrl
+            }
+            personLogo {
+                mediaItemUrl
+            }
         }
-      }
-      defaultImage {
-        altText
-        sourceUrl
-        mediaItemUrl
-      }
+        breadcrumbs {
+            showBlogPage
+            separator
+            searchPrefix
+            prefix
+            homeText
+            enabled
+            boldLast
+            archivePrefix
+            notFoundText
+        }
+        social {
+            facebook {
+                url
+                defaultImage {
+                    mediaItemUrl
+                }
+            }
+            instagram {
+                url
+            }
+            linkedIn {
+                url
+            }
+            mySpace {
+                url
+            }
+            pinterest {
+                url
+                metaTag
+            }
+            twitter {
+                cardType
+                username
+            }
+            wikipedia {
+                url
+            }
+            youTube {
+                url
+            }
+        }
+        openGraph {
+            frontPage {
+                title
+                description
+                image {
+                    altText
+                    sourceUrl
+                    mediaItemUrl
+                }
+            }
+            defaultImage {
+                altText
+                sourceUrl
+                mediaItemUrl
+            }
+        }
+        contentTypes {
+            post {
+                title
+                schemaType
+                metaRobotsNoindex
+                metaDesc
+            }
+            page {
+                metaDesc
+                metaRobotsNoindex
+                schemaType
+                title
+            }
+        }
+        redirects {
+            origin
+            target
+            format
+            type
+        }
     }
-    contentTypes {
-      post {
-        title
-        schemaType
-        metaRobotsNoindex
-        metaDesc
-      }
-      page {
-        metaDesc
-        metaRobotsNoindex
-        schemaType
-        title
-      }
-    }
-    redirects {
-      origin
-      target
-      format
-      type
-    }
-  }
 }
 ```
 

@@ -36,9 +36,7 @@
             },
             "type": "phpcodesniffer-standard",
             "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "LGPL-3.0-or-later"
-            ],
+            "license": ["LGPL-3.0-or-later"],
             "authors": [
                 {
                     "name": "Wim Godden",
@@ -57,11 +55,7 @@
             ],
             "description": "A set of sniffs for PHP_CodeSniffer that checks for PHP cross-version compatibility.",
             "homepage": "http://techblog.wimgodden.be/tag/codesniffer/",
-            "keywords": [
-                "compatibility",
-                "phpcs",
-                "standards"
-            ],
+            "keywords": ["compatibility", "phpcs", "standards"],
             "time": "2019-12-27T09:44:58+00:00"
         },
         {
@@ -92,9 +86,7 @@
             },
             "type": "phpcodesniffer-standard",
             "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "LGPL-3.0-or-later"
-            ],
+            "license": ["LGPL-3.0-or-later"],
             "authors": [
                 {
                     "name": "Wim Godden",
@@ -143,9 +135,7 @@
             },
             "type": "phpcodesniffer-standard",
             "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "LGPL-3.0-or-later"
-            ],
+            "license": ["LGPL-3.0-or-later"],
             "authors": [
                 {
                     "name": "Wim Godden",
@@ -158,12 +148,7 @@
             ],
             "description": "A ruleset for PHP_CodeSniffer to check for PHP cross-version compatibility issues in projects, while accounting for polyfills provided by WordPress.",
             "homepage": "http://phpcompatibility.com/",
-            "keywords": [
-                "compatibility",
-                "phpcs",
-                "standards",
-                "wordpress"
-            ],
+            "keywords": ["compatibility", "phpcs", "standards", "wordpress"],
             "time": "2019-08-28T14:22:28+00:00"
         },
         {
@@ -189,10 +174,7 @@
             "require-dev": {
                 "phpunit/phpunit": "^4.0 || ^5.0 || ^6.0 || ^7.0"
             },
-            "bin": [
-                "bin/phpcs",
-                "bin/phpcbf"
-            ],
+            "bin": ["bin/phpcs", "bin/phpcbf"],
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -200,9 +182,7 @@
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
+            "license": ["BSD-3-Clause"],
             "authors": [
                 {
                     "name": "Greg Sherwood",
@@ -211,10 +191,7 @@
             ],
             "description": "PHP_CodeSniffer tokenizes PHP, JavaScript and CSS files and detects violations of a defined set of coding standards.",
             "homepage": "https://github.com/squizlabs/PHP_CodeSniffer",
-            "keywords": [
-                "phpcs",
-                "standards"
-            ],
+            "keywords": ["phpcs", "standards"],
             "time": "2020-10-23T02:01:07+00:00"
         }
     ],
@@ -249,9 +226,7 @@
             },
             "type": "phpcodesniffer-standard",
             "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
+            "license": ["MIT"],
             "authors": [
                 {
                     "name": "Contributors",
@@ -259,11 +234,7 @@
                 }
             ],
             "description": "PHP_CodeSniffer rules (sniffs) to enforce WordPress VIP minimum coding conventions",
-            "keywords": [
-                "phpcs",
-                "standards",
-                "wordpress"
-            ],
+            "keywords": ["phpcs", "standards", "wordpress"],
             "time": "2020-09-07T10:45:45+00:00"
         },
         {
@@ -300,9 +271,7 @@
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
+            "license": ["MIT"],
             "authors": [
                 {
                     "name": "Franck Nijhof",
@@ -364,9 +333,7 @@
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-2-Clause"
-            ],
+            "license": ["BSD-2-Clause"],
             "authors": [
                 {
                     "name": "Sam Graham",
@@ -409,9 +376,7 @@
             },
             "type": "phpcodesniffer-standard",
             "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
+            "license": ["MIT"],
             "authors": [
                 {
                     "name": "Contributors",
@@ -419,11 +384,7 @@
                 }
             ],
             "description": "PHP_CodeSniffer rules (sniffs) to enforce WordPress coding conventions",
-            "keywords": [
-                "phpcs",
-                "standards",
-                "wordpress"
-            ],
+            "keywords": ["phpcs", "standards", "wordpress"],
             "time": "2020-05-13T23:57:56+00:00"
         }
     ],
