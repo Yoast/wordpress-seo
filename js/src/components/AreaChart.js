@@ -35,8 +35,10 @@ const AreaChart = ( {
 	dataTableHeaderLabels,
 	isDataTableVisuallyHidden,
 } ) => {
-	const maximumXFromData = Math.max( ...data.map( point => point.x ) );
-	const maximumYFromData = Math.max( ...data.map( point => point.y ) );
+	// When all the x values are zero, make sure the maximumX value is at least 1 to avoid a division by zero later.
+	const maximumXFromData = Math.max( 1, Math.max( ...data.map( point => point.x ) ) );
+	// When all the y values are zero, make sure the maximumY value is at least 1 to avoid a division by zero later.
+	const maximumYFromData = Math.max( 1, Math.max( ...data.map( point => point.y ) ) );
 
 	// Reserve some vertical spacing to prevent the SVG stroke from being cut-off.
 	const chartHeight = height - strokeWidth;

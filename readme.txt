@@ -5,7 +5,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
 Tested up to: 5.6
-Stable tag: 15.4
+Stable tag: 15.5
 Requires PHP: 5.6.20
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -42,7 +42,7 @@ We know content is king, that's why Yoast SEO is famous for its **state-of-the-a
 
 * **SEO analysis**: an invaluable tool while writing SEO-friendly content with the right (focus) keyphrases in mind.
 * **Readability analysis**: ensures that humans and search engines can read and understand your content.
-* **Full language support** for: English, German, French, Dutch, Spanish, Italian, Russian, Indonesian, Polish, Portuguese, Arabic, Swedish and Hebrew.
+* **Full language support** for: English, German, French, Dutch, Spanish, Italian, Russian, Indonesian, Polish, Portuguese, Arabic, Swedish, Hebrew and Hungarian.
 * **A Google preview**, which shows what your listings will look like in the search results. Even on mobile devices!
 * **Innovative Schema blocks** for the WordPress block editor, so that your FAQ and HowTo content can be shown directly in the search results.
 * **[Premium] Internal linking blocks** to easily improve the structure of your content. Easily add a **table of contents block**, a **related links block**, a **subpages** block, or **siblings block**! Plus, we’ll keep adding these easy-to-add blocks to improve your site structure.
@@ -237,24 +237,29 @@ Your question has most likely been answered on our knowledge base: [kb.yoast.com
 = 15.5 =
 Release Date: December 15th, 2020
 
+Out now: Yoast SEO 15.5! You can easily check if you are doing a great job in terms of the readability of your text when writing in Hungarian! Yoast SEO helps you produce a powerful piece of content that’s easy to read. It also gives you feedback on what to improve! Read more about what’s new in Yoast SEO 15.5 in [our release post](https://yoa.st/release-15-5)!
+
 Enhancements:
 
+* Improves and expands Hungarian language support:
+    * Improves keyphrase recognition and internal linking by filtering function words such as 'harmadik', 'tiétek', and 'valaki'.
+    * Improves the transition words assessment.
+    * Adds the passive voice assessment.
+    * Adds the consecutive sentences assessment to ensure variety in a text.
 * Removes the Open Graph and Twitter author metadata on pages and other non-post post types.
-* Adds the breadcrumb Schema to the homepage.
-* Adds the assessment for detecting passive voice in Hungarian.
-* Improves keyphrase recognition and internal linking in Hungarian by filtering the function words such as harmadik, tiétek, valaki.
-* Improves the transition words assessment for Hungarian.
-* Implements the consecutive sentences assessment for Hungarian to ensure variety in a text.
+* Adds breadcrumb Schema to the homepage.
 
 Bugfixes:
 
-* Fixes a bug which prevented network disabling of the Enhanced Slack Sharing feature.
-* Fixes a bug where the translations on Search Appearance pages would be broken.
-* Fixes a bug where the Yoast SEO dashboard widget would still fetch data even when it was hidden.
+* Fixes a bug where network-wide settings about the Enhanced Slack Sharing feature would not be saved.
+* Fixes a bug where translations on the Search Appearance pages would be missing.
+* Fixes a bug where subsites in a multisite network could have an enabled feature toggle for the `Usage tracking` feature, even though subsites never send tracking data.
+* Fixes a bug where the Yoast SEO dashboard widget would still fetch data even when the dashboard itself was hidden.
+* Fixes a bug where the TinyMCE editor on term edit pages would not load correctly when using WordPress 5.6.
 
 Other:
 
-* Removes support for the Facebook App ID.
+* Removes support for the Facebook App ID, as Facebook has indicated this feature is deprecated on their side.
 * Adds a notification that tells the user to install and activate the Yoast SEO Multilingual plugin when the WPML plugin is installed and activated.
 
 = 15.4 =

@@ -115,11 +115,10 @@ class WPSEO_Sitemaps_Cache_Validator_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests whether an exception is thrown when a non numeric value is passed.
 	 *
-	 * @expectedException InvalidArgumentException
-	 *
 	 * @covers ::convert_base10_to_base61
 	 */
 	public function test_base_10_to_base_61_non_integer() {
+		$this->expectException( InvalidArgumentException::class );
 
 		WPSEO_Sitemaps_Cache_Validator::convert_base10_to_base61( 'ab' );
 	}

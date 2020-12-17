@@ -363,10 +363,10 @@ class Elementor implements Integration_Interface {
 		$this->asset_manager->enqueue_script( 'elementor' );
 
 		$yoast_components_l10n = new WPSEO_Admin_Asset_Yoast_Components_L10n();
-		$yoast_components_l10n->localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'elementor' );
+		$yoast_components_l10n->localize_script( 'elementor' );
 
-		\wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'elementor', 'wpseoAdminL10n', WPSEO_Utils::get_admin_l10n() );
-		\wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'elementor', 'wpseoFeaturesL10n', WPSEO_Utils::retrieve_enabled_features() );
+		$this->asset_manager->localize_script( 'elementor', 'wpseoAdminL10n', WPSEO_Utils::get_admin_l10n() );
+		$this->asset_manager->localize_script( 'elementor', 'wpseoFeaturesL10n', WPSEO_Utils::retrieve_enabled_features() );
 
 		$analysis_worker_location          = new WPSEO_Admin_Asset_Analysis_Worker_Location( $this->asset_manager->flatten_version( WPSEO_VERSION ) );
 		$used_keywords_assessment_location = new WPSEO_Admin_Asset_Analysis_Worker_Location( $this->asset_manager->flatten_version( WPSEO_VERSION ), 'used-keywords-assessment' );
@@ -412,7 +412,7 @@ class Elementor implements Integration_Interface {
 			];
 		}
 
-		\wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'elementor', 'wpseoScriptData', $script_data );
+		$this->asset_manager->localize_script( 'elementor', 'wpseoScriptData', $script_data );
 	}
 
 	/**
@@ -526,6 +526,16 @@ class Elementor implements Integration_Interface {
 			'sep',
 			'page',
 			'currentyear',
+			'tag',
+			'category',
+			'primary_category',
+			'pt_single',
+			'pt_plural',
+			'modified',
+			'name',
+			'user_description',
+			'pagetotal',
+			'pagenumber',
 		];
 
 		foreach ( $vars_to_cache as $var ) {

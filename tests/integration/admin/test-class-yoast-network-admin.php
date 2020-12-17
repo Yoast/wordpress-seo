@@ -201,8 +201,8 @@ class Yoast_Network_Admin_Test extends WPSEO_UnitTestCase {
 			->will( $this->returnValue( true ) );
 
 		$admin->register_hooks();
-		$this->assertInternalType( 'int', has_action( 'admin_action_' . Yoast_Network_Admin::UPDATE_OPTIONS_ACTION, [ $admin, 'handle_update_options_request' ] ) );
-		$this->assertInternalType( 'int', has_action( 'admin_action_' . Yoast_Network_Admin::RESTORE_SITE_ACTION, [ $admin, 'handle_restore_site_request' ] ) );
+		$this->assertIsInt( has_action( 'admin_action_' . Yoast_Network_Admin::UPDATE_OPTIONS_ACTION, [ $admin, 'handle_update_options_request' ] ) );
+		$this->assertIsInt( has_action( 'admin_action_' . Yoast_Network_Admin::RESTORE_SITE_ACTION, [ $admin, 'handle_restore_site_request' ] ) );
 	}
 
 	/**
@@ -214,8 +214,8 @@ class Yoast_Network_Admin_Test extends WPSEO_UnitTestCase {
 		$admin = new Yoast_Network_Admin();
 
 		$admin->register_ajax_hooks();
-		$this->assertInternalType( 'int', has_action( 'wp_ajax_' . Yoast_Network_Admin::UPDATE_OPTIONS_ACTION, [ $admin, 'handle_update_options_request' ] ) );
-		$this->assertInternalType( 'int', has_action( 'wp_ajax_' . Yoast_Network_Admin::RESTORE_SITE_ACTION, [ $admin, 'handle_restore_site_request' ] ) );
+		$this->assertIsInt( has_action( 'wp_ajax_' . Yoast_Network_Admin::UPDATE_OPTIONS_ACTION, [ $admin, 'handle_update_options_request' ] ) );
+		$this->assertIsInt( has_action( 'wp_ajax_' . Yoast_Network_Admin::RESTORE_SITE_ACTION, [ $admin, 'handle_restore_site_request' ] ) );
 	}
 
 	/**
@@ -246,7 +246,9 @@ class Yoast_Network_Admin_Test extends WPSEO_UnitTestCase {
 			$expected_message = 'Are you sure you want to do this?';
 		}
 
-		$this->setExpectedException( 'WPDieException', $expected_message );
+		$this->expectException( 'WPDieException' );
+		$this->expectExceptionMessage( $expected_message );
+
 		$admin->verify_request( 'my_action' );
 	}
 
@@ -261,7 +263,9 @@ class Yoast_Network_Admin_Test extends WPSEO_UnitTestCase {
 		$_REQUEST['_wp_http_referer'] = admin_url();
 		$_REQUEST['_wpnonce']         = wp_create_nonce( 'my_action' );
 
-		$this->setExpectedException( 'WPDieException', 'You are not allowed to perform this action.' );
+		$this->expectException( 'WPDieException' );
+		$this->expectExceptionMessage( 'You are not allowed to perform this action.' );
+
 		$admin->verify_request( 'my_action' );
 	}
 
@@ -302,7 +306,9 @@ class Yoast_Network_Admin_Test extends WPSEO_UnitTestCase {
 
 		$_REQUEST['_wpnonce'] = '';
 
-		$this->setExpectedException( 'WPDieException', '-1' );
+		$this->expectException( 'WPDieException' );
+		$this->expectExceptionMessage( '-1' );
+
 		$admin->verify_request( 'my_action' );
 	}
 
@@ -319,7 +325,9 @@ class Yoast_Network_Admin_Test extends WPSEO_UnitTestCase {
 
 		$_REQUEST['_wpnonce'] = wp_create_nonce( 'my_action' );
 
-		$this->setExpectedException( 'WPDieException', '-1' );
+		$this->expectException( 'WPDieException' );
+		$this->expectExceptionMessage( '-1' );
+
 		$admin->verify_request( 'my_action' );
 	}
 
@@ -387,17 +395,17 @@ class Yoast_Network_Admin_Test extends WPSEO_UnitTestCase {
 
 		$_REQUEST['_wpnonce'] = wp_create_nonce( 'my_action' );
 
-		$this->setExpectedException( 'WPDieException', '' );
+		$this->expectException( 'WPDieException' );
+		$this->expectExceptionMessage( '' );
 
-		ob_start();
+		$this->expectOutputContains( 'success' );
 
 		try {
 			$admin->terminate_request();
 		} catch ( WPDieException $e ) {
-			$this->assertArrayHasKey( 'success', json_decode( ob_get_clean(), true ) );
+			$output_decoded = json_decode( $this->getActualOutput(), true );
+			$this->assertArrayHasKey( 'success', $output_decoded );
 			throw $e;
 		}
-
-		ob_get_clean();
 	}
 }

@@ -253,8 +253,7 @@ class WPSEO_Admin {
 	public function config_page_scripts() {
 		$asset_manager = new WPSEO_Admin_Asset_Manager();
 		$asset_manager->enqueue_script( 'admin-global-script' );
-
-		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'admin-global-script', 'wpseoAdminGlobalL10n', $this->localize_admin_global_script() );
+		$asset_manager->localize_script( 'admin-global-script', 'wpseoAdminGlobalL10n', $this->localize_admin_global_script() );
 	}
 
 	/**
@@ -315,27 +314,10 @@ class WPSEO_Admin {
 				'<code>%s</code>',
 				'HelpScout beacon'
 			),
-			'dismiss_about_url'       => $this->get_dismiss_url( 'wpseo-dismiss-about' ),
 			/* translators: %s: expends to Yoast SEO */
 			'help_video_iframe_title' => sprintf( __( '%s video tutorial', 'wordpress-seo' ), 'Yoast SEO' ),
 			'scrollable_table_hint'   => __( 'Scroll to see the table content.', 'wordpress-seo' ),
 		];
-	}
-
-	/**
-	 * Extending the current page URL with two params to be able to ignore the notice.
-	 *
-	 * @param string $dismiss_param The param used to dismiss the notification.
-	 *
-	 * @return string
-	 */
-	private function get_dismiss_url( $dismiss_param ) {
-		$arr_params = [
-			$dismiss_param => '1',
-			'nonce'        => wp_create_nonce( $dismiss_param ),
-		];
-
-		return esc_url( add_query_arg( $arr_params ) );
 	}
 
 	/**

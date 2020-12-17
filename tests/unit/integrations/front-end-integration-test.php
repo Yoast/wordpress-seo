@@ -149,7 +149,7 @@ class Front_End_Integration_Test extends TestCase {
 
 		$this->instance->present_head();
 
-		$this->expectOutput( \PHP_EOL . "\tOutput" . \PHP_EOL . \PHP_EOL . \PHP_EOL );
+		$this->expectOutputString( \PHP_EOL . "\tOutput" . \PHP_EOL . \PHP_EOL . \PHP_EOL );
 	}
 
 	/**

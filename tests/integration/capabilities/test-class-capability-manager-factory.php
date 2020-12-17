@@ -5,10 +5,12 @@
  * @package WPSEO\Tests\Capabilities
  */
 
+use Yoast\WPTestUtils\WPIntegration\TestCase;
+
 /**
  * Unit Test Class.
  */
-class WPSEO_Capability_Manager_Factory_Tests extends PHPUnit_Framework_TestCase {
+class WPSEO_Capability_Manager_Factory_Tests extends TestCase {
 
 	/**
 	 * Tests whether the same factory instance is returned when the get function is called twice.

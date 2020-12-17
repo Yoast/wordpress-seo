@@ -194,8 +194,9 @@ class Indexing_Tool_Integration_Test extends TestCase {
 		Monkey\Functions\expect( 'rest_url' )
 			->andReturn( 'https://example.org/wp-ajax/' );
 
-		Monkey\Functions\expect( 'wp_localize_script' )
-			->with( 'yoast-seo-indexation', 'yoastIndexingData', $injected_data );
+		$this->asset_manager
+			->expects( 'localize_script' )
+			->with( 'indexation', 'yoastIndexingData', $injected_data );
 
 		Monkey\Filters\expectApplied( 'wpseo_indexing_data' )
 			->with( $injected_data );
@@ -216,7 +217,7 @@ class Indexing_Tool_Integration_Test extends TestCase {
 		$this->instance->render_indexing_list_item();
 
 		// Assert.
-		$this->expectOutput( '' );
+		$this->expectOutputString( '' );
 	}
 
 	/**
@@ -233,6 +234,8 @@ class Indexing_Tool_Integration_Test extends TestCase {
 		$this->instance->render_indexing_list_item();
 
 		// Assert.
-		$this->expectOutput( '<li><strong>Optimize SEO Data</strong><br/>You can speed up your site and get insight into your internal linking structure by letting us perform a few optimizations to the way SEO data is stored. If you have a lot of content it might take a while, but trust us, it\'s worth it. <a href="https://yoast.com" target="_blank">Learn more about the benefits of optimized SEO data.</a><div id="yoast-seo-indexing-action" style="margin: 16px 0;"></div></li>' );
+		$this->expectOutputString(
+			'<li><strong>Optimize SEO Data</strong><br/>You can speed up your site and get insight into your internal linking structure by letting us perform a few optimizations to the way SEO data is stored. If you have a lot of content it might take a while, but trust us, it\'s worth it. <a href="https://yoast.com" target="_blank">Learn more about the benefits of optimized SEO data.</a><div id="yoast-seo-indexing-action" style="margin: 16px 0;"></div></li>'
+		);
 	}
 }

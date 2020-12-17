@@ -9,6 +9,8 @@
  * Class Test_WPSEO_Sitemap_Provider_Overlap.
  *
  * @group sitemaps
+ *
+ * @covers WPSEO_Sitemaps
  */
 class Test_WPSEO_Sitemap_Provider_Overlap extends WPSEO_UnitTestCase {
 
@@ -22,6 +24,16 @@ class Test_WPSEO_Sitemap_Provider_Overlap extends WPSEO_UnitTestCase {
 	/**
 	 * Set up our double class.
 	 */
+	public static function setUpBeforeClass() {
+		parent::setUpBeforeClass();
+
+		// Make sure the author archives are enabled.
+		WPSEO_Options::set( 'disable-author', false );
+	}
+
+	/**
+	 * Set up our double class.
+	 */
 	public function setUp() {
 		parent::setUp();
 
@@ -29,16 +41,6 @@ class Test_WPSEO_Sitemap_Provider_Overlap extends WPSEO_UnitTestCase {
 
 		// Reset the instance.
 		self::$class_instance->reset();
-	}
-
-	/**
-	 * Set up our double class.
-	 */
-	public static function setUpBeforeClass() {
-		parent::setUpBeforeClass();
-
-		// Make sure the author archives are enabled.
-		WPSEO_Options::set( 'disable-author', false );
 	}
 
 	/**

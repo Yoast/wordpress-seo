@@ -5,10 +5,12 @@
  * @package WPSEO\Tests\ConfigUI\Components
  */
 
+use Yoast\WPTestUtils\WPIntegration\TestCase;
+
 /**
  * Class WPSEO_Config_Component_Connect_Google_Search_Console_Test.
  */
-class WPSEO_Config_Factory_Post_Type_Test extends PHPUnit_Framework_TestCase {
+class WPSEO_Config_Factory_Post_Type_Test extends TestCase {
 
 	/**
 	 * Tests the retrieval of the fields for a post type.

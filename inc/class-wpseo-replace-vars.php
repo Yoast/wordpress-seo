@@ -212,6 +212,19 @@ class WPSEO_Replace_Vars {
 	}
 
 	/**
+	 * Checks whether the given replacement variable has already been registered or not.
+	 *
+	 * @param string $replacement_variable The replacement variable to check, including the variable delimiter (e.g. `%%var%%`).
+	 *
+	 * @return bool `true` if the replacement variable has already been registered.
+	 */
+	public function has_been_registered( $replacement_variable ) {
+		$replacement_variable = self::remove_var_delimiter( $replacement_variable );
+
+		return isset( self::$external_replacements[ $replacement_variable ] );
+	}
+
+	/**
 	 * Retrieve the replacements for the variables found.
 	 *
 	 * @param array $matches Variables found in the original string - regex result.
