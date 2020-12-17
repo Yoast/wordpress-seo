@@ -37,7 +37,7 @@ class Replace_Vars_Helper {
 	protected $id_helper;
 
 	/**
-	 * Schema_Replace_Vars constructor.
+	 * Replace_Vars_Helper constructor.
 	 *
 	 * @param Meta_Tags_Context_Memoizer $meta_tags_context_memoizer The meta tags context memoizer.
 	 * @param WPSEO_Replace_Vars         $replace_vars               The replace vars.
@@ -76,7 +76,7 @@ class Replace_Vars_Helper {
 	}
 
 	/**
-	 * Registers the Schema related replace vars.
+	 * Registers the Schema-related replace vars.
 	 *
 	 * @return void
 	 */

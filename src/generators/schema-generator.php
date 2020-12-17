@@ -120,7 +120,7 @@ class Schema_Generator implements Generator_Interface {
 	 * @param array             $pieces_to_generate The schema graph pieces to generate.
 	 * @param Meta_Tags_Context $context            The meta tags context to use.
 	 *
-	 * @return array The generate schema graph.
+	 * @return array The generated schema graph.
 	 */
 	protected function generate_graph( $pieces_to_generate, $context ) {
 		$graph = [];
