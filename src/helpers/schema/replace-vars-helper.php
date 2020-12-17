@@ -103,22 +103,21 @@ class Replace_Vars_Helper {
 		];
 
 		foreach ( $replace_vars as $var => $value ) {
-			$this->register_replacement( $var, $value, $this->meta_tags_context_memoizer );
+			$this->register_replacement( $var, $value );
 		}
 	}
 
 	/**
 	 * Registers a replace var and its replace function.
 	 *
-	 * @param string                     $variable                   The replace variable.
-	 * @param Callable                   $replace_function           The value that the variable should be replaced with.
-	 * @param Meta_Tags_Context_Memoizer $meta_tags_context_memoizer The meta tags context memoizer.
+	 * @param string   $variable         The replace variable.
+	 * @param Callable $replace_function The value that the variable should be replaced with.
 	 */
-	protected function register_replacement( $variable, $replace_function, $meta_tags_context_memoizer ) {
+	protected function register_replacement( $variable, $replace_function ) {
 		$this->replace_vars->safe_register_replacement(
 			$variable,
-			static function() use ( $replace_function, $meta_tags_context_memoizer ) {
-				$context = $meta_tags_context_memoizer->for_current_page();
+			function() use ( $replace_function ) {
+				$context = $this->meta_tags_context_memoizer->for_current_page();
 
 				return $replace_function( $context );
 			}
