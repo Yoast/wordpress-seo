@@ -61,7 +61,7 @@
     "@wordpress/data": "^4.10.0",
     "@wordpress/dependency-extraction-webpack-plugin": "^2.8.0",
     "@wordpress/element": "^2.9.0",
-    "@yoast/grunt-plugin-tasks": "^1.7.2",
+    "@yoast/grunt-plugin-tasks": "^2.0.0",
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
     "babel-jest": "^18.0.0",
