@@ -11,7 +11,7 @@ import TurkishStemmer from "../../../vendor/turkishStemmer";
 export default function stem( word, morphologyData ) {
 	word = word.toLowerCase();
 
-	const stemmer = new TurkishStemmer();
+	const stemmer = new TurkishStemmer( morphologyData );
 	stemmer.setCurrent( word );
 	stemmer.stem();
 

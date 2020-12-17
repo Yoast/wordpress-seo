@@ -1,7 +1,6 @@
 import stem from "../../../src/morphology/turkish/stem";
 import getMorphologyData from "../../specHelpers/getMorphologyData";
 
-// @todo add actual Turkish morphology data
 const morphologyDataTR = getMorphologyData( "tr" ).tr;
 
 const wordsToStem = [
