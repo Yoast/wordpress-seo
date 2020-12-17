@@ -8,16 +8,14 @@
 /**
  * Class WPSEO_Validator.
  *
- * @deprecated 15.1.2
+ * @deprecated 15.6
  */
 class WPSEO_Validator {
-
-	const DEPRECATED_VERSION = '15.1.2';
 
 	/**
 	 * Validates whether the passed variable is a boolean.
 	 *
-	 * @deprecated 15.1.2
+	 * @deprecated 15.6
 	 * @codeCoverageIgnore
 	 *
 	 * @param mixed $variable The variable to validate.
@@ -25,7 +23,7 @@ class WPSEO_Validator {
 	 * @return bool Whether or not the passed variable is a valid boolean.
 	 */
 	public static function is_boolean( $variable ) {
-		_deprecated_function( __METHOD__, 'WPSEO ' . self::DEPRECATED_VERSION );
+		_deprecated_function( __METHOD__, 'WPSEO 15.6' );
 
 		if ( is_bool( $variable ) ) {
 			return true;
@@ -37,7 +35,7 @@ class WPSEO_Validator {
 	/**
 	 * Validates whether the passed variable is a string.
 	 *
-	 * @deprecated 15.1.2
+	 * @deprecated 15.6
 	 * @codeCoverageIgnore
 	 *
 	 * @param mixed $variable The variable to validate.
@@ -45,7 +43,7 @@ class WPSEO_Validator {
 	 * @return bool Whether or not the passed variable is a string.
 	 */
 	public static function is_string( $variable ) {
-		_deprecated_function( __METHOD__, 'WPSEO ' . self::DEPRECATED_VERSION );
+		_deprecated_function( __METHOD__, 'WPSEO 15.6' );
 
 		return is_string( $variable );
 	}
@@ -53,7 +51,7 @@ class WPSEO_Validator {
 	/**
 	 * Validates whether the passed variable is a non-empty string.
 	 *
-	 * @deprecated 15.1.2
+	 * @deprecated 15.6
 	 * @codeCoverageIgnore
 	 *
 	 * @param mixed $variable The variable to validate.
@@ -61,7 +59,7 @@ class WPSEO_Validator {
 	 * @return bool Whether or not the passed value is a non-empty string.
 	 */
 	public static function is_non_empty_string( $variable ) {
-		_deprecated_function( __METHOD__, 'WPSEO ' . self::DEPRECATED_VERSION );
+		_deprecated_function( __METHOD__, 'WPSEO 15.6' );
 
 		return self::is_string( $variable ) && $variable !== '';
 	}
@@ -69,7 +67,7 @@ class WPSEO_Validator {
 	/**
 	 * Validates whether the passed variable is an integer.
 	 *
-	 * @deprecated 15.1.2
+	 * @deprecated 15.6
 	 * @codeCoverageIgnore
 	 *
 	 * @param mixed $variable The variable to validate.
@@ -77,7 +75,7 @@ class WPSEO_Validator {
 	 * @return bool Whether or not the passed variable is an integer.
 	 */
 	public static function is_integer( $variable ) {
-		_deprecated_function( __METHOD__, 'WPSEO ' . self::DEPRECATED_VERSION );
+		_deprecated_function( __METHOD__, 'WPSEO 15.6' );
 
 		return filter_var( $variable, FILTER_VALIDATE_INT ) || filter_var( $variable, FILTER_VALIDATE_INT ) === 0;
 	}
@@ -85,7 +83,7 @@ class WPSEO_Validator {
 	/**
 	 * Determines whether a particular key exists within the passed dataset.
 	 *
-	 * @deprecated 15.1.2
+	 * @deprecated 15.6
 	 * @codeCoverageIgnore
 	 *
 	 * @param array  $data The dataset to search through.
@@ -94,7 +92,7 @@ class WPSEO_Validator {
 	 * @return bool Whether or not the key exists.
 	 */
 	public static function key_exists( array $data, $key ) {
-		_deprecated_function( __METHOD__, 'WPSEO ' . self::DEPRECATED_VERSION );
+		_deprecated_function( __METHOD__, 'WPSEO 15.6' );
 
 		return array_key_exists( $key, $data );
 	}
