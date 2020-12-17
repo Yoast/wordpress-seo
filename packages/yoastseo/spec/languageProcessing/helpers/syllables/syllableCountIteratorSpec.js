@@ -1,13 +1,13 @@
 import SyllableCountIterator from "../../../../src/languageProcessing/helpers/syllables/syllableCountIterator.js";
 
-describe( "creating a language syllable regex master", function() {
-	it( "returns an empty language syllable regex master", function() {
+describe( "a test to create a language syllable regex master", function() {
+	it( "returns an empty language syllable regex master if there is no config available", function() {
 		const mockMaster = new SyllableCountIterator();
 		expect( mockMaster.getAvailableSyllableCountSteps().length ).toBe( 0 );
 	} );
 
 
-	it( "returns an empty language syllable regex master", function() {
+	it( "returns a language syllable regex master", function() {
 		const mockConfig = {
 			deviations: {
 				vowels: [

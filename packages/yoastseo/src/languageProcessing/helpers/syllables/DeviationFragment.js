@@ -28,10 +28,10 @@ function DeviationFragment( options ) {
  * @returns {void}
  */
 DeviationFragment.prototype.createRegex = function() {
-	var regexString = "";
-	var options = this._options;
+	let regexString = "";
+	const options = this._options;
 
-	var fragment = this._fragment;
+	let fragment = this._fragment;
 
 	if ( ! isUndefined( options.notFollowedBy ) ) {
 		fragment += "(?![" + options.notFollowedBy.join( "" ) + "])";
@@ -82,7 +82,7 @@ DeviationFragment.prototype.getRegex = function() {
  * @returns {boolean} Whether or not this fragment occurs in a word.
  */
 DeviationFragment.prototype.occursIn = function( word ) {
-	var regex = this.getRegex();
+	const regex = this.getRegex();
 
 	return regex.test( word );
 };

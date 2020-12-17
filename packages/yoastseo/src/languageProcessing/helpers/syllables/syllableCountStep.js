@@ -8,7 +8,7 @@ import arrayToRegex from "../regex/createRegexFromArray.js";
  * @param {object} syllableRegex The object containing the syllable exclusions.
  * @constructor
  */
-var SyllableCountStep = function( syllableRegex ) {
+const SyllableCountStep = function( syllableRegex ) {
 	this._hasRegex = false;
 	this._regex = "";
 	this._multiplier = "";

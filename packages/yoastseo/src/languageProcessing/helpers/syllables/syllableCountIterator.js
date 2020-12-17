@@ -44,7 +44,7 @@ SyllableCountIterator.prototype.getAvailableSyllableCountSteps = function() {
  * @returns {number} The number of syllables found based on exclusions.
  */
 SyllableCountIterator.prototype.countSyllables = function( word ) {
-	var syllableCount = 0;
+	let syllableCount = 0;
 	forEach( this.countSteps, function( step ) {
 		syllableCount += step.countSyllables( word );
 	} );
