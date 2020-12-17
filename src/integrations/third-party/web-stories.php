@@ -113,7 +113,7 @@ class Web_Stories implements Integration_Interface {
 	/**
 	 * Filters the meta description for stories.
 	 *
-	 * @param string $description The description sentence.
+	 * @param string                 $description The description sentence.
 	 * @param Indexable_Presentation $presentation The presentation of an indexable.
 	 * @return string The description sentence.
 	 */
