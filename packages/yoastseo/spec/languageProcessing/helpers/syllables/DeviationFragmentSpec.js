@@ -1,9 +1,9 @@
-import DeviationFragment from "../../../src/researches/stringProcessing/syllables/DeviationFragment";
+import DeviationFragment from "../../../../src/languageProcessing/helpers/syllables/DeviationFragment";
 
 describe( "DeviationFragment", function() {
 	describe( "getRegex", function() {
 		it( "should create a simple global regex", function() {
-			var deviationFragment = new DeviationFragment( {
+			const deviationFragment = new DeviationFragment( {
 				word: "fragment",
 			} );
 
@@ -11,61 +11,61 @@ describe( "DeviationFragment", function() {
 		} );
 
 		it( "should create a regex for at the start of a word", function() {
-			var deviationFragment = new DeviationFragment( {
+			const deviationFragment = new DeviationFragment( {
 				location: "atBeginning",
 				word: "fragment",
 			} );
-			var expected = /^fragment/;
+			const expected = /^fragment/;
 
-			var result = deviationFragment.getRegex();
+			const result = deviationFragment.getRegex();
 
 			expect( result ).toEqual( expected );
 		} );
 
 		it( "should create a regex for at the end of a word", function() {
-			var deviationFragment = new DeviationFragment( {
+			const deviationFragment = new DeviationFragment( {
 				location: "atEnd",
 				word: "fragment",
 			} );
-			var expected = /fragment$/;
+			const expected = /fragment$/;
 
-			var result = deviationFragment.getRegex();
+			const result = deviationFragment.getRegex();
 
 			expect( result ).toEqual( expected );
 		} );
 
 		it( "should create a regex for at the end of a word", function() {
-			var deviationFragment = new DeviationFragment( {
+			const deviationFragment = new DeviationFragment( {
 				location: "atBeginningOrEnd",
 				word: "fragment",
 			} );
-			var expected = /(^fragment)|(fragment$)/;
+			const expected = /(^fragment)|(fragment$)/;
 
-			var result = deviationFragment.getRegex();
+			const result = deviationFragment.getRegex();
 
 			expect( result ).toEqual( expected );
 		} );
 
 		it( "supports notFollowedBy", function() {
-			var deviationFragment = new DeviationFragment( {
+			const deviationFragment = new DeviationFragment( {
 				word: "fragment",
 				notFollowedBy: [ "a", "s" ],
 			} );
-			var expected = /fragment(?![as])/;
+			const expected = /fragment(?![as])/;
 
-			var result = deviationFragment.getRegex();
+			const result = deviationFragment.getRegex();
 
 			expect( result ).toEqual( expected );
 		} );
 
 		it( "supports alsoFollowedBy", function() {
-			var deviationFragment = new DeviationFragment( {
+			const deviationFragment = new DeviationFragment( {
 				word: "fragment",
 				alsoFollowedBy: [ "a", "s" ],
 			} );
-			var expected = /fragment[as]?/;
+			const expected = /fragment[as]?/;
 
-			var result = deviationFragment.getRegex();
+			const result = deviationFragment.getRegex();
 
 			expect( result ).toEqual( expected );
 		} );
@@ -73,7 +73,7 @@ describe( "DeviationFragment", function() {
 
 	describe( "occursIn", function() {
 		it( "should match it's fragment with the given word", function() {
-			var deviationFragment = new DeviationFragment( {
+			const deviationFragment = new DeviationFragment( {
 				word: "fragment",
 			} );
 
@@ -85,7 +85,7 @@ describe( "DeviationFragment", function() {
 
 	describe( "removeFrom", function() {
 		it( "removes the fragment from the given word", function() {
-			var deviationFragment = new DeviationFragment( {
+			const deviationFragment = new DeviationFragment( {
 				word: "fragment",
 			} );
 
@@ -98,7 +98,7 @@ describe( "DeviationFragment", function() {
 
 	describe( "getSyllables", function() {
 		it( "returns the syllables for this fragment", function() {
-			var deviationFragment = new DeviationFragment( {
+			const deviationFragment = new DeviationFragment( {
 				syllables: 5,
 			} );
 

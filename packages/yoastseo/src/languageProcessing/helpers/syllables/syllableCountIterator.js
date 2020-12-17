@@ -9,7 +9,7 @@ import { forEach } from "lodash-es";
  * @param {object} config The config object containing an array with syllable exclusions.
  * @constructor
  */
-var SyllableCountIterator = function( config ) {
+const SyllableCountIterator = function( config ) {
 	this.countSteps = [];
 	if ( ! isUndefined( config ) ) {
 		this.createSyllableCountSteps( config.deviations.vowels );
@@ -44,7 +44,7 @@ SyllableCountIterator.prototype.getAvailableSyllableCountSteps = function() {
  * @returns {number} The number of syllables found based on exclusions.
  */
 SyllableCountIterator.prototype.countSyllables = function( word ) {
-	var syllableCount = 0;
+	let syllableCount = 0;
 	forEach( this.countSteps, function( step ) {
 		syllableCount += step.countSyllables( word );
 	} );

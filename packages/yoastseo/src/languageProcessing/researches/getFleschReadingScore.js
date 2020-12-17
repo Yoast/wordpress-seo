@@ -3,7 +3,7 @@
 import stripNumbers from "../helpers/sanitize/stripNumbers.js";
 import countSentences from "../helpers/sentence/countSentences.js";
 import countWords from "../helpers/word/countWords.js";
-import countSyllables from "../helpers/syllables/count.js";
+import countSyllables from "../helpers/syllables/countSyllables.js";
 
 /**
  * Calculates an average from a total and an amount
