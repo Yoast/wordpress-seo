@@ -143,6 +143,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			'</a>'
 		);
 
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output escaped above.
 		echo new Alert_Presenter( $content );
 	}
 
@@ -326,15 +327,19 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	protected function render_hidden_fields() {
 		wp_nonce_field( 'yoast_free_metabox', 'yoast_free_metabox_nonce' );
 
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output escaped in class.
 		echo new Meta_Fields_Presenter( $this->get_metabox_post(), 'general' );
 
 		if ( $this->is_advanced_metadata_enabled ) {
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output escaped in class.
 			echo new Meta_Fields_Presenter( $this->get_metabox_post(), 'advanced' );
 		}
 
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output escaped in class.
 		echo new Meta_Fields_Presenter( $this->get_metabox_post(), 'schema', $this->get_metabox_post()->post_type );
 
 		if ( $this->social_is_enabled ) {
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output escaped in class.
 			echo new Meta_Fields_Presenter( $this->get_metabox_post(), 'social' );
 		}
 
@@ -343,6 +348,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		 *
 		 * @api string $post_content The metabox content string.
 		 */
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output should be escaped in the filter.
 		echo apply_filters( 'wpseo_content_meta_section_content', '' );
 	}
 
@@ -742,6 +748,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			}
 			else {
 				if ( isset( $_POST[ $field_name ] ) ) {
+					// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- We're preparing to do just that.
 					$data = wp_unslash( $_POST[ $field_name ] );
 
 					// For multi-select.
@@ -813,7 +820,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		$post_id = get_queried_object_id();
 		if ( empty( $post_id ) && isset( $_GET['post'] ) ) {
-			$post_id = sanitize_text_field( $_GET['post'] );
+			$post_id = sanitize_text_field( filter_input( INPUT_GET, 'post' ) );
 		}
 
 		if ( $post_id !== 0 ) {
@@ -877,7 +884,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				'choose_image' => __( 'Use Image', 'wordpress-seo' ),
 			],
 			'metabox'          => $this->get_metabox_script_data(),
-			'userLanguageCode' => WPSEO_Language_Utils::get_language( WPSEO_Language_Utils::get_user_locale() ),
+			'userLanguageCode' => WPSEO_Language_Utils::get_language( \get_user_locale() ),
 			'isPost'           => true,
 			'isBlockEditor'    => $is_block_editor,
 		];
