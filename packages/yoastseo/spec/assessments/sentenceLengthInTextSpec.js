@@ -187,7 +187,6 @@ describe( "An assessment for sentence length", function() {
 	it( "returns the score for all short sentences in Catalan", function() {
 		const mockPaper = new Paper( "text", { locale: "ca_ES" } );
 		const sentenceLengthInTextAssessmentCatalan = new SentenceLengthInTextAssessment( contentConfiguration( mockPaper.getLocale() ).sentenceLength );
-
 		const assessment = sentenceLengthInTextAssessmentCatalan.getResult( mockPaper, Factory.buildMockResearcher( [
 			{ sentence: "", sentenceLength: 24 },
 
@@ -527,7 +526,7 @@ describe( "An assessment for sentence length", function() {
 		expect( assessment.hasScore() ).toBe( true );
 		expect( assessment.getScore() ).toEqual( 3 );
 		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/34v' target='_blank'>Sentence length</a>: " +
-			"100% of the sentences contain more than 10 words, which is more than the recommended maximum of 25%." +
+			"100% of the sentences contain more than 11 words, which is more than the recommended maximum of 25%." +
 			" <a href='https://yoa.st/34w' target='_blank'>Try to shorten the sentences</a>." );
 		expect( assessment.hasMarks() ).toBe( true );
 	} );
@@ -544,7 +543,7 @@ describe( "An assessment for sentence length", function() {
 		expect( assessment.hasScore() ).toBe( true );
 		expect( assessment.getScore() ).toEqual( 3 );
 		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/34v' target='_blank'>Sentence length</a>: " +
-			"50% of the sentences contain more than 20 words, which is more than the recommended maximum of 25%." +
+			"50% of the sentences contain more than 11 words, which is more than the recommended maximum of 25%." +
 			" <a href='https://yoa.st/34w' target='_blank'>Try to shorten the sentences</a>." );
 		expect( assessment.hasMarks() ).toBe( true );
 	} );
