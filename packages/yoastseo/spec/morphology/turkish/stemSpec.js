@@ -20,8 +20,18 @@ const wordsToStem = [
 	[ "görüþleri", "görüþ" ],
 	[ "gözyaşları", "gözyaş" ],
 	// Stem words end in suffixes in step a_2
+	[ "nikotini", "nikot" ],
+	[ "notunu", "not" ],
+	[ "prosedürünü", "prosedür" ],
+	[ "puanını", "puan" ],
 	// Stem words end in suffixes in step a_3
+	[ "pêkirin", "pêkir" ],
+	[ "radyosu'nun", "radyosu'n" ],
+	[ "reflektörün", "reflektör" ],
+	[ "reforların", "refor" ],
 	// Stem words end in suffixes in step a_4
+	[ "rekora", "rekor" ],
+	[ "resmiyette", "resmiyet" ],
 	// Stem words end in suffixes in step a_5
 	// Stem words end in suffixes in step a_6
 	// Stem words end in suffixes in step a_7
@@ -39,8 +49,17 @@ const wordsToStem = [
 	// Stem words end in suffixes in step a_19
 	// Stem words end in suffixes in step a_20
 	// Stem words end in suffixes in step a_21
+	[ "gidiyorsa", "gidiyor" ],
+	[ "girerse", "girer" ],
+	[ "konuşursak", "konuşur" ],
+	[ "gönderemezsek", "gönderemez" ],
 	// Stem words end in suffixes in step a_22
+	[ "borçlanmış", "borçla" ],
+	[ "gerekiyormuş", "gerekiyor" ],
+	[ "dökmüş", "dök" ],
+	[ "dzenlenmiş", "dzenle" ],
 	// Stem words end in suffixes in step a_23
+	[ "samandağ", "samandak" ],
 	[ "Kedileriyle", "kedi" ],
 ];
 describe( "Test for stemming Turkish words", () => {
