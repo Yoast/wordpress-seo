@@ -1,6 +1,9 @@
 <?php
 
+namespace Yoast\WP\SEO\Tests\Unit\Presenters\Admin;
+
 use Brain\Monkey;
+use Mockery;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Presenters\Admin\Indexing_Failed_Notification_Presenter;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
@@ -12,6 +15,17 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @coversDefaultClass \Yoast\WP\SEO\Presenters\Admin\Indexing_Failed_Notification_Presenter
  */
 class Indexing_Failed_Notification_Presenter_Test extends TestCase {
+
+	/**
+	 * Set up function stubs.
+	 *
+	 * @return void
+	 */
+	protected function set_up() {
+		parent::set_up();
+
+		$this->stubTranslationFunctions();
+	}
 
 	/**
 	 * Tests the present method when not in Premium.

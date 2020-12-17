@@ -2,9 +2,9 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Admin\Tracking;
 
+use Brain\Monkey;
 use WPSEO_Options;
 use WPSEO_Tracking;
-use Brain\Monkey;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
@@ -19,8 +19,8 @@ class WPSEO_Tracking_Test extends TestCase {
 	 *
 	 * @return void
 	 */
-	public function setUp() {
-		parent::setUp();
+	protected function set_up() {
+		parent::set_up();
 	}
 
 	/**
@@ -37,11 +37,11 @@ class WPSEO_Tracking_Test extends TestCase {
 
 		WPSEO_Options::set( 'tracking', true );
 
-		$instance = new WPSEO_Tracking( 'https://tracking.yoast.com/stats', ( WEEK_IN_SECONDS * 2 ) );
+		$instance = new WPSEO_Tracking( 'https://tracking.yoast.com/stats', ( \WEEK_IN_SECONDS * 2 ) );
 
-		$this->assertAttributeEquals( 0, 'threshold', $instance );
-		$this->assertAttributeEquals( '', 'endpoint', $instance );
-		$this->assertAttributeEquals( null, 'current_time', $instance );
+		$this->assertEquals( 0, $this->getPropertyValue( $instance, 'threshold' ) );
+		$this->assertEquals( '', $this->getPropertyValue( $instance, 'endpoint' ) );
+		$this->assertEquals( null, $this->getPropertyValue( $instance, 'current_time' ) );
 
 		WPSEO_Options::clear_cache();
 	}
@@ -59,11 +59,11 @@ class WPSEO_Tracking_Test extends TestCase {
 		);
 		WPSEO_Options::set( 'tracking', true );
 
-		$instance = new WPSEO_Tracking( 'https://tracking.yoast.com/stats', ( WEEK_IN_SECONDS * 2 ) );
+		$instance = new WPSEO_Tracking( 'https://tracking.yoast.com/stats', ( \WEEK_IN_SECONDS * 2 ) );
 
-		$this->assertAttributeEquals( ( WEEK_IN_SECONDS * 2 ), 'threshold', $instance );
-		$this->assertAttributeEquals( 'https://tracking.yoast.com/stats', 'endpoint', $instance );
-		$this->assertAttributeEquals( time(), 'current_time', $instance );
+		$this->assertEquals( ( \WEEK_IN_SECONDS * 2 ), $this->getPropertyValue( $instance, 'threshold' ) );
+		$this->assertEquals( 'https://tracking.yoast.com/stats', $this->getPropertyValue( $instance, 'endpoint' ) );
+		$this->assertEquals( \time(), $this->getPropertyValue( $instance, 'current_time' ) );
 
 		WPSEO_Options::clear_cache();
 	}

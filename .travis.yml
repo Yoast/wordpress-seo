@@ -26,15 +26,17 @@ jobs:
   include:
     - php: 7.2
       env: PHPCS=1 CHECKJS=1 SECURITY=1 TRAVIS_NODE_VERSION=lts/* AUTO_CHECKOUT_MONOREPO_BRANCH=1
-    - php: 7.3
+    - php: 7.3.24
       env: WP_VERSION=latest WP_MULTISITE=1 COVERAGE=1
     - php: 5.6
-      env: WP_VERSION=5.4 WP_MULTISITE=1 PHPLINT=1 PHPUNIT=1
+      env: WP_VERSION=5.5 WP_MULTISITE=1 PHPLINT=1 PHPUNIT=1
       # Use 'trusty' to test against MySQL 5.6, 'xenial' contains 5.7 by default.
       dist: trusty
     - php: 7.3
       env: WP_VERSION=master PHPUNIT=1
     - php: 7.4
+      env: WP_VERSION=latest PHPUNIT=1 PHPLINT=1
+    - php: 8.0
       env: WP_VERSION=latest PHPUNIT=1 PHPLINT=1
     - php: "nightly"
       env: PHPLINT=1
@@ -83,7 +85,6 @@ jobs:
         - grunt composer-artifact
       if: ( tag IS present OR branch =~ /^feature\// OR branch =~ /^release\// OR branch = trunk ) AND type != pull_request
       before_install:
-        - composer self-update 1.10.16
         - nvm install lts/*
         - curl -o- -L https://yarnpkg.com/install.sh | bash
         - export PATH=$HOME/.yarn/bin:$PATH
@@ -115,7 +116,6 @@ cache:
     - node_modules
 
 before_install:
-  - composer self-update 1.10.16
   - export SECURITYCHECK_DIR=/tmp/security-checker
   - if [[ -z "$CC_TEST_REPORTER_ID" ]]; then COVERAGE="0"; fi
   - if [[ -d "premium" ]]; then IS_PREMIUM=1; fi
@@ -134,35 +134,41 @@ install:
       # So we temporarily switch PHP versions, do a full install and then remove the package.
       # Then switch back to the PHP version we want to test and delete the vendor directory.
       phpenv local 7.1
-      composer install --no-interaction --ignore-platform-reqs
-      composer remove humbug/php-scoper --dev --ignore-platform-reqs
-      composer remove atanamo/php-codeshift --dev --ignore-platform-reqs
+      travis_retry composer install --no-interaction --ignore-platform-reqs
+      travis_retry composer remove humbug/php-scoper --dev --ignore-platform-reqs
+      travis_retry composer remove atanamo/php-codeshift --dev --ignore-platform-reqs
       phpenv local --unset
       rm -rf vendor/*
     fi
   - |
     if [[ "$COVERAGE" == "1" ]]; then
       # Install phpcov so we can combine the coverage results of unit and integration tests.
-      composer require phpunit/phpcov ^3.1
+      travis_retry composer require phpunit/phpcov ^3.1
     fi
   - |
-    if [[ $TRAVIS_PHP_VERSION == "nightly" && "$PHPLINT" == "1" ]]; then
-      composer install --no-interaction --ignore-platform-reqs --no-scripts --no-suggest
+    if [[ ${TRAVIS_PHP_VERSION:0:1} == "8" || $TRAVIS_PHP_VERSION == "nightly" ]]; then
+      if [[ "$IS_PREMIUM" == "1" ]]; then
+        cd premium
+        travis_retry composer install --no-interaction --ignore-platform-reqs --no-scripts --no-suggest
+        cd -
+      else
+        travis_retry composer install --no-interaction --ignore-platform-reqs --no-scripts --no-suggest
+      fi
     elif [[ "$PHPUNIT" == "1" || "$COVERAGE" == "1" || "$PHPCS" == "1" || "$PHPLINT" == "1" ]]; then
       # Run composer update as we have dev dependencies locked at PHP ^7.0 versions.
-      composer update
-      composer install --no-interaction
+      travis_retry composer update
+      travis_retry composer install --no-interaction
       composer du
       if [[ "$IS_PREMIUM" == "1" ]]; then
         if [[ "$PHPCS" == "1" || "$PHPLINT" == "1" ]]; then
           cd premium
-          composer install --no-interaction
+          travis_retry composer install --no-interaction
           cd -
         fi
       fi
     elif [[ "$TRAVIS_BUILD_STAGE_NAME" == "🚀 deployment" ]]; then
-      composer update
-      composer install --no-dev --no-interaction
+      travis_retry composer update
+      travis_retry composer install --no-dev --no-interaction
       composer du
     fi
   - |
@@ -273,17 +279,32 @@ script:
     fi
   # PHP Unit
   - |
-    if [[ "$PHPUNIT" == "1" ]]; then
+    if [[ "$PHPUNIT" == "1" && ${TRAVIS_PHP_VERSION:0:1} != "8" && $TRAVIS_PHP_VERSION != "nightly" ]]; then
       travis_fold start "PHP.integration-tests" && travis_time_start
       vendor/bin/phpunit -c phpunit-integration.xml.dist
       travis_time_finish && travis_fold end "PHP.integration-tests"
     fi;
   - |
-    if [[ "$PHPUNIT" == "1" ]]; then
+    if [[ "$PHPUNIT" == "1" ]] && [[ ${TRAVIS_PHP_VERSION:0:1} == "8" || $TRAVIS_PHP_VERSION == "nightly" ]]; then
+      travis_fold start "PHP.integration-tests" && travis_time_start
+      travis_retry composer require --dev phpunit/phpunit:"^7.5" --update-with-dependencies --ignore-platform-reqs --no-interaction &&
+      vendor/bin/phpunit -c phpunit-integration.xml.dist
+      travis_time_finish && travis_fold end "PHP.integration-tests"
+    fi;
+  - |
+    if [[ "$PHPUNIT" == "1" && ${TRAVIS_PHP_VERSION:0:1} != "8" && $TRAVIS_PHP_VERSION != "nightly" ]]; then
       travis_fold start "PHP.tests" && travis_time_start
       vendor/bin/phpunit
       travis_time_finish && travis_fold end "PHP.tests"
     fi;
+  - |
+    if [[ "$PHPUNIT" == "1" ]] && [[ ${TRAVIS_PHP_VERSION:0:1} == "8" || $TRAVIS_PHP_VERSION == "nightly" ]]; then
+      travis_fold start "PHP.tests" && travis_time_start
+      composer require --dev phpunit/phpunit:"^9.0" --update-with-dependencies --ignore-platform-reqs --no-interaction &&
+      composer update yoast/wp-test-utils --with-all-dependencies --ignore-platform-reqs --no-interaction &&
+      vendor/bin/phpunit
+      travis_time_finish && travis_fold end "PHP.tests"
+    fi
   - |
     if [[ "$COVERAGE" == "1" ]]; then
       travis_fold start "PHP.coverage" && travis_time_start

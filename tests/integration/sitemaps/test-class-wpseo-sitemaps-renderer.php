@@ -45,8 +45,8 @@ class WPSEO_Sitemaps_Renderer_Test extends WPSEO_UnitTestCase {
 		];
 
 		$index = self::$class_instance->get_index( $links );
-		$this->assertContains( "<loc>{$loc}</loc>", $index );
-		$this->assertContains( "<lastmod>{$lastmod}</lastmod>", $index );
+		$this->assertStringContainsString( "<loc>{$loc}</loc>", $index );
+		$this->assertStringContainsString( "<lastmod>{$lastmod}</lastmod>", $index );
 	}
 
 	/**
@@ -78,11 +78,11 @@ class WPSEO_Sitemaps_Renderer_Test extends WPSEO_UnitTestCase {
 		];
 
 		$index = self::$class_instance->get_sitemap( $links, 'post', 0 );
-		$this->assertContains( "<loc>{$loc}</loc>", $index );
-		$this->assertContains( "<lastmod>{$mod}</lastmod>", $index );
-		$this->assertContains( "<image:loc>{$src}</image:loc>", $index );
-		$this->assertContains( "<image:title><![CDATA[{$title}]]></image:title>", $index );
-		$this->assertContains( "<image:caption><![CDATA[{$alt}]]></image:caption>", $index );
+		$this->assertStringContainsString( "<loc>{$loc}</loc>", $index );
+		$this->assertStringContainsString( "<lastmod>{$mod}</lastmod>", $index );
+		$this->assertStringContainsString( "<image:loc>{$src}</image:loc>", $index );
+		$this->assertStringContainsString( "<image:title><![CDATA[{$title}]]></image:title>", $index );
+		$this->assertStringContainsString( "<image:caption><![CDATA[{$alt}]]></image:caption>", $index );
 	}
 
 	/**

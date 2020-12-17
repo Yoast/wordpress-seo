@@ -55,8 +55,8 @@ class Front_End_Integration_Test extends TestCase {
 	/**
 	 * @inheritDoc
 	 */
-	public function setUp() {
-		parent::setUp();
+	protected function set_up() {
+		parent::set_up();
 
 		$this->context_memoizer = Mockery::mock( Meta_Tags_Context_Memoizer::class );
 		$this->container        = Mockery::mock( ContainerInterface::class );
@@ -149,7 +149,7 @@ class Front_End_Integration_Test extends TestCase {
 
 		$this->instance->present_head();
 
-		$this->expectOutput( \PHP_EOL . "\tOutput" . \PHP_EOL . \PHP_EOL . \PHP_EOL );
+		$this->expectOutputString( \PHP_EOL . "\tOutput" . \PHP_EOL . \PHP_EOL . \PHP_EOL );
 	}
 
 	/**
@@ -186,7 +186,6 @@ class Front_End_Integration_Test extends TestCase {
 			'Yoast\WP\SEO\Presenters\Open_Graph\Article_Published_Time_Presenter',
 			'Yoast\WP\SEO\Presenters\Open_Graph\Article_Modified_Time_Presenter',
 			'Yoast\WP\SEO\Presenters\Open_Graph\Image_Presenter',
-			'Yoast\WP\SEO\Presenters\Open_Graph\FB_App_ID_Presenter',
 			'Yoast\WP\SEO\Presenters\Twitter\Card_Presenter',
 			'Yoast\WP\SEO\Presenters\Twitter\Title_Presenter',
 			'Yoast\WP\SEO\Presenters\Twitter\Description_Presenter',
@@ -292,7 +291,6 @@ class Front_End_Integration_Test extends TestCase {
 				'Yoast\WP\SEO\Presenters\Open_Graph\Url_Presenter',
 				'Yoast\WP\SEO\Presenters\Open_Graph\Site_Name_Presenter',
 				'Yoast\WP\SEO\Presenters\Open_Graph\Image_Presenter',
-				'Yoast\WP\SEO\Presenters\Open_Graph\FB_App_ID_Presenter',
 				'Yoast\WP\SEO\Presenters\Twitter\Card_Presenter',
 				'Yoast\WP\SEO\Presenters\Twitter\Title_Presenter',
 				'Yoast\WP\SEO\Presenters\Twitter\Description_Presenter',

@@ -3,10 +3,8 @@
 namespace Yoast\WP\SEO\Tests\Unit\Memoizers;
 
 use Mockery;
-use Yoast\WP\SEO\Context\Presentation;
 use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Context\Meta_Tags_Context_Mock;
-use Yoast\WP\SEO\Tests\Unit\Doubles\Context\Presentation_Mock;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Memoizers\Presentation_Memoizer_Double;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
@@ -59,8 +57,8 @@ class Presentation_Memoizer_Test extends TestCase {
 	/**
 	 * Sets up the test class.
 	 */
-	public function setUp() {
-		parent::setUp();
+	protected function set_up() {
+		parent::set_up();
 
 		// Mock classes.
 		$this->container              = Mockery::mock( ContainerInterface::class );
@@ -83,7 +81,10 @@ class Presentation_Memoizer_Test extends TestCase {
 	 * @covers ::__construct
 	 */
 	public function test_constructor() {
-		$this->assertAttributeInstanceOf( ContainerInterface::class, 'container', $this->instance );
+		$this->assertInstanceOf(
+			ContainerInterface::class,
+			$this->getPropertyValue( $this->instance, 'container' )
+		);
 	}
 
 	/**

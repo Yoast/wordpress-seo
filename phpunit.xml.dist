@@ -1,34 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <phpunit
-	backupGlobals="false"
-	backupStaticAttributes="false"
-	bootstrap="tests/unit/bootstrap.php"
-	colors="true"
-	convertErrorsToExceptions="true"
-	convertNoticesToExceptions="true"
-	convertWarningsToExceptions="true"
-	processIsolation="false"
-	stopOnError="false"
-	stopOnFailure="false"
-	stopOnIncomplete="false"
-	stopOnSkipped="false"
-	syntaxCheck="false"
-	verbose="true"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="http://schema.phpunit.de/7.5/phpunit.xsd"
+		backupGlobals="false"
+		backupStaticAttributes="false"
+		bootstrap="tests/unit/bootstrap.php"
+		colors="true"
+		convertErrorsToExceptions="true"
+		convertNoticesToExceptions="true"
+		convertWarningsToExceptions="true"
+		forceCoversAnnotation="true"
+		processIsolation="false"
+		stopOnError="false"
+		stopOnFailure="false"
+		stopOnIncomplete="false"
+		stopOnSkipped="false"
+		verbose="true"
 	>
 	<testsuites>
-		<testsuite name="main">
+		<testsuite name="yoastseo">
 			<directory suffix="-test.php">./tests/unit/</directory>
 		</testsuite>
 	</testsuites>
 
 	<filter>
-		<whitelist>
-			<directory>./inc</directory>
-			<directory>./frontend</directory>
+		<whitelist addUncoveredFilesFromWhitelist="true" processUncoveredFilesFromWhitelist="false">
+			<file>./wp-seo.php</file>
+			<file>./wp-seo-main.php</file>
 			<directory>./admin</directory>
+			<directory>./inc</directory>
 			<directory>./src</directory>
 			<exclude>
-				<directory suffix=".php">./deprecated</directory>
-				<directory suffix=".php">./config/composer</directory>
+				<directory suffix=".php">./src/deprecated</directory>
 				<file>./inc/wpseo-functions-deprecated.php</file>
 			</exclude>
 		</whitelist>

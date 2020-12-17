@@ -3,12 +3,12 @@
 namespace Yoast\WP\SEO\Tests\Unit\Builders;
 
 use Mockery;
-use Yoast\WP\SEO\Helpers\Image_Helper;
-use Yoast\WP\SEO\Helpers\Twitter;
-use Yoast\WP\SEO\Helpers\Open_Graph;
 use Yoast\WP\Lib\ORM;
-use Yoast\WP\SEO\Tests\Unit\Doubles\Indexable_Social_Image_Trait_Double;
+use Yoast\WP\SEO\Helpers\Image_Helper;
+use Yoast\WP\SEO\Helpers\Open_Graph;
+use Yoast\WP\SEO\Helpers\Twitter;
 use Yoast\WP\SEO\Models\Indexable;
+use Yoast\WP\SEO\Tests\Unit\Doubles\Builders\Indexable_Social_Image_Trait_Double;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
@@ -60,8 +60,8 @@ class Indexable_Social_Image_Trait_Test extends TestCase {
 	/**
 	 * Sets up the tests.
 	 */
-	protected function setUp() {
-		parent::setUp();
+	protected function set_up() {
+		parent::set_up();
 
 		$this->instance = Mockery::mock( Indexable_Social_Image_Trait_Double::class );
 
@@ -80,9 +80,18 @@ class Indexable_Social_Image_Trait_Test extends TestCase {
 	public function test_set_social_image_helpers() {
 		$this->instance->set_social_image_helpers( $this->image, $this->open_graph_image, $this->twitter_image );
 
-		self::assertAttributeInstanceOf( Twitter\Image_Helper::class, 'twitter_image', $this->instance );
-		self::assertAttributeInstanceOf( Open_Graph\Image_Helper::class, 'open_graph_image', $this->instance );
-		self::assertAttributeInstanceOf( Image_Helper::class, 'image', $this->instance );
+		self::assertInstanceOf(
+			Twitter\Image_Helper::class,
+			$this->getPropertyValue( $this->instance, 'twitter_image' )
+		);
+		self::assertInstanceOf(
+			Open_Graph\Image_Helper::class,
+			$this->getPropertyValue( $this->instance, 'open_graph_image' )
+		);
+		self::assertInstanceOf(
+			Image_Helper::class,
+			$this->getPropertyValue( $this->instance, 'image' )
+		);
 	}
 
 	/**
@@ -142,7 +151,8 @@ class Indexable_Social_Image_Trait_Test extends TestCase {
 		$this->indexable->orm->expects( 'set' )
 			->with( 'open_graph_image', 'http://basic.wordpress.test/wp-content/uploads/2020/07/WordPress5.jpg' );
 		$this->indexable->orm->expects( 'set' )
-			->with( 'open_graph_image_meta', \json_encode( $image_meta, ( JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES ) ) );
+			// phpcs:ignore Yoast.Yoast.AlternativeFunctions.json_encode_json_encodeWithAdditionalParams -- Test code, mocking WP.
+			->with( 'open_graph_image_meta', \json_encode( $image_meta, ( \JSON_PRETTY_PRINT | \JSON_UNESCAPED_SLASHES ) ) );
 
 		// We expect twitter image meta to be set.
 		$this->indexable->orm->expects( 'set' )
@@ -193,7 +203,8 @@ class Indexable_Social_Image_Trait_Test extends TestCase {
 		$this->indexable->orm->expects( 'set' )
 			->with( 'open_graph_image', 'http://basic.wordpress.test/wp-content/uploads/2020/07/WordPress5.jpg' );
 		$this->indexable->orm->expects( 'set' )
-			->with( 'open_graph_image_meta', \json_encode( $image_meta, ( JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES ) ) );
+			// phpcs:ignore Yoast.Yoast.AlternativeFunctions.json_encode_json_encodeWithAdditionalParams -- Test code, mocking WP.
+			->with( 'open_graph_image_meta', \json_encode( $image_meta, ( \JSON_PRETTY_PRINT | \JSON_UNESCAPED_SLASHES ) ) );
 
 		$alternative_image = [
 			'image_id' => 'featured-image-id',
@@ -308,7 +319,8 @@ class Indexable_Social_Image_Trait_Test extends TestCase {
 		$this->indexable->orm->expects( 'set' )
 			->with( 'open_graph_image', 'http://basic.wordpress.test/wp-content/uploads/2020/07/WordPress5.jpg' );
 		$this->indexable->orm->expects( 'set' )
-			->with( 'open_graph_image_meta', \json_encode( $image_meta, ( JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES ) ) );
+			// phpcs:ignore Yoast.Yoast.AlternativeFunctions.json_encode_json_encodeWithAdditionalParams -- Test code, mocking WP.
+			->with( 'open_graph_image_meta', \json_encode( $image_meta, ( \JSON_PRETTY_PRINT | \JSON_UNESCAPED_SLASHES ) ) );
 
 		$alternative_image = [
 			'image'  => 'featured-image.jpeg',

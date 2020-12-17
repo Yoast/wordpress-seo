@@ -27,10 +27,18 @@ class Cron_Integration_Test extends TestCase {
 	 */
 	protected $instance;
 
+	/**
+	 * Date Helper class mock.
+	 *
+	 * @var Date_Helper
+	 */
 	protected $date_helper;
 
-	public function setUp() {
-		parent::setUp();
+	/**
+	 * Set up the fixtures for the tests.
+	 */
+	protected function set_up() {
+		parent::set_up();
 
 		$this->date_helper = Mockery::mock( Date_Helper::class );
 		$this->instance    = new Cron_Integration( $this->date_helper );
@@ -56,7 +64,10 @@ class Cron_Integration_Test extends TestCase {
 	 * @covers ::__construct
 	 */
 	public function test_constructor() {
-		static::assertAttributeInstanceOf( Date_Helper::class, 'date_helper', $this->instance );
+		static::assertInstanceOf(
+			Date_Helper::class,
+			$this->getPropertyValue( $this->instance, 'date_helper' )
+		);
 	}
 
 	/**

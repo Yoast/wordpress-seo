@@ -4,18 +4,17 @@ namespace Yoast\WP\SEO\Routes;
 
 use WP_Error;
 use WP_REST_Response;
-use Yoast\WP\SEO\Actions\Indexing\Indexable_Indexing_Complete_Action;
 use Yoast\WP\SEO\Actions\Indexing\Indexable_General_Indexation_Action;
+use Yoast\WP\SEO\Actions\Indexing\Indexable_Indexing_Complete_Action;
 use Yoast\WP\SEO\Actions\Indexing\Indexable_Post_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexing\Indexable_Post_Type_Archive_Indexation_Action;
-use Yoast\WP\SEO\Actions\Indexing\Indexable_Prepare_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexing\Indexable_Term_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexing\Indexation_Action_Interface;
 use Yoast\WP\SEO\Actions\Indexing\Indexing_Complete_Action;
+use Yoast\WP\SEO\Actions\Indexing\Indexing_Prepare_Action;
 use Yoast\WP\SEO\Actions\Indexing\Post_Link_Indexing_Action;
 use Yoast\WP\SEO\Actions\Indexing\Term_Link_Indexing_Action;
 use Yoast\WP\SEO\Conditionals\No_Conditionals;
-use Yoast\WP\SEO\Config\Indexing_Reasons;
 use Yoast\WP\SEO\Helpers\Indexing_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Main;
@@ -34,7 +33,7 @@ class Indexing_Route extends Abstract_Indexation_Route {
 	 *
 	 * @var string
 	 */
-	const COMPLETE_ROUTE = 'indexation/complete';
+	const COMPLETE_ROUTE = 'indexing/complete';
 
 	/**
 	 * The full indexing complete route constant.
@@ -48,7 +47,7 @@ class Indexing_Route extends Abstract_Indexation_Route {
 	 *
 	 * @var string
 	 */
-	const INDEXABLES_COMPLETE_ROUTE = 'indexation/indexables-complete';
+	const INDEXABLES_COMPLETE_ROUTE = 'indexing/indexables-complete';
 
 	/**
 	 * The full indexing complete route constant.
@@ -62,7 +61,7 @@ class Indexing_Route extends Abstract_Indexation_Route {
 	 *
 	 * @var string
 	 */
-	const PREPARE_ROUTE = 'indexation/prepare';
+	const PREPARE_ROUTE = 'indexing/prepare';
 
 	/**
 	 * The full indexing prepare route constant.
@@ -76,7 +75,7 @@ class Indexing_Route extends Abstract_Indexation_Route {
 	 *
 	 * @var string
 	 */
-	const POSTS_ROUTE = 'indexation/posts';
+	const POSTS_ROUTE = 'indexing/posts';
 
 	/**
 	 * The full posts route constant.
@@ -90,7 +89,7 @@ class Indexing_Route extends Abstract_Indexation_Route {
 	 *
 	 * @var string
 	 */
-	const TERMS_ROUTE = 'indexation/terms';
+	const TERMS_ROUTE = 'indexing/terms';
 
 	/**
 	 * The full terms route constant.
@@ -104,7 +103,7 @@ class Indexing_Route extends Abstract_Indexation_Route {
 	 *
 	 * @var string
 	 */
-	const POST_TYPE_ARCHIVES_ROUTE = 'indexation/post-type-archives';
+	const POST_TYPE_ARCHIVES_ROUTE = 'indexing/post-type-archives';
 
 	/**
 	 * The full terms route constant.
@@ -118,7 +117,7 @@ class Indexing_Route extends Abstract_Indexation_Route {
 	 *
 	 * @var string
 	 */
-	const GENERAL_ROUTE = 'indexation/general';
+	const GENERAL_ROUTE = 'indexing/general';
 
 	/**
 	 * The full general route constant.
@@ -186,7 +185,7 @@ class Indexing_Route extends Abstract_Indexation_Route {
 	/**
 	 * The prepare indexing action.
 	 *
-	 * @var Indexable_Prepare_Indexation_Action
+	 * @var Indexing_Prepare_Action
 	 */
 	protected $prepare_indexation_action;
 
@@ -233,7 +232,7 @@ class Indexing_Route extends Abstract_Indexation_Route {
 	protected $indexing_helper;
 
 	/**
-	 * Indexable_Indexation_Route constructor.
+	 * Indexing_Route constructor.
 	 *
 	 * @param Indexable_Post_Indexation_Action              $post_indexation_action              The post indexing action.
 	 * @param Indexable_Term_Indexation_Action              $term_indexation_action              The term indexing action.
@@ -241,7 +240,7 @@ class Indexing_Route extends Abstract_Indexation_Route {
 	 * @param Indexable_General_Indexation_Action           $general_indexation_action           The general indexing action.
 	 * @param Indexable_Indexing_Complete_Action            $indexable_indexing_complete_action  The complete indexing action.
 	 * @param Indexing_Complete_Action                      $indexing_complete_action            The complete indexing action.
-	 * @param Indexable_Prepare_Indexation_Action           $prepare_indexation_action           The prepare indexing action.
+	 * @param Indexing_Prepare_Action                       $prepare_indexation_action           The prepare indexing action.
 	 * @param Post_Link_Indexing_Action                     $post_link_indexing_action           The post link indexing action.
 	 * @param Term_Link_Indexing_Action                     $term_link_indexing_action           The term link indexing action.
 	 * @param Options_Helper                                $options_helper                      The options helper.
@@ -254,7 +253,7 @@ class Indexing_Route extends Abstract_Indexation_Route {
 		Indexable_General_Indexation_Action $general_indexation_action,
 		Indexable_Indexing_Complete_Action $indexable_indexing_complete_action,
 		Indexing_Complete_Action $indexing_complete_action,
-		Indexable_Prepare_Indexation_Action $prepare_indexation_action,
+		Indexing_Prepare_Action $prepare_indexation_action,
 		Post_Link_Indexing_Action $post_link_indexing_action,
 		Term_Link_Indexing_Action $term_link_indexing_action,
 		Options_Helper $options_helper,
@@ -350,7 +349,7 @@ class Indexing_Route extends Abstract_Indexation_Route {
 	/**
 	 * Indexes a number of posts for post links.
 	 *
-	 * @return WP_Rest_Response The response.
+	 * @return WP_REST_Response The response.
 	 */
 	public function index_post_links() {
 		return $this->run_indexation_action( $this->post_link_indexing_action, self::FULL_POST_LINKS_INDEXING_ROUTE );
@@ -359,7 +358,7 @@ class Indexing_Route extends Abstract_Indexation_Route {
 	/**
 	 * Indexes a number of terms for term links.
 	 *
-	 * @return WP_Rest_Response The response.
+	 * @return WP_REST_Response The response.
 	 */
 	public function index_term_links() {
 		return $this->run_indexation_action( $this->term_link_indexing_action, self::FULL_TERM_LINKS_INDEXING_ROUTE );
@@ -419,7 +418,7 @@ class Indexing_Route extends Abstract_Indexation_Route {
 		try {
 			return parent::run_indexation_action( $indexation_action, $url );
 		} catch ( \Exception $exception ) {
-			$this->indexing_helper->set_reason( Indexing_Reasons::REASON_INDEXING_FAILED );
+			$this->indexing_helper->indexing_failed();
 
 			return new WP_Error( 'wpseo_error_indexing', $exception->getMessage() );
 		}

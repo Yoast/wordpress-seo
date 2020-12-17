@@ -222,6 +222,10 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 	 * @return string The open graph article author.
 	 */
 	public function generate_open_graph_article_author() {
+		if ( $this->model->object_sub_type !== 'post' ) {
+			return '';
+		}
+
 		$post = $this->source;
 
 		$open_graph_article_author = $this->user->get_the_author_meta( 'facebook', $post->post_author );
@@ -369,6 +373,10 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 	 * @return string The Twitter creator.
 	 */
 	public function generate_twitter_creator() {
+		if ( $this->model->object_sub_type !== 'post' ) {
+			return '';
+		}
+
 		$twitter_creator = \ltrim( \trim( \get_the_author_meta( 'twitter', $this->source->post_author ) ), '@' );
 
 		/**

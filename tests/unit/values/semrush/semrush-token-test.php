@@ -1,10 +1,12 @@
 <?php
 
-namespace Yoast\WP\SEO\Values\SEMrush;
+namespace Yoast\WP\SEO\Tests\Unit\Values\SEMrush;
 
-use YoastSEO_Vendor\League\OAuth2\Client\Token\AccessTokenInterface;
 use Mockery;
+use Yoast\WP\SEO\Exceptions\SEMrush\Tokens\Empty_Property_Exception;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
+use Yoast\WP\SEO\Values\SEMrush\SEMrush_Token;
+use YoastSEO_Vendor\League\OAuth2\Client\Token\AccessTokenInterface;
 
 /**
  * Class SEMrush_Token_Test
@@ -26,10 +28,10 @@ class SEMrush_Token_Test extends TestCase {
 	/**
 	 * Set up the test fixtures.
 	 */
-	public function setUp() {
-		parent::setUp();
+	protected function set_up() {
+		parent::set_up();
 
-		$this->created_at = time();
+		$this->created_at = \time();
 	}
 
 	/**
@@ -47,9 +49,10 @@ class SEMrush_Token_Test extends TestCase {
 	 * Test creating a new instance with an empty property.
 	 *
 	 * @covers ::__construct
-	 * @expectedException Yoast\WP\SEO\Exceptions\SEMrush\Tokens\Empty_Property_Exception
 	 */
 	public function test_creating_new_instance_empty_property() {
+		$this->expectException( Empty_Property_Exception::class );
+
 		$instance = new SEMrush_Token( '', '000001', 604800, true, $this->created_at );
 	}
 
@@ -114,10 +117,10 @@ class SEMrush_Token_Test extends TestCase {
 		$instance = SEMrush_Token::from_response( $response );
 
 		$this->assertInstanceOf( SEMrush_Token::class, $instance );
-		$this->assertAttributeEquals( '000000', 'access_token', $instance );
-		$this->assertAttributeEquals( '000001', 'refresh_token', $instance );
-		$this->assertAttributeEquals( 604800, 'expires', $instance );
-		$this->assertAttributeEquals( false, 'has_expired', $instance );
-		$this->assertAttributeEquals( $this->created_at, 'created_at', $instance );
+		$this->assertEquals( '000000', $this->getPropertyValue( $instance, 'access_token' ) );
+		$this->assertEquals( '000001', $this->getPropertyValue( $instance, 'refresh_token' ) );
+		$this->assertEquals( 604800, $this->getPropertyValue( $instance, 'expires' ) );
+		$this->assertEquals( false, $this->getPropertyValue( $instance, 'has_expired' ) );
+		$this->assertEquals( $this->created_at, $this->getPropertyValue( $instance, 'created_at' ) );
 	}
 }

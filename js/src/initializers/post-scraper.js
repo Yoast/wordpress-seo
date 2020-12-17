@@ -430,7 +430,7 @@ export default function initPostScraper( $, store, editorData ) {
 			app.pluggable,
 			select( "core/block-editor" )
 		);
-		window.YoastSEO.analysis.applyMarks = ( paper, marks ) => getApplyMarks( store )( paper, marks );
+		window.YoastSEO.analysis.applyMarks = ( paper, marks ) => getApplyMarks()( paper, marks );
 
 		// YoastSEO.app overwrites.
 		window.YoastSEO.app.refresh = debounce( () => refreshAnalysis(

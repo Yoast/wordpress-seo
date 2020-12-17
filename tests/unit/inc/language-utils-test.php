@@ -61,6 +61,9 @@ class Language_Utils_Test extends TestCase {
 	 * @covers WPSEO_Language_Utils::get_knowledge_graph_company_info_missing_l10n
 	 */
 	public function test_get_knowledge_graph_company_info_missing_l10n() {
+		$this->stubEscapeFunctions();
+		$this->stubTranslationFunctions();
+
 		$shortlinker = new Shortlinker_Double();
 
 		Monkey\Functions\expect( 'add_query_arg' )

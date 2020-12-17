@@ -31,7 +31,7 @@ class Woocommerce_Permalinks implements Integration_Interface {
 	/**
 	 * Constructor.
 	 *
-	 * @param Indexable_Helper $indexable_helper
+	 * @param Indexable_Helper $indexable_helper Indexable Helper.
 	 */
 	public function __construct( Indexable_Helper $indexable_helper ) {
 		$this->indexable_helper = $indexable_helper;
@@ -92,8 +92,6 @@ class Woocommerce_Permalinks implements Integration_Interface {
 
 	/**
 	 * Retrieves the taxonomies based on the attributes.
-	 *
-	 * @codeCoverageIgnore
 	 *
 	 * @return array The taxonomies.
 	 */

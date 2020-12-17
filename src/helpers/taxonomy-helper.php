@@ -96,11 +96,11 @@ class Taxonomy_Helper {
 	public function get_taxonomy_slug( $taxonomy ) {
 		$taxonomy_object = \get_taxonomy( $taxonomy );
 
-		if ( $taxonomy_object && property_exists( $taxonomy_object, 'rewrite' ) && is_array( $taxonomy_object->rewrite ) && isset( $taxonomy_object->rewrite['slug'] ) ) {
+		if ( $taxonomy_object && \property_exists( $taxonomy_object, 'rewrite' ) && \is_array( $taxonomy_object->rewrite ) && isset( $taxonomy_object->rewrite['slug'] ) ) {
 			return $taxonomy_object->rewrite['slug'];
 		}
 
-		return strtolower( $taxonomy_object->name );
+		return \strtolower( $taxonomy_object->name );
 	}
 
 	/**

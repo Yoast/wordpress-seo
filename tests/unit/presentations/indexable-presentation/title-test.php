@@ -2,10 +2,6 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Presentations\Indexable_Presentation;
 
-use Mockery;
-use Yoast\WP\SEO\Helpers\Options_Helper;
-use Yoast\WP\SEO\Presentations\Indexable_Presentation;
-use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
@@ -22,10 +18,10 @@ class Title_Test extends TestCase {
 	/**
 	 * Does the setup for testing.
 	 */
-	public function setUp() {
-		$this->set_instance();
+	protected function set_up() {
+		parent::set_up();
 
-		return parent::setUp();
+		$this->set_instance();
 	}
 
 	/**

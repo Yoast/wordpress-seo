@@ -157,6 +157,6 @@ class Indexable_Helper {
 	 * @return void
 	 */
 	public function finish_indexing() {
-		$this->options_helper->set( 'indexables_indexation_completed', true );
+		$this->options_helper->set( 'indexables_indexing_completed', true );
 	}
 }

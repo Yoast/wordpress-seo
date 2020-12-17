@@ -86,10 +86,10 @@ class Indexable_Home_Page_Builder_Test extends TestCase {
 	private $twitter_image_mock;
 
 	/**
-	 * @inheritDoc
+	 * Sets up the test class.
 	 */
-	public function setUp() {
-		parent::setUp();
+	protected function set_up() {
+		parent::set_up();
 
 		// Setup the options mock.
 		$this->options_mock = Mockery::mock( Options_Helper::class );

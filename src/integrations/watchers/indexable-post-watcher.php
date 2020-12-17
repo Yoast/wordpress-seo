@@ -73,7 +73,9 @@ class Indexable_Post_Watcher implements Integration_Interface {
 	protected $logger;
 
 	/**
-	 * @inheritDoc
+	 * Returns the conditionals based in which this loadable should be active.
+	 *
+	 * @return array
 	 */
 	public static function get_conditionals() {
 		return [ Migrations_Conditional::class ];
@@ -109,7 +111,11 @@ class Indexable_Post_Watcher implements Integration_Interface {
 	}
 
 	/**
-	 * @inheritDoc
+	 * Initializes the integration.
+	 *
+	 * This is the place to register hooks and filters.
+	 *
+	 * @return void
 	 */
 	public function register_hooks() {
 		\add_action( 'wp_insert_post', [ $this, 'build_indexable' ], \PHP_INT_MAX );
@@ -166,10 +172,6 @@ class Indexable_Post_Watcher implements Integration_Interface {
 			$this->update_relations( $post );
 		}
 
-		if ( $post ) {
-			$this->link_builder->build( $updated_indexable, $post->post_content );
-		}
-
 		$this->update_has_public_posts( $updated_indexable );
 
 		$updated_indexable->save();
@@ -213,7 +215,16 @@ class Indexable_Post_Watcher implements Integration_Interface {
 
 		try {
 			$indexable = $this->repository->find_by_id_and_type( $post_id, 'post', false );
-			$this->builder->build_for_id_and_type( $post_id, 'post', $indexable );
+			$indexable = $this->builder->build_for_id_and_type( $post_id, 'post', $indexable );
+
+			$post = $this->post->get_post( $post_id );
+
+			// Build links for this post.
+			if ( $post && $indexable ) {
+				$this->link_builder->build( $indexable, $post->post_content );
+				// Save indexable to persist the updated link count.
+				$indexable->save();
+			}
 		} catch ( Exception $exception ) {
 			$this->logger->log( LogLevel::ERROR, $exception->getMessage() );
 		}
@@ -268,7 +279,7 @@ class Indexable_Post_Watcher implements Integration_Interface {
 		/**
 		 * The related indexables.
 		 *
-		 * @var Indexable[] $related_indexables.
+		 * @var Indexable[] $related_indexables .
 		 */
 		$related_indexables   = [];
 		$related_indexables[] = $this->repository->find_by_id_and_type( $post->post_author, 'user', false );

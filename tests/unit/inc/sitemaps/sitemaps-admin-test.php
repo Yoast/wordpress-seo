@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Inc\Sitemaps;
 
 use Brain\Monkey;
 use Mockery;
+use WPSEO_Options;
 use WPSEO_Sitemaps_Admin;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Inc\Options\Options_Double;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
@@ -41,11 +42,11 @@ class WPSEO_Sitemaps_Admin_Test extends TestCase {
 	 *
 	 * @return void
 	 */
-	public function setUp() {
-		parent::setUp();
+	protected function set_up() {
+		parent::set_up();
 
 		$this->instance             = Mockery::mock( WPSEO_Sitemaps_Admin::class )->makePartial();
-		$this->options_mock         = Mockery::mock( \WPSEO_Options::class )->shouldAllowMockingProtectedMethods();
+		$this->options_mock         = Mockery::mock( WPSEO_Options::class )->shouldAllowMockingProtectedMethods();
 		$this->mock_post            = Mockery::mock( '\WP_Post' )->makePartial();
 		$this->mock_post->post_type = 'post';
 	}
@@ -112,7 +113,7 @@ class WPSEO_Sitemaps_Admin_Test extends TestCase {
 
 		Monkey\Functions\expect( 'wp_schedule_single_event' )
 			->once()
-			->with( ( time() + 300 ), 'wpseo_ping_search_engines' );
+			->with( ( \time() + 300 ), 'wpseo_ping_search_engines' );
 
 		$this->instance->status_transition( 'publish', 'draft', $this->mock_post );
 	}

@@ -52,7 +52,12 @@ class Meta_Description_Presenter_Test extends TestCase {
 	/**
 	 * Setup of the tests.
 	 */
-	public function setUp() {
+	protected function set_up() {
+		parent::set_up();
+
+		$this->stubEscapeFunctions();
+		$this->stubTranslationFunctions();
+
 		$this->replace_vars = Mockery::mock( WPSEO_Replace_Vars::class );
 		$this->string       = Mockery::mock( String_Helper::class );
 
@@ -66,8 +71,6 @@ class Meta_Description_Presenter_Test extends TestCase {
 		$this->indexable_presentation->source = [];
 
 		$this->instance->presentation = $this->indexable_presentation;
-
-		return parent::setUp();
 	}
 
 	/**

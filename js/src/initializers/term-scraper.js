@@ -314,7 +314,7 @@ export default function initTermScraper( $, store, editorData ) {
 			customAnalysisData,
 			window.YoastSEO.app.pluggable
 		);
-		window.YoastSEO.analysis.applyMarks = ( paper, result ) => getApplyMarks( window.YoastSEO.store )( paper, result );
+		window.YoastSEO.analysis.applyMarks = ( paper, result ) => getApplyMarks()( paper, result );
 
 		// YoastSEO.app overwrites.
 		window.YoastSEO.app.refresh = debounce( () => refreshAnalysis(
@@ -444,5 +444,5 @@ export default function initTermScraper( $, store, editorData ) {
 		window.YoastSEO.app.refresh();
 	}
 
-	jQuery( document ).ready( initializeTermAnalysis );
+	initializeTermAnalysis();
 }

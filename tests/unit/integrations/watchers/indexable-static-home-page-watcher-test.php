@@ -39,8 +39,8 @@ class Indexable_Static_Home_Page_Watcher_Test extends TestCase {
 	/**
 	 * Sets an instance for test purposes.
 	 */
-	public function setUp() {
-		parent::setUp();
+	protected function set_up() {
+		parent::set_up();
 
 		$this->repository = Mockery::mock( Indexable_Repository::class );
 		$this->instance   = new Indexable_Static_Home_Page_Watcher( $this->repository );

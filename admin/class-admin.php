@@ -97,7 +97,6 @@ class WPSEO_Admin {
 		}
 
 		$integrations[] = new WPSEO_Yoast_Columns();
-		$integrations[] = new WPSEO_License_Page_Manager();
 		$integrations[] = new WPSEO_Statistic_Integration();
 		$integrations[] = new WPSEO_Capability_Manager_Integration( WPSEO_Capability_Manager_Factory::get() );
 		$integrations[] = new WPSEO_Admin_Media_Purge_Notification();
@@ -254,8 +253,7 @@ class WPSEO_Admin {
 	public function config_page_scripts() {
 		$asset_manager = new WPSEO_Admin_Asset_Manager();
 		$asset_manager->enqueue_script( 'admin-global-script' );
-
-		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'admin-global-script', 'wpseoAdminGlobalL10n', $this->localize_admin_global_script() );
+		$asset_manager->localize_script( 'admin-global-script', 'wpseoAdminGlobalL10n', $this->localize_admin_global_script() );
 	}
 
 	/**

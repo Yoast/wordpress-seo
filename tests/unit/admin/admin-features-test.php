@@ -8,7 +8,6 @@ use WP_User;
 use WPSEO_Admin;
 use WPSEO_Primary_Term_Admin;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
-use Yoast\WP\SEO\Main;
 use Yoast\WP\SEO\Surfaces\Helpers_Surface;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Shortlinker_Double;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
@@ -51,6 +50,8 @@ class Admin_Features_Test extends TestCase {
 	 * Sets up the YoastSEO function with the right expectations.
 	 */
 	private function setup_yoastseo_with_expectations() {
+		$this->stubTranslationFunctions();
+
 		$current_page_helper = Mockery::mock( Current_Page_Helper::class );
 		$current_page_helper->expects( 'is_yoast_seo_page' )->twice()->andReturn( true );
 

@@ -1,13 +1,14 @@
 <?php
 
-namespace Yoast\WP\SEO\Routes;
+namespace Yoast\WP\SEO\Tests\Unit\Routes;
 
 use Brain\Monkey;
 use Mockery;
-use Yoast\WP\SEO\Actions\Semrush\SEMrush_Login_Action;
-use Yoast\WP\SEO\Actions\Semrush\SEMrush_Options_Action;
+use Yoast\WP\SEO\Actions\SEMrush\SEMrush_Login_Action;
+use Yoast\WP\SEO\Actions\SEMrush\SEMrush_Options_Action;
 use Yoast\WP\SEO\Actions\SEMrush\SEMrush_Phrases_Action;
 use Yoast\WP\SEO\Conditionals\SEMrush_Enabled_Conditional;
+use Yoast\WP\SEO\Routes\SEMrush_Route;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
@@ -51,8 +52,8 @@ class SEMrush_Route_Test extends TestCase {
 	/**
 	 * Set up the test fixtures.
 	 */
-	public function setUp() {
-		parent::setUp();
+	protected function set_up() {
+		parent::set_up();
 
 		$this->login_action   = Mockery::mock( SEMrush_Login_Action::class );
 		$this->options_action = Mockery::mock( SEMrush_Options_Action::class );
@@ -66,9 +67,18 @@ class SEMrush_Route_Test extends TestCase {
 	 * @covers ::__construct
 	 */
 	public function test_construct() {
-		$this->assertAttributeInstanceOf( SEMrush_Login_Action::class, 'login_action', $this->instance );
-		$this->assertAttributeInstanceOf( SEMrush_Options_Action::class, 'options_action', $this->instance );
-		$this->assertAttributeInstanceOf( SEMrush_Phrases_Action::class, 'phrases_action', $this->instance );
+		$this->assertInstanceOf(
+			SEMrush_Login_Action::class,
+			$this->getPropertyValue( $this->instance, 'login_action' )
+		);
+		$this->assertInstanceOf(
+			SEMrush_Options_Action::class,
+			$this->getPropertyValue( $this->instance, 'options_action' )
+		);
+		$this->assertInstanceOf(
+			SEMrush_Phrases_Action::class,
+			$this->getPropertyValue( $this->instance, 'phrases_action' )
+		);
 	}
 
 	/**

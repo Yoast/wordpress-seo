@@ -27,8 +27,8 @@ class Url_Helper_Test extends TestCase {
 	/**
 	 * Sets up the test class.
 	 */
-	public function setUp() {
-		parent::setUp();
+	protected function set_up() {
+		parent::set_up();
 
 		$this->instance = Mockery::mock( Url_Helper::class )->makePartial();
 	}
@@ -244,7 +244,7 @@ class Url_Helper_Test extends TestCase {
 			->andReturn( 'https://example.org' );
 
 		Monkey\Functions\expect( 'wp_parse_url' )
-			->with( 'https://example.org/', PHP_URL_PATH )
+			->with( 'https://example.org/', \PHP_URL_PATH )
 			->andReturn( null );
 
 		Monkey\Functions\expect( 'trailingslashit' )
@@ -264,7 +264,7 @@ class Url_Helper_Test extends TestCase {
 			->andReturn( 'https://example.org/' );
 
 		Monkey\Functions\expect( 'wp_parse_url' )
-			->with( 'https://example.org/', PHP_URL_PATH )
+			->with( 'https://example.org/', \PHP_URL_PATH )
 			->andReturn( '/' );
 
 		$this->assertEquals( 'https://example.org/', $this->instance->home() );
@@ -280,7 +280,7 @@ class Url_Helper_Test extends TestCase {
 			->andReturn( 'https://example.org' );
 
 		Monkey\Functions\expect( 'wp_parse_url' )
-			->with( 'https://example.org/', PHP_URL_PATH )
+			->with( 'https://example.org/', \PHP_URL_PATH )
 			->andReturn( 'https://example.org/subdirectory' );
 
 		Monkey\Functions\expect( 'user_trailingslashit' )
@@ -300,7 +300,7 @@ class Url_Helper_Test extends TestCase {
 			->andReturn( 'https://example.org' );
 
 		Monkey\Functions\expect( 'wp_parse_url' )
-			->with( 'https://example.org/', PHP_URL_PATH )
+			->with( 'https://example.org/', \PHP_URL_PATH )
 			->andReturn( false );
 
 		$this->assertEquals( 'https://example.org', $this->instance->home() );

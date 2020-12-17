@@ -4,17 +4,17 @@ namespace Yoast\WP\SEO\Tests\Unit\Integrations\Admin;
 
 use Brain\Monkey;
 use Mockery;
-use Yoast\WP\SEO\Config\Indexing_Reasons;
-use Yoast_Notification_Center;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
+use Yoast\WP\SEO\Config\Indexing_Reasons;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Indexing_Helper;
 use Yoast\WP\SEO\Helpers\Notification_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Helpers\Short_Link_Helper;
-use Yoast\WP\SEO\Integrations\Admin\Indexing_Tool_Integration;
 use Yoast\WP\SEO\Integrations\Admin\Indexing_Notification_Integration;
+use Yoast\WP\SEO\Integrations\Admin\Indexing_Tool_Integration;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
+use Yoast_Notification_Center;
 
 /**
  * Class Indexing_Notification_Integration_Test.
@@ -86,10 +86,10 @@ class Indexing_Notification_Integration_Test extends TestCase {
 	/**
 	 * Sets up the tests.
 	 */
-	public function setUp() {
-		parent::setUp();
+	protected function set_up() {
+		parent::set_up();
 
-		$this->notification_center = Mockery::mock( \Yoast_Notification_Center::class );
+		$this->notification_center = Mockery::mock( Yoast_Notification_Center::class );
 		$this->product_helper      = Mockery::mock( Product_Helper::class );
 		$this->page_helper         = Mockery::mock( Current_Page_Helper::class );
 		$this->short_link_helper   = Mockery::mock( Short_Link_Helper::class );
@@ -112,35 +112,29 @@ class Indexing_Notification_Integration_Test extends TestCase {
 	 * @covers ::__construct
 	 */
 	public function test_constructor() {
-		$this->assertAttributeInstanceOf(
+		$this->assertInstanceOf(
 			Yoast_Notification_Center::class,
-			'notification_center',
-			$this->instance
+			$this->getPropertyValue( $this->instance, 'notification_center' )
 		);
-		$this->assertAttributeInstanceOf(
+		$this->assertInstanceOf(
 			Product_Helper::class,
-			'product_helper',
-			$this->instance
+			$this->getPropertyValue( $this->instance, 'product_helper' )
 		);
-		$this->assertAttributeInstanceOf(
+		$this->assertInstanceOf(
 			Current_Page_Helper::class,
-			'page_helper',
-			$this->instance
+			$this->getPropertyValue( $this->instance, 'page_helper' )
 		);
-		$this->assertAttributeInstanceOf(
+		$this->assertInstanceOf(
 			Short_Link_Helper::class,
-			'short_link_helper',
-			$this->instance
+			$this->getPropertyValue( $this->instance, 'short_link_helper' )
 		);
-		$this->assertAttributeInstanceOf(
+		$this->assertInstanceOf(
 			Notification_Helper::class,
-			'notification_helper',
-			$this->instance
+			$this->getPropertyValue( $this->instance, 'notification_helper' )
 		);
-		$this->assertAttributeInstanceOf(
+		$this->assertInstanceOf(
 			Indexing_Helper::class,
-			'indexing_helper',
-			$this->instance
+			$this->getPropertyValue( $this->instance, 'indexing_helper' )
 		);
 	}
 

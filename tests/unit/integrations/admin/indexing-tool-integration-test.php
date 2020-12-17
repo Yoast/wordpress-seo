@@ -5,12 +5,6 @@ namespace Yoast\WP\SEO\Tests\Unit\Integrations\Admin;
 use Brain\Monkey;
 use Mockery;
 use WPSEO_Admin_Asset_Manager;
-use Yoast\WP\SEO\Actions\Indexing\Indexable_General_Indexation_Action;
-use Yoast\WP\SEO\Actions\Indexing\Indexable_Post_Indexation_Action;
-use Yoast\WP\SEO\Actions\Indexing\Indexable_Post_Type_Archive_Indexation_Action;
-use Yoast\WP\SEO\Actions\Indexing\Indexable_Term_Indexation_Action;
-use Yoast\WP\SEO\Actions\Indexing\Post_Link_Indexing_Action;
-use Yoast\WP\SEO\Actions\Indexing\Term_Link_Indexing_Action;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
 use Yoast\WP\SEO\Conditionals\No_Tool_Selected_Conditional;
 use Yoast\WP\SEO\Conditionals\Yoast_Tools_Page_Conditional;
@@ -21,7 +15,7 @@ use Yoast\WP\SEO\Integrations\Admin\Indexing_Tool_Integration;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
- * Class Indexing_Integration_Test.
+ * Class Indexing_Tool_Integration_Test.
  *
  * @coversDefaultClass \Yoast\WP\SEO\Integrations\Admin\Indexing_Tool_Integration
  *
@@ -68,8 +62,11 @@ class Indexing_Tool_Integration_Test extends TestCase {
 	/**
 	 * Sets up the tests.
 	 */
-	protected function setUp() {
-		parent::setUp();
+	protected function set_up() {
+		parent::set_up();
+
+		$this->stubTranslationFunctions();
+		$this->stubEscapeFunctions();
 
 		$this->asset_manager     = Mockery::mock( WPSEO_Admin_Asset_Manager::class );
 		$this->indexable_helper  = Mockery::mock( Indexable_Helper::class );
@@ -90,10 +87,22 @@ class Indexing_Tool_Integration_Test extends TestCase {
 	 * @covers ::__construct
 	 */
 	public function test_constructor() {
-		static::assertAttributeInstanceOf( WPSEO_Admin_Asset_Manager::class, 'asset_manager', $this->instance );
-		static::assertAttributeInstanceOf( Indexable_Helper::class, 'indexable_helper', $this->instance );
-		static::assertAttributeInstanceOf( Short_Link_Helper::class, 'short_link_helper', $this->instance );
-		static::assertAttributeInstanceOf( Indexing_Helper::class, 'indexing_helper', $this->instance );
+		static::assertInstanceOf(
+			WPSEO_Admin_Asset_Manager::class,
+			$this->getPropertyValue( $this->instance, 'asset_manager' )
+		);
+		static::assertInstanceOf(
+			Indexable_Helper::class,
+			$this->getPropertyValue( $this->instance, 'indexable_helper' )
+		);
+		static::assertInstanceOf(
+			Short_Link_Helper::class,
+			$this->getPropertyValue( $this->instance, 'short_link_helper' )
+		);
+		static::assertInstanceOf(
+			Indexing_Helper::class,
+			$this->getPropertyValue( $this->instance, 'indexing_helper' )
+		);
 	}
 
 	/**
@@ -168,15 +177,15 @@ class Indexing_Tool_Integration_Test extends TestCase {
 			'restApi'   => [
 				'root'      => 'https://example.org/wp-ajax/',
 				'endpoints' => [
-					'prepare'            => 'yoast/v1/indexation/prepare',
-					'terms'              => 'yoast/v1/indexation/terms',
-					'posts'              => 'yoast/v1/indexation/posts',
-					'archives'           => 'yoast/v1/indexation/post-type-archives',
-					'general'            => 'yoast/v1/indexation/general',
-					'indexablesComplete' => 'yoast/v1/indexation/indexables-complete',
+					'prepare'            => 'yoast/v1/indexing/prepare',
+					'terms'              => 'yoast/v1/indexing/terms',
+					'posts'              => 'yoast/v1/indexing/posts',
+					'archives'           => 'yoast/v1/indexing/post-type-archives',
+					'general'            => 'yoast/v1/indexing/general',
+					'indexablesComplete' => 'yoast/v1/indexing/indexables-complete',
 					'post_link'          => 'yoast/v1/link-indexing/posts',
 					'term_link'          => 'yoast/v1/link-indexing/terms',
-					'complete'           => 'yoast/v1/indexation/complete',
+					'complete'           => 'yoast/v1/indexing/complete',
 				],
 				'nonce'     => 'nonce_value',
 			],
@@ -185,8 +194,9 @@ class Indexing_Tool_Integration_Test extends TestCase {
 		Monkey\Functions\expect( 'rest_url' )
 			->andReturn( 'https://example.org/wp-ajax/' );
 
-		Monkey\Functions\expect( 'wp_localize_script' )
-			->with( 'yoast-seo-indexation', 'yoastIndexingData', $injected_data );
+		$this->asset_manager
+			->expects( 'localize_script' )
+			->with( 'indexation', 'yoastIndexingData', $injected_data );
 
 		Monkey\Filters\expectApplied( 'wpseo_indexing_data' )
 			->with( $injected_data );
@@ -207,7 +217,7 @@ class Indexing_Tool_Integration_Test extends TestCase {
 		$this->instance->render_indexing_list_item();
 
 		// Assert.
-		$this->expectOutput( '' );
+		$this->expectOutputString( '' );
 	}
 
 	/**
@@ -224,6 +234,8 @@ class Indexing_Tool_Integration_Test extends TestCase {
 		$this->instance->render_indexing_list_item();
 
 		// Assert.
-		$this->expectOutput( '<li><strong>Optimize SEO Data</strong><br/>You can speed up your site and get insight into your internal linking structure by letting us perform a few optimizations to the way SEO data is stored. If you have a lot of content it might take a while, but trust us, it\'s worth it. <a href="https://yoast.com" target="_blank">Learn more about the benefits of optimized SEO data.</a><div id="yoast-seo-indexing-action" style="margin: 16px 0;"></div></li>' );
+		$this->expectOutputString(
+			'<li><strong>Optimize SEO Data</strong><br/>You can speed up your site and get insight into your internal linking structure by letting us perform a few optimizations to the way SEO data is stored. If you have a lot of content it might take a while, but trust us, it\'s worth it. <a href="https://yoast.com" target="_blank">Learn more about the benefits of optimized SEO data.</a><div id="yoast-seo-indexing-action" style="margin: 16px 0;"></div></li>'
+		);
 	}
 }

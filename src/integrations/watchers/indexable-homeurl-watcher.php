@@ -3,7 +3,6 @@
 namespace Yoast\WP\SEO\Integrations\Watchers;
 
 use WP_CLI;
-use WP_CLI\Utils;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
 use Yoast\WP\SEO\Config\Indexing_Reasons;
 use Yoast\WP\SEO\Helpers\Indexable_Helper;
@@ -79,33 +78,10 @@ class Indexable_HomeUrl_Watcher implements Integration_Interface {
 	 * @return void
 	 */
 	public function reset_permalinks() {
-		$post_types = $this->get_post_types();
-		foreach ( $post_types as $post_type ) {
-			$this->reset_permalinks_post_type( $post_type );
-		}
-
-		$taxonomies = $this->get_taxonomies_for_post_types( $post_types );
-		foreach ( $taxonomies as $taxonomy ) {
-			$this->indexable_helper->reset_permalink_indexables( 'term', $taxonomy, Indexing_Reasons::REASON_HOME_URL_OPTION );
-		}
-
-		$this->indexable_helper->reset_permalink_indexables( 'home-page', null, Indexing_Reasons::REASON_HOME_URL_OPTION );
-		$this->indexable_helper->reset_permalink_indexables( 'user', null, Indexing_Reasons::REASON_HOME_URL_OPTION );
-		$this->indexable_helper->reset_permalink_indexables( 'date-archive', null, Indexing_Reasons::REASON_HOME_URL_OPTION );
-		$this->indexable_helper->reset_permalink_indexables( 'system-page', null, Indexing_Reasons::REASON_HOME_URL_OPTION );
+		$this->indexable_helper->reset_permalink_indexables( null, null, Indexing_Reasons::REASON_HOME_URL_OPTION );
 
 		// Reset the home_url option.
-		$this->options_helper->set( 'home_url', get_home_url() );
-	}
-
-	/**
-	 * Resets the permalink for the given post type.
-	 *
-	 * @param string $post_type The post type to reset.
-	 */
-	public function reset_permalinks_post_type( $post_type ) {
-		$this->indexable_helper->reset_permalink_indexables( 'post', $post_type, Indexing_Reasons::REASON_HOME_URL_OPTION );
-		$this->indexable_helper->reset_permalink_indexables( 'post-type-archive', $post_type, Indexing_Reasons::REASON_HOME_URL_OPTION );
+		$this->options_helper->set( 'home_url', \get_home_url() );
 	}
 
 	/**
@@ -118,7 +94,7 @@ class Indexable_HomeUrl_Watcher implements Integration_Interface {
 			$this->reset_permalinks();
 
 			if ( \defined( 'WP_CLI' ) && \WP_CLI ) {
-				WP_CLI::success( __( 'All permalinks were successfully reset', 'wordpress-seo' ) );
+				WP_CLI::success( \__( 'All permalinks were successfully reset', 'wordpress-seo' ) );
 			}
 
 			return true;
@@ -134,40 +110,5 @@ class Indexable_HomeUrl_Watcher implements Integration_Interface {
 	 */
 	public function should_reset_permalinks() {
 		return \get_home_url() !== $this->options_helper->get( 'home_url' );
-	}
-
-	/**
-	 * Retrieves a list with the public post types.
-	 *
-	 * @return array The post types.
-	 */
-	protected function get_post_types() {
-		/**
-		 * Filter: Gives the possibility to filter out post types.
-		 *
-		 * @param array $post_types The post type names.
-		 *
-		 * @return array The post types.
-		 */
-		return \apply_filters( 'wpseo_post_types_reset_permalinks', $this->post_type->get_public_post_types() );
-	}
-
-	/**
-	 * Retrieves the taxonomies that belongs to the public post types.
-	 *
-	 * @param array $post_types The post types to get taxonomies for.
-	 *
-	 * @return array The retrieved taxonomies.
-	 */
-	protected function get_taxonomies_for_post_types( $post_types ) {
-		$taxonomies = [];
-		foreach ( $post_types as $post_type ) {
-			$taxonomies[] = \get_object_taxonomies( $post_type, 'names' );
-		}
-
-		$taxonomies = \array_merge( [], ...$taxonomies );
-		$taxonomies = \array_unique( $taxonomies );
-
-		return $taxonomies;
 	}
 }

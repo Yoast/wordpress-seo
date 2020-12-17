@@ -15,7 +15,21 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
 class Metabox_Collapsibles_Section_Test extends TestCase {
 
 	/**
+	 * Set up function stubs.
+	 *
+	 * @return void
+	 */
+	protected function set_up() {
+		parent::set_up();
+
+		$this->stubEscapeFunctions();
+		$this->stubTranslationFunctions();
+	}
+
+	/**
 	 * Tests the output of \WPSEO_Metabox_Collapsibles_Section::display_content.
+	 *
+	 * @dataProvider data_display_content_with_collapsible
 	 *
 	 * @covers WPSEO_Metabox_Collapsibles_Sections::__construct
 	 * @covers WPSEO_Metabox_Collapsibles_Sections::display_content
@@ -24,10 +38,10 @@ class Metabox_Collapsibles_Section_Test extends TestCase {
 	 * @covers WPSEO_Metabox_Collapsible::__construct
 	 * @covers WPSEO_Metabox_Collapsible::content
 	 * @covers WPSEO_Metabox_Collapsible::link
+	 *
+	 * @param string $expected Substring expected to be found in the actual output.
 	 */
-	public function test_display_content_with_collapsible() {
-		Monkey\Functions\stubs( [ 'esc_attr_e' ] );
-
+	public function test_display_content_with_collapsible( $expected ) {
 		$collapsibles = [];
 
 		$collapsibles[] = new WPSEO_Metabox_Collapsible(
@@ -44,13 +58,20 @@ class Metabox_Collapsibles_Section_Test extends TestCase {
 
 		$section->display_content();
 
-		$this->expectOutputContains(
-			[
-				'Collapsible 1 label',
-				'Collapsible 1 content',
-				'wpseo-meta-section-collapsibles-tab',
-			]
-		);
+		$this->expectOutputContains( $expected );
+	}
+
+	/**
+	 * Data provider for the `test_display_content_with_collapsible()` test.
+	 *
+	 * @return array
+	 */
+	public function data_display_content_with_collapsible() {
+		return [
+			[ 'Collapsible 1 label' ],
+			[ 'Collapsible 1 content' ],
+			[ 'wpseo-meta-section-collapsibles-tab' ],
+		];
 	}
 
 	/**
@@ -82,6 +103,6 @@ class Metabox_Collapsibles_Section_Test extends TestCase {
 
 		$section->display_link();
 
-		$this->expectOutputContains( [ 'Metabox Tab Title' ] );
+		$this->expectOutputContains( 'Metabox Tab Title' );
 	}
 }

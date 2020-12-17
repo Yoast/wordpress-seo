@@ -42,8 +42,8 @@ class Disable_Core_Sitemaps_Test extends TestCase {
 	/**
 	 * Sets up the tests.
 	 */
-	public function setUp() {
-		parent::setUp();
+	protected function set_up() {
+		parent::set_up();
 
 		$this->options  = Mockery::mock( Options_Helper::class );
 		$this->redirect = Mockery::mock( Redirect_Helper::class );

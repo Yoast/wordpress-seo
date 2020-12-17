@@ -5,10 +5,12 @@
  * @package WPSEO\Tests\ConfigUI\Fields
  */
 
+use Yoast\WPTestUtils\WPIntegration\TestCase;
+
 /**
  * Class WPSEO_Config_Field_Test.
  */
-class WPSEO_Config_Field_Test extends PHPUnit_Framework_TestCase {
+class WPSEO_Config_Field_Test extends TestCase {
 
 	/**
 	 * Tests if the constructor works.
@@ -96,7 +98,7 @@ class WPSEO_Config_Field_Test extends PHPUnit_Framework_TestCase {
 
 		$result = $field->to_array();
 
-		$this->assertInternalType( 'array', $result );
+		$this->assertIsArray( $result );
 		$this->assertArrayHasKey( 'componentName', $result );
 	}
 

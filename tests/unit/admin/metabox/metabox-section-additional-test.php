@@ -13,33 +13,59 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
 class Metabox_Section_Additional_Test extends TestCase {
 
 	/**
+	 * Set up function stubs.
+	 *
+	 * @return void
+	 */
+	protected function set_up() {
+		parent::set_up();
+
+		$this->stubEscapeFunctions();
+	}
+
+	/**
 	 * Tests the output of \WPSEO_Metabox_Section_Additional::display_content.
+	 *
+	 * @dataProvider data_display_content
 	 *
 	 * @covers WPSEO_Metabox_Section_Additional::__construct
 	 * @covers WPSEO_Metabox_Section_Additional::display_content
+	 *
+	 * @param string $expected Substring expected to be found in the actual output.
 	 */
-	public function test_display_content() {
+	public function test_display_content( $expected ) {
 		$section = new WPSEO_Metabox_Section_Additional( 'additional-tab', 'Additional Tab', 'Additional Content' );
 
 		$section->display_content();
 
-		$this->expectOutputContains(
-			[
-				'Additional Content',
-				'id="wpseo-meta-section-additional-tab"',
-				'aria-labelledby="wpseo-meta-tab-additional-tab"',
-			]
-		);
+		$this->expectOutputContains( $expected );
+	}
+
+	/**
+	 * Data provider for the `test_display_content()` test.
+	 *
+	 * @return array
+	 */
+	public function data_display_content() {
+		return [
+			[ 'Additional Content' ],
+			[ 'id="wpseo-meta-section-additional-tab"' ],
+			[ 'aria-labelledby="wpseo-meta-tab-additional-tab"' ],
+		];
 	}
 
 	/**
 	 * Tests the output of \WPSEO_Metabox_Section_Additional::display_link.
 	 *
+	 * @dataProvider data_display_link
+	 *
 	 * @covers WPSEO_Metabox_Section_Additional::__construct
 	 * @covers WPSEO_Metabox_Section_Additional::display_content
 	 * @covers WPSEO_Metabox_Section_Additional::display_link
+	 *
+	 * @param string $expected Substring expected to be found in the actual output.
 	 */
-	public function test_display_link() {
+	public function test_display_link( $expected ) {
 		$section = new WPSEO_Metabox_Section_Additional(
 			'additional-tab',
 			'Additional Tab',
@@ -52,16 +78,23 @@ class Metabox_Section_Additional_Test extends TestCase {
 
 		$section->display_link();
 
-		$this->expectOutputContains(
-			[
-				'Additional Tab',
-				'id="wpseo-meta-tab-additional-tab"',
-				'href="#wpseo-meta-section-additional-tab"',
-				'aria-controls="wpseo-meta-section-additional-tab"',
-				'additional-class',
-				'aria-label="additional-aria"',
-			]
-		);
+		$this->expectOutputContains( $expected );
+	}
+
+	/**
+	 * Data provider for the `test_display_link()` test.
+	 *
+	 * @return array
+	 */
+	public function data_display_link() {
+		return [
+			[ 'Additional Tab' ],
+			[ 'id="wpseo-meta-tab-additional-tab"' ],
+			[ 'href="#wpseo-meta-section-additional-tab"' ],
+			[ 'aria-controls="wpseo-meta-section-additional-tab"' ],
+			[ 'additional-class' ],
+			[ 'aria-label="additional-aria"' ],
+		];
 	}
 
 	/**
@@ -71,10 +104,17 @@ class Metabox_Section_Additional_Test extends TestCase {
 	 * @covers WPSEO_Metabox_Section_Additional::display_link
 	 */
 	public function test_display_link_no_aria_label() {
-		$section = new WPSEO_Metabox_Section_Additional( 'additional-tab', 'Additional Tab', 'Additional Content', [ 'link_class' => 'additional-class' ] );
+		$section = new WPSEO_Metabox_Section_Additional(
+			'additional-tab',
+			'Additional Tab',
+			'Additional Content',
+			[ 'link_class' => 'additional-class' ]
+		);
 
 		$section->display_link();
 
-		$this->expectOutputNotContains( [ 'aria-label' ] );
+		$this->expectOutputContains( 'href="#wpseo-meta-section-additional-tab"' );
+
+		$this->assertStringNotContainsString( 'aria-label', $this->getActualOutput() );
 	}
 }

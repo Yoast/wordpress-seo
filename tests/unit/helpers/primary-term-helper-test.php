@@ -22,10 +22,10 @@ class Primary_Term_Helper_Test extends TestCase {
 	private $instance;
 
 	/**
-	 * @inheritDoc
+	 * Sets up the test fixtures.
 	 */
-	public function setUp() {
-		parent::setUp();
+	protected function set_up() {
+		parent::set_up();
 
 		$this->instance = Mockery::mock( Primary_Term_Helper::class )
 			->shouldAllowMockingProtectedMethods()

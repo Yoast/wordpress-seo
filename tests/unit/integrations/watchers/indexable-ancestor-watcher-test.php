@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Integrations\Watchers;
 
 use Brain\Monkey\Functions;
 use Mockery;
+use wpdb;
 use Yoast\WP\SEO\Builders\Indexable_Hierarchy_Builder;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
 use Yoast\WP\SEO\Helpers\Permalink_Helper;
@@ -62,7 +63,7 @@ class Indexable_Ancestor_Watcher_Test extends TestCase {
 	/**
 	 * WordPress database mock.
 	 *
-	 * @var Mockery\MockInterface|\wpdb
+	 * @var Mockery\MockInterface|wpdb
 	 */
 	protected $wpdb;
 
@@ -76,13 +77,13 @@ class Indexable_Ancestor_Watcher_Test extends TestCase {
 	/**
 	 * Sets up the tests.
 	 */
-	public function setUp() {
-		parent::setUp();
+	protected function set_up() {
+		parent::set_up();
 
 		$this->indexable_repository           = Mockery::mock( Indexable_Repository::class );
 		$this->indexable_hierarchy_builder    = Mockery::mock( Indexable_Hierarchy_Builder::class );
 		$this->indexable_hierarchy_repository = Mockery::mock( Indexable_Hierarchy_Repository::class );
-		$this->wpdb                           = Mockery::mock( \wpdb::class );
+		$this->wpdb                           = Mockery::mock( wpdb::class );
 		$this->permalink_helper               = Mockery::mock( Permalink_Helper::class );
 
 		$this->instance = new Indexable_Ancestor_Watcher(
@@ -131,9 +132,18 @@ class Indexable_Ancestor_Watcher_Test extends TestCase {
 	 * @covers ::__construct
 	 */
 	public function test_construct() {
-		$this->assertAttributeInstanceOf( Indexable_Repository::class, 'indexable_repository', $this->instance );
-		$this->assertAttributeInstanceOf( Indexable_Hierarchy_Builder::class, 'indexable_hierarchy_builder', $this->instance );
-		$this->assertAttributeInstanceOf( Permalink_Helper::class, 'permalink_helper', $this->instance );
+		$this->assertInstanceOf(
+			Indexable_Repository::class,
+			$this->getPropertyValue( $this->instance, 'indexable_repository' )
+		);
+		$this->assertInstanceOf(
+			Indexable_Hierarchy_Builder::class,
+			$this->getPropertyValue( $this->instance, 'indexable_hierarchy_builder' )
+		);
+		$this->assertInstanceOf(
+			Permalink_Helper::class,
+			$this->getPropertyValue( $this->instance, 'permalink_helper' )
+		);
 	}
 
 	/**

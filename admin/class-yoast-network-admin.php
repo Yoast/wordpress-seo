@@ -197,8 +197,8 @@ class Yoast_Network_Admin implements WPSEO_WordPress_Integration, WPSEO_WordPres
 			/* translators: %s: error message */
 			'error_prefix'   => __( 'Error: %s', 'wordpress-seo' ),
 		];
-		wp_localize_script(
-			WPSEO_Admin_Asset_Manager::PREFIX . 'network-admin-script',
+		$asset_manager->localize_script(
+			'network-admin-script',
 			'wpseoNetworkAdminGlobalL10n',
 			$translations
 		);

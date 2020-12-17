@@ -51,7 +51,12 @@ class Indexable_Post_Type_Archive_Indexation_Action_Test extends TestCase {
 	 */
 	protected $instance;
 
-	public function setUp() {
+	/**
+	 * Set up the mocks before each test.
+	 */
+	protected function set_up() {
+		parent::set_up();
+
 		$this->repository = Mockery::mock( Indexable_Repository::class );
 		$this->builder    = Mockery::mock( Indexable_Builder::class );
 		$this->post_type  = Mockery::mock( Post_Type_Helper::class );
@@ -75,9 +80,9 @@ class Indexable_Post_Type_Archive_Indexation_Action_Test extends TestCase {
 			$this->post_type
 		);
 
-		$this->assertAttributeEquals( $this->repository, 'repository', $instance );
-		$this->assertAttributeEquals( $this->builder, 'builder', $instance );
-		$this->assertAttributeEquals( $this->post_type, 'post_type', $instance );
+		$this->assertEquals( $this->repository, $this->getPropertyValue( $instance, 'repository' ) );
+		$this->assertEquals( $this->builder, $this->getPropertyValue( $instance, 'builder' ) );
+		$this->assertEquals( $this->post_type, $this->getPropertyValue( $instance, 'post_type' ) );
 	}
 
 	/**

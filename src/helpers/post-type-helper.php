@@ -61,22 +61,45 @@ class Post_Type_Helper {
 	 * @return array Array with all the accessible post_types.
 	 */
 	public function get_accessible_post_types() {
-		$post_types = get_post_types( [ 'public' => true ] );
-		$post_types = array_filter( $post_types, 'is_post_type_viewable' );
+		$post_types = \get_post_types( [ 'public' => true ] );
+		$post_types = \array_filter( $post_types, 'is_post_type_viewable' );
 
 		/**
 		 * Filter: 'wpseo_accessible_post_types' - Allow changing the accessible post types.
 		 *
 		 * @api array $post_types The public post types.
 		 */
-		$post_types = apply_filters( 'wpseo_accessible_post_types', $post_types );
+		$post_types = \apply_filters( 'wpseo_accessible_post_types', $post_types );
 
 		// When the array gets messed up somewhere.
-		if ( ! is_array( $post_types ) ) {
+		if ( ! \is_array( $post_types ) ) {
 			return [];
 		}
 
 		return $post_types;
+	}
+
+	/**
+	 * Returns an array of post types that are excluded from being indexed for the
+	 * indexables.
+	 *
+	 * @return array The excluded post types.
+	 */
+	public function get_excluded_post_types_for_indexables() {
+		/**
+		 * Filter: 'wpseo_indexable_excluded_post_types' - Allow developers to prevent posts of a certain post
+		 * type from being saved to the indexable table.
+		 *
+		 * @param array $excluded_post_types The currently excluded post types.
+		 */
+		$excluded_post_types = \apply_filters( 'wpseo_indexable_excluded_post_types', [] );
+
+		// Failsafe, to always make sure that `excluded_post_types` is an array.
+		if ( ! \is_array( $excluded_post_types ) ) {
+			return [];
+		}
+
+		return $excluded_post_types;
 	}
 
 	/**

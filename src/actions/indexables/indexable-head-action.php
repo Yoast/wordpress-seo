@@ -17,7 +17,7 @@ class Indexable_Head_Action {
 	private $meta_surface;
 
 	/**
-	 * Indexable_Indexation_Route constructor.
+	 * Indexable_Head_Action constructor.
 	 *
 	 * @param Meta_Surface $meta_surface The meta surface.
 	 */

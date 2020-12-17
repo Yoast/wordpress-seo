@@ -2,7 +2,7 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Integrations\Third_Party;
 
-use Yoast\WP\SEO\Conditionals\WPML_Conditional;
+use Yoast\WP\SEO\Conditionals\Third_Party\WPML_Conditional;
 use Yoast\WP\SEO\Integrations\Third_Party\WPML;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
@@ -27,8 +27,8 @@ class WPML_Test extends TestCase {
 	/**
 	 * Sets an instance for test purposes.
 	 */
-	public function setUp() {
-		parent::setUp();
+	protected function set_up() {
+		parent::set_up();
 
 		$this->instance = new WPML();
 	}

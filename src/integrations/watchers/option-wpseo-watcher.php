@@ -2,8 +2,8 @@
 
 namespace Yoast\WP\SEO\Integrations\Watchers;
 
-use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Conditionals\No_Conditionals;
+use Yoast\WP\SEO\Integrations\Integration_Interface;
 
 /**
  * Watcher for the wpseo option.
@@ -39,7 +39,7 @@ class Option_Wpseo_Watcher implements Integration_Interface {
 	public function check_semrush_option_disabled( $old_value, $new_value ) {
 		if ( \array_key_exists( 'semrush_integration_active', $new_value )
 			&& $new_value['semrush_integration_active'] === false ) {
-			YoastSEO()->helpers->options->set( 'semrush_tokens', [] );
+			\YoastSEO()->helpers->options->set( 'semrush_tokens', [] );
 			return true;
 		}
 		return false;

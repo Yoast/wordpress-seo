@@ -126,7 +126,7 @@ class Yoast_Plugin_Conflict {
 
 		$plugin_names = [];
 		foreach ( $plugins as $plugin ) {
-			$name = WPSEO_Utils::get_plugin_name( $plugin );
+			$name = $this->get_plugin_name( $plugin );
 			if ( ! empty( $name ) ) {
 				$plugin_names[] = '<em>' . $name . '</em>';
 			}
@@ -195,7 +195,7 @@ class Yoast_Plugin_Conflict {
 
 		foreach ( $this->active_plugins[ $plugin_section ] as $plugin_file ) {
 
-			$plugin_name = WPSEO_Utils::get_plugin_name( $plugin_file );
+			$plugin_name = $this->get_plugin_name( $plugin_file );
 
 			$error_message = '';
 			/* translators: %1$s: 'Facebook & Open Graph' plugin name(s) of possibly conflicting plugin(s), %2$s to Yoast SEO */
@@ -203,7 +203,7 @@ class Yoast_Plugin_Conflict {
 			$error_message .= '<p>' . sprintf( $readable_plugin_section, 'Yoast SEO', $plugin_name ) . '</p>';
 
 			/* translators: %s: 'Facebook' plugin name of possibly conflicting plugin */
-			$error_message .= '<a class="button button-primary" href="' . wp_nonce_url( 'plugins.php?action=deactivate&amp;plugin=' . $plugin_file . '&amp;plugin_status=all', 'deactivate-plugin_' . $plugin_file ) . '">' . sprintf( __( 'Deactivate %s', 'wordpress-seo' ), WPSEO_Utils::get_plugin_name( $plugin_file ) ) . '</a> ';
+			$error_message .= '<a class="button button-primary" href="' . wp_nonce_url( 'plugins.php?action=deactivate&amp;plugin=' . $plugin_file . '&amp;plugin_status=all', 'deactivate-plugin_' . $plugin_file ) . '">' . sprintf( __( 'Deactivate %s', 'wordpress-seo' ), $this->get_plugin_name( $plugin_file ) ) . '</a> ';
 
 			$identifier = $this->get_notification_identifier( $plugin_file );
 
@@ -304,6 +304,23 @@ class Yoast_Plugin_Conflict {
 				return $plugin_section;
 			}
 		}
+	}
+
+	/**
+	 * Get plugin name from file.
+	 *
+	 * @param string $plugin Plugin path relative to plugins directory.
+	 *
+	 * @return string|bool Plugin name or false when no name is set.
+	 */
+	protected function get_plugin_name( $plugin ) {
+		$plugin_details = get_plugin_data( WP_PLUGIN_DIR . '/' . $plugin );
+
+		if ( $plugin_details['Name'] !== '' ) {
+			return $plugin_details['Name'];
+		}
+
+		return false;
 	}
 
 	/**

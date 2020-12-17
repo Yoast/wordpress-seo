@@ -36,12 +36,12 @@ class Test_WPSEO_Author_Sitemap_Provider extends WPSEO_UnitTestCase {
 	 *
 	 * Checks if an OutOfBoundsException is thrown, when there are no users in the sitemap.
 	 *
-	 * @expectedException        OutOfBoundsException
-	 * @expectedExceptionMessage Invalid sitemap page requested
-	 *
 	 * @covers WPSEO_Author_Sitemap_Provider::get_sitemap_links
 	 */
 	public function test_author_excluded_from_sitemap_by_zero_posts() {
+		$this->expectException( OutOfBoundsException::class );
+		$this->expectExceptionMessage( 'Invalid sitemap page requested' );
+
 		// Removes authors with no posts.
 		WPSEO_Options::set( 'noindex-author-noposts-wpseo', true );
 
@@ -109,12 +109,12 @@ class Test_WPSEO_Author_Sitemap_Provider extends WPSEO_UnitTestCase {
 	 *
 	 * Checks if an OutOfBoundsException is thrown, when there are no users in the sitemap.
 	 *
-	 * @expectedException        OutOfBoundsException
-	 * @expectedExceptionMessage Invalid sitemap page requested
-	 *
 	 * @covers WPSEO_Author_Sitemap_Provider::get_sitemap_links
 	 */
 	public function test_author_exclusion() {
+		$this->expectException( OutOfBoundsException::class );
+		$this->expectExceptionMessage( 'Invalid sitemap page requested' );
+
 		// Creates a user with 3 posts.
 		$user_id = $this->factory->user->create( [ 'role' => 'author' ] );
 		$this->factory->post->create_many( 3, [ 'post_author' => $user_id ] );
@@ -149,7 +149,7 @@ class Test_WPSEO_Author_Sitemap_Provider extends WPSEO_UnitTestCase {
 		$sitemaps->redirect( $GLOBALS['wp_the_query'] );
 
 		// Expects an empty page (404) to be returned.
-		$this->expectOutput( '' );
+		$this->expectOutputString( '' );
 	}
 
 	/**
@@ -172,7 +172,7 @@ class Test_WPSEO_Author_Sitemap_Provider extends WPSEO_UnitTestCase {
 		$sitemaps->redirect( $GLOBALS['wp_the_query'] );
 
 		// Expects an empty page (404) to be returned.
-		$this->expectOutput( '' );
+		$this->expectOutputString( '' );
 
 		// Cleanup.
 		WPSEO_Options::set( 'disable-author', false );
@@ -207,12 +207,12 @@ class Test_WPSEO_Author_Sitemap_Provider extends WPSEO_UnitTestCase {
 	 *
 	 * Checks if an OutOfBoundsException is thrown, when there are no users in the sitemap.
 	 *
-	 * @expectedException        OutOfBoundsException
-	 * @expectedExceptionMessage Invalid sitemap page requested
-	 *
 	 * @covers WPSEO_Author_Sitemap_Provider::get_sitemap_links
 	 */
 	public function test_no_users_empty_author_sitemap() {
+		$this->expectException( OutOfBoundsException::class );
+		$this->expectExceptionMessage( 'Invalid sitemap page requested' );
+
 		// Checks which users are in the sitemap, there should be none.
 		self::$class_instance->get_sitemap_links( 'author', 10, 1 );
 	}

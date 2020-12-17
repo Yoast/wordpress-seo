@@ -4,8 +4,8 @@ namespace Yoast\WP\SEO\Tests\Unit\Routes;
 
 use Brain\Monkey;
 use Mockery;
-use Yoast\WP\SEO\Actions\Indexing\Indexable_Indexing_Complete_Action;
 use Yoast\WP\SEO\Actions\Indexing\Indexable_General_Indexation_Action;
+use Yoast\WP\SEO\Actions\Indexing\Indexable_Indexing_Complete_Action;
 use Yoast\WP\SEO\Actions\Indexing\Indexable_Post_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexing\Indexable_Post_Type_Archive_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexing\Indexable_Prepare_Indexation_Action;
@@ -13,7 +13,6 @@ use Yoast\WP\SEO\Actions\Indexing\Indexable_Term_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexing\Indexing_Complete_Action;
 use Yoast\WP\SEO\Actions\Indexing\Post_Link_Indexing_Action;
 use Yoast\WP\SEO\Actions\Indexing\Term_Link_Indexing_Action;
-use Yoast\WP\SEO\Config\Indexing_Reasons;
 use Yoast\WP\SEO\Helpers\Indexing_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Routes\Indexing_Route;
@@ -117,8 +116,8 @@ class Indexing_Route_Test extends TestCase {
 	/**
 	 * Sets up the tests.
 	 */
-	public function setUp() {
-		parent::setUp();
+	protected function set_up() {
+		parent::set_up();
 
 		$this->post_indexation_action              = Mockery::mock( Indexable_Post_Indexation_Action::class );
 		$this->term_indexation_action              = Mockery::mock( Indexable_Term_Indexation_Action::class );
@@ -155,17 +154,50 @@ class Indexing_Route_Test extends TestCase {
 	 * @covers ::__construct
 	 */
 	public function test_constructor() {
-		$this->assertAttributeInstanceOf( Indexable_Post_Indexation_Action::class, 'post_indexation_action', $this->instance );
-		$this->assertAttributeInstanceOf( Indexable_Term_Indexation_Action::class, 'term_indexation_action', $this->instance );
-		$this->assertAttributeInstanceOf( Indexable_Post_Type_Archive_Indexation_Action::class, 'post_type_archive_indexation_action', $this->instance );
-		$this->assertAttributeInstanceOf( Indexable_General_Indexation_Action::class, 'general_indexation_action', $this->instance );
-		$this->assertAttributeInstanceOf( Indexable_Indexing_Complete_Action::class, 'indexable_indexing_complete_action', $this->instance );
-		$this->assertAttributeInstanceOf( Indexing_Complete_Action::class, 'indexing_complete_action', $this->instance );
-		$this->assertAttributeInstanceOf( Indexable_Prepare_Indexation_Action::class, 'prepare_indexation_action', $this->instance );
-		$this->assertAttributeInstanceOf( Post_Link_Indexing_Action::class, 'post_link_indexing_action', $this->instance );
-		$this->assertAttributeInstanceOf( Term_Link_Indexing_Action::class, 'term_link_indexing_action', $this->instance );
-		$this->assertAttributeInstanceOf( Options_Helper::class, 'options_helper', $this->instance );
-		$this->assertAttributeInstanceOf( Indexing_Helper::class, 'indexing_helper', $this->instance );
+		$this->assertInstanceOf(
+			Indexable_Post_Indexation_Action::class,
+			$this->getPropertyValue( $this->instance, 'post_indexation_action' )
+		);
+		$this->assertInstanceOf(
+			Indexable_Term_Indexation_Action::class,
+			$this->getPropertyValue( $this->instance, 'term_indexation_action' )
+		);
+		$this->assertInstanceOf(
+			Indexable_Post_Type_Archive_Indexation_Action::class,
+			$this->getPropertyValue( $this->instance, 'post_type_archive_indexation_action' )
+		);
+		$this->assertInstanceOf(
+			Indexable_General_Indexation_Action::class,
+			$this->getPropertyValue( $this->instance, 'general_indexation_action' )
+		);
+		$this->assertInstanceOf(
+			Indexable_Indexing_Complete_Action::class,
+			$this->getPropertyValue( $this->instance, 'indexable_indexing_complete_action' )
+		);
+		$this->assertInstanceOf(
+			Indexing_Complete_Action::class,
+			$this->getPropertyValue( $this->instance, 'indexing_complete_action' )
+		);
+		$this->assertInstanceOf(
+			Indexable_Prepare_Indexation_Action::class,
+			$this->getPropertyValue( $this->instance, 'prepare_indexation_action' )
+		);
+		$this->assertInstanceOf(
+			Post_Link_Indexing_Action::class,
+			$this->getPropertyValue( $this->instance, 'post_link_indexing_action' )
+		);
+		$this->assertInstanceOf(
+			Term_Link_Indexing_Action::class,
+			$this->getPropertyValue( $this->instance, 'term_link_indexing_action' )
+		);
+		$this->assertInstanceOf(
+			Options_Helper::class,
+			$this->getPropertyValue( $this->instance, 'options_helper' )
+		);
+		$this->assertInstanceOf(
+			Indexing_Helper::class,
+			$this->getPropertyValue( $this->instance, 'indexing_helper' )
+		);
 	}
 
 	/**
@@ -177,7 +209,7 @@ class Indexing_Route_Test extends TestCase {
 		Monkey\Functions\expect( 'register_rest_route' )
 			->with(
 				'yoast/v1',
-				'indexation/prepare',
+				'indexing/prepare',
 				[
 					'methods'             => 'POST',
 					'callback'            => [ $this->instance, 'prepare' ],
@@ -188,7 +220,7 @@ class Indexing_Route_Test extends TestCase {
 		Monkey\Functions\expect( 'register_rest_route' )
 			->with(
 				'yoast/v1',
-				'indexation/complete',
+				'indexing/complete',
 				[
 					'methods'             => 'POST',
 					'callback'            => [ $this->instance, 'complete' ],
@@ -199,7 +231,7 @@ class Indexing_Route_Test extends TestCase {
 		Monkey\Functions\expect( 'register_rest_route' )
 			->with(
 				'yoast/v1',
-				'indexation/posts',
+				'indexing/posts',
 				[
 					'methods'             => 'POST',
 					'callback'            => [ $this->instance, 'index_posts' ],
@@ -210,7 +242,7 @@ class Indexing_Route_Test extends TestCase {
 		Monkey\Functions\expect( 'register_rest_route' )
 			->with(
 				'yoast/v1',
-				'indexation/terms',
+				'indexing/terms',
 				[
 					'methods'             => 'POST',
 					'callback'            => [ $this->instance, 'index_terms' ],
@@ -221,7 +253,7 @@ class Indexing_Route_Test extends TestCase {
 		Monkey\Functions\expect( 'register_rest_route' )
 			->with(
 				'yoast/v1',
-				'indexation/post-type-archives',
+				'indexing/post-type-archives',
 				[
 					'methods'             => 'POST',
 					'callback'            => [ $this->instance, 'index_post_type_archives' ],
@@ -232,7 +264,7 @@ class Indexing_Route_Test extends TestCase {
 		Monkey\Functions\expect( 'register_rest_route' )
 			->with(
 				'yoast/v1',
-				'indexation/general',
+				'indexing/general',
 				[
 					'methods'             => 'POST',
 					'callback'            => [ $this->instance, 'index_general' ],
@@ -243,7 +275,7 @@ class Indexing_Route_Test extends TestCase {
 		Monkey\Functions\expect( 'register_rest_route' )
 			->with(
 				'yoast/v1',
-				'indexation/indexables-complete',
+				'indexing/indexables-complete',
 				[
 					'methods'             => 'POST',
 					'callback'            => [ $this->instance, 'indexables_complete' ],
@@ -293,7 +325,7 @@ class Indexing_Route_Test extends TestCase {
 			->andReturn( \array_fill( 0, 25, true ) );
 
 		Monkey\Functions\expect( 'rest_url' )
-			->with( 'yoast/v1/indexation/posts' )
+			->with( 'yoast/v1/indexing/posts' )
 			->andReturnFirstArg();
 
 		Mockery::mock( 'overload:WP_REST_Response' );
@@ -318,7 +350,7 @@ class Indexing_Route_Test extends TestCase {
 			->andReturn( \array_fill( 0, 25, true ) );
 
 		Monkey\Functions\expect( 'rest_url' )
-			->with( 'yoast/v1/indexation/terms' )
+			->with( 'yoast/v1/indexing/terms' )
 			->andReturnFirstArg();
 
 		Mockery::mock( 'overload:WP_REST_Response' );
@@ -343,7 +375,7 @@ class Indexing_Route_Test extends TestCase {
 			->andReturn( \array_fill( 0, 25, true ) );
 
 		Monkey\Functions\expect( 'rest_url' )
-			->with( 'yoast/v1/indexation/post-type-archives' )
+			->with( 'yoast/v1/indexing/post-type-archives' )
 			->andReturnFirstArg();
 
 		Mockery::mock( 'overload:WP_REST_Response' );
@@ -369,7 +401,7 @@ class Indexing_Route_Test extends TestCase {
 			->andReturn( \array_fill( 0, 25, true ) );
 
 		Monkey\Functions\expect( 'rest_url' )
-			->with( 'yoast/v1/indexation/general' )
+			->with( 'yoast/v1/indexing/general' )
 			->andReturnFirstArg();
 
 		Mockery::mock( 'overload:WP_REST_Response' );
@@ -451,7 +483,7 @@ class Indexing_Route_Test extends TestCase {
 	public function test_index_general_when_error_occurs() {
 		$this->general_indexation_action->expects( 'index' )->andThrow( new \Exception( 'An exception during indexing' ) );
 
-		$this->indexing_helper->expects( 'set_reason' )->with( Indexing_Reasons::REASON_INDEXING_FAILED );
+		$this->indexing_helper->expects( 'indexing_failed' )->withNoArgs();
 
 		Mockery::mock( '\WP_Error' );
 

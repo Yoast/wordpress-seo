@@ -23,8 +23,7 @@
 	},
 	"require": {
 		"php": "^5.6.20||^7.0",
-		"composer/installers": "~1.0",
-		"yoast/license-manager": "1.6.0",
+		"composer/installers": "^1.9.0",
 		"yoast/i18n-module": "^3.1.1",
 		"pimple/pimple": "^3.2",
 		"psr/log": "^1.0",
@@ -33,14 +32,14 @@
 	},
 	"require-dev": {
 		"yoast/php-development-environment": "^1.0",
-		"yoast/yoastcs": "^2.0.0",
-		"humbug/php-scoper": "^0.12.0",
-		"brain/monkey": "^2.4",
+		"yoast/yoastcs": "^2.1.0",
+		"humbug/php-scoper": "^0.13.4",
 		"phpunit/phpunit": "^5.7",
 		"atanamo/php-codeshift": "^1.0",
 		"symfony/config": "^3.4",
 		"php-parallel-lint/php-parallel-lint": "^1.2.0",
-		"php-parallel-lint/php-console-highlighter": "^0.5"
+		"php-parallel-lint/php-console-highlighter": "^0.5",
+		"yoast/wp-test-utils": "^0.2.1"
 	},
 	"minimum-stability": "dev",
 	"prefer-stable": true,
@@ -82,8 +81,8 @@
 			"Yoast\\WP\\SEO\\Composer\\Actions::check_coding_standards"
 		],
 		"check-cs-thresholds": [
-			"@putenv YOASTCS_THRESHOLD_ERRORS=795",
-			"@putenv YOASTCS_THRESHOLD_WARNINGS=258",
+			"@putenv YOASTCS_THRESHOLD_ERRORS=457",
+			"@putenv YOASTCS_THRESHOLD_WARNINGS=228",
 			"Yoast\\WP\\SEO\\Composer\\Actions::check_cs_thresholds"
 		],
 		"check-cs-summary": [
@@ -137,6 +136,9 @@
 		],
 		"generate-migration": [
 			"Yoast\\WP\\SEO\\Composer\\Actions::generate_migration"
-		]
+		],
+        "generate-unit-test": [
+          "Yoast\\WP\\SEO\\Composer\\Actions::generate_unit_test"
+        ]
 	}
 }

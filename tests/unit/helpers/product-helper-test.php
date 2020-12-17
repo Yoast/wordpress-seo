@@ -16,15 +16,17 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
 class Product_Helper_Test extends TestCase {
 
 	/**
+	 * Represents the instance to test.
+	 *
 	 * @var Mockery\Mock|Product_Helper
 	 */
 	private $instance;
 
 	/**
-	 * @inheritDoc
+	 * Prepares the test.
 	 */
-	public function setUp() {
-		parent::setUp();
+	protected function set_up() {
+		parent::set_up();
 
 		$this->instance = Mockery::mock( Product_Helper::class )
 			->makePartial()

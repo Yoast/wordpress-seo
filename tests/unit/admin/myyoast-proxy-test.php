@@ -107,14 +107,12 @@ class MyYoast_Proxy_Test extends TestCase {
 			->will( $this->returnValue( '1.0' ) );
 
 		$instance
-			->expects( $this->at( 2 ) )
+			->expects( $this->exactly( 2 ) )
 			->method( 'set_header' )
-			->with( 'Content-Type: text/javascript; charset=UTF-8' );
-
-		$instance
-			->expects( $this->at( 3 ) )
-			->method( 'set_header' )
-			->with( 'Cache-Control: max-age=' . WPSEO_MyYoast_Proxy::CACHE_CONTROL_MAX_AGE );
+			->withConsecutive(
+				[ 'Content-Type: text/javascript; charset=UTF-8' ],
+				[ 'Cache-Control: max-age=' . WPSEO_MyYoast_Proxy::CACHE_CONTROL_MAX_AGE ]
+			);
 
 		$instance
 			->expects( $this->once() )
@@ -123,7 +121,7 @@ class MyYoast_Proxy_Test extends TestCase {
 
 		$instance->render_proxy_page();
 
-		$this->expectOutput( '', 'Load URL succeeded, no output expected' );
+		$this->expectOutputString( '' );
 	}
 
 	/**
@@ -163,32 +161,18 @@ class MyYoast_Proxy_Test extends TestCase {
 			->will( $this->returnValue( '1.0' ) );
 
 		$instance
-			->expects( $this->at( 2 ) )
+			->expects( $this->exactly( 5 ) )
 			->method( 'set_header' )
-			->with( 'Content-Type: text/javascript; charset=UTF-8' );
-
-		$instance
-			->expects( $this->at( 3 ) )
-			->method( 'set_header' )
-			->with( 'Cache-Control: max-age=' . WPSEO_MyYoast_Proxy::CACHE_CONTROL_MAX_AGE );
-
-		$instance
-			->expects( $this->at( 4 ) )
-			->method( 'set_header' )
-			->with( 'Content-Type: text/plain' );
-
-		$instance
-			->expects( $this->at( 5 ) )
-			->method( 'set_header' )
-			->with( 'Cache-Control: max-age=0' );
-
-		$instance
-			->expects( $this->at( 6 ) )
-			->method( 'set_header' )
-			->with( 'HTTP/1.0 500 Received unexpected response from MyYoast' );
+			->withConsecutive(
+				[ 'Content-Type: text/javascript; charset=UTF-8' ],
+				[ 'Cache-Control: max-age=' . WPSEO_MyYoast_Proxy::CACHE_CONTROL_MAX_AGE ],
+				[ 'Content-Type: text/plain' ],
+				[ 'Cache-Control: max-age=0' ],
+				[ 'HTTP/1.0 500 Received unexpected response from MyYoast' ]
+			);
 
 		$instance->render_proxy_page();
 
-		$this->expectOutput( '', 'wp_remote_get failed, no output expected' );
+		$this->expectOutputString( '' );
 	}
 }

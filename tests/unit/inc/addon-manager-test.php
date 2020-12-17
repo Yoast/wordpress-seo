@@ -2,8 +2,8 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Inc;
 
-use Mockery;
 use Brain\Monkey;
+use Mockery;
 use stdClass;
 use WPSEO_Utils;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Inc\Addon_Manager_Double;
@@ -42,12 +42,12 @@ class Addon_Manager_Test extends TestCase {
 	/**
 	 * Setup the tests.
 	 */
-	public function setUp() {
+	protected function set_up() {
+		parent::set_up();
+
 		$this->instance = Mockery::mock( Addon_Manager_Double::class )
 				->shouldAllowMockingProtectedMethods()
 					->makePartial();
-
-		parent::setUp();
 	}
 
 	/**
@@ -309,6 +309,8 @@ class Addon_Manager_Test extends TestCase {
 	 * @param string $message  The message when test fails.
 	 */
 	public function test_get_plugin_information( $action, $args, $expected, $message ) {
+		$this->stubTranslationFunctions();
+
 		$this->instance
 			->shouldReceive( 'get_subscriptions' )
 			->atMost()
@@ -320,9 +322,9 @@ class Addon_Manager_Test extends TestCase {
 				[
 					'wordpress-seo/wp-seo.php' => [
 						'update' => [
-							'tested'       => '5.5',
+							'tested'       => '5.6',
 							'requires_php' => '5.6',
-							'requires'     => '5.4',
+							'requires'     => '5.5',
 						],
 					],
 				]
@@ -399,6 +401,8 @@ class Addon_Manager_Test extends TestCase {
 	 * @param string $message  Message to show when test fails.
 	 */
 	public function test_check_for_updates( $addons, $data, $expected, $message ) {
+		$this->stubTranslationFunctions();
+
 		$this->instance
 			->shouldReceive( 'get_installed_addons' )
 			->atMost()
@@ -414,7 +418,7 @@ class Addon_Manager_Test extends TestCase {
 				[
 					'wordpress-seo/wp-seo.php' => [
 						'update' => [
-							'tested'       => '5.5',
+							'tested'       => '5.6',
 							'requires_php' => '5.6',
 						],
 					],
@@ -451,6 +455,8 @@ class Addon_Manager_Test extends TestCase {
 	 * @covers ::convert_subscription_to_plugin
 	 */
 	public function test_convert_subscription_to_plugin() {
+		$this->stubTranslationFunctions();
+
 		$this->assertEquals(
 			(object) [
 				'new_version'   => '10.0',
@@ -472,9 +478,9 @@ class Addon_Manager_Test extends TestCase {
 					'high' => 'https://yoa.st/yoast-seo-banner-premium',
 					'low'  => 'https://yoa.st/yoast-seo-banner-low-premium',
 				],
-				'tested'        => YOAST_SEO_WP_TESTED,
-				'requires_php'  => YOAST_SEO_PHP_REQUIRED,
-				'requires'      => YOAST_SEO_WP_REQUIRED,
+				'tested'        => \YOAST_SEO_WP_TESTED,
+				'requires_php'  => \YOAST_SEO_PHP_REQUIRED,
+				'requires'      => \YOAST_SEO_WP_REQUIRED,
 			],
 			$this->instance->convert_subscription_to_plugin(
 				(object) [
@@ -679,9 +685,9 @@ class Addon_Manager_Test extends TestCase {
 								'high' => 'https://yoa.st/yoast-seo-banner-premium',
 								'low'  => 'https://yoa.st/yoast-seo-banner-low-premium',
 							],
-							'tested'        => YOAST_SEO_WP_TESTED,
-							'requires_php'  => YOAST_SEO_PHP_REQUIRED,
-							'requires'      => YOAST_SEO_WP_REQUIRED,
+							'tested'        => \YOAST_SEO_WP_TESTED,
+							'requires_php'  => \YOAST_SEO_PHP_REQUIRED,
+							'requires'      => \YOAST_SEO_WP_REQUIRED,
 						],
 					],
 				],
@@ -738,9 +744,9 @@ class Addon_Manager_Test extends TestCase {
 						'high' => 'https://yoa.st/yoast-seo-banner-premium',
 						'low'  => 'https://yoa.st/yoast-seo-banner-low-premium',
 					],
-					'tested'        => YOAST_SEO_WP_TESTED,
-					'requires_php'  => YOAST_SEO_PHP_REQUIRED,
-					'requires'      => YOAST_SEO_WP_REQUIRED,
+					'tested'        => \YOAST_SEO_WP_TESTED,
+					'requires_php'  => \YOAST_SEO_PHP_REQUIRED,
+					'requires'      => \YOAST_SEO_WP_REQUIRED,
 				],
 				'message'  => 'Tests with a Yoast addon slug given as argument.',
 			],

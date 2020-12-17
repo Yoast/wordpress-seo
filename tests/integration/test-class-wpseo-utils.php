@@ -11,38 +11,6 @@
 class WPSEO_Utils_Test extends WPSEO_UnitTestCase {
 
 	/**
-	 * Tests whether a user is allowed to access the SEO configuration in various situations.
-	 *
-	 * @covers WPSEO_Utils::grant_access
-	 */
-	public function test_grant_access() {
-
-		if ( ! is_multisite() ) { // Should be true when not running multisite.
-			$this->assertTrue( WPSEO_Utils::grant_access() );
-			return;
-		}
-
-		// Admin required by default/option.
-		$user_id = $this->factory->user->create( [ 'role' => 'administrator' ] );
-		wp_set_current_user( $user_id );
-		$this->assertTrue( WPSEO_Utils::grant_access() );
-
-		// Super Admin required by option.
-		$options           = get_site_option( 'wpseo_ms' );
-		$options['access'] = 'superadmin';
-		update_site_option( 'wpseo_ms', $options );
-		$this->assertFalse( WPSEO_Utils::grant_access() );
-
-		grant_super_admin( $user_id );
-		$this->assertTrue( WPSEO_Utils::grant_access() );
-
-		// Below admin not allowed.
-		$user_id = $this->factory->user->create( [ 'role' => 'editor' ] );
-		wp_set_current_user( $user_id );
-		$this->assertFalse( WPSEO_Utils::grant_access() );
-	}
-
-	/**
 	 * Tests whether is_apache correctly returns if the site runs on apache.
 	 *
 	 * @covers WPSEO_Utils::is_apache

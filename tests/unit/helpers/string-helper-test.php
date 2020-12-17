@@ -3,7 +3,6 @@
 namespace Yoast\WP\SEO\Tests\Unit\Helpers;
 
 use Brain\Monkey;
-use Yoast\WP\SEO\Helpers\Site_Helper;
 use Yoast\WP\SEO\Helpers\String_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
@@ -26,8 +25,8 @@ class String_Helper_Test extends TestCase {
 	/**
 	 * Setup.
 	 */
-	public function setUp() {
-		parent::setUp();
+	protected function set_up() {
+		parent::set_up();
 
 		$this->instance = new String_Helper();
 	}

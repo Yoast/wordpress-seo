@@ -3,6 +3,8 @@
 namespace Yoast\WP\SEO\Tests\Unit\Presenters\Slack;
 
 use Brain\Monkey\Functions;
+use Mockery;
+use WP_Post;
 use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 use Yoast\WP\SEO\Presenters\Slack\Enhanced_Data_Presenter;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
@@ -34,12 +36,14 @@ class Enhanced_Data_Presenter_Test extends TestCase {
 	/**
 	 * Setup of the tests.
 	 */
-	public function setUp() {
-		parent::setUp();
+	protected function set_up() {
+		parent::set_up();
+
+		$this->stubTranslationFunctions();
 
 		$this->instance                       = new Enhanced_Data_Presenter();
-		$this->instance->presentation         = \Mockery::mock( Indexable_Presentation::class );
-		$this->instance->presentation->source = \Mockery::mock( \WP_Post::class );
+		$this->instance->presentation         = Mockery::mock( Indexable_Presentation::class );
+		$this->instance->presentation->source = Mockery::mock( WP_Post::class );
 		$this->presentation                   = $this->instance->presentation;
 	}
 
@@ -60,15 +64,16 @@ class Enhanced_Data_Presenter_Test extends TestCase {
 
 		Functions\stubs(
 			[
-				'get_the_author_meta'   => 'Agatha Christie',
+				'get_the_author_meta' => 'Agatha Christie',
+				'is_singular'         => true,
 			]
 		);
 
 		$this->assertEquals(
-			"<meta name=\"twitter:label1\" value=\"Written by\">\n"
-			. "\t<meta name=\"twitter:data1\" value=\"Agatha Christie\">\n"
-			. "\t<meta name=\"twitter:label2\" value=\"Est. reading time\">\n"
-			. "\t<meta name=\"twitter:data2\" value=\"40 minutes\">",
+			"<meta name=\"twitter:label1\" content=\"Written by\">\n"
+			. "\t<meta name=\"twitter:data1\" content=\"Agatha Christie\">\n"
+			. "\t<meta name=\"twitter:label2\" content=\"Est. reading time\">\n"
+			. "\t<meta name=\"twitter:data2\" content=\"40 minutes\">",
 			$this->instance->present()
 		);
 	}

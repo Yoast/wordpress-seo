@@ -1,14 +1,10 @@
 <?php
 
-namespace Yoast\WP\SEO\Actions\SEMrush;
+namespace Yoast\WP\SEO\Tests\Unit\Actions\SEMrush;
 
-use League\OAuth2\Client\Token\AccessTokenInterface;
 use Mockery;
 use Yoast\WP\SEO\Actions\SEMrush\SEMrush_Options_Action;
-use Yoast\WP\SEO\Config\SEMrush_Client;
-use Yoast\WP\SEO\Exceptions\OAuth\Authentication_Failed_Exception;
 use Yoast\WP\SEO\Helpers\Options_Helper;
-use Yoast\WP\SEO\Values\SEMrush\SEMrush_Token;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
@@ -28,7 +24,6 @@ class SEMrush_Options_Action_Test extends TestCase {
 	protected $instance;
 
 	/**
-	 *
 	 * The options helper.
 	 *
 	 * @var Mockery\MockInterface|Options_Helper
@@ -38,8 +33,8 @@ class SEMrush_Options_Action_Test extends TestCase {
 	/**
 	 * Set up the test fixtures.
 	 */
-	public function setUp() {
-		parent::setUp();
+	protected function set_up() {
+		parent::set_up();
 
 		$this->options_helper = Mockery::mock( Options_Helper::class );
 		$this->instance       = new SEMrush_Options_Action( $this->options_helper );
@@ -51,7 +46,10 @@ class SEMrush_Options_Action_Test extends TestCase {
 	 * @covers ::__construct
 	 */
 	public function test_constructor() {
-		$this->assertAttributeInstanceOf( Options_Helper::class, 'options_helper', $this->instance );
+		$this->assertInstanceOf(
+			Options_Helper::class,
+			$this->getPropertyValue( $this->instance, 'options_helper' )
+		);
 	}
 
 	/**

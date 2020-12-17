@@ -28,8 +28,8 @@ class Category_Term_Description_Test extends TestCase {
 	/**
 	 * Sets an instance for test purposes.
 	 */
-	public function setUp() {
-		parent::setUp();
+	protected function set_up() {
+		parent::set_up();
 
 		$this->instance = new Category_Term_Description();
 	}

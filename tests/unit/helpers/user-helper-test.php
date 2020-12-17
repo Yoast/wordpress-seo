@@ -16,6 +16,8 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
 class User_Helper_Test extends TestCase {
 
 	/**
+	 * Represents the instance to test.
+	 *
 	 * @var User_Helper
 	 */
 	private $instance;
@@ -23,8 +25,8 @@ class User_Helper_Test extends TestCase {
 	/**
 	 * Sets up the test class.
 	 */
-	public function setUp() {
-		parent::setUp();
+	protected function set_up() {
+		parent::set_up();
 
 		$this->instance = new User_Helper();
 	}

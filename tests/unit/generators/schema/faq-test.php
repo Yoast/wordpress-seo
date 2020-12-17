@@ -43,7 +43,9 @@ class FAQ_Test extends TestCase {
 	/**
 	 * @inheritDoc
 	 */
-	public function setUp() {
+	protected function set_up() {
+		parent::set_up();
+
 		$this->html     = Mockery::mock( HTML_Helper::class );
 		$this->language = Mockery::mock( Language_Helper::class );
 
@@ -55,7 +57,6 @@ class FAQ_Test extends TestCase {
 				'html'     => $this->html,
 			],
 		];
-		parent::setUp();
 	}
 
 	/**
@@ -66,6 +67,8 @@ class FAQ_Test extends TestCase {
 	 * @covers ::add_accepted_answer_property
 	 */
 	public function test_generate() {
+		$this->stubEscapeFunctions();
+
 		$blocks = [
 			'yoast/faq-block' => [
 				[
@@ -164,6 +167,8 @@ class FAQ_Test extends TestCase {
 	 * @covers ::add_accepted_answer_property
 	 */
 	public function test_generate_does_not_output_questions_with_no_answer() {
+		$this->stubEscapeFunctions();
+
 		$blocks = [
 			'yoast/faq-block' => [
 				[

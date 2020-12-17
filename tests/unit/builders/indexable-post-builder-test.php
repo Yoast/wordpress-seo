@@ -5,11 +5,12 @@ namespace Yoast\WP\SEO\Tests\Unit\Builders;
 use Brain\Monkey;
 use Mockery;
 use Yoast\WP\Lib\ORM;
-use Yoast\WP\SEO\Builders\Indexable_Link_Builder;
 use Yoast\WP\SEO\Builders\Indexable_Post_Builder;
+use Yoast\WP\SEO\Exceptions\Indexable\Post_Not_Found_Exception;
 use Yoast\WP\SEO\Helpers\Image_Helper;
 use Yoast\WP\SEO\Helpers\Open_Graph\Image_Helper as Open_Graph_Image_Helper;
 use Yoast\WP\SEO\Helpers\Post_Helper;
+use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Helpers\Twitter\Image_Helper as Twitter_Image_Helper;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
@@ -19,8 +20,8 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
 /**
  * Class Indexable_Post_Builder_Test.
  *
- * @group indexables
- * @group builders
+ * @group  indexables
+ * @group  builders
  *
  * @coversDefaultClass \Yoast\WP\SEO\Builders\Indexable_Post_Builder
  * @covers \Yoast\WP\SEO\Builders\Indexable_Post_Builder
@@ -70,6 +71,13 @@ class Indexable_Post_Builder_Test extends TestCase {
 	protected $post;
 
 	/**
+	 * The post type helper.
+	 *
+	 * @var Mockery\MockInterface|Post_Type_Helper
+	 */
+	protected $post_type_helper;
+
+	/**
 	 * Holds the Indexable_Post_Builder instance.
 	 *
 	 * @var Indexable_Post_Builder|Indexable_Post_Builder_Double|Mockery\MockInterface
@@ -79,16 +87,22 @@ class Indexable_Post_Builder_Test extends TestCase {
 	/**
 	 * Initializes the test mocks.
 	 */
-	public function setUp() {
+	protected function set_up() {
+		parent::set_up();
+
+		$this->stubTranslationFunctions();
+
 		$this->indexable            = Mockery::mock();
 		$this->indexable_repository = Mockery::mock( Indexable_Repository::class );
 		$this->image                = Mockery::mock( Image_Helper::class );
 		$this->open_graph_image     = Mockery::mock( Open_Graph_Image_Helper::class );
 		$this->twitter_image        = Mockery::mock( Twitter_Image_Helper::class );
 		$this->post                 = Mockery::mock( Post_Helper::class );
+		$this->post_type_helper     = Mockery::mock( Post_Type_Helper::class );
 
 		$this->instance = new Indexable_Post_Builder_Double(
-			$this->post
+			$this->post,
+			$this->post_type_helper
 		);
 
 		$this->instance->set_indexable_repository( $this->indexable_repository );
@@ -97,8 +111,6 @@ class Indexable_Post_Builder_Test extends TestCase {
 			$this->open_graph_image,
 			$this->twitter_image
 		);
-
-		return parent::setUp();
 	}
 
 	/**
@@ -164,7 +176,14 @@ class Indexable_Post_Builder_Test extends TestCase {
 	 * @covers ::__construct
 	 */
 	public function test_constructor() {
-		$this->assertAttributeInstanceOf( Post_Helper::class, 'post', $this->instance );
+		$this->assertInstanceOf(
+			Post_Type_Helper::class,
+			$this->getPropertyValue( $this->instance, 'post_type_helper' )
+		);
+		$this->assertInstanceOf(
+			Post_Helper::class,
+			$this->getPropertyValue( $this->instance, 'post_helper' )
+		);
 	}
 
 	/**
@@ -174,7 +193,11 @@ class Indexable_Post_Builder_Test extends TestCase {
 	 */
 	public function test_set_indexable_repository() {
 		$this->instance->set_indexable_repository( $this->indexable_repository );
-		$this->assertAttributeInstanceOf( Indexable_Repository::class, 'indexable_repository', $this->instance );
+
+		$this->assertInstanceOf(
+			Indexable_Repository::class,
+			$this->getPropertyValue( $this->instance, 'indexable_repository' )
+		);
 	}
 
 	/**
@@ -186,25 +209,26 @@ class Indexable_Post_Builder_Test extends TestCase {
 		Monkey\Functions\expect( 'get_permalink' )->once()->with( 1 )->andReturn( 'https://permalink' );
 		Monkey\Functions\expect( 'get_post_custom' )->with( 1 )->andReturn(
 			[
-				'_yoast_wpseo_focuskw'               => [ 'focuskeyword' ],
-				'_yoast_wpseo_linkdex'               => [ '100' ],
-				'_yoast_wpseo_is_cornerstone'        => [ '1' ],
-				'_yoast_wpseo_meta-robots-noindex'   => [ '1' ],
-				'_yoast_wpseo_meta-robots-adv'       => [ '' ],
-				'_yoast_wpseo_content_score'         => [ '50' ],
-				'_yoast_wpseo_canonical'             => [ 'https://canonical' ],
-				'_yoast_wpseo_meta-robots-nofollow'  => [ '1' ],
-				'_yoast_wpseo_title'                 => [ 'title' ],
-				'_yoast_wpseo_metadesc'              => [ 'description' ],
-				'_yoast_wpseo_opengraph-title'       => [ 'open_graph_title' ],
-				'_yoast_wpseo_opengraph-image'       => [ 'open_graph_image' ],
-				'_yoast_wpseo_opengraph-image-id'    => [ 'open_graph_image_id' ],
-				'_yoast_wpseo_opengraph-description' => [ 'open_graph_description' ],
-				'_yoast_wpseo_twitter-title'         => [ 'twitter_title' ],
-				'_yoast_wpseo_twitter-image'         => [ 'twitter_image' ],
-				'_yoast_wpseo_twitter-description'   => [ 'twitter_description' ],
-				'_yoast_wpseo_schema_page_type'      => [ 'FAQPage' ],
-				'_yoast_wpseo_schema_article_type'   => [ 'NewsArticle' ],
+				'_yoast_wpseo_focuskw'                        => [ 'focuskeyword' ],
+				'_yoast_wpseo_linkdex'                        => [ '100' ],
+				'_yoast_wpseo_is_cornerstone'                 => [ '1' ],
+				'_yoast_wpseo_meta-robots-noindex'            => [ '1' ],
+				'_yoast_wpseo_meta-robots-adv'                => [ '' ],
+				'_yoast_wpseo_content_score'                  => [ '50' ],
+				'_yoast_wpseo_canonical'                      => [ 'https://canonical' ],
+				'_yoast_wpseo_meta-robots-nofollow'           => [ '1' ],
+				'_yoast_wpseo_title'                          => [ 'title' ],
+				'_yoast_wpseo_metadesc'                       => [ 'description' ],
+				'_yoast_wpseo_opengraph-title'                => [ 'open_graph_title' ],
+				'_yoast_wpseo_opengraph-image'                => [ 'open_graph_image' ],
+				'_yoast_wpseo_opengraph-image-id'             => [ 'open_graph_image_id' ],
+				'_yoast_wpseo_opengraph-description'          => [ 'open_graph_description' ],
+				'_yoast_wpseo_twitter-title'                  => [ 'twitter_title' ],
+				'_yoast_wpseo_twitter-image'                  => [ 'twitter_image' ],
+				'_yoast_wpseo_twitter-description'            => [ 'twitter_description' ],
+				'_yoast_wpseo_schema_page_type'               => [ 'FAQPage' ],
+				'_yoast_wpseo_schema_article_type'            => [ 'NewsArticle' ],
+				'_yoast_wpseo_estimated-reading-time-minutes' => [ '11' ],
 			]
 		);
 		Monkey\Functions\expect( 'maybe_unserialize' )->andReturnFirstArg();
@@ -223,42 +247,46 @@ class Indexable_Post_Builder_Test extends TestCase {
 				]
 			);
 
+		$this->post_type_helper->expects( 'get_excluded_post_types_for_indexables' )
+			->andReturn( [] );
+
 		$indexable_expectations = [
-			'object_id'                   => 1,
-			'object_type'                 => 'post',
-			'object_sub_type'             => 'post',
-			'permalink'                   => 'https://permalink',
-			'canonical'                   => 'https://canonical',
-			'title'                       => 'title',
-			'breadcrumb_title'            => 'breadcrumb_title',
-			'description'                 => 'description',
-			'open_graph_title'            => 'open_graph_title',
-			'open_graph_image'            => 'open_graph_image',
-			'open_graph_image_id'         => 'open_graph_image_id',
-			'open_graph_description'      => 'open_graph_description',
-			'twitter_title'               => 'twitter_title',
-			'twitter_image'               => 'twitter_image',
-			'twitter_image_id'            => null,
-			'twitter_description'         => 'twitter_description',
-			'is_cornerstone'              => true,
-			'is_robots_noindex'           => true,
-			'is_robots_nofollow'          => true,
-			'is_robots_noarchive'         => false,
-			'is_robots_noimageindex'      => false,
-			'is_robots_nosnippet'         => false,
-			'primary_focus_keyword'       => 'focuskeyword',
-			'primary_focus_keyword_score' => 100,
-			'readability_score'           => 50,
-			'number_of_pages'             => null,
-			'is_public'                   => 0,
-			'post_status'                 => 'publish',
-			'is_protected'                => false,
-			'author_id'                   => 1,
-			'post_parent'                 => 0,
-			'has_public_posts'            => false,
-			'blog_id'                     => 1,
-			'schema_page_type'            => 'FAQPage',
-			'schema_article_type'         => 'NewsArticle',
+			'object_id'                      => 1,
+			'object_type'                    => 'post',
+			'object_sub_type'                => 'post',
+			'permalink'                      => 'https://permalink',
+			'canonical'                      => 'https://canonical',
+			'title'                          => 'title',
+			'breadcrumb_title'               => 'breadcrumb_title',
+			'description'                    => 'description',
+			'open_graph_title'               => 'open_graph_title',
+			'open_graph_image'               => 'open_graph_image',
+			'open_graph_image_id'            => 'open_graph_image_id',
+			'open_graph_description'         => 'open_graph_description',
+			'twitter_title'                  => 'twitter_title',
+			'twitter_image'                  => 'twitter_image',
+			'twitter_image_id'               => null,
+			'twitter_description'            => 'twitter_description',
+			'is_cornerstone'                 => true,
+			'is_robots_noindex'              => true,
+			'is_robots_nofollow'             => true,
+			'is_robots_noarchive'            => false,
+			'is_robots_noimageindex'         => false,
+			'is_robots_nosnippet'            => false,
+			'primary_focus_keyword'          => 'focuskeyword',
+			'primary_focus_keyword_score'    => 100,
+			'readability_score'              => 50,
+			'number_of_pages'                => null,
+			'is_public'                      => 0,
+			'post_status'                    => 'publish',
+			'is_protected'                   => false,
+			'author_id'                      => 1,
+			'post_parent'                    => 0,
+			'has_public_posts'               => false,
+			'blog_id'                        => 1,
+			'schema_page_type'               => 'FAQPage',
+			'schema_article_type'            => 'NewsArticle',
+			'estimated_reading_time_minutes' => 11,
 		];
 
 		$this->indexable      = Mockery::mock( Indexable::class );
@@ -301,7 +329,8 @@ class Indexable_Post_Builder_Test extends TestCase {
 		$this->indexable->orm->expects( 'set' )
 			->with( 'open_graph_image', 'http://basic.wordpress.test/wp-content/uploads/2020/07/WordPress5.jpg' );
 		$this->indexable->orm->expects( 'set' )
-			->with( 'open_graph_image_meta', \json_encode( $image_meta, ( JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES ) ) );
+			// phpcs:ignore Yoast.Yoast.AlternativeFunctions.json_encode_json_encodeWithAdditionalParams -- Test code, mocking WP.
+			->with( 'open_graph_image_meta', \json_encode( $image_meta, ( \JSON_PRETTY_PRINT | \JSON_UNESCAPED_SLASHES ) ) );
 
 		// We expect the twitter image and its source to be set.
 		$this->indexable->orm->expects( 'set' )->with( 'twitter_image_source', 'set-by-user' );
@@ -803,13 +832,41 @@ class Indexable_Post_Builder_Test extends TestCase {
 	}
 
 	/**
-	 * Tests that build returns false when no term was returned.
+	 * Tests that build throws an exception when no post could be found.
 	 *
 	 * @covers ::build
 	 */
 	public function test_build_term_null() {
 		$this->post->expects( 'get_post' )->once()->with( 1 )->andReturn( null );
 
-		$this->assertFalse( $this->instance->build( 1, false ) );
+		$this->expectException( Post_Not_Found_Exception::class );
+
+		$this->instance->build( 1, false );
+	}
+
+	/**
+	 * Tests that the builder does not build an indexable for a post
+	 * when the post type of the post is excluded from indexing.
+	 *
+	 * @covers ::build
+	 * @covers ::should_exclude_post
+	 */
+	public function test_build_post_type_excluded() {
+		$post_id = 1;
+
+		$this->post->expects( 'get_post' )
+			->once()
+			->with( $post_id )
+			->andReturn(
+				(object) [
+					'post_type' => 'excluded_post_type',
+				]
+			);
+
+		$this->post_type_helper->expects( 'get_excluded_post_types_for_indexables' )
+			->once()
+			->andReturn( [ 'excluded_post_type' ] );
+
+		self::assertFalse( $this->instance->build( $post_id, false ) );
 	}
 }

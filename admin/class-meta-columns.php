@@ -70,6 +70,7 @@ class WPSEO_Meta_Columns {
 		}
 
 		add_filter( 'request', [ $this, 'column_sort_orderby' ] );
+		add_filter( 'default_hidden_columns', [ $this, 'column_hidden' ], 10, 1 );
 	}
 
 	/**
@@ -182,30 +183,22 @@ class WPSEO_Meta_Columns {
 	/**
 	 * Hides the SEO title, meta description and focus keyword columns if the user hasn't chosen which columns to hide.
 	 *
-	 * @param array|false $result The hidden columns.
-	 * @param string      $option The option name used to set which columns should be hidden.
-	 * @param WP_User     $user   The User.
+	 * @param array $hidden The hidden columns.
 	 *
-	 * @return array      $result Array containing the columns to hide.
+	 * @return array Array containing the columns to hide.
 	 */
-	public function column_hidden( $result, $option, $user ) {
-		global $wpdb;
-
-		if ( $user->has_prop( $wpdb->get_blog_prefix() . $option ) || $user->has_prop( $option ) ) {
-			return $result;
+	public function column_hidden( $hidden ) {
+		if ( ! is_array( $hidden ) ) {
+			$hidden = [];
 		}
 
-		if ( ! is_array( $result ) ) {
-			$result = [];
-		}
-
-		array_push( $result, 'wpseo-title', 'wpseo-metadesc' );
+		array_push( $hidden, 'wpseo-title', 'wpseo-metadesc' );
 
 		if ( $this->analysis_seo->is_enabled() ) {
-			array_push( $result, 'wpseo-focuskw' );
+			$hidden[] = 'wpseo-focuskw';
 		}
 
-		return $result;
+		return $hidden;
 	}
 
 	/**
@@ -693,15 +686,6 @@ class WPSEO_Meta_Columns {
 			add_filter( 'manage_' . $post_type . '_posts_columns', [ $this, 'column_heading' ], 10, 1 );
 			add_action( 'manage_' . $post_type . '_posts_custom_column', [ $this, 'column_content' ], 10, 2 );
 			add_action( 'manage_edit-' . $post_type . '_sortable_columns', [ $this, 'column_sort' ], 10, 2 );
-
-			/*
-			 * Use the `get_user_option_{$option}` filter to change the output of the get_user_option
-			 * function for the `manage{$screen}columnshidden` option, which is based on the current
-			 * admin screen. The admin screen we want to target is the `edit-{$post_type}` screen.
-			 */
-			$filter = sprintf( 'get_user_option_%s', sprintf( 'manage%scolumnshidden', 'edit-' . $post_type ) );
-
-			add_filter( $filter, [ $this, 'column_hidden' ], 10, 3 );
 		}
 
 		unset( $post_type );

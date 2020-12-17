@@ -36,8 +36,8 @@ class BbPress_Test extends TestCase {
 	/**
 	 * Sets an instance for test purposes.
 	 */
-	public function setUp() {
-		parent::setUp();
+	protected function set_up() {
+		parent::set_up();
 
 		$this->options  = Mockery::mock( Options_Helper::class );
 		$this->instance = new BbPress( $this->options );
