@@ -1256,6 +1256,9 @@ class ORM implements \ArrayAccess {
 			$firstsub = true;
 			foreach ( $value as $key => $item ) {
 				$op = \is_string( $operator ) ? $operator : ( isset( $operator[ $key ] ) ? $operator[ $key ] : '=' );
+				if ( $op === '=' && $item === null ) {
+					$op = 'IS';
+				}
 				if ( $firstsub ) {
 					$firstsub = false;
 				}
@@ -1264,7 +1267,8 @@ class ORM implements \ArrayAccess {
 				}
 				$query[] = $this->quote_identifier( $key );
 				$data[]  = $item;
-				$query[] = $op . ( ( $item === null ) ? 'NULL' : '%s' );
+				$query[] = $op;
+				$query[] = ( ( $item === null ) ? 'NULL' : '%s' );
 			}
 		}
 		$query[] = '))';
