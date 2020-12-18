@@ -32,6 +32,10 @@
 	color: #404040;
 }
 
+.yoast-block-suggestion-checkmark {
+	color: #6EA029;
+}
+
 .yoast-block-suggestion-button {
 	cursor: pointer;
 	float:right;

@@ -36,7 +36,14 @@ export default function RequiredBlocks( block: BlockInstance, requiredBlocks: Re
 		}
 
 		if ( presentBlockNames.includes( requiredBlockName ) ) {
-			requiredBlockItems.push( <li className="yoast-block-suggestion yoast-block-suggestion--added">{ blockType.title }</li> );
+			requiredBlockItems.push(
+				(
+					<li className="yoast-block-suggestion yoast-block-suggestion--added">
+						{ blockType.title }
+						<span className="yoast-block-suggestion-checkmark">x</span>
+					</li>
+				),
+			);
 
 			return;
 		}
