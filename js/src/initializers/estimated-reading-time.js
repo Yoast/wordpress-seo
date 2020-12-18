@@ -27,11 +27,17 @@ const debouncedGetEstimatedReadingTime = debounce( getEstimatedReadingTime, 500 
 function initializeEstimatedReadingTimeClassic() {
 	const tmceEvents = [ "input", "change", "cut", "paste" ];
 	const editorHandle = get( window, "wpseoScriptData.isPost", "0" ) === "1" ? "content" : "description";
-	const tmceEditor = tinyMCE.get( editorHandle );
 
-	tmceEvents.forEach( function( eventName ) {
-		tmceEditor.on( eventName, () => {
-			debouncedGetEstimatedReadingTime( tmceEditor.getContent() );
+	// Once tinyMCE is initialized, add the listeners.
+	jQuery( document ).on( "tinymce-editor-init", ( event, editor ) => {
+		if ( editor.id !== editorHandle ) {
+			return;
+		}
+
+		tmceEvents.forEach( ( eventName ) => {
+			editor.on( eventName, () => {
+				debouncedGetEstimatedReadingTime( editor.getContent() );
+			} );
 		} );
 	} );
 }
