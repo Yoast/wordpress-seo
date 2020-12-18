@@ -1,10 +1,9 @@
 import { createElement, ComponentClass } from "@wordpress/element";
 import { InnerBlocks as WordPressInnerBlocks } from "@wordpress/block-editor";
-import BlockInstruction from "../../core/blocks/BlockInstruction";
-import { RequiredBlock } from "./dto";
-import getInvalidInnerBlocks from "../../functions/validators/innerBlocksValid";
 import { BlockInstance, TemplateArray } from "@wordpress/blocks";
-import { InvalidBlockReason } from "./enums";
+import { BlockValidationResult, RequiredBlock } from "../../core/validation";
+import BlockInstruction from "../../core/blocks/BlockInstruction";
+import getInvalidInnerBlocks from "../../functions/validators/innerBlocksValid";
 
 /**
  * The InnerBlocks instruction.
@@ -66,37 +65,14 @@ export default class InnerBlocks extends BlockInstruction {
 	}
 
 	/**
-	 * Renders the sidebar.
-	 *
-	 * @param props The props.
-	 * @param i     The number the rendered element is of it's parent.
-	 *
-	 * @returns The sidebar element to render.
-	sidebar( props: RenderEditProps, i: number ): ReactElement | string {
-		// Loop over all blocks (not just the invalid ones!), add a div to the block depending on their status.
-		const invalidBlocks = getInvalidInnerBlocks( this.options.requiredBlocks, props.clientId );
-		// Block OK? div with a green check,
-		// Block missing? add button,
-		// Block occurs too often? remove button,
-		// Block internal validation?
-		const count = ( invalidBlocks || [] ).length;
-
-		// The innerblock sidebar is handled in P2-505, P2-506.
-		console.log( "Found " + count + " invalid blocks." );
-		return "";
-	}*/
-
-	/**
 	 * Checks if the instruction block is valid.
 	 *
 	 * @param blockInstance The block instance being validated.
 	 *
 	 * @returns `true` if the instruction block is valid, `false` if the block contains errors.
 	 */
-	valid( blockInstance: BlockInstance ): boolean {
-		const invalidBlocks = getInvalidInnerBlocks( blockInstance, this.options.requiredBlocks );
-
-		return invalidBlocks.length === 0 || invalidBlocks.every( block => block.reason === InvalidBlockReason.Optional );
+	validate( blockInstance: BlockInstance ): BlockValidationResult[] {
+		return getInvalidInnerBlocks( blockInstance, this.options.requiredBlocks );
 	}
 }
 

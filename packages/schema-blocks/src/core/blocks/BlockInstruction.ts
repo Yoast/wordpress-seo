@@ -2,6 +2,7 @@ import BlockLeaf from "./BlockLeaf";
 import { RenderSaveProps, RenderEditProps } from "./BlockDefinition";
 import { ReactElement } from "@wordpress/element";
 import { BlockConfiguration, BlockInstance } from "@wordpress/blocks";
+import { BlockValidationResult, BlockValidation } from "../validation";
 import Instruction, { InstructionOptions } from "../Instruction";
 import attributeExists from "../../functions/validators/attributeExists";
 import attributeNotEmpty from "../../functions/validators/attributeNotEmpty";
@@ -68,12 +69,15 @@ export default abstract class BlockInstruction extends Instruction {
 	 *
 	 * @returns `true` if the instruction block is valid, `false` if the block contains errors.
 	 */
-	valid( blockInstance: BlockInstance ): boolean {
+	validate( blockInstance: BlockInstance ): BlockValidationResult[] {
 		if ( this.options.required === true ) {
-			return attributeExists( blockInstance, this.options.name as string ) &&
-				attributeNotEmpty( blockInstance, this.options.name as string );
+			const result = attributeExists( blockInstance, this.options.name as string ) &&
+						   attributeNotEmpty( blockInstance, this.options.name as string );
+			if ( ! result ) {
+				return [ new BlockValidationResult( blockInstance.name, BlockValidation.Missing ) ];
+			}
 		}
 
-		return true;
+		return [ new BlockValidationResult( blockInstance.name, BlockValidation.Valid ) ];
 	}
 }

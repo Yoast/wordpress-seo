@@ -1,5 +1,6 @@
+import { merge, flatMap } from "lodash";
 import { BlockInstance } from "@wordpress/blocks";
-import { merge } from "lodash";
+import { BlockValidationResult } from "./validation";
 import Instruction from "./Instruction";
 import Leaf from "./Leaf";
 
@@ -47,7 +48,6 @@ export default abstract class Definition {
 		return Object.values( this.instructions ).reduce( ( config, instruction ) => merge( config, instruction.configuration() ), {} );
 	}
 
-	/* eslint-disable @typescript-eslint/no-unused-vars */
 	/**
 	 * Checks if the Definition block is valid.
 	 *
@@ -55,10 +55,10 @@ export default abstract class Definition {
 	 *
 	 * @returns {boolean} True if all instructions in the block are valid, false if any of the block instructions contains errors.
 	 */
-	valid( blockInstance: BlockInstance ): boolean {
-		return Object.values( this.instructions ).every( instruction => instruction.valid( blockInstance ) );
+	validate( blockInstance: BlockInstance ): BlockValidationResult[] {
+		// Could contain duplicates.
+		return flatMap( Object.values( this.instructions ), instruction => instruction.validate( blockInstance ) );
 	}
-	/* eslint-enable @typescript-eslint/no-unused-vars */
 
 	/**
 	 * Registers a definition.

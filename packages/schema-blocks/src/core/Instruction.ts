@@ -1,4 +1,5 @@
 import { BlockInstance } from "@wordpress/blocks";
+import { BlockValidationResult, BlockValidation } from "./validation";
 
 export type InstructionPrimitive = string | number | boolean;
 export type InstructionValue = InstructionPrimitive | InstructionObject | InstructionArray;
@@ -58,8 +59,8 @@ export default abstract class Instruction {
 	 *
 	 * @returns `true` if the instruction block is valid, `false` if the block contains errors.
 	 */
-	valid( blockInstance: BlockInstance ): boolean {
-		return true;
+	validate( blockInstance: BlockInstance ): BlockValidationResult[] {
+		return [ new BlockValidationResult( blockInstance.name, BlockValidation.Valid ) ];
 	}
 	/* eslint-enable @typescript-eslint/no-unused-vars */
 

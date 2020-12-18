@@ -1,5 +1,6 @@
 import { BlockInstance } from "@wordpress/blocks";
 import BlockInstruction from "../../../src/core/blocks/BlockInstruction";
+import { BlockValidation } from "../../../src/core/validation";
 
 /**
  * Test class, to be able to test the non-abstract BlockInstruction methods.
@@ -8,13 +9,13 @@ class TestBlockInstruction extends BlockInstruction {
 }
 
 describe( "The BlockInstruction class", () => {
-	describe( "valid method", () => {
+	describe( "validate method", () => {
 		it( "considers a required attribute to be valid if it exists and is not empty", () => {
 			const blockInstruction = new TestBlockInstruction( 11, { name: "title", required: true } );
 
 			const blockInstance: BlockInstance = {
 				clientId: "clientid",
-				name: "name",
+				name: "blockName",
 				innerBlocks: [],
 				isValid: true,
 				attributes: {
@@ -22,7 +23,9 @@ describe( "The BlockInstruction class", () => {
 				},
 			};
 
-			expect( blockInstruction.valid( blockInstance ) ).toEqual( true );
+			const result = blockInstruction.validate( blockInstance );
+			expect( result[ 0 ].name ).toEqual( "blockName" );
+			expect( result[ 0 ].result ).toEqual( BlockValidation.Valid );
 		} );
 
 		it( "considers a required attribute to be invalid if it does not exist", () => {
@@ -30,13 +33,15 @@ describe( "The BlockInstruction class", () => {
 
 			const blockInstance: BlockInstance = {
 				clientId: "clientid",
-				name: "name",
+				name: "blockName",
 				innerBlocks: [],
 				isValid: true,
 				attributes: {},
 			};
 
-			expect( blockInstruction.valid( blockInstance ) ).toEqual( false );
+			const result = blockInstruction.validate( blockInstance );
+			expect( result[ 0 ].name ).toEqual( "blockName" );
+			expect( result[ 0 ].result ).toEqual( BlockValidation.Missing );
 		} );
 
 		it( "considers a required attribute to be invalid if it is empty", () => {
@@ -44,7 +49,7 @@ describe( "The BlockInstruction class", () => {
 
 			const blockInstance: BlockInstance = {
 				clientId: "clientid",
-				name: "name",
+				name: "blockName",
 				innerBlocks: [],
 				isValid: true,
 				attributes: {
@@ -52,7 +57,9 @@ describe( "The BlockInstruction class", () => {
 				},
 			};
 
-			expect( blockInstruction.valid( blockInstance ) ).toEqual( false );
+			const result = blockInstruction.validate( blockInstance );
+			expect( result[ 0 ].name ).toEqual( "blockName" );
+			expect( result[ 0 ].result ).toEqual( BlockValidation.Missing );
 		} );
 
 		it( "considers an attribute without a required option to always be valid.", () => {
@@ -60,7 +67,7 @@ describe( "The BlockInstruction class", () => {
 
 			const blockInstance: BlockInstance = {
 				clientId: "clientid",
-				name: "name",
+				name: "blockName",
 				innerBlocks: [],
 				isValid: true,
 				attributes: {
@@ -68,7 +75,9 @@ describe( "The BlockInstruction class", () => {
 				},
 			};
 
-			expect( blockInstruction.valid( blockInstance ) ).toEqual( true );
+			const result =  blockInstruction.validate( blockInstance );
+			expect( result[ 0 ].name ).toEqual( "blockName" );
+			expect( result[ 0 ].result ).toEqual( BlockValidation.Valid );
 		} );
 
 		it( "considers a not required attribute to always be valid.", () => {
@@ -76,13 +85,15 @@ describe( "The BlockInstruction class", () => {
 
 			const blockInstance: BlockInstance = {
 				clientId: "clientid",
-				name: "name",
+				name: "blockName",
 				innerBlocks: [],
 				isValid: true,
 				attributes: {},
 			};
 
-			expect( blockInstruction.valid( blockInstance ) ).toEqual( true );
+			const result =  blockInstruction.validate( blockInstance );
+			expect( result[ 0 ].name ).toEqual( "blockName" );
+			expect( result[ 0 ].result ).toEqual( BlockValidation.Valid );
 		} );
 	} );
 } );

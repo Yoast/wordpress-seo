@@ -4,6 +4,9 @@ import { subscribe, select, dispatch } from "@wordpress/data";
 import SchemaDefinition, { schemaDefinitions } from "../../core/schema/SchemaDefinition";
 import { BlockInstance } from "@wordpress/blocks";
 import updateValidStatus from "./updateValidStatus";
+import { getBlockDefinition } from "../../core/blocks/BlockDefinitionRepository";
+import { BlockValidationResult } from "../../instructions/blocks/dto";
+import recurseOverBlocks from "../blocks/recurseOverBlocks";
 
 let updatingSchema = false;
 let previousRootBlocks: BlockInstance[];
@@ -94,19 +97,38 @@ export default function watch() {
 			return;
 		}
 
-		// Const validations = {};
-		// For ( const block of rootBlocks ) {
-		// 	Const def = getBlockDefinition( block.name ); // not all blocks are ours, some have innerblocks that may contain our blocks
-		// 	Const result = def.valid( block );
-		// 	Validations[ block.clientId ] = result; // => to store
-		// }
+		const validations = validateBlocks( rootBlocks );
+		storeValidations( validations );
 
 		updatingSchema = true;
 		generateSchemaForBlocks( rootBlocks, previousRootBlocks );
 		previousRootBlocks = rootBlocks;
 		updatingSchema = false;
 
-		console.log( rootBlocks );
-		// updateValidStatus( rootBlocks );
+		// UpdateValidStatus( rootBlocks );
 	} );
+}
+
+/**
+ Validates blocks recursively.
+@param blocks The block instances to validate.
+@returns {BlockValidationResult[]} Validation results for each (inner)block of the given blocks.
+ */
+function validateBlocks( blocks: BlockInstance[] ): BlockValidationResult[] {
+	const validations: BlockValidationResult[] = [];
+	blocks.forEach( block => {
+		const definition = getBlockDefinition( block.name );
+		if ( ! definition ) {
+			if ( block.innerBlocks && block.innerBlocks.length > 0 ) {
+				validations.push( ...validateBlocks( block.innerBlocks ) );
+			}
+		}
+
+		validations.push( ...definition.validate( block ) );
+	} );
+	return validations;
+}
+
+function storeValidations( validations: BlockValidationResult[] ) {
+
 }
