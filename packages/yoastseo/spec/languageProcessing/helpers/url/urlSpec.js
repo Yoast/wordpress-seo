@@ -1,21 +1,21 @@
-import url from "../../src/researches/stringProcessing/url";
+import url from "../../../../src/languageProcessing/helpers/url/url";
 
 describe( "A URL helper", function() {
 	describe( "removeHash", function() {
 		it( "should remove hashes", function() {
-			var input = "http://example.org/#hash";
-			var expected = "http://example.org/";
+			const input = "http://example.org/#hash";
+			const expected = "http://example.org/";
 
-			var actual = url.removeHash( input );
+			const actual = url.removeHash( input );
 
 			expect( actual ).toEqual( expected );
 		} );
 
 		it( "should not touch URLs without hashes", function() {
-			var input = "http://example.org/";
-			var expected = "http://example.org/";
+			const input = "http://example.org/";
+			const expected = "http://example.org/";
 
-			var actual = url.removeHash( input );
+			const actual = url.removeHash( input );
 
 			expect( actual ).toEqual( expected );
 		} );
@@ -23,19 +23,19 @@ describe( "A URL helper", function() {
 
 	describe( "removeQueryArgs", function() {
 		it( "should remove query arguments", function() {
-			var input = "http://example.org/?arg&anotherarg=value";
-			var expected = "http://example.org/";
+			const input = "http://example.org/?arg&anotherarg=value";
+			const expected = "http://example.org/";
 
-			var actual = url.removeQueryArgs( input );
+			const actual = url.removeQueryArgs( input );
 
 			expect( actual ).toEqual( expected );
 		} );
 
 		it( "should not touch URLs without query arguments", function() {
-			var input = "http://example.org/";
-			var expected = "http://example.org/";
+			const input = "http://example.org/";
+			const expected = "http://example.org/";
 
-			var actual = url.removeQueryArgs( input );
+			const actual = url.removeQueryArgs( input );
 
 			expect( actual ).toEqual( expected );
 		} );
@@ -43,19 +43,19 @@ describe( "A URL helper", function() {
 
 	describe( "removeTrailingSlash", function() {
 		it( "should remove a trailing slash", function() {
-			var input = "http://example.org/path/";
-			var expected = "http://example.org/path";
+			const input = "http://example.org/path/";
+			const expected = "http://example.org/path";
 
-			var actual = url.removeTrailingSlash( input );
+			const actual = url.removeTrailingSlash( input );
 
 			expect( actual ).toEqual( expected );
 		} );
 
 		it( "should not touch a URL without a trailing slash", function() {
-			var input = "http://example.org/path";
-			var expected = "http://example.org/path";
+			const input = "http://example.org/path";
+			const expected = "http://example.org/path";
 
-			var actual = url.removeTrailingSlash( input );
+			const actual = url.removeTrailingSlash( input );
 
 			expect( actual ).toEqual( expected );
 		} );
@@ -63,19 +63,19 @@ describe( "A URL helper", function() {
 
 	describe( "addTrailingSlash", function() {
 		it( "should add a trailing slash", function() {
-			var input = "http://example.org/path";
-			var expected = "http://example.org/path/";
+			const input = "http://example.org/path";
+			const expected = "http://example.org/path/";
 
-			var actual = url.addTrailingSlash( input );
+			const actual = url.addTrailingSlash( input );
 
 			expect( actual ).toEqual( expected );
 		} );
 
 		it( "should not touch a URL with a trailing slash", function() {
-			var input = "http://example.org/path/";
-			var expected = "http://example.org/path/";
+			const input = "http://example.org/path/";
+			const expected = "http://example.org/path/";
 
-			var actual = url.addTrailingSlash( input );
+			const actual = url.addTrailingSlash( input );
 
 			expect( actual ).toEqual( expected );
 		} );
@@ -83,28 +83,28 @@ describe( "A URL helper", function() {
 
 	describe( "getFromAnchorTag", function() {
 		it( "should get the link from an anchor", function() {
-			var input = "<a href='http://example.org'>Link text</a>";
-			var expected = "http://example.org";
+			const input = "<a href='http://example.org'>Link text</a>";
+			const expected = "http://example.org";
 
-			var actual = url.getFromAnchorTag( input );
+			const actual = url.getFromAnchorTag( input );
 
 			expect( actual ).toEqual( expected );
 		} );
 
 		it( "should get the link from an anchor with double quotes", function() {
-			var input = "<a href=\"http://example.org\">Link text</a>";
-			var expected = "http://example.org";
+			const input = "<a href=\"http://example.org\">Link text</a>";
+			const expected = "http://example.org";
 
-			var actual = url.getFromAnchorTag( input );
+			const actual = url.getFromAnchorTag( input );
 
 			expect( actual ).toEqual( expected );
 		} );
 
 		it( "should return an empty string if there is no anchor tag", function() {
-			var input = "";
-			var expected = "";
+			const input = "";
+			const expected = "";
 
-			var actual = url.getFromAnchorTag( input );
+			const actual = url.getFromAnchorTag( input );
 
 			expect( actual ).toEqual( expected );
 		} );
@@ -112,31 +112,31 @@ describe( "A URL helper", function() {
 
 	describe( "areEqual", function() {
 		it( "should normalize URLs before comparing them", function() {
-			var urlA = "http://example.org/hello?queryarg=value";
-			var urlB = "http://example.org/hello#hash";
-			var expected = true;
+			const urlA = "http://example.org/hello?queryarg=value";
+			const urlB = "http://example.org/hello#hash";
+			const expected = true;
 
-			var actual = url.areEqual( urlA, urlB );
+			const actual = url.areEqual( urlA, urlB );
 
 			expect( actual ).toBe( expected );
 		} );
 
 		it( "should reject different URLs", function() {
-			var urlA = "http://example.org/first";
-			var urlB = "http://example.org/second";
-			var expected = false;
+			const urlA = "http://example.org/first";
+			const urlB = "http://example.org/second";
+			const expected = false;
 
-			var actual = url.areEqual( urlA, urlB );
+			const actual = url.areEqual( urlA, urlB );
 
 			expect( actual ).toBe( expected );
 		} );
 
 		it( "should work with different trailing slashes", function() {
-			var urlA = "http://example.org/path";
-			var urlB = "http://example.org/path/";
-			var expected = true;
+			const urlA = "http://example.org/path";
+			const urlB = "http://example.org/path/";
+			const expected = true;
 
-			var actual = url.areEqual( urlA, urlB );
+			const actual = url.areEqual( urlA, urlB );
 
 			expect( actual ).toBe( expected );
 		} );
@@ -191,6 +191,15 @@ describe( "A URL helper", function() {
 			const actual = url.isInternalLink( urlA, host );
 
 			expect( actual ).toBe( expected );
+		} );
+
+		it( "returns false if the URL starts with a # indicating a fragment", function() {
+			const urlA = "#tortoiseshell-cat";
+			const host = "www.thehappycat.com";
+
+			const actual = url.isInternalLink( urlA, host );
+
+			expect( actual ).toBe( false );
 		} );
 	} );
 
@@ -252,12 +261,32 @@ describe( "A URL helper", function() {
 			expect( actual ).toBe( expected );
 		} );
 
+		it( "recognizes https as a https scheme protocol", function() {
+			const protocol = "https:";
+			const expected = true;
+
+			const actual = url.protocolIsHttpScheme( protocol );
+
+			expect( actual ).toBe( expected );
+		} );
+
 		it( "returns false when no protocol is passed", function() {
 			const expected = false;
 
 			const actual = url.protocolIsHttpScheme( null );
 
 			expect( actual ).toBe( expected );
+		} );
+	} );
+
+	describe( "getHostname", function() {
+		it( "returns domain name of the URL", function() {
+			const input = "https://www.catster.com/cats-101/facts-about-tortoiseshell-cats";
+			const expected = "www.catster.com";
+
+			const actual = url.getHostname( input );
+
+			expect( actual ).toEqual( expected );
 		} );
 	} );
 } );

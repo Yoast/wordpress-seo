@@ -1,4 +1,4 @@
-import UrlStructure from "../../src/researches/stringProcessing/urlStructure";
+import UrlStructure from "../../../../src/languageProcessing/helpers/url/urlStructure";
 
 describe( "UrlStructure", () => {
 	it( "accepts a url structure", () => {
