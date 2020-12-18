@@ -1,12 +1,12 @@
 import { filter, includes } from "lodash-es";
 
 /**
- * Filters function words from an array of words.
+ * Filters certain words from an array of words.
  *
  * @param {Array} array The words to check.
  * @param {Array} words The words to filter.
  *
- * @returns {Array} The original array with the function words filtered out.
+ * @returns {Array} The original array with the certain words filtered out.
  */
 export default function filterWordsFromArray( array, words = [] ) {
 	return filter( array, function( word ) {

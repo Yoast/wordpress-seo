@@ -1,6 +1,6 @@
-import addWordBoundary from "../../src/researches/stringProcessing/addWordboundary";
+import addWordBoundary from "../../../../src/languageProcessing/helpers/word/addWordboundary";
 
-describe( "a test adding wordboundaries to a string", function() {
+describe( "a test adding word boundaries to a string", function() {
 	it( "adds start and end boundaries", function() {
 		expect( addWordBoundary( "keyword" ) ).toEqual(
 			"(^|[ \\u00a0\\u06d4\\u061f\\u060C\\u061B \\n\\r\\t.,()”“〝〞〟‟„\"+\\-;!¡?¿:/»«‹›<>'‘’‛`])keyword($|([ \\u00a0\\u06d4\\u061f\\u060C\\u061B \\n\\r\\t.,()”“〝〞〟‟„\"+\\-;!¡?¿:/»«‹›<>])|((['‘’‛`])([ \\u00a0\\u06d4\\u061f\\u060C\\u061B \\n\\r\\t.,()”“〝〞〟‟„\"+\\-;!¡?¿:/»«‹›<>])))"
