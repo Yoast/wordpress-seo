@@ -145,6 +145,21 @@ class Replace_Vars_Helper_Test extends TestCase {
 	}
 
 	/**
+	 * Tests that the `get_identity_function` returns an identity function.
+	 *
+	 * @covers ::get_identity_function
+	 */
+	public function test_get_identity_function() {
+		$instance = new \Replace_Vars_Helper_Double(
+			$this->replace_vars,
+			$this->id_helper
+		);
+		$value    = 'a_value';
+		$closure  = $instance->get_identity_function( $value );
+		self::assertEquals( $value, $closure( $value ) );
+	}
+
+	/**
 	 * Returns all the values of the given nested array as one flat array.
 	 *
 	 * @param array $array A nested array of key-value pairs.

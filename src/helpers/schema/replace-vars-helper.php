@@ -2,11 +2,11 @@
 
 namespace Yoast\WP\SEO\Helpers\Schema;
 
+use Closure;
 use WPSEO_Replace_Vars;
 use Yoast\WP\SEO\Conditionals\No_Conditionals;
 use Yoast\WP\SEO\Config\Schema_IDs;
 use Yoast\WP\SEO\Context\Meta_Tags_Context;
-use Yoast\WP\SEO\Memoizers\Meta_Tags_Context_Memoizer;
 use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 
 /**
@@ -97,9 +97,20 @@ class Replace_Vars_Helper {
 	protected function register_replacement( $variable, $value ) {
 		$this->replace_vars->safe_register_replacement(
 			$variable,
-			static function() use ( $value ) {
-				return $value;
-			}
+			$this->get_identity_function( $value )
 		);
+	}
+
+	/**
+	 * Returns an anonymous function that in turn just returns the given value.
+	 *
+	 * @param mixed $value The value that the function should return.
+	 *
+	 * @return Closure A function that returns the given value.
+	 */
+	protected function get_identity_function( $value ) {
+		return static function() use ( $value ) {
+			return $value;
+		};
 	}
 }
