@@ -62,7 +62,7 @@ final class WPSEO_Admin_Asset_SEO_Location implements WPSEO_Admin_Asset_Location
 
 			case WPSEO_Admin_Asset::TYPE_CSS:
 				// Path and suffix for RTL stylesheets.
-				if ( function_exists( 'is_rtl' ) && is_rtl() && $asset->has_rtl() ) {
+				if ( is_rtl() && $asset->has_rtl() ) {
 					$rtl_suffix = '-rtl';
 				}
 				$relative_path = 'css/dist/' . $asset->get_src() . $rtl_suffix . $asset->get_suffix() . '.css';

@@ -55,6 +55,7 @@ const getReplacements = ( scope = "" ) => {
 				"modified",
 				"name",
 				"page",
+				"primaryCategory",
 				"pageNumber",
 				"pageTotal",
 				"postTypeNamePlural",
@@ -63,6 +64,7 @@ const getReplacements = ( scope = "" ) => {
 				"separator",
 				"siteDescription",
 				"siteName",
+				"tag",
 				"title",
 				"userDescription",
 			];
@@ -77,6 +79,7 @@ const getReplacements = ( scope = "" ) => {
 				"modified",
 				"name",
 				"page",
+				"primaryCategory",
 				"pageNumber",
 				"pageTotal",
 				"postTypeNamePlural",
@@ -85,6 +88,7 @@ const getReplacements = ( scope = "" ) => {
 				"separator",
 				"siteDescription",
 				"siteName",
+				"tag",
 				"title",
 				"userDescription",
 			];

@@ -4,6 +4,7 @@ import advancedSettings from "./advancedSettings";
 import analysisData from "./analysisData";
 import editorContext from "./editorContext";
 import editorData from "./editorData";
+import estimatedReadingTime from "./estimatedReadingTime";
 import isCornerstone from "./cornerstoneContent";
 import isMarkerPaused from "./markerPauseStatus";
 import facebookEditor from "./facebookEditor";
@@ -26,6 +27,7 @@ export default {
 	analysisData,
 	editorContext,
 	editorData,
+	estimatedReadingTime,
 	isCornerstone,
 	facebookEditor,
 	focusKeyword,

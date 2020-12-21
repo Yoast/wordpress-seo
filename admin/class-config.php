@@ -75,7 +75,7 @@ class WPSEO_Admin_Pages {
 		wp_enqueue_script( 'thickbox' );
 
 		$script_data = [
-			'userLanguageCode' => WPSEO_Language_Utils::get_language( WPSEO_Language_Utils::get_user_locale() ),
+			'userLanguageCode' => WPSEO_Language_Utils::get_language( \get_user_locale() ),
 		];
 
 		$page = filter_input( INPUT_GET, 'page' );

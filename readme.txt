@@ -5,7 +5,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
 Tested up to: 5.6
-Stable tag: 15.4
+Stable tag: 15.5
 Requires PHP: 5.6.20
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -255,6 +255,7 @@ Bugfixes:
 * Fixes a bug where translations on the Search Appearance pages would be missing.
 * Fixes a bug where subsites in a multisite network could have an enabled feature toggle for the `Usage tracking` feature, even though subsites never send tracking data.
 * Fixes a bug where the Yoast SEO dashboard widget would still fetch data even when the dashboard itself was hidden.
+* Fixes a bug where the TinyMCE editor on term edit pages would not load correctly when using WordPress 5.6.
 
 Other:
 

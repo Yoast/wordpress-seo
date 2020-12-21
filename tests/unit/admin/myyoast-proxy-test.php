@@ -121,7 +121,7 @@ class MyYoast_Proxy_Test extends TestCase {
 
 		$instance->render_proxy_page();
 
-		$this->expectOutput( '', 'Load URL succeeded, no output expected' );
+		$this->expectOutputString( '' );
 	}
 
 	/**
@@ -173,6 +173,6 @@ class MyYoast_Proxy_Test extends TestCase {
 
 		$instance->render_proxy_page();
 
-		$this->expectOutput( '', 'wp_remote_get failed, no output expected' );
+		$this->expectOutputString( '' );
 	}
 }
