@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import HelpIcon from "./help-icon/HelpIcon";
+import HelpIcon from "../help-icon/HelpIcon";
 
 /**
  * A card component that can be used in the Insights Modal.
@@ -40,7 +40,7 @@ class InsightsCard extends React.Component {
 	/**
 	 * Returns the rendered HTML.
 	 *
-	 * @returns {React.Component} The InsightsCard.
+	 * @returns {React.Component} The insights-card.
 	 */
 	render() {
 		return (
