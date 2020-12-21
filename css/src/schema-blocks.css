@@ -1,14 +1,1 @@
-.yoast-labeled-inserter {
-    position: relative;
-    width: 100%;
-}
-.yoast-labeled-inserter::before {
-    content: attr(data-label);
-    position: absolute;
-    left: 0;
-    height: 100%;
-    color: black;
-}
-.yoast-labeled-inserter > .block-editor-inserter {
-    width: 100%;
-}
+@import '@yoast/schema-blocks/css/schema-blocks.css';

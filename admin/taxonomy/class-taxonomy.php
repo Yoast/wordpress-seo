@@ -105,6 +105,7 @@ class WPSEO_Taxonomy {
 			'<a href="https://www.microsoft.com/windows/microsoft-edge">',
 			'</a>'
 		);
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output escaped above.
 		echo new Alert_Presenter( $content );
 
 		echo '</div></div>';
@@ -180,7 +181,7 @@ class WPSEO_Taxonomy {
 					'choose_image' => __( 'Use Image', 'wordpress-seo' ),
 				],
 				'metabox'          => $this->localize_term_scraper_script(),
-				'userLanguageCode' => WPSEO_Language_Utils::get_language( WPSEO_Language_Utils::get_user_locale() ),
+				'userLanguageCode' => WPSEO_Language_Utils::get_language( \get_user_locale() ),
 				'isTerm'           => true,
 			];
 			$asset_manager->localize_script( 'term-edit', 'wpseoScriptData', $script_data );

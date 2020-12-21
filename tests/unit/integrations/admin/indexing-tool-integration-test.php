@@ -217,7 +217,7 @@ class Indexing_Tool_Integration_Test extends TestCase {
 		$this->instance->render_indexing_list_item();
 
 		// Assert.
-		$this->expectOutput( '' );
+		$this->expectOutputString( '' );
 	}
 
 	/**
@@ -234,6 +234,8 @@ class Indexing_Tool_Integration_Test extends TestCase {
 		$this->instance->render_indexing_list_item();
 
 		// Assert.
-		$this->expectOutput( '<li><strong>Optimize SEO Data</strong><br/>You can speed up your site and get insight into your internal linking structure by letting us perform a few optimizations to the way SEO data is stored. If you have a lot of content it might take a while, but trust us, it\'s worth it. <a href="https://yoast.com" target="_blank">Learn more about the benefits of optimized SEO data.</a><div id="yoast-seo-indexing-action" style="margin: 16px 0;"></div></li>' );
+		$this->expectOutputString(
+			'<li><strong>Optimize SEO Data</strong><br/>You can speed up your site and get insight into your internal linking structure by letting us perform a few optimizations to the way SEO data is stored. If you have a lot of content it might take a while, but trust us, it\'s worth it. <a href="https://yoast.com" target="_blank">Learn more about the benefits of optimized SEO data.</a><div id="yoast-seo-indexing-action" style="margin: 16px 0;"></div></li>'
+		);
 	}
 }

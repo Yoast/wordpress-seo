@@ -61,7 +61,7 @@
     "@wordpress/data": "^4.10.0",
     "@wordpress/dependency-extraction-webpack-plugin": "^2.8.0",
     "@wordpress/element": "^2.9.0",
-    "@yoast/grunt-plugin-tasks": "^1.7.2",
+    "@yoast/grunt-plugin-tasks": "^2.0.0",
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
     "babel-jest": "^18.0.0",
@@ -115,10 +115,10 @@
     "@yoast/configuration-wizard": "^2.14.0",
     "@yoast/feature-flag": "^0.5.2",
     "@yoast/helpers": "^0.14.0",
-    "@yoast/replacement-variable-editor": "^1.9.0-rc.1",
-    "@yoast/schema-blocks": "^1.0.0-RC3",
-    "@yoast/search-metadata-previews": "^2.16.0-rc.1",
-    "@yoast/social-metadata-forms": "^1.9.0-rc.1",
+    "@yoast/replacement-variable-editor": "^1.9.0",
+    "@yoast/schema-blocks": "^1.0.0",
+    "@yoast/search-metadata-previews": "^2.16.0",
+    "@yoast/social-metadata-forms": "^1.9.0",
     "@yoast/style-guide": "^0.13.0",
     "a11y-speak": "git+https://github.com/Yoast/a11y-speak.git#master",
     "babel-polyfill": "^6.26.0",
@@ -141,13 +141,13 @@
     "select2": "^4.0.5",
     "styled-components": "^4.2.0",
     "tokenizr": "^1.5.7",
-    "yoast-components": "^5.16.0-rc.1",
-    "yoastseo": "^1.87.0-rc.1"
+    "yoast-components": "^5.16.0",
+    "yoastseo": "^1.87.0"
   },
   "browserslist": [
     "extends @yoast/browserslist-config"
   ],
   "yoast": {
-    "pluginVersion": "15.5-RC3"
+    "pluginVersion": "15.5"
   }
 }

@@ -46,7 +46,7 @@ final class WPSEO_Admin_Asset_Yoast_Components_L10n {
 	 * @return object The translations in a Jed format for JS files.
 	 */
 	protected function get_translations( $component ) {
-		$locale = WPSEO_Language_Utils::get_user_locale();
+		$locale = \get_user_locale();
 
 		$file = plugin_dir_path( WPSEO_FILE ) . 'languages/' . $component . '-' . $locale . '.json';
 		if ( file_exists( $file ) ) {
