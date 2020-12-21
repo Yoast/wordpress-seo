@@ -81,25 +81,15 @@ class Replace_Vars_Helper {
 	 * @return void
 	 */
 	public function register_replace_vars() {
+		$context = $this->meta_tags_context_memoizer->for_current_page();
+
 		$replace_vars = [
-			'main_schema_id'   => function( $context ) {
-				return $context->main_schema_id;
-			},
-			'author_id'        => function( $context ) {
-				return $this->id_helper->get_user_schema_id( $context->indexable->author_id, $context );
-			},
-			'person_id'        => function( $context ) {
-				return $context->site_url . Schema_IDs::PERSON_HASH;
-			},
-			'primary_image_id' => function( $context ) {
-				return $context->canonical . Schema_IDs::PRIMARY_IMAGE_HASH;
-			},
-			'webpage_id'       => function( $context ) {
-				return $context->canonical . Schema_IDs::WEBPAGE_HASH;
-			},
-			'website_id'       => function( $context ) {
-				return $context->site_url . Schema_IDs::WEBSITE_HASH;
-			},
+			'main_schema_id'   => $context->main_schema_id,
+			'author_id'        => $this->id_helper->get_user_schema_id( $context->indexable->author_id, $context ),
+			'person_id'        => $context->site_url . Schema_IDs::PERSON_HASH,
+			'primary_image_id' => $context->canonical . Schema_IDs::PRIMARY_IMAGE_HASH,
+			'webpage_id'       => $context->canonical . Schema_IDs::WEBPAGE_HASH,
+			'website_id'       => $context->site_url . Schema_IDs::WEBSITE_HASH,
 		];
 
 		foreach ( $replace_vars as $var => $value ) {
@@ -108,18 +98,16 @@ class Replace_Vars_Helper {
 	}
 
 	/**
-	 * Registers a replace var and its replace function.
+	 * Registers a replace var and its value.
 	 *
-	 * @param string   $variable         The replace variable.
-	 * @param Callable $replace_function The value that the variable should be replaced with.
+	 * @param string $variable The replace variable.
+	 * @param string $value    The value that the variable should be replaced with.
 	 */
-	protected function register_replacement( $variable, $replace_function ) {
+	protected function register_replacement( $variable, $value ) {
 		$this->replace_vars->safe_register_replacement(
 			$variable,
-			function() use ( $replace_function ) {
-				$context = $this->meta_tags_context_memoizer->for_current_page();
-
-				return $replace_function( $context );
+			static function() use ( $value ) {
+				return $value;
 			}
 		);
 	}
