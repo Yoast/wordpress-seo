@@ -5,6 +5,7 @@ namespace Yoast\WP\SEO\Helpers\Schema;
 use WPSEO_Replace_Vars;
 use Yoast\WP\SEO\Conditionals\No_Conditionals;
 use Yoast\WP\SEO\Config\Schema_IDs;
+use Yoast\WP\SEO\Context\Meta_Tags_Context;
 use Yoast\WP\SEO\Memoizers\Meta_Tags_Context_Memoizer;
 use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 
@@ -14,13 +15,6 @@ use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 class Replace_Vars_Helper {
 
 	use No_Conditionals;
-
-	/**
-	 * The meta tags context memoizer.
-	 *
-	 * @var Meta_Tags_Context_Memoizer
-	 */
-	protected $meta_tags_context_memoizer;
 
 	/**
 	 * The replace vars.
@@ -39,18 +33,15 @@ class Replace_Vars_Helper {
 	/**
 	 * Replace_Vars_Helper constructor.
 	 *
-	 * @param Meta_Tags_Context_Memoizer $meta_tags_context_memoizer The meta tags context memoizer.
-	 * @param WPSEO_Replace_Vars         $replace_vars               The replace vars.
-	 * @param ID_Helper                  $id_helper                  The Schema ID helper.
+	 * @param WPSEO_Replace_Vars $replace_vars The replace vars.
+	 * @param ID_Helper          $id_helper    The Schema ID helper.
 	 */
 	public function __construct(
-		Meta_Tags_Context_Memoizer $meta_tags_context_memoizer,
 		WPSEO_Replace_Vars $replace_vars,
 		ID_Helper $id_helper
 	) {
-		$this->meta_tags_context_memoizer = $meta_tags_context_memoizer;
-		$this->replace_vars               = $replace_vars;
-		$this->id_helper                  = $id_helper;
+		$this->replace_vars = $replace_vars;
+		$this->id_helper    = $id_helper;
 	}
 
 	/**
@@ -78,11 +69,11 @@ class Replace_Vars_Helper {
 	/**
 	 * Registers the Schema-related replace vars.
 	 *
+	 * @param Meta_Tags_Context $context The meta tags context.
+	 *
 	 * @return void
 	 */
-	public function register_replace_vars() {
-		$context = $this->meta_tags_context_memoizer->for_current_page();
-
+	public function register_replace_vars( $context ) {
 		$replace_vars = [
 			'main_schema_id'   => $context->main_schema_id,
 			'author_id'        => $this->id_helper->get_user_schema_id( $context->indexable->author_id, $context ),

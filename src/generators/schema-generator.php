@@ -51,7 +51,7 @@ class Schema_Generator implements Generator_Interface {
 	public function generate( Meta_Tags_Context $context ) {
 		$pieces = $this->get_graph_pieces( $context );
 
-		$this->schema_replace_vars_helper->register_replace_vars();
+		$this->schema_replace_vars_helper->register_replace_vars( $context );
 
 		foreach ( \array_keys( $context->blocks ) as $block_type ) {
 			/**

@@ -3,6 +3,8 @@
 namespace Yoast\WP\SEO\Tests\Unit\Helpers\Schema;
 
 use Yoast\WP\SEO\Presentations\Indexable_Presentation;
+use Yoast\WP\SEO\Tests\Unit\Doubles\Context\Meta_Tags_Context_Mock;
+use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 use Mockery;
@@ -57,11 +59,10 @@ class Replace_Vars_Helper_Test extends TestCase {
 	public function set_up() {
 		parent::set_up();
 
-		$this->replace_vars               = Mockery::mock( WPSEO_Replace_Vars::class );
-		$this->id_helper                  = Mockery::mock( ID_Helper::class );
+		$this->replace_vars = Mockery::mock( WPSEO_Replace_Vars::class );
+		$this->id_helper    = Mockery::mock( ID_Helper::class );
 
 		$this->instance = new Replace_Vars_Helper(
-			$this->meta_tags_context_memoizer,
 			$this->replace_vars,
 			$this->id_helper
 		);
@@ -93,10 +94,6 @@ class Replace_Vars_Helper_Test extends TestCase {
 		$meta_tags_context->site_url       = 'https://basic.wordpress.test';
 		$meta_tags_context->canonical      = 'https://basic.wordpress.test/schema-templates';
 
-		$this->meta_tags_context_memoizer
-			->expects( 'for_current_page' )
-			->andReturn( $meta_tags_context );
-
 		$this->id_helper
 			->expects( 'get_user_schema_id' )
 			->andReturn( $replace_vars['author_id'] );
@@ -105,7 +102,7 @@ class Replace_Vars_Helper_Test extends TestCase {
 			->expects( 'safe_register_replacement' )
 			->times( 6 );
 
-		$this->instance->register_replace_vars();
+		$this->instance->register_replace_vars( $meta_tags_context );
 	}
 
 	/**
