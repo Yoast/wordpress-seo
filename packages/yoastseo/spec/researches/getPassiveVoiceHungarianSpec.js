@@ -14,6 +14,7 @@ describe( "detecting passive voice in sentences", function() {
 		const paper = new Paper( "Foglalj szobát holnapra.", { locale: "hu_HU" } );
 		expect( passiveVoice( paper ).passives.length ).toBe( 1 );
 	} );
+
 	it( "returns passive voice (imperative with a prefix)", function() {
 		// Passive: Menj el.
 		const paper = new Paper( "Menj el a boltba.", { locale: "hu_HU" } );

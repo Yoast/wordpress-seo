@@ -130,7 +130,7 @@
       "/spec/morphology/swedish/stemmerCoverage/goldStandardStems.json",
       "/spec/morphology/swedish/stemmerCoverage/sampleVocabulary.json",
       "/spec/morphology/swedish/stemmerCoverage/generateStems.js",
-      "/spec/morphology/hungarian/stemmerCoverage/goldStandardStems.js",
+      "/spec/morphology/hungarian/stemmerCoverage/goldStandardStems.json",
       "/spec/morphology/hungarian/stemmerCoverage/sampleVocabulary.json",
       "/spec/morphology/hungarian/stemmerCoverage/generateStems.js",
       "/spec/morphology/norwegian/stemmerCoverage/goldStandardStems.js",
