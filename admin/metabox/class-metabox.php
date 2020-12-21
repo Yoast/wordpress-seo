@@ -5,6 +5,9 @@
  * @package WPSEO\Admin
  */
 
+use Yoast\WP\SEO\Conditionals\Admin\Post_Conditional;
+use Yoast\WP\SEO\Conditionals\Admin\Estimated_Reading_Time_Conditional;
+use Yoast\WP\SEO\Helpers\Input_Helper;
 use Yoast\WP\SEO\Presenters\Admin\Alert_Presenter;
 use Yoast\WP\SEO\Presenters\Admin\Meta_Fields_Presenter;
 
@@ -56,6 +59,13 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	protected $is_advanced_metadata_enabled;
 
 	/**
+	 * Represents the estimated_reading_time_conditional.
+	 *
+	 * @var Estimated_Reading_Time_Conditional
+	 */
+	protected $estimated_reading_time_conditional;
+
+	/**
 	 * Class constructor.
 	 */
 	public function __construct() {
@@ -76,6 +86,11 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		$this->social_is_enabled            = WPSEO_Options::get( 'opengraph', false ) || WPSEO_Options::get( 'twitter', false );
 		$this->is_advanced_metadata_enabled = WPSEO_Capability_Utils::current_user_can( 'wpseo_edit_advanced_metadata' ) || WPSEO_Options::get( 'disableadvanced_meta' ) === false;
+
+		$this->estimated_reading_time_conditional = new Estimated_Reading_Time_Conditional(
+			new Post_Conditional(),
+			new Input_Helper()
+		);
 
 		$this->seo_analysis         = new WPSEO_Metabox_Analysis_SEO();
 		$this->readability_analysis = new WPSEO_Metabox_Analysis_Readability();
@@ -856,37 +871,40 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$analysis_worker_location          = new WPSEO_Admin_Asset_Analysis_Worker_Location( $asset_manager->flatten_version( WPSEO_VERSION ) );
 		$used_keywords_assessment_location = new WPSEO_Admin_Asset_Analysis_Worker_Location( $asset_manager->flatten_version( WPSEO_VERSION ), 'used-keywords-assessment' );
 
+		$plugins_script_data = [
+			'replaceVars' => [
+				'no_parent_text'           => __( '(no parent)', 'wordpress-seo' ),
+				'replace_vars'             => $this->get_replace_vars(),
+				'recommended_replace_vars' => $this->get_recommended_replace_vars(),
+				'scope'                    => $this->determine_scope(),
+				'has_taxonomies'           => $this->current_post_type_has_taxonomies(),
+			],
+			'shortcodes' => [
+				'wpseo_filter_shortcodes_nonce' => wp_create_nonce( 'wpseo-filter-shortcodes' ),
+				'wpseo_shortcode_tags'          => $this->get_valid_shortcode_tags(),
+			],
+		];
+
+		$worker_script_data = [
+			'url'                     => $analysis_worker_location->get_url( $analysis_worker_location->get_asset(), WPSEO_Admin_Asset::TYPE_JS ),
+			'keywords_assessment_url' => $used_keywords_assessment_location->get_url( $used_keywords_assessment_location->get_asset(), WPSEO_Admin_Asset::TYPE_JS ),
+			'log_level'               => WPSEO_Utils::get_analysis_worker_log_level(),
+			// We need to make the feature flags separately available inside of the analysis web worker.
+			'enabled_features'        => WPSEO_Utils::retrieve_enabled_features(),
+		];
+
 		$script_data = [
-			'analysis'         => [
-				'plugins' => [
-					'replaceVars' => [
-						'no_parent_text'           => __( '(no parent)', 'wordpress-seo' ),
-						'replace_vars'             => $this->get_replace_vars(),
-						'recommended_replace_vars' => $this->get_recommended_replace_vars(),
-						'scope'                    => $this->determine_scope(),
-						'has_taxonomies'           => $this->current_post_type_has_taxonomies(),
-					],
-					'shortcodes' => [
-						'wpseo_filter_shortcodes_nonce' => wp_create_nonce( 'wpseo-filter-shortcodes' ),
-						'wpseo_shortcode_tags'          => $this->get_valid_shortcode_tags(),
-					],
-				],
-				'worker'  => [
-					'url'                     => $analysis_worker_location->get_url( $analysis_worker_location->get_asset(), WPSEO_Admin_Asset::TYPE_JS ),
-					'keywords_assessment_url' => $used_keywords_assessment_location->get_url( $used_keywords_assessment_location->get_asset(), WPSEO_Admin_Asset::TYPE_JS ),
-					'log_level'               => WPSEO_Utils::get_analysis_worker_log_level(),
-					// We need to make the feature flags separately available inside of the analysis web worker.
-					'enabled_features'        => WPSEO_Utils::retrieve_enabled_features(),
-				],
-			],
-			'media'            => [
-				// @todo replace this translation with JavaScript translations.
-				'choose_image' => __( 'Use Image', 'wordpress-seo' ),
-			],
+			// @todo replace this translation with JavaScript translations.
+			'media'            => [ 'choose_image' => __( 'Use Image', 'wordpress-seo' ) ],
 			'metabox'          => $this->get_metabox_script_data(),
 			'userLanguageCode' => WPSEO_Language_Utils::get_language( \get_user_locale() ),
 			'isPost'           => true,
 			'isBlockEditor'    => $is_block_editor,
+			'analysis'         => [
+				'plugins'                     => $plugins_script_data,
+				'worker'                      => $worker_script_data,
+				'estimatedReadingTimeEnabled' => $this->estimated_reading_time_conditional->is_met(),
+			],
 		];
 
 		if ( post_type_supports( get_post_type(), 'thumbnail' ) ) {
