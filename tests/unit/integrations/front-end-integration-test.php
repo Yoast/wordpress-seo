@@ -53,7 +53,7 @@ class Front_End_Integration_Test extends TestCase {
 	private $context_memoizer;
 
 	/**
-	 * @inheritDoc
+	 * Method that runs before each test case.
 	 */
 	protected function set_up() {
 		parent::set_up();
