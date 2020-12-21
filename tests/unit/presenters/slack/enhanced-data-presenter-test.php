@@ -52,7 +52,6 @@ class Enhanced_Data_Presenter_Test extends TestCase {
 	 *
 	 * @covers ::present
 	 * @covers ::get
-	 * @covers ::get_reading_time
 	 */
 	public function test_present() {
 		$post_content = '';
@@ -61,6 +60,7 @@ class Enhanced_Data_Presenter_Test extends TestCase {
 		}
 		$this->presentation->source->post_content = $post_content;
 		$this->presentation->source->post_author  = '123';
+		$this->presentation->estimated_reading_time_minutes = 40;
 
 		Functions\stubs(
 			[

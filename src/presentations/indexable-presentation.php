@@ -665,6 +665,17 @@ class Indexable_Presentation extends Abstract_Presentation {
 	}
 
 	/**
+	 * Generates the estimated reading time.
+	 *
+	 * @return integer The estimated reading time.
+	 *
+	 * @codeCoverageIgnore Wrapper method.
+	 */
+	public function generate_estimated_reading_time_minutes() {
+		return $this->model->estimated_reading_time_minutes;
+	}
+
+	/**
 	 * Strips all nested dependencies from the debug info.
 	 *
 	 * @return array

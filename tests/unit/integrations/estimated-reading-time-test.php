@@ -12,7 +12,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @group estimated-reading-time
  *
- * @coversDefaultClass \Yoast\WP\SEO\Integrations\Admin\Estimated_Reading_Time
+ * @coversDefaultClass \Yoast\WP\SEO\Integrations\Estimated_Reading_Time
  */
 class Estimated_Reading_Time_Test extends TestCase {
 
