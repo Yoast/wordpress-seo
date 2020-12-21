@@ -440,4 +440,3 @@ export default function stem( word, morphologyData ) {
 	return ( stemSuffixes14( wordAfterSuffixes13, morphologyData.externalStemmer.suffixes14, morphologyData ) );
 }
 
-

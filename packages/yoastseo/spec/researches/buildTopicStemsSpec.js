@@ -395,6 +395,16 @@ describe( "A test for filtering function words in supported languages", function
 	);
 } );
 
+describe( "A test for filtering function words in supported languages", function() {
+	// Function word: nitten
+	const forms = buildStems( "nitten katter", "nb", false );
+	expect( forms ).toEqual(
+		new TopicPhrase(
+			[ new StemOriginalPair( "katter", "katter" ) ],
+			false )
+	);
+} );
+
 describe( "A test for topic phrase objects", function() {
 	const testTopicPhrase = new TopicPhrase(
 		[
