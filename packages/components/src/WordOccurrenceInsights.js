@@ -60,15 +60,6 @@ const getExplanation = keywords => {
 	);
 };
 
-/**
- * Returns the title for the header.
- *
- *
- * @returns {string} The title.
- */
-const getHeader = () => {
-	return __( "Prominent words", "yoast-components" );
-};
 
 /**
  * @summary WordList component.
@@ -79,7 +70,7 @@ const getHeader = () => {
  * @returns {JSX.Element} Rendered WordList component.
  */
 const WordOccurrenceInsights = ( { words } ) => {
-	const header = <p className="yoast-field-group__title">{ getHeader() }</p>;
+	const header = <p className="yoast-field-group__title">__( "Prominent words", "yoast-components" )</p>;
 	const introduction = <p>{ getExplanation( words ) }</p>;
 	const footer = <p>{ getKeywordResearchArticleLink() }</p>;
 	return (
