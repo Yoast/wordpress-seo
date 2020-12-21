@@ -66,6 +66,10 @@ export default function RequiredBlocks( block: BlockInstance, requiredBlocks: Re
 		);
 	} );
 
+	if ( requiredBlockItems.length === 0 ) {
+		return null;
+	}
+
 	return (
 		<PanelBody>
 			<div className="yoast-block-sidebar-title">Required blocks</div>

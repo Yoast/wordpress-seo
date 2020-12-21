@@ -9,7 +9,7 @@ import getInvalidInnerBlocks from "../../functions/validators/innerBlocksValid";
 import { InvalidBlockReason } from "./enums";
 import { RenderEditProps } from "../../core/blocks/BlockDefinition";
 import { getBlockByClientId } from "../../functions/BlockHelper";
-import RequiredBlocks from "../../blocks/required-blocks";
+import RequiredBlocks from "../../blocks/RequiredBlocks";
 
 /**
  * The InnerBlocks instruction.
