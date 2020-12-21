@@ -1,4 +1,3 @@
-/* global tinyMCE */
 import { dispatch, select, subscribe } from "@wordpress/data";
 import { debounce, get } from "lodash";
 import { Paper } from "yoastseo";
