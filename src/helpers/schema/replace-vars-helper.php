@@ -81,6 +81,8 @@ class Replace_Vars_Helper {
 			'primary_image_id' => $context->canonical . Schema_IDs::PRIMARY_IMAGE_HASH,
 			'webpage_id'       => $context->canonical . Schema_IDs::WEBPAGE_HASH,
 			'website_id'       => $context->site_url . Schema_IDs::WEBSITE_HASH,
+			'organization_id'  => $context->site_url . Schema_IDs::ORGANIZATION_HASH,
+			'post_date'        => $context->post->post_date,
 		];
 
 		foreach ( $replace_vars as $var => $value ) {
