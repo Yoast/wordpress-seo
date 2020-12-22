@@ -60,7 +60,6 @@ const getExplanation = keywords => {
 	);
 };
 
-
 /**
  * @summary WordList component.
  *

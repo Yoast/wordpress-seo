@@ -37,7 +37,7 @@ class InsightsCard extends React.Component {
 				linkText={ this.props.linkText }
 				wrapperClassName={ "yoast-insights-card" }
 			>
-				this.getInsightsCardContent()
+				{ this.getInsightsCardContent() }
 			</FieldGroup>
 		);
 	}
