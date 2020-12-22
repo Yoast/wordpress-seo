@@ -70,7 +70,7 @@ const getExplanation = keywords => {
  * @returns {JSX.Element} Rendered WordList component.
  */
 const WordOccurrenceInsights = ( { words } ) => {
-	const header = <p className="yoast-field-group__title">__( "Prominent words", "yoast-components" )</p>;
+	const header = <p className="yoast-field-group__title">{ __( "Prominent words", "yoast-components" ) }</p>;
 	const introduction = <p>{ getExplanation( words ) }</p>;
 	const footer = <p>{ getKeywordResearchArticleLink() }</p>;
 	return (
