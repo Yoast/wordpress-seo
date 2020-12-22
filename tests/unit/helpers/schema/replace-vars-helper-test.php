@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Helpers\Schema;
 
 use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Context\Meta_Tags_Context_Mock;
+use Yoast\WP\SEO\Tests\Unit\Doubles\Helpers\Schema\Replace_Vars_Helper_Double;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
@@ -201,7 +202,7 @@ class Replace_Vars_Helper_Test extends TestCase {
 	 * @covers ::get_identity_function
 	 */
 	public function test_get_identity_function() {
-		$instance = new \Replace_Vars_Helper_Double(
+		$instance = new Replace_Vars_Helper_Double(
 			$this->replace_vars,
 			$this->id_helper
 		);
