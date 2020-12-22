@@ -324,12 +324,18 @@ query GetSeoConfig {
                 schemaType
                 metaRobotsNoindex
                 metaDesc
+                schema {
+                    raw
+                }
             }
             page {
                 metaDesc
                 metaRobotsNoindex
                 schemaType
                 title
+                schema {
+                    raw
+                }
             }
         }
         redirects {
