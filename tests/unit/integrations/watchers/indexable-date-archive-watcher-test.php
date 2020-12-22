@@ -38,6 +38,7 @@ class Indexable_Date_Archive_Watcher_Test extends TestCase {
 
 	/**
 	 * Represents the instance to test.
+	 *
 	 * @var Indexable_Date_Archive_Watcher
 	 */
 	private $instance;
