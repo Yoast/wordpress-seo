@@ -3,11 +3,7 @@
 namespace Yoast\WP\SEO\Integrations;
 
 use WPSEO_Admin_Asset_Manager;
-use WPSEO_Replace_Vars;
 use Yoast\WP\SEO\Conditionals\Schema_Blocks_Conditional;
-use Yoast\WP\SEO\Config\Schema_IDs;
-use Yoast\WP\SEO\Helpers\Schema\ID_Helper;
-use Yoast\WP\SEO\Memoizers\Meta_Tags_Context_Memoizer;
 
 /**
  * Loads schema block templates into Gutenberg.
