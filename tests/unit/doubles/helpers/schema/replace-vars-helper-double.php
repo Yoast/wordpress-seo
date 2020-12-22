@@ -1,5 +1,7 @@
 <?php
 
+namespace Yoast\WP\SEO\Tests\Unit\Doubles\Helpers\Schema;
+
 use Yoast\WP\SEO\Helpers\Schema\Replace_Vars_Helper;
 
 /**
