@@ -207,10 +207,10 @@ const processThreeLetterWords = function( word, morphologyData ) {
 	const wordAfterReplacingMiddleLetterWithAlef = word.replace( new RegExp( regexReplaceMiddleLetterWithAlef[ 0 ] ),
 		regexReplaceMiddleLetterWithAlef[ 1 ] );
 	if ( wordAfterReplacingMiddleLetterWithAlef === word ) {
+		// If the second letter is a ئ/ؤ (yeh_hamza/waw_hamza) and it doesn't end in noon/zai/reh, change ئ/ؤ d to أ (alef_hamza_above).
 		word = word.replace( new RegExp( regexReplaceMiddleLetterWithAlefWithHamza[ 0 ] ),
 			regexReplaceMiddleLetterWithAlefWithHamza[ 1 ] );
 	} else {
-		// If the second letter is a ئ/ؤ (yeh_hamza/waw_hamza) and it doesn't end in noon/zai/reh, change ئ/ؤ d to أ (alef_hamza_above).
 		word = wordAfterReplacingMiddleLetterWithAlef;
 	}
 	// If the last letter is a shadda, remove it and duplicate the last letter.
@@ -353,7 +353,7 @@ const checkIfWordIsRoot = function( word, morphologyData ) {
 		}
 		// If it is not a root, process it to find its root.
 		const wordAfterThreeLetterProcessing = processThreeLetterWords( word, morphologyData );
-		if ( wordAfterThreeLetterProcessing ) {
+		if ( wordAfterThreeLetterProcessing !== word ) {
 			return wordAfterThreeLetterProcessing;
 		}
 	}

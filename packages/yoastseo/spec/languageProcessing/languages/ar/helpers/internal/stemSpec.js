@@ -4,6 +4,13 @@ import getMorphologyData from "../../../../../specHelpers/getMorphologyData";
 const morphologyDataAR = getMorphologyData( "ar" ).ar;
 
 const wordsToStem = [
+	// Words that have two letter root that is not on any exception list
+	[ "جص", "جص" ],
+	[ "جصكم", "جص" ],
+	[ "للمظ", "مظ" ],
+	// Words that are not stemmed
+	[ "صوتيات", "صوتيات" ],
+	[ "كمبيوتر", "كمبيوتر" ],
 	// Words with a definite article and a suffix
 	[ "الجدولين", "جدول" ],
 	// Two letter word with a removed duplicate letter.
@@ -14,9 +21,18 @@ const wordsToStem = [
 	[ "بأ", "وبأ" ],
 	// Two letter word with the middle letter (yah) removed.
 	[ "غض", "غيض" ],
+	// Two letter word with the first letter (yah) removed.
+	[ "خت", "يخت" ],
+	// Two letter word with the middle letter (waw) removed.
+	[ "أي", "أوي" ],
+	// Two letter words that are not on any list.
+	[ "با", "با" ],
+	[ "بم", "بم" ],
 	// Three letter words which is in the list of threeLetterRoots
 	[ "رحل", "رحل" ],
 	[ "طمو", "طمو" ],
+	// Three letter words which are not in the list of threeLetterRoots
+	[ "ويس", "ويس" ],
 	// Three letter word with initial letter ا/ ؤ/ ئ (yeh_hamza/waw_hamza/alef), change the initial letter to أ (alef_hamza_above)
 	[ "ؤكد", "أكد" ],
 	[ "ازب", "أزب" ],
@@ -33,6 +49,7 @@ const wordsToStem = [
 	// Three letter words with و/ي (yeh/waw) as their second letter and the root is in the exception list after و/ي (yeh/waw) removal
 	[ "أيد", "أيد" ],
 	[ "أوز", "أوز" ],
+	[ "أوم", "أيم" ],
 	// Three letter words with و/ي/ا/ئ (yeh_hamza/alef/yeh/waw) as their second letter
 	// And the root is NOT in the exception list after the deletion of و/ي/ا/ئ (yeh_hamza/alef/yeh/waw)
 	[ "موظ", "موظ" ],
