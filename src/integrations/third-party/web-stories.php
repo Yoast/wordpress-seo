@@ -48,25 +48,15 @@ class Web_Stories implements Integration_Interface {
 	 * @return void
 	 */
 	public function register_hooks() {
-		\add_action( 'web_stories_story_head', [ $this, 'remove_web_stories_meta_output' ], 0 );
+		\add_action( 'web_stories_enable_metadata', '__return_false' );
+		\add_action( 'web_stories_enable_schemaorg_metadata', '__return_false' );
+		\add_action( 'web_stories_enable_open_graph_metadata', '__return_false' );
+		\add_action( 'web_stories_enable_twitter_metadata', '__return_false' );
+		\remove_action( 'web_stories_story_head', 'rel_canonical' );
 		\add_action( 'web_stories_story_head', [ $this->front_end, 'call_wpseo_head' ], 9 );
 		\add_filter( 'wpseo_schema_article_post_types', [ $this, 'filter_schema_article_post_types' ] );
 		\add_filter( 'wpseo_schema_article_type', [ $this, 'filter_schema_article_type' ], 10, 2 );
 		\add_action( 'admin_enqueue_scripts', [ $this, 'dequeue_admin_assets' ] );
-	}
-
-	/**
-	 * Removes Web Stories meta output.
-	 *
-	 * @return void
-	 */
-	public function remove_web_stories_meta_output() {
-		$instance = Google_Web_Stories\get_plugin_instance()->discovery;
-		\remove_action( 'web_stories_story_head', [ $instance, 'print_metadata' ] );
-		\remove_action( 'web_stories_story_head', [ $instance, 'print_schemaorg_metadata' ] );
-		\remove_action( 'web_stories_story_head', [ $instance, 'print_open_graph_metadata' ] );
-		\remove_action( 'web_stories_story_head', [ $instance, 'print_twitter_metadata' ] );
-		\remove_action( 'web_stories_story_head', 'rel_canonical' );
 	}
 
 	/**
