@@ -4,10 +4,11 @@ module.exports = {
 		"<rootDir>/tests",
 		"<rootDir>/src",
 	],
-	testRegex: ".*\\.test\\.ts$",
+	testRegex: ".*\\.test\\.(ts|tsx)$",
 	testURL: "http://localhost",
 	transform: {
 		"^.+\\.(t|j)s$": "ts-jest",
+		"^.+\\.tsx?$": "ts-jest",
 		"^.+\\.jsx?$": "babel-jest",
 	},
 };

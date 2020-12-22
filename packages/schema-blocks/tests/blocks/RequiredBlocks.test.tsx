@@ -1,4 +1,6 @@
 import { BlockInstance } from "@wordpress/blocks";
+import { createElement } from "@wordpress/element";
+import { PanelBody } from "@wordpress/components";
 import { RequiredBlock } from "../../src/instructions/blocks/dto";
 import RequiredBlocks from "../../src/blocks/RequiredBlocks";
 
