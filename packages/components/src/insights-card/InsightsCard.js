@@ -1,6 +1,5 @@
 import React from "react";
 import PropTypes from "prop-types";
-import HelpIcon from "../help-icon/HelpIcon";
 import { FieldGroup } from "../field-group";
 
 /**
@@ -19,10 +18,10 @@ class InsightsCard extends React.Component {
 					<span className="yoast-insights-card__amount">{ this.props.amount }</span>
 					{ this.props.unit }
 				</p>
-				{ this.props.description
-				&& <div className="yoast-insights-card__description">{ this.props.description }</div> }
+				{ this.props.description &&
+				<div className="yoast-insights-card__description">{ this.props.description }</div> }
 			</div>
-		)
+		);
 	}
 
 	/**
@@ -37,8 +36,9 @@ class InsightsCard extends React.Component {
 				linkTo={ this.props.linkTo }
 				linkText={ this.props.linkText }
 				wrapperClassName={ "yoast-insights-card" }
-				children={ this.getInsightsCardContent() }
-			/>
+			>
+				this.getInsightsCardContent()
+			</FieldGroup>
 		);
 	}
 }
