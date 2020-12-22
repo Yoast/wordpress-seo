@@ -395,6 +395,16 @@ describe( "A test for filtering function words in supported languages", function
 	);
 } );
 
+describe( "A test for filtering function words in supported languages", function() {
+	// Function word: onların
+	const forms = buildStems( "onların köpek", "tr", false );
+	expect( forms ).toEqual(
+		new TopicPhrase(
+			[ new StemOriginalPair( "köpek", "köpek" ) ],
+			false )
+	);
+} );
+
 describe( "A test for topic phrase objects", function() {
 	const testTopicPhrase = new TopicPhrase(
 		[
