@@ -17,7 +17,8 @@ function ImageSelect( props ) {
 		...imageSelectButtonsProps
 	} = props;
 
-	const imageClassName = "yoast-image-select__preview" + props.imageSelected ? " yoast-image-select__preview--no-preview" : "";
+	const imageClassName = props.imageSelected
+		? "yoast-image-select__preview" : "yoast-image-select__preview yoast-image-select__preview--no-preview";
 
 	return (
 		<div className="yoast-image-select">
