@@ -1,12 +1,11 @@
 import BlockInstruction from "../../core/blocks/BlockInstruction";
 import { RenderEditProps, RenderSaveProps } from "../../core/blocks/BlockDefinition";
 import BlockLeaf from "../../core/blocks/BlockLeaf";
-import { createElement, ReactElement } from "@wordpress/element";
+import { createElement, ReactElement, Fragment } from "@wordpress/element";
 import { BlockConfiguration, BlockInstance } from "@wordpress/blocks";
 import attributeExists from "../../functions/validators/attributeExists";
 import attributeNotEmpty from "../../functions/validators/attributeNotEmpty";
 import { arrayOrObjectToOptions } from "../../functions/select";
-import { SelectControl } from "@wordpress/components";
 
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /**
@@ -30,10 +29,6 @@ class Select extends BlockInstruction {
 		 * If it is required that a value is selected.
 		 */
 		required?: boolean;
-		/**
-		 * If multiple values may be selected.
-		 */
-		multiple?: boolean;
 	};
 
 	/**
@@ -47,20 +42,39 @@ class Select extends BlockInstruction {
 	 */
 	save( props: RenderSaveProps, leaf: BlockLeaf, i: number ): ReactElement | string {
 		return <p data-id={ this.options.name } data-value={ this.value( props ) }>
-			<b>{ this.options.label }</b>
-			<span>{ this.value( props ) }</span>
+			<b>{ this.options.label }:</b> { this.label( props ) }
 		</p>;
 	}
 
 	/**
-	 * Renders the value of a sidebar select.
+	 * Returns the value of the selected option.
 	 *
 	 * @param props The render props.
 	 *
-	 * @returns The value of the sidebar select.
+	 * @returns The value of the selected option.
 	 */
 	protected value( props: RenderSaveProps | RenderEditProps ): string {
-		return props.attributes[ this.options.name ] as string || arrayOrObjectToOptions( this.options.options )[ 0 ].value;
+		return props.attributes[ this.options.name ] as string;
+	}
+
+	/**
+	 * Returns the label of the selected option.
+	 *
+	 * @param props The render props.
+	 *
+	 * @returns The label of the selected option.
+	 */
+	protected label( props: RenderSaveProps | RenderEditProps ): string {
+		if ( Array.isArray( this.options.options ) ) {
+			// Value is the same as the label, so just return the value.
+			return this.value( props );
+		}
+
+		for ( const [ label, value ] of Object.entries( this.options.options ) ) {
+			if ( this.value( props ) === value ) {
+				return label;
+			}
+		}
 	}
 
 	/**
@@ -73,23 +87,33 @@ class Select extends BlockInstruction {
 	 * @returns {JSX.Element} The element to render.
 	 */
 	edit( props: RenderEditProps, leaf: BlockLeaf, i: number ): ReactElement | string {
-		const attributes: SelectControl.Props<string | string[]> = {
-			label: this.options.label,
-			value: props.attributes[ this.options.name ] as string | string[],
-			options: arrayOrObjectToOptions( this.options.options ),
-			onChange: value => props.setAttributes( { [ this.options.name ]: value } ),
-			key: i,
+		const label = this.options.label;
+		const value = props.attributes[ this.options.name ] as string | string[];
+		const options = arrayOrObjectToOptions( this.options.options );
+
+		/**
+		 * Function that is called whenever a new value is selected in the select element.
+		 *
+		 * @param event The change event.
+		 */
+		const onInput = ( event: React.ChangeEvent<HTMLSelectElement> ): void => {
+			props.setAttributes( { [ this.options.name ]: event.target.value } );
 		};
 
-		if ( this.options.multiple === true ) {
-			( attributes as SelectControl.Props<string[]> ).multiple = true;
-		}
-
-		return <SelectControl { ...attributes } />;
+		return <Fragment>
+			<label htmlFor={ label }>{ label }</label>
+			<select className="yoast-schema-select" id={ label } onInput={ onInput } value={ value }>
+				{
+					options.map(
+						( option, index ) => <option key={ index } value={ option.value }>{ option.label }</option>,
+					)
+				}
+			</select>
+		</Fragment>;
 	}
 
 	/**
-	 * Adds the sidebar input to the block configuration.
+	 * Adds the select to the block configuration.
 	 *
 	 * @returns The block configuration.
 	 */
@@ -97,7 +121,6 @@ class Select extends BlockInstruction {
 		return {
 			attributes: {
 				[ this.options.name ]: {
-					type: this.options.multiple === true ? "array" : "string",
 					required: this.options.required === true,
 				},
 			},
