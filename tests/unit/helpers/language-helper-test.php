@@ -48,7 +48,7 @@ class Language_Helper_Test extends TestCase {
 	 * @return string[][] The dataset.
 	 */
 	public function supported_language_provider() {
-		return [ [ 'de' ], [ 'en' ], [ 'es' ], [ 'fr' ], [ 'it' ], [ 'nl' ], [ 'ru' ], [ 'id' ], [ 'pt' ], [ 'pl' ], [ 'ar' ], [ 'sv' ], [ 'he' ], [ 'hu' ] ];
+		return [ [ 'de' ], [ 'en' ], [ 'es' ], [ 'fr' ], [ 'it' ], [ 'nl' ], [ 'ru' ], [ 'id' ], [ 'pt' ], [ 'pl' ], [ 'ar' ], [ 'sv' ], [ 'he' ], [ 'hu' ], [ 'nb' ] ];
 	}
 
 	/**
@@ -85,6 +85,7 @@ class Language_Helper_Test extends TestCase {
 			[ 'he' ],
 			[ 'ar' ],
 			[ 'hu' ],
+			[ 'nb' ],
 		];
 	}
 }

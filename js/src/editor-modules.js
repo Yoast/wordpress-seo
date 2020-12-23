@@ -16,6 +16,9 @@ import createInterpolateElement from "./helpers/createInterpolateElement";
 import isBlockEditor from "./helpers/isBlockEditor";
 import * as replacementVariableHelpers from "./helpers/replacementVariableHelpers";
 import * as location from "./components/contexts/location";
+import Modal from "./components/modals/Modal";
+import SidebarItem from "./components/SidebarItem";
+import ajaxHelper from "@yoast/helpers/ajaxHelper";
 
 window.yoast = window.yoast || {};
 window.yoast.editorModules = {
@@ -38,14 +41,17 @@ window.yoast.editorModules = {
 		contexts: {
 			location,
 		},
+		SidebarItem,
 		SidebarCollapsible,
 		MetaboxCollapsible,
+		Modal,
 	},
 	containers: {
 		Results,
 		SEMrushRelatedKeyphrases,
 	},
 	helpers: {
+		ajaxHelper,
 		createInterpolateElement,
 		isBlockEditor,
 		i18n,
