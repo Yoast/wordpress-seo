@@ -1,30 +1,53 @@
-import React, { useState } from "react";
+import React from "react";
 import { ImageSelect } from "@yoast/components/src/image-select";
 
 /**
- * Function that displays all the reactified components that we currently have.
- *
- * @returns {*} A div with all reactified components.
+ * @returns {void} Void.
  */
-function ImageSelectWrapper() {
-	// const [ imageSelected, setImageSelected ] = useState( 0 );
-	return (
-		<div className="yoast">
-			<h2>ImageSelect</h2>
-			<ImageSelect
-				imageUrlInputId="test-image"
-				imageUrl="http://test.fakse.test.fake"
-				// imageSelected={ imageSelected }
-				imageSelected={ false }
-				// onClick={ () => setImageSelected( ! imageSelected ) }
-				// onRemoveImageClick={ () => setImageSelected( false ) }
-				onClick={ () => console.log( "tada" ) }
-				onRemoveImageClick={ () => console.log( "tadalida" ) }
-				selectImageButtonId="bla1"
-				replaceImageButtonId="bla2"
-				removeImageButtonId="bla3"
-			/>
-		</div>
-	);
+class ImageSelectWrapper extends React.Component {
+	/**
+	 * The constructor.
+	 *
+	 * @param {Object} props The props.
+	 */
+	constructor( props ) {
+		super( props );
+
+		this.state = {
+			imageUrl: "https://placekitten.com/100/150",
+		};
+		this.setImageUrl = this.setStateAttribute.bind( this, "imageUrl" );
+	}
+	/**
+	 * @returns {void} Void
+	 *
+	 * @param {Object} attr Attributes
+	 * @param {string} value Value
+	 */
+	setStateAttribute( attr, value ) {
+		this.setState( state => ( {
+			...state,
+			[ attr ]: value,
+		} ) );
+	}
+	/**
+	 * Renders
+	 * @returns {*} blaa
+	 */
+	render() {
+		return (
+			<div className="yoast">
+				<h2>ImageSelect</h2>
+				<ImageSelect
+					imageUrlInputId="test-image"
+					imageUrl={ this.state.imageUrl }
+					imageSelected={ !! this.state.imageUrl }
+					selectImageButtonId="bla1"
+					replaceImageButtonId="bla2"
+					removeImageButtonId="bla3"
+				/>
+			</div>
+		);
+	}
 };
 export default ImageSelectWrapper;

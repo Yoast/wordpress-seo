@@ -1,5 +1,7 @@
 import React from "react";
 import ImageSelectButtons from "./ImageSelectButtons";
+import PropTypes from "prop-types";
+
 
 /**
  * Renders the ImageSelect component.
@@ -10,34 +12,27 @@ import ImageSelectButtons from "./ImageSelectButtons";
  */
 function ImageSelect( props ) {
 	const {
-		imageUrlInputId,
 		imageUrl,
+		imageAltText,
 		...imageSelectButtonsProps
 	} = props;
+
+	const imageClassName = "yoast-image-select__preview" + props.imageSelected ? " yoast-image-select__preview--no-preview" : "";
+
 	return (
-		<div
-			style={
-				{
-					display: "flex",
-					flexDirection: "column",
-				}
-			}
-		>
-			<div>
-				Square goes here
+		<div className="yoast-image-select">
+			<div className={ imageClassName }>
+				{ props.imageSelected && <img src={ imageUrl } alt={ imageAltText } className="yoast-image-select__preview--image" /> }
 			</div>
-			<div
-				style={
-					{
-						display: "flex",
-						margin: "10px 0 0 0",
-					}
-				}
-			>
-				<ImageSelectButtons { ...imageSelectButtonsProps } />
-			</div>
+			<ImageSelectButtons { ...imageSelectButtonsProps } />
 		</div>
 	);
 };
 
 export default ImageSelect;
+
+ImageSelect.propTypes = {
+	imageUrl: PropTypes.string,
+	imageAltText: PropTypes.string,
+	imageSelected: PropTypes.bool,
+}
