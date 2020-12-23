@@ -2,6 +2,8 @@ import "./instructions";
 import { processSchema, processBlock } from "./functions/process";
 import watch from "./functions/gutenberg/watch";
 import filter from "./functions/gutenberg/filter";
+import { registerBlockType } from "@wordpress/blocks";
+import { WarningBlock } from "./blocks/warning-block/configuration";
 
 /**
  * Removes all whitespace including line breaks from a string.
@@ -15,9 +17,11 @@ function removeWhitespace( text: string ): string {
 }
 
 /**
- * Initializes schema-templates.
+ * Initializes the Schema templates and block templates.
  */
 export default function initialize() {
+	registerBlockType( "yoast/warning-block", WarningBlock );
+
 	jQuery( 'script[type="text/schema-template"]' ).each( function() {
 		try {
 			const template = removeWhitespace( this.innerHTML );
