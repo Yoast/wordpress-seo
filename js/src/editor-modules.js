@@ -19,6 +19,7 @@ import * as location from "./components/contexts/location";
 import Modal from "./components/modals/Modal";
 import SidebarItem from "./components/SidebarItem";
 import ajaxHelper from "@yoast/helpers/ajaxHelper";
+import EditorModal from "./containers/EditorModal";
 
 window.yoast = window.yoast || {};
 window.yoast.editorModules = {
@@ -47,6 +48,7 @@ window.yoast.editorModules = {
 		Modal,
 	},
 	containers: {
+		EditorModal,
 		Results,
 		SEMrushRelatedKeyphrases,
 	},
