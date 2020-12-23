@@ -81,6 +81,10 @@ class Select extends BlockInstruction {
 			key: i,
 		};
 
+		if ( this.options.multiple === true ) {
+			( attributes as SelectControl.Props<string[]> ).multiple = true;
+		}
+
 		return <SelectControl { ...attributes } />;
 	}
 
