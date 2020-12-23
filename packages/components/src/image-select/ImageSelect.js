@@ -14,6 +14,7 @@ function ImageSelect( props ) {
 	const {
 		imageUrl,
 		imageAltText,
+		onSelectImageClick,
 		...imageSelectButtonsProps
 	} = props;
 
@@ -22,9 +23,9 @@ function ImageSelect( props ) {
 
 	return (
 		<div className="yoast-image-select">
-			<div className={ imageClassName }>
+			<button className={ imageClassName } onClick={ onSelectImageClick }>
 				{ props.imageSelected && <img src={ imageUrl } alt={ imageAltText } className="yoast-image-select__preview--image" /> }
-			</div>
+			</button>
 			<ImageSelectButtons { ...imageSelectButtonsProps } />
 		</div>
 	);
@@ -36,4 +37,5 @@ ImageSelect.propTypes = {
 	imageUrl: PropTypes.string,
 	imageAltText: PropTypes.string,
 	imageSelected: PropTypes.bool,
+	onSelectImageClick: () => {},
 }

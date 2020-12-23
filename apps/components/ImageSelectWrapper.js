@@ -14,7 +14,7 @@ class ImageSelectWrapper extends React.Component {
 		super( props );
 
 		this.state = {
-			imageUrl: "https://placekitten.com/100/150",
+			imageUrl: "",
 		};
 		this.setImageUrl = this.setStateAttribute.bind( this, "imageUrl" );
 	}
@@ -45,6 +45,9 @@ class ImageSelectWrapper extends React.Component {
 					selectImageButtonId="bla1"
 					replaceImageButtonId="bla2"
 					removeImageButtonId="bla3"
+					onSelectImageClick={ () => this.setImageUrl( "https://placekitten.com/100/150" ) }
+					onClick={ () => this.setImageUrl( "https://placekitten.com/100/150" ) }
+					onRemoveImageClick={ () => this.setImageUrl( "" ) }
 				/>
 			</div>
 		);
