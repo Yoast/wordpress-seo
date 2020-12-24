@@ -17,6 +17,7 @@ jest.mock( "../../src/functions/blocks", () => {
 	return {
 		getBlockType: jest.fn( ( blockName: string )  => {
 			if ( blockName === "yoast/nonexisting" ) {
+				// @ts-ignore - Undefined is expected.
 				return undefined;
 			}
 
@@ -87,7 +88,7 @@ describe( "The required blocks in the sidebar", () => {
 		expect( tree ).toMatchSnapshot();
 	} );
 
-	it( "should call the `removeBlock` function if the 'yes' button is clicked.", () => {
+	it( "should call the function to add the block when the button is clicked.", () => {
 		const block = { innerBlocks: [], clientId: "1" } as BlockInstance;
 		const requiredBlocks = [
 			{
@@ -95,7 +96,6 @@ describe( "The required blocks in the sidebar", () => {
 				option: 1,
 			} as RequiredBlock,
 		];
-
 
 		const tree = shallow( RequiredBlocks( block, requiredBlocks ) );
 
