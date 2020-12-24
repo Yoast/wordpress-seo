@@ -4,6 +4,7 @@ module.exports = {
 		"<rootDir>/tests",
 		"<rootDir>/src",
 	],
+	setupFilesAfterEnv: [ "<rootDir>/tests/setupTests.ts" ],
 	testRegex: ".*\\.test\\.(ts|tsx)$",
 	testURL: "http://localhost",
 	transform: {

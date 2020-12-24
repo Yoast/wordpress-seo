@@ -15,7 +15,7 @@ export interface RichTextEditProps extends WordPressRichText.Props<keyof HTMLEle
 }
 
 /**
- * RichText instruction
+ * RichTextBase instruction.
  */
 export default abstract class RichTextBase extends BlockInstruction {
 	public options: {

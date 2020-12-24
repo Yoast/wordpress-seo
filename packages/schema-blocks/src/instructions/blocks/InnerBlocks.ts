@@ -12,7 +12,7 @@ import { getBlockByClientId } from "../../functions/BlockHelper";
 import RequiredBlocks from "../../blocks/RequiredBlocks";
 
 /**
- * The InnerBlocks instruction.
+ * InnerBlocks instruction.
  */
 export default class InnerBlocks extends BlockInstruction {
 	public options: {
