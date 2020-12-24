@@ -1,35 +1,44 @@
 import React from "react";
 import ImageSelectButtons from "./ImageSelectButtons";
 import PropTypes from "prop-types";
+import FieldGroup from "../field-group/FieldGroup";
 
-
-/**
- * Renders the ImageSelect component.
- *
- * @param {Object} props The props.
- *
- * @returns {Element} The ImageSelect component.
- */
-function ImageSelect( props ) {
-	const {
-		imageUrl,
-		imageAltText,
-		onSelectImageClick,
-		...imageSelectButtonsProps
-	} = props;
-
-	const imageClassName = props.imageSelected
-		? "yoast-image-select__preview" : "yoast-image-select__preview yoast-image-select__preview--no-preview";
-
-	return (
-		<div className="yoast-image-select">
-			<button className={ imageClassName } onClick={ onSelectImageClick }>
-				{ props.imageSelected && <img src={ imageUrl } alt={ imageAltText } className="yoast-image-select__preview--image" /> }
-			</button>
-			<ImageSelectButtons { ...imageSelectButtonsProps } />
-		</div>
-	);
-};
+class ImageSelect extends React.Component {
+	/**
+	 * Returns imageselect
+	 *
+	 * @returns {*} imageselect
+	 */
+	getImageSelect() {
+		const imageSelectButtonsProps = this.props;
+		const imageClassName = this.props.imageSelected
+			? "yoast-image-select__preview" : "yoast-image-select__preview yoast-image-select__preview--no-preview";
+		return (
+			<div className="yoast-image-select">
+				<button className={ imageClassName } onClick={ this.props.onClick } type="button">
+					{ this.props.imageSelected &&
+					<img src={ this.props.imageUrl } alt={ this.props.imageAltText } className="yoast-image-select__preview--image" /> }
+				</button>
+				<ImageSelectButtons { ...imageSelectButtonsProps } />
+			</div>
+		);
+	}
+	/**
+	 * Returns the rendered HTML.
+	 *
+	 * @returns {React.Component} The InsightsCard.
+	 */
+	render() {
+		return (
+			<FieldGroup
+				label={ this.props.label }
+				wrapperClassName={ "yoast-field-group__image-select" }
+			>
+				{ this.getImageSelect() }
+			</FieldGroup>
+		);
+	}
+}
 
 export default ImageSelect;
 
@@ -37,5 +46,6 @@ ImageSelect.propTypes = {
 	imageUrl: PropTypes.string,
 	imageAltText: PropTypes.string,
 	imageSelected: PropTypes.bool,
-	onSelectImageClick: () => {},
+	label: PropTypes.string.isRequired,
+	onClick: () => {},
 }

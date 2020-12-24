@@ -18,6 +18,7 @@ class ImageSelectWrapper extends React.Component {
 		};
 		this.setImageUrl = this.setStateAttribute.bind( this, "imageUrl" );
 	}
+
 	/**
 	 * @returns {void} Void
 	 *
@@ -30,9 +31,10 @@ class ImageSelectWrapper extends React.Component {
 			[ attr ]: value,
 		} ) );
 	}
+
 	/**
 	 * Renders
-	 * @returns {*} blaa
+	 * @returns {*} Void.
 	 */
 	render() {
 		return (
@@ -42,11 +44,11 @@ class ImageSelectWrapper extends React.Component {
 					imageUrlInputId="test-image"
 					imageUrl={ this.state.imageUrl }
 					imageSelected={ !! this.state.imageUrl }
+					label={ "Organization" }
 					selectImageButtonId="bla1"
 					replaceImageButtonId="bla2"
 					removeImageButtonId="bla3"
-					onSelectImageClick={ () => this.setImageUrl( "https://placekitten.com/100/150" ) }
-					onClick={ () => this.setImageUrl( "https://placekitten.com/100/150" ) }
+					onClick={ () => this.setImageUrl( "http://placekitten.com/g/200/300" ) }
 					onRemoveImageClick={ () => this.setImageUrl( "" ) }
 				/>
 			</div>
