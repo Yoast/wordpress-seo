@@ -96,6 +96,7 @@ export default class InnerBlocks extends BlockInstruction {
 		// The innerblock sidebar is handled in P2-505, P2-506.
 		console.log( "Found " + count + " invalid blocks." );
 		*/
+		return "";
 	}
 
 	/**
