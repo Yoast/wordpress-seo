@@ -84,16 +84,18 @@ export default class InnerBlocks extends BlockInstruction {
 			return RequiredBlocks( currentBlock, this.options.requiredBlocks );
 		}
 
+		/*
 		// Loop over all blocks (not just the invalid ones!), add a div to the block depending on their status.
-		// const invalidBlocks = getInvalidInnerBlocks( this.options.requiredBlocks, props.clientId );
+		const invalidBlocks = getInvalidInnerBlocks( this.options.requiredBlocks, props.clientId );
 		// Block OK? div with a green check,
 		// Block missing? add button,
 		// Block occurs too often? remove button,
 		// Block internal validation?
-		// const count = ( invalidBlocks || [] ).length;
+		const count = ( invalidBlocks || [] ).length;
 
 		// The innerblock sidebar is handled in P2-505, P2-506.
-		// console.log( "Found " + count + " invalid blocks." );
+		console.log( "Found " + count + " invalid blocks." );
+		*/
 	}
 
 	/**
