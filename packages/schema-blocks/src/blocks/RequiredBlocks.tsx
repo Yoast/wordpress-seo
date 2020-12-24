@@ -28,7 +28,7 @@ export default function RequiredBlocks( block: BlockInstance, requiredBlocks: Re
 
 	const requiredBlockItems: ReactElement[] = [];
 
-	requiredBlockNames.forEach( ( requiredBlockName: string ) => {
+	requiredBlockNames.forEach( ( requiredBlockName: string, index: number ) => {
 		const blockType = getBlockType( requiredBlockName );
 
 		if ( typeof blockType === "undefined" ) {
@@ -38,7 +38,7 @@ export default function RequiredBlocks( block: BlockInstance, requiredBlocks: Re
 		if ( presentBlockNames.includes( requiredBlockName ) ) {
 			requiredBlockItems.push(
 				(
-					<li className="yoast-block-suggestion yoast-block-suggestion--added">
+					<li key={ index } className="yoast-block-suggestion yoast-block-suggestion--added">
 						{ blockType.title }
 						<span className="yoast-block-suggestion-checkmark">x</span>
 					</li>
@@ -58,7 +58,7 @@ export default function RequiredBlocks( block: BlockInstance, requiredBlocks: Re
 
 		requiredBlockItems.push(
 			(
-				<li className="yoast-block-suggestion">
+				<li key={ index } className="yoast-block-suggestion">
 					{ blockType.title }
 					<button className="yoast-block-suggestion-button" onClick={ addBlockClick }>Add</button>
 				</li>

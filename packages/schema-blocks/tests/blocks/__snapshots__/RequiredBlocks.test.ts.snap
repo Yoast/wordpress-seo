@@ -1,0 +1,54 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`The required blocks in the sidebar renders the required block as a non-added one 1`] = `
+<div
+  className="components-panel__body is-opened"
+>
+  <div
+    className="yoast-block-sidebar-title"
+  >
+    Required blocks
+  </div>
+  <ul
+    className="yoast-block-suggestions"
+  >
+    <li
+      className="yoast-block-suggestion"
+    >
+      The required block
+      <button
+        className="yoast-block-suggestion-button"
+        onClick={[Function]}
+      >
+        Add
+      </button>
+    </li>
+  </ul>
+</div>
+`;
+
+exports[`The required blocks in the sidebar renders the required block as an added one 1`] = `
+<div
+  className="components-panel__body is-opened"
+>
+  <div
+    className="yoast-block-sidebar-title"
+  >
+    Required blocks
+  </div>
+  <ul
+    className="yoast-block-suggestions"
+  >
+    <li
+      className="yoast-block-suggestion yoast-block-suggestion--added"
+    >
+      The required block
+      <span
+        className="yoast-block-suggestion-checkmark"
+      >
+        x
+      </span>
+    </li>
+  </ul>
+</div>
+`;

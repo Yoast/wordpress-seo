@@ -5,7 +5,7 @@ module.exports = {
 		"<rootDir>/src",
 	],
 	setupFilesAfterEnv: [ "<rootDir>/tests/setupTests.ts" ],
-	testRegex: ".*\\.test\\.(ts|tsx)$",
+	testRegex: ".*\\.test\\.ts$",
 	testURL: "http://localhost",
 	transform: {
 		"^.+\\.(t|j)s$": "ts-jest",
