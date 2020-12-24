@@ -30,14 +30,3 @@ export function getInnerBlocksAttributes( clientId: string, blocks: Record<strin
 export function removeBlock( clientId: string ) {
 	dispatch( "core/block-editor" ).removeBlock( clientId );
 }
-
-/**
- * Finds the block type in the list of registered blocks in the block editor.
- *
- * @param {string} blockName The block to search for.
- *
- * @return {BlockInstruction} The found block.
- */
-export function getBlockType( blockName: string ) {
-	return select( "core/blocks" ).getBlockType( blockName );
-}

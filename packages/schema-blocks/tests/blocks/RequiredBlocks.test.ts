@@ -13,7 +13,7 @@ jest.mock( "@wordpress/blocks", () => {
 	};
 } );
 
-jest.mock( "../../src/functions/blocks", () => {
+jest.mock( "../../src/functions/BlockHelper", () => {
 	return {
 		getBlockType: jest.fn( ( blockName: string )  => {
 			if ( blockName === "yoast/nonexisting" ) {

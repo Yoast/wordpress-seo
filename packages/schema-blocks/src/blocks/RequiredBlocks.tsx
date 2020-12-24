@@ -4,7 +4,7 @@ import { createElement } from "@wordpress/element";
 import { RequiredBlock } from "../instructions/blocks/dto";
 
 import { getInnerblocksByName, insertBlockToInnerBlock } from "../functions/innerBlocksHelper";
-import { getBlockType } from "../functions/blocks";
+import { getBlockType } from "../functions/BlockHelper";
 import { PanelBody } from "@wordpress/components";
 
 /**
