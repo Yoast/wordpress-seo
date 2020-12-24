@@ -82,8 +82,12 @@ class Replace_Vars_Helper {
 			'webpage_id'       => $context->canonical . Schema_IDs::WEBPAGE_HASH,
 			'website_id'       => $context->site_url . Schema_IDs::WEBSITE_HASH,
 			'organization_id'  => $context->site_url . Schema_IDs::ORGANIZATION_HASH,
-			'post_date'        => $context->post->post_date,
 		];
+
+		if ( $context->post ) {
+			// Post does not always exist, e.g. on term pages.
+			$replace_vars['post_date'] = $context->post->post_date;
+		}
 
 		foreach ( $replace_vars as $var => $value ) {
 			$this->register_replacement( $var, $value );
