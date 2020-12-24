@@ -1,4 +1,4 @@
-import { dispatch, select } from "@wordpress/data";
+import { select } from "@wordpress/data";
 
 /**
  * Gets attributes of inner blocks.
@@ -20,13 +20,4 @@ export function getInnerBlocksAttributes( clientId: string, blocks: Record<strin
 	}
 
 	return values;
-}
-
-/**
- * Removes a block from the editor.
- *
- * @param {string} clientId The client id of the block to remove.
- */
-export function removeBlock( clientId: string ) {
-	dispatch( "core/block-editor" ).removeBlock( clientId );
 }
