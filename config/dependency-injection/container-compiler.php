@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Dependency_Injection;
 
 use Exception;
 use Symfony\Component\Config\ConfigCache;
+use Symfony\Component\DependencyInjection\Compiler\AutowireRequiredMethodsPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Dumper\PhpDumper;
 
@@ -15,15 +16,22 @@ class Container_Compiler {
 	/**
 	 * Compiles the dependency injection container.
 	 *
-	 * @param boolean $debug If false the container will only be re-compiled if it does not yet already exist.
+	 * @param boolean $debug                    If false the container will only be re-compiled if it does not yet already exist.
+	 * @param string  $generated_container_path The path the generated container should be written to.
+	 * @param string  $services_path            The path of the services.php.
+	 * @param string  $namespace                The namespace the generated container should be in.
 	 *
 	 * @throws Exception If compiling the container fails.
 	 *
 	 * @return void
 	 */
-	public static function compile( $debug ) {
-		$file  = __DIR__ . '/../../src/generated/container.php';
-		$cache = new ConfigCache( $file, $debug );
+	public static function compile(
+		$debug,
+		$generated_container_path,
+		$services_path,
+		$namespace
+	) {
+		$cache = new ConfigCache( $generated_container_path, $debug );
 
 		if ( ! $cache->isFresh() ) {
 			if ( ! \defined( 'WPSEO_VERSION' ) ) {
@@ -34,15 +42,17 @@ class Container_Compiler {
 			$container_builder->addCompilerPass( new Loader_Pass() );
 			$container_builder->addCompilerPass( new Schema_Templates_Pass( new Schema_Templates_Loader() ) );
 			$container_builder->addCompilerPass( new Interface_Injection_Pass() );
+			$container_builder->addCompilerPass( new AutowireRequiredMethodsPass() );
+			$container_builder->addCompilerPass( new Inject_From_Registry_Pass() );
 			$loader = new Custom_Loader( $container_builder );
-			$loader->load( 'config/dependency-injection/services.php' );
+			$loader->load( $services_path );
 			$container_builder->compile();
 
 			$dumper = new PhpDumper( $container_builder );
 			$code   = $dumper->dump(
 				[
-					'class'     => 'Cached_Container',
-					'namespace' => 'Yoast\WP\SEO\Generated',
+					'class'      => 'Cached_Container',
+					'namespace'  => $namespace,
 				]
 			);
 			$code   = \str_replace( 'Symfony\\Component\\DependencyInjection', 'YoastSEO_Vendor\\Symfony\\Component\\DependencyInjection', $code );
