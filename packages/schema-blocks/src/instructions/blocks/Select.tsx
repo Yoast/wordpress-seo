@@ -1,17 +1,15 @@
 import BlockInstruction from "../../core/blocks/BlockInstruction";
 import { RenderEditProps, RenderSaveProps } from "../../core/blocks/BlockDefinition";
-import BlockLeaf from "../../core/blocks/BlockLeaf";
-import { createElement, ReactElement, Fragment } from "@wordpress/element";
+import { createElement, ReactElement } from "@wordpress/element";
 import { BlockConfiguration, BlockInstance } from "@wordpress/blocks";
 import attributeExists from "../../functions/validators/attributeExists";
 import attributeNotEmpty from "../../functions/validators/attributeNotEmpty";
 import { arrayOrObjectToOptions } from "../../functions/select";
 
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /**
  * Select (a drop-down box) instruction.
  */
-class Select extends BlockInstruction {
+export default class Select extends BlockInstruction {
 	public options: {
 		/**
 		 * The attribute name the value selected in the select control should be saved as.
@@ -35,12 +33,10 @@ class Select extends BlockInstruction {
 	 * Renders saving the element.
 	 *
 	 * @param props The props.
-	 * @param leaf  The leaf being rendered.
-	 * @param i     The number the rendered element is of it's parent.
 	 *
 	 * @returns {JSX.Element} The element to render.
 	 */
-	save( props: RenderSaveProps, leaf: BlockLeaf, i: number ): ReactElement | string {
+	save( props: RenderSaveProps ): ReactElement | string {
 		return <p data-id={ this.options.name } data-value={ this.value( props ) }>
 			<b>{ this.options.label }:</b> { this.label( props ) }
 		</p>;
@@ -81,12 +77,10 @@ class Select extends BlockInstruction {
 	 * Renders editing the element.
 	 *
 	 * @param props The props.
-	 * @param leaf  The leaf being rendered.
-	 * @param i     The number the rendered element is of it's parent.
 	 *
 	 * @returns {JSX.Element} The element to render.
 	 */
-	edit( props: RenderEditProps, leaf: BlockLeaf, i: number ): ReactElement | string {
+	edit( props: RenderEditProps ): ReactElement | string {
 		const label = this.options.label;
 		const value = props.attributes[ this.options.name ] as string | string[];
 		const options = arrayOrObjectToOptions( this.options.options );
@@ -100,7 +94,7 @@ class Select extends BlockInstruction {
 			props.setAttributes( { [ this.options.name ]: event.target.value } );
 		};
 
-		return <Fragment>
+		return <div>
 			<label htmlFor={ label }>{ label }</label>
 			<select className="yoast-schema-select" id={ label } onInput={ onInput } value={ value }>
 				{
@@ -109,7 +103,7 @@ class Select extends BlockInstruction {
 					)
 				}
 			</select>
-		</Fragment>;
+		</div>;
 	}
 
 	/**
@@ -145,4 +139,3 @@ class Select extends BlockInstruction {
 }
 
 BlockInstruction.register( "select", Select );
-/* eslint-enable @typescript-eslint/no-unused-vars */
