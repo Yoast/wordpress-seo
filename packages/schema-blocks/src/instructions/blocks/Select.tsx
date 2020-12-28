@@ -2,8 +2,7 @@ import BlockInstruction from "../../core/blocks/BlockInstruction";
 import { RenderEditProps, RenderSaveProps } from "../../core/blocks/BlockDefinition";
 import { createElement, ReactElement } from "@wordpress/element";
 import { BlockConfiguration, BlockInstance } from "@wordpress/blocks";
-import attributeExists from "../../functions/validators/attributeExists";
-import attributeNotEmpty from "../../functions/validators/attributeNotEmpty";
+import { attributeExists, attributeNotEmpty } from "../../functions/validators";
 import { arrayOrObjectToOptions } from "../../functions/select";
 
 /**
