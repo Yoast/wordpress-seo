@@ -1,21 +1,16 @@
 import { dispatch } from "@wordpress/data";
-import { BlockInstance } from "@wordpress/blocks";
+import { BlockValidationResult } from "../../core/validation";
 
 /**
- * Updates the store with information about whether a block is valid or not.
+ * Updates the store with information about whether a block is valid or why it isn't.
+ * @param validations The blocks' validation results.
  */
-export default function updateValidStatus( blocks: BlockInstance[] ) {
+export default function storeBlockValidation( validations: BlockValidationResult[] ) {
 	console.log( "Updating the store with the block's valid status." );
 
-	for ( let i = 0; i < blocks.length; i++ ) {
-		console.log( i );
-		const block = blocks[ i ];
-		console.log( block.clientId );
+	validations.forEach( blockValidation => {
+		console.log( blockValidation.clientId );
 
-		// To do: validate the blocks for real (not here).
-		// Here, I'm mocking a block's valid status to be false, in order to implement updating the store.
-		const validStatus = true;
-
-		dispatch( "yoast-seo/editor" ).setBlockIsValid( block.clientId, validStatus );
-	}
+		dispatch( "yoast-seo/editor" ).setBlockIsValid( blockValidation.clientId, blockValidation.result );
+	} );
 }

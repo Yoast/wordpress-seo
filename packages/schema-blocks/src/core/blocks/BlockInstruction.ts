@@ -74,10 +74,10 @@ export default abstract class BlockInstruction extends Instruction {
 			const result = attributeExists( blockInstance, this.options.name as string ) &&
 						   attributeNotEmpty( blockInstance, this.options.name as string );
 			if ( ! result ) {
-				return [ new BlockValidationResult( blockInstance.name, BlockValidation.Missing ) ];
+				return [ new BlockValidationResult( blockInstance.clientId, blockInstance.name, BlockValidation.Missing ) ];
 			}
 		}
 
-		return [ new BlockValidationResult( blockInstance.name, BlockValidation.Valid ) ];
+		return [ new BlockValidationResult( blockInstance.clientId, blockInstance.name, BlockValidation.Valid ) ];
 	}
 }

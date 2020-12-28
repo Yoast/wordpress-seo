@@ -8,39 +8,55 @@ import * as blockDefinitionRepository from "../../../src/core/blocks/BlockDefini
 const mockBlockRegistry: Record<string, BlockDefinition> = {};
 const getBlockDefinitionMock = jest.spyOn( blockDefinitionRepository, "getBlockDefinition" );
 getBlockDefinitionMock.mockImplementation( ( name: string ) => {
+	if ( ! mockBlockRegistry[ name ] ) {
+		mockBlockRegistry[ name ] = FakeBlockDefinition( "-1", name, BlockValidation.Valid );
+	}
 	return mockBlockRegistry[ name ];
 } );
 
 /**
- * Add a definition for a block to the mocked block definition.
- * @param name          The name of the block to mock.
- * @param expectedValue The validation output of the block.
+ * Provides a fake definition.
+ * @param clientId      ClientId of the mocked Definition.
+ * @param name          Name of the mocked Definition.
+ * @param expectedValue Returned value for this clientId.
+ * @returns {BlockDefinition} The fake definition.
  */
-function mockDefinition( name: string, expectedValue: BlockValidationResult ) {
-	mockBlockRegistry[ name ] = {
-		validate: () => [ expectedValue ],
+function FakeBlockDefinition( clientId: string, name: string, expectedValue: BlockValidation ): BlockDefinition {
+	return {
+		name: name,
+		validate: () => {
+			return [ new BlockValidationResult( clientId, name, expectedValue ) ];
+		},
 	} as unknown as BlockDefinition;
 }
 
-mockDefinition( "validBlock", new BlockValidationResult( "validBlock", BlockValidation.Valid ) );
-mockDefinition( "existingBlock", new BlockValidationResult( "existingBlock", BlockValidation.Valid ) );
-mockDefinition( "invalidOptionalBlock", new BlockValidationResult( "invalidOptionalBlock", BlockValidation.Optional ) );
-mockDefinition( "innerBlock", new BlockValidationResult( "validBlock", BlockValidation.Valid ) );
-mockDefinition( "requiredBlock", new BlockValidationResult( "requiredBlock", BlockValidation.Valid ) );
-mockDefinition( "redundantBlock", new BlockValidationResult( "redundantBlock", BlockValidation.Valid ) );
+/**
+ * Add a definition for a block to the mocked block definition.
+ * @param clientId      The clientId of the block to mock.
+ * @param name          The name of the block to mock.
+ * @param expectedValue The validation output of the block.
+ */
+function mockDefinition( clientId: string, name: string, expectedValue: BlockValidation ) {
+	mockBlockRegistry[ name ] = FakeBlockDefinition( clientId, name, expectedValue );
+}
+
+// MockDefinition( "validBlock", BlockValidation.Valid );
+// MockDefinition( "existingBlock", BlockValidation.Valid );
+mockDefinition( "1", "invalidOptionalBlock", BlockValidation.Optional );
+// MockDefinition( "innerBlock", BlockValidation.Valid );
+// MockDefinition( "requiredBlock", BlockValidation.Valid );
+// MockDefinition( "redundantBlock", BlockValidation.Valid );
 
 
 const createBlockValidationResultTestArrangement = [
 	{ name: "missingblock", reason: BlockValidation.Missing },
 	{ name: "redundantblock", reason: BlockValidation.TooMany },
 	{ name: "optionalblock", reason: BlockValidation.Optional },
-	{ name: "selfinvalidatedblock", reason: BlockValidation.Internal },
 ];
 
 const createOptionalBlockValidationTestArrangement = [
 	{ reason: BlockValidation.Missing,  expected: false },
 	{ reason: BlockValidation.TooMany,  expected: false },
-	{ reason: BlockValidation.Internal, expected: false },
 	{ reason: BlockValidation.Optional, expected: true },
 ];
 
@@ -48,7 +64,7 @@ describe( "The BlockValidationResult constructor", () => {
 	for ( let i = 0; i < createBlockValidationResultTestArrangement.length; i++ ) {
 		const input = createBlockValidationResultTestArrangement[ i ];
 		it( "creates a BlockValidationResult instance with name " + input.name + " and reason " + input.reason + ".", () => {
-			const result = new BlockValidationResult( input.name, input.reason );
+			const result = new BlockValidationResult( "clientId", input.name, input.reason );
 			expect( result.name ).toEqual( input.name );
 			expect( result.result ).toEqual( input.reason );
 		} );
@@ -83,9 +99,10 @@ describe( "The findMissingBlocks function", () => {
 				name: "existingBlock",
 			} as BlockInstance,
 		];
+		const parentId = "parentBlockId";
 
 		// Act.
-		const result: BlockValidationResult[] = innerBlocksValid.findMissingBlocks( existingRequiredBlocks, requiredBlocks );
+		const result: BlockValidationResult[] = innerBlocksValid.findMissingBlocks( parentId, existingRequiredBlocks, requiredBlocks );
 
 		// Assert.
 		expect( result.length ).toEqual( 1 );
@@ -108,14 +125,16 @@ describe( "The findMissingBlocks function", () => {
 		const existingRequiredBlocks: BlockInstance[] = [
 			{
 				name: "existingBlock",
+				clientId: "existingBlock1",
 			} as BlockInstance,
 			{
 				name: "validBlock",
+				clientId: "validBlock1",
 			} as BlockInstance,
 		];
 
 		// Act.
-		const result: BlockValidationResult[] = innerBlocksValid.findMissingBlocks( existingRequiredBlocks, requiredBlocks );
+		const result: BlockValidationResult[] = innerBlocksValid.findMissingBlocks( "parentId", existingRequiredBlocks, requiredBlocks );
 
 		// Assert.
 		expect( result.length ).toEqual( 0 );
@@ -141,10 +160,11 @@ describe( "The findRedundantBlocks function", () => {
 		];
 
 		// Act.
-		const result: BlockValidationResult[] = innerBlocksValid.findRedundantBlocks( existingRequiredBlocks, requiredBlocks );
+		const result: BlockValidationResult[] = innerBlocksValid.findRedundantBlocks( "parentId", existingRequiredBlocks, requiredBlocks );
 
 		// Assert.
 		expect( result.length ).toEqual( 1 );
+		expect( result[ 0 ].clientId ).toEqual( "parentId" );
 		expect( result[ 0 ].name ).toEqual( "duplicateBlock" );
 		expect( result[ 0 ].result ).toEqual( BlockValidation.TooMany );
 	} );
@@ -158,12 +178,13 @@ describe( "The findRedundantBlocks function", () => {
 		];
 		const existingBlocks: BlockInstance[] = [
 			{
+				clientId: "duplicateBlock1",
 				name: "duplicateBlock",
 			} as BlockInstance,
 		];
 
 		// Act.
-		const result: BlockValidationResult[] = innerBlocksValid.findRedundantBlocks( existingBlocks, requiredBlocks );
+		const result: BlockValidationResult[] = innerBlocksValid.findRedundantBlocks( "parentId", existingBlocks, requiredBlocks );
 
 		// Assert.
 		expect( result.length ).toEqual( 0 );
@@ -176,16 +197,21 @@ describe( "The findSelfInvalidatedBlocks function", () => {
 		const existingBlocks: BlockInstance[] = [
 			{
 				name: "validBlock",
+				clientId: "validBlock1",
 			} as BlockInstance,
 			{
 				name: "invalidOptionalBlock",
+				clientId: "invalidOptionalBlock1",
 			} as BlockInstance,
 		];
 
 		const testBlock = {
-			name: "test",
+			clientId: "test",
 			innerBlocks: existingBlocks,
 		} as BlockInstance;
+
+		mockDefinition( "validBlock1", "validBlock", BlockValidation.Valid );
+		mockDefinition( "invalidOptionalBlock1", "invalidOptionalBlock", BlockValidation.Optional );
 
 		// Act.
 		const result: BlockValidationResult[] = innerBlocksValid.findSelfInvalidatedBlocks( testBlock );
@@ -193,11 +219,11 @@ describe( "The findSelfInvalidatedBlocks function", () => {
 		// Assert.
 		expect( result.length ).toEqual( 2 );
 
-		const validationResult = result.find( x => x.name === "validBlock" && x.result === BlockValidation.Internal );
+		const validationResult = result.find( x => x.clientId === "validBlock1" );
 		expect( validationResult.name ).toEqual( "validBlock" );
 		expect( validationResult.result ).toEqual( BlockValidation.Valid );
 
-		const invalidOptionalBlock = result.find( x => x.name === "invalidOptionalBlock" && x.result === BlockValidation.Optional );
+		const invalidOptionalBlock = result.find( x => x.clientId === "invalidOptionalBlock1" );
 		expect( invalidOptionalBlock.name ).toEqual( "invalidOptionalBlock" );
 		expect( invalidOptionalBlock.result ).toEqual( BlockValidation.Optional );
 	} );
@@ -205,7 +231,7 @@ describe( "The findSelfInvalidatedBlocks function", () => {
 
 
 describe( "the getInvalidInnerBlocks function", () => {
-	it( "returns no BlockValidationResults when all required blocks are present immediately in the InnerBlock.", () => {
+	it( "returns a Valid result when all required blocks are present immediately in the InnerBlock.", () => {
 		// Arrange.
 		const requiredBlocks: RequiredBlock[] = [
 			{
@@ -215,6 +241,7 @@ describe( "the getInvalidInnerBlocks function", () => {
 		];
 		const existingBlocks: BlockInstance[] = [
 			{
+				clientId: "existingBlock1",
 				name: "existingBlock",
 			} as BlockInstance,
 		];
@@ -223,14 +250,19 @@ describe( "the getInvalidInnerBlocks function", () => {
 			innerBlocks: existingBlocks,
 		} as BlockInstance;
 
+		mockDefinition( "existingBlock1", "existingBlock", BlockValidation.Valid );
+
 		// Act.
 		const result: BlockValidationResult[] = innerBlocksValid.default( testBlock, requiredBlocks );
 
 		// Assert.
-		expect( result.length ).toEqual( 0 );
+		expect( result.length ).toEqual( 1 );
+		expect( result[ 0 ].clientId ).toEqual( "existingBlock1" );
+		expect( result[ 0 ].name ).toEqual( "existingBlock" );
+		expect( result[ 0 ].result ).toEqual( BlockValidation.Valid );
 	} );
 
-	it( "returns an empty array when all required blocks (and some extra's) are present in a nested InnerBlock.", () => {
+	it( "returns a Valid result when all required blocks (and some extra's) are present in a nested InnerBlock.", () => {
 		// Arrange.
 		const requiredBlocks: RequiredBlock[] = [
 			{
@@ -241,11 +273,14 @@ describe( "the getInvalidInnerBlocks function", () => {
 		const existingBlocks: BlockInstance[] = [
 			{
 				// Not required, should be ignored.
+				clientId: "innerBlock1",
 				name: "innerBlock",
 				innerBlocks: [
 					{
 						// Required and Valid.
+						clientId: "requiredBlock1",
 						name: "requiredBlock",
+						innerBlocks: [] as BlockInstance[],
 					} as BlockInstance,
 				],
 			} as BlockInstance,
@@ -254,12 +289,17 @@ describe( "the getInvalidInnerBlocks function", () => {
 		const testBlock = {
 			innerBlocks: existingBlocks,
 		} as BlockInstance;
+		mockDefinition( "requiredBlock1", "requiredBlock", BlockValidation.Valid );
 
 		// Act.
 		const result: BlockValidationResult[] = innerBlocksValid.default( testBlock, requiredBlocks );
 
 		// Assert.
-		expect( result.length ).toEqual( 0 );
+		expect( result.length ).toEqual( 2 );
+
+		const requiredBlock = result.find( x => x.clientId === "requiredBlock1" );
+		expect( requiredBlock.name ).toEqual( "requiredBlock" );
+		expect( requiredBlock.result ).toEqual( BlockValidation.Valid );
 	} );
 
 	it( "returns BlockValidationResults when some required blocks are invalid.", () => {
@@ -283,38 +323,54 @@ describe( "the getInvalidInnerBlocks function", () => {
 		const existingBlocks: BlockInstance[] = [
 			{
 				// Required and valid.
+				clientId: "existingBlock1",
 				name: "existingBlock",
 			} as BlockInstance,
 			{
 				// Required once, valid, but too often.
+				clientId: "redundantBlock1",
 				name: "redundantBlock",
 				innerBlocks: [
 					{
 						// Required once, valid, but too often.
+						clientId: "redundantBlock2",
 						name: "redundantBlock",
 					} as BlockInstance,
 				],
 			} as BlockInstance,
 		];
 		const testBlock = {
-			name: "TestBlock",
+			clientId: "TestBlock",
 			innerBlocks: existingBlocks,
 		} as BlockInstance;
+
+		mockDefinition( "existingBlock1", "existingBlock", BlockValidation.Valid );
+		mockDefinition( "innerBlock1", "innerBlock", BlockValidation.Valid );
+		mockDefinition( "redundantBlock1", "redundantBlock", BlockValidation.Valid );
+		mockDefinition( "redundantBlock2", "redundantBlock", BlockValidation.Valid );
 
 		// Act.
 		const result: BlockValidationResult[] = innerBlocksValid.default( testBlock, requiredBlocks );
 
 		// Assert.
-		expect( result.length ).toEqual( 4 );
+		expect( result.length ).toEqual( 5 );
 
-		const missingBlock = result.filter( validation => validation.result === BlockValidation.Missing );
+		const missingBlock = result.filter( b => b.name === "missingBlock" && b.result === BlockValidation.Missing );
 		expect( missingBlock.length ).toEqual( 1 );
 		expect( missingBlock[ 0 ].name ).toEqual( "missingBlock" );
 		expect( missingBlock[ 0 ].result ).toEqual( BlockValidation.Missing );
 
-		const redundantBlocks = result.filter( validation => validation.result === BlockValidation.TooMany );
+		const redundantBlocks = result.filter( b => b.name === "redundantBlock" && b.result === BlockValidation.TooMany );
 		expect( redundantBlocks.length ).toEqual( 1 );
 		expect( redundantBlocks[ 0 ].name ).toEqual( "redundantBlock" );
 		expect( redundantBlocks[ 0 ].result ).toEqual( BlockValidation.TooMany );
+
+		const validRedundantBlocks = result.filter( b => b.name === "redundantBlock" && b.result === BlockValidation.Valid );
+		expect( validRedundantBlocks.length ).toEqual( 2 );
+
+		const existingBlock = result.filter( b => b.name === "existingBlock" && b.result === BlockValidation.Valid );
+		expect( existingBlock.length ).toEqual( 1 );
+		expect( existingBlock[ 0 ].name ).toEqual( "existingBlock" );
+		expect( existingBlock[ 0 ].result ).toEqual( BlockValidation.Valid );
 	} );
 } );

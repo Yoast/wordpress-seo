@@ -3,7 +3,7 @@ import { InnerBlocks as WordPressInnerBlocks } from "@wordpress/block-editor";
 import { BlockInstance, TemplateArray } from "@wordpress/blocks";
 import { BlockValidationResult, RequiredBlock } from "../../core/validation";
 import BlockInstruction from "../../core/blocks/BlockInstruction";
-import getInvalidInnerBlocks from "../../functions/validators/innerBlocksValid";
+import validateInnerBlocks from "../../functions/validators/innerBlocksValid";
 
 /**
  * The InnerBlocks instruction.
@@ -72,7 +72,7 @@ export default class InnerBlocks extends BlockInstruction {
 	 * @returns `true` if the instruction block is valid, `false` if the block contains errors.
 	 */
 	validate( blockInstance: BlockInstance ): BlockValidationResult[] {
-		return getInvalidInnerBlocks( blockInstance, this.options.requiredBlocks );
+		return validateInnerBlocks( blockInstance, this.options.requiredBlocks );
 	}
 }
 

@@ -2,26 +2,28 @@ import { BlockInstance } from "@wordpress/blocks";
 import { countBy } from "lodash";
 import { getBlockDefinition } from "../../core/blocks/BlockDefinitionRepository";
 import { RequiredBlockOption, BlockValidation, RequiredBlock, BlockValidationResult } from "../../core/validation";
+import recurseOverBlocks from "../blocks/recurseOverBlocks";
 import { getInnerblocksByName } from "../innerBlocksHelper";
 
 /**
  * Finds all blocks that should be in the inner blocks, but aren't.
  *
+ * @param parentId               The innerblocks' parent clientId.
  * @param existingRequiredBlocks The actual array of all inner blocks.
  * @param requiredBlocks         All of the blocks that should occur in the inner blocks.
  *
  * @returns {BlockValidationResult[]} The names of blocks that should occur but don't, with reason 'missing'.
  */
-function findMissingBlocks( existingRequiredBlocks: BlockInstance[], requiredBlocks: RequiredBlock[] ): BlockValidationResult[] {
+function findMissingBlocks( parentId: string, existingRequiredBlocks: BlockInstance[], requiredBlocks: RequiredBlock[] ): BlockValidationResult[] {
 	const missingRequiredBlocks = requiredBlocks.filter( requiredBlock => {
-		// If there are some (at least one) blocks with the name of a required block, that required block is NOT missing.
+		// If there are not any blocks with the name of a required block, that required block is missing.
 		return ! existingRequiredBlocks.some( block => block.name === requiredBlock.name );
 	} );
 
 	const BlockValidationResults: BlockValidationResult[] = [];
 	missingRequiredBlocks.forEach( missingBlock => {
 		// These blocks should've existed, but they don't.
-		BlockValidationResults.push( new BlockValidationResult( missingBlock.name, BlockValidation.Missing ) );
+		BlockValidationResults.push( new BlockValidationResult( parentId, missingBlock.name, BlockValidation.Missing ) );
 	} );
 
 	return BlockValidationResults;
@@ -30,12 +32,13 @@ function findMissingBlocks( existingRequiredBlocks: BlockInstance[], requiredBlo
 /**
  * Finds all blocks that occur more than once in the inner blocks.
  *
+ * @param parentId               The innerblocks' parent clientId.
  * @param existingRequiredBlocks The actual array of all inner blocks.
  * @param requiredBlocks         Requirements of the blocks that should occur only once in the inner blocks.
  *
  * @returns {BlockValidationResult[]} The names of blocks that occur more than once in the inner blocks with reason 'TooMany'.
  */
-function findRedundantBlocks( existingRequiredBlocks: BlockInstance[], requiredBlocks: RequiredBlock[] ): BlockValidationResult[] {
+function findRedundantBlocks( parentId: string, existingRequiredBlocks: BlockInstance[], requiredBlocks: RequiredBlock[] ): BlockValidationResult[] {
 	const BlockValidationResults: BlockValidationResult[] = [];
 
 	const onlyOneAllowed = requiredBlocks.filter( block => block.option === RequiredBlockOption.One );
@@ -45,7 +48,7 @@ function findRedundantBlocks( existingRequiredBlocks: BlockInstance[], requiredB
 		const countPerBlockType = countBy( existingRequiredBlocks, ( block: BlockInstance ) => block.name );
 		for ( const blockName in countPerBlockType ) {
 			if ( countPerBlockType[ blockName ] > 1 ) {
-				BlockValidationResults.push( new BlockValidationResult( blockName, BlockValidation.TooMany ) );
+				BlockValidationResults.push( new BlockValidationResult( parentId, blockName, BlockValidation.TooMany ) );
 			}
 		}
 	}
@@ -63,17 +66,13 @@ function findRedundantBlocks( existingRequiredBlocks: BlockInstance[], requiredB
 function findSelfInvalidatedBlocks( blockInstance: BlockInstance ): BlockValidationResult[] {
 	const validations: BlockValidationResult[] = [];
 
-	blockInstance.innerBlocks.forEach( block => {
-		// E.g. JobTitleDefinition
+	// An innerblock is only valid if all its innerblocks are valid.
+	recurseOverBlocks( blockInstance.innerBlocks, ( block: BlockInstance ) => {
 		const definition = getBlockDefinition( block.name );
 		if ( definition ) {
 			validations.push( ...definition.validate( block ) );
 		} else {
-			// This needs to be removed before releasing, P2.
 			console.log( "Block definition for '" + block.name + "' is not registered." );
-			if ( block.innerBlocks ) {
-				block.innerBlocks.forEach( innerBlock => validations.push( ...findSelfInvalidatedBlocks( innerBlock ) ) );
-			}
 		}
 	} );
 	return validations;
@@ -87,7 +86,7 @@ function findSelfInvalidatedBlocks( blockInstance: BlockInstance ): BlockValidat
  *
  * @returns {BlockValidationResult[]} The names and reasons of the inner blocks that are invalid.
  */
-function getInvalidInnerBlocks( blockInstance: BlockInstance, requiredBlocks: RequiredBlock[] ): BlockValidationResult[]  {
+function validateInnerBlocks( blockInstance: BlockInstance, requiredBlocks: RequiredBlock[] ): BlockValidationResult[]  {
 	const requiredBlockKeys = requiredBlocks.map( rblock => rblock.name );
 	const validationResults: BlockValidationResult[] = [];
 
@@ -95,10 +94,10 @@ function getInvalidInnerBlocks( blockInstance: BlockInstance, requiredBlocks: Re
 	const existingRequiredBlocks = getInnerblocksByName( blockInstance, requiredBlockKeys );
 
 	// Find all block types that do not occur in existingBlocks.
-	validationResults.push( ...findMissingBlocks( existingRequiredBlocks, requiredBlocks ) );
+	validationResults.push( ...findMissingBlocks( blockInstance.clientId, existingRequiredBlocks, requiredBlocks ) );
 
 	// Find all block types that allow only one occurrence.
-	validationResults.push( ...findRedundantBlocks( existingRequiredBlocks, requiredBlocks ) );
+	validationResults.push( ...findRedundantBlocks( blockInstance.clientId, existingRequiredBlocks, requiredBlocks ) );
 
 	// Find all blocks that have decided for themselves that they're invalid.
 	validationResults.push( ...findSelfInvalidatedBlocks( blockInstance ) );
@@ -120,5 +119,5 @@ function isOptional( reason: BlockValidation ): boolean {
 	}
 }
 
-export default getInvalidInnerBlocks;
+export default validateInnerBlocks;
 export { findMissingBlocks, findRedundantBlocks, findSelfInvalidatedBlocks, isOptional };

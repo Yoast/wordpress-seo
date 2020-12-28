@@ -60,7 +60,7 @@ export default abstract class Instruction {
 	 * @returns `true` if the instruction block is valid, `false` if the block contains errors.
 	 */
 	validate( blockInstance: BlockInstance ): BlockValidationResult[] {
-		return [ new BlockValidationResult( blockInstance.name, BlockValidation.Valid ) ];
+		return [ new BlockValidationResult( blockInstance.clientId, blockInstance.name, BlockValidation.Valid ) ];
 	}
 	/* eslint-enable @typescript-eslint/no-unused-vars */
 

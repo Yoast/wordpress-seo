@@ -3,10 +3,9 @@ import { subscribe, select, dispatch } from "@wordpress/data";
 
 import SchemaDefinition, { schemaDefinitions } from "../../core/schema/SchemaDefinition";
 import { BlockInstance } from "@wordpress/blocks";
-import updateValidStatus from "./updateValidStatus";
 import { getBlockDefinition } from "../../core/blocks/BlockDefinitionRepository";
-import { BlockValidationResult } from "../../instructions/blocks/dto";
-import recurseOverBlocks from "../blocks/recurseOverBlocks";
+import { BlockValidation, BlockValidationResult } from "../../core/validation";
+import storeBlockValidation from "./updateValidStatus";
 
 let updatingSchema = false;
 let previousRootBlocks: BlockInstance[];
@@ -98,14 +97,12 @@ export default function watch() {
 		}
 
 		const validations = validateBlocks( rootBlocks );
-		storeValidations( validations );
+		storeBlockValidation( validations );
 
 		updatingSchema = true;
 		generateSchemaForBlocks( rootBlocks, previousRootBlocks );
 		previousRootBlocks = rootBlocks;
 		updatingSchema = false;
-
-		// UpdateValidStatus( rootBlocks );
 	} );
 }
 
@@ -117,18 +114,18 @@ export default function watch() {
 function validateBlocks( blocks: BlockInstance[] ): BlockValidationResult[] {
 	const validations: BlockValidationResult[] = [];
 	blocks.forEach( block => {
+		// This may be a third party block we cannot validate.
 		const definition = getBlockDefinition( block.name );
-		if ( ! definition ) {
-			if ( block.innerBlocks && block.innerBlocks.length > 0 ) {
-				validations.push( ...validateBlocks( block.innerBlocks ) );
-			}
+		if ( definition ) {
+			validations.push( ...definition.validate( block ) );
+		} else {
+			validations.push( new BlockValidationResult( block.clientId, block.name, BlockValidation.Unknown ) );
 		}
 
-		validations.push( ...definition.validate( block ) );
+		// Recursively validate all blocks' innerblocks.
+		if ( block.innerBlocks && block.innerBlocks.length > 0 ) {
+			validations.push( ...validateBlocks( block.innerBlocks ) );
+		}
 	} );
 	return validations;
-}
-
-function storeValidations( validations: BlockValidationResult[] ) {
-
 }
