@@ -10,6 +10,7 @@ use Symfony\Component\DependencyInjection\Compiler\AbstractRecursivePass;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\LazyProxy\ProxyHelper;
 use Yoast\WP\Lib\Dependency_Injection\Container_Registry;
+use Yoast\WP\SEO\Loadable_Interface;
 
 /**
  * Inject_From_Registry_Pass class
@@ -33,7 +34,8 @@ class Inject_From_Registry_Pass extends AbstractRecursivePass {
 			return $value;
 		}
 
-		$reflection_class = $this->container->getReflectionClass( $value->getClass(), false );
+		$class_name       = $value->getClass();
+		$reflection_class = $this->container->getReflectionClass( $class_name, false );
 		if ( ! $reflection_class ) {
 			return $value;
 		}
@@ -52,6 +54,12 @@ class Inject_From_Registry_Pass extends AbstractRecursivePass {
 
 		foreach ( $method_calls as $method_call ) {
 			$this->process_method_call( $method_call, $reflection_class );
+		}
+
+		if ( \is_subclass_of( $class_name, Loadable_Interface::class ) ) {
+			foreach ( $class_name::get_conditionals() as $type ) {
+				$this->add_definition( $type );
+			}
 		}
 
 		return $value;
@@ -108,6 +116,19 @@ class Inject_From_Registry_Pass extends AbstractRecursivePass {
 		if ( ! $type ) {
 			return;
 		}
+
+		// If we have a type hint create a definition for it if required.
+		$this->add_definition( $type );
+	}
+
+	/**
+	 * Adds a proxied definition to the container.
+	 *
+	 * @param string $type                 The type to add a definition for.
+	 *
+	 * @return void
+	 */
+	private function add_definition( $type ) {
 		// If the type is already part of the container we do not need to inject is.
 		if ( $this->container->has( $type ) ) {
 			return;
@@ -117,7 +138,6 @@ class Inject_From_Registry_Pass extends AbstractRecursivePass {
 			return;
 		}
 
-		// If we have a type hint that's from another container create a definition for it.
 		$definition = new Definition( $type, [ $other_container_name, $type ] );
 		$definition->setFactory( [ Container_Registry::class, 'get' ] );
 		$this->container->setDefinition( $type, $definition );
