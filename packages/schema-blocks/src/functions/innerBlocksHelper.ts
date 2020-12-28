@@ -42,8 +42,7 @@ function filterBlocksRecursively( blockInstance: BlockInstance, predicate: ( blo
  * @param {number}        index    The location of the block.
  */
 function insertBlockToInnerBlock( block: BlockInstance, clientId: string, index?: number ) {
-	// @ts-ignore
-	dispatch( "core/block-editor" ).insertBlocks( block, index, clientId );
+	dispatch( "core/block-editor" ).insertBlocks( [ block ], index, clientId );
 }
 
 export { filterBlocksRecursively, getInnerblocksByName, insertBlockToInnerBlock };
