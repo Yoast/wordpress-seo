@@ -1,5 +1,5 @@
-import { BlockInstance } from "@wordpress/blocks";
-import { select } from "@wordpress/data";
+import { BlockInstance, createBlock } from "@wordpress/blocks";
+import { dispatch, select } from "@wordpress/data";
 
 /**
  * Gets the inner blocks of the block with the given clientId from the core/block-editor store.
@@ -13,4 +13,25 @@ function getBlockByClientId( clientId: string ): BlockInstance {
 	return select( "core/block-editor" ).getBlock( clientId );
 }
 
-export { getBlockByClientId };
+/**
+ * Removes a block from the editor.
+ *
+ * @param {string} clientId The client id of the block to remove.
+ */
+function removeBlock( clientId: string ) {
+	dispatch( "core/block-editor" ).removeBlock( clientId );
+}
+
+/**
+ * Restores the recommended or required block that had just been removed.
+ *
+ * @param {string} clientId          The client ID of the warning block.
+ * @param {string} removedBlock      The name of the removed block.
+ * @param {object} removedAttributes The attributes of the removed block.
+ */
+function restoreBlock( clientId: string, removedBlock: string, removedAttributes: object ): void {
+	const block = createBlock( removedBlock, removedAttributes );
+	dispatch( "core/block-editor" ).replaceBlock( clientId, block );
+}
+
+export { getBlockByClientId, removeBlock, restoreBlock };

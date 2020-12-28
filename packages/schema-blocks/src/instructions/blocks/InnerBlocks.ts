@@ -7,7 +7,7 @@ import { BlockInstance, TemplateArray } from "@wordpress/blocks";
 import { InvalidBlockReason } from "./enums";
 
 /**
- * The InnerBlocks instruction.
+ * InnerBlocks instruction.
  */
 export default class InnerBlocks extends BlockInstruction {
 	public options: {
