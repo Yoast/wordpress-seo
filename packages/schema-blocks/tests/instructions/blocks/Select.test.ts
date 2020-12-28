@@ -218,7 +218,34 @@ describe( "The Select instruction", () => {
 			expect( selectInstruction.valid( blockInstance ) ).toEqual( true );
 		} );
 
-		it( "returns true when the instruction is not required.", () => {
+		it( "returns true when the instruction is not required and the value exists.", () => {
+			const options: Select["options"] = {
+				name: "cuisine",
+				label: "Cuisine",
+				required: false,
+				options: [
+					"korean",
+					"tanzanian",
+					"australian",
+				],
+			};
+
+			const selectInstruction = new Select( 123, options );
+
+			const blockInstance: BlockInstance = {
+				name: "select-instruction",
+				clientId: "abcd-1234",
+				isValid: true,
+				innerBlocks: [],
+				attributes: {
+					cuisine: "",
+				},
+			};
+
+			expect( selectInstruction.valid( blockInstance ) ).toEqual( true );
+		} );
+
+		it( "returns false when the instruction is not required and the value does not exist.", () => {
 			const options: Select["options"] = {
 				name: "cuisine",
 				label: "Cuisine",
@@ -240,7 +267,7 @@ describe( "The Select instruction", () => {
 				attributes: {},
 			};
 
-			expect( selectInstruction.valid( blockInstance ) ).toEqual( true );
+			expect( selectInstruction.valid( blockInstance ) ).toEqual( false );
 		} );
 
 		it( "returns false when the instruction is required and the value does not exist.", () => {

@@ -133,7 +133,7 @@ export default class Select extends BlockInstruction {
 				attributeNotEmpty( blockInstance, this.options.name as string );
 		}
 
-		return true;
+		return attributeExists( blockInstance, this.options.name as string );
 	}
 }
 
