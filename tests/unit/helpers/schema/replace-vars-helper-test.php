@@ -158,6 +158,58 @@ class Replace_Vars_Helper_Test extends TestCase {
 	}
 
 	/**
+	 * Tests the registration of the Schema ID replace vars when on a non-post.
+	 * E.g. a term- or author archive page.
+	 *
+	 * @covers ::__construct
+	 * @covers ::register_replace_vars
+	 * @covers ::register_replacement
+	 */
+	public function test_registers_the_right_replace_vars_on_non_post() {
+		$replace_vars = [
+			'main_schema_id'   => 'https://basic.wordpress.test/schema-templates/#webpage',
+			'author_id'        => 'https://basic.wordpress.test#/schema/person/a00dc884baa6bd52ebacc06cfd5aab21',
+			'person_id'        => 'https://basic.wordpress.test#/schema/person/',
+			'primary_image_id' => 'https://basic.wordpress.test/schema-templates#primaryimage',
+			'webpage_id'       => 'https://basic.wordpress.test/schema-templates#webpage',
+			'website_id'       => 'https://basic.wordpress.test#website',
+			'organization_id'  => 'https://basic.wordpress.test#organization',
+		];
+
+		$indexable            = Mockery::mock( Indexable_Mock::class );
+		$indexable->author_id = 'author_id';
+
+		$meta_tags_context                 = Mockery::mock( Meta_Tags_Context_Mock::class );
+		$meta_tags_context->indexable      = $indexable;
+		$meta_tags_context->main_schema_id = 'https://basic.wordpress.test/schema-templates/#webpage';
+		$meta_tags_context->site_url       = 'https://basic.wordpress.test';
+		$meta_tags_context->canonical      = 'https://basic.wordpress.test/schema-templates';
+
+		$this->id_helper
+			->expects( 'get_user_schema_id' )
+			->andReturn( 'https://basic.wordpress.test#/schema/person/a00dc884baa6bd52ebacc06cfd5aab21' );
+
+		// Partial mock, to be able to spy on the `register_replacement` method.
+		$instance = Mockery::mock(
+			Replace_Vars_Helper::class,
+			[
+				$this->replace_vars,
+				$this->id_helper,
+			]
+		)
+			->shouldAllowMockingProtectedMethods()
+			->makePartial();
+
+		foreach ( $replace_vars as $var => $value ) {
+			$instance
+				->expects( 'register_replacement' )
+				->with( $var, $value );
+		}
+
+		$instance->register_replace_vars( $meta_tags_context );
+	}
+
+	/**
 	 * Tests the replace method.
 	 *
 	 * @covers ::__construct
