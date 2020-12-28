@@ -45,4 +45,4 @@ export default function initialize() {
 	watch();
 }
 
-export { setBlockIsValid } from "./redux/actions/blockValid";
+export { setBlockValidation } from "./redux/actions/setBlockValidation";

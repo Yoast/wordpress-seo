@@ -1,4 +1,4 @@
-import { SET_BLOCK_VALID } from "../actions/blockValid";
+import { SET_BLOCK_VALID } from "../actions/setBlockValidation";
 
 const initialState = null;
 

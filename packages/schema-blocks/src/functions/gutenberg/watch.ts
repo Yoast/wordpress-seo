@@ -5,7 +5,7 @@ import SchemaDefinition, { schemaDefinitions } from "../../core/schema/SchemaDef
 import { BlockInstance } from "@wordpress/blocks";
 import { getBlockDefinition } from "../../core/blocks/BlockDefinitionRepository";
 import { BlockValidation, BlockValidationResult } from "../../core/validation";
-import storeBlockValidation from "./updateValidStatus";
+import storeBlockValidation from "./storeBlockValidation";
 
 let updatingSchema = false;
 let previousRootBlocks: BlockInstance[];

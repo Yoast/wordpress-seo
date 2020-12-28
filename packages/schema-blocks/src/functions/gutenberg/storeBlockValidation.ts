@@ -6,11 +6,11 @@ import { BlockValidationResult } from "../../core/validation";
  * @param validations The blocks' validation results.
  */
 export default function storeBlockValidation( validations: BlockValidationResult[] ) {
-	console.log( "Updating the store with the block's valid status." );
+	console.log( "Updating the store with the block's validation result." );
 
 	validations.forEach( blockValidation => {
-		console.log( blockValidation.clientId );
+		console.log( blockValidation );
 
-		dispatch( "yoast-seo/editor" ).setBlockIsValid( blockValidation.clientId, blockValidation.result );
+		dispatch( "yoast-seo/editor" ).setBlockValidation( blockValidation.clientId, blockValidation.result );
 	} );
 }
