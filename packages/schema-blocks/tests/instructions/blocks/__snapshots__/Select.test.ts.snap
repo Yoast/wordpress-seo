@@ -69,10 +69,10 @@ exports[`The Select instruction the save method renders the correct React tree w
   data-id="cuisine"
   data-value="korean"
 >
-  <b>
+  <strong>
     Cuisine
     :
-  </b>
+  </strong>
    
   korean
 </p>
@@ -83,10 +83,10 @@ exports[`The Select instruction the save method renders the correct React tree. 
   data-id="cuisine"
   data-value="korean"
 >
-  <b>
+  <strong>
     Cuisine
     :
-  </b>
+  </strong>
    
   Korean
 </p>
