@@ -38,7 +38,7 @@ export default class Select extends BlockInstruction {
 	 */
 	save( props: RenderSaveProps ): ReactElement | string {
 		return <p data-id={ this.options.name } data-value={ this.value( props ) }>
-			<b>{ this.options.label }:</b> { this.label( props ) }
+			<strong>{ this.options.label }:</strong> { this.label( props ) }
 		</p>;
 	}
 
