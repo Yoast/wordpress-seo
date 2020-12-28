@@ -61,7 +61,10 @@ export default class Select extends BlockInstruction {
 	 */
 	protected label( props: RenderSaveProps | RenderEditProps ): string {
 		if ( Array.isArray( this.options.options ) ) {
-			// Value is the same as the label, so just return the value.
+			/*
+			 * In the case of an array of options (e.g. `[ "option 1", "option 2" ]`) the option value
+			 * is the same as the option label, so just return the selected value.
+			 */
 			return this.value( props );
 		}
 
