@@ -45,7 +45,7 @@ export default function RequiredBlocks( block: BlockInstance, requiredBlocks: Re
 		} )
 		.map( requiredBlock => requiredBlock.name );
 
-	// When there are no requirted blocknames, just return.
+	// When there are no required blocknames, just return.
 	if ( requiredBlockNames.length === 0 ) {
 		return null;
 	}
