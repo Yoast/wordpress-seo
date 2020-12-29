@@ -119,6 +119,7 @@ function validateBlocks( blocks: BlockInstance[] ): BlockValidationResult[] {
 		if ( definition ) {
 			validations.push( ...definition.validate( block ) );
 		} else {
+			console.log( "unable to validatie block of type [" + block.name + "] " + block.clientId );
 			validations.push( new BlockValidationResult( block.clientId, block.name, BlockValidation.Unknown ) );
 		}
 
