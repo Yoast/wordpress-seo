@@ -235,14 +235,16 @@ Your question has most likely been answered on our knowledge base: [kb.yoast.com
 == Changelog ==
 
 = 15.6 =
+Release Date: January 12th, 2020
 
 Enhancements:
 
- * Improves taxonomy sitemap generation performance. Props to [mikeyarce](https://github.com/mikeyarce). 
+ * Improves keyphrase recognition in Norwegian by filtering out function words such as 'tredje', 'deres' and 'noen'.
+ * Improves taxonomy sitemap generation performance. Props to [mikeyarce](https://github.com/mikeyarce).
  * Adds advanced snippet variables in the Google preview of our Elementor integration.
  * Adds the Tag, Category and Primary Category snippet variables in the Google preview of our Elementor integration.
- * Ensures that there’s always a meta description for Web Stories. Props to [swissspidy](https://github.com/swissspidy).
- * Extends the plugin conflict list. 
+ * Ensures that there's always a meta description for Web Stories. Props to [swissspidy](https://github.com/swissspidy).
+ * Extends the plugin conflict list.
 
 Bugfixes:
 
