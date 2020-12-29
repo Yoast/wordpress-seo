@@ -11,13 +11,6 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
-if ( filter_input( INPUT_GET, 'intro' ) ) {
-	update_user_meta( get_current_user_id(), 'wpseo_seen_about_version', WPSEO_VERSION );
-	require WPSEO_PATH . 'admin/views/about.php';
-
-	return;
-}
-
 if ( isset( $_GET['allow_tracking'] ) && check_admin_referer( 'wpseo_activate_tracking', 'nonce' ) ) {
 	WPSEO_Options::set( 'yoast_tracking', ( $_GET['allow_tracking'] === 'yes' ) );
 

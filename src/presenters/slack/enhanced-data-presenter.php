@@ -33,16 +33,17 @@ class Enhanced_Data_Presenter extends Abstract_Indexable_Presenter {
 	 * @return array The enhanced data array
 	 */
 	public function get() {
-		$data         = [];
-		$post_content = $this->presentation->source->post_content;
-		$author_id    = $this->presentation->source->post_author;
+		$data                   = [];
+		$author_id              = $this->presentation->source->post_author;
+		$estimated_reading_time = $this->presentation->estimated_reading_time_minutes;
 
 		if ( \is_singular( 'post' ) && $author_id ) {
 			$data[ \__( 'Written by', 'wordpress-seo' ) ] = \get_the_author_meta( 'display_name', $author_id );
 		}
 
-		if ( ! empty( $post_content ) ) {
-			$data[ \__( 'Est. reading time', 'wordpress-seo' ) ] = $this->get_reading_time( $post_content );
+		if ( ! empty( $estimated_reading_time ) ) {
+			/* translators: %s expands to the reading time number, in minutes */
+			$data[ \__( 'Est. reading time', 'wordpress-seo' ) ] = \sprintf( \_n( '%s minute', '%s minutes', $estimated_reading_time, 'default' ), $estimated_reading_time );
 		}
 
 		/**
@@ -53,22 +54,5 @@ class Enhanced_Data_Presenter extends Abstract_Indexable_Presenter {
 		 * @param Indexable_Presentation $presentation The presentation of an indexable.
 		 */
 		return \apply_filters( 'wpseo_enhanced_slack_data', $data, $this->presentation );
-	}
-
-	/**
-	 * Calculate the estimated reading time.
-	 *
-	 * @param string $post_content The post content.
-	 *
-	 * @return string Human-readable est. reading time.
-	 */
-	private function get_reading_time( $post_content ) {
-		// 250 is the estimated words per minute, https://en.wikipedia.org/wiki/Speed_reading.
-		$words_per_minute = 250;
-
-		$word    = \str_word_count( \wp_strip_all_tags( $post_content ) );
-		$minutes = \round( $word / $words_per_minute );
-		/* translators: %s: Time duration in minute or minutes. */
-		return \sprintf( \_n( '%s minute', '%s minutes', $minutes, 'default' ), $minutes );
 	}
 }

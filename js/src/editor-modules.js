@@ -18,7 +18,7 @@ import * as replacementVariableHelpers from "./helpers/replacementVariableHelper
 import * as location from "./components/contexts/location";
 import Modal from "./components/modals/Modal";
 import SidebarItem from "./components/SidebarItem";
-import ajaxHelper from "./helpers/ajaxHelper";
+import * as ajaxHelper from "./helpers/ajaxHelper";
 import EditorModal from "./containers/EditorModal";
 
 window.yoast = window.yoast || {};
