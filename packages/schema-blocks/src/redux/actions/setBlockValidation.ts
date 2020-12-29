@@ -10,12 +10,10 @@ export const SET_BLOCK_VALID = "SET_BLOCK_VALID";
  *
  * @returns {Object} An action for redux.
  */
-function setBlockValidation( clientID: string, validation: BlockValidation ): Record<string, string | BlockValidation> {
+export function setBlockValidation( clientID: string, validation: BlockValidation ): Record<string, string | BlockValidation> {
 	return {
 		type: SET_BLOCK_VALID,
 		clientId: clientID,
 		validation: validation,
 	};
 }
-
-export default setBlockValidation;

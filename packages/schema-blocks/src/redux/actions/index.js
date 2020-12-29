@@ -1,1 +1,1 @@
-export { default as setBlockValidation } from "./setBlockValidation";
+export { setBlockValidation } from "./setBlockValidation";

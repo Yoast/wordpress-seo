@@ -10,7 +10,7 @@ const initialState = null;
  *
  * @returns {Object} The state.
  */
-function schemaBlocksReducer( state = initialState, action ) {
+export function schemaBlocksReducer( state = initialState, action ) {
 	switch ( action.type ) {
 		case SET_BLOCK_VALID:
 			return null;
@@ -18,5 +18,3 @@ function schemaBlocksReducer( state = initialState, action ) {
 			return state;
 	}
 }
-
-export default schemaBlocksReducer;

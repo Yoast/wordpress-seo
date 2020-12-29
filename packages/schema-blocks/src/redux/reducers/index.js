@@ -1,1 +1,1 @@
-export { default as schemaBlocksReducer } from "./blockValid";
+export { schemaBlocksReducer } from "./schemaBlocksReducer";
