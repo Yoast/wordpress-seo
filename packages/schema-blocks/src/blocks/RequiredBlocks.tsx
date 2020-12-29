@@ -17,14 +17,10 @@ import { PanelBody } from "@wordpress/components";
  */
 export default function RequiredBlocks( block: BlockInstance, requiredBlocks: RequiredBlock[] ): ReactElement {
 	// Retrieve a list with names.
-	const requiredBlockNames = requiredBlocks.map( ( requiredBlock ) => {
-		return requiredBlock.name;
-	} );
+	const requiredBlockNames = requiredBlocks.map( requiredBlock => requiredBlock.name );
 
 	const findPresentBlocks = getInnerblocksByName( block, requiredBlockNames );
-	const presentBlockNames = findPresentBlocks.map( ( presentBlock ) => {
-		return presentBlock.name;
-	} );
+	const presentBlockNames = findPresentBlocks.map( presentBlock => presentBlock.name );
 
 	const requiredBlockItems: ReactElement[] = [];
 
