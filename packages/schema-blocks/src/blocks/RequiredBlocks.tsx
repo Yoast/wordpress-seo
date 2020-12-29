@@ -7,6 +7,26 @@ import { getInnerblocksByName, insertBlockToInnerBlock } from "../functions/inne
 import { getBlockType } from "../functions/BlockHelper";
 import { PanelBody } from "@wordpress/components";
 
+type AddedBSuggestionDefinition = {
+	blockTitle: string;
+}
+
+/**
+ * Renders a block suggestion that is already added
+ *
+ * @param {string} blockTitle The block title.
+ *
+ * @returns {ReactElement} The rendered element.
+ */
+function BlockSuggestionAdded( { blockTitle }: AddedBSuggestionDefinition ): ReactElement {
+	return (
+		<li className="yoast-block-suggestion yoast-block-suggestion--added">
+			{ blockTitle }
+			<span className="yoast-block-suggestion-checkmark">x</span>
+		</li>
+	);
+}
+
 /**
  * Renders a list with the required block names and an button to add/remove one.
  *
@@ -42,12 +62,7 @@ export default function RequiredBlocks( block: BlockInstance, requiredBlocks: Re
 						const blockType = getBlockType( requiredBlockName );
 
 						if ( presentBlockNames.includes( requiredBlockName ) ) {
-							return (
-								<li key={ index } className="yoast-block-suggestion yoast-block-suggestion--added">
-									{ blockType.title }
-									<span className="yoast-block-suggestion-checkmark">x</span>
-								</li>
-							);
+							return <BlockSuggestionAdded key={ index } blockTitle={ blockType.title } />;
 						}
 
 						/**
