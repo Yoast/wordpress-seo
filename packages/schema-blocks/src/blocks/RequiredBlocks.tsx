@@ -33,47 +33,39 @@ export default function RequiredBlocks( block: BlockInstance, requiredBlocks: Re
 	const findPresentBlocks = getInnerblocksByName( block, requiredBlockNames );
 	const presentBlockNames = findPresentBlocks.map( presentBlock => presentBlock.name );
 
-	const requiredBlockItems: ReactElement[] = [];
-
-	requiredBlockNames.forEach( ( requiredBlockName: string, index: number ) => {
-		const blockType = getBlockType( requiredBlockName );
-
-		if ( presentBlockNames.includes( requiredBlockName ) ) {
-			requiredBlockItems.push(
-				(
-					<li key={ index } className="yoast-block-suggestion yoast-block-suggestion--added">
-						{ blockType.title }
-						<span className="yoast-block-suggestion-checkmark">x</span>
-					</li>
-				),
-			);
-
-			return;
-		}
-
-		/**
-		 * Onclick handler for the remove block.
-		 */
-		const addBlockClick = () => {
-			const blockToAdd = createBlock( requiredBlockName );
-			insertBlockToInnerBlock( blockToAdd, block.clientId );
-		};
-
-		requiredBlockItems.push(
-			(
-				<li key={ index } className="yoast-block-suggestion">
-					{ blockType.title }
-					<button className="yoast-block-suggestion-button" onClick={ addBlockClick }>Add</button>
-				</li>
-			),
-		);
-	} );
-
 	return (
 		<PanelBody>
 			<div className="yoast-block-sidebar-title">Required blocks</div>
 			<ul className="yoast-block-suggestions">
-				{ requiredBlockItems }
+				{
+					requiredBlockNames.map( ( requiredBlockName: string, index: number ) => {
+						const blockType = getBlockType( requiredBlockName );
+
+						if ( presentBlockNames.includes( requiredBlockName ) ) {
+							return (
+								<li key={ index } className="yoast-block-suggestion yoast-block-suggestion--added">
+									{ blockType.title }
+									<span className="yoast-block-suggestion-checkmark">x</span>
+								</li>
+							);
+						}
+
+						/**
+						 * Onclick handler for the remove block.
+						 */
+						const addBlockClick = () => {
+							const blockToAdd = createBlock( requiredBlockName );
+							insertBlockToInnerBlock( blockToAdd, block.clientId );
+						};
+
+						return (
+							<li key={ index } className="yoast-block-suggestion">
+								{ blockType.title }
+								<button className="yoast-block-suggestion-button" onClick={ addBlockClick }>Add</button>
+							</li>
+						);
+					} )
+				}
 			</ul>
 		</PanelBody>
 	);
