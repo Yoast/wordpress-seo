@@ -17,7 +17,18 @@ import { PanelBody } from "@wordpress/components";
  */
 export default function RequiredBlocks( block: BlockInstance, requiredBlocks: RequiredBlock[] ): ReactElement {
 	// Retrieve a list with names.
-	const requiredBlockNames = requiredBlocks.map( requiredBlock => requiredBlock.name );
+	const requiredBlockNames = requiredBlocks
+		.filter( requiredBlock => {
+			const blockType = getBlockType( requiredBlock.name );
+
+			return typeof blockType !== "undefined";
+		} )
+		.map( requiredBlock => requiredBlock.name );
+
+	// When there are no requirted blocknames, just return.
+	if ( requiredBlockNames.length === 0 ) {
+		return null;
+	}
 
 	const findPresentBlocks = getInnerblocksByName( block, requiredBlockNames );
 	const presentBlockNames = findPresentBlocks.map( presentBlock => presentBlock.name );
@@ -26,10 +37,6 @@ export default function RequiredBlocks( block: BlockInstance, requiredBlocks: Re
 
 	requiredBlockNames.forEach( ( requiredBlockName: string, index: number ) => {
 		const blockType = getBlockType( requiredBlockName );
-
-		if ( typeof blockType === "undefined" ) {
-			return;
-		}
 
 		if ( presentBlockNames.includes( requiredBlockName ) ) {
 			requiredBlockItems.push(
@@ -61,10 +68,6 @@ export default function RequiredBlocks( block: BlockInstance, requiredBlocks: Re
 			),
 		);
 	} );
-
-	if ( requiredBlockItems.length === 0 ) {
-		return null;
-	}
 
 	return (
 		<PanelBody>
