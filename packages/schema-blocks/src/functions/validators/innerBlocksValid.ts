@@ -114,9 +114,9 @@ function validateInnerBlocks( blockInstance: BlockInstance, requiredBlocks: Requ
  */
 function isOptional( reason: BlockValidation ): boolean {
 	switch ( reason ) {
-		case BlockValidation.Optional: 
+		case BlockValidation.Optional:
 			return true;
-		default: 
+		default:
 			return false;
 	}
 }
