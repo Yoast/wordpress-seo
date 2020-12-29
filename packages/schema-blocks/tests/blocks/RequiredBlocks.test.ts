@@ -1,11 +1,11 @@
 import { BlockInstance, createBlock } from "@wordpress/blocks";
 
-import renderer from "react-test-renderer";
-import { shallow } from "enzyme";
+import * as renderer from "react-test-renderer";
+import { mount } from "enzyme";
 
 import { RequiredBlock } from "../../src/instructions/blocks/dto";
 import RequiredBlocks from "../../src/blocks/RequiredBlocks";
-import { insertBlockToInnerBlock } from "../../src/functions/innerBlocksHelper";
+import { insertBlocks } from "../../src/functions/innerBlocksHelper";
 
 jest.mock( "@wordpress/blocks", () => {
 	return {
@@ -97,13 +97,13 @@ describe( "The required blocks in the sidebar", () => {
 			} as RequiredBlock,
 		];
 
-		const tree = shallow( RequiredBlocks( block, requiredBlocks ) );
+		const tree = mount( RequiredBlocks( block, requiredBlocks ) );
 
 		const addButton = tree.find( "button" ).first();
 
 		addButton.simulate( "click" );
 
 		expect( createBlock ).toHaveBeenCalled();
-		expect( insertBlockToInnerBlock ).toHaveBeenCalled();
+		expect( insertBlocks ).toHaveBeenCalled();
 	} );
 } );

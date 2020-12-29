@@ -3,12 +3,44 @@ import { BlockInstance, createBlock } from "@wordpress/blocks";
 import { createElement } from "@wordpress/element";
 import { RequiredBlock } from "../instructions/blocks/dto";
 
-import { getInnerblocksByName, insertBlockToInnerBlock } from "../functions/innerBlocksHelper";
+import { getInnerblocksByName, insertBlock } from "../functions/innerBlocksHelper";
 import { getBlockType } from "../functions/BlockHelper";
 import { PanelBody } from "@wordpress/components";
 
 type AddedBSuggestionDefinition = {
 	blockTitle: string;
+}
+
+type SuggestionDefinition = {
+	blockTitle: string;
+	blockName: string;
+	blockClientId: string;
+}
+
+/**
+ * Renders a block suggestion with the possibility to add one.
+ *
+ * @param {string}   blockTitle    The title to show.
+ * @param {string}   blockName     The name of the block to add.
+ * @param {string}   blockClientId The clientId of the target to add the block to.
+ *
+ * @returns {ReactElement} The rendered block suggestion.
+ */
+function BlockSuggestion( { blockTitle, blockName, blockClientId }: SuggestionDefinition ): ReactElement {
+	/**
+	 * Onclick handler for the remove block.
+	 */
+	const addBlockClick = () => {
+		const blockToAdd = createBlock( blockName );
+		insertBlock( blockToAdd, blockClientId );
+	};
+
+	return (
+		<li className="yoast-block-suggestion">
+			{ blockTitle }
+			<button className="yoast-block-suggestion-button" onClick={ addBlockClick }>Add</button>
+		</li>
+	);
 }
 
 /**
@@ -65,20 +97,12 @@ export default function RequiredBlocks( block: BlockInstance, requiredBlocks: Re
 							return <BlockSuggestionAdded key={ index } blockTitle={ blockType.title } />;
 						}
 
-						/**
-						 * Onclick handler for the remove block.
-						 */
-						const addBlockClick = () => {
-							const blockToAdd = createBlock( requiredBlockName );
-							insertBlockToInnerBlock( blockToAdd, block.clientId );
-						};
-
-						return (
-							<li key={ index } className="yoast-block-suggestion">
-								{ blockType.title }
-								<button className="yoast-block-suggestion-button" onClick={ addBlockClick }>Add</button>
-							</li>
-						);
+						return <BlockSuggestion
+							key={ index }
+							blockTitle={ blockType.title }
+							blockName={ requiredBlockName }
+							blockClientId={ block.clientId }
+						/>;
 					} )
 				}
 			</ul>
