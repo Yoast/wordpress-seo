@@ -70,11 +70,7 @@ function BlockSuggestionAdded( { blockTitle }: AddedBSuggestionDefinition ): Rea
 export default function RequiredBlocks( block: BlockInstance, requiredBlocks: RequiredBlock[] ): ReactElement {
 	// Retrieve a list with names.
 	const requiredBlockNames = requiredBlocks
-		.filter( requiredBlock => {
-			const blockType = getBlockType( requiredBlock.name );
-
-			return typeof blockType !== "undefined";
-		} )
+		.filter( requiredBlock => typeof getBlockType( requiredBlock.name ) !== "undefined" )
 		.map( requiredBlock => requiredBlock.name );
 
 	// When there are no required blocknames, just return.
