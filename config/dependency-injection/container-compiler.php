@@ -35,6 +35,7 @@ class Container_Compiler {
 
 		if ( ! $cache->isFresh() ) {
 			if ( ! \defined( 'WPSEO_VERSION' ) ) {
+				// @phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedConstantFound -- Constant is prefixed with old prefix.
 				\define( 'WPSEO_VERSION', 'COMPILING' );
 			}
 
@@ -51,8 +52,8 @@ class Container_Compiler {
 			$dumper = new PhpDumper( $container_builder );
 			$code   = $dumper->dump(
 				[
-					'class'      => 'Cached_Container',
-					'namespace'  => $namespace,
+					'class'     => 'Cached_Container',
+					'namespace' => $namespace,
 				]
 			);
 			$code   = \str_replace( 'Symfony\\Component\\DependencyInjection', 'YoastSEO_Vendor\\Symfony\\Component\\DependencyInjection', $code );

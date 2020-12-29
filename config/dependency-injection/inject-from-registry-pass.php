@@ -2,7 +2,6 @@
 
 namespace Yoast\WP\SEO\Dependency_Injection;
 
-use ReflectionClass;
 use ReflectionFunctionAbstract;
 use ReflectionParameter;
 use RuntimeException;
@@ -14,6 +13,8 @@ use Yoast\WP\SEO\Loadable_Interface;
 
 /**
  * Inject_From_Registry_Pass class
+ *
+ * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded -- 4 words is fine.
  */
 class Inject_From_Registry_Pass extends AbstractRecursivePass {
 
@@ -34,26 +35,16 @@ class Inject_From_Registry_Pass extends AbstractRecursivePass {
 			return $value;
 		}
 
-		$class_name       = $value->getClass();
-		$reflection_class = $this->container->getReflectionClass( $class_name, false );
-		if ( ! $reflection_class ) {
-			return $value;
-		}
-
+		$class_name   = $value->getClass();
 		$method_calls = $value->getMethodCalls();
-
-		try {
-			$constructor = $this->getConstructor( $value, false );
-		} catch ( RuntimeException $e ) {
-			return $value;
-		}
+		$constructor  = $this->getConstructor( $value, false );
 
 		if ( $constructor ) {
 			array_unshift( $method_calls, [ $constructor, $value->getArguments() ] );
 		}
 
 		foreach ( $method_calls as $method_call ) {
-			$this->process_method_call( $method_call, $reflection_class );
+			$this->process_method_call( $method_call, $value );
 		}
 
 		if ( \is_subclass_of( $class_name, Loadable_Interface::class ) ) {
@@ -68,29 +59,21 @@ class Inject_From_Registry_Pass extends AbstractRecursivePass {
 	/**
 	 * Processes a method call of a definition.
 	 *
-	 * @param array           $method_call      The method call, a pair of the method and arguments.
-	 * @param ReflectionClass $reflection_class The reflection class the method belongs to.
+	 * @param array      $method_call The method call, a pair of the method and arguments.
+	 * @param Definition $definition  The definition the method belongs to.
 	 *
 	 * @return void
 	 *
 	 * @throws RuntimeException If reflection fails.
 	 */
-	private function process_method_call( $method_call, ReflectionClass $reflection_class ) {
+	private function process_method_call( $method_call, Definition $definition ) {
 		list($method, $arguments) = $method_call;
 
 		if ( $method instanceof \ReflectionFunctionAbstract ) {
 			$reflection_method = $method;
 		}
 		else {
-			$definition = new Definition( $reflection_class->name );
-			try {
-				$reflection_method = $this->getReflectionMethod( $definition, $method );
-			} catch ( RuntimeException $e ) {
-				if ( $definition->getFactory() ) {
-					return;
-				}
-				throw $e;
-			}
+			$reflection_method = $this->getReflectionMethod( $definition, $method );
 		}
 
 		foreach ( $reflection_method->getParameters() as $index => $parameter ) {

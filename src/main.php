@@ -38,6 +38,8 @@ class Main extends Abstract_Main {
 	 */
 	const WP_CLI_NAMESPACE = 'yoast';
 
+	// @phpcs:disable Generic.Commenting.DocComment.MissingShort -- Description is included in the inherited comment.
+
 	/**
 	 * @inheritDoc
 	 */
