@@ -5,7 +5,7 @@ import { mount } from "enzyme";
 
 import { RequiredBlock } from "../../src/instructions/blocks/dto";
 import RequiredBlocks from "../../src/blocks/RequiredBlocks";
-import { insertBlocks } from "../../src/functions/innerBlocksHelper";
+import { insertBlock } from "../../src/functions/innerBlocksHelper";
 
 jest.mock( "@wordpress/blocks", () => {
 	return {
@@ -30,7 +30,7 @@ jest.mock( "../../src/functions/BlockHelper", () => {
 
 jest.mock( "../../src/functions/innerBlocksHelper", () => {
 	return {
-		insertBlockToInnerBlock: jest.fn(),
+		insertBlock: jest.fn(),
 		getInnerblocksByName: jest.fn( ()  => {
 			return [
 				{
@@ -104,6 +104,6 @@ describe( "The required blocks in the sidebar", () => {
 		addButton.simulate( "click" );
 
 		expect( createBlock ).toHaveBeenCalled();
-		expect( insertBlocks ).toHaveBeenCalled();
+		expect( insertBlock ).toHaveBeenCalled();
 	} );
 } );
