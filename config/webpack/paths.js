@@ -15,6 +15,7 @@ const entry = {
 	"classic-editor": "./classic-editor.js",
 	"configuration-wizard": "./configuration-wizard.js",
 	"dashboard-widget": "./dashboard-widget.js",
+	"dynamic-blocks": "./dynamic-blocks.js",
 	"edit-page": "./edit-page.js",
 	"editor-modules": "./editor-modules.js",
 	"elementor": "./elementor.js",
