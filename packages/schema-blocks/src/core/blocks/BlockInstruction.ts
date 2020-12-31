@@ -26,7 +26,9 @@ export default abstract class BlockInstruction extends Instruction {
 	save( props: RenderSaveProps, leaf: BlockLeaf, i: number ): ReactElement | string {
 		return null;
 	}
+	/* eslint-enable @typescript-eslint/no-unused-vars */
 
+	/* eslint-disable @typescript-eslint/no-unused-vars */
 	/**
 	 * Renders editing the element.
 	 *
@@ -39,7 +41,9 @@ export default abstract class BlockInstruction extends Instruction {
 	edit( props: RenderEditProps, leaf: BlockLeaf, i: number ): ReactElement | string {
 		return null;
 	}
+	/* eslint-enable @typescript-eslint/no-unused-vars */
 
+	/* eslint-disable @typescript-eslint/no-unused-vars */
 	/**
 	 * Renders the sidebar.
 	 *
@@ -71,9 +75,9 @@ export default abstract class BlockInstruction extends Instruction {
 	 */
 	validate( blockInstance: BlockInstance ): BlockValidationResult[] {
 		if ( this.options.required === true ) {
-			const result = attributeExists( blockInstance, this.options.name as string ) &&
-						   attributeNotEmpty( blockInstance, this.options.name as string );
-			if ( ! result ) {
+			const valid = attributeExists( blockInstance, this.options.name as string ) &&
+						  attributeNotEmpty( blockInstance, this.options.name as string );
+			if ( ! valid ) {
 				return [ new BlockValidationResult( blockInstance.clientId, blockInstance.name, BlockValidation.Missing ) ];
 			}
 		}

@@ -1,6 +1,5 @@
 import { isEqual } from "lodash";
 import { subscribe, select, dispatch } from "@wordpress/data";
-
 import SchemaDefinition, { schemaDefinitions } from "../../core/schema/SchemaDefinition";
 import { BlockInstance } from "@wordpress/blocks";
 import { getBlockDefinition } from "../../core/blocks/BlockDefinitionRepository";
@@ -83,35 +82,11 @@ function generateSchemaForBlocks( blocks: BlockInstance[], previousBlocks: Block
 }
 
 /**
- * Watches Gutenberg for relevant changes.
- */
-export default function watch() {
-	subscribe( () => {
-		if ( updatingSchema ) {
-			return;
-		}
-
-		const rootBlocks = select( "core/block-editor" ).getBlocks();
-		if ( rootBlocks === previousRootBlocks ) {
-			return;
-		}
-
-		const validations = validateBlocks( rootBlocks );
-		storeBlockValidation( validations );
-
-		updatingSchema = true;
-		generateSchemaForBlocks( rootBlocks, previousRootBlocks );
-		previousRootBlocks = rootBlocks;
-		updatingSchema = false;
-	} );
-}
-
-/**
  Validates blocks recursively.
 @param blocks The block instances to validate.
 @returns {BlockValidationResult[]} Validation results for each (inner)block of the given blocks.
  */
-function validateBlocks( blocks: BlockInstance[] ): BlockValidationResult[] {
+export function validateBlocks( blocks: BlockInstance[] ): BlockValidationResult[] {
 	const validations: BlockValidationResult[] = [];
 	blocks.forEach( block => {
 		// This may be a third party block we cannot validate.
@@ -119,6 +94,7 @@ function validateBlocks( blocks: BlockInstance[] ): BlockValidationResult[] {
 		if ( definition ) {
 			validations.push( ...definition.validate( block ) );
 		} else {
+			// eslint-disable-next-line no-console
 			console.log( "Unable to validate block of type [" + block.name + "] " + block.clientId );
 			validations.push( new BlockValidationResult( block.clientId, block.name, BlockValidation.Unknown ) );
 		}
@@ -129,4 +105,30 @@ function validateBlocks( blocks: BlockInstance[] ): BlockValidationResult[] {
 		}
 	} );
 	return validations;
+}
+
+/**
+ * Watches Gutenberg for relevant changes.
+ */
+export default function watch() {
+	subscribe( () => {
+		if ( updatingSchema ) {
+			return;
+		}
+
+		const rootBlocks: BlockInstance[] = select( "core/block-editor" ).getBlocks();
+		if ( rootBlocks === previousRootBlocks ) {
+			return;
+		}
+
+		updatingSchema = true;
+		{
+			const validations = validateBlocks( rootBlocks );
+			storeBlockValidation( validations );
+
+			generateSchemaForBlocks( rootBlocks, previousRootBlocks );
+			previousRootBlocks = rootBlocks;
+		}
+		updatingSchema = false;
+	} );
 }

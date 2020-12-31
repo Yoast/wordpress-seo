@@ -20,13 +20,11 @@ function findMissingBlocks( parentId: string, existingRequiredBlocks: BlockInsta
 		return ! existingRequiredBlocks.some( block => block.name === requiredBlock.name );
 	} );
 
-	const BlockValidationResults: BlockValidationResult[] = [];
-	missingRequiredBlocks.forEach( missingBlock => {
-		// These blocks should've existed, but they don't.
-		BlockValidationResults.push( new BlockValidationResult( parentId, missingBlock.name, BlockValidation.Missing ) );
-	} );
+	// These blocks should've existed, but they don't.
+	const validationResults: BlockValidationResult[] = missingRequiredBlocks.map( missingBlock =>
+		new BlockValidationResult( parentId, missingBlock.name, BlockValidation.Missing ) );
 
-	return BlockValidationResults;
+	return validationResults;
 }
 
 /**
@@ -39,20 +37,21 @@ function findMissingBlocks( parentId: string, existingRequiredBlocks: BlockInsta
  * @returns {BlockValidationResult[]} The names of blocks that occur more than once in the inner blocks with reason 'TooMany'.
  */
 function findRedundantBlocks( parentId: string, existingRequiredBlocks: BlockInstance[], requiredBlocks: RequiredBlock[] ): BlockValidationResult[] {
-	const BlockValidationResults: BlockValidationResult[] = [];
-
+	const validationResults: BlockValidationResult[] = [];
 	const onlyOneAllowed = requiredBlocks.filter( block => block.option === RequiredBlockOption.One );
 
 	if ( onlyOneAllowed.length > 0 ) {
 		// Count the occurrences of each block so we can find all keys that have too many occurrences.
-		const countPerBlockType = countBy( existingRequiredBlocks, ( block: BlockInstance ) => block.name );
+		const relevantBlockNames = existingRequiredBlocks.filter( block => onlyOneAllowed.some( ooa => ooa.name === block.name ) );
+		const countPerBlockType = countBy( relevantBlockNames, ( block: BlockInstance ) => block.name );
+
 		for ( const blockName in countPerBlockType ) {
 			if ( countPerBlockType[ blockName ] > 1 ) {
-				BlockValidationResults.push( new BlockValidationResult( parentId, blockName, BlockValidation.TooMany ) );
+				validationResults.push( new BlockValidationResult( parentId, blockName, BlockValidation.TooMany ) );
 			}
 		}
 	}
-	return BlockValidationResults;
+	return validationResults;
 }
 
 /**
@@ -72,6 +71,7 @@ function findSelfInvalidatedBlocks( blockInstance: BlockInstance ): BlockValidat
 		if ( definition ) {
 			validations.push( ...definition.validate( block ) );
 		} else {
+			// eslint-disable-next-line no-console
 			console.log( "Block definition for '" + block.name + "' is not registered." );
 		}
 	} );
@@ -105,21 +105,5 @@ function validateInnerBlocks( blockInstance: BlockInstance, requiredBlocks: Requ
 	return validationResults;
 }
 
-/**
- * Helper function to determine the urgency of an invalidation.
- *
- * @param reason The reason to check.
- *
- * @returns {boolean} True if the invalidation is for an optional block (a warning), false if the invalidation is for a required block (an error).
- */
-function isOptional( reason: BlockValidation ): boolean {
-	switch ( reason ) {
-		case BlockValidation.Optional:
-			return true;
-		default:
-			return false;
-	}
-}
-
 export default validateInnerBlocks;
-export { findMissingBlocks, findRedundantBlocks, findSelfInvalidatedBlocks, isOptional };
+export { findMissingBlocks, findRedundantBlocks, findSelfInvalidatedBlocks };

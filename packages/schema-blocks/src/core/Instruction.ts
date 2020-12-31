@@ -51,18 +51,15 @@ export default abstract class Instruction {
 		return true;
 	}
 
-	/* eslint-disable @typescript-eslint/no-unused-vars */
 	/**
-	 * Checks if the instruction block is valid.
+	 * Validates the block instance against its definition.
 	 *
 	 * @param blockInstance The block to check.
-	 *
-	 * @returns `true` if the instruction block is valid, `false` if the block contains errors.
+	 * @returns {BlockValidationResult[]} The validation result.
 	 */
 	validate( blockInstance: BlockInstance ): BlockValidationResult[] {
 		return [ new BlockValidationResult( blockInstance.clientId, blockInstance.name, BlockValidation.Valid ) ];
 	}
-	/* eslint-enable @typescript-eslint/no-unused-vars */
 
 	/**
 	 * Register a new instruction.

@@ -6,9 +6,11 @@ import { BlockValidationResult } from "../../core/validation";
  * @param validations The blocks' validation results.
  */
 export default function storeBlockValidation( validations: BlockValidationResult[] ) {
-	console.log( "Updating the store with the block's validation result." );
+	// eslint-disable-next-line no-console
+	console.log( "Updating the store with the validation results." );
 
 	validations.forEach( blockValidation => {
+		// eslint-disable-next-line no-console
 		console.log( blockValidation );
 
 		dispatch( "yoast-seo/editor" ).setBlockValidation( blockValidation.clientId, blockValidation.result );
