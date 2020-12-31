@@ -44,5 +44,3 @@ export default function initialize() {
 	// Watch Gutenberg for block changes that require schema updates.
 	watch();
 }
-
-export { setBlockValidation } from "./redux/actions/setBlockValidation";
