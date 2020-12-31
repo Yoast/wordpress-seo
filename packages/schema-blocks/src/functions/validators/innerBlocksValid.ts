@@ -86,7 +86,7 @@ function findSelfInvalidatedBlocks( blockInstance: BlockInstance ): BlockValidat
  *
  * @returns {BlockValidationResult[]} The names and reasons of the inner blocks that are invalid.
  */
-function validateInnerBlocks( blockInstance: BlockInstance, requiredBlocks: RequiredBlock[] ): BlockValidationResult[]  {
+function validateInnerBlocks( blockInstance: BlockInstance, requiredBlocks: RequiredBlock[] = [] ): BlockValidationResult[]  {
 	const requiredBlockKeys = requiredBlocks.map( rblock => rblock.name );
 	const validationResults: BlockValidationResult[] = [];
 
