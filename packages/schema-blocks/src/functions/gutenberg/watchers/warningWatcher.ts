@@ -44,15 +44,29 @@ function getInnerBlocksInstruction( blockName: string ): InnerBlocks | null {
 }
 
 /**
- * Adds a warning block to the block with the given ID at the given place.
+ * Creates a warning block.
  *
- * @param attributes The attributes of the warning block.
- * @param index The index of the parent's innerBlocks at which the place the warning.
- * @param parentBlockClientId The client ID of the parent.
+ * @param innerBlock The inner block that has been removed.
+ * @param message The message that should be shown in the warning.
+ * @param isRequired If the removed block was a required block.
+ *
+ * @returns The warning block.
  */
-function addWarning( attributes: Record<string, unknown>, index: number, parentBlockClientId: string ): void {
-	const warning = createBlock( "yoast/warning-block", attributes );
-	dispatch( "core/block-editor" ).insertBlock( warning, index, parentBlockClientId );
+function createWarning( innerBlock: BlockInstance, message: string, isRequired = true ): BlockInstance {
+	if ( ! message ) {
+		message = `You've just removed the ‘${ innerBlock.attributes.title }’ block,
+						but this is a required block for Schema output.
+						Without this block no Schema will be generated. Do you want this?`;
+	}
+
+	const attributes = {
+		removedBlock: innerBlock.name,
+		removedAttributes: innerBlock.attributes,
+		isRequired,
+		warningText: message,
+	};
+
+	return createBlock( "yoast/warning-block", attributes );
 }
 
 /**
@@ -71,6 +85,13 @@ export default function warningWatcher( blocks: BlockInstance[], previousBlocks:
 			return;
 		}
 
+		const removedInnerBlocks = block.innerBlocks
+			.filter( innerBlock => ! currentBlockIds.includes( innerBlock.clientId ) );
+
+		if ( removedInnerBlocks.length === 0 ) {
+			return;
+		}
+
 		const innerBlocksInstruction: InnerBlocks = getInnerBlocksInstruction( block.name );
 
 		if ( ! innerBlocksInstruction ) {
@@ -79,23 +100,18 @@ export default function warningWatcher( blocks: BlockInstance[], previousBlocks:
 
 		const requiredBlocks = innerBlocksInstruction.options.requiredBlocks;
 
-		block.innerBlocks.forEach( ( innerBlock, index ) => {
-			if ( currentBlockIds.includes( innerBlock.clientId ) ) {
-				return;
-			}
+		if ( ! requiredBlocks ) {
+			return;
+		}
 
-			const isRequired = requiredBlocks.some( requiredBlock => innerBlock.name === requiredBlock.name );
+		const removedRequiredInnerBlocks = removedInnerBlocks
+			.filter( innerBlock => requiredBlocks.some( requiredBlock => innerBlock.name === requiredBlock.name ) );
 
-			if ( isRequired ) {
-				const attributes = {
-					removedBlock: innerBlock.name,
-					removedAttributes: innerBlock.attributes,
-					isRequired,
-					warningText: "Oh no! You are bad!",
-				};
-
-				addWarning( attributes, index, block.clientId );
-			}
+		removedRequiredInnerBlocks.forEach( ( innerBlock ) => {
+			const index = block.innerBlocks.findIndex( aBlock => aBlock.clientId === innerBlock.clientId );
+			const message = innerBlocksInstruction.options.warnings[ block.clientId ] as string;
+			const warning = createWarning( innerBlock, message );
+			dispatch( "core/block-editor" ).insertBlock( warning, index, block.clientId );
 		} );
 	} );
 }

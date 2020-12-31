@@ -32,9 +32,11 @@ export const WarningBlock: BlockConfiguration = {
 	},
 
 	/**
-	 * Makes sure users cannot select this block.
+	 * Make sure that users cannot add this block manually.
 	 */
-	parent: [],
+	supports: {
+		inserter: false,
+	},
 
 	/**
 	 * Renders editing the warning block.
