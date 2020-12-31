@@ -5,6 +5,13 @@ import { getBlockDefinition } from "../../../core/blocks/BlockDefinitionReposito
 import InnerBlocks from "../../../instructions/blocks/InnerBlocks";
 import recurseOverBlocks from "../../blocks/recurseOverBlocks";
 import BlockDefinition from "../../../core/blocks/BlockDefinition";
+import { InstructionObject } from "../../../core/Instruction";
+import { getBlockType } from "../../BlockHelper";
+
+enum WarningType {
+	BLOCK_REQUIRED,
+	BLOCK_RECOMMENDED
+}
 
 /**
  * Maps the given callback function over all the blocks (including all innerBlocks) and returns the results as a flat array.
@@ -48,25 +55,48 @@ function getInnerBlocksInstruction( blockName: string ): InnerBlocks | null {
  *
  * @param innerBlock The inner block that has been removed.
  * @param message The message that should be shown in the warning.
- * @param isRequired If the removed block was a required block.
+ * @param warningType The type of warning to show, either for a required or a recommended block.
  *
  * @returns The warning block.
  */
-function createWarning( innerBlock: BlockInstance, message: string, isRequired = true ): BlockInstance {
+function createWarning( innerBlock: BlockInstance, message: string, warningType: WarningType ): BlockInstance {
 	if ( ! message ) {
-		message = `You've just removed the ‘${ innerBlock.attributes.title }’ block,
+		const blockType = getBlockType( innerBlock.name );
+		message = `You've just removed the ‘${ blockType.title }’ block,
 						but this is a required block for Schema output.
 						Without this block no Schema will be generated. Do you want this?`;
 	}
 
 	const attributes = {
-		removedBlock: innerBlock.name,
-		removedAttributes: innerBlock.attributes,
-		isRequired,
+		removedBlock: innerBlock,
+		isRequired: warningType === WarningType.BLOCK_REQUIRED,
 		warningText: message,
 	};
 
 	return createBlock( "yoast/warning-block", attributes );
+}
+
+/**
+ * Creates and adds warnings as replacements for the given list of removed blocks.
+ *
+ * @param removedBlocks The list of removed blocks.
+ * @param parentBlock The parent of the removed blocks.
+ * @param warnings An object mapping block types to the warning that needs to be shown in the warning.
+ * @param warningType The type of warning, either recommended or required.
+ */
+function addWarnings(
+	removedBlocks: BlockInstance[],
+	parentBlock: BlockInstance,
+	warnings: InstructionObject,
+	warningType: WarningType,
+) {
+	removedBlocks.forEach( ( removedBlock ) => {
+		const index = parentBlock.innerBlocks.findIndex( aBlock => aBlock.clientId === removedBlock.clientId );
+		const message = warnings[ parentBlock.clientId ] as string;
+		const warning = createWarning( removedBlock, message, warningType );
+
+		dispatch( "core/block-editor" ).insertBlock( warning, index, parentBlock.clientId );
+	} );
 }
 
 /**
@@ -98,20 +128,14 @@ export default function warningWatcher( blocks: BlockInstance[], previousBlocks:
 			return;
 		}
 
-		const requiredBlocks = innerBlocksInstruction.options.requiredBlocks;
-
-		if ( ! requiredBlocks ) {
-			return;
-		}
-
+		const requiredBlocks = innerBlocksInstruction.options.requiredBlocks || [];
 		const removedRequiredInnerBlocks = removedInnerBlocks
 			.filter( innerBlock => requiredBlocks.some( requiredBlock => innerBlock.name === requiredBlock.name ) );
+		addWarnings( removedRequiredInnerBlocks, block, innerBlocksInstruction.options.warnings, WarningType.BLOCK_REQUIRED );
 
-		removedRequiredInnerBlocks.forEach( ( innerBlock ) => {
-			const index = block.innerBlocks.findIndex( aBlock => aBlock.clientId === innerBlock.clientId );
-			const message = innerBlocksInstruction.options.warnings[ block.clientId ] as string;
-			const warning = createWarning( innerBlock, message );
-			dispatch( "core/block-editor" ).insertBlock( warning, index, block.clientId );
-		} );
+		const recommendedBlocks = innerBlocksInstruction.options.recommendedBlocks || [];
+		const removedRecommendedInnerBlocks = removedInnerBlocks
+			.filter( innerBlock => recommendedBlocks.some( recommendedBlockName => innerBlock.name === recommendedBlockName ) );
+		addWarnings( removedRecommendedInnerBlocks, block, innerBlocksInstruction.options.warnings, WarningType.BLOCK_RECOMMENDED );
 	} );
 }

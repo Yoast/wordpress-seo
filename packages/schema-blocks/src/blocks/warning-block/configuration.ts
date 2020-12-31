@@ -18,9 +18,6 @@ export const WarningBlock: BlockConfiguration = {
 	 */
 	attributes: {
 		removedBlock: {
-			type: "string",
-		},
-		removedAttributes: {
 			type: "object",
 		},
 		warningText: {
