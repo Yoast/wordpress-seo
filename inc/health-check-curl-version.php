@@ -66,7 +66,7 @@ class WPSEO_Health_Check_Curl_Version extends WPSEO_Health_Check {
 				'<a href="' . esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/3u8' ) ) . '" target="_blank">',
 				WPSEO_Admin_Utils::get_new_tab_message() . '</a>',
 				'Yoast SEO',
-				'my.yoast.com'				
+				'my.yoast.com'
 			);
 			return;
 		}
