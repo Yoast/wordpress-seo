@@ -29,9 +29,9 @@ class WPSEO_Health_Check_Curl_Version extends WPSEO_Health_Check {
 
 		if ( ! $this->is_my_yoast_api_reachable() && $this->is_recent_curl_version() ) {
 			$this->label = sprintf(
-				/* translators: %1$s expands to 'my.yoast.com'. */
-				esc_html__( 'Your site can not connect to %1$s', 'wordpress-seo' ),
-				'my.yoast.com'
+				/* translators: %1$s expands to 'Yoast'. */
+				esc_html__( '%1$s premium plugins cannot update.', 'wordpress-seo' ),
+				'Yoast'
 			);
 			$this->status         = self::STATUS_CRITICAL;
 			$this->badge['color'] = 'red';
