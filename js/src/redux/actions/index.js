@@ -3,7 +3,6 @@ import {
 	setOverallSeoScore,
 } from "yoast-components";
 import AnalysisFields from "../../helpers/fields/AnalysisFields";
-import { setBlockIsValid } from "@yoast/schema-blocks";
 
 export * from "./activeMarker";
 export * from "./advancedSettings";
@@ -15,6 +14,7 @@ export * from "./markerButtons";
 export * from "./markerPauseStatus";
 export * from "./primaryTaxonomies";
 export * from "./schemaTab";
+export * from "./schemaBlocks";
 export * from "./SEMrushModal";
 export * from "./SEMrushRequest";
 export * from "./settings";
@@ -55,15 +55,3 @@ export {
 	setReadabilityResults,
 	setSeoResultsForKeyword,
 } from "yoast-components";
-
-/*
- * This import fails. Leading to these errors:
- * ```
- * Uncaught TypeError: (0 , _schemaBlocks2.default) is not a function
- * ```
- *
- * ```
- * Uncaught TypeError: Cannot read property 'setBlockIsValid' of undefined
- * ```
- */
-export { setBlockIsValid } from "@yoast/schema-blocks";
