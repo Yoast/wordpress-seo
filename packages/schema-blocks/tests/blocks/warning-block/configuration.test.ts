@@ -22,9 +22,10 @@ describe( "the warning block configuration", () => {
 		expect( WarningBlock.attributes ).toHaveProperty( "isRequired.type", "boolean" );
 	} );
 
-	it( "has an empty parent property, such that it is not available to the user", () => {
-		expect( WarningBlock ).toHaveProperty( "parent" );
-		expect( WarningBlock.parent ).toEqual( [] );
+	it( "does not support the inserter property, such that it is not available to the user", () => {
+		expect( WarningBlock ).toHaveProperty( "supports" );
+		expect( WarningBlock.supports ).toHaveProperty( "inserter" );
+		expect( WarningBlock.supports.inserter ).toEqual( false );
 	} );
 
 	it( "has an empty save method, such that it is not shown on the frontend", () => {
