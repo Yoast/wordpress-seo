@@ -2,7 +2,7 @@ import { createElement, ComponentClass } from "@wordpress/element";
 import { InnerBlocks as WordPressInnerBlocks } from "@wordpress/block-editor";
 import BlockInstruction from "../../core/blocks/BlockInstruction";
 import { RequiredBlock } from "./dto";
-import getInvalidInnerBlocks from "../../functions/validators/innerBlocksValid";
+import { getInvalidInnerBlocks } from "../../functions/validators";
 import { BlockInstance, TemplateArray } from "@wordpress/blocks";
 import { InvalidBlockReason } from "./enums";
 
