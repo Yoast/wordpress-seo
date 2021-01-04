@@ -40,7 +40,7 @@ describe( "Strips the HTML tag parts at the beginning of the sentence.", functio
 
 describe( "Strips the block element tags at the beginning and end of a string.", function() {
 	it( "returns a string without the block elements", function() {
-		expect( stripBlockTagsAtStartEnd( "This is the first group" ) ).toBe( "This is first group" );
+		expect( stripBlockTagsAtStartEnd( "This is the first group" ) ).toBe( "This is the first group" );
 		expect( stripBlockTagsAtStartEnd( "<h4>This is the first group</h4>" ) ).toBe( "This is the first group" );
 	} );
 } );
