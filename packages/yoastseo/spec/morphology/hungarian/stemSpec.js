@@ -78,4 +78,3 @@ describe( "Test for stemming Hungarian words", () => {
 	} );
 } );
 
-
