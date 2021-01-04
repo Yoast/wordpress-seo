@@ -6,7 +6,7 @@ import stripSpaces from "./stripSpaces.js";
  * Removes all words comprised only of numbers.
  *
  * @param {string} text to remove words
- * @returns {string} The text with numberonly words removed.
+ * @returns {string} The text with 'numberonly' words removed.
  */
 export default function( text ) {
 	// Remove "words" comprised only of numbers

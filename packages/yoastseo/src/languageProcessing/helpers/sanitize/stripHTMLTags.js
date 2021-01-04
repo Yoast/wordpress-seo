@@ -4,16 +4,17 @@ import stripSpaces from "./stripSpaces.js";
 
 import { blockElements } from "../html/html.js";
 
-var blockElementStartRegex = new RegExp( "^<(" + blockElements.join( "|" ) + ")[^>]*?>", "i" );
-var blockElementEndRegex = new RegExp( "</(" + blockElements.join( "|" ) + ")[^>]*?>$", "i" );
+const blockElementStartRegex = new RegExp( "^<(" + blockElements.join( "|" ) + ")[^>]*?>", "i" );
+const blockElementEndRegex = new RegExp( "</(" + blockElements.join( "|" ) + ")[^>]*?>$", "i" );
 
 /**
- * Strip incomplete tags within a text. Strips an endtag at the beginning of a string and the start tag at the end of a
+ * Strip incomplete tags within a text. Strips an end tag at the beginning of a string and the start tag at the end of a
  * start of a string.
+ *
  * @param {String} text The text to strip the HTML-tags from at the begin and end.
  * @returns {String} The text without HTML-tags at the begin and end.
  */
-var stripIncompleteTags = function( text ) {
+const stripIncompleteTags = function( text ) {
 	text = text.replace( /^(<\/([^>]+)>)+/i, "" );
 	text = text.replace( /(<([^/>]+)>)+$/i, "" );
 	return text;
@@ -25,7 +26,7 @@ var stripIncompleteTags = function( text ) {
  * @param {string} text The unformatted string.
  * @returns {string} The text with removed HTML begin and end block elements
  */
-var stripBlockTagsAtStartEnd = function( text ) {
+const stripBlockTagsAtStartEnd = function( text ) {
 	text = text.replace( blockElementStartRegex, "" );
 	text = text.replace( blockElementEndRegex, "" );
 	return text;
@@ -37,7 +38,7 @@ var stripBlockTagsAtStartEnd = function( text ) {
  * @param {String} text The text to strip the HTML-tags from.
  * @returns {String} The text without HTML-tags.
  */
-var stripFullTags = function( text ) {
+const stripFullTags = function( text ) {
 	text = text.replace( /(<([^>]+)>)/ig, " " );
 	text = stripSpaces( text );
 	return text;
