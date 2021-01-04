@@ -53,6 +53,10 @@ Image urls are now returned as `mediaItem` type.
 
 This applies to `twitterImage` and `opengraphImage`
 
+## Usage with Gatsby
+Checkout the companion [Gatsby plugin](https://github.com/ashhitch/gatsby-plugin-wpgraphql-seo) to add in Metadata and JSON LD schema with ease.
+
+
 ## Usage
 
 To query for the Yoast Data simply add the seo object to your query:
@@ -358,8 +362,5 @@ This can be used in production, however it is still under active development, br
 
 [Twitter: @ash_hitchcock](https://twitter.com/ash_hitchcock)
 
-## Contributors (PRs and Issues)
-
-![contributors.svg](./contributors.svg)
 
 > Please Note: Yoast and WPGraphQL and their logos are copyright to their respective owners.
