@@ -110,15 +110,15 @@ const determineSentenceIsPassiveIndonesian = function( sentence ) {
 };
 
 /**
- * Checks that the passive verb is not found in the non-passive stems exception list.
+ * Filters out words that are passive exceptions from an array.
  *
- * @param {string} nonPassivesTurkish      The list of exceptions to check
- * @param {string} passiveEndings          The list of passive verb endings
- * @param {array} matchedPassives        The verb with the passive ending
- * @returns {boolean} pattern              Whether the verb has a stem from the stems exception list and a passive verb ending
+ * @param {string[]} nonPassivesTurkish      The list of exceptions to check
+ * @param {string[]} passiveEndings          The list of passive verb endings
+ * @param {string[]} matchedPassives         The words from the sentence that could be passives
+ * @returns {string[]}               		 The array of words with the non-passives filtered out
  *
  */
-const checkTurkishNonPassivesList = function( nonPassivesTurkish, passiveEndings, matchedPassives ) {
+const checkTurkishNonPassivesStemsList = function( nonPassivesTurkish, passiveEndings, matchedPassives ) {
 	return matchedPassives.filter( passive => nonPassivesTurkish.some( stem => passiveEndings.some( function( ending ) {
 		const pattern =  new RegExp( "^" + stem + ending + "$" );
 		return ! pattern.test( passive );
@@ -136,7 +136,7 @@ const determineSentenceIsPassiveTurkish = function( sentence ) {
 	const words = getWords( sentence );
 	let matchedPassives = words.filter( word => ( word.length > 5 ) );
 	matchedPassives = matchedPassives.filter( word => ! nonPassivesFullForms.includes( word ) );
-	matchedPassives = checkTurkishNonPassivesList( nonPassiveStems, passiveEndingsTurkish, matchedPassives );
+	matchedPassives = checkTurkishNonPassivesStemsList( nonPassiveStems, passiveEndingsTurkish, matchedPassives );
 	return matchedPassives.some( word => passiveEndingsTurkish.some( ending => word.endsWith( ending ) ) );
 };
 
