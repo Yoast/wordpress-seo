@@ -3,7 +3,7 @@ import { RenderSaveProps, RenderEditProps } from "../../core/blocks/BlockDefinit
 import RichTextBase, { RichTextSaveProps, RichTextEditProps } from "./abstract/RichTextBase";
 
 /**
- * RichText instruction
+ * RichText instruction.
  */
 export default class RichText extends RichTextBase {
 	public options: {

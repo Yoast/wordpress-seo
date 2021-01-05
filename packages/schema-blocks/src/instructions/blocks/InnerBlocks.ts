@@ -6,7 +6,7 @@ import BlockInstruction from "../../core/blocks/BlockInstruction";
 import validateInnerBlocks from "../../functions/validators/innerBlocksValid";
 
 /**
- * The InnerBlocks instruction.
+ * InnerBlocks instruction.
  */
 export default class InnerBlocks extends BlockInstruction {
 	public options: {
