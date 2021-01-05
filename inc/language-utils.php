@@ -44,7 +44,7 @@ class WPSEO_Language_Utils {
 	 * Can be removed when support for WordPress 4.6 will be dropped, in favor
 	 * of WordPress get_user_locale() that already fallbacks to the site's locale.
 	 *
-	 * @deprecated 15.5
+	 * @deprecated 15.6
 	 * @codeCoverageIgnore
 	 *
 	 * @return string The locale.
