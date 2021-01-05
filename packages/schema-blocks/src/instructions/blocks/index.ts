@@ -6,3 +6,4 @@ import "./SidebarDuration";
 import "./SidebarInput";
 import "./SidebarSelect";
 import "./VariableTagRichText";
+import "./Select";

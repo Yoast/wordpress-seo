@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file. Releases wi
 
 We follow [Semantic Versioning](http://semver.org/).
 
+## 2.12.0 January 12th, 2021
+### Enhancements:
+* Adds an InsightCard component.
+
+### Bugfixes:
+* Fixes a bug where a console error would appear when closing the Google Preview modal.
+
 ## 2.11.0 October 26th, 2020
 ### Bugfixes
 * Fixes a bug where the Select's onOptionFocus would not be called.
