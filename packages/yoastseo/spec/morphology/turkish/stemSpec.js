@@ -10,8 +10,8 @@ const wordsToStem = [
 	[ "tüketimimiz", "tüketim" ],
 	[ "ulaşandeniz", "ulaşande" ],
 	[ "ulusumuz", "ulus" ],
-	[ "umduğunuz", "umduğ" ],
-	[ "yürüttüğümüz", "yürüttüğ" ],
+	[ "umduğunuz", "umduk" ],
+	[ "yürüttüğümüz", "yürüttük" ],
 	[ "henüz", "he" ],
 	[ "tutmamız", "tutma" ],
 	[ "numaranız", "numara" ],
@@ -59,7 +59,7 @@ const wordsToStem = [
 	[ "dzenlenmiş", "dzenle" ],
 	// Stem words end in suffixes in step a_23
 	[ "samandağ", "samandak" ],
-	[ "Kedileriyle", "kedi" ],
+	[ "kedileriyle", "kedi" ],
 ];
 describe( "Test for stemming Turkish words", () => {
 	it( "stems Turkish words", () => {
