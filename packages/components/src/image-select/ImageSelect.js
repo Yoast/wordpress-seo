@@ -26,7 +26,7 @@ class ImageSelect extends React.Component {
 						{ this.props.imageSelected &&
 						<img src={ this.props.imageUrl } alt={ this.props.imageAltText } className="yoast-image-select__preview--image" /> }
 					</button>
-					: <TextInput label={ this.props.label } type="url" value={ this.props.imageUrl } />
+					: <TextInput label={ this.props.label } type="url" value={ this.props.imageUrl } readOnly={ true } />
 				}
 				<ImageSelectButtons { ...imageSelectButtonsProps } />
 			</div>
