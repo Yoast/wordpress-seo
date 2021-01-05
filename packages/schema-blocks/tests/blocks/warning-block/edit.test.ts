@@ -1,4 +1,4 @@
-import renderer from "react-test-renderer";
+import * as renderer from "react-test-renderer";
 import { shallow } from "enzyme";
 
 import { removeBlock, restoreBlock } from "../../../src/functions/BlockHelper";

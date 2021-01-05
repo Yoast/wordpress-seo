@@ -8,8 +8,7 @@ module.exports = {
 	testRegex: ".*\\.test\\.ts$",
 	testURL: "http://localhost",
 	transform: {
-		"^.+\\.(t|j)s$": "ts-jest",
+		"^.+\\.(t|j)sx?$": [ "ts-jest", "babel-jest" ],
 		"^.+\\.tsx?$": "ts-jest",
-		"^.+\\.jsx?$": "babel-jest",
 	},
 };

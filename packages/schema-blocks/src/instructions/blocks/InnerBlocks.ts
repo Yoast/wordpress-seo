@@ -5,7 +5,7 @@ import { BlockInstance, TemplateArray } from "@wordpress/blocks";
 
 import BlockInstruction from "../../core/blocks/BlockInstruction";
 import { RequiredBlock } from "./dto";
-import getInvalidInnerBlocks from "../../functions/validators/innerBlocksValid";
+import { getInvalidInnerBlocks } from "../../functions/validators";
 import { InvalidBlockReason } from "./enums";
 import { RenderEditProps } from "../../core/blocks/BlockDefinition";
 import { getBlockByClientId } from "../../functions/BlockHelper";
