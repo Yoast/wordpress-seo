@@ -2,14 +2,13 @@ import { ReactElement } from "react";
 import { createElement, ComponentClass } from "@wordpress/element";
 import { InnerBlocks as WordPressInnerBlocks } from "@wordpress/block-editor";
 import { BlockInstance, TemplateArray } from "@wordpress/blocks";
-
 import BlockInstruction from "../../core/blocks/BlockInstruction";
 import { RequiredBlock } from "./dto";
 import { getInvalidInnerBlocks } from "../../functions/validators";
 import { InvalidBlockReason } from "./enums";
 import { RenderEditProps } from "../../core/blocks/BlockDefinition";
 import { getBlockByClientId } from "../../functions/BlockHelper";
-import RequiredBlocks from "../../blocks/RequiredBlocks";
+import BlockSuggestions from "../../blocks/BlockSuggestions";
 
 /**
  * InnerBlocks instruction.
@@ -77,14 +76,24 @@ export default class InnerBlocks extends BlockInstruction {
 	 *
 	 * @returns The sidebar element to render.
 	 */
-	sidebar( props: RenderEditProps ): ReactElement | string {
+	sidebar( props: RenderEditProps ): ReactElement {
 		const currentBlock = getBlockByClientId( props.clientId );
+		const elements: ReactElement[] = [];
 
 		if ( this.options.requiredBlocks ) {
-			return RequiredBlocks( currentBlock, this.options.requiredBlocks );
+			elements.push( BlockSuggestions( "Required Blocks", currentBlock, this.options.requiredBlocks.map( block => block.name ) ) );
+		}
+		if ( this.options.recommendedBlocks ) {
+			elements.push( BlockSuggestions( "Recommended Blocks", currentBlock, this.options.recommendedBlocks ) );
 		}
 
-		return "";
+		return (
+			<Fragment>
+			{
+				...elements;
+			}
+			</Fragment>
+		);
 	}
 
 	/**
