@@ -56,3 +56,12 @@ ImageSelectButtons.propTypes = {
 	replaceImageButtonId: PropTypes.string,
 	removeImageButtonId: PropTypes.string,
 };
+
+ImageSelectButtons.defaultProps = {
+	imageSelected: false,
+	onClick: () => {},
+	onRemoveImageClick: () => {},
+	selectImageButtonId: "",
+	replaceImageButtonId: "",
+	removeImageButtonId: "",
+};
