@@ -48,7 +48,7 @@
         ],
         // Normal no-unused-vars doesn't work for TypeScript
         "no-unused-vars": "off",
-        "@typescript-eslint/no-unused-vars": "error",
+        "@typescript-eslint/no-unused-vars": [ "error", { "varsIgnorePattern": "^createElement$" } ],
         // Duplicate class members are overloads and are allowed in TypeScript
         "no-dupe-class-members": "off",
         // Normal indent doesn't work for TypeScript
