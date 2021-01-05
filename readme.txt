@@ -237,7 +237,7 @@ Your question has most likely been answered on our knowledge base: [kb.yoast.com
 = 15.6 =
 Release Date: January 12th, 2020
 
-Out now: Yoast SEO 15.5! You can easily check if you are doing a great job in terms of the readability of your text when writing in Hungarian! Yoast SEO helps you produce a powerful piece of content that’s easy to read. It also gives you feedback on what to improve! Read more about what’s new in Yoast SEO 15.6 in [our release post](https://yoa.st/release-15-6)!
+Say hi to Yoast SEO 15.6! In the latest version of Yoast SEO, you’ll find a number of bug fixes and performance enhancements. Happy updating! Read more about what’s new in Yoast SEO 15.6 in [our release post](https://yoa.st/release-15-6)!
 
 
 Enhancements:
