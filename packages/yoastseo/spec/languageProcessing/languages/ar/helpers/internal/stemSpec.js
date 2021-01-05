@@ -104,11 +104,22 @@ const wordsToStem = [
 	[ "ملابسك", "لبس" ],
 	// Words with suffix
 	[ "بؤسهم", "بأس" ],
+	[ "أسبوعة", "سبع" ],
 	// Three letter word with a suffix.
 	[ "جمعكم", "جمع" ],
 	// Words with prefix
 	[ "ستنجب", "نجب" ],
 	[ "فنجبت", "نجب" ],
+	[ "لأغفلنا", "غفل" ],
+	[ "الأسبوع", "سبع" ],
+	[ "الصوتيات", "صوتيات" ],
+	[ "والظيفتك", "ظيفتك" ],
+
+	// Currently these forms are not stemmed at all, in which they should be
+	[ "وظيفتك", "وظيفتك" ],
+	// Specs for words with prefix ( with made up words )
+	[ "الننس", "ننس" ],
+	[ "وإعدجص", "اعدجص" ],
 
 	// Specs from the external stemmer
 	[ "الرحمن", "رحم" ],
