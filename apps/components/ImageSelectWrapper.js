@@ -44,6 +44,7 @@ class ImageSelectWrapper extends React.Component {
 					imageUrlInputId="test-image"
 					imageUrl={ this.state.imageUrl }
 					imageSelected={ !! this.state.imageUrl }
+					isPremium={ true }
 					label={ "Organization" }
 					selectImageButtonId="bla1"
 					replaceImageButtonId="bla2"
