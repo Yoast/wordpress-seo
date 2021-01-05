@@ -1,11 +1,10 @@
-import UrlStructure from "../../src/researches/stringProcessing/urlStructure";
+import UrlStructure from "../../../../src/languageProcessing/helpers/url/urlStructure";
 
 describe( "UrlStructure", () => {
 	it( "accepts a url structure", () => {
-		const expected = "http://example.org/structure/";
-		const input = expected;
+		const expected = [ "http://example.org/structure/" ];
 
-		const urlStructure = new UrlStructure( input );
+		const urlStructure = new UrlStructure( expected );
 
 		expect( urlStructure.getStructure() ).toBe( expected );
 	} );
