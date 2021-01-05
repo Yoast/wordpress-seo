@@ -1,11 +1,12 @@
 import "../../../matchMedia.mock";
+
 import { BlockInstance, createBlock } from "@wordpress/blocks";
+import { dispatch } from "@wordpress/data";
 
 import warningWatcher from "../../../../src/functions/gutenberg/watchers/warningWatcher";
 import InnerBlocks from "../../../../src/instructions/blocks/InnerBlocks";
 import { RequiredBlock } from "../../../../src/instructions/blocks/dto";
 import { RequiredBlockOption } from "../../../../src/instructions/blocks/enums";
-import { dispatch } from "@wordpress/data";
 import { getBlockDefinition } from "../../../../src/core/blocks/BlockDefinitionRepository";
 
 jest.mock( "@wordpress/block-editor", () => ( {

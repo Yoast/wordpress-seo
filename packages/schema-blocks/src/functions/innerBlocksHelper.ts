@@ -33,4 +33,21 @@ function filterBlocksRecursively( blockInstance: BlockInstance, predicate: ( blo
 	return foundBlocks;
 }
 
-export { filterBlocksRecursively, getInnerblocksByName };
+/**
+ * Maps the given callback function over all the blocks (including all innerBlocks) and returns the results as a flat array.
+ *
+ * @param blocks The blocks.
+ * @param callback The callback function.
+ *
+ * @returns The transformed blocks, in a flat array.
+ */
+function mapBlocksRecursively( blocks: BlockInstance[], callback: ( block: BlockInstance ) => unknown ): unknown[] {
+	const result: unknown[] = [];
+	recurseOverBlocks( blocks, ( block: BlockInstance ) => {
+		// eslint-disable-next-line callback-return
+		result.push( callback( block ) );
+	} );
+	return result;
+}
+
+export { filterBlocksRecursively, mapBlocksRecursively, getInnerblocksByName };

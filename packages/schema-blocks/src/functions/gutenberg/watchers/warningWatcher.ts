@@ -1,9 +1,10 @@
 import { dispatch } from "@wordpress/data";
-
 import { BlockInstance, createBlock } from "@wordpress/blocks";
+
 import { getBlockDefinition } from "../../../core/blocks/BlockDefinitionRepository";
 import InnerBlocks from "../../../instructions/blocks/InnerBlocks";
 import recurseOverBlocks from "../../blocks/recurseOverBlocks";
+import { mapBlocksRecursively } from "../../innerBlocksHelper";
 import BlockDefinition from "../../../core/blocks/BlockDefinition";
 import { InstructionObject } from "../../../core/Instruction";
 import { getBlockType } from "../../BlockHelper";
@@ -11,23 +12,6 @@ import { getBlockType } from "../../BlockHelper";
 enum WarningType {
 	BLOCK_REQUIRED,
 	BLOCK_RECOMMENDED
-}
-
-/**
- * Maps the given callback function over all the blocks (including all innerBlocks) and returns the results as a flat array.
- *
- * @param blocks The blocks.
- * @param callback The callback function.
- *
- * @returns The transformed blocks, in a flat array.
- */
-function mapRecursively( blocks: BlockInstance[], callback: ( block: BlockInstance ) => unknown ): unknown[] {
-	const result: unknown[] = [];
-	recurseOverBlocks( blocks, ( block: BlockInstance ) => {
-		// eslint-disable-next-line callback-return
-		result.push( callback( block ) );
-	} );
-	return result;
 }
 
 /**
@@ -99,6 +83,52 @@ function addWarnings(
 }
 
 /**
+ * Adds the removal warnings for the removed required inner blocks.
+ *
+ * @param parentBlock The parent block of the inner blocks.
+ * @param removedInnerBlocks The removed inner blocks.
+ * @param innerBlocksInstruction The inner block instruction of the parent block.
+ */
+function addWarningsForRequiredBlocks(
+	parentBlock: BlockInstance,
+	removedInnerBlocks: BlockInstance[],
+	innerBlocksInstruction: InnerBlocks,
+) {
+	const requiredBlocks = innerBlocksInstruction.options.requiredBlocks || [];
+	const removedRequiredInnerBlocks = removedInnerBlocks
+		.filter( innerBlock => requiredBlocks.some( requiredBlock => innerBlock.name === requiredBlock.name ) );
+	addWarnings(
+		removedRequiredInnerBlocks,
+		parentBlock,
+		innerBlocksInstruction.options.warnings,
+		WarningType.BLOCK_REQUIRED,
+	);
+}
+
+/**
+ * Adds the removal warnings for the removed recommended inner blocks.
+ *
+ * @param parentBlock The parent block of the inner blocks.
+ * @param removedInnerBlocks The removed inner blocks.
+ * @param innerBlocksInstruction The inner block instruction of the parent block.
+ */
+function addWarningsForRecommendedBlocks(
+	parentBlock: BlockInstance,
+	removedInnerBlocks: BlockInstance[],
+	innerBlocksInstruction: InnerBlocks,
+) {
+	const recommendedBlocks = innerBlocksInstruction.options.recommendedBlocks || [];
+	const removedRecommendedInnerBlocks = removedInnerBlocks
+		.filter( innerBlock => recommendedBlocks.some( recommendedBlockName => innerBlock.name === recommendedBlockName ) );
+	addWarnings(
+		removedRecommendedInnerBlocks,
+		parentBlock,
+		innerBlocksInstruction.options.warnings,
+		WarningType.BLOCK_RECOMMENDED,
+	);
+}
+
+/**
  * Compares the current list of blocks with the previous list of blocks and
  * checks whether any were removed. If a required or recommended block was removed,
  * a warning block is added in its place.
@@ -107,7 +137,7 @@ function addWarnings(
  * @param previousBlocks The previous list of blocks.
  */
 export default function warningWatcher( blocks: BlockInstance[], previousBlocks: BlockInstance[] = [] ): void {
-	const currentBlockIds = mapRecursively( blocks, block => block.clientId );
+	const currentBlockIds = mapBlocksRecursively( blocks, block => block.clientId );
 
 	recurseOverBlocks( previousBlocks, ( block: BlockInstance ) => {
 		if ( ! block.innerBlocks || block.innerBlocks.length === 0 ) {
@@ -127,14 +157,7 @@ export default function warningWatcher( blocks: BlockInstance[], previousBlocks:
 			return;
 		}
 
-		const requiredBlocks = innerBlocksInstruction.options.requiredBlocks || [];
-		const removedRequiredInnerBlocks = removedInnerBlocks
-			.filter( innerBlock => requiredBlocks.some( requiredBlock => innerBlock.name === requiredBlock.name ) );
-		addWarnings( removedRequiredInnerBlocks, block, innerBlocksInstruction.options.warnings, WarningType.BLOCK_REQUIRED );
-
-		const recommendedBlocks = innerBlocksInstruction.options.recommendedBlocks || [];
-		const removedRecommendedInnerBlocks = removedInnerBlocks
-			.filter( innerBlock => recommendedBlocks.some( recommendedBlockName => innerBlock.name === recommendedBlockName ) );
-		addWarnings( removedRecommendedInnerBlocks, block, innerBlocksInstruction.options.warnings, WarningType.BLOCK_RECOMMENDED );
+		addWarningsForRequiredBlocks( block, removedInnerBlocks, innerBlocksInstruction );
+		addWarningsForRecommendedBlocks( block, removedInnerBlocks, innerBlocksInstruction );
 	} );
 }

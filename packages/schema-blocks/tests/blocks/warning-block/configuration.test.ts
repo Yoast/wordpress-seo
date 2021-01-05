@@ -4,12 +4,7 @@ import { WarningBlock } from "../../../src/blocks/warning-block/configuration";
 describe( "the warning block configuration", () => {
 	it( "should have a removedBlock attribute of type string", () => {
 		expect( WarningBlock ).toHaveProperty( "attributes.removedBlock" );
-		expect( WarningBlock.attributes ).toHaveProperty( "removedBlock.type", "string" );
-	} );
-
-	it( "should have a removedAttributes attribute of type object", () => {
-		expect( WarningBlock ).toHaveProperty( "attributes.removedAttributes" );
-		expect( WarningBlock.attributes ).toHaveProperty( "removedAttributes.type", "object" );
+		expect( WarningBlock.attributes ).toHaveProperty( "removedBlock.type", "object" );
 	} );
 
 	it( "should have a warningText attribute of type string", () => {
@@ -30,7 +25,7 @@ describe( "the warning block configuration", () => {
 
 	it( "has an empty save method, such that it is not shown on the frontend", () => {
 		expect( WarningBlock ).toHaveProperty( "save" );
-		// @ts-ignore
+		// @ts-ignore -- The save method is callable.
 		expect( WarningBlock.save() ).toEqual( null );
 	} );
 

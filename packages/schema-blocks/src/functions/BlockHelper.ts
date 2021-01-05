@@ -1,4 +1,4 @@
-import { Block, BlockInstance, createBlock } from "@wordpress/blocks";
+import { Block, BlockInstance } from "@wordpress/blocks";
 import { dispatch, select } from "@wordpress/data";
 
 /**
