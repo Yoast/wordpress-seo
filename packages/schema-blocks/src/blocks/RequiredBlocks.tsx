@@ -38,7 +38,7 @@ function BlockSuggestion( { blockTitle, blockName, blockClientId }: SuggestionDe
 	return (
 		<li className="yoast-block-suggestion">
 			{ blockTitle }
-			<button className="yoast-block-suggestion-button" onClick={ addBlockClick }>Add</button>
+			<button className="yoast-block-suggestion-button" onClick={ addBlockClick }> Add </button>
 		</li>
 	);
 }
@@ -54,7 +54,7 @@ function BlockSuggestionAdded( { blockTitle }: AddedBSuggestionDefinition ): Rea
 	return (
 		<li className="yoast-block-suggestion yoast-block-suggestion--added">
 			{ blockTitle }
-			<span className="yoast-block-suggestion-checkmark">x</span>
+			<span className="yoast-block-suggestion-checkmark"> OK </span>
 		</li>
 	);
 }

@@ -20,7 +20,7 @@ exports[`The required blocks in the sidebar renders the required block as a non-
         className="yoast-block-suggestion-button"
         onClick={[Function]}
       >
-        Add
+         Add 
       </button>
     </li>
   </ul>
@@ -46,7 +46,7 @@ exports[`The required blocks in the sidebar renders the required block as an add
       <span
         className="yoast-block-suggestion-checkmark"
       >
-        x
+         OK 
       </span>
     </li>
   </ul>

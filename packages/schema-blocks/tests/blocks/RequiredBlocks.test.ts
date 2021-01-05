@@ -1,8 +1,6 @@
 import { BlockInstance, createBlock } from "@wordpress/blocks";
-
 import * as renderer from "react-test-renderer";
 import { mount } from "enzyme";
-
 import { RequiredBlock } from "../../src/instructions/blocks/dto";
 import RequiredBlocks from "../../src/blocks/RequiredBlocks";
 import { insertBlock } from "../../src/functions/innerBlocksHelper";
@@ -47,7 +45,7 @@ describe( "The required blocks in the sidebar", () => {
 		const requiredBlocks = [
 			{
 				name: "yoast/nonexisting",
-				option: 1,
+				option: "One",
 			} as RequiredBlock,
 		];
 
@@ -61,7 +59,7 @@ describe( "The required blocks in the sidebar", () => {
 		const requiredBlocks = [
 			{
 				name: "yoast/added-to-content",
-				option: 1,
+				option: "One",
 			} as RequiredBlock,
 		];
 
@@ -77,7 +75,7 @@ describe( "The required blocks in the sidebar", () => {
 		const requiredBlocks = [
 			{
 				name: "yoast/non-added-to-content",
-				option: 1,
+				option: "One",
 			} as RequiredBlock,
 		];
 
@@ -93,7 +91,7 @@ describe( "The required blocks in the sidebar", () => {
 		const requiredBlocks = [
 			{
 				name: "yoast/non-added-to-content",
-				option: 1,
+				option: "One",
 			} as RequiredBlock,
 		];
 
