@@ -32,33 +32,91 @@ const wordsToStem = [
 	[ "rekora", "rekor" ],
 	[ "resmiyette", "resmiyet" ],
 	// Stem words end in suffixes in step a_5
+	[ "aktarımına", "aktarım" ],
+	[ "akıbetine", "akıbet" ],
 	// Stem words end in suffixes in step a_6
+	[ "aliağa'mızda", "aliağa'mız" ],
+	[ "almakta", "almak" ],
+	[ "amatörde", "amatör" ],
+	[ "alışverişte", "alışveriş" ],
 	// Stem words end in suffixes in step a_7
+	[ "sinavinda", "sinav" ],
+	[ "tehdidinde", "tehdidi" ],
 	// Stem words end in suffixes in step a_8
+	[ "baradan", "bara" ],
+	[ "bardaktan", "bardak" ],
+	[ "doğaseverden", "doğasever" ],
+	[ "döndükten", "döndük" ],
 	// Stem words end in suffixes in step a_9
+	[ "edebiyatından", "edebiyat" ],
+	[ "edildiğinden", "edildik" ],
 	// Stem words end in suffixes in step a_10
+	[ "enfazla", "enfaz" ],
+	[ "engellemekle", "engellemek" ],
 	// Stem words end in suffixes in step a_11
+	[ "harca", "har" ],
+	[ "işknece", "işkneç" ],
 	// Stem words end in suffixes in step a_12
+	[ "işletim", "işlet" ],
+	[ "kaldırıyorum", "kaldırıyor" ],
+	[ "kostüm", "kost" ],
+	[ "kullanalım", "kullanal" ],
 	// Stem words end in suffixes in step a_13
+	[ "meclisin", "mecli" ],
+	[ "namusun", "namu" ],
+	[ "sürülsün", "sürül" ],
+	[ "gömeceksin", "gömecek" ],
 	// Stem words end in suffixes in step a_14
+	[ "göndeririz", "gönderir" ],
+	[ "görebiliyoruz", "görebiliyor" ],
+	[ "görürüz", "görür" ],
+	[ "gıdasız", "gıdas" ],
 	// Stem words end in suffixes in step a_15
+	[ "hafifletebilirsiniz", "hafifletebilir" ],
+	[ "hallediyorsunuz", "hallediyor" ],
+	[ "meşgulsünüz", "meşgul" ],
+	[ "okuyabilirsiniz", "okuyabilir" ],
 	// Stem words end in suffixes in step a_16
+	[ "olacaklar", "olacak" ],
+	[ "gruptakiler", "gruptaki" ],
 	// Stem words end in suffixes in step a_17
+	[ "göreceğiniz", "görecek" ],
+	[ "korkunuz", "kork" ],
+	[ "göreceksınız", "görecek" ],
+	[ "tahammülünüz", "tahammül" ],
 	// Stem words end in suffixes in step a_18
+	[ "tahlikelidir", "tahlikel" ],
+	[ "taktiktir", "taktik" ],
+	[ "umuttur", "umut" ],
+	[ "yiyordur", "yiyor" ],
+	[ "çürüktür", "çürük" ],
+	[ "özgüdür", "özgü" ],
+	[ "duyacaktır", "duyacak" ],
+	[ "durdurulmalıdır", "durdurulmal" ],
 	// Stem words end in suffixes in step a_19
+	[ "yaparcasına", "yaparca" ],
+	[ "derecesine", "derece" ],
 	// Stem words end in suffixes in step a_20
 	// Stem words end in suffixes in step a_21
 	[ "gidiyorsa", "gidiyor" ],
 	[ "girerse", "girer" ],
 	[ "konuşursak", "konuşur" ],
 	[ "gönderemezsek", "gönderemez" ],
+	[ "hatırlamıyorsam", "hatırlamıyor" ],
+	[ "meğersem", "meğer" ],
+	[ "seyretsem", "seyret" ],
+	[ "seversen", "sever" ],
 	// Stem words end in suffixes in step a_22
 	[ "borçlanmış", "borçla" ],
 	[ "gerekiyormuş", "gerekiyor" ],
 	[ "dökmüş", "dök" ],
 	[ "dzenlenmiş", "dzenle" ],
 	// Stem words end in suffixes in step a_23
+	[ "ediyorb", "ediyorp" ],
+	[ "gazetec", "gazeteç" ],
+	[ "getirildid", "getirildidi" ],
 	[ "samandağ", "samandak" ],
+	// A word with multiple suffixes.
 	[ "kedileriyle", "kedi" ],
 ];
 describe( "Test for stemming Turkish words", () => {
