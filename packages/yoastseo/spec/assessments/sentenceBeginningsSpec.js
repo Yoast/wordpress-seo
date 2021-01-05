@@ -221,8 +221,8 @@ describe( "An assessment for scoring repeated sentence beginnings.", function() 
 		expect( assessment ).toBe( false );
 	} );
 
-	it( "is applicable for a Turkish paper with text.", function() {
-		const assessment = sentenceBeginningsAssessment.isApplicable( new Paper( "magyar", { locale: "tr_TR" } ) );
+	it( "is applicable for a Hungarian paper with text.", function() {
+		const assessment = sentenceBeginningsAssessment.isApplicable( new Paper( "magyar", { locale: "hu_HU" } ) );
 		expect( assessment ).toBe( true );
 	} );
 
