@@ -78,6 +78,9 @@ export default class BlockDefinition extends Definition {
 		configuration.edit = props => this.edit( props );
 		configuration.save = props => this.save( props );
 
+		// eslint-disable-next-line no-console
+		console.log( "registering block " + name );
+
 		// Register the block to WordPress.
 		registerBlockType( name, configuration );
 		// Register the block with our own code.
