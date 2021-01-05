@@ -10,13 +10,13 @@ const wordsToStem = [
 	[ "tüketimimiz", "tüketim" ],
 	[ "ulaşandeniz", "ulaşande" ],
 	[ "ulusumuz", "ulus" ],
-	[ "umduðunuz", "umduð" ],
-	[ "yürüttüðümüz", "yürüttüð" ],
+	[ "umduğunuz", "umduğ" ],
+	[ "yürüttüğümüz", "yürüttüğ" ],
 	[ "henüz", "he" ],
 	[ "tutmamız", "tutma" ],
 	[ "numaranız", "numara" ],
 	// Stem words end in suffixes in step a_1
-	[ "görüþleri", "görüþ" ],
+	[ "görüşleri", "görüş" ],
 	[ "gözyaşları", "gözyaş" ],
 	// Stem words end in suffixes in step a_2
 	[ "nikotini", "nikot" ],
