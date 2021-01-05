@@ -66,7 +66,6 @@ export default compose( [
 			getImageFallback,
 			getFacebookWarnings,
 			getRecommendedReplaceVars,
-			getReplaceVars,
 			getSiteUrl,
 			getAuthorName,
 		} = select( "yoast-seo/editor" );

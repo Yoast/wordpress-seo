@@ -71,7 +71,6 @@ export default compose( [
 			getTwitterImageType,
 			getImageFallback,
 			getRecommendedReplaceVars,
-			getReplaceVars,
 			getSiteUrl,
 			getAuthorName,
 		} = select( "yoast-seo/editor" );
