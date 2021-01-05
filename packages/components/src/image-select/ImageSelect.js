@@ -53,4 +53,4 @@ ImageSelect.propTypes = {
 	isPremium: PropTypes.bool.isRequired,
 	label: PropTypes.string.isRequired,
 	onClick: () => {},
-}
+};

@@ -55,4 +55,4 @@ ImageSelectButtons.propTypes = {
 	selectImageButtonId: PropTypes.string,
 	replaceImageButtonId: PropTypes.string,
 	removeImageButtonId: PropTypes.string,
-}
+};
