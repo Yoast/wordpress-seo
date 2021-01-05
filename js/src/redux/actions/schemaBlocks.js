@@ -6,7 +6,7 @@ export const SET_BLOCK_VALID = `${ PREFIX }SET_BLOCK_VALIDATION`;
  * Updates whether a block is valid.
  *
  * @param {string} clientID   The client ID of the block.
- * @param {BlockValidation[]} validation The validation result for the block.
+ * @param {BlockValidation} validation The validation result for the block.
  *
  * @returns {SetBlockValidation} An action for redux.
  */
