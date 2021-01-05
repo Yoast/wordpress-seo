@@ -239,7 +239,6 @@ Release Date: January 12th, 2020
 
 Say hi to Yoast SEO 15.6! In the latest version of Yoast SEO, you’ll find a number of bug fixes and performance enhancements. Happy updating! Read more about what’s new in Yoast SEO 15.6 in [our release post](https://yoa.st/release-15-6)!
 
-
 Enhancements:
 
  * Improves keyphrase recognition in Norwegian by filtering out function words such as 'tredje', 'deres' and 'noen'.
