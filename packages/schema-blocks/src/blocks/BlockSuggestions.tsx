@@ -1,17 +1,15 @@
 import { ReactElement } from "react";
 import { BlockInstance, createBlock } from "@wordpress/blocks";
 import { createElement } from "@wordpress/element";
-import { RequiredBlock } from "../instructions/blocks/dto";
-
 import { getInnerblocksByName, insertBlock } from "../functions/innerBlocksHelper";
 import { getBlockType } from "../functions/BlockHelper";
 import { PanelBody } from "@wordpress/components";
 
-type AddedBSuggestionDefinition = {
+type BlockSuggestionAddedDto = {
 	blockTitle: string;
 }
 
-type SuggestionDefinition = {
+type BlockSuggestionDto = {
 	blockTitle: string;
 	blockName: string;
 	blockClientId: string;
@@ -26,7 +24,7 @@ type SuggestionDefinition = {
  *
  * @returns {ReactElement} The rendered block suggestion.
  */
-function BlockSuggestion( { blockTitle, blockName, blockClientId }: SuggestionDefinition ): ReactElement {
+function BlockSuggestion( { blockTitle, blockName, blockClientId }: BlockSuggestionDto ): ReactElement {
 	/**
 	 * Onclick handler for the remove block.
 	 */
@@ -50,7 +48,7 @@ function BlockSuggestion( { blockTitle, blockName, blockClientId }: SuggestionDe
  *
  * @returns {ReactElement} The rendered element.
  */
-function BlockSuggestionAdded( { blockTitle }: AddedBSuggestionDefinition ): ReactElement {
+function BlockSuggestionAdded( { blockTitle }: BlockSuggestionAddedDto ): ReactElement {
 	return (
 		<li className="yoast-block-suggestion yoast-block-suggestion--added">
 			{ blockTitle }
@@ -62,41 +60,39 @@ function BlockSuggestionAdded( { blockTitle }: AddedBSuggestionDefinition ): Rea
 /**
  * Renders a list with the required block names and an button to add/remove one.
  *
- * @param {BlockInstance}   block          The block to render the list for.
- * @param {RequiredBlock[]} requiredBlocks The required blocks.
+ * @param {string} sidebarTitle The title of the sidebar section.
+ * @param {BlockInstance} block The block to render the list for.
+ * @param {string[]} blockNames The required blocks.
  *
  * @returns {ReactElement} The rendered block.
  */
-export default function RequiredBlocks( block: BlockInstance, requiredBlocks: RequiredBlock[] ): ReactElement {
-	// Retrieve a list with names.
-	const requiredBlockNames = requiredBlocks
-		.filter( requiredBlock => typeof getBlockType( requiredBlock.name ) !== "undefined" )
-		.map( requiredBlock => requiredBlock.name );
+export default function BlockSuggestions( sidebarTitle: string, block: BlockInstance, blockNames: string[] ): ReactElement {
+	const knownBlockNames = blockNames
+		.filter( name => typeof getBlockType( name ) !== "undefined" );
 
-	// When there are no required blocknames, just return.
-	if ( requiredBlockNames.length === 0 ) {
+	// When there are no known blocks, just return.
+	if ( knownBlockNames.length === 0 ) {
 		return null;
 	}
 
-	const findPresentBlocks = getInnerblocksByName( block, requiredBlockNames );
-	const presentBlockNames = findPresentBlocks.map( presentBlock => presentBlock.name );
+	const presentBlocks = getInnerblocksByName( block, knownBlockNames ).map( presentBlock => presentBlock.name );
 
 	return (
 		<PanelBody>
-			<div className="yoast-block-sidebar-title">Required blocks</div>
+			<div className="yoast-block-sidebar-title">{ sidebarTitle }</div>
 			<ul className="yoast-block-suggestions">
 				{
-					requiredBlockNames.map( ( requiredBlockName: string, index: number ) => {
-						const blockType = getBlockType( requiredBlockName );
+					knownBlockNames.map( ( blockName: string, index: number ) => {
+						const blockType = getBlockType( blockName );
 
-						if ( presentBlockNames.includes( requiredBlockName ) ) {
+						if ( presentBlocks.includes( blockName ) ) {
 							return <BlockSuggestionAdded key={ index } blockTitle={ blockType.title } />;
 						}
 
 						return <BlockSuggestion
 							key={ index }
 							blockTitle={ blockType.title }
-							blockName={ requiredBlockName }
+							blockName={ blockName }
 							blockClientId={ block.clientId }
 						/>;
 					} )
