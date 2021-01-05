@@ -1,7 +1,7 @@
-import transliterationObjects from "../../src/languages/legacy/config/transliterationsWPstyle.js";
-import transliteration from "../../src/researches/stringProcessing/transliterateWPstyle.js";
+import transliterationObjects from "../../../../src/config/transliterationsWPstyle.js";
+import transliteration from "../../../../src/languageProcessing/helpers/transliterate/transliterateWPstyle.js";
 
-describe( "a test for returning correct number of transliteration objects for different languages", function() {
+describe( "A test for returning correct number of transliteration objects for different languages.", function() {
 	it( "returns only generic transliteration objects for Spanish.", function() {
 		expect( transliterationObjects( "es_ES" ).length ).toBe( 309 );
 	} );

@@ -1,6 +1,7 @@
-import transliteration from "../../src/researches/stringProcessing/transliterate.js";
+import transliteration from "../../../../src/languageProcessing/helpers/transliterate/transliterate.js";
 
-describe( "a test removing special characters from text", function() {
+// eslint-disable-next-line max-statements
+describe( "A test for removing special characters from text.", function() {
 	it( "returns a Spanish string without special characters.", function() {
 		expect( transliteration( "ñáéíóúüÑÁÉÍÓÚÜ", "es_AR" ) ).toBe( "naeiouuNAEIOUU" );
 	} );
@@ -41,7 +42,8 @@ describe( "a test removing special characters from text", function() {
 		expect( transliteration( "áÁčČďĎéÉěĚíÍňŇóÓřŘšŠťŤúÚůŮýÝžŽ", "cs_CZ" ) ).toBe( "aAcCdDeEeEiInNoOrRsStTuUuUyYzZ" );
 	} );
 	it( "returns a Russian string without special characters.", function() {
-		expect( transliteration( "АабБвВгГдДеЕёЁжЖзЗиИйЙіІкКлЛмМнНоОпПрРсСтТуУфФхХцЦчЧшШщЩъЪыЫьЬэЭюЮяЯ", "ru_RU" ) ).toBe( "AabBvVgGdDeEeEzhZhzZiIiIiIkKlLmMnNoOpPrRsStTuUfFkhKhtsTschChshShshchShchieIeyYeEiuIuiaIa" );
+		expect( transliteration( "АабБвВгГдДеЕёЁжЖзЗиИйЙіІкКлЛмМнНоОпПрРсСтТуУфФхХцЦчЧшШщЩъЪыЫьЬэЭюЮяЯ", "ru_RU" ) ).toBe(
+			"AabBvVgGdDeEeEzhZhzZiIiIiIkKlLmMnNoOpPrRsStTuUfFkhKhtsTschChshShshchShchieIeyYeEiuIuiaIa" );
 	} );
 	it( "returns a Russian string without special characters.", function() {
 		expect( transliteration( "Транслитерация", "ru_RU" ) ).toBe( "Transliteratsiia" );
@@ -83,7 +85,8 @@ describe( "a test removing special characters from text", function() {
 		expect( transliteration( "ɛƐɲƝŋŊɔƆ", "bm" ) ).toBe( "eEnyNyngNgoO" );
 	} );
 	it( "returns a Ukrainian string without special characters.", function() {
-		expect( transliteration( "бБвВгГґҐдДкКлЛмМpPпПсСтТуУфФхХцЦчЧшШщЩьЬжЖзЗиИ", "uk" ) ).toBe( "bBvVhHgGdDkKlLmMrRpPsStTuUfFkhKhtsTschChshShshchShchzhZhzZyY" );
+		expect( transliteration( "бБвВгГґҐдДкКлЛмМpPпПсСтТуУфФхХцЦчЧшШщЩьЬжЖзЗиИ", "uk" ) ).toBe(
+			"bBvVhHgGdDkKlLmMrRpPsStTuUfFkhKhtsTschChshShshchShchzhZhzZyY" );
 	} );
 	it( "returns a Ukrainian string without special characters.", function() {
 		expect( transliteration( "єє є", "uk" ) ).toBe( "yeie ye" );
@@ -128,7 +131,8 @@ describe( "a test removing special characters from text", function() {
 		expect( transliteration( "âÂêÊîÎôÔûÛŵŴŷŶ", "cy" ) ).toBe( "aAeEiIoOuUwWyY" );
 	} );
 	it( "returns an Ewe string without special characters.", function() {
-		expect( transliteration( "ɖƉɛƐƒƑɣƔŋŊɔƆʋƲãáàǎâÃÁÀǍÂéèěêÉÈĚÊóòǒôÓÒǑÔúùǔûÚÙǓÛíìǐîÍÌǏÎ", "ee" ) ).toBe( "dDeEfFgGngNgoOwWaaaaaAAAAAeeeeEEEEooooOOOOuuuuUUUUiiiiIIII" );
+		expect( transliteration( "ɖƉɛƐƒƑɣƔŋŊɔƆʋƲãáàǎâÃÁÀǍÂéèěêÉÈĚÊóòǒôÓÒǑÔúùǔûÚÙǓÛíìǐîÍÌǏÎ", "ee" ) ).toBe(
+			"dDeEfFgGngNgoOwWaaaaaAAAAAeeeeEEEEooooOOOOuuuuUUUUiiiiIIII" );
 	} );
 	it( "returns an Estonian string without special characters.", function() {
 		expect( transliteration( "šŠžŽõÕäÄöÖüÜ", "et" ) ).toBe( "shShzhZhoOaAoOuU" );
@@ -191,7 +195,8 @@ describe( "a test removing special characters from text", function() {
 		expect( transliteration( "áâàäÁÂÀÄëèêËÈÊöóÖÓ", "li" ) ).toBe( "aaaaAAAAeeeEEEooOO" );
 	} );
 	it( "returns a Lingala string without special characters.", function() {
-		expect( transliteration( "áâǎÁÂǍéêěÉÊĚɛɛ́ɛ̂ɛ̌ƐƐ́Ɛ̂Ɛ̌íîǐÍÎǏóôǒÓÔǑɔɔ́ɔ̂ɔ̌ƆƆ́Ɔ̂Ɔ̌úÚ", "lin" ) ).toBe( "aaaAAAeeeEEEeeeeEEEEiiiIIIoooOOOooooOOOOuU" );
+		expect( transliteration( "áâǎÁÂǍéêěÉÊĚɛɛ́ɛ̂ɛ̌ƐƐ́Ɛ̂Ɛ̌íîǐÍÎǏóôǒÓÔǑɔɔ́ɔ̂ɔ̌ƆƆ́Ɔ̂Ɔ̌úÚ", "lin" ) ).toBe(
+			"aaaAAAeeeEEEeeeeEEEEiiiIIIoooOOOooooOOOOuU" );
 	} );
 	it( "returns a Lithuanian string without special characters.", function() {
 		expect( transliteration( "ąĄčČęĘėĖįĮšŠųŲūŪžŽ", "lt" ) ).toBe( "aAcCeEeEiIsSuUuUzZ" );
@@ -206,7 +211,8 @@ describe( "a test removing special characters from text", function() {
 			"Tie se obdareni so razum i sovest i treba da se odnesuvaat eden kon drug vo duhot na opshto chovechkata pripadnost." );
 	} );
 	it( "returns a Macedonian string without special characters.", function() {
-		expect( transliteration( "АаБбВвГгДдЃѓЕеЖжЗзЅѕИиЈјКкЛлЉљМмНнЊњОоПпРрСсТтЌќУуФфХхЦцЧчЏџШш", "mk" ) ).toBe( "AaBbVvGgDdGjgjEeZhzhZzDzdzIiJjKkLlLjljMmNnNjnjOoPpRrSsTtKjkjUuFfHhCcChchDjdjShsh" );
+		expect( transliteration( "АаБбВвГгДдЃѓЕеЖжЗзЅѕИиЈјКкЛлЉљМмНнЊњОоПпРрСсТтЌќУуФфХхЦцЧчЏџШш", "mk" ) ).toBe(
+			"AaBbVvGgDdGjgjEeZhzhZzDzdzIiJjKkLlLjljMmNnNjnjOoPpRrSsTtKjkjUuFfHhCcChchDjdjShsh" );
 	} );
 	it( "returns a Maori string without special characters.", function() {
 		expect( transliteration( "āĀēĒīĪōŌūŪ", "mri" ) ).toBe( "aaAaeeEeiiIiooOouuUu" );
@@ -239,7 +245,8 @@ describe( "a test removing special characters from text", function() {
 		expect( transliteration( "ǄǅǆáÁäÄčČďĎéÉíÍľĽĺĹňŇóÓôÔŕŔšŠťŤúÚýÝžŽ", "sk" ) ).toBe( "DZDzdzaAaAcCdDeEiIlLlLnNoOoOrRsStTuUyYzZ" );
 	} );
 	it( "returns a Slovene string without special characters.", function() {
-		expect( transliteration( "čćČĆđĐšŠžŽàáȃȁÀÁȂȀèéẹ́ȇẹ̑ȅǝ̏ǝ̀ÈÉẸ́ȆẸ̑ȄƎ̏Ǝ̀ìíȋȉÌÍȊȈòóọ́ȏọ̑ȍÒÓỌ́ȎỌ̑ȌùúȗȕÙÚȖȔŕȓŔȒ", "sl" ) ).toBe( "ccCCdDsSzZaaaaAAAAeeeeeeeeEEEEEEEEiiiiIIIIooooooOOOOOOuuuuUUUUrrRR" );
+		expect( transliteration( "čćČĆđĐšŠžŽàáȃȁÀÁȂȀèéẹ́ȇẹ̑ȅǝ̏ǝ̀ÈÉẸ́ȆẸ̑ȄƎ̏Ǝ̀ìíȋȉÌÍȊȈòóọ́ȏọ̑ȍÒÓỌ́ȎỌ̑ȌùúȗȕÙÚȖȔŕȓŔȒ", "sl" ) ).toBe(
+			"ccCCdDsSzZaaaaAAAAeeeeeeeeEEEEEEEEiiiiIIIIooooooOOOOOOuuuuUUUUrrRR" );
 	} );
 	it( "returns an Albanian string without special characters.", function() {
 		expect( transliteration( "çÇëË", "sq" ) ).toBe( "cCeE" );
