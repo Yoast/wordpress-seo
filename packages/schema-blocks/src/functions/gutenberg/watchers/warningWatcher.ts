@@ -62,9 +62,8 @@ function getInnerBlocksInstruction( blockName: string ): InnerBlocks | null {
 function createWarning( innerBlock: BlockInstance, message: string, warningType: WarningType ): BlockInstance {
 	if ( ! message ) {
 		const blockType = getBlockType( innerBlock.name );
-		message = `You've just removed the ‘${ blockType.title }’ block,
-						but this is a required block for Schema output.
-						Without this block no Schema will be generated. Do you want this?`;
+		message = `You've just removed the ‘${ blockType.title }’ block, but this is a required block for Schema output.
+Without this block no Schema will be generated. Do you want this?`;
 	}
 
 	const attributes = {
@@ -111,7 +110,7 @@ export default function warningWatcher( blocks: BlockInstance[], previousBlocks:
 	const currentBlockIds = mapRecursively( blocks, block => block.clientId );
 
 	recurseOverBlocks( previousBlocks, ( block: BlockInstance ) => {
-		if ( ! block.innerBlocks ) {
+		if ( ! block.innerBlocks || block.innerBlocks.length === 0 ) {
 			return;
 		}
 
