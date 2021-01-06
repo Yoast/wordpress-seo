@@ -1,5 +1,5 @@
 import { ReactElement } from "react";
-import { createElement, ComponentClass } from "@wordpress/element";
+import { createElement, ComponentClass, Fragment } from "@wordpress/element";
 import { InnerBlocks as WordPressInnerBlocks } from "@wordpress/block-editor";
 import { BlockInstance, TemplateArray } from "@wordpress/blocks";
 import BlockInstruction from "../../core/blocks/BlockInstruction";
@@ -89,9 +89,7 @@ export default class InnerBlocks extends BlockInstruction {
 
 		return (
 			<Fragment>
-			{
-				...elements;
-			}
+			{ ...elements }
 			</Fragment>
 		);
 	}
