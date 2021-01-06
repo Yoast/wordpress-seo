@@ -1,5 +1,5 @@
 import BlockInstruction from "../../core/blocks/BlockInstruction";
-import { BlockConfiguration } from "@wordpress/blocks";
+import { ExtendedBlockConfiguration } from "../../core/types/ExtendedBlockConfiguration";
 
 /**
  * Variation instruction.
@@ -10,7 +10,7 @@ class Variation extends BlockInstruction {
 	 *
 	 * @returns The configuration.
 	 */
-	configuration(): Partial<BlockConfiguration> {
+	configuration(): Partial<ExtendedBlockConfiguration> {
 		return {
 			variations: [
 				this.options,
