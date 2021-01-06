@@ -1,5 +1,5 @@
-import { determineStem } from "../../../src/languageProcessing/languages/de/helpers/internal/determineStem";
-import getMorphologyData from "../../specHelpers/getMorphologyData";
+import determineStem from "../../../../../../src/languageProcessing/languages/de/helpers/internal/determineStem";
+import getMorphologyData from "../../../../../specHelpers/getMorphologyData";
 
 
 const morphologyDataDE = getMorphologyData( "de" ).de;
