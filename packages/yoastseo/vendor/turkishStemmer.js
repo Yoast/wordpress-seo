@@ -766,7 +766,7 @@ class SnowballStemmer extends SnowballProgram {
 class TurkishStemmer extends SnowballStemmer {
 	constructor( morphologyData ) {
 		super();
-		this.morphologyData = morphologyData;
+		TurkishStemmer.morphologyData = morphologyData;
 	}
 
 	static get methodObject() {
