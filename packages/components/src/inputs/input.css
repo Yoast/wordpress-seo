@@ -46,6 +46,11 @@
 	background: var(--yoast-color-inactive-grey-light);
 }
 
+.yoast .duration-input {
+	width: 4em;
+	margin: 0 2px;
+}
+
 /* Edge. */
 ::-ms-input-placeholder {
 	color: var(--yoast-color-placeholder);
