@@ -37,7 +37,7 @@ class Date extends BlockInstruction {
 	 * @return The React components to show in the editor when editing this block.
 	 */
 	edit( props: RenderEditProps ): JSX.Element {
-		const [ showDatePicker, setShowDatePicker ] = useState( false );
+		const [ datePickerShown, setShowDatePicker ] = useState( false );
 
 		const dateFormat = Date.getDateFormat();
 
@@ -45,24 +45,24 @@ class Date extends BlockInstruction {
 
 		const [ selectedDate, setSelectedDate ] = useState( currentlySelectedDate || dateFormat );
 
-		const onChange = useCallback(
+		const toggleDatePicker = useCallback(
+			() => setShowDatePicker( ! datePickerShown ),
+			[ datePickerShown ],
+		);
+
+		const changeDate = useCallback(
 			dateTime => {
 				const date = dateTime.split( "T" )[ 0 ];
 				this.setDate( date, props.setAttributes );
-				setShowDatePicker( ! showDatePicker );
+				toggleDatePicker();
 				setSelectedDate( dateI18n( dateFormat, date ) );
 			},
-			[ props.setAttributes, setShowDatePicker, showDatePicker, dateFormat ],
-		);
-
-		const onClick = useCallback(
-			() => setShowDatePicker( ! showDatePicker ),
-			[ showDatePicker ],
+			[ props.setAttributes, dateFormat ],
 		);
 
 		return <div className="yoast-block-date-picker">
-			<button onClick={ onClick }>{ selectedDate }</button>
-			{ showDatePicker && <DatePicker onChange={ onChange } /> }
+			<button onClick={ toggleDatePicker }>{ selectedDate }</button>
+			{ datePickerShown && <DatePicker onChange={ changeDate } /> }
 		</div>;
 	}
 
