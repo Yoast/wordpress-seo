@@ -352,9 +352,6 @@ query GetSeoConfig {
 }
 ```
 
-## Notes
-
-This can be used in production, however it is still under active development, breaking changes will only be introduced with major version releases.
 
 ## Support
 
