@@ -36,7 +36,7 @@ import { AnalysisWebWorker } from "yoastseo";
 
 const worker = new AnalysisWebWorker( self );
 worker.register();
-``` 
+```
 
 Then in a different script you have the following code:
 
@@ -59,7 +59,7 @@ worker.initialize( {
     const paper = new Paper( "Text to analyze", {
         keyword: "analyze",
     } );
-    
+
     return worker.analyze( paper );
 } ).then( ( results ) => {
     console.log( 'Analysis results:' );
@@ -101,11 +101,12 @@ console.log( researcher.getResearch( "wordCountInText" ) );
 | Catalan    	| ✅                	|                     	|               	|                     	|                             	|                            	|
 | Polish     	| ✅                	| ❌<sup>3</sup>       	| ✅             	| ✅                   	| ✅                           	| ✅                          	|
 | Swedish    	| ✅                	| ❌<sup>3</sup>       	| ✅             	| ✅                   	| ✅                           	| ✅                          	|
-| Hungarian  	| ✅                	|                     	|               	|                     	|                             	|                            	|
+| Hungarian  	| ✅                	| ❌<sup>3</sup>        |  ✅          	|     ✅           	|         ✅             	|             ✅                 	|                            	|
 | Indonesian 	| ✅                	| ❌<sup>3</sup>       	| ✅             	| ✅                   	| ✅                           	| ✅                          	|
-| Arabic    	| ✅                	| ❌<sup>3</sup>         | ✅             	| ✅                   	| ✅                           	| ✅                          	|
-| Hebrew      |                   |                         |                 |                        |                                | ✅                         |    
+| Arabic    	| ✅                	| ❌<sup>3</sup>        | ✅             	| ✅                   	| ✅                           	| ✅                          	|
+| Hebrew      |   ✅                | ❌<sup>3</sup>             | ✅             |    ✅               |      ✅                   |           ✅                     | ✅                         |
 | Farsi    	  |                  	|                         |               	|                       |                             	| ✅                          	|
+| Turkish     	| ✅                	| ❌<sup>3</sup>       	| ✅             	| ✅                   	| ✅                           	| ✅                          	|
 
 <sup>1</sup> This means the default upper limit of 20 words has been verified for this language, or the upper limit has been changed.
 
@@ -114,7 +115,7 @@ console.log( researcher.getResearch( "wordCountInText" ) );
 <sup>3</sup> There is no existing Flesch reading ease formula for these languages.
 
 
-The following readability assessments are available for all languages: 
+The following readability assessments are available for all languages:
 - sentence length (with a default upper limit of 20 words, see<sup>1</sup> above )
 - paragraph length
 - subheading distribution

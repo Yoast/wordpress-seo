@@ -8,7 +8,7 @@ import { arrayOrObjectToOptions } from "../../functions/select";
 import SidebarBase from "./abstract/SidebarBase";
 
 /**
- * SidebarSelect class
+ * SidebarSelect instruction.
  */
 class SidebarSelect extends SidebarBase {
 	public options: {

@@ -8,6 +8,10 @@ const getPassiveVerbsRussian = getPassiveVerbsRussianFactory().all;
 import getPassiveVerbsSwedishFactory from "../../swedish/passiveVoice/participles.js";
 const getPassiveVerbsSwedish = getPassiveVerbsSwedishFactory().all;
 
+import getPassiveEndingsTurkish from "../../turkish/passiveVoice/passiveEndings";
+const passiveEndingsTurkish = getPassiveEndingsTurkish();
+import { nonPassivesFullForms, nonPassiveStems } from "../../turkish/passiveVoice/nonPassivesTurkish";
+
 const passivePrefixIndonesian = "di";
 import nonPassivesIndonesianFactory from "../../indonesian/passiveVoice/nonPassiveVerbsStartingDi";
 const nonPassivesIndonesian = nonPassivesIndonesianFactory();
@@ -93,8 +97,38 @@ const determineSentenceIsPassiveIndonesian = function( sentence ) {
 		}
 		return matchedPassivesShouldStay;
 	} );
-
 	return matchedPassives.length !== 0;
+};
+
+/**
+ * Filters out words that are passive exceptions from an array.
+ *
+ * @param {string[]} nonPassivesTurkish      The list of exceptions to check
+ * @param {string[]} passiveEndings          The list of passive verb endings
+ * @param {string[]} matchedPassives         The words from the sentence that could be passives
+ * @returns {string[]}               		 The array of words with the non-passives filtered out
+ *
+ */
+const checkTurkishNonPassivesStemsList = function( nonPassivesTurkish, passiveEndings, matchedPassives ) {
+	return matchedPassives.filter( passive => nonPassivesTurkish.some( stem => passiveEndings.some( function( ending ) {
+		const pattern =  new RegExp( "^" + stem + ending + "$" );
+		return ! pattern.test( passive );
+	} ) ) );
+};
+
+/**
+ * Checks the passed sentence to see if it contains Turkish passive verb forms and is not found in the non-passive full forms exception list.
+ *
+ * @param {string} sentence   The sentence to match against.
+ *
+ * @returns {Boolean}         Whether the sentence contains a Turkish verb passive voice.
+ */
+const determineSentenceIsPassiveTurkish = function( sentence ) {
+	const words = getWords( sentence );
+	let matchedPassives = words.filter( word => ( word.length > 5 ) );
+	matchedPassives = matchedPassives.filter( word => ! nonPassivesFullForms.includes( word ) );
+	matchedPassives = checkTurkishNonPassivesStemsList( nonPassiveStems, passiveEndingsTurkish, matchedPassives );
+	return matchedPassives.some( word => passiveEndingsTurkish.some( ending => word.endsWith( ending ) ) );
 };
 
 /**
@@ -279,6 +313,10 @@ export default function( sentenceText, language ) {
 
 	if ( language === "id" ) {
 		return determineSentenceIsPassiveIndonesian( sentenceText );
+	}
+
+	if ( language === "tr" ) {
+		return determineSentenceIsPassiveTurkish( sentenceText );
 	}
 
 	if ( language === "ar" ) {

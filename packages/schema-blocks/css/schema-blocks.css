@@ -2,6 +2,7 @@
 	position: relative;
 	width: 100%;
 }
+
 .yoast-labeled-inserter::before {
 	content: attr(data-label);
 	position: absolute;
@@ -9,6 +10,63 @@
 	height: 100%;
 	color: black;
 }
+
 .yoast-labeled-inserter > .block-editor-inserter {
 	width: 100%;
+}
+
+.yoast-warning-block {
+	border-width: 0 0 0 4px;
+	border-style: solid;
+	padding: 16px;
+	font-size: 13px;
+	font-family: Arial, Roboto-Regular, HelveticaNeue, sans-serif;
+}
+
+.yoast-warning-block.required {
+	background: #F8EBEA;
+	border-color: #CD423B;
+}
+
+.yoast-warning-block.recommended {
+	background: #FEF8EE;
+	border-color: #F0B650;
+}
+
+.yoast-warning-block > .yoast-warning-block-message {
+	margin: 0 0;
+	font-family: Arial, Roboto-Regular, HelveticaNeue, sans-serif;
+}
+
+.yoast-warning-block > div {
+	text-align: right;
+	padding-top: 8px;
+}
+
+.yoast-warning-block > div > button {
+	background: none;
+	border: none;
+	text-decoration: underline;
+	color: #0073aa;
+}
+
+.yoast-warning-block > div > button:not(:last-child) {
+	margin-right: 24px;
+}
+
+.wp-core-ui select.yoast-schema-select {
+	display: block;
+	border: #CCCCCC 1px solid;
+	border-radius: 0;
+	padding: 3px 8px 4px 8px;
+	width: 50%;
+
+	-moz-appearance: none;
+	-webkit-appearance: none;
+	appearance: none;
+
+	background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="-1 -1 9 8"><path d="M0 0L4 7 8 0z" fill="rgb(114,119,124)"/></svg>');
+	background-repeat: no-repeat, repeat;
+	background-position: right .7em top 50%, 0 0;
+	background-size: .65em auto, 100%;
 }
