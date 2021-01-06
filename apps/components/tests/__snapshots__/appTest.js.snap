@@ -81,18 +81,10 @@ exports[`App renders without problems 1`] = `
     </button>
     <button
       onClick={[Function]}
-      style={
-        Object {
-          "backgroundColor": "#006671",
-          "border": "1px solid white",
-          "borderRadius": "5px",
-          "color": "#FFF",
-          "outline": "none",
-        }
-      }
+      style={Object {}}
       type="button"
     >
-      Buttons
+      Buttons (old)
     </button>
     <button
       onClick={[Function]}
@@ -152,10 +144,32 @@ exports[`App renders without problems 1`] = `
     </button>
     <button
       onClick={[Function]}
+      style={
+        Object {
+          "backgroundColor": "#006671",
+          "border": "1px solid white",
+          "borderRadius": "5px",
+          "color": "#FFF",
+          "outline": "none",
+        }
+      }
+      type="button"
+    >
+      Buttons
+    </button>
+    <button
+      onClick={[Function]}
       style={Object {}}
       type="button"
     >
-      Reactified components
+      Inputs
+    </button>
+    <button
+      onClick={[Function]}
+      style={Object {}}
+      type="button"
+    >
+      Image Select
     </button>
     <p
       style={
@@ -187,487 +201,280 @@ exports[`App renders without problems 1`] = `
   </div>
   <div>
     <div
-      className="ButtonsWrapper__ButtonsContainer-sc-1nb1s31-0 cDHlch"
+      className="yoast"
     >
-      <button
-        className="Button__BaseButton-sc-32rbq-4 Button-sc-32rbq-3 Button-sc-32rbq-1 Button-sc-32rbq-2 Button-sc-32rbq-0 nHkJq"
-        type="button"
+      <h2>
+        Buttons and ButtonStyledLinks
+      </h2>
+      <p>
+        The buttons come in some variants, and can be a Button or a link styled as a button. They can also be big, or small, and can contain icons before and/or after. They also pass regular props, like disabled for buttons.
+      </p>
+      <div
+        style={
+          Object {
+            "padding": "24px",
+          }
+        }
       >
-        BaseButton
-      </button>
-       
-      <button
-        className="Button__BaseButton-sc-32rbq-4 Button-sc-32rbq-3 Button-sc-32rbq-1 Button-sc-32rbq-2 Button-sc-32rbq-0 nHkJq"
-        type="button"
-      >
-        Button
-      </button>
-       
-      <button
-        className="Button__BaseButton-sc-32rbq-4 Button-sc-32rbq-3 Button-sc-32rbq-1 Button-sc-32rbq-2 Button-sc-32rbq-0 nHkJq"
-        type="button"
-      >
-        <svg
-          aria-hidden={true}
-          className="yoast-svg-icon yoast-svg-icon-edit IconButton-v5s3bl-0 khhyWe createSvgIconComponent__StyledSvg-sc-1h4gl3a-0 cPnaHk"
-          fill="#000"
-          focusable="false"
-          role="img"
-          size="16px"
-          viewBox="0 0 1792 1792"
-          xmlns="http://www.w3.org/2000/svg"
+        <h3>
+          "primary" variant (default)
+        </h3>
+        <button
+          className="yoast-button yoast-button--primary"
+          onClick={[Function]}
+          title="Testing whether other props are also passed, like this tooltip"
+          type="button"
         >
-          <path
-            d="M491 1536l91-91-235-235-91 91v107h128v128h107zm523-928q0-22-22-22-10 0-17 7l-542 542q-7 7-7 17 0 22 22 22 10 0 17-7l542-542q7-7 7-17zm-54-192l416 416-832 832h-416v-416zm683 96q0 53-37 90l-166 166-416-416 166-165q36-38 90-38 53 0 91 38l235 234q37 39 37 91z"
-          />
-        </svg>
-        IconButton
-      </button>
-       
-      <button
-        aria-label="IconButton with icon only"
-        className="Button__BaseButton-sc-32rbq-4 Button-sc-32rbq-3 Button-sc-32rbq-1 Button-sc-32rbq-2 Button-sc-32rbq-0 nHkJq"
-        type="button"
-      >
-        <svg
-          aria-hidden={true}
-          className="yoast-svg-icon yoast-svg-icon-edit createSvgIconComponent__StyledSvg-sc-1h4gl3a-0 cPnaHk"
-          fill="#c00"
-          focusable="false"
-          role="img"
-          size="16px"
-          viewBox="0 0 1792 1792"
-          xmlns="http://www.w3.org/2000/svg"
+          Default button
+        </button>
+        <button
+          className="yoast-button yoast-button--primary"
+          onClick={[Function]}
+          type="button"
         >
-          <path
-            d="M491 1536l91-91-235-235-91 91v107h128v128h107zm523-928q0-22-22-22-10 0-17 7l-542 542q-7 7-7 17 0 22 22 22 10 0 17-7l542-542q7-7 7-17zm-54-192l416 416-832 832h-416v-416zm683 96q0 53-37 90l-166 166-416-416 166-165q36-38 90-38 53 0 91 38l235 234q37 39 37 91z"
-          />
-        </svg>
-      </button>
-       
-      <button
-        className="Button__BaseButton-sc-32rbq-4 Button-sc-32rbq-3 Button-sc-32rbq-1 Button-sc-32rbq-2 Button-sc-32rbq-0 nHkJq"
-        type="button"
-      >
-        <svg
-          aria-hidden={true}
-          className="yoast-svg-icon yoast-svg-icon-search createSvgIconComponent__StyledSvg-sc-1h4gl3a-0 cPnaHk"
-          fill="currentColor"
-          focusable="false"
-          role="img"
-          size="16px"
-          viewBox="0 0 1792 1792"
-          xmlns="http://www.w3.org/2000/svg"
+          Primary button
+        </button>
+        <button
+          className="yoast-button yoast-button--primary"
+          disabled={true}
+          onClick={[Function]}
+          type="button"
         >
-          <path
-            d="M1216 832q0-185-131.5-316.5t-316.5-131.5-316.5 131.5-131.5 316.5 131.5 316.5 316.5 131.5 316.5-131.5 131.5-316.5zm512 832q0 52-38 90t-90 38q-54 0-90-38l-343-342q-179 124-399 124-143 0-273.5-55.5t-225-150-150-225-55.5-273.5 55.5-273.5 150-225 225-150 273.5-55.5 273.5 55.5 225 150 150 225 55.5 273.5q0 220-124 399l343 343q37 37 37 90z"
-          />
-        </svg>
-        IconsButton
-        <svg
-          aria-hidden={true}
-          className="yoast-svg-icon yoast-svg-icon-plus createSvgIconComponent__StyledSvg-sc-1h4gl3a-0 cPnaHk"
-          fill="currentColor"
-          focusable="false"
-          role="img"
-          size="16px"
-          viewBox="0 0 1792 1792"
-          xmlns="http://www.w3.org/2000/svg"
+          Primary disabled button
+        </button>
+        <button
+          className="yoast-button yoast-button--primary yoast-button--small"
+          onClick={[Function]}
+          type="button"
         >
-          <path
-            d="M1600 736v192q0 40-28 68t-68 28h-416v416q0 40-28 68t-68 28h-192q-40 0-68-28t-28-68v-416h-416q-40 0-68-28t-28-68v-192q0-40 28-68t68-28h416v-416q0-40 28-68t68-28h192q40 0 68 28t28 68v416h416q40 0 68 28t28 68z"
-          />
-        </svg>
-      </button>
-      <hr
-        className="ButtonsWrapper__Separator-sc-1nb1s31-1 ZmEFB"
-      />
-      <a
-        className="LinkButton-sc-8lzs74-0 Button-sc-32rbq-3 Button-sc-32rbq-1 Button-sc-32rbq-2 Button-sc-32rbq-0 guQfPP"
-        href="#someresource"
-      >
-        LinkButton
-      </a>
-      <hr
-        className="ButtonsWrapper__Separator-sc-1nb1s31-1 ZmEFB"
-      />
-      <button
-        aria-label="important toggle"
-        aria-pressed={false}
-        className="IconButtonToggle__IconButtonBase-ia01ki-0 fHpZdj"
-        disabled={false}
-        id="some-id"
-        onClick={[Function]}
-        type="button"
-      >
-        <svg
-          aria-hidden={true}
-          className="yoast-svg-icon yoast-svg-icon-eye createSvgIconComponent__StyledSvg-sc-1h4gl3a-0 dqTDIA"
-          fill="#555"
-          focusable="false"
-          role="img"
-          size="18px"
-          viewBox="0 0 1792 1792"
-          xmlns="http://www.w3.org/2000/svg"
+          Primary small button
+        </button>
+        <button
+          className="yoast-button yoast-button--primary yoast-button--small"
+          disabled={true}
+          onClick={[Function]}
+          type="button"
         >
-          <path
-            d="M1664 960q-152-236-381-353 61 104 61 225 0 185-131.5 316.5t-316.5 131.5-316.5-131.5-131.5-316.5q0-121 61-225-229 117-381 353 133 205 333.5 326.5t434.5 121.5 434.5-121.5 333.5-326.5zm-720-384q0-20-14-34t-34-14q-125 0-214.5 89.5t-89.5 214.5q0 20 14 34t34 14 34-14 14-34q0-86 61-147t147-61q20 0 34-14t14-34zm848 384q0 34-20 69-140 230-376.5 368.5t-499.5 138.5-499.5-139-376.5-368q-20-35-20-69t20-69q140-229 376.5-368t499.5-139 499.5 139 376.5 368q20 35 20 69z"
+          Primary small disabled button
+        </button>
+        <a
+          className="yoast-button yoast-button--primary"
+          href="#"
+        >
+          Primary link
+        </a>
+        <a
+          className="yoast-button yoast-button--primary yoast-button--small"
+          href="#"
+        >
+          Primary small link
+        </a>
+        <h3>
+          "secondary" variant
+        </h3>
+        <button
+          className="yoast-button yoast-button--secondary"
+          onClick={[Function]}
+          type="button"
+        >
+          Secondary button
+        </button>
+        <button
+          className="yoast-button yoast-button--secondary"
+          disabled={true}
+          onClick={[Function]}
+          type="button"
+        >
+          Secondary disabled button
+        </button>
+        <button
+          className="yoast-button yoast-button--secondary yoast-button--small"
+          onClick={[Function]}
+          type="button"
+        >
+          Secondary small button
+        </button>
+        <button
+          className="yoast-button yoast-button--secondary yoast-button--small"
+          disabled={true}
+          onClick={[Function]}
+          type="button"
+        >
+          Secondary small disabled button
+        </button>
+        <a
+          className="yoast-button yoast-button--secondary"
+          href="#"
+        >
+          Secondary link
+        </a>
+        <a
+          className="yoast-button yoast-button--secondary yoast-button--small"
+          href="#"
+        >
+          Secondary small link
+        </a>
+        <h3>
+          With Ref!
+        </h3>
+        <button
+          className="yoast-button yoast-button--secondary yoast-button--small"
+          onClick={[Function]}
+          type="button"
+        >
+          This Button has a Ref!
+        </button>
+        <button
+          onClick={[Function]}
+        >
+          focus test
+        </button>
+        <a
+          className="yoast-button yoast-button--secondary yoast-button--small"
+          href="#"
+        >
+          This ButtonStyledLink has a Ref!
+        </a>
+        <button
+          onClick={[Function]}
+        >
+          focus test
+        </button>
+        <h3>
+          "buy" variant (or "upsell")
+        </h3>
+        <button
+          className="yoast-button yoast-button--buy"
+          onClick={[Function]}
+          type="button"
+        >
+          Buy button
+          <span
+            className="yoast-button--buy__caret"
           />
-        </svg>
-      </button>
-       (IconButtonToggle: needs a tooltip to make its aria-label visible)
-      <hr
-        className="ButtonsWrapper__Separator-sc-1nb1s31-1 ZmEFB"
-      />
-      <button
-        aria-expanded={undefined}
-        className="YoastButton-gx5w7q-1 YoastButton-gx5w7q-0 dnvPfT"
-        onClick={undefined}
-        type="button"
-      >
-        <span>
-          YoastButton
-        </span>
-      </button>
-       
-      <button
-        aria-expanded={undefined}
-        className="UpsellButton__UpsellButtonBase-sc-7vlxuh-2 UpsellButton-sc-7vlxuh-1 dMNgsz"
-        onClick={undefined}
-        type="button"
-      >
-        <span>
-          Upsell Button
+        </button>
+        <button
+          className="yoast-button yoast-button--buy"
+          disabled={true}
+          onClick={[Function]}
+          type="button"
+        >
+          Buy disabled button
+          <span
+            className="yoast-button--buy__caret"
+          />
+        </button>
+        <button
+          className="yoast-button yoast-button--buy yoast-button--small"
+          onClick={[Function]}
+          type="button"
+        >
+          Buy small button
+          <span
+            className="yoast-button--buy__caret"
+          />
+        </button>
+        <button
+          className="yoast-button yoast-button--buy yoast-button--small"
+          disabled={true}
+          onClick={[Function]}
+          type="button"
+        >
+          Buy small disabled button
+          <span
+            className="yoast-button--buy__caret"
+          />
+        </button>
+        <a
+          className="yoast-button yoast-button--buy"
+          href="#"
+        >
+          Buy Link
+          <span
+            className="yoast-button--buy__caret"
+          />
+        </a>
+        <a
+          className="yoast-button yoast-button--buy yoast-button--small"
+          href="#"
+        >
+          Buy small Link
+          <span
+            className="yoast-button--buy__caret"
+          />
+        </a>
+        <h3>
+          "hide" and "remove" variants
+        </h3>
+        <button
+          className="yoast-hide"
+          onClick={[Function]}
+          type="button"
+        >
+          Hide button
+        </button>
+        <button
+          className="yoast-remove"
+          onClick={[Function]}
+          type="button"
+        >
+          Remove button
+        </button>
+        <a
+          className="yoast-hide"
+          href="#"
+        >
+          Hide Link
+        </a>
+        <a
+          className="yoast-remove"
+          href="#"
+        >
+          Remove Link
+        </a>
+        <h3>
+          "edit" variant
+        </h3>
+        <button
+          className="yoast-button yoast-button--primary"
+          onClick={[Function]}
+          type="button"
+        >
+          <span
+            className="yoast-button--edit"
+          />
+          Edit button
+        </button>
+        <a
+          className="yoast-button yoast-button--primary"
+          href="#"
+        >
+          <span
+            className="yoast-button--edit"
+          />
+          Edit Link
+        </a>
+        <h3>
+          CloseButton (not a variant due its different characteristics)
+        </h3>
+        <button
+          aria-label="Close"
+          className="yoast-close"
+          onClick={[Function]}
+        >
           <svg
-            aria-hidden={true}
-            className="yoast-svg-icon yoast-svg-icon-caret-right UpsellButton__IconComponent-sc-7vlxuh-0 cghYDs createSvgIconComponent__StyledSvg-sc-1h4gl3a-0 cPnaHk"
-            fill="#000"
+            aria-hidden="true"
             focusable="false"
             role="img"
-            size="16px"
-            viewBox="0 0 192 512"
+            viewBox="0 0 352 512"
             xmlns="http://www.w3.org/2000/svg"
           >
             <path
-              d="M 0 384.662 V 127.338 c 0 -17.818 21.543 -26.741 34.142 -14.142 l 128.662 128.662 c 7.81 7.81 7.81 20.474 0 28.284 L 34.142 398.804 C 21.543 411.404 0 402.48 0 384.662 Z"
+              d="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z"
             />
           </svg>
-        </span>
-      </button>
-       
-      <a
-        className="UpsellLinkButton-sc-19tfxfs-0 TVWHo"
-        href="http://example.org"
-      >
-        Upsell Link Button
-      </a>
-      <hr
-        className="ButtonsWrapper__Separator-sc-1nb1s31-1 ZmEFB"
-      />
-      <button
-        className="IconLabeledButton__IconLabelledBaseButton-sc-10fuids-0 Button-sc-32rbq-3 Button-sc-32rbq-1 Button-sc-32rbq-2 laOfvh"
-        type="button"
-      >
-        <svg
-          aria-hidden={true}
-          className="yoast-svg-icon yoast-svg-icon-question-circle createSvgIconComponent__StyledSvg-sc-1h4gl3a-0 cPnaHk"
-          fill="#0066cd"
-          focusable="false"
-          role="img"
-          size="16px"
-          viewBox="0 0 1792 1792"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M1024 1376v-192q0-14-9-23t-23-9h-192q-14 0-23 9t-9 23v192q0 14 9 23t23 9h192q14 0 23-9t9-23zm256-672q0-88-55.5-163t-138.5-116-170-41q-243 0-371 213-15 24 8 42l132 100q7 6 19 6 16 0 25-12 53-68 86-92 34-24 86-24 48 0 85.5 26t37.5 59q0 38-20 61t-68 45q-63 28-115.5 86.5t-52.5 125.5v36q0 14 9 23t23 9h192q14 0 23-9t9-23q0-19 21.5-49.5t54.5-49.5q32-18 49-28.5t46-35 44.5-48 28-60.5 12.5-81zm384 192q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z"
-          />
-        </svg>
-        Need help?
-      </button>
-      <button
-        className="IconLabeledButton__IconLabelledBaseButton-sc-10fuids-0 Button-sc-32rbq-3 Button-sc-32rbq-1 Button-sc-32rbq-2 laOfvh"
-        type="button"
-      >
-        <svg
-          aria-hidden={true}
-          className="yoast-svg-icon yoast-svg-icon-gear createSvgIconComponent__StyledSvg-sc-1h4gl3a-0 cPnaHk"
-          fill="#0066cd"
-          focusable="false"
-          role="img"
-          size="16px"
-          viewBox="0 0 1792 1792"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M1800 800h-218q-26 -107 -81 -193l154 -154l-210 -210l-154 154q-88 -55 -191 -79v-218h-300v218q-103 24 -191 79l-154 -154l-212 212l154 154q-55 88 -79 191h-218v297h217q23 101 80 194l-154 154l210 210l154 -154q85 54 193 81v218h300v-218q103 -24 191 -79 l154 154l212 -212l-154 -154q57 -93 80 -194h217v-297zM950 650q124 0 212 88t88 212t-88 212t-212 88t-212 -88t-88 -212t88 -212t212 -88z"
-          />
-        </svg>
-        Settings
-      </button>
-      <button
-        className="IconLabeledButton__IconLabelledBaseButton-sc-10fuids-0 Button-sc-32rbq-3 Button-sc-32rbq-1 Button-sc-32rbq-2 iljbzd"
-        type="button"
-      >
-        <svg
-          aria-hidden={true}
-          className="yoast-svg-icon yoast-svg-icon-eye createSvgIconComponent__StyledSvg-sc-1h4gl3a-0 cPnaHk"
-          fill="#0066cd"
-          focusable="false"
-          role="img"
-          size="16px"
-          viewBox="0 0 1792 1792"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M1664 960q-152-236-381-353 61 104 61 225 0 185-131.5 316.5t-316.5 131.5-316.5-131.5-131.5-316.5q0-121 61-225-229 117-381 353 133 205 333.5 326.5t434.5 121.5 434.5-121.5 333.5-326.5zm-720-384q0-20-14-34t-34-14q-125 0-214.5 89.5t-89.5 214.5q0 20 14 34t34 14 34-14 14-34q0-86 61-147t147-61q20 0 34-14t14-34zm848 384q0 34-20 69-140 230-376.5 368.5t-499.5 138.5-499.5-139-376.5-368q-20-35-20-69t20-69q140-229 376.5-368t499.5-139 499.5 139 376.5 368q20 35 20 69z"
-          />
-        </svg>
-        Custom Hover
-      </button>
-      <button
-        className="IconLabeledButton__IconLabelledBaseButton-sc-10fuids-0 Button-sc-32rbq-3 Button-sc-32rbq-1 Button-sc-32rbq-2 ksRaaQ"
-        type="button"
-      >
-        <svg
-          aria-hidden={true}
-          className="yoast-svg-icon yoast-svg-icon-key createSvgIconComponent__StyledSvg-sc-1h4gl3a-0 cPnaHk"
-          fill="#0066cd"
-          focusable="false"
-          role="img"
-          size="16px"
-          viewBox="0 0 1792 1792"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M832 512q0-80-56-136t-136-56-136 56-56 136q0 42 19 83-41-19-83-19-80 0-136 56t-56 136 56 136 136 56 136-56 56-136q0-42-19-83 41 19 83 19 80 0 136-56t56-136zm851 704q0 17-49 66t-66 49q-9 0-28.5-16t-36.5-33-38.5-40-24.5-26l-96 96 220 220q28 28 28 68 0 42-39 81t-81 39q-40 0-68-28l-671-671q-176 131-365 131-163 0-265.5-102.5t-102.5-265.5q0-160 95-313t248-248 313-95q163 0 265.5 102.5t102.5 265.5q0 189-131 365l355 355 96-96q-3-3-26-24.5t-40-38.5-33-36.5-16-28.5q0-17 49-66t66-49q13 0 23 10 6 6 46 44.5t82 79.5 86.5 86 73 78 28.5 41z"
-          />
-        </svg>
-        Custom Focus
-      </button>
-      <button
-        className="IconLabeledButton__IconLabelledBaseButton-sc-10fuids-0 Button-sc-32rbq-3 Button-sc-32rbq-1 Button-sc-32rbq-2 duVbJP"
-        type="button"
-      >
-        <svg
-          aria-hidden={true}
-          className="yoast-svg-icon yoast-svg-icon-list createSvgIconComponent__StyledSvg-sc-1h4gl3a-0 cPnaHk"
-          fill="#0066cd"
-          focusable="false"
-          role="img"
-          size="16px"
-          viewBox="0 0 1792 1792"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M384 1408q0 80-56 136t-136 56-136-56-56-136 56-136 136-56 136 56 56 136zm0-512q0 80-56 136t-136 56-136-56-56-136 56-136 136-56 136 56 56 136zm1408 416v192q0 13-9.5 22.5t-22.5 9.5h-1216q-13 0-22.5-9.5t-9.5-22.5v-192q0-13 9.5-22.5t22.5-9.5h1216q13 0 22.5 9.5t9.5 22.5zm-1408-928q0 80-56 136t-136 56-136-56-56-136 56-136 136-56 136 56 56 136zm1408 416v192q0 13-9.5 22.5t-22.5 9.5h-1216q-13 0-22.5-9.5t-9.5-22.5v-192q0-13 9.5-22.5t22.5-9.5h1216q13 0 22.5 9.5t9.5 22.5zm0-512v192q0 13-9.5 22.5t-22.5 9.5h-1216q-13 0-22.5-9.5t-9.5-22.5v-192q0-13 9.5-22.5t22.5-9.5h1216q13 0 22.5 9.5t9.5 22.5z"
-          />
-        </svg>
-        Custom Active
-      </button>
-      <button
-        className="IconLabeledButton__IconLabelledBaseButton-sc-10fuids-0 Button-sc-32rbq-3 Button-sc-32rbq-1 Button-sc-32rbq-2 dXHjta"
-        type="button"
-      >
-        <svg
-          aria-hidden={true}
-          className="yoast-svg-icon yoast-svg-icon-plus createSvgIconComponent__StyledSvg-sc-1h4gl3a-0 cPnaHk"
-          fill="#0066cd"
-          focusable="false"
-          role="img"
-          size="16px"
-          viewBox="0 0 1792 1792"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M1600 736v192q0 40-28 68t-68 28h-416v416q0 40-28 68t-68 28h-192q-40 0-68-28t-28-68v-416h-416q-40 0-68-28t-28-68v-192q0-40 28-68t68-28h416v-416q0-40 28-68t68-28h192q40 0 68 28t28 68v416h416q40 0 68 28t28 68z"
-          />
-        </svg>
-        Custom Font Size
-      </button>
-      <hr
-        className="ButtonsWrapper__Separator-sc-1nb1s31-1 ZmEFB"
-      />
-      <h2>
-        Special cases
-      </h2>
-      <button
-        aria-label="IconButton with icon only"
-        className="Button__BaseButton-sc-32rbq-4 Button-sc-32rbq-3 Button-sc-32rbq-1 Button-sc-32rbq-2 Button-sc-32rbq-0 nHkJq"
-        type="button"
-      >
-        <svg
-          aria-hidden={true}
-          className="yoast-svg-icon yoast-svg-icon-edit createSvgIconComponent__StyledSvg-sc-1h4gl3a-0 cPnaHk"
-          fill="#c00"
-          focusable="false"
-          role="img"
-          size="16px"
-          viewBox="0 0 1792 1792"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M491 1536l91-91-235-235-91 91v107h128v128h107zm523-928q0-22-22-22-10 0-17 7l-542 542q-7 7-7 17 0 22 22 22 10 0 17-7l542-542q7-7 7-17zm-54-192l416 416-832 832h-416v-416zm683 96q0 53-37 90l-166 166-416-416 166-165q36-38 90-38 53 0 91 38l235 234q37 39 37 91z"
-          />
-        </svg>
-      </button>
-       
-      <button
-        className="Button__BaseButton-sc-32rbq-4 Button-sc-32rbq-3 Button-sc-32rbq-1 Button-sc-32rbq-2 Button-sc-32rbq-0 nHkJq with-max-width"
-        type="button"
-      >
-        <svg
-          aria-hidden={true}
-          className="yoast-svg-icon yoast-svg-icon-edit IconButton-v5s3bl-0 khhyWe createSvgIconComponent__StyledSvg-sc-1h4gl3a-0 cPnaHk"
-          fill="#c00"
-          focusable="false"
-          role="img"
-          size="16px"
-          viewBox="0 0 1792 1792"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M491 1536l91-91-235-235-91 91v107h128v128h107zm523-928q0-22-22-22-10 0-17 7l-542 542q-7 7-7 17 0 22 22 22 10 0 17-7l542-542q7-7 7-17zm-54-192l416 416-832 832h-416v-416zm683 96q0 53-37 90l-166 166-416-416 166-165q36-38 90-38 53 0 91 38l235 234q37 39 37 91z"
-          />
-        </svg>
-        With max-width and long text
-      </button>
-       
-      <button
-        aria-expanded={undefined}
-        className="YoastButton-gx5w7q-1 YoastButton-gx5w7q-0 fQIjQA"
-        onClick={undefined}
-        type="button"
-      >
-        <span>
-          Color
-        </span>
-      </button>
-       
-      <button
-        aria-expanded={undefined}
-        className="YoastButton-gx5w7q-1 YoastButton-gx5w7q-0 dnvPfT test-large-button"
-        onClick={undefined}
-        type="button"
-      >
-        <span>
-          Min width
-        </span>
-      </button>
-       
-      <h2>
-        Test min-height bugs
-      </h2>
-      <p>
-        Increase the \`settings.minHeight\` value in the components to check the Safari and IE11 bugs, see
-        <a
-          href="https://github.com/Yoast/yoast-components/pull/262"
-        >
-          https://github.com/Yoast/yoast-components/pull/262
-        </a>
-        and
-        <a
-          href="https://github.com/Yoast/yoast-components/pull/284"
-        >
-          https://github.com/Yoast/yoast-components/pull/284
-        </a>
-      </p>
-      <h3>
-        Buttons
-      </h3>
-      <button
-        className="Button__BaseButton-sc-32rbq-4 Button-sc-32rbq-3 Button-sc-32rbq-1 Button-sc-32rbq-2 Button-sc-32rbq-0 nHkJq"
-        type="button"
-      >
-        Base
-      </button>
-       
-      <button
-        aria-expanded={undefined}
-        className="YoastButton-gx5w7q-1 YoastButton-gx5w7q-0 fQIjQA"
-        onClick={undefined}
-        type="button"
-      >
-        <span>
-          Color
-        </span>
-      </button>
-       
-      <button
-        aria-expanded={undefined}
-        className="YoastButton-gx5w7q-1 YoastButton-gx5w7q-0 dnvPfT test-large-button"
-        onClick={undefined}
-        type="button"
-      >
-        <span>
-          Min width
-        </span>
-      </button>
-       
-      <button
-        aria-label="IconButton with icon only"
-        className="Button__BaseButton-sc-32rbq-4 Button-sc-32rbq-3 Button-sc-32rbq-1 Button-sc-32rbq-2 Button-sc-32rbq-0 nHkJq"
-        type="button"
-      >
-        <svg
-          aria-hidden={true}
-          className="yoast-svg-icon yoast-svg-icon-edit createSvgIconComponent__StyledSvg-sc-1h4gl3a-0 cPnaHk"
-          fill="#c00"
-          focusable="false"
-          role="img"
-          size="16px"
-          viewBox="0 0 1792 1792"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M491 1536l91-91-235-235-91 91v107h128v128h107zm523-928q0-22-22-22-10 0-17 7l-542 542q-7 7-7 17 0 22 22 22 10 0 17-7l542-542q7-7 7-17zm-54-192l416 416-832 832h-416v-416zm683 96q0 53-37 90l-166 166-416-416 166-165q36-38 90-38 53 0 91 38l235 234q37 39 37 91z"
-          />
-        </svg>
-      </button>
-       
-      <button
-        className="Button__BaseButton-sc-32rbq-4 Button-sc-32rbq-3 Button-sc-32rbq-1 Button-sc-32rbq-2 Button-sc-32rbq-0 nHkJq with-max-width"
-        type="button"
-      >
-        <svg
-          aria-hidden={true}
-          className="yoast-svg-icon yoast-svg-icon-edit IconButton-v5s3bl-0 khhyWe createSvgIconComponent__StyledSvg-sc-1h4gl3a-0 cPnaHk"
-          fill="#c00"
-          focusable="false"
-          role="img"
-          size="16px"
-          viewBox="0 0 1792 1792"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M491 1536l91-91-235-235-91 91v107h128v128h107zm523-928q0-22-22-22-10 0-17 7l-542 542q-7 7-7 17 0 22 22 22 10 0 17-7l542-542q7-7 7-17zm-54-192l416 416-832 832h-416v-416zm683 96q0 53-37 90l-166 166-416-416 166-165q36-38 90-38 53 0 91 38l235 234q37 39 37 91z"
-          />
-        </svg>
-        With max-width and long text
-      </button>
-       
-      <h3>
-        Links
-      </h3>
-      <a
-        className="LinkButton-sc-8lzs74-0 Button-sc-32rbq-3 Button-sc-32rbq-1 Button-sc-32rbq-2 Button-sc-32rbq-0 guQfPP"
-        href="#somewhere2"
-      >
-        Button
-      </a>
-       
-      <a
-        className="YoastLinkButton-dntyts-0 YoastButton-gx5w7q-0 kVjfWG"
-        href="#somewhere4"
-      >
-        Color
-      </a>
-       
-      <a
-        className="YoastLinkButton-dntyts-0 YoastButton-gx5w7q-0 exJvQq test-large-button"
-        href="#somewhere3"
-      >
-        Min width
-      </a>
+        </button>
+      </div>
     </div>
   </div>
 </div>
