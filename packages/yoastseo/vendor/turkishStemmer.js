@@ -766,7 +766,7 @@ class SnowballStemmer extends SnowballProgram {
 class TurkishStemmer extends SnowballStemmer {
 	constructor( morphologyData ) {
 		super();
-		TurkishStemmer.morphologyData = morphologyData;
+		TurkishStemmer.morphologyData = morphologyData.externalStemmer;
 	}
 
 	static get methodObject() {
@@ -777,264 +777,264 @@ class TurkishStemmer extends SnowballStemmer {
 	static get a_0() {
 		delete TurkishStemmer.a_0;
 		return TurkishStemmer.a_0 = [
-			new Among( "m", -1, -1, "", TurkishStemmer.methodObject ),
-			new Among( "n", -1, -1, "", TurkishStemmer.methodObject ),
-			new Among( "miz", -1, -1, "", TurkishStemmer.methodObject ),
-			new Among( "niz", -1, -1, "", TurkishStemmer.methodObject ),
-			new Among( "muz", -1, -1, "", TurkishStemmer.methodObject ),
-			new Among( "nuz", -1, -1, "", TurkishStemmer.methodObject ),
-			new Among( "m\u00FCz", -1, -1, "", TurkishStemmer.methodObject ),
-			new Among( "n\u00FCz", -1, -1, "", TurkishStemmer.methodObject ),
-			new Among( "m\u0131z", -1, -1, "", TurkishStemmer.methodObject ),
-			new Among( "n\u0131z", -1, -1, "", TurkishStemmer.methodObject ),
+			new Among( TurkishStemmer.morphologyData.a_0.SuffixM, -1, -1, "", TurkishStemmer.methodObject ),
+			new Among( TurkishStemmer.morphologyData.a_0.SuffixN, -1, -1, "", TurkishStemmer.methodObject ),
+			new Among( TurkishStemmer.morphologyData.a_0.SuffixMiz, -1, -1, "", TurkishStemmer.methodObject ),
+			new Among( TurkishStemmer.morphologyData.a_0.SuffixNiz, -1, -1, "", TurkishStemmer.methodObject ),
+			new Among( TurkishStemmer.morphologyData.a_0.SuffixMuz, -1, -1, "", TurkishStemmer.methodObject ),
+			new Among( TurkishStemmer.morphologyData.a_0.SuffixNuz, -1, -1, "", TurkishStemmer.methodObject ),
+			new Among( TurkishStemmer.morphologyData.a_0.SuffixMuzDieresis, -1, -1, "", TurkishStemmer.methodObject ),
+			new Among( TurkishStemmer.morphologyData.a_0.SuffixNuzDieresis, -1, -1, "", TurkishStemmer.methodObject ),
+			new Among( TurkishStemmer.morphologyData.a_0.SuffixMizUndotted, -1, -1, "", TurkishStemmer.methodObject ),
+			new Among( TurkishStemmer.morphologyData.a_0.SuffixNizUndotted, -1, -1, "", TurkishStemmer.methodObject ),
 		];
 	}
 
 	static get a_1() {
 		delete TurkishStemmer.a_1;
 		return TurkishStemmer.a_1 = [
-			new Among( "leri", -1, -1, "", TurkishStemmer.methodObject ),
-			new Among( "lar\u0131", -1, -1, "", TurkishStemmer.methodObject ),
+			new Among( TurkishStemmer.morphologyData.a_1.SuffixLeri, -1, -1, "", TurkishStemmer.methodObject ),
+			new Among( TurkishStemmer.morphologyData.a_1.SuffixLariUndotted, -1, -1, "", TurkishStemmer.methodObject ),
 		];
 	}
 
 	static get a_2() {
 		delete TurkishStemmer.a_2;
 		return TurkishStemmer.a_2 = [
-			new Among( "ni", -1, -1, "", TurkishStemmer.methodObject ),
-			new Among( "nu", -1, -1, "", TurkishStemmer.methodObject ),
-			new Among( "n\u00FC", -1, -1, "", TurkishStemmer.methodObject ),
-			new Among( "n\u0131", -1, -1, "", TurkishStemmer.methodObject ),
+			new Among( TurkishStemmer.morphologyData.a_2.SuffixNi, -1, -1, "", TurkishStemmer.methodObject ),
+			new Among( TurkishStemmer.morphologyData.a_2.SuffixNu, -1, -1, "", TurkishStemmer.methodObject ),
+			new Among( TurkishStemmer.morphologyData.a_2.SuffixNuDieresis, -1, -1, "", TurkishStemmer.methodObject ),
+			new Among( TurkishStemmer.morphologyData.a_2.SuffixNiUndotted, -1, -1, "", TurkishStemmer.methodObject ),
 		];
 	}
 
 	static get a_3() {
 		delete TurkishStemmer.a_3;
 		return TurkishStemmer.a_3 = [
-			new Among( "in", -1, -1, "", TurkishStemmer.methodObject ),
-			new Among( "un", -1, -1, "", TurkishStemmer.methodObject ),
-			new Among( "\u00FCn", -1, -1, "", TurkishStemmer.methodObject ),
-			new Among( "\u0131n", -1, -1, "", TurkishStemmer.methodObject ),
+			new Among( TurkishStemmer.morphologyData.a_3.SuffixInDotted, -1, -1, "", TurkishStemmer.methodObject ),
+			new Among( TurkishStemmer.morphologyData.a_3.SuffixUn, -1, -1, "", TurkishStemmer.methodObject ),
+			new Among( TurkishStemmer.morphologyData.a_3.SuffixUnDieresis, -1, -1, "", TurkishStemmer.methodObject ),
+			new Among( TurkishStemmer.morphologyData.a_3.SuffixInUndotted, -1, -1, "", TurkishStemmer.methodObject ),
 		];
 	}
 
 	static get a_4() {
 		delete TurkishStemmer.a_4;
 		return TurkishStemmer.a_4 = [
-			new Among( "a", -1, -1, "", TurkishStemmer.methodObject ),
-			new Among( "e", -1, -1, "", TurkishStemmer.methodObject ),
+			new Among( TurkishStemmer.morphologyData.a_4.SuffixA, -1, -1, "", TurkishStemmer.methodObject ),
+			new Among( TurkishStemmer.morphologyData.a_4.SuffixE, -1, -1, "", TurkishStemmer.methodObject ),
 		];
 	}
 
 	static get a_5() {
 		delete TurkishStemmer.a_5;
 		return TurkishStemmer.a_5 = [
-			new Among( "na", -1, -1, "", TurkishStemmer.methodObject ),
-			new Among( "ne", -1, -1, "", TurkishStemmer.methodObject ),
+			new Among( TurkishStemmer.morphologyData.a_5.SuffixNa, -1, -1, "", TurkishStemmer.methodObject ),
+			new Among( TurkishStemmer.morphologyData.a_5.SuffixNe, -1, -1, "", TurkishStemmer.methodObject ),
 		];
 	}
 
 	static get a_6() {
 		delete TurkishStemmer.a_6;
 		return TurkishStemmer.a_6 = [
-			new Among( "da", -1, -1, "", TurkishStemmer.methodObject ),
-			new Among( "ta", -1, -1, "", TurkishStemmer.methodObject ),
-			new Among( "de", -1, -1, "", TurkishStemmer.methodObject ),
-			new Among( "te", -1, -1, "", TurkishStemmer.methodObject ),
+			new Among( TurkishStemmer.morphologyData.a_6.SuffixDa, -1, -1, "", TurkishStemmer.methodObject ),
+			new Among( TurkishStemmer.morphologyData.a_6.SuffixTa, -1, -1, "", TurkishStemmer.methodObject ),
+			new Among( TurkishStemmer.morphologyData.a_6.SuffixDe, -1, -1, "", TurkishStemmer.methodObject ),
+			new Among( TurkishStemmer.morphologyData.a_6.SuffixTe, -1, -1, "", TurkishStemmer.methodObject ),
 		];
 	}
 
 	static get a_7() {
 		delete TurkishStemmer.a_7;
 		return TurkishStemmer.a_7 = [
-			new Among( "nda", -1, -1, "", TurkishStemmer.methodObject ),
-			new Among( "nde", -1, -1, "", TurkishStemmer.methodObject ),
+			new Among( TurkishStemmer.morphologyData.a_7.SuffixNda, -1, -1, "", TurkishStemmer.methodObject ),
+			new Among( TurkishStemmer.morphologyData.a_7.SuffixNde, -1, -1, "", TurkishStemmer.methodObject ),
 		];
 	}
 
 	static get a_8() {
 		delete TurkishStemmer.a_8;
 		return TurkishStemmer.a_8 = [
-			new Among( "dan", -1, -1, "", TurkishStemmer.methodObject ),
-			new Among( "tan", -1, -1, "", TurkishStemmer.methodObject ),
-			new Among( "den", -1, -1, "", TurkishStemmer.methodObject ),
-			new Among( "ten", -1, -1, "", TurkishStemmer.methodObject ),
+			new Among( TurkishStemmer.morphologyData.a_8.SuffixDan, -1, -1, "", TurkishStemmer.methodObject ),
+			new Among( TurkishStemmer.morphologyData.a_8.SuffixTan, -1, -1, "", TurkishStemmer.methodObject ),
+			new Among( TurkishStemmer.morphologyData.a_8.SuffixDen, -1, -1, "", TurkishStemmer.methodObject ),
+			new Among( TurkishStemmer.morphologyData.a_8.SuffixTen, -1, -1, "", TurkishStemmer.methodObject ),
 		];
 	}
 
 	static get a_9() {
 		delete TurkishStemmer.a_9;
 		return TurkishStemmer.a_9 = [
-			new Among( "ndan", -1, -1, "", TurkishStemmer.methodObject ),
-			new Among( "nden", -1, -1, "", TurkishStemmer.methodObject ),
+			new Among( TurkishStemmer.morphologyData.a_9.SuffixNdan, -1, -1, "", TurkishStemmer.methodObject ),
+			new Among( TurkishStemmer.morphologyData.a_9.SuffixNden, -1, -1, "", TurkishStemmer.methodObject ),
 		];
 	}
 
 	static get a_10() {
 		delete TurkishStemmer.a_10;
 		return TurkishStemmer.a_10 = [
-			new Among( "la", -1, -1, "", TurkishStemmer.methodObject ),
-			new Among( "le", -1, -1, "", TurkishStemmer.methodObject ),
+			new Among( TurkishStemmer.morphologyData.a_10.SuffixLa, -1, -1, "", TurkishStemmer.methodObject ),
+			new Among( TurkishStemmer.morphologyData.a_10.SuffixLe, -1, -1, "", TurkishStemmer.methodObject ),
 		];
 	}
 
 	static get a_11() {
 		delete TurkishStemmer.a_11;
 		return TurkishStemmer.a_11 = [
-			new Among( "ca", -1, -1, "", TurkishStemmer.methodObject ),
-			new Among( "ce", -1, -1, "", TurkishStemmer.methodObject ),
+			new Among( TurkishStemmer.morphologyData.a_11.SuffixCa, -1, -1, "", TurkishStemmer.methodObject ),
+			new Among( TurkishStemmer.morphologyData.a_11.SuffixCe, -1, -1, "", TurkishStemmer.methodObject ),
 		];
 	}
 
 	static get a_12() {
 		delete TurkishStemmer.a_12;
 		return TurkishStemmer.a_12 = [
-			new Among( "im", -1, -1, "", TurkishStemmer.methodObject ),
-			new Among( "um", -1, -1, "", TurkishStemmer.methodObject ),
-			new Among( "\u00FCm", -1, -1, "", TurkishStemmer.methodObject ),
-			new Among( "\u0131m", -1, -1, "", TurkishStemmer.methodObject ),
+			new Among( TurkishStemmer.morphologyData.a_12.SuffixImDotted, -1, -1, "", TurkishStemmer.methodObject ),
+			new Among( TurkishStemmer.morphologyData.a_12.SuffixUm, -1, -1, "", TurkishStemmer.methodObject ),
+			new Among( TurkishStemmer.morphologyData.a_12.SuffixUmDieresis, -1, -1, "", TurkishStemmer.methodObject ),
+			new Among( TurkishStemmer.morphologyData.a_12.SuffixImUndotted, -1, -1, "", TurkishStemmer.methodObject ),
 		];
 	}
 
 	static get a_13() {
 		delete TurkishStemmer.a_13;
 		return TurkishStemmer.a_13 = [
-			new Among( "sin", -1, -1, "", TurkishStemmer.methodObject ),
-			new Among( "sun", -1, -1, "", TurkishStemmer.methodObject ),
-			new Among( "s\u00FCn", -1, -1, "", TurkishStemmer.methodObject ),
-			new Among( "s\u0131n", -1, -1, "", TurkishStemmer.methodObject ),
+			new Among( TurkishStemmer.morphologyData.a_13.SuffixSin, -1, -1, "", TurkishStemmer.methodObject ),
+			new Among( TurkishStemmer.morphologyData.a_13.SuffixSun, -1, -1, "", TurkishStemmer.methodObject ),
+			new Among( TurkishStemmer.morphologyData.a_13.SuffixSunDieresis, -1, -1, "", TurkishStemmer.methodObject ),
+			new Among( TurkishStemmer.morphologyData.a_13.SuffixSinUndotted, -1, -1, "", TurkishStemmer.methodObject ),
 		];
 	}
 
 	static get a_14() {
 		delete TurkishStemmer.a_14;
 		return TurkishStemmer.a_14 = [
-			new Among( "iz", -1, -1, "", TurkishStemmer.methodObject ),
-			new Among( "uz", -1, -1, "", TurkishStemmer.methodObject ),
-			new Among( "\u00FCz", -1, -1, "", TurkishStemmer.methodObject ),
-			new Among( "\u0131z", -1, -1, "", TurkishStemmer.methodObject ),
+			new Among( TurkishStemmer.morphologyData.a_14.SuffixIzDotted, -1, -1, "", TurkishStemmer.methodObject ),
+			new Among( TurkishStemmer.morphologyData.a_14.SuffixUz, -1, -1, "", TurkishStemmer.methodObject ),
+			new Among( TurkishStemmer.morphologyData.a_14.SuffixUzDieresis, -1, -1, "", TurkishStemmer.methodObject ),
+			new Among( TurkishStemmer.morphologyData.a_14.SuffixIzUndotted, -1, -1, "", TurkishStemmer.methodObject ),
 		];
 	}
 
 	static get a_15() {
 		delete TurkishStemmer.a_15;
 		return TurkishStemmer.a_15 = [
-			new Among( "siniz", -1, -1, "", TurkishStemmer.methodObject ),
-			new Among( "sunuz", -1, -1, "", TurkishStemmer.methodObject ),
-			new Among( "s\u00FCn\u00FCz", -1, -1, "", TurkishStemmer.methodObject ),
-			new Among( "s\u0131n\u0131z", -1, -1, "", TurkishStemmer.methodObject ),
+			new Among( TurkishStemmer.morphologyData.a_15.SuffixSiniz, -1, -1, "", TurkishStemmer.methodObject ),
+			new Among( TurkishStemmer.morphologyData.a_15.SuffixSunuz, -1, -1, "", TurkishStemmer.methodObject ),
+			new Among( TurkishStemmer.morphologyData.a_15.SuffixSunuzDieresis, -1, -1, "", TurkishStemmer.methodObject ),
+			new Among( TurkishStemmer.morphologyData.a_15.SuffixSinizUndotted, -1, -1, "", TurkishStemmer.methodObject ),
 		];
 	}
 
 	static get a_16() {
 		delete TurkishStemmer.a_16;
 		return TurkishStemmer.a_16 = [
-			new Among( "lar", -1, -1, "", TurkishStemmer.methodObject ),
-			new Among( "ler", -1, -1, "", TurkishStemmer.methodObject ),
+			new Among( TurkishStemmer.morphologyData.a_16.SuffixLar, -1, -1, "", TurkishStemmer.methodObject ),
+			new Among( TurkishStemmer.morphologyData.a_16.SuffixLer, -1, -1, "", TurkishStemmer.methodObject ),
 		];
 	}
 
 	static get a_17() {
 		delete TurkishStemmer.a_17;
 		return TurkishStemmer.a_17 = [
-			new Among( "niz", -1, -1, "", TurkishStemmer.methodObject ),
-			new Among( "nuz", -1, -1, "", TurkishStemmer.methodObject ),
-			new Among( "n\u00FCz", -1, -1, "", TurkishStemmer.methodObject ),
-			new Among( "n\u0131z", -1, -1, "", TurkishStemmer.methodObject ),
+			new Among( TurkishStemmer.morphologyData.a_17.SuffixNiz, -1, -1, "", TurkishStemmer.methodObject ),
+			new Among( TurkishStemmer.morphologyData.a_17.SuffixNuz, -1, -1, "", TurkishStemmer.methodObject ),
+			new Among( TurkishStemmer.morphologyData.a_17.SuffixNuzDieresis, -1, -1, "", TurkishStemmer.methodObject ),
+			new Among( TurkishStemmer.morphologyData.a_17.SuffixNizUndotted, -1, -1, "", TurkishStemmer.methodObject ),
 		];
 	}
 
 	static get a_18() {
 		delete TurkishStemmer.a_18;
 		return TurkishStemmer.a_18 = [
-			new Among( "dir", -1, -1, "", TurkishStemmer.methodObject ),
-			new Among( "tir", -1, -1, "", TurkishStemmer.methodObject ),
-			new Among( "dur", -1, -1, "", TurkishStemmer.methodObject ),
-			new Among( "tur", -1, -1, "", TurkishStemmer.methodObject ),
-			new Among( "d\u00FCr", -1, -1, "", TurkishStemmer.methodObject ),
-			new Among( "t\u00FCr", -1, -1, "", TurkishStemmer.methodObject ),
-			new Among( "d\u0131r", -1, -1, "", TurkishStemmer.methodObject ),
-			new Among( "t\u0131r", -1, -1, "", TurkishStemmer.methodObject ),
+			new Among( TurkishStemmer.morphologyData.a_18.SuffixDir, -1, -1, "", TurkishStemmer.methodObject ),
+			new Among( TurkishStemmer.morphologyData.a_18.SuffixTir, -1, -1, "", TurkishStemmer.methodObject ),
+			new Among( TurkishStemmer.morphologyData.a_18.SuffixDur, -1, -1, "", TurkishStemmer.methodObject ),
+			new Among( TurkishStemmer.morphologyData.a_18.SuffixTur, -1, -1, "", TurkishStemmer.methodObject ),
+			new Among( TurkishStemmer.morphologyData.a_18.SuffixDurDieresis, -1, -1, "", TurkishStemmer.methodObject ),
+			new Among( TurkishStemmer.morphologyData.a_18.SuffixTurDieresis, -1, -1, "", TurkishStemmer.methodObject ),
+			new Among( TurkishStemmer.morphologyData.a_18.SuffixDirUndotted, -1, -1, "", TurkishStemmer.methodObject ),
+			new Among( TurkishStemmer.morphologyData.a_18.SuffixTirUndotted, -1, -1, "", TurkishStemmer.methodObject ),
 		];
 	}
 
 	static get a_19() {
 		delete TurkishStemmer.a_19;
 		return TurkishStemmer.a_19 = [
-			new Among( "cas\u0131na", -1, -1, "", TurkishStemmer.methodObject ),
-			new Among( "cesine", -1, -1, "", TurkishStemmer.methodObject ),
+			new Among( TurkishStemmer.morphologyData.a_19.SuffixCasinaUndotted, -1, -1, "", TurkishStemmer.methodObject ),
+			new Among( TurkishStemmer.morphologyData.a_19.SuffixCesine, -1, -1, "", TurkishStemmer.methodObject ),
 		];
 	}
 
 	static get a_20() {
 		delete TurkishStemmer.a_20;
 		return TurkishStemmer.a_20 = [
-			new Among( "di", -1, -1, "", TurkishStemmer.methodObject ),
-			new Among( "ti", -1, -1, "", TurkishStemmer.methodObject ),
-			new Among( "dik", -1, -1, "", TurkishStemmer.methodObject ),
-			new Among( "tik", -1, -1, "", TurkishStemmer.methodObject ),
-			new Among( "duk", -1, -1, "", TurkishStemmer.methodObject ),
-			new Among( "tuk", -1, -1, "", TurkishStemmer.methodObject ),
-			new Among( "d\u00FCk", -1, -1, "", TurkishStemmer.methodObject ),
-			new Among( "t\u00FCk", -1, -1, "", TurkishStemmer.methodObject ),
-			new Among( "d\u0131k", -1, -1, "", TurkishStemmer.methodObject ),
-			new Among( "t\u0131k", -1, -1, "", TurkishStemmer.methodObject ),
-			new Among( "dim", -1, -1, "", TurkishStemmer.methodObject ),
-			new Among( "tim", -1, -1, "", TurkishStemmer.methodObject ),
-			new Among( "dum", -1, -1, "", TurkishStemmer.methodObject ),
-			new Among( "tum", -1, -1, "", TurkishStemmer.methodObject ),
-			new Among( "d\u00FCm", -1, -1, "", TurkishStemmer.methodObject ),
-			new Among( "t\u00FCm", -1, -1, "", TurkishStemmer.methodObject ),
-			new Among( "d\u0131m", -1, -1, "", TurkishStemmer.methodObject ),
-			new Among( "t\u0131m", -1, -1, "", TurkishStemmer.methodObject ),
-			new Among( "din", -1, -1, "", TurkishStemmer.methodObject ),
-			new Among( "tin", -1, -1, "", TurkishStemmer.methodObject ),
-			new Among( "dun", -1, -1, "", TurkishStemmer.methodObject ),
-			new Among( "tun", -1, -1, "", TurkishStemmer.methodObject ),
-			new Among( "d\u00FCn", -1, -1, "", TurkishStemmer.methodObject ),
-			new Among( "t\u00FCn", -1, -1, "", TurkishStemmer.methodObject ),
-			new Among( "d\u0131n", -1, -1, "", TurkishStemmer.methodObject ),
-			new Among( "t\u0131n", -1, -1, "", TurkishStemmer.methodObject ),
-			new Among( "du", -1, -1, "", TurkishStemmer.methodObject ),
-			new Among( "tu", -1, -1, "", TurkishStemmer.methodObject ),
-			new Among( "d\u00FC", -1, -1, "", TurkishStemmer.methodObject ),
-			new Among( "t\u00FC", -1, -1, "", TurkishStemmer.methodObject ),
-			new Among( "d\u0131", -1, -1, "", TurkishStemmer.methodObject ),
-			new Among( "t\u0131", -1, -1, "", TurkishStemmer.methodObject ),
+			new Among( TurkishStemmer.morphologyData.a_20.SuffixDi, -1, -1, "", TurkishStemmer.methodObject ),
+			new Among( TurkishStemmer.morphologyData.a_20.SuffixTi, -1, -1, "", TurkishStemmer.methodObject ),
+			new Among( TurkishStemmer.morphologyData.a_20.SuffixDik, -1, -1, "", TurkishStemmer.methodObject ),
+			new Among( TurkishStemmer.morphologyData.a_20.SuffixTik, -1, -1, "", TurkishStemmer.methodObject ),
+			new Among( TurkishStemmer.morphologyData.a_20.SuffixDuk, -1, -1, "", TurkishStemmer.methodObject ),
+			new Among( TurkishStemmer.morphologyData.a_20.SuffixTuk, -1, -1, "", TurkishStemmer.methodObject ),
+			new Among( TurkishStemmer.morphologyData.a_20.SuffixDukDieresis, -1, -1, "", TurkishStemmer.methodObject ),
+			new Among( TurkishStemmer.morphologyData.a_20.SuffixTukDieresis, -1, -1, "", TurkishStemmer.methodObject ),
+			new Among( TurkishStemmer.morphologyData.a_20.SuffixDikUndotted, -1, -1, "", TurkishStemmer.methodObject ),
+			new Among( TurkishStemmer.morphologyData.a_20.SuffixTikUndotted, -1, -1, "", TurkishStemmer.methodObject ),
+			new Among( TurkishStemmer.morphologyData.a_20.SuffixDim, -1, -1, "", TurkishStemmer.methodObject ),
+			new Among( TurkishStemmer.morphologyData.a_20.SuffixTim, -1, -1, "", TurkishStemmer.methodObject ),
+			new Among( TurkishStemmer.morphologyData.a_20.SuffixDum, -1, -1, "", TurkishStemmer.methodObject ),
+			new Among( TurkishStemmer.morphologyData.a_20.SuffixTum, -1, -1, "", TurkishStemmer.methodObject ),
+			new Among( TurkishStemmer.morphologyData.a_20.SuffixDumDieresis, -1, -1, "", TurkishStemmer.methodObject ),
+			new Among( TurkishStemmer.morphologyData.a_20.SuffixTumDieresis, -1, -1, "", TurkishStemmer.methodObject ),
+			new Among( TurkishStemmer.morphologyData.a_20.SuffixDimUndotted, -1, -1, "", TurkishStemmer.methodObject ),
+			new Among( TurkishStemmer.morphologyData.a_20.SuffixTimUndotted, -1, -1, "", TurkishStemmer.methodObject ),
+			new Among( TurkishStemmer.morphologyData.a_20.SuffixDin, -1, -1, "", TurkishStemmer.methodObject ),
+			new Among( TurkishStemmer.morphologyData.a_20.SuffixTin, -1, -1, "", TurkishStemmer.methodObject ),
+			new Among( TurkishStemmer.morphologyData.a_20.SuffixDun, -1, -1, "", TurkishStemmer.methodObject ),
+			new Among( TurkishStemmer.morphologyData.a_20.SuffixTun, -1, -1, "", TurkishStemmer.methodObject ),
+			new Among( TurkishStemmer.morphologyData.a_20.SuffixDunDieresis, -1, -1, "", TurkishStemmer.methodObject ),
+			new Among( TurkishStemmer.morphologyData.a_20.SuffixTunDieresis, -1, -1, "", TurkishStemmer.methodObject ),
+			new Among( TurkishStemmer.morphologyData.a_20.SuffixDinUndotted, -1, -1, "", TurkishStemmer.methodObject ),
+			new Among( TurkishStemmer.morphologyData.a_20.SuffixTinUndotted, -1, -1, "", TurkishStemmer.methodObject ),
+			new Among( TurkishStemmer.morphologyData.a_20.SuffixDu, -1, -1, "", TurkishStemmer.methodObject ),
+			new Among( TurkishStemmer.morphologyData.a_20.SuffixTu, -1, -1, "", TurkishStemmer.methodObject ),
+			new Among( TurkishStemmer.morphologyData.a_20.SuffixDuDieresis, -1, -1, "", TurkishStemmer.methodObject ),
+			new Among( TurkishStemmer.morphologyData.a_20.SuffixTuDieresis, -1, -1, "", TurkishStemmer.methodObject ),
+			new Among( TurkishStemmer.morphologyData.a_20.SuffixDiUndotted, -1, -1, "", TurkishStemmer.methodObject ),
+			new Among( TurkishStemmer.morphologyData.a_20.SuffixTiUndotted, -1, -1, "", TurkishStemmer.methodObject ),
 		];
 	}
 
 	static get a_21() {
 		delete TurkishStemmer.a_21;
 		return TurkishStemmer.a_21 = [
-			new Among( "sa", -1, -1, "", TurkishStemmer.methodObject ),
-			new Among( "se", -1, -1, "", TurkishStemmer.methodObject ),
-			new Among( "sak", -1, -1, "", TurkishStemmer.methodObject ),
-			new Among( "sek", -1, -1, "", TurkishStemmer.methodObject ),
-			new Among( "sam", -1, -1, "", TurkishStemmer.methodObject ),
-			new Among( "sem", -1, -1, "", TurkishStemmer.methodObject ),
-			new Among( "san", -1, -1, "", TurkishStemmer.methodObject ),
-			new Among( "sen", -1, -1, "", TurkishStemmer.methodObject ),
+			new Among( TurkishStemmer.morphologyData.a_21.SuffixSa, -1, -1, "", TurkishStemmer.methodObject ),
+			new Among( TurkishStemmer.morphologyData.a_21.SuffixSe, -1, -1, "", TurkishStemmer.methodObject ),
+			new Among( TurkishStemmer.morphologyData.a_21.SuffixSak, -1, -1, "", TurkishStemmer.methodObject ),
+			new Among( TurkishStemmer.morphologyData.a_21.SuffixSek, -1, -1, "", TurkishStemmer.methodObject ),
+			new Among( TurkishStemmer.morphologyData.a_21.SuffixSam, -1, -1, "", TurkishStemmer.methodObject ),
+			new Among( TurkishStemmer.morphologyData.a_21.SuffixSem, -1, -1, "", TurkishStemmer.methodObject ),
+			new Among( TurkishStemmer.morphologyData.a_21.SuffixSan, -1, -1, "", TurkishStemmer.methodObject ),
+			new Among( TurkishStemmer.morphologyData.a_21.SuffixSen, -1, -1, "", TurkishStemmer.methodObject ),
 		];
 	}
 
 	static get a_22() {
 		delete TurkishStemmer.a_22;
 		return TurkishStemmer.a_22 = [
-			new Among( "mi\u015F", -1, -1, "", TurkishStemmer.methodObject ),
-			new Among( "mu\u015F", -1, -1, "", TurkishStemmer.methodObject ),
-			new Among( "m\u00FC\u015F", -1, -1, "", TurkishStemmer.methodObject ),
-			new Among( "m\u0131\u015F", -1, -1, "", TurkishStemmer.methodObject ),
+			new Among( TurkishStemmer.morphologyData.a_22.SuffixMisCedilla, -1, -1, "", TurkishStemmer.methodObject ),
+			new Among( TurkishStemmer.morphologyData.a_22.SuffixMusCedilla, -1, -1, "", TurkishStemmer.methodObject ),
+			new Among( TurkishStemmer.morphologyData.a_22.SuffixMusDieresisCedilla, -1, -1, "", TurkishStemmer.methodObject ),
+			new Among( TurkishStemmer.morphologyData.a_22.SuffixMisUndottedCedilla, -1, -1, "", TurkishStemmer.methodObject ),
 		];
 	}
 
 	static get a_23() {
 		delete TurkishStemmer.a_23;
 		return TurkishStemmer.a_23 = [
-			new Among( "b", -1, 1, "", TurkishStemmer.methodObject ),
-			new Among( "c", -1, 2, "", TurkishStemmer.methodObject ),
-			new Among( "d", -1, 3, "", TurkishStemmer.methodObject ),
-			new Among( "\u011F", -1, 4, "", TurkishStemmer.methodObject ),
+			new Among( TurkishStemmer.morphologyData.a_23.SuffixB, -1, 1, "", TurkishStemmer.methodObject ),
+			new Among( TurkishStemmer.morphologyData.a_23.SuffixC, -1, 2, "", TurkishStemmer.methodObject ),
+			new Among( TurkishStemmer.morphologyData.a_23.SuffixD, -1, 3, "", TurkishStemmer.methodObject ),
+			new Among( TurkishStemmer.morphologyData.a_23.SuffixGSoft, -1, 4, "", TurkishStemmer.methodObject ),
 		];
 	}
 
