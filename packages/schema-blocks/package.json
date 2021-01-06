@@ -20,6 +20,7 @@
     "@types/wordpress__blocks": "^6.4.4",
     "@types/wordpress__compose": "^3.4.0",
     "@types/wordpress__data": "^4.6.6",
+    "@types/wordpress__date": "^3.3.1",
     "@types/wordpress__editor": "^9.4.1",
     "@types/wordpress__element": "^2.4.0",
     "@types/wordpress__hooks": "^2.4.0",

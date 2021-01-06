@@ -3700,6 +3700,13 @@
     "@types/wordpress__element" "*"
     redux "^4.0.1"
 
+"@types/wordpress__date@^3.3.1":
+  version "3.3.1"
+  resolved "https://registry.yarnpkg.com/@types/wordpress__date/-/wordpress__date-3.3.1.tgz#0f1e19334c850f03fd2bdbb0f9ad7b8d8f070659"
+  integrity sha512-F/2b7AleZBXB+3l+/GQlcIg9bXUVih/nBf4A2aPsP7owUk++HBY0zXJZqUcolWx75lvNOm2P94rO0n1+077+WA==
+  dependencies:
+    moment "^2.24.0"
+
 "@types/wordpress__editor@^9.4.1":
   version "9.4.1"
   resolved "https://registry.yarnpkg.com/@types/wordpress__editor/-/wordpress__editor-9.4.1.tgz#bb6bdb1019cb7a5bbd684c2892078ee027b091aa"
