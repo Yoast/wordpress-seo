@@ -1,15 +1,15 @@
 import calculateFleschReadingScore from "../../../../../src/languageProcessing/languages/de/helpers/calculateFleschReadingScore.js";
 
-const statistics = {
+const testStatistics = {
 	numberOfSentences: 10,
-	numberOfWords: 100,
-	numberOfSyllables: 350,
-	averageWordsPerSentence: 10,
-	syllablesPer100Words: 350,
+	numberOfWords: 50,
+	numberOfSyllables: 100,
+	averageWordsPerSentence: 5,
+	syllablesPer100Words: 200,
 };
 
 describe( "a test to calculate the Flesch reading score in German", function() {
 	it( "returns a score", function() {
-		expect( calculateFleschReadingScore( statistics ) ).toBe( -34.7 );
+		expect( calculateFleschReadingScore( testStatistics ) ).toBe( 58 );
 	} );
 } );
