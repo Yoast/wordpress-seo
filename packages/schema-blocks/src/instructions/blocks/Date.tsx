@@ -45,24 +45,28 @@ class Date extends BlockInstruction {
 
 		const [ selectedDate, setSelectedDate ] = useState( currentlySelectedDate || dateFormat );
 
-		const toggleDatePicker = useCallback(
-			() => setShowDatePicker( ! datePickerShown ),
-			[ datePickerShown ],
-		);
+		/**
+		 * Toggles the date picker.
+		 */
+		const toggleDatePicker = () => {
+			setShowDatePicker( ! datePickerShown );
+		};
 
-		const changeDate = useCallback(
-			dateTime => {
-				const date = dateTime.split( "T" )[ 0 ];
-				this.setDate( date, props.setAttributes );
-				toggleDatePicker();
-				setSelectedDate( dateI18n( dateFormat, date ) );
-			},
-			[ props.setAttributes, dateFormat ],
-		);
+		/**
+		 * Sets the selected date.
+		 *
+		 * @param dateTime The selected date and time in the form 'yyyy-MM-ddThh:mm:ss' (only the date part is used).
+		 */
+		const setDate = ( dateTime: string ) => {
+			const date = dateTime.split( "T" )[ 0 ];
+			this.setDate( date, props.setAttributes );
+			setShowDatePicker( false );
+			setSelectedDate( dateI18n( dateFormat, date ) );
+		};
 
 		return <div className="yoast-block-date-picker">
 			<button onClick={ toggleDatePicker }>{ selectedDate }</button>
-			{ datePickerShown && <DatePicker onChange={ changeDate } /> }
+			{ datePickerShown && <DatePicker onChange={ setDate } /> }
 		</div>;
 	}
 
