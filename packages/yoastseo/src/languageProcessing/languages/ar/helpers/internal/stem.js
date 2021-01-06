@@ -1,4 +1,3 @@
-import isNull from "lodash-es/isNull";
 /**
  * Copyright (c) 2015 Mouaffak A. Sarhan
  *
