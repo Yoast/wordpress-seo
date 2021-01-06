@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import ImageSelectButtons from "./ImageSelectButtons";
 import PropTypes from "prop-types";
 import FieldGroup from "../field-group/FieldGroup";
@@ -11,40 +11,37 @@ import TextInput from "../inputs/TextInput";
  */
 class ImageSelect extends React.Component {
 	/**
-	 * Returns ImageSelect with a preview or inputfield depending on Free or Premium
+	 * Returns the rendered HTML.
 	 *
-	 * @returns {Element} ImageSelectElement
+	 * @returns {React.Component} The ImageSelect.
 	 */
-	getImageSelect() {
+	render() {
 		const imageSelectButtonsProps = this.props;
 		const imageClassName = this.props.imageSelected
 			? "yoast-image-select__preview" : "yoast-image-select__preview yoast-image-select__preview--no-preview";
 		return (
 			<div className="yoast-image-select">
 				{ this.props.hasPreview
-					? <button className={ imageClassName } onClick={ this.props.onClick } type="button">
-						{ this.props.imageSelected &&
-						<img src={ this.props.imageUrl } alt={ this.props.imageAltText } className="yoast-image-select__preview--image" /> }
-					</button>
-					: <TextInput label={ this.props.label } type="url" value={ this.props.imageUrl } readOnly={ true } />
+					? <FieldGroup
+						label={ this.props.label }
+						wrapperClassName={ "yoast-field-group__image-select" }
+					>
+						<button className={ imageClassName } onClick={ this.props.onClick } type="button">
+							{ this.props.imageSelected &&
+							<img src={ this.props.imageUrl } alt={ this.props.imageAltText } className="yoast-image-select__preview--image" /> }
+						</button>
+						<ImageSelectButtons { ...imageSelectButtonsProps } />
+					</FieldGroup>
+					: <Fragment>
+						<TextInput
+							wrapperClassName={ "yoast-field-group__image-select" }
+							label={ this.props.label } type="url"
+							value={ this.props.imageUrl } readOnly={ true }
+						/>
+						<ImageSelectButtons { ...imageSelectButtonsProps } />
+					</Fragment>
 				}
-				<ImageSelectButtons { ...imageSelectButtonsProps } />
 			</div>
-		);
-	}
-	/**
-	 * Returns the rendered HTML.
-	 *
-	 * @returns {React.Component} The ImageSelect.
-	 */
-	render() {
-		return (
-			<FieldGroup
-				label={ this.props.label }
-				wrapperClassName={ "yoast-field-group__image-select" }
-			>
-				{ this.getImageSelect() }
-			</FieldGroup>
 		);
 	}
 }

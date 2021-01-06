@@ -150,10 +150,6 @@ html[dir=rtl] .yoast .yoast-button--buy {
 	color: var(--yoast-color-link);
 }
 
-.yoast-field-group__image-select .yoast-button {
-	margin-right: 24px;
-}
-
 /* Close button for modals or papers */
 .yoast-close {
 	display: flex;
