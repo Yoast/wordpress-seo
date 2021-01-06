@@ -2,20 +2,20 @@ import BlockInstruction from "../../core/blocks/BlockInstruction";
 import { BlockConfiguration } from "@wordpress/blocks";
 
 /**
- * Block instruction.
+ * Variation instruction.
  */
 class Variation extends BlockInstruction {
 	/**
-	 * Pass on the optoins as configuration.
+	 * Passes on the options as configuration.
 	 *
 	 * @returns The configuration.
 	 */
 	configuration(): Partial<BlockConfiguration> {
 		return {
-            variations: [
-                this.options,
-            ],
-        };
+			variations: [
+				this.options,
+			],
+		};
 	}
 
 	/**
