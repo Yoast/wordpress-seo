@@ -46,9 +46,19 @@
 	background: var(--yoast-color-inactive-grey-light);
 }
 
+.yoast .duration-inputs-wrapper {
+	display: flex;
+	flex-direction: row;
+}
+
+.yoast .duration-input-label-pair {
+	display: flex;
+	flex-direction: column;
+}
+
 .yoast .duration-input {
 	width: 4em;
-	margin: 0 2px;
+	margin: 0 8px 0 0;
 }
 
 /* Edge. */
