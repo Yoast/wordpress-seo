@@ -4,7 +4,6 @@
  */
 
 import germanFunctionWordsFactory from "../researches/german/functionWords.js";
-
 const germanFunctionWords = germanFunctionWordsFactory();
 import englishFunctionWordsFactory from "../researches/english/functionWords.js";
 const englishFunctionWords = englishFunctionWordsFactory();
@@ -36,6 +35,8 @@ import hungarianFunctionWordsFactory from "../researches/hungarian/functionWords
 const hungarianFunctionWords = hungarianFunctionWordsFactory();
 import norwegianFunctionWordsFactory from "../researches/norwegian/functionWords.js";
 const norwegianFunctionWords = norwegianFunctionWordsFactory();
+import turkishFunctionWordsFactory from "../researches/turkish/functionWords.js";
+const turkishFunctionWords = turkishFunctionWordsFactory();
 
 /**
  * Returns the function words for all languages.
@@ -60,5 +61,6 @@ export default function() {
 		fa: farsiFunctionWords,
 		hu: hungarianFunctionWords,
 		nb: norwegianFunctionWords,
+		tr: turkishFunctionWords,
 	};
 }
