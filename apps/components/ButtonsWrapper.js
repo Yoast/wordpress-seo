@@ -1,99 +1,173 @@
-import React, { Fragment } from "react";
+// External dependencies.
+import React from "react";
+import styled from "styled-components";
+
+// Yoast dependencies.
 import {
-	NewButton as Button,
-	ButtonStyledLink,
-	CloseButton,
-} from "@yoast/components/src/button";
+	BaseButton,
+	Button,
+	IconButton,
+	IconButtonToggle,
+	IconLabeledButton,
+	IconsButton,
+	LinkButton,
+	UpsellButton,
+	UpsellLinkButton,
+	YoastButton,
+	YoastLinkButton,
+} from "@yoast/components";
+
+const ButtonsContainer = styled.div`
+	max-width: 800px;
+	margin: 0 auto;
+	padding: 24px;
+	box-sizing: border-box;
+
+	.with-max-width {
+		max-width: 120px;
+	}
+
+	.test-large-button {
+		min-width: 240px;
+	}
+`;
+
+const Separator = styled.hr`
+	margin: 1em 0;
+`;
 
 /**
- * Temporary onclick function.
+ * Renders all the yoast-component Buttons.
  *
- * @returns {void}
+ * @returns {React.Element} The Buttons container component.
  */
-function clickerDiClick() {
-	console.log( "You are an exceptional clicker!" );
+export default class ButtonsList extends React.Component {
+	/**
+	 * Constructs the Buttons container.
+	 *
+	 * @param {Object} props The component's props.
+	 *
+	 * @returns {void}
+	 */
+	constructor( props ) {
+		super( props );
+
+		this.state = {
+			iconButtonTogglePressed: false,
+		};
+
+		this.updateIconButtonTogglePressed = this.updateIconButtonTogglePressed.bind( this );
+	}
+
+	/**
+	 * Updates the IconButtonToggle pressed state.
+	 *
+	 * @returns {void}
+	 */
+	updateIconButtonTogglePressed() {
+		this.setState( prevState => ( {
+			iconButtonTogglePressed: ! prevState.iconButtonTogglePressed,
+		} ) );
+	}
+
+	/**
+	 * Renders all the buttons.
+	 *
+	 * @returns {React.Element} The rendered list of buttons.
+	 */
+	render() {
+		return (
+			<ButtonsContainer>
+				<BaseButton>BaseButton</BaseButton>{ " " }
+				<Button>Button</Button>{ " " }
+				<IconButton icon="edit">IconButton</IconButton>{ " " }
+				<IconButton icon="edit" iconColor="#c00" aria-label="IconButton with icon only" />{ " " }
+				<IconsButton prefixIcon={ { icon: "search" } } suffixIcon={ { icon: "plus" } }>IconsButton</IconsButton>
+				<Separator />
+				<LinkButton href="#someresource">LinkButton</LinkButton>
+				<Separator />
+				<IconButtonToggle
+					name="group1"
+					id="some-id"
+					ariaLabel="important toggle"
+					icon="eye"
+					pressed={ this.state.iconButtonTogglePressed }
+					onClick={ this.updateIconButtonTogglePressed }
+				/> (IconButtonToggle: needs a tooltip to make its aria-label visible)
+				<Separator />
+				<YoastButton>YoastButton</YoastButton>{ " " }
+				<UpsellButton>Upsell Button</UpsellButton>{ " " }
+				<UpsellLinkButton href="http://example.org">Upsell Link Button</UpsellLinkButton>
+				<Separator />
+				<IconLabeledButton icon="question-circle">Need help?</IconLabeledButton>
+				<IconLabeledButton icon="gear">Settings</IconLabeledButton>
+				<IconLabeledButton
+					hoverBackgroundColor="#a4286a"
+					hoverColor="#fff"
+					icon="eye"
+				>
+					Custom Hover
+				</IconLabeledButton>
+				<IconLabeledButton
+					focusBackgroundColor="#e1bee7"
+					focusBorderColor="#a4286a"
+					focusColor="#a4286a"
+					icon="key"
+				>
+					Custom Focus
+				</IconLabeledButton>
+				<IconLabeledButton
+					activeBackgroundColor="#ff0"
+					activeBorderColor="#000"
+					activeColor="#000"
+					icon="list"
+				>
+					Custom Active
+				</IconLabeledButton>
+				<IconLabeledButton icon="plus" textFontSize="13px">Custom Font Size</IconLabeledButton>
+				<Separator />
+				<h2>Special cases</h2>
+				<IconButton icon="edit" iconColor="#c00" aria-label="IconButton with icon only" />{ " " }
+				<IconButton icon="edit" iconColor="#c00" className="with-max-width">With max-width and long
+					text</IconButton>{ " " }
+				<YoastButton
+					backgroundColor="lightblue" textColor="#333"
+					withTextShadow={ false }
+				>
+					Color
+				</YoastButton>{ " " }
+				<YoastButton className="test-large-button">Min width</YoastButton>{ " " }
+
+				<h2>Test min-height bugs</h2>
+				<p>
+					Increase the `settings.minHeight` value in the components to check the Safari and IE11 bugs,
+					see
+					<a href="https://github.com/Yoast/yoast-components/pull/262">https://github.com/Yoast/yoast-components/pull/262</a>
+					and
+					<a href="https://github.com/Yoast/yoast-components/pull/284">https://github.com/Yoast/yoast-components/pull/284</a>
+				</p>
+				<h3>Buttons</h3>
+				<BaseButton>Base</BaseButton>{ " " }
+				<YoastButton
+					backgroundColor="lightblue" textColor="#333"
+					withTextShadow={ false }
+				>
+					Color
+				</YoastButton>{ " " }
+				<YoastButton className="test-large-button">Min width</YoastButton>{ " " }
+				<IconButton icon="edit" iconColor="#c00" aria-label="IconButton with icon only" />{ " " }
+				<IconButton icon="edit" iconColor="#c00" className="with-max-width">With max-width and long
+					text</IconButton>{ " " }
+				<h3>Links</h3>
+				<LinkButton href="#somewhere2">Button</LinkButton>{ " " }
+				<YoastLinkButton
+					href="#somewhere4" backgroundColor="lightblue" textColor="#333"
+					withTextShadow={ false }
+				>
+					Color
+				</YoastLinkButton>{ " " }
+				<YoastLinkButton className="test-large-button" href="#somewhere3">Min width</YoastLinkButton>
+			</ButtonsContainer>
+		);
+	}
 }
-
-const buttonRef = React.createRef();
-const buttonStyledLinkRef = React.createRef();
-
-const focusButtonRef = () => {
-	buttonRef.current.focus();
-};
-
-const focusLinkRef = () => {
-	buttonStyledLinkRef.current.focus();
-};
-
-const buttonGrouping = <Fragment>
-	<h3>"primary" variant (default)</h3>
-	<Button onClick={ clickerDiClick } title="Testing whether other props are also passed, like this tooltip">Default button</Button>
-	<Button variant="primary" onClick={ clickerDiClick }>Primary button</Button>
-	<Button variant="primary" disabled={ true } onClick={ clickerDiClick }>Primary disabled button</Button>
-	<Button variant="primary" small={ true } onClick={ clickerDiClick }>Primary small button</Button>
-	<Button variant="primary" small={ true } disabled={ true } onClick={ clickerDiClick }>Primary small disabled button</Button>
-	<ButtonStyledLink variant="primary" href={ "#" }>Primary link</ButtonStyledLink>
-	<ButtonStyledLink variant="primary" small={ true } href={ "#" }>Primary small link</ButtonStyledLink>
-
-	<h3>"secondary" variant</h3>
-	<Button variant="secondary" onClick={ clickerDiClick }>Secondary button</Button>
-	<Button variant="secondary" disabled={ true } onClick={ clickerDiClick }>Secondary disabled button</Button>
-	<Button variant="secondary" small={ true } onClick={ clickerDiClick }>Secondary small button</Button>
-	<Button variant="secondary" small={ true }  disabled={ true } onClick={ clickerDiClick }>Secondary small disabled button</Button>
-	<ButtonStyledLink variant="secondary" href={ "#" }>Secondary link</ButtonStyledLink>
-	<ButtonStyledLink variant="secondary" small={ true } href={ "#" }>Secondary small link</ButtonStyledLink>
-
-	<h3>With Ref!</h3>
-	<Button variant="secondary" buttonRef={ buttonRef } small={ true } onClick={ clickerDiClick }>This Button has a Ref!</Button>
-	<button onClick={ focusButtonRef }>focus test</button>
-	<ButtonStyledLink variant="secondary" buttonRef={ buttonStyledLinkRef } small={ true } href={ "#" }>This ButtonStyledLink has a Ref!</ButtonStyledLink>
-	<button onClick={ focusLinkRef }>focus test</button>
-
-	<h3>"buy" variant (or "upsell")</h3>
-	<Button variant="upsell" onClick={ clickerDiClick }>Buy button</Button>
-	<Button variant="upsell" disabled={ true } onClick={ clickerDiClick }>Buy disabled button</Button>
-	<Button variant="upsell" small={ true } onClick={ clickerDiClick }>Buy small button</Button>
-	<Button variant="upsell" small={ true } disabled={ true } onClick={ clickerDiClick }>Buy small disabled button</Button>
-	<ButtonStyledLink variant="upsell" href="#">Buy Link</ButtonStyledLink>
-	<ButtonStyledLink variant="upsell" small={ true } href="#">Buy small Link</ButtonStyledLink>
-
-	<h3>"hide" and "remove" variants</h3>
-	<Button variant="hide" onClick={ clickerDiClick }>Hide button</Button>
-	<Button variant="remove" onClick={ clickerDiClick }>Remove button</Button>
-	<ButtonStyledLink variant="hide" href="#">Hide Link</ButtonStyledLink>
-	<ButtonStyledLink variant="remove" href="#">Remove Link</ButtonStyledLink>
-
-	<h3>"edit" variant</h3>
-	<Button variant="edit" onClick={ clickerDiClick }>Edit button</Button>
-	<ButtonStyledLink variant="edit" href="#">Edit Link</ButtonStyledLink>
-
-	<h3>CloseButton (not a variant due its different characteristics)</h3>
-	<CloseButton onClick={ clickerDiClick } />
-</Fragment>;
-
-/**
- * Function that displays all the reactified components that we currently have.
- *
- * @returns {*} A div with all reactified components.
- */
-const ButtonsWrapper = () => {
-	return (
-		<div className="yoast">
-
-			<h2>Buttons and ButtonStyledLinks</h2>
-			<p>
-				The buttons come in some variants, and can be a Button or a link styled as a button.
-				They can also be big, or small, and can contain icons before and/or after.
-				They also pass regular props, like disabled for buttons.
-			</p>
-			<div
-				style={ {
-					padding: "24px",
-				} }
-			>
-				{ buttonGrouping }
-			</div>
-		</div>
-	);
-};
-export default ButtonsWrapper;
