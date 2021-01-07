@@ -1,5 +1,5 @@
 import { BlockInstance } from "@wordpress/blocks";
-import { merge } from "lodash";
+import { isArray, mergeWith } from "lodash";
 import Instruction from "./Instruction";
 import Leaf from "./Leaf";
 
@@ -39,12 +39,31 @@ export default abstract class Definition {
 	}
 
 	/**
+	 * Customizes the way in which a merge is performed.
+	 * Concatenates arrays rather than having the first array be overwritten by a second.
+	 *
+	 * @see https://lodash.com/docs/4.17.15#mergeWith
+	 *
+	 * @param existingConfig The configuration that should be appended to.
+	 * @param newConfig      The configuration to append to the existing configuration.
+	 *
+	 * @returns array The appended configurations.
+	 */
+	customizer( existingConfig: string[], newConfig: string[] ) {
+		if ( isArray( existingConfig ) ) {
+			return existingConfig.concat( newConfig );
+		}
+	}
+
+	/**
 	 * Returns the configuration of this BlockDefinition.
+	 * Applying the customizer makes sure that the configurations of multiple instructions are concatenated rather than overwritten.
 	 *
 	 * @returns The configuration.
 	 */
 	configuration(): Record<string, unknown> {
-		return Object.values( this.instructions ).reduce( ( config, instruction ) => merge( config, instruction.configuration() ), {} );
+		return Object.values( this.instructions ).reduce( ( config, instruction ) =>
+			mergeWith( config, instruction.configuration(), this.customizer ), {} );
 	}
 
 	/* eslint-disable @typescript-eslint/no-unused-vars */
