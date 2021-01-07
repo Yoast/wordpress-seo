@@ -256,7 +256,7 @@ function wpseo_on_activate_blog( $blog_id ) {
 		$blog_id = (int) $blog_id->blog_id;
 	}
 
-	if ( is_plugin_active_for_network( plugin_basename( WPSEO_FILE ) ) ) {
+	if ( is_plugin_active_for_network( WPSEO_BASENAME ) ) {
 		switch_to_blog( $blog_id );
 		wpseo_activate( false );
 		restore_current_blog();
@@ -578,7 +578,7 @@ function yoast_wpseo_self_deactivate() {
 
 	if ( $is_deactivated === null ) {
 		$is_deactivated = true;
-		deactivate_plugins( plugin_basename( WPSEO_FILE ) );
+		deactivate_plugins( WPSEO_BASENAME );
 		if ( isset( $_GET['activate'] ) ) {
 			unset( $_GET['activate'] );
 		}

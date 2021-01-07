@@ -140,7 +140,7 @@ class WPSEO_Admin_Init {
 	public function yoast_plugin_update_notification() {
 		$notification_center   = Yoast_Notification_Center::get();
 		$current_minor_version = $this->get_major_minor_version( WPSEO_Options::get( 'version', WPSEO_VERSION ) );
-		$file                  = plugin_dir_path( WPSEO_FILE ) . 'release-info.json';
+		$file                  = WPSEO_PATH . 'release-info.json';
 
 		// Remove if file is not present.
 		if ( ! file_exists( $file ) ) {
