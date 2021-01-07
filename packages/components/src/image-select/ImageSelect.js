@@ -16,7 +16,14 @@ class ImageSelect extends React.Component {
 	 * @returns {React.Component} The ImageSelect.
 	 */
 	render() {
-		const imageSelectButtonsProps = this.props;
+		const imageSelectButtonsProps = {
+			imageSelected: this.props.imageSelected,
+			onClick: this.props.onClick,
+			onRemoveImageClick: this.props.onRemoveImageClick,
+			selectImageButtonId: this.props.selectImageButtonId,
+			replaceImageButtonId: this.props.replaceImageButtonId,
+			removeImageButtonId: this.props.removeImageButtonId,
+		};
 		const imageClassName = this.props.imageSelected
 			? "yoast-image-select__preview" : "yoast-image-select__preview yoast-image-select__preview--no-preview";
 		return (
@@ -54,7 +61,11 @@ ImageSelect.propTypes = {
 	imageSelected: PropTypes.bool,
 	hasPreview: PropTypes.bool.isRequired,
 	label: PropTypes.string.isRequired,
-	onClick: () => {},
+	onClick: PropTypes.func,
+	onRemoveImageClick: PropTypes.func,
+	selectImageButtonId: PropTypes.string,
+	replaceImageButtonId: PropTypes.string,
+	removeImageButtonId: PropTypes.string,
 };
 
 ImageSelect.defaultProps = {
@@ -62,4 +73,8 @@ ImageSelect.defaultProps = {
 	imageAltText: "",
 	imageSelected: false,
 	onClick: () => {},
+	onRemoveImageClick: () => {},
+	selectImageButtonId: "",
+	replaceImageButtonId: "",
+	removeImageButtonId: "",
 };
