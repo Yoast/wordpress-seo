@@ -10,7 +10,7 @@ describe( "a test to check if the input word contains a normalized or a non-norm
 	} );
 
 	it( "doesn't generate a complementary form " +
-		"if the input word contains a normalized or a non-normalized apostrophe", function() {
+		"if the input word doesn't contain a normalized or a non-normalized apostrophe", function() {
 		expect( getVariationsApostrophe( "normal" ) ).toEqual( [ "normal" ] );
 	} );
 } );

@@ -3,7 +3,7 @@ import { flatten } from "lodash-es";
 
 /**
  * Checks if the input word contains a normalized or a non-normalized apostrophe.
- * If so generates a complementary form (e.g., "il'y a" > "il’a")
+ * If so generates a complementary form (e.g., "il'y a" > "il’y a")
  *
  * @param {string} word The word to check.
  *
