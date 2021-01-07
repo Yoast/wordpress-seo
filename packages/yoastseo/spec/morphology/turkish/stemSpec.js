@@ -101,15 +101,28 @@ const wordsToStem = [
 	[ "öğretmişti", "öğretmiş" ],
 	[ "verdik", "ver" ],
 	[ "vazgeçtik", "vazgeç" ],
+	[ "alabiliyorduk", "alabiliyor" ],
+	[ "bulunmuştuk", "bulunmuş" ],
+	[ "bölüştürdük", "bölüştür" ],
+	[ "görüştük", "görüş" ],
 	[ "ındırdık", "ındır" ],
 	[ "ıktık", "ık" ],
 	[ "bildirdim", "bildir" ],
 	[ "beklentim", "bekle" ],
+	[ "koşturdum", "koştur" ],
+	[ "konuştum", "konuş" ],
+	[ "sürdürürdüm", "sürdürür" ],
+	[ "sürmüştüm", "sürmüş" ],
 	[ "uyardım", "uyar" ],
 	[ "uğramıştım", "uğramış" ],
 	[ "öğrendin", "öğre" ],
 	[ "temizleyemeyecektin", "temizleyemeyecek" ],
+	[ "yurdun", "yur" ],
+	[ "sustun", "sus" ],
+	[ "ürdün", "ür" ],
+	[ "örtün", "ör" ],
 	[ "tüsıadın", "tüsıa" ],
+	[ "ınşaatın", "ınşaa" ],
 	[ "sızdırıyordu", "sızdırıyor" ],
 	[ "tavuktu", "tavuk" ],
 	[ "sömürüldü", "sömürül" ],
@@ -143,4 +156,3 @@ describe( "Test for stemming Turkish words", () => {
 		wordsToStem.forEach( wordToStem => expect( stem( wordToStem[ 0 ], morphologyDataTR ) ).toBe( wordToStem[ 1 ] ) );
 	} );
 } );
-
