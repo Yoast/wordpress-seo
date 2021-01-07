@@ -22,10 +22,10 @@ class ImageSelectWrapper extends React.Component {
 	}
 
 	/**
-	 * @returns {void} Void
+	 * @returns {void} Void.
 	 *
-	 * @param {Object} attr Attributes
-	 * @param {string} value Value
+	 * @param {Object} attr Attributes.
+	 * @param {string} value Value.
 	 */
 	setStateAttribute( attr, value ) {
 		this.setState( state => ( {
@@ -35,7 +35,8 @@ class ImageSelectWrapper extends React.Component {
 	}
 
 	/**
-	 * Renders
+	 * Renders the ImageSelect.
+	 *
 	 * @returns {*} Void.
 	 */
 	render() {
