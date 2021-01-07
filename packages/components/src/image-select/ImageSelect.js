@@ -5,9 +5,9 @@ import FieldGroup from "../field-group/FieldGroup";
 import TextInput from "../inputs/TextInput";
 
 /**
- * Renders ImageSelect.
+ * Renders ImageSelect component.
  *
- * @param {Object} props The Props object.
+ * @param {Object} props The props.
  *
  * @returns {React.Component} The ImageSelect.
  */

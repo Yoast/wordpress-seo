@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`ImageSelectButtons ImageSelectButtons with image selected match the snapshot 1`] = `
+exports[`ImageSelectButtons ImageSelectButtons with image selected matches the snapshot 1`] = `
 Array [
   <button
     className="yoast-button yoast-button--secondary"
@@ -21,7 +21,7 @@ Array [
 ]
 `;
 
-exports[`ImageSelectButtons ImageSelectButtons without image selected match the snapshot 1`] = `
+exports[`ImageSelectButtons ImageSelectButtons without image selected matches the snapshot 1`] = `
 <button
   className="yoast-button yoast-button--secondary"
   id=""
