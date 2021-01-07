@@ -41,7 +41,7 @@ class FAQ_Test extends TestCase {
 	private $instance;
 
 	/**
-	 * @inheritDoc
+	 * Setup the test.
 	 */
 	protected function set_up() {
 		parent::set_up();

@@ -24,7 +24,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group schema
  *
  * @coversDefaultClass \Yoast\WP\SEO\Generators\Schema\Article
- * @covers ::<!public>
+ * @covers \Yoast\WP\SEO\Generators\Schema\Article
  */
 class Article_Test extends TestCase {
 
