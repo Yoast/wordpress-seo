@@ -89,7 +89,7 @@ class Breadcrumbs_Generator_Test extends TestCase {
 	private $pagination_helper;
 
 	/**
-	 * @inheritDoc
+	 * Method that is called before each individual test case.
 	 */
 	protected function set_up() {
 		parent::set_up();

@@ -136,7 +136,7 @@ class HowTo_Test extends TestCase {
 	];
 
 	/**
-	 * @inheritDoc
+	 * Setup the test.
 	 */
 	protected function set_up() {
 		parent::set_up();
