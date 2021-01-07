@@ -27,8 +27,8 @@ const expectedResults = {
 	},
 	keywordDensity: {
 		isApplicable: true,
-		score: 9,
-		resultText: "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: The focus keyphrase was found 29 times. This is great!",
+		score: -10,
+		resultText: "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: The focus keyphrase was found 33 times. That's more than the recommended maximum of 32 times for a text of this length. <a href='https://yoa.st/33w' target='_blank'>Don't overoptimize</a>!",
 	},
 	metaDescriptionKeyword: {
 		isApplicable: true,
