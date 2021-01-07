@@ -1,4 +1,4 @@
-import { BlockInstance, createBlock } from "@wordpress/blocks";
+import { Block, BlockInstance, createBlock } from "@wordpress/blocks";
 import { dispatch, select } from "@wordpress/data";
 
 /**
@@ -34,4 +34,15 @@ function restoreBlock( clientId: string, removedBlock: string, removedAttributes
 	dispatch( "core/block-editor" ).replaceBlock( clientId, block );
 }
 
-export { getBlockByClientId, removeBlock, restoreBlock };
+/**
+ * Finds the block type in the list of registered blocks in the block editor.
+ *
+ * @param {string} blockName The block to search for.
+ *
+ * @return {BlockInstruction} The found block.
+ */
+function getBlockType( blockName: string ): Block | undefined {
+	return select( "core/blocks" ).getBlockType( blockName );
+}
+
+export { getBlockByClientId, removeBlock, restoreBlock, getBlockType };

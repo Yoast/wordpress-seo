@@ -1,4 +1,5 @@
 import { BlockInstance } from "@wordpress/blocks";
+import { dispatch } from "@wordpress/data";
 import recurseOverBlocks from "./blocks/recurseOverBlocks";
 
 /**
@@ -33,4 +34,15 @@ function filterBlocksRecursively( blockInstance: BlockInstance, predicate: ( blo
 	return foundBlocks;
 }
 
-export { filterBlocksRecursively, getInnerblocksByName };
+/**
+ * Inserts a block to the inner block.
+ *
+ * @param {BlockInstance} block    The block to insert.
+ * @param {string}        clientId Id of the element to insert the block to.
+ * @param {number}        index    The location of the block.
+ */
+function insertBlock( block: BlockInstance, clientId: string, index?: number ): void {
+	dispatch( "core/block-editor" ).insertBlock( block, index, clientId );
+}
+
+export { filterBlocksRecursively, getInnerblocksByName, insertBlock };
