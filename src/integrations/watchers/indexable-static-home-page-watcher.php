@@ -21,7 +21,7 @@ class Indexable_Static_Home_Page_Watcher implements Integration_Interface {
 	protected $repository;
 
 	/**
-	 * @inheritDoc
+	 * Returns the conditionals based on which this loadable should be active.
 	 */
 	public static function get_conditionals() {
 		return [ Admin_Conditional::class ];
@@ -39,7 +39,9 @@ class Indexable_Static_Home_Page_Watcher implements Integration_Interface {
 	}
 
 	/**
-	 * @inheritDoc
+	 * Initializes the integration.
+	 *
+	 * This is the place to register hooks and filters.
 	 */
 	public function register_hooks() {
 		\add_action( 'update_option_page_on_front', [ $this, 'update_static_homepage_permalink' ], 10, 2 );
