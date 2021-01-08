@@ -59,6 +59,10 @@ import transitionWordsArabicFactory from "../researches/arabic/transitionWords.j
 const transitionWordsArabic = transitionWordsArabicFactory().allWords;
 import twoPartTransitionWordsArabic from "../researches/arabic/twoPartTransitionWords.js";
 
+import transitionWordsTurkishFactory from "../researches/turkish/transitionWords.js";
+const transitionWordsTurkish = transitionWordsTurkishFactory().allWords;
+import twoPartTransitionWordsTurkish from "../researches/turkish/twoPartTransitionWords.js";
+
 /**
  * Returns transition words for a specific locale.
  *
@@ -137,6 +141,11 @@ export default function( locale ) {
 			return {
 				transitionWords: transitionWordsArabic,
 				twoPartTransitionWords: twoPartTransitionWordsArabic,
+			};
+		case "tr":
+			return {
+				transitionWords: transitionWordsTurkish,
+				twoPartTransitionWords: twoPartTransitionWordsTurkish,
 			};
 		default:
 		case "en":
