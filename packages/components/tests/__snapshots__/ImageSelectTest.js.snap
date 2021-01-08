@@ -87,7 +87,7 @@ exports[`ImageSelect ImageSelects match the snapshot 3`] = `
       className="yoast-field-group__title"
     >
       <label
-        htmlFor="vozqz8"
+        htmlFor="a-very-nice-input-id"
       >
         Yet another organization
       </label>
@@ -95,7 +95,7 @@ exports[`ImageSelect ImageSelects match the snapshot 3`] = `
     <input
       aria-describedby=""
       className="yoast-field-group__inputfield"
-      id="vozqz8"
+      id="a-very-nice-input-id"
       max={undefined}
       min={undefined}
       name=""
@@ -129,7 +129,7 @@ exports[`ImageSelect ImageSelects match the snapshot 4`] = `
       className="yoast-field-group__title"
     >
       <label
-        htmlFor="a5eilt"
+        htmlFor="a-very-nice-input-id"
       >
         Not another organization
       </label>
@@ -137,7 +137,7 @@ exports[`ImageSelect ImageSelects match the snapshot 4`] = `
     <input
       aria-describedby=""
       className="yoast-field-group__inputfield"
-      id="a5eilt"
+      id="a-very-nice-input-id"
       max={undefined}
       min={undefined}
       name=""
