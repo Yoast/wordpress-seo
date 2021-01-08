@@ -141,7 +141,7 @@ export default class SentenceTokenizer {
 	 *
 	 * @returns {boolean} Whether the letter is from an LTR language.
 	 */
-	isLetterfromRTLLanguage( letter ) {
+	isLetterFromRTLLanguage( letter ) {
 		const ltrLetterRanges = [
 			// Hebrew characters.
 			/^[\u0590-\u05fe]+$/i,
@@ -165,7 +165,7 @@ export default class SentenceTokenizer {
 	isValidSentenceBeginning( sentenceBeginning ) {
 		return (
 			this.isCapitalLetter( sentenceBeginning ) ||
-			this.isLetterfromRTLLanguage( sentenceBeginning ) ||
+			this.isLetterFromRTLLanguage( sentenceBeginning ) ||
 			this.isNumber( sentenceBeginning ) ||
 			this.isQuotation( sentenceBeginning ) ||
 			this.isPunctuation( sentenceBeginning ) ||
@@ -420,7 +420,7 @@ export default class SentenceTokenizer {
 					 */
 					if (
 						this.isSentenceEnding( previousToken ) &&
-						( this.isValidSentenceBeginning( nextSentenceStart ) || this.isSentenceStart( nextToken ) )
+						( this.isSentenceStart( nextToken ) || this.isValidSentenceBeginning( nextSentenceStart ) )
 					) {
 						tokenSentences.push( currentSentence );
 						currentSentence = "";

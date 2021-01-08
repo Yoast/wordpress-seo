@@ -14,8 +14,5 @@ export default function urlLength( paper ) {
 	const maxUrlLength  = 40;
 	const maxSlugLength = 20;
 
-	if ( lengthOfUrl > maxUrlLength	&& lengthOfUrl > keywordLength + maxSlugLength ) {
-		return true;
-	}
-	return false;
+	return lengthOfUrl > maxUrlLength && lengthOfUrl > keywordLength + maxSlugLength;
 }

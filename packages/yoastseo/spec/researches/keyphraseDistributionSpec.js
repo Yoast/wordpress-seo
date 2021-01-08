@@ -7,7 +7,7 @@ import Paper from "../../src/values/Paper.js";
 import Mark from "../../src/values/Mark";
 import Researcher from "../../src/researcher";
 import getMorphologyData from "../specHelpers/getMorphologyData";
-import { realWorldULExample1, realWorldULExample2 } from "../stringProcessing/mergeListItemsSpec";
+import { realWorldULExample1, realWorldULExample2 } from "../languageProcessing/helpers/sanitize/mergeListItemsSpec";
 
 const morphologyData = getMorphologyData( "en" );
 

@@ -1,12 +1,12 @@
 /** @module analyses/findKeywordInFirstParagraph */
 
-import matchParagraphs from "../../matchParagraphs.js";
-import getSentences from "../../getSentences.js";
+import matchParagraphs from "../helpers/html/matchParagraphs.js";
+import getSentences from "../helpers/sentence/getSentences.js";
 import { findTopicFormsInString } from "../helpers/match/findKeywordFormsInString.js";
-import imageInText from "../../imageInText";
-import findEmptyDivisions from "../../findEmptyDivisions";
-import getAnchorsFromText from "../../getAnchorsFromText";
-import matchStringWithRegex from "../../matchStringWithRegex";
+import imageInText from "../helpers/image/imageInText";
+import findEmptyDivisions from "../helpers/html/findEmptyDivisions";
+import getAnchorsFromText from "../helpers/link/getAnchorsFromText";
+import matchStringWithRegex from "../helpers/regex/matchStringWithRegex";
 
 import { reject } from "lodash-es";
 import { isEmpty } from "lodash-es";

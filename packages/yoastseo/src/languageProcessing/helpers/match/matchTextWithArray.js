@@ -28,10 +28,6 @@ export default function( text, array, locale = "en_EN" ) {
 		matches = matches.concat( occurrence.matches );
 	} );
 
-	if ( matches === null ) {
-		matches = [];
-	}
-
 	matches = matches.map( function( string ) {
 		return stripSpaces( removePunctuation( string ) );
 	} );

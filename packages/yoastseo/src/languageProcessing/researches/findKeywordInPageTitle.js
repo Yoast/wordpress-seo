@@ -32,7 +32,7 @@ const stripFunctionWordsFromStart = function( str ) {
  *
  * @param {string} keyword The keyword to check.
  *
- * @returns {Object} Whether the exact match funcionality is requested and the keyword stripped from double quotes.
+ * @returns {Object} Whether the exact match functionality is requested and the keyword stripped from double quotes.
  */
 const processExactMatchRequest = function( keyword ) {
 	const exactMatchRequest = { exactMatchRequested: false, keyword: keyword };

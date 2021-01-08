@@ -13,10 +13,8 @@ import removePunctuationExceptQuotes from "./removePunctuationExceptQuotes.js";
 export default function( synonyms ) {
 	let synonymsSplit = synonyms.split( "," );
 
-	synonymsSplit = synonymsSplit.map( function( synonym ) {
-		return removePunctuationExceptQuotes( stripSpaces( synonym ) );
-	} ).filter( function( synonym ) {
-		return synonym;
-	} );
+	synonymsSplit = synonymsSplit.map( synonym =>
+		removePunctuationExceptQuotes( stripSpaces( synonym ) ) ).filter( synonym => synonym );
+
 	return synonymsSplit;
 }

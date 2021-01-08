@@ -8,9 +8,9 @@
  * \u060C - Arabic comma
  * \u061B - Arabic semicolon
  */
-var punctuationRegexString = "[\\–\\-\\(\\)_\\[\\]’“”\"'.?!:;,¿¡«»‹›\u2014\u00d7\u002b\u0026\u06d4\u061f\u060C\u061B\\<\>]+";
-var punctuationRegexStart = new RegExp( "^" + punctuationRegexString );
-var punctuationRegexEnd = new RegExp( punctuationRegexString + "$" );
+const punctuationRegexString = "[\\–\\-\\(\\)_\\[\\]’“”\"'.?!:;,¿¡«»‹›\u2014\u00d7\u002b\u0026\u06d4\u061f\u060C\u061B\\<>]+";
+const punctuationRegexStart = new RegExp( "^" + punctuationRegexString );
+const punctuationRegexEnd = new RegExp( punctuationRegexString + "$" );
 
 /**
  * Replaces punctuation characters from the given text string.

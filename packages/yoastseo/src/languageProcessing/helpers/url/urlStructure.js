@@ -5,7 +5,7 @@ import core from "tokenizer2/core";
  *
  * @type {Object}
  */
-var urlTokenizer;
+let urlTokenizer;
 
 /**
  * Contains the tokens as parsed by the urlTokenizer.

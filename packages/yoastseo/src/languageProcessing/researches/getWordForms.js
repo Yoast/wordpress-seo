@@ -21,8 +21,8 @@ function StemWithForms( stem, forms ) {
 /**
  * A result for all topic forms.
  *
- * @param {string[][]} keyphraseForms  All keyphrase forms.
- * @param {string[][]} synonymsForms   All synonym forms.
+ * @param {Array[]} keyphraseForms  All keyphrase forms.
+ * @param {Array[]} synonymsForms   All synonym forms.
  * @constructor
  */
 function Result( keyphraseForms = [], synonymsForms = [] ) {
@@ -40,7 +40,7 @@ function Result( keyphraseForms = [], synonymsForms = [] ) {
  *
  * @returns {string[]} All forms found in the paper for the given stem, plus a sanitized version of the original word.
  */
-function replaceStemWithForms( stemOriginalPair, paperWordsGroupedByStems, createBasicWordForms = false) {
+function replaceStemWithForms( stemOriginalPair, paperWordsGroupedByStems, createBasicWordForms = false ) {
 	const matchingStemFormPair = paperWordsGroupedByStems.find( element => element.stem === stemOriginalPair.stem );
 	const originalSanitized = normalizeSingle( escapeRegExp( stemOriginalPair.original ) );
 

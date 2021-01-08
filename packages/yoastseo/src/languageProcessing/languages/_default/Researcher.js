@@ -1,14 +1,7 @@
-import matchKeywordInSubheadings from "../../researches/base/matchKeywordInSubheadings.js";
-import getProminentWordsForInsights from "../../researches/base/getProminentWordsForInsights";
-import getProminentWordsForInternalLinking from "../../researches/base/getProminentWordsForInternalLinking";
-import getWordForms from "../../researches/_todo/getWordForms";
-import findKeywordInPageTitle from "../../researches/base/findKeywordInPageTitle";
-import { keyphraseDistributionResearcher as keyphraseDistribution } from "../../researches/base/keyphraseDistribution";
-
 import AbstractResearcher from "../../AbstractResearcher";
 
-import getLinkStatistics from "./researches/getLinkStatistics";
-import keyphraseLength from "./researches/keyphraseLength";
+// All helpers
+import getStemmer from "../../helpers/morphology/baseStemmer";
 
 /**
  * The researches contains all the researches
@@ -22,15 +15,20 @@ export default class Researcher extends AbstractResearcher {
 	constructor( paper ) {
 		super( paper );
 
-		Object.assign( this.defaultResearches, {
-			matchKeywordInSubheadings: matchKeywordInSubheadings,
-			getLinkStatistics: getLinkStatistics,
-			keyphraseDistribution: keyphraseDistribution,
-			findKeywordInPageTitle: findKeywordInPageTitle,
-			morphology: getWordForms,
-			prominentWordsForInsights: getProminentWordsForInsights,
-			prominentWordsForInternalLinking: getProminentWordsForInternalLinking,
-			keyphraseLength: keyphraseLength,
+		// Deletes researches that are not available for languages that we haven't supported yet.
+		delete this.defaultResearches.getFleschReadingScore;
+		delete this.defaultResearches.getPassiveVoice;
+		delete this.defaultResearches.getSentenceBeginnings;
+		delete this.defaultResearches.stopWordsInKeyword;
+		delete this.defaultResearches.stopWordsInUrl;
+		delete this.defaultResearches.findTransitionWords;
+
+		Object.assign( this.config, {
+			functionWords: [],
+		} );
+
+		Object.assign( this.config, {
+			getStemmer,
 		} );
 	}
 }

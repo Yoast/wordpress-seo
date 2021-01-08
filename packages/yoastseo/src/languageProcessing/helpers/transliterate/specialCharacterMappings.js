@@ -1,3 +1,4 @@
+import isEqual from "lodash-es/isEqual";
 import filter from "lodash/filter";
 import includes from "lodash/includes";
 import memoize from "lodash/memoize";
@@ -28,8 +29,8 @@ function getIndicesOfWords( text ) {
 /**
  * Gets indices of a specific character in the input text.
  *
- * @param {string} text The original text, for which the indices of specific characters have to be determined.
- * @param {string} characterToFind The character that needs to be found in the text.
+ * @param {string} text             The original text, for which the indices of specific characters have to be determined.
+ * @param {string} characterToFind  The character that needs to be found in the text.
  *
  * @returns {Array} indices The array of indices in the text at which the characterToFind occurs.
  */
@@ -65,8 +66,8 @@ function arraysDifference( bigArray, subarray ) {
 /**
  * Compares two arrays and returns the array of elements that occur in both arrays.
  *
- * @param {Array} firstArray The first array with elements to compare.
- * @param {Array} secondArray The second array with elements to compare.
+ * @param {Array} firstArray    The first array with elements to compare.
+ * @param {Array} secondArray   The second array with elements to compare.
  *
  * @returns {Array} overlap An array of all elements of firstArray which are also in secondArray.
  */
@@ -89,8 +90,8 @@ function combinations( collection ) {
 	/**
 	 * A recursive function that iterates through all elements of an array to produce its combinations.
 	 *
-	 * @param {Array} xs The array to start accumulating with.
-	 * @param {Array} array The array with elements that should be combined.
+	 * @param {Array} xs        The array to start accumulating with.
+	 * @param {Array} array     The array with elements that should be combined.
 	 *
 	 * @returns {Array} result An array of all possible combinations of elements of the original array.
 	 */
@@ -113,9 +114,9 @@ function combinations( collection ) {
 /**
  * Replaces characters on specified indices in the input text.
  *
- * @param {string} text The original text, for which the characters have to be substituted.
- * @param {Array} indices The array of indices that have to be substituted.
- * @param {string} substitute The character that is used to substitute in the text.
+ * @param {string} text         The original text, for which the characters have to be substituted.
+ * @param {Array} indices       The array of indices that have to be substituted.
+ * @param {string} substitute   The character that is used to substitute in the text.
  *
  * @returns {string} result The string of the original text with the characters on specified indices are substituted with the substitute character.
  */
@@ -158,7 +159,7 @@ function replaceTurkishIs( text ) {
 
 	combinationsDottedI.forEach( function( oneCombinationDottedI ) {
 		// If the combination is full array, just add it to results immediately without going through the rest of iterations.
-		if ( oneCombinationDottedI === indicesOfIsInWordBeginnings ) {
+		if ( isEqual( oneCombinationDottedI, indicesOfIsInWordBeginnings ) ) {
 			results.push( [ oneCombinationDottedI, [], [], [] ] );
 		} else {
 			const indicesNotDottedI = arraysDifference( indicesOfIsInWordBeginnings, oneCombinationDottedI );
@@ -167,7 +168,7 @@ function replaceTurkishIs( text ) {
 			const combinationsDotlessI = combinations( indicesNotDottedI );
 			combinationsDotlessI.forEach( function( oneCombinationDotlessI ) {
 				// If the combination is full array, just add it to results immediately without going through the rest of iterations.
-				if ( oneCombinationDotlessI === indicesNotDottedI ) {
+				if ( isEqual( oneCombinationDotlessI, indicesNotDottedI ) ) {
 					results.push( [ oneCombinationDottedI, oneCombinationDotlessI, [], [] ] );
 				} else {
 					const indicesSmalli = arraysDifference( indicesNotDottedI, oneCombinationDotlessI );
@@ -177,7 +178,7 @@ function replaceTurkishIs( text ) {
 
 					combinationsDottedi.forEach( function( oneCombinationDottedi ) {
 						// If the combination is full array, just add it to results immediately without going through the rest of iterations.
-						if ( oneCombinationDottedi === indicesSmalli ) {
+						if ( isEqual( oneCombinationDottedi, indicesSmalli ) ) {
 							results.push( [ oneCombinationDottedI, oneCombinationDotlessI, oneCombinationDottedi, [] ] );
 						} else {
 							const oneCombinationDotlessi = arraysDifference( indicesSmalli, oneCombinationDottedi );
