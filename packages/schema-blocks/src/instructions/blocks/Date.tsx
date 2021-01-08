@@ -6,7 +6,7 @@ import { __experimentalGetSettings, dateI18n } from "@wordpress/date";
 
 // Internal imports.
 import BlockInstruction from "../../core/blocks/BlockInstruction";
-import { createElement, useCallback, useState } from "@wordpress/element";
+import { createElement, useState } from "@wordpress/element";
 import { RenderEditProps, RenderSaveProps } from "../../core/blocks/BlockDefinition";
 
 /**
@@ -64,9 +64,9 @@ class Date extends BlockInstruction {
 			setSelectedDate( dateI18n( dateFormat, date ) );
 		};
 
-		return <div className="yoast-block-date-picker">
+		return <div className="yoast-block-date-picker-container">
 			<button onClick={ toggleDatePicker }>{ selectedDate }</button>
-			{ datePickerShown && <DatePicker onChange={ setDate } /> }
+			{ datePickerShown && <div className="yoast-block-date-picker"><DatePicker onChange={ setDate } /></div> }
 		</div>;
 	}
 
