@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React from "react";
 import TextInput from "@yoast/components/src/inputs/TextInput";
 import TextArea from "@yoast/components/src/inputs/TextArea";
 import CheckboxGroup from "@yoast/components/src/checkbox/CheckboxGroup";
@@ -20,12 +20,14 @@ const InputsWrapper = () => {
 				label="This is the input label"
 				value="This is the input value"
 				type="text"
+				id="input1"
 			/>
 			<TextInput
 				label="This input has a description"
 				description="Great description!"
 				type="text"
 				placeholder="The best placeholder ev4h"
+				id="input2"
 			/>
 			<TextInput
 				label="This is a number input"
@@ -33,22 +35,26 @@ const InputsWrapper = () => {
 				type="number"
 				min={ 3 }
 				max={ 6 }
+				id="input3"
 			/>
 			<TextInput
 				label="This is a email input without description where the help links to google.com"
 				type="email"
 				linkTo="https://www.google.com"
+				id="input4"
 			/>
 			<TextInput
 				label="This is a password input"
 				type="password"
 				linkTo="https://www.google.com"
+				id="input5"
 			/>
 			<TextArea
 				label="This is a textarea"
 				placeholder="Ugly placeholder"
 				value="Wow, what happens now??"
 				description="The greatest textarea ever!!1!"
+				id="area1"
 			/>
 			<CheckboxGroup
 				label="Heya best checkboxes"
