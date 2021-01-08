@@ -1,9 +1,13 @@
+import { ReactElement } from "react";
 import { createElement, ComponentClass } from "@wordpress/element";
 import { InnerBlocks as WordPressInnerBlocks } from "@wordpress/block-editor";
 import { BlockInstance, TemplateArray } from "@wordpress/blocks";
 import { BlockValidationResult, RequiredBlock } from "../../core/validation";
 import BlockInstruction from "../../core/blocks/BlockInstruction";
 import validateInnerBlocks from "../../functions/validators/innerBlocksValid";
+import { RenderEditProps } from "../../core/blocks/BlockDefinition";
+import { getBlockByClientId } from "../../functions/BlockHelper";
+import RequiredBlocks from "../../blocks/RequiredBlocks";
 
 /**
  * InnerBlocks instruction.
@@ -62,6 +66,24 @@ export default class InnerBlocks extends BlockInstruction {
 		}
 
 		return createElement( WordPressInnerBlocks, properties );
+	}
+
+	/**
+	 * Renders the sidebar.
+	 *
+	 * @param props The props.
+	 * @param i     The number the rendered element is of it's parent.
+	 *
+	 * @returns The sidebar element to render.
+	 */
+	sidebar( props: RenderEditProps ): ReactElement | string {
+		const currentBlock = getBlockByClientId( props.clientId );
+
+		if ( this.options.requiredBlocks ) {
+			return RequiredBlocks( currentBlock, this.options.requiredBlocks );
+		}
+
+		return "";
 	}
 
 	/**
