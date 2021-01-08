@@ -1,4 +1,4 @@
-import getMorphologyData from "../../specHelpers/getMorphologyData";
+import getMorphologyData from "../../../../../specHelpers/getMorphologyData";
 import { buildOneFormFromRegex } from "../../../src/languages/legacy/morphology/morphoHelpers/buildFormRule";
 import createRulesFromMorphologyData from "../../../src/languages/legacy/morphology/morphoHelpers/createRulesFromMorphologyData";
 

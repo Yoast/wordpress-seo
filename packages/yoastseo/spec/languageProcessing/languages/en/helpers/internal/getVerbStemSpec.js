@@ -1,5 +1,10 @@
-import getMorphologyData from "../../specHelpers/getMorphologyData";
-import { getInfinitive, normalizePrefixed } from "../../../src/languageProcessing/languages/en/morphology/getVerbStem";
+import getMorphologyData from "../../../../../specHelpers/getMorphologyData";
+import {
+	getInfinitive,
+	checkIrregulars,
+	normalizePrefixed,
+} from "../../../../../../src/languageProcessing/languages/en/helpers/internal/getVerbStem";
+import isUndefined from "lodash-es/isUndefined";
 
 const morphologyData = getMorphologyData( "en" );
 const regexVerb = morphologyData.en.verbs.regexVerb;
@@ -16,6 +21,8 @@ const regularVerbsToTest = [
 	[ "compete", "competes", "competing", "competed" ],
 	[ "improve", "improves", "improving", "improved" ],
 	[ "color", "colors", "coloring", "colored" ],
+	[ "brr" ],
+	[ "bed", "beds", "bedding" ],
 ];
 
 const doubleConsonantsAtTheEnd = [
@@ -175,12 +182,35 @@ describe( "Test for normalizing verb prefix", function() {
 			expect( receivedNormalization.prefix ).toEqual( expectedPrefix );
 		} );
 	} );
+
+	it( "returns undefined if the word doesn't match any of the verbPrefixes regex", function() {
+		expect( isUndefined( normalizePrefixed( "long", regexVerb.verbPrefixes ) ) ).toBe( true );
+	} );
+} );
+
+describe( "Test irregular verbs", function() {
+	const irregularVerbs = morphologyData.en.verbs.irregularVerbs;
+	it( "returns an array of word forms from of the irregular verb", function() {
+		expect( checkIrregulars( "bandsaw", irregularVerbs, regexVerb.verbPrefixes ) ).toEqual(
+			[ "bandsaw", "bandsaws", "bandsawing", "bandsawed", "bandsawn" ]
+		);
+	} );
+
+	it( "returns an array of word forms from of the irregular verb with normalized verb prefix", function() {
+		expect( checkIrregulars( "unbreak", irregularVerbs, regexVerb.verbPrefixes ) ).toEqual(
+			[ "unbreak", "unbreaks", "unbreaking", "unbroke", "unbroken" ]
+		);
+	} );
+
+	it( "returns undefined if the word is not irregular verb", function() {
+		expect( isUndefined( checkIrregulars( "cooked", irregularVerbs, regexVerb.verbPrefixes ) ) ).toBe( true );
+	} );
 } );
 
 describe( "Test for getting infinitive", function() {
 	regularVerbsToTest.forEach( function( paradigm ) {
 		paradigm.forEach( function( wordInParadigm ) {
-			it( "for regular verbs", function() {
+			it( "returns the infinitive form of the regular verbs", function() {
 				expect( getInfinitive( wordInParadigm, regexVerb ).infinitive ).toEqual( paradigm[ 0 ] );
 			} );
 		} );
@@ -188,7 +218,7 @@ describe( "Test for getting infinitive", function() {
 
 	doubleConsonantsAtTheEnd.forEach( function( paradigm ) {
 		paradigm.forEach( function( wordInParadigm ) {
-			it( "for verbs with double consonants at the end", function() {
+			it( "returns the infinitive form of verbs with double consonants at the end", function() {
 				expect( getInfinitive( wordInParadigm, regexVerb ).infinitive ).toEqual( paradigm[ 0 ] );
 			} );
 		} );
@@ -196,7 +226,7 @@ describe( "Test for getting infinitive", function() {
 
 	yAtTheEnd.forEach( function( paradigm ) {
 		paradigm.forEach( function( wordInParadigm ) {
-			it( "for verbs with y at the end", function() {
+			it( "returns the infinitive form of verbs with y at the end", function() {
 				expect( getInfinitive( wordInParadigm, regexVerb ).infinitive ).toEqual( paradigm[ 0 ] );
 			} );
 		} );
@@ -204,7 +234,7 @@ describe( "Test for getting infinitive", function() {
 
 	eAtTheEnd.forEach( function( paradigm ) {
 		paradigm.forEach( function( wordInParadigm ) {
-			it( "for verbs with e at the end", function() {
+			it( "returns the infinitive form of verbs with e at the end", function() {
 				expect( getInfinitive( wordInParadigm, regexVerb ).infinitive ).toEqual( paradigm[ 0 ] );
 			} );
 		} );
@@ -212,7 +242,7 @@ describe( "Test for getting infinitive", function() {
 
 	needsDoublingLastConsonant.forEach( function( paradigm ) {
 		paradigm.forEach( function( wordInParadigm ) {
-			it( "for verbs that need doubling of the last consonant", function() {
+			it( "returns the infinitive form of verbs that need doubling of the last consonant", function() {
 				expect( getInfinitive( wordInParadigm, regexVerb ).infinitive ).toEqual( paradigm[ 0 ] );
 			} );
 		} );
