@@ -23,7 +23,7 @@ describe( "Detects and stems participles", () => {
 	} );
 
 	it( "detects a participle and stems it; input: separablePrefix-ge-stem-t participle", () => {
-		// Separable prefix: weiter.
+		// Separable prefix: herauf.
 		expect( detectAndStemRegularParticiple( morphologyDataDE.verbs, "heraufgeholt" ) ).toEqual( "heraufhol" );
 	} );
 
