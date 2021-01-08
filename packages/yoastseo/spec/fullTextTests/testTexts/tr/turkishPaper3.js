@@ -119,9 +119,9 @@ const expectedResults = {
 		resultText: "<a href='https://yoa.st/34v' target='_blank'>Sentence length</a>: 25.7% of the sentences contain more than 11 words, which is more than the recommended maximum of 25%. <a href='https://yoa.st/34w' target='_blank'>Try to shorten the sentences</a>.",
 	},
 	textTransitionWords: {
-		isApplicable: false,
-		score: 6,
-		resultText: "<a href='https://yoa.st/34z' target='_blank'>Transition words</a>: Only 15.7% of the sentences contain transition words, which is not enough. <a href='https://yoa.st/35a' target='_blank'>Use more of them</a>.",
+		isApplicable: true,
+		score: 3,
+		resultText: "<a href='https://yoa.st/34z' target='_blank'>Transition words</a>: Only 19.1% of the sentences contain transition words, which is not enough. <a href='https://yoa.st/35a' target='_blank'>Use more of them</a>.",
 	},
 	passiveVoice: {
 		isApplicable: true,
