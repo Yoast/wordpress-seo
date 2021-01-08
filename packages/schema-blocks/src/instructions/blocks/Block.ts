@@ -24,4 +24,5 @@ class Block extends BlockInstruction {
 	}
 }
 
+console.log( "Registering the block instruction" );
 BlockInstruction.register( "block", Block );

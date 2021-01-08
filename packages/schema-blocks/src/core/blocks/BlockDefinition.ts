@@ -71,6 +71,8 @@ export default class BlockDefinition extends Definition {
 	 */
 	register(): void {
 		const configuration = this.configuration() as MutableBlockConfiguration;
+		console.log( "The configuration in BlockDefinition.ts:" );
+		console.log( configuration );
 
 		const name = configuration.name as string;
 		delete configuration.name;

@@ -64,7 +64,7 @@ export default abstract class Instruction {
 	/* eslint-enable @typescript-eslint/no-unused-vars */
 
 	/**
-	 * Register a new instruction.
+	 * Registers a new instruction.
 	 *
 	 * @param this        This.
 	 * @param name        The name of the instruction.
@@ -78,6 +78,7 @@ export default abstract class Instruction {
 		}
 
 		this.registeredInstructions[ name ] = instruction;
+		console.log("The name of the instruction that is registered: " + name);
 	}
 
 	/**

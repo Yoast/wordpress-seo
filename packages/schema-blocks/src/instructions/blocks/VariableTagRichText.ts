@@ -18,6 +18,7 @@ class VariableTagRichText extends RichTextBase {
 		placeholder: string;
 		multiline: boolean;
 		label: string;
+		value: string;
 	};
 
 	/**
@@ -69,14 +70,23 @@ class VariableTagRichText extends RichTextBase {
 	protected getBaseAttributes( props: RenderSaveProps | RenderEditProps, i: number ): RichTextSaveProps | RichTextEditProps {
 		const attributes: RichTextSaveProps | RichTextEditProps = {
 			tagName:
-                props.attributes[ this.options.name + "_tag" ] as keyof HTMLElementTagNameMap ||
-                arrayOrObjectToOptions( this.options.tags )[ 0 ].value,
+				props.attributes[ this.options.name + "_tag" ] as keyof HTMLElementTagNameMap ||
+				arrayOrObjectToOptions( this.options.tags )[ 0 ].value,
 			value: props.attributes[ this.options.name ] as string,
 			className: this.options.class,
 			placeholder: this.options.placeholder,
 			"data-id": this.options.name,
 			key: i,
 		};
+
+		// console.log("The props");
+		// console.log(props);
+		//
+		// console.log("The props' attributes");
+		// console.log(props.attributes);
+		//
+		// console.log("The attributes");
+		// console.log(attributes);
 
 		if ( this.options.multiline ) {
 			attributes.multiline = this.options.multiline;

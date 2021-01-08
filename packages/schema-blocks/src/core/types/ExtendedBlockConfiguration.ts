@@ -5,11 +5,12 @@ import { BlockConfiguration } from "@wordpress/blocks";
  * for other options.
  */
 export type BlockVariation = {
-	name: string;
-	title: string;
+	name?: string;
+	title?: string;
 	description?: string;
 	icon?: string | object;
 	isDefault?: boolean;
+	innerBlocks?: string[];
 };
 
 export type ExtendedBlockConfiguration = BlockConfiguration & {
