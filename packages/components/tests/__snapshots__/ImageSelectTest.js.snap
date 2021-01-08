@@ -86,16 +86,14 @@ exports[`ImageSelect ImageSelects match the snapshot 3`] = `
     <div
       className="yoast-field-group__title"
     >
-      <label
-        htmlFor="a-very-nice-input-id"
-      >
+      <b>
         Yet another organization
-      </label>
+      </b>
     </div>
     <input
       aria-describedby=""
       className="yoast-field-group__inputfield"
-      id="a-very-nice-input-id"
+      id=""
       max={undefined}
       min={undefined}
       name=""
@@ -128,16 +126,14 @@ exports[`ImageSelect ImageSelects match the snapshot 4`] = `
     <div
       className="yoast-field-group__title"
     >
-      <label
-        htmlFor="a-very-nice-input-id"
-      >
+      <b>
         Not another organization
-      </label>
+      </b>
     </div>
     <input
       aria-describedby=""
       className="yoast-field-group__inputfield"
-      id="a-very-nice-input-id"
+      id=""
       max={undefined}
       min={undefined}
       name=""

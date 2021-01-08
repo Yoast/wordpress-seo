@@ -34,7 +34,6 @@ describe( "ImageSelect", () => {
 					label={ imageSelect.label }
 					hasPreview={ imageSelect.hasPreview }
 					imageUrl={ imageSelect.imageUrl }
-					inputId="a-very-nice-input-id"
 				/>
 			);
 			const tree = component.toJSON();
