@@ -125,6 +125,7 @@ class Actions {
 			true,
 			__DIR__ . '/../../src/generated/container.php',
 			__DIR__ . '/../dependency-injection/services.php',
+			__DIR__ . '/../../vendor/composer/autoload_classmap.php',
 			'Yoast\WP\SEO\Generated'
 		);
 
