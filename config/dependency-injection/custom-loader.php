@@ -17,11 +17,20 @@ use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
 class Custom_Loader extends PhpFileLoader {
 
 	/**
+	 * The class map path.
+	 *
+	 * @var string;
+	 */
+	private $class_map_path;
+
+	/**
 	 * Custom_Loader constructor.
 	 *
-	 * @param ContainerBuilder $container The ContainerBuilder to load classes for.
+	 * @param ContainerBuilder $container      The ContainerBuilder to load classes for.
+	 * @param string           $class_map_path The class map path.
 	 */
-	public function __construct( ContainerBuilder $container ) {
+	public function __construct( ContainerBuilder $container, $class_map_path ) {
+		$this->class_map_path = $class_map_path;
 		parent::__construct( $container, new FileLocator( __DIR__ . '/../..' ) );
 	}
 
@@ -36,7 +45,7 @@ class Custom_Loader extends PhpFileLoader {
 		static $class_map;
 
 		if ( ! $class_map ) {
-			$class_map = require __DIR__ . '/../../vendor/composer/autoload_classmap.php';
+			$class_map = require $this->class_map_path;
 			$class_map = \array_map( [ $this, 'normalize_slashes' ], $class_map );
 			$class_map = \array_flip( $class_map );
 		}

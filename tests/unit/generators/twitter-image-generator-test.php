@@ -24,36 +24,50 @@ use Yoast\WP\SEO\Values\Images;
 class Twitter_Image_Generator_Test extends TestCase {
 
 	/**
+	 * Twitter image generator mock.
+	 *
 	 * @var Twitter_Image_Generator|Mockery\MockInterface
 	 */
 	protected $twitter_image;
 
 	/**
+	 * Image helper mock.
+	 *
 	 * @var Image_Helper|Mockery\MockInterface
 	 */
 	protected $image;
 
 	/**
+	 * URL helper mock.
+	 *
 	 * @var Mockery\MockInterface|Url_Helper
 	 */
 	protected $url;
 
 	/**
+	 * Instance under test.
+	 *
 	 * @var Twitter_Image_Generator|Mockery\MockInterface
 	 */
 	protected $instance;
 
 	/**
+	 * Indexable mock.
+	 *
 	 * @var Indexable_Mock
 	 */
 	protected $indexable;
 
 	/**
+	 * Images container mock.
+	 *
 	 * @var Mockery\MockInterface|Images
 	 */
 	protected $image_container;
 
 	/**
+	 * Meta tags context mock.
+	 *
 	 * @var Mockery\MockInterface|Meta_Tags_Context_Mock
 	 */
 	protected $context;
