@@ -1,5 +1,6 @@
 import React, { Fragment, useState } from "react";
 import TextInput from "@yoast/components/src/inputs/TextInput";
+import DurationInput from "@yoast/components/src/inputs/DurationInput";
 import TextArea from "@yoast/components/src/inputs/TextArea";
 import CheckboxGroup from "@yoast/components/src/checkbox/CheckboxGroup";
 import RadioButtonGroup from "@yoast/components/src/radiobutton/RadioButtonGroup";
@@ -84,6 +85,39 @@ const buttonGrouping = <Fragment>
 	<h3>CloseButton (not a variant due its different characteristics)</h3>
 	<CloseButton onClick={ clickerDiClick } />
 </Fragment>;
+
+/* eslint-disable require-jsdoc */
+class DurationInputWrapper extends React.Component {
+	constructor( props ) {
+		super( props );
+		this.state = {
+			hours: props.hours,
+			minutes: props.minutes,
+			seconds: props.seconds,
+		};
+
+		this.onChange = this.onChange.bind( this );
+	}
+
+	onChange( value, field ) {
+		this.setState( {
+			[ field ]: value,
+		} );
+	}
+
+	render() {
+		return (
+			<DurationInput
+				hours={ this.state.hours }
+				minutes={ this.state.minutes }
+				seconds={ this.state.seconds }
+				label="Duration"
+				id="duration-input"
+				onChange={ this.onChange }
+			/>
+		);
+	}
+}
 
 /**
  * Function that displays all the reactified components that we currently have.
@@ -241,6 +275,11 @@ const ReactifiedComponentsWrapper = () => {
 				linkTo="https://yoast.com"
 				linkText="A helpful link!"
 				onChange={ console.warn }
+			/>
+			<DurationInputWrapper
+				hours={ 24 }
+				minutes={ 13 }
+				seconds={ 26 }
 			/>
 			<hr />
 
