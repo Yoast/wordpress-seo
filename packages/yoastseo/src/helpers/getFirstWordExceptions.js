@@ -12,6 +12,7 @@ import firstWordExceptionsIndonesian from "../researches/indonesian/firstWordExc
 import firstWordExceptionsHebrew from "../researches/hebrew/firstWordExceptions.js";
 import firstWordExceptionsArabic from "../researches/arabic/firstWordExceptions.js";
 import firstWordExceptionsHungarian from "../researches/hungarian/firstWordExceptions.js";
+import firstWordExceptionsTurkish from "../researches/turkish/firstWordExceptions.js";
 import getLanguage from "./getLanguage.js";
 
 /**
@@ -37,6 +38,7 @@ export default function( locale ) {
 		he: firstWordExceptionsHebrew,
 		ar: firstWordExceptionsArabic,
 		hu: firstWordExceptionsHungarian,
+		tr: firstWordExceptionsTurkish,
 	};
 
 	// If available, return the language-specific first word exceptions.

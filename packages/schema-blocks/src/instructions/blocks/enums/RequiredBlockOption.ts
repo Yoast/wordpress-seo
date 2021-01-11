@@ -1,5 +1,4 @@
-
 export enum RequiredBlockOption {
-	One = 1,
-	Multiple = 2
+	One = "One",
+	Multiple = "Multiple"
 }

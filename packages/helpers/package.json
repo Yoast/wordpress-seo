@@ -1,6 +1,6 @@
 {
   "name": "@yoast/helpers",
-  "version": "0.14.0",
+  "version": "0.15.0-rc.0",
   "description": "All Yoast helper functions.",
   "main": "src/index.js",
   "repository": {
@@ -23,7 +23,7 @@
     "whatwg-fetch": "1.1.1"
   },
   "peerDependencies": {
-    "react": "^16.2.0"
+    "react": "^16.12.0"
   },
   "jest": {
     "testURL": "http://localhost",
@@ -37,7 +37,6 @@
     "@yoast/browserslist-config": "^1.2.2",
     "browserslist": "^4.7.3",
     "jest-styled-components": "^5.0.1",
-    "react": "^16.12.0",
     "react-test-renderer": "^16.8.6",
     "wicked-good-xpath": "^1.3.0"
   },
