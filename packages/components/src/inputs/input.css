@@ -46,17 +46,17 @@
 	background: var(--yoast-color-inactive-grey-light);
 }
 
-.yoast .duration-inputs-wrapper {
+.yoast .duration-inputs__wrapper {
 	display: flex;
 	flex-direction: row;
 }
 
-.yoast .duration-input-label-pair {
+.yoast .duration-inputs__input-wrapper {
 	display: flex;
 	flex-direction: column;
 }
 
-.yoast .duration-input {
+.yoast .duration-inputs__input {
 	width: 4em;
 	margin: 0 8px 0 0;
 }

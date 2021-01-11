@@ -38,29 +38,29 @@ const DurationInput = ( props ) => {
 
 	return (
 		<FieldGroup { ...fieldGroupProps }>
-			<div className="duration-inputs-wrapper">
-				<div className="duration-input-label-pair">
+			<div className="duration-inputs__wrapper">
+				<div className="duration-inputs__input-wrapper">
 					<label htmlFor="duration-input-hours">{ __( "hours", "yoast-components" ) }</label>
 					<input
 						id={ id + "-hours" }
 						name={ "hours" }
 						value={ props.hours }
 						type={ "number" }
-						className="yoast-field-group__inputfield duration-input"
+						className="yoast-field-group__inputfield duration-inputs__input"
 						aria-describedby={ props.hoursAriaDescribedBy }
 						readOnly={ props.readOnly }
 						min={ 0 }
 						onChange={ onChangeHandler }
 					/>
 				</div>
-				<div className="duration-input-label-pair">
+				<div className="duration-inputs__input-wrapper">
 					<label htmlFor="duration-input-minutes">{ __( "minutes", "yoast-components" ) }</label>
 					<input
 						id={ id + "-minutes" }
 						name={ "minutes" }
 						value={ props.minutes }
 						type={ "number" }
-						className="yoast-field-group__inputfield duration-input"
+						className="yoast-field-group__inputfield duration-inputs__input"
 						aria-describedby={ props.minutesAriaDescribedBy }
 						readOnly={ props.readOnly }
 						min={ 0 }
@@ -68,14 +68,14 @@ const DurationInput = ( props ) => {
 						onChange={ onChangeHandler }
 					/>
 				</div>
-				<div className="duration-input-label-pair">
+				<div className="duration-inputs__input-wrapper">
 					<label htmlFor="duration-input-seconds">{ __( "seconds", "yoast-components" ) }</label>
 					<input
 						id={ id + "-seconds" }
 						name={ "seconds" }
 						value={ props.seconds }
 						type={ "number" }
-						className="yoast-field-group__inputfield duration-input"
+						className="yoast-field-group__inputfield duration-inputs__input"
 						aria-describedby={ props.secondsAriaDescribedBy }
 						readOnly={ props.readOnly }
 						min={ 0 }
