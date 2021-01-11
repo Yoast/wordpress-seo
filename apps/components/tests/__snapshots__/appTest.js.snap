@@ -222,6 +222,13 @@ exports[`App renders without problems 1`] = `
         <button
           className="yoast-button yoast-button--primary"
           onClick={[Function]}
+          type="button"
+        >
+          Test usestate: 0
+        </button>
+        <button
+          className="yoast-button yoast-button--primary"
+          onClick={[Function]}
           title="Testing whether other props are also passed, like this tooltip"
           type="button"
         >
