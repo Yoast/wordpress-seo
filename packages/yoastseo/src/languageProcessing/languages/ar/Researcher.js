@@ -23,6 +23,7 @@ export default class Researcher extends AbstractResearcher {
 	constructor( paper ) {
 		super( paper );
 
+		delete this.defaultResearches.getFleschReadingScore;
 		delete this.defaultResearches.stopWordsInUrl;
 		delete this.defaultResearches.stopWordsInKeyword;
 
