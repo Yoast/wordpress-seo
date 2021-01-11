@@ -4,6 +4,7 @@
         "noImplicitAny": true,
         "target": "es5",
         "jsx": "react",
+        "jsxFactory": "createElement",
         "allowJs": true,
         "lib": [
             "DOM",

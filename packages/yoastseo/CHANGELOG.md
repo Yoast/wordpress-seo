@@ -3,6 +3,11 @@
 All notable changes to this project will be documented in this file. Releases without a changelog entry contain only minor changes that are irrelevant for users of this library.
 We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwards.
 
+## 1.88.0 January 12th, 2021
+### Enhancements
+* Adds function words for Norwegian.
+* Adds Norwegian stemmer.
+
 ## 1.87.0 December 14th, 2020
 ### Enhancements
 * Implements the Hungarian passive voice.

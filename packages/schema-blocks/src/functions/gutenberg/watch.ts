@@ -38,7 +38,7 @@ function renderSchema( block: BlockInstance, definition: SchemaDefinition ) {
 	const schema = definition.render( block );
 
 	// eslint-disable-next-line no-console
-	console.log( "Generated shema for block: ", block, schema );
+	console.log( "Generated schema for block: ", block, schema );
 
 	if ( isEqual( schema, block.attributes[ "yoast-schema" ] ) ) {
 		return;
@@ -89,10 +89,16 @@ export default function watch() {
 		}
 
 		const rootBlocks = select( "core/block-editor" ).getBlocks();
-
 		if ( rootBlocks === previousRootBlocks ) {
 			return;
 		}
+
+		// Const validations = {};
+		// For ( const block of rootBlocks ) {
+		// 	Const def = getBlockDefinition( block.name ); // not all blocks are ours, some have innerblocks that may contain our blocks
+		// 	Const result = def.valid( block );
+		// 	Validations[ block.clientId ] = result; // => to store
+		// }
 
 		updatingSchema = true;
 		generateSchemaForBlocks( rootBlocks, previousRootBlocks );
