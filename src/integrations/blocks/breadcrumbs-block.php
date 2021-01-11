@@ -58,10 +58,10 @@ class Breadcrumbs_Block extends Dynamic_Block {
 	/**
 	 * Siblings_Block constructor.
 	 *
-	 * @param Meta_Tags_Context_Memoizer $context_memoizer
-	 * @param WPSEO_Replace_Vars $replace_vars
-	 * @param Helpers_Surface $helpers
-	 * @param Indexable_Repository $indexable_repository
+	 * @param Meta_Tags_Context_Memoizer $context_memoizer     The context.
+	 * @param WPSEO_Replace_Vars         $replace_vars         The replace variable helper.
+	 * @param Helpers_Surface            $helpers              The Helpers surface.
+	 * @param Indexable_Repository       $indexable_repository The indexable repository.
 	 */
 	public function __construct(
 		Meta_Tags_Context_Memoizer $context_memoizer,
@@ -69,9 +69,9 @@ class Breadcrumbs_Block extends Dynamic_Block {
 		Helpers_Surface $helpers,
 		Indexable_Repository $indexable_repository
 	) {
-		$this->context_memoizer = $context_memoizer;
-		$this->replace_vars = $replace_vars;
-		$this->helpers = $helpers;
+		$this->context_memoizer     = $context_memoizer;
+		$this->replace_vars         = $replace_vars;
+		$this->helpers              = $helpers;
 		$this->indexable_repository = $indexable_repository;
 	}
 
@@ -84,21 +84,25 @@ class Breadcrumbs_Block extends Dynamic_Block {
 	 */
 	public function present( $attributes ) {
 		$presenter = new Breadcrumbs_Presenter();
-		if ( defined( 'REST_REQUEST') && REST_REQUEST == true ) {
-			$indexable = $this->indexable_repository->find_by_id_and_type( $_GET['post_id'], 'post' );
-			$context = $this->context_memoizer->get( $indexable, 'Post_Type' );
-		} else {
-			$context   = $this->context_memoizer->for_current_page();
+		if ( defined( 'REST_REQUEST' ) && REST_REQUEST === true ) {
+			$indexable = $this->indexable_repository->find_by_id_and_type( filter_input( INPUT_GET, 'post_id' ), 'post' );
+			$context   = $this->context_memoizer->get( $indexable, 'Post_Type' );
 		}
+		else {
+			$context = $this->context_memoizer->for_current_page();
+		}
+
 		/** This filter is documented in src/integrations/front-end-integration.php */
 		$presentation            = \apply_filters( 'wpseo_frontend_presentation', $context->presentation, $context );
 		$presenter->presentation = $presentation;
 		$presenter->replace_vars = $this->replace_vars;
 		$presenter->helpers      = $this->helpers;
-		$class_name = 'yoast-breadcrumbs';
+		$class_name              = 'yoast-breadcrumbs';
+
 		if ( ! empty( $attributes['className'] ) ) {
 			$class_name .= ' ' . \esc_attr( $attributes['className'] );
 		}
+
 		return '<div class="' . $class_name . '">' . $presenter->present() . '</div>';
 	}
 }
