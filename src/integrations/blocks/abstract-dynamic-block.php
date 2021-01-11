@@ -30,7 +30,7 @@ abstract class Dynamic_Block implements Integration_Interface {
 	 * @inheritDoc
 	 */
 	public function register_hooks() {
-		\add_action( 'init', [ $this, 'register_block' ] );
+		\add_action( 'init', [ $this, 'register_block' ], 11 );
 	}
 
 	/**
