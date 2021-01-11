@@ -10,16 +10,14 @@ const vowelRegex = /([aeiouy])/g;
  * Checks if the input word has one of the standard verb prefixes and if so returns a prefix and a de-prefixed verb to be
  * further used to compare with the list of irregular verbs.
  *
- * @param {string} word The word for which to determine if it has one of the standard verb prefixes.
- * @param {Object} verbPrefixes The collection of verb prefixes to be used for normalization
+ * @param {string} word             The word for which to determine if it has one of the standard verb prefixes.
+ * @param {Object} verbPrefixes     The collection of verb prefixes to be used for normalization
  *
  * @returns {Array} Array of word forms from the exception list.
  */
 const normalizePrefixed = function( word, verbPrefixes ) {
 	for ( const property in verbPrefixes ) {
-		if ( verbPrefixes.hasOwnProperty( property ) ) {
-			verbPrefixes[ property ] = new RegExp( verbPrefixes[ property ], "i" );
-		}
+		verbPrefixes[ property ] = new RegExp( verbPrefixes[ property ], "i" );
 	}
 
 	if ( verbPrefixes.sevenLetterHyphenPrefixes.test( word ) === true ) {
@@ -104,9 +102,9 @@ const normalizePrefixed = function( word, verbPrefixes ) {
  * Checks if the input word occurs in the list of exception verbs and if so returns all its irregular forms.
  * If not checks if it is an irregular verb with one of the standard verb prefixes, if so returns all irregular prefixed forms.
  *
- * @param {string} word The word for which to determine its irregular forms.
- * @param {Array} irregularVerbs The array of irregular verbs available for this language.
- * @param {Object} verbPrefixes The collection of verb prefixes to be used for normalization of irregular verbs.
+ * @param {string} word             The word for which to determine its irregular forms.
+ * @param {Array} irregularVerbs    The array of irregular verbs available for this language.
+ * @param {Object} verbPrefixes     The collection of verb prefixes to be used for normalization of irregular verbs.
  *
  * @returns {Array} Array of word forms from the exception list.
  */
