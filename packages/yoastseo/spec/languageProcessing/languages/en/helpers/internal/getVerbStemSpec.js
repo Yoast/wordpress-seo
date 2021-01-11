@@ -188,7 +188,7 @@ describe( "Test for normalizing verb prefix", function() {
 	} );
 } );
 
-describe( "Test irregular verbs", function() {
+describe( "Test for irregular verbs", function() {
 	const irregularVerbs = morphologyData.en.verbs.irregularVerbs;
 	it( "returns an array of word forms from of the irregular verb", function() {
 		expect( checkIrregulars( "bandsaw", irregularVerbs, regexVerb.verbPrefixes ) ).toEqual(

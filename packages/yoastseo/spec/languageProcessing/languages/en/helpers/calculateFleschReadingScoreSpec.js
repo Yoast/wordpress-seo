@@ -6,8 +6,8 @@ const statistics = {
 	averageWordsPerSentence: 20,
 };
 
-describe( "findShortestAndAlphabeticallyFirst", function() {
-	it( "returns the shortest and the alphabetically-first word from an array", function() {
+describe( "test for calculating the English Flesch reading ease score", function() {
+	it( "returns the Flesch reading ease score for English", function() {
 		expect( calculateScore( statistics ) ).toEqual(  17.3 );
 	} );
 } );
