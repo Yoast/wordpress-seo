@@ -1,5 +1,5 @@
 import React, { Fragment } from "react";
-import { ImageSelect } from "@yoast/components/src/image-select";
+import { ImageSelect } from "@yoast/components";
 
 /**
  * @returns {void} Void.
@@ -56,6 +56,7 @@ class ImageSelectWrapper extends React.Component {
 						removeImageButtonId="bla3"
 						onClick={ () => this.setImageUrl( "http://placekitten.com/g/200/300" ) }
 						onRemoveImageClick={ () => this.setImageUrl( "" ) }
+						warnings={ [ "Oepsiepoepsie!" ] }
 					/>
 				</div>
 			</Fragment>
