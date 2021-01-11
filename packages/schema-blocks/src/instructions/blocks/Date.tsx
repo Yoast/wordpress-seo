@@ -1,7 +1,7 @@
 // External imports.
 import { BlockConfiguration } from "@wordpress/blocks";
 import { DatePicker } from "@wordpress/components";
-// @ts-ignore
+// @ts-ignore -- __experimentalGetSettings is defined.
 import { __experimentalGetSettings, dateI18n } from "@wordpress/date";
 
 // Internal imports.
@@ -12,7 +12,7 @@ import { RenderEditProps, RenderSaveProps } from "../../core/blocks/BlockDefinit
 /**
  * Adds a date picker to the schema block.
  */
-class Date extends BlockInstruction {
+export default class Date extends BlockInstruction {
 	options: {
 		name: string;
 	};
@@ -76,6 +76,13 @@ class Date extends BlockInstruction {
 	 * @return The date format.
 	 */
 	static getDateFormat(): string {
+		/**
+		 * The `getSettings` function has been marked as experimental, but
+		 * no alternative (REST-endpoint, setting it on a Redux store)
+		 * seems to be implemented yet.
+		 *
+		 * @see https://github.com/WordPress/gutenberg/pull/7996/files#r224152849
+		 */
 		const settings = __experimentalGetSettings();
 		return settings.formats.date;
 	}
