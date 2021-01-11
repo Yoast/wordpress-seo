@@ -37,10 +37,12 @@ describe( "splits sentences into parts", function() {
 		expect( getSentencePartsSplitOnStopwords( sentence, options1 ).length ).toBe( 2 );
 	} );
 
-	it( "returns empty array if there is no sentence", function() {
-		const sentence = "Omdat.";
-		expect( getSentencePartsSplitOnStopwords( sentence, options1 )[ 0 ].getSentencePartText() ).toBe( "Omdat." );
-		expect( getSentencePartsSplitOnStopwords( sentence, options1 ).length ).toBe( 1 );
+	it( "returns all the stop words as individual sentence part if the sentence contains only stop words", function() {
+		const sentence = "Omdat als hoewel.";
+		expect( getSentencePartsSplitOnStopwords( sentence, options1 )[ 0 ].getSentencePartText() ).toBe( "Omdat" );
+		expect( getSentencePartsSplitOnStopwords( sentence, options1 )[ 1 ].getSentencePartText() ).toBe( "als" );
+		expect( getSentencePartsSplitOnStopwords( sentence, options1 )[ 2 ].getSentencePartText() ).toBe( "hoewel." );
+		expect( getSentencePartsSplitOnStopwords( sentence, options1 ).length ).toBe( 3 );
 	} );
 
 	it( "returns the whole sentence when the auxiliary list is not available", function() {

@@ -39,24 +39,15 @@ const options3 = {
 };
 
 describe( "splits sentences into parts", function() {
-	it( "returns the sentence parts that are passive", function() {
-		const sentence =  "He is banned from the cafe.";
-		expect( getSentenceParts( sentence, options1 )[ 0 ].getSentencePartText() ).toBe( "is banned from the cafe." );
-		expect( getSentenceParts( sentence, options1 ).length ).toBe( 1 );
-	} );
 	it( "filters out sentence parts without auxiliary", function() {
 		const sentence = "The English are always throwing parties.";
 		expect( getSentenceParts( sentence, options1 )[ 0 ].getSentencePartText() ).toBe( "are always" );
+		expect( getSentenceParts( sentence, options1 )[ 0 ].isPassive() ).toBe( false );
 		expect( getSentenceParts( sentence, options1 ).length ).toBe( 1 );
 	} );
 	it( "returns empty array if no auxiliary present in the sentence", function() {
 		const sentence = "A comely lord.";
 		expect( getSentenceParts( sentence, options1 ) ).toEqual( [] );
-	} );
-	it( "doesn't return sentence parts when an auxiliary is followed by a word from the followingAuxiliaryExceptionWords list", function() {
-		// Exception word after auxiliary: le.
-		const sentence = "C'est le film le plus vu.";
-		expect( getSentenceParts( sentence, options1 ).length ).toBe( 0 );
 	} );
 	it( "doesn't return sentence parts when an auxiliary is preceded by a reflexive pronoun", function() {
 		const sentence = "Ils se sont lavés.";
@@ -89,15 +80,19 @@ describe( "splits sentences into parts", function() {
 	} );
 	it( "doesn't return sentence parts when an auxiliary is followed by a word from the followingAuxiliaryExceptionWords list", function() {
 		// Exception word after auxiliary: el.
-		const sentence = "Es el capítulo preferido de varios miembros del equipo de producción.";
+		let sentence = "Es el capítulo preferido de varios miembros del equipo de producción.";
+		expect( getSentenceParts( sentence, options1 ).length ).toBe( 0 );
+		// Exception word after auxiliary: le.
+		sentence = "C'est le film le plus vu.";
 		expect( getSentenceParts( sentence, options1 ).length ).toBe( 0 );
 	} );
-	it( "returns the sentence parts that are passive", function() {
-		const sentence =  "She is wooed.";
-		expect( getSentenceParts( sentence, options2 )[ 0 ].getSentencePartText() ).toBe( "is wooed." );
+	it( "returns sentence parts when there is no directPrecedenceException and followingAuxiliaryExceptionWords lists available", function() {
+		const sentence =  "The cat is vaccinated.";
+		expect( getSentenceParts( sentence, options2 )[ 0 ].getSentencePartText() ).toBe( "is vaccinated." );
 		expect( getSentenceParts( sentence, options2 ).length ).toBe( 1 );
 	} );
-	it( "doesn't return sentence parts when an auxiliary is followed by a word from the followingAuxiliaryExceptionWords list", function() {
+	it( "doesn't return sentence parts when an auxiliary is followed by a word from the followingAuxiliaryExceptionWords list " +
+		"and when the directPrecedenceException list is not available.", function() {
 		// Exception word after auxiliary: le.
 		const sentence = "C'est le film le plus vu.";
 		expect( getSentenceParts( sentence, options3 ).length ).toBe( 0 );
