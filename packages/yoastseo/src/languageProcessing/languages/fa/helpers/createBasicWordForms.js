@@ -1,4 +1,4 @@
-import { searchAndReplaceWithRegex } from "../morphoHelpers/regexHelpers";
+import { searchAndReplaceWithRegex } from "../../../helpers/morphology/regexHelpers";
 /**
  * Creates the basic affixed-forms of a given Farsi word
  *
@@ -69,7 +69,7 @@ const stemWord = function( word ) {
  *
  * @returns {Array}        Prefixed and de-prefixed variations of a word.
  */
-export function createBasicWordForms( word ) {
+export default function createBasicWordForms( word ) {
 	const forms = [];
 
 	/*

@@ -1,4 +1,4 @@
-import { createBasicWordForms } from "../../../src/languageProcessing/languages/fa/morphology/createBasicWordForms";
+import createBasicWordForms from "../../../../../src/languageProcessing/languages/fa/helpers/createBasicWordForms";
 
 const wordsToStem = [
 	// Creates affixed forms based on an input word that starts with a valid prefix.
@@ -30,6 +30,32 @@ const wordsToStem = [
 			"دارمت",
 			"دارمم",
 			"دارمی",
+		],
+	},
+	/*
+	 * Prefix ی "indefinite clitic article"
+	 * Some cars "ماشینهای"
+	 * cars "ماشینها"
+	 */
+	{
+		original: "ماشینهای",
+		forms: [
+			// Affixed forms based on original:
+			"نماشینهای",
+			"ماشینهای‌ای",
+			"ماشینهایمان",
+			"ماشینهایشان",
+			"ماشینهایتان",
+			"ماشینهایش",
+			"ماشینهایت",
+			"ماشینهایم",
+			"ماشینهایی",
+			// De-affixed form:
+			"ماشینها",
+			// Other affixed forms based on de-suffixed form:
+			"نماشینها",
+			"ماشینهایی",
+			"ماشینهای",
 		],
 	},
 	/*
