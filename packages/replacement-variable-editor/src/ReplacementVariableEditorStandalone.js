@@ -502,6 +502,7 @@ class ReplacementVariableEditorStandalone extends React.Component {
 					stripPastedStyles={ true }
 					ariaLabelledBy={ ariaLabelledBy }
 					placeholder={ placeholder }
+					spellCheck={ true }
 				/>
 				<ZIndexOverride>
 					<MentionSuggestions
