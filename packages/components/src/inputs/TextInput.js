@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import FieldGroup, { FieldGroupDefaultProps, FieldGroupProps } from "../field-group/FieldGroup";
 // Import the required CSS.
 import "./input.css";
-import { getId } from "../GenerateId";
 
 // A list defining all the possible inputs for which this component can be used.
 export const inputTypes = [
@@ -45,16 +44,15 @@ const onChangeHandler = onChange => {
  * @returns {React.Component} Component that can be used inside a form.
  */
 const TextInput = ( props ) => {
-	const id = getId( props.id );
-	const fieldGroupProps = {
-		...props,
-		htmlFor: id,
-	};
+	const fieldGroupProps = { ...props };
+	if ( props.id ) {
+		fieldGroupProps.htmlFor = props.id;
+	}
 
 	return (
 		<FieldGroup { ...fieldGroupProps }>
 			<input
-				id={ id }
+				id={ props.id }
 				name={ props.name }
 				value={ props.value }
 				type={ props.type }
