@@ -4,7 +4,6 @@ const verbsWithGeInMiddleRegex = /(ab|an|auf|aus|vor|wieder|zurück)(ge)\S+t($|[
 const verbsWithErVerEntBeZerHerUberInMiddleRegex =
 	/((ab|an|auf|aus|vor|wieder|zurück)(be|ent|er|her|ver|zer|über|ueber)\S+([^s]t|sst))($|[ \n\r\t.,'()"+\-;!?:/»«‹›<>])/ig;
 const verbsEndingWithIertRegex = /\S+iert($|[ \n\r\t.,'()"+\-;!?:/»«‹›<>])/ig;
-const exceptionsRegex = /\S+(apparat|arbeit|dienst|haft|halt|kraft|not|pflicht|schaft|schrift|tät|wert|zeit)($|[ \n\r\t.,'()"+\-;!?:/»«‹›<>])/ig;
 
 /**
  * Checks if the word starts with 'ge'.
@@ -58,17 +57,6 @@ const verbsEndingWithIert = function( word ) {
 };
 
 /**
- * Matches the word against the exceptions regex.
- *
- * @param {string} word The word to match.
- *
- * @returns {Array} A list with matches.
- */
-export function exceptions( word ) {
-	return word.match( exceptionsRegex ) || [];
-}
-
-/**
  * Returns lists of verbs that are relevant for determining passive voice in German.
  *
  * @returns {Object} German lists of words relevant for passive voice.
@@ -80,6 +68,5 @@ export default function() {
 		verbsWithGeInMiddle: verbsWithGeInMiddle,
 		verbsWithErVerEntBeZerHerUberInMiddle: verbsWithErVerEntBeZerHerUberInMiddle,
 		verbsEndingWithIert: verbsEndingWithIert,
-		exceptions: exceptions,
 	};
 }
