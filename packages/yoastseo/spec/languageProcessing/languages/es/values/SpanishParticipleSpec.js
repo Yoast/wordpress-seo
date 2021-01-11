@@ -1,9 +1,12 @@
-import SpanishParticiple from "../../../../src/languages/legacy/researches/spanish/passiveVoice/SpanishParticiple.js";
-import checkException from "../../../../src/languages/legacy/researches/passiveVoice/periphrastic/checkException.js";
+import SpanishParticiple from "../../../../../src/languageProcessing/languages/es/values/SpanishParticiple.js";
+import checkException from "../../../../../src/languageProcessing/helpers/passiveVoice/periphrastic/checkException.js";
+import { cannotDirectlyPrecedePassiveParticiple,
+	cannotBeBetweenPassiveAuxiliaryAndParticiple,
+	 } from "../../../../../src/languageProcessing/languages/es/config/functionWords";
 
 describe( "A test for checking the Spanish participle", function() {
 	it( "checks the properties of the Spanish participle object with a passive", function() {
-		var mockParticiple = new SpanishParticiple( "escrito", "El libro fue escrito por mi amiga.", {
+		const mockParticiple = new SpanishParticiple( "escrito", "El libro fue escrito por mi amiga.", {
 			auxiliaries: [ "fue" ],
 			type: "irregular",
 			language: "es",
@@ -19,8 +22,10 @@ describe( "A test for checking the Spanish participle", function() {
 			type: "irregular",
 			language: "es",
 		} );
-		expect( mockParticiple.directPrecedenceException( mockParticiple._sentencePart, mockParticiple._participle, "es" ) ).toBe( true );
-		expect( mockParticiple.precedenceException( mockParticiple._sentencePart, mockParticiple._participle, "es" ) ).toBe( false );
+		expect( mockParticiple.directPrecedenceException( mockParticiple._sentencePart, mockParticiple._participle,
+			cannotDirectlyPrecedePassiveParticiple ) ).toBe( true );
+		expect( mockParticiple.precedenceException( mockParticiple._sentencePart, mockParticiple._participle,
+			cannotBeBetweenPassiveAuxiliaryAndParticiple ) ).toBe( false );
 		expect( mockParticiple.determinesSentencePartIsPassive() ).toBe( false );
 	} );
 
@@ -31,8 +36,10 @@ describe( "A test for checking the Spanish participle", function() {
 			type: "irregular",
 			language: "es",
 		} );
-		expect( mockParticiple.directPrecedenceException( mockParticiple._sentencePart, mockParticiple._participle, "es" ) ).toBe( false );
-		expect( mockParticiple.precedenceException( mockParticiple._sentencePart, mockParticiple._participle, "es" ) ).toBe( true );
+		expect( mockParticiple.directPrecedenceException( mockParticiple._sentencePart, mockParticiple._participle,
+			cannotDirectlyPrecedePassiveParticiple ) ).toBe( false );
+		expect( mockParticiple.precedenceException( mockParticiple._sentencePart, mockParticiple._participle,
+			cannotBeBetweenPassiveAuxiliaryAndParticiple ) ).toBe( true );
 		expect( mockParticiple.determinesSentencePartIsPassive() ).toBe( false );
 	} );
 
@@ -43,8 +50,10 @@ describe( "A test for checking the Spanish participle", function() {
 			type: "irregular",
 			language: "es",
 		} );
-		expect( mockParticiple.directPrecedenceException( mockParticiple._sentencePart, mockParticiple._participle, "es" ) ).toBe( false );
-		expect( mockParticiple.precedenceException( mockParticiple._sentencePart, mockParticiple._participle, "es" ) ).toBe( true );
+		expect( mockParticiple.directPrecedenceException( mockParticiple._sentencePart, mockParticiple._participle,
+			cannotDirectlyPrecedePassiveParticiple ) ).toBe( false );
+		expect( mockParticiple.precedenceException( mockParticiple._sentencePart, mockParticiple._participle,
+			cannotBeBetweenPassiveAuxiliaryAndParticiple ) ).toBe( true );
 		expect( mockParticiple.determinesSentencePartIsPassive() ).toBe( false );
 	} );
 
