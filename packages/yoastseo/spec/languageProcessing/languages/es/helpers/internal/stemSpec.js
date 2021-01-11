@@ -1,5 +1,5 @@
-import stem from "../../../src/languageProcessing/languages/es/helpers/internal/stem";
-import getMorphologyData from "../../specHelpers/getMorphologyData";
+import stem from "../../../../../../src/languageProcessing/languages/es/helpers/internal/stem";
+import getMorphologyData from "../../../../../specHelpers/getMorphologyData";
 
 const morphologyDataES = getMorphologyData( "es" ).es;
 
@@ -386,6 +386,35 @@ const wordsToStem = [
 	[ "estrello", "estrell" ],
 	// Word with no personal pronoun ending on -no
 	[ "infernos", "infern" ],
+	// Word with -ibles suffix
+	[ "posibles", "posibl" ],
+	// Word with -icación suffix
+	[ "diversificación", "diversif" ],
+	// Word with -logías/logía suffix
+	[ "biotecnología", "biotecnolog" ],
+	[ "biotecnologías", "biotecnolog" ],
+	// Word with -ución suffix
+	[ "sustitución", "sustitu" ],
+	// Word with -encia suffix
+	[ "advertencia", "advertent" ],
+	// Word witn -icidad suffix
+	[ "complicidad", "complic" ],
+	// Word with -ativos suffix
+	[ "decorativos", "decor" ],
+	// Word with -imiento suffix
+	[ "enriquecimiento", "enriquec" ],
+	// Word which contains only vowels
+	[ "aaaa", "aaaa" ],
+	// Word which contains only consonants
+	[ "bbbb", "bbbb" ],
+	// Word with suffix -ita that is preceded by vowel (the word below is made-up)
+	[ "laita", "lait" ],
+	// Word which contains only one letter
+	[ "o", "o" ],
+	// Word with pronoun suffix -se preceded by -ándo
+	[ "lizándose", "liz" ],
+	// Word ending in -e preceded bu -gu (the word below is made-up)
+	[ "persigue", "persegu" ],
 ];
 
 const paradigms = [
