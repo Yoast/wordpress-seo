@@ -90,29 +90,15 @@ exports[`ImageSelect ImageSelects match the snapshot 3`] = `
         Yet another organization
       </b>
     </div>
-    <input
-      aria-describedby=""
-      className="yoast-field-group__inputfield"
+    <button
+      className="yoast-button yoast-button--secondary"
       id=""
-      max={undefined}
-      min={undefined}
-      name=""
-      onChange={[Function]}
-      placeholder={undefined}
-      readOnly={true}
-      step={undefined}
-      type="url"
-      value=""
-    />
+      onClick={[Function]}
+      type="button"
+    >
+      Select image
+    </button>
   </div>
-  <button
-    className="yoast-button yoast-button--secondary"
-    id=""
-    onClick={[Function]}
-    type="button"
-  >
-    Select image
-  </button>
 </div>
 `;
 
@@ -130,36 +116,22 @@ exports[`ImageSelect ImageSelects match the snapshot 4`] = `
         Not another organization
       </b>
     </div>
-    <input
-      aria-describedby=""
-      className="yoast-field-group__inputfield"
+    <button
+      className="yoast-button yoast-button--secondary"
       id=""
-      max={undefined}
-      min={undefined}
-      name=""
-      onChange={[Function]}
-      placeholder={undefined}
-      readOnly={true}
-      step={undefined}
-      type="url"
-      value="http://placekitten.com/300/300"
-    />
+      onClick={[Function]}
+      type="button"
+    >
+      Replace image
+    </button>
+    <button
+      className="yoast-remove"
+      id=""
+      onClick={[Function]}
+      type="button"
+    >
+      Remove image
+    </button>
   </div>
-  <button
-    className="yoast-button yoast-button--secondary"
-    id=""
-    onClick={[Function]}
-    type="button"
-  >
-    Replace image
-  </button>
-  <button
-    className="yoast-remove"
-    id=""
-    onClick={[Function]}
-    type="button"
-  >
-    Remove image
-  </button>
 </div>
 `;
