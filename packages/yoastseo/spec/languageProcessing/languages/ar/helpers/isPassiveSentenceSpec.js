@@ -1,12 +1,13 @@
 import isPassiveSentence from "../../../../../src/languageProcessing/languages/ar/helpers/isPassiveSentence.js";
 
-describe( "detecting Arabic passive voice in sentences", function() {
+describe( "a test for detecting Arabic passive voice in sentences", function() {
 	it( "returns active voice", function() {
 		expect( isPassiveSentence( "كتب الولد الخطاب." ) ).toBe( false );
 	} );
 
-	it( "returns active voice", function() {
-		expect( isPassiveSentence( "هذا الكتاب كتبه مؤلف مشهور." ) ).toBe( false );
+	it( "returns active voice if the sentence contains a word with a damma on the first character but the word is" +
+		" shorter than 3 characters long", function() {
+		expect( isPassiveSentence( " بدلاً من رميها، يمكنك زرع فص الثوم الذي ينبت على عمق حوالي ١ بوصة في وعاء ٤ بوصات وسقيه." ) ).toBe( false );
 	} );
 
 	it( "returns active voice for passive that is identical to its active counterpart without diacritics", function() {
@@ -36,8 +37,5 @@ describe( "detecting Arabic passive voice in sentences", function() {
 	it( "returns passive voice for verb that has a damma on the initial letter and gets prefix و", function() {
 		// Passive: أُبلغت preceded by و
 		expect( isPassiveSentence( " وأُبلغت في اليوم التالي بأن سبب التأجيل هو حالة الحمل." ) ).toBe( true );
-	} );
-	it( "returns active voice", function() {
-		expect( isPassiveSentence( " بدلاً من رميها، يمكنك زرع فص الثوم الذي ينبت على عمق حوالي ١ بوصة في وعاء ٤ بوصات وسقيه." ) ).toBe( false );
 	} );
 } );
