@@ -1,8 +1,8 @@
-import React, { Fragment } from "react";
+import React from "react";
 import ImageSelectButtons from "./ImageSelectButtons";
 import PropTypes from "prop-types";
 import FieldGroup from "../field-group/FieldGroup";
-import TextInput from "../inputs/TextInput";
+import Alert from "../Alert";
 
 /**
  * Renders ImageSelect component.
@@ -29,28 +29,23 @@ function ImageSelect( props ) {
 
 	return (
 		<div className="yoast-image-select">
-			{ props.hasPreview
-				? <FieldGroup
-					label={ props.label }
-					wrapperClassName={ "yoast-field-group__image-select" }
-				>
+			<FieldGroup
+				label={ props.label }
+				wrapperClassName={ "yoast-field-group__image-select" }
+			>
+				{ props.hasPreview &&
 					<button className={ imageClassName } onClick={ props.onClick } type="button">
 						{ imageSelected && <img src={ props.imageUrl } alt={ props.imageAltText } className="yoast-image-select__preview--image" /> }
 					</button>
-					<ImageSelectButtons { ...imageSelectButtonsProps } />
-				</FieldGroup>
-				: <Fragment>
-					<TextInput
-						wrapperClassName={ "yoast-field-group__image-select" }
-						id={ props.inputId }
-						label={ props.label }
-						type="url"
-						value={ props.imageUrl }
-						readOnly={ true }
-					/>
-					<ImageSelectButtons { ...imageSelectButtonsProps } />
-				</Fragment>
-			}
+				}
+				{
+					props.warnings.length > 0 && imageSelected &&
+					props.warnings.map( ( warning, index ) => <Alert key={ `warning${ index }` } type="warning">
+						{ warning }
+					</Alert> )
+				}
+				<ImageSelectButtons { ...imageSelectButtonsProps } />
+			</FieldGroup>
 		</div>
 	);
 }
@@ -67,7 +62,7 @@ ImageSelect.propTypes = {
 	selectImageButtonId: PropTypes.string,
 	replaceImageButtonId: PropTypes.string,
 	removeImageButtonId: PropTypes.string,
-	inputId: PropTypes.string,
+	warnings: PropTypes.arrayOf( PropTypes.string ),
 };
 
 ImageSelect.defaultProps = {
@@ -78,5 +73,5 @@ ImageSelect.defaultProps = {
 	selectImageButtonId: "",
 	replaceImageButtonId: "",
 	removeImageButtonId: "",
-	inputId: "",
+	warnings: [],
 };
