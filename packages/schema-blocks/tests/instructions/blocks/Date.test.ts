@@ -4,8 +4,7 @@ import * as renderer from "react-test-renderer";
 import { __experimentalGetSettings, dateI18n } from "@wordpress/date";
 
 import Date from "../../../src/instructions/blocks/Date";
-import { RenderEditProps } from "../../../src/core/blocks/BlockDefinition";
-import { RenderSaveProps } from "../../../dist/core/blocks/BlockDefinition";
+import { RenderEditProps, RenderSaveProps } from "../../../src/core/blocks/BlockDefinition";
 
 jest.mock( "@wordpress/date", () => ( {
 	__experimentalGetSettings: jest.fn(),
