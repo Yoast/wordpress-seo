@@ -5,7 +5,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
 Tested up to: 5.6
-Stable tag: 15.6
+Stable tag: 15.6.1
 Requires PHP: 5.6.20
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -234,6 +234,7 @@ Your question has most likely been answered on our knowledge base: [kb.yoast.com
 
 == Changelog ==
 
+<<<<<<< HEAD
 = 15.7 =
 Release Date: January 26th, 2021
 
@@ -254,6 +255,18 @@ Bugfixes:
 Other:
 
 * Changes the wording on the `my.yoast.com` connect error shown in Health Check when a Yoast premium plugin is enabled, to lead with what the user's problem is.
+=======
+= 15.6.1 =
+Release Date: January 12th, 2021
+
+Bugfixes:
+
+ * Fixes a bug where the estimated reading time would not be shown when posts that were created before Yoast SEO 15.6 were shared on Slack.
+
+Other:
+
+ * Adjusts the default words per minute for the estimated reading time from 250 words per minute to 200 words per minute.
+>>>>>>> master
 
 = 15.6 =
 Release Date: January 12th, 2021
