@@ -16,9 +16,6 @@ module.exports = {
 		// Compile the yoast-components standalone .scss
 		"yoast-components/css/standalone.scss",
 
-		// Activate HMR for React
-		"react-hot-loader/patch",
-
 		// Bundle the client for webpack-dev-server
 		// And connect to the provided endpoint
 		`webpack-dev-server/client?http://localhost:${PORT}`,
@@ -53,14 +50,12 @@ module.exports = {
 					options: {
 						presets: [
 							[ "es2015",
-								// https://github.com/gaearon/react-hot-loader/tree/master/docs#webpack-2
 								{ modules: false },
 							] ],
 
 						env: {
 							development: {
 								plugins: [
-									"react-hot-loader/babel",
 									"babel-plugin-styled-components",
 								],
 							},

@@ -38,6 +38,12 @@ jest.mock( "@wordpress/data", () => ( {
 	} ) ),
 } ) );
 
+jest.mock( "@wordpress/components", () => {
+	return {
+		PanelBody: jest.fn(),
+	};
+} );
+
 describe( "The warning watcher", () => {
 	it( "adds warnings when required blocks are removed", () => {
 		const previousBlocks = [

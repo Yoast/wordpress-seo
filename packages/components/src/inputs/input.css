@@ -46,6 +46,21 @@
 	background: var(--yoast-color-inactive-grey-light);
 }
 
+.yoast .duration-inputs__wrapper {
+	display: flex;
+	flex-direction: row;
+}
+
+.yoast .duration-inputs__input-wrapper {
+	display: flex;
+	flex-direction: column;
+}
+
+.yoast .duration-inputs__input {
+	width: 4em;
+	margin: 0 8px 0 0;
+}
+
 /* Edge. */
 ::-ms-input-placeholder {
 	color: var(--yoast-color-placeholder);

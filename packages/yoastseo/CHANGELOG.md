@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file. Releases without a changelog entry contain only minor changes that are irrelevant for users of this library.
 We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwards.
 
+## 1.89.0 January 25th, 2021
+### Enhancements
+* Adds Turkish stemmer.
+* Adds function words for Turkish.
+* Adds the consecutive sentences beginnings assessment for Turkish.
+* Adds the sentence length assessment for Turkish.
+* Implements the passive voice assessment for Turkish.
+* Implements the transition words assessment for Turkish.
+
 ## 1.88.0 January 12th, 2021
 ### Enhancements
 * Adds function words for Norwegian.
