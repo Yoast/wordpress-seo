@@ -5,11 +5,12 @@ const passivePrefix = "di";
 /**
  * Checks the passed sentence to see if it contains Indonesian passive verb-forms.
  *
- * @param {string} sentence The sentence to match against.
+ * @param {string} sentence     The sentence to match against.
+ *
  * @returns {Boolean} Whether the sentence contains Indonesian passive voice.
  */
 export default function isPassiveSentence( sentence ) {
-	const words = getWords( sentence );
+	const words = getWords( sentence.toLowerCase() );
 	let matchedPassives = words.filter( word => ( word.length > 4 ) );
 	matchedPassives = matchedPassives.filter( word => ( word.startsWith( passivePrefix ) ) );
 	if ( matchedPassives.length === 0 ) {
