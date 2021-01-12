@@ -31,6 +31,7 @@ const wordpressPackages = [
 	"@wordpress/components",
 	"@wordpress/compose",
 	"@wordpress/data",
+	"@wordpress/date",
 	"@wordpress/dom",
 	"@wordpress/dom-ready",
 	"@wordpress/edit-post",
