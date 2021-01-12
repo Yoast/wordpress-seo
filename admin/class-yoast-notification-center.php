@@ -662,9 +662,9 @@ class Yoast_Notification_Center {
 
 		$filter_input_type = INPUT_GET;
 		// phcps:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Using filter_input on INPUT_SERVER doesn't work with fastcgi
-		$request_method = filter_var( $_SERVER['REQUEST_METHOD'] );
+		$request_method = isset( $_SERVER['REQUEST_METHOD'] ) ? filter_var( $_SERVER['REQUEST_METHOD'] ) : '';
 
-		if ( isset( $_SERVER['REQUEST_METHOD'] ) && strtoupper( wp_unslash( $request_method ) ) === 'POST' ) {
+		if ( strtoupper( wp_unslash( $request_method ) ) === 'POST' ) {
 			$filter_input_type = INPUT_POST;
 		}
 
