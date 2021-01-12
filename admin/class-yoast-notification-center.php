@@ -661,9 +661,9 @@ class Yoast_Notification_Center {
 	private static function get_user_input( $key ) {
 
 		$filter_input_type = INPUT_GET;
-		$request_method    = filter_input( INPUT_SERVER, 'REQUEST_METHOD' );
 
-		if ( isset( $_SERVER['REQUEST_METHOD'] ) && strtoupper( $request_method ) === 'POST' ) {
+		// phcps:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Using filter_input on INPUT_SERVER doesn't work with fastcgi
+		if ( isset( $_SERVER['REQUEST_METHOD'] ) && strtoupper( wp_unslash( $_SERVER['REQUEST_METHOD'] ) ) === 'POST' ) {
 			$filter_input_type = INPUT_POST;
 		}
 
