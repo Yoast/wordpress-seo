@@ -885,10 +885,10 @@
     styled-components "^4.4.1"
     yoastseo "^1.89.0-rc.0"
 
-"@yoast/schema-blocks@^1.2.0-rc.0":
-  version "1.2.0-rc.0"
-  resolved "https://registry.yarnpkg.com/@yoast/schema-blocks/-/schema-blocks-1.2.0-rc.0.tgz#3569de291a4849e881c0a9be697a853e029ff777"
-  integrity sha512-O01cjsvPPE4VL+D52RdlfXCFgDIUs5Cxa1CME4upcEskZTvRbpZsWF97JpauOj5A08semSjOZQrKkNMJuCBlkg==
+"@yoast/schema-blocks@^1.2.0-rc.1":
+  version "1.2.0-rc.1"
+  resolved "https://registry.yarnpkg.com/@yoast/schema-blocks/-/schema-blocks-1.2.0-rc.1.tgz#07b0012aa3d88a231abd3c3865f43bb559edb3b2"
+  integrity sha512-jvhymPwGUTnXya3mbTUmCI4tWqGxAOPMw+J6jQ9cD1+t9rzIRETMkhGay/uFzFsZmErYntRSnQugf3G/hNJR3w==
   dependencies:
     tokenizr "^1.5.2"
 
