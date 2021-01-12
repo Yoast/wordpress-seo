@@ -234,7 +234,6 @@ Your question has most likely been answered on our knowledge base: [kb.yoast.com
 
 == Changelog ==
 
-<<<<<<< HEAD
 = 15.7 =
 Release Date: January 26th, 2021
 
@@ -255,7 +254,7 @@ Bugfixes:
 Other:
 
 * Changes the wording on the `my.yoast.com` connect error shown in Health Check when a Yoast premium plugin is enabled, to lead with what the user's problem is.
-=======
+
 = 15.6.1 =
 Release Date: January 12th, 2021
 
@@ -266,7 +265,7 @@ Bugfixes:
 Other:
 
  * Adjusts the default words per minute for the estimated reading time from 250 words per minute to 200 words per minute.
->>>>>>> master
+
 
 = 15.6 =
 Release Date: January 12th, 2021
