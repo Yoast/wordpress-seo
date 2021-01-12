@@ -234,6 +234,13 @@ Your question has most likely been answered on our knowledge base: [kb.yoast.com
 
 == Changelog ==
 
+= 15.6.2 =
+Release Date: January 12th, 2021
+
+Bugfixes:
+
+ * Fixes a bug where notifications in the notification center would not be dismissible on sites using FastCGI.
+
 = 15.6.1 =
 Release Date: January 12th, 2021
 

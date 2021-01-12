@@ -661,9 +661,9 @@ class Yoast_Notification_Center {
 	private static function get_user_input( $key ) {
 
 		$filter_input_type = INPUT_GET;
-		$request_method    = filter_input( INPUT_SERVER, 'REQUEST_METHOD' );
+		$request_method    = isset( $_SERVER['REQUEST_METHOD'] ) ? filter_var( wp_unslash( $_SERVER['REQUEST_METHOD'] ) ) : '';
 
-		if ( isset( $_SERVER['REQUEST_METHOD'] ) && strtoupper( $request_method ) === 'POST' ) {
+		if ( strtoupper( $request_method ) === 'POST' ) {
 			$filter_input_type = INPUT_POST;
 		}
 
