@@ -5,7 +5,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
 Tested up to: 5.6
-Stable tag: 15.6
+Stable tag: 15.6.1
 Requires PHP: 5.6.20
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -260,11 +260,11 @@ Release Date: January 12th, 2021
 
 Bugfixes:
 
- * Fixes a bug where the Enhanced Slack sharing integration did not show Estimated Reading Time for posts that were not recently created or updated.
+ * Fixes a bug where the estimated reading time would not be shown when posts that were created before Yoast SEO 15.6 were shared on Slack.
 
 Other:
 
- * Adjusted the default words per minute for the estimated reading time from 250 words per minute, to 200 words per minute.
+ * Adjusts the default words per minute for the estimated reading time from 250 words per minute to 200 words per minute.
 
 = 15.6 =
 Release Date: January 12th, 2021
