@@ -31,7 +31,7 @@ class WPSEO_Tracking_Server_Data implements WPSEO_Collection {
 
 		// Validate if the server address is a valid IP-address.
 		// phcps:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Using filter_input on INPUT_SERVER doesn't work with fastcgi
-		$ipaddress = $_SERVER['SERVER_ADDR'];
+		$ipaddress = filter_var( $_SERVER['SERVER_ADDR'], FILTER_VALIDATE_IP );
 		if ( $ipaddress ) {
 			$server_data['ip']       = $ipaddress;
 			$server_data['Hostname'] = gethostbyaddr( $ipaddress );
