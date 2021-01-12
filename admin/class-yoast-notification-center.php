@@ -361,7 +361,7 @@ class Yoast_Notification_Center {
 	public function display_notifications( $echo_as_json = false ) {
 
 		// Never display notifications for network admin.
-		if ( function_exists( 'is_network_admin' ) && is_network_admin() ) {
+		if ( is_network_admin() ) {
 			return;
 		}
 
@@ -661,8 +661,9 @@ class Yoast_Notification_Center {
 	private static function get_user_input( $key ) {
 
 		$filter_input_type = INPUT_GET;
+		$request_method    = filter_input( INPUT_SERVER, 'REQUEST_METHOD' );
 
-		if ( isset( $_SERVER['REQUEST_METHOD'] ) && strtoupper( wp_unslash( $_SERVER['REQUEST_METHOD'] ) ) === 'POST' ) {
+		if ( isset( $_SERVER['REQUEST_METHOD'] ) && strtoupper( $request_method ) === 'POST' ) {
 			$filter_input_type = INPUT_POST;
 		}
 

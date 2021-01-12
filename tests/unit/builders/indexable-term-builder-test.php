@@ -7,6 +7,8 @@ use Mockery;
 use Yoast\WP\Lib\ORM;
 use Yoast\WP\SEO\Builders\Indexable_Link_Builder;
 use Yoast\WP\SEO\Builders\Indexable_Term_Builder;
+use Yoast\WP\SEO\Exceptions\Indexable\Invalid_Term_Exception;
+use Yoast\WP\SEO\Exceptions\Indexable\Term_Not_Found_Exception;
 use Yoast\WP\SEO\Helpers\Image_Helper;
 use Yoast\WP\SEO\Helpers\Open_Graph\Image_Helper as OG_Image_Helper;
 use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
@@ -73,6 +75,8 @@ class Indexable_Term_Builder_Test extends TestCase {
 	 */
 	protected function set_up() {
 		parent::set_up();
+
+		$this->stubTranslationFunctions();
 
 		$this->taxonomy = Mockery::mock( Taxonomy_Helper::class );
 
@@ -295,7 +299,7 @@ class Indexable_Term_Builder_Test extends TestCase {
 	}
 
 	/**
-	 * Tests that build returns false when no term was returned.
+	 * Tests that build throws an exception when no term was returned.
 	 *
 	 * @covers ::build
 	 */
@@ -305,25 +309,30 @@ class Indexable_Term_Builder_Test extends TestCase {
 			->with( 1 )
 			->andReturn( null );
 
-		$builder = new Indexable_Term_Builder( Mockery::mock( Taxonomy_Helper::class ), Mockery::mock( Indexable_Link_Builder::class ) );
+		$this->expectException( Term_Not_Found_Exception::class );
 
-		$this->assertFalse( $builder->build( 1, false ) );
+		$this->instance->build( 1, false );
 	}
 
 	/**
-	 * Tests that build returns false when the term is a WP error.
+	 * Tests that build throws an exception when the term is a WP error.
 	 *
 	 * @covers ::build
 	 */
 	public function test_build_term_error() {
+		$error = Mockery::mock( '\WP_Error' );
+		$error
+			->expects( 'get_error_message' )
+			->andReturn( 'An error message' );
+
 		Monkey\Functions\expect( 'get_term' )
 			->once()
 			->with( 1 )
-			->andReturn( Mockery::mock( '\WP_Error' ) );
+			->andReturn( $error );
 
-		$builder = new Indexable_Term_Builder( Mockery::mock( Taxonomy_Helper::class ), Mockery::mock( Indexable_Link_Builder::class ) );
+		$this->expectException( Invalid_Term_Exception::class );
 
-		$this->assertFalse( $builder->build( 1, false ) );
+		$this->instance->build( 1, false );
 	}
 
 	/**
@@ -334,6 +343,11 @@ class Indexable_Term_Builder_Test extends TestCase {
 	public function test_build_term_link_error() {
 		$term = (object) [ 'taxonomy' => 'tax' ];
 
+		$error = Mockery::mock( '\WP_Error' );
+		$error
+			->expects( 'get_error_message' )
+			->andReturn( 'An error message' );
+
 		Monkey\Functions\expect( 'get_term' )
 			->once()
 			->with( 1 )
@@ -341,9 +355,10 @@ class Indexable_Term_Builder_Test extends TestCase {
 		Monkey\Functions\expect( 'get_term_link' )
 			->once()
 			->with( $term, 'tax' )
-			->andReturn( Mockery::mock( '\WP_Error' ) );
+			->andReturn( $error );
 
-		$builder = new Indexable_Term_Builder( Mockery::mock( Taxonomy_Helper::class ), Mockery::mock( Indexable_Link_Builder::class ) );
+		$this->expectException( Invalid_Term_Exception::class );
+
 		$this->assertFalse( $this->instance->build( 1, false ) );
 	}
 

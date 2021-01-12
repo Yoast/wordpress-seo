@@ -18,7 +18,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group db-migrations
  *
  * @coversDefaultClass \Yoast\WP\SEO\Initializers\Migration_Runner
- * @covers ::<!public>
+ * @covers \Yoast\WP\SEO\Initializers\Migration_Runner
  */
 class Migration_Runner_Test extends TestCase {
 

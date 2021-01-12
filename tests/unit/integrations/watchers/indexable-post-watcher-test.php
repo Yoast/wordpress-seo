@@ -244,6 +244,7 @@ class Indexable_Post_Watcher_Test extends TestCase {
 	 * Tests the early return for non-indexable post.
 	 *
 	 * @covers ::build_indexable
+	 * @covers ::is_post_indexable
 	 */
 	public function test_build_indexable_is_post_revision() {
 		$id = 1;
@@ -257,6 +258,7 @@ class Indexable_Post_Watcher_Test extends TestCase {
 	 * Tests the early return for non-indexable post.
 	 *
 	 * @covers ::build_indexable
+	 * @covers ::is_post_indexable
 	 */
 	public function test_build_indexable_is_post_autosave() {
 		$id = 1;
@@ -295,7 +297,7 @@ class Indexable_Post_Watcher_Test extends TestCase {
 	 * @covers ::build_indexable
 	 */
 	public function test_build_indexable_with_thrown_exception() {
-		$id = 1;
+		$post_id = 1;
 
 		$this->instance
 			->expects( 'is_multisite_and_switched' )
@@ -304,7 +306,7 @@ class Indexable_Post_Watcher_Test extends TestCase {
 
 		$this->instance
 			->expects( 'is_post_indexable' )
-			->with( 1 )
+			->with( $post_id )
 			->once()
 			->andReturnTrue();
 
@@ -313,12 +315,12 @@ class Indexable_Post_Watcher_Test extends TestCase {
 
 		$this->repository->expects( 'find_by_id_and_type' )
 			->once()
-			->with( $id, 'post', false )
+			->with( $post_id, 'post', false )
 			->andThrow( new Exception( 'an error' ) );
 
 		$this->logger->expects( 'log' )->once()->with( 'error', 'an error' );
 
-		$this->instance->build_indexable( $id );
+		$this->instance->build_indexable( $post_id );
 	}
 
 	/**

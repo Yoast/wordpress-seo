@@ -6,7 +6,7 @@ import { get } from "lodash";
  * @returns {string} The primary_category.
  */
 function getReplacement() {
-	return get( window, "YoastSEO.app.rawData.primaryCategory", "" );
+	return get( window, "wpseoScriptData.analysis.plugins.replaceVars.replace_vars.primary_category", "" );
 }
 
 /**

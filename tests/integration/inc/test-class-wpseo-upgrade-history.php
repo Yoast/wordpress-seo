@@ -45,7 +45,7 @@ class WPSEO_Upgrade_History_Test extends WPSEO_UnitTestCase {
 	public function test_construct_with_default_option_name() {
 		$instance = new WPSEO_Upgrade_History();
 
-		$this->assertAttributeEquals( 'wpseo_upgrade_history', 'option_name', $instance );
+		$this->assertEquals( 'wpseo_upgrade_history', $this->getPropertyValue( $instance, 'option_name' ) );
 	}
 
 	/**
@@ -56,7 +56,7 @@ class WPSEO_Upgrade_History_Test extends WPSEO_UnitTestCase {
 	public function test_construct_with_given_option_name() {
 		$instance = new WPSEO_Upgrade_History( 'my_option_name' );
 
-		$this->assertAttributeEquals( 'my_option_name', 'option_name', $instance );
+		$this->assertEquals( 'my_option_name', $this->getPropertyValue( $instance, 'option_name' ) );
 	}
 
 	/**
@@ -68,7 +68,7 @@ class WPSEO_Upgrade_History_Test extends WPSEO_UnitTestCase {
 		$upgrade_history = $this->get_instance();
 		$history         = $upgrade_history->get();
 
-		$this->assertInternalType( 'array', $history );
+		$this->assertIsArray( $history );
 		$this->assertEmpty( $history );
 	}
 
@@ -111,7 +111,7 @@ class WPSEO_Upgrade_History_Test extends WPSEO_UnitTestCase {
 		$history = $upgrade_history->get();
 		$entry   = current( $history );
 
-		$this->assertInternalType( 'array', $entry, 'There should be an entry added.' );
+		$this->assertIsArray( $entry, 'There should be an entry added.' );
 		$this->assertArrayHasKey( 'options', $entry );
 		$this->assertEmpty( $entry['options'], 'There should be no options.' );
 		$this->assertEquals( '1.0.0', $entry['old_version'] );
@@ -130,7 +130,7 @@ class WPSEO_Upgrade_History_Test extends WPSEO_UnitTestCase {
 		$history = $upgrade_history->get();
 		$entry   = current( $history );
 
-		$this->assertInternalType( 'array', $entry, 'There should be an entry added.' );
+		$this->assertIsArray( $entry, 'There should be an entry added.' );
 		$this->assertArrayHasKey( 'options', $entry );
 		$this->assertEmpty( $entry['options'], 'The non-existing option should not be returned.' );
 		$this->assertEquals( '1.0.0', $entry['old_version'] );

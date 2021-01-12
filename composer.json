@@ -39,7 +39,7 @@
 		"symfony/config": "^3.4",
 		"php-parallel-lint/php-parallel-lint": "^1.2.0",
 		"php-parallel-lint/php-console-highlighter": "^0.5",
-		"yoast/wp-test-utils": "^0.1.1"
+		"yoast/wp-test-utils": "^0.2.1"
 	},
 	"minimum-stability": "dev",
 	"prefer-stable": true,
@@ -81,8 +81,8 @@
 			"Yoast\\WP\\SEO\\Composer\\Actions::check_coding_standards"
 		],
 		"check-cs-thresholds": [
-			"@putenv YOASTCS_THRESHOLD_ERRORS=460",
-			"@putenv YOASTCS_THRESHOLD_WARNINGS=228",
+			"@putenv YOASTCS_THRESHOLD_ERRORS=431",
+			"@putenv YOASTCS_THRESHOLD_WARNINGS=227",
 			"Yoast\\WP\\SEO\\Composer\\Actions::check_cs_thresholds"
 		],
 		"check-cs-summary": [

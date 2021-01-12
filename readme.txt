@@ -234,6 +234,33 @@ Your question has most likely been answered on our knowledge base: [kb.yoast.com
 
 == Changelog ==
 
+= 15.6 =
+Release Date: January 12th, 2021
+
+Say hi to Yoast SEO 15.6! In the latest version of Yoast SEO, you’ll find a number of bug fixes and performance enhancements. Happy updating! Read more about what’s new in Yoast SEO 15.6 in [our release post](https://yoa.st/release-15-6)!
+
+Enhancements:
+
+ * Improves keyphrase recognition in Norwegian by filtering out function words such as 'tredje', 'deres' and 'noen'.
+ * Improves the performance of the taxonomy sitemap generation. Props to [mikeyarce](https://github.com/mikeyarce).
+ * Adds the Tag, Category and Primary Category snippet variables in the Google preview of our Elementor integration.
+ * Adds advanced snippet variables to the Google preview of our Elementor integration.
+ * Ensures that there's always a meta description for Web Stories. Props to [swissspidy](https://github.com/swissspidy).
+ * Extends the plugin conflict list.
+
+Bugfixes:
+
+ * Fixes a bug where the non-indexable custom post types `elementor_library` and `oembed_cache` would be saved to the indexable table.
+ * Fixes a bug where the SEMrush modal would trigger errors and wouldn't display a chart when all the Trend values were zero.
+ * Fixes a bug where very large WordPress installations would experience time-outs because the database would be overloaded with duplicate indexable IDs.
+ * Fixes a bug where the social preview placeholders and info text would not be translatable.
+
+Other:
+
+ * Deprecates the `WPSEO_Validator` class because it was not used anymore. Props to [rafaelbernard](https://github.com/rafaelbernard).
+ * Fixes the URL to the Travis badge on our open source GitHub repository. Props to [rodrigoprime](https://github.com/rodrigoprimo).
+ * Makes the integration with Web Stories for WordPress more robust. Props to [swissspidy](https://github.com/swissspidy).
+
 = 15.5 =
 Release Date: December 15th, 2020
 
@@ -261,30 +288,6 @@ Other:
 
 * Removes support for the Facebook App ID, as Facebook has indicated this feature is deprecated on their side.
 * Adds a notification that tells the user to install and activate the Yoast SEO Multilingual plugin when the WPML plugin is installed and activated.
-
-= 15.4 =
-Release Date: December 2nd, 2020
-
-It’s here: Yoast SEO 15.4! In this release, you’ll find a seamless, easy-to-use integration of Yoast SEO with Elementor. Building websites and optimizing content for the search engines now in one workflow! Read more about what’s new in Yoast SEO 15.4 in [our release post](https://yoa.st/release-15-4)!
-
-Enhancements:
-
-* Introduces a seamless integration of Yoast SEO content analysis into the Elementor editor.
-* Makes it possible to recognize forms of keyphrases in Arabic when they are preceded by certain multi-letter prefixes, e.g. والقبعة ,فسحرية, or وبالمفتاح.
-
-Bugfixes:
-
-* Fixes a bug where `post-sitemap.xml` would cause a fatal error when the filter `post_link` required a `WP_Post` object. Props to [stodorovic](https://github.com/stodorovic).
-* Fixes a bug where the core `default_hidden_columns` filter would be broken. Props to [thomasmb](https://github.com/thomasmb).
-* Fixes a bug where memory could be exhausted on the page overview for users with a large number of pages.
-* Fixes a bug where an `ArgumentCountError` would be thrown on the Search Appearance settings page when using PHP 8.0.
-* Fixes a bug where disabling the tracking network-wide in a multisite environment did not automatically disable tracking on the sites in the network.
-* Fixes a bug where tracking would send partial data.
-
-Other:
-
-* Provides `YoastSEO->helpers->options->get_title_separator()` as an alternative for the previously removed `get_title_separator` method.
-* Adds a `wpseo_previously_used_keyword_active` filter to deactivate the Previously Used Keyword analysis assessment.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).

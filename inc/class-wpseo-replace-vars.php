@@ -212,6 +212,26 @@ class WPSEO_Replace_Vars {
 	}
 
 	/**
+	 * Register a new replacement variable if it has not been registered already.
+	 *
+	 * @param string $var              The name of the variable to replace, i.e. '%%var%%'.
+	 *                                 Note: the surrounding %% are optional.
+	 * @param mixed  $replace_function Function or method to call to retrieve the replacement value for the variable.
+	 *                                 Uses the same format as add_filter/add_action function parameter and
+	 *                                 should *return* the replacement value. DON'T echo it.
+	 * @param string $type             Type of variable: 'basic' or 'advanced', defaults to 'advanced'.
+	 * @param string $help_text        Help text to be added to the help tab for this variable.
+	 *
+	 * @return bool `true` if the replace var has been registered, `false` if not.
+	 */
+	public function safe_register_replacement( $var, $replace_function, $type = 'advanced', $help_text = '' ) {
+		if ( ! $this->has_been_registered( $var ) ) {
+			return self::register_replacement( $var, $replace_function, $type, $help_text );
+		}
+		return false;
+	}
+
+	/**
 	 * Checks whether the given replacement variable has already been registered or not.
 	 *
 	 * @param string $replacement_variable The replacement variable to check, including the variable delimiter (e.g. `%%var%%`).

@@ -76,6 +76,7 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 	 * @covers ::__construct
 	 * @covers ::get_total_unindexed
 	 * @covers ::get_query
+	 * @covers ::get_post_types
 	 */
 	public function test_get_total_unindexed() {
 		$limit_placeholder = '';
@@ -93,12 +94,15 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 
 		Functions\expect( 'get_transient' )->once()->with( 'wpseo_total_unindexed_posts' )->andReturnFalse();
 		Functions\expect( 'set_transient' )->once()->with( 'wpseo_total_unindexed_posts', '10', \DAY_IN_SECONDS )->andReturnTrue();
-		$this->post_type_helper->expects( 'get_public_post_types' )->once()->andReturn( [ 'public_post_type' ] );
+
 		$this->wpdb->expects( 'prepare' )
 			->once()
 			->with( $expected_query, [ 'public_post_type' ] )
 			->andReturn( 'query' );
 		$this->wpdb->expects( 'get_var' )->once()->with( 'query' )->andReturn( '10' );
+
+		$this->post_type_helper->expects( 'get_public_post_types' )->once()->andReturn( [ 'public_post_type' ] );
+		$this->post_type_helper->expects( 'get_excluded_post_types_for_indexables' )->once()->andReturn( [] );
 
 		$this->assertEquals( 10, $this->instance->get_total_unindexed() );
 	}
@@ -109,6 +113,7 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 	 * @covers ::__construct
 	 * @covers ::get_total_unindexed
 	 * @covers ::get_query
+	 * @covers ::get_post_types
 	 */
 	public function test_get_total_unindexed_cached() {
 		Functions\expect( 'get_transient' )->once()->with( 'wpseo_total_unindexed_posts' )->andReturn( '10' );
@@ -126,10 +131,54 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 		Functions\expect( 'get_transient' )->once()->with( 'wpseo_total_unindexed_posts' )->andReturnFalse();
 
 		$this->post_type_helper->expects( 'get_public_post_types' )->once()->andReturn( [ 'public_post_type' ] );
+		$this->post_type_helper->expects( 'get_excluded_post_types_for_indexables' )->once()->andReturn( [] );
+
 		$this->wpdb->expects( 'prepare' )->once()->andReturn( 'query' );
 		$this->wpdb->expects( 'get_var' )->once()->with( 'query' )->andReturn( null );
 
 		$this->assertFalse( $this->instance->get_total_unindexed() );
+	}
+
+	/**
+	 * Tests that getting the total amount of unindexed posts correctly filters
+	 * out any posts from excluded post types.
+	 *
+	 * @covers ::__construct
+	 * @covers ::get_total_unindexed
+	 * @covers ::get_query
+	 * @covers ::get_post_types
+	 */
+	public function test_get_total_unindexed_with_excluded_post_types() {
+		$public_post_types   = [ 'public_post_type', 'excluded_post_type' ];
+		$excluded_post_types = [ 'excluded_post_type' ];
+		$queried_post_types  = [ 'public_post_type' ];
+
+		$limit_placeholder = '';
+		$expected_query    = "
+			SELECT COUNT(ID)
+			FROM wp_posts
+			WHERE ID NOT IN (
+				SELECT object_id
+				FROM wp_yoast_indexable
+				WHERE object_type = 'post'
+				AND permalink_hash IS NOT NULL
+			)
+			AND post_type IN (%s)
+			$limit_placeholder";
+
+		Functions\expect( 'get_transient' )->once()->with( 'wpseo_total_unindexed_posts' )->andReturnFalse();
+		Functions\expect( 'set_transient' )->once()->with( 'wpseo_total_unindexed_posts', '10', \DAY_IN_SECONDS )->andReturnTrue();
+
+		$this->post_type_helper->expects( 'get_public_post_types' )->once()->andReturn( $public_post_types );
+		$this->post_type_helper->expects( 'get_excluded_post_types_for_indexables' )->once()->andReturn( $excluded_post_types );
+
+		$this->wpdb->expects( 'prepare' )
+			->once()
+			->with( $expected_query, $queried_post_types )
+			->andReturn( 'query' );
+		$this->wpdb->expects( 'get_var' )->once()->with( 'query' )->andReturn( '10' );
+
+		$this->assertEquals( 10, $this->instance->get_total_unindexed() );
 	}
 
 	/**
@@ -139,6 +188,7 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 	 * @covers ::index
 	 * @covers ::get_query
 	 * @covers ::get_limit
+	 * @covers ::get_post_types
 	 */
 	public function test_index() {
 		$expected_query = '
@@ -155,9 +205,28 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 
 		Filters\expectApplied( 'wpseo_post_indexation_limit' )->andReturn( 25 );
 
-		$this->post_type_helper->expects( 'get_public_post_types' )->once()->andReturn( [ 'public_post_type' ] );
-		$this->wpdb->expects( 'prepare' )->once()->with( $expected_query, [ 'public_post_type', 25 ] )->andReturn( 'query' );
-		$this->wpdb->expects( 'get_col' )->once()->with( 'query' )->andReturn( [ '1', '3', '8' ] );
+		$this->post_type_helper
+			->expects( 'get_public_post_types' )
+			->once()
+			->andReturn( [ 'public_post_type' ] );
+		$this->post_type_helper
+			->expects( 'get_excluded_post_types_for_indexables' )
+			->once()
+			->andReturn( [] );
+
+		$this->wpdb
+			->expects( 'prepare' )
+			->once()
+			->with(
+				$expected_query,
+				[ 'public_post_type', 25 ]
+			)
+			->andReturn( 'query' );
+		$this->wpdb
+			->expects( 'get_col' )
+			->once()
+			->with( 'query' )
+			->andReturn( [ '1', '3', '8' ] );
 
 		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 1, 'post' );
 		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 3, 'post' );
@@ -178,8 +247,68 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 		Filters\expectApplied( 'wpseo_post_indexation_limit' )->andReturn( 'not an integer' );
 
 		$this->post_type_helper->expects( 'get_public_post_types' )->once()->andReturn( [ 'public_post_type' ] );
+		$this->post_type_helper->expects( 'get_excluded_post_types_for_indexables' )->once()->andReturn( [] );
+
 		$this->wpdb->expects( 'prepare' )->once()->andReturn( 'query' );
 		$this->wpdb->expects( 'get_col' )->once()->with( 'query' )->andReturn( [ '1', '3', '8' ] );
+
+		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 1, 'post' );
+		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 3, 'post' );
+		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 8, 'post' );
+
+		Functions\expect( 'delete_transient' )->with( 'wpseo_total_unindexed_posts' );
+
+		$this->instance->index();
+	}
+
+	/**
+	 * Tests that posts from excluded post types do not get indexed.
+	 *
+	 * @covers ::__construct
+	 * @covers ::index
+	 * @covers ::get_query
+	 * @covers ::get_limit
+	 * @covers ::get_post_types
+	 */
+	public function test_index_with_excluded_post_types() {
+		$public_post_types   = [ 'public_post_type', 'excluded_post_type' ];
+		$excluded_post_types = [ 'excluded_post_type' ];
+
+		$expected_query = '
+			SELECT ID
+			FROM wp_posts
+			WHERE ID NOT IN (
+				SELECT object_id
+				FROM wp_yoast_indexable
+				WHERE object_type = \'post\'
+				AND permalink_hash IS NOT NULL
+			)
+			AND post_type IN (%s)
+			LIMIT %d';
+
+		Filters\expectApplied( 'wpseo_post_indexation_limit' )->andReturn( 25 );
+
+		$this->post_type_helper
+			->expects( 'get_public_post_types' )
+			->once()
+			->andReturn( $public_post_types );
+		$this->post_type_helper
+			->expects( 'get_excluded_post_types_for_indexables' )
+			->once()
+			->andReturn( $excluded_post_types );
+
+		$this->wpdb->expects( 'prepare' )
+			->once()
+			->with(
+				$expected_query,
+				[ 'public_post_type', 25 ]
+			)
+			->andReturn( 'query' );
+		$this->wpdb
+			->expects( 'get_col' )
+			->once()
+			->with( 'query' )
+			->andReturn( [ '1', '3', '8' ] );
 
 		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 1, 'post' );
 		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 3, 'post' );

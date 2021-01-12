@@ -18,7 +18,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group watchers
  *
  * @coversDefaultClass \Yoast\WP\SEO\Integrations\Watchers\Indexable_System_Page_Watcher
- * @covers ::<!public>
+ * @covers \Yoast\WP\SEO\Integrations\Watchers\Indexable_System_Page_Watcher
  */
 class Indexable_System_Page_Watcher_Test extends TestCase {
 
@@ -44,7 +44,7 @@ class Indexable_System_Page_Watcher_Test extends TestCase {
 	private $instance;
 
 	/**
-	 * @inheritDoc
+	 * Sets up the test fixtures.
 	 */
 	protected function set_up() {
 		parent::set_up();

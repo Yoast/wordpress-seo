@@ -132,6 +132,17 @@ class WPSEO_Admin_Asset_Manager {
 	}
 
 	/**
+	 * Localizes the script.
+	 *
+	 * @param string $handle      The script handle.
+	 * @param string $object_name The object name.
+	 * @param array  $data        The l10n data.
+	 */
+	public function localize_script( $handle, $object_name, $data ) {
+		\wp_localize_script( $this->prefix . $handle, $object_name, $data );
+	}
+
+	/**
 	 * A list of styles that shouldn't be registered but are needed in other locations in the plugin.
 	 *
 	 * @return array
@@ -198,7 +209,7 @@ class WPSEO_Admin_Asset_Manager {
 	 */
 	protected function scripts_to_be_registered() {
 		$select2_language = 'en';
-		$user_locale      = WPSEO_Language_Utils::get_user_locale();
+		$user_locale      = \get_user_locale();
 		$language         = WPSEO_Language_Utils::get_language( $user_locale );
 
 		if ( file_exists( WPSEO_PATH . "js/dist/select2/i18n/{$user_locale}.js" ) ) {
@@ -578,6 +589,27 @@ class WPSEO_Admin_Asset_Manager {
 					self::PREFIX . 'search-metadata-previews',
 					self::PREFIX . 'social-metadata-forms',
 					self::PREFIX . 'legacy-components',
+				],
+			],
+			[
+				/**
+				 * Asset exposing Yoast editor modules which are used in Yoast add-ons.
+				 */
+				'name' => 'editor-modules',
+				'src'  => 'editor-modules-' . $flat_version,
+				'deps' => [
+					'lodash',
+					'wp-compose',
+					'wp-data',
+					'wp-element',
+					'wp-i18n',
+					self::PREFIX . 'analysis',
+					self::PREFIX . 'analysis-report',
+					self::PREFIX . 'helpers',
+					self::PREFIX . 'legacy-components',
+					self::PREFIX . 'style-guide',
+					self::PREFIX . 'styled-components',
+					self::PREFIX . 'yoast-components',
 				],
 			],
 			[

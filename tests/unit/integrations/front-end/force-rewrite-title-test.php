@@ -14,7 +14,6 @@ use Yoast\WP\SEO\Wrappers\WP_Query_Wrapper;
  * Class Force_Rewrite_Title_Test.
  *
  * @coversDefaultClass \Yoast\WP\SEO\Integrations\Front_End\Force_Rewrite_Title
- * @covers ::<!public>
  *
  * @group integrations
  * @group front-end
@@ -133,7 +132,7 @@ class Force_Rewrite_Title_Test extends TestCase {
 
 		$this->instance->flush_cache();
 
-		$this->expectOutput( $expected_output );
+		$this->expectOutputString( $expected_output );
 	}
 
 	/**
@@ -155,10 +154,10 @@ class Force_Rewrite_Title_Test extends TestCase {
 			->once()
 			->andReturn( [] );
 
-		$output  = '<title>This is an after title</title>';
-		$output .= '<!-- This site is optimized with the Yoast SEO plugin v1.0 -->';
+		$output  = '<!-- This site is optimized with the Yoast SEO plugin v1.0 -->';
 		$output .= '<meta rel="yoast" value="meta" />';
 		$output .= '<!-- / Yoast SEO plugin. -->';
+		$output .= '<title>This is an after title</title>';
 
 		$this->instance
 			->expects( 'get_buffered_output' )
@@ -175,7 +174,7 @@ class Force_Rewrite_Title_Test extends TestCase {
 		$expected_output .= '<meta rel="yoast" value="meta" />';
 		$expected_output .= '<!-- / Yoast SEO plugin. -->';
 
-		$this->expectOutput( $expected_output );
+		$this->expectOutputString( $expected_output );
 	}
 
 	/**
@@ -218,7 +217,7 @@ class Force_Rewrite_Title_Test extends TestCase {
 		$expected_output .= '<meta rel="yoast" value="meta" />';
 		$expected_output .= '<!-- / Yoast SEO plugin. -->';
 
-		$this->expectOutput( $expected_output );
+		$this->expectOutputString( $expected_output );
 	}
 
 	/**

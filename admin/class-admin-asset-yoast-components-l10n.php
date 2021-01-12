@@ -11,6 +11,20 @@
 final class WPSEO_Admin_Asset_Yoast_Components_L10n {
 
 	/**
+	 * Represents the asset manager.
+	 *
+	 * @var WPSEO_Admin_Asset_Manager
+	 */
+	protected $asset_manager;
+
+	/**
+	 * WPSEO_Admin_Asset_Yoast_Components_L10n constructor.
+	 */
+	public function __construct() {
+		$this->asset_manager = new WPSEO_Admin_Asset_Manager();
+	}
+
+	/**
 	 * Localizes the given script with the JavaScript translations.
 	 *
 	 * @param string $script_handle The script handle to localize for.
@@ -22,7 +36,7 @@ final class WPSEO_Admin_Asset_Yoast_Components_L10n {
 			'yoast-components' => $this->get_translations( 'yoast-components' ),
 			'wordpress-seo'    => $this->get_translations( 'wordpress-seojs' ),
 		];
-		wp_localize_script( $script_handle, 'wpseoYoastJSL10n', $translations );
+		$this->asset_manager->localize_script( $script_handle, 'wpseoYoastJSL10n', $translations );
 	}
 
 	/**
@@ -32,7 +46,7 @@ final class WPSEO_Admin_Asset_Yoast_Components_L10n {
 	 * @return object The translations in a Jed format for JS files.
 	 */
 	protected function get_translations( $component ) {
-		$locale = WPSEO_Language_Utils::get_user_locale();
+		$locale = \get_user_locale();
 
 		$file = plugin_dir_path( WPSEO_FILE ) . 'languages/' . $component . '-' . $locale . '.json';
 		if ( file_exists( $file ) ) {

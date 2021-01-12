@@ -80,6 +80,29 @@ class Post_Type_Helper {
 	}
 
 	/**
+	 * Returns an array of post types that are excluded from being indexed for the
+	 * indexables.
+	 *
+	 * @return array The excluded post types.
+	 */
+	public function get_excluded_post_types_for_indexables() {
+		/**
+		 * Filter: 'wpseo_indexable_excluded_post_types' - Allow developers to prevent posts of a certain post
+		 * type from being saved to the indexable table.
+		 *
+		 * @param array $excluded_post_types The currently excluded post types.
+		 */
+		$excluded_post_types = \apply_filters( 'wpseo_indexable_excluded_post_types', [] );
+
+		// Failsafe, to always make sure that `excluded_post_types` is an array.
+		if ( ! \is_array( $excluded_post_types ) ) {
+			return [];
+		}
+
+		return $excluded_post_types;
+	}
+
+	/**
 	 * Checks if the post type with the given name has an archive page.
 	 *
 	 * @param WP_Post_Type|string $post_type The name of the post type to check.

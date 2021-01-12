@@ -31,28 +31,44 @@ class WPSEO_Sitemaps_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Test the nested sitemap generation.
 	 *
+	 * @dataProvider data_post_sitemap
+	 *
 	 * @covers WPSEO_Sitemaps::redirect
+	 *
+	 * @param string $expected_output Substring expected to be found in the actual output.
 	 */
-	public function test_post_sitemap() {
+	public function test_post_sitemap( $expected_output ) {
 		self::$class_instance->reset();
 
 		set_query_var( 'sitemap', 'post' );
 
 		self::$class_instance->redirect( $GLOBALS['wp_the_query'] );
 
-		$expected_contains = [
-			'<?xml',
-			'<urlset ',
+		$this->expectOutputContains( $expected_output );
+	}
+
+	/**
+	 * Data provider for the `test_post_sitemap()` test.
+	 *
+	 * @return array
+	 */
+	public function data_post_sitemap() {
+		return [
+			[ '<?xml' ],
+			[ '<urlset ' ],
 		];
-		$this->expectOutputContains( $expected_contains );
 	}
 
 	/**
 	 * Tests the main sitemap and also tests the transient cache.
 	 *
+	 * @dataProvider data_main_sitemap
+	 *
 	 * @covers WPSEO_Sitemaps::redirect
+	 *
+	 * @param string $expected_output Substring expected to be found in the actual output.
 	 */
-	public function test_main_sitemap() {
+	public function test_main_sitemap( $expected_output ) {
 
 		self::$class_instance->reset();
 
@@ -61,13 +77,22 @@ class WPSEO_Sitemaps_Test extends WPSEO_UnitTestCase {
 		$this->factory->post->create();
 
 		self::$class_instance->redirect( $GLOBALS['wp_the_query'] );
-		$expected_contains = [
-			'<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
-			'<sitemap>',
-			'<lastmod>',
-			'</sitemapindex>',
+
+		$this->expectOutputContains( $expected_output );
+	}
+
+	/**
+	 * Data provider for the `test_main_sitemap()` test.
+	 *
+	 * @return array
+	 */
+	public function data_main_sitemap() {
+		return [
+			[ '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' ],
+			[ '<sitemap>' ],
+			[ '<lastmod>' ],
+			[ '</sitemapindex>' ],
 		];
-		$this->expectOutputContains( $expected_contains );
 	}
 
 	/**
@@ -95,10 +120,8 @@ class WPSEO_Sitemaps_Test extends WPSEO_UnitTestCase {
 		);
 
 		self::$class_instance->redirect( $GLOBALS['wp_the_query'] );
-		$expected_contains = [
-			'<loc>test-sitemap.xml</loc>',
-		];
-		$this->expectOutputContains( $expected_contains );
+
+		$this->expectOutputContains( '<loc>test-sitemap.xml</loc>' );
 	}
 
 	/**

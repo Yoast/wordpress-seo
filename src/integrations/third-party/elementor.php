@@ -16,16 +16,17 @@ use WPSEO_Metabox_Analysis_SEO;
 use WPSEO_Metabox_Formatter;
 use WPSEO_Post_Metabox_Formatter;
 use WPSEO_Utils;
-use Yoast\WP\SEO\Conditionals\Admin\Elementor_Edit_Conditional;
+use Yoast\WP\SEO\Conditionals\Third_Party\Elementor_Edit_Conditional;
 use Yoast\WP\SEO\Helpers\Capability_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Presenters\Admin\Meta_Fields_Presenter;
 use Elementor\Controls_Manager;
 use Elementor\Core\DocumentTypes\PageBase;
+use Yoast\WP\SEO\Conditionals\Admin\Estimated_Reading_Time_Conditional;
 
 /**
- * Adds customizations to the front end for breadcrumbs.
+ * Integrates the Yoast SEO metabox in the Elementor editor.
  */
 class Elementor implements Integration_Interface {
 
@@ -86,6 +87,13 @@ class Elementor implements Integration_Interface {
 	protected $readability_analysis;
 
 	/**
+	 * Represents the estimated_reading_time_conditional.
+	 *
+	 * @var Estimated_Reading_Time_Conditional
+	 */
+	protected $estimated_reading_time_conditional;
+
+	/**
 	 * The identifier for the elementor tab.
 	 */
 	const YOAST_TAB = 'yoast-tab';
@@ -102,19 +110,26 @@ class Elementor implements Integration_Interface {
 	/**
 	 * Constructor.
 	 *
-	 * @param WPSEO_Admin_Asset_Manager $asset_manager The asset manager.
-	 * @param Options_Helper            $options       The options helper.
-	 * @param Capability_Helper         $capability    The capability helper.
+	 * @param WPSEO_Admin_Asset_Manager          $asset_manager                      The asset manager.
+	 * @param Options_Helper                     $options                            The options helper.
+	 * @param Capability_Helper                  $capability                         The capability helper.
+	 * @param Estimated_Reading_Time_Conditional $estimated_reading_time_conditional The Estimated Reading Time conditional.
 	 */
-	public function __construct( WPSEO_Admin_Asset_Manager $asset_manager, Options_Helper $options, Capability_Helper $capability ) {
+	public function __construct(
+		WPSEO_Admin_Asset_Manager $asset_manager,
+		Options_Helper $options,
+		Capability_Helper $capability,
+		Estimated_Reading_Time_Conditional $estimated_reading_time_conditional
+	) {
 		$this->asset_manager = $asset_manager;
 		$this->options       = $options;
 		$this->capability    = $capability;
 
-		$this->seo_analysis                 = new WPSEO_Metabox_Analysis_SEO();
-		$this->readability_analysis         = new WPSEO_Metabox_Analysis_Readability();
-		$this->social_is_enabled            = $this->options->get( 'opengraph', false ) || $this->options->get( 'twitter', false );
-		$this->is_advanced_metadata_enabled = $this->capability->current_user_can( 'wpseo_edit_advanced_metadata' ) || $this->options->get( 'disableadvanced_meta' ) === false;
+		$this->seo_analysis                       = new WPSEO_Metabox_Analysis_SEO();
+		$this->readability_analysis               = new WPSEO_Metabox_Analysis_Readability();
+		$this->social_is_enabled                  = $this->options->get( 'opengraph', false ) || $this->options->get( 'twitter', false );
+		$this->is_advanced_metadata_enabled       = $this->capability->current_user_can( 'wpseo_edit_advanced_metadata' ) || $this->options->get( 'disableadvanced_meta' ) === false;
+		$this->estimated_reading_time_conditional = $estimated_reading_time_conditional;
 	}
 
 	/**
@@ -144,7 +159,7 @@ class Elementor implements Integration_Interface {
 	}
 
 	/**
-	 * Renders the breadcrumbs.
+	 * Initializes the integration.
 	 *
 	 * @return void
 	 */
@@ -363,45 +378,48 @@ class Elementor implements Integration_Interface {
 		$this->asset_manager->enqueue_script( 'elementor' );
 
 		$yoast_components_l10n = new WPSEO_Admin_Asset_Yoast_Components_L10n();
-		$yoast_components_l10n->localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'elementor' );
+		$yoast_components_l10n->localize_script( 'elementor' );
 
-		\wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'elementor', 'wpseoAdminL10n', WPSEO_Utils::get_admin_l10n() );
-		\wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'elementor', 'wpseoFeaturesL10n', WPSEO_Utils::retrieve_enabled_features() );
+		$this->asset_manager->localize_script( 'elementor', 'wpseoAdminL10n', WPSEO_Utils::get_admin_l10n() );
+		$this->asset_manager->localize_script( 'elementor', 'wpseoFeaturesL10n', WPSEO_Utils::retrieve_enabled_features() );
 
 		$analysis_worker_location          = new WPSEO_Admin_Asset_Analysis_Worker_Location( $this->asset_manager->flatten_version( WPSEO_VERSION ) );
 		$used_keywords_assessment_location = new WPSEO_Admin_Asset_Analysis_Worker_Location( $this->asset_manager->flatten_version( WPSEO_VERSION ), 'used-keywords-assessment' );
 
+		$plugins_script_data = [
+			'replaceVars' => [
+				'no_parent_text'           => __( '(no parent)', 'wordpress-seo' ),
+				'replace_vars'             => $this->get_replace_vars(),
+				'recommended_replace_vars' => $this->get_recommended_replace_vars(),
+				'scope'                    => $this->determine_scope(),
+				'has_taxonomies'           => $this->current_post_type_has_taxonomies(),
+			],
+			'shortcodes'  => [
+				'wpseo_filter_shortcodes_nonce' => \wp_create_nonce( 'wpseo-filter-shortcodes' ),
+				'wpseo_shortcode_tags'          => $this->get_valid_shortcode_tags(),
+			],
+		];
+
+		$worker_script_data = [
+			'url'                     => $analysis_worker_location->get_url( $analysis_worker_location->get_asset(), WPSEO_Admin_Asset::TYPE_JS ),
+			'keywords_assessment_url' => $used_keywords_assessment_location->get_url( $used_keywords_assessment_location->get_asset(), WPSEO_Admin_Asset::TYPE_JS ),
+			'log_level'               => WPSEO_Utils::get_analysis_worker_log_level(),
+			// We need to make the feature flags separately available inside of the analysis web worker.
+			'enabled_features'        => WPSEO_Utils::retrieve_enabled_features(),
+		];
+
 		$script_data = [
-			'analysis'          => [
-				'plugins' => [
-					'replaceVars' => [
-						'no_parent_text'           => __( '(no parent)', 'wordpress-seo' ),
-						'replace_vars'             => $this->get_replace_vars(),
-						'recommended_replace_vars' => $this->get_recommended_replace_vars(),
-						'scope'                    => $this->determine_scope(),
-						'has_taxonomies'           => $this->current_post_type_has_taxonomies(),
-					],
-					'shortcodes'  => [
-						'wpseo_filter_shortcodes_nonce' => \wp_create_nonce( 'wpseo-filter-shortcodes' ),
-						'wpseo_shortcode_tags'          => $this->get_valid_shortcode_tags(),
-					],
-				],
-				'worker'  => [
-					'url'                     => $analysis_worker_location->get_url( $analysis_worker_location->get_asset(), WPSEO_Admin_Asset::TYPE_JS ),
-					'keywords_assessment_url' => $used_keywords_assessment_location->get_url( $used_keywords_assessment_location->get_asset(), WPSEO_Admin_Asset::TYPE_JS ),
-					'log_level'               => WPSEO_Utils::get_analysis_worker_log_level(),
-					// We need to make the feature flags separately available inside of the analysis web worker.
-					'enabled_features'        => WPSEO_Utils::retrieve_enabled_features(),
-				],
-			],
-			'media'             => [
-				'choose_image' => __( 'Use Image', 'wordpress-seo' ),
-			],
+			'media'             => [ 'choose_image' => __( 'Use Image', 'wordpress-seo' ) ],
 			'metabox'           => $this->get_metabox_script_data(),
-			'userLanguageCode'  => WPSEO_Language_Utils::get_language( WPSEO_Language_Utils::get_user_locale() ),
+			'userLanguageCode'  => WPSEO_Language_Utils::get_language( \get_user_locale() ),
 			'isPost'            => true,
 			'isBlockEditor'     => WP_Screen::get()->is_block_editor(),
 			'isElementorEditor' => true,
+			'analysis'          => [
+				'plugins'                     => $plugins_script_data,
+				'worker'                      => $worker_script_data,
+				'estimatedReadingTimeEnabled' => $this->estimated_reading_time_conditional->is_met(),
+			],
 		];
 
 		if ( \post_type_supports( $this->get_metabox_post()->post_type, 'thumbnail' ) ) {
@@ -412,7 +430,7 @@ class Elementor implements Integration_Interface {
 			];
 		}
 
-		\wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'elementor', 'wpseoScriptData', $script_data );
+		$this->asset_manager->localize_script( 'elementor', 'wpseoScriptData', $script_data );
 	}
 
 	/**
@@ -526,6 +544,16 @@ class Elementor implements Integration_Interface {
 			'sep',
 			'page',
 			'currentyear',
+			'tag',
+			'category',
+			'primary_category',
+			'pt_single',
+			'pt_plural',
+			'modified',
+			'name',
+			'user_description',
+			'pagetotal',
+			'pagenumber',
 		];
 
 		foreach ( $vars_to_cache as $var ) {

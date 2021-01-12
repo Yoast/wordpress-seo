@@ -44,7 +44,7 @@ class WPSEO_Metabox_Formatter_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Metabox_Formatter::get_translations
 	 */
 	public function test_with_fake_language_file() {
-		$file_name = plugin_dir_path( WPSEO_FILE ) . 'languages/wordpress-seo-' . WPSEO_Language_Utils::get_user_locale() . '.json';
+		$file_name = plugin_dir_path( WPSEO_FILE ) . 'languages/wordpress-seo-' . \get_user_locale() . '.json';
 
 		// Make sure the folder exists.
 		wp_mkdir_p( plugin_dir_path( WPSEO_FILE ) . 'languages' );
@@ -78,7 +78,7 @@ class WPSEO_Metabox_Formatter_Test extends WPSEO_UnitTestCase {
 	 * Test that wordFormRecognitionActive is true for English.
 	 *
 	 * @covers WPSEO_Metabox_Formatter::__construct
-	 * @covers WPSEO_Metabox_Formatter::is_word_form_recognition_active
+	 * @covers Yoast\WP\SEO\Helpers\Language_Helper::is_word_form_recognition_active
 	 */
 	public function test_word_form_recognition_is_active() {
 		add_filter(
@@ -106,7 +106,7 @@ class WPSEO_Metabox_Formatter_Test extends WPSEO_UnitTestCase {
 	 * Test that wordFormRecognitionActive is false for Afrikaans.
 	 *
 	 * @covers WPSEO_Metabox_Formatter::__construct
-	 * @covers WPSEO_Metabox_Formatter::is_word_form_recognition_active
+	 * @covers Yoast\WP\SEO\Helpers\Language_Helper::is_word_form_recognition_active
 	 */
 	public function test_word_form_recognition_is_not_active() {
 		add_filter(

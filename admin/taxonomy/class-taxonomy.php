@@ -105,6 +105,7 @@ class WPSEO_Taxonomy {
 			'<a href="https://www.microsoft.com/windows/microsoft-edge">',
 			'</a>'
 		);
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output escaped above.
 		echo new Alert_Presenter( $content );
 
 		echo '</div></div>';
@@ -139,7 +140,7 @@ class WPSEO_Taxonomy {
 			$asset_manager->enqueue_script( 'term-edit' );
 
 			$yoast_components_l10n = new WPSEO_Admin_Asset_Yoast_Components_L10n();
-			$yoast_components_l10n->localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'term-edit' );
+			$yoast_components_l10n->localize_script( 'term-edit' );
 
 			$analysis_worker_location          = new WPSEO_Admin_Asset_Analysis_Worker_Location( $asset_manager->flatten_version( WPSEO_VERSION ) );
 			$used_keywords_assessment_location = new WPSEO_Admin_Asset_Analysis_Worker_Location( $asset_manager->flatten_version( WPSEO_VERSION ), 'used-keywords-assessment' );
@@ -150,8 +151,8 @@ class WPSEO_Taxonomy {
 			 */
 			remove_action( 'admin_print_scripts', 'print_emoji_detection_script' );
 
-			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'term-edit', 'wpseoAdminL10n', WPSEO_Utils::get_admin_l10n() );
-			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'term-edit', 'wpseoFeaturesL10n', WPSEO_Utils::retrieve_enabled_features() );
+			$asset_manager->localize_script( 'term-edit', 'wpseoAdminL10n', WPSEO_Utils::get_admin_l10n() );
+			$asset_manager->localize_script( 'term-edit', 'wpseoFeaturesL10n', WPSEO_Utils::retrieve_enabled_features() );
 
 			$script_data = [
 				'analysis'         => [
@@ -180,10 +181,10 @@ class WPSEO_Taxonomy {
 					'choose_image' => __( 'Use Image', 'wordpress-seo' ),
 				],
 				'metabox'          => $this->localize_term_scraper_script(),
-				'userLanguageCode' => WPSEO_Language_Utils::get_language( WPSEO_Language_Utils::get_user_locale() ),
+				'userLanguageCode' => WPSEO_Language_Utils::get_language( \get_user_locale() ),
 				'isTerm'           => true,
 			];
-			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'term-edit', 'wpseoScriptData', $script_data );
+			$asset_manager->localize_script( 'term-edit', 'wpseoScriptData', $script_data );
 		}
 
 		if ( self::is_term_overview( $pagenow ) ) {

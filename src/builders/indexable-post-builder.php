@@ -4,7 +4,9 @@ namespace Yoast\WP\SEO\Builders;
 
 use WP_Error;
 use WPSEO_Meta;
+use Yoast\WP\SEO\Exceptions\Indexable\Post_Not_Found_Exception;
 use Yoast\WP\SEO\Helpers\Post_Helper;
+use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
@@ -28,17 +30,27 @@ class Indexable_Post_Builder {
 	 *
 	 * @var Post_Helper
 	 */
-	protected $post;
+	protected $post_helper;
+
+	/**
+	 * The post type helper.
+	 *
+	 * @var Post_Type_Helper
+	 */
+	protected $post_type_helper;
 
 	/**
 	 * Indexable_Post_Builder constructor.
 	 *
-	 * @param Post_Helper $post The post helper.
+	 * @param Post_Helper      $post_helper      The post helper.
+	 * @param Post_Type_Helper $post_type_helper The post type helper.
 	 */
 	public function __construct(
-		Post_Helper $post
+		Post_Helper $post_helper,
+		Post_Type_Helper $post_type_helper
 	) {
-		$this->post = $post;
+		$this->post_helper      = $post_helper;
+		$this->post_type_helper = $post_type_helper;
 	}
 
 	/**
@@ -59,11 +71,17 @@ class Indexable_Post_Builder {
 	 * @param Indexable $indexable The indexable to format.
 	 *
 	 * @return bool|Indexable The extended indexable. False when unable to build.
+	 *
+	 * @throws Post_Not_Found_Exception When the post could not be found.
 	 */
 	public function build( $post_id, $indexable ) {
-		$post = $this->post->get_post( $post_id );
+		$post = $this->post_helper->get_post( $post_id );
 
 		if ( $post === null ) {
+			throw new Post_Not_Found_Exception();
+		}
+
+		if ( $this->should_exclude_post( $post ) ) {
 			return false;
 		}
 
@@ -283,19 +301,20 @@ class Indexable_Post_Builder {
 	 */
 	protected function get_indexable_lookup() {
 		return [
-			'focuskw'               => 'primary_focus_keyword',
-			'canonical'             => 'canonical',
-			'title'                 => 'title',
-			'metadesc'              => 'description',
-			'bctitle'               => 'breadcrumb_title',
-			'opengraph-title'       => 'open_graph_title',
-			'opengraph-image'       => 'open_graph_image',
-			'opengraph-image-id'    => 'open_graph_image_id',
-			'opengraph-description' => 'open_graph_description',
-			'twitter-title'         => 'twitter_title',
-			'twitter-image'         => 'twitter_image',
-			'twitter-image-id'      => 'twitter_image_id',
-			'twitter-description'   => 'twitter_description',
+			'focuskw'                        => 'primary_focus_keyword',
+			'canonical'                      => 'canonical',
+			'title'                          => 'title',
+			'metadesc'                       => 'description',
+			'bctitle'                        => 'breadcrumb_title',
+			'opengraph-title'                => 'open_graph_title',
+			'opengraph-image'                => 'open_graph_image',
+			'opengraph-image-id'             => 'open_graph_image_id',
+			'opengraph-description'          => 'open_graph_description',
+			'twitter-title'                  => 'twitter_title',
+			'twitter-image'                  => 'twitter_image',
+			'twitter-image-id'               => 'twitter_image_id',
+			'twitter-description'            => 'twitter_description',
+			'estimated-reading-time-minutes' => 'estimated_reading_time_minutes',
 		];
 	}
 
@@ -376,5 +395,16 @@ class Indexable_Post_Builder {
 		}
 
 		return $number_of_pages;
+	}
+
+	/**
+	 * Checks whether an indexable should be built for this post.
+	 *
+	 * @param \WP_Post $post The post for which an indexable should be built.
+	 *
+	 * @return bool `true` if the post should be excluded from building, `false` if not.
+	 */
+	protected function should_exclude_post( $post ) {
+		return \in_array( $post->post_type, $this->post_type_helper->get_excluded_post_types_for_indexables(), true );
 	}
 }

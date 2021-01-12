@@ -492,7 +492,7 @@ TPL;
 		$generator = new Unit_Test_Generator();
 		try {
 			$path = $generator->generate( $fqn );
-			printf( 'Unit test generated at \'/tests/unit/%s\'' . "\n", $path );
+			printf( 'Unit test generated at \'%s\'' . "\n", $path );
 		}
 		catch ( Exception $exception ) {
 			throw $exception;
