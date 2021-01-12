@@ -34,7 +34,11 @@ describe( "The Date instruction", () => {
 			},
 		};
 
-		const wrapper = renderer.create( dateInstruction.edit( props ) );
+		const tree = renderer
+			.create( dateInstruction.edit( props ) )
+			.toJSON();
+
+		expect( tree ).toMatchSnapshot();
 	} );
 
 	it( "returns the correct configuration to add to the schema block.", () => {
