@@ -1,6 +1,6 @@
 const {
 	camelCaseDash,
-} = require( '@wordpress/dependency-extraction-webpack-plugin/lib/util' );
+} = require( "@wordpress/dependency-extraction-webpack-plugin/lib/util" );
 
 const externals = {
 	// This is necessary for Gutenberg to work.
@@ -49,10 +49,10 @@ const wordpressPackages = [
 /**
  * Yoast dependencies, declared as such in the package.json.
  */
-const { dependencies } = require( '../../package' );
-const legacyYoastPackages = [ 'yoast-components' ];
+const { dependencies } = require( "../../package" );
+const legacyYoastPackages = [ "yoast-components" ];
 
-const YOAST_PACKAGE_NAMESPACE = '@yoast/';
+const YOAST_PACKAGE_NAMESPACE = "@yoast/";
 
 // Fetch all packages from the dependencies list.
 const yoastPackages = Object.keys( dependencies )
@@ -67,14 +67,14 @@ const yoastPackages = Object.keys( dependencies )
  */
 // Yoast Packages.
 const yoastExternals = yoastPackages.reduce( ( memo, packageName ) => {
-	let useablePackageName = packageName.replace( YOAST_PACKAGE_NAMESPACE, '' );
+	let useablePackageName = packageName.replace( YOAST_PACKAGE_NAMESPACE, "" );
 
 	// Handle the difference between yoast-components and @yoast/components.
-	useablePackageName = ( useablePackageName === 'components' ) ? 'components-new' : useablePackageName;
-	useablePackageName = ( useablePackageName === 'yoast-components' ) ? 'components' : useablePackageName;
+	useablePackageName = ( useablePackageName === "components" ) ? "components-new" : useablePackageName;
+	useablePackageName = ( useablePackageName === "yoast-components" ) ? "components" : useablePackageName;
 
 	// Handle yoastseo as analysis reference.
-	useablePackageName = ( useablePackageName === 'yoastseo' ) ? 'analysis' : useablePackageName;
+	useablePackageName = ( useablePackageName === "yoastseo" ) ? "analysis" : useablePackageName;
 
 	memo[ packageName ] = `window.yoast.${ camelCaseDash( useablePackageName ) }`;
 	return memo;
@@ -82,7 +82,7 @@ const yoastExternals = yoastPackages.reduce( ( memo, packageName ) => {
 
 // WordPress packages.
 const wordpressExternals = wordpressPackages.reduce( ( memo, packageName ) => {
-	const name = camelCaseDash( packageName.replace( '@wordpress/', '' ) );
+	const name = camelCaseDash( packageName.replace( "@wordpress/", "" ) );
 
 	memo[ packageName ] = `window.wp.${ name }`;
 	return memo;
@@ -95,5 +95,5 @@ module.exports = {
 	externals,
 	yoastExternals,
 	wordpressExternals,
-	YOAST_PACKAGE_NAMESPACE
-}
+	YOAST_PACKAGE_NAMESPACE,
+};
