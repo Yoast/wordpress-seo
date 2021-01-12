@@ -613,6 +613,18 @@ class WPSEO_Admin_Asset_Manager {
 				],
 			],
 			[
+				/**
+				 * Yoast dynamic blocks
+				 */
+				'name' => 'dynamic-blocks',
+				'src'  => 'dynamic-blocks-' . $flat_version,
+				'deps' => [
+					'wp-blocks',
+					'wp-i18n',
+					'wp-server-side-render',
+				],
+			],
+			[
 				// The `@yoast/components` package.
 				'name' => 'yoast-components',
 				'src'  => 'yoast/components-' . $flat_version,
