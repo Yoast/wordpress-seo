@@ -1,5 +1,5 @@
-import stem from "../../../src/languageProcessing/languages/fr/helpers/internal/stem";
-import getMorphologyData from "../../specHelpers/getMorphologyData";
+import stem from "../../../../../../src/languageProcessing/languages/fr/helpers/internal/stem";
+import getMorphologyData from "../../../../../specHelpers/getMorphologyData";
 
 const morphologyDataFR = getMorphologyData( "fr" ).fr;
 
@@ -13,6 +13,10 @@ const wordsToStem = [
 	[ "voler", "vol" ],
 	// RV is the right of par, col, tap for words beginning with those syllables.
 	[ "tapis", "tapi" ],
+	// RV is equal to the length of the word if no other position is matched.
+	[ "a", "a" ],
+	// R1 is the end of the word if there are no consonants in the word.
+	[ "ai", "ai" ],
 	// Input a word ending in -ci + a2 class suffix.
 	[ "cicatrice", "cicatric" ],
 	// Input a noun ending in -ance.
@@ -82,6 +86,26 @@ const wordsToStem = [
 	[ "coefficients", "coefficient" ],
 	[ "filament", "filament" ],
 	[ "filaments", "filament" ],
+	// Input a noun ending in -ière.
+	[ "lumière", "lumi" ],
+	// Noun ending in -stion.
+	[ "suggestion", "suggest" ],
+	// Noun ending in -ité.
+	[ "nativité", "nativ" ],
+	// Noun ending in -ivité.
+	[ "relativité", "relat" ],
+	// Short noun ending in -icité.
+	[ "toxicité", "toxiqu" ],
+	// Long noun ending in -icité.
+	[ "automaticité", "automat" ],
+	// Short noun ending in -abilité.
+	[ "stabilité", "stabl" ],
+	// Long noun ending in -abilité.
+	[ "biodégradabilité", "biodégrad" ],
+	// Noun ending in -logie.
+	[ "nanotechnologie", "nanotechnolog" ],
+	// Long noun ending in -ication.
+	[ "classification", "classif" ],
 	// Words on the exception list with full forms.
 	[ "yeux", "œil" ],
 	[ "oeil", "œil" ],
@@ -126,9 +150,41 @@ const wordsToStem = [
 	[ "chantons", "chant" ],
 	[ "dessinons", "dessin" ],
 	[ "nettoyons", "nettoi" ],
+	// Verb with suffix -ions
+	[ "arrivions", "arriv" ],
+	// Adverb with suffix -ment.
+	[ "disproportionnément", "disproportion" ],
+	// Adverb ending on -ement.
+	[ "absurdement", "absurd" ],
+	// Adverb ending on -ièrement.
+	[ "particulièrement", "particul" ],
+	// Adverb ending on -iquement.
+	[ "académiquement", "academ" ],
+	// Adjective ending on -euse.
+	[ "coûteuse", "coûteux" ],
+	// Short word ending on -euse.
+	[ "meuse", "meus" ],
+	// Short adjective ending on -icative.
+	[ "indicative", "indiqu" ],
+	// Long adjective ending on -icative.
+	[ "communicative", "commun" ],
+	// Adverb ending on -eusement where -eus should be replaced with -eux.
+	[ "affreusement", "affreux" ],
+	// Adverb ending on -eusement where only -ement should be removed.
+	[ "preusement", "preus" ],
+	// Adverb ending on -eusement.
+	[ "cérémonieusement", "cérémon" ],
+	// Adverb ending on -ativement.
+	[ "administrativement", "administr" ],
+	// Adverb ending on -ativement where only -ivement should be stemmed.
+	[ "relativement", "relat" ],
+	// Adjective ending in -guë
+	[ "ambiguë", "ambigu" ],
 	// -Ons is not stemmed if preceded by i.
 	[ "questions", "question" ],
 	[ "stations", "station" ],
+	// Word with ç at the end after removing suffixes.
+	[ "grinçant", "grinc" ],
 	// Two-syllable verbs that start with a vowel and end on -ons.
 	[ "aidons", "aid" ],
 	[ "aimons", "aim" ],

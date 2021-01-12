@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
-import stem from "../../../../src/languageProcessing/languages/fr/helpers/internal/stem";
-import getMorphologyData from "../../../specHelpers/getMorphologyData";
+import stem from "../../../../../../../src/languageProcessing/languages/fr/helpers/internal/stem";
+import getMorphologyData from "../../../../../../specHelpers/getMorphologyData";
 import goldStandard from "./goldStandardStems.json";
 
 const morphologyDataFR = getMorphologyData( "fr" ).fr;

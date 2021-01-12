@@ -1,6 +1,4 @@
-import transitionWordsFactory from "./transitionWords.js";
-
-const transitionWords = transitionWordsFactory().singleWords;
+import transitionWords from "./transitionWords.js";
 
 /**
  * Returns an object with exceptions for the prominent words researcher
