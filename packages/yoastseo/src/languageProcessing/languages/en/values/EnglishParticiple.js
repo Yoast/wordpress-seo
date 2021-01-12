@@ -9,18 +9,18 @@ import {
 	cannotBeBetweenPassiveAuxiliaryAndParticiple,
 } from "../config/functionWords.js";
 
-var irregularExclusionArray = [ "get", "gets", "getting", "got", "gotten" ];
+const irregularExclusionArray = [ "get", "gets", "getting", "got", "gotten" ];
 
 /**
  * Creates an Participle object for the English language.
  *
- * @param {string} participle The participle.
+ * @param {string} participle   The participle.
  * @param {string} sentencePart The sentence part that contains the participle.
- * @param {Object} attributes  The attributes object.
+ * @param {Object} attributes   The attributes object.
  *
  * @constructor
  */
-var EnglishParticiple = function( participle, sentencePart, attributes ) {
+const EnglishParticiple = function( participle, sentencePart, attributes ) {
 	Participle.call( this, participle, sentencePart, attributes );
 	checkException.call( this );
 };
@@ -66,7 +66,7 @@ EnglishParticiple.prototype.isNonVerbEndingEd = function() {
  */
 EnglishParticiple.prototype.hasRidException = function() {
 	if ( this.getParticiple() === "rid" ) {
-		var auxiliaries = this.getAuxiliaries();
+		const auxiliaries = this.getAuxiliaries();
 		return ! isEmpty( intersection( irregularExclusionArray, auxiliaries ) );
 	}
 	return false;

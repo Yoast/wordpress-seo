@@ -4,11 +4,11 @@ import getParticiples from "../helpers/internal/getParticiples.js";
 /**
  * Creates a English specific sentence part.
  *
- * @param {string} sentencePartText The text from the sentence part.
- * @param {Array} auxiliaries The list of auxiliaries from the sentence part.
+ * @param {string} sentencePartText     The text from the sentence part.
+ * @param {Array} auxiliaries           The list of auxiliaries from the sentence part.
  * @constructor
  */
-var EnglishSentencePart = function( sentencePartText, auxiliaries ) {
+const EnglishSentencePart = function( sentencePartText, auxiliaries ) {
 	SentencePart.call( this, sentencePartText, auxiliaries );
 };
 

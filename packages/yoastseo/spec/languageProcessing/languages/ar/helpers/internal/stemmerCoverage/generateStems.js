@@ -1,8 +1,8 @@
 /* eslint-disable no-console */
-import filterFunctionWordsFromArray from "../../../../src/languageProcessing/helpers/word/filterWordsFromArray";
-import stem from "../../../../src/languageProcessing/languages/ar/helpers/internal/stem";
-import getMorphologyData from "../../../specHelpers/getMorphologyData";
-import sampleVocabulary from "../stemmerCoverage/sampleVocabulary.json";
+import filterFunctionWordsFromArray from "../../../../../../../src/languageProcessing/helpers/word/filterWordsFromArray";
+import stem from "../../../../../../../src/languageProcessing/languages/ar/helpers/internal/stem";
+import getMorphologyData from "../../../../../../specHelpers/getMorphologyData";
+import sampleVocabulary from "./sampleVocabulary.json";
 
 const wordsToStemWithoutFunctionWords = filterFunctionWordsFromArray( sampleVocabulary.words, "ar" );
 

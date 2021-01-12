@@ -1,5 +1,5 @@
-import getAdjectiveStem from "../../../src/languageProcessing/languages/en/morphology/getAdjectiveStem";
-import getMorphologyData from "../../specHelpers/getMorphologyData";
+import getAdjectiveStem from "../../../../../../src/languageProcessing/languages/en/helpers/internal/getAdjectiveStem";
+import getMorphologyData from "../../../../../specHelpers/getMorphologyData";
 
 const morphologyData = getMorphologyData( "en" );
 const adjectiveData = morphologyData.en.adjectives;
@@ -203,6 +203,20 @@ describe( "Test for getting the base from all types of regular adjectives", func
 			expect( returnedGetBaseResult.guessedForm ).toEqual( "ly" );
 		} );
 	} );
+
+	it( "returns the stem of words that look like they end in -er suffix", function() {
+		// The word 'sfeer' is made up
+		returnedGetBaseResult = getAdjectiveStem( "sfeer", regexAdjective, stopAdjectives );
+		expect( returnedGetBaseResult.base ).toEqual( "sfeer" );
+		expect( returnedGetBaseResult.guessedForm ).toEqual( "er" );
+	} );
+
+	it( "returns the stem of words that look like they end in -est suffix", function() {
+		// The word 'sfeest' is made up
+		returnedGetBaseResult = getAdjectiveStem( "sfeest", regexAdjective, stopAdjectives );
+		expect( returnedGetBaseResult.base ).toEqual( "sfeest" );
+		expect( returnedGetBaseResult.guessedForm ).toEqual( "est" );
+	} );
 } );
 
 describe( "Test for getting the base from adjectives that only form an adverb", function() {
@@ -232,3 +246,4 @@ describe( "Test for getting the base from adjectives that don't get any forms", 
 		} );
 	} );
 } );
+

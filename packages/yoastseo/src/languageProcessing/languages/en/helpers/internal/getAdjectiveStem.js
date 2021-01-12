@@ -36,7 +36,7 @@ const constructCanBeFunction = function( endsWith, minimumWordLength, exceptions
  * @param {string[]} stopAdjectives.estExceptions          The list of words that end with -est and are not superlatives.
  * @param {string[]} stopAdjectives.lyExceptions           The list of words that end with -ly and are not adverbs.
  *
- * @returns {string} The base form of the input word.
+ * @returns {Object} The base form of the input word.
  */
 export default function( word, regexAdjective, stopAdjectives ) {
 	/*

@@ -1,9 +1,12 @@
-import { findShortestAndAlphabeticallyFirst } from "../../../src/languageProcessing/languages/en/morphology/determineStem.js";
-import { determineIrregularStem } from "../../../src/languageProcessing/languages/en/morphology/determineStem.js";
-import { determineIrregularVerbStem } from "../../../src/languageProcessing/languages/en/morphology/determineStem.js";
-import { determineRegularStem } from "../../../src/languageProcessing/languages/en/morphology/determineStem.js";
-import { determineStem } from "../../../src/languageProcessing/languages/en/morphology/determineStem.js";
-import getMorphologyData from "../../specHelpers/getMorphologyData";
+import {
+	findShortestAndAlphabeticallyFirst,
+	determineIrregularStem,
+	determineIrregularVerbStem,
+	determineRegularStem,
+	determineStem,
+} from "../../../../../../src/languageProcessing/languages/en/helpers/internal/determineStem.js";
+
+import getMorphologyData from "../../../../../specHelpers/getMorphologyData";
 
 
 const morphologyDataEN = getMorphologyData( "en" ).en;
@@ -66,6 +69,7 @@ describe( "determineIrregularStem and determineIrregularVerbStem", function() {
 } );
 
 describe( "determineRegularStem", function() {
+	// eslint-disable-next-line max-statements
 	it( "returns the stem of an regular word", function() {
 		expect( determineRegularStem( "word", morphologyDataEN ) ).toEqual( "word" );
 		expect( determineRegularStem( "words", morphologyDataEN ) ).toEqual( "word" );
@@ -126,6 +130,7 @@ describe( "determineRegularStem", function() {
 } );
 
 describe( "determineStem", function() {
+	// eslint-disable-next-line max-statements
 	it( "returns the stem of a regular word", function() {
 		expect( determineStem( "word", morphologyDataEN ) ).toEqual( "word" );
 		expect( determineStem( "words", morphologyDataEN ) ).toEqual( "word" );
@@ -163,6 +168,7 @@ describe( "determineStem", function() {
 		expect( determineStem( "supplyings", morphologyDataEN ) ).toEqual( "supply" );
 	} );
 
+	// eslint-disable-next-line max-statements
 	it( "returns the stem of verbal forms that should get -e at the end", function() {
 		expect( determineStem( "sharing", morphologyDataEN ) ).toEqual( "share" );
 		expect( determineStem( "shared", morphologyDataEN ) ).toEqual( "share" );
@@ -289,6 +295,7 @@ describe( "determineStem", function() {
 		expect( determineStem( "ying", morphologyDataEN ) ).toEqual( "ying" );
 	} );
 
+	// eslint-disable-next-line max-statements
 	it( "returns the stem of an irregular verb/noun", function() {
 		expect( determineStem( "bless", morphologyDataEN ) ).toEqual( "bless" );
 		expect( determineStem( "blesses", morphologyDataEN ) ).toEqual( "bless" );
