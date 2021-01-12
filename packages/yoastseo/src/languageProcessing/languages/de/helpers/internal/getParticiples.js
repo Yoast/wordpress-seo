@@ -1,9 +1,10 @@
 import getWords from "../../../../helpers/word/getWords.js";
-import regexFunction from "../../config/internal/passiveVoiceRegex.js";
-import irregularParticiples from "../../config/internal/passiveVoiceIrregulars.js";
+import regexFunctionFactory from "../../config/internal/passiveVoiceRegex.js";
+const regexFunction = regexFunctionFactory();
+import irregularParticiplesFactory from "../../config/internal/passiveVoiceIrregulars.js";
+const irregularParticiples = irregularParticiplesFactory();
 import GermanParticiple from "../../values/GermanParticiple.js";
 import { forEach } from "lodash-es";
-import { includes } from "lodash-es";
 
 const verbsBeginningWithErVerEntBeZerHerUber = regexFunction.verbsBeginningWithErVerEntBeZerHerUber;
 const verbsBeginningWithGe = regexFunction.verbsBeginningWithGe;
@@ -56,7 +57,7 @@ export default function( sentencePartText, auxiliaries ) {
 				new GermanParticiple( word, sentencePartText, { auxiliaries: auxiliaries, type: "iert at the end", language: "de" } )
 			);
 		}
-		if ( includes( irregularParticiples, word ) ) {
+		if ( irregularParticiples.includes( word ) ) {
 			foundParticiples.push(
 				new GermanParticiple( word, sentencePartText, { auxiliaries: auxiliaries, type: "irregular", language: "de" } )
 			);

@@ -1,5 +1,6 @@
-import { detectAndStemRegularParticiple } from "../../../src/languageProcessing/languages/de/helpers/internal/detectAndStemRegularParticiple";
-import getMorphologyData from "../../specHelpers/getMorphologyData";
+// eslint-disable-next-line max-len
+import { detectAndStemRegularParticiple } from "../../../../../../src/languageProcessing/languages/de/helpers/internal/detectAndStemRegularParticiple";
+import getMorphologyData from "../../../../../specHelpers/getMorphologyData";
 
 
 const morphologyDataDE = getMorphologyData( "de" ).de;
@@ -17,8 +18,12 @@ describe( "Detects and stems participles", () => {
 		expect( detectAndStemRegularParticiple( morphologyDataDE.verbs, "gekauft" ) ).toEqual( "kauf" );
 	} );
 
+	it( "detects a participle and stems it; input: ge-stem-et participle", () => {
+		expect( detectAndStemRegularParticiple( morphologyDataDE.verbs, "gebildet" ) ).toEqual( "bild" );
+	} );
+
 	it( "detects a participle and stems it; input: separablePrefix-ge-stem-t participle", () => {
-		// Separable prefix: weiter.
+		// Separable prefix: herauf.
 		expect( detectAndStemRegularParticiple( morphologyDataDE.verbs, "heraufgeholt" ) ).toEqual( "heraufhol" );
 	} );
 
@@ -65,5 +70,9 @@ describe( "Detects and stems participles", () => {
 	it( "detects a participle and stems it; input: separableOrInseparablePrefix-stem-et participle", () => {
 		// Inseparable/separable prefix: durch.
 		expect( detectAndStemRegularParticiple( morphologyDataDE.verbs, "durchlüftet" ) ).toEqual( "durchlüft" );
+	} );
+
+	it( "returns null if the word is not detected as a participle", () => {
+		expect( detectAndStemRegularParticiple( morphologyDataDE.verbs, "apfel" ) ).toEqual( null );
 	} );
 } );
