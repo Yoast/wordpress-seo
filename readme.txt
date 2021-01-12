@@ -234,6 +234,17 @@ Your question has most likely been answered on our knowledge base: [kb.yoast.com
 
 == Changelog ==
 
+= 15.6.1 =
+Release Date: January 12th, 2021
+
+Bugfixes:
+
+ * Fixes a bug where the estimated reading time would not be shown when posts that were created before Yoast SEO 15.6 were shared on Slack.
+
+Other:
+
+ * Adjusts the default words per minute for the estimated reading time from 250 words per minute to 200 words per minute.
+
 = 15.6 =
 Release Date: January 12th, 2021
 
