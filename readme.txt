@@ -239,11 +239,11 @@ Release Date: January 12th, 2021
 
 Bugfixes:
 
- * Fixes a bug where the Enhanced Slack sharing integration did not show Estimated Reading Time for posts that were not recently created or updated.
+ * Fixes a bug where the estimated reading time would not be shown when posts that were created before Yoast SEO 15.6 were shared on Slack.
 
 Other:
 
- * Adjusted the default words per minute for the estimated reading time from 250 words per minute, to 200 words per minute.
+ * Adjusts the default words per minute for the estimated reading time from 250 words per minute to 200 words per minute.
 
 = 15.6 =
 Release Date: January 12th, 2021
