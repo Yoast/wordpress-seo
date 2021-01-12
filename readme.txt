@@ -255,6 +255,17 @@ Other:
 
 * Changes the wording on the `my.yoast.com` connect error shown in Health Check when a Yoast premium plugin is enabled, to lead with what the user's problem is.
 
+= 15.6.1 =
+Release Date: January 12th, 2021
+
+Bugfixes:
+
+ * Fixes a bug where the Enhanced Slack sharing integration did not show Estimated Reading Time for posts that were not recently created or updated.
+
+Other:
+
+ * Adjusted the default words per minute for the estimated reading time from 250 words per minute, to 200 words per minute.
+
 = 15.6 =
 Release Date: January 12th, 2021
 
