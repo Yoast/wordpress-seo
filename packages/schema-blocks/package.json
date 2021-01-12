@@ -1,6 +1,6 @@
 {
   "name": "@yoast/schema-blocks",
-  "version": "1.0.0",
+  "version": "1.2.0-rc.1",
   "main": "dist/index.js",
   "license": "MIT",
   "private": false,
@@ -43,13 +43,15 @@
     "jest": "^26.0.15",
     "lodash": "^4.17.15",
     "moment": "^2.24.0",
-    "react": "^16.13.0",
-    "react-dom": "^16.13.0",
     "react-test-renderer": "^16.13.0",
     "react-with-direction": "^1.3.1",
     "ts-jest": "^26.0.15",
     "typescript": "^3.7.4",
     "xmldom": "^0.1.27"
+  },
+  "peerDependencies": {
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0"
   },
   "scripts": {
     "build": "tsc",
@@ -58,7 +60,7 @@
     "lint": "eslint \"src/**\"",
     "lint-fix": "eslint \"src/**\" --fix",
     "test": "jest",
-    "prepublishOnly": "rm -rf dist && tsc && cp package.json dist/package.json && json -I -f dist/package.json -e \"this.main='index.js'\""
+    "prepublishOnly": "rm -rf dist && tsc && mkdir dist/css && cp -r css/*.css dist/css && cp package.json dist/package.json && json -I -f dist/package.json -e \"this.main='index.js'\""
   },
   "publishConfig": {
     "access": "public"
