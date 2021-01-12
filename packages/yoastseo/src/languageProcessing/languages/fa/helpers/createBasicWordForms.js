@@ -43,7 +43,7 @@ const createForms = function( word ) {
  *
  * @param {string} word  The word to check
  *
- * @returns {string}    The stemmed word
+ * @returns {string} The stemmed word
  */
 const stemWord = function( word ) {
 	const prefix = "ن";
@@ -67,7 +67,7 @@ const stemWord = function( word ) {
  *
  * @param {string} word     The word for which to create basic word forms.
  *
- * @returns {Array}        Prefixed and de-prefixed variations of a word.
+ * @returns {Array} Prefixed and de-prefixed variations of a word.
  */
 export default function createBasicWordForms( word ) {
 	const forms = [];
@@ -81,7 +81,7 @@ export default function createBasicWordForms( word ) {
 	forms.push( ...createForms( word ) );
 
 	/*
-	 * If a word starts with a prefix or is it ends with one of the suffixes, we strip it and create all possible
+	 * If a word starts with a prefix or if it ends with one of the suffixes, we strip it and create all possible
 	 * affixed forms based on this stem.
 	 */
 	const stemmedWord = stemWord( word );
