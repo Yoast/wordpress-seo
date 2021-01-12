@@ -681,8 +681,8 @@ class Indexable_Presentation extends Abstract_Presentation {
 			return null;
 		}
 
-		// 250 is the estimated words per minute, https://en.wikipedia.org/wiki/Speed_reading.
-		$words_per_minute = 250;
+		// 200 is the approximate estimated words per minute across languages.
+		$words_per_minute = 200;
 		$words            = \str_word_count( \wp_strip_all_tags( $this->context->post->post_content ) );
 		return (int) \round( $words / $words_per_minute );
 	}
