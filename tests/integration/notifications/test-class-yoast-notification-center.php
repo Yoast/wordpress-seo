@@ -932,15 +932,19 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 	 *
 	 * @return PHPUnit_Framework_MockObject_Invocation_Object | WP_User
 	 */
-	private function mock_wp_user( $user_id, $role_caps ) {
+	private function mock_wp_user( $user_id, $caps ) {
 		$user_mock = $this
 			->getMockBuilder( 'WP_User' )
-			->setMethods( [ 'get_role_caps' ] )
+			->setMethods( [ 'has_cap' ] )
 			->getMock();
 
 		$user_mock
-			->method( 'get_role_caps' )
-			->willReturn( $role_caps );
+			->expects( $this->any() )
+			->method( 'has_cap' )
+			->with( $this->isType('string') )
+			->willReturn( $this->returnCallback(function($argument) use ($caps) {
+				   return isset($caps[$argument]) ? $caps[$argument] : false;
+			} ));
 
 		$user_mock->ID = $user_id;
 
