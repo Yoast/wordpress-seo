@@ -2,8 +2,8 @@ import isPassiveSentencePart from "../../../../../src/languageProcessing/languag
 
 describe( "determines whether sentence part is passive", function() {
 	it( "returns true if the sentence is passive", function() {
-		const sentencePart =  "Le chat a été amené chez le vétérinaire.";
-		const sentencePartAuxiliaries = [ "été" ];
+		const sentencePart =  "Le chat est amené chez le vétérinaire.";
+		const sentencePartAuxiliaries = [ "est" ];
 		expect( isPassiveSentencePart( sentencePart, sentencePartAuxiliaries ).toBeTruthy );
 	} );
 	it( "returns false is the sentence is not passive", function() {
