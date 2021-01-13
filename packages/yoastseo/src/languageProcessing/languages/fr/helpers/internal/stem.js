@@ -65,13 +65,12 @@ import { applyAllReplacements } from "../../../../helpers/morphology/regexHelper
  * @returns {[number]} The R1, R2 and RV.
  */
 const determineRs = function( word, rIntervalsData ) {
-	let rvIndex = -1;
+	let rvIndex;
 
 	if ( word.search( new RegExp( rIntervalsData.rvRegex1 ) ) !== -1 || word.search( new RegExp( rIntervalsData.rvRegex2 ) ) !== -1 ) {
 		rvIndex = 3;
 	} else {
 		rvIndex = word.substring( 1 ).search( new RegExp( rIntervalsData.rvRegex3 ) );
-
 		if ( rvIndex === -1 ) {
 			rvIndex = word.length;
 		} else {
@@ -79,7 +78,6 @@ const determineRs = function( word, rIntervalsData ) {
 			rvIndex += 2;
 		}
 	}
-
 	/*
 	 * R1 is the region after the first non-vowel following a vowel, or the end of the word if there is no such non-vowel.
 	 * R2 is the region after the first non-vowel following a vowel in R1, or the end of the word if there is no such non-vowel.
@@ -94,16 +92,14 @@ const determineRs = function( word, rIntervalsData ) {
 		r1 = word.substring( r1Index );
 	}
 
-	let r2Index = -1;
-	if ( r1Index !== -1 ) {
-		r2Index = r1.search( r1Regex );
-		if ( r2Index === -1 ) {
-			r2Index = word.length;
-		} else {
-			r2Index += 2;
-			r2Index += r1Index;
-		}
+	let r2Index = r1.search( r1Regex );
+	if ( r2Index === -1 ) {
+		r2Index = word.length;
+	} else {
+		r2Index += 2;
+		r2Index += r1Index;
 	}
+
 	if ( r1Index !== -1 && r1Index < 3 ) {
 		r1Index = 3;
 	}
@@ -192,7 +188,7 @@ const processStandardSuffixes = function( word, standardSuffixData, r1Index, r2I
 			// If preceded by abl or iqU, delete if in R2
 			word = word.slice( 0, precedingCharacter5 ) + standardSuffixData.suffixesPrecedingChar5[ 1 ];
 		} else if ( precedingCharacter6 >= rvIndex ) {
-			// If preceded by abl or iqU, delete if in R2
+			// If preceded by ièr, replace with i if in RV
 			word = word.slice( 0, precedingCharacter6 ) + standardSuffixData.suffixesPrecedingChar6[ 1 ];
 		}
 	} else if ( a7Index !== -1 && a7Index >= r2Index ) {
@@ -216,7 +212,7 @@ const processStandardSuffixes = function( word, standardSuffixData, r1Index, r2I
 				// Else replace by iqU
 				word = word.substring( 0, a7Index3 ) + standardSuffixData.suffixesPrecedingChar1[ 1 ];
 			}
-		} else if ( word.search( new RegExp( standardSuffixData.suffixesPrecedingChar2[ 0 ] ) ) !== r2Index ) {
+		} else if ( word.search( new RegExp( standardSuffixData.suffixesPrecedingChar2[ 0 ] ) ) >= r2Index ) {
 			word = word.replace( new RegExp( standardSuffixData.suffixesPrecedingChar2[ 0 ] ), standardSuffixData.suffixesPrecedingChar2[ 1 ] );
 		}
 	} else if ( a8Index !== -1 && a8Index >= r2Index ) {

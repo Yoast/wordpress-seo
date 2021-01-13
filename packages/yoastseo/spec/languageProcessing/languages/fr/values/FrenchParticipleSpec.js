@@ -1,5 +1,7 @@
-import FrenchParticiple from "../../../../src/languages/legacy/researches/french/passiveVoice/FrenchParticiple";
-import checkException from "../../../../src/languages/legacy/researches/passiveVoice/periphrastic/checkException";
+import FrenchParticiple from "../../../../../src/languageProcessing/languages/fr/values/FrenchParticiple.js";
+import checkException from "../../../../../src/languageProcessing/helpers/passiveVoice/periphrastic/checkException.js";
+import { cannotBeBetweenPassiveAuxiliaryAndParticiple,
+	cannotDirectlyPrecedePassiveParticiple } from "../../../../../src/languageProcessing/languages/fr/config/functionWords";
 
 describe( "A test for checking the French participle", function() {
 	it( "checks the properties of the French participle object with a passive", function() {
@@ -8,8 +10,10 @@ describe( "A test for checking the French participle", function() {
 		expect( mockParticiple.isOnAdjectivesVerbsExceptionList() ).toBe( false );
 		expect( mockParticiple.isOnNounsExceptionList() ).toBe( false );
 		expect( mockParticiple.isOnOthersExceptionList() ).toBe( false );
-		expect( mockParticiple.directPrecedenceException( mockParticiple._sentencePart, mockParticiple._participle, "fr" ) ).toBe( false );
-		expect( mockParticiple.precedenceException( mockParticiple._sentencePart, mockParticiple._participle, "fr" ) ).toBe( false );
+		expect( mockParticiple.directPrecedenceException( mockParticiple._sentencePart, mockParticiple._participle,
+			cannotDirectlyPrecedePassiveParticiple ) ).toBe( false );
+		expect( mockParticiple.precedenceException( mockParticiple._sentencePart, mockParticiple._participle,
+			cannotBeBetweenPassiveAuxiliaryAndParticiple ) ).toBe( false );
 		expect( mockParticiple.determinesSentencePartIsPassive() ).toBe( true );
 	} );
 
@@ -19,8 +23,10 @@ describe( "A test for checking the French participle", function() {
 		expect( mockParticiple.isOnAdjectivesVerbsExceptionList() ).toBe( true );
 		expect( mockParticiple.isOnNounsExceptionList() ).toBe( false );
 		expect( mockParticiple.isOnOthersExceptionList() ).toBe( false );
-		expect( mockParticiple.directPrecedenceException( mockParticiple._sentencePart, mockParticiple._participle, "fr" ) ).toBe( false );
-		expect( mockParticiple.precedenceException( mockParticiple._sentencePart, mockParticiple._participle, "fr" ) ).toBe( false );
+		expect( mockParticiple.directPrecedenceException( mockParticiple._sentencePart, mockParticiple._participle,
+			cannotDirectlyPrecedePassiveParticiple ) ).toBe( false );
+		expect( mockParticiple.precedenceException( mockParticiple._sentencePart, mockParticiple._participle,
+			cannotBeBetweenPassiveAuxiliaryAndParticiple ) ).toBe( false );
 		expect( mockParticiple.determinesSentencePartIsPassive() ).toBe( false );
 	} );
 
@@ -30,8 +36,10 @@ describe( "A test for checking the French participle", function() {
 		expect( mockParticiple.isOnAdjectivesVerbsExceptionList() ).toBe( true );
 		expect( mockParticiple.isOnNounsExceptionList() ).toBe( false );
 		expect( mockParticiple.isOnOthersExceptionList() ).toBe( false );
-		expect( mockParticiple.directPrecedenceException( mockParticiple._sentencePart, mockParticiple._participle, "fr" ) ).toBe( false );
-		expect( mockParticiple.precedenceException( mockParticiple._sentencePart, mockParticiple._participle, "fr" ) ).toBe( false );
+		expect( mockParticiple.directPrecedenceException( mockParticiple._sentencePart, mockParticiple._participle,
+			cannotDirectlyPrecedePassiveParticiple ) ).toBe( false );
+		expect( mockParticiple.precedenceException( mockParticiple._sentencePart, mockParticiple._participle,
+			cannotBeBetweenPassiveAuxiliaryAndParticiple ) ).toBe( false );
 		expect( mockParticiple.determinesSentencePartIsPassive() ).toBe( false );
 	} );
 
@@ -41,12 +49,15 @@ describe( "A test for checking the French participle", function() {
 		expect( mockParticiple.isOnAdjectivesVerbsExceptionList() ).toBe( false );
 		expect( mockParticiple.isOnNounsExceptionList() ).toBe( true );
 		expect( mockParticiple.isOnOthersExceptionList() ).toBe( false );
-		expect( mockParticiple.directPrecedenceException( mockParticiple._sentencePart, mockParticiple._participle, "fr" ) ).toBe( true );
-		expect( mockParticiple.precedenceException( mockParticiple._sentencePart, mockParticiple._participle, "fr" ) ).toBe( false );
+		expect( mockParticiple.directPrecedenceException( mockParticiple._sentencePart, mockParticiple._participle,
+			cannotDirectlyPrecedePassiveParticiple ) ).toBe( true );
+		expect( mockParticiple.precedenceException( mockParticiple._sentencePart, mockParticiple._participle,
+			cannotBeBetweenPassiveAuxiliaryAndParticiple ) ).toBe( false );
 		expect( mockParticiple.determinesSentencePartIsPassive() ).toBe( false );
 	} );
 
-	it( "checks the properties of the French participle object with a noun exception ending in é and beginning with a contracted article", function() {
+	it( "checks the properties of the French participle object with a noun exception ending in é and beginning with a" +
+		" contracted article", function() {
 		const mockParticiple = new FrenchParticiple( "l'intégrité",
 			"Est-ce que la création de cet outil contribuera à améliorer l’intégrité scientifique ?",
 			{ auxiliaries: [ "est-ce" ], type: "regular", language: "fr" }
@@ -55,8 +66,10 @@ describe( "A test for checking the French participle", function() {
 		expect( mockParticiple.isOnAdjectivesVerbsExceptionList() ).toBe( false );
 		expect( mockParticiple.isOnNounsExceptionList() ).toBe( true );
 		expect( mockParticiple.isOnOthersExceptionList() ).toBe( false );
-		expect( mockParticiple.directPrecedenceException( mockParticiple._sentencePart, mockParticiple._participle, "fr" ) ).toBe( false );
-		expect( mockParticiple.precedenceException( mockParticiple._sentencePart, mockParticiple._participle, "fr" ) ).toBe( false );
+		expect( mockParticiple.directPrecedenceException( mockParticiple._sentencePart, mockParticiple._participle,
+			cannotDirectlyPrecedePassiveParticiple ) ).toBe( false );
+		expect( mockParticiple.precedenceException( mockParticiple._sentencePart, mockParticiple._participle,
+			cannotBeBetweenPassiveAuxiliaryAndParticiple ) ).toBe( false );
 		expect( mockParticiple.determinesSentencePartIsPassive() ).toBe( false );
 	} );
 
@@ -70,8 +83,10 @@ describe( "A test for checking the French participle", function() {
 		expect( mockParticiple.isOnAdjectivesVerbsExceptionList() ).toBe( false );
 		expect( mockParticiple.isOnNounsExceptionList() ).toBe( true );
 		expect( mockParticiple.isOnOthersExceptionList() ).toBe( false );
-		expect( mockParticiple.directPrecedenceException( mockParticiple._sentencePart, mockParticiple._participle, "fr" ) ).toBe( true );
-		expect( mockParticiple.precedenceException( mockParticiple._sentencePart, mockParticiple._participle, "fr" ) ).toBe( false );
+		expect( mockParticiple.directPrecedenceException( mockParticiple._sentencePart, mockParticiple._participle,
+			cannotDirectlyPrecedePassiveParticiple ) ).toBe( true );
+		expect( mockParticiple.precedenceException( mockParticiple._sentencePart, mockParticiple._participle,
+			cannotBeBetweenPassiveAuxiliaryAndParticiple ) ).toBe( false );
 		expect( mockParticiple.determinesSentencePartIsPassive() ).toBe( false );
 	} );
 
@@ -85,16 +100,20 @@ describe( "A test for checking the French participle", function() {
 		expect( mockParticiple.isOnAdjectivesVerbsExceptionList() ).toBe( false );
 		expect( mockParticiple.isOnNounsExceptionList() ).toBe( false );
 		expect( mockParticiple.isOnOthersExceptionList() ).toBe( true );
-		expect( mockParticiple.directPrecedenceException( mockParticiple._sentencePart, mockParticiple._participle, "fr" ) ).toBe( false );
-		expect( mockParticiple.precedenceException( mockParticiple._sentencePart, mockParticiple._participle, "fr" ) ).toBe( false );
+		expect( mockParticiple.directPrecedenceException( mockParticiple._sentencePart, mockParticiple._participle,
+			cannotDirectlyPrecedePassiveParticiple ) ).toBe( false );
+		expect( mockParticiple.precedenceException( mockParticiple._sentencePart, mockParticiple._participle,
+			cannotBeBetweenPassiveAuxiliaryAndParticiple ) ).toBe( false );
 		expect( mockParticiple.determinesSentencePartIsPassive() ).toBe( false );
 	} );
 
 	it( "checks the properties of the French participle object with a direct precedence exception", function() {
 		// Direct precedence exception word: en.
 		const mockParticiple = new FrenchParticiple( "vue", "C'est en vue.", { auxiliaries: [ "c'est" ], type: "irregular", language: "fr" } );
-		expect( mockParticiple.directPrecedenceException( mockParticiple._sentencePart, mockParticiple._participle, "fr" ) ).toBe( true );
-		expect( mockParticiple.precedenceException( mockParticiple._sentencePart, mockParticiple._participle, "fr" ) ).toBe( false );
+		expect( mockParticiple.directPrecedenceException( mockParticiple._sentencePart, mockParticiple._participle,
+			cannotDirectlyPrecedePassiveParticiple ) ).toBe( true );
+		expect( mockParticiple.precedenceException( mockParticiple._sentencePart, mockParticiple._participle,
+			cannotBeBetweenPassiveAuxiliaryAndParticiple ) ).toBe( false );
 		expect( mockParticiple.determinesSentencePartIsPassive() ).toBe( false );
 	} );
 
@@ -105,8 +124,10 @@ describe( "A test for checking the French participle", function() {
 			type: "irregular",
 			language: "fr",
 		} );
-		expect( mockParticiple.directPrecedenceException( mockParticiple._sentencePart, mockParticiple._participle, "fr" ) ).toBe( false );
-		expect( mockParticiple.precedenceException( mockParticiple._sentencePart, mockParticiple._participle, "fr" ) ).toBe( true );
+		expect( mockParticiple.directPrecedenceException( mockParticiple._sentencePart, mockParticiple._participle,
+			cannotDirectlyPrecedePassiveParticiple ) ).toBe( false );
+		expect( mockParticiple.precedenceException( mockParticiple._sentencePart, mockParticiple._participle,
+			cannotBeBetweenPassiveAuxiliaryAndParticiple ) ).toBe( true );
 		expect( mockParticiple.determinesSentencePartIsPassive() ).toBe( false );
 	} );
 
@@ -117,8 +138,10 @@ describe( "A test for checking the French participle", function() {
 			type: "irregular",
 			language: "fr",
 		} );
-		expect( mockParticiple.directPrecedenceException( mockParticiple._sentencePart, mockParticiple._participle, "fr" ) ).toBe( false );
-		expect( mockParticiple.precedenceException( mockParticiple._sentencePart, mockParticiple._participle, "fr" ) ).toBe( true );
+		expect( mockParticiple.directPrecedenceException( mockParticiple._sentencePart, mockParticiple._participle,
+			cannotDirectlyPrecedePassiveParticiple ) ).toBe( false );
+		expect( mockParticiple.precedenceException( mockParticiple._sentencePart, mockParticiple._participle,
+			cannotBeBetweenPassiveAuxiliaryAndParticiple ) ).toBe( true );
 		expect( mockParticiple.determinesSentencePartIsPassive() ).toBe( false );
 	} );
 
