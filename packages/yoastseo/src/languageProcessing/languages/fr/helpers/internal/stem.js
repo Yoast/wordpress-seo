@@ -65,7 +65,7 @@ import { applyAllReplacements } from "../../../../helpers/morphology/regexHelper
  * @returns {[number]} The R1, R2 and RV.
  */
 const determineRs = function( word, rIntervalsData ) {
-	let rvIndex = -1;
+	let rvIndex;
 
 	if ( word.search( new RegExp( rIntervalsData.rvRegex1 ) ) !== -1 || word.search( new RegExp( rIntervalsData.rvRegex2 ) ) !== -1 ) {
 		rvIndex = 3;
