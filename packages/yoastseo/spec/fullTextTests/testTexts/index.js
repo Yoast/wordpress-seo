@@ -57,6 +57,11 @@ import turkishPaper1 from "./tr/turkishPaper1";
 import turkishPaper2 from "./tr/turkishPaper2";
 import turkishPaper3 from "./tr/turkishPaper3";
 
+// Hungarian papers
+import hungarianPaper1 from "./hu/hungarianPaper1";
+import hungarianPaper2 from "./hu/hungarianPaper2";
+import hungarianPaper3 from "./hu/hungarianPaper3";
+
 export default [
 	englishPaper1,
 	englishPaper2,
@@ -92,5 +97,8 @@ export default [
 	turkishPaper1,
 	turkishPaper2,
 	turkishPaper3,
+	hungarianPaper1,
+	hungarianPaper2,
+	hungarianPaper3,
 ];
 
