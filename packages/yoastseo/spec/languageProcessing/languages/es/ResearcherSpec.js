@@ -1,4 +1,3 @@
-import getSentenceParts from "../../../../src/languageProcessing/languages/es/helpers/getSentenceParts";
 import Researcher from "../../../../src/languageProcessing/languages/es/Researcher.js";
 import Paper from "../../../../src/values/Paper.js";
 import getMorphologyData from "../../../specHelpers/getMorphologyData";
