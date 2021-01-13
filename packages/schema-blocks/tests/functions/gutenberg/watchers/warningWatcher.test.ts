@@ -134,7 +134,9 @@ describe( "The warning watcher", () => {
 			instructions: {
 				32: new InnerBlocks( 32, {
 					recommendedBlocks: [
-						"yoast/ingredients",
+						{
+							name: "yoast/ingredients",
+						},
 					],
 				} ),
 			},

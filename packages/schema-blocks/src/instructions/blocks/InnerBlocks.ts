@@ -4,7 +4,7 @@ import { InnerBlocks as WordPressInnerBlocks } from "@wordpress/block-editor";
 import { BlockInstance, TemplateArray } from "@wordpress/blocks";
 
 import BlockInstruction from "../../core/blocks/BlockInstruction";
-import { RequiredBlock } from "./dto";
+import { RecommendedBlock, RequiredBlock } from "./dto";
 import { getInvalidInnerBlocks } from "../../functions/validators";
 import { InvalidBlockReason } from "./enums";
 import { RenderEditProps } from "../../core/blocks/BlockDefinition";
@@ -22,7 +22,7 @@ export default class InnerBlocks extends BlockInstruction {
 		appender: string;
 		appenderLabel: string;
 		requiredBlocks: RequiredBlock[];
-		recommendedBlocks: string[];
+		recommendedBlocks: RecommendedBlock[];
 		warnings: InstructionObject;
 	};
 

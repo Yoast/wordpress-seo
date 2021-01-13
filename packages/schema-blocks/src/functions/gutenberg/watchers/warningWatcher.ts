@@ -9,6 +9,7 @@ import { mapBlocksRecursively } from "../../innerBlocksHelper";
 import BlockDefinition from "../../../core/blocks/BlockDefinition";
 import { InstructionObject } from "../../../core/Instruction";
 import { getBlockType } from "../../BlockHelper";
+import { RequiredBlock, RecommendedBlock } from "../../../instructions/blocks/dto";
 
 enum WarningType {
 	BLOCK_REQUIRED,
@@ -111,12 +112,27 @@ function addWarnings(
 
 		let message = "";
 		if ( warnings ) {
-			message = warnings[ parentBlock.clientId ] as string;
+			message = warnings[ removedBlock.name ] as string;
 		}
 		const warning = createWarning( removedBlock, message, warningType );
 
 		dispatch( "core/block-editor" ).insertBlock( warning, index, parentBlock.clientId );
 	} );
+}
+
+/**
+ * Creates a map mapping block type to warning message.
+ *
+ * @param blocks The required or recommended blocks.
+ *
+ * @returns A map mapping block type to warning message.
+ */
+function createWarningMap( blocks: RequiredBlock[] | RecommendedBlock[] ): Record<string, string> {
+	const warningMessages: Record<string, string> = {};
+	blocks.forEach( requiredBlock => {
+		warningMessages[ requiredBlock.name ] = requiredBlock.warning || "";
+	} );
+	return warningMessages;
 }
 
 /**
@@ -137,7 +153,7 @@ function addWarningsForRequiredBlocks(
 	addWarnings(
 		removedRequiredInnerBlocks,
 		parentBlock,
-		innerBlocksInstruction.options.warnings,
+		createWarningMap( requiredBlocks ),
 		WarningType.BLOCK_REQUIRED,
 	);
 }
@@ -156,11 +172,11 @@ function addWarningsForRecommendedBlocks(
 ) {
 	const recommendedBlocks = innerBlocksInstruction.options.recommendedBlocks || [];
 	const removedRecommendedInnerBlocks = removedInnerBlocks
-		.filter( innerBlock => recommendedBlocks.some( recommendedBlockName => innerBlock.name === recommendedBlockName ) );
+		.filter( innerBlock => recommendedBlocks.some( recommendedBlock => innerBlock.name === recommendedBlock.name ) );
 	addWarnings(
 		removedRecommendedInnerBlocks,
 		parentBlock,
-		innerBlocksInstruction.options.warnings,
+		createWarningMap( recommendedBlocks ),
 		WarningType.BLOCK_RECOMMENDED,
 	);
 }
