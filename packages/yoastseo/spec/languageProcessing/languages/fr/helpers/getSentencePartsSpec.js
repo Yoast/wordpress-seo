@@ -14,7 +14,7 @@ describe( "splits French sentences into parts", function() {
 		expect( getSentenceParts( sentence, ).length ).toBe( 1 );
 	} );
 
-	it( "doesn't return sentence parts when there is a sentence breaker within a word", function() {
+	it( "doesn't split sentences on a sentence breaker if it's within a word", function() {
 		// Sentence breaker: 'es' in 'responsable', 'tes' and 'actes'.
 		const sentence = "Désormais tu es responsable de tes actes.";
 		expect( getSentenceParts( sentence, )[ 0 ].getSentencePartText() ).toBe( "es responsable de tes actes." );
@@ -27,7 +27,7 @@ describe( "splits French sentences into parts", function() {
 		expect( getSentenceParts( sentence, ).length ).toBe( 1 );
 	} );
 
-	it( "doesn't return sentence parts when there is a stop characters that is not followed by a space/punctuation mark", function() {
+	it( "doesn't split sentences on a stop character that is not followed by a space/punctuation mark", function() {
 		const sentence = "La branche était déficitaire de 1,5 milliard.";
 		expect( getSentenceParts( sentence, )[ 0 ].getSentencePartText() ).toBe( "était déficitaire de 1,5 milliard." );
 		expect( getSentenceParts( sentence, ).length ).toBe( 1 );
