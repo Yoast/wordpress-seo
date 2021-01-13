@@ -9,7 +9,7 @@ const paper = new Paper( content, {
 	description: "A világegyetem (latinosan univerzum) csillagászati fogalom, minden létező összességét jelenti.",
 	title: "Világegyetem",
 	titleWidth: 450,
-	locale: "tr_TR",
+	locale: "hu_HU",
 	permalink: "https://hu.wikipedia.org/wiki/Vil%C3%A1gegyetem",
 	url: "Világegyetem",
 } );
@@ -28,7 +28,7 @@ const expectedResults = {
 	keywordDensity: {
 		isApplicable: true,
 		score: 9,
-		resultText: "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: The focus keyphrase was found 14 times. This is great!",
+		resultText: "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: The focus keyphrase was found 15 times. This is great!",
 	},
 	metaDescriptionKeyword: {
 		isApplicable: true,
@@ -121,7 +121,7 @@ const expectedResults = {
 	textTransitionWords: {
 		isApplicable: true,
 		score: 3,
-		resultText: "<a href='https://yoa.st/34z' target='_blank'>Transition words</a>: None of the sentences contain transition words. <a href='https://yoa.st/35a' target='_blank'>Use some</a>.",
+		resultText: "<a href='https://yoa.st/34z' target='_blank'>Transition words</a>: Only 7.1% of the sentences contain transition words, which is not enough. <a href='https://yoa.st/35a' target='_blank'>Use more of them</a>.",
 	},
 	passiveVoice: {
 		isApplicable: true,
@@ -135,8 +135,8 @@ const expectedResults = {
 	},
 	sentenceBeginnings: {
 		isApplicable: true,
-		score: 3,
-		resultText: "<a href='https://yoa.st/35f' target='_blank'>Consecutive sentences</a>: The text contains 3 consecutive sentences starting with the same word. <a href='https://yoa.st/35g' target='_blank'>Try to mix things up</a>!",
+		score: 9,
+		resultText: "<a href='https://yoa.st/35f' target='_blank'>Consecutive sentences</a>: There is enough variety in your sentences. That's great!",
 	},
 };
 
