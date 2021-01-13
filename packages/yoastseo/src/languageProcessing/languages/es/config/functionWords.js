@@ -309,4 +309,12 @@ export const all = [].concat( articles, cardinalNumerals, ordinalNumerals, demon
 	delexicalizedVerbsInfinitive, interjections, generalAdjectivesAdverbs, recipeWords, vagueNouns, miscellaneous,
 	titlesPreceding, titlesFollowing );
 
-export default {};
+export default {
+	filteredAtBeginning,
+	filteredAtEnding,
+	filteredAtBeginningAndEnding,
+	filteredAnywhere,
+	cannotDirectlyPrecedePassiveParticiple,
+	cannotBeBetweenPassiveAuxiliaryAndParticiple,
+	all,
+};

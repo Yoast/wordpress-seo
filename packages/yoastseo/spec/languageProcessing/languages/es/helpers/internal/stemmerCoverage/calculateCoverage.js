@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
-import stem from "../../../../src/languageProcessing/languages/es/helpers/internal/stem";
-import getMorphologyData from "../../../specHelpers/getMorphologyData";
+import stem from "../../../../../../../src/languageProcessing/languages/es/helpers/internal/stem";
+import getMorphologyData from "../../../../../../../spec/specHelpers/getMorphologyData";
 import goldStandard from "./goldStandardStems.json";
 
 const morphologyDataES = getMorphologyData( "es" ).es;
@@ -16,6 +16,6 @@ describe( "Calculate coverage for the Spanish stemmer", () => {
 		const coverage = ( stemsComparison.length - errors.length ) / stemsComparison.length;
 
 		expect( coverage ).toBeGreaterThan( coverageThreshold );
-		console.log( "The current coverage of the Spanish stemmer is", coverage * 100, "%." );
+		console.log( "The current coverage of the Spanish stemmer is", coverage * 100, "%. The number of errors is ", errors.length + ".\"" );
 	} );
 } );

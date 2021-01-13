@@ -26,7 +26,7 @@ const isVowel = function( c ) {
 	return regex.test( c );
 };
 
-const nextVowelPosition = function( word, start = 0 ) {
+const nextVowelPosition = function( word, start ) {
 	const length = word.length;
 
 	for ( let position = start; position < length; position++ ) {
@@ -38,7 +38,7 @@ const nextVowelPosition = function( word, start = 0 ) {
 	return length;
 };
 
-const nextConsonantPosition = function( word, start = 0 ) {
+const nextConsonantPosition = function( word, start ) {
 	const length = word.length;
 
 	for ( let position = start; position < length; position++ ) {
@@ -124,7 +124,7 @@ const tryStemAsSuperlative = function( word, r1Text, superlativesStemming ) {
 		return word;
 	}
 
-	return buildOneFormFromRegex( word, createRulesFromArrays( superlativesStemming.superlativeToStem ) ) || word;
+	return buildOneFormFromRegex( word, createRulesFromArrays( superlativesStemming.superlativeToStem ) );
 };
 
 /**
