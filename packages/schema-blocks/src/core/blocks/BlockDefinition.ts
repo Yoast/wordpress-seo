@@ -23,7 +23,7 @@ export type MutableBlockConfiguration = {
  * BlockDefinition class.
  */
 export default class BlockDefinition extends Definition {
-	public static separatorCharacters = ["@", "#", "$", "%", "^", "&", "*", "(", ")", "{", "}", "[", "]"];
+	public static separatorCharacters = [ "@", "#", "$", "%", "^", "&", "*", "(", ")", "{", "}", "[", "]" ];
 	public static parser = parse;
 
 	public instructions: Record<string, BlockInstruction>;
@@ -36,23 +36,23 @@ export default class BlockDefinition extends Definition {
 	 *
 	 * @returns The rendered block.
 	 */
-	edit(props: RenderEditProps): JSX.Element {
+	edit( props: RenderEditProps ): JSX.Element {
 		// Take the children directly to avoid creating too many Fragments.
-		const elements = this.tree.children.map((leaf, i) => leaf.edit(props, i)).filter(e => e !== null);
+		const elements = this.tree.children.map( ( leaf, i ) => leaf.edit( props, i ) ).filter( e => e !== null );
 
-		const sidebarElements = Object.values(this.instructions)
-			.map((instruction, i) => instruction.sidebar(props, i))
-			.filter(e => e !== null);
-		if (sidebarElements.length > 0) {
-			const sidebar = createElement(InspectorControls, null, sidebarElements);
-			elements.unshift(sidebar);
+		const sidebarElements = Object.values( this.instructions )
+			.map( ( instruction, i ) => instruction.sidebar( props, i ) )
+			.filter( e => e !== null );
+		if ( sidebarElements.length > 0 ) {
+			const sidebar = createElement( InspectorControls, null, sidebarElements );
+			elements.unshift( sidebar );
 		}
 
-		if (elements.length === 1) {
-			return elements[0] as JSX.Element;
+		if ( elements.length === 1 ) {
+			return elements[ 0 ] as JSX.Element;
 		}
 
-		return createElement(Fragment, null, elements);
+		return createElement( Fragment, null, elements );
 	}
 
 	/**
@@ -62,8 +62,8 @@ export default class BlockDefinition extends Definition {
 	 *
 	 * @returns The rendered block.
 	 */
-	save(props: RenderSaveProps): JSX.Element {
-		return this.tree.save(props);
+	save( props: RenderSaveProps ): JSX.Element {
+		return this.tree.save( props );
 	}
 
 	/**
@@ -71,18 +71,18 @@ export default class BlockDefinition extends Definition {
 	 */
 	register(): void {
 		const configuration = this.configuration() as MutableBlockConfiguration;
-		console.log("The configuration in BlockDefinition.ts:");
-		console.log(configuration);
+		console.log( "The configuration in BlockDefinition.ts:" );
+		console.log( configuration );
 
 		const name = configuration.name as string;
 		delete configuration.name;
 
-		configuration.edit = props => this.edit(props);
-		configuration.save = props => this.save(props);
+		configuration.edit = props => this.edit( props );
+		configuration.save = props => this.save( props );
 
 		// Register the block to WordPress.
-		registerBlockType(name, configuration);
+		registerBlockType( name, configuration );
 		// Register the block with our own code.
-		registerBlockDefinition(name, this);
+		registerBlockDefinition( name, this );
 	}
 }

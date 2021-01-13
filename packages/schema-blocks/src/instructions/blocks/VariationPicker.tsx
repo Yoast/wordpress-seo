@@ -14,8 +14,8 @@ const createBlocksFromInnerBlocksTemplate = ( innerBlocksTemplate ) => {
 			createBlock(
 				name,
 				attributes,
-				createBlocksFromInnerBlocksTemplate( innerBlocks )
-			)
+				createBlocksFromInnerBlocksTemplate( innerBlocks ),
+			),
 	);
 };
 

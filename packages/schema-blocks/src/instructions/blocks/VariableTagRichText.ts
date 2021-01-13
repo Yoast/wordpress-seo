@@ -79,14 +79,14 @@ class VariableTagRichText extends RichTextBase {
 			key: i,
 		};
 
-		// console.log("The props");
-		// console.log(props);
+		// Console.log("The props");
+		// Console.log(props);
 		//
-		// console.log("The props' attributes");
-		// console.log(props.attributes);
+		// Console.log("The props' attributes");
+		// Console.log(props.attributes);
 		//
-		// console.log("The attributes");
-		// console.log(attributes);
+		// Console.log("The attributes");
+		// Console.log(attributes);
 
 		if ( this.options.multiline ) {
 			attributes.multiline = this.options.multiline;

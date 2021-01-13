@@ -78,7 +78,7 @@ export default abstract class Instruction {
 		}
 
 		this.registeredInstructions[ name ] = instruction;
-		console.log("The name of the instruction that is registered: " + name);
+		console.log( "The name of the instruction that is registered: " + name );
 	}
 
 	/**
