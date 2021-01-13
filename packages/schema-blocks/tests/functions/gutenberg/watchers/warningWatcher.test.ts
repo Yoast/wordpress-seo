@@ -9,6 +9,11 @@ import { RequiredBlock } from "../../../../src/instructions/blocks/dto";
 import { RequiredBlockOption } from "../../../../src/instructions/blocks/enums";
 import { getBlockDefinition } from "../../../../src/core/blocks/BlockDefinitionRepository";
 
+jest.mock( "@wordpress/i18n", () => ( {
+	__: jest.fn( text => text ),
+	sprintf: jest.fn( ( text, value ) => text.replace( "%s", value ) ),
+} ) );
+
 jest.mock( "@wordpress/block-editor", () => ( {
 	InnerBlocks: {},
 } ) );
@@ -69,7 +74,7 @@ describe( "The warning watcher", () => {
 		];
 
 		// @ts-ignore -- This is mocked function, the original function does not have this method so TS complains.
-		getBlockDefinition.mockReturnValue( {
+		getBlockDefinition.mockReturnValueOnce( {
 			instructions: {
 				32: new InnerBlocks( 32, {
 					requiredBlocks: [
@@ -94,11 +99,11 @@ describe( "The warning watcher", () => {
 					innerBlocks: [],
 					name: "yoast/ingredients",
 				},
-				warningText: "You've just removed the ‘Ingredients’ block, but this is a required block for Schema output.\n" +
+				warningText: "You've just removed the ‘Ingredients’ block, but this is a required block for Schema output. " +
 					"Without this block no Schema will be generated. Do you want this?",
 			},
 		);
-		expect( dispatch ).toBeCalledTimes( 1 );
+		expect( dispatch ).toBeCalled();
 	} );
 
 	it( "adds warnings when recommended blocks are removed", () => {
@@ -150,7 +155,7 @@ describe( "The warning watcher", () => {
 				warningText: "You've just removed the ‘Ingredients’ block, but this is a recommended block for Schema output. Do you want this?",
 			},
 		);
-		expect( dispatch ).toBeCalledTimes( 2 );
+		expect( dispatch ).toBeCalled();
 	} );
 
 	it( "does not add any warnings when no blocks have been removed", () => {

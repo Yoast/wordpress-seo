@@ -1,5 +1,6 @@
 import { dispatch } from "@wordpress/data";
 import { BlockInstance, createBlock } from "@wordpress/blocks";
+import { __, sprintf } from "@wordpress/i18n";
 
 import { getBlockDefinition } from "../../../core/blocks/BlockDefinitionRepository";
 import InnerBlocks from "../../../instructions/blocks/InnerBlocks";
@@ -45,11 +46,24 @@ function getInnerBlocksInstruction( blockName: string ): InnerBlocks | null {
 function getDefaultWarningMessage( blockTitle: string, warningType: WarningType ): string {
 	switch ( warningType ) {
 		case WarningType.BLOCK_REQUIRED: {
-			return `You've just removed the ‘${ blockTitle }’ block, but this is a required block for Schema output.
-Without this block no Schema will be generated. Do you want this?`;
+			return sprintf(
+				__(
+					"You've just removed the ‘%s’ block, but this is a required block for Schema output. " +
+					"Without this block no Schema will be generated. Do you want this?",
+					"yoast-schema-blocks",
+				),
+				blockTitle,
+			);
 		}
 		case WarningType.BLOCK_RECOMMENDED: {
-			return `You've just removed the ‘${ blockTitle }’ block, but this is a recommended block for Schema output. Do you want this?`;
+			return sprintf(
+				__(
+					"You've just removed the ‘%s’ block, but this is a recommended block for Schema output. " +
+					"Do you want this?",
+					"yoast-schema-blocks",
+				),
+				blockTitle,
+			);
 		}
 	}
 }
