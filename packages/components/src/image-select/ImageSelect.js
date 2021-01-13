@@ -28,7 +28,11 @@ function ImageSelect( props ) {
 	};
 
 	return (
-		<div className="yoast-image-select">
+		<div
+			className="yoast-image-select"
+			onMouseEnter={ props.onMouseEnter }
+			onMouseLeave={ props.onMouseLeave }
+		>
 			<FieldGroup
 				label={ props.label }
 				wrapperClassName={ "yoast-field-group__image-select" }
@@ -58,6 +62,8 @@ ImageSelect.propTypes = {
 	hasPreview: PropTypes.bool.isRequired,
 	label: PropTypes.string.isRequired,
 	onClick: PropTypes.func,
+	onMouseEnter: PropTypes.func,
+	onMouseLeave: PropTypes.func,
 	onRemoveImageClick: PropTypes.func,
 	selectImageButtonId: PropTypes.string,
 	replaceImageButtonId: PropTypes.string,
