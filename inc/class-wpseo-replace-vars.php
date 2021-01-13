@@ -999,7 +999,7 @@ class WPSEO_Replace_Vars {
 
 		if ( $max > 1 && $nr > 1 ) {
 			/* translators: 1: current page number, 2: total number of pages. */
-			$replacement = sprintf( $sep . ' ' . __( 'Page %1$d of %2$d', 'wordpress-seo' ), $nr, $max );
+			$replacement = sprintf( '' . __( 'Page %1$d of %2$d', 'wordpress-seo' ), $nr, $max );
 		}
 
 		return $replacement;
