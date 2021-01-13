@@ -35,4 +35,8 @@ describe( "a test for the Hebrew Researcher", function() {
 			[ "בוהוא", "הוהוא", "ווהוא", "כוהוא", "לוהוא", "מוהוא", "שוהוא", "הוא", "בהוא", "ההוא", "והוא", "כהוא", "להוא", "מהוא", "שהוא" ]
 		);
 	} );
+
+	it( "returns the original word through the base stemmer", function() {
+		expect( researcher.getHelper( "getStemmer" )( "ווהוא" ) ).toEqual( "ווהוא" );
+	} );
 } );
