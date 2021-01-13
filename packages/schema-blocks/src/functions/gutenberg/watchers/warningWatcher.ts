@@ -35,6 +35,26 @@ function getInnerBlocksInstruction( blockName: string ): InnerBlocks | null {
 }
 
 /**
+ * Returns the default warning message for a required or recommended block.
+ *
+ * @param blockTitle The title of the removed block (e.g. 'Recipe').
+ * @param warningType The type of warning to show.
+ *
+ * @returns The default warning message.
+ */
+function getDefaultWarningMessage( blockTitle: string, warningType: WarningType ): string {
+	switch ( warningType ) {
+		case WarningType.BLOCK_REQUIRED: {
+			return `You've just removed the ‘${ blockTitle }’ block, but this is a required block for Schema output.
+Without this block no Schema will be generated. Do you want this?`;
+		}
+		case WarningType.BLOCK_RECOMMENDED: {
+			return `You've just removed the ‘${ blockTitle }’ block, but this is a recommended block for Schema output. Do you want this?`;
+		}
+	}
+}
+
+/**
  * Creates a warning block.
  *
  * @param innerBlock The inner block that has been removed.
@@ -46,8 +66,7 @@ function getInnerBlocksInstruction( blockName: string ): InnerBlocks | null {
 function createWarning( innerBlock: BlockInstance, message: string, warningType: WarningType ): BlockInstance {
 	if ( ! message ) {
 		const blockType = getBlockType( innerBlock.name );
-		message = `You've just removed the ‘${ blockType.title }’ block, but this is a required block for Schema output.
-Without this block no Schema will be generated. Do you want this?`;
+		message = getDefaultWarningMessage( blockType.title, warningType );
 	}
 
 	const attributes = {
@@ -75,7 +94,11 @@ function addWarnings(
 ) {
 	removedBlocks.forEach( ( removedBlock ) => {
 		const index = parentBlock.innerBlocks.findIndex( aBlock => aBlock.clientId === removedBlock.clientId );
-		const message = warnings[ parentBlock.clientId ] as string;
+
+		let message = "";
+		if ( warnings ) {
+			message = warnings[ parentBlock.clientId ] as string;
+		}
 		const warning = createWarning( removedBlock, message, warningType );
 
 		dispatch( "core/block-editor" ).insertBlock( warning, index, parentBlock.clientId );

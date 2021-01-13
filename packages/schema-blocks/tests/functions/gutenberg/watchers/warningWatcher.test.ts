@@ -101,6 +101,58 @@ describe( "The warning watcher", () => {
 		expect( dispatch ).toBeCalledTimes( 1 );
 	} );
 
+	it( "adds warnings when recommended blocks are removed", () => {
+		const previousBlocks = [
+			{
+				name: "yoast/recipe",
+				clientId: "1234-abcd",
+				innerBlocks: [
+					{
+						name: "yoast/ingredients",
+						clientId: "5678-efgh",
+						innerBlocks: [],
+					} as BlockInstance,
+				],
+			} as BlockInstance,
+		];
+
+		const blocks = [
+			{
+				name: "yoast/recipe",
+				clientId: "1234-abcd",
+				innerBlocks: [],
+			} as BlockInstance,
+		];
+
+		// @ts-ignore -- This is mocked function, the original function does not have this method so TS complains.
+		getBlockDefinition.mockReturnValue( {
+			instructions: {
+				32: new InnerBlocks( 32, {
+					recommendedBlocks: [
+						"yoast/ingredients",
+					],
+				} ),
+			},
+		} );
+
+		warningWatcher( blocks, previousBlocks );
+
+		// We expect that one warning is created for the removed ingredients block.
+		expect( createBlock ).toBeCalledWith(
+			"yoast/warning-block",
+			{
+				isRequired: false,
+				removedBlock: {
+					clientId: "5678-efgh",
+					innerBlocks: [],
+					name: "yoast/ingredients",
+				},
+				warningText: "You've just removed the ‘Ingredients’ block, but this is a recommended block for Schema output. Do you want this?",
+			},
+		);
+		expect( dispatch ).toBeCalledTimes( 2 );
+	} );
+
 	it( "does not add any warnings when no blocks have been removed", () => {
 		const previousBlocks = [
 			{
