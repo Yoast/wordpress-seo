@@ -9,6 +9,7 @@ import { registerBlockDefinition } from "./BlockDefinitionRepository";
 
 export interface RenderEditProps extends BlockEditProps<Record<string, unknown>> {
 	clientId: string;
+	name?: string;
 }
 
 export interface RenderSaveProps extends BlockSaveProps<Record<string, unknown>> {
