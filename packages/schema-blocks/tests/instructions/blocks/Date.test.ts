@@ -1,6 +1,5 @@
 import * as renderer from "react-test-renderer";
 
-// @ts-ignore -- __experimentalGetSettings is defined.
 import { __experimentalGetSettings, dateI18n } from "@wordpress/date";
 
 import Date from "../../../src/instructions/blocks/Date";
@@ -80,6 +79,7 @@ describe( "The Date instruction", () => {
 			},
 		};
 
+		// @ts-ignore -- Actually a mocked function, so `mockReturnValue` exists.
 		__experimentalGetSettings.mockReturnValue( dateSettings );
 
 		// @ts-ignore -- Actually a mocked function, so `mockReturnValue` exists.
