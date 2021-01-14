@@ -2,8 +2,6 @@
 import { BlockConfiguration } from "@wordpress/blocks";
 import { DatePicker } from "@wordpress/components";
 import { createElement, useState } from "@wordpress/element";
-// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-// @ts-ignore -- __experimentalGetSettings is defined in the package, though no type info is available.
 import { __experimentalGetSettings, dateI18n } from "@wordpress/date";
 
 // Internal imports.
