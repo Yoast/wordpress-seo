@@ -1,6 +1,7 @@
 import * as renderer from "react-test-renderer";
+import { mocked } from "ts-jest/utils";
 
-import { __experimentalGetSettings, dateI18n } from "@wordpress/date";
+import { __experimentalGetSettings, dateI18n, DateSettings } from "@wordpress/date";
 
 import Date from "../../../src/instructions/blocks/Date";
 import { RenderEditProps, RenderSaveProps } from "../../../src/core/blocks/BlockDefinition";
@@ -9,6 +10,9 @@ jest.mock( "@wordpress/date", () => ( {
 	__experimentalGetSettings: jest.fn(),
 	dateI18n: jest.fn(),
 } ) );
+
+const mockedGetSettings = mocked( __experimentalGetSettings, false );
+const mockedDateI18n = mocked( dateI18n, false );
 
 describe( "The Date instruction", () => {
 	/**
@@ -77,13 +81,11 @@ describe( "The Date instruction", () => {
 			formats: {
 				date: "y-m-d",
 			},
-		};
+		} as DateSettings;
 
-		// @ts-ignore -- Actually a mocked function, so `mockReturnValue` exists.
-		__experimentalGetSettings.mockReturnValue( dateSettings );
+		mockedGetSettings.mockReturnValue( dateSettings );
 
-		// @ts-ignore -- Actually a mocked function, so `mockReturnValue` exists.
-		dateI18n.mockReturnValue( "2020-21-01" );
+		mockedDateI18n.mockReturnValue( "2020-21-01" );
 
 		const tree = renderer.create( dateInstruction.save( props ) ).toJSON();
 
