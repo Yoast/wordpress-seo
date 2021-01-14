@@ -74,7 +74,7 @@ class Indexable_Repository_Test extends TestCase {
 	protected $permalink_helper;
 
 	/**
-	 * @inheritDoc
+	 * Setup the test.
 	 */
 	protected function set_up() {
 		parent::set_up();
