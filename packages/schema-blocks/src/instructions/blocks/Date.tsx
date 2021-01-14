@@ -19,18 +19,6 @@ export default class Date extends BlockInstruction {
 	};
 
 	/**
-	 * Sets the date using the given `setAttributes` function.
-	 *
-	 * @param date The date to set.
-	 * @param setAttributes The function to use to set the attribute.
-	 */
-	setDate( date: string, setAttributes: ( newAttributes: object ) => void ) {
-		setAttributes( {
-			[ this.options.name ]: date,
-		} );
-	}
-
-	/**
 	 * The React components to show in the editor when editing this block.
 	 *
 	 * @param props The block's properties.
@@ -60,7 +48,9 @@ export default class Date extends BlockInstruction {
 		 */
 		const setDate = ( dateTime: string ) => {
 			const date = dateTime.split( "T" )[ 0 ];
-			this.setDate( date, props.setAttributes );
+			props.setAttributes( {
+				[ this.options.name ]: date,
+			} );
 			setShowDatePicker( false );
 			setSelectedDate( dateI18n( dateFormat, date ) );
 		};

@@ -89,20 +89,4 @@ describe( "The Date instruction", () => {
 
 		expect( tree ).toMatchSnapshot();
 	} );
-
-	it( "can set the date on the attributes using the `setDate` method.", () => {
-		const options = {
-			name: "publishedDate",
-		};
-
-		const dateInstruction = new Date( 12, options );
-
-		const setAttributes = jest.fn();
-
-		dateInstruction.setDate( "2020-21-01", setAttributes );
-
-		expect( setAttributes ).toHaveBeenCalledWith( {
-			publishedDate: "2020-21-01",
-		} );
-	} );
 } );
