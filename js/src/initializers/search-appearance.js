@@ -18,6 +18,7 @@ import UserSelectPortal from "../components/portals/UserSelectPortal";
 import CompanyInfoMissingPortal from "../components/portals/CompanyInfoMissingPortal";
 import LocalSEOUpsellPortal from "../components/portals/LocalSEOUpsellPortal";
 import SchemaSettings from "../containers/SchemaSettings";
+import ImageSelectPortal from "../components/portals/ImageSelectPortal";
 
 /**
  * @summary Initializes the search appearance settings script.
@@ -92,6 +93,12 @@ export default function initSearchAppearance() {
 						message={ knowledgeGraphCompanyInfoMissing.message }
 						link={ knowledgeGraphCompanyInfoMissing.URL }
 					/>
+					<ImageSelectPortal
+						label="organizaion"
+						hasPreview={ true }
+						target="organization-image-select"
+					/>
+					<ImageSelectPortal target="organization-image-select" />
 					{ showLocalSEOUpsell && (
 						<LocalSEOUpsellPortal
 							target="wpseo-local-seo-upsell"
