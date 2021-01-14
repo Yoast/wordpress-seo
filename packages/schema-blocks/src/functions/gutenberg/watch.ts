@@ -97,11 +97,11 @@ export function validateBlocks( blocks: BlockInstance[] ): BlockValidationResult
 			// eslint-disable-next-line no-console
 			console.log( "Unable to validate block of type [" + block.name + "] " + block.clientId );
 			validations.push( new BlockValidationResult( block.clientId, block.name, BlockValidation.Unknown ) );
-		}
 
-		// Recursively validate all blocks' innerblocks.
-		if ( block.innerBlocks && block.innerBlocks.length > 0 ) {
-			validations.push( ...validateBlocks( block.innerBlocks ) );
+			// Recursively validate all blocks' innerblocks.
+			if ( block.innerBlocks && block.innerBlocks.length > 0 ) {
+				validations.push( ...validateBlocks( block.innerBlocks ) );
+			}
 		}
 	} );
 	return validations;

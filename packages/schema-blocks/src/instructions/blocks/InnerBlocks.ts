@@ -14,6 +14,7 @@ import RequiredBlocks from "../../blocks/RequiredBlocks";
  */
 export default class InnerBlocks extends BlockInstruction {
 	public options: {
+		name: string;
 		allowedBlocks: string[];
 		template: TemplateArray;
 		appender: string;

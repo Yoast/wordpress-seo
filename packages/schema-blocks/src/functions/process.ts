@@ -4,13 +4,13 @@ import BlockDefinition from "../core/blocks/BlockDefinition";
 import BlockInstruction from "../core/blocks/BlockInstruction";
 
 import Definition, { DefinitionClass } from "../core/Definition";
-import Instruction, { InstructionArray, InstructionObject, InstructionValue, InstructionPrimitive } from "../core/Instruction";
+import Instruction, { InstructionArray, IInstructionObject, InstructionValue, InstructionPrimitive } from "../core/Instruction";
 import SchemaDefinition from "../core/schema/SchemaDefinition";
 import SchemaInstruction from "../core/schema/SchemaInstruction";
 import { generateUniqueSeparator } from "./separator";
 import tokenize from "./tokenize";
 
-let id = 0;
+let nextId = 0;
 
 /**
  * Processes an array.
@@ -40,8 +40,8 @@ function processArray( tokens: IToken[] ): InstructionArray {
  *
  * @returns The object.
  */
-function processObject( tokens: IToken[] ): InstructionObject {
-	const value: InstructionObject = {};
+function processObject( tokens: IToken[] ): IInstructionObject {
+	const value: IInstructionObject = {};
 
 	// Consume the object-open token.
 	tokens.shift();
@@ -94,7 +94,8 @@ function processToken( currentToken: IToken, tokens: IToken[] ): InstructionValu
  * @returns The instruction.
  */
 function processBlockInstruction( token: IToken<string>, tokens: IToken[], instructionClass: typeof Instruction ) {
-	const instruction = instructionClass.create( token.value, id++ );
+	const defaultOptions = { name: token.value };
+	const instruction = instructionClass.create( token.value, nextId++, defaultOptions );
 
 	while ( tokens[ 0 ] && tokens[ 0 ].isA( "key" ) ) {
 		const key = camelCase( ( tokens.shift() as IToken<string> ).value );

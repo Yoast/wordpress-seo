@@ -23,6 +23,7 @@ describe( "the process function", () => {
 					],
 					appender: "button",
 					appenderLabel: "Add to recipe",
+    		        name: "inner-blocks",
 					template: [
 						[
 							"yoast/ingredients",

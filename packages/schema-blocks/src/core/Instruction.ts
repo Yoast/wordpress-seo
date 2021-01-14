@@ -1,20 +1,23 @@
 import { BlockInstance } from "@wordpress/blocks";
 import { BlockValidationResult, BlockValidation } from "./validation";
-
+ 
+ 
 export type InstructionPrimitive = string | number | boolean;
-export type InstructionValue = InstructionPrimitive | InstructionObject | InstructionArray;
-export type InstructionObject = { [member: string]: InstructionValue };
+export type InstructionValue = InstructionPrimitive | IInstructionObject | InstructionArray; 
 export type InstructionArray = readonly InstructionValue[];
-export type InstructionOptions = InstructionObject;
-export type InstructionClass<T extends Instruction> = {
+export interface IInstructionObject { [member: string]: InstructionValue }
+export interface IInstructionClass<T extends Instruction> {
 	new( id: number, options: InstructionOptions ): T;
+}
+export type InstructionOptions = IInstructionObject & {
+	name: string;
 };
 
 /**
  * Abstract instruction class.
  */
 export default abstract class Instruction {
-	static registeredInstructions: Record<string, InstructionClass<Instruction>>;
+	static registeredInstructions: Record<string, IInstructionClass<Instruction>>;
 
 	public id: number;
 	public options: InstructionOptions;
@@ -70,7 +73,7 @@ export default abstract class Instruction {
 	 *
 	 * @returns {void}
 	 */
-	static register<I extends typeof Instruction>( this: I, name: string, instruction: InstructionClass<I["prototype"]> ): void {
+	static register<I extends typeof Instruction>( this: I, name: string, instruction: IInstructionClass<I["prototype"]> ): void {
 		if ( typeof this.registeredInstructions === "undefined" ) {
 			this.registeredInstructions = {};
 		}
@@ -88,7 +91,7 @@ export default abstract class Instruction {
 	 *
 	 * @returns The instruction instance.
 	 */
-	static create<I extends typeof Instruction>( this: I, name: string, id: number, options: InstructionOptions = {} ): I["prototype"] {
+	static create<I extends typeof Instruction>( this: I, name: string, id: number, options: InstructionOptions ): I["prototype"] {
 		if ( typeof this.registeredInstructions === "undefined" ) {
 			this.registeredInstructions = {};
 		}

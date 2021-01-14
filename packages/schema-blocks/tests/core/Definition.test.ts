@@ -24,10 +24,11 @@ class TestInstruction extends BlockInstruction {
 
 	/**
      * Creates a simplified BlockInstruction for use in unit tests
+     * @param name   The name of the validated blockinstance.
      * @param result The output of validation method for the instance.
      */
-	constructor( result: BlockValidation ) {
-		super( TestInstruction.next_id++, {} );
+	constructor( name: string, result: BlockValidation ) {
+		super( TestInstruction.next_id++, { name: name} );
 		this.result = result;
 		this.configured = false;
 	}
@@ -58,8 +59,8 @@ describe( "The Definition class", () => {
 	it( "validates against all known instructions", () => {
 		// Arrange.
 		const testInstructions = {
-			test1: new TestInstruction( BlockValidation.Valid ),
-			test2: new TestInstruction( BlockValidation.Missing ),
+			test1: new TestInstruction( "test1", BlockValidation.Valid ),
+			test2: new TestInstruction( "test2", BlockValidation.Missing ),
 		};
 		const testCase = new TestDefinition( "", "", testInstructions, null );
 
@@ -78,8 +79,8 @@ describe( "The Definition class", () => {
 	it( "configures all known instructions", () => {
 		// Arrange.
 		const testInstructions = {
-			test1: new TestInstruction( BlockValidation.Valid ),
-			test2: new TestInstruction( BlockValidation.Missing ),
+			test1: new TestInstruction( "test1", BlockValidation.Valid ),
+			test2: new TestInstruction( "test2", BlockValidation.Missing ),
 		};
 		const testCase = new TestDefinition( "", "", testInstructions, null );
 
