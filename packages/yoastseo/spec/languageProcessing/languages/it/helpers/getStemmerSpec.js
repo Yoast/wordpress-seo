@@ -8,7 +8,7 @@ const morphologyDataIT = getMorphologyData( "it" );
 const paper = new Paper( "Questo è il gatto più speciale.", { keyword: "gatto speciale", locale: "it_IT" }  );
 
 describe( "a test for getting the stemmer for Italian", function() {
-	it( "returns the correctly stemmed Italian word when the English morphology data is available", function() {
+	it( "returns the correctly stemmed Italian word when the Italian morphology data is available", function() {
 		const mockResearcher = new Researcher( paper );
 		mockResearcher.addResearchData( "morphology", morphologyDataIT );
 		expect( getStemmer( mockResearcher )( "gatte" ) ).toEqual( "gatt" );
