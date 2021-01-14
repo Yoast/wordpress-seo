@@ -281,7 +281,7 @@ class Yoast_Notification {
 	 */
 	private function has_capability( $capability ) {
 		$user = $this->options['user'];
-		return $user->has_cap($capability);
+		return $user->has_cap( $capability );
 	}
 
 	/**

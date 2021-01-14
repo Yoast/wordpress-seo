@@ -928,7 +928,7 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 	 * Creates a mock WordPress user.
 	 *
 	 * @param int   $user_id   The ID of the user.
-	 * @param array $role_caps A map, mapping capabilities to `true` (user has capability) or `false` ( user has not).
+	 * @param array $caps A map, mapping capabilities to `true` (user has capability) or `false` ( user has not).
 	 *
 	 * @return PHPUnit_Framework_MockObject_Invocation_Object | WP_User
 	 */
@@ -941,10 +941,14 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 		$user_mock
 			->expects( $this->any() )
 			->method( 'has_cap' )
-			->with( $this->isType('string') )
-			->willReturn( $this->returnCallback(function($argument) use ($caps) {
-				   return isset($caps[$argument]) ? $caps[$argument] : false;
-			} ));
+			->with( $this->isType( 'string' ) )
+			->willReturn(
+				$this->returnCallback(
+					function( $argument ) use ( $caps ) {
+						return isset( $caps[ $argument ] ) ? $caps[ $argument ] : false;
+					}
+				)
+			);
 
 		$user_mock->ID = $user_id;
 
