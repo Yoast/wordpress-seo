@@ -18,11 +18,15 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
 class Health_Check_Ryte_Test extends TestCase {
 
 	/**
+	 * Holds the ryte_option variable.
+	 *
 	 * @var Mockery\Mock|WPSEO_Ryte_Option
 	 */
 	private $ryte_option;
 
 	/**
+	 * Holds the health_check variable.
+	 *
 	 * @var Mockery\Mock|WPSEO_Health_Check_Ryte
 	 */
 	private $health_check;
