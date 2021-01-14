@@ -30,7 +30,7 @@ export default abstract class SchemaInstruction extends Instruction {
 	configuration(): Partial<SchemaDefinitionConfiguration> {
 		return {};
 	}
-	 
+
 
 	/**
 	 * Validates a block against a schema definition.

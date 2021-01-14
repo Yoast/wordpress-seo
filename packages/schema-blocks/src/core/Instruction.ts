@@ -1,15 +1,15 @@
 import { BlockInstance } from "@wordpress/blocks";
 import { BlockValidationResult, BlockValidation } from "./validation";
- 
- 
+
+
 export type InstructionPrimitive = string | number | boolean;
-export type InstructionValue = InstructionPrimitive | IInstructionObject | InstructionArray; 
+export type InstructionValue = InstructionPrimitive | InstructionObject | InstructionArray;
 export type InstructionArray = readonly InstructionValue[];
-export interface IInstructionObject { [member: string]: InstructionValue }
-export interface IInstructionClass<T extends Instruction> {
+export interface InstructionObject { [member: string]: InstructionValue }
+export interface InstructionClass<T extends Instruction> {
 	new( id: number, options: InstructionOptions ): T;
 }
-export type InstructionOptions = IInstructionObject & {
+export type InstructionOptions = InstructionObject & {
 	name: string;
 };
 
@@ -17,7 +17,7 @@ export type InstructionOptions = IInstructionObject & {
  * Abstract instruction class.
  */
 export default abstract class Instruction {
-	static registeredInstructions: Record<string, IInstructionClass<Instruction>>;
+	static registeredInstructions: Record<string, InstructionClass<Instruction>>;
 
 	public id: number;
 	public options: InstructionOptions;
@@ -73,7 +73,7 @@ export default abstract class Instruction {
 	 *
 	 * @returns {void}
 	 */
-	static register<I extends typeof Instruction>( this: I, name: string, instruction: IInstructionClass<I["prototype"]> ): void {
+	static register<I extends typeof Instruction>( this: I, name: string, instruction: InstructionClass<I["prototype"]> ): void {
 		if ( typeof this.registeredInstructions === "undefined" ) {
 			this.registeredInstructions = {};
 		}
