@@ -164,8 +164,8 @@ class Yoast_Notification_Center {
 			return true;
 		}
 
-		$dismissal_key     = $notification->get_dismissal_key();
-		$notification_id   = $notification->get_id();
+		$dismissal_key   = $notification->get_dismissal_key();
+		$notification_id = $notification->get_id();
 
 		$is_dismissing = ( $dismissal_key === self::get_user_input( 'notification' ) );
 		if ( ! $is_dismissing ) {
