@@ -1,5 +1,5 @@
 import BlockInstruction from "../../core/blocks/BlockInstruction";
-import { ExtendedBlockConfiguration } from "../../core/types/ExtendedBlockConfiguration";
+import { ExtendedBlockConfiguration } from "../../@types/ExtendedBlockConfiguration";
 
 /**
  * Variation instruction.
