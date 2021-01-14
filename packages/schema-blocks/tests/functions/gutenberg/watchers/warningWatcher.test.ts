@@ -100,7 +100,7 @@ describe( "The warning watcher", () => {
 					name: "yoast/ingredients",
 				},
 				warningText: "You've just removed the ‘Ingredients’ block, but this is a required block for Schema output. " +
-					"Without this block no Schema will be generated. Do you want this?",
+					"Without this block no Schema will be generated. Are you sure you want to do this?",
 			},
 		);
 		expect( dispatch ).toBeCalled();
@@ -154,7 +154,7 @@ describe( "The warning watcher", () => {
 					innerBlocks: [],
 					name: "yoast/ingredients",
 				},
-				warningText: "You've just removed the ‘Ingredients’ block, but this is a recommended block for Schema output. Do you want this?",
+				warningText: "You've just removed the ‘Ingredients’ block, but this is a recommended block for Schema output. Are you sure you want to do this?",
 			},
 		);
 		expect( dispatch ).toBeCalled();

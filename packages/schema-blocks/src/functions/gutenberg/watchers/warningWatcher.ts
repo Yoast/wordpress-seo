@@ -50,7 +50,7 @@ function getDefaultWarningMessage( blockTitle: string, warningType: WarningType 
 			return sprintf(
 				__(
 					"You've just removed the ‘%s’ block, but this is a required block for Schema output. " +
-					"Without this block no Schema will be generated. Do you want this?",
+					"Without this block no Schema will be generated. Are you sure you want to do this?",
 					"yoast-schema-blocks",
 				),
 				blockTitle,
@@ -60,7 +60,7 @@ function getDefaultWarningMessage( blockTitle: string, warningType: WarningType 
 			return sprintf(
 				__(
 					"You've just removed the ‘%s’ block, but this is a recommended block for Schema output. " +
-					"Do you want this?",
+					"Are you sure you want to do this?",
 					"yoast-schema-blocks",
 				),
 				blockTitle,
