@@ -5,7 +5,7 @@ import { angleLeft, angleRight, colors } from "@yoast/style-guide";
 import PropTypes from "prop-types";
 import React, { Component, Fragment } from "react";
 import styled from "styled-components";
-import { ImageSelect } from "@yoast/components/src/image-select";
+import { ImageSelect } from "@yoast/components";
 
 /**
  * Sets the color based on whether the caret is active or not (usually hovered).

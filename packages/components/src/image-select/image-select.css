@@ -27,3 +27,7 @@
 .yoast-image-select .yoast-button {
 	margin-right: 1.5em;
 }
+
+.yoast-image-select b {
+	font-weight: 500;
+}
