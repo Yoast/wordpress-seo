@@ -4,12 +4,13 @@ import { InnerBlocks as WordPressInnerBlocks } from "@wordpress/block-editor";
 import { BlockInstance, TemplateArray } from "@wordpress/blocks";
 
 import BlockInstruction from "../../core/blocks/BlockInstruction";
-import { RequiredBlock } from "./dto";
+import { RecommendedBlock, RequiredBlock } from "./dto";
 import { getInvalidInnerBlocks } from "../../functions/validators";
 import { InvalidBlockReason } from "./enums";
 import { RenderEditProps } from "../../core/blocks/BlockDefinition";
 import { getBlockByClientId } from "../../functions/BlockHelper";
 import RequiredBlocks from "../../blocks/RequiredBlocks";
+import { InstructionObject } from "../../core/Instruction";
 
 /**
  * InnerBlocks instruction.
@@ -21,7 +22,8 @@ export default class InnerBlocks extends BlockInstruction {
 		appender: string;
 		appenderLabel: string;
 		requiredBlocks: RequiredBlock[];
-		recommendedBlocks: string[];
+		recommendedBlocks: RecommendedBlock[];
+		warnings: InstructionObject;
 	};
 
 	/**
@@ -59,8 +61,10 @@ export default class InnerBlocks extends BlockInstruction {
 				);
 		}
 
+		properties.allowedBlocks = [ "yoast/warning-block" ];
+
 		if ( this.options.allowedBlocks ) {
-			properties.allowedBlocks = this.options.allowedBlocks;
+			properties.allowedBlocks = this.options.allowedBlocks.concat( properties.allowedBlocks );
 		}
 
 		if ( this.options.template ) {

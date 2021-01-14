@@ -1,5 +1,5 @@
 import { dispatch, select } from "@wordpress/data";
-import { createBlock } from "@wordpress/blocks";
+import { BlockInstance } from "@wordpress/blocks";
 
 import { removeBlock, restoreBlock, getBlockType } from "../../src/functions/BlockHelper";
 
@@ -35,9 +35,24 @@ describe( "The removeBlock function", () => {
 
 describe( "The restoreBlock function", () => {
 	it( "restores a block", () => {
-		restoreBlock( "1234-abcd", "yoast/recipe", { className: "yoast-recipe" } );
+		const blockToRestore = {
+			clientId: "1234-abcd",
+			isValid: true,
+			name: "yoast/recipe",
+			attributes: { className: "yoast-recipe" },
+			innerBlocks: [
+				{
+					clientId: "5678-efgh",
+					isValid: true,
+					name: "yoast/steps",
+					attributes: {},
+					innerBlocks: [],
+				} as BlockInstance,
+			],
+		} as BlockInstance;
 
-		expect( createBlock ).toHaveBeenCalledWith( "yoast/recipe", { className: "yoast-recipe" } );
+		restoreBlock( "1234-abcd", blockToRestore );
+
 		expect( dispatch ).toHaveBeenCalledWith( "core/block-editor" );
 	} );
 } );
