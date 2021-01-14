@@ -304,7 +304,7 @@ class Health_Check_Ryte_Test extends TestCase {
 	/**
 	 * Mocks that the blog is public, Ryte is enabled and development mode is not on (or Yoast development mode is on).
 	 *
-	 * @throws Monkey\Expectation\Exception\ExpectationArgsRequired
+	 * @throws Monkey\Expectation\Exception\ExpectationArgsRequired When args missing / wrong.
 	 */
 	private function ryte_enabled_and_blog_public() {
 		$this->stubTranslationFunctions();
