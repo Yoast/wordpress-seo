@@ -1,5 +1,5 @@
-import stem from "../../../src/languageProcessing/languages/it/helpers/internal/stem";
-import getMorphologyData from "../../specHelpers/getMorphologyData";
+import stem from "../../../../../../src/languageProcessing/languages/it/helpers/internal/stem";
+import getMorphologyData from "../../../../../specHelpers/getMorphologyData";
 
 const morphologyDataIT = getMorphologyData( "it" ).it;
 
@@ -225,6 +225,20 @@ const wordsToStem = [
 	[ "acces", "accend" ],
 	[ "esplos", "esplod" ],
 	[ "risolt", "risolv" ],
+	// Word that is all consonants (made up word)
+	[ "bbb", "bbb" ],
+	// Word that is all vowels (made up word)
+	[ "aaaa", "aaaa" ],
+	// Words that start with vowel (made up words)
+	[ "aaab", "aaab" ],
+	[ "abbb", "abbb" ],
+	[ "aabb", "aabb" ],
+	// Word with an i or u between vowels
+	[ "aiuola", "aiuol" ],
+	// Word with gerund -endo and pronoun -lo suffix
+	[ "vedendolo", "ved" ],
+	// Word with less than two letters
+	[ "in", "in" ],
 ];
 
 const paradigms = [

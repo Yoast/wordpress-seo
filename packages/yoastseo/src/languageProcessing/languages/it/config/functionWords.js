@@ -1,5 +1,4 @@
-import transitionWordsFactory from "./transitionWords.js";
-const transitionWords = transitionWordsFactory().singleWords;
+import { singleWords as transitionWords } from "./transitionWords.js";
 
 /**
  * Returns an object with exceptions for the prominent words researcher.
@@ -264,5 +263,13 @@ export const all = [].concat( articles, cardinalNumerals, ordinalNumerals, demon
 	interjections, generalAdjectivesAdverbs, generalAdjectivesAdverbsPreceding, recipeWords, vagueNouns, miscellaneous, timeWords,
 	titlesPreceding );
 
-export default {};
+export default {
+	filteredAtBeginning,
+	filteredAtEnding,
+	filteredAtBeginningAndEnding,
+	filteredAnywhere,
+	cannotDirectlyPrecedePassiveParticiple,
+	cannotBeBetweenPassiveAuxiliaryAndParticiple,
+	all,
+};
 
