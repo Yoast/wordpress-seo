@@ -20,6 +20,11 @@ export class BlockValidationResult {
 	public result: BlockValidation;
 
 	/**
+	 * The validation issues for this block's innerblocks or attributes, if any.
+	 */
+	public issues: BlockValidationResult[]
+
+	/**
 	 * @param clientId The clientId of the validated block.
 	 * @param name     The name of the validated block.
 	 * @param result   The validation result.
@@ -28,5 +33,6 @@ export class BlockValidationResult {
 		this.name = name;
 		this.clientId = clientId;
 		this.result = result;
+		this.issues = [];
 	}
 }

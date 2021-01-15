@@ -1,6 +1,7 @@
-import { merge, flatMap } from "lodash";
+import { merge } from "lodash";
 import { BlockInstance } from "@wordpress/blocks";
-import { BlockValidationResult } from "./validation";
+import { BlockValidation, BlockValidationResult } from "./validation";
+import validateMany from "../functions/validators/validateMany";
 import Instruction from "./Instruction";
 import Leaf from "./Leaf";
 
@@ -53,11 +54,17 @@ export default abstract class Definition {
 	 *
 	 * @param blockInstance The block to be validated.
 	 *
-	 * @returns {boolean} True if all instructions in the block are valid, false if any of the block instructions contains errors.
+	 * @returns {BlockValidationResult | null} The result of validation the given block.
 	 */
-	validate( blockInstance: BlockInstance ): BlockValidationResult[] {
+	validate( blockInstance: BlockInstance ): BlockValidationResult {
+		if ( ! blockInstance ) {
+			return null;
+		}
 		// Could contain duplicates.
-		return flatMap( Object.values( this.instructions ), instruction => instruction.validate( blockInstance ) );
+		const validation = new BlockValidationResult( blockInstance.clientId, blockInstance.name, BlockValidation.Unknown );
+
+		validation.issues = Object.values( this.instructions ).map( instruction => instruction.validate( blockInstance ) );
+		return validateMany( validation );
 	}
 
 	/**

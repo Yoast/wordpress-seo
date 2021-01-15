@@ -2,9 +2,8 @@ import { camelCase } from "lodash";
 import { IToken } from "tokenizr";
 import BlockDefinition from "../core/blocks/BlockDefinition";
 import BlockInstruction from "../core/blocks/BlockInstruction";
-
 import Definition, { DefinitionClass } from "../core/Definition";
-import Instruction, { InstructionArray, IInstructionObject, InstructionValue, InstructionPrimitive } from "../core/Instruction";
+import Instruction, { InstructionArray, InstructionValue, InstructionPrimitive, InstructionObject } from "../core/Instruction";
 import SchemaDefinition from "../core/schema/SchemaDefinition";
 import SchemaInstruction from "../core/schema/SchemaInstruction";
 import { generateUniqueSeparator } from "./separator";
@@ -40,8 +39,8 @@ function processArray( tokens: IToken[] ): InstructionArray {
  *
  * @returns The object.
  */
-function processObject( tokens: IToken[] ): IInstructionObject {
-	const value: IInstructionObject = {};
+function processObject( tokens: IToken[] ): InstructionObject {
+	const value: InstructionObject = {};
 
 	// Consume the object-open token.
 	tokens.shift();

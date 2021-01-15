@@ -38,7 +38,7 @@ export default abstract class SchemaInstruction extends Instruction {
 	 * @param blockInstance The block to validate.
 	 * @returns {BlockValidationResult} The validation results.
 	 */
-	validate( blockInstance: BlockInstance ): BlockValidationResult[] {
-		return [ new BlockValidationResult( blockInstance.clientId, blockInstance.name, BlockValidation.Valid ) ];
+	validate( blockInstance: BlockInstance ): BlockValidationResult {
+		return new BlockValidationResult( blockInstance.clientId, blockInstance.name, BlockValidation.Valid );
 	}
 }

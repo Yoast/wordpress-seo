@@ -58,10 +58,10 @@ export default abstract class Instruction {
 	 * Validates the block instance against its definition.
 	 *
 	 * @param blockInstance The block to check.
-	 * @returns {BlockValidationResult[]} The validation result.
+	 * @returns {BlockValidationResult} The validation result.
 	 */
-	validate( blockInstance: BlockInstance ): BlockValidationResult[] {
-		return [ new BlockValidationResult( blockInstance.clientId, blockInstance.name, BlockValidation.Valid ) ];
+	validate( blockInstance: BlockInstance ): BlockValidationResult {
+		return new BlockValidationResult( blockInstance.clientId, blockInstance.name, BlockValidation.Valid );
 	}
 
 	/**

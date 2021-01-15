@@ -92,7 +92,7 @@ export function validateBlocks( blocks: BlockInstance[] ): BlockValidationResult
 		// This may be a third party block we cannot validate.
 		const definition = getBlockDefinition( block.name );
 		if ( definition ) {
-			validations.push( ...definition.validate( block ) );
+			validations.push( definition.validate( block ) );
 		} else {
 			// eslint-disable-next-line no-console
 			console.log( "Unable to validate block of type [" + block.name + "] " + block.clientId );

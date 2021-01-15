@@ -28,7 +28,7 @@ class TestInstruction extends BlockInstruction {
      * @param result The output of validation method for the instance.
      */
 	constructor( name: string, result: BlockValidation ) {
-		super( TestInstruction.next_id++, { name: name} );
+		super( TestInstruction.next_id++, { name: name } );
 		this.result = result;
 		this.configured = false;
 	}
@@ -49,38 +49,49 @@ class TestInstruction extends BlockInstruction {
      * @param blockInstance Unused requirement of the base class.
      * @returns {BlockValidationResult[]} The constructor parameter wrapped in an array.
      */
-	validate( blockInstance: BlockInstance ): BlockValidationResult[] {
-		return [ new BlockValidationResult( "id" + this.id, "test", this.result ) ];
+	validate( blockInstance: BlockInstance ): BlockValidationResult {
+		return new BlockValidationResult( "id" + this.id, "test", this.result );
 	}
 	/* eslint-enable @typescript-eslint/no-unused-vars */
 }
 
 describe( "The Definition class", () => {
-	it( "validates against all known instructions", () => {
+	it( "deals with null", () => {
 		// Arrange.
-		const testInstructions = {
-			test1: new TestInstruction( "test1", BlockValidation.Valid ),
-			test2: new TestInstruction( "test2", BlockValidation.Missing ),
-		};
-		const testCase = new TestDefinition( "", "", testInstructions, null );
+		const testCase = new TestDefinition( "", "", null, null );
 
 		// Act.
 		const result = testCase.validate( null );
 
 		// Assert.
-		expect( result[ 0 ].name ).toEqual( "test" );
-		expect( result[ 0 ].clientId ).toEqual( "id1" );
-		expect( result[ 0 ].result ).toEqual( BlockValidation.Valid );
-		expect( result[ 1 ].name ).toEqual( "test" );
-		expect( result[ 1 ].clientId ).toEqual( "id2" );
-		expect( result[ 1 ].result ).toEqual( BlockValidation.Missing );
+		expect( result ).toBeNull();
+	} );
+
+	it( "validates against all known instructions", () => {
+		// Arrange.
+		const testInstructions = {
+			test1: new TestInstruction( "test1", BlockValidation.Valid ),
+			test2: new TestInstruction( "test2", BlockValidation.MissingBlock ),
+		};
+		const testCase = new TestDefinition( "", "", testInstructions, null );
+
+		// Act.
+		const result = testCase.validate( { name: "testBlock" } as BlockInstance );
+
+
+		expect( result.issues[ 0 ].name ).toEqual( "test" );
+		expect( result.issues[ 0 ].clientId ).toEqual( "id1" );
+		expect( result.issues[ 0 ].result ).toEqual( BlockValidation.Valid );
+		expect( result.issues[ 1 ].name ).toEqual( "test" );
+		expect( result.issues[ 1 ].clientId ).toEqual( "id2" );
+		expect( result.issues[ 1 ].result ).toEqual( BlockValidation.MissingBlock );
 	} );
 
 	it( "configures all known instructions", () => {
 		// Arrange.
 		const testInstructions = {
 			test1: new TestInstruction( "test1", BlockValidation.Valid ),
-			test2: new TestInstruction( "test2", BlockValidation.Missing ),
+			test2: new TestInstruction( "test2", BlockValidation.MissingBlock ),
 		};
 		const testCase = new TestDefinition( "", "", testInstructions, null );
 
