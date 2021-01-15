@@ -69,6 +69,7 @@ class WPSEO_Upgrade {
 			'15.1-RC0'   => 'upgrade_151',
 			'15.3-RC0'   => 'upgrade_153',
 			'15.5-RC0'   => 'upgrade_155',
+			'15.7'       => 'upgrade_157',
 		];
 
 		array_walk( $routines, [ $this, 'run_upgrade_routine' ], $version );
@@ -784,6 +785,15 @@ class WPSEO_Upgrade {
 			unset( $wpseo_social_option['fbadminapp'] );
 			update_option( 'wpseo_social', $wpseo_social_option );
 		}
+	}
+
+	/**
+	 * Performs the 15.7 upgrade.
+	 *
+	 * @return void
+	 */
+	private function upgrade_157() {
+		Yoast_Notification_Center::get()->remove_notification_by_id( 'wpseo-plugin-updated' );
 	}
 
 	/**
