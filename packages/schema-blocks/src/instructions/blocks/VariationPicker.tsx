@@ -3,7 +3,7 @@ import { useSelect, useDispatch } from "@wordpress/data";
 import { RenderEditProps } from "../../core/blocks/BlockDefinition";
 // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
 // @ts-ignore -- __experimentalBlockVariationPicker is defined in the package, though no type info is available.
-import { __experimentalBlockVariationPicker } from "@wordpress/block-editor";
+import { __experimentalBlockVariationPicker as ExperimentalBlockVariationPicker } from "@wordpress/block-editor";
 import { get, map } from "lodash";
 import { createBlock } from "@wordpress/blocks";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -64,7 +64,7 @@ class VariationPicker extends BlockInstruction {
 		const { replaceInnerBlocks } = useDispatch( "core/block-editor" );
 
 		return (
-			<__experimentalBlockVariationPicker
+			<ExperimentalBlockVariationPicker
 				icon={ get( blockType, [ "icon", "src" ] ) }
 				label={ get( blockType, [ "title" ] ) }
 				variations={ variations }
