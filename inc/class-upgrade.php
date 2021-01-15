@@ -793,7 +793,7 @@ class WPSEO_Upgrade {
 	 * @return void
 	 */
 	private function upgrade_157() {
-		Yoast_Notification_Center::get()->remove_notification_by_id( 'wpseo-plugin-updated' );
+		add_action( 'init', [ $this, 'remove_plugin_updated_notification_for_157' ] );
 	}
 
 	/**
@@ -900,6 +900,15 @@ class WPSEO_Upgrade {
 	 */
 	public function remove_acf_notification_for_142() {
 		Yoast_Notification_Center::get()->remove_notification_by_id( 'wpseo-suggested-plugin-yoast-acf-analysis' );
+	}
+
+	/**
+	 * Removes the wpseo-plugin-updated notification from the Notification center for the 15.7 upgrade.
+	 *
+	 * @return void
+	 */
+	public function remove_plugin_updated_notification_for_157() {
+		Yoast_Notification_Center::get()->remove_notification_by_id( 'wpseo-plugin-updated' );
 	}
 
 	/**
