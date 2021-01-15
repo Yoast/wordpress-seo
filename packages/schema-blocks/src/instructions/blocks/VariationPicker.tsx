@@ -63,24 +63,31 @@ class VariationPicker extends BlockInstruction {
 		);
 		const { replaceInnerBlocks } = useDispatch( "core/block-editor" );
 
+		/**
+		 * Creates the block that is selected in the variation picker.
+		 *
+		 * @param nextVariation The variation that is selected by the user.
+		 */
+		const onSelect = ( nextVariation = defaultVariation ) => {
+			if ( nextVariation.attributes ) {
+				props.setAttributes( nextVariation.attributes );
+			}
+			if ( nextVariation.innerBlocks ) {
+				replaceInnerBlocks(
+					props.clientId,
+					createBlocksFromInnerBlocksTemplate(
+						nextVariation.innerBlocks,
+					),
+				);
+			}
+		};
+
 		return (
 			<ExperimentalBlockVariationPicker
 				icon={ get( blockType, [ "icon", "src" ] ) }
 				label={ get( blockType, [ "title" ] ) }
 				variations={ variations }
-				onSelect={ ( nextVariation = defaultVariation ) => {
-					if ( nextVariation.attributes ) {
-						props.setAttributes( nextVariation.attributes );
-					}
-					if ( nextVariation.innerBlocks ) {
-						replaceInnerBlocks(
-							props.clientId,
-							createBlocksFromInnerBlocksTemplate(
-								nextVariation.innerBlocks,
-							),
-						);
-					}
-				} }
+				onSelect={ onSelect }
 				allowSkip={ true }
 			/>
 		);
