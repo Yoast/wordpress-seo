@@ -9,6 +9,7 @@ import { createBlock } from "@wordpress/blocks";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { createElement } from "@wordpress/element";
 import { BlockInstance } from "@wordpress/blocks";
+import { VariationInterface } from "./Variation";
 
 /**
  * Creates the blocks from the inner block templates.
@@ -86,7 +87,7 @@ class VariationPicker extends BlockInstruction {
 			<ExperimentalBlockVariationPicker
 				icon={ get( blockType, [ "icon", "src" ] ) }
 				label={ get( blockType, [ "title" ] ) }
-				variations={ variations.map( ( variation: any ) => {
+				variations={ variations.map( ( variation: VariationInterface ) => {
 					return { ...variation, icon: <span dangerouslySetInnerHTML={ { __html: variation.icon } } /> };
 				} ) }
 				onSelect={ onSelect }
