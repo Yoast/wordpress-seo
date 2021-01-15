@@ -52,8 +52,8 @@ class WPSEO_Health_Check_Link_Table_Not_Accessible extends WPSEO_Health_Check {
 		);
 
 		$this->actions = sprintf(
-			/* translators: 1: Link to the Yoast knowledge base, 2: Link closing tag. */
-			esc_html__( '%1$sFind out how to solve this problem on our knowledge base%2$s.', 'wordpress-seo' ),
+			/* translators: 1: Link to the Yoast help center, 2: Link closing tag. */
+			esc_html__( '%1$sFind out how to solve this problem on our help center%2$s.', 'wordpress-seo' ),
 			'<a href="' . WPSEO_Shortlinker::get( 'https://yoa.st/3zv' ) . '" target="_blank">',
 			WPSEO_Admin_Utils::get_new_tab_message() . '</a>'
 		);
