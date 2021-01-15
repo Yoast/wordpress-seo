@@ -19,11 +19,15 @@ use Yoast\WP\SEO\Wrappers\WP_Rewrite_Wrapper;
 class Pagination_Helper_Test extends TestCase {
 
 	/**
+	 * Class instance to use for the test.
+	 *
 	 * @var Pagination_Helper
 	 */
 	protected $instance;
 
 	/**
+	 * Holds the WP rewrite wrapper instance.
+	 *
 	 * @var WP_Rewrite_Wrapper|Mockery\MockInterface
 	 */
 	protected $wp_rewrite_wrapper;
@@ -31,7 +35,7 @@ class Pagination_Helper_Test extends TestCase {
 	/**
 	 * Holds the WP query wrapper instance.
 	 *
-	 * @var WP_Query_Wrapper WP_Query wrapper.
+	 * @var WP_Query_Wrapper|Mockery\MockInterface
 	 */
 	protected $wp_query_wrapper;
 

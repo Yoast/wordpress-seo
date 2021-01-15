@@ -18,7 +18,7 @@ class Structured_Data_Blocks implements Integration_Interface {
 	protected $asset_manager;
 
 	/**
-	 * @inheritDoc
+	 * {@inheritDoc}
 	 */
 	public static function get_conditionals() {
 		return [];

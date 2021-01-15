@@ -363,6 +363,10 @@ class Meta_Tags_Context extends Abstract_Presentation {
 			$breadcrumbs_enabled = $this->options->get( 'breadcrumbs-enable', false );
 		}
 
+		if ( ! empty( $this->blocks['yoast-seo/breadcrumbs'] ) ) {
+			$breadcrumbs_enabled = true;
+		}
+
 		return $breadcrumbs_enabled;
 	}
 

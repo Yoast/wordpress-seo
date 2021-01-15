@@ -80,6 +80,7 @@ test.sh
 # Legacy, can be removed in the future.
 .recalibration.yaml
 /src/generated/
+/premium/src/generated/
 
 ############
 # Dist files

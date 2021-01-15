@@ -121,7 +121,13 @@ class Actions {
 		$io->write( 'Compiling the dependency injection container...' );
 
 		// Pas true as debug to force a recheck of the container.
-		Container_Compiler::compile( true );
+		Container_Compiler::compile(
+			true,
+			__DIR__ . '/../../src/generated/container.php',
+			__DIR__ . '/../dependency-injection/services.php',
+			__DIR__ . '/../../vendor/composer/autoload_classmap.php',
+			'Yoast\WP\SEO\Generated'
+		);
 
 		$io->write( 'The dependency injection container has been compiled.' );
 	}

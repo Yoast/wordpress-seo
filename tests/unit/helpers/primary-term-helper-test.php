@@ -17,6 +17,8 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
 class Primary_Term_Helper_Test extends TestCase {
 
 	/**
+	 * Class instance to use for the test.
+	 *
 	 * @var Primary_Term_Helper
 	 */
 	private $instance;

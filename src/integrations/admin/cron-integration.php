@@ -19,7 +19,7 @@ class Cron_Integration implements Integration_Interface {
 	protected $date_helper;
 
 	/**
-	 * @inheritDoc
+	 * {@inheritDoc}
 	 */
 	public static function get_conditionals() {
 		return [ Admin_Conditional::class ];
@@ -37,7 +37,7 @@ class Cron_Integration implements Integration_Interface {
 	}
 
 	/**
-	 * @inheritDoc
+	 * {@inheritDoc}
 	 */
 	public function register_hooks() {
 		if ( ! \wp_next_scheduled( Indexing_Notification_Integration::NOTIFICATION_ID ) ) {

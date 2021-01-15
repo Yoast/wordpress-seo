@@ -2,7 +2,7 @@ import getL10nObject from "./analysis/getL10nObject";
 import getContentLocale from "./analysis/getContentLocale";
 import getIndicatorForScore from "./analysis/getIndicatorForScore";
 import * as constants from "./analysis/constants";
-import refreshAnalysis from "./analysis/refreshAnalysis";
+import * as refreshAnalysis from "./analysis/refreshAnalysis";
 import HelpLink from "./components/HelpLink";
 import TopLevelProviders from "./components/TopLevelProviders";
 import * as i18n from "./helpers/i18n";
@@ -18,7 +18,7 @@ import * as replacementVariableHelpers from "./helpers/replacementVariableHelper
 import * as location from "./components/contexts/location";
 import Modal from "./components/modals/Modal";
 import SidebarItem from "./components/SidebarItem";
-import ajaxHelper from "@yoast/helpers/ajaxHelper";
+import * as ajaxHelper from "./helpers/ajaxHelper";
 import EditorModal from "./containers/EditorModal";
 
 window.yoast = window.yoast || {};

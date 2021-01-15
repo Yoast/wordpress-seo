@@ -26,7 +26,7 @@ class Indexable_Post_Meta_Watcher implements Integration_Interface {
 	protected $post_ids_to_update = [];
 
 	/**
-	 * @inheritDoc
+	 * Returns the conditionals based on which this loadable should be active.
 	 */
 	public static function get_conditionals() {
 		return [ Migrations_Conditional::class ];
@@ -42,7 +42,9 @@ class Indexable_Post_Meta_Watcher implements Integration_Interface {
 	}
 
 	/**
-	 * @inheritDoc
+	 * Initializes the integration.
+	 *
+	 * This is the place to register hooks and filters.
 	 */
 	public function register_hooks() {
 		// Register all posts whose meta have changed.
