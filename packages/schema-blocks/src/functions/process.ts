@@ -123,7 +123,6 @@ function processSchema( template: string ): SchemaDefinition {
  * @return {BlockDefinition} The template BlockDefinition.
  */
 function processBlock( template: string ): BlockDefinition {
-	console.log( template );
 	return process( template, BlockDefinition, BlockInstruction );
 }
 
@@ -141,9 +140,7 @@ function process<T extends Definition>(
 	definitionClass: DefinitionClass<T>,
 	instructionClass: typeof Instruction,
 ): T {
-	console.log( "The template: " + template );
 	const tokens     = tokenize( template );
-	console.log( "The tokens: " + tokens );
 	const separator  = generateUniqueSeparator( template, definitionClass.separatorCharacters );
 	const definition = new definitionClass( separator );
 

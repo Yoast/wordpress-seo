@@ -11,8 +11,6 @@ class Variation extends BlockInstruction {
 	 * @returns The configuration.
 	 */
 	configuration(): Partial<ExtendedBlockConfiguration> {
-		console.log( "The variation options: " + this.options );
-		console.log( "Henk" );
 		return {
 			variations: [
 				this.options,
@@ -30,5 +28,4 @@ class Variation extends BlockInstruction {
 	}
 }
 
-console.log( "Registering the variation instruction" );
 BlockInstruction.register( "variation", Variation );

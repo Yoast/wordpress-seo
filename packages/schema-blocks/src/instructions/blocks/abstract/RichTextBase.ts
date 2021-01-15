@@ -49,7 +49,6 @@ export default abstract class RichTextBase extends BlockInstruction {
 	 */
 	edit( props: RenderEditProps, leaf: BlockLeaf, i: number ): JSX.Element {
 		const attributes = this.getBaseAttributes( props, i ) as RichTextEditProps;
-		// Console.log(attributes);
 		attributes.onChange = ( value ) => props.setAttributes( { [ this.options.name ]: value } );
 		if ( this.options.placeholder ) {
 			attributes.placeholder = this.options.placeholder;
