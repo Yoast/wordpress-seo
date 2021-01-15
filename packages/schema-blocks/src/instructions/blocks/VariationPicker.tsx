@@ -86,7 +86,9 @@ class VariationPicker extends BlockInstruction {
 			<ExperimentalBlockVariationPicker
 				icon={ get( blockType, [ "icon", "src" ] ) }
 				label={ get( blockType, [ "title" ] ) }
-				variations={ variations }
+				variations={ variations.map( ( variation: any ) => {
+					return { ...variation, icon: <span dangerouslySetInnerHTML={ { __html: variation.icon } } /> };
+				} ) }
 				onSelect={ onSelect }
 				allowSkip={ true }
 			/>
