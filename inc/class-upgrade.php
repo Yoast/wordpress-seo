@@ -69,7 +69,7 @@ class WPSEO_Upgrade {
 			'15.1-RC0'   => 'upgrade_151',
 			'15.3-RC0'   => 'upgrade_153',
 			'15.5-RC0'   => 'upgrade_155',
-			'15.7'       => 'upgrade_157',
+			'15.7-RC0'   => 'upgrade_157',
 		];
 
 		array_walk( $routines, [ $this, 'run_upgrade_routine' ], $version );
