@@ -20,7 +20,7 @@ import { BlockInstance } from "@wordpress/blocks";
 const createBlocksFromInnerBlocksTemplate = ( innerBlocksTemplate: BlockInstance[] ): BlockInstance[] => {
 	return map(
 		innerBlocksTemplate,
-		( { name, attributes, innerBlocks = [] } ) =>
+		( { name, attributes = {}, innerBlocks = [] } ) =>
 			createBlock(
 				name,
 				attributes,
