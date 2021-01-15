@@ -60,7 +60,7 @@ class Link_Count_Columns_Integration implements Integration_Interface {
 	protected $admin_columns_cache;
 
 	/**
-	 * @inheritDoc
+	 * {@inheritDoc}
 	 */
 	public static function get_conditionals() {
 		return [
@@ -91,7 +91,7 @@ class Link_Count_Columns_Integration implements Integration_Interface {
 	}
 
 	/**
-	 * @inheritDoc
+	 * {@inheritDoc}
 	 */
 	public function register_hooks() {
 		\add_filter( 'posts_clauses', [ $this, 'order_by_links' ], 1, 2 );
