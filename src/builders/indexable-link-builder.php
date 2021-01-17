@@ -258,7 +258,7 @@ class Indexable_Link_Builder {
 		$model->parsed_url = $parsed_url;
 
 		if ( $model->type === SEO_Links::TYPE_INTERNAL || $model->type === SEO_Links::TYPE_INTERNAL_IMAGE ) {
-			$permalink = $this->get_permalink( $url, $home_url );
+			$permalink = $this->url_helper->ensure_absolute_url( $this->get_permalink( $url, $home_url ) );
 			$target    = $this->indexable_repository->find_by_permalink( $permalink );
 
 			if ( ! $target ) {
