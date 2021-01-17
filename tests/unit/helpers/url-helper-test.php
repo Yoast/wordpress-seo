@@ -345,11 +345,27 @@ class Url_Helper_Test extends TestCase {
 	public function get_link_type_test_data() {
 		return [
 			[
-				[ 'scheme' => '' ],
+				[
+					'scheme' => '',
+					'host'   => ''
+				],
 				[],
 				false,
 				SEO_Links::TYPE_INTERNAL,
-				'URLs with no scheme should be internal',
+				'URLs with no scheme and no host should be internal',
+			],
+			[
+				[
+					'scheme' => '',
+					'host'   => 'example.net',
+				],
+				[
+					'scheme' => 'http',
+					'host'   => 'example.com',
+				],
+				false,
+				SEO_Links::TYPE_EXTERNAL,
+				'URLs with no scheme, but an external host should be external',
 			],
 			[
 				[ 'scheme' => 'not-http(s)?' ],
@@ -411,7 +427,7 @@ class Url_Helper_Test extends TestCase {
 				false,
 				SEO_Links::TYPE_INTERNAL,
 				'When home_url has a path URLs that do start with it should be internal',
-			],
+			]
 		];
 	}
 }
