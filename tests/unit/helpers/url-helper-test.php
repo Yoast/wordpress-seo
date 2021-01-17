@@ -347,7 +347,7 @@ class Url_Helper_Test extends TestCase {
 			[
 				[
 					'scheme' => '',
-					'host'   => ''
+					'host'   => '',
 				],
 				[],
 				false,
@@ -427,7 +427,7 @@ class Url_Helper_Test extends TestCase {
 				false,
 				SEO_Links::TYPE_INTERNAL,
 				'When home_url has a path URLs that do start with it should be internal',
-			]
+			],
 		];
 	}
 }
