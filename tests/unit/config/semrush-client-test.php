@@ -63,7 +63,7 @@ class SEMrush_Client_Test extends TestCase {
 	/**
 	 * The current time value. This is stored so slow travis tests can't crash on differing timestamps.
 	 *
-	 * @var time
+	 * @var int
 	 */
 	protected $time;
 
