@@ -1,20 +1,13 @@
-/**
- * Just temporarily, should be provided through an ImageSelect prop
- */
-function onSelect( image ) {
-	wpDataDispatch( "yoast-seo/editor" ).setFacebookPreviewImage( {
-		url: image.url,
-		id: image.id,
-		warnings: validateFacebookImage( image ),
-	} );
-}
+let media = null;
 
 /**
  * Function to get the media object and hook the right action dispatchers.
  *
+ * @param {Function} onSelect Callback function received from openMedia. Gets object image' as an argument.
+ *
  * @returns {void}
  */
-function getMedia( media, onSelect ) {
+function getMedia( onSelect ) {
 	if ( ! media ) {
 		media = window.wp.media();
 		// Listens for the selection of an image. Then gets the right data and dispatches the data to the store.
@@ -37,8 +30,10 @@ function getMedia( media, onSelect ) {
 /**
  * Function to open the media instance.
  *
+ * @param {Function} onSelect Callback function passed through to getMedia.
+ *
  * @returns {void}
  */
-export function openMedia( media, onSelect ) {
-	return getMedia( media, onSelect ).open();
+export function openMedia( onSelect ) {
+	return getMedia( onSelect ).open();
 }
