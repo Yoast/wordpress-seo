@@ -4,6 +4,7 @@ import { getBlockDefinition } from "../../core/blocks/BlockDefinitionRepository"
 import { RequiredBlockOption, BlockValidation, RequiredBlock, BlockValidationResult } from "../../core/validation";
 import recurseOverBlocks from "../blocks/recurseOverBlocks";
 import { getInnerblocksByName } from "../innerBlocksHelper";
+import isValidResult from "./isValidResult";
 
 /**
  * Finds all blocks that should be in the inner blocks, but aren't.
@@ -114,21 +115,10 @@ function validateInnerBlocks( blockInstance: BlockInstance, requiredBlocks: Requ
 	// 		ExistingResult.clientId === issue.clientId ) ) );
 
 	validationResults = validationResults.filter( result =>
-		! ( isOkResult( result.result ) &&
-		validationResults.some( also => also.clientId === result.clientId && ! isOkResult( also.result ) ) ) );
+		! ( isValidResult( result.result ) &&
+		validationResults.some( also => also.clientId === result.clientId && ! isValidResult( also.result ) ) ) );
 
 	return validationResults;
-}
-
-/**
- * Determins if a specific validation result is essentially invalid or not
- *
- * @param result The source value.
- *
- * @returns {boolean} Wether the result is Valid or Invalid
-*/
-function isOkResult( result: BlockValidation ): boolean {
-	return result === BlockValidation.Valid || result === BlockValidation.Unknown;
 }
 
 export default validateInnerBlocks;

@@ -1,5 +1,5 @@
 import { dispatch } from "@wordpress/data";
-import { BlockValidation, BlockValidationResult } from "../../core/validation";
+import { BlockValidationResult } from "../../core/validation";
 
 /**
  * Updates the store with information about whether a block is valid or why it isn't.
@@ -11,8 +11,8 @@ export default function storeBlockValidation( validations: BlockValidationResult
 
 	validations.forEach( blockValidation => {
 		// eslint-disable-next-line no-console
-		console.log( blockValidation.clientId + "=" + BlockValidation[ blockValidation.result ] );
+		console.log( blockValidation );
 
-		dispatch( "yoast-seo/editor" ).setBlockValidation( blockValidation.clientId, blockValidation.result );
+		dispatch( "yoast-seo/editor" ).addBlockValidation( blockValidation.clientId, blockValidation.result, blockValidation.issues );
 	} );
 }

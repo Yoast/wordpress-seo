@@ -1,3 +1,4 @@
+import { isValidResult } from ".";
 import { BlockValidation, BlockValidationResult } from "../../core/validation";
 
 /**
@@ -10,8 +11,7 @@ import { BlockValidation, BlockValidationResult } from "../../core/validation";
  */
 function validateMany( validation: BlockValidationResult ): BlockValidationResult {
 	validation.result = validation.issues.some( issue =>
-		issue.result !== BlockValidation.Unknown &&
-        issue.result !== BlockValidation.Valid )
+		isValidResult( issue.result ) )
 		? BlockValidation.Invalid
 		: BlockValidation.Valid;
 	return validation;
