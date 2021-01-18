@@ -77,9 +77,11 @@ export default abstract class BlockInstruction extends Instruction {
 	validate( blockInstance: BlockInstance ): BlockValidationResult {
 		const validation = new BlockValidationResult( blockInstance.clientId, blockInstance.name, BlockValidation.Unknown );
 		if ( this.options.required === true ) {
-			const valid = attributeExists( blockInstance, this.options.name as string ) &&
+			const attributeValid = attributeExists( blockInstance, this.options.name as string ) &&
 						  attributeNotEmpty( blockInstance, this.options.name as string );
-			if ( ! valid ) {
+			if ( attributeValid ) {
+				validation.issues.push( new BlockValidationResult( blockInstance.clientId, this.options.name, BlockValidation.Valid ) );
+			} else {
 				// eslint-disable-next-line no-console
 				console.log( "block " + blockInstance.name + " has a required attributes " + this.options.name + " but it is missing or empty" );
 				validation.issues.push( new BlockValidationResult( blockInstance.clientId, this.options.name, BlockValidation.MissingAttribute ) );

@@ -1,6 +1,6 @@
 import { BlockInstance } from "@wordpress/blocks";
 import BlockInstruction from "../../../src/core/blocks/BlockInstruction";
-import { BlockValidation, BlockValidationResult } from "../../../src/core/validation";
+import { BlockValidation } from "../../../src/core/validation";
 
 /**
  * Test class, to be able to test the non-abstract BlockInstruction methods.
@@ -26,7 +26,9 @@ describe( "The BlockInstruction class", () => {
 			const result = blockInstruction.validate( blockInstance );
 			expect( result.name ).toEqual( "blockName" );
 			expect( result.result ).toEqual( BlockValidation.Valid );
-			expect( result.issues.length ).toEqual( 0 );
+			expect( result.issues.length ).toEqual( 1 );
+			expect( result.issues[ 0 ].name ).toEqual( "title" );
+			expect( result.issues[ 0 ].result ).toEqual( BlockValidation.Valid );
 		} );
 
 		it( "considers a required attribute to be invalid if it does not exist", () => {
@@ -44,8 +46,8 @@ describe( "The BlockInstruction class", () => {
 			expect( result.name ).toEqual( "blockName" );
 			expect( result.result ).toEqual( BlockValidation.Invalid );
 			expect( result.issues.length ).toEqual( 1 );
-			expect( result.issues[0].name ).toEqual( "title" );
-			expect( result.issues[0].result ).toEqual( BlockValidation.MissingAttribute );
+			expect( result.issues[ 0 ].name ).toEqual( "title" );
+			expect( result.issues[ 0 ].result ).toEqual( BlockValidation.MissingAttribute );
 		} );
 
 		it( "considers a required attribute to be invalid if it is empty", () => {
@@ -65,8 +67,8 @@ describe( "The BlockInstruction class", () => {
 			expect( result.name ).toEqual( "blockName" );
 			expect( result.result ).toEqual( BlockValidation.Invalid );
 			expect( result.issues.length ).toEqual( 1 );
-			expect( result.issues[0].name ).toEqual( "title" );
-			expect( result.issues[0].result ).toEqual( BlockValidation.MissingAttribute );
+			expect( result.issues[ 0 ].name ).toEqual( "title" );
+			expect( result.issues[ 0 ].result ).toEqual( BlockValidation.MissingAttribute );
 		} );
 
 		it( "considers an attribute with an undefined required option to always be valid.", () => {
