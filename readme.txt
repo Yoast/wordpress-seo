@@ -254,6 +254,7 @@ Bugfixes:
 Other:
 
 * Changes the wording on the `my.yoast.com` connect error shown in Health Check when a Yoast premium plugin is enabled, to lead with what the user's problem is.
+* Removes the release notification as the added benefit of having it, is minimal.
 
 = 15.6.2 =
 Release Date: January 12th, 2021
