@@ -1,5 +1,5 @@
-import stem from "../../../src/languageProcessing/languages/pl/helpers/internal/stem";
-import getMorphologyData from "../../specHelpers/getMorphologyData";
+import stem from "../../../../../../src/languageProcessing/languages/pl/helpers/internal/stem";
+import getMorphologyData from "../../../../../specHelpers/getMorphologyData";
 
 const morphologyDataPL = getMorphologyData( "pl" ).pl;
 
@@ -29,3 +29,4 @@ describe( "Test for stemming Polish words", () => {
 		} );
 	}
 } );
+

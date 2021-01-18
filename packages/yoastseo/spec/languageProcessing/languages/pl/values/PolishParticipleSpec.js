@@ -1,5 +1,6 @@
-import PolishParticiple from "../../../../src/languages/legacy/researches/polish/passiveVoice/PolishParticiple.js";
-import checkException from "../../../../src/languages/legacy/researches/passiveVoice/periphrastic/checkException.js";
+import PolishParticiple from "../../../../../src/languageProcessing/languages/pl/values/PolishParticiple.js";
+import checkException from "../../../../../src/languageProcessing/helpers/passiveVoice/periphrastic/checkException.js";
+import { cannotDirectlyPrecedePassiveParticiple } from "../../../../../src/languageProcessing/languages/pl/config/functionWords.js";
 
 describe( "A test for checking the Polish participle", function() {
 	it( "checks the properties of the Polish participle object with a passive", function() {
@@ -10,7 +11,8 @@ describe( "A test for checking the Polish participle", function() {
 		} );
 
 		expect( mockParticiple.getParticiple() ).toBe( "napisana" );
-		expect( mockParticiple.directPrecedenceException( mockParticiple._sentencePart, mockParticiple._participle, "pl" ) ).toBe( false );
+		expect( mockParticiple.directPrecedenceException( mockParticiple._sentencePart, mockParticiple._participle,
+			cannotDirectlyPrecedePassiveParticiple ) ).toBe( false );
 		expect( mockParticiple.determinesSentencePartIsPassive() ).toBe( true );
 	} );
 
@@ -23,7 +25,8 @@ describe( "A test for checking the Polish participle", function() {
 		} );
 
 		expect( mockParticiple.getParticiple() ).toBe( "znalezione" );
-		expect( mockParticiple.directPrecedenceException( mockParticiple._sentencePart, mockParticiple._participle, "pl" ) ).toBe( true );
+		expect( mockParticiple.directPrecedenceException( mockParticiple._sentencePart, mockParticiple._participle,
+			cannotDirectlyPrecedePassiveParticiple ) ).toBe( true );
 		expect( mockParticiple.determinesSentencePartIsPassive() ).toBe( false );
 	} );
 

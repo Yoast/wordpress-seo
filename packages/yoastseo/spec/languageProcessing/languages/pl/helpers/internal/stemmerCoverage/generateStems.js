@@ -1,8 +1,8 @@
 /* eslint-disable no-console */
-import stem from "../../../../src/languageProcessing/languages/pl/helpers/internal/stem";
-import getMorphologyData from "../../../specHelpers/getMorphologyData";
-import filterFunctionWordsFromArray from "../../../../src/languageProcessing/helpers/word/filterWordsFromArray.js";
-import sampleVocabulary from "../stemmerCoverage/sampleVocabulary.json";
+import stem from "../../../../../../../src/languageProcessing/languages/pl/helpers/internal/stem";
+import getMorphologyData from "../../../../../../specHelpers/getMorphologyData";
+import filterFunctionWordsFromArray from "../../../../../../../src/languageProcessing/helpers/word/filterWordsFromArray.js";
+import sampleVocabulary from "./sampleVocabulary.json";
 
 const wordsToStemWithoutFunctionWords = filterFunctionWordsFromArray( sampleVocabulary.words, "pl" );
 const morphologyDataPL = getMorphologyData( "pl" ).pl;
