@@ -2,7 +2,7 @@ import splitSentence from "../../../helpers/passiveVoice/periphrastic/getSentenc
 import arrayToRegex from "../../../helpers/regex/createRegexFromArray";
 import SentencePart from "../values/SentencePart";
 import auxiliaries from "../config/internal/auxiliaries.js";
-import stopwords from "../config/stopwords.js";
+import stopwords from "../config/stopWords.js";
 
 const options = {
 	SentencePart: SentencePart,
