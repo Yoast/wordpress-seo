@@ -61,6 +61,13 @@ class SEMrush_Client_Test extends TestCase {
 	protected $instance;
 
 	/**
+	 * The current time value. This is stored so slow travis tests can't crash on differing timestamps.
+	 *
+	 * @var time
+	 */
+	protected $time;
+
+	/**
 	 * Set up the test fixtures.
 	 */
 	protected function set_up() {
@@ -226,13 +233,15 @@ class SEMrush_Client_Test extends TestCase {
 	public function test_storing_token_failure() {
 		$this->expectException( Failed_Storage_Exception::class );
 
+		$this->time = \time();
+
 		$this->token->expects( 'to_array' )->once()->andReturns(
 			[
 				'access_token'  => '000000',
 				'refresh_token' => '000001',
 				'expires'       => 604800,
 				'has_expired'   => true,
-				'created_at'    => \time(),
+				'created_at'    => $this->time,
 			]
 		);
 
@@ -245,7 +254,7 @@ class SEMrush_Client_Test extends TestCase {
 					'refresh_token' => '000001',
 					'expires'       => 604800,
 					'has_expired'   => true,
-					'created_at'    => \time(),
+					'created_at'    => $this->time,
 				]
 			)
 			->once()
