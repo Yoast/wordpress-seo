@@ -94,11 +94,17 @@ export default function initSearchAppearance() {
 						link={ knowledgeGraphCompanyInfoMissing.URL }
 					/>
 					<ImageSelectPortal
-						label="organizaion"
+						label="Organization logo"
 						hasPreview={ true }
 						target="organization-image-select"
+						hiddenField="company_logo"
 					/>
-					<ImageSelectPortal target="organization-image-select" />
+					<ImageSelectPortal
+						label="Person logo / avatar"
+						hasPreview={ true }
+						target="person-image-select"
+						hiddenField="person_logo"
+					/>
 					{ showLocalSEOUpsell && (
 						<LocalSEOUpsellPortal
 							target="wpseo-local-seo-upsell"
