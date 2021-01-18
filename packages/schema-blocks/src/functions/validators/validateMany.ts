@@ -11,7 +11,7 @@ import { BlockValidation, BlockValidationResult } from "../../core/validation";
  */
 function validateMany( validation: BlockValidationResult ): BlockValidationResult {
 	validation.result = validation.issues.some( issue =>
-		isValidResult( issue.result ) )
+		! isValidResult( issue.result ) )
 		? BlockValidation.Invalid
 		: BlockValidation.Valid;
 	return validation;

@@ -107,12 +107,6 @@ function validateInnerBlocks( blockInstance: BlockInstance, requiredBlocks: Requ
 	// We differentiate between blocks that are internally valid but are not valid in the context of the innerblock.
 	const innerValidations = validateInnerblockTree( blockInstance );
 	validationResults.push( ...innerValidations );
-	// ValidationResults.push( ...innerValidations.filter( issue =>
-	// 	// The innerblock may be valid
-	// 	IsOkResult( issue.result ) &&
-	// 	// But we only store the valid value, if no other issues have been found with it.
-	// 	! validationResults.some( existingResult =>
-	// 		ExistingResult.clientId === issue.clientId ) ) );
 
 	validationResults = validationResults.filter( result =>
 		! ( isValidResult( result.result ) &&

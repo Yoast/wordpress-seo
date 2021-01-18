@@ -61,7 +61,7 @@ export default abstract class Instruction {
 	 * @returns {BlockValidationResult} The validation result.
 	 */
 	validate( blockInstance: BlockInstance ): BlockValidationResult {
-		return new BlockValidationResult( blockInstance.clientId, blockInstance.name, BlockValidation.Valid );
+		return new BlockValidationResult( blockInstance.clientId, blockInstance.name, BlockValidation.Unknown );
 	}
 
 	/**
