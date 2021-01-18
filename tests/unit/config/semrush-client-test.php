@@ -160,6 +160,8 @@ class SEMrush_Client_Test extends TestCase {
 			]
 		);
 
+		$this->time = \time();
+
 		$this->provider
 			->expects( 'getAccessToken' )
 			->once()
@@ -181,7 +183,7 @@ class SEMrush_Client_Test extends TestCase {
 					'refresh_token' => '000001',
 					'expires'       => 604800,
 					'has_expired'   => true,
-					'created_at'    => \time(),
+					'created_at'    => $this->time,
 				]
 			)
 			->andReturns( $this->token );
@@ -192,6 +194,8 @@ class SEMrush_Client_Test extends TestCase {
 		);
 
 		$instance->set_provider( $this->provider );
+
+		$instance->request_tokens( '123456' )->created_at = $this->time;
 
 		$this->assertInstanceOf( SEMrush_Token::class, $instance->request_tokens( '123456' ) );
 	}
