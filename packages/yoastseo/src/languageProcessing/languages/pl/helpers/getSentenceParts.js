@@ -1,14 +1,14 @@
 import splitSentence from "../../../helpers/passiveVoice/periphrastic/getSentencePartsSplitOnStopwords";
 import arrayToRegex from "../../../helpers/regex/createRegexFromArray";
 import SentencePart from "../values/SentencePart";
-import auxiliariesFactory from "../config/internal/auxiliaries.js";
-import stopwordsFactory from "../config/stopwords.js";
+import auxiliaries from "../config/internal/auxiliaries.js";
+import stopwords from "../config/stopwords.js";
 
 const options = {
 	SentencePart: SentencePart,
 	regexes: {
-		auxiliaryRegex: arrayToRegex( auxiliariesFactory().all ),
-		stopwordRegex: arrayToRegex( stopwordsFactory() ),
+		auxiliaryRegex: arrayToRegex( auxiliaries ),
+		stopwordRegex: arrayToRegex( stopwords ),
 	},
 };
 
