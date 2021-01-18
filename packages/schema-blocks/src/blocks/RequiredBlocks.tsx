@@ -82,7 +82,7 @@ export default function RequiredBlocks( block: BlockInstance, requiredBlocks: Re
 	const presentBlockNames = findPresentBlocks.map( presentBlock => presentBlock.name );
 
 	return (
-		<PanelBody>
+		<PanelBody key={ block.clientId }>
 			<div className="yoast-block-sidebar-title">Required blocks</div>
 			<ul className="yoast-block-suggestions">
 				{
