@@ -52,7 +52,7 @@ export default class BlockDefinition extends Definition {
 			return elements[ 0 ] as JSX.Element;
 		}
 
-		return createElement( Fragment, null, elements );
+		return createElement( Fragment, { key: props.clientId }, elements );
 	}
 
 	/**
