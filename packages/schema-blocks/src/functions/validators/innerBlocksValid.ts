@@ -91,7 +91,7 @@ function validateInnerblockTree( blockInstance: BlockInstance ): BlockValidation
  */
 function validateInnerBlocks( blockInstance: BlockInstance, requiredBlocks: RequiredBlock[] = [] ): BlockValidationResult[]  {
 	const requiredBlockKeys = requiredBlocks.map( rblock => rblock.name );
-	const validationResults: BlockValidationResult[] = [];
+	let validationResults: BlockValidationResult[] = [];
 
 	// Find all instances of required block types.
 	const existingRequiredBlocks = getInnerblocksByName( blockInstance, requiredBlockKeys );
@@ -102,10 +102,33 @@ function validateInnerBlocks( blockInstance: BlockInstance, requiredBlocks: Requ
 	// Find all block types that allow only one occurrence.
 	validationResults.push( ...findRedundantBlocks( existingRequiredBlocks, requiredBlocks ) );
 
-	// Find all blocks that have decided for themselves that they're invalid.
-	validationResults.push( ...validateInnerblockTree( blockInstance ) );
+	// Let all innerblocks validate themselves.
+	// We differentiate between blocks that are internally valid but are not valid in the context of the innerblock.
+	const innerValidations = validateInnerblockTree( blockInstance );
+	validationResults.push( ...innerValidations );
+	// ValidationResults.push( ...innerValidations.filter( issue =>
+	// 	// The innerblock may be valid
+	// 	IsOkResult( issue.result ) &&
+	// 	// But we only store the valid value, if no other issues have been found with it.
+	// 	! validationResults.some( existingResult =>
+	// 		ExistingResult.clientId === issue.clientId ) ) );
+
+	validationResults = validationResults.filter( result =>
+		! ( isOkResult( result.result ) &&
+		validationResults.some( also => also.clientId === result.clientId && ! isOkResult( also.result ) ) ) );
 
 	return validationResults;
+}
+
+/**
+ * Determins if a specific validation result is essentially invalid or not
+ *
+ * @param result The source value.
+ *
+ * @returns {boolean} Wether the result is Valid or Invalid
+*/
+function isOkResult( result: BlockValidation ): boolean {
+	return result === BlockValidation.Valid || result === BlockValidation.Unknown;
 }
 
 export default validateInnerBlocks;
