@@ -1,5 +1,5 @@
-import { stemTOrDFromEndOfWord } from "../../../src/languageProcessing/languages/nl/helpers/internal/stemTOrDFromEndOfWord";
-import getMorphologyData from "../../specHelpers/getMorphologyData";
+import { stemTOrDFromEndOfWord } from "../../../../../../src/languageProcessing/languages/nl/helpers/internal/stemTOrDFromEndOfWord";
+import getMorphologyData from "../../../../../specHelpers/getMorphologyData";
 
 const morphologyDataNL = getMorphologyData( "nl" ).nl;
 

@@ -1,6 +1,7 @@
 import transitionWordsFactory from "./transitionWords";
+import {cannotBeBetweenPassiveAuxiliaryAndParticiple} from "../../en/config/functionWords";
 
-const transitionWords = transitionWordsFactory().singleWords;
+const transitionWords = transitionWordsFactory.singleWords;
 
 /**
  * Returns an array with exceptions for the prominent words researcher.
@@ -223,4 +224,11 @@ export const all = [].concat( articles, cardinalNumerals, ordinalNumerals, demon
 	correlativeConjunctions, subordinatingConjunctions, interviewVerbs,
 	transitionWords, additionalTransitionWords, intensifiers, delexicalizedVerbs, delexicalizedVerbsInfinitive,
 	interjections, generalAdjectivesAdverbs, recipeWords, vagueNouns, miscellaneous, titlesPreceding, titlesFollowing );
-export default {};
+
+export default {
+	filteredAtEnding,
+	filteredAtBeginningAndEnding,
+	filteredAnywhere,
+	cannotDirectlyPrecedePassiveParticiple,
+	all,
+};

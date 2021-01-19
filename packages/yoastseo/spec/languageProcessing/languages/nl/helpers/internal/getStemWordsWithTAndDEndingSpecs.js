@@ -1,5 +1,6 @@
-import { generateCorrectStemWithTAndDEnding } from "../../../src/languageProcessing/languages/nl/helpers/internal/getStemWordsWithTAndDEnding";
-import getMorphologyData from "../../specHelpers/getMorphologyData";
+// eslint-disable-next-line max-len
+import { generateCorrectStemWithTAndDEnding } from "../../../../../../src/languageProcessing/languages/nl/helpers/internal/getStemWordsWithTAndDEnding";
+import getMorphologyData from "../../../../../specHelpers/getMorphologyData";
 
 const morphologyDataNL = getMorphologyData( "nl" ).nl;
 
@@ -74,5 +75,10 @@ describe( "Creates stem from words with ambiguous endings", () => {
 	it( "Creates the stem of a word which is in the list of words ending in -den that should only have -en stemmed.", () => {
 		expect( generateCorrectStemWithTAndDEnding( morphologyDataNL, "hoofden" ) ).toEqual(
 			"hoofd" );
+	} );
+	it( "Creates the stem of a word which is in the list of words ending in -den that should only have -en stemmed," +
+		"and which requires vowel doubling.", () => {
+		expect( generateCorrectStemWithTAndDEnding( morphologyDataNL, "daden" ) ).toEqual(
+			"daad" );
 	} );
 } );

@@ -1,5 +1,6 @@
-import DutchParticiple from "../../../../src/languages/legacy/researches/dutch/passiveVoice/DutchParticiple.js";
-import checkException from "../../../../src/languages/legacy/researches/passiveVoice/periphrastic/checkException.js";
+import DutchParticiple from "../../../../../src/languageProcessing/languages/nl/values/DutchParticiple.js";
+import checkException from "../../../../../src/languageProcessing/helpers/passiveVoice/periphrastic/checkException.js";
+import { cannotDirectlyPrecedePassiveParticiple } from "../../../../../src/languageProcessing/languages/nl/config/functionWords.js";
 
 describe( "A test for checking the Dutch participle", function() {
 	it( "checks the properties of the Dutch participle object with a passive", function() {
@@ -59,7 +60,8 @@ describe( "A test for checking the Dutch participle", function() {
 		expect( mockParticiple.getParticiple() ).toBe( "geliefd" );
 		expect( mockParticiple.isOnNonParticiplesList() ).toBe( false );
 		expect( mockParticiple.hasNonParticipleEnding() ).toBe( false );
-		expect( mockParticiple.directPrecedenceException( mockParticiple._sentencePart, mockParticiple._participle, "nl" ) ).toBe( true );
+		expect( mockParticiple.directPrecedenceException( mockParticiple._sentencePart, mockParticiple._participle,
+			cannotDirectlyPrecedePassiveParticiple ) ).toBe( true );
 		expect( mockParticiple.determinesSentencePartIsPassive() ).toBe( false );
 	} );
 
