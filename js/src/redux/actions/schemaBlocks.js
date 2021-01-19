@@ -1,19 +1,28 @@
 const PREFIX = "WPSEO_";
 
-export const SET_BLOCK_VALID = `${ PREFIX }SET_BLOCK_VALIDATION`;
+export const ADD_BLOCK_VALIDATION    = `${ PREFIX }ADD_BLOCK_VALIDATION`;
+export const RESET_BLOCK_VALIDATIONS = `${ PREFIX }CLEAR_BLOCK_VALIDATIONS`;
 
 /**
  * Updates whether a block is valid.
  *
- * @param {string} clientID   The client ID of the block.
- * @param {BlockValidation} validation The validation result for the block.
+ * @param {blockValidationResult} blockValidationResult The block validation to store.
  *
- * @returns {SetBlockValidation} An action for redux.
+ * @returns {Object} An action for redux.
  */
-export function setBlockValidation( clientID, validation ) {
+export function addBlockValidation( blockValidationResult ) {
 	return {
-		type: SET_BLOCK_VALID,
-		clientId: clientID,
-		validation: validation,
+		type: ADD_BLOCK_VALIDATION,
+		validation: blockValidationResult,
+	};
+}
+
+/**
+ * Commands the store to reset the block validation store to initial state.
+ * @returns {object} The command to set the initial state for the block validation store.
+ */
+export function resetBlockValidation() {
+	return {
+		type: RESET_BLOCK_VALIDATIONS,
 	};
 }

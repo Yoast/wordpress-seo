@@ -1,4 +1,4 @@
-import { SET_BLOCK_VALID } from "../actions/schemaBlocks";
+import * as actions from "../actions/schemaBlocks";
 
 const initialState = {};
 
@@ -12,9 +12,16 @@ const initialState = {};
  */
 export default function schemaBlocksReducer( state = initialState, action ) {
 	switch ( action.type ) {
-		case SET_BLOCK_VALID: {
-			const validationResult = { [ action.clientId ]: action.validation };
-			return Object.assign( {}, state, validationResult );
+		case actions.RESET_BLOCK_VALIDATIONS: {
+			return initialState;
+		}
+		case actions.ADD_BLOCK_VALIDATION: {
+			 const newState = Object.assign( {}, state );
+			 const validation = action.validation;
+
+			 newState[ validation.clientId ] = validation;
+
+			 return newState;
 		}
 		default: {
 			return state;
