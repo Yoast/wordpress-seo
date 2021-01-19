@@ -1,4 +1,5 @@
 import { ImageSelect } from "@yoast/components";
+import { openMedia } from "../helpers/selectMedia";
 
 import { Component } from "@wordpress/element";
 /* eslint-disable */
@@ -21,7 +22,9 @@ class ImageSelectComponent extends Component {
 			hasPreview: this.props.hasPreview,
 		};
 
+		this.setMyImageUrl = this.setMyImageUrl.bind( this );
 		this.onClick = this.onClick.bind( this );
+		this.removeImage = this.removeImage.bind( this );
 	}
 
 	/**
@@ -42,10 +45,41 @@ class ImageSelectComponent extends Component {
 	 *
 	 * @returns {void}
 	 */
-	onClick( imageUrl ) {
+	setMyImageUrl( imageUrl ) {
 		this.setState( { imageUrl }, () => {
 			this.element.imageUrl = imageUrl;
 		} );
+	}
+
+	/**
+	 * Function called when ImageSelect component button is clicked.
+	 *
+	 * @returns {void}
+	 */
+	onClick() {
+		/**
+		 * Callback function for selectMedia. Performs actions with the 'image' Object that it gets as an argument.
+		 *
+		 * @param {Object} image Object containing data about the selected image.
+		 *
+		 * @param {Function} onSelect Callback function received from openMedia. Gets object image' as an argument.
+		 *
+		 * @returns {void}
+		 */
+		const imageCallback = ( image ) => {
+			this.setMyImageUrl( image.url );
+		};
+		openMedia( imageCallback );
+	}
+
+	/**
+	 * Function called when 'remove image' button of ImageSelect component is clicked.
+	 *
+	 * @returns {void}
+	 */
+	removeImage() {
+		const imageUrl = "";
+		this.setMyImageUrl( imageUrl );
 	}
 
 	/**
@@ -60,6 +94,7 @@ class ImageSelectComponent extends Component {
 				hasPreview={ this.state.hasPreview }
 				imageUrl={ this.state.imageUrl }
 				onClick={ this.onClick }
+				onRemoveImageClick= { this.removeImage }
 			/>
 		);
 	}
