@@ -1,5 +1,3 @@
-let media = null;
-
 /**
  * Function to get the media object and hook the right action dispatchers.
  *
@@ -8,21 +6,20 @@ let media = null;
  * @returns {void}
  */
 function getMedia( onSelect ) {
-	if ( ! media ) {
-		media = window.wp.media();
-		// Listens for the selection of an image. Then gets the right data and dispatches the data to the store.
-		media.on( "select", () => {
-			const selected = media.state().get( "selection" ).first();
-			const image = {
-				type: selected.attributes.subtype,
-				width: selected.attributes.width,
-				height: selected.attributes.height,
-				url: selected.attributes.url,
-				id: selected.attributes.id,
-			};
-			onSelect( image );
-		} );
-	}
+	let media = null;
+	media = window.wp.media();
+	// Listens for the selection of an image. Then gets the right data and dispatches the data to the store.
+	media.on( "select", () => {
+		const selected = media.state().get( "selection" ).first();
+		const image = {
+			type: selected.attributes.subtype,
+			width: selected.attributes.width,
+			height: selected.attributes.height,
+			url: selected.attributes.url,
+			id: selected.attributes.id,
+		};
+		onSelect( image );
+	} );
 
 	return media;
 }
