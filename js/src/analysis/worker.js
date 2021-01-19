@@ -20,7 +20,9 @@ import isKeywordAnalysisActive from "./isKeywordAnalysisActive";
  */
 export function createAnalysisWorker() {
 	const url = get( window, [ "wpseoScriptData", "analysis", "worker", "url" ], "analysis-worker.js" );
-	return new AnalysisWorkerWrapper( createWorker( url ) );
+	const worker = createWorker( url );
+	worker.postMessage( { language: get( window, [ "wpseoScriptData", "analysis", "worker", "language" ], "en" ) } );
+	return new AnalysisWorkerWrapper( worker );
 }
 
 /**
