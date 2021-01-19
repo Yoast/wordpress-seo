@@ -1,539 +1,476 @@
+
 /**
  * @author Ljiljana Dolamic  University of Neuchatel
  * -removes case endings form nouns and adjectives, possesive adj. endings from names,
  *  diminutive, augmentative, comparative suffixes and derivational suffixes from nouns,
  *  takes care of palatalisation
  */
-(function (factory) {
-	if (typeof module !== 'undefined' && typeof module.exports !== 'undefined' && typeof require !== 'undefined') {
-		// CommonJS
-		module.exports = factory(require('./stringbuffer'));
-	} else {
-		// running in browser
-		window.czech_stem = factory(StringBuffer);
-	}
-})(function(StringBuffer) {
 
-	function stem(input){
+const removeDerivational = function( word ) {
+	var len = word.length;
 
-		var sb = new StringBuffer();
+		if ( ( len > 8 ) &&
+			word.substring( len - 6, len ) === "obinec" ) {
 
-		input=input.toLowerCase();
-		//reset string buffer
-		sb.delete(0,sb.length());
-		sb.insert(0,input);
-		// stemming...
-		//removes case endings from nouns and adjectives
-		removeCase(sb);
-		//removes possesive endings from names -ov- and -in-
-		removePossessives(sb);
-		//removes comparative endings
-		removeComparative(sb);
-		//removes diminutive endings
-		removeDiminutive(sb);
-		//removes augmentatives endings
-		removeAugmentative(sb);
-		//removes derivational sufixes from nouns
-		removeDerivational(sb);
-
-		result = sb.toString();
-		return result;
-	}
-
-	function removeDerivational(buffer) {
-		var len=buffer.length();
-		//
-		if( (len > 8 )&&
-			buffer.substring( len-6 ,len).equals("obinec")){
-
-			buffer.delete( len- 6 , len);
-			return;
+			return word.slice( 0, -6 );
 		}//len >8
-		if(len > 7){
-			if(buffer.substring( len-5 ,len).equals("ion\u00e1\u0159")){ // -ionář
+		if ( len > 7 ) {
+			if ( word.substring( len - 5, len )=== "ion\u00e1\u0159" ) { // -ionář
 
-				buffer.delete( len- 4 , len);
-				palatalise(buffer);
-				return;
+				word = word.slice( 0, - 4 );
+				return palatalise( word );
 			}
-			if(buffer.substring( len-5 ,len).equals("ovisk")||
-				buffer.substring( len-5 ,len).equals("ovstv")||
-				buffer.substring( len-5 ,len).equals("ovi\u0161t")||  //-ovišt
-				buffer.substring( len-5 ,len).equals("ovn\u00edk")){ //-ovník
+			if ( word.substring( len - 5, len )=== "ovisk" ||
+				word.substring( len - 5, len )=== "ovstv" ||
+				word.substring( len - 5, len )=== "ovi\u0161t" ||  //-ovišt
+				word.substring( len - 5, len )=== "ovn\u00edk" ) { //-ovník
 
-				buffer.delete( len- 5 , len);
-				return;
+				return word.slice( 0, - 5 );
 			}
 		}//len>7
-		if(len > 6){
-			if(	buffer.substring( len-4 ,len).equals("\u00e1sek")|| // -ásek
-				buffer.substring( len-4 ,len).equals("loun")||
-				buffer.substring( len-4 ,len).equals("nost")||
-				buffer.substring( len-4 ,len).equals("teln")||
-				buffer.substring( len-4 ,len).equals("ovec")||
-				buffer.substring( len-5 ,len).equals("ov\u00edk")|| //-ovík
-				buffer.substring( len-4 ,len).equals("ovtv")||
-				buffer.substring( len-4 ,len).equals("ovin")||
-				buffer.substring( len-4 ,len).equals("\u0161tin")){ //-štin
+		if ( len > 6 ) {
+			if ( word.substring( len - 4, len )=== "\u00e1sek" || // -ásek
+				word.substring( len - 4, len )=== "loun" ||
+				word.substring( len - 4, len )=== "nost" ||
+				word.substring( len - 4, len )=== "teln" ||
+				word.substring( len - 4, len )=== "ovec" ||
+				word.substring( len - 5, len )=== "ov\u00edk" || //-ovík
+				word.substring( len - 4, len )=== "ovtv" ||
+				word.substring( len - 4, len )=== "ovin" ||
+				word.substring( len - 4, len )=== "\u0161tin" ) { //-štin
 
-				buffer.delete( len- 4 , len);
-				return;
+				return word.slice( 0, - 4 );
 			}
-			if(buffer.substring( len-4 ,len).equals("enic")||
-				buffer.substring( len-4 ,len).equals("inec")||
-				buffer.substring( len-4 ,len).equals("itel")){
+			if ( word.substring( len - 4, len )=== "enic" ||
+				word.substring( len - 4, len )=== "inec" ||
+				word.substring( len - 4, len )=== "itel" ) {
 
-				buffer.delete( len- 3 , len);
-				palatalise(buffer);
-				return;
+				word = word.slice( 0, - 3 );
+				return palatalise( word );
 			}
 		}//len>6
-		if(len > 5){
-			if(buffer.substring( len-3 ,len).equals("\u00e1rn")){ //-árn
+		if ( len > 5 ) {
+			if ( word.substring( len - 3, len )=== "\u00e1rn" ) { //-árn
 
-				buffer.delete( len- 3 , len);
-				return;
+				return word.slice( 0, - 3 );
 			}
-			if(buffer.substring( len-3 ,len).equals("\u011bnk")){ //-ěnk
+			if ( word.substring( len - 3, len )=== "\u011bnk" ) { //-ěnk
 
-				buffer.delete( len- 2 , len);
-				palatalise(buffer);
-				return;
+				word = word.slice( 0, - 2 );
+				return palatalise( word );
 			}
-			if(buffer.substring( len-3 ,len).equals("i\u00e1n")|| //-ián
-				buffer.substring( len-3 ,len).equals("ist")||
-				buffer.substring( len-3 ,len).equals("isk")||
-				buffer.substring( len-3 ,len).equals("i\u0161t")|| //-išt
-				buffer.substring( len-3 ,len).equals("itb")||
-				buffer.substring( len-3 ,len).equals("\u00edrn")){  //-írn
+			if ( word.substring( len - 3, len )=== "i\u00e1n" || //-ián
+				word.substring( len - 3, len )=== "ist" ||
+				word.substring( len - 3, len )=== "isk" ||
+				word.substring( len - 3, len )=== "i\u0161t" || //-išt
+				word.substring( len - 3, len )=== "itb" ||
+				word.substring( len - 3, len )=== "\u00edrn" ) {  //-írn
 
-				buffer.delete( len- 2 , len);
-				palatalise(buffer);
-				return;
+				word = word.slice( 0, - 2 );
+				return palatalise( word );
 			}
-			if(buffer.substring( len-3 ,len).equals("och")||
-				buffer.substring( len-3 ,len).equals("ost")||
-				buffer.substring( len-3 ,len).equals("ovn")||
-				buffer.substring( len-3 ,len).equals("oun")||
-				buffer.substring( len-3 ,len).equals("out")||
-				buffer.substring( len-3 ,len).equals("ou\u0161")){  //-ouš
+			if ( word.substring( len - 3, len )=== "och" ||
+				word.substring( len - 3, len )=== "ost" ||
+				word.substring( len - 3, len )=== "ovn" ||
+				word.substring( len - 3, len )=== "oun" ||
+				word.substring( len - 3, len )=== "out" ||
+				word.substring( len - 3, len )=== "ou\u0161" ) {  //-ouš
 
-				buffer.delete( len- 3 , len);
-				return;
+				return word.slice( 0, - 3 );
 			}
-			if(buffer.substring( len-3 ,len).equals("u\u0161k")){ //-ušk
+			if ( word.substring( len - 3, len )=== "u\u0161k" ) { //-ušk
 
-				buffer.delete( len- 3 , len);
-				return;
+				return word.slice( 0, - 3 );
 			}
-			if(buffer.substring( len-3 ,len).equals("kyn")||
-				buffer.substring( len-3 ,len).equals("\u010dan")||    //-čan
-				buffer.substring( len-3 ,len).equals("k\u00e1\u0159")|| //kář
-				buffer.substring( len-3 ,len).equals("n\u00e9\u0159")|| //néř
-				buffer.substring( len-3 ,len).equals("n\u00edk")||      //-ník
-				buffer.substring( len-3 ,len).equals("ctv")||
-				buffer.substring( len-3 ,len).equals("stv")){
+			if ( word.substring( len - 3, len )=== "kyn" ||
+				word.substring( len - 3, len )=== "\u010dan" ||    //-čan
+				word.substring( len - 3, len )=== "k\u00e1\u0159" || //kář
+				word.substring( len - 3, len )=== "n\u00e9\u0159" || //néř
+				word.substring( len - 3, len )=== "n\u00edk" ||      //-ník
+				word.substring( len - 3, len )=== "ctv" ||
+				word.substring( len - 3, len )=== "stv" ) {
 
-				buffer.delete( len- 3 , len);
-				return;
+				return word.slice( 0, - 3 );
 			}
 		}//len>5
-		if(len > 4){
-			if(buffer.substring( len-2 ,len).equals("\u00e1\u010d")|| // -áč
-				buffer.substring( len-2 ,len).equals("a\u010d")||      //-ač
-				buffer.substring( len-2 ,len).equals("\u00e1n")||      //-án
-				buffer.substring( len-2 ,len).equals("an")||
-				buffer.substring( len-2 ,len).equals("\u00e1\u0159")|| //-ář
-				buffer.substring( len-2 ,len).equals("as")){
+		if ( len > 4 ) {
+			if ( word.substring( len - 2, len )=== "\u00e1\u010d" || // -áč
+				word.substring( len - 2, len )=== "a\u010d" ||      //-ač
+				word.substring( len - 2, len )=== "\u00e1n" ||      //-án
+				word.substring( len - 2, len )=== "an" ||
+				word.substring( len - 2, len )=== "\u00e1\u0159" || //-ář
+				word.substring( len - 2, len )=== "as" ) {
 
-				buffer.delete( len- 2 , len);
-				return;
+				return word.slice( 0, - 2 );
 			}
-			if(buffer.substring( len-2 ,len).equals("ec")||
-				buffer.substring( len-2 ,len).equals("en")||
-				buffer.substring( len-2 ,len).equals("\u011bn")||   //-ěn
-				buffer.substring( len-2 ,len).equals("\u00e9\u0159")){  //-éř
+			if ( word.substring( len - 2, len )=== "ec" ||
+				word.substring( len - 2, len )=== "en" ||
+				word.substring( len - 2, len )=== "\u011bn" ||   //-ěn
+				word.substring( len - 2, len )=== "\u00e9\u0159" ) {  //-éř
 
-				buffer.delete( len-1 , len);
-				palatalise(buffer);
-				return;
+				word = word.slice( 0, - 1 );
+				return palatalise( word );
 			}
-			if(buffer.substring( len-2 ,len).equals("\u00ed\u0159")|| //-íř
-				buffer.substring( len-2 ,len).equals("ic")||
-				buffer.substring( len-2 ,len).equals("in")||
-				buffer.substring( len-2 ,len).equals("\u00edn")||  //-ín
-				buffer.substring( len-2 ,len).equals("it")||
-				buffer.substring( len-2 ,len).equals("iv")){
+			if ( word.substring( len - 2, len )=== "\u00ed\u0159" || //-íř
+				word.substring( len - 2, len )=== "ic" ||
+				word.substring( len - 2, len )=== "in" ||
+				word.substring( len - 2, len )=== "\u00edn" ||  //-ín
+				word.substring( len - 2, len )=== "it" ||
+				word.substring( len - 2, len )=== "iv" ) {
 
-				buffer.delete( len- 1 , len);
-				palatalise(buffer);
-				return;
+				word = word.slice( 0, - 1 );
+				return palatalise( word );
 			}
+			if ( word.substring( len - 2, len )=== "ob" ||
+				word.substring( len - 2, len )=== "ot" ||
+				word.substring( len - 2, len )=== "ov" ||
+				word.substring( len - 2, len )=== "o\u0148" ) { //-oň
 
-			if(buffer.substring( len-2 ,len).equals("ob")||
-				buffer.substring( len-2 ,len).equals("ot")||
-				buffer.substring( len-2 ,len).equals("ov")||
-				buffer.substring( len-2 ,len).equals("o\u0148")){ //-oň
-
-				buffer.delete( len- 2 , len);
-				return;
+				return word.slice( 0, - 2 );
 			}
-			if(buffer.substring( len-2 ,len).equals("ul")){
+			if ( word.substring( len - 2, len )=== "ul" ) {
 
-				buffer.delete( len- 2 , len);
-				return;
+				return word.slice( 0, - 2 );
 			}
-			if(buffer.substring( len-2 ,len).equals("yn")){
+			if ( word.substring( len - 2, len )=== "yn" ) {
 
-				buffer.delete( len- 2 , len);
-				return;
+				return word.slice( 0, - 2 );
 			}
-			if(buffer.substring( len-2 ,len).equals("\u010dk")||              //-čk
-				buffer.substring( len-2 ,len).equals("\u010dn")||  //-čn
-				buffer.substring( len-2 ,len).equals("dl")||
-				buffer.substring( len-2 ,len).equals("nk")||
-				buffer.substring( len-2 ,len).equals("tv")||
-				buffer.substring( len-2 ,len).equals("tk")||
-				buffer.substring( len-2 ,len).equals("vk")){
+			if ( word.substring( len - 2, len )=== "\u010dk" || //-čk
+				word.substring( len - 2, len )=== "\u010dn" ||  //-čn
+				word.substring( len - 2, len )=== "dl" ||
+				word.substring( len - 2, len )=== "nk" ||
+				word.substring( len - 2, len )=== "tv" ||
+				word.substring( len - 2, len )=== "tk" ||
+				word.substring( len - 2, len )=== "vk" ) {
 
-				buffer.delete( len-2 , len);
-				return;
+				return word.slice( 0, - 2 );
 			}
 		}//len>4
-		if(len > 3){
-			if(buffer.charAt(buffer.length()-1)=='c'||
-				buffer.charAt(buffer.length()-1)=='\u010d'|| //-č
-				buffer.charAt(buffer.length()-1)=='k'||
-				buffer.charAt(buffer.length()-1)=='l'||
-				buffer.charAt(buffer.length()-1)=='n'||
-				buffer.charAt(buffer.length()-1)=='t'){
+		if ( len > 3 ) {
+			if ( word.charAt( word.length - 1 ) === 'c' ||
+				word.charAt( word.length - 1 ) === '\u010d' || //-č
+				word.charAt( word.length - 1 ) === 'k' ||
+				word.charAt( word.length - 1 ) === 'l' ||
+				word.charAt( word.length - 1 ) === 'n' ||
+				word.charAt( word.length - 1 ) === 't' ) {
 
-				buffer.delete( len-1 , len);
+				return word.slice( 0, - 1 );
 			}
 		}//len>3
+	return word;
+}//removeDerivational
 
-	}//removeDerivational
+const removeAugmentative = function( word ) {
+	var len = word.length;
 
-	function removeAugmentative(buffer) {
-		var len=buffer.length();
-		//
-		if( (len> 6 )&&
-			buffer.substring( len- 4 ,len).equals("ajzn")){
+	if ( ( len > 6 ) &&
+		word.substring( len - 4, len )=== "ajzn" ) {
 
-			buffer.delete( len- 4 , len);
-			return;
-		}
-		if( (len> 5 )&&
-			(buffer.substring( len- 3 ,len).equals("izn")||
-				buffer.substring( len- 3 ,len).equals("isk"))){
-
-			buffer.delete( len- 2 , len);
-			palatalise(buffer);
-			return;
-		}
-		if( (len> 4 )&&
-			buffer.substring( len- 2 ,len).equals("\00e1k")){ //-ák
-
-			buffer.delete( len- 2 , len);
-			return;
-		}
-
+		return word.slice( 0, - 4 );
 	}
+	if ( ( len > 5 ) &&
+		( word.substring( len - 3, len )=== "izn" ) ||
+			word.substring( len - 3, len )=== "isk" ) {
 
-	function removeDiminutive(buffer) {
-		var len=buffer.length();
-		//
-		if( (len> 7 )&&
-			buffer.substring( len- 5 ,len).equals("ou\u0161ek")){  //-oušek
-
-			buffer.delete( len- 5 , len);
-			return;
-		}
-		if( len> 6){
-			if(buffer.substring( len-4,len).equals("e\u010dek")||      //-eček
-				buffer.substring( len-4,len).equals("\u00e9\u010dek")||    //-éček
-				buffer.substring( len-4,len).equals("i\u010dek")||         //-iček
-				buffer.substring( len-4,len).equals("\u00ed\u010dek")||    //íček
-				buffer.substring( len-4,len).equals("enek")||
-				buffer.substring( len-4,len).equals("\u00e9nek")||      //-ének
-				buffer.substring( len-4,len).equals("inek")||
-				buffer.substring( len-4,len).equals("\u00ednek")){      //-ínek
-
-				buffer.delete( len- 3 , len);
-				palatalise(buffer);
-				return;
-			}
-			if( buffer.substring( len-4,len).equals("\u00e1\u010dek")|| //áček
-				buffer.substring( len-4,len).equals("a\u010dek")||   //aček
-				buffer.substring( len-4,len).equals("o\u010dek")||   //oček
-				buffer.substring( len-4,len).equals("u\u010dek")||   //uček
-				buffer.substring( len-4,len).equals("anek")||
-				buffer.substring( len-4,len).equals("onek")||
-				buffer.substring( len-4,len).equals("unek")||
-				buffer.substring( len-4,len).equals("\u00e1nek")){   //-ánek
-
-				buffer.delete( len- 4 , len);
-				return;
-			}
-		}//len>6
-		if( len> 5){
-			if(buffer.substring( len-3,len).equals("e\u010dk")||   //-ečk
-				buffer.substring( len-3,len).equals("\u00e9\u010dk")||  //-éčk
-				buffer.substring( len-3,len).equals("i\u010dk")||   //-ičk
-				buffer.substring( len-3,len).equals("\u00ed\u010dk")||    //-íčk
-				buffer.substring( len-3,len).equals("enk")||   //-enk
-				buffer.substring( len-3,len).equals("\u00e9nk")||  //-énk
-				buffer.substring( len-3,len).equals("ink")||   //-ink
-				buffer.substring( len-3,len).equals("\u00ednk")){   //-ínk
-
-				buffer.delete( len- 3 , len);
-				palatalise(buffer);
-				return;
-			}
-			if(buffer.substring( len-3,len).equals("\u00e1\u010dk")||  //-áčk
-				buffer.substring( len-3,len).equals("au010dk")|| //-ačk
-				buffer.substring( len-3,len).equals("o\u010dk")||  //-očk
-				buffer.substring( len-3,len).equals("u\u010dk")||   //-učk
-				buffer.substring( len-3,len).equals("ank")||
-				buffer.substring( len-3,len).equals("onk")||
-				buffer.substring( len-3,len).equals("unk")){
-
-				buffer.delete( len- 3 , len);
-				return;
-
-			}
-			if(buffer.substring( len-3,len).equals("\u00e1tk")|| //-átk
-				buffer.substring( len-3,len).equals("\u00e1nk")||  //-ánk
-				buffer.substring( len-3,len).equals("u\u0161k")){   //-ušk
-
-				buffer.delete( len- 3 , len);
-				return;
-			}
-		}//len>5
-		if( len> 4){
-			if(buffer.substring( len-2,len).equals("ek")||
-				buffer.substring( len-2,len).equals("\u00e9k")||  //-ék
-				buffer.substring( len-2,len).equals("\u00edk")||  //-ík
-				buffer.substring( len-2,len).equals("ik")){
-
-				buffer.delete( len- 1 , len);
-				palatalise(buffer);
-				return;
-			}
-			if(buffer.substring( len-2,len).equals("\u00e1k")||  //-ák
-				buffer.substring( len-2,len).equals("ak")||
-				buffer.substring( len-2,len).equals("ok")||
-				buffer.substring( len-2,len).equals("uk")){
-
-				buffer.delete( len- 1 , len);
-				return;
-			}
-		}
-		if( (len> 3 )&&
-			buffer.substring( len- 1 ,len).equals("k")){
-
-			buffer.delete( len- 1, len);
-			return;
-		}
-	}//removeDiminutives
-
-	function removeComparative(buffer) {
-		var len=buffer.length();
-		//
-		if( (len> 5)&&
-			(buffer.substring( len-3,len).equals("ej\u0161")||  //-ejš
-				buffer.substring( len-3,len).equals("\u011bj\u0161"))){   //-ějš
-
-			buffer.delete( len- 2 , len);
-			palatalise(buffer);
-			return;
-		}
-
+		word = word.slice( 0, - 2 );
+		return palatalise( word );
 	}
+	if ( ( len > 4 ) &&
+		word.substring( len - 2, len )=== "\u00e1k" ) { //-ák
 
-	function palatalise(buffer){
-		var len=buffer.length();
-
-		if( buffer.substring( len- 2 ,len).equals("ci")||
-			buffer.substring( len- 2 ,len).equals("ce")||
-			buffer.substring( len- 2 ,len).equals("\u010di")||      //-či
-			buffer.substring( len- 2 ,len).equals("\u010de")){   //-če
-
-			buffer.replace(len- 2 ,len, "k");
-			return;
-		}
-		if( buffer.substring( len- 2 ,len).equals("zi")||
-			buffer.substring( len- 2 ,len).equals("ze")||
-			buffer.substring( len- 2 ,len).equals("\u017ei")||    //-ži
-			buffer.substring( len- 2 ,len).equals("\u017ee")){  //-že
-
-			buffer.replace(len- 2 ,len, "h");
-			return;
-		}
-		if( buffer.substring( len- 3 ,len).equals("\u010dt\u011b")||     //-čtě
-			buffer.substring( len- 3 ,len).equals("\u010dti")||   //-čti
-			buffer.substring( len- 3 ,len).equals("\u010dt\u00ed")){   //-čtí
-
-			buffer.replace(len- 3 ,len, "ck");
-			return;
-		}
-		if( buffer.substring( len- 2 ,len).equals("\u0161t\u011b")||   //-ště
-			buffer.substring( len- 2 ,len).equals("\u0161ti")||   //-šti
-			buffer.substring( len- 2 ,len).equals("\u0161t\u00ed")){  //-ští
-
-			buffer.replace(len- 2 ,len, "sk");
-			return;
-		}
-		buffer.delete( len- 1 , len);
-		return;
-	}//palatalise
-
-	function removePossessives(buffer) {
-		var len=buffer.length();
-
-		if( len> 5 ){
-			if( buffer.substring( len- 2 ,len).equals("ov")){
-
-				buffer.delete( len- 2 , len);
-				return;
-			}
-			if(buffer.substring( len-2,len).equals("\u016fv")){ //-ův
-
-				buffer.delete( len- 2 , len);
-				return;
-			}
-			if( buffer.substring( len- 2 ,len).equals("in")){
-
-				buffer.delete( len- 1 , len);
-				palatalise(buffer);
-				return;
-			}
-		}
-	}//removePossessives
-
-	function removeCase(buffer) {
-		var len=buffer.length();
-		//
-		if( (len> 7 )&&
-			buffer.substring( len- 5 ,len).equals("atech")){
-
-			buffer.delete( len- 5 , len);
-			return;
-		}//len>7
-		if( len> 6 ){
-			if(buffer.substring( len- 4 ,len).equals("\u011btem")){   //-ětem
-
-				buffer.delete( len- 3 , len);
-				palatalise(buffer);
-				return;
-			}
-			if(buffer.substring( len- 4 ,len).equals("at\u016fm")){  //-atům
-				buffer.delete( len- 4 , len);
-				return;
-			}
-
-		}
-		if( len> 5 ){
-			if(buffer.substring( len-3,len).equals("ech")||
-				buffer.substring( len-3,len).equals("ich")||
-				buffer.substring( len-3,len).equals("\u00edch")){ //-ích
-
-				buffer.delete( len-2 , len);
-				palatalise(buffer);
-				return;
-			}
-			if(buffer.substring( len-3,len).equals("\u00e9ho")|| //-ého
-				buffer.substring( len-3,len).equals("\u011bmi")||  //-ěmu
-				buffer.substring( len-3,len).equals("emi")||
-				buffer.substring( len-3,len).equals("\u00e9mu")||  // -ému				                                                                buffer.substring( len-3,len).equals("ete")||
-				buffer.substring( len-3,len).equals("eti")||
-				buffer.substring( len-3,len).equals("iho")||
-				buffer.substring( len-3,len).equals("\u00edho")||  //-ího
-				buffer.substring( len-3,len).equals("\u00edmi")||  //-ími
-				buffer.substring( len-3,len).equals("imu")){
-
-				buffer.delete( len- 2 , len);
-				palatalise(buffer);
-				return;
-			}
-			if( buffer.substring( len-3,len).equals("\u00e1ch")|| //-ách
-				buffer.substring( len-3,len).equals("ata")||
-				buffer.substring( len-3,len).equals("aty")||
-				buffer.substring( len-3,len).equals("\u00fdch")||   //-ých
-				buffer.substring( len-3,len).equals("ama")||
-				buffer.substring( len-3,len).equals("ami")||
-				buffer.substring( len-3,len).equals("ov\u00e9")||   //-ové
-				buffer.substring( len-3,len).equals("ovi")||
-				buffer.substring( len-3,len).equals("\u00fdmi")){  //-ými
-
-				buffer.delete( len- 3 , len);
-				return;
-			}
-		}
-		if( len> 4){
-			if(buffer.substring( len-2,len).equals("em")){
-
-				buffer.delete( len- 1 , len);
-				palatalise(buffer);
-				return;
-
-			}
-			if( buffer.substring( len-2,len).equals("es")||
-				buffer.substring( len-2,len).equals("\u00e9m")||    //-ém
-				buffer.substring( len-2,len).equals("\u00edm")){   //-ím
-
-				buffer.delete( len- 2 , len);
-				palatalise(buffer);
-				return;
-			}
-			if( buffer.substring( len-2,len).equals("\u016fm")){
-
-				buffer.delete( len- 2 , len);
-				return;
-			}
-			if( buffer.substring( len-2,len).equals("at")||
-				buffer.substring( len-2,len).equals("\u00e1m")||    //-ám
-				buffer.substring( len-2,len).equals("os")||
-				buffer.substring( len-2,len).equals("us")||
-				buffer.substring( len-2,len).equals("\u00fdm")||     //-ým
-				buffer.substring( len-2,len).equals("mi")||
-				buffer.substring( len-2,len).equals("ou")){
-
-				buffer.delete( len- 2 , len);
-				return;
-			}
-		}//len>4
-		if( len> 3){
-			if(buffer.substring( len-1,len).equals("e")||
-				buffer.substring( len-1,len).equals("i")){
-
-				palatalise(buffer);
-				return;
-			}
-			if(buffer.substring( len-1,len).equals("\u00ed")||    //-é
-				buffer.substring( len-1,len).equals("\u011b")){   //-ě
-
-				palatalise(buffer);
-				return;
-			}
-			if( buffer.substring( len-1,len).equals("u")||
-				buffer.substring( len-1,len).equals("y")||
-				buffer.substring( len-1,len).equals("\u016f")){   //-ů
-
-				buffer.delete( len- 1 , len);
-				return;
-			}
-			if( buffer.substring( len-1,len).equals("a")||
-				buffer.substring( len-1,len).equals("o")||
-				buffer.substring( len-1,len).equals("\u00e1")||  // -á
-				buffer.substring( len-1,len).equals("\u00e9")||  //-é
-				buffer.substring( len-1,len).equals("\u00fd")){   //-ý
-
-				buffer.delete( len- 1 , len);
-				return;
-			}
-		}//len>3
+		return word.slice( 0, - 2 );
 	}
+	return word;
+}
 
-	return stem;
-});
+const removeDiminutive = function( word ) {
+	var len = word.length;
+
+	if ( ( len > 7 ) &&
+		word.substring( len - 5, len )=== "ou\u0161ek" ) {  //-oušek
+
+		return word.slice( 0, - 5 );
+	}
+	if ( len > 6 ) {
+		if ( word.substring( len - 4, len )=== "e\u010dek" ||      //-eček
+			word.substring( len - 4, len )=== "\u00e9\u010dek" ||    //-éček
+			word.substring( len - 4, len )=== "i\u010dek" ||         //-iček
+			word.substring( len - 4, len )=== "\u00ed\u010dek" ||    //íček
+			word.substring( len - 4, len )=== "enek" ||
+			word.substring( len - 4, len )=== "\u00e9nek" ||      //-ének
+			word.substring( len - 4, len )=== "inek" ||
+			word.substring( len - 4, len )=== "\u00ednek" ) {      //-ínek
+
+			word = word.slice( 0, - 3 );
+			return palatalise( word );
+		}
+		if ( word.substring( len - 4, len )=== "\u00e1\u010dek" || //áček
+			word.substring( len - 4, len )=== "a\u010dek" ||   //aček
+			word.substring( len - 4, len )=== "o\u010dek" ||   //oček
+			word.substring( len - 4, len )=== "u\u010dek" ||   //uček
+			word.substring( len - 4, len )=== "anek" ||
+			word.substring( len - 4, len )=== "onek" ||
+			word.substring( len - 4, len )=== "unek" ||
+			word.substring( len - 4, len )=== "\u00e1nek" ) {   //-ánek
+
+			return word.slice( 0, - 4 );
+		}
+	}//len>6
+	if ( len > 5 ) {
+		if ( word.substring( len - 3, len )=== "e\u010dk" ||   //-ečk
+			word.substring( len - 3, len )=== "\u00e9\u010dk" ||  //-éčk
+			word.substring( len - 3, len )=== "i\u010dk" ||   //-ičk
+			word.substring( len - 3, len )=== "\u00ed\u010dk" ||    //-íčk
+			word.substring( len - 3, len )=== "enk" ||   //-enk
+			word.substring( len - 3, len )=== "\u00e9nk" ||  //-énk
+			word.substring( len - 3, len )=== "ink" ||   //-ink
+			word.substring( len - 3, len )=== "\u00ednk" ) {   //-ínk
+
+			word = word.slice( 0, - 3 );
+			return palatalise( word );
+		}
+		if ( word.substring( len - 3, len )=== "\u00e1\u010dk" ||  //-áčk
+			word.substring( len - 3, len )=== "au010dk" || //-ačk
+			word.substring( len - 3, len )=== "o\u010dk" ||  //-očk
+			word.substring( len - 3, len )=== "u\u010dk" ||   //-učk
+			word.substring( len - 3, len )=== "ank" ||
+			word.substring( len - 3, len )=== "onk" ||
+			word.substring( len - 3, len )=== "unk" ) {
+
+			return word.slice( 0, - 3 );
+
+		}
+		if ( word.substring( len - 3, len )=== "\u00e1tk" || //-átk
+			word.substring( len - 3, len )=== "\u00e1nk" ||  //-ánk
+			word.substring( len - 3, len )=== "u\u0161k" ) {   //-ušk
+
+			return word.slice( 0, - 3 );
+		}
+	}//len>5
+	if ( len > 4 ) {
+		if ( word.substring( len - 2, len )=== "ek" ||
+			word.substring( len - 2, len )=== "\u00e9k" ||  //-ék
+			word.substring( len - 2, len )=== "\u00edk" ||  //-ík
+			word.substring( len - 2, len )=== "ik" ) {
+
+			word = word.substring( 0, - 1 );
+			return palatalise( word );
+		}
+		if ( word.substring( len - 2, len )=== "\u00e1k" ||  //-ák
+			word.substring( len - 2, len )=== "ak" ||
+			word.substring( len - 2, len )=== "ok" ||
+			word.substring( len - 2, len )=== "uk" ) {
+
+			return word.slice( 0, - 1 );
+		}
+	}
+	if ( ( len > 3 ) &&
+		word.substring( len - 1, len )=== "k" ) {
+
+		return word.slice( 0 - 1 );
+	}
+	return word;
+}//removeDiminutives
+
+const removeComparative = function( word ) {
+	var len = word.length;
+
+	if ( ( len > 5 ) &&
+		( word.substring( len - 3, len )=== "ej\u0161" ) ||  //-ejš
+			word.substring( len - 3, len )=== "\u011bj\u0161" ) {   //-ějš
+
+		word = word.slice( 0, - 2 );
+		return palatalise( word );
+	}
+	return word;
+}
+
+const palatalise = function( word ) {
+	var len = word.length;
+
+	if ( word.substring( len - 2, len )=== "ci" ||
+		word.substring( len - 2, len )=== "ce" ||
+		word.substring( len - 2, len )=== "\u010di" ||      //-či
+		word.substring( len - 2, len )=== "\u010de" ) {   //-če
+
+		return word.replace( len - 2, len, "k" );
+	}
+	if ( word.substring( len - 2, len )=== "zi" ||
+		word.substring( len - 2, len )=== "ze" ||
+		word.substring( len - 2, len )=== "\u017ei" ||    //-ži
+		word.substring( len - 2, len )=== "\u017ee" ) {  //-že
+
+		return word.replace( len - 2, len, "h" );
+	}
+	if ( word.substring( len - 3, len )=== "\u010dt\u011b" ||     //-čtě
+		word.substring( len - 3, len )=== "\u010dti" ||   //-čti
+		word.substring( len - 3, len )=== "\u010dt\u00ed" ) {   //-čtí
+
+		return word.replace( len - 3, len, "ck" );
+	}
+	if ( word.substring( len - 2, len )=== "\u0161t\u011b" ||   //-ště
+		word.substring( len - 2, len )=== "\u0161ti" ||   //-šti
+		word.substring( len - 2, len )=== "\u0161t\u00ed" ) {  //-ští
+
+		return word.replace( len - 2, len, "sk" );
+	}
+	return word.slice( 0, - 1 );
+}//palatalise
+
+const removePossessives = function( word ) {
+	var len = word.length;
+
+	if ( len > 5 ) {
+		if ( word.substring( len - 2, len ) === "ov" ) {
+
+			return word.slice( 0, - 2 );
+		}
+		if ( word.substring( len - 2, len )=== "\u016fv" ) { //-ův
+
+			return word.slice( 0, - 2 );
+		}
+		if ( word.substring( len - 2, len )=== "in" ) {
+
+			word = word.slice( 0, - 1 );
+			return palatalise( word );
+		}
+	}
+		return word;
+}//removePossessives
+
+const removeCase = function( word ) {
+	var len = word.length;
+
+	if ( ( len > 7 ) &&
+		word.substring( len - 5, len ) === "atech" ) {
+
+		return word.slice( 0, - 5 );
+	}//len>7
+	if ( len > 6 ) {
+		if ( word.substring( len - 4, len ) === "\u011btem" ) {   //-ětem
+
+			word = word.slice( 0, - 3 );
+			return palatalise( word );
+		}
+		if ( word.substring( len - 4, len )=== "at\u016fm" ) {  //-atům
+				return word.slice( 0, - 4 );
+		}
+	}
+	if ( len > 5 ) {
+		if ( word.substring( len - 3, len )=== "ech" ||
+			word.substring( len - 3, len )=== "ich" ||
+			word.substring( len - 3, len )=== "\u00edch" ) { //-ích
+
+			word = word.slice( 0, - 2 );
+			return palatalise( word );
+		}
+		if ( word.substring( len - 3, len )=== "\u00e9ho" || //-ého
+			word.substring( len - 3, len )=== "\u011bmi" ||  //-ěmu
+			word.substring( len - 3, len )=== "emi" ||
+			word.substring( len - 3, len )=== "\u00e9mu" ||  // -ému				                                                                word.substring( len-3,len)==="ete")||
+			word.substring( len - 3, len )=== "eti" ||
+			word.substring( len - 3, len )=== "iho" ||
+			word.substring( len - 3, len )=== "\u00edho" ||  //-ího
+			word.substring( len - 3, len )=== "\u00edmi" ||  //-ími
+			word.substring( len - 3, len )=== "imu" ) {
+
+			word = word.slice( 0, - 2 );
+			return palatalise( word );
+		}
+		if ( word.substring( len - 3, len )=== "\u00e1ch" || //-ách
+			word.substring( len - 3, len )=== "ata" ||
+			word.substring( len - 3, len )=== "aty" ||
+			word.substring( len - 3, len )=== "\u00fdch" ||   //-ých
+			word.substring( len - 3, len )=== "ama" ||
+			word.substring( len - 3, len )=== "ami" ||
+			word.substring( len - 3, len )=== "ov\u00e9" ||   //-ové
+			word.substring( len - 3, len )=== "ovi" ||
+			word.substring( len - 3, len )=== "\u00fdmi" ) {  //-ými
+
+			return word.slice( 0, - 3 );
+		}
+	}
+	if ( len > 4 ) {
+		if ( word.substring( len - 2, len )=== "em" ) {
+
+			word = word.slice( 0, - 1 );
+			return palatalise( word );
+		}
+		if ( word.substring( len - 2, len )=== "es" ||
+			word.substring( len - 2, len )=== "\u00e9m" ||    //-ém
+			word.substring( len - 2, len )=== "\u00edm" ) {   //-ím
+
+			word = word.slice( 0, - 2 );
+			return palatalise( word );
+		}
+		if ( word.substring( len - 2, len )=== "\u016fm" ) {
+
+			return word.slice( 0, - 2 );
+		}
+		if ( word.substring( len - 2, len )=== "at" ||
+			word.substring( len - 2, len )=== "\u00e1m" ||    //-ám
+			word.substring( len - 2, len )=== "os" ||
+			word.substring( len - 2, len )=== "us" ||
+			word.substring( len - 2, len )=== "\u00fdm" ||     //-ým
+			word.substring( len - 2, len )=== "mi" ||
+			word.substring( len - 2, len )=== "ou" ) {
+
+			return word.slice( 0, - 2 );
+		}
+	}//len>4
+	if ( len > 3 ) {
+		if ( word.substring( len - 1, len )=== "e" ||
+			word.substring( len - 1, len )=== "i" ) {
+
+			return palatalise( word );
+		}
+		if ( word.substring( len - 1, len )=== "\u00ed" || //-é
+			word.substring( len - 1, len )=== "\u011b" ) { //-ě
+
+			return palatalise( word );
+		}
+		if ( word.substring( len - 1, len )=== "u" ||
+			word.substring( len - 1, len )=== "y" ||
+			word.substring( len - 1, len )=== "\u016f" ) { //-ů
+
+			return word.slice( 0, - 1 );
+			}
+		if ( word.substring( len - 1, len )=== "a" ||
+			word.substring( len - 1, len )=== "o" ||
+			word.substring( len - 1, len )=== "\u00e1" ||  //-á
+			word.substring( len - 1, len )=== "\u00e9" ||  //-é
+			word.substring( len - 1, len )=== "\u00fd" ) { //-ý
+
+			return word.slice( 0, - 1 );
+		}
+	}//len>3
+	return word;
+}
+
+/**
+ * Stems Czech words.
+ *
+ * @param {string} word             The word to stem.
+ * @param {Object} morphologyData   The Czech morphology data.
+ *
+ * @returns {string}                The stemmed word.
+ */
+export default function stem( word ) {
+
+	word = word.toLowerCase();
+	//removes case endings from nouns and adjectives
+	word = removeCase( word );
+	//removes possessive endings from names -ov- and -in-
+	word = removePossessives( word );
+	//removes comparative endings
+	word = removeComparative( word );
+	//removes diminutive endings
+	word = removeDiminutive( word );
+	//removes augmentatives endings
+	word = removeAugmentative( word );
+	//removes derivational suffixes from nouns
+	word = removeDerivational( word );
+
+	return word;
+}
