@@ -142,33 +142,59 @@ const titlesPreceding = [ "tuan", "nyonya", "nona", "bang", "pak", "bu", "bang",
 	"ustad", "ustadzah", "nyai", "raden", "tengku" ];
 
 /**
+ * These word categories are filtered at the end of word combinations.
+ *
+ * @type {string[]} Word categories filtered at the end of word combinations.
+ */
+export const filteredAtEnding = [].concat( otherParticles );
+
+/**
+ * These word categories are filtered at the beginning of word combinations.
+ *
+ * @type {string[]} Word categories filtered at the beginning of word combinations.
+ */
+
+export const filteredAtBeginning = [].concat( ordinalNumerals, classifiers );
+
+/**
+ * These word categories are filtered at the beginning and end of word combinations.
+ *
+ * @type {string[]} Word categories filtered at the beginning and end of word combinations.
+ */
+export const filteredAtBeginningAndEnding = [].concat( articles, coordinatingConjunctions, demonstrativePronouns, intensifiers,
+	possessivePronouns, pronounSubstitutes );
+
+/**
+ * These word categories are filtered everywhere within word combinations.
+ *
+ * @type {string[]} Word categories filtered anywher within word combinations.
+ */
+export const filteredAnywhere = [].concat( adverbialGenitives, personalPronounsNominative,
+	reflexivePronouns, interjections, cardinalNumerals, auxiliaries, copula, interviewVerbs,
+	delexicalizedVerbs, indefinitePronouns, correlativeConjunctions, subordinatingConjunctions, interrogativeDeterminers,
+	interrogativePronouns, interrogativeAdverbs, otherAdverbs, miscellaneous, locativeAdverbs,
+	recipeWords, timeWords, vagueNouns, generalAdjectivesAndAdverbs, relativePronoun, prepositions, quantifiers );
+
+/**
+ * All Indonesian function words
+ *
+ * @type {string[]}
+ */
+export const all = [].concat( articles, cardinalNumerals, ordinalNumerals, demonstrativePronouns, possessivePronouns, reflexivePronouns,
+	personalPronounsNominative, quantifiers, indefinitePronouns, interrogativeDeterminers, interrogativePronouns, interrogativeAdverbs,
+	locativeAdverbs, adverbialGenitives, auxiliaries, copula, prepositions, coordinatingConjunctions, correlativeConjunctions,
+	subordinatingConjunctions, interviewVerbs, additionalTransitionWords, intensifiers, delexicalizedVerbs, interjections,
+	generalAdjectivesAndAdverbs, recipeWords, vagueNouns, miscellaneous, titlesPreceding, relativePronoun );
+
+/**
  * Returns function words for Indonesian.
  *
  * @returns {Object} Indonesian function words.
  */
-export default function() {
-	return {
-		// These word categories are filtered at the ending of word combinations.
-		filteredAtEnding: [].concat( otherParticles ),
-		// These word categories are filtered at the ending of word combinations.
-		filteredAtBeginning: [].concat( ordinalNumerals, classifiers ),
-
-		// These word categories are filtered at the beginning and ending of word combinations.
-		filteredAtBeginningAndEnding: [].concat( articles, coordinatingConjunctions, demonstrativePronouns, intensifiers,
-			possessivePronouns, pronounSubstitutes ),
-
-		// These word categories are filtered everywhere within word combinations.
-		filteredAnywhere: [].concat( adverbialGenitives, personalPronounsNominative,
-			reflexivePronouns, interjections, cardinalNumerals, auxiliaries, copula, interviewVerbs,
-			delexicalizedVerbs, indefinitePronouns, correlativeConjunctions, subordinatingConjunctions, interrogativeDeterminers,
-			interrogativePronouns, interrogativeAdverbs, otherAdverbs, miscellaneous, locativeAdverbs,
-			recipeWords, timeWords, vagueNouns, generalAdjectivesAndAdverbs, relativePronoun, prepositions, quantifiers ),
-
-		// This export contains all of the above words.
-		all: [].concat( articles, cardinalNumerals, ordinalNumerals, demonstrativePronouns, possessivePronouns, reflexivePronouns,
-			personalPronounsNominative, quantifiers, indefinitePronouns, interrogativeDeterminers, interrogativePronouns, interrogativeAdverbs,
-			locativeAdverbs, adverbialGenitives, auxiliaries, copula, prepositions, coordinatingConjunctions, correlativeConjunctions,
-			subordinatingConjunctions, interviewVerbs, additionalTransitionWords, intensifiers, delexicalizedVerbs, interjections,
-			generalAdjectivesAndAdverbs, recipeWords, vagueNouns, miscellaneous, titlesPreceding, relativePronoun ),
-	};
-}
+export default {
+	filteredAtEnding,
+	filteredAtBeginning,
+	filteredAtBeginningAndEnding,
+	filteredAnywhere,
+	all,
+};

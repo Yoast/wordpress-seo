@@ -1,6 +1,11 @@
 /** @module config/transitionWords */
 
-var singleWords = [ "adakalanya", "agak", "agar", "akhirnya", "alhasil", "andaikan", "bahkan",
+/**
+ * Returns a list of transition words consisting of single words
+ *
+ * @type {string[]} The list of single transition words.
+ */
+export const singleWords = [ "adakalanya", "agak", "agar", "akhirnya", "alhasil", "andaikan", "bahkan",
 	"bahwasannya", "berikut", "betapapun", "biarpun", "biasanya", "contohnya", "dahulunya", "diantaranya", "dikarenakan",
 	"disebabkan", "dulunya", "faktanya", "hasilnya", "intinya", "jadi", "jua", "juga", "kadang-kadang", "kapanpun",
 	"karena", "karenanya", "kedua", "kelak", "kemudian", "kesimpulannya", "khususnya", "langsung",
@@ -13,7 +18,13 @@ var singleWords = [ "adakalanya", "agak", "agar", "akhirnya", "alhasil", "andaik
 	"terutama", "terutamanya", "tetapi", "umpamanya", "umumnya", "utamanya", "walau", "walaupun", "yaitu", "yakni",
 	"akibatnya", "hingga", "kadang", "kendatipun", "ketiga", "lainnya", "manakala", "namun", "pastinya", "pertama-tama",
 	"sampai-sampai", "sebaliknya", "sebelumnya", "sebetulnya", "sesekali" ];
-var multipleWords = [  "agar supaya", "akan tetapi", "apa lagi", "asal saja", "bagaimanapun juga", "bahkan jika",
+
+/**
+ * Returns a list of transition words consisting of multiple words
+ *
+ * @type {string[]} The list of multiple-word transition words.
+ */
+export const multipleWords = [  "agar supaya", "akan tetapi", "apa lagi", "asal saja", "bagaimanapun juga", "bahkan jika",
 	"bahkan lebih", "begitu juga", "berbeda dari", "biarpun begitu", "biarpun demikian", "bilamana saja", "cepat atau lambat",
 	"dalam hal ini", "dalam jangka panjang", "dalam kasus ini", "dalam kasus lain", "dalam kedua kasus", "dalam kenyataannya",
 	"dalam pandangan", "dalam situasi ini", "dalam situasi seperti itu", "dan lagi", "dari awal", "dari pada", "dari waktu ke waktu",
@@ -42,13 +53,10 @@ var multipleWords = [  "agar supaya", "akan tetapi", "apa lagi", "asal saja", "b
 	"walaupun begitu" ];
 
 /**
- * Returns lists with transition words to be used by the assessments.
- * @returns {Object} The object with transition word lists.
+ * Returns a list of transition words, both single and multiple words.
+ *
+ * @type {string[]} The list of transition words.
  */
-export default function() {
-	return {
-		singleWords: singleWords,
-		multipleWords: multipleWords,
-		allWords: singleWords.concat( multipleWords ),
-	};
-}
+export const allWords = singleWords.concat( multipleWords );
+
+export default allWords;
