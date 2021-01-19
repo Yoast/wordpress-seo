@@ -1,10 +1,7 @@
-import stem from "../../../src/languageProcessing/languages/nl/helpers/internal/stem";
-import getMorphologyData from "../../specHelpers/getMorphologyData";
-
+import detectAndStemSuffixes from "../../../../../../src/languageProcessing/languages/nl/helpers/internal/detectAndStemSuffixes";
+import getMorphologyData from "../../../../../specHelpers/getMorphologyData";
 
 const morphologyDataNL = getMorphologyData( "nl" ).nl;
-
-// The first word in each array is the word, the second one is the expected stem.
 
 const wordsToStem = [
 	// -heden gets replaced with -heid (suffix type a1).
@@ -52,7 +49,7 @@ const wordsToStem = [
 	// Suffix -ën preceded by a valid -ën ending.
 	[ "allergieën", "allergie" ],
 	// Suffix -en preceded by a vowel + i.
-	 [ "aardbeien", "aardbei" ],
+	[ "aardbeien", "aardbei" ],
 	// Suffix -der.
 	[ "lekkerder", "lekker" ],
 	// Suffix -ere preceded by a valid -ere ending.
@@ -101,80 +98,28 @@ const wordsToStem = [
 	[ "paranoïedste", "paranoïd" ],
 	// An adjective with the comparative partitive suffix -ers.
 	[ "ronders", "rond" ],
-	// An adjective with stem ending in -rd.
-	[ "absurder", "absurd" ],
-	// A word whose -t ending should be stemmed.
-	[ "grondt", "grond" ],
-	// A word whose -te ending needs to be stemmed.
-	[ "zwikte", "zwik" ],
-	// A word whose -ten ending needs to be stemmed.
-	[ "zwikten", "zwik" ],
-	// A word whose -de ending needs to be stemmed.
-	[ "vlienderde", "vliender" ],
-	[ "bedaarde", "bedaar" ],
-	[ "bobsleede", "bobslee" ],
-	// A word whose -den ending needs to be stemmed.
-	[ "bidden", "bid" ],
-	// A word with stem ending -d and receives either verb or plural suffix -en. Only -en needs to be stemmed.
-	[ "hoofden", "hoofd" ],
-	[ "noden", "nood" ],
-	// A word which ends in non-verb past suffix -de. -e ending needs to be stemmed.
-	[ "poularde", "poulard" ],
-	[ "orde", "ord" ],
-	// A noun with diminutive suffix -je.
-	[ "plaatje", "plaat" ],
-	// A noun with diminutive suffix -je.
-	[ "momentje", "moment" ],
-	// A noun with diminutive suffix -tje.
-	[ "citroentje", "citroen" ],
-	// A noun with diminutive suffix -tje.
-	[ "actietje", "actie" ],
-	// A noun with diminutive suffix -je. Input: exception list.
-	[ "patiëntje", "patiënt" ],
-	// A noun with plural suffix -en. Input: exception list.
-	[ "residuen", "residu" ],
-	// A noun with plural suffix -eren. Input: exception list.
-	[ "volkeren", "volk" ],
-	// A noun with plural suffix -s. Input: exception list.
-	[ "zoos", "zoo" ],
-	// A word that is on an exception list of no vowel doubling, does not get the last vowel (a) doubled after removing the suffix (-en).
-	[ "dommeriken", "dommerik" ],
-	/*
-	 * A word that is on an exception list of no vowel doubling, and which is matched in the -t/-d stemming check, does not
-	 * get the last vowel doubled after removing the suffix.
-	 */
-	[ "vaten", "vat" ],
 ];
 
 // These words should not be stemmed (same form should be returned).
 
 const wordsNotToStem = [
 	// A word ending in -en not preceded by a valid -en ending.
-	 "groen",
+	"groen",
 	// A word ending in -en preceded by a valid -en ending, but with an R1 preceded by less than 3 characters.
-	 "den",
+	"den",
 	// -S not preceded by a valid -s ending.
-	 "prijs",
+	"prijs",
 	// -E not preceded by a valid -e ending.
-	 "missie",
+	"missie",
 	// A word without an R1.
-	 "zo",
+	"zo",
 	// A word with a single vowel. Only stems which had one of the specified suffixes should have the vowel doubled.
-	 "man",
-	// A word on the exception list of words not to stem.
-	"kerst",
-	// A word on the exception list of words not to stem.
-	"bruiloft",
-	// A word which is not in exception list and whose -t ending is not captured in either verb suffix regex or non-verb suffix regex.
-	"dreunt",
-	// A word which ends in a unique regex where the -t ending does not need to be stemmed.
-	"debat",
-	"tapijt",
+	"man",
 ];
 
 describe( "Test for stemming Dutch words", () => {
 	it( "stems Dutch nouns", () => {
-		wordsToStem.forEach( wordToStem => expect( stem( wordToStem[ 0 ], morphologyDataNL ) ).toBe( wordToStem[ 1 ] ) );
-		wordsNotToStem.forEach( wordNotToStem => expect( stem( wordNotToStem, morphologyDataNL ) ).toBe( wordNotToStem ) );
+		wordsToStem.forEach( wordToStem => expect( detectAndStemSuffixes( wordToStem[ 0 ], morphologyDataNL ) ).toBe( wordToStem[ 1 ] ) );
+		wordsNotToStem.forEach( wordNotToStem => expect( detectAndStemSuffixes( wordNotToStem, morphologyDataNL ) ).toBe( wordNotToStem ) );
 	} );
 } );

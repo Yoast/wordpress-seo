@@ -32,6 +32,7 @@ const checkAndStemIfExceptionWithoutGePrefix = function( dataExceptionListToChec
  *
  * @param {string}	wordWithoutPrefix	The word without prefix(es).
  * @param {Object}	morphologyDataNL	The Dutch morphology data.
+ *
  * @returns {boolean}					Whether the suffix should be stemmed.
  */
 const shouldSuffixBeStemmed = function( wordWithoutPrefix, morphologyDataNL ) {
@@ -52,10 +53,8 @@ const shouldSuffixBeStemmed = function( wordWithoutPrefix, morphologyDataNL ) {
 		const exceptionsTShouldNotBeStemmed = morphologyDataNL.stemExceptions.wordsNotToBeStemmedExceptions.verbs;
 		return ! exceptionsTShouldNotBeStemmed.includes( wordWithoutPrefix );
 	}
-	if ( wordWithoutPrefix.endsWith( "d" ) ) {
-		const exceptionsDShouldNotBeStemmed = morphologyDataNL.pastParticipleStemmer.doNotStemD;
-		return ! exceptionsDShouldNotBeStemmed.includes( wordWithoutPrefix );
-	}
+	const exceptionsDShouldNotBeStemmed = morphologyDataNL.pastParticipleStemmer.doNotStemD;
+	return ! exceptionsDShouldNotBeStemmed.includes( wordWithoutPrefix );
 };
 
 /**
@@ -216,7 +215,7 @@ const checkAndStemIfInseparablePrefixWithEndEnding = function( inseparablePrefix
  */
 export function detectAndStemRegularParticiple( morphologyDataNL, word ) {
 	// Check whether the word is not a participle. If it is not, return empty string.
-	if ( word.endsWith( "heid" ) || word.endsWith( "teit" ) || word.endsWith( "tijd" ) || nonParticiples().includes( word ) ) {
+	if ( word.endsWith( "heid" ) || word.endsWith( "teit" ) || word.endsWith( "tijd" ) || nonParticiples.includes( word ) ) {
 		return "";
 	}
 

@@ -1,5 +1,5 @@
-import checkExceptionsWithFullForms  from "../../../src/languageProcessing/languages/nl/helpers/internal/checkExceptionsWithFullForms";
-import getMorphologyData from "../../specHelpers/getMorphologyData";
+import checkExceptionsWithFullForms  from "../../../../../../src/languageProcessing/languages/nl/helpers/internal/checkExceptionsWithFullForms";
+import getMorphologyData from "../../../../../specHelpers/getMorphologyData";
 
 const morphologyDataNL = getMorphologyData( "nl" ).nl;
 

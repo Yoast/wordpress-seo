@@ -1,5 +1,6 @@
-import { detectAndStemRegularParticiple } from "../../../src/languageProcessing/languages/nl/helpers/internal/detectAndStemRegularParticiple";
-import getMorphologyData from "../../specHelpers/getMorphologyData";
+// eslint-disable-next-line max-len
+import { detectAndStemRegularParticiple } from "../../../../../../src/languageProcessing/languages/nl/helpers/internal/detectAndStemRegularParticiple";
+import getMorphologyData from "../../../../../specHelpers/getMorphologyData";
 
 
 const morphologyDataNL = getMorphologyData( "nl" ).nl;
@@ -76,5 +77,9 @@ describe( "Detects and stems participles", () => {
 	} );
 	it( "correctly stems a regular participle without prefixes if it starts on ë", () => {
 		expect( detectAndStemRegularParticiple( morphologyDataNL, "geëmigreerd" ) ).toEqual( "emigreer" );
+	} );
+	it( "correctly stems a regular participle with a prefix followed by ë", () => {
+		// Probably not a real word.
+		expect( detectAndStemRegularParticiple( morphologyDataNL, "teruggeëmigreerd" ) ).toEqual( "terugemigreer" );
 	} );
 } );
