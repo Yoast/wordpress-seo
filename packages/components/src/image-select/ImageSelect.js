@@ -75,6 +75,8 @@ ImageSelect.defaultProps = {
 	imageUrl: "",
 	imageAltText: "",
 	onClick: () => {},
+	onMouseEnter: () => {},
+	onMouseLeave: () => {},
 	onRemoveImageClick: () => {},
 	selectImageButtonId: "",
 	replaceImageButtonId: "",
