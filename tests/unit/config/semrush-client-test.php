@@ -195,9 +195,10 @@ class SEMrush_Client_Test extends TestCase {
 
 		$instance->set_provider( $this->provider );
 
-		$instance->request_tokens( '123456' )->created_at = $this->time;
+		$requested_tokens             = $instance->request_tokens( '123456' );
+		$requested_tokens->created_at = $this->time;
 
-		$this->assertInstanceOf( SEMrush_Token::class, $instance->request_tokens( '123456' ) );
+		$this->assertInstanceOf( SEMrush_Token::class, $requested_tokens );
 	}
 
 	/**
