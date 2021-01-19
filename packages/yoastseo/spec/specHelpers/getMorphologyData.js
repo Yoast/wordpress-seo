@@ -9,8 +9,6 @@ import pt from "../../premium-configuration/data/morphologyData-pt-v9.json";
 import id from "../../premium-configuration/data/morphologyData-id-v9.json";
 import pl from "../../premium-configuration/data/morphologyData-pl-v9.json";
 import ar from "../../premium-configuration/data/morphologyData-ar-v9.json";
-import cz from "../../premium-configuration/data/morphologyData-cz-v1.json";
-
 
 
 const morphologyData = {
@@ -25,7 +23,6 @@ const morphologyData = {
 	id,
 	pl,
 	ar,
-	cz,
 };
 
 /**
