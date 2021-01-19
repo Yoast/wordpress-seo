@@ -33,7 +33,7 @@ class ImageSelectComponent extends Component {
 	 * @returns {string} The image url.
 	 */
 	getInitialValue() {
-		return this.element.imageUrl;
+		return this.element.value;
 	}
 
 	/**
@@ -47,7 +47,7 @@ class ImageSelectComponent extends Component {
 	 */
 	setMyImageUrl( imageUrl ) {
 		this.setState( { imageUrl }, () => {
-			this.element.imageUrl = imageUrl;
+			this.element.value = imageUrl;
 		} );
 	}
 
