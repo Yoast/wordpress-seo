@@ -75,8 +75,9 @@ export default abstract class BlockInstruction extends Instruction {
 	 * @returns {BlockValidationResult} The validation result.
 	 */
 	validate( blockInstance: BlockInstance ): BlockValidationResult {
-		const validation = new BlockValidationResult( blockInstance.clientId, blockInstance.name, BlockValidation.Unknown );
-		if ( this.options.required === true ) {
+		const validation = new BlockValidationResult( blockInstance.clientId, blockInstance.name, BlockValidation.Skipped );
+
+		if ( this.options && this.options.required === true ) {
 			const attributeValid = attributeExists( blockInstance, this.options.name as string ) &&
 						           attributeNotEmpty( blockInstance, this.options.name as string );
 			if ( attributeValid ) {
@@ -87,14 +88,18 @@ export default abstract class BlockInstruction extends Instruction {
 				validation.issues.push( new BlockValidationResult( blockInstance.clientId, this.options.name, BlockValidation.MissingAttribute ) );
 				validation.result = BlockValidation.Invalid;
 			}
+		} else {
+			if ( blockInstance.name.startsWith( "core/" ) ) {
+				validation.result = blockInstance.isValid ? BlockValidation.Valid : BlockValidation.Invalid;
+				return validation;
+			}
 		}
 
-		if ( validation.result !== BlockValidation.Unknown && blockInstance.innerBlocks.length === 0 ) {
-			return validation;
+		// Blocks with any invalid innerblock should be considerd invalid themselves.
+		if ( validation.issues.length > 0 ) {
+			return validateMany( validation );
 		}
 
-		// It depends on this block's innerblocks if this block is valid.
-		validation.issues.push( ...validateInnerBlocks( blockInstance ) );
-		return validateMany( validation );
+		return validation;
 	}
 }

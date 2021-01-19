@@ -60,11 +60,21 @@ export default abstract class Definition {
 		if ( ! blockInstance ) {
 			return null;
 		}
-		// Could contain duplicates.
+
 		const validation = new BlockValidationResult( blockInstance.clientId, blockInstance.name, BlockValidation.Unknown );
 
-		validation.issues = Object.values( this.instructions ).map( instruction => instruction.validate( blockInstance ) );
-		return validateMany( validation );
+		validation.issues = Object.values( this.instructions ).map( instruction => {
+			const issue = instruction.validate( blockInstance );
+			console.log( "validating " + instruction.options.name + " against " + blockInstance.name + " => " + BlockValidation[ issue.result ] );
+			return issue;
+		} ).filter( issue => issue.result !== BlockValidation.Skipped );
+
+		// In case of a block with just one innerblock, this prevents a duplicate, identical wrapper.
+		if ( validation.issues.length === 1 ) {
+			return validation.issues[ 0 ];
+		}
+
+		return validation;
 	}
 
 	/**
