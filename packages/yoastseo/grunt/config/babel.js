@@ -2,7 +2,7 @@ module.exports = {
 	publish: {
 		files: [ {
 			expand: true,
-			src: "src/**/*.js",
+			src: [ "src/**/*.js", "vendor/**/*.js" ],
 			/**
 			 * Filters the source files.
 			 *

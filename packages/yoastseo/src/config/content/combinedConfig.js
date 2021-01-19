@@ -8,6 +8,7 @@ import es from "./es";
 import ca from "./ca";
 import pt from "./pt";
 import he from "./he";
+import tr from "./tr";
 
 const configurations = {
 	it: it,
@@ -17,6 +18,7 @@ const configurations = {
 	ca: ca,
 	pt: pt,
 	he: he,
+	tr: tr,
 };
 
 /**

@@ -187,7 +187,6 @@ describe( "An assessment for sentence length", function() {
 	it( "returns the score for all short sentences in Catalan", function() {
 		const mockPaper = new Paper( "text", { locale: "ca_ES" } );
 		const sentenceLengthInTextAssessmentCatalan = new SentenceLengthInTextAssessment( contentConfiguration( mockPaper.getLocale() ).sentenceLength );
-
 		const assessment = sentenceLengthInTextAssessmentCatalan.getResult( mockPaper, Factory.buildMockResearcher( [
 			{ sentence: "", sentenceLength: 24 },
 
@@ -514,6 +513,56 @@ describe( "An assessment for sentence length", function() {
 		expect( assessment.getScore() ).toEqual( 9 );
 		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/34v' target='_blank'>Sentence length</a>: Great!" );
 		expect( assessment.hasMarks() ).toBe( false );
+	} );
+
+	it( "returns the score for 100% long sentences in Turkish", function() {
+		const mockPaper = new Paper( "text", { locale: "tr_TR" } );
+		const sentenceLengthInTextAssessmentHebrew = new SentenceLengthInTextAssessment( contentConfiguration( mockPaper.getLocale() ).sentenceLength );
+
+		const assessment = sentenceLengthInTextAssessmentHebrew.getResult( mockPaper, Factory.buildMockResearcher( [
+			{ sentence: "", sentenceLength: 12 },
+		] ), i18n );
+
+		expect( assessment.hasScore() ).toBe( true );
+		expect( assessment.getScore() ).toEqual( 3 );
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/34v' target='_blank'>Sentence length</a>: " +
+			"100% of the sentences contain more than 11 words, which is more than the recommended maximum of 25%." +
+			" <a href='https://yoa.st/34w' target='_blank'>Try to shorten the sentences</a>." );
+		expect( assessment.hasMarks() ).toBe( true );
+	} );
+
+	it( "returns the score for 50% long sentences in Turkish", function() {
+		const mockPaper = new Paper( "text", { locale: "tr_TR" } );
+		const sentenceLengthInTextAssessmentHungarian = new SentenceLengthInTextAssessment( contentConfiguration( mockPaper.getLocale() ).sentenceLength );
+
+		const assessment = sentenceLengthInTextAssessmentHungarian.getResult( mockPaper, Factory.buildMockResearcher( [
+			{ sentence: "", sentenceLength: 12 },
+			{ sentence: "", sentenceLength: 7 },
+		] ), i18n );
+
+		expect( assessment.hasScore() ).toBe( true );
+		expect( assessment.getScore() ).toEqual( 3 );
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/34v' target='_blank'>Sentence length</a>: " +
+			"50% of the sentences contain more than 11 words, which is more than the recommended maximum of 25%." +
+			" <a href='https://yoa.st/34w' target='_blank'>Try to shorten the sentences</a>." );
+		expect( assessment.hasMarks() ).toBe( true );
+	} );
+
+	it( "returns the score for 25% long sentences in Turkish", function() {
+		const mockPaper = new Paper( "text", { locale: "tr_TR" } );
+		const sentenceLengthInTextAssessmentHebrew = new SentenceLengthInTextAssessment( contentConfiguration( mockPaper.getLocale() ).sentenceLength );
+
+		const assessment = sentenceLengthInTextAssessmentHebrew.getResult( mockPaper, Factory.buildMockResearcher( [
+			{ sentence: "", sentenceLength: 12 },
+			{ sentence: "", sentenceLength: 11 },
+			{ sentence: "", sentenceLength: 11 },
+			{ sentence: "", sentenceLength: 11 },
+		] ), i18n );
+
+		expect( assessment.hasScore() ).toBe( true );
+		expect( assessment.getScore() ).toEqual( 9 );
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/34v' target='_blank'>Sentence length</a>: Great!" );
+		expect( assessment.hasMarks() ).toBe( true );
 	} );
 
 	it( "is not applicable for empty papers", function() {

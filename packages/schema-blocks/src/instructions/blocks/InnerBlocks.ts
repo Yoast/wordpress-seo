@@ -2,12 +2,13 @@ import { ReactElement } from "react";
 import { createElement, ComponentClass } from "@wordpress/element";
 import { InnerBlocks as WordPressInnerBlocks } from "@wordpress/block-editor";
 import { BlockInstance, TemplateArray } from "@wordpress/blocks";
-import { BlockValidation, BlockValidationResult, RequiredBlock } from "../../core/validation";
+import { BlockValidation, BlockValidationResult, RecommendedBlock, RequiredBlock } from "../../core/validation";
 import BlockInstruction from "../../core/blocks/BlockInstruction";
 import validateInnerBlocks from "../../functions/validators/innerBlocksValid";
 import { RenderEditProps } from "../../core/blocks/BlockDefinition";
 import { getBlockByClientId } from "../../functions/BlockHelper";
 import RequiredBlocks from "../../blocks/RequiredBlocks";
+import { InstructionObject } from "../../core/Instruction";
 import validateMany from "../../functions/validators/validateMany";
 
 /**
@@ -16,12 +17,13 @@ import validateMany from "../../functions/validators/validateMany";
 export default class InnerBlocks extends BlockInstruction {
 	public options: {
 		name: string;
+		allowedBlocks: string[];
 		template: TemplateArray;
 		appender: string;
 		appenderLabel: string;
-		allowedBlocks: string[];
 		requiredBlocks: RequiredBlock[];
-		recommendedBlocks: string[];
+		recommendedBlocks: RecommendedBlock[];
+		warnings: InstructionObject;
 	};
 
 	/**
@@ -59,8 +61,10 @@ export default class InnerBlocks extends BlockInstruction {
 				);
 		}
 
+		properties.allowedBlocks = [ "yoast/warning-block" ];
+
 		if ( this.options.allowedBlocks ) {
-			properties.allowedBlocks = this.options.allowedBlocks;
+			properties.allowedBlocks = this.options.allowedBlocks.concat( properties.allowedBlocks );
 		}
 
 		if ( this.options.template ) {
@@ -74,7 +78,6 @@ export default class InnerBlocks extends BlockInstruction {
 	 * Renders the sidebar.
 	 *
 	 * @param props The props.
-	 * @param i     The number the rendered element is of it's parent.
 	 *
 	 * @returns The sidebar element to render.
 	 */

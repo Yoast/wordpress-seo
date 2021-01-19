@@ -1,4 +1,4 @@
-import { getInnerblocksByName } from "../../src/functions/innerBlocksHelper";
+import { getInnerblocksByName, mapBlocksRecursively } from "../../src/functions/innerBlocksHelper";
 import { BlockInstance } from "@wordpress/blocks";
 
 const testBlock = {
@@ -39,5 +39,23 @@ describe( "The getInnerBlocks function", () => {
 
 	it( "returns none of the unwanted inner blocks.", () => {
 		expect( result.every( block => unwantedNeedles.every( needle => block.name !== needle ) ) ).toBe( true );
+	} );
+} );
+
+describe( "The mapBlocksRecursively function", () => {
+	it( "returns a flat array with the mapped results", () => {
+		const blockNames = mapBlocksRecursively( testBlock.innerBlocks, block => block.name );
+		expect( blockNames ).toEqual( [
+			"InnerBlocks",
+			"innerblock_nested",
+			"unwanted_nested_innerblock",
+			"innerblock_immediate",
+			"innerblock_immediate_unwanted",
+		] );
+	} );
+
+	it( "returns an empty array when no innerBlocks are present", () => {
+		const blockNames = mapBlocksRecursively( [], block => block.name );
+		expect( blockNames ).toHaveLength( 0 );
 	} );
 } );

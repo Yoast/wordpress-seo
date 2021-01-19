@@ -2,6 +2,7 @@ import { createElement } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { removeBlock, restoreBlock } from "../../functions/BlockHelper";
 import { RenderEditProps } from "../../core/blocks/BlockDefinition";
+import { BlockInstance } from "@wordpress/blocks";
 
 /**
  * Renders the edit of the warning block.
@@ -13,7 +14,7 @@ import { RenderEditProps } from "../../core/blocks/BlockDefinition";
 export function edit( props: RenderEditProps ): JSX.Element {
 	const { clientId } = props;
 
-	const { removedBlock, removedAttributes, warningText, isRequired } = props.attributes;
+	const { removedBlock, warningText, isRequired } = props.attributes;
 
 	return createElement(
 		"div",
@@ -53,7 +54,7 @@ export function edit( props: RenderEditProps ): JSX.Element {
 						{
 							key: "button-no",
 							onClick: () => {
-								restoreBlock( clientId, removedBlock as string, removedAttributes as object );
+								restoreBlock( clientId, removedBlock as BlockInstance );
 							},
 						},
 						__( "No, please undo this", "wordpress-seo" ),
