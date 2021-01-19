@@ -4,6 +4,7 @@ import { applyModifications, pluginReady, pluginReloaded, registerPlugin, regist
 import { setWordPressSeoL10n, setYoastComponentsL10n } from "./helpers/i18n";
 import initAnalysis, { collectData } from "./initializers/analysis";
 import initElementorEditorIntegration from "./initializers/elementor-editor-integration";
+import initializeEstimatedReadingTime from "./initializers/estimated-reading-time";
 import initEditorStore from "./elementor/initializers/editor-store";
 import initializeUsedKeywords from "./elementor/initializers/used-keywords-assessment";
 import initElementorWatcher from "./watchers/elementorWatcher";
@@ -55,6 +56,9 @@ function initialize() {
 
 	// Initialize the Used Keywords Assessment.
 	initializeUsedKeywords();
+
+	// Initialize Estimated Reading Time.
+	initializeEstimatedReadingTime();
 
 	// Initialize focus keyphrase forms highlighting.
 	initHighlightFocusKeyphraseForms( window.YoastSEO.analysis.worker.runResearch );

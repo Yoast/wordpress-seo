@@ -4,6 +4,7 @@ import { analysis } from "yoast-components";
 import analysisData from "./analysisData";
 import editorContext from "./editorContext";
 import editorData from "./editorData";
+import estimatedReadingTime from "./estimatedReadingTime";
 import facebookEditor from "./facebookEditor";
 import focusKeyword from "./focusKeyword";
 import isCornerstone from "./cornerstoneContent";
@@ -19,6 +20,9 @@ import settings from "./settings";
 import snippetEditor from "./snippetEditor";
 import twitterEditor from "./twitterEditor";
 import warning from "./warning";
+import schemaTab from "./schemaTab";
+import SEMrushModal from "./SEMrushModal";
+import SEMrushRequest from "./SEMrushRequest";
 
 export default {
 	activeMarker,
@@ -27,6 +31,7 @@ export default {
 	analysisData,
 	editorContext,
 	editorData,
+	estimatedReadingTime,
 	facebookEditor,
 	focusKeyword,
 	isCornerstone,

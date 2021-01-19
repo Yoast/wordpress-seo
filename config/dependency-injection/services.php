@@ -66,7 +66,3 @@ $yoast_seo_base_definition
  * @var $loader \Yoast\WP\SEO\Dependency_Injection\Custom_Loader
  */
 $loader->registerClasses( $yoast_seo_base_definition, 'Yoast\\WP\\SEO\\', 'src/*', 'src/{' . $yoast_seo_excluded . '}' );
-
-if ( \file_exists( __DIR__ . '/../../premium/config/dependency-injection/services.php' ) ) {
-	include __DIR__ . '/../../premium/config/dependency-injection/services.php';
-}

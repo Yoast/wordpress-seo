@@ -14,6 +14,7 @@ use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Schema\HTML_Helper;
 use Yoast\WP\SEO\Helpers\Schema\ID_Helper;
 use Yoast\WP\SEO\Helpers\Schema\Language_Helper;
+use Yoast\WP\SEO\Helpers\Schema\Replace_Vars_Helper;
 use Yoast\WP\SEO\Helpers\Site_Helper;
 use Yoast\WP\SEO\Helpers\Url_Helper;
 use Yoast\WP\SEO\Helpers\User_Helper;
@@ -86,9 +87,9 @@ class Schema_Generator_Test extends TestCase {
 	/**
 	 * Represents the replace vars.
 	 *
-	 * @var Mockery\Mock|WPSEO_Replace_Vars
+	 * @var Mockery\Mock|Replace_Vars_Helper
 	 */
-	protected $replace_vars;
+	protected $replace_vars_helper;
 
 	/**
 	 * Sets up the test.
@@ -111,11 +112,11 @@ class Schema_Generator_Test extends TestCase {
 			'language' => Mockery::mock( Language_Helper::class )->makePartial(),
 		];
 
-		$this->replace_vars = Mockery::mock( WPSEO_Replace_Vars::class );
+		$this->replace_vars_helper = Mockery::mock( Replace_Vars_Helper::class );
 
 		$this->instance = Mockery::mock(
 			Schema_Generator::class,
-			[ $helpers, $this->replace_vars ]
+			[ $helpers, $this->replace_vars_helper ]
 		)->shouldAllowMockingProtectedMethods()->makePartial();
 
 		$this->context = Mockery::mock(
@@ -172,6 +173,10 @@ class Schema_Generator_Test extends TestCase {
 			->once()
 			->andReturn( [] );
 
+		$this->replace_vars_helper
+			->expects( 'register_replace_vars' )
+			->once();
+
 		$expected = [
 			'@context' => 'https://schema.org',
 			'@graph'   => [],
@@ -203,6 +208,10 @@ class Schema_Generator_Test extends TestCase {
 		$this->current_page
 			->expects( 'is_front_page' )
 			->andReturnTrue();
+
+		$this->replace_vars_helper
+			->expects( 'register_replace_vars' )
+			->once();
 
 		$this->context->blocks = [];
 
@@ -283,6 +292,10 @@ class Schema_Generator_Test extends TestCase {
 			->times( 3 )
 			->andReturnArg( 0 );
 
+		$this->replace_vars_helper
+			->expects( 'register_replace_vars' )
+			->once();
+
 		Monkey\Actions\expectDone( 'wpseo_pre_schema_block_type_yoast/faq-block' )
 			->with( $this->context->blocks['yoast/faq-block'], $this->context );
 
@@ -308,6 +321,10 @@ class Schema_Generator_Test extends TestCase {
 			->once()
 			->andReturn( [] );
 
+		$this->replace_vars_helper
+			->expects( 'register_replace_vars' )
+			->once();
+
 		$yoast_schema = [
 			'@id'              => 'http://example.com/#/schema/yoast-recipe',
 			'@type'            => 'Recipe',
@@ -316,6 +333,22 @@ class Schema_Generator_Test extends TestCase {
 			],
 			'mainEntityOfPage' => [
 				'@id' => '%%main_schema_id%%',
+			],
+			'name'             => 'Recipe',
+			'recipeIngredient' => [
+				'Ingredient One',
+				'Ingredient Two',
+			],
+		];
+
+		$yoast_schema_replaced = [
+			'@id'              => 'http://example.com/#/schema/yoast-recipe',
+			'@type'            => 'Recipe',
+			'author'           => [
+				'@id' => '#author-1337',
+			],
+			'mainEntityOfPage' => [
+				'@id' => '#main',
 			],
 			'name'             => 'Recipe',
 			'recipeIngredient' => [
@@ -335,38 +368,10 @@ class Schema_Generator_Test extends TestCase {
 			],
 		];
 
-		$this->replace_vars
+		$this->replace_vars_helper
 			->expects( 'replace' )
-			->with( 'http://example.com/#/schema/yoast-recipe', $this->context->presentation->source )
-			->andReturnArg( 0 );
-
-		$this->replace_vars
-			->expects( 'replace' )
-			->with( 'Recipe', $this->context->presentation->source )
-			->twice()
-			->andReturnArg( 0 );
-
-		$this->replace_vars
-			->expects( 'replace' )
-			->with( 'Ingredient One', $this->context->presentation->source )
-			->andReturnArg( 0 );
-
-		$this->replace_vars
-			->expects( 'replace' )
-			->with( 'Ingredient Two', $this->context->presentation->source )
-			->andReturnArg( 0 );
-
-		$this->replace_vars
-			->expects( 'replace' )
-			->with( '%%author_id%%', $this->context->presentation->source )
-			->once()
-			->andReturn( '#author-1337' );
-
-		$this->replace_vars
-			->expects( 'replace' )
-			->with( '%%main_schema_id%%', $this->context->presentation->source )
-			->once()
-			->andReturn( '#main' );
+			->with( $yoast_schema, $this->context->presentation )
+			->andReturn( $yoast_schema_replaced );
 
 		$expected = [
 			'@context' => 'https://schema.org',
@@ -408,6 +413,10 @@ class Schema_Generator_Test extends TestCase {
 			->expects( 'get_graph_pieces' )
 			->with( $this->context )
 			->andReturn( [ $piece ] );
+
+		$this->replace_vars_helper
+			->expects( 'register_replace_vars' )
+			->once();
 
 		Monkey\Actions\expectDone( 'wpseo_pre_schema_block_type_yoast/faq-block' )
 			->with( $this->context->blocks['yoast/faq-block'], $this->context );
@@ -452,6 +461,10 @@ class Schema_Generator_Test extends TestCase {
 			->times( 3 )
 			->andReturnArg( 0 );
 
+		$this->replace_vars_helper
+			->expects( 'register_replace_vars' )
+			->once();
+
 		$this->assertEquals(
 			$this->get_expected_schema(),
 			$this->instance->generate( $this->context )
@@ -487,6 +500,10 @@ class Schema_Generator_Test extends TestCase {
 		$this->current_page
 			->expects( 'is_front_page' )
 			->andReturnTrue();
+
+		$this->replace_vars_helper
+			->expects( 'register_replace_vars' )
+			->once();
 
 		Monkey\Filters\expectApplied( 'wpseo_schema_website' )
 			->once()
@@ -558,6 +575,10 @@ class Schema_Generator_Test extends TestCase {
 			->expects( 'is_front_page' )
 			->andReturnTrue();
 
+		$this->replace_vars_helper
+			->expects( 'register_replace_vars' )
+			->once();
+
 		Monkey\Filters\expectApplied( 'wpseo_schema_website' )
 			->once()
 			->andReturn(
@@ -623,6 +644,10 @@ class Schema_Generator_Test extends TestCase {
 		$this->current_page
 			->expects( 'is_front_page' )
 			->andReturnFalse();
+
+		$this->replace_vars_helper
+			->expects( 'register_replace_vars' )
+			->once();
 
 		$filtered_webpage_schema = [
 			'@type'      => 'WebPage',

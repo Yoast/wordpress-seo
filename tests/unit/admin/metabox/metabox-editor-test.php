@@ -51,6 +51,8 @@ class Metabox_Editor_Test extends TestCase {
 			->with( 'css/dist/inside-editor-' . $this->get_flat_version() . '.css', \realpath( __DIR__ . '/../../../../wp-seo.php' ) )
 			->andReturn( 'example.org' );
 
+		Monkey\Functions\expect( 'is_rtl' )->andReturn( false );
+
 		$actual   = $this->subject->add_css_inside_editor( '' );
 		$expected = 'example.org';
 
@@ -68,6 +70,7 @@ class Metabox_Editor_Test extends TestCase {
 			->with( 'css/dist/inside-editor-' . $this->get_flat_version() . '.css', \realpath( __DIR__ . '/../../../../wp-seo.php' ) )
 			->andReturn( 'example.org' );
 
+		Monkey\Functions\expect( 'is_rtl' )->andReturn( false );
 
 		$expected = 'preexisting,example.org';
 

@@ -5,6 +5,7 @@ import initFeaturedImageIntegration from "./initializers/featured-image";
 import initAdminMedia from "./initializers/admin-media";
 import initAdmin from "./initializers/admin";
 import initEditorStore from "./initializers/editor-store";
+import initializeEstimatedReadingTime from "./initializers/estimated-reading-time";
 import domReady from "@wordpress/dom-ready";
 
 // Backwards compatibility globals.
@@ -43,4 +44,7 @@ domReady( () => {
 
 	// Initialize global admin scripts.
 	initAdmin( jQuery );
+
+	// Initialize the Estimated Reading Time
+	initializeEstimatedReadingTime();
 } );

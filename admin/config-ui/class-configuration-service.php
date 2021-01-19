@@ -69,7 +69,7 @@ class WPSEO_Configuration_Service {
 		$this->set_components( new WPSEO_Configuration_Components() );
 		$this->set_endpoint( new WPSEO_Configuration_Endpoint() );
 		$this->set_structure( new WPSEO_Configuration_Structure() );
-		$this->set_translations( new WPSEO_Configuration_Translations( WPSEO_Language_Utils::get_user_locale() ) );
+		$this->set_translations( new WPSEO_Configuration_Translations( \get_user_locale() ) );
 	}
 
 	/**
@@ -132,7 +132,7 @@ class WPSEO_Configuration_Service {
 	 */
 	protected function populate_configuration() {
 		// Switch to the user locale with fallback to the site locale.
-		switch_to_locale( WPSEO_Language_Utils::get_user_locale() );
+		switch_to_locale( \get_user_locale() );
 
 		// Make sure we have our translations available.
 		wpseo_load_textdomain();
@@ -146,9 +146,7 @@ class WPSEO_Configuration_Service {
 		$this->components->set_storage( $this->storage );
 
 		// @todo: check if this is really needed, since the switch happens only in the API.
-		if ( function_exists( 'restore_current_locale' ) ) {
-			restore_current_locale();
-		}
+		restore_current_locale();
 	}
 
 	/**

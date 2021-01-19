@@ -73,7 +73,7 @@ class Indexable_Post_Watcher implements Integration_Interface {
 	protected $logger;
 
 	/**
-	 * Returns the conditionals based in which this loadable should be active.
+	 * Returns the conditionals based on which this loadable should be active.
 	 *
 	 * @return array
 	 */
