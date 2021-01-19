@@ -2,7 +2,7 @@ import Participle from "../../../../values/Participle.js";
 import checkException from "../../../helpers/passiveVoice/periphrastic/checkException.js";
 import directPrecedenceException from "../../../helpers/passiveVoice/directPrecedenceException";
 import precedenceException from "../../../helpers/passiveVoice/precedenceException";
-
+import { cannotDirectlyPrecedePassiveParticiple } from "../config/functionWords";
 /**
  * Creates an Participle object for the Portuguese language.
  *
@@ -29,7 +29,7 @@ PortugueseParticiple.prototype.isPassive = function() {
 	const sentencePart = this.getSentencePart();
 	const participle = this.getParticiple();
 
-	return ! this.directPrecedenceException( sentencePart, participle, [] ) &&
+	return ! this.directPrecedenceException( sentencePart, participle, cannotDirectlyPrecedePassiveParticiple ) &&
 		! this.precedenceException( sentencePart, participle, [] );
 };
 
