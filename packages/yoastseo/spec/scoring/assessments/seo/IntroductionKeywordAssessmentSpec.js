@@ -44,12 +44,14 @@ describe( "An assessment for finding the keyword in the first paragraph", functi
 			i18n
 		);
 		expect( assessment.getScore() ).toBe( 6 );
-		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/33e' target='_blank'>Keyphrase in introduction</a>:Your keyphrase or its synonyms appear in the first paragraph of the copy, but not within one sentence. <a href='https://yoa.st/33f' target='_blank'>Fix that</a>!" );
+		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/33e' target='_blank'>Keyphrase in introduction</a>:" +
+			"Your keyphrase or its synonyms appear in the first paragraph of the copy, but not within one sentence. <a href='https://yoa.st/33f' target='_blank'>Fix that</a>!" );
 	} );
 
 	it( "returns synonym words found within the first paragraph, but not in one sentence", function() {
 		const assessment = new IntroductionKeywordAssessment().getResult(
-			new Paper( "Some text with some keyword. A keyphrase comes here.", { keyword: "unrelated keyword", synonyms: "keyword and keyphrases", locale: "en_EN" } ),
+			new Paper( "Some text with some keyword. A keyphrase comes here.", { keyword: "unrelated keyword", synonyms: "keyword and keyphrases",
+				locale: "en_EN" } ),
 			Factory.buildMockResearcher( {
 				foundInOneSentence: false,
 				foundInParagraph: true,
@@ -58,7 +60,9 @@ describe( "An assessment for finding the keyword in the first paragraph", functi
 			i18n
 		);
 		expect( assessment.getScore() ).toBe( 6 );
-		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/33e' target='_blank'>Keyphrase in introduction</a>:Your keyphrase or its synonyms appear in the first paragraph of the copy, but not within one sentence. <a href='https://yoa.st/33f' target='_blank'>Fix that</a>!" );
+		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/33e' target='_blank'>Keyphrase in introduction</a>:" +
+			"Your keyphrase or its synonyms appear in the first paragraph of the copy, but not within one sentence." +
+			" <a href='https://yoa.st/33f' target='_blank'>Fix that</a>!" );
 	} );
 
 
@@ -73,7 +77,9 @@ describe( "An assessment for finding the keyword in the first paragraph", functi
 			i18n
 		);
 		expect( assessment.getScore() ).toBe( 3 );
-		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/33e' target='_blank'>Keyphrase in introduction</a>: Your keyphrase or its synonyms do not appear in the first paragraph. <a href='https://yoa.st/33f' target='_blank'>Make sure the topic is clear immediately</a>." );
+		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/33e' target='_blank'>Keyphrase in introduction</a>:" +
+			" Your keyphrase or its synonyms do not appear in the first paragraph. <a href='https://yoa.st/33f' target='_blank'>Make sure" +
+			" the topic is clear immediately</a>." );
 	} );
 
 	it( "returns no score if no keyword is defined", function() {
