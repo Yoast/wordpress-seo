@@ -31,14 +31,14 @@ describe( "a test for Indonesian Researcher", function() {
 	} );
 
 	it( "returns the Indonesian first word exceptions", function() {
-		expect( researcher.getConfig( "firstWordExceptions" ) ).toEqual(	firstWordExceptions	);
+		expect( researcher.getConfig( "firstWordExceptions" ) ).toEqual( firstWordExceptions );
 	} );
 
 	it( "returns the Indonesian transition words", function() {
-		expect( researcher.getConfig( "transitionWords" ) ).toEqual( transitionWords	);
+		expect( researcher.getConfig( "transitionWords" ) ).toEqual( transitionWords );
 	} );
 
-	it( "returns the Indonesian two part transition word", function() {
+	it( "returns the Indonesian two part transition words", function() {
 		expect( researcher.getConfig( "twoPartTransitionWords" ) ).toEqual( twoPartTransitionWords );
 	} );
 

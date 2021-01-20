@@ -167,7 +167,7 @@ export const filteredAtBeginningAndEnding = [].concat( articles, coordinatingCon
 /**
  * These word categories are filtered everywhere within word combinations.
  *
- * @type {string[]} Word categories filtered anywher within word combinations.
+ * @type {string[]} Word categories filtered anywhere within word combinations.
  */
 export const filteredAnywhere = [].concat( adverbialGenitives, personalPronounsNominative,
 	reflexivePronouns, interjections, cardinalNumerals, auxiliaries, copula, interviewVerbs,
@@ -176,9 +176,9 @@ export const filteredAnywhere = [].concat( adverbialGenitives, personalPronounsN
 	recipeWords, timeWords, vagueNouns, generalAdjectivesAndAdverbs, relativePronoun, prepositions, quantifiers );
 
 /**
- * All Indonesian function words
+ * All Indonesian function words.
  *
- * @type {string[]}
+ * @type {string[]} All Indonesian function words.
  */
 export const all = [].concat( articles, cardinalNumerals, ordinalNumerals, demonstrativePronouns, possessivePronouns, reflexivePronouns,
 	personalPronounsNominative, quantifiers, indefinitePronouns, interrogativeDeterminers, interrogativePronouns, interrogativeAdverbs,
