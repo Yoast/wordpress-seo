@@ -16,6 +16,6 @@ describe( "a test for getting the stemmer for Polish", function() {
 
 	it( "doesn't stem the word when the Polish morphology data is not available", function() {
 		const mockResearcher = new Researcher( paper );
-		expect( getStemmer( mockResearcher )( "koty" ) ).toEqual( "koty" );
+		expect( getStemmer( mockResearcher )( "rośliny" ) ).toEqual( "rośliny" );
 	} );
 } );

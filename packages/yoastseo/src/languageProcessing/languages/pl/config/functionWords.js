@@ -1,11 +1,4 @@
-import transitionWordsFactory from "./transitionWords.js";
-const transitionWords = transitionWordsFactory().singleWords;
-
-/**
- * Returns an array with exceptions for the prominent words researcher
- * @returns {Array} The array filled with exceptions.
- */
-
+import { singleWords as transitionWords } from "./transitionWords.js";
 
 const cardinalNumerals = [ "czterech", "czterem", "czterema", "czternaście", "czternastce", "czternastek", "czternastka",
 	"czternastką", "czternastkach", "czternastkami", "czternastkę", "czternastki", "czternastko", "czternastkom",
