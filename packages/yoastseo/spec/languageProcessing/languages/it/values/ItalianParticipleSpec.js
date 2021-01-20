@@ -1,9 +1,12 @@
-import ItalianParticiple from "../../../../src/languages/legacy/researches/italian/passiveVoice/ItalianParticiple.js";
-import checkException from "../../../../src/languages/legacy/researches/passiveVoice/periphrastic/checkException.js";
+import ItalianParticiple from "../../../../../src/languageProcessing/languages/it/values/ItalianParticiple.js";
+import checkException from "../../../../../src/languageProcessing/helpers/passiveVoice/periphrastic/checkException.js";
+import { cannotDirectlyPrecedePassiveParticiple,
+	cannotBeBetweenPassiveAuxiliaryAndParticiple,
+} from "../../../../../src/languageProcessing/languages/it/config/functionWords.js";
 
 describe( "A test for checking the Italian participle", function() {
 	it( "checks the properties of the Italian participle object with a passive", function() {
-		var mockParticiple = new ItalianParticiple( "scritto", "Il libro è stato scritto dal mio amico.", {
+		const mockParticiple = new ItalianParticiple( "scritto", "Il libro è stato scritto dal mio amico.", {
 			auxiliaries: [ "stato" ],
 			type: "irregular",
 			language: "it",
@@ -19,8 +22,10 @@ describe( "A test for checking the Italian participle", function() {
 			type: "irregular",
 			language: "it",
 		} );
-		expect( mockParticiple.directPrecedenceException( mockParticiple._sentencePart, mockParticiple._participle, "it" ) ).toBe( true );
-		expect( mockParticiple.precedenceException( mockParticiple._sentencePart, mockParticiple._participle, "it" ) ).toBe( true );
+		expect( mockParticiple.directPrecedenceException( mockParticiple._sentencePart, mockParticiple._participle,
+			cannotDirectlyPrecedePassiveParticiple ) ).toBe( true );
+		expect( mockParticiple.precedenceException( mockParticiple._sentencePart, mockParticiple._participle,
+			cannotBeBetweenPassiveAuxiliaryAndParticiple ) ).toBe( true );
 		expect( mockParticiple.determinesSentencePartIsPassive() ).toBe( false );
 	} );
 
@@ -31,8 +36,10 @@ describe( "A test for checking the Italian participle", function() {
 			type: "irregular",
 			language: "it",
 		} );
-		expect( mockParticiple.directPrecedenceException( mockParticiple._sentencePart, mockParticiple._participle, "it" ) ).toBe( true );
-		expect( mockParticiple.precedenceException( mockParticiple._sentencePart, mockParticiple._participle, "it" ) ).toBe( true );
+		expect( mockParticiple.directPrecedenceException( mockParticiple._sentencePart, mockParticiple._participle,
+			cannotDirectlyPrecedePassiveParticiple ) ).toBe( true );
+		expect( mockParticiple.precedenceException( mockParticiple._sentencePart, mockParticiple._participle,
+			cannotBeBetweenPassiveAuxiliaryAndParticiple ) ).toBe( true );
 		expect( mockParticiple.determinesSentencePartIsPassive() ).toBe( false );
 	} );
 
@@ -43,7 +50,8 @@ describe( "A test for checking the Italian participle", function() {
 			type: "irregular",
 			language: "it",
 		} );
-		expect( mockParticiple.precedenceException( mockParticiple._sentencePart, mockParticiple._participle, "it" ) ).toBe( true );
+		expect( mockParticiple.precedenceException( mockParticiple._sentencePart, mockParticiple._participle,
+			cannotBeBetweenPassiveAuxiliaryAndParticiple ) ).toBe( true );
 		expect( mockParticiple.determinesSentencePartIsPassive() ).toBe( false );
 	} );
 
