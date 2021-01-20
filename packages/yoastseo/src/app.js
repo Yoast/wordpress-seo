@@ -244,6 +244,7 @@ function verifyArguments( args ) {
  * @param {SnippetPreview} args.snippetPreview The SnippetPreview object to be used.
  * @param {boolean} [args.debouncedRefresh] Whether or not to debounce the
  *                                          refresh function. Defaults to true.
+ * @param {Researcher} args.researcher The Researcher object to be used.
  *
  * @constructor
  */
@@ -702,11 +703,8 @@ App.prototype.runAnalyzer = function() {
 	} );
 
 	// The new researcher
-	if ( isUndefined( this.researcher ) ) {
-		this.researcher = new Researcher( this.paper );
-	} else {
-		this.researcher.setPaper( this.paper );
-	}
+	// @todo is it necessary to have this.researcher on the app?
+	this.config.researcher.setPaper( this.paper );
 
 	this.runKeywordAnalysis();
 
