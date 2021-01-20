@@ -72,7 +72,8 @@ export function modifyStem( word, modificationGroup ) {
  */
 export function isVowelDoublingAllowed( word, morphologyDataNLStemmingExceptions, morphologyDataNLVerbPrefixes ) {
 	// Check whether the word is on the list of verbs which should have the vowel doubled (exception to third check)
-	const firstCheck = checkIfWordIsOnListThatCanHavePrefix( word, morphologyDataNLStemmingExceptions.getVowelDoubling, morphologyDataNLVerbPrefixes );
+	const firstCheck = checkIfWordIsOnListThatCanHavePrefix( word, morphologyDataNLStemmingExceptions.getVowelDoubling,
+		morphologyDataNLVerbPrefixes );
 	// Check whether the word is on the list of words which should NOT have the vowel doubled
 	const secondCheck = checkIfWordIsOnNoVowelDoublingList( word, morphologyDataNLStemmingExceptions.noVowelDoubling,
 		morphologyDataNLVerbPrefixes );

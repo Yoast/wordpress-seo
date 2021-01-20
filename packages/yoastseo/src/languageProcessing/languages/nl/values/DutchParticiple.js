@@ -47,7 +47,7 @@ DutchParticiple.prototype.isOnNonParticiplesList = function() {
 		return false;
 	}
 
-	return includes( nonParticiples(), this.getParticiple() );
+	return includes( nonParticiples, this.getParticiple() );
 };
 
 /**
