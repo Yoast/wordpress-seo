@@ -1,6 +1,6 @@
 /** @module config/transitionWords */
 
-const singleWords = [ "alltså", "ändå", "annars", "ännu", "även", "avslutningsvis", "bl.a.", "d.v.s.", "då", "därav",
+export const singleWords = [ "alltså", "ändå", "annars", "ännu", "även", "avslutningsvis", "bl.a.", "d.v.s.", "då", "därav",
 	"därefter", "däremot", "därför", "därmed", "därpå", "dessutom", "dock", "efteråt", "eftersom", "emellertid", "enligt",
 	"exempelvis", "fastän", "följaktligen", "förrän", "först", "förutom", "huvudsakligen", "ifall", "inledningsvis", "innan",
 	"jämförelsevis", "likadant", "likaså", "liksom", "medan", "men", "nämligen", "när", "oavsett", "också", "omvänt", "säkerligen",
@@ -8,7 +8,7 @@ const singleWords = [ "alltså", "ändå", "annars", "ännu", "även", "avslutni
 	"speciellt", "t.ex.", "tidigare", "tillika", "tills", "trots", "tvärtemot", "tvärtom", "tydligen", "varpå", "vidare",
 	"uppenbarligen", "ytterligare" ];
 
-const multipleWords = [ "å andra sidan", "å ena sidan", "allt som allt", "anledningen är", "anledningen blir", "annorlunda än",
+export const multipleWords = [ "å andra sidan", "å ena sidan", "allt som allt", "anledningen är", "anledningen blir", "annorlunda än",
 	"av den orsaken", "av detta skäl", "beroende på", "bland annat", "därtill kommer", "det beror på att", "det vill säga",
 	"det visar", "detta beror på", "detta går ut på att", "detta innebär att", "detta leder till", "detta medför att",
 	"effekten blir", "efter ett tag", "ej heller", "en effekt av detta", "en förklaring till detta", "ett exempel på detta",
@@ -30,14 +30,6 @@ const multipleWords = [ "å andra sidan", "å ena sidan", "allt som allt", "anle
 	"till största delen", "tillsammans med", "tvärt om", "under de omständigheterna", "under omständigheterna", "under tiden",
 	"vad mera är", "viktigt att inse", "vilket innebär" ];
 
-/**
- * Returns an list with transition words to be used by the assessments.
- * @returns {Object} The list filled with transition word lists.
- */
-module.exports = function() {
-	return {
-		singleWords: singleWords,
-		multipleWords: multipleWords,
-		allWords: singleWords.concat( multipleWords ),
-	};
-};
+export const allWords = singleWords.concat( multipleWords );
+
+export default allWords;
