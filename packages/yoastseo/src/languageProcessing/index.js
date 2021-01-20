@@ -1,4 +1,7 @@
 import EnglishResearcher from "./languages/en/Researcher";
-export default {
+import DutchResearcher from "./languages/nl/Researcher";
+
+export {
 	EnglishResearcher,
+	DutchResearcher,
 };
