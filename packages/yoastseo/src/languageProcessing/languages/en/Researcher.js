@@ -30,7 +30,7 @@ export default class Researcher extends AbstractResearcher {
 			language: "en",
 			isPeriphrastic: true,
 			firstWordExceptions,
-			functionWords,
+			functionWords: functionWords.all,
 			stopWords,
 			transitionWords,
 			twoPartTransitionWords,
