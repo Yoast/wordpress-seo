@@ -43,7 +43,6 @@ export {
 	config,
 	helpers,
 	markers,
-	string,
 	interpreters,
 	researchers,
 };
@@ -58,7 +57,6 @@ export default {
 	ContentAssessor,
 	TaxonomyAssessor,
 	Pluggable,
-	Researcher: AbstractResearcher,
 	SnippetPreview,
 
 	Paper,
