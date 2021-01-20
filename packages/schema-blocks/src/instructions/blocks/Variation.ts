@@ -5,6 +5,7 @@ export interface VariationInterface {
 	name: string;
 	title: string;
 	isDefault?: boolean;
+	scope?: string[];
 	icon?: string;
 }
 
@@ -15,6 +16,7 @@ class Variation extends BlockInstruction implements VariationInterface {
 	name: string;
 	title: string;
 	isDefault?: boolean;
+	scope?: string[];
 	icon?: string;
 
 	/**
