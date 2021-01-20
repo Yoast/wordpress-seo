@@ -92,7 +92,6 @@
 	color: #6EA029;
 }
 
-
 .yoast-block-suggestion-button {
 	cursor: pointer;
 	float:right;
@@ -100,10 +99,6 @@
 	text-decoration: underline;
 	border: 0;
 	background: 0;
-}
-
-.yoast-block-date-picker-container {
-	position: relative;
 }
 
 .yoast-block-date-picker-container > button {
@@ -114,6 +109,14 @@
 }
 
 .yoast-block-date-picker {
-	position: absolute;
 	z-index: 1;
+}
+
+.yoast-block-date-picker .components-datetime__time > fieldset {
+	margin: 0;
+}
+
+/* Hides the time picker from the datetime picker, we can't use the standalone date picker because it won't focus properly. */
+.yoast-block-date-picker .components-datetime__time > fieldset:last-child {
+	display: none;
 }

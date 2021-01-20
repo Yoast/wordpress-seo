@@ -1,6 +1,6 @@
 // External imports.
 import { BlockConfiguration } from "@wordpress/blocks";
-import { DatePicker } from "@wordpress/components";
+import { DateTimePicker, Dropdown } from "@wordpress/components";
 import { createElement, useState } from "@wordpress/element";
 import { __experimentalGetSettings, dateI18n } from "@wordpress/date";
 
@@ -40,6 +40,13 @@ export default class Date extends BlockInstruction {
 		};
 
 		/**
+		 * Closes the date picker.
+		 */
+		const closeDatePicker = () => {
+			setShowDatePicker( false );
+		}
+
+		/**
 		 * Sets the selected date.
 		 *
 		 * @param dateTime The selected date and time in the form 'yyyy-MM-ddThh:mm:ss' (only the date part is used).
@@ -49,14 +56,32 @@ export default class Date extends BlockInstruction {
 			props.setAttributes( {
 				[ this.options.name ]: date,
 			} );
-			setShowDatePicker( false );
+			closeDatePicker();
 			setSelectedDate( dateI18n( dateFormat, date ) );
 		};
 
-		return <div className="yoast-block-date-picker-container">
-			<button onClick={ toggleDatePicker }>{ selectedDate }</button>
-			{ datePickerShown && <div className="yoast-block-date-picker"><DatePicker onChange={ setDate } /></div> }
-		</div>;
+		return <Dropdown
+			className="yoast-block-date-picker-container"
+			position="bottom center"
+			renderToggle={ ( { onToggle, isOpen } ) => (
+				<button
+					onClick={ onToggle }
+					aria-expanded={ isOpen }
+				>
+					{ selectedDate }
+				</button>
+			 ) }
+			renderContent={
+				() => (
+					<div className="yoast-block-date-picker">
+						<DateTimePicker
+							currentDate={ selectedDate }
+							onChange={ setDate }
+						/>
+					</div>
+				)
+			}
+		/>
 	}
 
 	/**
