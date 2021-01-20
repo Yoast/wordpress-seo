@@ -19,13 +19,12 @@ import KeyphraseDistributionAssessment from "./scoring/assessments/seo/Keyphrase
 import ContentAssessor from "./scoring/contentAssessor.js";
 import CornerstoneSEOAssessor from "./scoring/cornerstone/seoAssessor.js";
 import CornerstoneContentAssessor from "./scoring/cornerstone/contentAssessor.js";
-import Researcher from "./researcher.js";
 import AssessorPresenter from "./scoring/renderers/AssessorPresenter.js";
 import Pluggable from "./pluggable.js";
 import Paper from "./values/Paper.js";
 import { measureTextWidth } from "./helpers/createMeasurementElement.js";
 
-import removeHtmlBlocks from "./researches/stringProcessing/htmlParser.js";
+import removeHtmlBlocks from "./languageProcessing/helpers/html/htmlParser.js";
 
 const keyphraseDistribution = new KeyphraseDistributionAssessment();
 

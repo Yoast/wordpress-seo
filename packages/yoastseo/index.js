@@ -10,7 +10,7 @@ import * as config from "./src/config";
 import App from "./src/app";
 import Assessor from "./src/scoring/assessor";
 import ContentAssessor from "./src/scoring/contentAssessor";
-import SeoAssessor from './src/scoring/seoAssessor';
+import SeoAssessor from "./src/scoring/seoAssessor";
 import TaxonomyAssessor from "./src/scoring/taxonomyAssessor";
 import Pluggable from "./src/pluggable";
 import SnippetPreview from "./src/snippetPreview/snippetPreview";

@@ -19,11 +19,11 @@ import SEOAssessor from "../scoring/seoAssessor";
 import ContentAssessor from "../scoring/contentAssessor";
 import TaxonomyAssessor from "../scoring/taxonomyAssessor";
 import Pluggable from "../pluggable";
-import Researcher from "../researcher";
 import SnippetPreview from "../snippetPreview/snippetPreview";
 import Paper from "../values/Paper";
 import AssessmentResult from "../values/AssessmentResult";
 import RelatedKeywordAssessor from "../scoring/relatedKeywordAssessor";
+import removeHtmlBlocks from "../languageProcessing/helpers/html/htmlParser";
 
 const YoastSEO = {
 	Assessor,
