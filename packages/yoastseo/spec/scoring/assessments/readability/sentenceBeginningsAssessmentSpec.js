@@ -7,15 +7,19 @@ import Mark from "../../../../src/values/Mark.js";
 const paper = new Paper();
 describe( "An assessment for scoring repeated sentence beginnings.", function() {
 	it( "scores one instance with 4 consecutive English sentences starting with the same word.", function() {
-		const assessment = sentenceBeginningsAssessment.getResult( paper, Factory.buildMockResearcher( [ { word: "hey", count: 2 }, { word: "cup", count: 2 }, { word: "laptop", count: 1 },
+		const assessment = sentenceBeginningsAssessment.getResult( paper, Factory.buildMockResearcher( [ { word: "hey", count: 2 },
+			{ word: "cup", count: 2 },
+			{ word: "laptop", count: 1 },
 			{ word: "table", count: 4 } ] ), i18n );
 		expect( assessment.getScore() ).toBe( 3 );
-		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/35f' target='_blank'>Consecutive sentences</a>: The text contains 4 consecutive sentences starting with the same word." +
+		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/35f' target='_blank'>Consecutive sentences</a>:" +
+			" The text contains 4 consecutive sentences starting with the same word." +
 			" <a href='https://yoa.st/35g' target='_blank'>Try to mix things up</a>!" );
 	} );
 
 	it( "scores two instance with too many consecutive English sentences starting with the same word, 5 being the lowest count.", function() {
-		const assessment = sentenceBeginningsAssessment.getResult( paper, Factory.buildMockResearcher( [ { word: "hey", count: 2 }, { word: "banana", count: 6 }, { word: "pencil", count: 1 },
+		const assessment = sentenceBeginningsAssessment.getResult( paper, Factory.buildMockResearcher( [ { word: "hey", count: 2 },
+			{ word: "banana", count: 6 }, { word: "pencil", count: 1 },
 			{ word: "bottle", count: 5 } ] ), i18n );
 		expect( assessment.getScore() ).toBe( 3 );
 		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/35f' target='_blank'>Consecutive sentences</a>: " +

@@ -20,7 +20,8 @@ describe( "An assessment to check your keyphrase distribution", function() {
 
 		expect( assessment.getScore() ).toEqual( 0 );
 		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/33q' target='_blank'>Keyphrase distribution</a>: " +
-			"<a href='https://yoa.st/33u' target='_blank'>Include your keyphrase or its synonyms in the text so that we can check keyphrase distribution</a>." );
+			"<a href='https://yoa.st/33u' target='_blank'>Include your keyphrase or its synonyms in the text so that we can check keyphrase" +
+			" distribution</a>." );
 	} );
 
 	it( "returns a bad score when the % of sentences between topic occurrences is above 50%", function() {
@@ -36,7 +37,8 @@ describe( "An assessment to check your keyphrase distribution", function() {
 
 		expect( assessment.getScore() ).toEqual( 1 );
 		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/33q' target='_blank'>Keyphrase distribution</a>: Very uneven. " +
-			"Large parts of your text do not contain the keyphrase or its synonyms. <a href='https://yoa.st/33u' target='_blank'>Distribute them more evenly</a>." );
+			"Large parts of your text do not contain the keyphrase or its synonyms. <a href='https://yoa.st/33u' target='_blank'>Distribute" +
+			" them more evenly</a>." );
 	} );
 
 	it( "returns an okay score when the % of sentences between topic occurrences is between recommended acceptable and good score", function() {
@@ -52,7 +54,8 @@ describe( "An assessment to check your keyphrase distribution", function() {
 
 		expect( assessment.getScore() ).toEqual( 6 );
 		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/33q' target='_blank'>Keyphrase distribution</a>: Uneven. " +
-			"Some parts of your text do not contain the keyphrase or its synonyms. <a href='https://yoa.st/33u' target='_blank'>Distribute them more evenly</a>." );
+			"Some parts of your text do not contain the keyphrase or its synonyms. <a href='https://yoa.st/33u' target='_blank'>Distribute" +
+			" them more evenly</a>." );
 	} );
 
 	it( "returns a good score score when the %  of sentences between topic occurrences is lower than the recommended good score", function() {
