@@ -1,6 +1,6 @@
 /** @module config/transitionWords */
 
-const singleWords = [ "aby", "abym", "abyśmy", "abyś", "abyście", "acz", "aczkolwiek", "albowiem", "ale", "aliści",
+export const singleWords = [ "aby", "abym", "abyśmy", "abyś", "abyście", "acz", "aczkolwiek", "albowiem", "ale", "aliści",
 	"bo", "bowiem", "bynajmniej", "choć", "chociaż", "chociażby", "czyli", "dlatego", "dodatkowo", "dopóki", "dotychczas",
 	"faktycznie", "gdy", "gdyż", "jakkolwiek", "iż", "jednak", "jednakże", "jeśli", "kiedy", "lecz", "mianowicie", "mimo",
 	"np", "najpierw", "następnie", "natomiast", "ni", "niemniej", "niż", "notabene", "oczywiście", "ogółem",
@@ -10,7 +10,7 @@ const singleWords = [ "aby", "abym", "abyśmy", "abyś", "abyście", "acz", "acz
 	"wreszcie", "wskutek", "wstępnie", "wszakże", "wszelako", "zamiast", "zanim", "zarówno", "zaś", "zatem", "zresztą",
 	"zwłaszcza", "żeby", "żebym", "żebyś", "żebyście", "żebyśmy" ];
 
-const multipleWords = [ "a konkretnie", "a propos", "aby wrocić do rzeczy", "analogicznie do", "bacząc na to że",
+export const multipleWords = [ "a konkretnie", "a propos", "aby wrocić do rzeczy", "analogicznie do", "bacząc na to że",
 	"bądź co bądź", "bez wątpienia", "bez względu", "biorąc pod uwagę", "choćby", "chodzi o to", "chyba że", "co do",
 	"co gorsza", "co prawda", "co się tyczy", "co ważniejsze", "co więcej", "dzięki czemu", "dzięki któremu", "dzięki której",
 	"dzięki którym", "dzięki temu", "faktem jest że", "inaczej mówiąc", "innymi słowy", "jak dotąd", "jak już mówiłam",
@@ -36,14 +36,7 @@ const multipleWords = [ "a konkretnie", "a propos", "aby wrocić do rzeczy", "an
 	"z tą intencją", "z tego powodu", "z uwagi że", "zacznijmy od", "zakładając że", "ze względu na", "ze względu że",
 	"zważywszy na to", "zważywszy że" ];
 
-/**
- * Returns an list with transition words to be used by the assessments.
- * @returns {Object} The list filled with transition word lists.
- */
-export default function() {
-	return {
-		singleWords: singleWords,
-		multipleWords: multipleWords,
-		allWords: singleWords.concat( multipleWords ),
-	};
-}
+export const allWords = singleWords.concat( multipleWords );
+
+export default allWords;
+
