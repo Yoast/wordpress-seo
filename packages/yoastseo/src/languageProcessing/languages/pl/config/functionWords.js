@@ -1,11 +1,4 @@
-import transitionWordsFactory from "./transitionWords.js";
-const transitionWords = transitionWordsFactory().singleWords;
-
-/**
- * Returns an array with exceptions for the prominent words researcher
- * @returns {Array} The array filled with exceptions.
- */
-
+import { singleWords as transitionWords } from "./transitionWords.js";
 
 const cardinalNumerals = [ "czterech", "czterem", "czterema", "czternaście", "czternastce", "czternastek", "czternastka",
 	"czternastką", "czternastkach", "czternastkami", "czternastkę", "czternastki", "czternastko", "czternastkom",
@@ -383,37 +376,44 @@ const miscellaneous = [ "nie", "no", "oto", "tak", "sobie", "ok", "okej", "itp",
 
 // These word categories are filtered at the ending of word combinations.
 export const filteredAtEnding = [].concat( ordinalNumerals, generalAdjectives, generalAdverbs, delexicalisedVerbsInfinitive,
-			otherAuxiliariesInfinitive, passiveAuxiliariesInfinitive );
+	otherAuxiliariesInfinitive, passiveAuxiliariesInfinitive );
 
 // These word categories are filtered at the beginning and ending of word combinations.
 export const filteredAtBeginningAndEnding = [].concat( prepositions, coordinatingConjunctions, demonstrativePronouns,
-			quantifiers, intensifiers, possessivePronouns, reflexivePronounsNominative, reflexivePronounsOther );
+	quantifiers, intensifiers, possessivePronouns, reflexivePronounsNominative, reflexivePronounsOther );
 
 // These word categories are filtered everywhere within word combinations.
 export const filteredAnywhere = [].concat( transitionWords, additionalTransitionWords, cardinalNumerals, personalPronounsNominative,
-			personalPronounsAccusative, personalPronounsGenitive, personalPronounsDative, personalPronounsInstrumental,
-			personalPronounsPast, personalPronounsPrepositional, interrogativePronouns, interrogativeProAdverbs,
-			interrogativeDeterminers, indefinitePronouns, adverbialGenitives, prepositionalAdverbs,
-			subordinatingConjunctions, delexicalizedVerbs, interviewVerbs, timeWords, vagueNouns, titles,
-			interjections, measurementUnits, miscellaneous, otherAuxiliaries );
+	personalPronounsAccusative, personalPronounsGenitive, personalPronounsDative, personalPronounsInstrumental,
+	personalPronounsPast, personalPronounsPrepositional, interrogativePronouns, interrogativeProAdverbs,
+	interrogativeDeterminers, indefinitePronouns, adverbialGenitives, prepositionalAdverbs,
+	subordinatingConjunctions, delexicalizedVerbs, interviewVerbs, timeWords, vagueNouns, titles,
+	interjections, measurementUnits, miscellaneous, otherAuxiliaries );
 
 
 // These word categories cannot directly precede a passive participle.
 export const cannotDirectlyPrecedePassiveParticiple = [].concat( prepositions, personalPronounsPast, possessivePronouns,
-			cardinalNumerals, ordinalNumerals, delexicalizedVerbs, delexicalisedVerbsInfinitive, interviewVerbs,
-			interrogativeDeterminers, interrogativePronouns, interrogativeProAdverbs );
+	cardinalNumerals, ordinalNumerals, delexicalizedVerbs, delexicalisedVerbsInfinitive, interviewVerbs,
+	interrogativeDeterminers, interrogativePronouns, interrogativeProAdverbs );
 
 // These word categories cannot intervene between an auxiliary and a corresponding passive participle.
 export const cannotBeBetweenPassiveAuxiliaryAndParticiple = [].concat( otherAuxiliaries, otherAuxiliariesInfinitive, reflexivePronounsNominative );
 
 // This export contains all of the above words.
 export const all = [].concat( transitionWords, additionalTransitionWords, cardinalNumerals, personalPronounsNominative,
-			personalPronounsAccusative, personalPronounsGenitive, personalPronounsDative, personalPronounsInstrumental,
-			personalPronounsPast, personalPronounsPrepositional, interrogativePronouns, interrogativeProAdverbs,
-			interrogativeDeterminers, indefinitePronouns, adverbialGenitives, otherAuxiliaries, prepositionalAdverbs,
-			subordinatingConjunctions, delexicalizedVerbs, interviewVerbs, timeWords, vagueNouns, titles,
-			interjections, measurementUnits, miscellaneous, passiveAuxiliaries, prepositions, coordinatingConjunctions, demonstrativePronouns,
-			quantifiers, intensifiers, possessivePronouns, reflexivePronounsNominative, reflexivePronounsOther, ordinalNumerals, generalAdjectives,
-			generalAdverbs, delexicalisedVerbsInfinitive, otherAuxiliariesInfinitive, passiveAuxiliariesInfinitive );
+	personalPronounsAccusative, personalPronounsGenitive, personalPronounsDative, personalPronounsInstrumental,
+	personalPronounsPast, personalPronounsPrepositional, interrogativePronouns, interrogativeProAdverbs,
+	interrogativeDeterminers, indefinitePronouns, adverbialGenitives, otherAuxiliaries, prepositionalAdverbs,
+	subordinatingConjunctions, delexicalizedVerbs, interviewVerbs, timeWords, vagueNouns, titles,
+	interjections, measurementUnits, miscellaneous, passiveAuxiliaries, prepositions, coordinatingConjunctions, demonstrativePronouns,
+	quantifiers, intensifiers, possessivePronouns, reflexivePronounsNominative, reflexivePronounsOther, ordinalNumerals, generalAdjectives,
+	generalAdverbs, delexicalisedVerbsInfinitive, otherAuxiliariesInfinitive, passiveAuxiliariesInfinitive );
 
-export default {};
+export default {
+	filteredAtEnding,
+	filteredAtBeginningAndEnding,
+	filteredAnywhere,
+	cannotDirectlyPrecedePassiveParticiple,
+	cannotBeBetweenPassiveAuxiliaryAndParticiple,
+	all,
+};

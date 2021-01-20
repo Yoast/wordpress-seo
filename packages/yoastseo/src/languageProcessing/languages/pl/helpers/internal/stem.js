@@ -19,28 +19,15 @@
  */
 
 /**
- * Loops through an array of word endings and returns the longest ending that was matched at the end of the word.
+ * Loops through an array of word endings and returns ending that was matched at the end of the word.
  *
  * @param {string}      word       The word to check.
  * @param {string[]}    endings    The word endings to check.
- * @returns {string}    The longest matched ending.
+ * @returns {string}    The matched ending.
  */
 const endsInArr = function( word, endings ) {
-	const matches = [];
-	for ( const i in endings ) {
-		if ( word.endsWith( endings[ i ] ) ) {
-			matches.push( endings[ i ] );
-		}
-	}
-
-	const longest = matches.sort( function( a, b ) {
-		return b.length - a.length;
-	} )[ 0 ];
-
-	if ( longest ) {
-		return longest;
-	}
-	return "";
+	const match = endings.find( ending => word.endsWith( ending ) );
+	return match ? match : "";
 };
 
 /**
@@ -80,17 +67,16 @@ const findSuffixInGroupAndStem = function( word, wordLength, wordEndings, suffix
  * @returns {string}    The stemmed word.
  */
 const findSuffixInClassAndStem = function( word, suffixClass ) {
-	for ( const suffixGroup in suffixClass ) {
-		if ( suffixClass.hasOwnProperty( suffixGroup ) ) {
-			const wordShouldBeLongerThan = suffixClass[ suffixGroup ].wordShouldBeLongerThan;
-			const wordEndings = suffixClass[ suffixGroup ].wordEndings;
-			const suffixLength = suffixClass[ suffixGroup ].suffixLength;
+	const suffixClassArray = Object.entries( suffixClass );
+	for ( const suffixGroup of suffixClassArray ) {
+		const wordShouldBeLongerThan = suffixGroup[ 1 ].wordShouldBeLongerThan;
+		const wordEndings = suffixGroup[ 1 ].wordEndings;
+		const suffixLength = suffixGroup[ 1 ].suffixLength;
 
-			const stemmedWord = findSuffixInGroupAndStem( word, wordShouldBeLongerThan, wordEndings, suffixLength );
+		const stemmedWord = findSuffixInGroupAndStem( word, wordShouldBeLongerThan, wordEndings, suffixLength );
 
-			if ( stemmedWord ) {
-				return stemmedWord;
-			}
+		if ( stemmedWord ) {
+			return stemmedWord;
 		}
 	}
 };

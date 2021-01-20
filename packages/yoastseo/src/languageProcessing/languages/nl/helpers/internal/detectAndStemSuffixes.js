@@ -37,29 +37,29 @@ const determineR1 = function( word ) {
 /**
  * Searches for suffixes in a word.
  *
- * @param {string} word 	The word in which to look for suffixes.
- * @param {Object} suffixStep	 One of the three steps of findings suffixes.
- * @param {number} r1Index	 The index of the R1 region.
+ * @param {string} word 		The word in which to look for suffixes.
+ * @param {Object} suffixStep	One of the three steps of findings suffixes.
+ * @param {number} r1Index		The index of the R1 region.
+ *
  * @returns {Object} The index of the suffix and extra information about whether, and how, the stem will need to be modified.
  */
 const findSuffix = function( word, suffixStep, r1Index ) {
-	for ( const suffixClass in suffixStep ) {
-		if ( suffixStep.hasOwnProperty( suffixClass ) ) {
-			const suffixes = suffixStep[ suffixClass ].suffixes;
+	const suffixStepArray = Object.entries( suffixStep );
+	for ( const suffixClass of suffixStepArray ) {
+		const suffixes = suffixClass[ 1 ].suffixes;
 
-			const matchedRegex = suffixes.find( suffixRegex => new RegExp( suffixRegex ).exec( word ) );
+		const matchedRegex = suffixes.find( suffixRegex => new RegExp( suffixRegex ).exec( word ) );
 
-			if ( matchedRegex ) {
-				const matched = new RegExp( matchedRegex ).exec( word );
-				const suffix = matched[ matched.length - 1 ];
-				const suffixIndex = word.lastIndexOf( suffix );
+		if ( matchedRegex ) {
+			const matched = new RegExp( matchedRegex ).exec( word );
+			const suffix = matched[ matched.length - 1 ];
+			const suffixIndex = word.lastIndexOf( suffix );
 
-				if ( r1Index !== -1 && suffixIndex >= r1Index ) {
-					return {
-						suffixIndex: suffixIndex,
-						stemModification: suffixStep[ suffixClass ].stemModification,
-					};
-				}
+			if ( r1Index !== -1 && suffixIndex >= r1Index ) {
+				return {
+					suffixIndex: suffixIndex,
+					stemModification: suffixClass[ 1 ].stemModification,
+				};
 			}
 		}
 	}
@@ -127,10 +127,9 @@ const findAndDeleteSuffix = function( word, suffixStep, r1Index, morphologyDataN
  * @returns {string} The word with the delete suffix.
  */
 const findAndDeleteSuffixes = function( word, suffixSteps, r1Index, morphologyDataNL ) {
-	for ( const suffixStep in suffixSteps ) {
-		if ( suffixSteps.hasOwnProperty( suffixStep ) ) {
-			word = findAndDeleteSuffix( word, suffixSteps[ suffixStep ], r1Index, morphologyDataNL );
-		}
+	const suffixStepsArray = Object.entries( suffixSteps );
+	for ( const suffixStep of suffixStepsArray ) {
+		word = findAndDeleteSuffix( word, suffixStep[ 1 ], r1Index, morphologyDataNL );
 	}
 
 	return word;
