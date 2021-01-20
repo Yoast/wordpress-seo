@@ -5,7 +5,6 @@ import { BlockConfiguration, BlockInstance } from "@wordpress/blocks";
 import { BlockValidationResult, BlockValidation } from "../validation";
 import Instruction, { InstructionOptions } from "../Instruction";
 import { attributeExists, attributeNotEmpty } from "../../functions/validators";
-import validateInnerBlocks from "../../functions/validators/innerBlocksValid";
 import validateMany from "../../functions/validators/validateMany";
 
 export type BlockInstructionClass = { new( id: number, options: InstructionOptions ): BlockInstruction };

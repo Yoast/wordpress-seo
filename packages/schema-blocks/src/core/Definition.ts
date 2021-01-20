@@ -1,7 +1,6 @@
 import { merge } from "lodash";
 import { BlockInstance } from "@wordpress/blocks";
 import { BlockValidation, BlockValidationResult } from "./validation";
-import validateMany from "../functions/validators/validateMany";
 import Instruction from "./Instruction";
 import Leaf from "./Leaf";
 
@@ -65,6 +64,7 @@ export default abstract class Definition {
 
 		validation.issues = Object.values( this.instructions ).map( instruction => {
 			const issue = instruction.validate( blockInstance );
+			// eslint-disable-next-line no-console
 			console.log( "validating " + instruction.options.name + " against " + blockInstance.name + " => " + BlockValidation[ issue.result ] );
 			return issue;
 		} ).filter( issue => issue.result !== BlockValidation.Skipped );
