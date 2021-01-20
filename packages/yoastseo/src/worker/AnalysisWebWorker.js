@@ -32,7 +32,6 @@ const YoastSEO = {
 	ContentAssessor,
 	TaxonomyAssessor,
 	Pluggable,
-	Researcher,
 	SnippetPreview,
 	RelatedKeywordAssessor,
 
@@ -80,7 +79,8 @@ export default class AnalysisWebWorker {
 	 * @param {Object} scope The scope for the messaging. Expected to have the
 	 *                       `onmessage` event and the `postMessage` function.
 	 */
-	constructor( scope ) {
+	constructor( scope, researcher ) {
+		console.log( "researcher", researcher );
 		this._scope = scope;
 
 		this._configuration = {
@@ -99,7 +99,7 @@ export default class AnalysisWebWorker {
 		this._relatedKeywords = {};
 
 		this._i18n = AnalysisWebWorker.createI18n();
-		this._researcher = new Researcher( this._paper );
+		this._researcher = researcher;
 
 		this._contentAssessor = null;
 		this._seoAssessor = null;
@@ -777,7 +777,7 @@ export default class AnalysisWebWorker {
 	async analyze( id, { paper, relatedKeywords = {} } ) {
 		// Automatically add paragraph tags, like Wordpress does, on blocks padded by double newlines or html elements.
 		paper._text = autop( paper._text );
-		paper._text = string.removeHtmlBlocks( paper._text );
+		paper._text = removeHtmlBlocks( paper._text );
 		const paperHasChanges = this._paper === null || ! this._paper.equals( paper );
 		const shouldReadabilityUpdate = this.shouldReadabilityUpdate( paper );
 
@@ -1081,10 +1081,11 @@ export default class AnalysisWebWorker {
 		// Save morphology data if it is available in the current researcher.
 		const morphologyData = this._researcher.getData( "morphology" );
 
-		let researcher = this._researcher;
+		const researcher = this._researcher;
 		// When a specific paper is passed we create a temporary new researcher.
 		if ( paper !== null ) {
-			researcher = new Researcher( paper );
+			// @todo Why is it necessary to create a temporary new researcher?
+			// researcher = new Researcher( paper );
 			researcher.addResearchData( "morphology", morphologyData );
 		}
 
