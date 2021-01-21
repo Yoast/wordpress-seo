@@ -5,10 +5,11 @@ import { BlockInstance, TemplateArray } from "@wordpress/blocks";
 import { BlockValidation, BlockValidationResult, RecommendedBlock, RequiredBlock } from "../../core/validation";
 import BlockInstruction from "../../core/blocks/BlockInstruction";
 import validateInnerBlocks from "../../functions/validators/innerBlocksValid";
-import { RenderEditProps } from "../../core/blocks/BlockDefinition";
+import { RenderEditProps, RenderSaveProps } from "../../core/blocks/BlockDefinition";
 import { getBlockByClientId } from "../../functions/BlockHelper";
 import RequiredBlocks from "../../blocks/RequiredBlocks";
 import { InstructionObject } from "../../core/Instruction";
+import BlockLeaf from "../../core/blocks/BlockLeaf";
 import validateMany from "../../functions/validators/validateMany";
 
 /**
@@ -29,19 +30,29 @@ export default class InnerBlocks extends BlockInstruction {
 	/**
 	 * Renders saving the instruction.
 	 *
+	 * @param props The props.
+	 * @param leaf The leaf.
+	 * @param i The index.
+	 *
 	 * @returns The inner blocks.
 	 */
-	save(): JSX.Element {
-		return createElement( WordPressInnerBlocks.Content );
+	save( props: RenderSaveProps, leaf: BlockLeaf, i: number ): ReactElement | string {
+		return createElement( WordPressInnerBlocks.Content, { key: i } );
 	}
 
 	/**
 	 * Renders editing the instruction.
 	 *
+	 * @param props The props.
+	 * @param leaf The leaf.
+	 * @param i The index.
+	 *
 	 * @returns The inner blocks.
 	 */
-	edit(): JSX.Element {
-		const properties: WordPressInnerBlocks.Props = {};
+	edit( props: RenderEditProps, leaf: BlockLeaf, i: number ): ReactElement | string {
+		const properties: React.ClassAttributes<unknown> & WordPressInnerBlocks.Props = {
+			key: i,
+		};
 
 		if ( this.options.appender === "button" ) {
 			properties.renderAppender = () => {
@@ -57,7 +68,7 @@ export default class InnerBlocks extends BlockInstruction {
 				createElement(
 					"div",
 					{ className: "yoast-labeled-inserter", "data-label": this.options.appenderLabel },
-					[ createElement( ( WordPressInnerBlocks as unknown as { ButtonBlockAppender: ComponentClass } ).ButtonBlockAppender ) ],
+					createElement( ( WordPressInnerBlocks as unknown as { ButtonBlockAppender: ComponentClass } ).ButtonBlockAppender ),
 				);
 		}
 
@@ -88,7 +99,7 @@ export default class InnerBlocks extends BlockInstruction {
 			return RequiredBlocks( currentBlock, this.options.requiredBlocks );
 		}
 
-		return "";
+		return null;
 	}
 
 	/**
