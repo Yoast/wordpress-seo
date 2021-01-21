@@ -1,7 +1,7 @@
 import stem from "../../../../../../src/languageProcessing/languages/cz/helpers/internal/stem";
-// import getMorphologyData from "../../../../../specHelpers/getMorphologyData";
+import getMorphologyData from "../../../../../specHelpers/getMorphologyData";
 
-// const morphologyDataCZ = getMorphologyData( "cz" ).cz;
+const morphologyDataCZ = getMorphologyData( "cz" ).cz;
 
 // The first word in each array is the word, the second one is the expected stem.
 const wordsToStem = [
@@ -22,7 +22,7 @@ describe( "Test for stemming Czech words", () => {
 	for ( let i = 0; i < wordsToStem.length; i++ ) {
 		const wordToCheck = wordsToStem[ i ];
 		it( "stems the word " + wordToCheck[ 0 ], () => {
-			expect( stem( wordToCheck[ 0 ]) ).toBe( wordToCheck[ 1 ] );
+			expect( stem( wordToCheck[ 0 ], morphologyDataCZ ) ).toBe( wordToCheck[ 1 ] );
 		} );
 	}
 } );
