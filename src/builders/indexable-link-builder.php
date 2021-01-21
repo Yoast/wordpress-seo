@@ -263,7 +263,7 @@ class Indexable_Link_Builder {
 				// Make sure we're checking against the absolute URL, and add a trailing slash if the site has a trailing slash in its permalink settings.
 				$permalink = $this->url_helper->ensure_absolute_url( user_trailingslashit( $permalink ) );
 			}
-			$target    = $this->indexable_repository->find_by_permalink( $permalink );
+			$target = $this->indexable_repository->find_by_permalink( $permalink );
 
 			if ( ! $target ) {
 				// If target indexable cannot be found, create one based on the post's post ID.
