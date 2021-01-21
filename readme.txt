@@ -239,28 +239,29 @@ Release Date: January 26th, 2021
 
 Enhancements:
 
-* Adds a breadcrumbs block which renders the Yoast SEO breadcrumbs for a particular post or page.
-* Adds advanced snippet variables in the Social previews of our Elementor integration.
-* Adds the transition words assessment for Turkish.
+* Expands the readability analysis for Turkish:
+    * Adds the transition words assessment.
+    * Adds the consecutive sentences beginnings assessment.
+    * Adds the sentence length assessment.
+    * Adds the passive voice assessment.
 * Improves keyphrase recognition in Turkish by filtering out function words such as `birinci`, `i̇kinci`, `üçüncü`.
-* Adds a consecutive sentences beginnings assessment for Turkish.
-* Adds sentence length assessment for Turkish.
-* Adds the assessment for detecting the passive voice in Turkish.
+* Adds the advanced snippet variables to the Social previews of our Elementor integration.
 
 Bugfixes:
 
-* Fixes a bug where empty author archive pages could be indexed when the author had published a custom post-type that was not shown on his/her author archive page. Props to [stodorovic](https://github.com/stodorovic).
+* Fixes a bug where empty author archive pages would be indexed when the author had published a custom post-type that was not shown on his/her author archive page. Props to [stodorovic](https://github.com/stodorovic).
 
 Other:
 
 * Changes the wording on the `my.yoast.com` connect error shown in Health Check when a Yoast premium plugin is enabled, to lead with what the user's problem is.
+* Removes the release notification as the added benefit of having it is minimal.
 
 = 15.6.2 =
 Release Date: January 12th, 2021
 
 Bugfixes:
 
- * Fixes a bug where notifications in the notification center would not be dismissible on sites using FastCGI.
+* Fixes a bug where notifications in the notification center would not be dismissible on sites using FastCGI.
 
 = 15.6.1 =
 Release Date: January 12th, 2021

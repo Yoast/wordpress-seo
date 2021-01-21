@@ -76,6 +76,14 @@ class Breadcrumbs_Block extends Dynamic_Block {
 	}
 
 	/**
+	 * Temporarily disable the breadcrumbs block.
+	 */
+	public function register_hooks() {
+		// phpcs:ignore Squiz.PHP.NonExecutableCode -- Very temporary solution for Yoast SEO 15.7.
+		return;
+	}
+
+	/**
 	 * Presents the breadcrumbs output for the current page or the available post_id.
 	 *
 	 * @param array $attributes The block attributes.

@@ -122,6 +122,7 @@ class Inject_From_Registry_Pass extends AbstractRecursivePass {
 		}
 
 		$definition = new Definition( $type, [ $other_container_name, $type ] );
+		$definition->setPublic( true );
 		$definition->setFactory( [ Container_Registry::class, 'get' ] );
 		$this->container->setDefinition( $type, $definition );
 	}
