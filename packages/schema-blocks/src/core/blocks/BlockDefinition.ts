@@ -44,7 +44,8 @@ export default class BlockDefinition extends Definition {
 			.map( ( instruction, i ) => instruction.sidebar( props, i ) )
 			.filter( e => e !== null );
 		if ( sidebarElements.length > 0 ) {
-			const sidebar = createElement( InspectorControls, null, sidebarElements );
+			// Need to add `children` on the `props` as well, because of the type definition of `InspectorControls.Props`.
+			const sidebar = createElement( InspectorControls, { key: "sidebar", children: sidebarElements }, sidebarElements );
 			elements.unshift( sidebar );
 		}
 
@@ -52,7 +53,7 @@ export default class BlockDefinition extends Definition {
 			return elements[ 0 ] as JSX.Element;
 		}
 
-		return createElement( Fragment, null, elements );
+		return createElement( Fragment, { key: props.clientId }, elements );
 	}
 
 	/**
