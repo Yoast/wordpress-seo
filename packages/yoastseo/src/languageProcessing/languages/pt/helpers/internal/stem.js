@@ -40,13 +40,13 @@ const isVowel = function( character, vowels ) {
  * Finds the first vowel in a string after the specified index and returns the index of the character following that vowel
  * (if found).
  *
- * @param {string}	    word	        The word to check.
- * @param {string[]}    vowels          The Portuguese vowels.
- * @param {number}	    [start=0]       The index at which the search for a vowel should begin.
+ * @param {string}	    word	    The word to check.
+ * @param {string[]}    vowels      The Portuguese vowels.
+ * @param {number}	    start       The index at which the search for a vowel should begin.
  *
  * @returns {number} The index of the character following the found vowel. If this is not found, the length of the word.
  */
-const nextVowelPosition = function( word, vowels, start = 0 ) {
+const nextVowelPosition = function( word, vowels, start ) {
 	const length = word.length;
 
 	for ( let position = start; position < length; position++ ) {
@@ -62,13 +62,13 @@ const nextVowelPosition = function( word, vowels, start = 0 ) {
  * Finds the first consonant in a string after the specified index and returns the index of the character following that
  * consonant (if found).
  *
- * @param {string}	    word	    The word to check.
- * @param {string[]}    vowels      The Portuguese vowels.
- * @param {number}	    [start=0]	The index at which the search for a consonant should begin.
+ * @param {string}	    word	The word to check.
+ * @param {string[]}    vowels  The Portuguese vowels.
+ * @param {number}	    start	The index at which the search for a consonant should begin.
  *
  * @returns {number} The index of the character following the found consonant. If this is not found, the length of the word.
  */
-const nextConsonantPosition = function( word, vowels, start = 0 ) {
+const nextConsonantPosition = function( word, vowels, start ) {
 	const length = word.length;
 
 	for ( let position = start; position < length; position++ ) {
