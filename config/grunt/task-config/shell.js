@@ -13,11 +13,10 @@ module.exports = function( grunt ) {
 	 * @returns {void}
 	 */
 	function throwUncommittedChangesError( error, stdout, stderr, callback ) {
-		const msg = "You have uncommitted changes. Commit, stash or reset the above files.";
 		if ( stdout ) {
-			throw msg;
+			throw "You have uncommitted changes. Commit, stash or reset the above files.";
 		} else {
-			grunt.log.error( msg );
+			grunt.log.ok( "You have no uncommitted changes. Continuing..." );
 		}
 		callback();
 	}
