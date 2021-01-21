@@ -72,7 +72,7 @@ class VariableTagRichText extends RichTextBase {
 			tagName:
 				props.attributes[ this.options.name + "_tag" ] as keyof HTMLElementTagNameMap ||
 				arrayOrObjectToOptions( this.options.tags )[ 0 ].value,
-			value: props.attributes[ this.options.name ] as string || this.options.value || this.options.name,
+			value: props.attributes[ this.options.name ] as string || this.options.value,
 			className: this.options.class,
 			placeholder: this.options.placeholder,
 			"data-id": this.options.name,
