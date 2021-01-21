@@ -5,7 +5,7 @@ import { select } from "@wordpress/data";
 import { getBlockSchemaId } from "../../functions/gutenberg/block";
 
 /**
- * InnerBlocksID instruction
+ * InnerBlocksID instruction.
  */
 class InnerBlocksID extends SchemaInstruction {
 	public options: {

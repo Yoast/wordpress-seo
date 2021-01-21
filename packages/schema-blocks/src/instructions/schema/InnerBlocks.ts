@@ -5,7 +5,7 @@ import { schemaDefinitions, SchemaValue } from "../../core/schema/SchemaDefiniti
 import { BlockInstance } from "@wordpress/blocks";
 
 /**
- * InnerBlocks instruction
+ * InnerBlocks instruction.
  */
 class InnerBlocks extends SchemaInstruction {
 	public options: {
