@@ -53,7 +53,7 @@ export default abstract class Definition {
 	 *
 	 * @param blockInstance The block to be validated.
 	 *
-	 * @returns {BlockValidationResult | null} The result of validation the given block.
+	 * @returns {BlockValidationResult | null} The validation result for the given block.
 	 */
 	validate( blockInstance: BlockInstance ): BlockValidationResult {
 		if ( ! blockInstance ) {
