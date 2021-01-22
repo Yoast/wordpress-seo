@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
-import stem from "../../../../src/languageProcessing/languages/id/helpers/internal/stem";
-import getMorphologyData from "../../../specHelpers/getMorphologyData";
-import sampleVocabulary from "../stemmerCoverage/sampleVocabulary.json";
+import stem from "../../../../../../../src/languageProcessing/languages/id/helpers/internal/stem";
+import getMorphologyData from "../../../../../../specHelpers/getMorphologyData";
+import sampleVocabulary from "./sampleVocabulary.json";
 
 const sampleWords = sampleVocabulary.words;
 

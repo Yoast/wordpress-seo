@@ -1,5 +1,5 @@
-import stem from "../../../src/languageProcessing/languages/id/helpers/internal/stem";
-import getMorphologyData from "../../specHelpers/getMorphologyData";
+import stem from "../../../../../../src/languageProcessing/languages/id/helpers/internal/stem";
+import getMorphologyData from "../../../../../specHelpers/getMorphologyData";
 
 const morphologyData = getMorphologyData( "id" ).id;
 
@@ -260,6 +260,8 @@ const wordsToStem = [
 	[ "menunda-nunda", "tunda" ],
 	[ "menjadi-jadi", "jadi" ],
 	[ "bertingkat-tingkat", "tingkat" ],
+	// Words that are separated by dash but are not plural (made-up word)
+	[ "bertingkat-tingkat-tangga", "tingkat-tingkat-tangga" ],
 	// Words with a beginning that looks like a valid prefix
 	[ "pelita", "pelita" ],
 	[ "medali", "medali" ],
