@@ -206,9 +206,8 @@ module.exports = function( grunt ) {
 
 		"install-schema-blocks": {
 			// If a src directory exists in the schema-blocks but not dist directory then it needs to be built.
-			command: "if [ -d node_modules/@yoast/schema-blocks/src ] && [ ! -d node_modules/@yoast/schema-blocks/dist ]; then " +
-				"cd node_modules/@yoast/schema-blocks && yarn install && yarn build; " +
-				"fi",
+			command: "echo schema blocks is still in development. run [yarn build] " +
+					 " in the linked monorepo folder /src/schemablocks if you want to use schema blocks.",
 		},
 
 		"check-for-uncommitted-changes": {

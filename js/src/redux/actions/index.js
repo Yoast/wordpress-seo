@@ -15,6 +15,7 @@ export * from "./markerButtons";
 export * from "./markerPauseStatus";
 export * from "./primaryTaxonomies";
 export * from "./schemaTab";
+export * from "./schemaBlocks";
 export * from "./SEMrushModal";
 export * from "./SEMrushRequest";
 export * from "./settings";
