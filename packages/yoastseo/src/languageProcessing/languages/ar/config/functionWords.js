@@ -296,42 +296,31 @@ const transitionWords = [ "عندما", "مثل", "بالطبع", "لأن", "إ�
 	"لمدة", "مثلك", "حين", "بأي", "زلت", "وعندما", "أثناء", "حينما", "أولا", "لاحقا", "أما", "وإلا", "لفترة", "كلما", "عندنا",
 	"إلا", "الا" ];
 
-/**
- * Returns function words for Arabic.
- *
- * @returns {Object} Arabic function words.
- */
-export default function() {
-	return {
-		// These word categories are filtered at the ending of word combinations.
-		filteredAtEnding: [].concat( ordinalNumerals, generalAdjectivesAdverbs ),
+// These word categories are filtered at the ending of word combinations.
+export const filteredAtEnding = [].concat( ordinalNumerals, generalAdjectivesAdverbs );
 
-		// These word categories are filtered at the beginning and ending of word combinations.
-		filteredAtBeginningAndEnding: [].concat( articles, prepositions, prepositionPrecedingPronouns, coordinatingConjunctions,
-			demonstrativePronouns, intensifiers, quantifiers ),
+// These word categories are filtered at the beginning and ending of word combinations.
+export const filteredAtBeginningAndEnding = [].concat( articles, prepositions, prepositionPrecedingPronouns, coordinatingConjunctions,
+	demonstrativePronouns, intensifiers, quantifiers );
 
-		// These word categories are filtered everywhere within word combinations.
-		filteredAnywhere: [].concat( transitionWords, adverbialGenitives, personalPronounsNominative, personalPronounsAccusative,
-			reflexivePronouns, interjections, cardinalNumerals, otherAuxiliaries, copula, interviewVerbs,
-			delexicalizedVerbs, indefinitePronouns, subordinatingConjunctions, interrogativeDeterminers,
-			interrogativePronouns, interrogativeProAdverbs, locativeAdverbs, miscellaneous, prepositionalAdverbs,
-			recipeWords, timeWords, vagueNouns, vocativeParticles, relativePronouns ),
+// These word categories are filtered everywhere within word combinations.
+export const filteredAnywhere = [].concat( transitionWords, adverbialGenitives, personalPronounsNominative, personalPronounsAccusative,
+	reflexivePronouns, interjections, cardinalNumerals, otherAuxiliaries, copula, interviewVerbs,
+	delexicalizedVerbs, indefinitePronouns, subordinatingConjunctions, interrogativeDeterminers,
+	interrogativePronouns, interrogativeProAdverbs, locativeAdverbs, miscellaneous, prepositionalAdverbs,
+	recipeWords, timeWords, vagueNouns, vocativeParticles, relativePronouns );
 
-		// These categories are used in the passive voice assessment. If they directly precede a participle, the sentence part is not passive.
-		cannotDirectlyPrecedePassiveParticiple: [].concat( articles, prepositions, demonstrativePronouns, ordinalNumerals, quantifiers ),
+// This export contains all of the above words.
+export const all = [].concat( articles, cardinalNumerals, ordinalNumerals, demonstrativePronouns, reflexivePronouns,
+	personalPronounsNominative, personalPronounsAccusative, quantifiers, indefinitePronouns, interrogativeDeterminers,
+	interrogativePronouns, interrogativeProAdverbs, locativeAdverbs, adverbialGenitives, prepositionalAdverbs,
+	otherAuxiliaries, copula, prepositions, coordinatingConjunctions, subordinatingConjunctions, interviewVerbs,
+	transitionWords, additionalTransitionWords, intensifiers, delexicalizedVerbs, interjections, generalAdjectivesAdverbs,
+	recipeWords, vagueNouns, miscellaneous, titlesPreceding, vocativeParticles, relativePronouns, prepositionPrecedingPronouns );
 
-		/*
-		These categories are used in the passive voice assessment. If they appear between an auxiliary and a participle,
-		the sentence part is not passive.
-		*/
-		cannotBeBetweenPassiveAuxiliaryAndParticiple: [].concat( otherAuxiliaries, copula, interviewVerbs, delexicalizedVerbs ),
-
-		// This export contains all of the above words.
-		all: [].concat( articles, cardinalNumerals, ordinalNumerals, demonstrativePronouns, reflexivePronouns,
-			personalPronounsNominative, personalPronounsAccusative, quantifiers, indefinitePronouns, interrogativeDeterminers,
-			interrogativePronouns, interrogativeProAdverbs, locativeAdverbs, adverbialGenitives, prepositionalAdverbs,
-			otherAuxiliaries, copula, prepositions, coordinatingConjunctions, subordinatingConjunctions, interviewVerbs,
-			transitionWords, additionalTransitionWords, intensifiers, delexicalizedVerbs, interjections, generalAdjectivesAdverbs,
-			recipeWords, vagueNouns, miscellaneous, titlesPreceding, vocativeParticles, relativePronouns, prepositionPrecedingPronouns ),
-	};
-}
+export default {
+	filteredAtEnding,
+	filteredAtBeginningAndEnding,
+	filteredAnywhere,
+	all,
+};
