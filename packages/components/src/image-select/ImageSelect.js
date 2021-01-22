@@ -28,25 +28,23 @@ function ImageSelect( props ) {
 	};
 
 	return (
-		<div className="yoast-image-select">
-			<FieldGroup
-				label={ props.label }
-				wrapperClassName={ "yoast-field-group__image-select" }
-			>
-				{ props.hasPreview &&
-					<button className={ imageClassName } onClick={ props.onClick } type="button">
-						{ imageSelected && <img src={ props.imageUrl } alt={ props.imageAltText } className="yoast-image-select__preview--image" /> }
-					</button>
-				}
-				{
-					props.warnings.length > 0 && imageSelected &&
-					props.warnings.map( ( warning, index ) => <Alert key={ `warning${ index }` } type="warning">
-						{ warning }
-					</Alert> )
-				}
-				<ImageSelectButtons { ...imageSelectButtonsProps } />
-			</FieldGroup>
-		</div>
+		<FieldGroup
+			label={ props.label }
+			wrapperClassName={ "yoast-field-group yoast-image-select" }
+		>
+			{ props.hasPreview &&
+				<button className={ imageClassName } onClick={ props.onClick } type="button">
+					{ imageSelected && <img src={ props.imageUrl } alt={ props.imageAltText } className="yoast-image-select__preview--image" /> }
+				</button>
+			}
+			{
+				props.warnings.length > 0 && imageSelected &&
+				props.warnings.map( ( warning, index ) => <Alert key={ `warning${ index }` } type="warning">
+					{ warning }
+				</Alert> )
+			}
+			<ImageSelectButtons { ...imageSelectButtonsProps } />
+		</FieldGroup>
 	);
 }
 
