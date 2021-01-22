@@ -1,4 +1,4 @@
-const getUserInput = require( "../lib/get-user-input" );
+const getUserInput = require( "../lib/merge-changelog" );
 const parseVersion = require( "../lib/parse-version" );
 const _isEmpty = require( "lodash/isEmpty" );
 
@@ -10,7 +10,7 @@ const _isEmpty = require( "lodash/isEmpty" );
  */
 module.exports = function( grunt ) {
 	grunt.registerTask(
-		"update-readme",
+		"update-readme-jenkins",
 		"Prompts the user for the changelog entries and updates the readme.txt",
 		function() {
 			const done = this.async();
@@ -75,15 +75,14 @@ module.exports = function( grunt ) {
 			// If the current version is already in the changelog, retrieve the full readme and let the user edit it.
 			if ( containsCurrentVersion ) {
 				// Present the user with the entire changelog file.
-				//getUserInput( { initialContent: changelog } ).then( newChangelog => {
-				//	// Update the grunt reference to the changelog.
-				//	grunt.option( "changelog", newChangelog );
+				mergeChangeLog( { newChangelogContent: changelog } ).then( newChangelog => {
+					// Update the grunt reference to the changelog.
+					grunt.option( "changelog", newChangelog );
 
-				//	// Write changes to the file.
-				//	grunt.file.write( "./readme.txt", newChangelog );
-				//	done();
-				//} );
-				mergebothchangelogs
+					// Write changes to the file.
+					grunt.file.write( "./readme.txt", newChangelog );
+					done();
+				} );
 			} else {
 				// If the current version is not in the changelog, allow the user to enter new changelog items.
 				let changelogVersionNumber = versionNumber.major + "." + versionNumber.minor;
@@ -92,7 +91,6 @@ module.exports = function( grunt ) {
 				if ( versionNumber.patch !== 0 ) {
 					changelogVersionNumber += "." + versionNumber.patch;
 				}
-				mergenewchangelogs
 				// Present the user with only the version number.
 				mergeChangeLog( { newChangelogContent: `= ${changelogVersionNumber} =` + changelogIn } ).then( newChangelog => {
 					// Update the grunt reference to the changelog.
