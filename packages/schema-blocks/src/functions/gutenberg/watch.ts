@@ -1,9 +1,11 @@
 import { isEqual } from "lodash";
 import { subscribe, select, dispatch } from "@wordpress/data";
-
 import SchemaDefinition, { schemaDefinitions } from "../../core/schema/SchemaDefinition";
 import { BlockInstance } from "@wordpress/blocks";
 import warningWatcher from "./watchers/warningWatcher";
+import { getBlockDefinition } from "../../core/blocks/BlockDefinitionRepository";
+import { BlockValidation, BlockValidationResult } from "../../core/validation";
+import storeBlockValidation from "./storeBlockValidation";
 
 let updatingSchema = false;
 let previousRootBlocks: BlockInstance[];
@@ -81,6 +83,32 @@ function generateSchemaForBlocks( blocks: BlockInstance[], previousBlocks: Block
 }
 
 /**
+ Validates blocks recursively.
+@param blocks The block instances to validate.
+@returns {BlockValidationResult[]} Validation results for each (inner)block of the given blocks.
+ */
+export function validateBlocks( blocks: BlockInstance[] ): BlockValidationResult[] {
+	const validations: BlockValidationResult[] = [];
+	blocks.forEach( block => {
+		// This may be a third party block we cannot validate.
+		const definition = getBlockDefinition( block.name );
+		if ( definition ) {
+			validations.push( definition.validate( block ) );
+		} else {
+			// eslint-disable-next-line no-console
+			console.log( "Unable to validate block of type [" + block.name + "] " + block.clientId );
+			validations.push( new BlockValidationResult( block.clientId, block.name, BlockValidation.Unknown ) );
+
+			// Recursively validate all blocks' innerblocks.
+			if ( block.innerBlocks && block.innerBlocks.length > 0 ) {
+				validations.push( ...validateBlocks( block.innerBlocks ) );
+			}
+		}
+	} );
+	return validations;
+}
+
+/**
  * Watches Gutenberg for relevant changes.
  */
 export default function watch() {
@@ -89,22 +117,21 @@ export default function watch() {
 			return;
 		}
 
-		const rootBlocks = select( "core/block-editor" ).getBlocks();
+		const rootBlocks: BlockInstance[] = select( "core/block-editor" ).getBlocks();
 		if ( rootBlocks === previousRootBlocks ) {
 			return;
 		}
 
-		// Const validations = {};
-		// For ( const block of rootBlocks ) {
-		// 	Const def = getBlockDefinition( block.name ); // not all blocks are ours, some have innerblocks that may contain our blocks
-		// 	Const result = def.valid( block );
-		// 	Validations[ block.clientId ] = result; // => to store
-		// }
-
 		updatingSchema = true;
-		warningWatcher( rootBlocks, previousRootBlocks );
-		generateSchemaForBlocks( rootBlocks, previousRootBlocks );
-		previousRootBlocks = rootBlocks;
+		{
+			const validations = validateBlocks( rootBlocks );
+			storeBlockValidation( validations );
+
+			warningWatcher( rootBlocks, previousRootBlocks );
+
+			generateSchemaForBlocks( rootBlocks, previousRootBlocks );
+			previousRootBlocks = rootBlocks;
+		}
 		updatingSchema = false;
 	} );
 }

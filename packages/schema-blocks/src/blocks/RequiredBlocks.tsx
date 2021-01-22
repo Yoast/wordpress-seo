@@ -1,8 +1,7 @@
 import { ReactElement } from "react";
 import { BlockInstance, createBlock } from "@wordpress/blocks";
 import { createElement } from "@wordpress/element";
-import { RequiredBlock } from "../instructions/blocks/dto";
-
+import { RequiredBlock } from "../core/validation";
 import { getInnerblocksByName, insertBlock } from "../functions/innerBlocksHelper";
 import { getBlockType } from "../functions/BlockHelper";
 import { PanelBody } from "@wordpress/components";
