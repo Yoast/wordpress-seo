@@ -56,6 +56,7 @@ temp/
 .Trashes
 .env
 .svn
+.tmp
 
 ############
 ## Composer
