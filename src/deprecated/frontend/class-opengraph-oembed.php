@@ -13,7 +13,7 @@
 class WPSEO_OpenGraph_OEmbed implements WPSEO_WordPress_Integration {
 
 	/**
-	 * @inheritDoc
+	 * {@inheritDoc}
 	 *
 	 * @codeCoverageIgnore
 	 * @deprecated 14.0

@@ -18,11 +18,15 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
 class Health_Check_Ryte_Test extends TestCase {
 
 	/**
+	 * Holds the ryte_option variable.
+	 *
 	 * @var Mockery\Mock|WPSEO_Ryte_Option
 	 */
 	private $ryte_option;
 
 	/**
+	 * Holds the health_check variable.
+	 *
 	 * @var Mockery\Mock|WPSEO_Health_Check_Ryte
 	 */
 	private $health_check;
@@ -300,7 +304,7 @@ class Health_Check_Ryte_Test extends TestCase {
 	/**
 	 * Mocks that the blog is public, Ryte is enabled and development mode is not on (or Yoast development mode is on).
 	 *
-	 * @throws Monkey\Expectation\Exception\ExpectationArgsRequired
+	 * @throws Monkey\Expectation\Exception\ExpectationArgsRequired When args missing / wrong.
 	 */
 	private function ryte_enabled_and_blog_public() {
 		$this->stubTranslationFunctions();

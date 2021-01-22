@@ -29,6 +29,10 @@ module.exports = function( grunt ) {
 					files: { src: [targetFile] }
 				} );
 				grunt.task.run( "gitcommit:gutenbergFiles" );
+
+				// Push the commit to the branch.
+				grunt.config( "gitpush.gutenbergVersion.options", { remote: "origin", upstream: true, branch: grunt.config.data.branchForRC } );
+				grunt.task.run( "gitpush:gutenbergVersion" );
 			}
 
 			return done();
