@@ -19,7 +19,7 @@ module.exports = function( grunt ) {
 			const versionNumber = parseVersion( newVersion );
 
 			let changelog = grunt.file.read( "./readme.txt" );
-			let changelogin = grunt.file.read( "./.tmp/change_in_log.md" );
+			let changelogIn = grunt.file.read( "./.tmp/change_in_log.md" );
 
 			const releaseInChangelog = /[=] \d+\.\d+(\.\d+)? =/g;
 			const allReleasesInChangelog = changelog.match( releaseInChangelog );
@@ -83,7 +83,7 @@ module.exports = function( grunt ) {
 				//	grunt.file.write( "./readme.txt", newChangelog );
 				//	done();
 				//} );
-				add stuff here
+				mergebothchangelogs
 			} else {
 				// If the current version is not in the changelog, allow the user to enter new changelog items.
 				let changelogVersionNumber = versionNumber.major + "." + versionNumber.minor;
@@ -92,19 +92,19 @@ module.exports = function( grunt ) {
 				if ( versionNumber.patch !== 0 ) {
 					changelogVersionNumber += "." + versionNumber.patch;
 				}
-
+				mergenewchangelogs
 				// Present the user with only the version number.
-				//getUserInput( { initialContent: `= ${changelogVersionNumber} =` } ).then( newChangelog => {
+				mergeChangeLog( { newChangelogContent: `= ${changelogVersionNumber} =` + changelogIn } ).then( newChangelog => {
 					// Update the grunt reference to the changelog.
-				//	grunt.option( "changelog", newChangelog );
+					grunt.option( "changelog", newChangelog );
 
 					// Add the user input to the changelog, behind the == Changelog == header.
-				//	changelog = changelog.replace( /[=]= Changelog ==/ig, "== Changelog ==\n\n" + newChangelog.trim() );
+					changelog = changelog.replace( /[=]= Changelog ==/ig, "== Changelog ==\n\n" + newChangelog.trim() );
 
 					// Write changes to the file.
-				//	grunt.file.write( "./readme.txt", changelog );
-				//	done();
-				//} );
+					grunt.file.write( "./readme.txt", changelog );
+					done();
+				} );
 			}
 
 			// Stage the changed readme.txt.
