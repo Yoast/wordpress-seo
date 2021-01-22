@@ -1,4 +1,4 @@
-const getUserInput = require( "../lib/merge-changelog" );
+const mergeChangeLog = require( "../lib/merge-changelog" );
 const parseVersion = require( "../lib/parse-version" );
 const _isEmpty = require( "lodash/isEmpty" );
 
