@@ -16,14 +16,18 @@ exports[`ImageSelect ImageSelects match the snapshot 1`] = `
     onClick={[Function]}
     type="button"
   />
-  <button
-    className="yoast-button yoast-button--secondary"
-    id=""
-    onClick={[Function]}
-    type="button"
+  <div
+    className="yoast-image-select-buttons"
   >
-    Select image
-  </button>
+    <button
+      className="yoast-button yoast-button--secondary"
+      id=""
+      onClick={[Function]}
+      type="button"
+    >
+      Select image
+    </button>
+  </div>
 </div>
 `;
 
@@ -49,22 +53,26 @@ exports[`ImageSelect ImageSelects match the snapshot 2`] = `
       src="http://placekitten.com/300/300"
     />
   </button>
-  <button
-    className="yoast-button yoast-button--secondary"
-    id=""
-    onClick={[Function]}
-    type="button"
+  <div
+    className="yoast-image-select-buttons"
   >
-    Replace image
-  </button>
-  <button
-    className="yoast-remove"
-    id=""
-    onClick={[Function]}
-    type="button"
-  >
-    Remove image
-  </button>
+    <button
+      className="yoast-button yoast-button--secondary"
+      id=""
+      onClick={[Function]}
+      type="button"
+    >
+      Replace image
+    </button>
+    <button
+      className="yoast-remove"
+      id=""
+      onClick={[Function]}
+      type="button"
+    >
+      Remove image
+    </button>
+  </div>
 </div>
 `;
 
@@ -79,14 +87,18 @@ exports[`ImageSelect ImageSelects match the snapshot 3`] = `
       Yet another organization
     </b>
   </div>
-  <button
-    className="yoast-button yoast-button--secondary"
-    id=""
-    onClick={[Function]}
-    type="button"
+  <div
+    className="yoast-image-select-buttons"
   >
-    Select image
-  </button>
+    <button
+      className="yoast-button yoast-button--secondary"
+      id=""
+      onClick={[Function]}
+      type="button"
+    >
+      Select image
+    </button>
+  </div>
 </div>
 `;
 
@@ -101,21 +113,25 @@ exports[`ImageSelect ImageSelects match the snapshot 4`] = `
       Not another organization
     </b>
   </div>
-  <button
-    className="yoast-button yoast-button--secondary"
-    id=""
-    onClick={[Function]}
-    type="button"
+  <div
+    className="yoast-image-select-buttons"
   >
-    Replace image
-  </button>
-  <button
-    className="yoast-remove"
-    id=""
-    onClick={[Function]}
-    type="button"
-  >
-    Remove image
-  </button>
+    <button
+      className="yoast-button yoast-button--secondary"
+      id=""
+      onClick={[Function]}
+      type="button"
+    >
+      Replace image
+    </button>
+    <button
+      className="yoast-remove"
+      id=""
+      onClick={[Function]}
+      type="button"
+    >
+      Remove image
+    </button>
+  </div>
 </div>
 `;

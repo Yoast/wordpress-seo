@@ -21,7 +21,7 @@ const ImageSelectButtons = ( props ) => {
 	 } = props;
 
 	return (
-		<Fragment>
+		<div className="yoast-image-select-buttons">
 			<Button
 				variant="secondary"
 				id={ imageSelected ? replaceImageButtonId : selectImageButtonId }
@@ -42,7 +42,7 @@ const ImageSelectButtons = ( props ) => {
 					{ __( "Remove image", "yoast-components" ) }
 				</Button>
 			}
-		</Fragment>
+		</div>
 	);
 };
 
