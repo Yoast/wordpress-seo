@@ -2,6 +2,7 @@ import "./Block";
 import "./ClassName";
 import "./InnerBlocks";
 import "./RichText";
+import "./Select";
 import "./SidebarDuration";
 import "./SidebarInput";
 import "./SidebarSelect";

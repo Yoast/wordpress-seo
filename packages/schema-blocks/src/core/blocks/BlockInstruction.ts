@@ -3,8 +3,7 @@ import { RenderSaveProps, RenderEditProps } from "./BlockDefinition";
 import { ReactElement } from "@wordpress/element";
 import { BlockConfiguration, BlockInstance } from "@wordpress/blocks";
 import Instruction, { InstructionOptions } from "../Instruction";
-import attributeExists from "../../functions/validators/attributeExists";
-import attributeNotEmpty from "../../functions/validators/attributeNotEmpty";
+import { attributeExists, attributeNotEmpty } from "../../functions/validators";
 
 export type BlockInstructionClass = { new( id: number, options: InstructionOptions ): BlockInstruction };
 

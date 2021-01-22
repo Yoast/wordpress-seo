@@ -1,10 +1,17 @@
+import { ReactElement } from "react";
 import { createElement, ComponentClass } from "@wordpress/element";
 import { InnerBlocks as WordPressInnerBlocks } from "@wordpress/block-editor";
-import BlockInstruction from "../../core/blocks/BlockInstruction";
-import { RequiredBlock } from "./dto";
-import getInvalidInnerBlocks from "../../functions/validators/innerBlocksValid";
 import { BlockInstance, TemplateArray } from "@wordpress/blocks";
+
+import BlockInstruction from "../../core/blocks/BlockInstruction";
+import { RecommendedBlock, RequiredBlock } from "./dto";
+import { getInvalidInnerBlocks } from "../../functions/validators";
 import { InvalidBlockReason } from "./enums";
+import { RenderEditProps, RenderSaveProps } from "../../core/blocks/BlockDefinition";
+import { getBlockByClientId } from "../../functions/BlockHelper";
+import RequiredBlocks from "../../blocks/RequiredBlocks";
+import { InstructionObject } from "../../core/Instruction";
+import BlockLeaf from "../../core/blocks/BlockLeaf";
 
 /**
  * InnerBlocks instruction.
@@ -16,25 +23,36 @@ export default class InnerBlocks extends BlockInstruction {
 		appender: string;
 		appenderLabel: string;
 		requiredBlocks: RequiredBlock[];
-		recommendedBlocks: string[];
+		recommendedBlocks: RecommendedBlock[];
+		warnings: InstructionObject;
 	};
 
 	/**
 	 * Renders saving the instruction.
 	 *
+	 * @param props The props.
+	 * @param leaf The leaf.
+	 * @param i The index.
+	 *
 	 * @returns The inner blocks.
 	 */
-	save(): JSX.Element {
-		return createElement( WordPressInnerBlocks.Content );
+	save( props: RenderSaveProps, leaf: BlockLeaf, i: number ): ReactElement | string {
+		return createElement( WordPressInnerBlocks.Content, { key: i } );
 	}
 
 	/**
 	 * Renders editing the instruction.
 	 *
+	 * @param props The props.
+	 * @param leaf The leaf.
+	 * @param i The index.
+	 *
 	 * @returns The inner blocks.
 	 */
-	edit(): JSX.Element {
-		const properties: WordPressInnerBlocks.Props = {};
+	edit( props: RenderEditProps, leaf: BlockLeaf, i: number ): ReactElement | string {
+		const properties: React.ClassAttributes<unknown> & WordPressInnerBlocks.Props = {
+			key: i,
+		};
 
 		if ( this.options.appender === "button" ) {
 			properties.renderAppender = () => {
@@ -50,12 +68,14 @@ export default class InnerBlocks extends BlockInstruction {
 				createElement(
 					"div",
 					{ className: "yoast-labeled-inserter", "data-label": this.options.appenderLabel },
-					[ createElement( ( WordPressInnerBlocks as unknown as { ButtonBlockAppender: ComponentClass } ).ButtonBlockAppender ) ],
+					createElement( ( WordPressInnerBlocks as unknown as { ButtonBlockAppender: ComponentClass } ).ButtonBlockAppender ),
 				);
 		}
 
+		properties.allowedBlocks = [ "yoast/warning-block" ];
+
 		if ( this.options.allowedBlocks ) {
-			properties.allowedBlocks = this.options.allowedBlocks;
+			properties.allowedBlocks = this.options.allowedBlocks.concat( properties.allowedBlocks );
 		}
 
 		if ( this.options.template ) {
@@ -69,22 +89,18 @@ export default class InnerBlocks extends BlockInstruction {
 	 * Renders the sidebar.
 	 *
 	 * @param props The props.
-	 * @param i     The number the rendered element is of it's parent.
 	 *
 	 * @returns The sidebar element to render.
-	sidebar( props: RenderEditProps, i: number ): ReactElement | string {
-		// Loop over all blocks (not just the invalid ones!), add a div to the block depending on their status.
-		const invalidBlocks = getInvalidInnerBlocks( this.options.requiredBlocks, props.clientId );
-		// Block OK? div with a green check,
-		// Block missing? add button,
-		// Block occurs too often? remove button,
-		// Block internal validation?
-		const count = ( invalidBlocks || [] ).length;
+	 */
+	sidebar( props: RenderEditProps ): ReactElement | string {
+		const currentBlock = getBlockByClientId( props.clientId );
 
-		// The innerblock sidebar is handled in P2-505, P2-506.
-		console.log( "Found " + count + " invalid blocks." );
-		return "";
-	}*/
+		if ( this.options.requiredBlocks ) {
+			return RequiredBlocks( currentBlock, this.options.requiredBlocks );
+		}
+
+		return null;
+	}
 
 	/**
 	 * Checks if the instruction block is valid.

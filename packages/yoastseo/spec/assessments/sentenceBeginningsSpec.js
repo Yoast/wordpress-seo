@@ -98,6 +98,29 @@ describe( "An assessment for scoring repeated sentence beginnings.", function() 
 		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/35f' target='_blank'>Consecutive sentences</a>: There is enough variety in your sentences. That's great!" );
 	} );
 
+	it( "scores one instance with 4 consecutive Turkish sentences starting with the same word.", function() {
+		const assessment = sentenceBeginningsAssessment.getResult( paper, Factory.buildMockResearcher( [ { word: "merhaba", count: 2 }, { word: "bilgisayar", count: 2 }, { word: "köpek", count: 1 },
+			{ word: "kedi", count: 4 } ] ), i18n );
+		expect( assessment.getScore() ).toBe( 3 );
+		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/35f' target='_blank'>Consecutive sentences</a>: The text contains 4 consecutive sentences starting with the same word." +
+			" <a href='https://yoa.st/35g' target='_blank'>Try to mix things up</a>!" );
+	} );
+
+	it( "scores two instance with too many consecutive Turkish sentences starting with the same word, 5 being the lowest count.", function() {
+		const assessment = sentenceBeginningsAssessment.getResult( paper, Factory.buildMockResearcher( [ { word: "hayvan", count: 2 }, { word: "muz", count: 6 }, { word: "makyaj", count: 1 },
+			{ word: "çay", count: 5 } ] ), i18n );
+		expect( assessment.getScore() ).toBe( 3 );
+		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/35f' target='_blank'>Consecutive sentences</a>: " +
+			"The text contains 2 instances where 5 or more consecutive sentences start with the same word. <a href='https://yoa.st/35g' target='_blank'>Try to mix things up</a>!" );
+	} );
+
+	it( "scores zero instance with too many consecutive Turkish sentences starting with the same word.", function() {
+		const assessment = sentenceBeginningsAssessment.getResult( paper, Factory.buildMockResearcher( [ { word: "hoşgeldiniz", count: 1 }, { word: "ayakkabı", count: 2 }, { word: "kayıt", count: 2 },
+			{ word: "ceket", count: 1 } ] ), i18n );
+		expect( assessment.getScore() ).toBe( 9 );
+		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/35f' target='_blank'>Consecutive sentences</a>: There is enough variety in your sentences. That's great!" );
+	} );
+
 	it( "is not applicable for a paper without text.", function() {
 		const assessment = sentenceBeginningsAssessment.isApplicable( new Paper( "" ) );
 		expect( assessment ).toBe( false );
@@ -200,6 +223,16 @@ describe( "An assessment for scoring repeated sentence beginnings.", function() 
 
 	it( "is applicable for a Hungarian paper with text.", function() {
 		const assessment = sentenceBeginningsAssessment.isApplicable( new Paper( "magyar", { locale: "hu_HU" } ) );
+		expect( assessment ).toBe( true );
+	} );
+
+	it( "is not applicable for a Turkish paper without text.", function() {
+		const assessment = sentenceBeginningsAssessment.isApplicable( new Paper( "", { locale: "tr_TR" } ) );
+		expect( assessment ).toBe( false );
+	} );
+
+	it( "is applicable for a Turkish paper with text.", function() {
+		const assessment = sentenceBeginningsAssessment.isApplicable( new Paper( "türk", { locale: "tr_TR" } ) );
 		expect( assessment ).toBe( true );
 	} );
 

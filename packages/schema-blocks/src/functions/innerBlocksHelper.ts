@@ -1,4 +1,5 @@
 import { BlockInstance } from "@wordpress/blocks";
+import { dispatch } from "@wordpress/data";
 import recurseOverBlocks from "./blocks/recurseOverBlocks";
 
 /**
@@ -33,4 +34,32 @@ function filterBlocksRecursively( blockInstance: BlockInstance, predicate: ( blo
 	return foundBlocks;
 }
 
-export { filterBlocksRecursively, getInnerblocksByName };
+/**
+ * Maps the given callback function over all the blocks (including all innerBlocks) and returns the results as a flat array.
+ *
+ * @param blocks The blocks.
+ * @param callback The callback function.
+ *
+ * @returns The transformed blocks, in a flat array.
+ */
+function mapBlocksRecursively( blocks: BlockInstance[], callback: ( block: BlockInstance ) => unknown ): unknown[] {
+	const result: unknown[] = [];
+	recurseOverBlocks( blocks, ( block: BlockInstance ) => {
+		// eslint-disable-next-line callback-return
+		result.push( callback( block ) );
+	} );
+	return result;
+}
+
+/**
+ * Inserts a block to the inner block.
+ *
+ * @param {BlockInstance} block    The block to insert.
+ * @param {string}        clientId Id of the element to insert the block to.
+ * @param {number}        index    The location of the block.
+ */
+function insertBlock( block: BlockInstance, clientId: string, index?: number ): void {
+	dispatch( "core/block-editor" ).insertBlock( block, index, clientId );
+}
+
+export { filterBlocksRecursively, getInnerblocksByName, mapBlocksRecursively, insertBlock };
