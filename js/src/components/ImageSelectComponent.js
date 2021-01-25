@@ -94,7 +94,7 @@ class ImageSelectComponent extends Component {
 				hasPreview={ this.state.hasPreview }
 				imageUrl={ this.state.imageUrl }
 				onClick={ this.onClick }
-				onRemoveImageClick= { this.removeImage }
+				onRemoveImageClick={ this.removeImage }
 			/>
 		);
 	}
