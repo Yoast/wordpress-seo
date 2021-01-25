@@ -13,26 +13,22 @@ class DurationInputWrapper extends React.Component {
 	constructor( props ) {
 		super( props );
 		this.state = {
-			hours: props.hours,
-			minutes: props.minutes,
-			seconds: props.seconds,
+			duration: props.duration,
 		};
 
 		this.onChange = this.onChange.bind( this );
 	}
 
-	onChange( value, field ) {
+	onChange( value ) {
 		this.setState( {
-			[ field ]: value,
+			duration: value,
 		} );
 	}
 
 	render() {
 		return (
 			<DurationInput
-				hours={ this.state.hours }
-				minutes={ this.state.minutes }
-				seconds={ this.state.seconds }
+				duration={ this.state.duration }
 				label="Duration"
 				id="duration-input"
 				onChange={ this.onChange }
@@ -189,9 +185,7 @@ const InputsWrapper = () => {
 				onChange={ console.warn }
 			/>
 			<DurationInputWrapper
-				hours={ 24 }
-				minutes={ 13 }
-				seconds={ 26 }
+				duration={ 3723 }
 			/>
 			<hr />
 

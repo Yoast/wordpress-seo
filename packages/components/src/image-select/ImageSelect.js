@@ -35,7 +35,6 @@ function ImageSelect( props ) {
 		>
 			<FieldGroup
 				label={ props.label }
-				wrapperClassName={ "yoast-field-group__image-select" }
 			>
 				{ props.hasPreview &&
 					<button className={ imageClassName } onClick={ props.onClick } type="button">

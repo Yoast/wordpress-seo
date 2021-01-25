@@ -37,6 +37,10 @@
 	flex-shrink: 0;
 }
 
+.yoast-field-group .components-form-token-field__label {
+	display: none;
+}
+
 @media screen and (max-width: 782px) {
 	.yoast-field-group__inline {
 		display: block;

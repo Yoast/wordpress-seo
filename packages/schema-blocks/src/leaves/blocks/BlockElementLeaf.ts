@@ -38,8 +38,8 @@ export default class BlockElementLeaf extends BlockLeaf {
 	 *
 	 * @returns The rendered element.
 	 */
-	save( props: RenderSaveProps ): JSX.Element {
-		const attributes: AllHTMLAttributes<unknown> = {};
+	save( props: RenderSaveProps, i: number ): JSX.Element {
+		const attributes: React.ClassAttributes<unknown> & AllHTMLAttributes<unknown> = {};
 		for ( const key in this.attributes ) {
 			if ( ! Object.prototype.hasOwnProperty.call( attributes, key ) ) {
 				continue;
@@ -47,10 +47,12 @@ export default class BlockElementLeaf extends BlockLeaf {
 
 			const fixedKey = attributeMap[ key ] || key as keyof AllHTMLAttributes<unknown>;
 			attributes[ fixedKey ] = this.attributes[ key as keyof AllHTMLAttributes<unknown> ]
-				.map( ( leaf, i ) => leaf.save( props, i ) ).join( "" ) as never;
+				.map( ( leaf, index ) => leaf.save( props, index ) ).join( "" ) as never;
 		}
 
-		return createElement( this.tag, attributes, this.children && this.children.map( ( child, i ) => child.save( props, i ) ) );
+		attributes.key = i;
+
+		return createElement( this.tag, attributes, this.children && this.children.map( ( child, index ) => child.save( props, index ) ) );
 	}
 
 	/**
@@ -61,8 +63,8 @@ export default class BlockElementLeaf extends BlockLeaf {
 	 *
 	 * @returns The rendered element.
 	 */
-	edit( props: RenderEditProps ): JSX.Element {
-		const attributes: AllHTMLAttributes<unknown> = {};
+	edit( props: RenderEditProps, i: number ): JSX.Element {
+		const attributes: React.ClassAttributes<unknown> & AllHTMLAttributes<unknown> = {};
 		for ( const key in this.attributes ) {
 			if ( ! Object.prototype.hasOwnProperty.call( attributes, key ) ) {
 				continue;
@@ -70,7 +72,7 @@ export default class BlockElementLeaf extends BlockLeaf {
 
 			const fixedKey = attributeMap[ key ] || key as keyof AllHTMLAttributes<unknown>;
 			attributes[ fixedKey ] = this.attributes[ key as keyof AllHTMLAttributes<unknown> ]
-				.map( ( leaf, i ) => leaf.edit( props, i ) ).join( "" ) as never;
+				.map( ( leaf, index ) => leaf.edit( props, index ) ).join( "" ) as never;
 		}
 		if ( [ "button", "a" ].indexOf( this.tag ) !== -1 ) {
 			attributes.onClick = e => {
@@ -79,6 +81,8 @@ export default class BlockElementLeaf extends BlockLeaf {
 			};
 		}
 
-		return createElement( this.tag, attributes, this.children && this.children.map( ( child, i ) => child.edit( props, i ) ) );
+		attributes.key = i;
+
+		return createElement( this.tag, attributes, this.children && this.children.map( ( child, index ) => child.edit( props, index ) ) );
 	}
 }
