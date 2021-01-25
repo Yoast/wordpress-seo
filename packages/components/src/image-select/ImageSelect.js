@@ -28,23 +28,28 @@ function ImageSelect( props ) {
 	};
 
 	return (
-		<FieldGroup
-			label={ props.label }
-			wrapperClassName={ "yoast-field-group yoast-image-select" }
+		<div
+			className="yoast-image-select"
+			onMouseEnter={ props.onMouseEnter }
+			onMouseLeave={ props.onMouseLeave }
 		>
-			{ props.hasPreview &&
-				<button className={ imageClassName } onClick={ props.onClick } type="button">
-					{ imageSelected && <img src={ props.imageUrl } alt={ props.imageAltText } className="yoast-image-select__preview--image" /> }
-				</button>
-			}
-			{
-				props.warnings.length > 0 && imageSelected &&
-				props.warnings.map( ( warning, index ) => <Alert key={ `warning${ index }` } type="warning">
-					{ warning }
-				</Alert> )
-			}
-			<ImageSelectButtons { ...imageSelectButtonsProps } />
-		</FieldGroup>
+			<FieldGroup
+				label={ props.label }
+			>
+				{ props.hasPreview &&
+					<button className={ imageClassName } onClick={ props.onClick } type="button">
+						{ imageSelected && <img src={ props.imageUrl } alt={ props.imageAltText } className="yoast-image-select__preview--image" /> }
+					</button>
+				}
+				{
+					props.warnings.length > 0 && imageSelected &&
+					props.warnings.map( ( warning, index ) => <Alert key={ `warning${ index }` } type="warning">
+						{ warning }
+					</Alert> )
+				}
+				<ImageSelectButtons { ...imageSelectButtonsProps } />
+			</FieldGroup>
+		</div>
 	);
 }
 
@@ -56,6 +61,8 @@ ImageSelect.propTypes = {
 	hasPreview: PropTypes.bool.isRequired,
 	label: PropTypes.string.isRequired,
 	onClick: PropTypes.func,
+	onMouseEnter: PropTypes.func,
+	onMouseLeave: PropTypes.func,
 	onRemoveImageClick: PropTypes.func,
 	selectImageButtonId: PropTypes.string,
 	replaceImageButtonId: PropTypes.string,
@@ -67,6 +74,8 @@ ImageSelect.defaultProps = {
 	imageUrl: "",
 	imageAltText: "",
 	onClick: () => {},
+	onMouseEnter: () => {},
+	onMouseLeave: () => {},
 	onRemoveImageClick: () => {},
 	selectImageButtonId: "",
 	replaceImageButtonId: "",

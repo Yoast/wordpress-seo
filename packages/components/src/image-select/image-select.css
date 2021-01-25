@@ -28,6 +28,15 @@
 	margin-right: 1.5em;
 }
 
+.yoast-image-select {
+	margin-top: 1.7em;
+	margin-bottom: 1.7em;
+}
+
 .yoast-image-select .yoast-image-select-buttons button {
 	margin-top: 1em;
+}
+
+#organization-image-select .yoast-image-select {
+	margin-top: 0;
 }
