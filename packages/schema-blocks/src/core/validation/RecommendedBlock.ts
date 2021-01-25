@@ -1,1 +1,9 @@
-export type RecommendedBlock = { name: string; warning?: string };
+import { SuggestedBlockDefinition } from "./SuggestedBlockDefinition";
+
+/**
+ * Defines a recommended innerblock.
+ */
+export class RecommendedBlock implements SuggestedBlockDefinition {
+	name: string;
+	warning?: string
+}

@@ -1,10 +1,10 @@
 import { ReactElement } from "react";
 import { BlockInstance, createBlock } from "@wordpress/blocks";
 import { createElement } from "@wordpress/element";
-import { RequiredBlock } from "../core/validation";
 import { getInnerblocksByName, insertBlock } from "../functions/innerBlocksHelper";
 import { getBlockType } from "../functions/BlockHelper";
 import { PanelBody } from "@wordpress/components";
+import { SuggestedBlockDefinition } from "../core/validation/SuggestedBlockDefinition";
 
 type BlockSuggestionAddedDto = {
 	blockTitle: string;
@@ -61,17 +61,17 @@ function BlockSuggestionAdded( { blockTitle }: BlockSuggestionAddedDto ): ReactE
 /**
  * Renders a list with the required/recommended block names and an button to add/remove one.
  *
- * @param {string} sidebarTitle The title of the sidebar section.
- * @param {BlockInstance} block The block to render the list for.
- * @param {string[]} blockNames The required/recommended blocks.
+ * @param {string} sidebarTitle                The title of the sidebar section.
+ * @param {BlockInstance} block                The block to render the list for.
+ * @param {SuggestedBlockDefinition[]} blocks The required/recommended blocks.
  *
  * @returns {ReactElement} The rendered block.
  */
-export default function RequiredBlocks( sidebarTitle: string, block: BlockInstance, blockNames: string[] ): ReactElement {
+export default function RequiredBlocks( sidebarTitle: string, block: BlockInstance, blocks: SuggestedBlockDefinition[] ): ReactElement {
 	// Retrieve a list with names.
-	const relevantBlockNames = blockNames
-		.filter( requiredBlock => typeof getBlockType( requiredBlock ) !== "undefined" )
-		.map( requiredBlock => requiredBlock );
+	const relevantBlockNames = blocks
+		.filter( requiredBlock => typeof getBlockType( requiredBlock.name ) !== "undefined" )
+		.map( requiredBlock => requiredBlock.name );
 
 	// When there are no required blocknames, just return.
 	if ( relevantBlockNames.length === 0 ) {
