@@ -30,8 +30,8 @@ export default class InnerBlocks extends BlockInstruction {
 	 * Renders saving the instruction.
 	 *
 	 * @param props The props.
-	 * @param leaf The leaf.
-	 * @param i The index.
+	 * @param leaf  The leaf.
+	 * @param i     The index.
 	 *
 	 * @returns The inner blocks.
 	 */
@@ -43,8 +43,8 @@ export default class InnerBlocks extends BlockInstruction {
 	 * Renders editing the instruction.
 	 *
 	 * @param props The props.
-	 * @param leaf The leaf.
-	 * @param i The index.
+	 * @param leaf  The leaf.
+	 * @param i     The index.
 	 *
 	 * @returns The inner blocks.
 	 */
@@ -53,6 +53,22 @@ export default class InnerBlocks extends BlockInstruction {
 			key: i,
 		};
 
+		this.renderAppender( properties );
+
+		this.arrangeAllowedBlocks( properties );
+
+		if ( this.options.template ) {
+			properties.template = this.options.template;
+		}
+
+		return createElement( WordPressInnerBlocks, properties );
+	}
+
+	/**
+	 * Renders all innerblocks as react elements.
+	 * @param properties The properties of the innerblock.
+	 */
+	private renderAppender( properties: React.ClassAttributes<unknown> & WordPressInnerBlocks.Props ) {
 		if ( this.options.appender === "button" ) {
 			properties.renderAppender = () => {
 				// The type definition of InnerBlocks are wrong so cast to fix them.
@@ -63,26 +79,32 @@ export default class InnerBlocks extends BlockInstruction {
 		}
 
 		if ( typeof this.options.appenderLabel === "string" ) {
-			properties.renderAppender = () =>
-				createElement(
+			properties.renderAppender = () => {
+				return createElement(
 					"div",
 					{ className: "yoast-labeled-inserter", "data-label": this.options.appenderLabel },
 					// The type definition of InnerBlocks are wrong so cast to fix them.
-					[ createElement( ( WordPressInnerBlocks as unknown as { ButtonBlockAppender: ComponentClass } ).ButtonBlockAppender ) ],
+					createElement( ( WordPressInnerBlocks as unknown as { ButtonBlockAppender: ComponentClass } ).ButtonBlockAppender ),
 				);
+			};
 		}
+	}
 
+	/**
+	 * Ensures all required and recommended blocks are allowed blocks.
+	 *
+	 * @param properties The properties of the current block.
+	 */
+	private arrangeAllowedBlocks( properties: React.ClassAttributes<unknown> & WordPressInnerBlocks.Props ) {
 		properties.allowedBlocks = [ "yoast/warning-block" ];
 
 		if ( this.options.allowedBlocks ) {
 			properties.allowedBlocks = this.options.allowedBlocks.concat( properties.allowedBlocks );
 		}
 
-		if ( this.options.template ) {
-			properties.template = this.options.template;
-		}
-
-		return createElement( WordPressInnerBlocks, properties );
+		properties.allowedBlocks = properties.allowedBlocks
+			.concat( this.options.requiredBlocks.map( rec => rec.name ) )
+			.concat( this.options.recommendedBlocks.map( rec => rec.name ) );
 	}
 
 	/**
