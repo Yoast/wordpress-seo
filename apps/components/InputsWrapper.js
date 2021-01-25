@@ -12,7 +12,6 @@ import DataModel from "@yoast/components/src/data-model/DataModel";
 class DurationInputWrapper extends React.Component {
 	constructor( props ) {
 		super( props );
-		console.log( typeof props.duration )
 		this.state = {
 			duration: props.duration,
 		};
