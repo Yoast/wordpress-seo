@@ -1,7 +1,8 @@
 import { withSelect, withDispatch } from "@wordpress/data";
 import { compose } from "@wordpress/compose";
-import PrePublish from "../components/PrePublish";
+import { __ } from "@wordpress/i18n";
 import getIndicatorForScore from "../analysis/getIndicatorForScore";
+import PrePublish from "../components/PrePublish";
 
 export default compose( [
 	withSelect( ( select ) => {
@@ -11,15 +12,33 @@ export default compose( [
 		const readabilityScoreIndicator = getIndicatorForScore( data.getReadabilityResults().overallScore );
 		const { isKeywordAnalysisActive, isContentAnalysisActive } = data.getPreferences();
 
-		return {
-			focusKeyphrase,
-			isKeywordAnalysisActive,
-			isContentAnalysisActive,
-			seoScore: seoScoreIndicator.className,
-			seoScoreLabel: seoScoreIndicator.screenReaderReadabilityText,
-			readabilityScore: readabilityScoreIndicator.className,
-			readabilityScoreLabel: readabilityScoreIndicator.screenReaderReadabilityText,
-		};
+		const scoreItems = [];
+
+		if ( ! focusKeyphrase ) {
+			scoreItems.push( {
+				label: __( "No focus keyword was entered", "wordpress-seo" ),
+				score: "bad",
+				scoreValue: "",
+			} );
+		}
+
+		if ( isKeywordAnalysisActive ) {
+			scoreItems.push( {
+				label: __( "Readability analysis:", "wordpress-seo" ),
+				score: readabilityScoreIndicator.className,
+				scoreValue: readabilityScoreIndicator.screenReaderReadabilityText,
+			} );
+		}
+
+		if ( isContentAnalysisActive ) {
+			scoreItems.push( {
+				label: __( "SEO analysis:", "wordpress-seo" ),
+				score: seoScoreIndicator.className,
+				scoreValue: seoScoreIndicator.screenReaderReadabilityText,
+			} );
+		}
+
+		return { scoreItems	};
 	} ),
 	withDispatch( ( dispatch ) => {
 		const { closePublishSidebar, openGeneralSidebar } = dispatch(
