@@ -1,10 +1,9 @@
 import Researcher from "../../../../src/languageProcessing/languages/he/Researcher.js";
 import Paper from "../../../../src/values/Paper.js";
+import functionWords from "../../../../src/languageProcessing/languages/he/config/functionWords";
 
 describe( "a test for the Hebrew Researcher", function() {
 	const researcher = new Researcher( new Paper( "" ) );
-	const functionWordExamplesHebrew = [ "ראשון", "ראשונה", "שני", "שניה", "שלישי", "שלישית", "רביעי", "רביעית", "חמישי",
-		"חמישית", "ששי", "ששית", "שביעי", "שביעית", "שמיני", "שמינית", "תשיעי", "תשיעית", "עשירי", "עשירית" ];
 
 	it( "returns true if the inherited Abstract Researcher has a specific research", function() {
 		expect( researcher.hasResearch( "getParagraphLength" ) ).toBe( true );
@@ -23,7 +22,7 @@ describe( "a test for the Hebrew Researcher", function() {
 	} );
 
 	it( "returns Hebrew function words", function() {
-		expect( researcher.getConfig( "functionWords" )().all ).toEqual( expect.arrayContaining( functionWordExamplesHebrew ) );
+		expect( researcher.getConfig( "functionWords" ) ).toEqual( functionWords );
 	} );
 
 	it( "returns the Hebrew locale", function() {
