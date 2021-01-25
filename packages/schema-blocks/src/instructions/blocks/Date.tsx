@@ -7,6 +7,7 @@ import { __experimentalGetSettings, dateI18n } from "@wordpress/date";
 // Internal imports.
 import BlockInstruction from "../../core/blocks/BlockInstruction";
 import { RenderEditProps, RenderSaveProps } from "../../core/blocks/BlockDefinition";
+import { useCallback } from "react";
 
 /**
  * Adds a date picker to the schema block.
@@ -24,8 +25,6 @@ export default class Date extends BlockInstruction {
 	 * @return The React components to show in the editor when editing this block.
 	 */
 	edit( props: RenderEditProps ): JSX.Element {
-		const [ datePickerShown, setShowDatePicker ] = useState( false );
-
 		const dateFormat = Date.getDateFormat();
 
 		const currentlySelectedDate = dateI18n( dateFormat, props.attributes[ this.options.name ] );
@@ -33,55 +32,54 @@ export default class Date extends BlockInstruction {
 		const [ selectedDate, setSelectedDate ] = useState( currentlySelectedDate || dateFormat );
 
 		/**
-		 * Toggles the date picker.
-		 */
-		const toggleDatePicker = () => {
-			setShowDatePicker( ! datePickerShown );
-		};
-
-		/**
-		 * Closes the date picker.
-		 */
-		const closeDatePicker = () => {
-			setShowDatePicker( false );
-		}
-
-		/**
 		 * Sets the selected date.
 		 *
 		 * @param dateTime The selected date and time in the form 'yyyy-MM-ddThh:mm:ss' (only the date part is used).
 		 */
-		const setDate = ( dateTime: string ) => {
+		const setDate = useCallback( ( dateTime: string ) => {
 			const date = dateTime.split( "T" )[ 0 ];
 			props.setAttributes( {
 				[ this.options.name ]: date,
 			} );
-			closeDatePicker();
 			setSelectedDate( dateI18n( dateFormat, date ) );
-		};
+		}, [ props, dateFormat, setSelectedDate ] );
+
+		/**
+		 * Render toggle.
+		 *
+		 * @param renderProps The render props.
+		 *
+		 * @return The rendered toggle element.
+		 */
+		const renderToggle = useCallback( ( renderProps: Dropdown.RenderProps ): JSX.Element => {
+			return <button
+				onClick={ renderProps.onToggle }
+				aria-expanded={ renderProps.isOpen }
+			>
+				{ selectedDate }
+			</button>;
+		}, [ selectedDate ] );
+
+		/**
+		 * Renders the content of the dropdown element.
+		 *
+		 * @returns The rendered content of the dropdown element.
+		 */
+		const renderContent = useCallback( (): JSX.Element => {
+			return <div className="yoast-block-date-picker">
+				<DateTimePicker
+					currentDate={ selectedDate }
+					onChange={ setDate }
+				/>
+			</div>;
+		}, [ selectedDate, setDate ] );
 
 		return <Dropdown
 			className="yoast-block-date-picker-container"
 			position="bottom center"
-			renderToggle={ ( { onToggle, isOpen } ) => (
-				<button
-					onClick={ onToggle }
-					aria-expanded={ isOpen }
-				>
-					{ selectedDate }
-				</button>
-			 ) }
-			renderContent={
-				() => (
-					<div className="yoast-block-date-picker">
-						<DateTimePicker
-							currentDate={ selectedDate }
-							onChange={ setDate }
-						/>
-					</div>
-				)
-			}
-		/>
+			renderToggle={ renderToggle }
+			renderContent={ renderContent }
+		/>;
 	}
 
 	/**
