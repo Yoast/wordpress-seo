@@ -237,6 +237,8 @@ Your question has most likely been answered on our knowledge base: [kb.yoast.com
 = 15.7 =
 Release Date: January 26th, 2021
 
+Meet Yoast SEO 15.7! For this release, we thought we’d remind you of the powerful content analysis in Yoast SEO - it helps you write awesome content that ranks! Read more about what’s new in Yoast SEO 15.7 in [our release post](https://yoa.st/release-15-7)!
+
 Enhancements:
 
 * Expands the readability analysis for Turkish:
