@@ -1,6 +1,6 @@
 {
   "name": "@yoast/analysis-report",
-  "version": "1.15.0-rc.0",
+  "version": "1.15.0",
   "main": "src/index.js",
   "repository": {
     "type": "git",
@@ -17,8 +17,8 @@
   "private": false,
   "dependencies": {
     "@wordpress/i18n": "^1.1.0",
-    "@yoast/components": "^2.13.0-rc.0",
-    "@yoast/helpers": "^0.15.0-rc.0",
+    "@yoast/components": "^2.13.0",
+    "@yoast/helpers": "^0.15.0",
     "@yoast/style-guide": "^0.13.0",
     "lodash": "^4.17.11",
     "prop-types": "^15.6.0",
