@@ -1,5 +1,4 @@
-import transitionWordsFactory from "./transitionWords.js";
-const transitionWords = transitionWordsFactory().singleWords;
+import { singleWords as transitionWords } from "./transitionWords.js";
 
 /**
  * Returns an object with exceptions for the prominent words researcher
@@ -139,34 +138,31 @@ const recipeWords = [ "c", "cl", "cm", "dl", "g", "kg", "km", "krm", "l", "m", "
 const miscellaneous = [ "förlåt", "ja", "jo", "ju", "m.m", "nej", "ok", "okej", "tack" ];
 
 
-/**
- * Returns function words for Swedish.
- *
- * @returns {Object} Swedish function words.
- */
-export default function() {
-	return {
-		// These word categories are filtered at the ending of word combinations.
-		filteredAtEnding: [].concat( ordinalNumerals, generalAdjectives, generalAdverbs, auxiliariesInfinitive,
-			delexicalizedVerbsInfinitive, copulaInfinitive, interviewVerbsInfinitive ),
+// These word categories are filtered at the ending of word combinations.
+export const filteredAtEnding = [].concat( ordinalNumerals, generalAdjectives, generalAdverbs, auxiliariesInfinitive,
+	delexicalizedVerbsInfinitive, copulaInfinitive, interviewVerbsInfinitive );
 
-		// These word categories are filtered at the beginning and ending of word combinations.
-		filteredAtBeginningAndEnding: [].concat( articles, prepositions, coordinatingConjunctions, demonstrativePronouns, intensifiers,
-			quantifiers, possessivePronouns ),
+// These word categories are filtered at the beginning and ending of word combinations.
+export const filteredAtBeginningAndEnding = [].concat( articles, prepositions, coordinatingConjunctions, demonstrativePronouns, intensifiers,
+	quantifiers, possessivePronouns );
 
-		// These word categories are filtered everywhere within word combinations.
-		filteredAnywhere: [].concat( transitionWords, personalPronounsNominative, personalPronounsObjective,
-			reflexivePronouns, relativePronouns, interjections, cardinalNumerals, copula, auxiliaries, interviewVerbs,
-			delexicalizedVerbs, indefinitePronouns, otherPronouns, subordinatingConjunctions,
-			interrogativePronouns, interrogativeProAdverbs, miscellaneous, pronominalAdverbs,
-			recipeWords, timeWords, titles, vagueNouns ),
+// These word categories are filtered everywhere within word combinations.
+export const filteredAnywhere = [].concat( transitionWords, personalPronounsNominative, personalPronounsObjective,
+	reflexivePronouns, relativePronouns, interjections, cardinalNumerals, copula, auxiliaries, interviewVerbs,
+	delexicalizedVerbs, indefinitePronouns, otherPronouns, subordinatingConjunctions,
+	interrogativePronouns, interrogativeProAdverbs, miscellaneous, pronominalAdverbs,
+	recipeWords, timeWords, titles, vagueNouns );
 
-		// This export contains all of the above words.
-		all: [].concat( articles, cardinalNumerals, ordinalNumerals, personalPronounsNominative, personalPronounsObjective,
-			reflexivePronouns, possessivePronouns, demonstrativePronouns, relativePronouns, interrogativePronouns,
-			interrogativeProAdverbs, indefinitePronouns, otherPronouns, quantifiers, pronominalAdverbs, auxiliaries,
-			auxiliariesInfinitive, copula, copulaInfinitive, delexicalizedVerbs, delexicalizedVerbsInfinitive, interviewVerbs,
-			interviewVerbsInfinitive, generalAdjectives, generalAdverbs, vagueNouns, prepositions, intensifiers,
-			coordinatingConjunctions, subordinatingConjunctions, timeWords, titles, interjections, recipeWords, miscellaneous, ),
-	};
-}
+// This export contains all of the above words.
+export const all = [].concat( articles, cardinalNumerals, ordinalNumerals, personalPronounsNominative, personalPronounsObjective,
+	reflexivePronouns, possessivePronouns, demonstrativePronouns, relativePronouns, interrogativePronouns,
+	interrogativeProAdverbs, indefinitePronouns, otherPronouns, quantifiers, pronominalAdverbs, auxiliaries,
+	auxiliariesInfinitive, copula, copulaInfinitive, delexicalizedVerbs, delexicalizedVerbsInfinitive, interviewVerbs,
+	interviewVerbsInfinitive, generalAdjectives, generalAdverbs, vagueNouns, prepositions, intensifiers,
+	coordinatingConjunctions, subordinatingConjunctions, timeWords, titles, interjections, recipeWords, miscellaneous );
+export default {
+	filteredAtEnding,
+	filteredAtBeginningAndEnding,
+	filteredAnywhere,
+	all,
+};
