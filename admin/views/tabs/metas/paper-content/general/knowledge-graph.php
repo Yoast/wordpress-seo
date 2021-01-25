@@ -68,14 +68,14 @@ $knowledge_graph_help = new WPSEO_Admin_Help_Panel(
 		$yform->textinput( 'company_name', __( 'Organization name', 'wordpress-seo' ), [ 'autocomplete' => 'organization' ] );
 		$yform->hidden( 'company_logo', 'company_logo' );
 		?>
-		<div id="organization-image-select"></div>
+		<div id="yoast-organization-image-select"></div>
 		<div id="wpseo-local-seo-upsell"></div>
 	</div>
 	<div id="knowledge-graph-person">
 		<h3><?php esc_html_e( 'Personal info', 'wordpress-seo' ); ?></h3>
 
 		<div id="wpseo-person-selector"></div>
-		<div id="person-image-select"></div>
+		<div id="yoast-person-image-select"></div>
 		<?php
 		$yform->hidden( 'person_logo', 'person_logo' );
 		$yform->hidden( 'company_or_person_user_id', 'person_id' );

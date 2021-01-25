@@ -14,13 +14,13 @@ export default function initSocialSettings() {
 			<ImageSelectPortal
 				label="Image"
 				hasPreview={ true }
-				target="og-frontpage-image-select"
+				target="yoast-og-frontpage-image-select"
 				hiddenField="og_frontpage_image"
 			/>
 			<ImageSelectPortal
 				label="Image"
 				hasPreview={ true }
-				target="og-default-image-select"
+				target="yoast-og-default-image-select"
 				hiddenField="og_default_image"
 			/>
 		</Fragment>,

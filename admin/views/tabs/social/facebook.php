@@ -41,7 +41,7 @@ if ( get_option( 'show_on_front' ) === 'posts' ) {
 
 	$yform->hidden( 'og_frontpage_image', 'og_frontpage_image' );
 	?>
-	<div id="og-frontpage-image-select"></div>
+	<div id="yoast-og-frontpage-image-select"></div>
 	<?php
 	$yform->textinput( 'og_frontpage_title', __( 'Title', 'wordpress-seo' ) );
 	$yform->textinput( 'og_frontpage_desc', __( 'Description', 'wordpress-seo' ) );
@@ -84,7 +84,7 @@ $yform->hidden( 'og_default_image', 'og_default_image' );
 	<p>
 		<?php esc_html_e( 'This image is used if the post/page being shared does not contain any images.', 'wordpress-seo' ); ?>
 	</p>
-	<div id="og-default-image-select"></div>
+	<div id="yoast-og-default-image-select"></div>
 </div>
 <?php
 

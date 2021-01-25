@@ -2,7 +2,7 @@ import { ImageSelect } from "@yoast/components";
 import { openMedia } from "../helpers/selectMedia";
 
 import { Component } from "@wordpress/element";
-/* eslint-disable */
+
 /**
  * Renders the ImageSelect.
  */

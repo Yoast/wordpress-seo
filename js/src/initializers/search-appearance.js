@@ -96,13 +96,13 @@ export default function initSearchAppearance() {
 					<ImageSelectPortal
 						label="Organization logo"
 						hasPreview={ true }
-						target="organization-image-select"
+						target="yoast-organization-image-select"
 						hiddenField="company_logo"
 					/>
 					<ImageSelectPortal
 						label="Person logo / avatar"
 						hasPreview={ true }
-						target="person-image-select"
+						target="yoast-person-image-select"
 						hiddenField="person_logo"
 					/>
 					{ showLocalSEOUpsell && (
