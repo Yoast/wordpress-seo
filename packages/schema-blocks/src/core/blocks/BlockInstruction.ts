@@ -2,8 +2,10 @@ import BlockLeaf from "./BlockLeaf";
 import { RenderSaveProps, RenderEditProps } from "./BlockDefinition";
 import { ReactElement } from "@wordpress/element";
 import { BlockConfiguration, BlockInstance } from "@wordpress/blocks";
+import { BlockValidationResult, BlockValidation } from "../validation";
 import Instruction, { InstructionOptions } from "../Instruction";
 import { attributeExists, attributeNotEmpty } from "../../functions/validators";
+import validateMany from "../../functions/validators/validateMany";
 
 export type BlockInstructionClass = { new( id: number, options: InstructionOptions ): BlockInstruction };
 
@@ -24,7 +26,9 @@ export default abstract class BlockInstruction extends Instruction {
 	save( props: RenderSaveProps, leaf: BlockLeaf, i: number ): ReactElement | string {
 		return null;
 	}
+	/* eslint-enable @typescript-eslint/no-unused-vars */
 
+	/* eslint-disable @typescript-eslint/no-unused-vars */
 	/**
 	 * Renders editing the element.
 	 *
@@ -37,7 +41,9 @@ export default abstract class BlockInstruction extends Instruction {
 	edit( props: RenderEditProps, leaf: BlockLeaf, i: number ): ReactElement | string {
 		return null;
 	}
+	/* eslint-enable @typescript-eslint/no-unused-vars */
 
+	/* eslint-disable @typescript-eslint/no-unused-vars */
 	/**
 	 * Renders the sidebar.
 	 *
@@ -65,14 +71,34 @@ export default abstract class BlockInstruction extends Instruction {
 	 *
 	 * @param blockInstance The attributes from the block.
 	 *
-	 * @returns `true` if the instruction block is valid, `false` if the block contains errors.
+	 * @returns {BlockValidationResult} The validation result.
 	 */
-	valid( blockInstance: BlockInstance ): boolean {
-		if ( this.options.required === true ) {
-			return attributeExists( blockInstance, this.options.name as string ) &&
-				attributeNotEmpty( blockInstance, this.options.name as string );
+	validate( blockInstance: BlockInstance ): BlockValidationResult {
+		const validation = new BlockValidationResult( blockInstance.clientId, blockInstance.name, BlockValidation.Skipped );
+
+		if ( this.options && this.options.required === true ) {
+			const attributeValid = attributeExists( blockInstance, this.options.name as string ) &&
+						           attributeNotEmpty( blockInstance, this.options.name as string );
+			if ( attributeValid ) {
+				validation.issues.push( new BlockValidationResult( blockInstance.clientId, this.options.name, BlockValidation.Valid ) );
+			} else {
+				// eslint-disable-next-line no-console
+				console.log( "block " + blockInstance.name + " has a required attributes " + this.options.name + " but it is missing or empty" );
+				validation.issues.push( new BlockValidationResult( blockInstance.clientId, this.options.name, BlockValidation.MissingAttribute ) );
+				validation.result = BlockValidation.Invalid;
+			}
+		} else {
+			if ( blockInstance.name.startsWith( "core/" ) ) {
+				validation.result = blockInstance.isValid ? BlockValidation.Valid : BlockValidation.Invalid;
+				return validation;
+			}
 		}
 
-		return true;
+		// Blocks with any invalid innerblock should be considerd invalid themselves.
+		if ( validation.issues.length > 0 ) {
+			return validateMany( validation );
+		}
+
+		return validation;
 	}
 }

@@ -427,4 +427,24 @@ describe( "gets the sentence beginnings and the count of consecutive duplicates.
 		expect( getSentenceBeginnings()[ 0 ].word ).toBe( "nem fázom" );
 		expect( getSentenceBeginnings()[ 0 ].count ).toBe( 3 );
 	} );
+
+	it( "returns an object with sentence beginnings and counts for two sentences in Turkish starting with different words.", function() {
+		changePaper( { text: "Takım zamanında hazırdı. Oyun çoktan başladı.", locale: "tr_TR" } );
+		expect( getSentenceBeginnings()[ 0 ].word ).toBe( "takım" );
+		expect( getSentenceBeginnings()[ 0 ].count ).toBe( 1 );
+		expect( getSentenceBeginnings()[ 1 ].word ).toBe( "oyun" );
+		expect( getSentenceBeginnings()[ 1 ].count ).toBe( 1 );
+	} );
+
+	it( "returns an object with sentence beginnings and counts for two sentences in Turkish starting with the same word.", function() {
+		changePaper( { text: "Bilgisayar düzeltildi. Bilgisayar şimdi çalışıyor.", locale: "tr_TR" } );
+		expect( getSentenceBeginnings()[ 0 ].word ).toBe( "bilgisayar" );
+		expect( getSentenceBeginnings()[ 0 ].count ).toBe( 2 );
+	} );
+
+	it( "returns an object with sentence beginnings and counts for three sentences in Turkish all starting with one of the exception words.", function() {
+		changePaper( { text: "Bu giysiler hazır. Bu giysiler temiz. Bu giysiler uygundur.", locale: "tr_TR" } );
+		expect( getSentenceBeginnings()[ 0 ].word ).toBe( "bu giysiler" );
+		expect( getSentenceBeginnings()[ 0 ].count ).toBe( 3 );
+	} );
 } );

@@ -1,9 +1,10 @@
 import { BlockInstance } from "@wordpress/blocks";
 import { countBy } from "lodash";
 import { getBlockDefinition } from "../../core/blocks/BlockDefinitionRepository";
-import { RequiredBlockOption, InvalidBlockReason } from "../../instructions/blocks/enums";
-import { RequiredBlock, InvalidBlock } from "../../instructions/blocks/dto";
+import { RequiredBlockOption, BlockValidation, RequiredBlock, BlockValidationResult } from "../../core/validation";
+import recurseOverBlocks from "../blocks/recurseOverBlocks";
 import { getInnerblocksByName } from "../innerBlocksHelper";
+import isValidResult from "./isValidResult";
 
 /**
  * Finds all blocks that should be in the inner blocks, but aren't.
@@ -11,21 +12,17 @@ import { getInnerblocksByName } from "../innerBlocksHelper";
  * @param existingRequiredBlocks The actual array of all inner blocks.
  * @param requiredBlocks         All of the blocks that should occur in the inner blocks.
  *
- * @returns {InvalidBlock[]} The names of blocks that should occur but don't, with reason 'missing'.
+ * @returns {BlockValidationResult[]} The names of blocks that should occur but don't, with reason 'MissingBlock'.
  */
-function findMissingBlocks( existingRequiredBlocks: BlockInstance[], requiredBlocks: RequiredBlock[] ): InvalidBlock[] {
+function findMissingBlocks( existingRequiredBlocks: BlockInstance[], requiredBlocks: RequiredBlock[] ): BlockValidationResult[] {
 	const missingRequiredBlocks = requiredBlocks.filter( requiredBlock => {
-		// If there are some (at least one) blocks with the name of a required block, that required block is NOT missing.
+		// If there are not any blocks with the name of a required block, that required block is missing.
 		return ! existingRequiredBlocks.some( block => block.name === requiredBlock.name );
 	} );
 
-	const invalidBlocks: InvalidBlock[] = [];
-	missingRequiredBlocks.forEach( missingBlock => {
-		// These blocks should've existed, but they don't.
-		invalidBlocks.push( createInvalidBlock( missingBlock.name, InvalidBlockReason.Missing ) );
-	} );
-
-	return invalidBlocks;
+	// These blocks should've existed, but they don't.
+	return missingRequiredBlocks.map( missingBlock =>
+		new BlockValidationResult( null, missingBlock.name, BlockValidation.MissingBlock ) );
 }
 
 /**
@@ -34,23 +31,30 @@ function findMissingBlocks( existingRequiredBlocks: BlockInstance[], requiredBlo
  * @param existingRequiredBlocks The actual array of all inner blocks.
  * @param requiredBlocks         Requirements of the blocks that should occur only once in the inner blocks.
  *
- * @returns {InvalidBlock[]} The names of blocks that occur more than once in the inner blocks with reason 'TooMany'.
+ * @returns {BlockValidationResult[]} The names of blocks that occur more than once in the inner blocks with reason 'TooMany'.
  */
-function findRedundantBlocks( existingRequiredBlocks: BlockInstance[], requiredBlocks: RequiredBlock[] ): InvalidBlock[] {
-	const invalidBlocks: InvalidBlock[] = [];
+function findRedundantBlocks( existingRequiredBlocks: BlockInstance[], requiredBlocks: RequiredBlock[] ): BlockValidationResult[] {
+	const validationResults: BlockValidationResult[] = [];
+	const singletons = requiredBlocks.filter( block => block.option === RequiredBlockOption.One );
 
-	const onlyOneAllowed = requiredBlocks.filter( block => block.option === RequiredBlockOption.One );
-
-	if ( onlyOneAllowed.length > 0 ) {
+	if ( singletons.length > 0 ) {
 		// Count the occurrences of each block so we can find all keys that have too many occurrences.
-		const countPerBlockType = countBy( existingRequiredBlocks, ( block: BlockInstance ) => block.name );
+		const existingSingletons = existingRequiredBlocks.filter( block => singletons.some( s => s.name === block.name ) );
+		const countPerBlockType = countBy( existingSingletons, ( block: BlockInstance ) => block.name );
+
 		for ( const blockName in countPerBlockType ) {
-			if ( countPerBlockType[ blockName ] > 1 ) {
-				invalidBlocks.push( createInvalidBlock( blockName, InvalidBlockReason.TooMany ) );
+			if ( countPerBlockType[ blockName ] < 2 ) {
+				continue;
 			}
+
+			existingSingletons.forEach( ( block: BlockInstance ) => {
+				if ( block.name === blockName ) {
+					validationResults.push( new BlockValidationResult( block.clientId, blockName, BlockValidation.TooMany ) );
+				}
+			} );
 		}
 	}
-	return invalidBlocks;
+	return validationResults;
 }
 
 /**
@@ -59,25 +63,23 @@ function findRedundantBlocks( existingRequiredBlocks: BlockInstance[], requiredB
  * @param blockInstance  The block whose InnerBlocks are validated.
  * @param requiredBlocks Requirements of the blocks that should occur in the inner blocks.
  *
- * @returns {InvalidBlock[]} The array of blocks that have invalidated themselves.
+ * @returns {BlockValidationResult[]} The array of blocks that have invalidated themselves.
  */
-function findSelfInvalidatedBlocks( blockInstance: BlockInstance, requiredBlocks: RequiredBlock[] ): InvalidBlock[] {
-	const invalidBlocks: InvalidBlock[] = [];
+function validateInnerblockTree( blockInstance: BlockInstance ): BlockValidationResult[] {
+	const validations: BlockValidationResult[] = [];
 
-	blockInstance.innerBlocks.forEach( block => {
-		// E.g. JobTitleDefinition
+	// An innerblock is only valid if all its innerblocks are valid.
+	recurseOverBlocks( blockInstance.innerBlocks, ( block: BlockInstance ) => {
 		const definition = getBlockDefinition( block.name );
-		if ( ! definition ) {
-			throw new Error( "Block definition for '" + block.name + "' is not registered." );
-		}
-		if ( ! definition.valid( block ) ) {
-			const isRequired: boolean = requiredBlocks.some( requiredBlock => requiredBlock.name === block.name );
-			const reason: InvalidBlockReason = isRequired ? InvalidBlockReason.Internal : InvalidBlockReason.Optional;
-
-			invalidBlocks.push( createInvalidBlock( block.name, reason ) );
+		if ( definition ) {
+			validations.push( definition.validate( block ) );
+		} else {
+			// eslint-disable-next-line no-console
+			console.log( "Block definition for '" + block.name + "' is not registered." );
+			validations.push( new BlockValidationResult( block.clientId, block.name, BlockValidation.Unknown ) );
 		}
 	} );
-	return invalidBlocks;
+	return validations;
 }
 
 /**
@@ -86,56 +88,32 @@ function findSelfInvalidatedBlocks( blockInstance: BlockInstance, requiredBlocks
  * @param blockInstance  The block whose inner blocks need to be validated.
  * @param requiredBlocks Requirements of the blocks that should occur in the inner blocks.
  *
- * @returns {InvalidBlock[]} The names and reasons of the inner block that are invalid.
+ * @returns {BlockValidationResult[]} The names and reasons of the inner blocks that are invalid.
  */
-function getInvalidInnerBlocks( blockInstance: BlockInstance, requiredBlocks: RequiredBlock[] ): InvalidBlock[]  {
+function validateInnerBlocks( blockInstance: BlockInstance, requiredBlocks: RequiredBlock[] = [] ): BlockValidationResult[]  {
 	const requiredBlockKeys = requiredBlocks.map( rblock => rblock.name );
-	const invalidBlocks: InvalidBlock[] = [];
+	let validationResults: BlockValidationResult[] = [];
 
 	// Find all instances of required block types.
 	const existingRequiredBlocks = getInnerblocksByName( blockInstance, requiredBlockKeys );
 
 	// Find all block types that do not occur in existingBlocks.
-	invalidBlocks.push( ...findMissingBlocks( existingRequiredBlocks, requiredBlocks ) );
+	validationResults.push( ...findMissingBlocks( existingRequiredBlocks, requiredBlocks ) );
 
 	// Find all block types that allow only one occurrence.
-	invalidBlocks.push( ...findRedundantBlocks( existingRequiredBlocks, requiredBlocks ) );
+	validationResults.push( ...findRedundantBlocks( existingRequiredBlocks, requiredBlocks ) );
 
-	// Find all blocks that have decided for themselves that they're invalid.
-	invalidBlocks.push( ...findSelfInvalidatedBlocks( blockInstance, requiredBlocks ) );
+	// Let all innerblocks validate themselves.
+	// We differentiate between blocks that are internally valid but are not valid in the context of the innerblock.
+	const innerValidations = validateInnerblockTree( blockInstance );
+	validationResults.push( ...innerValidations );
 
-	return invalidBlocks;
+	validationResults = validationResults.filter( result =>
+		! ( isValidResult( result.result ) &&
+		validationResults.some( also => also.clientId === result.clientId && ! isValidResult( also.result ) ) ) );
+
+	return validationResults;
 }
 
-/**
- * Helper function to create an invalid block.
- *
- * @param name   The block name.
- * @param reason The reason this block is invalid.
- *
- * @returns {InvalidBlock} The invalid block.
- */
-function createInvalidBlock( name: string, reason: InvalidBlockReason ): InvalidBlock {
-	const block: InvalidBlock = {
-		name,
-		reason,
-	};
-	return block;
-}
-
-/**
- * Helper function to determine the urgency of an invalidation.
- *
- * @param reason The reason to check.
- *
- * @returns {boolean} True if the invalidation is for an optional block (a warning), false if the invalidation is for a required block (an error).
- */
-function isOptional( reason: InvalidBlockReason ): boolean {
-	switch ( reason ) {
-		case InvalidBlockReason.Optional: return true;
-		default: return false;
-	}
-}
-
-export default getInvalidInnerBlocks;
-export { findMissingBlocks, findRedundantBlocks, findSelfInvalidatedBlocks, createInvalidBlock, isOptional };
+export default validateInnerBlocks;
+export { findMissingBlocks, findRedundantBlocks, validateInnerblockTree };

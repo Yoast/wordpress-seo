@@ -68,6 +68,7 @@ class SidebarDuration extends SidebarBase {
 				updateDuration( props, this.options.name, newDuration );
 			},
 			type: "number",
+			key: "hours",
 		};
 		const minuteAttributes: TextControl.Props = {
 			label: labelPrefix + __( "minutes", "wordpress-seo" ),
@@ -77,6 +78,7 @@ class SidebarDuration extends SidebarBase {
 				updateDuration( props, this.options.name, newDuration );
 			},
 			type: "number",
+			key: "minutes",
 		};
 
 		if ( this.options.help ) {

@@ -7,6 +7,7 @@ import { LinkButton } from "./buttons/LinkButton";
 export * from "./button";
 export * from "./data-model";
 export * from "./field-group";
+export * from "./image-select";
 export * from "./inputs";
 export * from "./insights-card";
 export * from "./radiobutton";

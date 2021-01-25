@@ -1,4 +1,4 @@
-import { Block, BlockInstance, createBlock } from "@wordpress/blocks";
+import { Block, BlockInstance } from "@wordpress/blocks";
 import { dispatch, select } from "@wordpress/data";
 
 /**
@@ -26,12 +26,10 @@ function removeBlock( clientId: string ) {
  * Restores the recommended or required block that had just been removed.
  *
  * @param {string} clientId          The client ID of the warning block.
- * @param {string} removedBlock      The name of the removed block.
- * @param {object} removedAttributes The attributes of the removed block.
+ * @param {string} removedBlock      The removed block.
  */
-function restoreBlock( clientId: string, removedBlock: string, removedAttributes: object ): void {
-	const block = createBlock( removedBlock, removedAttributes );
-	dispatch( "core/block-editor" ).replaceBlock( clientId, block );
+function restoreBlock( clientId: string, removedBlock: BlockInstance ): void {
+	dispatch( "core/block-editor" ).replaceBlock( clientId, removedBlock );
 }
 
 /**

@@ -4,9 +4,8 @@ import process, { processBlock } from "../../src/functions/process";
 import BlockDefinition from "../../src/core/blocks/BlockDefinition";
 import BlockInstruction from "../../src/core/blocks/BlockInstruction";
 import  "../../src/instructions/blocks/InnerBlocks";
-import { RequiredBlockOption } from "../../src/instructions/blocks/enums";
 import InnerBlocks from "../../src/instructions/blocks/InnerBlocks";
-import { RequiredBlock } from "../../src/instructions/blocks/dto";
+import { RequiredBlock, RequiredBlockOption } from "../../src/core/validation";
 
 describe( "the process function", () => {
 	it( "processes an inner-blocks instruction", () => {
@@ -24,6 +23,7 @@ describe( "the process function", () => {
 					],
 					appender: "button",
 					appenderLabel: "Add to recipe",
+    		        name: "inner-blocks",
 					template: [
 						[
 							"yoast/ingredients",

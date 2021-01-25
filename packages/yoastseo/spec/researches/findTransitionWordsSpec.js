@@ -465,6 +465,29 @@ describe( "a test for finding transition words from a string", function() {
 		expect( result.transitionWordSentences ).toBe( 0 );
 	} );
 
+	it( "returns 1 when a transition word is found in a sentence (Turkish)", function() {
+		// Transition word: ama.
+		mockPaper = new Paper( "Ama durum bu olmayabilir.", { locale: "tr_TR" } );
+		result = transitionWordsResearch( mockPaper );
+		expect( result.totalSentences ).toBe( 1 );
+		expect( result.transitionWordSentences ).toBe( 1 );
+	} );
+
+	it( "returns 1 when a two-part transition word is found in a sentence (Turkish)", function() {
+		// Transition word: hem, hem de.
+		mockPaper = new Paper( "Hem şapka hem de ceket dolapta.", { locale: "tr_TR" } );
+		result = transitionWordsResearch( mockPaper );
+		expect( result.totalSentences ).toBe( 1 );
+		expect( result.transitionWordSentences ).toBe( 1 );
+	} );
+
+	it( "returns 0 when no transition words are present in a sentence (Turkish)", function() {
+		mockPaper = new Paper( "Koltuklar her gün mevcuttur.", { locale: "tr_TR" } );
+		result = transitionWordsResearch( mockPaper );
+		expect( result.totalSentences ).toBe( 1 );
+		expect( result.transitionWordSentences ).toBe( 0 );
+	} );
+
 	it( "returns 1 when a transition word is found in a sentence (Hebrew)", function() {
 		// Transition word: בגלל.
 		mockPaper = new Paper( "ביטלנו את הטיול בגלל הגשם.", { locale: "he_IL" } );

@@ -1,6 +1,7 @@
 import { ReactElement } from "react";
 import { BlockInstance, createBlock } from "@wordpress/blocks";
 import { createElement } from "@wordpress/element";
+import { RequiredBlock } from "../core/validation";
 import { getInnerblocksByName, insertBlock } from "../functions/innerBlocksHelper";
 import { getBlockType } from "../functions/BlockHelper";
 import { PanelBody } from "@wordpress/components";
@@ -62,37 +63,40 @@ function BlockSuggestionAdded( { blockTitle }: BlockSuggestionAddedDto ): ReactE
  *
  * @param {string} sidebarTitle The title of the sidebar section.
  * @param {BlockInstance} block The block to render the list for.
- * @param {string[]} blockNames The required blocks.
+ * @param {RequiredBlocks[]} blockNames The required blocks.
  *
  * @returns {ReactElement} The rendered block.
  */
-export default function BlockSuggestions( sidebarTitle: string, block: BlockInstance, blockNames: string[] ): ReactElement {
-	const knownBlockNames = blockNames
-		.filter( name => typeof getBlockType( name ) !== "undefined" );
+export default function RequiredBlocks( block: BlockInstance, requiredBlocks: RequiredBlock[] ): ReactElement {
+	// Retrieve a list with names.
+	const requiredBlockNames = requiredBlocks
+		.filter( requiredBlock => typeof getBlockType( requiredBlock.name ) !== "undefined" )
+		.map( requiredBlock => requiredBlock.name );
 
-	// When there are no known blocks, just return.
-	if ( knownBlockNames.length === 0 ) {
+	// When there are no required blocknames, just return.
+	if ( requiredBlockNames.length === 0 ) {
 		return null;
 	}
 
-	const presentBlocks = getInnerblocksByName( block, knownBlockNames ).map( presentBlock => presentBlock.name );
+	const findPresentBlocks = getInnerblocksByName( block, requiredBlockNames );
+	const presentBlockNames = findPresentBlocks.map( presentBlock => presentBlock.name );
 
 	return (
-		<PanelBody>
+		<PanelBody key={ block.clientId }>
 			<div className="yoast-block-sidebar-title">{ sidebarTitle }</div>
 			<ul className="yoast-block-suggestions">
 				{
-					knownBlockNames.map( ( blockName: string, index: number ) => {
-						const blockType = getBlockType( blockName );
+					requiredBlockNames.map( ( requiredBlockName: string, index: number ) => {
+						const blockType = getBlockType( requiredBlockName );
 
-						if ( presentBlocks.includes( blockName ) ) {
+						if ( presentBlockNames.includes( requiredBlockName ) ) {
 							return <BlockSuggestionAdded key={ index } blockTitle={ blockType.title } />;
 						}
 
 						return <BlockSuggestion
 							key={ index }
 							blockTitle={ blockType.title }
-							blockName={ blockName }
+							blockName={ requiredBlockName }
 							blockClientId={ block.clientId }
 						/>;
 					} )
