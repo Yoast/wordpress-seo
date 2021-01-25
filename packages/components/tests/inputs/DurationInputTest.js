@@ -7,9 +7,8 @@ describe( "DurationInput", () => {
 	it( "should render with only required props", () => {
 		renderer.render( <DurationInput
 			label="Duration"
-			hours={ 1 }
-			minutes={ 2 }
-			seconds={ 3 }
+			duration={ 3661 }
+			id="very-nice-id"
 			onChange={ () => console.log( "test" ) }
 		/> );
 
@@ -23,9 +22,7 @@ describe( "DurationInput", () => {
 			<DurationInput
 				label="This is my label"
 				id="very-nice-id"
-				hours={ 1 }
-				minutes={ 2 }
-				seconds={ 3 }
+				duration={ 3661 }
 				onChange={ () => console.log( "test" ) }
 			/>
 		);
@@ -33,10 +30,7 @@ describe( "DurationInput", () => {
 		const result = renderer.getRenderOutput();
 
 		expect( result ).toBeDefined();
-		expect( result.props.htmlFor ).toBe( "very-nice-id" );
-		expect( result.props.hours ).toBe( 1 );
-		expect( result.props.minutes ).toBe( 2 );
-		expect( result.props.seconds ).toBe( 3 );
+		expect( result.props.duration ).toBe( 3661 );
 		expect( result.props.id ).toBe( "very-nice-id" );
 	} );
 } );

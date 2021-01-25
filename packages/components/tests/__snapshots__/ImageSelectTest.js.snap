@@ -2,23 +2,23 @@
 
 exports[`ImageSelect ImageSelects match the snapshot 1`] = `
 <div
-  className="yoast-image-select"
+  className="yoast-field-group yoast-image-select"
 >
   <div
-    className="yoast-field-group__image-select"
+    className="yoast-field-group__title"
   >
-    <div
-      className="yoast-field-group__title"
-    >
-      <b>
-        Organization
-      </b>
-    </div>
-    <button
-      className="yoast-image-select__preview yoast-image-select__preview--no-preview"
-      onClick={[Function]}
-      type="button"
-    />
+    <b>
+      Organization
+    </b>
+  </div>
+  <button
+    className="yoast-image-select__preview yoast-image-select__preview--no-preview"
+    onClick={[Function]}
+    type="button"
+  />
+  <div
+    className="yoast-image-select-buttons"
+  >
     <button
       className="yoast-button yoast-button--secondary"
       id=""
@@ -33,29 +33,29 @@ exports[`ImageSelect ImageSelects match the snapshot 1`] = `
 
 exports[`ImageSelect ImageSelects match the snapshot 2`] = `
 <div
-  className="yoast-image-select"
+  className="yoast-field-group yoast-image-select"
 >
   <div
-    className="yoast-field-group__image-select"
+    className="yoast-field-group__title"
   >
-    <div
-      className="yoast-field-group__title"
-    >
-      <b>
-        Another organization
-      </b>
-    </div>
-    <button
-      className="yoast-image-select__preview"
-      onClick={[Function]}
-      type="button"
-    >
-      <img
-        alt=""
-        className="yoast-image-select__preview--image"
-        src="http://placekitten.com/300/300"
-      />
-    </button>
+    <b>
+      Another organization
+    </b>
+  </div>
+  <button
+    className="yoast-image-select__preview"
+    onClick={[Function]}
+    type="button"
+  >
+    <img
+      alt=""
+      className="yoast-image-select__preview--image"
+      src="http://placekitten.com/300/300"
+    />
+  </button>
+  <div
+    className="yoast-image-select-buttons"
+  >
     <button
       className="yoast-button yoast-button--secondary"
       id=""
@@ -78,18 +78,18 @@ exports[`ImageSelect ImageSelects match the snapshot 2`] = `
 
 exports[`ImageSelect ImageSelects match the snapshot 3`] = `
 <div
-  className="yoast-image-select"
+  className="yoast-field-group yoast-image-select"
 >
   <div
-    className="yoast-field-group__image-select"
+    className="yoast-field-group__title"
   >
-    <div
-      className="yoast-field-group__title"
-    >
-      <b>
-        Yet another organization
-      </b>
-    </div>
+    <b>
+      Yet another organization
+    </b>
+  </div>
+  <div
+    className="yoast-image-select-buttons"
+  >
     <button
       className="yoast-button yoast-button--secondary"
       id=""
@@ -104,18 +104,18 @@ exports[`ImageSelect ImageSelects match the snapshot 3`] = `
 
 exports[`ImageSelect ImageSelects match the snapshot 4`] = `
 <div
-  className="yoast-image-select"
+  className="yoast-field-group yoast-image-select"
 >
   <div
-    className="yoast-field-group__image-select"
+    className="yoast-field-group__title"
   >
-    <div
-      className="yoast-field-group__title"
-    >
-      <b>
-        Not another organization
-      </b>
-    </div>
+    <b>
+      Not another organization
+    </b>
+  </div>
+  <div
+    className="yoast-image-select-buttons"
+  >
     <button
       className="yoast-button yoast-button--secondary"
       id=""

@@ -15,7 +15,7 @@ describe( "ImageSelectButtons", () => {
 
 		expect( tree ).toMatchSnapshot();
 
-		expect( tree.children[ 0 ] ).toBe( "Select image" );
+		expect( tree.children[ 0 ].children[ 0 ] ).toBe( "Select image" );
 	} );
 
 	test( "ImageSelectButtons with image selected matches the snapshot", () => {
@@ -28,7 +28,7 @@ describe( "ImageSelectButtons", () => {
 		const tree = component.toJSON();
 
 		expect( tree ).toMatchSnapshot();
-		expect( tree[ 0 ].children[ 0 ] ).toBe( "Replace image" );
-		expect( tree[ 1 ].children[ 0 ] ).toBe( "Remove image" );
+		expect( tree.children[ 0 ].children[ 0 ] ).toBe( "Replace image" );
+		expect( tree.children[ 1 ].children[ 0 ] ).toBe( "Remove image" );
 	} );
 } );
