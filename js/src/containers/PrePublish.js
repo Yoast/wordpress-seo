@@ -11,6 +11,7 @@ export default compose( [
 		const seoScoreIndicator = getIndicatorForScore( data.getResultsForFocusKeyword().overallScore );
 		const readabilityScoreIndicator = getIndicatorForScore( data.getReadabilityResults().overallScore );
 		const { isKeywordAnalysisActive, isContentAnalysisActive } = data.getPreferences();
+		const schemaBlocksValidationResults = data.getSchemaBlocksValidationResults();
 
 		const scoreItems = [];
 
@@ -38,7 +39,17 @@ export default compose( [
 			} );
 		}
 
-		return { scoreItems	};
+		if ( schemaBlocksValidationResults !== {} ) {
+			const valid = Object.values( schemaBlocksValidationResults ).every( block => block.result <= 0 );
+
+			scoreItems.push( {
+				label: __( "Schema analysis:", "wordpress-seo" ),
+				score: valid ? "good" : "bad",
+				scoreValue: valid ? __( "Good", "wordpress-seo" ) : __( "Needs improvement", "wordpress-seo" ),
+			} );
+		}
+
+		return { scoreItems };
 	} ),
 	withDispatch( ( dispatch ) => {
 		const { closePublishSidebar, openGeneralSidebar } = dispatch(

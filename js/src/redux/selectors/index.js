@@ -11,6 +11,7 @@ export * from "./marker";
 export * from "./preferences";
 export * from "./primaryTaxonomies";
 export * from "./results";
+export * from "./schemaBlocks";
 export * from "./schemaTab";
 export * from "./SEMrushModal";
 export * from "./SEMrushRequest";
