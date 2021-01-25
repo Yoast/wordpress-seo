@@ -59,26 +59,26 @@ function BlockSuggestionAdded( { blockTitle }: BlockSuggestionAddedDto ): ReactE
 }
 
 /**
- * Renders a list with the required block names and an button to add/remove one.
+ * Renders a list with the required/recommended block names and an button to add/remove one.
  *
  * @param {string} sidebarTitle The title of the sidebar section.
  * @param {BlockInstance} block The block to render the list for.
- * @param {RequiredBlocks[]} blockNames The required blocks.
+ * @param {string[]} blockNames The required/recommended blocks.
  *
  * @returns {ReactElement} The rendered block.
  */
-export default function RequiredBlocks( block: BlockInstance, requiredBlocks: RequiredBlock[] ): ReactElement {
+export default function RequiredBlocks( sidebarTitle: string, block: BlockInstance, blockNames: string[] ): ReactElement {
 	// Retrieve a list with names.
-	const requiredBlockNames = requiredBlocks
-		.filter( requiredBlock => typeof getBlockType( requiredBlock.name ) !== "undefined" )
-		.map( requiredBlock => requiredBlock.name );
+	const relevantBlockNames = blockNames
+		.filter( requiredBlock => typeof getBlockType( requiredBlock ) !== "undefined" )
+		.map( requiredBlock => requiredBlock );
 
 	// When there are no required blocknames, just return.
-	if ( requiredBlockNames.length === 0 ) {
+	if ( relevantBlockNames.length === 0 ) {
 		return null;
 	}
 
-	const findPresentBlocks = getInnerblocksByName( block, requiredBlockNames );
+	const findPresentBlocks = getInnerblocksByName( block, relevantBlockNames );
 	const presentBlockNames = findPresentBlocks.map( presentBlock => presentBlock.name );
 
 	return (
@@ -86,17 +86,17 @@ export default function RequiredBlocks( block: BlockInstance, requiredBlocks: Re
 			<div className="yoast-block-sidebar-title">{ sidebarTitle }</div>
 			<ul className="yoast-block-suggestions">
 				{
-					requiredBlockNames.map( ( requiredBlockName: string, index: number ) => {
-						const blockType = getBlockType( requiredBlockName );
+					relevantBlockNames.map( ( blockName: string, index: number ) => {
+						const blockType = getBlockType( blockName );
 
-						if ( presentBlockNames.includes( requiredBlockName ) ) {
+						if ( presentBlockNames.includes( blockName ) ) {
 							return <BlockSuggestionAdded key={ index } blockTitle={ blockType.title } />;
 						}
 
 						return <BlockSuggestion
 							key={ index }
 							blockTitle={ blockType.title }
-							blockName={ requiredBlockName }
+							blockName={ blockName }
 							blockClientId={ block.clientId }
 						/>;
 					} )

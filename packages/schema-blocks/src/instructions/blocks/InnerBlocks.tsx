@@ -8,7 +8,6 @@ import validateInnerBlocks from "../../functions/validators/innerBlocksValid";
 import { RenderEditProps, RenderSaveProps } from "../../core/blocks/BlockDefinition";
 import { getBlockByClientId } from "../../functions/BlockHelper";
 import BlockSuggestions from "../../blocks/BlockSuggestions";
-import RequiredBlocks from "../../blocks/RequiredBlocks";
 import { InstructionObject } from "../../core/Instruction";
 import BlockLeaf from "../../core/blocks/BlockLeaf";
 import validateMany from "../../functions/validators/validateMany";
@@ -69,7 +68,8 @@ export default class InnerBlocks extends BlockInstruction {
 				createElement(
 					"div",
 					{ className: "yoast-labeled-inserter", "data-label": this.options.appenderLabel },
-					createElement( ( WordPressInnerBlocks as unknown as { ButtonBlockAppender: ComponentClass } ).ButtonBlockAppender ),
+					// The type definition of InnerBlocks are wrong so cast to fix them.
+					[ createElement( ( WordPressInnerBlocks as unknown as { ButtonBlockAppender: ComponentClass } ).ButtonBlockAppender ) ],
 				);
 		}
 
@@ -101,7 +101,7 @@ export default class InnerBlocks extends BlockInstruction {
 			elements.push( BlockSuggestions( "Required Blocks", currentBlock, this.options.requiredBlocks.map( block => block.name ) ) );
 		}
 		if ( this.options.recommendedBlocks ) {
-			elements.push( BlockSuggestions( "Recommended Blocks", currentBlock, this.options.recommendedBlocks ) );
+			elements.push( BlockSuggestions( "Recommended Blocks", currentBlock, this.options.recommendedBlocks.map( block => block.name ) ) );
 		}
 
 		return (
