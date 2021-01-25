@@ -57,17 +57,9 @@ const transitionWords = [ "دوباره", "قطعاً", "حتماً", "اصلا�
 	"هم", "مانند", "مثل", "شبیه به", "ولی", "اما", "امّا", "لیکن", "ولو", "در ضمن", "در کنار", "ترجیحاً", "وگرنه", "پس", "سپس",
 	"وقتی", "زمانی که", "به خاطر", "مخصوصاً", "مشخصاً", "در کل", "بعد", "قبل", "تا" ];
 
-/**
- * Returns function words for Hebrew.
- *
- * @returns {Object} Hebrew function words.
- */
-export default function() {
-	return {
-		// This export contains all of the above words.
-		all: [].concat( cardinalNumerals, ordinalNumerals, pronouns, interrogatives,
-			quantifiers, reflexivePronouns, indefinitePronouns, prepositions, conjunctions, interviewVerbs,
-			intensifiers, auxiliariesAndDelexicalizedVerbs, generalAdjectivesAdverbs, interjections, recipeWords,
-			timeWords, vagueNouns, miscellaneous, transitionWords ),
-	};
-}
+export const all = [].concat( cardinalNumerals, ordinalNumerals, pronouns, interrogatives,
+	quantifiers, reflexivePronouns, indefinitePronouns, prepositions, conjunctions, interviewVerbs,
+	intensifiers, auxiliariesAndDelexicalizedVerbs, generalAdjectivesAdverbs, interjections, recipeWords,
+	timeWords, vagueNouns, miscellaneous, transitionWords );
+
+export default all;
