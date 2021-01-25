@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useState } from "react";
 import TextInput from "@yoast/components/src/inputs/TextInput";
 import TextArea from "@yoast/components/src/inputs/TextArea";
 import CheckboxGroup from "@yoast/components/src/checkbox/CheckboxGroup";
@@ -21,6 +21,12 @@ function clickerDiClick() {
 	console.log( "You are an exceptional clicker!" );
 }
 
+const ButtonWrapper = ( props ) => {
+	const [ count, countUp ] = useState( 0 );
+
+	return <Button variant="primary" onClick={ () => countUp( count + 1 ) }>{ `${ props.name }: ${ count }` }</Button>
+}
+
 const buttonRef = React.createRef();
 const buttonStyledLinkRef = React.createRef();
 
@@ -34,6 +40,7 @@ const focusLinkRef = () => {
 
 const buttonGrouping = <Fragment>
 	<h3>"primary" variant (default)</h3>
+	<ButtonWrapper name="Test usestate" />
 	<Button onClick={ clickerDiClick } title="Testing whether other props are also passed, like this tooltip">Default button</Button>
 	<Button variant="primary" onClick={ clickerDiClick }>Primary button</Button>
 	<Button variant="primary" disabled={ true } onClick={ clickerDiClick }>Primary disabled button</Button>

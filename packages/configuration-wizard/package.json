@@ -1,6 +1,6 @@
 {
   "name": "@yoast/configuration-wizard",
-  "version": "2.15.0",
+  "version": "2.16.0-rc.0",
   "description": "Package for our configuration wizard",
   "main": "src/index.js",
   "repository": {
@@ -18,8 +18,8 @@
   },
   "dependencies": {
     "@wordpress/i18n": "^1.1.0",
-    "@yoast/components": "^2.12.0",
-    "@yoast/helpers": "^0.14.0",
+    "@yoast/components": "^2.13.0-rc.0",
+    "@yoast/helpers": "^0.15.0-rc.0",
     "@yoast/style-guide": "^0.13.0",
     "interpolate-components": "^1.1.1",
     "lodash": "^4.17.11",
@@ -41,14 +41,12 @@
     "jest": "^22.4.3",
     "jest-styled-components": "^5.0.1",
     "material-ui": "^0.18.6",
-    "react": "^16.13.0",
-    "react-dom": "^16.13.0",
     "react-test-renderer": "^16.8.4"
   },
   "peerDependencies": {
     "material-ui": "^0.18.6",
-    "react": "^16.2.0",
-    "react-dom": "16.2.0"
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0"
   },
   "jest": {
     "testURL": "http://localhost",

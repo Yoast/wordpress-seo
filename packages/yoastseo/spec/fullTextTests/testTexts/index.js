@@ -47,10 +47,15 @@ import spanishPaperForPerformanceTest from "./es/spanishPaperForPerformanceTest"
 import englishPaperForPerformanceTest from "./en/englishPaperForPerformanceTest";
 
 
-// Arabic papers
+// Hebrew papers
 import hebrewPaper1 from "./he/hebrewPaper1";
 import hebrewPaper2 from "./he/hebrewPaper2";
 import hebrewPaper3 from "./he/hebrewPaper3";
+
+// Turkish papers
+import turkishPaper1 from "./tr/turkishPaper1";
+import turkishPaper2 from "./tr/turkishPaper2";
+import turkishPaper3 from "./tr/turkishPaper3";
 
 export default [
 	englishPaper1,
@@ -84,5 +89,8 @@ export default [
 	hebrewPaper1,
 	hebrewPaper2,
 	hebrewPaper3,
+	turkishPaper1,
+	turkishPaper2,
+	turkishPaper3,
 ];
 
