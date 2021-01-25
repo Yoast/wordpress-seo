@@ -1,7 +1,8 @@
 import { ImageSelect } from "@yoast/components";
-import { openMedia } from "../helpers/selectMedia";
-
 import { Component } from "@wordpress/element";
+
+import { openMedia } from "../helpers/selectMedia";
+import PropTypes from "prop-types";
 
 /**
  * Renders the ImageSelect.
@@ -18,8 +19,6 @@ class ImageSelectComponent extends Component {
 		this.element = document.getElementById( this.props.hiddenField );
 		this.state = {
 			imageUrl: this.getInitialValue(),
-			label: this.props.label,
-			hasPreview: this.props.hasPreview,
 		};
 
 		this.setMyImageUrl = this.setMyImageUrl.bind( this );
@@ -90,8 +89,8 @@ class ImageSelectComponent extends Component {
 	render() {
 		return (
 			<ImageSelect
-				label={ this.state.label }
-				hasPreview={ this.state.hasPreview }
+				label={ this.props.label }
+				hasPreview={ this.props.hasPreview }
 				imageUrl={ this.state.imageUrl }
 				onClick={ this.onClick }
 				onRemoveImageClick={ this.removeImage }
@@ -99,5 +98,16 @@ class ImageSelectComponent extends Component {
 		);
 	}
 }
+
+ImageSelectComponent.propTypes = {
+	hiddenField: PropTypes.string.isRequired,
+	label: PropTypes.string,
+	hasPreview: PropTypes.bool,
+};
+
+ImageSelectComponent.defaultProps = {
+	label: "",
+	hasPreview: true,
+};
 
 export default ImageSelectComponent;
