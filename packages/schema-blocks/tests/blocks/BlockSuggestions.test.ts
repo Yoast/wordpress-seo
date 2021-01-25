@@ -15,6 +15,7 @@ jest.mock( "../../src/functions/BlockHelper", () => {
 	return {
 		getBlockType: jest.fn( ( blockName: string )  => {
 			if ( blockName === "yoast/nonexisting" ) {
+				// eslint-disable-next-line no-undefined
 				return undefined;
 			}
 
@@ -48,7 +49,7 @@ describe( "The required blocks in the sidebar", () => {
 			} as RequiredBlock,
 		];
 
-		const actual = BlockSuggestions( "Required blocks", block, requiredBlocks.map( b => b.name ) );
+		const actual = BlockSuggestions( "Required blocks", block, requiredBlocks );
 
 		expect( actual ).toBe( null );
 	} );
@@ -63,7 +64,7 @@ describe( "The required blocks in the sidebar", () => {
 		];
 
 		const tree = renderer
-			.create( BlockSuggestions( "Required blocks", block, requiredBlocks.map( b => b.name ) ) )
+			.create( BlockSuggestions( "Required blocks", block, requiredBlocks ) )
 			.toJSON();
 
 		expect( tree ).toMatchSnapshot();
@@ -79,7 +80,7 @@ describe( "The required blocks in the sidebar", () => {
 		];
 
 		const tree = renderer
-			.create( BlockSuggestions( "Required blocks", block, requiredBlocks.map( b => b.name ) ) )
+			.create( BlockSuggestions( "Required blocks", block, requiredBlocks ) )
 			.toJSON();
 
 		expect( tree ).toMatchSnapshot();
@@ -94,7 +95,7 @@ describe( "The required blocks in the sidebar", () => {
 			} as RequiredBlock,
 		];
 
-		const tree = mount( BlockSuggestions( "Required blocks", block, requiredBlocks.map( b => b.name ) ) );
+		const tree = mount( BlockSuggestions( "Required blocks", block, requiredBlocks ) );
 
 		const addButton = tree.find( "button" ).first();
 

@@ -8,7 +8,7 @@ import validateInnerBlocks from "../../functions/validators/innerBlocksValid";
 import { RenderEditProps, RenderSaveProps } from "../../core/blocks/BlockDefinition";
 import { getBlockByClientId } from "../../functions/BlockHelper";
 import BlockSuggestions from "../../blocks/BlockSuggestions";
-import { InstructionObject } from "../../core/Instruction";
+import { InstructionObject, InstructionOptions } from "../../core/Instruction";
 import BlockLeaf from "../../core/blocks/BlockLeaf";
 import validateMany from "../../functions/validators/validateMany";
 
@@ -16,8 +16,7 @@ import validateMany from "../../functions/validators/validateMany";
  * InnerBlocks instruction.
  */
 export default class InnerBlocks extends BlockInstruction {
-	public options: {
-		name: string;
+	public options: InstructionOptions & {
 		allowedBlocks: string[];
 		template: TemplateArray;
 		appender: string;
@@ -25,7 +24,7 @@ export default class InnerBlocks extends BlockInstruction {
 		requiredBlocks: RequiredBlock[];
 		recommendedBlocks: RecommendedBlock[];
 		warnings: InstructionObject;
-	};
+	}
 
 	/**
 	 * Renders saving the instruction.
@@ -98,10 +97,10 @@ export default class InnerBlocks extends BlockInstruction {
 		const elements: ReactElement[] = [];
 
 		if ( this.options.requiredBlocks ) {
-			elements.push( BlockSuggestions( "Required Blocks", currentBlock, this.options.requiredBlocks.map( block => block.name ) ) );
+			elements.push( BlockSuggestions( "Required Blocks", currentBlock, this.options.requiredBlocks ) );
 		}
 		if ( this.options.recommendedBlocks ) {
-			elements.push( BlockSuggestions( "Recommended Blocks", currentBlock, this.options.recommendedBlocks.map( block => block.name ) ) );
+			elements.push( BlockSuggestions( "Recommended Blocks", currentBlock, this.options.recommendedBlocks ) );
 		}
 
 		return (
