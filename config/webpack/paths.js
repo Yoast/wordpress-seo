@@ -29,6 +29,23 @@ const entry = {
 	settings: "./settings.js",
 	"structured-data-blocks": "./structured-data-blocks.js",
 	"term-edit": "./term-edit.js",
+	"languages/default": "./externals/languages/default.js",
+	"languages/ar": "./externals/languages/ar.js",
+	"languages/ca": "./externals/languages/ca.js",
+	"languages/de": "./externals/languages/de.js",
+	"languages/en": "./externals/languages/en.js",
+	"languages/es": "./externals/languages/es.js",
+	"languages/fa": "./externals/languages/fa.js",
+	"languages/fr": "./externals/languages/fr.js",
+	"languages/he": "./externals/languages/he.js",
+	"languages/hu": "./externals/languages/hu.js",
+	"languages/id": "./externals/languages/id.js",
+	"languages/it": "./externals/languages/it.js",
+	"languages/nl": "./externals/languages/nl.js",
+	"languages/pl": "./externals/languages/pl.js",
+	"languages/pt": "./externals/languages/pt.js",
+	"languages/ru": "./externals/languages/ru.js",
+	"languages/sv": "./externals/languages/sv.js",
 };
 
 /**
