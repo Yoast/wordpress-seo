@@ -7,16 +7,6 @@
  * @uses Yoast_Form $yform Form object.
  */
 
-if ( ! current_theme_supports( 'yoast-seo-breadcrumbs' ) ) {
-	$yform->light_switch( 'breadcrumbs-enable', __( 'Enable Breadcrumbs for your theme', 'wordpress-seo' ) );
-}
-echo '<p>';
-printf(
-	/* translators: %1$s / %2$s: links to the breadcrumbs implementation page on the Yoast knowledgebase */
-	esc_html__( 'Note: If your theme supports the %1$s breadcrumbs, this setting can be used to turn them on or off for your entire theme. This setting doesn’t apply to breadcrumbs that were inserted as a block or widget.', 'wordpress-seo' ),
-	'Yoast'
-);
-echo '</p><br />';
 echo '<div id="breadcrumbsinfo">';
 
 $yform->textinput( 'breadcrumbs-sep', __( 'Separator between breadcrumbs', 'wordpress-seo' ) );
@@ -106,13 +96,20 @@ unset( $taxonomies, $post_types );
 <br class="clear"/>
 </div>
 <h2><?php esc_html_e( 'How to insert breadcrumbs in your theme', 'wordpress-seo' ); ?></h2>
-<p>
-	<?php
-	printf(
-		/* translators: %1$s / %2$s: links to the breadcrumbs implementation page on the Yoast knowledgebase */
-		esc_html__( 'Usage of this breadcrumbs feature is explained in %1$sour knowledge-base article on breadcrumbs implementation%2$s.', 'wordpress-seo' ),
-		'<a href="' . esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/breadcrumbs' ) ) . '" target="_blank">',
-		'</a>'
-	);
-	?>
-</p>
+<?php
+echo '<p>';
+printf(
+	/* translators: %1$s / %2$s: links to the breadcrumbs implementation page on the Yoast knowledgebase */
+	esc_html__( 'Usage of this breadcrumbs feature is explained in %1$sour knowledge-base article on breadcrumbs implementation%2$s.', 'wordpress-seo' ),
+	'<a href="' . esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/breadcrumbs' ) ) . '" target="_blank">',
+	'</a>'
+);
+echo '</p>';
+if ( ! current_theme_supports( 'yoast-seo-breadcrumbs' ) ) {
+	echo '<p>';
+	/* translators: %1$s / %2$s: links to the breadcrumbs implementation page on the Yoast knowledgebase */
+	echo esc_html_e( 'Note: You can always choose to enable / disable them for your theme below. This setting will not apply to breadcrumbs inserted through a widget, a block or a shortcode.', 'wordpress-seo' );
+	echo '</p>';
+
+	$yform->light_switch( 'breadcrumbs-enable', __( 'Enable Breadcrumbs for your theme', 'wordpress-seo' ) );
+}
