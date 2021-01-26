@@ -7,6 +7,7 @@
 
 use Yoast\WP\SEO\Conditionals\Admin\Post_Conditional;
 use Yoast\WP\SEO\Conditionals\Admin\Estimated_Reading_Time_Conditional;
+use Yoast\WP\SEO\Config\Researcher_Languages;
 use Yoast\WP\SEO\Helpers\Input_Helper;
 use Yoast\WP\SEO\Presenters\Admin\Alert_Presenter;
 use Yoast\WP\SEO\Presenters\Admin\Meta_Fields_Presenter;
@@ -917,6 +918,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		}
 
 		$asset_manager->localize_script( $post_edit_handle, 'wpseoScriptData', $script_data );
+		$asset_manager->enqueue_user_language_script();
 	}
 
 	/**

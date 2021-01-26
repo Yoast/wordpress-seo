@@ -5,6 +5,8 @@
  * @package WPSEO\Admin
  */
 
+use Yoast\WP\SEO\Config\Researcher_Languages;
+
 /**
  * This class registers all the necessary styles and scripts.
  *
@@ -65,6 +67,17 @@ class WPSEO_Admin_Asset_Manager {
 	 */
 	public function enqueue_style( $style ) {
 		wp_enqueue_style( $this->prefix . $style );
+	}
+
+	/**
+	 * Enqueues the appropriate language for the user.
+	 */
+	public function enqueue_user_language_script() {
+		$researcher_locale = WPSEO_Language_Utils::get_language( \get_user_locale() );
+		if ( ! \in_array( $researcher_locale, Researcher_Languages::SUPPORTED_LANGUAGES, true ) ) {
+			$researcher_locale = 'default';
+		}
+		$this->enqueue_script( 'language-' . $researcher_locale );
 	}
 
 	/**
@@ -224,11 +237,11 @@ class WPSEO_Admin_Asset_Manager {
 		$language_scripts = array_map(
 			function( $language ) {
 				return [
-					'name'      => 'language-' . $language,
-					'src'       => 'languages/' . $language,
+					'name' => 'language-' . $language,
+					'src'  => 'languages/' . $language,
 				];
 			},
-			[ 'en', 'nl' ]
+			Researcher_Languages::SUPPORTED_LANGUAGES
 		);
 		return array_merge(
 			$language_scripts,

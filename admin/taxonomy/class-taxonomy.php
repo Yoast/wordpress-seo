@@ -185,6 +185,7 @@ class WPSEO_Taxonomy {
 				'isTerm'           => true,
 			];
 			$asset_manager->localize_script( 'term-edit', 'wpseoScriptData', $script_data );
+			$asset_manager->enqueue_user_language_script();
 		}
 
 		if ( self::is_term_overview( $pagenow ) ) {
