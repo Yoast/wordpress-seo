@@ -350,8 +350,8 @@ export default class AnalysisWebWorker {
 		}
 
 		const assessor = useCornerstone === true
-			? new CornerstoneContentAssessor( this._i18n, { locale } )
-			: new ContentAssessor( this._i18n, { locale } );
+			? new CornerstoneContentAssessor( this._i18n, { locale: locale, researcher: this._researcher } )
+			: new ContentAssessor( this._i18n, { locale: locale, researcher: this._researcher } );
 
 		return assessor;
 	}
