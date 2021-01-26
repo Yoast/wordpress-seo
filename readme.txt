@@ -239,12 +239,12 @@ Release Date: February 9th
 
 Enhancements:
 
-* Improves loading time of the posts overview page in the WordPress backend. Props to [Rahe](https://github.com/Rahe).
+* Improves the loading time of the posts overview page in the WordPress backend. Props to [Rahe](https://github.com/Rahe).
 
 Bugfixes:
 
 * Fixes a bug where the target indexable for relative links was not properly detected.
-* Fixes a bug where scheme relative links were not parsed correctly.
+* Fixes a bug where scheme-relative links were not parsed correctly.
 * Fixes a bug where custom capabilities could malfunction due to a race condition. Props to [Jerome Charaoui](https://github.com/jcharaoui).
 
 = 15.7 =
