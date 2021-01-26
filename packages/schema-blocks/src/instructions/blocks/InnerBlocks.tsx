@@ -66,6 +66,7 @@ export default class InnerBlocks extends BlockInstruction {
 
 	/**
 	 * Renders all innerblocks as react elements.
+	 *
 	 * @param properties The properties of the innerblock.
 	 */
 	private renderAppender( properties: React.ClassAttributes<unknown> & WordPressInnerBlocks.Props ) {

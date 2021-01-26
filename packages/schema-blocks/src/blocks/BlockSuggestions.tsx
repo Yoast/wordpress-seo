@@ -70,8 +70,8 @@ function BlockSuggestionAdded( { blockTitle }: BlockSuggestionAddedDto ): ReactE
 export default function RequiredBlocks( sidebarTitle: string, block: BlockInstance, blocks: SuggestedBlockProperties[] ): ReactElement {
 	// Retrieve a list with names.
 	const relevantBlockNames = blocks
-		.filter( requiredBlock => typeof getBlockType( requiredBlock.name ) !== "undefined" )
-		.map( requiredBlock => requiredBlock.name );
+		.filter( relevantBlock => typeof getBlockType( relevantBlock.name ) !== "undefined" )
+		.map( relevantBlock => relevantBlock.name );
 
 	// When there are no required blocknames, just return.
 	if ( relevantBlockNames.length === 0 ) {

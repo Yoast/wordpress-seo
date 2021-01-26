@@ -46,7 +46,7 @@ export default class BlockInstructionLeaf extends BlockLeaf {
 	 * @returns The rendered element.
 	 */
 	edit( props: RenderEditProps, i: number ): JSX.Element | string {
-		// We sometimes have a race condition here
+		// We sometimes have a race condition here.
 		return this.instruction.edit( props, this, i );
 	}
 }
