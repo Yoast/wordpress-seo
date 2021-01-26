@@ -16,12 +16,15 @@ class ImageSelectComponent extends Component {
 	constructor( props ) {
 		super( props );
 
-		this.element = document.getElementById( this.props.hiddenField );
+		this.hiddenField = document.getElementById( this.props.hiddenField );
+		this.hiddenFieldImageId = document.getElementById( this.props.hiddenFieldImageId );
 		this.state = {
 			imageUrl: this.getInitialValue(),
+			imageId: this.getInitialId(),
 		};
 
 		this.setMyImageUrl = this.setMyImageUrl.bind( this );
+		this.setMyImageId = this.setMyImageId.bind( this );
 		this.onClick = this.onClick.bind( this );
 		this.removeImage = this.removeImage.bind( this );
 	}
@@ -32,13 +35,24 @@ class ImageSelectComponent extends Component {
 	 * @returns {string} The image url.
 	 */
 	getInitialValue() {
-		return this.element.value;
+		return this.hiddenField.value;
+	}
+
+	/**
+	 * Gets the initial value from the hidden input field for the image id, if it exists.
+	 *
+	 * @returns {string} The image id.
+	 */
+	getInitialId() {
+		if ( this.hiddenFieldImageId !== null ) {
+			return this.hiddenFieldImageId.value;
+		}
 	}
 
 	/**
 	 * Handles change event for the image select.
 	 *
-	 * First updates its internal state and then updates the hidden input.
+	 * First updates its internal state and then updates the hidden input for the image.
 	 *
 	 * @param {string} imageUrl The image url.
 	 *
@@ -46,7 +60,22 @@ class ImageSelectComponent extends Component {
 	 */
 	setMyImageUrl( imageUrl ) {
 		this.setState( { imageUrl }, () => {
-			this.element.value = imageUrl;
+			this.hiddenField.value = imageUrl;
+		} );
+	}
+
+	/**
+	 * Handles change event for the image select.
+	 *
+	 * First updates its internal state and then updates the hidden input for the image id.
+	 *
+	 * @param {string} imageId The image id.
+	 *
+	 * @returns {void}
+	 */
+	setMyImageId( imageId ) {
+		this.setState( { imageId }, () => {
+			this.hiddenFieldImageId.value = imageId;
 		} );
 	}
 
@@ -67,6 +96,9 @@ class ImageSelectComponent extends Component {
 		 */
 		const imageCallback = ( image ) => {
 			this.setMyImageUrl( image.url );
+			if ( this.hiddenFieldImageId !== null ) {
+				this.setMyImageId( image.id );
+			}
 		};
 		openMedia( imageCallback );
 	}
@@ -78,7 +110,11 @@ class ImageSelectComponent extends Component {
 	 */
 	removeImage() {
 		const imageUrl = "";
+		const imageId = "";
 		this.setMyImageUrl( imageUrl );
+		if ( this.hiddenFieldImageId !== null ) {
+			this.setMyImageId( imageId );
+		}
 	}
 
 	/**
@@ -92,6 +128,7 @@ class ImageSelectComponent extends Component {
 				label={ this.props.label }
 				hasPreview={ this.props.hasPreview }
 				imageUrl={ this.state.imageUrl }
+				imageId={ this.state.imageId }
 				onClick={ this.onClick }
 				onRemoveImageClick={ this.removeImage }
 			/>
@@ -101,11 +138,13 @@ class ImageSelectComponent extends Component {
 
 ImageSelectComponent.propTypes = {
 	hiddenField: PropTypes.string.isRequired,
+	hiddenFieldImageId: PropTypes.string,
 	label: PropTypes.string,
 	hasPreview: PropTypes.bool,
 };
 
 ImageSelectComponent.defaultProps = {
+	hiddenFieldImageId: "",
 	label: "",
 	hasPreview: true,
 };

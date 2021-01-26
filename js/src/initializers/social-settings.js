@@ -16,12 +16,14 @@ export default function initSocialSettings() {
 				hasPreview={ true }
 				target="yoast-og-frontpage-image-select"
 				hiddenField="og_frontpage_image"
+				hiddenFieldImageId="og_frontpage_image_id"
 			/>
 			<ImageSelectPortal
 				label="Image"
 				hasPreview={ true }
 				target="yoast-og-default-image-select"
 				hiddenField="og_default_image"
+				hiddenFieldImageId="og_default_image_id"
 			/>
 		</Fragment>,
 		element

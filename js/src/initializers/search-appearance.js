@@ -98,12 +98,14 @@ export default function initSearchAppearance() {
 						hasPreview={ true }
 						target="yoast-organization-image-select"
 						hiddenField="company_logo"
+						hiddenFieldImageId="company_logo_id"
 					/>
 					<ImageSelectPortal
 						label="Person logo / avatar"
 						hasPreview={ true }
 						target="yoast-person-image-select"
 						hiddenField="person_logo"
+						hiddenFieldImageId="person_logo_id"
 					/>
 					{ showLocalSEOUpsell && (
 						<LocalSEOUpsellPortal

@@ -11,13 +11,14 @@ import Portal from "./Portal";
  * @returns {null|wp.Element} The element.
  * @constructor
  */
-export default function ImageSelectPortal( { target, label, hasPreview, hiddenField } ) {
+export default function ImageSelectPortal( { target, label, hasPreview, hiddenField, hiddenFieldImageId } ) {
 	return (
 		<Portal target={ target }>
 			<ImageSelectComponent
 				label={ label }
 				hasPreview={ hasPreview }
 				hiddenField={ hiddenField }
+				hiddenFieldImageId={ hiddenFieldImageId }
 			/>
 		</Portal>
 	);

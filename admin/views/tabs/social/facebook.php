@@ -40,6 +40,7 @@ if ( get_option( 'show_on_front' ) === 'posts' ) {
 	echo $social_facebook_frontpage_help->get_panel_html();
 
 	$yform->hidden( 'og_frontpage_image', 'og_frontpage_image' );
+	$yform->hidden( 'og_frontpage_image_id', 'og_frontpage_image_id' );
 	?>
 	<div id="yoast-og-frontpage-image-select"></div>
 	<?php
@@ -79,6 +80,7 @@ if ( get_option( 'show_on_front' ) === 'posts' ) {
 echo '<h2>' . esc_html__( 'Default settings', 'wordpress-seo' ) . '</h2>';
 
 $yform->hidden( 'og_default_image', 'og_default_image' );
+$yform->hidden( 'og_default_image_id', 'og_default_image_id' );
 
 ?>
 	<p>
