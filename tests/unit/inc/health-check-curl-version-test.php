@@ -81,7 +81,7 @@ class Health_Check_Curl_Version_Test extends TestCase {
 
 		// We want to verify that the label attribute is the "not passed" message.
 		$this->assertEquals(
-			'Your site can not connect to my.yoast.com',
+			'Yoast premium plugins cannot update',
 			$this->getPropertyValue( $this->instance, 'label' )
 		);
 
@@ -118,7 +118,7 @@ class Health_Check_Curl_Version_Test extends TestCase {
 
 		// We want to verify that the label attribute is the "not passed" message.
 		$this->assertEquals(
-			'Your site can not connect to my.yoast.com',
+			'Yoast premium plugins cannot update',
 			$this->getPropertyValue( $this->instance, 'label' )
 		);
 
@@ -146,7 +146,7 @@ class Health_Check_Curl_Version_Test extends TestCase {
 
 		// We just want to verify that the label attribute is the "passed" message.
 		$this->assertEquals(
-			'Your site can connect to my.yoast.com',
+			'Yoast premium plugin updates work fine',
 			$this->getPropertyValue( $this->instance, 'label' )
 		);
 	}

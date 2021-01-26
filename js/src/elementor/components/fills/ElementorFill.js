@@ -12,8 +12,8 @@ import ReadabilityAnalysis from "../../../components/contentAnalysis/Readability
 import SeoAnalysis from "../../../components/contentAnalysis/SeoAnalysis";
 import SidebarItem from "../../../components/SidebarItem";
 import GooglePreviewModal from "../modals/editorModals/GooglePreviewModal";
-import TwitterPreviewModal from "../../../components/modals/editorModals/TwitterPreviewModal";
-import FacebookPreviewModal from "../../../components/modals/editorModals/FacebookPreviewModal";
+import TwitterPreviewModal from "../modals/editorModals/TwitterPreviewModal";
+import FacebookPreviewModal from "../modals/editorModals/FacebookPreviewModal";
 import SidebarCollapsible from "../../../components/SidebarCollapsible";
 import SchemaTabContainer from "../../../containers/SchemaTab";
 import AdvancedSettings from "../../../containers/AdvancedSettings";
