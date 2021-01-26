@@ -4,7 +4,7 @@ import { createElement } from "@wordpress/element";
 import { getInnerblocksByName, insertBlock } from "../functions/innerBlocksHelper";
 import { getBlockType } from "../functions/BlockHelper";
 import { PanelBody } from "@wordpress/components";
-import { SuggestedBlockProperties } from "../core/validation/SuggestedBlockDefinition";
+import { SuggestedBlockProperties } from "../core/validation/SuggestedBlockProperties";
 
 type BlockSuggestionAddedDto = {
 	blockTitle: string;
