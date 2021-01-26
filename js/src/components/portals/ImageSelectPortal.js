@@ -29,4 +29,9 @@ ImageSelectPortal.propTypes = {
 	label: PropTypes.string.isRequired,
 	hasPreview: PropTypes.bool.isRequired,
 	hiddenField: PropTypes.string.isRequired,
+	hiddenFieldImageId: PropTypes.string,
+};
+
+ImageSelectPortal.defaultProps = {
+	hiddenFieldImageId: "",
 };
