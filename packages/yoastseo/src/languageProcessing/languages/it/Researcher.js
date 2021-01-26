@@ -7,6 +7,7 @@ import stopWords from "./config/stopWords";
 import transitionWords from "./config/transitionWords";
 import twoPartTransitionWords from "./config/twoPartTransitionWords";
 import syllables from "./config/syllables.json";
+import fleschReadingEaseScores from "./config/fleschReadingEaseScores";
 
 // All helpers
 import getSentenceParts from "./helpers/getSentenceParts";
@@ -35,6 +36,7 @@ export default class Researcher extends AbstractResearcher {
 			transitionWords,
 			twoPartTransitionWords,
 			syllables,
+			fleschReadingEaseScores,
 		} );
 
 		Object.assign( this.helpers, {

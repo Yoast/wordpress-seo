@@ -7,7 +7,6 @@ import transitionWords from "./assessments/readability/transitionWordsAssessment
 import passiveVoice from "./assessments/readability/passiveVoiceAssessment.js";
 import sentenceBeginnings from "./assessments/readability/sentenceBeginningsAssessment.js";
 import textPresence from "./assessments/readability/textPresenceAssessment.js";
-import contentConfiguration from "../config/_todo/content/combinedConfig.js";
 
 /*
 	Temporarily disabled:
@@ -38,7 +37,7 @@ const ContentAssessor = function( i18n, options = {} ) {
 
 	this._assessments = [
 
-		new FleschReadingEase( contentConfiguration( locale ).fleschReading ),
+		new FleschReadingEase(),
 		new SubheadingDistributionTooLong(),
 		paragraphTooLong,
 		new SentenceLengthInText( contentConfiguration( locale ).sentenceLength ),
