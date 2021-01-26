@@ -1084,8 +1084,7 @@ export default class AnalysisWebWorker {
 		const researcher = this._researcher;
 		// When a specific paper is passed we create a temporary new researcher.
 		if ( paper !== null ) {
-			// @todo Why is it necessary to create a temporary new researcher?
-			// researcher = new Researcher( paper );
+			researcher.setPaper( paper );
 			researcher.addResearchData( "morphology", morphologyData );
 		}
 
