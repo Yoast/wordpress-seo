@@ -702,8 +702,6 @@ App.prototype.runAnalyzer = function() {
 		permalink: this.analyzerData.permalink,
 	} );
 
-	// The new researcher
-	// @todo is it necessary to have this.researcher on the app?
 	this.config.researcher.setPaper( this.paper );
 
 	this.runKeywordAnalysis();
