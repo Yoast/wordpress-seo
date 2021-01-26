@@ -2,7 +2,7 @@
 /**
  * Defines the minimum required fields for a sidebar block suggestion.
  */
-export interface SuggestedBlockDefinition {
+export interface SuggestedBlockProperties {
 	name: string;
 	warning?: string;
 }

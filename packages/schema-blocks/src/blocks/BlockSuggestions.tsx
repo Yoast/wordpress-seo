@@ -4,7 +4,7 @@ import { createElement } from "@wordpress/element";
 import { getInnerblocksByName, insertBlock } from "../functions/innerBlocksHelper";
 import { getBlockType } from "../functions/BlockHelper";
 import { PanelBody } from "@wordpress/components";
-import { SuggestedBlockDefinition } from "../core/validation/SuggestedBlockDefinition";
+import { SuggestedBlockProperties } from "../core/validation/SuggestedBlockDefinition";
 
 type BlockSuggestionAddedDto = {
 	blockTitle: string;
@@ -63,11 +63,11 @@ function BlockSuggestionAdded( { blockTitle }: BlockSuggestionAddedDto ): ReactE
  *
  * @param {string} sidebarTitle                The title of the sidebar section.
  * @param {BlockInstance} block                The block to render the list for.
- * @param {SuggestedBlockDefinition[]} blocks The required/recommended blocks.
+ * @param {SuggestedBlockProperties[]} blocks The required/recommended blocks.
  *
  * @returns {ReactElement} The rendered block.
  */
-export default function RequiredBlocks( sidebarTitle: string, block: BlockInstance, blocks: SuggestedBlockDefinition[] ): ReactElement {
+export default function RequiredBlocks( sidebarTitle: string, block: BlockInstance, blocks: SuggestedBlockProperties[] ): ReactElement {
 	// Retrieve a list with names.
 	const relevantBlockNames = blocks
 		.filter( requiredBlock => typeof getBlockType( requiredBlock.name ) !== "undefined" )

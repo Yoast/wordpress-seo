@@ -1,11 +1,11 @@
 import { RequiredBlockOption } from ".";
 import { InstructionOptions } from "../Instruction";
-import { SuggestedBlockDefinition } from "./SuggestedBlockDefinition";
+import { SuggestedBlockProperties } from "./SuggestedBlockDefinition";
 
 /**
  * Defines a required innerblock.
  */
-export type RequiredBlock = InstructionOptions & SuggestedBlockDefinition & {
+export type RequiredBlock = InstructionOptions & SuggestedBlockProperties & {
 	name: string;
 	warning?: string;
 	option: RequiredBlockOption;
