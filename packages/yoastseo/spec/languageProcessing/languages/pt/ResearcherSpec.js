@@ -21,7 +21,7 @@ describe( "a test for the Portuguese Researcher", function() {
 	} );
 
 	it( "returns Portuguese function words", function() {
-		expect( researcher.getConfig( "functionWords" ).all ).toEqual( functionWords.all );
+		expect( researcher.getConfig( "functionWords" ) ).toEqual( functionWords.all );
 	} );
 
 	it( "returns the Portuguese first word exceptions", function() {
@@ -29,7 +29,7 @@ describe( "a test for the Portuguese Researcher", function() {
 	} );
 
 	it( "returns the Portuguese transition words", function() {
-		expect( researcher.getConfig( "transitionWords" ).allWords ).toEqual( transitionWords.allWords );
+		expect( researcher.getConfig( "transitionWords" ) ).toEqual( transitionWords );
 	} );
 
 	it( "returns the Portuguese two part transition word", function() {
