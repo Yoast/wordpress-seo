@@ -1,5 +1,5 @@
-import stem from "../../../src/languageProcessing/languages/pt/helpers/internal/stem";
-import getMorphologyData from "../../specHelpers/getMorphologyData";
+import stem from "../../../../../../src/languageProcessing/languages/pt/helpers/internal/stem";
+import getMorphologyData from "../../../../../specHelpers/getMorphologyData";
 
 const morphologyDataPT = getMorphologyData( "pt" ).pt;
 
@@ -34,6 +34,14 @@ const wordsToStem = [
 	[ "superfície", "superfíc" ],
 	[ "telefone", "telefon" ],
 	[ "taça", "tac" ],
+	// Word with only consonants
+	[ "pprt", "pprt" ],
+	// Word with only vowels (made-up word)
+	[ "aaea", "aaea" ],
+	// Word with single character
+	[ "a", "a" ],
+	// Word with two characters
+	[ "xá", "xá" ],
 ];
 
 describe( "Test for stemming Portuguese words", () => {

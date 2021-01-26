@@ -1,5 +1,5 @@
-import stem from "../../../src/languageProcessing/languages/ru/helpers/internal/stem";
-import getMorphologyData from "../../specHelpers/getMorphologyData";
+import stem from "../../../../../../src/languageProcessing/languages/ru/helpers/internal/stem";
+import getMorphologyData from "../../../../../specHelpers/getMorphologyData";
 
 const morphologyDataRU = getMorphologyData( "ru" ).ru;
 
@@ -22,6 +22,7 @@ const wordsToStem = [
 	[ "читала", "чита" ],
 	[ "читать", "чита" ],
 	[ "стрелять", "стреля" ],
+	[ "явленьем", "явлен" ],
 	// Words with adjective suffixes
 	[ "большой", "больш" ],
 	[ "синий", "син" ],
@@ -55,6 +56,11 @@ const wordsToStem = [
 	[ "космодром", "космодром" ],
 	[ "детдом", "детдом" ],
 	[ "альманах", "альманах" ],
+	// Word with multiple suffixes
+	[ "являющаяся", "явля" ],
+	[ "шурин", "шур" ],
+	// Word that shouldn't be stemmed
+	[ "яблок", "яблок" ],
 ];
 
 describe( "Test for stemming Russian words", () => {
