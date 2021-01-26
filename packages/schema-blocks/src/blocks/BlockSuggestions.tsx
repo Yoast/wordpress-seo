@@ -61,15 +61,15 @@ function BlockSuggestionAdded( { blockTitle }: BlockSuggestionAddedDto ): ReactE
 /**
  * Renders a list with the required/recommended block names and an button to add/remove one.
  *
- * @param {string} sidebarTitle                The title of the sidebar section.
- * @param {BlockInstance} block                The block to render the list for.
- * @param {SuggestedBlockProperties[]} blocks The required/recommended blocks.
+ * @param {string} sidebarTitle                        The title of the sidebar section.
+ * @param {BlockInstance} block                        The block to render the list for.
+ * @param {SuggestedBlockProperties[]} suggestedBlocks The required/recommended blocks.
  *
  * @returns {ReactElement} The rendered block.
  */
-export default function RequiredBlocks( sidebarTitle: string, block: BlockInstance, blocks: SuggestedBlockProperties[] ): ReactElement {
+export default function RequiredBlocks( sidebarTitle: string, block: BlockInstance, suggestedBlocks: SuggestedBlockProperties[] ): ReactElement {
 	// Retrieve a list with names.
-	const relevantBlockNames = blocks
+	const relevantBlockNames = suggestedBlocks
 		.filter( relevantBlock => typeof getBlockType( relevantBlock.name ) !== "undefined" )
 		.map( relevantBlock => relevantBlock.name );
 

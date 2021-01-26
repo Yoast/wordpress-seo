@@ -11,6 +11,7 @@ import BlockSuggestions from "../../blocks/BlockSuggestions";
 import { InstructionObject, InstructionOptions } from "../../core/Instruction";
 import BlockLeaf from "../../core/blocks/BlockLeaf";
 import validateMany from "../../functions/validators/validateMany";
+import { __ } from "@wordpress/i18n";
 
 /**
  * InnerBlocks instruction.
@@ -104,8 +105,8 @@ export default class InnerBlocks extends BlockInstruction {
 		}
 
 		properties.allowedBlocks = properties.allowedBlocks
-			.concat( this.options.requiredBlocks.map( rec => rec.name ) )
-			.concat( this.options.recommendedBlocks.map( rec => rec.name ) );
+			.concat( this.options.requiredBlocks.map( block => block.name ) )
+			.concat( this.options.recommendedBlocks.map( block => block.name ) );
 	}
 
 	/**
@@ -120,10 +121,14 @@ export default class InnerBlocks extends BlockInstruction {
 		const elements: ReactElement[] = [];
 
 		if ( this.options.requiredBlocks ) {
-			elements.push( BlockSuggestions( "Required Blocks", currentBlock, this.options.requiredBlocks ) );
+			elements.push( BlockSuggestions( __( "Required Blocks", "schema-blocks" ), currentBlock, this.options.requiredBlocks ) );
 		}
 		if ( this.options.recommendedBlocks ) {
-			elements.push( BlockSuggestions( "Recommended Blocks", currentBlock, this.options.recommendedBlocks ) );
+			elements.push( BlockSuggestions( __( "Recommended Blocks", "schema-blocks" ),  currentBlock, this.options.recommendedBlocks ) );
+		}
+
+		if ( elements.length === 0 ) {
+			return null;
 		}
 
 		return (
