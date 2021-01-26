@@ -80,8 +80,6 @@ const checkSentencesForTransitionWords = function( sentences, transitionWords, t
 				sentence: sentence,
 				transitionWords: transitionWordMatches,
 			} );
-
-			return;
 		}
 	} );
 
