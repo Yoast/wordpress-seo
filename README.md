@@ -22,6 +22,8 @@ This monorepo includes reusable packages:
   - React components that can be used to generate a preview of what a page will look like in Google's search results.
 - [@yoast/replacement-variable-editor](packages/replacement-variable-editor)
   - The replacement variable editor currently used in the Search Metadata previews. In the future, this component will also be used in the Social Metadata previews.
+- [@yoast/schema-blocks](packages/schema-blocks)
+  - A set of helper functions and React components used in generating schema blocks from wordpress posts.
 - [@yoast/social-metadata-previews](packages/social-metadata-previews) *[Will replace [yoast-social-previews](packages/yoast-social-previews)]*
   - React components that can be used to generate a preview of what a page will look like when shared trough Facebook or Twitter.
 - [@yoast/social-metadata-forms](packages/social-metadata-forms)
