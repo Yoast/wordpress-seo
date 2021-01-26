@@ -8,9 +8,15 @@
  */
 
 if ( ! current_theme_supports( 'yoast-seo-breadcrumbs' ) ) {
-	$yform->light_switch( 'breadcrumbs-enable', __( 'Enable Breadcrumbs', 'wordpress-seo' ) );
-	echo '<br/>';
+	$yform->light_switch( 'breadcrumbs-enable', __( 'Enable Breadcrumbs for your theme', 'wordpress-seo' ) );
 }
+echo '<p>';
+	printf(
+		/* translators: %1$s / %2$s: links to the breadcrumbs implementation page on the Yoast knowledgebase */
+		esc_html__( 'Note: If your theme supports the %1$s breadcrumbs, this setting can be used to turn them on or off for your entire theme. This setting doesn’t apply to breadcrumbs that were inserted as a block or widget.', 'wordpress-seo' ),
+		'Yoast',
+	);
+echo '</p><br />';
 echo '<div id="breadcrumbsinfo">';
 
 $yform->textinput( 'breadcrumbs-sep', __( 'Separator between breadcrumbs', 'wordpress-seo' ) );
