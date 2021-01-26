@@ -1,9 +1,10 @@
+import { InstructionOptions } from "../Instruction";
 import { SuggestedBlockDefinition } from "./SuggestedBlockDefinition";
 
 /**
  * Defines a recommended innerblock.
  */
-export class RecommendedBlock implements SuggestedBlockDefinition {
+export type RecommendedBlock = InstructionOptions & SuggestedBlockDefinition & {
 	name: string;
-	warning?: string
+	warning?: string;
 }
