@@ -1,15 +1,7 @@
-import { inRange, merge } from "lodash-es";
+import { inRange } from "lodash-es";
 
 import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
 import AssessmentResult from "../../../values/AssessmentResult";
-
-/* Const defaultConfig = {
-			urlTitle: createAnchorOpeningTag( "https://yoa.st/34r" ),
-			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/34s" ),
-		};
-
-		this._config = merge( defaultConfig, config );
-	}*/
 
 /**
  * Calculates the assessment result based on the score.
