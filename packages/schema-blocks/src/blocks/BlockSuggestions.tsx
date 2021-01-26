@@ -59,26 +59,25 @@ function BlockSuggestionAdded( { blockTitle }: BlockSuggestionAddedDto ): ReactE
 }
 
 /**
- * Renders a list with the required/recommended block names and an button to add/remove one.
+ * Renders a sidebar panel with the required/recommended block names and a button to add a missing block.
  *
  * @param {string} sidebarTitle                        The title of the sidebar section.
- * @param {BlockInstance} block                        The block to render the list for.
+ * @param {BlockInstance} block                        The block to render the suggestions for.
  * @param {SuggestedBlockProperties[]} suggestedBlocks The required/recommended blocks.
  *
- * @returns {ReactElement} The rendered block.
+ * @returns {ReactElement} The rendered sidebar section with block suggestions.
  */
 export default function RequiredBlocks( sidebarTitle: string, block: BlockInstance, suggestedBlocks: SuggestedBlockProperties[] ): ReactElement {
-	// Retrieve a list with names.
-	const relevantBlockNames = suggestedBlocks
-		.filter( relevantBlock => typeof getBlockType( relevantBlock.name ) !== "undefined" )
-		.map( relevantBlock => relevantBlock.name );
+	const suggestedBlockNames = suggestedBlocks
+		.filter( suggestedBlock => typeof getBlockType( suggestedBlock.name ) !== "undefined" )
+		.map( suggestedBlock => suggestedBlock.name );
 
-	// When there are no required blocknames, just return.
-	if ( relevantBlockNames.length === 0 ) {
+	// When there are no suggestions, just return.
+	if ( suggestedBlockNames.length === 0 ) {
 		return null;
 	}
 
-	const findPresentBlocks = getInnerblocksByName( block, relevantBlockNames );
+	const findPresentBlocks = getInnerblocksByName( block, suggestedBlockNames );
 	const presentBlockNames = findPresentBlocks.map( presentBlock => presentBlock.name );
 
 	return (
@@ -86,7 +85,7 @@ export default function RequiredBlocks( sidebarTitle: string, block: BlockInstan
 			<div className="yoast-block-sidebar-title">{ sidebarTitle }</div>
 			<ul className="yoast-block-suggestions">
 				{
-					relevantBlockNames.map( ( blockName: string, index: number ) => {
+					suggestedBlockNames.map( ( blockName: string, index: number ) => {
 						const blockType = getBlockType( blockName );
 
 						if ( presentBlockNames.includes( blockName ) ) {
