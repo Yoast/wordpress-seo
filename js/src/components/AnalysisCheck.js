@@ -1,4 +1,4 @@
-import { SvgIcon } from "../../../../../../javascript/packages/components";
+import { SvgIcon } from "@yoast/components";
 import { getIconForScore } from "./contentAnalysis/mapResults";
 import * as PropTypes from "prop-types";
 
