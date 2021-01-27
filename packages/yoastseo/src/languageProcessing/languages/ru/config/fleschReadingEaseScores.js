@@ -6,6 +6,7 @@ export default {
 		okay: 50,
 		fairlyDifficult: 40,
 		difficult: 20,
+		veryDifficult: 0,
 	},
 	scores: {
 		veryEasy: 9,
@@ -14,5 +15,6 @@ export default {
 		okay: 9,
 		fairlyDifficult: 6,
 		difficult: 3,
+		veryDifficult: 3,
 	},
 };
