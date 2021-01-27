@@ -14,7 +14,6 @@ import PortugueseResearcher from "../../../src/languageProcessing/languages/pt/R
 import DutchResearcher from "../../../src/languageProcessing/languages/nl/Researcher";
 import PolishResearcher from "../../../src/languageProcessing/languages/pl/Researcher";
 import HungarianResearcher from "../../../src/languageProcessing/languages/hu/Researcher";
-import DefaultResearcher from "../../../src/languageProcessing/languages/_default/Researcher";
 
 // eslint-disable-next-line max-statements
 describe( "a test for finding transition words from a string", function() {

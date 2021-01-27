@@ -3,6 +3,7 @@ import GermanResearcher from "../../../src/languageProcessing/languages/de/Resea
 import FrenchResearcher from "../../../src/languageProcessing/languages/fr/Researcher";
 import RussianResearcher from "../../../src/languageProcessing/languages/ru/Researcher";
 import SwedishResearcher from "../../../src/languageProcessing/languages/sv/Researcher";
+import DefaultResearcher from "../../../src/languageProcessing/languages/_default/Researcher";
 import getMorphologyData from "../../specHelpers/getMorphologyData";
 import pageTitleKeyword from "../../../src/languageProcessing/researches/findKeywordInPageTitle.js";
 import Paper from "../../../src/values/Paper.js";
@@ -319,6 +320,20 @@ describe( "Matches keywords in string", function() {
 		expect( result.exactMatchKeyphrase ).toBe( false );
 		expect( result.allWordsFound ).toBe( true );
 		expect( result.position ).toBe( 0 );
+	} );
+
+	it( "returns the correct results when function words list is not available", function() {
+		const mockPaper = new Paper( "", {
+			keyword: "the very walking in nature",
+			title: "First thing, the very walking in nature",
+		} );
+		const researcher = new DefaultResearcher( mockPaper );
+
+		result = pageTitleKeyword( mockPaper, researcher );
+		expect( result.exactMatchFound ).toBe( true );
+		expect( result.exactMatchKeyphrase ).toBe( false );
+		expect( result.allWordsFound ).toBe( true );
+		expect( result.position ).toBe( 13 );
 	} );
 } );
 
