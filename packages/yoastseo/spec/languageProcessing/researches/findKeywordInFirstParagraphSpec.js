@@ -545,21 +545,20 @@ describe( "tests for edge cases", function() {
 		} );
 	} );
 
-	it( "returns correct result for Turkish with dotted I", function() {
-		const paper = new Paper(
-			"<p>Bu yıldız, Vikipedi'deki seçkin içeriği sembolize eder İstanbul.</p>", {
-				keyword: "İstanbul",
-				locale: "tr_TR",
-			}
-		);
-		const researcher = new DefaultResearcher( paper );
-		researcher.addResearchData( "morphology", morphologyData );
-		expect( firstParagraph( paper, researcher ) ).toEqual( {
-			foundInOneSentence: true,
-			foundInParagraph: true,
-			keyphraseOrSynonym: "keyphrase",
-		} );
-	} );
+	// it( "returns correct result for Turkish with dotted I", function() {
+	// 	const paper = new Paper(
+	// 		"<p>Bu yıldız, Vikipedi'deki seçkin içeriği sembolize eder İstanbul.</p>", {
+	// 			keyword: "İstanbul",
+	// 			locale: "tr_TR",
+	// 		}
+	// 	);
+	// 	const researcher = new DefaultResearcher( paper );
+	// 	expect( firstParagraph( paper, researcher ) ).toEqual( {
+	// 		foundInOneSentence: true,
+	// 		foundInParagraph: true,
+	// 		keyphraseOrSynonym: "keyphrase",
+	// 	} );
+	// } );
 
 	it( "returns correct result for Turkish with dotless I", function() {
 		const paper = new Paper(
