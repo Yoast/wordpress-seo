@@ -1,0 +1,18 @@
+.yoast-badge {
+	border-radius: 8px;
+	width: 40px;
+	height: 16px;
+	font-weight: 600;
+	display: inline-block;
+	font-size: 10px;
+	text-align: center;
+}
+
+.yoast-new-badge {
+	background-color: #CCE5FF;
+	color: #0073AA;
+}
+
+.yoast-badge a {
+	text-decoration: none;
+}
