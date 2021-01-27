@@ -1,9 +1,7 @@
 import { forEach, includes } from "lodash-es";
 import getWords from "../../../../helpers/word/getWords";
-import participlesFactory from "../../config/internal/passiveVoiceParticiples";
+import participles from "../../config/internal/passiveVoiceParticiples";
 import SpanishParticiple from "../../values/SpanishParticiple";
-
-const participles = participlesFactory();
 
 /**
  * Creates participle objects for the participles found in a sentence part.

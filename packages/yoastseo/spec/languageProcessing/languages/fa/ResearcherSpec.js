@@ -1,9 +1,9 @@
 import Researcher from "../../../../src/languageProcessing/languages/fa/Researcher.js";
 import Paper from "../../../../src/values/Paper.js";
+import functionWords from "../../../../src/languageProcessing/languages/fa/config/functionWords";
 
 describe( "a test for the Farsi Researcher", function() {
 	const researcher = new Researcher( new Paper( "" ) );
-	const farsiFunctionWordExamples = [ "چهار", "سوم", "به آنها", "خودم", "برای", "اردیبهشت", "مخصوصاً" ];
 
 	it( "returns true if the inherited Abstract Researcher has a specific research", function() {
 		expect( researcher.hasResearch( "getParagraphLength" ) ).toBe( true );
@@ -22,7 +22,7 @@ describe( "a test for the Farsi Researcher", function() {
 	} );
 
 	it( "returns Farsi function words", function() {
-		expect( researcher.getConfig( "functionWords" )().all ).toEqual( expect.arrayContaining( farsiFunctionWordExamples ) );
+		expect( researcher.getConfig( "functionWords" ) ).toEqual( functionWords );
 	} );
 
 	it( "returns the Farsi locale", function() {

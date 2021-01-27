@@ -554,17 +554,9 @@ const miscellaneous = [
 	"אדם",
 ];
 
-/**
- * Returns function words for Hebrew.
- *
- * @returns {Object} Hebrew function words.
- */
-export default function() {
-	return {
-		// This export contains all of the above words.
-		all: [].concat( cardinalNumerals, ordinalNumerals, personalPronouns, demonstrativePronouns, interrogatives,
-			quantifiers, reflexivePronouns, indefinitePronouns, prepositions, conjunctions, interviewVerbs,
-			intensifiers, auxiliariesAndDelexicalizedVerbs, generalAdjectivesAdverbs, interjections, recipeWords,
-			timeWords, vagueNouns, miscellaneous  ),
-	};
-}
+export const all = [].concat( cardinalNumerals, ordinalNumerals, personalPronouns, demonstrativePronouns, interrogatives,
+	quantifiers, reflexivePronouns, indefinitePronouns, prepositions, conjunctions, interviewVerbs,
+	intensifiers, auxiliariesAndDelexicalizedVerbs, generalAdjectivesAdverbs, interjections, recipeWords,
+	timeWords, vagueNouns, miscellaneous  );
+
+export default all;
