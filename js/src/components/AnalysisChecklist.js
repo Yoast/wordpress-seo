@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
 import { Fragment } from "@wordpress/element";
-import PrePublishScore from "./prepublish/PrePublishScore";
+import AnalysisCheck from "./prepublish/AnalysisCheck";
 import { Button } from "@yoast/components";
 
 /**
@@ -27,7 +27,7 @@ export default function AnalysisChecklist( {
 
 	return <Fragment>
 		{ intro }
-		{ checklist.map( item => <PrePublishScore key={ item.label } { ...item } /> ) }
+		{ checklist.map( item => <AnalysisCheck key={ item.label } { ...item } /> ) }
 		<br />
 		{ ! perfectScore && <Button onClick={ onClick }>{ __( "Improve your post with Yoast SEO", "wordpress-seo" ) }</Button> }
 	</Fragment>;

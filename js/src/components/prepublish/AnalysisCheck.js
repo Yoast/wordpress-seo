@@ -12,19 +12,19 @@ import * as PropTypes from "prop-types";
  *
  * @constructor
  */
-export default function PrePublishScore( { score, label, scoreValue } ) {
+export default function AnalysisCheck( { score, label, scoreValue } ) {
 	return <div>
 		<SvgIcon { ...getIconForScore( score ) } />
 		<span> { label } { scoreValue && <strong>{ scoreValue }</strong> }</span>
 	</div>;
 }
 
-PrePublishScore.propTypes = {
+AnalysisCheck.propTypes = {
 	score: PropTypes.string.isRequired,
 	label: PropTypes.string.isRequired,
 	scoreValue: PropTypes.string,
 };
 
-PrePublishScore.defaultProps = {
+AnalysisCheck.defaultProps = {
 	scoreValue: "",
 };
