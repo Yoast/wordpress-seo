@@ -10,27 +10,35 @@ import { Button } from "@yoast/components";
  * @returns {wp.Element} The PrePublish panel.
  */
 export default function PrePublish( {
-	scoreItems,
+	checklist,
+	shouldShowIntro,
 	onClick,
 } ) {
-	let intro;
-	const perfectScore = scoreItems.every( item => item.score === "good" );
+	let intro = null;
+	const perfectScore = checklist.every( item => item.score === "good" );
 
-	if ( perfectScore ) {
-		intro = <p>{ __( "We've analyzed your post. Everything looks good. Well done!", "wordpress-seo" ) }</p>;
-	} else {
-		intro = <p>{ __( "We've analyzed your post. There is still room for improvement!", "wordpress-seo" ) }</p>;
+	if ( shouldShowIntro ) {
+		if ( perfectScore ) {
+			intro = <p>{ __( "We've analyzed your post. Everything looks good. Well done!", "wordpress-seo" ) }</p>;
+		} else {
+			intro = <p>{ __( "We've analyzed your post. There is still room for improvement!", "wordpress-seo" ) }</p>;
+		}
 	}
 
 	return <Fragment>
 		{ intro }
-		{ scoreItems.map( item => <PrePublishScore key={ item.label } { ...item } /> ) }
+		{ checklist.map( item => <PrePublishScore key={ item.label } { ...item } /> ) }
 		<br />
 		{ ! perfectScore && <Button onClick={ onClick }>{ __( "Improve your post with Yoast SEO", "wordpress-seo" ) }</Button> }
 	</Fragment>;
 }
 
 PrePublish.propTypes = {
-	scoreItems: PropTypes.array.isRequired,
+	checklist: PropTypes.array.isRequired,
+	shouldShowIntro: PropTypes.bool,
 	onClick: PropTypes.func.isRequired,
+};
+
+PrePublish.defaultProps = {
+	shouldShowIntro: false,
 };
