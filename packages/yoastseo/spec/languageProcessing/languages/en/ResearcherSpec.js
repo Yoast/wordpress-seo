@@ -2,6 +2,8 @@ import Researcher from "../../../../src/languageProcessing/languages/en/Research
 import Paper from "../../../../src/values/Paper.js";
 import getMorphologyData from "../../../specHelpers/getMorphologyData";
 const morphologyDataEN = getMorphologyData( "en" );
+import sentenceLength from "../../../../src/languageProcessing/languages/en/config/sentenceLength";
+import fleschReadingEaseScores from "../../../../src/languageProcessing/languages/en/config/fleschReadingEaseScores";
 
 describe( "a test for the English Researcher", function() {
 	const researcher = new Researcher( new Paper( "This is another paper!" ) );
@@ -166,6 +168,14 @@ describe( "a test for the English Researcher", function() {
 				"or",
 			]
 		);
+	} );
+
+	it( "returns English Flesch reading ease config", function() {
+		expect( researcher.getConfig( "fleschReadingEaseScores" ) ).toEqual( fleschReadingEaseScores );
+	} );
+
+	it( "returns English sentence length config", function() {
+		expect( researcher.getConfig( "sentenceLength" ) ).toEqual( sentenceLength );
 	} );
 
 	it( "returns the English locale", function() {

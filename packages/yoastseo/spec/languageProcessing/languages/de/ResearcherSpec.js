@@ -2,6 +2,8 @@ import Researcher from "../../../../src/languageProcessing/languages/de/Research
 import Paper from "../../../../src/values/Paper.js";
 import getMorphologyData from "../../../specHelpers/getMorphologyData";
 const morphologyDataDE = getMorphologyData( "de" );
+import sentenceLength from "../../../../src/languageProcessing/languages/de/config/sentenceLength";
+import fleschReadingEaseScores from "../../../../src/languageProcessing/languages/de/config/fleschReadingEaseScores";
 
 describe( "a test for the German Researcher", function() {
 	const researcher = new Researcher( new Paper( "" ) );
@@ -108,6 +110,14 @@ describe( "a test for the German Researcher", function() {
 				{ word: "deal", syllables: 1 },
 			],
 		);
+	} );
+
+	it( "returns German Flesch reading ease config", function() {
+		expect( researcher.getConfig( "fleschReadingEaseScores" ) ).toEqual( fleschReadingEaseScores );
+	} );
+
+	it( "returns German sentence length config", function() {
+		expect( researcher.getConfig( "sentenceLength" ) ).toEqual( sentenceLength );
 	} );
 
 	it( "returns the German locale", function() {

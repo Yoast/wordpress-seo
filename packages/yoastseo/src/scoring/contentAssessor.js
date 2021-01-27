@@ -33,14 +33,12 @@ import { sum } from "lodash-es";
 const ContentAssessor = function( i18n, options = {} ) {
 	Assessor.call( this, i18n, options );
 	this.type = "ContentAssessor";
-	const locale = ( options.hasOwnProperty( "locale" ) ) ? options.locale : "en_US";
-
 	this._assessments = [
 
-		new FleschReadingEase(),
+		FleschReadingEase,
 		new SubheadingDistributionTooLong(),
 		paragraphTooLong,
-		new SentenceLengthInText( contentConfiguration( locale ).sentenceLength ),
+		SentenceLengthInText,
 		transitionWords,
 		passiveVoice,
 		textPresence,

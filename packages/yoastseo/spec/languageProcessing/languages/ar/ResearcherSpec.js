@@ -2,6 +2,7 @@ import Researcher from "../../../../src/languageProcessing/languages/ar/Research
 import Paper from "../../../../src/values/Paper.js";
 import getMorphologyData from "../../../specHelpers/getMorphologyData";
 const morphologyDataAR = getMorphologyData( "ar" );
+import sentenceLength from "../../../../src/languageProcessing/languages/ar/config/sentenceLength";
 
 describe( "a test for Arabic Researcher", function() {
 	const researcher = new Researcher( new Paper( "This is another paper!" ) );
@@ -79,6 +80,10 @@ describe( "a test for Arabic Researcher", function() {
 			[ "لالرحمن", "بالرحمن", "الالرحمن", "كالرحمن", "والرحمن", "فالرحمن", "سالرحمن", "أالرحمن", "رحمن", "لرحمن",
 				"برحمن", "الرحمن", "كرحمن", "ورحمن", "فرحمن", "سرحمن", "أرحمن" ]
 		);
+	} );
+
+	it( "returns Arabic sentence length config", function() {
+		expect( researcher.getConfig( "sentenceLength" ) ).toEqual( sentenceLength );
 	} );
 
 	it( "stems the Arabic word using the Arabic stemmer", function() {

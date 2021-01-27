@@ -2,6 +2,8 @@ import Researcher from "../../../../src/languageProcessing/languages/es/Research
 import Paper from "../../../../src/values/Paper.js";
 import getMorphologyData from "../../../specHelpers/getMorphologyData";
 const morphologyDataES = getMorphologyData( "es" );
+import sentenceLength from "../../../../src/languageProcessing/languages/es/config/sentenceLength";
+import fleschReadingEaseScores from "../../../../src/languageProcessing/languages/es/config/fleschReadingEaseScores";
 
 describe( "a test for the Spanish Researcher", function() {
 	const researcher = new Researcher( new Paper( "Este es un documento nuevo!" ) );
@@ -113,6 +115,14 @@ describe( "a test for the Spanish Researcher", function() {
 				"cuyas",
 			]
 		);
+	} );
+
+	it( "returns Spanish Flesch reading ease config", function() {
+		expect( researcher.getConfig( "fleschReadingEaseScores" ) ).toEqual( fleschReadingEaseScores );
+	} );
+
+	it( "returns Spanish sentence length config", function() {
+		expect( researcher.getConfig( "sentenceLength" ) ).toEqual( sentenceLength );
 	} );
 
 	it( "returns the Spanish locale", function() {

@@ -3,6 +3,7 @@ import AbstractResearcher from "../../AbstractResearcher";
 // All config
 import transitionWords from "./config/transitionWords";
 import twoPartTransitionWords from "./config/twoPartTransitionWords";
+import sentenceLength from "./config/sentenceLength";
 
 // All helpers
 import getStemmer from "../../helpers/morphology/baseStemmer";
@@ -36,6 +37,7 @@ export default class Researcher extends AbstractResearcher {
 
 		Object.assign( this.config, {
 			getStemmer,
+			sentenceLength,
 		} );
 	}
 }

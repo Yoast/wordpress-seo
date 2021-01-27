@@ -8,6 +8,7 @@ import transitionWords from "../../../../src/languageProcessing/languages/ru/con
 import twoPartTransitionWords from "../../../../src/languageProcessing/languages/ru/config/twoPartTransitionWords";
 import syllables from "../../../../src/languageProcessing/languages/ru/config/syllables.json";
 import fleschReadingEaseScores from "../../../../src/languageProcessing/languages/ru/config/fleschReadingEaseScores";
+import sentenceLength from "../../../../src/languageProcessing/languages/ru/config/sentenceLength";
 
 describe( "a test for the Russian Researcher", function() {
 	const researcher = new Researcher( new Paper( "" ) );
@@ -54,6 +55,10 @@ describe( "a test for the Russian Researcher", function() {
 
 	it( "returns the Russian Flesch reading ease scores and boundaries", function() {
 		expect( researcher.getConfig( "fleschReadingEaseScores" ) ).toEqual( fleschReadingEaseScores );
+	} );
+
+	it( "returns Russian sentence length config", function() {
+		expect( researcher.getConfig( "sentenceLength" ) ).toEqual( sentenceLength );
 	} );
 
 	it( "returns the Russian locale", function() {

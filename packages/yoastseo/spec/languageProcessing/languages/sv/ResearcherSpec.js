@@ -4,6 +4,7 @@ import functionWords from "../../../../src/languageProcessing/languages/sv/confi
 import firstWordExceptions from "../../../../src/languageProcessing/languages/sv/config/firstWordExceptions";
 import transitionWords from "../../../../src/languageProcessing/languages/sv/config/transitionWords";
 import twoPartTransitionWords from "../../../../src/languageProcessing/languages/sv/config/twoPartTransitionWords";
+import sentenceLength from "../../../../src/languageProcessing/languages/sv/config/sentenceLength";
 
 describe( "a test for the Swedish Researcher", function() {
 	const researcher = new Researcher( new Paper( "" ) );
@@ -42,6 +43,10 @@ describe( "a test for the Swedish Researcher", function() {
 
 	it( "returns Swedish two-part transition words", function() {
 		expect( researcher.getConfig( "twoPartTransitionWords" ) ).toEqual( twoPartTransitionWords );
+	} );
+
+	it( "returns Swedish sentence length config", function() {
+		expect( researcher.getConfig( "sentenceLength" ) ).toEqual( sentenceLength );
 	} );
 
 	it( "returns the Swedish locale", function() {

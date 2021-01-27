@@ -1,5 +1,6 @@
 import Researcher from "../../../../src/languageProcessing/languages/fa/Researcher.js";
 import Paper from "../../../../src/values/Paper.js";
+import sentenceLength from "../../../../src/languageProcessing/languages/fa/config/sentenceLength";
 
 describe( "a test for the Farsi Researcher", function() {
 	const researcher = new Researcher( new Paper( "" ) );
@@ -23,6 +24,10 @@ describe( "a test for the Farsi Researcher", function() {
 
 	it( "returns Farsi function words", function() {
 		expect( researcher.getConfig( "functionWords" )().all ).toEqual( expect.arrayContaining( farsiFunctionWordExamples ) );
+	} );
+
+	it( "returns Farsi sentence length config", function() {
+		expect( researcher.getConfig( "sentenceLength" ) ).toEqual( sentenceLength );
 	} );
 
 	it( "returns the Farsi locale", function() {

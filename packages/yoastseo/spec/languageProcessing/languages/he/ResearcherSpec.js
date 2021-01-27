@@ -1,5 +1,6 @@
 import Researcher from "../../../../src/languageProcessing/languages/he/Researcher.js";
 import Paper from "../../../../src/values/Paper.js";
+import sentenceLength from "../../../../src/languageProcessing/languages/he/config/sentenceLength";
 
 describe( "a test for the Hebrew Researcher", function() {
 	const researcher = new Researcher( new Paper( "" ) );
@@ -24,6 +25,10 @@ describe( "a test for the Hebrew Researcher", function() {
 
 	it( "returns Hebrew function words", function() {
 		expect( researcher.getConfig( "functionWords" )().all ).toEqual( expect.arrayContaining( functionWordExamplesHebrew ) );
+	} );
+
+	it( "returns Hebrew sentence length config", function() {
+		expect( researcher.getConfig( "sentenceLength" ) ).toEqual( sentenceLength );
 	} );
 
 	it( "returns the Hebrew locale", function() {
