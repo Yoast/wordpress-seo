@@ -9,7 +9,7 @@ import { Button } from "@yoast/components";
  *
  * @returns {wp.Element} The PrePublish panel.
  */
-export default function PrePublish( {
+export default function AnalysisChecklist( {
 	checklist,
 	shouldShowIntro,
 	onClick,
@@ -33,12 +33,12 @@ export default function PrePublish( {
 	</Fragment>;
 }
 
-PrePublish.propTypes = {
+AnalysisChecklist.propTypes = {
 	checklist: PropTypes.array.isRequired,
 	shouldShowIntro: PropTypes.bool,
 	onClick: PropTypes.func.isRequired,
 };
 
-PrePublish.defaultProps = {
+AnalysisChecklist.defaultProps = {
 	shouldShowIntro: false,
 };
