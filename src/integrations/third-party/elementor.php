@@ -431,6 +431,8 @@ class Elementor implements Integration_Interface {
 		}
 
 		$this->asset_manager->localize_script( 'elementor', 'wpseoScriptData', $script_data );
+		$this->asset_manager->enqueue_user_language_script();
+
 	}
 
 	/**
