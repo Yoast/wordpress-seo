@@ -2,7 +2,7 @@ import AbstractResearcher from "../../AbstractResearcher";
 
 // All config
 import firstWordExceptions from "./config/firstWordExceptions";
-import functionWords from "./config/functionWords";
+import { all as functionWords } from "./config/functionWords";
 import transitionWords from "./config/transitionWords";
 import twoPartTransitionWords from "./config/twoPartTransitionWords";
 

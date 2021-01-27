@@ -1,6 +1,6 @@
-import { buildOneFormFromRegex } from "../morphoHelpers/buildFormRule";
-import createRulesFromMorphologyData from "../morphoHelpers/createRulesFromMorphologyData";
-import { flattenSortLength } from "../morphoHelpers/flattenSortLength";
+import { buildOneFormFromRegex } from "../../../../helpers/morphology/buildFormRule";
+import createRulesFromMorphologyData from "../../../../helpers/morphology/createRulesFromArrays";
+import { flattenSortLength } from "../../../../helpers/morphology/flattenSortLength";
 import { calculateTotalNumberOfSyllables, removeEnding, checkBeginningsList } from "./stemHelpers";
 
 /**
@@ -24,7 +24,7 @@ import { calculateTotalNumberOfSyllables, removeEnding, checkBeginningsList } fr
 /**
  * Checks if a single syllable word has one of the suffixes/suffix combination.
  *
- * @param {string} word The word to check.
+ * @param {string} word         The word to check.
  * @param {Array} suffixesArray The array of suffixes
  * @returns {boolean}   Whether the word ends in one of the suffixes or not.
  */
@@ -234,7 +234,7 @@ const stemDerivational = function( word, morphologyData ) {
 
 	// If a word is in the list of words with a beginning that looks like a valid suffix, do not stem the suffix
 	if ( ! doNotStemFirstOrderPrefix.some( wordWithPrefixLookAlike => word.startsWith( wordWithPrefixLookAlike ) ) ) {
-		/**
+		/*
 		 * If the word has more than 2 syllables and starts with one of first order prefixes (i.e. meng-, meny-, men-, mem-, me-,
 		 * peng-, peny-, pen-, pem-, di-, ter-, ke- ), the prefix will be stemmed here. e.g. penyebaran -> sebaran, diperlebarkan -> perlebarkan
 		 */
@@ -243,7 +243,7 @@ const stemDerivational = function( word, morphologyData ) {
 
 	if ( wordLength === word.length ) {
 		if ( ! doNotStemSecondOrderPrefix.some( wordWithPrefixLookAlike => word.startsWith( wordWithPrefixLookAlike ) ) ) {
-			/**
+			/*
 			 * If the word does not start with one of the first order prefixes but starts with one of the second order prefixes,
 			 * the prefix will be stemmed here, e.g., peranakan -> anakan
 			 */
@@ -256,14 +256,14 @@ const stemDerivational = function( word, morphologyData ) {
 	} else {
 		// If the word previously had a first order prefix, assign wordLength to the length of the word after prefix deletion.
 		wordLength = word.length;
-		/**
+		/*
 		 * If the word after first order prefix deletion is bigger than 2 and ends in either -kan, -an, or -i suffixes,
 		 * the suffix will be stemmed here. e.g. penyebaran - sebar.
 		 */
 		if ( calculateTotalNumberOfSyllables( word ) > 2 ) {
 			word = removeEnding( word, removeSuffixRules, removeSuffixExceptions, morphologyData );
 		}
-		/**
+		/*
 		 * If the word previously had a suffix, we check further if the word after first order prefix and suffix deletion has more than 2 syllables.
 		 * If it does have more than 2 syllables and starts with one of the second order prefixes (i.e. ber-, be-, per-, pe-), the prefix will
 		 * be stemmed here unless the word is in the exception list of words with a beginning that looks like a second order prefix.
@@ -304,7 +304,7 @@ const stemSingular = function( word, morphologyData ) {
 		return firstDerivationalStem;
 	}
 
-	/**
+	/*
 	 * If the word has more than 2 syllables and ends in of the particle endings (i.e. -kah, -lah, -pun), stem the particle here.
 	 * e.g. bajumulah -> bajumu, bawalah -> bawa
 	 */

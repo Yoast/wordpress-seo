@@ -27,7 +27,7 @@ export default class Researcher extends AbstractResearcher {
 			functionWords: [],
 		} );
 
-		Object.assign( this.config, {
+		Object.assign( this.helpers, {
 			getStemmer,
 		} );
 	}
