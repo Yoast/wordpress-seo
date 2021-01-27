@@ -1,5 +1,5 @@
-import { SvgIcon } from "../../../../../../../javascript/packages/components";
-import { getIconForScore } from "../contentAnalysis/mapResults";
+import { SvgIcon } from "../../../../../../javascript/packages/components";
+import { getIconForScore } from "./contentAnalysis/mapResults";
 import * as PropTypes from "prop-types";
 
 /**

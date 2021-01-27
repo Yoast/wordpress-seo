@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
 import { Fragment } from "@wordpress/element";
-import AnalysisCheck from "./prepublish/AnalysisCheck";
+import AnalysisCheck from "./AnalysisCheck";
 import { Button } from "@yoast/components";
 
 /**
