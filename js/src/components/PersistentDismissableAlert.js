@@ -1,6 +1,5 @@
 import { Alert } from "@yoast/components";
-import { useCallback } from "@wordpress/element";
-import { __ } from "@wordpress/i18n";
+import { useCallback, PropTypes } from "@wordpress/element";
 
 /**
  * Renders the PersistentDismissableAlert component.
@@ -12,43 +11,38 @@ import { __ } from "@wordpress/i18n";
 export default function PersistentDismissableAlert( props ) {
 	const dismissAlert = useCallback(
 		() => {
-		  // Calling the REST route here.
-		  window.wpseoApi.post( "alerts/dismiss", { key: "video-metabox-reactification-alert" }, response => {
+			// Calling the REST route here.
+			window.wpseoApi.post( "alerts/dismiss", { key: props.key }, response => {
 				if ( ! response || ! response.success ) {
 					return;
 				}
 
 				// Update the store when succesfully dismissed.
-				props.dismissAlert( "video-metabox-reactification-alert" );
-		  } );
+				props.dismissAlert( props.key );
+			} );
 		},
 		[ props.dismissAlert ]
 	);
 
-	if ( props.reactAlertIsDismissed ) {
+	if ( props.dismissed ) {
 		return null;
 	}
 	return <Alert
-		type="info"
+		type={ props.type }
 		onDismissed={ dismissAlert }
 	>
-		{ __( "We've made some changes to Yoast SEO Video.", "yoast-video-seo" ) + " " }
-		<a
-			href="https://yoa.st/video-changes"
-			target="_blank"
-			rel="noopener noreferrer"
-		>
-			{ __( "Learn more about what has changed.", "yoast-video-seo" ) }
-		</a>
+		{ props.children }
 	</Alert>;
 }
 
 PersistentDismissableAlert.propTypes = {
 	children: PropTypes.string.isRequired,
-	display: PropTypes.bool,
-	id: PropTypes.string.isRequired,
+	dismissed: PropTypes.bool,
+	key: PropTypes.string.isRequired,
+	type: PropTypes.string,
 };
 
 PersistentDismissableAlert.defaultProps = {
-	display: true,
+	dismissed: true,
+	type: "info",
 };
