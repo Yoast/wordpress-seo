@@ -15,7 +15,7 @@ const cardinalNumerals = [ "dos", "tres", "cuatro", "cinco", "seis", "siete", "o
 const ordinalNumerals = [ "primera", "segunda", "tercera", "cuarto", "cuarta", "quinto", "quinta", "sexto", "sexta",
 	"septimo", "septima", "octavo", "octava", "noveno", "novena", "décimo", "décima", "vigésimo", "vigésima", "primeros",
 	"primeras", "segundos", "segundas", "terceros", "terceras", "cuartos", "cuartas", "quintos", "quintas", "sextos",
-	"sextas", "septimos", "septimas", "octavos", "octav as", "novenos", "novenas", "décimos", "décimas", "vigésimos",
+	"sextas", "septimos", "septimas", "octavos", "octavas", "novenos", "novenas", "décimos", "décimas", "vigésimos",
 	"vigésimas" ];
 
 const personalPronounsNominative = [ "yo", "yos", "yoes", "tú", "él", "ella", "ello", "nosotros", "nosotras", "vosotros", "vosotras",
