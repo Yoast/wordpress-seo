@@ -14,6 +14,7 @@ const TwitterPreviewModal = () => {
 	return (
 		<EditorModal
 			title={ __( "Twitter preview", "wordpress-seo" ) }
+			id="yoast-twitter-preview-modal"
 		>
 			<TwitterEditor />
 		</EditorModal>

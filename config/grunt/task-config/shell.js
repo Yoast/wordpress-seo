@@ -207,8 +207,8 @@ module.exports = function( grunt ) {
 		"install-schema-blocks": {
 			// If a src directory exists in the schema-blocks but not dist directory then it needs to be built.
 			command: "if [ -d node_modules/@yoast/schema-blocks/src ] && [ ! -d node_modules/@yoast/schema-blocks/dist ]; then " +
-				"cd node_modules/@yoast/schema-blocks && yarn install && yarn build; " +
-				"fi",
+					 "cd node_modules/@yoast/schema-blocks && yarn install && yarn build; " +
+					 "fi",
 		},
 
 		"check-for-uncommitted-changes": {

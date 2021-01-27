@@ -32,7 +32,7 @@ export const isCloseEvent = ( event ) => {
  *
  * @returns {*} A button wrapped in a div.
  */
-const EditorModal = ( { postTypeName, children, title } ) => {
+const EditorModal = ( { id, postTypeName, children, title } ) => {
 	const [ isOpen, changeIsOpen ] = useState( false );
 
 	const closeModal = useCallback( ( event ) => {
@@ -84,6 +84,7 @@ const EditorModal = ( { postTypeName, children, title } ) => {
 				</LocationProvider>
 			) }
 			<SidebarButton
+				id={ id + "-open-button" }
 				title={ title }
 				suffixIcon={ { size: "20px", icon: "pencil-square" } }
 				onClick={ openModal }
@@ -93,6 +94,7 @@ const EditorModal = ( { postTypeName, children, title } ) => {
 };
 
 EditorModal.propTypes = {
+	id: PropTypes.string.isRequired,
 	postTypeName: PropTypes.string.isRequired,
 	children: PropTypes.oneOfType( [ PropTypes.node, PropTypes.arrayOf( PropTypes.node ) ] ).isRequired,
 	title: PropTypes.string.isRequired,
