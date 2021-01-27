@@ -4,7 +4,8 @@ import getWords from "../../../helpers/word/getWords";
 /**
  * Checks the passed sentence to see if it contains Arabic passive verb-forms.
  *
- * @param {string} sentence The sentence to match against.
+ * @param {string} sentence     The sentence to match against.
+ *
  * @returns {Boolean} Whether the sentence contains Arabic passive voice.
  */
 export default function isPassiveSentence( sentence ) {
@@ -22,7 +23,7 @@ export default function isPassiveSentence( sentence ) {
 		if ( word.length >= 2 ) {
 			wordWithDamma = word[ 1 ].search( "\u064F" );
 		}
-		if ( wordWithDamma !== -1 || getPassiveVerbs().includes( word ) ) {
+		if ( wordWithDamma !== -1 || getPassiveVerbs.includes( word ) ) {
 			passiveVerbs.push( word );
 		}
 	}

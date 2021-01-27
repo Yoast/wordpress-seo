@@ -1,8 +1,7 @@
 import getWords from "../../../../helpers/word/getWords.js";
 import regexFunctionFactory from "../../config/internal/passiveVoiceRegex.js";
 const regexFunction = regexFunctionFactory();
-import irregularParticiplesFactory from "../../config/internal/passiveVoiceIrregulars.js";
-const irregularParticiples = irregularParticiplesFactory();
+import irregularParticiples from "../../config/internal/passiveVoiceIrregulars.js";
 import GermanParticiple from "../../values/GermanParticiple.js";
 import { forEach } from "lodash-es";
 

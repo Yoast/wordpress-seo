@@ -21,7 +21,7 @@ describe( "a test for the Italian Researcher", function() {
 	} );
 
 	it( "returns the Italian function words filtered at the beginning", function() {
-		expect( researcher.getConfig( "functionWords" ).all ).toEqual( functionWords.all );
+		expect( researcher.getConfig( "functionWords" ) ).toEqual( functionWords.all );
 	} );
 
 	it( "returns the Italian first word exceptions", function() {
