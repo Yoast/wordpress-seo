@@ -1,6 +1,12 @@
 import Researcher from "../../../../src/languageProcessing/languages/es/Researcher.js";
 import Paper from "../../../../src/values/Paper.js";
 import getMorphologyData from "../../../specHelpers/getMorphologyData";
+import functionWords from "../../../../src/languageProcessing/languages/es/config/functionWords";
+import transitionWords from "../../../../src/languageProcessing/languages/es/config/transitionWords";
+import firstWordExceptions from "../../../../src/languageProcessing/languages/es/config/firstWordExceptions";
+import twoPartTransitionWords from "../../../../src/languageProcessing/languages/es/config/twoPartTransitionWords";
+import stopWords from "../../../../src/languageProcessing/languages/es/config/stopWords";
+import syllables from "../../../../src/languageProcessing/languages/es/config/syllables.json";
 const morphologyDataES = getMorphologyData( "es" );
 import sentenceLength from "../../../../src/languageProcessing/languages/es/config/sentenceLength";
 import fleschReadingEaseScores from "../../../../src/languageProcessing/languages/es/config/fleschReadingEaseScores";
@@ -16,105 +22,28 @@ describe( "a test for the Spanish Researcher", function() {
 		expect( researcher.hasResearch( "getPassiveVoice" ) ).toBe( true );
 	} );
 
-	it( "returns the Spanish function words filtered at the end", function() {
-		expect( researcher.getConfig( "functionWords" ).filteredAtEnding ).toEqual(
-			[ "primera", "segunda", "tercera", "cuarto", "cuarta", "quinto", "quinta", "sexto", "sexta", "septimo", "septima",
-				"octavo", "octava", "noveno", "novena", "décimo", "décima", "vigésimo", "vigésima", "primeros", "primeras",
-				"segundos", "segundas", "terceros", "terceras", "cuartos", "cuartas", "quintos", "quintas", "sextos", "sextas",
-				"septimos", "septimas", "octavos", "octavas", "novenos", "novenas", "décimos", "décimas", "vigésimos", "vigésimas",
-				"haber", "deber", "empezar", "comenzar", "seguir", "tener", "andar", "quedar", "hallar", "venir", "abrir", "ir",
-				"acabar", "llevar", "alcanzar", "decir", "continuar", "resultar", "poder", "querer", "saber", "soler", "necesitar",
-				"estar", "ser", "hacer", "parecer", "ir" ]
-		);
+	it( "returns the Spanish function words", function() {
+		expect( researcher.getConfig( "functionWords" ) ).toEqual( functionWords.all );
 	} );
 
 	it( "returns the Spanish first word exceptions", function() {
-		expect( researcher.getConfig( "firstWordExceptions" )() ).toEqual(
-			[ "el", "los", "la", "las", "un", "una", "unas", "unos", "uno", "dos", "tres", "cuatro", "cinco", "seis", "siete", "ocho",
-				"nueve", "diez", "este", "estos", "esta", "estas", "ese", "esos", "esa", "esas", "aquel", "aquellos", "aquella",
-				"aquellas", "esto", "eso", "aquello" ]
-		);
+		expect( researcher.getConfig( "firstWordExceptions" ) ).toEqual( firstWordExceptions );
 	} );
 
 	it( "returns the singleWords Spanish transition words", function() {
-		expect( researcher.getConfig( "transitionWords" )().singleWords ).toEqual(
-			[ "además", "adicional", "así", "asimismo", "aún", "aunque", "ciertamente", "como", "concluyendo", "conque", "contrariamente",
-				"cuando", "decididamente", "decisivamente", "después", "diferentemente", "efectivamente", "entonces",
-				"especialmente", "específicamente", "eventualmente", "evidentemente", "finalmente", "frecuentemente",
-				"generalmente", "igualmente", "lógicamente", "luego", "mas", "mientras",
-				"pero", "por", "porque", "posteriormente", "primero", "principalmente", "pronto", "próximamente", "pues", "raramente", "realmente",
-				"seguidamente",	"segundo", "semejantemente", "si", "siguiente", "sino", "súbitamente", "supongamos",  "también", "tampoco", "tercero",
-				"verbigracia", "vice-versa", "ya" ]
-		);
+		expect( researcher.getConfig( "transitionWords" ) ).toEqual( transitionWords );
 	} );
 
 	it( "returns the Spanish two part transition word", function() {
-		expect( researcher.getConfig( "twoPartTransitionWords" )() ).toEqual(
-			[ [ "de un lado", "de otra parte" ], [ "de un lado", "de otro" ], [ "no", "sino que" ], [ "no", "sino" ],
-				[ "por un lado", "por otro lado" ], [ "por una parte", "por otra parte" ], [ "por una parte", "por otra" ],
-				[ "tanto", "como" ], [ "bien", "bien" ] ]
-		);
+		expect( researcher.getConfig( "twoPartTransitionWords" ) ).toEqual( twoPartTransitionWords );
 	} );
 
-	it( "returns a specified part of the Spanish syllables data", function() {
-		expect( researcher.getConfig( "syllables" ).deviations.words.full ).toEqual(
-			[
-				{
-					word: "scooter",
-					syllables: 2,
-				},
-				{
-					word: "y",
-					syllables: 1,
-				},
-				{
-					word: "beat",
-					syllables: 1,
-				},
-				{
-					word: "via",
-					syllables: 2,
-				},
-				{
-					word: "ok",
-					syllables: 2,
-				},
-			]
-		);
+	it( "returns the Spanish syllables data", function() {
+		expect( researcher.getConfig( "syllables" ) ).toEqual( syllables );
 	} );
 
 	it( "returns the Spanish stop words", function() {
-		expect( researcher.getConfig( "stopWords" ) ).toEqual(
-			[
-				"pero",
-				"ora",
-				"aunque",
-				"aun",
-				"mientras",
-				"porque",
-				"apenas",
-				"si",
-				"antes",
-				"después",
-				"cómo",
-				"como",
-				"empero",
-				"que",
-				"cuanto",
-				"cuando",
-				"cual",
-				"cuales",
-				"quién",
-				"quien",
-				"quienes",
-				"dónde",
-				"adónde",
-				"cuyo",
-				"cuyos",
-				"cuya",
-				"cuyas",
-			]
-		);
+		expect( researcher.getConfig( "stopWords" ) ).toEqual( stopWords );
 	} );
 
 	it( "returns Spanish Flesch reading ease config", function() {

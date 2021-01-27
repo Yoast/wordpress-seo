@@ -1,7 +1,4 @@
-import transitionWordsFactory from "./transitionWords";
-import {cannotBeBetweenPassiveAuxiliaryAndParticiple} from "../../en/config/functionWords";
-
-const transitionWords = transitionWordsFactory.singleWords;
+import {  singleWords as transitionWords } from "./transitionWords";
 
 /**
  * Returns an array with exceptions for the prominent words researcher.

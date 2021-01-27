@@ -34,7 +34,7 @@ describe( "a test for the Russian Researcher", function() {
 	} );
 
 	it( "returns the Russian function words", function() {
-		expect( researcher.getConfig( "functionWords" ).all ).toEqual( functionWords.all );
+		expect( researcher.getConfig( "functionWords" ) ).toEqual( functionWords.all );
 	} );
 
 	it( "returns the Russian first word exceptions", function() {
@@ -42,7 +42,7 @@ describe( "a test for the Russian Researcher", function() {
 	} );
 
 	it( "returns the Russian transition words", function() {
-		expect( researcher.getConfig( "transitionWords" ).allWords ).toEqual( transitionWords.allWords );
+		expect( researcher.getConfig( "transitionWords" ) ).toEqual( transitionWords );
 	} );
 
 	it( "returns the Russian two part transition word", function() {

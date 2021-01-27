@@ -1,5 +1,5 @@
 import exceptionsParticiplesActive from "../../config/internal/exceptionsParticiplesActive";
-import { exceptions } from "../../config/internal/passiveVoiceRegex";
+import exceptions from "../../config/internal/passiveVoiceRegex";
 
 /**
  * Detects whether a word is a regular participle without a prefix and if so, returns the stem.
@@ -108,7 +108,7 @@ const detectAndStemParticiplesWithPrefixes = function( morphologyDataVerbs, word
  * @returns {string|null} The participle stem or null if no regular participle was matched.
  */
 export function detectAndStemRegularParticiple( morphologyDataVerbs, word ) {
-	if ( exceptions( word ).length > 0 || exceptionsParticiplesActive().includes( word ) ) {
+	if ( exceptions( word ).length > 0 || exceptionsParticiplesActive.includes( word ) ) {
 		return "";
 	}
 

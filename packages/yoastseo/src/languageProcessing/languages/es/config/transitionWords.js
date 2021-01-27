@@ -1,12 +1,12 @@
 /** @module config/transitionWords */
 
-const singleWords = [ "además", "adicional", "así", "asimismo", "aún", "aunque", "ciertamente", "como", "concluyendo", "conque", "contrariamente",
+export const singleWords = [ "además", "adicional", "así", "asimismo", "aún", "aunque", "ciertamente", "como", "concluyendo", "conque", "contrariamente",
 	"cuando", "decididamente", "decisivamente", "después", "diferentemente", "efectivamente", "entonces", "especialmente", "específicamente",
 	"eventualmente", "evidentemente", "finalmente", "frecuentemente", "generalmente", "igualmente", "lógicamente", "luego", "mas", "mientras",
 	"pero", "por", "porque", "posteriormente", "primero", "principalmente", "pronto", "próximamente", "pues", "raramente", "realmente",
 	"seguidamente",	"segundo", "semejantemente", "si", "siguiente", "sino", "súbitamente", "supongamos",  "también", "tampoco", "tercero",
 	"verbigracia", "vice-versa", "ya" ];
-const multipleWords = [  "a causa de", "a continuación", "a diferencia de", "a fin de cuentas", "a la inversa", "a la misma vez", "a más de",
+export const multipleWords = [  "a causa de", "a continuación", "a diferencia de", "a fin de cuentas", "a la inversa", "a la misma vez", "a más de",
 	"a más de esto", "a menos que", "a no ser que", "a pesar de", "a pesar de eso", "a pesar de todo", "a peser de", "a propósito", "a saber",
 	"a todo esto", "ahora bien", "al contrario", "al fin y al cabo", "al final", "al inicio", "al mismo tiempo", "al principio", "ante todo",
 	"antes bien", "antes de", "antes de nada", "antes que nada", "aparte de", "as así como", "así como", "así mismo", "así pues", "así que",
@@ -35,14 +35,6 @@ const multipleWords = [  "a causa de", "a continuación", "a diferencia de", "a 
 	"si bien", "siempre que", "siempre y cuando", "sigue que", "sin duda", "sin embargo", "sin ir más lejos", "sobre todo", "supuesto que",
 	"tal como", "tales como", "tan pronto como", "tanto como", "una vez", "ya que" ];
 
-/**
- * Returns lists with transition words to be used by the assessments.
- * @returns {Object} The object with transition word lists.
- */
-export default function() {
-	return {
-		singleWords: singleWords,
-		multipleWords: multipleWords,
-		allWords: singleWords.concat( multipleWords ),
-	};
-}
+export const allWords = singleWords.concat( multipleWords );
+
+export default allWords;
