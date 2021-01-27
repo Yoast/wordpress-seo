@@ -17,6 +17,13 @@ if ( ! function_exists( 'add_filter' ) ) {
  */
 define( 'WPSEO_VERSION', '15.8-RC1' );
 
+// Can't use constants or the options framework here as we need to do this before autoloading.
+$wpseo_option    = get_option( 'wpseo', [ 'version' => '0.0.0' ] );
+$current_version = $wpseo_option['version'];
+if ( version_compare( $current_version, WPSEO_VERSION, '<' ) && function_exists( 'opcache_reset' ) ) {
+	// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged -- Prevent notices when opcache.restrict_api is set.
+	@opcache_reset();
+}
 
 if ( ! defined( 'WPSEO_PATH' ) ) {
 	define( 'WPSEO_PATH', plugin_dir_path( WPSEO_FILE ) );
@@ -295,11 +302,6 @@ function wpseo_init() {
 	WPSEO_Meta::init();
 
 	if ( version_compare( WPSEO_Options::get( 'version', 1 ), WPSEO_VERSION, '<' ) ) {
-		if ( function_exists( 'opcache_reset' ) ) {
-			// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged -- Prevent notices when opcache.restrict_api is set.
-			@opcache_reset();
-		}
-
 		new WPSEO_Upgrade();
 		// Get a cleaned up version of the $options.
 	}
