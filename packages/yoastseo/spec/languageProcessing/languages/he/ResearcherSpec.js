@@ -47,6 +47,10 @@ describe( "a test for the Hebrew Researcher", function() {
 		expect( researcher.getConfig( "language" ) ).toEqual( "he" );
 	} );
 
+	it( "returns the Hebrew passive construction type", function() {
+		expect( researcher.getConfig( "passiveConstructionType" ) ).toEqual( "morphological" );
+	} );
+
 	it( "returns the Hebrew basic word forms", function() {
 		expect( researcher.getHelper( "createBasicWordForms" )( "והוא" ) ).toEqual(
 			[ "בוהוא", "הוהוא", "ווהוא", "כוהוא", "לוהוא", "מוהוא", "שוהוא", "הוא", "בהוא", "ההוא", "והוא", "כהוא", "להוא", "מהוא", "שהוא" ]
@@ -54,7 +58,7 @@ describe( "a test for the Hebrew Researcher", function() {
 	} );
 
 	it( "returns the original word through the base stemmer", function() {
-		expect( researcher.getHelper( "getStemmer" )( "ווהוא" ) ).toEqual( "ווהוא" );
+		expect( researcher.getHelper( "getStemmer" )( researcher )( "ווהוא" ) ).toEqual( "ווהוא" );
 	} );
 
 	it( "stems the Hebrew word using the Hebrew stemmer", function() {
