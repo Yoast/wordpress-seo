@@ -2,7 +2,7 @@ import { BlockInstance, createBlock } from "@wordpress/blocks";
 import * as renderer from "react-test-renderer";
 import { mount } from "enzyme";
 import { RequiredBlock } from "../../src/core/validation";
-import RequiredBlocks from "../../src/blocks/RequiredBlocks";
+import BlockSuggestions from "../../src/blocks/BlockSuggestions";
 import { insertBlock } from "../../src/functions/innerBlocksHelper";
 
 jest.mock( "@wordpress/blocks", () => {
@@ -15,6 +15,7 @@ jest.mock( "../../src/functions/BlockHelper", () => {
 	return {
 		getBlockType: jest.fn( ( blockName: string )  => {
 			if ( blockName === "yoast/nonexisting" ) {
+				// eslint-disable-next-line no-undefined
 				return undefined;
 			}
 
@@ -48,7 +49,7 @@ describe( "The required blocks in the sidebar", () => {
 			} as RequiredBlock,
 		];
 
-		const actual = RequiredBlocks( block, requiredBlocks );
+		const actual = BlockSuggestions( "Required blocks", block, requiredBlocks );
 
 		expect( actual ).toBe( null );
 	} );
@@ -63,7 +64,7 @@ describe( "The required blocks in the sidebar", () => {
 		];
 
 		const tree = renderer
-			.create( RequiredBlocks( block, requiredBlocks ) )
+			.create( BlockSuggestions( "Required blocks", block, requiredBlocks ) )
 			.toJSON();
 
 		expect( tree ).toMatchSnapshot();
@@ -79,7 +80,7 @@ describe( "The required blocks in the sidebar", () => {
 		];
 
 		const tree = renderer
-			.create( RequiredBlocks( block, requiredBlocks ) )
+			.create( BlockSuggestions( "Required blocks", block, requiredBlocks ) )
 			.toJSON();
 
 		expect( tree ).toMatchSnapshot();
@@ -94,7 +95,7 @@ describe( "The required blocks in the sidebar", () => {
 			} as RequiredBlock,
 		];
 
-		const tree = mount( RequiredBlocks( block, requiredBlocks ) );
+		const tree = mount( BlockSuggestions( "Required blocks", block, requiredBlocks ) );
 
 		const addButton = tree.find( "button" ).first();
 

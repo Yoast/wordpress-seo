@@ -1,5 +1,5 @@
 import { ReactElement } from "react";
-import { createElement, ComponentClass } from "@wordpress/element";
+import { createElement, ComponentClass, Fragment } from "@wordpress/element";
 import { InnerBlocks as WordPressInnerBlocks } from "@wordpress/block-editor";
 import { BlockInstance, TemplateArray } from "@wordpress/blocks";
 import { BlockValidation, BlockValidationResult, RecommendedBlock, RequiredBlock } from "../../core/validation";
@@ -7,17 +7,17 @@ import BlockInstruction from "../../core/blocks/BlockInstruction";
 import validateInnerBlocks from "../../functions/validators/innerBlocksValid";
 import { RenderEditProps, RenderSaveProps } from "../../core/blocks/BlockDefinition";
 import { getBlockByClientId } from "../../functions/BlockHelper";
-import RequiredBlocks from "../../blocks/RequiredBlocks";
-import { InstructionObject } from "../../core/Instruction";
+import BlockSuggestions from "../../blocks/BlockSuggestions";
+import { InstructionObject, InstructionOptions } from "../../core/Instruction";
 import BlockLeaf from "../../core/blocks/BlockLeaf";
 import validateMany from "../../functions/validators/validateMany";
+import { __ } from "@wordpress/i18n";
 
 /**
  * InnerBlocks instruction.
  */
 export default class InnerBlocks extends BlockInstruction {
-	public options: {
-		name: string;
+	public options: InstructionOptions & {
 		allowedBlocks: string[];
 		template: TemplateArray;
 		appender: string;
@@ -25,14 +25,14 @@ export default class InnerBlocks extends BlockInstruction {
 		requiredBlocks: RequiredBlock[];
 		recommendedBlocks: RecommendedBlock[];
 		warnings: InstructionObject;
-	};
+	}
 
 	/**
 	 * Renders saving the instruction.
 	 *
 	 * @param props The props.
-	 * @param leaf The leaf.
-	 * @param i The index.
+	 * @param leaf  The leaf.
+	 * @param i     The index.
 	 *
 	 * @returns The inner blocks.
 	 */
@@ -44,8 +44,8 @@ export default class InnerBlocks extends BlockInstruction {
 	 * Renders editing the instruction.
 	 *
 	 * @param props The props.
-	 * @param leaf The leaf.
-	 * @param i The index.
+	 * @param leaf  The leaf.
+	 * @param i     The index.
 	 *
 	 * @returns The inner blocks.
 	 */
@@ -54,6 +54,23 @@ export default class InnerBlocks extends BlockInstruction {
 			key: i,
 		};
 
+		this.renderAppender( properties );
+
+		this.arrangeAllowedBlocks( properties );
+
+		if ( this.options.template ) {
+			properties.template = this.options.template;
+		}
+
+		return createElement( WordPressInnerBlocks, properties );
+	}
+
+	/**
+	 * Renders all innerblocks as react elements.
+	 *
+	 * @param properties The properties of the innerblock.
+	 */
+	private renderAppender( properties: React.ClassAttributes<unknown> & WordPressInnerBlocks.Props ) {
 		if ( this.options.appender === "button" ) {
 			properties.renderAppender = () => {
 				// The type definition of InnerBlocks are wrong so cast to fix them.
@@ -64,25 +81,32 @@ export default class InnerBlocks extends BlockInstruction {
 		}
 
 		if ( typeof this.options.appenderLabel === "string" ) {
-			properties.renderAppender = () =>
-				createElement(
+			properties.renderAppender = () => {
+				return createElement(
 					"div",
 					{ className: "yoast-labeled-inserter", "data-label": this.options.appenderLabel },
+					// The type definition of InnerBlocks are wrong so cast to fix them.
 					createElement( ( WordPressInnerBlocks as unknown as { ButtonBlockAppender: ComponentClass } ).ButtonBlockAppender ),
 				);
+			};
 		}
+	}
 
+	/**
+	 * Ensures all required and recommended blocks are allowed blocks.
+	 *
+	 * @param properties The properties of the current block.
+	 */
+	private arrangeAllowedBlocks( properties: React.ClassAttributes<unknown> & WordPressInnerBlocks.Props ) {
 		properties.allowedBlocks = [ "yoast/warning-block" ];
 
 		if ( this.options.allowedBlocks ) {
 			properties.allowedBlocks = this.options.allowedBlocks.concat( properties.allowedBlocks );
 		}
 
-		if ( this.options.template ) {
-			properties.template = this.options.template;
-		}
-
-		return createElement( WordPressInnerBlocks, properties );
+		properties.allowedBlocks = properties.allowedBlocks
+			.concat( this.options.requiredBlocks.map( block => block.name ) )
+			.concat( this.options.recommendedBlocks.map( block => block.name ) );
 	}
 
 	/**
@@ -92,14 +116,26 @@ export default class InnerBlocks extends BlockInstruction {
 	 *
 	 * @returns The sidebar element to render.
 	 */
-	sidebar( props: RenderEditProps ): ReactElement | string {
+	sidebar( props: RenderEditProps ): ReactElement {
 		const currentBlock = getBlockByClientId( props.clientId );
+		const elements: ReactElement[] = [];
 
 		if ( this.options.requiredBlocks ) {
-			return RequiredBlocks( currentBlock, this.options.requiredBlocks );
+			elements.push( BlockSuggestions( __( "Required Blocks", "wpseo-schema-blocks" ), currentBlock, this.options.requiredBlocks ) );
+		}
+		if ( this.options.recommendedBlocks ) {
+			elements.push( BlockSuggestions( __( "Recommended Blocks", "wpseo-schema-blocks" ),  currentBlock, this.options.recommendedBlocks ) );
 		}
 
-		return null;
+		if ( elements.length === 0 ) {
+			return null;
+		}
+
+		return (
+			<Fragment>
+			{ ...elements }
+			</Fragment>
+		);
 	}
 
 	/**
