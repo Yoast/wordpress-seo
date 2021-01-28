@@ -1,5 +1,5 @@
-export const DISMISS_ALERT = "DISMISS_ALERT";
 export const LOAD_DISMISSED_ALERTS = "LOAD_DISMISSED_ALERTS";
+export const DISMISS_ALERT = "DISMISS_ALERT";
 
 
 /**
@@ -17,10 +17,13 @@ export function loadDismissedAlerts() {
 /**
  * Creates an action to dismiss an alert.
  *
+ * @param {string} alertKey The key of the Alert that needs to be dismissed.
+ *
  * @returns {Object} A VIDEO_DISMISS_ALERT action.
  */
-export function dismissAlert() {
+export function dismissAlert( alertKey ) {
 	return {
 		type: DISMISS_ALERT,
+		alertKey,
 	};
 }
