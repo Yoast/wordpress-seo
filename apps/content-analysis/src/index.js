@@ -47,7 +47,6 @@ const storageMiddleware = createStorageMiddleware( storageStates );
 
 const store = configureStore( initialState, [ storageMiddleware  ] );
 const workerUnwrapped = new AnalysisWebWorker();
-// @todo dynamically set language
 workerUnwrapped.postMessage( { language: "en" } );
 const worker = new AnalysisWorkerWrapper( workerUnwrapped );
 
