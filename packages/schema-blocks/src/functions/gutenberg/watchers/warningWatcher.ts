@@ -9,7 +9,7 @@ import { mapBlocksRecursively } from "../../innerBlocksHelper";
 import BlockDefinition from "../../../core/blocks/BlockDefinition";
 import { InstructionObject } from "../../../core/Instruction";
 import { getBlockType } from "../../BlockHelper";
-import { RequiredBlock, RecommendedBlock } from "../../../instructions/blocks/dto";
+import { RecommendedBlock, RequiredBlock } from "../../../core/validation";
 
 enum WarningType {
 	BLOCK_REQUIRED,

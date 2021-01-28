@@ -6,12 +6,14 @@ describe( "The Innerblocks class", () => {
 		const innerBlocks = new InnerBlocks(
 			1337,
 			{
+				name: "inner-blocks",
 				allowedBlocks: [ "core/paragraph" ],
 				template: [ [ "core/paragraph", { html: "Text" } ] ],
 			},
 		);
 
 		const expected = {
+			name: "inner-blocks",
 			allowedBlocks: [ "core/paragraph" ],
 			template: [ [ "core/paragraph", { html: "Text" } ] ],
 		};

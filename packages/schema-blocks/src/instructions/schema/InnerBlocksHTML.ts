@@ -9,6 +9,7 @@ import { BlockInstance } from "@wordpress/blocks";
  */
 class InnerBlocksHTML extends SchemaInstruction {
 	public options: {
+		name: string;
 		blocks?: Record<string, string>;
 		allowedTags?: string[];
 		onlyFirst?: boolean;

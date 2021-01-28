@@ -1,3 +1,4 @@
+import { BlockValidation, BlockValidationResult } from "./validation";
 import { BlockInstance } from "@wordpress/blocks";
 import { isArray, mergeWith } from "lodash";
 import Instruction from "./Instruction";
@@ -66,18 +67,34 @@ export default abstract class Definition {
 			mergeWith( config, instruction.configuration(), this.customizer ), {} );
 	}
 
-	/* eslint-disable @typescript-eslint/no-unused-vars */
 	/**
 	 * Checks if the Definition block is valid.
 	 *
 	 * @param blockInstance The block to be validated.
 	 *
-	 * @returns {boolean} True if all instructions in the block are valid, false if any of the block instructions contains errors.
+	 * @returns {BlockValidationResult | null} The validation result for the given block.
 	 */
-	valid( blockInstance: BlockInstance ): boolean {
-		return Object.values( this.instructions ).every( instruction => instruction.valid( blockInstance ) );
+	validate( blockInstance: BlockInstance ): BlockValidationResult {
+		if ( ! blockInstance ) {
+			return null;
+		}
+
+		const validation = new BlockValidationResult( blockInstance.clientId, blockInstance.name, BlockValidation.Unknown );
+
+		validation.issues = Object.values( this.instructions ).map( instruction => {
+			const issue = instruction.validate( blockInstance );
+			// eslint-disable-next-line no-console
+			console.log( "validating " + instruction.options.name + " against " + blockInstance.name + " => " + BlockValidation[ issue.result ] );
+			return issue;
+		} ).filter( issue => issue.result !== BlockValidation.Skipped );
+
+		// In case of a block with just one innerblock, this prevents a duplicate, identical wrapper.
+		if ( validation.issues.length === 1 ) {
+			return validation.issues[ 0 ];
+		}
+
+		return validation;
 	}
-	/* eslint-enable @typescript-eslint/no-unused-vars */
 
 	/**
 	 * Registers a definition.

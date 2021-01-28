@@ -9,6 +9,7 @@ import { getBlockSchemaId } from "../../functions/gutenberg/block";
  */
 class InnerBlocksID extends SchemaInstruction {
 	public options: {
+		name: string;
 		allowedBlocks?: string[];
 		allowedTags?: string[];
 		onlyFirst?: boolean;
