@@ -99,7 +99,6 @@ class WooCommerce implements Integration_Interface {
 		\add_filter( 'wpseo_title', [ $this, 'title' ], 10, 2 );
 		\add_filter( 'wpseo_metadesc', [ $this, 'description' ], 10, 2 );
 		\add_filter( 'wpseo_canonical', [ $this, 'canonical' ], 10, 2 );
-		\add_filter( 'wpseo_opengraph_url', [ $this, 'canonical' ], 10, 2 );
 	}
 
 	/**
