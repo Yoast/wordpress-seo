@@ -363,11 +363,6 @@ export default function initAdmin( jQuery ) {
 			jQuery( "#post_format-titles-metas" ).toggle( jQuery( this ).is( ":not(:checked)" ) );
 		} ).change();
 
-		// Toggle the Breadcrumbs section.
-		jQuery( "#breadcrumbs-enable" ).change( function() {
-			jQuery( "#breadcrumbsinfo" ).toggle( jQuery( this ).is( ":checked" ) );
-		} ).change();
-
 		// Toggle the Zapier connection section.
 		jQuery( "#zapier_integration_active input[type='radio']" ).change( function() {
 			// The value on is enabled, off is disabled.
