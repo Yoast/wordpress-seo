@@ -250,6 +250,7 @@ class Front_End_Integration implements Integration_Interface {
 
 		\do_action( 'wpseo_head' );
 
+		// phpcs:ignore WordPress.WP.GlobalVariablesOverride -- The query gets reset here with the original query.
 		$GLOBALS['wp_query'] = $old_wp_query;
 	}
 
