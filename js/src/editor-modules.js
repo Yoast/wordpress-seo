@@ -20,6 +20,7 @@ import Modal from "./components/modals/Modal";
 import SidebarItem from "./components/SidebarItem";
 import * as ajaxHelper from "./helpers/ajaxHelper";
 import EditorModal from "./containers/EditorModal";
+import ImageSelectPortal from "./components/portals/ImageSelectPortal";
 
 window.yoast = window.yoast || {};
 window.yoast.editorModules = {
@@ -46,6 +47,9 @@ window.yoast.editorModules = {
 		SidebarCollapsible,
 		MetaboxCollapsible,
 		Modal,
+		portals: {
+			ImageSelectPortal,
+		},
 	},
 	containers: {
 		EditorModal,

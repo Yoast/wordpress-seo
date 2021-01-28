@@ -259,7 +259,11 @@ class Indexable_Link_Builder {
 
 		if ( $model->type === SEO_Links::TYPE_INTERNAL || $model->type === SEO_Links::TYPE_INTERNAL_IMAGE ) {
 			$permalink = $this->get_permalink( $url, $home_url );
-			$target    = $this->indexable_repository->find_by_permalink( $permalink );
+			if ( $this->url_helper->is_relative( $permalink ) ) {
+				// Make sure we're checking against the absolute URL, and add a trailing slash if the site has a trailing slash in its permalink settings.
+				$permalink = $this->url_helper->ensure_absolute_url( user_trailingslashit( $permalink ) );
+			}
+			$target = $this->indexable_repository->find_by_permalink( $permalink );
 
 			if ( ! $target ) {
 				// If target indexable cannot be found, create one based on the post's post ID.

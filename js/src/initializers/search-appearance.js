@@ -18,6 +18,7 @@ import UserSelectPortal from "../components/portals/UserSelectPortal";
 import CompanyInfoMissingPortal from "../components/portals/CompanyInfoMissingPortal";
 import LocalSEOUpsellPortal from "../components/portals/LocalSEOUpsellPortal";
 import SchemaSettings from "../containers/SchemaSettings";
+import ImageSelectPortal from "../components/portals/ImageSelectPortal";
 
 /**
  * @summary Initializes the search appearance settings script.
@@ -91,6 +92,20 @@ export default function initSearchAppearance() {
 						target="knowledge-graph-company-warning"
 						message={ knowledgeGraphCompanyInfoMissing.message }
 						link={ knowledgeGraphCompanyInfoMissing.URL }
+					/>
+					<ImageSelectPortal
+						label="Organization logo"
+						hasPreview={ true }
+						target="yoast-organization-image-select"
+						hiddenField="company_logo"
+						hiddenFieldImageId="company_logo_id"
+					/>
+					<ImageSelectPortal
+						label="Person logo / avatar"
+						hasPreview={ true }
+						target="yoast-person-image-select"
+						hiddenField="person_logo"
+						hiddenFieldImageId="person_logo_id"
 					/>
 					{ showLocalSEOUpsell && (
 						<LocalSEOUpsellPortal
