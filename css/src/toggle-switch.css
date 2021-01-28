@@ -64,10 +64,10 @@
 		/* Override core style. */
 	}
 
-	.switch-light input[type=radio].disabled,
-	.switch-light input[type=radio].disabled:checked:before,
-	.switch-light input[type=radio]:disabled,
-	.switch-light input[type=radio]:disabled:checked:before {
+	.switch-light input[type="checkbox"].disabled,
+	.switch-light input[type="checkbox"].disabled:checked:before,
+	.switch-light input[type="checkbox"]:disabled,
+	.switch-light input[type="checkbox"]:disabled:checked:before {
 		opacity: 0;
 	}
 
@@ -117,10 +117,10 @@
 		/* Override core style. */
 	}
 
-	.switch-toggle input[type=radio].disabled,
-	.switch-toggle input[type=radio].disabled:checked:before,
-	.switch-toggle input[type=radio]:disabled,
-	.switch-toggle input[type=radio]:disabled:checked:before {
+	.switch-toggle input[type="radio"].disabled,
+	.switch-toggle input[type="radio"].disabled:checked:before,
+	.switch-toggle input[type="radio"]:disabled,
+	.switch-toggle input[type="radio"]:disabled:checked:before {
 		opacity: 0;
 	}
 
@@ -328,7 +328,9 @@
 	.switch-toggle.switch-yoast-seo input:disabled + a,
 	.switch-toggle.switch-yoast-seo input:disabled ~ a,
 	.switch-light.switch-yoast-seo input.disabled + span a,
-	.switch-light.switch-yoast-seo input:disabled + span a {
+	.switch-light.switch-yoast-seo input:disabled + span a,
+	.switch-light.switch-yoast-seo input.disabled:checked + span a,
+	.switch-light.switch-yoast-seo input:disabled:checked + span a {
 		background: #9b9b9b;
 		border: 0;
 	}
