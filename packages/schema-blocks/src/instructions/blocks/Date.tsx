@@ -111,7 +111,7 @@ export default class Date extends BlockInstruction {
 
 		const dateFormat = Date.getDateFormat();
 
-		return <time dateTime={ date }>{ dateI18n( dateFormat, date ) }</time>;
+		return <div><time dateTime={ date }>{ dateI18n( dateFormat, date ) }</time></div>;
 	}
 
 	/**
