@@ -1,9 +1,11 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`The Date instruction returns the correct React components to render when the post is saved. 1`] = `
-<time
-  dateTime="2020-21-01"
->
-  2020-21-01
-</time>
+<div>
+  <time
+    dateTime="2020-21-01"
+  >
+    2020-21-01
+  </time>
+</div>
 `;
