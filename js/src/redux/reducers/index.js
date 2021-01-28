@@ -10,6 +10,7 @@ import focusKeyword from "./focusKeyword";
 import isCornerstone from "./cornerstoneContent";
 import isMarkerPaused from "./markerPauseStatus";
 import marksButtonStatus from "./markerButtons";
+import persistentDismissableAlert from "./persistentDismissableAlert";
 import preferences from "./preferences";
 import primaryTaxonomies from "./primaryTaxonomies";
 import schemaBlocks from "./schemaBlocks";
@@ -34,6 +35,7 @@ export default {
 	isCornerstone,
 	isMarkerPaused,
 	marksButtonStatus,
+	persistentDismissableAlert,
 	preferences,
 	primaryTaxonomies,
 	schemaBlocks,
