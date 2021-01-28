@@ -23,8 +23,8 @@ $yoast_seo_import = false;
 if ( filter_input( INPUT_POST, 'import' ) || filter_input( INPUT_GET, 'import' ) ) {
 	check_admin_referer( 'wpseo-import' );
 
-	$post_wpseo       = filter_input( INPUT_POST, 'wpseo', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY );
-	$yoast_seo_action = 'import';
+	$yoast_seo_post_wpseo = filter_input( INPUT_POST, 'wpseo', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY );
+	$yoast_seo_action     = 'import';
 }
 elseif ( filter_input( INPUT_POST, 'import_external' ) ) {
 	check_admin_referer( 'wpseo-import-plugins' );
