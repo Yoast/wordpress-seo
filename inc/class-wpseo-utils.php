@@ -1166,9 +1166,9 @@ class WPSEO_Utils {
 	 */
 	public static function get_roles() {
 		_deprecated_function( __METHOD__, '15.0', 'wp_roles()->get_names()' );
-		$wp_roles = wp_roles();
+		$yoast_seo_wp_roles = wp_roles();
 
-		$roles = $wp_roles->get_names();
+		$roles = $yoast_seo_wp_roles->get_names();
 
 		return $roles;
 	}
