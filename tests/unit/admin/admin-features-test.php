@@ -54,7 +54,7 @@ class Admin_Features_Test extends TestCase {
 		$this->stubTranslationFunctions();
 
 		$current_page_helper = Mockery::mock( Current_Page_Helper::class );
-		$current_page_helper->expects( 'is_yoast_seo_page' )->twice()->andReturn( true );
+		$current_page_helper->expects( 'is_yoast_seo_page' )->once()->andReturn( true );
 
 		$product_helper = Mockery::mock( Product_Helper::class );
 		$product_helper->expects( 'is_premium' )->times( 5 )->andReturn( false );
