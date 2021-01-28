@@ -119,7 +119,7 @@ class WooCommerce implements Integration_Interface {
 
 		$permalink = $presentation->get_permalink();
 		if ( ! $permalink ) {
-			return '';
+			return $canonical;
 		}
 
 		$current_page = $this->pagination_helper->get_current_archive_page_number();
