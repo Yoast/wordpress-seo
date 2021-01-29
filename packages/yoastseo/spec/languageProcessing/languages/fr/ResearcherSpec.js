@@ -49,7 +49,7 @@ describe( "a test for the French Researcher", function() {
 	} );
 
 	it( "returns the French passive construction type", function() {
-		expect( researcher.getConfig( "isPeriphrastic" ) ).toEqual( true );
+		expect( researcher.getConfig( "passiveConstructionType" ) ).toEqual( "periphrastic" );
 	} );
 
 	it( "stems a word using the French stemmer", function() {
