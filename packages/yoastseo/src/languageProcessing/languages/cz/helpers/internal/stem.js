@@ -26,7 +26,7 @@ const removeDerivational = function( word, morphologyData ) {
 			if ( word.substring( len - 5, len ) === derivationalSuffixes.derivationalSuffixIonar ) { // -ionář
 
 				word = word.slice( 0, - 4 );
-				return palatalise( word );
+				return palatalise( word, morphologyData );
 			}
 			if ( word.substring( len - 5, len ) === derivationalSuffixes.derivationalSuffixOvisk ||
 				word.substring( len - 5, len ) === derivationalSuffixes.derivationalSuffixOvstv ||
@@ -54,7 +54,7 @@ const removeDerivational = function( word, morphologyData ) {
 				word.substring( len - 4, len ) === derivationalSuffixes.derivationalSuffixItel ) {
 
 				word = word.slice( 0, - 3 );
-				return palatalise( word );
+				return palatalise( word, morphologyData );
 			}
 		}//len>6
 		if ( len > 5 ) {
@@ -65,7 +65,7 @@ const removeDerivational = function( word, morphologyData ) {
 			if ( word.substring( len - 3, len ) === derivationalSuffixes.derivationalSuffixEnk ) { //-ěnk
 
 				word = word.slice( 0, - 2 );
-				return palatalise( word );
+				return palatalise( word, morphologyData );
 			}
 			if ( word.substring( len - 3, len ) === derivationalSuffixes.derivationalSuffixIan || //-ián
 				word.substring( len - 3, len ) === derivationalSuffixes.derivationalSuffixIst ||
@@ -75,7 +75,7 @@ const removeDerivational = function( word, morphologyData ) {
 				word.substring( len - 3, len ) === derivationalSuffixes.derivationalSuffixIrn ) {  //-írn
 
 				word = word.slice( 0, - 2 );
-				return palatalise( word );
+				return palatalise( word, morphologyData );
 			}
 			if ( word.substring( len - 3, len ) === derivationalSuffixes.derivationalSuffixOch ||
 				word.substring( len - 3, len ) === derivationalSuffixes.derivationalSuffixOst ||
@@ -117,7 +117,7 @@ const removeDerivational = function( word, morphologyData ) {
 				word.substring( len - 2, len ) === derivationalSuffixes.derivationalSuffixEr ) {  //-éř
 
 				word = word.slice( 0, - 1 );
-				return palatalise( word );
+				return palatalise( word, morphologyData );
 			}
 			if ( word.substring( len - 2, len ) === derivationalSuffixes.derivationalSuffixIr || //-íř
 				word.substring( len - 2, len ) === derivationalSuffixes.derivationalSuffixIc ||
@@ -127,7 +127,7 @@ const removeDerivational = function( word, morphologyData ) {
 				word.substring( len - 2, len ) === derivationalSuffixes.derivationalSuffixIv ) {
 
 				word = word.slice( 0, - 1 );
-				return palatalise( word );
+				return palatalise( word, morphologyData );
 			}
 			if ( word.substring( len - 2, len ) === derivationalSuffixes.derivationalSuffixOb ||
 				word.substring( len - 2, len ) === derivationalSuffixes.derivationalSuffixOt ||
@@ -191,7 +191,7 @@ const removeAugmentative = function( word, morphologyData ) {
 			word.substring( len - 3, len ) === augmentativeSuffixes.augmentativeSuffixIsk ) {
 
 		word = word.slice( 0, - 2 );
-		return palatalise( word );
+		return palatalise( word, morphologyData );
 	}
 	if ( ( len > 4 ) &&
 		word.substring( len - 2, len ) === augmentativeSuffixes.augmentativeSuffixAk ) { //-ák
@@ -229,7 +229,7 @@ const removeDiminutive = function( word, morphologyData ) {
 			word.substring( len - 4, len ) === diminutiveSuffixes.diminutiveSuffixInekAccented ) {      //-ínek
 
 			word = word.slice( 0, - 3 );
-			return palatalise( word );
+			return palatalise( word, morphologyData );
 		}
 		if ( word.substring( len - 4, len ) === diminutiveSuffixes.diminutiveSuffixAcekAccented || //áček
 			word.substring( len - 4, len ) === diminutiveSuffixes.diminutiveSuffixAcek ||   //aček
@@ -254,7 +254,7 @@ const removeDiminutive = function( word, morphologyData ) {
 			word.substring( len - 3, len ) === diminutiveSuffixes.diminutiveSuffixInkAccented ) {   //-ínk
 
 			word = word.slice( 0, - 3 );
-			return palatalise( word );
+			return palatalise( word, morphologyData );
 		}
 		if ( word.substring( len - 3, len ) === diminutiveSuffixes.diminutiveSuffixAckAccented ||  //-áčk
 			word.substring( len - 3, len ) === diminutiveSuffixes.diminutiveSuffixAck || //-ačk
@@ -281,7 +281,7 @@ const removeDiminutive = function( word, morphologyData ) {
 			word.substring( len - 2, len ) === diminutiveSuffixes.diminutiveSuffixIk ) {
 
 			word = word.substring( 0, - 1 );
-			return palatalise( word );
+			return palatalise( word, morphologyData );
 		}
 		if ( word.substring( len - 2, len ) === diminutiveSuffixes.diminutiveSuffixAkAccented ||  //-ák
 			word.substring( len - 2, len ) === diminutiveSuffixes.diminutiveSuffixAk ||
@@ -316,7 +316,7 @@ const removeComparative = function( word, morphologyData ) {
 			word.substring( len - 3, len ) === comparativeSuffixes.comparativeSuffixesEjsCaron ) {   //-ějš
 
 		word = word.slice( 0, - 2 );
-		return palatalise( word );
+		return palatalise( word, morphologyData );
 	}
 	return word;
 };
@@ -386,7 +386,7 @@ const removePossessives = function( word, morphologyData ) {
 		if ( word.substring( len - 2, len ) === possessiveSuffixes.possessiveSuffixIn ) {
 
 			word = word.slice( 0, - 1 );
-			return palatalise( word );
+			return palatalise( word, morphologyData );
 		}
 	}
 		return word;
@@ -413,7 +413,7 @@ const removeCase = function( word, morphologyData ) {
 		if ( word.substring( len - 4, len ) === caseSuffixes.caseSuffixEtem ) {   //-ětem
 
 			word = word.slice( 0, - 3 );
-			return palatalise( word );
+			return palatalise( word, morphologyData );
 		}
 		if ( word.substring( len - 4, len ) === caseSuffixes.caseSuffixAtum ) {  //-atům
 				return word.slice( 0, - 4 );
@@ -425,10 +425,10 @@ const removeCase = function( word, morphologyData ) {
 			word.substring( len - 3, len ) ===  caseSuffixes.caseSuffixIchAccented ) { //-ích
 
 			word = word.slice( 0, - 2 );
-			return palatalise( word );
+			return palatalise( word, morphologyData );
 		}
 		if ( word.substring( len - 3, len ) === caseSuffixes.caseSuffixEho || //-ého
-			word.substring( len - 3, len ) === caseSuffixes.caseSuffixEmuCaron ||  // -ěmu or -ěmi?
+			word.substring( len - 3, len ) === caseSuffixes.caseSuffixEmiCaron ||  // -ěmi
 			word.substring( len - 3, len ) === caseSuffixes.caseSuffixEmi ||
 			word.substring( len - 3, len ) === caseSuffixes.caseSuffixEmuAccented ||  // -ému				                                                                word.substring( len-3,len) ==="ete")||
 			word.substring( len - 3, len ) === caseSuffixes.caseSuffixEti ||
@@ -438,7 +438,7 @@ const removeCase = function( word, morphologyData ) {
 			word.substring( len - 3, len ) === caseSuffixes.caseSuffixImu ) {
 
 			word = word.slice( 0, - 2 );
-			return palatalise( word );
+			return palatalise( word, morphologyData );
 		}
 		if ( word.substring( len - 3, len ) === caseSuffixes.caseSuffixAchAccented || //-ách
 			word.substring( len - 3, len ) === caseSuffixes.caseSuffixAta ||
@@ -457,14 +457,14 @@ const removeCase = function( word, morphologyData ) {
 		if ( word.substring( len - 2, len ) === caseSuffixes.caseSuffixEm ) {
 
 			word = word.slice( 0, - 1 );
-			return palatalise( word );
+			return palatalise( word, morphologyData );
 		}
 		if ( word.substring( len - 2, len ) === caseSuffixes.caseSuffixEs ||
 			word.substring( len - 2, len ) === caseSuffixes.caseSuffixEmAccented ||    //-ém
 			word.substring( len - 2, len ) === caseSuffixes.caseSuffixIm ) {   //-ím
 
 			word = word.slice( 0, - 2 );
-			return palatalise( word );
+			return palatalise( word, morphologyData );
 		}
 		if ( word.substring( len - 2, len ) === caseSuffixes.caseSuffixUm ) { // -ům
 
@@ -485,12 +485,12 @@ const removeCase = function( word, morphologyData ) {
 		if ( word.substring( len - 1, len ) === caseSuffixes.caseSuffixE ||
 			word.substring( len - 1, len ) ===  caseSuffixes.caseSuffixI ) {
 
-			return palatalise( word );
+			return palatalise( word, morphologyData );
 		}
 		if ( word.substring( len - 1, len ) === caseSuffixes.caseSuffixIAccented || //-é
 			word.substring( len - 1, len ) === caseSuffixes.caseSuffixECaron ) { //-ě
 
-			return palatalise( word );
+			return palatalise( word, morphologyData );
 		}
 		if ( word.substring( len - 1, len ) === caseSuffixes.caseSuffixU ||
 			word.substring( len - 1, len ) === caseSuffixes.caseSuffixY ||
