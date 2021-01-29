@@ -1,8 +1,7 @@
-import Researcher from "../../src/researcher";
-import getMorphologyData from "../specHelpers/getMorphologyData";
-import altTagCountFunction from "../../src/languages/legacy/researches/imageAltTags";
-import Paper from "../../src/values/Paper";
-
+import Researcher from "../../../src/languageProcessing/languages/en/Researcher";
+import getMorphologyData from "../../specHelpers/getMorphologyData";
+import altTagCountFunction from "../../../src/languageProcessing/researches/altTagCount";
+import Paper from "../../../src/values/Paper";
 
 const morphologyData = getMorphologyData( "en" );
 
@@ -32,7 +31,8 @@ describe( "Counts images in a text", function() {
 	} );
 
 	it( "returns object with the withAltKeyword as 1 when the keyword is set and present by 50% (2-word keyword)", function() {
-		const paper = new Paper( "string <img src='http://plaatje' alt='keyword' />", { keyword: "keyword keyphrase", synonyms: "synonym, another synonym" } );
+		const paper = new Paper( "string <img src='http://plaatje' alt='keyword' />", { keyword: "keyword keyphrase",
+			synonyms: "synonym, another synonym" } );
 		const researcher = new Researcher( paper );
 		researcher.addResearchData( "morphology", morphologyData );
 		const stringToCheck = altTagCountFunction( paper, researcher );
@@ -44,7 +44,8 @@ describe( "Counts images in a text", function() {
 	} );
 
 	it( "returns object with the withAltKeyword as 0 when the keyword is set and present by 33% (3-word keyword)", function() {
-		const paper = new Paper( "string <img src='http://plaatje' alt='keyword' />", { keyword: "keyword keyphrase synonym", synonyms: "synonym, another synonym" } );
+		const paper = new Paper( "string <img src='http://plaatje' alt='keyword' />", { keyword: "keyword keyphrase synonym",
+			synonyms: "synonym, another synonym" } );
 		const researcher = new Researcher( paper );
 		researcher.addResearchData( "morphology", morphologyData );
 		const stringToCheck = altTagCountFunction( paper, researcher );
@@ -189,41 +190,28 @@ describe( "Counts images in a text", function() {
 		expect( stringToCheck.withAltNonKeyword ).toBe( 1 );
 	} );
 
-	it( "does not apply EN morphology to search in other languages", function() {
-		const paper = new Paper(
-			"string <img src='http://plaatje' alt='keyword' /> " +
-			"<img src='http://plaatje' alt='synonym and test' /> " +
-			"string <img src='http://plaatje' alt='synonyms' /> " +
-			"string <img src='http://plaatje' alt='keyword in quotes' /> " +
-			"<img src='http://plaatje' alt='interestingly enough, it is a paper' /> " +
-			"string <img src='http://plaatje' alt='paper interesting test synonyms' /> " +
-			"<img src='http://plaatje' alt='papering' />", {
-				keyword: "keyword",
-				synonyms: "synonym, test, interesting paper",
-				locale: "fr_FR",
-			}
-		);
-		const researcher = new Researcher( paper );
-		researcher.addResearchData( "morphology", morphologyData );
-		const stringToCheck = altTagCountFunction( paper, researcher );
-
-		expect( stringToCheck.noAlt ).toBe( 0 );
-		expect( stringToCheck.withAlt ).toBe( 0 );
-		expect( stringToCheck.withAltKeyword ).toBe( 5 );
-		expect( stringToCheck.withAltNonKeyword ).toBe( 2 );
-	} );
-
 	it( "Applied English morphology", function() {
 		const paper = new Paper(
 			"<div class=\"floatright\">" +
 			"<a class=\"image\" " +
 			"title=\"Vue du Kibo depuis le sud en juin 2009.\" " +
 			"href=\"https://commons.wikimedia.org/wiki/File:Mount_Kilimanjaro.jpg?uselang=fr\">" +
-			"<img class=\"alignnone\" src=\"https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Mount_Kilimanjaro.jpg/150px-Mount_Kilimanjaro.jpg\" " +
-			"alt=\"Vue du Kilimandjaros depuis le sud en juin 2009.\" width=\"150\" height=\"67\" data-file-width=\"2673\" data-file-height=\"1200\" />" +
+			"<img class=\"alignnone\" src=\"https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Mount_Kilimanjaro.jpg" +
+			"/150px-Mount_Kilimanjaro.jpg\" alt=\"Vue du Kilimandjaros depuis le sud en juin 2009.\" width=\"150\" height=\"67\" " +
+			"data-file-width=\"2673\" data-file-height=\"1200\" />" +
 			"</a>" +
 			"</div>\n" +
-			"\tLe <b><a title=\"Kilimandjaro\" href=\"https://fr.wikipedia.org/wiki/Kilimandjaro\">Kilimandjaro</a></b> ou <b>Kilimanjaro</b> est une <a title=\"Montagne\" href=\"https://fr.wikipedia.org/wiki/Montagne\">montagne</a> située dans le Nord-Est de la <a title=\"Tanzanie\" href=\"https://fr.wikipedia.org/wiki/Tanzanie\">Tanzanie</a>et composée de trois <a title=\"Volcan\" href=\"https://fr.wikipedia.org/wiki/Volcan\">volcans</a> éteints : le Shira à l'ouest, culminant à 3 962 mètres d'altitude, le Mawenzi à l'est, s'élevant à 5 149 mètres d'altitude, et le Kibo, le plus récent <a title=\"Géologie\" href=\"https://fr.wikipedia.org/wiki/G%C3%A9ologie\">géologiquement</a>, situé entre les deux autres et dont le pic Uhuru à 5 891,8 mètres d'altitude constitue le <a title=\"Point culminant\" href=\"https://fr.wikipedia.org/wiki/Point_culminant\">point culminant</a> de l'<a title=\"Afrique\" href=\"https://fr.wikipedia.org/wiki/Afrique\">Afrique</a>. Outre cette caractéristique, le Kilimandjaro est connu pour sa <a title=\"Calotte glaciaire\" href=\"https://fr.wikipedia.org/wiki/Calotte_glaciaire\">calotte glaciaire</a> sommitale en <a title=\"Recul des glaciers depuis 1850\" href=\"https://fr.wikipedia.org/\n", {
+			"\tLe <b><a title=\"Kilimandjaro\" href=\"https://fr.wikipedia.org/wiki/Kilimandjaro\">Kilimandjaro</a>" +
+			"</b> ou <b>Kilimanjaro</b> est une <a title=\"Montagne\" href=\"https://fr.wikipedia.org/wiki/Montagne\">montagne" +
+			"</a> située dans le Nord-Est de la <a title=\"Tanzanie\" href=\"https://fr.wikipedia.org/wiki/Tanzanie\">" +
+			"Tanzanie</a>et composée de trois <a title=\"Volcan\" href=\"https://fr.wikipedia.org/wiki/Volcan\">volcans</a> éteints :" +
+			" le Shira à l'ouest, culminant à 3 962 mètres d'altitude, le Mawenzi à l'est, s'élevant à 5 149 mètres d'altitude, " +
+			"et le Kibo, le plus récent <a title=\"Géologie\" href=\"https://fr.wikipedia.org/wiki/G%C3%A9ologie\">géologiquement</a>, " +
+			"situé entre les deux autres et dont le pic Uhuru à 5 891,8 mètres d'altitude constitue le <a title=\"Point culminant\" " +
+			"href=\"https://fr.wikipedia.org/wiki/Point_culminant\">point culminant</a> de l'<a title=\"Afrique\" " +
+			"href=\"https://fr.wikipedia.org/wiki/Afrique\">Afrique</a>. Outre cette caractéristique, le Kilimandjaro est connu pour sa " +
+			"<a title=\"Calotte glaciaire\" href=\"https://fr.wikipedia.org/wiki/Calotte_glaciaire\">calotte glaciaire</a> sommitale en " +
+			"<a title=\"Recul des glaciers depuis 1850\" href=\"https://fr.wikipedia.org/\n", {
 				keyword: "Kilimandjaro",
 			}
 		);
