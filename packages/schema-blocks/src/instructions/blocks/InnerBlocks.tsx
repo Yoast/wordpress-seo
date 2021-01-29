@@ -1,31 +1,22 @@
 import { ReactElement } from "react";
 import { createElement, ComponentClass, Fragment } from "@wordpress/element";
 import { InnerBlocks as WordPressInnerBlocks } from "@wordpress/block-editor";
-import { BlockInstance, TemplateArray } from "@wordpress/blocks";
-import { BlockValidation, BlockValidationResult, RecommendedBlock, RequiredBlock } from "../../core/validation";
+import { BlockInstance } from "@wordpress/blocks";
+import { BlockValidation, BlockValidationResult } from "../../core/validation";
 import BlockInstruction from "../../core/blocks/BlockInstruction";
 import validateInnerBlocks from "../../functions/validators/innerBlocksValid";
 import { RenderEditProps, RenderSaveProps } from "../../core/blocks/BlockDefinition";
 import { getBlockByClientId } from "../../functions/BlockHelper";
-import BlockSuggestions from "../../blocks/BlockSuggestions";
-import { InstructionObject, InstructionOptions } from "../../core/Instruction";
 import BlockLeaf from "../../core/blocks/BlockLeaf";
 import validateMany from "../../functions/validators/validateMany";
-import { __ } from "@wordpress/i18n";
+import { innerBlocksSidebar } from "../../functions/presenters/InnerBlocksSidebar";
+import { InnerBlocksInstructionOptions } from "./InnerBlocksInstructionOptions";
 
 /**
  * InnerBlocks instruction.
  */
 export default class InnerBlocks extends BlockInstruction {
-	public options: InstructionOptions & {
-		allowedBlocks: string[];
-		template: TemplateArray;
-		appender: string;
-		appenderLabel: string;
-		requiredBlocks: RequiredBlock[];
-		recommendedBlocks: RecommendedBlock[];
-		warnings: InstructionObject;
-	}
+	public options: InnerBlocksInstructionOptions;
 
 	/**
 	 * Renders saving the instruction.
@@ -118,14 +109,11 @@ export default class InnerBlocks extends BlockInstruction {
 	 */
 	sidebar( props: RenderEditProps ): ReactElement {
 		const currentBlock = getBlockByClientId( props.clientId );
-		const elements: ReactElement[] = [];
+		if ( ! currentBlock ) {
+			return null;
+		}
 
-		if ( this.options.requiredBlocks ) {
-			elements.push( BlockSuggestions( __( "Required Blocks", "wpseo-schema-blocks" ), currentBlock, this.options.requiredBlocks ) );
-		}
-		if ( this.options.recommendedBlocks ) {
-			elements.push( BlockSuggestions( __( "Recommended Blocks", "wpseo-schema-blocks" ),  currentBlock, this.options.recommendedBlocks ) );
-		}
+		const elements: ReactElement[] = innerBlocksSidebar( currentBlock, this.options );
 
 		if ( elements.length === 0 ) {
 			return null;
