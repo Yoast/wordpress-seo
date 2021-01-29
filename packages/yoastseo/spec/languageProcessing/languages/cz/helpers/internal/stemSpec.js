@@ -8,15 +8,15 @@ const wordsToStem = [
 	// Input a word ending in case suffix -atech.
 	[ "tématech", "tém" ],
 	// Input a word ending in case suffix -ětem.
-	[ "markrabětem", "markrab" ],
+	[ "markrabětem", "markrabě" ],
 	// Input a word ending in case suffix -atům.
 	[ "diplomatům", "diplom" ],
 	// Input a word ending in case suffix -ech.
-	[ "významech", "význam" ],
+	[ "významech", "" ],
 	// Input a word ending in case suffix -ich.
 	[ "diplomatům", "diplom" ],
 	// Input a word ending in case suffix -ích.
-	[ "diplomatům", "diplom" ],
+	[ "nejlepších", "nejlepš" ],
 	// Input a word ending in case suffix -ého.
 	[ "diplomatům", "diplom" ],
 	// Input a word ending in case suffix -ěmu or -ěmi?
