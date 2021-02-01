@@ -234,36 +234,72 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
-= 15.8 =
-Release Date: February 16th, 2021
-
-Non user facing:
-
-* Bumps JS packages. [#16577](https://github.com/Yoast/wordpress-seo/pull/16577)
-* Fixes a not released bug where WordPress SEO Premium would show deprecation warnings when visiting a page. [#16576](https://github.com/Yoast/wordpress-seo/pull/16576)
-* Disables the breadcrumbs block until it can be finalized. [#16570](https://github.com/Yoast/wordpress-seo/pull/16570)
-* Fixes a bug where the `sync-gutenberg-version` Grunt task would not push the changes. [#16538](https://github.com/Yoast/wordpress-seo/pull/16538)
-* Bumps JS packages. [#16537](https://github.com/Yoast/wordpress-seo/pull/16537)
-* Makes the class map path of the custom DI loader dynamic instead of hardcoded. [#16534](https://github.com/Yoast/wordpress-seo/pull/16534)
-* Activate word form recognition upsell banner for Turkish users, and reduce the maximum number of prominent words that are saved for Turkish users to match that of other languages with function word support. [#16533](https://github.com/Yoast/wordpress-seo/pull/16533)
-* Adds doc blocks to methods in the generator unit tests. [#16532](https://github.com/Yoast/wordpress-seo/pull/16532)
-* Fixes an incorrect `@covers` annotation in a unit test. [#16532](https://github.com/Yoast/wordpress-seo/pull/16532)
-* Improves the documentation for the indexable watchers and their tests. [#16531](https://github.com/Yoast/wordpress-seo/pull/16531)
-* Creates DI framework to be used by add-ons. [#16510](https://github.com/Yoast/wordpress-seo/pull/16510)
-
-Other:
-
-* Removes the release notification as the added benefit of having it, is minimal. [#16553](https://github.com/Yoast/wordpress-seo/pull/16553)
-* Changed the wording on the my.yoast.com connect error shown in Health Check when a Yoast premium plugin is enabled to lead with what the user's problem is. [#16519](https://github.com/Yoast/wordpress-seo/pull/16519)
+= 15.7 =
+Release Date: January 26th, 2021
 
 Enhancements:
 
-* Adds a breadcrumbs block which renders the Yoast SEO breadcrumbs for a particular post or page. [#16539](https://github.com/Yoast/wordpress-seo/pull/16539)
-* Adds advanced snippet variables in the Social previews of our Elementor integration. [#16525](https://github.com/Yoast/wordpress-seo/pull/16525)
+* Expands the readability analysis for Turkish:
+    * Adds the transition words assessment.
+    * Adds the consecutive sentences beginnings assessment.
+    * Adds the sentence length assessment.
+    * Adds the passive voice assessment.
+* Improves keyphrase recognition in Turkish by filtering out function words such as `birinci`, `i̇kinci`, `üçüncü`.
+* Adds the advanced snippet variables to the Social previews of our Elementor integration.
 
 Bugfixes:
 
-* Fixes a bug where empty author archive pages could be indexed when the author had published a custom post-type that was not shown on his/her author archive page. Props to [stodorovic](https://github.com/stodorovic). [#16335](https://github.com/Yoast/wordpress-seo/pull/16335)
+* Fixes a bug where empty author archive pages would be indexed when the author had published a custom post-type that was not shown on his/her author archive page. Props to [stodorovic](https://github.com/stodorovic).
+
+Other:
+
+* Changes the wording on the `my.yoast.com` connect error shown in Health Check when a Yoast premium plugin is enabled, to lead with what the user's problem is.
+* Removes the release notification as the added benefit of having it is minimal.
+
+= 15.6.2 =
+Release Date: January 12th, 2021
+
+Bugfixes:
+
+* Fixes a bug where notifications in the notification center would not be dismissible on sites using FastCGI.
+
+= 15.6.1 =
+Release Date: January 12th, 2021
+
+Bugfixes:
+
+ * Fixes a bug where the estimated reading time would not be shown when posts that were created before Yoast SEO 15.6 were shared on Slack.
+
+Other:
+
+ * Adjusts the default words per minute for the estimated reading time from 250 words per minute to 200 words per minute.
+
+= 15.6 =
+Release Date: January 12th, 2021
+
+Say hi to Yoast SEO 15.6! In the latest version of Yoast SEO, you’ll find a number of bug fixes and performance enhancements. Happy updating! Read more about what’s new in Yoast SEO 15.6 in [our release post](https://yoa.st/release-15-6)!
+
+Enhancements:
+
+ * Improves keyphrase recognition in Norwegian by filtering out function words such as 'tredje', 'deres' and 'noen'.
+ * Improves the performance of the taxonomy sitemap generation. Props to [mikeyarce](https://github.com/mikeyarce).
+ * Adds the Tag, Category and Primary Category snippet variables in the Google preview of our Elementor integration.
+ * Adds advanced snippet variables to the Google preview of our Elementor integration.
+ * Ensures that there's always a meta description for Web Stories. Props to [swissspidy](https://github.com/swissspidy).
+ * Extends the plugin conflict list.
+
+Bugfixes:
+
+ * Fixes a bug where the non-indexable custom post types `elementor_library` and `oembed_cache` would be saved to the indexable table.
+ * Fixes a bug where the SEMrush modal would trigger errors and wouldn't display a chart when all the Trend values were zero.
+ * Fixes a bug where very large WordPress installations would experience time-outs because the database would be overloaded with duplicate indexable IDs.
+ * Fixes a bug where the social preview placeholders and info text would not be translatable.
+
+Other:
+
+ * Deprecates the `WPSEO_Validator` class because it was not used anymore. Props to [rafaelbernard](https://github.com/rafaelbernard).
+ * Fixes the URL to the Travis badge on our open source GitHub repository. Props to [rodrigoprime](https://github.com/rodrigoprimo).
+ * Makes the integration with Web Stories for WordPress more robust. Props to [swissspidy](https://github.com/swissspidy).
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).
