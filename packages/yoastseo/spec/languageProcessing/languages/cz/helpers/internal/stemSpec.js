@@ -28,7 +28,7 @@ const wordsToStem = [
 	// Input a word ending in case suffix -eti.
 	[ "čtyřiceti", "čtyřice" ],
 	// Input a word ending in case suffix -iho.
-	[ "", "" ],
+	[ "roliho", "rol" ],
 	// Input a word ending in case suffix -ího.
 	[ "mezinárodního", "mezinárod" ],
 	// Input a word ending in case suffix -ími.
@@ -44,7 +44,7 @@ const wordsToStem = [
 	// Input a word ending in case suffix -ých.
 	[ "obecných", "obec" ],
 	// Input a word ending in case suffix -ama.
-	[ "", "" ],
+	[ "očičkama", "oči" ],
 	// Input a word ending in case suffix -ami.
 	[ "přehradami", "přehrad" ],
 	// Input a word ending in case suffix -ové.
@@ -56,29 +56,29 @@ const wordsToStem = [
 	// Input a word ending in case suffix -em.
 	[ "architektem", "architek" ],
 	// Input a word ending in case suffix -es.
-	[ "okres", "ok" ],
+	[ "čerkes", "čer" ],
 	// Input a word ending in case suffix -ém.
 	[ "novelizovaném", "novelizova" ],
 	// Input a word ending in case suffix -ím.
 	[ "dnešním", "dneš" ],
 	// Input a word ending in case suffix -ům.
-	[ "", "" ],
+	[ "záznamům", "záznam" ],
 	// Input a word ending in case suffix -at.
 	[ "jednat", "jed" ],
 	// Input a word ending in case suffix -ám.
-	[ "", "" ],
+	[ "snahám", "snah" ],
 	// Input a word ending in case suffix -os.
-	[ "", "" ],
+	[ "výnos", "výn" ],
 	// Input a word ending in case suffix -us.
-	[ "", "" ],
+	[ "bilingvismus", "bilingvism" ],
 	// Input a word ending in case suffix -mi.
-	[ "", "" ],
+	[ "některými", "někter" ],
 	// Input a word ending in case suffix -ou.
-	// [ "hospodářskou", "hospodářsk" ],
+	[ "hospodářskou", "hospodářs" ],
 	// Input a word ending in case suffix -e.
 	[ "rozvoje", "rozvoj" ],
 	// Input a word ending in case suffix -i.
-	[ "", "" ],
+	[ "koni", "kon" ],
 	// Input a word ending in case suffix -í.
 	[ "mající", "mají" ],
 	// Input a word ending in case suffix -ě.
@@ -96,11 +96,11 @@ const wordsToStem = [
 	// Input a word ending in case suffix -á.
 	[ "odmítá", "odmí" ],
 	// Input a word ending in case suffix -é.
-	[ "", "" ],
+	// [ "soudce", "soudc" ],
 	// Input a word ending in case suffix -ý.
 	[ "přirozený", "přiroze" ],
 	// Input a word ending in possessive suffix -ov.
-	[ "", "" ],
+	[ "učitelova", "učite" ],
 	// Input a word ending in possessive suffix -ův.
 	[ "manželův", "manže" ],
 	// Input a word ending in possessive suffix -in.
@@ -132,7 +132,7 @@ const wordsToStem = [
 	// Input a word ending in palatalise suffix -čtí.
 	[ "", "" ],
 	// Input a word ending in palatalise suffix -ck.
-	[ "", "" ],
+	[ "automatické", "automat" ],
 	// Input a word ending in palatalise suffix -ště.
 	[ "", "" ],
 	// Input a word ending in palatalise suffix -šti.
@@ -156,45 +156,45 @@ const wordsToStem = [
 	// Input a word ending in diminutive suffix -íček.
 	[ "pešíček", "peš" ],
 	// Input a word ending in diminutive suffix -enek.
-	[ "", "" ],
+	[ "pálenek", "pál" ],
 	// Input a word ending in diminutive suffix -ének.
 	[ "kamének", "kam" ],
 	// Input a word ending in diminutive suffix -inek
-	[ "", "" ],
+	[ "palačinek", "palači" ],
 	// Input a word ending in diminutive suffix -ínek.
 	[ "šulínek", "šul" ],
 	// Input a word ending in diminutive suffix -áček.
 	[ "obláček", "obl" ],
 	// Input a word ending in diminutive suffix -aček.
-	[ "", "" ],
+	[ "stříkaček", "stří" ],
 	// Input a word ending in diminutive suffix -oček.
-	[ "", "" ],
+	[ "baboček", "bab" ],
 	// Input a word ending in diminutive suffix -uček.
-	[ "", "" ],
+	[ "oblouček", "oblo" ],
 	// Input a word ending in diminutive suffix -anek.
-	[ "", "" ],
+	[ "pražanek", "praž" ],
 	// Input a word ending in diminutive suffix -onek.
-	[ "", "" ],
+	[ "salonek", "sal" ],
 	// Input a word ending in diminutive suffix -unek.
-	[ "", "" ],
+	[ "okounek", "oko" ],
 	// Input a word ending in diminutive suffix -ánek.
-	[ "", "" ],
+	[ "kulhánek", "kulh" ],
 	// Input a word ending in diminutive suffix -éčk.
 	[ "", "" ],
 	// Input a word ending in diminutive suffix -ičk.
-	[ "", "" ],
+	[ "skleničk", "skle" ],
 	// Input a word ending in diminutive suffix -enk.
-	[ "", "" ],
+	[ "příklenk", "pří" ],
 	// Input a word ending in diminutive suffix -énk.
-	[ "", "" ],
+	[ "okénk", "oké" ],
 	// Input a word ending in diminutive suffix -ink.
-	[ "", "" ],
+	[ "trénink", "tré" ],
 	// Input a word ending in diminutive suffix -ínk.
-	[ "", "" ],
+	[ "podmínk", "pod" ],
 	// Input a word ending in diminutive suffix -áčk.
-	[ "", "" ],
+	[ "přemáčk", "přem" ],
 	// Input a word ending in diminutive suffix -ačk.
-	[ "", "" ],
+	[ "nekuřačk", "nekuř" ],
 	// Input a word ending in diminutive suffix -očk.
 	[ "", "" ],
 	// Input a word ending in diminutive suffix -učk.
