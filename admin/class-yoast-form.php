@@ -5,6 +5,8 @@
  * @package WPSEO\Admin
  */
 
+use Yoast\WP\SEO\Presenters\Admin\Light_Switch_Presenter;
+
 /**
  * Admin form class.
  *
@@ -357,17 +359,19 @@ class Yoast_Form {
 
 		$disabled_attribute = $this->get_disabled_attribute( $var, $attr );
 
-		echo '<div class="switch-container', $help_class, '">',
-		'<span class="switch-light-visual-label' . $strong_class . '" id="', esc_attr( $var . '-label' ), '">', esc_html( $label ), '</span>' . $help,
-		'<label class="', $class, '"><b class="switch-yoast-seo-jaws-a11y">&nbsp;</b>',
-		// phpcs:ignore WordPress.Security.EscapeOutput -- Reason: $disabled_attribute output is hardcoded and all other output is properly escaped.
-		'<input type="checkbox" aria-labelledby="', esc_attr( $var . '-label' ), '" id="', esc_attr( $var ), '" name="', esc_attr( $this->option_name ), '[', esc_attr( $var ), ']" value="on"', checked( $val, 'on', false ), $disabled_attribute, '/>',
-		'<span aria-hidden="true">
-			<span>', esc_html( $off_button ), '</span>
-			<span>', esc_html( $on_button ), '</span>
-			<a></a>
-		 </span>
-		 </label><div class="clear"></div></div>';
+		echo new Light_Switch_Presenter(
+			$var,
+			$label,
+			$off_button,
+			$on_button,
+			$this->option_name,
+			$val,
+			$disabled_attribute,
+			$class,
+			$help,
+			$help_class,
+			$strong_class
+		);
 	}
 
 	/**
