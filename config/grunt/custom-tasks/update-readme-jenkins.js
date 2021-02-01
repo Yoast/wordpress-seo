@@ -111,7 +111,11 @@ module.exports = function( grunt ) {
 				// Present the user with only the version number
 				
 				var d = new Date();
-				// quess release date, probaly tuesday in two weeks time
+				// guess release date, probaly tuesday in two weeks time
+				// options for better logic, get latest tag
+				// is date tag within 14 day next release 14 days
+				// if not next teleas 28 days
+				// login to jira get it there... 
 				d.setDate(d.getDate() + (2 + 14 - d.getDay()));
 				const ye = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(d);
 				const mo = new Intl.DateTimeFormat('en', { month: 'long' }).format(d);
