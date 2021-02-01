@@ -96,6 +96,9 @@ class Indexable_Link_Builder_Test extends TestCase {
 		$indexable->object_type = 'post';
 		$indexable->permalink   = 'https://site.com/page';
 
+		Functions\expect( 'get_post' )->once()->with( 2 )->andReturn( 'post' );
+		Functions\expect( 'setup_postdata' )->once()->with( 'post' );
+		Functions\expect( 'wp_reset_postdata' )->once();
 		Filters\expectApplied( 'the_content' )->with( $content )->andReturnFirstArg();
 
 		$parsed_home_url = [
@@ -189,7 +192,10 @@ class Indexable_Link_Builder_Test extends TestCase {
 		$target_indexable->language    = 'nl';
 		$target_indexable->region      = 'NL';
 
+		Functions\expect( 'get_post' )->once()->with( 2 )->andReturn( 'post' );
+		Functions\expect( 'setup_postdata' )->once()->with( 'post' );
 		Filters\expectApplied( 'the_content' )->with( $content )->andReturnFirstArg();
+		Functions\expect( 'wp_reset_postdata' )->once();
 
 		$parsed_home_url = [
 			'scheme' => 'https',

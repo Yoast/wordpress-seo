@@ -86,8 +86,8 @@ class Breadcrumbs_Block extends Dynamic_Block {
 		$presenter = new Breadcrumbs_Presenter();
 		// $this->context_memoizer->for_current_page only works on the frontend. To render the right breadcrumb in the
 		// editor, we need the repository.
-		if ( defined( 'REST_REQUEST' ) && REST_REQUEST === true ) {
-			$post_id = filter_input( INPUT_GET, 'post_id', FILTER_VALIDATE_INT );
+		if ( ( defined( 'REST_REQUEST' ) && REST_REQUEST === true ) || \is_admin() ) {
+			$post_id = get_the_ID();
 			if ( $post_id ) {
 				$indexable = $this->indexable_repository->find_by_id_and_type( $post_id, 'post' );
 				$context   = $this->context_memoizer->get( $indexable, 'Post_Type' );
