@@ -72,10 +72,11 @@ module.exports = function( grunt ) {
 				}
 			}
 
-			// strip header.
-			changelogIn = changelogIn.replace( new RegExp( "# Yoast/wordpress-seo:(.|\\n)*(?=Non user facing:)" ),
+			//strip header from new entry file.
+			changelogIn = changelogIn.replace( new RegExp( "# Yoast/wordpress-seo:(.|\\n)*?(?=\n[ a-zA-Z]+:)" ),
 				""
 			);
+
 
 
 			// If the current version is already in the changelog, retrieve the full readme and let the user edit it.
@@ -100,7 +101,7 @@ module.exports = function( grunt ) {
 				// Present the user with only the version number.
 				
 
-				mergeChangeLog( { newChangelogContent: `= ${changelogVersionNumber} =\nRelease Date:\n\n` + changelogIn } ).then( newChangelog => {
+				mergeChangeLog( { newChangelogContent: `= ${changelogVersionNumber} =\nRelease Date:\n` + changelogIn } ).then( newChangelog => {
 					// Update the grunt reference to the changelog.
 					grunt.option( "changelog", newChangelog );
 
