@@ -8,7 +8,7 @@ import AnalysisCheck from "./AnalysisCheck";
 /**
  * Renders the analysis checklist.
  *
- * @returns {wp.Element} The PrePublish panel.
+ * @returns {wp.Element} The analysis checklist.
  */
 export default function AnalysisChecklist( {
 	checklist,
