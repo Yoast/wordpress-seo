@@ -47,7 +47,7 @@ describe( "a test for Turkish Researcher", function() {
 	} );
 
 	it( "returns the Turkish passive construction type", function() {
-		expect( researcher.getConfig( "isPeriphrastic" ) ).toEqual( false );
+		expect( researcher.getConfig( "passiveConstructionType" ) ).toEqual( "morphological" );
 	} );
 
 	it( "stems the Turkish word using the Turkish stemmer", function() {
