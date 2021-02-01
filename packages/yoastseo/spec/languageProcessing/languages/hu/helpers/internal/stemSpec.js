@@ -72,6 +72,8 @@ const wordsToStem = [
 	// [ "kompenzációként,", "kompenzáció" ],
 	// Input a word with one of the following suffixes: á   é
 	// [ "költséghatékonnyá", "költséghatékony" ],
+	// A word shorter than 3 characters
+	[ "bá", "bá" ],
 ];
 
 describe( "Test for stemming Hungarian words", () => {
