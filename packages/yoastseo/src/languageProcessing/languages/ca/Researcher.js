@@ -5,7 +5,7 @@ import transitionWords from "./config/transitionWords";
 import twoPartTransitionWords from "./config/twoPartTransitionWords";
 
 // All helpers
-import getStemmer from "../../helpers/morphology/baseStemmer";
+import getStemmer from "./helpers/getStemmer";
 
 /**
  * The researches contains all the researches
@@ -34,7 +34,7 @@ export default class Researcher extends AbstractResearcher {
 			twoPartTransitionWords,
 		} );
 
-		Object.assign( this.config, {
+		Object.assign( this.helpers, {
 			getStemmer,
 		} );
 	}

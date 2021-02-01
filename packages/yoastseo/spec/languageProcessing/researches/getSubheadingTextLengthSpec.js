@@ -1,5 +1,5 @@
-import subHeadingTextLength from "../../src/languages/legacy/researches/getSubheadingTextLengths.js";
-import Paper from "../../src/values/Paper.js";
+import subHeadingTextLength from "../../../src/languageProcessing/researches/getSubheadingTextLengths.js";
+import Paper from "../../../src/values/Paper.js";
 
 describe( "gets the length of text segments", function() {
 	it( "returns an array with lengths for a text with one subheading", function() {

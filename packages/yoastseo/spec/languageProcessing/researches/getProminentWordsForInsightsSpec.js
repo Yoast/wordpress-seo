@@ -1,18 +1,18 @@
-import getProminentWordsForInsights from "../../src/languages/legacy/researches/getProminentWordsForInsights";
-import Paper from "../../src/values/Paper";
-import Researcher from "../../src/researcher";
-import ProminentWord from "../../src/values/ProminentWord";
-import getMorphologyData from "../specHelpers/getMorphologyData";
+import getProminentWordsForInsights from "../../../src/languageProcessing/researches/getProminentWordsForInsights";
+import Paper from "../../../src/values/Paper";
+import Researcher from "../../../src/languageProcessing/languages/en/researcher";
+import CatalanResearcher from "../../../src/languageProcessing/languages/ca/researcher";
+import ProminentWord from "../../../src/values/ProminentWord";
+import getMorphologyData from "../../specHelpers/getMorphologyData";
 
 
 const morphologyData = getMorphologyData( "en" );
 
 describe( "getProminentWordsForInsights research", function() {
-	it( "does not break if no morphology support is added for the language", function() {
-		const paper = new Paper( "texte  et texte et texte et texte et texte", { locale: "fr_FR" } );
+	it( "does not break if no morphology support is available for the language", function() {
+		const paper = new Paper( "texte  et texte et texte et texte et texte", { locale: "ca" } );
 
-		const researcher = new Researcher( paper );
-		researcher.addResearchData( "morphology", morphologyData );
+		const researcher = new CatalanResearcher( paper );
 
 		const expected = [
 			new ProminentWord( "texte", "texte", 5 ),

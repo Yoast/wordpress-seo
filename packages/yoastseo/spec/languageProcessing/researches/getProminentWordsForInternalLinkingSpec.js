@@ -1,8 +1,9 @@
-import prominentWordsResearch from "../../src/languages/legacy/researches/getProminentWordsForInternalLinking";
-import Paper from "../../src/values/Paper";
-import Researcher from "../../src/researcher";
-import ProminentWord from "../../src/values/ProminentWord";
-import getMorphologyData from "../specHelpers/getMorphologyData";
+import prominentWordsResearch from "../../../src/languageProcessing/researches/getProminentWordsForInternalLinking";
+import Paper from "../../../src/values/Paper";
+import Researcher from "../../../src/languageProcessing/languages/en/researcher";
+import CatalanResearcher from "../../../src/languageProcessing/languages/ca/researcher";
+import ProminentWord from "../../../src/values/ProminentWord";
+import getMorphologyData from "../../specHelpers/getMorphologyData";
 
 
 const morphologyData = getMorphologyData( "en" );
@@ -45,14 +46,14 @@ describe( "relevantWords research", function() {
 		expect( words ).toEqual( expected );
 	} );
 
-	it( "does not break if no morphology support is added for the language", function() {
-		const paper = new Paper( "texte " + " et texte".repeat( 399 ), { locale: "fr_FR" } );
+	it( "does not break if no morphology support is added for the language " +
+		"and does not filter function words if the list is not available", function() {
+		const paper = new Paper( "texte " + " et texte".repeat( 399 ), { locale: "ca" } );
 
-		const researcher = new Researcher( paper );
-		researcher.addResearchData( "morphology", morphologyData );
+		const researcher = new CatalanResearcher( paper );
 
 		const expected = {
-			prominentWords: [ new ProminentWord( "texte", "texte", 400 ) ],
+			prominentWords: [ new ProminentWord( "texte", "texte", 400 ), new ProminentWord( "et", "et", 399 ) ],
 			hasMetaDescription: false,
 			hasTitle: false,
 		};
@@ -154,7 +155,7 @@ describe( "relevantWords research", function() {
 		expect( words ).toEqual( expected );
 	} );
 
-	it( "lowers the prominent words occurrence threshold if a language does not have morphology support ", function() {
+	it( "lowers the prominent words occurrence threshold if a language does not have morphology support (English in Free)", function() {
 		const paper = new Paper( ( "Romeo and Juliet borrows from a tradition of tragic love stories dating back to antiquity. " +
 								   "One of these is Pyramus and Thisbe, from Ovid's Metamorphoses, which contains parallels " +
 								   "to Shakespeare's story: the lovers' parents despise each other, " +
