@@ -8,7 +8,7 @@ import { forEach } from "lodash-es";
 
 /**
  * Looks for morphological passive voice.
- * Supported morphological languages: "ru", "sv", "id", "ar", "he".
+ * Supported morphological languages: "ru", "sv", "id", "ar", "he", "tr".
  *
  * @param {Paper}      paper      The paper object.
  * @param {Researcher} researcher The researcher.
