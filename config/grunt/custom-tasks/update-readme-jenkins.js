@@ -91,7 +91,7 @@ module.exports = function( grunt ) {
 
 			// If the current version is already in the changelog, retrieve the full readme and let the user edit it.
 			if ( containsCurrentVersion ) {
-				// Present the user with the entire changelog file.
+				
 				mergeChangeLog( { newChangelogContent: changelog } ).then( newChangelog => {
 					// Update the grunt reference to the changelog.
 					grunt.option( "changelog", newChangelog );
@@ -108,8 +108,6 @@ module.exports = function( grunt ) {
 				if ( versionNumber.patch !== 0 ) {
 					changelogVersionNumber += "." + versionNumber.patch;
 				}
-				// Present the user with only the version number
-				
 				var d = new Date();
 				// guess release date, probaly tuesday in two weeks time
 				// options for better logic, get latest tag

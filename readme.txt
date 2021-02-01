@@ -234,7 +234,7 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
-= 15.7 =
+= 15.8 =
 Release Date: January 26th, 2021
 
 Enhancements:
