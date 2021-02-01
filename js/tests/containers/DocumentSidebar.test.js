@@ -55,6 +55,50 @@ describe( "The DocumentSidebar container", () => {
 		expect( props.intro ).toEqual( undefined );
 	} );
 
+	it( "maps the select function to props when no schema validation results are present", () => {
+		const getResultsForFocusKeyword = jest.fn().mockReturnValue( {
+			overallScore: 60,
+		} );
+
+		const getReadabilityResults = jest.fn().mockReturnValue( {
+			overallScore: 100,
+		} );
+
+		const getPreferences = jest.fn().mockReturnValue( {
+			isKeywordAnalysisActive: true,
+			isContentAnalysisActive: true,
+		} );
+
+		const getSchemaBlocksValidationResults = jest.fn().mockReturnValue( {} );
+
+		const selectors = {
+			getResultsForFocusKeyword,
+			getReadabilityResults,
+			getPreferences,
+			getSchemaBlocksValidationResults,
+		};
+
+		const select = jest.fn();
+
+		select.mockReturnValue( selectors );
+
+		const props = mapSelectToProps( select );
+
+		expect( props.checklist ).toContainEqual( {
+			label: "Readability analysis:",
+			score: "good",
+			scoreValue: "Good",
+		} );
+
+		expect( props.checklist ).toContainEqual( {
+			label: "SEO analysis:",
+			score: "ok",
+			scoreValue: "OK",
+		} );
+
+		expect( props.intro ).toEqual( undefined );
+	} );
+
 	it( "maps the dispatch function to props", () => {
 		const dispatchers = {
 			openGeneralSidebar: jest.fn(),

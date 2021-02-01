@@ -81,7 +81,7 @@ export function maybeAddSchemaBlocksValidationCheck( checklist, storeState ) {
 	const schemaBlocksValidationResults = storeState.getSchemaBlocksValidationResults();
 	const validationResults = Object.values( schemaBlocksValidationResults );
 
-	if ( validationResults ) {
+	if ( validationResults && validationResults.length > 0 ) {
 		const valid = validationResults.every( block => block.result <= 0 );
 
 		checklist.push( {
