@@ -7,6 +7,7 @@ use Brain\Monkey\Functions;
 use Mockery;
 use Yoast\WP\SEO\Builders\Indexable_Link_Builder;
 use Yoast\WP\SEO\Helpers\Image_Helper;
+use Yoast\WP\SEO\Helpers\Post_Helper;
 use Yoast\WP\SEO\Helpers\Url_Helper;
 use Yoast\WP\SEO\Models\SEO_Links;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
@@ -48,6 +49,13 @@ class Indexable_Link_Builder_Test extends TestCase {
 	protected $image_helper;
 
 	/**
+	 * The post helper.
+	 *
+	 * @var Mockery\MockInterface|Post_Helper
+	 */
+	protected $post_helper;
+
+	/**
 	 * The indexable repository.
 	 *
 	 * @var Mockery\MockInterface|Indexable_Repository
@@ -71,8 +79,13 @@ class Indexable_Link_Builder_Test extends TestCase {
 		$this->url_helper           = Mockery::mock( Url_Helper::class );
 		$this->indexable_repository = Mockery::mock( Indexable_Repository::class );
 		$this->image_helper         = Mockery::mock( Image_Helper::class );
+		$this->post_helper          = Mockery::mock( Post_Helper::class );
 
-		$this->instance = new Indexable_Link_Builder( $this->seo_links_repository, $this->url_helper );
+		$this->instance = new Indexable_Link_Builder(
+			$this->seo_links_repository,
+			$this->url_helper,
+			$this->post_helper
+		);
 		$this->instance->set_dependencies( $this->indexable_repository, $this->image_helper );
 	}
 
@@ -96,7 +109,10 @@ class Indexable_Link_Builder_Test extends TestCase {
 		$indexable->object_type = 'post';
 		$indexable->permalink   = 'https://site.com/page';
 
+		$this->post_helper->expects( 'get_post' )->once()->with( 2 )->andReturn( 'post' );
+		Functions\expect( 'setup_postdata' )->once()->with( 'post' );
 		Filters\expectApplied( 'the_content' )->with( $content )->andReturnFirstArg();
+		Functions\expect( 'wp_reset_postdata' )->once();
 
 		$parsed_home_url = [
 			'scheme' => 'https',
@@ -189,7 +205,10 @@ class Indexable_Link_Builder_Test extends TestCase {
 		$target_indexable->language    = 'nl';
 		$target_indexable->region      = 'NL';
 
+		$this->post_helper->expects( 'get_post' )->once()->with( 2 )->andReturn( 'post' );
+		Functions\expect( 'setup_postdata' )->once()->with( 'post' );
 		Filters\expectApplied( 'the_content' )->with( $content )->andReturnFirstArg();
+		Functions\expect( 'wp_reset_postdata' )->once();
 
 		$parsed_home_url = [
 			'scheme' => 'https',
