@@ -1,11 +1,6 @@
-import {
-	LOAD_DISMISSED_ALERTS,
-	DISMISS_ALERT,
-} from "../actions/persistentDismissableAlert";
+import { DISMISS_ALERT } from "../actions/persistentDismissableAlert";
 
-const INITIAL_STATE = {
-	dismissedAlerts: {},
-};
+const INITIAL_STATE = window.wpseoScriptData.dismissedAlerts;
 
 /**
  * A reducer for the dismissedAlerts.
@@ -17,18 +12,10 @@ const INITIAL_STATE = {
  */
 function dismissedAlertsReducer( state = INITIAL_STATE, action ) {
 	switch ( action.type ) {
-		case LOAD_DISMISSED_ALERTS:
-			return {
-				...state,
-				dismissedAlerts: action.dismissedAlerts,
-			};
 		case DISMISS_ALERT:
 			return {
 				... state,
-				dismissedAlerts: {
-					...state.dismissedAlerts,
-					[ action.alertKey ]: true,
-				},
+				[ action.alertKey ]: true,
 			};
 		default:
 			return state;

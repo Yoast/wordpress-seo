@@ -5,7 +5,7 @@ import { get } from "lodash";
  *
  * @param {Object} state The state.
  *
- * @returns {Array} The reactAlertIsDismissed boolean.
+ * @returns {Array} The dismissedAlerts object.
  */
 export function getDismissedAlerts( state ) {
 	return get( state, "editor.dismissedAlerts", true );
