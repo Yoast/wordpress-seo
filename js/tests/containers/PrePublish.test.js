@@ -57,8 +57,6 @@ describe( "The PrePublish container", () => {
 			score: "bad",
 			scoreValue: "Needs improvement",
 		} );
-
-		expect( props.intro ).toEqual( "We've analyzed your post. There is still room for improvement!" );
 	} );
 
 	it( "maps the dispatch function to props", () => {

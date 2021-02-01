@@ -1,8 +1,7 @@
 import { withSelect, withDispatch } from "@wordpress/data";
 import { compose } from "@wordpress/compose";
-import { __ } from "@wordpress/i18n";
 
-import AnalysisChecklist from "../components/AnalysisChecklist";
+import PrePublish from "../components/PrePublish";
 import {
 	maybeAddReadabilityCheck,
 	maybeAddFocusKeyphraseCheck,
@@ -15,7 +14,7 @@ import {
  *
  * @param {function} select The WordPress select function.
  *
- * @returns {{intro: string, checklist: []}} The props for the checklist.
+ * @returns {{checklist: []}} The props for the checklist.
  */
 export function mapSelectToProps( select ) {
 	const data = select( "yoast-seo/editor" );
@@ -27,17 +26,7 @@ export function mapSelectToProps( select ) {
 	maybeAddSEOCheck( checklist, data );
 	maybeAddSchemaBlocksValidationCheck( checklist, data );
 
-	let intro;
-
-	const perfectScore = checklist.every( item => item.score === "good" );
-
-	if ( perfectScore ) {
-		intro = __( "We've analyzed your post. Everything looks good. Well done!", "wordpress-seo" );
-	} else {
-		intro = __( "We've analyzed your post. There is still room for improvement!", "wordpress-seo" );
-	}
-
-	return { checklist, intro };
+	return { checklist };
 }
 
 /**
@@ -67,4 +56,4 @@ export function mapDispatchToProps( dispatch ) {
 export default compose( [
 	withSelect( mapSelectToProps ),
 	withDispatch( mapDispatchToProps ),
-] )( AnalysisChecklist );
+] )( PrePublish );
