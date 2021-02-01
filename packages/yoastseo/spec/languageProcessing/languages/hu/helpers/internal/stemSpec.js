@@ -62,6 +62,8 @@ const wordsToStem = [
 	[ "percei", "perc" ],
 	// Input a word with one of the following suffixes: áim   áid   ái   áink   áitok   áik éim   éid     éi   éink   éitek   éik
 	// Input a word with one of the following suffixes: ák ék
+	[ "adalék", "adale" ],
+	[ "adaptálják", "adaptálja" ],
 	// Input a word with one of the following suffixes: ök ok ek ak k
 
 	// Words that currently are not stemmed correctly
