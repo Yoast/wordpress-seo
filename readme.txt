@@ -235,26 +235,35 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 == Changelog ==
 
 = 15.8 =
-Release Date: January 26th, 2021
+Release Date: February 16th, 2021
 
-Enhancements:
+Non user facing:
 
-* Expands the readability analysis for Turkish:
-    * Adds the transition words assessment.
-    * Adds the consecutive sentences beginnings assessment.
-    * Adds the sentence length assessment.
-    * Adds the passive voice assessment.
-* Improves keyphrase recognition in Turkish by filtering out function words such as `birinci`, `i̇kinci`, `üçüncü`.
-* Adds the advanced snippet variables to the Social previews of our Elementor integration.
-
-Bugfixes:
-
-* Fixes a bug where empty author archive pages would be indexed when the author had published a custom post-type that was not shown on his/her author archive page. Props to [stodorovic](https://github.com/stodorovic).
+* Bumps JS packages. [#16577](https://github.com/Yoast/wordpress-seo/pull/16577)
+* Fixes a not released bug where WordPress SEO Premium would show deprecation warnings when visiting a page. [#16576](https://github.com/Yoast/wordpress-seo/pull/16576)
+* Disables the breadcrumbs block until it can be finalized. [#16570](https://github.com/Yoast/wordpress-seo/pull/16570)
+* Fixes a bug where the `sync-gutenberg-version` Grunt task would not push the changes. [#16538](https://github.com/Yoast/wordpress-seo/pull/16538)
+* Bumps JS packages. [#16537](https://github.com/Yoast/wordpress-seo/pull/16537)
+* Makes the class map path of the custom DI loader dynamic instead of hardcoded. [#16534](https://github.com/Yoast/wordpress-seo/pull/16534)
+* Activate word form recognition upsell banner for Turkish users, and reduce the maximum number of prominent words that are saved for Turkish users to match that of other languages with function word support. [#16533](https://github.com/Yoast/wordpress-seo/pull/16533)
+* Adds doc blocks to methods in the generator unit tests. [#16532](https://github.com/Yoast/wordpress-seo/pull/16532)
+* Fixes an incorrect `@covers` annotation in a unit test. [#16532](https://github.com/Yoast/wordpress-seo/pull/16532)
+* Improves the documentation for the indexable watchers and their tests. [#16531](https://github.com/Yoast/wordpress-seo/pull/16531)
+* Creates DI framework to be used by add-ons. [#16510](https://github.com/Yoast/wordpress-seo/pull/16510)
 
 Other:
 
-* Changes the wording on the `my.yoast.com` connect error shown in Health Check when a Yoast premium plugin is enabled, to lead with what the user's problem is.
-* Removes the release notification as the added benefit of having it is minimal.
+* Removes the release notification as the added benefit of having it, is minimal. [#16553](https://github.com/Yoast/wordpress-seo/pull/16553)
+* Changed the wording on the my.yoast.com connect error shown in Health Check when a Yoast premium plugin is enabled to lead with what the user's problem is. [#16519](https://github.com/Yoast/wordpress-seo/pull/16519)
+
+Enhancements:
+
+* Adds a breadcrumbs block which renders the Yoast SEO breadcrumbs for a particular post or page. [#16539](https://github.com/Yoast/wordpress-seo/pull/16539)
+* Adds advanced snippet variables in the Social previews of our Elementor integration. [#16525](https://github.com/Yoast/wordpress-seo/pull/16525)
+
+Bugfixes:
+
+* Fixes a bug where empty author archive pages could be indexed when the author had published a custom post-type that was not shown on his/her author archive page. Props to [stodorovic](https://github.com/stodorovic). [#16335](https://github.com/Yoast/wordpress-seo/pull/16335)
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).

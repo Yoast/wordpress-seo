@@ -91,7 +91,7 @@ module.exports = function( grunt ) {
 
 			// If the current version is already in the changelog, retrieve the full readme and let the user edit it.
 			if ( containsCurrentVersion ) {
-				
+				//do some voodoo here to get new entry's in to changlog..
 				mergeChangeLog( { newChangelogContent: changelog } ).then( newChangelog => {
 					// Update the grunt reference to the changelog.
 					grunt.option( "changelog", newChangelog );
@@ -119,17 +119,13 @@ module.exports = function( grunt ) {
 				const mo = new Intl.DateTimeFormat('en', { month: 'long' }).format(d);
 				const da = new Intl.DateTimeFormat('en', { day: 'numeric' }).format(d);
 				datestring = `${mo} ${format(da)}, ${ye}`
-				mergeChangeLog( { newChangelogContent: `= ${changelogVersionNumber} =\nRelease Date: ` + datestring + `\n` + changelogIn } ).then( newChangelog => {
-					// Update the grunt reference to the changelog.
-					grunt.option( "changelog", newChangelog );
-
-					// Add the user input to the changelog, behind the == Changelog == header.
-					changelog = changelog.replace( /[=]= Changelog ==/ig, "== Changelog ==\n\n" + newChangelog.trim() );
-
-					// Write changes to the file.
-					grunt.file.write( "./readme.txt", changelog );
-					done();
-				} );
+				newChangelog = `= ${changelogVersionNumber} =\nRelease Date: ` + datestring + `\n` + changelogIn 
+				// Add the changelog, behind the == Changelog == header.
+				changelog = changelog.replace( /[=]= Changelog ==/ig, "== Changelog ==\n\n" + newChangelog.trim() );
+				// Write changes to the file.
+				grunt.file.write( "./readme.txt", changelog );
+				done();
+				
 			}
 
 			// // Stage the changed readme.txt.
