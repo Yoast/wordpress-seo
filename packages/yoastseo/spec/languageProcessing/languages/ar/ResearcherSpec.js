@@ -49,7 +49,7 @@ describe( "a test for Arabic Researcher", function() {
 	} );
 
 	it( "returns the Arabic passive construction type", function() {
-		expect( researcher.getConfig( "isPeriphrastic" ) ).toEqual( false );
+		expect( researcher.getConfig( "passiveConstructionType" ) ).toEqual( "morphological" );
 	} );
 
 	it( "returns the Arabic basic word forms", function() {

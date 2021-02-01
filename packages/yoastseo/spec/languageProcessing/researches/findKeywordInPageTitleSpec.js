@@ -1,10 +1,17 @@
-import Researcher from "../../src/researcher";
-import getMorphologyData from "../specHelpers/getMorphologyData";
-import pageTitleKeyword from "../../src/languages/legacy/researches/findKeywordInPageTitle.js";
-import Paper from "../../src/values/Paper.js";
-
+import Researcher from "../../../src/languageProcessing/languages/en/researcher";
+import GermanResearcher from "../../../src/languageProcessing/languages/de/Researcher";
+import FrenchResearcher from "../../../src/languageProcessing/languages/fr/Researcher";
+import RussianResearcher from "../../../src/languageProcessing/languages/ru/Researcher";
+import SwedishResearcher from "../../../src/languageProcessing/languages/sv/Researcher";
+import DefaultResearcher from "../../../src/languageProcessing/languages/_default/Researcher";
+import getMorphologyData from "../../specHelpers/getMorphologyData";
+import pageTitleKeyword from "../../../src/languageProcessing/researches/findKeywordInPageTitle.js";
+import Paper from "../../../src/values/Paper.js";
 
 const morphologyData = getMorphologyData( "en" );
+const morphologyDataDE = getMorphologyData( "de" ).de;
+const morphologyDataFR = getMorphologyData( "fr" ).fr;
+const morphologyDataRU = getMorphologyData( "ru" ).ru;
 let result;
 
 describe( "Matches keywords in string", function() {
@@ -70,8 +77,8 @@ describe( "Matches keywords in string", function() {
 			title: "ст, чтобы проверить нечто Test текст, чтобы ",
 			locale: "ru_RU",
 		} );
-		const researcher = new Researcher( mockPaper );
-		researcher.addResearchData( "morphology", morphologyData );
+		const researcher = new RussianResearcher( mockPaper );
+		researcher.addResearchData( "morphology", morphologyDataRU );
 
 		result = pageTitleKeyword( mockPaper, researcher );
 		expect( result.exactMatchFound ).toBe( true );
@@ -84,8 +91,8 @@ describe( "Matches keywords in string", function() {
 			title: "äbc",
 			locale: "de_DE",
 		} );
-		const researcher = new Researcher( mockPaper );
-		researcher.addResearchData( "morphology", morphologyData );
+		const researcher = new GermanResearcher( mockPaper );
+		researcher.addResearchData( "morphology", morphologyDataDE );
 
 		result = pageTitleKeyword( mockPaper, researcher );
 		expect( result.exactMatchFound ).toBe( true );
@@ -132,41 +139,13 @@ describe( "Matches keywords in string", function() {
 		expect( result.position ).toBe( 15 );
 	} );
 
-	it( "returns the exact match and its position for Turkish", function() {
-		const mockPaper = new Paper( "", {
-			keyword: "Istanbul",
-			title: "İstanbul and the rest of Turkey",
-			locale: "tr_TR",
-		} );
-		const researcher = new Researcher( mockPaper );
-		researcher.addResearchData( "morphology", morphologyData );
-
-		result = pageTitleKeyword( mockPaper, researcher );
-		expect( result.exactMatchFound ).toBe( true );
-		expect( result.position ).toBe( 0 );
-	} );
-
-	it( "returns the exact match and its position for Turkish", function() {
-		const mockPaper = new Paper( "", {
-			keyword: "İstanbul",
-			title: "İstanbul and the rest of Turkey",
-			locale: "tr_TR",
-		} );
-		const researcher = new Researcher( mockPaper );
-		researcher.addResearchData( "morphology", morphologyData );
-
-		result = pageTitleKeyword( mockPaper, researcher );
-		expect( result.exactMatchFound ).toBe( true );
-		expect( result.position ).toBe( 0 );
-	} );
-
 	it( "returns the exact match and its position for German for two matches", function() {
 		const mockPaper = new Paper( "", {
 			keyword: "äbc",
 			title: "äbc und abc",
 		} );
-		const researcher = new Researcher( mockPaper );
-		researcher.addResearchData( "morphology", morphologyData );
+		const researcher = new GermanResearcher( mockPaper );
+		researcher.addResearchData( "morphology", morphologyDataDE );
 
 		result = pageTitleKeyword( mockPaper, researcher );
 		expect( result.exactMatchFound ).toBe( true );
@@ -179,8 +158,8 @@ describe( "Matches keywords in string", function() {
 			title: "äbc und abc",
 			locale: "de_DE",
 		} );
-		const researcher = new Researcher( mockPaper );
-		researcher.addResearchData( "morphology", morphologyData );
+		const researcher = new GermanResearcher( mockPaper );
+		researcher.addResearchData( "morphology", morphologyDataDE );
 
 		result = pageTitleKeyword( mockPaper, researcher );
 		expect( result.exactMatchFound ).toBe( true );
@@ -193,8 +172,8 @@ describe( "Matches keywords in string", function() {
 			title: "äbc und Äbc",
 			locale: "de_DE",
 		} );
-		const researcher = new Researcher( mockPaper );
-		researcher.addResearchData( "morphology", morphologyData );
+		const researcher = new GermanResearcher( mockPaper );
+		researcher.addResearchData( "morphology", morphologyDataDE );
 
 		result = pageTitleKeyword( mockPaper, researcher );
 		expect( result.exactMatchFound ).toBe( true );
@@ -235,8 +214,8 @@ describe( "Matches keywords in string", function() {
 			title: "Je m'appele Paul",
 			locale: "fr_FR",
 		} );
-		const researcher = new Researcher( mockPaper );
-		researcher.addResearchData( "morphology", morphologyData );
+		const researcher = new FrenchResearcher( mockPaper );
+		researcher.addResearchData( "morphology", morphologyDataFR );
 
 		result = pageTitleKeyword( mockPaper, researcher );
 		expect( result.exactMatchFound ).toBe( false );
@@ -249,8 +228,7 @@ describe( "Matches keywords in string", function() {
 			title: "Jag gillar att ta promenader i naturen.",
 			locale: "sw_SE",
 		} );
-		const researcher = new Researcher( mockPaper );
-		researcher.addResearchData( "morphology", morphologyData );
+		const researcher = new SwedishResearcher( mockPaper );
 
 		result = pageTitleKeyword( mockPaper, researcher );
 		expect( result.exactMatchFound ).toBe( true );
@@ -342,6 +320,20 @@ describe( "Matches keywords in string", function() {
 		expect( result.exactMatchKeyphrase ).toBe( false );
 		expect( result.allWordsFound ).toBe( true );
 		expect( result.position ).toBe( 0 );
+	} );
+
+	it( "returns the correct results when function words list is not available", function() {
+		const mockPaper = new Paper( "", {
+			keyword: "the very walking in nature",
+			title: "First thing, the very walking in nature",
+		} );
+		const researcher = new DefaultResearcher( mockPaper );
+
+		result = pageTitleKeyword( mockPaper, researcher );
+		expect( result.exactMatchFound ).toBe( true );
+		expect( result.exactMatchKeyphrase ).toBe( false );
+		expect( result.allWordsFound ).toBe( true );
+		expect( result.position ).toBe( 13 );
 	} );
 } );
 

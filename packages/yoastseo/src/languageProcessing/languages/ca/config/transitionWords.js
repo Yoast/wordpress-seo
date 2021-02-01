@@ -1,12 +1,12 @@
 /** @module config/transitionWords */
 
-const singleWords = [ "abans", "així", "alhora", "aleshores", "altrament", "anteriorment", "breument", "bàsicament",
+export const singleWords = [ "abans", "així", "alhora", "aleshores", "altrament", "anteriorment", "breument", "bàsicament",
 	"contràriament", "després", "doncs", "efectivament", "endemés", "especialment", "evidentment", "finalment", "fins a",
 	"fins que", "generalment", "igualment", "malgrat", "mentre", "mentrestant", "parallelament", "paral·lelament", "però",
 	"perquè", "quan", "primerament", "resumidament", "resumint", "segurament", "segons això", "sens dubte", "sinó",
 	"sobretot", "també", "tanmateix" ];
 
-const multipleWords = [ "a banda d'això", "a continuació", "a diferència de", "a fi de", "a fi que", "a força de",
+export const multipleWords = [ "a banda d'això", "a continuació", "a diferència de", "a fi de", "a fi que", "a força de",
 	"a manera de resum", "a més", "a partir d'aquí", "a partir d'ara",
 	"a tall d'exemple", "a tall de recapitulació", "a tall de resum", "al capdavall", "al contrari", "al mateix temps",
 	"amb relació a", "tot plegat", "ara bé", "atès que", "com a conseqüència", "com a exemple", "com a resultat",
@@ -26,14 +26,6 @@ const multipleWords = [ "a banda d'això", "a continuació", "a diferència de",
 	"respecte de", "s'ha de tenir en compte que", "sempre que", "tal com s’ha dit", "tan bon punt", "tan aviat com",
 	"tenint en compte que", "tot i", "tot seguit", "val a dir", "val la pena dir que", "vist que" ];
 
-/**
- * Returns lists with transition words to be used by the assessments.
- * @returns {Object} The object with transition word lists.
- */
-export default function() {
-	return {
-		singleWords: singleWords,
-		multipleWords: multipleWords,
-		allWords: singleWords.concat( multipleWords ),
-	};
-}
+export const allWords = singleWords.concat( multipleWords );
+
+export default allWords;

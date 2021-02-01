@@ -59,7 +59,7 @@ describe( "a test for the English Researcher", function() {
 	} );
 
 	it( "returns the English passive construction type", function() {
-		expect( researcher.getConfig( "isPeriphrastic" ) ).toEqual( true );
+		expect( researcher.getConfig( "passiveConstructionType" ) ).toEqual( "periphrastic" );
 	} );
 
 	it( "stems a word using the English stemmer", function() {

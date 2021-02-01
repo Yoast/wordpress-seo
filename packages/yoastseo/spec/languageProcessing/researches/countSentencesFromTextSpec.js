@@ -1,5 +1,5 @@
-import getSentences from "../../src/languages/legacy/researches/countSentencesFromText.js";
-import Paper from "../../src/values/Paper";
+import getSentences from "../../../src/languageProcessing/researches/countSentencesFromText.js";
+import Paper from "../../../src/values/Paper";
 
 describe( "counts words in sentences from text", function() {
 	let paper;

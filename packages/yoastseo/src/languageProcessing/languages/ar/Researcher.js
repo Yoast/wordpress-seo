@@ -30,7 +30,7 @@ export default class Researcher extends AbstractResearcher {
 
 		Object.assign( this.config, {
 			language: "ar",
-			isPeriphrastic: false,
+			passiveConstructionType: "morphological",
 			firstWordExceptions,
 			functionWords,
 			transitionWords,

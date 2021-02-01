@@ -4,7 +4,7 @@ import AbstractResearcher from "../../AbstractResearcher";
 import sentenceLength from "./config/sentenceLength";
 
 // All helpers
-import getStemmer from "../../helpers/morphology/baseStemmer";
+import getStemmer from "./helpers/getStemmer";
 
 /**
  * The researches contains all the researches

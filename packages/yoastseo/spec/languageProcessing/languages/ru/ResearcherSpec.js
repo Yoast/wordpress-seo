@@ -66,7 +66,7 @@ describe( "a test for the Russian Researcher", function() {
 	} );
 
 	it( "returns the Russian passive construction type", function() {
-		expect( researcher.getConfig( "isPeriphrastic" ) ).toEqual( false );
+		expect( researcher.getConfig( "passiveConstructionType" ) ).toEqual( "morphological" );
 	} );
 
 	it( "stems a word using the Russian stemmer", function() {
