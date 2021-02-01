@@ -9,7 +9,7 @@ import { __ } from "@wordpress/i18n";
  *
  * @returns {void}
  */
-export function addFocusKeyphraseCheck( checklist, hasFocusKeyphrase ) {
+export function maybeAddFocusKeyphraseCheck( checklist, hasFocusKeyphrase ) {
 	if ( ! hasFocusKeyphrase ) {
 		checklist.push( {
 			label: __( "No focus keyword was entered", "wordpress-seo" ),
@@ -27,7 +27,7 @@ export function addFocusKeyphraseCheck( checklist, hasFocusKeyphrase ) {
  *
  * @returns {void}
  */
-export function addReadabilityCheck( checklist, readabilityScore, isReadabilityAnalysisActive ) {
+export function maybeAddReadabilityCheck( checklist, readabilityScore, isReadabilityAnalysisActive ) {
 	if ( isReadabilityAnalysisActive ) {
 		checklist.push( {
 			label: __( "Readability analysis:", "wordpress-seo" ),
@@ -46,7 +46,7 @@ export function addReadabilityCheck( checklist, readabilityScore, isReadabilityA
  *
  * @returns {void}
  */
-export function addSEOCheck( checklist, seoScore, isSEOAnalysisActive ) {
+export function maybeAddSEOCheck( checklist, seoScore, isSEOAnalysisActive ) {
 	if ( isSEOAnalysisActive ) {
 		checklist.push( {
 			label: __( "SEO analysis:", "wordpress-seo" ),
@@ -68,7 +68,7 @@ export function addSEOCheck( checklist, seoScore, isSEOAnalysisActive ) {
  *
  * @returns {void}
  */
-export function addSchemaBlocksValidationCheck( checklist, schemaBlocksValidationResults ) {
+export function maybeAddSchemaBlocksValidationCheck( checklist, schemaBlocksValidationResults ) {
 	const validationResults = Object.values( schemaBlocksValidationResults );
 
 	if ( validationResults ) {
