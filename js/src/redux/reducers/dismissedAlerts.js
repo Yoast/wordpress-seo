@@ -1,4 +1,4 @@
-import { DISMISS_ALERT } from "../actions/persistentDismissableAlert";
+import { DISMISS_ALERT } from "../actions/dismissedAlerts";
 
 const INITIAL_STATE = window.wpseoScriptData.dismissedAlerts;
 

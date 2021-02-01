@@ -2,6 +2,7 @@ import activeMarker from "./activeMarker";
 import advancedSettings from "./advancedSettings";
 import { analysis } from "yoast-components";
 import analysisData from "./analysisData";
+import dismissedAlerts from "./dismissedAlerts";
 import editorContext from "./editorContext";
 import editorData from "./editorData";
 import estimatedReadingTime from "./estimatedReadingTime";
@@ -10,7 +11,7 @@ import focusKeyword from "./focusKeyword";
 import isCornerstone from "./cornerstoneContent";
 import isMarkerPaused from "./markerPauseStatus";
 import marksButtonStatus from "./markerButtons";
-import persistentDismissableAlert from "./persistentDismissableAlert";
+
 import preferences from "./preferences";
 import primaryTaxonomies from "./primaryTaxonomies";
 import schemaBlocks from "./schemaBlocks";
@@ -27,6 +28,7 @@ export default {
 	advancedSettings,
 	analysis,
 	analysisData,
+	dismissedAlerts,
 	editorContext,
 	editorData,
 	estimatedReadingTime,
@@ -35,7 +37,6 @@ export default {
 	isCornerstone,
 	isMarkerPaused,
 	marksButtonStatus,
-	persistentDismissableAlert,
 	preferences,
 	primaryTaxonomies,
 	schemaBlocks,
