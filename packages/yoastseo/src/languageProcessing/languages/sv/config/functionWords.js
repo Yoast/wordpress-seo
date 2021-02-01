@@ -138,6 +138,12 @@ const recipeWords = [ "c", "cl", "cm", "dl", "g", "kg", "km", "krm", "l", "m", "
 const miscellaneous = [ "förlåt", "ja", "jo", "ju", "m.m", "nej", "ok", "okej", "tack" ];
 
 
+/**
+ * Returns function words for Swedish.
+ *
+ * @returns {Object} Swedish function words.
+ */
+
 // These word categories are filtered at the ending of word combinations.
 export const filteredAtEnding = [].concat( ordinalNumerals, generalAdjectives, generalAdverbs, auxiliariesInfinitive,
 	delexicalizedVerbsInfinitive, copulaInfinitive, interviewVerbsInfinitive );
@@ -160,9 +166,4 @@ export const all = [].concat( articles, cardinalNumerals, ordinalNumerals, perso
 	auxiliariesInfinitive, copula, copulaInfinitive, delexicalizedVerbs, delexicalizedVerbsInfinitive, interviewVerbs,
 	interviewVerbsInfinitive, generalAdjectives, generalAdverbs, vagueNouns, prepositions, intensifiers,
 	coordinatingConjunctions, subordinatingConjunctions, timeWords, titles, interjections, recipeWords, miscellaneous );
-export default {
-	filteredAtEnding,
-	filteredAtBeginningAndEnding,
-	filteredAnywhere,
-	all,
-};
+

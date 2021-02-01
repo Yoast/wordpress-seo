@@ -41,6 +41,11 @@ import russianPaper3 from "./ru/russianPaper3";
 // Arabic papers
 import arabicPaper1 from "./ar/arabicPaper1";
 
+// Hebrew papers
+import hebrewPaper1 from "./he/hebrewPaper1";
+import hebrewPaper2 from "./he/hebrewPaper2";
+import hebrewPaper3 from "./he/hebrewPaper3";
+
 // Turkish papers
 import turkishPaper1 from "./tr/turkishPaper1";
 import turkishPaper2 from "./tr/turkishPaper2";
@@ -72,6 +77,9 @@ export default [
 	russianPaper2,
 	russianPaper3,
 	arabicPaper1,
+	hebrewPaper1,
+	hebrewPaper2,
+	hebrewPaper3,
 	turkishPaper1,
 	turkishPaper2,
 	turkishPaper3,

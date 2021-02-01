@@ -4,6 +4,9 @@ import functionWords from "../../../../src/languageProcessing/languages/sv/confi
 import firstWordExceptions from "../../../../src/languageProcessing/languages/sv/config/firstWordExceptions";
 import transitionWords from "../../../../src/languageProcessing/languages/sv/config/transitionWords";
 import twoPartTransitionWords from "../../../../src/languageProcessing/languages/sv/config/twoPartTransitionWords";
+import getMorphologyData from "../../../specHelpers/getMorphologyData";
+
+const morphologyDataSV = getMorphologyData( "sv" );
 
 describe( "a test for the Swedish Researcher", function() {
 	const researcher = new Researcher( new Paper( "" ) );
@@ -48,8 +51,13 @@ describe( "a test for the Swedish Researcher", function() {
 		expect( researcher.getConfig( "language" ) ).toEqual( "sv" );
 	} );
 
+	it( "stems the Swedish word using the Swedish stemmer", function() {
+		researcher.addResearchData( "morphology", morphologyDataSV );
+		expect( researcher.getHelper( "getStemmer" )( researcher )( "noggrann" ) ).toEqual( "noggran" );
+	} );
+
 	it( "returns the Swedish passive construction type", function() {
-		expect( researcher.getConfig( "isPeriphrastic" ) ).toEqual( false );
+		expect( researcher.getConfig( "passiveConstructionType" ) ).toEqual( "morphological" );
 	} );
 
 	it( "checks if a Swedish sentence is passive or not", function() {
