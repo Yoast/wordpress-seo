@@ -100,8 +100,12 @@ module.exports = function( grunt ) {
 				}
 				// Present the user with only the version number.
 				
-
-				mergeChangeLog( { newChangelogContent: `= ${changelogVersionNumber} =\nRelease Date:\n` + changelogIn } ).then( newChangelog => {
+				const d = new Date(2010, 7, 5);
+				const ye = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(d);
+				const mo = new Intl.DateTimeFormat('en', { month: 'long' }).format(d);
+				const da = new Intl.DateTimeFormat('en', { day: 'numeric' }).format(d);
+				datestring = `${mo} ${da} ${ye}`
+				mergeChangeLog( { newChangelogContent: `= ${changelogVersionNumber} =\nRelease Date:` + datestring + `\n` + changelogIn } ).then( newChangelog => {
 					// Update the grunt reference to the changelog.
 					grunt.option( "changelog", newChangelog );
 
