@@ -4,19 +4,19 @@ namespace Yoast\WP\SEO\Tests\Dependency_Injection;
 
 use Mockery;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Yoast\WP\SEO\Dependency_Injection\Structured_Data_Block_Templates_Loader;
-use Yoast\WP\SEO\Dependency_Injection\Structured_Data_Block_Templates_Pass;
+use Yoast\WP\SEO\Dependency_Injection\Schema_Templates_Loader;
+use Yoast\WP\SEO\Dependency_Injection\Schema_Templates_Pass;
 use Yoast\WP\SEO\Integrations\Schema_Blocks;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
- * Class Structured_Data_Block_Templates_Pass_Test.
+ * Class Schema_Templates_Pass_Test.
  *
  * @group dependency-injection
  *
- * @coversDefaultClass \Yoast\WP\SEO\Dependency_Injection\Structured_Data_Block_Templates_Pass
+ * @coversDefaultClass \Yoast\WP\SEO\Dependency_Injection\Schema_Templates_Pass
  */
-class Structured_Data_Block_Templates_Pass_Test extends TestCase {
+class Schema_Templates_Pass_Test extends TestCase {
 
 	/**
 	 * Represents the container builder.
@@ -26,16 +26,16 @@ class Structured_Data_Block_Templates_Pass_Test extends TestCase {
 	protected $container_builder;
 
 	/**
-	 * Represents the structured data block templates loader.
+	 * Represents the schema templates loader.
 	 *
-	 * @var Mockery\MockInterface|Structured_Data_Block_Templates_Loader
+	 * @var Mockery\MockInterface|Schema_Templates_Loader
 	 */
 	protected $templates_loader;
 
 	/**
 	 * Represents the instance to test.
 	 *
-	 * @var Structured_Data_Block_Templates_Pass
+	 * @var Schema_Templates_Pass
 	 */
 	protected $instance;
 
@@ -46,8 +46,8 @@ class Structured_Data_Block_Templates_Pass_Test extends TestCase {
 		parent::set_up();
 
 		$this->container_builder = Mockery::mock( ContainerBuilder::class );
-		$this->templates_loader  = Mockery::mock( Structured_Data_Block_Templates_Loader::class );
-		$this->instance          = new Structured_Data_Block_Templates_Pass( $this->templates_loader );
+		$this->templates_loader  = Mockery::mock( Schema_Templates_Loader::class );
+		$this->instance          = new Schema_Templates_Pass( $this->templates_loader );
 	}
 
 	/**
@@ -71,7 +71,7 @@ class Structured_Data_Block_Templates_Pass_Test extends TestCase {
 			->andReturn( $schema_blocks_definition );
 
 		$expected_schema_blocks = [
-			'src/structured-data-block-templates/address.block.php',
+			'src/schema-templates/address.block.php',
 		];
 
 		$this->templates_loader
@@ -81,7 +81,7 @@ class Structured_Data_Block_Templates_Pass_Test extends TestCase {
 		$schema_blocks_definition
 			->expects( 'addMethodCall' )
 			->once()
-			->with( 'register_template', [ 'src/structured-data-block-templates/address.block.php' ] );
+			->with( 'register_template', [ 'src/schema-templates/address.block.php' ] );
 
 		$this->instance->process( $this->container_builder );
 	}
