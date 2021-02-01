@@ -96,3 +96,9 @@ test.sh
 ##############
 /javascript/
 .yoast
+
+
+############
+# Temp files
+############
+/.tmp
