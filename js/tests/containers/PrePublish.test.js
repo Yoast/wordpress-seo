@@ -58,7 +58,7 @@ describe( "The PrePublish container", () => {
 			scoreValue: "Needs improvement",
 		} );
 
-		expect( props.shouldShowIntro ).toEqual( true );
+		expect( props.intro ).toEqual( "We've analyzed your post. There is still room for improvement!" );
 	} );
 
 	it( "maps the dispatch function to props", () => {

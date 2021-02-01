@@ -1,13 +1,13 @@
 import { withSelect, withDispatch } from "@wordpress/data";
 import { compose } from "@wordpress/compose";
-import getIndicatorForScore from "../analysis/getIndicatorForScore";
-import AnalysisChecklist from "../components/AnalysisChecklist";
+import { __ } from "@wordpress/i18n";
 
+import AnalysisChecklist from "../components/AnalysisChecklist";
 import {
-	addReadabilityCheck,
-	addFocusKeyphraseCheck,
-	addSchemaBlocksValidationCheck,
-	addSEOCheck,
+	maybeAddReadabilityCheck,
+	maybeAddFocusKeyphraseCheck,
+	maybeAddSchemaBlocksValidationCheck,
+	maybeAddSEOCheck,
 } from "../helpers/addCheckToChecklist";
 
 /**
@@ -15,24 +15,29 @@ import {
  *
  * @param {function} select The WordPress select function.
  *
- * @returns {{shouldShowIntro: boolean, checklist: []}} The props for the checklist.
+ * @returns {{intro: string, checklist: []}} The props for the checklist.
  */
 export function mapSelectToProps( select ) {
 	const data = select( "yoast-seo/editor" );
-	const focusKeyphrase = data.getFocusKeyphrase();
-	const seoScoreIndicator = getIndicatorForScore( data.getResultsForFocusKeyword().overallScore );
-	const readabilityScoreIndicator = getIndicatorForScore( data.getReadabilityResults().overallScore );
-	const { isKeywordAnalysisActive, isContentAnalysisActive } = data.getPreferences();
-	const schemaBlocksValidationResults = data.getSchemaBlocksValidationResults();
 
 	const checklist = [];
 
-	addFocusKeyphraseCheck( checklist, focusKeyphrase );
-	addReadabilityCheck( checklist, readabilityScoreIndicator, isKeywordAnalysisActive );
-	addSEOCheck( checklist, seoScoreIndicator, isContentAnalysisActive );
-	addSchemaBlocksValidationCheck( checklist, schemaBlocksValidationResults );
+	maybeAddFocusKeyphraseCheck( checklist, data );
+	maybeAddReadabilityCheck( checklist, data );
+	maybeAddSEOCheck( checklist, data );
+	maybeAddSchemaBlocksValidationCheck( checklist, data );
 
-	return { checklist, shouldShowIntro: true };
+	let intro;
+
+	const perfectScore = checklist.every( item => item.score === "good" );
+
+	if ( perfectScore ) {
+		intro = __( "We've analyzed your post. Everything looks good. Well done!", "wordpress-seo" );
+	} else {
+		intro = __( "We've analyzed your post. There is still room for improvement!", "wordpress-seo" );
+	}
+
+	return { checklist, intro };
 }
 
 /**

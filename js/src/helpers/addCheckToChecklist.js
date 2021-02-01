@@ -1,16 +1,19 @@
 import { __ } from "@wordpress/i18n";
+import getIndicatorForScore from "../analysis/getIndicatorForScore";
 
 /**
  * Adds a "No focus keyword was entered" result when no focus keyphrase
  * was entered.
  *
- * @param {Object[]} checklist         The checklist on which to add the check.
- * @param {boolean}  hasFocusKeyphrase Whether there is a focus keyphrase.
+ * @param {Object[]} checklist  The checklist on which to add the check.
+ * @param {Object}   storeState The current state of the Yoast SEO redux store.
  *
  * @returns {void}
  */
-export function maybeAddFocusKeyphraseCheck( checklist, hasFocusKeyphrase ) {
-	if ( ! hasFocusKeyphrase ) {
+export function maybeAddFocusKeyphraseCheck( checklist, storeState ) {
+	const focusKeyphrase = storeState.getFocusKeyphrase();
+
+	if ( ! focusKeyphrase ) {
 		checklist.push( {
 			label: __( "No focus keyword was entered", "wordpress-seo" ),
 			score: "bad",
@@ -21,18 +24,21 @@ export function maybeAddFocusKeyphraseCheck( checklist, hasFocusKeyphrase ) {
 /**
  * Adds the readability check if readability analysis is active.
  *
- * @param {Object[]} checklist                   The checklist on which to add the readability check.
- * @param {Object}   readabilityScore            The readability score.
- * @param {boolean}  isReadabilityAnalysisActive Whether readability analysis is active or not.
+ * @param {Object[]} checklist  The checklist on which to add the readability check.
+ * @param {Object}   storeState The current state of the Yoast SEO redux store.
  *
  * @returns {void}
  */
-export function maybeAddReadabilityCheck( checklist, readabilityScore, isReadabilityAnalysisActive ) {
-	if ( isReadabilityAnalysisActive ) {
+export function maybeAddReadabilityCheck( checklist, storeState ) {
+	const { isKeywordAnalysisActive } = storeState.getPreferences();
+
+	if ( isKeywordAnalysisActive ) {
+		const readabilityScoreIndicator = getIndicatorForScore( storeState.getReadabilityResults().overallScore );
+
 		checklist.push( {
 			label: __( "Readability analysis:", "wordpress-seo" ),
-			score: readabilityScore.className,
-			scoreValue: readabilityScore.screenReaderReadabilityText,
+			score: readabilityScoreIndicator.className,
+			scoreValue: readabilityScoreIndicator.screenReaderReadabilityText,
 		} );
 	}
 }
@@ -40,18 +46,21 @@ export function maybeAddReadabilityCheck( checklist, readabilityScore, isReadabi
 /**
  * Adds the SEO check if SEO analysis is active.
  *
- * @param {Object[]} checklist           The checklist on which to add the SEO score.
- * @param {Object}   seoScore            The score on the SEO analysis.
- * @param {boolean}  isSEOAnalysisActive Whether SEO analysis is active or not.
+ * @param {Object[]} checklist  The checklist on which to add the SEO score.
+ * @param {Object}   storeState The current state of the Yoast SEO redux store.
  *
  * @returns {void}
  */
-export function maybeAddSEOCheck( checklist, seoScore, isSEOAnalysisActive ) {
-	if ( isSEOAnalysisActive ) {
+export function maybeAddSEOCheck( checklist, storeState ) {
+	const { isContentAnalysisActive } = storeState.getPreferences();
+
+	if ( isContentAnalysisActive ) {
+		const seoScoreIndicator = getIndicatorForScore( storeState.getResultsForFocusKeyword().overallScore );
+
 		checklist.push( {
 			label: __( "SEO analysis:", "wordpress-seo" ),
-			score: seoScore.className,
-			scoreValue: seoScore.screenReaderReadabilityText,
+			score: seoScoreIndicator.className,
+			scoreValue: seoScoreIndicator.screenReaderReadabilityText,
 		} );
 	}
 }
@@ -63,12 +72,13 @@ export function maybeAddSEOCheck( checklist, seoScore, isSEOAnalysisActive ) {
  * This check is hidden when no schema validation results are known
  * (e.g. when no schema blocks exist on the page).
  *
- * @param {Object[]}   checklist                    The score items to add the score to.
- * @param {Object[]} schemaBlocksValidationResults The validation results.
+ * @param {Object[]} checklist  The score items to add the score to.
+ * @param {Object}   storeState The current state of the Yoast SEO redux store.
  *
  * @returns {void}
  */
-export function maybeAddSchemaBlocksValidationCheck( checklist, schemaBlocksValidationResults ) {
+export function maybeAddSchemaBlocksValidationCheck( checklist, storeState ) {
+	const schemaBlocksValidationResults = storeState.getSchemaBlocksValidationResults();
 	const validationResults = Object.values( schemaBlocksValidationResults );
 
 	if ( validationResults ) {

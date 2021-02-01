@@ -21,9 +21,11 @@ describe( "The AnalysisChecklist component", () => {
 			},
 		];
 
+		const introduction = "We've analyzed your post. There is still room for improvement!";
+
 		const onClick = jest.fn();
 
-		const checklist = shallow( <AnalysisChecklist checklist={ checks } onClick={ onClick } shouldShowIntro={ true } /> );
+		const checklist = shallow( <AnalysisChecklist checklist={ checks } onClick={ onClick } intro={ introduction } /> );
 
 		const introductionText = checklist.find( "p" );
 
@@ -50,7 +52,9 @@ describe( "The AnalysisChecklist component", () => {
 
 		const onClick = jest.fn();
 
-		const checklist = shallow( <AnalysisChecklist checklist={ checks } onClick={ onClick } shouldShowIntro={ true } /> );
+		const introduction = "We've analyzed your post. Everything looks good. Well done!";
+
+		const checklist = shallow( <AnalysisChecklist checklist={ checks } onClick={ onClick } intro={ introduction }/> );
 
 		const introductionText = checklist.find( "p" );
 

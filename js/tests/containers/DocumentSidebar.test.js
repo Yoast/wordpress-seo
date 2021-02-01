@@ -52,7 +52,7 @@ describe( "The DocumentSidebar container", () => {
 			scoreValue: "Needs improvement",
 		} );
 
-		expect( props.shouldShowIntro ).toEqual( false );
+		expect( props.intro ).toEqual( undefined );
 	} );
 
 	it( "maps the dispatch function to props", () => {
