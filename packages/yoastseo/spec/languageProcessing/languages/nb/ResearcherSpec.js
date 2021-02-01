@@ -28,7 +28,7 @@ describe( "a test for Norwegian Researcher", function() {
 		expect( researcher.getConfig( "language" ) ).toEqual( "nb" );
 	} );
 
-	it( "stems the Norwegian word using the Arabic stemmer", function() {
+	it( "stems the Norwegian word using the Norwegian stemmer", function() {
 		researcher.addResearchData( "morphology", morphologyDataNB );
 		expect( researcher.getHelper( "getStemmer" )( researcher )( "katter" ) ).toEqual( "katt" );
 	} );
