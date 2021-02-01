@@ -89,7 +89,7 @@ class Indexable_Link_Builder {
 			$GLOBALS['post'] = $post;
 			setup_postdata( $post );
 			$content = \apply_filters( 'the_content', $content );
-			wp_reset_postdata();
+			\wp_reset_postdata();
 		}
 
 		$content = \str_replace( ']]>', ']]&gt;', $content );
