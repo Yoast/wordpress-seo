@@ -3,6 +3,7 @@
 namespace Yoast\WP\SEO\Builders;
 
 use Yoast\WP\SEO\Helpers\Image_Helper;
+use Yoast\WP\SEO\Helpers\Post_Helper;
 use Yoast\WP\SEO\Helpers\Url_Helper;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Models\SEO_Links;
@@ -36,6 +37,13 @@ class Indexable_Link_Builder {
 	protected $image_helper;
 
 	/**
+	 * The post helper.
+	 *
+	 * @var Post_Helper
+	 */
+	protected $post_helper;
+
+	/**
 	 * The indexable repository.
 	 *
 	 * @var Indexable_Repository
@@ -47,13 +55,16 @@ class Indexable_Link_Builder {
 	 *
 	 * @param SEO_Links_Repository $seo_links_repository The SEO links repository.
 	 * @param Url_Helper           $url_helper           The URL helper.
+	 * @param Post_Helper          $post_helper          The post helper.
 	 */
 	public function __construct(
 		SEO_Links_Repository $seo_links_repository,
-		Url_Helper $url_helper
+		Url_Helper $url_helper,
+		Post_Helper $post_helper
 	) {
 		$this->seo_links_repository = $seo_links_repository;
 		$this->url_helper           = $url_helper;
+		$this->post_helper          = $post_helper;
 	}
 
 	/**
@@ -84,7 +95,7 @@ class Indexable_Link_Builder {
 	 */
 	public function build( $indexable, $content ) {
 		if ( $indexable->object_type === 'post' ) {
-			$post = \get_post( $indexable->object_id );
+			$post = $this->post_helper->get_post( $indexable->object_id );
 			// phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- To setup the post we need to do this explicitly.
 			$GLOBALS['post'] = $post;
 			setup_postdata( $post );
