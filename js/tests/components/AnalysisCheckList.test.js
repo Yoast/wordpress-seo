@@ -54,7 +54,7 @@ describe( "The AnalysisChecklist component", () => {
 
 		const introduction = "We've analyzed your post. Everything looks good. Well done!";
 
-		const checklist = shallow( <AnalysisChecklist checklist={ checks } onClick={ onClick } intro={ introduction }/> );
+		const checklist = shallow( <AnalysisChecklist checklist={ checks } onClick={ onClick } intro={ introduction } /> );
 
 		const introductionText = checklist.find( "p" );
 
