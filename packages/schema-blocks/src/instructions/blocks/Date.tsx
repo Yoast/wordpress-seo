@@ -2,7 +2,7 @@
 import { BlockConfiguration } from "@wordpress/blocks";
 import { DateTimePicker, Dropdown } from "@wordpress/components";
 import { createElement, useState } from "@wordpress/element";
-import { __experimentalGetSettings, dateI18n } from "@wordpress/date";
+import { __experimentalGetSettings, dateI18n, getDate, format } from "@wordpress/date";
 
 // Internal imports.
 import BlockInstruction from "../../core/blocks/BlockInstruction";
@@ -25,11 +25,19 @@ export default class Date extends BlockInstruction {
 	 * @return The React components to show in the editor when editing this block.
 	 */
 	edit( props: RenderEditProps ): JSX.Element {
+		const { attributes, setAttributes } = props;
+
 		const dateFormat = Date.getDateFormat();
 
-		const currentlySelectedDate = dateI18n( dateFormat, props.attributes[ this.options.name ] );
+		const currentlySelectedDate = dateI18n( dateFormat, attributes[ this.options.name ] );
 
-		const [ selectedDate, setSelectedDate ] = useState( currentlySelectedDate || dateFormat );
+		const [ selectedDate, setSelectedDate ] = useState( currentlySelectedDate );
+
+		if ( ! attributes[ this.options.name ] ) {
+			setAttributes( {
+				[ this.options.name ]: format( "Y-m-d", getDate() ),
+			} );
+		}
 
 		/**
 		 * Sets the selected date.
@@ -38,7 +46,7 @@ export default class Date extends BlockInstruction {
 		 */
 		const setDate = useCallback( ( dateTime: string ) => {
 			const date = dateTime.split( "T" )[ 0 ];
-			props.setAttributes( {
+			setAttributes( {
 				[ this.options.name ]: date,
 			} );
 			setSelectedDate( dateI18n( dateFormat, date ) );
