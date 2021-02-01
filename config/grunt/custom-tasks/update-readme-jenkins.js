@@ -110,7 +110,9 @@ module.exports = function( grunt ) {
 				}
 				// Present the user with only the version number
 				
-				const d = new Date(2010, 7, 5);
+				var d = new Date();
+				// quess release date, probaly tuesday in two weeks time
+				d.setDate(d.getDate() + (2 + 14 - d.getDay()));
 				const ye = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(d);
 				const mo = new Intl.DateTimeFormat('en', { month: 'long' }).format(d);
 				const da = new Intl.DateTimeFormat('en', { day: 'numeric' }).format(d);
