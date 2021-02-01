@@ -13,6 +13,14 @@ const INITIAL_STATE = window.wpseoScriptData.dismissedAlerts;
 function dismissedAlertsReducer( state = INITIAL_STATE, action ) {
 	switch ( action.type ) {
 		case DISMISS_ALERT:
+			// Calling the REST route first.
+			window.wpseoApi.post( "alerts/dismiss", { key: action.alertKey }, response => {
+				if ( ! response || ! response.success ) {
+					return;
+				}
+			} );
+
+			// Update the store when succesfully dismissed to the database.
 			return {
 				... state,
 				[ action.alertKey ]: true,
