@@ -92,7 +92,7 @@ module.exports = function( grunt ) {
 					changelogVersionNumber += "." + versionNumber.patch;
 				}
 				// Present the user with only the version number.
-				mergeChangeLog( { newChangelogContent: `= ${changelogVersionNumber} =` + changelogIn } ).then( newChangelog => {
+				mergeChangeLog( { newChangelogContent: `= ${changelogVersionNumber} =\nRelease Date:\n\n` + changelogIn } ).then( newChangelog => {
 					// Update the grunt reference to the changelog.
 					grunt.option( "changelog", newChangelog );
 
