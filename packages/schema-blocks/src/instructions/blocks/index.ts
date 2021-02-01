@@ -7,3 +7,4 @@ import "./SidebarInput";
 import "./SidebarSelect";
 import "./VariableTagRichText";
 import "./Select";
+import "./Date";
