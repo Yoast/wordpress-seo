@@ -43,7 +43,7 @@ class Container_Compiler {
 
 			$container_builder = new ContainerBuilder();
 			$container_builder->addCompilerPass( new Loader_Pass() );
-			$container_builder->addCompilerPass( new Schema_Templates_Pass( new Schema_Templates_Loader() ) );
+			$container_builder->addCompilerPass( new Structured_Data_Block_Templates_Pass( new Structured_Data_Block_Templates_Loader() ) );
 			$container_builder->addCompilerPass( new Interface_Injection_Pass() );
 			$container_builder->addCompilerPass( new AutowireRequiredMethodsPass() );
 			$container_builder->addCompilerPass( new Inject_From_Registry_Pass() );

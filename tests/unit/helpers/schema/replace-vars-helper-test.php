@@ -86,9 +86,9 @@ class Replace_Vars_Helper_Test extends TestCase {
 		$meta_tags_context                 = Mockery::mock( Meta_Tags_Context_Mock::class );
 		$meta_tags_context->indexable      = $indexable;
 		$meta_tags_context->post           = $post;
-		$meta_tags_context->main_schema_id = 'https://basic.wordpress.test/schema-templates/#webpage';
+		$meta_tags_context->main_schema_id = 'https://basic.wordpress.test/structured-data-block-templates/#webpage';
 		$meta_tags_context->site_url       = 'https://basic.wordpress.test';
-		$meta_tags_context->canonical      = 'https://basic.wordpress.test/schema-templates';
+		$meta_tags_context->canonical      = 'https://basic.wordpress.test/structured-data-block-templates';
 
 		$this->id_helper
 			->expects( 'get_user_schema_id' )
@@ -110,11 +110,11 @@ class Replace_Vars_Helper_Test extends TestCase {
 	 */
 	public function test_registers_the_right_replace_vars() {
 		$replace_vars = [
-			'main_schema_id'   => 'https://basic.wordpress.test/schema-templates/#webpage',
+			'main_schema_id'   => 'https://basic.wordpress.test/structured-data-block-templates/#webpage',
 			'author_id'        => 'https://basic.wordpress.test#/schema/person/a00dc884baa6bd52ebacc06cfd5aab21',
 			'person_id'        => 'https://basic.wordpress.test#/schema/person/',
-			'primary_image_id' => 'https://basic.wordpress.test/schema-templates#primaryimage',
-			'webpage_id'       => 'https://basic.wordpress.test/schema-templates#webpage',
+			'primary_image_id' => 'https://basic.wordpress.test/structured-data-block-templates#primaryimage',
+			'webpage_id'       => 'https://basic.wordpress.test/structured-data-block-templates#webpage',
 			'website_id'       => 'https://basic.wordpress.test#website',
 			'post_date'        => '2020-10-11 13:00:00',
 			'organization_id'  => 'https://basic.wordpress.test#organization',
@@ -129,9 +129,9 @@ class Replace_Vars_Helper_Test extends TestCase {
 		$meta_tags_context                 = Mockery::mock( Meta_Tags_Context_Mock::class );
 		$meta_tags_context->indexable      = $indexable;
 		$meta_tags_context->post           = $post;
-		$meta_tags_context->main_schema_id = 'https://basic.wordpress.test/schema-templates/#webpage';
+		$meta_tags_context->main_schema_id = 'https://basic.wordpress.test/structured-data-block-templates/#webpage';
 		$meta_tags_context->site_url       = 'https://basic.wordpress.test';
-		$meta_tags_context->canonical      = 'https://basic.wordpress.test/schema-templates';
+		$meta_tags_context->canonical      = 'https://basic.wordpress.test/structured-data-block-templates';
 
 		$this->id_helper
 			->expects( 'get_user_schema_id' )
@@ -167,11 +167,11 @@ class Replace_Vars_Helper_Test extends TestCase {
 	 */
 	public function test_registers_the_right_replace_vars_on_non_post() {
 		$replace_vars = [
-			'main_schema_id'   => 'https://basic.wordpress.test/schema-templates/#webpage',
+			'main_schema_id'   => 'https://basic.wordpress.test/structured-data-block-templates/#webpage',
 			'author_id'        => 'https://basic.wordpress.test#/schema/person/a00dc884baa6bd52ebacc06cfd5aab21',
 			'person_id'        => 'https://basic.wordpress.test#/schema/person/',
-			'primary_image_id' => 'https://basic.wordpress.test/schema-templates#primaryimage',
-			'webpage_id'       => 'https://basic.wordpress.test/schema-templates#webpage',
+			'primary_image_id' => 'https://basic.wordpress.test/structured-data-block-templates#primaryimage',
+			'webpage_id'       => 'https://basic.wordpress.test/structured-data-block-templates#webpage',
 			'website_id'       => 'https://basic.wordpress.test#website',
 			'organization_id'  => 'https://basic.wordpress.test#organization',
 		];
@@ -181,9 +181,9 @@ class Replace_Vars_Helper_Test extends TestCase {
 
 		$meta_tags_context                 = Mockery::mock( Meta_Tags_Context_Mock::class );
 		$meta_tags_context->indexable      = $indexable;
-		$meta_tags_context->main_schema_id = 'https://basic.wordpress.test/schema-templates/#webpage';
+		$meta_tags_context->main_schema_id = 'https://basic.wordpress.test/structured-data-block-templates/#webpage';
 		$meta_tags_context->site_url       = 'https://basic.wordpress.test';
-		$meta_tags_context->canonical      = 'https://basic.wordpress.test/schema-templates';
+		$meta_tags_context->canonical      = 'https://basic.wordpress.test/structured-data-block-templates';
 
 		$this->id_helper
 			->expects( 'get_user_schema_id' )

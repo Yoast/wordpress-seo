@@ -6,7 +6,7 @@ use WPSEO_Admin_Asset_Manager;
 use Yoast\WP\SEO\Conditionals\Schema_Blocks_Conditional;
 
 /**
- * Loads schema block templates into Gutenberg.
+ * Loads structured data block templates into Gutenberg.
  */
 class Schema_Blocks implements Integration_Interface {
 
@@ -59,7 +59,7 @@ class Schema_Blocks implements Integration_Interface {
 	}
 
 	/**
-	 * Registers a schema template.
+	 * Registers a structured data block template.
 	 *
 	 * @param string $template The template to be registered.
 	 *                         If starting with a / is assumed to be an absolute path.
@@ -76,7 +76,7 @@ class Schema_Blocks implements Integration_Interface {
 	}
 
 	/**
-	 * Loads all schema block templates and the required JS library for them.
+	 * Loads all structured data block templates and the required JS library for them.
 	 *
 	 * @return void
 	 */
@@ -94,11 +94,11 @@ class Schema_Blocks implements Integration_Interface {
 		}
 
 		/**
-		 * Filter: 'wpseo_schema_templates' - Allow adding additional schema templates.
+		 * Filter: 'wpseo_structured_data_block_templates' - Allow adding additional structured data block templates.
 		 *
 		 * @param array $templates The templates to filter.
 		 */
-		$templates = \apply_filters( 'wpseo_load_schema_templates', $this->templates );
+		$templates = \apply_filters( 'wpseo_load_structured_data_block_templates', $this->templates );
 		if ( ! is_array( $templates ) || empty( $templates ) ) {
 			return;
 		}

@@ -168,7 +168,7 @@ class Schema_Blocks_Test extends TestCase {
 			->once()
 			->andReturnTrue();
 
-		$this->instance->register_template( 'src/schema-templates/recipe.block.php' );
+		$this->instance->register_template( 'src/structured-data-block-templates/recipe.block.php' );
 		$this->instance->output();
 
 		$this->expectOutputContains( '<script type="text/block-template">' );
@@ -207,8 +207,8 @@ class Schema_Blocks_Test extends TestCase {
 			->andReturnTrue();
 
 		// First add a template.
-		Monkey\Filters\expectApplied( 'wpseo_load_schema_templates' )
-			->andReturn( [ WPSEO_PATH . '/src/schema-templates/recipe.block.php' ] );
+		Monkey\Filters\expectApplied( 'wpseo_load_structured_data_block_templates' )
+			->andReturn( [ WPSEO_PATH . '/src/structured-data-block-templates/recipe.block.php' ] );
 
 		$this->instance->output();
 
@@ -228,7 +228,7 @@ class Schema_Blocks_Test extends TestCase {
 			->andReturnTrue();
 
 		// First add a template.
-		Monkey\Filters\expectApplied( 'wpseo_load_schema_templates' )
+		Monkey\Filters\expectApplied( 'wpseo_load_structured_data_block_templates' )
 			->andReturnFalse();
 
 		$this->instance->output();
@@ -248,7 +248,7 @@ class Schema_Blocks_Test extends TestCase {
 			->once()
 			->andReturnTrue();
 
-		$this->instance->register_template( WPSEO_PATH . '/src/schema-templates/nonexisting.block.php' );
+		$this->instance->register_template( WPSEO_PATH . '/src/structured-data-block-templates/nonexisting.block.php' );
 
 		$this->instance->output();
 
@@ -267,7 +267,7 @@ class Schema_Blocks_Test extends TestCase {
 			->once()
 			->andReturnTrue();
 
-		Monkey\Filters\expectApplied( 'wpseo_load_schema_templates' );
+		Monkey\Filters\expectApplied( 'wpseo_load_structured_data_block_templates' );
 
 		$this->instance->output();
 
