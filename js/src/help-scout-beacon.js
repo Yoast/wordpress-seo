@@ -81,10 +81,11 @@ function loadHelpScout( beaconId, sessionData = "" ) {
 	if ( sessionData !== "" ) {
 		if ( typeof sessionData.name !== "undefined" && typeof sessionData.email !== "undefined" ) {
 			// eslint-disable-next-line new-cap
-			window.Beacon( "identify", {
+			window.Beacon( "identify", JSON.parse( {
 				name: sessionData.name,
 				email: sessionData.email,
-			} );
+			} ) );
+			
 			delete sessionData.name;
 			delete sessionData.email;
 		}
