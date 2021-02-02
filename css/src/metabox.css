@@ -107,6 +107,7 @@ ul.wpseo-metabox-tabs li.active {
 }
 
 .wpseo-metabox-menu {
+  max-width: 600px;
   padding: 0;
   background-color: #fff;
 }
