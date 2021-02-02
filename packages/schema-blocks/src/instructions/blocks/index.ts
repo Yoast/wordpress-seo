@@ -8,3 +8,5 @@ import "./SidebarSelect";
 import "./VariableTagRichText";
 import "./Select";
 import "./Date";
+import "./CurrencySelect";
+import "./TextInput";
