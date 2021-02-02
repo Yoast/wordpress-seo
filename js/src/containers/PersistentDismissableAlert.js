@@ -3,17 +3,15 @@ import { compose } from "@wordpress/compose";
 import { withDispatch, withSelect } from "@wordpress/data";
 
 /**
- * Renders the PersistentDismissableAlert component.
+ * Composes the PersistentDismissableAlert container.
  *
- * @param {Object} props The props for the PersistentDismissableAlert.
- *
- * @returns {ReactElement} The PersistentDismissableAlert component.
+ * @returns {Component} The composed Alert component.
  */
 export default compose( [
 	withSelect( ( select, ownProps ) => {
 		const {
 			isAlertDismissed,
-		} = select( "yoast-seo/editor");
+		} = select( "yoast-seo/editor" );
 
 		return {
 			isAlertDismissed: isAlertDismissed( ownProps.alertKey ),
