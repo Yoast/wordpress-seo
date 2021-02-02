@@ -6,7 +6,6 @@ import { ArabicResearcher, CatalanResearcher, GermanResearcher, EnglishResearche
 
 self.onmessage = ( event ) => {
 	const researchers = {
-		"default": DefaultResearcher,
 		ar: ArabicResearcher,
 		ca: CatalanResearcher,
 		de: GermanResearcher,
@@ -26,7 +25,11 @@ self.onmessage = ( event ) => {
 	};
 
 	const language = event.data.language;
-	const Researcher = researchers[ language ];
+	/*
+	 * Use the right researcher depending on the language set. If no specific researcher is available for the language,
+	 * use the default researcher.
+	 */
+	const Researcher = researchers[ language ] ? researchers[ language ] : DefaultResearcher;
 
 	const worker = new AnalysisWebWorker( self, new Researcher() );
 	worker.register();

@@ -47,7 +47,8 @@ const storageMiddleware = createStorageMiddleware( storageStates );
 
 const store = configureStore( initialState, [ storageMiddleware  ] );
 const workerUnwrapped = new AnalysisWebWorker();
-workerUnwrapped.postMessage( { language: "en" } );
+// Pass language so that the right researcher is loaded.
+workerUnwrapped.postMessage( { language: window.localStorage.language } );
 const worker = new AnalysisWorkerWrapper( workerUnwrapped );
 
 const subscriber = new StoreSubscriber( { store, worker } );
