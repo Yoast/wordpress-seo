@@ -96,7 +96,7 @@ const wordsToStem = [
 	// Input a word ending in case suffix -á.
 	[ "odmítá", "odmí" ],
 	// Input a word ending in case suffix -é.
-	// [ "soudce", "soudc" ],
+	[ "každé", "každ" ],
 	// Input a word ending in case suffix -ý.
 	[ "přirozený", "přiroze" ],
 	// Input a word ending in possessive suffix -ov.
@@ -105,44 +105,44 @@ const wordsToStem = [
 	[ "manželův", "manže" ],
 	// Input a word ending in possessive suffix -in.
 	[ "dceřin", "dceř" ],
-	// Input a word ending in palatalise suffix -ci.
+	// Input a word ending in palatalised suffix -ci.
 	[ "", "" ],
-	// Input a word ending in palatalise suffix -ce.
+	// Input a word ending in palatalised suffix -ce.
 	[ "", "" ],
-	// Input a word ending in palatalise suffix -či.
+	// Input a word ending in palatalised suffix -či.
 	[ "", "" ],
-	// Input a word ending in palatalise suffix -če.
+	// Input a word ending in palatalised suffix -če.
 	[ "", "" ],
-	// Input a word ending in palatalise suffix -k.
+	// Input a word ending in palatalised suffix -k.
 	[ "", "" ],
-	// Input a word ending in palatalise suffix -zi.
+	// Input a word ending in palatalised suffix -zi.
 	[ "", "" ],
-	// Input a word ending in palatalise suffix -ze.
+	// Input a word ending in palatalised suffix -ze.
 	[ "", "" ],
-	// Input a word ending in palatalise suffix -ži.
+	// Input a word ending in palatalised suffix -ži.
 	[ "", "" ],
-	// Input a word ending in palatalise suffix -že.
+	// Input a word ending in palatalised suffix -že.
 	[ "", "" ],
-	// Input a word ending in palatalise suffix -h.
+	// Input a word ending in palatalised suffix -h.
 	[ "", "" ],
-	// Input a word ending in palatalise suffix -čtě.
+	// Input a word ending in palatalised suffix -čtě.
 	[ "", "" ],
-	// Input a word ending in palatalise suffix -čti.
+	// Input a word ending in palatalised suffix -čti.
 	[ "", "" ],
-	// Input a word ending in palatalise suffix -čtí.
+	// Input a word ending in palatalised suffix -čtí.
 	[ "", "" ],
-	// Input a word ending in palatalise suffix -ck.
+	// Input a word ending in palatalised suffix -ck.
 	[ "automatické", "automat" ],
-	// Input a word ending in palatalise suffix -ště.
+	// Input a word ending in palatalised suffix -ště.
 	[ "", "" ],
-	// Input a word ending in palatalise suffix -šti.
+	// Input a word ending in palatalised suffix -šti.
 	[ "", "" ],
-	// Input a word ending in palatalise suffix -ští.
+	// Input a word ending in palatalised suffix -ští.
 	[ "", "" ],
-	// Input a word ending in palatalise suffix -sk.
+	// Input a word ending in palatalised suffix -sk.
 	[ "", "" ],
 	// Input a word ending in comparative suffix -ejš.
-	[ "", "" ],
+	[ "dolejš", "dol" ],
 	// Input a word ending in comparative suffix -ějš.
 	[ "nejbezpečnějš", "nejbezpe" ],
 	// Input a word ending in diminutive suffix -oušek.
@@ -150,7 +150,7 @@ const wordsToStem = [
 	// Input a word ending in diminutive suffix -eček.
 	[ "domeček", "dom" ],
 	// Input a word ending in diminutive suffix -éček.
-	[ "", "" ],
+	[ "cédéček", "céd" ],
 	// Input a word ending in diminutive suffix -iček.
 	[ "kočiček", "koči" ],
 	// Input a word ending in diminutive suffix -íček.
@@ -196,21 +196,21 @@ const wordsToStem = [
 	// Input a word ending in diminutive suffix -ačk.
 	[ "nekuřačk", "nekuř" ],
 	// Input a word ending in diminutive suffix -očk.
-	[ "", "" ],
+	[ "pobočk", "pob" ],
 	// Input a word ending in diminutive suffix -učk.
-	[ "", "" ],
+	[ "měkkoučk", "měkko" ],
 	// Input a word ending in diminutive suffix -ank.
-	[ "", "" ],
+	[ "fašank", "faš" ],
 	// Input a word ending in diminutive suffix -onk.
-	[ "", "" ],
+	[ "šešonk", "šeš" ],
 	// Input a word ending in diminutive suffix -unk.
-	[ "", "" ],
+	[ "šalunk", "šal" ],
 	// Input a word ending in diminutive suffix -átk.
-	[ "", "" ],
+	[ "zvířátk", "zvíř" ],
 	// Input a word ending in diminutive suffix -ánk.
-	[ "", "" ],
+	[ "pozvánk", "pozv" ],
 	// Input a word ending in diminutive suffix -ušk.
-	[ "", "" ],
+	[ "zkoušk", "zko" ],
 	// Input a word ending in diminutive suffix -ek.
 	[ "", "" ],
 	// Input a word ending in diminutive suffix -ék.
@@ -228,7 +228,7 @@ const wordsToStem = [
 	// Input a word ending in diminutive suffix -uk.
 	[ "", "" ],
 	// Input a word ending in diminutive suffix -k.
-	[ "", "" ],
+	// [ "naviják", "navijá" ],
 	// Input a word ending in augmentative suffix -ajzn.
 	[ "", "" ],
 	// Input a word ending in augmentative suffix -izn.
@@ -238,13 +238,13 @@ const wordsToStem = [
 	// Input a word ending in augmentative suffix -ák.
 	[ "", "" ],
 	// Input a word ending in derivational suffix -obinec.
-	[ "", "" ],
+	[ "chudobinec", "chud" ],
 	// Input a word ending in derivational suffix -ionář.
-	[ "", "" ],
+	[ "milionář", "mil" ],
 	// Input a word ending in derivational suffix -ovisk.
 	[ "", "" ],
 	// Input a word ending in derivational suffix -ovstv.
-	[ "", "" ],
+	[ "mistrovstv", "mistr" ],
 	// Input a word ending in derivational suffix -ovišt.
 	[ "", "" ],
 	// Input a word ending in derivational suffix -ovník.
