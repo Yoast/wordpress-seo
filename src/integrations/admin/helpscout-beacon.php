@@ -1,57 +1,39 @@
 <?php
-/**
- * WPSEO plugin file.
- *
- * @package WPSEO\Admin
- */
+
+namespace Yoast\WP\SEO\Integrations\Admin;
+
+use WPSEO_Addon_Manager;
+use WPSEO_Admin_Asset_Manager;
+use WPSEO_Tracking_Server_Data;
+use WPSEO_Utils;
+use Yoast\WP\SEO\Conditionals\Admin_Page_Conditional;
+use Yoast\WP\SEO\Integrations\Integration_Interface;
 
 /**
  * Class WPSEO_HelpScout
  */
-class WPSEO_HelpScout implements WPSEO_WordPress_Integration {
+class HelpScout_Beacon implements Integration_Interface {
 
 	/**
 	 * The id for the beacon.
 	 *
 	 * @var string
 	 */
-	protected $beacon_id;
-
-	/**
-	 * The pages where the beacon is loaded.
-	 *
-	 * @var array
-	 */
-	protected $pages;
+	protected $beacon_id = '2496aba6-0292-489c-8f5d-1c0fba417c2f';
 
 	/**
 	 * The products the beacon is loaded for.
 	 *
 	 * @var array
 	 */
-	protected $products;
+	protected $products = [];
 
 	/**
 	 * Whether to asks the user's consent before loading in HelpScout.
 	 *
 	 * @var bool
 	 */
-	protected $ask_consent;
-
-	/**
-	 * WPSEO_HelpScout constructor.
-	 *
-	 * @param string $beacon_id   The beacon id.
-	 * @param array  $pages       The pages where the beacon is loaded.
-	 * @param array  $products    The products the beacon is loaded for.
-	 * @param bool   $ask_consent Optional. Whether to ask for consent before loading in HelpScout.
-	 */
-	public function __construct( $beacon_id, array $pages, array $products, $ask_consent = false ) {
-		$this->beacon_id   = $beacon_id;
-		$this->pages       = $pages;
-		$this->products    = $products;
-		$this->ask_consent = $ask_consent;
-	}
+	protected $ask_consent = true;
 
 	/**
 	 * {@inheritDoc}
@@ -69,6 +51,22 @@ class WPSEO_HelpScout implements WPSEO_WordPress_Integration {
 	 * Enqueues the HelpScout script.
 	 */
 	public function enqueue_help_scout_script() {
+		/**
+		 * Filter: 'wpseo_helpscout_beacon_settings' - Allows overriding the HelpScout beacon settings.
+		 *
+		 * @api string - The HelpScout beacon settings.
+		 */
+		$filterable_helpscout_setting = [
+			'products'    => $this->products,
+			'beacon_id'   => $this->beacon_id,
+			'ask_consent' => $this->ask_consent,
+		];
+		$helpscout_settings           = apply_filters( 'wpseo_helpscout_beacon_settings', $filterable_helpscout_setting );
+
+		$this->products    = $helpscout_settings['products'];
+		$this->beacon_id   = $helpscout_settings['beacon_id'];
+		$this->ask_consent = $helpscout_settings['ask_consent'];
+
 		$asset_manager = new WPSEO_Admin_Asset_Manager();
 		$asset_manager->enqueue_script( 'help-scout-beacon' );
 	}
@@ -81,7 +79,8 @@ class WPSEO_HelpScout implements WPSEO_WordPress_Integration {
 			'<script type="text/javascript">window.%1$s(\'%2$s\', %3$s)</script>',
 			( $this->ask_consent ) ? 'wpseoHelpScoutBeaconConsent' : 'wpseoHelpScoutBeacon',
 			esc_html( $this->beacon_id ),
-			WPSEO_Utils::format_json_encode( $this->get_session_data() )
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaping done in format_json_encode.
+			WPSEO_Utils::format_json_encode( (array) $this->get_session_data() )
 		);
 	}
 
@@ -89,21 +88,9 @@ class WPSEO_HelpScout implements WPSEO_WordPress_Integration {
 	 * Checks if the current page is a page containing the beacon.
 	 */
 	private function is_beacon_page() {
-		return in_array( $this->get_current_page(), $this->pages, true );
-	}
-
-	/**
-	 * Retrieves the value of the current page.
-	 *
-	 * @return string The current page.
-	 */
-	private function get_current_page() {
 		$page = filter_input( INPUT_GET, 'page' );
-		if ( isset( $page ) && $page !== false ) {
-			return $page;
-		}
 
-		return '';
+		return ( $GLOBALS['pagenow'] === 'admin.php' && isset( $page ) && \strpos( $page, 'wpseo' ) === 0 );
 	}
 
 	/**
@@ -112,7 +99,6 @@ class WPSEO_HelpScout implements WPSEO_WordPress_Integration {
 	 * @return string The data to pass as identifying data.
 	 */
 	protected function get_session_data() {
-		/** @noinspection PhpUnusedLocalVariableInspection */
 		// Do not make these strings translatable! They are for our support agents, the user won't see them!
 		$current_user = wp_get_current_user();
 
@@ -259,5 +245,14 @@ class WPSEO_HelpScout implements WPSEO_WordPress_Integration {
 		}
 
 		return $active_plugins;
+	}
+
+	/**
+	 * Returns the conditionals based on which this integration should be active.
+	 *
+	 * @return array The array of conditionals.
+	 */
+	public static function get_conditionals() {
+		return [ Admin_Page_Conditional::class ];
 	}
 }
