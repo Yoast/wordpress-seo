@@ -18,14 +18,16 @@ This monorepo includes reusable packages:
   - A utility that keeps track of enabled and disabled features.
 - [@yoast/helpers](packages/helpers)
   - A set of helper functions that can be used across multiple projects.
-- [@yoast/search-metadata-previews](packages/search-metadata-previews)
-  - React components that can be used to generate a preview of what a page will look like in Google's search results.
 - [@yoast/replacement-variable-editor](packages/replacement-variable-editor)
   - The replacement variable editor currently used in the Search Metadata previews. In the future, this component will also be used in the Social Metadata previews.
-- [@yoast/social-metadata-previews](packages/social-metadata-previews) *[Will replace [yoast-social-previews](packages/yoast-social-previews)]*
-  - React components that can be used to generate a preview of what a page will look like when shared trough Facebook or Twitter.
+- [@yoast/schema-blocks](packages/schema-blocks)
+  - classes and React components used in generating schema blocks from wordpress posts.
+- [@yoast/search-metadata-previews](packages/search-metadata-previews)
+  - React components that can be used to generate a preview of what a page will look like in Google's search results.
 - [@yoast/social-metadata-forms](packages/social-metadata-forms)
   - React components that can be used to render forms for controlling the social preview settings. This includes the redux store.
+- [@yoast/social-metadata-previews](packages/social-metadata-previews) *[Will replace [yoast-social-previews](packages/yoast-social-previews)]*
+  - React components that can be used to generate a preview of what a page will look like when shared trough Facebook or Twitter.
 - [@yoast/style-guide](packages/style-guide)
   - A combination of style constants and functions that can be used to conform to the Yoast corporate identity.
 - [eslint-config-yoast](packages/eslint)
