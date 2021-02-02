@@ -9,7 +9,7 @@ import { RenderEditProps, RenderSaveProps } from "../../core/blocks/BlockDefinit
 import { getBlockByClientId } from "../../functions/BlockHelper";
 import BlockLeaf from "../../core/blocks/BlockLeaf";
 import validateMany from "../../functions/validators/validateMany";
-import { innerBlocksSidebar } from "../../functions/presenters/InnerBlocksSidebar";
+import { innerBlocksSidebar } from "../../functions/presenters/InnerBlocksSidebarPresenter";
 import { InnerBlocksInstructionOptions } from "./InnerBlocksInstructionOptions";
 
 /**

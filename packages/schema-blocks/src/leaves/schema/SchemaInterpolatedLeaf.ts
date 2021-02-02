@@ -31,6 +31,12 @@ export default class SchemaInterpolatedLeaf extends SchemaLeaf {
 			if ( typeof value === "string" ) {
 				return value;
 			}
+
+			if ( ! value ) {
+				// eslint-disable-next-line no-console
+				console.log( "cannot render value ", value );
+			}
+
 			return value.render( block ) as string;
 		} ).join( "" );
 	}

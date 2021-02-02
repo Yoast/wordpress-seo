@@ -3,7 +3,7 @@ import { createElement } from "@wordpress/element";
 import { BlockInstance } from "@wordpress/blocks";
 import BlockSuggestions from "../../blocks/BlockSuggestions";
 import { __ } from "@wordpress/i18n";
-import { getWarnings } from "./WarningPresenter";
+import getWarnings from "./SidebarWarningPresenter";
 import { InnerBlocksInstructionOptions } from "../../instructions/blocks/InnerBlocksInstructionOptions";
 
 /**
@@ -41,9 +41,12 @@ export function innerBlocksSidebar( currentBlock: BlockInstance, options: InnerB
  */
 function createWarningList( warnings: string[] ): ReactElement {
 	return (
-		<ul className="yoast-block-sidebar-warning-list">
-            { ...warnings.map( warning => createWarningElement( warning ) ) }
-		</ul>
+		<div className="yoast-block-sidebar-warnings">
+			<div className="yoast-block-sidebar-title">{ __( "Analysis", "wpseo-schema-blocks" ) }</div>
+			<ul className="yoast-block-sidebar-warnings"> { }
+				{ ...warnings.map( warning => createWarningElement( warning ) ) }
+			</ul>
+		</div>
 	);
 }
 

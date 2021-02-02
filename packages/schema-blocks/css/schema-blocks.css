@@ -76,7 +76,27 @@
 
 .yoast-block-suggestions {
 	width:100%;
+	padding: 0 5px 0 15px;
+}
+
+.yoast-block-sidebar-warnings {
+	width:100%;
 	padding: 0 0 0 15px;
+	list-style-type: '• ';
+}
+
+.yoast-block-sidebar-warning {
+	list-style: none;
+	color: #707070;
+}
+
+.yoast-block-sidebar-warning::before {
+	content: '• ';
+	font-size: large;
+	display: outside; 
+	width: 1em;
+	margin-left: -1.5em;
+	color: red;
 }
 
 .yoast-block-suggestion {
@@ -91,7 +111,6 @@
 .yoast-block-suggestion-checkmark {
 	color: #6EA029;
 }
-
 
 .yoast-block-suggestion-button {
 	cursor: pointer;
