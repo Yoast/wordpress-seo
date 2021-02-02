@@ -1,7 +1,17 @@
+function myFunction(value, index, array) {
+	const key = value.match(new RegExp(  "[ a-zA-Z]+:" ));
+	var lines = value.match(new RegExp( "\\*[^\n]+", "g" ));
+	//var lines = value.match(new RegExp( "\\*", "g" ));
+	console.log(lines);
+	ChangelogMap[key]= lines;
+	console.log(key);
+}
+
+
 const mergeChangeLog = require( "../lib/merge-changelog" );
 const parseVersion = require( "../lib/parse-version" );
 const _isEmpty = require( "lodash/isEmpty" );
-
+let ChangelogMap = new Map()
 /**
  * A task to remove old changelog entries and add new ones in readme.txt.
  *
@@ -86,6 +96,15 @@ module.exports = function( grunt ) {
 			changelogIn = changelogIn.replace( new RegExp( "# Yoast/wordpress-seo:(.|\\n)*?(?=\n[ a-zA-Z]+:)" ),
 				""
 			);
+			//strip non user facing block from new entry file.
+			//changelogIn = changelogIn.replace( new RegExp( "Non user facing:(.|\\n)*?(?=\n[ a-zA-Z]+:)" ),
+			//	""
+			//);
+			// split in blocks
+			var parts = changelogIn.match(new RegExp( "\n[ a-zA-Z]+:(.|\\n)*?(?=\n[ a-zA-Z]+:)", "g" ))
+			parts.forEach(myFunction);
+
+			console.log(ChangelogMap);
 
 
 
@@ -101,7 +120,7 @@ module.exports = function( grunt ) {
 					done();
 				} );
 			} else {
-				// If the current version is not in the changelog, allow the user to enter new changelog items.
+				// If the current version is not in the changelog, build a new one from input file.
 				let changelogVersionNumber = versionNumber.major + "." + versionNumber.minor;
 
 				// Only add the patch number if we're actually doing a patch.
@@ -119,7 +138,7 @@ module.exports = function( grunt ) {
 				const mo = new Intl.DateTimeFormat('en', { month: 'long' }).format(d);
 				const da = new Intl.DateTimeFormat('en', { day: 'numeric' }).format(d);
 				datestring = `${mo} ${format(da)}, ${ye}`
-				newChangelog = `= ${changelogVersionNumber} =\nRelease Date: ` + datestring + `\n` + changelogIn 
+				newChangelog = `= ${changelogVersionNumber} =\nRelease Date: ` + datestring + `\n\n` + changelogIn 
 				// Add the changelog, behind the == Changelog == header.
 				changelog = changelog.replace( /[=]= Changelog ==/ig, "== Changelog ==\n\n" + newChangelog.trim() );
 				// Write changes to the file.
