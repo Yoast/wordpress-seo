@@ -85,7 +85,7 @@ function loadHelpScout( beaconId, sessionData = "" ) {
 				name: sessionData.name,
 				email: sessionData.email,
 			} ) );
-			
+
 			delete sessionData.name;
 			delete sessionData.email;
 		}
