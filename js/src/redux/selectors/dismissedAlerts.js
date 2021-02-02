@@ -1,16 +1,3 @@
-import { get } from "lodash";
-
-/**
- * Selects the dismissedAlerts object.
- *
- * @param {Object} state The state.
- *
- * @returns {Object} The dismissedAlerts object.
- */
-export function getDismissedAlerts( state ) {
-	return get( state, "editor.dismissedAlerts", true );
-}
-
 /**
  * Checks whether a certain Alert is dismissed.
  *
