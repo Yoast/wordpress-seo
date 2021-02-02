@@ -1,4 +1,3 @@
-export const LOAD_DISMISSED_ALERTS = "LOAD_DISMISSED_ALERTS";
 export const DISMISS_ALERT = "DISMISS_ALERT";
 
 /**
