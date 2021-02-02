@@ -1,8 +1,7 @@
-import metaDescriptionKeyword from "../../src/languages/legacy/researches/metaDescriptionKeyword.js";
-import Paper from "../../src/values/Paper.js";
-import Researcher from "../../src/researcher";
-import getMorphologyData from "../specHelpers/getMorphologyData";
-
+import metaDescriptionKeyword from "../../../src/languageProcessing/researches/metaDescriptionKeyword.js";
+import Paper from "../../../src/values/Paper.js";
+import Researcher from "../../../src/languageProcessing/languages/en/Researcher";
+import getMorphologyData from "../../specHelpers/getMorphologyData";
 
 const morphologyData = getMorphologyData( "en" );
 
@@ -102,7 +101,9 @@ describe( "the metadescription keyword match research", function() {
 	} );
 
 	it( "returns the number ( 2 ) of keywords and synonyms found.", function() {
-		const paper = new Paper( "", { keyword: "cats and dogs", synonyms: "hounds and felines", description: "This is a meta description. It’s about dogs and cats and hounds and felines and more felines. A sdfkjhsdk hskdf sd. And hounds." } );
+		const paper = new Paper( "", { keyword: "cats and dogs", synonyms: "hounds and felines",
+			description: "This is a meta description. It’s about dogs and cats and hounds and felines and more felines. " +
+				"A sdfkjhsdk hskdf sd. And hounds." } );
 		const researcher = new Researcher( paper );
 		researcher.addResearchData( "morphology", morphologyData );
 		const result = metaDescriptionKeyword( paper, researcher );

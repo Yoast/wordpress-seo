@@ -1,6 +1,6 @@
-import matchKeywordInSubheadings from "../../src/languages/legacy/researches/matchKeywordInSubheadings";
-import Paper from "../../src/values/Paper";
-import Factory from "../specHelpers/factory";
+import matchKeywordInSubheadings from "../../../src/languageProcessing/researches/matchKeywordInSubheadings";
+import Paper from "../../../src/values/Paper";
+import Factory from "../../specHelpers/factory";
 
 describe( "Matching keyphrase in subheadings", () => {
 	it( "matches only h2 and h3 subheadings", () => {

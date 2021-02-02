@@ -1,5 +1,5 @@
-import h1s from "../../src/languages/legacy/researches/h1s.js";
-import Paper from "../../src/values/Paper.js";
+import h1s from "../../../src/languageProcessing/researches/h1s.js";
+import Paper from "../../../src/values/Paper.js";
 
 describe( "Gets all H1s in the text", function() {
 	it( "should return empty when there is no H1", function() {
