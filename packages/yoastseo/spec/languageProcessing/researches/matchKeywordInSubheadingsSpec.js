@@ -1,6 +1,7 @@
 import matchKeywordInSubheadings from "../../../src/languageProcessing/researches/matchKeywordInSubheadings";
 import Paper from "../../../src/values/Paper";
-import Factory from "../../specHelpers/factory";
+import Researcher from "../../../src/languageProcessing/languages/en/Researcher";
+import DefaultResearcher from "../../../src/languageProcessing/languages/_default/Researcher";
 
 describe( "Matching keyphrase in subheadings", () => {
 	it( "matches only h2 and h3 subheadings", () => {
@@ -10,11 +11,7 @@ describe( "Matching keyphrase in subheadings", () => {
 			"<h4>Even more?</h4><p>Yes, even more.</p>",
 			{},
 		);
-		const researcher = Factory.buildMockResearcher( {
-			keyphraseForms: [],
-			synonymsForms: [],
-		} );
-		const result = matchKeywordInSubheadings( paper, researcher );
+		const result = matchKeywordInSubheadings( paper, new Researcher( paper ) );
 
 		// Would be 3 if the h4 was counted too.
 		expect( result.count ).toBe( 2 );
@@ -26,17 +23,22 @@ describe( "Matching keyphrase in subheadings", () => {
 			keyword: "So ’n groot huis",
 			locale: "af",
 		} );
-		const researcher = Factory.buildMockResearcher( {
-			keyphraseForms: [ [ "So" ], [ "’n" ], [ "groot" ], [ "huis" ], [ "hond" ] ],
-			synonymsForms: [],
-		} );
 
 		// All the words should match and since hond !== huis the expected result is 0.
-		expect( matchKeywordInSubheadings( paper, researcher ).matches ).toBe( 0 );
+		expect( matchKeywordInSubheadings( paper, new DefaultResearcher( paper ) ).matches ).toBe( 0 );
 
 		// There is function word support for English.
 		paper._attributes.locale = "en_US";
 		// More than 50% should match. With 1 of the 4 words mismatching the expected result is 1.
-		expect( matchKeywordInSubheadings( paper, researcher ).matches ).toBe( 1 );
+		expect( matchKeywordInSubheadings( paper, new Researcher( paper ) ).matches ).toBe( 1 );
+	} );
+
+	it( "tests for a case when there is no subheading in the text", () => {
+		const paper = new Paper(
+			"A beautiful tortie cat.",
+			{},
+		);
+		const result = matchKeywordInSubheadings( paper, new Researcher( paper ) );
+		expect( result.count ).toBe( 0 );
 	} );
 } );
