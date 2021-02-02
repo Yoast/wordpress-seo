@@ -120,3 +120,23 @@
 	border: 0;
 	background: 0;
 }
+
+.yoast-block-date-picker-container > button {
+	background: none;
+	border: none;
+	color: #747474;
+	font-family: inherit;
+}
+
+.yoast-block-date-picker {
+	z-index: 1;
+}
+
+.yoast-block-date-picker .components-datetime__time > fieldset {
+	margin: 0;
+}
+
+/* Hides the time picker from the datetime picker, we can't use the standalone date picker because it won't focus properly. */
+.yoast-block-date-picker .components-datetime__time > fieldset:last-child {
+	display: none;
+}

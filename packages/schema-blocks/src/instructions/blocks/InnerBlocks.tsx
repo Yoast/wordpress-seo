@@ -45,6 +45,9 @@ export default class InnerBlocks extends BlockInstruction {
 			key: i,
 		};
 
+		this.options.requiredBlocks = this.options.requiredBlocks || [];
+		this.options.recommendedBlocks = this.options.recommendedBlocks || [];
+
 		this.renderAppender( properties );
 
 		this.arrangeAllowedBlocks( properties );

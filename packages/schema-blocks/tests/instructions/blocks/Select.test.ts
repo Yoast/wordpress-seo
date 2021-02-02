@@ -48,6 +48,7 @@ describe( "The Select instruction", () => {
 			};
 
 			const props: RenderEditProps = {
+				clientId: "1234-abcd",
 				className: "",
 				isSelected: false,
 				setAttributes: jest.fn(),
@@ -79,6 +80,7 @@ describe( "The Select instruction", () => {
 			};
 
 			const props: RenderEditProps = {
+				clientId: "1234-abcd",
 				className: "",
 				isSelected: false,
 				setAttributes: jest.fn(),
@@ -108,6 +110,7 @@ describe( "The Select instruction", () => {
 			};
 
 			const props: RenderEditProps = {
+				clientId: "1234-abcd",
 				className: "",
 				isSelected: false,
 				setAttributes: jest.fn(),
@@ -137,6 +140,7 @@ describe( "The Select instruction", () => {
 			};
 
 			const props: RenderEditProps = {
+				clientId: "1234-abcd",
 				className: "",
 				isSelected: false,
 				setAttributes: jest.fn(),

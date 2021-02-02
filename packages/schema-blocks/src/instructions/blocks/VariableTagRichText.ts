@@ -31,6 +31,7 @@ class VariableTagRichText extends RichTextBase {
 				[ this.options.name ]: {
 					type: "string",
 					source: "html",
+					"default": this.options.default,
 					selector: `[data-id=${this.options.name}]`,
 				},
 				[ this.options.name + "_tag" ]: {

@@ -1,5 +1,6 @@
 import "./Block";
 import "./ClassName";
+import "./Date";
 import "./InnerBlocks";
 import "./InnerBlocksInstructionOptions";
 import "./RichText";
