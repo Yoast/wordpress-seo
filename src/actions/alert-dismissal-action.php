@@ -139,20 +139,7 @@ class Alert_Dismissal_Action {
 	 * @return bool Whether the alert is allowed.
 	 */
 	public function is_allowed( $alert_identifier ) {
-		return \in_array( $alert_identifier, $this->get_allowed_dismissable_alerts() );
-	}
-
-	/**
-	 * Checks if the alert identifier is valid.
-	 *
-	 * Only allow alphanumeric characters, dashes and underscores.
-	 *
-	 * @param string $alert_identifier The alert identifier.
-	 *
-	 * @return boolean Whether the alert identifier is valid or not.
-	 */
-	public function is_valid_alert_identifier( $alert_identifier ) {
-		return \is_string( $alert_identifier ) && \preg_match( '/^[A-Za-z0-9_\-]+$/', $alert_identifier ) === 1;
+		return \in_array( $alert_identifier, $this->get_allowed_dismissable_alerts(), true );
 	}
 
 	/**
@@ -189,7 +176,7 @@ class Alert_Dismissal_Action {
 		/**
 		 * Filter: 'wpseo_allowed_dismissable_alerts' - List of allowed dismissable alerts.
 		 *
-		 * @api string[] $allowed_dismissable_alerts Allowed dismissable alerts list. An alert can only have alphanumeric characters, dashes and underscores.
+		 * @api string[] $allowed_dismissable_alerts Allowed dismissable alerts list.
 		 */
 		$allowed_dismissable_alerts = \apply_filters( 'wpseo_allowed_dismissable_alerts', [] );
 
@@ -197,11 +184,8 @@ class Alert_Dismissal_Action {
 			return [];
 		}
 
-		// Only allow strings with alphanumeric characters, dashes and underscores.
-		$allowed_dismissable_alerts = \array_filter( $allowed_dismissable_alerts, [
-			$this,
-			'is_valid_alert_identifier',
-		] );
+		// Only allow strings.
+		$allowed_dismissable_alerts = \array_filter( $allowed_dismissable_alerts, 'is_string' );
 
 		// Filter unique and reorder indices.
 		$allowed_dismissable_alerts = \array_values( \array_unique( $allowed_dismissable_alerts ) );

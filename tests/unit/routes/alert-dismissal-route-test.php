@@ -82,8 +82,8 @@ class Alert_Dismissal_Route_Test extends TestCase {
 					'callback'            => [ $this->instance, 'dismiss' ],
 					'permission_callback' => [ $this->instance, 'can_dismiss' ],
 					'args'                => [
-						'code' => [
-							'validate_callback' => [ $this->instance, 'has_valid_key' ],
+						'key' => [
+							'validate_callback' => [ $this->alert_dismissal_action, 'is_allowed' ],
 							'required'          => true,
 						],
 					],

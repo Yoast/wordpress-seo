@@ -64,7 +64,7 @@ class Alert_Dismissal_Route implements Route_Interface {
 			'permission_callback' => [ $this, 'can_dismiss' ],
 			'args'                => [
 				'key' => [
-					'validate_callback' => [ $this->alert_dismissal_action, 'is_valid_alert_identifier' ],
+					'validate_callback' => [ $this->alert_dismissal_action, 'is_allowed' ],
 					'required'          => true,
 				],
 			],

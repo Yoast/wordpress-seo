@@ -777,42 +777,4 @@ class Alert_Dismissal_Action_Test extends TestCase {
 
 		$this->assertFalse( $this->instance->is_allowed( 1 ) );
 	}
-
-	/**
-	 * Tests that a non-string is an invalid alert identifier.
-	 *
-	 * @covers ::is_valid_alert_identifier
-	 */
-	public function test_is_valid_alert_identifier_non_string() {
-		$this->assertFalse( $this->instance->is_valid_alert_identifier( 1 ) );
-		$this->assertFalse( $this->instance->is_valid_alert_identifier( [] ) );
-	}
-
-	/**
-	 * Tests that an empty string is an invalid alert identifier.
-	 *
-	 * @covers ::is_valid_alert_identifier
-	 */
-	public function test_is_valid_alert_identifier_empty_string() {
-		$this->assertFalse( $this->instance->is_valid_alert_identifier( '' ) );
-	}
-
-	/**
-	 * Tests that certain characters are not allowd in an alert identifier.
-	 *
-	 * @covers ::is_valid_alert_identifier
-	 */
-	public function test_is_valid_alert_identifier_unallowed_characters() {
-		$this->assertFalse( $this->instance->is_valid_alert_identifier( 'invalid!' ) );
-	}
-
-	/**
-	 * Tests valid alert identifiers.
-	 *
-	 * @covers ::is_valid_alert_identifier
-	 */
-	public function test_is_valid_alert_identifier() {
-		$this->assertTrue( $this->instance->is_valid_alert_identifier( 'abcdefghijklnmnopqrstuvwxyzABCDEFGHIJKLNMNOPQRSTUVWXYZ0123456789_-' ) );
-		$this->assertTrue( $this->instance->is_valid_alert_identifier( '1' ) );
-	}
 }
