@@ -249,6 +249,7 @@ Bugfixes:
 
 * Fixes a bug where the target indexable for relative links was not properly detected.
 * Fixes a bug where scheme-relative links were not parsed correctly.
+* Fixes a bug where paginated WooCommerce shop pages did not have the right canonical.
 * Fixes a bug where custom capabilities could malfunction due to a race condition. Props to [Jerome Charaoui](https://github.com/jcharaoui).
 
 = 15.7 =
