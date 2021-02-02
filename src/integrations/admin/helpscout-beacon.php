@@ -4,9 +4,11 @@ namespace Yoast\WP\SEO\Integrations\Admin;
 
 use WPSEO_Addon_Manager;
 use WPSEO_Admin_Asset_Manager;
+use WPSEO_Options;
 use WPSEO_Tracking_Server_Data;
 use WPSEO_Utils;
 use Yoast\WP\SEO\Conditionals\Admin_Page_Conditional;
+use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 
 /**
@@ -36,6 +38,20 @@ class HelpScout_Beacon implements Integration_Interface {
 	protected $ask_consent = true;
 
 	/**
+	 * @var Options_Helper
+	 */
+	private $options;
+
+	/**
+	 * Headless_Rest_Endpoints_Enabled_Conditional constructor.
+	 *
+	 * @param Options_Helper $options The options helper.
+	 */
+	public function __construct( Options_Helper $options ) {
+		$this->options = $options;
+	}
+
+	/**
 	 * {@inheritDoc}
 	 */
 	public function register_hooks() {
@@ -51,6 +67,11 @@ class HelpScout_Beacon implements Integration_Interface {
 	 * Enqueues the HelpScout script.
 	 */
 	public function enqueue_help_scout_script() {
+		// If the user has tracking enabled, no need to ask for consent for our beacon.
+		if ( $this->ask_consent && $this->options->get( 'tracking' ) ) {
+			$this->ask_consent = false;
+		}
+
 		/**
 		 * Filter: 'wpseo_helpscout_beacon_settings' - Allows overriding the HelpScout beacon settings.
 		 *
