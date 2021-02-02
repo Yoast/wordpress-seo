@@ -19,7 +19,8 @@ export default function schemaBlocksReducer( state = initialState, action ) {
 			 const newState = Object.assign( {}, state );
 			 const validation = action.validation;
 
-			 newState[ validation.clientId ] = validation;
+			 newState.validations = newState.validations || {};
+			 newState.validations[ validation.clientId ] = validation;
 
 			 return newState;
 		}

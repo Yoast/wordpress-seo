@@ -1,15 +1,11 @@
-import { get } from "lodash";
 
 /**
- * Gets the validation results for a blockinstance with a given clientId from the store.
+ * The schema validation results.
  *
- * @param {Object} state    The state.
- * @param {string} clientId The clientId to read validation results for.
+ * @param {object} state The current state.
  *
- * @returns {BlockValidationResult} The validation results for the blockinstance with clientId, if any.
+ * @returns {object} The schema blocks validation results.
  */
-export function getValidationResult( state, clientId ) {
-	const result = get( state, "schemaBlocks[" + clientId + "]", null );
-	console.log("getValidationResult:", result);
-	return result;
+export function getSchemaBlocksValidationResults( state ) {
+	return state.schemaBlocks;
 }

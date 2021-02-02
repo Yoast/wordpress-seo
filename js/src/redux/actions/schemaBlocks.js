@@ -1,7 +1,6 @@
 const PREFIX = "WPSEO_";
 
 export const ADD_BLOCK_VALIDATION    = `${ PREFIX }ADD_BLOCK_VALIDATION`;
-export const GET_BLOCK_VALIDATION    = `${ PREFIX }GET_BLOCK_VALIDATION`;
 export const RESET_BLOCK_VALIDATIONS = `${ PREFIX }CLEAR_BLOCK_VALIDATIONS`;
 
 /**
@@ -26,19 +25,5 @@ export function addBlockValidation( blockValidationResult ) {
 export function resetBlockValidation() {
 	return {
 		type: RESET_BLOCK_VALIDATIONS,
-	};
-}
-
-/**
- * Requests the validation results for a given clientId from the store.
- *
- * @param {string} clientId The clientId to request validation data for.
- *
- * @returns {object} The command to get the validation result.
- */
-export function getBlockValidation( clientId ) {
-	return {
-		type: GET_BLOCK_VALIDATION,
-		clientId: clientId,
 	};
 }
