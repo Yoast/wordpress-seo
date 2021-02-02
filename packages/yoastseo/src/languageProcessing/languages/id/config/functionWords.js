@@ -2,6 +2,7 @@
  * Returns an object with exceptions for the prominent words researcher
  * @returns {Object} The object filled with exception arrays.
  */
+import { singleWords as transitionWords } from "./transitionWords";
 
 const articles = [ "si", "sang", "kaum", "sri", "hang", "dang", "para" ];
 const cardinalNumerals = [ "nol", "satu", "dua", "tiga", "empat", "lima", "enam", "tujuh", "delapan", "sembilan",
@@ -173,7 +174,7 @@ export const filteredAnywhere = [].concat( adverbialGenitives, personalPronounsN
 	reflexivePronouns, interjections, cardinalNumerals, auxiliaries, copula, interviewVerbs,
 	delexicalizedVerbs, indefinitePronouns, correlativeConjunctions, subordinatingConjunctions, interrogativeDeterminers,
 	interrogativePronouns, interrogativeAdverbs, otherAdverbs, miscellaneous, locativeAdverbs,
-	recipeWords, timeWords, vagueNouns, generalAdjectivesAndAdverbs, relativePronoun, prepositions, quantifiers );
+	recipeWords, timeWords, vagueNouns, generalAdjectivesAndAdverbs, relativePronoun, prepositions, quantifiers, transitionWords );
 
 /**
  * All Indonesian function words.
@@ -184,7 +185,7 @@ export const all = [].concat( articles, cardinalNumerals, ordinalNumerals, demon
 	personalPronounsNominative, quantifiers, indefinitePronouns, interrogativeDeterminers, interrogativePronouns, interrogativeAdverbs,
 	locativeAdverbs, adverbialGenitives, auxiliaries, copula, prepositions, coordinatingConjunctions, correlativeConjunctions,
 	subordinatingConjunctions, interviewVerbs, additionalTransitionWords, intensifiers, delexicalizedVerbs, interjections,
-	generalAdjectivesAndAdverbs, recipeWords, vagueNouns, miscellaneous, titlesPreceding, relativePronoun );
+	generalAdjectivesAndAdverbs, recipeWords, vagueNouns, miscellaneous, titlesPreceding, relativePronoun, transitionWords );
 
 /**
  * Returns function words for Indonesian.

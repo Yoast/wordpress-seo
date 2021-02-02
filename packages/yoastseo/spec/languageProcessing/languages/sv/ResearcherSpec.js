@@ -29,7 +29,7 @@ describe( "a test for the Swedish Researcher", function() {
 	} );
 
 	it( "returns Swedish function words", function() {
-		expect( researcher.getConfig( "functionWords" ).all ).toEqual( functionWords.all );
+		expect( researcher.getConfig( "functionWords" ) ).toEqual( functionWords.all );
 	} );
 
 	it( "returns Swedish first word exceptions", function() {
@@ -37,7 +37,7 @@ describe( "a test for the Swedish Researcher", function() {
 	} );
 
 	it( "returns Swedish transition words", function() {
-		expect( researcher.getConfig( "transitionWords" ).allWords ).toEqual( transitionWords.allWords );
+		expect( researcher.getConfig( "transitionWords" ) ).toEqual( transitionWords );
 	} );
 
 	it( "returns Swedish two-part transition words", function() {

@@ -1,15 +1,13 @@
 import { forEach, includes } from "lodash-es";
 import getWords from "../../../../helpers/word/getWords";
-import participlesFactory from "../../config/internal/participles";
+import participles from "../../config/internal/participles";
 import PolishParticiple from "../../values/PolishParticiple";
-
-const participles = participlesFactory();
 
 /**
  * Creates participle objects for the participles found in a sentence part.
  *
- * @param {string} sentencePartText The sentence part to find participles in.
- * @param {Array} auxiliaries The list of auxiliaries from the sentence part.
+ * @param {string} sentencePartText     The sentence part to find participles in.
+ * @param {Array} auxiliaries           The list of auxiliaries from the sentence part.
  * @returns {Array} The list with participle objects.
  */
 export default function getParticiples( sentencePartText, auxiliaries ) {

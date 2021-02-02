@@ -27,7 +27,7 @@ describe( "a test for Indonesian Researcher", function() {
 	} );
 
 	it( "returns all Indonesian function words", function() {
-		expect( researcher.getConfig( "functionWords" ).all ).toEqual( functionWords.all );
+		expect( researcher.getConfig( "functionWords" ) ).toEqual( functionWords.all );
 	} );
 
 	it( "returns the Indonesian first word exceptions", function() {

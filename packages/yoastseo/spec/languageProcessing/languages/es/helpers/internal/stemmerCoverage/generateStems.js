@@ -2,6 +2,7 @@
 import stem from "../../../../../../../src/languageProcessing/languages/es/helpers/internal/stem";
 import getMorphologyData from "../../../../../../specHelpers/getMorphologyData";
 import filterFunctionWordsFromArray from "../../../../../../../src/languageProcessing/helpers/word/filterWordsFromArray.js";
+import { all as functionWords } from "../../../../../../../src/languageProcessing/languages/en/config/functionWords";
 
 const morphologyDataES = getMorphologyData( "es" ).es;
 
@@ -8165,7 +8166,7 @@ const wordsToStem = [
 	"zúrich",
 ];
 
-const wordsToStemWithoutFunctionWords = filterFunctionWordsFromArray( wordsToStem, "es" );
+const wordsToStemWithoutFunctionWords = filterFunctionWordsFromArray( wordsToStem, functionWords );
 
 describe( "Generate stems for Spanish words", () => {
 	const corpusWithStems = wordsToStemWithoutFunctionWords.map( word => [ word, stem( word, morphologyDataES ) ] );
