@@ -29,7 +29,7 @@ describe( "a test for the Polish Researcher", function() {
 	} );
 
 	it( "returns Polish function words", function() {
-		expect( researcher.getConfig( "functionWords" ).all ).toEqual( functionWords.all );
+		expect( researcher.getConfig( "functionWords" ) ).toEqual( functionWords.all );
 	} );
 
 	it( "returns the Polish first word exceptions", function() {
@@ -53,7 +53,7 @@ describe( "a test for the Polish Researcher", function() {
 	} );
 
 	it( "returns the Polish passive construction type", function() {
-		expect( researcher.getConfig( "isPeriphrastic" ) ).toEqual( true );
+		expect( researcher.getConfig( "passiveConstructionType" ) ).toEqual( "periphrastic" );
 	} );
 
 	it( "stems a word using the Polish stemmer", function() {

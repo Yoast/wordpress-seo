@@ -5752,5 +5752,6 @@ export default [
 	"premidas",
 	"solidas",
 	"implodidas",
+	"amados",
 ];
 

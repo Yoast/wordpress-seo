@@ -2,13 +2,13 @@ import AbstractResearcher from "../../AbstractResearcher";
 
 // All config
 import firstWordExceptions from "./config/firstWordExceptions";
-import functionWords from "./config/functionWords";
+import { all as functionWords } from "./config/functionWords";
 import transitionWords from "./config/transitionWords";
 import twoPartTransitionWords from "./config/twoPartTransitionWords";
 
 // All helpers
 
-import getStemmer from "../../helpers/morphology/baseStemmer";
+import getStemmer from "./helpers/getStemmer";
 import isPassiveSentence from "./helpers/isPassiveSentence";
 
 
@@ -31,7 +31,7 @@ export default class Researcher extends AbstractResearcher {
 
 		Object.assign( this.config, {
 			language: "sv",
-			isPeriphrastic: false,
+			passiveConstructionType: "morphological",
 			firstWordExceptions,
 			functionWords,
 			transitionWords,

@@ -1,4 +1,4 @@
-import countWords from "../../../languageProcessing/helpers/word/countWords.js";
+import countWords from "../../../languageProcessing/helpers/word/countWords";
 import keyphraseLengthFactor from "./keyphraseLengthFactor.js";
 
 /**

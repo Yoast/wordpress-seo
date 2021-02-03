@@ -1,12 +1,12 @@
-import { buildOneFormFromRegex } from "../morphoHelpers/buildFormRule";
-import createRulesFromMorphologyData from "../morphoHelpers/createRulesFromMorphologyData";
+import { buildOneFormFromRegex } from "../../../../helpers/morphology/buildFormRule";
+import createRulesFromMorphologyData from "../../../../helpers/morphology/createRulesFromArrays";
 
 const vowelCharacters = [ "a", "e", "i", "o", "u" ];
 
 /**
  * Determines if an input character is a vowel.
  *
- * @param {string} character The character to check.
+ * @param {string} character    The character to check.
  *
  * @returns {boolean} Whether the input character is an Indonesian vowel.
  */
@@ -17,7 +17,7 @@ function isVowel( character ) {
 /**
  * Calculates the total number of syllables in the input word.
  *
- * @param {string} word The word to calculate the number of syllables in.
+ * @param {string} word     The word to calculate the number of syllables in.
  *
  * @returns {int} The total number of syllables in the word.
  */
@@ -36,10 +36,10 @@ export function calculateTotalNumberOfSyllables( word ) {
 /**
  * Stems the ending of a word based on some regexRules after checking if the word is in the exception list.
  *
- * @param {string} word         The word to stem.
- * @param {Array} regexRules    The list of regex-based rules to apply to the word in order to stem it.
- * @param {string[]} exceptions The list of words that should not get the ending removed.
- * @param {Object} morphologyData The Indonesian morphology data file
+ * @param {string} word             The word to stem.
+ * @param {Array} regexRules        The list of regex-based rules to apply to the word in order to stem it.
+ * @param {string[]} exceptions     The list of words that should not get the ending removed.
+ * @param {Object} morphologyData   The Indonesian morphology data file
  *
  * @returns {string} The stemmed word.
  */

@@ -3,7 +3,7 @@
  * @returns {Array} The list with participles.
  */
 
-const passiveVerbs = [
+export default [
 	"åberopades",
 	"åberopas",
 	"åberopats",
@@ -10398,12 +10398,3 @@ const passiveVerbs = [
 	"zoomas",
 ];
 
-/**
- * Returns lists with passive verb-forms to be used by the passive voice assessment.
- * @returns {Object} The object with passive verb-form lists.
- */
-export default function() {
-	return {
-		all: passiveVerbs,
-	};
-}

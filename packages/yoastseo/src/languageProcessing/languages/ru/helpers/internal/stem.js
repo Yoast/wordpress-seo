@@ -41,7 +41,6 @@ const isVowel = function( char, morphologyData ) {
  *
  * @param {string} word             The word checked.
  * @param {Object} morphologyData   The Russian morphology data.
-
  *
  * @returns {int} The RV region index.
  */
@@ -203,8 +202,6 @@ const canonicalizeStems = function( word, wordsWithMultipleStems ) {
 	if ( multipleStems ) {
 		return multipleStems[ 0 ];
 	}
-
-	return word;
 };
 
 /**

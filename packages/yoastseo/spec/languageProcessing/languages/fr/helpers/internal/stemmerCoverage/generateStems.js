@@ -3,8 +3,9 @@ import stem from "../../../../../../../src/languageProcessing/languages/fr/helpe
 import getMorphologyData from "../../../../../../specHelpers/getMorphologyData";
 import filterFunctionWordsFromArray from "../../../../../../../src/languageProcessing/helpers/word/filterWordsFromArray.js";
 import sampleVocabulary from "./sampleVocabulary.json";
+import { all as functionWords } from "../../../../../../../src/languageProcessing/languages/fr/config/functionWords";
 
-const wordsToStemWithoutFunctionWords = filterFunctionWordsFromArray( sampleVocabulary.words, "fr" );
+const wordsToStemWithoutFunctionWords = filterFunctionWordsFromArray( sampleVocabulary.words, functionWords );
 const morphologyDataFR = getMorphologyData( "fr" ).fr;
 
 describe( "Generate stems for French words", () => {

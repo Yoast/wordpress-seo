@@ -3,8 +3,9 @@ import filterFunctionWordsFromArray from "../../../../../../../src/languageProce
 import stem from "../../../../../../../src/languageProcessing/languages/ar/helpers/internal/stem";
 import getMorphologyData from "../../../../../../specHelpers/getMorphologyData";
 import sampleVocabulary from "./sampleVocabulary.json";
+import { all as functionWords } from "../../../../../../../src/languageProcessing/languages/ar/config/functionWords";
 
-const wordsToStemWithoutFunctionWords = filterFunctionWordsFromArray( sampleVocabulary.words, "ar" );
+const wordsToStemWithoutFunctionWords = filterFunctionWordsFromArray( sampleVocabulary.words, functionWords );
 
 const morphologyDataAR = getMorphologyData( "ar" ).ar;
 
