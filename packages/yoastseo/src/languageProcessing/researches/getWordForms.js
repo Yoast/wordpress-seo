@@ -40,7 +40,7 @@ function Result( keyphraseForms = [], synonymsForms = [] ) {
  *
  * @returns {string[]} All forms found in the paper for the given stem, plus a sanitized version of the original word.
  */
-function replaceStemWithForms( stemOriginalPair, paperWordsGroupedByStems, createBasicWordForms = false ) {
+function replaceStemWithForms( stemOriginalPair, paperWordsGroupedByStems, createBasicWordForms ) {
 	const matchingStemFormPair = paperWordsGroupedByStems.find( element => element.stem === stemOriginalPair.stem );
 	const originalSanitized = normalizeSingle( escapeRegExp( stemOriginalPair.original ) );
 
@@ -118,7 +118,7 @@ function constructTopicPhraseResult( topicPhrase, paperWordsGroupedByStems, crea
  * @returns {Object} Object with an array of keyphrase forms and an array of arrays of synonyms forms, based on the forms
  * found in the text or created forms.
  */
-function getWordForms( keyphrase, synonyms, allWordsFromPaper, functionWords = [], stemmer, createBasicWordForms ) {
+function getWordForms( keyphrase, synonyms, allWordsFromPaper, functionWords, stemmer, createBasicWordForms ) {
 	const topicPhrases     = collectStems( keyphrase, synonyms, stemmer, functionWords );
 	const keyphraseStemmed = topicPhrases.keyphraseStems;
 	const synonymsStemmed  = topicPhrases.synonymsStems;

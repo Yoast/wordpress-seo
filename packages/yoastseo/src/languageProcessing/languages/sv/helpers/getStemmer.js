@@ -2,7 +2,6 @@ import { get } from "lodash-es";
 import baseStemmer from "../../../helpers/morphology/baseStemmer";
 import stem from "./internal/stem";
 
-
 /**
  * Returns the stemmer for a researcher.
  *
