@@ -127,7 +127,6 @@ Assessor.prototype.getMarker = function( assessment, paper, researcher ) {
  * @returns {void}
  */
 Assessor.prototype.assess = function( paper ) {
-	// @todo Can we always assume that there's a researcher?
 	this._researcher.setPaper( paper );
 
 	var assessments = this.getAvailableAssessments();
