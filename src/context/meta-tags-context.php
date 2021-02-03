@@ -36,7 +36,6 @@ use Yoast\WP\SEO\Repositories\Indexable_Repository;
  * @property int         $site_user_id
  * @property string      $site_represents
  * @property array|false $site_represents_reference
- * @property bool        $breadcrumbs_enabled
  * @property string      schema_page_type
  * @property string      $main_schema_id
  * @property bool        $open_graph_enabled
