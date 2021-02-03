@@ -36,6 +36,32 @@ function pageHasUpsells() {
 }
 
 /**
+ * Loads the session data for the current session.
+ *
+ * @param {string} sessionData Optional. JSON encoded session data to pass to the HelpScout Beacon.
+ *
+ * @returns {void}
+ */
+function loadHelpScoutSessionData( sessionData ) {
+	if ( sessionData !== "" ) {
+		sessionData = JSON.parse( sessionData );
+		if ( typeof sessionData.name !== "undefined" && typeof sessionData.email !== "undefined" ) {
+			// eslint-disable-next-line new-cap
+			window.Beacon( "identify", {
+				name: sessionData.name,
+				email: sessionData.email,
+			} );
+
+			delete sessionData.name;
+			delete sessionData.email;
+		}
+
+		// eslint-disable-next-line new-cap
+		window.Beacon( "session-data", JSON.parse( sessionData ) );
+	}
+}
+
+/**
  * Loads the HelpScout Beacon script.
  *
  * @param {string} beaconId    The ID to pass to the HelpScout Beacon.
@@ -78,10 +104,7 @@ function loadHelpScout( beaconId, sessionData = "" ) {
 
 	// eslint-disable-next-line new-cap
 	window.Beacon( "init", beaconId );
-	if ( sessionData !== "" ) {
-		// eslint-disable-next-line new-cap
-		window.Beacon( "session-data", JSON.parse( sessionData ) );
-	}
+	loadHelpScoutSessionData( sessionData );
 
 	if ( window.wpseoAdminGlobalL10n.isRtl === "1" ) {
 		// eslint-disable-next-line new-cap

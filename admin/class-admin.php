@@ -106,7 +106,6 @@ class WPSEO_Admin {
 		$integrations[] = new WPSEO_Schema_Person_Upgrade_Notification();
 		$integrations[] = new WPSEO_Tracking( 'https://tracking.yoast.com/stats', ( WEEK_IN_SECONDS * 2 ) );
 		$integrations[] = new WPSEO_Admin_Settings_Changed_Listener();
-		$integrations[] = $this->get_helpscout_beacon();
 
 		$integrations = array_merge(
 			$integrations,
@@ -351,40 +350,5 @@ class WPSEO_Admin {
 		return [
 			'cornerstone_filter' => new WPSEO_Cornerstone_Filter(),
 		];
-	}
-
-	/**
-	 * Retrieves an instance of the HelpScout beacon class for Yoast SEO.
-	 *
-	 * @return WPSEO_HelpScout The instance of the HelpScout beacon.
-	 */
-	private function get_helpscout_beacon() {
-		$helpscout_settings = [
-			'beacon_id'   => '2496aba6-0292-489c-8f5d-1c0fba417c2f',
-			'pages'       => [
-				'wpseo_dashboard',
-				'wpseo_titles',
-				'wpseo_search_console',
-				'wpseo_social',
-				'wpseo_tools',
-				'wpseo_licenses',
-			],
-			'products'    => [],
-			'ask_consent' => true,
-		];
-
-		/**
-		 * Filter: 'wpseo_helpscout_beacon_settings' - Allows overriding the HelpScout beacon settings.
-		 *
-		 * @api string - The helpscout beacons settings.
-		 */
-		$helpscout_settings = apply_filters( 'wpseo_helpscout_beacon_settings', $helpscout_settings );
-
-		return new WPSEO_HelpScout(
-			$helpscout_settings['beacon_id'],
-			$helpscout_settings['pages'],
-			$helpscout_settings['products'],
-			$helpscout_settings['ask_consent']
-		);
 	}
 }
