@@ -83,6 +83,12 @@ function renderLeftColumn( props ) {
 			{ renderPaperAttribute( props, "locale", "en_US", "Locale", ( id, value ) => {
 				props.setPaperAttribute( id, value );
 				props.setConfigurationAttribute( id, value );
+				/*
+				 * Set the language used on window.localStorage and refresh the page, so that a new web worker
+				 * with the correct language-specific researcher can be initialized.
+				 */
+				window.localStorage.language = value.split( "_" )[ 0 ];
+				setTimeout( () => window.location.reload(), 2000 );
 			} ) }
 		</Container>
 	</section>;

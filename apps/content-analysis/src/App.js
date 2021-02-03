@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import testPapers from "yoastseo/spec/fullTextTests/testTexts";
 import { Paper } from "yoastseo";
 import getMorphologyData from "yoastseo/spec/specHelpers/getMorphologyData";
-import getLanguage from "yoastseo/src/helpers/getLanguage";
+import getLanguage from "yoastseo/src/languageProcessing/helpers/language/getLanguage";
 
 // Internal dependencies.
 import Collapsible from "./components/Collapsible";
