@@ -7,7 +7,7 @@ use Yoast\WP\SEO\Integrations\Integration_Interface;
 /**
  * Dismissable_Alert class.
  */
-abstract class Dismissable_Alert implements Integration_Interface {
+abstract class Abstract_Dismissable_Alert implements Integration_Interface {
 
 	/**
 	 * Holds the alert identifier.
