@@ -4,6 +4,9 @@ import { InstructionOptions } from "../../core/Instruction";
 import { arrayOrObjectToOptions } from "../../functions/select";
 
 const currencyCodes = [
+	"USD",
+	"EUR",
+	"GBP",
 	"AED",
 	"AFN",
 	"ALL",
@@ -52,10 +55,8 @@ const currencyCodes = [
 	"EGP",
 	"ERN",
 	"ETB",
-	"EUR",
 	"FJD",
 	"FKP",
-	"GBP",
 	"GEL",
 	"GHS",
 	"GIP",
@@ -152,7 +153,6 @@ const currencyCodes = [
 	"TZS",
 	"UAH",
 	"UGX",
-	"USD",
 	"USN",
 	"UYI",
 	"UYU",
