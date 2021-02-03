@@ -9,7 +9,6 @@ import stopWords from "../../../../src/languageProcessing/languages/es/config/st
 import syllables from "../../../../src/languageProcessing/languages/es/config/syllables.json";
 const morphologyDataES = getMorphologyData( "es" );
 import sentenceLength from "../../../../src/languageProcessing/languages/es/config/sentenceLength";
-import fleschReadingEaseScores from "../../../../src/languageProcessing/languages/es/config/fleschReadingEaseScores";
 
 describe( "a test for the Spanish Researcher", function() {
 	const researcher = new Researcher( new Paper( "Este es un documento nuevo!" ) );
@@ -44,10 +43,6 @@ describe( "a test for the Spanish Researcher", function() {
 
 	it( "returns the Spanish stop words", function() {
 		expect( researcher.getConfig( "stopWords" ) ).toEqual( stopWords );
-	} );
-
-	it( "returns Spanish Flesch reading ease config", function() {
-		expect( researcher.getConfig( "fleschReadingEaseScores" ) ).toEqual( fleschReadingEaseScores );
 	} );
 
 	it( "returns Spanish sentence length config", function() {

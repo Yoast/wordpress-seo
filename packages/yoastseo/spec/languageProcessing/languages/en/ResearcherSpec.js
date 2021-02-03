@@ -8,8 +8,6 @@ import twoPartTransitionWords from "../../../../src/languageProcessing/languages
 import stopWords from "../../../../src/languageProcessing/languages/en/config/stopWords";
 import syllables from "../../../../src/languageProcessing/languages/en/config/syllables.json";
 const morphologyDataEN = getMorphologyData( "en" );
-import sentenceLength from "../../../../src/languageProcessing/languages/en/config/sentenceLength";
-import fleschReadingEaseScores from "../../../../src/languageProcessing/languages/en/config/fleschReadingEaseScores";
 
 describe( "a test for the English Researcher", function() {
 	const researcher = new Researcher( new Paper( "This is another paper!" ) );
@@ -44,14 +42,6 @@ describe( "a test for the English Researcher", function() {
 
 	it( "returns the English stop words", function() {
 		expect( researcher.getConfig( "stopWords" ) ).toEqual( stopWords );
-	} );
-
-	it( "returns English Flesch reading ease config", function() {
-		expect( researcher.getConfig( "fleschReadingEaseScores" ) ).toEqual( fleschReadingEaseScores );
-	} );
-
-	it( "returns English sentence length config", function() {
-		expect( researcher.getConfig( "sentenceLength" ) ).toEqual( sentenceLength );
 	} );
 
 	it( "returns the English locale", function() {

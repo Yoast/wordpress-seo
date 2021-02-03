@@ -131,7 +131,15 @@ const calculatePercentageTooLongSentences = function( sentences, recommendedCoun
  */
 const getSentenceLengthResult = function( paper, researcher, i18n ) {
 	const sentences = researcher.getResearch( "countSentencesFromText" );
-	const sentenceLengthConfig = researcher.getConfig( "sentenceLength" );
+	let sentenceLengthConfig = researcher.getConfig( "sentenceLength" );
+	if ( sentenceLengthConfig === false ) {
+		sentenceLengthConfig = {
+			recommendedWordCount: 20,
+			slightlyTooMany: 25,
+			farTooMany: 30,
+		};
+	}
+
 	const percentage = calculatePercentageTooLongSentences( sentences, sentenceLengthConfig.recommendedWordCount );
 	const score = calculateScore( percentage, sentenceLengthConfig );
 
@@ -154,7 +162,10 @@ const getSentenceLengthResult = function( paper, researcher, i18n ) {
  */
 const getSentenceLengthMarks = function( paper, researcher ) {
 	const sentenceCount = researcher.getResearch( "countSentencesFromText" );
-	const recommendedWordCount = researcher.getConfig( "sentenceLength" ).recommendedWordCount;
+	let recommendedWordCount = researcher.getConfig( "sentenceLength" ).recommendedWordCount;
+	if ( typeof recommendedWordCount === "undefined" ) {
+		recommendedWordCount = 20;
+	}
 	const sentenceObjects = getTooLongSentences( sentenceCount, recommendedWordCount );
 
 	return map( sentenceObjects, function( sentenceObject ) {

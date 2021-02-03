@@ -8,8 +8,6 @@ import stopWords from "../../../../src/languageProcessing/languages/nl/config/st
 import transitionWords from "../../../../src/languageProcessing/languages/nl/config/transitionWords";
 import twoPartTransitionWords from "../../../../src/languageProcessing/languages/nl/config/twoPartTransitionWords";
 import syllables from "../../../../src/languageProcessing/languages/nl/config/syllables.json";
-import fleschReadingEaseScores from "../../../../src/languageProcessing/languages/nl/config/fleschReadingEaseScores";
-import sentenceLength from "../../../../src/languageProcessing/languages/nl/config/sentenceLength";
 
 describe( "a test for the Dutch Researcher", function() {
 	const researcher = new Researcher( new Paper( "" ) );
@@ -44,14 +42,6 @@ describe( "a test for the Dutch Researcher", function() {
 
 	it( "returns a specified part of the Dutch syllables data", function() {
 		expect( researcher.getConfig( "syllables" ) ).toEqual( syllables );
-	} );
-
-	it( "returns Dutch Flesch reading ease config", function() {
-		expect( researcher.getConfig( "fleschReadingEaseScores" ) ).toEqual( fleschReadingEaseScores );
-	} );
-
-	it( "returns Dutch sentence length config", function() {
-		expect( researcher.getConfig( "sentenceLength" ) ).toEqual( sentenceLength );
 	} );
 
 	it( "returns the Dutch locale", function() {

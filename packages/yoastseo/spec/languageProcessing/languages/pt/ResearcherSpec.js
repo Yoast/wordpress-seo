@@ -8,7 +8,6 @@ import twoPartTransitionWords from "../../../../src/languageProcessing/languages
 import syllables from "../../../../src/languageProcessing/languages/pt/config/syllables.json";
 import stopWords from "../../../../src/languageProcessing/languages/pt/config/stopWords";
 const morphologyDataPT = getMorphologyData( "pt" );
-import fleschReadingEaseScores from "../../../../src/languageProcessing/languages/pt/config/fleschReadingEaseScores";
 import sentenceLength from "../../../../src/languageProcessing/languages/pt/config/sentenceLength";
 
 describe( "a test for the Portuguese Researcher", function() {
@@ -44,10 +43,6 @@ describe( "a test for the Portuguese Researcher", function() {
 
 	it( "returns the Portuguese stop words", function() {
 		expect( researcher.getConfig( "stopWords" ) ).toEqual( stopWords );
-	} );
-
-	it( "returns Portuguese Flesch reading ease config", function() {
-		expect( researcher.getConfig( "fleschReadingEaseScores" ) ).toEqual( fleschReadingEaseScores );
 	} );
 
 	it( "returns Portuguese sentence length config", function() {

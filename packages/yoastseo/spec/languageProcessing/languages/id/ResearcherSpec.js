@@ -6,7 +6,6 @@ import twoPartTransitionWords from "../../../../src/languageProcessing/languages
 import functionWords from "../../../../src/languageProcessing/languages/id/config/functionWords";
 import getMorphologyData from "../../../specHelpers/getMorphologyData";
 const morphologyDataID = getMorphologyData( "id" );
-import sentenceLength from "../../../../src/languageProcessing/languages/id/config/sentenceLength";
 
 describe( "a test for Indonesian Researcher", function() {
 	const researcher = new Researcher( new Paper( "Ini adalah Paper!." ) );
@@ -41,10 +40,6 @@ describe( "a test for Indonesian Researcher", function() {
 
 	it( "returns the Indonesian two part transition words", function() {
 		expect( researcher.getConfig( "twoPartTransitionWords" ) ).toEqual( twoPartTransitionWords );
-	} );
-
-	it( "returns Indonesian sentence length config", function() {
-		expect( researcher.getConfig( "sentenceLength" ) ).toEqual( sentenceLength );
 	} );
 
 	it( "returns the Indonesian locale", function() {

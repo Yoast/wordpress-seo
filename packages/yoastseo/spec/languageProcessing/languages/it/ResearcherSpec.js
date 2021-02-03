@@ -8,7 +8,6 @@ import stopWords from "../../../../src/languageProcessing/languages/it/config/st
 import transitionWords from "../../../../src/languageProcessing/languages/it/config/transitionWords";
 import twoPartTransitionWords from "../../../../src/languageProcessing/languages/it/config/twoPartTransitionWords";
 import syllables from "../../../../src/languageProcessing/languages/it/config/syllables.json";
-import fleschReadingEaseScores from "../../../../src/languageProcessing/languages/it/config/fleschReadingEaseScores";
 import sentenceLength from "../../../../src/languageProcessing/languages/it/config/sentenceLength";
 
 describe( "a test for the Italian Researcher", function() {
@@ -44,10 +43,6 @@ describe( "a test for the Italian Researcher", function() {
 
 	it( "returns the Italian stop words", function() {
 		expect( researcher.getConfig( "stopWords" ) ).toEqual( stopWords );
-	} );
-
-	it( "returns Italian Flesch reading ease config", function() {
-		expect( researcher.getConfig( "fleschReadingEaseScores" ) ).toEqual( fleschReadingEaseScores );
 	} );
 
 	it( "returns Italian sentence length config", function() {

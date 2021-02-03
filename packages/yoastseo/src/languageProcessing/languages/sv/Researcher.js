@@ -5,7 +5,6 @@ import firstWordExceptions from "./config/firstWordExceptions";
 import { all as functionWords } from "./config/functionWords";
 import transitionWords from "./config/transitionWords";
 import twoPartTransitionWords from "./config/twoPartTransitionWords";
-import sentenceLength from "./config/sentenceLength";
 
 // All helpers
 

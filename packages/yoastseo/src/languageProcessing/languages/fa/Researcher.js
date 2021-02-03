@@ -2,7 +2,6 @@ import AbstractResearcher from "../../AbstractResearcher";
 
 // All config
 import functionWords from "./config/functionWords";
-import sentenceLength from "./config/sentenceLength";
 
 // All helpers
 import createBasicWordForms from "./helpers/createBasicWordForms";
@@ -32,7 +31,6 @@ export default class Researcher extends AbstractResearcher {
 		Object.assign( this.config, {
 			language: "fa",
 			functionWords,
-			sentenceLength,
 		} );
 
 		Object.assign( this.helpers, {

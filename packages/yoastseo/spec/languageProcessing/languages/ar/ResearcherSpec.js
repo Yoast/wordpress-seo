@@ -7,7 +7,6 @@ import firstWordExceptions from "../../../../src/languageProcessing/languages/ar
 import twoPartTransitionWords from "../../../../src/languageProcessing/languages/ar/config/twoPartTransitionWords";
 
 const morphologyDataAR = getMorphologyData( "ar" );
-import sentenceLength from "../../../../src/languageProcessing/languages/ar/config/sentenceLength";
 
 describe( "a test for Arabic Researcher", function() {
 	const researcher = new Researcher( new Paper( "This is another paper!" ) );
@@ -57,10 +56,6 @@ describe( "a test for Arabic Researcher", function() {
 			[ "لالرحمن", "بالرحمن", "الالرحمن", "كالرحمن", "والرحمن", "فالرحمن", "سالرحمن", "أالرحمن", "رحمن", "لرحمن",
 				"برحمن", "الرحمن", "كرحمن", "ورحمن", "فرحمن", "سرحمن", "أرحمن" ]
 		);
-	} );
-
-	it( "returns Arabic sentence length config", function() {
-		expect( researcher.getConfig( "sentenceLength" ) ).toEqual( sentenceLength );
 	} );
 
 	it( "stems the Arabic word using the Arabic stemmer", function() {
