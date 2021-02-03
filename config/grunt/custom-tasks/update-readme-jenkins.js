@@ -12,7 +12,7 @@ class ChangelogBuilder {
 		//console.log(uniqueLines.items);
 		//console.log(key);
 		this.ChangelogMap.set(key, uniqueLines);
-		//this.ChangelogMap.set(`${key}`, 2);
+		
 	}
 	
 	get Changelog(){
@@ -26,14 +26,12 @@ class ChangelogBuilder {
 		}
 		if (this.ChangelogMap.has('Bugfixes:')) {
 			//console.log("jhe")
-			newlines = newlines + "\n\nBugfixes:\n\n";
-			newlines = newlines + this.ChangelogMap.get('Bugfixes:').items.join("\n");
+			newlines = newlines + "\n\nBugfixes:\n\n" + this.ChangelogMap.get('Bugfixes:').items.join("\n");
 		}
 		this.ChangelogMap.forEach(function (value, key, map) {
 			console.log(`map.get('${key}') = ${value}`);
 			if (!(key === 'Enhancements:' || key === 'Bugfixes:' || key == 'Non user facing:')) {
-
-			newlines = newlines + "\n\n" + key + "\n\n" + this.ChangelogMap.get(key).items.join("\n");
+				newlines = newlines + "\n\n" + key + "\n\n" + this.ChangelogMap.get(key).items.join("\n");
 			};
 	   }, this);
 		
@@ -43,16 +41,10 @@ class ChangelogBuilder {
 	}
 }
 
-function logMapElements(value, key, map) {
- 	console.log(`map.get('${key}') = ${value}`);
-}
-
-
 class Unique {
 	constructor(items) {
 	  this.items = items;
 	}
-	
 	append(newItems) {
 	  newItems.forEach(function(newItem) {
 		if (!this.items.includes(newItem)) {
@@ -151,17 +143,11 @@ module.exports = function( grunt ) {
 			changelogIn = changelogIn.replace( new RegExp( "# Yoast/wordpress-seo:(.|\\n)*?(?=\n[ a-zA-Z]+:)" ),
 				""
 			);
-			//strip non user facing block from new entry file.
-			//changelogIn = changelogIn.replace( new RegExp( "Non user facing:(.|\\n)*?(?=\n[ a-zA-Z]+:)" ),
-			//	""
-			//);
-			// split in blocks
-			//var parts = changelogIn.match(new RegExp( "\n[ a-zA-Z]+:(.|\\n)*?(?=(\n[ a-zA-Z]+:|\$))", "g" ))
-			//parts.forEach(myFunction);
+			
 
 			//console.log(ChangelogMap);
 			const X = new ChangelogBuilder(changelogIn)
-			console.log(X.Changelog)	
+			const changeLogClean= `${X.Changelog}`	
 
 			// If the current version is already in the changelog, retrieve the full readme and let the user edit it.
 			if ( containsCurrentVersion ) {
@@ -193,7 +179,7 @@ module.exports = function( grunt ) {
 				const mo = new Intl.DateTimeFormat('en', { month: 'long' }).format(d);
 				const da = new Intl.DateTimeFormat('en', { day: 'numeric' }).format(d);
 				datestring = `${mo} ${format(da)}, ${ye}`
-				newChangelog = `= ${changelogVersionNumber} =\nRelease Date: ` + datestring + `\n\n` + changelogIn 
+				newChangelog = `= ${changelogVersionNumber} =\nRelease Date: ${datestring}\n${changeLogClean}`
 				// Add the changelog, behind the == Changelog == header.
 				changelog = changelog.replace( /[=]= Changelog ==/ig, "== Changelog ==\n\n" + newChangelog.trim() );
 				// Write changes to the file.
