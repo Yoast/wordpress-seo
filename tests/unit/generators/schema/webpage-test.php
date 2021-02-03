@@ -105,7 +105,6 @@ class WebPage_Test extends TestCase {
 		$this->meta_tags_context->description         = '';
 		$this->meta_tags_context->site_url            = 'https://example.com/';
 		$this->meta_tags_context->has_image           = false;
-		$this->meta_tags_context->breadcrumbs_enabled = false;
 		$this->meta_tags_context->post                = (object) [
 			'post_date_gmt'     => '2345-12-12 12:12:12',
 			'post_modified_gmt' => '2345-12-12 23:23:23',
@@ -203,7 +202,6 @@ class WebPage_Test extends TestCase {
 	 */
 	public function test_generate_with_provider( $values_to_test, $expected, $message ) {
 		$this->meta_tags_context->has_image           = $values_to_test['has_image'];
-		$this->meta_tags_context->breadcrumbs_enabled = $values_to_test['breadcrumbs_enabled'];
 
 		$this->id->primary_image_hash = '#primaryimage';
 		$this->id->breadcrumb_hash    = '#breadcrumb';
@@ -567,7 +565,6 @@ class WebPage_Test extends TestCase {
 			[
 				'values_to_test' => [
 					'has_image'           => false,
-					'breadcrumbs_enabled' => false,
 				],
 				'expected'       => [
 					'@type'           => [ 'WebPage' ],
@@ -592,7 +589,6 @@ class WebPage_Test extends TestCase {
 			[
 				'values_to_test' => [
 					'has_image'           => true,
-					'breadcrumbs_enabled' => false,
 				],
 				'expected'       => [
 					'@type'              => [ 'WebPage' ],
@@ -618,7 +614,6 @@ class WebPage_Test extends TestCase {
 			[
 				'values_to_test' => [
 					'has_image'           => false,
-					'breadcrumbs_enabled' => true,
 				],
 				'expected'       => [
 					'@type'           => [ 'WebPage' ],
