@@ -1,17 +1,72 @@
-function myFunction(value, index, array) {
-	const key = value.match(new RegExp(  "[ a-zA-Z]+:" ));
-	var lines = value.match(new RegExp( "\\*[^\n]+", "g" ));
-	//var lines = value.match(new RegExp( "\\*", "g" ));
-	console.log(lines);
-	ChangelogMap[key]= lines;
-	console.log(key);
+class ChangelogBuilder {
+	constructor(changelogIn) {
+		this.parts = changelogIn.match(new RegExp( "\n[ a-zA-Z]+:(.|\\n)*?(?=(\n[ a-zA-Z]+:|\$))", "g" ))
+		this.ChangelogMap = new Map();
+		this.parts.forEach(this.myFunction.bind(this));
+	}
+	myFunction(value, index, array) {
+		const key = `${value.match(new RegExp(  "[ a-zA-Z]+:" ))}`;
+		const lines = value.match(new RegExp( "\\*[^\n]+", "g" ));
+		const uniqueLines = new Unique([ lines[0] ]);
+		uniqueLines.append(lines);
+		//console.log(uniqueLines.items);
+		//console.log(key);
+		this.ChangelogMap.set(key, uniqueLines);
+		//this.ChangelogMap.set(`${key}`, 2);
+	}
+	
+	get Changelog(){
+		console.log (this.ChangelogMap);
+		var newlines = ""
+		console.log((this.ChangelogMap.has('Enhancements:')))
+		if (this.ChangelogMap.has('Enhancements:')) {
+			//console.log("jhe")
+			newlines = newlines = "\nEnhancements:\n\n"
+			newlines = newlines + this.ChangelogMap.get('Enhancements:').items.join("\n");
+		}
+		if (this.ChangelogMap.has('Bugfixes:')) {
+			//console.log("jhe")
+			newlines = newlines + "\n\nBugfixes:\n\n";
+			newlines = newlines + this.ChangelogMap.get('Bugfixes:').items.join("\n");
+		}
+		this.ChangelogMap.forEach(function (value, key, map) {
+			console.log(`map.get('${key}') = ${value}`);
+			if (!(key === 'Enhancements:' || key === 'Bugfixes:' || key == 'Non user facing:')) {
+
+			newlines = newlines + "\n\n" + key + "\n\n" + this.ChangelogMap.get(key).items.join("\n");
+			};
+	   }, this);
+		
+		
+		
+		return newlines
+	}
 }
+
+function logMapElements(value, key, map) {
+ 	console.log(`map.get('${key}') = ${value}`);
+}
+
+
+class Unique {
+	constructor(items) {
+	  this.items = items;
+	}
+	
+	append(newItems) {
+	  newItems.forEach(function(newItem) {
+		if (!this.items.includes(newItem)) {
+		  this.items.push(newItem);
+		}
+	  }, this);    
+	}
+  }
 
 
 const mergeChangeLog = require( "../lib/merge-changelog" );
 const parseVersion = require( "../lib/parse-version" );
 const _isEmpty = require( "lodash/isEmpty" );
-let ChangelogMap = new Map()
+
 /**
  * A task to remove old changelog entries and add new ones in readme.txt.
  *
@@ -101,12 +156,12 @@ module.exports = function( grunt ) {
 			//	""
 			//);
 			// split in blocks
-			var parts = changelogIn.match(new RegExp( "\n[ a-zA-Z]+:(.|\\n)*?(?=\n[ a-zA-Z]+:)", "g" ))
-			parts.forEach(myFunction);
+			//var parts = changelogIn.match(new RegExp( "\n[ a-zA-Z]+:(.|\\n)*?(?=(\n[ a-zA-Z]+:|\$))", "g" ))
+			//parts.forEach(myFunction);
 
-			console.log(ChangelogMap);
-
-
+			//console.log(ChangelogMap);
+			const X = new ChangelogBuilder(changelogIn)
+			console.log(X.Changelog)	
 
 			// If the current version is already in the changelog, retrieve the full readme and let the user edit it.
 			if ( containsCurrentVersion ) {
