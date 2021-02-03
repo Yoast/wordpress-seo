@@ -6,6 +6,7 @@ use WPSEO_Addon_Manager;
 use WPSEO_Admin_Asset_Manager;
 use WPSEO_Tracking_Server_Data;
 use WPSEO_Utils;
+use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Conditionals\Admin_Page_Conditional;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
@@ -302,7 +303,7 @@ class HelpScout_Beacon implements Integration_Interface {
 	 * @return array The array of conditionals.
 	 */
 	public static function get_conditionals() {
-		return [ Admin_Page_Conditional::class ];
+		return [ Admin_Conditional::class ];
 	}
 
 	/**
