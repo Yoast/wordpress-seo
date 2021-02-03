@@ -5,7 +5,7 @@ import { BlockConfiguration, BlockInstance } from "@wordpress/blocks";
 
 import Select from "../../../src/instructions/blocks/Select";
 import { RenderSaveProps } from "../../../src/core/blocks/BlockDefinition";
-import { RenderEditProps } from "../../../dist/core/blocks/BlockDefinition";
+import { RenderEditProps } from "../../../src/core/blocks/BlockDefinition";
 
 describe( "The Select instruction", () => {
 	const options: Select["options"] = {
