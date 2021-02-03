@@ -1,1 +1,20 @@
 @import '@yoast/schema-blocks/css/schema-blocks.css';
+
+.yoast-schema-flex {
+	display: flex;
+	line-height: normal;
+}
+
+.wp-block-yoast-job-base-salary .yoast-schema-select select.components-select-control__input {
+	height: 100%;
+	padding: 6px 33px 6px 8px;
+}
+
+.wp-block-yoast-job-base-salary .yoast-schema-select div.components-input-control__backdrop, .wp-block-yoast-job-base-salary .components-text-control__input {
+	border: #CCCCCC 1px solid;
+	border-radius: 0;
+}
+
+.wp-block-yoast-job-base-salary .yoast-schema-text {
+	padding: 0 8px;
+}
