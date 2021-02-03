@@ -685,25 +685,6 @@ class Breadcrumb_Test extends TestCase {
 	}
 
 	/**
-	 * Tests that breadcrumbs are not shown on the home page.
-	 *
-	 * @covers ::is_needed
-	 */
-	public function test_is_not_needed_on_home_page() {
-		$this->meta_tags_context->indexable->object_type = 'home-page';
-		$this->assertFalse( $this->instance->is_needed() );
-	}
-
-	/**
-	 * Tests that breadcrumbs are not shown on static home pages.
-	 *
-	 * @covers ::is_needed
-	 */
-	public function test_is_not_needed_on_static_home_page() {
-		$this->assertFalse( $this->instance->is_needed() );
-	}
-
-	/**
 	 * Tests that breadcrumbs are shown in all other cases.
 	 *
 	 * @covers ::is_needed
