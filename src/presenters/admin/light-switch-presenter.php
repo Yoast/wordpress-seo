@@ -112,7 +112,7 @@ class Light_Switch_Presenter extends Abstract_Presenter {
 	/**
 	 * Presents the light switch toggle.
 	 *
-	 * @return string The list item HTML.
+	 * @return string The light switch's HTML.
 	 */
 	public function present() {
 		if ( empty( $this->buttons ) ) {
