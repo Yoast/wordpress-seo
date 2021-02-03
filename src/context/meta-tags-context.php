@@ -353,24 +353,6 @@ class Meta_Tags_Context extends Abstract_Presentation {
 	}
 
 	/**
-	 * Generates whether or not breadcrumbs are enabled.
-	 *
-	 * @return bool Whether or not breadcrumbs are enabled.
-	 */
-	public function generate_breadcrumbs_enabled() {
-		$breadcrumbs_enabled = \current_theme_supports( 'yoast-seo-breadcrumbs' );
-		if ( ! $breadcrumbs_enabled ) {
-			$breadcrumbs_enabled = $this->options->get( 'breadcrumbs-enable', false );
-		}
-
-		if ( ! empty( $this->blocks['yoast-seo/breadcrumbs'] ) ) {
-			$breadcrumbs_enabled = true;
-		}
-
-		return $breadcrumbs_enabled;
-	}
-
-	/**
 	 * Returns whether or not open graph is enabled.
 	 *
 	 * @return bool Whether or not open graph is enabled.
