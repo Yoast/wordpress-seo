@@ -24,7 +24,7 @@
  * Checks if the input character is a Hungarian vowel.
  *
  * @param {Object} morphologyData   The Hungarian morphology data.
- * @param {string} word The word to check
+ * @param {string} word             The word to check
  * @returns {number} Whether the input character is a Hungarian vowel.
  */
 const isVowel = function( morphologyData, word ) {
@@ -36,8 +36,8 @@ const isVowel = function( morphologyData, word ) {
 /**
  * Defines consonants or digraphs position.
  *
- * @param {Object} morphologyData Morphology data file
- * @param {string} word the word to check
+ * @param {Object} morphologyData   Morphology data file
+ * @param {string} word             The word to check
  * @returns {number} the position of the digraph or consonant
  */
 const consonantOrDigraphPosition = function( morphologyData, word ) {
@@ -55,8 +55,8 @@ const consonantOrDigraphPosition = function( morphologyData, word ) {
  * Defines the R1 region: Checks if the word begins with a vowel: defines R1 as the region after the first consonant or diagraph
  * Checks if the word begins with a consonant: defines R1 as the region after the first vowel
  *
- * @param {Object} morphologyData Morphology data file
- * @param {string} word The word to stem
+ * @param {Object} morphologyData   The Morphology data file
+ * @param {string} word             The word to stem
  * @returns {number} The R1 region index.
  */
 const findR1Position = function( morphologyData, word ) {
@@ -112,9 +112,9 @@ const stemSuffixes1 = function( word, morphologyData ) {
  * vá   vé   onként   enként   anként   ként   en   on   an   ön   n   t and stems the suffix if found in R1
  * If the suffix is preceded by á replaces with a. If the suffix is preceded by é replaces with e
  *
- * @param {string} word         The word to stem
- * @param {string} suffixes2  suffixes from group 2
- * @param {Object} morphologyData Morphology data file
+ * @param {string} word             The word to stem
+ * @param {string} suffixes2        The suffixes from group 2
+ * @param {Object} morphologyData   The Morphology data file
  *
  * @returns {string}    The stemmed word
  */
@@ -141,9 +141,9 @@ const stemSuffixes2 = function( word, suffixes2, morphologyData ) {
  * Searches for the longest among the following suffixes in R1: án   ánként and replace by a
  * Search for én in R1 and replace with e
  *
- * @param {string} word         The word to check for the suffix.
- * @param {Object} suffixes3    The suffixes to check.
- * @param {Object} morphologyData Morphology data file
+ * @param {string} word             The word to check for the suffix.
+ * @param {string} suffixes3        The suffixes to check.
+ * @param {Object} morphologyData   The Morphology data file
  *
  * @returns {string} The word without the suffix.
  */
@@ -163,9 +163,9 @@ const stemSuffixes3 = function( word, suffixes3, morphologyData ) {
 /**
  * Searches for the longest among following suffixes astul   estül   stul   stül in R1 and delete.
  *
- * @param {string} word         The word to check for the suffix.
- * @param {string} suffixes4    The suffixes to check.
- * @param {Object} morphologyData Morphology data file
+ * @param {string} word             The word to check for the suffix.
+ * @param {string} suffixes4        The suffixes to check.
+ * @param {Object} morphologyData   The Morphology data file
  *
  * @returns {string} The word without the suffix.
  */
@@ -185,9 +185,9 @@ const stemSuffixes4 = function( word, suffixes4, morphologyData ) {
  * Searches for one of the suffixes Search for one of the following suffixes: á   é and delete. If preceded by double
  * Consonant, remove one of the double consonants.
  *
- * @param {string} word         The word to check for the suffix.
- * @param {string} suffixes6  The suffixes to check.
- * @param {Object} morphologyData Morphology data file
+ * @param {string} word             The word to check for the suffix.
+ * @param {string} suffixes6        The suffixes to check.
+ * @param {Object} morphologyData   The Morphology data file
  *
  * @returns {string} The word without the suffix.
  */
@@ -212,9 +212,9 @@ const stemSuffixes5 = function( word, suffixes6, morphologyData ) {
 /**
  * Searches for one of the suffixes in R1 and delete oké   öké   aké   eké   ké   éi   é.
  *
- * @param {string} word         The word to check for the suffix.
- * @param {string} suffixes6  The suffixes to check.
- * @param {Object} morphologyData Morphology data file
+ * @param {string} word             The word to check for the suffix.
+ * @param {string} suffixes6        The suffixes to check.
+ * @param {Object} morphologyData   The Morphology data file
  *
  * @returns {string} The word without the suffix.
  */
@@ -234,9 +234,9 @@ const stemSuffixes6 = function( word, suffixes6, morphologyData ) {
 /**
  * Searches for the longest one of the suffixes in R1 and delete: ünk   unk   nk   juk   jük   uk   ük   em   om   am
  * m   od   ed ad   öd   d   ja   je   a   e o
- * @param {string} word         The word to check for the suffix.
- * @param {string} suffixes7  The suffixes to check.
- * @param {Object} morphologyData Morphology data file
+ * @param {string} word             The word to check for the suffix.
+ * @param {string} suffixes7        The suffixes to check.
+ * @param {Object} morphologyData   The Morphology data file
  * @returns {string} The word without the suffix.
  */
 const stemSuffixes7 = function( word, suffixes7, morphologyData ) {
@@ -255,9 +255,9 @@ const stemSuffixes7 = function( word, suffixes7, morphologyData ) {
  * Searches for the longest one of these suffixes in R1: jaim, jeim, aim, eim, im, jaid, eid, aid, eid, id, jai, jei, ai,
  * ei, i, jaink, jeink, eink, aink, ink, jaitok, jeitek, aitok, eitek, itek, jeik, jaik, aik, eik, ik and stem it
  *
- * @param {string} word         The word to check.
- * @param {string} suffixes8     The suffixes to check.
- * @param {Object} morphologyData Morphology data file
+ * @param {string} word             The word to check.
+ * @param {string} suffixes8        The suffixes to check.
+ * @param {Object} morphologyData   The Morphology data file
  * @returns {string}    The stemmed word.
  */
 const stemSuffixes8 = function( word, suffixes8, morphologyData ) {
@@ -278,7 +278,7 @@ const stemSuffixes8 = function( word, suffixes8, morphologyData ) {
  *
  * @param {string} word             The word to check for the suffix.
  * @param {Object} suffixes9     	The suffixes to check.
- * @param {Object} morphologyData	 Morphology data file
+ * @param {Object} morphologyData	The Morphology data file
  *
  * @returns {string} The word without the suffix.
  */
@@ -304,7 +304,7 @@ const stemSuffixes9 = function( word, suffixes9, morphologyData ) {
  *
  * @param {string} word         	The word to check.
  * @param {string} suffixes10  		The suffixes to stem.
- * @param {string} morphologyData 	Morphology data file
+ * @param {string} morphologyData 	The Morphology data file
  * @returns {string}    The stemmed word.
  */
 const stemSuffixes10 = function( word, suffixes10, morphologyData ) {
@@ -324,7 +324,7 @@ const stemSuffixes10 = function( word, suffixes10, morphologyData ) {
  *
  * @param {string} 	word         	The word to check.
  * @param {Object} 	suffixes11  	The suffixes to stem.
- * @param {Object} 	morphologyData 	Morphology data file.
+ * @param {Object} 	morphologyData 	The Morphology data file.
  *
  * @returns {string}    The stemmed word.
  */

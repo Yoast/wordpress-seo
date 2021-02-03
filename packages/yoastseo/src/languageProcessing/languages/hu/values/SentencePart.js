@@ -18,7 +18,7 @@ require( "util" ).inherits( HungarianSentencePart, SentencePart );
 /**
  * Returns the participle objects for the participles found in the sentence part.
  *
- * @returns {Array}                              The list of participle objects.
+ * @returns {Array} The list of participle objects.
  */
 
 HungarianSentencePart.prototype.getParticiples = function() {
