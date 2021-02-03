@@ -39,20 +39,20 @@ class HelpScout_Beacon implements Integration_Interface {
 	/**
 	 * @var Options_Helper
 	 */
-	private $options;
+	protected $options;
 
 	/**
 	 * The array of pages we need to show the beacon on with their respective beacon IDs.
 	 *
 	 * @var array
 	 */
-	private $pages_ids;
+	protected $pages_ids;
 
 	/**
 	 * The array of pages we need to show the beacon on.
 	 * @var array
 	 */
-	private $base_pages = [
+	protected $base_pages = [
 		'wpseo_dashboard',
 		'wpseo_titles',
 		'wpseo_search_console',
@@ -66,7 +66,7 @@ class HelpScout_Beacon implements Integration_Interface {
 	 *
 	 * @var string
 	 */
-	private $page;
+	protected $page;
 
 	/**
 	 * Headless_Rest_Endpoints_Enabled_Conditional constructor.
@@ -75,7 +75,7 @@ class HelpScout_Beacon implements Integration_Interface {
 	 */
 	public function __construct( Options_Helper $options ) {
 		$this->options     = $options;
-		$this->ask_consent = $this->options->get( 'tracking' );
+		$this->ask_consent = ! $this->options->get( 'tracking' );
 		$this->page        = filter_input( INPUT_GET, 'page', FILTER_SANITIZE_STRING );
 
 		foreach( $this->base_pages as $page ) {
@@ -87,39 +87,20 @@ class HelpScout_Beacon implements Integration_Interface {
 	 * {@inheritDoc}
 	 */
 	public function register_hooks() {
-		if ( ! $this->is_beacon_page() ) {
-			return;
-		}
-
 		add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_help_scout_script' ] );
 		add_action( 'admin_footer', [ $this, 'output_beacon_js' ] );
-		add_action( 'admin_head', [ $this, 'filter_settings' ] );
-	}
-
-	/**
-	 * Allows filtering of the HelpScout settings. Hooked to admin_head to prevent timing issues, not too early, not too late.
-	 */
-	public function filter_settings() {
-		/**
-		 * Filter: 'wpseo_helpscout_beacon_settings' - Allows overriding the HelpScout beacon settings.
-		 *
-		 * @api string - The HelpScout beacon settings.
-		 */
-		$filterable_helpscout_setting = [
-			'products'  => $this->products,
-			'pages_ids' => $this->pages_ids,
-		];
-
-		$helpscout_settings = apply_filters( 'wpseo_helpscout_beacon_settings', $filterable_helpscout_setting );
-
-		$this->products  = $helpscout_settings['products'];
-		$this->pages_ids = $helpscout_settings['pages_ids'];
 	}
 
 	/**
 	 * Enqueues the HelpScout script.
 	 */
 	public function enqueue_help_scout_script() {
+		// Make sure plugins can filter in their "stuff", before we check whether we're outputting a beacon.
+		$this->filter_settings();
+		if ( ! $this->is_beacon_page() ) {
+			return;
+		}
+
 		$asset_manager = new WPSEO_Admin_Asset_Manager();
 		$asset_manager->enqueue_script( 'help-scout-beacon' );
 	}
@@ -128,6 +109,10 @@ class HelpScout_Beacon implements Integration_Interface {
 	 * Outputs a small piece of javascript for the beacon.
 	 */
 	public function output_beacon_js() {
+		if ( ! $this->is_beacon_page() ) {
+			return;
+		}
+
 		printf(
 			'<script type="text/javascript">window.%1$s(\'%2$s\', %3$s)</script>',
 			( $this->ask_consent ) ? 'wpseoHelpScoutBeaconConsent' : 'wpseoHelpScoutBeacon',
@@ -141,7 +126,17 @@ class HelpScout_Beacon implements Integration_Interface {
 	 * Checks if the current page is a page containing the beacon.
 	 */
 	private function is_beacon_page() {
-		return ( $GLOBALS['pagenow'] === 'admin.php' && isset( $this->page ) && in_array( $this->page, $this->pages_ids ) );
+		$return = false;
+		if ( ! empty( $this->page ) && $GLOBALS['pagenow'] === 'admin.php' && isset( $this->pages_ids[ $this->page ] ) ) {
+			$return = true;
+		}
+
+		/**
+		 * Filter: 'wpseo_helpscout_show_beacon' - Allows overriding whether we show the HelpScout beacon.
+		 *
+		 * @api bool - Whether we show the beacon or not.
+		 */
+		return apply_filters( 'wpseo_helpscout_show_beacon', $return );
 	}
 
 	/**
@@ -305,5 +300,25 @@ class HelpScout_Beacon implements Integration_Interface {
 	 */
 	public static function get_conditionals() {
 		return [ Admin_Page_Conditional::class ];
+	}
+
+	/**
+	 * Allows filtering of the HelpScout settings. Hooked to admin_head to prevent timing issues, not too early, not too late.
+	 */
+	protected function filter_settings() {
+		/**
+		 * Filter: 'wpseo_helpscout_beacon_settings' - Allows overriding the HelpScout beacon settings.
+		 *
+		 * @api string - The HelpScout beacon settings.
+		 */
+		$filterable_helpscout_setting = [
+			'products'  => $this->products,
+			'pages_ids' => $this->pages_ids,
+		];
+
+		$helpscout_settings = apply_filters( 'wpseo_helpscout_beacon_settings', $filterable_helpscout_setting );
+
+		$this->products  = $helpscout_settings['products'];
+		$this->pages_ids = $helpscout_settings['pages_ids'];
 	}
 }
