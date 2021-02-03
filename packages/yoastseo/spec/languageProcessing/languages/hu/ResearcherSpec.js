@@ -63,7 +63,7 @@ describe( "a test for the Hungarian Researcher", function() {
 		expect( researcher.getHelper( "getSentenceParts" )( sentence )[ 1 ].getSentencePartText() ).toBe( "és Sára szeretnek aludni." );
 	} );
 
-	it( "checks if an Hungarian sentence is passive or not", function() {
+	it( "checks if a Hungarian sentence is passive or not", function() {
 		expect( researcher.getHelper( "isPassiveSentence" )( "A telefon gyorsan töltődik." ) ).toEqual( true );
 		expect( researcher.getHelper( "isPassiveSentence" )( "Teát iszom." ) ).toEqual( false );
 	} );

@@ -31,6 +31,8 @@ const wordsToStem = [
 	[ "alldaglig", "alldag" ],
 	[ "barnslighet", "barns" ],
 	// Input a word which doesn't have an R1
+	[ "fy", "fy" ],
+	// A word without any suffixes
 	[ "ork", "ork" ],
 ];
 describe( "Test for stemming Swedish words", () => {

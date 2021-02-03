@@ -167,3 +167,9 @@ export const all = [].concat( articles, cardinalNumerals, ordinalNumerals, perso
 	interviewVerbsInfinitive, generalAdjectives, generalAdverbs, vagueNouns, prepositions, intensifiers,
 	coordinatingConjunctions, subordinatingConjunctions, timeWords, titles, interjections, recipeWords, miscellaneous );
 
+export default {
+	filteredAtEnding,
+	filteredAtBeginningAndEnding,
+	filteredAnywhere,
+	all,
+};
