@@ -5,6 +5,8 @@
  * @package WPSEO\Admin
  */
 
+use Yoast\WP\SEO\Presenters\Admin\Light_Switch_Presenter;
+
 /**
  * Admin form class.
  *
@@ -320,10 +322,10 @@ class Yoast_Form {
 	 * @since 3.1
 	 *
 	 * @param string $var     The variable within the option to create the checkbox for.
-	 * @param string $label   The label element text for the checkbox.
+	 * @param string $label   The visual label text for the toggle.
 	 * @param array  $buttons Array of two visual labels for the buttons (defaults Disabled/Enabled).
 	 * @param bool   $reverse Reverse order of buttons (default true).
-	 * @param string $help    Inline Help that will be printed out before the visible toggles text.
+	 * @param string $help    Inline Help that will be printed out before the toggle.
 	 * @param bool   $strong  Whether the visual label is displayed in strong text. Default is false.
 	 * @param array  $attr    Extra attributes to add to the light switch.
 	 */
@@ -339,35 +341,22 @@ class Yoast_Form {
 			$val = 'on';
 		}
 
-		$class = 'switch-light switch-candy switch-yoast-seo';
-
-		if ( $reverse ) {
-			$class .= ' switch-yoast-seo-reverse';
-		}
-
-		if ( empty( $buttons ) ) {
-			$buttons = [ __( 'Disabled', 'wordpress-seo' ), __( 'Enabled', 'wordpress-seo' ) ];
-		}
-
-		list( $off_button, $on_button ) = $buttons;
-
-		$help_class = ! empty( $help ) ? ' switch-container__has-help' : '';
-
-		$strong_class = ( $strong ) ? ' switch-light-visual-label__strong' : '';
-
 		$disabled_attribute = $this->get_disabled_attribute( $var, $attr );
 
-		echo '<div class="switch-container', $help_class, '">',
-		'<span class="switch-light-visual-label' . $strong_class . '" id="', esc_attr( $var . '-label' ), '">', esc_html( $label ), '</span>' . $help,
-		'<label class="', $class, '"><b class="switch-yoast-seo-jaws-a11y">&nbsp;</b>',
-		// phpcs:ignore WordPress.Security.EscapeOutput -- Reason: $disabled_attribute output is hardcoded and all other output is properly escaped.
-		'<input type="checkbox" aria-labelledby="', esc_attr( $var . '-label' ), '" id="', esc_attr( $var ), '" name="', esc_attr( $this->option_name ), '[', esc_attr( $var ), ']" value="on"', checked( $val, 'on', false ), $disabled_attribute, '/>',
-		'<span aria-hidden="true">
-			<span>', esc_html( $off_button ), '</span>
-			<span>', esc_html( $on_button ), '</span>
-			<a></a>
-		 </span>
-		 </label><div class="clear"></div></div>';
+		$output = new Light_Switch_Presenter(
+			$var,
+			$label,
+			$buttons,
+			$this->option_name . '[' . $var . ']',
+			$val,
+			$reverse,
+			$help,
+			$strong,
+			$disabled_attribute
+		);
+
+		// phpcs:ignore WordPress.Security.EscapeOutput -- Reason: All output is properly escaped or hardcoded in the presenter.
+		echo $output;
 	}
 
 	/**
