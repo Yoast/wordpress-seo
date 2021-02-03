@@ -1,13 +1,18 @@
-import { computeScoresPerSentenceShortTopic } from "../../src/languages/legacy/researches/keyphraseDistribution.js";
-import { computeScoresPerSentenceLongTopic } from "../../src/languages/legacy/researches/keyphraseDistribution.js";
-import { maximizeSentenceScores } from "../../src/languages/legacy/researches/keyphraseDistribution.js";
-import { keyphraseDistributionResearcher } from "../../src/languages/legacy/researches/keyphraseDistribution.js";
-import { getDistraction } from "../../src/languages/legacy/researches/keyphraseDistribution";
-import Paper from "../../src/values/Paper.js";
-import Mark from "../../src/values/Mark";
-import Researcher from "../../src/researcher";
-import getMorphologyData from "../specHelpers/getMorphologyData";
-import { realWorldULExample1, realWorldULExample2 } from "../languageProcessing/helpers/sanitize/mergeListItemsSpec";
+import { collectStems } from "../../../src/languageProcessing/helpers/morphology/buildTopicStems";
+import {
+	computeScoresPerSentenceShortTopic,
+	computeScoresPerSentenceLongTopic,
+	maximizeSentenceScores,
+	keyphraseDistributionResearcher,
+	getDistraction,
+} from "../../../src/languageProcessing/researches/keyphraseDistribution.js";
+import Paper from "../../../src/values/Paper.js";
+import Mark from "../../../src/values/Mark";
+import Researcher from "../../../src/languageProcessing/languages/en/Researcher";
+import ItalianResearcher from "../../../src/languageProcessing/languages/it/Researcher";
+import DefaultResearcher from "../../../src/languageProcessing/languages/_default/Researcher";
+import getMorphologyData from "../../specHelpers/getMorphologyData";
+import { realWorldULExample1, realWorldULExample2 } from "../helpers/sanitize/mergeListItemsSpec";
 
 const morphologyData = getMorphologyData( "en" );
 
@@ -166,11 +171,13 @@ describe( "Test for the research", function() {
 					original: "How remarkable!",
 				} ),
 				new Mark( {
-					marked: "<yoastmark class='yoast-text-mark'>Remarkable</yoastmark> is a funny <yoastmark class='yoast-text-mark'>word</yoastmark>.",
+					marked: "<yoastmark class='yoast-text-mark'>Remarkable</yoastmark> is a funny <yoastmark class='yoast-text-mark'>" +
+						"word</yoastmark>.",
 					original: "Remarkable is a funny word.",
 				} ),
 				new Mark( {
-					marked: "I have found a <yoastmark class='yoast-text-mark'>key</yoastmark> and a <yoastmark class='yoast-text-mark'>remarkable word</yoastmark>.",
+					marked: "I have found a <yoastmark class='yoast-text-mark'>key</yoastmark> and a <yoastmark class='yoast-text-mark'>" +
+						"remarkable word</yoastmark>.",
 					original: "I have found a key and a remarkable word.",
 				} ),
 				new Mark( {
@@ -182,7 +189,8 @@ describe( "Test for the research", function() {
 					original: "Here comes something that has nothing to do with a keyword.",
 				} ),
 				new Mark( {
-					marked: "<yoastmark class='yoast-text-mark'>Words</yoastmark>, <yoastmark class='yoast-text-mark'>words</yoastmark>, <yoastmark class='yoast-text-mark'>words</yoastmark>, how boring!",
+					marked: "<yoastmark class='yoast-text-mark'>Words</yoastmark>, <yoastmark class='yoast-text-mark'>words</yoastmark>, " +
+						"<yoastmark class='yoast-text-mark'>words</yoastmark>, how boring!",
 					original: "Words, words, words, how boring!",
 				} ),
 			],
@@ -215,11 +223,13 @@ describe( "Test for the research", function() {
 					original: "How remarkable!",
 				} ),
 				new Mark( {
-					marked: "<yoastmark class='yoast-text-mark'>Remarkable</yoastmark> is a funny <yoastmark class='yoast-text-mark'>word</yoastmark>.",
+					marked: "<yoastmark class='yoast-text-mark'>Remarkable</yoastmark> is a funny <yoastmark class='yoast-text-mark'>" +
+						"word</yoastmark>.",
 					original: "Remarkable is a funny word.",
 				} ),
 				new Mark( {
-					marked: "I have found a <yoastmark class='yoast-text-mark'>key</yoastmark> and a <yoastmark class='yoast-text-mark'>remarkable word</yoastmark>.",
+					marked: "I have found a <yoastmark class='yoast-text-mark'>key</yoastmark> and a <yoastmark class='yoast-text-mark'>" +
+						"remarkable word</yoastmark>.",
 					original: "I have found a key and a remarkable word.",
 				} ),
 				new Mark( {
@@ -231,14 +241,16 @@ describe( "Test for the research", function() {
 					original: "Here comes something that has nothing to do with a keyword.",
 				} ),
 				new Mark( {
-					marked: "<yoastmark class='yoast-text-mark'>Words</yoastmark>, <yoastmark class='yoast-text-mark'>words</yoastmark>, <yoastmark class='yoast-text-mark'>words</yoastmark>, how boring!",
+					marked: "<yoastmark class='yoast-text-mark'>Words</yoastmark>, <yoastmark class='yoast-text-mark'>words</yoastmark>, " +
+						"<yoastmark class='yoast-text-mark'>words</yoastmark>, how boring!",
 					original: "Words, words, words, how boring!",
 				} ),
 			],
 		} );
 	} );
 
-	it( "returns a score (for a language without morphology support) over all sentences and all topic forms; returns markers for sentences that contain the topic", function() {
+	it( "returns a score (for a language without morphology support) over all sentences and all topic forms; returns markers for " +
+		"sentences that contain the topic", function() {
 		const paper = new Paper(
 			sentencesIT.join( " " ),
 			{
@@ -259,15 +271,18 @@ describe( "Test for the research", function() {
 					original: "Che cosa straordinaria!",
 				} ),
 				new Mark( {
-					marked: "<yoastmark class='yoast-text-mark'>Straordinaria</yoastmark> è una <yoastmark class='yoast-text-mark'>parola</yoastmark> strana.",
+					marked: "<yoastmark class='yoast-text-mark'>Straordinaria</yoastmark> è una <yoastmark class='yoast-text-mark'>" +
+						"parola</yoastmark> strana.",
 					original: "Straordinaria è una parola strana.",
 				} ),
 				new Mark( {
-					marked: "Ho trovato una <yoastmark class='yoast-text-mark'>chiave</yoastmark> e una <yoastmark class='yoast-text-mark'>parola straordinaria</yoastmark>.",
+					marked: "Ho trovato una <yoastmark class='yoast-text-mark'>chiave</yoastmark> e una <yoastmark class='yoast-text-mark'>" +
+						"parola straordinaria</yoastmark>.",
 					original: "Ho trovato una chiave e una parola straordinaria.",
 				} ),
 				new Mark( {
-					marked: "E ancora una <yoastmark class='yoast-text-mark'>chiave</yoastmark> e <yoastmark class='yoast-text-mark'>qualcosa</yoastmark>.",
+					marked: "E ancora una <yoastmark class='yoast-text-mark'>chiave</yoastmark> e <yoastmark class='yoast-text-mark'>" +
+						"qualcosa</yoastmark>.",
 					original: "E ancora una chiave e qualcosa.",
 				} ),
 				new Mark( {
@@ -282,7 +297,8 @@ describe( "Test for the research", function() {
 		} );
 	} );
 
-	it( "returns the same score when function words are added (for a language without morphological support, but with function words)", function() {
+	it( "returns the same score when function words are added (for a language without morphological support, but with function words, " +
+		"e.g. Italian in Free)", function() {
 		const paper = new Paper(
 			sentencesIT.join( " " ),
 			{
@@ -292,8 +308,7 @@ describe( "Test for the research", function() {
 			}
 		);
 
-		const researcher = new Researcher( paper );
-		researcher.addResearchData( "morphology", morphologyData );
+		const researcher = new ItalianResearcher( paper );
 
 		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual( {
 			keyphraseDistributionScore: 25,
@@ -303,15 +318,18 @@ describe( "Test for the research", function() {
 					original: "Che cosa straordinaria!",
 				} ),
 				new Mark( {
-					marked: "<yoastmark class='yoast-text-mark'>Straordinaria</yoastmark> è una <yoastmark class='yoast-text-mark'>parola</yoastmark> strana.",
+					marked: "<yoastmark class='yoast-text-mark'>Straordinaria</yoastmark> è una <yoastmark class='yoast-text-mark'>" +
+						"parola</yoastmark> strana.",
 					original: "Straordinaria è una parola strana.",
 				} ),
 				new Mark( {
-					marked: "Ho trovato una <yoastmark class='yoast-text-mark'>chiave</yoastmark> e una <yoastmark class='yoast-text-mark'>parola straordinaria</yoastmark>.",
+					marked: "Ho trovato una <yoastmark class='yoast-text-mark'>chiave</yoastmark> e una <yoastmark class='yoast-text-mark'>" +
+						"parola straordinaria</yoastmark>.",
 					original: "Ho trovato una chiave e una parola straordinaria.",
 				} ),
 				new Mark( {
-					marked: "E ancora una <yoastmark class='yoast-text-mark'>chiave</yoastmark> e <yoastmark class='yoast-text-mark'>qualcosa</yoastmark>.",
+					marked: "E ancora una <yoastmark class='yoast-text-mark'>chiave</yoastmark> e <yoastmark class='yoast-text-mark'>" +
+						"qualcosa</yoastmark>.",
 					original: "E ancora una chiave e qualcosa.",
 				} ),
 				new Mark( {
@@ -326,7 +344,8 @@ describe( "Test for the research", function() {
 		} );
 	} );
 
-	it( "when the topic words don't contain function words and the function words for this locale are not defined, returns the same score", function() {
+	it( "when the topic words don't contain function words and the function words for this locale are not available, " +
+		"returns the same score", function() {
 		const paper = new Paper(
 			sentencesIT.join( " " ),
 			{
@@ -342,8 +361,9 @@ describe( "Test for the research", function() {
 			}
 		);
 
-		const researcher = new Researcher( paper );
-		researcher.addResearchData( "morphology", morphologyData );
+		const researcher = new DefaultResearcher( paper );
+		// We clear the cache from when we collected the stems/synonyms from previous spec
+		collectStems.cache.clear();
 
 		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual( {
 			keyphraseDistributionScore: 25,
@@ -353,15 +373,18 @@ describe( "Test for the research", function() {
 					original: "Che cosa straordinaria!",
 				} ),
 				new Mark( {
-					marked: "<yoastmark class='yoast-text-mark'>Straordinaria</yoastmark> è una <yoastmark class='yoast-text-mark'>parola</yoastmark> strana.",
+					marked: "<yoastmark class='yoast-text-mark'>Straordinaria</yoastmark> è una <yoastmark class='yoast-text-mark'>" +
+						"parola</yoastmark> strana.",
 					original: "Straordinaria è una parola strana.",
 				} ),
 				new Mark( {
-					marked: "Ho trovato una <yoastmark class='yoast-text-mark'>chiave</yoastmark> e una <yoastmark class='yoast-text-mark'>parola straordinaria</yoastmark>.",
+					marked: "Ho trovato una <yoastmark class='yoast-text-mark'>chiave</yoastmark> e una <yoastmark class='yoast-text-mark'>" +
+						"parola straordinaria</yoastmark>.",
 					original: "Ho trovato una chiave e una parola straordinaria.",
 				} ),
 				new Mark( {
-					marked: "E ancora una <yoastmark class='yoast-text-mark'>chiave</yoastmark> e <yoastmark class='yoast-text-mark'>qualcosa</yoastmark>.",
+					marked: "E ancora una <yoastmark class='yoast-text-mark'>chiave</yoastmark> e <yoastmark class='yoast-text-mark'>" +
+						"qualcosa</yoastmark>.",
 					original: "E ancora una chiave e qualcosa.",
 				} ),
 				new Mark( {
@@ -376,7 +399,8 @@ describe( "Test for the research", function() {
 		} );
 	} );
 
-	it( "when the topic words don't contain function words and the function words for this locale are not defined, returns a different score", function() {
+	it( "when the topic words don't contain function words and the function words for this locale are not available, " +
+		"returns a different score", function() {
 		const paper = new Paper(
 			sentencesIT.join( " " ),
 			{
@@ -388,14 +412,14 @@ describe( "Test for the research", function() {
 			}
 		);
 
-		const researcher = new Researcher( paper );
-		researcher.addResearchData( "morphology", morphologyData );
+		const defaultResearcher = new DefaultResearcher( paper );
 
-		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual( {
+		expect( keyphraseDistributionResearcher( paper, defaultResearcher ) ).toEqual( {
 			keyphraseDistributionScore: 37.5,
 			sentencesToHighlight: [
 				new Mark( {
-					marked: "E ancora una <yoastmark class='yoast-text-mark'>chiave</yoastmark> e <yoastmark class='yoast-text-mark'>qualcosa</yoastmark>.",
+					marked: "E ancora una <yoastmark class='yoast-text-mark'>chiave</yoastmark> e <yoastmark class='yoast-text-mark'>" +
+						"qualcosa</yoastmark>.",
 					original: "E ancora una chiave e qualcosa.",
 				} ),
 				new Mark( {
@@ -678,5 +702,30 @@ describe( "Test for the research", function() {
 
 		expect( keyphraseDistributionResearcher( paperWithList, researcherListCondition ).keyphraseDistributionScore ).toEqual(
 			keyphraseDistributionResearcher( paperWithWords, researcherWordsCondition ).keyphraseDistributionScore );
+	} );
+
+	it( "returns the result for long topic", function() {
+		const paper = new Paper(
+			"This is a text with a long topic keyphrase1 or synonyms1. It is about search engine optimization tips",
+			{
+				// Fictitious locale that doesn't have function word support.
+				locale: "en_EN",
+				keyword: "search engine optimization tips",
+				// The added function words are now analyzed as content words, so the score changes.
+				synonyms: "synonym",
+			}
+		);
+
+		const researcher = new Researcher( paper );
+		researcher.addResearchData( "morphology", morphologyData );
+
+		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual( {
+			keyphraseDistributionScore: 50,
+			sentencesToHighlight: [
+				new Mark( {
+					marked: "It is about <yoastmark class='yoast-text-mark'>search engine optimization tips</yoastmark>",
+					original: "It is about search engine optimization tips",
+				} ) ],
+		} );
 	} );
 } );

@@ -1,9 +1,8 @@
 /* global describe it expect */
-import keywordCount from "../../src/languages/legacy/researches/keywordCount.js";
-
-import Paper from "../../src/values/Paper.js";
-import factory from "../specHelpers/factory";
-import Mark from "../../src/values/Mark";
+import keywordCount from "../../../src/languageProcessing/researches/keywordCount.js";
+import Paper from "../../../src/values/Paper.js";
+import factory from "../../specHelpers/factory";
+import Mark from "../../../src/values/Mark";
 
 /**
  * Adds morphological forms to the mock researcher.
@@ -69,8 +68,9 @@ describe( "Test for counting the keyword in a text", function() {
 		const mockPaper = new Paper( "A string of text with a keyword and multiple keywords in it." );
 		expect( keywordCount( mockPaper, mockResearcher ).count ).toBe( 2 );
 		expect( keywordCount( mockPaper, mockResearcher ).markings ).toEqual( [
-			new Mark( { marked: "A string of text with a <yoastmark class='yoast-text-mark'>keyword</yoastmark> and multiple <yoastmark class='yoast-text-mark'>keywords</yoastmark> in it.",
-				original: "A string of text with a keyword and multiple keywords in it." } ) ]
+			new Mark( { marked: "A string of text with a <yoastmark class='yoast-text-mark'>keyword</yoastmark> " +
+					"and multiple <yoastmark class='yoast-text-mark'>keywords</yoastmark> in it.",
+			original: "A string of text with a keyword and multiple keywords in it." } ) ]
 		);
 	} );
 
@@ -135,8 +135,9 @@ describe( "Test for counting the keyword in a text", function() {
 		const mockPaper = new Paper( "A string with quotes to match the key'word, even if the quotes differ." );
 		expect( keywordCount( mockPaper, mockResearcherApostrophe ).count ).toBe( 1 );
 		expect( keywordCount( mockPaper, mockResearcherApostrophe ).markings ).toEqual( [
-			new Mark( { marked: "A string with quotes to match the <yoastmark class='yoast-text-mark'>key'word</yoastmark>, even if the quotes differ.",
-				original: "A string with quotes to match the key'word, even if the quotes differ." } ) ]
+			new Mark( { marked: "A string with quotes to match the <yoastmark class='yoast-text-mark'>key'word</yoastmark>, " +
+					"even if the quotes differ.",
+			original: "A string with quotes to match the key'word, even if the quotes differ." } ) ]
 		);
 	} );
 
@@ -162,8 +163,10 @@ describe( "Test for counting the keyword in a text", function() {
 		const mockPaper = new Paper( "A string with three keys (key and another key) and one word." );
 		expect( keywordCount( mockPaper, mockResearcherKeyWord ).count ).toBe( 1 );
 		expect( keywordCount( mockPaper, mockResearcherKeyWord ).markings ).toEqual( [
-			new Mark( { marked: "A string with three <yoastmark class='yoast-text-mark'>keys</yoastmark> (<yoastmark class='yoast-text-mark'>key</yoastmark> and another <yoastmark class='yoast-text-mark'>key</yoastmark>) and one <yoastmark class='yoast-text-mark'>word</yoastmark>.",
-				original: "A string with three keys (key and another key) and one word." } ) ]
+			new Mark( { marked: "A string with three <yoastmark class='yoast-text-mark'>keys</yoastmark> (<yoastmark class='yoast-text-mark'>" +
+					"key</yoastmark> and another <yoastmark class='yoast-text-mark'>key</yoastmark>) and one <yoastmark " +
+					"class='yoast-text-mark'>word</yoastmark>.",
+			original: "A string with three keys (key and another key) and one word." } ) ]
 		);
 	} );
 
