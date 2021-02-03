@@ -37,6 +37,8 @@ class HelpScout_Beacon implements Integration_Interface {
 	protected $ask_consent = true;
 
 	/**
+	 * The options helper.
+	 *
 	 * @var Options_Helper
 	 */
 	protected $options;
@@ -50,6 +52,7 @@ class HelpScout_Beacon implements Integration_Interface {
 
 	/**
 	 * The array of pages we need to show the beacon on.
+	 *
 	 * @var array
 	 */
 	protected $base_pages = [
@@ -78,7 +81,7 @@ class HelpScout_Beacon implements Integration_Interface {
 		$this->ask_consent = ! $this->options->get( 'tracking' );
 		$this->page        = filter_input( INPUT_GET, 'page', FILTER_SANITIZE_STRING );
 
-		foreach( $this->base_pages as $page ) {
+		foreach ( $this->base_pages as $page ) {
 			$this->pages_ids[ $page ] = $this->beacon_id;
 		}
 	}
