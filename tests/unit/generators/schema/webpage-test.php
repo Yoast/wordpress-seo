@@ -245,6 +245,7 @@ class WebPage_Test extends TestCase {
 			],
 			'datePublished'   => '2345-12-12 12:12:12',
 			'dateModified'    => '2345-12-12 23:23:23',
+			'breadcrumb'      => [ '@id' => 'https://example.com/the-post/#breadcrumb' ],
 			'inLanguage'      => 'the-language',
 			'potentialAction' => [
 				[
@@ -286,6 +287,7 @@ class WebPage_Test extends TestCase {
 			],
 			'datePublished'   => '2345-12-12 12:12:12',
 			'dateModified'    => '2345-12-12 23:23:23',
+			'breadcrumb'      => [ '@id' => 'https://example.com/the-post/#breadcrumb' ],
 			'about'           => [ '@id' => 'https://example.com/#organization' ],
 			'inLanguage'      => 'the-language',
 			'potentialAction' => [
@@ -334,6 +336,7 @@ class WebPage_Test extends TestCase {
 			],
 			'datePublished'   => '2345-12-12 12:12:12',
 			'dateModified'    => '2345-12-12 23:23:23',
+			'breadcrumb'      => [ '@id' => 'https://example.com/the-post/#breadcrumb' ],
 			'inLanguage'      => 'the-language',
 			'potentialAction' => [
 				[
@@ -387,6 +390,7 @@ class WebPage_Test extends TestCase {
 			],
 			'datePublished'   => '2345-12-12 12:12:12',
 			'dateModified'    => '2345-12-12 23:23:23',
+			'breadcrumb'      => [ '@id' => 'https://example.com/the-post/#breadcrumb' ],
 			'author'          => [ '@id' => 'the-user-schema-id' ],
 			'inLanguage'      => 'the-language',
 			'potentialAction' => [
@@ -435,6 +439,7 @@ class WebPage_Test extends TestCase {
 			],
 			'datePublished'   => '2345-12-12 12:12:12',
 			'dateModified'    => '2345-12-12 23:23:23',
+			'breadcrumb'      => [ '@id' => 'https://example.com/the-post/#breadcrumb' ],
 			'description'     => 'the-description',
 			'inLanguage'      => 'the-language',
 			'potentialAction' => [
@@ -576,6 +581,7 @@ class WebPage_Test extends TestCase {
 					],
 					'datePublished'   => '2345-12-12 12:12:12',
 					'dateModified'    => '2345-12-12 23:23:23',
+					'breadcrumb'      => [ '@id' => 'https://example.com/the-post/#breadcrumb' ],
 					'inLanguage'      => 'the-language',
 					'potentialAction' => [
 						[
@@ -584,7 +590,7 @@ class WebPage_Test extends TestCase {
 						],
 					],
 				],
-				'message'        => 'There is no image, and breadcrumbs are not enabled.',
+				'message'        => 'There is no image, and breadcrumbs are enabled.',
 			],
 			[
 				'values_to_test' => [
@@ -600,6 +606,7 @@ class WebPage_Test extends TestCase {
 					],
 					'datePublished'      => '2345-12-12 12:12:12',
 					'dateModified'       => '2345-12-12 23:23:23',
+					'breadcrumb'         => [ '@id' => 'https://example.com/the-post/#breadcrumb' ],
 					'primaryImageOfPage' => [ '@id' => 'https://example.com/the-post/#primaryimage' ],
 					'inLanguage'         => 'the-language',
 					'potentialAction'    => [
@@ -609,7 +616,7 @@ class WebPage_Test extends TestCase {
 						],
 					],
 				],
-				'message'        => 'There is an image, but breadcrumbs are not enabled.',
+				'message'        => 'There is an image, but breadcrumbs are enabled.',
 			],
 			[
 				'values_to_test' => [
