@@ -5,7 +5,7 @@ import { BlockConfiguration, BlockInstance } from "@wordpress/blocks";
 
 import Select from "../../../src/instructions/blocks/Select";
 import { RenderSaveProps } from "../../../src/core/blocks/BlockDefinition";
-import { RenderEditProps } from "../../../src/core/blocks/BlockDefinition";
+import { RenderEditProps } from "../../../dist/core/blocks/BlockDefinition";
 
 describe( "The Select instruction", () => {
 	const options: Select["options"] = {
@@ -22,26 +22,6 @@ describe( "The Select instruction", () => {
 	describe( "the save method", () => {
 		it( "renders the correct React tree.", () => {
 			const props: RenderSaveProps = {
-				attributes: {
-					cuisine: "korean",
-				},
-			};
-
-			const selectInstruction = new Select( 123, options );
-
-			const tree = renderer
-				.create( selectInstruction.save( props ) as ReactElement )
-				.toJSON();
-
-			expect( tree ).toMatchSnapshot();
-		} );
-
-		it( "renders the correct React tree when the selection options are an array.", () => {
-			const props: RenderEditProps = {
-				clientId: "1234-abcd",
-				className: "",
-				isSelected: false,
-				setAttributes: jest.fn(),
 				attributes: {
 					cuisine: "korean",
 				},
@@ -72,6 +52,30 @@ describe( "The Select instruction", () => {
 			const selectInstruction = new Select( 123, newOptions );
 
 			expect( selectInstruction.configuration() ).toEqual( expectedConfiguration );
+		} );
+	} );
+
+	/**
+	 * Skipped because React hooks do not work in the tests yet.
+	 */
+	describe.skip( "The edit method", () => {
+		it( "renders the correct React tree", () => {
+			const props: RenderEditProps = {
+				className: "",
+				attributes: {
+					cuisine: "korean",
+				},
+				isSelected: true,
+				setAttributes: jest.fn(),
+			};
+
+			const selectInstruction = new Select( 123, options );
+
+			const tree = renderer
+				.create( selectInstruction.edit( props ) as ReactElement )
+				.toJSON();
+
+			expect( tree ).toMatchSnapshot();
 		} );
 	} );
 

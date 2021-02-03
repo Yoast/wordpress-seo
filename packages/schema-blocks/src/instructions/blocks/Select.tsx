@@ -31,6 +31,14 @@ export default class Select extends BlockInstruction {
 		 * Whether to visually hide the label.
 		 */
 		hideLabelFromVision: boolean;
+		/**
+		 * An optional extra class name or class names.
+		 */
+		className?: string;
+		/**
+		 * The default selected value.
+		 */
+		defaultValue?: string;
 	};
 
 	/**
@@ -74,9 +82,13 @@ export default class Select extends BlockInstruction {
 	 * @returns {JSX.Element} The element to render.
 	 */
 	edit( props: RenderEditProps ): ReactElement | string {
-		const { label, options, hideLabelFromVision } = this.options;
+		const { label, options, hideLabelFromVision, className, defaultValue } = this.options;
 
 		const value = props.attributes[ this.options.name ] as string;
+
+		if ( ! value ) {
+			props.setAttributes( { [ this.options.name ]: defaultValue || options[ 0 ].value } );
+		}
 
 		/**
 		 * Function that is called whenever a new value is selected in the select element.
@@ -91,8 +103,10 @@ export default class Select extends BlockInstruction {
 		);
 
 		return <SelectControl
+			className={ className }
 			label={ label }
 			value={ value }
+			defaultValue={ defaultValue }
 			onChange={ onChange }
 			options={ options }
 			hideLabelFromVision={ hideLabelFromVision }

@@ -1,18 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`The Select instruction the save method renders the correct React tree when the selection options are an array. 1`] = `
-<p
-  data-id="cuisine"
-  data-value="korean"
->
-  <strong>
-    Cuisine
-    :
-  </strong>
-  Korean
-</p>
-`;
-
 exports[`The Select instruction the save method renders the correct React tree. 1`] = `
 <p
   data-id="cuisine"
