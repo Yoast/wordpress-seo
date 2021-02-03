@@ -1,5 +1,5 @@
-import pageTitleLength from "../../src/languages/legacy/researches/pageTitleWidth.js";
-import Paper from "../../src/values/Paper.js";
+import pageTitleLength from "../../../src/languageProcessing/researches/pageTitleWidth.js";
+import Paper from "../../../src/values/Paper.js";
 
 describe( "the page title width research", function() {
 	it( "should return the pixels in the title", function() {
