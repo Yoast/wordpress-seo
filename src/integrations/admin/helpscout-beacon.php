@@ -73,14 +73,23 @@ class HelpScout_Beacon implements Integration_Interface {
 	protected $page;
 
 	/**
+	 * The asset manager.
+	 *
+	 * @var WPSEO_Admin_Asset_Manager
+	 */
+	protected $asset_manager;
+
+	/**
 	 * Headless_Rest_Endpoints_Enabled_Conditional constructor.
 	 *
-	 * @param Options_Helper $options The options helper.
+	 * @param Options_Helper            $options The options helper.
+	 * @param WPSEO_Admin_Asset_Manager $asset_manager The asset manager.
 	 */
-	public function __construct( Options_Helper $options ) {
-		$this->options     = $options;
-		$this->ask_consent = ! $this->options->get( 'tracking' );
-		$this->page        = filter_input( INPUT_GET, 'page', FILTER_SANITIZE_STRING );
+	public function __construct( Options_Helper $options, WPSEO_Admin_Asset_Manager $asset_manager ) {
+		$this->options       = $options;
+		$this->asset_manager = $asset_manager;
+		$this->ask_consent   = ! $this->options->get( 'tracking' );
+		$this->page          = filter_input( INPUT_GET, 'page', FILTER_SANITIZE_STRING );
 
 		foreach ( $this->base_pages as $page ) {
 			$this->pages_ids[ $page ] = $this->beacon_id;
@@ -105,8 +114,7 @@ class HelpScout_Beacon implements Integration_Interface {
 			return;
 		}
 
-		$asset_manager = new WPSEO_Admin_Asset_Manager();
-		$asset_manager->enqueue_script( 'help-scout-beacon' );
+		$this->asset_manager->enqueue_script( 'help-scout-beacon' );
 	}
 
 	/**
