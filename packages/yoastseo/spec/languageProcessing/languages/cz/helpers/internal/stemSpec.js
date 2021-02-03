@@ -246,127 +246,127 @@ const wordsToStem = [
 	// Input a word ending in derivational suffix -ovstv.
 	[ "mistrovstv", "mistr" ],
 	// Input a word ending in derivational suffix -ovišt.
-	[ "", "" ],
+	[ "pracovišt", "prac" ],
 	// Input a word ending in derivational suffix -ovník.
-	[ "", "" ],
+	// [ "pracovník", "prac" ],
 	// Input a word ending in derivational suffix -ásek.
-	[ "", "" ],
+	// [ "petrásek", "petr" ],
 	// Input a word ending in derivational suffix -loun
-	[ "", "" ],
+	[ "vztekloun", "vztek" ],
 	// Input a word ending in derivational suffix -nost.
-	[ "", "" ],
+	[ "společnost", "společ" ],
 	// Input a word ending in derivational suffix -teln.
-	[ "", "" ],
+	[ "neuvěřiteln", "neuvěři" ],
 	// Input a word ending in derivational suffix -ovec.
-	[ "", "" ],
+	[ "sportovec", "sport" ],
 	// Input a word ending in derivational suffix -ovík.
-	[ "", "" ],
+	// [ "šalgovík", "šalg" ],
 	// Input a word ending in derivational suffix -ovtv.
 	[ "", "" ],
 	// Input a word ending in derivational suffix -ovin.
-	[ "", "" ],
+	[ "těstovin", "těst" ],
 	// Input a word ending in derivational suffix -štin.
-	[ "", "" ],
+	[ "slovenštin", "slovenš" ],
 	// Input a word ending in derivational suffix -enic.
-	[ "", "" ],
+	[ "židenic", "žid" ],
 	// Input a word ending in derivational suffix -inec.
-	[ "", "" ],
+	[ "zvěřinec", "zvěř" ],
 	// Input a word ending in derivational suffix -itel.
-	[ "", "" ],
+	[ "ředitel", "řed" ],
 	// Input a word ending in derivational suffix -árn.
-	[ "", "" ],
+	[ "legendárn", "legend" ],
 	// Input a word ending in derivational suffix -ěnk.
-	[ "", "" ],
+	[ "doplněnk", "dopln" ],
 	// Input a word ending in derivational suffix -ián.
-	[ "", "" ],
+	[ "indián", "ind" ],
 	// Input a word ending in derivational suffix -ist.
-	[ "", "" ],
+	[ "kořist", "koř" ],
 	// Input a word ending in derivational suffix -isk.
 	[ "", "" ],
 	// Input a word ending in derivational suffix -išt.
-	[ "", "" ],
+	[ "pracovišt", "prac" ],
 	// Input a word ending in derivational suffix -itb.
 	[ "", "" ],
 	// Input a word ending in derivational suffix -írn.
 	[ "", "" ],
 	// Input a word ending in derivational suffix -och.
-	[ "", "" ],
+	[ "běloch", "běl" ],
 	// Input a word ending in derivational suffix -ost.
-	[ "", "" ],
+	[ "možnost", "mož" ],
 	// Input a word ending in derivational suffix -ovn.
-	[ "", "" ],
+	[ "sportovn", "sport" ],
 	// Input a word ending in derivational suffix -oun.
-	[ "", "" ],
+	[ "bručoun", "bruč" ],
 	// Input a word ending in derivational suffix -out.
-	[ "", "" ],
+	[ "přesunout", "přesun" ],
 	// Input a word ending in derivational suffix -ouš.
-	[ "", "" ],
+	[ "chocholouš", "chochol" ],
 	// Input a word ending in derivational suffix -ušk.
 	[ "", "" ],
 	// Input a word ending in derivational suffix -kyn.
-	[ "", "" ],
+	[ "přítelkyn", "přítel" ],
 	// Input a word ending in derivational suffix -čan.
-	[ "", "" ],
+	[ "vesničan", "vesni" ],
 	// Input a word ending in derivational suffix -kář.
-	[ "", "" ],
+	[ "zahrádkář", "zahrád" ],
 	// Input a word ending in derivational suffix -néř.
-	[ "", "" ],
+	[ "platnéř", "plat" ],
 	// Input a word ending in derivational suffix -ník.
-	[ "", "" ],
+	// [ "ročník", "roč" ],
 	// Input a word ending in derivational suffix -ctv.
-	[ "", "" ],
+	[ "účetnictv", "účetni" ],
 	// Input a word ending in derivational suffix -stv.
-	[ "", "" ],
+	[ "zemědělstv", "zeměděl" ],
 	// Input a word ending in derivational suffix -áč.
-	[ "", "" ],
+	[ "květináč", "květin" ],
 	// Input a word ending in derivational suffix -ač.
-	[ "", "" ],
+	[ "přepínač", "přepín" ],
 	// Input a word ending in derivational suffix -án.
-	[ "", "" ],
+	[ "připsán", "přips" ],
 	// Input a word ending in derivational suffix -an.
-	[ "", "" ],
+	[ "dušan", "duš" ],
 	// Input a word ending in derivational suffix -ář.
-	[ "", "" ],
+	[ "komentář", "koment" ],
 	// Input a word ending in derivational suffix -as.
-	[ "", "" ],
+	[ "nečas", "neč" ],
 	// Input a word ending in derivational suffix -ec.
 	[ "jazykovědec", "jazykověd" ],
 	// Input a word ending in derivational suffix -en.
-	[ "", "" ],
+	[ "květen", "květ" ],
 	// Input a word ending in derivational suffix -ěn.
-	[ "", "" ],
+	[ "propuštěn", "propušt" ],
 	// Input a word ending in derivational suffix -éř.
-	[ "", "" ],
+	[ "bankéř", "bank" ],
 	// Input a word ending in derivational suffix -íř.
-	[ "", "" ],
+	[ "krejčíř", "krejč" ],
 	// Input a word ending in derivational suffix -ic.
-	[ "", "" ],
+	[ "čarodějnic", "čarodějn" ],
 	// Input a word ending in derivational suffix -in.
-	[ "", "" ],
+	[ "dřevin", "dřev" ],
 	// Input a word ending in derivational suffix -ín.
-	[ "", "" ],
+	[ "slavičín", "slavič" ],
 	// Input a word ending in derivational suffix -it.
-	[ "", "" ],
+	[ "vytvořit", "vytvoř" ],
 	// Input a word ending in derivational suffix -iv.
 	[ "", "" ],
 	// Input a word ending in derivational suffix -ob.
-	[ "", "" ],
+	[ "způsob", "způs" ],
 	// Input a word ending in derivational suffix -ot.
-	[ "", "" ],
+	[ "nečistot", "nečist" ],
 	// Input a word ending in derivational suffix -ov.
-	[ "", "" ],
+	[ "havířov", "hav" ],
 	// Input a word ending in derivational suffix -oň.
-	[ "", "" ],
+	[ "broskvoň", "broskv" ],
 	// Input a word ending in derivational suffix -ul.
-	[ "", "" ],
+	[ "přesunul", "přesun" ],
 	// Input a word ending in derivational suffix -yn.
-	[ "", "" ],
+	[ "všechyn", "všech" ],
 	// Input a word ending in derivational suffix -čk.
-	[ "", "" ],
+	[ "zmáčk", "zmá" ],
 	// Input a word ending in derivational suffix -čn.
-	[ "", "" ],
+	[ "společn", "spole" ],
 	// Input a word ending in derivational suffix -dl.
-	[ "", "" ],
+	[ "předvedl", "předve" ],
 	// Input a word ending in derivational suffix -nk.
 	[ "", "" ],
 	// Input a word ending in derivational suffix -tv.
@@ -380,13 +380,13 @@ const wordsToStem = [
 	// Input a word ending in derivational suffix -č.
 	[ "sazeč", "saze" ],
 	// Input a word ending in derivational suffix -k.
-	[ "", "" ],
+	[ "černotisk", "černotis" ],
 	// Input a word ending in derivational suffix -l.
-	[ "", "" ],
+	[ "začal", "zača" ],
 	// Input a word ending in derivational suffix -n.
-	[ "", "" ],
+	[ "možn", "mož" ],
 	// Input a word ending in derivational suffix -t.
-	[ "", "" ]
+	[ "vyhrát", "vyhrá" ]
 ];
 
 describe( "Test for stemming Czech words", () => {
