@@ -20,7 +20,7 @@ export default class InnerBlocks extends BlockInstruction {
 	public options: InstructionOptions & {
 		allowedBlocks: string[];
 		template: TemplateArray;
-		appender: string;
+		appender: string | false ;
 		appenderLabel: string;
 		requiredBlocks: RequiredBlock[];
 		recommendedBlocks: RecommendedBlock[];
@@ -69,11 +69,16 @@ export default class InnerBlocks extends BlockInstruction {
 	}
 
 	/**
-	 * Renders all innerblocks as react elements.
+	 * Renders the appender to add innerblocks as React elements.
 	 *
 	 * @param properties The properties of the innerblock.
 	 */
 	private renderAppender( properties: React.ClassAttributes<unknown> & WordPressInnerBlocks.Props ) {
+		if ( this.options.appender === false ) {
+			properties.renderAppender = false;
+			return;
+		}
+
 		if ( this.options.appender === "button" ) {
 			properties.renderAppender = () => {
 				// The type definition of InnerBlocks are wrong so cast to fix them.
