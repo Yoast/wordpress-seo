@@ -6,5 +6,5 @@
  * @returns {object} The schema blocks validation results.
  */
 export function getSchemaBlocksValidationResults( state ) {
-	return state.schemaBlocks;
+	return state.schemaBlocks.validations;
 }
