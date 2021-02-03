@@ -1,5 +1,5 @@
 import { ReactElement } from "react";
-import { createElement, ComponentClass, Fragment } from "@wordpress/element";
+import { createElement, ComponentClass, Fragment, ComponentType } from "@wordpress/element";
 import { InnerBlocks as WordPressInnerBlocks } from "@wordpress/block-editor";
 import { BlockInstance, TemplateArray } from "@wordpress/blocks";
 import { BlockValidation, BlockValidationResult, RecommendedBlock, RequiredBlock } from "../../core/validation";
@@ -12,6 +12,16 @@ import { InstructionObject, InstructionOptions } from "../../core/Instruction";
 import BlockLeaf from "../../core/blocks/BlockLeaf";
 import validateMany from "../../functions/validators/validateMany";
 import { __ } from "@wordpress/i18n";
+
+/**
+ * Custom props for InnerBlocks.
+ *
+ * The definition of the `renderProps` property in the `InnerBlocks.Props` interface
+ * is incorrect. It can be `false` to omit the `renderAppender` entirely.
+ */
+interface InnerBlocksProps extends Omit<WordPressInnerBlocks.Props, "renderAppender"> {
+	renderAppender?: ComponentType | false;
+}
 
 /**
  * InnerBlocks instruction.
@@ -50,7 +60,7 @@ export default class InnerBlocks extends BlockInstruction {
 	 * @returns The inner blocks.
 	 */
 	edit( props: RenderEditProps, leaf: BlockLeaf, i: number ): ReactElement | string {
-		const properties: React.ClassAttributes<unknown> & WordPressInnerBlocks.Props = {
+		const properties: React.ClassAttributes<unknown> & InnerBlocksProps = {
 			key: i,
 		};
 
@@ -65,7 +75,7 @@ export default class InnerBlocks extends BlockInstruction {
 			properties.template = this.options.template;
 		}
 
-		return createElement( WordPressInnerBlocks, properties );
+		return createElement( WordPressInnerBlocks, properties as WordPressInnerBlocks.Props );
 	}
 
 	/**
@@ -73,7 +83,7 @@ export default class InnerBlocks extends BlockInstruction {
 	 *
 	 * @param properties The properties of the innerblock.
 	 */
-	private renderAppender( properties: React.ClassAttributes<unknown> & WordPressInnerBlocks.Props ) {
+	private renderAppender( properties: React.ClassAttributes<unknown> & InnerBlocksProps ) {
 		if ( this.options.appender === false ) {
 			properties.renderAppender = false;
 			return;
@@ -105,7 +115,7 @@ export default class InnerBlocks extends BlockInstruction {
 	 *
 	 * @param properties The properties of the current block.
 	 */
-	private arrangeAllowedBlocks( properties: React.ClassAttributes<unknown> & WordPressInnerBlocks.Props ) {
+	private arrangeAllowedBlocks( properties: React.ClassAttributes<unknown> & InnerBlocksProps ) {
 		properties.allowedBlocks = [ "yoast/warning-block" ];
 
 		if ( this.options.allowedBlocks ) {
