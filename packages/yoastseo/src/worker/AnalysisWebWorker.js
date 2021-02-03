@@ -76,11 +76,11 @@ export default class AnalysisWebWorker {
 	/**
 	 * Initializes the AnalysisWebWorker class.
 	 *
-	 * @param {Object} scope The scope for the messaging. Expected to have the
-	 *                       `onmessage` event and the `postMessage` function.
+	 * @param {Object}      scope       The scope for the messaging. Expected to have the
+	 *                                  `onmessage` event and the `postMessage` function.
+	 * @param {Researcher}  researcher  The researcher to use.
 	 */
 	constructor( scope, researcher ) {
-		console.log( "researcher", researcher );
 		this._scope = scope;
 
 		this._configuration = {
