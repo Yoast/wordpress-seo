@@ -542,49 +542,6 @@ class WebPage_Test extends TestCase {
 	}
 	
 	/**
-	 * Tests generate for a static homepage.
-	 *
-	 * @covers ::generate
-	 * @covers ::add_breadcrumbs
-	 * @covers ::add_potential_action
-	 */
-	public function test_generate_on_home_page() {
-		$this->meta_tags_context->indexable->object_type = 'home-page';
-
-		$this->setup_generate_test(
-			false,
-			'CollectionPage',
-			1,
-			1,
-			1,
-			1
-		);
-
-		$expected = [
-			'@type'           => 'CollectionPage',
-			'@id'             => 'https://example.com/the-post/#webpage',
-			'url'             => 'https://example.com/the-post/',
-			'name'            => 'the-title',
-			'datePublished'   => '2345-12-12 12:12:12',
-			'dateModified'    => '2345-12-12 23:23:23',
-			'isPartOf'        => [
-				'@id' => 'https://example.com/#website',
-			],
-			'inLanguage'      => 'the-language',
-			'potentialAction' => [
-				[
-					'@type'  => 'ReadAction',
-					'target' => [
-						'https://example.com/the-post/',
-					],
-				],
-			],
-		];
-
-		$this->assertEquals( $expected, $this->instance->generate() );
-	}
-
-	/**
 	 * Tests is_needed when the conditional is true.
 	 *
 	 * @covers ::is_needed
