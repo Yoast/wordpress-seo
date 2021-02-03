@@ -1,86 +1,56 @@
 <?php
-
-namespace Yoast\WP\SEO\Integrations\Admin;
-
-use WPSEO_Addon_Manager;
-use WPSEO_Admin_Asset_Manager;
-use WPSEO_Tracking_Server_Data;
-use WPSEO_Utils;
-use Yoast\WP\SEO\Conditionals\Admin_Page_Conditional;
-use Yoast\WP\SEO\Helpers\Options_Helper;
-use Yoast\WP\SEO\Integrations\Integration_Interface;
+/**
+ * WPSEO plugin file.
+ *
+ * @package WPSEO\Admin
+ */
 
 /**
  * Class WPSEO_HelpScout
  */
-class HelpScout_Beacon implements Integration_Interface {
+class WPSEO_HelpScout implements WPSEO_WordPress_Integration {
 
 	/**
 	 * The id for the beacon.
 	 *
 	 * @var string
 	 */
-	protected $beacon_id = '2496aba6-0292-489c-8f5d-1c0fba417c2f';
+	protected $beacon_id;
+
+	/**
+	 * The pages where the beacon is loaded.
+	 *
+	 * @var array
+	 */
+	protected $pages;
 
 	/**
 	 * The products the beacon is loaded for.
 	 *
 	 * @var array
 	 */
-	protected $products = [];
+	protected $products;
 
 	/**
 	 * Whether to asks the user's consent before loading in HelpScout.
 	 *
 	 * @var bool
 	 */
-	protected $ask_consent = true;
+	protected $ask_consent;
 
 	/**
-	 * @var Options_Helper
-	 */
-	private $options;
-
-	/**
-	 * The array of pages we need to show the beacon on with their respective beacon IDs.
+	 * WPSEO_HelpScout constructor.
 	 *
-	 * @var array
+	 * @param string $beacon_id   The beacon id.
+	 * @param array  $pages       The pages where the beacon is loaded.
+	 * @param array  $products    The products the beacon is loaded for.
+	 * @param bool   $ask_consent Optional. Whether to ask for consent before loading in HelpScout.
 	 */
-	private $pages_ids;
-
-	/**
-	 * The array of pages we need to show the beacon on.
-	 * @var array
-	 */
-	private $base_pages = [
-		'wpseo_dashboard',
-		'wpseo_titles',
-		'wpseo_search_console',
-		'wpseo_social',
-		'wpseo_tools',
-		'wpseo_licenses',
-	];
-
-	/**
-	 * The current admin page
-	 *
-	 * @var string
-	 */
-	private $page;
-
-	/**
-	 * Headless_Rest_Endpoints_Enabled_Conditional constructor.
-	 *
-	 * @param Options_Helper $options The options helper.
-	 */
-	public function __construct( Options_Helper $options ) {
-		$this->options     = $options;
-		$this->ask_consent = $this->options->get( 'tracking' );
-		$this->page        = filter_input( INPUT_GET, 'page', FILTER_SANITIZE_STRING );
-
-		foreach( $this->base_pages as $page ) {
-			$this->pages_ids[ $page ] = $this->beacon_id;
-		}
+	public function __construct( $beacon_id, array $pages, array $products, $ask_consent = false ) {
+		$this->beacon_id   = $beacon_id;
+		$this->pages       = $pages;
+		$this->products    = $products;
+		$this->ask_consent = $ask_consent;
 	}
 
 	/**
@@ -93,27 +63,6 @@ class HelpScout_Beacon implements Integration_Interface {
 
 		add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_help_scout_script' ] );
 		add_action( 'admin_footer', [ $this, 'output_beacon_js' ] );
-		add_action( 'admin_head', [ $this, 'filter_settings' ] );
-	}
-
-	/**
-	 * Allows filtering of the HelpScout settings. Hooked to admin_head to prevent timing issues, not too early, not too late.
-	 */
-	public function filter_settings() {
-		/**
-		 * Filter: 'wpseo_helpscout_beacon_settings' - Allows overriding the HelpScout beacon settings.
-		 *
-		 * @api string - The HelpScout beacon settings.
-		 */
-		$filterable_helpscout_setting = [
-			'products'  => $this->products,
-			'pages_ids' => $this->pages_ids,
-		];
-
-		$helpscout_settings = apply_filters( 'wpseo_helpscout_beacon_settings', $filterable_helpscout_setting );
-
-		$this->products  = $helpscout_settings['products'];
-		$this->pages_ids = $helpscout_settings['pages_ids'];
 	}
 
 	/**
@@ -131,9 +80,8 @@ class HelpScout_Beacon implements Integration_Interface {
 		printf(
 			'<script type="text/javascript">window.%1$s(\'%2$s\', %3$s)</script>',
 			( $this->ask_consent ) ? 'wpseoHelpScoutBeaconConsent' : 'wpseoHelpScoutBeacon',
-			esc_html( $this->pages_ids[ $this->page ] ),
-			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaping done in format_json_encode.
-			WPSEO_Utils::format_json_encode( (array) $this->get_session_data() )
+			esc_html( $this->beacon_id ),
+			WPSEO_Utils::format_json_encode( $this->get_session_data() )
 		);
 	}
 
@@ -141,7 +89,21 @@ class HelpScout_Beacon implements Integration_Interface {
 	 * Checks if the current page is a page containing the beacon.
 	 */
 	private function is_beacon_page() {
-		return ( $GLOBALS['pagenow'] === 'admin.php' && isset( $this->page ) && in_array( $this->page, $this->pages_ids ) );
+		return in_array( $this->get_current_page(), $this->pages, true );
+	}
+
+	/**
+	 * Retrieves the value of the current page.
+	 *
+	 * @return string The current page.
+	 */
+	private function get_current_page() {
+		$page = filter_input( INPUT_GET, 'page' );
+		if ( isset( $page ) && $page !== false ) {
+			return $page;
+		}
+
+		return '';
 	}
 
 	/**
@@ -150,9 +112,10 @@ class HelpScout_Beacon implements Integration_Interface {
 	 * @return string The data to pass as identifying data.
 	 */
 	protected function get_session_data() {
+		/** @noinspection PhpUnusedLocalVariableInspection */
+		// Do not make these strings translatable! They are for our support agents, the user won't see them!
 		$current_user = wp_get_current_user();
 
-		// Do not make these strings translatable! They are for our support agents, the user won't see them!
 		$data = [
 			'name'                                                  => trim( $current_user->user_firstname . ' ' . $current_user->user_lastname ),
 			'email'                                                 => $current_user->user_email,
@@ -296,14 +259,5 @@ class HelpScout_Beacon implements Integration_Interface {
 		}
 
 		return $active_plugins;
-	}
-
-	/**
-	 * Returns the conditionals based on which this integration should be active.
-	 *
-	 * @return array The array of conditionals.
-	 */
-	public static function get_conditionals() {
-		return [ Admin_Page_Conditional::class ];
 	}
 }
