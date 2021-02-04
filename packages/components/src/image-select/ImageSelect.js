@@ -13,10 +13,12 @@ import Alert from "../Alert";
  */
 function ImageSelect( props ) {
 	const imageSelected = props.imageUrl !== "";
+	const previewImageUrl = props.imageUrl || props.defaultImageUrl || "";
 
-	const imageClassName = imageSelected
-		? "yoast-image-select__preview"
-		: "yoast-image-select__preview yoast-image-select__preview--no-preview";
+	let imageClassName = "yoast-image-select__preview";
+	if ( ! previewImageUrl ) {
+		imageClassName = "yoast-image-select__preview yoast-image-select__preview--no-preview";
+	}
 
 	const imageSelectButtonsProps = {
 		imageSelected: imageSelected,
@@ -38,7 +40,9 @@ function ImageSelect( props ) {
 			>
 				{ props.hasPreview &&
 					<button className={ imageClassName } onClick={ props.onClick } type="button">
-						{ imageSelected && <img src={ props.imageUrl } alt={ props.imageAltText } className="yoast-image-select__preview--image" /> }
+						{ previewImageUrl !== "" &&
+							<img src={ previewImageUrl } alt={ props.imageAltText } className="yoast-image-select__preview--image" />
+						}
 					</button>
 				}
 				{
@@ -56,6 +60,7 @@ function ImageSelect( props ) {
 export default ImageSelect;
 
 ImageSelect.propTypes = {
+	defaultImageUrl: PropTypes.string,
 	imageUrl: PropTypes.string,
 	imageAltText: PropTypes.string,
 	hasPreview: PropTypes.bool.isRequired,
@@ -71,6 +76,7 @@ ImageSelect.propTypes = {
 };
 
 ImageSelect.defaultProps = {
+	defaultImageUrl: "",
 	imageUrl: "",
 	imageAltText: "",
 	onClick: () => {},
