@@ -265,7 +265,8 @@ class Elementor implements Integration_Interface {
 			WPSEO_Meta::get_meta_field_defs( 'general', $post->post_type ),
 			WPSEO_Meta::get_meta_field_defs( 'advanced', $post->post_type ),
 			$social_fields,
-			WPSEO_Meta::get_meta_field_defs( 'schema', $post->post_type )
+			WPSEO_Meta::get_meta_field_defs( 'schema', $post->post_type ),
+			WPSEO_Meta::get_meta_field_defs( 'video', $post->post_type )
 		);
 
 		foreach ( $meta_boxes as $key => $meta_box ) {
@@ -468,6 +469,8 @@ class Elementor implements Integration_Interface {
 			\esc_attr( WPSEO_Meta::$form_prefix . 'slug' ),
 			\esc_attr( $this->get_metabox_post()->post_name )
 		);
+
+		echo apply_filters( 'wpseo_elementor_hidden_fields', '' );
 
 		echo '</form>';
 	}
