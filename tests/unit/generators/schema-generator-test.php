@@ -156,9 +156,17 @@ class Schema_Generator_Test extends TestCase {
 		$this->context->shouldReceive( 'is_prototype' )->andReturnFalse();
 		$this->context->shouldReceive( 'generate_schema_page_type' )->andReturn( 'WebPage' );
 
-		$this->context->indexable            = Mockery::mock( Indexable_Mock::class );
-		$this->context->presentation         = Mockery::mock( Indexable_Presentation::class );
-		$this->context->presentation->source = Mockery::mock();
+		$this->context->indexable                 = Mockery::mock( Indexable_Mock::class );
+		$this->context->presentation              = Mockery::mock( Indexable_Presentation::class );
+		$this->context->presentation->source      = Mockery::mock();
+		$this->context->presentation->breadcrumbs = [
+			'item' => [
+				'@type' => 'WebPage',
+				'@id'   => 'https://example.com/the-post/#breadcrumb',
+				'url'   => 'https://example.com/the-post/#breadcrumb',
+				'name'  => 'The post',
+			],
+		];
 	}
 
 	/**
@@ -194,16 +202,12 @@ class Schema_Generator_Test extends TestCase {
 	 */
 	public function test_generate_with_no_blocks() {
 		$this->context->indexable->object_sub_type = 'super-custom-post-type';
+		$this->current_page->expects( 'is_paged' )->andReturns( false );
 
 		Monkey\Functions\expect( 'is_single' )
 			->once()
 			->withNoArgs()
 			->andReturnFalse();
-
-		$this->current_page
-			->expects( 'is_home_static_page' )
-			->once()
-			->andReturnTrue();
 
 		$this->current_page
 			->expects( 'is_front_page' )
@@ -243,6 +247,7 @@ class Schema_Generator_Test extends TestCase {
 							'@id' => '#website',
 						],
 						'inLanguage'      => 'English',
+						'breadcrumb'      => [ '@id' => '#breadcrumb' ],
 						'potentialAction' => [
 							[
 								'@type'  => 'ReadAction',
@@ -267,6 +272,7 @@ class Schema_Generator_Test extends TestCase {
 	 */
 	public function test_generate_with_blocks() {
 		$this->stubEscapeFunctions();
+		$this->current_page->expects( 'is_paged' )->andReturns( false );
 
 		Monkey\Functions\expect( 'post_password_required' )
 			->once()
@@ -276,11 +282,6 @@ class Schema_Generator_Test extends TestCase {
 		Monkey\Functions\expect( 'is_single' )
 			->once()
 			->withNoArgs()
-			->andReturnTrue();
-
-		$this->current_page
-			->expects( 'is_home_static_page' )
-			->once()
 			->andReturnTrue();
 
 		$this->current_page
@@ -436,6 +437,7 @@ class Schema_Generator_Test extends TestCase {
 	 */
 	public function test_generate_with_block_not_having_generated_output() {
 		$this->stubEscapeFunctions();
+		$this->current_page->expects( 'is_paged' )->andReturns( false );
 
 		Monkey\Functions\expect( 'is_single' )
 			->once()
@@ -446,11 +448,6 @@ class Schema_Generator_Test extends TestCase {
 			->once()
 			->withNoArgs()
 			->andReturnFalse();
-
-		$this->current_page
-			->expects( 'is_home_static_page' )
-			->once()
-			->andReturnTrue();
 
 		$this->current_page
 			->expects( 'is_front_page' )
@@ -481,6 +478,7 @@ class Schema_Generator_Test extends TestCase {
 	 */
 	public function test_validate_type_singular_array() {
 		$this->context->blocks = [];
+		$this->current_page->expects( 'is_paged' )->andReturns( false );
 
 		Monkey\Functions\expect( 'is_single' )
 			->once()
@@ -491,11 +489,6 @@ class Schema_Generator_Test extends TestCase {
 			->once()
 			->withNoArgs()
 			->andReturnFalse();
-
-		$this->current_page
-			->expects( 'is_home_static_page' )
-			->once()
-			->andReturnTrue();
 
 		$this->current_page
 			->expects( 'is_front_page' )
@@ -555,6 +548,7 @@ class Schema_Generator_Test extends TestCase {
 	 */
 	public function test_validate_type_unique_array() {
 		$this->context->blocks = [];
+		$this->current_page->expects( 'is_paged' )->andReturns( false );
 
 		Monkey\Functions\expect( 'is_single' )
 			->once()
@@ -565,11 +559,6 @@ class Schema_Generator_Test extends TestCase {
 			->once()
 			->withNoArgs()
 			->andReturnFalse();
-
-		$this->current_page
-			->expects( 'is_home_static_page' )
-			->once()
-			->andReturnTrue();
 
 		$this->current_page
 			->expects( 'is_front_page' )
@@ -754,6 +743,7 @@ class Schema_Generator_Test extends TestCase {
 							],
 						],
 					],
+					'breadcrumb'      => [ '@id' => '#breadcrumb' ],
 				],
 				[
 					'@type'            => 'ItemList',

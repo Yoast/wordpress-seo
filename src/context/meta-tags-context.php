@@ -514,7 +514,6 @@ class Meta_Tags_Context extends Abstract_Presentation {
 
 		return $breadcrumbs_enabled;
 	}
-
 }
 
 \class_alias( Meta_Tags_Context::class, 'WPSEO_Schema_Context' );
