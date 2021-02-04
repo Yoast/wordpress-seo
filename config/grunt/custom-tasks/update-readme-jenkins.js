@@ -152,6 +152,7 @@ module.exports = function( grunt ) {
 				""
 			);
 			
+			// remove [#16525](https://github.com/Yoast/wordpress-seo/pull/16525) from lines
 
 			//console.log(ChangelogMap);
 			const X = new ChangelogBuilder(changelogIn)
@@ -169,10 +170,20 @@ module.exports = function( grunt ) {
 
 				// get the header from the changelog entry's
 				currentChangelogEntriesHeaderMatches = changelog.match(new RegExp( "= " + changelogVersionNumber + "(.|\\n)*?(?=(\\n\\n))",  ))
-				console.log(currentChangelogEntriesHeaderMatches)
+				if (currentChangelogEntriesHeaderMatches){
+					currentChangelogEntriesHeader = `${currentChangelogEntriesHeaderMatches[0]}`
+				}
+				//console.log(currentChangelogEntriesHeader)
+				currentChangelogEntriesLines = currentChangelogEntries.replace(new RegExp( escapeRegExp(currentChangelogEntriesHeader)), "")
+				//console.log(currentChangelogEntriesLines)
+				
+				X.CreateUniqueLines(currentChangelogEntriesLines)
+				console.log(X.Changelog)
+
+				mergedReadme = changelog.replace(new RegExp( escapeRegExp(currentChangelogEntries)), currentChangelogEntriesHeader + "\n" + X.Changelog + "\n\n")
 
 				//do some voodoo here to get new entry's in to changlog..
-				mergeChangeLog( { newChangelogContent: changelog } ).then( newChangelog => {
+				mergeChangeLog( { newChangelogContent: mergedReadme } ).then( newChangelog => {
 					// Update the grunt reference to the changelog.
 					grunt.option( "changelog", newChangelog );
 
