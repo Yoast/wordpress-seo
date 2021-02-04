@@ -26,6 +26,7 @@ export default class Researcher extends AbstractResearcher {
 		delete this.defaultResearches.getSentenceBeginnings;
 		delete this.defaultResearches.stopWordsInKeyword;
 		delete this.defaultResearches.stopWordsInUrl;
+		delete this.defaultResearches.functionWordsInKeyphrase;
 
 		Object.assign( this.config, {
 			language: "ca",
