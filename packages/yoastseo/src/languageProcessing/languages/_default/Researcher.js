@@ -1,7 +1,7 @@
 import AbstractResearcher from "../../AbstractResearcher";
 
 // All helpers
-import getStemmer from "../../helpers/morphology/baseStemmer";
+import getStemmer from "./helpers/getStemmer";
 
 /**
  * The researches contains all the researches

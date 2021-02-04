@@ -3,16 +3,16 @@
 import imageInText from "../helpers/image/imageInText";
 import imageAlttag from "../helpers/image/getAlttagContent";
 import { findTopicFormsInString } from "../helpers/match/findKeywordFormsInString";
-
 import { isEmpty } from "lodash-es";
 
 /**
  * Matches the alt-tags in the images found in the text.
  * Returns an object with the totals and different alt-tags.
  *
- * @param {Array} imageMatches Array with all the matched images in the text
- * @param {Object} topicForms The object with the keyphrase and the synonyms forms from the paper.
- * @param {string} locale The locale used for transliteration.
+ * @param {Array} imageMatches  Array with all the matched images in the text
+ * @param {Object} topicForms   The object with the keyphrase and the synonyms forms from the paper.
+ * @param {string} locale       The locale used for transliteration.
+ *
  * @returns {object} altProperties Object with all alt-tags that were found.
  */
 const matchAltProperties = function( imageMatches, topicForms, locale ) {
@@ -54,8 +54,8 @@ const matchAltProperties = function( imageMatches, topicForms, locale ) {
 /**
  * Checks the text for images, checks the type of each image and alt attributes for containing keywords
  *
- * @param {Paper} paper The paper to check for images.
- * @param {Researcher} researcher The researcher to use for analysis.
+ * @param {Paper}       paper       The paper to check for images.
+ * @param {Researcher}  researcher  The researcher to use for analysis.
  *
  * @returns {object} Object containing all types of found images
  */

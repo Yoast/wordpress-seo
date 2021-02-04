@@ -8,7 +8,7 @@ import { forEach } from "lodash-es";
 
 /**
  * Looks for morphological passive voice.
- * Supported morphological languages: "ru", "sv", "id", "ar".
+ * Supported morphological languages: "ru", "sv", "id", "ar", "he", "tr".
  *
  * @param {Paper}      paper      The paper object.
  * @param {Researcher} researcher The researcher.
@@ -83,6 +83,25 @@ export const getPeriphrasticPassives = function( paper, researcher ) {
 };
 
 /**
+ * Looks for both morphological and periphrastic passive voice
+ * Supported languages with both morphological and periphrastic passives: "hu".
+ *
+ * @param {Paper}      paper      The paper object.
+ * @param {Researcher} researcher The researcher.
+ *
+ * @returns {Object} The found passive sentences.
+ */
+const getMorphologicalAndPeriphrasticPassive = function( paper, researcher ) {
+	const morphologicalPassives = getMorphologicalPassives( paper, researcher );
+	const periphrasticPassives = getPeriphrasticPassives( paper, researcher ).passives;
+
+	return {
+		total: morphologicalPassives.total,
+		passives: periphrasticPassives.concat( morphologicalPassives.passives ),
+	};
+};
+
+/**
  * Looks for passive voice.
  *
  * @param {Paper}      paper      The paper object.
@@ -91,8 +110,14 @@ export const getPeriphrasticPassives = function( paper, researcher ) {
  * @returns {Object} The found passive sentences.
  */
 export default function getPassiveVoice( paper, researcher ) {
-	if ( researcher.getConfig( "isPeriphrastic" ) ) {
+	const passiveType = researcher.getConfig( "passiveConstructionType" );
+
+	if ( passiveType === "periphrastic" ) {
 		return getPeriphrasticPassives( paper, researcher );
 	}
-	return getMorphologicalPassives( paper, researcher );
+	if ( passiveType === "morphological" ) {
+		return getMorphologicalPassives( paper, researcher );
+	}
+
+	return getMorphologicalAndPeriphrasticPassive( paper, researcher );
 }
