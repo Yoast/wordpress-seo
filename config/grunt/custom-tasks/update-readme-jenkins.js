@@ -10,12 +10,13 @@ class ChangelogBuilder {
 	myFunction(value, index, array) {
 		const key = `${value.match(new RegExp(  "[ a-zA-Z]+:" ))}`;
 		const lines = value.match(new RegExp( "(?<=\n)\\*([\n]|.)+?(?=\Z|\n\n|\n\\*|\n$)", "gm" ));
-		const uniqueLines = new Unique([ lines[0] ]);
-		uniqueLines.append(lines);
-		//console.log(uniqueLines.items);
-		//console.log(key);
-		this.ChangelogMap.set(key, uniqueLines);
-		
+		if (this.ChangelogMap.has(key)) {
+			this.ChangelogMap.get(key).append(lines);
+		} else {
+			const uniqueLines = new Unique();
+			uniqueLines.append(lines);
+			this.ChangelogMap.set(key, uniqueLines);
+		};
 	}
 
 	CreateUniqueLines(changelogIn){
@@ -48,7 +49,7 @@ class ChangelogBuilder {
 
 class Unique {
 	constructor(items) {
-		this.items = new array();
+		this.items = new Array();
 		if (items) {
 	  		this.items = items;
 		}
