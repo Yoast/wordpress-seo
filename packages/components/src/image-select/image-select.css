@@ -15,7 +15,7 @@
 	background: var(--yoast-color-inactive-grey-light) var(--yoast-svg-icon-image) no-repeat center center /64px 64px;
 }
 
-.yoast-image-select__preview--image {
+.yoast-image-select__preview .yoast-image-select__preview--image {
 	max-width: 100%;
 	height: 100%;
 	object-fit: contain;
