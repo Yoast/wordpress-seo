@@ -2,11 +2,12 @@ import KeyphraseLengthAssessment from "../../../../src/scoring/assessments/seo/K
 import Paper from "../../../../src/values/Paper.js";
 import factory from "../../../specHelpers/factory.js";
 const i18n = factory.buildJed();
+import { all as englishFunctionWords } from "../../../../src/languageProcessing/languages/en/config/functionWords";
 
 describe( "the keyphrase length assessment", function() {
 	it( "should assess a paper without a keyword as extremely bad", function() {
 		const paper = new Paper();
-		const researcher = factory.buildMockResearcher( 0 );
+		const researcher = factory.buildMockResearcher( { keyphraseLength: 0, functionWords: englishFunctionWords } );
 
 		const result = new KeyphraseLengthAssessment().getResult( paper, researcher, i18n );
 
@@ -18,7 +19,7 @@ describe( "the keyphrase length assessment", function() {
 
 	it( "should show a different feedback text when no keyphrase is set for a related keyphrase", function() {
 		const paper = new Paper();
-		const researcher = factory.buildMockResearcher( 0 );
+		const researcher = factory.buildMockResearcher( { keyphraseLength: 0, functionWords: englishFunctionWords } );
 
 		const result = new KeyphraseLengthAssessment( { isRelatedKeyphrase: true } ).getResult( paper, researcher, i18n );
 
@@ -29,7 +30,7 @@ describe( "the keyphrase length assessment", function() {
 
 	it( "should assess a paper with a keyphrase that's too long as bad", function() {
 		const paper = new Paper( "", { keyword: "keyword" } );
-		const researcher = factory.buildMockResearcher( 11 );
+		const researcher = factory.buildMockResearcher( { keyphraseLength: 11, functionWords: englishFunctionWords } );
 
 		const result = new KeyphraseLengthAssessment().getResult( paper, researcher, i18n );
 
@@ -41,7 +42,7 @@ describe( "the keyphrase length assessment", function() {
 
 	it( "should assess a paper with a keyphrase that's the correct length", function() {
 		const paper = new Paper( "", { keyword: "keyword" } );
-		const researcher = factory.buildMockResearcher( 3 );
+		const researcher = factory.buildMockResearcher( { keyphraseLength: 3, functionWords: englishFunctionWords } );
 
 		const result = new KeyphraseLengthAssessment().getResult( paper, researcher, i18n );
 
@@ -51,7 +52,7 @@ describe( "the keyphrase length assessment", function() {
 
 	it( "should assess a paper with a keyphrase that's a little longer than the correct length", function() {
 		const paper = new Paper( "", { keyword: "keyword keyword keyword keyword keyword" } );
-		const researcher = factory.buildMockResearcher( 5 );
+		const researcher = factory.buildMockResearcher( { keyphraseLength: 5, functionWords: englishFunctionWords } );
 
 		const result = new KeyphraseLengthAssessment().getResult( paper, researcher, i18n );
 
@@ -62,8 +63,8 @@ describe( "the keyphrase length assessment", function() {
 	} );
 
 	it( "should assess a paper with an 6-word keyphrase as good for a language that doesn't support function words", function() {
-		const paper = new Paper( "", { keyword: "1 2 3 4 5 6", locale: "xx_XX" } );
-		const researcher = factory.buildMockResearcher( 6 );
+		const paper = new Paper( "", { keyword: "1 2 3 4 5 6" } );
+		const researcher = factory.buildMockResearcher( { keyphraseLength: 5, functionWords: [] } );
 
 		const result = new KeyphraseLengthAssessment().getResult( paper, researcher, i18n );
 
@@ -72,8 +73,20 @@ describe( "the keyphrase length assessment", function() {
 	} );
 
 	it( "should assess a paper with an 9-word keyphrase as okay for a language that doesn't support function words", function() {
-		const paper = new Paper( "", { keyword: "1 2 3 4 5 6 7 8 9", locale: "xx_XX" } );
-		const researcher = factory.buildMockResearcher( 9 );
+		const paper = new Paper( "", { keyword: "1 2 3 4 5 6 7 8 9" } );
+		const researcher = factory.buildMockResearcher( { keyphraseLength: 9, functionWords: [] } );
+
+		const result = new KeyphraseLengthAssessment().getResult( paper, researcher, i18n );
+
+		expect( result.getScore() ).toEqual( 6 );
+		expect( result.getText() ).toEqual( "<a href='https://yoa.st/33i' target='_blank'>Keyphrase length</a>: " +
+			"The keyphrase is 9 words long. That's more than the recommended maximum of 6 words. " +
+			"<a href='https://yoa.st/33j' target='_blank'>Make it shorter</a>!" );
+	} );
+
+	it( "should assess a paper with an 9-word keyphrase as okay for a language that doesn't support function words", function() {
+		const paper = new Paper( "", { keyword: "1 2 3 4 5 6 7 8 9" } );
+		const researcher = factory.buildMockResearcher( { keyphraseLength: 1, functionWords: [] } );
 
 		const result = new KeyphraseLengthAssessment().getResult( paper, researcher, i18n );
 

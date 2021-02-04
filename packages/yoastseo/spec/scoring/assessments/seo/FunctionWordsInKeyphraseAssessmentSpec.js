@@ -1,6 +1,8 @@
 import FunctionWordsInKeyphraseAssessment from "../../../../src/scoring/assessments/seo/FunctionWordsInKeyphraseAssessment";
 import Paper from "../../../../src/values/Paper";
 import Factory from "../../../specHelpers/factory";
+import EnglishResearcher from "../../../../src/languageProcessing/languages/en/Researcher";
+import DefaultResearcher from "../../../../src/languageProcessing/languages/_default/Researcher";
 
 const i18n = Factory.buildJed();
 
@@ -28,13 +30,27 @@ describe( "An assessment for checking if the keyphrase contains function words o
 		expect( assessment.hasScore() ).toBe( false );
 	} );
 
-	it( "applies if no keyword is defined", function() {
-		const isApplicableResult = new FunctionWordsInKeyphraseAssessment().isApplicable( new Paper( "some text" ) );
+	it( "does not apply if the researcher has the research but no keyword is defined", function() {
+		const paper = new Paper( "some text", { keyword: "" } );
+		const isApplicableResult = new FunctionWordsInKeyphraseAssessment().isApplicable( paper, new EnglishResearcher( paper ) );
 		expect( isApplicableResult ).toBe( false );
 	} );
 
-	it( "does not apply if a keyword is defined", function() {
-		const isApplicableResult = new FunctionWordsInKeyphraseAssessment().isApplicable( new Paper( "some text", { keyword: "something here" } ) );
+	it( "applies if a keyword is defined and the researcher has the research", function() {
+		const paper = new Paper( "some text", { keyword: "something here" } );
+		const isApplicableResult = new FunctionWordsInKeyphraseAssessment().isApplicable( paper, new EnglishResearcher( paper ) );
 		expect( isApplicableResult ).toBe( true );
+	} );
+
+	it( "does not apply if the researcher doesn't have the research", function() {
+		const paper = new Paper( "some text", { keyword: "something here" } );
+		const isApplicableResult = new FunctionWordsInKeyphraseAssessment().isApplicable( paper, new DefaultResearcher( paper ) );
+		expect( isApplicableResult ).toBe( false );
+	} );
+
+	it( "does not apply if the researcher doesn't have the research nor a keyword", function() {
+		const paper = new Paper( "some text", { keyword: "" } );
+		const isApplicableResult = new FunctionWordsInKeyphraseAssessment().isApplicable( paper, new DefaultResearcher( paper ) );
+		expect( isApplicableResult ).toBe( false );
 	} );
 } );
