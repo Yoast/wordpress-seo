@@ -1,3 +1,4 @@
+import { DefaultResearcher, EnglishResearcher } from "../../../../src/languageProcessing";
 import sentenceLengthInDescriptionAssessment from "../../../../src/scoring/assessments/readability/sentenceLengthInDescriptionAssessment";
 import Paper from "../../../../src/values/Paper.js";
 import Factory from "../../../specHelpers/factory.js";
@@ -6,14 +7,9 @@ const i18n = Factory.buildJed();
 describe( "An assessment for sentence length", function() {
 	let mockPaper, assessment;
 
-	it( "returns the score for all short sentences", function() {
+	it( "returns the score for when there is no text in meta description", function() {
 		mockPaper = new Paper();
-		assessment = sentenceLengthInDescriptionAssessment.getResult( mockPaper, Factory.buildMockResearcher( [
-			{ sentence: "", sentenceLength: 1 },
-			{ sentence: "", sentenceLength: 1 },
-			{ sentence: "", sentenceLength: 1 },
-			{ sentence: "", sentenceLength: 1 },
-		] ), i18n );
+		assessment = sentenceLengthInDescriptionAssessment.getResult( mockPaper, Factory.buildMockResearcher( [] ), i18n );
 
 		expect( assessment.hasScore() ).toBe( true );
 		expect( assessment.getScore() ).toEqual( 9 );
@@ -64,19 +60,19 @@ describe( "An assessment for sentence length", function() {
 
 	it( "is not applicable for empty papers", function() {
 		mockPaper = new Paper();
-		assessment = sentenceLengthInDescriptionAssessment.isApplicable( mockPaper );
+		assessment = sentenceLengthInDescriptionAssessment.isApplicable( mockPaper, new EnglishResearcher( mockPaper ) );
 		expect( assessment ).toBe( false );
 	} );
 
 	it( "is not applicable for papers without metadescription", function() {
 		mockPaper = new Paper( "", { description: "" } );
-		assessment = sentenceLengthInDescriptionAssessment.isApplicable( mockPaper );
+		assessment = sentenceLengthInDescriptionAssessment.isApplicable( mockPaper, new EnglishResearcher( mockPaper ) );
 		expect( assessment ).toBe( false );
 	} );
 
 	it( "is applicable for papers with a metadescription", function() {
 		mockPaper = new Paper( "", { description: "some meta description" } );
-		assessment = sentenceLengthInDescriptionAssessment.isApplicable( mockPaper );
+		assessment = sentenceLengthInDescriptionAssessment.isApplicable( mockPaper, new DefaultResearcher( mockPaper ) );
 		expect( assessment ).toBe( true );
 	} );
 } );

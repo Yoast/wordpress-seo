@@ -10,8 +10,10 @@ import Mark from "../../../values/Mark";
 
 /**
  * Calculates the result based on the number of sentences and passives.
- * @param {object} passiveVoice The object containing the number of sentences and passives
- * @param {object} i18n The object used for translations.
+ *
+ * @param {object} passiveVoice     The object containing the number of sentences and passives.
+ * @param {object} i18n             The object used for translations.
+ *
  * @returns {{score: number, text}} resultobject with score and text.
  */
 const calculatePassiveVoiceResult = function( passiveVoice, i18n ) {
@@ -81,12 +83,13 @@ const calculatePassiveVoiceResult = function( passiveVoice, i18n ) {
 /**
  * Marks all sentences that have the passive voice.
  *
- * @param {object} paper The paper to use for the assessment.
- * @param {object} researcher The researcher used for calling research.
+ * @param {object} paper        The paper to use for the assessment.
+ * @param {object} researcher   The researcher used for calling research.
+ *
  * @returns {object} All marked sentences.
  */
 const passiveVoiceMarker = function( paper, researcher ) {
-	const passiveVoice = researcher.getResearch( "passiveVoice" );
+	const passiveVoice = researcher.getResearch( "getPassiveVoice" );
 	return map( passiveVoice.passives, function( sentence ) {
 		sentence = stripTags( sentence );
 		const marked = marker( sentence );
@@ -99,13 +102,15 @@ const passiveVoiceMarker = function( paper, researcher ) {
 
 /**
  * Runs the passiveVoice module, based on this returns an assessment result with score and text.
- * @param {object} paper The paper to use for the assessment.
- * @param {object} researcher The researcher used for calling research.
- * @param {object} i18n The object used for translations.
+ *
+ * @param {object} paper        The paper to use for the assessment.
+ * @param {object} researcher   The researcher used for calling research.
+ * @param {object} i18n         The object used for translations.
+ *
  * @returns {object} the Assessmentresult
  */
 const passiveVoiceAssessment = function( paper, researcher, i18n ) {
-	const passiveVoice = researcher.getResearch( "passiveVoice" );
+	const passiveVoice = researcher.getResearch( "getPassiveVoice" );
 
 	const passiveVoiceResult = calculatePassiveVoiceResult( passiveVoice, i18n );
 
@@ -121,12 +126,13 @@ const passiveVoiceAssessment = function( paper, researcher, i18n ) {
 /**
  * Checks if passive voice analysis is available for the language of the paper.
  *
- * @param {Object} paper The paper to check.
+ * @param {Paper}       paper       The paper to check.
+ * @param {Researcher}  researcher  The researcher object.
  *
  * @returns {boolean} Returns true if the language is available and the paper is not empty.
  */
-const isApplicable = function( paper ) {
-	return paper.hasText();
+const isApplicable = function( paper, researcher ) {
+	return paper.hasText() && researcher.hasResearch( "getPassiveVoice" );
 };
 
 export default {

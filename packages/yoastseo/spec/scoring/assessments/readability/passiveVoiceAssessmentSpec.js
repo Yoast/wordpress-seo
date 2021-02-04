@@ -3,9 +3,17 @@ import Paper from "../../../../src/values/Paper.js";
 import Factory from "../../../specHelpers/factory.js";
 const i18n = Factory.buildJed();
 import Mark from "../../../../src/values/Mark.js";
+import { EnglishResearcher, DefaultResearcher } from "../../../../src/languageProcessing";
 
 describe( "An assessment for scoring passive voice.", function() {
 	const paper = new Paper();
+	it( "returns result when the text is empty", function() {
+		const assessment = passiveVoiceAssessment.getResult( paper, Factory.buildMockResearcher( { total: 0, passives: [] } ), i18n );
+		expect( assessment.getScore() ).toBe( 9 );
+		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/34t' target='_blank'>Passive voice</a>: You're using enough" +
+			" active voice. That's great!" );
+	} );
+
 	it( "scores 0 passive sentences - 0%", function() {
 		const assessment = passiveVoiceAssessment.getResult( paper, Factory.buildMockResearcher( { total: 20, passives: [] } ), i18n );
 		expect( assessment.getScore() ).toBe( 9 );
@@ -60,23 +68,23 @@ describe( "An assessment for scoring passive voice.", function() {
 
 describe( "A test for checking the applicability", function() {
 	it( "returns true for isApplicable for an English paper with text.", function() {
-		const paper = new Paper( "This is a very interesting paper.", { locale: "en_EN" } );
-		expect( passiveVoiceAssessment.isApplicable( paper ) ).toBe( true );
+		const paper = new Paper( "This is a very interesting paper.", { locale: "en_US" } );
+		expect( passiveVoiceAssessment.isApplicable( paper, new EnglishResearcher( paper ) ) ).toBe( true );
 	} );
 
 	it( "returns false for isApplicable for an Afrikaans paper with text.", function() {
 		const paper = new Paper( "Hierdie is 'n interessante papier.", { locale: "af_ZA" } );
-		expect( passiveVoiceAssessment.isApplicable( paper ) ).toBe( false );
+		expect( passiveVoiceAssessment.isApplicable( paper, new DefaultResearcher( paper ) ) ).toBe( false );
 	} );
 
 	it( "returns false for isApplicable for an English paper without text.", function() {
-		const paper = new Paper( "", { locale: "en_EN" } );
-		expect( passiveVoiceAssessment.isApplicable( paper ) ).toBe( false );
+		const paper = new Paper( "", { locale: "en_US" } );
+		expect( passiveVoiceAssessment.isApplicable( paper, new EnglishResearcher( paper ) ) ).toBe( false );
 	} );
 
 	it( "returns false for isApplicable for an Afrikaans paper without text.", function() {
 		const paper = new Paper( "", { locale: "af_ZA" } );
-		expect( passiveVoiceAssessment.isApplicable( paper ) ).toBe( false );
+		expect( passiveVoiceAssessment.isApplicable( paper, new DefaultResearcher( paper ) ) ).toBe( false );
 	} );
 } );
 

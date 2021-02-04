@@ -3,6 +3,7 @@ import Paper from "../../../../src/values/Paper.js";
 import Factory from "../../../specHelpers/factory.js";
 const i18n = Factory.buildJed();
 import Mark from "../../../../src/values/Mark.js";
+import Researcher from "../../../../src/languageProcessing/languages/en/Researcher";
 
 describe( "An assessment for scoring too long paragraphs.", function() {
 	const paper = new Paper();
@@ -64,15 +65,16 @@ describe( "An assessment for scoring too long paragraphs.", function() {
 
 describe( "Applicability of the assessment.", function() {
 	it( "returns true for isApplicable on a paper with text.", function() {
-		const paper = new Paper( "This is a very interesting paper.", { locale: "en_EN" } );
-		paragraphTooLongAssessment.getResult( paper, Factory.buildMockResearcher( [ { wordCount: 5, text: "This is" +
-				" a very interesting paper." } ] ), i18n );
-		expect( paragraphTooLongAssessment.isApplicable( paper ) ).toBe( true );
+		const paper = new Paper( "This is a very interesting paper.", { locale: "en_US" } );
+		const researcher = new Researcher( paper );
+		paragraphTooLongAssessment.getResult( paper, researcher, i18n );
+		expect( paragraphTooLongAssessment.isApplicable( paper, researcher ) ).toBe( true );
 	} );
 	it( "returns false for isApplicable on a paper without text.", function() {
-		const paper = new Paper( "", { locale: "fr_FR" } );
-		paragraphTooLongAssessment.getResult( paper, Factory.buildMockResearcher( [ { wordCount: 0, text: "" } ] ), i18n );
-		expect( paragraphTooLongAssessment.isApplicable( paper ) ).toBe( false );
+		const paper = new Paper( "", { locale: "en_US" } );
+		const researcher = new Researcher( paper );
+		paragraphTooLongAssessment.getResult( paper, researcher, i18n );
+		expect( paragraphTooLongAssessment.isApplicable( paper, researcher ) ).toBe( false );
 	} );
 } );
 
