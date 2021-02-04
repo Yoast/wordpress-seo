@@ -6,9 +6,9 @@ class Assessment {
 	/**
 	 * Executes the assessment and return its result.
 	 *
-	 * @param {Paper} paper The paper to run this assessment on.
-	 * @param {Researcher} researcher The researcher used for the assessment.
-	 * @param {object} i18n The i18n-object used for parsing translations.
+	 * @param {Paper}       paper       The paper to run this assessment on.
+	 * @param {Researcher}  researcher  The researcher used for the assessment.
+	 * @param {object}      i18n        The i18n-object used for parsing translations.
 	 *
 	 * @returns {AssessmentResult} The result of the assessment.
 	 */
@@ -19,11 +19,12 @@ class Assessment {
 	/**
 	 * Checks whether the assessment is applicable
 	 *
-	 * @param {Paper} paper The paper to use for the assessment.
+	 * @param {Paper}       paper       The paper to use for the assessment.
+	 * @param {Researcher}  researcher  The researcher object.
 	 *
 	 * @returns {boolean} True.
 	 */
-	isApplicable( paper ) {
+	isApplicable( paper, researcher ) {
 		return true;
 	}
 }
