@@ -482,9 +482,9 @@ class Yoast_Form {
 	 * @param string $styled         The select style. Use 'styled' to get a styled select. Default 'unstyled'.
 	 * @param bool   $show_label     Whether or not to show the label, if not, it will be applied as an aria-label.
 	 * @param array  $attr           Extra attributes to add to the select.
+	 * @param string $help           Optional. Inline Help HTML that will be printed after the label. Default is empty.
 	 */
-	public function select( $var, $label, array $select_options, $styled = 'unstyled', $show_label = true, $attr = [] ) {
-
+	public function select( $var, $label, array $select_options, $styled = 'unstyled', $show_label = true, $attr = [], $help = '' ) {
 		if ( empty( $select_options ) ) {
 			return;
 		}
@@ -502,6 +502,7 @@ class Yoast_Form {
 					'class' => 'select',
 				]
 			);
+			echo $help;
 		}
 
 		$select_name       = esc_attr( $this->option_name ) . '[' . esc_attr( $var ) . ']';
@@ -512,10 +513,7 @@ class Yoast_Form {
 		$select = new Yoast_Input_Select( $var, $select_name, $select_options, $active_option );
 		$select->add_attribute( 'class', 'select' );
 
-		if (
-			$this->is_control_disabled( $var )
-			|| ( isset( $attr['disabled'] ) && $attr['disabled'] )
-		) {
+		if ( $this->is_control_disabled( $var ) || ( isset( $attr['disabled'] ) && $attr['disabled'] ) ) {
 			$select->add_attribute( 'disabled', 'disabled' );
 		}
 
