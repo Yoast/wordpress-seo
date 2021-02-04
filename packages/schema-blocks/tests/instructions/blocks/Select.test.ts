@@ -61,6 +61,7 @@ describe( "The Select instruction", () => {
 	describe.skip( "The edit method", () => {
 		it( "renders the correct React tree", () => {
 			const props: RenderEditProps = {
+				clientId: "abcd-1234",
 				className: "",
 				attributes: {
 					cuisine: "korean",
