@@ -8,25 +8,30 @@ describe( "An assessor running the linkStatistics for internal links", function(
 	it( "A paper with one internal link, which is do-follow", function() {
 		const mockPaper = new Paper( "some text" );
 
-		const assessment = new InternalLinksAssessment().getResult( mockPaper, factory.buildMockResearcher( { internalDofollow: 1, internalNofollow: 0, internalTotal: 1 } ), i18n );
+		const assessment = new InternalLinksAssessment().getResult( mockPaper, factory.buildMockResearcher( { internalDofollow: 1,
+			internalNofollow: 0, internalTotal: 1 } ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 9 );
-		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/33z' target='_blank'>Internal links</a>: You have enough internal links. Good job!" );
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/33z' target='_blank'>Internal links</a>: You have enough" +
+			" internal links. Good job!" );
 	} );
 
 	it( "A paper with one internal link which is do-follow, and one internal link which is no-follow", function() {
 		const mockPaper = new Paper( "some text" );
 
-		const assessment = new InternalLinksAssessment().getResult( mockPaper, factory.buildMockResearcher( { internalDofollow: 1, internalNofollow: 1, internalTotal: 2 } ), i18n );
+		const assessment = new InternalLinksAssessment().getResult( mockPaper, factory.buildMockResearcher( { internalDofollow: 1,
+			internalNofollow: 1, internalTotal: 2 } ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 8 );
-		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/33z' target='_blank'>Internal links</a>: There are both nofollowed and normal internal links on this page. Good job!" );
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/33z' target='_blank'>Internal links</a>: There are both" +
+			" nofollowed and normal internal links on this page. Good job!" );
 	} );
 
 	it( "A paper with one internal link, which is no-follow", function() {
 		const mockPaper = new Paper( "some text" );
 
-		const assessment = new InternalLinksAssessment().getResult( mockPaper, factory.buildMockResearcher( { internalDofollow: 0, internalNofollow: 1, internalTotal: 1 } ), i18n );
+		const assessment = new InternalLinksAssessment().getResult( mockPaper, factory.buildMockResearcher( { internalDofollow: 0,
+			internalNofollow: 1, internalTotal: 1 } ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 7 );
 		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/33z' target='_blank'>Internal links</a>: " +
