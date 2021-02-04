@@ -21,16 +21,41 @@ describe( "The DocumentSidebar container", () => {
 			},
 		} );
 
-		const selectors = {
+		const yoastSEOSelectors = {
 			getResultsForFocusKeyword,
 			getReadabilityResults,
 			getPreferences,
 			getSchemaBlocksValidationResults,
 		};
 
-		const select = jest.fn();
+		const getBlocks = jest.fn().mockReturnValue( [
+			{
+				name: "yoast/recipe",
+				clientId: "0890e6b3-235b-4b71-9d27-c0c9fd980137",
+				attributes: {
+					"yoast-schema": {},
+				},
+			},
+			{
+				name: "core/paragraph",
+				clientId: "0890e6b3-235b-4b71-9d27-c0c9fd980137",
+				attributes: {
+					content: "A paragraph",
+				},
+			},
+		] );
 
-		select.mockReturnValue( selectors );
+		const coreEditorSelectors = {
+			getBlocks,
+		};
+
+		const select = jest.fn( name => {
+			if ( name === "yoast-seo/editor" ) {
+				return yoastSEOSelectors;
+			} else if ( name === "core/editor" ) {
+				return coreEditorSelectors;
+			}
+		} );
 
 		const props = mapSelectToProps( select );
 
@@ -71,16 +96,41 @@ describe( "The DocumentSidebar container", () => {
 
 		const getSchemaBlocksValidationResults = jest.fn().mockReturnValue( {} );
 
-		const selectors = {
+		const yoastSEOSelectors = {
 			getResultsForFocusKeyword,
 			getReadabilityResults,
 			getPreferences,
 			getSchemaBlocksValidationResults,
 		};
 
-		const select = jest.fn();
+		const getBlocks = jest.fn().mockReturnValue( [
+			{
+				name: "yoast/recipe",
+				clientId: "0890e6b3-235b-4b71-9d27-c0c9fd980137",
+				attributes: {
+					"yoast-schema": {},
+				},
+			},
+			{
+				name: "core/paragraph",
+				clientId: "0890e6b3-235b-4b71-9d27-c0c9fd980137",
+				attributes: {
+					content: "A paragraph",
+				},
+			},
+		] );
 
-		select.mockReturnValue( selectors );
+		const coreEditorSelectors = {
+			getBlocks,
+		};
+
+		const select = jest.fn( name => {
+			if ( name === "yoast-seo/editor" ) {
+				return yoastSEOSelectors;
+			} else if ( name === "core/editor" ) {
+				return coreEditorSelectors;
+			}
+		} );
 
 		const props = mapSelectToProps( select );
 

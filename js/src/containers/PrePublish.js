@@ -17,14 +17,15 @@ import {
  * @returns {{checklist: []}} The props for the checklist.
  */
 export function mapSelectToProps( select ) {
-	const data = select( "yoast-seo/editor" );
+	const yoastStore = select( "yoast-seo/editor" );
+	const wpEditorStore = select( "core/editor" );
 
 	const checklist = [];
 
-	maybeAddFocusKeyphraseCheck( checklist, data );
-	maybeAddReadabilityCheck( checklist, data );
-	maybeAddSEOCheck( checklist, data );
-	maybeAddSchemaBlocksValidationCheck( checklist, data );
+	maybeAddFocusKeyphraseCheck( checklist, yoastStore );
+	maybeAddReadabilityCheck( checklist, yoastStore );
+	maybeAddSEOCheck( checklist, yoastStore );
+	maybeAddSchemaBlocksValidationCheck( checklist, yoastStore, wpEditorStore );
 
 	return { checklist };
 }

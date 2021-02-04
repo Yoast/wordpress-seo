@@ -66,19 +66,37 @@ export function maybeAddSEOCheck( checklist, store ) {
 }
 
 /**
+ * Checks if the array of blocks includes schema blocks.
+ *
+ * @param {object[]} blocks The array of blocks.
+ *
+ * @returns {boolean} If the list of blocks contains schema blocks.
+ */
+function includesSchemaBlocks( blocks ) {
+	return blocks.some( block => Object.keys( block.attributes ).includes( "yoast-schema" ) );
+}
+
+/**
  * Adds a score item for the schema blocks validation results, indicating whether all the
  * schema blocks on the page have valid schema.
  *
  * This check is hidden when no schema validation results are known
  * (e.g. when no schema blocks exist on the page).
  *
- * @param {Object[]} checklist The score items to add the score to.
- * @param {Object}   store     The Yoast SEO redux store.
+ * @param {Object[]} checklist        The score items to add the score to.
+ * @param {Object}   yoastEditorStore The `yoast-seo/editor` Yoast SEO redux store.
+ * @param {Object}   wpEditorStore    The `core/editor` WordPress store.
  *
  * @returns {void}
  */
-export function maybeAddSchemaBlocksValidationCheck( checklist, store ) {
-	const schemaBlocksValidationResults = store.getSchemaBlocksValidationResults();
+export function maybeAddSchemaBlocksValidationCheck( checklist, yoastEditorStore, wpEditorStore ) {
+	const blocks = wpEditorStore.getBlocks();
+
+	if ( ! includesSchemaBlocks( blocks ) ) {
+		return;
+	}
+
+	const schemaBlocksValidationResults = yoastEditorStore.getSchemaBlocksValidationResults();
 	const validationResults = Object.values( schemaBlocksValidationResults );
 
 	if ( validationResults && validationResults.length > 0 ) {
