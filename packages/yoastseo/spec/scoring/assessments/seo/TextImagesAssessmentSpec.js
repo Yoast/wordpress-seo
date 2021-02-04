@@ -1,3 +1,4 @@
+import { DefaultResearcher } from "../../../../src/languageProcessing";
 import ImageCountAssessment from "../../../../src/scoring/assessments/seo/TextImagesAssessment";
 import Paper from "../../../../src/values/Paper.js";
 import Factory from "../../../specHelpers/factory.js";
@@ -164,7 +165,8 @@ describe( "An image count assessment", function() {
 		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/33c' target='_blank'>Image alt attributes</a>: Good job!" );
 	} );
 
-	it( "assesses 6 images, with a keyword and alt-tag set to keyword for 2 images, alt-tag set to non-keyword for 1 image and 3 images without alt tags", function() {
+	it( "assesses 6 images, with a keyword and alt-tag set to keyword for 2 images, alt-tag set to non-keyword for " +
+		"1 image and 3 images without alt tags", function() {
 		const mockPaper = new Paper( "These are just five words <img src='image.jpg' alt='sample' />", {
 			keyword: "Sample",
 		} );
@@ -227,7 +229,8 @@ describe( "An image count assessment", function() {
 			"relevant images</a>!" );
 	} );
 
-	it( "assesses 5 images, with a keyword and alt-tag set to keyword for 2 images, alt-tag set to non-keyword for 1 image and 2 images without alt tags", function() {
+	it( "assesses 5 images, with a keyword and alt-tag set to keyword for 2 images, alt-tag set to non-keyword for " +
+		"1 image and 2 images without alt tags", function() {
 		const mockPaper = new Paper( "These are just five words <img src='image.jpg' alt='sample' />", {
 			keyword: "Sample",
 		} );
@@ -307,5 +310,20 @@ describe( "An image count assessment", function() {
 			"Out of 5 images on this page, only 1 has an alt attribute that reflects the topic of your text. " +
 			"<a href='https://yoa.st/33d' target='_blank'>Add your keyphrase or synonyms to the alt tags of " +
 			"more relevant images</a>!" );
+	} );
+} );
+
+describe( "tests for the assessment applicability.", function() {
+	it( "returns false when the paper is empty.", function() {
+		const paper = new Paper( "" );
+		expect( imageCountAssessment.isApplicable( paper, new DefaultResearcher( paper ) ) ).toBe( false );
+	} );
+
+	it( "returns true when the paper is not empty.", function() {
+		const paper = new Paper( "sample keyword", {
+			url: "sample-with-keyword",
+			keyword: "kéyword",
+		} );
+		expect( imageCountAssessment.isApplicable( paper, new DefaultResearcher( paper ) ) ).toBe( true );
 	} );
 } );

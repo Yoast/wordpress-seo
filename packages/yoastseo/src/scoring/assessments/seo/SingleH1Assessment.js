@@ -38,9 +38,9 @@ class singleH1Assessment extends Assessment {
 	/**
 	 * Runs the h1 research and based on this returns an assessment result with a score.
 	 *
-	 * @param {Paper} paper The paper to use for the assessment.
-	 * @param {Researcher} researcher The researcher used for calling the research.
-	 * @param {Jed} i18n The object used for translations
+	 * @param {Paper}       paper       The paper to use for the assessment.
+	 * @param {Researcher}  researcher  The researcher used for calling the research.
+	 * @param {Jed}         i18n        The object used for translations
 	 *
 	 * @returns {AssessmentResult} The assessment result.
 	 */
@@ -131,12 +131,13 @@ class singleH1Assessment extends Assessment {
 	/**
 	 * Checks whether the paper has a text.
 	 *
-	 * @param {Paper} paper The paper to use for the assessment.
+	 * @param {Paper}       paper       The paper to use for the assessment.
+	 * @param {Researcher}  researcher  The researcher object.
 	 *
 	 * @returns {boolean} True when there is text.
 	 */
-	isApplicable( paper ) {
-		return paper.hasText();
+	isApplicable( paper, researcher ) {
+		return paper.hasText() && researcher.hasResearch( "h1s" );
 	}
 }
 

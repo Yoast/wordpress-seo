@@ -44,9 +44,9 @@ export default class TextImagesAssessment extends Assessment {
 	/**
 	 * Execute the Assessment and return a result.
 	 *
-	 * @param {Paper} paper The Paper object to assess.
-	 * @param {Researcher} researcher The Researcher object containing all available researches.
-	 * @param {Jed} i18n The locale object.
+	 * @param {Paper}       paper       The Paper object to assess.
+	 * @param {Researcher}  researcher  The Researcher object containing all available researches.
+	 * @param {Jed}         i18n        The locale object.
 	 *
 	 * @returns {AssessmentResult} The result of the assessment, containing both a score and a descriptive text.
 	 */
@@ -69,12 +69,13 @@ export default class TextImagesAssessment extends Assessment {
 	/**
 	 * Checks whether the paper has text.
 	 *
-	 * @param {Paper} paper The paper to use for the assessment.
+	 * @param {Paper}       paper       The paper to use for the assessment.
+	 * @param {Researcher}  researcher  The researcher object.
 	 *
 	 * @returns {boolean} True when there is text.
 	 */
-	isApplicable( paper ) {
-		return paper.hasText();
+	isApplicable( paper, researcher ) {
+		return paper.hasText() && researcher.hasResearch( "imageCount" );
 	}
 
 	/**
