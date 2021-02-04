@@ -48,7 +48,6 @@ const seo = {
 	IntroductionKeywordAssessment,
 	KeyphraseLengthAssessment,
 	KeywordDensityAssessment,
-	KeywordStopWordsAssessment,
 	KeyphraseDistributionAssessment,
 	MetaDescriptionKeywordAssessment,
 	MetaDescriptionLengthAssessment,
@@ -61,7 +60,6 @@ const seo = {
 	TextImagesAssessment,
 	TextLengthAssessment,
 	TitleKeywordAssessment,
-	UrlKeywordAssessment,
 };
 
 export {
