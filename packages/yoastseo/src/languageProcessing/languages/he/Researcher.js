@@ -26,7 +26,6 @@ export default class Researcher extends AbstractResearcher {
 		// Deletes researches that are currently not available in Hebrew.
 		// When the research is available, this line should be removed.
 		delete this.defaultResearches.getFleschReadingScore;
-		delete this.defaultResearches.stopWordsInKeyword;
 
 		Object.assign( this.config, {
 			language: "he",
@@ -40,7 +39,7 @@ export default class Researcher extends AbstractResearcher {
 		Object.assign( this.helpers, {
 			createBasicWordForms,
 			getStemmer,
-			isPassiveSentence
+			isPassiveSentence,
 		} );
 	}
 }
