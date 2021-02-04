@@ -20,7 +20,6 @@ export default class Researcher extends AbstractResearcher {
 		delete this.defaultResearches.getPassiveVoice;
 		delete this.defaultResearches.getSentenceBeginnings;
 		delete this.defaultResearches.stopWordsInKeyword;
-		delete this.defaultResearches.stopWordsInUrl;
 		delete this.defaultResearches.findTransitionWords;
 		delete this.defaultResearches.functionWordsInKeyphrase;
 

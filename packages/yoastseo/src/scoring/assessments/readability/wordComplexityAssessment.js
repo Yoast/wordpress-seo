@@ -8,15 +8,16 @@ import AssessmentResult from "../../../values/AssessmentResult";
 import Mark from "../../../values/Mark";
 
 // The maximum recommended value is 3 syllables. With more than 3 syllables a word is considered complex.
-var recommendedValue = 3;
+const recommendedValue = 3;
 
 /**
  * Filters the words that aren't too long.
  *
  * @param {Array} words The array with words to filter on complexity.
+ *
  * @returns {Array} The filtered list with complex words.
  */
-var filterComplexity = function( words ) {
+const filterComplexity = function( words ) {
 	return filter( words, function( word ) {
 		return ( word.complexity > recommendedValue );
 	} );
@@ -24,14 +25,16 @@ var filterComplexity = function( words ) {
 
 /**
  * Calculates the complexity of the text based on the syllables in words.
- * @param {number} wordCount The number of words used.
- * @param {Array} wordComplexity The list of words with their syllable count.
- * @param {Object} i18n The object used for translations.
+ *
+ * @param {number}  wordCount       The number of words used.
+ * @param {Array}   wordComplexity  The list of words with their syllable count.
+ * @param {Object}  i18n            The object used for translations.
+ *
  * @returns {{score: number, text}} resultobject with score and text.
  */
-var calculateComplexity = function( wordCount, wordComplexity, i18n ) {
-	var percentage = 0;
-	var tooComplexWords = filterComplexity( wordComplexity ).length;
+const calculateComplexity = function( wordCount, wordComplexity, i18n ) {
+	let percentage = 0;
+	const tooComplexWords = filterComplexity( wordComplexity ).length;
 
 	// Prevent division by zero errors.
 	if ( wordCount !== 0 ) {
@@ -39,12 +42,12 @@ var calculateComplexity = function( wordCount, wordComplexity, i18n ) {
 	}
 
 	percentage = formatNumber( percentage );
-	var hasMarks = ( percentage > 0 );
-	var recommendedMaximum = 5;
-	var wordComplexityURL = createAnchorOpeningTag( "https://yoa.st/difficult-words" );
+	const hasMarks = ( percentage > 0 );
+	const recommendedMaximum = 5;
+	const wordComplexityURL = createAnchorOpeningTag( "https://yoa.st/difficult-words" );
 	// 6 is the number of scorepoints between 3, minscore and 9, maxscore. For scoring we use 10 steps. each step is 0.6
 	// Up to 1.7 percent is for scoring a 9, higher percentages give lower scores.
-	var score = 9 - Math.max( Math.min( ( 0.6 ) * ( percentage - 1.7 ), 6 ), 0 );
+	let score = 9 - Math.max( Math.min( ( 0.6 ) * ( percentage - 1.7 ), 6 ), 0 );
 	score = formatNumber( score );
 
 	if ( score >= 7 ) {
@@ -82,15 +85,17 @@ var calculateComplexity = function( wordCount, wordComplexity, i18n ) {
 
 /**
  * Marks complex words in a sentence.
- * @param {string} sentence The sentence to mark complex words in.
- * @param {Array} complexWords The array with complex words.
+ *
+ * @param {string} sentence     The sentence to mark complex words in.
+ * @param {Array} complexWords  The array with complex words.
+ *
  * @returns {Array} All marked complex words.
  */
-var markComplexWordsInSentence = function( sentence, complexWords ) {
-	var splitWords = sentence.split( /\s+/ );
+const markComplexWordsInSentence = function( sentence, complexWords ) {
+	const splitWords = sentence.split( /\s+/ );
 
 	forEach( complexWords, function( complexWord ) {
-		var wordIndex = complexWord.wordIndex;
+		const wordIndex = complexWord.wordIndex;
 
 		if ( complexWord.word === splitWords[ wordIndex ] ||
 			complexWord.word === removeSentenceTerminators( splitWords[ wordIndex ] ) ) {
@@ -101,12 +106,14 @@ var markComplexWordsInSentence = function( sentence, complexWords ) {
 };
 
 /**
- * Splits sentence on whitespace
+ * Splits sentence on whitespace.
+ *
  * @param {string} sentence The sentence to split.
+ *
  * @returns {Array} All words from sentence. .
  */
-var splitSentenceOnWhitespace = function( sentence ) {
-	var whitespace = sentence.split( /\S+/ );
+const splitSentenceOnWhitespace = function( sentence ) {
+	const whitespace = sentence.split( /\S+/ );
 
 	// Drop first and last elements.
 	whitespace.pop();
@@ -118,29 +125,30 @@ var splitSentenceOnWhitespace = function( sentence ) {
 /**
  * Creates markers of words that are complex.
  *
- * @param {Paper} paper The Paper object to assess.
- * @param {Researcher} researcher The Researcher object containing all available researches.
+ * @param {Paper}       paper       The Paper object to assess.
+ * @param {Researcher}  researcher  The Researcher object containing all available researches.
+ *
  * @returns {Array} A list with markers
  */
-var wordComplexityMarker = function( paper, researcher ) {
-	var wordComplexityResults = researcher.getResearch( "wordComplexity" );
+const wordComplexityMarker = function( paper, researcher ) {
+	const wordComplexityResults = researcher.getResearch( "wordComplexity" );
 
 	return flatMap( wordComplexityResults, function( result ) {
-		var words = result.words;
-		var sentence = result.sentence;
+		const words = result.words;
+		const sentence = result.sentence;
 
-		var complexWords = filterComplexity( words );
+		const complexWords = filterComplexity( words );
 
 		if ( complexWords.length === 0 ) {
 			return [];
 		}
 
-		var splitWords = markComplexWordsInSentence( sentence, complexWords );
+		const splitWords = markComplexWordsInSentence( sentence, complexWords );
 
-		var whitespace = splitSentenceOnWhitespace( sentence );
+		const whitespace = splitSentenceOnWhitespace( sentence );
 
 		// Rebuild the sentence with the marked words.
-		var markedSentence = zip( splitWords, whitespace );
+		let markedSentence = zip( splitWords, whitespace );
 		markedSentence = flatten( markedSentence );
 		markedSentence = markedSentence.join( "" );
 
@@ -152,21 +160,23 @@ var wordComplexityMarker = function( paper, researcher ) {
 };
 
 /**
- * Execute the word complexity assessment and return a result based on the syllables in words
- * @param {Paper} paper The Paper object to assess.
- * @param {Researcher} researcher The Researcher object containing all available researches.
- * @param {object} i18n The object used for translations
+ * Execute the word complexity assessment and return a result based on the syllables in words.
+ *
+ * @param {Paper}       paper       The Paper object to assess.
+ * @param {Researcher}  researcher  The Researcher object containing all available researches.
+ * @param {object}      i18n        The object used for translations.
+ *
  * @returns {AssessmentResult} The result of the assessment, containing both a score and a descriptive text.
  */
-var wordComplexityAssessment = function( paper, researcher, i18n ) {
-	var wordComplexity = researcher.getResearch( "wordComplexity" );
+const wordComplexityAssessment = function( paper, researcher, i18n ) {
+	let wordComplexity = researcher.getResearch( "wordComplexity" );
 	wordComplexity = flatMap( wordComplexity, function( sentence ) {
 		return sentence.words;
 	} );
-	var wordCount = wordComplexity.length;
+	const wordCount = wordComplexity.length;
 
-	var complexityResult = calculateComplexity( wordCount, wordComplexity, i18n );
-	var assessmentResult = new AssessmentResult();
+	const complexityResult = calculateComplexity( wordCount, wordComplexity, i18n );
+	const assessmentResult = new AssessmentResult();
 	assessmentResult.setScore( complexityResult.score );
 	assessmentResult.setText( complexityResult.text );
 	assessmentResult.setHasMarks( complexityResult.hasMarks );
@@ -176,12 +186,13 @@ var wordComplexityAssessment = function( paper, researcher, i18n ) {
 /**
  * Checks whether the paper has text.
  *
- * @param {Paper} paper The paper to use for the assessment.
+ * @param {Paper}       paper       The paper to use for the assessment.
+ * @param {Researcher}  researcher  The researcher object.
  *
  * @returns {boolean} True when there is text.
  */
-var isApplicable = function( paper ) {
-	return paper.hasText();
+const isApplicable = function( paper, researcher ) {
+	return paper.hasText() && researcher.hasResearch( "wordComplexity" );
 };
 
 export default {

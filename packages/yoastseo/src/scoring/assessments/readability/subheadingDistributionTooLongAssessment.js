@@ -15,6 +15,7 @@ class SubheadingsDistributionTooLong extends Assessment {
 	 * Sets the identifier and the config.
 	 *
 	 * @param {Object} config The configuration to use.
+	 *
 	 * @returns {void}
 	 */
 	constructor( config = {} ) {
@@ -45,9 +46,9 @@ class SubheadingsDistributionTooLong extends Assessment {
 	/**
 	 * Runs the getSubheadingTextLength research and checks scores based on length.
 	 *
-	 * @param {Paper} paper The paper to use for the assessment.
-	 * @param {Researcher} researcher The researcher used for calling research.
-	 * @param {Object} i18n The object used for translations.
+	 * @param {Paper}       paper       The paper to use for the assessment.
+	 * @param {Researcher}  researcher  The researcher used for calling research.
+	 * @param {Object}      i18n        The object used for translations.
 	 *
 	 * @returns {AssessmentResult} The assessment result.
 	 */
@@ -78,12 +79,13 @@ class SubheadingsDistributionTooLong extends Assessment {
 	/**
 	 * Checks whether the paper has text.
 	 *
-	 * @param {Paper} paper The paper to use for the assessment.
+	 * @param {Paper}       paper       The paper to use for the assessment.
+	 * @param {Researcher}  researcher  The researcher object.
 	 *
 	 * @returns {boolean} True when there is text.
 	 */
-	isApplicable( paper ) {
-		return paper.hasText();
+	isApplicable( paper, researcher ) {
+		return paper.hasText() && researcher.hasResearch( "getSubheadingTextLengths" );
 	}
 
 	/**
@@ -101,7 +103,7 @@ class SubheadingsDistributionTooLong extends Assessment {
 	/**
 	 * Counts the number of subheading texts that are too long.
 	 *
-	 * @returns {number} The number of subheading texts that are too long.
+	 * @returns {Array} The array containing subheading texts that are too long.
 	 */
 	getTooLongSubheadingTexts() {
 		return filter( this._subheadingTextsLength, function( subheading ) {

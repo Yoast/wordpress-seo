@@ -13,6 +13,7 @@ import marker from "../../../markers/addMark.js";
  *
  * @param {object} sentences The object containing the total number of sentences and the number of sentences containing
  * a transition word.
+ *
  * @returns {number} The percentage of sentences containing a transition word.
  */
 const calculateTransitionWordPercentage = function( sentences ) {
@@ -27,6 +28,7 @@ const calculateTransitionWordPercentage = function( sentences ) {
  * Calculates the score for the assessment based on the percentage of sentences containing transition words.
  *
  * @param {number} percentage The percentage of sentences containing transition words.
+ *
  * @returns {number} The score.
  */
 const calculateScoreFromPercentage = function( percentage ) {
@@ -40,17 +42,17 @@ const calculateScoreFromPercentage = function( percentage ) {
 		return 6;
 	}
 
-	if ( percentage >= 30 ) {
-		// Green indicator.
-		return 9;
-	}
+	// Green indicator.
+	return 9;
 };
 
 /**
- * Calculates transition word result
- * @param {object} transitionWordSentences The object containing the total number of sentences and the number of sentences containing
- * a transition word.
- * @param {object} i18n The object used for translations.
+ * Calculates transition word result.
+ *
+ * @param {object} transitionWordSentences  The object containing the total number of sentences and the number of sentences containing
+ *                                          a transition word.
+ * @param {object} i18n                     The object used for translations.
+ *
  * @returns {object} Object containing score and text.
  */
 const calculateTransitionWordResult = function( transitionWordSentences, i18n ) {
@@ -107,9 +109,11 @@ const calculateTransitionWordResult = function( transitionWordSentences, i18n ) 
 
 /**
  * Scores the percentage of sentences including one or more transition words.
- * @param {object} paper The paper to use for the assessment.
- * @param {object} researcher The researcher used for calling research.
- * @param {object} i18n The object used for translations.
+ *
+ * @param {object} paper        The paper to use for the assessment.
+ * @param {object} researcher   The researcher used for calling research.
+ * @param {object} i18n         The object used for translations.
+ *
  * @returns {object} The Assessment result.
  */
 const transitionWordsAssessment = function( paper, researcher, i18n ) {
@@ -126,8 +130,10 @@ const transitionWordsAssessment = function( paper, researcher, i18n ) {
 
 /**
  * Marks text for the transition words assessment.
- * @param {Paper} paper The paper to use for the marking.
- * @param {Researcher} researcher The researcher containing the necessary research.
+ *
+ * @param {Paper}       paper       The paper to use for the marking.
+ * @param {Researcher}  researcher  The researcher containing the necessary research.
+ *
  * @returns {Array<Mark>} A list of marks that should be applied.
  */
 const transitionWordsMarker = function( paper, researcher ) {
@@ -146,12 +152,13 @@ const transitionWordsMarker = function( paper, researcher ) {
 /**
  * Checks if the transition words assessment is applicable to the paper.
  *
- * @param {Object} paper The paper to check.
+ * @param {Paper}       paper       The paper to check.
+ * @param {Researcher}  researcher  The researcher object.
  *
  * @returns {boolean} Returns true if the language is available and the paper is not empty.
  */
-const isApplicable = function( paper ) {
-	return paper.hasText();
+const isApplicable = function( paper, researcher ) {
+	return paper.hasText() && researcher.hasResearch( "findTransitionWords" );
 };
 
 export default {

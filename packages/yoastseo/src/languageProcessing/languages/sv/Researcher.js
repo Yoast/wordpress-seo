@@ -27,7 +27,6 @@ export default class Researcher extends AbstractResearcher {
 		// Delete the researches that are not available in Swedish.
 		delete this.defaultResearches.getFleschReadingScore;
 		delete this.defaultResearches.stopWordsInKeyword;
-		delete this.defaultResearches.stopWordsInUrl;
 
 		Object.assign( this.config, {
 			language: "sv",

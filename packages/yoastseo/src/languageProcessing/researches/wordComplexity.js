@@ -8,11 +8,12 @@ import { forEach } from "lodash-es";
 /**
  * Gets the complexity per word, along with the index for the sentence.
  *
- * @param {string} sentence The sentence to get wordComplexity from.
+ * @param {string} sentence     The sentence to get wordComplexity from.
+ * @param {Object} syllables    The syllables data.
  *
  * @returns {Array} A list with words, the index and the complexity per word.
  */
-const getWordComplexityForSentence = function( sentence ) {
+const getWordComplexityForSentence = function( sentence, syllables ) {
 	const words = getWords( sentence );
 	const results = [];
 
@@ -20,7 +21,7 @@ const getWordComplexityForSentence = function( sentence ) {
 		results.push( {
 			word: word,
 			wordIndex: i,
-			complexity: countSyllables( word ),
+			complexity: countSyllables( word, syllables ),
 		} );
 	} );
 
@@ -30,17 +31,19 @@ const getWordComplexityForSentence = function( sentence ) {
 /**
  * Calculates the complexity of words in a text, returns each words with their complexity.
  *
- * @param {Paper} paper The Paper object to get the text from.
+ * @param {Paper}       paper       The Paper object to get the text from.
+ * @param {Researcher}  researcher  The researcher object.
  *
  * @returns {Object} The words found in the text with the number of syllables.
  */
-export default function wordComplexity( paper ) {
+export default function wordComplexity( paper, researcher ) {
 	const sentences = getSentences( paper.getText() );
+	const syllables = researcher.getConfig( "syllables" );
 
 	return map( sentences, function( sentence ) {
 		return {
 			sentence: sentence,
-			words: getWordComplexityForSentence( sentence ),
+			words: getWordComplexityForSentence( sentence, syllables ),
 		};
 	} );
 }

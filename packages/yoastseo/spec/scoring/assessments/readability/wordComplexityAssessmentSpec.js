@@ -1,12 +1,23 @@
+import { EnglishResearcher } from "../../../../src/languageProcessing";
 import wordComplexityAssessment from "../../../../src/scoring/assessments/readability/wordComplexityAssessment.js";
 import Paper from "../../../../src/values/Paper.js";
 import factory from "../../../specHelpers/factory.js";
-var i18n = factory.buildJed();
+const i18n = factory.buildJed();
 
 describe( "an assessment returning complex words", function() {
+	it( "runs a test with an empty text", function() {
+		const mockPaper = new Paper( "" );
+		const result = wordComplexityAssessment.getResult( mockPaper, factory.buildMockResearcher( [] ), i18n );
+
+		expect( result.getScore() ).toBe( 9 );
+		expect( result.getText() ).toBe( "0% of the words contain <a href='https://yoa.st/difficult-words' target='_blank'>" +
+			"over 3 syllables</a>, which is less than or equal to the recommended maximum of 5%." );
+		expect( result.hasMarks() ).toBe( false );
+	} );
+
 	it( "runs a test with 30% too many syllables", function() {
-		var mockPaper = new Paper( "" );
-		var result = wordComplexityAssessment.getResult( mockPaper, factory.buildMockResearcher(
+		const mockPaper = new Paper( "" );
+		const result = wordComplexityAssessment.getResult( mockPaper, factory.buildMockResearcher(
 			[ { sentence: "", words: [
 				{ word: "", complexity: 1 },
 				{ word: "", complexity: 2 },
@@ -21,7 +32,6 @@ describe( "an assessment returning complex words", function() {
 			} ]
 		), i18n );
 
-
 		expect( result.getScore() ).toBe( 3 );
 		expect( result.getText() ).toBe( "30% of the words contain <a href='https://yoa.st/difficult-words' target='_blank'>over 3 syllables</a>, " +
 			"which is more than the recommended maximum of 5%." );
@@ -29,8 +39,8 @@ describe( "an assessment returning complex words", function() {
 	} );
 
 	it( "runs a test with exactly 5.3% too many syllables", function() {
-		var mockPaper = new Paper( "" );
-		var result = wordComplexityAssessment.getResult( mockPaper, factory.buildMockResearcher( [
+		const mockPaper = new Paper( "" );
+		const result = wordComplexityAssessment.getResult( mockPaper, factory.buildMockResearcher( [
 			{ sentence: "", words: [
 				{ word: "", complexity: 1 },
 				{ word: "", complexity: 2 },
@@ -60,8 +70,8 @@ describe( "an assessment returning complex words", function() {
 	} );
 
 	it( "runs a test with exactly 5% too many syllables", function() {
-		var mockPaper = new Paper( "" );
-		var result = wordComplexityAssessment.getResult( mockPaper, factory.buildMockResearcher( [
+		const mockPaper = new Paper( "" );
+		const result = wordComplexityAssessment.getResult( mockPaper, factory.buildMockResearcher( [
 			{ sentence: "", words: [
 				{ word: "", complexity: 1 },
 				{ word: "", complexity: 2 },
@@ -92,8 +102,8 @@ describe( "an assessment returning complex words", function() {
 	} );
 
 	it( "runs a test with 2.94% too many syllables", function() {
-		var mockPaper = new Paper( "" );
-		var result = wordComplexityAssessment.getResult( mockPaper, factory.buildMockResearcher( [
+		const mockPaper = new Paper( "" );
+		const result = wordComplexityAssessment.getResult( mockPaper, factory.buildMockResearcher( [
 			{ sentence: "", words: [
 				{ word: "", complexity: 1 },
 				{ word: "", complexity: 2 },
@@ -138,8 +148,8 @@ describe( "an assessment returning complex words", function() {
 	} );
 
 	it( "runs a test with 0% too many syllables", function() {
-		var mockPaper = new Paper( "" );
-		var result = wordComplexityAssessment.getResult( mockPaper, factory.buildMockResearcher( [
+		const mockPaper = new Paper( "" );
+		const result = wordComplexityAssessment.getResult( mockPaper, factory.buildMockResearcher( [
 			{ sentence: "", words: [
 				{ word: "", complexity: 1 },
 				{ word: "", complexity: 2 },
@@ -159,3 +169,16 @@ describe( "an assessment returning complex words", function() {
 		expect( result.hasMarks() ).toBe( false );
 	} );
 } );
+
+describe( "tests for the assessment applicability", function() {
+	it( "returns false if there is no text available.", function() {
+		const paper = new Paper( "" );
+		expect( wordComplexityAssessment.isApplicable( paper, new EnglishResearcher( paper ) ) ).toBe( false );
+	} );
+
+	it( "returns true if the paper has text and the locale support the assessment.", function() {
+		const paper = new Paper( "hallo" );
+		expect( wordComplexityAssessment.isApplicable( paper, new EnglishResearcher( paper ) ) ).toBe( true );
+	} );
+} );
+
