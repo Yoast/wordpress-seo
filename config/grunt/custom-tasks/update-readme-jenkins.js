@@ -1,3 +1,7 @@
+function escapeRegExp(string) {
+	return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
+  }
+
 class ChangelogBuilder {
 	constructor(changelogIn) {
 		this.ChangelogMap = new Map();
@@ -5,7 +9,7 @@ class ChangelogBuilder {
 	}
 	myFunction(value, index, array) {
 		const key = `${value.match(new RegExp(  "[ a-zA-Z]+:" ))}`;
-		const lines = value.match(new RegExp( "\\*[^\n]+", "g" ));
+		const lines = value.match(new RegExp( "(?<=\n)\\*([\n]|.)+?(?=\Z|\n\n|\n\\*|\n$)", "gm" ));
 		const uniqueLines = new Unique([ lines[0] ]);
 		uniqueLines.append(lines);
 		//console.log(uniqueLines.items);
@@ -151,6 +155,18 @@ module.exports = function( grunt ) {
 
 			// If the current version is already in the changelog, retrieve the full readme and let the user edit it.
 			if ( containsCurrentVersion ) {
+				// get the changelog entry's for the current version from the readme.
+				let changelogVersionNumber = versionNumber.major + "." + versionNumber.minor;
+				currentChangelogEntriesMatches = changelog.match(new RegExp( "= " + changelogVersionNumber + "(.|\\n)*?(?=(= \\d+[\.\\d]+ =|= Earlier versions =))",  ))
+				if (currentChangelogEntriesMatches) {
+					currentChangelogEntries = `${currentChangelogEntriesMatches[0]}`;
+				};
+				//console.log(currentChangelogEntries);
+
+				// get the header from the changelog entry's
+				currentChangelogEntriesHeaderMatches = changelog.match(new RegExp( "= " + changelogVersionNumber + "(.|\\n)*?(?=(\\n\\n))",  ))
+				console.log(currentChangelogEntriesHeaderMatches)
+
 				//do some voodoo here to get new entry's in to changlog..
 				mergeChangeLog( { newChangelogContent: changelog } ).then( newChangelog => {
 					// Update the grunt reference to the changelog.
