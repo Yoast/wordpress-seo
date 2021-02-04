@@ -53,10 +53,10 @@ export default class Select extends BlockInstruction {
 
 		const value = props.attributes[ name ] as string;
 
-		return <p data-id={ name } data-value={ value }>
+		return <span data-id={ name } data-value={ value }>
 			{ ! hideLabelFromVision && <strong>{ label }:</strong> }
-			{ this.label( value ) }
-		</p>;
+			{ this.label( value ) + " " }
+		</span>;
 	}
 
 	/**

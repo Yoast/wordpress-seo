@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`The Select instruction the save method renders the correct React tree. 1`] = `
-<p
+<span
   data-id="cuisine"
   data-value="korean"
 >
@@ -9,6 +9,6 @@ exports[`The Select instruction the save method renders the correct React tree. 
     Cuisine
     :
   </strong>
-  Korean
-</p>
+  Korean 
+</span>
 `;
