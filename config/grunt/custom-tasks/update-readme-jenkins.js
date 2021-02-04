@@ -48,7 +48,10 @@ class ChangelogBuilder {
 
 class Unique {
 	constructor(items) {
-	  this.items = items;
+		this.items = new array();
+		if (items) {
+	  		this.items = items;
+		}
 	}
 	append(newItems) {
 	  newItems.forEach(function(newItem) {
