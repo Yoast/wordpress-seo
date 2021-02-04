@@ -42,8 +42,8 @@ function filterBlocksRecursively( blockInstance: BlockInstance, predicate: ( blo
  *
  * @returns The transformed blocks, in a flat array.
  */
-function mapBlocksRecursively( blocks: BlockInstance[], callback: ( block: BlockInstance ) => unknown ): unknown[] {
-	const result: unknown[] = [];
+function mapBlocksRecursively<T>( blocks: BlockInstance[], callback: ( block: BlockInstance ) => T ): T[] {
+	const result: T[] = [];
 	recurseOverBlocks( blocks, ( block: BlockInstance ) => {
 		// eslint-disable-next-line callback-return
 		result.push( callback( block ) );
