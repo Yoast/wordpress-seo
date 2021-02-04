@@ -30,6 +30,6 @@
 .switch-container .yoast-badge {
 	vertical-align: -1em;
 }
-.yoast_help .yoast-badge {
+.yoast_help + .yoast-badge {
 	vertical-align: bottom;
 }
