@@ -10,3 +10,7 @@ import "./SidebarSelect";
 import "./VariableTagRichText";
 import "./Variation";
 import "./VariationPicker";
+import "./Select";
+import "./Date";
+import "./CurrencySelect";
+import "./TextInput";

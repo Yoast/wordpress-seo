@@ -1,85 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`The Select instruction the edit method renders the correct React tree when the selection options are an array. 1`] = `
-<div>
-  <label
-    htmlFor="Cuisine"
-  >
-    Cuisine
-  </label>
-  <select
-    className="yoast-schema-select"
-    id="Cuisine"
-    onInput={[Function]}
-    value="korean"
-  >
-    <option
-      value="korean"
-    >
-      korean
-    </option>
-    <option
-      value="tanzanian"
-    >
-      tanzanian
-    </option>
-    <option
-      value="australian"
-    >
-      australian
-    </option>
-  </select>
-</div>
-`;
-
-exports[`The Select instruction the edit method renders the correct React tree. 1`] = `
-<div>
-  <label
-    htmlFor="Cuisine"
-  >
-    Cuisine
-  </label>
-  <select
-    className="yoast-schema-select"
-    id="Cuisine"
-    onInput={[Function]}
-    value="korean"
-  >
-    <option
-      value="korean"
-    >
-      Korean
-    </option>
-    <option
-      value="tanzanian"
-    >
-      Tanzanian
-    </option>
-    <option
-      value="australian"
-    >
-      Australian
-    </option>
-  </select>
-</div>
-`;
-
-exports[`The Select instruction the save method renders the correct React tree when the selection options are an array. 1`] = `
-<p
-  data-id="cuisine"
-  data-value="korean"
->
-  <strong>
-    Cuisine
-    :
-  </strong>
-   
-  korean
-</p>
-`;
-
 exports[`The Select instruction the save method renders the correct React tree. 1`] = `
-<p
+<span
   data-id="cuisine"
   data-value="korean"
 >
@@ -87,7 +9,6 @@ exports[`The Select instruction the save method renders the correct React tree. 
     Cuisine
     :
   </strong>
-   
-  Korean
-</p>
+  Korean 
+</span>
 `;
