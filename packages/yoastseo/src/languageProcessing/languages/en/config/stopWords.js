@@ -16,7 +16,6 @@ export default [
 	"before",
 	"even if",
 	"even though",
-	"how",
 	"if",
 	"in order that",
 	"inasmuch",

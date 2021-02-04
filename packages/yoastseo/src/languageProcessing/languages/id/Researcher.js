@@ -24,7 +24,6 @@ export default class Researcher extends AbstractResearcher {
 
 		// Delete the researches that are not available for Indonesian.
 		delete this.defaultResearches.getFleschReadingScore;
-		delete this.defaultResearches.stopWordsInUrl;
 		delete this.defaultResearches.stopWordsInKeyword;
 
 		Object.assign( this.config, {

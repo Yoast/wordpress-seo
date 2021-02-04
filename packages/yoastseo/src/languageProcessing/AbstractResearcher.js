@@ -36,8 +36,6 @@ import pageTitleWidth from "./researches/pageTitleWidth.js";
 import readingTime from "./researches/readingTime";
 import sentences from "./researches/sentences";
 import stopWordsInKeyword from "./researches/stopWordsInKeyword";
-import stopWordsInUrl from "./researches/stopWordsInUrl";
-import urlLength from "./researches/urlLength.js";
 import wordComplexity from "./researches/wordComplexity.js";
 import wordCountInText from "./researches/wordCountInText.js";
 
@@ -87,8 +85,6 @@ export default class AbstractResearcher {
 			readingTime,
 			sentences,
 			stopWordsInKeyword,
-			stopWordsInUrl,
-			urlLength,
 			wordComplexity,
 			wordCountInText,
 		};
