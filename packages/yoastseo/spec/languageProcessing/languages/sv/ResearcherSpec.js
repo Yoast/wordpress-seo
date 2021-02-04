@@ -1,6 +1,6 @@
 import Researcher from "../../../../src/languageProcessing/languages/sv/Researcher.js";
 import Paper from "../../../../src/values/Paper.js";
-import functionWords from "../../../../src/languageProcessing/languages/sv/config/functionWords";
+import { all as functionWords } from "../../../../src/languageProcessing/languages/sv/config/functionWords";
 import firstWordExceptions from "../../../../src/languageProcessing/languages/sv/config/firstWordExceptions";
 import transitionWords from "../../../../src/languageProcessing/languages/sv/config/transitionWords";
 import twoPartTransitionWords from "../../../../src/languageProcessing/languages/sv/config/twoPartTransitionWords";
@@ -32,7 +32,7 @@ describe( "a test for the Swedish Researcher", function() {
 	} );
 
 	it( "returns Swedish function words", function() {
-		expect( researcher.getConfig( "functionWords" ) ).toEqual( functionWords.all );
+		expect( researcher.getConfig( "functionWords" ) ).toEqual( functionWords );
 	} );
 
 	it( "returns Swedish first word exceptions", function() {

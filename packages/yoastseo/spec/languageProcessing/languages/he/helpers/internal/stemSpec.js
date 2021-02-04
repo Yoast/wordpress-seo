@@ -22,6 +22,9 @@ const wordsToStem = [
 	// A word that is not in the dictionary
 	[ "קרואטיה", "קרואטיה" ],
 	[ "מורפולוגיה", "מורפולוגיה" ],
+	// A word with a prefix removed that is not in the dictionary
+	[ "החסידה", "החסידה" ],
+
 ];
 
 const paradigms = [

@@ -66,7 +66,7 @@ describe( "a test for the Hebrew Researcher", function() {
 		expect( researcher.getHelper( "getStemmer" )( researcher )( "באהבה" ) ).toEqual( "אהב" );
 	} );
 
-	it( "checks if an Hebrew sentence is passive or not", function() {
+	it( "checks if a Hebrew sentence is passive or not", function() {
 		expect( researcher.getHelper( "isPassiveSentence" )( "התפוח נאכל על ידי הילדה." ) ).toEqual( true );
 		expect( researcher.getHelper( "isPassiveSentence" )( "הוא הקריא ספר." ) ).toEqual( false );
 	} );

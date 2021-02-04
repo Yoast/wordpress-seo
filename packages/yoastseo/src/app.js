@@ -19,13 +19,12 @@ import KeyphraseDistributionAssessment from "./scoring/assessments/seo/Keyphrase
 import ContentAssessor from "./scoring/contentAssessor.js";
 import CornerstoneSEOAssessor from "./scoring/cornerstone/seoAssessor.js";
 import CornerstoneContentAssessor from "./scoring/cornerstone/contentAssessor.js";
-import Researcher from "./researcher.js";
 import AssessorPresenter from "./scoring/renderers/AssessorPresenter.js";
 import Pluggable from "./pluggable.js";
 import Paper from "./values/Paper.js";
 import { measureTextWidth } from "./helpers/createMeasurementElement.js";
 
-import removeHtmlBlocks from "./researches/stringProcessing/htmlParser.js";
+import removeHtmlBlocks from "./languageProcessing/helpers/html/htmlParser.js";
 
 const keyphraseDistribution = new KeyphraseDistributionAssessment();
 
@@ -245,6 +244,7 @@ function verifyArguments( args ) {
  * @param {SnippetPreview} args.snippetPreview The SnippetPreview object to be used.
  * @param {boolean} [args.debouncedRefresh] Whether or not to debounce the
  *                                          refresh function. Defaults to true.
+ * @param {Researcher} args.researcher The Researcher object to be used.
  *
  * @constructor
  */
@@ -702,12 +702,7 @@ App.prototype.runAnalyzer = function() {
 		permalink: this.analyzerData.permalink,
 	} );
 
-	// The new researcher
-	if ( isUndefined( this.researcher ) ) {
-		this.researcher = new Researcher( this.paper );
-	} else {
-		this.researcher.setPaper( this.paper );
-	}
+	this.config.researcher.setPaper( this.paper );
 
 	this.runKeywordAnalysis();
 

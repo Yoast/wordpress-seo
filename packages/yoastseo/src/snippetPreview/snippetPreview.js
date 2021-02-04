@@ -6,11 +6,12 @@ import { defaultsDeep } from "lodash-es";
 import { forEach } from "lodash-es";
 import { debounce } from "lodash-es";
 
-import createWordRegex from "./researches/stringProcessing/createWordRegex.js";
-import { stripFullTags as stripHTMLTags } from "./researches/stringProcessing/stripHTMLTags.js";
-import stripSpaces from "./researches/stringProcessing/stripSpaces.js";
-import replaceDiacritics from "./researches/stringProcessing/replaceDiacritics.js";
-import transliterate from "./researches/stringProcessing/transliterate.js";
+import createWordRegex from "../languageProcessing/helpers/regex/createWordRegex";
+import { stripFullTags as stripHTMLTags } from "../languageProcessing/helpers/sanitize/stripHTMLTags";
+import stripSpaces from "../languageProcessing/helpers/sanitize/stripSpaces";
+import replaceDiacritics from "../languageProcessing/helpers/transliterate/replaceDiacritics";
+import transliterate from "../languageProcessing/helpers/transliterate/transliterate";
+
 import templates from "./templates.js";
 var snippetEditorTemplate = templates.snippetEditor;
 var hiddenElement = templates.hiddenSpan;

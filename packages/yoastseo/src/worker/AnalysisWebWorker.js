@@ -19,11 +19,11 @@ import SEOAssessor from "../scoring/seoAssessor";
 import ContentAssessor from "../scoring/contentAssessor";
 import TaxonomyAssessor from "../scoring/taxonomyAssessor";
 import Pluggable from "../pluggable";
-import Researcher from "../researcher";
 import SnippetPreview from "../snippetPreview/snippetPreview";
 import Paper from "../values/Paper";
 import AssessmentResult from "../values/AssessmentResult";
 import RelatedKeywordAssessor from "../scoring/relatedKeywordAssessor";
+import removeHtmlBlocks from "../languageProcessing/helpers/html/htmlParser";
 
 const YoastSEO = {
 	Assessor,
@@ -32,7 +32,6 @@ const YoastSEO = {
 	ContentAssessor,
 	TaxonomyAssessor,
 	Pluggable,
-	Researcher,
 	SnippetPreview,
 	RelatedKeywordAssessor,
 
@@ -77,10 +76,11 @@ export default class AnalysisWebWorker {
 	/**
 	 * Initializes the AnalysisWebWorker class.
 	 *
-	 * @param {Object} scope The scope for the messaging. Expected to have the
-	 *                       `onmessage` event and the `postMessage` function.
+	 * @param {Object}      scope       The scope for the messaging. Expected to have the
+	 *                                  `onmessage` event and the `postMessage` function.
+	 * @param {Researcher}  researcher  The researcher to use.
 	 */
-	constructor( scope ) {
+	constructor( scope, researcher ) {
 		this._scope = scope;
 
 		this._configuration = {
@@ -99,7 +99,7 @@ export default class AnalysisWebWorker {
 		this._relatedKeywords = {};
 
 		this._i18n = AnalysisWebWorker.createI18n();
-		this._researcher = new Researcher( this._paper );
+		this._researcher = researcher;
 
 		this._contentAssessor = null;
 		this._seoAssessor = null;
@@ -350,8 +350,8 @@ export default class AnalysisWebWorker {
 		}
 
 		const assessor = useCornerstone === true
-			? new CornerstoneContentAssessor( this._i18n, { locale } )
-			: new ContentAssessor( this._i18n, { locale } );
+			? new CornerstoneContentAssessor( this._i18n, { locale: locale, researcher: this._researcher } )
+			: new ContentAssessor( this._i18n, { locale: locale, researcher: this._researcher } );
 
 		return assessor;
 	}
@@ -777,7 +777,7 @@ export default class AnalysisWebWorker {
 	async analyze( id, { paper, relatedKeywords = {} } ) {
 		// Automatically add paragraph tags, like Wordpress does, on blocks padded by double newlines or html elements.
 		paper._text = autop( paper._text );
-		paper._text = string.removeHtmlBlocks( paper._text );
+		paper._text = removeHtmlBlocks( paper._text );
 		const paperHasChanges = this._paper === null || ! this._paper.equals( paper );
 		const shouldReadabilityUpdate = this.shouldReadabilityUpdate( paper );
 
@@ -1081,10 +1081,10 @@ export default class AnalysisWebWorker {
 		// Save morphology data if it is available in the current researcher.
 		const morphologyData = this._researcher.getData( "morphology" );
 
-		let researcher = this._researcher;
+		const researcher = this._researcher;
 		// When a specific paper is passed we create a temporary new researcher.
 		if ( paper !== null ) {
-			researcher = new Researcher( paper );
+			researcher.setPaper( paper );
 			researcher.addResearchData( "morphology", morphologyData );
 		}
 
