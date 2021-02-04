@@ -57,7 +57,7 @@ function loadHelpScoutSessionData( sessionData ) {
 		}
 
 		// eslint-disable-next-line new-cap
-		window.Beacon( "session-data", JSON.parse( sessionData ) );
+		window.Beacon( "session-data", sessionData );
 	}
 }
 
