@@ -1,3 +1,4 @@
+import { getBlockType } from "../../functions/BlockHelper";
 import { select } from "@wordpress/data";
 import { __ } from "@wordpress/i18n";
 import { get } from "lodash";
@@ -26,6 +27,13 @@ function getValidationResult( clientId: string ): BlockValidationResult | null {
 	return store.validations[ clientId ];
 }
 
+export type WarningDefinition = {
+	name: string;
+	parent: string;
+	result: BlockValidation;
+	status: string;
+};
+
 /**
  * Transforms a template into a warning message given validation details.
  *
@@ -33,12 +41,11 @@ function getValidationResult( clientId: string ): BlockValidationResult | null {
  *
  *  @returns {string} The presentable warning message appropriate for this issue.
  */
-export function replaceVariables( issue: {name: string; parent: string; result: BlockValidation; status: string } ) {
-	let warning = get( warningTemplates, issue.result, "" );
-	warning = warning.replace( "{parent}", issue.parent )
+export function replaceVariables( issue: WarningDefinition ): string {
+	const warning = get( warningTemplates, issue.result, "" );
+	return warning.replace( "{parent}", issue.parent )
 		.replace( "{child}", issue.name )
 		.replace( "{status}", issue.status );
-	return warning;
 }
 
 /**
@@ -86,15 +93,20 @@ export function createWarningMessages( validation: BlockValidationResult ) {
 /**
  * Makes a block name human readable.
  *
- * @param input The block name to sanitize.
+ * @param blockName The block name to sanitize.
  *
  * @returns {string} The sanitized block name.
  */
-export function sanitizeBlockName( input: string ): string {
-	const lastSlash = input.lastIndexOf( "/" );
-	if ( lastSlash < 0 ) {
-		return input;
+export function sanitizeBlockName( blockName: string ): string {
+	const blockType = getBlockType( blockName ) || "";
+	if ( blockType ) {
+		return blockType.title;
 	}
 
-	return input.substring( lastSlash + 1 );
+	const lastSlash = blockName.lastIndexOf( "/" );
+	if ( lastSlash < 0 ) {
+		return blockName;
+	}
+
+	return blockName.substring( lastSlash + 1 );
 }

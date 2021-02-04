@@ -190,14 +190,14 @@ function addWarningsForRecommendedBlocks(
  * @param previousBlocks The previous list of blocks.
  */
 export default function warningWatcher( blocks: BlockInstance[], previousBlocks: BlockInstance[] = [] ): void {
-	const currentBlockIds = mapBlocksRecursively( blocks, block => block.clientId );
+	const currentBlockIds: string[] = mapBlocksRecursively( blocks, block => block.clientId );
 
 	recurseOverBlocks( previousBlocks, ( block: BlockInstance ) => {
 		if ( ! block.innerBlocks || block.innerBlocks.length === 0 ) {
 			return;
 		}
 
-		const removedInnerBlocks = block.innerBlocks
+		const removedInnerBlocks: BlockInstance[] = block.innerBlocks
 			.filter( innerBlock => ! currentBlockIds.includes( innerBlock.clientId ) );
 
 		if ( removedInnerBlocks.length === 0 ) {

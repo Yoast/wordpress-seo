@@ -1,8 +1,10 @@
 import { select } from "@wordpress/data";
+import { getBlockType } from "../../../src/functions/BlockHelper";
 import { BlockValidation, BlockValidationResult } from "../../../src/core/validation";
 import getWarnings, { createWarningMessages, sanitizeBlockName } from "../../../src/functions/presenters/SidebarWarningPresenter";
 
 const validations: Record<string, BlockValidationResult> = {};
+const blockTypes: Record<string, string> = {};
 
 jest.mock( "@wordpress/data", () => {
 	return {
@@ -12,6 +14,13 @@ jest.mock( "@wordpress/data", () => {
 					return {
 						validations,
 					};
+				} ),
+				getBlockType: jest.fn( ( blockName ) => {
+					const title = blockTypes[ blockName ];
+					if ( title ) {
+						return { title };
+					}
+					return null;
 				} ),
 			};
 		} ),
@@ -59,7 +68,15 @@ describe( "The createWarningMessage method ", () => {
 } );
 
 describe( "The sanitizeBlockName method ", () => {
-	it( "reduces technical block names to human-readable ones.", () => {
+	it( "returns a block title from the wordpress store based on its name", () => {
+		blockTypes[ "yoast/testblock" ] = "testBlockWithoutPrefix";
+
+		const result = sanitizeBlockName( "yoast/testblock" );
+
+		expect( result ).toEqual( "testBlockWithoutPrefix" );
+	} );
+
+	it( "uses a fallback method to reduce technical block names to human-readable ones.", () => {
 		const testcases = [
 			"test/blok",
 			"test-erde-test/test/blok",
