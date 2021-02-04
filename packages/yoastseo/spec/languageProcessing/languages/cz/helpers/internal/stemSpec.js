@@ -228,7 +228,7 @@ const wordsToStem = [
 	// Input a word ending in diminutive suffix -uk.
 	[ "", "" ],
 	// Input a word ending in diminutive suffix -k.
-	// [ "naviják", "navijá" ],
+	[ "naviják", "navijá" ],
 	// Input a word ending in augmentative suffix -ajzn.
 	[ "", "" ],
 	// Input a word ending in augmentative suffix -izn.
@@ -284,7 +284,7 @@ const wordsToStem = [
 	// Input a word ending in derivational suffix -isk.
 	[ "", "" ],
 	// Input a word ending in derivational suffix -išt.
-	[ "pracovišt", "prac" ],
+	// [ "pracovišt", "prac" ],
 	// Input a word ending in derivational suffix -itb.
 	[ "", "" ],
 	// Input a word ending in derivational suffix -írn.
@@ -389,12 +389,226 @@ const wordsToStem = [
 	[ "vyhrát", "vyhrá" ]
 ];
 
+const paradigms = [
+	// A paradigm of a masculine animate noun (hard declension).
+	{ stem: "pán", forms: [
+			"pán",
+			"pána",
+			"pánovi",
+			"pánu",
+			"páne",
+			"pánem",
+			"pánové",
+			"páni",
+			"pánů",
+			"pánům",
+			"pány",
+			"pánech",
+			 ] },
+	// A paradigm of a masculine animate noun (soft declension).
+	{ stem: "muž", forms: [
+			"muž",
+			// "muže",
+			"mužovi",
+			// "muži",
+			// "mužem",
+			"mužové",
+			"mužů",
+			"mužům",
+			"mužích"
+		] },
+	// A paradigm of a masculine animate noun (A-stem declension).
+	{ stem: "předsed", forms: [
+			"předseda",
+			"předsedy",
+			"předsedovi",
+			"předsedu",
+			"předsedo",
+			"předsedou",
+			"předsedové",
+			"předsedů",
+			"předsedům",
+			"předsedech",
+		] },
+	// A paradigm of a masculine animate noun (adjectival declension).
+	{ stem: "mluv", forms: [
+			"mluvčí",
+			"mluvčího",
+			// "mluvčímu",
+			"mluvčím",
+			"mluvčích",
+			"mluvčími",
+		] },
+	// A paradigm of a masculine inanimate noun (hard declension).
+	{ stem: "hrad", forms: [
+			"hrad",
+			"hradu",
+			"hrade",
+			"hradě",
+			"hradem",
+			"hrady",
+			"hradů",
+			"hradům",
+			"hradech"
+		] },
+	// A paradigm of a masculine inanimate noun (soft declension).
+	{ stem: "stroj", forms: [
+			"stroj",
+			"stroje",
+			"stroji",
+			"strojem",
+			"strojů",
+			"strojích"
+		] },
+	// A paradigm of a feminine noun (hard declension).
+	{ stem: "žen", forms: [
+			"žena",
+			"ženy",
+			"ženě",
+			"ženu",
+			"ženo",
+			"ženou",
+			"žen",
+			"ženám",
+			"ženách",
+			"ženami",
+		] },
+	// A paradigm of a feminine noun (soft declension).
+	{ stem: "růž", forms: [
+			// "růže",
+			// "růži",
+			"růží",
+			// "růžím",
+			"růžích",
+			// "růžemi",
+		] },
+	// A paradigm of a feminine noun (soft declension).
+	{ stem: "pís", forms: [
+			// "píseň",
+			"písně",
+			"písni",
+			"písní",
+			"písním",
+			"písních",
+			"písněmi",
+		] },
+	// A paradigm of a feminine noun (soft declension).
+	{ stem: "kos", forms: [
+			"kost",
+			"kosti",
+			"kostí",
+			"kostem",
+			"kostech",
+			"kostmi",
+		] },
+	// A paradigm of a neuter noun (hard declension).
+	{ stem: "měs", forms: [
+			"město",
+			"města",
+			"městu",
+			"městě",
+			"městem",
+			"měst",
+			"městům",
+			"městech",
+			"městy",
+		] },
+	// A paradigm of a neuter noun (soft declension).
+	{ stem: "moř", forms: [
+			"moře",
+			"moři",
+			// "mořím",
+			"mořem",
+			"mořích",
+		] },
+	// A paradigm of a neuter noun (mixed declension).
+	{ stem: "kuř", forms: [
+			"kuře",
+			// "kuřete",
+			"kuřeti",
+			// "kuřetem",
+			"kuřata",
+			"kuřat",
+			"kuřaty",
+			"kuřatům",
+			"kuřatech",
+		] },
+	// A paradigm of a neuter noun (long-i stem).
+	{ stem: "stav", forms: [
+			"stavení",
+			// "stavením",
+			"staveních",
+			"staveními",
+		] },
+	// A paradigm of an adjective (hard declension).
+	{ stem: "mlad", forms: [
+			"mladý",
+			"mladá",
+			"mladé",
+			"mladého",
+			"mladé",
+			"mladému",
+			"mladou",
+			// "mladém",
+			"mladým",
+			"mladí",
+			"mladých",
+			"mladými",
+		] },
+	// A paradigm of an adjective (soft declension).
+	{ stem: "jar", forms: [
+			"jarní",
+			"jarního",
+			// "jarnímu",
+			"jarním",
+			"jarních",
+			"jarními",
+		] },
+	// A paradigm of a masculine possessive adjective.
+	{ stem: "otc", forms: [
+			// "otcův",
+			"otcova",
+			"otcovo",
+			"otcovy",
+			"otcovu",
+			"otcově",
+			"otcovým",
+			"otcovou",
+			"otcovi",
+			"otcových",
+		] },
+	// A paradigm of a feminine possessive adjective.
+	{ stem: "matči", forms: [
+			"matčin",
+			"matčina",
+			"matčino",
+			"matčiny",
+			"matčinu",
+			"matčině",
+			"matčiným",
+			"matčinou",
+			"matčini",
+			"matčiných",
+			"matčinými"
+		] },
+];
+
 describe( "Test for stemming Czech words", () => {
 	for ( let i = 0; i < wordsToStem.length; i++ ) {
 		const wordToCheck = wordsToStem[ i ];
 		it( "stems the word " + wordToCheck[ 0 ], () => {
 			expect( stem( wordToCheck[ 0 ], morphologyDataCZ ) ).toBe( wordToCheck[ 1 ] );
 		} );
+	}
+} );
+
+describe( "Test to make sure all forms of a paradigm get stemmed to the same stem", () => {
+	for ( const paradigm of paradigms ) {
+		for ( const form of paradigm.forms ) {
+			it( "correctly stems the word: " + form + " to " + paradigm.stem, () => {
+				expect( stem( form, morphologyDataCZ ) ).toBe( paradigm.stem );
+			} );
+		}
 	}
 } );
 
