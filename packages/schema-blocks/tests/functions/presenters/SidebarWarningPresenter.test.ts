@@ -82,11 +82,12 @@ describe( "The sanitizeBlockName method ", () => {
 			"test-erde-test/test/blok",
 			"/blok",
 			"blok",
+			"blok/",
 		];
 
 		const results = testcases.map( input => sanitizeBlockName( input ) );
 
-		expect( results ).toMatchObject( [ "blok", "blok", "blok", "blok" ] );
+		expect( results ).toMatchObject( [ "blok", "blok", "blok", "blok", "blok/" ] );
 	} );
 } );
 

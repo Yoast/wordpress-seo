@@ -104,7 +104,7 @@ export function sanitizeBlockName( blockName: string ): string {
 	}
 
 	const lastSlash = blockName.lastIndexOf( "/" );
-	if ( lastSlash < 0 ) {
+	if ( lastSlash < 0 || lastSlash === blockName.length - 1 ) {
 		return blockName;
 	}
 
