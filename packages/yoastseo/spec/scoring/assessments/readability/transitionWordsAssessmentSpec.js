@@ -1,3 +1,4 @@
+import { DefaultResearcher, EnglishResearcher } from "../../../../src/languageProcessing";
 import transitionWordsAssessment from "../../../../src/scoring/assessments/readability/transitionWordsAssessment.js";
 import Paper from "../../../../src/values/Paper.js";
 import Factory from "../../../specHelpers/factory.js";
@@ -34,7 +35,8 @@ describe( "An assessment for transition word percentage", function() {
 
 		expect( assessment.getScore() ).toEqual( 3 );
 		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/34z' target='_blank'>Transition words</a>: " +
-			"Only 10% of the sentences contain transition words, which is not enough. <a href='https://yoa.st/35a' target='_blank'>Use more of them</a>." );
+			"Only 10% of the sentences contain transition words, which is not enough. <a href='https://yoa.st/35a' " +
+			"target='_blank'>Use more of them</a>." );
 		expect( assessment.hasMarks() ).toBe( true );
 	} );
 	it( "returns the score for 20.0% of the sentences with transition words", function() {
@@ -44,7 +46,8 @@ describe( "An assessment for transition word percentage", function() {
 
 		expect( assessment.getScore() ).toEqual( 6 );
 		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/34z' target='_blank'>Transition words</a>: " +
-			"Only 20% of the sentences contain transition words, which is not enough. <a href='https://yoa.st/35a' target='_blank'>Use more of them</a>." );
+			"Only 20% of the sentences contain transition words, which is not enough. <a href='https://yoa.st/35a' " +
+			"target='_blank'>Use more of them</a>." );
 		expect( assessment.hasMarks() ).toBe( true );
 	} );
 	it( "returns the score for 25.0% of the sentences with transition words", function() {
@@ -54,7 +57,8 @@ describe( "An assessment for transition word percentage", function() {
 
 		expect( assessment.getScore() ).toEqual( 6 );
 		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/34z' target='_blank'>Transition words</a>: " +
-			"Only 25% of the sentences contain transition words, which is not enough. <a href='https://yoa.st/35a' target='_blank'>Use more of them</a>." );
+			"Only 25% of the sentences contain transition words, which is not enough. <a href='https://yoa.st/35a' " +
+			"target='_blank'>Use more of them</a>." );
 		expect( assessment.hasMarks() ).toBe( true );
 	} );
 	it( "returns the score for 35.0% of the sentences with transition words", function() {
@@ -95,25 +99,25 @@ describe( "An assessment for transition word percentage", function() {
 
 	it( "is not applicable for empty papers", function() {
 		const mockPaper = new Paper();
-		const assessment = transitionWordsAssessment.isApplicable( mockPaper );
+		const assessment = transitionWordsAssessment.isApplicable( mockPaper, new EnglishResearcher( mockPaper ) );
 		expect( assessment ).toBe( false );
 	} );
 
 	it( "is applicable for supported locales, en_US in this case", function() {
 		const mockPaper = new Paper( "This is a string", { locale: "en_US" } );
-		const assessment = transitionWordsAssessment.isApplicable( mockPaper );
+		const assessment = transitionWordsAssessment.isApplicable( mockPaper, new EnglishResearcher( mockPaper ) );
 		expect( assessment ).toBe( true );
 	} );
 
 	it( "is not applicable for a non-existing locales, xx_YY in this case", function() {
 		const mockPaper = new Paper( "This is a string", { locale: "xx_YY" } );
-		const assessment = transitionWordsAssessment.isApplicable( mockPaper );
+		const assessment = transitionWordsAssessment.isApplicable( mockPaper, new DefaultResearcher( mockPaper ) );
 		expect( assessment ).toBe( false );
 	} );
 
 	it( "is not applicable for unsupported locales, af_ZA in this case", function() {
 		const mockPaper = new Paper( "This is a string", { locale: "af_ZA" } );
-		const assessment = transitionWordsAssessment.isApplicable( mockPaper );
+		const assessment = transitionWordsAssessment.isApplicable( mockPaper, new DefaultResearcher( mockPaper ) );
 		expect( assessment ).toBe( false );
 	} );
 } );
@@ -121,9 +125,11 @@ describe( "An assessment for transition word percentage", function() {
 describe( "A test for marking sentences containing a transition word", function() {
 	it( "returns markers for too long sentences", function() {
 		const paper = new Paper( "This sentence is marked, because it contains a transition word." );
-		const transitionWords = Factory.buildMockResearcher( { sentenceResults: [ { sentence: "This sentence is marked, because it contains a transition word.", transitionWords: [ "because" ] } ] } );
+		const transitionWords = Factory.buildMockResearcher( { sentenceResults: [ { sentence: "This sentence is marked, " +
+					"because it contains a transition word.", transitionWords: [ "because" ] } ] } );
 		const expected = [
-			new Mark( { original: "This sentence is marked, because it contains a transition word.", marked: "<yoastmark class='yoast-text-mark'>This sentence is marked, because it contains a transition word.</yoastmark>" } ),
+			new Mark( { original: "This sentence is marked, because it contains a transition word.", marked: "<yoastmark " +
+					"class='yoast-text-mark'>This sentence is marked, because it contains a transition word.</yoastmark>" } ),
 		];
 		expect( transitionWordsAssessment.getMarks( paper, transitionWords ) ).toEqual( expected );
 	} );

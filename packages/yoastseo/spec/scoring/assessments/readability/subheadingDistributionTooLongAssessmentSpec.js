@@ -1,3 +1,4 @@
+import { EnglishResearcher } from "../../../../src/languageProcessing";
 import SubheadingDistributionTooLong from "../../../../src/scoring/assessments/readability/subheadingDistributionTooLongAssessment.js";
 import Paper from "../../../../src/values/Paper.js";
 import Factory from "../../../specHelpers/factory.js";
@@ -41,7 +42,8 @@ describe( "An assessment for scoring too long text fragments without a subheadin
 		);
 		expect( assessment.getScore() ).toBe( 2 );
 		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/34x' target='_blank'>Subheading distribution</a>: " +
-			"You are not using any subheadings, although your text is rather long. <a href='https://yoa.st/34y' target='_blank'>Try and add some subheadings</a>." );
+			"You are not using any subheadings, although your text is rather long. <a href='https://yoa.st/34y' target='_blank'>" +
+			"Try and add some subheadings</a>." );
 	} );
 
 	it( "Scores a long text (>300 words), which has subheadings and all sections of the text are <300 words.", function() {
@@ -54,7 +56,8 @@ describe( "An assessment for scoring too long text fragments without a subheadin
 		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/34x' target='_blank'>Subheading distribution</a>: Great job!" );
 	} );
 
-	it( "Scores a long text (>300 words), which has subheadings and all sections of the text are <300 words, except for one, which is between 300 and 350 words long.", function() {
+	it( "Scores a long text (>300 words), which has subheadings and all sections of the text are <300 words, except for one, " +
+		"which is between 300 and 350 words long.", function() {
 		const assessment = subheadingDistributionTooLong.getResult(
 			new Paper( shortText + subheading + longText + subheading + shortText ),
 			Factory.buildMockResearcher( [ { text: "", wordCount: 200 }, { text: "", wordCount: 330 }, { text: "", wordCount: 200 } ] ),
@@ -66,7 +69,8 @@ describe( "An assessment for scoring too long text fragments without a subheadin
 			" <a href='https://yoa.st/34y' target='_blank'>Add subheadings to improve readability</a>." );
 	} );
 
-	it( "Scores a long text (>300 words), which has subheadings and all sections of the text are <300 words, except for two, which are between 300 and 350 words long.", function() {
+	it( "Scores a long text (>300 words), which has subheadings and all sections of the text are <300 words, except for two, " +
+		"which are between 300 and 350 words long.", function() {
 		const assessment = subheadingDistributionTooLong.getResult(
 			new Paper( shortText + subheading + longText + subheading + longText ),
 			Factory.buildMockResearcher( [ { text: "", wordCount: 200 }, { text: "", wordCount: 330 }, { text: "", wordCount: 330 } ] ),
@@ -78,7 +82,8 @@ describe( "An assessment for scoring too long text fragments without a subheadin
 			" <a href='https://yoa.st/34y' target='_blank'>Add subheadings to improve readability</a>." );
 	} );
 
-	it( "Scores a long text (>300 words), which has subheadings and all sections of the text are <300 words, except for one, which is above 350 words long.", function() {
+	it( "Scores a long text (>300 words), which has subheadings and all sections of the text are <300 words, except for one, " +
+		"which is above 350 words long.", function() {
 		const assessment = subheadingDistributionTooLong.getResult(
 			new Paper( shortText + subheading + veryLongText + subheading + shortText ),
 			Factory.buildMockResearcher( [ { text: "", wordCount: 200 }, { text: "", wordCount: 360 }, { text: "", wordCount: 200 } ] ),
@@ -104,17 +109,20 @@ describe( "An assessment for scoring too long text fragments without a subheadin
 
 
 	it( "Returns false from isApplicable to the paper without text", function() {
-		const assessment = subheadingDistributionTooLong.isApplicable( new Paper( "" ) );
+		const paper = new Paper( "" );
+		const assessment = subheadingDistributionTooLong.isApplicable( paper, new EnglishResearcher( paper ) );
 		expect( assessment ).toBe( false );
 	} );
 
 	it( "Returns true from isApplicable to the paper with text", function() {
-		const assessment = subheadingDistributionTooLong.isApplicable( new Paper( shortText ) );
+		const paper = new Paper( shortText );
+		const assessment = subheadingDistributionTooLong.isApplicable( paper, new EnglishResearcher( paper ) );
 		expect( assessment ).toBe( true );
 	} );
 
 	it( "Returns false from hasSubheadings to the paper without text", function() {
-		const assessment = subheadingDistributionTooLong.hasSubheadings( new Paper( shortText ) );
+		const paper =  new Paper( shortText );
+		const assessment = subheadingDistributionTooLong.hasSubheadings( paper );
 		expect( assessment ).toBe( false );
 	} );
 
@@ -127,7 +135,8 @@ describe( "An assessment for scoring too long text fragments without a subheadin
 describe.skip( "A test for marking too long text segments not separated by a subheading", function() {
 	it( "returns markers for too long text segments", function() {
 		const paper = new Paper( longText + subheading + veryLongText );
-		const textFragment = Factory.buildMockResearcher( [ { text: "This is a too long fragment. It contains 330 words.", wordCount: 330 }, { text: "This is another too long fragment. It contains 360 words.", wordCount: 360 } ] );
+		const textFragment = Factory.buildMockResearcher( [ { text: "This is a too long fragment. It contains 330 words.",
+			wordCount: 330 }, { text: "This is another too long fragment. It contains 360 words.", wordCount: 360 } ] );
 		const expected = [
 			new Mark( {
 				original: "This is another too long fragment. It contains 360 words.",
