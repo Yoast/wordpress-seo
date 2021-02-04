@@ -244,7 +244,7 @@ Enhancements:
 * Breadcrumbs settings can now always be edited, regardless of if the breadcrumbs are enabled for the theme.
 * Like the block, the breadcrumbs shortcode is now always rendered, regardless of if the breadcrumbs are enabled for the theme.
 * Improves the loading time of the posts overview page in the WordPress backend. Props to [Rahe](https://github.com/Rahe).
-* Makes sure the breadcrumbs schema is always present, except on static page homepages, system pages or 404 pages.
+* Makes sure the breadcrumbs schema is always present, except on 404 pages.
 
 Bugfixes:
 
