@@ -11,10 +11,10 @@ class UrlKeywordAssessment extends Assessment {
 	/**
 	 * Sets the identifier and the config.
 	 *
-	 * @param {Object} config The configuration to use.
-	 * @param {number} [config.scores.noKeywordInUrl] The score to return if the keyword is not in the URL.
-	 * @param {number} [config.scores.good] The score to return if the keyword is in the URL.
-	 * @param {string} [config.url] The URL to the relevant KB article.
+	 * @param {Object} config                           The configuration to use.
+	 * @param {number} [config.scores.noKeywordInUrl]   The score to return if the keyword is not in the URL.
+	 * @param {number} [config.scores.good]             The score to return if the keyword is in the URL.
+	 * @param {string} [config.url]                     The URL to the relevant KB article.
 	 *
 	 * @returns {void}
 	 */
@@ -37,9 +37,9 @@ class UrlKeywordAssessment extends Assessment {
 	/**
 	 * Executes the Assessment and returns a result.
 	 *
-	 * @param {Paper} paper The Paper object to assess.
-	 * @param {Researcher} researcher The Researcher object containing all available researches.
-	 * @param {Jed} i18n The object used for translations.
+	 * @param {Paper}       paper       The Paper object to assess.
+	 * @param {Researcher}  researcher  The Researcher object containing all available researches.
+	 * @param {Jed}         i18n        The object used for translations.
 	 *
 	 * @returns {AssessmentResult} The result of the assessment, containing both a score and a descriptive text.
 	 */
@@ -58,12 +58,13 @@ class UrlKeywordAssessment extends Assessment {
 	/**
 	 * Checks whether the paper has a keyword and a url.
 	 *
-	 * @param {Paper} paper The paper to use for the assessment.
+	 * @param {Paper}       paper       The paper to use for the assessment.
+	 * @param {Researcher}  researcher  The researcher object.
 	 *
 	 * @returns {boolean} True when there is a keyword and an url.
 	 */
-	isApplicable( paper ) {
-		return paper.hasKeyword() && paper.hasUrl();
+	isApplicable( paper, researcher ) {
+		return paper.hasKeyword() && paper.hasUrl() && researcher.hasResearch( "keywordCountInUrl" );
 	}
 
 	/**

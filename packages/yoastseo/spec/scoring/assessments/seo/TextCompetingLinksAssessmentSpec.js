@@ -1,3 +1,4 @@
+import { DefaultResearcher } from "../../../../src/languageProcessing";
 import TextCompetingLinksAssessment from "../../../../src/scoring/assessments/seo/TextCompetingLinksAssessment";
 import Paper from "../../../../src/values/Paper";
 import Factory from "../../../specHelpers/factory";
@@ -37,18 +38,33 @@ describe( "An assessment for competing links in the text", function() {
 			"<a href='https://yoa.st/34m' target='_blank'>Don't do that</a>!" );
 	} );
 
+	it( "returns the score when the paper is empty", function() {
+		const paper = new Paper( "" );
+		const result = new TextCompetingLinksAssessment( {} ).getResult( paper, new DefaultResearcher( paper ), i18n );
+		expect( result.score ).toBe(  0 );
+	} );
+
 	it( "is not applicable for papers without text", function() {
-		const isApplicableResult = new TextCompetingLinksAssessment().isApplicable( new Paper( "", { keyword: "some keyword" } ) );
+		const paper = new Paper( "", { keyword: "some keyword" } );
+		const isApplicableResult = new TextCompetingLinksAssessment().isApplicable( paper, new DefaultResearcher( paper ) );
 		expect( isApplicableResult ).toBe( false );
 	} );
 
 	it( "is not applicable for papers without keyword", function() {
-		const isApplicableResult = new TextCompetingLinksAssessment().isApplicable( new Paper( "some text", { keyword: "" } ) );
+		const paper = new Paper( "some text", { keyword: "" } );
+		const isApplicableResult = new TextCompetingLinksAssessment().isApplicable( paper, new DefaultResearcher( paper ) );
 		expect( isApplicableResult ).toBe( false );
 	} );
 
 	it( "is not applicable for papers without keyword and text", function() {
-		const isApplicableResult = new TextCompetingLinksAssessment().isApplicable( new Paper( "", { keyword: "" } ) );
+		const paper = new Paper( "", { keyword: "" } );
+		const isApplicableResult = new TextCompetingLinksAssessment().isApplicable( paper, new DefaultResearcher( paper ) );
 		expect( isApplicableResult ).toBe( false );
+	} );
+
+	it( "is applicable for papers with keyword and text", function() {
+		const paper = new Paper( "some text", { keyword: "keyword" } );
+		const isApplicableResult = new TextCompetingLinksAssessment().isApplicable( paper, new DefaultResearcher( paper ) );
+		expect( isApplicableResult ).toBe( true );
 	} );
 } );

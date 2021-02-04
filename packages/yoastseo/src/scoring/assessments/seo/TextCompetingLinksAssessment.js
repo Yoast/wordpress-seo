@@ -39,9 +39,9 @@ class TextCompetingLinksAssessment extends Assessment {
 	/**
 	 * Runs the linkCount module, based on this returns an assessment result with score.
 	 *
-	 * @param {Paper} paper The paper to use for the assessment.
-	 * @param {Researcher} researcher The researcher used for calling research.
-	 * @param {Jed} i18n The object used for translations.
+	 * @param {Paper}       paper       The paper to use for the assessment.
+	 * @param {Researcher}  researcher  The researcher used for calling research.
+	 * @param {Jed}         i18n        The object used for translations.
 	 *
 	 * @returns {Object} The AssessmentResult.
 	 */
@@ -66,12 +66,13 @@ class TextCompetingLinksAssessment extends Assessment {
 	/**
 	 * Determines if the assessment is applicable to the paper.
 	 *
-	 * @param {Paper} paper The paper to check
+	 * @param {Paper}       paper       The paper to check
+	 * @param {Researcher}  researcher  The researcher object.
 	 *
 	 * @returns {boolean} Whether the paper has text and a keyword
 	 */
-	isApplicable( paper ) {
-		return paper.hasText() && paper.hasKeyword();
+	isApplicable( paper, researcher ) {
+		return paper.hasText() && paper.hasKeyword() && researcher.hasResearch( "getLinkStatistics" );
 	}
 
 	/**

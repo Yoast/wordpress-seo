@@ -1,3 +1,4 @@
+import { DefaultResearcher } from "../../../../src/languageProcessing";
 import UrlKeywordAssessment from "../../../../src/scoring/assessments/seo/UrlKeywordAssessment";
 import Paper from "../../../../src/values/Paper.js";
 import Factory from "../../../specHelpers/factory.js";
@@ -19,7 +20,8 @@ describe( "A keyword in url count assessment", function() {
 		);
 
 		expect( assessment.getScore() ).toEqual( 6 );
-		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/33o' target='_blank'>Keyphrase in slug</a>: (Part of) your keyphrase does not appear in the slug. <a href='https://yoa.st/33p' target='_blank'>Change that</a>!" );
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/33o' target='_blank'>Keyphrase in slug</a>: " +
+			"(Part of) your keyphrase does not appear in the slug. <a href='https://yoa.st/33p' target='_blank'>Change that</a>!" );
 	} );
 
 	it( "assesses a keyword was found in the url: short keyphrase", function() {
@@ -41,7 +43,8 @@ describe( "A keyword in url count assessment", function() {
 		);
 
 		expect( assessment.getScore() ).toEqual( 6 );
-		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/33o' target='_blank'>Keyphrase in slug</a>: (Part of) your keyphrase does not appear in the slug. <a href='https://yoa.st/33p' target='_blank'>Change that</a>!" );
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/33o' target='_blank'>Keyphrase in slug</a>: " +
+			"(Part of) your keyphrase does not appear in the slug. <a href='https://yoa.st/33p' target='_blank'>Change that</a>!" );
 	} );
 
 	it( "assesses a keyword was found in the url: long keyphrase", function() {
@@ -52,7 +55,8 @@ describe( "A keyword in url count assessment", function() {
 		);
 
 		expect( assessment.getScore() ).toEqual( 9 );
-		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/33o' target='_blank'>Keyphrase in slug</a>: More than half of your keyphrase appears in the slug. That's great!" );
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/33o' target='_blank'>Keyphrase in slug</a>: " +
+			"More than half of your keyphrase appears in the slug. That's great!" );
 	} );
 
 	it( "assesses part of the keyphrase was found in the url: long keyphrase", function() {
@@ -63,7 +67,8 @@ describe( "A keyword in url count assessment", function() {
 		);
 
 		expect( assessment.getScore() ).toEqual( 9 );
-		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/33o' target='_blank'>Keyphrase in slug</a>: More than half of your keyphrase appears in the slug. That's great!" );
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/33o' target='_blank'>Keyphrase in slug</a>: " +
+			"More than half of your keyphrase appears in the slug. That's great!" );
 	} );
 
 	it( "assesses a keyword was found in the url: in double quotes", function() {
@@ -85,6 +90,23 @@ describe( "A keyword in url count assessment", function() {
 		);
 
 		expect( assessment.getScore() ).toEqual( 6 );
-		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/33o' target='_blank'>Keyphrase in slug</a>: (Part of) your keyphrase does not appear in the slug. <a href='https://yoa.st/33p' target='_blank'>Change that</a>!" );
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/33o' target='_blank'>Keyphrase in slug</a>: " +
+			"(Part of) your keyphrase does not appear in the slug. <a href='https://yoa.st/33p' target='_blank'>Change that</a>!" );
 	} );
 } );
+
+describe( "tests for the assessment applicability.", function() {
+	it( "returns false when there is no keyword and url found.", function() {
+		const paper = new Paper( "sample keyword" );
+		expect( keywordInUrl.isApplicable( paper, new DefaultResearcher( paper ) ) ).toBe( false );
+	} );
+
+	it( "returns true when the paper has keyword and url.", function() {
+		const paper = new Paper( "sample keyword", {
+			url: "sample-with-keyword",
+			keyword: "kéyword",
+		} );
+		expect( keywordInUrl.isApplicable( paper, new DefaultResearcher( paper ) ) ).toBe( true );
+	} );
+} );
+

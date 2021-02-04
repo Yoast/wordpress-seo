@@ -22,7 +22,6 @@ import OutboundLinksAssessment from "./seo/OutboundLinksAssessment";
 import PageTitleWidthAssessment from "./seo/PageTitleWidthAssessment";
 import SingleH1Assessment from "./seo/SingleH1Assessment";
 import SubheadingsKeywordAssessment from "./seo/SubHeadingsKeywordAssessment";
-import TaxonomyTextLengthAssessment from "./seo/taxonomyTextLengthAssessment";
 import TextCompetingLinksAssessment from "./seo/TextCompetingLinksAssessment";
 import TextImagesAssessment from "./seo/TextImagesAssessment";
 import TextLengthAssessment from "./seo/TextLengthAssessment";
@@ -55,7 +54,6 @@ const seo = {
 	PageTitleWidthAssessment,
 	SingleH1Assessment,
 	SubheadingsKeywordAssessment,
-	TaxonomyTextLengthAssessment,
 	TextCompetingLinksAssessment,
 	TextImagesAssessment,
 	TextLengthAssessment,

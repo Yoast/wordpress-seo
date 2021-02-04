@@ -1,3 +1,4 @@
+import { DefaultResearcher } from "../../../../src/languageProcessing";
 import TitleKeywordAssessment from "../../../../src/scoring/assessments/seo/TitleKeywordAssessment";
 import Paper from "../../../../src/values/Paper";
 import Factory from "../../../specHelpers/factory";
@@ -71,7 +72,8 @@ describe( "an assessment to check if the keyword is in the pageTitle", function(
 		expect( assessment.getScore() ).toBe( 6 );
 		expect( assessment.getText() ).toBe(
 			"<a href='https://yoa.st/33g' target='_blank'>Keyphrase in title</a>: Does not contain the exact match. " +
-			"<a href='https://yoa.st/33h' target='_blank'>Try to write the exact match of your keyphrase in the SEO title and put it at the beginning of the title</a>."
+			"<a href='https://yoa.st/33h' target='_blank'>Try to write the exact match of your keyphrase in the SEO title and put " +
+			"it at the beginning of the title</a>."
 		);
 	} );
 
@@ -88,18 +90,27 @@ describe( "an assessment to check if the keyword is in the pageTitle", function(
 		expect( assessment.getScore() ).toBe( 2 );
 		expect( assessment.getText() ).toBe(
 			"<a href='https://yoa.st/33g' target='_blank'>Keyphrase in title</a>: Does not contain the exact match. " +
-			"<a href='https://yoa.st/33h' target='_blank'>Try to write the exact match of your keyphrase in the SEO title and put it at the beginning of the title</a>."
+			"<a href='https://yoa.st/33h' target='_blank'>Try to write the exact match of your keyphrase in the SEO title and put " +
+			"it at the beginning of the title</a>."
 		);
 	} );
 
 
 	it( "returns false isApplicable for a paper without title", function() {
-		const isApplicableResult = new TitleKeywordAssessment().isApplicable( new Paper( "", { keyword: "some keyword", title: "" } ) );
+		const paper = new Paper( "", { keyword: "some keyword", title: "" } );
+		const isApplicableResult = new TitleKeywordAssessment().isApplicable( paper, new DefaultResearcher( paper ) );
 		expect( isApplicableResult ).toBe( false );
 	} );
 
 	it( "returns false isApplicable for a paper without keyword", function() {
-		const isApplicableResult = new TitleKeywordAssessment().isApplicable( new Paper( "", { keyword: "", title: "some title" } ) );
+		const paper = new Paper( "", { keyword: "", title: "some title" } );
+		const isApplicableResult = new TitleKeywordAssessment().isApplicable( paper, new DefaultResearcher( paper ) );
 		expect( isApplicableResult ).toBe( false );
+	} );
+
+	it( "returns true isApplicable for a paper with keyword and title", function() {
+		const paper = new Paper( "", { keyword: "keyword", title: "some title" } );
+		const isApplicableResult = new TitleKeywordAssessment().isApplicable( paper, new DefaultResearcher( paper ) );
+		expect( isApplicableResult ).toBe( true );
 	} );
 } );

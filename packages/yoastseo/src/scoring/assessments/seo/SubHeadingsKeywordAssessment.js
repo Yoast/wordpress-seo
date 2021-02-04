@@ -77,12 +77,13 @@ export default class SubHeadingsKeywordAssessment extends Assessment {
 	/**
 	 * Checks whether the paper has a text and a keyword.
 	 *
-	 * @param {Paper} paper The paper to use for the assessment.
+	 * @param {Paper}       paper       The paper to use for the assessment.
+	 * @param {Researcher}  researcher  The researcher object.
 	 *
 	 * @returns {boolean} True when there is text and a keyword.
 	 */
-	isApplicable( paper ) {
-		return paper.hasText() && paper.hasKeyword() && this.hasSubheadings( paper );
+	isApplicable( paper, researcher ) {
+		return paper.hasText() && paper.hasKeyword() && this.hasSubheadings( paper ) && researcher.hasResearch( "matchKeywordInSubheadings" );
 	}
 
 	/**
