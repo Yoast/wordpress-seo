@@ -16,7 +16,7 @@ function ImageSelect( props ) {
 	const previewImageUrl = props.imageUrl || props.defaultImageUrl || "";
 
 	let imageClassName = "yoast-image-select__preview";
-	if ( previewImageUrl !== "" ) {
+	if ( previewImageUrl === "" ) {
 		imageClassName = "yoast-image-select__preview yoast-image-select__preview--no-preview";
 	}
 
