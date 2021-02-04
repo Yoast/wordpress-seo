@@ -637,11 +637,6 @@ class Schema_Generator_Test extends TestCase {
 			->andReturnTrue();
 
 		$this->current_page
-			->expects( 'is_home_static_page' )
-			->once()
-			->andReturnFalse();
-
-		$this->current_page
 			->expects( 'is_front_page' )
 			->andReturnFalse();
 

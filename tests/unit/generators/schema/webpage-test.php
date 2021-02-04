@@ -128,7 +128,6 @@ class WebPage_Test extends TestCase {
 	 *                                                       'post_date_gmt' as argument.
 	 * @param int    $calls_to_format_with_post_modified_gmt The number of function calls to 'format' with
 	 *                                                       'post_modified_gmt' as argument.
-	 * @param int    $calls_to_is_home_static_page           The number of function calls to 'is_home_static_page'.
 	 * @param int    $calls_to_filter                        The number of calls to the
 	 *                                                       'wpseo_schema_webpage_potential_action_target' filter.
 	 */
@@ -137,7 +136,6 @@ class WebPage_Test extends TestCase {
 		$schema_page_type,
 		$calls_to_format_with_post_date_gmt,
 		$calls_to_format_with_post_modified_gmt,
-		$calls_to_is_home_static_page,
 		$calls_to_filter
 	) {
 		$this->html
@@ -163,12 +161,6 @@ class WebPage_Test extends TestCase {
 			->with( $this->meta_tags_context->post->post_modified_gmt )
 			->times( $calls_to_format_with_post_modified_gmt )
 			->andReturn( $this->meta_tags_context->post->post_modified_gmt );
-
-		$this->current_page
-			->expects( 'is_home_static_page' )
-			->times( $calls_to_is_home_static_page )
-			->withNoArgs()
-			->andReturnFalse();
 
 		$this->language->expects( 'add_piece_language' )
 			->once()
@@ -211,7 +203,6 @@ class WebPage_Test extends TestCase {
 			[ 'WebPage' ],
 			1,
 			1,
-			1,
 			1
 		);
 
@@ -229,7 +220,6 @@ class WebPage_Test extends TestCase {
 		$this->setup_generate_test(
 			true,
 			[ 'WebPage' ],
-			1,
 			1,
 			1,
 			1
@@ -271,7 +261,6 @@ class WebPage_Test extends TestCase {
 		$this->setup_generate_test(
 			true,
 			[ 'WebPage' ],
-			1,
 			1,
 			1,
 			1
@@ -322,7 +311,6 @@ class WebPage_Test extends TestCase {
 			[ 'WebPage' ],
 			1,
 			1,
-			1,
 			1
 		);
 
@@ -368,7 +356,6 @@ class WebPage_Test extends TestCase {
 		$this->setup_generate_test(
 			false,
 			[ 'WebPage' ],
-			1,
 			1,
 			1,
 			1
@@ -417,7 +404,6 @@ class WebPage_Test extends TestCase {
 		$this->setup_generate_test(
 			false,
 			[ 'WebPage' ],
-			1,
 			1,
 			1,
 			1
@@ -471,7 +457,6 @@ class WebPage_Test extends TestCase {
 			'CollectionPage',
 			0,
 			0,
-			0,
 			1
 		);
 
@@ -511,7 +496,6 @@ class WebPage_Test extends TestCase {
 		$this->setup_generate_test(
 			false,
 			'CollectionPage',
-			1,
 			1,
 			1,
 			1
