@@ -161,11 +161,11 @@ class KeyphraseDistributionAssessment extends Assessment {
 	}
 
 	/**
-	 * Checks whether the paper has a text with at least 10 words and a keyword.
+	 * Checks whether the paper has a text with at least 15 words and a keyword.
 	 *
 	 * @param {Paper} paper The paper to use for the assessment.
 	 *
-	 * @returns {boolean} True when there is a keyword and a text with 10 words or more.
+	 * @returns {boolean} True when there is a keyword and a text with 15 words or more.
 	 */
 	isApplicable( paper ) {
 		return paper.hasText() && paper.hasKeyword() && getSentences( paper.getText() ).length >= 15;
