@@ -1,8 +1,7 @@
 class ChangelogBuilder {
 	constructor(changelogIn) {
-		this.parts = changelogIn.match(new RegExp( "\n[ a-zA-Z]+:(.|\\n)*?(?=(\n[ a-zA-Z]+:|\$))", "g" ))
 		this.ChangelogMap = new Map();
-		this.parts.forEach(this.myFunction.bind(this));
+		this.CreateUniqueLines(changelogIn);
 	}
 	myFunction(value, index, array) {
 		const key = `${value.match(new RegExp(  "[ a-zA-Z]+:" ))}`;
@@ -14,11 +13,16 @@ class ChangelogBuilder {
 		this.ChangelogMap.set(key, uniqueLines);
 		
 	}
+
+	CreateUniqueLines(changelogIn){
+		const parts = changelogIn.match(new RegExp( "\n[ a-zA-Z]+:(.|\\n)*?(?=(\n[ a-zA-Z]+:|\$))", "g" ))
+		parts.forEach(this.myFunction.bind(this));
+	}
 	
 	get Changelog(){
 		console.log (this.ChangelogMap);
 		var newlines = ""
-		console.log((this.ChangelogMap.has('Enhancements:')))
+		//console.log((this.ChangelogMap.has('Enhancements:')))
 		if (this.ChangelogMap.has('Enhancements:')) {
 			//console.log("jhe")
 			newlines = newlines = "\nEnhancements:\n\n"
@@ -29,14 +33,11 @@ class ChangelogBuilder {
 			newlines = newlines + "\n\nBugfixes:\n\n" + this.ChangelogMap.get('Bugfixes:').items.join("\n");
 		}
 		this.ChangelogMap.forEach(function (value, key, map) {
-			console.log(`map.get('${key}') = ${value}`);
+			//console.log(`map.get('${key}') = ${value}`);
 			if (!(key === 'Enhancements:' || key === 'Bugfixes:' || key == 'Non user facing:')) {
 				newlines = newlines + "\n\n" + key + "\n\n" + this.ChangelogMap.get(key).items.join("\n");
 			};
 	   }, this);
-		
-		
-		
 		return newlines
 	}
 }
@@ -53,7 +54,6 @@ class Unique {
 	  }, this);    
 	}
   }
-
 
 const mergeChangeLog = require( "../lib/merge-changelog" );
 const parseVersion = require( "../lib/parse-version" );
