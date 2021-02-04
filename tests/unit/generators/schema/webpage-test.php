@@ -99,18 +99,18 @@ class WebPage_Test extends TestCase {
 		];
 
 		// Set some values that are used in multiple tests.
-		$this->meta_tags_context->schema_page_type    = [ 'WebPage' ];
-		$this->meta_tags_context->canonical           = 'https://example.com/the-post/';
-		$this->meta_tags_context->title               = 'the-title';
-		$this->meta_tags_context->description         = '';
-		$this->meta_tags_context->site_url            = 'https://example.com/';
-		$this->meta_tags_context->has_image           = false;
-		$this->meta_tags_context->post                = (object) [
+		$this->meta_tags_context->schema_page_type = [ 'WebPage' ];
+		$this->meta_tags_context->canonical        = 'https://example.com/the-post/';
+		$this->meta_tags_context->title            = 'the-title';
+		$this->meta_tags_context->description      = '';
+		$this->meta_tags_context->site_url         = 'https://example.com/';
+		$this->meta_tags_context->has_image        = false;
+		$this->meta_tags_context->post             = (object) [
 			'post_date_gmt'     => '2345-12-12 12:12:12',
 			'post_modified_gmt' => '2345-12-12 23:23:23',
 			'post_author'       => 'the_author',
 		];
-		$this->meta_tags_context->indexable           = (object) [
+		$this->meta_tags_context->indexable        = (object) [
 			'object_type'     => 'post',
 			'object_sub_type' => 'page',
 		];
@@ -201,7 +201,7 @@ class WebPage_Test extends TestCase {
 	 * @dataProvider provider_for_generate
 	 */
 	public function test_generate_with_provider( $values_to_test, $expected, $message ) {
-		$this->meta_tags_context->has_image           = $values_to_test['has_image'];
+		$this->meta_tags_context->has_image = $values_to_test['has_image'];
 
 		$this->id->primary_image_hash = '#primaryimage';
 		$this->id->breadcrumb_hash    = '#breadcrumb';
@@ -540,7 +540,7 @@ class WebPage_Test extends TestCase {
 
 		$this->assertEquals( $expected, $this->instance->generate() );
 	}
-	
+
 	/**
 	 * Tests is_needed when the conditional is true.
 	 *
