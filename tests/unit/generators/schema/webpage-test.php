@@ -492,6 +492,7 @@ class WebPage_Test extends TestCase {
 					],
 				],
 			],
+			'breadcrumb'      => [ '@id' => 'https://example.com/the-post/#breadcrumb' ],
 		];
 
 		$this->assertEquals( $expected, $this->instance->generate() );

@@ -101,7 +101,7 @@ class WebPage extends Abstract_Schema_Piece {
 	 * @return bool
 	 */
 	private function add_breadcrumbs() {
-		if ( $this->context->indexable->object_type === 'home-page' || $this->helpers->current_page->is_home_static_page() ) {
+		if ( $this->context->indexable->object_type === 'system-page' && $this->context->indexable->object_sub_type === '404' ) {
 			return false;
 		}
 
