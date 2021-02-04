@@ -57,14 +57,14 @@ class Badge_Presenter extends Abstract_Presenter {
 	public function present() {
 		if ( $this->link !== '' ) {
 			return sprintf(
-				'<span class="yoast-badge yoast-new-badge" id="%1$s-new-badge"><a href="%2$s">NEW</a></span>',
+				'&nbsp;&nbsp;<span class="yoast-badge yoast-badge__has-link yoast-new-badge" id="%1$s-new-badge"><a href="%2$s">NEW</a></span>',
 				\esc_attr( $this->id ),
 				\esc_url( $this->link )
 			);
 		}
 
 		return sprintf(
-			'<span class="yoast-badge yoast-new-badge" id="%1$s-new-badge">NEW</span>',
+			'&nbsp;&nbsp;<span class="yoast-badge yoast-new-badge" id="%1$s-new-badge">NEW</span>',
 			\esc_attr( $this->id )
 		);
 	}

@@ -13,6 +13,23 @@
 	color: #0073AA;
 }
 
+.yoast-badge__has-link:hover,
+.yoast-badge__has-link:focus {
+	background-color: #0073AA;
+}
+
 .yoast-badge a {
 	text-decoration: none;
+}
+
+.yoast-badge__has-link:hover a,
+.yoast-badge__has-link:focus a {
+	color: #FFFFFF;
+}
+
+.switch-container .yoast-badge {
+	vertical-align: -1em;
+}
+.yoast_help .yoast-badge {
+	vertical-align: bottom;
 }
