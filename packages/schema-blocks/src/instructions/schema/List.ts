@@ -4,7 +4,7 @@ import { stripTags, splitOnTag } from "../../functions/html";
 import { BlockInstance } from "@wordpress/blocks";
 
 /**
- * SchemaInstruction class.
+ * List instruction.
  */
 export default class List extends SchemaInstruction {
 	public options: {

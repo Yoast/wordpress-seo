@@ -2,7 +2,7 @@ import { SchemaDefinitionConfiguration } from "../../core/schema/SchemaDefinitio
 import SchemaInstruction from "../../core/schema/SchemaInstruction";
 
 /**
- * SchemaInstruction class.
+ * Schema instruction.
  */
 export default class Schema extends SchemaInstruction {
 	public options: {

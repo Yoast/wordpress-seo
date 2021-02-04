@@ -8,7 +8,8 @@ import parse from "../../functions/blocks/parse";
 import { registerBlockDefinition } from "./BlockDefinitionRepository";
 
 export interface RenderEditProps extends BlockEditProps<Record<string, unknown>> {
-	clientId?: string;
+	clientId: string;
+	name?: string;
 }
 
 export interface RenderSaveProps extends BlockSaveProps<Record<string, unknown>> {
@@ -72,7 +73,6 @@ export default class BlockDefinition extends Definition {
 	 */
 	register(): void {
 		const configuration = this.configuration() as MutableBlockConfiguration;
-
 		const name = configuration.name as string;
 		delete configuration.name;
 

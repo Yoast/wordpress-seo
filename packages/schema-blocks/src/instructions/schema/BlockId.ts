@@ -3,7 +3,7 @@ import { BlockInstance } from "@wordpress/blocks";
 import { getBlockSchemaId } from "../../functions/gutenberg/block";
 
 /**
- * BlockID instruction
+ * BlockID instruction.
  */
 class BlockID extends SchemaInstruction {
 	/**

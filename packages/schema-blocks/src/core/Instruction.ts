@@ -65,7 +65,7 @@ export default abstract class Instruction {
 	}
 
 	/**
-	 * Register a new instruction.
+	 * Registers a new instruction.
 	 *
 	 * @param this        This.
 	 * @param name        The name of the instruction.
