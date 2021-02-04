@@ -1,6 +1,8 @@
 import * as actions from "../actions/schemaBlocks";
 
-const initialState = {};
+const initialState = {
+	validations: {},
+};
 
 /**
  * A reducer for the Schema blocks.
