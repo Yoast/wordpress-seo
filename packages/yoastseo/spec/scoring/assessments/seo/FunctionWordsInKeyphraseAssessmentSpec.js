@@ -1,6 +1,8 @@
 import FunctionWordsInKeyphraseAssessment from "../../../../src/scoring/assessments/seo/FunctionWordsInKeyphraseAssessment";
 import Paper from "../../../../src/values/Paper";
 import Factory from "../../../specHelpers/factory";
+import EnglishResearcher from "../../../../src/languageProcessing/languages/en/Researcher";
+import DefaultResearcher from "../../../../src/languageProcessing/languages/_default/Researcher";
 
 const i18n = Factory.buildJed();
 
