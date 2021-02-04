@@ -82,20 +82,16 @@
 .yoast-block-sidebar-warnings {
 	width:100%;
 	padding: 0 0 0 15px;
-	list-style-type: '• ';
 }
 
 .yoast-block-sidebar-warning {
 	list-style: none;
 	color: #707070;
-}
+} 
 
-.yoast-block-sidebar-warning::before {
-	content: '• ';
-	font-size: large;
-	display: outside; 
-	width: 1em;
+.yoast-block-sidebar-warning > .yoast-svg-icon {
 	margin-left: -1.5em;
+    margin-right: 0.5em;
 	color: red;
 }
 

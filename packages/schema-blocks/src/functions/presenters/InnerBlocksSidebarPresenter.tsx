@@ -6,6 +6,7 @@ import { __ } from "@wordpress/i18n";
 import getWarnings from "./SidebarWarningPresenter";
 import { InnerBlocksInstructionOptions } from "../../instructions/blocks/InnerBlocksInstructionOptions";
 
+import { SvgIcon } from "@yoast/components";
 /**
  * Renders warnings and Appenders for any block's InnerBlocks.
  *
@@ -60,7 +61,12 @@ function createWarningList( warnings: string[] ): ReactElement {
 function createWarningElement( warning: string ): ReactElement {
 	return (
 		<li className="yoast-block-sidebar-warning">
-			{ warning }
+			<SvgIcon
+				icon="circle"
+				color="red"
+				size="13px"
+				className="yoast-block-sidebar-warning-dot"
+			/>{ warning }
 		</li>
 	);
 }

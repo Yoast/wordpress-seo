@@ -74,12 +74,14 @@ export default function getWarnings( clientId: string ): string[] {
  */
 export function createWarningMessages( validation: BlockValidationResult ) {
 	const parent = sanitizeBlockName( validation.name );
-	const issues = validation.issues.map( ( issue ) => ( {
-		name: sanitizeBlockName( issue.name ),
-		parent: parent,
-		result: issue.result,
-		status: "required",
-	} ) );
+	const issues = validation.issues
+		.filter( ( issue: BlockValidationResult ) => issue.result in warningTemplates )
+		.map( ( issue: BlockValidationResult ) => ( {
+			name: sanitizeBlockName( issue.name ),
+			parent: parent,
+			result: issue.result,
+			status: "required",
+		} ) );
 
 	const warnings = issues.map( issue => replaceVariables( issue ) );
 
