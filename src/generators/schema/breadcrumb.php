@@ -19,11 +19,7 @@ class Breadcrumb extends Abstract_Schema_Piece {
 			return false;
 		}
 
-		if ( $this->context->breadcrumbs_enabled ) {
-			return true;
-		}
-
-		return false;
+		return true;
 	}
 
 	/**

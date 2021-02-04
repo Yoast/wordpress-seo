@@ -5,6 +5,7 @@ import analysisData from "./analysisData";
 import dismissedAlerts from "./dismissedAlerts";
 import editorContext from "./editorContext";
 import editorData from "./editorData";
+import editorModals from "./editorModals";
 import estimatedReadingTime from "./estimatedReadingTime";
 import facebookEditor from "./facebookEditor";
 import focusKeyword from "./focusKeyword";
@@ -31,6 +32,7 @@ export default {
 	dismissedAlerts,
 	editorContext,
 	editorData,
+	editorModals,
 	estimatedReadingTime,
 	facebookEditor,
 	focusKeyword,

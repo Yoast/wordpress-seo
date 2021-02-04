@@ -3,6 +3,7 @@ export * from "./analysis";
 export * from "./cornerstoneContent";
 export * from "./editorContext";
 export * from "./editorData";
+export * from "./editorModals";
 export * from "./estimatedReadingTime";
 export * from "./facebookEditor";
 export * from "./fallbacks";

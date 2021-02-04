@@ -8,6 +8,7 @@ use WPSEO_Replace_Vars;
 use Yoast\WP\SEO\Conditionals\Front_End_Conditional;
 use Yoast\WP\SEO\Conditionals\WooCommerce_Conditional;
 use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Helpers\Pagination_Helper;
 use Yoast\WP\SEO\Integrations\Third_Party\WooCommerce;
 use Yoast\WP\SEO\Memoizers\Meta_Tags_Context_Memoizer;
 use Yoast\WP\SEO\Presentations\Indexable_Presentation;
@@ -76,16 +77,33 @@ class WooCommerce_Test extends TestCase {
 	private $repository;
 
 	/**
+	 * The pagination helper.
+	 *
+	 * @var Mockery\MockInterface|Pagination_Helper
+	 */
+	protected $pagination_helper;
+
+	/**
 	 * Sets an instance for test purposes.
 	 */
 	protected function set_up() {
 		parent::set_up();
 
-		$this->options          = Mockery::mock( Options_Helper::class );
-		$this->replace_vars     = Mockery::mock( WPSEO_Replace_Vars::class );
-		$this->context_memoizer = Mockery::mock( Meta_Tags_Context_Memoizer::class );
-		$this->repository       = Mockery::mock( Indexable_Repository::class );
-		$this->instance         = Mockery::mock( WooCommerce::class, [ $this->options, $this->replace_vars, $this->context_memoizer, $this->repository ] )
+		$this->options           = Mockery::mock( Options_Helper::class );
+		$this->replace_vars      = Mockery::mock( WPSEO_Replace_Vars::class );
+		$this->context_memoizer  = Mockery::mock( Meta_Tags_Context_Memoizer::class );
+		$this->repository        = Mockery::mock( Indexable_Repository::class );
+		$this->pagination_helper = Mockery::mock( Pagination_Helper::class );
+		$this->instance          = Mockery::mock(
+			WooCommerce::class,
+			[
+				$this->options,
+				$this->replace_vars,
+				$this->context_memoizer,
+				$this->repository,
+				$this->pagination_helper,
+			]
+		)
 			->shouldAllowMockingProtectedMethods()
 			->makePartial();
 
@@ -112,7 +130,13 @@ class WooCommerce_Test extends TestCase {
 	 * @covers ::__construct
 	 */
 	public function test_constructor() {
-		$instance = new WooCommerce( $this->options, $this->replace_vars, $this->context_memoizer, $this->repository );
+		$instance = new WooCommerce(
+			$this->options,
+			$this->replace_vars,
+			$this->context_memoizer,
+			$this->repository,
+			$this->pagination_helper
+		);
 
 		$this->assertInstanceOf(
 			Options_Helper::class,
@@ -182,14 +206,14 @@ class WooCommerce_Test extends TestCase {
 	public function test_get_page_id_when_woocommerce_function_does_not_exist() {
 		// Sets the stubs.
 		Monkey\Functions\expect( 'wc_get_page_id' )
-			->andReturn( -1 );
+			->andReturn( - 1 );
 
 		$this->instance
 			->expects( 'is_shop_page' )
 			->once()
 			->andReturnTrue();
 
-		$this->assertEquals( -1, $this->instance->get_page_id( 1337 ) );
+		$this->assertEquals( - 1, $this->instance->get_page_id( 1337 ) );
 	}
 
 	/**
@@ -280,7 +304,7 @@ class WooCommerce_Test extends TestCase {
 	 */
 	public function meta_value_provider() {
 		return [
-			'has_model_value' => [
+			'has_model_value'            => [
 				'expected'       => 'This is a value',
 				'model_value'    => 'This is a value',
 				'template_value' => '',
@@ -313,7 +337,7 @@ class WooCommerce_Test extends TestCase {
 					'is_archive' => false,
 				],
 			],
-			'no_set_shop_page_id' => [
+			'no_set_shop_page_id'        => [
 				'expected'       => 'This is a value',
 				'model_value'    => null,
 				'template_value' => '',
@@ -321,10 +345,10 @@ class WooCommerce_Test extends TestCase {
 					'is_shop'        => true,
 					'is_search'      => false,
 					'is_archive'     => true,
-					'wc_get_page_id' => -1,
+					'wc_get_page_id' => - 1,
 				],
 			],
-			'with_no_product_template' => [
+			'with_no_product_template'   => [
 				'expected'       => 'This is a value',
 				'model_value'    => null,
 				'template_value' => '',
@@ -335,7 +359,7 @@ class WooCommerce_Test extends TestCase {
 					'wc_get_page_id' => 1337,
 				],
 			],
-			'with_product_template' => [
+			'with_product_template'      => [
 				'expected'       => 'The is a template value',
 				'model_value'    => null,
 				'template_value' => 'The is a template value',
@@ -417,5 +441,104 @@ class WooCommerce_Test extends TestCase {
 			'This is a template value',
 			$this->instance->description( 'This is a value', $this->presentation )
 		);
+	}
+
+	/**
+	 * Tests the canonical url for a paginated shop page.
+	 *
+	 * @covers ::canonical
+	 */
+	public function test_canonical_on_paginated_shop_page() {
+		$presentation = Mockery::mock( Indexable_Presentation::class );
+
+		$presentation
+			->expects( 'get_permalink' )
+			->once()
+			->andReturn( 'https://example.com/permalinkg/' );
+
+		$this->pagination_helper
+			->expects( 'get_current_archive_page_number' )
+			->andReturn( 5 );
+
+		$this->pagination_helper
+			->expects( 'get_paginated_url' )
+			->andReturn( 'https://example.com/permalink/page/5' );
+
+		$this->instance
+			->expects( 'is_shop_page' )
+			->once()
+			->andReturnTrue();
+
+		$actual = $this->instance->canonical( 'https://example.com/permalink/', $presentation );
+
+		self::assertEquals( 'https://example.com/permalink/page/5', $actual );
+	}
+
+	/**
+	 * Tests the canonical url for a paginated shop page.
+	 *
+	 * @covers ::canonical
+	 */
+	public function test_canonical_on_non_paginated_shop_page() {
+		$presentation = Mockery::mock( Indexable_Presentation::class );
+
+		$presentation
+			->expects( 'get_permalink' )
+			->once()
+			->andReturn( 'https://example.com/permalink/' );
+
+		$this->pagination_helper
+			->expects( 'get_current_archive_page_number' )
+			->andReturn( 1 );
+
+		$this->instance
+			->expects( 'is_shop_page' )
+			->once()
+			->andReturnTrue();
+
+		$actual = $this->instance->canonical( 'https://example.com/permalink/', $presentation );
+
+		self::assertEquals( 'https://example.com/permalink/', $actual );
+	}
+
+	/**
+	 * Tests the canonical url for a paginated shop page.
+	 *
+	 * @covers ::canonical
+	 */
+	public function test_canonical_on_non_shop_page() {
+		$presentation = Mockery::mock( Indexable_Presentation::class );
+
+		$this->instance
+			->expects( 'is_shop_page' )
+			->once()
+			->andReturnFalse();
+
+		$actual = $this->instance->canonical( 'https://example.com/permalink/', $presentation );
+
+		self::assertEquals( 'https://example.com/permalink/', $actual );
+	}
+
+	/**
+	 * Tests the canonical url for a paginated shop page.
+	 *
+	 * @covers ::canonical
+	 */
+	public function test_canonical_on_invalid_permalink() {
+		$presentation = Mockery::mock( Indexable_Presentation::class );
+
+		$this->instance
+			->expects( 'is_shop_page' )
+			->once()
+			->andReturnTrue();
+
+		$presentation
+			->expects( 'get_permalink' )
+			->once()
+			->andReturn( null );
+
+		$actual = $this->instance->canonical( 'https://example.com/permalink/', $presentation );
+
+		self::assertEquals( 'https://example.com/permalink/', $actual );
 	}
 }

@@ -64,6 +64,10 @@ class WPSEO_Admin_Pages {
 		if ( $page === 'wpseo_titles' ) {
 			$this->asset_manager->enqueue_style( 'search-appearance' );
 		}
+
+		if ( $page === 'wpseo_social' ) {
+			$this->asset_manager->enqueue_style( 'monorepo' );
+		}
 	}
 
 	/**
@@ -121,6 +125,10 @@ class WPSEO_Admin_Pages {
 
 		if ( $page === 'wpseo_tools' ) {
 			$this->enqueue_tools_scripts();
+		}
+
+		if ( $page === 'wpseo_social' ) {
+			$script_data['social'] = true;
 		}
 
 		$this->asset_manager->localize_script( 'settings', 'wpseoScriptData', $script_data );

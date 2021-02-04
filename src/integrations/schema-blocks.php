@@ -94,7 +94,7 @@ class Schema_Blocks implements Integration_Interface {
 		}
 
 		/**
-		 * Filter: 'wpseo_schema_templates' - Allow adding additional schema templates.
+		 * Filter: 'wpseo_load_schema_templates' - Allow adding additional schema templates.
 		 *
 		 * @param array $templates The templates to filter.
 		 */

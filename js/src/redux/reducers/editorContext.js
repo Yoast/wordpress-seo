@@ -1,3 +1,5 @@
+import { get } from "lodash";
+
 /**
  * Gets the default state.
  *
@@ -5,12 +7,13 @@
  */
 function getDefaultState() {
 	return {
-		contentLocale: window.wpseoScriptData.metabox.contentLocale,
-		isPost: window.wpseoScriptData.hasOwnProperty( "isPost" ),
-		isTerm: window.wpseoScriptData.hasOwnProperty( "isTerm" ),
-		noIndex: window.wpseoAdminL10n.noIndex === "1",
-		postTypeNameSingular: window.wpseoAdminL10n.postTypeNameSingular,
-		postTypeNamePlural: window.wpseoAdminL10n.postTypeNamePlural,
+		contentLocale: get( window, "wpseoScriptData.metabox.contentLocale", "" ),
+		isBlockEditor: get( window, "wpseoScriptData.isBlockEditor", "0" ) === "1",
+		isPost: get( window, "wpseoScriptData", {} ).hasOwnProperty( "isPost" ),
+		isTerm: get( window, "wpseoScriptData", {} ).hasOwnProperty( "isTerm" ),
+		noIndex: get( window, "wpseoAdminL10n.noIndex", "0" ) === "1",
+		postTypeNameSingular: get( window, "wpseoAdminL10n.postTypeNameSingular", "" ),
+		postTypeNamePlural: get( window, "wpseoAdminL10n.postTypeNamePlural", "" ),
 	};
 }
 

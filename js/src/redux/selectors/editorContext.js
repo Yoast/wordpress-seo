@@ -23,6 +23,17 @@ export function getPostOrPageString( state ) {
 }
 
 /**
+ * Returns whether this is the block editor or not.
+ *
+ * @param {Object} state The state.
+ *
+ * @returns {Boolean} Whether this is a page or a post editor.
+ */
+export function getIsBlockEditor( state ) {
+	return get( state, "editorContext.isBlockEditor", false );
+}
+
+/**
  * Gets the content locale.
  *
  * @param {Object} state The state.

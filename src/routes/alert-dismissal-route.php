@@ -64,7 +64,7 @@ class Alert_Dismissal_Route implements Route_Interface {
 			'permission_callback' => [ $this, 'can_dismiss' ],
 			'args'                => [
 				'key' => [
-					'validate_callback' => [ $this, 'has_valid_key' ],
+					'validate_callback' => [ $this->alert_dismissal_action, 'is_allowed' ],
 					'required'          => true,
 				],
 			],
@@ -91,17 +91,6 @@ class Alert_Dismissal_Route implements Route_Interface {
 			],
 			$status
 		);
-	}
-
-	/**
-	 * Checks if a valid key was returned.
-	 *
-	 * @param string $key The key to check.
-	 *
-	 * @return boolean Whether or not the key is valid.
-	 */
-	public function has_valid_key( $key ) {
-		return \is_string( $key ) && $key !== '';
 	}
 
 	/**
