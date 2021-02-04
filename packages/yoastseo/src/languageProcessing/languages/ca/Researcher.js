@@ -5,7 +5,7 @@ import transitionWords from "./config/transitionWords";
 import twoPartTransitionWords from "./config/twoPartTransitionWords";
 
 // All helpers
-import getStemmer from "../../helpers/morphology/baseStemmer";
+import getStemmer from "./helpers/getStemmer";
 
 /**
  * The researches contains all the researches
@@ -25,7 +25,6 @@ export default class Researcher extends AbstractResearcher {
 		delete this.defaultResearches.getPassiveVoice;
 		delete this.defaultResearches.getSentenceBeginnings;
 		delete this.defaultResearches.stopWordsInKeyword;
-		delete this.defaultResearches.stopWordsInUrl;
 
 		Object.assign( this.config, {
 			language: "ca",
@@ -34,7 +33,7 @@ export default class Researcher extends AbstractResearcher {
 			twoPartTransitionWords,
 		} );
 
-		Object.assign( this.config, {
+		Object.assign( this.helpers, {
 			getStemmer,
 		} );
 	}

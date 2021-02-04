@@ -26,8 +26,6 @@ export default class Researcher extends AbstractResearcher {
 
 		// Delete the researches that are not available for this language
 		delete this.defaultResearches.stopWordsInKeyword;
-		delete this.defaultResearches.stopWordsInUrl;
-
 
 		Object.assign( this.config, {
 			language: "ru",
