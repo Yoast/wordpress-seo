@@ -4,6 +4,7 @@ import { analysis } from "yoast-components";
 import analysisData from "./analysisData";
 import editorContext from "./editorContext";
 import editorData from "./editorData";
+import editorModals from "./editorModals";
 import estimatedReadingTime from "./estimatedReadingTime";
 import facebookEditor from "./facebookEditor";
 import focusKeyword from "./focusKeyword";
@@ -28,6 +29,7 @@ export default {
 	analysisData,
 	editorContext,
 	editorData,
+	editorModals,
 	estimatedReadingTime,
 	facebookEditor,
 	focusKeyword,
