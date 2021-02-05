@@ -86,7 +86,8 @@ export function createWarningMessages( validation: BlockValidationResult ) {
 	const warnings = issues.map( issue => replaceVariables( issue ) );
 
 	if ( issues.some( issue => issue.result === BlockValidation.MissingBlock || issue.result === BlockValidation.MissingAttribute ) ) {
-		warnings.push( __( "Not all required blocks are completed! No recipe schema will be generated for your page.", "wpseo-schema-blocks" ) );
+		warnings.push( __( "Not all required blocks are completed! No '" + parent +
+			"' schema will be generated for your page.", "wpseo-schema-blocks" ) );
 	}
 
 	return warnings;
