@@ -1,5 +1,3 @@
-import { select } from "@wordpress/data";
-import { getBlockType } from "../../../src/functions/BlockHelper";
 import { BlockValidation, BlockValidationResult } from "../../../src/core/validation";
 import getWarnings, { createWarningMessages, sanitizeBlockName } from "../../../src/functions/presenters/SidebarWarningPresenter";
 
