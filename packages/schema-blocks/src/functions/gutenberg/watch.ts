@@ -54,10 +54,12 @@ function renderSchema( block: BlockInstance, definition: SchemaDefinition ) {
  * Generates schema for blocks.
  *
  * @param blocks          The blocks.
+ * @param validations     The validation results for the blocks.
  * @param previousBlocks  Optional. The previous blocks used for schema generation.
  * @param parentHasSchema Optional. Whether or not the parent has already rendered schema.
  */
-function generateSchemaForBlocks( blocks: BlockInstance[], previousBlocks: BlockInstance[] = [], parentHasSchema = false ) {
+function generateSchemaForBlocks(
+	blocks: BlockInstance[], validations: BlockValidationResult[], previousBlocks: BlockInstance[] = [], parentHasSchema = false ) {
 	// eslint-disable-next-line no-console
 	console.log( "Generating schema!" );
 	for ( let i = 0; i < blocks.length; i++ ) {
@@ -68,16 +70,21 @@ function generateSchemaForBlocks( blocks: BlockInstance[], previousBlocks: Block
 			continue;
 		}
 
+		const validation = validations.find( v => v.clientId === block.clientId );
+		if ( validation && validation.result > BlockValidation.Valid ) {
+			continue;
+		}
+
 		const definition = schemaDefinitions[ block.name ];
 		if ( shouldRenderSchema( definition, parentHasSchema ) ) {
 			renderSchema( block, definition );
 			if ( Array.isArray( block.innerBlocks ) ) {
-				generateSchemaForBlocks( block.innerBlocks, previousBlock ? previousBlock.innerBlocks : [], true );
+				generateSchemaForBlocks( block.innerBlocks, validations, previousBlock ? previousBlock.innerBlocks : [], true );
 			}
 			continue;
 		}
 		if ( Array.isArray( block.innerBlocks ) ) {
-			generateSchemaForBlocks( block.innerBlocks, previousBlock ? previousBlock.innerBlocks : [], parentHasSchema );
+			generateSchemaForBlocks( block.innerBlocks, validations, previousBlock ? previousBlock.innerBlocks : [], parentHasSchema );
 		}
 	}
 }
@@ -124,14 +131,12 @@ export default function watch() {
 
 		updatingSchema = true;
 		{
-			const validations = validateBlocks( rootBlocks );
+			const validations: BlockValidationResult[] = validateBlocks( rootBlocks );
 			storeBlockValidation( validations );
 
 			warningWatcher( rootBlocks, previousRootBlocks );
 
-			if ( validations.every( ( validation: BlockValidationResult ) => validation.result <= BlockValidation.Valid ) ) {
-				generateSchemaForBlocks( rootBlocks, previousRootBlocks );
-			}
+			generateSchemaForBlocks( rootBlocks, validations, previousRootBlocks );
 
 			previousRootBlocks = rootBlocks;
 		}
