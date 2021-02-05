@@ -502,7 +502,7 @@ class Yoast_Form {
 					'class' => 'select',
 				]
 			);
-			echo $help;
+			echo $help; // phpcs:ignore WordPress.Security.EscapeOutput -- Reason: The help contains HTML.
 		}
 
 		$select_name       = esc_attr( $this->option_name ) . '[' . esc_attr( $var ) . ']';
