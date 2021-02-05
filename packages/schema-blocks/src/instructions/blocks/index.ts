@@ -3,7 +3,6 @@ import "./ClassName";
 import "./CurrencySelect";
 import "./Date";
 import "./InnerBlocks";
-import "./InnerBlocksInstructionOptions";
 import "./RichText";
 import "./Select";
 import "./SidebarDuration";

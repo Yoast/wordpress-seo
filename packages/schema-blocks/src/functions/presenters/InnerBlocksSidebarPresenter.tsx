@@ -6,6 +6,7 @@ import { __ } from "@wordpress/i18n";
 import getWarnings from "./SidebarWarningPresenter";
 import { InnerBlocksInstructionOptions } from "../../instructions/blocks/InnerBlocksInstructionOptions";
 import { SvgIcon } from "@yoast/components";
+
 /**
  * Renders warnings and Appenders for any block's InnerBlocks.
  *
@@ -25,6 +26,7 @@ export function innerBlocksSidebar( currentBlock: BlockInstance, options: InnerB
 	if ( options.requiredBlocks ) {
 		elements.push( BlockSuggestions( __( "Required Blocks", "wpseo-schema-blocks" ), currentBlock, options.requiredBlocks ) );
 	}
+
 	if ( options.recommendedBlocks ) {
 		elements.push( BlockSuggestions( __( "Recommended Blocks", "wpseo-schema-blocks" ), currentBlock, options.recommendedBlocks ) );
 	}
