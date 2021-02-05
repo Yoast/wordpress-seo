@@ -19,10 +19,10 @@ export default class JobEmploymentType extends SchemaInstruction {
 	 */
 	render( block: BlockInstance ): SchemaArray | string {
 		const employmentType = block.attributes.employmentType;
-		const { isVolunteer, isIntern } = block.attributes;
+		const { isVolunteer, isInternship } = block.attributes;
 
 
-		if ( ! ( isVolunteer || isIntern ) ) {
+		if ( ! ( isVolunteer || isInternship ) ) {
 			return employmentType;
 		}
 
@@ -32,7 +32,7 @@ export default class JobEmploymentType extends SchemaInstruction {
 			list.push( "VOLUNTEER" );
 		}
 
-		if ( isIntern ) {
+		if ( isInternship ) {
 			list.push( "INTERN" );
 		}
 
