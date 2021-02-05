@@ -1,9 +1,10 @@
+import { createElement, ReactElement, useCallback } from "@wordpress/element";
+import { BlockConfiguration, BlockInstance } from "@wordpress/blocks";
+import { SelectControl } from "@wordpress/components";
+
 import BlockInstruction from "../../core/blocks/BlockInstruction";
 import { RenderEditProps, RenderSaveProps } from "../../core/blocks/BlockDefinition";
-import { createElement, ReactElement } from "@wordpress/element";
-import { BlockConfiguration, BlockInstance } from "@wordpress/blocks";
 import { attributeExists, attributeNotEmpty } from "../../functions/validators";
-import { arrayOrObjectToOptions } from "../../functions/select";
 
 /**
  * Select (a drop-down box) instruction.
@@ -17,7 +18,7 @@ export default class Select extends BlockInstruction {
 		/**
 		 * The available options within the select control.
 		 */
-		options: string[] | Record<string, string>;
+		options: { label: string; value: string }[];
 		/**
 		 * The label that should be shown before this select control.
 		 */
@@ -26,6 +27,18 @@ export default class Select extends BlockInstruction {
 		 * If it is required that a value is selected.
 		 */
 		required?: boolean;
+		/**
+		 * Whether to visually hide the label.
+		 */
+		hideLabelFromVision: boolean;
+		/**
+		 * An optional extra class name or class names.
+		 */
+		className?: string;
+		/**
+		 * The default selected value.
+		 */
+		defaultValue?: string;
 	};
 
 	/**
@@ -36,43 +49,29 @@ export default class Select extends BlockInstruction {
 	 * @returns {JSX.Element} The element to render.
 	 */
 	save( props: RenderSaveProps ): ReactElement | string {
-		return <p data-id={ this.options.name } data-value={ this.value( props ) }>
-			<strong>{ this.options.label }:</strong> { this.label( props ) }
-		</p>;
-	}
+		const { label, name, hideLabelFromVision } = this.options;
 
-	/**
-	 * Returns the value of the selected option.
-	 *
-	 * @param props The render props.
-	 *
-	 * @returns The value of the selected option.
-	 */
-	protected value( props: RenderSaveProps | RenderEditProps ): string {
-		return props.attributes[ this.options.name ] as string;
+		const value = props.attributes[ name ] as string;
+
+		return <span data-id={ name } data-value={ value }>
+			{ ! hideLabelFromVision && <strong>{ label }:</strong> }
+			{ this.label( value ) + " " }
+		</span>;
 	}
 
 	/**
 	 * Returns the label of the selected option.
 	 *
-	 * @param props The render props.
+	 * @param value The render props.
 	 *
 	 * @returns The label of the selected option.
 	 */
-	protected label( props: RenderSaveProps | RenderEditProps ): string {
-		if ( Array.isArray( this.options.options ) ) {
-			/*
-			 * In the case of an array of options (e.g. `[ "option 1", "option 2" ]`) the option value
-			 * is the same as the option label, so just return the selected value.
-			 */
-			return this.value( props );
+	protected label( value: string ): string {
+		const foundOption = this.options.options.find( option => option.value === value );
+		if ( foundOption ) {
+			return foundOption.label;
 		}
-
-		for ( const [ label, value ] of Object.entries( this.options.options ) ) {
-			if ( this.value( props ) === value ) {
-				return label;
-			}
-		}
+		return null;
 	}
 
 	/**
@@ -83,29 +82,35 @@ export default class Select extends BlockInstruction {
 	 * @returns {JSX.Element} The element to render.
 	 */
 	edit( props: RenderEditProps ): ReactElement | string {
-		const label = this.options.label;
-		const value = props.attributes[ this.options.name ] as string | string[];
-		const options = arrayOrObjectToOptions( this.options.options );
+		const { label, options, hideLabelFromVision, className, defaultValue } = this.options;
+
+		const value = props.attributes[ this.options.name ] as string;
+
+		if ( ! value ) {
+			props.setAttributes( { [ this.options.name ]: defaultValue || options[ 0 ].value } );
+		}
 
 		/**
 		 * Function that is called whenever a new value is selected in the select element.
 		 *
 		 * @param event The change event.
 		 */
-		const onInput = ( event: React.ChangeEvent<HTMLSelectElement> ): void => {
-			props.setAttributes( { [ this.options.name ]: event.target.value } );
-		};
+		const onChange = useCallback(
+			newValue => {
+				props.setAttributes( { [ this.options.name ]: newValue } );
+			},
+			[ props ],
+		);
 
-		return <div>
-			<label htmlFor={ label }>{ label }</label>
-			<select className="yoast-schema-select" id={ label } onInput={ onInput } value={ value }>
-				{
-					options.map(
-						( option, index ) => <option key={ index } value={ option.value }>{ option.label }</option>,
-					)
-				}
-			</select>
-		</div>;
+		return <SelectControl
+			className={ className }
+			label={ label }
+			value={ value }
+			defaultValue={ defaultValue }
+			onChange={ onChange }
+			options={ options }
+			hideLabelFromVision={ hideLabelFromVision }
+		/>;
 	}
 
 	/**

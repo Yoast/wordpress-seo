@@ -4,7 +4,7 @@ import { BlockInstance } from "@wordpress/blocks";
 * Runs a function over all blocks, including nested blocks.
 *
 * @param {BlockInstance[]} blocks   The blocks.
-* @param {function} callback The callback.
+* @param {function}        callback The callback.
 *
 * @returns {void}
 */

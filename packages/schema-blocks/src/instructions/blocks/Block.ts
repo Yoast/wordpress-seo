@@ -6,7 +6,7 @@ import { BlockConfiguration } from "@wordpress/blocks";
  */
 class Block extends BlockInstruction {
 	/**
-	 * Pass on the optoins as configuration.
+	 * Passes on the options as configuration.
 	 *
 	 * @returns The configuration.
 	 */

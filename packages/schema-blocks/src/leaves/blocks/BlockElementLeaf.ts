@@ -41,7 +41,7 @@ export default class BlockElementLeaf extends BlockLeaf {
 	save( props: RenderSaveProps, i: number ): JSX.Element {
 		const attributes: React.ClassAttributes<unknown> & AllHTMLAttributes<unknown> = {};
 		for ( const key in this.attributes ) {
-			if ( ! Object.prototype.hasOwnProperty.call( attributes, key ) ) {
+			if ( Object.prototype.hasOwnProperty.call( attributes, key ) ) {
 				continue;
 			}
 
@@ -66,7 +66,7 @@ export default class BlockElementLeaf extends BlockLeaf {
 	edit( props: RenderEditProps, i: number ): JSX.Element {
 		const attributes: React.ClassAttributes<unknown> & AllHTMLAttributes<unknown> = {};
 		for ( const key in this.attributes ) {
-			if ( ! Object.prototype.hasOwnProperty.call( attributes, key ) ) {
+			if ( Object.prototype.hasOwnProperty.call( attributes, key ) ) {
 				continue;
 			}
 

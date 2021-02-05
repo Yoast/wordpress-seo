@@ -5,7 +5,6 @@ import BlockSuggestions from "../../blocks/BlockSuggestions";
 import { __ } from "@wordpress/i18n";
 import getWarnings from "./SidebarWarningPresenter";
 import { InnerBlocksInstructionOptions } from "../../instructions/blocks/InnerBlocksInstructionOptions";
-
 import { SvgIcon } from "@yoast/components";
 /**
  * Renders warnings and Appenders for any block's InnerBlocks.

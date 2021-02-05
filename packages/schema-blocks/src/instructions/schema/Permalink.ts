@@ -3,7 +3,7 @@ import { select } from "@wordpress/data";
 import SchemaInstruction from "../../core/schema/SchemaInstruction";
 
 /**
- * Permalink instruction
+ * Permalink instruction.
  */
 class Permalink extends SchemaInstruction {
 	/**

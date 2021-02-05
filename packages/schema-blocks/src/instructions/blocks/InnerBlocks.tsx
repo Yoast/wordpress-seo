@@ -1,4 +1,4 @@
-import { ReactElement } from "react";
+import { ComponentType, ReactElement } from "react";
 import { createElement, ComponentClass, Fragment } from "@wordpress/element";
 import { InnerBlocks as WordPressInnerBlocks } from "@wordpress/block-editor";
 import { BlockInstance } from "@wordpress/blocks";
@@ -7,10 +7,22 @@ import BlockInstruction from "../../core/blocks/BlockInstruction";
 import validateInnerBlocks from "../../functions/validators/innerBlocksValid";
 import { RenderEditProps, RenderSaveProps } from "../../core/blocks/BlockDefinition";
 import { getBlockByClientId } from "../../functions/BlockHelper";
-import BlockLeaf from "../../core/blocks/BlockLeaf";
+import BlockSuggestions from "../../blocks/BlockSuggestions";
 import validateMany from "../../functions/validators/validateMany";
 import { innerBlocksSidebar } from "../../functions/presenters/InnerBlocksSidebarPresenter";
 import { InnerBlocksInstructionOptions } from "./InnerBlocksInstructionOptions";
+import BlockLeaf from "../../core/blocks/BlockLeaf";
+import { __ } from "@wordpress/i18n";
+
+/**
+ * Custom props for InnerBlocks.
+ *
+ * The definition of the `renderProps` property in the `InnerBlocks.Props` interface
+ * is incorrect. It can be `false` to omit the `renderAppender` entirely.
+ */
+interface InnerBlocksProps extends Omit<WordPressInnerBlocks.Props, "renderAppender"> {
+	renderAppender?: ComponentType | false;
+}
 
 /**
  * InnerBlocks instruction.
@@ -41,7 +53,7 @@ export default class InnerBlocks extends BlockInstruction {
 	 * @returns The inner blocks.
 	 */
 	edit( props: RenderEditProps, leaf: BlockLeaf, i: number ): ReactElement | string {
-		const properties: React.ClassAttributes<unknown> & WordPressInnerBlocks.Props = {
+		const properties: React.ClassAttributes<unknown> & InnerBlocksProps = {
 			key: i,
 		};
 
@@ -56,15 +68,20 @@ export default class InnerBlocks extends BlockInstruction {
 			properties.template = this.options.template;
 		}
 
-		return createElement( WordPressInnerBlocks, properties );
+		return createElement( WordPressInnerBlocks, properties as WordPressInnerBlocks.Props );
 	}
 
 	/**
-	 * Renders all innerblocks as react elements.
+	 * Renders the appender to add innerblocks as React elements.
 	 *
 	 * @param properties The properties of the innerblock.
 	 */
-	private renderAppender( properties: React.ClassAttributes<unknown> & WordPressInnerBlocks.Props ) {
+	private renderAppender( properties: React.ClassAttributes<unknown> & InnerBlocksProps ) {
+		if ( this.options.appender === false ) {
+			properties.renderAppender = false;
+			return;
+		}
+
 		if ( this.options.appender === "button" ) {
 			properties.renderAppender = () => {
 				// The type definition of InnerBlocks are wrong so cast to fix them.
@@ -91,7 +108,7 @@ export default class InnerBlocks extends BlockInstruction {
 	 *
 	 * @param properties The properties of the current block.
 	 */
-	private arrangeAllowedBlocks( properties: React.ClassAttributes<unknown> & WordPressInnerBlocks.Props ) {
+	private arrangeAllowedBlocks( properties: React.ClassAttributes<unknown> & InnerBlocksProps ) {
 		properties.allowedBlocks = [ "yoast/warning-block" ];
 
 		if ( this.options.allowedBlocks ) {
@@ -117,6 +134,13 @@ export default class InnerBlocks extends BlockInstruction {
 		}
 
 		const elements: ReactElement[] = innerBlocksSidebar( currentBlock, this.options );
+
+		if ( this.options.requiredBlocks ) {
+			elements.push( BlockSuggestions( __( "Required Blocks", "wpseo-schema-blocks" ), currentBlock, this.options.requiredBlocks ) );
+		}
+		if ( this.options.recommendedBlocks ) {
+			elements.push( BlockSuggestions( __( "Recommended Blocks", "wpseo-schema-blocks" ),  currentBlock, this.options.recommendedBlocks ) );
+		}
 
 		if ( elements.length === 0 ) {
 			return null;

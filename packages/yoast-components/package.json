@@ -1,6 +1,6 @@
 {
   "name": "yoast-components",
-  "version": "5.19.0-rc.0",
+  "version": "5.19.0-rc.2",
   "description": "Yoast Generic Components",
   "homepage": "https://github.com/Yoast/",
   "repository": {
@@ -59,12 +59,12 @@
   "dependencies": {
     "@wordpress/a11y": "^1.0.7",
     "@wordpress/i18n": "^1.1.0",
-    "@yoast/analysis-report": "^1.16.0-rc.0",
-    "@yoast/components": "^2.14.0-rc.0",
-    "@yoast/configuration-wizard": "^2.17.0-rc.0",
+    "@yoast/analysis-report": "^1.16.0-rc.2",
+    "@yoast/components": "^2.14.0-rc.2",
+    "@yoast/configuration-wizard": "^2.17.0-rc.2",
     "@yoast/helpers": "^0.15.0",
-    "@yoast/replacement-variable-editor": "^1.12.0-rc.0",
-    "@yoast/search-metadata-previews": "^2.19.0-rc.0",
+    "@yoast/replacement-variable-editor": "^1.12.0-rc.2",
+    "@yoast/search-metadata-previews": "^2.19.0-rc.2",
     "@yoast/style-guide": "^0.13.0",
     "clipboard": "^1.5.15",
     "draft-js": "^0.11.4",

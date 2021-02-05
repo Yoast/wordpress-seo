@@ -5,7 +5,7 @@ import { InstructionObject, InstructionOptions } from "../../core/Instruction";
 export type InnerBlocksInstructionOptions = InstructionOptions & {
 	allowedBlocks: string[];
 	template: TemplateArray;
-	appender: string;
+	appender: string | false ;
 	appenderLabel: string;
 	requiredBlocks: RequiredBlock[];
 	recommendedBlocks: RecommendedBlock[];
