@@ -129,7 +129,10 @@ export default function watch() {
 
 			warningWatcher( rootBlocks, previousRootBlocks );
 
-			generateSchemaForBlocks( rootBlocks, previousRootBlocks );
+			if ( validations.every( ( validation: BlockValidationResult ) => validation.result <= BlockValidation.Valid ) ) {
+				generateSchemaForBlocks( rootBlocks, previousRootBlocks );
+			}
+
 			previousRootBlocks = rootBlocks;
 		}
 		updatingSchema = false;
