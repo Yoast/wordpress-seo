@@ -36,9 +36,9 @@ export default class OutboundLinksAssessment extends Assessment {
 	/**
 	 * Runs the getLinkStatistics module, based on this returns an assessment result with score.
 	 *
-	 * @param {Paper} paper The paper to use for the assessment.
-	 * @param {Researcher} researcher The researcher used for calling research.
-	 * @param {Jed} i18n The object used for translations
+	 * @param {Paper}       paper       The paper to use for the assessment.
+	 * @param {Researcher}  researcher  The researcher used for calling research.
+	 * @param {Jed}         i18n        The object used for translations
 	 *
 	 * @returns {AssessmentResult} The assessment result.
 	 */
@@ -55,12 +55,13 @@ export default class OutboundLinksAssessment extends Assessment {
 	/**
 	 * Checks whether paper has text.
 	 *
-	 * @param {Paper} paper The paper to use for the assessment.
+	 * @param {Paper}       paper       The paper to use for the assessment.
+	 * @param {Researcher}  researcher  The researcher object.
 	 *
 	 * @returns {boolean} True when there is text.
 	 */
-	isApplicable( paper ) {
-		return paper.hasText();
+	isApplicable( paper, researcher ) {
+		return paper.hasText() && researcher.hasResearch( "getLinkStatistics" );
 	}
 
 	/**
@@ -93,8 +94,8 @@ export default class OutboundLinksAssessment extends Assessment {
 	/**
 	 * Translates the score to a message the user can understand.
 	 *
-	 * @param {Object} linkStatistics The object with all link statistics.
-	 * @param {Jed} i18n The object used for translations.
+	 * @param {Object}  linkStatistics  The object with all link statistics.
+	 * @param {Jed}     i18n            The object used for translations.
 	 *
 	 * @returns {string} The translated string.
 	 */

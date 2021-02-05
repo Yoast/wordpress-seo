@@ -4,6 +4,8 @@ import factory from "../../../specHelpers/factory.js";
 const i18n = factory.buildJed();
 
 import contentConfiguration from "../../../../src/config/_todo/content/combinedConfig.js";
+import EnglishResearcher from "../../../../src/languageProcessing/languages/en/Researcher";
+import DefaultResearcher from "../../../../src/languageProcessing/languages/_default/Researcher";
 
 describe( "An assessment for the flesch reading", function() {
 	it( "returns a 'very easy' score and the associated feedback text for a paper.", function() {
@@ -247,22 +249,26 @@ describe( "An assessment for the flesch reading", function() {
 	} );
 
 	it( "returns true for isApplicable for an English paper with text.", function() {
-		const paper = new Paper( "This is a very interesting paper.", { locale: "en_EN" } );
-		expect( new FleschReadingAssessment( contentConfiguration( paper.getLocale() ).fleschReading ).isApplicable( paper ) ).toBe( true );
+		const paper = new Paper( "This is a very interesting paper.", { locale: "en_US" } );
+		expect( new FleschReadingAssessment( contentConfiguration( paper.getLocale() ).fleschReading )
+			.isApplicable( paper, new EnglishResearcher( paper ) ) ).toBe( true );
 	} );
 
 	it( "returns false for isApplicable for an Afrikaans paper with text.", function() {
 		const paper = new Paper( "Hierdie is 'n interessante papier.", { locale: "af_ZA" } );
-		expect( new FleschReadingAssessment( contentConfiguration( paper.getLocale() ).fleschReading ).isApplicable( paper ) ).toBe( false );
+		expect( new FleschReadingAssessment( contentConfiguration( paper.getLocale() ).fleschReading )
+			.isApplicable( paper, new DefaultResearcher( paper ) ) ).toBe( false );
 	} );
 
 	it( "returns false for isApplicable for an English paper without text.", function() {
-		const paper = new Paper( "", { locale: "en_EN" } );
-		expect( new FleschReadingAssessment( contentConfiguration( paper.getLocale() ).fleschReading ).isApplicable( paper ) ).toBe( false );
+		const paper = new Paper( "", { locale: "en_US" } );
+		expect( new FleschReadingAssessment( contentConfiguration( paper.getLocale() ).fleschReading )
+			.isApplicable( paper, new EnglishResearcher( paper ) ) ).toBe( false );
 	} );
 
 	it( "returns false for isApplicable for an Afrikaans paper without text.", function() {
 		const paper = new Paper( "", { locale: "af_ZA" } );
-		expect( new FleschReadingAssessment( contentConfiguration( paper.getLocale() ).fleschReading ).isApplicable( paper ) ).toBe( false );
+		expect( new FleschReadingAssessment( contentConfiguration( paper.getLocale() ).fleschReading )
+			.isApplicable( paper, new DefaultResearcher( paper ) ) ).toBe( false );
 	} );
 } );

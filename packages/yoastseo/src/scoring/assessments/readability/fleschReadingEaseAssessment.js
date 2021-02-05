@@ -29,15 +29,15 @@ class FleschReadingEaseAssessment extends Assessment {
 	/**
 	 * The assessment that runs the FleschReading on the paper.
 	 *
-	 * @param {Object} paper The paper to run this assessment on.
-	 * @param {Object} researcher The researcher used for the assessment.
-	 * @param {Object} i18n The i18n-object used for parsing translations.
+	 * @param {Paper}       paper       The paper to run this assessment on.
+	 * @param {Researcher}  researcher  The researcher used for the assessment.
+	 * @param {Object}      i18n        The i18n-object used for parsing translations.
 	 *
 	 * @returns {Object} An assessmentResult with the score and formatted text.
 	 */
 	getResult( paper, researcher, i18n ) {
 		this.fleschReadingResult = researcher.getResearch( "getFleschReadingScore" );
-		if ( this.isApplicable( paper ) ) {
+		if ( this.isApplicable( paper, researcher ) ) {
 			const assessmentResult =  new AssessmentResult( i18n );
 			const calculatedResult = this.calculateResult( i18n );
 			assessmentResult.setScore( calculatedResult.score );
@@ -65,8 +65,8 @@ class FleschReadingEaseAssessment extends Assessment {
 			this.fleschReadingResult = 100;
 		}
 
-		let score = 0;
-		let feedback = "";
+		let score;
+		let feedback;
 		let note = i18n.dgettext( "js-text-analysis", "Good job!" );
 
 		if ( this.fleschReadingResult >= this._config.borders.veryEasy ) {
@@ -145,11 +145,13 @@ class FleschReadingEaseAssessment extends Assessment {
 	/**
 	 * Checks if Flesch reading analysis is available for the language of the paper.
 	 *
-	 * @param {Object} paper The paper to have the Flesch score to be calculated for.
+	 * @param {Paper}       paper       The paper to have the Flesch score to be calculated for.
+	 * @param {Researcher}  researcher  The researcher object.
+	 *
 	 * @returns {boolean} Returns true if the language is available and the paper is not empty.
 	 */
-	isApplicable( paper ) {
-		return paper.hasText();
+	isApplicable( paper, researcher ) {
+		return paper.hasText() && researcher.hasResearch( "getFleschReadingScore" );
 	}
 }
 
