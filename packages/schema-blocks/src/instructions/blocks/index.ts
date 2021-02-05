@@ -14,3 +14,4 @@ import "./Select";
 import "./Date";
 import "./CurrencySelect";
 import "./TextInput";
+import "./SidebarCheckbox";
