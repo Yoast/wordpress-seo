@@ -6,7 +6,7 @@ use WPSEO_Admin_Asset_Manager;
 use Yoast\WP\SEO\Presenters\Abstract_Presenter;
 
 /**
- * Represents the presenter class for "NEW" badges.
+ * Represents the presenter class for "New" badges.
  */
 class Badge_Presenter extends Abstract_Presenter {
 
@@ -49,23 +49,25 @@ class Badge_Presenter extends Abstract_Presenter {
 	}
 
 	/**
-	 * Presents the NEW Badge. If a link has been passed, the badge is presented with the link.
+	 * Presents the New Badge. If a link has been passed, the badge is presented with the link.
 	 * Otherwise a static badge is presented.
 	 *
-	 * @return string The styled NEW Badge.
+	 * @return string The styled New Badge.
 	 */
 	public function present() {
 		if ( $this->link !== '' ) {
 			return sprintf(
-				'&nbsp;&nbsp;<span class="yoast-badge yoast-badge__has-link yoast-new-badge" id="%1$s-new-badge"><a href="%2$s">NEW</a></span>',
+				'<a class="yoast-badge yoast-badge__is-link yoast-new-badge" id="%1$s-new-badge" href="%2$s">%3$s</a>',
 				\esc_attr( $this->id ),
-				\esc_url( $this->link )
+				\esc_url( $this->link ),
+				\esc_html__( 'New', 'wordpress-seo' )
 			);
 		}
 
 		return sprintf(
-			'&nbsp;&nbsp;<span class="yoast-badge yoast-new-badge" id="%1$s-new-badge">NEW</span>',
-			\esc_attr( $this->id )
+			'<span class="yoast-badge yoast-new-badge" id="%1$s-new-badge">%2$s</span>',
+			\esc_attr( $this->id ),
+			\esc_html__( 'New', 'wordpress-seo' )
 		);
 	}
 }

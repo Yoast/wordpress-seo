@@ -55,8 +55,9 @@ class Badge_Presenter_Test extends TestCase {
 		Monkey\Functions\expect( 'wp_enqueue_style' )->once();
 		$test = new Badge_Presenter( 'test1', 'http://example.com/' );
 
-		$expected = '&nbsp;&nbsp;<span class="yoast-badge yoast-badge__has-link yoast-new-badge" id="test1-new-badge"><a href="http://example.com/">NEW</a></span>';
+		$expected = '<a class="yoast-badge yoast-badge__is-link yoast-new-badge" id="test1-new-badge" href="http://example.com/">New</a>';
 		Monkey\Functions\expect( 'esc_url' )->andReturn( '' );
+		Monkey\Functions\expect( 'esc_html__' )->once()->andReturn( 'New' );
 
 		$this->assertEquals( $expected, (string) $test );
 	}
@@ -70,8 +71,9 @@ class Badge_Presenter_Test extends TestCase {
 		Monkey\Functions\expect( 'wp_enqueue_style' )->once();
 		$test = new Badge_Presenter( 'test2' );
 
-		$expected = '&nbsp;&nbsp;<span class="yoast-badge yoast-new-badge" id="test2-new-badge">NEW</span>';
+		$expected = '<span class="yoast-badge yoast-new-badge" id="test2-new-badge">New</span>';
 		Monkey\Functions\expect( 'esc_url' )->andReturn( '' );
+		Monkey\Functions\expect( 'esc_html__' )->once()->andReturn( 'New' );
 
 		$this->assertEquals( $expected, (string) $test );
 	}
