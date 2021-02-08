@@ -150,7 +150,7 @@ class Alert_Dismissal_Action {
 		return $dismissed_alerts;
 	}
 
-	/*
+	/**
 	 * Returns if an alert is allowed or not.
 	 *
 	 * @param string $alert_identifier Alert identifier.
