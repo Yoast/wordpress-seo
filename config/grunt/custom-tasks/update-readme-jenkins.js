@@ -5,9 +5,12 @@ function escapeRegExp(string) {
 class ChangelogBuilder {
 	constructor(changelogIn) {
 		this.ChangelogMap = new Map();
-		this.CreateUniqueLines(changelogIn);
+		if (changelogIn) {
+			this.parseChancelogLines(changelogIn);
+		}
+		
 	}
-	myFunction(value, index, array) {
+	#addLinesPerHeader(value, index, array) {
 		const key = `${value.match(new RegExp(  "[ a-zA-Z]+:" ))}`;
 		const lines = value.match(new RegExp( "(?<=\n)\\*([\n]|.)+?(?=\Z|\n\n|\n\\*|\n$)", "gm" ));
 		if (this.ChangelogMap.has(key)) {
@@ -19,12 +22,23 @@ class ChangelogBuilder {
 		};
 	}
 
-	CreateUniqueLines(changelogIn){
+	parseChancelogLines(changelogIn){
 		const parts = changelogIn.match(new RegExp( "\n[ a-zA-Z]+:(.|\\n)*?(?=(\n[ a-zA-Z]+:|\$))", "g" ))
-		parts.forEach(this.myFunction.bind(this));
+		parts.forEach(this.#addLinesPerHeader.bind(this));
 	}
 	
-	get Changelog(){
+	parseYoastCliGeneratedChangelog(changelogIn){
+		//strip header from new entry file.
+		changelogIn = changelogIn.replace( new RegExp( "# Yoast/wordpress-seo:(.|\\n)*?(?=\n[ a-zA-Z]+:)" ),
+		""
+		);
+	
+		// remove [#16525](https://github.com/Yoast/wordpress-seo/pull/16525) from lines
+		this.parseChancelogLines(changelogIn)
+	}
+
+
+	get cleanChangelog(){
 		console.log (this.ChangelogMap);
 		var newlines = ""
 		//console.log((this.ChangelogMap.has('Enhancements:')))
@@ -94,7 +108,7 @@ module.exports = function( grunt ) {
 			const format = (number) => `${number}${suffixes[pr.select(number)]}`
 
 			let changelog = grunt.file.read( "./readme.txt" );
-			let changelogIn = grunt.file.read( "./.tmp/change_in_log.md" );
+			// let changelogIn = grunt.file.read( "./.tmp/change_in_log.md" );
 
 			const releaseInChangelog = /[=] \d+\.\d+(\.\d+)? =/g;
 			const allReleasesInChangelog = changelog.match( releaseInChangelog );
@@ -147,16 +161,10 @@ module.exports = function( grunt ) {
 				}
 			}
 
-			//strip header from new entry file.
-			changelogIn = changelogIn.replace( new RegExp( "# Yoast/wordpress-seo:(.|\\n)*?(?=\n[ a-zA-Z]+:)" ),
-				""
-			);
 			
-			// remove [#16525](https://github.com/Yoast/wordpress-seo/pull/16525) from lines
-
-			//console.log(ChangelogMap);
-			const X = new ChangelogBuilder(changelogIn)
-			const changeLogClean= `${X.Changelog}`	
+			
+			const changelogBuilder = new ChangelogBuilder();
+			changelogBuilder.parseYoastCliGeneratedChangelog( grunt.file.read( "./.tmp/change_in_log.md" ) );
 
 			// If the current version is already in the changelog, retrieve the full readme and let the user edit it.
 			if ( containsCurrentVersion ) {
@@ -174,27 +182,21 @@ module.exports = function( grunt ) {
 					currentChangelogEntriesHeader = `${currentChangelogEntriesHeaderMatches[0]}`
 				}
 				//console.log(currentChangelogEntriesHeader)
-				currentChangelogEntriesLines = currentChangelogEntries.replace(new RegExp( escapeRegExp(currentChangelogEntriesHeader)), "")
+				currentChangelogEntries = currentChangelogEntries.replace(new RegExp( escapeRegExp(currentChangelogEntriesHeader)), "")
 				//console.log(currentChangelogEntriesLines)
 				
-				X.CreateUniqueLines(currentChangelogEntriesLines)
-				console.log(X.Changelog)
-
-				mergedReadme = changelog.replace(new RegExp( escapeRegExp(currentChangelogEntries)), currentChangelogEntriesHeader + "\n" + X.Changelog + "\n\n")
+				// create uniyoe linses using class ChangelogBuilder
+				changelogBuilder.parseChancelogLines(currentChangelogEntries)
+				//console.log(changelogBuilder.Changelog)
+				
+				// pul all parts togethor agian
+				mergedReadme = changelog.replace(new RegExp( escapeRegExp(currentChangelogEntries)), currentChangelogEntriesHeader + "\n" + changelogBuilder.cleanChangelog + "\n\n")
 
 				
 				// Write changes to the file.
 				grunt.file.write( "./readme.txt", mergedReadme );
 				done();
-
-				// mergeChangeLog( { newChangelogContent: mergedReadme } ).then( newChangelog => {
-				// 	// Update the grunt reference to the changelog.
-				// 	grunt.option( "changelog", newChangelog );
-
-				// 	// Write changes to the file.
-				// 	grunt.file.write( "./readme.txt", newChangelog );
-				// 	done();
-				// } );
+			
 			} else {
 				// If the current version is not in the changelog, build a new one from input file.
 				let changelogVersionNumber = versionNumber.major + "." + versionNumber.minor;
@@ -214,7 +216,7 @@ module.exports = function( grunt ) {
 				const mo = new Intl.DateTimeFormat('en', { month: 'long' }).format(d);
 				const da = new Intl.DateTimeFormat('en', { day: 'numeric' }).format(d);
 				datestring = `${mo} ${format(da)}, ${ye}`
-				newChangelog = `= ${changelogVersionNumber} =\nRelease Date: ${datestring}\n${changeLogClean}`
+				newChangelog = `= ${changelogVersionNumber} =\nRelease Date: ${datestring}\n${changelogBuilder.cleanChangelog}`
 				// Add the changelog, behind the == Changelog == header.
 				changelog = changelog.replace( /[=]= Changelog ==/ig, "== Changelog ==\n\n" + newChangelog.trim() );
 				// Write changes to the file.
