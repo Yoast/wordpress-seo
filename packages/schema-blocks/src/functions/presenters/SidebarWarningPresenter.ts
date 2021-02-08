@@ -5,12 +5,19 @@ import { get } from "lodash";
 import { BlockValidationResult } from "../../core/validation";
 import { BlockValidation } from "../../core/validation/BlockValidation";
 
-const warningTemplates: Record<number, string> = {
+const analysisMessageTemplates: Record<number, string> = {
 	[ BlockValidation.MissingBlock ]: "The '{parent} {child}' block is {status} but missing.",
 	[ BlockValidation.MissingAttribute ]: "The '{parent} {child}' block is empty.",
 };
 
 type clientIdValidation = Record<string, BlockValidationResult>;
+
+type analysisIssue = {
+	name: string;
+	parent: string;
+	result: BlockValidation;
+	status: string;
+};
 
 /**
  * Gets the validation results from the store for a blockinstance with the given clientId.
@@ -42,10 +49,10 @@ export type WarningDefinition = {
  *  @returns {string} The presentable warning message appropriate for this issue.
  */
 export function replaceVariables( issue: WarningDefinition ): string {
-	const warning = get( warningTemplates, issue.result, "" );
-	return warning.replace( "{parent}", issue.parent )
-		.replace( "{child}", issue.name )
-		.replace( "{status}", issue.status );
+	const warning = get( analysisMessageTemplates, issue.result, "" );
+	return warning.replace( "{parent}", __( issue.parent, "wpseo-schema-blocks" ) )
+		.replace( "{child}", __( issue.name, "wpseo-schema-blocks" ) )
+		.replace( "{status}", __( issue.status, "wpseo-schema-blocks" ) );
 }
 
 /**
@@ -57,21 +64,12 @@ export function replaceVariables( issue: WarningDefinition ): string {
  */
 export default function getWarnings( clientId: string ): string[] {
 	const validation: BlockValidationResult = getValidationResult( clientId );
-
-	// Only provide warning messages if the validation issues require warnings.
-	if ( ! validation || validation.issues.every( issue => ! ( issue.result in warningTemplates ) ) ) {
+	if ( ! validation ) {
 		return null;
 	}
 
-	return createWarningMessages( validation );
+	return createAnalysisMessages( validation );
 }
-
-type warningIssue = {
-	name: string;
-	parent: string;
-	result: BlockValidation;
-	status: string;
-};
 
 /**
  * Creates an array of warning messages from a block validation result.
@@ -79,10 +77,12 @@ type warningIssue = {
  * @param validation The block being validated.
  * @returns {string[]} The formatted warnings.
  */
-export function createWarningMessages( validation: BlockValidationResult ) {
+export function createAnalysisMessages( validation: BlockValidationResult ) {
 	const parent = sanitizeBlockName( validation.name );
-	const issues: warningIssue[] = validation.issues
-		.filter( ( issue: BlockValidationResult ) => issue.result in warningTemplates )
+
+	// Create a message if all is good or some are bad.
+	const issues: analysisIssue[] = validation.issues
+		.filter( ( issue: BlockValidationResult ) => issue.result in analysisMessageTemplates )
 		.map( ( issue: BlockValidationResult ) => ( {
 			name: sanitizeBlockName( issue.name ),
 			parent: parent,
@@ -90,33 +90,31 @@ export function createWarningMessages( validation: BlockValidationResult ) {
 			status: "required",
 		} ) );
 
-	const warnings = issues.map( issue => replaceVariables( issue ) );
-
-	const footerMessages = getFooterMessages( issues );
-	if ( footerMessages && footerMessages.length > 0 ) {
-		warnings.push( ...footerMessages );
+	const messages = issues.map( issue => replaceVariables( issue ) );
+	const conclusion = getAnalysisConclusion( validation.result, issues );
+	if ( conclusion && conclusion.length > 0 ) {
+		messages.push( conclusion );
 	}
 
-	return warnings;
+	return messages;
 }
 
 /**
  * Adds analysis conclusions to the footer.
  *
- * @param issues The detected issues with metadata.
- * @returns {string[]} Any analysis conclusions that should be in the footer.
+ * @param validation The validation result for the current block.
+ * @param issues     The detected issues with metadata.
+ * @returns {string} Any analysis conclusions that should be in the footer.
  */
-function getFooterMessages( issues: warningIssue[] ): string[] {
-	const output: string[] = [];
+function getAnalysisConclusion( validation: BlockValidation, issues: analysisIssue[] ): string {
 	if ( issues.some( issue => issue.result === BlockValidation.MissingBlock || issue.result === BlockValidation.MissingAttribute ) ) {
-		output.push( __( "Not all required blocks are completed! No '" + issues[ 0 ].parent +
-			"' schema will be generated for your page.", "wpseo-schema-blocks" ) );
-	} else {
-		if ( issues.every( issue => issue.result !== BlockValidation.MissingBlock && issue.result !== BlockValidation.MissingAttribute ) ) {
-			output.push( __( "Good job! All required blocks are completed.", "wpseo-schema-blocks" ) );
-		}
+		return __( "Not all required blocks are completed! No '" + issues[ 0 ].parent +
+			"' schema will be generated for your page.", "wpseo-schema-blocks" );
 	}
-	return output;
+
+	if ( validation === BlockValidation.Valid ) {
+		return __( "Good job! All required blocks are completed.", "wpseo-schema-blocks" );
+	}
 }
 
 /**

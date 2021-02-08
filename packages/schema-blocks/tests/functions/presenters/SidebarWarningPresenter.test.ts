@@ -1,5 +1,5 @@
 import { BlockValidation, BlockValidationResult } from "../../../src/core/validation";
-import getWarnings, { createWarningMessages, sanitizeBlockName } from "../../../src/functions/presenters/SidebarWarningPresenter";
+import getWarnings, { createAnalysisMessages, sanitizeBlockName } from "../../../src/functions/presenters/SidebarWarningPresenter";
 
 const validations: Record<string, BlockValidationResult> = {};
 const blockTypes: Record<string, string> = {};
@@ -25,11 +25,11 @@ jest.mock( "@wordpress/data", () => {
 	};
 } );
 
-describe( "The createWarningMessage method ", () => {
+describe( "The createAnalysisMessages method ", () => {
 	it( "creates a success message for valid blocks.", () => {
 		const testcase = new BlockValidationResult( "1", "mijnblock", BlockValidation.Valid );
 
-		const result = createWarningMessages( testcase );
+		const result = createAnalysisMessages( testcase );
 
 		expect( result.length ).toEqual( 1 );
 		expect( result[ 0 ] ).toEqual( "Good job! All required blocks are completed." );
@@ -38,17 +38,16 @@ describe( "The createWarningMessage method ", () => {
 	it( "creates a success message for validation results we have no copy for.", () => {
 		const testcase = new BlockValidationResult( "1", "mijnblock", BlockValidation.Skipped );
 
-		const result = createWarningMessages( testcase );
+		const result = createAnalysisMessages( testcase );
 
-		expect( result.length ).toEqual( 1 );
-		expect( result[ 0 ] ).toEqual( "Good job! All required blocks are completed." );
+		expect( result ).toEqual( [] );
 	} );
 
 	it( "creates warning messages for missing attributes, with a footer message.", () => {
 		const testcase = new BlockValidationResult( "1", "mijnblock", BlockValidation.Invalid );
 		testcase.issues.push( new BlockValidationResult( null, "missingblockattribute", BlockValidation.MissingAttribute ) );
 
-		const result = createWarningMessages( testcase );
+		const result = createAnalysisMessages( testcase );
 
 		expect( result.length ).toEqual( 2 );
 		expect( result[ 0 ] ).toEqual( "The 'mijnblock missingblockattribute' block is empty." );
@@ -59,7 +58,7 @@ describe( "The createWarningMessage method ", () => {
 		const testcase = new BlockValidationResult( "1", "mijnblock", BlockValidation.Invalid );
 		testcase.issues.push( new BlockValidationResult( null, "missingblock", BlockValidation.MissingBlock ) );
 
-		const result = createWarningMessages( testcase );
+		const result = createAnalysisMessages( testcase );
 
 		expect( result.length ).toEqual( 2 );
 		expect( result[ 0 ] ).toEqual( "The 'mijnblock missingblock' block is required but missing." );
@@ -87,17 +86,17 @@ describe( "The sanitizeBlockName method ", () => {
 
 		const results = testcases.map( input => sanitizeBlockName( input ) );
 
-		expect( results ).toMatchObject( [ "blok", "blok", "blok", "blok", "blok/" ] );
+		expect( results ).toEqual( [ "blok", "blok", "blok", "blok", "blok/" ] );
 	} );
 } );
 
 describe( "The getWarnings method ", () => {
-	it( "creates no warnings for valid blocks.", () => {
+	it( "creates a compliment for valid blocks.", () => {
 		validations[ "1" ] = new BlockValidationResult( "1", "myBlock", BlockValidation.Valid );
 
 		const result = getWarnings( "1" );
 
-		expect( result ).toEqual( null );
+		expect( result ).toEqual( [ "Good job! All required blocks are completed." ] );
 	} );
 
 	it( "creates no warnings for validations we have no copy for.", () => {
@@ -109,7 +108,7 @@ describe( "The getWarnings method ", () => {
 
 		const result = getWarnings( "1" );
 
-		expect( result ).toEqual( null );
+		expect( result ).toEqual( [] );
 	} );
 
 	it( "creates a warning for a block with validation problems.", () => {

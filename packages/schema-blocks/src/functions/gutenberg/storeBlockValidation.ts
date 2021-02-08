@@ -14,11 +14,13 @@ export default function storeBlockValidation( validations: BlockValidationResult
 	console.log( "Updating the store with the validation results." );
 
 	const store = dispatch( "yoast-seo/editor" );
-	store.resetBlockValidation();
-	validations.forEach( blockValidation => {
-		// eslint-disable-next-line no-console
-		console.log( blockValidation );
+	if ( store ) {
+		store.resetBlockValidation();
+		validations.forEach( blockValidation => {
+			// eslint-disable-next-line no-console
+			console.log( blockValidation );
 
-		store.addBlockValidation( blockValidation );
-	} );
+			store.addBlockValidation( blockValidation );
+		} );
+	}
 }
