@@ -26,21 +26,20 @@ jest.mock( "@wordpress/data", () => {
 } );
 
 describe( "The createAnalysisMessages method ", () => {
-	it( "creates a success message for valid blocks.", () => {
+	it( "creates a compliment for valid blocks.", () => {
 		const testcase = new BlockValidationResult( "1", "mijnblock", BlockValidation.Valid );
 
 		const result = createAnalysisMessages( testcase );
 
-		expect( result.length ).toEqual( 1 );
-		expect( result[ 0 ] ).toEqual( "Good job! All required blocks are completed." );
+		expect( result ).toEqual( [ "Good job! All required blocks are completed." ] );
 	} );
 
-	it( "creates a success message for validation results we have no copy for.", () => {
+	it( "creates a compliment for validation results we have no copy for.", () => {
 		const testcase = new BlockValidationResult( "1", "mijnblock", BlockValidation.Skipped );
 
 		const result = createAnalysisMessages( testcase );
 
-		expect( result ).toEqual( [] );
+		expect( result ).toEqual( [ "Good job! All required blocks are completed." ] );
 	} );
 
 	it( "creates warning messages for missing attributes, with a footer message.", () => {
@@ -99,7 +98,7 @@ describe( "The getWarnings method ", () => {
 		expect( result ).toEqual( [ "Good job! All required blocks are completed." ] );
 	} );
 
-	it( "creates no warnings for validations we have no copy for.", () => {
+	it( "creates a compliment if we do not have copy for any of the validations.", () => {
 		const testcase = new BlockValidationResult( "1", "myBlock", BlockValidation.Invalid );
 		testcase.issues.push( new BlockValidationResult( "2", "innerblock1", BlockValidation.Skipped ) );
 		testcase.issues.push( new BlockValidationResult( "3", "anotherinnerblock", BlockValidation.TooMany ) );
@@ -108,7 +107,7 @@ describe( "The getWarnings method ", () => {
 
 		const result = getWarnings( "1" );
 
-		expect( result ).toEqual( [] );
+		expect( result ).toEqual( [ "Good job! All required blocks are completed." ] );
 	} );
 
 	it( "creates a warning for a block with validation problems.", () => {

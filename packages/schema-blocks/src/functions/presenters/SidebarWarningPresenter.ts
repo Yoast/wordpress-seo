@@ -91,6 +91,7 @@ export function createAnalysisMessages( validation: BlockValidationResult ) {
 		} ) );
 
 	const messages = issues.map( issue => replaceVariables( issue ) );
+
 	const conclusion = getAnalysisConclusion( validation.result, issues );
 	if ( conclusion && conclusion.length > 0 ) {
 		messages.push( conclusion );
@@ -112,7 +113,8 @@ function getAnalysisConclusion( validation: BlockValidation, issues: analysisIss
 			"' schema will be generated for your page.", "wpseo-schema-blocks" );
 	}
 
-	if ( validation === BlockValidation.Valid ) {
+	if ( validation === BlockValidation.Valid ||
+		issues.every( issue => issue.result !== BlockValidation.MissingAttribute && issue.result !== BlockValidation.MissingBlock ) ) {
 		return __( "Good job! All required blocks are completed.", "wpseo-schema-blocks" );
 	}
 }
