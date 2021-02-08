@@ -1,12 +1,16 @@
 import { BlockInstance } from "@wordpress/blocks";
+import { BlockValidationResult, BlockValidation } from "./validation";
+
 
 export type InstructionPrimitive = string | number | boolean;
 export type InstructionValue = InstructionPrimitive | InstructionObject | InstructionArray;
-export type InstructionObject = { [member: string]: InstructionValue };
 export type InstructionArray = readonly InstructionValue[];
-export type InstructionOptions = InstructionObject;
-export type InstructionClass<T extends Instruction> = {
+export interface InstructionObject { [member: string]: InstructionValue }
+export interface InstructionClass<T extends Instruction> {
 	new( id: number, options: InstructionOptions ): T;
+}
+export type InstructionOptions = InstructionObject & {
+	name: string;
 };
 
 /**
@@ -50,18 +54,15 @@ export default abstract class Instruction {
 		return true;
 	}
 
-	/* eslint-disable @typescript-eslint/no-unused-vars */
 	/**
-	 * Checks if the instruction block is valid.
+	 * Validates the block instance against its definition.
 	 *
 	 * @param blockInstance The block to check.
-	 *
-	 * @returns `true` if the instruction block is valid, `false` if the block contains errors.
+	 * @returns {BlockValidationResult} The validation result.
 	 */
-	valid( blockInstance: BlockInstance ): boolean {
-		return true;
+	validate( blockInstance: BlockInstance ): BlockValidationResult {
+		return new BlockValidationResult( blockInstance.clientId, blockInstance.name, BlockValidation.Unknown );
 	}
-	/* eslint-enable @typescript-eslint/no-unused-vars */
 
 	/**
 	 * Register a new instruction.
@@ -90,7 +91,7 @@ export default abstract class Instruction {
 	 *
 	 * @returns The instruction instance.
 	 */
-	static create<I extends typeof Instruction>( this: I, name: string, id: number, options: InstructionOptions = {} ): I["prototype"] {
+	static create<I extends typeof Instruction>( this: I, name: string, id: number, options: InstructionOptions ): I["prototype"] {
 		if ( typeof this.registeredInstructions === "undefined" ) {
 			this.registeredInstructions = {};
 		}

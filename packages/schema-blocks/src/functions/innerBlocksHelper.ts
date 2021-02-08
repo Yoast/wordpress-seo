@@ -35,6 +35,23 @@ function filterBlocksRecursively( blockInstance: BlockInstance, predicate: ( blo
 }
 
 /**
+ * Maps the given callback function over all the blocks (including all innerBlocks) and returns the results as a flat array.
+ *
+ * @param blocks The blocks.
+ * @param callback The callback function.
+ *
+ * @returns The transformed blocks, in a flat array.
+ */
+function mapBlocksRecursively( blocks: BlockInstance[], callback: ( block: BlockInstance ) => unknown ): unknown[] {
+	const result: unknown[] = [];
+	recurseOverBlocks( blocks, ( block: BlockInstance ) => {
+		// eslint-disable-next-line callback-return
+		result.push( callback( block ) );
+	} );
+	return result;
+}
+
+/**
  * Inserts a block to the inner block.
  *
  * @param {BlockInstance} block    The block to insert.
@@ -45,4 +62,4 @@ function insertBlock( block: BlockInstance, clientId: string, index?: number ): 
 	dispatch( "core/block-editor" ).insertBlock( block, index, clientId );
 }
 
-export { filterBlocksRecursively, getInnerblocksByName, insertBlock };
+export { filterBlocksRecursively, getInnerblocksByName, mapBlocksRecursively, insertBlock };

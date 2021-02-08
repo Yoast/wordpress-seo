@@ -2,44 +2,57 @@ import { ReactElement } from "react";
 import { createElement, ComponentClass } from "@wordpress/element";
 import { InnerBlocks as WordPressInnerBlocks } from "@wordpress/block-editor";
 import { BlockInstance, TemplateArray } from "@wordpress/blocks";
-
+import { BlockValidation, BlockValidationResult, RecommendedBlock, RequiredBlock } from "../../core/validation";
 import BlockInstruction from "../../core/blocks/BlockInstruction";
-import { RequiredBlock } from "./dto";
-import { getInvalidInnerBlocks } from "../../functions/validators";
-import { InvalidBlockReason } from "./enums";
-import { RenderEditProps } from "../../core/blocks/BlockDefinition";
+import validateInnerBlocks from "../../functions/validators/innerBlocksValid";
+import { RenderEditProps, RenderSaveProps } from "../../core/blocks/BlockDefinition";
 import { getBlockByClientId } from "../../functions/BlockHelper";
 import RequiredBlocks from "../../blocks/RequiredBlocks";
+import { InstructionObject } from "../../core/Instruction";
+import BlockLeaf from "../../core/blocks/BlockLeaf";
+import validateMany from "../../functions/validators/validateMany";
 
 /**
  * InnerBlocks instruction.
  */
 export default class InnerBlocks extends BlockInstruction {
 	public options: {
+		name: string;
 		allowedBlocks: string[];
 		template: TemplateArray;
 		appender: string;
 		appenderLabel: string;
 		requiredBlocks: RequiredBlock[];
-		recommendedBlocks: string[];
+		recommendedBlocks: RecommendedBlock[];
+		warnings: InstructionObject;
 	};
 
 	/**
 	 * Renders saving the instruction.
 	 *
+	 * @param props The props.
+	 * @param leaf The leaf.
+	 * @param i The index.
+	 *
 	 * @returns The inner blocks.
 	 */
-	save(): JSX.Element {
-		return createElement( WordPressInnerBlocks.Content );
+	save( props: RenderSaveProps, leaf: BlockLeaf, i: number ): ReactElement | string {
+		return createElement( WordPressInnerBlocks.Content, { key: i } );
 	}
 
 	/**
 	 * Renders editing the instruction.
 	 *
+	 * @param props The props.
+	 * @param leaf The leaf.
+	 * @param i The index.
+	 *
 	 * @returns The inner blocks.
 	 */
-	edit(): JSX.Element {
-		const properties: WordPressInnerBlocks.Props = {};
+	edit( props: RenderEditProps, leaf: BlockLeaf, i: number ): ReactElement | string {
+		const properties: React.ClassAttributes<unknown> & WordPressInnerBlocks.Props = {
+			key: i,
+		};
 
 		if ( this.options.appender === "button" ) {
 			properties.renderAppender = () => {
@@ -55,12 +68,14 @@ export default class InnerBlocks extends BlockInstruction {
 				createElement(
 					"div",
 					{ className: "yoast-labeled-inserter", "data-label": this.options.appenderLabel },
-					[ createElement( ( WordPressInnerBlocks as unknown as { ButtonBlockAppender: ComponentClass } ).ButtonBlockAppender ) ],
+					createElement( ( WordPressInnerBlocks as unknown as { ButtonBlockAppender: ComponentClass } ).ButtonBlockAppender ),
 				);
 		}
 
+		properties.allowedBlocks = [ "yoast/warning-block" ];
+
 		if ( this.options.allowedBlocks ) {
-			properties.allowedBlocks = this.options.allowedBlocks;
+			properties.allowedBlocks = this.options.allowedBlocks.concat( properties.allowedBlocks );
 		}
 
 		if ( this.options.template ) {
@@ -84,7 +99,7 @@ export default class InnerBlocks extends BlockInstruction {
 			return RequiredBlocks( currentBlock, this.options.requiredBlocks );
 		}
 
-		return "";
+		return null;
 	}
 
 	/**
@@ -92,12 +107,12 @@ export default class InnerBlocks extends BlockInstruction {
 	 *
 	 * @param blockInstance The block instance being validated.
 	 *
-	 * @returns `true` if the instruction block is valid, `false` if the block contains errors.
+	 * @returns {BlockValidationResult} The validation result.
 	 */
-	valid( blockInstance: BlockInstance ): boolean {
-		const invalidBlocks = getInvalidInnerBlocks( blockInstance, this.options.requiredBlocks );
-
-		return invalidBlocks.length === 0 || invalidBlocks.every( block => block.reason === InvalidBlockReason.Optional );
+	validate( blockInstance: BlockInstance ): BlockValidationResult {
+		const validation = new BlockValidationResult( blockInstance.clientId, blockInstance.name, BlockValidation.Unknown );
+		validation.issues = validateInnerBlocks( blockInstance, this.options.requiredBlocks );
+		return validateMany( validation );
 	}
 }
 

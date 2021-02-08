@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file. Releases wi
 
 We follow [Semantic Versioning](http://semver.org/).
 
+## 2.14.0 February 8th, 2021
+### Enhancements:
+* Adds a DurationInput component, which can handle the input of a duration in hours, minutes, and seconds.
+* Adds an ImageSelect component with an image preview or url preview.
+
 ## 2.12.0 January 12th, 2021
 ### Enhancements:
 * Adds an InsightCard component.
