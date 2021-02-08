@@ -1,0 +1,7 @@
+{
+  "source": "Sample vocabulary from https://snowballstem.org/algorithms/french/stemmer.html",
+  "notes": "The stems represent the output of the current stemmer.",
+  "stems": [
+    ["a", "a"],
+  ]
+}

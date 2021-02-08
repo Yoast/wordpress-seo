@@ -430,7 +430,8 @@ const removeCase = function( word, morphologyData ) {
 		if ( word.substring( len - 3, len ) === caseSuffixes.caseSuffixEho || //-ého
 			word.substring( len - 3, len ) === caseSuffixes.caseSuffixEmiCaron ||  // -ěmi
 			word.substring( len - 3, len ) === caseSuffixes.caseSuffixEmi ||
-			word.substring( len - 3, len ) === caseSuffixes.caseSuffixEmuAccented ||  // -ému				                                                                word.substring( len-3,len) ==="ete")||
+			word.substring( len - 3, len ) === caseSuffixes.caseSuffixEmuAccented ||  // -ému
+			word.substring( len - 3,len ) === caseSuffixes.caseSuffixEte ||
 			word.substring( len - 3, len ) === caseSuffixes.caseSuffixEti ||
 			word.substring( len - 3, len ) === caseSuffixes.caseSuffixIho ||
 			word.substring( len - 3, len ) === caseSuffixes.caseSuffixIhoAccented ||  //-ího

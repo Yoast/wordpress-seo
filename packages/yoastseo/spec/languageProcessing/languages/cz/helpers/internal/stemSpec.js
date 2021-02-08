@@ -25,6 +25,8 @@ const wordsToStem = [
 	[ "hranicemi", "hranice" ],
 	// Input a word ending in case suffix -ému.
 	[ "výraznému", "výraz" ],
+	// Input a word ending in case suffix -ete.
+	[ "zašlete", "zaš" ],
 	// Input a word ending in case suffix -eti.
 	[ "čtyřiceti", "čtyřice" ],
 	// Input a word ending in case suffix -iho.
