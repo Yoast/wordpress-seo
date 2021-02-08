@@ -113,31 +113,30 @@ const calculateFleschReadingResult = function( fleschReadingScore, scoresConfig,
 	 */
 const getFleschReadingResult = function( paper, researcher, i18n ) {
 	const fleschReadingScore = researcher.getResearch( "getFleschReadingScore" );
-	let scoresConfig = researcher.getConfig( "fleschReadingEaseScores" );
-	if ( scoresConfig === false ) {
-		scoresConfig = {
-			borders: {
-				veryEasy: 90,
-				easy: 80,
-				fairlyEasy: 70,
-				okay: 60,
-				fairlyDifficult: 50,
-				difficult: 30,
-				veryDifficult: 0,
-			},
-			scores: {
-				veryEasy: 9,
-				easy: 9,
-				fairlyEasy: 9,
-				okay: 9,
-				fairlyDifficult: 6,
-				difficult: 3,
-				veryDifficult: 3,
-			},
-		};
-	}
+	const languageSpecificConfig = researcher.getConfig( "fleschReadingEaseScores" );
+	const defaultConfig = {
+		borders: {
+			veryEasy: 90,
+			easy: 80,
+			fairlyEasy: 70,
+			okay: 60,
+			fairlyDifficult: 50,
+			difficult: 30,
+			veryDifficult: 0,
+		},
+		scores: {
+			veryEasy: 9,
+			easy: 9,
+			fairlyEasy: 9,
+			okay: 9,
+			fairlyDifficult: 6,
+			difficult: 3,
+			veryDifficult: 3,
+		},
+	};
+	const config = languageSpecificConfig ? languageSpecificConfig : defaultConfig;
 
-	const fleschReadingResult = calculateFleschReadingResult( fleschReadingScore, scoresConfig, i18n );
+	const fleschReadingResult = calculateFleschReadingResult( fleschReadingScore, config, i18n );
 
 	const assessmentResult =  new AssessmentResult();
 

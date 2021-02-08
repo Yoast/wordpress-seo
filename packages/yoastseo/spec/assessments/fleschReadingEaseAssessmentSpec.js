@@ -4,7 +4,7 @@ import factory from "../specHelpers/factory.js";
 const i18n = factory.buildJed();
 import russianConfig from "../../src/languageProcessing/languages/ru/config/fleschReadingEaseScores";
 
-describe( "An assessment for the Flesch reading", function() {
+describe( "An assessment for the Flesch reading ease test", function() {
 	it( "returns an 'easy' score and the associated feedback text for a paper using the default config when the score is" +
 		" between 80 and 90.", function() {
 		const paper = new Paper( "This is a very interesting paper" );
@@ -178,7 +178,7 @@ describe( "An assessment for the Flesch reading", function() {
 			"less difficult words to improve readability</a>." );
 	} );
 
-	it( "returns a feedback text containing '100' for a paper with a flesch score above 100.", function() {
+	it( "returns a feedback text containing '100' for a paper with a Flesch score above 100.", function() {
 		const paper = new Paper( "This is a very interesting paper" );
 		const result = fleschReadingAssessment.getResult( paper, factory.buildMockResearcher( 103.0, false, false, russianConfig ), i18n );
 

@@ -12,14 +12,14 @@ import Mark from "../../../values/Mark";
 /**
  * Translates the score to a message the user can understand.
  *
- * @param {number} score The score.
- * @param {number} percentage The percentage.
- * @param {object} i18n The object used for translations.
- * @param {Object} sentenceLengthConfig The config with sentence length score boundaries and recommended sentence length.
+ * @param {number} score        The score.
+ * @param {number} percentage   The percentage.
+ * @param {object} i18n         The object used for translations.
+ * @param {Object} config       The config with sentence length score boundaries and recommended sentence length.
  *
  * @returns {string} A string.
  */
-const translateScore = function( score, percentage,  i18n, sentenceLengthConfig ) {
+const translateScore = function( score, percentage,  i18n, config ) {
 	const urlTitle = createAnchorOpeningTag( "https://yoa.st/34v" );
 	const urlCallToAction = createAnchorOpeningTag( "https://yoa.st/34w" );
 	if ( score >= 7 ) {
@@ -42,8 +42,8 @@ const translateScore = function( score, percentage,  i18n, sentenceLengthConfig 
 		urlTitle,
 		"</a>",
 		percentage + "%",
-		sentenceLengthConfig.recommendedWordCount,
-		sentenceLengthConfig.slightlyTooMany + "%",
+		config.recommendedWordCount,
+		config.slightlyTooMany + "%",
 		urlCallToAction
 	);
 };
@@ -51,26 +51,26 @@ const translateScore = function( score, percentage,  i18n, sentenceLengthConfig 
 /**
  * Calculates the score for the given percentage.
  *
- * @param {number} percentage 			The percentage to calculate the score for.
- * @param {Object} sentenceLengthConfig The config with sentence length score boundaries and recommended sentence length.
+ * @param {number} percentage The percentage to calculate the score for.
+ * @param {Object} config     The config with sentence length score boundaries and recommended sentence length.
  *
  * @returns {number} The calculated score.
  */
-const calculateScore = function( percentage, sentenceLengthConfig ) {
+const calculateScore = function( percentage, config ) {
 	let score;
 
 	// Green indicator.
-	if ( percentage <= sentenceLengthConfig.slightlyTooMany ) {
+	if ( percentage <= config.slightlyTooMany ) {
 		score = 9;
 	}
 
 	// Orange indicator.
-	if ( inRange( percentage, sentenceLengthConfig.slightlyTooMany, sentenceLengthConfig.farTooMany ) ) {
+	if ( inRange( percentage, config.slightlyTooMany, config.farTooMany ) ) {
 		score = 6;
 	}
 
 	// Red indicator.
-	if ( percentage > sentenceLengthConfig.farTooMany ) {
+	if ( percentage > config.farTooMany ) {
 		score = 3;
 	}
 
@@ -131,22 +131,21 @@ const calculatePercentageTooLongSentences = function( sentences, recommendedCoun
  */
 const getSentenceLengthResult = function( paper, researcher, i18n ) {
 	const sentences = researcher.getResearch( "countSentencesFromText" );
-	let sentenceLengthConfig = researcher.getConfig( "sentenceLength" );
-	if ( sentenceLengthConfig === false ) {
-		sentenceLengthConfig = {
-			recommendedWordCount: 20,
-			slightlyTooMany: 25,
-			farTooMany: 30,
-		};
-	}
+	const languageSpecificConfig = researcher.getConfig( "sentenceLength" );
+	const defaultConfig = {
+		recommendedWordCount: 20,
+		slightlyTooMany: 25,
+		farTooMany: 30,
+	};
+	const config = languageSpecificConfig ? languageSpecificConfig : defaultConfig;
 
-	const percentage = calculatePercentageTooLongSentences( sentences, sentenceLengthConfig.recommendedWordCount );
-	const score = calculateScore( percentage, sentenceLengthConfig );
+	const percentage = calculatePercentageTooLongSentences( sentences, config.recommendedWordCount );
+	const score = calculateScore( percentage, config );
 
 	const assessmentResult = new AssessmentResult();
 
 	assessmentResult.setScore( score );
-	assessmentResult.setText( translateScore( score, percentage, i18n, sentenceLengthConfig ) );
+	assessmentResult.setText( translateScore( score, percentage, i18n, config ) );
 	assessmentResult.setHasMarks( ( percentage > 0 ) );
 
 	return assessmentResult;
