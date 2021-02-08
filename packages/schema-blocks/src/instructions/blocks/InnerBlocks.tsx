@@ -30,7 +30,7 @@ export default class InnerBlocks extends BlockInstruction {
 	public options: InstructionOptions & {
 		allowedBlocks: string[];
 		template: TemplateArray;
-		appender: string | false ;
+		appender: string | false;
 		appenderLabel: string;
 		requiredBlocks: RequiredBlock[];
 		recommendedBlocks: RecommendedBlock[];
@@ -142,7 +142,7 @@ export default class InnerBlocks extends BlockInstruction {
 			elements.push( BlockSuggestions( __( "Required Blocks", "wpseo-schema-blocks" ), currentBlock, this.options.requiredBlocks ) );
 		}
 		if ( this.options.recommendedBlocks ) {
-			elements.push( BlockSuggestions( __( "Recommended Blocks", "wpseo-schema-blocks" ),  currentBlock, this.options.recommendedBlocks ) );
+			elements.push( BlockSuggestions( __( "Recommended Blocks", "wpseo-schema-blocks" ), currentBlock, this.options.recommendedBlocks ) );
 		}
 
 		if ( elements.length === 0 ) {
@@ -150,8 +150,8 @@ export default class InnerBlocks extends BlockInstruction {
 		}
 
 		return (
-			<Fragment>
-			{ ...elements }
+			<Fragment key="innerblocks-sidebar">
+				{ ...elements }
 			</Fragment>
 		);
 	}

@@ -44,13 +44,14 @@ class VariationPicker extends BlockInstruction {
 	createBlocksFromInnerBlocksTemplate = ( innerBlocksTemplate: BlockInstance[] ): BlockInstance[] => {
 		return map(
 			innerBlocksTemplate,
-			( { name, attributes = {}, innerBlocks = [] } ) =>
-				createBlock(
+			( { name, attributes = {}, innerBlocks = [] }, i ) => {
+				// attributes.key = `${ name }-${ i }`;
+				return createBlock(
 					name,
 					attributes,
 					this.createBlocksFromInnerBlocksTemplate( innerBlocks ),
-				),
-		);
+				);
+			} );
 	};
 
 	/**
@@ -107,7 +108,7 @@ class VariationPicker extends BlockInstruction {
 		};
 
 		return (
-			<div { ...blockProps }>
+			<div key="variation-picker" { ...blockProps }>
 				<ExperimentalBlockVariationPicker
 					icon={ false }
 					label={ get( blockType, [ "title" ] ) }
