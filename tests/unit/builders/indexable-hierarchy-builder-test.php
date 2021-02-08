@@ -119,6 +119,7 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 					'post_type'   => 'post',
 				]
 			);
+		$this->indexable_hierarchy_repository->expects( 'add_ancestor' )->with( 1, 0, 0 );
 
 		$actual = $this->instance->build( $indexable );
 		$this->assertEmpty( $actual->ancestors );
@@ -157,6 +158,7 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 					'post_type'   => 'post',
 				]
 			);
+		$this->indexable_hierarchy_repository->expects( 'add_ancestor' )->with( 1, 0, 0 );
 
 		$actual = $this->instance->build( $indexable );
 		$this->assertEmpty( $actual->ancestors );
@@ -180,6 +182,7 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 
 		$this->indexable_hierarchy_repository->expects( 'clear_ancestors' )->with( 1 )->andReturnTrue();
 		$this->post->expects( 'get_post' )->with( 1 )->andReturn( (object) [ 'post_type' => 'post' ] );
+		$this->indexable_hierarchy_repository->expects( 'add_ancestor' )->with( 1, 0, 0 );
 
 		$actual = $this->instance->build( $indexable );
 		$this->assertEmpty( $actual->ancestors );
