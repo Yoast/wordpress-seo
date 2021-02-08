@@ -66,6 +66,13 @@ export default function getWarnings( clientId: string ): string[] {
 	return createWarningMessages( validation );
 }
 
+type warningIssue = {
+	name: string;
+	parent: string;
+	result: BlockValidation;
+	status: string;
+};
+
 /**
  * Creates an array of warning messages from a block validation result.
  *
@@ -74,7 +81,7 @@ export default function getWarnings( clientId: string ): string[] {
  */
 export function createWarningMessages( validation: BlockValidationResult ) {
 	const parent = sanitizeBlockName( validation.name );
-	const issues = validation.issues
+	const issues: warningIssue[] = validation.issues
 		.filter( ( issue: BlockValidationResult ) => issue.result in warningTemplates )
 		.map( ( issue: BlockValidationResult ) => ( {
 			name: sanitizeBlockName( issue.name ),
@@ -85,12 +92,31 @@ export function createWarningMessages( validation: BlockValidationResult ) {
 
 	const warnings = issues.map( issue => replaceVariables( issue ) );
 
-	if ( issues.some( issue => issue.result === BlockValidation.MissingBlock || issue.result === BlockValidation.MissingAttribute ) ) {
-		warnings.push( __( "Not all required blocks are completed! No '" + parent +
-			"' schema will be generated for your page.", "wpseo-schema-blocks" ) );
+	const footerMessages = getFooterMessages( issues );
+	if ( footerMessages && footerMessages.length > 0 ) {
+		warnings.push( ...footerMessages );
 	}
 
 	return warnings;
+}
+
+/**
+ * Adds analysis conclusions to the footer.
+ *
+ * @param issues The detected issues with metadata.
+ * @returns {string[]} Any analysis conclusions that should be in the footer.
+ */
+function getFooterMessages( issues: warningIssue[] ): string[] {
+	const output: string[] = [];
+	if ( issues.some( issue => issue.result === BlockValidation.MissingBlock || issue.result === BlockValidation.MissingAttribute ) ) {
+		output.push( __( "Not all required blocks are completed! No '" + parent +
+			"' schema will be generated for your page.", "wpseo-schema-blocks" ) );
+	} else {
+		if ( issues.every( issue => issue.result !== BlockValidation.MissingBlock && issue.result !== BlockValidation.MissingAttribute ) ) {
+			output.push( __( "Good job! All required blocks are completed.", "wpseo-schema-blocks" ) );
+		}
+	}
+	return output;
 }
 
 /**
