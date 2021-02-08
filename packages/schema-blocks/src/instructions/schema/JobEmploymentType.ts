@@ -21,7 +21,6 @@ export default class JobEmploymentType extends SchemaInstruction {
 		const employmentType = block.attributes.employmentType;
 		const { isVolunteer, isInternship } = block.attributes;
 
-
 		if ( ! ( isVolunteer || isInternship ) ) {
 			return employmentType;
 		}
