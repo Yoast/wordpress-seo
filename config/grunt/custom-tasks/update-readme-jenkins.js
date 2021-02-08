@@ -63,7 +63,7 @@ class Unique {
 	}
   }
 
-const mergeChangeLog = require( "../lib/merge-changelog" );
+//const mergeChangeLog = require( "../lib/merge-changelog" );
 const parseVersion = require( "../lib/parse-version" );
 const _isEmpty = require( "lodash/isEmpty" );
 
@@ -182,15 +182,19 @@ module.exports = function( grunt ) {
 
 				mergedReadme = changelog.replace(new RegExp( escapeRegExp(currentChangelogEntries)), currentChangelogEntriesHeader + "\n" + X.Changelog + "\n\n")
 
-				//do some voodoo here to get new entry's in to changlog..
-				mergeChangeLog( { newChangelogContent: mergedReadme } ).then( newChangelog => {
-					// Update the grunt reference to the changelog.
-					grunt.option( "changelog", newChangelog );
+				
+				// Write changes to the file.
+				grunt.file.write( "./readme.txt", mergedReadme );
+				done();
 
-					// Write changes to the file.
-					grunt.file.write( "./readme.txt", newChangelog );
-					done();
-				} );
+				// mergeChangeLog( { newChangelogContent: mergedReadme } ).then( newChangelog => {
+				// 	// Update the grunt reference to the changelog.
+				// 	grunt.option( "changelog", newChangelog );
+
+				// 	// Write changes to the file.
+				// 	grunt.file.write( "./readme.txt", newChangelog );
+				// 	done();
+				// } );
 			} else {
 				// If the current version is not in the changelog, build a new one from input file.
 				let changelogVersionNumber = versionNumber.major + "." + versionNumber.minor;
