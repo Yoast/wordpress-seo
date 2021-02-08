@@ -3,7 +3,7 @@ import { createElement } from "@wordpress/element";
 import { BlockInstance } from "@wordpress/blocks";
 import BlockSuggestions from "../../blocks/BlockSuggestions";
 import { __ } from "@wordpress/i18n";
-import getWarnings from "./SidebarWarningPresenter";
+import getWarnings, { sidebarWarning } from "./SidebarWarningPresenter";
 import { InnerBlocksInstructionOptions } from "../../instructions/blocks/InnerBlocksInstructionOptions";
 import { SvgIcon } from "@yoast/components";
 
@@ -41,12 +41,12 @@ export function innerBlocksSidebar( currentBlock: BlockInstance, options: InnerB
  *
  * @returns {ReactElement} A ReactElement containing the list of warnings.
  */
-function createWarningList( warnings: string[] ): ReactElement {
+function createWarningList( warnings: sidebarWarning[] ): ReactElement {
 	return (
 		<div className="yoast-block-sidebar-warnings">
 			<div className="yoast-block-sidebar-title">{ __( "Analysis", "wpseo-schema-blocks" ) }</div>
 			<ul className="yoast-block-sidebar-warnings"> { }
-				{ ...warnings.map( warning => createWarningElement( warning ) ) }
+				{ ...warnings.map( warning => createWarningElement( warning.text, warning.color ) ) }
 			</ul>
 		</div>
 	);
@@ -56,15 +56,16 @@ function createWarningList( warnings: string[] ): ReactElement {
  * Creates a React element for a warning message
  *
  * @param warning The warning message.
+ * @param color The bubble color.
  *
  * @returns {ReactElement} The formatted warning message.
  */
-function createWarningElement( warning: string ): ReactElement {
+function createWarningElement( warning: string, color = "red" ): ReactElement {
 	return (
 		<li className="yoast-block-sidebar-warning">
 			<SvgIcon
 				icon="circle"
-				color="red"
+				color={ color }
 				size="13px"
 				className="yoast-block-sidebar-warning-dot"
 			/>{ warning }

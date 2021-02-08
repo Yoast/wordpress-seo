@@ -19,6 +19,18 @@ type analysisIssue = {
 	status: string;
 };
 
+export type sidebarWarning = {
+	text: string;
+	color: string;
+}
+
+export type WarningDefinition = {
+	name: string;
+	parent: string;
+	result: BlockValidation;
+	status: string;
+};
+
 /**
  * Gets the validation results from the store for a blockinstance with the given clientId.
  *
@@ -33,13 +45,6 @@ function getValidationResult( clientId: string ): BlockValidationResult | null {
 
 	return store.validations[ clientId ];
 }
-
-export type WarningDefinition = {
-	name: string;
-	parent: string;
-	result: BlockValidation;
-	status: string;
-};
 
 /**
  * Transforms a template into a warning message given validation details.
@@ -56,32 +61,45 @@ export function replaceVariables( issue: WarningDefinition ): string {
 }
 
 /**
- * Converts the validation results for a blockinstance with the given clientId to a presentable text.
+ * Adds analysis conclusions to the footer.
  *
- * @param clientId   The clientId to request validation results for.
+ * @param validation The validation result for the current block.
+ * @param issues     The detected issues with metadata.
  *
- * @returns {string} The presentable warning message, or null if no warnings are found.
+ * @returns {sidebarWarning} Any analysis conclusions that should be in the footer.
  */
-export default function getWarnings( clientId: string ): string[] {
-	const validation: BlockValidationResult = getValidationResult( clientId );
-	if ( ! validation ) {
-		return null;
+function getAnalysisConclusion( validation: BlockValidation, issues: analysisIssue[] ): sidebarWarning {
+	if ( issues.some( issue => issue.result === BlockValidation.MissingBlock ||
+							   issue.result === BlockValidation.MissingAttribute ) ) {
+		return {
+			text: __( "Not all required blocks are completed! No '" + issues[ 0 ].parent +
+			"' schema will be generated for your page.", "wpseo-schema-blocks" ),
+			color: "red",
+		} as sidebarWarning;
 	}
 
-	return createAnalysisMessages( validation );
+	if ( validation === BlockValidation.Valid ||
+		issues.every( issue => issue.result !== BlockValidation.MissingAttribute &&
+							   issue.result !== BlockValidation.MissingBlock ) ) {
+		return {
+			text: __( "Good job! All required blocks are completed.", "wpseo-schema-blocks" ),
+			color: "green",
+		} as sidebarWarning;
+	}
 }
 
 /**
  * Creates an array of warning messages from a block validation result.
  *
  * @param validation The block being validated.
- * @returns {string[]} The formatted warnings.
+ *
+ * @returns {sidebarWarning[]} The formatted warnings.
  */
-export function createAnalysisMessages( validation: BlockValidationResult ) {
+export function createAnalysisMessages( validation: BlockValidationResult ): sidebarWarning[] {
 	const parent = sanitizeBlockName( validation.name );
 
-	// Create a message if all is good or some are bad.
-	const issues: analysisIssue[] = validation.issues
+	// Create a message if there are any validation issues we have a template for.
+	const messageData: analysisIssue[] = validation.issues
 		.filter( ( issue: BlockValidationResult ) => issue.result in analysisMessageTemplates )
 		.map( ( issue: BlockValidationResult ) => ( {
 			name: sanitizeBlockName( issue.name ),
@@ -89,34 +107,17 @@ export function createAnalysisMessages( validation: BlockValidationResult ) {
 			result: issue.result,
 			status: "required",
 		} ) );
+	const messages = messageData.map( msg => {
+		return { text: replaceVariables( msg ), color: "red" } as sidebarWarning;
+	} );
 
-	const messages = issues.map( issue => replaceVariables( issue ) );
+	const conclusion = getAnalysisConclusion( validation.result, messageData );
 
-	const conclusion = getAnalysisConclusion( validation.result, issues );
-	if ( conclusion && conclusion.length > 0 ) {
+	if ( conclusion ) {
 		messages.push( conclusion );
 	}
 
 	return messages;
-}
-
-/**
- * Adds analysis conclusions to the footer.
- *
- * @param validation The validation result for the current block.
- * @param issues     The detected issues with metadata.
- * @returns {string} Any analysis conclusions that should be in the footer.
- */
-function getAnalysisConclusion( validation: BlockValidation, issues: analysisIssue[] ): string {
-	if ( issues.some( issue => issue.result === BlockValidation.MissingBlock || issue.result === BlockValidation.MissingAttribute ) ) {
-		return __( "Not all required blocks are completed! No '" + issues[ 0 ].parent +
-			"' schema will be generated for your page.", "wpseo-schema-blocks" );
-	}
-
-	if ( validation === BlockValidation.Valid ||
-		issues.every( issue => issue.result !== BlockValidation.MissingAttribute && issue.result !== BlockValidation.MissingBlock ) ) {
-		return __( "Good job! All required blocks are completed.", "wpseo-schema-blocks" );
-	}
 }
 
 /**
@@ -138,4 +139,20 @@ export function sanitizeBlockName( blockName: string ): string {
 	}
 
 	return blockName.substring( lastSlash + 1 );
+}
+
+/**
+ * Converts the validation results for a blockinstance with the given clientId to a presentable text.
+ *
+ * @param clientId   The clientId to request validation results for.
+ *
+ * @returns {string} The presentable warning message, or null if no warnings are found.
+ */
+export default function getWarnings( clientId: string ): sidebarWarning[] {
+	const validation: BlockValidationResult = getValidationResult( clientId );
+	if ( ! validation ) {
+		return null;
+	}
+
+	return createAnalysisMessages( validation );
 }

@@ -31,7 +31,7 @@ describe( "The createAnalysisMessages method ", () => {
 
 		const result = createAnalysisMessages( testcase );
 
-		expect( result ).toEqual( [ "Good job! All required blocks are completed." ] );
+		expect( result ).toEqual( [ { text: "Good job! All required blocks are completed.", color: "green" } ] );
 	} );
 
 	it( "creates a compliment for validation results we have no copy for.", () => {
@@ -39,7 +39,7 @@ describe( "The createAnalysisMessages method ", () => {
 
 		const result = createAnalysisMessages( testcase );
 
-		expect( result ).toEqual( [ "Good job! All required blocks are completed." ] );
+		expect( result ).toEqual( [ { text: "Good job! All required blocks are completed.", color: "green" } ] );
 	} );
 
 	it( "creates warning messages for missing attributes, with a footer message.", () => {
@@ -49,8 +49,13 @@ describe( "The createAnalysisMessages method ", () => {
 		const result = createAnalysisMessages( testcase );
 
 		expect( result.length ).toEqual( 2 );
-		expect( result[ 0 ] ).toEqual( "The 'mijnblock missingblockattribute' block is empty." );
-		expect( result[ 1 ] ).toEqual( "Not all required blocks are completed! No 'mijnblock' schema will be generated for your page." );
+		expect( result[ 0 ] ).toEqual( { text: "The 'mijnblock missingblockattribute' block is empty.", color: "red" } );
+		expect( result[ 1 ] ).toEqual(
+			{
+				text: "Not all required blocks are completed! No 'mijnblock' schema will be generated for your page.",
+				color: "red",
+			},
+		);
 	} );
 
 	it( "creates warning messages for missing blocks, with a footer message.", () => {
@@ -60,8 +65,13 @@ describe( "The createAnalysisMessages method ", () => {
 		const result = createAnalysisMessages( testcase );
 
 		expect( result.length ).toEqual( 2 );
-		expect( result[ 0 ] ).toEqual( "The 'mijnblock missingblock' block is required but missing." );
-		expect( result[ 1 ] ).toEqual( "Not all required blocks are completed! No 'mijnblock' schema will be generated for your page." );
+		expect( result[ 0 ] ).toEqual( { text: "The 'mijnblock missingblock' block is required but missing.", color: "red" } );
+		expect( result[ 1 ] ).toEqual(
+			{
+				text: "Not all required blocks are completed! No 'mijnblock' schema will be generated for your page.",
+				color: "red",
+			},
+		);
 	} );
 } );
 
@@ -95,7 +105,7 @@ describe( "The getWarnings method ", () => {
 
 		const result = getWarnings( "1" );
 
-		expect( result ).toEqual( [ "Good job! All required blocks are completed." ] );
+		expect( result ).toEqual( [ { text: "Good job! All required blocks are completed.", color: "green" } ] );
 	} );
 
 	it( "creates a compliment if we do not have copy for any of the validations.", () => {
@@ -107,7 +117,7 @@ describe( "The getWarnings method ", () => {
 
 		const result = getWarnings( "1" );
 
-		expect( result ).toEqual( [ "Good job! All required blocks are completed." ] );
+		expect( result ).toEqual( [ { text: "Good job! All required blocks are completed.", color: "green" } ] );
 	} );
 
 	it( "creates a warning for a block with validation problems.", () => {
@@ -118,7 +128,13 @@ describe( "The getWarnings method ", () => {
 		const result = getWarnings( "1" );
 
 		expect( result.length ).toEqual( 2 );
-		expect( result[ 0 ] ).toEqual( "The 'myBlock innerblock1' block is required but missing." );
-		expect( result[ 1 ] ).toEqual( "Not all required blocks are completed! No 'myBlock' schema will be generated for your page." );
+		expect( result[ 0 ] ).toEqual( {
+			text: "The 'myBlock innerblock1' block is required but missing.",
+			color: "red",
+		} );
+		expect( result[ 1 ] ).toEqual( {
+			text: "Not all required blocks are completed! No 'myBlock' schema will be generated for your page.",
+			color: "red",
+		} );
 	} );
 } );
