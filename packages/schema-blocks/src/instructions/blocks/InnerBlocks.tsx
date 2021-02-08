@@ -11,7 +11,6 @@ import validateMany from "../../functions/validators/validateMany";
 import { innerBlocksSidebar } from "../../functions/presenters/InnerBlocksSidebarPresenter";
 import { InnerBlocksInstructionOptions } from "./InnerBlocksInstructionOptions";
 import BlockLeaf from "../../core/blocks/BlockLeaf";
-import { __ } from "@wordpress/i18n";
 
 /**
  * Custom props for InnerBlocks.
