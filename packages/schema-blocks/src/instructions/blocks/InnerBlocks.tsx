@@ -7,7 +7,6 @@ import BlockInstruction from "../../core/blocks/BlockInstruction";
 import validateInnerBlocks from "../../functions/validators/innerBlocksValid";
 import { RenderEditProps, RenderSaveProps } from "../../core/blocks/BlockDefinition";
 import { getBlockByClientId } from "../../functions/BlockHelper";
-import BlockSuggestions from "../../blocks/BlockSuggestions";
 import validateMany from "../../functions/validators/validateMany";
 import { innerBlocksSidebar } from "../../functions/presenters/InnerBlocksSidebarPresenter";
 import { InnerBlocksInstructionOptions } from "./InnerBlocksInstructionOptions";

@@ -109,7 +109,7 @@ export function createWarningMessages( validation: BlockValidationResult ) {
 function getFooterMessages( issues: warningIssue[] ): string[] {
 	const output: string[] = [];
 	if ( issues.some( issue => issue.result === BlockValidation.MissingBlock || issue.result === BlockValidation.MissingAttribute ) ) {
-		output.push( __( "Not all required blocks are completed! No '" + parent +
+		output.push( __( "Not all required blocks are completed! No '" + issues[ 0 ].parent +
 			"' schema will be generated for your page.", "wpseo-schema-blocks" ) );
 	} else {
 		if ( issues.every( issue => issue.result !== BlockValidation.MissingBlock && issue.result !== BlockValidation.MissingAttribute ) ) {

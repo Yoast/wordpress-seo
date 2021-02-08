@@ -26,20 +26,22 @@ jest.mock( "@wordpress/data", () => {
 } );
 
 describe( "The createWarningMessage method ", () => {
-	it( "creates no warning messages for valid blocks.", () => {
+	it( "creates a success message for valid blocks.", () => {
 		const testcase = new BlockValidationResult( "1", "mijnblock", BlockValidation.Valid );
 
 		const result = createWarningMessages( testcase );
 
-		expect( result ).toEqual( [] );
+		expect( result.length ).toEqual( 1 );
+		expect( result[ 0 ] ).toEqual( "Good job! All required blocks are completed." );
 	} );
 
-	it( "creates no warning messages for validations we have no copy for.", () => {
+	it( "creates a success message for validation results we have no copy for.", () => {
 		const testcase = new BlockValidationResult( "1", "mijnblock", BlockValidation.Skipped );
 
 		const result = createWarningMessages( testcase );
 
-		expect( result ).toEqual( [] );
+		expect( result.length ).toEqual( 1 );
+		expect( result[ 0 ] ).toEqual( "Good job! All required blocks are completed." );
 	} );
 
 	it( "creates warning messages for missing attributes, with a footer message.", () => {
