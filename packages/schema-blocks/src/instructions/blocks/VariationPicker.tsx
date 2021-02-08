@@ -44,8 +44,7 @@ class VariationPicker extends BlockInstruction {
 	createBlocksFromInnerBlocksTemplate = ( innerBlocksTemplate: BlockInstance[] ): BlockInstance[] => {
 		return map(
 			innerBlocksTemplate,
-			( { name, attributes = {}, innerBlocks = [] }, i ) => {
-				// attributes.key = `${ name }-${ i }`;
+			( { name, attributes = {}, innerBlocks = [] } ) => {
 				return createBlock(
 					name,
 					attributes,
