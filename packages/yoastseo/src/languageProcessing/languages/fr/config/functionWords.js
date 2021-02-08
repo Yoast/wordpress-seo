@@ -1,4 +1,4 @@
-import transitionWords from "./transitionWords.js";
+import { singleWords as transitionWords } from "./transitionWords.js";
 
 /**
  * Returns an object with exceptions for the prominent words researcher
@@ -301,6 +301,10 @@ export const all = [].concat( articles, cardinalNumerals, ordinalNumerals, demon
 	titlesPreceding, titlesFollowing, personalPronounsStressed );
 
 export default {
+	filteredAtEnding,
+	filteredAtBeginning,
+	filteredAtBeginningAndEnding,
+	filteredAnywhere,
 	cannotBeBetweenPassiveAuxiliaryAndParticiple,
 	cannotDirectlyPrecedePassiveParticiple,
 	all,

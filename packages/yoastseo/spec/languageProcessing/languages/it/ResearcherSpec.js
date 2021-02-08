@@ -8,6 +8,7 @@ import stopWords from "../../../../src/languageProcessing/languages/it/config/st
 import transitionWords from "../../../../src/languageProcessing/languages/it/config/transitionWords";
 import twoPartTransitionWords from "../../../../src/languageProcessing/languages/it/config/twoPartTransitionWords";
 import syllables from "../../../../src/languageProcessing/languages/it/config/syllables.json";
+import sentenceLength from "../../../../src/languageProcessing/languages/it/config/sentenceLength";
 
 describe( "a test for the Italian Researcher", function() {
 	const researcher = new Researcher( new Paper( "This is another paper!" ) );
@@ -21,7 +22,7 @@ describe( "a test for the Italian Researcher", function() {
 	} );
 
 	it( "returns the Italian function words filtered at the beginning", function() {
-		expect( researcher.getConfig( "functionWords" ).all ).toEqual( functionWords.all );
+		expect( researcher.getConfig( "functionWords" ) ).toEqual( functionWords.all );
 	} );
 
 	it( "returns the Italian first word exceptions", function() {
@@ -44,12 +45,16 @@ describe( "a test for the Italian Researcher", function() {
 		expect( researcher.getConfig( "stopWords" ) ).toEqual( stopWords );
 	} );
 
+	it( "returns Italian sentence length config", function() {
+		expect( researcher.getConfig( "sentenceLength" ) ).toEqual( sentenceLength );
+	} );
+
 	it( "returns the Italian locale", function() {
 		expect( researcher.getConfig( "language" ) ).toEqual( "it" );
 	} );
 
 	it( "returns the Italian passive construction type", function() {
-		expect( researcher.getConfig( "isPeriphrastic" ) ).toEqual( true );
+		expect( researcher.getConfig( "passiveConstructionType" ) ).toEqual( "periphrastic" );
 	} );
 
 	it( "stems a word using the Italian stemmer", function() {

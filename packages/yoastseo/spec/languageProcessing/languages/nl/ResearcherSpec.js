@@ -21,7 +21,7 @@ describe( "a test for the Dutch Researcher", function() {
 	} );
 
 	it( "returns the Dutch function words", function() {
-		expect( researcher.getConfig( "functionWords" ).all ).toEqual( functionWords.all );
+		expect( researcher.getConfig( "functionWords" ) ).toEqual( functionWords.all );
 	} );
 
 	it( "returns the Dutch stopwords", function() {
@@ -33,7 +33,7 @@ describe( "a test for the Dutch Researcher", function() {
 	} );
 
 	it( "returns the Dutch transition words", function() {
-		expect( researcher.getConfig( "transitionWords" ).allWords ).toEqual( transitionWords.allWords );
+		expect( researcher.getConfig( "transitionWords" ) ).toEqual( transitionWords );
 	} );
 
 	it( "returns the Dutch two part transition word", function() {
@@ -49,7 +49,7 @@ describe( "a test for the Dutch Researcher", function() {
 	} );
 
 	it( "returns the Dutch passive construction type", function() {
-		expect( researcher.getConfig( "isPeriphrastic" ) ).toEqual( true );
+		expect( researcher.getConfig( "passiveConstructionType" ) ).toEqual( "periphrastic" );
 	} );
 
 	it( "stems a word using the Dutch stemmer", function() {

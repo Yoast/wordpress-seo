@@ -5,7 +5,7 @@ import functionWords from "./config/functionWords";
 
 // All helpers
 import createBasicWordForms from "./helpers/createBasicWordForms";
-import getStemmer from "../../helpers/morphology/baseStemmer";
+import getStemmer from "./helpers/getStemmer";
 
 
 /**
@@ -25,7 +25,6 @@ export default class Researcher extends AbstractResearcher {
 		delete this.defaultResearches.findTransitionWords;
 		delete this.defaultResearches.getPassiveVoice;
 		delete this.defaultResearches.getSentenceBeginnings;
-		delete this.defaultResearches.stopWordsInUrl;
 		delete this.defaultResearches.stopWordsInKeyword;
 
 		Object.assign( this.config, {

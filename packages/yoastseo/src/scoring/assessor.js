@@ -1,4 +1,3 @@
-import Researcher from "../researcher.js";
 import MissingArgument from "../errors/missingArgument";
 import removeDuplicateMarks from "../markers/removeDuplicateMarks";
 import AssessmentResult from "../values/AssessmentResult.js";
@@ -128,11 +127,7 @@ Assessor.prototype.getMarker = function( assessment, paper, researcher ) {
  * @returns {void}
  */
 Assessor.prototype.assess = function( paper ) {
-	if ( isUndefined( this._researcher ) ) {
-		this._researcher = new Researcher( paper );
-	} else {
-		this._researcher.setPaper( paper );
-	}
+	this._researcher.setPaper( paper );
 
 	var assessments = this.getAvailableAssessments();
 	this.results = [];

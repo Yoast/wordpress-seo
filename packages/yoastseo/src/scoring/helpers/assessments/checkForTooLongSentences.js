@@ -7,9 +7,7 @@ import { filter } from "lodash-es";
  * @returns {array} The array with objects containing too long sentences and their lengths.
  */
 export default function( sentences, recommendedValue ) {
-	var tooLongSentences = filter( sentences, function( sentence ) {
+	return filter( sentences, function( sentence ) {
 		return sentence.sentenceLength > recommendedValue;
 	} );
-
-	return tooLongSentences;
 }

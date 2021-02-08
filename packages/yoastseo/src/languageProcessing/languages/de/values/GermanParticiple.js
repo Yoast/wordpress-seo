@@ -1,11 +1,9 @@
 import Participle from "../../../../values/Participle.js";
 import { getIndicesByWord as getIndices } from "../../../helpers/word/indices.js";
 import { getIndicesByWordList as getIndicesOfList } from "../../../helpers/word/indices.js";
-import exceptionsParticiplesActiveFactory from "../config/internal/exceptionsParticiplesActive.js";
-const exceptionsParticiplesActive = exceptionsParticiplesActiveFactory();
+import exceptionsParticiplesActive from "../config/internal/exceptionsParticiplesActive.js";
 
-import auxiliariesFactory from "../config/internal/passiveVoiceAuxiliaries.js";
-const auxiliaries = auxiliariesFactory().participleLike;
+import { participleLike as auxiliaries } from "../config/internal/passiveVoiceAuxiliaries.js";
 
 const exceptionsRegex =
 	/\S+(apparat|arbeit|dienst|haft|halt|keit|kraft|not|pflicht|schaft|schrift|tät|wert|zeit)($|[ \n\r\t.,'()"+-;!?:/»«‹›<>])/ig;

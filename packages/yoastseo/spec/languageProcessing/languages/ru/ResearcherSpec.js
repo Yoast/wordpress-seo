@@ -7,6 +7,8 @@ import firstWordExceptions from "../../../../src/languageProcessing/languages/ru
 import transitionWords from "../../../../src/languageProcessing/languages/ru/config/transitionWords";
 import twoPartTransitionWords from "../../../../src/languageProcessing/languages/ru/config/twoPartTransitionWords";
 import syllables from "../../../../src/languageProcessing/languages/ru/config/syllables.json";
+import fleschReadingEaseScores from "../../../../src/languageProcessing/languages/ru/config/fleschReadingEaseScores";
+import sentenceLength from "../../../../src/languageProcessing/languages/ru/config/sentenceLength";
 
 describe( "a test for the Russian Researcher", function() {
 	const researcher = new Researcher( new Paper( "" ) );
@@ -32,7 +34,7 @@ describe( "a test for the Russian Researcher", function() {
 	} );
 
 	it( "returns the Russian function words", function() {
-		expect( researcher.getConfig( "functionWords" ).all ).toEqual( functionWords.all );
+		expect( researcher.getConfig( "functionWords" ) ).toEqual( functionWords.all );
 	} );
 
 	it( "returns the Russian first word exceptions", function() {
@@ -40,15 +42,23 @@ describe( "a test for the Russian Researcher", function() {
 	} );
 
 	it( "returns the Russian transition words", function() {
-		expect( researcher.getConfig( "transitionWords" ).allWords ).toEqual( transitionWords.allWords );
+		expect( researcher.getConfig( "transitionWords" ) ).toEqual( transitionWords );
 	} );
 
 	it( "returns the Russian two part transition word", function() {
 		expect( researcher.getConfig( "twoPartTransitionWords" ) ).toEqual( twoPartTransitionWords );
 	} );
 
-	it( "returns a specified part of the Russian syllables data", function() {
+	it( "returns the Russian syllables data", function() {
 		expect( researcher.getConfig( "syllables" ) ).toEqual( syllables );
+	} );
+
+	it( "returns the Russian Flesch reading ease scores and boundaries", function() {
+		expect( researcher.getConfig( "fleschReadingEaseScores" ) ).toEqual( fleschReadingEaseScores );
+	} );
+
+	it( "returns Russian sentence length config", function() {
+		expect( researcher.getConfig( "sentenceLength" ) ).toEqual( sentenceLength );
 	} );
 
 	it( "returns the Russian locale", function() {
@@ -56,7 +66,7 @@ describe( "a test for the Russian Researcher", function() {
 	} );
 
 	it( "returns the Russian passive construction type", function() {
-		expect( researcher.getConfig( "isPeriphrastic" ) ).toEqual( false );
+		expect( researcher.getConfig( "passiveConstructionType" ) ).toEqual( "morphological" );
 	} );
 
 	it( "stems a word using the Russian stemmer", function() {

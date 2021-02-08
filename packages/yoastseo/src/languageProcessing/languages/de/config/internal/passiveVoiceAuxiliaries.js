@@ -1,5 +1,5 @@
 // These passive auxiliaries start with be-, ge- or er- en and with -t, and therefore look like a participle.
-const participleLike = [
+export const participleLike = [
 	"bekommst",
 	"bekommt",
 	"bekamst",
@@ -27,7 +27,7 @@ const participleLike = [
 ];
 
 // These are all other passive auxiliaries.
-const otherAuxiliaries = [
+export const otherAuxiliaries = [
 	"werde",
 	"wirst",
 	"wird",
@@ -72,7 +72,7 @@ const otherAuxiliaries = [
 ];
 
 // These first person plural auxiliaries also function as an infinitive.
-const infinitiveAuxiliaries = [
+export const infinitiveAuxiliaries = [
 	"werden",
 	"bekommen",
 	"kriegen",
@@ -84,15 +84,13 @@ const infinitiveAuxiliaries = [
  * Returns lists with auxiliaries.
  * @returns {Array} The lists with auxiliaries.
  */
-export default function() {
-	return {
-		participleLike: participleLike,
-		otherAuxiliaries: otherAuxiliaries.concat( infinitiveAuxiliaries ),
-		// These auxiliaries are filtered from the beginning and end of word combinations in the prominent words.
-		filteredAuxiliaries: participleLike.concat( otherAuxiliaries ),
-		// These auxiliaries are not filtered from the beginning of word combinations in the prominent words.
-		infinitiveAuxiliaries: infinitiveAuxiliaries,
-		all: participleLike.concat( otherAuxiliaries, infinitiveAuxiliaries ),
-	};
-}
+export default {
+	participleLike: participleLike,
+	otherAuxiliaries: otherAuxiliaries.concat( infinitiveAuxiliaries ),
+	// These auxiliaries are filtered from the beginning and end of word combinations in the prominent words.
+	filteredAuxiliaries: participleLike.concat( otherAuxiliaries ),
+	// These auxiliaries are not filtered from the beginning of word combinations in the prominent words.
+	infinitiveAuxiliaries: infinitiveAuxiliaries,
+	all: participleLike.concat( otherAuxiliaries, infinitiveAuxiliaries ),
+};
 

@@ -1,7 +1,10 @@
 import AbstractResearcher from "../../AbstractResearcher";
 
+// All config
+import sentenceLength from "./config/sentenceLength";
+
 // All helpers
-import getStemmer from "../../helpers/morphology/baseStemmer";
+import getStemmer from "./helpers/getStemmer";
 
 /**
  * The researches contains all the researches
@@ -20,15 +23,16 @@ export default class Researcher extends AbstractResearcher {
 		delete this.defaultResearches.getPassiveVoice;
 		delete this.defaultResearches.getSentenceBeginnings;
 		delete this.defaultResearches.stopWordsInKeyword;
-		delete this.defaultResearches.stopWordsInUrl;
 		delete this.defaultResearches.findTransitionWords;
 
 		Object.assign( this.config, {
 			functionWords: [],
+
 		} );
 
-		Object.assign( this.config, {
+		Object.assign( this.helpers, {
 			getStemmer,
+			sentenceLength,
 		} );
 	}
 }

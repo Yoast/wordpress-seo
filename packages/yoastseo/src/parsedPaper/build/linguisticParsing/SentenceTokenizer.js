@@ -2,8 +2,8 @@ import { isUndefined } from "lodash-es";
 import { isNaN } from "lodash-es";
 
 import core from "tokenizer2/core";
+import { normalize as normalizeQuotes } from "../../../languageProcessing/helpers/sanitize/quotes";
 
-import { normalize as normalizeQuotes } from "../../../researches/stringProcessing/quotes.js";
 import Sentence from "./Sentence";
 
 // All characters that indicate a sentence delimiter.

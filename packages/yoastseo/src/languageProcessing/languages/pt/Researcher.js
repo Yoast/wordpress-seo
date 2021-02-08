@@ -2,11 +2,12 @@ import AbstractResearcher from "../../AbstractResearcher";
 
 // All config
 import firstWordExceptions from "./config/firstWordExceptions";
-import functionWords from "./config/functionWords";
+import { all as functionWords } from "./config/functionWords";
 import stopWords from "./config/stopWords";
 import transitionWords from "./config/transitionWords";
 import twoPartTransitionWords from "./config/twoPartTransitionWords";
 import syllables from "./config/syllables.json";
+import sentenceLength from "./config/sentenceLength";
 
 // All helpers
 import getSentenceParts from "./helpers/getSentenceParts";
@@ -28,13 +29,14 @@ export default class Researcher extends AbstractResearcher {
 
 		Object.assign( this.config, {
 			language: "pt",
-			isPeriphrastic: true,
+			passiveConstructionType: "periphrastic",
 			firstWordExceptions,
 			functionWords,
 			stopWords,
 			transitionWords,
 			twoPartTransitionWords,
 			syllables,
+			sentenceLength,
 		} );
 
 		Object.assign( this.helpers, {

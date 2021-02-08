@@ -6,6 +6,7 @@ import stopWords from "../../../../src/languageProcessing/languages/pl/config/st
 import transitionWords from "../../../../src/languageProcessing/languages/pl/config/transitionWords";
 import twoPartTransitionWords from "../../../../src/languageProcessing/languages/pl/config/twoPartTransitionWords";
 import getMorphologyData from "../../../specHelpers/getMorphologyData";
+import sentenceLength from "../../../../src/languageProcessing/languages/pl/config/sentenceLength";
 
 const morphologyDataPL = getMorphologyData( "pl" );
 
@@ -29,7 +30,7 @@ describe( "a test for the Polish Researcher", function() {
 	} );
 
 	it( "returns Polish function words", function() {
-		expect( researcher.getConfig( "functionWords" ).all ).toEqual( functionWords.all );
+		expect( researcher.getConfig( "functionWords" ) ).toEqual( functionWords.all );
 	} );
 
 	it( "returns the Polish first word exceptions", function() {
@@ -48,12 +49,16 @@ describe( "a test for the Polish Researcher", function() {
 		expect( researcher.getConfig( "stopWords" ) ).toEqual( stopWords );
 	} );
 
+	it( "returns Polish sentence length config", function() {
+		expect( researcher.getConfig( "sentenceLength" ) ).toEqual( sentenceLength );
+	} );
+
 	it( "returns the Polish locale", function() {
 		expect( researcher.getConfig( "language" ) ).toEqual( "pl" );
 	} );
 
 	it( "returns the Polish passive construction type", function() {
-		expect( researcher.getConfig( "isPeriphrastic" ) ).toEqual( true );
+		expect( researcher.getConfig( "passiveConstructionType" ) ).toEqual( "periphrastic" );
 	} );
 
 	it( "stems a word using the Polish stemmer", function() {
