@@ -6,6 +6,7 @@ import stopWords from "../../../../src/languageProcessing/languages/pl/config/st
 import transitionWords from "../../../../src/languageProcessing/languages/pl/config/transitionWords";
 import twoPartTransitionWords from "../../../../src/languageProcessing/languages/pl/config/twoPartTransitionWords";
 import getMorphologyData from "../../../specHelpers/getMorphologyData";
+import sentenceLength from "../../../../src/languageProcessing/languages/pl/config/sentenceLength";
 
 const morphologyDataPL = getMorphologyData( "pl" );
 
@@ -46,6 +47,10 @@ describe( "a test for the Polish Researcher", function() {
 
 	it( "returns the Polish stop words", function() {
 		expect( researcher.getConfig( "stopWords" ) ).toEqual( stopWords );
+	} );
+
+	it( "returns Polish sentence length config", function() {
+		expect( researcher.getConfig( "sentenceLength" ) ).toEqual( sentenceLength );
 	} );
 
 	it( "returns the Polish locale", function() {
