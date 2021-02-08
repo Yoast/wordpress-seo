@@ -2,14 +2,55 @@ function escapeRegExp(string) {
 	return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
   }
 
+function similarity(s1, s2) {
+	var longer = s1;
+	var shorter = s2;
+	if (s1.length < s2.length) {
+	  longer = s2;
+	  shorter = s1;
+	}
+	var longerLength = longer.length;
+	if (longerLength == 0) {
+	  return 1.0;
+	}
+	return (longerLength - editDistance(longer, shorter)) / parseFloat(longerLength);
+  }
+
+  function editDistance(s1, s2) {
+	s1 = s1.toLowerCase();
+	s2 = s2.toLowerCase();
+  
+	var costs = new Array();
+	for (var i = 0; i <= s1.length; i++) {
+	  var lastValue = i;
+	  for (var j = 0; j <= s2.length; j++) {
+		if (i == 0)
+		  costs[j] = j;
+		else {
+		  if (j > 0) {
+			var newValue = costs[j - 1];
+			if (s1.charAt(i - 1) != s2.charAt(j - 1))
+			  newValue = Math.min(Math.min(newValue, lastValue),
+				costs[j]) + 1;
+			costs[j - 1] = lastValue;
+			lastValue = newValue;
+		  }
+		}
+	  }
+	  if (i > 0)
+		costs[s2.length] = lastValue;
+	}
+	return costs[s2.length];
+  }
+
 class ChangelogBuilder {
 	constructor(changelogIn) {
 		this.ChangelogMap = new Map();
 		if (changelogIn) {
 			this.parseChancelogLines(changelogIn);
-		}
-		
-	}
+		};
+	};
+	
 	#addLinesPerHeader(value, index, array) {
 		const key = `${value.match(new RegExp(  "[ a-zA-Z]+:" ))}`;
 		const lines = value.match(new RegExp( "(?<=\n)\\*([\n]|.)+?(?=\Z|\n\n|\n\\*|\n$)", "gm" ));
@@ -20,20 +61,26 @@ class ChangelogBuilder {
 			uniqueLines.append(lines);
 			this.ChangelogMap.set(key, uniqueLines);
 		};
+		this.ChangelogMap.get(key).test();
 	}
 
 	parseChancelogLines(changelogIn){
-		const parts = changelogIn.match(new RegExp( "\n[ a-zA-Z]+:(.|\\n)*?(?=(\n[ a-zA-Z]+:|\$))", "g" ))
+		const parts = changelogIn.match(new RegExp( "\n[ a-zA-Z]+:(.|\\n)*?(?=(\n[ a-zA-Z]+:|\$))", "g" ));
 		parts.forEach(this.#addLinesPerHeader.bind(this));
 	}
 	
 	parseYoastCliGeneratedChangelog(changelogIn){
-		//strip header from new entry file.
+		//strip header from new file.
 		changelogIn = changelogIn.replace( new RegExp( "# Yoast/wordpress-seo:(.|\\n)*?(?=\n[ a-zA-Z]+:)" ),
 		""
 		);
 	
 		// remove [#16525](https://github.com/Yoast/wordpress-seo/pull/16525) from lines
+		changelogIn = changelogIn.replace( new RegExp( "\\W\\[#\\d+\\]\\(https://github.com/Yoast/.+?/pull/\\d+\\)" , "gm" ),
+		""
+		);
+
+
 		this.parseChancelogLines(changelogIn)
 	}
 
@@ -46,11 +93,11 @@ class ChangelogBuilder {
 			//console.log("jhe")
 			newlines = newlines = "\nEnhancements:\n\n"
 			newlines = newlines + this.ChangelogMap.get('Enhancements:').items.join("\n");
-		}
+		};
 		if (this.ChangelogMap.has('Bugfixes:')) {
 			//console.log("jhe")
 			newlines = newlines + "\n\nBugfixes:\n\n" + this.ChangelogMap.get('Bugfixes:').items.join("\n");
-		}
+		};
 		this.ChangelogMap.forEach(function (value, key, map) {
 			//console.log(`map.get('${key}') = ${value}`);
 			if (!(key === 'Enhancements:' || key === 'Bugfixes:' || key == 'Non user facing:')) {
@@ -58,31 +105,51 @@ class ChangelogBuilder {
 			};
 	   }, this);
 		return newlines
-	}
-}
+	};
+};
 
 class Unique {
 	constructor(items) {
 		this.items = new Array();
 		if (items) {
 	  		this.items = items;
-		}
-	}
+		};
+	};
 	append(newItems) {
 	  newItems.forEach(function(newItem) {
 		if (!this.items.includes(newItem)) {
 		  this.items.push(newItem);
-		}
+		};
 	  }, this);    
+	};
+	test() {
+		var toBeRemoved = new Array();
+		for (var i = 0; i<this.items.length; i++) {
+			var arrlen = this.items.length;
+			for (var j = i+1; j<arrlen; j++) {
+				
+				if (similarity(this.items[i], this.items[j]) > 0.9) {
+					toBeRemoved.push(j)
+					console.log ("---------------")
+				console.log (`${j}: ${this.items[j]}`)
+				console.log (`${i}: ${this.items[i]}`)
+				console.log (`${similarity(this.items[i], this.items[j])}`)
+				console.log ("---------------")
+				}
+			}
+		}
+		console.log(toBeRemoved)
+		
 	}
-  }
+
+ };
 
 //const mergeChangeLog = require( "../lib/merge-changelog" );
 const parseVersion = require( "../lib/parse-version" );
 const _isEmpty = require( "lodash/isEmpty" );
 
 /**
- * A task to remove old changelog entries and add new ones in readme.txt.
+ * A task to remove old changelog entries and add new ones in changlog file..
  *
  * @param {Object} grunt The grunt helper object.
  * @returns {void}
@@ -161,10 +228,8 @@ module.exports = function( grunt ) {
 				}
 			}
 
-			
-			
 			const changelogBuilder = new ChangelogBuilder();
-			changelogBuilder.parseYoastCliGeneratedChangelog( grunt.file.read( "./.tmp/change_in_log.md" ) );
+			// changelogBuilder.parseYoastCliGeneratedChangelog( grunt.file.read( "./.tmp/change_in_log.md" ) );
 
 			// If the current version is already in the changelog, retrieve the full readme and let the user edit it.
 			if ( containsCurrentVersion ) {
@@ -187,10 +252,11 @@ module.exports = function( grunt ) {
 				
 				// create uniyoe linses using class ChangelogBuilder
 				changelogBuilder.parseChancelogLines(currentChangelogEntries)
+				changelogBuilder.parseYoastCliGeneratedChangelog( grunt.file.read( "./.tmp/change_in_log.md" ) );
 				//console.log(changelogBuilder.Changelog)
 				
 				// pul all parts togethor agian
-				mergedReadme = changelog.replace(new RegExp( escapeRegExp(currentChangelogEntries)), currentChangelogEntriesHeader + "\n" + changelogBuilder.cleanChangelog + "\n\n")
+				mergedReadme = changelog.replace(new RegExp( escapeRegExp(currentChangelogEntries)),  "\n" + changelogBuilder.cleanChangelog + "\n\n")
 
 				
 				// Write changes to the file.
@@ -198,6 +264,7 @@ module.exports = function( grunt ) {
 				done();
 			
 			} else {
+				changelogBuilder.parseYoastCliGeneratedChangelog( grunt.file.read( "./.tmp/change_in_log.md" ) );
 				// If the current version is not in the changelog, build a new one from input file.
 				let changelogVersionNumber = versionNumber.major + "." + versionNumber.minor;
 
