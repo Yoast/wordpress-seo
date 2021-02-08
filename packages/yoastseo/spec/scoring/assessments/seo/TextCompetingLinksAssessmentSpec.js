@@ -46,25 +46,25 @@ describe( "An assessment for competing links in the text", function() {
 
 	it( "is not applicable for papers without text", function() {
 		const paper = new Paper( "", { keyword: "some keyword" } );
-		const isApplicableResult = new TextCompetingLinksAssessment().isApplicable( paper, new DefaultResearcher( paper ) );
+		const isApplicableResult = new TextCompetingLinksAssessment().isApplicable( paper );
 		expect( isApplicableResult ).toBe( false );
 	} );
 
 	it( "is not applicable for papers without keyword", function() {
 		const paper = new Paper( "some text", { keyword: "" } );
-		const isApplicableResult = new TextCompetingLinksAssessment().isApplicable( paper, new DefaultResearcher( paper ) );
+		const isApplicableResult = new TextCompetingLinksAssessment().isApplicable( paper );
 		expect( isApplicableResult ).toBe( false );
 	} );
 
 	it( "is not applicable for papers without keyword and text", function() {
 		const paper = new Paper( "", { keyword: "" } );
-		const isApplicableResult = new TextCompetingLinksAssessment().isApplicable( paper, new DefaultResearcher( paper ) );
+		const isApplicableResult = new TextCompetingLinksAssessment().isApplicable( paper );
 		expect( isApplicableResult ).toBe( false );
 	} );
 
 	it( "is applicable for papers with keyword and text", function() {
 		const paper = new Paper( "some text", { keyword: "keyword" } );
-		const isApplicableResult = new TextCompetingLinksAssessment().isApplicable( paper, new DefaultResearcher( paper ) );
+		const isApplicableResult = new TextCompetingLinksAssessment().isApplicable( paper );
 		expect( isApplicableResult ).toBe( true );
 	} );
 } );

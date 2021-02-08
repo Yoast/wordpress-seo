@@ -6,9 +6,9 @@ import AssessmentResult from "../../../values/AssessmentResult";
 /**
  * Calculates the assessment result based on the score.
  *
- * @param {Object} fleschReadingScore The Flesch reading ease score.
- * @param {Object} scoresConfig The Flesch reading ease assessment scores and borders.
- * @param {Object} i18n The i18n-object used for parsing translations.
+ * @param {Object} fleschReadingScore   The Flesch reading ease score.
+ * @param {Object} scoresConfig         The Flesch reading ease assessment scores and borders.
+ * @param {Object} i18n                 The i18n-object used for parsing translations.
  *
  * @returns {Object} Object with score and resultText.
  */
@@ -103,14 +103,14 @@ const calculateFleschReadingResult = function( fleschReadingScore, scoresConfig,
 
 
 /**
-	 * The assessment that runs the FleschReading on the paper.
-	 *
-	 * @param {Paper} paper The paper to run this assessment on.
-	 * @param {Researcher} researcher The researcher used for the assessment.
-	 * @param {Object} i18n The i18n-object used for parsing translations.
-	 *
-	 * @returns {Object} An assessmentResult with the score and formatted text.
-	 */
+ * The assessment that runs the FleschReading on the paper.
+ *
+ * @param {Paper}       paper       The paper to run this assessment on.
+ * @param {Researcher}  researcher  The researcher used for the assessment.
+ * @param {Object}      i18n        The i18n-object used for parsing translations.
+ *
+ * @returns {Object} An assessmentResult with the score and formatted text.
+ */
 const getFleschReadingResult = function( paper, researcher, i18n ) {
 	const fleschReadingScore = researcher.getResearch( "getFleschReadingScore" );
 	const languageSpecificConfig = researcher.getConfig( "fleschReadingEaseScores" );
@@ -150,12 +150,13 @@ const getFleschReadingResult = function( paper, researcher, i18n ) {
 /**
  * Checks if Flesch reading analysis is available.
  *
- * @param {Object} paper The paper to check.
+ * @param {Paper}       paper       The paper to check.
+ * @param {Researcher}  researcher  The researcher object.
  *
  * @returns {boolean} Returns true if the assessment is available and paper not empty.
  */
-const isApplicable = function( paper ) {
-	return paper.hasText();
+const isApplicable = function( paper, researcher ) {
+	return paper.hasText() && researcher.hasResearch( "getFleschReadingScore" );
 };
 
 export default {

@@ -1,4 +1,3 @@
-import { DefaultResearcher } from "../../../../src/languageProcessing";
 import OutboundLinksAssessment from "../../../../src/scoring/assessments/seo/OutboundLinksAssessment.js";
 import Paper from "../../../../src/values/Paper.js";
 import factory from "../../../specHelpers/factory.js";
@@ -117,7 +116,7 @@ describe( "Tests outbound links assessment", function() {
 describe( "tests for the assessment applicability.", function() {
 	it( "returns false when the paper is empty.", function() {
 		const paper = new Paper( "" );
-		expect( linkStatisticAssessment.isApplicable( paper, new DefaultResearcher( paper ) ) ).toBe( false );
+		expect( linkStatisticAssessment.isApplicable( paper ) ).toBe( false );
 	} );
 
 	it( "returns true when the paper is not empty.", function() {
@@ -125,6 +124,6 @@ describe( "tests for the assessment applicability.", function() {
 			url: "sample-with-keyword",
 			keyword: "kéyword",
 		} );
-		expect( linkStatisticAssessment.isApplicable( paper, new DefaultResearcher( paper ) ) ).toBe( true );
+		expect( linkStatisticAssessment.isApplicable( paper ) ).toBe( true );
 	} );
 } );

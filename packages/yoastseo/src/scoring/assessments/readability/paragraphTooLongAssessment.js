@@ -156,12 +156,11 @@ const paragraphLengthAssessment = function( paper, researcher, i18n ) {
  * Checks if the paragraphTooLong assessment is applicable to the paper.
  *
  * @param {Paper} paper The paper to check.
- * @param {Researcher}  researcher  The researcher object.
  *
  * @returns {boolean} Returns true if the assessment is applicable to the paper.
  */
-const isApplicable = function( paper, researcher ) {
-	return paper.hasText() && researcher.hasResearch( "getParagraphLength" );
+const isApplicable = function( paper ) {
+	return paper.hasText();
 };
 
 export default {

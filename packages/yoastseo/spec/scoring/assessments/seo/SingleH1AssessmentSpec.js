@@ -1,4 +1,3 @@
-import { DefaultResearcher } from "../../../../src/languageProcessing";
 import SingleH1Assessment from "../../../../src/scoring/assessments/seo/SingleH1Assessment.js";
 import Paper from "../../../../src/values/Paper.js";
 import Factory from "../../../specHelpers/factory.js";
@@ -86,14 +85,14 @@ describe( "A test for marking incorrect H1s in the body", function() {
 describe( "Checks if the assessment is applicable", function() {
 	it( "is applicable when there is a paper with a text", function() {
 		const mockPaper = new Paper( "text" );
-		const assessment = h1Assessment.isApplicable( mockPaper, new DefaultResearcher( mockPaper ) );
+		const assessment = h1Assessment.isApplicable( mockPaper );
 
 		expect( assessment ).toBe( true );
 	} );
 
 	it( "is not applicable when there there is no text", function() {
 		const mockPaper = new Paper( "" );
-		const assessment = h1Assessment.isApplicable( mockPaper, new DefaultResearcher( mockPaper ) );
+		const assessment = h1Assessment.isApplicable( mockPaper );
 
 		expect( assessment ).toBe( false );
 	} );

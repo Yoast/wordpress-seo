@@ -1,4 +1,3 @@
-import { DefaultResearcher } from "../../../../src/languageProcessing";
 import ImageCountAssessment from "../../../../src/scoring/assessments/seo/TextImagesAssessment";
 import Paper from "../../../../src/values/Paper.js";
 import Factory from "../../../specHelpers/factory.js";
@@ -316,7 +315,7 @@ describe( "An image count assessment", function() {
 describe( "tests for the assessment applicability.", function() {
 	it( "returns false when the paper is empty.", function() {
 		const paper = new Paper( "" );
-		expect( imageCountAssessment.isApplicable( paper, new DefaultResearcher( paper ) ) ).toBe( false );
+		expect( imageCountAssessment.isApplicable( paper ) ).toBe( false );
 	} );
 
 	it( "returns true when the paper is not empty.", function() {
@@ -324,6 +323,6 @@ describe( "tests for the assessment applicability.", function() {
 			url: "sample-with-keyword",
 			keyword: "kéyword",
 		} );
-		expect( imageCountAssessment.isApplicable( paper, new DefaultResearcher( paper ) ) ).toBe( true );
+		expect( imageCountAssessment.isApplicable( paper ) ).toBe( true );
 	} );
 } );

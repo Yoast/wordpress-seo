@@ -87,12 +87,11 @@ const sentenceLengthInDescriptionAssessment = function( paper, researcher, i18n 
  * Checks if the paper has a metadescription, which is a prerequisite for the assessment to be applicable to the paper.
  *
  * @param {Object}      paper       The paper to check.
- * @param {Researcher}  researcher  The researcher object.
  *
  * @returns {boolean} Returns true if the paper has a meta description.
  */
-const isApplicable = function( paper, researcher ) {
-	return paper.hasDescription() && researcher.hasResearch( "countSentencesFromDescription" );
+const isApplicable = function( paper ) {
+	return paper.hasDescription();
 };
 
 export default {

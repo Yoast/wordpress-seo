@@ -132,12 +132,11 @@ class singleH1Assessment extends Assessment {
 	 * Checks whether the paper has a text.
 	 *
 	 * @param {Paper}       paper       The paper to use for the assessment.
-	 * @param {Researcher}  researcher  The researcher object.
 	 *
 	 * @returns {boolean} True when there is text.
 	 */
-	isApplicable( paper, researcher ) {
-		return paper.hasText() && researcher.hasResearch( "h1s" );
+	isApplicable( paper ) {
+		return paper.hasText();
 	}
 }
 

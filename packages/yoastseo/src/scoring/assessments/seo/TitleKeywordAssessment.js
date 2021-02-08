@@ -66,12 +66,11 @@ class TitleKeywordAssessment extends Assessment {
 	 * Checks whether the assessment is applicable to the paper
 	 *
 	 * @param {Paper}       paper       The Paper object to assess.
-	 * @param {Researcher}  researcher  The researcher object.
 	 *
 	 * @returns {boolean} Whether the paper has a keyword and a title.
 	 */
-	isApplicable( paper, researcher ) {
-		return paper.hasKeyword() && paper.hasTitle() && researcher.hasResearch( "findKeywordInPageTitle" );
+	isApplicable( paper ) {
+		return paper.hasKeyword() && paper.hasTitle();
 	}
 
 	/**

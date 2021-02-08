@@ -1,4 +1,3 @@
-import { DefaultResearcher } from "../../../../src/languageProcessing";
 import TitleKeywordAssessment from "../../../../src/scoring/assessments/seo/TitleKeywordAssessment";
 import Paper from "../../../../src/values/Paper";
 import Factory from "../../../specHelpers/factory";
@@ -98,19 +97,19 @@ describe( "an assessment to check if the keyword is in the pageTitle", function(
 
 	it( "returns false isApplicable for a paper without title", function() {
 		const paper = new Paper( "", { keyword: "some keyword", title: "" } );
-		const isApplicableResult = new TitleKeywordAssessment().isApplicable( paper, new DefaultResearcher( paper ) );
+		const isApplicableResult = new TitleKeywordAssessment().isApplicable( paper );
 		expect( isApplicableResult ).toBe( false );
 	} );
 
 	it( "returns false isApplicable for a paper without keyword", function() {
 		const paper = new Paper( "", { keyword: "", title: "some title" } );
-		const isApplicableResult = new TitleKeywordAssessment().isApplicable( paper, new DefaultResearcher( paper ) );
+		const isApplicableResult = new TitleKeywordAssessment().isApplicable( paper );
 		expect( isApplicableResult ).toBe( false );
 	} );
 
 	it( "returns true isApplicable for a paper with keyword and title", function() {
 		const paper = new Paper( "", { keyword: "keyword", title: "some title" } );
-		const isApplicableResult = new TitleKeywordAssessment().isApplicable( paper, new DefaultResearcher( paper ) );
+		const isApplicableResult = new TitleKeywordAssessment().isApplicable( paper );
 		expect( isApplicableResult ).toBe( true );
 	} );
 } );

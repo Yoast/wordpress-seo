@@ -1,15 +1,16 @@
-import sentenceLengthInTextAssessment from "../../src/scoring/assessments/readability/sentenceLengthInTextAssessment";
-import Paper from "../../src/values/Paper.js";
-import Factory from "../specHelpers/factory.js";
-import Mark from "../../src/values/Mark.js";
+import addMark from "../../../../src/markers/addMark";
+import sentenceLengthInTextAssessment from "../../../../src/scoring/assessments/readability/sentenceLengthInTextAssessment";
+import Paper from "../../../../src/values/Paper.js";
+import Factory from "../../../specHelpers/factory.js";
+import Mark from "../../../../src/values/Mark.js";
 const i18n = Factory.buildJed();
-import spanishConfig from "../../src/languageProcessing/languages/es/config/sentenceLength";
-import polishConfig from "../../src/languageProcessing/languages/pl/config/sentenceLength";
-import hebrewConfig from "../../src/languageProcessing/languages/he/config/sentenceLength";
-import russianConfig from "../../src/languageProcessing/languages/ru/config/sentenceLength";
-import italianConfig from "../../src/languageProcessing/languages/it/config/sentenceLength";
-import portugueseConfig from "../../src/languageProcessing/languages/pt/config/sentenceLength";
-import catalanConfig from "../../src/languageProcessing/languages/ca/config/sentenceLength";
+import spanishConfig from "../../../../src/languageProcessing/languages/es/config/sentenceLength";
+import polishConfig from "../../../../src/languageProcessing/languages/pl/config/sentenceLength";
+import hebrewConfig from "../../../../src/languageProcessing/languages/he/config/sentenceLength";
+import russianConfig from "../../../../src/languageProcessing/languages/ru/config/sentenceLength";
+import italianConfig from "../../../../src/languageProcessing/languages/it/config/sentenceLength";
+import portugueseConfig from "../../../../src/languageProcessing/languages/pt/config/sentenceLength";
+import catalanConfig from "../../../../src/languageProcessing/languages/ca/config/sentenceLength";
 
 describe( "An assessment for sentence length", function() {
 	it( "returns the score for all short sentences using the default config", function() {
@@ -106,6 +107,14 @@ describe( "An assessment for sentence length", function() {
 			"100% of the sentences contain more than 15 words, which is more than the recommended maximum of 25%." +
 			" <a href='https://yoa.st/34w' target='_blank'>Try to shorten the sentences</a>." );
 		expect( assessment.hasMarks() ).toBe( true );
+		expect( sentenceLengthInTextAssessment.getMarks( mockPaper, Factory.buildMockResearcher( [
+			{ sentence: "", sentenceLength: 16 },
+		], false, false, russianConfig ) ) ).toEqual( [
+			new Mark( {
+				original: "",
+				marked: addMark( "" ),
+			} ),
+		] );
 	} );
 
 	it( "returns the score for 100% long sentences in Italian", function() {
@@ -350,12 +359,11 @@ describe( "An assessment for sentence length", function() {
 		expect( assessment.hasMarks() ).toBe( false );
 	} );
 
-	/*
 	it( "is not applicable for empty papers", function() {
 		const mockPaper = new Paper();
 		const assessment = sentenceLengthInTextAssessment.isApplicable( mockPaper );
 		expect( assessment ).toBe( false );
-	} );*/
+	} );
 } );
 
 describe( "A test for marking too long sentences", function() {
@@ -381,6 +389,6 @@ describe( "A test for marking too long sentences", function() {
 
 describe( "A test for marking too long sentences", function() {
 	it( "calculatePercentage returns nothing if there are no sentences", function() {
-		expect( sentenceLengthInTextAssessment.calculatePercentage( [] ) ).toEqual( 0 );
+		expect( sentenceLengthInTextAssessment.calculatePercentage( [], 20 ) ).toEqual( 0 );
 	} );
 } );

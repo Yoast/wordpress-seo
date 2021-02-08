@@ -1,4 +1,3 @@
-import { EnglishResearcher } from "../../../../src/languageProcessing";
 import SubheadingDistributionTooLong from "../../../../src/scoring/assessments/readability/subheadingDistributionTooLongAssessment.js";
 import Paper from "../../../../src/values/Paper.js";
 import Factory from "../../../specHelpers/factory.js";
@@ -110,13 +109,13 @@ describe( "An assessment for scoring too long text fragments without a subheadin
 
 	it( "Returns false from isApplicable to the paper without text", function() {
 		const paper = new Paper( "" );
-		const assessment = subheadingDistributionTooLong.isApplicable( paper, new EnglishResearcher( paper ) );
+		const assessment = subheadingDistributionTooLong.isApplicable( paper );
 		expect( assessment ).toBe( false );
 	} );
 
 	it( "Returns true from isApplicable to the paper with text", function() {
 		const paper = new Paper( shortText );
-		const assessment = subheadingDistributionTooLong.isApplicable( paper, new EnglishResearcher( paper ) );
+		const assessment = subheadingDistributionTooLong.isApplicable( paper );
 		expect( assessment ).toBe( true );
 	} );
 

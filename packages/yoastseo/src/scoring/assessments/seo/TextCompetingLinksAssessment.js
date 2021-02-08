@@ -67,12 +67,11 @@ class TextCompetingLinksAssessment extends Assessment {
 	 * Determines if the assessment is applicable to the paper.
 	 *
 	 * @param {Paper}       paper       The paper to check
-	 * @param {Researcher}  researcher  The researcher object.
 	 *
 	 * @returns {boolean} Whether the paper has text and a keyword
 	 */
-	isApplicable( paper, researcher ) {
-		return paper.hasText() && paper.hasKeyword() && researcher.hasResearch( "getLinkStatistics" );
+	isApplicable( paper ) {
+		return paper.hasText() && paper.hasKeyword();
 	}
 
 	/**

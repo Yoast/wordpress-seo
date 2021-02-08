@@ -1,4 +1,3 @@
-import { DefaultResearcher } from "../../../../src/languageProcessing";
 import UrlKeywordAssessment from "../../../../src/scoring/assessments/seo/UrlKeywordAssessment";
 import Paper from "../../../../src/values/Paper.js";
 import Factory from "../../../specHelpers/factory.js";
@@ -98,7 +97,7 @@ describe( "A keyword in url count assessment", function() {
 describe( "tests for the assessment applicability.", function() {
 	it( "returns false when there is no keyword and url found.", function() {
 		const paper = new Paper( "sample keyword" );
-		expect( keywordInUrl.isApplicable( paper, new DefaultResearcher( paper ) ) ).toBe( false );
+		expect( keywordInUrl.isApplicable( paper ) ).toBe( false );
 	} );
 
 	it( "returns true when the paper has keyword and url.", function() {
@@ -106,7 +105,7 @@ describe( "tests for the assessment applicability.", function() {
 			url: "sample-with-keyword",
 			keyword: "kéyword",
 		} );
-		expect( keywordInUrl.isApplicable( paper, new DefaultResearcher( paper ) ) ).toBe( true );
+		expect( keywordInUrl.isApplicable( paper ) ).toBe( true );
 	} );
 } );
 

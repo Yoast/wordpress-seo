@@ -56,12 +56,11 @@ export default class OutboundLinksAssessment extends Assessment {
 	 * Checks whether paper has text.
 	 *
 	 * @param {Paper}       paper       The paper to use for the assessment.
-	 * @param {Researcher}  researcher  The researcher object.
 	 *
 	 * @returns {boolean} True when there is text.
 	 */
-	isApplicable( paper, researcher ) {
-		return paper.hasText() && researcher.hasResearch( "getLinkStatistics" );
+	isApplicable( paper ) {
+		return paper.hasText();
 	}
 
 	/**

@@ -1,4 +1,3 @@
-import { DefaultResearcher } from "../../../../src/languageProcessing";
 import SubheadingsKeywordAssessment from "../../../../src/scoring/assessments/seo/SubHeadingsKeywordAssessment";
 import Paper from "../../../../src/values/Paper";
 import Factory from "../../../specHelpers/factory";
@@ -104,31 +103,31 @@ describe( "An assessment for matching keywords in subheadings", () => {
 
 	it( "checks isApplicable for a paper without text", function() {
 		const paper = new Paper( "", { keyword: "some keyword" } );
-		const isApplicableResult = new SubheadingsKeywordAssessment().isApplicable( paper, new DefaultResearcher( paper ) );
+		const isApplicableResult = new SubheadingsKeywordAssessment().isApplicable( paper );
 		expect( isApplicableResult ).toBe( false );
 	} );
 
 	it( "checks isApplicable for a paper without keyword", function() {
 		const paper = new Paper( "<p>some text</p><h2>heading</h2><p>some more text</p>", { keyword: "" } );
-		const isApplicableResult = new SubheadingsKeywordAssessment().isApplicable( paper, new DefaultResearcher( paper ) );
+		const isApplicableResult = new SubheadingsKeywordAssessment().isApplicable( paper );
 		expect( isApplicableResult ).toBe( false );
 	} );
 
 	it( "checks isApplicable for a paper without subheadings", function() {
 		const paper = new Paper( "<p>some text</p><p>some more text</p>", { keyword: "some keyword" } );
-		const isApplicableResult = new SubheadingsKeywordAssessment().isApplicable( paper, new DefaultResearcher( paper ) );
+		const isApplicableResult = new SubheadingsKeywordAssessment().isApplicable( paper );
 		expect( isApplicableResult ).toBe( false );
 	} );
 
 	it( "checks isApplicable for a paper without h2 or h3 subheadings", function() {
 		const paper = new Paper( "<p>some text</p><h4>heading</h4><p>some more text</p>", { keyword: "some keyword" } );
-		const isApplicableResult = new SubheadingsKeywordAssessment().isApplicable( paper, new DefaultResearcher( paper ) );
+		const isApplicableResult = new SubheadingsKeywordAssessment().isApplicable( paper );
 		expect( isApplicableResult ).toBe( false );
 	} );
 
 	it( "checks isApplicable for a paper with text and keyword", function() {
 		const paper = new Paper( "<p>some text</p><h2>heading</h2><p>some more text</p>", { keyword: "some keyword" } );
-		const isApplicableResult = new SubheadingsKeywordAssessment().isApplicable( paper, new DefaultResearcher( paper ) );
+		const isApplicableResult = new SubheadingsKeywordAssessment().isApplicable( paper );
 		expect( isApplicableResult ).toBe( true );
 	} );
 } );
