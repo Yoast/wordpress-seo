@@ -8,6 +8,7 @@ import twoPartTransitionWords from "../../../../src/languageProcessing/languages
 import syllables from "../../../../src/languageProcessing/languages/pt/config/syllables.json";
 import stopWords from "../../../../src/languageProcessing/languages/pt/config/stopWords";
 const morphologyDataPT = getMorphologyData( "pt" );
+import sentenceLength from "../../../../src/languageProcessing/languages/pt/config/sentenceLength";
 
 describe( "a test for the Portuguese Researcher", function() {
 	const researcher = new Researcher( new Paper( "This is another paper!" ) );
@@ -42,6 +43,10 @@ describe( "a test for the Portuguese Researcher", function() {
 
 	it( "returns the Portuguese stop words", function() {
 		expect( researcher.getConfig( "stopWords" ) ).toEqual( stopWords );
+	} );
+
+	it( "returns Portuguese sentence length config", function() {
+		expect( researcher.getConfig( "sentenceLength" ) ).toEqual( sentenceLength );
 	} );
 
 	it( "returns the Portuguese locale", function() {

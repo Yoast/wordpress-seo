@@ -8,6 +8,7 @@ import twoPartTransitionWords from "../../../../src/languageProcessing/languages
 import stopWords from "../../../../src/languageProcessing/languages/es/config/stopWords";
 import syllables from "../../../../src/languageProcessing/languages/es/config/syllables.json";
 const morphologyDataES = getMorphologyData( "es" );
+import sentenceLength from "../../../../src/languageProcessing/languages/es/config/sentenceLength";
 
 describe( "a test for the Spanish Researcher", function() {
 	const researcher = new Researcher( new Paper( "Este es un documento nuevo!" ) );
@@ -42,6 +43,10 @@ describe( "a test for the Spanish Researcher", function() {
 
 	it( "returns the Spanish stop words", function() {
 		expect( researcher.getConfig( "stopWords" ) ).toEqual( stopWords );
+	} );
+
+	it( "returns Spanish sentence length config", function() {
+		expect( researcher.getConfig( "sentenceLength" ) ).toEqual( sentenceLength );
 	} );
 
 	it( "returns the Spanish locale", function() {
