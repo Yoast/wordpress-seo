@@ -265,8 +265,7 @@ class Elementor implements Integration_Interface {
 			WPSEO_Meta::get_meta_field_defs( 'general', $post->post_type ),
 			WPSEO_Meta::get_meta_field_defs( 'advanced', $post->post_type ),
 			$social_fields,
-			WPSEO_Meta::get_meta_field_defs( 'schema', $post->post_type ),
-			WPSEO_Meta::get_meta_field_defs( 'video', $post->post_type )
+			WPSEO_Meta::get_meta_field_defs( 'schema', $post->post_type )
 		);
 
 		foreach ( $meta_boxes as $key => $meta_box ) {
