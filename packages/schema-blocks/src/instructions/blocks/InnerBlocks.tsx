@@ -139,10 +139,10 @@ export default class InnerBlocks extends BlockInstruction {
 		const elements: ReactElement[] = [];
 
 		if ( this.options.requiredBlocks ) {
-			elements.push( BlockSuggestions( __( "Required Blocks", "wpseo-schema-blocks" ), currentBlock, this.options.requiredBlocks ) );
+			elements.push( BlockSuggestions( __( "Required Blocks", "yoast-schema-blocks" ), currentBlock, this.options.requiredBlocks ) );
 		}
 		if ( this.options.recommendedBlocks ) {
-			elements.push( BlockSuggestions( __( "Recommended Blocks", "wpseo-schema-blocks" ),  currentBlock, this.options.recommendedBlocks ) );
+			elements.push( BlockSuggestions( __( "Recommended Blocks", "yoast-schema-blocks" ), currentBlock, this.options.recommendedBlocks ) );
 		}
 
 		if ( elements.length === 0 ) {
