@@ -6,8 +6,8 @@ import { BlockValidationResult } from "../../core/validation";
 import { BlockValidation } from "../../core/validation";
 
 const analysisMessageTemplates: Record<number, string> = {
-	[ BlockValidation.MissingBlock ]: "The '{parent} {child}' block is {status} but missing.",
-	[ BlockValidation.MissingAttribute ]: "The '{parent} {child}' block is empty.",
+	[ BlockValidation.MissingBlock ]: "The '{child}' block is {status} but missing.",
+	[ BlockValidation.MissingAttribute ]: "The '{child}' block is empty.",
 };
 
 type clientIdValidation = Record<string, BlockValidationResult>;
