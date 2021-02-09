@@ -71,6 +71,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 		'alternate_website_name'        => '',
 		'company_logo'                  => '',
 		'company_logo_id'               => 0,
+		'company_logo_meta'             => false,
 		'company_name'                  => '',
 		'company_or_person'             => 'company',
 		'company_or_person_user_id'     => false,
@@ -333,6 +334,10 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 			$switch_key = $this->get_switch_key( $key );
 
 			switch ( $switch_key ) {
+				case 'company_logo_meta':
+					$clean[ $key ] = $dirty[ $key ];
+					break;
+
 				/* Breadcrumbs text fields. */
 				case 'breadcrumbs-404crumb':
 				case 'breadcrumbs-archiveprefix':

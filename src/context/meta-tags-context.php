@@ -33,6 +33,7 @@ use Yoast\WP\SEO\Repositories\Indexable_Repository;
  * @property string      $site_url
  * @property string      $company_name
  * @property int         $company_logo_id
+ * @property array       $company_logo_meta
  * @property int         $site_user_id
  * @property string      $site_represents
  * @property array|false $site_represents_reference
@@ -290,6 +291,22 @@ class Meta_Tags_Context extends Abstract_Presentation {
 		 * @api integer $company_logo_id.
 		 */
 		return \apply_filters( 'wpseo_schema_company_logo_id', $company_logo_id );
+	}
+
+	/**
+	 * Retrieve the company logo meta.
+	 *
+	 * @return array|bool
+	 */
+	public function generate_company_logo_meta() {
+		$company_logo_meta = $this->image->get_attachment_meta_from_settings( 'company_logo' );
+
+		/**
+		 * Filter: 'wpseo_schema_company_logo_meta' - Allows filtering company logo id
+		 *
+		 * @api string $company_logo_meta.
+		 */
+		return \apply_filters( 'wpseo_schema_company_logo_meta', $company_logo_meta );
 	}
 
 	/**
