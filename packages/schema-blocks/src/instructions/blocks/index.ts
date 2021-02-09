@@ -5,6 +5,7 @@ import "./Date";
 import "./InnerBlocks";
 import "./RichText";
 import "./Select";
+import "./SidebarCheckbox";
 import "./SidebarDuration";
 import "./SidebarInput";
 import "./SidebarSelect";

@@ -6,6 +6,7 @@ import warningWatcher from "./watchers/warningWatcher";
 import { getBlockDefinition } from "../../core/blocks/BlockDefinitionRepository";
 import { BlockValidation, BlockValidationResult } from "../../core/validation";
 import storeBlockValidation from "./storeBlockValidation";
+import logger from "../logger";
 
 let updatingSchema = false;
 let previousRootBlocks: BlockInstance[];
@@ -40,8 +41,7 @@ function shouldRenderSchema( definition: SchemaDefinition, parentHasSchema: bool
 function renderSchema( block: BlockInstance, definition: SchemaDefinition ) {
 	const schema = definition.render( block );
 
-	// eslint-disable-next-line no-console
-	console.log( "Generated schema for block: ", block, schema );
+	logger.debug( "Generated schema for block: ", block, schema );
 
 	if ( isEqual( schema, block.attributes[ "yoast-schema" ] ) ) {
 		return;
@@ -60,8 +60,7 @@ function renderSchema( block: BlockInstance, definition: SchemaDefinition ) {
  */
 function generateSchemaForBlocks(
 	blocks: BlockInstance[], validations: BlockValidationResult[], previousBlocks: BlockInstance[] = [], parentHasSchema = false ) {
-	// eslint-disable-next-line no-console
-	console.log( "Generating schema!" );
+	logger.info( "Generating schema!" );
 	for ( let i = 0; i < blocks.length; i++ ) {
 		const block = blocks[ i ];
 		const previousBlock = previousBlocks[ i ];
@@ -104,8 +103,7 @@ export function validateBlocks( blocks: BlockInstance[] ): BlockValidationResult
 		if ( definition ) {
 			validations.push( definition.validate( block ) );
 		} else {
-			// eslint-disable-next-line no-console
-			console.log( "Unable to validate block of type [" + block.name + "] " + block.clientId );
+			logger.warning( "Unable to validate block of type [" + block.name + "] " + block.clientId );
 			validations.push( new BlockValidationResult( block.clientId, block.name, BlockValidation.Unknown ) );
 
 			// Recursively validate all blocks' innerblocks.

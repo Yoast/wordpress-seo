@@ -1,5 +1,6 @@
 import { dispatch } from "@wordpress/data";
 import { BlockValidationResult } from "../../core/validation";
+import logger from "../logger";
 
 /**
  * Updates the store with information about whether a block is valid or why it isn't.
@@ -10,16 +11,13 @@ export default function storeBlockValidation( validations: BlockValidationResult
 		return;
 	}
 
-	// eslint-disable-next-line no-console
-	console.log( "Updating the store with the validation results." );
+	logger.debug( "Updating the store with the validation results." );
 
 	const store = dispatch( "yoast-seo/editor" );
 	if ( store ) {
 		store.resetBlockValidation();
 		validations.forEach( blockValidation => {
-			// eslint-disable-next-line no-console
-			console.log( blockValidation );
-
+		logger.debug( "storing validation: ", blockValidation );
 			store.addBlockValidation( blockValidation );
 		} );
 	}

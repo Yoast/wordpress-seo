@@ -3,6 +3,7 @@ import { BlockInstance } from "@wordpress/blocks";
 import { isArray, mergeWith } from "lodash";
 import Instruction from "./Instruction";
 import Leaf from "./Leaf";
+import logger from "../functions/logger";
 
 export type DefinitionClass<T extends Definition> = {
 	new( separator: string, template?: string, instructions?: Record<string, Instruction>, tree?: Leaf ): T;
@@ -83,8 +84,7 @@ export default abstract class Definition {
 
 		validation.issues = Object.values( this.instructions ).map( instruction => {
 			const issue = instruction.validate( blockInstance );
-			// eslint-disable-next-line no-console
-			console.log( "validating " + instruction.options.name + " against " + blockInstance.name + " => " + BlockValidation[ issue.result ] );
+			logger.debug( "validating " + instruction.options.name + " against " + blockInstance.name + " => " + BlockValidation[ issue.result ] );
 			return issue;
 		} ).filter( issue => issue.result !== BlockValidation.Skipped );
 
