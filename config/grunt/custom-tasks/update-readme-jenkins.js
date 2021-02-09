@@ -131,14 +131,20 @@ class Unique {
 				if (similarity(this.items[i], this.items[j]) > 0.9) {
 					toBeRemoved.push(j)
 					console.log ("---------------")
-				console.log (`${j}: ${this.items[j]}`)
-				console.log (`${i}: ${this.items[i]}`)
-				console.log (`${similarity(this.items[i], this.items[j])}`)
-				console.log ("---------------")
+					console.log (`${j}: ${this.items[j]}`)
+					console.log (`${i}: ${this.items[i]}`)
+					console.log (`${similarity(this.items[i], this.items[j])}`)
+					console.log ("---------------")
 				}
 			}
 		}
+		//sort as we are removing index wize the biggest need to go first
 		console.log(toBeRemoved)
+		toBeRemoved.sort(function(a, b){return b-a});
+		for (var i = 0; i<toBeRemoved.length; i++) {
+			this.items.splice(toBeRemoved[i],1);
+			console.log(toBeRemoved[i]);
+		}
 		
 	}
 
