@@ -48,6 +48,12 @@ jest.mock( "@wordpress/components", () => {
 	};
 } );
 
+jest.mock( "@yoast/components", () => {
+	return {
+		SvgIcon: jest.fn(),
+	};
+} );
+
 describe( "The warning watcher", () => {
 	it( "adds warnings when required blocks are removed", () => {
 		const previousBlocks = [

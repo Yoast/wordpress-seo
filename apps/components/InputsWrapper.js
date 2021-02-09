@@ -129,7 +129,7 @@ const InputsWrapper = () => {
 				] }
 				label="Horizontal radiobutton group"
 				groupName="group1"
-				selected="hi"
+				selected="hey-value"
 			/>
 			<RadioButtonGroup
 				options={ [

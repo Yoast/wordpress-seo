@@ -7,6 +7,12 @@ import  "../../src/instructions/blocks/InnerBlocks";
 import InnerBlocks from "../../src/instructions/blocks/InnerBlocks";
 import { RequiredBlock, RequiredBlockOption } from "../../src/core/validation";
 
+jest.mock( "@yoast/components", () => {
+	return {
+		SvgIcon: jest.fn(),
+	};
+} );
+
 describe( "the process function", () => {
 	it( "processes an inner-blocks instruction", () => {
 		const template = '{{inner-blocks allowed-blocks=[ "core/paragraph", "core/image", "yoast/ingredients" ] ' +
