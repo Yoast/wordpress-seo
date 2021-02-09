@@ -61,7 +61,7 @@ export default class BlockDefinition extends Definition {
 	}
 
 	/**
-	 * Renders saving the block.
+	 * Renders the persisted block.
 	 *
 	 * @param props The props.
 	 *

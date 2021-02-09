@@ -1,7 +1,5 @@
 import { BlockInstance } from "@wordpress/blocks";
 import { BlockValidationResult, BlockValidation } from "./validation";
-
-
 export type InstructionPrimitive = string | number | boolean;
 export type InstructionValue = InstructionPrimitive | InstructionObject | InstructionArray;
 export type InstructionArray = readonly InstructionValue[];

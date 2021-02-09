@@ -1,17 +1,16 @@
-import { ReactElement } from "react";
-import { createElement, ComponentClass, Fragment, ComponentType } from "@wordpress/element";
+import { ComponentType, ReactElement } from "react";
+import { createElement, ComponentClass, Fragment } from "@wordpress/element";
 import { InnerBlocks as WordPressInnerBlocks } from "@wordpress/block-editor";
-import { BlockInstance, TemplateArray } from "@wordpress/blocks";
-import { BlockValidation, BlockValidationResult, RecommendedBlock, RequiredBlock } from "../../core/validation";
+import { BlockInstance } from "@wordpress/blocks";
+import { BlockValidation, BlockValidationResult } from "../../core/validation";
 import BlockInstruction from "../../core/blocks/BlockInstruction";
 import validateInnerBlocks from "../../functions/validators/innerBlocksValid";
 import { RenderEditProps, RenderSaveProps } from "../../core/blocks/BlockDefinition";
 import { getBlockByClientId } from "../../functions/BlockHelper";
-import BlockSuggestions from "../../blocks/BlockSuggestions";
-import { InstructionObject, InstructionOptions } from "../../core/Instruction";
-import BlockLeaf from "../../core/blocks/BlockLeaf";
 import validateMany from "../../functions/validators/validateMany";
-import { __ } from "@wordpress/i18n";
+import { innerBlocksSidebar } from "../../functions/presenters/InnerBlocksSidebarPresenter";
+import { InnerBlocksInstructionOptions } from "./InnerBlocksInstructionOptions";
+import BlockLeaf from "../../core/blocks/BlockLeaf";
 
 /**
  * Custom props for InnerBlocks.
@@ -27,15 +26,7 @@ interface InnerBlocksProps extends Omit<WordPressInnerBlocks.Props, "renderAppen
  * InnerBlocks instruction.
  */
 export default class InnerBlocks extends BlockInstruction {
-	public options: InstructionOptions & {
-		allowedBlocks: string[];
-		template: TemplateArray;
-		appender: string | false ;
-		appenderLabel: string;
-		requiredBlocks: RequiredBlock[];
-		recommendedBlocks: RecommendedBlock[];
-		warnings: InstructionObject;
-	}
+	public options: InnerBlocksInstructionOptions;
 
 	/**
 	 * Renders saving the instruction.
@@ -136,16 +127,13 @@ export default class InnerBlocks extends BlockInstruction {
 	 */
 	sidebar( props: RenderEditProps ): ReactElement {
 		const currentBlock = getBlockByClientId( props.clientId );
-		const elements: ReactElement[] = [];
-
-		if ( this.options.requiredBlocks ) {
-			elements.push( BlockSuggestions( __( "Required Blocks", "yoast-schema-blocks" ), currentBlock, this.options.requiredBlocks ) );
-		}
-		if ( this.options.recommendedBlocks ) {
-			elements.push( BlockSuggestions( __( "Recommended Blocks", "yoast-schema-blocks" ), currentBlock, this.options.recommendedBlocks ) );
+		if ( ! currentBlock ) {
+			return null;
 		}
 
-		if ( elements.length === 0 ) {
+		const elements: ReactElement[] = innerBlocksSidebar( currentBlock, this.options );
+
+		if ( elements && elements.length === 0 ) {
 			return null;
 		}
 

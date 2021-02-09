@@ -14,9 +14,11 @@ export default function storeBlockValidation( validations: BlockValidationResult
 	logger.debug( "Updating the store with the validation results." );
 
 	const store = dispatch( "yoast-seo/editor" );
-	store.resetBlockValidation();
-	validations.forEach( blockValidation => {
-		logger.debug( "storing validation: ", blockValidation );
-		store.addBlockValidation( blockValidation );
-	} );
+	if ( store ) {
+		store.resetBlockValidation();
+		validations.forEach( blockValidation => {
+			logger.debug( "storing validation: ", blockValidation );
+			store.addBlockValidation( blockValidation );
+		} );
+	}
 }

@@ -1,6 +1,13 @@
 import "../matchMedia.mock";
 import InnerBlocks from "../../src/instructions/blocks/InnerBlocks";
 
+
+jest.mock( "@yoast/components", () => {
+	return {
+		SvgIcon: jest.fn(),
+	};
+} );
+
 describe( "The Innerblocks class", () => {
 	it( "has set the options right.", () => {
 		const innerBlocks = new InnerBlocks(
