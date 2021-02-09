@@ -47,6 +47,7 @@ function getInnerBlocksInstruction( blockName: string ): InnerBlocks | null {
 function getDefaultWarningMessage( blockTitle: string, warningType: WarningType ): string {
 	switch ( warningType ) {
 		case WarningType.BLOCK_REQUIRED: {
+			/* translators: %s expands to the block name that is removed. */
 			return sprintf(
 				__(
 					"You've just removed the ‘%s’ block, but this is a required block for Schema output. " +
@@ -57,6 +58,7 @@ function getDefaultWarningMessage( blockTitle: string, warningType: WarningType 
 			);
 		}
 		case WarningType.BLOCK_RECOMMENDED: {
+			/* translators: %s expands to the block name that is removed. */
 			return sprintf(
 				__(
 					"You've just removed the ‘%s’ block, but this is a recommended block for Schema output. " +
