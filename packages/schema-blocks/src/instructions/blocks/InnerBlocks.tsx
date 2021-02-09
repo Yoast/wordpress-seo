@@ -131,6 +131,7 @@ export default class InnerBlocks extends BlockInstruction {
 			return null;
 		}
 
+		console.log( "rendering the sidebar" );
 		const elements: ReactElement[] = innerBlocksSidebar( currentBlock, this.options );
 
 		if ( elements && elements.length === 0 ) {

@@ -18,7 +18,10 @@ import { SvgIcon } from "@yoast/components";
 export function innerBlocksSidebar( currentBlock: BlockInstance, options: InnerBlocksInstructionOptions ): ReactElement[] {
 	const elements: ReactElement[] = [];
 
+	console.log( "currentBlock: ", currentBlock );
+
 	const warnings = getWarnings( currentBlock.clientId );
+	console.log( "warnings: ", warnings );
 	if ( warnings && warnings.length > 0 ) {
 		elements.push( createWarningList( warnings ) );
 	}
@@ -42,6 +45,7 @@ export function innerBlocksSidebar( currentBlock: BlockInstance, options: InnerB
  * @returns {ReactElement} A ReactElement containing the list of warnings.
  */
 function createWarningList( warnings: sidebarWarning[] ): ReactElement {
+	console.log( "createWarningList" );
 	return (
 		<div className="yoast-block-sidebar-warnings">
 			<div className="yoast-block-sidebar-title">{ __( "Analysis", "wpseo-schema-blocks" ) }</div>

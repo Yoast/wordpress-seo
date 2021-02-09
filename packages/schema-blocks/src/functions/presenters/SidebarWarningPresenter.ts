@@ -40,9 +40,16 @@ export type WarningDefinition = {
  */
 function getValidationResult( clientId: string ): BlockValidationResult | null {
 	const store: { validations: clientIdValidation } = select( "yoast-seo/editor" ).getSchemaBlocksValidationResults();
+
+	console.log( "store: ", store );
+	console.log( "! store.validations: ", ! store.validations );
+	console.log( "select( \"yoast-seo/editor\" ).getSchemaBlocksValidationResults() ", select( "yoast-seo/editor" ).getSchemaBlocksValidationResults() );
+
 	if ( ! store || ! store.validations ) {
 		return null;
 	}
+
+	console.log( "the validations for a clientId from the store: ", store.validations[ clientId ] );
 
 	return store.validations[ clientId ];
 }
@@ -151,6 +158,9 @@ export function sanitizeBlockName( blockName: string ): string {
  */
 export default function getWarnings( clientId: string ): sidebarWarning[] {
 	const validation: BlockValidationResult = getValidationResult( clientId );
+
+	console.log( "the validation from the store converted to a presentable text: ", validation );
+
 	if ( ! validation ) {
 		return null;
 	}
