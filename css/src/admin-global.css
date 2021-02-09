@@ -371,7 +371,8 @@ td.column-wpseo-linked {
   padding-left: 1.5em;
 }
 
-.yoast_help.yoast-help-button {
+.yoast_help.yoast-help-button,
+.yoast_help.yoast-help-link {
   position: relative;
   width: 20px;
   height: 20px;
@@ -411,11 +412,14 @@ td.column-wpseo-linked {
 }
 
 .yoast_help.yoast-help-button:hover,
-.yoast_help.yoast-help-button:focus {
+.yoast_help.yoast-help-button:focus,
+.yoast_help.yoast-help-link:hover,
+.yoast_help.yoast-help-link:hover {
   color: #0073aa;
 }
 
 .yoast_help.yoast-help-button:focus .yoast-help-icon::before,
+.yoast_help.yoast-help-link:focus .yoast-help-icon::before,
 .assessment-results__mark:focus {
   border-radius: 100%;
   box-shadow: 0 0 0 1px #5b9dd9, 0 0 2px 1px rgba(30, 140, 190, 0.8);
