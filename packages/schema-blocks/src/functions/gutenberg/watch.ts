@@ -6,6 +6,7 @@ import warningWatcher from "./watchers/warningWatcher";
 import { getBlockDefinition } from "../../core/blocks/BlockDefinitionRepository";
 import { BlockValidation, BlockValidationResult } from "../../core/validation";
 import storeBlockValidation from "./storeBlockValidation";
+import logger from "../logger";
 
 let updatingSchema = false;
 let previousRootBlocks: BlockInstance[];
@@ -40,8 +41,7 @@ function shouldRenderSchema( definition: SchemaDefinition, parentHasSchema: bool
 function renderSchema( block: BlockInstance, definition: SchemaDefinition ) {
 	const schema = definition.render( block );
 
-	// eslint-disable-next-line no-console
-	console.log( "Generated schema for block: ", block, schema );
+	logger.debug( "Generated schema for block: ", block, schema );
 
 	if ( isEqual( schema, block.attributes[ "yoast-schema" ] ) ) {
 		return;
@@ -54,12 +54,13 @@ function renderSchema( block: BlockInstance, definition: SchemaDefinition ) {
  * Generates schema for blocks.
  *
  * @param blocks          The blocks.
+ * @param validations     The validation results for the blocks.
  * @param previousBlocks  Optional. The previous blocks used for schema generation.
  * @param parentHasSchema Optional. Whether or not the parent has already rendered schema.
  */
-function generateSchemaForBlocks( blocks: BlockInstance[], previousBlocks: BlockInstance[] = [], parentHasSchema = false ) {
-	// eslint-disable-next-line no-console
-	console.log( "Generating schema!" );
+function generateSchemaForBlocks(
+	blocks: BlockInstance[], validations: BlockValidationResult[], previousBlocks: BlockInstance[] = [], parentHasSchema = false ) {
+	logger.info( "Generating schema!" );
 	for ( let i = 0; i < blocks.length; i++ ) {
 		const block = blocks[ i ];
 		const previousBlock = previousBlocks[ i ];
@@ -68,25 +69,32 @@ function generateSchemaForBlocks( blocks: BlockInstance[], previousBlocks: Block
 			continue;
 		}
 
+		const validation = validations.find( v => v.clientId === block.clientId );
+		if ( validation && validation.result > BlockValidation.Valid ) {
+			continue;
+		}
+
 		const definition = schemaDefinitions[ block.name ];
 		if ( shouldRenderSchema( definition, parentHasSchema ) ) {
 			renderSchema( block, definition );
 			if ( Array.isArray( block.innerBlocks ) ) {
-				generateSchemaForBlocks( block.innerBlocks, previousBlock ? previousBlock.innerBlocks : [], true );
+				generateSchemaForBlocks( block.innerBlocks, validations, previousBlock ? previousBlock.innerBlocks : [], true );
 			}
 			continue;
 		}
 		if ( Array.isArray( block.innerBlocks ) ) {
-			generateSchemaForBlocks( block.innerBlocks, previousBlock ? previousBlock.innerBlocks : [], parentHasSchema );
+			generateSchemaForBlocks( block.innerBlocks, validations, previousBlock ? previousBlock.innerBlocks : [], parentHasSchema );
 		}
 	}
 }
 
 /**
- Validates blocks recursively.
-@param blocks The block instances to validate.
-@returns {BlockValidationResult[]} Validation results for each (inner)block of the given blocks.
- */
+* Validates blocks recursively.
+*
+* @param blocks The block instances to validate.
+*
+* @returns {BlockValidationResult[]} Validation results for each (inner)block of the given blocks.
+*/
 export function validateBlocks( blocks: BlockInstance[] ): BlockValidationResult[] {
 	const validations: BlockValidationResult[] = [];
 	blocks.forEach( block => {
@@ -95,8 +103,7 @@ export function validateBlocks( blocks: BlockInstance[] ): BlockValidationResult
 		if ( definition ) {
 			validations.push( definition.validate( block ) );
 		} else {
-			// eslint-disable-next-line no-console
-			console.log( "Unable to validate block of type [" + block.name + "] " + block.clientId );
+			logger.warning( "Unable to validate block of type [" + block.name + "] " + block.clientId );
 			validations.push( new BlockValidationResult( block.clientId, block.name, BlockValidation.Unknown ) );
 
 			// Recursively validate all blocks' innerblocks.
@@ -124,12 +131,13 @@ export default function watch() {
 
 		updatingSchema = true;
 		{
-			const validations = validateBlocks( rootBlocks );
+			const validations: BlockValidationResult[] = validateBlocks( rootBlocks );
 			storeBlockValidation( validations );
 
 			warningWatcher( rootBlocks, previousRootBlocks );
 
-			generateSchemaForBlocks( rootBlocks, previousRootBlocks );
+			generateSchemaForBlocks( rootBlocks, validations, previousRootBlocks );
+
 			previousRootBlocks = rootBlocks;
 		}
 		updatingSchema = false;

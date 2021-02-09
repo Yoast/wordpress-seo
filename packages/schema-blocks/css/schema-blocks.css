@@ -61,7 +61,23 @@
 
 .yoast-block-suggestions {
 	width:100%;
+	padding: 0 5px 0 15px;
+}
+
+.yoast-block-sidebar-warnings {
+	width:100%;
 	padding: 0 0 0 15px;
+}
+
+.yoast-block-sidebar-warning {
+	list-style: none;
+	color: #707070;
+}
+
+.yoast-block-sidebar-warning > .yoast-svg-icon {
+	margin-left: -1.5em;
+    margin-right: 0.5em;
+	color: red;
 }
 
 .yoast-block-suggestion {

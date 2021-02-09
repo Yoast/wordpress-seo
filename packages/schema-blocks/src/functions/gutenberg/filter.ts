@@ -1,6 +1,7 @@
 import { addFilter } from "@wordpress/hooks";
 import { MutableBlockConfiguration } from "../../core/blocks/BlockDefinition";
 import { schemaDefinitions } from "../../core/schema/SchemaDefinition";
+import logger from "../logger";
 
 /**
  * Filters in schema attributes for blocks.
@@ -13,8 +14,7 @@ export default function filter() {
 			if ( ! Object.keys( schemaDefinitions ).includes( name ) ) {
 				return settings;
 			}
-			// eslint-disable-next-line no-console
-			console.log( "Adding schema to: ", name );
+			logger.debug( "Adding schema to: ", name );
 			if ( ! settings.attributes ) {
 				settings.attributes = {};
 			}
