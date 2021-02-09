@@ -246,6 +246,7 @@ Enhancements:
     * Adds the passive voice assessment.
 * Improves keyphrase recognition in Turkish by filtering out function words such as `birinci`, `i̇kinci`, `üçüncü`.
 * Adds the advanced snippet variables to the Social previews of our Elementor integration.
+* Adds a breadcrumbs block which renders the Yoast SEO breadcrumbs for a particular post or page.
 
 Bugfixes:
 

@@ -44,8 +44,9 @@ function similarity(s1, s2) {
   }
 
 class ChangelogBuilder {
-	constructor(changelogIn) {
+	constructor(grunt , changelogIn) {
 		this.ChangelogMap = new Map();
+		this.grunt = grunt
 		if (changelogIn) {
 			this.parseChancelogLines(changelogIn);
 		};
@@ -57,7 +58,7 @@ class ChangelogBuilder {
 		if (this.ChangelogMap.has(key)) {
 			this.ChangelogMap.get(key).append(lines);
 		} else {
-			const uniqueLines = new Unique();
+			const uniqueLines = new Unique(this.grunt);
 			uniqueLines.append(lines);
 			this.ChangelogMap.set(key, uniqueLines);
 		};
@@ -86,7 +87,7 @@ class ChangelogBuilder {
 
 
 	get cleanChangelog(){
-		console.log (this.ChangelogMap);
+		this.grunt.verbose.writeln(this.ChangelogMap);
 		var newlines = ""
 		//console.log((this.ChangelogMap.has('Enhancements:')))
 		if (this.ChangelogMap.has('Enhancements:')) {
@@ -109,8 +110,9 @@ class ChangelogBuilder {
 };
 
 class Unique {
-	constructor(items) {
+	constructor(grunt, items) {
 		this.items = new Array();
+		this.grunt = grunt
 		if (items) {
 	  		this.items = items;
 		};
@@ -130,20 +132,20 @@ class Unique {
 				
 				if (similarity(this.items[i], this.items[j]) > 0.9) {
 					toBeRemoved.push(j)
-					console.log ("---------------")
-					console.log (`${j}: ${this.items[j]}`)
-					console.log (`${i}: ${this.items[i]}`)
-					console.log (`${similarity(this.items[i], this.items[j])}`)
-					console.log ("---------------")
+					this.grunt.verbose.writeln ("---------------")
+					this.grunt.verbose.writeln (`${j}: ${this.items[j]}`)
+					this.grunt.verbose.writeln (`${i}: ${this.items[i]}`)
+					this.grunt.verbose.writeln (`${similarity(this.items[i], this.items[j])}`)
+					this.grunt.verbose.writeln ("---------------")
 				}
 			}
 		}
 		//sort as we are removing index wize the biggest need to go first
-		console.log(toBeRemoved)
+		this.grunt.verbose.writeln(toBeRemoved)
 		toBeRemoved.sort(function(a, b){return b-a});
 		for (var i = 0; i<toBeRemoved.length; i++) {
 			this.items.splice(toBeRemoved[i],1);
-			console.log(toBeRemoved[i]);
+			this.grunt.verbose.writeln(toBeRemoved[i]);
 		}
 		
 	}
@@ -234,7 +236,7 @@ module.exports = function( grunt ) {
 				}
 			}
 
-			const changelogBuilder = new ChangelogBuilder();
+			const changelogBuilder = new ChangelogBuilder(grunt);
 			// changelogBuilder.parseYoastCliGeneratedChangelog( grunt.file.read( "./.tmp/change_in_log.md" ) );
 
 			// If the current version is already in the changelog, retrieve the full readme and let the user edit it.
