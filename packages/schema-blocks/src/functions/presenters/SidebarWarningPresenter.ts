@@ -66,8 +66,8 @@ function getAnalysisConclusion( validation: BlockValidation, issues: analysisIss
 	if ( issues.some( issue => issue.result === BlockValidation.MissingBlock ||
 							   issue.result === BlockValidation.MissingAttribute ) ) {
 		return {
-			text: __( "Not all required blocks are completed! No '" + issues[ 0 ].parent +
-			"' schema will be generated for your page.", "wpseo-schema-blocks" ),
+			text: __( "Not all required blocks are completed! No " + issues[ 0 ].parent +
+			" schema will be generated for your page.", "wpseo-schema-blocks" ),
 			color: "red",
 		} as sidebarWarning;
 	}
@@ -97,7 +97,7 @@ export function createAnalysisMessages( validation: BlockValidationResult ): sid
 		.filter( ( issue: BlockValidationResult ) => issue.result in analysisMessageTemplates )
 		.map( ( issue: BlockValidationResult ) => ( {
 			name: sanitizeBlockName( issue.name ),
-			parent: parent,
+			parent: sanitizeParentName( parent ),
 			result: issue.result,
 			status: "required",
 		} ) );
@@ -133,6 +133,21 @@ export function sanitizeBlockName( blockName: string ): string {
 	}
 
 	return blockName.substring( lastSlash + 1 );
+}
+
+/**
+ * Strips "Yoast " of the name of the "Yoast Job posting" block and converts the string to lower case.
+ *
+ * @param parent The name of the "Yoast Job posting" block.
+ *
+ * @returns {string} The sanitized parent name.
+ */
+export function sanitizeParentName( parent: string ): string {
+	if ( parent.startsWith( "Yoast " ) ) {
+		return parent.substr( 6 ).toLowerCase();
+	}
+
+	return parent;
 }
 
 /**
