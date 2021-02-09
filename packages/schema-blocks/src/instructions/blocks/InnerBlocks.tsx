@@ -138,8 +138,8 @@ export default class InnerBlocks extends BlockInstruction {
 		}
 
 		return (
-			<Fragment>
-			{ ...elements }
+			<Fragment key="innerblocks-sidebar">
+				{ ...elements }
 			</Fragment>
 		);
 	}

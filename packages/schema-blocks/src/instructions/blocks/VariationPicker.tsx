@@ -1,6 +1,7 @@
 import BlockInstruction from "../../core/blocks/BlockInstruction";
 import { select, useDispatch, useSelect } from "@wordpress/data";
 import { RenderEditProps } from "../../core/blocks/BlockDefinition";
+import BlockLeaf from "../../core/blocks/BlockLeaf";
 // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
 // @ts-ignore -- __experimentalBlockVariationPicker is defined in the package, though no type info is available.
 import { __experimentalBlockVariationPicker as ExperimentalBlockVariationPicker, useBlockProps } from "@wordpress/block-editor";
@@ -19,11 +20,13 @@ class VariationPicker extends BlockInstruction {
 	 * Renders the variation picker if the block doesn't have any inner blocks.
 	 * Otherwise, renders null.
 	 *
-	 * @param {RenderEditProps} props The render edit props.
+	 * @param props The render edit props.
+	 * @param leaf  The leaf being rendered.
+	 * @param index The number the rendered element is of its parent.
 	 *
 	 * @returns The variation picker or null.
 	 */
-	edit( props: RenderEditProps ) {
+	edit( props: RenderEditProps, leaf: BlockLeaf, index: number ) {
 		const { clientId } = props;
 		const hasInnerBlocks = select( "core/block-editor" ).getBlock( clientId ).innerBlocks.length > 0;
 
@@ -31,7 +34,7 @@ class VariationPicker extends BlockInstruction {
 			return null;
 		}
 
-		return this.renderVariationPicker( props );
+		return this.renderVariationPicker( props, "variation-picker-" + index );
 	}
 
 	/**
@@ -56,11 +59,12 @@ class VariationPicker extends BlockInstruction {
 	/**
 	 * Renders the variation picker.
 	 *
-	 * @param {RenderEditProps} props The render edit props.
+	 * @param props The render edit props.
+	 * @param key   The variation picker's key.
 	 *
 	 * @returns The variation picker.
 	 */
-	renderVariationPicker( props: RenderEditProps ) {
+	renderVariationPicker( props: RenderEditProps, key: string ) {
 		const { blockType, defaultVariation, variations } = useSelect(
 			( selectStore ) => {
 				const {
@@ -107,7 +111,7 @@ class VariationPicker extends BlockInstruction {
 		};
 
 		return (
-			<div { ...blockProps }>
+			<div key={ key } { ...blockProps }>
 				<ExperimentalBlockVariationPicker
 					icon={ false }
 					label={ get( blockType, [ "title" ] ) }
