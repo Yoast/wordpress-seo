@@ -358,7 +358,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 
 				/*
 				 * Covers:
-				 *  'title-home-wpseo', 'title-author-wpseo', 'title-archive-wpseo',
+				 *  'title-home-wpseo', 'title-author-wpseo', 'title-archive-wpseo', // phpcs:ignore Squiz.PHP.CommentedOutCode.Found -- This isn't commented out code.
 				 *  'title-search-wpseo', 'title-404-wpseo'
 				 *  'title-' . $pt->name
 				 *  'title-ptarchive-' . $pt->name
@@ -411,7 +411,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 					break;
 
 				/*
-				 * Covers: 'rssbefore', 'rssafter'
+				 * Covers: 'rssbefore', 'rssafter' // phpcs:ignore Squiz.PHP.CommentedOutCode.Found -- This isn't commented out code.
 				 */
 				case 'rssbefore':
 				case 'rssafter':

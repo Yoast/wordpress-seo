@@ -318,9 +318,11 @@ class Image_Helper {
 	}
 
 	/**
-	 * @param $setting
+	 * Based on and image ID return array with the best variation of that image. If it's not saved to the DB,  save it to an option.
 	 *
-	 * @return array|mixed|null
+	 * @param string $setting The setting to retrieve the image array for.
+	 *
+	 * @return array|bool Array with image details when the image is found, boolean when it's not found.
 	 */
 	public function get_attachment_meta_from_settings( $setting ) {
 		$image_meta = $this->options->get( $setting . '_meta', false );

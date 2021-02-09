@@ -189,7 +189,7 @@ class Person extends Abstract_Schema_Piece {
 		if ( $this->context->site_represents !== 'person' ) {
 			return $data;
 		}
-		if ( $this->context->person_logo_meta ) {
+		if ( is_array( $this->context->person_logo_meta ) ) {
 			$data['image'] = $this->helpers->schema->image->generate_from_attachment_meta( $schema_id, $this->context->person_logo_meta, $data['name'] );
 		}
 
