@@ -136,11 +136,11 @@ export function sanitizeBlockName( blockName: string ): string {
 }
 
 /**
- * Strips "Yoast " of the name of the "Yoast Job posting" block and converts the string to lower case.
+ * Strips "Yoast " of the name of the block and converts the string to lower case.
  *
- * @param parent The name of the "Yoast Job posting" block.
+ * @param parent The parent block name.
  *
- * @returns {string} The sanitized parent name.
+ * @returns {string} The sanitized parent block name.
  */
 export function sanitizeParentName( parent: string ): string {
 	if ( parent.startsWith( "Yoast " ) ) {
