@@ -32,9 +32,10 @@ export type WarningDefinition = {
 };
 
 /**
- * Gets the validation results from the store for a blockinstance with the given clientId.
+ * Gets the validation results from the store for a block instance with the given clientId.
  *
  * @param clientId The clientId to request validation results for.
+ *
  * @returns {BlockValidationResult} The validation results, or null if none were found.
  */
 function getValidationResult( clientId: string ): BlockValidationResult | null {
@@ -51,7 +52,7 @@ function getValidationResult( clientId: string ): BlockValidationResult | null {
  *
  * @param issue Details about the current issue.
  *
- *  @returns {string} The presentable warning message appropriate for this issue.
+ * @returns {string} The presentable warning message appropriate for this issue.
  */
 export function replaceVariables( issue: WarningDefinition ): string {
 	const warning = get( analysisMessageTemplates, issue.result, "" );
@@ -142,9 +143,9 @@ export function sanitizeBlockName( blockName: string ): string {
 }
 
 /**
- * Converts the validation results for a blockinstance with the given clientId to a presentable text.
+ * Converts the validation results for a block instance with the given clientId to a presentable text.
  *
- * @param clientId   The clientId to request validation results for.
+ * @param clientId The clientId to request validation results for.
  *
  * @returns {string} The presentable warning message, or null if no warnings are found.
  */
