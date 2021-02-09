@@ -19,8 +19,8 @@ export default class Researcher extends AbstractResearcher {
 		delete this.defaultResearches.getFleschReadingScore;
 		delete this.defaultResearches.getPassiveVoice;
 		delete this.defaultResearches.getSentenceBeginnings;
-		delete this.defaultResearches.stopWordsInKeyword;
 		delete this.defaultResearches.findTransitionWords;
+		delete this.defaultResearches.functionWordsInKeyphrase;
 
 		Object.assign( this.config, {
 			functionWords: [],
@@ -29,7 +29,6 @@ export default class Researcher extends AbstractResearcher {
 
 		Object.assign( this.helpers, {
 			getStemmer,
-			sentenceLength,
 		} );
 	}
 }
