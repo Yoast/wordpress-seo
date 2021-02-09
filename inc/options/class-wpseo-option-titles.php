@@ -334,7 +334,9 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 			$switch_key = $this->get_switch_key( $key );
 
 			switch ( $switch_key ) {
+				// Only ever set programmatically, so no reason for intense validation.
 				case 'company_logo_meta':
+				case 'person_logo_meta':
 					$clean[ $key ] = $dirty[ $key ];
 					break;
 
@@ -384,6 +386,9 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 
 				case 'company_logo':
 				case 'person_logo':
+					// When a logo changes, we need to ditch the caches we have for it.
+					unset( $clean[ $switch_key . '_id' ] );
+					unset( $clean[ $switch_key . '_meta' ] );
 					$this->validate_url( $key, $dirty, $old, $clean );
 					break;
 
