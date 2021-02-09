@@ -1,4 +1,4 @@
 import initialize from "@yoast/schema-blocks";
-import { LogLevel } from "@yoast/schema-blocks/dist/functions/logger";
+import { LogLevel } from "@yoast/schema-blocks";
 
 initialize( LogLevel.ERROR );
