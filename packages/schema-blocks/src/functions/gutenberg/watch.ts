@@ -1,4 +1,4 @@
-import { isEqual } from "lodash";
+import { debounce, isEqual } from "lodash";
 import { subscribe, select, dispatch } from "@wordpress/data";
 import SchemaDefinition, { schemaDefinitions } from "../../core/schema/SchemaDefinition";
 import { BlockInstance } from "@wordpress/blocks";
@@ -112,26 +112,28 @@ export function validateBlocks( blocks: BlockInstance[] ): BlockValidationResult
  * Watches Gutenberg for relevant changes.
  */
 export default function watch() {
-	subscribe( () => {
-		if ( updatingSchema ) {
-			return;
-		}
+	subscribe(
+		debounce( () => {
+			if ( updatingSchema || select( "core/block-editor" ).isTyping() ) {
+				return;
+			}
 
-		const rootBlocks: BlockInstance[] = select( "core/block-editor" ).getBlocks();
-		if ( rootBlocks === previousRootBlocks ) {
-			return;
-		}
+			const rootBlocks: BlockInstance[] = select( "core/block-editor" ).getBlocks();
+			if ( rootBlocks === previousRootBlocks ) {
+				return;
+			}
 
-		updatingSchema = true;
-		{
-			const validations = validateBlocks( rootBlocks );
-			storeBlockValidation( validations );
+			updatingSchema = true;
+			{
+				const validations = validateBlocks( rootBlocks );
+				storeBlockValidation( validations );
 
-			warningWatcher( rootBlocks, previousRootBlocks );
+				warningWatcher( rootBlocks, previousRootBlocks );
 
-			generateSchemaForBlocks( rootBlocks, previousRootBlocks );
-			previousRootBlocks = rootBlocks;
-		}
-		updatingSchema = false;
-	} );
+				generateSchemaForBlocks( rootBlocks, previousRootBlocks );
+				previousRootBlocks = rootBlocks;
+			}
+			updatingSchema = false;
+		}, 250, { trailing: true } ),
+	);
 }
