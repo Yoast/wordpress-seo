@@ -1,8 +1,5 @@
 import AbstractResearcher from "../../AbstractResearcher";
 
-// All config
-import sentenceLength from "./config/sentenceLength";
-
 // All helpers
 import getStemmer from "./helpers/getStemmer";
 
