@@ -131,7 +131,7 @@ describe( "The getWarnings method ", () => {
 			color: "red",
 		} );
 		expect( result[ 1 ] ).toEqual( {
-			text: "Not all required blocks are completed! No myBlock schema will be generated for your page.",
+			text: "Not all required blocks are completed! No myblock schema will be generated for your page.",
 			color: "red",
 		} );
 	} );

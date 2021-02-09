@@ -147,7 +147,7 @@ export function sanitizeParentName( parent: string ): string {
 		return parent.substr( 6 ).toLowerCase();
 	}
 
-	return parent;
+	return parent.toLowerCase();
 }
 
 /**
