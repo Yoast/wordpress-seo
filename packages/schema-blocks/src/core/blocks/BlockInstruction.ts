@@ -6,6 +6,7 @@ import { BlockValidationResult, BlockValidation } from "../validation";
 import Instruction, { InstructionOptions } from "../Instruction";
 import { attributeExists, attributeNotEmpty } from "../../functions/validators";
 import validateMany from "../../functions/validators/validateMany";
+import logger from "../../functions/logger";
 
 export type BlockInstructionClass = { new( id: number, options: InstructionOptions ): BlockInstruction };
 
@@ -82,8 +83,7 @@ export default abstract class BlockInstruction extends Instruction {
 			if ( attributeValid ) {
 				validation.issues.push( new BlockValidationResult( blockInstance.clientId, this.options.name, BlockValidation.Valid ) );
 			} else {
-				// eslint-disable-next-line no-console
-				console.log( "block " + blockInstance.name + " has a required attributes " + this.options.name + " but it is missing or empty" );
+				logger.warning( "block " + blockInstance.name + " has a required attributes " + this.options.name + " but it is missing or empty" );
 				validation.issues.push( new BlockValidationResult( blockInstance.clientId, this.options.name, BlockValidation.MissingAttribute ) );
 				validation.result = BlockValidation.Invalid;
 			}

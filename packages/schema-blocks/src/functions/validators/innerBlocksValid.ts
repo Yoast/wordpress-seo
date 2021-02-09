@@ -4,6 +4,7 @@ import { getBlockDefinition } from "../../core/blocks/BlockDefinitionRepository"
 import { RequiredBlockOption, BlockValidation, RequiredBlock, BlockValidationResult } from "../../core/validation";
 import recurseOverBlocks from "../blocks/recurseOverBlocks";
 import { getInnerblocksByName } from "../innerBlocksHelper";
+import logger from "../logger";
 import isValidResult from "./isValidResult";
 
 /**
@@ -74,8 +75,7 @@ function validateInnerblockTree( blockInstance: BlockInstance ): BlockValidation
 		if ( definition ) {
 			validations.push( definition.validate( block ) );
 		} else {
-			// eslint-disable-next-line no-console
-			console.log( "Block definition for '" + block.name + "' is not registered." );
+			logger.warning( "Block definition for '" + block.name + "' is not registered." );
 			validations.push( new BlockValidationResult( block.clientId, block.name, BlockValidation.Unknown ) );
 		}
 	} );
