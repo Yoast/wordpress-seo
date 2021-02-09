@@ -12,7 +12,7 @@ describe( "a test for the Catalan Researcher", function() {
 	} );
 
 	it( "returns true if the Catalan Researcher has a specific research", function() {
-		expect( researcher.hasResearch( "functionWordsInKeyphrase" ) ).toBe( true );
+		expect( researcher.hasResearch( "findTransitionWords" ) ).toBe( true );
 	} );
 
 	it( "returns false if the default research is deleted in the Catalan Researcher", function() {

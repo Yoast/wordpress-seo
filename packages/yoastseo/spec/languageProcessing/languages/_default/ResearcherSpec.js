@@ -4,12 +4,8 @@ import Paper from "../../../../src/values/Paper.js";
 describe( "a test for Default Researcher", function() {
 	const researcher = new Researcher( new Paper( "" ) );
 
-	it( "returns true if the inherited Abstract Researcher has a specific research", function() {
-		expect( researcher.hasResearch( "getParagraphLength" ) ).toBe( true );
-	} );
-
 	it( "returns true if the Default Researcher has a specific research", function() {
-		expect( researcher.hasResearch( "functionWordsInKeyphrase" ) ).toBe( true );
+		expect( researcher.hasResearch( "getParagraphLength" ) ).toBe( true );
 	} );
 
 	it( "returns false if the default research is deleted in the Default Researcher", function() {
