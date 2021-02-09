@@ -90,10 +90,12 @@ function generateSchemaForBlocks(
 }
 
 /**
- Validates blocks recursively.
-@param blocks The block instances to validate.
-@returns {BlockValidationResult[]} Validation results for each (inner)block of the given blocks.
- */
+* Validates blocks recursively.
+*
+* @param blocks The block instances to validate.
+*
+* @returns {BlockValidationResult[]} Validation results for each (inner)block of the given blocks.
+*/
 export function validateBlocks( blocks: BlockInstance[] ): BlockValidationResult[] {
 	const validations: BlockValidationResult[] = [];
 	blocks.forEach( block => {
