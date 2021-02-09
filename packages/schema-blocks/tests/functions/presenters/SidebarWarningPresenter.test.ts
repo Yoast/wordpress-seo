@@ -47,10 +47,10 @@ describe( "The createAnalysisMessages method ", () => {
 		const result = createAnalysisMessages( testcase );
 
 		expect( result.length ).toEqual( 2 );
-		expect( result[ 0 ] ).toEqual( { text: "The 'mijnblock missingblockattribute' block is empty.", color: "red" } );
+		expect( result[ 0 ] ).toEqual( { text: "The 'missingblockattribute' block is empty.", color: "red" } );
 		expect( result[ 1 ] ).toEqual(
 			{
-				text: "Not all required blocks are completed! No 'mijnblock' schema will be generated for your page.",
+				text: "Not all required blocks are completed! No mijnblock schema will be generated for your page.",
 				color: "red",
 			},
 		);
@@ -63,10 +63,10 @@ describe( "The createAnalysisMessages method ", () => {
 		const result = createAnalysisMessages( testcase );
 
 		expect( result.length ).toEqual( 2 );
-		expect( result[ 0 ] ).toEqual( { text: "The 'mijnblock missingblock' block is required but missing.", color: "red" } );
+		expect( result[ 0 ] ).toEqual( { text: "The 'missingblock' block is required but missing.", color: "red" } );
 		expect( result[ 1 ] ).toEqual(
 			{
-				text: "Not all required blocks are completed! No 'mijnblock' schema will be generated for your page.",
+				text: "Not all required blocks are completed! No mijnblock schema will be generated for your page.",
 				color: "red",
 			},
 		);
@@ -127,11 +127,11 @@ describe( "The getWarnings method ", () => {
 
 		expect( result.length ).toEqual( 2 );
 		expect( result[ 0 ] ).toEqual( {
-			text: "The 'myBlock innerblock1' block is required but missing.",
+			text: "The 'innerblock1' block is required but missing.",
 			color: "red",
 		} );
 		expect( result[ 1 ] ).toEqual( {
-			text: "Not all required blocks are completed! No 'myBlock' schema will be generated for your page.",
+			text: "Not all required blocks are completed! No myBlock schema will be generated for your page.",
 			color: "red",
 		} );
 	} );
