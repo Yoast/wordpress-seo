@@ -24,13 +24,6 @@ export type sidebarWarning = {
 	color: string;
 }
 
-export type WarningDefinition = {
-	name: string;
-	parent: string;
-	result: BlockValidation;
-	status: string;
-};
-
 /**
  * Gets the validation results from the store for a block instance with the given clientId.
  *
@@ -54,7 +47,7 @@ function getValidationResult( clientId: string ): BlockValidationResult | null {
  *
  * @returns {string} The presentable warning message appropriate for this issue.
  */
-export function replaceVariables( issue: WarningDefinition ): string {
+export function replaceVariables( issue: analysisIssue ): string {
 	const warning = get( analysisMessageTemplates, issue.result, "" );
 	return warning.replace( "{parent}", __( issue.parent, "wpseo-schema-blocks" ) )
 		.replace( "{child}", __( issue.name, "wpseo-schema-blocks" ) )
