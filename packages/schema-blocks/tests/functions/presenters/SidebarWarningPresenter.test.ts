@@ -9,9 +9,7 @@ jest.mock( "@wordpress/data", () => {
 		select: jest.fn( () => {
 			return {
 				getSchemaBlocksValidationResults: jest.fn( () => {
-					return {
-						validations,
-					};
+					return validations;
 				} ),
 				getBlockType: jest.fn( ( blockName ) => {
 					const title = blockTypes[ blockName ];
