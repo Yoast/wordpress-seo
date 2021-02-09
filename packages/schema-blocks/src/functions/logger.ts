@@ -62,11 +62,11 @@ export class ConsoleLogger implements Logger {
      * @param level The severity of the message.
      * @param input The data to log.
      */
-	protected writeLog( level: LogLevel, input: unknown[] ): void {
+	protected writeLog( level: LogLevel, ...input: unknown[] ): void {
 		if ( this.level >= level && level !== LogLevel.NONE ) {
 			// This should be the only remaining console.log in the repository.
 			// eslint-disable-next-line no-console
-			console.log( LogLevel[ level ], ":", input );
+			console.log( LogLevel[ level ] + ":", ...input );
 		}
 	}
 
