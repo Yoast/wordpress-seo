@@ -53,6 +53,8 @@
   - 'copy:makepot-yoast-js-helpers'
   - 'shell:makepot-yoast-js-search-metadata-previews'
   - 'copy:makepot-yoast-js-search-metadata-previews'
+  - 'shell:makepot-yoast-js-schema-blocks'
+  - 'copy:makepot-yoast-js-schema-blocks'
   - 'shell:makepot-yoast-components-remaining'
   - 'shell:combine-pots-yoast-components'
   - 'shell:makepot-yoastseojs'
