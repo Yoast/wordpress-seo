@@ -91,7 +91,7 @@ class Unique {
 			var arrlen = this.items.length;
 			for (var j = i+1; j<arrlen; j++) {
 				
-				if (thsi.#similarity(this.items[i], this.items[j]) > 0.9) {
+				if (this.#similarity(this.items[i], this.items[j]) > 0.9) {
 					toBeRemoved.push(j)
 					this.grunt.verbose.writeln ("---------------")
 					this.grunt.verbose.writeln (`${j}: ${this.items[j]}`)
