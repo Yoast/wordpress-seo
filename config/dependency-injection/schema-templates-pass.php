@@ -40,12 +40,6 @@ class Schema_Templates_Pass implements CompilerPassInterface {
 		$schema_blocks_definition = $container->getDefinition( Schema_Blocks::class );
 
 		foreach ( $this->schema_templates_loader->get_templates() as $template ) {
-			// Replace the root path based on current path from the template.
-			$template = str_replace( dirname( dirname( __DIR__ ) ), '', $template );
-
-			// Removes the slashes in the beginning and the end.
-			$template = trim( $template, '/' );
-
 			$schema_blocks_definition->addMethodCall( 'register_template', [ $template ] );
 		}
 	}
