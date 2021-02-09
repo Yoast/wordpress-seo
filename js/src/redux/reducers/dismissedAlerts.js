@@ -1,6 +1,7 @@
+import { get } from "lodash";
 import { DISMISS_ALERT } from "../actions/dismissedAlerts";
 
-const INITIAL_STATE = window.wpseoScriptData.dismissedAlerts;
+const INITIAL_STATE = get( window, "wpseoScriptData.dismissedAlerts", {} );
 
 /**
  * A reducer for the dismissedAlerts.
