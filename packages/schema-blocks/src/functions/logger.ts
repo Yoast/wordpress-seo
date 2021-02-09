@@ -1,6 +1,6 @@
 
 
-enum LogLevel {
+export enum LogLevel {
 	/**
      * Nothing will be logged (default)
      */
@@ -66,7 +66,7 @@ export class ConsoleLogger implements Logger {
 		if ( this.level >= level && level !== LogLevel.NONE ) {
 			// This should be the only remaining console.log in the repository.
 			// eslint-disable-next-line no-console
-			console.log( level, ":", input );
+			console.log( LogLevel[ level ], ":", input );
 		}
 	}
 
@@ -111,6 +111,6 @@ export class ConsoleLogger implements Logger {
 	}
 }
 
-const logger = new ConsoleLogger( LogLevel.NONE );
+const logger = new ConsoleLogger( LogLevel.ERROR );
 
 export default logger;
