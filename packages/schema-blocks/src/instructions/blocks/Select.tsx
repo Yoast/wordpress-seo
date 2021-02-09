@@ -103,7 +103,7 @@ export default class Select extends BlockInstruction {
 		);
 
 		return <SelectControl
-			className={ className }
+			className={ [ className, "yoast-schema-select" ].join( " " ) }
 			label={ label }
 			value={ value }
 			defaultValue={ defaultValue }
