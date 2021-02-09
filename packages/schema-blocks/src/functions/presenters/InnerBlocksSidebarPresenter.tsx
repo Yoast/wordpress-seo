@@ -24,11 +24,11 @@ export function innerBlocksSidebar( currentBlock: BlockInstance, options: InnerB
 	}
 
 	if ( options.requiredBlocks ) {
-		elements.push( BlockSuggestions( __( "Required Blocks", "wpseo-schema-blocks" ), currentBlock, options.requiredBlocks ) );
+		elements.push( BlockSuggestions( __( "Required Blocks", "yoast-schema-blocks" ), currentBlock, options.requiredBlocks ) );
 	}
 
 	if ( options.recommendedBlocks ) {
-		elements.push( BlockSuggestions( __( "Recommended Blocks", "wpseo-schema-blocks" ), currentBlock, options.recommendedBlocks ) );
+		elements.push( BlockSuggestions( __( "Recommended Blocks", "yoast-schema-blocks" ), currentBlock, options.recommendedBlocks ) );
 	}
 
 	return elements;
@@ -44,7 +44,7 @@ export function innerBlocksSidebar( currentBlock: BlockInstance, options: InnerB
 function createWarningList( warnings: sidebarWarning[] ): ReactElement {
 	return (
 		<div className="yoast-block-sidebar-warnings">
-			<div className="yoast-block-sidebar-title">{ __( "Analysis", "wpseo-schema-blocks" ) }</div>
+			<div className="yoast-block-sidebar-title">{ __( "Analysis", "yoast-schema-blocks" ) }</div>
 			<ul className="yoast-block-sidebar-warnings"> { }
 				{ ...warnings.map( warning => createWarningElement( warning.text, warning.color ) ) }
 			</ul>

@@ -17,7 +17,7 @@ export default function storeBlockValidation( validations: BlockValidationResult
 	if ( store ) {
 		store.resetBlockValidation();
 		validations.forEach( blockValidation => {
-		logger.debug( "storing validation: ", blockValidation );
+			logger.debug( "storing validation: ", blockValidation );
 			store.addBlockValidation( blockValidation );
 		} );
 	}
