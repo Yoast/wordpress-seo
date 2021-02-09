@@ -6,6 +6,8 @@ import { registerBlockType } from "@wordpress/blocks";
 import { WarningBlock } from "./blocks/warning-block/configuration";
 import logger, { LogLevel } from "./functions/logger";
 
+export { LogLevel };
+
 /**
  * Removes all whitespace including line breaks from a string.
  *
