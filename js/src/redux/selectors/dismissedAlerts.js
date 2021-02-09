@@ -7,7 +7,7 @@
  * @returns {Boolean} Whether or not the Alert is dismissed.
  */
 export function isAlertDismissed( state, alertKey ) {
-	if ( state.dismissedAlerts[ alertKey ] ) {
+	if ( state.dismissedAlerts[ alertKey ] === true ) {
 		return true;
 	}
 	return false;
