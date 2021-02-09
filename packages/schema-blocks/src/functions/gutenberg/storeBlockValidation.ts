@@ -18,7 +18,7 @@ export default function storeBlockValidation( validations: BlockValidationResult
 		store.resetBlockValidation();
 		validations.forEach( blockValidation => {
 			// eslint-disable-next-line no-console
-			console.log( "blockValidation: ", blockValidation );
+			console.log( blockValidation );
 
 			store.addBlockValidation( blockValidation );
 		} );

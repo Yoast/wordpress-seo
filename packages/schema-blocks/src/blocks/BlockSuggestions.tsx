@@ -50,8 +50,6 @@ function BlockSuggestion( { blockTitle, blockName, blockClientId }: BlockSuggest
  * @returns {ReactElement} The rendered element.
  */
 function BlockSuggestionAdded( { blockTitle }: BlockSuggestionAddedDto ): ReactElement {
-	console.log( "the block is OK!" );
-
 	return (
 		<li className="yoast-block-suggestion yoast-block-suggestion--added">
 			{ blockTitle }

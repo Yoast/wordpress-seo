@@ -99,7 +99,6 @@ function generateSchemaForBlocks(
 export function validateBlocks( blocks: BlockInstance[] ): BlockValidationResult[] {
 	const validations: BlockValidationResult[] = [];
 	blocks.forEach( block => {
-		console.log( "block: ", block );
 		// This may be a third party block we cannot validate.
 		const definition = getBlockDefinition( block.name );
 		if ( definition ) {
@@ -135,7 +134,6 @@ export default function watch() {
 		updatingSchema = true;
 		{
 			const validations: BlockValidationResult[] = validateBlocks( rootBlocks );
-			console.log( "validations: ", validations );
 			storeBlockValidation( validations );
 
 			warningWatcher( rootBlocks, previousRootBlocks );
