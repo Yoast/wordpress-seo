@@ -3,6 +3,7 @@ import AbstractResearcher from "../../AbstractResearcher";
 // All config
 import transitionWords from "./config/transitionWords";
 import twoPartTransitionWords from "./config/twoPartTransitionWords";
+import sentenceLength from "./config/sentenceLength";
 
 // All helpers
 import getStemmer from "./helpers/getStemmer";
@@ -24,14 +25,14 @@ export default class Researcher extends AbstractResearcher {
 		delete this.defaultResearches.getFleschReadingScore;
 		delete this.defaultResearches.getPassiveVoice;
 		delete this.defaultResearches.getSentenceBeginnings;
-		delete this.defaultResearches.stopWordsInKeyword;
-		delete this.defaultResearches.stopWordsInUrl;
+		delete this.defaultResearches.functionWordsInKeyphrase;
 
 		Object.assign( this.config, {
 			language: "ca",
 			functionWords: [],
 			transitionWords,
 			twoPartTransitionWords,
+			sentenceLength,
 		} );
 
 		Object.assign( this.helpers, {

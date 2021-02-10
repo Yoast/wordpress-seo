@@ -5,6 +5,7 @@ import getMorphologyData from "../../../specHelpers/getMorphologyData";
 import transitionWords from "../../../../src/languageProcessing/languages/he/config/transitionWords";
 import firstWordExceptions from "../../../../src/languageProcessing/languages/he/config/firstWordExceptions";
 import twoPartTransitionWords from "../../../../src/languageProcessing/languages/he/config/twoPartTransitionWords";
+import sentenceLength from "../../../../src/languageProcessing/languages/he/config/sentenceLength";
 
 const morphologyDataHE = getMorphologyData( "he" );
 
@@ -41,6 +42,10 @@ describe( "a test for the Hebrew Researcher", function() {
 
 	it( "returns Hebrew first word exceptions", function() {
 		expect( researcher.getConfig( "firstWordExceptions" ) ).toEqual( firstWordExceptions );
+	} );
+
+	it( "returns Hebrew sentence length config", function() {
+		expect( researcher.getConfig( "sentenceLength" ) ).toEqual( sentenceLength );
 	} );
 
 	it( "returns the Hebrew locale", function() {

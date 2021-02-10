@@ -4,6 +4,7 @@ import firstWordExceptions from "../../../../src/languageProcessing/languages/tr
 import transitionWords from "../../../../src/languageProcessing/languages/tr/config/transitionWords";
 import twoPartTransitionWords from "../../../../src/languageProcessing/languages/tr/config/twoPartTransitionWords";
 import functionWords from "../../../../src/languageProcessing/languages/tr/config/functionWords";
+import sentenceLength from "../../../../src/languageProcessing/languages/tr/config/sentenceLength";
 import getMorphologyData from "../../../specHelpers/getMorphologyData";
 const morphologyDataTR = getMorphologyData( "tr" );
 
@@ -40,6 +41,10 @@ describe( "a test for Turkish Researcher", function() {
 
 	it( "returns the Turkish two part transition words", function() {
 		expect( researcher.getConfig( "twoPartTransitionWords" ) ).toEqual( twoPartTransitionWords );
+	} );
+
+	it( "returns the Turkish sentence length config", function() {
+		expect( researcher.getConfig( "sentenceLength" ) ).toEqual( sentenceLength );
 	} );
 
 	it( "returns the Turkish locale", function() {

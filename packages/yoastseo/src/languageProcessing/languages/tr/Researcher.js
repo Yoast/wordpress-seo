@@ -5,6 +5,7 @@ import firstWordExceptions from "./config/firstWordExceptions";
 import functionWords from "./config/functionWords";
 import transitionWords from "./config/transitionWords";
 import twoPartTransitionWords from "./config/twoPartTransitionWords";
+import sentenceLength from "./config/sentenceLength";
 
 // All helpers
 import getStemmer from "./helpers/getStemmer";
@@ -23,7 +24,6 @@ export default class Researcher extends AbstractResearcher {
 		super( paper );
 
 		delete this.defaultResearches.getFleschReadingScore;
-		delete this.defaultResearches.stopWordsInUrl;
 		delete this.defaultResearches.stopWordsInKeyword;
 
 		Object.assign( this.config, {
@@ -33,6 +33,7 @@ export default class Researcher extends AbstractResearcher {
 			functionWords,
 			transitionWords,
 			twoPartTransitionWords,
+			sentenceLength,
 		} );
 
 		Object.assign( this.helpers, {

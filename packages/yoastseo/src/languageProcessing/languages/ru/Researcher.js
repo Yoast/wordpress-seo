@@ -6,6 +6,8 @@ import { all as functionWords } from "./config/functionWords";
 import transitionWords from "./config/transitionWords";
 import twoPartTransitionWords from "./config/twoPartTransitionWords";
 import syllables from "./config/syllables.json";
+import fleschReadingEaseScores from "./config/fleschReadingEaseScores";
+import sentenceLength from "./config/sentenceLength";
 
 // All helpers
 import getStemmer from "./helpers/getStemmer";
@@ -26,8 +28,6 @@ export default class Researcher extends AbstractResearcher {
 
 		// Delete the researches that are not available for this language
 		delete this.defaultResearches.stopWordsInKeyword;
-		delete this.defaultResearches.stopWordsInUrl;
-
 
 		Object.assign( this.config, {
 			language: "ru",
@@ -37,6 +37,8 @@ export default class Researcher extends AbstractResearcher {
 			transitionWords,
 			twoPartTransitionWords,
 			syllables,
+			fleschReadingEaseScores,
+			sentenceLength,
 		} );
 
 		Object.assign( this.helpers, {
