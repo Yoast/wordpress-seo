@@ -318,9 +318,11 @@ class Image_Helper {
 	}
 
 	/**
-	 * @param $setting
+	 * Retrieves attachment meta from the settings.
 	 *
-	 * @return array|mixed|null
+	 * @param string $setting The setting name. Should be company or person.
+	 *
+	 * @return array|false An array of image meta on success. False if no meta has been configured.
 	 */
 	public function get_attachment_meta_from_settings( $setting ) {
 		$image_meta = $this->options->get( $setting . '_meta', false );
@@ -329,7 +331,7 @@ class Image_Helper {
 			if ( $image_id ) {
 				// There is not an option to put a URL in an image field in the settings anymore, only to upload it through the media manager.
 				// This means an attachment always exists, so doing this is only needed once.
-				$image_meta = self::get_best_attachment_variation( $image_id );
+				$image_meta = $this->get_best_attachment_variation( $image_id );
 				$this->options->set( $setting . '_meta', $image_meta );
 			}
 		}
