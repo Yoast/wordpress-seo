@@ -344,7 +344,7 @@ class Indexable_Hierarchy_Builder {
 	private function is_invalid_ancestor( $ancestor, $indexable_id, $parents ) {
 		// If the ancestor is not an Indexable, it is invalid by default.
 		if ( ! \is_a( $ancestor, 'Yoast\WP\SEO\Models\Indexable' ) ) {
-			return false;
+			return true;
 		}
 
 		// Don't add ancestors if they're unindexed, already added or the same as the main object.
