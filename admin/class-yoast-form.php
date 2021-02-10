@@ -513,7 +513,8 @@ class Yoast_Form {
 		$select = new Yoast_Input_Select( $var, $select_name, $select_options, $active_option );
 		$select->add_attribute( 'class', 'select' );
 
-		if ( $this->is_control_disabled( $var ) || ( isset( $attr['disabled'] ) && $attr['disabled'] ) ) {
+		if ( $this->is_control_disabled( $var )
+			|| ( isset( $attr['disabled'] ) && $attr['disabled'] ) ) {
 			$select->add_attribute( 'disabled', 'disabled' );
 		}
 
