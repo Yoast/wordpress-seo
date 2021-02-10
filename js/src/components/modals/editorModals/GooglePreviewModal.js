@@ -14,6 +14,7 @@ const GooglePreviewModal = () => {
 	return (
 		<EditorModal
 			title={ __( "Google preview", "wordpress-seo" ) }
+			id="yoast-google-preview-modal"
 		>
 			<SnippetEditorWrapper showCloseButton={ false } hasPaperStyle={ false } />
 		</EditorModal>

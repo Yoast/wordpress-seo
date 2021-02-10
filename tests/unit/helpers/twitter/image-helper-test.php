@@ -17,6 +17,8 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
 class Image_Helper_Test extends TestCase {
 
 	/**
+	 * Class instance to use for the test.
+	 *
 	 * @var Image_Helper|Mockery\Mock
 	 */
 	protected $instance;

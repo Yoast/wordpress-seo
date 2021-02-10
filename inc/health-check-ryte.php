@@ -137,7 +137,7 @@ class WPSEO_Health_Check_Ryte extends WPSEO_Health_Check {
 		);
 
 		$this->actions = sprintf(
-			/* translators: %1$s: Opening tag of the link to the Yoast knowledge base, %2$s: Link closing tag. */
+			/* translators: %1$s: Opening tag of the link to the Yoast help center, %2$s: Link closing tag. */
 			esc_html__( 'If this is a live site, %1$sit is recommended that you figure out why the check failed.%2$s', 'wordpress-seo' ),
 			'<a href="' . esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/onpagerequestfailed' ) ) . '" target="_blank">',
 			WPSEO_Admin_Utils::get_new_tab_message() . '</a>'
@@ -165,7 +165,7 @@ class WPSEO_Health_Check_Ryte extends WPSEO_Health_Check {
 		);
 
 		$this->actions = sprintf(
-			/* translators: %1$s: Opening tag of the link to the Yoast knowledge base, %2$s: Link closing tag. */
+			/* translators: %1$s: Opening tag of the link to the Yoast help center, %2$s: Link closing tag. */
 			esc_html__( '%1$sRead more about troubleshooting search engine visibility.%2$s', 'wordpress-seo' ),
 			'<a href="' . esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/onpageindexerror' ) ) . '" target="_blank">',
 			WPSEO_Admin_Utils::get_new_tab_message() . '</a>'
@@ -204,7 +204,7 @@ class WPSEO_Health_Check_Ryte extends WPSEO_Health_Check {
 		);
 		$this->description .= '<br />';
 
-		/* translators: %1$s: Expands to 'Ryte', %2$s: Link start tag to the Yoast knowledge base, %3$s: Link closing tag. */
+		/* translators: %1$s: Expands to 'Ryte', %2$s: Link start tag to the Yoast help center, %3$s: Link closing tag. */
 		$alert_text    = esc_html__(
 			'As the indexability status of your website can only be fetched from %1$s every 15 seconds,
 			a first step could be to wait at least 15 seconds and refresh the Site Health page. If that did not help,

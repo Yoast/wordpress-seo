@@ -3,6 +3,7 @@
 namespace Yoast\WP\SEO\Integrations\Blocks;
 
 use WPSEO_Replace_Vars;
+use Yoast\WP\SEO\Helpers\Request_Helper;
 use Yoast\WP\SEO\Memoizers\Meta_Tags_Context_Memoizer;
 use Yoast\WP\SEO\Presenters\Breadcrumbs_Presenter;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
@@ -56,31 +57,33 @@ class Breadcrumbs_Block extends Dynamic_Block {
 	private $indexable_repository;
 
 	/**
+	 * The request helper.
+	 *
+	 * @var Request_Helper
+	 */
+	private $request_helper;
+
+	/**
 	 * Siblings_Block constructor.
 	 *
 	 * @param Meta_Tags_Context_Memoizer $context_memoizer     The context.
 	 * @param WPSEO_Replace_Vars         $replace_vars         The replace variable helper.
 	 * @param Helpers_Surface            $helpers              The Helpers surface.
 	 * @param Indexable_Repository       $indexable_repository The indexable repository.
+	 * @param Request_Helper             $request_helper       The request helper.
 	 */
 	public function __construct(
 		Meta_Tags_Context_Memoizer $context_memoizer,
 		WPSEO_Replace_Vars $replace_vars,
 		Helpers_Surface $helpers,
-		Indexable_Repository $indexable_repository
+		Indexable_Repository $indexable_repository,
+		Request_Helper $request_helper
 	) {
 		$this->context_memoizer     = $context_memoizer;
 		$this->replace_vars         = $replace_vars;
 		$this->helpers              = $helpers;
 		$this->indexable_repository = $indexable_repository;
-	}
-
-	/**
-	 * Temporarily disable the breadcrumbs block.
-	 */
-	public function register_hooks() {
-		// phpcs:ignore Squiz.PHP.NonExecutableCode -- Very temporary solution for Yoast SEO 15.7.
-		return;
+		$this->request_helper       = $request_helper;
 	}
 
 	/**
@@ -94,11 +97,14 @@ class Breadcrumbs_Block extends Dynamic_Block {
 		$presenter = new Breadcrumbs_Presenter();
 		// $this->context_memoizer->for_current_page only works on the frontend. To render the right breadcrumb in the
 		// editor, we need the repository.
-		if ( defined( 'REST_REQUEST' ) && REST_REQUEST === true ) {
-			$indexable = $this->indexable_repository->find_by_id_and_type( filter_input( INPUT_GET, 'post_id' ), 'post' );
-			$context   = $this->context_memoizer->get( $indexable, 'Post_Type' );
+		if ( $this->request_helper->is_rest_request() || \is_admin() ) {
+			$post_id = \get_the_ID();
+			if ( $post_id ) {
+				$indexable = $this->indexable_repository->find_by_id_and_type( $post_id, 'post' );
+				$context   = $this->context_memoizer->get( $indexable, 'Post_Type' );
+			}
 		}
-		else {
+		if ( ! isset( $context ) ) {
 			$context = $this->context_memoizer->for_current_page();
 		}
 
