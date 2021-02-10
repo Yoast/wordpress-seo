@@ -3,6 +3,7 @@ import { BlockConfiguration } from "@wordpress/blocks";
 import { DateTimePicker, Dropdown } from "@wordpress/components";
 import { createElement, useState } from "@wordpress/element";
 import { __experimentalGetSettings, dateI18n, getDate, format } from "@wordpress/date";
+import { __ } from "@wordpress/i18n";
 
 // Internal imports.
 import BlockInstruction from "../../core/blocks/BlockInstruction";
@@ -33,10 +34,9 @@ export default class Date extends BlockInstruction {
 
 		const [ selectedDate, setSelectedDate ] = useState( currentlySelectedDate );
 
-		if ( ! attributes[ this.options.name ] ) {
-			setAttributes( {
-				[ this.options.name ]: format( "Y-m-d", getDate() ),
-			} );
+		let currentValue = __( "Select a date", "yoast-schema-blocks" );
+		if ( attributes[ this.options.name ] ) {
+			currentValue = format( "Y-m-d", getDate() );
 		}
 
 		/**
@@ -45,7 +45,8 @@ export default class Date extends BlockInstruction {
 		 * @param dateTime The selected date and time in the form 'yyyy-MM-ddThh:mm:ss' (only the date part is used).
 		 */
 		const setDate = useCallback( ( dateTime: string ) => {
-			const date = dateTime.split( "T" )[ 0 ];
+			const date = dateTime ? dateTime.split( "T" )[ 0 ] : null;
+
 			setAttributes( {
 				[ this.options.name ]: date,
 			} );
@@ -64,7 +65,7 @@ export default class Date extends BlockInstruction {
 				onClick={ renderProps.onToggle }
 				aria-expanded={ renderProps.isOpen }
 			>
-				{ selectedDate }
+				{ currentValue }
 			</button>;
 		}, [ selectedDate ] );
 
@@ -76,7 +77,7 @@ export default class Date extends BlockInstruction {
 		const renderContent = useCallback( (): JSX.Element => {
 			return <div className="yoast-block-date-picker">
 				<DateTimePicker
-					currentDate={ selectedDate }
+					currentDate={ attributes[ this.options.name ] ? selectedDate : null }
 					onChange={ setDate }
 				/>
 			</div>;
@@ -116,6 +117,10 @@ export default class Date extends BlockInstruction {
 	 */
 	save( props: RenderSaveProps ): JSX.Element {
 		const date = props.attributes[ this.options.name ] as string;
+
+		if ( ! date ) {
+			return null;
+		}
 
 		const dateFormat = Date.getDateFormat();
 
