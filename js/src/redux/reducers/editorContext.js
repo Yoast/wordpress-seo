@@ -9,6 +9,7 @@ function getDefaultState() {
 	return {
 		contentLocale: get( window, "wpseoScriptData.metabox.contentLocale", "" ),
 		isBlockEditor: get( window, "wpseoScriptData.isBlockEditor", "0" ) === "1",
+		isElementorEditor: get( window, "wpseoScriptData.isElementorEditor", "0" ) === "1",
 		isPost: get( window, "wpseoScriptData", {} ).hasOwnProperty( "isPost" ),
 		isTerm: get( window, "wpseoScriptData", {} ).hasOwnProperty( "isTerm" ),
 		noIndex: get( window, "wpseoAdminL10n.noIndex", "0" ) === "1",
