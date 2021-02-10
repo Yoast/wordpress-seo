@@ -27,10 +27,38 @@ export function getPostOrPageString( state ) {
  *
  * @param {Object} state The state.
  *
- * @returns {Boolean} Whether this is a page or a post editor.
+ * @returns {Boolean} Whether this is a block editor.
  */
 export function getIsBlockEditor( state ) {
 	return get( state, "editorContext.isBlockEditor", false );
+}
+
+/**
+ * Returns whether this is the elementor editor or not.
+ *
+ * @param {Object} state The state.
+ *
+ * @returns {Boolean} Whether this is an elementor editor.
+ */
+export function getIsElementorEditor( state ) {
+	return get( state, "editorContext.isElementorEditor", false );
+}
+
+/**
+ * Returns which type of editor this is.
+ *
+ * @param {Object} state The state.
+ *
+ * @returns {string} The current editor type.
+ */
+export function getEditorType( state ) {
+	if ( getIsElementorEditor( state ) ) {
+		return "elementorEditor";
+	}
+	if ( getIsBlockEditor( state ) ) {
+		return "blockEditor";
+	}
+	return "classicEditor";
 }
 
 /**
