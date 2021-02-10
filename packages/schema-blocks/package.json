@@ -1,12 +1,10 @@
 {
   "name": "@yoast/schema-blocks",
-  "version": "1.4.0-rc.0",
+  "version": "1.4.0-rc.1",
   "main": "dist/index.js",
   "license": "MIT",
   "private": false,
   "dependencies": {
-    "tokenizr": "^1.5.2",
-    "@yoast/components": "^2.13.0",
     "@wordpress/block-editor": "^5.2.1",
     "@wordpress/blocks": "^6.8.0",
     "@wordpress/components": "^8.4.0",
@@ -16,7 +14,9 @@
     "@wordpress/element": "^2.9.0",
     "@wordpress/hooks": "^2.7.0",
     "@wordpress/i18n": "^3.9.0",
-    "lodash": "^4.17.15"
+    "@yoast/components": "^2.15.0-rc.0",
+    "lodash": "^4.17.15",
+    "tokenizr": "^1.5.2"
   },
   "devDependencies": {
     "@types/enzyme": "^3.10.8",
