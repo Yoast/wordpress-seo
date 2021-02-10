@@ -187,6 +187,7 @@ class Article_Test extends TestCase {
 	 * @covers ::add_keywords
 	 * @covers ::add_sections
 	 * @covers ::add_potential_action
+	 * @covers ::add_terms
 	 *
 	 * @dataProvider provider_for_generate
 	 */
