@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file. Releases wi
 
 We follow [Semantic Versioning](http://semver.org/).
 
+## 2.15.0 February 22nd, 2021
+### Bugfixes:
+* Fixes a bug where the checkbox and radio button components didn't have a focus style.
+
 ## 2.14.0 February 8th, 2021
 ### Enhancements:
 * Adds a DurationInput component, which can handle the input of a duration in hours, minutes, and seconds.
