@@ -469,6 +469,9 @@ class Elementor implements Integration_Interface {
 			\esc_attr( $this->get_metabox_post()->post_name )
 		);
 
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output should be escaped in the filter.
+		echo apply_filters( 'wpseo_elementor_hidden_fields', '' );
+
 		echo '</form>';
 	}
 
