@@ -10,6 +10,7 @@ use Yoast\WP\SEO\Actions\Indexing\Indexable_Post_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexing\Indexable_Post_Type_Archive_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexing\Indexable_Prepare_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexing\Indexable_Term_Indexation_Action;
+use Yoast\WP\SEO\Actions\Indexing\Indexing_Prepare_Action;
 use Yoast\WP\SEO\Commands\Index_Command;
 use Yoast\WP\SEO\Main;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
@@ -102,21 +103,25 @@ class Index_Command_Test extends TestCase {
 	 * @covers ::__construct
 	 */
 	public function test_construct() {
-		$this->assertInstanceOf(
+		self::assertInstanceOf(
 			Indexable_Post_Indexation_Action::class,
-			$this->getPropertyValue( $this->instance, 'post_indexation_action' )
+			self::getPropertyValue( $this->instance, 'post_indexation_action' )
 		);
-		$this->assertInstanceOf(
+		self::assertInstanceOf(
 			Indexable_Term_Indexation_Action::class,
-			$this->getPropertyValue( $this->instance, 'term_indexation_action' )
+			self::getPropertyValue( $this->instance, 'term_indexation_action' )
 		);
-		$this->assertInstanceOf(
+		self::assertInstanceOf(
 			Indexable_Post_Type_Archive_Indexation_Action::class,
-			$this->getPropertyValue( $this->instance, 'post_type_archive_indexation_action' )
+			self::getPropertyValue( $this->instance, 'post_type_archive_indexation_action' )
 		);
-		$this->assertInstanceOf(
+		self::assertInstanceOf(
 			Indexable_General_Indexation_Action::class,
-			$this->getPropertyValue( $this->instance, 'general_indexation_action' )
+			self::getPropertyValue( $this->instance, 'general_indexation_action' )
+		);
+		self::assertInstanceOf(
+			Indexing_Prepare_Action::class,
+			self::getPropertyValue( $this->instance, 'prepare_indexation_action' )
 		);
 	}
 
