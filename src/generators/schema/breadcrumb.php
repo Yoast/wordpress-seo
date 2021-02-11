@@ -133,14 +133,26 @@ class Breadcrumb extends Abstract_Schema_Piece {
 
 	/**
 	 * Tests if the breadcrumb is broken.
-	 * A breadcrumb is considered broken when it has no URL or text.
+	 * A breadcrumb is considered broken:
+	 * - when it is not an array.
+	 * - when it has no URL or text.
 	 *
 	 * @param array $breadcrumb The breadcrumb to test.
 	 *
 	 * @return bool `true` if the breadcrumb is broken.
 	 */
 	private function is_broken( $breadcrumb ) {
-		return ! \array_key_exists( 'url', $breadcrumb ) || ! \array_key_exists( 'text', $breadcrumb );
+		// A breadcrumb is broken if it is not an array.
+		if ( ! is_array( $breadcrumb ) ) {
+			return true;
+		}
+
+		// A breadcrumb is broken if it does not contain a URL or text.
+		if ( ! \array_key_exists( 'url', $breadcrumb ) || ! \array_key_exists( 'text', $breadcrumb ) ) {
+			return true;
+		}
+
+		return false;
 	}
 
 	/**
