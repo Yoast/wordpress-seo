@@ -224,6 +224,23 @@ module.exports = function( grunt ) {
 				failOnError: false,
 			},
 		},
+		"get-changelog-lines-with-wiki-yoast-cli": {
+			command: function() {
+				grunt.file.write( "/tmp/.env", process.env.GITHUB_ACCESS_TOKEN );
+				return ["mkdir -p /tmp/test",
+				"cd /tmp/test/",
+				"rm -rf Wiki",
+				"git clone git@github.com:Yoast/Wiki.git ",
+				"cd Wiki/yoast-cli",
+				"mkdir -p ./changelogs/changelog-Yoast",
+    			"touch ./changelogs/changelog-Yoast/$FOLDER_NAME-$YOAST_TAG.md",
+				"composer install",
+				"mv /tmp/.env .",
+				"pwd"].join(' && ')},
+			options: {
+				failOnError: true,
+			},
+		},
 	};
 	/* eslint-enable require-jsdoc */
 };
