@@ -1110,13 +1110,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * @return string The product title.
 	 */
 	protected function get_product_title() {
-		$product_title = 'Yoast SEO';
-
-		if ( WPSEO_Utils::is_yoast_seo_premium() ) {
-			$product_title .= ' Premium';
-		}
-
-		return $product_title;
+		return YoastSEO()->helpers->product->get_product_name();
 	}
 
 	/* ********************* DEPRECATED METHODS ********************* */
