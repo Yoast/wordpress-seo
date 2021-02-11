@@ -89,7 +89,7 @@ class WPSEO_Taxonomy {
 	 */
 	private function show_internet_explorer_notice() {
 		$product_title = 'Yoast SEO';
-		if ( file_exists( WPSEO_PATH . 'premium/' ) ) {
+		if ( WPSEO_Utils::is_yoast_seo_premium() ) {
 			$product_title .= ' Premium';
 		}
 
