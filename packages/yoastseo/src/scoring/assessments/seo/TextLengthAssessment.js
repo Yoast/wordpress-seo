@@ -44,9 +44,9 @@ export default class TextLengthAssessment extends Assessment {
 	/**
 	 * Execute the Assessment and return a result.
 	 *
-	 * @param {Paper} paper The Paper object to assess.
-	 * @param {Researcher} researcher The Researcher object containing all available researches.
-	 * @param {Jed} i18n The locale object.
+	 * @param {Paper}       paper       The Paper object to assess.
+	 * @param {Researcher}  researcher  The Researcher object containing all available researches.
+	 * @param {Jed}         i18n        The locale object.
 	 *
 	 * @returns {AssessmentResult} The result of the assessment, containing both a score and a descriptive text.
 	 */
@@ -64,8 +64,8 @@ export default class TextLengthAssessment extends Assessment {
 	/**
 	 * Returns the score and the appropriate feedback string based on the current word count.
 	 *
-	 * @param {number} wordCount The amount of words to be checked against.
-	 * @param {Jed} i18n The locale object.
+	 * @param {number}  wordCount   The amount of words to be checked against.
+	 * @param {Jed}     i18n        The locale object.
 	 *
 	 * @returns {Object} The score and the feedback string.
 	 */

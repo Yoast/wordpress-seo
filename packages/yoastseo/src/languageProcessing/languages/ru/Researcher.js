@@ -26,9 +26,6 @@ export default class Researcher extends AbstractResearcher {
 	constructor( paper ) {
 		super( paper );
 
-		// Delete the researches that are not available for this language
-		delete this.defaultResearches.stopWordsInKeyword;
-
 		Object.assign( this.config, {
 			language: "ru",
 			passiveConstructionType: "morphological",

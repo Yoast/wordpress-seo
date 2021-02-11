@@ -46,9 +46,9 @@ export default class MetaDescriptionLengthAssessment extends Assessment {
 	/**
 	 * Runs the metaDescriptionLength module, based on this returns an assessment result with score.
 	 *
-	 * @param {Paper} paper The paper to use for the assessment.
-	 * @param {Researcher} researcher The researcher used for calling research.
-	 * @param {Jed} i18n The object used for translations
+	 * @param {Paper}       paper       The paper to use for the assessment.
+	 * @param {Researcher}  researcher  The researcher used for calling research.
+	 * @param {Jed}         i18n        The object used for translations
 	 *
 	 * @returns {AssessmentResult} The assessment result.
 	 */
@@ -86,18 +86,14 @@ export default class MetaDescriptionLengthAssessment extends Assessment {
 			return this._config.scores.tooLong;
 		}
 
-		if ( descriptionLength >= this._config.recommendedMaximumLength && descriptionLength <= this._config.maximumLength ) {
-			return this._config.scores.correctLength;
-		}
-
-		return 0;
+		return this._config.scores.correctLength;
 	}
 
 	/**
 	 * Translates the descriptionLength to a message the user can understand.
 	 *
-	 * @param {number} descriptionLength The length of the metadescription.
-	 * @param {object} i18n The object used for translations.
+	 * @param {number} descriptionLength    The length of the metadescription.
+	 * @param {object} i18n                 The object used for translations.
 	 *
 	 * @returns {string} The translated string.
 	 */
@@ -141,13 +137,11 @@ export default class MetaDescriptionLengthAssessment extends Assessment {
 			);
 		}
 
-		if ( descriptionLength >= this._config.recommendedMaximumLength && descriptionLength <= this._config.maximumLength ) {
-			return i18n.sprintf(
-				/* Translators:  %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
-				i18n.dgettext( "js-text-analysis", "%1$sMeta description length%2$s: Well done!" ),
-				this._config.urlTitle,
-				"</a>"
-			);
-		}
+		return i18n.sprintf(
+			/* Translators:  %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
+			i18n.dgettext( "js-text-analysis", "%1$sMeta description length%2$s: Well done!" ),
+			this._config.urlTitle,
+			"</a>"
+		);
 	}
 }

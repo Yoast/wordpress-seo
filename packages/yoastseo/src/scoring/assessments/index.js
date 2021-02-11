@@ -15,14 +15,12 @@ import IntroductionKeywordAssessment from "./seo/IntroductionKeywordAssessment";
 import KeyphraseDistributionAssessment from "./seo/KeyphraseDistributionAssessment";
 import KeyphraseLengthAssessment from "./seo/KeyphraseLengthAssessment";
 import KeywordDensityAssessment from "./seo/KeywordDensityAssessment";
-import KeywordStopWordsAssessment from "./seo/keywordStopWordsAssessment";
 import MetaDescriptionKeywordAssessment from "./seo/MetaDescriptionKeywordAssessment";
 import MetaDescriptionLengthAssessment from "./seo/MetaDescriptionLengthAssessment";
 import OutboundLinksAssessment from "./seo/OutboundLinksAssessment";
 import PageTitleWidthAssessment from "./seo/PageTitleWidthAssessment";
 import SingleH1Assessment from "./seo/SingleH1Assessment";
 import SubheadingsKeywordAssessment from "./seo/SubHeadingsKeywordAssessment";
-import TaxonomyTextLengthAssessment from "./seo/taxonomyTextLengthAssessment";
 import TextCompetingLinksAssessment from "./seo/TextCompetingLinksAssessment";
 import TextImagesAssessment from "./seo/TextImagesAssessment";
 import TextLengthAssessment from "./seo/TextLengthAssessment";
@@ -48,7 +46,6 @@ const seo = {
 	IntroductionKeywordAssessment,
 	KeyphraseLengthAssessment,
 	KeywordDensityAssessment,
-	KeywordStopWordsAssessment,
 	KeyphraseDistributionAssessment,
 	MetaDescriptionKeywordAssessment,
 	MetaDescriptionLengthAssessment,
@@ -56,7 +53,6 @@ const seo = {
 	PageTitleWidthAssessment,
 	SingleH1Assessment,
 	SubheadingsKeywordAssessment,
-	TaxonomyTextLengthAssessment,
 	TextCompetingLinksAssessment,
 	TextImagesAssessment,
 	TextLengthAssessment,

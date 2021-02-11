@@ -21,10 +21,6 @@ describe( "a test for the Russian Researcher", function() {
 		expect( researcher.hasResearch( "getPassiveVoice" ) ).toBe( true );
 	} );
 
-	it( "returns false if a specific research is deleted in the Russian Researcher", function() {
-		expect( researcher.hasResearch( "stopWordsInKeyword" ) ).toBe( false );
-	} );
-
 	it( "returns false if a specific helper is not available in the Russian Researcher", function() {
 		expect( researcher.getHelper( "getSentenceParts" ) ).toBe( false );
 	} );

@@ -43,9 +43,9 @@ class TitleKeywordAssessment extends Assessment {
 	/**
 	 * Executes the pagetitle keyword assessment and returns an assessment result.
 	 *
-	 * @param {Paper} paper The Paper object to assess.
-	 * @param {Researcher} researcher The Researcher object containing all available researches.
-	 * @param {Jed} i18n The object used for translations.
+	 * @param {Paper}       paper       The Paper object to assess.
+	 * @param {Researcher}  researcher  The Researcher object containing all available researches.
+	 * @param {Jed}         i18n        The object used for translations.
 	 *
 	 * @returns {AssessmentResult} The result of the assessment with text and score.
 	 */
@@ -65,7 +65,7 @@ class TitleKeywordAssessment extends Assessment {
 	/**
 	 * Checks whether the assessment is applicable to the paper
 	 *
-	 * @param {Paper} paper The Paper object to assess.
+	 * @param {Paper}       paper       The Paper object to assess.
 	 *
 	 * @returns {boolean} Whether the paper has a keyword and a title.
 	 */
@@ -78,8 +78,8 @@ class TitleKeywordAssessment extends Assessment {
 	 * an exact match of the keyword is found in the beginning of the title. Returns OK results if all content words
 	 * from the keyphrase are in the title (in any form). Returns BAD otherwise.
 	 *
-	 * @param {Jed} i18n The object used for translations.
-	 * @param {string} keyword The keyword of the paper (to be returned in the feedback strings).
+	 * @param {Jed}     i18n        The object used for translations.
+	 * @param {string}  keyword     The keyword of the paper (to be returned in the feedback strings).
 	 *
 	 * @returns {Object} Object with score and text.
 	 */

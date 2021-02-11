@@ -35,8 +35,6 @@ import morphology from "./researches/getWordForms";
 import pageTitleWidth from "./researches/pageTitleWidth.js";
 import readingTime from "./researches/readingTime";
 import sentences from "./researches/sentences";
-import stopWordsInKeyword from "./researches/stopWordsInKeyword";
-import wordComplexity from "./researches/wordComplexity.js";
 import wordCountInText from "./researches/wordCountInText.js";
 
 /**
@@ -84,8 +82,6 @@ export default class AbstractResearcher {
 			pageTitleWidth,
 			readingTime,
 			sentences,
-			stopWordsInKeyword,
-			wordComplexity,
 			wordCountInText,
 		};
 

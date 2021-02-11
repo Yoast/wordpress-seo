@@ -77,7 +77,7 @@ export default class SubHeadingsKeywordAssessment extends Assessment {
 	/**
 	 * Checks whether the paper has a text and a keyword.
 	 *
-	 * @param {Paper} paper The paper to use for the assessment.
+	 * @param {Paper}       paper       The paper to use for the assessment.
 	 *
 	 * @returns {boolean} True when there is text and a keyword.
 	 */

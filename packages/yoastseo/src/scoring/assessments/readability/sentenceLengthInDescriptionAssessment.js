@@ -5,16 +5,18 @@ import AssessmentResult from "../../../values/AssessmentResult";
 import countTooLongSentences from "../../helpers/assessments/checkForTooLongSentences";
 
 /**
- * Calculates sentence length score
- * @param {array} sentences The array containing sentences.
- * @param {object} i18n The object used for translations.
+ * Calculates sentence length score.
+ *
+ * @param {array}   sentences   The array containing sentences.
+ * @param {object}  i18n        The object used for translations.
+ *
  * @returns {object} Object containing score and text.
  */
-var calculateSentenceLengthResult = function( sentences, i18n ) {
-	var score;
-	var percentage = 0;
-	var recommendedValue = 20;
-	var tooLongTotal = countTooLongSentences( sentences, recommendedValue ).length;
+const calculateSentenceLengthResult = function( sentences, i18n ) {
+	let score;
+	let percentage = 0;
+	const recommendedValue = 20;
+	const tooLongTotal = countTooLongSentences( sentences, recommendedValue ).length;
 	const sentenceLengthURL = createAnchorOpeningTag( "https://yoa.st/short-sentences" );
 
 	if ( sentences.length !== 0 ) {
@@ -64,15 +66,16 @@ var calculateSentenceLengthResult = function( sentences, i18n ) {
 /**
  * Scores the percentage of sentences including more than the recommended number of words.
  *
- * @param {object} paper The paper to use for the assessment.
- * @param {object} researcher The researcher used for calling research.
- * @param {object} i18n The object used for translations.
- * @returns {object} The Assessmentresult
+ * @param {object} paper        The paper to use for the assessment.
+ * @param {object} researcher   The researcher used for calling research.
+ * @param {object} i18n         The object used for translations.
+ *
+ * @returns {object} The Assessment result.
  */
-var sentenceLengthInDescriptionAssessment = function( paper, researcher, i18n ) {
-	var sentenceCount = researcher.getResearch( "countSentencesFromDescription" );
-	var sentenceResult = calculateSentenceLengthResult( sentenceCount, i18n );
-	var assessmentResult = new AssessmentResult();
+const sentenceLengthInDescriptionAssessment = function( paper, researcher, i18n ) {
+	const sentenceCount = researcher.getResearch( "countSentencesFromDescription" );
+	const sentenceResult = calculateSentenceLengthResult( sentenceCount, i18n );
+	const assessmentResult = new AssessmentResult();
 
 	assessmentResult.setScore( sentenceResult.score );
 	assessmentResult.setText( sentenceResult.text );
@@ -83,7 +86,7 @@ var sentenceLengthInDescriptionAssessment = function( paper, researcher, i18n ) 
 /**
  * Checks if the paper has a metadescription, which is a prerequisite for the assessment to be applicable to the paper.
  *
- * @param {Object} paper The paper to check.
+ * @param {Object}      paper       The paper to check.
  *
  * @returns {boolean} Returns true if the paper has a meta description.
  */

@@ -68,10 +68,8 @@ class KeyphraseLengthAssessment extends Assessment {
 
 		const calculatedResult = this.calculateResult( i18n );
 
-		if ( ! isUndefined( calculatedResult ) ) {
-			assessmentResult.setScore( calculatedResult.score );
-			assessmentResult.setText( calculatedResult.resultText );
-		}
+		assessmentResult.setScore( calculatedResult.score );
+		assessmentResult.setText( calculatedResult.resultText );
 
 		return assessmentResult;
 	}
