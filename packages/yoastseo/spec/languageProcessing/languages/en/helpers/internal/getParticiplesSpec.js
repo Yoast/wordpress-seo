@@ -1,6 +1,5 @@
 import getParticiples from "../../../../../../src/languageProcessing/languages/en/helpers/internal/getParticiples";
 
-
 describe( "Test for matching English participles", function() {
 	it( "returns matched regular participles.", function() {
 		const sentencePartText = "The cats are loved.";
@@ -26,10 +25,10 @@ describe( "Test for matching English participles", function() {
 		expect( foundParticiples[ 0 ].determinesSentencePartIsPassive() ).toEqual( true );
 	} );
 
-	it( "returns an empty array when there is no participle", function() {
+	it( "returns an empty array when there is no participle or when the sentence is empty.", function() {
 		const sentencePartText = "The cats are special.";
 		const auxiliaries = [ "are", "is" ];
-		const foundParticiples = getParticiples( sentencePartText, auxiliaries );
-		expect( foundParticiples ).toEqual( [] );
+		expect( getParticiples( sentencePartText, auxiliaries ) ).toEqual( [] );
+		expect( getParticiples( "", auxiliaries ) ).toEqual( [] );
 	} );
 } );

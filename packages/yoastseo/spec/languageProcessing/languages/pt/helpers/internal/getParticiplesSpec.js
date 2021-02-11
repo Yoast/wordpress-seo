@@ -15,11 +15,11 @@ describe( "Test for matching Portuguese participles", function() {
 		expect( foundParticiples[ 0 ].determinesSentencePartIsPassive() ).toEqual( true );
 	} );
 
-	it( "returns an empty array when there is no participle", function() {
+	it( "returns an empty array when there is no participle or when the sentence is empty", function() {
 		const mockSentence = new SentencePart( "Eu como uma maçã.", [] );
 		const sentencePartText = mockSentence.getSentencePartText();
 		const auxiliaries = mockSentence.getAuxiliaries();
-		const foundParticiples = getParticiples( sentencePartText, auxiliaries );
-		expect( foundParticiples ).toEqual( [] );
+		expect( getParticiples( sentencePartText, auxiliaries ) ).toEqual( [] );
+		expect( getParticiples( "", auxiliaries ) ).toEqual( [] );
 	} );
 } );
