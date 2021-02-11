@@ -1,7 +1,4 @@
-import EnglishResearcher from "../../../src/languageProcessing/languages/en/Researcher";
-import GermanResearcher from "../../../src/languageProcessing/languages/de/Researcher";
-import FrenchResearcher from "../../../src/languageProcessing/languages/fr/Researcher";
-import DefaultResearcher from "../../../src/languageProcessing/languages/_default/Researcher";
+import { TurkishResearcher, EnglishResearcher, GermanResearcher, FrenchResearcher } from "../../../src/languageProcessing";
 import getMorphologyData from "../../specHelpers/getMorphologyData";
 import firstParagraph from "../../../src/languageProcessing/researches/findKeywordInFirstParagraph.js";
 import Paper from "../../../src/values/Paper.js";
@@ -545,20 +542,20 @@ describe( "tests for edge cases", function() {
 		} );
 	} );
 
-	// it( "returns correct result for Turkish with dotted I", function() {
-	// 	const paper = new Paper(
-	// 		"<p>Bu yıldız, Vikipedi'deki seçkin içeriği sembolize eder İstanbul.</p>", {
-	// 			keyword: "İstanbul",
-	// 			locale: "tr_TR",
-	// 		}
-	// 	);
-	// 	const researcher = new DefaultResearcher( paper );
-	// 	expect( firstParagraph( paper, researcher ) ).toEqual( {
-	// 		foundInOneSentence: true,
-	// 		foundInParagraph: true,
-	// 		keyphraseOrSynonym: "keyphrase",
-	// 	} );
-	// } );
+	it( "returns correct result for Turkish with dotted I", function() {
+		const paper = new Paper(
+			"<p>Bu yıldız, Vikipedi'deki seçkin içeriği sembolize eder İstanbul.</p>", {
+				keyword: "İstanbul",
+				locale: "tr_TR",
+			}
+		);
+		const researcher = new TurkishResearcher( paper );
+		expect( firstParagraph( paper, researcher ) ).toEqual( {
+			foundInOneSentence: true,
+			foundInParagraph: true,
+			keyphraseOrSynonym: "keyphrase",
+		} );
+	} );
 
 	it( "returns correct result for Turkish with dotless I", function() {
 		const paper = new Paper(
@@ -567,7 +564,7 @@ describe( "tests for edge cases", function() {
 				locale: "tr_TR",
 			}
 		);
-		const researcher = new DefaultResearcher( paper );
+		const researcher = new TurkishResearcher( paper );
 		expect( firstParagraph( paper, researcher ) ).toEqual( {
 			foundInOneSentence: true,
 			foundInParagraph: true,
