@@ -57,11 +57,10 @@
   "scripts": {
     "build": "tsc",
     "watch": "tsc --watch",
-    "prepare": "yarn build",
     "lint": "eslint \"src/**\"",
     "lint-fix": "eslint \"src/**\" --fix",
     "test": "jest",
-    "prepublishOnly": "rm -rf dist && tsc && mkdir dist/css && cp -r css/*.css dist/css && cp package.json dist/package.json && json -I -f dist/package.json -e \"this.main='index.js'\""
+    "prepublishOnly": "rm -rf dist && yarn build && mkdir dist/css && cp -r css/*.css dist/css && cp package.json dist/package.json && json -I -f dist/package.json -e \"this.main='index.js'\""
   },
   "publishConfig": {
     "access": "public"
