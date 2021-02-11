@@ -586,17 +586,4 @@ class WPSEO_Options {
 
 		return $pattern_table;
 	}
-
-	/* ********************* DEPRECATED METHODS ********************* */
-
-	/**
-	 * Fills our option cache.
-	 *
-	 * @deprecated  12.8.1
-	 * @codeCoverageIgnore
-	 */
-	public static function fill_cache() {
-		_deprecated_function( __METHOD__, 'WPSEO 12.8.1', '::clear_cache' );
-		static::clear_cache();
-	}
 }
