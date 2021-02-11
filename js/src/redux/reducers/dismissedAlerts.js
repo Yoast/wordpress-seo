@@ -1,5 +1,5 @@
 import { get } from "lodash";
-import { DISMISS_ALERT } from "../actions/dismissedAlerts";
+import { DISMISS_ALERT_SUCCESS } from "../actions/dismissedAlerts";
 
 const INITIAL_STATE = get( window, "wpseoScriptData.dismissedAlerts", {} );
 
@@ -13,19 +13,13 @@ const INITIAL_STATE = get( window, "wpseoScriptData.dismissedAlerts", {} );
  */
 function dismissedAlertsReducer( state = INITIAL_STATE, action ) {
 	switch ( action.type ) {
-		case DISMISS_ALERT:
-			// Calling the REST route first.
-			window.wpseoApi.post( "alerts/dismiss", { key: action.alertKey }, response => {
-				if ( ! response || ! response.success ) {
-					return;
-				}
-			} );
-
-			// Update the store when succesfully dismissed to the database.
+		case DISMISS_ALERT_SUCCESS:
+			// Update the store after the Control has POSTed a dismissal to the database through the REST API.
 			return {
 				... state,
 				[ action.alertKey ]: true,
 			};
+
 		default:
 			return state;
 	}
