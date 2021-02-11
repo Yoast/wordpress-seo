@@ -1,8 +1,7 @@
-import contentConfiguration from "../../src/config/_todo/content/combinedConfig";
 import getLanguage from "../../src/languageProcessing/helpers/language/getLanguage";
 import factory from "../specHelpers/factory.js";
 const i18n = factory.buildJed();
-import Researcher from "../../src/researcher";
+import getResearcher from "../specHelpers/getResearcher";
 import getMorphologyData from "../specHelpers/getMorphologyData";
 
 
@@ -24,52 +23,53 @@ import UrlKeywordAssessment from "../../src/scoring/assessments/seo/UrlKeywordAs
 import KeyphraseDistributionAssessment from "../../src/scoring/assessments/seo/KeyphraseDistributionAssessment";
 
 // Import content assessments
-import FleschReadingAssessment from "../../src/scoring/assessments/readability/fleschReadingEaseAssessment";
+import fleschReadingAssessment from "../../src/scoring/assessments/readability/fleschReadingEaseAssessment";
 import SubheadingDistributionTooLongAssessment from "../../src/scoring/assessments/readability/subheadingDistributionTooLongAssessment";
 import paragraphTooLongAssessment from "../../src/scoring/assessments/readability/paragraphTooLongAssessment";
-import SentenceLengthInTextAssessment from "../../src/scoring/assessments/readability/sentenceLengthInTextAssessment";
+import sentenceLengthInTextAssessment from "../../src/scoring/assessments/readability/sentenceLengthInTextAssessment";
 import transitionWordsAssessment from "../../src/scoring/assessments/readability/transitionWordsAssessment";
 import passiveVoiceAssessment from "../../src/scoring/assessments/readability/passiveVoiceAssessment";
 import textPresenceAssessment from "../../src/scoring/assessments/readability/textPresenceAssessment";
 import sentenceBeginningsAssessment from "../../src/scoring/assessments/readability/sentenceBeginningsAssessment";
 
 // Import researches
-import findKeywordInFirstParagraph from "../../src/languages/legacy/researches/findKeywordInFirstParagraph.js";
-import keyphraseLength from "../../src/languages/legacy/researches/keyphraseLength";
-import keywordCount from "../../src/languages/legacy/researches/keywordCount";
-import getKeywordDensity from "../../src/languages/legacy/researches/getKeywordDensity.js";
-import metaDescriptionKeyword from "../../src/languages/legacy/researches/metaDescriptionKeyword.js";
-import metaDescriptionLength from "../../src/languages/legacy/researches/metaDescriptionLength.js";
-import matchKeywordInSubheadings from "../../src/languages/legacy/researches/matchKeywordInSubheadings.js";
-import getLinkStatistics from "../../src/languages/legacy/researches/getLinkStatistics.js";
-import imageCount from "../../src/languages/legacy/researches/imageCountInText.js";
-import altTagCount from "../../src/languages/legacy/researches/imageAltTags.js";
-import wordCountInText from "../../src/languages/legacy/researches/wordCountInText.js";
-import findKeywordInPageTitle from "../../src/languages/legacy/researches/findKeywordInPageTitle.js";
-import pageTitleWidth from "../../src/languages/legacy/researches/pageTitleWidth.js";
-import keywordCountInUrl from "../../src/languages/legacy/researches/keywordCountInUrl";
-import { keyphraseDistributionResearcher } from "../../src/languages/legacy/researches/keyphraseDistribution";
-const keyphraseDistribution = keyphraseDistributionResearcher;
-import calculateFleschReading from "../../src/languages/legacy/researches/calculateFleschReading.js";
-import getSubheadingTextLengths from "../../src/languages/legacy/researches/getSubheadingTextLengths.js";
-import getParagraphLength from "../../src/languages/legacy/researches/getParagraphLength.js";
-import countSentencesFromText from "../../src/languages/legacy/researches/countSentencesFromText.js";
-import findTransitionWords from "../../src/languages/legacy/researches/findTransitionWords.js";
-import passiveVoice from "../../src/languages/legacy/researches/getPassiveVoice.js";
-import getSentenceBeginnings from "../../src/languages/legacy/researches/getSentenceBeginnings.js";
-import sentences from "../../src/languages/legacy/researches/sentences";
+import findKeywordInFirstParagraph from "../../src/languageProcessing/researches/findKeywordInFirstParagraph.js";
+import keyphraseLength from "../../src/languageProcessing/researches/keyphraseLength";
+import keywordCount from "../../src/languageProcessing/researches/keywordCount";
+import getKeywordDensity from "../../src/languageProcessing/researches/getKeywordDensity.js";
+import metaDescriptionKeyword from "../../src/languageProcessing/researches/metaDescriptionKeyword.js";
+import metaDescriptionLength from "../../src/languageProcessing/researches/metaDescriptionLength.js";
+import matchKeywordInSubheadings from "../../src/languageProcessing/researches/matchKeywordInSubheadings.js";
+import getLinkStatistics from "../../src/languageProcessing/researches/getLinkStatistics.js";
+import imageCount from "../../src/languageProcessing/researches/imageCount.js";
+import altTagCount from "../../src/languageProcessing/researches/altTagCount.js";
+import wordCountInText from "../../src/languageProcessing/researches/wordCountInText.js";
+import findKeywordInPageTitle from "../../src/languageProcessing/researches/findKeywordInPageTitle.js";
+import pageTitleWidth from "../../src/languageProcessing/researches/pageTitleWidth.js";
+import keywordCountInUrl from "../../src/languageProcessing/researches/keywordCountInUrl";
+import keyphraseDistribution from "../../src/languageProcessing/researches/keyphraseDistribution";
+import calculateFleschReading from "../../src/languageProcessing/researches/getFleschReadingScore.js";
+import getSubheadingTextLengths from "../../src/languageProcessing/researches/getSubheadingTextLengths.js";
+import getParagraphLength from "../../src/languageProcessing/researches/getParagraphLength.js";
+import countSentencesFromText from "../../src/languageProcessing/researches/countSentencesFromText.js";
+import findTransitionWords from "../../src/languageProcessing/researches/findTransitionWords.js";
+import passiveVoice from "../../src/languageProcessing/researches/getPassiveVoice.js";
+import getSentenceBeginnings from "../../src/languageProcessing/researches/getSentenceBeginnings.js";
+import sentences from "../../src/languageProcessing/researches/sentences";
 
 // Import test papers
 import testPapers from "./testTexts";
 
 testPapers.forEach( function( testPaper ) {
+	// eslint-disable-next-line max-statements
 	describe( "Full-text test for paper " + testPaper.name, function() {
 		const paper = testPaper.paper;
-
-		const researcher = new Researcher( paper );
-		researcher.addResearchData( "morphology", getMorphologyData( getLanguage( paper.getLocale() ) ) );
-
 		const locale = paper.getLocale();
+
+		const LanguageResearcher = getResearcher( getLanguage( locale ) );
+		const researcher = new LanguageResearcher( paper );
+		researcher.addResearchData( "morphology", getMorphologyData( getLanguage( locale ) ) );
+
 		const expectedResults = testPaper.expectedResults;
 		const result = {};
 
@@ -89,9 +89,7 @@ testPapers.forEach( function( testPaper ) {
 		const titleWidthAssessment = new TitleWidthAssessment();
 		const urlKeywordAssessment = new UrlKeywordAssessment();
 		const keyphraseDistributionAssessment = new KeyphraseDistributionAssessment();
-		const fleschReadingAssessment = new FleschReadingAssessment( contentConfiguration( locale ).fleschReading );
 		const subheadingDistributionTooLongAssessment = new SubheadingDistributionTooLongAssessment();
-		const sentenceLengthInTextAssessment = new SentenceLengthInTextAssessment( contentConfiguration( locale ).sentenceLength );
 
 		// SEO assessments.
 		it( "returns a score and the associated feedback text for the introductionKeyword assessment", function() {
@@ -116,7 +114,7 @@ testPapers.forEach( function( testPaper ) {
 			if ( isApplicable ) {
 				result.keyphraseLength = keyphraseLengthAssessment.getResult(
 					paper,
-					factory.buildMockResearcher( keyphraseLength( paper, researcher ) ),
+					researcher,
 					i18n
 				);
 				expect( result.keyphraseLength.getScore() ).toBe( expectedResults.keyphraseLength.score );
@@ -152,7 +150,7 @@ testPapers.forEach( function( testPaper ) {
 			if ( isApplicable ) {
 				result.metaDescriptionKeyword = metaDescriptionKeywordAssessment.getResult(
 					paper,
-					factory.buildMockResearcher( metaDescriptionKeyword( paper, researcher ) ),
+					researcher,
 					i18n
 				);
 				expect( result.metaDescriptionKeyword.getScore() ).toBe( expectedResults.metaDescriptionKeyword.score );
@@ -167,7 +165,7 @@ testPapers.forEach( function( testPaper ) {
 			if ( isApplicable ) {
 				result.metaDescriptionLength = metaDescriptionLengthAssessment.getResult(
 					paper,
-					factory.buildMockResearcher( metaDescriptionLength( paper ) ),
+					researcher,
 					i18n
 				);
 				expect( result.metaDescriptionLength.getScore() ).toBe( expectedResults.metaDescriptionLength.score );
@@ -182,7 +180,7 @@ testPapers.forEach( function( testPaper ) {
 			if ( isApplicable ) {
 				result.subheadingsKeyword = subheadingsKeywordAssessment.getResult(
 					paper,
-					factory.buildMockResearcher( matchKeywordInSubheadings( paper, researcher ) ),
+					researcher,
 					i18n
 				);
 				expect( result.subheadingsKeyword.getScore() ).toBe( expectedResults.subheadingsKeyword.score );
@@ -197,7 +195,7 @@ testPapers.forEach( function( testPaper ) {
 			if ( isApplicable ) {
 				result.textCompetingLinks = textCompetingLinksAssessment.getResult(
 					paper,
-					factory.buildMockResearcher( getLinkStatistics( paper, researcher ) ),
+					researcher,
 					i18n
 				);
 				expect( result.textCompetingLinks.getScore() ).toBe( expectedResults.textCompetingLinks.score );
@@ -212,13 +210,7 @@ testPapers.forEach( function( testPaper ) {
 			if ( isApplicable ) {
 				result.textImages = textImagesAssessment.getResult(
 					paper,
-					factory.buildMockResearcher(
-						{
-							imageCount: imageCount( paper ),
-							altTagCount: altTagCount( paper, researcher ),
-						},
-						true
-					),
+					researcher,
 					i18n
 				);
 				expect( result.textImages.getScore() ).toBe( expectedResults.textImages.score );
@@ -233,7 +225,7 @@ testPapers.forEach( function( testPaper ) {
 			if ( isApplicable ) {
 				result.textLength = textLengthAssessment.getResult(
 					paper,
-					factory.buildMockResearcher( wordCountInText( paper ) ),
+					researcher,
 					i18n
 				);
 				expect( result.textLength.getScore() ).toBe( expectedResults.textLength.score );
@@ -248,7 +240,7 @@ testPapers.forEach( function( testPaper ) {
 			if ( isApplicable ) {
 				result.externalLinks = outboundLinksAssessment.getResult(
 					paper,
-					factory.buildMockResearcher( getLinkStatistics( paper, researcher ) ),
+					researcher,
 					i18n
 				);
 				expect( result.externalLinks.getScore() ).toBe( expectedResults.externalLinks.score );
@@ -263,7 +255,7 @@ testPapers.forEach( function( testPaper ) {
 			if ( isApplicable ) {
 				result.internalLinks = internalLinksAssessment.getResult(
 					paper,
-					factory.buildMockResearcher( getLinkStatistics( paper, researcher ) ),
+					researcher,
 					i18n
 				);
 				expect( result.internalLinks.getScore() ).toBe( expectedResults.internalLinks.score );
@@ -278,7 +270,7 @@ testPapers.forEach( function( testPaper ) {
 			if ( isApplicable ) {
 				result.titleKeyword = titleKeywordAssessment.getResult(
 					paper,
-					factory.buildMockResearcher( findKeywordInPageTitle( paper, researcher ) ),
+					researcher,
 					i18n
 				);
 				expect( result.titleKeyword.getScore() ).toBe( expectedResults.titleKeyword.score );
@@ -293,7 +285,7 @@ testPapers.forEach( function( testPaper ) {
 			if ( isApplicable ) {
 				result.titleWidth = titleWidthAssessment.getResult(
 					paper,
-					factory.buildMockResearcher( pageTitleWidth( paper ) ),
+					researcher,
 					i18n
 				);
 				expect( result.titleWidth.getScore() ).toBe( expectedResults.titleWidth.score );
@@ -308,7 +300,7 @@ testPapers.forEach( function( testPaper ) {
 			if ( isApplicable ) {
 				result.urlKeyword = urlKeywordAssessment.getResult(
 					paper,
-					factory.buildMockResearcher( keywordCountInUrl( paper, researcher ) ),
+					researcher,
 					i18n
 				);
 				expect( result.urlKeyword.getScore() ).toBe( expectedResults.urlKeyword.score );
@@ -323,7 +315,7 @@ testPapers.forEach( function( testPaper ) {
 			if ( isApplicable ) {
 				result.keyphraseDistribution = keyphraseDistributionAssessment.getResult(
 					paper,
-					factory.buildMockResearcher( keyphraseDistribution( paper, researcher ) ),
+					researcher,
 					i18n
 				);
 				expect( result.keyphraseDistribution.getScore() ).toBe( expectedResults.keyphraseDistribution.score );
@@ -333,13 +325,13 @@ testPapers.forEach( function( testPaper ) {
 
 		// Readability assessments.
 		it( "returns a score and the associated feedback text for the fleschReadingEase assessment", function() {
-			const isApplicable = fleschReadingAssessment.isApplicable( paper );
+			const isApplicable = fleschReadingAssessment.isApplicable( paper, researcher );
 			expect( isApplicable ).toBe( expectedResults.fleschReadingEase.isApplicable );
 
 			if ( isApplicable ) {
 				result.fleschReadingEase = fleschReadingAssessment.getResult(
 					paper,
-					factory.buildMockResearcher( calculateFleschReading( paper ) ),
+					researcher,
 					i18n
 				);
 				expect( result.fleschReadingEase.getScore() ).toBe( expectedResults.fleschReadingEase.score );
@@ -354,7 +346,7 @@ testPapers.forEach( function( testPaper ) {
 			if ( isApplicable ) {
 				result.subheadingsTooLong = subheadingDistributionTooLongAssessment.getResult(
 					paper,
-					factory.buildMockResearcher( getSubheadingTextLengths( paper ) ),
+					researcher,
 					i18n
 				);
 				expect( result.subheadingsTooLong.getScore() ).toBe( expectedResults.subheadingsTooLong.score );
@@ -369,7 +361,7 @@ testPapers.forEach( function( testPaper ) {
 			if ( isApplicable ) {
 				result.textParagraphTooLong = paragraphTooLongAssessment.getResult(
 					paper,
-					factory.buildMockResearcher( getParagraphLength( paper ) ),
+					researcher,
 					i18n
 				);
 				expect( result.textParagraphTooLong.getScore() ).toBe( expectedResults.textParagraphTooLong.score );
@@ -384,7 +376,7 @@ testPapers.forEach( function( testPaper ) {
 			if ( isApplicable ) {
 				result.textSentenceLength = sentenceLengthInTextAssessment.getResult(
 					paper,
-					factory.buildMockResearcher( countSentencesFromText( paper ) ),
+					researcher,
 					i18n
 				);
 				expect( result.textSentenceLength.getScore() ).toBe( expectedResults.textSentenceLength.score );
@@ -393,60 +385,39 @@ testPapers.forEach( function( testPaper ) {
 		} );
 
 		it( "returns a score and the associated feedback text for the textTransitionWords assessment", function() {
-			const isApplicable = transitionWordsAssessment.isApplicable( paper );
+			const isApplicable = transitionWordsAssessment.isApplicable( paper, researcher );
 			expect( isApplicable ).toBe( expectedResults.textTransitionWords.isApplicable );
 
 			if ( isApplicable ) {
-				result.textTransitionWords = transitionWordsAssessment.getResult(
-					paper,
-					factory.buildMockResearcher( findTransitionWords( paper ) ),
-					i18n
-				);
+				result.textTransitionWords = transitionWordsAssessment.getResult( paper, researcher, i18n );
 				expect( result.textTransitionWords.getScore() ).toBe( expectedResults.textTransitionWords.score );
 				expect( result.textTransitionWords.getText() ).toBe( expectedResults.textTransitionWords.resultText );
 			}
 		} );
 
 		it( "returns a score and the associated feedback text for the passiveVoice assessment", function() {
-			const isApplicable = passiveVoiceAssessment.isApplicable( paper );
+			const isApplicable = passiveVoiceAssessment.isApplicable( paper, researcher );
 			expect( isApplicable ).toBe( expectedResults.passiveVoice.isApplicable );
 
 			if ( isApplicable ) {
-				result.passiveVoice = passiveVoiceAssessment.getResult(
-					paper,
-					factory.buildMockResearcher( passiveVoice( paper ) ),
-					i18n
-				);
+				result.passiveVoice = passiveVoiceAssessment.getResult( paper, researcher, i18n );
 				expect( result.passiveVoice.getScore() ).toBe( expectedResults.passiveVoice.score );
 				expect( result.passiveVoice.getText() ).toBe( expectedResults.passiveVoice.resultText );
 			}
 		} );
 
 		it( "returns a score and the associated feedback text for the textPresence assessment", function() {
-			result.textPresence = textPresenceAssessment.getResult(
-				paper,
-				null,
-				i18n
-			);
+			result.textPresence = textPresenceAssessment.getResult( paper, researcher, i18n );
 			expect( result.textPresence.getScore() ).toBe( expectedResults.textPresence.score );
 			expect( result.textPresence.getText() ).toBe( expectedResults.textPresence.resultText );
 		} );
 
 		it( "returns a score and the associated feedback text for the sentenceBeginnings assessment", function() {
-			const isApplicable = sentenceBeginningsAssessment.isApplicable( paper );
+			const isApplicable = sentenceBeginningsAssessment.isApplicable( paper, researcher );
 			expect( isApplicable ).toBe( expectedResults.sentenceBeginnings.isApplicable );
 
 			if ( isApplicable ) {
-				result.sentenceBeginnings = sentenceBeginningsAssessment.getResult(
-					paper,
-					factory.buildMockResearcher(
-						getSentenceBeginnings(
-							paper,
-							factory.buildMockResearcher( sentences( paper ) )
-						)
-					),
-					i18n
-				);
+				result.sentenceBeginnings = sentenceBeginningsAssessment.getResult( paper, researcher, i18n );
 				expect( result.sentenceBeginnings.getScore() ).toBe( expectedResults.sentenceBeginnings.score );
 				expect( result.sentenceBeginnings.getText() ).toBe( expectedResults.sentenceBeginnings.resultText );
 			}
