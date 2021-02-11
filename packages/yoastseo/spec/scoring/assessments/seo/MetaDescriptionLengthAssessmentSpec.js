@@ -5,7 +5,7 @@ const i18n = Factory.buildJed();
 
 const descriptionLengthAssessment = new MetaDescriptionLengthAssessment();
 
-describe( "An descriptionLength assessment", function() {
+describe( "the meta description length assessment", function() {
 	it( "assesses an empty description", function() {
 		const mockPaper = new Paper();
 		const assessment = descriptionLengthAssessment.getResult( mockPaper, Factory.buildMockResearcher( 0 ), i18n );

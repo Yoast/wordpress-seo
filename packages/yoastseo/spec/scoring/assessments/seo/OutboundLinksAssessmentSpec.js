@@ -79,7 +79,8 @@ describe( "Tests outbound links assessment", function() {
 			"All outbound links on this page are nofollowed. <a href='https://yoa.st/34g' target='_blank'>Add some normal links</a>." );
 	} );
 
-	it( "Returns the right result when the do-follow outbound links are more than the external links", function() {
+	it( "Returns the right result when the do-follow outbound links are more than the external links -" +
+		"not a real-world scenario, but needed for 100% coverage", function() {
 		const mockPaper = new Paper( "a test with a <a href='http://yoast.com' alt=''>keyword link </a>"  );
 
 		const mockResult = { externalDofollow: 3,

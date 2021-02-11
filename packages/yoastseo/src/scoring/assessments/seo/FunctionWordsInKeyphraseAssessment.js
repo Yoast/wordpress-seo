@@ -76,7 +76,7 @@ class FunctionWordsInKeyphraseAssessment extends Assessment {
 	 * @param {Paper} 		paper 			The paper to be analyzed.
 	 * @param {Researcher}  researcher  	The researcher object.
 	 *
-	 * @returns {boolean} Whether the paper has keyword and the researcher has the relevant research.
+	 * @returns {boolean} Whether the paper has a keyword and the researcher has the relevant research.
 	 */
 	isApplicable( paper, researcher ) {
 		return paper.hasKeyword() && researcher.hasResearch( "functionWordsInKeyphrase" );
