@@ -15,7 +15,6 @@ import IntroductionKeywordAssessment from "./seo/IntroductionKeywordAssessment";
 import KeyphraseDistributionAssessment from "./seo/KeyphraseDistributionAssessment";
 import KeyphraseLengthAssessment from "./seo/KeyphraseLengthAssessment";
 import KeywordDensityAssessment from "./seo/KeywordDensityAssessment";
-import KeywordStopWordsAssessment from "./seo/keywordStopWordsAssessment";
 import MetaDescriptionKeywordAssessment from "./seo/MetaDescriptionKeywordAssessment";
 import MetaDescriptionLengthAssessment from "./seo/MetaDescriptionLengthAssessment";
 import OutboundLinksAssessment from "./seo/OutboundLinksAssessment";
@@ -58,6 +57,7 @@ const seo = {
 	TextImagesAssessment,
 	TextLengthAssessment,
 	TitleKeywordAssessment,
+	UrlKeywordAssessment,
 };
 
 export {
