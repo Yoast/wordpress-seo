@@ -335,7 +335,7 @@ class Indexable_Hierarchy_Builder {
 	/**
 	 * Checks if an ancestor is valid to add.
 	 *
-	 * @param           $ancestor     The ancestor (presumed indexable) to check.
+	 * @param Indexable $ancestor     The ancestor (presumed indexable) to check.
 	 * @param int       $indexable_id The indexable id we're adding ancestors for.
 	 * @param int[]     $parents      The indexable ids of the parents already added.
 	 *
