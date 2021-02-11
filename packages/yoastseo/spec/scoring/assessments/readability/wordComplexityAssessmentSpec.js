@@ -1,4 +1,4 @@
-import { EnglishResearcher } from "../../../../src/languageProcessing";
+import { EnglishResearcher, DefaultResearcher } from "../../../../src/languageProcessing";
 import wordComplexityAssessment from "../../../../src/scoring/assessments/readability/wordComplexityAssessment.js";
 import Paper from "../../../../src/values/Paper.js";
 import factory from "../../../specHelpers/factory.js";
@@ -176,9 +176,9 @@ describe( "tests for the assessment applicability", function() {
 		expect( wordComplexityAssessment.isApplicable( paper, new EnglishResearcher( paper ) ) ).toBe( false );
 	} );
 
-	it( "returns true if the paper has text and the locale support the assessment.", function() {
+	it( "returns false by default because the word complexity assessment is currently disabled", function() {
 		const paper = new Paper( "hallo" );
-		expect( wordComplexityAssessment.isApplicable( paper, new EnglishResearcher( paper ) ) ).toBe( true );
+		expect( wordComplexityAssessment.isApplicable( paper, new DefaultResearcher( paper ) ) ).toBe( false );
 	} );
 } );
 
