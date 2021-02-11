@@ -139,6 +139,7 @@
       "/spec/languageProcessing/languages/tr/helpers/internal/stemmerCoverage/generateStems.js",
       "/spec/languageProcessing/languages/tr/helpers/internal/stemmerCoverage/goldStandardStems.json",
       "/spec/languageProcessing/languages/tr/helpers/internal/stemmerCoverage/sampleVocabulary.json",
+      "/spec/languageProcessing/languages/cz/helpers/internal/stemmerCoverage/goldStandardStems.json",
       "/spec/languageProcessing/languages/cz/helpers/internal/stemmerCoverage/sampleVocabulary.json"
 
     ],
