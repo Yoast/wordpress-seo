@@ -10,16 +10,25 @@ use WPSEO_Utils;
 class Product_Helper {
 
 	/**
-	 * Get the product name in the head section.
+	 * Gets the product name.
+	 *
+	 * @return string
+	 */
+	public function get_product_name() {
+		if ( $this->is_premium() ) {
+			return 'Yoast SEO Premium';
+		}
+
+		return 'Yoast SEO';
+	}
+
+	/**
+	 * Gets the product name in the head section.
 	 *
 	 * @return string
 	 */
 	public function get_name() {
-		if ( $this->is_premium() ) {
-			return 'Yoast SEO Premium plugin';
-		}
-
-		return 'Yoast SEO plugin';
+		return $this->get_product_name() . ' plugin';
 	}
 
 	/**
