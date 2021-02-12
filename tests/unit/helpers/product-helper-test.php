@@ -28,36 +28,31 @@ class Product_Helper_Test extends TestCase {
 	protected function set_up() {
 		parent::set_up();
 
-		$this->instance = Mockery::mock( Product_Helper::class )
-			->makePartial()
-			->shouldAllowMockingProtectedMethods();
-	}
-
-	/**
-	 * Retrieves the name when premium is 'active'.
-	 *
-	 * @covers ::get_name
-	 */
-	public function test_get_name_premium() {
-		$this->instance
-			->expects( 'is_premium' )
-			->once()
-			->andReturnTrue();
-
-		$this->assertEquals( 'Yoast SEO Premium plugin', $this->instance->get_name() );
+		$this->instance = new Product_Helper();
 	}
 
 	/**
 	 * Retrieves the name when premium is not 'active'.
 	 *
 	 * @covers ::get_name
+	 * @covers ::get_product_name
+	 * @covers ::is_premium
 	 */
 	public function test_get_name_not_premium() {
-		$this->instance
-			->expects( 'is_premium' )
-			->once()
-			->andReturnFalse();
-
 		$this->assertEquals( 'Yoast SEO plugin', $this->instance->get_name() );
 	}
+
+	/**
+	 * Retrieves the name when premium is 'active'.
+	 *
+	 * @covers ::get_name
+	 * @covers ::get_product_name
+	 * @covers ::is_premium
+	 */
+	public function test_get_name_premium() {
+		\define( 'WPSEO_PREMIUM_PLUGIN_FILE', 'the_premium_plugin_file' );
+
+		$this->assertEquals( 'Yoast SEO Premium plugin', $this->instance->get_name() );
+	}
+
 }
