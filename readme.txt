@@ -249,6 +249,7 @@ Bugfixes:
 
 * Fixes a bug where the disabled style of the switch toggles didn't look right.
 * Fixes a bug with the HelpScout integration not being overwritten properly by Premium / Add-ons and thus not showing.
+* Fixes a bug where integrations toggles wouldn't display following content.
 
 = 15.8 =
 Release Date: February 10th, 2021
