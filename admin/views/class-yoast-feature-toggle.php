@@ -76,7 +76,7 @@ class Yoast_Feature_Toggle {
 	 *
 	 *     @type string $name            Required. Feature toggle identifier.
 	 *     @type string $setting         Required. Name of the setting the feature toggle is associated with.
-	 *     @type string $label           Required. Feature toggle label.
+	 *     @type string $label           Feature toggle label.
 	 *     @type string $read_more_url   URL to learn more about the feature. Default empty string.
 	 *     @type string $read_more_label Label for the learn more link. Default empty string.
 	 *     @type string $extra           Additional help content for the feature. Default empty string.
@@ -87,7 +87,7 @@ class Yoast_Feature_Toggle {
 	 * @throws InvalidArgumentException Thrown when a required argument is missing.
 	 */
 	public function __construct( array $args ) {
-		$required_keys = [ 'name', 'setting', 'label' ];
+		$required_keys = [ 'name', 'setting' ];
 
 		foreach ( $required_keys as $key ) {
 			if ( empty( $args[ $key ] ) ) {
