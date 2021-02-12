@@ -33,14 +33,14 @@
     "access": "public"
   },
   "dependencies": {
+    "@draft-js-plugins/editor": "^4.1.0",
+    "@draft-js-plugins/mention": "^4.2.0",
     "@wordpress/a11y": "^1.1.3",
     "@wordpress/i18n": "^1.2.3",
     "@yoast/components": "^2.15.0-rc.0",
     "@yoast/helpers": "^0.15.0",
     "@yoast/style-guide": "^0.13.0",
     "draft-js": "^0.11.4",
-    "draft-js-mention-plugin": "^3.0.4",
-    "draft-js-plugins-editor": "^2.0.4",
     "draft-js-single-line-plugin": "^2.0.1",
     "lodash": "^4.17.11",
     "prop-types": "^15.7.2",
