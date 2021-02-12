@@ -20,7 +20,7 @@ class Product_Helper_Test extends TestCase {
 	 *
 	 * @var Mockery\Mock|Product_Helper
 	 */
-	private $instance;
+	protected $instance;
 
 	/**
 	 * Prepares the test.
