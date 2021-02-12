@@ -59,6 +59,7 @@ $integration_toggles = Yoast_Integration_Toggles::instance()->get_all();
 			);
 
 			if ( ! empty( $integration->after ) ) {
+				// phpcs:ignore WordPress.Security.EscapeOutput -- after contains HTMl and we assume it's properly escape on object creation.
 				echo $integration->after;
 			}
 		}
