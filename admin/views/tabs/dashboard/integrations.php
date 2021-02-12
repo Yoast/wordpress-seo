@@ -57,6 +57,10 @@ $integration_toggles = Yoast_Integration_Toggles::instance()->get_all();
 				'<strong>' . $integration->name . '</strong>',
 				$feature_help->get_button_html() . $feature_help->get_panel_html()
 			);
+
+			if ( ! empty( $integration->after ) ) {
+				echo $integration->after;
+			}
 		}
 		?>
 	</div>
