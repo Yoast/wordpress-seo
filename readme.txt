@@ -234,6 +234,13 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 15.8.2 =
+Release Date: February 12th, 2021
+
+Bugfixes:
+
+* Fixes wrong file numbers in Premium.
+
 = 15.8.1 =
 Release Date: February 12th, 2021
 
