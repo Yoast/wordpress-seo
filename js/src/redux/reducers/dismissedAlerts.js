@@ -12,17 +12,14 @@ const INITIAL_STATE = get( window, "wpseoScriptData.dismissedAlerts", {} );
  * @returns {Object} The state.
  */
 function dismissedAlertsReducer( state = INITIAL_STATE, action ) {
-	switch ( action.type ) {
-		case DISMISS_ALERT_SUCCESS:
-			// Update the store after the Control has POSTed a dismissal to the database through the REST API.
-			return {
-				... state,
-				[ action.alertKey ]: true,
-			};
-
-		default:
-			return state;
+	if ( action.type === DISMISS_ALERT_SUCCESS && action.alertKey ) {
+		// Update the store after the Control has POSTed a dismissal to the database through the REST API.
+		return {
+			... state,
+			[ action.alertKey ]: true,
+		};
 	}
+	return state;
 }
 
 export default dismissedAlertsReducer;
