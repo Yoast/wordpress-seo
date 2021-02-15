@@ -12,6 +12,7 @@ describe( "Test for matching Dutch participles", function() {
 		expect( foundParticiples[ 0 ].getLanguage() ).toEqual( "nl" );
 		expect( foundParticiples[ 0 ].determinesSentencePartIsPassive() ).toEqual( true );
 
+		// A participle with a separable prefix.
 		sentence = "De boeken werden teruggegeven.";
 		auxiliaries = [ "werden" ];
 		foundParticiples = getParticiples( sentence, auxiliaries );
@@ -34,6 +35,7 @@ describe( "Test for matching Dutch participles", function() {
 		expect( foundParticiples[ 0 ].getLanguage() ).toEqual( "nl" );
 		expect( foundParticiples[ 0 ].determinesSentencePartIsPassive() ).toEqual( true );
 
+		// A participle with a separable prefix.
 		sentence = "De draden werden aaneengedraaid.";
 		auxiliaries = [ "werden" ];
 		foundParticiples = getParticiples( sentence, auxiliaries );
