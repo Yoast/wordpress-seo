@@ -1,13 +1,14 @@
 import { DISMISS_ALERT, dismissAlert } from "../../../src/redux/actions/dismissedAlerts";
 
-describe( "dismissedAlerts actions", () => {
-	it( "returns a DISMISS_ALERT action with alertKey being the passed alertKey", () => {
+describe( "generator test", () => {
+	it( "should call generator function", function() {
 		const expected = {
-			type: DISMISS_ALERT,
 			alertKey: "my-test-alertKey",
+			type: DISMISS_ALERT,
 		};
-		const actual = dismissAlert( "my-test-alertKey" );
+		const alertKey = "my-test-alertKey";
+		const generator = dismissAlert( alertKey );
 
-		expect( actual ).toEqual( expected );
+		expect( generator.next().value ).toEqual( expected );
 	} );
 } );
