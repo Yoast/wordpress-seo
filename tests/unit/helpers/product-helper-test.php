@@ -50,9 +50,9 @@ class Product_Helper_Test extends TestCase {
 	 * @covers ::is_premium
 	 */
 	public function test_get_name_premium() {
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedConstantFound -- Intended use, constant already exists.
 		\define( 'WPSEO_PREMIUM_PLUGIN_FILE', 'the_premium_plugin_file' );
 
 		$this->assertEquals( 'Yoast SEO Premium plugin', $this->instance->get_name() );
 	}
-
 }
