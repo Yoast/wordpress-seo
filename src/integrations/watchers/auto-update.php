@@ -85,7 +85,7 @@ class Auto_Update implements Integration_Interface {
 	}
 
 	/**
-	 * Checks whether the notification should not be shown anymore and removes it from the notification center if this is the case.
+	 * Removes the notification from the notification center, if it exists.
 	 *
 	 * @return void
 	 */
@@ -104,7 +104,7 @@ class Auto_Update implements Integration_Interface {
 	}
 
 	/**
-	 * Checks whether the auto-update notification should be shown.
+	 * Creates the notification if it doesn't exist already.
 	 *
 	 * @return void
 	 */
@@ -121,7 +121,7 @@ class Auto_Update implements Integration_Interface {
 	}
 
 	/**
-	 * Checks whether the notification should be shown.
+	 * Checks whether the Yoast SEO auto-update notification should be shown.
 	 *
 	 * @return bool Whether the notification should be shown.
 	 */
