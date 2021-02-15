@@ -80,7 +80,12 @@ class Auto_Update implements Integration_Interface {
 	 * @return void
 	 */
 	public function auto_update_notification() {
-		$this->maybe_cleanup_notification();
+		if ( ! $this->should_show_notification() ) {
+			$this->maybe_remove_notification();
+
+			return;
+		}
+
 		$this->maybe_create_notification();
 	}
 
@@ -89,14 +94,10 @@ class Auto_Update implements Integration_Interface {
 	 *
 	 * @return void
 	 */
-	public function maybe_cleanup_notification() {
+	public function maybe_remove_notification() {
 		$notification = $this->notification_center->get_notification_by_id( self::NOTIFICATION_ID );
 
 		if ( $notification === null ) {
-			return;
-		}
-
-		if ( $this->should_show_notification() ) {
 			return;
 		}
 
@@ -109,10 +110,6 @@ class Auto_Update implements Integration_Interface {
 	 * @return void
 	 */
 	public function maybe_create_notification() {
-		if ( ! $this->should_show_notification() ) {
-			return;
-		}
-
 		if ( ! $this->notification_center->get_notification_by_id( self::NOTIFICATION_ID ) ) {
 			$notification = $this->notification();
 			$this->notification_helper->restore_notification( $notification );
