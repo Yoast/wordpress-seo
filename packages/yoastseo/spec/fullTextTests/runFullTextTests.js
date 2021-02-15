@@ -1,6 +1,4 @@
 import getLanguage from "../../src/languageProcessing/helpers/language/getLanguage";
-import getKeywordDensity from "../../src/languageProcessing/researches/getKeywordDensity";
-import keywordCount from "../../src/languageProcessing/researches/keywordCount";
 import factory from "../specHelpers/factory.js";
 const i18n = factory.buildJed();
 import getResearcher from "../specHelpers/getResearcher";
@@ -98,13 +96,7 @@ testPapers.forEach( function( testPaper ) {
 			if ( isApplicable ) {
 				result.keywordDensity = keywordDensityAssessment.getResult(
 					paper,
-					factory.buildMockResearcher(
-						{
-							getKeywordDensity: getKeywordDensity( paper, researcher ),
-							keywordCount: keywordCount( paper, researcher ),
-						},
-						true
-					),
+					researcher,
 					i18n
 				);
 				expect( result.keywordDensity.getScore() ).toBe( expectedResults.keywordDensity.score );
