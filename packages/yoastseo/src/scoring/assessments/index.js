@@ -2,7 +2,6 @@ import FleschReadingEaseAssessment from "./readability/fleschReadingEaseAssessme
 import ParagraphTooLongAssessment from "./readability/paragraphTooLongAssessment";
 import PassiveVoiceAssessment from "./readability/passiveVoiceAssessment";
 import SentenceBeginningsAssessment from "./readability/sentenceBeginningsAssessment";
-import SentenceLengthInDescriptionAssessment from "./readability/sentenceLengthInDescriptionAssessment";
 import SentenceLengthInTextAssessment from "./readability/sentenceLengthInTextAssessment";
 import SubheadingDistributionTooLongAssessment from "./readability/subheadingDistributionTooLongAssessment";
 import TextPresenceAssessment from "./readability/textPresenceAssessment";
@@ -32,7 +31,6 @@ const readability = {
 	ParagraphTooLongAssessment,
 	PassiveVoiceAssessment,
 	SentenceBeginningsAssessment,
-	SentenceLengthInDescriptionAssessment,
 	SentenceLengthInTextAssessment,
 	SubheadingDistributionTooLongAssessment,
 	TextPresenceAssessment,
