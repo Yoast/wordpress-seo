@@ -1,5 +1,5 @@
 import BlockInstruction from "../../core/blocks/BlockInstruction";
-import { BlockConfiguration, BlockInstance } from "@wordpress/blocks";
+import { BlockConfiguration } from "@wordpress/blocks";
 import { createElement, Fragment, ReactElement } from "@wordpress/element";
 import { RenderEditProps } from "../../core/blocks/BlockDefinition";
 import { getBlockByClientId } from "../../functions/BlockHelper";
@@ -40,7 +40,8 @@ class Block extends BlockInstruction {
 		const rootId = this.getParentBlockOfType( props.clientId, [ "yoast/recipe", "yoast/job-posting" ] );
 		if ( rootId ) {
 			const rootBlock = getBlockByClientId( rootId );
-			// bug: this.options belongs to the subblock, and it does not contain the required blocks / recommended blocks for the entire job block.
+			/* BUG: this.options contains the options of the inner block, but we need to
+			   pass the options of the root block which has required blocks / recommended blocks. */
 			const elements: ReactElement[] = innerBlocksSidebar( rootBlock, this.options as InnerBlocksInstructionOptions );
 			return (
 				<Fragment key="innerblocks-sidebar">
