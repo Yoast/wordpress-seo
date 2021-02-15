@@ -1,4 +1,6 @@
 import getLanguage from "../../src/languageProcessing/helpers/language/getLanguage";
+import getKeywordDensity from "../../src/languageProcessing/researches/getKeywordDensity";
+import keywordCount from "../../src/languageProcessing/researches/keywordCount";
 import factory from "../specHelpers/factory.js";
 const i18n = factory.buildJed();
 import getResearcher from "../specHelpers/getResearcher";
@@ -31,31 +33,6 @@ import transitionWordsAssessment from "../../src/scoring/assessments/readability
 import passiveVoiceAssessment from "../../src/scoring/assessments/readability/passiveVoiceAssessment";
 import textPresenceAssessment from "../../src/scoring/assessments/readability/textPresenceAssessment";
 import sentenceBeginningsAssessment from "../../src/scoring/assessments/readability/sentenceBeginningsAssessment";
-
-// Import researches
-import findKeywordInFirstParagraph from "../../src/languageProcessing/researches/findKeywordInFirstParagraph.js";
-import keyphraseLength from "../../src/languageProcessing/researches/keyphraseLength";
-import keywordCount from "../../src/languageProcessing/researches/keywordCount";
-import getKeywordDensity from "../../src/languageProcessing/researches/getKeywordDensity.js";
-import metaDescriptionKeyword from "../../src/languageProcessing/researches/metaDescriptionKeyword.js";
-import metaDescriptionLength from "../../src/languageProcessing/researches/metaDescriptionLength.js";
-import matchKeywordInSubheadings from "../../src/languageProcessing/researches/matchKeywordInSubheadings.js";
-import getLinkStatistics from "../../src/languageProcessing/researches/getLinkStatistics.js";
-import imageCount from "../../src/languageProcessing/researches/imageCount.js";
-import altTagCount from "../../src/languageProcessing/researches/altTagCount.js";
-import wordCountInText from "../../src/languageProcessing/researches/wordCountInText.js";
-import findKeywordInPageTitle from "../../src/languageProcessing/researches/findKeywordInPageTitle.js";
-import pageTitleWidth from "../../src/languageProcessing/researches/pageTitleWidth.js";
-import keywordCountInUrl from "../../src/languageProcessing/researches/keywordCountInUrl";
-import keyphraseDistribution from "../../src/languageProcessing/researches/keyphraseDistribution";
-import calculateFleschReading from "../../src/languageProcessing/researches/getFleschReadingScore.js";
-import getSubheadingTextLengths from "../../src/languageProcessing/researches/getSubheadingTextLengths.js";
-import getParagraphLength from "../../src/languageProcessing/researches/getParagraphLength.js";
-import countSentencesFromText from "../../src/languageProcessing/researches/countSentencesFromText.js";
-import findTransitionWords from "../../src/languageProcessing/researches/findTransitionWords.js";
-import passiveVoice from "../../src/languageProcessing/researches/getPassiveVoice.js";
-import getSentenceBeginnings from "../../src/languageProcessing/researches/getSentenceBeginnings.js";
-import sentences from "../../src/languageProcessing/researches/sentences";
 
 // Import test papers
 import testPapers from "./testTexts";
@@ -97,11 +74,7 @@ testPapers.forEach( function( testPaper ) {
 			expect( isApplicable ).toBe( expectedResults.introductionKeyword.isApplicable );
 
 			if ( isApplicable ) {
-				result.introductionKeyword = introductionKeywordAssessment.getResult(
-					paper,
-					factory.buildMockResearcher( findKeywordInFirstParagraph( paper, researcher ) ),
-					i18n
-				);
+				result.introductionKeyword = introductionKeywordAssessment.getResult( paper, researcher, i18n );
 				expect( result.introductionKeyword.getScore() ).toBe( expectedResults.introductionKeyword.score );
 				expect( result.introductionKeyword.getText() ).toBe( expectedResults.introductionKeyword.resultText );
 			}
@@ -112,11 +85,7 @@ testPapers.forEach( function( testPaper ) {
 			expect( isApplicable ).toBe( expectedResults.keyphraseLength.isApplicable );
 
 			if ( isApplicable ) {
-				result.keyphraseLength = keyphraseLengthAssessment.getResult(
-					paper,
-					researcher,
-					i18n
-				);
+				result.keyphraseLength = keyphraseLengthAssessment.getResult( paper, researcher, i18n );
 				expect( result.keyphraseLength.getScore() ).toBe( expectedResults.keyphraseLength.score );
 				expect( result.keyphraseLength.getText() ).toBe( expectedResults.keyphraseLength.resultText );
 			}
@@ -148,11 +117,7 @@ testPapers.forEach( function( testPaper ) {
 			expect( isApplicable ).toBe( expectedResults.metaDescriptionKeyword.isApplicable );
 
 			if ( isApplicable ) {
-				result.metaDescriptionKeyword = metaDescriptionKeywordAssessment.getResult(
-					paper,
-					researcher,
-					i18n
-				);
+				result.metaDescriptionKeyword = metaDescriptionKeywordAssessment.getResult( paper, researcher, i18n );
 				expect( result.metaDescriptionKeyword.getScore() ).toBe( expectedResults.metaDescriptionKeyword.score );
 				expect( result.metaDescriptionKeyword.getText() ).toBe( expectedResults.metaDescriptionKeyword.resultText );
 			}
@@ -163,11 +128,7 @@ testPapers.forEach( function( testPaper ) {
 			expect( isApplicable ).toBe( expectedResults.metaDescriptionLength.isApplicable );
 
 			if ( isApplicable ) {
-				result.metaDescriptionLength = metaDescriptionLengthAssessment.getResult(
-					paper,
-					researcher,
-					i18n
-				);
+				result.metaDescriptionLength = metaDescriptionLengthAssessment.getResult( paper, researcher, i18n );
 				expect( result.metaDescriptionLength.getScore() ).toBe( expectedResults.metaDescriptionLength.score );
 				expect( result.metaDescriptionLength.getText() ).toBe( expectedResults.metaDescriptionLength.resultText );
 			}
@@ -178,11 +139,7 @@ testPapers.forEach( function( testPaper ) {
 			expect( isApplicable ).toBe( expectedResults.subheadingsKeyword.isApplicable );
 
 			if ( isApplicable ) {
-				result.subheadingsKeyword = subheadingsKeywordAssessment.getResult(
-					paper,
-					researcher,
-					i18n
-				);
+				result.subheadingsKeyword = subheadingsKeywordAssessment.getResult( paper, researcher, i18n );
 				expect( result.subheadingsKeyword.getScore() ).toBe( expectedResults.subheadingsKeyword.score );
 				expect( result.subheadingsKeyword.getText() ).toBe( expectedResults.subheadingsKeyword.resultText );
 			}
@@ -193,11 +150,7 @@ testPapers.forEach( function( testPaper ) {
 			expect( isApplicable ).toBe( expectedResults.textCompetingLinks.isApplicable );
 
 			if ( isApplicable ) {
-				result.textCompetingLinks = textCompetingLinksAssessment.getResult(
-					paper,
-					researcher,
-					i18n
-				);
+				result.textCompetingLinks = textCompetingLinksAssessment.getResult( paper, researcher, i18n );
 				expect( result.textCompetingLinks.getScore() ).toBe( expectedResults.textCompetingLinks.score );
 				expect( result.textCompetingLinks.getText() ).toBe( expectedResults.textCompetingLinks.resultText );
 			}
@@ -208,11 +161,7 @@ testPapers.forEach( function( testPaper ) {
 			expect( isApplicable ).toBe( expectedResults.textImages.isApplicable );
 
 			if ( isApplicable ) {
-				result.textImages = textImagesAssessment.getResult(
-					paper,
-					researcher,
-					i18n
-				);
+				result.textImages = textImagesAssessment.getResult( paper, researcher, i18n );
 				expect( result.textImages.getScore() ).toBe( expectedResults.textImages.score );
 				expect( result.textImages.getText() ).toBe( expectedResults.textImages.resultText );
 			}
@@ -223,11 +172,7 @@ testPapers.forEach( function( testPaper ) {
 			expect( isApplicable ).toBe( expectedResults.textLength.isApplicable );
 
 			if ( isApplicable ) {
-				result.textLength = textLengthAssessment.getResult(
-					paper,
-					researcher,
-					i18n
-				);
+				result.textLength = textLengthAssessment.getResult( paper, researcher, i18n );
 				expect( result.textLength.getScore() ).toBe( expectedResults.textLength.score );
 				expect( result.textLength.getText() ).toBe( expectedResults.textLength.resultText );
 			}
@@ -238,11 +183,7 @@ testPapers.forEach( function( testPaper ) {
 			expect( isApplicable ).toBe( expectedResults.externalLinks.isApplicable );
 
 			if ( isApplicable ) {
-				result.externalLinks = outboundLinksAssessment.getResult(
-					paper,
-					researcher,
-					i18n
-				);
+				result.externalLinks = outboundLinksAssessment.getResult( paper, researcher, i18n );
 				expect( result.externalLinks.getScore() ).toBe( expectedResults.externalLinks.score );
 				expect( result.externalLinks.getText() ).toBe( expectedResults.externalLinks.resultText );
 			}
@@ -253,11 +194,7 @@ testPapers.forEach( function( testPaper ) {
 			expect( isApplicable ).toBe( expectedResults.internalLinks.isApplicable );
 
 			if ( isApplicable ) {
-				result.internalLinks = internalLinksAssessment.getResult(
-					paper,
-					researcher,
-					i18n
-				);
+				result.internalLinks = internalLinksAssessment.getResult( paper, researcher, i18n );
 				expect( result.internalLinks.getScore() ).toBe( expectedResults.internalLinks.score );
 				expect( result.internalLinks.getText() ).toBe( expectedResults.internalLinks.resultText );
 			}
@@ -268,11 +205,7 @@ testPapers.forEach( function( testPaper ) {
 			expect( isApplicable ).toBe( expectedResults.titleKeyword.isApplicable );
 
 			if ( isApplicable ) {
-				result.titleKeyword = titleKeywordAssessment.getResult(
-					paper,
-					researcher,
-					i18n
-				);
+				result.titleKeyword = titleKeywordAssessment.getResult( paper, researcher, i18n );
 				expect( result.titleKeyword.getScore() ).toBe( expectedResults.titleKeyword.score );
 				expect( result.titleKeyword.getText() ).toBe( expectedResults.titleKeyword.resultText );
 			}
@@ -283,11 +216,7 @@ testPapers.forEach( function( testPaper ) {
 			expect( isApplicable ).toBe( expectedResults.titleWidth.isApplicable );
 
 			if ( isApplicable ) {
-				result.titleWidth = titleWidthAssessment.getResult(
-					paper,
-					researcher,
-					i18n
-				);
+				result.titleWidth = titleWidthAssessment.getResult( paper, researcher, i18n );
 				expect( result.titleWidth.getScore() ).toBe( expectedResults.titleWidth.score );
 				expect( result.titleWidth.getText() ).toBe( expectedResults.titleWidth.resultText );
 			}
@@ -298,11 +227,7 @@ testPapers.forEach( function( testPaper ) {
 			expect( isApplicable ).toBe( expectedResults.urlKeyword.isApplicable );
 
 			if ( isApplicable ) {
-				result.urlKeyword = urlKeywordAssessment.getResult(
-					paper,
-					researcher,
-					i18n
-				);
+				result.urlKeyword = urlKeywordAssessment.getResult( paper, researcher, i18n );
 				expect( result.urlKeyword.getScore() ).toBe( expectedResults.urlKeyword.score );
 				expect( result.urlKeyword.getText() ).toBe( expectedResults.urlKeyword.resultText );
 			}
@@ -313,11 +238,7 @@ testPapers.forEach( function( testPaper ) {
 			expect( isApplicable ).toBe( expectedResults.keyphraseDistribution.isApplicable );
 
 			if ( isApplicable ) {
-				result.keyphraseDistribution = keyphraseDistributionAssessment.getResult(
-					paper,
-					researcher,
-					i18n
-				);
+				result.keyphraseDistribution = keyphraseDistributionAssessment.getResult( paper, researcher, i18n );
 				expect( result.keyphraseDistribution.getScore() ).toBe( expectedResults.keyphraseDistribution.score );
 				expect( result.keyphraseDistribution.getText() ).toBe( expectedResults.keyphraseDistribution.resultText );
 			}
@@ -329,11 +250,7 @@ testPapers.forEach( function( testPaper ) {
 			expect( isApplicable ).toBe( expectedResults.fleschReadingEase.isApplicable );
 
 			if ( isApplicable ) {
-				result.fleschReadingEase = fleschReadingAssessment.getResult(
-					paper,
-					researcher,
-					i18n
-				);
+				result.fleschReadingEase = fleschReadingAssessment.getResult( paper, researcher, i18n );
 				expect( result.fleschReadingEase.getScore() ).toBe( expectedResults.fleschReadingEase.score );
 				expect( result.fleschReadingEase.getText() ).toBe( expectedResults.fleschReadingEase.resultText );
 			}
@@ -344,11 +261,7 @@ testPapers.forEach( function( testPaper ) {
 			expect( isApplicable ).toBe( expectedResults.subheadingsTooLong.isApplicable );
 
 			if ( isApplicable ) {
-				result.subheadingsTooLong = subheadingDistributionTooLongAssessment.getResult(
-					paper,
-					researcher,
-					i18n
-				);
+				result.subheadingsTooLong = subheadingDistributionTooLongAssessment.getResult( paper, researcher, i18n );
 				expect( result.subheadingsTooLong.getScore() ).toBe( expectedResults.subheadingsTooLong.score );
 				expect( result.subheadingsTooLong.getText() ).toBe( expectedResults.subheadingsTooLong.resultText );
 			}
@@ -359,11 +272,7 @@ testPapers.forEach( function( testPaper ) {
 			expect( isApplicable ).toBe( expectedResults.textParagraphTooLong.isApplicable );
 
 			if ( isApplicable ) {
-				result.textParagraphTooLong = paragraphTooLongAssessment.getResult(
-					paper,
-					researcher,
-					i18n
-				);
+				result.textParagraphTooLong = paragraphTooLongAssessment.getResult( paper, researcher, i18n );
 				expect( result.textParagraphTooLong.getScore() ).toBe( expectedResults.textParagraphTooLong.score );
 				expect( result.textParagraphTooLong.getText() ).toBe( expectedResults.textParagraphTooLong.resultText );
 			}
@@ -374,11 +283,7 @@ testPapers.forEach( function( testPaper ) {
 			expect( isApplicable ).toBe( expectedResults.textSentenceLength.isApplicable );
 
 			if ( isApplicable ) {
-				result.textSentenceLength = sentenceLengthInTextAssessment.getResult(
-					paper,
-					researcher,
-					i18n
-				);
+				result.textSentenceLength = sentenceLengthInTextAssessment.getResult( paper, researcher, i18n );
 				expect( result.textSentenceLength.getScore() ).toBe( expectedResults.textSentenceLength.score );
 				expect( result.textSentenceLength.getText() ).toBe( expectedResults.textSentenceLength.resultText );
 			}
