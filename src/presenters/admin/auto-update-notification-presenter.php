@@ -46,8 +46,3 @@ class Auto_Update_Notification_Presenter extends Abstract_Presenter {
 		return $notification_text;
 	}
 }
-
-
-
-
-
