@@ -94,7 +94,7 @@ class Auto_Update implements Integration_Interface {
 	 *
 	 * @return void
 	 */
-	public function maybe_remove_notification() {
+	protected function maybe_remove_notification() {
 		$notification = $this->notification_center->get_notification_by_id( self::NOTIFICATION_ID );
 
 		if ( $notification === null ) {
@@ -109,7 +109,7 @@ class Auto_Update implements Integration_Interface {
 	 *
 	 * @return void
 	 */
-	public function maybe_create_notification() {
+	protected function maybe_create_notification() {
 		if ( ! $this->notification_center->get_notification_by_id( self::NOTIFICATION_ID ) ) {
 			$notification = $this->notification();
 			$this->notification_helper->restore_notification( $notification );
