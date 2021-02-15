@@ -12,10 +12,10 @@ describe( "Test for matching Italian participles", function() {
 		expect( foundParticiples[ 0 ].determinesSentencePartIsPassive() ).toEqual( true );
 	} );
 
-	it( "returns an empty array when there is no participle", function() {
+	it( "returns an empty array when there is no participle or when the sentence is empty.", function() {
 		const sentencePartText = "Sto mangiando una mela.";
 		const auxiliaries = [];
-		const foundParticiples = getParticiples( sentencePartText, auxiliaries );
-		expect( foundParticiples ).toEqual( [] );
+		expect( getParticiples( sentencePartText, auxiliaries ) ).toEqual( [] );
+		expect( getParticiples( "", auxiliaries ) ).toEqual( [] );
 	} );
 } );
