@@ -58,7 +58,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 		'breadcrumbs-display-blog-page' => true,
 		'breadcrumbs-boldlast'          => false,
 		'breadcrumbs-archiveprefix'     => '', // Text field.
-		'breadcrumbs-enable'            => false,
+		'breadcrumbs-enable'            => true,
 		'breadcrumbs-home'              => '', // Text field.
 		'breadcrumbs-prefix'            => '', // Text field.
 		'breadcrumbs-searchprefix'      => '', // Text field.

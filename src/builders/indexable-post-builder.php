@@ -244,7 +244,7 @@ class Indexable_Post_Builder {
 		/**
 		 * Filter: 'wpseo_public_post_statuses' - List of public post statuses.
 		 *
-		 * @apo array $post_statuses Post status list, defaults to array( 'publish' ).
+		 * @api array $post_statuses Post status list, defaults to array( 'publish' ).
 		 */
 		return \apply_filters( 'wpseo_public_post_statuses', [ 'publish' ] );
 	}

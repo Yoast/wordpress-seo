@@ -50,21 +50,24 @@ class Schema_Blocks_Test extends TestCase {
 	protected $id_helper;
 
 	/**
+	 * The Schema blocks conditional.
+	 *
+	 * @var Mockery\MockInterface|Schema_Blocks_Conditional
+	 */
+	protected $blocks_conditional;
+
+	/**
 	 * Runs the setup to prepare the needed instance.
 	 */
 	public function set_up() {
 		parent::set_up();
 
-		$this->asset_manager              = Mockery::mock( WPSEO_Admin_Asset_Manager::class );
-		$this->meta_tags_context_memoizer = Mockery::mock( Meta_Tags_Context_Memoizer::class );
-		$this->replace_vars               = Mockery::mock( \WPSEO_Replace_Vars::class );
-		$this->id_helper                  = Mockery::mock( ID_Helper::class );
+		$this->asset_manager      = Mockery::mock( WPSEO_Admin_Asset_Manager::class );
+		$this->blocks_conditional = Mockery::mock( Schema_Blocks_Conditional::class );
 
 		$this->instance = new Schema_Blocks(
 			$this->asset_manager,
-			$this->meta_tags_context_memoizer,
-			$this->replace_vars,
-			$this->id_helper
+			$this->blocks_conditional
 		);
 	}
 
@@ -74,10 +77,8 @@ class Schema_Blocks_Test extends TestCase {
 	 * @covers ::__construct
 	 */
 	public function test_constructor() {
-		static::assertInstanceOf( WPSEO_Admin_Asset_Manager::class, $this->getPropertyValue( $this, 'asset_manager' ) );
-		static::assertInstanceOf( Meta_Tags_Context_Memoizer::class, $this->getPropertyValue( $this, 'meta_tags_context_memoizer' ) );
-		static::assertInstanceOf( \WPSEO_Replace_Vars::class, $this->getPropertyValue( $this, 'replace_vars' ) );
-		static::assertInstanceOf( ID_Helper::class, $this->getPropertyValue( $this, 'id_helper' ) );
+		static::assertInstanceOf( WPSEO_Admin_Asset_Manager::class, self::getPropertyValue( $this, 'asset_manager' ) );
+		static::assertInstanceOf( Schema_Blocks_Conditional::class, self::getPropertyValue( $this, 'blocks_conditional' ) );
 	}
 
 	/**
@@ -86,12 +87,7 @@ class Schema_Blocks_Test extends TestCase {
 	 * @covers ::get_conditionals
 	 */
 	public function test_get_conditionals() {
-		static::assertSame(
-			[
-				Schema_Blocks_Conditional::class,
-			],
-			Schema_Blocks::get_conditionals()
-		);
+		static::assertSame( [], Schema_Blocks::get_conditionals() );
 	}
 
 	/**
@@ -168,7 +164,41 @@ class Schema_Blocks_Test extends TestCase {
 			->once()
 			->andReturnTrue();
 
+		$this->blocks_conditional
+			->expects( 'is_met' )
+			->andReturnTrue();
+
 		$this->instance->register_template( 'src/schema-templates/recipe.block.php' );
+		$this->instance->output();
+
+		$this->expectOutputContains( '<script type="text/block-template">' );
+	}
+
+	/**
+	 * Tests the outputting of a template when the feature flag is
+	 * not enabled.
+	 *
+	 * @covers ::output
+	 */
+	public function test_output_feature_flag_not_enabled() {
+		$this->stubEscapeFunctions();
+		$this->stubTranslationFunctions();
+
+		$this->asset_manager
+			->expects( 'is_script_enqueued' )
+			->with( 'schema-blocks' )
+			->once()
+			->andReturnTrue();
+
+		$this->blocks_conditional
+			->expects( 'is_met' )
+			->andReturnFalse();
+
+		$this->instance->register_template( 'src/schema-templates/recipe.block.php' );
+
+		Monkey\Filters\expectApplied( 'wpseo_load_schema_templates' )
+			->andReturn( [ WPSEO_PATH . '/src/schema-templates/recipe.block.php' ] );
+
 		$this->instance->output();
 
 		$this->expectOutputContains( '<script type="text/block-template">' );
@@ -206,6 +236,10 @@ class Schema_Blocks_Test extends TestCase {
 			->once()
 			->andReturnTrue();
 
+		$this->blocks_conditional
+			->expects( 'is_met' )
+			->andReturnTrue();
+
 		// First add a template.
 		Monkey\Filters\expectApplied( 'wpseo_load_schema_templates' )
 			->andReturn( [ WPSEO_PATH . '/src/schema-templates/recipe.block.php' ] );
@@ -225,6 +259,11 @@ class Schema_Blocks_Test extends TestCase {
 			->expects( 'is_script_enqueued' )
 			->with( 'schema-blocks' )
 			->once()
+			->andReturnTrue();
+
+
+		$this->blocks_conditional
+			->expects( 'is_met' )
 			->andReturnTrue();
 
 		// First add a template.
@@ -248,6 +287,10 @@ class Schema_Blocks_Test extends TestCase {
 			->once()
 			->andReturnTrue();
 
+		$this->blocks_conditional
+			->expects( 'is_met' )
+			->andReturnTrue();
+
 		$this->instance->register_template( WPSEO_PATH . '/src/schema-templates/nonexisting.block.php' );
 
 		$this->instance->output();
@@ -265,6 +308,10 @@ class Schema_Blocks_Test extends TestCase {
 			->expects( 'is_script_enqueued' )
 			->with( 'schema-blocks' )
 			->once()
+			->andReturnTrue();
+
+		$this->blocks_conditional
+			->expects( 'is_met' )
 			->andReturnTrue();
 
 		Monkey\Filters\expectApplied( 'wpseo_load_schema_templates' );

@@ -869,6 +869,10 @@ class WPSEO_Admin_Asset_Manager {
 				'src'  => 'alerts-' . $flat_version,
 			],
 			[
+				'name' => 'badge',
+				'src'  => 'badge-' . $flat_version,
+			],
+			[
 				'name' => 'edit-page',
 				'src'  => 'edit-page-' . $flat_version,
 			],
@@ -969,18 +973,5 @@ class WPSEO_Admin_Asset_Manager {
 		}
 
 		return $this->asset_location->get_url( $asset, $type );
-	}
-
-	/* ********************* DEPRECATED METHODS ********************* */
-
-	/**
-	 * This function is needed for backwards compatibility with Local SEO 12.5.
-	 *
-	 * @deprecated 12.8
-	 * @codeCoverageIgnore
-	 *
-	 * @return void
-	 */
-	public function register_wp_assets() {
 	}
 }

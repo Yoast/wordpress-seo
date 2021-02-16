@@ -12,6 +12,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * Class Alert_Dismissal_Route_Test.
  *
  * @group routes
+ * @group dismissable-alerts
  *
  * @coversDefaultClass \Yoast\WP\SEO\Routes\Alert_Dismissal_Route
  */
@@ -81,8 +82,8 @@ class Alert_Dismissal_Route_Test extends TestCase {
 					'callback'            => [ $this->instance, 'dismiss' ],
 					'permission_callback' => [ $this->instance, 'can_dismiss' ],
 					'args'                => [
-						'code' => [
-							'validate_callback' => [ $this->instance, 'has_valid_key' ],
+						'key' => [
+							'validate_callback' => [ $this->alert_dismissal_action, 'is_allowed' ],
 							'required'          => true,
 						],
 					],
@@ -115,24 +116,6 @@ class Alert_Dismissal_Route_Test extends TestCase {
 		$response = $this->instance->dismiss( $request );
 
 		$this->assertInstanceOf( 'WP_REST_Response', $response );
-	}
-
-	/**
-	 * Tests that the key is an invalid key.
-	 *
-	 * @covers ::has_valid_key
-	 */
-	public function test_is_valid_code_with_invalid_code_given() {
-		$this->assertFalse( $this->instance->has_valid_key( '' ) );
-	}
-
-	/**
-	 * Tests that the key is a valid key.
-	 *
-	 * @covers ::has_valid_key
-	 */
-	public function test_is_valid_key_with_valid_key_given() {
-		$this->assertTrue( $this->instance->has_valid_key( 'some_alert' ) );
 	}
 
 	/**

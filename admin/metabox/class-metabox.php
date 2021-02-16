@@ -1120,29 +1120,4 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		return $product_title;
 	}
-
-	/* ********************* DEPRECATED METHODS ********************* */
-
-	/**
-	 * Outputs a tab in the Yoast SEO Metabox.
-	 *
-	 * @deprecated         12.2
-	 * @codeCoverageIgnore
-	 *
-	 * @param string $id      CSS ID of the tab.
-	 * @param string $heading Heading for the tab.
-	 * @param string $content Content of the tab. This content should be escaped.
-	 */
-	public function do_tab( $id, $heading, $content ) {
-		_deprecated_function( __METHOD__, '12.2' );
-
-		?>
-		<div id="<?php echo esc_attr( 'wpseo_' . $id ); ?>" class="wpseotab wpseo-form <?php echo esc_attr( $id ); ?>">
-			<?php
-			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: deprecated function.
-			echo $content;
-			?>
-		</div>
-		<?php
-	}
 }

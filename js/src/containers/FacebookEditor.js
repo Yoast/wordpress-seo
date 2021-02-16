@@ -8,41 +8,25 @@ import { validateFacebookImage } from "@yoast/helpers";
 import FacebookWrapper from "../components/social/FacebookWrapper";
 import getL10nObject from "../analysis/getL10nObject";
 import withLocation from "../helpers/withLocation";
+import { openMedia } from "../helpers/selectMedia";
 
 const socialMediumName = "Facebook";
 
 /**
- * The cached instance of the media object.
+ * Callback function for selectMedia. Performs actions with the 'image' Object that it gets as an argument.
  *
- * @type {wp.media} The media object
- */
-let media = null;
-
-/**
- * Lazy function to get the media object and hook the right action dispatchers.
+ * @param {Object} image Object containing data about the selected image.
+ *
+ * @param {Function} onSelect Callback function received from openMedia. Gets object image' as an argument.
  *
  * @returns {void}
  */
-const getMedia = () => {
-	if ( ! media ) {
-		media = window.wp.media();
-		// Listens for the selection of an image. Then gets the right data and dispatches the data to the store.
-		media.on( "select", () => {
-			const selected = media.state().get( "selection" ).first();
-			const image = {
-				type: selected.attributes.subtype,
-				width: selected.attributes.width,
-				height: selected.attributes.height,
-			};
-			wpDataDispatch( "yoast-seo/editor" ).setFacebookPreviewImage( {
-				url: selected.attributes.url,
-				id: selected.attributes.id,
-				warnings: validateFacebookImage( image ),
-			} );
-		} );
-	}
-
-	return media;
+const imageCallback = ( image ) => {
+	wpDataDispatch( "yoast-seo/editor" ).setFacebookPreviewImage( {
+		url: image.url,
+		id: image.id,
+		warnings: validateFacebookImage( image ),
+	} );
 };
 
 /**
@@ -50,8 +34,8 @@ const getMedia = () => {
  *
  * @returns {void}
  */
-const openMedia = () => {
-	return getMedia().open();
+const selectMedia = () => {
+	openMedia( imageCallback );
 };
 
 export default compose( [
@@ -111,7 +95,7 @@ export default compose( [
 			loadFacebookPreviewData,
 		} = dispatch( "yoast-seo/editor" );
 		return {
-			onSelectImageClick: openMedia,
+			onSelectImageClick: selectMedia,
 			onRemoveImageClick: clearFacebookPreviewImage,
 			onDescriptionChange: setFacebookPreviewDescription,
 			onTitleChange: setFacebookPreviewTitle,

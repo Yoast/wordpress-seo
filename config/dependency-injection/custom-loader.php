@@ -24,6 +24,13 @@ class Custom_Loader extends PhpFileLoader {
 	private $class_map_path;
 
 	/**
+	 * The class map.
+	 *
+	 * @var array
+	 */
+	private $class_map;
+
+	/**
 	 * Custom_Loader constructor.
 	 *
 	 * @param ContainerBuilder $container      The ContainerBuilder to load classes for.
@@ -42,16 +49,14 @@ class Custom_Loader extends PhpFileLoader {
 	 * @return bool|string The classname.
 	 */
 	private function getClassFromClassMap( $path ) {
-		static $class_map;
-
-		if ( ! $class_map ) {
-			$class_map = require $this->class_map_path;
-			$class_map = \array_map( [ $this, 'normalize_slashes' ], $class_map );
-			$class_map = \array_flip( $class_map );
+		if ( ! $this->class_map ) {
+			$this->class_map = require $this->class_map_path;
+			$this->class_map = \array_map( [ $this, 'normalize_slashes' ], $this->class_map );
+			$this->class_map = \array_flip( $this->class_map );
 		}
 
-		if ( isset( $class_map[ $path ] ) ) {
-			return $class_map[ $path ];
+		if ( isset( $this->class_map[ $path ] ) ) {
+			return $this->class_map[ $path ];
 		}
 
 		return false;

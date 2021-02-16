@@ -1,6 +1,8 @@
 import * as actions from "../actions/schemaBlocks";
 
-const initialState = {};
+const initialState = {
+	validations: {},
+};
 
 /**
  * A reducer for the Schema blocks.
@@ -16,12 +18,13 @@ export default function schemaBlocksReducer( state = initialState, action ) {
 			return initialState;
 		}
 		case actions.ADD_BLOCK_VALIDATION: {
-			 const newState = Object.assign( {}, state );
-			 const validation = action.validation;
+			const newState = Object.assign( {}, state );
+			const validation = action.validation;
 
-			 newState[ validation.clientId ] = validation;
+			newState.validations = newState.validations || {};
+			newState.validations[ validation.clientId ] = validation;
 
-			 return newState;
+			return newState;
 		}
 		default: {
 			return state;

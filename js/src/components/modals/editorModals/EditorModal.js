@@ -1,5 +1,5 @@
 import { __, sprintf } from "@wordpress/i18n";
-import { useState, useCallback, Fragment } from "@wordpress/element";
+import { useCallback, Fragment } from "@wordpress/element";
 import Modal from "../Modal";
 import PropTypes from "prop-types";
 import SidebarButton from "../../SidebarButton";
@@ -32,26 +32,23 @@ export const isCloseEvent = ( event ) => {
  *
  * @returns {*} A button wrapped in a div.
  */
-const EditorModal = ( { id, postTypeName, children, title } ) => {
-	const [ isOpen, changeIsOpen ] = useState( false );
-
-	const closeModal = useCallback( ( event ) => {
+const EditorModal = ( { id, postTypeName, children, title, isOpen, close, open } ) => {
+	const requestClose = useCallback( ( event ) => {
 		// Prevent the modal from closing when the event is a false positive.
 		if ( ! isCloseEvent( event ) ) {
 			return;
 		}
 
-		changeIsOpen( false );
-	}, [] );
-	const openModal = useCallback( () => changeIsOpen( true ), [] );
+		close();
+	}, [ close ] );
 
 	return (
 		<Fragment>
-			{ isOpen && (
+			{ isOpen &&
 				<LocationProvider value="modal">
 					<Modal
 						title={ title }
-						onRequestClose={ closeModal }
+						onRequestClose={ requestClose }
 						additionalClassName="yoast-collapsible-modal yoast-post-settings-modal"
 					>
 						<div className="yoast-content-container">
@@ -71,7 +68,7 @@ const EditorModal = ( { id, postTypeName, children, title } ) => {
 								<button
 									className="yoast-button yoast-button--primary yoast-button--post-settings-modal"
 									type="button"
-									onClick={ closeModal }
+									onClick={ requestClose }
 								>
 									{
 										/* Translators: %s translates to the Post Label in singular form */
@@ -82,12 +79,12 @@ const EditorModal = ( { id, postTypeName, children, title } ) => {
 						</div>
 					</Modal>
 				</LocationProvider>
-			) }
+			}
 			<SidebarButton
 				id={ id + "-open-button" }
 				title={ title }
 				suffixIcon={ { size: "20px", icon: "pencil-square" } }
-				onClick={ openModal }
+				onClick={ open }
 			/>
 		</Fragment>
 	);
@@ -98,6 +95,9 @@ EditorModal.propTypes = {
 	postTypeName: PropTypes.string.isRequired,
 	children: PropTypes.oneOfType( [ PropTypes.node, PropTypes.arrayOf( PropTypes.node ) ] ).isRequired,
 	title: PropTypes.string.isRequired,
+	isOpen: PropTypes.bool.isRequired,
+	open: PropTypes.func.isRequired,
+	close: PropTypes.func.isRequired,
 };
 
 export default EditorModal;
