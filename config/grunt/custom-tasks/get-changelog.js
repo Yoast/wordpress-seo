@@ -17,7 +17,6 @@ module.exports = function( grunt ) {
 			const newVersion = grunt.option( "plugin-version" );
 			grunt.file.write( "/tmp/.env", `GITHUB_API_TOKEN=${process.env.GITHUB_ACCESS_TOKEN}` );
 
-
 			console.log(newVersion)
 			grunt.config( "shell.get-changelog-lines-with-wiki-yoast-cli.command", (["mkdir -p /tmp/test",
 					"cd /tmp/test/",
@@ -32,17 +31,22 @@ module.exports = function( grunt ) {
 			grunt.config( "shell.get-changelog-lines-with-wiki-yoast-cli.options.failOnError", true);
 			grunt.task.run( "shell:get-changelog-lines-with-wiki-yoast-cli");
 		
-			
-			
-			
-			
-			
 			//use node clue script do make
 			grunt.config( "shell.makeChangelogFile.command", "node ./config/grunt/lib/get-changelog-using-wiki.js " + grunt.config.data.pluginSlug + " " + newVersion);
 			grunt.task.run( "shell:makeChangelogFile" );
+			// move the created file
 
 
-			console.log ("hoi")
+			//clean up here.
+			grunt.config( "clean", { 
+				wiki:["/tmp/test"] , 
+				options: { 
+					force: true 
+				}
+			});
+			grunt.task.run("clean:wiki")
+			
+
 			done();
 				
 			
