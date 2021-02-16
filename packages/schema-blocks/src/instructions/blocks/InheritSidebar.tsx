@@ -13,11 +13,10 @@ import logger from "../../functions/logger";
 /**
  * Sidebar input instruction.
  */
-class InheritSidebar extends SidebarBase {
+export default class InheritSidebar extends SidebarBase {
 	public options: SidebarBaseOptions & {
 		parents: string[];
 	};
-
 
 	/* eslint-disable @typescript-eslint/no-unused-vars */
 	/**
@@ -43,7 +42,7 @@ class InheritSidebar extends SidebarBase {
 		if ( parentIds.length > 0 ) {
 			parentIds.forEach( parentId => {
 				const parentBlock = getBlockByClientId( parentId );
-				const parentBlockInstruction: BlockInstructionClass = Instruction.registeredInstructions[ parentBlock.name ] as BlockInstructionClass;
+				const parentBlockInstruction = Instruction.getBlock( parentBlock.name );
 				if ( parentBlockInstruction ) {
 					logger.debug( "inherting sidebar from " + parentBlockInstruction.name );
 					elements.push( ...innerBlocksSidebar( parentBlock, parentBlockInstruction.options as InnerBlocksInstructionOptions ) );
@@ -68,13 +67,14 @@ class InheritSidebar extends SidebarBase {
 		return {
 			attributes: {
 				[ this.options.name ]: {
-					type: this.options.type === "number" ? "number" : "string",
-					required: this.options.required === true,
+					parents: this.options.parents,
 				},
 			},
 		};
 	}
 
+
+	/* eslint-disable @typescript-eslint/no-unused-vars */
 	/**
 	 * Renders the value of a sidebar input.
 	 *
@@ -83,8 +83,9 @@ class InheritSidebar extends SidebarBase {
 	 * @returns The value of the sidebar input.
 	 */
 	protected value( props: RenderSaveProps | RenderEditProps ): string {
-		return props.attributes[ this.options.name ] as string || this.options.default || "";
+		return null;
 	}
+	/* eslint-enable @typescript-eslint/no-unused-vars */
 }
 
 BlockInstruction.register( "inherit-sidebar", InheritSidebar );

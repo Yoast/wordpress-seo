@@ -1,4 +1,5 @@
 import { BlockInstance } from "@wordpress/blocks";
+import logger from "../functions/logger";
 import { BlockValidationResult, BlockValidation } from "./validation";
 export type InstructionPrimitive = string | number | boolean;
 export type InstructionValue = InstructionPrimitive | InstructionObject | InstructionArray;
@@ -80,6 +81,16 @@ export default abstract class Instruction {
 	}
 
 	/**
+	 * Retrieves a registered blockinstruction.
+	 * @param this This.
+	 * @param name The block to retrieve.
+	 * @returns {InstructionClass} The registered BlockInstruction.
+	 */
+	static getBlock<I extends typeof Instruction>( this: I, name: string ): InstructionClass<I["prototype"]> {
+		return this.registeredInstructions[ name ];
+	}
+
+	/**
 	 * Creates an instruction instance.
 	 *
 	 * @param this    This.
@@ -97,7 +108,7 @@ export default abstract class Instruction {
 		const klass = this.registeredInstructions[ name ];
 
 		if ( ! klass ) {
-			console.error( "Invalid instruction: ", name );
+			logger.error( "Invalid instruction: ", name );
 		}
 
 		return new klass( id, options );

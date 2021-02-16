@@ -25,7 +25,7 @@ export default abstract class BlockInstruction extends Instruction {
 	 * @param leaf  The leaf being rendered.
 	 * @param i     The number the rendered element is of its parent.
 	 *
-	 * @returns {JSX.Element} The element to render.
+	 * @returns {ReactElement | string} The element to render.
 	 */
 	save( props: RenderSaveProps, leaf: BlockLeaf, i: number ): ReactElement | string {
 		return null;
@@ -40,7 +40,7 @@ export default abstract class BlockInstruction extends Instruction {
 	 * @param leaf  The leaf being rendered.
 	 * @param i     The number the rendered element is of its parent.
 	 *
-	 * @returns {JSX.Element} The element to render.
+	 * @returns {ReactElement | string} The element to render.
 	 */
 	edit( props: RenderEditProps, leaf: BlockLeaf, i: number ): ReactElement | string {
 		return null;
@@ -54,7 +54,7 @@ export default abstract class BlockInstruction extends Instruction {
 	 * @param props The props.
 	 * @param i     The number the rendered element is of its parent.
 	 *
-	 * @returns The sidebar element to render.
+	 * @returns {ReactElement | string} The sidebar element to render.
 	 */
 	sidebar( props: RenderEditProps, i: number ): ReactElement | string {
 		return null;
@@ -64,7 +64,7 @@ export default abstract class BlockInstruction extends Instruction {
 	/**
 	 * Returns the configuration of this instruction.
 	 *
-	 * @returns The configuration.
+	 * @returns {Partial<BlockConfiguration>} The configuration.
 	 */
 	configuration(): Partial<BlockConfiguration> {
 		return {};
