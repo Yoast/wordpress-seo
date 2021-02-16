@@ -26,7 +26,7 @@ export type MutableBlockConfiguration = {
  * BlockDefinition class.
  */
 export default class BlockDefinition extends Definition {
-	public static separatorCharacters = [ "@", "#", "$", "%", "^", "&", "*", "(", ")", "{", "}", "[", "]" ];
+	public static separatorCharacters = [ "b", "c", "d", "f", "g", "h", "k", "m", "z" ];
 	public static parser = parse;
 
 	public instructions: Record<string, BlockInstruction>;
