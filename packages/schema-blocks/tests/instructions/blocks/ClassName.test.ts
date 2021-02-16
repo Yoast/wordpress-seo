@@ -1,5 +1,5 @@
 import ClassName from "../../../src/instructions/blocks/ClassName";
-import { RenderEditProps } from "../../../dist/core/blocks/BlockDefinition";
+import { RenderEditProps } from "../../../src/core/blocks/BlockDefinition";
 
 describe( "The ClassName instruction", () => {
 	it( "can correctly render in the editor", () => {
