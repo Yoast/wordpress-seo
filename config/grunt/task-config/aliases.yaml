@@ -163,6 +163,11 @@ release:
   - 'artifact'
   - 'wp_deploy:trunk'
 
+
+'update-changelog':
+  - get-changelog 
+  - update-changelog-with-latest-pr-texts
+
 # Default task
 default:
   - 'build'
