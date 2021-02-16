@@ -1,5 +1,5 @@
-import { replaceDiacritics } from "./helpers/transliterate/replaceDiacritics";
-import { transliterate } from "./helpers/transliterate/transliterate";
+import replaceDiacritics from "./helpers/transliterate/replaceDiacritics";
+import transliterate from "./helpers/transliterate/transliterate";
 import createRegexFromArray from "./helpers/regex/createRegexFromArray";
 import ArabicResearcher from "./languages/ar/Researcher";
 import CatalanResearcher from "./languages/ca/Researcher";
