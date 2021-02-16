@@ -5,6 +5,7 @@ import * as helpers from "./src/helpers/_todo";
 import * as markers from "./src/markers";
 import * as interpreters from "./src/scoring/interpreters";
 import * as config from "./src/config";
+import * as languageProcessing from "./src/languageProcessing";
 
 import App from "./src/app";
 import Assessor from "./src/scoring/assessor";
@@ -43,6 +44,7 @@ export {
 	helpers,
 	markers,
 	interpreters,
+	languageProcessing
 };
 
 /*
@@ -70,4 +72,5 @@ export default {
 	helpers,
 	markers,
 	interpreters,
+	languageProcessing
 };
