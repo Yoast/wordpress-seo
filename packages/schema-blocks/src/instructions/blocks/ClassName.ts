@@ -4,7 +4,7 @@ import { RenderEditProps } from "../../core/blocks/BlockDefinition";
 /**
  * ClassName instruction.
  */
-class ClassName extends BlockInstruction {
+export default class ClassName extends BlockInstruction {
 	/**
 	 * Renders the class name.
 	 *
