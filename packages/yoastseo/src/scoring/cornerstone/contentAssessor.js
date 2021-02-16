@@ -1,14 +1,13 @@
 import Assessor from "../assessor.js";
 import ContentAssessor from "../contentAssessor";
-import FleschReadingEase from "../assessments/readability/fleschReadingEaseAssessment.js";
+import fleschReadingEase from "../assessments/readability/fleschReadingEaseAssessment.js";
 import paragraphTooLong from "../assessments/readability/paragraphTooLongAssessment.js";
-import SentenceLengthInText from "../assessments/readability/sentenceLengthInTextAssessment.js";
+import sentenceLengthInText from "../assessments/readability/sentenceLengthInTextAssessment.js";
 import SubheadingDistributionTooLong from "../assessments/readability/subheadingDistributionTooLongAssessment.js";
 import transitionWords from "../assessments/readability/transitionWordsAssessment.js";
 import passiveVoice from "../assessments/readability/passiveVoiceAssessment.js";
 import sentenceBeginnings from "../assessments/readability/sentenceBeginningsAssessment.js";
 import textPresence from "../assessments/readability/textPresenceAssessment.js";
-import contentConfiguration from "../../config/_todo/content/combinedConfig.js";
 
 /*
  Temporarily disabled:
@@ -24,17 +23,17 @@ import contentConfiguration from "../../config/_todo/content/combinedConfig.js";
  * @param {Object} options The options for this assessor.
  * @param {Object} options.marker The marker to pass the list of marks to.
  * @param {string} options.locale The locale.
+ * @param {Researcher} options.researcher The Researcher to use
  *
  * @constructor
  */
 const CornerStoneContentAssessor = function( i18n, options = {} ) {
 	Assessor.call( this, i18n, options );
 	this.type = "CornerstoneContentAssessor";
-	const locale = ( options.hasOwnProperty( "locale" ) ) ? options.locale : "en_US";
 
 	this._assessments = [
 
-		new FleschReadingEase( contentConfiguration( locale ).fleschReading ),
+		fleschReadingEase,
 		new SubheadingDistributionTooLong( {
 			parameters:	{
 				slightlyTooMany: 250,
@@ -43,9 +42,9 @@ const CornerStoneContentAssessor = function( i18n, options = {} ) {
 			},
 		} ),
 		paragraphTooLong,
-		new SentenceLengthInText(
+		sentenceLengthInText(
 			{
-				recommendedWordCount: contentConfiguration( locale ).sentenceLength.recommendedWordCount,
+				recommendedWordCount: options.researcher.getConfig( "sentenceLength" ).recommendedWordCount,
 				slightlyTooMany: 20,
 				farTooMany: 25,
 			}
