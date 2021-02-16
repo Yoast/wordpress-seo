@@ -8,54 +8,53 @@
  * @returns null
  */
 const myArgs= process.argv
-var keyToSend= ""
+var keyToSend = ""
 if (myArgs.length < 4) {
 	console.log("misiging arguments: <repository name>  <version>" )
 	return
-
-}
+};
 
 const version = myArgs[3];
 
 switch (myArgs[2]) {
 	case 'wordpress-seo':
-		keyToSend= "A\r\n"
+		keyToSend = "A\r\n";
 		break;
 	case 'wordpress-seo-premium':
-		keyToSend= "B\r\n"
+		keyToSend = "B\r\n";
 		break;
 	case 'wpseo-news':
-		keyToSend= "C\r\n"
+		keyToSend = "C\r\n";
 		break;
 	case 'wpseo-video':
-		keyToSend= "D\r\n"
+		keyToSend = "D\r\n";
 		break;
 	case 'wpseo-news':
-		keyToSend= "E\r\n"
+		keyToSend = "E\r\n";
 		break;
 	case 'wordpress-seo-local':
-		keyToSend= "F\r\n"
+		keyToSend = "F\r\n";
 		break;
 	case 'yoast-acf-analysis':
-		keyToSend= "G\r\n"
+		keyToSend = "G\r\n";
 		break;
 	case 'yoastseo-amp':
-		keyToSend= "H\r\n"
+		keyToSend = "H\r\n";
 		break;
 	case 'javascript':
-		keyToSend= "I\r\n"
+		keyToSend = "I\r\n";
 		break;
 	case 'YoastSEO.js-premium-configuration':
-		keyToSend= "J\r\n"
+		keyToSend = "J\r\n";
 		break;
 	case 'yoast-test-helper':
-		keyToSend= "K\r\n"
+		keyToSend = "K\r\n";
 		break;
 	case 'duplicate-post':
-		keyToSend= "L\r\n"
+		keyToSend = "L\r\n";
 		break;
 	default:
-		console.log('Sorry, that is not something I know how to do.');
+		console.log('Sorry, ' + myArgs[2] + ' is not something I know how to select from yoast-cli changelog:create.');
 		return
 }
 
