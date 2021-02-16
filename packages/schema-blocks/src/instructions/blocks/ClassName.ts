@@ -15,6 +15,17 @@ class ClassName extends BlockInstruction {
 	edit( props: RenderEditProps ): string {
 		return props.className;
 	}
+
+	/**
+	 * Always add the "yoast-inner-container" class
+	 * on the frontend, so the Twenty Twenty One
+	 * theme works correctly.
+	 *
+	 * @returns "yoast-inner-container"
+	 */
+	save(): "yoast-inner-container" {
+		return "yoast-inner-container";
+	}
 }
 
 BlockInstruction.register( "class-name", ClassName );
