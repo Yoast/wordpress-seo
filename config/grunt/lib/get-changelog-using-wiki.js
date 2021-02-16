@@ -56,7 +56,7 @@ switch (myArgs[2]) {
 	default:
 		console.log('Sorry, ' + myArgs[2] + ' is not something I know how to select from yoast-cli changelog:create.');
 		return
-}
+};
 
 console.log (keyToSend);
 const { spawn } = require('child_process');
@@ -65,39 +65,43 @@ const yoastcli = spawn('/tmp/Wiki/yoast-cli/yoast-cli.php', ['changelog:create']
 const timeout = setTimeout(function(){ yoastcli.kill()}, 30000);
 
 yoastcli.stdout.on('data', (data) => {
-  //console.log(`stdout: ${data}`);
-  var menuitems = `${data}`
+	//console.log(`stdout: ${data}`);
+	var menuitems = `${data}`;
 	console.log(menuitems)
+	//wait for the last line from the menu
 	if (menuitems.match("Yoast Duplicate Post")){
    		yoastcli.stdin.setEncoding = 'utf-8';
-  		yoastcli.stdin.write( keyToSend )
-	}
+  		yoastcli.stdin.write( keyToSend );
+	};
+	//parse the menu itmes to compose right response
 	if (menuitems.match(version)){
-		const value = menuitems.match(new RegExp( "(?<=\\[)(\\d)+(?=\\] " + version + ")", "gm" ) )
+		const value = menuitems.match(new RegExp( "(?<=\\[)(\\d)+(?=\\] " + version + ")", "gm" ));
 		if (value) {
-			console.log( value[0])
+			console.log( value[0]);
 			yoastcli.stdin.setEncoding = 'utf-8';
-	    	yoastcli.stdin.write( value[0] + '\r\n' )
-		}
- 	}
+	    	yoastcli.stdin.write( value[0] + '\r\n' );
+		};
+ 	};
 });
 
 yoastcli.stderr.on('data', (data) => {
-  //console.error(`stderr: ${data}`);
-  var menuitems = `${data}`
-	console.log(menuitems)
+	//console.error(`stderr: ${data}`);
+	var menuitems = `${data}`;
+	console.log(menuitems);
+	//wait for the last line from the menu
 	if (menuitems.match("Yoast Duplicate Post")){
    		yoastcli.stdin.setEncoding = 'utf-8';
-  		yoastcli.stdin.write( keyToSend )
-	}
+  		yoastcli.stdin.write( keyToSend );
+	};
+	//parse the menu itmes to compose right response
 	if (menuitems.match(version)){
-		const value = menuitems.match(new RegExp( "(?<=\\[)(\\d)+(?=\\] " + version + ")", "gm" ) )
+		const value = menuitems.match(new RegExp( "(?<=\\[)(\\d)+(?=\\] " + version + ")", "gm" ));
 		if (value) {
-			console.log( value[0])
+			console.log( value[0]);
 			yoastcli.stdin.setEncoding = 'utf-8';
-	    	yoastcli.stdin.write( value[0] + '\r\n' )
-		}
- 	}
+	    	yoastcli.stdin.write( value[0] + '\r\n' );
+		};
+ 	};
 });
 
 yoastcli.on('close', (code) => {
