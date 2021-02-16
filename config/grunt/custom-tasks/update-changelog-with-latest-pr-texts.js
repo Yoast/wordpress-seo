@@ -189,6 +189,9 @@ module.exports = function( grunt ) {
 		"update-changelog-with-latest-pr-texts",
 		"Prompts the user for the changelog entries and updates the readme.txt",
 		function() {
+			let options = this.options( {
+				useEditDistanceComapair: false,
+			} );
 			const done = this.async();
 
 			const newVersion = grunt.option( "plugin-version" );
