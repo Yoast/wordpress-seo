@@ -262,7 +262,7 @@ module.exports = function( grunt ) {
 				
 				// create uniyoe linses using class ChangelogBuilder
 				changelogBuilder.parseChancelogLines(currentChangelogEntries)
-				changelogBuilder.parseYoastCliGeneratedChangelog( grunt.file.read( "./.tmp/change_in_log.md" ) );
+				changelogBuilder.parseYoastCliGeneratedChangelog( grunt.file.read( "./.tmp/" + grunt.config.data.pluginSlug + "-" + newVersion+ ".md" ) );
 				//console.log(changelogBuilder.Changelog)
 				
 				// pul all parts togethor agian
@@ -274,7 +274,7 @@ module.exports = function( grunt ) {
 				done();
 			
 			} else {
-				changelogBuilder.parseYoastCliGeneratedChangelog( grunt.file.read( "./.tmp/change_in_log.md" ) );
+				changelogBuilder.parseYoastCliGeneratedChangelog( grunt.file.read( "./.tmp/" + grunt.config.data.pluginSlug + "-" + newVersion+ ".md" ) );
 				// If the current version is not in the changelog, build a new one from input file.
 				let changelogVersionNumber = versionNumber.major + "." + versionNumber.minor;
 

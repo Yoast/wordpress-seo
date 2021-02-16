@@ -60,7 +60,7 @@ switch (myArgs[2]) {
 console.log (keyToSend);
 const { spawn } = require('child_process');
 const { exit } = require('process');
-const ls = spawn('/tmp/test/Wiki/yoast-cli/yoast-cli.php', ['changelog:create'], {cwd:"/tmp/test/Wiki/yoast-cli/"});
+const ls = spawn('/tmp/Wiki/yoast-cli/yoast-cli.php', ['changelog:create'], {cwd:"/tmp/Wiki/yoast-cli/"});
 
 ls.stdout.on('data', (data) => {
   //console.log(`stdout: ${data}`);
