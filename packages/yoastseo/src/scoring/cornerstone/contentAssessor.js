@@ -42,13 +42,7 @@ const CornerStoneContentAssessor = function( i18n, options = {} ) {
 			},
 		} ),
 		paragraphTooLong,
-		sentenceLengthInText(
-			{
-				recommendedWordCount: options.researcher.getConfig( "sentenceLength" ).recommendedWordCount,
-				slightlyTooMany: 20,
-				farTooMany: 25,
-			}
-		),
+		sentenceLengthInText,
 		transitionWords,
 		passiveVoice,
 		textPresence,
