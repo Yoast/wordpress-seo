@@ -1,13 +1,33 @@
+/**
+ * escapes a string so it can be use as a regual expression.
+ *
+ * @param {Object} string The response object.
+ * 
+ * @returns {Object} string 
+ */
 function escapeRegExp(string) {
 	return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
-  }
+}
 
 
-
+/*********************
+ * class for building a changelog entry
+ * 
+ * @method parseChancelogLines 
+ * @param {Object} multiline string
+ * 
+ * @method parseYoastCliGeneratedChangelog 
+ * @param {Object} multiline string
+ * 
+ * @get cleanChangelog
+ * 
+ * 
+ */
 class ChangelogBuilder {
-	constructor(grunt , changelogIn) {
+	constructor(grunt , changelogIn, useEditDistanceComapair = false) {
 		this.ChangelogMap = new Map();
-		this.grunt = grunt
+		this.grunt = grunt;
+		this.useEditDistanceComapair = useEditDistanceComapair;
 		if (changelogIn) {
 			this.parseChancelogLines(changelogIn);
 		};
@@ -23,7 +43,9 @@ class ChangelogBuilder {
 			uniqueLines.append(lines);
 			this.ChangelogMap.set(key, uniqueLines);
 		};
-		this.ChangelogMap.get(key).test();
+		if (this.useEditDistanceComapair) {
+			this.ChangelogMap.get(key).test();
+		}
 	};
 	
 
@@ -163,7 +185,7 @@ const _isEmpty = require( "lodash/isEmpty" );
  * @returns {void}
  */
 module.exports = function( grunt ) {
-	grunt.registerTask(
+	grunt.registerMultiTask(
 		"update-changelog-with-latest-pr-texts",
 		"Prompts the user for the changelog entries and updates the readme.txt",
 		function() {
@@ -236,7 +258,7 @@ module.exports = function( grunt ) {
 				}
 			}
 
-			const changelogBuilder = new ChangelogBuilder(grunt);
+			const changelogBuilder = new ChangelogBuilder(grunt, null , options.useEditDistanceComapair);
 			// changelogBuilder.parseYoastCliGeneratedChangelog( grunt.file.read( "./.tmp/change_in_log.md" ) );
 
 			// If the current version is already in the changelog, retrieve the full readme and let the user edit it.
