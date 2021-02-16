@@ -236,9 +236,10 @@ class WPSEO_Admin_Asset_Manager {
 
 		$language_scripts = array_map(
 			function( $language ) {
+				$flat_version = $this->flatten_version( WPSEO_VERSION );
 				return [
 					'name' => 'language-' . $language,
-					'src'  => 'languages/' . $language,
+					'src'  => 'languages/' . $language . '-' . $flat_version,
 				];
 			},
 			Researcher_Languages::SUPPORTED_LANGUAGES
