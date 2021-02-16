@@ -1,8 +1,10 @@
 /**
- * A note script which extracts the changelog for the specified verion
- * this uses the Wiki yoast-cli php script. and expect that to be /tmp/test/Wiki
+ * A note script which extracts the changelog for the specified verion and repository
+ * this uses the Wiki yoast-cli php script. and expect that to be /tmp/Wiki
  *
- * @param {reposorotyname verion} 
+ * @param {Object} repositoryanme  object.
+ * @param {Object} verion     object.
+ * 
  * @returns null
  */
 const myArgs= process.argv
@@ -60,44 +62,46 @@ switch (myArgs[2]) {
 console.log (keyToSend);
 const { spawn } = require('child_process');
 const { exit } = require('process');
-const ls = spawn('/tmp/Wiki/yoast-cli/yoast-cli.php', ['changelog:create'], {cwd:"/tmp/Wiki/yoast-cli/"});
+const yoastcli = spawn('/tmp/Wiki/yoast-cli/yoast-cli.php', ['changelog:create'], {cwd:"/tmp/Wiki/yoast-cli/"});
+const timeout = setTimeout(function(){ yoastcli.kill()}, 30000);
 
-ls.stdout.on('data', (data) => {
+yoastcli.stdout.on('data', (data) => {
   //console.log(`stdout: ${data}`);
   var menuitems = `${data}`
 	console.log(menuitems)
 	if (menuitems.match("Yoast Duplicate Post")){
-   		ls.stdin.setEncoding = 'utf-8';
-  		ls.stdin.write( keyToSend )
+   		yoastcli.stdin.setEncoding = 'utf-8';
+  		yoastcli.stdin.write( keyToSend )
 	}
 	if (menuitems.match(version)){
 		const value = menuitems.match(new RegExp( "(?<=\\[)(\\d)+(?=\\] " + version + ")", "gm" ) )
 		if (value) {
 			console.log( value[0])
-			ls.stdin.setEncoding = 'utf-8';
-	    	ls.stdin.write( value[0] + '\r\n' )
+			yoastcli.stdin.setEncoding = 'utf-8';
+	    	yoastcli.stdin.write( value[0] + '\r\n' )
 		}
  	}
 });
 
-ls.stderr.on('data', (data) => {
+yoastcli.stderr.on('data', (data) => {
   //console.error(`stderr: ${data}`);
   var menuitems = `${data}`
 	console.log(menuitems)
 	if (menuitems.match("Yoast Duplicate Post")){
-   		ls.stdin.setEncoding = 'utf-8';
-  		ls.stdin.write( keyToSend )
+   		yoastcli.stdin.setEncoding = 'utf-8';
+  		yoastcli.stdin.write( keyToSend )
 	}
 	if (menuitems.match(version)){
 		const value = menuitems.match(new RegExp( "(?<=\\[)(\\d)+(?=\\] " + version + ")", "gm" ) )
 		if (value) {
 			console.log( value[0])
-			ls.stdin.setEncoding = 'utf-8';
-	    	ls.stdin.write( value[0] + '\r\n' )
+			yoastcli.stdin.setEncoding = 'utf-8';
+	    	yoastcli.stdin.write( value[0] + '\r\n' )
 		}
  	}
 });
 
-ls.on('close', (code) => {
+yoastcli.on('close', (code) => {
   console.log(`child process exited with code ${code}`);
+  clearTimeout(timeout);
 });
