@@ -3,12 +3,10 @@ import { RenderSaveProps, RenderEditProps } from "./BlockDefinition";
 import { ReactElement } from "@wordpress/element";
 import { BlockConfiguration, BlockInstance } from "@wordpress/blocks";
 import { BlockValidationResult, BlockValidation } from "../validation";
-import Instruction, { InstructionOptions } from "../Instruction";
+import Instruction from "../Instruction";
 import { attributeExists, attributeNotEmpty } from "../../functions/validators";
 import validateMany from "../../functions/validators/validateMany";
 import logger from "../../functions/logger";
-
-export type BlockInstructionClass = { new( id: number, options: InstructionOptions ): BlockInstruction };
 
 /**
  * BlockInstruction class.
