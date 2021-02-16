@@ -24,12 +24,13 @@ class ChangelogBuilder {
 			this.ChangelogMap.set(key, uniqueLines);
 		};
 		this.ChangelogMap.get(key).test();
-	}
+	};
+	
 
 	parseChancelogLines(changelogIn){
 		const parts = changelogIn.match(new RegExp( "\n[ a-zA-Z]+:(.|\\n)*?(?=(\n[ a-zA-Z]+:|\$))", "g" ));
 		parts.forEach(this.#addLinesPerHeader.bind(this));
-	}
+	};
 	
 	parseYoastCliGeneratedChangelog(changelogIn){
 		//strip header from new file.
@@ -44,7 +45,7 @@ class ChangelogBuilder {
 
 
 		this.parseChancelogLines(changelogIn)
-	}
+	};
 
 
 	get cleanChangelog(){
