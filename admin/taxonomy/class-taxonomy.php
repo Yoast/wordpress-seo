@@ -88,10 +88,7 @@ class WPSEO_Taxonomy {
 	 * @return void
 	 */
 	private function show_internet_explorer_notice() {
-		$product_title = 'Yoast SEO';
-		if ( file_exists( WPSEO_PATH . 'premium/' ) ) {
-			$product_title .= ' Premium';
-		}
+		$product_title = YoastSEO()->helpers->product->get_product_name();
 
 		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: $product_title is hardcoded.
 		printf( '<div id="wpseo_meta" class="postbox yoast wpseo-taxonomy-metabox-postbox"><h2><span>%1$s</span></h2>', $product_title );
