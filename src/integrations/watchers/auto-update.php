@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\WP\SEO\Integrations;
+namespace Yoast\WP\SEO\Integrations\Watchers;
 
 use Yoast\WP\SEO\Conditionals\No_Conditionals;
 use Yoast\WP\SEO\Helpers\Notification_Helper;
@@ -123,11 +123,11 @@ class Auto_Update implements Integration_Interface {
 	 * @return bool Whether the notification should be shown.
 	 */
 	protected function should_show_notification() {
-		$core_updates_enabled   = \get_option( 'auto_update_core_major' ) === "enabled";
+		$core_updates_enabled   = \get_option( 'auto_update_core_major' ) === 'enabled';
 		$plugins_to_auto_update = \get_option( 'auto_update_plugins' );
 
 		if ( $plugins_to_auto_update ) {
-			$yoast_updates_enabled = \in_array( "wordpress-seo/wp-seo.php", \get_option( 'auto_update_plugins' ), true );
+			$yoast_updates_enabled = \in_array( 'wordpress-seo/wp-seo.php', \get_option( 'auto_update_plugins' ), true );
 
 			return $core_updates_enabled && ! $yoast_updates_enabled;
 		}
