@@ -1,12 +1,10 @@
 import { filter, map } from "lodash-es";
-
-import { inRangeEndInclusive as inRange } from "../../helpers/assessments/inRange";
+import { stripBlockTagsAtStartEnd as stripHTMLTags } from "../../../languageProcessing/helpers/sanitize/stripHTMLTags";
 import marker from "../../../markers/addMark";
 import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
-import { stripBlockTagsAtStartEnd as stripHTMLTags } from "../../../../../helpers/src/strings/stripHTMLTags";
+import { inRangeEndInclusive as inRange } from "../../helpers/assessments/inRange";
 import AssessmentResult from "../../../values/AssessmentResult";
 import Mark from "../../../values/Mark";
-
 // 150 is the recommendedValue for the maximum paragraph length.
 const recommendedValue = 150;
 

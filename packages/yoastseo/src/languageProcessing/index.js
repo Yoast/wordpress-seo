@@ -1,3 +1,5 @@
+import { replaceDiacritics, transliterate } from "./helpers";
+import createRegexFromArray from "./helpers/regex/createRegexFromArray";
 import ArabicResearcher from "./languages/ar/Researcher";
 import CatalanResearcher from "./languages/ca/Researcher";
 import GermanResearcher from "./languages/de/Researcher";
@@ -38,4 +40,8 @@ export {
 	SwedishResearcher,
 	TurkishResearcher,
 	DefaultResearcher,
+
+	transliterate,
+	replaceDiacritics,
+	createRegexFromArray,
 };
