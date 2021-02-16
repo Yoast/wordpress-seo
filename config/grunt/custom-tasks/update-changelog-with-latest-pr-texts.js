@@ -37,13 +37,10 @@ class ChangelogBuilder {
 		changelogIn = changelogIn.replace( new RegExp( "# Yoast/wordpress-seo:(.|\\n)*?(?=\n[ a-zA-Z]+:)" ),
 		""
 		);
-	
 		// remove [#16525](https://github.com/Yoast/wordpress-seo/pull/16525) from lines
 		changelogIn = changelogIn.replace( new RegExp( "\\W\\[#\\d+\\]\\(https://github.com/Yoast/.+?/pull/\\d+\\)" , "gm" ),
 		""
 		);
-
-
 		this.parseChancelogLines(changelogIn)
 	};
 
