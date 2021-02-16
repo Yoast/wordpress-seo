@@ -48,7 +48,7 @@ class IntroductionKeywordAssessment extends Assessment {
 	getResult( paper, researcher, i18n ) {
 		const assessmentResult = new AssessmentResult();
 
-		this._firstParagraphMatches = researcher.getResearch( "firstParagraph" );
+		this._firstParagraphMatches = researcher.getResearch( "findKeywordInFirstParagraph" );
 		const calculatedResult = this.calculateResult( i18n );
 
 		assessmentResult.setScore( calculatedResult.score );
