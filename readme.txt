@@ -235,7 +235,7 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 == Changelog ==
 
 = 15.9 =
-Release Date: February 23rd 2021
+Release Date: February 23rd, 2021
 
 Enhancements:
 
@@ -249,6 +249,8 @@ Bugfixes:
 
 * Fixes a bug where the disabled style of the switch toggles didn't look right.
 * Fixes a bug with the HelpScout integration not being overwritten properly by Premium / Add-ons and thus not showing.
+* Fixes a bug where integrations toggles wouldn't display following content.
+* Fixes a bug where, for users of Yoast SEO Premium, the plugin name was still shown as `Yoast SEO` in the taxonomy metabox in Internet Explorer.
 
 = 15.8 =
 Release Date: February 10th, 2021

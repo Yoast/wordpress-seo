@@ -335,13 +335,18 @@ class Indexable_Hierarchy_Builder {
 	/**
 	 * Checks if an ancestor is valid to add.
 	 *
-	 * @param Indexable $ancestor     The ancestor to check.
+	 * @param Indexable $ancestor     The ancestor (presumed indexable) to check.
 	 * @param int       $indexable_id The indexable id we're adding ancestors for.
 	 * @param int[]     $parents      The indexable ids of the parents already added.
 	 *
 	 * @return boolean
 	 */
-	private function is_invalid_ancestor( Indexable $ancestor, $indexable_id, $parents ) {
+	private function is_invalid_ancestor( $ancestor, $indexable_id, $parents ) {
+		// If the ancestor is not an Indexable, it is invalid by default.
+		if ( ! \is_a( $ancestor, 'Yoast\WP\SEO\Models\Indexable' ) ) {
+			return true;
+		}
+
 		// Don't add ancestors if they're unindexed, already added or the same as the main object.
 		if ( $ancestor->post_status === 'unindexed' ) {
 			return true;
