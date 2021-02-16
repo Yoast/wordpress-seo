@@ -1,6 +1,5 @@
 import { createElement, Fragment, ReactElement } from "@wordpress/element";
-import BlockInstruction from "../../core/blocks/BlockInstruction";
-import { BlockInstructionClass } from "../../core/blocks/BlockInstructionClass";
+import BlockInstruction, { BlockInstructionClass } from "../../core/blocks/BlockInstruction";
 import { RenderSaveProps, RenderEditProps } from "../../core/blocks/BlockDefinition";
 import { BlockEditProps, BlockConfiguration } from "@wordpress/blocks";
 import SidebarBase, { SidebarBaseOptions } from "./abstract/SidebarBase";
@@ -9,19 +8,20 @@ import { getBlockByClientId } from "../../functions/BlockHelper";
 import { InnerBlocksInstructionOptions } from "./InnerBlocksInstructionOptions";
 import Instruction from "../../core/Instruction";
 import { innerBlocksSidebar } from "../../functions/presenters/InnerBlocksSidebarPresenter";
+import logger from "../../functions/logger";
 
 /**
  * Sidebar input instruction.
  */
 class InheritSidebar extends SidebarBase {
 	public options: SidebarBaseOptions & {
-		fromParents: string[];
+		parents: string[];
 	};
 
 
 	/* eslint-disable @typescript-eslint/no-unused-vars */
 	/**
-	 * Renders the sidebar for any parent blocks defined in the fromParents attribute, or the immediate parent's sidebar if no parents are specified.
+	 * Renders the sidebar for any parent blocks defined in the parents attribute, or the immediate parent's sidebar if no parents are specified.
 	 *
 	 * @param props The render props.
 	 * @param i     The number sidebar element this is.
@@ -30,8 +30,8 @@ class InheritSidebar extends SidebarBase {
 	 */
 	sidebar( props: BlockEditProps<Record<string, unknown>>, i: number ): ReactElement {
 		let parentIds: string[] = [];
-		if ( this.options.fromParents ) {
-			parentIds = getParentIdOfType( props.clientId, this.options.fromParents );
+		if ( this.options.parents ) {
+			parentIds = getParentIdOfType( props.clientId, this.options.parents );
 		} else {
 			const parentId = getParentId( props.clientId );
 			if ( parentId ) {
@@ -45,6 +45,7 @@ class InheritSidebar extends SidebarBase {
 				const parentBlock = getBlockByClientId( parentId );
 				const parentBlockInstruction: BlockInstructionClass = Instruction.registeredInstructions[ parentBlock.name ] as BlockInstructionClass;
 				if ( parentBlockInstruction ) {
+					logger.debug( "inherting sidebar from " + parentBlockInstruction.name );
 					elements.push( ...innerBlocksSidebar( parentBlock, parentBlockInstruction.options as InnerBlocksInstructionOptions ) );
 				}
 			} );
