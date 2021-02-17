@@ -1,7 +1,5 @@
 import WordCombination from "../../src/values/WordCombination";
-import functionWordsFactory from "../../src/languages/legacy/researches/english/functionWords.js";
-
-var functionWords = functionWordsFactory().all;
+import { all as functionWords } from "../../src/languageProcessing/languages/en/config/functionWords.js";
 
 describe( "WordCombination", function() {
 	describe( "getCombination", function() {

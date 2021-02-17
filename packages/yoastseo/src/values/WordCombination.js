@@ -5,7 +5,7 @@ import { has } from "lodash-es";
  * Returns whether or not the given word is a function word.
  *
  * @param {string} word The word to check.
- * @param {Function} functionWords The function containing the lists of function words.
+ * @param {array} functionWords The function containing the lists of function words.
  * @returns {boolean} Whether or not the word is a function word.
  */
 function isFunctionWord( word, functionWords ) {
@@ -19,7 +19,7 @@ function isFunctionWord( word, functionWords ) {
  *
  * @param {string[]} words The list of words that this combination consists of.
  * @param {number} [occurrences] The number of occurrences, defaults to 0.
- * @param {Function} functionWords The function containing the lists of function words.
+ * @param {array} functionWords The function containing the lists of function words.
  */
 function WordCombination( words, occurrences, functionWords ) {
 	this._words = words;

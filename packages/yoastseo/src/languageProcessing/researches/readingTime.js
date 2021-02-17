@@ -1,4 +1,4 @@
-import getLanguage from "../helpers/getLanguage";
+import getLanguage from "../../languageProcessing/helpers/language/getLanguage";
 import wordCountInText from "./wordCountInText.js";
 import imageCount from "./imageCount.js";
 
