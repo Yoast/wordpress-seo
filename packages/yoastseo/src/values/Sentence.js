@@ -1,5 +1,5 @@
 /**
- * Construct the Sentence object and set the sentence text and locale.
+ * Construct the Sentence object and set the sentence text.
  *
  * @param {string} sentence The text of the sentence.
  * @constructor

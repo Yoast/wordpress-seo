@@ -1,3 +1,4 @@
+import DefaultResearcher from "../src/languageProcessing/languages/_default/Researcher";
 import Assessor from "../src/scoring/assessor.js";
 import Paper from "../src/values/Paper.js";
 import AssessmentResult from "../src/values/AssessmentResult.js";
@@ -86,6 +87,7 @@ describe( "an assessor object", function() {
 				 * @returns {void}
 				 */
 				marker: function() {},
+				researcher: new DefaultResearcher(),
 			} );
 			var assessment = {
 				/**
