@@ -29,6 +29,7 @@ module.exports = function( grunt ) {
 				"languages/<%= pkg.plugin.textdomain %>-temp.pot",
 				"<%= files.pot.yoastseojs %>",
 				"<%= files.pot.yoastComponents %>",
+				"<%= files.pot.yoastSchemaBocks %>",
 			],
 			toFile: "languages/<%= pkg.plugin.textdomain %>.pot",
 			command: function() {
@@ -84,6 +85,9 @@ module.exports = function( grunt ) {
 		},
 		"makepot-yoast-js-search-metadata-previews": {
 			command: "yarn i18n-yoast-js-search-metadata-previews",
+		},
+		"makepot-yoast-js-schema-blocks": {
+			command: "yarn i18n-yoast-js-schema-blocks",
 		},
 
 		"makepot-yoast-components-configuration-wizard": {
