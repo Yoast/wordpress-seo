@@ -14,7 +14,7 @@ import catalanConfig from "../../../../src/languageProcessing/languages/ca/confi
 import turkishConfig from "../../../../src/languageProcessing/languages/tr/config/sentenceLength";
 
 describe( "An assessment for sentence length", function() {
-	/*it( "returns the score for all short sentences using the default config", function() {
+	it( "returns the score for all short sentences using the default config", function() {
 		const mockPaper = new Paper();
 		const assessment = new SentenceLengthInTextAssessment().getResult( mockPaper, Factory.buildMockResearcher( [
 			{ sentence: "", sentenceLength: 1 },
@@ -94,7 +94,7 @@ describe( "An assessment for sentence length", function() {
 			"30% of the sentences contain more than 20 words, which is more than the recommended maximum of 25%." +
 			" <a href='https://yoa.st/34w' target='_blank'>Try to shorten the sentences</a>." );
 		expect( assessment.hasMarks() ).toBe( true );
-	} );*/
+	} );
 
 	it( "returns the score for 100% long sentences in Russian", function() {
 		const mockPaper = new Paper();
@@ -117,7 +117,6 @@ describe( "An assessment for sentence length", function() {
 			} ),
 		] );
 	} );
-/*
 	it( "returns the score for 100% long sentences in Italian", function() {
 		const mockPaper = new Paper();
 		const assessment = new SentenceLengthInTextAssessment().getResult( mockPaper, Factory.buildMockResearcher( [
@@ -405,10 +404,10 @@ describe( "An assessment for sentence length", function() {
 		const mockPaper = new Paper();
 		const assessment = new SentenceLengthInTextAssessment().isApplicable( mockPaper );
 		expect( assessment ).toBe( false );
-	} );*/
+	} );
 } );
 
-/*describe( "A test for marking too long sentences", function() {
+describe( "A test for marking too long sentences", function() {
 	it( "returns markers for too long sentences", function() {
 		const paper = new Paper( "This is a too long sentence, because it has over twenty words, and that is hard too read, don't you think?" );
 		const sentenceLengthInText = Factory.buildMockResearcher( [ { sentence: "This is a too long sentence, because it has over twenty" +
@@ -433,4 +432,4 @@ describe( "A test for marking too long sentences", function() {
 	it( "calculatePercentage returns nothing if there are no sentences", function() {
 		expect( new SentenceLengthInTextAssessment().calculatePercentage( [], 20 ) ).toEqual( 0 );
 	} );
-} );*/
+} );
