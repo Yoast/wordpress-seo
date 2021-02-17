@@ -329,9 +329,6 @@ function wpseo_init() {
 	// Loading Ryte integration.
 	$wpseo_ryte = new WPSEO_Ryte();
 	$wpseo_ryte->register_hooks();
-
-	// Initializes the Yoast indexables for the first time.
-	YoastSEO();
 }
 
 /**
@@ -457,6 +454,13 @@ if ( ! wp_installing() && ( $spl_autoload_exists && $filter_exists ) ) {
 	}
 
 	add_action( 'init', [ 'WPSEO_Replace_Vars', 'setup_statics_once' ] );
+
+	// Initializes the Yoast indexables for the first time.
+	YoastSEO();
+	/**
+	 * Action called when the Yoast SEO plugin file has loaded.
+	 */
+	do_action( 'wpseo_loaded' );
 }
 
 // Activation and deactivation hook.
