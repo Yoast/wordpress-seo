@@ -1,4 +1,5 @@
 import EnglishResearcher from "../src/languageProcessing/languages/en/Researcher";
+import DefaultResearcher from "../src/languageProcessing/languages/_default/Researcher";
 import ContentAssessor from "../src/scoring/contentAssessor.js";
 import AssessmentResult from "../src/values/AssessmentResult.js";
 import Factory from "./specHelpers/factory.js";
@@ -15,7 +16,6 @@ describe( "A content assesor", function() {
 		var paper = new Paper();
 		beforeEach( function() {
 			contentAssessor = new ContentAssessor( i18n, { locale: "en_US", researcher: new EnglishResearcher( paper ) } );
-			console.log( contentAssessor._researcher );
 			contentAssessor.getValidResults = function() {
 				return results;
 			};
@@ -190,21 +190,25 @@ describe( "A content assesor", function() {
 	} );
 
 	describe( "Checks the applicable assessments", function() {
-		const paper = new Paper( "" );
-		var contentAssessor = new ContentAssessor( i18n, { researcher: new EnglishResearcher( paper ) } );
+
 		it( "Should have 8 available assessments for a fully supported language", function() {
+			const paper = new Paper( "test", { locale: "en_US" } );
+			const contentAssessor = new ContentAssessor( i18n, { researcher: new EnglishResearcher( paper ) } );
+
 			contentAssessor.getPaper = function() {
-				return new Paper( "test", { locale: "en_EN" } );
+				return paper;
 			};
-			console.log( contentAssessor );
 			var actual = contentAssessor.getApplicableAssessments().length;
 			var expected = 8;
 			expect( actual ).toBe( expected );
 		} );
 
 		it( "Should have 4 available assessments for a basic supported language", function() {
+			const paper = new Paper( "test", { locale: "xx_XX" } );
+			const contentAssessor = new ContentAssessor( i18n, { researcher: new DefaultResearcher( paper ) } );
+
 			contentAssessor.getPaper = function() {
-				return new Paper( "test", { locale: "xx_XX" } );
+				return paper;
 			};
 
 			var actual = contentAssessor.getApplicableAssessments().length;
