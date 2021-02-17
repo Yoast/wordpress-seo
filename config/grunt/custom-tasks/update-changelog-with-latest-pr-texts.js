@@ -45,7 +45,7 @@ class ChangelogBuilder {
 		};
 		if (this.useEditDistanceComapair) {
 			this.ChangelogMap.get(key).test();
-		}
+		};
 	};
 	
 
@@ -118,18 +118,18 @@ class Unique {
 					this.grunt.verbose.writeln (`${i}: ${this.items[i]}`)
 					this.grunt.verbose.writeln (`${this.#similarity(this.items[i], this.items[j])}`)
 					this.grunt.verbose.writeln ("---------------")
-				}
-			}
-		}
+				};
+			};
+		};
 		//sort as we are removing index wize the biggest need to go first
 		this.grunt.verbose.writeln(toBeRemoved)
 		toBeRemoved.sort(function(a, b){return b-a});
 		for (var i = 0; i<toBeRemoved.length; i++) {
 			this.items.splice(toBeRemoved[i],1);
 			this.grunt.verbose.writeln(toBeRemoved[i]);
-		}
+		};
 		
-	}
+	};
 
 	#similarity(s1, s2) {
 		var longer = s1;
@@ -137,13 +137,13 @@ class Unique {
 		if (s1.length < s2.length) {
 		  longer = s2;
 		  shorter = s1;
-		}
+		};
 		var longerLength = longer.length;
 		if (longerLength == 0) {
 		  return 1.0;
-		}
+		};
 		return (longerLength - this.#editDistance(longer, shorter)) / parseFloat(longerLength);
-	  }
+	  };
 	
 	  #editDistance(s1, s2) {
 		s1 = s1.toLowerCase();
@@ -153,9 +153,9 @@ class Unique {
 		for (var i = 0; i <= s1.length; i++) {
 		  var lastValue = i;
 		  for (var j = 0; j <= s2.length; j++) {
-			if (i == 0)
+			if (i == 0) {
 			  costs[j] = j;
-			else {
+			} else {
 			  if (j > 0) {
 				var newValue = costs[j - 1];
 				if (s1.charAt(i - 1) != s2.charAt(j - 1))
@@ -163,14 +163,15 @@ class Unique {
 					costs[j]) + 1;
 				costs[j - 1] = lastValue;
 				lastValue = newValue;
-			  }
-			}
-		  }
-		  if (i > 0)
+			  };
+			};
+		  };
+		  if (i > 0) {
 			costs[s2.length] = lastValue;
-		}
+		  };
+		};
 		return costs[s2.length];
-	  }
+	  };
 
  };
 
