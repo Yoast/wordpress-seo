@@ -438,8 +438,8 @@ describe( "A test for getting the right config", function() {
 		const mockPaper = new Paper( "" );
 		expect( new SentenceLengthInTextAssessment( true ).getConfig( new PolishResearcher( mockPaper ) ) ).toEqual( polishConfig.cornerstoneConfig );
 	} );
-	it( "uses a combination of language-specific and default config in cornerstone if there is regular" +
-		" but not cornerstone config available", function() {
+	it( "uses a combination of language-specific and default config in cornerstone if there is regular but not cornerstone config" +
+		" available", function() {
 		const expectedConfig = {
 			recommendedWordCount: 25,
 			slightlyTooMany: 20,
