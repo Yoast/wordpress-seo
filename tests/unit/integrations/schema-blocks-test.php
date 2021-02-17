@@ -87,7 +87,7 @@ class Schema_Blocks_Test extends TestCase {
 	 * @covers ::get_conditionals
 	 */
 	public function test_get_conditionals() {
-		static::assertSame( [], Schema_Blocks::get_conditionals() );
+		static::assertSame( [ Schema_Blocks_Conditional::class ], Schema_Blocks::get_conditionals() );
 	}
 
 	/**
