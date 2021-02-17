@@ -70,8 +70,8 @@ class SentenceLengthInTextAssessment extends Assessment {
 	 * @returns {Array} Array with all the marked sentences.
 	 */
 	getMarks( paper, researcher ) {
-		console.log(this._config)
 		const sentenceCount = researcher.getResearch( "countSentencesFromText" );
+		this._config = this.getConfig( researcher );
 		const sentenceObjects = this.getTooLongSentences( sentenceCount );
 
 		return map( sentenceObjects, function( sentenceObject ) {
@@ -81,6 +81,49 @@ class SentenceLengthInTextAssessment extends Assessment {
 				marked: addMark( sentence ),
 			} );
 		} );
+	}
+
+	/**
+	 * Gets the right config for the scoring criteria.
+	 *
+	 * @param {Researcher} researcher The researcher to use.
+	 *
+	 * @returns {Object} The config that should be used.
+	 */
+	getConfig( researcher ) {
+		let config = {};
+
+		if ( this._isCornerstone === true ) {
+			// If a language has specific cornerstone configuration, that configuration is used.
+			const languageSpecificCornerstoneConfig = researcher.getConfig( "sentenceLengthCornerstone" );
+			if ( languageSpecificCornerstoneConfig ) {
+				config = languageSpecificCornerstoneConfig;
+			}
+
+			/*
+			 * If there is no language-specific cornerstone config, but there is general sentence length config,
+			 * the recommended word count from that config is used.
+			 * */
+			let recommendedWordCount = researcher.getConfig( "sentenceLength" ).recommendedWordCount;
+			if ( ! recommendedWordCount ) {
+				recommendedWordCount = 20;
+			}
+
+			config = {
+				recommendedWordCount: recommendedWordCount,
+				slightlyTooMany: 20,
+				farTooMany: 25,
+			};
+		} else {
+			const languageSpecificConfig = researcher.getConfig( "sentenceLength" );
+			const defaultConfig = {
+				recommendedWordCount: 20,
+				slightlyTooMany: 25,
+				farTooMany: 30,
+			};
+			config = languageSpecificConfig ? languageSpecificConfig : defaultConfig;
+		}
+		return config;
 	}
 
 	/**
