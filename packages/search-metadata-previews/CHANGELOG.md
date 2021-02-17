@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file. Releases without a changelog entry contain only minor changes that are irrelevant for users of this library.
 We follow [Semantic Versioning](http://semver.org/).
 
+## 2.13.0 October 26th, 2020
+### Enhancements
+* Adds optional isSuffix prop to the SnippetEditor.
+* Adds optional input ID props to the SnippetEditorFields and ModeSwitcher.
+* Moves the `SettingsSnippetEditorFields` and `SettingsSnippetEditor` to `@yoast/replacement-variable-editor`.
+
 ## 2.11.0 September 17th, 2020
 ### Bugfixes
 * Fixes a bug where the social previews would be able to break out of their container when viewed on smaller screens.

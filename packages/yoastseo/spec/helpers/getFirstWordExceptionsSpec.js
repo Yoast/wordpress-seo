@@ -41,6 +41,14 @@ describe( "a test for getting the correct first word exception array", function(
 		expect( firstWordExceptions( "id_ID" )() ).toEqual( [  "sebuah", "seorang", "sang", "si", "satu", "dua", "tiga", "empat", "lima", "enam", "tujuh", "delapan", "sembilan", "sepuluh", "sebelas", "seratus", "seribu", "sejuta", "semiliar", "setriliun", "ini", "itu", "hal", "ia" ] );
 	} );
 
+	it( "returns the Hungarian first word exception array in case of hu_HU locale", function() {
+		expect( firstWordExceptions( "hu_HU" )() ).toEqual( [ "az", "a", "egy", "nulla", "egy", "kettő", "kettő", "három", "négy", "öt", "hat", "hét", "nyolc", "kilenc", "tíz", "száz", "ezer", "és", "se", "sem", "vagy", "de", "aztán", "ezután", "azután", "majd", "ezek után", "nagyon", "kicsit", "nagy", "kevés", "sok", "sokan", "kevesen", "jól", "ez", "ezek", "az", "azok", "néhány", "aki", "ami", "én", "mi", "ő", "ők", "engem", "nekem", "velem", "nálam", "hozzám", "tőlem", "rajtam", "rám", "rólam", "téged", "neked", "veled", "érted", "nálad", "hozzád", "tőled", "rólad", "őt", "neki", "vele", "érte", "nála", "hozzá", "tőle", "rajta", "rá", "róla", "minket", "nekünk", "velünk", "értünk", "nálunk", "hozzánk", "tőlünk", "rólunk", "titeket", "nektek", "veletek", "értetek", "nálatok", "hozzátok", "tőletek", "rajtatok", "rátok", "rólatok", "őket", "nekik", "velük", "értük", "bennük", "náluk", "hozzájuk", "tőlük", "rajtuk", "rájuk", "róluk", "azonban", "ám", "ha", "szerintem", "míg", "bár", "habár", "hát", "ha", "amennyiben", "mivel", "azonban", "amíg", "azért", "ezért", "mi", "mit", "miért", "meddig", "mikor", "hány", "mennyi", "ki", "kit", "merre", "hogy", "hogyan", "miként", "hol", "honnan", "hová", "mivel", "milyen", "ó", "óh", "jaj", "kék", "zöld", "fekete", "sárga", "piros", "szürke", "ne", "nem", "hát", "nos" ] );
+	} );
+
+	it( "returns the Turkish first word exception array in case of tr_TR locale", function() {
+		expect( firstWordExceptions( "tr_TR" )() ).toEqual( [ "bunlar", "şunlar", "onlar”, “burası", "orası", "şurası", "burayı", "orayı", "şurayı”, “buraya", "oraya", "şuraya”, “burada", "orada", "şurada”, “buradan", "oradan", "şuradan", "bu", "şu", "o", "bir", "íki", "üç", "dört", "beş", "altı", "yedi", "sekiz", "dokuz", "on" ] );
+	} );
+
 	it( "returns the English first word exception array in case of empty locale", function() {
 		expect( firstWordExceptions( "" )() ).toEqual( [ "the", "a", "an", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "this", "that", "these", "those" ] );
 	} );

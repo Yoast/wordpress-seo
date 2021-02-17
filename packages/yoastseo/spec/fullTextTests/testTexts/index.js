@@ -41,6 +41,12 @@ import russianPaper3 from "./ru/russianPaper3";
 // Arabic papers
 import arabicPaper1 from "./ar/arabicPaper1";
 
+// Papers for comparing performance of stemmers in different languages in the content analysis app.
+import polishPaperForPerformanceTest from "./pl/polishPaperForPerformanceTest";
+import spanishPaperForPerformanceTest from "./es/spanishPaperForPerformanceTest";
+import englishPaperForPerformanceTest from "./en/englishPaperForPerformanceTest";
+
+
 // Hebrew papers
 import hebrewPaper1 from "./he/hebrewPaper1";
 import hebrewPaper2 from "./he/hebrewPaper2";
@@ -50,6 +56,11 @@ import hebrewPaper3 from "./he/hebrewPaper3";
 import turkishPaper1 from "./tr/turkishPaper1";
 import turkishPaper2 from "./tr/turkishPaper2";
 import turkishPaper3 from "./tr/turkishPaper3";
+
+// Hungarian papers
+import hungarianPaper1 from "./hu/hungarianPaper1";
+import hungarianPaper2 from "./hu/hungarianPaper2";
+import hungarianPaper3 from "./hu/hungarianPaper3";
 
 export default [
 	englishPaper1,
@@ -77,11 +88,17 @@ export default [
 	russianPaper2,
 	russianPaper3,
 	arabicPaper1,
+	englishPaperForPerformanceTest,
+	spanishPaperForPerformanceTest,
+	polishPaperForPerformanceTest,
 	hebrewPaper1,
 	hebrewPaper2,
 	hebrewPaper3,
 	turkishPaper1,
 	turkishPaper2,
 	turkishPaper3,
+	hungarianPaper1,
+	hungarianPaper2,
+	hungarianPaper3,
 ];
 

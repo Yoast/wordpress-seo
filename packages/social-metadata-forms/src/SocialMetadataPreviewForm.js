@@ -5,7 +5,7 @@ import { angleLeft, angleRight, colors } from "@yoast/style-guide";
 import PropTypes from "prop-types";
 import React, { Component, Fragment } from "react";
 import styled from "styled-components";
-import ImageSelect from "./ImageSelect";
+import { ImageSelect } from "@yoast/components";
 
 /**
  * Sets the color based on whether the caret is active or not (usually hovered).
@@ -184,7 +184,7 @@ class SocialMetadataPreviewForm extends Component {
 		return (
 			<Fragment>
 				<ImageSelectWithCaret
-					title={ imageSelectTitle }
+					label={ imageSelectTitle }
 					onClick={ onSelectImageClick }
 					onRemoveImageClick={ onRemoveImageClick }
 					warnings={ imageWarnings }
@@ -194,7 +194,7 @@ class SocialMetadataPreviewForm extends Component {
 					isActive={ activeField === "image" }
 					isHovered={ hoveredField === "image" }
 					imageUrl={ imageUrl }
-					isPremium={ isPremium }
+					hasPreview={ ! isPremium }
 					imageUrlInputId={ join( [ lowerCaseSocialMediumName, "url-input", idSuffix ] ) }
 					selectImageButtonId={ join( [ lowerCaseSocialMediumName, "select-button", idSuffix ] ) }
 					replaceImageButtonId={ join( [ lowerCaseSocialMediumName, "replace-button", idSuffix ] ) }

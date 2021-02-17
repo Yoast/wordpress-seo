@@ -32,7 +32,7 @@ const FieldGroup = ( { htmlFor, label, linkTo, linkText, description, children, 
 					linkText={ linkText }
 				/> }
 			</div>
-			{ description !== ""  && <p className="field-group-description" id="yoast_unique_description_id">{ description }</p> }
+			{ description !== "" && <p className="field-group-description">{ description }</p> }
 			{ children }
 		</div>
 	);
