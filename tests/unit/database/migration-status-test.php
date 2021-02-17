@@ -33,6 +33,22 @@ class Migration_Status_Test extends TestCase {
 	}
 
 	/**
+	 * Tests whether the migration is run when the migration option key exists.
+	 *
+	 * @covers ::should_run_migration
+	 */
+	public function test_should_run_migration_with_custom_version() {
+		Monkey\Functions\expect( 'get_current_blog_id' )->once()->andReturn( 1 );
+		Monkey\Functions\expect( 'get_option' )->with( Migration_Status::MIGRATION_OPTION_KEY . 'test' )
+			->once()
+			->andReturn( [ 'version' => '1.0' ] );
+
+		$instance = new Migration_Status();
+
+		$this->assertFalse( $instance->should_run_migration( 'test', '0.9' ) );
+	}
+
+	/**
 	 * Tests whether the migration is run when the migration option key doesn't exist.
 	 *
 	 * @covers ::should_run_migration
@@ -271,6 +287,37 @@ class Migration_Status_Test extends TestCase {
 	}
 
 	/**
+	 * Tests setting the error.
+	 *
+	 * @covers ::set_error
+	 */
+	public function test_set_error_custom_version() {
+		$error_message   = 'Something went wrong';
+		$expected_option = [
+			'version' => '1.0',
+			'error'   => [
+				'message' => $error_message,
+				'time'    => \strtotime( 'now' ),
+				'version' => '1.9',
+			],
+		];
+
+		Monkey\Functions\expect( 'get_current_blog_id' )->twice()->andReturn( 1 );
+		Monkey\Functions\expect( 'get_option' )
+			->with( Migration_Status::MIGRATION_OPTION_KEY . 'test' )
+			->once()
+			->andReturn( [ 'version' => '1.0' ] );
+		Monkey\Functions\expect( 'update_option' )
+			->with( Migration_Status::MIGRATION_OPTION_KEY . 'test', $expected_option )
+			->once()
+			->andReturn( true );
+
+		$instance = new Migration_Status();
+
+		$instance->set_error( 'test', $error_message, '1.9' );
+	}
+
+	/**
 	 * Tests the success status setting.
 	 *
 	 * @covers ::set_success
@@ -291,6 +338,29 @@ class Migration_Status_Test extends TestCase {
 		$instance = new Migration_Status();
 
 		$instance->set_success( 'test' );
+	}
+
+	/**
+	 * Tests the success status setting.
+	 *
+	 * @covers ::set_success
+	 */
+	public function test_set_success_custom_version() {
+		$expected_option = [ 'version' => '1.9' ];
+
+		Monkey\Functions\expect( 'get_current_blog_id' )->twice()->andReturn( 1 );
+		Monkey\Functions\expect( 'get_option' )
+			->with( Migration_Status::MIGRATION_OPTION_KEY . 'test' )
+			->once()
+			->andReturn( [ 'version' => '1.0' ] );
+		Monkey\Functions\expect( 'update_option' )
+			->with( Migration_Status::MIGRATION_OPTION_KEY . 'test', $expected_option )
+			->once()
+			->andReturn( true );
+
+		$instance = new Migration_Status();
+
+		$instance->set_success( 'test', '1.9' );
 	}
 
 	/**
