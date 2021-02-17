@@ -98,22 +98,22 @@ class SentenceLengthInTextAssessment extends Assessment {
 			const languageSpecificCornerstoneConfig = researcher.getConfig( "sentenceLengthCornerstone" );
 			if ( languageSpecificCornerstoneConfig ) {
 				config = languageSpecificCornerstoneConfig;
-			}
-
-			/*
+			} else {
+				/*
 			 * If there is no language-specific cornerstone config, but there is general sentence length config,
 			 * the recommended word count from that config is used.
 			 * */
-			let recommendedWordCount = researcher.getConfig( "sentenceLength" ).recommendedWordCount;
-			if ( ! recommendedWordCount ) {
-				recommendedWordCount = 20;
-			}
+				let recommendedWordCount = researcher.getConfig( "sentenceLength" ).recommendedWordCount;
+				if ( ! recommendedWordCount ) {
+					recommendedWordCount = 20;
+				}
 
-			config = {
-				recommendedWordCount: recommendedWordCount,
-				slightlyTooMany: 20,
-				farTooMany: 25,
-			};
+				config = {
+					recommendedWordCount: recommendedWordCount,
+					slightlyTooMany: 20,
+					farTooMany: 25,
+				};
+			}
 		} else {
 			const languageSpecificConfig = researcher.getConfig( "sentenceLength" );
 			const defaultConfig = {
