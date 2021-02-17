@@ -37,39 +37,7 @@ class SentenceLengthInTextAssessment extends Assessment {
 	 */
 	getResult( paper, researcher, i18n ) {
 		const sentences = researcher.getResearch( "countSentencesFromText" );
-		this._config = {};
-
-		if ( this._isCornerstone === true ) {
-			// If a language has specific cornerstone configuration, that configuration is used.
-			const languageSpecificCornerstoneConfig = researcher.getConfig( "sentenceLengthCornerstone" );
-			if ( languageSpecificCornerstoneConfig ) {
-				this._config = languageSpecificCornerstoneConfig;
-			}
-
-			/*
-			 * If there is no language-specific cornerstone config, but there is general sentence length config,
-			 * the recommended word count from that config is used.
-			 * */
-			let recommendedWordCount = researcher.getConfig( "sentenceLength" ).recommendedWordCount;
-			if ( ! recommendedWordCount ) {
-				recommendedWordCount = 20;
-			}
-
-			this._config = {
-				recommendedWordCount: recommendedWordCount,
-				slightlyTooMany: 20,
-				farTooMany: 25,
-			};
-		} else {
-			const languageSpecificConfig = researcher.getConfig( "sentenceLength" );
-			const defaultConfig = {
-				recommendedWordCount: 20,
-				slightlyTooMany: 25,
-				farTooMany: 30,
-			};
-			this._config = languageSpecificConfig ? languageSpecificConfig : defaultConfig;
-		}
-
+		this._config = this.getConfig( researcher );
 		const percentage = this.calculatePercentage( sentences );
 		const score = this.calculateScore( percentage );
 
