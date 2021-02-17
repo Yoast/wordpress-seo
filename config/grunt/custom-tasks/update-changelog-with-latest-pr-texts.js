@@ -1,4 +1,4 @@
-"use strict";
+// "use strict";
 
 /**
  * escapes a string so it can be use as a regual expression.
@@ -70,7 +70,7 @@ class ChangelogBuilder {
 
 
 	get cleanChangelog(){
-		this.grunt.verbose.writeln(this.ChangelogMap);
+		//this.grunt.verbose.writeln(this.ChangelogMap);
 		var newlines = ""
 		//console.log((this.ChangelogMap.has('Enhancements:')))
 		if (this.ChangelogMap.has('Enhancements:')) {
@@ -188,7 +188,7 @@ const _isEmpty = require( "lodash/isEmpty" );
  * @returns {void}
  */
 module.exports = function( grunt ) {
-	grunt.registerMultiTask(
+	grunt.registerTask(
 		"update-changelog-with-latest-pr-texts",
 		"Prompts the user for the changelog entries and updates the readme.txt",
 		function() {
@@ -320,8 +320,8 @@ module.exports = function( grunt ) {
 				const ye = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(d);
 				const mo = new Intl.DateTimeFormat('en', { month: 'long' }).format(d);
 				const da = new Intl.DateTimeFormat('en', { day: 'numeric' }).format(d);
-				datestring = `${mo} ${format(da)}, ${ye}`
-				newChangelog = `= ${changelogVersionNumber} =\nRelease Date: ${datestring}\n${changelogBuilder.cleanChangelog}`
+				const datestring = `${mo} ${format(da)}, ${ye}`
+				const newChangelog = `= ${changelogVersionNumber} =\nRelease Date: ${datestring}\n${changelogBuilder.cleanChangelog}`
 				// Add the changelog, behind the == Changelog == header.
 				changelog = changelog.replace( /[=]= Changelog ==/ig, "== Changelog ==\n\n" + newChangelog.trim() );
 				// Write changes to the file.
