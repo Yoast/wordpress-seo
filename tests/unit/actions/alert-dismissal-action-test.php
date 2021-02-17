@@ -791,7 +791,7 @@ class Alert_Dismissal_Action_Test extends TestCase {
 	 * Tests that all dismissed returns false when get_dismissed_alerts returns false.
 	 *
 	 * @covers ::all_dismissed
-	 * @covers ::get_dismissed
+	 * @covers ::get_dismissed_alerts
 	 */
 	public function test_all_dismissed_get_dismissed_false() {
 		$this->user
@@ -812,7 +812,7 @@ class Alert_Dismissal_Action_Test extends TestCase {
 	 * Tests that all dismissed returns an empty array when get_dismissed_alerts returns an empty array.
 	 *
 	 * @covers ::all_dismissed
-	 * @covers ::get_dismissed
+	 * @covers ::get_dismissed_alerts
 	 */
 	public function test_all_dismissed_no_dismissed_alerts() {
 		$this->user
