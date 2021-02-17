@@ -234,6 +234,19 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 15.9 =
+Release Date: March 2nd, 2021
+
+Enhancements:
+
+* Performance: prevents database queries for the homepage indexable.
+* Improves interoperability and consistency in database queries.
+* Replaces the image uploads with the new ImageSelect component.
+
+Bugfixes:
+
+* Fixes a bug where the disabled style of the switch toggles didn't look right.
+
 = 15.7 =
 Release Date: January 26th, 2021
 
@@ -255,51 +268,6 @@ Other:
 
 * Changes the wording on the `my.yoast.com` connect error shown in Health Check when a Yoast premium plugin is enabled, to lead with what the user's problem is.
 * Removes the release notification as the added benefit of having it is minimal.
-
-= 15.6.2 =
-Release Date: January 12th, 2021
-
-Bugfixes:
-
-* Fixes a bug where notifications in the notification center would not be dismissible on sites using FastCGI.
-
-= 15.6.1 =
-Release Date: January 12th, 2021
-
-Bugfixes:
-
- * Fixes a bug where the estimated reading time would not be shown when posts that were created before Yoast SEO 15.6 were shared on Slack.
-
-Other:
-
- * Adjusts the default words per minute for the estimated reading time from 250 words per minute to 200 words per minute.
-
-= 15.6 =
-Release Date: January 12th, 2021
-
-Say hi to Yoast SEO 15.6! In the latest version of Yoast SEO, you’ll find a number of bug fixes and performance enhancements. Happy updating! Read more about what’s new in Yoast SEO 15.6 in [our release post](https://yoa.st/release-15-6)!
-
-Enhancements:
-
- * Improves keyphrase recognition in Norwegian by filtering out function words such as 'tredje', 'deres' and 'noen'.
- * Improves the performance of the taxonomy sitemap generation. Props to [mikeyarce](https://github.com/mikeyarce).
- * Adds the Tag, Category and Primary Category snippet variables in the Google preview of our Elementor integration.
- * Adds advanced snippet variables to the Google preview of our Elementor integration.
- * Ensures that there's always a meta description for Web Stories. Props to [swissspidy](https://github.com/swissspidy).
- * Extends the plugin conflict list.
-
-Bugfixes:
-
- * Fixes a bug where the non-indexable custom post types `elementor_library` and `oembed_cache` would be saved to the indexable table.
- * Fixes a bug where the SEMrush modal would trigger errors and wouldn't display a chart when all the Trend values were zero.
- * Fixes a bug where very large WordPress installations would experience time-outs because the database would be overloaded with duplicate indexable IDs.
- * Fixes a bug where the social preview placeholders and info text would not be translatable.
-
-Other:
-
- * Deprecates the `WPSEO_Validator` class because it was not used anymore. Props to [rafaelbernard](https://github.com/rafaelbernard).
- * Fixes the URL to the Travis badge on our open source GitHub repository. Props to [rodrigoprime](https://github.com/rodrigoprimo).
- * Makes the integration with Web Stories for WordPress more robust. Props to [swissspidy](https://github.com/swissspidy).
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).

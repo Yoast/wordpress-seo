@@ -2,10 +2,11 @@
 module.exports = {
 	options: {
 		version: "<%= pluginVersion %>",
-		readmePath: "readme.txt",
 		useEditDistanceComapair: true,
 	},
 	default: {
-		
-	}
+		options: {
+			readmePath: "readme.txt",
+		},
+	},
 };
