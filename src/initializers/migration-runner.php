@@ -127,7 +127,6 @@ class Migration_Runner implements Initializer_Interface {
 			}
 		} catch ( Exception $exception ) {
 			// Something went wrong...
-			var_dump( $name, $exception->getMessage(), $version );
 			$this->migration_status->set_error( $name, $exception->getMessage(), $version );
 
 			if ( \defined( 'YOAST_ENVIRONMENT' ) && \YOAST_ENVIRONMENT !== 'production' ) {
