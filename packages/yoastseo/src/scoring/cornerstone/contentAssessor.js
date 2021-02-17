@@ -1,6 +1,6 @@
 import Assessor from "../assessor.js";
 import ContentAssessor from "../contentAssessor";
-import FleschReadingEase from "../assessments/readability/fleschReadingEaseAssessment.js";
+import fleschReadingEase from "../assessments/readability/fleschReadingEaseAssessment.js";
 import paragraphTooLong from "../assessments/readability/paragraphTooLongAssessment.js";
 import SentenceLengthInText from "../assessments/readability/sentenceLengthInTextAssessment.js";
 import SubheadingDistributionTooLong from "../assessments/readability/subheadingDistributionTooLongAssessment.js";
@@ -8,7 +8,6 @@ import transitionWords from "../assessments/readability/transitionWordsAssessmen
 import passiveVoice from "../assessments/readability/passiveVoiceAssessment.js";
 import sentenceBeginnings from "../assessments/readability/sentenceBeginningsAssessment.js";
 import textPresence from "../assessments/readability/textPresenceAssessment.js";
-import contentConfiguration from "../../config/_todo/content/combinedConfig.js";
 
 /*
  Temporarily disabled:
@@ -30,11 +29,10 @@ import contentConfiguration from "../../config/_todo/content/combinedConfig.js";
 const CornerStoneContentAssessor = function( i18n, options = {} ) {
 	Assessor.call( this, i18n, options );
 	this.type = "CornerstoneContentAssessor";
-	const locale = ( options.hasOwnProperty( "locale" ) ) ? options.locale : "en_US";
 
 	this._assessments = [
 
-		new FleschReadingEase( contentConfiguration( locale ).fleschReading ),
+		fleschReadingEase,
 		new SubheadingDistributionTooLong( {
 			parameters:	{
 				slightlyTooMany: 250,
@@ -43,13 +41,7 @@ const CornerStoneContentAssessor = function( i18n, options = {} ) {
 			},
 		} ),
 		paragraphTooLong,
-		new SentenceLengthInText(
-			{
-				recommendedWordCount: contentConfiguration( locale ).sentenceLength.recommendedWordCount,
-				slightlyTooMany: 20,
-				farTooMany: 25,
-			}
-		),
+		new SentenceLengthInText( true ),
 		transitionWords,
 		passiveVoice,
 		textPresence,

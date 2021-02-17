@@ -50,7 +50,11 @@ describe( "a test for the Polish Researcher", function() {
 	} );
 
 	it( "returns Polish sentence length config", function() {
-		expect( researcher.getConfig( "sentenceLength" ) ).toEqual( sentenceLength );
+		expect( researcher.getConfig( "sentenceLength" ) ).toEqual( sentenceLength.regularConfig );
+	} );
+
+	it( "returns Polish sentence length cornerstone config", function() {
+		expect( researcher.getConfig( "sentenceLength" ) ).toEqual( sentenceLength.cornerstoneConfig );
 	} );
 
 	it( "returns the Polish locale", function() {
