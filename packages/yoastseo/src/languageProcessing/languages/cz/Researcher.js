@@ -1,6 +1,6 @@
 import AbstractResearcher from "../../AbstractResearcher";
 
-//All configs
+// All config
 import stopWords from "./config/stopWords";
 
 // All helpers

@@ -10,13 +10,4 @@ describe( "A test for checking the Czech participle", function() {
 		expect( mockParticiple.getParticiple() ).toBe( "napsáno" );
 		expect( mockParticiple.determinesSentencePartIsPassive() ).toBe( true );
 	} );
-
-	it( "ensures that the sentence part is not set to passive if the participle is empty.", function() {
-		const mockParticiple = new CzechParticiple( "napsáno", "již bylo napsáno.", {
-			auxiliaries: [ "bylo" ],
-			language: "cz",
-		} );
-		mockParticiple._participle = null;
-		expect( mockParticiple.determinesSentencePartIsPassive() ).toBe( false );
-	} );
 } );

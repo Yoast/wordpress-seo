@@ -11,6 +11,7 @@ import Participle from "../../../../values/Participle.js";
  */
 const CzechParticiple = function( participle, sentencePart, attributes ) {
 	Participle.call( this, participle, sentencePart, attributes );
+	this.setSentencePartPassiveness( this.isPassive() );
 };
 
 require( "util" ).inherits( CzechParticiple, Participle );

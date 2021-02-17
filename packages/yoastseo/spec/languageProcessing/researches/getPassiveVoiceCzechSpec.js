@@ -38,7 +38,7 @@ describe( "detecting passive voice in sentences", function() {
 
 	it( "returns passive voice (infinitive)", function() {
 		// Passive: být sledován.
-		var paper = new Paper( "Nebylo spravedlivé být neustále sledován.", { locale: "es_ES" } );
+		var paper = new Paper( "Nebylo spravedlivé být neustále sledován.", { locale: "cz_CZ" } );
 		expect( passiveVoice( paper, new Researcher( paper ) ).passives.length ).toBe( 1 );
 	} );
 } );
