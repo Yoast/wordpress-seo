@@ -6,7 +6,7 @@
  *
  * @returns {Object} The API Post followed by a resolve.
  */
-export function	DISMISS_ALERT( { alertKey } ) {
+export function DISMISS_ALERT( { alertKey } ) {
 	return new Promise( ( resolve ) =>
 		wpseoApi.post( "alerts/dismiss", { key: alertKey }, () => resolve() )
 		// We want the Alert to always hide on dismiss.

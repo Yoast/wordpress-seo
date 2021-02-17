@@ -12,7 +12,6 @@ import focusKeyword from "./focusKeyword";
 import isCornerstone from "./cornerstoneContent";
 import isMarkerPaused from "./markerPauseStatus";
 import marksButtonStatus from "./markerButtons";
-
 import preferences from "./preferences";
 import primaryTaxonomies from "./primaryTaxonomies";
 import schemaBlocks from "./schemaBlocks";
