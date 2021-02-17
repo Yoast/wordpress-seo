@@ -1,3 +1,5 @@
+"use strict";
+
 /**
  * escapes a string so it can be use as a regual expression.
  *
@@ -269,14 +271,16 @@ module.exports = function( grunt ) {
 			if ( containsCurrentVersion ) {
 				// get the changelog entry's for the current version from the readme.
 				let changelogVersionNumber = versionNumber.major + "." + versionNumber.minor;
-				currentChangelogEntriesMatches = changelog.match(new RegExp( "= " + changelogVersionNumber + "(.|\\n)*?(?=(= \\d+[\.\\d]+ =|= Earlier versions =))",  ))
+				const currentChangelogEntriesMatches = changelog.match(new RegExp( "= " + changelogVersionNumber + "(.|\\n)*?(?=(= \\d+[\.\\d]+ =|= Earlier versions =))",  ))
+				var currentChangelogEntries = "";
 				if (currentChangelogEntriesMatches) {
 					currentChangelogEntries = `${currentChangelogEntriesMatches[0]}`;
 				};
 				//console.log(currentChangelogEntries);
 
 				// get the header from the changelog entry's
-				currentChangelogEntriesHeaderMatches = changelog.match(new RegExp( "= " + changelogVersionNumber + "(.|\\n)*?(?=(\\n\\n))",  ))
+				const currentChangelogEntriesHeaderMatches = changelog.match(new RegExp( "= " + changelogVersionNumber + "(.|\\n)*?(?=(\\n\\n))",  ))
+				var currentChangelogEntriesHeader = "";
 				if (currentChangelogEntriesHeaderMatches){
 					currentChangelogEntriesHeader = `${currentChangelogEntriesHeaderMatches[0]}`
 				}
@@ -290,7 +294,7 @@ module.exports = function( grunt ) {
 				//console.log(changelogBuilder.Changelog)
 				
 				// pul all parts togethor agian
-				mergedReadme = changelog.replace(new RegExp( escapeRegExp(currentChangelogEntries)),  "\n" + changelogBuilder.cleanChangelog + "\n\n")
+				const mergedReadme = changelog.replace(new RegExp( escapeRegExp(currentChangelogEntries)),  "\n" + changelogBuilder.cleanChangelog + "\n\n")
 
 				
 				// Write changes to the file.
