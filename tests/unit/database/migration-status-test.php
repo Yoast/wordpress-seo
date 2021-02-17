@@ -25,7 +25,7 @@ class Migration_Status_Test extends TestCase {
 		Monkey\Functions\expect( 'get_current_blog_id' )->once()->andReturn( 1 );
 		Monkey\Functions\expect( 'get_option' )->with( Migration_Status::MIGRATION_OPTION_KEY . 'test' )
 			->once()
-			->andReturn( [ 'version' => '1.0' ] );
+			->andReturn( [ 'version' => '0.9' ] );
 
 		$instance = new Migration_Status();
 

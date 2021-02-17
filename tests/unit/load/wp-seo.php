@@ -5,44 +5,59 @@
  * @package WPSEO\Tests
  */
 
-use Brain\Monkey\Functions;
+ $GLOBALS['wp_version'] = '1.0';
+/**
+ * {@internal Nobody should be able to overrule the real version number as this can cause
+ *            serious issues with the options, so no if ( ! defined() ).}}
+ */
+define( 'WPSEO_VERSION', '1.0' );
 
-$wpseo_file = realpath( __DIR__ . '/../../../wp-seo.php' );
+if ( ! defined( 'WPSEO_PATH' ) ) {
+	define( 'WPSEO_PATH', dirname( dirname( dirname( dirname( __FILE__ ) ) ) ) . '/' );
+}
 
-Brain\Monkey\setUp();
+if ( ! defined( 'WPSEO_FILE' ) ) {
+	define( 'WPSEO_FILE', WPSEO_PATH . 'wp-seo.php' );
+}
 
-Functions\expect( 'plugin_dir_path' )
-	->once()
-	->with( $wpseo_file )
-	->andReturn( dirname( $wpseo_file ) . '/' );
+if ( ! defined( 'WPSEO_BASENAME' ) ) {
+	define( 'WPSEO_BASENAME', 'wpseo_basename' );
+}
 
-Functions\expect( 'plugin_basename' )
-	->once()
-	->with( $wpseo_file )
-	->andReturn( 'wordpress-seo' );
+/*
+ * {@internal The prefix constants are used to build prefixed versions of dependencies.
+ *            These should not be changed on run-time, thus missing the ! defined() check.}}
+ */
+define( 'YOAST_VENDOR_NS_PREFIX', 'YoastSEO_Vendor' );
+define( 'YOAST_VENDOR_DEFINE_PREFIX', 'YOASTSEO_VENDOR__' );
+define( 'YOAST_VENDOR_PREFIX_DIRECTORY', 'vendor_prefixed' );
 
-Functions\expect( 'wp_installing' )
-	->once()
-	->andReturn( false );
+define( 'YOAST_SEO_PHP_REQUIRED', '5.6' );
+define( 'YOAST_SEO_WP_TESTED', '5.6' );
+define( 'YOAST_SEO_WP_REQUIRED', '5.4' );
 
-Functions\expect( 'is_admin' )
-	->once()
-	->andReturn( false );
+if ( ! defined( 'WPSEO_NAMESPACES' ) ) {
+	define( 'WPSEO_NAMESPACES', true );
+}
 
-Functions\expect( 'is_multisite' )
-	->once()
-	->andReturn( false );
+if ( is_dir( WPSEO_PATH . YOAST_VENDOR_PREFIX_DIRECTORY ) ) {
+	require_once WPSEO_PATH . YOAST_VENDOR_PREFIX_DIRECTORY . '/guzzlehttp/guzzle/src/functions.php';
+	require_once WPSEO_PATH . YOAST_VENDOR_PREFIX_DIRECTORY . '/guzzlehttp/psr7/src/functions_include.php';
+	require_once WPSEO_PATH . YOAST_VENDOR_PREFIX_DIRECTORY . '/guzzlehttp/promises/src/functions_include.php';
+}
 
-Functions\expect( 'register_activation_hook' )
-	->once()
-	->with( $wpseo_file, 'wpseo_activate' )
-	->andReturn( true );
+/* ********************* DEFINES DEPENDING ON AUTOLOADED CODE ********************* */
 
-Functions\expect( 'register_deactivation_hook' )
-	->once()
-	->with( $wpseo_file, 'wpseo_deactivate' )
-	->andReturn( true );
+/**
+ * Defaults to production, for safety.
+ */
+if ( ! defined( 'YOAST_ENVIRONMENT' ) ) {
+	define( 'YOAST_ENVIRONMENT', 'production' );
+}
 
-require_once __DIR__ . '/../../../wp-seo.php';
-
-Brain\Monkey\tearDown();
+/**
+ * Only use minified assets when we are in a production environment.
+ */
+if ( ! defined( 'WPSEO_CSSJS_SUFFIX' ) ) {
+	define( 'WPSEO_CSSJS_SUFFIX', ( YOAST_ENVIRONMENT !== 'development' ) ? '.min' : '' );
+}
