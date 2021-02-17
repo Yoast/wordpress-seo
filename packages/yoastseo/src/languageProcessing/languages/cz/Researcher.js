@@ -1,5 +1,8 @@
 import AbstractResearcher from "../../AbstractResearcher";
 
+//All configs
+import stopWords from "./config/stopWords";
+
 // All helpers
 import getSentenceParts from "./helpers/getSentenceParts";
 import isPassiveSentencePart from "./helpers/isPassiveSentencePart";
@@ -15,10 +18,10 @@ export default class Researcher extends AbstractResearcher {
 	 */
 	constructor( paper ) {
 		super( paper );
-
 		Object.assign( this.config, {
 			language: "cz",
-			isPeriphrastic: true,
+			passiveConstructionType: "periphrastic",
+			stopWords,
 		} );
 
 		Object.assign( this.helpers, {

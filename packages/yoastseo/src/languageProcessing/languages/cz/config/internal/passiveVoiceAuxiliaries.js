@@ -19,6 +19,13 @@ export const filteredAuxiliaries =  [
 	"budeme",
 	"budete",
 	"budou",
+	"nebudu",
+	"nebudeš",
+	"nebudete",
+	"nebude",
+	"nebudeme",
+	"nebudete",
+	"nebudou",
 ];
 
 export default filteredAuxiliaries;

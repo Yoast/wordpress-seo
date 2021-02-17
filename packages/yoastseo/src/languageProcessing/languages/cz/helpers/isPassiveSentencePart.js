@@ -1,16 +1,22 @@
-import getWords from "../../../helpers/word/getWords";
-import getPassiveEndingsCzech from "../config/internal/passiveVoiceEndings";
-const passiveEndingsCzech = getPassiveEndingsCzech();
+import getParticiples from "./internal/getParticiples";
+import determineSentencePartIsPassive from "../../../helpers/passiveVoice/periphrastic/determineSentencePartIsPassive";
+import auxiliaries from "../config/internal/passiveVoiceAuxiliaries.js";
 
 /**
- * Checks the passed sentence to see if it contains Czech passive verb-forms.
+ * Determines whether a sentence part is passive.
  *
- * @param {string} sentence     The sentence to match against.
- *
- * @returns {Boolean} Whether the sentence contains Czech passive voice.
+ * @param {string}  sentencePartText        The sentence part to determine voice for.
+ * @param {Array}   sentencePartAuxiliaries A list with auxiliaries in this sentence part.
+
+ * @returns {boolean} Returns true if passive, otherwise returns false.
  */
-export default function isPassiveSentence( sentence ) {
-	const words = getWords( sentence.toLowerCase() );
-	const matchedPassives = words.filter( word => ( word.length > 4 ) );
-	return matchedPassives.some( word => passiveEndingsCzech.some( ending => word.endsWith( ending ) ) );
-};
+export default function isPassiveSentencePart( sentencePartText, sentencePartAuxiliaries ) {
+	if ( ! sentencePartAuxiliaries.some( auxiliary => auxiliaries.includes( auxiliary ) ) ) {
+		return false;
+	}
+
+	const participles = getParticiples( sentencePartText, sentencePartAuxiliaries );
+
+	return determineSentencePartIsPassive( participles );
+}
+
