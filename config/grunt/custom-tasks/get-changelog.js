@@ -19,6 +19,7 @@ module.exports = function( grunt ) {
 
 			console.log(newVersion)
 			grunt.config( "shell.get-changelog-lines-with-wiki-yoast-cli.command", ([
+					"mkdir -p ./tmp",
 					"cd /tmp/",
 					"rm -rf Wiki",
 					"git clone git@github.com:Yoast/Wiki.git ",
