@@ -1,0 +1,22 @@
+{
+    "compilerOptions": {
+        "outDir": "dist",
+        "noImplicitAny": true,
+        "target": "es5",
+        "jsx": "react",
+        "jsxFactory": "createElement",
+        "allowJs": true,
+        "lib": [
+            "DOM",
+            "ES5"
+        ],
+        "esModuleInterop": true,
+        "declaration": true
+    },
+    "include": [
+        "src/**/*"
+    ],
+    "exclude": [
+        "node_modules"
+    ]
+}

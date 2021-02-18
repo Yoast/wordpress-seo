@@ -1,3 +1,4 @@
+import DefaultResearcher from "../src/languageProcessing/languages/_default/Researcher";
 import Assessor from "../src/scoring/taxonomyAssessor.js";
 import Paper from "../src/values/Paper.js";
 import factory from "./specHelpers/factory.js";
@@ -8,7 +9,7 @@ describe( "running assessments in the assessor", function() {
 	let assessor;
 
 	beforeEach( () => {
-		assessor = new Assessor( i18n );
+		assessor = new Assessor( i18n, { researcher: new DefaultResearcher() } );
 	} );
 
 	it( "runs assessments without any specific requirements", function() {
@@ -75,7 +76,6 @@ describe( "running assessments in the assessor", function() {
 			"metaDescriptionLength",
 			"textLength",
 			"titleWidth",
-			"functionWordsInKeyphrase",
 		] );
 	} );
 

@@ -1,0 +1,123 @@
+.yoast-labeled-inserter {
+	position: relative;
+	width: 100%;
+}
+
+.yoast-labeled-inserter::before {
+	content: attr(data-label);
+	position: absolute;
+	left: 0;
+	height: 100%;
+	color: black;
+}
+
+.yoast-labeled-inserter > .block-editor-inserter {
+	width: 100%;
+}
+
+.yoast-warning-block {
+	border-width: 0 0 0 4px;
+	border-style: solid;
+	padding: 16px;
+	font-size: 13px;
+	font-family: Arial, Roboto-Regular, HelveticaNeue, sans-serif;
+}
+
+.yoast-warning-block.required {
+	background: #F8EBEA;
+	border-color: #CD423B;
+}
+
+.yoast-warning-block.recommended {
+	background: #FEF8EE;
+	border-color: #F0B650;
+}
+
+.yoast-warning-block > .yoast-warning-block-message {
+	margin: 0 0;
+	font-family: Arial, Roboto-Regular, HelveticaNeue, sans-serif;
+}
+
+.yoast-warning-block > div {
+	text-align: right;
+	padding-top: 8px;
+}
+
+.yoast-warning-block > div > button {
+	background: none;
+	border: none;
+	text-decoration: underline;
+	color: #0073aa;
+}
+
+.yoast-warning-block > div > button:not(:last-child) {
+	margin-right: 24px;
+}
+
+.yoast-block-sidebar-title {
+	font-weight: 600;
+	color: #303030;
+}
+
+.yoast-block-suggestions {
+	width:100%;
+	padding: 0 5px 0 15px;
+}
+
+.yoast-block-sidebar-warnings {
+	width:100%;
+	padding: 0 0 0 15px;
+}
+
+.yoast-block-sidebar-warning {
+	list-style: none;
+	color: #707070;
+}
+
+.yoast-block-sidebar-warning > .yoast-svg-icon {
+	margin-left: -1.5em;
+    margin-right: 0.5em;
+	color: red;
+}
+
+.yoast-block-suggestion {
+	list-style: disc;
+	color: #707070;
+}
+
+.yoast-block-suggestion--added {
+	color: #404040;
+}
+
+.yoast-block-suggestion-checkmark {
+	color: #6EA029;
+}
+
+.yoast-block-suggestion-button {
+	cursor: pointer;
+	float:right;
+	color: #006DAC;
+	text-decoration: underline;
+	border: 0;
+	background: 0;
+}
+
+.yoast-block-date-picker-container > button {
+	background: none;
+	border: none;
+	color: #747474;
+	font-family: inherit;
+}
+
+.yoast-block-date-picker {
+	z-index: 1;
+}
+
+.yoast-block-date-picker .components-datetime__time > fieldset {
+	margin: 0;
+}
+
+/* Hides the time picker from the datetime picker, we can't use the standalone date picker because it won't focus properly. */
+.yoast-block-date-picker .components-datetime__time > fieldset:last-child {
+	display: none;
+}

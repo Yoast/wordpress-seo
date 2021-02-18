@@ -1,3 +1,4 @@
+import EnglishResearcher from "../../src/languageProcessing/languages/en/Researcher";
 import Assessor from "../../src/scoring/cornerstone/seoAssessor.js";
 import Paper from "../../src/values/Paper.js";
 import factory from "../specHelpers/factory.js";
@@ -9,7 +10,7 @@ describe( "running assessments in the assessor", function() {
 	let assessor;
 
 	beforeEach( () => {
-		assessor = new Assessor( i18n );
+		assessor = new Assessor( i18n, { researcher: new EnglishResearcher() } );
 	} );
 
 	it( "runs assessments without any specific requirements", function() {

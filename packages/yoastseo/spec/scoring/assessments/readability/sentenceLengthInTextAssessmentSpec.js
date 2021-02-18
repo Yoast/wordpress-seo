@@ -13,6 +13,7 @@ import portugueseConfig from "../../../../src/languageProcessing/languages/pt/co
 import catalanConfig from "../../../../src/languageProcessing/languages/ca/config/sentenceLength";
 import turkishConfig from "../../../../src/languageProcessing/languages/tr/config/sentenceLength";
 
+// eslint-disable-next-line max-statements
 describe( "An assessment for sentence length", function() {
 	it( "returns the score for all short sentences using the default config", function() {
 		const mockPaper = new Paper();
@@ -348,6 +349,21 @@ describe( "An assessment for sentence length", function() {
 		expect( assessment.hasMarks() ).toBe( true );
 	} );
 
+	it( "returns the score for 25% long sentences in Hebrew", function() {
+		const mockPaper = new Paper( "text", { locale: "he_IL" } );
+		const assessment = sentenceLengthInTextAssessment.getResult( mockPaper, Factory.buildMockResearcher( [
+			{ sentence: "", sentenceLength: 16 },
+			{ sentence: "", sentenceLength: 15 },
+			{ sentence: "", sentenceLength: 15 },
+			{ sentence: "", sentenceLength: 15 },
+		], false, false, hebrewConfig ), i18n );
+
+		expect( assessment.hasScore() ).toBe( true );
+		expect( assessment.getScore() ).toEqual( 9 );
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/34v' target='_blank'>Sentence length</a>: Great!" );
+		expect( assessment.hasMarks() ).toBe( true );
+	} );
+
 	it( "returns the score for 100% short sentences in Hebrew", function() {
 		const mockPaper = new Paper();
 		const assessment = sentenceLengthInTextAssessment.getResult( mockPaper, Factory.buildMockResearcher( [
@@ -394,6 +410,63 @@ describe( "An assessment for sentence length", function() {
 		const assessment = sentenceLengthInTextAssessment.getResult( mockPaper, Factory.buildMockResearcher( [
 			{ sentence: "", sentenceLength: 14 },
 		], false, false, turkishConfig ), i18n );
+
+		expect( assessment.hasScore() ).toBe( true );
+		expect( assessment.getScore() ).toEqual( 9 );
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/34v' target='_blank'>Sentence length</a>: Great!" );
+		expect( assessment.hasMarks() ).toBe( false );
+	} );
+
+	it( "returns the score for 100% long sentences in Hungarian", function() {
+		const mockPaper = new Paper( "text", { locale: "hu_HU" } );
+		const assessment = sentenceLengthInTextAssessment.getResult( mockPaper, Factory.buildMockResearcher( [
+			{ sentence: "", sentenceLength: 21 },
+		] ), i18n );
+
+		expect( assessment.hasScore() ).toBe( true );
+		expect( assessment.getScore() ).toEqual( 3 );
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/34v' target='_blank'>Sentence length</a>: " +
+			"100% of the sentences contain more than 20 words, which is more than the recommended maximum of 25%." +
+			" <a href='https://yoa.st/34w' target='_blank'>Try to shorten the sentences</a>." );
+		expect( assessment.hasMarks() ).toBe( true );
+	} );
+
+	it( "returns the score for 50% long sentences in Hungarian", function() {
+		const mockPaper = new Paper( "text", { locale: "hu_HU" } );
+		const assessment = sentenceLengthInTextAssessment.getResult( mockPaper, Factory.buildMockResearcher( [
+			{ sentence: "", sentenceLength: 21 },
+			{ sentence: "", sentenceLength: 13 },
+		] ), i18n );
+
+		expect( assessment.hasScore() ).toBe( true );
+		expect( assessment.getScore() ).toEqual( 3 );
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/34v' target='_blank'>Sentence length</a>: " +
+			"50% of the sentences contain more than 20 words, which is more than the recommended maximum of 25%." +
+			" <a href='https://yoa.st/34w' target='_blank'>Try to shorten the sentences</a>." );
+		expect( assessment.hasMarks() ).toBe( true );
+	} );
+
+	it( "returns the score for 25% long sentences in Hungarian", function() {
+		const mockPaper = new Paper( "text", { locale: "hu_HU" } );
+		const assessment = sentenceLengthInTextAssessment.getResult( mockPaper, Factory.buildMockResearcher( [
+			{ sentence: "", sentenceLength: 21 },
+			{ sentence: "", sentenceLength: 20 },
+			{ sentence: "", sentenceLength: 20 },
+			{ sentence: "", sentenceLength: 20 },
+		] ), i18n );
+
+		expect( assessment.hasScore() ).toBe( true );
+		expect( assessment.getScore() ).toEqual( 9 );
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/34v' target='_blank'>Sentence length</a>: Great!" );
+		expect( assessment.hasMarks() ).toBe( true );
+	} );
+
+	it( "returns the score for all short sentences in Hungarian", function() {
+		const mockPaper = new Paper( "text", { locale: "hu_HU" } );
+
+		const assessment = sentenceLengthInTextAssessment.getResult( mockPaper, Factory.buildMockResearcher( [
+			{ sentence: "", sentenceLength: 19 },
+		] ), i18n );
 
 		expect( assessment.hasScore() ).toBe( true );
 		expect( assessment.getScore() ).toEqual( 9 );

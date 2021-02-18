@@ -1,36 +1,46 @@
 .yoast-field-group__checkbox {
-    display: flex;
-    cursor: pointer;
-    align-items: center;
+	display: flex;
+	align-items: center;
 }
 
 .yoast-field-group__checkbox:not(.yoast-field-group__checkbox--horizontal) + .yoast-field-group__checkbox {
-    margin-top: 4px;
+	margin-top: 4px;
+}
+
+.yoast-field-group__checkbox label {
+	cursor: pointer;
 }
 
 .yoast-field-group__checkbox input[type='checkbox'] {
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    width: 18px;
-    height: 18px;
-    padding: 2px;
-    margin: 2px 8px 0 0;
-    border-radius: 2px;
-    transition: background-color 150ms ease-out 0s;
-    border: var(--yoast-border-default);
-    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
-    position: relative;
-    overflow: hidden;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	width: 18px;
+	height: 18px;
+	padding: 2px;
+	margin: 2px 8px 0 0;
+	border-radius: 2px;
+	transition: background-color 150ms ease-out 0s;
+	border: var(--yoast-border-default);
+	box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+	position: relative;
+	overflow: hidden;
+	cursor: pointer;
+}
+
+.yoast-field-group__checkbox input[type='checkbox']:focus,
+.yoast-field-group__checkbox input[type='checkbox']:checked:focus {
+	box-shadow: var(--yoast-color-focus);
+	outline: none;
 }
 
 .yoast label + input[type='checkbox'] {
-    margin-left: 16px;
+	margin-left: 16px;
 }
 
 .yoast-field-group__checkbox input[type='checkbox']:checked {
-    background: var(--yoast-checkmark--white) var(--yoast-color-primary) no-repeat center / 13px;
-    border: 1px solid var(--yoast-color-primary);
-    box-shadow: none;
+	background: var(--yoast-checkmark--white) var(--yoast-color-primary) no-repeat center / 13px;
+	border: 1px solid var(--yoast-color-primary);
+	box-shadow: none;
 }
 
 .yoast-field-group__checkbox input[type='checkbox']:checked::before {
