@@ -137,6 +137,8 @@ module.exports = function( grunt ) {
 				gitpush: "grunt-git",
 				"update-version": "@yoast/grunt-plugin-tasks",
 				"set-version": "@yoast/grunt-plugin-tasks",
+				"update-changelog-with-latest-pr-texts": "@yoast/grunt-plugin-tasks",
+				"get-changelog": "@yoast/grunt-plugin-tasks",
 				"update-changelog": "@yoast/grunt-plugin-tasks",
 				"register-prompt": "grunt-prompt",
 				"notify-slack": "notify-slack",
