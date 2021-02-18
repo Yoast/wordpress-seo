@@ -894,6 +894,9 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			'enabled_features'        => WPSEO_Utils::retrieve_enabled_features(),
 		];
 
+		$alert_dismissal_action = YoastSEO()->classes->get( \Yoast\WP\SEO\Actions\Alert_Dismissal_Action::class );
+		$dismissed_alerts       = $alert_dismissal_action->all_dismissed();
+
 		$script_data = [
 			// @todo replace this translation with JavaScript translations.
 			'media'            => [ 'choose_image' => __( 'Use Image', 'wordpress-seo' ) ],
@@ -906,6 +909,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				'worker'                      => $worker_script_data,
 				'estimatedReadingTimeEnabled' => $this->estimated_reading_time_conditional->is_met(),
 			],
+			'dismissedAlerts'  => $dismissed_alerts,
 		];
 
 		if ( post_type_supports( get_post_type(), 'thumbnail' ) ) {

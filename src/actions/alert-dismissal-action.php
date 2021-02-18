@@ -132,6 +132,25 @@ class Alert_Dismissal_Action {
 	}
 
 	/**
+	 * Returns an object with all alerts dismissed by current user.
+	 *
+	 * @return array An array with the keys of all Alerts that have been dismissed by the current user.
+	 */
+	public function all_dismissed() {
+		$user_id = $this->user->get_current_user_id();
+		if ( $user_id === 0 ) {
+			return false;
+		}
+
+		$dismissed_alerts = $this->get_dismissed_alerts( $user_id );
+		if ( $dismissed_alerts === false ) {
+			return false;
+		}
+
+		return $dismissed_alerts;
+	}
+
+	/**
 	 * Returns if an alert is allowed or not.
 	 *
 	 * @param string $alert_identifier Alert identifier.
