@@ -64,22 +64,37 @@ export function replaceVariables( issue: analysisIssue ): string {
  */
 function getAnalysisConclusion( validation: BlockValidation, issues: analysisIssue[] ): sidebarWarning {
 	if ( issues.some( issue => issue.result === BlockValidation.MissingBlock ||
-							   issue.result === BlockValidation.MissingAttribute ) ) {
+		issue.result === BlockValidation.MissingAttribute ) ) {
 		return {
 			text: __( "Not all required blocks are completed! No " + issues[ 0 ].parent +
-			" schema will be generated for your page.", "wpseo-schema-blocks" ),
+				" schema will be generated for your page.", "wpseo-schema-blocks" ),
 			color: "red",
 		} as sidebarWarning;
 	}
 
 	if ( validation === BlockValidation.Valid ||
 		issues.every( issue => issue.result !== BlockValidation.MissingAttribute &&
-							   issue.result !== BlockValidation.MissingBlock ) ) {
+			issue.result !== BlockValidation.MissingBlock ) ) {
 		return {
 			text: __( "Good job! All required blocks are completed.", "wpseo-schema-blocks" ),
 			color: "green",
 		} as sidebarWarning;
 	}
+}
+
+/**
+ * Gathers all validation issues recursively and flattens them into one list.
+ *
+ * @param validation The root validation result.
+ *
+ * @return all validation results.
+ */
+function getAllDescendentIssues( validation: BlockValidationResult ): BlockValidationResult[] {
+	let results = [ validation ];
+	validation.issues.forEach( issue => {
+		results = results.concat( getAllDescendentIssues( issue ) );
+	} );
+	return results;
 }
 
 /**
@@ -93,7 +108,7 @@ export function createAnalysisMessages( validation: BlockValidationResult ): sid
 	const parent = sanitizeBlockName( validation.name );
 
 	// Create a message if there are any validation issues we have a template for.
-	const messageData: analysisIssue[] = validation.issues
+	const messageData: analysisIssue[] = getAllDescendentIssues( validation )
 		.filter( ( issue: BlockValidationResult ) => issue.result in analysisMessageTemplates )
 		.map( ( issue: BlockValidationResult ) => ( {
 			name: sanitizeBlockName( issue.name ),

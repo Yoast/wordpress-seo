@@ -1,4 +1,5 @@
 import { BlockValidation } from ".";
+import { BlockInstance } from "@wordpress/blocks";
 
 /**
  * Contains the result of a block validation.
@@ -34,5 +35,37 @@ export class BlockValidationResult {
 		this.clientId = clientId;
 		this.result = result;
 		this.issues = [];
+	}
+
+	/**
+	 * Named constructor for a 'missing block' validation result.
+	 *
+	 * @param blockInstance The block instance.
+	 * @param [name] Optional name.
+	 *
+	 * @constructor
+	 */
+	static MissingBlock( blockInstance: BlockInstance, name?: string ) {
+		return new BlockValidationResult(
+			blockInstance.clientId,
+			name || blockInstance.name,
+			BlockValidation.MissingBlock,
+		);
+	}
+
+	/**
+	 * Named constructor for a 'valid' validation result.
+	 *
+	 * @param blockInstance The block instance.
+	 * @param [name] Optional name.
+	 *
+	 * @constructor
+	 */
+	static Valid( blockInstance: BlockInstance, name?: string ) {
+		return new BlockValidationResult(
+			blockInstance.clientId,
+			name || blockInstance.name,
+			BlockValidation.Valid,
+		);
 	}
 }
