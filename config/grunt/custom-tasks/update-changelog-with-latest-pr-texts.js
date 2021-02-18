@@ -113,12 +113,12 @@ class Unique {
 			var arrlen = this.items.length;
 			for (var j = i+1; j<arrlen; j++) {
 				
-				if (this.#similarity(this.items[i], this.items[j]) > 0.9) {
+				if (this.similarity(this.items[i], this.items[j]) > 0.9) {
 					toBeRemoved.push(j)
 					this.grunt.verbose.writeln ("---------------")
 					this.grunt.verbose.writeln (`${j}: ${this.items[j]}`)
 					this.grunt.verbose.writeln (`${i}: ${this.items[i]}`)
-					this.grunt.verbose.writeln (`${this.#similarity(this.items[i], this.items[j])}`)
+					this.grunt.verbose.writeln (`${this.similarity(this.items[i], this.items[j])}`)
 					this.grunt.verbose.writeln ("---------------")
 				};
 			};
@@ -133,7 +133,7 @@ class Unique {
 		
 	};
 
-	#similarity(s1, s2) {
+	similarity(s1, s2) {
 		var longer = s1;
 		var shorter = s2;
 		if (s1.length < s2.length) {
