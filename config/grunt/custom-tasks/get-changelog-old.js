@@ -9,7 +9,7 @@
 
 module.exports = function( grunt ) {
 	grunt.registerTask(
-		"get-changelog",
+		"get-changelog-old",
 		"",
 		function() {
 			const done = this.async();
