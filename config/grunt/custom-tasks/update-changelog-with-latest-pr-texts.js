@@ -35,7 +35,7 @@ class ChangelogBuilder {
 		};
 	}
 	
-	#addLinesPerHeader(value, index, array) {
+	addLinesPerHeader(value, index, array) {
 		const key = `${value.match(new RegExp(  "[ a-zA-Z]+:" ))}`;
 		// const lines = value.match(new RegExp( "(?<=\n)\\*([\n]|.)+?(?=\Z|\n\n|\n\\*|\n$)", "gm" ));
 		// if (this.ChangelogMap.has(key)) {
