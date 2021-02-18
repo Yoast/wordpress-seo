@@ -118,10 +118,13 @@ export class ConsoleLogger implements Logger {
 	 * Starts a logging group.
 	 *
 	 * @param label The label for this group.
+	 * @param level The log level when to show this bug. Defaults to `LogLevel.DEBUG`.
 	 */
-	startGroup( label: string ): void {
-		// eslint-disable-next-line no-console
-		console.groupCollapsed( label );
+	startGroup( label: string, level = LogLevel.DEBUG ): void {
+		if ( this.level >= level && level !== LogLevel.NONE ) {
+			// eslint-disable-next-line no-console
+			console.groupCollapsed( label );
+		}
 	}
 
 	/**

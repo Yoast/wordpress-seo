@@ -38,18 +38,18 @@ export class BlockValidationResult {
 	}
 
 	/**
-	 * Named constructor for a 'missing block' validation result.
+	 * Named constructor for a 'missing attribute' validation result.
 	 *
 	 * @param blockInstance The block instance.
 	 * @param [name] Optional name.
 	 *
 	 * @constructor
 	 */
-	static MissingBlock( blockInstance: BlockInstance, name?: string ) {
+	static MissingAttribute( blockInstance: BlockInstance, name?: string ) {
 		return new BlockValidationResult(
 			blockInstance.clientId,
 			name || blockInstance.name,
-			BlockValidation.MissingBlock,
+			BlockValidation.MissingAttribute,
 		);
 	}
 

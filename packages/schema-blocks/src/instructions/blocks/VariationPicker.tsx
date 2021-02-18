@@ -148,7 +148,7 @@ class VariationPicker extends BlockInstruction {
 			if ( includesAVariation( blockInstance ) ) {
 				return BlockValidationResult.Valid( blockInstance );
 			}
-			return BlockValidationResult.MissingBlock( blockInstance );
+			return BlockValidationResult.MissingAttribute( blockInstance );
 		}
 		return BlockValidationResult.Valid( blockInstance );
 	}
