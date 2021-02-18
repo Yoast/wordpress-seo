@@ -1,6 +1,5 @@
 import { createElement, Fragment, ReactElement } from "@wordpress/element";
 import BlockInstruction from "../../core/blocks/BlockInstruction";
-import { RenderSaveProps, RenderEditProps } from "../../core/blocks/BlockDefinition";
 import { BlockEditProps, BlockConfiguration } from "@wordpress/blocks";
 import { createBlockEditProps, getParentIdOfType } from "../../functions/gutenberg/block";
 import { getBlockByClientId } from "../../functions/BlockHelper";
@@ -37,7 +36,7 @@ export default class InheritSidebar extends BlockInstruction {
 				const parentBlock = getBlockByClientId( parentId );
 				const parentBlockDefinition = getBlockDefinition( parentBlock.name );
 				if ( parentBlockDefinition ) {
-					logger.debug( this.options.name + " inherted sidebar from " + parentBlock.name + " definition" );
+					logger.debug( this.options.name + " inherited sidebar from " + parentBlock.name + " definition" );
 					const parentProps = createBlockEditProps( parentBlock );
 					elements.push( ...parentBlockDefinition.sidebarElements( parentProps ) );
 				}
@@ -66,20 +65,6 @@ export default class InheritSidebar extends BlockInstruction {
 			},
 		};
 	}
-
-
-	/* eslint-disable @typescript-eslint/no-unused-vars */
-	/**
-	 * Renders the value of a sidebar input.
-	 *
-	 * @param props The render props.
-	 *
-	 * @returns The value of the sidebar input.
-	 */
-	protected value( props: RenderSaveProps | RenderEditProps ): string {
-		return null;
-	}
-	/* eslint-enable @typescript-eslint/no-unused-vars */
 }
 
 BlockInstruction.register( "inherit-sidebar", InheritSidebar );
