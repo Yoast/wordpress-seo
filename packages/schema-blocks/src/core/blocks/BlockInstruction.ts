@@ -56,7 +56,7 @@ export default abstract class BlockInstruction extends Instruction {
 	 *
 	 * @returns {ReactElement | string} The sidebar element to render.
 	 */
-	sidebar( props: RenderEditProps, i: number ): ReactElement | string {
+	sidebar( props: RenderEditProps, i: number ): ReactElement {
 		return null;
 	}
 	/* eslint-enable @typescript-eslint/no-unused-vars */

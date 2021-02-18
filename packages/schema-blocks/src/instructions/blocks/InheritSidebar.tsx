@@ -1,20 +1,18 @@
 import { createElement, Fragment, ReactElement } from "@wordpress/element";
-import BlockInstruction, { BlockInstructionClass } from "../../core/blocks/BlockInstruction";
+import BlockInstruction from "../../core/blocks/BlockInstruction";
 import { RenderSaveProps, RenderEditProps } from "../../core/blocks/BlockDefinition";
 import { BlockEditProps, BlockConfiguration } from "@wordpress/blocks";
-import SidebarBase, { SidebarBaseOptions } from "./abstract/SidebarBase";
-import { getParentId, getParentIdOfType } from "../../functions/gutenberg/block";
+import { createBlockEditProps, getParentId, getParentIdOfType } from "../../functions/gutenberg/block";
 import { getBlockByClientId } from "../../functions/BlockHelper";
-import { InnerBlocksInstructionOptions } from "./InnerBlocksInstructionOptions";
-import Instruction from "../../core/Instruction";
-import { innerBlocksSidebar } from "../../functions/presenters/InnerBlocksSidebarPresenter";
 import logger from "../../functions/logger";
+import { getBlockDefinition } from "../../core/blocks/BlockDefinitionRepository";
+import { InstructionOptions } from "../../core/Instruction";
 
 /**
  * Sidebar input instruction.
  */
-export default class InheritSidebar extends SidebarBase {
-	public options: SidebarBaseOptions & {
+export default class InheritSidebar extends BlockInstruction {
+	public options: InstructionOptions & {
 		parents: string[];
 	};
 
@@ -31,21 +29,17 @@ export default class InheritSidebar extends SidebarBase {
 		let parentIds: string[] = [];
 		if ( this.options.parents ) {
 			parentIds = getParentIdOfType( props.clientId, this.options.parents );
-		} else {
-			const parentId = getParentId( props.clientId );
-			if ( parentId ) {
-				parentIds = [ parentId ];
-			}
 		}
 
 		const elements: ReactElement[] = [];
 		if ( parentIds.length > 0 ) {
 			parentIds.forEach( parentId => {
 				const parentBlock = getBlockByClientId( parentId );
-				const parentBlockInstruction = Instruction.getBlock( parentBlock.name );
-				if ( parentBlockInstruction ) {
-					logger.debug( "inherting sidebar from " + parentBlockInstruction.name );
-					elements.push( ...innerBlocksSidebar( parentBlock, parentBlockInstruction.options as InnerBlocksInstructionOptions ) );
+				const parentBlockDefinition = getBlockDefinition( parentBlock.name );
+				if ( parentBlockDefinition ) {
+					logger.debug( this.options.name + " inherted sidebar from " + parentBlock.name + " definition" );
+					const parentProps = createBlockEditProps( parentBlock );
+					elements.push( ...parentBlockDefinition.sidebarElements( parentProps ) );
 				}
 			} );
 		}

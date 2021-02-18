@@ -1,5 +1,5 @@
-import { select } from "@wordpress/data";
-import { BlockInstance } from "@wordpress/blocks";
+import { dispatch, select } from "@wordpress/data";
+import { BlockEditProps, BlockInstance } from "@wordpress/blocks";
 
 /**
  * Returns a normalized block ID.
@@ -62,4 +62,20 @@ export function getParentIdOfType( clientId: string, parentNames: string[] ): st
  */
 type extendedCoreBlockEditorSelector = {
 	getBlockParentsByBlockName( clientId: string, parentNames: string[] ): string[];
+}
+
+/**
+ * Creates BlockEditProps for a block with a given blockId.
+ * @param block The block to create BlockEditProps for.
+ * @param selected True if the block is selected in the editor; default false.
+ * @returns {BEP} The BlockEditProps.
+ */
+export function createBlockEditProps( block: BlockInstance, selected = false ): BlockEditProps<Record<string, unknown>> {
+	return {
+		attributes: block.attributes,
+		className: block.attributes.className || "",
+		clientId: block.clientId,
+		isSelected: selected,
+		setAttributes: dispatch( "core/block-editor" ).updateBlockAttributes.bind( null, block.clientId ),
+	};
 }
