@@ -117,7 +117,7 @@
     "@yoast/feature-flag": "^0.5.2",
     "@yoast/helpers": "^0.15.0",
     "@yoast/replacement-variable-editor": "^1.13.0-rc.0",
-    "@yoast/schema-blocks": "^1.4.0-rc.1",
+    "@yoast/schema-blocks": "^1.4.0-rc.2",
     "@yoast/search-metadata-previews": "^2.20.0-rc.0",
     "@yoast/social-metadata-forms": "^1.13.0-rc.0",
     "@yoast/style-guide": "^0.13.0",
@@ -149,6 +149,6 @@
     "extends @yoast/browserslist-config"
   ],
   "yoast": {
-    "pluginVersion": "15.9-RC2"
+    "pluginVersion": "15.9-RC3"
   }
 }

@@ -1683,10 +1683,10 @@
     styled-components "^4.4.1"
     yoastseo "^1.90.0"
 
-"@yoast/schema-blocks@^1.4.0-rc.1":
-  version "1.4.0-rc.1"
-  resolved "https://registry.yarnpkg.com/@yoast/schema-blocks/-/schema-blocks-1.4.0-rc.1.tgz#c8fbf260405622fb5986998c6da7c18e0eaa5adf"
-  integrity sha512-X3/kzPK1eDZdkz6xYsiO8696MHq5GCUMqikXMupuUbtdGs2ieD9es8KLAAbhUiRaSnozEzZNJWzNxlGlu8oyfQ==
+"@yoast/schema-blocks@^1.4.0-rc.2":
+  version "1.4.0-rc.2"
+  resolved "https://registry.yarnpkg.com/@yoast/schema-blocks/-/schema-blocks-1.4.0-rc.2.tgz#4a64a6ec7d3b972301e48b0ddc64bd33857db7a5"
+  integrity sha512-lyBqwiq+CjO/sJe0KFZmtSsEsChNY+uxykiXfgFO/5MhYCD8ZuRGVYQygOUpEuBQioMXyruxp5WJ4xESohnpkA==
   dependencies:
     "@wordpress/block-editor" "^5.2.1"
     "@wordpress/blocks" "^6.8.0"
