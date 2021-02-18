@@ -4,7 +4,6 @@ import FieldGroup, { FieldGroupDefaultProps, FieldGroupProps } from "../field-gr
 // Import the required CSS.
 import "./input.css";
 import "../base";
-import { getId } from "../GenerateId";
 
 /**
  * Renders a textarea for use in our HTML forms.
@@ -14,15 +13,15 @@ import { getId } from "../GenerateId";
  * @returns {React.Component} A react component that can be used in our forms.
  */
 const TextArea = ( props ) => {
-	const id = getId( props.id );
-	const fieldGroupProps = {
-		...props,
-		htmlFor: id,
-	};
+	const fieldGroupProps = { ...props };
+	if ( props.id ) {
+		fieldGroupProps.htmlFor = props.id;
+	}
+
 	return (
 		<FieldGroup { ...fieldGroupProps }>
 			<textarea
-				id={ id }
+				id={ props.id }
 				name={ props.name }
 				value={ props.value }
 				className="yoast-field-group__textarea"

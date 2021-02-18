@@ -20,8 +20,8 @@ const KeywordInputContainer = styled.div`
 `;
 
 const KeywordFieldLabel = styled.label`
-	font-size: 1em;
-	font-weight: bold;
+	font-size: var(--yoast-font-size-default);
+	font-weight: var(--yoast-font-weight-bold);
 	${ getDirectionalStyle( "margin-right: 4px", "margin-left: 4px" ) };
 `;
 

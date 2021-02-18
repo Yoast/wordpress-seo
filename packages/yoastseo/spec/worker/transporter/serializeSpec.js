@@ -6,9 +6,6 @@ import Sentence from "../../../src/values/Sentence";
 import SentencePart from "../../../src/values/SentencePart";
 import ProminentWord from "../../../src/values/ProminentWord";
 import serialize from "../../../src/worker/transporter/serialize";
-import englishFunctionWordsFactory from "../../../src/languages/legacy/researches/english/functionWords.js";
-
-const functionWords = englishFunctionWordsFactory().all;
 
 describe( "serialize", () => {
 	it( "serializes strings", () => {
@@ -141,11 +138,10 @@ describe( "serialize", () => {
 	} );
 
 	it( "serializes Sentences", () => {
-		const thing = new Sentence( "This is a sample text.", "en_US" );
+		const thing = new Sentence( "This is a sample text." );
 		const expected = {
 			_parseClass: "Sentence",
 			isPassive: false,
-			locale: "en_US",
 			sentenceText: "This is a sample text.",
 		};
 
@@ -153,14 +149,13 @@ describe( "serialize", () => {
 	} );
 
 	it( "serializes SentenceParts", () => {
-		const thing = new SentencePart( "wird geschlossen", [ "wird" ], "de" );
+		const thing = new SentencePart( "wird geschlossen", [ "wird" ] );
 		thing.setPassive( true );
 
 		const expected = {
 			_parseClass: "SentencePart",
 			auxiliaries: [ "wird" ],
 			isPassive: true,
-			locale: "de",
 			sentencePartText: "wird geschlossen",
 		};
 

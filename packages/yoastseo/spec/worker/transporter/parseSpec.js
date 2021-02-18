@@ -1,4 +1,4 @@
-import englishFunctionWordsFactory from "../../../src/languages/legacy/researches/english/functionWords";
+import { all as functionWords } from "../../../src/languageProcessing/languages/en/config/functionWords";
 import AssessmentResult from "../../../src/values/AssessmentResult";
 import Mark from "../../../src/values/Mark";
 import Paper from "../../../src/values/Paper";
@@ -8,8 +8,6 @@ import SentencePart from "../../../src/values/SentencePart";
 import ProminentWord from "../../../src/values/ProminentWord";
 import WordCombination from "../../../src/values/WordCombination";
 import parse from "../../../src/worker/transporter/parse";
-
-const functionWords = englishFunctionWordsFactory().all;
 
 describe( "parse", () => {
 	it( "parses strings", () => {
@@ -49,11 +47,11 @@ describe( "parse", () => {
 
 	it( "parses serialized WordCombinations", () => {
 		const serialized = {
-			_parseClass: "WordCombination",
-			functionWords: functionWords,
-			occurrences: 2,
-			words: [ "syllable", "combinations" ],
-			relevantWords: {
+			_functionWords: functionWords,
+			_length: 2,
+			_occurrences: 2,
+			_words: [ "syllable", "combinations" ],
+			_relevantWords: {
 				syllable: 4,
 				combinations: 4,
 			},

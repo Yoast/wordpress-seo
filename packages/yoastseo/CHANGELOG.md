@@ -3,7 +3,55 @@
 All notable changes to this project will be documented in this file. Releases without a changelog entry contain only minor changes that are irrelevant for users of this library.
 We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwards.
 
-## 1.83.0 October 12th, 2020
+## 1.89.0 January 25th, 2021
+### Enhancements
+* Adds Turkish stemmer.
+* Adds function words for Turkish.
+* Adds the consecutive sentences beginnings assessment for Turkish.
+* Adds the sentence length assessment for Turkish.
+* Implements the passive voice assessment for Turkish.
+* Implements the transition words assessment for Turkish.
+
+## 1.88.0 January 12th, 2021
+### Enhancements
+* Adds function words for Norwegian.
+* Adds Norwegian stemmer.
+
+## 1.87.0 December 14th, 2020
+### Enhancements
+* Implements the Hungarian passive voice.
+* Implements Hungarian stemmer.
+* Edits typos and add more transition words for Hungarian.
+* Adds function words for Hungarian.
+* Adds the sentence beginning assessment and specs for Hungarian.
+* Adds specs for the sentence length assessment in Hungarian.
+
+## 1.86.0 November 30th, 2020
+### Enhancements
+* Adds prefixes `وبال, مست, تنن, است, نست, ولل, كال, فال, بال, وال, لن, سن, ست, ات, وس, فل, فب, فس, لل, ول, وب, ال` to the list of ignored prefixes for Arabic. When the Arabic keyphrase is preceded by one of these prefixes, the basic keyphrase forms will also be created.
+
+### Bugfixes
+* Fixes a bug where links that contain line terminators (`\n`, `\r`, `\u2028` or `\u2029`) would not be detected as a link.
+
+## 1.85.0 November 16th, 2020
+### Enhancements
+* Implements Hebrew stemmer.
+* Implements the transition words assessment for Hebrew.
+* Adds Hebrew papers and specs to check the assessments functionality for Hebrew.
+* Adds the consecutive sentences assessment for Hebrew.
+* Adds Sentence length assessment for Hebrew.
+* Adds passive voice assessment for Hebrew, including a check, a number of specs and a list of Hebrew verb roots, both in their original and (for some) modified version.
+* Adds the words 'annoyed', 'depressed', 'disappointed', and 'upset' to the list of English non-passives.
+* Adds Swedish, Indonesian, Arabic, Hebrew, and Farsi to the list of languages with function words, to which a different scoring system applies for the keyphraseDistribution assessment.
+
+## 1.84.0 October 26th, 2020
+### Enhancements
+* Expands list of exceptions for Indonesian words that look like passive voice forms but are not and adds a rule that checks for those exceptions.
+
+### Bugfixes
+* Adds various quotation marks to `wordBoundaries` and `removePunctuation`.
+
+## 1.83.0 October 13th, 2020
 ### Enhancements
 * Creates basic keyphrase forms for Farsi when they have the following affixes: prefix `ن`, and suffixes `مان, شان, تان, ش, ت, م, ی` and their variations such as ` ‌اش, ‌ات, یی, یم, یت, یش, ‌ای, ‌ام`.
 * Adds function words for Farsi and edits a typo in the Arabic function words file.

@@ -1,7 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Provider } from "react-redux";
-import { AppContainer } from "react-hot-loader";
 
 import DevTools from "./utils/DevTools";
 import configureStore from "./configureStore";
@@ -16,14 +15,12 @@ const store = configureStore();
  * @returns {ReactElement} The AppContainer component.
  */
 const AppWrapper = ( { children } ) => (
-	<AppContainer>
-		<Provider store={ store }>
-			<div>
-				{ children }
-				<DevTools />
-			</div>
-		</Provider>
-	</AppContainer>
+	<Provider store={ store }>
+		<div>
+			{ children }
+			<DevTools />
+		</div>
+	</Provider>
 );
 
 AppWrapper.propTypes = {
