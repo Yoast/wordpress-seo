@@ -128,7 +128,7 @@ class Auto_Update implements Integration_Interface {
 		$plugins_to_auto_update = \get_option( 'auto_update_plugins' );
 
 		if ( $plugins_to_auto_update ) {
-			$yoast_updates_enabled = \in_array( 'wordpress-seo/wp-seo.php', \get_option( 'auto_update_plugins' ), true );
+			$yoast_updates_enabled = \in_array( 'wordpress-seo/wp-seo.php', $plugins_to_auto_update, true );
 
 			return $core_updates_enabled && ! $yoast_updates_enabled;
 		}
