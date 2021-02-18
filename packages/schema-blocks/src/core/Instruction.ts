@@ -81,16 +81,6 @@ export default abstract class Instruction {
 	}
 
 	/**
-	 * Retrieves a registered blockinstruction.
-	 * @param this This.
-	 * @param name The block to retrieve.
-	 * @returns {InstructionClass} The registered BlockInstruction.
-	 */
-	static getBlock<I extends typeof Instruction>( this: I, name: string ): InstructionClass<I["prototype"]> {
-		return this.registeredInstructions[ name ];
-	}
-
-	/**
 	 * Creates an instruction instance.
 	 *
 	 * @param this    This.

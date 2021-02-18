@@ -101,12 +101,8 @@ export default class BlockDefinition extends Definition {
 	 * @returns {ReactElement[]} The sidebar element to render.
 	 */
 	sidebarElements( props: RenderEditProps ): ReactElement[] {
-		const sidebarElements: ReactElement[] = Object.values( this.instructions )
-			.map( ( instruction, index ) => {
-				const output = instruction.sidebar( props, index );
-				return output;
-			 } )
+		return Object.values( this.instructions )
+			.map( ( instruction, index ) => instruction.sidebar( props, index ) )
 			.filter( e => e !== null );
-		return sidebarElements;
 	}
 }
