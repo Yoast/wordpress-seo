@@ -2,7 +2,7 @@ import { createElement, Fragment, ReactElement } from "@wordpress/element";
 import BlockInstruction from "../../core/blocks/BlockInstruction";
 import { RenderSaveProps, RenderEditProps } from "../../core/blocks/BlockDefinition";
 import { BlockEditProps, BlockConfiguration } from "@wordpress/blocks";
-import { createBlockEditProps, getParentId, getParentIdOfType } from "../../functions/gutenberg/block";
+import { createBlockEditProps, getParentIdOfType } from "../../functions/gutenberg/block";
 import { getBlockByClientId } from "../../functions/BlockHelper";
 import logger from "../../functions/logger";
 import { getBlockDefinition } from "../../core/blocks/BlockDefinitionRepository";
