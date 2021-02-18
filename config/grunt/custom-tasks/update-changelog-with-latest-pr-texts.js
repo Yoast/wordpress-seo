@@ -70,7 +70,6 @@ class ChangelogBuilder {
 
 
 	get cleanChangelog(){
-		//this.grunt.verbose.writeln(this.ChangelogMap);
 		var newlines = ""
 		//console.log((this.ChangelogMap.has('Enhancements:')))
 		if (this.ChangelogMap.has('Enhancements:')) {
@@ -84,10 +83,14 @@ class ChangelogBuilder {
 		};
 		this.ChangelogMap.forEach(function (value, key, map) {
 			//console.log(`map.get('${key}') = ${value}`);
-			if (!(key === 'Enhancements:' || key === 'Bugfixes:' || key == 'Non user facing:')) {
+			if (!(key === 'Enhancements:' || key === 'Bugfixes:' || key === 'Non user facing:' || key === 'Other:' )) {
 				newlines = newlines + "\n\n" + key + "\n\n" + this.ChangelogMap.get(key).items.join("\n");
 			};
 	   }, this);
+	   if (this.ChangelogMap.has('Other:')) {
+		//console.log("jhe")
+		newlines = newlines + "\n\nBugfixes:\n\n" + this.ChangelogMap.get('Other:').items.join("\n");
+	};
 		return newlines
 	};
 }
