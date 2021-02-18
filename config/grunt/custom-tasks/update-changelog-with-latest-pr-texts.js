@@ -37,17 +37,17 @@ class ChangelogBuilder {
 	
 	addLinesPerHeader(value, index, array) {
 		const key = `${value.match(new RegExp(  "[ a-zA-Z]+:" ))}`;
-		// const lines = value.match(new RegExp( "(?<=\n)\\*([\n]|.)+?(?=\Z|\n\n|\n\\*|\n$)", "gm" ));
-		// if (this.ChangelogMap.has(key)) {
-		// 	this.ChangelogMap.get(key).append(lines);
-		// } else {
-		// 	const uniqueLines = new Unique(this.grunt);
-		// 	uniqueLines.append(lines);
-		// 	this.ChangelogMap.set(key, uniqueLines);
-		// };
-		// if (this.useEditDistanceComapair) {
-		// 	this.ChangelogMap.get(key).test();
-		// };
+		const lines = value.match(new RegExp( "(?<=\n)\\*([\n]|.)+?(?=\Z|\n\n|\n\\*|\n$)", "gm" ));
+		if (this.ChangelogMap.has(key)) {
+			this.ChangelogMap.get(key).append(lines);
+		} else {
+			const uniqueLines = new Unique(this.grunt);
+			uniqueLines.append(lines);
+			this.ChangelogMap.set(key, uniqueLines);
+		};
+		if (this.useEditDistanceComapair) {
+			this.ChangelogMap.get(key).test();
+		};
 	};
 	
 
