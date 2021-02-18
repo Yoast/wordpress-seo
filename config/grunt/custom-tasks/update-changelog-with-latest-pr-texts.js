@@ -12,85 +12,85 @@ function escapeRegExp(string) {
 }
 
 
-// /*********************
-//  * class for building a changelog entry
-//  * 
-//  * @method parseChancelogLines 
-//  * @param {Object} multiline string
-//  * 
-//  * @method parseYoastCliGeneratedChangelog 
-//  * @param {Object} multiline string
-//  * 
-//  * @get cleanChangelog
-//  * 
-//  * 
-//  */
-// class ChangelogBuilder {
-// 	constructor(grunt , changelogIn, useEditDistanceComapair = false) {
-// 		this.ChangelogMap = new Map();
-// 		this.grunt = grunt;
-// 		this.useEditDistanceComapair = useEditDistanceComapair;
-// 		if (changelogIn) {
-// 			this.parseChancelogLines(changelogIn);
-// 		};
-// 	};
+/*********************
+ * class for building a changelog entry
+ * 
+ * @method parseChancelogLines 
+ * @param {Object} multiline string
+ * 
+ * @method parseYoastCliGeneratedChangelog 
+ * @param {Object} multiline string
+ * 
+ * @get cleanChangelog
+ * 
+ * 
+ */
+class ChangelogBuilder {
+	constructor(grunt , changelogIn, useEditDistanceComapair = false) {
+		this.ChangelogMap = new Map();
+		this.grunt = grunt;
+		this.useEditDistanceComapair = useEditDistanceComapair;
+		if (changelogIn) {
+			this.parseChancelogLines(changelogIn);
+		};
+	};
 	
-// 	#addLinesPerHeader(value, index, array) {
-// 		const key = `${value.match(new RegExp(  "[ a-zA-Z]+:" ))}`;
-// 		const lines = value.match(new RegExp( "(?<=\n)\\*([\n]|.)+?(?=\Z|\n\n|\n\\*|\n$)", "gm" ));
-// 		if (this.ChangelogMap.has(key)) {
-// 			this.ChangelogMap.get(key).append(lines);
-// 		} else {
-// 			const uniqueLines = new Unique(this.grunt);
-// 			uniqueLines.append(lines);
-// 			this.ChangelogMap.set(key, uniqueLines);
-// 		};
-// 		if (this.useEditDistanceComapair) {
-// 			this.ChangelogMap.get(key).test();
-// 		};
-// 	};
+	#addLinesPerHeader(value, index, array) {
+		const key = `${value.match(new RegExp(  "[ a-zA-Z]+:" ))}`;
+		const lines = value.match(new RegExp( "(?<=\n)\\*([\n]|.)+?(?=\Z|\n\n|\n\\*|\n$)", "gm" ));
+		if (this.ChangelogMap.has(key)) {
+			this.ChangelogMap.get(key).append(lines);
+		} else {
+			const uniqueLines = new Unique(this.grunt);
+			uniqueLines.append(lines);
+			this.ChangelogMap.set(key, uniqueLines);
+		};
+		if (this.useEditDistanceComapair) {
+			this.ChangelogMap.get(key).test();
+		};
+	};
 	
 
-// 	parseChancelogLines(changelogIn){
-// 		const parts = changelogIn.match(new RegExp( "\n[ a-zA-Z]+:(.|\\n)*?(?=(\n[ a-zA-Z]+:|\$))", "g" ));
-// 		parts.forEach(this.#addLinesPerHeader.bind(this));
-// 	};
+	parseChancelogLines(changelogIn){
+		const parts = changelogIn.match(new RegExp( "\n[ a-zA-Z]+:(.|\\n)*?(?=(\n[ a-zA-Z]+:|\$))", "g" ));
+		parts.forEach(this.#addLinesPerHeader.bind(this));
+	};
 	
-// 	parseYoastCliGeneratedChangelog(changelogIn){
-// 		//strip header from new file.
-// 		changelogIn = changelogIn.replace( new RegExp( "# Yoast/wordpress-seo:(.|\\n)*?(?=\n[ a-zA-Z]+:)" ),
-// 		""
-// 		);
-// 		// remove [#16525](https://github.com/Yoast/wordpress-seo/pull/16525) from lines
-// 		changelogIn = changelogIn.replace( new RegExp( "\\W\\[#\\d+\\]\\(https://github.com/Yoast/.+?/pull/\\d+\\)" , "gm" ),
-// 		""
-// 		);
-// 		this.parseChancelogLines(changelogIn)
-// 	};
+	parseYoastCliGeneratedChangelog(changelogIn){
+		//strip header from new file.
+		changelogIn = changelogIn.replace( new RegExp( "# Yoast/wordpress-seo:(.|\\n)*?(?=\n[ a-zA-Z]+:)" ),
+		""
+		);
+		// remove [#16525](https://github.com/Yoast/wordpress-seo/pull/16525) from lines
+		changelogIn = changelogIn.replace( new RegExp( "\\W\\[#\\d+\\]\\(https://github.com/Yoast/.+?/pull/\\d+\\)" , "gm" ),
+		""
+		);
+		this.parseChancelogLines(changelogIn)
+	};
 
 
-// 	get cleanChangelog(){
-// 		//this.grunt.verbose.writeln(this.ChangelogMap);
-// 		var newlines = ""
-// 		//console.log((this.ChangelogMap.has('Enhancements:')))
-// 		if (this.ChangelogMap.has('Enhancements:')) {
-// 			//console.log("jhe")
-// 			newlines = newlines = "\nEnhancements:\n\n"
-// 			newlines = newlines + this.ChangelogMap.get('Enhancements:').items.join("\n");
-// 		};
-// 		if (this.ChangelogMap.has('Bugfixes:')) {
-// 			//console.log("jhe")
-// 			newlines = newlines + "\n\nBugfixes:\n\n" + this.ChangelogMap.get('Bugfixes:').items.join("\n");
-// 		};
-// 		this.ChangelogMap.forEach(function (value, key, map) {
-// 			//console.log(`map.get('${key}') = ${value}`);
-// 			if (!(key === 'Enhancements:' || key === 'Bugfixes:' || key == 'Non user facing:')) {
-// 				newlines = newlines + "\n\n" + key + "\n\n" + this.ChangelogMap.get(key).items.join("\n");
-// 			};
-// 	   }, this);
-// 		return newlines
-// 	};
-// }
+	get cleanChangelog(){
+		//this.grunt.verbose.writeln(this.ChangelogMap);
+		var newlines = ""
+		//console.log((this.ChangelogMap.has('Enhancements:')))
+		if (this.ChangelogMap.has('Enhancements:')) {
+			//console.log("jhe")
+			newlines = newlines = "\nEnhancements:\n\n"
+			newlines = newlines + this.ChangelogMap.get('Enhancements:').items.join("\n");
+		};
+		if (this.ChangelogMap.has('Bugfixes:')) {
+			//console.log("jhe")
+			newlines = newlines + "\n\nBugfixes:\n\n" + this.ChangelogMap.get('Bugfixes:').items.join("\n");
+		};
+		this.ChangelogMap.forEach(function (value, key, map) {
+			//console.log(`map.get('${key}') = ${value}`);
+			if (!(key === 'Enhancements:' || key === 'Bugfixes:' || key == 'Non user facing:')) {
+				newlines = newlines + "\n\n" + key + "\n\n" + this.ChangelogMap.get(key).items.join("\n");
+			};
+	   }, this);
+		return newlines
+	};
+}
 
 // class Unique {
 // 	constructor(grunt, items) {
