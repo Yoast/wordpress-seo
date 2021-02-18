@@ -1,8 +1,5 @@
-import { helpers } from "yoastseo";
+import { interpreters } from "yoastseo";
 import { colors } from "@yoast/style-guide";
-
-const { scoreToRating } = helpers;
-
 
 /**
  * Mapped result definition.
@@ -38,7 +35,7 @@ function mapResult( result, key = "" ) {
 	const id = result.getIdentifier();
 	const mappedResult = {
 		score: result.score,
-		rating: scoreToRating( result.score ),
+		rating: interpreters.scoreToRating( result.score ),
 		hasMarks: result.hasMarks(),
 		marker: result.getMarker(),
 		id,

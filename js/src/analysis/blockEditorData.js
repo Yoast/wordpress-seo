@@ -1,5 +1,5 @@
 import { debounce } from "lodash-es";
-import { string } from "yoastseo";
+import { languageProcessing } from "yoastseo";
 import { select, subscribe } from "@wordpress/data";
 
 import {
@@ -214,7 +214,7 @@ export default class BlockEditorData {
 	getContentImage() {
 		const content = this._coreEditorSelect.getEditedPostContent();
 
-		const images = string.imageInText( content );
+		const images = languageProcessing.imageInText( content );
 		let image = "";
 
 		if ( images.length === 0 ) {
