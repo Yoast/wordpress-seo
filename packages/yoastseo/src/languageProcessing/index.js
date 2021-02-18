@@ -1,6 +1,8 @@
 import replaceDiacritics from "./helpers/transliterate/replaceDiacritics";
 import transliterate from "./helpers/transliterate/transliterate";
 import createRegexFromArray from "./helpers/regex/createRegexFromArray";
+import imageInText from "./helpers/image/imageInText";
+import stripSpaces from "./helpers/sanitize/stripSpaces";
 import ArabicResearcher from "./languages/ar/Researcher";
 import CatalanResearcher from "./languages/ca/Researcher";
 import GermanResearcher from "./languages/de/Researcher";
@@ -45,4 +47,6 @@ export {
 	transliterate,
 	replaceDiacritics,
 	createRegexFromArray,
+	imageInText,
+	stripSpaces,
 };
