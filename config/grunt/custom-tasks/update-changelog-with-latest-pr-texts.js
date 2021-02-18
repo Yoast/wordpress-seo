@@ -1,15 +1,15 @@
-// // "use strict";
+// "use strict";
 
-// /**
-//  * escapes a string so it can be use as a regual expression.
-//  *
-//  * @param {Object} string The response object.
-//  * 
-//  * @returns {Object} string 
-//  */
-// function escapeRegExp(string) {
-// 	return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
-// }
+/**
+ * escapes a string so it can be use as a regual expression.
+ *
+ * @param {Object} string The response object.
+ * 
+ * @returns {Object} string 
+ */
+function escapeRegExp(string) {
+	return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
+}
 
 
 // /*********************
@@ -90,7 +90,7 @@
 // 	   }, this);
 // 		return newlines
 // 	};
-// };
+// }
 
 // class Unique {
 // 	constructor(grunt, items) {
@@ -175,7 +175,7 @@
 // 		return costs[s2.length];
 // 	  };
 
-//  };
+//  }
 
 //const mergeChangeLog = require( "../lib/merge-changelog" );
 const parseVersion = require( "../lib/parse-version" );
