@@ -165,7 +165,7 @@ release:
 
 
 'update-changelog':
-#  - get-changelog 
+  - get-changelog 
   - update-changelog-with-latest-pr-texts
 
 # Default task
