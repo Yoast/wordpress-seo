@@ -5,6 +5,7 @@ namespace Yoast\WP\SEO\Integrations\Watchers;
 use Yoast\WP\SEO\Conditionals\No_Conditionals;
 use Yoast\WP\SEO\Helpers\Notification_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
+use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Presenters\Admin\Auto_Update_Notification_Presenter;
 use Yoast_Notification;
 use Yoast_Notification_Center;
