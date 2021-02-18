@@ -73,12 +73,10 @@ class ChangelogBuilder {
 		var newlines = ""
 		//console.log((this.ChangelogMap.has('Enhancements:')))
 		if (this.ChangelogMap.has('Enhancements:')) {
-			//console.log("jhe")
 			newlines = newlines = "\nEnhancements:\n\n"
 			newlines = newlines + this.ChangelogMap.get('Enhancements:').items.join("\n");
 		};
 		if (this.ChangelogMap.has('Bugfixes:')) {
-			//console.log("jhe")
 			newlines = newlines + "\n\nBugfixes:\n\n" + this.ChangelogMap.get('Bugfixes:').items.join("\n");
 		};
 		this.ChangelogMap.forEach(function (value, key, map) {
@@ -86,11 +84,10 @@ class ChangelogBuilder {
 			if (!(key === 'Enhancements:' || key === 'Bugfixes:' || key === 'Non user facing:' || key === 'Other:' )) {
 				newlines = newlines + "\n\n" + key + "\n\n" + this.ChangelogMap.get(key).items.join("\n");
 			};
-	   }, this);
-	   if (this.ChangelogMap.has('Other:')) {
-		//console.log("jhe")
-		newlines = newlines + "\n\nBugfixes:\n\n" + this.ChangelogMap.get('Other:').items.join("\n");
-	};
+		}, this);
+		if (this.ChangelogMap.has('Other:')) {
+			newlines = newlines + "\n\nBugfixes:\n\n" + this.ChangelogMap.get('Other:').items.join("\n");
+		};
 		return newlines
 	};
 }
@@ -116,12 +113,12 @@ class Unique {
 			var arrlen = this.items.length;
 			for (var j = i+1; j<arrlen; j++) {
 				
-				if (this.similarity(this.items[i], this.items[j]) > 0.9) {
+				if (this.#similarity(this.items[i], this.items[j]) > 0.9) {
 					toBeRemoved.push(j)
 					this.grunt.verbose.writeln ("---------------")
 					this.grunt.verbose.writeln (`${j}: ${this.items[j]}`)
 					this.grunt.verbose.writeln (`${i}: ${this.items[i]}`)
-					this.grunt.verbose.writeln (`${this.similarity(this.items[i], this.items[j])}`)
+					this.grunt.verbose.writeln (`${this.#similarity(this.items[i], this.items[j])}`)
 					this.grunt.verbose.writeln ("---------------")
 				};
 			};
@@ -136,7 +133,7 @@ class Unique {
 		
 	};
 
-	similarity(s1, s2) {
+	#similarity(s1, s2) {
 		var longer = s1;
 		var shorter = s2;
 		if (s1.length < s2.length) {
