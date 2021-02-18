@@ -109,7 +109,6 @@ export default abstract class Instruction {
 
 		if ( ! klass ) {
 			logger.error( "Invalid instruction: ", name );
-			logger.debug( "if you just added a new instruction class, did you export that class?" );
 		}
 
 		return new klass( id, options );

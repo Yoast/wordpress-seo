@@ -9,7 +9,6 @@ import { InnerBlocksInstructionOptions } from "./InnerBlocksInstructionOptions";
 import Instruction from "../../core/Instruction";
 import { innerBlocksSidebar } from "../../functions/presenters/InnerBlocksSidebarPresenter";
 import logger from "../../functions/logger";
-import { getBlockDefinition } from "../../core/blocks/BlockDefinitionRepository";
 
 /**
  * Sidebar input instruction.
@@ -43,12 +42,10 @@ export default class InheritSidebar extends SidebarBase {
 		if ( parentIds.length > 0 ) {
 			parentIds.forEach( parentId => {
 				const parentBlock = getBlockByClientId( parentId );
-				const parentBlockDefinition = getBlockDefinition( parentBlock.name );
-				if ( parentBlockDefinition ) {
-					logger.debug( "inherting sidebar from " + parentBlock.name );
-					logger.debug( parentBlock.name + " has sidebar? ", parentBlockDefinition.sidebar );
-
-					elements.push( parentBlockDefinition.sidebar( props, i ) );
+				const parentBlockInstruction = Instruction.getBlock( parentBlock.name );
+				if ( parentBlockInstruction ) {
+					logger.debug( "inherting sidebar from " + parentBlockInstruction.name );
+					elements.push( ...innerBlocksSidebar( parentBlock, parentBlockInstruction.options as InnerBlocksInstructionOptions ) );
 				}
 			} );
 		}

@@ -1,4 +1,4 @@
-import { createElement, Fragment, ReactElement } from "@wordpress/element";
+import { createElement, Fragment } from "@wordpress/element";
 import { registerBlockType, BlockConfiguration, BlockEditProps, BlockSaveProps } from "@wordpress/blocks";
 import { InspectorControls } from "@wordpress/block-editor";
 import BlockInstruction from "./BlockInstruction";
@@ -59,20 +59,6 @@ export default class BlockDefinition extends Definition {
 
 		return createElement( Fragment, { key: props.clientId }, elements );
 	}
-
-	/* eslint-disable @typescript-eslint/no-unused-vars */
-	/**
-	 * Renders the sidebar.
-	 *
-	 * @param props The props.
-	 * @param i     The number the rendered element is of its parent.
-	 *
-	 * @returns {ReactElement} The sidebar element to render.
-	 */
-	sidebar( props: RenderEditProps, i: number ): ReactElement {
-		return this.tree.sidebar( props );
-	}
-	/* eslint-enable @typescript-eslint/no-unused-vars */
 
 	/**
 	 * Renders the persisted block.
