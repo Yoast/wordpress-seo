@@ -189,7 +189,7 @@ const _isEmpty = require( "lodash/isEmpty" );
  */
 module.exports = function( grunt ) {
 	grunt.registerMultiTask(
-		"update-changelog-with-latest-pr-texts",
+		"update-changelog-with-latest-pr-texts-old",
 		"Prompts the user for the changelog entries and updates the readme.txt",
 		function() {
 			let options = this.options( {
