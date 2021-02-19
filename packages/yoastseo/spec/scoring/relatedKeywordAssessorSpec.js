@@ -1,8 +1,8 @@
-import EnglishResearcher from "../src/languageProcessing/languages/en/Researcher";
-import Assessor from "../src/scoring/relatedKeywordAssessor";
-import Paper from "../src/values/Paper";
-import factory from "./specHelpers/factory";
-import getResults from "./specHelpers/getListOfAssessmentResults";
+import EnglishResearcher from "../../src/languageProcessing/languages/en/Researcher";
+import Assessor from "../../src/scoring/relatedKeywordAssessor";
+import Paper from "../../src/values/Paper";
+import factory from "../specHelpers/factory";
+import getResults from "../specHelpers/getListOfAssessmentResults";
 const i18n = factory.buildJed();
 const assessor = new Assessor( i18n, { researcher: new EnglishResearcher() } );
 
