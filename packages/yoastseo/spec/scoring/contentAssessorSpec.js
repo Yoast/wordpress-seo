@@ -1,19 +1,19 @@
-import EnglishResearcher from "../src/languageProcessing/languages/en/Researcher";
-import DefaultResearcher from "../src/languageProcessing/languages/_default/Researcher";
-import ContentAssessor from "../src/scoring/contentAssessor.js";
-import AssessmentResult from "../src/values/AssessmentResult.js";
-import Factory from "./specHelpers/factory.js";
-import Paper from "../src/values/Paper.js";
+import EnglishResearcher from "../../src/languageProcessing/languages/en/Researcher";
+import DefaultResearcher from "../../src/languageProcessing/languages/_default/Researcher";
+import ContentAssessor from "../../src/scoring/contentAssessor.js";
+import AssessmentResult from "../../src/values/AssessmentResult.js";
+import Factory from "../specHelpers/factory.js";
+import Paper from "../../src/values/Paper.js";
 
 import { forEach } from "lodash-es";
 
-var i18n = Factory.buildJed();
+const i18n = Factory.buildJed();
 
 describe( "A content assesor", function() {
 	describe( "calculatePenaltyPoints", function() {
-		var contentAssessor;
-		var results;
-		var paper = new Paper();
+		let contentAssessor;
+		let results;
+		const paper = new Paper();
 		beforeEach( function() {
 			contentAssessor = new ContentAssessor( i18n, { locale: "en_US", researcher: new EnglishResearcher( paper ) } );
 			contentAssessor.getValidResults = function() {
@@ -26,9 +26,9 @@ describe( "A content assesor", function() {
 
 		it( "should have no points for an empty result set", function() {
 			results = [];
-			var expected = 0;
+			const expected = 0;
 
-			var actual = contentAssessor.calculatePenaltyPoints();
+			const actual = contentAssessor.calculatePenaltyPoints();
 
 			expect( actual ).toBe( expected );
 		} );
@@ -41,9 +41,9 @@ describe( "A content assesor", function() {
 				new AssessmentResult( { score: 9 } ),
 				new AssessmentResult( { score: 9 } ),
 			];
-			var expected = 0;
+			const expected = 0;
 
-			var actual = contentAssessor.calculatePenaltyPoints();
+			const actual = contentAssessor.calculatePenaltyPoints();
 
 			expect( actual ).toBe( expected );
 		} );
@@ -56,9 +56,9 @@ describe( "A content assesor", function() {
 			results = [
 				new AssessmentResult( { score: 3 } ),
 			];
-			var expected = 3;
+			const expected = 3;
 
-			var actual = contentAssessor.calculatePenaltyPoints();
+			const actual = contentAssessor.calculatePenaltyPoints();
 
 			expect( actual ).toBe( expected );
 		} );
@@ -67,9 +67,9 @@ describe( "A content assesor", function() {
 			results = [
 				new AssessmentResult( { score: 6 } ),
 			];
-			var expected = 2;
+			const expected = 2;
 
-			var actual = contentAssessor.calculatePenaltyPoints();
+			const actual = contentAssessor.calculatePenaltyPoints();
 
 			expect( actual ).toBe( expected );
 		} );
@@ -89,16 +89,16 @@ describe( "A content assesor", function() {
 				new AssessmentResult( { score: 9 } ),
 				new AssessmentResult( { text: "A piece of feedback" } ),
 			];
-			var expected = 6 + 6;
+			const expected = 6 + 6;
 
-			var actual = contentAssessor.calculatePenaltyPoints();
+			const actual = contentAssessor.calculatePenaltyPoints();
 
 			expect( actual ).toBe( expected );
 		} );
 	} );
 
 	describe( "calculateOverallScore for English", function() {
-		var points, results, contentAssessor;
+		let points, results, contentAssessor;
 
 		beforeEach( function() {
 			contentAssessor = new ContentAssessor( i18n, { locale: "en_US", researcher: new EnglishResearcher() } );
@@ -114,10 +114,10 @@ describe( "A content assesor", function() {
 		} );
 
 		it( "should default to a bad indicator", function() {
-			var expected = 30;
+			const expected = 30;
 			results = [];
 
-			var actual = contentAssessor.calculateOverallScore();
+			const actual = contentAssessor.calculateOverallScore();
 
 			expect( actual ).toBe( expected );
 		} );
@@ -127,7 +127,7 @@ describe( "A content assesor", function() {
 				new AssessmentResult(),
 				new AssessmentResult(),
 			];
-			var testCases = [
+			const testCases = [
 				{ points: 7, expected: 30 },
 				{ points: 6, expected: 60 },
 				{ points: 9, expected: 30 },
@@ -144,7 +144,7 @@ describe( "A content assesor", function() {
 					return true;
 				};
 
-				var actual = contentAssessor.calculateOverallScore();
+				const actual = contentAssessor.calculateOverallScore();
 
 				expect( actual ).toBe( testCase.expected );
 			} );
@@ -152,7 +152,7 @@ describe( "A content assesor", function() {
 	} );
 
 	describe( "calculateOverallScore for non English", function() {
-		var points, results, contentAssessor;
+		let points, results, contentAssessor;
 
 		beforeEach( function() {
 			contentAssessor = new ContentAssessor( i18n, { locale: "en_US", researcher: new EnglishResearcher() } );
@@ -172,7 +172,7 @@ describe( "A content assesor", function() {
 				new AssessmentResult(),
 				new AssessmentResult(),
 			];
-			var testCases = [
+			const testCases = [
 				{ points: 6, expected: 30 },
 				{ points: 4, expected: 60 },
 				{ points: 3, expected: 60 },
@@ -182,7 +182,7 @@ describe( "A content assesor", function() {
 			forEach( testCases, function( testCase ) {
 				points = testCase.points;
 
-				var actual = contentAssessor.calculateOverallScore();
+				const actual = contentAssessor.calculateOverallScore();
 
 				expect( actual ).toBe( testCase.expected );
 			} );
@@ -190,7 +190,6 @@ describe( "A content assesor", function() {
 	} );
 
 	describe( "Checks the applicable assessments", function() {
-
 		it( "Should have 8 available assessments for a fully supported language", function() {
 			const paper = new Paper( "test", { locale: "en_US" } );
 			const contentAssessor = new ContentAssessor( i18n, { researcher: new EnglishResearcher( paper ) } );
@@ -198,8 +197,8 @@ describe( "A content assesor", function() {
 			contentAssessor.getPaper = function() {
 				return paper;
 			};
-			var actual = contentAssessor.getApplicableAssessments().length;
-			var expected = 8;
+			const actual = contentAssessor.getApplicableAssessments().length;
+			const expected = 8;
 			expect( actual ).toBe( expected );
 		} );
 
@@ -211,8 +210,8 @@ describe( "A content assesor", function() {
 				return paper;
 			};
 
-			var actual = contentAssessor.getApplicableAssessments().length;
-			var expected = 4;
+			const actual = contentAssessor.getApplicableAssessments().length;
+			const expected = 4;
 			expect( actual ).toBe( expected );
 		} );
 	} );

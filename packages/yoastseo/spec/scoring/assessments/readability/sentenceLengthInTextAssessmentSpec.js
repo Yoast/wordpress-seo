@@ -353,7 +353,7 @@ describe( "An assessment for sentence length", function() {
 
 	it( "returns the score for 25% long sentences in Hebrew", function() {
 		const mockPaper = new Paper( "text", { locale: "he_IL" } );
-		const assessment = sentenceLengthInTextAssessment.getResult( mockPaper, Factory.buildMockResearcher( [
+		const assessment = new SentenceLengthInTextAssessment().getResult( mockPaper, Factory.buildMockResearcher( [
 			{ sentence: "", sentenceLength: 16 },
 			{ sentence: "", sentenceLength: 15 },
 			{ sentence: "", sentenceLength: 15 },
@@ -421,7 +421,7 @@ describe( "An assessment for sentence length", function() {
 
 	it( "returns the score for 100% long sentences in Hungarian", function() {
 		const mockPaper = new Paper( "text", { locale: "hu_HU" } );
-		const assessment = sentenceLengthInTextAssessment.getResult( mockPaper, Factory.buildMockResearcher( [
+		const assessment = new SentenceLengthInTextAssessment().getResult( mockPaper, Factory.buildMockResearcher( [
 			{ sentence: "", sentenceLength: 21 },
 		] ), i18n );
 
@@ -435,7 +435,7 @@ describe( "An assessment for sentence length", function() {
 
 	it( "returns the score for 50% long sentences in Hungarian", function() {
 		const mockPaper = new Paper( "text", { locale: "hu_HU" } );
-		const assessment = sentenceLengthInTextAssessment.getResult( mockPaper, Factory.buildMockResearcher( [
+		const assessment = new SentenceLengthInTextAssessment().getResult( mockPaper, Factory.buildMockResearcher( [
 			{ sentence: "", sentenceLength: 21 },
 			{ sentence: "", sentenceLength: 13 },
 		] ), i18n );
@@ -450,7 +450,7 @@ describe( "An assessment for sentence length", function() {
 
 	it( "returns the score for 25% long sentences in Hungarian", function() {
 		const mockPaper = new Paper( "text", { locale: "hu_HU" } );
-		const assessment = sentenceLengthInTextAssessment.getResult( mockPaper, Factory.buildMockResearcher( [
+		const assessment = new SentenceLengthInTextAssessment().getResult( mockPaper, Factory.buildMockResearcher( [
 			{ sentence: "", sentenceLength: 21 },
 			{ sentence: "", sentenceLength: 20 },
 			{ sentence: "", sentenceLength: 20 },
@@ -466,7 +466,7 @@ describe( "An assessment for sentence length", function() {
 	it( "returns the score for all short sentences in Hungarian", function() {
 		const mockPaper = new Paper( "text", { locale: "hu_HU" } );
 
-		const assessment = sentenceLengthInTextAssessment.getResult( mockPaper, Factory.buildMockResearcher( [
+		const assessment = new SentenceLengthInTextAssessment().getResult( mockPaper, Factory.buildMockResearcher( [
 			{ sentence: "", sentenceLength: 19 },
 		] ), i18n );
 
@@ -569,7 +569,7 @@ describe( "An assessment for sentence length for cornerstone content", function(
 
 	it( "returns the score for 20% long sentences in Polish using the cornerstone configuration", function() {
 		const mockPaper = new Paper();
-		const assessment = new SentenceLengthInTextAssessment(true ).getResult( mockPaper, Factory.buildMockResearcher( [
+		const assessment = new SentenceLengthInTextAssessment( true ).getResult( mockPaper, Factory.buildMockResearcher( [
 			{ sentence: "", sentenceLength: 30 },
 			{ sentence: "", sentenceLength: 30 },
 			{ sentence: "", sentenceLength: 30 },
@@ -641,6 +641,6 @@ describe( "A test for marking too long sentences", function() {
 
 describe( "A test for marking too long sentences", function() {
 	it( "calculatePercentage returns nothing if there are no sentences", function() {
-		expect( new SentenceLengthInTextAssessment().calculatePercentage( [], 20 ) ).toEqual( 0 );
+		expect( new SentenceLengthInTextAssessment().calculatePercentage( [] ) ).toEqual( 0 );
 	} );
 } );
