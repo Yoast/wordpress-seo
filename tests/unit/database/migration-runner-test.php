@@ -69,9 +69,9 @@ class Migration_Runner_Test extends TestCase {
 		$loader_mock  = Mockery::mock( Loader::class );
 		$adapter_mock = Mockery::mock( Adapter::class );
 
-		$status_mock->expects( 'should_run_migration' )->once()->with( 'test' )->andReturn( true );
+		$status_mock->expects( 'should_run_migration' )->once()->with( 'test', \WPSEO_VERSION )->andReturn( true );
 		$status_mock->expects( 'lock_migration' )->once()->with( 'test' )->andReturn( true );
-		$status_mock->expects( 'set_success' )->once()->with( 'test' );
+		$status_mock->expects( 'set_success' )->once()->with( 'test', \WPSEO_VERSION );
 		$adapter_mock->expects( 'create_schema_version_table' )->once();
 		$adapter_mock->expects( 'get_migrated_versions' )->once()->andReturn( [] );
 		$adapter_mock->expects( 'start_transaction' )->once();
@@ -98,7 +98,7 @@ class Migration_Runner_Test extends TestCase {
 		$loader_mock  = Mockery::mock( Loader::class );
 		$adapter_mock = Mockery::mock( Adapter::class );
 
-		$status_mock->expects( 'should_run_migration' )->once()->with( 'test' )->andReturn( false );
+		$status_mock->expects( 'should_run_migration' )->once()->with( 'test', \WPSEO_VERSION )->andReturn( false );
 
 		$instance = new Migration_Runner( $status_mock, $loader_mock, $adapter_mock );
 
@@ -115,7 +115,7 @@ class Migration_Runner_Test extends TestCase {
 		$loader_mock  = Mockery::mock( Loader::class );
 		$adapter_mock = Mockery::mock( Adapter::class );
 
-		$status_mock->expects( 'should_run_migration' )->once()->with( 'test' )->andReturn( true );
+		$status_mock->expects( 'should_run_migration' )->once()->with( 'test', \WPSEO_VERSION )->andReturn( true );
 		$status_mock->expects( 'lock_migration' )->once()->with( 'test' )->andReturn( false );
 
 		$instance = new Migration_Runner( $status_mock, $loader_mock, $adapter_mock );
@@ -133,9 +133,9 @@ class Migration_Runner_Test extends TestCase {
 		$loader_mock  = Mockery::mock( Loader::class );
 		$adapter_mock = Mockery::mock( Adapter::class );
 
-		$status_mock->expects( 'should_run_migration' )->once()->with( 'test' )->andReturn( true );
+		$status_mock->expects( 'should_run_migration' )->once()->with( 'test', \WPSEO_VERSION )->andReturn( true );
 		$status_mock->expects( 'lock_migration' )->once()->with( 'test' )->andReturn( true );
-		$status_mock->expects( 'set_error' )->once()->with( 'test', 'Could not perform test migrations. No migrations found.' );
+		$status_mock->expects( 'set_error' )->once()->with( 'test', 'Could not perform test migrations. No migrations found.', \WPSEO_VERSION );
 		$loader_mock->expects( 'get_migrations' )->once()->with( 'test' )->andReturn( false );
 
 		$instance = new Migration_Runner( $status_mock, $loader_mock, $adapter_mock );
@@ -156,9 +156,9 @@ class Migration_Runner_Test extends TestCase {
 		$loader_mock  = Mockery::mock( Loader::class );
 		$adapter_mock = Mockery::mock( Adapter::class );
 
-		$status_mock->expects( 'should_run_migration' )->once()->with( 'test' )->andReturn( true );
+		$status_mock->expects( 'should_run_migration' )->once()->with( 'test', \WPSEO_VERSION )->andReturn( true );
 		$status_mock->expects( 'lock_migration' )->once()->with( 'test' )->andReturn( true );
-		$status_mock->expects( 'set_error' )->once()->with( 'test', Migration_Double::class . ' - Migration error' );
+		$status_mock->expects( 'set_error' )->once()->with( 'test', Migration_Double::class . ' - Migration error', \WPSEO_VERSION );
 		$adapter_mock->expects( 'create_schema_version_table' )->once();
 		$adapter_mock->expects( 'get_migrated_versions' )->once()->andReturn( [] );
 		$adapter_mock->expects( 'start_transaction' )->once();
