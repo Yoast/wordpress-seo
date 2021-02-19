@@ -13,7 +13,7 @@ use Yoast_Notification_Center;
 /**
  * Shows a notification for users who have WordPress auto updates enabled but not Yoast SEO auto updates.
  */
-class Auto_Update implements Integration_Interface {
+class Auto_Update_Watcher implements Integration_Interface {
 
 	use No_Conditionals;
 
