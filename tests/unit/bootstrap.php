@@ -16,7 +16,7 @@ $GLOBALS['wp_version'] = '1.0';
 define( 'WPSEO_VERSION', '1.0' );
 
 if ( ! defined( 'WPSEO_PATH' ) ) {
-	define( 'WPSEO_PATH', dirname( dirname( dirname( dirname( __FILE__ ) ) ) ) . '/' );
+	define( 'WPSEO_PATH', dirname( dirname( dirname( __FILE__ ) ) ) . '/' );
 }
 
 if ( ! defined( 'WPSEO_FILE' ) ) {
