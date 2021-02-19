@@ -94,13 +94,6 @@ class Meta_Tags_Context_Mock extends Meta_Tags_Context {
 	public $site_represents_reference;
 
 	/**
-	 * Represents the enabled state of the breadcrumbs.
-	 *
-	 * @var bool
-	 */
-	public $breadcrumbs_enabled;
-
-	/**
 	 * Represents the page type in schema output.
 	 *
 	 * @var string|string[]

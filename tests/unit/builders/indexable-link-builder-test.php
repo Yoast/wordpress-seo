@@ -7,6 +7,7 @@ use Brain\Monkey\Functions;
 use Mockery;
 use Yoast\WP\SEO\Builders\Indexable_Link_Builder;
 use Yoast\WP\SEO\Helpers\Image_Helper;
+use Yoast\WP\SEO\Helpers\Post_Helper;
 use Yoast\WP\SEO\Helpers\Url_Helper;
 use Yoast\WP\SEO\Models\SEO_Links;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
@@ -29,28 +30,35 @@ class Indexable_Link_Builder_Test extends TestCase {
 	/**
 	 * The SEO links repository.
 	 *
-	 * @var SEO_Links_Repository
+	 * @var Mockery\MockInterface|SEO_Links_Repository
 	 */
 	protected $seo_links_repository;
 
 	/**
 	 * The url helper.
 	 *
-	 * @var Url_Helper
+	 * @var Mockery\MockInterface|Url_Helper
 	 */
 	protected $url_helper;
 
 	/**
 	 * The image helper.
 	 *
-	 * @var Image_Helper
+	 * @var Mockery\MockInterface|Image_Helper
 	 */
 	protected $image_helper;
 
 	/**
+	 * The post helper.
+	 *
+	 * @var Mockery\MockInterface|Post_Helper
+	 */
+	protected $post_helper;
+
+	/**
 	 * The indexable repository.
 	 *
-	 * @var Indexable_Repository
+	 * @var Mockery\MockInterface|Indexable_Repository
 	 */
 	protected $indexable_repository;
 
@@ -71,8 +79,13 @@ class Indexable_Link_Builder_Test extends TestCase {
 		$this->url_helper           = Mockery::mock( Url_Helper::class );
 		$this->indexable_repository = Mockery::mock( Indexable_Repository::class );
 		$this->image_helper         = Mockery::mock( Image_Helper::class );
+		$this->post_helper          = Mockery::mock( Post_Helper::class );
 
-		$this->instance = new Indexable_Link_Builder( $this->seo_links_repository, $this->url_helper );
+		$this->instance = new Indexable_Link_Builder(
+			$this->seo_links_repository,
+			$this->url_helper,
+			$this->post_helper
+		);
 		$this->instance->set_dependencies( $this->indexable_repository, $this->image_helper );
 	}
 
@@ -96,7 +109,10 @@ class Indexable_Link_Builder_Test extends TestCase {
 		$indexable->object_type = 'post';
 		$indexable->permalink   = 'https://site.com/page';
 
+		$this->post_helper->expects( 'get_post' )->once()->with( 2 )->andReturn( 'post' );
+		Functions\expect( 'setup_postdata' )->once()->with( 'post' );
 		Filters\expectApplied( 'the_content' )->with( $content )->andReturnFirstArg();
+		Functions\expect( 'wp_reset_postdata' )->once();
 
 		$parsed_home_url = [
 			'scheme' => 'https',
@@ -171,8 +187,9 @@ class Indexable_Link_Builder_Test extends TestCase {
 	 * @covers ::build
 	 */
 	public function test_build_target_indexable_does_not_exist() {
-		$content   = '<a href="https://site.com/target">link</a>';
-		$link_type = SEO_Links::TYPE_INTERNAL;
+		$content          = '<a href="https://site.com/target">link</a>';
+		$link_type        = SEO_Links::TYPE_INTERNAL;
+		$target_permalink = 'https://site.com/target';
 
 		$indexable              = Mockery::mock( Indexable_Mock::class );
 		$indexable->id          = 1;
@@ -184,11 +201,14 @@ class Indexable_Link_Builder_Test extends TestCase {
 		$target_indexable->id          = 2;
 		$target_indexable->object_id   = 3;
 		$target_indexable->object_type = 'post';
-		$target_indexable->permalink   = 'https://site.com/target';
+		$target_indexable->permalink   = $target_permalink;
 		$target_indexable->language    = 'nl';
 		$target_indexable->region      = 'NL';
 
+		$this->post_helper->expects( 'get_post' )->once()->with( 2 )->andReturn( 'post' );
+		Functions\expect( 'setup_postdata' )->once()->with( 'post' );
 		Filters\expectApplied( 'the_content' )->with( $content )->andReturnFirstArg();
+		Functions\expect( 'wp_reset_postdata' )->once();
 
 		$parsed_home_url = [
 			'scheme' => 'https',
@@ -212,6 +232,7 @@ class Indexable_Link_Builder_Test extends TestCase {
 		Functions\expect( 'set_url_scheme' )->once()->with( 'https://site.com/target', 'https' )->andReturnFirstArg();
 
 		$this->url_helper->expects( 'get_link_type' )->with( $parsed_link_url, $parsed_home_url, false )->andReturn( $link_type );
+		$this->url_helper->expects( 'is_relative' )->with( $target_permalink )->andReturnFalse();
 
 		$query_mock                    = Mockery::mock();
 		$seo_link                      = Mockery::mock( SEO_Links_Mock::class );
@@ -270,10 +291,10 @@ class Indexable_Link_Builder_Test extends TestCase {
 
 		$links = $this->instance->build( $indexable, $content );
 
-		$this->assertCount( 1, $links );
-		$this->assertEquals( $seo_link, $links[0] );
-		$this->assertEquals( $seo_link->target_indexable_id, $links[0]->target_indexable_id );
-		$this->assertEquals( $seo_link->target_post_id, $links[0]->target_post_id );
+		self::assertCount( 1, $links );
+		self::assertEquals( $seo_link, $links[0] );
+		self::assertEquals( $seo_link->target_indexable_id, $links[0]->target_indexable_id );
+		self::assertEquals( $seo_link->target_post_id, $links[0]->target_post_id );
 	}
 
 	/**

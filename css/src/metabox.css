@@ -107,6 +107,7 @@ ul.wpseo-metabox-tabs li.active {
 }
 
 .wpseo-metabox-menu {
+  max-width: 600px;
   padding: 0;
   background-color: #fff;
 }
@@ -786,6 +787,13 @@ div.interface-pinned-items button.components-button.is-pressed[aria-label="Yoast
 }
 .yoast.components-panel__body.is-opened .yoast-chevron {
 	mask-image: var(--yoast-svg-icon-chevron-up);
+}
+
+/* FormTokenField ("gutenberg tag selectors") used inside the .yoast metabox will be Yoast purple. */
+.yoast .components-form-token-field__token-text,
+.yoast .components-form-token-field__remove-token.components-button {
+	background-color: var(--yoast-color-primary);
+	color: var(--yoast-color-white);
 }
 
 /*# sourceMappingURL=metabox.css.map */

@@ -12,7 +12,10 @@ import FacebookEditor from "../../../containers/FacebookEditor";
  */
 const FacebookPreviewModal = () => {
 	return (
-		<EditorModal title={ __( "Facebook preview", "wordpress-seo" ) }>
+		<EditorModal
+			title={ __( "Facebook preview", "wordpress-seo" ) }
+			id="yoast-facebook-preview-modal"
+		>
 			<FacebookEditor />
 		</EditorModal>
 	);
