@@ -2,29 +2,12 @@
 
 namespace Yoast\WP\SEO\Presenters\Admin;
 
-use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Presenters\Abstract_Presenter;
 
 /**
  * Class Auto_Update_Notification_Presenter.
  */
 class Auto_Update_Notification_Presenter extends Abstract_Presenter {
-
-	/**
-	 * The product helper.
-	 *
-	 * @var Product_Helper
-	 */
-	protected $product_helper;
-
-	/**
-	 * Auto_Update_Notification_Presenter constructor.
-	 *
-	 * @param Product_Helper $product_helper The product helper.
-	 */
-	public function __construct( $product_helper ) {
-		$this->product_helper = $product_helper;
-	}
 
 	/**
 	 * Returns the notification as an HTML string.
