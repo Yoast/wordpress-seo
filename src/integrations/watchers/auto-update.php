@@ -70,24 +70,73 @@ class Auto_Update implements Integration_Interface {
 	 * @return void
 	 */
 	public function register_hooks() {
-		\add_action( 'admin_init', [ $this, 'auto_update_notification' ] );
-		\add_action( 'update_option_auto_update_core_major', [ $this, 'auto_update_notification' ] );
-		\add_action( 'update_option_auto_update_plugins', [ $this, 'auto_update_notification' ] );
+		\add_action( 'admin_init', [ $this, 'auto_update_notification_not_if_dismissed' ] );
+		\add_action( 'update_option_auto_update_core_major', [ $this, 'auto_update_notification_even_if_dismissed' ] );
+		\add_action( 'update_option_auto_update_plugins', [ $this, 'auto_update_notification_not_if_dismissed' ] );
 	}
 
 	/**
-	 * Handles the Yoast SEO auto-update notification.
+	 * Handles the Yoast SEO auto-update notification when the user toggles the auto-update setting for WordPress Core.
+	 *
+	 * If it should be shown, this will be done even if the notification has been dismissed in the past.
 	 *
 	 * @return void
 	 */
-	public function auto_update_notification() {
+	public function auto_update_notification_even_if_dismissed() {
 		if ( ! $this->should_show_notification() ) {
+			$this->save_dismissal_status();
 			$this->maybe_remove_notification();
 
 			return;
 		}
 
 		$this->maybe_create_notification();
+	}
+
+	/**
+	 * Handles the Yoast SEO auto-update notification on all admin pages,
+	 * as well as when the user toggles the Yoast SEO auto-update setting.
+	 *
+	 * If it should be shown, this will only be done if the notification has not been dismissed in the past.
+	 *
+	 * @return void
+	 */
+	public function auto_update_notification_not_if_dismissed() {
+		if ( ! $this->should_show_notification() ) {
+			$this->save_dismissal_status();
+			$this->maybe_remove_notification();
+
+			return;
+		}
+
+		$this->maybe_create_notification_if_not_dismissed();
+	}
+
+	/**
+	 * Checks whether the Yoast SEO auto-update notification should be shown.
+	 *
+	 * @return bool Whether the notification should be shown.
+	 */
+	protected function should_show_notification() {
+		$core_updates_enabled  = \get_option( 'auto_update_core_major' ) === 'enabled';
+		$yoast_updates_enabled = $this->yoast_auto_updates_enabled();
+
+		return $core_updates_enabled && ! $yoast_updates_enabled;
+	}
+
+	/**
+	 * Saves the dismissal status of the notification in an option in wp_usermeta, if the notification gets dismissed.
+	 *
+	 * @return void
+	 */
+	protected function save_dismissal_status() {
+		// This option exists if the notification has been dismissed at some point.
+		$notification_dismissed = \get_user_option( 'wp_' . self::NOTIFICATION_ID );
+
+		// We wish to have its value in a different option, so we can still access it even when the notification gets removed.
+		if ( $notification_dismissed && ! \get_user_option( 'wp_' . self::NOTIFICATION_ID . '_dismissed' ) ) {
+			\update_user_option( \get_current_user_id(), self::NOTIFICATION_ID . '_dismissed', true );
+		}
 	}
 
 	/**
@@ -113,22 +162,37 @@ class Auto_Update implements Integration_Interface {
 	}
 
 	/**
-	 * Checks whether the Yoast SEO auto-update notification should be shown.
+	 * Creates the notification when Yoast SEO auto-updates are enabled, if it hasn't been dismissed in the past.
 	 *
-	 * @return bool Whether the notification should be shown.
+	 * @return void
 	 */
-	protected function should_show_notification() {
-		$core_updates_enabled   = \get_option( 'auto_update_core_major' ) === 'enabled';
-		$plugins_to_auto_update = \get_option( 'auto_update_plugins' );
+	protected function maybe_create_notification_if_not_dismissed() {
+		$notification_dismissed = \get_user_option( 'wp_' . self::NOTIFICATION_ID . '_dismissed' ) === '1';
+		$yoast_updates_enabled  = $this->yoast_auto_updates_enabled();
 
-		if ( $plugins_to_auto_update ) {
-			$yoast_updates_enabled = \in_array( 'wordpress-seo/wp-seo.php', $plugins_to_auto_update, true );
-
-			return $core_updates_enabled && ! $yoast_updates_enabled;
+		if ( $notification_dismissed && ! $yoast_updates_enabled ) {
+			return;
 		}
 
+		$this->maybe_create_notification();
+	}
+
+
+	/**
+	 * Checks whether auto-updates are enabled for Yoast SEO.
+	 *
+	 * @return bool True if they are enabled, false if not.
+	 */
+	protected function yoast_auto_updates_enabled() {
+		$plugins_to_auto_update = \get_option( 'auto_update_plugins' );
+
 		// If no plugins are set to be automatically updated, it means that Yoast SEO isn't either.
-		return $core_updates_enabled;
+		if ( ! $plugins_to_auto_update ) {
+			return false;
+		}
+
+		// Check if the Yoast SEO plugin file is in the array of plugins for which auto-updates are enabled.
+		return \in_array( 'wordpress-seo/wp-seo.php', $plugins_to_auto_update, true );
 	}
 
 	/**
