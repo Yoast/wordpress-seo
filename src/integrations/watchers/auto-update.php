@@ -177,7 +177,6 @@ class Auto_Update implements Integration_Interface {
 		$this->maybe_create_notification();
 	}
 
-
 	/**
 	 * Checks whether auto-updates are enabled for Yoast SEO.
 	 *
