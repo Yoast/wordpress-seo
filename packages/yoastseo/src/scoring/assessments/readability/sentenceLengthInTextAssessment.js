@@ -91,7 +91,7 @@ class SentenceLengthInTextAssessment extends Assessment {
 	 * @returns {Object} The config that should be used.
 	 */
 	getConfig( researcher ) {
-		let config = {};
+		let config;
 
 		if ( this._isCornerstone === true ) {
 			// If a language has specific cornerstone configuration, that configuration is used.
