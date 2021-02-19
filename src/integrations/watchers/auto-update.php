@@ -96,12 +96,6 @@ class Auto_Update implements Integration_Interface {
 	 * @return void
 	 */
 	protected function maybe_remove_notification() {
-		$notification = $this->notification_center->get_notification_by_id( self::NOTIFICATION_ID );
-
-		if ( $notification === null ) {
-			return;
-		}
-
 		$this->notification_center->remove_notification_by_id( self::NOTIFICATION_ID );
 	}
 
