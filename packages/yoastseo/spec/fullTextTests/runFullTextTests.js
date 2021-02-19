@@ -26,7 +26,7 @@ import KeyphraseDistributionAssessment from "../../src/scoring/assessments/seo/K
 import fleschReadingAssessment from "../../src/scoring/assessments/readability/fleschReadingEaseAssessment";
 import SubheadingDistributionTooLongAssessment from "../../src/scoring/assessments/readability/subheadingDistributionTooLongAssessment";
 import paragraphTooLongAssessment from "../../src/scoring/assessments/readability/paragraphTooLongAssessment";
-import sentenceLengthInTextAssessment from "../../src/scoring/assessments/readability/sentenceLengthInTextAssessment";
+import SentenceLengthInTextAssessment from "../../src/scoring/assessments/readability/sentenceLengthInTextAssessment";
 import transitionWordsAssessment from "../../src/scoring/assessments/readability/transitionWordsAssessment";
 import passiveVoiceAssessment from "../../src/scoring/assessments/readability/passiveVoiceAssessment";
 import textPresenceAssessment from "../../src/scoring/assessments/readability/textPresenceAssessment";
@@ -65,6 +65,7 @@ testPapers.forEach( function( testPaper ) {
 		const urlKeywordAssessment = new UrlKeywordAssessment();
 		const keyphraseDistributionAssessment = new KeyphraseDistributionAssessment();
 		const subheadingDistributionTooLongAssessment = new SubheadingDistributionTooLongAssessment();
+		const sentenceLengthInTextAssessment = new SentenceLengthInTextAssessment();
 
 		// SEO assessments.
 		it( "returns a score and the associated feedback text for the introductionKeyword assessment", function() {

@@ -2,7 +2,7 @@ import Assessor from "../assessor.js";
 import ContentAssessor from "../contentAssessor";
 import fleschReadingEase from "../assessments/readability/fleschReadingEaseAssessment.js";
 import paragraphTooLong from "../assessments/readability/paragraphTooLongAssessment.js";
-import sentenceLengthInText from "../assessments/readability/sentenceLengthInTextAssessment.js";
+import SentenceLengthInText from "../assessments/readability/sentenceLengthInTextAssessment.js";
 import SubheadingDistributionTooLong from "../assessments/readability/subheadingDistributionTooLongAssessment.js";
 import transitionWords from "../assessments/readability/transitionWordsAssessment.js";
 import passiveVoice from "../assessments/readability/passiveVoiceAssessment.js";
@@ -23,7 +23,6 @@ import textPresence from "../assessments/readability/textPresenceAssessment.js";
  * @param {Object} options The options for this assessor.
  * @param {Object} options.marker The marker to pass the list of marks to.
  * @param {string} options.locale The locale.
- * @param {Researcher} options.researcher The Researcher to use
  *
  * @constructor
  */
@@ -42,7 +41,7 @@ const CornerStoneContentAssessor = function( i18n, options = {} ) {
 			},
 		} ),
 		paragraphTooLong,
-		sentenceLengthInText,
+		new SentenceLengthInText( true ),
 		transitionWords,
 		passiveVoice,
 		textPresence,
