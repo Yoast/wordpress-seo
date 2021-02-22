@@ -44,6 +44,9 @@ cd ..
 cp -r ./dist-repo/.git ./artifact
 cp composer.json ./artifact
 
+# Remove the vendor directory from the artifact, composer will generate it's own autoload.
+rm -rf ./artifact/vendor
+
 # Navigate to the to be committed folder.
 cd ./artifact
 
