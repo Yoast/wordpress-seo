@@ -1,4 +1,4 @@
-import { DefaultResearcher } from "../../../../src/languageProcessing";
+import DefaultResearcher from "../../../../src/languageProcessing/languages/_default/Researcher";
 import TextCompetingLinksAssessment from "../../../../src/scoring/assessments/seo/TextCompetingLinksAssessment";
 import Paper from "../../../../src/values/Paper";
 import Factory from "../../../specHelpers/factory";
