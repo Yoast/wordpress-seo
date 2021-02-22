@@ -102,21 +102,18 @@ class Auto_Update_Watcher_Test extends TestCase {
 	}
 
 	/**
-	 * Tests handling the notification when toggling the Core auto-updates setting.
-	 *
-	 * The notification should not be shown.
+	 * Tests handling the notification when toggling the Core auto-updates setting,
+	 * in various combinations where the notification should not be shown.
 	 *
 	 * @dataProvider provider_toggle_core_no_notification
 	 *
-	 * @param $core_updates_enabled string The value of the Core auto-updates toggle.
-	 * @param $plugins_to_auto_update array The plugins for which auto-updates are enabled.
+	 * @param string $core_updates_enabled   The value of the Core auto-updates toggle.
+	 * @param array  $plugins_to_auto_update The plugins for which auto-updates are enabled.
 	 *
 	 * @covers ::auto_update_notification_even_if_dismissed
 	 * @covers ::should_show_notification
 	 * @covers ::yoast_auto_updates_enabled
 	 * @covers ::save_dismissal_status
-	 *
-	 * @throws Monkey\Expectation\Exception\ExpectationArgsRequired
 	 */
 	public function test_toggle_core_auto_updates_no_notification( $core_updates_enabled, $plugins_to_auto_update ) {
 		Monkey\Functions\expect( 'get_option' )
@@ -164,18 +161,16 @@ class Auto_Update_Watcher_Test extends TestCase {
 	}
 
 	/**
-	 * Tests handling the notification when the Core auto-updates setting is toggled to enable auto-updates,
-	 * and the Yoast auto-updates setting is disabled,
-	 * and the notification has not been dismissed in the past.
-	 *
-	 * The notification should be shown.
+	 * Tests handling the notification when enabling the Core auto-updates setting,
+	 * when Yoast SEO auto-updates are disabled,
+	 * so the notification should be shown (and it has already been created).
 	 *
 	 * @covers ::auto_update_notification_even_if_dismissed
 	 * @covers ::should_show_notification
 	 * @covers ::yoast_auto_updates_enabled
 	 * @covers ::maybe_create_notification
 	 */
-	public function test_auto_update_notification_core_enabled_yoast_disabled() {
+	public function test_auto_update_notification_enable_core_while_yoast_disabled() {
 		Monkey\Functions\expect( 'get_option' )
 			->with( 'auto_update_core_major' )
 			->once()
@@ -190,7 +185,7 @@ class Auto_Update_Watcher_Test extends TestCase {
 			->expects( 'remove_notification_by_id' )
 			->never();
 
-		// In this test path, the notification should not be created.
+		// The notification already exists, and does not have to be created.
 		$this->notification_center
 			->expects( 'get_notification_by_id' )
 			->once()
@@ -199,4 +194,184 @@ class Auto_Update_Watcher_Test extends TestCase {
 		$this->instance->auto_update_notification_even_if_dismissed();
 	}
 
+	/**
+	 * Tests handling the notification when enabling the Core auto-updates setting,
+	 * when Yoast SEO auto-updates are disabled,
+	 * so the notification should be shown (and it has not yet been created).
+	 *
+	 * @covers ::auto_update_notification_even_if_dismissed
+	 * @covers ::should_show_notification
+	 * @covers ::yoast_auto_updates_enabled
+	 * @covers ::maybe_create_notification
+	 * @covers ::notification
+	 */
+	public function test_auto_update_notification_enable_core_while_yoast_disabled_create_notification() {
+		Monkey\Functions\expect( 'get_option' )
+			->with( 'auto_update_core_major' )
+			->once()
+			->andReturn( 'enabled' );
+
+		Monkey\Functions\expect( 'get_option' )
+			->with( 'auto_update_plugins' )
+			->once()
+			->andReturn( [ 'not_yoast_seo', 'another_plugin_file' ] );
+
+		$this->notification_center
+			->expects( 'remove_notification_by_id' )
+			->never();
+
+		// The notification does not yet exist, and should be created.
+		$this->notification_center
+			->expects( 'get_notification_by_id' )
+			->once()
+			->andReturnNull();
+
+		Monkey\Functions\expect( 'wp_get_current_user' )
+			->andReturn( 'user' );
+
+		$this->notification_helper
+			->expects( 'restore_notification' )
+			->once();
+
+		$this->notification_center
+			->expects( 'add_notification' )
+			->once();
+
+		$this->instance->auto_update_notification_even_if_dismissed();
+	}
+
+	/**
+	 * Tests handling the notification when enabling the Yoast SEO auto-updates setting,
+	 * when Core auto-updates are enabled,
+	 * so the notification should not be shown,
+	 * and save the fact that it has been dismissed in the past.
+	 *
+	 * @covers ::auto_update_notification_not_if_dismissed
+	 * @covers ::should_show_notification
+	 * @covers ::yoast_auto_updates_enabled
+	 * @covers ::save_dismissal_status
+	 * @covers ::maybe_remove_notification
+	 */
+	public function test_auto_update_notification_enable_yoast_while_core_enabled_save_dismiss_status() {
+		Monkey\Functions\expect( 'get_option' )
+			->with( 'auto_update_core_major' )
+			->once()
+			->andReturn( 'enabled' );
+
+		Monkey\Functions\expect( 'get_option' )
+			->with( 'auto_update_plugins' )
+			->once()
+			->andReturn( [ 'wordpress-seo/wp-seo.php', 'another_plugin_file' ] );
+
+		// The notification has not been dismissed in the past.
+		Monkey\Functions\expect( 'get_user_option' )
+			->with( 'wp_wpseo-auto-update' )
+			->once()
+			->andReturn( 'seen' );
+
+		Monkey\Functions\expect( 'get_user_option' )
+			->with( 'wp_wpseo-auto-update_dismissed' )
+			->once()
+			->andReturn( false );
+
+		Monkey\Functions\expect( 'get_current_user_id' )
+			->withNoArgs()
+			->once()
+			->andReturn( 'the_user_id' );
+
+		Monkey\Functions\expect( 'update_user_option' )
+			->once();
+
+		$this->notification_center
+			->expects( 'remove_notification_by_id' )
+			->once();
+
+		// The notification should not be created.
+		$this->notification_center
+			->expects( 'get_notification_by_id' )
+			->never();
+
+		$this->instance->auto_update_notification_not_if_dismissed();
+	}
+
+	/**
+	 * Tests handling the notification when disabling the Yoast SEO auto-updates setting,
+	 * when Core auto-updates are enabled,
+	 * and the notification has not been dismissed before,
+	 * so the notification should be shown (and it has already been created).
+	 *
+	 * @covers ::auto_update_notification_not_if_dismissed
+	 * @covers ::should_show_notification
+	 * @covers ::yoast_auto_updates_enabled
+	 * @covers ::maybe_create_notification_if_not_dismissed
+	 */
+	public function test_auto_update_notification_disable_yoast_while_core_enabled() {
+		Monkey\Functions\expect( 'get_option' )
+			->with( 'auto_update_core_major' )
+			->once()
+			->andReturn( 'enabled' );
+
+		Monkey\Functions\expect( 'get_option' )
+			->with( 'auto_update_plugins' )
+			->twice()
+			->andReturn( [ 'not_yoast_seo', 'another_plugin_file' ] );
+
+		$this->notification_center
+			->expects( 'remove_notification_by_id' )
+			->never();
+
+		// The option has not been dismissed in the past.
+		Monkey\Functions\expect( 'get_user_option' )
+			->with( 'wp_wpseo-auto-update_dismissed' )
+			->once()
+			->andReturn( false );
+
+		// The notification already exists, and does not have to be created.
+		$this->notification_center
+			->expects( 'get_notification_by_id' )
+			->once()
+			->andReturn( 'the_notification_object' );
+
+		$this->instance->auto_update_notification_not_if_dismissed();
+	}
+
+	/**
+	 * Tests handling the notification when disabling the Yoast SEO auto-updates setting,
+	 * when Core auto-updates are enabled,
+	 * and the notification has been dismissed before,
+	 * so the notification it should not be shown.
+	 *
+	 * @covers ::auto_update_notification_not_if_dismissed
+	 * @covers ::should_show_notification
+	 * @covers ::yoast_auto_updates_enabled
+	 * @covers ::maybe_create_notification_if_not_dismissed
+	 */
+	public function test_auto_update_notification_disable_yoast_while_core_enabled_notification_dismissed() {
+		Monkey\Functions\expect( 'get_option' )
+			->with( 'auto_update_core_major' )
+			->once()
+			->andReturn( 'enabled' );
+
+		Monkey\Functions\expect( 'get_option' )
+			->with( 'auto_update_plugins' )
+			->twice()
+			->andReturn( [ 'not_yoast_seo', 'another_plugin_file' ] );
+
+		$this->notification_center
+			->expects( 'remove_notification_by_id' )
+			->never();
+
+		// The option has been dismissed in the past.
+		Monkey\Functions\expect( 'get_user_option' )
+			->with( 'wp_wpseo-auto-update_dismissed' )
+			->once()
+			->andReturn( '1' );
+
+		// The notification should not be created, because it was dismissed in the past.
+		$this->notification_center
+			->expects( 'get_notification_by_id' )
+			->never();
+
+		$this->instance->auto_update_notification_not_if_dismissed();
+	}
 }
