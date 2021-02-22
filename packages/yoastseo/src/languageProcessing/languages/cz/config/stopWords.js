@@ -1,5 +1,5 @@
 /**
- * Returns a list with stopwords for the Polish passive voice assessment.
+ * Returns a list with stopwords for the Czech passive voice assessment.
  * @returns {Array} The list with stopwords.
  */
 export default [
