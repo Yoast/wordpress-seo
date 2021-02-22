@@ -5,7 +5,7 @@ import { singleWords as transitionWords } from "./transitionWords";
  *
  * @returns {Object} The object filled with various categories of function word arrays.
  */
-const articles = [];
+const articles = [ "ten", "ta" ];
 
 const cardinalNumerals = [ "nula", "jeden", "jedna", "jedno", "dva", "dvě", "tři", "čtyři", "pět", "šest", "sedm", "osm",
 	"devět", "deset", "jedenáct", "dvanáct", "třináct", "čtrnáct", "patnáct", "šestnáct", "sedmnáct", "osmnáct", "devatenáct",
@@ -26,7 +26,7 @@ const pronouns = [
 	"tvého", "tvojí", "tvých", "tvojích", "tvému", "tvým", "tvou", "tvém", "tvých", "tvými", "jeho", "její", "náš", "naše", "váš",
 	"vaše", "jejich",
 	// Demonstrative pronouns.
-	"ten", "tento", "ta" , "tato", "to", "toto", "ti", "ty", "tito", "tyto", "ty", "tyto", "ta", "tato",
+	"ten", "tento", "ta" , "tato", "to", "toto", "ti", "ty", "tito", "tyto", "ty", "tyto", "ta", "tato", "tohle", "toho", "abych",
 	// Relative pronouns.
 	"který", "která", "které", "kterého", "kterému", "kterého", "kterou", "kterém", "kterým", "kteří", "kterých", "kterými",
 	"jenž", "jež", "jehož", "jejž", "něhož", "nějž", "jíž", "níž", "jemuž", "němuž", "jež", "něž", "němž", "jímž", "nímž",
@@ -34,7 +34,7 @@ const pronouns = [
 	"čem", "kým", "čím",
 	 ];
 
-const interrogatives = [ "co", "čí", "jaký", "kde", "kdo", "kdý", "kolik", "který", "jenž" ];
+const interrogatives = [ "co", "čí", "jak", "jaký", "kde", "kdo", "kdý", "kolik", "který", "jenž", "proč" ];
 
 const quantifiers = [ "nějaký", "nějaká", "nějaké", "žádný", "nijaký", "lecjaký", "ledajaký", "ledasjaký", "kdejaký", "kdekterý", "všelijaký", "veškerý" ];
 
@@ -54,15 +54,17 @@ const indefinitePronouns = [ "někdo", "někoho", "někomu", "někoho", "někom"
 	"odkudsi", "odnikud", "odevšad", "kdesi", "všechen", "málokdo", "máloco", "málokterý", "zřídkakdo", "zřídkaco", "sotvakdo",
 	"sotvaco", "sotva který", "každý", "každá", "každé", "každého", "každému", "každému", "každou", "každém", "každým", "každí",
 	"každých", "každým", "každými", "všechen", "všechna", "všechno", "vše", "všeho", "vší", "všemu", "všechnu", "vším",
-	"všichni", "všechny", "všech", "všem", "všechny", "všemi" ];
+	"všichni", "všechny", "všech", "všem", "všemi" ];
 
-const prepositions = [ "bez", "blízko", "do", "od", "okolo", "kolem", "u", "vedle", "z", "ze", "k", "ke", "kvůli", "navzdor",
-	"navzdory", "proti", "vůči", "na", "o", "pro", "přes", "za", "po", "v", "ve", "mezi", "s", "se", "nad", "pod", "před" ];
+const prepositions = [ "během", "bez", "blízko", "do", "od", "okolo", "kolem", "u", "vedle", "z", "ze", "k", "ke", "kvůli",
+	"navzdor", "navzdory", "krom, vedle", "kromě, vedle", "místo", "namísto", "ohledně", "podél", "pomocí", "oproti", "naproti",
+	"proti", "prostřednictvím", "s", "u", "vlivem", "vyjma", "využitím", "stran", "díky", "kvůli", "podle", "vůči", "na",
+	"o", "pro", "přes", "za", "po", "v", "ve", "mezi", "s", "se", "nad", "pod", "před", "mimo", "skrz", "při", "jako", "asi" ];
 
 const conjunctions = [ "a", "i", "aby", "ale", "že", "protože", "neboť", "když", "až", "jestli", "jestliže", "pokud", "kdyby",
-	"nebo", "anebo", "či", "proto", "který", "jenž", "aniž", "než" ];
+	"nebo", "anebo", "či", "proto", "který", "jenž", "aniž", "než", "tak", "takže", "kvůli" ];
 
-const interviewVerbs = [  ];
+const interviewVerbs = [ "řekl" ];
 
 const intensifiers = [  ];
 
@@ -70,21 +72,22 @@ const auxiliariesAndDelexicalizedVerbs = [  ];
 
 const generalAdjectivesAdverbs = [
 	// General adjective.
-
+	"dobře", "dobrý", "dost",
 	// General adverbs.
-	"všelijak", "nějak", "jaksi", "tak nějak", "ijak", "nikterak", "akkoli","akkoliv", "kdejak"
+	"všelijak", "nějak", "jaksi", "tak nějak", "ijak", "nikterak", "akkoli","akkoliv", "kdejak", "už", "jen", "tady", "teď",
+	"ještě", "možná", "nikdy", "ani", "taky", "pak", "opravdu", "trochu", "prostě", "víc", "jenom", "další"
 	 ];
 
-const interjections = [  ];
+const interjections = [ "jo", "hej" ];
 
 const recipeWords = [  ];
 
-const timeWords = [  ];
+const timeWords = [ "den" ];
 
 const vagueNouns = [  ];
 
 const miscellaneous = [
-	"atd.", "bůhvíkdo", "bůhvíjaký", "bůhvíčí", "nevímco", "nevímkdo a podobně"
+	"atd.", "bůhvíkdo", "bůhvíjaký", "bůhvíčí", "nevímco", "nevímkdo a podobně", "si", "ne", "pane", "prosím", "ahoj", "pořádku"
 	// Fractions.
 	 ];
 
