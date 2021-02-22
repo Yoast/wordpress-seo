@@ -1,16 +1,15 @@
-import EnglishResearcher from "../../src/languageProcessing/languages/en/Researcher";
-import Assessor from "../../src/scoring/cornerstone/seoAssessor.js";
+import DefaultResearcher from "../../src/languageProcessing/languages/_default/Researcher";
+import Assessor from "../../src/scoring/seoAssessor.js";
 import Paper from "../../src/values/Paper.js";
 import factory from "../specHelpers/factory.js";
 import getResults from "../specHelpers/getAssessorResults";
-
 const i18n = factory.buildJed();
 
 describe( "running assessments in the assessor", function() {
 	let assessor;
 
 	beforeEach( () => {
-		assessor = new Assessor( i18n, { researcher: new EnglishResearcher() } );
+		assessor = new Assessor( i18n, { researcher: new DefaultResearcher() } );
 	} );
 
 	it( "runs assessments without any specific requirements", function() {
@@ -42,8 +41,8 @@ describe( "running assessments in the assessor", function() {
 		] );
 	} );
 
-	it( "additionally returns a singleH1Assessment if the text contains two h1s", function() {
-		assessor.assess( new Paper( "<h1>Title1</h1><h1>Title2</h1>" ) );
+	it( "additionally runs singleH1assessment if the text contains two H1s", function() {
+		assessor.assess( new Paper( "<h1>First title</h1><h1>Second title</h1>" ) );
 		const AssessmentResults = assessor.getValidResults();
 		const assessments = getResults( AssessmentResults );
 
@@ -59,7 +58,7 @@ describe( "running assessments in the assessor", function() {
 		] );
 	} );
 
-	it( "additionally runs assessments that require a text and a keyword", function() {
+	it( "additionally runs assessments that only require a text and a keyword", function() {
 		assessor.assess( new Paper( "text", { keyword: "keyword" } ) );
 		const AssessmentResults = assessor.getValidResults();
 		const assessments = getResults( AssessmentResults );
@@ -76,16 +75,33 @@ describe( "running assessments in the assessor", function() {
 		] );
 	} );
 
-	it( "additionally runs assessments that require a keyword with function words only", function() {
+	it( "additionally runs assessments that only require a keyword that contains function words only", function() {
 		assessor.assess( new Paper( "", { keyword: "a" } ) );
-		const assessments = getResults( assessor.getValidResults() );
+		const AssessmentResults = assessor.getValidResults();
+		const assessments = getResults( AssessmentResults );
 
 		expect( assessments ).toEqual( [
 			"keyphraseLength",
 			"metaDescriptionLength",
 			"textLength",
 			"titleWidth",
-			"functionWordsInKeyphrase",
+		] );
+	} );
+
+	it( "additionally runs assessments that require text and a keyword", function() {
+		assessor.assess( new Paper( "text", { keyword: "keyword" } ) );
+		const AssessmentResults = assessor.getValidResults();
+		const assessments = getResults( AssessmentResults );
+
+		expect( assessments ).toEqual( [
+			"introductionKeyword",
+			"keyphraseLength",
+			"metaDescriptionLength",
+			"textImages",
+			"textLength",
+			"externalLinks",
+			"internalLinks",
+			"titleWidth",
 		] );
 	} );
 
@@ -108,7 +124,7 @@ describe( "running assessments in the assessor", function() {
 		] );
 	} );
 
-	it( "additionally runs assessments that require a text and a long url with stop words", function() {
+	it( "additionally runs assessments that require a text and a super-long url with stop words", function() {
 		assessor.assess( new Paper( "text", { url: "a-sample-url-a-sample-url-a-sample-url-a-sample-url-a-sample-url-a-sample-url-a-sample-url-a-sample-url-a-sample-url" } ) );
 		const AssessmentResults = assessor.getValidResults();
 		const assessments = getResults( AssessmentResults );
@@ -201,70 +217,5 @@ describe( "running assessments in the assessor", function() {
 			"internalLinks",
 			"titleWidth",
 		] );
-	} );
-
-	describe( "has configuration overrides", () => {
-		test( "MetaDescriptionLengthAssessment", () => {
-			const assessment = assessor.getAssessment( "metaDescriptionLength" );
-
-			expect( assessment ).toBeDefined();
-			expect( assessment._config ).toBeDefined();
-			expect( assessment._config.scores ).toBeDefined();
-			expect( assessment._config.scores.tooLong ).toBe( 3 );
-			expect( assessment._config.scores.tooShort ).toBe( 3 );
-		} );
-
-		test( "TextImagesAssessment", () => {
-			const assessment = assessor.getAssessment( "textImages" );
-
-			expect( assessment ).toBeDefined();
-			expect( assessment._config ).toBeDefined();
-			expect( assessment._config.scores ).toBeDefined();
-			expect( assessment._config.scores.noImages ).toBe( 3 );
-			expect( assessment._config.scores.withAltNonKeyword ).toBe( 3 );
-			expect( assessment._config.scores.withAlt ).toBe( 3 );
-			expect( assessment._config.scores.noAlt ).toBe( 3 );
-		} );
-
-		test( "TextLengthAssessment", () => {
-			const assessment = assessor.getAssessment( "textLength" );
-
-			expect( assessment ).toBeDefined();
-			expect( assessment._config ).toBeDefined();
-			expect( assessment._config.recommendedMinimum ).toBe( 900 );
-			expect( assessment._config.slightlyBelowMinimum ).toBe( 400 );
-			expect( assessment._config.belowMinimum ).toBe( 300 );
-			expect( assessment._config.scores ).toBeDefined();
-			expect( assessment._config.scores.belowMinimum ).toBe( -20 );
-			expect( assessment._config.scores.farBelowMinimum ).toBe( -20 );
-		} );
-
-		test( "OutboundLinksAssessment", () => {
-			const assessment = assessor.getAssessment( "externalLinks" );
-
-			expect( assessment ).toBeDefined();
-			expect( assessment._config ).toBeDefined();
-			expect( assessment._config.scores ).toBeDefined();
-			expect( assessment._config.scores.noLinks ).toBe( 3 );
-		} );
-
-		test( "PageTitleWidthAssesment", () => {
-			const assessment = assessor.getAssessment( "titleWidth" );
-
-			expect( assessment ).toBeDefined();
-			expect( assessment._config ).toBeDefined();
-			expect( assessment._config.scores ).toBeDefined();
-			expect( assessment._config.scores.widthTooShort ).toBe( 3 );
-			expect( assessment._config.scores.widthTooLong ).toBe( 3 );
-		} );
-
-		test( "UrlKeywordAssessment", () => {
-			const assessment = assessor.getAssessment( "urlKeyword" );
-
-			expect( assessment ).toBeDefined();
-			expect( assessment._config ).toBeDefined();
-			expect( assessment._config.scores ).toBeDefined();
-			expect( assessment._config.scores.okay ).toBe( 3 );
-		} );
 	} );
 } );
