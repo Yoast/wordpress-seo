@@ -11,6 +11,8 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @covers \Yoast\WP\SEO\Presenters\Admin\Auto_Update_Notification_Presenter
  * @coversDefaultClass \Yoast\WP\SEO\Presenters\Admin\Auto_Update_Notification_Presenter
+ *
+ * @group presenters
  */
 class Auto_Update_Notification_Presenter_Test extends TestCase {
 
