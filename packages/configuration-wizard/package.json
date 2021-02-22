@@ -1,6 +1,6 @@
 {
   "name": "@yoast/configuration-wizard",
-  "version": "2.18.0",
+  "version": "2.19.0-rc.0",
   "description": "Package for our configuration wizard",
   "main": "src/index.js",
   "repository": {
@@ -18,7 +18,7 @@
   },
   "dependencies": {
     "@wordpress/i18n": "^1.1.0",
-    "@yoast/components": "^2.15.0",
+    "@yoast/components": "^2.16.0-rc.0",
     "@yoast/helpers": "^0.15.0",
     "@yoast/style-guide": "^0.13.0",
     "interpolate-components": "^1.1.1",
