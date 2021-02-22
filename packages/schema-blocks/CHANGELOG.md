@@ -31,6 +31,7 @@ We follow [Semantic Versioning](http://semver.org/).
 
 ### Bugfixes
 * Fixes a bug where the `BlockInstructionLeaf` with could not be instantiated with a null instruction.
+* Fixes the styling of block instructions for the Twenty Twenty One WordPress theme.
 
 ## 1.1.0 January 11th, 2021
 ### Enhancements
