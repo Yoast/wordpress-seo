@@ -1,5 +1,8 @@
-import ProminentWord from "../../src/values/ProminentWord";
-import { getProminentWords } from "../../src/languageProcessing/helpers/prominentWords/determineProminentWords";
+import ProminentWord from "../../../../src/values/ProminentWord";
+import { getProminentWords } from "../../../../src/languageProcessing/helpers/prominentWords/determineProminentWords";
+import Researcher from "../../../../src/languageProcessing/languages/pl/Researcher";
+
+const researcher = new Researcher();
 
 describe( "gets Polish prominent words", function() {
 	it( "returns prominent words", function() {
@@ -24,7 +27,8 @@ describe( "gets Polish prominent words", function() {
 			new ProminentWord( "zasadzie", "zasadzie", 8 ),
 		];
 
-		const words = getProminentWords( input, [], "pl", false );
+		const words = getProminentWords( input, [], researcher.getHelper( "getStemmer" )( researcher ),
+			researcher.getConfig( "functionWords" ) );
 
 		expect( words ).toEqual( expected );
 	} );

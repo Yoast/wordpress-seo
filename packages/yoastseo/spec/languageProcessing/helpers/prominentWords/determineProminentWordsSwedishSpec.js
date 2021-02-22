@@ -1,5 +1,8 @@
-import ProminentWord from "../../src/values/ProminentWord";
-import { getProminentWords } from "../../src/languageProcessing/helpers/prominentWords/determineProminentWords";
+import ProminentWord from "../../../../src/values/ProminentWord";
+import { getProminentWords } from "../../../../src/languageProcessing/helpers/prominentWords/determineProminentWords";
+import Researcher from "../../../../src/languageProcessing/languages/sv/Researcher";
+
+const researcher = new Researcher();
 
 describe( "gets Swedish prominent words", function() {
 	it( "returns prominent words", function() {
@@ -19,7 +22,8 @@ describe( "gets Swedish prominent words", function() {
 			new ProminentWord( "vanligaste", "vanligaste", 8 ),
 		];
 
-		const words = getProminentWords( input, [], "sv", false );
+		const words = getProminentWords( input, [], researcher.getHelper( "getStemmer" )( researcher ),
+			researcher.getConfig( "functionWords" ) );
 
 		expect( words ).toEqual( expected );
 	} );

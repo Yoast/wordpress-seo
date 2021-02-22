@@ -1,5 +1,7 @@
-import ProminentWord from "../../src/values/ProminentWord";
-import { getProminentWords, filterProminentWords } from "../../src/languageProcessing/helpers/prominentWords/determineProminentWords";
+import ProminentWord from "../../../../src/values/ProminentWord";
+import { getProminentWords, filterProminentWords } from "../../../../src/languageProcessing/helpers/prominentWords/determineProminentWords";
+import Researcher from "../../../../src/languageProcessing/languages/fr/Researcher";
+const researcher = new Researcher();
 
 describe( "gets French prominent words", function() {
 	it( "returns prominent words", function() {
@@ -19,7 +21,8 @@ describe( "gets French prominent words", function() {
 			new ProminentWord( "texte", "texte", 2 ),
 		];
 
-		const words = filterProminentWords( getProminentWords( input, [ "IA" ], "fr", false ) );
+		const words = filterProminentWords( getProminentWords( input, [ "IA" ], researcher.getHelper( "getStemmer" )( researcher ),
+			researcher.getConfig( "functionWords" ) ) );
 
 		expect( words ).toEqual( expected );
 	} );

@@ -1,5 +1,8 @@
-import ProminentWord from "../../src/values/ProminentWord";
-import { getProminentWords } from "../../src/languageProcessing/helpers/prominentWords/determineProminentWords";
+import ProminentWord from "../../../../src/values/ProminentWord";
+import { getProminentWords } from "../../../../src/languageProcessing/helpers/prominentWords/determineProminentWords";
+import Researcher from "../../../../src/languageProcessing/languages/es/Researcher";
+
+const researcher = new Researcher();
 
 describe( "gets Spanish prominent words", function() {
 	it( "returns prominent words", function() {
@@ -20,7 +23,8 @@ describe( "gets Spanish prominent words", function() {
 			new ProminentWord( "trabajar", "trabajar", 19 ),
 		];
 
-		const words = getProminentWords( input, [], "es", false );
+		const words = getProminentWords( input, [], researcher.getHelper( "getStemmer" )( researcher ),
+			researcher.getConfig( "functionWords" ) );
 
 		expect( words ).toEqual( expected );
 	} );

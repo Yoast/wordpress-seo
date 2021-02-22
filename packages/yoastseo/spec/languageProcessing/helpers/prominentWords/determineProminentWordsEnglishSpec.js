@@ -1,9 +1,11 @@
-import ProminentWord from "../../src/values/ProminentWord";
-import { getProminentWords } from "../../src/languageProcessing/helpers/prominentWords/determineProminentWords";
-import getMorphologyData from "../specHelpers/getMorphologyData";
+import ProminentWord from "../../../../src/values/ProminentWord";
+import { getProminentWords } from "../../../../src/languageProcessing/helpers/prominentWords/determineProminentWords";
+import getMorphologyData from "../../../specHelpers/getMorphologyData";
+import Researcher from "../../../../src/languageProcessing/languages/en/Researcher";
 
-
-const morphologyData = getMorphologyData( "en" ).en;
+const morphologyData = getMorphologyData( "en" );
+const researcher = new Researcher();
+researcher.addResearchData( "morphology", morphologyData );
 
 describe( "gets English prominent words", function() {
 	it( "returns  prominent words", function() {
@@ -21,7 +23,7 @@ describe( "gets English prominent words", function() {
 			new ProminentWord( "syllables", "syllable", 37 ),
 		];
 
-		const words = getProminentWords( input, [], "en", morphologyData );
+		const words = getProminentWords( input, [],  researcher.getHelper( "getStemmer" )( researcher ), researcher.getConfig( "functionWords" ) );
 
 		expect( words ).toEqual( expected );
 	} );
@@ -43,7 +45,7 @@ describe( "gets English prominent words", function() {
 			new ProminentWord( "syllable", "syllable", 47 ),
 		];
 
-		const words = getProminentWords( input, [], "en", morphologyData );
+		const words = getProminentWords( input, [],  researcher.getHelper( "getStemmer" )( researcher ), researcher.getConfig( "functionWords" ) );
 
 		expect( words ).toEqual( expected );
 	} );
