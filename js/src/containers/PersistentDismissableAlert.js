@@ -11,7 +11,7 @@ export default compose( [
 	withSelect( ( select, ownProps ) => {
 		const {
 			isAlertDismissed,
-		} = select( "yoast-seo/editor" );
+		} = select( ownProps.store || "yoast-seo/editor" );
 
 		return {
 			isAlertDismissed: isAlertDismissed( ownProps.alertKey ),
@@ -21,7 +21,7 @@ export default compose( [
 	withDispatch( ( dispatch, ownProps ) => {
 		const {
 			dismissAlert,
-		} = dispatch( "yoast-seo/editor" );
+		} = dispatch( ownProps.store || "yoast-seo/editor" );
 
 		return {
 			onDismissed: () => dismissAlert( ownProps.alertKey ),
