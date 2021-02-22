@@ -75,9 +75,10 @@ class Image_Helper {
 	public function generate_from_attachment_id( $schema_id, $attachment_id, $caption = '' ) {
 		$data = $this->generate_object( $schema_id );
 
-		$data['url'] = $this->image->get_attachment_image_url( $attachment_id, 'full' );
-		$data        = $this->add_image_size( $data, $attachment_id );
-		$data        = $this->add_caption( $data, $attachment_id, $caption );
+		$data['url']        = $this->image->get_attachment_image_url( $attachment_id, 'full' );
+		$data['contentUrl'] = $this->image->get_attachment_image_url( $attachment_id, 'full' );
+		$data               = $this->add_image_size( $data, $attachment_id );
+		$data               = $this->add_caption( $data, $attachment_id, $caption );
 
 		return $data;
 	}
@@ -94,7 +95,8 @@ class Image_Helper {
 	public function simple_image_object( $schema_id, $url, $caption = '' ) {
 		$data = $this->generate_object( $schema_id );
 
-		$data['url'] = $url;
+		$data['url']        = $url;
+		$data['contentUrl'] = $url;
 
 		if ( ! empty( $caption ) ) {
 			$data['caption'] = $this->html->smart_strip_tags( $caption );
