@@ -147,13 +147,6 @@ module.exports = function( grunt ) {
 			command: "composer install --prefer-dist --optimize-autoloader --no-dev --no-scripts",
 		},
 
-		"remove-prefixed-sources": {
-			command: "composer remove " +
-				"league/oauth2-client pimple/pimple psr/log " +
-				"symfony/dependency-injection " +
-				"--update-no-dev --optimize-autoloader --no-scripts",
-		},
-
 		"composer-install": {
 			command: "composer install",
 		},
@@ -186,10 +179,6 @@ module.exports = function( grunt ) {
 
 		"remove-dependency-injection-meta": {
 			command: "rm ./src/generated/container.php.meta",
-		},
-
-		"remove-vendor-prefixed-uses": {
-			command: "composer remove-vendor-prefixed-uses",
 		},
 
 		"php-lint": {

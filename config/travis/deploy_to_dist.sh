@@ -41,10 +41,11 @@ git checkout $branch 2>/dev/null || git checkout -b $branch
 cd ..
 
 # Copy the git folder with the entire history.
-cp -r ./dist-repo/.git ./artifact-composer
+cp -r ./dist-repo/.git ./artifact
+cp composer.json ./artifact
 
 # Navigate to the to be committed folder.
-cd ./artifact-composer
+cd ./artifact
 
 # Commit the files.
 git add -A
