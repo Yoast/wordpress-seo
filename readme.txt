@@ -237,6 +237,8 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 = 15.9 =
 Release Date: February 23rd, 2021
 
+Yoast SEO 15.9 is out! This release comes with performance improvements and general enhancements. Happy updating and thanks for using Yoast SEO! Read more about what’s new in Yoast SEO 15.9 in [our release post](https://yoa.st/release-15-9)!
+
 Enhancements:
 
  * Adds a preview of the chosen image for the organization and person image, social images, Facebook front page image and Facebook default image.
