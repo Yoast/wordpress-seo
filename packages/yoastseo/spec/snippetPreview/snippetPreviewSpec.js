@@ -1,6 +1,6 @@
-import SnippetPreview from "../src/snippetPreview/snippetPreview.js";
-import "../src/app.js";
-import Factory from "./specHelpers/factory.js";
+import SnippetPreview from "../../src/snippetPreview/snippetPreview.js";
+import "../../src/app.js";
+import Factory from "../specHelpers/factory.js";
 
 describe( "The snippet preview constructor", function() {
 	it( "accepts an App object as an opts property", function() {
