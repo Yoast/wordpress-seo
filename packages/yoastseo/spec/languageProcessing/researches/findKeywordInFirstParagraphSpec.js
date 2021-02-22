@@ -1,4 +1,8 @@
-import { TurkishResearcher, EnglishResearcher, GermanResearcher, FrenchResearcher } from "../../../src/languageProcessing";
+import EnglishResearcher from "../../../src/languageProcessing/languages/en/Researcher";
+import GermanResearcher from "../../../src/languageProcessing/languages/de/Researcher";
+import FrenchResearcher from "../../../src/languageProcessing/languages/fr/Researcher";
+import TurkishResearcher from "../../../src/languageProcessing/languages/tr/Researcher";
+
 import getMorphologyData from "../../specHelpers/getMorphologyData";
 import firstParagraph from "../../../src/languageProcessing/researches/findKeywordInFirstParagraph.js";
 import Paper from "../../../src/values/Paper.js";
