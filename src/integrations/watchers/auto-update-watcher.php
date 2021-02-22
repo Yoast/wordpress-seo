@@ -200,7 +200,7 @@ class Auto_Update_Watcher implements Integration_Interface {
 	 * @return Yoast_Notification The notification to show.
 	 */
 	protected function notification() {
-		$presenter = new Auto_Update_Notification_Presenter( $this->product_helper );
+		$presenter = new Auto_Update_Notification_Presenter();
 
 		return new Yoast_Notification(
 			$presenter,
