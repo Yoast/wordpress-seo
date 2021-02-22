@@ -4,7 +4,7 @@ import { stripTags } from "../../functions/html";
 import { BlockInstance } from "@wordpress/blocks";
 
 /**
- * SchemaInstruction class.
+ * HTML instruction.
  */
 export default class HTML extends SchemaInstruction {
 	public options: {

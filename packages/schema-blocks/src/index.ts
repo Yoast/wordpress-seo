@@ -4,6 +4,9 @@ import watch from "./functions/gutenberg/watch";
 import filter from "./functions/gutenberg/filter";
 import { registerBlockType } from "@wordpress/blocks";
 import { WarningBlock } from "./blocks/warning-block/configuration";
+import logger, { LogLevel } from "./functions/logger";
+
+export { LogLevel };
 
 /**
  * Removes all whitespace including line breaks from a string.
@@ -18,8 +21,12 @@ function removeWhitespace( text: string ): string {
 
 /**
  * Initializes the Schema templates and block templates.
+ *
+ * @param logLevel The required minimum severity for a log message to appear in logs.
  */
-export default function initialize() {
+export default function initialize( logLevel: LogLevel = LogLevel.ERROR ) {
+	logger.setLogLevel( logLevel );
+
 	registerBlockType( "yoast/warning-block", WarningBlock );
 
 	jQuery( 'script[type="text/schema-template"]' ).each( function() {
@@ -28,7 +35,7 @@ export default function initialize() {
 			const definition = processSchema( template );
 			definition.register();
 		} catch ( e ) {
-			console.error( "Failed to parse schema-template", e, this );
+			logger.error( "Failed to parse schema-template", e, this );
 		}
 	} );
 
@@ -41,7 +48,7 @@ export default function initialize() {
 			const definition = processBlock( template );
 			definition.register();
 		} catch ( e ) {
-			console.error( "Failed to parse gutenberg-template", e, this );
+			logger.error( "Failed to parse gutenberg-template", e, this );
 		}
 	} );
 

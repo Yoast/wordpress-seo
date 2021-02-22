@@ -1,7 +1,5 @@
 import { BlockInstance } from "@wordpress/blocks";
 import { BlockValidationResult, BlockValidation } from "./validation";
-
-
 export type InstructionPrimitive = string | number | boolean;
 export type InstructionValue = InstructionPrimitive | InstructionObject | InstructionArray;
 export type InstructionArray = readonly InstructionValue[];
@@ -65,7 +63,7 @@ export default abstract class Instruction {
 	}
 
 	/**
-	 * Register a new instruction.
+	 * Registers a new instruction.
 	 *
 	 * @param this        This.
 	 * @param name        The name of the instruction.

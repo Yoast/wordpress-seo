@@ -5,7 +5,7 @@ import { getInnerBlocksAttributes } from "../../functions/blocks";
 import { BlockInstance } from "@wordpress/blocks";
 
 /**
- * InnerBlocks instruction
+ * InnerBlocksHTML instruction.
  */
 class InnerBlocksHTML extends SchemaInstruction {
 	public options: {

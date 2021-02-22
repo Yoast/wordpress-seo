@@ -54,21 +54,6 @@
 	margin-right: 24px;
 }
 
-.wp-core-ui select.yoast-schema-select {
-	display: block;
-	border: #CCCCCC 1px solid;
-	border-radius: 0;
-	padding: 3px 8px 4px 8px;
-	width: 50%;
-	-moz-appearance: none;
-	-webkit-appearance: none;
-	appearance: none;
-	background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="-1 -1 9 8"><path d="M0 0L4 7 8 0z" fill="rgb(114,119,124)"/></svg>');
-	background-repeat: no-repeat, repeat;
-	background-position: right .7em top 50%, 0 0;
-	background-size: .65em auto, 100%;
-}
-
 .yoast-block-sidebar-title {
 	font-weight: 600;
 	color: #303030;
@@ -76,7 +61,23 @@
 
 .yoast-block-suggestions {
 	width:100%;
+	padding: 0 5px 0 15px;
+}
+
+.yoast-block-sidebar-warnings {
+	width:100%;
 	padding: 0 0 0 15px;
+}
+
+.yoast-block-sidebar-warning {
+	list-style: none;
+	color: #707070;
+}
+
+.yoast-block-sidebar-warning > .yoast-svg-icon {
+	margin-left: -1.5em;
+    margin-right: 0.5em;
+	color: red;
 }
 
 .yoast-block-suggestion {
@@ -92,7 +93,6 @@
 	color: #6EA029;
 }
 
-
 .yoast-block-suggestion-button {
 	cursor: pointer;
 	float:right;
@@ -100,4 +100,24 @@
 	text-decoration: underline;
 	border: 0;
 	background: 0;
+}
+
+.yoast-block-date-picker-container > button {
+	background: none;
+	border: none;
+	color: #747474;
+	font-family: inherit;
+}
+
+.yoast-block-date-picker {
+	z-index: 1;
+}
+
+.yoast-block-date-picker .components-datetime__time > fieldset {
+	margin: 0;
+}
+
+/* Hides the time picker from the datetime picker, we can't use the standalone date picker because it won't focus properly. */
+.yoast-block-date-picker .components-datetime__time > fieldset:last-child {
+	display: none;
 }

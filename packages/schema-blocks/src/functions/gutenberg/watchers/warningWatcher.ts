@@ -47,6 +47,7 @@ function getInnerBlocksInstruction( blockName: string ): InnerBlocks | null {
 function getDefaultWarningMessage( blockTitle: string, warningType: WarningType ): string {
 	switch ( warningType ) {
 		case WarningType.BLOCK_REQUIRED: {
+			/* translators: %s expands to the block name that is removed. */
 			return sprintf(
 				__(
 					"You've just removed the ‘%s’ block, but this is a required block for Schema output. " +
@@ -57,6 +58,7 @@ function getDefaultWarningMessage( blockTitle: string, warningType: WarningType 
 			);
 		}
 		case WarningType.BLOCK_RECOMMENDED: {
+			/* translators: %s expands to the block name that is removed. */
 			return sprintf(
 				__(
 					"You've just removed the ‘%s’ block, but this is a recommended block for Schema output. " +
@@ -190,14 +192,14 @@ function addWarningsForRecommendedBlocks(
  * @param previousBlocks The previous list of blocks.
  */
 export default function warningWatcher( blocks: BlockInstance[], previousBlocks: BlockInstance[] = [] ): void {
-	const currentBlockIds = mapBlocksRecursively( blocks, block => block.clientId );
+	const currentBlockIds: string[] = mapBlocksRecursively( blocks, block => block.clientId );
 
 	recurseOverBlocks( previousBlocks, ( block: BlockInstance ) => {
 		if ( ! block.innerBlocks || block.innerBlocks.length === 0 ) {
 			return;
 		}
 
-		const removedInnerBlocks = block.innerBlocks
+		const removedInnerBlocks: BlockInstance[] = block.innerBlocks
 			.filter( innerBlock => ! currentBlockIds.includes( innerBlock.clientId ) );
 
 		if ( removedInnerBlocks.length === 0 ) {

@@ -9,7 +9,7 @@ If the changelog item is a bugfix, please use the following sentence structure: 
 -->
 This PR can be summarized in the following changelog entry:
 
-*
+* [package-name | plugin-name] changelog text.
 
 ## Relevant technical choices:
 

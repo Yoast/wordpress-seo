@@ -18,6 +18,10 @@ export default class BlockInstructionLeaf extends BlockLeaf {
 		instruction: BlockInstruction,
 	) {
 		super();
+		// eslint-disable-next-line no-undefined
+		if ( instruction === undefined ) {
+			console.error( "could not instantiate BlockInstructionLeaf with a null instruction" );
+		}
 		this.instruction = instruction;
 	}
 
@@ -42,6 +46,7 @@ export default class BlockInstructionLeaf extends BlockLeaf {
 	 * @returns The rendered element.
 	 */
 	edit( props: RenderEditProps, i: number ): JSX.Element | string {
+		// We sometimes have a race condition here.
 		return this.instruction.edit( props, this, i );
 	}
 }

@@ -1,9 +1,15 @@
 import "./Block";
 import "./ClassName";
+import "./CurrencySelect";
+import "./Date";
 import "./InnerBlocks";
 import "./RichText";
+import "./Select";
+import "./SidebarCheckbox";
 import "./SidebarDuration";
 import "./SidebarInput";
 import "./SidebarSelect";
+import "./TextInput";
 import "./VariableTagRichText";
-import "./Select";
+import "./Variation";
+import "./VariationPicker";

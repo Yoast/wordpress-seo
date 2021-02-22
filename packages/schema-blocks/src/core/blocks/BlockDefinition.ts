@@ -6,9 +6,12 @@ import Definition from "../Definition";
 import BlockRootLeaf from "../../leaves/blocks/BlockRootLeaf";
 import parse from "../../functions/blocks/parse";
 import { registerBlockDefinition } from "./BlockDefinitionRepository";
+import { PanelBody } from "@wordpress/components";
+import logger from "../../functions/logger";
 
 export interface RenderEditProps extends BlockEditProps<Record<string, unknown>> {
-	clientId?: string;
+	clientId: string;
+	name?: string;
 }
 
 export interface RenderSaveProps extends BlockSaveProps<Record<string, unknown>> {
@@ -23,7 +26,7 @@ export type MutableBlockConfiguration = {
  * BlockDefinition class.
  */
 export default class BlockDefinition extends Definition {
-	public static separatorCharacters = [ "@", "#", "$", "%", "^", "&", "*", "(", ")", "{", "}", "[", "]" ];
+	public static separatorCharacters = [ "b", "c", "d", "f", "g", "h", "k", "m", "z" ];
 	public static parser = parse;
 
 	public instructions: Record<string, BlockInstruction>;
@@ -45,8 +48,9 @@ export default class BlockDefinition extends Definition {
 			.filter( e => e !== null );
 		if ( sidebarElements.length > 0 ) {
 			// Need to add `children` on the `props` as well, because of the type definition of `InspectorControls.Props`.
-			const sidebar = createElement( InspectorControls, { key: "sidebar", children: sidebarElements }, sidebarElements );
-			elements.unshift( sidebar );
+			const sidebar = createElement( PanelBody, { key: "sidebarPanelBody", children: sidebarElements }, sidebarElements );
+			const sidebarContainer = createElement( InspectorControls, { key: "sidebar", children: [ sidebar ] }, [ sidebar ] );
+			elements.unshift( sidebarContainer );
 		}
 
 		if ( elements.length === 1 ) {
@@ -57,7 +61,7 @@ export default class BlockDefinition extends Definition {
 	}
 
 	/**
-	 * Renders saving the block.
+	 * Renders the persisted block.
 	 *
 	 * @param props The props.
 	 *
@@ -72,15 +76,13 @@ export default class BlockDefinition extends Definition {
 	 */
 	register(): void {
 		const configuration = this.configuration() as MutableBlockConfiguration;
-
 		const name = configuration.name as string;
 		delete configuration.name;
 
 		configuration.edit = props => this.edit( props );
 		configuration.save = props => this.save( props );
 
-		// eslint-disable-next-line no-console
-		console.log( "registering block " + name );
+		logger.info( "registering block " + name );
 
 		// Register the block to WordPress.
 		registerBlockType( name, configuration );

@@ -3,7 +3,7 @@ import SchemaInstruction from "../../core/schema/SchemaInstruction";
 import { BlockInstance } from "@wordpress/blocks";
 
 /**
- * SchemaInstruction class.
+ * Attribute instruction.
  */
 export default class Attribute extends SchemaInstruction {
 	public options: {
