@@ -96,11 +96,7 @@ class Indexable_Link_Builder {
 	public function build( $indexable, $content ) {
 		if ( $indexable->object_type === 'post' ) {
 			$post = $this->post_helper->get_post( $indexable->object_id );
-			// phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- To setup the post we need to do this explicitly.
-			$GLOBALS['post'] = $post;
-			\setup_postdata( $post );
-			$content = \apply_filters( 'the_content', $content );
-			\wp_reset_postdata();
+			$content = \apply_filters( 'the_content', $post->post_content );
 		}
 
 		$content = \str_replace( ']]>', ']]&gt;', $content );
