@@ -13,13 +13,13 @@ const specialCharacters = /[1234567890‘’“”"'.…?!:;,¿¡«»&*@#±^%$|~
  * @param {ProminentWord[]} prominentWords A list of prominent words.
  * @param {int} [minimalNumberOfOccurrences] A minimal number of occurrences that is needed for a relevant prominentWord, default 2.
  *
- * @returns {ProminentWord[]} Only relevant word combinations.
+ * @returns {ProminentWord[]} Only relevant words.
  */
 function filterProminentWords( prominentWords, minimalNumberOfOccurrences = 2 ) {
-	prominentWords = prominentWords.filter( function( combination ) {
+	prominentWords = prominentWords.filter( function( word ) {
 		return (
-			combination.getOccurrences() >= minimalNumberOfOccurrences &&
-			combination.getWord().replace( specialCharacters, "" ) !== ""
+			word.getOccurrences() >= minimalNumberOfOccurrences &&
+			word.getWord().replace( specialCharacters, "" ) !== ""
 		);
 	} );
 	return prominentWords;
@@ -35,12 +35,12 @@ function filterProminentWords( prominentWords, minimalNumberOfOccurrences = 2 ) 
 function sortProminentWords( prominentWords ) {
 	prominentWords.sort( function( wordA, wordB ) {
 		const difference = wordB.getOccurrences() - wordA.getOccurrences();
-		// The combination with the highest number of occurrences comes first.
+		// The word with the highest number of occurrences comes first.
 		if ( difference !== 0 ) {
 			return difference;
 		}
 
-		// In case of a tie on occurrence number, the alphabetically first combination comes first.
+		// In case of a tie on occurrence number, the alphabetically first word comes first.
 		return wordA.getStem().localeCompare( wordB.getStem() );
 	} );
 }
@@ -78,7 +78,7 @@ function collapseProminentWordsOnStem( prominentWords ) {
 
 		/*
 		 * Compare the stem of the current word in the loop with the previously available stem.
-		 * If they equal, word combinations should be collapsed.
+		 * If they are equal, the word should be collapsed.
 		 * When collapsing, the numbers of occurrences get summed.
 		 * If the stem happens to equal the real word that occurred in the text, we can be sure it's ok to display it
 		 * to the customer. So, the stem reassigns the word.
