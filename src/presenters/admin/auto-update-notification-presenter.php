@@ -23,7 +23,7 @@ class Auto_Update_Notification_Presenter extends Abstract_Presenter {
 				'wordpress-seo'
 			),
 			'Yoast SEO',
-			'<a href="' . \esc_url( \get_admin_url( null, 'plugins.php' ) ). '">',
+			'<a href="' . \esc_url( \get_admin_url( null, 'plugins.php' ) ) . '">',
 			'</a>'
 		);
 		$notification_text .= '</p>';
