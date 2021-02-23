@@ -143,6 +143,10 @@ module.exports = function( grunt ) {
 			},
 		},
 
+		"composer install": {
+			command: "composer install",
+		},
+
 		"composer-install-production": {
 			command: "composer install --prefer-dist --optimize-autoloader --no-dev --no-scripts",
 		},
@@ -153,10 +157,6 @@ module.exports = function( grunt ) {
 
 		"composer-update-yoast-dependencies": {
 			command: "composer update yoast/license-manager yoast/i18n-module",
-		},
-
-		"production-prefix-dependencies": {
-			command: "composer install",
 		},
 
 		"compile-dependency-injection-container": {

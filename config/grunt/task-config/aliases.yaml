@@ -83,7 +83,7 @@ clean:build-assets:
   - 'update-version:initializer'
 
 'artifact':
-  - 'shell:production-prefix-dependencies'
+  - 'shell:composer-install'
   - 'shell:compile-dependency-injection-container'
   - 'shell:remove-dependency-injection-meta'
   - 'shell:composer-install-production'
