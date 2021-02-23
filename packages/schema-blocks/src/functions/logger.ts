@@ -33,6 +33,18 @@ export interface Logger {
 }
 
 /**
+ * Colors to use when logging different kind of messages
+ * (e.g. errors, warnings, info or debug messages).
+ */
+const logColor: Record<LogLevel, string> = {
+	[ LogLevel.NONE ]: "black",
+	[ LogLevel.ERROR ]: "red",
+	[ LogLevel.WARNING ]: "darkorange",
+	[ LogLevel.INFO ]: "blue",
+	[ LogLevel.DEBUG ]: "darkorchid",
+};
+
+/**
  * Logs input to the window.console if the loglevel is set
  */
 export class ConsoleLogger implements Logger {
@@ -58,14 +70,13 @@ export class ConsoleLogger implements Logger {
 	 * Logs data if the severity is at or above the current loglevel.
 	 *
 	 * @param level The severity of the message.
-	 * @param color The color of the message label.
 	 * @param input The data to log.
 	 */
-	protected writeLog( level: LogLevel, color: string, ...input: unknown[] ): void {
+	protected writeLog( level: LogLevel, ...input: unknown[] ): void {
 		if ( this.level >= level && level !== LogLevel.NONE ) {
 			// This should be the only remaining console.log in the repository.
 			// eslint-disable-next-line no-console
-			console.log( `%c ${ LogLevel[ level ] }:`, `color: ${ color };`, ...input );
+			console.log( `%c ${ LogLevel[ level ] }:`, `color: ${ logColor[ level ] };`, ...input );
 		}
 	}
 
@@ -84,7 +95,7 @@ export class ConsoleLogger implements Logger {
 	 * @param input The data to log.
 	 */
 	debug( ...input: unknown[] ): void {
-		this.writeLog( LogLevel.DEBUG, "darkorchid", ...input );
+		this.writeLog( LogLevel.DEBUG, ...input );
 	}
 
 	/**
@@ -93,7 +104,7 @@ export class ConsoleLogger implements Logger {
 	 * @param input The data to log.
 	 */
 	info( ...input: unknown[] ): void {
-		this.writeLog( LogLevel.INFO, "blue", ...input );
+		this.writeLog( LogLevel.INFO, ...input );
 	}
 
 	/**
@@ -102,7 +113,7 @@ export class ConsoleLogger implements Logger {
 	 * @param input The data to log.
 	 */
 	warning( ...input: unknown[] ): void {
-		this.writeLog( LogLevel.WARNING, "darkorange", ...input );
+		this.writeLog( LogLevel.WARNING, ...input );
 	}
 
 	/**
@@ -111,7 +122,7 @@ export class ConsoleLogger implements Logger {
 	 * @param input The data to log.
 	 */
 	error( ...input: unknown[] ): void {
-		this.writeLog( LogLevel.ERROR, "red", ...input );
+		this.writeLog( LogLevel.ERROR, ...input );
 	}
 
 	/**
