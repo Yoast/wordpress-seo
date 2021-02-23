@@ -30,6 +30,8 @@ export interface Logger {
 	info( ...input: unknown[] ): void;
 	debug( ...input: unknown[] ): void;
 	log( ...input: unknown[] ): void;
+	startGroup( label: string, level: LogLevel ): void;
+	endGroup(): void;
 }
 
 /**
