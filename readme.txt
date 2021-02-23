@@ -234,6 +234,9 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 16.0 =
+Release Date: March 9th, 2021
+
 = 15.8.1 =
 Release Date: February 12th, 2021
 
@@ -261,30 +264,6 @@ Bugfixes:
 * Fixes a bug where scheme-relative links were not parsed correctly.
 * Fixes a bug where paginated WooCommerce shop pages did not have the right canonical.
 * Fixes a bug where custom capabilities could malfunction due to a race condition. Props to [Jerome Charaoui](https://github.com/jcharaoui).
-
-= 15.7 =
-Release Date: January 26th, 2021
-
-Meet Yoast SEO 15.7! For this release, we thought we’d remind you of the powerful content analysis in Yoast SEO - it helps you write awesome content that ranks! Read more about what’s new in Yoast SEO 15.7 in [our release post](https://yoa.st/release-15-7)!
-
-Enhancements:
-
-* Expands the readability analysis for Turkish:
-    * Adds the transition words assessment.
-    * Adds the consecutive sentences beginnings assessment.
-    * Adds the sentence length assessment.
-    * Adds the passive voice assessment.
-* Improves keyphrase recognition in Turkish by filtering out function words such as `birinci`, `i̇kinci`, `üçüncü`.
-* Adds the advanced snippet variables to the Social previews of our Elementor integration.
-
-Bugfixes:
-
-* Fixes a bug where empty author archive pages would be indexed when the author had published a custom post-type that was not shown on his/her author archive page. Props to [stodorovic](https://github.com/stodorovic).
-
-Other:
-
-* Changes the wording on the `my.yoast.com` connect error shown in Health Check when a Yoast premium plugin is enabled, to lead with what the user's problem is.
-* Removes the release notification as the added benefit of having it is minimal.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).
