@@ -46,6 +46,10 @@ class Auto_Update_Notification_Presenter_Test extends TestCase {
 			->with( null, 'plugins.php' )
 			->andReturn( 'http://basic.wordpress.test/wp-admin/plugins.php' );
 
+		Monkey\Functions\expect( 'esc_url' )
+			->once()
+			->andReturn( 'http://basic.wordpress.test/wp-admin/plugins.php' );
+
 		$expected = '<p>We see that you enabled automatic updates for WordPress. We recommend that you do this for Yoast SEO as well. This way we can guarantee that WordPress and Yoast SEO will continue to run smoothly together. <a href="http://basic.wordpress.test/wp-admin/plugins.php">Go to your plugins overview to enable auto-updates for Yoast SEO.</a></p>';
 
 		$this->assertSame( $expected, $this->instance->present() );

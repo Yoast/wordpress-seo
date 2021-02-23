@@ -22,7 +22,7 @@ class Auto_Update_Notification_Presenter extends Abstract_Presenter {
 				'We see that you enabled automatic updates for WordPress. We recommend that you do this for Yoast SEO as well. This way we can guarantee that WordPress and Yoast SEO will continue to run smoothly together. %1$sGo to your plugins overview to enable auto-updates for Yoast SEO.%2$s',
 				'wordpress-seo'
 			),
-			'<a href="' . \get_admin_url( null, 'plugins.php' ) . '">',
+			'<a href="' . \esc_url( \get_admin_url( null, 'plugins.php' ) ). '">',
 			'</a>'
 		);
 		$notification_text .= '</p>';
