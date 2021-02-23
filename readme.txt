@@ -5,7 +5,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
 Tested up to: 5.6
-Stable tag: 15.8
+Stable tag: 15.9
 Requires PHP: 5.6.20
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -237,20 +237,17 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 = 15.9 =
 Release Date: February 23rd, 2021
 
+Yoast SEO 15.9 is out! This release comes with performance improvements and general enhancements. Happy updating and thanks for using Yoast SEO! Read more about what’s new in Yoast SEO 15.9 in [our release post](https://yoa.st/release-15-9)!
+
 Enhancements:
 
- * Adds an image preview of the chosen image for the organization and person image.
- * Adds an image preview of the chosen image for the Facebook front page and default image.
- * Adds an image preview of the chosen image for the social images.
+ * Adds a preview of the chosen image for the organization and person image, social images, Facebook front page image and Facebook default image.
  * Improves interoperability and consistency in database queries.
- * Performance: prevents database queries for the homepage indexable.
+ * Improves the performance by preventing database queries for the homepage indexable.
 
 Bugfixes:
 
 * Fixes a bug where the disabled style of the switch toggles didn't look right.
-* Fixes a bug with the HelpScout integration not being overwritten properly by Premium / Add-ons and thus not showing.
-* Fixes a bug where integrations toggles wouldn't display following content.
-* Fixes a bug where, for users of Yoast SEO Premium, the plugin name was still shown as `Yoast SEO` in the taxonomy metabox in Internet Explorer.
 
 = 15.8 =
 Release Date: February 10th, 2021
