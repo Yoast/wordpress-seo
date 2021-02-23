@@ -11,7 +11,6 @@ use Yoast\WP\SEO\Integrations\Watchers\Auto_Update_Watcher;
 
 use Yoast_Notification_Center;
 use Yoast\WP\SEO\Helpers\Notification_Helper;
-use Yoast\WP\SEO\Helpers\Product_Helper;
 
 /**
  * Class Auto_Update_Watcher_Test.
@@ -38,13 +37,6 @@ class Auto_Update_Watcher_Test extends TestCase {
 	protected $notification_helper;
 
 	/**
-	 * Product_Helper mock.
-	 *
-	 * @var Mockery\MockInterface|Product_Helper
-	 */
-	protected $product_helper;
-
-	/**
 	 * The instance under test.
 	 *
 	 * @var Auto_Update_Watcher
@@ -59,12 +51,10 @@ class Auto_Update_Watcher_Test extends TestCase {
 
 		$this->notification_center = Mockery::mock( Yoast_Notification_Center::class );
 		$this->notification_helper = Mockery::mock( Notification_Helper::class );
-		$this->product_helper      = Mockery::mock( Product_Helper::class );
 
 		$this->instance = new Auto_Update_Watcher(
 			$this->notification_center,
-			$this->notification_helper,
-			$this->product_helper
+			$this->notification_helper
 		);
 	}
 
@@ -81,10 +71,6 @@ class Auto_Update_Watcher_Test extends TestCase {
 		self::assertInstanceOf(
 			Notification_Helper::class,
 			self::getPropertyValue( $this->instance, 'notification_helper' )
-		);
-		self::assertInstanceOf(
-			Product_Helper::class,
-			self::getPropertyValue( $this->instance, 'product_helper' )
 		);
 	}
 
