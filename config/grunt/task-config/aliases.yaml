@@ -163,7 +163,9 @@ release:
   - 'artifact'
   - 'wp_deploy:trunk'
 
-
+'update-changelog':
+  - get-changelog:wordpress-seo
+  - update-changelog-with-latest-pr-texts:wordpress-seo
 
 # Default task
 default:
