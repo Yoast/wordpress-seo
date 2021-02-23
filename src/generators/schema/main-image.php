@@ -37,5 +37,4 @@ class Main_Image extends Abstract_Schema_Piece {
 
 		return false;
 	}
-
 }

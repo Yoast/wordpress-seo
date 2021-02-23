@@ -42,7 +42,7 @@ use Yoast\WP\SEO\Repositories\Indexable_Repository;
  * @property string      $open_graph_publisher
  * @property string      $twitter_card
  * @property string      $page_type
- * @property bool 		 $has_image
+ * @property bool        $has_image
  * @property int         $main_image_id
  * @property string      $main_image_url
  */
@@ -484,7 +484,12 @@ class Meta_Tags_Context extends Abstract_Presentation {
 			return $this->image->get_attachment_image_url( $this->main_image_id, 'full' );
 		}
 
-		return $this->get_first_content_image( $this->id );
+		$url = $this->image->get_post_content_image( $this->id );
+		if ( $url === '' ) {
+			return null;
+		}
+
+		return $url;
 	}
 
 	/**
@@ -523,23 +528,6 @@ class Meta_Tags_Context extends Abstract_Presentation {
 			'indexable'    => $this->indexable,
 			'presentation' => $this->presentation,
 		];
-	}
-
-	/**
-	 * Gets the image URL for the web page based on the first content image image.
-	 *
-	 * @param int    $post_id  The post id.
-	 *
-	 * @return string|null The image URL or null if there is no image in the content.
-	 */
-	private function get_first_content_image( $post_id ) {
-		$image_url = $this->image->get_post_content_image( $post_id );
-
-		if ( $image_url === '' ) {
-			return null;
-		}
-
-		return $image_url;
 	}
 
 	/* ********************* DEPRECATED METHODS ********************* */
