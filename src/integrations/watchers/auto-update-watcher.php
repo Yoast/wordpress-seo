@@ -1,0 +1,166 @@
+<?php
+
+namespace Yoast\WP\SEO\Integrations\Watchers;
+
+use Yoast\WP\SEO\Conditionals\Admin_Conditional;
+use Yoast\WP\SEO\Integrations\Integration_Interface;
+
+/**
+ * Enables Yoast add-on auto updates when Yoast SEO is enabled and the other way around.
+ *
+ * Also removes the auto-update toggles from the Yoast SEO add-ons.
+ */
+class Auto_Update_Watcher implements Integration_Interface {
+
+	/**
+	 * ID string used by WordPress to identify the free plugin.
+	 *
+	 * @var string
+	 */
+	const WPSEO_FREE_PLUGIN_ID = 'wordpress-seo/wp-seo.php';
+
+	/**
+	 * A list of Yoast add-on identifiers.
+	 *
+	 * @var string[]
+	 */
+	const ADD_ONS = [
+		'wordpress-seo-premium/wp-seo-premium.php',
+		'wpseo-video/video-seo.php',
+		'wordpress-seo-local/local-seo.php',
+		'wpseo-woocommerce/wpseo-woocommerce.php',
+		'wpseo-news/wpseo-news.php',
+		'yoast-acf-analysis/yoast-acf-analysis.php',
+	];
+
+	/**
+	 * Registers the hooks.
+	 */
+	public function register_hooks() {
+		\add_action(
+			'update_option_auto_update_plugins',
+			[
+				$this,
+				'toggle_auto_updates_for_add_ons_on_free_auto_update_toggle',
+			],
+			10,
+			2
+		);
+		\add_filter( 'plugin_auto_update_setting_html', [ $this, 'replace_auto_update_toggles_of_addons' ], 10, 2 );
+	}
+
+	/**
+	 * Returns the conditionals based on which this loadable should be active.
+	 *
+	 * @return string[] The conditionals.
+	 */
+	public static function get_conditionals() {
+		return [ Admin_Conditional::class ];
+	}
+
+	/**
+	 * Replaces the auto-update toggle links for the Yoast add-ons
+	 * with a text explaining that toggling the Yoast SEO auto-update setting
+	 * automatically toggles the one for the setting for the add-ons as well.
+	 *
+	 * @param string $old_html The old HTML.
+	 * @param string $plugin   The plugin.
+	 *
+	 * @return string The new HTML, with the auto-update toggle link replaced.
+	 */
+	public function replace_auto_update_toggles_of_addons( $old_html, $plugin ) {
+		if ( ! \is_string( $old_html ) ) {
+			return $old_html;
+		}
+
+		if ( \in_array( $plugin, self::ADD_ONS, true ) ) {
+			$auto_updated_plugins = \get_option( 'auto_update_plugins' );
+
+			if ( $auto_updated_plugins === false || ! \is_array( $auto_updated_plugins ) ) {
+				return $old_html;
+			}
+
+			if ( $this->auto_updates_are_enabled_for_free( $auto_updated_plugins ) ) {
+				return \sprintf( '<em>%s</em>', \esc_html__( 'Auto-updates are enabled based on this setting for Yoast SEO.', 'wordpress-seo' ) );
+			}
+
+			return \sprintf( '<em>%s</em>', \esc_html__( 'Auto-updates are disabled based on this setting for Yoast SEO.', 'wordpress-seo' ) );
+		}
+
+		return $old_html;
+	}
+
+	/**
+	 * Enables premium auto updates when free are enabled and the other way around.
+	 *
+	 * @param array $old_value The old value of the `auto_update_plugins` option.
+	 * @param array $new_value The new value of the `auto_update_plugins` option.
+	 *
+	 * @return void
+	 */
+	public function toggle_auto_updates_for_add_ons_on_free_auto_update_toggle( $old_value, $new_value ) {
+		if ( ! \is_array( $old_value ) || ! \is_array( $new_value ) ) {
+			return;
+		}
+
+		if ( $this->auto_updates_for_free_have_just_been_enabled( $old_value, $new_value ) ) {
+			$this->enable_auto_updates_for_addons( $new_value );
+		}
+		elseif ( $this->auto_updates_for_free_have_just_been_disabled( $old_value, $new_value ) ) {
+			$this->disable_auto_updates_for_addons( $new_value );
+		}
+	}
+
+	/**
+	 * Checks whether auto updates for free have just been enabled.
+	 *
+	 * @param array $old_value The old value of the `auto_update_plugins` option.
+	 * @param array $new_value The new value of the `auto_update_plugins` option.
+	 *
+	 * @return bool Whether auto updates for free have just been enabled.
+	 */
+	protected function auto_updates_for_free_have_just_been_enabled( $old_value, $new_value ) {
+		return $this->auto_updates_are_enabled_for_free( $new_value ) && ! $this->auto_updates_are_enabled_for_free( $old_value );
+	}
+
+	/**
+	 * Checks whether auto updates for free have just been disabled.
+	 *
+	 * @param array $old_value The old value of the `auto_update_plugins` option.
+	 * @param array $new_value The new value of the `auto_update_plugins` option.
+	 *
+	 * @return bool Whether auto updates for free have just been disabled.
+	 */
+	protected function auto_updates_for_free_have_just_been_disabled( $old_value, $new_value ) {
+		return $this->auto_updates_are_enabled_for_free( $old_value ) && ! $this->auto_updates_are_enabled_for_free( $new_value );
+	}
+
+	/**
+	 * Enables auto-updates for all addons.
+	 *
+	 * @param string[] $auto_updated_plugins The current list of auto-updated plugins.
+	 */
+	protected function enable_auto_updates_for_addons( $auto_updated_plugins ) {
+		\update_option( 'auto_update_plugins', \array_merge( $auto_updated_plugins, self::ADD_ONS ) );
+	}
+
+	/**
+	 * Disables auto-updates for all addons.
+	 *
+	 * @param string[] $auto_updated_plugins The current list of auto-updated plugins.
+	 */
+	protected function disable_auto_updates_for_addons( $auto_updated_plugins ) {
+		\update_option( 'auto_update_plugins', \array_diff( $auto_updated_plugins, self::ADD_ONS ) );
+	}
+
+	/**
+	 * Checks whether auto updates for Yoast SEO are enabled.
+	 *
+	 * @param array $auto_updated_plugins The array of auto updated plugins.
+	 *
+	 * @return bool Whether auto updates for Yoast SEO are enabled.
+	 */
+	protected function auto_updates_are_enabled_for_free( $auto_updated_plugins ) {
+		return \in_array( self::WPSEO_FREE_PLUGIN_ID, $auto_updated_plugins, true );
+	}
+}
