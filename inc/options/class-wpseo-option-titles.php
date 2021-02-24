@@ -123,7 +123,8 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 		'schema-article-type-',
 		'social-title-',
 		'social-description-',
-		'social-image-',
+		'social-image-url-',
+		'social-image-id-',
 	];
 
 	/**
@@ -276,7 +277,8 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 				$enriched_defaults[ 'schema-article-type-' . $pt->name ]     = ( YoastSEO()->helpers->schema->article->is_article_post_type( $pt->name ) ) ? 'Article' : 'None';
 				$enriched_defaults[ 'social-title-' . $pt->name ]            = '%%title%%'; // Text field.
 				$enriched_defaults[ 'social-description-' . $pt->name ]      = '%%excerpt%%'; // Text area.
-				$enriched_defaults[ 'social-image-' . $pt->name ]            = ''; // Hidden input field.
+				$enriched_defaults[ 'social-image-url-' . $pt->name ]        = ''; // Hidden input field.
+				$enriched_defaults[ 'social-image-id-' . $pt->name ]         = ''; // Hidden input field.
 
 				if ( ! $pt->_builtin && WPSEO_Post_Type::has_archive( $pt ) ) {
 					$enriched_defaults[ 'title-ptarchive-' . $pt->name ]              = $archive . ' %%page%% %%sep%% %%sitename%%'; // Text field.
@@ -285,7 +287,8 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 					$enriched_defaults[ 'noindex-ptarchive-' . $pt->name ]            = false;
 					$enriched_defaults[ 'social-title-ptarchive-' . $pt->name ]       = '%%title%%'; // Text field.
 					$enriched_defaults[ 'social-description-ptarchive-' . $pt->name ] = '%%excerpt%%'; // Text area.
-					$enriched_defaults[ 'social-image-ptarchive-' . $pt->name ]       = ''; // Hidden input field.
+					$enriched_defaults[ 'social-image-url-ptarchive-' . $pt->name ]   = ''; // Hidden input field.
+					$enriched_defaults[ 'social-image-id-ptarchive-' . $pt->name ]    = ''; // Hidden input field.
 				}
 			}
 		}
@@ -305,7 +308,8 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 
 				$enriched_defaults[ 'social-title-tax-' . $tax->name ]       = '%%title%%'; // Text field.
 				$enriched_defaults[ 'social-description-tax-' . $tax->name ] = '%%excerpt%%'; // Text area.
-				$enriched_defaults[ 'social-image-tax-' . $tax->name ]       = ''; // Hidden input field.
+				$enriched_defaults[ 'social-image-url-tax-' . $tax->name ]   = ''; // Hidden input field.
+				$enriched_defaults[ 'social-image-id-tax-' . $tax->name ]    = ''; // Hidden input field.
 
 				if ( ! $tax->_builtin ) {
 					$enriched_defaults[ 'taxonomy-' . $tax->name . '-ptparent' ] = 0; // Select box;.
@@ -397,13 +401,15 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 				/*
 				 * Covers:
 				 *  'company_logo', 'person_logo'
-				 *  'social-image-' . $pt->name
-				 *  'social-image-ptarchive-' . $pt->name
-				 *  'social-image-tax-' . $tax->name
+				 *  'social-image-url-' . $pt->name
+				 *  'social-image-url-ptarchive-' . $pt->name
+				 *  'social-image-url-tax-' . $tax->name
 				 */
 				case 'company_logo':
 				case 'person_logo':
-				case 'social-image-':
+				case 'social-image-url-':
+				case 'social-image-url-ptarchive-':
+				case 'social-image-url-tax-':
 					$this->validate_url( $key, $dirty, $old, $clean );
 					break;
 
@@ -520,6 +526,9 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 				case 'company_or_person_user_id':
 				case 'company_logo_id':
 				case 'person_logo_id':
+				case 'social-image-id-':
+				case 'social-image-id-ptarchive-':
+				case 'social-image-id-tax-':
 					if ( isset( $dirty[ $key ] ) ) {
 						$int = WPSEO_Utils::validate_int( $dirty[ $key ] );
 						if ( $int !== false && $int >= 0 ) {
