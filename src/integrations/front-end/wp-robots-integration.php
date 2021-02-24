@@ -25,7 +25,7 @@ class WP_Robots_Integration implements Integration_Interface {
 	/**
 	 * Sets the dependencies for this integration.
 	 *
-	 * @param Meta_Tags_Context_Memoizer $context_memoizer
+	 * @param Meta_Tags_Context_Memoizer $context_memoizer The meta tags context memoizer.
 	 */
 	public function __construct( Meta_Tags_Context_Memoizer $context_memoizer ) {
 		$this->context_memoizer = $context_memoizer;
@@ -50,14 +50,14 @@ class WP_Robots_Integration implements Integration_Interface {
 	public static function get_conditionals() {
 		return [
 			Front_End_Conditional::class,
-			WP_Robots_Conditional::class
+			WP_Robots_Conditional::class,
 		];
 	}
 
 	/**
 	 * Adds our robots tag value to the WordPress robots tag output.
 	 *
-	 * @param array $robots The current robots data
+	 * @param array $robots The current robots data.
 	 *
 	 * @return array The robots data.
 	 */
@@ -99,7 +99,7 @@ class WP_Robots_Integration implements Integration_Interface {
 			// When the entry represents for example: max-image-preview:large.
 			$colon_position = \strpos( $value, ':' );
 			if ( $colon_position !== false ) {
-				$robots[ $key ] = \substr( $value, $colon_position + 1 );
+				$robots[ $key ] = \substr( $value, ( $colon_position + 1 ) );
 
 				continue;
 			}

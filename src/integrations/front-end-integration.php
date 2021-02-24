@@ -255,9 +255,12 @@ class Front_End_Integration implements Integration_Interface {
 			return $presenters;
 		}
 
-		return \array_filter( $presenters, static function( $presenter ) {
-			return $presenter !== "Yoast\WP\SEO\Presenters\Robots_Presenter";
-		} );
+		return \array_filter(
+			$presenters,
+			static function( $presenter ) {
+				return $presenter !== 'Yoast\\WP\\SEO\\Presenters\\Robots_Presenter';
+			}
+		);
 	}
 
 	/**

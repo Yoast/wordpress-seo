@@ -40,7 +40,7 @@ class WP_Robots_Integration_Test extends TestCase {
 		parent::set_up();
 
 		$this->context_memoizer = Mockery::mock( Meta_Tags_Context_Memoizer::class );
-		$this->instance = new WP_Robots_Integration( $this->context_memoizer );
+		$this->instance         = new WP_Robots_Integration( $this->context_memoizer );
 	}
 
 	/**
