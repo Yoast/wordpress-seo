@@ -6,7 +6,6 @@ import Participle from "../../../src/values/Participle";
 import Sentence from "../../../src/values/Sentence";
 import SentencePart from "../../../src/values/SentencePart";
 import ProminentWord from "../../../src/values/ProminentWord";
-import WordCombination from "../../../src/values/WordCombination";
 import parse from "../../../src/worker/transporter/parse";
 
 describe( "parse", () => {
@@ -41,25 +40,6 @@ describe( "parse", () => {
 		};
 
 		const expected = new ProminentWord( "combinations", "combination", 2 );
-
-		expect( parse( serialized ) ).toEqual( expected );
-	} );
-
-	it( "parses serialized WordCombinations", () => {
-		const serialized = {
-			_functionWords: functionWords,
-			_length: 2,
-			_occurrences: 2,
-			_words: [ "syllable", "combinations" ],
-			_relevantWords: {
-				syllable: 4,
-				combinations: 4,
-			},
-		};
-
-		const expected = new WordCombination( [ "syllable", "combinations" ], 2, functionWords );
-		const words = {	syllable: 4, combinations: 4 };
-		expected.setRelevantWords( words );
 
 		expect( parse( serialized ) ).toEqual( expected );
 	} );

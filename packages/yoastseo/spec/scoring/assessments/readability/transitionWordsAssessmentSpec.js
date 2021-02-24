@@ -1,4 +1,5 @@
-import { DefaultResearcher, EnglishResearcher } from "../../../../src/languageProcessing";
+import DefaultResearcher from "../../../../src/languageProcessing/languages/_default/Researcher";
+import EnglishResearcher from "../../../../src/languageProcessing/languages/en/Researcher";
 import transitionWordsAssessment from "../../../../src/scoring/assessments/readability/transitionWordsAssessment.js";
 import Paper from "../../../../src/values/Paper.js";
 import Factory from "../../../specHelpers/factory.js";
