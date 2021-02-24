@@ -117,6 +117,7 @@ class WP_Robots_Integration_Test extends TestCase {
 	 * @covers ::add_robots
 	 * @covers ::get_robots_value
 	 * @covers ::format_robots
+	 * @covers ::filter_robots_no_index
 	 */
 	public function test_add_robots() {
 		$context = (object) [
@@ -137,15 +138,54 @@ class WP_Robots_Integration_Test extends TestCase {
 
 		static::assertEquals(
 			[
-				'index'             => true,
 				'follow'            => true,
-				'max-image-preview' => 'large',
+				'index'             => true,
 				'noimageindex'      => true,
+				'max-image-preview' => 'large',
 			],
 			$this->instance->add_robots(
 				[
-					'index'  => 'noindex',
-					'follow' => 'nofollow',
+					'index'  => true,
+					'follow' => true,
+				]
+			)
+		);
+	}
+
+	/**
+	 * Tests the add robots with having the robots input being overwritten by our data.
+	 *
+	 * @covers ::add_robots
+	 * @covers ::get_robots_value
+	 * @covers ::format_robots
+	 * @covers ::filter_robots_no_index
+	 */
+	public function test_add_robots_with_noindex_set() {
+		$context = (object) [
+			'presentation' => (object) [
+				'robots' => [
+					'index'             => 'noindex',
+					'follow'            => 'follow',
+					'max-image-preview' => 'max-image-preview:large',
+					'imageindex'        => 'noimageindex',
+				],
+			],
+		];
+
+		$this->context_memoizer
+			->expects( 'for_current_page' )
+			->once()
+			->andReturn( $context );
+
+		static::assertEquals(
+			[
+				'follow'  => true,
+				'noindex' => true,
+			],
+			$this->instance->add_robots(
+				[
+					'index'  => true,
+					'follow' => true,
 				]
 			)
 		);

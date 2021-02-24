@@ -66,7 +66,11 @@ class WP_Robots_Integration implements Integration_Interface {
 			return $this->get_robots_value();
 		}
 
-		return array_merge( $robots, $this->get_robots_value() );
+		$merged_robots   = array_merge( $robots, $this->get_robots_value() );
+		$filtered_robots = $this->filter_robots_no_index( $merged_robots );
+
+		// Filter all falsy-null robot values.
+		return array_filter( $filtered_robots );
 	}
 
 	/**
@@ -102,8 +106,7 @@ class WP_Robots_Integration implements Integration_Interface {
 
 			// When index => noindex, we want a separate noindex as entry in array.
 			if ( strpos( $value, 'no' ) === 0 ) {
-				unset( $robots[ $key ] );
-
+				$robots[ $key ]   = false;
 				$robots[ $value ] = true;
 
 				continue;
@@ -114,6 +117,34 @@ class WP_Robots_Integration implements Integration_Interface {
 				$robots[ $key ] = true;
 			}
 		}
+
+		return $robots;
+	}
+
+	/**
+	 * Filters robots value when page is set noindex.
+	 *
+	 * WordPress might add some robot values again.
+	 * When the page is set to noindex we want to filter out these values.
+	 *
+	 * @param array $robots The robots.
+	 *
+	 * @return array The filtered robots.
+	 */
+	protected function filter_robots_no_index( $robots ) {
+		if ( ! isset( $robots['noindex'] ) ) {
+			return $robots;
+		}
+
+		$robots['imageindex']        = null;
+		$robots['noimageindex']      = null;
+		$robots['archive']           = null;
+		$robots['noarchive']         = null;
+		$robots['snippet']           = null;
+		$robots['nosnippet']         = null;
+		$robots['max-snippet']       = null;
+		$robots['max-image-preview'] = null;
+		$robots['max-video-preview'] = null;
 
 		return $robots;
 	}
