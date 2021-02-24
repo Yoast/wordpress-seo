@@ -10,7 +10,7 @@ use Yoast\WP\SEO\Integrations\Integration_Interface;
  *
  * Also removes the auto-update toggles from the Yoast SEO add-ons.
  */
-class Auto_Update_Watcher implements Integration_Interface {
+class Addon_Update_Watcher implements Integration_Interface {
 
 	/**
 	 * ID string used by WordPress to identify the free plugin.

@@ -6,7 +6,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 use Brain\Monkey;
 
-use Yoast\WP\SEO\Integrations\Watchers\Auto_Update_Watcher;
+use Yoast\WP\SEO\Integrations\Watchers\Addon_Update_Watcher;
 
 
 /**
@@ -15,14 +15,14 @@ use Yoast\WP\SEO\Integrations\Watchers\Auto_Update_Watcher;
  * @group integrations
  * @group watchers
  *
- * @coversDefaultClass \Yoast\WP\SEO\Integrations\Watchers\Auto_Update_Watcher
+ * @coversDefaultClass \Yoast\WP\SEO\Integrations\Watchers\Addon_Update_Watcher
  */
-class Auto_Update_Watcher_Test extends TestCase {
+class Addon_Update_Watcher_Test extends TestCase {
 
 	/**
 	 * The instance under test.
 	 *
-	 * @var Auto_Update_Watcher
+	 * @var Addon_Update_Watcher
 	 */
 	protected $instance;
 
@@ -34,7 +34,7 @@ class Auto_Update_Watcher_Test extends TestCase {
 
 		$this->stubTranslationFunctions();
 
-		$this->instance = new Auto_Update_Watcher();
+		$this->instance = new Addon_Update_Watcher();
 	}
 
 	/**
