@@ -7,7 +7,7 @@ import { singleWords as transitionWords } from "./transitionWords";
  */
 const articles = [ "ten", "ta" ];
 
-const cardinalNumerals = [ "nula", "jeden", "jedna", "jedno", "dva", "dvě", "tři", "čtyři", "pět", "šest", "sedm", "osm",
+const cardinalNumerals = [ "nula", "jeden", "jedné", "jedna", "jedno", "dva", "dvě", "dvou", "tři", "čtyři", "pět", "šest", "sedm", "osm",
 	"devět", "deset", "jedenáct", "dvanáct", "třináct", "čtrnáct", "patnáct", "šestnáct", "sedmnáct", "osmnáct", "devatenáct",
 	"dvacet", "dvacet jedna", "dvacet dva", "dvacet tři", "třicet", "čtyřicet", "padesát", "šedesát", "sedmdesát", "osmdesát",
 	"devadesát", "sto", "dvě stě", "tři sta", "čtyři sta", "pět set", "šest set", "sedm set", "osm set", "devět set", "tisíc",
@@ -21,14 +21,15 @@ const pronouns = [
 	"já", "ty", "on", "ona", "ono", "my", "mě", "mne", "mi", "mně", "vy", "oni", "ony", "tě", "ti", "tebe", "tobě", "jeho",
 	"něho", "ho", "jej", "něj", "ji", "jí", "ní", "je", "ně", "jim", "nim", "jimi", "nimi", "jich", "nich", "jemu", "němu",
 	"něm", "mém", "mým", "mých", "mou", "mými", "ním", "mu", "nás", "nám", "námi", "vás", "vám", "mnou", "námi", "tebou", "vámi",
-	"našich",
+	"našich", "tys", "naši",
 	// Possessive pronouns.
-	"můj", "má", "mé", "mí", "moje", "mého", "mojí", "mých", "mému", "mým", "moji", "tvůj", "tvoje", "tvá", "tvé", "tví", "tvoji",
+	"můj", "má", "mé", "mí", "moje", "mého", "mojí", "mých", "mému", "moji", "tvůj", "tvoje", "tvá", "tvé", "tví", "tvoji",
 	"tvého", "tvojí", "tvých", "tvojích", "tvému", "tvým", "tvou", "tvém", "tvých", "tvými", "jeho", "její", "náš", "naše", "váš",
-	"vaše", "jejich",
+	"vaše", "jejich", "vaší", "naší",
 	// Demonstrative pronouns.
-	"ten", "tento", "ta" , "tato", "to", "toto", "ti", "ty", "tito", "tyto", "ty", "ta", "tato", "tohle", "toho", "abych",
-	"těch", "tenhle", "abyste", "abychom", "tyhle", "tuhle", "tohoto", "čeho", "čemu", "téhle",
+	"ten", "tento", "ta", "tato", "to", "toto", "ti", "ty", "tito", "tyto", "ty", "ta", "tato", "tohle", "toho", "abych",
+	"těch", "tenhle", "abyste", "abychom", "tyhle", "tuhle", "tohoto", "čeho", "čemu", "téhle", "těmi", "této", "tomhle",
+	"tou", "tahle", "žes", "tímhle", "těm", "těchto",
 	// Relative pronouns.
 	"který", "která", "které", "kterého", "kterému", "kterou", "kterém", "kterým", "kteří", "kterých", "kterými",
 	"jenž", "jež", "jehož", "jejž", "něhož", "nějž", "jíž", "níž", "jemuž", "němuž", "jež", "něž", "němž", "jímž", "nímž",
@@ -36,10 +37,11 @@ const pronouns = [
 	"čem", "kým", "čím", "cože", "což", "koho", "jakou"
 	 ];
 
-const interrogatives = [ "co", "čí", "jak", "jaký", "jaké", "kde", "kdo", "kdý", "kolik", "který", "jenž", "proč" ];
+const interrogatives = [ "co", "čí", "čím", "jak", "jaký", "jaké", "kde", "kdo", "kdý", "kolik", "který", "jenž", "proč" ];
 
 const quantifiers = [ "nějaký", "nějaká", "nějaké", "žádný", "nijaký", "lecjaký", "ledajaký", "ledasjaký", "kdejaký",
-	"kdekterý", "všelijaký", "veškerý", "pár", "hodně", "celý", "tolik", "celou", "celé", "oba", "buď", "zbytek" ];
+	"kdekterý", "všelijaký", "veškerý", "pár", "hodně", "celý", "tolik", "celou", "celé", "oba", "buď", "zbytek", "žádná",
+	"nějakou" ];
 
 const reflexivePronouns = [ "se", "si", "sebe", "sobě", "sebou",
 	// Reflexive possessive.
@@ -57,46 +59,49 @@ const indefinitePronouns = [ "někdo", "někoho", "někomu", "někom", "někým"
 	"odkudsi", "odnikud", "odevšad", "kdesi", "všechen", "málokdo", "máloco", "málokterý", "zřídkakdo", "zřídkaco", "sotvakdo",
 	"sotvaco", "sotva který", "každý", "každá", "každé", "každého", "každému", "každému", "každou", "každém", "každým", "každí",
 	"každých", "každým", "každými", "všechen", "všechna", "všechno", "vše", "všeho", "vší", "všemu", "všechnu", "vším",
-	"všichni", "všechny", "všech", "všem", "všemi", "takový", "takového", "cokoliv", "jiného" ];
+	"všichni", "všechny", "všech", "všem", "všemi", "takový", "takové ", "takového", "takovou", "cokoliv", "jiného", "jiný" ];
 
 const prepositions = [ "během", "bez", "blízko", "do", "od", "okolo", "kolem", "u", "vedle", "z", "ze", "k", "ke", "kvůli",
 	"navzdor", "navzdory", "krom, vedle", "kromě, vedle", "místo", "namísto", "ohledně", "podél", "pomocí", "oproti", "naproti",
 	"proti", "prostřednictvím", "s", "u", "vlivem", "vyjma", "využitím", "stran", "díky", "kvůli", "podle", "vůči", "na", "té",
-	"o", "pro", "přes", "za", "po", "v", "ve", "mezi", "s", "se", "nad", "pod", "před", "mimo", "skrz", "při", "jako", "asi", "spolu",
-	"dokud", "ven", "běž", "odkud", "ode" ];
+	"o", "pro", "přes", "za", "po", "v", "ve", "mezi", "s", "se", "nad", "pod", "před", "mimo", "skrz", "při", "jako", "asi",
+	"spolu", "dokud", "ven", "běž", "odkud", "ode", "nahoře", "nahoru", "dovnitř", "dne" ];
 
 const conjunctions = [ "a", "i", "aby", "ale", "že", "protože", "neboť", "když", "až", "jestli", "jestliže", "pokud", "kdyby",
-	"nebo", "anebo", "či", "proto", "který", "jenž", "aniž", "než", "tak", "takže", "kvůli", "kdybych" ];
+	"nebo", "anebo", "či", "proto", "který", "jenž", "aniž", "než", "tak", "takže", "kvůli", "kdybych", "ach", "zdá", "zatím",
+	"během", "kdybyste" ];
 
-const interviewVerbs = [ "řekl", "říkala", "řekla", "říkal", "říká", "podle"];
+const interviewVerbs = [ "řekl", "říkala", "řekla", "řekne", "říkal", "říká", "podle", "neřekl", "říkat", "chtějí", "neviděl",
+	"vypadáš", "mluvil", "rozumím", "znám", "cítím", "nemyslím", "víme", "nevěřím" ];
 
-const intensifiers = [ "jasně", "velmi", "vůbec", "přesně", "určitě", "úplně", "samozřejmě", "docela" ];
+const intensifiers = [ "jasně", "velmi", "vůbec", "přesně", "určitě", "úplně", "samozřejmě", "docela", "skutečně", "rozhodně " ];
 
-const auxiliariesAndDelexicalizedVerbs = [  ];
+const auxiliariesAndDelexicalizedVerbs = [ "mělo", "přijít", "podívat", "dělej", "dá", "dala", "přijde", "stojí",
+	"udělám", "mohlo", "nechte", "nemáme", "dám", "přišla", "dělal", "dejte" ];
 
 const generalAdjectivesAdverbs = [
 	// General adjective.
 	"dobře", "dobrý", "dobrá", "dobré", "dost", "dlouho", "dlouha", "nejlepší", "poslední", "rychle", "lepší", "vlastní",
-	"ostatní", "velký", "starý", "líp", "malé", "špatný", "lépe", "hlavní",
+	"ostatní", "velký", "starý", "líp", "malé", "špatný", "lépe", "hlavní", "právo", "úžasné", "pěkný", "stejné", "spousta",
+	"skvělá", "dobrej", "horší", "novou", "stará", "nového", "nejdřív", "druhou", "naposledy", "hezký",
 	// General adverbs.
 	"všelijak", "nějak", "jaksi", "tak nějak", "ijak", "nikterak", "akkoli","akkoliv", "kdejak", "už", "jen", "tady", "teď",
 	"ještě", "možná", "nikdy", "ani", "taky", "pak", "opravdu", "trochu", "prostě", "víc", "jenom", "další", "právě", "zpátky",
 	"vždycky", "pryč", "zase", "někdy", "také", "chvíli", "znovu", "snad", "třeba", "stále", "zrovna", "příliš", "nějak", "vždy",
-    "skoro", "kolem", "později", "zpět", "najednou", "támhle" ];
+    "skoro", "kolem", "později", "zpět", "najednou", "támhle", "někam", "hlavně", "často", "občas", "společně", "dokonce", "zde",
+	"aspoň", "jediný", "pouze", "stačí", "mnohem", "zas", "nikam", "dávno", "již", "dvakrát", "vzhůru", "pomalu", "bohužel" ];
 
-const interjections = [ "jo", "hej", "oh", "hele", "fajn", "ok", "proboha", "ah", "okay" ];
+const interjections = [ "jo", "hej", "oh", "uh ", "hele", "fajn", "ok", "proboha", "ah", "okay" ];
 
 const recipeWords = [];
 
-const timeWords = [ "den", "dnes", "čas", "ráno", "zítra", "dneska", "minut", "včera", "času", "dní", "hodinu", "hodin" ];
+const timeWords = [ "den", "dnes", "čas", "ráno", "zítra", "dneska", "minut", "včera", "času", "dní", "hodinu", "hodin", "týdny",
+	"měsíce", "roku", "měsíců" ];
 
 const vagueNouns = [ "věc", "věci", "můžeš", "lidem", "lidé", "lidí", "chlap", "místa" ];
 
-const miscellaneous = [
-	"atd.", "bůhvíkdo", "bůhvíjaký", "bůhvíčí", "nevímco", "nevímkdo a podobně", "si", "ne", "pan", "pane", "pana", "paní",
-	"prosím", "pořádku", "líto",
-	// Fractions.
-	 ];
+const miscellaneous = [ "atd.", "bůhvíkdo", "bůhvíjaký", "bůhvíčí", "nevímco", "nevímkdo a podobně", "si", "ne", "ně",
+	"pan", "pane", "pana", "paní", "prosím", "pořádku", "líto", "chlape", "slečno", "mimochodem" ];
 
 
 export const all = [].concat( articles, cardinalNumerals, ordinalNumerals, pronouns, interrogatives,
