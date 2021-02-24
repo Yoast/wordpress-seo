@@ -1,18 +1,6 @@
-# WPGraphQl Yoast SEO Plugin
-
-[![Latest Stable Version](https://poser.pugx.org/ashhitch/wp-graphql-yoast-seo/v/stable)](https://packagist.org/packages/ashhitch/wp-graphql-yoast-seo)
-[![Total Downloads](https://poser.pugx.org/ashhitch/wp-graphql-yoast-seo/downloads)](https://packagist.org/packages/ashhitch/wp-graphql-yoast-seo)
-[![Monthly Downloads](https://poser.pugx.org/ashhitch/wp-graphql-yoast-seo/d/monthly)](https://packagist.org/packages/ashhitch/wp-graphql-yoast-seo)
-
-![WPGraphQl Yoast SEO Plugin](./banner.png)
-
-## Please note version 14 of the Yoast Plugin is a major update.
-
-If you are stuck on version of Yoast before V14 then use v3 of this plugin.
+# Yoast SEO WP GraphQL integration
 
 This is an extension to the WPGraphQL plugin (https://github.com/wp-graphql/wp-graphql) that returns Yoast SEO data.
-
-> Using this plugin? I would love to see what you make with it. 😃 [@ash_hitchcock](https://twitter.com/ash_hitchcock)
 
 **Currently returning SEO data for:**
 
@@ -29,33 +17,8 @@ This is an extension to the WPGraphQL plugin (https://github.com/wp-graphql/wp-g
     -   Schemas
     -   Breadcrumbs
 
-> If there is any Yoast data that is not currently returned, please raise an issue so we can add it to the roadmap.
-
-## Quick Install
-
--   Install from the [WordPress Plugin Directory](https://wordpress.org/plugins/add-wpgraphql-seo/)
--   Clone or download the zip of this repository into your WordPress plugin directory & activate the **WP GraphQL Yoast SEO** plugin
--   Install & activate [WPGraphQL](https://www.wpgraphql.com/)
-
-## Composer
-
-```
-composer require ashhitch/wp-graphql-yoast-seo
-```
-
-## V4 breaking change
-
-Plugin now requires at least Yoast 14.0.0
-
-## V3 breaking change
-
-Image urls are now returned as `mediaItem` type.
-
-This applies to `twitterImage` and `opengraphImage`
-
 ## Usage with Gatsby
 Checkout the companion [Gatsby plugin](https://github.com/ashhitch/gatsby-plugin-wpgraphql-seo) to add in Metadata and JSON LD schema with ease.
-
 
 ## Usage
 
@@ -352,12 +315,5 @@ query GetSeoConfig {
 }
 ```
 
-
-## Support
-
-[Open an issue](https://github.com/ashhitch/wp-graphql-yoast-seo/issues)
-
-[Twitter: @ash_hitchcock](https://twitter.com/ash_hitchcock)
-
-
-> Please Note: Yoast and WPGraphQL and their logos are copyright to their respective owners.
+## Credits
+Thanks to [@ash_hitchcock](https://twitter.com/ash_hitchcock) for initializing launching this integration as a separate plugin.
