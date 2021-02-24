@@ -1,6 +1,6 @@
-import passiveVoice from "../../../src/languageProcessing/researches/getPassiveVoice.js";
-import Paper from "../../../src/values/Paper.js";
-import Researcher from "../../../src/languageProcessing/languages/nl/Researcher";
+import passiveVoice from "../../../../src/languageProcessing/researches/getPassiveVoice.js";
+import Paper from "../../../../src/values/Paper.js";
+import Researcher from "../../../../src/languageProcessing/languages/nl/Researcher";
 
 /*
  * Note: for perfect tenses, Dutch uses the auxiliary `zijn`. Because it is difficult to distinguish between passives

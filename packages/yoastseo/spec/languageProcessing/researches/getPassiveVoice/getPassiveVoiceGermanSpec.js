@@ -1,6 +1,6 @@
-import passiveVoice from "../../../src/languageProcessing/researches/getPassiveVoice.js";
-import Paper from "../../../src/values/Paper.js";
-import Researcher from "../../../src/languageProcessing/languages/de/Researcher";
+import passiveVoice from "../../../../src/languageProcessing/researches/getPassiveVoice.js";
+import Paper from "../../../../src/values/Paper.js";
+import Researcher from "../../../../src/languageProcessing/languages/de/Researcher";
 
 describe( "detecting passive voice in sentences with irregularParticiples", function() {
 	it( "does not return passive for an irregular directly followed by 'sein'", function() {

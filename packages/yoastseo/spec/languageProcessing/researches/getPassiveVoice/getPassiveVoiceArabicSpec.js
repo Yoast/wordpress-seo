@@ -1,6 +1,6 @@
-import passiveVoice from "../../../src/languageProcessing/researches/getPassiveVoice.js";
-import Paper from "../../../src/values/Paper.js";
-import Researcher from "../../../src/languageProcessing/languages/ar/Researcher";
+import passiveVoice from "../../../../src/languageProcessing/researches/getPassiveVoice.js";
+import Paper from "../../../../src/values/Paper.js";
+import Researcher from "../../../../src/languageProcessing/languages/ar/Researcher";
 
 describe( "detecting passive voice in sentences", function() {
 	it( "returns active voice", function() {

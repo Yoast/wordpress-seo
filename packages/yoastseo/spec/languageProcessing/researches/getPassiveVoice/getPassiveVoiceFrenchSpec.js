@@ -1,6 +1,6 @@
-import passiveVoice from "../../../src/languageProcessing/researches/getPassiveVoice.js";
-import Paper from "../../../src/values/Paper.js";
-import Researcher from "../../../src/languageProcessing/languages/fr/Researcher";
+import passiveVoice from "../../../../src/languageProcessing/researches/getPassiveVoice.js";
+import Paper from "../../../../src/values/Paper.js";
+import Researcher from "../../../../src/languageProcessing/languages/fr/Researcher";
 
 // eslint-disable-next-line max-statements
 describe( "detecting passive voice in sentences", function() {

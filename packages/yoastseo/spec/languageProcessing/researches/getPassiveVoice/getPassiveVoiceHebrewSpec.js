@@ -1,6 +1,6 @@
-import passiveVoice from "../../../src/languageProcessing/researches/getPassiveVoice.js";
-import Paper from "../../../src/values/Paper.js";
-import Researcher from "../../../src/languageProcessing/languages/he/Researcher";
+import passiveVoice from "../../../../src/languageProcessing/researches/getPassiveVoice.js";
+import Paper from "../../../../src/values/Paper.js";
+import Researcher from "../../../../src/languageProcessing/languages/he/Researcher";
 
 describe( "a test for detecting passive voice in sentences", function() {
 	it( "returns active voice with binyan pa'al", function() {
