@@ -1,5 +1,0 @@
-{
-    "phpcbf.enable": true,
-    "phpcbf.executablePath": "${workspaceFolder}/vendor/bin/phpcbf",
-    "phpcbf.onsave": true
-}
