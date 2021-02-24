@@ -1,4 +1,5 @@
 import { BlockInstance } from "@wordpress/blocks";
+import logger from "../functions/logger";
 import { BlockValidationResult, BlockValidation } from "./validation";
 export type InstructionPrimitive = string | number | boolean;
 export type InstructionValue = InstructionPrimitive | InstructionObject | InstructionArray;
@@ -97,7 +98,7 @@ export default abstract class Instruction {
 		const klass = this.registeredInstructions[ name ];
 
 		if ( ! klass ) {
-			console.error( "Invalid instruction: ", name );
+			logger.error( "Invalid instruction: ", name );
 		}
 
 		return new klass( id, options );
