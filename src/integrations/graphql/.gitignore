@@ -1,0 +1,11 @@
+.DS_Store
+Thumbs.db
+wp-cli.local.yml
+node_modules/
+*.sql
+*.tar.gz
+*.zip
+.idea*
+wp-content/
+vendor/
+notes.md

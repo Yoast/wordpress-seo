@@ -1,0 +1,8 @@
+/.git
+/.github
+/node_modules
+/vendor
+.prettierrc
+.distignore
+.gitignore
+yarn.lock

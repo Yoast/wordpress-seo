@@ -1,0 +1,60 @@
+name: contributors-pull-request
+
+on:
+  schedule:
+    # Once a year, the 3nd of January
+    #- cron: 0 0 3 1 *
+    # Weekly on Sunday
+    - cron: 0 8 1 * *
+
+jobs:
+  GenerateSourcecred:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v1
+      - name: Cache Data
+        id: cache-data
+        uses: actions/cache@v1
+        with:
+          path: sourcecred_data
+          key: ${{ runner.os }}-sourcecred_data
+      - name: Generate SourceCred Graphic
+        env:
+          TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          mkdir -p sourcecred_data
+          SOURCECRED_GITHUB_TOKEN=${TOKEN} docker run -i --rm -v $PWD/sourcecred_data:/data -e SOURCECRED_GITHUB_TOKEN sourcecred/sourcecred:dev load ${GITHUB_REPOSITORY}
+          SOURCECRED_GITHUB_TOKEN=${TOKEN} docker run -i --rm -v $PWD/sourcecred_data:/data sourcecred/sourcecred:dev scores ${GITHUB_REPOSITORY} > scores.json
+          SOURCECRED_GITHUB_TOKEN=${TOKEN} docker run -i --rm -e SOURCECRED_GITHUB_TOKEN sourcecred/widgets < scores.json > contributors.svg
+          cat contributors.svg
+      - name: Open Pull Request
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH_AGAINST: "master"
+        run: |
+          printf "GitHub Actor: ${GITHUB_ACTOR}\n"
+          git remote set-url origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+          git branch
+
+          export BRANCH_FROM="update/sourcecred-contributors-$(date '+%Y-%m-%d')"
+          git checkout -b "${BRANCH_FROM}"
+          git branch
+
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@users.noreply.github.com"
+
+          git add contributors.svg
+
+          if git diff-index --quiet HEAD --; then
+             printf "No changes\n"
+          else
+             printf "Changes\n"
+             git commit -m "Automated deployment to update contributors.svg $(date '+%Y-%m-%d') image" || exit 0
+             git push origin "${BRANCH_FROM}"
+
+             # Absolutely must download specific sha of script
+             wget https://raw.githubusercontent.com/${GITHUB_REPOSITORY}/4767b136adacee5946078712101f2db4aad8a2a5/.github/workflows/pull_request.sh
+             chmod +x pull_request.sh
+             /bin/bash pull_request.sh
+          fi
