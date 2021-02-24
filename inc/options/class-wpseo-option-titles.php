@@ -121,6 +121,9 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 		'taxonomy-',
 		'schema-page-type-',
 		'schema-article-type-',
+		'social-title-',
+		'social-description-',
+		'social-image-',
 	];
 
 	/**
@@ -271,12 +274,18 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 				$enriched_defaults[ 'post_types-' . $pt->name . '-maintax' ] = 0; // Select box.
 				$enriched_defaults[ 'schema-page-type-' . $pt->name ]        = 'WebPage';
 				$enriched_defaults[ 'schema-article-type-' . $pt->name ]     = ( YoastSEO()->helpers->schema->article->is_article_post_type( $pt->name ) ) ? 'Article' : 'None';
+				$enriched_defaults[ 'social-title-' . $pt->name ]            = '%%title%%'; // Text field.
+				$enriched_defaults[ 'social-description-' . $pt->name ]      = '%%excerpt%%'; // Text area.
+				$enriched_defaults[ 'social-image-' . $pt->name ]            = ''; // Hidden input field.
 
 				if ( ! $pt->_builtin && WPSEO_Post_Type::has_archive( $pt ) ) {
-					$enriched_defaults[ 'title-ptarchive-' . $pt->name ]    = $archive . ' %%page%% %%sep%% %%sitename%%'; // Text field.
-					$enriched_defaults[ 'metadesc-ptarchive-' . $pt->name ] = ''; // Text area.
-					$enriched_defaults[ 'bctitle-ptarchive-' . $pt->name ]  = ''; // Text field.
-					$enriched_defaults[ 'noindex-ptarchive-' . $pt->name ]  = false;
+					$enriched_defaults[ 'title-ptarchive-' . $pt->name ]              = $archive . ' %%page%% %%sep%% %%sitename%%'; // Text field.
+					$enriched_defaults[ 'metadesc-ptarchive-' . $pt->name ]           = ''; // Text area.
+					$enriched_defaults[ 'bctitle-ptarchive-' . $pt->name ]            = ''; // Text field.
+					$enriched_defaults[ 'noindex-ptarchive-' . $pt->name ]            = false;
+					$enriched_defaults[ 'social-title-ptarchive-' . $pt->name ]       = '%%title%%'; // Text field.
+					$enriched_defaults[ 'social-description-ptarchive-' . $pt->name ] = '%%excerpt%%'; // Text area.
+					$enriched_defaults[ 'social-image-ptarchive-' . $pt->name ]       = ''; // Hidden input field.
 				}
 			}
 		}
@@ -293,6 +302,10 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 				$enriched_defaults[ 'display-metabox-tax-' . $tax->name ] = true;
 
 				$enriched_defaults[ 'noindex-tax-' . $tax->name ] = ( $tax->name === 'post_format' );
+
+				$enriched_defaults[ 'social-title-tax-' . $tax->name ]       = '%%title%%'; // Text field.
+				$enriched_defaults[ 'social-description-tax-' . $tax->name ] = '%%excerpt%%'; // Text area.
+				$enriched_defaults[ 'social-image-tax-' . $tax->name ]       = ''; // Hidden input field.
 
 				if ( ! $tax->_builtin ) {
 					$enriched_defaults[ 'taxonomy-' . $tax->name . '-ptparent' ] = 0; // Select box;.
@@ -356,10 +369,14 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 				 *  'title-' . $pt->name
 				 *  'title-ptarchive-' . $pt->name
 				 *  'title-tax-' . $tax->name
+				 *  'social-title-' . $pt->name
+				 *  'social-title-ptarchive-' . $pt->name
+				 *  'social-title-tax-' . $tax->name
 				 */
 				case 'website_name':
 				case 'alternate_website_name':
 				case 'title-':
+				case 'social-title-':
 					if ( isset( $dirty[ $key ] ) ) {
 						$clean[ $key ] = WPSEO_Utils::sanitize_text_field( $dirty[ $key ] );
 					}
@@ -377,8 +394,16 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 					}
 					break;
 
+				/*
+				 * Covers:
+				 *  'company_logo', 'person_logo'
+				 *  'social-image-' . $pt->name
+				 *  'social-image-ptarchive-' . $pt->name
+				 *  'social-image-tax-' . $tax->name
+				 */
 				case 'company_logo':
 				case 'person_logo':
+				case 'social-image-':
 					$this->validate_url( $key, $dirty, $old, $clean );
 					break;
 
@@ -390,11 +415,15 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 				 *  'metadesc-tax-' . $tax->name
 				 *  and also:
 				 *  'bctitle-ptarchive-' . $pt->name
+				 *  'social-description-' . $pt->name
+				 *  'social-description-ptarchive-' . $pt->name
+				 *  'social-description-tax-' . $tax->name
 				 */
 				case 'metadesc-':
 				case 'bctitle-ptarchive-':
 				case 'company_name':
 				case 'person_name':
+				case 'social-description-':
 					if ( isset( $dirty[ $key ] ) && $dirty[ $key ] !== '' ) {
 						$clean[ $key ] = WPSEO_Utils::sanitize_text_field( $dirty[ $key ] );
 					}
