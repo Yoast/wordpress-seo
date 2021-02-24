@@ -5,7 +5,7 @@ import { singleWords as transitionWords } from "./transitionWords";
  *
  * @returns {Object} The object filled with various categories of function word arrays.
  */
-const articles = [ "ten", "ta" ];
+const articles = [];
 
 const cardinalNumerals = [ "nula", "jeden", "jedné", "jedna", "jedno", "dva", "dvě", "dvou", "tři", "čtyři", "pět", "šest", "sedm", "osm",
 	"devět", "deset", "jedenáct", "dvanáct", "třináct", "čtrnáct", "patnáct", "šestnáct", "sedmnáct", "osmnáct", "devatenáct",
@@ -27,9 +27,9 @@ const pronouns = [
 	"tvého", "tvojí", "tvých", "tvojích", "tvému", "tvým", "tvou", "tvém", "tvých", "tvými", "jeho", "její", "náš", "naše", "váš",
 	"vaše", "jejich", "vaší", "naší",
 	// Demonstrative pronouns.
-	"ten", "tento", "ta", "tato", "to", "toto", "ti", "ty", "tito", "tyto", "ty", "ta", "tato", "tohle", "toho", "abych",
+	"ten", "tento", "ta", "tato", "to", "toto", "ti", "tito", "tyto", "ty", "tato", "tohle", "toho", "abych",
 	"těch", "tenhle", "abyste", "abychom", "tyhle", "tuhle", "tohoto", "čeho", "čemu", "téhle", "těmi", "této", "tomhle",
-	"tou", "tahle", "žes", "tímhle", "těm", "těchto",
+	"tou", "tahle", "žes", "tímhle", "těm", "těchto", "tomu", "tu", "ten", "tom", "tím",
 	// Relative pronouns.
 	"který", "která", "které", "kterého", "kterému", "kterou", "kterém", "kterým", "kteří", "kterých", "kterými",
 	"jenž", "jež", "jehož", "jejž", "něhož", "nějž", "jíž", "níž", "jemuž", "němuž", "jež", "něž", "němž", "jímž", "nímž",
