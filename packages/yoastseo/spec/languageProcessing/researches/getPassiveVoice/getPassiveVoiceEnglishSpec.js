@@ -1,6 +1,6 @@
-import passiveVoice from "../../../src/languageProcessing/researches/getPassiveVoice.js";
-import Paper from "../../../src/values/Paper.js";
-import EnglishResearcher from "../../../src/languageProcessing/languages/en/researcher";
+import passiveVoice from "../../../../src/languageProcessing/researches/getPassiveVoice.js";
+import Paper from "../../../../src/values/Paper.js";
+import EnglishResearcher from "../../../../src/languageProcessing/languages/en/Researcher";
 
 // Tests inspired by the examples on http://www.englishpage.com/verbpage/activepassive.html
 // eslint-disable-next-line max-statements

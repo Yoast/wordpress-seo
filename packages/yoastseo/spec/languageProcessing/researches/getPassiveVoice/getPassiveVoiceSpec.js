@@ -1,8 +1,8 @@
-import EnglishResearcher from "../../../src/languageProcessing/languages/en/researcher";
-import ArabicResearcher from "../../../src/languageProcessing/languages/ar/Researcher";
-import HungarianResearcher from "../../../src/languageProcessing/languages/hu/Researcher";
-import passiveVoice from "../../../src/languageProcessing/researches/getPassiveVoice";
-import Paper from "../../../src/values/Paper";
+import EnglishResearcher from "../../../../src/languageProcessing/languages/en/Researcher";
+import ArabicResearcher from "../../../../src/languageProcessing/languages/ar/Researcher";
+import HungarianResearcher from "../../../../src/languageProcessing/languages/hu/Researcher";
+import passiveVoice from "../../../../src/languageProcessing/researches/getPassiveVoice";
+import Paper from "../../../../src/values/Paper";
 
 describe( "detecting passive voice in sentences", function() {
 	it( "returns active voice for periphrastic language", function() {
