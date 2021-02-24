@@ -68,8 +68,16 @@ class Health_Check_Link_Table_Not_Accessible_Test extends TestCase {
 
 		$classes = Mockery::mock();
 		$classes->expects( 'get' )->once()->with( Migration_Status::class )->andReturn( $migration_status );
+		$product_helper_mock = Mockery::mock( Product_Helper::class );
+		$product_helper_mock->expects( 'is_premium' )->once()->andReturn( false );
+		$helpers_mock = (object) [ 'product' => $product_helper_mock ];
 
-		Monkey\Functions\expect( 'YoastSEO' )->once()->andReturn( (object) [ 'classes' => $classes ] );
+		Monkey\Functions\expect( 'YoastSEO' )->twice()->andReturn(
+			(object) [
+				'classes' => $classes,
+				'helpers' => $helpers_mock,
+			]
+		);
 
 		Monkey\Functions\expect( 'add_query_arg' )->andReturn( '' );
 
@@ -102,7 +110,16 @@ class Health_Check_Link_Table_Not_Accessible_Test extends TestCase {
 		$classes = Mockery::mock();
 		$classes->expects( 'get' )->once()->with( Migration_Status::class )->andReturn( $migration_status );
 
-		Monkey\Functions\expect( 'YoastSEO' )->once()->andReturn( (object) [ 'classes' => $classes ] );
+		$product_helper_mock = Mockery::mock( Product_Helper::class );
+		$product_helper_mock->expects( 'is_premium' )->once()->andReturn( false );
+		$helpers_mock = (object) [ 'product' => $product_helper_mock ];
+
+		Monkey\Functions\expect( 'YoastSEO' )->twice()->andReturn(
+			(object) [
+				'classes' => $classes,
+				'helpers' => $helpers_mock,
+			]
+		);
 
 		Monkey\Functions\expect( 'add_query_arg' )->andReturn( '' );
 
