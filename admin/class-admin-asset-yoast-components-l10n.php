@@ -48,7 +48,7 @@ final class WPSEO_Admin_Asset_Yoast_Components_L10n {
 	protected function get_translations( $component ) {
 		$locale = \get_user_locale();
 
-		$file = plugin_dir_path( WPSEO_FILE ) . 'languages/' . $component . '-' . $locale . '.json';
+		$file = WPSEO_PATH . 'languages/' . $component . '-' . $locale . '.json';
 		if ( file_exists( $file ) ) {
 			// phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- Retrieving a local file.
 			$file = file_get_contents( $file );
