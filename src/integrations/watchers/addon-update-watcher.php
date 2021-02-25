@@ -157,12 +157,12 @@ class Addon_Update_Watcher implements Integration_Interface {
 	}
 
 	/**
-	 * Checks whether auto updates for Yoast SEO are enabled.
+	 * Checks whether auto updates for a plugin are enabled.
 	 *
 	 * @param string $plugin_id            The plugin ID.
 	 * @param array  $auto_updated_plugins The array of auto updated plugins.
 	 *
-	 * @return bool Whether auto updates for Yoast SEO are enabled.
+	 * @return bool Whether auto updates for a plugin are enabled.
 	 */
 	protected function are_auto_updates_enabled( $plugin_id, $auto_updated_plugins ) {
 		return \in_array( $plugin_id, $auto_updated_plugins, true );

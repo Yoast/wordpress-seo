@@ -9,9 +9,8 @@ use Brain\Monkey;
 
 use Yoast\WP\SEO\Integrations\Watchers\Addon_Update_Watcher;
 
-
 /**
- * Class Auto_Update_Watcher_Test.
+ * Class Addon_Update_Watcher_Test.
  *
  * @group integrations
  * @group watchers
