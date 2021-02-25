@@ -74,9 +74,9 @@ class WP_Robots_Integration implements Integration_Interface {
 	}
 
 	/**
-	 * Retrieves the robots presenter.
+	 * Retrieves the robots key-value pairs.
 	 *
-	 * @returns Robots_Presenter Instance of the robots presenter.
+	 * @returns array The robots key-value pairs.
 	 */
 	protected function get_robots_value() {
 		$context = $this->context_memoizer->for_current_page();
