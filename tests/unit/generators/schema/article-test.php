@@ -209,6 +209,8 @@ class Article_Test extends TestCase {
 		$this->context_mock->post->post_date_gmt       = '2345-12-12 12:12:12';
 		$this->context_mock->post->post_modified_gmt   = '2345-12-12 23:23:23';
 		$this->context_mock->post->post_type           = 'my_awesome_post_type';
+		$this->context_mock->post->post_content        = 'This is test content.';
+		$this->context_mock->post->post_title          = 'Test title';
 		$this->context_mock->post->comment_status      = $values_to_test['post_comment_status'];
 		$this->context_mock->site_represents_reference = $values_to_test['site_represents_reference'];
 		$this->context_mock->schema_article_type       = $values_to_test['data_for_add_sections']['@type'];
