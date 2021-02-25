@@ -127,6 +127,9 @@ class WP_Robots_Integration implements Integration_Interface {
 	 * WordPress might add some robot values again.
 	 * When the page is set to noindex we want to filter out these values.
 	 *
+	 * Our format: [ 'index' => 'noindex', 'follow' => 'follow', ... ]
+	 * WordPress format: [ 'noindex' => true, 'follow' => true, ... ]
+	 *
 	 * @param array $robots The robots.
 	 *
 	 * @return array The filtered robots.
