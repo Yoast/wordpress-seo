@@ -119,8 +119,9 @@ class Addon_Update_Watcher implements Integration_Interface {
 
 		if ( $this->auto_updates_for_free_have_just_been_enabled( $old_value, $new_value ) ) {
 			$this->enable_auto_updates_for_addons( $new_value );
+			return;
 		}
-		elseif ( $this->auto_updates_for_free_have_just_been_disabled( $old_value, $new_value ) ) {
+		if ( $this->auto_updates_for_free_have_just_been_disabled( $old_value, $new_value ) ) {
 			$this->disable_auto_updates_for_addons( $new_value );
 		}
 	}
