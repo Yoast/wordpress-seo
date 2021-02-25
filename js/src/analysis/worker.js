@@ -21,7 +21,10 @@ import isKeywordAnalysisActive from "./isKeywordAnalysisActive";
 export function createAnalysisWorker() {
 	const url = get( window, [ "wpseoScriptData", "analysis", "worker", "url" ], "analysis-worker.js" );
 	const worker = createWorker( url );
-	worker.postMessage( { language: get( window, [ "wpseoScriptData", "analysis", "worker", "language" ], "en" ) } );
+	worker.postMessage( {
+		language: get( window, [ "wpseoScriptData", "analysis", "worker", "language" ], "en" ),
+		lodashURL: get( window, [ "wpseoScriptData", "analysis", "worker", "lodashURL" ] ),
+	} );
 	return new AnalysisWorkerWrapper( worker );
 }
 

@@ -73,11 +73,7 @@ class WPSEO_Admin_Asset_Manager {
 	 * Enqueues the appropriate language for the user.
 	 */
 	public function enqueue_user_language_script() {
-		$researcher_locale = WPSEO_Language_Utils::get_language( \get_user_locale() );
-		if ( ! \in_array( $researcher_locale, Researcher_Languages::SUPPORTED_LANGUAGES, true ) ) {
-			$researcher_locale = 'default';
-		}
-		$this->enqueue_script( 'language-' . $researcher_locale );
+		$this->enqueue_script( 'language-' . YoastSEO()->helpers->language->get_researcher_language() );
 	}
 
 	/**
