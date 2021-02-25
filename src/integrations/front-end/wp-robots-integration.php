@@ -90,6 +90,9 @@ class WP_Robots_Integration implements Integration_Interface {
 	/**
 	 * Formats our robots fields, to match the pattern WordPress is using.
 	 *
+	 * Our format: `[ 'index' => 'noindex', 'max-image-preview' => 'max-image-preview:large', ... ]`
+	 * WordPress format: `[ 'noindex' => true, 'max-image-preview' => 'large', ... ]`
+	 *
 	 * @param array $robots Our robots value.
 	 *
 	 * @return array The formatted robots.
@@ -126,9 +129,6 @@ class WP_Robots_Integration implements Integration_Interface {
 	 *
 	 * WordPress might add some robot values again.
 	 * When the page is set to noindex we want to filter out these values.
-	 *
-	 * Our format: [ 'index' => 'noindex', 'follow' => 'follow', ... ]
-	 * WordPress format: [ 'noindex' => true, 'follow' => true, ... ]
 	 *
 	 * @param array $robots The robots.
 	 *
