@@ -84,7 +84,7 @@ class Addon_Update_Watcher implements Integration_Interface {
 				return \sprintf(
 					'<em>%s</em>',
 					\sprintf(
-						/* Translators: %1$s resolves to Yoast SEO. */
+					/* Translators: %1$s resolves to Yoast SEO. */
 						\esc_html__( 'Auto-updates are enabled based on this setting for %1$s.', 'wordpress-seo' ),
 						'Yoast SEO'
 					)
@@ -94,7 +94,7 @@ class Addon_Update_Watcher implements Integration_Interface {
 			return \sprintf(
 				'<em>%s</em>',
 				\sprintf(
-					/* Translators: %1$s resolves to Yoast SEO. */
+				/* Translators: %1$s resolves to Yoast SEO. */
 					\esc_html__( 'Auto-updates are disabled based on this setting for %1$s.', 'wordpress-seo' ),
 					'Yoast SEO'
 				)
@@ -119,6 +119,7 @@ class Addon_Update_Watcher implements Integration_Interface {
 
 		if ( $this->auto_updates_for_free_have_just_been_enabled( $old_value, $new_value ) ) {
 			$this->enable_auto_updates_for_addons( $new_value );
+
 			return;
 		}
 		if ( $this->auto_updates_for_free_have_just_been_disabled( $old_value, $new_value ) ) {
@@ -135,8 +136,10 @@ class Addon_Update_Watcher implements Integration_Interface {
 	 * @return bool Whether auto updates for free have just been enabled.
 	 */
 	protected function auto_updates_for_free_have_just_been_enabled( $old_value, $new_value ) {
-		return $this->are_auto_updates_enabled( self::WPSEO_FREE_PLUGIN_ID, $new_value ) &&
-		       ! $this->are_auto_updates_enabled( self::WPSEO_FREE_PLUGIN_ID, $old_value );
+		$auto_updates_are_enabled   = $this->are_auto_updates_enabled( self::WPSEO_FREE_PLUGIN_ID, $new_value );
+		$auto_updates_were_disabled = ! $this->are_auto_updates_enabled( self::WPSEO_FREE_PLUGIN_ID, $old_value );
+
+		return $auto_updates_were_disabled && $auto_updates_are_enabled;
 	}
 
 	/**
@@ -148,8 +151,10 @@ class Addon_Update_Watcher implements Integration_Interface {
 	 * @return bool Whether auto updates for free have just been disabled.
 	 */
 	protected function auto_updates_for_free_have_just_been_disabled( $old_value, $new_value ) {
-		return $this->are_auto_updates_enabled( self::WPSEO_FREE_PLUGIN_ID, $old_value ) &&
-		       ! $this->are_auto_updates_enabled( self::WPSEO_FREE_PLUGIN_ID, $new_value );
+		$auto_updates_are_disabled = ! $this->are_auto_updates_enabled( self::WPSEO_FREE_PLUGIN_ID, $new_value );
+		$auto_updates_were_enabled = $this->are_auto_updates_enabled( self::WPSEO_FREE_PLUGIN_ID, $old_value );
+
+		return $auto_updates_were_enabled && $auto_updates_are_disabled;
 	}
 
 	/**
@@ -178,7 +183,7 @@ class Addon_Update_Watcher implements Integration_Interface {
 	 *
 	 * @return bool Whether auto updates for Yoast SEO are enabled.
 	 */
-	protected function are_auto_updates_enabled( $plugin_id,  $auto_updated_plugins ) {
+	protected function are_auto_updates_enabled( $plugin_id, $auto_updated_plugins ) {
 		return \in_array( $plugin_id, $auto_updated_plugins, true );
 	}
 }
