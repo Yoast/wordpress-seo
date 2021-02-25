@@ -67,8 +67,14 @@ import catalanPaper1 from "./ca/catalanPaper1";
 import catalanPaper2 from "./ca/catalanPaper2";
 import catalanPaper3 from "./ca/catalanPaper3";
 
+// Indonesian papers
+import indonesianPaper1 from "./id/indonesianPaper1";
+/*import indonesianPaper2 from "./id/indonesianPaper2";
+import indonesianPaper3 from "./id/indonesianPaper3";*/
+
+
 export default [
-	englishPaper1,
+/*	englishPaper1,
 	englishPaper2,
 	englishPaper3,
 	englishPaper4,
@@ -107,6 +113,9 @@ export default [
 	hungarianPaper3,
 	catalanPaper1,
 	catalanPaper2,
-	catalanPaper3,
+	catalanPaper3,*/
+	indonesianPaper1,
+/*	indonesianPaper2,
+	indonesianPaper3,*/
 ];
 
