@@ -237,6 +237,10 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 = 16.0 =
 Release Date: March 9th, 2021
 
+Enhancements:
+
+* Integrates with `wp_robots` by hooking into it and using our settings there. 
+
 Bugfixes:
 
 * Fixes a warning when running the plugin on PHP 8.0
