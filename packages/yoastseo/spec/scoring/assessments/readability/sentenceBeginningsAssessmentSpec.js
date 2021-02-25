@@ -1,17 +1,17 @@
-import {
-	FrenchResearcher,
-	DefaultResearcher,
-	GermanResearcher,
-	SpanishResearcher,
-	ItalianResearcher,
-	EnglishResearcher,
-	DutchResearcher,
-	PolishResearcher,
-	SwedishResearcher,
-	IndonesianResearcher,
-	RussianResearcher,
-	HungarianResearcher, TurkishResearcher,
-} from "../../../../src/languageProcessing";
+import DefaultResearcher from "../../../../src/languageProcessing/languages/_default/Researcher";
+import FrenchResearcher from "../../../../src/languageProcessing/languages/fr/Researcher";
+import GermanResearcher from "../../../../src/languageProcessing/languages/de/Researcher";
+import SpanishResearcher from "../../../../src/languageProcessing/languages/es/Researcher";
+import ItalianResearcher from "../../../../src/languageProcessing/languages/it/Researcher";
+import EnglishResearcher from "../../../../src/languageProcessing/languages/en/Researcher";
+import DutchResearcher from "../../../../src/languageProcessing/languages/nl/Researcher";
+import PolishResearcher from "../../../../src/languageProcessing/languages/pl/Researcher";
+import SwedishResearcher from "../../../../src/languageProcessing/languages/sv/Researcher";
+import IndonesianResearcher from "../../../../src/languageProcessing/languages/id/Researcher";
+import RussianResearcher from "../../../../src/languageProcessing/languages/ru/Researcher";
+import HungarianResearcher from "../../../../src/languageProcessing/languages/hu/Researcher";
+import TurkishResearcher from "../../../../src/languageProcessing/languages/tr/Researcher";
+
 import sentenceBeginningsAssessment from "../../../../src/scoring/assessments/readability/sentenceBeginningsAssessment.js";
 import Paper from "../../../../src/values/Paper.js";
 import Factory from "../../../specHelpers/factory.js";

@@ -3,7 +3,8 @@ import Paper from "../../../../src/values/Paper.js";
 import Factory from "../../../specHelpers/factory.js";
 const i18n = Factory.buildJed();
 import Mark from "../../../../src/values/Mark.js";
-import { EnglishResearcher, DefaultResearcher } from "../../../../src/languageProcessing";
+import DefaultResearcher from "../../../../src/languageProcessing/languages/_default/Researcher";
+import EnglishResearcher from "../../../../src/languageProcessing/languages/en/Researcher";
 
 describe( "An assessment for scoring passive voice.", function() {
 	const paper = new Paper();
