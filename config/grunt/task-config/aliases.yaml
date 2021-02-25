@@ -165,7 +165,7 @@ release:
 
 'update-changelog':
   - get-latest-pr-texts
-  - update-changelog-with-latest-pr-texts:wordpress-seo
+  - update-changelog-with-latest-pr-texts
 
 # Default task
 default:
