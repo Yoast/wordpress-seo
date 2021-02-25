@@ -64,6 +64,30 @@ class Addon_Update_Watcher_Test extends TestCase {
 	}
 
 	/**
+	 * Tests that nothing happens when the old value of the `auto_update_plugins` option is not an array.
+	 *
+	 * @covers ::toggle_auto_updates_for_add_ons
+	 */
+	public function test_do_not_toggle_when_old_value_not_array() {
+		Monkey\Functions\expect( 'update_option' )
+			->never();
+
+		$this->instance->toggle_auto_updates_for_add_ons( 'the old value', [ 'the_new_value' ] );
+	}
+
+	/**
+	 * Tests that nothing happens when the new value of the `auto_update_plugins` option is not an array.
+	 *
+	 * @covers ::toggle_auto_updates_for_add_ons
+	 */
+	public function test_do_not_toggle_when_new_value_not_array() {
+		Monkey\Functions\expect( 'update_option' )
+			->never();
+
+		$this->instance->toggle_auto_updates_for_add_ons( [ 'the old value' ], 'the_new_value' );
+	}
+
+	/**
 	 * Tests that auto updates for add-ons are disabled when auto updates
 	 * for Free are disabled.
 	 *
@@ -181,6 +205,68 @@ class Addon_Update_Watcher_Test extends TestCase {
 			$old,
 			$new
 		);
+	}
+
+	/**
+	 * Tests whether the replace_auto_update_toggles_of_addons function is
+	 * exited early when $old_html is not a string.
+	 *
+	 * @covers ::replace_auto_update_toggles_of_addons
+	 */
+	public function test_html_not_replaced_when_html_not_string() {
+		$old_html = 123;
+
+		Monkey\Functions\expect( 'get_option' )
+			->never();
+
+		$new_html = $this->instance->replace_auto_update_toggles_of_addons(
+			$old_html,
+			'other-plugin/plugin-file.php'
+		);
+
+		self::assertEquals( $old_html, $new_html );
+	}
+
+	/**
+	 * Tests whether the replace_auto_update_toggles_of_addons function is
+	 * exited early when $auto_updates_plugins does not exist.
+	 *
+	 * @covers ::replace_auto_update_toggles_of_addons
+	 */
+	public function test_html_not_replaced_when_auto_updated_plugins_does_not_exist() {
+		$old_html = 'old_html';
+
+		Monkey\Functions\expect( 'get_option' )
+			->with( 'auto_update_plugins' )
+			->andReturn( false );
+
+		$new_html = $this->instance->replace_auto_update_toggles_of_addons(
+			$old_html,
+			'wordpress-seo-premium/wp-seo-premium.php'
+		);
+
+		self::assertEquals( $old_html, $new_html );
+	}
+
+	/**
+	 * Tests whether the replace_auto_update_toggles_of_addons function is
+	 * exited early when $auto_updates_plugins is not an array.
+	 *
+	 * @covers ::replace_auto_update_toggles_of_addons
+	 */
+	public function test_html_not_replaced_when_auto_updated_plugins_not_an_array() {
+		$old_html = 'old_html';
+
+		Monkey\Functions\expect( 'get_option' )
+			->with( 'auto_update_plugins' )
+			->andReturn( 'the_plugin_as_string' );
+
+		$new_html = $this->instance->replace_auto_update_toggles_of_addons(
+			$old_html,
+			'wordpress-seo-premium/wp-seo-premium.php'
+		);
+
+		self::assertEquals( $old_html, $new_html );
 	}
 
 	/**
