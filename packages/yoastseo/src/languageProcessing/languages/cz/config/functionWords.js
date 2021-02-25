@@ -34,8 +34,7 @@ const pronouns = [
 	"který", "která", "které", "kterého", "kterému", "kterou", "kterém", "kterým", "kteří", "kterých", "kterými",
 	"jenž", "jež", "jehož", "jejž", "něhož", "nějž", "jíž", "níž", "jemuž", "němuž", "jež", "něž", "němž", "jímž", "nímž",
 	"již", "jichž", "nichž", "jimž", "nimž", "jimiž", "nimiž", "kdo", "co", "koho", "čeho", "komu", "čemu", "koho", "kom",
-	"čem", "kým", "čím", "cože", "což", "koho", "jakou"
-	 ];
+	"čem", "kým", "čím", "cože", "což", "koho", "jakou" ];
 
 const interrogatives = [ "co", "čí", "čím", "jak", "jaký", "jaké", "kde", "kdo", "kdý", "kolik", "který", "jenž", "proč" ];
 
@@ -85,10 +84,10 @@ const generalAdjectivesAdverbs = [
 	"ostatní", "velký", "starý", "líp", "malé", "špatný", "lépe", "hlavní", "právo", "úžasné", "pěkný", "stejné", "spousta",
 	"skvělá", "dobrej", "horší", "novou", "stará", "nového", "nejdřív", "druhou", "naposledy", "hezký",
 	// General adverbs.
-	"všelijak", "nějak", "jaksi", "tak nějak", "ijak", "nikterak", "akkoli","akkoliv", "kdejak", "už", "jen", "tady", "teď",
+	"všelijak", "nějak", "jaksi", "tak nějak", "ijak", "nikterak", "akkoli", "akkoliv", "kdejak", "už", "jen", "tady", "teď",
 	"ještě", "možná", "nikdy", "ani", "taky", "pak", "opravdu", "trochu", "prostě", "víc", "jenom", "další", "právě", "zpátky",
 	"vždycky", "pryč", "zase", "někdy", "také", "chvíli", "znovu", "snad", "třeba", "stále", "zrovna", "příliš", "nějak", "vždy",
-    "skoro", "kolem", "později", "zpět", "najednou", "támhle", "někam", "hlavně", "často", "občas", "společně", "dokonce", "zde",
+	"skoro", "kolem", "později", "zpět", "najednou", "támhle", "někam", "hlavně", "často", "občas", "společně", "dokonce", "zde",
 	"aspoň", "jediný", "pouze", "stačí", "mnohem", "zas", "nikam", "dávno", "již", "dvakrát", "vzhůru", "pomalu", "bohužel" ];
 
 const interjections = [ "jo", "hej", "oh", "uh ", "hele", "fajn", "ok", "proboha", "ah", "okay" ];
