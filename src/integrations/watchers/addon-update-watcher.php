@@ -81,10 +81,24 @@ class Addon_Update_Watcher implements Integration_Interface {
 			}
 
 			if ( $this->auto_updates_are_enabled_for_free( $auto_updated_plugins ) ) {
-				return \sprintf( '<em>%s</em>', \esc_html__( 'Auto-updates are enabled based on this setting for Yoast SEO.', 'wordpress-seo' ) );
+				return \sprintf(
+					'<em>%s</em>',
+					\sprintf(
+						/* Translators: %1$s resolves to Yoast SEO. */
+						\esc_html__( 'Auto-updates are enabled based on this setting for %1$s.', 'wordpress-seo' ),
+						'Yoast SEO'
+					)
+				);
 			}
 
-			return \sprintf( '<em>%s</em>', \esc_html__( 'Auto-updates are disabled based on this setting for Yoast SEO.', 'wordpress-seo' ) );
+			return \sprintf(
+				'<em>%s</em>',
+				\sprintf(
+					/* Translators: %1$s resolves to Yoast SEO. */
+					\esc_html__( 'Auto-updates are disabled based on this setting for %1$s.', 'wordpress-seo' ),
+					'Yoast SEO'
+				)
+			);
 		}
 
 		return $old_html;
