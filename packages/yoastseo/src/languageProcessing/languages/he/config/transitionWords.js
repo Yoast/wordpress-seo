@@ -22,6 +22,7 @@ export const multipleWords = [ "כתוצאה מכך", "כתוצאה מ", "בעק
 	"מכל האמור ניתן לומר", "בסך הכול", "בכל מקרה", "בסיכום כולל", "לטווח ארוך", "על כל פנים", "אף על פי כן", "על אף ש", "על אף זאת",
 	"אף ש", "למרות זאת", "בכל אופן", "עם זאת", "אם כי", "גם אם" ];
 
+
 export const allWords = singleWords.concat( multipleWords );
 
 export default allWords;

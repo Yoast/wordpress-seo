@@ -1,4 +1,4 @@
-import { isUndefined, merge, inRange } from "lodash-es";
+import { merge, inRange } from "lodash-es";
 
 import Assessment from "../assessment";
 import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
@@ -68,10 +68,8 @@ class KeyphraseLengthAssessment extends Assessment {
 
 		const calculatedResult = this.calculateResult( i18n );
 
-		if ( ! isUndefined( calculatedResult ) ) {
-			assessmentResult.setScore( calculatedResult.score );
-			assessmentResult.setText( calculatedResult.resultText );
-		}
+		assessmentResult.setScore( calculatedResult.score );
+		assessmentResult.setText( calculatedResult.resultText );
 
 		return assessmentResult;
 	}

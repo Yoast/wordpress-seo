@@ -1,5 +1,5 @@
 import Assessor from "./assessor.js";
-import FleschReadingEase from "./assessments/readability/fleschReadingEaseAssessment.js";
+import fleschReadingEase from "./assessments/readability/fleschReadingEaseAssessment.js";
 import paragraphTooLong from "./assessments/readability/paragraphTooLongAssessment.js";
 import SentenceLengthInText from "./assessments/readability/sentenceLengthInTextAssessment.js";
 import SubheadingDistributionTooLong from "./assessments/readability/subheadingDistributionTooLongAssessment.js";
@@ -26,7 +26,6 @@ import { sum } from "lodash-es";
  * @param {object} i18n The i18n object used for translations.
  * @param {Object} options The options for this assessor.
  * @param {Object} options.marker The marker to pass the list of marks to.
- * @param {string} options.locale The locale.
  *
  * @constructor
  */
@@ -35,10 +34,10 @@ const ContentAssessor = function( i18n, options = {} ) {
 	this.type = "ContentAssessor";
 	this._assessments = [
 
-		FleschReadingEase,
+		fleschReadingEase,
 		new SubheadingDistributionTooLong(),
 		paragraphTooLong,
-		SentenceLengthInText,
+		new SentenceLengthInText(),
 		transitionWords,
 		passiveVoice,
 		textPresence,

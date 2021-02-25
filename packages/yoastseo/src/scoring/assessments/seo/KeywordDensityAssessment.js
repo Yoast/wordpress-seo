@@ -103,14 +103,14 @@ class KeywordDensityAssessment extends Assessment {
 		this._keywordCount = researcher.getResearch( "keywordCount" );
 		const keyphraseLength = this._keywordCount.length;
 
-		this.setBoundaries( paper.getText(), keyphraseLength );
-
 		const assessmentResult = new AssessmentResult();
 
 		this._keywordDensityData = researcher.getResearch( "getKeywordDensity" );
 
 		this._hasMorphologicalForms = researcher.getData( "morphology" ) !== false &&
 			this._keywordDensityData.stemmer !== baseStemmer;
+
+		this.setBoundaries( paper.getText(), keyphraseLength );
 
 		this._keywordDensity = this._keywordDensityData.keywordDensity * keyphraseLengthFactor( keyphraseLength );
 		const calculatedScore = this.calculateResult( i18n );

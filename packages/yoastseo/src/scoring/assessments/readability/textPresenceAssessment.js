@@ -5,9 +5,10 @@ import AssessmentResult from "../../../values/AssessmentResult";
 /**
  * Assesses that the paper has at least a little bit of content.
  *
- * @param {Paper} paper The paper to assess.
- * @param {Researcher} researcher The researcher.
- * @param {Jed} i18n The translations object.
+ * @param {Paper}       paper       The paper to assess.
+ * @param {Researcher}  researcher  The researcher.
+ * @param {Jed}         i18n        The translations object.
+ *
  * @returns {AssessmentResult} The result of this assessment.
  */
 function textPresenceAssessment( paper, researcher, i18n ) {

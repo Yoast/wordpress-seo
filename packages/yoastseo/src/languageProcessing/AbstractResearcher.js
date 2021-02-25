@@ -5,7 +5,6 @@ import MissingArgument from "../errors/missingArgument";
 
 // All researches in alphabetical order.
 import altTagCount from "./researches/altTagCount.js";
-import countSentencesFromDescription from "./researches/countSentencesFromDescription.js";
 import countSentencesFromText from "./researches/countSentencesFromText.js";
 import findKeywordInFirstParagraph from "./researches/findKeywordInFirstParagraph.js";
 import findKeywordInPageTitle from "./researches/findKeywordInPageTitle";
@@ -35,8 +34,6 @@ import morphology from "./researches/getWordForms";
 import pageTitleWidth from "./researches/pageTitleWidth.js";
 import readingTime from "./researches/readingTime";
 import sentences from "./researches/sentences";
-import stopWordsInKeyword from "./researches/stopWordsInKeyword";
-import wordComplexity from "./researches/wordComplexity.js";
 import wordCountInText from "./researches/wordCountInText.js";
 
 /**
@@ -54,7 +51,6 @@ export default class AbstractResearcher {
 
 		this.defaultResearches = {
 			altTagCount,
-			countSentencesFromDescription,
 			countSentencesFromText,
 			findKeywordInFirstParagraph,
 			findKeywordInPageTitle,
@@ -84,8 +80,6 @@ export default class AbstractResearcher {
 			pageTitleWidth,
 			readingTime,
 			sentences,
-			stopWordsInKeyword,
-			wordComplexity,
 			wordCountInText,
 		};
 

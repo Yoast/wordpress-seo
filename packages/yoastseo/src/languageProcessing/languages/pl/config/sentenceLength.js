@@ -1,5 +1,12 @@
 export default {
-	recommendedWordCount: 20,
-	slightlyTooMany: 15,
-	farTooMany: 20,
+	regularConfig: {
+		recommendedWordCount: 20,
+		slightlyTooMany: 15,
+		farTooMany: 20,
+	},
+	cornerstoneConfig: {
+		recommendedWordCount: 20,
+		slightlyTooMany: 15,
+		farTooMany: 20,
+	},
 };

@@ -7,7 +7,7 @@ import transitionWords from "./config/transitionWords";
 import twoPartTransitionWords from "./config/twoPartTransitionWords";
 
 // All helpers
-import createBasicWordForms from "./helpers/createBasicWordForms";
+import { createBasicWordForms } from "./helpers/createBasicWordForms";
 import getStemmer from "./helpers/getStemmer";
 import isPassiveSentence from "./helpers/isPassiveSentence";
 
@@ -24,8 +24,6 @@ export default class Researcher extends AbstractResearcher {
 		super( paper );
 
 		delete this.defaultResearches.getFleschReadingScore;
-		delete this.defaultResearches.stopWordsInUrl;
-		delete this.defaultResearches.stopWordsInKeyword;
 
 		Object.assign( this.config, {
 			language: "ar",

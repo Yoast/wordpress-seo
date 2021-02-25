@@ -37,8 +37,8 @@ exports[`KeywordInput matches the snapshot by default 1`] = `
 }
 
 .c2 {
-  font-size: 1em;
-  font-weight: bold;
+  font-size: var(--yoast-font-size-default);
+  font-weight: var(--yoast-font-weight-bold);
   margin-right: 4px;
 }
 
