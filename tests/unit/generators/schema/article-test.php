@@ -205,6 +205,7 @@ class Article_Test extends TestCase {
 
 		$this->context_mock->canonical                 = 'https://permalink';
 		$this->context_mock->has_image                 = true;
+		$this->context_mock->main_image_url            = 'https://www.example.com/image.jpg';
 		$this->context_mock->post->post_author         = '3';
 		$this->context_mock->post->post_date_gmt       = '2345-12-12 12:12:12';
 		$this->context_mock->post->post_modified_gmt   = '2345-12-12 23:23:23';
@@ -410,6 +411,7 @@ class Article_Test extends TestCase {
 							],
 						],
 					],
+					'thumbnailUrl'     => 'https://www.example.com/image.jpg',
 				],
 				'message'        => 'The site is not set to represent a company/person.',
 			],
