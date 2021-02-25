@@ -164,7 +164,7 @@ release:
   - 'wp_deploy:trunk'
 
 'update-changelog':
-  - get-changelog:wordpress-seo
+  - get-latest-pr-texts:wordpress-seo
   - update-changelog-with-latest-pr-texts:wordpress-seo
 
 # Default task
