@@ -194,10 +194,7 @@ class Breadcrumb_Test extends TestCase {
 					'@type'    => 'ListItem',
 					'position' => 1,
 					'item'     => [
-						'@type' => 'WebPage',
-						'@id'   => 'https://basic.wordpress.test/',
-						'url'   => 'https://basic.wordpress.test/',
-						'name'  => 'Home',
+						'@id'   => 'https://basic.wordpress.test/#webpage',
 					],
 				],
 			],
@@ -306,10 +303,7 @@ class Breadcrumb_Test extends TestCase {
 					'@type'    => 'ListItem',
 					'position' => 1,
 					'item'     => [
-						'@type' => 'WebPage',
-						'@id'   => 'https://wordpress.example.com/',
-						'url'   => 'https://wordpress.example.com/',
-						'name'  => 'Home',
+						'@id'   => 'https://wordpress.example.com/#webpage',
 					],
 				],
 			],
