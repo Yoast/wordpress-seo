@@ -111,9 +111,18 @@ class WPSEO_Sitemaps_Admin_Test extends TestCase {
 			->once()
 			->andReturn( false );
 
+		$start = \time();
+
 		Monkey\Functions\expect( 'wp_schedule_single_event' )
 			->once()
-			->with( ( \time() + 300 ), 'wpseo_ping_search_engines' );
+			->withArgs(
+				function( $timestamp, $function_name ) use ( $start ) {
+					if ( $function_name === 'wpseo_ping_search_engines' ) {
+						return ( $timestamp < $start + 600 );
+					}
+					return false;
+				}
+			);
 
 		$this->instance->status_transition( 'publish', 'draft', $this->mock_post );
 	}

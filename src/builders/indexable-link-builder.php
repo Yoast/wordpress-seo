@@ -3,6 +3,7 @@
 namespace Yoast\WP\SEO\Builders;
 
 use Yoast\WP\SEO\Helpers\Image_Helper;
+use Yoast\WP\SEO\Helpers\Post_Helper;
 use Yoast\WP\SEO\Helpers\Url_Helper;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Models\SEO_Links;
@@ -36,6 +37,13 @@ class Indexable_Link_Builder {
 	protected $image_helper;
 
 	/**
+	 * The post helper.
+	 *
+	 * @var Post_Helper
+	 */
+	protected $post_helper;
+
+	/**
 	 * The indexable repository.
 	 *
 	 * @var Indexable_Repository
@@ -47,13 +55,16 @@ class Indexable_Link_Builder {
 	 *
 	 * @param SEO_Links_Repository $seo_links_repository The SEO links repository.
 	 * @param Url_Helper           $url_helper           The URL helper.
+	 * @param Post_Helper          $post_helper          The post helper.
 	 */
 	public function __construct(
 		SEO_Links_Repository $seo_links_repository,
-		Url_Helper $url_helper
+		Url_Helper $url_helper,
+		Post_Helper $post_helper
 	) {
 		$this->seo_links_repository = $seo_links_repository;
 		$this->url_helper           = $url_helper;
+		$this->post_helper          = $post_helper;
 	}
 
 	/**
@@ -83,8 +94,16 @@ class Indexable_Link_Builder {
 	 * @return SEO_Links[] The created SEO links.
 	 */
 	public function build( $indexable, $content ) {
+		global $post;
 		if ( $indexable->object_type === 'post' ) {
+			$post_backup = $post;
+			// phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- To setup the post we need to do this explicitly.
+			$post = $this->post_helper->get_post( $indexable->object_id );
+			\setup_postdata( $post );
 			$content = \apply_filters( 'the_content', $content );
+			\wp_reset_postdata();
+			// phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- To setup the post we need to do this explicitly.
+			$post = $post_backup;
 		}
 
 		$content = \str_replace( ']]>', ']]&gt;', $content );
@@ -259,7 +278,11 @@ class Indexable_Link_Builder {
 
 		if ( $model->type === SEO_Links::TYPE_INTERNAL || $model->type === SEO_Links::TYPE_INTERNAL_IMAGE ) {
 			$permalink = $this->get_permalink( $url, $home_url );
-			$target    = $this->indexable_repository->find_by_permalink( $permalink );
+			if ( $this->url_helper->is_relative( $permalink ) ) {
+				// Make sure we're checking against the absolute URL, and add a trailing slash if the site has a trailing slash in its permalink settings.
+				$permalink = $this->url_helper->ensure_absolute_url( user_trailingslashit( $permalink ) );
+			}
+			$target = $this->indexable_repository->find_by_permalink( $permalink );
 
 			if ( ! $target ) {
 				// If target indexable cannot be found, create one based on the post's post ID.

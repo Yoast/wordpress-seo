@@ -18,7 +18,6 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group watchers
  *
  * @coversDefaultClass \Yoast\WP\SEO\Integrations\Watchers\Indexable_Static_Home_Page_Watcher
- * @covers ::<!public>
  */
 class Indexable_Static_Home_Page_Watcher_Test extends TestCase {
 

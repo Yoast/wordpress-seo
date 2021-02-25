@@ -28,41 +28,57 @@ use Yoast\WP\SEO\Values\Open_Graph\Images;
 class Open_Graph_Image_Generator_Test extends TestCase {
 
 	/**
+	 * Open graph image helper mock.
+	 *
 	 * @var Open_Graph_Image_Helper|Mockery\MockInterface
 	 */
 	protected $open_graph_image;
 
 	/**
+	 * Image helper mock.
+	 *
 	 * @var Image_Helper|Mockery\MockInterface
 	 */
 	protected $image;
 
 	/**
+	 * Options helper mock.
+	 *
 	 * @var Options_Helper|Mockery\MockInterface
 	 */
 	protected $options;
 
 	/**
+	 * Instance under test.
+	 *
 	 * @var Open_Graph_Image_Generator|Mockery\MockInterface
 	 */
 	protected $instance;
 
 	/**
+	 * Indexable mock.
+	 *
 	 * @var Indexable_Mock
 	 */
 	protected $indexable;
 
 	/**
+	 * Images container mock.
+	 *
 	 * @var Mockery\MockInterface|Images
 	 */
 	protected $image_container;
 
 	/**
+	 * Meta tags context mock.
+	 *
 	 * @var Mockery\MockInterface|Meta_Tags_Context_Mock
 	 */
 	protected $context;
 
 	/**
+	 * URL helper mock.
+	 *
 	 * @var Mockery\MockInterface|Url_Helper
 	 */
 	protected $url;

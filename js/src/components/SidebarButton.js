@@ -12,6 +12,7 @@ const SidebarButton = ( props ) => {
 	return <div className="yoast components-panel__body">
 		<h2 className="components-panel__body-title">
 			<button
+				id={ props.id }
 				onClick={ props.onClick }
 				className="components-button components-panel__body-toggle"
 			>
@@ -35,11 +36,13 @@ export default SidebarButton;
 SidebarButton.propTypes = {
 	onClick: PropTypes.func.isRequired,
 	title: PropTypes.string.isRequired,
+	id: PropTypes.string,
 	subTitle: PropTypes.string,
 	suffixIcon: PropTypes.object,
 };
 
 SidebarButton.defaultProps = {
+	id: "",
 	suffixIcon: null,
 	subTitle: "",
 };

@@ -38,10 +38,8 @@ class Main extends Abstract_Main {
 	 */
 	const WP_CLI_NAMESPACE = 'yoast';
 
-	// @phpcs:disable Generic.Commenting.DocComment.MissingShort -- Description is included in the inherited comment.
-
 	/**
-	 * @inheritDoc
+	 * {@inheritDoc}
 	 */
 	protected function get_container() {
 		if ( $this->is_development() && \class_exists( '\Yoast\WP\SEO\Dependency_Injection\Container_Compiler' ) ) {
@@ -50,6 +48,7 @@ class Main extends Abstract_Main {
 				$this->is_development(),
 				__DIR__ . '/generated/container.php',
 				__DIR__ . '/../config/dependency-injection/services.php',
+				__DIR__ . '/../vendor/composer/autoload_classmap.php',
 				'Yoast\WP\SEO\Generated'
 			);
 		}
@@ -64,14 +63,14 @@ class Main extends Abstract_Main {
 	}
 
 	/**
-	 * @inheritDoc
+	 * {@inheritDoc}
 	 */
 	protected function get_name() {
 		return 'yoast-seo';
 	}
 
 	/**
-	 * @inheritDoc
+	 * {@inheritDoc}
 	 */
 	protected function get_surfaces() {
 		return [

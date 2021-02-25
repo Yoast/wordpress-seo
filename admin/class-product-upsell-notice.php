@@ -121,8 +121,7 @@ class WPSEO_Product_Upsell_Notice {
 	 * @return string
 	 */
 	protected function get_premium_upsell_section() {
-		$features = new WPSEO_Features();
-		if ( $features->is_free() ) {
+		if ( ! YoastSEO()->helpers->product->is_premium() ) {
 			return sprintf(
 				/* translators: %1$s expands anchor to premium plugin page, %2$s expands to </a> */
 				__( 'By the way, did you know we also have a %1$sPremium plugin%2$s? It offers advanced features, like a redirect manager and support for multiple keyphrases. It also comes with 24/7 personal support.', 'wordpress-seo' ),
@@ -149,7 +148,7 @@ class WPSEO_Product_Upsell_Notice {
 		) . "\n\n";
 
 		$message .= sprintf(
-			/* translators: %1$s is a link start tag to the bugreport guidelines on the Yoast knowledge base, %2$s is the link closing tag. */
+			/* translators: %1$s is a link start tag to the bugreport guidelines on the Yoast help center, %2$s is the link closing tag. */
 			__( 'If you are experiencing issues, %1$splease file a bug report%2$s and we\'ll do our best to help you out.', 'wordpress-seo' ),
 			'<a href="' . WPSEO_Shortlinker::get( 'https://yoa.st/bugreport' ) . '">',
 			'</a>'

@@ -408,6 +408,9 @@ class Elementor implements Integration_Interface {
 			'enabled_features'        => WPSEO_Utils::retrieve_enabled_features(),
 		];
 
+		$alert_dismissal_action = YoastSEO()->classes->get( \Yoast\WP\SEO\Actions\Alert_Dismissal_Action::class );
+		$dismissed_alerts       = $alert_dismissal_action->all_dismissed();
+
 		$script_data = [
 			'media'             => [ 'choose_image' => __( 'Use Image', 'wordpress-seo' ) ],
 			'metabox'           => $this->get_metabox_script_data(),
@@ -420,6 +423,7 @@ class Elementor implements Integration_Interface {
 				'worker'                      => $worker_script_data,
 				'estimatedReadingTimeEnabled' => $this->estimated_reading_time_conditional->is_met(),
 			],
+			'dismissedAlerts'   => $dismissed_alerts,
 		];
 
 		if ( \post_type_supports( $this->get_metabox_post()->post_type, 'thumbnail' ) ) {
@@ -468,6 +472,9 @@ class Elementor implements Integration_Interface {
 			\esc_attr( WPSEO_Meta::$form_prefix . 'slug' ),
 			\esc_attr( $this->get_metabox_post()->post_name )
 		);
+
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output should be escaped in the filter.
+		echo apply_filters( 'wpseo_elementor_hidden_fields', '' );
 
 		echo '</form>';
 	}

@@ -54,7 +54,7 @@ class WPSEO_HelpScout implements WPSEO_WordPress_Integration {
 	}
 
 	/**
-	 * @inheritDoc
+	 * {@inheritDoc}
 	 */
 	public function register_hooks() {
 		if ( ! $this->is_beacon_page() ) {

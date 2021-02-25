@@ -36,7 +36,6 @@ class WPSEO_Admin_Init {
 
 		add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_dismissible' ] );
 		add_action( 'admin_init', [ $this, 'yoast_plugin_suggestions_notification' ], 15 );
-		add_action( 'admin_init', [ $this, 'yoast_plugin_update_notification' ] );
 		add_action( 'admin_init', [ $this, 'unsupported_php_notice' ], 15 );
 		add_action( 'admin_init', [ $this->asset_manager, 'register_assets' ] );
 		add_action( 'admin_init', [ $this, 'show_hook_deprecation_warnings' ] );
@@ -128,106 +127,6 @@ class WPSEO_Admin_Init {
 			[
 				'id'   => 'wpseo-suggested-plugin-' . $name,
 				'type' => Yoast_Notification::WARNING,
-			]
-		);
-	}
-
-	/**
-	 * Determines whether a update notification needs to be displayed.
-	 *
-	 * @return void
-	 */
-	public function yoast_plugin_update_notification() {
-		$notification_center   = Yoast_Notification_Center::get();
-		$current_minor_version = $this->get_major_minor_version( WPSEO_Options::get( 'version', WPSEO_VERSION ) );
-		$file                  = WPSEO_PATH . 'release-info.json';
-
-		// Remove if file is not present.
-		if ( ! file_exists( $file ) ) {
-			$notification_center->remove_notification_by_id( 'wpseo-plugin-updated' );
-			return;
-		}
-
-		// phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- Retrieving a local file.
-		$release_json = file_get_contents( $file );
-
-		/**
-		 * Filter: 'wpseo_update_notice_content' - Allow filtering of the content
-		 * of the update notice read from the release-info.json file.
-		 *
-		 * @api object The object from the release-info.json file.
-		 */
-		$release_info = apply_filters( 'wpseo_update_notice_content', json_decode( $release_json ) );
-
-		// Remove if file is malformed or for a different version.
-		if ( is_null( $release_info )
-			|| empty( $release_info->version )
-			|| version_compare( $this->get_major_minor_version( $release_info->version ), $current_minor_version, '!=' )
-			|| empty( $release_info->release_description )
-		) {
-			$notification_center->remove_notification_by_id( 'wpseo-plugin-updated' );
-			return;
-		}
-
-		$notification = $this->get_yoast_seo_update_notification( $release_info );
-
-		// Restore notification if it was dismissed in a previous minor version.
-		$last_dismissed_version = get_user_option( $notification->get_dismissal_key() );
-		if ( ! $last_dismissed_version
-			|| version_compare( $this->get_major_minor_version( $last_dismissed_version ), $current_minor_version, '<' )
-		) {
-			Yoast_Notification_Center::restore_notification( $notification );
-		}
-		$notification_center->add_notification( $notification );
-	}
-
-	/**
-	 * Helper to truncate the version string up to the minor number
-	 *
-	 * @param string $version The version string to extract the major.minor number from.
-	 * @return string The version string up to the minor number.
-	 */
-	private function get_major_minor_version( $version ) {
-		$version_parts = preg_split( '/[^0-9]+/', $version, 3 );
-		return join( '.', array_slice( $version_parts, 0, 2 ) );
-	}
-
-	/**
-	 * Builds Yoast SEO update notification.
-	 *
-	 * @param object $release_info The release information.
-	 *
-	 * @return Yoast_Notification The notification for the present version
-	 */
-	private function get_yoast_seo_update_notification( $release_info ) {
-		$info_message  = '<strong>';
-		$info_message .= sprintf(
-			/* translators: %1$s expands to Yoast SEO, %2$s expands to the plugin version. */
-			__( 'New in %1$s %2$s: ', 'wordpress-seo' ),
-			'Yoast SEO',
-			$release_info->version
-		);
-		$info_message .= '</strong>';
-		$info_message .= $release_info->release_description;
-
-		if ( ! empty( $release_info->shortlink ) ) {
-			$link          = esc_url( WPSEO_Shortlinker::get( $release_info->shortlink ) );
-			$info_message .= ' <a href="' . esc_url( $link ) . '" target="_blank">';
-			$info_message .= sprintf(
-				/* translators: %s expands to the plugin version. */
-				__( 'Read all about version %s here', 'wordpress-seo' ),
-				$release_info->version
-			);
-			$info_message .= '</a>';
-		}
-
-		return new Yoast_Notification(
-			$info_message,
-			[
-				'id'            => 'wpseo-plugin-updated',
-				'type'          => Yoast_Notification::UPDATED,
-				'data_json'     => [ 'dismiss_value' => WPSEO_Options::get( 'version', WPSEO_VERSION ) ],
-				'dismissal_key' => 'wpseo-plugin-updated',
 			]
 		);
 	}
@@ -354,7 +253,7 @@ class WPSEO_Admin_Init {
 	 * @return void
 	 */
 	private function register_premium_upsell_admin_block() {
-		if ( ! WPSEO_Utils::is_yoast_seo_premium() ) {
+		if ( ! YoastSEO()->helpers->product->is_premium() ) {
 			$upsell_block = new WPSEO_Premium_Upsell_Admin_Block( 'wpseo_admin_promo_footer' );
 			$upsell_block->register_hooks();
 		}
@@ -585,64 +484,6 @@ class WPSEO_Admin_Init {
 	}
 
 	/* ********************* DEPRECATED METHODS ********************* */
-
-	/**
-	 * Add an alert if outdated versions of Yoast SEO plugins are running.
-	 *
-	 * @deprecated 12.3
-	 * @codeCoverageIgnore
-	 */
-	public function yoast_plugin_compatibility_notification() {
-		_deprecated_function( __METHOD__, 'WPSEO 12.3' );
-	}
-
-	/**
-	 * Creates a WordPress upgrade notification in the notification center.
-	 *
-	 * @deprecated 12.5
-	 * @codeCoverageIgnore
-	 *
-	 * @return void
-	 */
-	public function wordpress_upgrade_notice() {
-		_deprecated_function( __METHOD__, 'WPSEO 12.5' );
-	}
-
-	/**
-	 * Shows a notice to the user if they have Google Analytics for WordPress 5.4.3 installed because it causes an error
-	 * on the google search console page.
-	 *
-	 * @deprecated 12.5
-	 *
-	 * @codeCoverageIgnore
-	 */
-	public function ga_compatibility_notice() {
-		_deprecated_function( __METHOD__, 'WPSEO 12.5' );
-	}
-
-	/**
-	 * Display notice to disable comment pagination.
-	 *
-	 * @deprecated 12.8
-	 * @codeCoverageIgnore
-	 */
-	public function page_comments_notice() {
-		_deprecated_function( __METHOD__, 'WPSEO 12.8' );
-	}
-
-	/**
-	 * Are page comments enabled.
-	 *
-	 * @deprecated 12.8
-	 * @codeCoverageIgnore
-	 *
-	 * @return bool
-	 */
-	public function has_page_comments() {
-		_deprecated_function( __METHOD__, 'WPSEO 12.8' );
-
-		return get_option( 'page_comments' ) === '1';
-	}
 
 	/**
 	 * Notify about the default tagline if the user hasn't changed it.

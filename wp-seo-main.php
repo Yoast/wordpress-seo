@@ -15,7 +15,7 @@ if ( ! function_exists( 'add_filter' ) ) {
  * {@internal Nobody should be able to overrule the real version number as this can cause
  *            serious issues with the options, so no if ( ! defined() ).}}
  */
-define( 'WPSEO_VERSION', '15.6-RC3' );
+define( 'WPSEO_VERSION', '16.0-RC3' );
 
 
 if ( ! defined( 'WPSEO_PATH' ) ) {
@@ -188,7 +188,7 @@ function _wpseo_activate() {
 	}
 
 	// Reset tracking to be disabled by default.
-	if ( ! WPSEO_Utils::is_yoast_seo_premium() ) {
+	if ( ! YoastSEO()->helpers->product->is_premium() ) {
 		WPSEO_Options::set( 'tracking', false );
 	}
 
@@ -329,9 +329,6 @@ function wpseo_init() {
 	// Loading Ryte integration.
 	$wpseo_ryte = new WPSEO_Ryte();
 	$wpseo_ryte->register_hooks();
-
-	// Initializes the Yoast indexables for the first time.
-	YoastSEO();
 }
 
 /**
@@ -373,7 +370,7 @@ function wpseo_admin_init() {
  * on PHP 5.3+, the constant should only be set when requirements are met.
  */
 function wpseo_cli_init() {
-	if ( WPSEO_Utils::is_yoast_seo_premium() ) {
+	if ( YoastSEO()->helpers->product->is_premium() ) {
 		WP_CLI::add_command(
 			'yoast redirect list',
 			'WPSEO_CLI_Redirect_List_Command',
@@ -457,6 +454,13 @@ if ( ! wp_installing() && ( $spl_autoload_exists && $filter_exists ) ) {
 	}
 
 	add_action( 'init', [ 'WPSEO_Replace_Vars', 'setup_statics_once' ] );
+
+	// Initializes the Yoast indexables for the first time.
+	YoastSEO();
+	/**
+	 * Action called when the Yoast SEO plugin file has loaded.
+	 */
+	do_action( 'wpseo_loaded' );
 }
 
 // Activation and deactivation hook.

@@ -76,7 +76,7 @@ class WPSEO_Metabox_Formatter {
 			'semrushIntegrationActive'    => WPSEO_Options::get( 'semrush_integration_active', true ) ? 1 : 0,
 			'intl'                        => $this->get_content_analysis_component_translations(),
 			'isRtl'                       => is_rtl(),
-			'isPremium'                   => WPSEO_Utils::is_yoast_seo_premium(),
+			'isPremium'                   => YoastSEO()->helpers->product->is_premium(),
 			'wordFormRecognitionActive'   => YoastSEO()->helpers->language->is_word_form_recognition_active( WPSEO_Language_Utils::get_language( get_locale() ) ),
 			'siteIconUrl'                 => get_site_icon_url(),
 			'countryCode'                 => WPSEO_Options::get( 'semrush_country_code', false ),

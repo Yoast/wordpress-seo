@@ -1,0 +1,34 @@
+.yoast-badge {
+	display: inline-block;
+	min-height: 16px;
+	padding: 0 8px;
+	border-radius: 8px;
+	font-weight: 600;
+	font-size: 10px;
+	line-height: 1.6;
+}
+
+.yoast-new-badge {
+	background-color: #cce5ff;
+	color: #004973;
+}
+
+.yoast-badge__is-link {
+	text-decoration: none;
+}
+
+.yoast-badge__is-link:hover,
+.yoast-badge__is-link:focus {
+	background-color: #004973;
+	color: #fff;
+	outline: none;
+	box-shadow: none;
+}
+
+.switch-container .yoast-badge {
+	vertical-align: -1em;
+}
+
+.yoast_help + .yoast-badge {
+	vertical-align: bottom;
+}

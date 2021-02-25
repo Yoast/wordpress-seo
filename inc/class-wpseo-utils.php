@@ -693,10 +693,14 @@ class WPSEO_Utils {
 	/**
 	 * Checks if we are in the premium or free plugin.
 	 *
+	 * @deprecated 16.0
+	 * @codeCoverageIgnore
+	 *
 	 * @return bool True when we are in the premium plugin.
 	 */
 	public static function is_yoast_seo_premium() {
-		return defined( 'WPSEO_PREMIUM_PLUGIN_FILE' );
+		_deprecated_function( __FUNCTION__, '16.0', 'YoastSEO()->helpers->product->is_premium' );
+		return YoastSEO()->helpers->product->is_premium();
 	}
 
 	/**

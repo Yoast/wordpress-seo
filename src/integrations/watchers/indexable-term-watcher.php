@@ -43,7 +43,7 @@ class Indexable_Term_Watcher implements Integration_Interface {
 	protected $site;
 
 	/**
-	 * Returns the conditionals based in which this loadable should be active.
+	 * Returns the conditionals based on which this loadable should be active.
 	 *
 	 * @return array
 	 */
