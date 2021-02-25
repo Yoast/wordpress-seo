@@ -47,13 +47,14 @@ const logColor: Record<LogLevel, string> = {
 };
 
 /**
- * Logs input to the window.console if the loglevel is set
+ * Logs input to the window.console if the loglevel is set.
  */
 export class ConsoleLogger implements Logger {
 	level: LogLevel = LogLevel.NONE;
 
 	/**
-	 * Creates a new ConsoleLogger
+	 * Creates a new ConsoleLogger.
+	 *
 	 * @param logLevel The minimum severity a message needs to have to appear in the log (default NONE)
 	 */
 	constructor( logLevel: LogLevel = LogLevel.NONE ) {
@@ -62,6 +63,7 @@ export class ConsoleLogger implements Logger {
 
 	/**
 	 * Sets the minimum loglevel required for logs to appear.
+	 *
 	 * @param level The desired level.
 	 */
 	setLogLevel( level: LogLevel ) {
