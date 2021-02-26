@@ -94,8 +94,8 @@ const interjections = [ "jo", "hej", "oh", "uh ", "hele", "fajn", "ok", "proboha
 
 const recipeWords = [];
 
-const timeWords = [ "den", "dnes", "čas", "ráno", "zítra", "dneska", "minut", "včera", "času", "dní", "hodinu", "hodin", "týdny",
-	"měsíce", "roku", "měsíců" ];
+const timeWords = [ "den", "dnes", "čas", "ráno", "zítra", "dneska", "minut", "včera", "času", "dní", "dni", "dny",
+	"hodinu", "hodin", "týdny", "měsíce", "roku", "měsíců" ];
 
 const vagueNouns = [ "věc", "věci", "můžeš", "lidem", "lidé", "lidí", "chlap", "místa" ];
 

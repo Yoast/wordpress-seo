@@ -388,24 +388,30 @@ const wordsToStem = [
 	// Input a word ending in derivational suffix -n.
 	[ "možn", "mož" ],
 	// Input a word ending in derivational suffix -t.
-	[ "vyhrát", "vyhrá" ]
+	[ "vyhrát", "vyhrá" ],
+	// Input a word from stems that belong to one word.
+	[ "děti", "dít" ],
+	// Input a word from stems that belong to one word.
+	[ "psové", "pes" ],
 ];
 
 const paradigms = [
 	// A paradigm of a masculine animate noun (hard declension).
-	{ stem: "pán", forms: [
-			"pán",
-			"pána",
-			"pánovi",
-			"pánu",
-			"páne",
-			"pánem",
-			"pánové",
-			"páni",
-			"pánů",
-			"pánům",
-			"pány",
-			"pánech",
+	{ stem: "manže", forms: [
+			"manžel",
+			"manžela",
+			"manželovi",
+			"manželu",
+			"manžele",
+			"manželé",
+			"manželem",
+			"manželové",
+			"manželi",
+			"manželů",
+			"manželům",
+			"manžely",
+			"manželech",
+			"manželích"
 			 ] },
 	// A paradigm of a masculine animate noun (soft declension).
 	{ stem: "muž", forms: [
