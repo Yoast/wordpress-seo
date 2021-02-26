@@ -86,7 +86,7 @@ if ( YoastSEO()->helpers->woocommerce->is_active() ) {
 }
 
 $addon_manager                  = new WPSEO_Addon_Manager();
-$has_valid_premium_subscription = WPSEO_Utils::is_yoast_seo_premium() && $addon_manager->has_valid_subscription( WPSEO_Addon_Manager::PREMIUM_SLUG );
+$has_valid_premium_subscription = YoastSEO()->helpers->product->is_premium() && $addon_manager->has_valid_subscription( WPSEO_Addon_Manager::PREMIUM_SLUG );
 
 /* translators: %1$s expands to Yoast SEO. */
 $wpseo_extensions_header = sprintf( __( '%1$s Extensions', 'wordpress-seo' ), 'Yoast SEO' );

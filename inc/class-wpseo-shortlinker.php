@@ -97,7 +97,7 @@ class WPSEO_Shortlinker {
 	 * @return string The software name + activation state.
 	 */
 	private function get_software() {
-		if ( WPSEO_Utils::is_yoast_seo_premium() ) {
+		if ( YoastSEO()->helpers->product->is_premium() ) {
 			return 'premium';
 		}
 

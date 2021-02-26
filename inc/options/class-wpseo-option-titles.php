@@ -80,6 +80,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 		'alternate_website_name'           => '',
 		'company_logo'                     => '',
 		'company_logo_id'                  => 0,
+		'company_logo_meta'                => false,
 		'company_name'                     => '',
 		'company_or_person'                => 'company',
 		'company_or_person_user_id'        => false,
@@ -359,6 +360,12 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 			$switch_key = $this->get_switch_key( $key );
 
 			switch ( $switch_key ) {
+				// Only ever set programmatically, so no reason for intense validation.
+				case 'company_logo_meta':
+				case 'person_logo_meta':
+					$clean[ $key ] = $dirty[ $key ];
+					break;
+
 				/* Breadcrumbs text fields. */
 				case 'breadcrumbs-404crumb':
 				case 'breadcrumbs-archiveprefix':
@@ -377,7 +384,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 
 				/*
 				 * Covers:
-				 *  'title-home-wpseo', 'title-author-wpseo', 'title-archive-wpseo',
+				 *  'title-home-wpseo', 'title-author-wpseo', 'title-archive-wpseo', // phpcs:ignore Squiz.PHP.CommentedOutCode.Found -- This isn't commented out code.
 				 *  'title-search-wpseo', 'title-404-wpseo'
 				 *  'title-' . $pt->name
 				 *  'title-ptarchive-' . $pt->name
@@ -410,14 +417,23 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 
 				/*
 				 * Covers:
-				 *  'company_logo', 'person_logo'
+				 *  'company_logo', 'person_logo' // phpcs:ignore Squiz.PHP.CommentedOutCode.Found -- This isn't commented out code.
+				 */
+				case 'company_logo':
+				case 'person_logo':
+					// When a logo changes, we need to ditch the caches we have for it.
+					unset( $clean[ $switch_key . '_id' ] );
+					unset( $clean[ $switch_key . '_meta' ] );
+					$this->validate_url( $key, $dirty, $old, $clean );
+					break;
+
+				/*
+				 * Covers:
 				 *  'social-image-url-' . $pt->name
 				 *  'social-image-url-ptarchive-' . $pt->name
 				 *  'social-image-url-tax-' . $tax->name
 				 *  'social-image-url-author-wpseo', 'social-image-url-archive-wpseo'
 				 */
-				case 'company_logo':
-				case 'person_logo':
 				case 'social-image-url-':
 					$this->validate_url( $key, $dirty, $old, $clean );
 					break;
@@ -446,7 +462,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 					break;
 
 				/*
-				 * Covers: 'rssbefore', 'rssafter'
+				 * Covers: 'rssbefore', 'rssafter' // phpcs:ignore Squiz.PHP.CommentedOutCode.Found -- This isn't commented out code.
 				 */
 				case 'rssbefore':
 				case 'rssafter':
