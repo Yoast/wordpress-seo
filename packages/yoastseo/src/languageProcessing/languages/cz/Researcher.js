@@ -2,6 +2,7 @@ import AbstractResearcher from "../../AbstractResearcher";
 
 // All config
 import stopWords from "./config/stopWords";
+import { all as functionWords } from "./config/functionWords";
 
 // All helpers
 import getSentenceParts from "./helpers/getSentenceParts";
@@ -22,6 +23,7 @@ export default class Researcher extends AbstractResearcher {
 			language: "cz",
 			passiveConstructionType: "periphrastic",
 			stopWords,
+			functionWords,
 		} );
 
 		Object.assign( this.helpers, {
