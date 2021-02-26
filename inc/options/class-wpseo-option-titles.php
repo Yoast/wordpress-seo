@@ -30,52 +30,61 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 	 */
 	protected $defaults = [
 		// Form fields.
-		'forcerewritetitle'             => false,
-		'separator'                     => 'sc-dash',
-		'title-home-wpseo'              => '%%sitename%% %%page%% %%sep%% %%sitedesc%%', // Text field.
-		'title-author-wpseo'            => '', // Text field.
-		'title-archive-wpseo'           => '%%date%% %%page%% %%sep%% %%sitename%%', // Text field.
-		'title-search-wpseo'            => '', // Text field.
-		'title-404-wpseo'               => '', // Text field.
+		'forcerewritetitle'                => false,
+		'separator'                        => 'sc-dash',
+		'title-home-wpseo'                 => '%%sitename%% %%page%% %%sep%% %%sitedesc%%', // Text field.
+		'title-author-wpseo'               => '', // Text field.
+		'title-archive-wpseo'              => '%%date%% %%page%% %%sep%% %%sitename%%', // Text field.
+		'title-search-wpseo'               => '', // Text field.
+		'title-404-wpseo'                  => '', // Text field.
 
-		'metadesc-home-wpseo'           => '', // Text area.
-		'metadesc-author-wpseo'         => '', // Text area.
-		'metadesc-archive-wpseo'        => '', // Text area.
-		'rssbefore'                     => '', // Text area.
-		'rssafter'                      => '', // Text area.
+		'social-title-author-wpseo'        => '%%title%%', // Text field.
+		'social-title-archive-wpseo'       => '%%title%%', // Text field.
+		'social-description-author-wpseo'  => '%%excerpt%%', // Text area.
+		'social-description-archive-wpseo' => '%%excerpt%%', // Text area.
+		'social-image-url-author-wpseo'    => '', // Hidden input field.
+		'social-image-url-archive-wpseo'   => '', // Hidden input field.
+		'social-image-id-author-wpseo'     => '', // Hidden input field.
+		'social-image-id-archive-wpseo'    => '', // Hidden input field.
 
-		'noindex-author-wpseo'          => false,
-		'noindex-author-noposts-wpseo'  => true,
-		'noindex-archive-wpseo'         => true,
+		'metadesc-home-wpseo'              => '', // Text area.
+		'metadesc-author-wpseo'            => '', // Text area.
+		'metadesc-archive-wpseo'           => '', // Text area.
+		'rssbefore'                        => '', // Text area.
+		'rssafter'                         => '', // Text area.
 
-		'disable-author'                => false,
-		'disable-date'                  => false,
-		'disable-post_format'           => false,
-		'disable-attachment'            => true,
-		'is-media-purge-relevant'       => false,
+		'noindex-author-wpseo'             => false,
+		'noindex-author-noposts-wpseo'     => true,
+		'noindex-archive-wpseo'            => true,
 
-		'breadcrumbs-404crumb'          => '', // Text field.
-		'breadcrumbs-display-blog-page' => true,
-		'breadcrumbs-boldlast'          => false,
-		'breadcrumbs-archiveprefix'     => '', // Text field.
-		'breadcrumbs-enable'            => true,
-		'breadcrumbs-home'              => '', // Text field.
-		'breadcrumbs-prefix'            => '', // Text field.
-		'breadcrumbs-searchprefix'      => '', // Text field.
-		'breadcrumbs-sep'               => '&raquo;', // Text field.
+		'disable-author'                   => false,
+		'disable-date'                     => false,
+		'disable-post_format'              => false,
+		'disable-attachment'               => true,
+		'is-media-purge-relevant'          => false,
 
-		'website_name'                  => '',
-		'person_name'                   => '',
-		'person_logo'                   => '',
-		'person_logo_id'                => 0,
-		'alternate_website_name'        => '',
-		'company_logo'                  => '',
-		'company_logo_id'               => 0,
-		'company_name'                  => '',
-		'company_or_person'             => 'company',
-		'company_or_person_user_id'     => false,
+		'breadcrumbs-404crumb'             => '', // Text field.
+		'breadcrumbs-display-blog-page'    => true,
+		'breadcrumbs-boldlast'             => false,
+		'breadcrumbs-archiveprefix'        => '', // Text field.
+		'breadcrumbs-enable'               => true,
+		'breadcrumbs-home'                 => '', // Text field.
+		'breadcrumbs-prefix'               => '', // Text field.
+		'breadcrumbs-searchprefix'         => '', // Text field.
+		'breadcrumbs-sep'                  => '&raquo;', // Text field.
 
-		'stripcategorybase'             => false,
+		'website_name'                     => '',
+		'person_name'                      => '',
+		'person_logo'                      => '',
+		'person_logo_id'                   => 0,
+		'alternate_website_name'           => '',
+		'company_logo'                     => '',
+		'company_logo_id'                  => 0,
+		'company_name'                     => '',
+		'company_or_person'                => 'company',
+		'company_or_person_user_id'        => false,
+
+		'stripcategorybase'                => false,
 
 		/**
 		 * Uses enrich_defaults to add more along the lines of:
@@ -376,6 +385,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 				 *  'social-title-' . $pt->name
 				 *  'social-title-ptarchive-' . $pt->name
 				 *  'social-title-tax-' . $tax->name
+				 *  'social-title-author-wpseo', 'social-title-archive-wpseo'
 				 */
 				case 'website_name':
 				case 'alternate_website_name':
@@ -404,12 +414,11 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 				 *  'social-image-url-' . $pt->name
 				 *  'social-image-url-ptarchive-' . $pt->name
 				 *  'social-image-url-tax-' . $tax->name
+				 *  'social-image-url-author-wpseo', 'social-image-url-archive-wpseo'
 				 */
 				case 'company_logo':
 				case 'person_logo':
 				case 'social-image-url-':
-				case 'social-image-url-ptarchive-':
-				case 'social-image-url-tax-':
 					$this->validate_url( $key, $dirty, $old, $clean );
 					break;
 
@@ -424,6 +433,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 				 *  'social-description-' . $pt->name
 				 *  'social-description-ptarchive-' . $pt->name
 				 *  'social-description-tax-' . $tax->name
+				 *  'social-description-author-wpseo', 'social-description-archive-wpseo'
 				 */
 				case 'metadesc-':
 				case 'bctitle-ptarchive-':
@@ -523,12 +533,19 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 					}
 					break;
 
+				/*
+				 * Covers:
+				 *  'company_or_person_user_id'
+				 *  'company_logo_id', 'person_logo_id'
+				 *  'social-image-id-' . $pt->name
+				 *  'social-image-id-ptarchive-' . $pt->name
+				 *  'social-image-id-tax-' . $tax->name
+				 *  'social-image-id-author-wpseo', 'social-image-id-archive-wpseo'
+				 */
 				case 'company_or_person_user_id':
 				case 'company_logo_id':
 				case 'person_logo_id':
 				case 'social-image-id-':
-				case 'social-image-id-ptarchive-':
-				case 'social-image-id-tax-':
 					if ( isset( $dirty[ $key ] ) ) {
 						$int = WPSEO_Utils::validate_int( $dirty[ $key ] );
 						if ( $int !== false && $int >= 0 ) {
