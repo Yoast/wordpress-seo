@@ -234,6 +234,13 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 15.9.3 =
+Release Date: March 9th, 2021
+
+Other:
+* Adds a notification to prompt users to enable auto-updates for Yoast SEO, in case they also have auto-updates for WordPress Core enabled.
+* Ensures compatibility with WordPress Core's `robots` meta tag by hooking into the `wp_robots` filter and using our settings there.
+
 = 15.9 =
 Release Date: February 23rd, 2021
 
