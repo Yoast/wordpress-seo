@@ -25,11 +25,34 @@ echo '<p>';
 esc_html_e( 'The settings on this page allow you to specify what the default search appearance should be for any type of content you have. You can choose which content types appear in search results and what their default description should be.', 'wordpress-seo' );
 echo '</p>';
 
-if ( is_array( $wpseo_post_types ) && $wpseo_post_types !== [] ) {
-	$view_utils                   = new Yoast_View_Utils();
-	$recommended_replace_vars     = new WPSEO_Admin_Recommended_Replace_Vars();
-	$editor_specific_replace_vars = new WPSEO_Admin_Editor_Specific_Replace_Vars();
+$view_utils                   = new Yoast_View_Utils();
+$recommended_replace_vars     = new WPSEO_Admin_Recommended_Replace_Vars();
+$editor_specific_replace_vars = new WPSEO_Admin_Editor_Specific_Replace_Vars();
 
+$title = \esc_html__( 'Frontpage', 'wordpress-seo' );
+
+if ( get_option( 'show_on_front' ) === 'posts' ) {
+	$wpseo_front_page_presenter = new WPSEO_Paper_Presenter(
+		$title,
+		__DIR__ . '/paper-content/front-page-content.php',
+		[
+			'collapsible' => true,
+			'expanded'    => true,
+			'paper_id'    => 'settings-front-page',
+			'view_data'   => [
+				'view_utils'                   => $view_utils,
+				'recommended_replace_vars'     => $recommended_replace_vars,
+				'editor_specific_replace_vars' => $editor_specific_replace_vars,
+			],
+			'title'       => $title,
+			'class'       => 'search-appearance',
+		]
+	);
+
+	echo $wpseo_front_page_presenter->get_output();
+}
+
+if ( is_array( $wpseo_post_types ) && $wpseo_post_types !== [] ) {
 	foreach ( array_values( $wpseo_post_types ) as $wpseo_post_type_index => $post_type ) {
 		$wpseo_post_type_presenter = new WPSEO_Paper_Presenter(
 			$post_type->labels->name,

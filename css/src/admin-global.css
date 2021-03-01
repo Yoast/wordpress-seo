@@ -438,6 +438,10 @@ td.column-wpseo-linked {
   max-width: 600px !important;
 }
 
+.copy-home-meta-description {
+	margin-top: 1em;
+}
+
 .copy-home-meta-description .yoast-help-panel {
   max-width: 400px !important;
 }

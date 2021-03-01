@@ -94,6 +94,13 @@ export default function initSearchAppearance() {
 						link={ knowledgeGraphCompanyInfoMissing.URL }
 					/>
 					<ImageSelectPortal
+						label="Social default image"
+						hasPreview={ true }
+						target="yoast-og-frontpage-image-select"
+						hiddenField="og_frontpage_image"
+						hiddenFieldImageId="og_frontpage_image_id"
+					/>
+					<ImageSelectPortal
 						label="Organization logo"
 						hasPreview={ true }
 						target="yoast-organization-image-select"
