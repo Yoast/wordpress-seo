@@ -241,6 +241,7 @@ Other:
 
 * Adds a notification to prompt users to enable auto-updates for Yoast SEO, in case they also have auto-updates for WordPress Core enabled.
 * Ensures compatibility with WordPress Core's `robots` meta tag by hooking into the `wp_robots` filter and using our settings there.
+* Enables/disables auto-updates for Yoast SEO Premium and the Yoast Woocommerce, News, Video, Local and ACF Content Analysis for Yoast SEO plugins when auto-updates for Yoast SEO are enabled/disabled.
 
 = 15.9 =
 Release Date: February 23rd, 2021
