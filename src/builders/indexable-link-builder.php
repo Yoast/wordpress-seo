@@ -101,9 +101,14 @@ class Indexable_Link_Builder {
 			$post = $this->post_helper->get_post( $indexable->object_id );
 			\setup_postdata( $post );
 			$content = \apply_filters( 'the_content', $content );
-			\wp_reset_postdata();
 			// phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- To setup the post we need to do this explicitly.
 			$post = $post_backup;
+			if ( $post ) {
+				\setup_postdata( $post );
+			}
+			else {
+				\wp_reset_postdata();
+			}
 		}
 
 		$content = \str_replace( ']]>', ']]&gt;', $content );
