@@ -30,7 +30,6 @@ $editor = new WPSEO_Replacevar_Editor(
 		'page_type_recommended' => $recommended_replace_vars->get_recommended_replacevars(),
 		'page_type_specific'    => [],
 		'paper_style'           => false,
-		'label' =>'hello'
 	]
 );
 $editor->render();
