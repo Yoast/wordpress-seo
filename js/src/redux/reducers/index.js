@@ -19,6 +19,7 @@ import schemaTab from "./schemaTab";
 import SEMrushModal from "./SEMrushModal";
 import SEMrushRequest from "./SEMrushRequest";
 import settings from "./settings";
+import shoppingData from "./shoppingData";
 import snippetEditor from "./snippetEditor";
 import twitterEditor from "./twitterEditor";
 import warning from "./warning";
@@ -45,6 +46,7 @@ export default {
 	SEMrushModal,
 	SEMrushRequest,
 	settings,
+	shoppingData,
 	snippetEditor,
 	twitterEditor,
 	warning,

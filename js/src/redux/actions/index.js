@@ -21,6 +21,7 @@ export * from "./schemaBlocks";
 export * from "./SEMrushModal";
 export * from "./SEMrushRequest";
 export * from "./settings";
+export * from "./shoppingData";
 export * from "./snippetEditor";
 export * from "./twitterEditor";
 export * from "./facebookEditor";
