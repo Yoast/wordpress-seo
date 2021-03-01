@@ -72,6 +72,12 @@ import dutchPaper1 from "./nl/dutchPaper1";
 import dutchPaper2 from "./nl/dutchPaper2";
 import dutchPaper3 from "./nl/dutchPaper3";
 
+// Indonesian papers
+import indonesianPaper1 from "./id/indonesianPaper1";
+import indonesianPaper2 from "./id/indonesianPaper2";
+import indonesianPaper3 from "./id/indonesianPaper3";
+
+
 export default [
 	englishPaper1,
 	englishPaper2,
@@ -116,5 +122,8 @@ export default [
 	dutchPaper1,
 	dutchPaper2,
 	dutchPaper3,
+	indonesianPaper1,
+	indonesianPaper2,
+	indonesianPaper3,
 ];
 
