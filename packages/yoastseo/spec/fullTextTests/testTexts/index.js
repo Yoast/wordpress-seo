@@ -78,6 +78,11 @@ import indonesianPaper2 from "./id/indonesianPaper2";
 import indonesianPaper3 from "./id/indonesianPaper3";
 
 
+// Farsi papers
+import farsiPaper1 from "./fa/farsiPaper1";
+import farsiPaper2 from "./fa/farsiPaper2";
+import farsiPaper3 from "./fa/farsiPaper3";
+
 export default [
 	englishPaper1,
 	englishPaper2,
@@ -125,5 +130,8 @@ export default [
 	indonesianPaper1,
 	indonesianPaper2,
 	indonesianPaper3,
+	farsiPaper1,
+	farsiPaper2,
+	farsiPaper3,
 ];
 
