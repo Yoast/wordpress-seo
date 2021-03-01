@@ -209,6 +209,9 @@ class Front_End_Integration implements Integration_Interface {
 		// Filter the title for compatibility with other plugins and themes.
 		\add_filter( 'wp_title', [ $this, 'filter_title' ], 15 );
 
+		// Removes our robots presenter from the list when wp_robots is handling this.
+		\add_filter( 'wpseo_frontend_presenter_classes', [ $this, 'filter_robots_presenter' ] );
+
 		\add_action( 'wpseo_head', [ $this, 'present_head' ], -9999 );
 
 		\remove_action( 'wp_head', 'rel_canonical' );
@@ -234,6 +237,25 @@ class Front_End_Integration implements Integration_Interface {
 		$title_presenter->helpers      = $this->helpers;
 
 		return \esc_html( $title_presenter->get() );
+	}
+
+	/**
+	 * Filters our robots presenter, but only when wp_robots is attached to the wp_head action.
+	 *
+	 * @param array $presenters The presenters for current page.
+	 *
+	 * @return array The filtered presenters.
+	 */
+	public function filter_robots_presenter( $presenters ) {
+		if ( ! function_exists( 'wp_robots' ) ) {
+			return $presenters;
+		}
+
+		if ( ! \has_action( 'wp_head', 'wp_robots' ) ) {
+			return $presenters;
+		}
+
+		return \array_diff( $presenters, [ 'Yoast\\WP\\SEO\\Presenters\\Robots_Presenter' ] );
 	}
 
 	/**

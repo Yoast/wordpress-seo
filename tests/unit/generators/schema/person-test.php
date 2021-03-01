@@ -84,9 +84,14 @@ class Person_Test extends TestCase {
 	 * @covers ::url_social_site
 	 */
 	public function test_generate_happy_path() {
-		$this->instance->context->site_user_id    = 1337;
-		$this->instance->context->site_url        = 'https://example.com/';
-		$this->instance->context->site_represents = 'person';
+		$this->instance->context->site_user_id     = 1337;
+		$this->instance->context->site_url         = 'https://example.com/';
+		$this->instance->context->site_represents  = 'person';
+		$this->instance->context->person_logo_meta = [
+			'height' => 100,
+			'width'  => 100,
+			'url'    => 'http://example.com/image.png',
+		];
 
 		$user_data             = (object) [
 			'display_name' => 'John',
@@ -128,14 +133,9 @@ class Person_Test extends TestCase {
 		$this->expects_for_determine_user_id();
 		$this->expects_for_get_userdata( $user_data );
 
-		// Tests for the method `set_image_from_options`.
-		$this->instance->helpers->image->expects( 'get_attachment_id_from_settings' )
+		$this->instance->helpers->schema->image->expects( 'generate_from_attachment_meta' )
 			->once()
-			->with( 'person_logo' )
-			->andReturn( $person_logo_id );
-		$this->instance->helpers->schema->image->expects( 'generate_from_attachment_id' )
-			->once()
-			->with( $person_schema_logo_id, $person_logo_id, $user_data->display_name )
+			->with( $person_schema_logo_id, $this->instance->context->person_logo_meta, $user_data->display_name )
 			->andReturn( $image_schema );
 
 		$this->expects_for_social_profiles( $this->social_profiles );

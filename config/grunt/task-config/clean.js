@@ -29,9 +29,6 @@ module.exports = {
 	artifact: [
 		"<%= files.artifact %>",
 	],
-	"composer-artifact": [
-		"<%= files.artifactComposer %>",
-	],
 	"composer-files": [
 		"<%= files.artifactComposer %>/vendor",
 	],

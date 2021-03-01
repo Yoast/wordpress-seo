@@ -143,15 +143,12 @@ module.exports = function( grunt ) {
 			},
 		},
 
-		"composer-install-production": {
-			command: "composer install --prefer-dist --optimize-autoloader --no-dev --no-scripts",
+		"composer install": {
+			command: "composer install",
 		},
 
-		"remove-prefixed-sources": {
-			command: "composer remove " +
-				"league/oauth2-client pimple/pimple psr/log " +
-				"symfony/dependency-injection " +
-				"--update-no-dev --optimize-autoloader --no-scripts",
+		"composer-install-production": {
+			command: "composer install --prefer-dist --optimize-autoloader --no-dev --no-scripts",
 		},
 
 		"composer-install": {
@@ -162,34 +159,12 @@ module.exports = function( grunt ) {
 			command: "composer update yoast/license-manager yoast/i18n-module",
 		},
 
-		"composer-reset-config": {
-			command: "git checkout composer.json",
-			options: {
-				failOnError: false,
-			},
-		},
-
-		"composer-reset-lock": {
-			command: "git checkout composer.lock",
-			options: {
-				failOnError: false,
-			},
-		},
-
-		"production-prefix-dependencies": {
-			command: "composer install",
-		},
-
 		"compile-dependency-injection-container": {
 			command: "composer compile-di",
 		},
 
 		"remove-dependency-injection-meta": {
 			command: "rm ./src/generated/container.php.meta",
-		},
-
-		"remove-vendor-prefixed-uses": {
-			command: "composer remove-vendor-prefixed-uses",
 		},
 
 		"php-lint": {
