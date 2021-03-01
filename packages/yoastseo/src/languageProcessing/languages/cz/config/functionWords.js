@@ -85,7 +85,9 @@ const generalAdjectivesAdverbs = [
 	// General adjective.
 	"dobře", "dobrý", "dobrá", "dobré", "dost", "dlouho", "dlouha", "nejlepší", "poslední", "rychle", "lepší", "vlastní",
 	"ostatní", "velký", "starý", "líp", "malé", "špatný", "lépe", "hlavní", "právo", "úžasné", "pěkný", "stejné", "spousta",
-	"skvělá", "dobrej", "horší", "novou", "stará", "nového", "nejdřív", "druhou", "naposledy", "hezký",
+	"skvělá", "dobrej", "horší", "novou", "stará", "nového", "nejdřív", "druhou", "naposledy", "hezký", "dlouhý", "dobrý",
+	"malý", "těžký", "velký", "zlý", "delší", "lepší", "menší", "těžší", "větší", "horší", "nejdelší", "nejlepší", "nejmenší",
+	"nejtěžší", "největší", "nejhorší",
 	// General adverbs.
 	"všelijak", "nějak", "jaksi", "tak nějak", "ijak", "nikterak", "akkoli", "akkoliv", "kdejak", "už", "jen", "tady", "teď",
 	"ještě", "možná", "nikdy", "ani", "taky", "pak", "opravdu", "trochu", "prostě", "víc", "jenom", "další", "právě", "zpátky",
