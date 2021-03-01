@@ -64,11 +64,14 @@ const prepositions = [ "během", "bez", "blízko", "do", "od", "okolo", "kolem",
 	"navzdor", "navzdory", "krom, vedle", "kromě, vedle", "místo", "namísto", "ohledně", "podél", "pomocí", "oproti", "naproti",
 	"proti", "prostřednictvím", "s", "u", "vlivem", "vyjma", "využitím", "stran", "díky", "kvůli", "podle", "vůči", "na", "té",
 	"o", "pro", "přes", "za", "po", "v", "ve", "mezi", "s", "se", "nad", "pod", "před", "mimo", "skrz", "při", "jako", "asi",
-	"spolu", "dokud", "ven", "běž", "odkud", "ode", "nahoře", "nahoru", "dovnitř", "dne" ];
+	"spolu", "dokud", "ven", "běž", "odkud", "ode", "nahoře", "nahoru", "dovnitř", "dne", "beze", "napříč", "versus", "via",
+	"vně", "dovnitř", "vpředu", "vůkol", "vespod", "opodál", "vepředu", "svrchu", "vnitř", "zprostřed", "naspodu", "zdéli",
+	"okol", "podál", "naspod", "kontra", "vespodu", "zponad", "ponad", "nadtož", "kolkolem", "zdélí", "veskrz", "popod",
+	"daleko", "vůkolem"];
 
 const conjunctions = [ "a", "i", "aby", "ale", "že", "protože", "neboť", "když", "až", "jestli", "jestliže", "pokud", "kdyby",
 	"nebo", "anebo", "či", "proto", "který", "jenž", "aniž", "než", "tak", "takže", "kvůli", "kdybych", "ach", "zdá", "zatím",
-	"během", "kdybyste" ];
+	"během", "kdybyste", "jakožto", "jakož", "neb" ];
 
 const interviewVerbs = [ "řekl", "říkala", "řekla", "řekne", "říkal", "říká", "podle", "neřekl", "říkat", "chtějí", "neviděl",
 	"vypadáš", "mluvil", "rozumím", "znám", "cítím", "nemyslím", "víme", "nevěřím" ];
