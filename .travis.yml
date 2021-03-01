@@ -67,13 +67,13 @@ jobs:
       php: 7.2
       install:
         - yarn global add grunt-cli
+        - yarn install
         - |
           if [[ ( $TRAVIS_BRANCH =~ ^feature\/* || $TRAVIS_BRANCH =~ ^release\/* || $TRAVIS_BRANCH =~ ^hotfix\/* || $TRAVIS_BRANCH = "trunk" ) && "$TRAVIS_EVENT_TYPE" = "push" ]]; then
             git clone https://github.com/yoast/javascript /tmp/javascript
             echo '{"monorepo-location":"/tmp/javascript"}' > .yoast
             AUTO_CHECKOUT_MONOREPO_BRANCH=1 yarn link-monorepo
           fi
-        - yarn install
       before_script: skip
       script:
         - |
