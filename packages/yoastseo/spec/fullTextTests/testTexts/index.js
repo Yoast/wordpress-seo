@@ -62,6 +62,11 @@ import hungarianPaper1 from "./hu/hungarianPaper1";
 import hungarianPaper2 from "./hu/hungarianPaper2";
 import hungarianPaper3 from "./hu/hungarianPaper3";
 
+// Catalan papers
+import catalanPaper1 from "./ca/catalanPaper1";
+import catalanPaper2 from "./ca/catalanPaper2";
+import catalanPaper3 from "./ca/catalanPaper3";
+
 export default [
 	englishPaper1,
 	englishPaper2,
@@ -100,5 +105,8 @@ export default [
 	hungarianPaper1,
 	hungarianPaper2,
 	hungarianPaper3,
+	catalanPaper1,
+	catalanPaper2,
+	catalanPaper3,
 ];
 
