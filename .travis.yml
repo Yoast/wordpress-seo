@@ -68,7 +68,7 @@ jobs:
       install:
         - yarn global add grunt-cli
         - |
-          if [[ ( $TRAVIS_BRANCH =~ ^feature\/* || $TRAVIS_BRANCH =~ ^release\/* || $TRAVIS_BRANCH = "trunk" ) && "$TRAVIS_EVENT_TYPE" = "push" ]]; then
+          if [[ ( $TRAVIS_BRANCH =~ ^feature\/* || $TRAVIS_BRANCH =~ ^release\/* || $TRAVIS_BRANCH =~ ^hotfix\/* || $TRAVIS_BRANCH = "trunk" ) && "$TRAVIS_EVENT_TYPE" = "push" ]]; then
             git clone https://github.com/yoast/javascript /tmp/javascript
             echo '{"monorepo-location":"/tmp/javascript"}' > .yoast
             AUTO_CHECKOUT_MONOREPO_BRANCH=1 yarn link-monorepo
@@ -83,7 +83,7 @@ jobs:
           fi
         - grunt artifact
         - grunt composer-artifact
-      if: ( tag IS present OR branch =~ /^feature\// OR branch =~ /^release\// OR branch = trunk ) AND type != pull_request
+      if: ( tag IS present OR branch =~ /^feature\// OR branch =~ /^release\// OR branch =~ /^hotfix\// OR branch = trunk ) AND type != pull_request
       before_install:
         - nvm install lts/*
         - curl -o- -L https://yarnpkg.com/install.sh | bash
