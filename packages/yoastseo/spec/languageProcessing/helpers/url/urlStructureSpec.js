@@ -75,7 +75,7 @@ describe( "UrlStructure", () => {
 		} );
 
 		it( "ignores special characters", () => {
-			const specialCharacters = ",./;'[]\-=<>?:\"{}|_+!@#$%^&*()`~";
+			const specialCharacters = ",./;'[]\\-=<>?:\"{}|_+!@#$%^&*()`~";
 			const expected = `http://example.org/${specialCharacters}/`;
 			const input = {
 				placeholder: specialCharacters,
