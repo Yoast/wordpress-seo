@@ -168,9 +168,7 @@ class WPSEO_Admin_Pages {
 	 * @return bool Whether the Local SEO upsell should be shown.
 	 */
 	private function should_show_local_seo_upsell() {
-		$addon_manager = new WPSEO_Addon_Manager();
-
-		return ! WPSEO_Utils::is_yoast_seo_premium()
+		return ! YoastSEO()->helpers->product->is_premium()
 			&& ! ( defined( 'WPSEO_LOCAL_FILE' ) );
 	}
 
