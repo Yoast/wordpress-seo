@@ -1,4 +1,4 @@
-import { string } from "yoastseo";
+import { languageProcessing } from "yoastseo";
 
 /**
  * Returns the URL of the first image found in the content.
@@ -8,7 +8,7 @@ import { string } from "yoastseo";
  * @returns {string} The URL of the first image or an empty string.
  */
 export default function firstImageUrlInContent( content ) {
-	const images = string.imageInText( content );
+	const images = languageProcessing.imageInText( content );
 	let image = "";
 
 	if ( images.length === 0 ) {
