@@ -2,7 +2,7 @@
 
 <!--
 Attach one of the following labels to the PR: `changelog: bugfix`, `changelog: enhancement`, `changelog: other`, `changelog: non-user-facing`.
-Specify between square brackets in which package changelog the item should be included, for example: * [yoast-components] Fixes a bug where ....
+Specify between square brackets in which package changelog the item should be included, for example: * [@yoast/components] Fixes a bug where ....
 If the same changelog item is applicable to multiple packages, add a separate changelog item for all of them.
 If the changelog item should appear in the changelog of the plugin, also add a separate changelog item and put [Yoast SEO Free] or [Yoast SEO Premium] instead of the package name.
 If the changelog item is a bugfix, please use the following sentence structure: Fixes a bug where ... would ... (when ...).
