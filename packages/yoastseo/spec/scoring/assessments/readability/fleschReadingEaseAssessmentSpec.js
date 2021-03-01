@@ -1,4 +1,5 @@
-import { DefaultResearcher, EnglishResearcher } from "../../../../src/languageProcessing";
+import EnglishResearcher from "../../../../src/languageProcessing/languages/en/Researcher";
+import DefaultResearcher from "../../../../src/languageProcessing/languages/_default/Researcher";
 import fleschReadingAssessment from "../../../../src/scoring/assessments/readability/fleschReadingEaseAssessment.js";
 import Paper from "../../../../src/values/Paper.js";
 import factory from "../../../specHelpers/factory.js";

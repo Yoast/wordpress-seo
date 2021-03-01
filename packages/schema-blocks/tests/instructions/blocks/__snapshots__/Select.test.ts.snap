@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`The Select instruction the save method renders the correct React tree. 1`] = `
+<span
+  data-id="cuisine"
+  data-value="korean"
+>
+  <strong>
+    Cuisine
+    :
+  </strong>
+  Korean 
+</span>
+`;

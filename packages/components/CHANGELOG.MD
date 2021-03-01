@@ -4,11 +4,37 @@ All notable changes to this project will be documented in this file. Releases wi
 
 We follow [Semantic Versioning](http://semver.org/).
 
-## 2.10.0 October 12th, 2020
+## 2.15.0 February 22nd, 2021
+### Bugfixes:
+* Fixes a bug where the checkbox and radio button components didn't have a focus style.
+
+## 2.14.0 February 8th, 2021
+### Enhancements:
+* Adds a DurationInput component, which can handle the input of a duration in hours, minutes, and seconds.
+* Adds an ImageSelect component with an image preview or url preview.
+
+## 2.12.0 January 12th, 2021
+### Enhancements:
+* Adds an InsightCard component.
+
+### Bugfixes:
+* Fixes a bug where a console error would appear when closing the Google Preview modal.
+
+## 2.11.0 October 26th, 2020
+### Bugfixes
+* Fixes a bug where the Select's onOptionFocus would not be called.
+* Fixes a bug where the Edit variant of the NewButton had a misaligned icon.
+* Fixes a bug where the new Button component could not be imported via the package index.
+
+## 2.10.0 October 13th, 2020
 ### Enhancements
 * Adds SingleSelect component, which is based on the MultiSelect implementation.
 * Introduces the new table HTML and CSS setup.
 * Includes table.css in monorepo.css.
+
+### Bugfixes
+* Fixes a bug where the new Button component could not be imported via the package index.
+* Fixes a bug where the font size for the field group and the font weight for the table header would not be set correctly.
 
 ### Other
 * Adds an id to the MultiSelect's input field.

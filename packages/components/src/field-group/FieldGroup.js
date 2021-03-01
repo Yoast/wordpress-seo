@@ -25,14 +25,14 @@ const FieldGroup = ( { htmlFor, label, linkTo, linkText, description, children, 
 		: <b>{ label }</b>;
 	return (
 		<div className={ wrapperClassName }>
-			<div className={ titleClassName }>
+			{ label !== "" && <div className={ titleClassName }>
 				{ titleComponent }
 				{ linkTo !== "" && <HelpIcon
 					linkTo={ linkTo }
 					linkText={ linkText }
 				/> }
-			</div>
-			{ description !== ""  && <p className="field-group-description" id="yoast_unique_description_id">{ description }</p> }
+			</div> }
+			{ description !== "" && <p className="field-group-description">{ description }</p> }
 			{ children }
 		</div>
 	);
@@ -42,7 +42,7 @@ const FieldGroup = ( { htmlFor, label, linkTo, linkText, description, children, 
  * Export the Props for the FieldGroup so that we can easily use it in other places.
  */
 export const FieldGroupProps = {
-	label: PropTypes.string.isRequired,
+	label: PropTypes.string,
 	description: PropTypes.string,
 	children: PropTypes.oneOfType( [ PropTypes.node, PropTypes.arrayOf( PropTypes.node ) ] ),
 	wrapperClassName: PropTypes.string,
@@ -55,6 +55,7 @@ export const FieldGroupProps = {
  * Export the DefaultProps for the FieldGroup so that we can easily use it in other places.
  */
 export const FieldGroupDefaultProps = {
+	label: "",
 	description: "",
 	children: [],
 	wrapperClassName: "yoast-field-group",

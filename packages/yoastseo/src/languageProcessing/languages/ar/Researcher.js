@@ -7,7 +7,7 @@ import transitionWords from "./config/transitionWords";
 import twoPartTransitionWords from "./config/twoPartTransitionWords";
 
 // All helpers
-import createBasicWordForms from "./helpers/createBasicWordForms";
+import { createBasicWordForms } from "./helpers/createBasicWordForms";
 import getStemmer from "./helpers/getStemmer";
 import isPassiveSentence from "./helpers/isPassiveSentence";
 

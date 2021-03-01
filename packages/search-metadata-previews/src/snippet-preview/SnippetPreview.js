@@ -273,7 +273,7 @@ const Amp = styled.div`
 	margin-bottom: -1px;
 	opacity: 0.46;
 	margin-right: 6px;
-	background-image: url( ${ ampLogo } )
+	background-image: url( ${ ampLogo } );
 `;
 
 /**
@@ -658,6 +658,15 @@ export default class SnippetPreview extends PureComponent {
 		this.setState( {
 			isDescriptionPlaceholder: ( ! this.props.description ),
 		} );
+	}
+
+	/**
+	 * Unset the timeout when unmounting, because "element" will no longer be available to fit the title.
+	 *
+	 * @returns {void}
+	 */
+	componentWillUnmount() {
+		clearTimeout( this.fitTitleTimeout );
 	}
 
 	/**

@@ -1,7 +1,7 @@
 import { AnalysisWebWorker, AnalysisWorkerWrapper, createWorker } from "./src/worker";
 import * as assessments from "./src/scoring/assessments";
 import * as bundledPlugins from "./src/bundledPlugins";
-import * as helpers from "./src/helpers/_todo";
+import * as helpers from "./src/helpers";
 import * as markers from "./src/markers";
 import * as interpreters from "./src/scoring/interpreters";
 import * as config from "./src/config";
@@ -44,7 +44,7 @@ export {
 	helpers,
 	markers,
 	interpreters,
-	languageProcessing
+	languageProcessing,
 };
 
 /*

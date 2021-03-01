@@ -43,6 +43,7 @@ SentencePart.prototype.getAuxiliaries = function() {
  * Sets the passiveness of the sentence part.
  *
  * @param {boolean} passive Whether the sentence part is passive or not.
+ *
  * @returns {void}
  */
 SentencePart.prototype.setPassive = function( passive ) {
