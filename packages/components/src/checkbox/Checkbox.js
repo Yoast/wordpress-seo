@@ -1,6 +1,5 @@
-import { useCallback } from "@wordpress/element";
 import PropTypes from "prop-types";
-import React from "react";
+import React, { useCallback } from "react";
 import { FieldGroup } from "../field-group";
 import "./checkbox.css";
 
