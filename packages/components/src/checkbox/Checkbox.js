@@ -4,7 +4,7 @@ import { FieldGroup } from "../field-group";
 import "./checkbox.css";
 
 /**
- * Represents the input type checkbox with a label. Optionally a FieldGroup.
+ * Represents the input type checkbox with a label, inside a FieldGroup.
  *
  * @param {Object} props The component properties.
  *
