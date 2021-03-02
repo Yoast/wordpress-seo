@@ -524,7 +524,7 @@ export default class SnippetPreview extends PureComponent {
 	 *
 	 * @param {string} url The url to use to build the breadcrumbs.
 	 *
-	 * @returns {{hostPart: string, breadcrumbs: string}} An Object with the hostPart and the breadcrumbs.
+	 * @returns {{hostname: string, breadcrumbs: string}} An Object with the hostPart and the breadcrumbs.
 	 */
 	getBreadcrumbs( url ) {
 		const { breadcrumbs } = this.props;
@@ -536,13 +536,11 @@ export default class SnippetPreview extends PureComponent {
 
 		const { protocol, hostname, pathname } = parse( cleanEncodedUrl );
 
-		const hostPart = protocol === "https:" ? protocol + "//" + hostname : hostname;
-
 		const urlParts = breadcrumbs || pathname.split( "/" );
 
 		const breadCrumbs = " › " + urlParts.filter( part => !! part ).join( " › " );
 
-		return { hostPart: decodeURI( hostPart ), breadcrumbs: decodeURI( breadCrumbs ) };
+		return { hostname: decodeURI( hostname ), breadcrumbs: decodeURI( breadCrumbs ) };
 	}
 
 	/**
@@ -570,7 +568,7 @@ export default class SnippetPreview extends PureComponent {
 		 */
 		const urlContent = replaceSpecialCharactersAndDiacritics( url );
 
-		const { hostPart, breadcrumbs } = this.getBreadcrumbs( urlContent );
+		const { hostname, breadcrumbs } = this.getBreadcrumbs( urlContent );
 
 		const Url = this.addCaretStyles( "url", BaseUrl );
 		/*
@@ -593,7 +591,7 @@ export default class SnippetPreview extends PureComponent {
 					<UrlContentContainer
 						screenMode={ mode }
 					>
-						<UrlBaseContainer>{ hostPart }</UrlBaseContainer>
+						<UrlBaseContainer>{ hostname }</UrlBaseContainer>
 						{ breadcrumbs }
 					</UrlContentContainer>
 				</BaseUrlOverflowContainer>
