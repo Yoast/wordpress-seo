@@ -1,6 +1,7 @@
 import AbstractResearcher from "../../AbstractResearcher";
 
 // All config
+import firstWordExceptions from "./config/firstWordExceptions";
 import stopWords from "./config/stopWords";
 import { all as functionWords } from "./config/functionWords";
 
@@ -22,6 +23,7 @@ export default class Researcher extends AbstractResearcher {
 		Object.assign( this.config, {
 			language: "cz",
 			passiveConstructionType: "periphrastic",
+			firstWordExceptions,
 			stopWords,
 			functionWords,
 		} );
