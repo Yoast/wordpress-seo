@@ -207,10 +207,11 @@ describe( "test to check url for keyword", function() {
 		expect( urlKeyword( paper, researcher ) ).toEqual( { keyphraseLength: 1, percentWordMatches: 100 } );
 	} );
 
-	// it( "works with dash within the keyword in url", function() {
-	// 	const paper = new Paper( "", { url: "two-room-apartment", keyword: "two-room apartment" } );
-	// 	const researcher = new EnglishResearcher( paper );
-	// 	researcher.addResearchData( "morphology", morphologyData );
-	// 	expect( urlKeyword( paper, researcher ) ).toEqual( { keyphraseLength: 1, percentWordMatches: 100 } );
-	// } );
+	// eslint-disable-next-line capitalized-comments
+	 /* it( "works with dash within the keyword in url", function() {
+	 	const paper = new Paper( "", { url: "two-room-apartment", keyword: "two-room apartment" } );
+		const researcher = new EnglishResearcher( paper );
+		researcher.addResearchData( "morphology", morphologyData );
+	 	expect( urlKeyword( paper, researcher ) ).toEqual( { keyphraseLength: 1, percentWordMatches: 100 } );
+	 } );*/
 } );
