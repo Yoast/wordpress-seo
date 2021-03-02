@@ -11,8 +11,10 @@ export const singleWords = [ "předtím", "vždyť", "definitely", "konečně", 
 	"okolo", "uprostřed", "namísto", "navzdory", "krom", "poblíž", "blízko", "nedaleko", "začátkem", "naproti", "počátkem",
 	"počínaje", "postupem", "vlivem", "vyjma", "následkem", "dík", "zpoza", "zásluhou", "nevyjímaje", "doprostřed", "zpod",
 	"zespoda", "závěrem", "úvodem", "přese", "prostřed", "nepočítaje", "úměrně", "vprostřed", "navrch", "vevnitř", "zespodu",
-	"poblíže", "počínajíc", "nadtoť", "zpozad", "vyjímaje", "začínaje", "zespod", "navrchu", "vyjímajíc", "navzdor",
-	"veprostřed", "končíc", "začínajíc", "nepočítajíc", "zvíce", "vprostředku", "opodále", "podále", "naprostřed" ];
+	"poblíže", "počínajíc", "nadtoť", "zpozad", "vyjímaje", "začínaje", "zespod", "navrchu", "vyjímajíc", "navzdor", "dál",
+	"veprostřed", "končíc", "začínajíc", "nepočítajíc", "zvíce", "vprostředku", "opodále", "podále", "naprostřed", "vlastně",
+	"podle", "samozřejmě", "vždyť", "zatím", "dřív", "radši", "spíš", "poprvé", "nakonec", "navíc", "záleží", "zbytek", "kým",
+	"jakmile", "skutečně", "tentokrát", "představit", "jménem" ];
 
 export const multipleWords = [ "a proto", "i když", "i přestože", "z tohoto důvodu", "kromě toho", "nějaký čas", "k tomu",
 	"na jedné straně", "stručně řečeno", "jinými slovy", "důvod je", "důvodem je", "hlavně protože", "možným důvodem je",
