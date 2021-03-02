@@ -47,8 +47,8 @@ class Addon_Manager_Test extends TestCase {
 		parent::set_up();
 
 		$this->instance = Mockery::mock( Addon_Manager_Double::class )
-				->shouldAllowMockingProtectedMethods()
-					->makePartial();
+			->shouldAllowMockingProtectedMethods()
+			->makePartial();
 	}
 
 	/**
@@ -488,28 +488,29 @@ class Addon_Manager_Test extends TestCase {
 
 		$this->assertEquals(
 			(object) [
-				'new_version'   => '10.0',
-				'name'          => 'Extension',
-				'slug'          => 'yoast-seo-wordpress-premium',
-				'url'           => 'https://example.org/store',
-				'last_update'   => 'yesterday',
-				'homepage'      => 'https://example.org/store',
-				'download_link' => 'https://example.org/extension.zip',
-				'package'       => 'https://example.org/extension.zip',
-				'sections'      => [
+				'new_version'      => '10.0',
+				'name'             => 'Extension',
+				'slug'             => 'yoast-seo-wordpress-premium',
+				'url'              => 'https://example.org/store',
+				'last_update'      => 'yesterday',
+				'homepage'         => 'https://example.org/store',
+				'download_link'    => 'https://example.org/extension.zip',
+				'package'          => 'https://example.org/extension.zip',
+				'sections'         => [
 					'changelog' => 'changelog',
 					'support'   => '<h4>Need support?</h4><p>You can probably find an answer to your question in our <a href="https://yoast.com/help/">help center</a>. If you still need support and have an active subscription for this product, please email <a href="mailto:support@yoast.com">support@yoast.com</a>.</p>',
 				],
-				'icons'         => [
+				'icons'            => [
 					'2x' => 'https://yoa.st/yoast-seo-icon',
 				],
-				'banners'       => [
+				'update_supported' => true,
+				'banners'          => [
 					'high' => 'https://yoa.st/yoast-seo-banner-premium',
 					'low'  => 'https://yoa.st/yoast-seo-banner-low-premium',
 				],
-				'tested'        => \YOAST_SEO_WP_TESTED,
-				'requires_php'  => \YOAST_SEO_PHP_REQUIRED,
-				'requires'      => \YOAST_SEO_WP_REQUIRED,
+				'tested'           => \YOAST_SEO_WP_TESTED,
+				'requires_php'     => \YOAST_SEO_PHP_REQUIRED,
+				'requires'         => \YOAST_SEO_WP_REQUIRED,
 			],
 			$this->instance->convert_subscription_to_plugin(
 				(object) [
@@ -710,28 +711,29 @@ class Addon_Manager_Test extends TestCase {
 				'expected' => (object) [
 					'response' => [
 						'wp-seo-premium.php' => (object) [
-							'new_version'   => '10.0',
-							'name'          => 'Extension',
-							'slug'          => 'yoast-seo-wordpress-premium',
-							'url'           => 'https://example.org/store',
-							'last_update'   => 'yesterday',
-							'homepage'      => 'https://example.org/store',
-							'download_link' => 'https://example.org/extension.zip',
-							'package'       => 'https://example.org/extension.zip',
-							'sections'      => [
+							'new_version'      => '10.0',
+							'name'             => 'Extension',
+							'slug'             => 'yoast-seo-wordpress-premium',
+							'url'              => 'https://example.org/store',
+							'last_update'      => 'yesterday',
+							'homepage'         => 'https://example.org/store',
+							'download_link'    => 'https://example.org/extension.zip',
+							'package'          => 'https://example.org/extension.zip',
+							'sections'         => [
 								'changelog' => 'changelog',
 								'support'   => '<h4>Need support?</h4><p>You can probably find an answer to your question in our <a href="https://yoast.com/help/">help center</a>. If you still need support and have an active subscription for this product, please email <a href="mailto:support@yoast.com">support@yoast.com</a>.</p>',
 							],
-							'icons'         => [
+							'icons'            => [
 								'2x' => 'https://yoa.st/yoast-seo-icon',
 							],
-							'banners'       => [
+							'update_supported' => true,
+							'banners'          => [
 								'high' => 'https://yoa.st/yoast-seo-banner-premium',
 								'low'  => 'https://yoa.st/yoast-seo-banner-low-premium',
 							],
-							'tested'        => \YOAST_SEO_WP_TESTED,
-							'requires_php'  => \YOAST_SEO_PHP_REQUIRED,
-							'requires'      => \YOAST_SEO_WP_REQUIRED,
+							'tested'           => \YOAST_SEO_WP_TESTED,
+							'requires_php'     => \YOAST_SEO_PHP_REQUIRED,
+							'requires'         => \YOAST_SEO_WP_REQUIRED,
 						],
 					],
 				],
@@ -769,28 +771,29 @@ class Addon_Manager_Test extends TestCase {
 				'action'   => 'plugin_information',
 				'args'     => [ 'slug' => 'yoast-seo-wordpress-premium' ],
 				'expected' => (object) [
-					'new_version'   => '10.0',
-					'name'          => 'Extension',
-					'slug'          => 'yoast-seo-wordpress-premium',
-					'url'           => 'https://example.org/store',
-					'last_update'   => 'yesterday',
-					'homepage'      => 'https://example.org/store',
-					'download_link' => 'https://example.org/extension.zip',
-					'package'       => 'https://example.org/extension.zip',
-					'sections'      => [
+					'new_version'      => '10.0',
+					'name'             => 'Extension',
+					'slug'             => 'yoast-seo-wordpress-premium',
+					'url'              => 'https://example.org/store',
+					'last_update'      => 'yesterday',
+					'homepage'         => 'https://example.org/store',
+					'download_link'    => 'https://example.org/extension.zip',
+					'package'          => 'https://example.org/extension.zip',
+					'sections'         => [
 						'changelog' => 'changelog',
 						'support'   => '<h4>Need support?</h4><p>You can probably find an answer to your question in our <a href="https://yoast.com/help/">help center</a>. If you still need support and have an active subscription for this product, please email <a href="mailto:support@yoast.com">support@yoast.com</a>.</p>',
 					],
-					'icons'         => [
+					'icons'            => [
 						'2x' => 'https://yoa.st/yoast-seo-icon',
 					],
-					'banners'       => [
+					'update_supported' => true,
+					'banners'          => [
 						'high' => 'https://yoa.st/yoast-seo-banner-premium',
 						'low'  => 'https://yoa.st/yoast-seo-banner-low-premium',
 					],
-					'tested'        => \YOAST_SEO_WP_TESTED,
-					'requires_php'  => \YOAST_SEO_PHP_REQUIRED,
-					'requires'      => \YOAST_SEO_WP_REQUIRED,
+					'tested'           => \YOAST_SEO_WP_TESTED,
+					'requires_php'     => \YOAST_SEO_PHP_REQUIRED,
+					'requires'         => \YOAST_SEO_WP_REQUIRED,
 				],
 				'message'  => 'Tests with a Yoast addon slug given as argument.',
 			],
