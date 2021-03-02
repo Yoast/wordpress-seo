@@ -308,9 +308,9 @@ exports[`SnippetEditor accepts a custom data mapping function 1`] = `
               <span
                 className="c10"
               >
-                null
+                example.org
               </span>
-               › example.org › totally-different-url
+               › totally-different-url
             </span>
           </div>
         </div>
