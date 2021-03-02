@@ -1053,7 +1053,7 @@ describe( "AnalysisWebWorker", () => {
 			} );
 
 			test( "returns the research result", done => {
-				const name = "firstParagraph";
+				const name = "findKeywordInFirstParagraph";
 				const paper = testTexts[ 0 ].paper;
 				const payload = { name, paper: paper.serialize() };
 
