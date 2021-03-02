@@ -77,6 +77,11 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 
 		'stripcategorybase'             => false,
 
+		'og_frontpage_title'            => '', // Text field.
+		'og_frontpage_desc'             => '', // Text field.
+		'og_frontpage_image'            => '', // Text field.
+		'og_frontpage_image_id'         => '',
+
 		/**
 		 * Uses enrich_defaults to add more along the lines of:
 		 * - 'title-' . $pt->name                => ''; // Text field.
@@ -379,6 +384,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 
 				case 'company_logo':
 				case 'person_logo':
+				case 'og_frontpage_image':
 					$this->validate_url( $key, $dirty, $old, $clean );
 					break;
 
@@ -390,11 +396,14 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 				 *  'metadesc-tax-' . $tax->name
 				 *  and also:
 				 *  'bctitle-ptarchive-' . $pt->name
+				 *  'og_frontpage_desc', 'og_frontpage_title'
 				 */
 				case 'metadesc-':
 				case 'bctitle-ptarchive-':
 				case 'company_name':
 				case 'person_name':
+				case 'og_frontpage_desc':
+				case 'og_frontpage_title':
 					if ( isset( $dirty[ $key ] ) && $dirty[ $key ] !== '' ) {
 						$clean[ $key ] = WPSEO_Utils::sanitize_text_field( $dirty[ $key ] );
 					}
@@ -540,6 +549,19 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 							$defaults      = $this->get_defaults();
 							$post_type     = str_replace( $switch_key, '', $key );
 							$clean[ $key ] = $defaults[ $switch_key . $post_type ];
+						}
+					}
+					break;
+
+				/*
+				 * Int fields.
+				 */
+				case 'og_frontpage_image_id':
+					if ( isset( $dirty[ $key ] ) ) {
+						$clean[ $key ] = (int) $dirty[ $key ];
+
+						if ( $dirty[ $key ] === '' ) {
+							$clean[ $key ] = $dirty[ $key ];
 						}
 					}
 					break;

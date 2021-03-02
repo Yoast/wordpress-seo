@@ -70,6 +70,7 @@ class WPSEO_Upgrade {
 			'15.3-RC0'   => 'upgrade_153',
 			'15.5-RC0'   => 'upgrade_155',
 			'15.7-RC0'   => 'upgrade_157',
+			'16.1-RC0'   => 'upgrade_161',
 		];
 
 		array_walk( $routines, [ $this, 'run_upgrade_routine' ], $version );
@@ -797,6 +798,15 @@ class WPSEO_Upgrade {
 	}
 
 	/**
+	 * Performs the 16.1 upgrade.
+	 *
+	 * @return void
+	 */
+	private function upgrade_161() {
+		$this->migrate_og_settings_from_social_to_titles();
+	}
+
+	/**
 	 * Sets the home_url option for the 15.1 upgrade routine.
 	 *
 	 * @return void
@@ -1109,5 +1119,36 @@ class WPSEO_Upgrade {
 		}
 
 		WPSEO_Options::set( 'custom_taxonomy_slugs', $custom_taxonomies );
+	}
+
+	/**
+	 * Migrates the frontpage social settings to the titles options.
+	 *
+	 * @return void
+	 */
+	public function migrate_og_settings_from_social_to_titles() {
+		$wpseo_social = \get_option( 'wpseo_social' );
+		$wpseo_titles = \get_option( 'wpseo_titles' );
+
+		$migrated_options = [];
+		$options = [
+			'og_frontpage_title',
+			'og_frontpage_desc',
+			'og_frontpage_image',
+			'og_frontpage_image_id',
+		];
+
+		foreach ( $options as $option ) {
+			if ( isset( $wpseo_social[$option] ) ) {
+				$migrated_options[$option] = $wpseo_social[$option];
+
+				unset( $wpseo_social[$option] );
+			}
+		}
+
+		$wpseo_titles = array_merge( $wpseo_titles, $migrated_options );
+
+		update_option( 'wpseo_social', $wpseo_social );
+		update_option( 'wpseo_titles', $wpseo_titles );
 	}
 }
