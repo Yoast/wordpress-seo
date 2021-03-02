@@ -68,7 +68,7 @@ const prepositions = [ "během", "bez", "blízko", "do", "od", "okolo", "kolem",
 	"dokud", "ven", "běž", "odkud", "ode", "nahoře", "nahoru", "dovnitř", "dne", "beze", "napříč", "versus", "via",
 	"vně", "dovnitř", "vpředu", "vůkol", "vespod", "opodál", "vepředu", "svrchu", "vnitř", "zprostřed", "naspodu", "zdéli",
 	"okol", "podál", "naspod", "kontra", "vespodu", "zponad", "ponad", "nadtož", "kolkolem", "zdélí", "veskrz", "popod",
-	"daleko", "vůkolem"];
+	"daleko", "vůkolem" ];
 
 const conjunctions = [ "a", "i", "aby", "ale", "že", "protože", "neboť", "když", "až", "jestli", "jestliže", "pokud", "kdyby",
 	"nebo", "anebo", "či", "proto", "který", "jenž", "aniž", "než", "tak", "takže", "kvůli", "kdybych", "ach", "zdá", "zatím",
