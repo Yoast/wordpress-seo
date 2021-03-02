@@ -8,8 +8,6 @@ import { stripIncompleteTags as stripTags } from "../../../languageProcessing/he
 import AssessmentResult from "../../../values/AssessmentResult";
 import Mark from "../../../values/Mark";
 
-
-
 /**
  * Calculates the result based on the number of sentences and passives.
  *
