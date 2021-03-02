@@ -17,7 +17,9 @@ const vowelRegex = /([aeiouy])/g;
  */
 const normalizePrefixed = function( word, verbPrefixes ) {
 	for ( const property in verbPrefixes ) {
-		verbPrefixes[ property ] = new RegExp( verbPrefixes[ property ], "i" );
+		if ( verbPrefixes.hasOwnProperty ) {
+			verbPrefixes[ property ] = new RegExp( verbPrefixes[ property ], "i" );
+		}
 	}
 
 	if ( verbPrefixes.sevenLetterHyphenPrefixes.test( word ) === true ) {

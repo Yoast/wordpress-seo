@@ -1,14 +1,22 @@
 import BlockInstruction from "../../../core/blocks/BlockInstruction";
 import { RenderSaveProps, RenderEditProps } from "../../../core/blocks/BlockDefinition";
 
+export type SidebarBaseOptions = {
+	name: string;
+	default?: string;
+	type?: string;
+	label?: string;
+	help?: string;
+	className: string;
+	required?: boolean;
+	visible?: boolean;
+}
+
 /**
  * Sidebar input instruction
  */
 export default abstract class SidebarBase extends BlockInstruction {
-	public options: {
-		name: string;
-		output?: boolean;
-	}
+	public options: SidebarBaseOptions;
 
 	/**
 	 * Renders the value of a sidebar input.
@@ -38,7 +46,7 @@ export default abstract class SidebarBase extends BlockInstruction {
 	 * @returns Whether or not to render this instruction.
 	 */
 	renderable(): boolean {
-		return this.options.output !== false;
+		return this.options.visible !== false;
 	}
 
 	protected abstract value( props: RenderSaveProps | RenderEditProps ): JSX.Element | string;

@@ -5,20 +5,15 @@ import { SelectControl } from "@wordpress/components";
 import BlockInstruction from "../../core/blocks/BlockInstruction";
 import { RenderEditProps, RenderSaveProps } from "../../core/blocks/BlockDefinition";
 import { arrayOrObjectToOptions } from "../../functions/select";
-import SidebarBase from "./abstract/SidebarBase";
+import SidebarBase, { SidebarBaseOptions } from "./abstract/SidebarBase";
 
 /**
  * SidebarSelect instruction.
  */
 class SidebarSelect extends SidebarBase {
-	public options: {
-		name: string;
+	public options: SidebarBaseOptions & {
 		options: string[] | Record<string, string>;
-		label?: string;
-		help?: string;
-		output?: boolean;
 		multiple?: boolean;
-		required?: boolean;
 	}
 
 	/**

@@ -53,4 +53,4 @@ export default function isPassiveSentence( sentence ) {
 	}
 
 	return false;
-};
+}

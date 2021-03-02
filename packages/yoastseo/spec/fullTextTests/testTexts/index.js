@@ -62,6 +62,27 @@ import hungarianPaper1 from "./hu/hungarianPaper1";
 import hungarianPaper2 from "./hu/hungarianPaper2";
 import hungarianPaper3 from "./hu/hungarianPaper3";
 
+// Catalan papers
+import catalanPaper1 from "./ca/catalanPaper1";
+import catalanPaper2 from "./ca/catalanPaper2";
+import catalanPaper3 from "./ca/catalanPaper3";
+
+// Dutch papers
+import dutchPaper1 from "./nl/dutchPaper1";
+import dutchPaper2 from "./nl/dutchPaper2";
+import dutchPaper3 from "./nl/dutchPaper3";
+
+// Indonesian papers
+import indonesianPaper1 from "./id/indonesianPaper1";
+import indonesianPaper2 from "./id/indonesianPaper2";
+import indonesianPaper3 from "./id/indonesianPaper3";
+
+
+// Farsi papers
+import farsiPaper1 from "./fa/farsiPaper1";
+import farsiPaper2 from "./fa/farsiPaper2";
+import farsiPaper3 from "./fa/farsiPaper3";
+
 export default [
 	englishPaper1,
 	englishPaper2,
@@ -100,5 +121,17 @@ export default [
 	hungarianPaper1,
 	hungarianPaper2,
 	hungarianPaper3,
+	catalanPaper1,
+	catalanPaper2,
+	catalanPaper3,
+	dutchPaper1,
+	dutchPaper2,
+	dutchPaper3,
+	indonesianPaper1,
+	indonesianPaper2,
+	indonesianPaper3,
+	farsiPaper1,
+	farsiPaper2,
+	farsiPaper3,
 ];
 

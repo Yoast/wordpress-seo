@@ -1,4 +1,3 @@
-import { all as functionWords } from "../../../src/languageProcessing/languages/en/config/functionWords";
 import AssessmentResult from "../../../src/values/AssessmentResult";
 import Mark from "../../../src/values/Mark";
 import Paper from "../../../src/values/Paper";

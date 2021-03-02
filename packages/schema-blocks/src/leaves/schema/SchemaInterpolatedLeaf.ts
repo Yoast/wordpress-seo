@@ -1,7 +1,7 @@
 import { BlockInstance } from "@wordpress/blocks";
-
 import SchemaLeaf from "../../core/schema/SchemaLeaf";
 import SchemaInstruction from "../../core/schema/SchemaInstruction";
+import logger from "../../functions/logger";
 
 /**
  * SchemaInterpolatedLeaf class
@@ -34,7 +34,7 @@ export default class SchemaInterpolatedLeaf extends SchemaLeaf {
 
 			if ( ! value ) {
 				// eslint-disable-next-line no-console
-				console.log( "cannot render value ", value );
+				logger.warning( "cannot render value ", value );
 			}
 
 			return value.render( block ) as string;
