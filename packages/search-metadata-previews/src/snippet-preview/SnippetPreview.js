@@ -534,7 +534,7 @@ export default class SnippetPreview extends PureComponent {
 		 */
 		const cleanEncodedUrl = encodeURI( url.replace( /\?|#/g, "" ) );
 
-		const { protocol, hostname, pathname } = parse( cleanEncodedUrl );
+		const { hostname, pathname } = parse( cleanEncodedUrl );
 
 		const urlParts = breadcrumbs || pathname.split( "/" );
 
