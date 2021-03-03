@@ -425,7 +425,7 @@ class SnippetEditor extends React.Component {
 
 		const mappedData = {
 			title: this.processReplacementVariables( originalData.title, replacementVariables ),
-			url: shortenedBaseUrl + originalData.slug,
+			url: baseUrl + originalData.slug,
 			description: description,
 		};
 
