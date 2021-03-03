@@ -751,15 +751,6 @@ class Schema_Generator_Test extends TestCase {
 					],
 				],
 				[
-					'@type'            => 'ItemList',
-					'numberOfItems'    => 1,
-					'itemListElement'  => [
-						[
-							'@id' => '#id-1',
-						],
-					],
-				],
-				[
 					'@type'          => 'Question',
 					'@id'            => '#id-1',
 					'position'       => 1,
