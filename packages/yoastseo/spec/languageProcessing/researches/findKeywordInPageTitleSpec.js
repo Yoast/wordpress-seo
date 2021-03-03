@@ -1,4 +1,4 @@
-import Researcher from "../../../src/languageProcessing/languages/en/researcher";
+import Researcher from "../../../src/languageProcessing/languages/en/Researcher";
 import GermanResearcher from "../../../src/languageProcessing/languages/de/Researcher";
 import FrenchResearcher from "../../../src/languageProcessing/languages/fr/Researcher";
 import RussianResearcher from "../../../src/languageProcessing/languages/ru/Researcher";

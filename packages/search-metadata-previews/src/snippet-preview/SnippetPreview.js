@@ -9,7 +9,7 @@ import { __ } from "@wordpress/i18n";
 
 // Yoast dependencies.
 import { colors, angleLeft, angleRight } from "@yoast/style-guide";
-import { string } from "yoastseo";
+import { languageProcessing } from "yoastseo";
 import { getDirectionalStyle } from "@yoast/helpers";
 import { ScreenReaderText } from "@yoast/components";
 
@@ -17,7 +17,7 @@ const {
 	transliterate,
 	createRegexFromArray,
 	replaceDiacritics: replaceSpecialCharactersAndDiacritics,
-} = string;
+} = languageProcessing;
 
 // Internal dependencies.
 import FixedWidthContainer from "./FixedWidthContainer";

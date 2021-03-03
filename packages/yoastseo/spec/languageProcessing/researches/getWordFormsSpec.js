@@ -1,5 +1,5 @@
-import EnglishResearcher from "../../../src/languageProcessing/languages/en/researcher";
-import GermanResearcher from "../../../src/languageProcessing/languages/de/researcher";
+import EnglishResearcher from "../../../src/languageProcessing/languages/en/Researcher";
+import GermanResearcher from "../../../src/languageProcessing/languages/de/Researcher";
 import ItalianResearcher from "../../../src/languageProcessing/languages/it/Researcher";
 import HebrewResearcher from "../../../src/languageProcessing/languages/he/Researcher";
 import ArabicResearcher from "../../../src/languageProcessing/languages/ar/Researcher";

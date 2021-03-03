@@ -6,7 +6,7 @@ import { __ } from "@wordpress/i18n";
 import noop from "lodash/noop";
 
 /* Yoast dependencies */
-import { assessments, string, helpers } from "yoastseo";
+import { assessments, languageProcessing, helpers } from "yoastseo";
 import { ErrorBoundary, SvgIcon, Button } from "@yoast/components";
 import { colors } from "@yoast/style-guide";
 import { getDirectionalStyle, join } from "@yoast/helpers";
@@ -419,7 +419,7 @@ class SnippetEditor extends React.Component {
 		let description = this.processReplacementVariables( originalData.description, replacementVariables );
 
 		// Strip multiple spaces and spaces at the beginning and end.
-		description = string.stripSpaces( description );
+		description = languageProcessing.stripSpaces( description );
 
 		const shortenedBaseUrl = baseUrl.replace( /^https?:\/\//i, "" );
 
