@@ -105,18 +105,6 @@ describe( "SnippetPreview", () => {
 		} );
 	} );
 
-	it( "adds a trailing slash to the url", () => {
-		const wrapper = mountWithArgs( { mode: MODE_DESKTOP, url: "https://example.org/this-url" } );
-
-		expect( wrapper.find( "SnippetPreview__BaseUrlOverflowContainer" ).text() ).toBe( "https://example.org/this-url/" );
-	} );
-
-	it( "does not add a trailing slash to the url", () => {
-		const wrapper = mountWithArgs( { mode: MODE_DESKTOP, url: "https://example.org/this-url/" } );
-
-		expect( wrapper.find( "SnippetPreview__BaseUrlOverflowContainer" ).text() ).toBe( "https://example.org/this-url/" );
-	} );
-
 	describe( "mobile mode", () => {
 		it( "renders differently than desktop", () => {
 			renderSnapshotWithArgs( { mode: MODE_MOBILE } );
@@ -134,10 +122,46 @@ describe( "SnippetPreview", () => {
 			expect( wrapper.find( "SnippetPreview__BaseUrlOverflowContainer" ).text() ).toBe( "www.google.nl › about" );
 		} );
 
-		it( "doesn't percent encode characters that are percent encoded by node's url.parse", () => {
+		it( "doesn't percent encode characters that are percent encoded by node's url.parse in mobile view", () => {
 			const wrapper = mountWithArgs( { mode: MODE_MOBILE, url: "http://www.google.nl/`^ {}" } );
 
 			expect( wrapper.find( "SnippetPreview__BaseUrlOverflowContainer" ).text() ).toBe( "www.google.nl › `^ {}" );
+		} );
+
+		it( "properly renders multiple breadcrumbs in desktop view", () => {
+			const wrapper = mountWithArgs( { mode: MODE_DESKTOP, url: "http://example.org/this-url" } );
+
+			expect( wrapper.find( "SnippetPreview__BaseUrlOverflowContainer" ).text() ).toBe( "example.org › this-url" );
+		} );
+
+		it( "properly renders multiple breadcrumbs in desktop view without a trailing slash", () => {
+			const wrapper = mountWithArgs( { mode: MODE_DESKTOP, url: "http://example.org/this-url/" } );
+
+			expect( wrapper.find( "SnippetPreview__BaseUrlOverflowContainer" ).text() ).toBe( "example.org › this-url" );
+		} );
+
+		it( "strips http protocol in mobile view", () => {
+			const wrapper = mountWithArgs( { mode: MODE_MOBILE, url: "http://www.google.nl/about" } );
+
+			expect( wrapper.find( "SnippetPreview__BaseUrlOverflowContainer" ).text() ).toBe( "www.google.nl › about" );
+		} );
+
+		it( "strips https protocol in mobile view", () => {
+			const wrapper = mountWithArgs( { mode: MODE_MOBILE, url: "https://www.google.nl/about" } );
+
+			expect( wrapper.find( "SnippetPreview__BaseUrlOverflowContainer" ).text() ).toBe( "www.google.nl › about" );
+		} );
+
+		it( "strips http protocol in desktop view", () => {
+			const wrapper = mountWithArgs( { mode: MODE_DESKTOP, url: "http://www.google.nl/about" } );
+
+			expect( wrapper.find( "SnippetPreview__BaseUrlOverflowContainer" ).text() ).toBe( "www.google.nl › about" );
+		} );
+
+		it( "strips https protocol in desktop view", () => {
+			const wrapper = mountWithArgs( { mode: MODE_DESKTOP, url: "https://www.google.nl/about" } );
+
+			expect( wrapper.find( "SnippetPreview__BaseUrlOverflowContainer" ).text() ).toBe( "www.google.nl › about" );
 		} );
 	} );
 } );
