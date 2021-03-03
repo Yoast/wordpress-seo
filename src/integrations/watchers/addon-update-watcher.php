@@ -37,7 +37,6 @@ class Addon_Update_Watcher implements Integration_Interface {
 		'wpseo-local/local-seo.php',
 		'wpseo-woocommerce/wpseo-woocommerce.php',
 		'wpseo-news/wpseo-news.php',
-		'yoast-acf-analysis/yoast-acf-analysis.php',
 	];
 
 	/**
