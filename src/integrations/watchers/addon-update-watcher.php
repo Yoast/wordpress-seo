@@ -106,10 +106,6 @@ class Addon_Update_Watcher implements Integration_Interface {
 
 		$auto_updated_plugins = \get_option( 'auto_update_plugins' );
 
-		if ( $auto_updated_plugins === false || ! \is_array( $auto_updated_plugins ) ) {
-			return $old_html;
-		}
-
 		if ( $this->are_auto_updates_enabled( $this->get_plugin_id(), $auto_updated_plugins ) ) {
 			return \sprintf(
 				'<em>%s</em>',
@@ -204,6 +200,9 @@ class Addon_Update_Watcher implements Integration_Interface {
 	 * @return bool Whether auto updates for a plugin are enabled.
 	 */
 	protected function are_auto_updates_enabled( $plugin_id, $auto_updated_plugins ) {
+		if ( $auto_updated_plugins === false ) {
+			return false;
+		}
 		return \in_array( $plugin_id, $auto_updated_plugins, true );
 	}
 }
