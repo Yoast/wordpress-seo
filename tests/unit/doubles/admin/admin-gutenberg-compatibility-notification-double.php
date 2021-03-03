@@ -1,9 +1,5 @@
 <?php
-/**
- * WPSEO plugin test file.
- *
- * @package WPSEO\Tests\Admin
- */
+// phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded -- WPSEO_Admin_Gutenberg_Compatibility_Notification_Double.
 
 namespace Yoast\WP\SEO\Tests\Unit\Doubles\Admin;
 
@@ -12,7 +8,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Doubles\Admin;
  *
  * Class WPSEO_Gutenberg_Compatibility_Double.
  */
-class WPSEO_Admin_Gutenberg_Compatibility_Notification_Double extends WPSEO_Admin_Gutenberg_Compatibility_Notification {
+class WPSEO_Admin_Gutenberg_Compatibility_Notification_Double extends \WPSEO_Admin_Gutenberg_Compatibility_Notification {
 
 	/**
 	 * Sets the dependency instances.
