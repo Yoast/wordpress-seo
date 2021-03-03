@@ -8,11 +8,6 @@ namespace Yoast\WP\SEO\Generators\Schema;
 class FAQ extends Abstract_Schema_Piece {
 
 	/**
-	 * @var array
-	 */
-	private $webpage_main_entity;
-
-	/**
 	 * Determines whether or not a piece should be added to the graph.
 	 *
 	 * @return bool

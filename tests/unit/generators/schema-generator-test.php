@@ -744,7 +744,7 @@ class Schema_Generator_Test extends TestCase {
 						],
 					],
 					'breadcrumb'      => [ '@id' => '#breadcrumb' ],
-					'mainEntity' => [
+					'mainEntity'      => [
 						[
 							'@id' => '#id-1',
 						],
