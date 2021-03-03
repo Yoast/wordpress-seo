@@ -65,7 +65,8 @@ class WPSEO_Admin_Gutenberg_Compatibility_Notification implements WPSEO_WordPres
 		if (
 			! $this->compatibility_checker->is_installed()
 			|| $this->compatibility_checker->is_fully_compatible()
-			|| ! $display_notification ) {
+			|| ! $display_notification
+		) {
 			$this->notification_center->remove_notification_by_id( $this->notification_id );
 
 			return;
