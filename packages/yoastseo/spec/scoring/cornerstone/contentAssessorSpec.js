@@ -16,7 +16,7 @@ describe( "A content assessor", function() {
 		let results;
 		const paper = new Paper();
 		beforeEach( function() {
-			contentAssessor = new ContentAssessor( i18n, { locale: "en_US", researcher: new EnglishResearcher( paper ) } );
+			contentAssessor = new ContentAssessor( i18n, new EnglishResearcher( paper ), { locale: "en_US" } );
 			contentAssessor.getValidResults = function() {
 				return results;
 			};
@@ -195,7 +195,7 @@ describe( "A content assessor", function() {
 	describe( "Checks the applicable assessments", function() {
 		const paper = new Paper( "test" );
 		it( "Should have 8 available assessments for a fully supported language", function() {
-			const contentAssessor = new ContentAssessor( i18n, { researcher: new EnglishResearcher( paper ) } );
+			const contentAssessor = new ContentAssessor( i18n, new EnglishResearcher( paper ) );
 			contentAssessor.getPaper = function() {
 				return paper;
 			};
@@ -206,7 +206,7 @@ describe( "A content assessor", function() {
 		} );
 
 		it( "Should have 4 available assessments for a basic supported language", function() {
-			const contentAssessor = new ContentAssessor( i18n, { researcher: new DefaultResearcher( paper ) } );
+			const contentAssessor = new ContentAssessor( i18n, new DefaultResearcher( paper ) );
 			contentAssessor.getPaper = function() {
 				return paper;
 			};
