@@ -41,11 +41,13 @@ const entry = {
 	"languages/hu": "./externals/languages/hu.js",
 	"languages/id": "./externals/languages/id.js",
 	"languages/it": "./externals/languages/it.js",
+	"languages/nb": "./externals/languages/nb.js",
 	"languages/nl": "./externals/languages/nl.js",
 	"languages/pl": "./externals/languages/pl.js",
 	"languages/pt": "./externals/languages/pt.js",
 	"languages/ru": "./externals/languages/ru.js",
 	"languages/sv": "./externals/languages/sv.js",
+	"languages/tr": "./externals/languages/tr.js",
 };
 
 /**
