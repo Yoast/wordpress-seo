@@ -744,12 +744,14 @@ class Schema_Generator_Test extends TestCase {
 						],
 					],
 					'breadcrumb'      => [ '@id' => '#breadcrumb' ],
+					'mainEntity' => [
+						[
+							'@id' => '#id-1',
+						],
+					],
 				],
 				[
 					'@type'            => 'ItemList',
-					'mainEntityOfPage' => [
-						'@id' => null,
-					],
 					'numberOfItems'    => 1,
 					'itemListElement'  => [
 						[

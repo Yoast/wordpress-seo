@@ -8,6 +8,11 @@ namespace Yoast\WP\SEO\Generators\Schema;
 class FAQ extends Abstract_Schema_Piece {
 
 	/**
+	 * @var array
+	 */
+	private $webpage_main_entity;
+
+	/**
 	 * Determines whether or not a piece should be added to the graph.
 	 *
 	 * @return bool
@@ -20,9 +25,28 @@ class FAQ extends Abstract_Schema_Piece {
 		if ( ! \is_array( $this->context->schema_page_type ) ) {
 			$this->context->schema_page_type = [ $this->context->schema_page_type ];
 		}
-		$this->context->schema_page_type[] = 'FAQPage';
+		$this->context->schema_page_type[]  = 'FAQPage';
+		$this->context->main_entity_of_page = $this->generate_ids();
 
 		return true;
+	}
+
+	/**
+	 * Generate the IDs so we can link to them in the main entity.
+	 *
+	 * @return array
+	 */
+	private function generate_ids() {
+		foreach ( $this->context->blocks['yoast/faq-block'] as $block ) {
+			foreach ( $block['attrs']['questions'] as $index => $question ) {
+				if ( ! isset( $question['jsonAnswer'] ) || empty( $question['jsonAnswer'] ) ) {
+					continue;
+				}
+				$ids[] = [ '@id' => $this->context->canonical . '#' . \esc_attr( $question['id'] ) ];
+			}
+		}
+
+		return $ids;
 	}
 
 	/**
@@ -49,7 +73,6 @@ class FAQ extends Abstract_Schema_Piece {
 
 		$extra_graph_entries = [
 			'@type'            => 'ItemList',
-			'mainEntityOfPage' => [ '@id' => $this->context->main_schema_id ],
 			'numberOfItems'    => $number_of_items,
 			'itemListElement'  => $ids,
 		];
