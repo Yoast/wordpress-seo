@@ -350,8 +350,8 @@ export default class AnalysisWebWorker {
 		}
 
 		const assessor = useCornerstone === true
-			? new CornerstoneContentAssessor( this._i18n, { locale: locale, researcher: this._researcher } )
-			: new ContentAssessor( this._i18n, { locale: locale, researcher: this._researcher } );
+			? new CornerstoneContentAssessor( this._i18n, this._researcher, { locale: locale } )
+			: new ContentAssessor( this._i18n, this._researcher, { locale: locale } );
 
 		return assessor;
 	}
@@ -379,11 +379,11 @@ export default class AnalysisWebWorker {
 		let assessor;
 
 		if ( useTaxonomy === true ) {
-			assessor = new TaxonomyAssessor( this._i18n, { locale: locale, researcher: this._researcher } );
+			assessor = new TaxonomyAssessor( this._i18n, this._researcher, { locale: locale } );
 		} else {
 			assessor = useCornerstone === true
-				? new CornerstoneSEOAssessor( this._i18n, { locale: locale, researcher: this._researcher } )
-				: new SEOAssessor( this._i18n, { locale: locale, researcher: this._researcher } );
+				? new CornerstoneSEOAssessor( this._i18n, this._researcher, { locale: locale } )
+				: new SEOAssessor( this._i18n, this._researcher, { locale: locale } );
 		}
 
 
@@ -422,11 +422,11 @@ export default class AnalysisWebWorker {
 		let assessor;
 
 		if ( useTaxonomy === true ) {
-			assessor = new RelatedKeywordTaxonomyAssessor( this._i18n, { locale: locale, researcher: this._researcher } );
+			assessor = new RelatedKeywordTaxonomyAssessor( this._i18n, this._researcher, { locale: locale } );
 		} else {
 			assessor = useCornerstone === true
-				? new CornerstoneRelatedKeywordAssessor( this._i18n, { locale: locale, researcher: this._researcher } )
-				: new RelatedKeywordAssessor( this._i18n, { locale: locale, researcher: this._researcher } );
+				? new CornerstoneRelatedKeywordAssessor( this._i18n, this._researcher, { locale: locale } )
+				: new RelatedKeywordAssessor( this._i18n, this._researcher, { locale: locale } );
 		}
 
 		this._registeredAssessments.forEach( ( { name, assessment } ) => {
