@@ -438,6 +438,41 @@ const removeCase = function( word, morphologyData ) {
 };
 
 /**
+ * Checks whether a word is in the full-form exception list and if so returns the canonical stem.
+ *
+ * @param {string} word	            The word to be checked.
+ * @param {Object} morphologyData   The Czech morphology data.
+ *
+ * @returns {string}                The canonical stem if word was found on the list or the original word otherwise.
+ */
+const checkWordInFullFormExceptions = function( word, morphologyData ) {
+	for ( const paradigm of morphologyData.externalStemmer.exceptionStemsWithFullForms ) {
+		if ( paradigm[ 1 ].includes( word ) ) {
+			return paradigm[ 0 ];
+		}
+	}
+	return word;
+};
+
+/**
+ * Check whether the stem is on the exception list of stems that belong to one word. If it is, returns the canonical stem.
+ *
+ * @param {string}	word			The stemmed word.
+ * @param {Object} morphologyData   The Czech morphology data.
+ *
+ * @returns {string}                The canonical stem if word was found on the list or the original word otherwise.
+ */
+const canonicalizeStem = function( word, morphologyData ) {
+	// Checks the nouns list.
+	for ( const paradigm of morphologyData.externalStemmer.stemsThatBelongToOneWord.nouns ) {
+		if ( paradigm.includes( word ) ) {
+			return paradigm[ 0 ];
+		}
+	}
+	return word;
+};
+
+/**
  * Stems Czech words.
  *
  * @param {string} word             The word to stem.
@@ -447,6 +482,8 @@ const removeCase = function( word, morphologyData ) {
  */
 export default function stem( word, morphologyData ) {
 	word = word.toLowerCase();
+	// Checks if the word is on an exception list for which all forms of a word and its stem are listed.
+	word = checkWordInFullFormExceptions( word, morphologyData );
 	// Removes case endings from nouns and adjectives.
 	word = removeCase( word, morphologyData );
 	// Removes possessive -ov- and -in- endings from names.
@@ -459,6 +496,8 @@ export default function stem( word, morphologyData ) {
 	word = removeAugmentative( word, morphologyData );
 	// Removes derivational suffixes from nouns.
 	word = removeDerivational( word, morphologyData );
+	// Checks whether the stem is on the exception list of stems that belong to one word.
+	word = canonicalizeStem( word, morphologyData );
 
 	return word;
 }
