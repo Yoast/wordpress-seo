@@ -201,7 +201,7 @@ class Indexable_Post_Watcher implements Integration_Interface {
 			$post = $this->post->get_post( $post_id );
 
 			// Build links for this post.
-			if ( $post && $indexable ) {
+			if ( $post && $indexable && $post->post_status !== 'draft' ) {
 				$this->link_builder->build( $indexable, $post->post_content );
 				// Save indexable to persist the updated link count.
 				$indexable->save();
