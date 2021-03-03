@@ -1,4 +1,5 @@
 import { Assessor } from "yoastseo";
+import Researcher from "yoastseo/src/languageProcessing/languages/_default/Researcher"
 
 import Pluggable from "../src/lib/Pluggable";
 import Factory from "./helpers/factory";
@@ -26,7 +27,7 @@ describe( "the pluggable interface", function() {
 		} );
 
 		it( "should be able to add an assessment", function() {
-			const assessor = new Assessor( i18n );
+			const assessor = new Assessor( i18n, new Researcher() );
 			expect( pluggable._registerAssessment( assessor, "name", function() {}, "test-plugin" ) ).toEqual( true );
 		} );
 	} );
