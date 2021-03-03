@@ -239,13 +239,9 @@ Release Date: March 16th, 2021
 
 Bugfixes:
 
-* Fixes a bug where invalid breadcrumbs could show PHP warnings.
-* Fixes a bug where a fatal error would be thrown when a post ancestor is not an indexable.
-* Fixes a bug where a fatal error could be thrown for users who have both installed Yoast SEO and Polylang for WooCommerce. Props to [manooweb](https://github.com/manooweb).
-
-Other:
-
-* Adds a notification to prompt users to enable auto-updates for Yoast SEO, in case they also have auto-updates for WordPress Core enabled.
+* Fixes a bug where invalid breadcrumbs would show PHP warnings.
+* Fixes a bug where a fatal error would be thrown when a post ancestor was not an indexable.
+* Fixes a bug where a fatal error would be thrown when both Yoast SEO and Polylang for WooCommerce were installed, and the site contained WooCommerce variable products. Props to [manooweb](https://github.com/manooweb).
 
 = 15.9.1 =
 Release Date: March 9th, 2021
