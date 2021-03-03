@@ -3,21 +3,29 @@
 namespace Yoast\WP\SEO\Integrations\Watchers;
 
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
+use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 
 /**
- * Enables Yoast add-on auto updates when Yoast SEO is enabled and the other way around.
+ * Enables Yoast add-on auto updates when Yoast SEO (Premium) is enabled and the other way around.
  *
  * Also removes the auto-update toggles from the Yoast SEO add-ons.
  */
 class Addon_Update_Watcher implements Integration_Interface {
 
 	/**
-	 * ID string used by WordPress to identify the free plugin.
+	 * ID string used by WordPress to identify the Yoast SEO plugin.
 	 *
 	 * @var string
 	 */
 	const WPSEO_FREE_PLUGIN_ID = 'wordpress-seo/wp-seo.php';
+
+	/**
+	 * ID string used by WordPress to identify the Yoast SEO Premium plugin.
+	 *
+	 * @var string
+	 */
+	const WPSEO_PREMIUM_PLUGIN_ID = 'wordpress-seo-premium/wp-seo-premium.php';
 
 	/**
 	 * A list of Yoast add-on identifiers.
@@ -25,13 +33,30 @@ class Addon_Update_Watcher implements Integration_Interface {
 	 * @var string[]
 	 */
 	const ADD_ONS = [
-		'wordpress-seo-premium/wp-seo-premium.php',
 		'wpseo-video/video-seo.php',
 		'wordpress-seo-local/local-seo.php',
 		'wpseo-woocommerce/wpseo-woocommerce.php',
 		'wpseo-news/wpseo-news.php',
 		'yoast-acf-analysis/yoast-acf-analysis.php',
 	];
+
+	/**
+	 * The product helper.
+	 *
+	 * @var Product_Helper
+	 */
+	protected $product_helper;
+
+	/**
+	 * Enables Yoast add-on auto updates when Yoast SEO (Premium) is enabled and the other way around.
+	 *
+	 * Also removes the auto-update toggles from the Yoast SEO add-ons.
+	 *
+	 * @param Product_Helper $product_helper The product helper.
+	 */
+	public function __construct( Product_Helper $product_helper ) {
+		$this->product_helper = $product_helper;
+	}
 
 	/**
 	 * Registers the hooks.
@@ -85,7 +110,7 @@ class Addon_Update_Watcher implements Integration_Interface {
 			return $old_html;
 		}
 
-		if ( $this->are_auto_updates_enabled( self::WPSEO_FREE_PLUGIN_ID, $auto_updated_plugins ) ) {
+		if ( $this->are_auto_updates_enabled( $this->get_plugin_id(), $auto_updated_plugins ) ) {
 			return \sprintf(
 				'<em>%s</em>',
 				\sprintf(
@@ -119,8 +144,10 @@ class Addon_Update_Watcher implements Integration_Interface {
 			return;
 		}
 
-		$auto_updates_are_enabled  = $this->are_auto_updates_enabled( self::WPSEO_FREE_PLUGIN_ID, $new_value );
-		$auto_updates_were_enabled = $this->are_auto_updates_enabled( self::WPSEO_FREE_PLUGIN_ID, $old_value );
+		$yoast_plugin_id = $this->get_plugin_id();
+
+		$auto_updates_are_enabled  = $this->are_auto_updates_enabled( $yoast_plugin_id, $new_value );
+		$auto_updates_were_enabled = $this->are_auto_updates_enabled( $yoast_plugin_id, $old_value );
 
 		if ( $auto_updates_are_enabled === $auto_updates_were_enabled ) {
 			// Auto-updates for Yoast SEO have stayed the same, so have neither been enabled or disabled.
@@ -136,6 +163,18 @@ class Addon_Update_Watcher implements Integration_Interface {
 		}
 
 		$this->disable_auto_updates_for_addons( $new_value );
+	}
+
+	/**
+	 * Get the ID of the currently installed Yoast SEO (Premium) plugin.
+	 *
+	 * @return string The plugin ID.
+	 */
+	protected function get_plugin_id() {
+		if ( $this->product_helper->is_premium() ) {
+			return self::WPSEO_PREMIUM_PLUGIN_ID;
+		}
+		return self::WPSEO_FREE_PLUGIN_ID;
 	}
 
 	/**
