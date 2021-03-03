@@ -155,4 +155,30 @@ class Post_Helper {
 
 		return $updated !== false;
 	}
+
+	/**
+	 * Determines if the post can be indexed.
+	 *
+	 * @param int $post_id Post ID to check.
+	 *
+	 * @return bool True if the post can be indexed.
+	 */
+	public function is_post_indexable( $post_id ) {
+		// Don't index auto-drafts.
+		if ( \get_post_status( $post_id ) === 'auto-draft' ) {
+			return false;
+		}
+
+		// Don't index revisions of posts.
+		if ( \wp_is_post_revision( $post_id ) ) {
+			return false;
+		}
+
+		// Don't index autosaves that are not caught by the auto-draft check.
+		if ( \wp_is_post_autosave( $post_id ) ) {
+			return false;
+		}
+
+		return true;
+	}
 }
