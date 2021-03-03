@@ -5,6 +5,7 @@ import StyledSection, { StyledHeading, StyledSectionBase } from "./StyledSection
 import { LinkButton } from "./buttons/LinkButton";
 
 export * from "./button";
+export * from "./checkbox";
 export * from "./data-model";
 export * from "./field-group";
 export * from "./image-select";
@@ -17,7 +18,6 @@ export * from "./tables";
 
 // Referenced index.js explicitly due to case-sensitive path conflicts.
 export * from "./toggle/index.js";
-export * from "./checkbox/index.js";
 
 export {
 	StyledSection,
@@ -90,7 +90,6 @@ export { default as Warning } from "./Warning";
 export { default as YouTubeVideo } from "./YouTubeVideo";
 export { default as WordList } from "./WordList";
 export { default as WordOccurrences } from "./WordOccurrences";
-export { default as Checkbox } from "./Checkbox";
 export { VariableEditorInputContainer } from "./input/InputContainer";
 export { default as InsightsCard } from "./insights-card/InsightsCard";
 
