@@ -16,7 +16,7 @@ describe( "A content assessor", function() {
 		let results;
 		const paper = new Paper();
 		beforeEach( function() {
-			contentAssessor = new ContentAssessor( i18n, new EnglishResearcher( paper ), { locale: "en_US" } );
+			contentAssessor = new ContentAssessor( i18n, new EnglishResearcher( paper ) );
 			contentAssessor.getValidResults = function() {
 				return results;
 			};

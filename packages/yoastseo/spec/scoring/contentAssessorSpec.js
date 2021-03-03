@@ -9,13 +9,13 @@ import { forEach } from "lodash-es";
 
 const i18n = Factory.buildJed();
 
-describe( "A content assesor", function() {
+describe( "A content assessor", function() {
 	describe( "calculatePenaltyPoints", function() {
 		let contentAssessor;
 		let results;
 		const paper = new Paper();
 		beforeEach( function() {
-			contentAssessor = new ContentAssessor( i18n, new EnglishResearcher( paper ), { locale: "en_US" } );
+			contentAssessor = new ContentAssessor( i18n, new EnglishResearcher( paper ) );
 			contentAssessor.getValidResults = function() {
 				return results;
 			};
@@ -101,7 +101,7 @@ describe( "A content assesor", function() {
 		let points, results, contentAssessor;
 
 		beforeEach( function() {
-			contentAssessor = new ContentAssessor( i18n, { locale: "en_US", researcher: new EnglishResearcher() } );
+			contentAssessor = new ContentAssessor( i18n, new EnglishResearcher() );
 			contentAssessor.getValidResults = function() {
 				return results;
 			};
@@ -155,7 +155,7 @@ describe( "A content assesor", function() {
 		let points, results, contentAssessor;
 
 		beforeEach( function() {
-			contentAssessor = new ContentAssessor( i18n, { locale: "en_US", researcher: new EnglishResearcher() } );
+			contentAssessor = new ContentAssessor( i18n, new EnglishResearcher() );
 			contentAssessor.getValidResults = function() {
 				return results;
 			};
