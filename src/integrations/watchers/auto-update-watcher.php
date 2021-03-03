@@ -201,9 +201,9 @@ class Auto_Update_Watcher implements Integration_Interface {
 	 */
 	protected function get_plugin_id() {
 		if ( $this->product_helper->is_premium() ) {
-			return 'wordpress-seo-premium/wp-seo-premium.php';
+			return Addon_Update_Watcher::WPSEO_PREMIUM_PLUGIN_ID;
 		}
-		return 'wordpress-seo/wp-seo.php';
+		return Addon_Update_Watcher::WPSEO_FREE_PLUGIN_ID;
 	}
 
 	/**
