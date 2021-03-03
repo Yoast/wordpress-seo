@@ -3,34 +3,15 @@ import { BlockConfiguration } from "@wordpress/blocks";
 import { CheckboxControl } from "@wordpress/components";
 import { createElement, useCallback } from "@wordpress/element";
 import { RenderEditProps, RenderSaveProps } from "../../core/blocks/BlockDefinition";
+import { SidebarBaseOptions } from "./abstract/SidebarBase";
 
 /**
  * Shows a checkbox in the sidebar.
  */
 class SidebarCheckbox extends BlockInstruction {
-	public options: {
-		/**
-		 * The attribute name the checkbox value should be saved as.
-		 */
-		name: string;
-		/**
-		 * The label that should be shown before this checkbox control.
-		 */
-		label: string;
-		/**
-		 * Optional help text.
-		 */
-		help?: string;
-		/**
-		 * An optional extra class name or class names.
-		 */
-		className?: string;
-		/**
-		 * An optional string that should be output on the website's frontend
-		 * when this checkbox is checked.
-		 */
+	public options: SidebarBaseOptions & {
 		output?: string;
-	};
+	}
 
 	/**
 	 * Renders the sidebar.
