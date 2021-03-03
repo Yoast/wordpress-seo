@@ -47,9 +47,8 @@ class WPSEO_Admin_Gutenberg_Compatibility_Notification_Test extends TestCase {
 	/**
 	 * Set up the mocked dependencies.
 	 */
-	public function setUp() {
-		parent::setUp();
-		Monkey\setUp();
+	public function set_up() {
+		parent::set_up();
 
 		$this->gutenberg_compatibility_mock = Mockery::mock( 'WPSEO_Gutenberg_Compatibility' )->makePartial();
 		$this->notification_center_mock     = Mockery::mock( 'Yoast_Notification_Center' );
@@ -61,9 +60,8 @@ class WPSEO_Admin_Gutenberg_Compatibility_Notification_Test extends TestCase {
 	/**
 	 * Tear down the test mocks.
 	 */
-	public function tearDown() {
-		Monkey\tearDown();
-		parent::tearDown();
+	public function tear_down() {
+		parent::tear_down();
 		Mockery::close();
 	}
 
