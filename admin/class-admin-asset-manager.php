@@ -264,7 +264,6 @@ class WPSEO_Admin_Asset_Manager {
 					self::PREFIX . 'yoast-components',
 					self::PREFIX . 'helpers',
 					self::PREFIX . 'replacement-variable-editor',
-					self::PREFIX . 'redux',
 					self::PREFIX . 'select2',
 					self::PREFIX . 'select2-translations',
 					self::PREFIX . 'commons',
