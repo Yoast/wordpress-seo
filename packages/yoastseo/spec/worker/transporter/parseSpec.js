@@ -1,4 +1,3 @@
-import englishFunctionWordsFactory from "../../../src/languages/legacy/researches/english/functionWords";
 import AssessmentResult from "../../../src/values/AssessmentResult";
 import Mark from "../../../src/values/Mark";
 import Paper from "../../../src/values/Paper";
@@ -6,10 +5,7 @@ import Participle from "../../../src/values/Participle";
 import Sentence from "../../../src/values/Sentence";
 import SentencePart from "../../../src/values/SentencePart";
 import ProminentWord from "../../../src/values/ProminentWord";
-import WordCombination from "../../../src/values/WordCombination";
 import parse from "../../../src/worker/transporter/parse";
-
-const functionWords = englishFunctionWordsFactory().all;
 
 describe( "parse", () => {
 	it( "parses strings", () => {
@@ -43,25 +39,6 @@ describe( "parse", () => {
 		};
 
 		const expected = new ProminentWord( "combinations", "combination", 2 );
-
-		expect( parse( serialized ) ).toEqual( expected );
-	} );
-
-	it( "parses serialized WordCombinations", () => {
-		const serialized = {
-			_parseClass: "WordCombination",
-			functionWords: functionWords,
-			occurrences: 2,
-			words: [ "syllable", "combinations" ],
-			relevantWords: {
-				syllable: 4,
-				combinations: 4,
-			},
-		};
-
-		const expected = new WordCombination( [ "syllable", "combinations" ], 2, functionWords );
-		const words = {	syllable: 4, combinations: 4 };
-		expected.setRelevantWords( words );
 
 		expect( parse( serialized ) ).toEqual( expected );
 	} );

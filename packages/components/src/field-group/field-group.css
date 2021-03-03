@@ -13,8 +13,41 @@
     color: var(--yoast-color-label);
     line-height: 1.5;
     padding: 0;
+    font-size: var(--yoast-font-size-default);
+}
+
+.yoast-field-group__title.yoast-field-group__title--light {
+	font-weight: var(--yoast-font-weight-default);
 }
 
 .yoast-field-group .field-group-description {
-    margin: 0;
+    margin: 0 0 1em;
+}
+
+.yoast-field-group__inline {
+	display: flex;
+	align-items: center;
+}
+
+.yoast-field-group__inline .yoast-field-group__inputfield {
+	margin-right: 8px;
+}
+
+.yoast-field-group__inline .yoast-button {
+	flex-shrink: 0;
+}
+
+.yoast-field-group .components-form-token-field__label {
+	display: none;
+}
+
+@media screen and (max-width: 782px) {
+	.yoast-field-group__inline {
+		display: block;
+	}
+
+	.yoast-field-group__inline .yoast-field-group__inputfield {
+		margin-right: 0;
+		margin-bottom: 8px;
+	}
 }

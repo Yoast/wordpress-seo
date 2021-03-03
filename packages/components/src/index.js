@@ -7,7 +7,9 @@ import { LinkButton } from "./buttons/LinkButton";
 export * from "./button";
 export * from "./data-model";
 export * from "./field-group";
+export * from "./image-select";
 export * from "./inputs";
+export * from "./insights-card";
 export * from "./radiobutton";
 export * from "./select";
 export * from "./help-icon";
@@ -90,6 +92,7 @@ export { default as WordList } from "./WordList";
 export { default as WordOccurrences } from "./WordOccurrences";
 export { default as Checkbox } from "./Checkbox";
 export { VariableEditorInputContainer } from "./input/InputContainer";
+export { default as InsightsCard } from "./insights-card/InsightsCard";
 
 export { ListTable, ZebrafiedListTable } from "./table/ListTable";
 export { Row } from "./table/Row";

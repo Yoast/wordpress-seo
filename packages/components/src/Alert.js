@@ -123,6 +123,10 @@ class Alert extends React.Component {
 	 * @returns {React.Element} The rendered component.
 	 */
 	render() {
+		if ( this.props.isAlertDismissed === true ) {
+			return null;
+		}
+
 		const options          = this.getTypeDisplayOptions( this.props.type );
 		const dismissAriaLabel = this.props.dismissAriaLabel || __( "Dismiss this alert", "yoast-components" );
 
@@ -150,12 +154,14 @@ Alert.propTypes = {
 	children: PropTypes.any.isRequired,
 	type: PropTypes.oneOf( [ "error", "info", "success", "warning" ] ).isRequired,
 	onDismissed: PropTypes.func,
+	isAlertDismissed: PropTypes.bool,
 	dismissAriaLabel: PropTypes.string,
 	className: PropTypes.string,
 };
 
 Alert.defaultProps = {
 	onDismissed: null,
+	isAlertDismissed: false,
 	dismissAriaLabel: "",
 	className: "",
 };

@@ -3,6 +3,7 @@ import styled, { ThemeProvider } from "styled-components";
 import { setLocaleData } from "@wordpress/i18n";
 
 import ButtonsWrapper from "./ButtonsWrapper";
+import ButtonsOldWrapper from "./ButtonsOldWrapper";
 import ComponentsExample from "./ComponentsExample";
 import ContentAnalysis from "./ContentAnalysisWrapper";
 import DashboardWidget from "./DashboardWidgetWrapper";
@@ -20,9 +21,9 @@ import LinkSuggestionsWrapper from "./LinkSuggestionsExample";
 import WordOccurrencesWrapper from "./WordOccurrencesWrapper";
 import MultiStepProgressWrapper from "./MultiStepProgressWrapper";
 import SocialPreviewFormWrapper from "./SocialPreviewFormWrapper";
-import ReactifiedComponentsWrapper from "./ReactifiedComponentsWrapper";
 import SocialPreviewEditorWrapper from "./SocialPreviewEditorWrapper";
-
+import InputsWrapper from "./InputsWrapper";
+import ImageSelectWrapper from "./ImageSelectWrapper";
 
 // Setup empty translations to prevent Jed error.
 setLocaleData( { "": {} }, "yoast-components" );
@@ -79,9 +80,9 @@ const components = [
 		component: <LinkSuggestionsWrapper />,
 	},
 	{
-		id: "buttons",
-		name: "Buttons",
-		component: <ButtonsWrapper />,
+		id: "buttons-old",
+		name: "Buttons (old)",
+		component: <ButtonsOldWrapper />,
 	},
 	{
 		id: "svg-icons",
@@ -124,9 +125,19 @@ const components = [
 		component: <SocialPreviewEditorWrapper />,
 	},
 	{
-		id: "reactified-components",
-		name: "Reactified components",
-		component: <ReactifiedComponentsWrapper />,
+		id: "buttons",
+		name: "Buttons",
+		component: <ButtonsWrapper />,
+	},
+	{
+		id: "inputs",
+		name: "Inputs",
+		component: <InputsWrapper />,
+	},
+	{
+		id: "image-select",
+		name: "Image Select",
+		component: <ImageSelectWrapper />,
 	},
 ];
 

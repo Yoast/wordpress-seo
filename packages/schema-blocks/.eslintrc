@@ -1,0 +1,84 @@
+{
+    "extends": [
+        "yoast",
+        "plugin:@typescript-eslint/recommended"
+    ],
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+        "ecmaVersion": 2019,
+        "sourceType": "module"
+    },
+    "plugins": [
+        "@typescript-eslint"
+    ],
+    "env": {
+        "jest": true
+    },
+    "rules": {
+        "new-cap": 0,
+        "complexity": [
+            2,
+            10
+        ],
+        "@typescript-eslint/no-parameter-properties": [
+            2,
+            {
+                "allows": [
+                    "protected readonly",
+                    "private readonly"
+                ]
+            }
+        ],
+        "@typescript-eslint/explicit-function-return-type": 0,
+        "@typescript-eslint/no-use-before-define": [
+            "error",
+            {
+                "functions": false
+            }
+        ],
+        "no-constant-condition": [
+            "error",
+            {
+                "checkLoops": false
+            }
+        ],
+        "max-statements": [
+            2,
+            33
+        ],
+        // Normal no-unused-vars doesn't work for TypeScript
+        "no-unused-vars": "off",
+        "@typescript-eslint/no-unused-vars": [ "error", { "varsIgnorePattern": "^createElement$" } ],
+        // Duplicate class members are overloads and are allowed in TypeScript
+        "no-dupe-class-members": "off",
+        // Normal indent doesn't work for TypeScript
+        "indent": "off",
+        "@typescript-eslint/indent": [
+            2,
+            "tab",
+            {
+                "SwitchCase": 1
+            }
+        ],
+        // Allow space before async arrow function
+        "space-before-function-paren": [
+            "error",
+            {
+                "anonymous": "never",
+                "named": "never",
+                "asyncArrow": "always"
+            }
+        ],
+        // Types are already defined by TypeScript, no need in JSDoc.
+        "valid-jsdoc": [
+            "error",
+            {
+                "requireReturn": false,
+                "requireReturnType": false,
+                "requireParamType": false
+            }
+        ],
+        // We use `wp.element.createElement` instead of the `react` package directly.
+        "react/react-in-jsx-scope": 0
+    }
+}

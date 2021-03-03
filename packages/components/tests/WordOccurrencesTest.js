@@ -6,6 +6,7 @@ import ProminentWord from "yoastseo/src/values/ProminentWord";
 
 const showBeforeList = <p>{ "I'm a before list paragraph" }</p>;
 const showAfterList = <p>{ "I'm an after list paragraph" }</p>;
+const introductionText = <p>{ "I'm an introduction text" }</p>;
 const words = [
 	new ProminentWord( "reviewing", "review",  13 ),
 	new ProminentWord( "code", "code",  8 ),
@@ -16,7 +17,7 @@ const noWords = [];
 describe( "WordOccurrences", function() {
 	it( "renders WordOccurrences as list items", () => {
 		const wordOccurrences = renderer.create(
-			<WordOccurrences words={ words } header={ showBeforeList } footer={ showAfterList } />
+			<WordOccurrences words={ words } header={ showBeforeList } introduction={ introductionText } footer={ showAfterList } />
 		);
 
 		const tree = wordOccurrences.toJSON();
@@ -25,7 +26,7 @@ describe( "WordOccurrences", function() {
 
 	it( "renders correctly without items", () => {
 		const wordOccurrences = renderer.create(
-			<WordOccurrences words={ noWords } header={ showBeforeList } footer={ showAfterList } />
+			<WordOccurrences words={ noWords } header={ showBeforeList } introduction={ introductionText } footer={ showAfterList } />
 		);
 
 		const tree = wordOccurrences.toJSON();
