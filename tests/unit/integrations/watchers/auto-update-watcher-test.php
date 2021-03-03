@@ -141,6 +141,12 @@ class Auto_Update_Watcher_Test extends TestCase {
 			->expects( 'get_notification_by_id' )
 			->never();
 
+		if ( ! empty( $plugins_to_auto_update ) ) {
+			$this->product_helper
+				->expects( 'is_premium' )
+				->andReturnFalse();
+		}
+
 		$this->instance->auto_update_notification_even_if_dismissed();
 	}
 
@@ -191,6 +197,10 @@ class Auto_Update_Watcher_Test extends TestCase {
 			->once()
 			->andReturn( 'the_notification_object' );
 
+		$this->product_helper
+			->expects( 'is_premium' )
+			->andReturnFalse();
+
 		$this->instance->auto_update_notification_even_if_dismissed();
 	}
 
@@ -236,6 +246,10 @@ class Auto_Update_Watcher_Test extends TestCase {
 		$this->notification_center
 			->expects( 'add_notification' )
 			->once();
+
+		$this->product_helper
+			->expects( 'is_premium' )
+			->andReturnFalse();
 
 		$this->instance->auto_update_notification_even_if_dismissed();
 	}
@@ -291,6 +305,10 @@ class Auto_Update_Watcher_Test extends TestCase {
 			->expects( 'get_notification_by_id' )
 			->never();
 
+		$this->product_helper
+			->expects( 'is_premium' )
+			->andReturnFalse();
+
 		$this->instance->auto_update_notification_not_if_dismissed();
 	}
 
@@ -332,6 +350,11 @@ class Auto_Update_Watcher_Test extends TestCase {
 			->once()
 			->andReturn( 'the_notification_object' );
 
+		$this->product_helper
+			->expects( 'is_premium' )
+			->twice()
+			->andReturnFalse();
+
 		$this->instance->auto_update_notification_not_if_dismissed();
 	}
 
@@ -371,6 +394,11 @@ class Auto_Update_Watcher_Test extends TestCase {
 		$this->notification_center
 			->expects( 'get_notification_by_id' )
 			->never();
+
+		$this->product_helper
+			->expects( 'is_premium' )
+			->twice()
+			->andReturnFalse();
 
 		$this->instance->auto_update_notification_not_if_dismissed();
 	}

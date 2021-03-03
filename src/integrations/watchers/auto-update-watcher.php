@@ -191,7 +191,19 @@ class Auto_Update_Watcher implements Integration_Interface {
 		}
 
 		// Check if the Yoast SEO plugin file is in the array of plugins for which auto-updates are enabled.
-		return \in_array( 'wordpress-seo/wp-seo.php', $plugins_to_auto_update, true );
+		return \in_array( $this->get_plugin_id(), $plugins_to_auto_update, true );
+	}
+
+	/**
+	 * Get the ID of the currently installed Yoast SEO (Premium) plugin.
+	 *
+	 * @return string The plugin ID.
+	 */
+	protected function get_plugin_id() {
+		if ( $this->product_helper->is_premium() ) {
+			return 'wordpress-seo-premium/wp-seo-premium.php';
+		}
+		return 'wordpress-seo/wp-seo.php';
 	}
 
 	/**
