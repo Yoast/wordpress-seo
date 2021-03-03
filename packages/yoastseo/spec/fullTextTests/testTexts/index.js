@@ -83,6 +83,11 @@ import farsiPaper1 from "./fa/farsiPaper1";
 import farsiPaper2 from "./fa/farsiPaper2";
 import farsiPaper3 from "./fa/farsiPaper3";
 
+// Portuguese papers
+import portuguesePaper1 from "./pt/portuguesePaper1";
+import portuguesePaper2 from "./pt/portuguesePaper2";
+import portuguesePaper3 from "./pt/portuguesePaper3";
+
 export default [
 	englishPaper1,
 	englishPaper2,
@@ -133,5 +138,8 @@ export default [
 	farsiPaper1,
 	farsiPaper2,
 	farsiPaper3,
+	portuguesePaper1,
+	portuguesePaper2,
+	portuguesePaper3,
 ];
 
