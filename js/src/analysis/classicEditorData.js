@@ -151,7 +151,7 @@ export default class ClassicEditorData {
 
 		const content = this.getContent();
 
-		const images = analysis.string.imageInText( content );
+		const images = analysis.languageProcessing.imageInText( content );
 		let image  = "";
 
 		if ( images.length === 0 ) {

@@ -2,6 +2,9 @@
 
 namespace Yoast\WP\SEO\Helpers;
 
+use WPSEO_Language_Utils;
+use Yoast\WP\SEO\Config\Researcher_Languages;
+
 /**
  * A helper object for language features.
  */
@@ -32,5 +35,20 @@ class Language_Helper {
 		$supported_languages = [ 'en', 'de', 'nl', 'fr', 'es', 'it', 'pt', 'ru', 'pl', 'sv', 'id', 'he', 'ar', 'hu', 'nb', 'tr' ];
 
 		return \in_array( $language, $supported_languages, true );
+	}
+
+	/**
+	 * Checks whether we have a specific researcher for the current locale and returns that language.
+	 * If there is no researcher for the current locale, returns default as the researcher.
+	 *
+	 * @return string The language to use to select a researcher.
+	 */
+	public function get_researcher_language() {
+		$researcher_language = WPSEO_Language_Utils::get_language( \get_user_locale() );
+		if ( ! \in_array( $researcher_language, Researcher_Languages::SUPPORTED_LANGUAGES, true ) ) {
+			$researcher_language = 'default';
+		}
+
+		return $researcher_language;
 	}
 }

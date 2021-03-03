@@ -1,6 +1,4 @@
-import analysis from "yoastseo";
-const { removeMarks } = analysis.markers;
-
+import { markers } from "yoastseo";
 import { forEach } from "lodash-es";
 
 var MARK_TAG = "yoastmark";
@@ -35,7 +33,7 @@ function removeInvalidMarks( editor ) {
 function markTinyMCE( editor, paper, marks ) {
 	var dom = editor.dom;
 	var html = editor.getContent();
-	html = removeMarks( html );
+	html = markers.removeMarks( html );
 
 	// Generate marked HTML.
 	forEach( marks, function( mark ) {

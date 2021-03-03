@@ -151,6 +151,9 @@ class WPSEO_Taxonomy {
 			$asset_manager->localize_script( 'term-edit', 'wpseoAdminL10n', WPSEO_Utils::get_admin_l10n() );
 			$asset_manager->localize_script( 'term-edit', 'wpseoFeaturesL10n', WPSEO_Utils::retrieve_enabled_features() );
 
+			$wp_scripts = wp_scripts();
+			$lodash_url_path = ( array_key_exists( 'lodash', $wp_scripts->registered ) ) ? $wp_scripts->registered[ 'lodash' ]->src : '';
+
 			$script_data = [
 				'analysis'         => [
 					'plugins' => [
@@ -171,6 +174,8 @@ class WPSEO_Taxonomy {
 							WPSEO_Admin_Asset::TYPE_JS
 						),
 						'log_level'               => WPSEO_Utils::get_analysis_worker_log_level(),
+						'language'				  => YoastSEO()->helpers->language->get_researcher_language(),
+						'lodashURL'				  => $wp_scripts->base_url . $lodash_url_path,
 					],
 				],
 				'media'            => [
@@ -182,6 +187,7 @@ class WPSEO_Taxonomy {
 				'isTerm'           => true,
 			];
 			$asset_manager->localize_script( 'term-edit', 'wpseoScriptData', $script_data );
+			$asset_manager->enqueue_user_language_script();
 		}
 
 		if ( self::is_term_overview( $pagenow ) ) {

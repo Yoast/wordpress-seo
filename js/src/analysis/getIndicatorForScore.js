@@ -1,5 +1,5 @@
 import { __ } from "@wordpress/i18n";
-import { helpers } from "yoastseo";
+import { interpreters } from "yoastseo";
 import { isNil } from "lodash";
 
 /**
@@ -56,5 +56,5 @@ export default function getIndicatorForScore( score ) {
 		score /= 10;
 	}
 
-	return getIndicatorForRating( helpers.scoreToRating( score ) );
+	return getIndicatorForRating( interpreters.scoreToRating( score ) );
 }

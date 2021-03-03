@@ -2,7 +2,7 @@
 
 /* External dependencies */
 import { get } from "lodash-es";
-import analysis from "yoastseo";
+import { markers } from "yoastseo";
 import { select } from "@wordpress/data";
 
 /* Internal dependencies */
@@ -17,7 +17,6 @@ import isKeywordAnalysisActive from "./isKeywordAnalysisActive";
 
 const { tmceId } = tmceHelper;
 const $ = jQuery;
-const { removeMarks } = analysis.markers;
 const i18n = getI18n();
 
 /**
@@ -117,7 +116,7 @@ PostDataCollector.prototype.getMeta = function() {
  * @returns {string} The text.
  */
 PostDataCollector.prototype.getText = function() {
-	return removeMarks( tmceHelper.getContentTinyMce( tmceId ) );
+	return markers.removeMarks( tmceHelper.getContentTinyMce( tmceId ) );
 };
 
 /**
