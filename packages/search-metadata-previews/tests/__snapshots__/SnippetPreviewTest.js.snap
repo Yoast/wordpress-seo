@@ -205,7 +205,7 @@ exports[`SnippetPreview changes the colors of the description if it was generate
 </section>
 `;
 
-exports[`SnippetPreview highlights a keyword in different morphological forms 1`] = `
+exports[`SnippetPreview highlights keyphrase in desktop mode highlights a keyword in different morphological forms 1`] = `
 .c0 {
   overflow: auto;
   width: 640px;
@@ -422,7 +422,7 @@ exports[`SnippetPreview highlights a keyword in different morphological forms 1`
 </section>
 `;
 
-exports[`SnippetPreview highlights keywords even if they are transliterated 1`] = `
+exports[`SnippetPreview highlights keyphrase in desktop mode highlights keywords even if they are transliterated 1`] = `
 .c0 {
   overflow: auto;
   width: 640px;
@@ -630,7 +630,7 @@ exports[`SnippetPreview highlights keywords even if they are transliterated 1`] 
 </section>
 `;
 
-exports[`SnippetPreview highlights keywords inside the description and url 1`] = `
+exports[`SnippetPreview highlights keyphrase in desktop mode highlights keywords inside the description and url 1`] = `
 .c0 {
   overflow: auto;
   width: 640px;
@@ -838,7 +838,7 @@ exports[`SnippetPreview highlights keywords inside the description and url 1`] =
 </section>
 `;
 
-exports[`SnippetPreview highlights separate words from the keyphrase 1`] = `
+exports[`SnippetPreview highlights keyphrase in desktop mode highlights separate words from the keyphrase 1`] = `
 .c0 {
   overflow: auto;
   width: 640px;
@@ -1181,7 +1181,6 @@ exports[`SnippetPreview mobile mode renders an AMP logo when isAmp is true 1`] =
   <div
     className="c0"
     id="yoast-snippet-preview-container"
-    onMouseLeave={undefined}
     width={null}
   >
     <div
@@ -1401,7 +1400,6 @@ exports[`SnippetPreview mobile mode renders differently than desktop 1`] = `
   <div
     className="c0"
     id="yoast-snippet-preview-container"
-    onMouseLeave={undefined}
     width={null}
   >
     <div
@@ -1618,7 +1616,6 @@ exports[`SnippetPreview renders a SnippetPreview in the default mode 1`] = `
   <div
     className="c0"
     id="yoast-snippet-preview-container"
-    onMouseLeave={undefined}
     width={null}
   >
     <div

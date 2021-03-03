@@ -263,7 +263,6 @@ exports[`SnippetEditor accepts a custom data mapping function 1`] = `
     <div
       className="c4"
       id="yoast-snippet-preview-container"
-      onMouseLeave={undefined}
       width={null}
     >
       <div
@@ -9312,7 +9311,6 @@ exports[`SnippetEditor highlights a focused field 1`] = `
     <div
       className="c4"
       id="yoast-snippet-preview-container"
-      onMouseLeave={undefined}
       width={null}
     >
       <div
@@ -9706,7 +9704,6 @@ exports[`SnippetEditor highlights a hovered field 1`] = `
     <div
       className="c4"
       id="yoast-snippet-preview-container"
-      onMouseLeave={undefined}
       width={null}
     >
       <div
@@ -19536,7 +19533,6 @@ exports[`SnippetEditor passes the date prop 1`] = `
     <div
       className="c4"
       id="yoast-snippet-preview-container"
-      onMouseLeave={undefined}
       width={null}
     >
       <div
@@ -22798,7 +22794,6 @@ exports[`SnippetEditor renders the snippet editor without a close button when sh
     <div
       className="c4"
       id="yoast-snippet-preview-container"
-      onMouseLeave={undefined}
       width={null}
     >
       <div
@@ -23209,7 +23204,6 @@ exports[`SnippetEditor shows the editor 1`] = `
     <div
       className="c4"
       id="yoast-snippet-preview-container"
-      onMouseLeave={undefined}
       width={null}
     >
       <div
