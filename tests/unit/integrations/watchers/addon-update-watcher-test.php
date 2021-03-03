@@ -336,6 +336,10 @@ class Addon_Update_Watcher_Test extends TestCase {
 			->expects( 'is_premium' )
 			->andReturnFalse();
 
+		$this->product_helper
+			->expects( 'get_product_name' )
+			->andReturn( 'Yoast SEO' );
+
 		$new_html = $this->instance->replace_auto_update_toggles_of_addons(
 			$old_html,
 			$plugin
@@ -365,6 +369,10 @@ class Addon_Update_Watcher_Test extends TestCase {
 		$this->product_helper
 			->expects( 'is_premium' )
 			->andReturnFalse();
+
+		$this->product_helper
+			->expects( 'get_product_name' )
+			->andReturn( 'Yoast SEO' );
 
 		$new_html = $this->instance->replace_auto_update_toggles_of_addons(
 			$old_html,

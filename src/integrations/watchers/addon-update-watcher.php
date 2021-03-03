@@ -112,7 +112,7 @@ class Addon_Update_Watcher implements Integration_Interface {
 				\sprintf(
 					/* Translators: %1$s resolves to Yoast SEO. */
 					\esc_html__( 'Auto-updates are enabled based on this setting for %1$s.', 'wordpress-seo' ),
-					'Yoast SEO'
+					$this->product_helper->get_product_name()
 				)
 			);
 		}
@@ -122,7 +122,7 @@ class Addon_Update_Watcher implements Integration_Interface {
 			\sprintf(
 				/* Translators: %1$s resolves to Yoast SEO. */
 				\esc_html__( 'Auto-updates are disabled based on this setting for %1$s.', 'wordpress-seo' ),
-				'Yoast SEO'
+				$this->product_helper->get_product_name()
 			)
 		);
 	}

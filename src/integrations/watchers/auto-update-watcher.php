@@ -37,17 +37,27 @@ class Auto_Update_Watcher implements Integration_Interface {
 	protected $notification_helper;
 
 	/**
+	 * The product helper.
+	 *
+	 * @var Product_Helper
+	 */
+	protected $product_helper;
+
+	/**
 	 * Auto_Update constructor.
 	 *
 	 * @param Yoast_Notification_Center $notification_center The notification center.
 	 * @param Notification_Helper       $notification_helper The notification helper.
+	 * @param Product_Helper            $product_helper      The product helper.
 	 */
 	public function __construct(
 		Yoast_Notification_Center $notification_center,
-		Notification_Helper $notification_helper
+		Notification_Helper $notification_helper,
+		Product_Helper $product_helper
 	) {
 		$this->notification_center = $notification_center;
 		$this->notification_helper = $notification_helper;
+		$this->product_helper      = $product_helper;
 	}
 
 	/**
@@ -190,7 +200,7 @@ class Auto_Update_Watcher implements Integration_Interface {
 	 * @return Yoast_Notification The notification to show.
 	 */
 	protected function notification() {
-		$presenter = new Auto_Update_Notification_Presenter();
+		$presenter = new Auto_Update_Notification_Presenter( $this->product_helper );
 
 		return new Yoast_Notification(
 			$presenter,
