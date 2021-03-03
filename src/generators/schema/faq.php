@@ -50,7 +50,7 @@ class FAQ extends Abstract_Schema_Piece {
 	 * @return array $data Our Schema graph.
 	 */
 	public function generate() {
-		$graph           = [];
+		$graph = [];
 
 		foreach ( $this->context->blocks['yoast/faq-block'] as $block ) {
 			foreach ( $block['attrs']['questions'] as $index => $question ) {
