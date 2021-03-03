@@ -714,7 +714,7 @@ export default class SnippetPreview extends PureComponent {
 							</MobileDescriptionImageContainer>
 						}
 						{ renderedDate }
-						{ highlightWords( locale, wordsToHighlight, this.getDescription() ) }
+						{ this.getDescription() }
 					</MobileDescription>
 				</MobileDescriptionWithCaret>
 			);
@@ -757,7 +757,6 @@ export default class SnippetPreview extends PureComponent {
 			<section>
 				<Container
 					id="yoast-snippet-preview-container"
-					onMouseLeave={ this.onMouseLeave }
 					/*
 					 * MobileContainer doesn't use the width prop: avoid to
 					 * render an invalid `width` HTML attribute on the DOM node.

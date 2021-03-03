@@ -1,8 +1,8 @@
-import SnippetPreview from "../src/snippet-preview/SnippetPreview";
-import { MODE_DESKTOP, MODE_MOBILE } from "../src/snippet-preview/constants";
+import { mount } from "enzyme";
 import React from "react";
 import renderer from "react-test-renderer";
-import { mount } from "enzyme";
+import { MODE_DESKTOP, MODE_MOBILE } from "../src/snippet-preview/constants";
+import SnippetPreview from "../src/snippet-preview/SnippetPreview";
 
 const defaultArgs = {
 	description: "Description",
@@ -75,33 +75,39 @@ describe( "SnippetPreview", () => {
 		renderSnapshotWithArgs( { activeField: "url" } );
 	} );
 
-	it( "highlights keywords inside the description and url", () => {
-		renderSnapshotWithArgs( {
-			description: "Something with a keyword",
-			url: "https://example.org/this-keyword-url",
-			wordsToHighlight: [ "keyword" ],
+	describe( "highlights keyphrase in desktop mode", () => {
+		it( "highlights keywords inside the description and url", () => {
+			renderSnapshotWithArgs( {
+				mode: MODE_DESKTOP,
+				description: "Something with a keyword",
+				url: "https://example.org/this-keyword-url",
+				wordsToHighlight: [ "keyword" ],
+			} );
 		} );
-	} );
 
-	it( "highlights keywords even if they are transliterated", () => {
-		renderSnapshotWithArgs( {
-			description: "Something with a transliterated kaayword",
-			wordsToHighlight: [ "kåyword" ],
-			locale: "da_DK",
+		it( "highlights keywords even if they are transliterated", () => {
+			renderSnapshotWithArgs( {
+				mode: MODE_DESKTOP,
+				description: "Something with a transliterated kaayword",
+				wordsToHighlight: [ "kåyword" ],
+				locale: "da_DK",
+			} );
 		} );
-	} );
 
-	it( "highlights a keyword in different morphological forms", () => {
-		renderSnapshotWithArgs( {
-			description: "She runs every day and every run is longer than the previous. Running makes her happy.",
-			wordsToHighlight: [ "run", "runs", "running" ],
+		it( "highlights a keyword in different morphological forms", () => {
+			renderSnapshotWithArgs( {
+				mode: MODE_DESKTOP,
+				description: "She runs every day and every run is longer than the previous. Running makes her happy.",
+				wordsToHighlight: [ "run", "runs", "running" ],
+			} );
 		} );
-	} );
 
-	it( "highlights separate words from the keyphrase", () => {
-		renderSnapshotWithArgs( {
-			description: "She runs every day and every run is longer than the previous. Running makes her happy.",
-			wordsToHighlight: [ "run", "runs", "running", "every" ],
+		it( "highlights separate words from the keyphrase", () => {
+			renderSnapshotWithArgs( {
+				mode: MODE_DESKTOP,
+				description: "She runs every day and every run is longer than the previous. Running makes her happy.",
+				wordsToHighlight: [ "run", "runs", "running", "every" ],
+			} );
 		} );
 	} );
 
