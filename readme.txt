@@ -237,6 +237,10 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 = 15.9.1 =
 Release Date: March 9th, 2021
 
+Enhancements:
+
+* Removes `mainEntityOfPage` from our FAQ Schema block output and moves it to `mainEntity` on the `WebPage` output, fixing a Google parse issue with those FAQ blocks.
+
 Other:
 
 * Adds a notification to prompt users to enable auto-updates for Yoast SEO, in case they also have auto-updates for WordPress Core enabled.
