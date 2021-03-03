@@ -1,8 +1,8 @@
 /* global describe it expect */
 import getKeywordDensity from "../../../src/languageProcessing/researches/getKeywordDensity.js";
 import Paper from "../../../src/values/Paper.js";
-import EnglishResearcher from "../../../src/languageProcessing/languages/en/researcher";
-import DefaultResearcher from "../../../src/languageProcessing/languages/_default/researcher";
+import EnglishResearcher from "../../../src/languageProcessing/languages/en/Researcher";
+import DefaultResearcher from "../../../src/languageProcessing/languages/_default/Researcher";
 import getMorphologyData from "../../specHelpers/getMorphologyData";
 
 const morphologyDataEN = getMorphologyData( "en" ).en;
