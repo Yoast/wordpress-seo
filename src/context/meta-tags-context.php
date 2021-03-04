@@ -24,27 +24,28 @@ use Yoast\WP\SEO\Repositories\Indexable_Repository;
  *
  * Class that contains all relevant data for rendering the meta tags.
  *
- * @property string      $canonical
- * @property string      $title
- * @property string      $description
- * @property string      $id
- * @property string      $site_name
- * @property string      $wordpress_site_name
- * @property string      $site_url
- * @property string      $company_name
- * @property int         $company_logo_id
- * @property array       $company_logo_meta
- * @property int         $person_logo_id
- * @property array       $person_logo_meta
- * @property int         $site_user_id
- * @property string      $site_represents
- * @property array|false $site_represents_reference
- * @property string      schema_page_type
- * @property string      $main_schema_id
- * @property bool        $open_graph_enabled
- * @property string      $open_graph_publisher
- * @property string      $twitter_card
- * @property string      $page_type
+ * @property string       $canonical
+ * @property string       $title
+ * @property string       $description
+ * @property string       $id
+ * @property string       $site_name
+ * @property string       $wordpress_site_name
+ * @property string       $site_url
+ * @property string       $company_name
+ * @property int          $company_logo_id
+ * @property array        $company_logo_meta
+ * @property int          $person_logo_id
+ * @property array        $person_logo_meta
+ * @property int          $site_user_id
+ * @property string       $site_represents
+ * @property array|false  $site_represents_reference
+ * @property string       schema_page_type
+ * @property string       $main_schema_id
+ * @property string|array $main_entity_of_page
+ * @property bool         $open_graph_enabled
+ * @property string       $open_graph_publisher
+ * @property string       $twitter_card
+ * @property string       $page_type
  */
 class Meta_Tags_Context extends Abstract_Presentation {
 

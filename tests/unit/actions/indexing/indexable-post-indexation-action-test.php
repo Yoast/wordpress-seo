@@ -81,15 +81,14 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 	public function test_get_total_unindexed() {
 		$limit_placeholder = '';
 		$expected_query    = "
-			SELECT COUNT(ID)
-			FROM wp_posts
-			WHERE ID NOT IN (
-				SELECT object_id
-				FROM wp_yoast_indexable
-				WHERE object_type = 'post'
-				AND permalink_hash IS NOT NULL
-			)
-			AND post_type IN (%s)
+			SELECT COUNT(P.ID)
+			FROM wp_posts as P
+			LEFT JOIN wp_yoast_indexable AS I 
+				ON P.ID = I.object_id 
+				AND I.object_type = 'post' 
+				AND I.permalink_hash IS NOT NULL
+			WHERE I.object_id is Null 
+				AND P.post_type IN (%s)
 			$limit_placeholder";
 
 		Functions\expect( 'get_transient' )->once()->with( 'wpseo_total_unindexed_posts' )->andReturnFalse();
@@ -155,15 +154,14 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 
 		$limit_placeholder = '';
 		$expected_query    = "
-			SELECT COUNT(ID)
-			FROM wp_posts
-			WHERE ID NOT IN (
-				SELECT object_id
-				FROM wp_yoast_indexable
-				WHERE object_type = 'post'
-				AND permalink_hash IS NOT NULL
-			)
-			AND post_type IN (%s)
+			SELECT COUNT(P.ID)
+			FROM wp_posts as P
+			LEFT JOIN wp_yoast_indexable AS I 
+				ON P.ID = I.object_id 
+				AND I.object_type = 'post' 
+				AND I.permalink_hash IS NOT NULL
+			WHERE I.object_id is Null 
+				AND P.post_type IN (%s)
 			$limit_placeholder";
 
 		Functions\expect( 'get_transient' )->once()->with( 'wpseo_total_unindexed_posts' )->andReturnFalse();
@@ -191,17 +189,16 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 	 * @covers ::get_post_types
 	 */
 	public function test_index() {
-		$expected_query = '
-			SELECT ID
-			FROM wp_posts
-			WHERE ID NOT IN (
-				SELECT object_id
-				FROM wp_yoast_indexable
-				WHERE object_type = \'post\'
-				AND permalink_hash IS NOT NULL
-			)
-			AND post_type IN (%s)
-			LIMIT %d';
+		$expected_query = "
+			SELECT P.ID
+			FROM wp_posts as P
+			LEFT JOIN wp_yoast_indexable AS I 
+				ON P.ID = I.object_id 
+				AND I.object_type = 'post' 
+				AND I.permalink_hash IS NOT NULL
+			WHERE I.object_id is Null 
+				AND P.post_type IN (%s)
+			LIMIT %d";
 
 		Filters\expectApplied( 'wpseo_post_indexation_limit' )->andReturn( 25 );
 
@@ -274,17 +271,16 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 		$public_post_types   = [ 'public_post_type', 'excluded_post_type' ];
 		$excluded_post_types = [ 'excluded_post_type' ];
 
-		$expected_query = '
-			SELECT ID
-			FROM wp_posts
-			WHERE ID NOT IN (
-				SELECT object_id
-				FROM wp_yoast_indexable
-				WHERE object_type = \'post\'
-				AND permalink_hash IS NOT NULL
-			)
-			AND post_type IN (%s)
-			LIMIT %d';
+		$expected_query = "
+			SELECT P.ID
+			FROM wp_posts as P
+			LEFT JOIN wp_yoast_indexable AS I 
+				ON P.ID = I.object_id 
+				AND I.object_type = 'post' 
+				AND I.permalink_hash IS NOT NULL
+			WHERE I.object_id is Null 
+				AND P.post_type IN (%s)
+			LIMIT %d";
 
 		Filters\expectApplied( 'wpseo_post_indexation_limit' )->andReturn( 25 );
 
