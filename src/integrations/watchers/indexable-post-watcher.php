@@ -201,7 +201,8 @@ class Indexable_Post_Watcher implements Integration_Interface {
 			$post = $this->post->get_post( $post_id );
 
 			// Build links for this post.
-			if ( $post && $indexable && $post->post_status === 'publish' ) {
+			$public_post_statuses = \array_values( \get_post_stati( [ 'public' => true ] ) );
+			if ( $post && $indexable && \in_array( $post->post_status, $public_post_statuses, true ) ) {
 				$this->link_builder->build( $indexable, $post->post_content );
 				// Save indexable to persist the updated link count.
 				$indexable->save();
