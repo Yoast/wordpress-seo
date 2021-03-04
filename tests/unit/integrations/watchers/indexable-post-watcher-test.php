@@ -195,17 +195,14 @@ class Indexable_Post_Watcher_Test extends TestCase {
 	 * Tests the save meta functionality.
 	 *
 	 * @covers ::build_indexable
-	 * @covers ::is_post_indexable
 	 */
 	public function test_build_indexable() {
 		$post_id      = 1;
 		$post_content = '<p>A post with a <a href="https://example.com/post-2">a link</a>.</p>';
 		$post         = (object) [
 			'post_content' => $post_content,
+			'post_status'  => 'publish',
 		];
-
-		Monkey\Functions\expect( 'wp_is_post_revision' )->once()->with( $post_id )->andReturn( false );
-		Monkey\Functions\expect( 'wp_is_post_autosave' )->once()->with( $post_id )->andReturn( false );
 
 		$indexable_mock = Mockery::mock( Indexable_Mock::class );
 
@@ -232,6 +229,12 @@ class Indexable_Post_Watcher_Test extends TestCase {
 			->with( $post_id )
 			->andReturn( $post );
 
+		$this->post
+			->expects( 'is_post_indexable' )
+			->once()
+			->with( $post_id )
+			->andReturn( true );
+
 		$this->link_builder
 			->expects( 'build' )
 			->once()
@@ -244,27 +247,15 @@ class Indexable_Post_Watcher_Test extends TestCase {
 	 * Tests the early return for non-indexable post.
 	 *
 	 * @covers ::build_indexable
-	 * @covers ::is_post_indexable
 	 */
-	public function test_build_indexable_is_post_revision() {
+	public function test_build_indexable_is_not_indexable() {
 		$id = 1;
 
-		Monkey\Functions\expect( 'wp_is_post_revision' )->once()->with( $id )->andReturn( true );
-
-		$this->instance->build_indexable( $id );
-	}
-
-	/**
-	 * Tests the early return for non-indexable post.
-	 *
-	 * @covers ::build_indexable
-	 * @covers ::is_post_indexable
-	 */
-	public function test_build_indexable_is_post_autosave() {
-		$id = 1;
-
-		Monkey\Functions\expect( 'wp_is_post_revision' )->once()->with( $id )->andReturn( false );
-		Monkey\Functions\expect( 'wp_is_post_autosave' )->once()->with( $id )->andReturn( true );
+		$this->post
+			->expects( 'is_post_indexable' )
+			->once()
+			->with( $id )
+			->andReturn( false );
 
 		$this->instance->build_indexable( $id );
 	}
@@ -304,7 +295,7 @@ class Indexable_Post_Watcher_Test extends TestCase {
 			->once()
 			->andReturnFalse();
 
-		$this->instance
+		$this->post
 			->expects( 'is_post_indexable' )
 			->with( $post_id )
 			->once()
@@ -333,10 +324,14 @@ class Indexable_Post_Watcher_Test extends TestCase {
 		$post_content = '<p>A post with a <a href="https://example.com/post-2">a link</a>.</p>';
 		$post         = (object) [
 			'post_content' => $post_content,
+			'post_status'  => 'publish',
 		];
 
-		Monkey\Functions\expect( 'wp_is_post_revision' )->once()->with( $post_id )->andReturn( false );
-		Monkey\Functions\expect( 'wp_is_post_autosave' )->once()->with( $post_id )->andReturn( false );
+		$this->post
+			->expects( 'is_post_indexable' )
+			->with( $post_id )
+			->once()
+			->andReturnTrue();
 
 		$indexable_mock = Mockery::mock( Indexable_Mock::class );
 		$indexable_mock->expects( 'save' )->once();
