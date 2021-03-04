@@ -222,6 +222,10 @@ class WPSEO_Addon_Manager {
 			if ( version_compare( $installed_plugin['Version'], $subscription->product->version, '<' ) ) {
 				$data->response[ $plugin_file ] = $this->convert_subscription_to_plugin( $subscription );
 			}
+			else {
+				// Still convert subscription when no updates is available.
+				$data->no_update[ $plugin_file ] = $this->convert_subscription_to_plugin( $subscription );
+			}
 		}
 
 		return $data;
