@@ -11,28 +11,25 @@ import { map } from "lodash-es";
 import { findIndex } from "lodash-es";
 import { find } from "lodash-es";
 
-var ScoreRating = 9;
+const ScoreRating = 9;
 
 /**
  * Creates the Assessor.
  *
- * @param {Object} i18n The i18n object used for translations.
- * @param {Object} options The options for this assessor.
- * @param {Object} options.marker The marker to pass the list of marks to.
- * @param {Object} options.researcher The researcher to use in the assessor.
+ * @param {Object} i18n             The i18n object used for translations.
+ * @param {Object} researcher       The researcher to use in the assessor.
+ * @param {Object} options          The options for this assessor.
+ * @param {Object} options.marker   The marker to pass the list of marks to.
  *
  * @constructor
  */
-var Assessor = function( i18n, options ) {
+const Assessor = function( i18n, researcher, options ) {
 	this.type = "Assessor";
 	this.setI18n( i18n );
+	this.setResearcher( researcher );
 	this._assessments = [];
 
 	this._options = options || {};
-
-	if ( ! isUndefined( this._options.researcher ) ) {
-		this._researcher = this._options.researcher;
-	}
 };
 
 /**
@@ -47,6 +44,21 @@ Assessor.prototype.setI18n = function( i18n ) {
 		throw new MissingArgument( "The assessor requires an i18n object." );
 	}
 	this.i18n = i18n;
+};
+
+/**
+ * Checks if the researcher is defined and sets it.
+ *
+ * @param   {Object}            researcher  The i18n object used for translations.
+ *
+ * @throws  {MissingArgument} Parameter needs to be a valid researcher object.
+ * @returns {void}
+ */
+Assessor.prototype.setResearcher = function( researcher ) {
+	if ( isUndefined( researcher ) ) {
+		throw new MissingArgument( "The assessor requires a researcher." );
+	}
+	this._researcher = researcher;
 };
 
 /**

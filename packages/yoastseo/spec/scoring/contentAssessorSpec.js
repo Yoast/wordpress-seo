@@ -9,13 +9,13 @@ import { forEach } from "lodash-es";
 
 const i18n = Factory.buildJed();
 
-describe( "A content assesor", function() {
+describe( "A content assessor", function() {
 	describe( "calculatePenaltyPoints", function() {
 		let contentAssessor;
 		let results;
 		const paper = new Paper();
 		beforeEach( function() {
-			contentAssessor = new ContentAssessor( i18n, { locale: "en_US", researcher: new EnglishResearcher( paper ) } );
+			contentAssessor = new ContentAssessor( i18n, new EnglishResearcher( paper ) );
 			contentAssessor.getValidResults = function() {
 				return results;
 			};
@@ -101,7 +101,7 @@ describe( "A content assesor", function() {
 		let points, results, contentAssessor;
 
 		beforeEach( function() {
-			contentAssessor = new ContentAssessor( i18n, { locale: "en_US", researcher: new EnglishResearcher() } );
+			contentAssessor = new ContentAssessor( i18n, new EnglishResearcher() );
 			contentAssessor.getValidResults = function() {
 				return results;
 			};
@@ -155,7 +155,7 @@ describe( "A content assesor", function() {
 		let points, results, contentAssessor;
 
 		beforeEach( function() {
-			contentAssessor = new ContentAssessor( i18n, { locale: "en_US", researcher: new EnglishResearcher() } );
+			contentAssessor = new ContentAssessor( i18n, new EnglishResearcher() );
 			contentAssessor.getValidResults = function() {
 				return results;
 			};
@@ -192,7 +192,7 @@ describe( "A content assesor", function() {
 	describe( "Checks the applicable assessments", function() {
 		it( "Should have 8 available assessments for a fully supported language", function() {
 			const paper = new Paper( "test", { locale: "en_US" } );
-			const contentAssessor = new ContentAssessor( i18n, { researcher: new EnglishResearcher( paper ) } );
+			const contentAssessor = new ContentAssessor( i18n, new EnglishResearcher( paper ) );
 
 			contentAssessor.getPaper = function() {
 				return paper;
@@ -204,7 +204,7 @@ describe( "A content assesor", function() {
 
 		it( "Should have 4 available assessments for a basic supported language", function() {
 			const paper = new Paper( "test", { locale: "xx_XX" } );
-			const contentAssessor = new ContentAssessor( i18n, { researcher: new DefaultResearcher( paper ) } );
+			const contentAssessor = new ContentAssessor( i18n, new DefaultResearcher( paper ) );
 
 			contentAssessor.getPaper = function() {
 				return paper;
