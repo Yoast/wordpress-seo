@@ -9,7 +9,7 @@ import { __ } from "@wordpress/i18n";
 
 // Yoast dependencies.
 import { colors, angleLeft, angleRight } from "@yoast/style-guide";
-import { string } from "yoastseo";
+import { languageProcessing } from "yoastseo";
 import { getDirectionalStyle } from "@yoast/helpers";
 import { ScreenReaderText } from "@yoast/components";
 
@@ -17,7 +17,7 @@ const {
 	transliterate,
 	createRegexFromArray,
 	replaceDiacritics: replaceSpecialCharactersAndDiacritics,
-} = string;
+} = languageProcessing;
 
 // Internal dependencies.
 import FixedWidthContainer from "./FixedWidthContainer";
@@ -30,9 +30,10 @@ import { DEFAULT_MODE, MODE_DESKTOP, MODE_MOBILE, MODES } from "./constants";
 // Was #1e0fbe
 const colorTitleDesktop         = "#1a0dab";
 const colorTitleMobile          = "#1967d2";
-const colorUrlDesktop           = "#006621";
+const colorUrlBaseDesktop       = "#202124";
+const colorUrlRestDesktop       = "#5f6368";
 const colorUrlMobile            = "#3c4043";
-const colorDescriptionDesktop   = "#545454";
+const colorDescriptionDesktop   = "#4d5156";
 const colorDescriptionMobile    = "#3c4043";
 // Changed to have 4.5:1 contrast.
 const colorGeneratedDescription = "#767676";
@@ -48,7 +49,10 @@ const fontSizeTitleDesktop   = "20px";
 const lineHeightTitleDesktop = "1.3";
 
 const fontSizeUrlMobile      = "12px";
-const fontSizeUrlDesktop     = "16px";
+const lineHeightUrlMobile    = "20px";
+
+const fontSizeUrlDesktop     = "14px";
+const lineHeightUrlDesktop   = "1.3";
 
 
 const MAX_WIDTH         = 600;
@@ -159,7 +163,12 @@ const BaseUrlOverflowContainer = styled( BaseUrl )`
 
 const UrlContentContainer = styled.span`
 	font-size: ${ props => props.screenMode === MODE_DESKTOP ? fontSizeUrlDesktop : fontSizeUrlMobile };
-	color: ${ props => props.screenMode === MODE_DESKTOP ? colorUrlDesktop : colorUrlMobile };
+	line-height: ${ props => props.screenMode === MODE_DESKTOP ? lineHeightUrlDesktop : lineHeightUrlMobile };
+	color: ${ props => props.screenMode === MODE_DESKTOP ? colorUrlRestDesktop : colorUrlMobile };
+`;
+
+const UrlBaseContainer = styled.span`
+	color: ${ props => props.screenMode === MODE_DESKTOP ? colorUrlBaseDesktop : colorUrlMobile };
 `;
 
 BaseUrlOverflowContainer.displayName = "SnippetPreview__BaseUrlOverflowContainer";
@@ -171,7 +180,7 @@ const DesktopDescription = styled.div`
 	max-width: ${ MAX_WIDTH }px;
 	padding-top: ${ props => props.screenMode === MODE_DESKTOP ? "0" : "1px" };
 	font-size: 14px;
-	line-height: 1.57;
+	line-height: 1.58;
 `;
 
 const MobileDescription = styled.div`
@@ -224,7 +233,7 @@ const UrlDownArrow = styled.div`
 	display: inline-block;
 	margin-top: 9px;
 	margin-left: 6px;
-	border-top: 5px solid #006621;
+	border-top: 5px solid #70757a;
 	border-right: 4px solid transparent;
 	border-left: 4px solid transparent;
 	vertical-align: top;
@@ -325,16 +334,6 @@ function highlightWords( locale, wordsToHighlight, text, cleanText ) {
 		mixedString: textToUse,
 		components: { strong: <strong /> },
 	} );
-}
-
-/**
- * Returns if a url has a trailing slash or not.
- *
- * @param {string} url The url to check for a trailing slash.
- * @returns {boolean} Whether or not the url contains a trailing slash.
- */
-function hasTrailingSlash( url ) {
-	return url.lastIndexOf( "/" ) === ( url.length - 1 );
 }
 
 /**
@@ -524,7 +523,8 @@ export default class SnippetPreview extends PureComponent {
 	 * Returns the breadcrumbs string to be rendered.
 	 *
 	 * @param {string} url The url to use to build the breadcrumbs.
-	 * @returns {string} The breadcrumbs.
+	 *
+	 * @returns {{hostname: string, breadcrumbs: string}} An Object with the hostPart and the breadcrumbs.
 	 */
 	getBreadcrumbs( url ) {
 		const { breadcrumbs } = this.props;
@@ -534,15 +534,13 @@ export default class SnippetPreview extends PureComponent {
 		 */
 		const cleanEncodedUrl = encodeURI( url.replace( /\?|#/g, "" ) );
 
-		const { protocol, hostname, pathname } = parse( cleanEncodedUrl );
-
-		const hostPart = protocol === "https:" ? protocol + "//" + hostname : hostname;
+		const { hostname, pathname } = parse( cleanEncodedUrl );
 
 		const urlParts = breadcrumbs || pathname.split( "/" );
 
-		const breadCrumbs = [ hostPart, ...urlParts ].filter( part => !! part ).join( " › " );
+		const breadCrumbs = " › " + urlParts.filter( part => !! part ).join( " › " );
 
-		return decodeURI( breadCrumbs );
+		return { hostname: decodeURI( hostname ), breadcrumbs: decodeURI( breadCrumbs ) };
 	}
 
 	/**
@@ -568,15 +566,9 @@ export default class SnippetPreview extends PureComponent {
 		 * returns an array of strings plus a strong React element, and replace()
 		 * can't run on an array.
 		 */
-		let urlContent = replaceSpecialCharactersAndDiacritics( url );
+		const urlContent = replaceSpecialCharactersAndDiacritics( url );
 
-		if ( isMobileMode ) {
-			urlContent = this.getBreadcrumbs( urlContent );
-		} else {
-			if ( ! hasTrailingSlash( urlContent ) ) {
-				urlContent = urlContent + "/";
-			}
-		}
+		const { hostname, breadcrumbs } = this.getBreadcrumbs( urlContent );
 
 		const Url = this.addCaretStyles( "url", BaseUrl );
 		/*
@@ -599,7 +591,8 @@ export default class SnippetPreview extends PureComponent {
 					<UrlContentContainer
 						screenMode={ mode }
 					>
-						{ urlContent }
+						<UrlBaseContainer>{ hostname }</UrlBaseContainer>
+						{ breadcrumbs }
 					</UrlContentContainer>
 				</BaseUrlOverflowContainer>
 			</Url>
@@ -721,7 +714,7 @@ export default class SnippetPreview extends PureComponent {
 							</MobileDescriptionImageContainer>
 						}
 						{ renderedDate }
-						{ highlightWords( locale, wordsToHighlight, this.getDescription() ) }
+						{ this.getDescription() }
 					</MobileDescription>
 				</MobileDescriptionWithCaret>
 			);
@@ -764,7 +757,6 @@ export default class SnippetPreview extends PureComponent {
 			<section>
 				<Container
 					id="yoast-snippet-preview-container"
-					onMouseLeave={ this.onMouseLeave }
 					/*
 					 * MobileContainer doesn't use the width prop: avoid to
 					 * render an invalid `width` HTML attribute on the DOM node.
@@ -773,7 +765,8 @@ export default class SnippetPreview extends PureComponent {
 					padding={ WIDTH_PADDING }
 				>
 					<PartContainer>
-						{ ! isDesktopMode && this.renderUrl() }
+						{ this.renderUrl() }
+						{ downArrow }
 						<ScreenReaderText>
 							{ __( "SEO title preview", "yoast-components" ) + ":" }
 						</ScreenReaderText>
@@ -789,8 +782,6 @@ export default class SnippetPreview extends PureComponent {
 							</TitleBounded>
 						</SnippetTitle>
 						{ amp }
-						{ isDesktopMode && this.renderUrl() }
-						{ downArrow }
 					</PartContainer>
 					<PartContainer>
 						<ScreenReaderText>

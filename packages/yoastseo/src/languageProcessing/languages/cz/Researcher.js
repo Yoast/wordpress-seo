@@ -4,6 +4,8 @@ import AbstractResearcher from "../../AbstractResearcher";
 import firstWordExceptions from "./config/firstWordExceptions";
 import stopWords from "./config/stopWords";
 import { all as functionWords } from "./config/functionWords";
+import transitionWords from "./config/transitionWords";
+import twoPartTransitionWords from "./config/twoPartTransitionWords";
 
 // All helpers
 import getSentenceParts from "./helpers/getSentenceParts";
@@ -26,6 +28,8 @@ export default class Researcher extends AbstractResearcher {
 			firstWordExceptions,
 			stopWords,
 			functionWords,
+			transitionWords,
+			twoPartTransitionWords,
 		} );
 
 		Object.assign( this.helpers, {
