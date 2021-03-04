@@ -88,15 +88,15 @@ class Addon_Update_Watcher_Test extends TestCase {
 	}
 
 	/**
-	 * Tests that auto updates for add-ons are disabled when auto updates
-	 * for Free are disabled.
+	 * Tests that auto updates for add-ons are ensabled when auto updates
+	 * for Free are ensabled.
 	 *
 	 * @covers ::toggle_auto_updates_for_add_ons
 	 * @covers ::are_auto_updates_enabled
 	 * @covers ::disable_auto_updates_for_addons
 	 * @covers ::enable_auto_updates_for_addons
 	 */
-	public function test_disable_auto_updates_for_add_ons_on_free_auto_update_disable() {
+	public function test_enable_auto_updates_for_add_ons_on_free_auto_update_enable() {
 		$old = [ 'other-plugin/plugin.php' ];
 		$new = [ 'other-plugin/plugin.php', 'wordpress-seo/wp-seo.php' ];
 
@@ -105,15 +105,15 @@ class Addon_Update_Watcher_Test extends TestCase {
 			'wordpress-seo/wp-seo.php',
 			'wordpress-seo-premium/wp-seo-premium.php',
 			'wpseo-video/video-seo.php',
-			'wordpress-seo-local/local-seo.php',
+			'wpseo-local/local-seo.php',
 			'wpseo-woocommerce/wpseo-woocommerce.php',
 			'wpseo-news/wpseo-news.php',
-			'yoast-acf-analysis/yoast-acf-analysis.php',
 		];
 
 		Monkey\Functions\expect( 'update_option' )
+			->once()
 			->with( 'auto_update_plugins', $option )
-			->once();
+			->andReturn( true );
 
 		$this->instance->toggle_auto_updates_for_add_ons(
 			$old,
@@ -130,13 +130,13 @@ class Addon_Update_Watcher_Test extends TestCase {
 	 * @covers ::enable_auto_updates_for_addons
 	 * @covers ::disable_auto_updates_for_addons
 	 */
-	public function test_enable_auto_updates_for_add_ons_on_free_auto_update_enable() {
+	public function test_disable_auto_updates_for_add_ons_on_free_auto_update_disable() {
 		$old = [
 			'other-plugin/plugin.php',
 			'wordpress-seo/wp-seo.php',
 			'wordpress-seo-premium/wp-seo-premium.php',
 			'wpseo-video/video-seo.php',
-			'wordpress-seo-local/local-seo.php',
+			'wpseo-local/local-seo.php',
 			'wpseo-woocommerce/wpseo-woocommerce.php',
 			'wpseo-news/wpseo-news.php',
 			'yoast-acf-analysis/yoast-acf-analysis.php',
@@ -145,7 +145,7 @@ class Addon_Update_Watcher_Test extends TestCase {
 			'other-plugin/plugin.php',
 			'wordpress-seo-premium/wp-seo-premium.php',
 			'wpseo-video/video-seo.php',
-			'wordpress-seo-local/local-seo.php',
+			'wpseo-local/local-seo.php',
 			'wpseo-woocommerce/wpseo-woocommerce.php',
 			'wpseo-news/wpseo-news.php',
 			'yoast-acf-analysis/yoast-acf-analysis.php',
@@ -153,11 +153,12 @@ class Addon_Update_Watcher_Test extends TestCase {
 
 		$option = [
 			'other-plugin/plugin.php',
+			'yoast-acf-analysis/yoast-acf-analysis.php',
 		];
 
 		Monkey\Functions\expect( 'update_option' )
-			->with( 'auto_update_plugins', $option )
-			->once();
+			->once()
+			->with( 'auto_update_plugins', $option );
 
 		$this->instance->toggle_auto_updates_for_add_ons(
 			$old,
@@ -179,7 +180,7 @@ class Addon_Update_Watcher_Test extends TestCase {
 			'other-plugin/plugin.php',
 			'wordpress-seo-premium/wp-seo-premium.php',
 			'wpseo-video/video-seo.php',
-			'wordpress-seo-local/local-seo.php',
+			'wpseo-local/local-seo.php',
 			'wpseo-woocommerce/wpseo-woocommerce.php',
 			'wpseo-news/wpseo-news.php',
 			'yoast-acf-analysis/yoast-acf-analysis.php',
@@ -187,7 +188,7 @@ class Addon_Update_Watcher_Test extends TestCase {
 		$new = [
 			'wordpress-seo-premium/wp-seo-premium.php',
 			'wpseo-video/video-seo.php',
-			'wordpress-seo-local/local-seo.php',
+			'wpseo-local/local-seo.php',
 			'wpseo-woocommerce/wpseo-woocommerce.php',
 			'wpseo-news/wpseo-news.php',
 			'yoast-acf-analysis/yoast-acf-analysis.php',
@@ -245,7 +246,7 @@ class Addon_Update_Watcher_Test extends TestCase {
 			'wordpress-seo-premium/wp-seo-premium.php'
 		);
 
-		self::assertEquals( $old_html, $new_html );
+		self::assertEquals( '<em>Auto-updates are disabled based on this setting for Yoast SEO.</em>', $new_html );
 	}
 
 	/**
@@ -266,7 +267,7 @@ class Addon_Update_Watcher_Test extends TestCase {
 			'wordpress-seo-premium/wp-seo-premium.php'
 		);
 
-		self::assertEquals( $old_html, $new_html );
+		self::assertEquals( '<em>Auto-updates are disabled based on this setting for Yoast SEO.</em>', $new_html );
 	}
 
 	/**
@@ -352,10 +353,9 @@ class Addon_Update_Watcher_Test extends TestCase {
 		return [
 			[ 'wordpress-seo-premium/wp-seo-premium.php' ],
 			[ 'wpseo-video/video-seo.php' ],
-			[ 'wordpress-seo-local/local-seo.php' ],
+			[ 'wpseo-local/local-seo.php' ],
 			[ 'wpseo-woocommerce/wpseo-woocommerce.php' ],
 			[ 'wpseo-news/wpseo-news.php' ],
-			[ 'yoast-acf-analysis/yoast-acf-analysis.php' ],
 		];
 	}
 }

@@ -27,10 +27,9 @@ class Addon_Update_Watcher implements Integration_Interface {
 	const ADD_ONS = [
 		'wordpress-seo-premium/wp-seo-premium.php',
 		'wpseo-video/video-seo.php',
-		'wordpress-seo-local/local-seo.php',
+		'wpseo-local/local-seo.php',
 		'wpseo-woocommerce/wpseo-woocommerce.php',
 		'wpseo-news/wpseo-news.php',
-		'yoast-acf-analysis/yoast-acf-analysis.php',
 	];
 
 	/**
@@ -81,15 +80,11 @@ class Addon_Update_Watcher implements Integration_Interface {
 
 		$auto_updated_plugins = \get_option( 'auto_update_plugins' );
 
-		if ( $auto_updated_plugins === false || ! \is_array( $auto_updated_plugins ) ) {
-			return $old_html;
-		}
-
 		if ( $this->are_auto_updates_enabled( self::WPSEO_FREE_PLUGIN_ID, $auto_updated_plugins ) ) {
 			return \sprintf(
 				'<em>%s</em>',
 				\sprintf(
-					/* Translators: %1$s resolves to Yoast SEO. */
+				/* Translators: %1$s resolves to Yoast SEO. */
 					\esc_html__( 'Auto-updates are enabled based on this setting for %1$s.', 'wordpress-seo' ),
 					'Yoast SEO'
 				)
@@ -99,7 +94,7 @@ class Addon_Update_Watcher implements Integration_Interface {
 		return \sprintf(
 			'<em>%s</em>',
 			\sprintf(
-				/* Translators: %1$s resolves to Yoast SEO. */
+			/* Translators: %1$s resolves to Yoast SEO. */
 				\esc_html__( 'Auto-updates are disabled based on this setting for %1$s.', 'wordpress-seo' ),
 				'Yoast SEO'
 			)
@@ -144,7 +139,8 @@ class Addon_Update_Watcher implements Integration_Interface {
 	 * @param string[] $auto_updated_plugins The current list of auto-updated plugins.
 	 */
 	protected function enable_auto_updates_for_addons( $auto_updated_plugins ) {
-		\update_option( 'auto_update_plugins', \array_merge( $auto_updated_plugins, self::ADD_ONS ) );
+		$plugins = \array_merge( $auto_updated_plugins, self::ADD_ONS );
+		\update_option( 'auto_update_plugins', $plugins );
 	}
 
 	/**
@@ -153,7 +149,7 @@ class Addon_Update_Watcher implements Integration_Interface {
 	 * @param string[] $auto_updated_plugins The current list of auto-updated plugins.
 	 */
 	protected function disable_auto_updates_for_addons( $auto_updated_plugins ) {
-		\update_option( 'auto_update_plugins', \array_diff( $auto_updated_plugins, self::ADD_ONS ) );
+		\update_option( 'auto_update_plugins', \array_values( \array_diff( $auto_updated_plugins, self::ADD_ONS ) ) );
 	}
 
 	/**
@@ -165,6 +161,10 @@ class Addon_Update_Watcher implements Integration_Interface {
 	 * @return bool Whether auto updates for a plugin are enabled.
 	 */
 	protected function are_auto_updates_enabled( $plugin_id, $auto_updated_plugins ) {
+		if ( $auto_updated_plugins === false || ! \is_array( $auto_updated_plugins ) ) {
+			return false;
+		}
+
 		return \in_array( $plugin_id, $auto_updated_plugins, true );
 	}
 }
