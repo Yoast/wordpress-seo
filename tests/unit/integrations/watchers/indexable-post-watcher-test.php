@@ -235,7 +235,10 @@ class Indexable_Post_Watcher_Test extends TestCase {
 			->with( $post_id )
 			->andReturn( true );
 
-		Monkey\Functions\expect( 'get_post_stati' )->with( [ 'public' => true ] )->andReturn( [ 'publish' => 'publish' ] );
+		$this->post
+			->expects( 'get_public_post_statuses' )
+			->once()
+			->andReturn( [ 'publish' ] );
 
 		$this->link_builder
 			->expects( 'build' )
@@ -352,7 +355,10 @@ class Indexable_Post_Watcher_Test extends TestCase {
 			->once()
 			->with( $indexable_mock, $post_content );
 
-		Monkey\Functions\expect( 'get_post_stati' )->with( [ 'public' => true ] )->andReturn( [ 'publish' => 'publish' ] );
+		$this->post
+			->expects( 'get_public_post_statuses' )
+			->once()
+			->andReturn( [ 'publish' ] );
 
 		$this->instance->build_indexable( $post_id );
 	}

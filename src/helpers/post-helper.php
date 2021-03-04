@@ -181,4 +181,18 @@ class Post_Helper {
 
 		return true;
 	}
+
+	/**
+	 * Retrieves the list of public posts statuses.
+	 *
+	 * @return array The public post statuses.
+	 */
+	public function get_public_post_statuses() {
+		/**
+		 * Filter: 'wpseo_public_post_statuses' - List of public post statuses.
+		 *
+		 * @api array $post_statuses Post status list, defaults to array( 'publish' ).
+		 */
+		return \apply_filters( 'wpseo_public_post_statuses', [ 'publish' ] );
+	}
 }
