@@ -1,18 +1,18 @@
 import getSentenceBeginnings from "../../../src/languageProcessing/researches/getSentenceBeginnings";
 
 import Paper from "../../../src/values/Paper.js";
-import EnglishResearcher from "../../../src/languageProcessing/languages/en/researcher";
-import FrenchResearcher from "../../../src/languageProcessing/languages/fr/researcher";
-import GermanResearcher from "../../../src/languageProcessing/languages/de/researcher";
-import SpanishResearcher from "../../../src/languageProcessing/languages/es/researcher";
-import ItalianResearcher from "../../../src/languageProcessing/languages/it/researcher";
-import PortugueseResearcher from "../../../src/languageProcessing/languages/pt/researcher";
-import PolishResearcher from "../../../src/languageProcessing/languages/pl/researcher";
-import IndonesianResearcher from "../../../src/languageProcessing/languages/id/researcher";
-import SwedishResearcher from "../../../src/languageProcessing/languages/sv/researcher";
-import DutchResearcher from "../../../src/languageProcessing/languages/nl/researcher";
-import RussianResearcher from "../../../src/languageProcessing/languages/ru/researcher";
-import ArabicResearcher from "../../../src/languageProcessing/languages/ar/researcher";
+import EnglishResearcher from "../../../src/languageProcessing/languages/en/Researcher";
+import FrenchResearcher from "../../../src/languageProcessing/languages/fr/Researcher";
+import GermanResearcher from "../../../src/languageProcessing/languages/de/Researcher";
+import SpanishResearcher from "../../../src/languageProcessing/languages/es/Researcher";
+import ItalianResearcher from "../../../src/languageProcessing/languages/it/Researcher";
+import PortugueseResearcher from "../../../src/languageProcessing/languages/pt/Researcher";
+import PolishResearcher from "../../../src/languageProcessing/languages/pl/Researcher";
+import IndonesianResearcher from "../../../src/languageProcessing/languages/id/Researcher";
+import SwedishResearcher from "../../../src/languageProcessing/languages/sv/Researcher";
+import DutchResearcher from "../../../src/languageProcessing/languages/nl/Researcher";
+import RussianResearcher from "../../../src/languageProcessing/languages/ru/Researcher";
+import ArabicResearcher from "../../../src/languageProcessing/languages/ar/Researcher";
 
 
 // eslint-disable-next-line max-statements

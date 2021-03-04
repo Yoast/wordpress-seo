@@ -24,7 +24,8 @@ import TestResearch from "../specHelpers/tree/TestResearch";
 import getMorphologyData from "../specHelpers/getMorphologyData";
 import TestAssessment from "../specHelpers/tree/TestAssessment";
 
-
+import EnglishResearcher from "../../src/languageProcessing/languages/en/Researcher";
+let researcher = new EnglishResearcher();
 const morphologyData = getMorphologyData( "en" );
 
 /**
@@ -103,7 +104,7 @@ describe( "AnalysisWebWorker", () => {
 			scope = createScope();
 			worker = null;
 			try {
-				worker = new AnalysisWebWorker( scope );
+				worker = new AnalysisWebWorker( scope, researcher );
 			} catch ( error ) {
 				// eslint-ignore-line no-empty
 			}
@@ -116,7 +117,7 @@ describe( "AnalysisWebWorker", () => {
 	describe( "register", () => {
 		beforeEach( () => {
 			scope = createScope();
-			worker = new AnalysisWebWorker( scope );
+			worker = new AnalysisWebWorker( scope, researcher );
 		} );
 
 		test( "binds onmessage", () => {
@@ -154,7 +155,7 @@ describe( "AnalysisWebWorker", () => {
 		describe( "console", () => {
 			beforeEach( () => {
 				scope = createScope();
-				worker = new AnalysisWebWorker( scope );
+				worker = new AnalysisWebWorker( scope, researcher );
 				worker.register();
 			} );
 
@@ -231,7 +232,7 @@ describe( "AnalysisWebWorker", () => {
 		describe( "initialize", () => {
 			beforeEach( () => {
 				scope = createScope();
-				worker = new AnalysisWebWorker( scope );
+				worker = new AnalysisWebWorker( scope, researcher );
 				worker.register();
 			} );
 
@@ -449,7 +450,7 @@ describe( "AnalysisWebWorker", () => {
 		describe( "analyze", () => {
 			beforeEach( () => {
 				scope = createScope();
-				worker = new AnalysisWebWorker( scope );
+				worker = new AnalysisWebWorker( scope, researcher );
 				worker.register();
 			} );
 
@@ -660,7 +661,7 @@ describe( "AnalysisWebWorker", () => {
 		describe( "analyzeRelatedKeywords", () => {
 			beforeEach( () => {
 				scope = createScope();
-				worker = new AnalysisWebWorker( scope );
+				worker = new AnalysisWebWorker( scope, researcher );
 				worker.register();
 			} );
 
@@ -791,7 +792,7 @@ describe( "AnalysisWebWorker", () => {
 		describe( "loadScript", () => {
 			beforeEach( () => {
 				scope = createScope();
-				worker = new AnalysisWebWorker( scope );
+				worker = new AnalysisWebWorker( scope, researcher );
 				worker.register();
 			} );
 
@@ -888,7 +889,7 @@ describe( "AnalysisWebWorker", () => {
 		describe( "customMessage", () => {
 			beforeEach( () => {
 				scope = createScope();
-				worker = new AnalysisWebWorker( scope );
+				worker = new AnalysisWebWorker( scope, researcher );
 				worker.register();
 			} );
 
@@ -1002,7 +1003,7 @@ describe( "AnalysisWebWorker", () => {
 		describe( "runResearch", () => {
 			beforeEach( () => {
 				scope = createScope();
-				worker = new AnalysisWebWorker( scope );
+				worker = new AnalysisWebWorker( scope, researcher );
 				worker.register();
 			} );
 
@@ -1052,7 +1053,7 @@ describe( "AnalysisWebWorker", () => {
 			} );
 
 			test( "returns the research result", done => {
-				const name = "firstParagraph";
+				const name = "findKeywordInFirstParagraph";
 				const paper = testTexts[ 0 ].paper;
 				const payload = { name, paper: paper.serialize() };
 
@@ -1101,7 +1102,7 @@ describe( "AnalysisWebWorker", () => {
 					expect( isObject( result ) ).toBe( true );
 					expect( result.keyphraseForms ).toEqual( [
 						[ "voice" ],
-						[ "search",	"searching" ],
+						[ "search" ],
 					] );
 					done();
 				};
@@ -1171,7 +1172,7 @@ describe( "AnalysisWebWorker", () => {
 	describe( "createContentAssessor", () => {
 		beforeEach( () => {
 			scope = createScope();
-			worker = new AnalysisWebWorker( scope );
+			worker = new AnalysisWebWorker( scope, researcher );
 		} );
 
 		test( "listens to contentAnalysisActive", () => {
@@ -1198,7 +1199,7 @@ describe( "AnalysisWebWorker", () => {
 	describe( "createSEOAssessor", () => {
 		beforeEach( () => {
 			scope = createScope();
-			worker = new AnalysisWebWorker( scope );
+			worker = new AnalysisWebWorker( scope, researcher );
 		} );
 
 		test( "listens to keywordAnalysisActive", () => {
@@ -1278,7 +1279,7 @@ describe( "AnalysisWebWorker", () => {
 
 		beforeEach( () => {
 			scope = createScope();
-			worker = new AnalysisWebWorker( scope );
+			worker = new AnalysisWebWorker( scope, researcher );
 			worker.register();
 		} );
 
@@ -1333,7 +1334,7 @@ describe( "AnalysisWebWorker", () => {
 
 		beforeEach( () => {
 			scope = createScope();
-			worker = new AnalysisWebWorker( scope );
+			worker = new AnalysisWebWorker( scope, researcher );
 			worker.register();
 		} );
 
@@ -1367,7 +1368,7 @@ describe( "AnalysisWebWorker", () => {
 
 		beforeEach( () => {
 			scope = createScope();
-			worker = new AnalysisWebWorker( scope );
+			worker = new AnalysisWebWorker( scope, researcher );
 			worker.register();
 		} );
 
@@ -1393,7 +1394,7 @@ describe( "AnalysisWebWorker", () => {
 	describe( "clearCache", () => {
 		beforeEach( () => {
 			scope = createScope();
-			worker = new AnalysisWebWorker( scope );
+			worker = new AnalysisWebWorker( scope, researcher );
 			worker.register();
 		} );
 
@@ -1407,7 +1408,7 @@ describe( "AnalysisWebWorker", () => {
 	describe( "setLocale", () => {
 		beforeEach( () => {
 			scope = createScope();
-			worker = new AnalysisWebWorker( scope );
+			worker = new AnalysisWebWorker( scope, researcher );
 			worker.register();
 		} );
 
@@ -1433,7 +1434,7 @@ describe( "AnalysisWebWorker", () => {
 	describe( "shouldReadabilityUpdate", () => {
 		beforeEach( () => {
 			scope = createScope();
-			worker = new AnalysisWebWorker( scope );
+			worker = new AnalysisWebWorker( scope, researcher );
 		} );
 
 		test( "returns true when the existing paper is null", () => {
@@ -1468,7 +1469,7 @@ describe( "AnalysisWebWorker", () => {
 
 		beforeEach( () => {
 			scope = createScope();
-			worker = new AnalysisWebWorker( scope );
+			worker = new AnalysisWebWorker( scope, researcher );
 		} );
 
 		test( "returns true when the related keyword key is not known", () => {
@@ -1494,7 +1495,7 @@ describe( "AnalysisWebWorker", () => {
 	describe( "createSEOTreeAssessor", () => {
 		beforeEach( () => {
 			scope = createScope();
-			worker = new AnalysisWebWorker( scope );
+			worker = new AnalysisWebWorker( scope, researcher );
 		} );
 
 		it.skip( "creates an SEO assessor", () => {
@@ -1509,11 +1510,9 @@ describe( "AnalysisWebWorker", () => {
 		let treeAssessor;
 		let scoreAggregator;
 
-		let researcher;
-
 		beforeEach( () => {
 			scope = createScope();
-			worker = new AnalysisWebWorker( scope );
+			worker = new AnalysisWebWorker( scope, researcher );
 
 			const i18n = Factory.buildJed();
 
@@ -1581,7 +1580,7 @@ describe( "AnalysisWebWorker", () => {
 
 		beforeEach( () => {
 			scope = createScope();
-			worker = new AnalysisWebWorker( scope );
+			worker = new AnalysisWebWorker( scope, researcher );
 		} );
 
 		it( "can register a custom parser, if it is class-based and has the appropriate methods.", () => {

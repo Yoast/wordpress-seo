@@ -3,7 +3,7 @@ import { map } from "lodash-es";
 import formatNumber from "../../../helpers/formatNumber";
 import { inRangeStartInclusive as inRange } from "../../helpers/assessments/inRange";
 import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
-import { stripIncompleteTags as stripTags } from "../../../../../helpers/src/strings/stripHTMLTags";
+import { stripIncompleteTags as stripTags } from "../../../languageProcessing/helpers/sanitize/stripHTMLTags";
 import AssessmentResult from "../../../values/AssessmentResult";
 import Mark from "../../../values/Mark.js";
 import marker from "../../../markers/addMark.js";

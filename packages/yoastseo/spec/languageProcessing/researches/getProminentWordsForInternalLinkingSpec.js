@@ -1,7 +1,7 @@
 import prominentWordsResearch from "../../../src/languageProcessing/researches/getProminentWordsForInternalLinking";
 import Paper from "../../../src/values/Paper";
-import Researcher from "../../../src/languageProcessing/languages/en/researcher";
-import CatalanResearcher from "../../../src/languageProcessing/languages/ca/researcher";
+import Researcher from "../../../src/languageProcessing/languages/en/Researcher";
+import CatalanResearcher from "../../../src/languageProcessing/languages/ca/Researcher";
 import ProminentWord from "../../../src/values/ProminentWord";
 import getMorphologyData from "../../specHelpers/getMorphologyData";
 

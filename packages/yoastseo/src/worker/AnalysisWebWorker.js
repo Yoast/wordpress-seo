@@ -8,7 +8,7 @@ import { getLogger } from "loglevel";
 // YoastSEO.js dependencies.
 import * as assessments from "../scoring/assessments";
 import * as bundledPlugins from "../bundledPlugins";
-import * as helpers from "../helpers/_todo";
+import * as helpers from "../helpers";
 import * as markers from "../markers";
 import * as interpreters from "../scoring/interpreters";
 import * as config from "../config";
