@@ -65,67 +65,85 @@ const SnippetEditorWrapper = ( props ) => (
 	</LocationConsumer>
 );
 
-export default compose( [
-	withSelect( select => {
-		const {
-			getBaseUrlFromSettings,
-			getDateFromSettings,
-			getFocusKeyphrase,
-			getRecommendedReplaceVars,
-			getReplaceVars,
-			getSiteIconUrlFromSettings,
-			getSnippetEditorData,
-			getSnippetEditorMode,
-			getSnippetEditorPreviewImageUrl,
-			getSnippetEditorWordsToHighlight,
-		} = select( "yoast-seo/editor" );
+/**
+ * Maps the select function to props.
+ *
+ * @param {function} select The select function.
+ *
+ * @returns {Object} The props.
+ */
+export function mapSelectToProps( select ) {
+	const {
+		getBaseUrlFromSettings,
+		getDateFromSettings,
+		getFocusKeyphrase,
+		getRecommendedReplaceVars,
+		getReplaceVars,
+		getSiteIconUrlFromSettings,
+		getSnippetEditorData,
+		getSnippetEditorMode,
+		getSnippetEditorPreviewImageUrl,
+		getSnippetEditorWordsToHighlight,
+	} = select( "yoast-seo/editor" );
 
-		const replacementVariables = getReplaceVars();
+	const replacementVariables = getReplaceVars();
 
-		// Replace all empty values with %%replaceVarName%% so the replacement variables plugin can do its job.
-		replacementVariables.forEach( ( replaceVariable ) => {
-			if ( replaceVariable.value === "" && ! [ "title", "excerpt", "excerpt_only" ].includes( replaceVariable.name ) ) {
-				replaceVariable.value = "%%" + replaceVariable.name + "%%";
+	// Replace all empty values with %%replaceVarName%% so the replacement variables plugin can do its job.
+	replacementVariables.forEach( ( replaceVariable ) => {
+		if ( replaceVariable.value === "" && ! [ "title", "excerpt", "excerpt_only" ].includes( replaceVariable.name ) ) {
+			replaceVariable.value = "%%" + replaceVariable.name + "%%";
+		}
+	} );
+
+	return {
+		baseUrl: getBaseUrlFromSettings(),
+		data: getSnippetEditorData(),
+		date: getDateFromSettings(),
+		faviconSrc: getSiteIconUrlFromSettings(),
+		keyword: getFocusKeyphrase(),
+		mobileImageSrc: getSnippetEditorPreviewImageUrl(),
+		mode: getSnippetEditorMode(),
+		recommendedReplacementVariables: getRecommendedReplaceVars(),
+		replacementVariables,
+		wordsToHighlight: getSnippetEditorWordsToHighlight(),
+	};
+}
+
+/**
+ * Maps the dispatch function to props.
+ *
+ * @param {function} dispatch The dispatch function.
+ *
+ * @returns {Object} The props.
+ */
+export function mapDispatchToProps( dispatch ) {
+	const {
+		updateData,
+		switchMode,
+		updateAnalysisData,
+	} = dispatch( "yoast-seo/editor" );
+
+	return {
+		onChange: ( key, value ) => {
+			switch ( key ) {
+				case "mode":
+					switchMode( value );
+					break;
+				case "slug":
+					updateData( { slug: value } );
+					break;
+				default:
+					updateData( {
+						[ key ]: value,
+					} );
+					break;
 			}
-		} );
+		},
+		onChangeAnalysisData: updateAnalysisData,
+	};
+}
 
-		return {
-			baseUrl: getBaseUrlFromSettings(),
-			data: getSnippetEditorData(),
-			date: getDateFromSettings(),
-			faviconSrc: getSiteIconUrlFromSettings(),
-			keyword: getFocusKeyphrase(),
-			mobileImageSrc: getSnippetEditorPreviewImageUrl(),
-			mode: getSnippetEditorMode(),
-			recommendedReplacementVariables: getRecommendedReplaceVars(),
-			replacementVariables,
-			wordsToHighlight: getSnippetEditorWordsToHighlight(),
-		};
-	} ),
-	withDispatch( dispatch => {
-		const {
-			updateData,
-			switchMode,
-			updateAnalysisData,
-		} = dispatch( "yoast-seo/editor" );
-
-		return {
-			onChange: ( key, value ) => {
-				switch ( key ) {
-					case "mode":
-						switchMode( value );
-						break;
-					case "slug":
-						updateData( { slug: value } );
-						break;
-					default:
-						updateData( {
-							[ key ]: value,
-						} );
-						break;
-				}
-			},
-			onChangeAnalysisData: updateAnalysisData,
-		};
-	} ),
+export default compose( [
+	withSelect( mapSelectToProps ),
+	withDispatch( mapDispatchToProps ),
 ] )( SnippetEditorWrapper );
