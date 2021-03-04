@@ -259,6 +259,7 @@ class WPSEO_Admin_Asset_Manager {
 					'jquery-ui-core',
 					'jquery-ui-progressbar',
 					'wp-api',
+					'wp-data',
 					'yoast-seo-api',
 					self::PREFIX . 'yoast-components',
 					self::PREFIX . 'helpers',

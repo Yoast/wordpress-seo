@@ -227,7 +227,18 @@ class WPSEO_Admin {
 		array_unshift( $links, $faq_link );
 
 		$addon_manager = new WPSEO_Addon_Manager();
-		if ( WPSEO_Utils::is_yoast_seo_premium() ) {
+		if ( YoastSEO()->helpers->product->is_premium() ) {
+
+			// Remove Free 'deactivate' link if Premium is active as well. We don't want users to deactivate Free when Premium is active.
+			unset( $links['deactivate'] );
+			$no_deactivation_explanation = '<span style="color: #32373c">' . sprintf(
+				/* translators: %s expands to Yoast SEO Premium. */
+				__( 'Deactivate %s first', 'wordpress-seo' ),
+				'Yoast SEO Premium'
+			) . '</span>';
+
+			array_unshift( $links, $no_deactivation_explanation );
+
 			if ( $addon_manager->has_valid_subscription( WPSEO_Addon_Manager::PREMIUM_SLUG ) ) {
 				return $links;
 			}

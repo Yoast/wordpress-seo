@@ -70,6 +70,7 @@ class WPSEO_Upgrade {
 			'15.3-RC0'   => 'upgrade_153',
 			'15.5-RC0'   => 'upgrade_155',
 			'15.7-RC0'   => 'upgrade_157',
+			'15.9.1-RC0' => 'upgrade_1591',
 			'16.1-RC0'   => 'upgrade_161',
 		];
 
@@ -795,6 +796,15 @@ class WPSEO_Upgrade {
 	 */
 	private function upgrade_157() {
 		add_action( 'init', [ $this, 'remove_plugin_updated_notification_for_157' ] );
+	}
+
+	/**
+	 * Performs the 15.9.1 upgrade routine.
+	 */
+	private function upgrade_1591() {
+		$enabled_auto_updates = \get_option( 'auto_update_plugins' );
+		$addon_update_watcher = YoastSEO()->classes->get( \Yoast\WP\SEO\Integrations\Watchers\Addon_Update_Watcher::class );
+		$addon_update_watcher->toggle_auto_updates_for_add_ons( [], $enabled_auto_updates );
 	}
 
 	/**
