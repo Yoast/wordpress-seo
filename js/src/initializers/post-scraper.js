@@ -256,6 +256,7 @@ export default function initPostScraper( $, store, editorData ) {
 			keywordAnalysisActive: isKeywordAnalysisActive(),
 			hasSnippetPreview: false,
 			debouncedRefresh: false,
+			researcher: new window.yoast.Researcher.default(),
 		};
 
 		if ( isKeywordAnalysisActive() ) {

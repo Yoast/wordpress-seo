@@ -274,6 +274,7 @@ export default function initTermScraper( $, store, editorData ) {
 			keywordAnalysisActive: isKeywordAnalysisActive(),
 			hasSnippetPreview: false,
 			debouncedRefresh: false,
+			researcher: new window.yoast.Researcher.default(),
 		};
 
 		if ( isKeywordAnalysisActive() ) {
@@ -345,7 +346,7 @@ export default function initTermScraper( $, store, editorData ) {
 		store.subscribe( handleStoreChange.bind( null, store, app.refresh ) );
 
 		if ( isKeywordAnalysisActive() ) {
-			app.seoAssessor = new TaxonomyAssessor( app.i18n );
+			app.seoAssessor = new TaxonomyAssessor( app.i18n, app.config.researcher );
 			app.seoAssessorPresenter.assessor = app.seoAssessor;
 		}
 
