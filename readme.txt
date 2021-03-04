@@ -242,12 +242,17 @@ Welcome to Yoast SEO 15.9.1! This release contains an improvement for the FAQ bl
 Enhancements:
 
 * Removes `mainEntityOfPage` from our FAQ Schema block output and moves it to `mainEntity` on the `WebPage` output, fixing a Google parse issue with those FAQ blocks.
+* Performance enhancements in the post indexable builder by skipping link creation on drafts.
+
+Bugfixes:
+
+* Fixes a bug where indexable creation caused compatibility problems with code that would hook in to new post creation. 
 
 Other:
 
 * Adds a notification to prompt users to enable auto-updates for Yoast SEO, in case they also have auto-updates for WordPress Core enabled.
 * Ensures compatibility with WordPress Core's `robots` meta tag by hooking into the `wp_robots` filter and using our settings there.
-* Enables/disables auto-updates for Yoast SEO Premium and the Yoast Woocommerce, News, Video and Local SEO plugins when auto-updates for Yoast SEO are enabled/disabled.
+* Enables/disables auto-updates for the Yoast Woocommerce, News, Video and Local SEO plugins when auto-updates for Yoast SEO are enabled/disabled.
 
 = 15.9 =
 Release Date: February 23rd, 2021
