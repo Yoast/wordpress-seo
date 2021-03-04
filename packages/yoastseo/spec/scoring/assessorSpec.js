@@ -16,9 +16,15 @@ describe( "an assessor object", function() {
 			} ).toThrowError( MissingArgument );
 		} );
 
+		it( "throws an error when no researcher argument is provided", function() {
+			expect( function() {
+				new Assessor( i18n );
+			} ).toThrowError( MissingArgument );
+		} );
+
 		it( "creates an assessor", function() {
-			expect( new Assessor( i18n ) ).toBeDefined();
-			expect( Object.keys( new Assessor( i18n ).getAvailableAssessments() ) ).toEqual( [] );
+			expect( new Assessor( i18n, new DefaultResearcher() ) ).toBeDefined();
+			expect( Object.keys( new Assessor( i18n, new DefaultResearcher() ).getAvailableAssessments() ) ).toEqual( [] );
 		} );
 	} );
 
@@ -34,9 +40,9 @@ describe( "an assessor object", function() {
 	validResult.setText( "all good" );
 	validResult.setHasMarks( true );
 
-	describe( "returning the overallscore", function() {
-		it( "returns the overallscore", function() {
-			var assessor = new Assessor( i18n );
+	describe( "returning the overall score", function() {
+		it( "returns the overall score", function() {
+			var assessor = new Assessor( i18n, new DefaultResearcher() );
 			assessor.getValidResults = function() {
 				return [ result5, result4, result8 ];
 			};
@@ -57,7 +63,7 @@ describe( "an assessor object", function() {
 
 	describe( "adding an assessment", function() {
 		it( "adds an assessment", function() {
-			var assessor = new Assessor( i18n );
+			var assessor = new Assessor( i18n, new DefaultResearcher() );
 			assessor.addAssessment( "testname", mockAssessment );
 
 			var result = assessor.getAssessment( "testname" );
@@ -68,7 +74,7 @@ describe( "an assessor object", function() {
 
 	describe( "removing an assessment", function() {
 		it( "removes an assessment", function() {
-			var assessor = new Assessor( i18n );
+			var assessor = new Assessor( i18n, new DefaultResearcher() );
 			assessor.removeAssessment( "testname" );
 
 			var result = assessor.getAssessment( "testname" );
@@ -80,14 +86,13 @@ describe( "an assessor object", function() {
 	describe( "assess", function() {
 		it( "should add the marker to the assessment result", function() {
 			var paper = new Paper();
-			var assessor = new Assessor( i18n, {
+			var assessor = new Assessor( i18n, new DefaultResearcher(), {
 				/**
 				 * A mock marker function.
 				 *
 				 * @returns {void}
 				 */
 				marker: function() {},
-				researcher: new DefaultResearcher(),
 			} );
 			var assessment = {
 				/**
@@ -127,7 +132,7 @@ describe( "an assessor object", function() {
 		var assessor;
 
 		beforeEach( function() {
-			assessor = new Assessor( i18n, {} );
+			assessor = new Assessor( i18n, new DefaultResearcher(), {} );
 		} );
 
 		it( "should return true when we have a global marker and a getMarks function", function() {

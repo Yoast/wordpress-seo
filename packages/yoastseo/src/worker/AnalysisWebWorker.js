@@ -342,7 +342,6 @@ export default class AnalysisWebWorker {
 		const {
 			contentAnalysisActive,
 			useCornerstone,
-			locale,
 		} = this._configuration;
 
 		if ( contentAnalysisActive === false ) {
@@ -350,8 +349,8 @@ export default class AnalysisWebWorker {
 		}
 
 		const assessor = useCornerstone === true
-			? new CornerstoneContentAssessor( this._i18n, { locale: locale, researcher: this._researcher } )
-			: new ContentAssessor( this._i18n, { locale: locale, researcher: this._researcher } );
+			? new CornerstoneContentAssessor( this._i18n, this._researcher )
+			: new ContentAssessor( this._i18n, this._researcher );
 
 		return assessor;
 	}
@@ -369,7 +368,6 @@ export default class AnalysisWebWorker {
 			useCornerstone,
 			useKeywordDistribution,
 			useTaxonomy,
-			locale,
 		} = this._configuration;
 
 		if ( keywordAnalysisActive === false ) {
@@ -379,11 +377,11 @@ export default class AnalysisWebWorker {
 		let assessor;
 
 		if ( useTaxonomy === true ) {
-			assessor = new TaxonomyAssessor( this._i18n, { locale: locale, researcher: this._researcher } );
+			assessor = new TaxonomyAssessor( this._i18n, this._researcher );
 		} else {
 			assessor = useCornerstone === true
-				? new CornerstoneSEOAssessor( this._i18n, { locale: locale, researcher: this._researcher } )
-				: new SEOAssessor( this._i18n, { locale: locale, researcher: this._researcher } );
+				? new CornerstoneSEOAssessor( this._i18n, this._researcher )
+				: new SEOAssessor( this._i18n, this._researcher );
 		}
 
 
@@ -412,7 +410,6 @@ export default class AnalysisWebWorker {
 			keywordAnalysisActive,
 			useCornerstone,
 			useTaxonomy,
-			locale,
 		} = this._configuration;
 
 		if ( keywordAnalysisActive === false ) {
@@ -422,11 +419,11 @@ export default class AnalysisWebWorker {
 		let assessor;
 
 		if ( useTaxonomy === true ) {
-			assessor = new RelatedKeywordTaxonomyAssessor( this._i18n, { locale: locale, researcher: this._researcher } );
+			assessor = new RelatedKeywordTaxonomyAssessor( this._i18n, this._researcher );
 		} else {
 			assessor = useCornerstone === true
-				? new CornerstoneRelatedKeywordAssessor( this._i18n, { locale: locale, researcher: this._researcher } )
-				: new RelatedKeywordAssessor( this._i18n, { locale: locale, researcher: this._researcher } );
+				? new CornerstoneRelatedKeywordAssessor( this._i18n, this._researcher )
+				: new RelatedKeywordAssessor( this._i18n, this._researcher );
 		}
 
 		this._registeredAssessments.forEach( ( { name, assessment } ) => {

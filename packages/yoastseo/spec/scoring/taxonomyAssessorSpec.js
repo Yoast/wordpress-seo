@@ -9,7 +9,7 @@ describe( "running assessments in the assessor", function() {
 	let assessor;
 
 	beforeEach( () => {
-		assessor = new Assessor( i18n, { researcher: new DefaultResearcher() } );
+		assessor = new Assessor( i18n, new DefaultResearcher() );
 	} );
 
 	it( "runs assessments without any specific requirements", function() {
