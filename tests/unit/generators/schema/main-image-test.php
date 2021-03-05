@@ -237,7 +237,9 @@ class Main_Image_Test extends TestCase {
 		$this->meta_tags_context->canonical = 'https://example.com/canonical';
 		$this->meta_tags_context->id        = 1337;
 
-		$this->meta_tags_context->indexable->twitter_image_id = 5678;
+		$this->meta_tags_context->indexable->twitter_image_id     = 5678;
+		$this->meta_tags_context->indexable->twitter_image_source = 'set-by-user';
+
 
 		$image_id = $this->generate_image_id();
 

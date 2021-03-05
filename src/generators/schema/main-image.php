@@ -93,7 +93,7 @@ class Main_Image extends Abstract_Schema_Piece {
 			return $this->helpers->schema->image->generate_from_attachment_id( $image_id, $this->context->indexable->open_graph_image_id );
 		}
 
-		if ( isset( $this->context->indexable->twitter_image_id ) ) {
+		if ( isset( $this->context->indexable->twitter_image_id ) && $this->context->indexable->twitter_image_source === 'set-by-user' ) {
 			return $this->helpers->schema->image->generate_from_attachment_id( $image_id, $this->context->indexable->twitter_image_id );
 		}
 
