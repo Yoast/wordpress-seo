@@ -2,7 +2,6 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Integrations\Watchers;
 
-use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 use Brain\Monkey;
@@ -38,13 +37,6 @@ class Auto_Update_Watcher_Test extends TestCase {
 	protected $notification_helper;
 
 	/**
-	 * Product_Helper mock.
-	 *
-	 * @var Mockery\MockInterface|Product_Helper
-	 */
-	protected $product_helper;
-
-	/**
 	 * The instance under test.
 	 *
 	 * @var Auto_Update_Watcher
@@ -59,12 +51,10 @@ class Auto_Update_Watcher_Test extends TestCase {
 
 		$this->notification_center = Mockery::mock( Yoast_Notification_Center::class );
 		$this->notification_helper = Mockery::mock( Notification_Helper::class );
-		$this->product_helper      = Mockery::mock( Product_Helper::class );
 
 		$this->instance = new Auto_Update_Watcher(
 			$this->notification_center,
-			$this->notification_helper,
-			$this->product_helper
+			$this->notification_helper
 		);
 	}
 
@@ -81,10 +71,6 @@ class Auto_Update_Watcher_Test extends TestCase {
 		self::assertInstanceOf(
 			Notification_Helper::class,
 			self::getPropertyValue( $this->instance, 'notification_helper' )
-		);
-		self::assertInstanceOf(
-			Product_Helper::class,
-			self::getPropertyValue( $this->instance, 'product_helper' )
 		);
 	}
 
@@ -141,12 +127,6 @@ class Auto_Update_Watcher_Test extends TestCase {
 			->expects( 'get_notification_by_id' )
 			->never();
 
-		if ( ! empty( $plugins_to_auto_update ) ) {
-			$this->product_helper
-				->expects( 'is_premium' )
-				->andReturnFalse();
-		}
-
 		$this->instance->auto_update_notification_even_if_dismissed();
 	}
 
@@ -197,10 +177,6 @@ class Auto_Update_Watcher_Test extends TestCase {
 			->once()
 			->andReturn( 'the_notification_object' );
 
-		$this->product_helper
-			->expects( 'is_premium' )
-			->andReturnFalse();
-
 		$this->instance->auto_update_notification_even_if_dismissed();
 	}
 
@@ -246,10 +222,6 @@ class Auto_Update_Watcher_Test extends TestCase {
 		$this->notification_center
 			->expects( 'add_notification' )
 			->once();
-
-		$this->product_helper
-			->expects( 'is_premium' )
-			->andReturnFalse();
 
 		$this->instance->auto_update_notification_even_if_dismissed();
 	}
@@ -305,10 +277,6 @@ class Auto_Update_Watcher_Test extends TestCase {
 			->expects( 'get_notification_by_id' )
 			->never();
 
-		$this->product_helper
-			->expects( 'is_premium' )
-			->andReturnFalse();
-
 		$this->instance->auto_update_notification_not_if_dismissed();
 	}
 
@@ -350,11 +318,6 @@ class Auto_Update_Watcher_Test extends TestCase {
 			->once()
 			->andReturn( 'the_notification_object' );
 
-		$this->product_helper
-			->expects( 'is_premium' )
-			->twice()
-			->andReturnFalse();
-
 		$this->instance->auto_update_notification_not_if_dismissed();
 	}
 
@@ -394,11 +357,6 @@ class Auto_Update_Watcher_Test extends TestCase {
 		$this->notification_center
 			->expects( 'get_notification_by_id' )
 			->never();
-
-		$this->product_helper
-			->expects( 'is_premium' )
-			->twice()
-			->andReturnFalse();
 
 		$this->instance->auto_update_notification_not_if_dismissed();
 	}
