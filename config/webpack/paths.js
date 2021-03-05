@@ -48,6 +48,7 @@ const entry = {
 	"languages/ru": "./externals/languages/ru.js",
 	"languages/sv": "./externals/languages/sv.js",
 	"languages/tr": "./externals/languages/tr.js",
+	"languages/cz": "./externals/languages/cz.js",
 };
 
 /**
