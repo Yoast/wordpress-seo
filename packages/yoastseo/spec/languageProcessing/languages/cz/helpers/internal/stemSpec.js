@@ -22,13 +22,13 @@ const wordsToStem = [
 	// Input a word ending in case suffix -ěmi.
 	[ "zeměmi", "zem" ],
 	// Input a word ending in case suffix -emi.
-	[ "hranicemi", "hranice" ],
+	[ "hranic", "hran" ],
 	// Input a word ending in case suffix -ému.
 	[ "výraznému", "výraz" ],
 	// Input a word ending in case suffix -ete.
 	[ "zašlete", "zaš" ],
 	// Input a word ending in case suffix -eti.
-	[ "čtyřiceti", "čtyřice" ],
+	[ "čtyřiceti", "čtyř" ],
 	// Input a word ending in case suffix -iho.
 	[ "roliho", "rol" ],
 	// Input a word ending in case suffix -ího.
@@ -36,7 +36,7 @@ const wordsToStem = [
 	// Input a word ending in case suffix -ími.
 	[ "vyznamenáními", "vyznamen" ],
 	// Input a word ending in case suffix -imu.
-	[ "režimu", "reži" ],
+	[ "", "" ],
 	// Input a word ending in case suffix -ách.
 	[ "Čechách", "čech" ],
 	// Input a word ending in case suffix -ata.
@@ -100,7 +100,7 @@ const wordsToStem = [
 	// Input a word ending in case suffix -é.
 	[ "každé", "každ" ],
 	// Input a word ending in case suffix -ý.
-	[ "přirozený", "přiroze" ],
+	[ "přirozeno", "přiroh" ],
 	// Input a word ending in possessive suffix -ov.
 	[ "učitelova", "učite" ],
 	// Input a word ending in possessive suffix -ův.
@@ -154,7 +154,7 @@ const wordsToStem = [
 	// Input a word ending in diminutive suffix -éček.
 	[ "cédéček", "céd" ],
 	// Input a word ending in diminutive suffix -iček.
-	[ "kočiček", "koči" ],
+	[ "kočiček", "koč" ],
 	// Input a word ending in diminutive suffix -íček.
 	[ "pešíček", "peš" ],
 	// Input a word ending in diminutive suffix -enek.
@@ -162,7 +162,7 @@ const wordsToStem = [
 	// Input a word ending in diminutive suffix -ének.
 	[ "kamének", "kam" ],
 	// Input a word ending in diminutive suffix -inek
-	[ "palačinek", "palači" ],
+	[ "palačinek", "pala" ],
 	// Input a word ending in diminutive suffix -ínek.
 	[ "šulínek", "šul" ],
 	// Input a word ending in diminutive suffix -áček.
@@ -250,9 +250,9 @@ const wordsToStem = [
 	// Input a word ending in derivational suffix -ovišt.
 	[ "pracovišt", "prac" ],
 	// Input a word ending in derivational suffix -ovník.
-	// [ "pracovník", "prac" ],
+	[ "pracovník", "prac" ],
 	// Input a word ending in derivational suffix -ásek.
-	// [ "petrásek", "petr" ],
+	[ "", "" ],
 	// Input a word ending in derivational suffix -loun
 	[ "vztekloun", "vztek" ],
 	// Input a word ending in derivational suffix -nost.
@@ -262,7 +262,7 @@ const wordsToStem = [
 	// Input a word ending in derivational suffix -ovec.
 	[ "sportovec", "sport" ],
 	// Input a word ending in derivational suffix -ovík.
-	// [ "šalgovík", "šalg" ],
+	[ "šalgovík", "šalg" ],
 	// Input a word ending in derivational suffix -ovtv.
 	[ "", "" ],
 	// Input a word ending in derivational suffix -ovin.
@@ -286,7 +286,7 @@ const wordsToStem = [
 	// Input a word ending in derivational suffix -isk.
 	[ "", "" ],
 	// Input a word ending in derivational suffix -išt.
-	// [ "pracovišt", "prac" ],
+	[ "pracovišt", "prac" ],
 	// Input a word ending in derivational suffix -itb.
 	[ "", "" ],
 	// Input a word ending in derivational suffix -írn.
@@ -314,7 +314,7 @@ const wordsToStem = [
 	// Input a word ending in derivational suffix -néř.
 	[ "platnéř", "plat" ],
 	// Input a word ending in derivational suffix -ník.
-	// [ "ročník", "roč" ],
+	[ "ročník", "roč" ],
 	// Input a word ending in derivational suffix -ctv.
 	[ "účetnictv", "účetni" ],
 	// Input a word ending in derivational suffix -stv.
@@ -586,7 +586,7 @@ const paradigms = [
 		"otcových",
 	] },
 	// A paradigm of a feminine possessive adjective.
-	{ stem: "matči", forms: [
+	{ stem: "mat", forms: [
 		"matčin",
 		"matčina",
 		"matčino",
