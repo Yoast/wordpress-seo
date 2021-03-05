@@ -22,7 +22,7 @@ const wordsToStem = [
 	// Input a word ending in case suffix -ěmi.
 	[ "zeměmi", "zem" ],
 	// Input a word ending in case suffix -emi.
-	// [ "hranic", "hra" ],
+	[ "hranic", "hran" ],
 	// Input a word ending in case suffix -ému.
 	[ "výraznému", "výraz" ],
 	// Input a word ending in case suffix -ete.
@@ -250,9 +250,9 @@ const wordsToStem = [
 	// Input a word ending in derivational suffix -ovišt.
 	[ "pracovišt", "prac" ],
 	// Input a word ending in derivational suffix -ovník.
-	// [ "pracovník", "prac" ],
+	[ "pracovník", "prac" ],
 	// Input a word ending in derivational suffix -ásek.
-	// [ "petrásek", "petr" ],
+	[ "", "" ],
 	// Input a word ending in derivational suffix -loun
 	[ "vztekloun", "vztek" ],
 	// Input a word ending in derivational suffix -nost.
@@ -262,7 +262,7 @@ const wordsToStem = [
 	// Input a word ending in derivational suffix -ovec.
 	[ "sportovec", "sport" ],
 	// Input a word ending in derivational suffix -ovík.
-	// [ "šalgovík", "šalg" ],
+	[ "šalgovík", "šalg" ],
 	// Input a word ending in derivational suffix -ovtv.
 	[ "", "" ],
 	// Input a word ending in derivational suffix -ovin.
@@ -286,7 +286,7 @@ const wordsToStem = [
 	// Input a word ending in derivational suffix -isk.
 	[ "", "" ],
 	// Input a word ending in derivational suffix -išt.
-	// [ "pracovišt", "prac" ],
+	[ "pracovišt", "prac" ],
 	// Input a word ending in derivational suffix -itb.
 	[ "", "" ],
 	// Input a word ending in derivational suffix -írn.
@@ -314,7 +314,7 @@ const wordsToStem = [
 	// Input a word ending in derivational suffix -néř.
 	[ "platnéř", "plat" ],
 	// Input a word ending in derivational suffix -ník.
-	// [ "ročník", "roč" ],
+	[ "ročník", "roč" ],
 	// Input a word ending in derivational suffix -ctv.
 	[ "účetnictv", "účetni" ],
 	// Input a word ending in derivational suffix -stv.
