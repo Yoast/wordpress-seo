@@ -89,7 +89,7 @@ class Main_Image extends Abstract_Schema_Piece {
 	 * @return array|null The image schema object or null if there is no image in the content.
 	 */
 	private function get_social_image( $image_id ) {
-		if ( isset( $this->context->indexable->open_graph_image_id ) ) {
+		if ( isset( $this->context->indexable->open_graph_image_id ) && $this->context->indexable->open_graph_image_source === 'set-by-user' ) {
 			return $this->helpers->schema->image->generate_from_attachment_id( $image_id, $this->context->indexable->open_graph_image_id );
 		}
 
