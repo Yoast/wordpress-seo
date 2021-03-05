@@ -3,10 +3,8 @@
 namespace Yoast\WP\SEO\Tests\Unit\Integrations\Watchers;
 
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
-use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
-use Mockery;
 use Brain\Monkey;
 
 use Yoast\WP\SEO\Integrations\Watchers\Addon_Update_Watcher;
@@ -29,13 +27,6 @@ class Addon_Update_Watcher_Test extends TestCase {
 	protected $instance;
 
 	/**
-	 * Mocked product helper.
-	 *
-	 * @var Mockery\MockInterface|Product_Helper
-	 */
-	protected $product_helper;
-
-	/**
 	 * Sets up the class under test and mock objects.
 	 */
 	public function set_up() {
@@ -43,9 +34,7 @@ class Addon_Update_Watcher_Test extends TestCase {
 
 		$this->stubTranslationFunctions();
 
-		$this->product_helper = Mockery::mock( Product_Helper::class );
-
-		$this->instance = new Addon_Update_Watcher( $this->product_helper );
+		$this->instance = new Addon_Update_Watcher();
 	}
 
 	/**
@@ -99,15 +88,15 @@ class Addon_Update_Watcher_Test extends TestCase {
 	}
 
 	/**
-	 * Tests that auto updates for add-ons are disabled when auto updates
-	 * for Free are disabled.
+	 * Tests that auto updates for add-ons are ensabled when auto updates
+	 * for Free are ensabled.
 	 *
 	 * @covers ::toggle_auto_updates_for_add_ons
 	 * @covers ::are_auto_updates_enabled
 	 * @covers ::disable_auto_updates_for_addons
 	 * @covers ::enable_auto_updates_for_addons
 	 */
-	public function test_disable_auto_updates_for_add_ons_on_free_auto_update_disable() {
+	public function test_enable_auto_updates_for_add_ons_on_free_auto_update_enable() {
 		$old = [ 'other-plugin/plugin.php' ];
 		$new = [ 'other-plugin/plugin.php', 'wordpress-seo/wp-seo.php' ];
 
@@ -119,16 +108,12 @@ class Addon_Update_Watcher_Test extends TestCase {
 			'wpseo-local/local-seo.php',
 			'wpseo-woocommerce/wpseo-woocommerce.php',
 			'wpseo-news/wpseo-news.php',
-			'yoast-acf-analysis/yoast-acf-analysis.php',
 		];
 
-		$this->product_helper
-			->expects( 'is_premium' )
-			->andReturnFalse();
-
 		Monkey\Functions\expect( 'update_option' )
+			->once()
 			->with( 'auto_update_plugins', $option )
-			->once();
+			->andReturn( true );
 
 		$this->instance->toggle_auto_updates_for_add_ons(
 			$old,
@@ -145,7 +130,7 @@ class Addon_Update_Watcher_Test extends TestCase {
 	 * @covers ::enable_auto_updates_for_addons
 	 * @covers ::disable_auto_updates_for_addons
 	 */
-	public function test_enable_auto_updates_for_add_ons_on_free_auto_update_enable() {
+	public function test_disable_auto_updates_for_add_ons_on_free_auto_update_disable() {
 		$old = [
 			'other-plugin/plugin.php',
 			'wordpress-seo/wp-seo.php',
@@ -168,15 +153,12 @@ class Addon_Update_Watcher_Test extends TestCase {
 
 		$option = [
 			'other-plugin/plugin.php',
+			'yoast-acf-analysis/yoast-acf-analysis.php',
 		];
 
-		$this->product_helper
-			->expects( 'is_premium' )
-			->andReturnFalse();
-
 		Monkey\Functions\expect( 'update_option' )
-			->with( 'auto_update_plugins', $option )
-			->once();
+			->once()
+			->with( 'auto_update_plugins', $option );
 
 		$this->instance->toggle_auto_updates_for_add_ons(
 			$old,
@@ -215,10 +197,6 @@ class Addon_Update_Watcher_Test extends TestCase {
 		$option = [
 			'other-plugin/plugin.php',
 		];
-
-		$this->product_helper
-			->expects( 'is_premium' )
-			->andReturnFalse();
 
 		Monkey\Functions\expect( 'update_option' )
 			->with( 'auto_update_plugins', $option )
@@ -268,7 +246,7 @@ class Addon_Update_Watcher_Test extends TestCase {
 			'wordpress-seo-premium/wp-seo-premium.php'
 		);
 
-		self::assertEquals( $old_html, $new_html );
+		self::assertEquals( '<em>Auto-updates are disabled based on this setting for Yoast SEO.</em>', $new_html );
 	}
 
 	/**
@@ -289,7 +267,7 @@ class Addon_Update_Watcher_Test extends TestCase {
 			'wordpress-seo-premium/wp-seo-premium.php'
 		);
 
-		self::assertEquals( $old_html, $new_html );
+		self::assertEquals( '<em>Auto-updates are disabled based on this setting for Yoast SEO.</em>', $new_html );
 	}
 
 	/**
@@ -332,14 +310,6 @@ class Addon_Update_Watcher_Test extends TestCase {
 			->with( 'auto_update_plugins' )
 			->andReturn( [ 'wordpress-seo/wp-seo.php' ] );
 
-		$this->product_helper
-			->expects( 'is_premium' )
-			->andReturnFalse();
-
-		$this->product_helper
-			->expects( 'get_product_name' )
-			->andReturn( 'Yoast SEO' );
-
 		$new_html = $this->instance->replace_auto_update_toggles_of_addons(
 			$old_html,
 			$plugin
@@ -366,14 +336,6 @@ class Addon_Update_Watcher_Test extends TestCase {
 			->with( 'auto_update_plugins' )
 			->andReturn( [] );
 
-		$this->product_helper
-			->expects( 'is_premium' )
-			->andReturnFalse();
-
-		$this->product_helper
-			->expects( 'get_product_name' )
-			->andReturn( 'Yoast SEO' );
-
 		$new_html = $this->instance->replace_auto_update_toggles_of_addons(
 			$old_html,
 			$plugin
@@ -389,6 +351,7 @@ class Addon_Update_Watcher_Test extends TestCase {
 	 */
 	public function plugin_provider() {
 		return [
+			[ 'wordpress-seo-premium/wp-seo-premium.php' ],
 			[ 'wpseo-video/video-seo.php' ],
 			[ 'wpseo-local/local-seo.php' ],
 			[ 'wpseo-woocommerce/wpseo-woocommerce.php' ],
