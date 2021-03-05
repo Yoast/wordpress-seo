@@ -212,7 +212,7 @@ class Main_Image_Test extends TestCase {
 			'url'        => 'http://basic.wordpress.test/wp-content/uploads/2021/03/og-image.jpg',
 			'contentUrl' => 'http://basic.wordpress.test/wp-content/uploads/2021/03/og-image.jpg',
 			'width'      => 732,
-			'height'     => 248
+			'height'     => 248,
 		];
 
 		$this->schema_image->expects( 'generate_from_attachment_id' )
@@ -247,7 +247,7 @@ class Main_Image_Test extends TestCase {
 			'url'        => 'http://basic.wordpress.test/wp-content/uploads/2021/03/twitter-image.jpg',
 			'contentUrl' => 'http://basic.wordpress.test/wp-content/uploads/2021/03/twitter-image.jpg',
 			'width'      => 732,
-			'height'     => 248
+			'height'     => 248,
 		];
 
 		$this->schema_image->expects( 'generate_from_attachment_id' )
