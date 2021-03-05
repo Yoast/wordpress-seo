@@ -201,7 +201,7 @@ class Main_Image_Test extends TestCase {
 		$this->meta_tags_context->canonical = 'https://example.com/canonical';
 		$this->meta_tags_context->id        = 1337;
 
-		$this->meta_tags_context->indexable->open_graph_image_id = 'image_id';
+		$this->meta_tags_context->indexable->open_graph_image_id = 4532;
 
 		$image_id = $this->generate_image_id();
 
@@ -217,7 +217,7 @@ class Main_Image_Test extends TestCase {
 
 		$this->schema_image->expects( 'generate_from_attachment_id' )
 			->once()
-			->with( $image_id, 'image_id' )
+			->with( $image_id, 4532 )
 			->andReturn( $image_schema );
 
 		self::assertEquals( $image_schema, $this->instance->generate() );
