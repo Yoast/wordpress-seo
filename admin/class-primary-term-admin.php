@@ -131,8 +131,8 @@ class WPSEO_Primary_Term_Admin implements WPSEO_WordPress_Integration {
 			'taxonomies' => $mapped_taxonomies,
 		];
 
-		$asset_manager->localize_script( 'post-edit', 'wpseoPrimaryCategoryL10n', $data );
-		$asset_manager->localize_script( 'post-edit-classic', 'wpseoPrimaryCategoryL10n', $data );
+		$asset_manager->localize_script( 'postEdit', 'wpseoPrimaryCategoryL10n', $data );
+		$asset_manager->localize_script( 'postEditClassic', 'wpseoPrimaryCategoryL10n', $data );
 	}
 
 	/**

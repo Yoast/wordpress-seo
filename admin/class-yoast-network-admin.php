@@ -198,7 +198,7 @@ class Yoast_Network_Admin implements WPSEO_WordPress_Integration, WPSEO_WordPres
 			'error_prefix'   => __( 'Error: %s', 'wordpress-seo' ),
 		];
 		$asset_manager->localize_script(
-			'network-admin-script',
+			'networkAdminScript',
 			'wpseoNetworkAdminGlobalL10n',
 			$translations
 		);

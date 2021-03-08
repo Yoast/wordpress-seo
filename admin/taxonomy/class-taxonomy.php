@@ -137,7 +137,7 @@ class WPSEO_Taxonomy {
 			$asset_manager->enqueue_script( 'term-edit' );
 
 			$yoast_components_l10n = new WPSEO_Admin_Asset_Yoast_Components_L10n();
-			$yoast_components_l10n->localize_script( 'term-edit' );
+			$yoast_components_l10n->localize_script( 'termEdit' );
 
 			$analysis_worker_location          = new WPSEO_Admin_Asset_Analysis_Worker_Location( $asset_manager->flatten_version( WPSEO_VERSION ) );
 			$used_keywords_assessment_location = new WPSEO_Admin_Asset_Analysis_Worker_Location( $asset_manager->flatten_version( WPSEO_VERSION ), 'used-keywords-assessment' );
@@ -148,8 +148,8 @@ class WPSEO_Taxonomy {
 			 */
 			remove_action( 'admin_print_scripts', 'print_emoji_detection_script' );
 
-			$asset_manager->localize_script( 'term-edit', 'wpseoAdminL10n', WPSEO_Utils::get_admin_l10n() );
-			$asset_manager->localize_script( 'term-edit', 'wpseoFeaturesL10n', WPSEO_Utils::retrieve_enabled_features() );
+			$asset_manager->localize_script( 'termEdit', 'wpseoAdminL10n', WPSEO_Utils::get_admin_l10n() );
+			$asset_manager->localize_script( 'termEdit', 'wpseoFeaturesL10n', WPSEO_Utils::retrieve_enabled_features() );
 
 			$script_data = [
 				'analysis'         => [
@@ -181,7 +181,7 @@ class WPSEO_Taxonomy {
 				'userLanguageCode' => WPSEO_Language_Utils::get_language( \get_user_locale() ),
 				'isTerm'           => true,
 			];
-			$asset_manager->localize_script( 'term-edit', 'wpseoScriptData', $script_data );
+			$asset_manager->localize_script( 'termEdit', 'wpseoScriptData', $script_data );
 		}
 
 		if ( self::is_term_overview( $pagenow ) ) {

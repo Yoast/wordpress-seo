@@ -90,10 +90,10 @@ class WPSEO_Configuration_Page {
 
 		$config = $this->get_config();
 
-		$asset_manager->localize_script( 'configuration-wizard', 'yoastWizardConfig', $config );
+		$asset_manager->localize_script( 'configurationWizard', 'yoastWizardConfig', $config );
 
 		$yoast_components_l10n = new WPSEO_Admin_Asset_Yoast_Components_L10n();
-		$yoast_components_l10n->localize_script( 'configuration-wizard' );
+		$yoast_components_l10n->localize_script( 'configurationWizard' );
 	}
 
 	/**
