@@ -193,7 +193,7 @@ class Auto_Update_Watcher implements Integration_Interface {
 		$presenter = new Auto_Update_Notification_Presenter();
 
 		return new Yoast_Notification(
-			$presenter,
+			$presenter->present(),
 			[
 				'type'         => Yoast_Notification::WARNING,
 				'id'           => self::NOTIFICATION_ID,
