@@ -1,19 +1,11 @@
+import { withSelect } from "@wordpress/data";
 import MetaboxFill from "../components/fills/MetaboxFill";
-import { connect } from "react-redux";
 
-/**
- * Maps the state to props.
- *
- * @param {Object} state The Redux state.
- * @param {Object} ownProps The props passed.
- *
- * @returns {Object} The props for the Metabox component.
- */
-function mapStateToProps( state, ownProps ) {
+export default withSelect( ( select, ownProps ) => {
+	const { getPreferences } = select( "yoast-seo/editor" );
+
 	return {
-		settings: state.preferences,
+		settings: getPreferences(),
 		store: ownProps.store,
 	};
-}
-
-export default connect( mapStateToProps )( MetaboxFill );
+} )( MetaboxFill );
