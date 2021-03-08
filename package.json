@@ -2,6 +2,7 @@
   "name": "wordpress-seo",
   "license": "GPL-2.0+",
   "description": "Development files for the Yoast SEO plugin",
+  "private": true,
   "plugin": {
     "glotpress": "http://translate.wordpress.org",
     "textdomain": "wordpress-seo"
@@ -15,7 +16,18 @@
     "type": "git",
     "url": "https://github.com/Yoast/wordpress-seo"
   },
+  "workspaces": {
+    "packages": [
+      "packages/*",
+      "apps/*"
+    ],
+    "nohoist": [
+      "**/grunt-*",
+      "**/sassdash"
+    ]
+  },
   "scripts": {
+    "lint": "lerna run lint --",
     "test": "jest -u",
     "build": "cross-env NODE_ENV=production webpack --config ./config/webpack/webpack.config.js --progress",
     "webpack-analyze-bundle": "cross-env BUNDLE_ANALYZER=1 NODE_ENV=production webpack --config ./config/webpack/webpack.config.js --progress",
@@ -33,35 +45,11 @@
     "unlink-monorepo": "node config/yarn/unlink_monorepo.js",
     "bump-monorepo-packages": "node config/yarn/bump_monorepo_packages.js"
   },
-  "jest": {
-    "setupTestFrameworkScriptFile": "<rootDir>/js/tests/setupTests.js",
-    "transformIgnorePatterns": [
-      "[/\\\\]node_modules[/\\\\](?!yoast-components|yoastseo|lodash-es|@yoast).+\\.js$"
-    ],
-    "testPathIgnorePatterns": [
-      "/js/tests/edit.test.js"
-    ],
-    "moduleNameMapper": {
-      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/js/tests/__mocks__/fileMock.js",
-      "\\.(css|less)$": "<rootDir>/js/tests/__mocks__/styleMock.js",
-      "find-with-regex": "<rootDir>/node_modules/find-with-regex/lib/index.js"
-    },
-    "moduleDirectories": [
-      "<rootDir>/node_modules",
-      "node_modules"
-    ],
-    "snapshotSerializers": [
-      "enzyme-to-json/serializer"
-    ],
-    "testURL": "http://localhost/"
-  },
   "devDependencies": {
     "@slack/webhook": "^5.0.2",
     "@wordpress/babel-plugin-makepot": "^1.0.0",
     "@wordpress/babel-preset-default": "^1.1.3",
-    "@wordpress/data": "^4.10.0",
     "@wordpress/dependency-extraction-webpack-plugin": "^2.8.0",
-    "@wordpress/element": "^2.9.0",
     "@yoast/grunt-plugin-tasks": "^2.0.0",
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
@@ -87,18 +75,19 @@
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.5.0",
     "enzyme-to-json": "^3.3.3",
+    "eslint": "^5.15.3",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-react": "^7.12.4",
     "grunt-git": "^1.0.14",
     "grunt-po2json": "^0.3.0",
     "grunt-prompt": "^1.3.3",
     "grunt-webpack": "^3.1.3",
     "i18n-calypso": "^1.8.4",
-    "jest": "^23.3.0",
-    "jest-styled-components": "^6.3.4",
+    "json": "^9.0.6",
+    "lerna": "^3.13.4",
     "mini-css-extract-plugin": "^0.9.0",
     "node-fetch": "^2.6.1",
     "raf": "^3.4.0",
-    "react": "16.8.6",
-    "react-dom": "16.8.6",
     "readline-sync": "^1.4.9",
     "shusher": "^0.1.1",
     "svg-react-loader": "^0.4.6",
@@ -108,43 +97,7 @@
     "webpack-cli": "^3.1.1",
     "webpack-dev-server": "^3.1.14"
   },
-  "dependencies": {
-    "@babel/runtime": "7.0.0-beta.55",
-    "@wordpress/dom-ready": "^2.10.0",
-    "@yoast/analysis-report": "^1.18.0-rc.0",
-    "@yoast/components": "^2.16.0-rc.0",
-    "@yoast/configuration-wizard": "^2.19.0-rc.0",
-    "@yoast/feature-flag": "^0.5.2",
-    "@yoast/helpers": "^0.15.0",
-    "@yoast/replacement-variable-editor": "^1.14.0-rc.0",
-    "@yoast/schema-blocks": "^1.5.0-rc.0",
-    "@yoast/search-metadata-previews": "^2.21.0-rc.0",
-    "@yoast/social-metadata-forms": "^1.14.0-rc.0",
-    "@yoast/style-guide": "^0.13.0",
-    "a11y-speak": "git+https://github.com/Yoast/a11y-speak.git#master",
-    "babel-polyfill": "^6.26.0",
-    "draft-js": "^0.10.5",
-    "draft-js-mention-plugin": "^3.0.4",
-    "find-with-regex": "~1.0.2",
-    "interpolate-components": "^1.1.0",
-    "jed": "^1.1.1",
-    "marked": "^0.7.0",
-    "material-ui": "^0.20.0",
-    "moment": "2.22.2",
-    "moment-duration-format": "^2.2.2",
-    "postcss-import": "^12.0.1",
-    "prop-types": "^15.5.10",
-    "react-intl": "^2.4.0",
-    "react-redux": "^5.0.6",
-    "react-select": "^3.1.0",
-    "redux": "^3.7.2",
-    "redux-thunk": "^2.2.0",
-    "select2": "^4.0.5",
-    "styled-components": "^4.2.0",
-    "tokenizr": "^1.5.7",
-    "yoast-components": "^5.21.0-rc.0",
-    "yoastseo": "^1.90.0"
-  },
+  "dependencies": {},
   "browserslist": [
     "extends @yoast/browserslist-config"
   ],

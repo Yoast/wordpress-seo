@@ -89,9 +89,4 @@ test.sh
 /js/dist/*
 /js/vendor/*
 /css/dist/*
-
-##############
-# JS Mono Repo
-##############
-/javascript/
-.yoast
+/packages/*/dist
