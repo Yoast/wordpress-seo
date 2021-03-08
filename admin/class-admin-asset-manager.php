@@ -135,11 +135,11 @@ class WPSEO_Admin_Asset_Manager {
 	 * Localizes the script.
 	 *
 	 * @param string $handle      The script handle.
-	 * @param string $object_name The object name.
+	 * @param string $objectName The object name.
 	 * @param array  $data        The l10n data.
 	 */
-	public function localize_script( $handle, $object_name, $data ) {
-		\wp_localize_script( $this->prefix . $handle, $object_name, $data );
+	public function localize_script( $handle, $objectName, $data ) {
+		\wp_localize_script( $this->prefix . $handle, $objectName, $data );
 	}
 
 	/**
