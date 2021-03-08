@@ -1,0 +1,41 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`the CellFixedWidth component matches the snapshot 1`] = `
+<span
+  className="fgAsrs"
+>
+  This is a cell with a fixed width
+</span>
+`;
+
+exports[`the CellIcon component matches the snapshot 1`] = `
+<span
+  className="gCegxp"
+>
+  Icon
+</span>
+`;
+
+exports[`the CellMinWidth component matches the snapshot 1`] = `
+<span
+  className="gkrypk"
+>
+  This is a call with a min width
+</span>
+`;
+
+exports[`the CellPrimary component matches the snapshot 1`] = `
+<span
+  className="jnhQBt"
+>
+  This is a primary cell
+</span>
+`;
+
+exports[`the CellPrimary with responsiveHeaders matches the snapshot 1`] = `
+<span
+  className="AQCOa"
+>
+  This is a primary cell with responsive headers
+</span>
+`;

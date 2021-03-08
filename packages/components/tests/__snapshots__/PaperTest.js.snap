@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`the Paper with props matches the snapshot 1`] = `
+<div
+  className="dyWGuC"
+/>
+`;
+
+exports[`the Paper without props matches the snapshot 1`] = `
+<div
+  className="eSByDL"
+/>
+`;

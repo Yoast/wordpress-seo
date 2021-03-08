@@ -1,0 +1,65 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`LanguageNotice matches the snapshot by default 1`] = `null`;
+
+exports[`LanguageNotice matches the snapshot when showLanguageNotice equals true 1`] = `
+<p
+  className="cJvzkV"
+>
+  Your site language is set to 
+  <strong>
+    English
+  </strong>
+  . If this is not correct, contact your site administrator.
+</p>
+`;
+
+exports[`LanguageNotice matches the snapshot with a changed language link 1`] = `
+<p
+  className="cJvzkV"
+>
+  Your site language is set to 
+  <strong>
+    English
+  </strong>
+  . 
+  <a
+    className="kJvoiP"
+    href="http://www.example.com"
+    rel="noopener"
+    target="_blank"
+  >
+    Change language
+    <span
+      className="A11yNotice-sc-1feyioo-0 gHCoqL"
+    >
+      (Opens in a new browser tab)
+    </span>
+  </a>
+</p>
+`;
+
+exports[`LanguageNotice matches the snapshot with another language 1`] = `
+<p
+  className="cJvzkV"
+>
+  Your site language is set to 
+  <strong>
+    Nederlands
+  </strong>
+  . 
+  <a
+    className="kJvoiP"
+    href="http://www.example.com"
+    rel="noopener"
+    target="_blank"
+  >
+    Change language
+    <span
+      className="A11yNotice-sc-1feyioo-0 gHCoqL"
+    >
+      (Opens in a new browser tab)
+    </span>
+  </a>
+</p>
+`;

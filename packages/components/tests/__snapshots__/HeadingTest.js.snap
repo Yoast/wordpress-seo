@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`the Heading with props matches the snapshot 1`] = `
+<h2
+  className="some-class"
+>
+  Text
+</h2>
+`;
+
+exports[`the Heading without props matches the snapshot 1`] = `
+<h1
+  className={undefined}
+>
+  Text
+</h1>
+`;

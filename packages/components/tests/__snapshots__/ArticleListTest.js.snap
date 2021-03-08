@@ -1,0 +1,62 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`the ArticleList matches the snapshot 1`] = `
+<div
+  className="kQdEnK articlelist-feed"
+>
+  <h3
+    className="dDdpLZ articlelist-feed__header"
+  >
+    Feed title
+  </h3>
+  <ul
+    className="dfXWGx articlelist-feed__posts"
+    role="list"
+  >
+    <li
+      className="dEOLjB articlelist-feed__post"
+    >
+      <a
+        className="guuSkw articlelist-feed__post-link"
+        href="https://www.yoast.com/1"
+        rel={null}
+        target="_blank"
+      >
+        Wordpress SEO
+        <span
+          className="A11yNotice-sc-1feyioo-0 gHCoqL"
+        >
+          (Opens in a new browser tab)
+        </span>
+      </a>
+      <p
+        className="articlelist-feed__post-description"
+      >
+        Some arbitrary description any blog post could have
+      </p>
+    </li>
+    <li
+      className="dEOLjB articlelist-feed__post"
+    >
+      <a
+        className="guuSkw articlelist-feed__post-link"
+        href="https://www.yoast.com/2"
+        rel={null}
+        target="_blank"
+      >
+        Wordpress SEO
+        <span
+          className="A11yNotice-sc-1feyioo-0 gHCoqL"
+        >
+          (Opens in a new browser tab)
+        </span>
+      </a>
+      <p
+        className="articlelist-feed__post-description"
+      >
+        Some arbitrary description any blog post could have
+      </p>
+    </li>
+  </ul>
+</div>
+`;

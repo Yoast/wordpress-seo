@@ -1,0 +1,92 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`MultiStepProgress the MultiStepProgress matches the snapshot 1`] = `
+<div
+  aria-atomic={true}
+  aria-live="polite"
+  aria-relevant="additions text"
+  className="dljSFa"
+  role="status"
+>
+  <ol
+    className="knaceg"
+  >
+    <li
+      className="kMQQyg"
+    >
+      <span>
+        This task has finished.
+      </span>
+      <svg
+        aria-hidden={true}
+        className="yoast-svg-icon yoast-svg-icon-check createSvgIconComponent__StyledSvg-sc-1h4gl3a-0 cPnaHk"
+        fill="#64a60a"
+        focusable="false"
+        role="img"
+        size="16px"
+        viewBox="0 0 1792 1792"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M249.2,431.2c-23,0-45.6,9.4-61.8,25.6L25.6,618.6C9.4,634.8,0,657.4,0,680.4c0,23,9.4,45.6,25.6,61.8 l593.1,593.1c16.2,16.2,38.8,25.6,61.8,25.6c23,0,45.6-9.4,61.8-25.6L1766.4,311c16.2-16.2,25.6-38.8,25.6-61.8 s-9.4-45.6-25.6-61.8L1604.5,25.6C1588.3,9.4,1565.8,0,1542.8,0c-23,0-45.6,9.4-61.8,25.6L680.4,827L311,456.3 C294.8,440.5,272.3,431.2,249.2,431.2z"
+        />
+      </svg>
+    </li>
+    <li
+      className="kMQQyg"
+    >
+      <span>
+        This task has failed.
+      </span>
+      <svg
+        aria-hidden={true}
+        className="yoast-svg-icon yoast-svg-icon-times createSvgIconComponent__StyledSvg-sc-1h4gl3a-0 cPnaHk"
+        fill="#dc3232"
+        focusable="false"
+        role="img"
+        size="16px"
+        viewBox="0 0 1792 1792"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M1490 1322q0 40-28 68l-136 136q-28 28-68 28t-68-28l-294-294-294 294q-28 28-68 28t-68-28l-136-136q-28-28-28-68t28-68l294-294-294-294q-28-28-28-68t28-68l136-136q28-28 68-28t68 28l294 294 294-294q28-28 68-28t68 28l136 136q28 28 28 68t-28 68l-294 294 294 294q28 28 28 68z"
+        />
+      </svg>
+    </li>
+    <li
+      className="cVItcS"
+    >
+      <span>
+        This task is running.
+      </span>
+      <svg
+        aria-hidden={true}
+        className="fPPnRA yoast-svg-icon yoast-svg-icon-loading-spinner"
+        fill="currentColor"
+        focusable="false"
+        role="img"
+        size="16px"
+        viewBox="0 0 66 66"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <circle
+          className="path"
+          cx="33"
+          cy="33"
+          fill="none"
+          r="30"
+          strokeLinecap="round"
+          strokeWidth="6"
+        />
+      </svg>
+    </li>
+    <li
+      className="efeHCA"
+    >
+      <span>
+        This task is pending.
+      </span>
+    </li>
+  </ol>
+</div>
+`;

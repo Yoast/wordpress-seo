@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`the YoastLinkButton matches the snapshot 1`] = `
+<a
+  className="exJvQq"
+>
+  YoastLinkButtonValue
+</a>
+`;

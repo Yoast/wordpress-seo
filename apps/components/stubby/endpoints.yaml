@@ -1,0 +1,7 @@
+-  request:
+      url: ^/onboarding
+      method: [GET, POST]
+   response:
+    - status: 200
+      latency: 100
+      body: '{"test": "yes"}'

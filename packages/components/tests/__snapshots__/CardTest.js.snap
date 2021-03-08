@@ -1,0 +1,108 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`The FullHeightCard is rendered including some props 1`] = `
+<div
+  className="jcXXIE dgKSLD CourseCard_Empty"
+  id="Test01"
+>
+  <div
+    className="fICiEc"
+  />
+</div>
+`;
+
+exports[`The FullHeightCard is rendered including the CardBanner and CardDetails components 1`] = `
+<div
+  className="jcXXIE dgKSLD CourseCard"
+  id="Test02"
+>
+  <a
+    className="oJQsb"
+    href="https://yoast.com/academy/keyword-research-training/"
+    rel={null}
+    target="_blank"
+  >
+    <img
+      alt=""
+      className="ehfyDt"
+      src="../wp-content/plugins/wordpress-seo/images/sample_course_card_header.png"
+    />
+    <h2
+      className="jkjWVU"
+    >
+      Keyword Research
+    </h2>
+    <span
+      className="A11yNotice-sc-1feyioo-0 gHCoqL"
+    >
+      (Opens in a new browser tab)
+    </span>
+  </a>
+  <span
+    className="jvpaxk"
+  >
+    Free
+  </span>
+  <span
+    className="lalIBs"
+  />
+  <div
+    className="fICiEc"
+  >
+    <div
+      className="ixyey"
+    >
+      <div
+        className="hDEKkD"
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": "Do you know the essential first step of good SEO? It’s keyword research. In this training, 
+you’ll learn how to research and select the keywords that will guide searchers to your pages.",
+          }
+        }
+      />
+    </div>
+    <div
+      className="hLFZrf"
+    >
+      <a
+        className="hoNwyE"
+        href="https://yoast.com/cart/?add-to-cart=1311259"
+        rel={null}
+        target="_blank"
+      >
+        Start your free trail
+        <span
+          className="A11yNotice-sc-1feyioo-0 gHCoqL"
+        >
+          (Opens in a new browser tab)
+        </span>
+      </a>
+      <a
+        className="blWwuK"
+        href="https://yoast.com/academy/keyword-research-training/"
+        rel={null}
+        target="_blank"
+      >
+        Read more about this training »
+        <span
+          className="A11yNotice-sc-1feyioo-0 gHCoqL"
+        >
+          (Opens in a new browser tab)
+        </span>
+      </a>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`The empty Card component matches the snapshot 1`] = `
+<div
+  className="jcXXIE"
+  id=""
+>
+  <div
+    className="fICiEc"
+  />
+</div>
+`;

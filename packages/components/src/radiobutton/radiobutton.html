@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<style>
+		/* Demo styling */
+		body {
+			font-family: var(--yoast-font-family);
+			font-size: var(--yoast-font-size-default);
+			color: var(--yoast-color-font-default);
+			line-height: 1.5;
+		}
+	</style>
+
+	<link rel='stylesheet' href='../base/colors.css' type='text/css' media='all'/>
+	<link rel='stylesheet' href='../base/typography.css' type='text/css' media='all'/>
+	<link rel='stylesheet' href='../base/borders.css' type='text/css' media='all'/>
+	<link rel='stylesheet' href='../base/utility.css' type='text/css' media='all'/>
+	<link rel='stylesheet' href='../base/icons.css' type='text/css' media='all'/>
+
+	<link rel='stylesheet' href='../field-group/field-group.css' type='text/css' media='all'/>
+	<link rel='stylesheet' href='../help-icon/help-icon.css' type='text/css' media='all'/>
+	<link rel='stylesheet' href='radiobutton.css' type='text/css' media='all'/>
+
+</head>
+<body class="yoast">
+<form>
+
+	<p>Radiobuttons with a legend/heading and inputs next to each other</p>
+
+	<fieldset class="yoast-field-group">
+		<div class="yoast-field-group__title">
+			<legend>Do you have a passport?</legend>
+			<a class="yoast-help" target="_blank" href="https://yoast.com">
+				<span class="yoast-help__icon">
+					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12" role="img" aria-hidden="true"
+						 focusable="false"><path
+							d="M12 6A6 6 0 110 6a6 6 0 0112 0zM6.2 2C4.8 2 4 2.5 3.3 3.5l.1.4.8.7.4-.1c.5-.5.8-.9 1.4-.9.5 0 1.1.4 1.1.8s-.3.6-.7.9C5.8 5.6 5 6 5 7c0 .2.2.4.3.4h1.4L7 7c0-.8 2-.8 2-2.6C9 3 7.5 2 6.2 2zM6 8a1.1 1.1 0 100 2.2A1.1 1.1 0 006 8z"/></svg>
+				</span>
+				<span class="screen-reader-text">Tell what this link does.</span>
+				<span class="screen-reader-text">(Opens in a new browser tab)</span>
+			</a>
+		</div>
+
+		<div class="yoast-field-group__radiobutton">
+			<input type="radio" id="yes" name="name" checked>
+			<label for="yes">Yes</label>
+			<input type="radio" id="no" name="name">
+			<label for="no">No</label>
+		</div>
+	</fieldset>
+
+	<p>Radiobuttons with a legend/heading and inputs below each other</p>
+
+	<fieldset class="yoast-field-group">
+		<div class="yoast-field-group__title">
+			<legend>Do you have a passport?</legend>
+			<a class="yoast-help" target="_blank" href="https://yoast.com">
+				<span class="yoast-help__icon">
+					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12" role="img" aria-hidden="true"
+						 focusable="false"><path
+							d="M12 6A6 6 0 110 6a6 6 0 0112 0zM6.2 2C4.8 2 4 2.5 3.3 3.5l.1.4.8.7.4-.1c.5-.5.8-.9 1.4-.9.5 0 1.1.4 1.1.8s-.3.6-.7.9C5.8 5.6 5 6 5 7c0 .2.2.4.3.4h1.4L7 7c0-.8 2-.8 2-2.6C9 3 7.5 2 6.2 2zM6 8a1.1 1.1 0 100 2.2A1.1 1.1 0 006 8z"/></svg>
+				</span>
+				<span class="screen-reader-text">Tell what this link does.</span>
+				<span class="screen-reader-text">(Opens in a new browser tab)</span>
+			</a>
+		</div>
+
+		<div class="yoast-field-group__radiobutton yoast-field-group__radiobutton--vertical">
+			<input type="radio" id="yes2" name="name2" checked>
+			<label for="yes2">Yes</label>
+		</div>
+		<div class="yoast-field-group__radiobutton yoast-field-group__radiobutton--vertical">
+			<input type="radio" id="no2" name="name2">
+			<label for="no2">No</label>
+		</div>
+	</fieldset>
+
+	<p>Radiobuttons without additional styling</p>
+
+	<fieldset>
+		<input type="radio" id="yes8" name="name8" checked>
+		<label for="yes8">Yes</label>
+
+		<input type="radio" id="no9" name="name8">
+		<label for="no9">No</label>
+	</fieldset>
+
+
+</form>
+</body>
+</html>

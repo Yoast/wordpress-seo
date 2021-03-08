@@ -1,0 +1,637 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Collapsible matches the snapshot by default 1`] = `
+<div
+  className="bXDzPy"
+>
+  <h2
+    className="fytkxp"
+  >
+    <button
+      aria-expanded={false}
+      className="nHkJq ixEIcM"
+      id={null}
+      onClick={[Function]}
+      type="button"
+    >
+      <span
+        className="fOIIAL"
+      >
+        <span
+          className="gQZIbX"
+        >
+          Lorem ipsum dolor sit amet
+        </span>
+      </span>
+      <svg
+        aria-hidden={true}
+        className="yoast-svg-icon yoast-svg-icon-chevron-down createSvgIconComponent__StyledSvg-sc-1h4gl3a-0 ebKEvD"
+        fill="currentColor"
+        focusable="false"
+        role="img"
+        size="24px"
+        viewBox="0 0 24 24"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <g>
+          <path
+            d="M0,0h24v24H0V0z"
+            fill="none"
+          />
+        </g>
+        <g>
+          <path
+            d="M7.41,8.59L12,13.17l4.59-4.58L18,10l-6,6l-6-6L7.41,8.59z"
+          />
+        </g>
+      </svg>
+    </button>
+  </h2>
+</div>
+`;
+
+exports[`Collapsible matches the snapshot by default 2`] = `
+<div
+  className="bXDzPy"
+>
+  <h2
+    className="fytkxp"
+  >
+    <button
+      aria-expanded={true}
+      className="nHkJq ixEIcM"
+      id={null}
+      onClick={[Function]}
+      type="button"
+    >
+      <span
+        className="fOIIAL"
+      >
+        <span
+          className="gQZIbX"
+        >
+          Lorem ipsum dolor sit amet
+        </span>
+      </span>
+      <svg
+        aria-hidden={true}
+        className="yoast-svg-icon yoast-svg-icon-chevron-up createSvgIconComponent__StyledSvg-sc-1h4gl3a-0 ebKEvD"
+        fill="currentColor"
+        focusable="false"
+        role="img"
+        size="24px"
+        viewBox="0 0 24 24"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <g>
+          <path
+            d="M0,0h24v24H0V0z"
+            fill="none"
+          />
+        </g>
+        <g>
+          <path
+            d="M12,8l-6,6l1.41,1.41L12,10.83l4.59,4.58L18,14L12,8z"
+          />
+        </g>
+      </svg>
+    </button>
+  </h2>
+  <h4>
+    Vivamus rutrum velit ut nunc dignissim vulputate.
+  </h4>
+  <p>
+    In a purus quis leo dictum ultrices. Aenean commodo erat at pellentesque placerat.
+  </p>
+  <h4>
+    Ut id ex efficitur risus suscipit fermentum.
+  </h4>
+  <p>
+    Proin sed dolor neque. Vestibulum id leo ut ante luctus interdum sed ut sem.
+  </p>
+</div>
+`;
+
+exports[`Collapsible matches the snapshot by default when the collapsible has an ID 1`] = `
+<div
+  className="bXDzPy"
+>
+  <h2
+    className="fytkxp"
+  >
+    <button
+      aria-expanded={false}
+      className="nHkJq ixEIcM"
+      id="yoast-collapsible"
+      onClick={[Function]}
+      type="button"
+    >
+      <span
+        className="fOIIAL"
+      >
+        <span
+          className="gQZIbX"
+        >
+          Lorem ipsum dolor sit amet
+        </span>
+      </span>
+      <svg
+        aria-hidden={true}
+        className="yoast-svg-icon yoast-svg-icon-chevron-down createSvgIconComponent__StyledSvg-sc-1h4gl3a-0 ebKEvD"
+        fill="currentColor"
+        focusable="false"
+        role="img"
+        size="24px"
+        viewBox="0 0 24 24"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <g>
+          <path
+            d="M0,0h24v24H0V0z"
+            fill="none"
+          />
+        </g>
+        <g>
+          <path
+            d="M7.41,8.59L12,13.17l4.59-4.58L18,10l-6,6l-6-6L7.41,8.59z"
+          />
+        </g>
+      </svg>
+    </button>
+  </h2>
+</div>
+`;
+
+exports[`Collapsible matches the snapshot by default when the collapsible has an ID 2`] = `
+<div
+  className="bXDzPy"
+>
+  <h2
+    className="fytkxp"
+  >
+    <button
+      aria-expanded={true}
+      className="nHkJq ixEIcM"
+      id="yoast-collapsible"
+      onClick={[Function]}
+      type="button"
+    >
+      <span
+        className="fOIIAL"
+      >
+        <span
+          className="gQZIbX"
+        >
+          Lorem ipsum dolor sit amet
+        </span>
+      </span>
+      <svg
+        aria-hidden={true}
+        className="yoast-svg-icon yoast-svg-icon-chevron-up createSvgIconComponent__StyledSvg-sc-1h4gl3a-0 ebKEvD"
+        fill="currentColor"
+        focusable="false"
+        role="img"
+        size="24px"
+        viewBox="0 0 24 24"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <g>
+          <path
+            d="M0,0h24v24H0V0z"
+            fill="none"
+          />
+        </g>
+        <g>
+          <path
+            d="M12,8l-6,6l1.41,1.41L12,10.83l4.59,4.58L18,14L12,8z"
+          />
+        </g>
+      </svg>
+    </button>
+  </h2>
+  <h4>
+    Vivamus rutrum velit ut nunc dignissim vulputate.
+  </h4>
+  <p>
+    In a purus quis leo dictum ultrices. Aenean commodo erat at pellentesque placerat.
+  </p>
+  <h4>
+    Ut id ex efficitur risus suscipit fermentum.
+  </h4>
+  <p>
+    Proin sed dolor neque. Vestibulum id leo ut ante luctus interdum sed ut sem.
+  </p>
+</div>
+`;
+
+exports[`Collapsible matches the snapshot when it is closed 1`] = `
+<div
+  className="bXDzPy"
+>
+  <h2
+    className="fytkxp"
+  >
+    <button
+      aria-expanded={false}
+      className="nHkJq ixEIcM"
+      id={null}
+      onClick={[Function]}
+      type="button"
+    >
+      <span
+        className="fOIIAL"
+      >
+        <span
+          className="gQZIbX"
+        >
+          Lorem ipsum dolor sit amet
+        </span>
+      </span>
+      <svg
+        aria-hidden={true}
+        className="yoast-svg-icon yoast-svg-icon-chevron-down createSvgIconComponent__StyledSvg-sc-1h4gl3a-0 ebKEvD"
+        fill="currentColor"
+        focusable="false"
+        role="img"
+        size="24px"
+        viewBox="0 0 24 24"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <g>
+          <path
+            d="M0,0h24v24H0V0z"
+            fill="none"
+          />
+        </g>
+        <g>
+          <path
+            d="M7.41,8.59L12,13.17l4.59-4.58L18,10l-6,6l-6-6L7.41,8.59z"
+          />
+        </g>
+      </svg>
+    </button>
+  </h2>
+</div>
+`;
+
+exports[`Collapsible matches the snapshot when it is closed 2`] = `
+<div
+  className="bXDzPy"
+>
+  <h2
+    className="fytkxp"
+  >
+    <button
+      aria-expanded={true}
+      className="nHkJq ixEIcM"
+      id={null}
+      onClick={[Function]}
+      type="button"
+    >
+      <span
+        className="fOIIAL"
+      >
+        <span
+          className="gQZIbX"
+        >
+          Lorem ipsum dolor sit amet
+        </span>
+      </span>
+      <svg
+        aria-hidden={true}
+        className="yoast-svg-icon yoast-svg-icon-chevron-up createSvgIconComponent__StyledSvg-sc-1h4gl3a-0 ebKEvD"
+        fill="currentColor"
+        focusable="false"
+        role="img"
+        size="24px"
+        viewBox="0 0 24 24"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <g>
+          <path
+            d="M0,0h24v24H0V0z"
+            fill="none"
+          />
+        </g>
+        <g>
+          <path
+            d="M12,8l-6,6l1.41,1.41L12,10.83l4.59,4.58L18,14L12,8z"
+          />
+        </g>
+      </svg>
+    </button>
+  </h2>
+  <h4>
+    Vivamus rutrum velit ut nunc dignissim vulputate.
+  </h4>
+  <p>
+    In a purus quis leo dictum ultrices. Aenean commodo erat at pellentesque placerat.
+  </p>
+  <h4>
+    Ut id ex efficitur risus suscipit fermentum.
+  </h4>
+  <p>
+    Proin sed dolor neque. Vestibulum id leo ut ante luctus interdum sed ut sem.
+  </p>
+</div>
+`;
+
+exports[`Collapsible matches the snapshot when it is open 1`] = `
+<div
+  className="bXDzPy"
+>
+  <h2
+    className="fytkxp"
+  >
+    <button
+      aria-expanded={true}
+      className="nHkJq ixEIcM"
+      id={null}
+      onClick={[Function]}
+      type="button"
+    >
+      <span
+        className="fOIIAL"
+      >
+        <span
+          className="gQZIbX"
+        >
+          Lorem ipsum dolor sit amet
+        </span>
+      </span>
+      <svg
+        aria-hidden={true}
+        className="yoast-svg-icon yoast-svg-icon-chevron-up createSvgIconComponent__StyledSvg-sc-1h4gl3a-0 ebKEvD"
+        fill="currentColor"
+        focusable="false"
+        role="img"
+        size="24px"
+        viewBox="0 0 24 24"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <g>
+          <path
+            d="M0,0h24v24H0V0z"
+            fill="none"
+          />
+        </g>
+        <g>
+          <path
+            d="M12,8l-6,6l1.41,1.41L12,10.83l4.59,4.58L18,14L12,8z"
+          />
+        </g>
+      </svg>
+    </button>
+  </h2>
+  <h4>
+    Vivamus rutrum velit ut nunc dignissim vulputate.
+  </h4>
+  <p>
+    In a purus quis leo dictum ultrices. Aenean commodo erat at pellentesque placerat.
+  </p>
+  <h4>
+    Ut id ex efficitur risus suscipit fermentum.
+  </h4>
+  <p>
+    Proin sed dolor neque. Vestibulum id leo ut ante luctus interdum sed ut sem.
+  </p>
+</div>
+`;
+
+exports[`Collapsible matches the snapshot when it is open 2`] = `
+<div
+  className="bXDzPy"
+>
+  <h2
+    className="fytkxp"
+  >
+    <button
+      aria-expanded={false}
+      className="nHkJq ixEIcM"
+      id={null}
+      onClick={[Function]}
+      type="button"
+    >
+      <span
+        className="fOIIAL"
+      >
+        <span
+          className="gQZIbX"
+        >
+          Lorem ipsum dolor sit amet
+        </span>
+      </span>
+      <svg
+        aria-hidden={true}
+        className="yoast-svg-icon yoast-svg-icon-chevron-down createSvgIconComponent__StyledSvg-sc-1h4gl3a-0 ebKEvD"
+        fill="currentColor"
+        focusable="false"
+        role="img"
+        size="24px"
+        viewBox="0 0 24 24"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <g>
+          <path
+            d="M0,0h24v24H0V0z"
+            fill="none"
+          />
+        </g>
+        <g>
+          <path
+            d="M7.41,8.59L12,13.17l4.59-4.58L18,10l-6,6l-6-6L7.41,8.59z"
+          />
+        </g>
+      </svg>
+    </button>
+  </h2>
+</div>
+`;
+
+exports[`CollapsibleStateless matches the snapshot by default 1`] = `
+<div
+  className="bXDzPy"
+>
+  <h2
+    className="fytkxp"
+  >
+    <button
+      aria-expanded={true}
+      className="nHkJq ixEIcM"
+      id={null}
+      onClick={[Function]}
+      type="button"
+    >
+      <span
+        className="fOIIAL"
+      >
+        <span
+          className="gQZIbX"
+        >
+          Lorem ipsum dolor sit amet
+        </span>
+      </span>
+    </button>
+  </h2>
+  <h4>
+    Vivamus rutrum velit ut nunc dignissim vulputate.
+  </h4>
+  <p>
+    In a purus quis leo dictum ultrices. Aenean commodo erat at pellentesque placerat.
+  </p>
+  <h4>
+    Ut id ex efficitur risus suscipit fermentum.
+  </h4>
+  <p>
+    Proin sed dolor neque. Vestibulum id leo ut ante luctus interdum sed ut sem.
+  </p>
+</div>
+`;
+
+exports[`CollapsibleStateless matches the snapshot when it is opened and closed 1`] = `
+<div
+  className="bXDzPy"
+>
+  <h2
+    className="fytkxp"
+  >
+    <button
+      aria-expanded={true}
+      className="nHkJq ixEIcM"
+      id={null}
+      onClick={[Function]}
+      type="button"
+    >
+      <span
+        className="fOIIAL"
+      >
+        <span
+          className="gQZIbX"
+        >
+          Lorem ipsum dolor sit amet
+        </span>
+      </span>
+    </button>
+  </h2>
+  <h4>
+    Vivamus rutrum velit ut nunc dignissim vulputate.
+  </h4>
+  <p>
+    In a purus quis leo dictum ultrices. Aenean commodo erat at pellentesque placerat.
+  </p>
+  <h4>
+    Ut id ex efficitur risus suscipit fermentum.
+  </h4>
+  <p>
+    Proin sed dolor neque. Vestibulum id leo ut ante luctus interdum sed ut sem.
+  </p>
+</div>
+`;
+
+exports[`CollapsibleStateless matches the snapshot when it is opened and closed 2`] = `
+<div
+  className="bXDzPy"
+>
+  <h2
+    className="fytkxp"
+  >
+    <button
+      aria-expanded={true}
+      className="nHkJq ixEIcM"
+      id={null}
+      onClick={[Function]}
+      type="button"
+    >
+      <span
+        className="fOIIAL"
+      >
+        <span
+          className="gQZIbX"
+        >
+          Lorem ipsum dolor sit amet
+        </span>
+      </span>
+    </button>
+  </h2>
+  <h4>
+    Vivamus rutrum velit ut nunc dignissim vulputate.
+  </h4>
+  <p>
+    In a purus quis leo dictum ultrices. Aenean commodo erat at pellentesque placerat.
+  </p>
+  <h4>
+    Ut id ex efficitur risus suscipit fermentum.
+  </h4>
+  <p>
+    Proin sed dolor neque. Vestibulum id leo ut ante luctus interdum sed ut sem.
+  </p>
+</div>
+`;
+
+exports[`CollapsibleStateless matches the snapshot with prefix seo icon and screen reader text 1`] = `
+<div
+  className="bXDzPy"
+>
+  <h2
+    className="fytkxp"
+  >
+    <button
+      aria-expanded={true}
+      className="nHkJq ixEIcM"
+      id={null}
+      onClick={[Function]}
+      type="button"
+    >
+      <svg
+        aria-hidden={true}
+        className="yoast-svg-icon yoast-svg-icon-circle createSvgIconComponent__StyledSvg-sc-1h4gl3a-0 cPnaHk"
+        fill="red"
+        focusable="false"
+        role="img"
+        size="16px"
+        viewBox="0 0 1792 1792"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M1664 896q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z"
+        />
+      </svg>
+      <span
+        className="fOIIAL"
+      >
+        <span
+          className="gQZIbX"
+        >
+          Lorem ipsum dolor sit amet
+          <span
+            className="screen-reader-text"
+            style={
+              Object {
+                "clip": "rect(1px, 1px, 1px, 1px)",
+                "height": "1px",
+                "overflow": "hidden",
+                "position": "absolute",
+                "width": "1px",
+              }
+            }
+          >
+             bad SEO score
+          </span>
+        </span>
+      </span>
+    </button>
+  </h2>
+  <h4>
+    Vivamus rutrum velit ut nunc dignissim vulputate.
+  </h4>
+  <p>
+    In a purus quis leo dictum ultrices. Aenean commodo erat at pellentesque placerat.
+  </p>
+  <h4>
+    Ut id ex efficitur risus suscipit fermentum.
+  </h4>
+  <p>
+    Proin sed dolor neque. Vestibulum id leo ut ante luctus interdum sed ut sem.
+  </p>
+</div>
+`;

@@ -1,0 +1,28 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`The Progressbar component with custom color matches the snapshot 1`] = `
+<progress
+  aria-hidden="true"
+  className="hUfFTi"
+  max={100}
+  value={50}
+/>
+`;
+
+exports[`The Progressbar component with progress matches the snapshot 1`] = `
+<progress
+  aria-hidden="true"
+  className="ijYtDX"
+  max={100}
+  value={50}
+/>
+`;
+
+exports[`The Progressbar component without any props matches the snapshot 1`] = `
+<progress
+  aria-hidden="true"
+  className="ijYtDX"
+  max={1}
+  value={0}
+/>
+`;

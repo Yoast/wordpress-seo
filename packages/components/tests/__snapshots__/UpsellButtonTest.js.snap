@@ -1,0 +1,82 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`the YoastButton executes callback 1`] = `
+<button
+  aria-expanded={undefined}
+  className="dMNgsz"
+  onClick={[Function]}
+  type="button"
+>
+  <span>
+    ButtonValue
+    <svg
+      aria-hidden={true}
+      className="yoast-svg-icon yoast-svg-icon-caret-right cghYDs createSvgIconComponent__StyledSvg-sc-1h4gl3a-0 cPnaHk"
+      fill="#000"
+      focusable="false"
+      role="img"
+      size="16px"
+      viewBox="0 0 192 512"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M 0 384.662 V 127.338 c 0 -17.818 21.543 -26.741 34.142 -14.142 l 128.662 128.662 c 7.81 7.81 7.81 20.474 0 28.284 L 34.142 398.804 C 21.543 411.404 0 402.48 0 384.662 Z"
+      />
+    </svg>
+  </span>
+</button>
+`;
+
+exports[`the YoastButton executes callback 2`] = `
+<button
+  aria-expanded={undefined}
+  className="dMNgsz"
+  onClick={[Function]}
+  type="button"
+>
+  <span>
+    ButtonValue
+    <svg
+      aria-hidden={true}
+      className="yoast-svg-icon yoast-svg-icon-caret-right cghYDs createSvgIconComponent__StyledSvg-sc-1h4gl3a-0 cPnaHk"
+      fill="#000"
+      focusable="false"
+      role="img"
+      size="16px"
+      viewBox="0 0 192 512"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M 0 384.662 V 127.338 c 0 -17.818 21.543 -26.741 34.142 -14.142 l 128.662 128.662 c 7.81 7.81 7.81 20.474 0 28.284 L 34.142 398.804 C 21.543 411.404 0 402.48 0 384.662 Z"
+      />
+    </svg>
+  </span>
+</button>
+`;
+
+exports[`the YoastButton matches the snapshot 1`] = `
+<button
+  aria-expanded={undefined}
+  className="dHcJJA"
+  onClick={undefined}
+  type="button"
+>
+  <span>
+    ButtonValue
+    <svg
+      aria-hidden={true}
+      className="yoast-svg-icon yoast-svg-icon-caret-right cghYDs createSvgIconComponent__StyledSvg-sc-1h4gl3a-0 cPnaHk"
+      fill="#000"
+      focusable="false"
+      role="img"
+      size="16px"
+      viewBox="0 0 192 512"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M 0 384.662 V 127.338 c 0 -17.818 21.543 -26.741 34.142 -14.142 l 128.662 128.662 c 7.81 7.81 7.81 20.474 0 28.284 L 34.142 398.804 C 21.543 411.404 0 402.48 0 384.662 Z"
+      />
+    </svg>
+  </span>
+</button>
+`;

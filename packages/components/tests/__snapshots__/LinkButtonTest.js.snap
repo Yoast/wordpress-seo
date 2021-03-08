@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`the LinkButton matches the snapshot 1`] = `
+<a
+  className="guQfPP"
+>
+  LinkButtonValue
+</a>
+`;

@@ -1,0 +1,180 @@
+.yoast .yoast-button {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	position: relative;
+	padding: 10px 12px 12px;
+	text-decoration: none;
+	border-radius: 4px;
+	border: 1px solid rgba(0, 0, 0, 0.2);
+	box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.1);
+	transition: background-color 150ms ease-out 0s;
+	line-height: 1.2;
+	font-size: 14px;
+	cursor: pointer;
+}
+
+.yoast .yoast-button:focus,
+.yoast-close:focus,
+.yoast-remove:focus,
+.yoast-hide:focus {
+	box-shadow: var(--yoast-color-focus);
+	outline: none;
+}
+
+.yoast .yoast-button::-moz-focus-inner,
+.yoast-close::-moz-focus-inner,
+.yoast-remove::-moz-focus-inner,
+.yoast-hide::-moz-focus-inner {
+	border: 0;
+}
+
+.yoast .yoast-button:not(:disabled):active { /* 'Pressed' button state */
+	box-shadow: none;
+	top: 2px;
+}
+
+.yoast .yoast-button:disabled {
+	opacity: 0.5;
+	cursor: default;
+}
+
+.yoast .yoast-button--primary {
+	color: var(--yoast-color-white);
+	background-color: var(--yoast-color-primary);
+	border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.yoast .yoast-button--primary:visited {
+	color: var(--yoast-color-white);
+	border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.yoast .yoast-button--primary:not(:disabled):hover,
+.yoast .yoast-button--primary:active {
+	color: var(--yoast-color-white);
+	background-color: var(--yoast-color-primary-darker);
+	border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.yoast .yoast-button--primary:focus {
+	color: var(--yoast-color-white);
+	background-color: var(--yoast-color-primary);
+}
+
+.yoast .yoast-button--secondary {
+	color: var(--yoast-color-dark);
+	background-color: var(--yoast-color-secondary);
+	box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.1);
+}
+
+.yoast .yoast-button--secondary:visited {
+	color: var(--yoast-color-dark);
+}
+
+.yoast .yoast-button--secondary:not(:disabled):hover,
+.yoast .yoast-button--secondary:active {
+	color: var(--yoast-color-dark);
+	background-color: var(--yoast-color-secondary-darker);
+	border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.yoast .yoast-button--buy {
+	color: var(--yoast-color-dark);
+	background-color: var(--yoast-color-sale);
+}
+
+.yoast .yoast-button--buy:visited {
+	color: var(--yoast-color-dark);
+}
+
+.yoast .yoast-button--buy:not(:disabled):hover,
+.yoast .yoast-button--buy:active {
+	color: var(--yoast-color-dark);
+	background-color: var(--yoast-color-sale-darker)
+}
+
+.yoast .yoast-button--buy__caret {
+	flex-shrink: 0;
+	display: inline-block;
+	width: 6px;
+	height: 16px;
+	/*Negative margin to compensate the icon white space within its viewbox.*/
+	margin: 0 -2px 0 6px;
+	background-color: currentColor;
+	-webkit-mask-image: var(--yoast-svg-icon-caret-right);
+	mask-image: var(--yoast-svg-icon-caret-right);
+}
+
+.yoast .yoast-button--edit {
+	width: 20.25px;
+	height: 18px;
+	flex-shrink: 0;
+	display: inline-block;
+	background-color: currentColor;
+	-webkit-mask-image: var(--yoast-svg-icon-edit);
+	mask-image: var(--yoast-svg-icon-edit);
+	margin-right: 8px;
+}
+
+html[dir=rtl] .yoast .yoast-button--edit {
+	margin-right: 0;
+	margin-left: 8px;
+}
+
+html[dir=rtl] .yoast .yoast-button--buy {
+	flex-direction: row-reverse;
+}
+
+.yoast .yoast-button--small {
+	font-size: 13px;
+	padding: 5px 8px 8px;
+}
+
+.yoast .yoast-button--small .yoast-button--buy__caret {
+	width: 4px;
+	height: 10px;
+}
+
+.yoast-remove, .yoast-hide {
+	color: #dc3232;
+	background-color: transparent;
+	border: none;
+	cursor: pointer;
+	text-decoration: underline;
+	padding: 0;
+	font-size: 14px;
+}
+
+.yoast-hide {
+	color: var(--yoast-color-link);
+}
+
+.yoast-field-group__upload .yoast-button {
+	margin-right: 24px;
+}
+
+/* Close button for modals or papers */
+.yoast-close {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border: none;
+	background: none;
+	height: 44px;
+	width: 44px;
+	cursor: pointer;
+	box-shadow: none;
+	padding: 0;
+}
+
+.yoast-close svg {
+	fill: var(--yoast-color-default);
+	width: 14px;
+}
+
+@media screen and (max-width: 782px) {
+	.yoast-close svg {
+		width: 10px;
+	}
+}

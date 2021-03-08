@@ -1,0 +1,56 @@
+{
+	"name": "@yoast/social-metadata-forms",
+	"version": "1.13.0",
+	"main": "src/index.js",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/Yoast/javascript.git",
+		"directory": "packages/social-metadata-forms"
+	},
+	"author": "Team Yoast",
+	"license": "GPL-3.0",
+	"private": false,
+	"scripts": {
+		"prepublishOnly": "rm -rf dist && cp -R src dist && cp package.json dist/package.json && json -I -f dist/package.json -e \"this.main='index.js'\" && cp .babelrc dist/.babelrc",
+		"test": "jest",
+		"lint": "eslint . --max-warnings=0"
+	},
+	"jest": {
+		"testURL": "http://localhost",
+		"testRegex": ".*Test.js$",
+		"snapshotSerializers": [
+			"enzyme-to-json/serializer"
+		],
+		"transform": {
+			"^.+\\.jsx?$": "babel-jest"
+		},
+		"transformIgnorePatterns": [
+			"/node_modules/(?!yoastseo|lodash-es).+\\.js$"
+		],
+		"setupTestFrameworkScriptFile": "<rootDir>/jest/setupTests.js",
+		"moduleNameMapper": {
+			"\\.css$": "<rootDir>/jest/__mocks__/styleMock.js"
+		}
+	},
+	"publishConfig": {
+		"access": "public"
+	},
+	"dependencies": {
+		"@wordpress/i18n": "^1.1.0",
+		"@yoast/components": "^2.15.0",
+		"@yoast/replacement-variable-editor": "^1.13.0",
+		"@yoast/style-guide": "^0.13.0",
+		"lodash": "^4.17.11",
+		"prop-types": "^15.6.0",
+		"redux": "^3.7.2",
+		"styled-components": "^4.2.0"
+	},
+	"devDependencies": {
+		"@yoast/browserslist-config": "^1.2.1",
+		"browserslist": "^4.7.3",
+		"jest-styled-components": "^6.3.1"
+	},
+	"peerDependencies": {
+		"react": "^16.12.0"
+	}
+}

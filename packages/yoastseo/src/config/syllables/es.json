@@ -1,0 +1,176 @@
+{
+  "vowels": "aeiouáéíóúü",
+  "deviations": {
+    "vowels": [
+      {
+        "fragments": [
+          "i[ií]",
+          "[íú][aeo]",
+          "o[aáeéíóú]",
+          "uu",
+          "flu[iea]",
+          "ru[ie]",
+          "eio",
+          "eu[aá]",
+          "oi[aó]",
+          "[iu]ei",
+          "ui[éu]",
+          "^anti[aeoá]",
+          "^zoo",
+          "coo",
+          "microo"
+        ],
+        "countModifier": 1
+      },
+      {
+        "fragments": [
+          "[eéó][aáeéíoóú]"
+        ],
+        "countModifier": 1
+      },
+      {
+        "fragments": [
+          "[aáü][aáeéiíoóú]",
+          "eoi",
+          "oeu",
+          "[eu]au"
+        ],
+        "countModifier": 1
+      }
+    ],
+    "words": {
+      "full": [
+        {
+          "word": "scooter",
+          "syllables": 2
+        },
+        {
+          "word": "y",
+          "syllables": 1
+        },
+        {
+          "word": "beat",
+          "syllables": 1
+        },
+        {
+          "word": "via",
+          "syllables": 2
+        },
+        {
+          "word": "ok",
+          "syllables": 2
+        }
+      ],
+      "fragments": {
+        "global": [
+          {
+            "word": "business",
+            "syllables": 2
+          },
+          {
+            "word": "coach",
+            "syllables": 1
+          },
+          {
+            "word": "reggae",
+            "syllables": 2
+          },
+          {
+            "word": "mail",
+            "syllables": 1
+          },
+          {
+            "word": "airbag",
+            "syllables": 2
+          },
+          {
+            "word": "affaire",
+            "syllables": 2
+          },
+          {
+            "word": "training",
+            "syllables": 2
+          },
+          {
+            "word": "hawaian",
+            "syllables": 3
+          },
+          {
+            "word": "saharaui",
+            "syllables": 3
+          },
+          {
+            "word": "nouveau",
+            "syllables": 2
+          },
+          {
+            "word": "chapeau",
+            "syllables": 2
+          },
+          {
+            "word": "free",
+            "syllables": 1
+          },
+          {
+            "word": "green",
+            "syllables": 1
+          },
+          {
+            "word": "jeep",
+            "syllables": 1
+          },
+          {
+            "word": "toffee",
+            "syllables": 2
+          },
+          {
+            "word": "tweet",
+            "syllables": 1
+          },
+          {
+            "word": "tweed",
+            "syllables": 1
+          },
+          {
+            "word": "semiautomátic",
+            "syllables": 6
+          },
+          {
+            "word": "estadou",
+            "syllables": 4
+          },
+          {
+            "word": "broadway",
+            "syllables": 2
+          },
+          {
+            "word": "board",
+            "syllables": 1
+          },
+          {
+            "word": "load",
+            "syllables": 1
+          },
+          {
+            "word": "roaming",
+            "syllables": 2
+          },
+          {
+            "word": "heavy",
+            "syllables": 2
+          },
+          {
+            "word": "break",
+            "syllables": 1
+          }
+        ]
+      }
+    }
+  }
+}
+
+
+
+
+
+

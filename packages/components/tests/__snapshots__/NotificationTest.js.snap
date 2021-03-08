@@ -1,0 +1,77 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`the Notification with props matches the snapshot 1`] = `
+<div
+  className="eSByDL"
+>
+  <div
+    className="jgOTFM"
+  >
+    <img
+      alt=""
+      className="hwYJIV"
+      src="some-image.png"
+    />
+    <div
+      className="iYPrko"
+    >
+      <h3>
+        New User?
+      </h3>
+      <p
+        className="prova"
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": "Get started with our <a href=\\"#blabla\\">Configuration Wizard!</a>",
+          }
+        }
+      />
+    </div>
+    <button
+      aria-label="Dismiss this notice"
+      className="hfImaK"
+      onClick={[Function]}
+      type="button"
+    >
+      <svg
+        aria-hidden={true}
+        className="yoast-svg-icon yoast-svg-icon-times kNqQRF createSvgIconComponent__StyledSvg-sc-1h4gl3a-0 ebKEvD"
+        fill="#616161"
+        focusable="false"
+        role="img"
+        size="24px"
+        viewBox="0 0 1792 1792"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M1490 1322q0 40-28 68l-136 136q-28 28-68 28t-68-28l-294-294-294 294q-28 28-68 28t-68-28l-136-136q-28-28-28-68t28-68l294-294-294-294q-28-28-28-68t28-68l136-136q28-28 68-28t68 28l294 294 294-294q28-28 68-28t68 28l136 136q28 28 28 68t-28 68l-294 294 294 294q28 28 28 68z"
+        />
+      </svg>
+    </button>
+  </div>
+</div>
+`;
+
+exports[`the Notification without props matches the snapshot 1`] = `
+<div
+  className="eSByDL"
+>
+  <div
+    className="kkWWEd"
+  >
+    <div
+      className="iYPrko"
+    >
+      <h3 />
+      <p
+        className="prova"
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": undefined,
+          }
+        }
+      />
+    </div>
+  </div>
+</div>
+`;

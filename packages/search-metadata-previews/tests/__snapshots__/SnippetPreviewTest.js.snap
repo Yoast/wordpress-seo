@@ -1,0 +1,3619 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SnippetPreview changes the colors of the description if it was generated 1`] = `
+.c0 {
+  overflow: auto;
+  width: 640px;
+  padding: 0 20px;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.c2 {
+  width: 600px;
+}
+
+.c1 {
+  background-color: #fff;
+  font-family: arial,sans-serif;
+  box-sizing: border-box;
+}
+
+.c8 {
+  cursor: pointer;
+  position: relative;
+}
+
+.c9 {
+  color: #1a0dab;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  font-size: 20px;
+  line-height: 1.3;
+  font-weight: normal;
+  margin: 0;
+  display: inline-block;
+  overflow: hidden;
+  max-width: 600px;
+  vertical-align: top;
+  text-overflow: ellipsis;
+  max-width: 600px;
+  vertical-align: top;
+  text-overflow: ellipsis;
+}
+
+.c10 {
+  white-space: nowrap;
+}
+
+.c3 {
+  display: inline-block;
+  cursor: pointer;
+  position: relative;
+  max-width: 90%;
+  white-space: nowrap;
+  font-size: 14px;
+  vertical-align: top;
+}
+
+.c4 {
+  display: inline-block;
+  cursor: pointer;
+  position: relative;
+  max-width: 90%;
+  white-space: nowrap;
+  font-size: 14px;
+  vertical-align: top;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+  margin-bottom: 0;
+  padding-top: 1px;
+  line-height: 1.5;
+  vertical-align: baseline;
+}
+
+.c5 {
+  font-size: 14px;
+  line-height: 1.3;
+  color: #5f6368;
+}
+
+.c6 {
+  color: #3c4043;
+}
+
+.c11 {
+  color: #4d5156;
+  cursor: pointer;
+  position: relative;
+  max-width: 600px;
+  padding-top: 1px;
+  font-size: 14px;
+  line-height: 1.58;
+}
+
+.c7 {
+  display: inline-block;
+  margin-top: 9px;
+  margin-left: 6px;
+  border-top: 5px solid #70757a;
+  border-right: 4px solid transparent;
+  border-left: 4px solid transparent;
+  vertical-align: top;
+}
+
+<section>
+  <div
+    className="c0 c1"
+    id="yoast-snippet-preview-container"
+  >
+    <div
+      className="c2"
+    >
+      <div
+        className=""
+      >
+        <span
+          className="screen-reader-text"
+          style={
+            Object {
+              "clip": "rect(1px, 1px, 1px, 1px)",
+              "height": "1px",
+              "overflow": "hidden",
+              "position": "absolute",
+              "width": "1px",
+            }
+          }
+        >
+          Url preview:
+        </span>
+        <div
+          className="c3"
+        >
+          <div
+            className="c4"
+            onMouseEnter={[Function]}
+            onMouseLeave={[Function]}
+            onMouseUp={[Function]}
+          >
+            <span
+              className="c5"
+            >
+              <span
+                className="c6"
+              >
+                example.org
+              </span>
+               › 
+            </span>
+          </div>
+        </div>
+        <div
+          className="c7"
+        />
+        <span
+          className="screen-reader-text"
+          style={
+            Object {
+              "clip": "rect(1px, 1px, 1px, 1px)",
+              "height": "1px",
+              "overflow": "hidden",
+              "position": "absolute",
+              "width": "1px",
+            }
+          }
+        >
+          SEO title preview:
+        </span>
+        <div
+          className="c8"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+          onMouseUp={[Function]}
+        >
+          <div
+            className="c9"
+          >
+            <span
+              className="c10"
+            >
+              Title
+            </span>
+          </div>
+        </div>
+      </div>
+      <div
+        className=""
+      >
+        <span
+          className="screen-reader-text"
+          style={
+            Object {
+              "clip": "rect(1px, 1px, 1px, 1px)",
+              "height": "1px",
+              "overflow": "hidden",
+              "position": "absolute",
+              "width": "1px",
+            }
+          }
+        >
+          Meta description preview:
+        </span>
+        <div
+          className="c11"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+          onMouseUp={[Function]}
+        >
+          
+          Description
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+`;
+
+exports[`SnippetPreview highlights keyphrase in desktop mode highlights a keyword in different morphological forms 1`] = `
+.c0 {
+  overflow: auto;
+  width: 640px;
+  padding: 0 20px;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.c2 {
+  width: 600px;
+}
+
+.c1 {
+  background-color: #fff;
+  font-family: arial,sans-serif;
+  box-sizing: border-box;
+}
+
+.c8 {
+  cursor: pointer;
+  position: relative;
+}
+
+.c9 {
+  color: #1a0dab;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  font-size: 20px;
+  line-height: 1.3;
+  font-weight: normal;
+  margin: 0;
+  display: inline-block;
+  overflow: hidden;
+  max-width: 600px;
+  vertical-align: top;
+  text-overflow: ellipsis;
+  max-width: 600px;
+  vertical-align: top;
+  text-overflow: ellipsis;
+}
+
+.c10 {
+  white-space: nowrap;
+}
+
+.c3 {
+  display: inline-block;
+  cursor: pointer;
+  position: relative;
+  max-width: 90%;
+  white-space: nowrap;
+  font-size: 14px;
+  vertical-align: top;
+}
+
+.c4 {
+  display: inline-block;
+  cursor: pointer;
+  position: relative;
+  max-width: 90%;
+  white-space: nowrap;
+  font-size: 14px;
+  vertical-align: top;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+  margin-bottom: 0;
+  padding-top: 1px;
+  line-height: 1.5;
+  vertical-align: baseline;
+}
+
+.c5 {
+  font-size: 14px;
+  line-height: 1.3;
+  color: #5f6368;
+}
+
+.c6 {
+  color: #3c4043;
+}
+
+.c11 {
+  color: #4d5156;
+  cursor: pointer;
+  position: relative;
+  max-width: 600px;
+  padding-top: 1px;
+  font-size: 14px;
+  line-height: 1.58;
+}
+
+.c7 {
+  display: inline-block;
+  margin-top: 9px;
+  margin-left: 6px;
+  border-top: 5px solid #70757a;
+  border-right: 4px solid transparent;
+  border-left: 4px solid transparent;
+  vertical-align: top;
+}
+
+<section>
+  <div
+    className="c0 c1"
+    id="yoast-snippet-preview-container"
+  >
+    <div
+      className="c2"
+    >
+      <div
+        className=""
+      >
+        <span
+          className="screen-reader-text"
+          style={
+            Object {
+              "clip": "rect(1px, 1px, 1px, 1px)",
+              "height": "1px",
+              "overflow": "hidden",
+              "position": "absolute",
+              "width": "1px",
+            }
+          }
+        >
+          Url preview:
+        </span>
+        <div
+          className="c3"
+        >
+          <div
+            className="c4"
+            onMouseEnter={[Function]}
+            onMouseLeave={[Function]}
+            onMouseUp={[Function]}
+          >
+            <span
+              className="c5"
+            >
+              <span
+                className="c6"
+              >
+                example.org
+              </span>
+               › 
+            </span>
+          </div>
+        </div>
+        <div
+          className="c7"
+        />
+        <span
+          className="screen-reader-text"
+          style={
+            Object {
+              "clip": "rect(1px, 1px, 1px, 1px)",
+              "height": "1px",
+              "overflow": "hidden",
+              "position": "absolute",
+              "width": "1px",
+            }
+          }
+        >
+          SEO title preview:
+        </span>
+        <div
+          className="c8"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+          onMouseUp={[Function]}
+        >
+          <div
+            className="c9"
+          >
+            <span
+              className="c10"
+            >
+              Title
+            </span>
+          </div>
+        </div>
+      </div>
+      <div
+        className=""
+      >
+        <span
+          className="screen-reader-text"
+          style={
+            Object {
+              "clip": "rect(1px, 1px, 1px, 1px)",
+              "height": "1px",
+              "overflow": "hidden",
+              "position": "absolute",
+              "width": "1px",
+            }
+          }
+        >
+          Meta description preview:
+        </span>
+        <div
+          className="c11"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+          onMouseUp={[Function]}
+        >
+          
+          She
+          <strong>
+             runs
+          </strong>
+           every day and every
+          <strong>
+             run
+          </strong>
+           is longer than the previous.
+          <strong>
+             Running
+          </strong>
+           makes her happy.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+`;
+
+exports[`SnippetPreview highlights keyphrase in desktop mode highlights keywords even if they are transliterated 1`] = `
+.c0 {
+  overflow: auto;
+  width: 640px;
+  padding: 0 20px;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.c2 {
+  width: 600px;
+}
+
+.c1 {
+  background-color: #fff;
+  font-family: arial,sans-serif;
+  box-sizing: border-box;
+}
+
+.c8 {
+  cursor: pointer;
+  position: relative;
+}
+
+.c9 {
+  color: #1a0dab;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  font-size: 20px;
+  line-height: 1.3;
+  font-weight: normal;
+  margin: 0;
+  display: inline-block;
+  overflow: hidden;
+  max-width: 600px;
+  vertical-align: top;
+  text-overflow: ellipsis;
+  max-width: 600px;
+  vertical-align: top;
+  text-overflow: ellipsis;
+}
+
+.c10 {
+  white-space: nowrap;
+}
+
+.c3 {
+  display: inline-block;
+  cursor: pointer;
+  position: relative;
+  max-width: 90%;
+  white-space: nowrap;
+  font-size: 14px;
+  vertical-align: top;
+}
+
+.c4 {
+  display: inline-block;
+  cursor: pointer;
+  position: relative;
+  max-width: 90%;
+  white-space: nowrap;
+  font-size: 14px;
+  vertical-align: top;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+  margin-bottom: 0;
+  padding-top: 1px;
+  line-height: 1.5;
+  vertical-align: baseline;
+}
+
+.c5 {
+  font-size: 14px;
+  line-height: 1.3;
+  color: #5f6368;
+}
+
+.c6 {
+  color: #3c4043;
+}
+
+.c11 {
+  color: #4d5156;
+  cursor: pointer;
+  position: relative;
+  max-width: 600px;
+  padding-top: 1px;
+  font-size: 14px;
+  line-height: 1.58;
+}
+
+.c7 {
+  display: inline-block;
+  margin-top: 9px;
+  margin-left: 6px;
+  border-top: 5px solid #70757a;
+  border-right: 4px solid transparent;
+  border-left: 4px solid transparent;
+  vertical-align: top;
+}
+
+<section>
+  <div
+    className="c0 c1"
+    id="yoast-snippet-preview-container"
+  >
+    <div
+      className="c2"
+    >
+      <div
+        className=""
+      >
+        <span
+          className="screen-reader-text"
+          style={
+            Object {
+              "clip": "rect(1px, 1px, 1px, 1px)",
+              "height": "1px",
+              "overflow": "hidden",
+              "position": "absolute",
+              "width": "1px",
+            }
+          }
+        >
+          Url preview:
+        </span>
+        <div
+          className="c3"
+        >
+          <div
+            className="c4"
+            onMouseEnter={[Function]}
+            onMouseLeave={[Function]}
+            onMouseUp={[Function]}
+          >
+            <span
+              className="c5"
+            >
+              <span
+                className="c6"
+              >
+                example.org
+              </span>
+               › 
+            </span>
+          </div>
+        </div>
+        <div
+          className="c7"
+        />
+        <span
+          className="screen-reader-text"
+          style={
+            Object {
+              "clip": "rect(1px, 1px, 1px, 1px)",
+              "height": "1px",
+              "overflow": "hidden",
+              "position": "absolute",
+              "width": "1px",
+            }
+          }
+        >
+          SEO title preview:
+        </span>
+        <div
+          className="c8"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+          onMouseUp={[Function]}
+        >
+          <div
+            className="c9"
+          >
+            <span
+              className="c10"
+            >
+              Title
+            </span>
+          </div>
+        </div>
+      </div>
+      <div
+        className=""
+      >
+        <span
+          className="screen-reader-text"
+          style={
+            Object {
+              "clip": "rect(1px, 1px, 1px, 1px)",
+              "height": "1px",
+              "overflow": "hidden",
+              "position": "absolute",
+              "width": "1px",
+            }
+          }
+        >
+          Meta description preview:
+        </span>
+        <div
+          className="c11"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+          onMouseUp={[Function]}
+        >
+          
+          Something with a transliterated
+          <strong>
+             kaayword
+          </strong>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+`;
+
+exports[`SnippetPreview highlights keyphrase in desktop mode highlights keywords inside the description and url 1`] = `
+.c0 {
+  overflow: auto;
+  width: 640px;
+  padding: 0 20px;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.c2 {
+  width: 600px;
+}
+
+.c1 {
+  background-color: #fff;
+  font-family: arial,sans-serif;
+  box-sizing: border-box;
+}
+
+.c8 {
+  cursor: pointer;
+  position: relative;
+}
+
+.c9 {
+  color: #1a0dab;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  font-size: 20px;
+  line-height: 1.3;
+  font-weight: normal;
+  margin: 0;
+  display: inline-block;
+  overflow: hidden;
+  max-width: 600px;
+  vertical-align: top;
+  text-overflow: ellipsis;
+  max-width: 600px;
+  vertical-align: top;
+  text-overflow: ellipsis;
+}
+
+.c10 {
+  white-space: nowrap;
+}
+
+.c3 {
+  display: inline-block;
+  cursor: pointer;
+  position: relative;
+  max-width: 90%;
+  white-space: nowrap;
+  font-size: 14px;
+  vertical-align: top;
+}
+
+.c4 {
+  display: inline-block;
+  cursor: pointer;
+  position: relative;
+  max-width: 90%;
+  white-space: nowrap;
+  font-size: 14px;
+  vertical-align: top;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+  margin-bottom: 0;
+  padding-top: 1px;
+  line-height: 1.5;
+  vertical-align: baseline;
+}
+
+.c5 {
+  font-size: 14px;
+  line-height: 1.3;
+  color: #5f6368;
+}
+
+.c6 {
+  color: #3c4043;
+}
+
+.c11 {
+  color: #4d5156;
+  cursor: pointer;
+  position: relative;
+  max-width: 600px;
+  padding-top: 1px;
+  font-size: 14px;
+  line-height: 1.58;
+}
+
+.c7 {
+  display: inline-block;
+  margin-top: 9px;
+  margin-left: 6px;
+  border-top: 5px solid #70757a;
+  border-right: 4px solid transparent;
+  border-left: 4px solid transparent;
+  vertical-align: top;
+}
+
+<section>
+  <div
+    className="c0 c1"
+    id="yoast-snippet-preview-container"
+  >
+    <div
+      className="c2"
+    >
+      <div
+        className=""
+      >
+        <span
+          className="screen-reader-text"
+          style={
+            Object {
+              "clip": "rect(1px, 1px, 1px, 1px)",
+              "height": "1px",
+              "overflow": "hidden",
+              "position": "absolute",
+              "width": "1px",
+            }
+          }
+        >
+          Url preview:
+        </span>
+        <div
+          className="c3"
+        >
+          <div
+            className="c4"
+            onMouseEnter={[Function]}
+            onMouseLeave={[Function]}
+            onMouseUp={[Function]}
+          >
+            <span
+              className="c5"
+            >
+              <span
+                className="c6"
+              >
+                example.org
+              </span>
+               › this-keyword-url
+            </span>
+          </div>
+        </div>
+        <div
+          className="c7"
+        />
+        <span
+          className="screen-reader-text"
+          style={
+            Object {
+              "clip": "rect(1px, 1px, 1px, 1px)",
+              "height": "1px",
+              "overflow": "hidden",
+              "position": "absolute",
+              "width": "1px",
+            }
+          }
+        >
+          SEO title preview:
+        </span>
+        <div
+          className="c8"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+          onMouseUp={[Function]}
+        >
+          <div
+            className="c9"
+          >
+            <span
+              className="c10"
+            >
+              Title
+            </span>
+          </div>
+        </div>
+      </div>
+      <div
+        className=""
+      >
+        <span
+          className="screen-reader-text"
+          style={
+            Object {
+              "clip": "rect(1px, 1px, 1px, 1px)",
+              "height": "1px",
+              "overflow": "hidden",
+              "position": "absolute",
+              "width": "1px",
+            }
+          }
+        >
+          Meta description preview:
+        </span>
+        <div
+          className="c11"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+          onMouseUp={[Function]}
+        >
+          
+          Something with a
+          <strong>
+             keyword
+          </strong>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+`;
+
+exports[`SnippetPreview highlights keyphrase in desktop mode highlights separate words from the keyphrase 1`] = `
+.c0 {
+  overflow: auto;
+  width: 640px;
+  padding: 0 20px;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.c2 {
+  width: 600px;
+}
+
+.c1 {
+  background-color: #fff;
+  font-family: arial,sans-serif;
+  box-sizing: border-box;
+}
+
+.c8 {
+  cursor: pointer;
+  position: relative;
+}
+
+.c9 {
+  color: #1a0dab;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  font-size: 20px;
+  line-height: 1.3;
+  font-weight: normal;
+  margin: 0;
+  display: inline-block;
+  overflow: hidden;
+  max-width: 600px;
+  vertical-align: top;
+  text-overflow: ellipsis;
+  max-width: 600px;
+  vertical-align: top;
+  text-overflow: ellipsis;
+}
+
+.c10 {
+  white-space: nowrap;
+}
+
+.c3 {
+  display: inline-block;
+  cursor: pointer;
+  position: relative;
+  max-width: 90%;
+  white-space: nowrap;
+  font-size: 14px;
+  vertical-align: top;
+}
+
+.c4 {
+  display: inline-block;
+  cursor: pointer;
+  position: relative;
+  max-width: 90%;
+  white-space: nowrap;
+  font-size: 14px;
+  vertical-align: top;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+  margin-bottom: 0;
+  padding-top: 1px;
+  line-height: 1.5;
+  vertical-align: baseline;
+}
+
+.c5 {
+  font-size: 14px;
+  line-height: 1.3;
+  color: #5f6368;
+}
+
+.c6 {
+  color: #3c4043;
+}
+
+.c11 {
+  color: #4d5156;
+  cursor: pointer;
+  position: relative;
+  max-width: 600px;
+  padding-top: 1px;
+  font-size: 14px;
+  line-height: 1.58;
+}
+
+.c7 {
+  display: inline-block;
+  margin-top: 9px;
+  margin-left: 6px;
+  border-top: 5px solid #70757a;
+  border-right: 4px solid transparent;
+  border-left: 4px solid transparent;
+  vertical-align: top;
+}
+
+<section>
+  <div
+    className="c0 c1"
+    id="yoast-snippet-preview-container"
+  >
+    <div
+      className="c2"
+    >
+      <div
+        className=""
+      >
+        <span
+          className="screen-reader-text"
+          style={
+            Object {
+              "clip": "rect(1px, 1px, 1px, 1px)",
+              "height": "1px",
+              "overflow": "hidden",
+              "position": "absolute",
+              "width": "1px",
+            }
+          }
+        >
+          Url preview:
+        </span>
+        <div
+          className="c3"
+        >
+          <div
+            className="c4"
+            onMouseEnter={[Function]}
+            onMouseLeave={[Function]}
+            onMouseUp={[Function]}
+          >
+            <span
+              className="c5"
+            >
+              <span
+                className="c6"
+              >
+                example.org
+              </span>
+               › 
+            </span>
+          </div>
+        </div>
+        <div
+          className="c7"
+        />
+        <span
+          className="screen-reader-text"
+          style={
+            Object {
+              "clip": "rect(1px, 1px, 1px, 1px)",
+              "height": "1px",
+              "overflow": "hidden",
+              "position": "absolute",
+              "width": "1px",
+            }
+          }
+        >
+          SEO title preview:
+        </span>
+        <div
+          className="c8"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+          onMouseUp={[Function]}
+        >
+          <div
+            className="c9"
+          >
+            <span
+              className="c10"
+            >
+              Title
+            </span>
+          </div>
+        </div>
+      </div>
+      <div
+        className=""
+      >
+        <span
+          className="screen-reader-text"
+          style={
+            Object {
+              "clip": "rect(1px, 1px, 1px, 1px)",
+              "height": "1px",
+              "overflow": "hidden",
+              "position": "absolute",
+              "width": "1px",
+            }
+          }
+        >
+          Meta description preview:
+        </span>
+        <div
+          className="c11"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+          onMouseUp={[Function]}
+        >
+          
+          She
+          <strong>
+             runs
+          </strong>
+          <strong>
+             every
+          </strong>
+           day and
+          <strong>
+             every
+          </strong>
+          <strong>
+             run
+          </strong>
+           is longer than the previous.
+          <strong>
+             Running
+          </strong>
+           makes her happy.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+`;
+
+exports[`SnippetPreview mobile mode renders an AMP logo when isAmp is true 1`] = `
+.c0 {
+  border-bottom: 1px hidden #fff;
+  border-radius: 8px;
+  box-shadow: 0 1px 6px rgba(32,33,36,0.28);
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  max-width: 400px;
+  box-sizing: border-box;
+  font-size: 14px;
+}
+
+.c7 {
+  cursor: pointer;
+  position: relative;
+}
+
+.c8 {
+  color: #1967d2;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  font-size: 16px;
+  line-height: 20px;
+  font-weight: normal;
+  margin: 0;
+  display: inline-block;
+  overflow: hidden;
+  max-width: 600px;
+  vertical-align: top;
+  text-overflow: ellipsis;
+  max-width: 600px;
+  vertical-align: top;
+  text-overflow: ellipsis;
+}
+
+.c9 {
+  display: inline-block;
+  max-height: 40px;
+  padding-top: 1px;
+  vertical-align: top;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.c2 {
+  display: inline-block;
+  cursor: pointer;
+  position: relative;
+  max-width: 90%;
+  white-space: nowrap;
+  font-size: 14px;
+  vertical-align: top;
+}
+
+.c3 {
+  display: inline-block;
+  cursor: pointer;
+  position: relative;
+  max-width: 90%;
+  white-space: nowrap;
+  font-size: 14px;
+  vertical-align: top;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+  margin-bottom: 12px;
+  padding-top: 1px;
+  line-height: 20px;
+  vertical-align: top;
+}
+
+.c5 {
+  font-size: 12px;
+  line-height: 20px;
+  color: #3c4043;
+}
+
+.c6 {
+  color: #3c4043;
+}
+
+.c11 {
+  color: #3c4043;
+  font-size: 14px;
+  line-height: 20px;
+  cursor: pointer;
+  position: relative;
+  max-width: 600px;
+}
+
+.c11:after {
+  display: table;
+  content: "";
+  clear: both;
+}
+
+.c1 {
+  padding: 12px 16px;
+}
+
+.c1:first-child {
+  margin-bottom: -16px;
+}
+
+.c4 {
+  width: 16px;
+  height: 16px;
+  margin-right: 12px;
+  vertical-align: middle;
+}
+
+.c10 {
+  background-size: 100% 100%;
+  display: inline-block;
+  height: 12px;
+  width: 12px;
+  margin-bottom: -1px;
+  opacity: 0.46;
+  margin-right: 6px;
+  background-image: url( data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAQAAABLCVATAAABr0lEQVR4AbWWJYCUURhFD04Zi7hrLzgFd4nzV9x6wKHinmYb7g4zq71gIw2LWBnZ3Q8df/fh96Tn/t2HVIw4CVKk+fSFNCkSxInxW1pFkhLmoMRjVvFLmkEX5ocuZuBVPw5jv8hh+iEU5QEmuMK+prz7RN3dPMMEGQYzxpH/lGjzou5jgl7mAvOdZfcbF+jbm3MAbFZ7VX9SJnlL1D8UMyjLe+BrAYDb+jJUr59JrlNWRtcqX9GkrPCR4QBAf4qYJAkQoyQrbKKs8RiaEjEI0GvvQ1mLMC9xaBFFBaZS1TbMSwJSomg39erDF+TxpCCNOXjGQJTCvG6qn4ZPzkcxA61Tjhaf4KMj+6Q3XvW6Lopraa8IozRQxIi0a7NXorULc5JyHX/3F3q+0PsFYytVTaGgjz/AvCyiegE69IUsPxHNBMpa738i6tGWlzkAABjKe/+j9YeRHGVd9oWRnwe2ewDASp/L/UqoPQ5AmFeYZMavBP8dAJz0GWWDHQlzXApMdz4KYUfKICcxkKeOfGmQyrIPcgE9m+g/+kT812/Nr3+0kqzitxQjoKXh6xfor99nlEdFjyvH15gAAAAASUVORK5CYII= );
+}
+
+<section>
+  <div
+    className="c0"
+    id="yoast-snippet-preview-container"
+    width={null}
+  >
+    <div
+      className="c1"
+    >
+      <span
+        className="screen-reader-text"
+        style={
+          Object {
+            "clip": "rect(1px, 1px, 1px, 1px)",
+            "height": "1px",
+            "overflow": "hidden",
+            "position": "absolute",
+            "width": "1px",
+          }
+        }
+      >
+        Url preview:
+      </span>
+      <div
+        className="c2"
+      >
+        <div
+          className="c3"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+          onMouseUp={[Function]}
+        >
+          <img
+            alt=""
+            className="c4"
+            src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABs0lEQVR4AWL4//8/RRjO8Iucx+noO0MWUDo16FYABMGP6ZfUcRnWtm27jVPbtm3bttuH2t3eFPcY9pLz7NxiLjCyVd87pKnHyqXyxtCs8APd0rnyxiu4qSeA3QEDrAwBDrT1s1Rc/OrjLZwqVmOSu6+Lamcpp2KKMA9PH1BYXMe1mUP5qotvXTywsOEEYHXxrY+3cqk6TMkYpNr2FeoY3KIr0RPtn9wQ2unlA+GMkRw6+9TFw4YTwDUzx/JVvARj9KaedXRO8P5B1Du2S32smzqUrcKGEyA+uAgQjKX7zf0boWHGfn71jIKj2689gxp7OAGShNcBUmLMPVjZuiKcA2vuWHHDCQxMCz629kXAIU4ApY15QwggAFbfOP9DhgBJ+nWVJ1AZAfICAj1pAlY6hCADZnveQf7bQIwzVONGJonhLIlS9gr5mFg44Xd+4S3XHoGNPdJl1INIwKyEgHckEhgTe1bGiFY9GSFBYUwLh1IkiJUbY407E7syBSFxKTszEoiE/YdrgCEayDmtaJwCI9uu8TKMuZSVfSa4BpGgzvomBR/INhLGzrqDotp01ZR8pn/1L0JN9d9XNyx0AAAAAElFTkSuQmCC"
+          />
+          <span
+            className="c5"
+          >
+            <span
+              className="c6"
+            >
+              example.org
+            </span>
+             › 
+          </span>
+        </div>
+      </div>
+      <span
+        className="screen-reader-text"
+        style={
+          Object {
+            "clip": "rect(1px, 1px, 1px, 1px)",
+            "height": "1px",
+            "overflow": "hidden",
+            "position": "absolute",
+            "width": "1px",
+          }
+        }
+      >
+        SEO title preview:
+      </span>
+      <div
+        className="c7"
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
+        onMouseUp={[Function]}
+      >
+        <div
+          className="c8"
+        >
+          <span
+            className="c9"
+          >
+            Title
+          </span>
+        </div>
+      </div>
+      <div
+        className="c10"
+      />
+    </div>
+    <div
+      className="c1"
+    >
+      <span
+        className="screen-reader-text"
+        style={
+          Object {
+            "clip": "rect(1px, 1px, 1px, 1px)",
+            "height": "1px",
+            "overflow": "hidden",
+            "position": "absolute",
+            "width": "1px",
+          }
+        }
+      >
+        Meta description preview:
+      </span>
+      <div
+        className="c11"
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
+        onMouseUp={[Function]}
+      >
+        <div
+          className="c11"
+        >
+          
+          
+          Description
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+`;
+
+exports[`SnippetPreview mobile mode renders differently than desktop 1`] = `
+.c0 {
+  border-bottom: 1px hidden #fff;
+  border-radius: 8px;
+  box-shadow: 0 1px 6px rgba(32,33,36,0.28);
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  max-width: 400px;
+  box-sizing: border-box;
+  font-size: 14px;
+}
+
+.c7 {
+  cursor: pointer;
+  position: relative;
+}
+
+.c8 {
+  color: #1967d2;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  font-size: 16px;
+  line-height: 20px;
+  font-weight: normal;
+  margin: 0;
+  display: inline-block;
+  overflow: hidden;
+  max-width: 600px;
+  vertical-align: top;
+  text-overflow: ellipsis;
+  max-width: 600px;
+  vertical-align: top;
+  text-overflow: ellipsis;
+}
+
+.c9 {
+  display: inline-block;
+  max-height: 40px;
+  padding-top: 1px;
+  vertical-align: top;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.c2 {
+  display: inline-block;
+  cursor: pointer;
+  position: relative;
+  max-width: 90%;
+  white-space: nowrap;
+  font-size: 14px;
+  vertical-align: top;
+}
+
+.c3 {
+  display: inline-block;
+  cursor: pointer;
+  position: relative;
+  max-width: 90%;
+  white-space: nowrap;
+  font-size: 14px;
+  vertical-align: top;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+  margin-bottom: 12px;
+  padding-top: 1px;
+  line-height: 20px;
+  vertical-align: top;
+}
+
+.c5 {
+  font-size: 12px;
+  line-height: 20px;
+  color: #3c4043;
+}
+
+.c6 {
+  color: #3c4043;
+}
+
+.c10 {
+  color: #3c4043;
+  font-size: 14px;
+  line-height: 20px;
+  cursor: pointer;
+  position: relative;
+  max-width: 600px;
+}
+
+.c10:after {
+  display: table;
+  content: "";
+  clear: both;
+}
+
+.c1 {
+  padding: 12px 16px;
+}
+
+.c1:first-child {
+  margin-bottom: -16px;
+}
+
+.c4 {
+  width: 16px;
+  height: 16px;
+  margin-right: 12px;
+  vertical-align: middle;
+}
+
+<section>
+  <div
+    className="c0"
+    id="yoast-snippet-preview-container"
+    width={null}
+  >
+    <div
+      className="c1"
+    >
+      <span
+        className="screen-reader-text"
+        style={
+          Object {
+            "clip": "rect(1px, 1px, 1px, 1px)",
+            "height": "1px",
+            "overflow": "hidden",
+            "position": "absolute",
+            "width": "1px",
+          }
+        }
+      >
+        Url preview:
+      </span>
+      <div
+        className="c2"
+      >
+        <div
+          className="c3"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+          onMouseUp={[Function]}
+        >
+          <img
+            alt=""
+            className="c4"
+            src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABs0lEQVR4AWL4//8/RRjO8Iucx+noO0MWUDo16FYABMGP6ZfUcRnWtm27jVPbtm3bttuH2t3eFPcY9pLz7NxiLjCyVd87pKnHyqXyxtCs8APd0rnyxiu4qSeA3QEDrAwBDrT1s1Rc/OrjLZwqVmOSu6+Lamcpp2KKMA9PH1BYXMe1mUP5qotvXTywsOEEYHXxrY+3cqk6TMkYpNr2FeoY3KIr0RPtn9wQ2unlA+GMkRw6+9TFw4YTwDUzx/JVvARj9KaedXRO8P5B1Du2S32smzqUrcKGEyA+uAgQjKX7zf0boWHGfn71jIKj2689gxp7OAGShNcBUmLMPVjZuiKcA2vuWHHDCQxMCz629kXAIU4ApY15QwggAFbfOP9DhgBJ+nWVJ1AZAfICAj1pAlY6hCADZnveQf7bQIwzVONGJonhLIlS9gr5mFg44Xd+4S3XHoGNPdJl1INIwKyEgHckEhgTe1bGiFY9GSFBYUwLh1IkiJUbY407E7syBSFxKTszEoiE/YdrgCEayDmtaJwCI9uu8TKMuZSVfSa4BpGgzvomBR/INhLGzrqDotp01ZR8pn/1L0JN9d9XNyx0AAAAAElFTkSuQmCC"
+          />
+          <span
+            className="c5"
+          >
+            <span
+              className="c6"
+            >
+              example.org
+            </span>
+             › 
+          </span>
+        </div>
+      </div>
+      <span
+        className="screen-reader-text"
+        style={
+          Object {
+            "clip": "rect(1px, 1px, 1px, 1px)",
+            "height": "1px",
+            "overflow": "hidden",
+            "position": "absolute",
+            "width": "1px",
+          }
+        }
+      >
+        SEO title preview:
+      </span>
+      <div
+        className="c7"
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
+        onMouseUp={[Function]}
+      >
+        <div
+          className="c8"
+        >
+          <span
+            className="c9"
+          >
+            Title
+          </span>
+        </div>
+      </div>
+    </div>
+    <div
+      className="c1"
+    >
+      <span
+        className="screen-reader-text"
+        style={
+          Object {
+            "clip": "rect(1px, 1px, 1px, 1px)",
+            "height": "1px",
+            "overflow": "hidden",
+            "position": "absolute",
+            "width": "1px",
+          }
+        }
+      >
+        Meta description preview:
+      </span>
+      <div
+        className="c10"
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
+        onMouseUp={[Function]}
+      >
+        <div
+          className="c10"
+        >
+          
+          
+          Description
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+`;
+
+exports[`SnippetPreview renders a SnippetPreview in the default mode 1`] = `
+.c0 {
+  border-bottom: 1px hidden #fff;
+  border-radius: 8px;
+  box-shadow: 0 1px 6px rgba(32,33,36,0.28);
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  max-width: 400px;
+  box-sizing: border-box;
+  font-size: 14px;
+}
+
+.c7 {
+  cursor: pointer;
+  position: relative;
+}
+
+.c8 {
+  color: #1967d2;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  font-size: 16px;
+  line-height: 20px;
+  font-weight: normal;
+  margin: 0;
+  display: inline-block;
+  overflow: hidden;
+  max-width: 600px;
+  vertical-align: top;
+  text-overflow: ellipsis;
+  max-width: 600px;
+  vertical-align: top;
+  text-overflow: ellipsis;
+}
+
+.c9 {
+  display: inline-block;
+  max-height: 40px;
+  padding-top: 1px;
+  vertical-align: top;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.c2 {
+  display: inline-block;
+  cursor: pointer;
+  position: relative;
+  max-width: 90%;
+  white-space: nowrap;
+  font-size: 14px;
+  vertical-align: top;
+}
+
+.c3 {
+  display: inline-block;
+  cursor: pointer;
+  position: relative;
+  max-width: 90%;
+  white-space: nowrap;
+  font-size: 14px;
+  vertical-align: top;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+  margin-bottom: 12px;
+  padding-top: 1px;
+  line-height: 20px;
+  vertical-align: top;
+}
+
+.c5 {
+  font-size: 12px;
+  line-height: 20px;
+  color: #3c4043;
+}
+
+.c6 {
+  color: #3c4043;
+}
+
+.c10 {
+  color: #3c4043;
+  font-size: 14px;
+  line-height: 20px;
+  cursor: pointer;
+  position: relative;
+  max-width: 600px;
+}
+
+.c10:after {
+  display: table;
+  content: "";
+  clear: both;
+}
+
+.c1 {
+  padding: 12px 16px;
+}
+
+.c1:first-child {
+  margin-bottom: -16px;
+}
+
+.c4 {
+  width: 16px;
+  height: 16px;
+  margin-right: 12px;
+  vertical-align: middle;
+}
+
+<section>
+  <div
+    className="c0"
+    id="yoast-snippet-preview-container"
+    width={null}
+  >
+    <div
+      className="c1"
+    >
+      <span
+        className="screen-reader-text"
+        style={
+          Object {
+            "clip": "rect(1px, 1px, 1px, 1px)",
+            "height": "1px",
+            "overflow": "hidden",
+            "position": "absolute",
+            "width": "1px",
+          }
+        }
+      >
+        Url preview:
+      </span>
+      <div
+        className="c2"
+      >
+        <div
+          className="c3"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+          onMouseUp={[Function]}
+        >
+          <img
+            alt=""
+            className="c4"
+            src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABs0lEQVR4AWL4//8/RRjO8Iucx+noO0MWUDo16FYABMGP6ZfUcRnWtm27jVPbtm3bttuH2t3eFPcY9pLz7NxiLjCyVd87pKnHyqXyxtCs8APd0rnyxiu4qSeA3QEDrAwBDrT1s1Rc/OrjLZwqVmOSu6+Lamcpp2KKMA9PH1BYXMe1mUP5qotvXTywsOEEYHXxrY+3cqk6TMkYpNr2FeoY3KIr0RPtn9wQ2unlA+GMkRw6+9TFw4YTwDUzx/JVvARj9KaedXRO8P5B1Du2S32smzqUrcKGEyA+uAgQjKX7zf0boWHGfn71jIKj2689gxp7OAGShNcBUmLMPVjZuiKcA2vuWHHDCQxMCz629kXAIU4ApY15QwggAFbfOP9DhgBJ+nWVJ1AZAfICAj1pAlY6hCADZnveQf7bQIwzVONGJonhLIlS9gr5mFg44Xd+4S3XHoGNPdJl1INIwKyEgHckEhgTe1bGiFY9GSFBYUwLh1IkiJUbY407E7syBSFxKTszEoiE/YdrgCEayDmtaJwCI9uu8TKMuZSVfSa4BpGgzvomBR/INhLGzrqDotp01ZR8pn/1L0JN9d9XNyx0AAAAAElFTkSuQmCC"
+          />
+          <span
+            className="c5"
+          >
+            <span
+              className="c6"
+            >
+              example.org
+            </span>
+             › 
+          </span>
+        </div>
+      </div>
+      <span
+        className="screen-reader-text"
+        style={
+          Object {
+            "clip": "rect(1px, 1px, 1px, 1px)",
+            "height": "1px",
+            "overflow": "hidden",
+            "position": "absolute",
+            "width": "1px",
+          }
+        }
+      >
+        SEO title preview:
+      </span>
+      <div
+        className="c7"
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
+        onMouseUp={[Function]}
+      >
+        <div
+          className="c8"
+        >
+          <span
+            className="c9"
+          >
+            Title
+          </span>
+        </div>
+      </div>
+    </div>
+    <div
+      className="c1"
+    >
+      <span
+        className="screen-reader-text"
+        style={
+          Object {
+            "clip": "rect(1px, 1px, 1px, 1px)",
+            "height": "1px",
+            "overflow": "hidden",
+            "position": "absolute",
+            "width": "1px",
+          }
+        }
+      >
+        Meta description preview:
+      </span>
+      <div
+        className="c10"
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
+        onMouseUp={[Function]}
+      >
+        <div
+          className="c10"
+        >
+          
+          
+          Description
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+`;
+
+exports[`SnippetPreview renders a SnippetPreview that looks like Google 1`] = `
+.c0 {
+  overflow: auto;
+  width: 640px;
+  padding: 0 20px;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.c2 {
+  width: 600px;
+}
+
+.c1 {
+  background-color: #fff;
+  font-family: arial,sans-serif;
+  box-sizing: border-box;
+}
+
+.c8 {
+  cursor: pointer;
+  position: relative;
+}
+
+.c9 {
+  color: #1a0dab;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  font-size: 20px;
+  line-height: 1.3;
+  font-weight: normal;
+  margin: 0;
+  display: inline-block;
+  overflow: hidden;
+  max-width: 600px;
+  vertical-align: top;
+  text-overflow: ellipsis;
+  max-width: 600px;
+  vertical-align: top;
+  text-overflow: ellipsis;
+}
+
+.c10 {
+  white-space: nowrap;
+}
+
+.c3 {
+  display: inline-block;
+  cursor: pointer;
+  position: relative;
+  max-width: 90%;
+  white-space: nowrap;
+  font-size: 14px;
+  vertical-align: top;
+}
+
+.c4 {
+  display: inline-block;
+  cursor: pointer;
+  position: relative;
+  max-width: 90%;
+  white-space: nowrap;
+  font-size: 14px;
+  vertical-align: top;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+  margin-bottom: 0;
+  padding-top: 1px;
+  line-height: 1.5;
+  vertical-align: baseline;
+}
+
+.c5 {
+  font-size: 14px;
+  line-height: 1.3;
+  color: #5f6368;
+}
+
+.c6 {
+  color: #3c4043;
+}
+
+.c11 {
+  color: #4d5156;
+  cursor: pointer;
+  position: relative;
+  max-width: 600px;
+  padding-top: 1px;
+  font-size: 14px;
+  line-height: 1.58;
+}
+
+.c7 {
+  display: inline-block;
+  margin-top: 9px;
+  margin-left: 6px;
+  border-top: 5px solid #70757a;
+  border-right: 4px solid transparent;
+  border-left: 4px solid transparent;
+  vertical-align: top;
+}
+
+<section>
+  <div
+    className="c0 c1"
+    id="yoast-snippet-preview-container"
+  >
+    <div
+      className="c2"
+    >
+      <div
+        className=""
+      >
+        <span
+          className="screen-reader-text"
+          style={
+            Object {
+              "clip": "rect(1px, 1px, 1px, 1px)",
+              "height": "1px",
+              "overflow": "hidden",
+              "position": "absolute",
+              "width": "1px",
+            }
+          }
+        >
+          Url preview:
+        </span>
+        <div
+          className="c3"
+        >
+          <div
+            className="c4"
+            onMouseEnter={[Function]}
+            onMouseLeave={[Function]}
+            onMouseUp={[Function]}
+          >
+            <span
+              className="c5"
+            >
+              <span
+                className="c6"
+              >
+                example.org
+              </span>
+               › 
+            </span>
+          </div>
+        </div>
+        <div
+          className="c7"
+        />
+        <span
+          className="screen-reader-text"
+          style={
+            Object {
+              "clip": "rect(1px, 1px, 1px, 1px)",
+              "height": "1px",
+              "overflow": "hidden",
+              "position": "absolute",
+              "width": "1px",
+            }
+          }
+        >
+          SEO title preview:
+        </span>
+        <div
+          className="c8"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+          onMouseUp={[Function]}
+        >
+          <div
+            className="c9"
+          >
+            <span
+              className="c10"
+            >
+              Title
+            </span>
+          </div>
+        </div>
+      </div>
+      <div
+        className=""
+      >
+        <span
+          className="screen-reader-text"
+          style={
+            Object {
+              "clip": "rect(1px, 1px, 1px, 1px)",
+              "height": "1px",
+              "overflow": "hidden",
+              "position": "absolute",
+              "width": "1px",
+            }
+          }
+        >
+          Meta description preview:
+        </span>
+        <div
+          className="c11"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+          onMouseUp={[Function]}
+        >
+          
+          Description
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+`;
+
+exports[`SnippetPreview renders a caret on activation 1`] = `
+.c0 {
+  overflow: auto;
+  width: 640px;
+  padding: 0 20px;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.c2 {
+  width: 600px;
+}
+
+.c1 {
+  background-color: #fff;
+  font-family: arial,sans-serif;
+  box-sizing: border-box;
+}
+
+.c9 {
+  color: #1a0dab;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  font-size: 20px;
+  line-height: 1.3;
+  font-weight: normal;
+  margin: 0;
+  display: inline-block;
+  overflow: hidden;
+  max-width: 600px;
+  vertical-align: top;
+  text-overflow: ellipsis;
+  max-width: 600px;
+  vertical-align: top;
+  text-overflow: ellipsis;
+}
+
+.c10 {
+  white-space: nowrap;
+}
+
+.c3 {
+  display: inline-block;
+  cursor: pointer;
+  position: relative;
+  max-width: 90%;
+  white-space: nowrap;
+  font-size: 14px;
+  vertical-align: top;
+}
+
+.c4 {
+  display: inline-block;
+  cursor: pointer;
+  position: relative;
+  max-width: 90%;
+  white-space: nowrap;
+  font-size: 14px;
+  vertical-align: top;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+  margin-bottom: 0;
+  padding-top: 1px;
+  line-height: 1.5;
+  vertical-align: baseline;
+}
+
+.c5 {
+  font-size: 14px;
+  line-height: 1.3;
+  color: #5f6368;
+}
+
+.c6 {
+  color: #3c4043;
+}
+
+.c11 {
+  color: #4d5156;
+  cursor: pointer;
+  position: relative;
+  max-width: 600px;
+  padding-top: 1px;
+  font-size: 14px;
+  line-height: 1.58;
+}
+
+.c7 {
+  display: inline-block;
+  margin-top: 9px;
+  margin-left: 6px;
+  border-top: 5px solid #70757a;
+  border-right: 4px solid transparent;
+  border-left: 4px solid transparent;
+  vertical-align: top;
+}
+
+.c8 {
+  cursor: pointer;
+  position: relative;
+}
+
+.c8::before {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: -22px;
+  width: 22px;
+  height: 22px;
+  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22%23555%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E );
+  background-size: 24px;
+  background-repeat: no-repeat;
+  background-position: center;
+  content: "";
+}
+
+<section>
+  <div
+    className="c0 c1"
+    id="yoast-snippet-preview-container"
+  >
+    <div
+      className="c2"
+    >
+      <div
+        className=""
+      >
+        <span
+          className="screen-reader-text"
+          style={
+            Object {
+              "clip": "rect(1px, 1px, 1px, 1px)",
+              "height": "1px",
+              "overflow": "hidden",
+              "position": "absolute",
+              "width": "1px",
+            }
+          }
+        >
+          Url preview:
+        </span>
+        <div
+          className="c3"
+        >
+          <div
+            className="c4"
+            onMouseEnter={[Function]}
+            onMouseLeave={[Function]}
+            onMouseUp={[Function]}
+          >
+            <span
+              className="c5"
+            >
+              <span
+                className="c6"
+              >
+                example.org
+              </span>
+               › 
+            </span>
+          </div>
+        </div>
+        <div
+          className="c7"
+        />
+        <span
+          className="screen-reader-text"
+          style={
+            Object {
+              "clip": "rect(1px, 1px, 1px, 1px)",
+              "height": "1px",
+              "overflow": "hidden",
+              "position": "absolute",
+              "width": "1px",
+            }
+          }
+        >
+          SEO title preview:
+        </span>
+        <div
+          className="c8"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+          onMouseUp={[Function]}
+        >
+          <div
+            className="c9"
+          >
+            <span
+              className="c10"
+            >
+              Title
+            </span>
+          </div>
+        </div>
+      </div>
+      <div
+        className=""
+      >
+        <span
+          className="screen-reader-text"
+          style={
+            Object {
+              "clip": "rect(1px, 1px, 1px, 1px)",
+              "height": "1px",
+              "overflow": "hidden",
+              "position": "absolute",
+              "width": "1px",
+            }
+          }
+        >
+          Meta description preview:
+        </span>
+        <div
+          className="c11"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+          onMouseUp={[Function]}
+        >
+          
+          Description
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+`;
+
+exports[`SnippetPreview renders a caret on activation 2`] = `
+.c0 {
+  overflow: auto;
+  width: 640px;
+  padding: 0 20px;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.c2 {
+  width: 600px;
+}
+
+.c1 {
+  background-color: #fff;
+  font-family: arial,sans-serif;
+  box-sizing: border-box;
+}
+
+.c8 {
+  cursor: pointer;
+  position: relative;
+}
+
+.c9 {
+  color: #1a0dab;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  font-size: 20px;
+  line-height: 1.3;
+  font-weight: normal;
+  margin: 0;
+  display: inline-block;
+  overflow: hidden;
+  max-width: 600px;
+  vertical-align: top;
+  text-overflow: ellipsis;
+  max-width: 600px;
+  vertical-align: top;
+  text-overflow: ellipsis;
+}
+
+.c10 {
+  white-space: nowrap;
+}
+
+.c3 {
+  display: inline-block;
+  cursor: pointer;
+  position: relative;
+  max-width: 90%;
+  white-space: nowrap;
+  font-size: 14px;
+  vertical-align: top;
+}
+
+.c4 {
+  display: inline-block;
+  cursor: pointer;
+  position: relative;
+  max-width: 90%;
+  white-space: nowrap;
+  font-size: 14px;
+  vertical-align: top;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+  margin-bottom: 0;
+  padding-top: 1px;
+  line-height: 1.5;
+  vertical-align: baseline;
+}
+
+.c5 {
+  font-size: 14px;
+  line-height: 1.3;
+  color: #5f6368;
+}
+
+.c6 {
+  color: #3c4043;
+}
+
+.c7 {
+  display: inline-block;
+  margin-top: 9px;
+  margin-left: 6px;
+  border-top: 5px solid #70757a;
+  border-right: 4px solid transparent;
+  border-left: 4px solid transparent;
+  vertical-align: top;
+}
+
+.c11 {
+  color: #4d5156;
+  cursor: pointer;
+  position: relative;
+  max-width: 600px;
+  padding-top: 1px;
+  font-size: 14px;
+  line-height: 1.58;
+}
+
+.c11::before {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: -22px;
+  width: 22px;
+  height: 22px;
+  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22%23555%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E );
+  background-size: 24px;
+  background-repeat: no-repeat;
+  background-position: center;
+  content: "";
+}
+
+<section>
+  <div
+    className="c0 c1"
+    id="yoast-snippet-preview-container"
+  >
+    <div
+      className="c2"
+    >
+      <div
+        className=""
+      >
+        <span
+          className="screen-reader-text"
+          style={
+            Object {
+              "clip": "rect(1px, 1px, 1px, 1px)",
+              "height": "1px",
+              "overflow": "hidden",
+              "position": "absolute",
+              "width": "1px",
+            }
+          }
+        >
+          Url preview:
+        </span>
+        <div
+          className="c3"
+        >
+          <div
+            className="c4"
+            onMouseEnter={[Function]}
+            onMouseLeave={[Function]}
+            onMouseUp={[Function]}
+          >
+            <span
+              className="c5"
+            >
+              <span
+                className="c6"
+              >
+                example.org
+              </span>
+               › 
+            </span>
+          </div>
+        </div>
+        <div
+          className="c7"
+        />
+        <span
+          className="screen-reader-text"
+          style={
+            Object {
+              "clip": "rect(1px, 1px, 1px, 1px)",
+              "height": "1px",
+              "overflow": "hidden",
+              "position": "absolute",
+              "width": "1px",
+            }
+          }
+        >
+          SEO title preview:
+        </span>
+        <div
+          className="c8"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+          onMouseUp={[Function]}
+        >
+          <div
+            className="c9"
+          >
+            <span
+              className="c10"
+            >
+              Title
+            </span>
+          </div>
+        </div>
+      </div>
+      <div
+        className=""
+      >
+        <span
+          className="screen-reader-text"
+          style={
+            Object {
+              "clip": "rect(1px, 1px, 1px, 1px)",
+              "height": "1px",
+              "overflow": "hidden",
+              "position": "absolute",
+              "width": "1px",
+            }
+          }
+        >
+          Meta description preview:
+        </span>
+        <div
+          className="c11"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+          onMouseUp={[Function]}
+        >
+          
+          Description
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+`;
+
+exports[`SnippetPreview renders a caret on activation 3`] = `
+.c0 {
+  overflow: auto;
+  width: 640px;
+  padding: 0 20px;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.c2 {
+  width: 600px;
+}
+
+.c1 {
+  background-color: #fff;
+  font-family: arial,sans-serif;
+  box-sizing: border-box;
+}
+
+.c8 {
+  cursor: pointer;
+  position: relative;
+}
+
+.c9 {
+  color: #1a0dab;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  font-size: 20px;
+  line-height: 1.3;
+  font-weight: normal;
+  margin: 0;
+  display: inline-block;
+  overflow: hidden;
+  max-width: 600px;
+  vertical-align: top;
+  text-overflow: ellipsis;
+  max-width: 600px;
+  vertical-align: top;
+  text-overflow: ellipsis;
+}
+
+.c10 {
+  white-space: nowrap;
+}
+
+.c4 {
+  display: inline-block;
+  cursor: pointer;
+  position: relative;
+  max-width: 90%;
+  white-space: nowrap;
+  font-size: 14px;
+  vertical-align: top;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+  margin-bottom: 0;
+  padding-top: 1px;
+  line-height: 1.5;
+  vertical-align: baseline;
+}
+
+.c5 {
+  font-size: 14px;
+  line-height: 1.3;
+  color: #5f6368;
+}
+
+.c6 {
+  color: #3c4043;
+}
+
+.c11 {
+  color: #4d5156;
+  cursor: pointer;
+  position: relative;
+  max-width: 600px;
+  padding-top: 1px;
+  font-size: 14px;
+  line-height: 1.58;
+}
+
+.c7 {
+  display: inline-block;
+  margin-top: 9px;
+  margin-left: 6px;
+  border-top: 5px solid #70757a;
+  border-right: 4px solid transparent;
+  border-left: 4px solid transparent;
+  vertical-align: top;
+}
+
+.c3 {
+  display: inline-block;
+  cursor: pointer;
+  position: relative;
+  max-width: 90%;
+  white-space: nowrap;
+  font-size: 14px;
+  vertical-align: top;
+}
+
+.c3::before {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: -22px;
+  width: 22px;
+  height: 22px;
+  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22%23555%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E );
+  background-size: 24px;
+  background-repeat: no-repeat;
+  background-position: center;
+  content: "";
+}
+
+<section>
+  <div
+    className="c0 c1"
+    id="yoast-snippet-preview-container"
+  >
+    <div
+      className="c2"
+    >
+      <div
+        className=""
+      >
+        <span
+          className="screen-reader-text"
+          style={
+            Object {
+              "clip": "rect(1px, 1px, 1px, 1px)",
+              "height": "1px",
+              "overflow": "hidden",
+              "position": "absolute",
+              "width": "1px",
+            }
+          }
+        >
+          Url preview:
+        </span>
+        <div
+          className="c3"
+        >
+          <div
+            className="c4"
+            onMouseEnter={[Function]}
+            onMouseLeave={[Function]}
+            onMouseUp={[Function]}
+          >
+            <span
+              className="c5"
+            >
+              <span
+                className="c6"
+              >
+                example.org
+              </span>
+               › 
+            </span>
+          </div>
+        </div>
+        <div
+          className="c7"
+        />
+        <span
+          className="screen-reader-text"
+          style={
+            Object {
+              "clip": "rect(1px, 1px, 1px, 1px)",
+              "height": "1px",
+              "overflow": "hidden",
+              "position": "absolute",
+              "width": "1px",
+            }
+          }
+        >
+          SEO title preview:
+        </span>
+        <div
+          className="c8"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+          onMouseUp={[Function]}
+        >
+          <div
+            className="c9"
+          >
+            <span
+              className="c10"
+            >
+              Title
+            </span>
+          </div>
+        </div>
+      </div>
+      <div
+        className=""
+      >
+        <span
+          className="screen-reader-text"
+          style={
+            Object {
+              "clip": "rect(1px, 1px, 1px, 1px)",
+              "height": "1px",
+              "overflow": "hidden",
+              "position": "absolute",
+              "width": "1px",
+            }
+          }
+        >
+          Meta description preview:
+        </span>
+        <div
+          className="c11"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+          onMouseUp={[Function]}
+        >
+          
+          Description
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+`;
+
+exports[`SnippetPreview renders a caret on hover 1`] = `
+.c0 {
+  overflow: auto;
+  width: 640px;
+  padding: 0 20px;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.c2 {
+  width: 600px;
+}
+
+.c1 {
+  background-color: #fff;
+  font-family: arial,sans-serif;
+  box-sizing: border-box;
+}
+
+.c9 {
+  color: #1a0dab;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  font-size: 20px;
+  line-height: 1.3;
+  font-weight: normal;
+  margin: 0;
+  display: inline-block;
+  overflow: hidden;
+  max-width: 600px;
+  vertical-align: top;
+  text-overflow: ellipsis;
+  max-width: 600px;
+  vertical-align: top;
+  text-overflow: ellipsis;
+}
+
+.c10 {
+  white-space: nowrap;
+}
+
+.c3 {
+  display: inline-block;
+  cursor: pointer;
+  position: relative;
+  max-width: 90%;
+  white-space: nowrap;
+  font-size: 14px;
+  vertical-align: top;
+}
+
+.c4 {
+  display: inline-block;
+  cursor: pointer;
+  position: relative;
+  max-width: 90%;
+  white-space: nowrap;
+  font-size: 14px;
+  vertical-align: top;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+  margin-bottom: 0;
+  padding-top: 1px;
+  line-height: 1.5;
+  vertical-align: baseline;
+}
+
+.c5 {
+  font-size: 14px;
+  line-height: 1.3;
+  color: #5f6368;
+}
+
+.c6 {
+  color: #3c4043;
+}
+
+.c11 {
+  color: #4d5156;
+  cursor: pointer;
+  position: relative;
+  max-width: 600px;
+  padding-top: 1px;
+  font-size: 14px;
+  line-height: 1.58;
+}
+
+.c7 {
+  display: inline-block;
+  margin-top: 9px;
+  margin-left: 6px;
+  border-top: 5px solid #70757a;
+  border-right: 4px solid transparent;
+  border-left: 4px solid transparent;
+  vertical-align: top;
+}
+
+.c8 {
+  cursor: pointer;
+  position: relative;
+}
+
+.c8::before {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: -22px;
+  width: 22px;
+  height: 22px;
+  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22%23ccc%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E );
+  background-size: 24px;
+  background-repeat: no-repeat;
+  background-position: center;
+  content: "";
+}
+
+<section>
+  <div
+    className="c0 c1"
+    id="yoast-snippet-preview-container"
+  >
+    <div
+      className="c2"
+    >
+      <div
+        className=""
+      >
+        <span
+          className="screen-reader-text"
+          style={
+            Object {
+              "clip": "rect(1px, 1px, 1px, 1px)",
+              "height": "1px",
+              "overflow": "hidden",
+              "position": "absolute",
+              "width": "1px",
+            }
+          }
+        >
+          Url preview:
+        </span>
+        <div
+          className="c3"
+        >
+          <div
+            className="c4"
+            onMouseEnter={[Function]}
+            onMouseLeave={[Function]}
+            onMouseUp={[Function]}
+          >
+            <span
+              className="c5"
+            >
+              <span
+                className="c6"
+              >
+                example.org
+              </span>
+               › 
+            </span>
+          </div>
+        </div>
+        <div
+          className="c7"
+        />
+        <span
+          className="screen-reader-text"
+          style={
+            Object {
+              "clip": "rect(1px, 1px, 1px, 1px)",
+              "height": "1px",
+              "overflow": "hidden",
+              "position": "absolute",
+              "width": "1px",
+            }
+          }
+        >
+          SEO title preview:
+        </span>
+        <div
+          className="c8"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+          onMouseUp={[Function]}
+        >
+          <div
+            className="c9"
+          >
+            <span
+              className="c10"
+            >
+              Title
+            </span>
+          </div>
+        </div>
+      </div>
+      <div
+        className=""
+      >
+        <span
+          className="screen-reader-text"
+          style={
+            Object {
+              "clip": "rect(1px, 1px, 1px, 1px)",
+              "height": "1px",
+              "overflow": "hidden",
+              "position": "absolute",
+              "width": "1px",
+            }
+          }
+        >
+          Meta description preview:
+        </span>
+        <div
+          className="c11"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+          onMouseUp={[Function]}
+        >
+          
+          Description
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+`;
+
+exports[`SnippetPreview renders a caret on hover 2`] = `
+.c0 {
+  overflow: auto;
+  width: 640px;
+  padding: 0 20px;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.c2 {
+  width: 600px;
+}
+
+.c1 {
+  background-color: #fff;
+  font-family: arial,sans-serif;
+  box-sizing: border-box;
+}
+
+.c8 {
+  cursor: pointer;
+  position: relative;
+}
+
+.c9 {
+  color: #1a0dab;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  font-size: 20px;
+  line-height: 1.3;
+  font-weight: normal;
+  margin: 0;
+  display: inline-block;
+  overflow: hidden;
+  max-width: 600px;
+  vertical-align: top;
+  text-overflow: ellipsis;
+  max-width: 600px;
+  vertical-align: top;
+  text-overflow: ellipsis;
+}
+
+.c10 {
+  white-space: nowrap;
+}
+
+.c3 {
+  display: inline-block;
+  cursor: pointer;
+  position: relative;
+  max-width: 90%;
+  white-space: nowrap;
+  font-size: 14px;
+  vertical-align: top;
+}
+
+.c4 {
+  display: inline-block;
+  cursor: pointer;
+  position: relative;
+  max-width: 90%;
+  white-space: nowrap;
+  font-size: 14px;
+  vertical-align: top;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+  margin-bottom: 0;
+  padding-top: 1px;
+  line-height: 1.5;
+  vertical-align: baseline;
+}
+
+.c5 {
+  font-size: 14px;
+  line-height: 1.3;
+  color: #5f6368;
+}
+
+.c6 {
+  color: #3c4043;
+}
+
+.c7 {
+  display: inline-block;
+  margin-top: 9px;
+  margin-left: 6px;
+  border-top: 5px solid #70757a;
+  border-right: 4px solid transparent;
+  border-left: 4px solid transparent;
+  vertical-align: top;
+}
+
+.c11 {
+  color: #4d5156;
+  cursor: pointer;
+  position: relative;
+  max-width: 600px;
+  padding-top: 1px;
+  font-size: 14px;
+  line-height: 1.58;
+}
+
+.c11::before {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: -22px;
+  width: 22px;
+  height: 22px;
+  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22%23ccc%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E );
+  background-size: 24px;
+  background-repeat: no-repeat;
+  background-position: center;
+  content: "";
+}
+
+<section>
+  <div
+    className="c0 c1"
+    id="yoast-snippet-preview-container"
+  >
+    <div
+      className="c2"
+    >
+      <div
+        className=""
+      >
+        <span
+          className="screen-reader-text"
+          style={
+            Object {
+              "clip": "rect(1px, 1px, 1px, 1px)",
+              "height": "1px",
+              "overflow": "hidden",
+              "position": "absolute",
+              "width": "1px",
+            }
+          }
+        >
+          Url preview:
+        </span>
+        <div
+          className="c3"
+        >
+          <div
+            className="c4"
+            onMouseEnter={[Function]}
+            onMouseLeave={[Function]}
+            onMouseUp={[Function]}
+          >
+            <span
+              className="c5"
+            >
+              <span
+                className="c6"
+              >
+                example.org
+              </span>
+               › 
+            </span>
+          </div>
+        </div>
+        <div
+          className="c7"
+        />
+        <span
+          className="screen-reader-text"
+          style={
+            Object {
+              "clip": "rect(1px, 1px, 1px, 1px)",
+              "height": "1px",
+              "overflow": "hidden",
+              "position": "absolute",
+              "width": "1px",
+            }
+          }
+        >
+          SEO title preview:
+        </span>
+        <div
+          className="c8"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+          onMouseUp={[Function]}
+        >
+          <div
+            className="c9"
+          >
+            <span
+              className="c10"
+            >
+              Title
+            </span>
+          </div>
+        </div>
+      </div>
+      <div
+        className=""
+      >
+        <span
+          className="screen-reader-text"
+          style={
+            Object {
+              "clip": "rect(1px, 1px, 1px, 1px)",
+              "height": "1px",
+              "overflow": "hidden",
+              "position": "absolute",
+              "width": "1px",
+            }
+          }
+        >
+          Meta description preview:
+        </span>
+        <div
+          className="c11"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+          onMouseUp={[Function]}
+        >
+          
+          Description
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+`;
+
+exports[`SnippetPreview renders a caret on hover 3`] = `
+.c0 {
+  overflow: auto;
+  width: 640px;
+  padding: 0 20px;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.c2 {
+  width: 600px;
+}
+
+.c1 {
+  background-color: #fff;
+  font-family: arial,sans-serif;
+  box-sizing: border-box;
+}
+
+.c8 {
+  cursor: pointer;
+  position: relative;
+}
+
+.c9 {
+  color: #1a0dab;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  font-size: 20px;
+  line-height: 1.3;
+  font-weight: normal;
+  margin: 0;
+  display: inline-block;
+  overflow: hidden;
+  max-width: 600px;
+  vertical-align: top;
+  text-overflow: ellipsis;
+  max-width: 600px;
+  vertical-align: top;
+  text-overflow: ellipsis;
+}
+
+.c10 {
+  white-space: nowrap;
+}
+
+.c4 {
+  display: inline-block;
+  cursor: pointer;
+  position: relative;
+  max-width: 90%;
+  white-space: nowrap;
+  font-size: 14px;
+  vertical-align: top;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+  margin-bottom: 0;
+  padding-top: 1px;
+  line-height: 1.5;
+  vertical-align: baseline;
+}
+
+.c5 {
+  font-size: 14px;
+  line-height: 1.3;
+  color: #5f6368;
+}
+
+.c6 {
+  color: #3c4043;
+}
+
+.c11 {
+  color: #4d5156;
+  cursor: pointer;
+  position: relative;
+  max-width: 600px;
+  padding-top: 1px;
+  font-size: 14px;
+  line-height: 1.58;
+}
+
+.c7 {
+  display: inline-block;
+  margin-top: 9px;
+  margin-left: 6px;
+  border-top: 5px solid #70757a;
+  border-right: 4px solid transparent;
+  border-left: 4px solid transparent;
+  vertical-align: top;
+}
+
+.c3 {
+  display: inline-block;
+  cursor: pointer;
+  position: relative;
+  max-width: 90%;
+  white-space: nowrap;
+  font-size: 14px;
+  vertical-align: top;
+}
+
+.c3::before {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: -22px;
+  width: 22px;
+  height: 22px;
+  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22%23ccc%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E );
+  background-size: 24px;
+  background-repeat: no-repeat;
+  background-position: center;
+  content: "";
+}
+
+<section>
+  <div
+    className="c0 c1"
+    id="yoast-snippet-preview-container"
+  >
+    <div
+      className="c2"
+    >
+      <div
+        className=""
+      >
+        <span
+          className="screen-reader-text"
+          style={
+            Object {
+              "clip": "rect(1px, 1px, 1px, 1px)",
+              "height": "1px",
+              "overflow": "hidden",
+              "position": "absolute",
+              "width": "1px",
+            }
+          }
+        >
+          Url preview:
+        </span>
+        <div
+          className="c3"
+        >
+          <div
+            className="c4"
+            onMouseEnter={[Function]}
+            onMouseLeave={[Function]}
+            onMouseUp={[Function]}
+          >
+            <span
+              className="c5"
+            >
+              <span
+                className="c6"
+              >
+                example.org
+              </span>
+               › 
+            </span>
+          </div>
+        </div>
+        <div
+          className="c7"
+        />
+        <span
+          className="screen-reader-text"
+          style={
+            Object {
+              "clip": "rect(1px, 1px, 1px, 1px)",
+              "height": "1px",
+              "overflow": "hidden",
+              "position": "absolute",
+              "width": "1px",
+            }
+          }
+        >
+          SEO title preview:
+        </span>
+        <div
+          className="c8"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+          onMouseUp={[Function]}
+        >
+          <div
+            className="c9"
+          >
+            <span
+              className="c10"
+            >
+              Title
+            </span>
+          </div>
+        </div>
+      </div>
+      <div
+        className=""
+      >
+        <span
+          className="screen-reader-text"
+          style={
+            Object {
+              "clip": "rect(1px, 1px, 1px, 1px)",
+              "height": "1px",
+              "overflow": "hidden",
+              "position": "absolute",
+              "width": "1px",
+            }
+          }
+        >
+          Meta description preview:
+        </span>
+        <div
+          className="c11"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+          onMouseUp={[Function]}
+        >
+          
+          Description
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+`;
+
+exports[`SnippetPreview shows the date if a date is passed 1`] = `
+.c0 {
+  overflow: auto;
+  width: 640px;
+  padding: 0 20px;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.c2 {
+  width: 600px;
+}
+
+.c1 {
+  background-color: #fff;
+  font-family: arial,sans-serif;
+  box-sizing: border-box;
+}
+
+.c8 {
+  cursor: pointer;
+  position: relative;
+}
+
+.c9 {
+  color: #1a0dab;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  font-size: 20px;
+  line-height: 1.3;
+  font-weight: normal;
+  margin: 0;
+  display: inline-block;
+  overflow: hidden;
+  max-width: 600px;
+  vertical-align: top;
+  text-overflow: ellipsis;
+  max-width: 600px;
+  vertical-align: top;
+  text-overflow: ellipsis;
+}
+
+.c10 {
+  white-space: nowrap;
+}
+
+.c3 {
+  display: inline-block;
+  cursor: pointer;
+  position: relative;
+  max-width: 90%;
+  white-space: nowrap;
+  font-size: 14px;
+  vertical-align: top;
+}
+
+.c4 {
+  display: inline-block;
+  cursor: pointer;
+  position: relative;
+  max-width: 90%;
+  white-space: nowrap;
+  font-size: 14px;
+  vertical-align: top;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+  margin-bottom: 0;
+  padding-top: 1px;
+  line-height: 1.5;
+  vertical-align: baseline;
+}
+
+.c5 {
+  font-size: 14px;
+  line-height: 1.3;
+  color: #5f6368;
+}
+
+.c6 {
+  color: #3c4043;
+}
+
+.c11 {
+  color: #4d5156;
+  cursor: pointer;
+  position: relative;
+  max-width: 600px;
+  padding-top: 1px;
+  font-size: 14px;
+  line-height: 1.58;
+}
+
+.c7 {
+  display: inline-block;
+  margin-top: 9px;
+  margin-left: 6px;
+  border-top: 5px solid #70757a;
+  border-right: 4px solid transparent;
+  border-left: 4px solid transparent;
+  vertical-align: top;
+}
+
+.c12 {
+  color: #777;
+}
+
+<section>
+  <div
+    className="c0 c1"
+    id="yoast-snippet-preview-container"
+  >
+    <div
+      className="c2"
+    >
+      <div
+        className=""
+      >
+        <span
+          className="screen-reader-text"
+          style={
+            Object {
+              "clip": "rect(1px, 1px, 1px, 1px)",
+              "height": "1px",
+              "overflow": "hidden",
+              "position": "absolute",
+              "width": "1px",
+            }
+          }
+        >
+          Url preview:
+        </span>
+        <div
+          className="c3"
+        >
+          <div
+            className="c4"
+            onMouseEnter={[Function]}
+            onMouseLeave={[Function]}
+            onMouseUp={[Function]}
+          >
+            <span
+              className="c5"
+            >
+              <span
+                className="c6"
+              >
+                example.org
+              </span>
+               › 
+            </span>
+          </div>
+        </div>
+        <div
+          className="c7"
+        />
+        <span
+          className="screen-reader-text"
+          style={
+            Object {
+              "clip": "rect(1px, 1px, 1px, 1px)",
+              "height": "1px",
+              "overflow": "hidden",
+              "position": "absolute",
+              "width": "1px",
+            }
+          }
+        >
+          SEO title preview:
+        </span>
+        <div
+          className="c8"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+          onMouseUp={[Function]}
+        >
+          <div
+            className="c9"
+          >
+            <span
+              className="c10"
+            >
+              Title
+            </span>
+          </div>
+        </div>
+      </div>
+      <div
+        className=""
+      >
+        <span
+          className="screen-reader-text"
+          style={
+            Object {
+              "clip": "rect(1px, 1px, 1px, 1px)",
+              "height": "1px",
+              "overflow": "hidden",
+              "position": "absolute",
+              "width": "1px",
+            }
+          }
+        >
+          Meta description preview:
+        </span>
+        <div
+          className="c11"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+          onMouseUp={[Function]}
+        >
+          <span
+            className="c12"
+          >
+            Today
+             
+            -
+             
+          </span>
+          Description
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+`;
