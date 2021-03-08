@@ -31,6 +31,13 @@ abstract class Settings_Model {
 			throw new Exception( "Setting $name does not exist." );
 		}
 
+		if ( ! array_key_exists( $name, $this->values ) ) {
+			$settings = $this->get_settings();
+
+			// Store the default value for the setting.
+			$this->values[ $name ] = $settings[ $name ]['default'];
+		}
+
 		return $this->values[ $name ];
 	}
 

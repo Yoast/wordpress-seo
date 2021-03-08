@@ -73,4 +73,15 @@ class Settings_Model_Test extends TestCase {
 
 		$this->instance->non_existing_setting;
 	}
+
+	/**
+	 * Test getting the default value if no value exists yet.
+	 *
+	 * @covers ::__get
+	 */
+	public function test_get_falls_back_to_default() {
+		$this->instance->expects( 'get_settings' )->twice()->andReturn( [ 'default_setting' => [ 'default' => 12 ] ] );
+
+		self::assertSame( 12, $this->instance->default_setting );
+	}
 }
