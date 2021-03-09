@@ -34,7 +34,8 @@ module.exports = function( grunt ) {
 			css: "css/dist/",
 			grunt: "config/grunt/",
 			images: "images/",
-			js: "js/src/",
+			js: "packages/js/src/",
+			jsDist: "packages/js/dist/",
 			languages: "languages/",
 			logs: "logs/",
 			svnCheckoutDir: ".wordpress-svn",
@@ -49,10 +50,10 @@ module.exports = function( grunt ) {
 				"css/dist/*.css.map",
 			],
 			js: [
-				"js/src/**/*.js",
+				"packages/js/src/**/*.js",
 			],
 			jsTests: [
-				"js/tests/**/*.js",
+				"packages/js/tests/**/*.js",
 			],
 			php: [
 				"*.php",

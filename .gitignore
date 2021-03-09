@@ -86,7 +86,6 @@ test.sh
 # Dist files
 ############
 /languages/
-/js/dist/*
 /js/vendor/*
 /css/dist/*
 /packages/*/dist

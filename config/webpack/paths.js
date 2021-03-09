@@ -1,8 +1,8 @@
 /* global require, module */
 const path = require( "path" );
 
-const jsDistPath = path.resolve( "js", "dist" );
-const jsSrcPath = path.resolve( "js", "src" );
+const jsDistPath = path.resolve( "packages", "js", "dist" );
+const jsSrcPath = path.resolve( "packages", "js", "src" );
 const cssDistPath = path.resolve( "css", "dist" );
 
 // Output filename: Entry file (relative to jsSrcPath)

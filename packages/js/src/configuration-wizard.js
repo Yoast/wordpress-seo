@@ -13,7 +13,7 @@ import Suggestions from "./components/Suggestions";
 import FinalStep from "./components/FinalStep";
 import WordPressUserSelectorOnboardingWizard from "./components/WordPressUserSelectorOnboardingWizard";
 import CompanyInfoMissingOnboardingWizard from "./components/CompanyInfoMissingOnboardingWizard";
-import YoastIcon from "../../images/Yoast_SEO_Icon.svg";
+import YoastIcon from "../../../images/Yoast_SEO_Icon.svg";
 import { setYoastComponentsL10n } from "./helpers/i18n";
 
 const PluginConflictLink = makeOutboundLink();

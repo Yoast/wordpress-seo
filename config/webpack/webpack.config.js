@@ -16,7 +16,7 @@ const mainEntry = mapValues( paths.entry, entry => {
 		return entry;
 	}
 
-	return "./" + path.join( "js/src/", entry );
+	return path.join( paths.jsSrc, entry );
 } );
 
 const defaultAllowedHosts = [
@@ -179,10 +179,10 @@ module.exports = function( env ) {
 			...base,
 			entry: {
 				...mainEntry,
-				"styled-components": "./js/src/externals/styled-components.js",
-				redux: "./js/src/externals/redux.js",
-				jed: "./js/src/externals/jed.js",
-				"draft-js": "./js/src/externals/draft-js.js",
+				"styled-components": path.join( paths.jsSrc, "externals/styled-components.js" ),
+				redux: path.join( paths.jsSrc, "externals/redux.js" ),
+				jed: path.join( paths.jsSrc, "externals/jed.js" ),
+				"draft-js": path.join( paths.jsSrc, "externals/draft-js.js" ),
 			},
 			externals: {
 				...externals,
@@ -203,7 +203,7 @@ module.exports = function( env ) {
 				jsonpFunction: "yoastWebpackJsonp",
 			},
 			entry: {
-				"babel-polyfill": "./js/src/externals/babel-polyfill.js",
+				"babel-polyfill": path.join( paths.jsSrc, "externals/babel-polyfill.js" ),
 			},
 			plugins: addBundleAnalyzer( plugins ),
 			optimization: {
@@ -220,8 +220,8 @@ module.exports = function( env ) {
 				jsonpFunction: "yoastWebpackJsonp",
 			},
 			entry: {
-				"analysis-worker": "./js/src/analysis-worker.js",
-				analysis: "./js/src/externals/analysis.js",
+				"analysis-worker": path.join( paths.jsSrc, "analysis-worker.js" ),
+				analysis: path.join( paths.jsSrc, "externals/analysis.js" ),
 			},
 			plugins: addBundleAnalyzer( plugins ),
 			optimization: {
@@ -233,7 +233,7 @@ module.exports = function( env ) {
 			...base,
 			externals: { yoastseo: "yoast.analysis" },
 			entry: {
-				"used-keywords-assessment": "./js/src/used-keywords-assessment.js",
+				"used-keywords-assessment": path.join( paths.jsSrc, "used-keywords-assessment.js" ),
 			},
 			plugins: addBundleAnalyzer( plugins ),
 			optimization: {
@@ -257,7 +257,7 @@ module.exports = function( env ) {
 		config.push({
 			...base,
 			entry: {
-				[packageName]: "./js/src/externals/yoast/" + packageName + ".js",
+				[packageName]: path.join( paths.jsSrc, "externals/yoast/" + packageName + ".js" ),
 			},
 			output: {
 				path: path.resolve(),

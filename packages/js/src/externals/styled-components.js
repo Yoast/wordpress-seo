@@ -1,4 +1,4 @@
-import * as styledComponents from "../../../node_modules/styled-components";
+import * as styledComponents from "styled-components";
 
 window.yoast = window.yoast || {};
 window.yoast.styledComponents = styledComponents;

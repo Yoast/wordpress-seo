@@ -11,7 +11,7 @@ import { NewButton, ButtonStyledLink } from "@yoast/components";
 /* Internal dependencies */
 import { ModalContainer } from "./modals/Container";
 import Modal from "./modals/Modal";
-import YoastIcon from "../../../images/Yoast_icon_kader.svg";
+import YoastIcon from "../../../../images/Yoast_icon_kader.svg";
 import { isCloseEvent } from "./modals/editorModals/EditorModal.js";
 
 /**

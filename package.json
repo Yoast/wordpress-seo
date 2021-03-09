@@ -21,7 +21,6 @@
       "packages/*"
     ],
     "nohoist": [
-      "**/grunt-*",
       "**/sassdash"
     ]
   },

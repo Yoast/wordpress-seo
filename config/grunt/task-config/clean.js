@@ -15,10 +15,10 @@ module.exports = {
 		"<%= paths.languages %>yoastseojsfiles.txt",
 	],
 	"build-assets-js": [
-		"js/dist/*.js",
-		"js/dist/yoast/*.js",
+		"<%= paths.jsDist %>*.js",
+		"<%= paths.jsDist %>yoast/*.js",
 		"<%= paths.css %>monorepo*.css",
-		"<%= paths.js %>/select2",
+		"<%= paths.jsDist %>/select2",
 	],
 	"build-assets-css": [
 		"css/dist/*.css",

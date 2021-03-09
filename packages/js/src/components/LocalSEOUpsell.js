@@ -5,7 +5,7 @@ import styled from "styled-components";
 import { makeOutboundLink, getDirectionalStyle as getRtlStyle } from "@yoast/helpers";
 
 /* Internal dependencies */
-import LocalAssistantImage from "../../../images/local_assistant.svg";
+import LocalAssistantImage from "../../../../images/local_assistant.svg";
 
 const Container = styled.div`
 	display: flex;

@@ -6,7 +6,7 @@ module.exports = {
 				expand: true,
 				cwd: "node_modules/select2/dist/js/",
 				src: [ "select2.full.min.js", "i18n/*", "!i18n/build.txt" ],
-				dest: "js/dist/select2/",
+				dest: "<%= paths.jsDist %>select2/",
 			},
 		],
 	},

@@ -1,8 +1,8 @@
 import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
 import { Fragment } from "@wordpress/element";
-import FacebookIcon from "../../../images/icon-facebook.svg";
-import TwitterIcon from "../../../images/icon-twitter.svg";
+import FacebookIcon from "../../../../images/icon-facebook.svg";
+import TwitterIcon from "../../../../images/icon-twitter.svg";
 
 /**
  * Renders the PostPublish Yoast integration.
