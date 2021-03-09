@@ -5,7 +5,7 @@ import {
 } from "lodash-es";
 
 import { editorHasMarks, editorRemoveMarks } from "../decorator/tinyMCE";
-import CompatibilityHelper from "../compatibility/compatibilityHelper";
+import CompatibilityHelper from "../compatibility/compatibility-helper";
 import { setMarkerStatus } from "../redux/actions/markerButtons";
 
 let store;

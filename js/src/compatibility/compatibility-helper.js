@@ -5,8 +5,8 @@ import {
 } from "lodash-es";
 
 /* Internal dependencies */
-import DiviHelper from "./diviHelper";
-import VisualComposerHelper from "./VisualComposerHelper";
+import DiviHelper from "./divi-helper";
+import VisualComposerHelper from "./visual-composer-helper";
 
 const DEFAULTS = {
 	classicEditorHidden: noop,
