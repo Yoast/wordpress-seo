@@ -191,7 +191,7 @@ PostDataCollector.prototype.getSnippetMeta = function() {
  * @returns {string} The snippet cite.
  */
 PostDataCollector.prototype.getSnippetCite = function() {
-	return this.getUrl();
+	return this.getUrl() || "";
 };
 
 /**
