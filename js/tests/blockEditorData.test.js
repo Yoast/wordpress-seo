@@ -1,7 +1,7 @@
 // Mock the jQuery global before importing data.
 global.jQuery = {};
 
-import BlockEditorData from "../src/analysis/blockEditorData.js";
+import BlockEditorData from "../src/analysis/block-editor-data.js";
 
 // eslint-disable-next-line require-jsdoc
 const refresh = () => {

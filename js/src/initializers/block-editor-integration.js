@@ -27,7 +27,7 @@ import { link } from "../inline-links/edit-link";
 import PrePublish from "../containers/PrePublish";
 import DocumentSidebar from "../containers/DocumentSidebar";
 import PostPublish from "../containers/PostPublish";
-import getL10nObject from "../analysis/getL10nObject";
+import getL10nObject from "../analysis/get-l10n-object";
 import YoastIcon from "../components/PluginIcon";
 
 /**

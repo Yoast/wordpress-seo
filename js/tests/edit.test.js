@@ -1,10 +1,10 @@
 import { initializeData } from "../src/initializers/edit.js";
-import ClassicEditorData from "../src/analysis/classicEditorData.js";
-import BlockEditorData from "../src/analysis/blockEditorData.js";
+import ClassicEditorData from "../src/analysis/classic-editor-data.js";
+import BlockEditorData from "../src/analysis/block-editor-data.js";
 import isBlockEditor from "../src/helpers/isBlockEditor";
 
 jest.mock( "react-dom" );
-jest.mock( "../src/analysis/classicEditorData.js", () => {
+jest.mock( "../src/analysis/classic-editor-data.js", () => {
 	return jest.fn().mockImplementation( () => {
 		return {
 			initialize: () => {},

@@ -7,11 +7,11 @@ import {
 import { AnalysisWorkerWrapper, createWorker } from "yoastseo";
 
 // Internal dependencies.
-import getContentLocale from "./getContentLocale";
-import getDefaultQueryParams from "./getDefaultQueryParams";
-import getTranslations from "./getTranslations";
-import isContentAnalysisActive from "./isContentAnalysisActive";
-import isKeywordAnalysisActive from "./isKeywordAnalysisActive";
+import getContentLocale from "./get-content-locale";
+import getDefaultQueryParams from "./get-default-query-params";
+import getTranslations from "./get-translations";
+import isContentAnalysisActive from "./is-content-analysis-active";
+import isKeywordAnalysisActive from "./is-keyword-analysis-active";
 
 /**
  * Instantiates an analysis worker (wrapper).

@@ -1,6 +1,6 @@
 import Jed from "jed";
 import { isEmpty } from "lodash-es";
-import getTranslations from "./getTranslations";
+import getTranslations from "./get-translations";
 
 /**
  * Returns a Jed object usable in YoastSEO.js

@@ -2,7 +2,7 @@
 import { get } from "lodash-es";
 
 /* Internal dependencies */
-import getL10nObject from "./getL10nObject";
+import getL10nObject from "./get-l10n-object";
 
 /**
  * Returns whether the Zapier integration is active.

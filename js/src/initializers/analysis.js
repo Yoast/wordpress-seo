@@ -3,8 +3,8 @@ import { applyFilters } from "@wordpress/hooks";
 import { debounce, isEqual } from "lodash";
 import { Paper } from "yoastseo";
 import { refreshDelay } from "../analysis/constants";
-import handleWorkerError from "../analysis/handleWorkerError";
-import { sortResultsByIdentifier } from "../analysis/refreshAnalysis";
+import handleWorkerError from "../analysis/handle-worker-error";
+import { sortResultsByIdentifier } from "../analysis/refresh-analysis";
 import { createAnalysisWorker, getAnalysisConfiguration } from "../analysis/worker";
 import { applyModifications } from "../elementor/initializers/pluggable";
 

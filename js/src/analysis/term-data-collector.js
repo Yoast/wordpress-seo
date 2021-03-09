@@ -4,10 +4,10 @@
 import { get } from "lodash-es";
 
 /* Internal dependencies */
-import isKeywordAnalysisActive from "../analysis/isKeywordAnalysisActive";
+import isKeywordAnalysisActive from "./is-keyword-analysis-active";
 import * as tmceHelper from "../lib/tinymce";
 import { termsTmceId as tmceId } from "../lib/tinymce";
-import getIndicatorForScore from "../analysis/getIndicatorForScore";
+import getIndicatorForScore from "./get-indicator-for-score";
 import { update as updateTrafficLight } from "../ui/trafficLight";
 import { update as updateAdminBar } from "../ui/adminBar";
 import measureTextWidth from "../helpers/measureTextWidth";

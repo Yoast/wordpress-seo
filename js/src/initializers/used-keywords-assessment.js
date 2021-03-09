@@ -1,7 +1,7 @@
 import { get } from "lodash-es";
 
-import getL10nObject from "../analysis/getL10nObject";
-import UsedKeywords from "../analysis/usedKeywords";
+import getL10nObject from "../analysis/get-l10n-object";
+import UsedKeywords from "../analysis/used-keywords";
 
 /**
  * Initialize used keyword analysis.

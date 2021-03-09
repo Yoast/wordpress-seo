@@ -1,7 +1,7 @@
 import { withSelect } from "@wordpress/data";
 import { compose } from "@wordpress/compose";
 import { colors } from "@yoast/style-guide";
-import getIndicatorForScore from "../analysis/getIndicatorForScore";
+import getIndicatorForScore from "../analysis/get-indicator-for-score";
 import PluginIcon from "../components/PluginIcon";
 
 export default compose( [

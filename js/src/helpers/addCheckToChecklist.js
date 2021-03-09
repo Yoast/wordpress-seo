@@ -1,5 +1,5 @@
 import { __ } from "@wordpress/i18n";
-import getIndicatorForScore from "../analysis/getIndicatorForScore";
+import getIndicatorForScore from "../analysis/get-indicator-for-score";
 
 /**
  * Adds a "No focus keyword was entered" result when no focus keyphrase

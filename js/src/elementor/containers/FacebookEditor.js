@@ -6,7 +6,7 @@ import { validateFacebookImage } from "@yoast/helpers";
 
 /* Internal dependencies */
 import FacebookWrapper from "../../components/social/FacebookWrapper";
-import getL10nObject from "../../analysis/getL10nObject";
+import getL10nObject from "../../analysis/get-l10n-object";
 import withLocation from "../../helpers/withLocation";
 import { getCurrentReplacementVariablesForEditor } from "../replaceVars/elementor-replacevar-plugin";
 

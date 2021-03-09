@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import initClassicEditorIntegration from "./initializers/classic-editor-integration";
-import ClassicEditorData from "./analysis/classicEditorData";
+import ClassicEditorData from "./analysis/classic-editor-data";
 
 window.yoast = window.yoast || {};
 window.yoast.initEditorIntegration = initClassicEditorIntegration;

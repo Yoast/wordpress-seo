@@ -11,7 +11,7 @@ import { isNil } from "lodash-es";
 import ScoreIconPortal from "../portals/ScoreIconPortal";
 import Results from "../../containers/Results";
 import Collapsible from "../SidebarCollapsible";
-import getIndicatorForScore from "../../analysis/getIndicatorForScore";
+import getIndicatorForScore from "../../analysis/get-indicator-for-score";
 import { getIconForScore } from "./mapResults";
 import { LocationConsumer } from "../contexts/location";
 import HelpLink from "../HelpLink";

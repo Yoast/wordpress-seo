@@ -1,8 +1,8 @@
-import getL10nObject from "./analysis/getL10nObject";
-import getContentLocale from "./analysis/getContentLocale";
-import getIndicatorForScore from "./analysis/getIndicatorForScore";
+import getL10nObject from "./analysis/get-l10n-object";
+import getContentLocale from "./analysis/get-content-locale";
+import getIndicatorForScore from "./analysis/get-indicator-for-score";
 import * as constants from "./analysis/constants";
-import * as refreshAnalysis from "./analysis/refreshAnalysis";
+import * as refreshAnalysis from "./analysis/refresh-analysis";
 import HelpLink from "./components/HelpLink";
 import TopLevelProviders from "./components/TopLevelProviders";
 import * as i18n from "./helpers/i18n";

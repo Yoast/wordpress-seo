@@ -12,7 +12,7 @@ import SEMrushKeyphrasesTable from "./modals/SEMrushKeyphrasesTable";
 import SEMrushUpsellAlert from "./modals/SEMrushUpsellAlert";
 import SEMrushRequestFailed from "./modals/SEMrushRequestFailed";
 import SEMrushMaxRelatedKeyphrases from "./modals/SEMrushMaxRelatedKeyphrases";
-import getL10nObject from "../analysis/getL10nObject";
+import getL10nObject from "../analysis/get-l10n-object";
 
 /**
  * Determines whether the error property is present in the passed response object.

@@ -1,4 +1,4 @@
-import { getDataWithoutTemplates } from "../../src/analysis/snippetEditor";
+import { getDataWithoutTemplates } from "../../src/analysis/snippet-editor";
 
 describe( "getDataWithoutTemplates", () => {
 	it( "returns an empty title and description when the data and templates are exactly the same", () => {

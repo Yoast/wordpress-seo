@@ -11,9 +11,9 @@ import { update as updateAdminBar } from "../ui/adminBar";
 import * as publishBox from "../ui/publishBox";
 import { update as updateTrafficLight } from "../ui/trafficLight";
 import * as tmceHelper from "../lib/tinymce";
-import getI18n from "./getI18n";
-import getIndicatorForScore from "./getIndicatorForScore";
-import isKeywordAnalysisActive from "./isKeywordAnalysisActive";
+import getI18n from "./get-i18n";
+import getIndicatorForScore from "./get-indicator-for-score";
+import isKeywordAnalysisActive from "./is-keyword-analysis-active";
 
 const { tmceId } = tmceHelper;
 const $ = jQuery;

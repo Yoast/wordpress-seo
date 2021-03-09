@@ -5,7 +5,7 @@ import {
 	setSeoResultsForKeyword,
 } from "yoast-components";
 import { refreshSnippetEditor } from "../redux/actions/snippetEditor";
-import handleWorkerError from "./handleWorkerError";
+import handleWorkerError from "./handle-worker-error";
 
 let isInitialized = false;
 

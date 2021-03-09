@@ -1,4 +1,4 @@
-import requestWordsToHighlight from "../../src/analysis/requestWordsToHighlight";
+import requestWordsToHighlight from "../../src/analysis/request-words-to-highlight";
 
 /**
  * Creates a promise that resolves the (mock) keyphrase forms for the input keyphrase.

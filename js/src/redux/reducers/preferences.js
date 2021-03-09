@@ -1,11 +1,11 @@
 import { isUndefined } from "lodash-es";
-import isContentAnalysisActive from "../../analysis/isContentAnalysisActive";
-import isKeywordAnalysisActive from "../../analysis/isKeywordAnalysisActive";
-import isCornerstoneActive from "../../analysis/isCornerstoneContentActive";
-import isWordFormRecognitionActive from "../../analysis/isWordFormRecognitionActive";
-import isSEMrushIntegrationActive from "../../analysis/isSEMrushIntegrationActive";
-import isZapierIntegrationActive from "../../analysis/isZapierIntegrationActive";
-import isZapierConnected from "../../analysis/isZapierConnected";
+import isContentAnalysisActive from "../../analysis/is-content-analysis-active";
+import isKeywordAnalysisActive from "../../analysis/is-keyword-analysis-active";
+import isCornerstoneActive from "../../analysis/is-cornerstone-content-active";
+import isWordFormRecognitionActive from "../../analysis/is-word-form-recognition-active";
+import isSEMrushIntegrationActive from "../../analysis/is-semrush-integration-active";
+import isZapierIntegrationActive from "../../analysis/is-zapier-integration-active";
+import isZapierConnected from "../../analysis/is-zapier-connected";
 
 /**
  * Gets the default state.

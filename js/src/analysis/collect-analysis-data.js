@@ -4,7 +4,7 @@ import {
 } from "lodash-es";
 
 import measureTextWidth from "../helpers/measureTextWidth";
-import getContentLocale from "./getContentLocale";
+import getContentLocale from "./get-content-locale";
 
 import { Paper } from "yoastseo";
 

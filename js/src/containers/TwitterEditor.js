@@ -6,7 +6,7 @@ import { validateTwitterImage } from "@yoast/helpers";
 
 /* Internal dependencies */
 import TwitterWrapper from "../components/social/TwitterWrapper";
-import getL10nObject from "../analysis/getL10nObject";
+import getL10nObject from "../analysis/get-l10n-object";
 import withLocation from "../helpers/withLocation";
 import { openMedia } from "../helpers/selectMedia";
 

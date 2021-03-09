@@ -15,7 +15,7 @@ import {
 // Internal dependencies.
 import { termsTmceId } from "../lib/tinymce";
 import Pluggable from "../lib/Pluggable";
-import requestWordsToHighlight from "../analysis/requestWordsToHighlight.js";
+import requestWordsToHighlight from "../analysis/request-words-to-highlight.js";
 import YoastReplaceVarPlugin from "../analysis/plugins/replacevar-plugin";
 
 // UI dependencies.
@@ -24,18 +24,18 @@ import { update as updateAdminBar } from "../ui/adminBar";
 
 // Analysis dependencies.
 import { createAnalysisWorker, getAnalysisConfiguration } from "../analysis/worker";
-import refreshAnalysis, { initializationDone } from "../analysis/refreshAnalysis";
-import collectAnalysisData from "../analysis/collectAnalysisData";
-import getIndicatorForScore from "../analysis/getIndicatorForScore";
-import getTranslations from "../analysis/getTranslations";
-import isKeywordAnalysisActive from "../analysis/isKeywordAnalysisActive";
-import isContentAnalysisActive from "../analysis/isContentAnalysisActive";
-import snippetEditorHelpers from "../analysis/snippetEditor";
-import TermDataCollector from "../analysis/TermDataCollector";
-import CustomAnalysisData from "../analysis/CustomAnalysisData";
-import getApplyMarks from "../analysis/getApplyMarks";
+import refreshAnalysis, { initializationDone } from "../analysis/refresh-analysis";
+import collectAnalysisData from "../analysis/collect-analysis-data";
+import getIndicatorForScore from "../analysis/get-indicator-for-score";
+import getTranslations from "../analysis/get-translations";
+import isKeywordAnalysisActive from "../analysis/is-keyword-analysis-active";
+import isContentAnalysisActive from "../analysis/is-content-analysis-active";
+import snippetEditorHelpers from "../analysis/snippet-editor";
+import TermDataCollector from "../analysis/term-data-collector";
+import CustomAnalysisData from "../analysis/Custom-analysis-data";
+import getApplyMarks from "../analysis/get-apply-marks";
 import { refreshDelay } from "../analysis/constants";
-import handleWorkerError from "../analysis/handleWorkerError";
+import handleWorkerError from "../analysis/handle-worker-error";
 
 // Redux dependencies.
 import { refreshSnippetEditor, updateData } from "../redux/actions/snippetEditor";

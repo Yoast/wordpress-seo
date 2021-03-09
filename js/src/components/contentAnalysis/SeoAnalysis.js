@@ -6,7 +6,7 @@ import { YoastSeoIcon } from "@yoast/components";
 import { colors } from "@yoast/style-guide";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import getIndicatorForScore from "../../analysis/getIndicatorForScore";
+import getIndicatorForScore from "../../analysis/get-indicator-for-score";
 import Results from "../../containers/Results";
 import AnalysisUpsell from "../AnalysisUpsell";
 import { LocationConsumer } from "../contexts/location";

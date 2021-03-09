@@ -1,4 +1,4 @@
-import handleWorkerError from "../../src/analysis/handleWorkerError";
+import handleWorkerError from "../../src/analysis/handle-worker-error";
 
 
 describe( "handleWorkerError", () => {

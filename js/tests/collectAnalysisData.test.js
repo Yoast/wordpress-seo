@@ -1,4 +1,4 @@
-import collectAnalysisData from "../src/analysis/collectAnalysisData";
+import collectAnalysisData from "../src/analysis/collect-analysis-data";
 import gutenbergBlocks from "./__test-data__/gutenbergBlocksTestData";
 import expectedBlocks from "./__test-data__/blocksForAnalysisTestData";
 

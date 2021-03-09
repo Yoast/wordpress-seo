@@ -1,4 +1,4 @@
-import getL10nObject from "./getL10nObject";
+import getL10nObject from "./get-l10n-object";
 
 import { get } from "lodash-es";
 

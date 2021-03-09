@@ -1,6 +1,6 @@
 import { SlotFillProvider } from "@wordpress/components";
 import { Component as wpComponent, createRef, Fragment, render } from "@wordpress/element";
-import getL10nObject from "../analysis/getL10nObject";
+import getL10nObject from "../analysis/get-l10n-object";
 import TopLevelProviders from "../components/TopLevelProviders";
 
 const registeredComponents = [];
