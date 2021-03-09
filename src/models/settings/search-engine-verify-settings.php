@@ -9,6 +9,8 @@ namespace Yoast\WP\SEO\Models\Settings;
  * @property string $googleverify
  * @property string $msverify
  * @property string $yandexverify
+ *
+ * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded -- 4 words is fine.
  */
 class Search_Engine_Verify_Settings extends Global_Settings_Model {
 
@@ -19,13 +21,13 @@ class Search_Engine_Verify_Settings extends Global_Settings_Model {
 	 */
 	public function get_settings() {
 		return [
-			'baiduverify' => [
+			'baiduverify'  => [
 				'default' => '',
 			],
 			'googleverify' => [
 				'default' => '',
 			],
-			'msverify' => [
+			'msverify'     => [
 				'default' => '',
 			],
 			'yandexverify' => [

@@ -2,25 +2,25 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Models\Settings;
 
+use Yoast\WP\SEO\Models\Settings\Open_Graph_Settings;
 use Yoast\WP\SEO\Models\Settings\Search_Engine_Verify_Settings;
+use Yoast\WP\SEO\Models\Settings\Social_Settings;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 
 /**
- * Class Search_Engine_Verify_Settings_Test.
+ * Class Open_Graph_Settings_Test.
  *
  * @group models
  *
- * @coversDefaultClass \Yoast\WP\SEO\Models\Settings\Search_Engine_Verify_Settings
- *
- * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded -- 5 words is fine.
+ * @coversDefaultClass \Yoast\WP\SEO\Models\Settings\Open_Graph_Settings
  */
-class Search_Engine_Verify_Settings_Test extends TestCase {
+class Open_Graph_Settings_Test extends TestCase {
 
 	/**
 	 * The instance under test.
 	 *
-	 * @var Search_Engine_Verify_Settings
+	 * @var Open_Graph_Settings
 	 */
 	protected $instance;
 
@@ -30,7 +30,7 @@ class Search_Engine_Verify_Settings_Test extends TestCase {
 	public function set_up() {
 		parent::set_up();
 
-		$this->instance = new Search_Engine_Verify_Settings();
+		$this->instance = new Open_Graph_Settings();
 	}
 
 	/**
@@ -40,16 +40,25 @@ class Search_Engine_Verify_Settings_Test extends TestCase {
 	 */
 	public function test_get_settings() {
 		$expected_configuration = [
-			'baiduverify'  => [
+			'opengraph'             => [
+				'default' => true,
+			],
+			'og_default_image'      => [
 				'default' => '',
 			],
-			'googleverify' => [
+			'og_default_image_id'   => [
 				'default' => '',
 			],
-			'msverify'     => [
+			'og_frontpage_title'    => [
 				'default' => '',
 			],
-			'yandexverify' => [
+			'og_frontpage_desc'     => [
+				'default' => '',
+			],
+			'og_frontpage_image'    => [
+				'default' => '',
+			],
+			'og_frontpage_image_id' => [
 				'default' => '',
 			],
 		];
