@@ -54,8 +54,8 @@ export default function initAdminMedia( jQuery ) {
 
 				// eslint-disable-next-line
 				var wpseoCustomUploader = wp.media.frames.file_frame = wp.media( {
-					title: wpseoScriptData.media.choose_image,
-					button: { text: wpseoScriptData.media.choose_image },
+					title: wpseoScriptData.media.chooseImage,
+					button: { text: wpseoScriptData.media.chooseImage },
 					multiple: false,
 					library: {
 						type: "image",

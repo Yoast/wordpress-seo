@@ -317,16 +317,16 @@ class WPSEO_Admin {
 	 */
 	private function localize_admin_global_script() {
 		return [
-			'isRtl'                   => is_rtl(),
-			'variable_warning'        => sprintf(
+			'isRtl'                => is_rtl(),
+			'variableWarning'      => sprintf(
 				/* translators: %1$s: '%%term_title%%' variable used in titles and meta's template that's not compatible with the given template, %2$s: expands to 'HelpScout beacon' */
 				__( 'Warning: the variable %1$s cannot be used in this template. See the %2$s for more info.', 'wordpress-seo' ),
 				'<code>%s</code>',
 				'HelpScout beacon'
 			),
 			/* translators: %s: expends to Yoast SEO */
-			'help_video_iframe_title' => sprintf( __( '%s video tutorial', 'wordpress-seo' ), 'Yoast SEO' ),
-			'scrollable_table_hint'   => __( 'Scroll to see the table content.', 'wordpress-seo' ),
+			'helpVideoIframeTitle' => sprintf( __( '%s video tutorial', 'wordpress-seo' ), 'Yoast SEO' ),
+			'scrollableTableHint'  => __( 'Scroll to see the table content.', 'wordpress-seo' ),
 		];
 	}
 

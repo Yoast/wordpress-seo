@@ -123,7 +123,7 @@ class WPSEO_Admin_Pages {
 			wp_enqueue_media();
 
 			$script_data['media'] = [
-				'choose_image' => __( 'Use Image', 'wordpress-seo' ),
+				'chooseImage' => __( 'Use Image', 'wordpress-seo' ),
 			];
 		}
 

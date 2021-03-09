@@ -175,7 +175,7 @@ class WPSEO_Taxonomy {
 				],
 				'media'            => [
 					// @todo replace this translation with JavaScript translations.
-					'choose_image' => __( 'Use Image', 'wordpress-seo' ),
+					'chooseImage' => __( 'Use Image', 'wordpress-seo' ),
 				],
 				'metabox'          => $this->localize_term_scraper_script(),
 				'userLanguageCode' => WPSEO_Language_Utils::get_language( \get_user_locale() ),

@@ -114,13 +114,13 @@ export default function initFeaturedImageIntegration( $ ) {
 			if ( 0 === $( "#yst_opengraph_image_warning" ).length ) {
 				// Create a warning using native WordPress notices styling.
 				$( '<div id="yst_opengraph_image_warning" class="notice notice-error notice-alt"><p>' +
-					wpseoScriptData.featuredImage.featured_image_notice +
+					wpseoScriptData.featuredImage.featuredImageNotice +
 					"</p></div>" )
 					.insertAfter( $postImageDivHeading );
 
 				$postImageDiv.addClass( "yoast-opengraph-image-notice" );
 
-				a11ySpeak( wpseoScriptData.featuredImage.featured_image_notice, "assertive" );
+				a11ySpeak( wpseoScriptData.featuredImage.featuredImageNotice, "assertive" );
 			}
 		} else {
 			// Force reset warning
