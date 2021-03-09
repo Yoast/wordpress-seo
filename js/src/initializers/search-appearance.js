@@ -5,7 +5,7 @@ import CompanyInfoMissingPortal from "../components/portals/CompanyInfoMissingPo
 import ImageSelectPortal from "../components/portals/ImageSelectPortal";
 import LocalSEOUpsellPortal from "../components/portals/LocalSEOUpsellPortal";
 import UserSelectPortal from "../components/portals/UserSelectPortal";
-import SettingsReplacementVariableEditors from "../components/SettingsReplacementVariableEditors";
+import SettingsReplacementVariableEditors from "../components/settings-replacement-variable-editors";
 import SchemaSettings from "../containers/SchemaSettings";
 import { setWordPressSeoL10n, setYoastComponentsL10n } from "../helpers/i18n";
 

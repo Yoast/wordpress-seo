@@ -3,7 +3,7 @@ import { compose } from "@wordpress/compose";
 import { withDispatch, withSelect } from "@wordpress/data";
 
 /* Internal dependencies */
-import AdvancedSettings from "../components/AdvancedSettings";
+import AdvancedSettings from "../components/advanced-settings";
 
 export default compose( [
 	withSelect( select => {

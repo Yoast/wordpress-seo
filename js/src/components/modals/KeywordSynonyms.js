@@ -3,7 +3,7 @@ import { __, sprintf } from "@wordpress/i18n";
 
 import { makeOutboundLink } from "@yoast/helpers";
 import PropTypes from "prop-types";
-import UpsellBox from "../UpsellBox";
+import UpsellBox from "../upsell-box";
 
 const PremiumLandingPageLink = makeOutboundLink();
 

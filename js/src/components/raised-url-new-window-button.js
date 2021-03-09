@@ -4,7 +4,7 @@ import InfoIcon from "material-ui/svg-icons/action/info";
 import { makeOutboundLink } from "@yoast/helpers";
 
 // Internal dependencies.
-import RaisedDefaultButton from "./RaisedDefaultButton";
+import RaisedDefaultButton from "./raised-default-button";
 
 /**
  * Creates the Raised URL Button which opens in a new window.

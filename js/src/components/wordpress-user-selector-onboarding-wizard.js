@@ -6,7 +6,7 @@ import styled from "styled-components";
 
 /* Internal dependencies */
 import valueToNativeEvent from "./higherorder/valueToNativeEvent";
-import WordPressUserSelector, { WordPressUserSelectorPropTypes } from "./WordPressUserSelector";
+import WordPressUserSelector, { WordPressUserSelectorPropTypes } from "./wordpress-user-selector";
 
 /**
  * Container for the user selector.

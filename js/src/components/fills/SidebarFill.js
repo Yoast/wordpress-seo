@@ -10,12 +10,12 @@ import Warning from "../../containers/Warning";
 import KeywordInput from "../contentAnalysis/KeywordInput";
 import ReadabilityAnalysis from "../contentAnalysis/ReadabilityAnalysis";
 import SeoAnalysis from "../contentAnalysis/SeoAnalysis";
-import SidebarItem from "../SidebarItem";
+import SidebarItem from "../sidebar-item";
 import GooglePreviewModal from "../modals/editorModals/GooglePreviewModal";
 import TwitterPreviewModal from "../modals/editorModals/TwitterPreviewModal";
 import FacebookPreviewModal from "../modals/editorModals/FacebookPreviewModal";
 import SchemaTabContainer from "../../containers/SchemaTab";
-import SidebarCollapsible from "../SidebarCollapsible";
+import SidebarCollapsible from "../sidebar-collapsible";
 import AdvancedSettings from "../../containers/AdvancedSettings";
 
 /* eslint-disable complexity */

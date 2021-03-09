@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 
-import WordPressUserSelectorSearchAppearance from "../WordPressUserSelectorSearchAppearance";
+import WordPressUserSelectorSearchAppearance from "../wordpress-user-selector-search-appearance";
 import Portal from "./Portal";
 
 /**

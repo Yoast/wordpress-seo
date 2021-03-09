@@ -8,15 +8,15 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 import getIndicatorForScore from "../../analysis/getIndicatorForScore";
 import Results from "../../containers/Results";
-import AnalysisUpsell from "../AnalysisUpsell";
+import AnalysisUpsell from "../analysis-upsell";
 import { LocationConsumer } from "../contexts/location";
-import MetaboxCollapsible from "../MetaboxCollapsible";
+import MetaboxCollapsible from "../metabox-collapsible";
 import { ModalContainer, ModalIcon } from "../modals/Container";
 import KeywordSynonyms from "../modals/KeywordSynonyms";
 import MultipleKeywords from "../modals/MultipleKeywords";
 import Modal from "../modals/SeoAnalysisModal";
 import ScoreIconPortal from "../portals/ScoreIconPortal";
-import SidebarCollapsible from "../SidebarCollapsible";
+import SidebarCollapsible from "../sidebar-collapsible";
 import SynonymSlot from "../slots/SynonymSlot";
 import { getIconForScore } from "./mapResults";
 

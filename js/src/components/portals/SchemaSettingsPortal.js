@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import SchemaSettings, { schemaTypeOptionsPropType } from "../SchemaSettings";
+import SchemaSettings, { schemaTypeOptionsPropType } from "../schema-settings";
 import Portal from "./Portal";
 
 /**

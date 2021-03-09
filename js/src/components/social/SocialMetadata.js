@@ -1,6 +1,6 @@
 /* External dependencies */
 import { Fragment } from "@wordpress/element";
-import MetaboxCollapsible from "../MetaboxCollapsible";
+import MetaboxCollapsible from "../metabox-collapsible";
 import { __, sprintf } from "@wordpress/i18n";
 import PropTypes from "prop-types";
 

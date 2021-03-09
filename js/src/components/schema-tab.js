@@ -5,7 +5,7 @@ import { join } from "@yoast/helpers";
 import interpolateComponents from "interpolate-components";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import { schemaTypeOptionsPropType } from "./SchemaSettings";
+import { schemaTypeOptionsPropType } from "./schema-settings";
 
 const SchemaContainer = styled.div`
 	padding: 16px;

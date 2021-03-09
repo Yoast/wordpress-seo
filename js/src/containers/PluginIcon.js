@@ -2,7 +2,7 @@ import { withSelect } from "@wordpress/data";
 import { compose } from "@wordpress/compose";
 import { colors } from "@yoast/style-guide";
 import getIndicatorForScore from "../analysis/getIndicatorForScore";
-import PluginIcon from "../components/PluginIcon";
+import PluginIcon from "../components/plugin-icon";
 
 export default compose( [
 	withSelect( ( select ) => {

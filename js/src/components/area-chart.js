@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { Fragment } from "@wordpress/element";
 
 /* Internal dependencies */
-import AreaChartTable from "./AreaChartTable";
+import AreaChartTable from "./area-chart-table";
 
 /**
  * Renders a SVG area chart.

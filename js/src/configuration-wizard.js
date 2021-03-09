@@ -7,12 +7,12 @@ import { isUndefined } from "lodash-es";
 import { makeOutboundLink } from "@yoast/helpers";
 
 // Internal dependencies.
-import MailchimpSignup from "./components/MailchimpSignup";
-import MediaUpload from "./components/MediaUpload";
-import Suggestions from "./components/Suggestions";
-import FinalStep from "./components/FinalStep";
-import WordPressUserSelectorOnboardingWizard from "./components/WordPressUserSelectorOnboardingWizard";
-import CompanyInfoMissingOnboardingWizard from "./components/CompanyInfoMissingOnboardingWizard";
+import MailchimpSignup from "./components/mailchimp-signup";
+import MediaUpload from "./components/media-upload";
+import Suggestions from "./components/suggestions";
+import FinalStep from "./components/final-step";
+import WordPressUserSelectorOnboardingWizard from "./components/wordpress-user-selector-onboarding-wizard";
+import CompanyInfoMissingOnboardingWizard from "./components/company-info-missing-onboarding-wizard";
 import YoastIcon from "../../images/Yoast_SEO_Icon.svg";
 import { setYoastComponentsL10n } from "./helpers/i18n";
 

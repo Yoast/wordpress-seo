@@ -9,7 +9,7 @@ import {
 } from "@yoast/replacement-variable-editor";
 
 /* Internal dependencies */
-import SnippetPreviewSection from "./SnippetPreviewSection";
+import SnippetPreviewSection from "./snippet-preview-section";
 import linkHiddenFields, { linkFieldsShape } from "./higherorder/linkHiddenField";
 
 /**

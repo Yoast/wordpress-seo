@@ -3,7 +3,7 @@ import { withDispatch, withSelect } from "@wordpress/data";
 import { __ } from "@wordpress/i18n";
 import { SnippetEditor } from "@yoast/search-metadata-previews";
 import { LocationConsumer } from "../components/contexts/location";
-import SnippetPreviewSection from "../components/SnippetPreviewSection";
+import SnippetPreviewSection from "../components/snippet-preview-section";
 import { applyReplaceUsingPlugin } from "../helpers/replacementVariableHelpers";
 
 /**

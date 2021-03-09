@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import RaisedDefaultButton from "./RaisedDefaultButton";
+import RaisedDefaultButton from "./raised-default-button";
 import InfoIcon from "material-ui/svg-icons/action/info";
 
 /**

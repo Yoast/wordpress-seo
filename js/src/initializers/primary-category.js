@@ -8,7 +8,7 @@ import {
 } from "lodash-es";
 
 /* Internal dependencies */
-import PrimaryTaxonomyFilter from "../components/PrimaryTaxonomyFilter";
+import PrimaryTaxonomyFilter from "../components/primary-taxonomy-filter";
 import isBlockEditor from "../helpers/isBlockEditor";
 
 const PLUGIN_NAMESPACE = "yoast-seo";

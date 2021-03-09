@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import SettingsReplacementVariableEditor from "../SettingsReplacementVariableEditor";
+import SettingsReplacementVariableEditor from "../settings-replacement-variable-editor";
 import {
 	replacementVariablesShape,
 	recommendedReplacementVariablesShape,

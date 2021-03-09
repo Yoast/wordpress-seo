@@ -1,4 +1,4 @@
-import WordPressUserSelector from "../../src/components/WordPressUserSelector";
+import WordPressUserSelector from "../../src/components/wordpress-user-selector";
 
 describe( "addQueryParams", () => {
 	it( "adds a first parameter", () => {

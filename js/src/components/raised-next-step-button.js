@@ -1,4 +1,4 @@
-import RaisedDefaultButton from "./RaisedDefaultButton";
+import RaisedDefaultButton from "./raised-default-button";
 import ArrowForwardIcon from "material-ui/svg-icons/navigation/arrow-forward";
 
 /**

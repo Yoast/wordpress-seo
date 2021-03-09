@@ -9,7 +9,7 @@ import styled from "styled-components";
 import { KeywordInput as KeywordInputComponent } from "yoast-components";
 import SEMrushModal from "../../containers/SEMrushRelatedKeyphrasesModal";
 import { LocationConsumer } from "../contexts/location";
-import HelpLink from "../HelpLink";
+import HelpLink from "../help-link";
 
 const KeywordInputContainer = styled.div`
 	padding: 16px;

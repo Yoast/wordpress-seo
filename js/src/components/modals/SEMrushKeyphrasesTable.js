@@ -8,8 +8,8 @@ import { isEmpty } from "lodash-es";
 import { makeOutboundLink } from "@yoast/helpers";
 
 /* Internal dependencies */
-import AreaChart from "../AreaChart";
-import HelpLink from "../HelpLink";
+import AreaChart from "../area-chart";
+import HelpLink from "../help-link";
 
 const GetMoreInsightsLink = makeOutboundLink();
 

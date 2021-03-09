@@ -8,7 +8,7 @@ import styled from "styled-components";
 import { difference } from "lodash-es";
 
 /* Internal dependencies */
-import TaxonomyPicker from "./TaxonomyPicker";
+import TaxonomyPicker from "./taxonomy-picker";
 
 const PrimaryTaxonomyPickerField = styled.div`
 	padding-top: 16px;

@@ -4,7 +4,7 @@ import { useEffect } from "@wordpress/element";
 import { SnippetEditor } from "@yoast/search-metadata-previews";
 import { __ } from "@wordpress/i18n";
 import PropTypes from "prop-types";
-import SnippetPreviewSection from "../../components/SnippetPreviewSection";
+import SnippetPreviewSection from "../../components/snippet-preview-section";
 import withLocation from "../../helpers/withLocation";
 import { strings } from "@yoast/helpers";
 import { applyModifications } from "../initializers/pluggable";

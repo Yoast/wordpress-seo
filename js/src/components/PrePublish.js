@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import { Fragment } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 
-import AnalysisChecklist from "./AnalysisChecklist";
+import AnalysisChecklist from "./analysis-checklist";
 
 /**
  * Renders the analysis checklist.

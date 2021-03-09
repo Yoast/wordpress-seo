@@ -3,7 +3,7 @@ import { withDispatch, withSelect } from "@wordpress/data";
 import { compose } from "@wordpress/compose";
 
 /* Internal dependencies */
-import RelatedKeyphrasesModalContent from "../components/SEMrushRelatedKeyphrasesModalContent";
+import RelatedKeyphrasesModalContent from "../components/semrush-related-keyphrases-modal-content";
 
 export default compose( [
 	withSelect( ( select ) => {

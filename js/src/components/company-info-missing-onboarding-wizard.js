@@ -3,7 +3,7 @@ import { isEmpty } from "lodash-es";
 import PropTypes from "prop-types";
 
 /* Yoast dependencies */
-import CompanyInfoMissing from "./CompanyInfoMissing";
+import CompanyInfoMissing from "./company-info-missing";
 
 /**
  * Shows an alert when the company name or logo are empty.

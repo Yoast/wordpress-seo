@@ -3,7 +3,7 @@ import {
 	withDispatch,
 } from "@wordpress/data";
 import { compose } from "@wordpress/compose";
-import PrimaryTaxonomyPicker from "../components/PrimaryTaxonomyPicker";
+import PrimaryTaxonomyPicker from "../components/primary-taxonomy-picker";
 
 export default compose( [
 	withSelect( ( select, props ) => {

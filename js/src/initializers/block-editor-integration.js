@@ -28,7 +28,7 @@ import PrePublish from "../containers/PrePublish";
 import DocumentSidebar from "../containers/DocumentSidebar";
 import PostPublish from "../containers/PostPublish";
 import getL10nObject from "../analysis/getL10nObject";
-import YoastIcon from "../components/PluginIcon";
+import YoastIcon from "../components/plugin-icon";
 
 /**
  * Registers the Yoast inline link format.

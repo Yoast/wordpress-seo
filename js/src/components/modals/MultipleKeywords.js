@@ -1,7 +1,7 @@
 import interpolateComponents from "interpolate-components";
 import { makeOutboundLink } from "@yoast/helpers";
 import { __, sprintf } from "@wordpress/i18n";
-import UpsellBox from "../UpsellBox";
+import UpsellBox from "../upsell-box";
 import PropTypes from "prop-types";
 
 const PremiumLandingPageLink = makeOutboundLink();

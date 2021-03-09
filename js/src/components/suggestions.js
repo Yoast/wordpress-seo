@@ -1,7 +1,7 @@
 import { Component } from "@wordpress/element";
 import PropTypes from "prop-types";
 
-import Suggestion from "./Suggestion";
+import Suggestion from "./suggestion";
 
 /**
  * @summary Suggestions component for config wizard.

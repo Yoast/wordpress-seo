@@ -16,7 +16,7 @@ import { create, insert, isCollapsed, applyFormat } from "@wordpress/rich-text";
  * Internal dependencies
  */
 import { createLinkFormat, isValidHref } from "./utils";
-import HelpLink from "../components/HelpLink";
+import HelpLink from "../components/help-link";
 import createInterpolateElement from "../helpers/createInterpolateElement";
 
 function InlineLinkUI( {

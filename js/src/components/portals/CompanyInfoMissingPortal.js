@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 
-import CompanyInfoMissing from "../CompanyInfoMissing";
+import CompanyInfoMissing from "../company-info-missing";
 import Portal from "./Portal";
 
 /**

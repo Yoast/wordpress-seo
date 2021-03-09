@@ -7,7 +7,7 @@ import { Alert } from "@yoast/components";
 import interpolateComponents from "interpolate-components";
 
 /* Internal dependencies */
-import WordPressUserSelector from "./WordPressUserSelector";
+import WordPressUserSelector from "./wordpress-user-selector";
 
 /**
  * Wrapper for WordPressUserSelector to be used on the search appearance page.

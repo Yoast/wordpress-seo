@@ -1,5 +1,5 @@
 import { shallow } from "enzyme";
-import AnalysisChecklist from "../../src/components/AnalysisChecklist";
+import AnalysisChecklist from "../../src/components/analysis-checklist";
 
 describe( "The AnalysisChecklist component", () => {
 	it( "renders a checklist with a button when not all checks are good", () => {

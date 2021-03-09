@@ -1,7 +1,7 @@
 import { Component } from "@wordpress/element";
 import PropTypes from "prop-types";
 import ArrowForwardIcon from "material-ui/svg-icons/navigation/arrow-forward";
-import RaisedURLNewWindowButton from "./RaisedURLNewWindowButton";
+import RaisedURLNewWindowButton from "./raised-url-new-window-button";
 
 /**
  * Renders suggestions for next steps in the config wizard.

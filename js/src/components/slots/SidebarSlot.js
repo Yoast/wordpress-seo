@@ -1,6 +1,6 @@
 import { Slot } from "@wordpress/components";
 import sortComponentsByRenderPriority from "../../helpers/sortComponentsByRenderPriority";
-import TopLevelProviders from "../TopLevelProviders";
+import TopLevelProviders from "../top-level-providers";
 
 /**
  * Renders the Sidebar slot.

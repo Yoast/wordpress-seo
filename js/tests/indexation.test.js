@@ -1,4 +1,4 @@
-import Indexation from "../src/components/Indexation";
+import Indexation from "../src/components/indexation";
 import { mount } from "enzyme";
 
 /**

@@ -1,4 +1,4 @@
-import * as SEMrushRelatedKeyphrasesModalContent from "../../src/components/SEMrushRelatedKeyphrasesModalContent";
+import * as SEMrushRelatedKeyphrasesModalContent from "../../src/components/semrush-related-keyphrases-modal-content";
 import SEMrushLoading from "../../src/components/modals/SEMrushLoading";
 import SEMrushLimitReached from "../../src/components/modals/SEMrushLimitReached";
 import SEMrushRequestFailed from "../../src/components/modals/SEMrushRequestFailed";

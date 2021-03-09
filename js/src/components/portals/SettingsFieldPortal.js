@@ -4,7 +4,7 @@ import {
 	recommendedReplacementVariablesShape,
 } from "@yoast/replacement-variable-editor";
 
-import SettingsReplacementVariableField from "../SettingsReplacementVariableField";
+import SettingsReplacementVariableField from "../settings-replacement-variable-field";
 import Portal from "./Portal";
 
 /**

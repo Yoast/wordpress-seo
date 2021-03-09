@@ -3,7 +3,7 @@ import { __ } from "@wordpress/i18n";
 import { Fragment } from "@wordpress/element";
 import { Button } from "@yoast/components";
 
-import AnalysisCheck from "./AnalysisCheck";
+import AnalysisCheck from "./analysis-check";
 
 /**
  * Renders the analysis checklist.

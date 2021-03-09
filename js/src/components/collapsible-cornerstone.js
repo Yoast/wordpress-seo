@@ -2,9 +2,9 @@ import { __ } from "@wordpress/i18n";
 import { HelpText } from "@yoast/components";
 import { join, makeOutboundLink } from "@yoast/helpers";
 import PropTypes from "prop-types";
-import { default as CornerstoneToggle } from "./CornerstoneToggle";
-import MetaboxCollapsible from "./MetaboxCollapsible";
-import SidebarCollapsible from "./SidebarCollapsible";
+import { default as CornerstoneToggle } from "./cornerstone-toggle";
+import MetaboxCollapsible from "./metabox-collapsible";
+import SidebarCollapsible from "./sidebar-collapsible";
 
 const LearnMoreLink = makeOutboundLink();
 

@@ -1,7 +1,7 @@
 import { withSelect, withDispatch } from "@wordpress/data";
 import { compose } from "@wordpress/compose";
 
-import AnalysisChecklist from "../components/AnalysisChecklist";
+import AnalysisChecklist from "../components/analysis-checklist";
 import {
 	maybeAddReadabilityCheck,
 	maybeAddSEOCheck,
