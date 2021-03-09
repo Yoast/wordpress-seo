@@ -1,4 +1,4 @@
-/* global jQuery, ajaxurl */
+/* global ajaxurl */
 import {
 	has,
 	debounce,

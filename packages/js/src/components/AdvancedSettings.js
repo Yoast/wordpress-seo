@@ -32,7 +32,7 @@ const getNoIndexOptions = ( editorContext ) => {
 					/* Translators: %s translates to "yes" or "no", %s translates to the Post Label in plural form */
 					__( "%s (current default for %s)", "wordpress-seo" ),
 					noIndex,
-					editorContext.postTypeNamePlural,
+					editorContext.postTypeNamePlural
 				),
 				value: "0",
 			},
@@ -46,7 +46,7 @@ const getNoIndexOptions = ( editorContext ) => {
 				/* Translators: %s translates to the "yes" or "no" ,%s translates to the Post Label in plural form */
 				__( "%s (current default for %s)", "wordpress-seo" ),
 				noIndex,
-				editorContext.postTypeNamePlural,
+				editorContext.postTypeNamePlural
 			),
 			value: "default",
 		},
@@ -75,7 +75,7 @@ const MetaRobotsNoIndex = ( { noIndex, onNoIndexChange, editorContext, isPrivate
 							"Even though you can set the meta robots setting here, " +
 							"the entire site is set to noindex in the sitewide privacy settings, " +
 							"so these settings won't have an effect.",
-							"wordpress-seo",
+							"wordpress-seo"
 						) }
 					</Alert>
 				}
@@ -84,7 +84,7 @@ const MetaRobotsNoIndex = ( { noIndex, onNoIndexChange, editorContext, isPrivate
 						sprintf(
 							/* Translators: %s translates to the Post Label in singular form */
 							__( "Allow search engines to show this %s in search results?", "wordpress-seo" ),
-							editorContext.postTypeNameSingular,
+							editorContext.postTypeNameSingular
 						) }
 					onChange={ onNoIndexChange }
 					id={ join( [ "yoast-meta-robots-noindex", location ] ) }
@@ -125,7 +125,7 @@ const MetaRobotsNoFollow = ( { noFollow, onNoFollowChange, postTypeName } ) => {
 				label={ sprintf(
 					/* Translators: %s translates to the Post Label in singular form */
 					__( "Should search engines follow links on this %s", "wordpress-seo" ),
-					postTypeName,
+					postTypeName
 				) }
 				groupName={ id }
 				onChange={ onNoFollowChange }

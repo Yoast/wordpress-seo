@@ -23,7 +23,7 @@ export const validateSize = ( image ) => {
 			"Your image dimensions are not suitable. The minimum dimensions are %dx%d pixels.",
 			"yoast-components"
 		),
-		MIN_WIDTH, MIN_HEIGHT,
+		MIN_WIDTH, MIN_HEIGHT
 	);
 
 	return ( width < MIN_WIDTH || height < MIN_HEIGHT ) ? warningMessage : true;

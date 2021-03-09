@@ -116,7 +116,7 @@ class FleschReadingEaseAssessment extends Assessment {
 					"</a>",
 					this.fleschReadingResult,
 					feedback,
-					note,
+					note
 				),
 			};
 		}
@@ -140,7 +140,7 @@ class FleschReadingEaseAssessment extends Assessment {
 				feedback,
 				this._config.urlCallToAction,
 				note,
-				"</a>.",
+				"</a>."
 			),
 		};
 	}

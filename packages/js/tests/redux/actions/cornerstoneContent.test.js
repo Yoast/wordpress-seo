@@ -1,5 +1,3 @@
-/* global describe, it, expect */
-
 import * as actions from "../../../src/redux/actions/cornerstoneContent";
 
 jest.mock( "../../../src/helpers/fields/AnalysisFields.js", () => {

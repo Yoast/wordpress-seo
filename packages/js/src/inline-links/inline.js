@@ -125,9 +125,11 @@ function InlineLinkUI( {
 		 * be applied.
  		 */
 		const didToggleSettingForNewLink =
+			// eslint-disable-next-line no-undefined
 			didToggleSetting && nextValue.url === undefined;
 
 		/* If link will be assigned, the state value can be considered flushed. Otherwise, persist the pending changes. */
+		// eslint-disable-next-line no-undefined
 		setNextLinkValue( didToggleSettingForNewLink ? nextValue : undefined );
 
 		if ( didToggleSettingForNewLink ) {
@@ -140,8 +142,10 @@ function InlineLinkUI( {
 			url: newUrl,
 			type: nextValue.type,
 			id:
+			// eslint-disable-next-line no-undefined
 				nextValue.id !== undefined && nextValue.id !== null
 					? String( nextValue.id )
+					// eslint-disable-next-line no-undefined
 					: undefined,
 			opensInNewWindow: nextValue.opensInNewTab,
 			noFollow: nextValue.noFollow,
@@ -172,7 +176,8 @@ function InlineLinkUI( {
 		if ( ! isValidHref( newUrl ) ) {
 			speak(
 				__(
-					"Warning: the link has been inserted but may have errors. Please test it."
+					"Warning: the link has been inserted but may have errors. Please test it.",
+					"wordpress-seo"
 				),
 				"assertive"
 			);

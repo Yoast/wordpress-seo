@@ -66,7 +66,7 @@ const LinkSuggestion = ( { value, url, isActive, type } ) => {
 	const ariaLabel = sprintf(
 		/* translators: %s expands to the link value */
 		__( "Copy link to suggested article: %s", "yoast-components" ),
-		value,
+		value
 	);
 
 	/**

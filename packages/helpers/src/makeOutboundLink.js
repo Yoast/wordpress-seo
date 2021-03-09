@@ -62,7 +62,7 @@ export const makeOutboundLink = ( Component = "a" ) => {
 				{
 					target: "_blank",
 					rel: isYoastLink ? this.props.rel : "noopener",
-				},
+				}
 			);
 			// Use React.createElement instead of JSX because it can accept a string as a component parameter.
 			return React.createElement(
@@ -72,7 +72,7 @@ export const makeOutboundLink = ( Component = "a" ) => {
 				React.createElement(
 					A11yNotice,
 					null,
-					__( "(Opens in a new browser tab)", "yoast-components" ),
+					__( "(Opens in a new browser tab)", "yoast-components" )
 				)
 			);
 		}

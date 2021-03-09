@@ -250,7 +250,7 @@ class ReplacementVariableEditorStandalone extends React.Component {
 		if ( useRecommended ) {
 			const recommended = filter(
 				replacementVariables,
-				replaceVar => includes( recommendedReplacementVariables, replaceVar.name ),
+				replaceVar => includes( recommendedReplacementVariables, replaceVar.name )
 			);
 
 			// Ensure there are replacement variables we recommend before using them.
@@ -273,7 +273,7 @@ class ReplacementVariableEditorStandalone extends React.Component {
 		const recommendedReplacementVariables = this.determineCurrentReplacementVariables(
 			this.props.replacementVariables,
 			this.props.recommendedReplacementVariables,
-			value,
+			value
 		);
 		const suggestions = this.mapReplacementVariablesToSuggestions( recommendedReplacementVariables );
 
@@ -311,7 +311,7 @@ class ReplacementVariableEditorStandalone extends React.Component {
 						suggestions.length,
 						"yoast-components"
 					),
-					suggestions.length,
+					suggestions.length
 				),
 				"assertive"
 			);

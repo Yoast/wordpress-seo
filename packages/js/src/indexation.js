@@ -1,4 +1,3 @@
-/* global jQuery */
 import { render } from "@wordpress/element";
 import Indexation from "./components/Indexation";
 

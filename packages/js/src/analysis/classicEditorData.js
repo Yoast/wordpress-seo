@@ -1,4 +1,4 @@
-/* global wp jQuery */
+/* global wp */
 
 /* External dependencies */
 import analysis from "yoastseo";

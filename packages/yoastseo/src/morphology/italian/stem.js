@@ -207,7 +207,7 @@ const determineRs = function( word, morphologyData ) {
  * @returns {string} The word without pronoun suffixes.
  */
 const removePronounSuffixes = function( word, morphologyData, rvText ) {
-	const foundSuffix = endsinArr( word, morphologyData.externalStemmer.pronounSuffixes.suffixes, );
+	const foundSuffix = endsinArr( word, morphologyData.externalStemmer.pronounSuffixes.suffixes );
 
 	if ( foundSuffix !== "" ) {
 		const foundSuffixPre1 = endsinArr(

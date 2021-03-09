@@ -97,7 +97,7 @@ export default class Question extends Component {
 			answer,
 			question,
 			answer,
-			index,
+			index
 		);
 	}
 
@@ -123,7 +123,7 @@ export default class Question extends Component {
 			value,
 			question,
 			answer,
-			index,
+			index
 		);
 	}
 

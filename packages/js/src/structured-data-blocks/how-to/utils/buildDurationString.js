@@ -63,14 +63,14 @@ export default function buildDurationString( durations ) {
 		return sprintf(
 			/* translators: %s expands to a unit of time (e.g. 1 day). */
 			__( "%s and %s", "wordpress-seo" ),
-			...elements,
+			...elements
 		);
 	}
 	if ( elements.length === 3 ) {
 		return sprintf(
 			/* translators: %s expands to a unit of time (e.g. 1 day). */
 			__( "%s, %s and %s", "wordpress-seo" ),
-			...elements,
+			...elements
 		);
 	}
 	return "";

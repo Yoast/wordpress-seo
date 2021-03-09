@@ -59,7 +59,7 @@ export const validateType = ( image ) => {
 			"You have uploaded a %s. Please note that, if it’s an animated %s, only the first frame will be used.",
 			"yoast-components"
 		),
-		"GIF", "GIF",
+		"GIF", "GIF"
 	);
 
 	const warningMessage = sprintf(
@@ -68,7 +68,7 @@ export const validateType = ( image ) => {
 			"The format of the uploaded image is not supported. The supported formats are: %s, %s, %s and %s.",
 			"yoast-components"
 		),
-		"JPG", "PNG", "WEBP", "GIF",
+		"JPG", "PNG", "WEBP", "GIF"
 	);
 
 	if ( validTypes.includes( type ) ) {
@@ -97,7 +97,7 @@ export const validatesBytes = ( image ) => {
 			"The file size of the uploaded image is too large for %s. File size must be less than %s.",
 			"yoast-components"
 		),
-		"Twitter", "5MB",
+		"Twitter", "5MB"
 	);
 
 	if ( bytes >= 5 ) {

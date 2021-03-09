@@ -1,4 +1,4 @@
-/* global jQuery, wpseoScriptData */
+/* global wpseoScriptData */
 
 /* External dependencies */
 import { get } from "lodash-es";

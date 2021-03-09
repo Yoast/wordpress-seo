@@ -438,7 +438,7 @@ export default function initPostScraper( $, store, editorData ) {
 			window.YoastSEO.analysis.collectData,
 			window.YoastSEO.analysis.applyMarks,
 			store,
-			postDataCollector,
+			postDataCollector
 		), refreshDelay );
 		window.YoastSEO.app.registerCustomDataCallback = customAnalysisData.register;
 		window.YoastSEO.app.pluggable = new Pluggable( window.YoastSEO.app.refresh );
@@ -494,7 +494,7 @@ export default function initPostScraper( $, store, editorData ) {
 			window.YoastSEO.analysis.collectData,
 			window.YoastSEO.analysis.applyMarks,
 			store,
-			postDataCollector,
+			postDataCollector
 		), refreshDelay ) );
 
 		// Hack needed to make sure Publish box and traffic light are still updated.

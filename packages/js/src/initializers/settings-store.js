@@ -23,7 +23,7 @@ function populateStore( store ) {
 			snippetEditor: {
 				recommendedReplacementVariables,
 			},
-		} ),
+		} )
 	);
 
 	replaceVars.forEach( replacementVariable => {
@@ -32,7 +32,7 @@ function populateStore( store ) {
 		store.dispatch( updateReplacementVariable(
 			name,
 			replacementVariable.value,
-			replacementVariable.label,
+			replacementVariable.label
 		) );
 	} );
 }

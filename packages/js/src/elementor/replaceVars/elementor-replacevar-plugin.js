@@ -109,7 +109,7 @@ const getReplacements = ( scope = "" ) => {
 const createReplaceFunction = ( { getReplacement, regexp } ) => {
 	return text => text.replace(
 		regexp,
-		getReplacement(),
+		getReplacement()
 	);
 };
 

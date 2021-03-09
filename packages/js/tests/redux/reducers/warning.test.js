@@ -1,5 +1,3 @@
-/* global describe, it, expect */
-
 import { setWarningMessage } from "../../../src/redux/actions/warning";
 import warning from "../../../src/redux/reducers/warning";
 

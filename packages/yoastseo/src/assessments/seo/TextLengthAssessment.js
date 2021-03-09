@@ -83,7 +83,7 @@ export default class TextLengthAssessment extends Assessment {
 						wordCount ),
 					wordCount,
 					this._config.urlTitle,
-					"</a>",
+					"</a>"
 				),
 			};
 		}

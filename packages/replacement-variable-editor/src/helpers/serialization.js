@@ -327,7 +327,7 @@ export function replaceVariableWithEntity( editorState, variable, blockKey ) {
 		variable.label,
 		// No inline style needed.
 		null,
-		contentState.getLastCreatedEntityKey(),
+		contentState.getLastCreatedEntityKey()
 	);
 
 	// We need to apply the new content state to the editor state.
@@ -394,7 +394,7 @@ function addSpaceAfterVariable( editorState, selection, blockKey, variable ) {
 		const newContentState = Modifier.insertText(
 			contentState,
 			selectionAfterVariable,
-			" ",
+			" "
 		);
 		editorState = EditorState.push( editorState, newContentState, "insert-characters" );
 

@@ -28,7 +28,7 @@ const getSchemaTypeOptions = ( schemaTypeOptions, defaultType, postTypeName ) =>
 				/* translators: %1$s expands to the plural name of the current post type, %2$s expands to the current site wide default. */
 				__( "Default for %1$s (%2$s)", "wordpress-seo" ),
 				postTypeName,
-				schemaOption ? schemaOption.name : "",
+				schemaOption ? schemaOption.name : ""
 			),
 			value: "",
 		},
@@ -48,7 +48,7 @@ const footerText = ( postTypeName ) => sprintf(
 	__( "You can change the default type for %1$s in your %2$sSearch Appearance Settings%3$s.", "wordpress-seo" ),
 	postTypeName,
 	"{{link}}",
-	"{{/link}}",
+	"{{/link}}"
 );
 
 /**
@@ -63,7 +63,7 @@ const footerWithLink = ( postTypeName ) => interpolateComponents(
 		mixedString: footerText( postTypeName ),
 		// eslint-disable-next-line jsx-a11y/anchor-has-content
 		components: { link: <a href="/wp-admin/admin.php?page=wpseo_titles#top#post-types" target="_blank" /> },
-	},
+	}
 );
 
 /**
@@ -149,7 +149,7 @@ const SchemaTab = ( props ) => {
 			<SchemaContainer>
 				<Content { ...props } />
 			</SchemaContainer>,
-			document.getElementById( "wpseo-meta-section-schema" ),
+			document.getElementById( "wpseo-meta-section-schema" )
 		);
 	}
 

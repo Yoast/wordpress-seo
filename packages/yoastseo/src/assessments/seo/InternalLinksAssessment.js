@@ -129,7 +129,7 @@ class InternalLinksAssessment extends Assessment {
 					"%1$sInternal links%2$s: There are both nofollowed and normal internal links on this page. Good job!"
 				),
 				this._config.urlTitle,
-				"</a>",
+				"</a>"
 			),
 		};
 	}

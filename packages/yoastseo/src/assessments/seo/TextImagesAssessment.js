@@ -192,7 +192,7 @@ export default class TextImagesAssessment extends Assessment {
 						"%3$sImage alt attributes%5$s: Out of %2$d images on this page, only %1$d have alt attributes that " +
 						"reflect the topic of your text. " +
 						"%4$sAdd your keyphrase or synonyms to the alt tags of more relevant images%5$s!",
-						this.altProperties.withAltKeyword,
+						this.altProperties.withAltKeyword
 					),
 					this.altProperties.withAltKeyword,
 					this.imageCount,
@@ -215,7 +215,7 @@ export default class TextImagesAssessment extends Assessment {
 					 * %2$s expands to the anchor end tag. */
 					i18n.dgettext(
 						"js-text-analysis",
-						"%1$sImage alt attributes%2$s: Good job!",
+						"%1$sImage alt attributes%2$s: Good job!"
 					),
 					this._config.urlTitle,
 					"</a>"
@@ -234,7 +234,7 @@ export default class TextImagesAssessment extends Assessment {
 						"js-text-analysis",
 						"%3$sImage alt attributes%5$s: Out of %2$d images on this page, %1$d have alt attributes with " +
 						"words from your keyphrase or synonyms. " +
-						"That's a bit much. %4$sOnly include the keyphrase or its synonyms when it really fits the image%5$s.",
+						"That's a bit much. %4$sOnly include the keyphrase or its synonyms when it really fits the image%5$s."
 					),
 					this.altProperties.withAltKeyword,
 					this.imageCount,

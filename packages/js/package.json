@@ -1,6 +1,10 @@
 {
   "name": "@yoast/wordpress-seo",
   "version": "1.0.0",
+  "scripts": {
+    "test": "jest",
+    "lint": "eslint . --max-warnings=159"
+  },
   "jest": {
     "setupTestFrameworkScriptFile": "<rootDir>/tests/setupTests.js",
     "transformIgnorePatterns": [
@@ -67,15 +71,15 @@
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.5.0",
     "enzyme-to-json": "^3.3.3",
-    "eslint": "^5.15.3",
-    "eslint-plugin-jsx-a11y": "^6.2.3",
-    "eslint-plugin-react": "^7.12.4",
     "jest": "^23.3.0",
     "jest-styled-components": "^6.3.4"
   },
   "peerDependencies": {
     "react": "16.8.6",
-    "react-dom": "16.8.6"
+    "react-dom": "16.8.6",
+    "babel-cli": ">=6.26.0",
+    "babel-core": ">=6.26.0",
+    "babel-jest": ">=18.0.0"
   },
   "browserslist": [
     "extends @yoast/browserslist-config"

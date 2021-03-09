@@ -18,8 +18,7 @@
   },
   "workspaces": {
     "packages": [
-      "packages/*",
-      "apps/*"
+      "packages/*"
     ],
     "nohoist": [
       "**/grunt-*",
@@ -45,8 +44,11 @@
     "unlink-monorepo": "node config/yarn/unlink_monorepo.js",
     "bump-monorepo-packages": "node config/yarn/bump_monorepo_packages.js"
   },
+  "dependencies": {},
   "devDependencies": {
     "@slack/webhook": "^5.0.2",
+    "@typescript-eslint/eslint-plugin": "^2.15.0",
+    "@typescript-eslint/parser": "^2.15.0",
     "@wordpress/babel-plugin-makepot": "^1.0.0",
     "@wordpress/babel-preset-default": "^1.1.3",
     "@wordpress/dependency-extraction-webpack-plugin": "^2.8.0",
@@ -75,9 +77,10 @@
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.5.0",
     "enzyme-to-json": "^3.3.3",
-    "eslint": "^5.15.3",
-    "eslint-plugin-jsx-a11y": "^6.2.3",
-    "eslint-plugin-react": "^7.12.4",
+    "eslint": "^6.8.0",
+    "eslint-config-yoast": "file:packages/eslint",
+    "eslint-plugin-jsx-a11y": "^6.4.1",
+    "eslint-plugin-react": "^7.22.0",
     "grunt-git": "^1.0.14",
     "grunt-po2json": "^0.3.0",
     "grunt-prompt": "^1.3.3",
@@ -92,12 +95,12 @@
     "shusher": "^0.1.1",
     "svg-react-loader": "^0.4.6",
     "tmp": "^0.1.0",
+    "typescript": "^3.7.4",
     "webpack": "^4.20.2",
     "webpack-bundle-analyzer": "^3.0.2",
     "webpack-cli": "^3.1.1",
     "webpack-dev-server": "^3.1.14"
   },
-  "dependencies": {},
   "browserslist": [
     "extends @yoast/browserslist-config"
   ],

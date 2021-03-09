@@ -24,7 +24,6 @@
   },
   "devDependencies": {
     "autoprefixer": "^6.3.1",
-    "eslint-config-yoast": "^5.0.17",
     "grunt": "^1.0.1",
     "grunt-browserify": "^5.0.0",
     "grunt-contrib-clean": "^1.0.0",

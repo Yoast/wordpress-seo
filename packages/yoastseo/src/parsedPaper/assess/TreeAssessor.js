@@ -96,7 +96,7 @@ class TreeAssessor {
 					text: this.i18n.sprintf(
 						/* Translators: %1$s expands to the name of the assessment. */
 						this.i18n.dgettext( "js-text-analysis", "An error occurred in the '%1$s' assessment" ),
-						assessment.name,
+						assessment.name
 					),
 					score: -1,
 				} );

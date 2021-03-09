@@ -149,7 +149,7 @@ const titlesPreceding = [ "tuan", "nyonya", "nona", "bang", "pak", "bu", "bang",
 export default function() {
 	return {
 		// These word categories are filtered at the ending of word combinations.
-		filteredAtEnding: [].concat( otherParticles,  ),
+		filteredAtEnding: [].concat( otherParticles  ),
 		// These word categories are filtered at the ending of word combinations.
 		filteredAtBeginning: [].concat( ordinalNumerals, classifiers ),
 

@@ -1,5 +1,4 @@
 import { startsWith, uniq } from "lodash";
-import { __, sprintf } from "@wordpress/i18n";
 import {
 	getProtocol,
 	isValidProtocol,
@@ -82,11 +81,10 @@ export function isValidHref( href ) {
  * @param {Object}  options                  The options object.
  * @param {string}  options.url              The href of the link.
  * @param {boolean} options.opensInNewWindow Whether this link will open in a new window.
- * @param {Object}  options.text             The text that is being hyperlinked.
  *
  * @returns {Object} The final format object.
  */
-export function createLinkFormat( { url, opensInNewWindow, noFollow, sponsored, text } ) {
+export function createLinkFormat( { url, opensInNewWindow, noFollow, sponsored } ) {
 	const format = {
 		type: "core/link",
 		attributes: {

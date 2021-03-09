@@ -9,5 +9,5 @@ export const replacementVariablesShape = PropTypes.arrayOf( PropTypes.shape( {
 } ) );
 
 export const recommendedReplacementVariablesShape = PropTypes.arrayOf(
-	PropTypes.string,
+	PropTypes.string
 );

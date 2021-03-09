@@ -9,7 +9,6 @@ import ServerSideRender from "@wordpress/server-side-render";
  */
 const registerDynamicBlocks = () => {
 	/* eslint-disable react/display-name */
-	/* eslint-disable react/prop-types */
 	registerBlockType( "yoast-seo/breadcrumbs", {
 		title: __( "Yoast Breadcrumbs", "wordpress-seo" ),
 		icon: "admin-links",
@@ -49,7 +48,6 @@ const registerDynamicBlocks = () => {
 	} );
 
 	/* eslint-enable react/display-name */
-	/* eslint-enable react/prop-type */
 };
 
 registerDynamicBlocks();

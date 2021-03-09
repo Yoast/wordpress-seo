@@ -290,7 +290,7 @@ function proceed( conversionMap ) {
 				stackTop.element,
 				stackTop.tokenStart,
 				stackTop.tokenLength,
-				startOffset + tokenLength,
+				startOffset + tokenLength
 			);
 			frame.children = stackTop.children;
 			addChild( frame );

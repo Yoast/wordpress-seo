@@ -18,14 +18,11 @@ const FacebookWrapper = ( props ) => {
 		setTimeout( props.onLoad );
 	}, [] );
 
-	return props.isPremium
-		? <Slot
-			name={
-				`YoastFacebookPremium${ props.location.charAt( 0 ).toUpperCase() + props.location.slice( 1 ) }`
-			}
-			fillProps={ props }
-		/>
-		: <SocialForm { ...props } />;
+	return (
+		props.isPremium
+			? <Slot name={ `YoastFacebookPremium${ props.location.charAt( 0 ).toUpperCase() + props.location.slice( 1 ) }` } fillProps={ props } />
+			: <SocialForm { ...props } />
+	);
 };
 
 FacebookWrapper.propTypes = {

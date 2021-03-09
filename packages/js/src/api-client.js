@@ -1,4 +1,4 @@
-/* global jQuery, wpApiSettings */
+/* global wpApiSettings */
 
 ( function( $, wpApiSettings ) {
 	window.wpseoApi = {

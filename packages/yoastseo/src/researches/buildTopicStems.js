@@ -89,7 +89,7 @@ const buildStems = function( keyphrase, language, morphologyData ) {
 		const lowCaseWord = escapeRegExp( word.toLocaleLowerCase( language ) );
 		return new StemOriginalPair(
 			getStem( normalizeSingle( lowCaseWord ), morphologyData ),
-			word,
+			word
 		);
 	} );
 

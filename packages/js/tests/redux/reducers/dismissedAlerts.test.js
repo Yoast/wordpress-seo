@@ -1,5 +1,3 @@
-/* global describe, it, expect */
-
 import dismissedAlertsReducer from "../../../src/redux/reducers/dismissedAlerts";
 
 describe( "dismissed alerts reducer", () => {

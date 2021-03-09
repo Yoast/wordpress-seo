@@ -1,5 +1,3 @@
-/* global describe, it, expect */
-
 import { TOGGLE_CORNERSTONE_CONTENT } from "../../../src/redux/actions/cornerstoneContent";
 import cornerstoneContentReducer from "../../../src/redux/reducers/cornerstoneContent";
 

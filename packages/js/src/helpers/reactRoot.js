@@ -87,7 +87,7 @@ export function renderReactRoot( target, children ) {
 				</SlotFillProvider>
 			</TopLevelProviders>
 		),
-		document.getElementById( target ),
+		document.getElementById( target )
 	);
 
 	registeredComponents.forEach( ( registered ) => {
@@ -108,8 +108,7 @@ export function renderReactRoot( target, children ) {
 export function registerReactComponent( key, Component ) {
 	if ( containerRef === null || containerRef.current === null ) {
 		registeredComponents.push( { key, Component } );
-	}
-	else {
+	} else {
 		containerRef.current.registerComponent( key, Component );
 	}
 }

@@ -37,6 +37,7 @@ function BlockSuggestion( { blockTitle, blockName, blockClientId }: BlockSuggest
 	return (
 		<li className="yoast-block-suggestion">
 			{ blockTitle }
+			{ /* eslint-disable-next-line react/jsx-no-bind */ }
 			<button className="yoast-block-suggestion-button" onClick={ addBlockClick }> Add </button>
 		</li>
 	);

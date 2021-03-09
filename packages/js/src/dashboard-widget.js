@@ -1,4 +1,4 @@
-/* global wpseoDashboardWidgetL10n, wpseoApi, jQuery */
+/* global wpseoDashboardWidgetL10n, wpseoApi */
 // External dependencies.
 import { Component, render } from "@wordpress/element";
 import { ArticleList as WordpressFeed } from "@yoast/components";

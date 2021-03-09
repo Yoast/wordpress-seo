@@ -1,4 +1,4 @@
-/* global yoastReindexLinksData, jQuery, tb_remove */
+/* global yoastReindexLinksData, tb_remove */
 
 const settings = yoastReindexLinksData.data;
 let linkIndexingCompleted = false;

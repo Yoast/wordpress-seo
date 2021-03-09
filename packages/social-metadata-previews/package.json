@@ -13,7 +13,7 @@
   "scripts": {
     "prepublishOnly": "rm -rf dist && cp -R src dist && cp package.json dist/package.json && json -I -f dist/package.json -e \"this.main='index.js'\" && cp .babelrc dist/.babelrc",
     "test": "jest",
-    "lint": "eslint ."
+    "lint": "eslint . --max-warnings=0"
   },
   "jest": {
     "testURL": "http://localhost",

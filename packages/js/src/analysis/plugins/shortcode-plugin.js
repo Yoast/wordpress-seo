@@ -2,8 +2,6 @@
 /* global wpseoScriptData */
 /* global ajaxurl */
 /* global _ */
-/* global JSON */
-/* global console */
 
 const shortcodeNameMatcher = "[^<>&/\\[\\]\x00-\x20=]+?";
 const shortcodeAttributesMatcher = "( [^\\]]+?)?";

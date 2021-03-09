@@ -75,7 +75,7 @@ class MetaDescriptionKeywordAssessment extends Assessment {
 					/* Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag. */
 					i18n.dgettext(
 						"js-text-analysis",
-						"%1$sKeyphrase in meta description%2$s: Keyphrase or synonym appear in the meta description. Well done!",
+						"%1$sKeyphrase in meta description%2$s: Keyphrase or synonym appear in the meta description. Well done!"
 					),
 					this._config.urlTitle,
 					"</a>"
@@ -97,7 +97,7 @@ class MetaDescriptionKeywordAssessment extends Assessment {
 					i18n.dgettext(
 						"js-text-analysis",
 						"%1$sKeyphrase in meta description%2$s: The meta description contains the keyphrase %3$s times, " +
-						"which is over the advised maximum of 2 times. %4$sLimit that%5$s!",
+						"which is over the advised maximum of 2 times. %4$sLimit that%5$s!"
 					),
 					this._config.urlTitle,
 					"</a>",

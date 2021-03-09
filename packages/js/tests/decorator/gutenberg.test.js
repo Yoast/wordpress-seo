@@ -100,7 +100,7 @@ describe( "calculateAnnotationsForTextFormat", () => {
 
 		const mark = mockMark(
 			"A marked text.",
-			`A marked ${ START_MARK }text${ END_MARK }.`,
+			`A marked ${ START_MARK }text${ END_MARK }.`
 		);
 
 		/*
@@ -127,7 +127,7 @@ describe( "calculateAnnotationsForTextFormat", () => {
 
 		const mark = mockMark(
 			"A marked text.",
-			`A ${ START_MARK }<b>marked text</b>${ END_MARK }.`,
+			`A ${ START_MARK }<b>marked text</b>${ END_MARK }.`
 		);
 
 		/*
@@ -152,7 +152,7 @@ describe( "calculateAnnotationsForTextFormat", () => {
 
 		const mark = mockMark(
 			"A marked text.",
-			`A ${ START_MARK }<b>marked${ END_MARK } text</b>.`,
+			`A ${ START_MARK }<b>marked${ END_MARK } text</b>.`
 		);
 
 		/*

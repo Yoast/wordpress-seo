@@ -1,4 +1,3 @@
-/* global window */
 /* External dependencies */
 import PropTypes from "prop-types";
 import { Component, Fragment } from "@wordpress/element";

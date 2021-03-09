@@ -87,7 +87,7 @@ class SchemaSettings extends Component {
 							"You can change these settings for individual %1$s.",
 							"wordpress-seo"
 						),
-						this.props.postTypeName,
+						this.props.postTypeName
 					) }
 				/>
 				{ this.shouldShowAlert() && <Alert type="warning">
@@ -98,9 +98,9 @@ class SchemaSettings extends Component {
 							"Upon saving, these settings will apply to all of your %1$s." +
 							" %1$s that are manually configured will be left untouched.",
 							this.props.articleType ? 2 : 1,
-							"wordpress-seo",
+							"wordpress-seo"
 						),
-						this.props.postTypeName,
+						this.props.postTypeName
 					) }
 				</Alert> }
 				<Select

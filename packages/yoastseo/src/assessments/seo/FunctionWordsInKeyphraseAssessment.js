@@ -62,7 +62,7 @@ class FunctionWordsInKeyphraseAssessment extends Assessment {
 				this._config.urlTitle,
 				this._config.urlCallToAction,
 				"</a>",
-				this._keyword,
+				this._keyword
 			) );
 		}
 

@@ -1,5 +1,4 @@
 /* global ajaxurl */
-/* global JSON */
 /* global wpseoBulkEditorNonce */
 /* jshint -W097 */
 /* eslint-disable camelcase */

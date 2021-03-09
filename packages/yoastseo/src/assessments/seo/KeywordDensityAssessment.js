@@ -142,7 +142,7 @@ class KeywordDensityAssessment extends Assessment {
 		return inRangeStartInclusive(
 			this._keywordDensity,
 			0,
-			this._boundaries.minimum,
+			this._boundaries.minimum
 		) || this._keywordCount.count === 1;
 	}
 
@@ -196,12 +196,12 @@ class KeywordDensityAssessment extends Assessment {
 						"js-text-analysis",
 						"%1$sKeyphrase density%2$s: The focus keyphrase was found 0 times. " +
 						"That's less than the recommended minimum of %3$d times for a text of this length. " +
-						"%4$sFocus on your keyphrase%2$s!",
+						"%4$sFocus on your keyphrase%2$s!"
 					),
 					this._config.urlTitle,
 					"</a>",
 					this._minRecommendedKeywordCount,
-					this._config.urlCallToAction,
+					this._config.urlCallToAction
 				),
 			};
 		}

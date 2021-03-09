@@ -158,7 +158,7 @@ class SubheadingsDistributionTooLong extends Assessment {
 							"</a>",
 							this._tooLongTextsNumber,
 							this._config.parameters.recommendedMaximumWordCount,
-							this._config.urlCallToAction,
+							this._config.urlCallToAction
 						),
 					};
 				}
@@ -181,7 +181,7 @@ class SubheadingsDistributionTooLong extends Assessment {
 						"</a>",
 						this._tooLongTextsNumber,
 						this._config.parameters.recommendedMaximumWordCount,
-						this._config.urlCallToAction,
+						this._config.urlCallToAction
 					),
 				};
 			}

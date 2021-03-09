@@ -73,6 +73,6 @@ export default function initSearchAppearance() {
 				<SchemaSettings targets={ schemaSettingsElements } />
 			</Fragment>
 		</ThemeProvider>,
-		element,
+		element
 	);
 }

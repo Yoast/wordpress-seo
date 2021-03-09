@@ -1,4 +1,4 @@
-/* global jQuery, wpseoScriptData */
+/* global wpseoScriptData */
 
 var scoreDescriptionClass = "score-text";
 var imageScoreClass = "image yoast-logo svg";

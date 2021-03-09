@@ -110,6 +110,7 @@ class VariationPicker extends BlockInstruction {
 			}
 		};
 
+		/* eslint-disable react/jsx-no-bind */
 		return (
 			<div key={ key } { ...blockProps }>
 				<ExperimentalBlockVariationPicker
@@ -123,6 +124,7 @@ class VariationPicker extends BlockInstruction {
 				/>
 			</div>
 		);
+		/* eslint-enable react/jsx-no-bind */
 	}
 }
 

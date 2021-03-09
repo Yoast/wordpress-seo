@@ -309,7 +309,7 @@ function getAnnotationsForBlockAttribute( attribute, block, marks ) {
 	return flatMap( marks, ( ( mark ) => {
 		const annotations = calculateAnnotationsForTextFormat(
 			text,
-			mark,
+			mark
 		);
 
 		if ( ! annotations ) {

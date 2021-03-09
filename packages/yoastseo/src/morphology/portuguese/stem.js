@@ -196,7 +196,7 @@ export default function stem( word, morphologyData ) {
 	// Nasal vowels should be treated as a vowel followed by a consonant.
 	const nasalVowels = morphologyData.externalStemmer.nasalVowels.originals;
 	const nasalVowelsReplacement = morphologyData.externalStemmer.nasalVowels.replacements;
-	word = replaceCharacters( word, nasalVowels, nasalVowelsReplacement, );
+	word = replaceCharacters( word, nasalVowels, nasalVowelsReplacement );
 
 	const length = word.length;
 	if ( length < 2 ) {

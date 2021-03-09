@@ -95,7 +95,7 @@ class UrlLengthAssessment extends Assessment {
 				i18n.dgettext( "js-text-analysis", "%1$sSlug too long%3$s: the slug for this page is a bit long. %2$sShorten it%3$s!" ),
 				this._config.urlTitle,
 				this._config.urlCallToAction,
-				"</a>",
+				"</a>"
 			);
 		}
 

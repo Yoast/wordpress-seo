@@ -19,12 +19,7 @@ const TwitterWrapper = ( props ) => {
 	}, [] );
 
 	return props.isPremium
-		? <Slot
-			name={
-				`YoastTwitterPremium${ props.location.charAt( 0 ).toUpperCase() + props.location.slice( 1 ) }`
-			}
-			fillProps={ props }
-		/>
+		? <Slot name={ `YoastTwitterPremium${ props.location.charAt( 0 ).toUpperCase() + props.location.slice( 1 ) }` } fillProps={ props } />
 		: <SocialForm { ...props } />;
 };
 

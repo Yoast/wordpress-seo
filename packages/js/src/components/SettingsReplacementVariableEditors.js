@@ -70,7 +70,7 @@ class SettingsReplacementVariableEditors extends Component {
 			} = targetElement.dataset;
 			const filteredReplacementVariables = this.filterEditorSpecificReplaceVars(
 				this.props.replacementVariables,
-				reactReplacevarPageTypeSpecific,
+				reactReplacevarPageTypeSpecific
 			);
 
 			return (
@@ -110,7 +110,7 @@ class SettingsReplacementVariableEditors extends Component {
 			} = targetElement.dataset;
 			const filteredReplacementVariables = this.filterEditorSpecificReplaceVars(
 				this.props.replacementVariables,
-				reactReplacevarPageTypeSpecific,
+				reactReplacevarPageTypeSpecific
 			);
 
 			return (

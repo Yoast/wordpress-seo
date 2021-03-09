@@ -364,7 +364,7 @@ export default function initTermScraper( $, store, editorData ) {
 			window.YoastSEO.analysis.collectData,
 			window.YoastSEO.analysis.applyMarks,
 			window.YoastSEO.store,
-			termScraper,
+			termScraper
 		), refreshDelay ) );
 
 		if ( isKeywordAnalysisActive() ) {

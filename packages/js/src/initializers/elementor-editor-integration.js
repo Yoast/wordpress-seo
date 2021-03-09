@@ -1,4 +1,3 @@
-/* global jQuery, window */
 import { dispatch } from "@wordpress/data";
 import { doAction } from "@wordpress/hooks";
 import { __, sprintf } from "@wordpress/i18n";

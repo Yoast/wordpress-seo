@@ -108,7 +108,7 @@ const VerticalRadioButtons = ( { options, onChange, groupName, id, selected } ) 
 				id={ `${ id }_${ option.value }` }
 				{ ...option }
 			/>
-		</div>,
+		</div>
 		) }
 	</div>
 );

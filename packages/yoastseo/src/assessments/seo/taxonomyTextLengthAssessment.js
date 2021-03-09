@@ -26,7 +26,7 @@ const calculateWordCountResult = function( wordCount, i18n ) {
 					wordCount ),
 				wordCount,
 				urlTitle,
-				"</a>",
+				"</a>"
 			),
 		};
 	}

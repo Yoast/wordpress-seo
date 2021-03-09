@@ -140,7 +140,7 @@ export default class OutboundLinksAssessment extends Assessment {
 					"There are both nofollowed and normal outbound links on this page. " +
 					"Good job!" ),
 				this._config.urlTitle,
-				"</a>",
+				"</a>"
 			);
 		}
 

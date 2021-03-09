@@ -1,5 +1,3 @@
-/* global describe, it, expect */
-
 import * as actions from "../../../src/redux/actions/warning";
 
 describe( "warning actions", () => {

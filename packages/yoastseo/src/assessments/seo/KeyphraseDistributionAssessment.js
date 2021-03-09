@@ -90,7 +90,7 @@ class KeyphraseDistributionAssessment extends Assessment {
 					i18n.dgettext(
 						"js-text-analysis",
 						"%1$sKeyphrase distribution%3$s: " +
-						"%2$sInclude your keyphrase or its synonyms in the text so that we can check keyphrase distribution%3$s.",
+						"%2$sInclude your keyphrase or its synonyms in the text so that we can check keyphrase distribution%3$s."
 					),
 					this._config.urlTitle,
 					this._config.urlCallToAction,
@@ -108,7 +108,7 @@ class KeyphraseDistributionAssessment extends Assessment {
 					i18n.dgettext(
 						"js-text-analysis",
 						"%1$sKeyphrase distribution%3$s: " +
-						"Very uneven. Large parts of your text do not contain the keyphrase or its synonyms. %2$sDistribute them more evenly%3$s.",
+						"Very uneven. Large parts of your text do not contain the keyphrase or its synonyms. %2$sDistribute them more evenly%3$s."
 					),
 					this._config.urlTitle,
 					this._config.urlCallToAction,
@@ -128,7 +128,7 @@ class KeyphraseDistributionAssessment extends Assessment {
 					i18n.dgettext(
 						"js-text-analysis",
 						"%1$sKeyphrase distribution%3$s: " +
-						"Uneven. Some parts of your text do not contain the keyphrase or its synonyms. %2$sDistribute them more evenly%3$s.",
+						"Uneven. Some parts of your text do not contain the keyphrase or its synonyms. %2$sDistribute them more evenly%3$s."
 					),
 					this._config.urlTitle,
 					this._config.urlCallToAction,
@@ -143,7 +143,7 @@ class KeyphraseDistributionAssessment extends Assessment {
 				/* Translators: %1$s expands to links to Yoast.com articles, %2$s expands to the anchor end tag */
 				i18n.dgettext(
 					"js-text-analysis",
-					"%1$sKeyphrase distribution%2$s: Good job!",
+					"%1$sKeyphrase distribution%2$s: Good job!"
 				),
 				this._config.urlTitle,
 				"</a>"
