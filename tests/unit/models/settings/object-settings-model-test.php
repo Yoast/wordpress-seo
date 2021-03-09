@@ -39,7 +39,10 @@ class Object_Settings_Model_Test extends TestCase {
 	 * @covers ::__construct
 	 */
 	public function test_construct() {
-		static::assertAttributeEquals( 'object_type', 'object_name', $this->instance );
+		static::assertSame(
+			'object_type',
+			static::getPropertyValue( $this->instance, 'object_name' )
+		);
 	}
 
 	/**
