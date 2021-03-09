@@ -6,7 +6,7 @@ import { get } from "lodash";
  * @returns {string} The post type name plural.
  */
 function getReplacement() {
-	return get( window, "wpseoScriptData.analysis.plugins.replaceVars.replaceVars.pt_plural", "" );
+	return get( window, "wpseoScriptData.analysis.plugins.replaceVars.replaceVars.ptPlural", "" );
 }
 
 /**
