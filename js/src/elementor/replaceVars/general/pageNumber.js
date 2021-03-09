@@ -6,7 +6,7 @@ import { get } from "lodash";
  * @returns {string} The page number.
  */
 function getReplacement() {
-	return get( window, "wpseoScriptData.analysis.plugins.replaceVars.replace_vars.pagenumber", "" );
+	return get( window, "wpseoScriptData.analysis.plugins.replaceVars.replaceVars.pagenumber", "" );
 }
 
 /**

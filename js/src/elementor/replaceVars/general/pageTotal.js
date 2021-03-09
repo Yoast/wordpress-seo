@@ -6,7 +6,7 @@ import { get } from "lodash";
  * @returns {string} The page total.
  */
 function getReplacement() {
-	return get( window, "wpseoScriptData.analysis.plugins.replaceVars.replace_vars.pagetotal", "" );
+	return get( window, "wpseoScriptData.analysis.plugins.replaceVars.replaceVars.pagetotal", "" );
 }
 
 /**

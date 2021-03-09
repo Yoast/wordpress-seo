@@ -6,7 +6,7 @@ import { get } from "lodash";
  * @returns {string} The searchphrase.
  */
 function getReplacement() {
-	return get( window, "wpseoScriptData.analysis.plugins.replaceVars.replace_vars.searchphrase", "" );
+	return get( window, "wpseoScriptData.analysis.plugins.replaceVars.replaceVars.searchphrase", "" );
 }
 
 /**

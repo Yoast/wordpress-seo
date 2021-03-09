@@ -6,7 +6,7 @@ import { get } from "lodash";
  * @returns {string} The term_title.
  */
 function getReplacement() {
-	return get( window, "wpseoScriptData.analysis.plugins.replaceVars.replace_vars.term_title", "" );
+	return get( window, "wpseoScriptData.analysis.plugins.replaceVars.replaceVars.term_title", "" );
 }
 
 /**

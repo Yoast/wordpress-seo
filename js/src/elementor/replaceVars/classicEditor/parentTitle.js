@@ -11,7 +11,7 @@ function getReplacement() {
 	if ( ! isUndefined( parent ) && ! isUndefined( parent.prop( "options" ) ) ) {
 		const parentText = parent.find( "option:selected" ).text();
 
-		if ( parentText !== get( window, "wpseoScriptData.analysis.plugins.replaceVars.replace_vars.no_parent_text", "" ) ) {
+		if ( parentText !== get( window, "wpseoScriptData.analysis.plugins.replaceVars.replaceVars.noParentText", "" ) ) {
 			text = parentText;
 		}
 	}

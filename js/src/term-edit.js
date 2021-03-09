@@ -23,7 +23,7 @@ domReady( () => {
 	window.yoast.initEditorIntegration( store );
 	const editorData = new window.yoast.EditorData( () => {
 	}, store, termsTmceId );
-	editorData.initialize( window.wpseoScriptData.analysis.plugins.replaceVars.replace_vars );
+	editorData.initialize( window.wpseoScriptData.analysis.plugins.replaceVars.replaceVars );
 
 	// Initialize the post scraper.
 	initTermScraper( jQuery, store, editorData );

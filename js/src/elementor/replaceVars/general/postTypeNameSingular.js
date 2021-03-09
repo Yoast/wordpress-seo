@@ -6,7 +6,7 @@ import { get } from "lodash";
  * @returns {string} The post type name singular.
  */
 function getReplacement() {
-	return get( window, "wpseoScriptData.analysis.plugins.replaceVars.replace_vars.pt_single", "" );
+	return get( window, "wpseoScriptData.analysis.plugins.replaceVars.replaceVars.pt_single", "" );
 }
 
 /**

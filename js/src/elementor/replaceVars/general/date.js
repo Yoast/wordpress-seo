@@ -6,7 +6,7 @@ import { get } from "lodash";
  * @returns {string} The date.
  */
 function getReplacement() {
-	return get( window, "wpseoScriptData.analysis.plugins.replaceVars.replace_vars.date", "" );
+	return get( window, "wpseoScriptData.analysis.plugins.replaceVars.replaceVars.date", "" );
 }
 
 /**

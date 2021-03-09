@@ -270,7 +270,7 @@ YoastReplaceVarPlugin.prototype.getReplacementSource = function( placeholderOpti
 		return "direct";
 	}
 
-	return wpseoScriptData.analysis.plugins.replaceVars.replace_vars;
+	return wpseoScriptData.analysis.plugins.replaceVars.replaceVars;
 };
 
 /**
@@ -618,7 +618,7 @@ YoastReplaceVarPlugin.prototype.hasParentTitle = function( parent ) {
 YoastReplaceVarPlugin.prototype.getParentTitleReplacement = function( parent ) {
 	var parentText = parent.find( "option:selected" ).text();
 
-	if ( parentText === wpseoScriptData.analysis.plugins.replaceVars.no_parent_text ) {
+	if ( parentText === wpseoScriptData.analysis.plugins.replaceVars.noParentText ) {
 		return "";
 	}
 

@@ -144,7 +144,7 @@ class WooCommerce_Test extends TestCase {
 		);
 		$this->assertInstanceOf(
 			WPSEO_Replace_Vars::class,
-			$this->getPropertyValue( $instance, 'replace_vars' )
+			$this->getPropertyValue( $instance, 'replaceVars' )
 		);
 	}
 
