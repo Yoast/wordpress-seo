@@ -44,7 +44,7 @@ foreach ( $wpseo_archives as $wpseo_archive_index => $wpseo_archive ) {
 			'expanded'                     => ( $wpseo_archive_index === 0 ),
 			'paper_id'                     => $wpseo_archive['paper_id'],
 			'recommended_replace_vars'     => $recommended_replace_vars,
-			'editor_specific_replace_vars' => $editor_specific_replace_vars,
+			'editorSpecificReplaceVars' => $editor_specific_replace_vars,
 			'class'                        => 'search-appearance',
 		]
 	);

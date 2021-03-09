@@ -152,8 +152,8 @@ class WPSEO_Admin_Pages {
 		return [
 			'replaceVars'                  => $replace_vars_list,
 			'recommendedReplaceVars'       => $recommended_replace_vars->get_recommended_replacevars(),
-			'editor_specific_replace_vars' => $editor_specific_replace_vars->get(),
-			'shared_replace_vars'          => $editor_specific_replace_vars->get_generic( $replace_vars_list ),
+			'editorSpecificReplaceVars' => $editor_specific_replace_vars->get(),
+			'sharedReplaceVars'          => $editor_specific_replace_vars->get_generic( $replace_vars_list ),
 		];
 	}
 
