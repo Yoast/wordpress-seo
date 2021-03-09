@@ -2,7 +2,6 @@ import { shallow } from "enzyme";
 
 import SEMrushCountrySelector
 	from "../../../js/src/components/modals/SEMrushCountrySelector";
-import React from "react";
 import { noop } from "lodash";
 
 window.jQuery = () => ( {
