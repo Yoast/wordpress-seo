@@ -295,7 +295,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		}
 
 		if ( $values['semrushIntegrationActive'] && $this->post->post_type === 'attachment' ) {
-			$values['semrushIntegrationActive'] = 0;
+			$values['semrushIntegrationActive'] = false;
 		}
 
 		return $values;
