@@ -5,7 +5,7 @@ import { Label } from "@yoast/components";
 import styled from "styled-components";
 
 /* Internal dependencies */
-import valueToNativeEvent from "./higherorder/valueToNativeEvent";
+import valueToNativeEvent from "./higherorder/value-to-native-event";
 import WordPressUserSelector, { WordPressUserSelectorPropTypes } from "./wordpress-user-selector";
 
 /**

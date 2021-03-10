@@ -1,8 +1,8 @@
 import PropTypes from "prop-types";
 
-import MetaboxSlot from "../slots/MetaboxSlot";
+import MetaboxSlot from "../slots/metabox-slot";
 import MetaboxFill from "../../containers/MetaboxFill";
-import Portal from "./Portal";
+import Portal from "./portal";
 
 /**
  * Renders the metabox portal.

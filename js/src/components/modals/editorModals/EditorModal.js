@@ -1,6 +1,6 @@
 import { __, sprintf } from "@wordpress/i18n";
 import { useCallback, Fragment } from "@wordpress/element";
-import Modal from "../Modal";
+import Modal from "../modal";
 import PropTypes from "prop-types";
 import SidebarButton from "../../sidebar-button";
 import { LocationProvider } from "../../contexts/location";

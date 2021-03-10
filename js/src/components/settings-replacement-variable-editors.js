@@ -4,8 +4,8 @@ import { Component, Fragment } from "@wordpress/element";
 import { replacementVariablesShape } from "@yoast/replacement-variable-editor";
 import { includes, map } from "lodash";
 import PropTypes from "prop-types";
-import SettingsEditorPortal from "./portals/SettingsEditorPortal";
-import SettingsFieldPortal from "./portals/SettingsFieldPortal";
+import SettingsEditorPortal from "./portals/settings-editor-portal";
+import SettingsFieldPortal from "./portals/settings-field-portal";
 
 /**
  * Renders a Portal for each element passed to it as a prop.

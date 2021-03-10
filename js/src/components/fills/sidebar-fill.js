@@ -7,9 +7,9 @@ import { __ } from "@wordpress/i18n";
 /* Internal dependencies */
 import CollapsibleCornerstone from "../../containers/CollapsibleCornerstone";
 import Warning from "../../containers/Warning";
-import KeywordInput from "../contentAnalysis/KeywordInput";
-import ReadabilityAnalysis from "../contentAnalysis/ReadabilityAnalysis";
-import SeoAnalysis from "../contentAnalysis/SeoAnalysis";
+import KeywordInput from "../contentAnalysis/keyword-input";
+import ReadabilityAnalysis from "../contentAnalysis/readability-analysis";
+import SeoAnalysis from "../contentAnalysis/seo-analysis";
 import SidebarItem from "../sidebar-item";
 import GooglePreviewModal from "../modals/editorModals/GooglePreviewModal";
 import TwitterPreviewModal from "../modals/editorModals/TwitterPreviewModal";

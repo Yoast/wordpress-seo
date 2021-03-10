@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 const { RichText } = window.wp.editor;
 
 /* Internal dependencies */
-import appendSpace from "../../../components/higherorder/appendSpace";
+import appendSpace from "../../../components/higherorder/append-space";
 
 /**
  * This migration is necessary because the HTML markup changed, because in 13.1

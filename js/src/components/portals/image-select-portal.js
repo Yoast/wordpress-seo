@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 
 import ImageSelectComponent from "../image-select-component";
-import Portal from "./Portal";
+import Portal from "./portal";
 
 /**
  *

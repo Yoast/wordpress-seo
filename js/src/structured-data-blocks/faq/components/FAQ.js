@@ -5,7 +5,7 @@ import { speak } from "@wordpress/a11y";
 
 /* Internal dependencies */
 import Question from "./Question";
-import appendSpace from "../../../components/higherorder/appendSpace";
+import appendSpace from "../../../components/higherorder/append-space";
 
 const { IconButton } = window.wp.components;
 const { Component, renderToString } = window.wp.element;

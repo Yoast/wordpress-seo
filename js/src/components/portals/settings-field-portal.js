@@ -5,7 +5,7 @@ import {
 } from "@yoast/replacement-variable-editor";
 
 import SettingsReplacementVariableField from "../settings-replacement-variable-field";
-import Portal from "./Portal";
+import Portal from "./portal";
 
 /**
  * Renders a portal for replacevar fields in the search appearance settings.

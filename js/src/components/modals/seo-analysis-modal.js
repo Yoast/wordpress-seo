@@ -1,4 +1,4 @@
-import Modal, { defaultModalClassName } from "./Modal";
+import Modal, { defaultModalClassName } from "./modal";
 import { useState, useCallback } from "@wordpress/element";
 import PropTypes from "prop-types";
 import { Fragment } from "@wordpress/element";

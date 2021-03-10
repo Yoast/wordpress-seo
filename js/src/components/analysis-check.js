@@ -1,5 +1,5 @@
 import { SvgIcon } from "@yoast/components";
-import { getIconForScore } from "./contentAnalysis/mapResults";
+import { getIconForScore } from "./contentAnalysis/map-results";
 import * as PropTypes from "prop-types";
 
 /**

@@ -8,7 +8,7 @@ const { IconButton } = window.wp.components;
 const { RichText, MediaUpload } = window.wp.editor;
 
 /* Internal dependencies */
-import appendSpace from "../../../components/higherorder/appendSpace";
+import appendSpace from "../../../components/higherorder/append-space";
 
 const RichTextWithAppendedSpace = appendSpace( RichText.Content );
 

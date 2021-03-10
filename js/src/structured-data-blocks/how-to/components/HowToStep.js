@@ -1,7 +1,7 @@
 /* External dependencies */
 import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
-import appendSpace from "../../../components/higherorder/appendSpace";
+import appendSpace from "../../../components/higherorder/append-space";
 import { isShallowEqualObjects } from "@wordpress/is-shallow-equal";
 
 const { Component } = window.wp.element;

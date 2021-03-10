@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import SchemaSettings, { schemaTypeOptionsPropType } from "../schema-settings";
-import Portal from "./Portal";
+import Portal from "./portal";
 
 /**
  * Renders a portal for the schema settings.

@@ -2,7 +2,7 @@ import { Component, Fragment } from "@wordpress/element";
 import { __, _n, sprintf } from "@wordpress/i18n";
 import { Alert, Select, FieldGroup } from "@yoast/components";
 import PropTypes from "prop-types";
-import linkHiddenFields, { linkFieldsShape } from "./higherorder/linkHiddenField";
+import linkHiddenFields, { linkFieldsShape } from "./higherorder/link-hidden-field";
 
 /**
  * Returns the content of the schema settings.

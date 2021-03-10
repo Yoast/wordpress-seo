@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 
 import SocialMetadata from "../../containers/SocialMetadata";
-import Portal from "./Portal";
+import Portal from "./portal";
 
 /**
  * Renders a portal for the social metadata settings in an editor.

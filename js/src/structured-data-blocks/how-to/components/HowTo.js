@@ -8,7 +8,7 @@ import { get, toString } from "lodash-es";
 /* Internal dependencies */
 import HowToStep from "./HowToStep";
 import buildDurationString from "../utils/buildDurationString";
-import appendSpace from "../../../components/higherorder/appendSpace";
+import appendSpace from "../../../components/higherorder/append-space";
 
 const { RichText, InspectorControls } = window.wp.editor;
 const { IconButton, PanelBody, TextControl, ToggleControl } = window.wp.components;

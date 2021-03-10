@@ -11,14 +11,14 @@ import Results from "../../containers/Results";
 import AnalysisUpsell from "../analysis-upsell";
 import { LocationConsumer } from "../contexts/location";
 import MetaboxCollapsible from "../metabox-collapsible";
-import { ModalContainer, ModalIcon } from "../modals/Container";
-import KeywordSynonyms from "../modals/KeywordSynonyms";
-import MultipleKeywords from "../modals/MultipleKeywords";
-import Modal from "../modals/SeoAnalysisModal";
-import ScoreIconPortal from "../portals/ScoreIconPortal";
+import { ModalContainer, ModalIcon } from "../modals/container";
+import KeywordSynonyms from "../modals/keyword-synonyms";
+import MultipleKeywords from "../modals/multiple-keywords";
+import Modal from "../modals/seo-analysis-modal";
+import ScoreIconPortal from "../portals/score-icon-portal";
 import SidebarCollapsible from "../sidebar-collapsible";
-import SynonymSlot from "../slots/SynonymSlot";
-import { getIconForScore } from "./mapResults";
+import SynonymSlot from "../slots/synonym-slot";
+import { getIconForScore } from "./map-results";
 
 const AnalysisHeader = styled.span`
 	font-size: 1em;

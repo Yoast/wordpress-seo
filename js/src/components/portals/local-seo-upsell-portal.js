@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 
-import LocalSEOUpsell from "../LocalSEOUpsell";
-import Portal from "./Portal";
+import LocalSEOUpsell from "../local-seo-upsell";
+import Portal from "./portal";
 
 
 /**

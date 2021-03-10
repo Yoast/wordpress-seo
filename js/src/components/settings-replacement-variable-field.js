@@ -9,7 +9,7 @@ import {
 import styled from "styled-components";
 
 /* Internal dependencies */
-import linkHiddenFields, { linkFieldsShape } from "./higherorder/linkHiddenField";
+import linkHiddenFields, { linkFieldsShape } from "./higherorder/link-hidden-field";
 
 const SnippetEditorWidthContainer = styled.div`
 	display: flex;

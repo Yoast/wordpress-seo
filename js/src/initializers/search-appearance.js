@@ -1,10 +1,10 @@
 /* global wpseoScriptData */
 import { Fragment, render } from "@wordpress/element";
 import { ThemeProvider } from "styled-components";
-import CompanyInfoMissingPortal from "../components/portals/CompanyInfoMissingPortal";
-import ImageSelectPortal from "../components/portals/ImageSelectPortal";
-import LocalSEOUpsellPortal from "../components/portals/LocalSEOUpsellPortal";
-import UserSelectPortal from "../components/portals/UserSelectPortal";
+import CompanyInfoMissingPortal from "../components/portals/company-info-missing-portal";
+import ImageSelectPortal from "../components/portals/image-select-portal";
+import LocalSEOUpsellPortal from "../components/portals/local-seo-upsell-portal";
+import UserSelectPortal from "../components/portals/user-select-portal";
 import SettingsReplacementVariableEditors from "../components/settings-replacement-variable-editors";
 import SchemaSettings from "../containers/SchemaSettings";
 import { setWordPressSeoL10n, setYoastComponentsL10n } from "../helpers/i18n";

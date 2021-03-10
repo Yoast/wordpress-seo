@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 
 import CompanyInfoMissing from "../company-info-missing";
-import Portal from "./Portal";
+import Portal from "./portal";
 
 /**
  * Renders a portal for a company info missing notice in the search appearance settings.

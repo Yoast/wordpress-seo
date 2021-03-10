@@ -7,13 +7,13 @@ import PropTypes from "prop-types";
 import CollapsibleCornerstone from "../../containers/CollapsibleCornerstone";
 import SnippetEditor from "../../containers/SnippetEditor";
 import Warning from "../../containers/Warning";
-import KeywordInput from "../contentAnalysis/KeywordInput";
-import ReadabilityAnalysis from "../contentAnalysis/ReadabilityAnalysis";
-import SeoAnalysis from "../contentAnalysis/SeoAnalysis";
+import KeywordInput from "../contentAnalysis/keyword-input";
+import ReadabilityAnalysis from "../contentAnalysis/readability-analysis";
+import SeoAnalysis from "../contentAnalysis/seo-analysis";
 import MetaboxCollapsible from "../metabox-collapsible";
 import SidebarItem from "../sidebar-item";
 import AdvancedSettings from "../../containers/AdvancedSettings";
-import SocialMetadataPortal from "../portals/SocialMetadataPortal";
+import SocialMetadataPortal from "../portals/social-metadata-portal";
 import SchemaTabContainer from "../../containers/SchemaTab";
 import SEMrushRelatedKeyphrases from "../../containers/SEMrushRelatedKeyphrases";
 

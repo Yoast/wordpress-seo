@@ -1,7 +1,7 @@
 import * as SEMrushRelatedKeyphrasesModalContent from "../../src/components/semrush-related-keyphrases-modal-content";
-import SEMrushLoading from "../../src/components/modals/SEMrushLoading";
-import SEMrushLimitReached from "../../src/components/modals/SEMrushLimitReached";
-import SEMrushRequestFailed from "../../src/components/modals/SEMrushRequestFailed";
+import SEMrushLoading from "../../src/components/modals/semrush-loading";
+import SEMrushLimitReached from "../../src/components/modals/semrush-limit-reached";
+import SEMrushRequestFailed from "../../src/components/modals/semrush-request-failed";
 
 describe( "SEMrushRelatedKeyphrasesModalContent", () => {
 	let props = {};

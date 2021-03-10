@@ -1,5 +1,5 @@
 import { render, Fragment } from "@wordpress/element";
-import ImageSelectPortal from "../components/portals/ImageSelectPortal";
+import ImageSelectPortal from "../components/portals/image-select-portal";
 
 /**
  * @summary Initializes the search appearance settings script.

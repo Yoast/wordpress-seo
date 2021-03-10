@@ -3,8 +3,8 @@ import { SvgIcon } from "@yoast/components";
 import PropTypes from "prop-types";
 
 /* Internal dependencies */
-import { getIconForScore } from "../contentAnalysis/mapResults";
-import Portal from "./Portal";
+import { getIconForScore } from "../contentAnalysis/map-results";
+import Portal from "./portal";
 
 /**
  * Renders a score icon in a specified dom element.

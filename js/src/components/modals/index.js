@@ -1,5 +1,5 @@
-import KeywordSynonyms from "./KeywordSynonyms";
-import MultipleKeywords from "./MultipleKeywords";
+import KeywordSynonyms from "./keyword-synonyms";
+import MultipleKeywords from "./multiple-keywords";
 
 const modals = {
 	KeywordSynonyms: KeywordSynonyms,

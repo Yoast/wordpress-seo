@@ -9,8 +9,8 @@ import PropTypes from "prop-types";
 import { NewButton, ButtonStyledLink } from "@yoast/components";
 
 /* Internal dependencies */
-import { ModalContainer } from "./modals/Container";
-import Modal from "./modals/Modal";
+import { ModalContainer } from "./modals/container";
+import Modal from "./modals/modal";
 import YoastIcon from "../../../images/Yoast_icon_kader.svg";
 import { isCloseEvent } from "./modals/editorModals/EditorModal.js";
 

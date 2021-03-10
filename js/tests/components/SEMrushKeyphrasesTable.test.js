@@ -4,7 +4,7 @@ global.window.wpseoAdminL10n = [];
 global.window.wpseoAdminL10n[ "shortlinks.semrush.volume_help" ] = "test.com";
 
 import SEMrushKeyphrasesTable
-	from "../../../js/src/components/modals/SEMrushKeyphrasesTable";
+	from "../../src/components/modals/semrush-keyphrases-table";
 import { noop } from "lodash";
 
 const testData = {

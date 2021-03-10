@@ -1,5 +1,5 @@
 import { withSelect } from "@wordpress/data";
-import SidebarFill from "../components/fills/SidebarFill";
+import SidebarFill from "../components/fills/sidebar-fill";
 
 export default withSelect( ( select, ownProps ) => {
 	const { getPreferences } = select( "yoast-seo/editor" );

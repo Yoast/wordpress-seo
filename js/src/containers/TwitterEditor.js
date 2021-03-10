@@ -5,7 +5,7 @@ import { __, sprintf } from "@wordpress/i18n";
 import { validateTwitterImage } from "@yoast/helpers";
 
 /* Internal dependencies */
-import TwitterWrapper from "../components/social/TwitterWrapper";
+import TwitterWrapper from "../components/social/twitter-wrapper";
 import getL10nObject from "../analysis/getL10nObject";
 import withLocation from "../helpers/withLocation";
 import { openMedia } from "../helpers/selectMedia";

@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 
 import WordPressUserSelectorSearchAppearance from "../wordpress-user-selector-search-appearance";
-import Portal from "./Portal";
+import Portal from "./portal";
 
 /**
  * Renders a user select portal for the search appearance settings.

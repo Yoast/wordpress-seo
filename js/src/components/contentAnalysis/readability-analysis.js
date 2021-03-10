@@ -8,14 +8,14 @@ import { __ } from "@wordpress/i18n";
 import { isNil } from "lodash-es";
 
 /* Internal components */
-import ScoreIconPortal from "../portals/ScoreIconPortal";
+import ScoreIconPortal from "../portals/score-icon-portal";
 import Results from "../../containers/Results";
 import Collapsible from "../sidebar-collapsible";
 import getIndicatorForScore from "../../analysis/getIndicatorForScore";
-import { getIconForScore } from "./mapResults";
+import { getIconForScore } from "./map-results";
 import { LocationConsumer } from "../contexts/location";
 import HelpLink from "../help-link";
-import ReadabilityResultsPortal from "../portals/ReadabilityResultsPortal";
+import ReadabilityResultsPortal from "../portals/readability-results-portal";
 
 const AnalysisHeader = styled.span`
 	font-size: 1em;

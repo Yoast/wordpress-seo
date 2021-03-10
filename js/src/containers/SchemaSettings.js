@@ -1,7 +1,7 @@
 import { __ } from "@wordpress/i18n";
 import map from "lodash/map";
 import PropTypes from "prop-types";
-import SchemaSettingsPortal from "../components/portals/SchemaSettingsPortal";
+import SchemaSettingsPortal from "../components/portals/schema-settings-portal";
 
 /**
  * Appends ' (default)' to the name of the default option.

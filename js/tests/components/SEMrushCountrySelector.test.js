@@ -1,7 +1,7 @@
 import { shallow } from "enzyme";
 
 import SEMrushCountrySelector
-	from "../../../js/src/components/modals/SEMrushCountrySelector";
+	from "../../src/components/modals/semrush-country-selector";
 import React from "react";
 import { noop } from "lodash";
 

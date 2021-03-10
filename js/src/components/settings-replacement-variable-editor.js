@@ -10,7 +10,7 @@ import {
 
 /* Internal dependencies */
 import SnippetPreviewSection from "./snippet-preview-section";
-import linkHiddenFields, { linkFieldsShape } from "./higherorder/linkHiddenField";
+import linkHiddenFields, { linkFieldsShape } from "./higherorder/link-hidden-field";
 
 /**
  * Component class for the Settings replacement variable editor.

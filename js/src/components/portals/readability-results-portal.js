@@ -1,4 +1,4 @@
-import Portal from "./Portal";
+import Portal from "./portal";
 import PropTypes from "prop-types";
 
 /**

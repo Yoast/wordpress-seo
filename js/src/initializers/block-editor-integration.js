@@ -19,10 +19,10 @@ import { Slot } from "@wordpress/components";
 /* Internal dependencies */
 import PluginIcon from "../containers/PluginIcon";
 import SidebarFill from "../containers/SidebarFill";
-import MetaboxPortal from "../components/portals/MetaboxPortal";
+import MetaboxPortal from "../components/portals/metabox-portal";
 import { setMarkerStatus } from "../redux/actions";
 import { isAnnotationAvailable } from "../decorator/gutenberg";
-import SidebarSlot from "../components/slots/SidebarSlot";
+import SidebarSlot from "../components/slots/sidebar-slot";
 import { link } from "../inline-links/edit-link";
 import PrePublish from "../containers/PrePublish";
 import DocumentSidebar from "../containers/DocumentSidebar";

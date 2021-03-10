@@ -1,6 +1,6 @@
 import { Component, Fragment } from "@wordpress/element";
 import PropTypes from "prop-types";
-import SocialUpsell from "./SocialUpsell";
+import SocialUpsell from "./social-upsell";
 import { SocialMetadataPreviewForm } from "@yoast/social-metadata-forms";
 import { recommendedReplacementVariablesShape, replacementVariablesShape } from "@yoast/replacement-variable-editor";
 

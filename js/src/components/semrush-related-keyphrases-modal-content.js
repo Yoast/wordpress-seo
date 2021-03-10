@@ -5,13 +5,13 @@ import PropTypes from "prop-types";
 import { isEmpty } from "lodash-es";
 
 /* Internal dependencies */
-import SEMrushLoading from "./modals/SEMrushLoading";
-import SEMrushLimitReached from "./modals/SEMrushLimitReached";
-import SEMrushCountrySelector from "./modals/SEMrushCountrySelector";
-import SEMrushKeyphrasesTable from "./modals/SEMrushKeyphrasesTable";
-import SEMrushUpsellAlert from "./modals/SEMrushUpsellAlert";
-import SEMrushRequestFailed from "./modals/SEMrushRequestFailed";
-import SEMrushMaxRelatedKeyphrases from "./modals/SEMrushMaxRelatedKeyphrases";
+import SEMrushLoading from "./modals/semrush-loading";
+import SEMrushLimitReached from "./modals/semrush-limit-reached";
+import SEMrushCountrySelector from "./modals/semrush-country-selector";
+import SEMrushKeyphrasesTable from "./modals/semrush-keyphrases-table";
+import SEMrushUpsellAlert from "./modals/semrush-upsell-alert";
+import SEMrushRequestFailed from "./modals/semrush-request-failed";
+import SEMrushMaxRelatedKeyphrases from "./modals/semrush-max-related-keyphrases";
 import getL10nObject from "../analysis/getL10nObject";
 
 /**

@@ -1,5 +1,5 @@
 import { withSelect } from "@wordpress/data";
-import SocialMetadata from "../components/social/SocialMetadata";
+import SocialMetadata from "../components/social/social-metadata";
 
 export default withSelect( select => {
 	const {

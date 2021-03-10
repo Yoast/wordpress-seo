@@ -1,5 +1,5 @@
 import { shallow } from "enzyme";
-import { KeywordInput } from "../../../src/components/contentAnalysis/KeywordInput";
+import { KeywordInput } from "../../../src/components/contentAnalysis/keyword-input";
 
 describe( "KeywordInput", () => {
 	let props = {};

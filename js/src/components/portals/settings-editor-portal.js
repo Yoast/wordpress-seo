@@ -5,7 +5,7 @@ import {
 	recommendedReplacementVariablesShape,
 } from "@yoast/replacement-variable-editor";
 
-import Portal from "./Portal";
+import Portal from "./portal";
 
 /**
  * Renders a portal for the editors in the search appearance settings.

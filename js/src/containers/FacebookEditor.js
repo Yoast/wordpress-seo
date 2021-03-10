@@ -5,7 +5,7 @@ import { __, sprintf } from "@wordpress/i18n";
 import { validateFacebookImage } from "@yoast/helpers";
 
 /* Internal dependencies */
-import FacebookWrapper from "../components/social/FacebookWrapper";
+import FacebookWrapper from "../components/social/facebook-wrapper";
 import getL10nObject from "../analysis/getL10nObject";
 import withLocation from "../helpers/withLocation";
 import { openMedia } from "../helpers/selectMedia";
