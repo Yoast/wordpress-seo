@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Repositories;
 
+use Brain\Monkey;
 use Yoast\WP\SEO\Models\Settings\Open_Graph_Settings;
 use Yoast\WP\SEO\Models\Settings\Search_Engine_Verify_Settings;
 use Yoast\WP\SEO\Models\Settings\Social_Settings;
@@ -14,6 +15,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @coversDefaultClass \Yoast\WP\SEO\Repositories\Settings_Repository
  *
  * @group repositories
+ * @group settings
  */
 class Settings_Repository_Test extends TestCase {
 
@@ -30,7 +32,28 @@ class Settings_Repository_Test extends TestCase {
 	public function set_up() {
 		parent::set_up();
 
+		Monkey\Functions\expect( 'get_option' )
+			->once()
+			->with( Settings_Repository::OPTION_NAME, [] )
+			->andReturn( [
+				'settings_key' => 'settings_value',
+			] );
+
 		$this->instance = new Settings_Repository();
+	}
+
+	/**
+	 * Tests the constructor
+	 *
+	 * @covers ::__construct
+	 */
+	public function test_constructor() {
+		self::assertSame(
+			[
+				'settings_key' => 'settings_value',
+			],
+			self::getPropertyValue( $this->instance, 'option_value' )
+		);
 	}
 
 	/**

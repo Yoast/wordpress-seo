@@ -17,6 +17,11 @@ use Yoast\WP\SEO\Models\Settings_Model;
 class Settings_Repository {
 
 	/**
+	 * Represents the option name.
+	 */
+	const OPTION_NAME = 'yoast_seo_settings';
+
+	/**
 	 * The initializers for the different settings classes.
 	 *
 	 * @var array<string, string>
@@ -33,6 +38,20 @@ class Settings_Repository {
 	 * @var array<string, Settings_Model>
 	 */
 	protected $settings = [];
+
+	/**
+	 * Represents the current state for the option value from that database.
+	 *
+	 * @var array
+	 */
+	protected $option_value;
+
+	/**
+	 * Sets the current options state with value from the option.
+	 */
+	public function __construct() {
+		$this->option_value = \get_option( self::OPTION_NAME, [] );
+	}
 
 	/**
 	 * Magic method that magically makes an instance of a Settings Model for requested method.
