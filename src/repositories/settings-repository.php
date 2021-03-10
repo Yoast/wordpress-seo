@@ -85,7 +85,7 @@ class Settings_Repository {
 	/**
 	 * Adds an initializer to the list of initializers..
 	 *
-	 * @param string $name       The name of the initializer.
+	 * @param string $name The name of the initializer.
 	 * @param string $class_name Fully Qualified Classname for class that extends Setting_Model to initialize.
 	 *
 	 * @throws Exception When the initializer already exists.
@@ -102,18 +102,46 @@ class Settings_Repository {
 	 * Handles the saving of the settings.
 	 *
 	 * @param array $settings The settings to save.
+	 *
+	 * @throws InvalidArgumentException When the passed settings are not an array.
 	 */
 	public function save( $settings ) {
 		if ( ! is_array( $settings ) ) {
 			throw new InvalidArgumentException( 'Settings is not an array' );
 		}
 
-		$new_option_value = \array_replace_recursive( $this->settings, $settings );
-		$is_saved         = \update_option( self::OPTION_NAME, $new_option_value, true );
+		$new_settings_value   = \array_replace_recursive( $this->settings, $settings );
+		$clean_settings_value = $this->clean_settings( $new_settings_value );
+		$is_saved             = \update_option( self::OPTION_NAME, $clean_settings_value, true );
 
 		if ( $is_saved ) {
-			$this->settings = $new_option_value;
+			$this->settings = $clean_settings_value;
 		}
+	}
+
+	/**
+	 * Clean the settings by removing possibly dirty settings that are no longer available.
+	 *
+	 * @param array $new_settings The complete group of settings that we want to save.
+	 *
+	 * @return array The cleaned group of settings that can be saved.
+	 */
+	protected function clean_settings( $new_settings ) {
+		$settings_per_model = [];
+		foreach ( array_keys( $this->initializers ) as $model_name ) {
+			// This might initialize models at this point.
+			$model                = $this->get_settings_model( $model_name );
+			$settings_per_model[] = array_keys( $model->get_settings() );
+		}
+
+		// Merge all settings into 1 array.
+		$valid_settings = array_merge( [], ...$settings_per_model );
+
+		// Return only the valid settings with their values.
+		return array_intersect_key(
+			$new_settings,
+			array_flip( $valid_settings )
+		);
 	}
 
 	/**

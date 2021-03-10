@@ -10,6 +10,7 @@ use Yoast\WP\SEO\Models\Settings\Search_Engine_Verify_Settings;
 use Yoast\WP\SEO\Models\Settings\Social_Settings;
 use Yoast\WP\SEO\Models\Settings_Model;
 use Yoast\WP\SEO\Repositories\Settings_Repository;
+use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Settings_Model_Double;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
@@ -38,11 +39,14 @@ class Settings_Repository_Test extends TestCase {
 		Monkey\Functions\expect( 'get_option' )
 			->once()
 			->with( Settings_Repository::OPTION_NAME, [] )
-			->andReturn( [
-				'settings_key' => 'settings_value',
-			] );
+			->andReturn(
+				[
+					'settings_key' => 'settings_value',
+				]
+			);
 
 		$this->instance = new Settings_Repository();
+		$this->instance->add_initializer( 'settings-double', Settings_Model_Double::class );
 	}
 
 	/**
@@ -126,7 +130,7 @@ class Settings_Repository_Test extends TestCase {
 		$initializers = self::getPropertyValue( $this->instance, 'initializers' );
 
 		static::assertArrayHasKey( 'test-initializer', $initializers );
-		static::assertEquals( Settings_Model::class, $initializers[ 'test-initializer' ] );
+		static::assertEquals( Settings_Model::class, $initializers['test-initializer'] );
 	}
 
 	/**
@@ -202,6 +206,7 @@ class Settings_Repository_Test extends TestCase {
 			self::getPropertyValue( $this->instance, 'settings' )
 		);
 	}
+
 	/**
 	 * Tests saving the settings where update_option fails.
 	 *
@@ -223,6 +228,43 @@ class Settings_Repository_Test extends TestCase {
 				'new_settings_key' => 'new_settings_value',
 			]
 		);
+
+		self::assertSame(
+			$expected_settings,
+			self::getPropertyValue( $this->instance, 'settings' )
+		);
+	}
+
+	/**
+	 * Test that no longer available options are discarded when saving the options.
+	 *
+	 * @covers ::save
+	 * @covers ::clean_settings
+	 */
+	public function test_save_should_discard_no_longer_available_options() {
+		$expected_settings = [
+			'settings_key' => 'settings_value',
+		];
+
+		Monkey\Functions\expect( 'get_option' )
+			->once()
+			->with( Settings_Repository::OPTION_NAME, [] )
+			->andReturn(
+				[
+					'settings_key'               => 'settings_value',
+					'no_longer_available_option' => 'old_value',
+				]
+			);
+
+		$instance = new Settings_Repository();
+		$instance->add_initializer( 'settings-double', Settings_Model_Double::class );
+
+		Monkey\Functions\expect( 'update_option' )
+			->once()
+			->with( Settings_Repository::OPTION_NAME, $expected_settings, true )
+			->andReturn( true );
+
+		$instance->save( [] );
 
 		self::assertSame(
 			$expected_settings,
