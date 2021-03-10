@@ -68,9 +68,10 @@ class WP_Robots_Integration implements Integration_Interface {
 
 		$merged_robots   = array_merge( $robots, $this->get_robots_value() );
 		$filtered_robots = $this->filter_robots_no_index( $merged_robots );
+		$sorted_robots   = $this->sort_robots( $filtered_robots );
 
 		// Filter all falsy-null robot values.
-		return array_filter( $filtered_robots );
+		return array_filter( $sorted_robots );
 	}
 
 	/**
@@ -148,6 +149,36 @@ class WP_Robots_Integration implements Integration_Interface {
 		$robots['max-snippet']       = null;
 		$robots['max-image-preview'] = null;
 		$robots['max-video-preview'] = null;
+
+		return $robots;
+	}
+
+	/**
+	 * Sorts the robots array.
+	 *
+	 * @param array $robots The robots array.
+	 *
+	 * @return array The sorted robots array.
+	 */
+	protected function sort_robots( $robots ) {
+		\uksort(
+			$robots,
+			function ( $a, $b ) {
+				$order = [
+					'index'             => 0,
+					'follow'            => 1,
+					'max-snippet'       => 2,
+					'max-image-preview' => 3,
+					'max-video-preview' => 4,
+					'archive'           => 5,
+					'snippet'           => 6,
+				];
+				$ai    = isset( $order[ $a ] ) ? $order[ $a ] : 7;
+				$bi    = isset( $order[ $b ] ) ? $order[ $b ] : 7;
+
+				return ( $bi - $ai );
+			}
+		);
 
 		return $robots;
 	}
