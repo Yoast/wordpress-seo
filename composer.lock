@@ -916,6 +916,7 @@
                 "shasum": ""
             },
             "require-dev": {
+                "friendsofphp/php-cs-fixer": "@stable",
                 "nikic/php-parser": "@stable",
                 "php": "^8.0",
                 "phpdocumentor/reflection-docblock": "@stable",
@@ -947,7 +948,7 @@
             "support": {
                 "source": "https://github.com/JetBrains/phpstorm-stubs/tree/master"
             },
-            "time": "2021-02-19T12:50:54+00:00"
+            "time": "2021-03-10T17:24:24+00:00"
         },
         {
             "name": "league/oauth2-client",
