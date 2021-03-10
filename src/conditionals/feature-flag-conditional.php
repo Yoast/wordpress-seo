@@ -15,6 +15,11 @@ abstract class Feature_Flag_Conditional implements Conditional {
 	public function is_met() {
 		$feature_flag = \strtoupper( static::get_feature_flag() );
 
+		/**
+		 * Filter: 'wpseo_enable_feature_flags' - Allows filtering the enabled feature flags.
+		 *
+		 * @api array - The enabled feature flags.
+		 */
 		if ( in_array( $feature_flag, apply_filters( 'wpseo_enable_feature_flags', [] ) ) ) {
 			return true;
 		}
