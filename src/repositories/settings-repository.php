@@ -111,10 +111,29 @@ class Settings_Repository {
 			$class_name        = $this->initializers[ $settings_name ];
 			$initialized_model = new $class_name( $this );
 
+			$this->initialize_settings_for_model( $initialized_model, $this->settings );
 
 			$this->models[ $settings_name ] = $initialized_model;
 		}
 
 		return $this->models[ $settings_name ];
+	}
+
+	/**
+	 * Initializes the settings for the given model. It only sets the settings known by the repository.
+	 *
+	 * @param Settings_Model $model    The model to set the properties for.
+	 * @param array          $settings The settings to use for setting the properties.
+	 */
+	protected function initialize_settings_for_model( Settings_Model $model, $settings ) {
+		$setting_names = array_keys( $model->get_settings() );
+
+		foreach ( $setting_names as $setting_name ) {
+			if ( ! isset( $settings[ $setting_name ] ) ) {
+				continue;
+			}
+
+			$model->$setting_name = $settings[ $setting_name ];
+		}
 	}
 }
