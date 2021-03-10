@@ -77,6 +77,19 @@ abstract class Settings_Model {
 	}
 
 	/**
+	 * Saves the data to the repository.
+	 */
+	public function save() {
+		foreach ( $this->get_settings() as $name => $settings ) {
+			if ( ! isset( $this->values[ $name ] ) ) {
+				$this->values[ $name ] = $settings['default'];
+			}
+		}
+
+		$this->settings_repository->save( $this->values );
+	}
+
+	/**
 	 * Check if given setting exists.
 	 *
 	 * @param string $name Name of setting that might exist.
