@@ -234,6 +234,13 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 15.9.2 =
+Release Date: March 11th, 2021
+
+Bugfixes:
+
+* Fixes a bug where the order of the robots values was suboptimal when running WordPress 5.7. Note that the order has no effect on how the values are interpreted.
+
 = 15.9.1 =
 Release Date: March 4th, 2021
 
