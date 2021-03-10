@@ -1742,10 +1742,6 @@
   resolved "https://registry.yarnpkg.com/@yoast/style-guide/-/style-guide-0.13.0.tgz#69e41ddacc62e378fbc98df9aebe1d63115ea047"
   integrity sha512-6FpEKT/So8mixs+3ZuK9KJy0grsI0GKNLesGsyKEgx5ObRd9/vW7JLHiCJ+/DFgTKNQdzNRmcxrSTkSnV4DxLA==
 
-"a11y-speak@git+https://github.com/Yoast/a11y-speak.git#master":
-  version "0.0.1"
-  resolved "git+https://github.com/Yoast/a11y-speak.git#4e772809a2fed1a54ba29176ada175b15436e977"
-
 abab@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/abab/-/abab-2.0.0.tgz#aba0ab4c5eee2d4c79d3487d85450fb2376ebb0f"

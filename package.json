@@ -121,7 +121,6 @@
     "@yoast/search-metadata-previews": "^2.21.0-rc.0",
     "@yoast/social-metadata-forms": "^1.14.0-rc.0",
     "@yoast/style-guide": "^0.13.0",
-    "a11y-speak": "git+https://github.com/Yoast/a11y-speak.git#master",
     "babel-polyfill": "^6.26.0",
     "draft-js": "^0.10.5",
     "draft-js-mention-plugin": "^3.0.4",
