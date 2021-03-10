@@ -44,9 +44,9 @@ class WPSEO_Term_Metabox_Formatter_Test extends WPSEO_UnitTestCase {
 		$instance = new WPSEO_Term_Metabox_Formatter( null, null, [] );
 		$result   = $instance->get_values();
 
-		$this->assertFalse( array_key_exists( 'search_url', $result ) );
-		$this->assertFalse( array_key_exists( 'post_edit_url', $result ) );
-		$this->assertFalse( array_key_exists( 'base_url', $result ) );
+		$this->assertFalse( array_key_exists( 'searchUrl', $result ) );
+		$this->assertFalse( array_key_exists( 'postEditUrl', $result ) );
+		$this->assertFalse( array_key_exists( 'baseUrl', $result ) );
 	}
 
 	/**
@@ -75,13 +75,13 @@ class WPSEO_Term_Metabox_Formatter_Test extends WPSEO_UnitTestCase {
 
 		$wp_version = $_wp_version;
 
-		$this->assertEquals( $result['search_url'], admin_url( 'edit-tags.php?taxonomy=' . $this->term->taxonomy . '&seo_kw_filter={keyword}' ) );
-		$this->assertEquals( $result['post_edit_url'], admin_url( 'edit-tags.php?action=edit&taxonomy=' . $this->term->taxonomy . '&tag_ID={id}' ) );
+		$this->assertEquals( $result['searchUrl'], admin_url( 'edit-tags.php?taxonomy=' . $this->term->taxonomy . '&seo_kw_filter={keyword}' ) );
+		$this->assertEquals( $result['postEditUrl'], admin_url( 'edit-tags.php?action=edit&taxonomy=' . $this->term->taxonomy . '&tag_ID={id}' ) );
 
-		$this->assertEquals( trailingslashit( home_url( 'tag' ) ), $result['base_url'] );
-		$this->assertEquals( [ '' => [] ], $result['keyword_usage'] );
-		$this->assertEquals( '%%title%% %%sep%% %%sitename%%', $result['title_template'] );
-		$this->assertEquals( '', $result['metadesc_template'] );
+		$this->assertEquals( trailingslashit( home_url( 'tag' ) ), $result['baseUrl'] );
+		$this->assertEquals( [ '' => [] ], $result['keywordUsage'] );
+		$this->assertEquals( '%%title%% %%sep%% %%sitename%%', $result['titleTemplate'] );
+		$this->assertEquals( '', $result['metadescTemplate'] );
 	}
 
 	/**
@@ -101,7 +101,7 @@ class WPSEO_Term_Metabox_Formatter_Test extends WPSEO_UnitTestCase {
 
 		$wp_version = $_wp_version;
 
-		$this->assertEquals( $result['post_edit_url'], admin_url( 'term.php?action=edit&taxonomy=' . $this->term->taxonomy . '&tag_ID={id}' ) );
+		$this->assertEquals( $result['postEditUrl'], admin_url( 'term.php?action=edit&taxonomy=' . $this->term->taxonomy . '&tag_ID={id}' ) );
 	}
 
 	/**
@@ -118,8 +118,8 @@ class WPSEO_Term_Metabox_Formatter_Test extends WPSEO_UnitTestCase {
 		$instance = new WPSEO_Term_Metabox_Formatter( $this->taxonomy, $this->term );
 		$result   = $instance->get_values();
 
-		$this->assertEquals( $result['title_template'], 'This is a title' );
-		$this->assertEquals( $result['metadesc_template'], 'This is a meta description' );
+		$this->assertEquals( $result['titleTemplate'], 'This is a title' );
+		$this->assertEquals( $result['metadescTemplate'], 'This is a meta description' );
 	}
 
 	/**
@@ -135,7 +135,7 @@ class WPSEO_Term_Metabox_Formatter_Test extends WPSEO_UnitTestCase {
 		$instance = new WPSEO_Term_Metabox_Formatter( $this->taxonomy, $this->term );
 		$result   = $instance->get_values();
 
-		$this->assertEquals( '%%title%% %%sep%% %%sitename%%', $result['title_template'] );
-		$this->assertEquals( 'This is a meta description', $result['metadesc_template'] );
+		$this->assertEquals( '%%title%% %%sep%% %%sitename%%', $result['titleTemplate'] );
+		$this->assertEquals( 'This is a meta description', $result['metadescTemplate'] );
 	}
 }
