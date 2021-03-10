@@ -169,15 +169,9 @@ class WP_Robots_Integration implements Integration_Interface {
 					'noindex'           => 1,
 					'follow'            => 2,
 					'nofollow'          => 3,
-					'max-snippet'       => 4,
-					'max-image-preview' => 5,
-					'max-video-preview' => 6,
-					'archive'           => 7,
-					'noarchive'         => 8,
-					'snippet'           => 9,
 				];
-				$ai    = isset( $order[ $a ] ) ? $order[ $a ] : 10;
-				$bi    = isset( $order[ $b ] ) ? $order[ $b ] : 10;
+				$ai    = isset( $order[ $a ] ) ? $order[ $a ] : 4;
+				$bi    = isset( $order[ $b ] ) ? $order[ $b ] : 4;
 
 				return ( $bi - $ai );
 			}
