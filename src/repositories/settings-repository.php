@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Repositories;
 
+use Exception;
 use InvalidArgumentException;
 use Yoast\WP\SEO\Models\Settings\Open_Graph_Settings;
 use Yoast\WP\SEO\Models\Settings\Search_Engine_Verify_Settings;
@@ -80,6 +81,22 @@ class Settings_Repository {
 	}
 
 	// 	phpcs:enable Generic.CodeAnalysis.UnusedFunctionParameter.FoundAfterLastUsed
+
+	/**
+	 * Adds an initializer to the list of initializers..
+	 *
+	 * @param string $name       The name of the initializer.
+	 * @param string $class_name Fully Qualified Classname for class that extends Setting_Model to initialize.
+	 *
+	 * @throws Exception When the initializer already exists.
+	 */
+	public function add_initializer( $name, $class_name ) {
+		if ( array_key_exists( $name, $this->initializers ) ) {
+			throw new Exception( 'Initializer for ' . $name . ' already exists.' );
+		}
+
+		$this->initializers[ $name ] = $class_name;
+	}
 
 	/**
 	 * Handles the saving of the settings.

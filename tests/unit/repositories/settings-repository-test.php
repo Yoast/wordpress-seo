@@ -3,10 +3,12 @@
 namespace Yoast\WP\SEO\Tests\Unit\Repositories;
 
 use Brain\Monkey;
+use Exception;
 use InvalidArgumentException;
 use Yoast\WP\SEO\Models\Settings\Open_Graph_Settings;
 use Yoast\WP\SEO\Models\Settings\Search_Engine_Verify_Settings;
 use Yoast\WP\SEO\Models\Settings\Social_Settings;
+use Yoast\WP\SEO\Models\Settings_Model;
 use Yoast\WP\SEO\Repositories\Settings_Repository;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
@@ -79,7 +81,8 @@ class Settings_Repository_Test extends TestCase {
 	 * Tests the magic __call method for a supported setting.
 	 *
 	 * @covers ::__call
-	 * @covers ::get_setting
+	 * @covers ::get_settings_model
+	 * @covers ::initialize_settings_for_model
 	 *
 	 * @dataProvider supported_setting_provider
 	 *
@@ -110,6 +113,34 @@ class Settings_Repository_Test extends TestCase {
 				'method'            => 'for_search_engine_verifications',
 			],
 		];
+	}
+
+	/**
+	 * Tests adding an initializer to the list of initializers.
+	 *
+	 * @covers ::add_initializer
+	 */
+	public function test_adding_an_initializer() {
+		$this->instance->add_initializer( 'test-initializer', Settings_Model::class );
+
+		$initializers = self::getPropertyValue( $this->instance, 'initializers' );
+
+		static::assertArrayHasKey( 'test-initializer', $initializers );
+		static::assertEquals( Settings_Model::class, $initializers[ 'test-initializer' ] );
+	}
+
+	/**
+	 * Tests adding an existing initializer to the list of initializers.
+	 *
+	 * @covers ::add_initializer
+	 */
+	public function test_add_an_existing_initializer() {
+		$this->instance->add_initializer( 'test-initializer', Settings_Model::class );
+
+		$this->expectException( Exception::class );
+		$this->expectExceptionMessage( 'Initializer for test-initializer already exists.' );
+
+		$this->instance->add_initializer( 'test-initializer', Settings_Model::class );
 	}
 
 	/**
