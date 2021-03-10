@@ -243,6 +243,10 @@ Bugfixes:
 * Fixes a bug where a fatal error would be thrown when a post ancestor was not an indexable.
 * Fixes a bug where a fatal error would be thrown when both Yoast SEO and Polylang for WooCommerce were installed, and the site contained WooCommerce variable products. Props to [manooweb](https://github.com/manooweb).
 
+Other:
+
+* Sets the WordPress tested up to version to 5.7 and minimum supported WordPress version to 5.6.
+
 = 15.9.1 =
 Release Date: March 4th, 2021
 
