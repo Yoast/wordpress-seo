@@ -53,7 +53,7 @@ class Settings_Repository_Test extends TestCase {
 			[
 				'settings_key' => 'settings_value',
 			],
-			self::getPropertyValue( $this->instance, 'option_value' )
+			self::getPropertyValue( $this->instance, 'settings' )
 		);
 	}
 
@@ -130,22 +130,22 @@ class Settings_Repository_Test extends TestCase {
 	 * @covers ::save
 	 */
 	public function test_saving_settings_with_update_option_failed() {
-		$option_value = [
+		$settings = [
 			'settings_key' => 'new_settings_value',
 		];
 
 		Monkey\Functions\expect( 'update_option' )
 			->once()
-			->with( Settings_Repository::OPTION_NAME, $option_value, true )
+			->with( Settings_Repository::OPTION_NAME, $settings, true )
 			->andReturnFalse();
 
-		$this->instance->save( $option_value );
+		$this->instance->save( $settings );
 
 		self::assertSame(
 			[
 				'settings_key' => 'settings_value',
 			],
-			self::getPropertyValue( $this->instance, 'option_value' )
+			self::getPropertyValue( $this->instance, 'settings' )
 		);
 	}
 
@@ -155,20 +155,20 @@ class Settings_Repository_Test extends TestCase {
 	 * @covers ::save
 	 */
 	public function test_saving_settings_where_an_existing_value_is_changed() {
-		$option_value = [
+		$settings = [
 			'settings_key' => 'new_settings_value',
 		];
 
 		Monkey\Functions\expect( 'update_option' )
 			->once()
-			->with( Settings_Repository::OPTION_NAME, $option_value, true )
+			->with( Settings_Repository::OPTION_NAME, $settings, true )
 			->andReturnTrue();
 
-		$this->instance->save( $option_value );
+		$this->instance->save( $settings );
 
 		self::assertSame(
-			$option_value,
-			self::getPropertyValue( $this->instance, 'option_value' )
+			$settings,
+			self::getPropertyValue( $this->instance, 'settings' )
 		);
 	}
 	/**
@@ -177,14 +177,14 @@ class Settings_Repository_Test extends TestCase {
 	 * @covers ::save
 	 */
 	public function test_saving_settings_where_a_new_value_is_added() {
-		$expected_option_value = [
+		$expected_settings = [
 			'settings_key'     => 'settings_value',
 			'new_settings_key' => 'new_settings_value',
 		];
 
 		Monkey\Functions\expect( 'update_option' )
 			->once()
-			->with( Settings_Repository::OPTION_NAME, $expected_option_value, true )
+			->with( Settings_Repository::OPTION_NAME, $expected_settings, true )
 			->andReturn( true );
 
 		$this->instance->save(
@@ -194,8 +194,8 @@ class Settings_Repository_Test extends TestCase {
 		);
 
 		self::assertSame(
-			$expected_option_value,
-			self::getPropertyValue( $this->instance, 'option_value' )
+			$expected_settings,
+			self::getPropertyValue( $this->instance, 'settings' )
 		);
 	}
 }

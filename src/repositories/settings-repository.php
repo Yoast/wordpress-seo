@@ -38,20 +38,20 @@ class Settings_Repository {
 	 *
 	 * @var array<string, Settings_Model>
 	 */
-	protected $settings = [];
+	protected $models = [];
 
 	/**
-	 * Represents the current state for the option value from that database.
+	 * Represents the current state for the settings.
 	 *
 	 * @var array
 	 */
-	protected $option_value;
+	protected $settings;
 
 	/**
-	 * Sets the current options state with value from the option.
+	 * Sets the current settings state with value from the option.
 	 */
 	public function __construct() {
-		$this->option_value = \get_option( self::OPTION_NAME, [] );
+		$this->settings = \get_option( self::OPTION_NAME, [] );
 	}
 
 	/**
@@ -76,7 +76,7 @@ class Settings_Repository {
 			return null;
 		}
 
-		return $this->get_setting( $settings_name );
+		return $this->get_settings_model( $settings_name );
 	}
 
 	// 	phpcs:enable Generic.CodeAnalysis.UnusedFunctionParameter.FoundAfterLastUsed
@@ -91,11 +91,11 @@ class Settings_Repository {
 			throw new InvalidArgumentException( 'Settings is not an array' );
 		}
 
-		$new_option_value = \array_replace_recursive( $this->option_value, $settings );
+		$new_option_value = \array_replace_recursive( $this->settings, $settings );
 		$is_saved         = \update_option( self::OPTION_NAME, $new_option_value, true );
 
 		if ( $is_saved ) {
-			$this->option_value = $new_option_value;
+			$this->settings = $new_option_value;
 		}
 	}
 
@@ -106,13 +106,15 @@ class Settings_Repository {
 	 *
 	 * @return Settings_Model The initialized class for given settings name.
 	 */
-	protected function get_setting( $settings_name ) {
-		if ( ! array_key_exists( $settings_name, $this->settings ) ) {
-			$class_name = $this->initializers[ $settings_name ];
+	protected function get_settings_model( $settings_name ) {
+		if ( ! array_key_exists( $settings_name, $this->models ) ) {
+			$class_name        = $this->initializers[ $settings_name ];
+			$initialized_model = new $class_name( $this );
 
-			$this->settings[ $settings_name ] = new $class_name( $this );
+
+			$this->models[ $settings_name ] = $initialized_model;
 		}
 
-		return $this->settings[ $settings_name ];
+		return $this->models[ $settings_name ];
 	}
 }
