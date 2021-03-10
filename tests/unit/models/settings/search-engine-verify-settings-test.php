@@ -2,7 +2,9 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Models\Settings;
 
+use Mockery;
 use Yoast\WP\SEO\Models\Settings\Search_Engine_Verify_Settings;
+use Yoast\WP\SEO\Repositories\Settings_Repository;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 
@@ -25,12 +27,20 @@ class Search_Engine_Verify_Settings_Test extends TestCase {
 	protected $instance;
 
 	/**
+	 * Represents the settings repository.
+	 *
+	 * @var Mockery\MockInterface|Settings_Repository
+	 */
+	protected $settings_repository;
+
+	/**
 	 * Sets up the class under test and mock objects.
 	 */
 	public function set_up() {
 		parent::set_up();
 
-		$this->instance = new Search_Engine_Verify_Settings();
+		$this->settings_repository = Mockery::mock( Settings_Repository::class );
+		$this->instance            = new Search_Engine_Verify_Settings( $this->settings_repository );
 	}
 
 	/**

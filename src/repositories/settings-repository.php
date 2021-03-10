@@ -44,7 +44,7 @@ class Settings_Repository {
 	 *
 	 * @phpcs:disable Generic.CodeAnalysis.UnusedFunctionParameter.FoundAfterLastUsed -- $arguments will be implemented later.
 	 */
-	public function __call( $method, $arguments = null ) {
+	public function __call( $method, $arguments ) {
 		if ( strpos( $method, 'for_' ) !== 0 ) {
 			return null;
 		}
@@ -72,7 +72,7 @@ class Settings_Repository {
 		if ( ! array_key_exists( $settings_name, $this->settings ) ) {
 			$class_name = $this->initializers[ $settings_name ];
 
-			$this->settings[ $settings_name ] = new $class_name();
+			$this->settings[ $settings_name ] = new $class_name( $this );
 		}
 
 		return $this->settings[ $settings_name ];
