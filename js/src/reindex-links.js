@@ -3,7 +3,7 @@
 const settings = yoastReindexLinksData.data;
 let linkIndexingCompleted = false;
 
-import a11ySpeak from "a11y-speak";
+import { speak } from "@wordpress/a11y";
 
 /**
  * Represents the progressbar for the reindexing for the links.
@@ -98,7 +98,7 @@ function reindexLinks() {
  */
 function completeReindexing() {
 	linkIndexingCompleted = true;
-	a11ySpeak( settings.l10n.calculationCompleted );
+	speak( settings.l10n.calculationCompleted );
 	jQuery( "#reindexLinks" ).html( settings.message.indexingCompleted );
 
 	tb_remove();
@@ -110,7 +110,7 @@ function completeReindexing() {
  * @returns {void}
  */
 function startReindexing() {
-	a11ySpeak( settings.l10n.calculationInProgress );
+	speak( settings.l10n.calculationInProgress );
 
 	const promises = [];
 	promises.push( reindexLinks() );
