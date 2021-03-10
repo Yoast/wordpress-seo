@@ -20,7 +20,8 @@
     "@wordpress/i18n": "^1.2.3",
     "prop-types": "^15.7.2",
     "styled-components": "^2.4.1",
-    "whatwg-fetch": "1.1.1"
+    "whatwg-fetch": "1.1.1",
+    "wicked-good-xpath": "^1.3.0"
   },
   "peerDependencies": {
     "react": "^16.12.0"
@@ -37,8 +38,7 @@
     "@yoast/browserslist-config": "^1.2.2",
     "browserslist": "^4.7.3",
     "jest-styled-components": "^5.0.1",
-    "react-test-renderer": "^16.8.6",
-    "wicked-good-xpath": "^1.3.0"
+    "react-test-renderer": "^16.8.6"
   },
   "publishConfig": {
     "access": "public"
