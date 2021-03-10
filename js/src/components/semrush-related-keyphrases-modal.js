@@ -12,7 +12,7 @@ import { NewButton, ButtonStyledLink } from "@yoast/components";
 import { ModalContainer } from "./modals/container";
 import Modal from "./modals/modal";
 import YoastIcon from "../../../images/Yoast_icon_kader.svg";
-import { isCloseEvent } from "./modals/editorModals/EditorModal.js";
+import { isCloseEvent } from "./modals/editorModals/editor-modal.js";
 
 /**
  * Redux container for the RelatedKeyPhrasesModal modal.

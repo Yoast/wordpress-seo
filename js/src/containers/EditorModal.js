@@ -2,7 +2,7 @@
 import { compose } from "@wordpress/compose";
 import { withDispatch, withSelect } from "@wordpress/data";
 
-import EditorModal from "../components/modals/editorModals/EditorModal";
+import EditorModal from "../components/modals/editorModals/editor-modal";
 
 export default compose( [
 	withSelect( ( select, ownProps ) => {

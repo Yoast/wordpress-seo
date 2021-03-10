@@ -3,7 +3,7 @@ import { ContentAnalysis } from "@yoast/analysis-report";
 import { Component, Fragment } from "@wordpress/element";
 import { Paper } from "yoastseo";
 
-import mapResults from "./mapResults";
+import mapResults from "./map-results";
 
 /**
  * Wrapper to provide functionality to the ContentAnalysis component.
