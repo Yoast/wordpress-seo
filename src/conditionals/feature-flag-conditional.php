@@ -14,7 +14,7 @@ abstract class Feature_Flag_Conditional implements Conditional {
 	 */
 	public function is_met() {
 		$feature_flag = \strtoupper( static::get_feature_flag() );
-		if ( in_array( $feature_flag, apply_filters( 'wpseo_enable_features', [] ) ) ) {
+		if ( in_array( $feature_flag, apply_filters( 'wpseo_enable_feature', [] ) ) ) {
 			return true;
 		}
 		return \defined( 'YOAST_SEO_' . $feature_flag ) && \constant( 'YOAST_SEO_' . $feature_flag ) === true;
