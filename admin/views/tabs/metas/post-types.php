@@ -42,7 +42,7 @@ if ( is_array( $wpseo_post_types ) && $wpseo_post_types !== [] ) {
 					'wpseo_post_type'           => $post_type,
 					'view_utils'                => $view_utils,
 					'recommended_replace_vars'  => $recommended_replace_vars,
-					'editorSpecificReplaceVars' => $editor_specific_replace_vars,
+					'editor_specific_replace_vars' => $editor_specific_replace_vars,
 				],
 				'title'       => $post_type->labels->name,
 				'title_after' => ' (<code>' . esc_html( $post_type->name ) . '</code>)',
