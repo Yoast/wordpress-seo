@@ -3,6 +3,7 @@
 namespace Yoast\WP\SEO\Tests\Unit\Repositories;
 
 use Brain\Monkey;
+use InvalidArgumentException;
 use Yoast\WP\SEO\Models\Settings\Open_Graph_Settings;
 use Yoast\WP\SEO\Models\Settings\Search_Engine_Verify_Settings;
 use Yoast\WP\SEO\Models\Settings\Social_Settings;
@@ -109,5 +110,92 @@ class Settings_Repository_Test extends TestCase {
 				'method'            => 'for_search_engine_verifications',
 			],
 		];
+	}
+
+	/**
+	 * Tests saving of the settings with the settings not being an array.
+	 *
+	 * @covers ::save
+	 */
+	public function test_save_invalid_settings_given() {
+		$this->expectException( InvalidArgumentException::class );
+		$this->expectExceptionMessage( 'Settings is not an array' );
+
+		$this->instance->save( 'invalid settings' );
+	}
+
+	/**
+	 * Tests saving the settings where update_option fails.
+	 *
+	 * @covers ::save
+	 */
+	public function test_saving_settings_with_update_option_failed() {
+		$option_value = [
+			'settings_key' => 'new_settings_value',
+		];
+
+		Monkey\Functions\expect( 'update_option' )
+			->once()
+			->with( Settings_Repository::OPTION_NAME, $option_value, true )
+			->andReturnFalse();
+
+		$this->instance->save( $option_value );
+
+		self::assertSame(
+			[
+				'settings_key' => 'settings_value',
+			],
+			self::getPropertyValue( $this->instance, 'option_value' )
+		);
+	}
+
+	/**
+	 * Tests saving the settings where update_option fails.
+	 *
+	 * @covers ::save
+	 */
+	public function test_saving_settings_where_an_existing_value_is_changed() {
+		$option_value = [
+			'settings_key' => 'new_settings_value',
+		];
+
+		Monkey\Functions\expect( 'update_option' )
+			->once()
+			->with( Settings_Repository::OPTION_NAME, $option_value, true )
+			->andReturnTrue();
+
+		$this->instance->save( $option_value );
+
+		self::assertSame(
+			$option_value,
+			self::getPropertyValue( $this->instance, 'option_value' )
+		);
+	}
+	/**
+	 * Tests saving the settings where update_option fails.
+	 *
+	 * @covers ::save
+	 */
+	public function test_saving_settings_where_a_new_value_is_added() {
+		$expected_option_value = [
+			'settings_key'     => 'settings_value',
+			'new_settings_key' => 'new_settings_value',
+		];
+
+		Monkey\Functions\expect( 'update_option' )
+			->once()
+			->with( Settings_Repository::OPTION_NAME, $expected_option_value, true )
+			->andReturn( true );
+
+		$this->instance->save(
+			[
+				'new_settings_key' => 'new_settings_value',
+			]
+		);
+
+		self::assertSame(
+			$expected_option_value,
+			self::getPropertyValue( $this->instance, 'option_value' )
+		);
 	}
 }

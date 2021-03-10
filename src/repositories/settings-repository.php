@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Repositories;
 
+use InvalidArgumentException;
 use Yoast\WP\SEO\Models\Settings\Open_Graph_Settings;
 use Yoast\WP\SEO\Models\Settings\Search_Engine_Verify_Settings;
 use Yoast\WP\SEO\Models\Settings\Social_Settings;
@@ -79,6 +80,24 @@ class Settings_Repository {
 	}
 
 	// 	phpcs:enable Generic.CodeAnalysis.UnusedFunctionParameter.FoundAfterLastUsed
+
+	/**
+	 * Handles the saving of the settings.
+	 *
+	 * @param array $settings The settings to save.
+	 */
+	public function save( $settings ) {
+		if ( ! is_array( $settings ) ) {
+			throw new InvalidArgumentException( 'Settings is not an array' );
+		}
+
+		$new_option_value = \array_replace_recursive( $this->option_value, $settings );
+		$is_saved         = \update_option( self::OPTION_NAME, $new_option_value, true );
+
+		if ( $is_saved ) {
+			$this->option_value = $new_option_value;
+		}
+	}
 
 	/**
 	 * Gets the settings class for given settings name.
