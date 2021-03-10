@@ -150,10 +150,10 @@ class WPSEO_Admin_Pages {
 		$replace_vars_list            = $replace_vars->get_replacement_variables_list();
 
 		return [
-			'replaceVars'                  => $replace_vars_list,
-			'recommendedReplaceVars'       => $recommended_replace_vars->get_recommended_replacevars(),
+			'replaceVars'               => $replace_vars_list,
+			'recommendedReplaceVars'    => $recommended_replace_vars->get_recommended_replacevars(),
 			'editorSpecificReplaceVars' => $editor_specific_replace_vars->get(),
-			'sharedReplaceVars'          => $editor_specific_replace_vars->get_generic( $replace_vars_list ),
+			'sharedReplaceVars'         => $editor_specific_replace_vars->get_generic( $replace_vars_list ),
 		];
 	}
 

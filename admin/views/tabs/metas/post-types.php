@@ -39,9 +39,9 @@ if ( is_array( $wpseo_post_types ) && $wpseo_post_types !== [] ) {
 				'expanded'    => ( $wpseo_post_type_index === 0 ),
 				'paper_id'    => 'settings-' . $post_type->name,
 				'view_data'   => [
-					'wpseo_post_type'              => $post_type,
-					'view_utils'                   => $view_utils,
-					'recommended_replace_vars'     => $recommended_replace_vars,
+					'wpseo_post_type'           => $post_type,
+					'view_utils'                => $view_utils,
+					'recommended_replace_vars'  => $recommended_replace_vars,
 					'editorSpecificReplaceVars' => $editor_specific_replace_vars,
 				],
 				'title'       => $post_type->labels->name,

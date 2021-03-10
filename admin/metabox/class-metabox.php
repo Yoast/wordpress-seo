@@ -877,7 +877,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				'replaceVars'            => $this->get_replace_vars(),
 				'recommendedReplaceVars' => $this->get_recommended_replace_vars(),
 				'scope'                  => $this->determine_scope(),
-				'hasTaxonomies'         => $this->current_post_type_has_taxonomies(),
+				'hasTaxonomies'          => $this->current_post_type_has_taxonomies(),
 			],
 			'shortcodes' => [
 				'wpseo_filter_shortcodes_nonce' => wp_create_nonce( 'wpseo-filter-shortcodes' ),
@@ -890,7 +890,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			'keywordsAssessmentUrl' => $used_keywords_assessment_location->get_url( $used_keywords_assessment_location->get_asset(), WPSEO_Admin_Asset::TYPE_JS ),
 			'logLevel'              => WPSEO_Utils::get_analysis_worker_log_level(),
 			// We need to make the feature flags separately available inside of the analysis web worker.
-			'enabledFeatures'      => WPSEO_Utils::retrieve_enabled_features(),
+			'enabledFeatures'       => WPSEO_Utils::retrieve_enabled_features(),
 		];
 
 		$alert_dismissal_action = YoastSEO()->classes->get( \Yoast\WP\SEO\Actions\Alert_Dismissal_Action::class );
