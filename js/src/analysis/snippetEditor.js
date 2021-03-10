@@ -52,9 +52,9 @@ function getTemplatesFromL10n( l10nObject ) {
 		return templates;
 	}
 
-	templates.title = l10nObject.title_template;
+	templates.title = l10nObject.titleTemplate;
 
-	const description = l10nObject.metadesc_template;
+	const description = l10nObject.metadescTemplate;
 	if ( ! isEmpty( description ) ) {
 		templates.description = description;
 	}

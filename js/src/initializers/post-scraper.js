@@ -129,7 +129,7 @@ export default function initPostScraper( $, store, editorData ) {
 	 * @returns {boolean} True when markers should be shown.
 	 */
 	function displayMarkers() {
-		return ! isBlockEditor() && wpseoScriptData.metabox.show_markers === "1";
+		return ! isBlockEditor() && wpseoScriptData.metabox.showMarkers === "1";
 	}
 
 	/**

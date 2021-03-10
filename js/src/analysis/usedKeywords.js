@@ -25,11 +25,11 @@ var $ = jQuery;
 export default function UsedKeywords( ajaxAction, options, refreshAnalysis, scriptUrl ) {
 	this._scriptUrl = scriptUrl;
 	this._options = {
-		usedKeywords: options.keyword_usage,
-		searchUrl: options.search_url,
-		postUrl: options.post_edit_url,
+		usedKeywords: options.keywordUsage,
+		searchUrl: options.searchUrl,
+		postUrl: options.postEditUrl,
 	};
-	this._keywordUsage = options.keyword_usage;
+	this._keywordUsage = options.keywordUsage;
 	this._postID = $( "#post_ID, [name=tag_ID]" ).val();
 	this._taxonomy = $( "[name=taxonomy]" ).val() || "";
 	this._ajaxAction = ajaxAction;

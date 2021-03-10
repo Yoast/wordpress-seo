@@ -185,7 +185,7 @@ TermDataCollector.prototype.getName = function() {
  * @returns {string} The base url.
  */
 TermDataCollector.prototype.getBaseUrl = function() {
-	return wpseoScriptData.metabox.base_url;
+	return wpseoScriptData.metabox.baseUrl;
 };
 
 /**

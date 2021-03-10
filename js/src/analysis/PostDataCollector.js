@@ -229,7 +229,7 @@ PostDataCollector.prototype.getPrimaryCategory = function() {
  * @returns {string} The search url.
  */
 PostDataCollector.prototype.getSearchUrl = function() {
-	return wpseoScriptData.metabox.search_url;
+	return wpseoScriptData.metabox.searchUrl;
 };
 
 /**
@@ -238,7 +238,7 @@ PostDataCollector.prototype.getSearchUrl = function() {
  * @returns {string} The post url.
  */
 PostDataCollector.prototype.getPostUrl = function() {
-	return wpseoScriptData.metabox.post_edit_url;
+	return wpseoScriptData.metabox.postEditUrl;
 };
 
 /**
@@ -249,7 +249,7 @@ PostDataCollector.prototype.getPostUrl = function() {
 PostDataCollector.prototype.getPermalink = function() {
 	var url = this.getUrl();
 
-	return wpseoScriptData.metabox.base_url + url;
+	return wpseoScriptData.metabox.baseUrl + url;
 };
 
 /**

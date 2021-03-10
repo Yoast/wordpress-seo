@@ -23,7 +23,7 @@ String.prototype.ucfirst = function() {
  * @returns {String} A string with label and description with correct text decoration.
  */
 function createSEOScoreLabel( scoreType, status ) {
-	return wpseoScriptData.metabox.publish_box.labels[ scoreType ][ status ] || "";
+	return wpseoScriptData.metabox.publishBox.labels[ scoreType ][ status ] || "";
 }
 
 /**

@@ -334,7 +334,7 @@
 			} ).insertBefore( table );
 
 			// Set the hint message text.
-			scrollHint.find( ".yoast-table-scrollable__hint" ).text( wpseoAdminGlobalL10n.scrollable_table_hint );
+			scrollHint.find( ".yoast-table-scrollable__hint" ).text( wpseoAdminGlobalL10n.scrollableTableHint );
 
 			// For each table, store a reference to its wrapper element.
 			table.data( "scrollContainer", scrollContainer );
