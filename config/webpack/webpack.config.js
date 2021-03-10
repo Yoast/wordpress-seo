@@ -261,7 +261,7 @@ module.exports = function( env ) {
 			},
 			output: {
 				path: path.resolve(),
-				filename: "js/dist/yoast/[name]-" + pluginVersionSlug + ".js",
+				filename: "packages/js/dist/yoast/[name]-" + pluginVersionSlug + ".js",
 				jsonpFunction: "yoastWebpackJsonp",
 			},
 			externals: {

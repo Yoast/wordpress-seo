@@ -50,7 +50,7 @@ const wordpressPackages = [
 /**
  * Yoast dependencies, declared as such in the package.json.
  */
-const { dependencies } = require( "../../package" );
+const { dependencies } = require( "../../packages/js/package" );
 const legacyYoastPackages = [ "yoast-components" ];
 
 const YOAST_PACKAGE_NAMESPACE = "@yoast/";
