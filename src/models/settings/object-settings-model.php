@@ -20,7 +20,7 @@ abstract class Object_Settings_Model extends Settings_Model {
 	/**
 	 * Object_Settings_Model constructor.
 	 *
-	 * @param Settings_Repository $settings_repository
+	 * @param Settings_Repository $settings_repository The settings repository.
 	 * @param string              $object_name         The object name to set.
 	 */
 	public function __construct( Settings_Repository $settings_repository, $object_name ) {

@@ -111,9 +111,11 @@ class Settings_Model_Test extends TestCase {
 		$this->settings_repository
 			->expects( 'save' )
 			->once()
-			->with( [
-				'settings_key' => 'settings_value',
-			] );
+			->with(
+				[
+					'settings_key' => 'settings_value',
+				]
+			);
 
 		$this->instance->save();
 	}
@@ -138,9 +140,11 @@ class Settings_Model_Test extends TestCase {
 		$this->settings_repository
 			->expects( 'save' )
 			->once()
-			->with( [
-				'settings_key' => 'default_settings_value',
-			] );
+			->with(
+				[
+					'settings_key' => 'default_settings_value',
+				]
+			);
 
 		$this->instance->save();
 	}
