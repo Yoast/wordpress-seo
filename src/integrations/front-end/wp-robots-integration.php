@@ -173,7 +173,7 @@ class WP_Robots_Integration implements Integration_Interface {
 				$ai    = isset( $order[ $a ] ) ? $order[ $a ] : 4;
 				$bi    = isset( $order[ $b ] ) ? $order[ $b ] : 4;
 
-				return ( $bi - $ai );
+				return ( $ai - $bi );
 			}
 		);
 
