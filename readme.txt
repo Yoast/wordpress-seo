@@ -4,7 +4,7 @@ Donate link: https://yoa.st/1up
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
-Tested up to: 5.6
+Tested up to: 5.7
 Stable tag: 15.9.1
 Requires PHP: 5.6.20
 
@@ -233,6 +233,13 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 6. Easily import SEO data from other SEO plugins like All In One SEO pack, HeadSpace2 SEO and wpSEO.de.
 
 == Changelog ==
+
+= 15.9.2 =
+Release Date: March 11th, 2021
+
+Bugfixes:
+
+* Fixes a bug where the order of the robots values was suboptimal when running WordPress 5.7. Note that the order has no effect on how the values are interpreted.
 
 = 15.9.1 =
 Release Date: March 4th, 2021
