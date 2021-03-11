@@ -33,8 +33,8 @@ class SettingsReplacementVariableEditors extends Component {
 	 */
 	filterEditorSpecificReplaceVars( replacementVariables, pageType ) {
 		const {
-			editor_specific_replace_vars: editorSpecificReplaceVars = {},
-			shared_replace_vars: sharedReplaceVars,
+			editorSpecificReplaceVars: editorSpecificReplaceVars = {},
+			sharedReplaceVars: sharedReplaceVars,
 		} = wpseoScriptData.analysis.plugins.replaceVars;
 
 		const pageTypeSpecificReplaceVars = editorSpecificReplaceVars[ pageType ] || [];

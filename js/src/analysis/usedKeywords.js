@@ -14,9 +14,9 @@ var $ = jQuery;
  *
  * @param {string}   ajaxAction            The ajax action to use when retrieving the used keywords data.
  * @param {Object}   options               The options for the used keywords assessment plugin.
- * @param {Object}   options.keyword_usage An object that contains the keyword usage when instantiating.
- * @param {Object}   options.search_url    The URL to link the user to if the keyword has been used multiple times.
- * @param {Object}   options.post_edit_url The URL to link the user to if the keyword has been used a single time.
+ * @param {Object}   options.keywordUsage  An object that contains the keyword usage when instantiating.
+ * @param {Object}   options.searchUrl     The URL to link the user to if the keyword has been used multiple times.
+ * @param {Object}   options.postEditUrl   The URL to link the user to if the keyword has been used a single time.
  * @param {Function} refreshAnalysis       Function that triggers a refresh of the analysis.
  * @param {string}   scriptUrl             The URL to the used keywords assessment script.
  *
@@ -25,11 +25,11 @@ var $ = jQuery;
 export default function UsedKeywords( ajaxAction, options, refreshAnalysis, scriptUrl ) {
 	this._scriptUrl = scriptUrl;
 	this._options = {
-		usedKeywords: options.keyword_usage,
-		searchUrl: options.search_url,
-		postUrl: options.post_edit_url,
+		usedKeywords: options.keywordUsage,
+		searchUrl: options.searchUrl,
+		postUrl: options.postEditUrl,
 	};
-	this._keywordUsage = options.keyword_usage;
+	this._keywordUsage = options.keywordUsage;
 	this._postID = $( "#post_ID, [name=tag_ID]" ).val();
 	this._taxonomy = $( "[name=taxonomy]" ).val() || "";
 	this._ajaxAction = ajaxAction;

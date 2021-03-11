@@ -68,14 +68,14 @@ export default function initAdmin( jQuery ) {
 			/* eslint-disable no-negated-condition */
 			if ( e.val().search( "%%" + variable + "%%" ) !== -1 ) {
 				e.addClass( "wpseo-variable-warning-element" );
-				var msg = wpseoAdminGlobalL10n.variable_warning.replace( "%s", "%%" + variable + "%%" );
+				var msg = wpseoAdminGlobalL10n.variableWarning.replace( "%s", "%%" + variable + "%%" );
 				if ( jQuery( "#" + errorId ).length ) {
 					jQuery( "#" + errorId ).html( msg );
 				} else {
 					e.after( ' <div id="' + errorId + '" class="wpseo-variable-warning">' + msg + "</div>" );
 				}
 
-				speak( wpseoAdminGlobalL10n.variable_warning.replace( "%s", variable ), "assertive" );
+				speak( wpseoAdminGlobalL10n.variableWarning.replace( "%s", variable ), "assertive" );
 
 				warn = true;
 			} else {

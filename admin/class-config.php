@@ -123,7 +123,7 @@ class WPSEO_Admin_Pages {
 			wp_enqueue_media();
 
 			$script_data['media'] = [
-				'choose_image' => __( 'Use Image', 'wordpress-seo' ),
+				'chooseImage' => __( 'Use Image', 'wordpress-seo' ),
 			];
 		}
 
@@ -150,10 +150,10 @@ class WPSEO_Admin_Pages {
 		$replace_vars_list            = $replace_vars->get_replacement_variables_list();
 
 		return [
-			'replace_vars'                 => $replace_vars_list,
-			'recommended_replace_vars'     => $recommended_replace_vars->get_recommended_replacevars(),
-			'editor_specific_replace_vars' => $editor_specific_replace_vars->get(),
-			'shared_replace_vars'          => $editor_specific_replace_vars->get_generic( $replace_vars_list ),
+			'replaceVars'               => $replace_vars_list,
+			'recommendedReplaceVars'    => $recommended_replace_vars->get_recommended_replacevars(),
+			'editorSpecificReplaceVars' => $editor_specific_replace_vars->get(),
+			'sharedReplaceVars'         => $editor_specific_replace_vars->get_generic( $replace_vars_list ),
 		];
 	}
 

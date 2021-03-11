@@ -55,21 +55,21 @@ class WPSEO_Metabox_Formatter {
 		$schema_types         = new Schema_Types();
 
 		return [
-			'author_name'                 => get_the_author_meta( 'display_name' ),
-			'site_name'                   => get_bloginfo( 'name' ),
-			'sitewide_social_image'       => WPSEO_Options::get( 'og_default_image' ),
-			'search_url'                  => '',
-			'post_edit_url'               => '',
-			'base_url'                    => '',
+			'authorName'                  => get_the_author_meta( 'display_name' ),
+			'siteName'                    => get_bloginfo( 'name' ),
+			'sitewideSocialImage'         => WPSEO_Options::get( 'og_default_image' ),
+			'searchUrl'                   => '',
+			'postEditUrl'                 => '',
+			'baseUrl'                     => '',
 			'contentTab'                  => __( 'Readability', 'wordpress-seo' ),
 			'keywordTab'                  => __( 'Keyphrase:', 'wordpress-seo' ),
 			'removeKeyword'               => __( 'Remove keyphrase', 'wordpress-seo' ),
 			'contentLocale'               => get_locale(),
 			'userLocale'                  => \get_user_locale(),
 			'translations'                => $this->get_translations(),
-			'keyword_usage'               => [],
-			'title_template'              => '',
-			'metadesc_template'           => '',
+			'keywordUsage'                => [],
+			'titleTemplate'               => '',
+			'metadescTemplate'            => '',
 			'contentAnalysisActive'       => $analysis_readability->is_enabled(),
 			'keywordAnalysisActive'       => $analysis_seo->is_enabled(),
 			'cornerstoneActive'           => WPSEO_Options::get( 'enable_cornerstone_content', false ),
@@ -97,8 +97,8 @@ class WPSEO_Metabox_Formatter {
 			 *
 			 * @param bool $showMarkers Should the markers being enabled. Default = true.
 			 */
-			'show_markers'                => apply_filters( 'wpseo_enable_assessment_markers', true ),
-			'publish_box'                 => [
+			'showMarkers'                 => apply_filters( 'wpseo_enable_assessment_markers', true ),
+			'publishBox'                  => [
 				'labels' => [
 					'content' => [
 						'na'   => sprintf(

@@ -6,7 +6,7 @@ import { get } from "lodash";
  * @returns {string} The sitedesc.
  */
 function getReplacement() {
-	return get( window, "wpseoScriptData.analysis.plugins.replaceVars.replace_vars.sitedesc", "" );
+	return get( window, "wpseoScriptData.analysis.plugins.replaceVars.replaceVars.sitedesc", "" );
 }
 
 /**

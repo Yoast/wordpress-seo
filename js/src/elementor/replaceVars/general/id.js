@@ -6,7 +6,7 @@ import { get } from "lodash";
  * @returns {string} The ID.
  */
 function getReplacement() {
-	return get( window, "wpseoScriptData.analysis.plugins.replaceVars.replace_vars.id", "" );
+	return get( window, "wpseoScriptData.analysis.plugins.replaceVars.replaceVars.id", "" );
 }
 
 /**

@@ -6,7 +6,7 @@ import { get } from "lodash";
  * @returns {string} The modified time.
  */
 function getReplacement() {
-	return get( window, "wpseoScriptData.analysis.plugins.replaceVars.replace_vars.modified", "" );
+	return get( window, "wpseoScriptData.analysis.plugins.replaceVars.replaceVars.modified", "" );
 }
 
 /**

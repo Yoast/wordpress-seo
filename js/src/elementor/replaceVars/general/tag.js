@@ -6,7 +6,7 @@ import { get } from "lodash";
  * @returns {string} The tag.
  */
 function getReplacement() {
-	return get( window, "wpseoScriptData.analysis.plugins.replaceVars.replace_vars.tag", "" );
+	return get( window, "wpseoScriptData.analysis.plugins.replaceVars.replaceVars.tag", "" );
 }
 
 /**

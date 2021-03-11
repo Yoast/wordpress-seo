@@ -164,7 +164,7 @@ describe( "mapCustomFields", () => {
 		} ) );
 	} );
 
-	it( "removes the old custom_fields object from the replace_vars", () => {
+	it( "removes the old custom_fields object from the replaceVars", () => {
 		const actual = mapCustomFields( replaceVars, store );
 
 		expect( actual ).not.toBe( expect.objectContaining( {
@@ -225,7 +225,7 @@ describe( "mapCustomTaxonomies", () => {
 		} ) );
 	} );
 
-	it( "removes the old custom_taxonomies object from the replace_vars", () => {
+	it( "removes the old custom_taxonomies object from the replaceVars", () => {
 		const actual = mapCustomTaxonomies( replaceVars, store );
 
 		expect( actual ).not.toBe( expect.objectContaining( {

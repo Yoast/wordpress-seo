@@ -108,8 +108,8 @@ class DashboardWidget extends Component {
 	getFeed() {
 		// Developer note: this link should -not- be converted to a shortlink.
 		getPostFeed(
-			"https://yoast.com/feed/widget/?wp_version=" + wpseoDashboardWidgetL10n.wp_version +
-			"&php_version=" + wpseoDashboardWidgetL10n.php_version,
+			"https://yoast.com/feed/widget/?wp_version=" + wpseoDashboardWidgetL10n.wpVersion +
+			"&php_version=" + wpseoDashboardWidgetL10n.phpVersion,
 			2
 		)
 			.then( ( feed ) => {
@@ -156,9 +156,9 @@ class DashboardWidget extends Component {
 		return <WordpressFeed
 			className="wordpress-feed"
 			key="yoast-seo-blog-feed"
-			title={ wpseoDashboardWidgetL10n.feed_header }
+			title={ wpseoDashboardWidgetL10n.feedHeader }
 			feed={ this.state.feed }
-			footerLinkText={ wpseoDashboardWidgetL10n.feed_footer }
+			footerLinkText={ wpseoDashboardWidgetL10n.feedFooter }
 		/>;
 	}
 

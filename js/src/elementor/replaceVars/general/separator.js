@@ -6,7 +6,7 @@ import { get } from "lodash";
  * @returns {string} The separator.
  */
 function getReplacement() {
-	return get( window, "wpseoScriptData.analysis.plugins.replaceVars.replace_vars.sep", "" );
+	return get( window, "wpseoScriptData.analysis.plugins.replaceVars.replaceVars.sep", "" );
 }
 
 /**

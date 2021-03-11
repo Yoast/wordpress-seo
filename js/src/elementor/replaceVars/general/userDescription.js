@@ -6,7 +6,7 @@ import { get } from "lodash";
  * @returns {string} The author's ‘Biographical Info’.
  */
 function getReplacement() {
-	return get( window, "wpseoScriptData.analysis.plugins.replaceVars.replace_vars.user_description", "" );
+	return get( window, "wpseoScriptData.analysis.plugins.replaceVars.replaceVars.userDescription", "" );
 }
 
 /**

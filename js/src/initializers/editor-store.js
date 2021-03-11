@@ -15,16 +15,16 @@ const populateStore = store => {
 	store.dispatch(
 		actions.setSettings( {
 			socialPreviews: {
-				sitewideImage: window.wpseoScriptData.metabox.sitewide_social_image,
-				authorName: window.wpseoScriptData.metabox.author_name,
-				siteName: window.wpseoScriptData.metabox.site_name,
-				contentImage: window.wpseoScriptData.metabox.first_content_image,
+				sitewideImage: window.wpseoScriptData.metabox.sitewideSocialImage,
+				authorName: window.wpseoScriptData.metabox.authorName,
+				siteName: window.wpseoScriptData.metabox.siteName,
+				contentImage: window.wpseoScriptData.metabox.firstContentImage,
 				twitterCardType: window.wpseoScriptData.metabox.twitterCardType,
 			},
 			snippetEditor: {
-				baseUrl: window.wpseoScriptData.metabox.base_url,
+				baseUrl: window.wpseoScriptData.metabox.baseUrl,
 				date: window.wpseoScriptData.metabox.metaDescriptionDate,
-				recommendedReplacementVariables: window.wpseoScriptData.analysis.plugins.replaceVars.recommended_replace_vars,
+				recommendedReplacementVariables: window.wpseoScriptData.analysis.plugins.replaceVars.recommendedReplaceVars,
 				siteIconUrl: window.wpseoScriptData.metabox.siteIconUrl,
 			},
 		} )

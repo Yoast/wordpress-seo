@@ -118,14 +118,14 @@ class Yoast_Dashboard_Widget implements WPSEO_WordPress_Integration {
 	 */
 	public function localize_dashboard_script() {
 		return [
-			'feed_header'      => sprintf(
+			'feedHeader'      => sprintf(
 				/* translators: %1$s resolves to Yoast.com */
 				__( 'Latest blog posts on %1$s', 'wordpress-seo' ),
 				'Yoast.com'
 			),
-			'feed_footer'      => __( 'Read more like this on our SEO blog', 'wordpress-seo' ),
-			'wp_version'       => substr( $GLOBALS['wp_version'], 0, 3 ) . '-' . ( is_plugin_active( 'classic-editor/classic-editor.php' ) ? '1' : '0' ),
-			'php_version'      => PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION,
+			'feedFooter'      => __( 'Read more like this on our SEO blog', 'wordpress-seo' ),
+			'wpVersion'       => substr( $GLOBALS['wp_version'], 0, 3 ) . '-' . ( is_plugin_active( 'classic-editor/classic-editor.php' ) ? '1' : '0' ),
+			'phpVersion'      => PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION,
 		];
 	}
 

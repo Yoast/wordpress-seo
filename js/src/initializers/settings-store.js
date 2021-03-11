@@ -15,8 +15,8 @@ import { getRecommendedReplaceVars, getReplaceVars, isAlertDismissed } from "../
  * @returns {void}
  */
 function populateStore( store ) {
-	const replaceVars = get( window, "wpseoScriptData.analysis.plugins.replaceVars.replace_vars", [] );
-	const recommendedReplacementVariables = get( window, "wpseoScriptData.analysis.plugins.replaceVars.recommended_replace_vars", {} );
+	const replaceVars = get( window, "wpseoScriptData.analysis.plugins.replaceVars.replaceVars", [] );
+	const recommendedReplacementVariables = get( window, "wpseoScriptData.analysis.plugins.replaceVars.recommendedReplaceVars", {} );
 
 	store.dispatch(
 		setSettings( {

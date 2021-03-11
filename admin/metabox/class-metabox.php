@@ -873,11 +873,11 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		$plugins_script_data = [
 			'replaceVars' => [
-				'no_parent_text'           => __( '(no parent)', 'wordpress-seo' ),
-				'replace_vars'             => $this->get_replace_vars(),
-				'recommended_replace_vars' => $this->get_recommended_replace_vars(),
-				'scope'                    => $this->determine_scope(),
-				'has_taxonomies'           => $this->current_post_type_has_taxonomies(),
+				'noParentText'           => __( '(no parent)', 'wordpress-seo' ),
+				'replaceVars'            => $this->get_replace_vars(),
+				'recommendedReplaceVars' => $this->get_recommended_replace_vars(),
+				'scope'                  => $this->determine_scope(),
+				'hasTaxonomies'          => $this->current_post_type_has_taxonomies(),
 			],
 			'shortcodes' => [
 				'wpseo_filter_shortcodes_nonce' => wp_create_nonce( 'wpseo-filter-shortcodes' ),
@@ -886,11 +886,11 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		];
 
 		$worker_script_data = [
-			'url'                     => $analysis_worker_location->get_url( $analysis_worker_location->get_asset(), WPSEO_Admin_Asset::TYPE_JS ),
-			'keywords_assessment_url' => $used_keywords_assessment_location->get_url( $used_keywords_assessment_location->get_asset(), WPSEO_Admin_Asset::TYPE_JS ),
-			'log_level'               => WPSEO_Utils::get_analysis_worker_log_level(),
+			'url'                   => $analysis_worker_location->get_url( $analysis_worker_location->get_asset(), WPSEO_Admin_Asset::TYPE_JS ),
+			'keywordsAssessmentUrl' => $used_keywords_assessment_location->get_url( $used_keywords_assessment_location->get_asset(), WPSEO_Admin_Asset::TYPE_JS ),
+			'logLevel'              => WPSEO_Utils::get_analysis_worker_log_level(),
 			// We need to make the feature flags separately available inside of the analysis web worker.
-			'enabled_features'        => WPSEO_Utils::retrieve_enabled_features(),
+			'enabledFeatures'       => WPSEO_Utils::retrieve_enabled_features(),
 		];
 
 		$alert_dismissal_action = YoastSEO()->classes->get( \Yoast\WP\SEO\Actions\Alert_Dismissal_Action::class );
@@ -898,7 +898,9 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		$script_data = [
 			// @todo replace this translation with JavaScript translations.
-			'media'            => [ 'choose_image' => __( 'Use Image', 'wordpress-seo' ) ],
+			'media'            => [
+				'chooseImage' => __( 'Use Image', 'wordpress-seo' ),
+			],
 			'metabox'          => $this->get_metabox_script_data(),
 			'userLanguageCode' => WPSEO_Language_Utils::get_language( \get_user_locale() ),
 			'isPost'           => true,
@@ -916,7 +918,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 			// @todo replace this translation with JavaScript translations.
 			$script_data['featuredImage'] = [
-				'featured_image_notice' => __( 'SEO issue: The featured image should be at least 200 by 200 pixels to be picked up by Facebook and other social media sites.', 'wordpress-seo' ),
+				'featuredImageNotice' => __( 'SEO issue: The featured image should be at least 200 by 200 pixels to be picked up by Facebook and other social media sites.', 'wordpress-seo' ),
 			];
 		}
 

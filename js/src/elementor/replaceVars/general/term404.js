@@ -6,7 +6,7 @@ import { get } from "lodash";
  * @returns {string} The slug which caused the 404.
  */
 function getReplacement() {
-	return get( window, "wpseoScriptData.analysis.plugins.replaceVars.replace_vars.term404", "" );
+	return get( window, "wpseoScriptData.analysis.plugins.replaceVars.replaceVars.term404", "" );
 }
 
 /**

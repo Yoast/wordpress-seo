@@ -13,7 +13,7 @@ export default function initializeUsedKeywords() {
 	const localizedData = getL10nObject();
 	const scriptUrl     = get(
 		window,
-		[ "wpseoScriptData", "analysis", "worker", "keywords_assessment_url" ],
+		[ "wpseoScriptData", "analysis", "worker", "keywordsAssessmentUrl" ],
 		"used-keywords-assessment.js"
 	);
 

@@ -21,7 +21,7 @@ export default function initializeUsedKeywords( refreshAnalysis, ajaxAction, sto
 
 	const scriptUrl = get(
 		window,
-		[ "wpseoScriptData", "analysis", "worker", "keywords_assessment_url" ],
+		[ "wpseoScriptData", "analysis", "worker", "keywordsAssessmentUrl" ],
 		"used-keywords-assessment.js"
 	);
 

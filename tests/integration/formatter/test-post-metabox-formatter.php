@@ -39,9 +39,9 @@ class WPSEO_Post_Metabox_Formatter_Test extends WPSEO_UnitTestCase {
 		$instance = new WPSEO_Post_Metabox_Formatter( null, [], '' );
 		$result   = $instance->get_values();
 
-		$this->assertEquals( $result['search_url'], admin_url( 'edit.php?seo_kw_filter={keyword}' ) );
-		$this->assertEquals( $result['post_edit_url'], admin_url( 'post.php?post={id}&action=edit' ) );
-		$this->assertEquals( $result['base_url'], YoastSEO()->helpers->url->home() );
+		$this->assertEquals( $result['searchUrl'], admin_url( 'edit.php?seo_kw_filter={keyword}' ) );
+		$this->assertEquals( $result['postEditUrl'], admin_url( 'post.php?post={id}&action=edit' ) );
+		$this->assertEquals( $result['baseUrl'], YoastSEO()->helpers->url->home() );
 	}
 
 	/**
@@ -54,16 +54,16 @@ class WPSEO_Post_Metabox_Formatter_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Post_Metabox_Formatter::get_template
 	 */
 	public function test_post_with_empty_options() {
-		WPSEO_Options::set( 'keyword_usage', [ '' => [] ] );
+		WPSEO_Options::set( 'keywordUsage', [ '' => [] ] );
 		WPSEO_Options::set( 'title-' . $this->post->post_type, '' );
 		WPSEO_Options::set( 'metadesc-' . $this->post->post_type, '' );
 
 		$instance = new WPSEO_Post_Metabox_Formatter( $this->post, [], '' );
 		$result   = $instance->get_values();
 
-		$this->assertEquals( [ '' => [] ], $result['keyword_usage'] );
-		$this->assertEquals( '%%title%% %%sep%% %%sitename%%', $result['title_template'] );
-		$this->assertEquals( '', $result['metadesc_template'] );
+		$this->assertEquals( [ '' => [] ], $result['keywordUsage'] );
+		$this->assertEquals( '%%title%% %%sep%% %%sitename%%', $result['titleTemplate'] );
+		$this->assertEquals( '', $result['metadescTemplate'] );
 	}
 
 	/**
@@ -78,8 +78,8 @@ class WPSEO_Post_Metabox_Formatter_Test extends WPSEO_UnitTestCase {
 		$result   = $instance->get_values();
 
 		$this->assertEquals( $result['metaDescriptionDate'], date_i18n( 'M j, Y', mysql2date( 'U', $this->post->post_date ) ) );
-		$this->assertEquals( $result['title_template'], 'This is the title' );
-		$this->assertEquals( $result['metadesc_template'], 'This is the metadescription' );
+		$this->assertEquals( $result['titleTemplate'], 'This is the title' );
+		$this->assertEquals( $result['metadescTemplate'], 'This is the metadescription' );
 	}
 
 	/**
@@ -95,7 +95,7 @@ class WPSEO_Post_Metabox_Formatter_Test extends WPSEO_UnitTestCase {
 		$instance = new WPSEO_Post_Metabox_Formatter( $this->post, [], '' );
 		$result   = $instance->get_values();
 
-		$this->assertEquals( $result['base_url'], YoastSEO()->helpers->url->home() );
+		$this->assertEquals( $result['baseUrl'], YoastSEO()->helpers->url->home() );
 
 		unset( $GLOBALS['pagenow'] );
 	}
@@ -110,7 +110,7 @@ class WPSEO_Post_Metabox_Formatter_Test extends WPSEO_UnitTestCase {
 		$instance = new WPSEO_Post_Metabox_Formatter( $this->post, [], 'http://example.org/test/%postname%/' );
 		$result   = $instance->get_values();
 
-		$this->assertEquals( $result['base_url'], 'http://example.org/test/' );
+		$this->assertEquals( $result['baseUrl'], 'http://example.org/test/' );
 	}
 
 	/**
@@ -123,6 +123,6 @@ class WPSEO_Post_Metabox_Formatter_Test extends WPSEO_UnitTestCase {
 		$instance = new WPSEO_Post_Metabox_Formatter( $this->post, [], '%isnotreplaced%/' );
 		$result   = $instance->get_values();
 
-		$this->assertEquals( $result['base_url'], YoastSEO()->helpers->url->home() );
+		$this->assertEquals( $result['baseUrl'], YoastSEO()->helpers->url->home() );
 	}
 }

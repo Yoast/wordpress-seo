@@ -155,27 +155,27 @@ class WPSEO_Taxonomy {
 				'analysis'         => [
 					'plugins' => [
 						'replaceVars' => [
-							'no_parent_text'           => __( '(no parent)', 'wordpress-seo' ),
-							'replace_vars'             => $this->get_replace_vars(),
-							'recommended_replace_vars' => $this->get_recommended_replace_vars(),
-							'scope'                    => $this->determine_scope(),
+							'noParentText'           => __( '(no parent)', 'wordpress-seo' ),
+							'replaceVars'            => $this->get_replace_vars(),
+							'recommendedReplaceVars' => $this->get_recommended_replace_vars(),
+							'scope'                  => $this->determine_scope(),
 						],
 					],
 					'worker'  => [
-						'url'                     => $analysis_worker_location->get_url(
+						'url'                   => $analysis_worker_location->get_url(
 							$analysis_worker_location->get_asset(),
 							WPSEO_Admin_Asset::TYPE_JS
 						),
-						'keywords_assessment_url' => $used_keywords_assessment_location->get_url(
+						'keywordsAssessmentUrl' => $used_keywords_assessment_location->get_url(
 							$used_keywords_assessment_location->get_asset(),
 							WPSEO_Admin_Asset::TYPE_JS
 						),
-						'log_level'               => WPSEO_Utils::get_analysis_worker_log_level(),
+						'logLevel'              => WPSEO_Utils::get_analysis_worker_log_level(),
 					],
 				],
 				'media'            => [
 					// @todo replace this translation with JavaScript translations.
-					'choose_image' => __( 'Use Image', 'wordpress-seo' ),
+					'chooseImage' => __( 'Use Image', 'wordpress-seo' ),
 				],
 				'metabox'          => $this->localize_term_scraper_script(),
 				'userLanguageCode' => WPSEO_Language_Utils::get_language( \get_user_locale() ),
@@ -278,10 +278,10 @@ class WPSEO_Taxonomy {
 	 */
 	public function localize_replace_vars_script() {
 		return [
-			'no_parent_text'           => __( '(no parent)', 'wordpress-seo' ),
-			'replace_vars'             => $this->get_replace_vars(),
-			'recommended_replace_vars' => $this->get_recommended_replace_vars(),
-			'scope'                    => $this->determine_scope(),
+			'noParentText'           => __( '(no parent)', 'wordpress-seo' ),
+			'replaceVars'            => $this->get_replace_vars(),
+			'recommendedReplaceVars' => $this->get_recommended_replace_vars(),
+			'scope'                  => $this->determine_scope(),
 		];
 	}
 

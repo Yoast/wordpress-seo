@@ -6,7 +6,7 @@ import { get } from "lodash";
  * @returns {string} The current year.
  */
 function getReplacement() {
-	return get( window, "wpseoScriptData.analysis.plugins.replaceVars.replace_vars.currentyear", "" );
+	return get( window, "wpseoScriptData.analysis.plugins.replaceVars.replaceVars.currentyear", "" );
 }
 
 /**

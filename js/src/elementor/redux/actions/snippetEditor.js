@@ -20,7 +20,7 @@ export function updateData( data ) {
 	if ( data.hasOwnProperty( "title" ) ) {
 		let titleToBeSaved = data.title;
 		// Test whether this is actually the template, which we don't want to save.
-		if ( data.title === get( window, "wpseoScriptData.metabox.title_template", "" ) ) {
+		if ( data.title === get( window, "wpseoScriptData.metabox.titleTemplate", "" ) ) {
 			titleToBeSaved = "";
 		}
 
@@ -29,7 +29,7 @@ export function updateData( data ) {
 	if ( data.hasOwnProperty( "description" ) ) {
 		let metaDescToBeSaved = data.description;
 		// Test whether this is actually the template, which we don't want to save.
-		if ( data.description === get( window, "wpseoScriptData.metabox.metadesc_template", "" ) ) {
+		if ( data.description === get( window, "wpseoScriptData.metabox.metadescTemplate", "" ) ) {
 			metaDescToBeSaved = "";
 		}
 		SearchMetadataFields.description = metaDescToBeSaved;
@@ -50,8 +50,8 @@ export function updateData( data ) {
  * @returns {Object} The load cornerstone content action.
  */
 export const loadSnippetEditorData = () => {
-	const titleTemplate = get( window, "wpseoScriptData.metabox.title_template", "" );
-	const descriptionTemplate = get( window, "wpseoScriptData.metabox.metadesc_template", "" );
+	const titleTemplate = get( window, "wpseoScriptData.metabox.titleTemplate", "" );
+	const descriptionTemplate = get( window, "wpseoScriptData.metabox.metadescTemplate", "" );
 
 	return {
 		type: LOAD_SNIPPET_EDITOR_DATA,

@@ -43,20 +43,20 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 	 */
 	public function get_values() {
 		$values = [
-			'search_url'          => $this->search_url(),
-			'post_edit_url'       => $this->edit_url(),
-			'base_url'            => $this->base_url_for_js(),
+			'searchUrl'           => $this->search_url(),
+			'postEditUrl'         => $this->edit_url(),
+			'baseUrl'             => $this->base_url_for_js(),
 			'metaDescriptionDate' => '',
 
 		];
 
 		if ( $this->post instanceof WP_Post ) {
 			$values_to_set = [
-				'keyword_usage'       => $this->get_focus_keyword_usage(),
-				'title_template'      => $this->get_title_template(),
-				'metadesc_template'   => $this->get_metadesc_template(),
+				'keywordUsage'        => $this->get_focus_keyword_usage(),
+				'titleTemplate'       => $this->get_title_template(),
+				'metadescTemplate'    => $this->get_metadesc_template(),
 				'metaDescriptionDate' => $this->get_metadesc_date(),
-				'first_content_image' => $this->get_image_url(),
+				'firstContentImage'   => $this->get_image_url(),
 			];
 
 			$values = ( $values_to_set + $values );
