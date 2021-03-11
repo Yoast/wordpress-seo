@@ -12,5 +12,5 @@ import getL10nObject from "./getL10nObject";
 export default function isZapierConnected() {
 	const l10nObject = getL10nObject();
 
-	return get( l10nObject, "zapierConnectedStatus", 0 ) === 1;
+	return get( l10nObject, "zapierConnectedStatus", false );
 }

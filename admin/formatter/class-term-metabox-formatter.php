@@ -61,7 +61,7 @@ class WPSEO_Term_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 				'titleTemplate'            => $this->get_title_template(),
 				'metadescTemplate'         => $this->get_metadesc_template(),
 				'firstContentImage'        => $this->get_image_url(),
-				'semrushIntegrationActive' => 0,
+				'semrushIntegrationActive' => false,
 			];
 		}
 
