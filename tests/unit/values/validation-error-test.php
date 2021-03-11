@@ -42,7 +42,7 @@ class Validation_Error_Test extends TestCase {
 	public function test_constructor() {
 		self::assertEquals(
 			'Message explaining the error.',
-			self::getObjectAttribute( $this->instance, 'error_message' )
+			self::getPropertyValue( $this->instance, 'error_message' )
 		);
 	}
 
