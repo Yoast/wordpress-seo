@@ -40,12 +40,12 @@ foreach ( $wpseo_archives as $wpseo_archive_index => $wpseo_archive ) {
 		$wpseo_archive['title'],
 		__DIR__ . '/' . $wpseo_archive['view_file'],
 		[
-			'collapsible'               => true,
-			'expanded'                  => ( $wpseo_archive_index === 0 ),
-			'paper_id'                  => $wpseo_archive['paper_id'],
-			'recommended_replace_vars'  => $recommended_replace_vars,
-			'editorSpecificReplaceVars' => $editor_specific_replace_vars,
-			'class'                     => 'search-appearance',
+			'collapsible'                  => true,
+			'expanded'                     => ( $wpseo_archive_index === 0 ),
+			'paper_id'                     => $wpseo_archive['paper_id'],
+			'recommended_replace_vars'     => $recommended_replace_vars,
+			'editor_specific_replace_vars' => $editor_specific_replace_vars,
+			'class'                        => 'search-appearance',
 		]
 	);
 
