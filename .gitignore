@@ -74,6 +74,7 @@ test.sh
 /artifact.zip
 /artifact-composer/
 /coverage
+/packages/**/coverage
 /gettext.pot
 /.wordpress-svn
 /webpack-stats.json

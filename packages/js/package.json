@@ -2,7 +2,7 @@
   "name": "@yoast/wordpress-seo",
   "version": "1.0.0",
   "scripts": {
-    "test": "jest",
+    "test": "jest -u",
     "lint": "eslint src tests --max-warnings=159"
   },
   "jest": {
