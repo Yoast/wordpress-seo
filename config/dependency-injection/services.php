@@ -37,6 +37,7 @@ $container->register( Adapter::class, Adapter::class )->setAutowired( true )->se
 
 $yoast_seo_excluded_files = [
 	'main.php',
+	'values/validation-error.php',
 ];
 
 $yoast_seo_excluded_directories = [
