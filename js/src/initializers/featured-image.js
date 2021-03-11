@@ -121,7 +121,6 @@ export default function initFeaturedImageIntegration( $ ) {
 				$postImageDiv.addClass( "yoast-opengraph-image-notice" );
 
 				speak( wpseoScriptData.featuredImage.featuredImageNotice, "assertive" );
-
 			}
 		} else {
 			// Force reset warning
