@@ -4,6 +4,7 @@
 namespace Yoast\WP\SEO\Models;
 
 use Exception;
+use Yoast\WP\SEO\Repositories\Settings_Repository;
 
 /**
  * Class Settings_Model.
@@ -16,6 +17,22 @@ abstract class Settings_Model {
 	 * @var array<string, mixed>
 	 */
 	protected $values = [];
+
+	/**
+	 * Represents the settings repository.
+	 *
+	 * @var Settings_Repository
+	 */
+	protected $settings_repository;
+
+	/**
+	 * Settings_Model constructor.
+	 *
+	 * @param Settings_Repository $settings_repository The settings repository.
+	 */
+	public function __construct( Settings_Repository $settings_repository ) {
+		$this->settings_repository = $settings_repository;
+	}
 
 	/**
 	 * Get value of setting.
@@ -57,6 +74,19 @@ abstract class Settings_Model {
 		}
 
 		$this->values[ $name ] = $value;
+	}
+
+	/**
+	 * Saves the data to the repository.
+	 */
+	public function save() {
+		foreach ( $this->get_settings() as $name => $settings ) {
+			if ( ! isset( $this->values[ $name ] ) ) {
+				$this->values[ $name ] = $settings['default'];
+			}
+		}
+
+		$this->settings_repository->save( $this->values );
 	}
 
 	/**

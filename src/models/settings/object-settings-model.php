@@ -3,6 +3,7 @@
 namespace Yoast\WP\SEO\Models\Settings;
 
 use Yoast\WP\SEO\Models\Settings_Model;
+use Yoast\WP\SEO\Repositories\Settings_Repository;
 
 /**
  * Class Object_Settings_Model
@@ -19,9 +20,12 @@ abstract class Object_Settings_Model extends Settings_Model {
 	/**
 	 * Object_Settings_Model constructor.
 	 *
-	 * @param string $object_name The object name to set.
+	 * @param Settings_Repository $settings_repository The settings repository.
+	 * @param string              $object_name         The object name to set.
 	 */
-	public function __construct( $object_name ) {
+	public function __construct( Settings_Repository $settings_repository, $object_name ) {
+		parent::__construct( $settings_repository );
+
 		$this->object_name = $object_name;
 	}
 

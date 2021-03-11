@@ -5,6 +5,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Models\Settings;
 use Mockery;
 use Mockery\MockInterface;
 use Yoast\WP\SEO\Models\Settings\Object_Settings_Model;
+use Yoast\WP\SEO\Repositories\Settings_Repository;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 
@@ -25,12 +26,20 @@ class Object_Settings_Model_Test extends TestCase {
 	protected $instance;
 
 	/**
+	 * Represents the settings repository.
+	 *
+	 * @var Mockery\MockInterface|Settings_Repository
+	 */
+	protected $settings_repository;
+
+	/**
 	 * Sets the instance to test.
 	 */
 	public function set_up() {
 		parent::set_up();
 
-		$this->instance = Mockery::mock( Object_Settings_Model::class, [ 'object_type' ] )->makePartial();
+		$this->settings_repository = Mockery::mock( Settings_Repository::class )->makePartial();
+		$this->instance            = Mockery::mock( Object_Settings_Model::class, [ $this->settings_repository, 'object_type' ] )->makePartial();
 	}
 
 	/**
