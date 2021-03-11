@@ -2,5 +2,8 @@
   "npmClient": "yarn",
   "useWorkspaces": true,
   "version": "independent",
-  "includeMergedTags": true
+  "includeMergedTags": true,
+  "ignoreChanges": [
+    "packages/js/**"
+  ]
 }
