@@ -3,7 +3,7 @@
 /* global YoastSEO */
 /* jshint -W097 */
 /* jshint -W003 */
-import a11ySpeak from "a11y-speak";
+import { speak } from "@wordpress/a11y";
 import isBlockEditor from "../helpers/isBlockEditor";
 
 /**
@@ -120,7 +120,8 @@ export default function initFeaturedImageIntegration( $ ) {
 
 				$postImageDiv.addClass( "yoast-opengraph-image-notice" );
 
-				a11ySpeak( wpseoScriptData.featuredImage.featuredImageNotice, "assertive" );
+				speak( wpseoScriptData.featuredImage.featuredImageNotice, "assertive" );
+
 			}
 		} else {
 			// Force reset warning
