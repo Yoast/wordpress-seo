@@ -98,7 +98,6 @@ clean:build-assets:
 
 # Get the project ready for release-candidate
 'create-rc':
-  - 'ensure-monorepo-is-unlinked'
   - 'ensure-clean-branch'
   - 'ensure-pre-release-branch'
   - 'update-readme'
