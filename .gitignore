@@ -87,5 +87,6 @@ test.sh
 ############
 /languages/
 /js/vendor/*
+/js/dist/*
 /css/dist/*
 /packages/*/dist

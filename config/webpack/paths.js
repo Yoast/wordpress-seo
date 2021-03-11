@@ -1,7 +1,6 @@
-/* global require, module */
 const path = require( "path" );
 
-const jsDistPath = path.resolve( "packages", "js", "dist" );
+const jsDistPath = path.resolve( "js", "dist" );
 const jsSrcPath = path.resolve( "packages", "js", "src" );
 const cssDistPath = path.resolve( "css", "dist" );
 
@@ -18,7 +17,7 @@ const entry = {
 	"dynamic-blocks": "./dynamic-blocks.js",
 	"edit-page": "./edit-page.js",
 	"editor-modules": "./editor-modules.js",
-	"elementor": "./elementor.js",
+	elementor: "./elementor.js",
 	"filter-explanation": "./filter-explanation.js",
 	"help-scout-beacon": "./help-scout-beacon.js",
 	indexation: "./indexation.js",

@@ -1,12 +1,8 @@
-const {
-	camelCaseDash,
-} = require( "@wordpress/dependency-extraction-webpack-plugin/lib/util" );
+const { camelCaseDash } = require( "@wordpress/dependency-extraction-webpack-plugin/lib/util" );
 
 const externals = {
 	// This is necessary for Gutenberg to work.
 	tinymce: "window.tinymce",
-
-	yoastseo: "window.yoast.analysis",
 
 	// General dependencies that we have.
 	jed: "window.yoast.jed",
@@ -14,6 +10,8 @@ const externals = {
 	"lodash-es": "window.lodash",
 	react: "React",
 	"react-dom": "ReactDOM",
+
+	// Possible self-reference due to the exposing in `src/externals`.
 	redux: "window.yoast.redux",
 	"react-redux": "window.yoast.reactRedux",
 	"styled-components": "window.yoast.styledComponents",
@@ -60,24 +58,23 @@ const yoastPackages = Object.keys( dependencies )
 	.filter(
 		( packageName ) =>
 			packageName.startsWith( YOAST_PACKAGE_NAMESPACE ) ||
-			legacyYoastPackages.includes( packageName )
+			legacyYoastPackages.includes( packageName ),
 	);
 
 /**
- * Convert packages to externals configuration.
+ * Convert Yoast packages to externals configuration.
  */
-// Yoast Packages.
 const yoastExternals = yoastPackages.reduce( ( memo, packageName ) => {
-	let useablePackageName = packageName.replace( YOAST_PACKAGE_NAMESPACE, "" );
+	let usablePackageName = packageName.replace( YOAST_PACKAGE_NAMESPACE, "" );
 
 	// Handle the difference between yoast-components and @yoast/components.
-	useablePackageName = ( useablePackageName === "components" ) ? "components-new" : useablePackageName;
-	useablePackageName = ( useablePackageName === "yoast-components" ) ? "components" : useablePackageName;
+	usablePackageName = ( usablePackageName === "components" ) ? "components-new" : usablePackageName;
+	usablePackageName = ( usablePackageName === "yoast-components" ) ? "components" : usablePackageName;
 
 	// Handle yoastseo as analysis reference.
-	useablePackageName = ( useablePackageName === "yoastseo" ) ? "analysis" : useablePackageName;
+	usablePackageName = ( usablePackageName === "yoastseo" ) ? "analysis" : usablePackageName;
 
-	memo[ packageName ] = `window.yoast.${ camelCaseDash( useablePackageName ) }`;
+	memo[ packageName ] = `window.yoast.${ camelCaseDash( usablePackageName ) }`;
 	return memo;
 }, {} );
 

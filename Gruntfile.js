@@ -35,7 +35,7 @@ module.exports = function( grunt ) {
 			grunt: "config/grunt/",
 			images: "images/",
 			js: "packages/js/src/",
-			jsDist: "packages/js/dist/",
+			jsDist: "js/dist/",
 			languages: "languages/",
 			logs: "logs/",
 			svnCheckoutDir: ".wordpress-svn",
