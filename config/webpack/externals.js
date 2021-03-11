@@ -5,13 +5,13 @@ const externals = {
 	tinymce: "window.tinymce",
 
 	// General dependencies that we have.
-	jed: "window.yoast.jed",
 	lodash: "window.lodash",
 	"lodash-es": "window.lodash",
 	react: "React",
 	"react-dom": "ReactDOM",
 
 	// Possible self-reference due to the exposing in `src/externals`.
+	jed: "window.yoast.jed",
 	redux: "window.yoast.redux",
 	"react-redux": "window.yoast.reactRedux",
 	"styled-components": "window.yoast.styledComponents",
