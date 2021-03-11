@@ -1,6 +1,6 @@
 /* global wpseoNetworkAdminGlobalL10n, ajaxurl */
 
-import a11ySpeak from "a11y-speak";
+import { speak } from "@wordpress/a11y";
 
 ( function( $ ) {
 	/**
@@ -30,7 +30,7 @@ import a11ySpeak from "a11y-speak";
 			prefix = wpseoNetworkAdminGlobalL10n.success_prefix;
 		}
 
-		a11ySpeak( prefix.replace( "%s", settingsErrors[ 0 ].message ), "assertive" );
+		speak( prefix.replace( "%s", settingsErrors[ 0 ].message ), "assertive" );
 	}
 
 	/**

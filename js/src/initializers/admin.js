@@ -1,6 +1,6 @@
 /* global wpseoAdminGlobalL10n, ajaxurl, wpseoScriptData, ClipboardJS */
 
-import a11ySpeak from "a11y-speak";
+import { speak } from "@wordpress/a11y";
 import { debounce } from "lodash-es";
 
 /**
@@ -75,7 +75,7 @@ export default function initAdmin( jQuery ) {
 					e.after( ' <div id="' + errorId + '" class="wpseo-variable-warning">' + msg + "</div>" );
 				}
 
-				a11ySpeak( wpseoAdminGlobalL10n.variable_warning.replace( "%s", variable ), "assertive" );
+				speak( wpseoAdminGlobalL10n.variable_warning.replace( "%s", variable ), "assertive" );
 
 				warn = true;
 			} else {
