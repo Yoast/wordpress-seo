@@ -38,10 +38,7 @@
     "i18n-yoast-js-search-metadata-previews": "cross-env NODE_ENV=production babel node_modules/@yoast/search-metadata-previews --ignore node_modules/@yoast/search-metadata-previews/node_modules,__mocks__/*.js --plugins=@wordpress/babel-plugin-makepot | shusher",
     "i18n-yoast-js-schema-blocks": "cross-env NODE_ENV=production babel node_modules/@yoast/schema-blocks --ignore node_modules/@yoast/schema-blocks/node_modules,__mocks__/*.js --plugins=@wordpress/babel-plugin-makepot | shusher",
     "prestart": "grunt build:css && grunt copy:js-dependencies",
-    "start": "webpack-dev-server --config ./config/webpack/webpack.config.js --progress --env.environment=development",
-    "link-monorepo": "node config/yarn/link_monorepo_to_plugin.js",
-    "unlink-monorepo": "node config/yarn/unlink_monorepo.js",
-    "bump-monorepo-packages": "node config/yarn/bump_monorepo_packages.js"
+    "start": "webpack-dev-server --config ./config/webpack/webpack.config.js --progress --env.environment=development"
   },
   "dependencies": {},
   "devDependencies": {
