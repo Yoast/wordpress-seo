@@ -46,7 +46,7 @@
 		"styled-components": "^4.2.0"
 	},
 	"devDependencies": {
-		"@yoast/browserslist-config": "^1.2.1",
+		"@yoast/browserslist-config": "^1.2.2",
 		"browserslist": "^4.7.3",
 		"jest-styled-components": "^6.3.1"
 	},

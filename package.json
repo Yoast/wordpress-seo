@@ -67,6 +67,7 @@
     "babel-preset-es2017": "^6.24.1",
     "babel-preset-react": "^6.11.1",
     "babelify": "^7.3.0",
+    "browserslist": "^4.7.3",
     "case-sensitive-paths-webpack-plugin": "^2.1.2",
     "colors": "^1.4.0",
     "copy-webpack-plugin": "^4.6.0",
