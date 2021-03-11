@@ -82,7 +82,7 @@ class Main_Image extends Abstract_Schema_Piece {
 	}
 
 	/**
-	 * Generate the image schema based on the OpenGraph or Twitter image when it's set.
+	 * Generates the image schema based on the OpenGraph or Twitter image when it's set by the user.
 	 *
 	 * @param string $image_id The image schema ID.
 	 *
