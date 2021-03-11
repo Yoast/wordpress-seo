@@ -1,5 +1,5 @@
-import { ComponentType, ReactElement } from "react";
-import { createElement, ComponentClass, Fragment } from "@wordpress/element";
+import { ComponentType, ComponentClass, ReactElement } from "react";
+import { createElement, Fragment } from "@wordpress/element";
 import { InnerBlocks as WordPressInnerBlocks } from "@wordpress/block-editor";
 import { BlockInstance } from "@wordpress/blocks";
 import { BlockValidation, BlockValidationResult } from "../../core/validation";

@@ -1,4 +1,5 @@
-import { createElement, ReactElement, useCallback } from "@wordpress/element";
+import { ReactElement } from "react";
+import { createElement, useCallback } from "@wordpress/element";
 import { BlockConfiguration, BlockInstance } from "@wordpress/blocks";
 import { SelectControl } from "@wordpress/components";
 

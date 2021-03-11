@@ -34,7 +34,7 @@ class SidebarSelect extends SidebarBase {
 		};
 
 		if ( this.options.multiple === true ) {
-			( attributes as SelectControl.Props<string[]> ).multiple = true;
+			( attributes as unknown as SelectControl.Props<string[]> ).multiple = true;
 		}
 
 		return createElement( SelectControl, attributes );

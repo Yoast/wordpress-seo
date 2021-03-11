@@ -30,7 +30,7 @@
   "dependencies": {
     "@wordpress/data": "^4.10.0",
     "@wordpress/dom-ready": "^2.10.0",
-    "@wordpress/element": "^2.9.0",
+    "@wordpress/element": "^2.19.1",
     "@yoast/analysis-report": "^1.17.0",
     "@yoast/components": "^2.15.0",
     "@yoast/configuration-wizard": "^2.18.0",

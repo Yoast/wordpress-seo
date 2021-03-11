@@ -1,4 +1,5 @@
-import { createElement, Fragment, ReactElement } from "@wordpress/element";
+import { ReactElement } from "react";
+import { createElement, Fragment } from "@wordpress/element";
 import BlockInstruction from "../../core/blocks/BlockInstruction";
 import { BlockEditProps, BlockConfiguration } from "@wordpress/blocks";
 import { createBlockEditProps, getParentIdOfType } from "../../functions/gutenberg/block";

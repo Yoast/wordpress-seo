@@ -1,4 +1,5 @@
-import { createElement, Fragment, ReactElement } from "@wordpress/element";
+import { ReactElement } from "react";
+import { createElement, Fragment } from "@wordpress/element";
 import { registerBlockType, BlockConfiguration, BlockEditProps, BlockSaveProps } from "@wordpress/blocks";
 import { InspectorControls } from "@wordpress/block-editor";
 import BlockInstruction from "./BlockInstruction";

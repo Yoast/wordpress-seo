@@ -1,6 +1,6 @@
 import BlockLeaf from "./BlockLeaf";
 import { RenderSaveProps, RenderEditProps } from "./BlockDefinition";
-import { ReactElement } from "@wordpress/element";
+import { ReactElement } from "react";
 import { BlockConfiguration, BlockInstance } from "@wordpress/blocks";
 import { BlockValidationResult, BlockValidation } from "../validation";
 import Instruction, { InstructionOptions } from "../Instruction";

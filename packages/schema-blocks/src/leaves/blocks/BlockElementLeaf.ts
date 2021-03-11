@@ -1,6 +1,7 @@
 import BlockLeaf from "../../core/blocks/BlockLeaf";
 import { RenderEditProps, RenderSaveProps } from "../../core/blocks/BlockDefinition";
-import { createElement, AllHTMLAttributes } from "@wordpress/element";
+import { createElement } from "@wordpress/element";
+import { AllHTMLAttributes } from "react";
 
 const attributeMap: Record<string, keyof AllHTMLAttributes<unknown>> = { "class": "className", "for": "htmlFor" };
 
