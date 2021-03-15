@@ -27,8 +27,8 @@ $editor = new WPSEO_Replacevar_Editor(
 	[
 		'title'                 => 'og_frontpage_title',
 		'description'           => 'og_frontpage_desc',
-		'page_type_recommended' => $recommended_replace_vars->get_recommended_replacevars(),
-		'page_type_specific'    => [],
+		'page_type_recommended' => 'homepage',
+		'page_type_specific'    => 'page',
 		'paper_style'           => false,
 	]
 );
