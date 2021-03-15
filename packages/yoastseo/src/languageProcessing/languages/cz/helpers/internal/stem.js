@@ -201,10 +201,6 @@ const removeAugmentative = function( word, morphologyData ) {
 		word = word.slice( 0, -2 );
 		return palatalise( word, morphologyData );
 	}
-	if ( ( len > 4 ) &&
-		word.substring( len - 2, len ) === augmentativeSuffixes.augmentativeSuffixAk ) {
-		return word.slice( 0, -2 );
-	}
 	return word;
 };
 
