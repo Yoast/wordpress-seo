@@ -3,12 +3,12 @@ import stem from "../../../../../../../src/languageProcessing/languages/cz/helpe
 import getMorphologyData from "../../../../../../specHelpers/getMorphologyData";
 import goldStandard from "./goldStandardStems.json";
 
-const morphologyDataCZ = getMorphologyData( "cz" ).cz;
+const morphologyDataCS = getMorphologyData( "cs" ).cs;
 
 const coverageThreshold = 0.8;
 
 describe( "Calculate coverage for the Czech stemmer", () => {
-	const stemsComparison = goldStandard.stems.map( word => [ word[ 0 ], word[ 1 ], stem( word[ 0 ], morphologyDataCZ ) ] );
+	const stemsComparison = goldStandard.stems.map( word => [ word[ 0 ], word[ 1 ], stem( word[ 0 ], morphologyDataCS ) ] );
 
 	const errors = stemsComparison.filter( word => word[ 1 ] !== word[ 2 ] );
 

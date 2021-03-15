@@ -11,7 +11,7 @@ import stem from "./internal/stem";
  * @returns {Function} The stemmer.
  */
 export default function getStemmer( researcher ) {
-	const morphologyData = get( researcher.getData( "morphology" ), "cz", false );
+	const morphologyData = get( researcher.getData( "morphology" ), "cs", false );
 
 	if ( morphologyData ) {
 		return word => stem( word, morphologyData );

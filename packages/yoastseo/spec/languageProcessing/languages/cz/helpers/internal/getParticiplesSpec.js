@@ -10,7 +10,7 @@ describe( "Test for matching Czech participles", function() {
 		expect( foundParticiples[ 0 ].getParticiple() ).toEqual( "propuštěni" );
 		expect( foundParticiples[ 0 ].getSentencePart() ).toEqual( "budou propuštěni." );
 		expect( foundParticiples[ 0 ].getAuxiliaries() ).toEqual( [ "budou" ] );
-		expect( foundParticiples[ 0 ].getLanguage() ).toEqual( "cz" );
+		expect( foundParticiples[ 0 ].getLanguage() ).toEqual( "cs" );
 		expect( foundParticiples[ 0 ].determinesSentencePartIsPassive() ).toEqual( true );
 	} );
 
