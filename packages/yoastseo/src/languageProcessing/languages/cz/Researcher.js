@@ -23,6 +23,9 @@ export default class Researcher extends AbstractResearcher {
 	 */
 	constructor( paper ) {
 		super( paper );
+
+		delete this.defaultResearches.getFleschReadingScore;
+
 		Object.assign( this.config, {
 			language: "cz",
 			passiveConstructionType: "periphrastic",
