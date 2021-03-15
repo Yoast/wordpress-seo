@@ -88,6 +88,11 @@ import portuguesePaper1 from "./pt/portuguesePaper1";
 import portuguesePaper2 from "./pt/portuguesePaper2";
 import portuguesePaper3 from "./pt/portuguesePaper3";
 
+// Czech papers
+import czechPaper1 from "./cs/czechPaper1";
+import czechPaper2 from "./cs/czechPaper2";
+import czechPaper3 from "./cs/czechPaper3";
+
 export default [
 	englishPaper1,
 	englishPaper2,
@@ -141,5 +146,8 @@ export default [
 	portuguesePaper1,
 	portuguesePaper2,
 	portuguesePaper3,
+	czechPaper1,
+	czechPaper2,
+	czechPaper3,
 ];
 
