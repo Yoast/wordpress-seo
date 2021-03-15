@@ -82,12 +82,12 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 		$limit_placeholder = '';
 		$expected_query    = "
 			SELECT COUNT(P.ID)
-			FROM wp_posts as P
-			LEFT JOIN wp_yoast_indexable AS I 
-				ON P.ID = I.object_id 
-				AND I.object_type = 'post' 
+			FROM wp_posts AS P
+			LEFT JOIN wp_yoast_indexable AS I
+				ON P.ID = I.object_id
+				AND I.object_type = 'post'
 				AND I.permalink_hash IS NOT NULL
-			WHERE I.object_id is Null 
+			WHERE I.object_id IS NULL
 				AND P.post_type IN (%s)
 			$limit_placeholder";
 
@@ -155,12 +155,12 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 		$limit_placeholder = '';
 		$expected_query    = "
 			SELECT COUNT(P.ID)
-			FROM wp_posts as P
-			LEFT JOIN wp_yoast_indexable AS I 
-				ON P.ID = I.object_id 
-				AND I.object_type = 'post' 
+			FROM wp_posts AS P
+			LEFT JOIN wp_yoast_indexable AS I
+				ON P.ID = I.object_id
+				AND I.object_type = 'post'
 				AND I.permalink_hash IS NOT NULL
-			WHERE I.object_id is Null 
+			WHERE I.object_id IS NULL
 				AND P.post_type IN (%s)
 			$limit_placeholder";
 
@@ -191,12 +191,12 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 	public function test_index() {
 		$expected_query = "
 			SELECT P.ID
-			FROM wp_posts as P
-			LEFT JOIN wp_yoast_indexable AS I 
-				ON P.ID = I.object_id 
-				AND I.object_type = 'post' 
+			FROM wp_posts AS P
+			LEFT JOIN wp_yoast_indexable AS I
+				ON P.ID = I.object_id
+				AND I.object_type = 'post'
 				AND I.permalink_hash IS NOT NULL
-			WHERE I.object_id is Null 
+			WHERE I.object_id IS NULL
 				AND P.post_type IN (%s)
 			LIMIT %d";
 
@@ -273,12 +273,12 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 
 		$expected_query = "
 			SELECT P.ID
-			FROM wp_posts as P
-			LEFT JOIN wp_yoast_indexable AS I 
-				ON P.ID = I.object_id 
-				AND I.object_type = 'post' 
+			FROM wp_posts AS P
+			LEFT JOIN wp_yoast_indexable AS I
+				ON P.ID = I.object_id
+				AND I.object_type = 'post'
 				AND I.permalink_hash IS NOT NULL
-			WHERE I.object_id is Null 
+			WHERE I.object_id IS NULL
 				AND P.post_type IN (%s)
 			LIMIT %d";
 
