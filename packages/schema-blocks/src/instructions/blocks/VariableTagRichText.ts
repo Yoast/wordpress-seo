@@ -16,6 +16,7 @@ class VariableTagRichText extends RichTextBase {
 		class: string;
 		default: string;
 		placeholder: string;
+		keepPlaceholderOnFocus?: boolean;
 		multiline: boolean;
 		label: string;
 		value: string;
@@ -76,6 +77,7 @@ class VariableTagRichText extends RichTextBase {
 			value: props.attributes[ this.options.name ] as string || this.options.value,
 			className: this.options.class,
 			placeholder: this.options.placeholder,
+			keepPlaceholderOnFocus: this.options.keepPlaceholderOnFocus,
 			"data-id": this.options.name,
 			key: i,
 		};
