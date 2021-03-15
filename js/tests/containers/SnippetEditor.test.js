@@ -1,81 +1,97 @@
-import {
-	mapDispatchToProps,
-	mapStateToProps,
-} from "../../src/containers/SnippetEditor";
-import { switchMode, updateData } from "../../src/redux/actions/snippetEditor";
-
+import { mapDispatchToProps, mapSelectToProps } from "../../src/containers/SnippetEditor";
 
 describe( "SnippetEditor container", () => {
-	it( "maps the state to the props", () => {
-		const state = {
-			focusKeyword: "active",
-			snippetEditor: {
-				mode: "desktop",
-				data: {
-					title: "Title",
-					slug: "slug",
-					description: "Description",
-				},
-				replacementVariables: [
-					{
-						name: "variable",
-						value: "Value",
-					},
-				],
-			},
-			settings: {
-				snippetEditor: {
-					baseUrl: "https://localhost.test",
-					date: "01-01-1970",
-					recommendedReplacementVariables: [
+	it( "maps select to the props", () => {
+		const select = jest.fn( name => {
+			if ( name === "yoast-seo/editor" ) {
+				return {
+					getBaseUrlFromSettings: jest.fn().mockReturnValue( "https://localhost.test" ),
+					getDateFromSettings: jest.fn().mockReturnValue( "01-01-1970" ),
+					getFocusKeyphrase: jest.fn().mockReturnValue( "active" ),
+					getRecommendedReplaceVars: jest.fn().mockReturnValue( [
 						{
 							name: "variable",
 							value: "Value",
 						},
-					],
-				},
-			},
-		};
+					] ),
+					getReplaceVars: jest.fn().mockReturnValue( [
+						{
+							name: "variable",
+							value: "Value",
+						},
+					] ),
+					getSiteIconUrlFromSettings: jest.fn().mockReturnValue( "https://localhost.test/wp-content/uploads/2021/01/WordPress1.jpg" ),
+					getSnippetEditorData: jest.fn().mockReturnValue( {
+						title: "Title",
+						slug: "slug",
+						description: "Description",
+					} ),
+					getSnippetEditorMode: jest.fn().mockReturnValue( "desktop" ),
+					getSnippetEditorPreviewImageUrl: jest.fn().mockReturnValue( "https://localhost.test/wp-content/uploads/2021/01/WordPress2.jpg" ),
+					getSnippetEditorWordsToHighlight: jest.fn().mockReturnValue( [ "active" ] ),
+				};
+			}
+		} );
+
 		const expected = {
-			mode: "desktop",
-			keyword: "active",
+			baseUrl: "https://localhost.test",
 			data: {
 				title: "Title",
 				slug: "slug",
 				description: "Description",
 			},
-			replacementVariables: [
-				{
-					name: "variable",
-					value: "Value",
-				},
-			],
-			baseUrl: "https://localhost.test",
 			date: "01-01-1970",
+			faviconSrc: "https://localhost.test/wp-content/uploads/2021/01/WordPress1.jpg",
+			keyword: "active",
+			mobileImageSrc: "https://localhost.test/wp-content/uploads/2021/01/WordPress2.jpg",
+			mode: "desktop",
 			recommendedReplacementVariables: [
 				{
 					name: "variable",
 					value: "Value",
 				},
 			],
+			replacementVariables: [
+				{
+					name: "variable",
+					value: "Value",
+				},
+			],
+			wordsToHighlight: [ "active" ],
 		};
 
-		const result = mapStateToProps( state );
+		const result = mapSelectToProps( select );
 
 		expect( result ).toEqual( expected );
 	} );
 
 	it( "maps dispatch to props", () => {
-		const dispatch = jest.fn();
+		const dispatchers = {
+			switchMode: jest.fn(),
+			updateData: jest.fn(),
+			updateAnalysisData: jest.fn(),
+		};
+		const dispatch = jest.fn( name => {
+			if ( name === "yoast-seo/editor" ) {
+				return dispatchers;
+			}
+		} );
 
 		const result = mapDispatchToProps( dispatch );
 
-		result.onChange( "mode", "some-mode" );
-		result.onChange( "title", "Title" );
+		expect( typeof result.onChange ).toEqual( "function" );
+		expect( result.onChangeAnalysisData ).toBe( dispatchers.updateAnalysisData );
 
-		expect( dispatch.mock.calls ).toEqual( [
-			[ switchMode( "some-mode" ) ],
-			[ updateData( { title: "Title" } ) ],
-		] );
+		result.onChange( "mode", "mobile" );
+		expect( dispatchers.switchMode ).toHaveBeenCalledWith( "mobile" );
+
+		result.onChange( "slug", "snail" );
+		expect( dispatchers.updateData ).toHaveBeenCalledWith( { slug: "snail" } );
+
+		result.onChange( "title", "Title" );
+		expect( dispatchers.updateData ).toHaveBeenCalledWith( { title: "Title" } );
+
+		result.onChangeAnalysisData( "data" );
+		expect( dispatchers.updateAnalysisData ).toHaveBeenCalledWith( "data" );
 	} );
 } );
