@@ -256,6 +256,7 @@ export default function initPostScraper( $, store, editorData ) {
 			keywordAnalysisActive: isKeywordAnalysisActive(),
 			hasSnippetPreview: false,
 			debouncedRefresh: false,
+			// eslint-disable-next-line new-cap
 			researcher: new window.yoast.Researcher.default(),
 		};
 
