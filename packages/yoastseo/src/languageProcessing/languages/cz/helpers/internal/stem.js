@@ -36,23 +36,23 @@ const palatalise = function( word, morphologyData ) {
 		word.substring( len - 2, len ) === palataliseSuffixes.palataliseSuffixCe ||
 		word.substring( len - 2, len ) === palataliseSuffixes.palataliseSuffixCiCaron ||
 		word.substring( len - 2, len ) === palataliseSuffixes.palataliseSuffixCeCaron ) {
-		return word.replace( len - 2, len, palataliseSuffixes.palataliseSuffixK );
+		return word.replace( word.substring( len - 2, len ), palataliseSuffixes.palataliseSuffixK );
 	}
 	if ( word.substring( len - 2, len ) === palataliseSuffixes.palataliseSuffixZi ||
 		word.substring( len - 2, len ) === palataliseSuffixes.palataliseSuffixZe ||
 		word.substring( len - 2, len ) === palataliseSuffixes.palataliseSuffixZiCaron ||
 		word.substring( len - 2, len ) === palataliseSuffixes.palataliseSuffixZeCaron ) {
-		return word.replace( len - 2, len, palataliseSuffixes.palataliseSuffixH );
+		return word.replace( word.substring( len - 2, len ), palataliseSuffixes.palataliseSuffixH );
 	}
 	if ( word.substring( len - 3, len ) === palataliseSuffixes.palataliseSuffixCte ||
 		word.substring( len - 3, len ) === palataliseSuffixes.palataliseSuffixCti ||
 		word.substring( len - 3, len ) === palataliseSuffixes.palataliseSuffixCtiAccented ) {
-		return word.replace( len - 3, len, palataliseSuffixes.palataliseSuffixCk );
+		return word.replace(  word.substring( len - 3, len ), palataliseSuffixes.palataliseSuffixCk );
 	}
 	if ( word.substring( len - 2, len ) === palataliseSuffixes.palataliseSuffixSte ||
 		word.substring( len - 2, len ) === palataliseSuffixes.palataliseSuffixSti ||
 		word.substring( len - 2, len ) === palataliseSuffixes.palataliseSuffixStiAccented ) {
-		return word.replace( len - 2, len, palataliseSuffixes.palataliseSuffixSk );
+		return word.replace( word.substring( len - 2, len ), palataliseSuffixes.palataliseSuffixSk );
 	}
 	return word.slice( 0, -1 );
 };
@@ -279,7 +279,7 @@ const removeDiminutive = function( word, morphologyData ) {
 			word.substring( len - 2, len ) === diminutiveSuffixes.diminutiveSuffixEkAccented ||
 			word.substring( len - 2, len ) === diminutiveSuffixes.diminutiveSuffixIkAccented ||
 			word.substring( len - 2, len ) === diminutiveSuffixes.diminutiveSuffixIk ) {
-			word = word.substring( 0, -1 );
+			word = word.slice( 0, -1 );
 			return palatalise( word, morphologyData );
 		}
 		if ( word.substring( len - 2, len ) === diminutiveSuffixes.diminutiveSuffixAkAccented ||
