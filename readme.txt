@@ -237,6 +237,8 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 = 16.0 =
 Release Date: March 16th, 2021
 
+Yoast SEO 16.0: The Sweet Sixteen release is out! It comes with several fixes and improvements. Happy updating and thank you for using Yoast SEO! Read more about what’s new in Yoast SEO 16.0 in [our release post](https://yoa.st/release-16-0)!
+
 Bugfixes:
 
 * Fixes a bug where invalid breadcrumbs would show PHP warnings.
