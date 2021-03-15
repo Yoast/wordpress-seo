@@ -3,13 +3,35 @@ import { IToken } from "tokenizr";
 import BlockDefinition from "../core/blocks/BlockDefinition";
 import BlockInstruction from "../core/blocks/BlockInstruction";
 import Definition, { DefinitionClass } from "../core/Definition";
-import Instruction, { InstructionArray, InstructionValue, InstructionPrimitive, InstructionObject } from "../core/Instruction";
+import Instruction, {
+	InstructionArray,
+	InstructionValue,
+	InstructionPrimitive,
+	InstructionObject,
+} from "../core/Instruction";
 import SchemaDefinition from "../core/schema/SchemaDefinition";
 import SchemaInstruction from "../core/schema/SchemaInstruction";
 import { generateUniqueSeparator } from "./separator";
 import tokenize from "./tokenize";
 
 let nextId = 0;
+
+/**
+ * Generate the next instruction ID.
+ * Skips any IDs that are in the separator.
+ *
+ * @param separator The separator string.
+ *
+ * @returns The generated ID.
+ */
+function generateNextId( separator: string ): number {
+	do {
+		nextId++;
+	}
+	while ( separator.includes( nextId.toString() ) );
+
+	return nextId;
+}
 
 /**
  * Processes an array.
@@ -89,12 +111,13 @@ function processToken( currentToken: IToken, tokens: IToken[] ): InstructionValu
  * @param token            The current token.
  * @param tokens           The remaining tokens.
  * @param instructionClass The instruction class.
+ * @param separator        The generated separator.
  *
  * @returns The instruction.
  */
-function processBlockInstruction( token: IToken<string>, tokens: IToken[], instructionClass: typeof Instruction ) {
+function processBlockInstruction( token: IToken<string>, tokens: IToken[], instructionClass: typeof Instruction, separator: string ) {
 	const defaultOptions = { name: token.value };
-	const instruction = instructionClass.create( token.value, nextId++, defaultOptions );
+	const instruction = instructionClass.create( token.value, generateNextId( separator ), defaultOptions );
 
 	while ( tokens[ 0 ] && tokens[ 0 ].isA( "key" ) ) {
 		const key = camelCase( ( tokens.shift() as IToken<string> ).value );
@@ -157,7 +180,7 @@ function process<T extends Definition>(
 		}
 
 		if ( token.isA( "definition" ) ) {
-			const instruction = processBlockInstruction( token as IToken<string>, tokens, instructionClass );
+			const instruction = processBlockInstruction( token as IToken<string>, tokens, instructionClass, separator );
 			definition.instructions[ instruction.id ] = instruction;
 			if ( instruction.renderable() ) {
 				definition.template += separator + instruction.id + separator;

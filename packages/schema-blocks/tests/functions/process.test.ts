@@ -3,7 +3,7 @@ import "../matchMedia.mock";
 import process, { processBlock } from "../../src/functions/process";
 import BlockDefinition from "../../src/core/blocks/BlockDefinition";
 import BlockInstruction from "../../src/core/blocks/BlockInstruction";
-import  "../../src/instructions/blocks/InnerBlocks";
+import "../../src/instructions/blocks/InnerBlocks";
 import InnerBlocks from "../../src/instructions/blocks/InnerBlocks";
 import { RequiredBlock, RequiredBlockOption } from "../../src/core/validation";
 
@@ -19,8 +19,8 @@ describe( "the process function", () => {
 			'template=[ [ "yoast/ingredients", { "value": [ "ingredient 1", "ingredient 2" ]} ], [ "yoast/ingredients", {} ]] ' +
 			'appender="button" appenderLabel="Add to recipe" }}';
 		const expected = {
-			0: {
-				id: 0,
+			1: {
+				id: 1,
 				options: {
 					allowedBlocks: [
 						"core/paragraph",
@@ -29,7 +29,7 @@ describe( "the process function", () => {
 					],
 					appender: "button",
 					appenderLabel: "Add to recipe",
-    		        name: "inner-blocks",
+					name: "inner-blocks",
 					template: [
 						[
 							"yoast/ingredients",

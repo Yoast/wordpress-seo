@@ -1,6 +1,6 @@
 {
   "name": "@yoast/schema-blocks",
-  "version": "1.4.0",
+  "version": "1.5.0-rc.0",
   "main": "dist/index.js",
   "license": "MIT",
   "private": false,
@@ -14,7 +14,7 @@
     "@wordpress/element": "^2.9.0",
     "@wordpress/hooks": "^2.7.0",
     "@wordpress/i18n": "^3.9.0",
-    "@yoast/components": "^2.15.0",
+    "@yoast/components": "^2.16.0-rc.0",
     "lodash": "^4.17.15",
     "tokenizr": "^1.5.2"
   },
@@ -57,11 +57,10 @@
   "scripts": {
     "build": "tsc",
     "watch": "tsc --watch",
-    "prepare": "yarn build",
     "lint": "eslint \"src/**\"",
     "lint-fix": "eslint \"src/**\" --fix",
     "test": "jest",
-    "prepublishOnly": "rm -rf dist && tsc && mkdir dist/css && cp -r css/*.css dist/css && cp package.json dist/package.json && json -I -f dist/package.json -e \"this.main='index.js'\""
+    "prepublishOnly": "rm -rf dist && yarn build && mkdir dist/css && cp -r css/*.css dist/css && cp package.json dist/package.json && json -I -f dist/package.json -e \"this.main='index.js'\""
   },
   "publishConfig": {
     "access": "public"
