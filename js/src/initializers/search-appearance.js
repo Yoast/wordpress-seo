@@ -55,6 +55,9 @@ export default function initSearchAppearance() {
 					target="yoast-organization-image-select"
 					hiddenField="company_logo"
 					hiddenFieldImageId="company_logo_id"
+					selectImageButtonId="yoast-organization-image-select-button"
+					replaceImageButtonId="yoast-organization-image-replace-button"
+					removeImageButtonId="yoast-organization-image-remove-button"
 				/>
 				<ImageSelectPortal
 					label="Person logo / avatar"
@@ -62,6 +65,9 @@ export default function initSearchAppearance() {
 					target="yoast-person-image-select"
 					hiddenField="person_logo"
 					hiddenFieldImageId="person_logo_id"
+					selectImageButtonId="yoast-person-image-select-button"
+					replaceImageButtonId="yoast-person-image-replace-button"
+					removeImageButtonId="yoast-person-image-remove-button"
 				/>
 				{ showLocalSEOUpsell && (
 					<LocalSEOUpsellPortal
