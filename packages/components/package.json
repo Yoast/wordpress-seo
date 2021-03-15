@@ -39,7 +39,7 @@
     "lodash": "^4.17.11",
     "prop-types": "^15.7.2",
     "react-modal": "^3.8.1",
-    "react-select": "^3.1.0",
+    "react-select": "^4.1.0",
     "react-tabs": "^2.3.0",
     "styled-components": "^4.2.0"
   },
