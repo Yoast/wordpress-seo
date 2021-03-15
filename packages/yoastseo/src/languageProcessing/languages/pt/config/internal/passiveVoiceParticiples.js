@@ -129,7 +129,6 @@ export default [
 	"alado",
 	"tentado",
 	"derrubado",
-	"do",
 	"encerrado",
 	"acostumado",
 	"montado",
