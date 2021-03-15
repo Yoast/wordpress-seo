@@ -11,7 +11,16 @@ class Block extends BlockInstruction {
 	 * @returns The configuration.
 	 */
 	configuration(): Partial<BlockConfiguration> {
-		return this.options;
+		const schemaAttribute = {
+			attributes: {
+				"is-yoast-schema-block": {
+					type: "object",
+					"default": true,
+				},
+			},
+		};
+
+		return Object.assign( this.options, schemaAttribute );
 	}
 
 	/**
