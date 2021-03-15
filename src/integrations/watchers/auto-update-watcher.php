@@ -4,7 +4,6 @@ namespace Yoast\WP\SEO\Integrations\Watchers;
 
 use Yoast\WP\SEO\Conditionals\No_Conditionals;
 use Yoast\WP\SEO\Helpers\Notification_Helper;
-use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Presenters\Admin\Auto_Update_Notification_Presenter;
 use Yoast_Notification;
@@ -193,7 +192,7 @@ class Auto_Update_Watcher implements Integration_Interface {
 		$presenter = new Auto_Update_Notification_Presenter();
 
 		return new Yoast_Notification(
-			$presenter,
+			$presenter->present(),
 			[
 				'type'         => Yoast_Notification::WARNING,
 				'id'           => self::NOTIFICATION_ID,
