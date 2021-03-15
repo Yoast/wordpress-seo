@@ -49,10 +49,10 @@ const palatalise = function( word, morphologyData ) {
 		word.substring( len - 3, len ) === palataliseSuffixes.palataliseSuffixCtiAccented ) {
 		return word.replace(  word.substring( len - 3, len ), palataliseSuffixes.palataliseSuffixCk );
 	}
-	if ( word.substring( len - 2, len ) === palataliseSuffixes.palataliseSuffixSte ||
-		word.substring( len - 2, len ) === palataliseSuffixes.palataliseSuffixSti ||
-		word.substring( len - 2, len ) === palataliseSuffixes.palataliseSuffixStiAccented ) {
-		return word.replace( word.substring( len - 2, len ), palataliseSuffixes.palataliseSuffixSk );
+	if ( word.substring( len - 3, len ) === palataliseSuffixes.palataliseSuffixSte ||
+		word.substring( len - 3, len ) === palataliseSuffixes.palataliseSuffixSti ||
+		word.substring( len - 3, len ) === palataliseSuffixes.palataliseSuffixStiAccented ) {
+		return word.replace( word.substring( len - 3, len ), palataliseSuffixes.palataliseSuffixSk );
 	}
 	return word.slice( 0, -1 );
 };
