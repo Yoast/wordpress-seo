@@ -1,13 +1,13 @@
-import Researcher from "../../../../src/languageProcessing/languages/cz/Researcher.js";
+import Researcher from "../../../../src/languageProcessing/languages/cs/Researcher.js";
 import Paper from "../../../../src/values/Paper.js";
-import functionWords from "../../../../src/languageProcessing/languages/cz/config/functionWords";
+import functionWords from "../../../../src/languageProcessing/languages/cs/config/functionWords";
 import getMorphologyData from "../../../specHelpers/getMorphologyData";
-import transitionWords from "../../../../src/languageProcessing/languages/cz/config/transitionWords";
-import firstWordExceptions from "../../../../src/languageProcessing/languages/cz/config/firstWordExceptions";
-import twoPartTransitionWords from "../../../../src/languageProcessing/languages/cz/config/twoPartTransitionWords";
-import stopWords from "../../../../src/languageProcessing/languages/cz/config/stopWords";
+import transitionWords from "../../../../src/languageProcessing/languages/cs/config/transitionWords";
+import firstWordExceptions from "../../../../src/languageProcessing/languages/cs/config/firstWordExceptions";
+import twoPartTransitionWords from "../../../../src/languageProcessing/languages/cs/config/twoPartTransitionWords";
+import stopWords from "../../../../src/languageProcessing/languages/cs/config/stopWords";
 
-const morphologyDataCZ = getMorphologyData( "cz" );
+const morphologyDataCS = getMorphologyData( "cs" );
 
 describe( "a test for the Czech Researcher", function() {
 	const researcher = new Researcher( new Paper( "" ) );
@@ -40,16 +40,16 @@ describe( "a test for the Czech Researcher", function() {
 		expect( researcher.getConfig( "firstWordExceptions" ) ).toEqual( firstWordExceptions );
 	} );
 
-	it( "returns Czech first word exceptions", function() {
+	it( "returns Czech stopwords", function() {
 		expect( researcher.getConfig( "stopWords" ) ).toEqual( stopWords );
 	} );
 
 	it( "returns the Czech locale", function() {
-		expect( researcher.getConfig( "language" ) ).toEqual( "cz" );
+		expect( researcher.getConfig( "language" ) ).toEqual( "cs" );
 	} );
 
 	it( "stems the Czech word using the Czech stemmer", function() {
-		researcher.addResearchData( "morphology", morphologyDataCZ );
+		researcher.addResearchData( "morphology", morphologyDataCS );
 		expect( researcher.getHelper( "getStemmer" )( researcher )( "mezinárodního" ) ).toEqual( "mezinárod" );
 	} );
 
@@ -57,13 +57,13 @@ describe( "a test for the Czech Researcher", function() {
 		expect( researcher.getConfig( "passiveConstructionType" ) ).toEqual( "periphrastic" );
 	} );
 
-	it( "splits Hungarian sentence into parts", function() {
+	it( "splits Czech sentence into parts", function() {
 		const sentence =  "Zkuste to znovu albo to nechte tak.";
 		expect( researcher.getHelper( "getSentenceParts" )( sentence )[ 0 ].getSentencePartText() ).toBe( "Zkuste to znovu" );
 		expect( researcher.getHelper( "getSentenceParts" )( sentence )[ 1 ].getSentencePartText() ).toBe( "albo to nechte tak." );
 	} );
 
-	it( "checks if a Hungarian sentence part is passive or not", function() {
+	it( "checks if a Czech sentence part is passive or not", function() {
 		expect( researcher.getHelper( "isPassiveSentencePart" )( "Stěny byly vyzdobeny včas.", [ "byly" ] ) ).toEqual( true );
 		expect( researcher.getHelper( "isPassiveSentencePart" )( "Lékaři doporučili lék.", [] ) ).toEqual( false );
 	} );
