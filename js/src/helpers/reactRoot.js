@@ -60,13 +60,12 @@ class RegisteredComponentsContainer extends wpComponent {
 /**
  * Renders a React tree for the classic editor.
  *
- * @param {Object} store The active redux store.
  * @param {string} target The id of the DOM target.
  * @param {wp.Element} children The children to render.
  *
  * @returns {void}
  */
-export function renderReactRoot( store, target, children ) {
+export function renderReactRoot( target, children ) {
 	const localizedData = getL10nObject();
 	containerRef = createRef();
 
@@ -77,7 +76,6 @@ export function renderReactRoot( store, target, children ) {
 	render(
 		(
 			<TopLevelProviders
-				store={ store }
 				theme={ theme }
 				location={ "sidebar" }
 			>

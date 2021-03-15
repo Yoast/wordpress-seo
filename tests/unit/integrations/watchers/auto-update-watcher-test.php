@@ -223,6 +223,13 @@ class Auto_Update_Watcher_Test extends TestCase {
 			->expects( 'add_notification' )
 			->once();
 
+		$this->stubEscapeFunctions();
+		$this->stubTranslationFunctions();
+
+		Monkey\Functions\expect( 'get_admin_url' )
+			->with( null, 'plugins.php' )
+			->andReturn( 'https://example.com/wp-admin/plugins.php' );
+
 		$this->instance->auto_update_notification_even_if_dismissed();
 	}
 
