@@ -21,6 +21,8 @@ const {
 
 // Internal dependencies.
 import FixedWidthContainer from "./FixedWidthContainer";
+import ProductDataDesktop from "./ProductDataDesktop";
+import ProductDataMobile from "./ProductDataMobile";
 import { DEFAULT_MODE, MODE_DESKTOP, MODE_MOBILE, MODES } from "./constants";
 
 /*
@@ -730,6 +732,30 @@ export default class SnippetPreview extends PureComponent {
 	}
 
 	/**
+	 * Renders the product / shopping data, in mobile or desktop view, based on the mode.
+	 *
+	 * @returns {ReactElement} The rendered description.
+	 */
+	renderProductData() {
+		const {	mode, shoppingData } = this.props;
+
+		if ( mode === MODE_DESKTOP && shoppingData !== null ) {
+			return (
+				<ProductDataDesktop
+					shoppingData={ shoppingData }
+				/>
+			);
+		} else if ( mode === MODE_MOBILE && shoppingData !== null ) {
+			return (
+				<ProductDataMobile
+					shoppingData={ shoppingData }
+				/>
+			);
+		}
+		return null;
+	}
+
+	/**
 	 * Renders the snippet preview.
 	 *
 	 * @returns {ReactElement} The rendered snippet preview.
@@ -792,11 +818,23 @@ export default class SnippetPreview extends PureComponent {
 						{ isDesktopMode && this.renderUrl() }
 						{ downArrow }
 					</PartContainer>
+					<PartContainer className="yoast-shopping-data-preview--desktop">
+						<ScreenReaderText>
+							{ __( "Shopping data preview", "yoast-components" ) + ":" }
+						</ScreenReaderText>
+						{ isDesktopMode && this.renderProductData() }
+					</PartContainer>
 					<PartContainer>
 						<ScreenReaderText>
 							{ __( "Meta description preview", "yoast-components" ) + ":" }
 						</ScreenReaderText>
 						{ this.renderDescription() }
+					</PartContainer>
+					<PartContainer className="yoast-shopping-data-preview--mobile">
+						<ScreenReaderText>
+							{ __( "Shopping data preview", "yoast-components" ) + ":" }
+						</ScreenReaderText>
+						{ ! isDesktopMode && this.renderProductData() }
 					</PartContainer>
 				</Container>
 			</section>
@@ -846,6 +884,7 @@ SnippetPreview.propTypes = {
 	isAmp: PropTypes.bool,
 	faviconSrc: PropTypes.string,
 	mobileImageSrc: PropTypes.string,
+	shoppingData: PropTypes.object.isRequired,
 
 	onMouseUp: PropTypes.func.isRequired,
 	onHover: PropTypes.func,
