@@ -1711,16 +1711,6 @@
     load-grunt-config "^1.0.1"
     time-grunt "^1.0.0"
 
-"@yoast/helpers@^0.15.0":
-  version "0.15.0"
-  resolved "https://registry.yarnpkg.com/@yoast/helpers/-/helpers-0.15.0.tgz#8111d41fa783932b49c579d44ceeb33921c63153"
-  integrity sha512-ofPqEmoMQEk1OZdnQITy9T11+7qaupl6WEvdhnETLmZzAoCNj2+C3InQap48oArlpxPT4Qn1LnksOKf0GsKDAA==
-  dependencies:
-    "@wordpress/i18n" "^1.2.3"
-    prop-types "^15.7.2"
-    styled-components "^2.4.1"
-    whatwg-fetch "1.1.1"
-
 "@yoast/helpers@^0.16.0":
   version "0.16.0"
   resolved "https://registry.yarnpkg.com/@yoast/helpers/-/helpers-0.16.0.tgz#0744b02fd35e233c81f4adb33e2e3a8537ee2bac"
@@ -1799,20 +1789,6 @@
     "@wordpress/i18n" "^1.1.0"
     "@yoast/components" "^2.17.0-rc.0"
     "@yoast/replacement-variable-editor" "^1.15.0-rc.0"
-    "@yoast/style-guide" "^0.13.0"
-    lodash "^4.17.11"
-    prop-types "^15.6.0"
-    redux "^3.7.2"
-    styled-components "^4.2.0"
-
-"@yoast/social-metadata-previews@^1.15.0-rc.0":
-  version "1.15.0-rc.0"
-  resolved "https://registry.yarnpkg.com/@yoast/social-metadata-previews/-/social-metadata-previews-1.15.0-rc.0.tgz#b6c3a0dc43c22839258a4460e50c320a59e81361"
-  integrity sha512-BE7oStbb51gKL2Kd58l09qpYK6aXGJ6hTUuRzjaGNMKHNt7AVk7ldpya/Z42fxDbBT+RmKh2VxzlbBCOqAppcg==
-  dependencies:
-    "@wordpress/i18n" "^1.1.0"
-    "@yoast/replacement-variable-editor" "^1.15.0-rc.0"
-    "@yoast/social-metadata-forms" "^1.15.0-rc.0"
     "@yoast/style-guide" "^0.13.0"
     lodash "^4.17.11"
     prop-types "^15.6.0"

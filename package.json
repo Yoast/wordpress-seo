@@ -115,7 +115,7 @@
     "@yoast/components": "^2.17.0-rc.0",
     "@yoast/configuration-wizard": "^2.20.0-rc.0",
     "@yoast/feature-flag": "^0.5.2",
-    "@yoast/helpers": "^0.15.0",
+    "@yoast/helpers": "^0.16.0",
     "@yoast/replacement-variable-editor": "^1.15.0-rc.0",
     "@yoast/schema-blocks": "^1.6.0-rc.1",
     "@yoast/search-metadata-previews": "^2.22.0-rc.0",
@@ -149,6 +149,6 @@
     "extends @yoast/browserslist-config"
   ],
   "yoast": {
-    "pluginVersion": "16.0-RC9"
+    "pluginVersion": "16.0"
   }
 }
