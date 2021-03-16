@@ -818,9 +818,9 @@
   resolved "https://registry.yarnpkg.com/@yoast/feature-flag/-/feature-flag-0.5.2.tgz#ef4cd8ddb959c5857c5d68639ab09ab75c381508"
   integrity sha512-erHel5POEyPpt1B2fToLm8caZPruiOxBRZvn7X9nWqwb0lIbxbOkDp/XQnm168bcvVEL95Dg9JMaPgQwO3rA9w==
 
-"@yoast/grunt-plugin-tasks@ssh://git@github.com:Yoast/plugin-grunt-tasks#changelog_automation_task":
+"@yoast/grunt-plugin-tasks@ssh://git@github.com:Yoast/plugin-grunt-tasks#2.1-RC1":
   version "2.0.0"
-  resolved "ssh://git@github.com:Yoast/plugin-grunt-tasks#1baea089c457a51c29964a7a55539526b0ef5f5b"
+  resolved "ssh://git@github.com:Yoast/plugin-grunt-tasks#ca87d9d5c66aa0c85d365301b37d4f6b1a3b903f"
   dependencies:
     "@yoast/browserslist-config" "^1.0.0"
     autoprefixer "^9.7.2"
