@@ -1,4 +1,5 @@
 import { get } from "lodash";
+import { applyFilters } from "@wordpress/hooks";
 
 /**
  * Gets the fallback title that is equal to the site title.
@@ -43,11 +44,22 @@ export const getContentImage = state => {
  * @returns {string} The sidewide image url.
  */
 export const getImageFallback = state => {
-	const featuredImage = get( state, "snippetEditor.data.snippetPreviewImageURL", "" );
-	const contentImage = get( state, "settings.socialPreviews.contentImage", "" );
-	const siteWideImage = get( window.wpseoScriptData, "metabox.showSocial.facebook" ) && get( state, "settings.socialPreviews.sitewideImage", "" );
+	let fallbacks = applyFilters( "wpseo_image_fallback", [
+		{ featuredImage: get( state, "snippetEditor.data.snippetPreviewImageURL", "" ) },
+		{ contentImage: get( state, "settings.socialPreviews.contentImage", "" ) },
+		{ siteWideImage: get( window.wpseoScriptData, "metabox.showSocial.facebook" ) && get( state, "settings.socialPreviews.sitewideImage", "" ) },
+	] );
 
-	return featuredImage || contentImage || siteWideImage || "";
+	let fallbackImage = "";
+
+	fallbacks.forEach( fallback => {
+		const image = Object.values( fallback )[ 0 ];
+		if ( image !== "" ) {
+			fallbackImage = image;
+		}
+	} );
+
+	return fallbackImage;
 };
 
 /**
