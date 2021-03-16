@@ -699,12 +699,13 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 
 ul.yoast-seo-social-share-buttons li {
 	display: inline-block;
-	margin-right: 8px;
+	margin-right: 16px;
 }
 
 ul.yoast-seo-social-share-buttons svg {
 	width: 32px;
 	height: 32px;
+	margin-bottom: 8px;
 }
 
 ul.yoast-seo-social-share-buttons a {
