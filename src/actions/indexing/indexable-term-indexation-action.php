@@ -128,9 +128,9 @@ class Indexable_Term_Indexation_Action implements Indexation_Action_Interface {
 		$indexable_table   = Model::get_table_name( 'Indexable' );
 		$replacements      = $public_taxonomies;
 
-		$select = 'term_id';
+		$select = 'T.term_id';
 		if ( $count ) {
-			$select = 'COUNT(term_id)';
+			$select = 'COUNT(T.term_id)';
 		}
 		$limit_query = '';
 		if ( ! $count ) {

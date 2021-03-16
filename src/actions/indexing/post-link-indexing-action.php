@@ -74,9 +74,9 @@ class Post_Link_Indexing_Action extends Abstract_Link_Indexing_Action {
 		$links_table       = Model::get_table_name( 'SEO_Links' );
 		$replacements      = $public_post_types;
 
-		$select = 'ID, post_content';
+		$select = 'P.ID, P.post_content';
 		if ( $count ) {
-			$select = 'COUNT(ID)';
+			$select = 'COUNT(P.ID)';
 		}
 		$limit_query = '';
 		if ( ! $count ) {

@@ -73,9 +73,9 @@ class Term_Link_Indexing_Action extends Abstract_Link_Indexing_Action {
 		$indexable_table   = Model::get_table_name( 'Indexable' );
 		$replacements      = $public_taxonomies;
 
-		$select = 'term_id, description';
+		$select = 'T.term_id, T.description';
 		if ( $count ) {
-			$select = 'COUNT(term_id)';
+			$select = 'COUNT(T.term_id)';
 		}
 		$limit_query = '';
 		if ( ! $count ) {
