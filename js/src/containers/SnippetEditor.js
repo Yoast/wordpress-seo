@@ -97,6 +97,7 @@ export function mapStateToProps( state ) {
 		recommendedReplacementVariables: state.settings.snippetEditor.recommendedReplacementVariables,
 		faviconSrc: state.settings.snippetEditor.siteIconUrl,
 		mobileImageSrc: state.snippetEditor.data.snippetPreviewImageURL,
+		shoppingData: state.shoppingData,
 	};
 }
 
