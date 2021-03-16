@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Integrations\Front_End;
 
+use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Conditionals\Front_End_Conditional;
 use Yoast\WP\SEO\Conditionals\WP_Robots_Conditional;
@@ -97,6 +98,8 @@ class WP_Robots_Integration_Test extends TestCase {
 			],
 		];
 
+		Monkey\Functions\expect( 'wp_reset_query' )->once();
+
 		$this->context_memoizer
 			->expects( 'for_current_page' )
 			->once()
@@ -130,6 +133,8 @@ class WP_Robots_Integration_Test extends TestCase {
 				],
 			],
 		];
+
+		Monkey\Functions\expect( 'wp_reset_query' )->once();
 
 		$this->context_memoizer
 			->expects( 'for_current_page' )
@@ -171,6 +176,8 @@ class WP_Robots_Integration_Test extends TestCase {
 				],
 			],
 		];
+
+		Monkey\Functions\expect( 'wp_reset_query' )->once();
 
 		$this->context_memoizer
 			->expects( 'for_current_page' )
