@@ -21,14 +21,14 @@ export default function PostPublish( { permalink } ) {
 				<a href={ "https://www.facebook.com/sharer/sharer.php?u=" + encodedUrl } target="_blank" rel="noopener noreferrer">
 					<FacebookIcon />
 					{ __( "Facebook", "wordpress-seo" ) }
-					<span className="screen-reader-text">{ __( "(Opens in a new browser tab)", "yoast-components" ) }</span>
+					<span className="screen-reader-text">{ __( "(Opens in a new browser tab)", "wordpress-seo" ) }</span>
 				</a>
 			</li>
 			<li>
 				<a href={ "https://twitter.com/share?url=" + encodedUrl } target="_blank" rel="noopener noreferrer">
 					<TwitterIcon />
 					{ __( "Twitter", "wordpress-seo" ) }
-					<span className="screen-reader-text">{ __( "(Opens in a new browser tab)", "yoast-components" ) }</span>
+					<span className="screen-reader-text">{ __( "(Opens in a new browser tab)", "wordpress-seo" ) }</span>
 				</a>
 			</li>
 		</ul>
