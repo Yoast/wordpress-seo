@@ -5,6 +5,10 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We follow [Semantic Versioning](http://semver.org/).
 
+## 1.5.0 March 15th, 2021
+### Bugfixes
+* Fixes a bug where the editor would crash when a separator would be generated that clashes with a generated ID in the schema template.
+
 ## 1.4.0 February 22nd, 2021
 ### Enhancements
 * Adds a `Date` block instruction for adding dates to a schema block template.
