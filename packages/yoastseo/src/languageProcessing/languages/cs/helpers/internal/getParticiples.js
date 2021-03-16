@@ -20,7 +20,7 @@ export default function( sentencePartText, auxiliaries ) {
 		forEach( getPassiveEndingsCzech, function( ending ) {
 			if ( word.endsWith( ending ) ) {
 				foundParticiples.push( new CzechParticiple( word, sentencePartText,
-					{ auxiliaries: auxiliaries, language: "cz" } ) );
+					{ auxiliaries: auxiliaries, language: "cs" } ) );
 			}
 		} );
 	} );

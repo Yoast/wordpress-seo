@@ -30,8 +30,7 @@ const expectedResults = {
 	keywordDensity: {
 		isApplicable: true,
 		score: 9,
-		resultText: "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: The focus keyphrase was found 19 times. " +
-			"This is great!",
+		resultText: "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: The focus keyphrase was found 38 times. This is great!",
 	},
 	metaDescriptionKeyword: {
 		isApplicable: true,
@@ -60,9 +59,9 @@ const expectedResults = {
 	textImages: {
 		isApplicable: true,
 		score: 6,
-		resultText: "<a href='https://yoa.st/33c' target='_blank'>Image alt attributes</a>: Images on this page do not have " +
-			"alt attributes that reflect the topic of your text. <a href='https://yoa.st/33d' target='_blank'>Add your keyphrase " +
-			"or synonyms to the alt tags of relevant images</a>!",
+		resultText: "<a href='https://yoa.st/33c' target='_blank'>Image alt attributes</a>: Out of 10 images on this page, " +
+			"only 1 has an alt attribute that reflects the topic of your text. <a href='https://yoa.st/33d' target='_blank'>" +
+			"Add your keyphrase or synonyms to the alt tags of more relevant images</a>!",
 	},
 	textLength: {
 		isApplicable: true,

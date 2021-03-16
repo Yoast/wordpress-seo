@@ -28,10 +28,8 @@ const expectedResults = {
 	},
 	keywordDensity: {
 		isApplicable: true,
-		score: 4,
-		resultText: "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: " +
-			"The focus keyphrase was found 14 times. That's less than the recommended minimum of 18 times for a text of this length." +
-			" <a href='https://yoa.st/33w' target='_blank'>Focus on your keyphrase</a>!",
+		score: 9,
+		resultText: "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: The focus keyphrase was found 27 times. This is great!",
 	},
 	metaDescriptionKeyword: {
 		isApplicable: true,
@@ -105,9 +103,8 @@ const expectedResults = {
 	},
 	keyphraseDistribution: {
 		isApplicable: true,
-		score: 6,
-		resultText: "<a href='https://yoa.st/33q' target='_blank'>Keyphrase distribution</a>: Uneven. Some parts of your text do " +
-			"not contain the keyphrase or its synonyms. <a href='https://yoa.st/33u' target='_blank'>Distribute them more evenly</a>.",
+		score: 9,
+		resultText: "<a href='https://yoa.st/33q' target='_blank'>Keyphrase distribution</a>: Good job!",
 	},
 	fleschReadingEase: {
 		isApplicable: false,
