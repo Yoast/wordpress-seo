@@ -13,7 +13,7 @@ function StarRating( props ) {
 
 	return (
 		<div
-			ariaHidden="true"
+			aria-hidden="true"
 			className="yoast-star-rating"
 		>
 			<span className="yoast-star-rating__placeholder" role="img">
