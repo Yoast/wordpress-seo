@@ -24,23 +24,21 @@
 	"require": {
 		"php": "^5.6.20||^7.0",
 		"composer/installers": "^1.9.0",
-		"yoast/i18n-module": "^3.1.1",
-		"pimple/pimple": "^3.2",
-		"psr/log": "^1.0",
-		"league/oauth2-client": "2.4.1",
-		"symfony/dependency-injection": "^3.4",
-		"psr/container": "1.0.0"
+		"yoast/i18n-module": "^3.1.1"
 	},
 	"require-dev": {
-		"yoast/php-development-environment": "^1.0",
-		"yoast/yoastcs": "^2.1.0",
 		"humbug/php-scoper": "^0.13.4",
-		"phpunit/phpunit": "^5.7",
-		"atanamo/php-codeshift": "^1.0",
-		"symfony/config": "^3.4",
-		"php-parallel-lint/php-parallel-lint": "^1.2.0",
+		"league/oauth2-client": "2.4.1",
 		"php-parallel-lint/php-console-highlighter": "^0.5",
-		"yoast/wp-test-utils": "^0.2.1"
+		"php-parallel-lint/php-parallel-lint": "^1.2.0",
+		"phpunit/phpunit": "^5.7",
+		"psr/container": "1.0.0",
+		"psr/log": "^1.0",
+		"symfony/config": "^3.4",
+		"symfony/dependency-injection": "^3.4",
+		"yoast/php-development-environment": "^1.0",
+		"yoast/wp-test-utils": "^0.2.1",
+		"yoast/yoastcs": "^2.1.0"
 	},
 	"minimum-stability": "dev",
 	"prefer-stable": true,
@@ -82,7 +80,7 @@
 			"Yoast\\WP\\SEO\\Composer\\Actions::check_coding_standards"
 		],
 		"check-cs-thresholds": [
-			"@putenv YOASTCS_THRESHOLD_ERRORS=347",
+			"@putenv YOASTCS_THRESHOLD_ERRORS=340",
 			"@putenv YOASTCS_THRESHOLD_WARNINGS=227",
 			"Yoast\\WP\\SEO\\Composer\\Actions::check_cs_thresholds"
 		],
@@ -120,11 +118,6 @@
 		"prefix-symfony": [
 			"@php ./vendor/humbug/php-scoper/bin/php-scoper add-prefix --prefix=YoastSEO_Vendor --output-dir=./vendor_prefixed/symfony/dependency-injection --config=config/php-scoper/dependency-injection.inc.php --force --quiet"
 		],
-		"remove-vendor-prefixed-uses": [
-			"@php ./vendor/atanamo/php-codeshift/bin/codeshift --mod=config/php-codeshift/remove-vendor-prefixing-codemod.php --src=artifact-composer/src",
-			"@php ./vendor/atanamo/php-codeshift/bin/codeshift --mod=config/php-codeshift/remove-vendor-prefixing-codemod.php --src=artifact-composer/src/config/migrations",
-			"@php ./vendor/atanamo/php-codeshift/bin/codeshift --mod=config/php-codeshift/remove-vendor-prefixing-codemod.php --src=artifact-composer/lib"
-		],
 		"compile-di": [
 			"rm -f ./src/generated/container.php",
 			"rm -f ./src/generated/container.php.meta",
@@ -138,8 +131,8 @@
 		"generate-migration": [
 			"Yoast\\WP\\SEO\\Composer\\Actions::generate_migration"
 		],
-        "generate-unit-test": [
-          "Yoast\\WP\\SEO\\Composer\\Actions::generate_unit_test"
-        ]
+		"generate-unit-test": [
+			"Yoast\\WP\\SEO\\Composer\\Actions::generate_unit_test"
+		]
 	}
 }

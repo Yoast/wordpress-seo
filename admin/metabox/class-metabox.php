@@ -893,6 +893,9 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			'enabled_features'        => WPSEO_Utils::retrieve_enabled_features(),
 		];
 
+		$alert_dismissal_action = YoastSEO()->classes->get( \Yoast\WP\SEO\Actions\Alert_Dismissal_Action::class );
+		$dismissed_alerts       = $alert_dismissal_action->all_dismissed();
+
 		$script_data = [
 			// @todo replace this translation with JavaScript translations.
 			'media'            => [ 'choose_image' => __( 'Use Image', 'wordpress-seo' ) ],
@@ -905,6 +908,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				'worker'                      => $worker_script_data,
 				'estimatedReadingTimeEnabled' => $this->estimated_reading_time_conditional->is_met(),
 			],
+			'dismissedAlerts'  => $dismissed_alerts,
 		];
 
 		if ( post_type_supports( get_post_type(), 'thumbnail' ) ) {
@@ -1111,30 +1115,5 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 */
 	protected function get_product_title() {
 		return YoastSEO()->helpers->product->get_product_name();
-	}
-
-	/* ********************* DEPRECATED METHODS ********************* */
-
-	/**
-	 * Outputs a tab in the Yoast SEO Metabox.
-	 *
-	 * @deprecated         12.2
-	 * @codeCoverageIgnore
-	 *
-	 * @param string $id      CSS ID of the tab.
-	 * @param string $heading Heading for the tab.
-	 * @param string $content Content of the tab. This content should be escaped.
-	 */
-	public function do_tab( $id, $heading, $content ) {
-		_deprecated_function( __METHOD__, '12.2' );
-
-		?>
-		<div id="<?php echo esc_attr( 'wpseo_' . $id ); ?>" class="wpseotab wpseo-form <?php echo esc_attr( $id ); ?>">
-			<?php
-			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: deprecated function.
-			echo $content;
-			?>
-		</div>
-		<?php
 	}
 }

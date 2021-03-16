@@ -654,48 +654,4 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 
 		return $url;
 	}
-
-	/* ********************* DEPRECATED METHODS ********************* */
-
-	/**
-	 * Get Home URL.
-	 *
-	 * @deprecated 11.5
-	 * @codeCoverageIgnore
-	 *
-	 * @return string
-	 */
-	protected function get_home_url() {
-		_deprecated_function( __METHOD__, 'WPSEO 11.5', 'WPSEO_Utils::home_url' );
-
-		return YoastSEO()->helpers->url->home();
-	}
-
-	/**
-	 * Get front page ID.
-	 *
-	 * @deprecated 11.5
-	 * @codeCoverageIgnore
-	 *
-	 * @return int
-	 */
-	protected function get_page_on_front_id() {
-		_deprecated_function( __METHOD__, 'WPSEO 11.5' );
-
-		return (int) get_option( 'page_on_front' );
-	}
-
-	/**
-	 * Get page for posts ID.
-	 *
-	 * @deprecated 11.5
-	 * @codeCoverageIgnore
-	 *
-	 * @return int
-	 */
-	protected function get_page_for_posts_id() {
-		_deprecated_function( __METHOD__, 'WPSEO 11.5' );
-
-		return (int) get_option( 'page_for_posts' );
-	}
 }

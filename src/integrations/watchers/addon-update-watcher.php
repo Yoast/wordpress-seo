@@ -3,29 +3,21 @@
 namespace Yoast\WP\SEO\Integrations\Watchers;
 
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
-use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 
 /**
- * Enables Yoast add-on auto updates when Yoast SEO (Premium) is enabled and the other way around.
+ * Enables Yoast add-on auto updates when Yoast SEO is enabled and the other way around.
  *
  * Also removes the auto-update toggles from the Yoast SEO add-ons.
  */
 class Addon_Update_Watcher implements Integration_Interface {
 
 	/**
-	 * ID string used by WordPress to identify the Yoast SEO plugin.
+	 * ID string used by WordPress to identify the free plugin.
 	 *
 	 * @var string
 	 */
 	const WPSEO_FREE_PLUGIN_ID = 'wordpress-seo/wp-seo.php';
-
-	/**
-	 * ID string used by WordPress to identify the Yoast SEO Premium plugin.
-	 *
-	 * @var string
-	 */
-	const WPSEO_PREMIUM_PLUGIN_ID = 'wordpress-seo-premium/wp-seo-premium.php';
 
 	/**
 	 * A list of Yoast add-on identifiers.
@@ -33,29 +25,12 @@ class Addon_Update_Watcher implements Integration_Interface {
 	 * @var string[]
 	 */
 	const ADD_ONS = [
+		'wordpress-seo-premium/wp-seo-premium.php',
 		'wpseo-video/video-seo.php',
 		'wpseo-local/local-seo.php',
 		'wpseo-woocommerce/wpseo-woocommerce.php',
 		'wpseo-news/wpseo-news.php',
 	];
-
-	/**
-	 * The product helper.
-	 *
-	 * @var Product_Helper
-	 */
-	protected $product_helper;
-
-	/**
-	 * Enables Yoast add-on auto updates when Yoast SEO (Premium) is enabled and the other way around.
-	 *
-	 * Also removes the auto-update toggles from the Yoast SEO add-ons.
-	 *
-	 * @param Product_Helper $product_helper The product helper.
-	 */
-	public function __construct( Product_Helper $product_helper ) {
-		$this->product_helper = $product_helper;
-	}
 
 	/**
 	 * Registers the hooks.
@@ -105,13 +80,13 @@ class Addon_Update_Watcher implements Integration_Interface {
 
 		$auto_updated_plugins = \get_option( 'auto_update_plugins' );
 
-		if ( $this->are_auto_updates_enabled( $this->get_plugin_id(), $auto_updated_plugins ) ) {
+		if ( $this->are_auto_updates_enabled( self::WPSEO_FREE_PLUGIN_ID, $auto_updated_plugins ) ) {
 			return \sprintf(
 				'<em>%s</em>',
 				\sprintf(
-					/* Translators: %1$s resolves to Yoast SEO. */
+				/* Translators: %1$s resolves to Yoast SEO. */
 					\esc_html__( 'Auto-updates are enabled based on this setting for %1$s.', 'wordpress-seo' ),
-					$this->product_helper->get_product_name()
+					'Yoast SEO'
 				)
 			);
 		}
@@ -119,9 +94,9 @@ class Addon_Update_Watcher implements Integration_Interface {
 		return \sprintf(
 			'<em>%s</em>',
 			\sprintf(
-				/* Translators: %1$s resolves to Yoast SEO. */
+			/* Translators: %1$s resolves to Yoast SEO. */
 				\esc_html__( 'Auto-updates are disabled based on this setting for %1$s.', 'wordpress-seo' ),
-				$this->product_helper->get_product_name()
+				'Yoast SEO'
 			)
 		);
 	}
@@ -139,10 +114,8 @@ class Addon_Update_Watcher implements Integration_Interface {
 			return;
 		}
 
-		$yoast_plugin_id = $this->get_plugin_id();
-
-		$auto_updates_are_enabled  = $this->are_auto_updates_enabled( $yoast_plugin_id, $new_value );
-		$auto_updates_were_enabled = $this->are_auto_updates_enabled( $yoast_plugin_id, $old_value );
+		$auto_updates_are_enabled  = $this->are_auto_updates_enabled( self::WPSEO_FREE_PLUGIN_ID, $new_value );
+		$auto_updates_were_enabled = $this->are_auto_updates_enabled( self::WPSEO_FREE_PLUGIN_ID, $old_value );
 
 		if ( $auto_updates_are_enabled === $auto_updates_were_enabled ) {
 			// Auto-updates for Yoast SEO have stayed the same, so have neither been enabled or disabled.
@@ -161,24 +134,13 @@ class Addon_Update_Watcher implements Integration_Interface {
 	}
 
 	/**
-	 * Get the ID of the currently installed Yoast SEO (Premium) plugin.
-	 *
-	 * @return string The plugin ID.
-	 */
-	protected function get_plugin_id() {
-		if ( $this->product_helper->is_premium() ) {
-			return self::WPSEO_PREMIUM_PLUGIN_ID;
-		}
-		return self::WPSEO_FREE_PLUGIN_ID;
-	}
-
-	/**
 	 * Enables auto-updates for all addons.
 	 *
 	 * @param string[] $auto_updated_plugins The current list of auto-updated plugins.
 	 */
 	protected function enable_auto_updates_for_addons( $auto_updated_plugins ) {
-		\update_option( 'auto_update_plugins', \array_merge( $auto_updated_plugins, self::ADD_ONS ) );
+		$plugins = \array_merge( $auto_updated_plugins, self::ADD_ONS );
+		\update_option( 'auto_update_plugins', $plugins );
 	}
 
 	/**
@@ -187,7 +149,7 @@ class Addon_Update_Watcher implements Integration_Interface {
 	 * @param string[] $auto_updated_plugins The current list of auto-updated plugins.
 	 */
 	protected function disable_auto_updates_for_addons( $auto_updated_plugins ) {
-		\update_option( 'auto_update_plugins', \array_diff( $auto_updated_plugins, self::ADD_ONS ) );
+		\update_option( 'auto_update_plugins', \array_values( \array_diff( $auto_updated_plugins, self::ADD_ONS ) ) );
 	}
 
 	/**
@@ -199,9 +161,10 @@ class Addon_Update_Watcher implements Integration_Interface {
 	 * @return bool Whether auto updates for a plugin are enabled.
 	 */
 	protected function are_auto_updates_enabled( $plugin_id, $auto_updated_plugins ) {
-		if ( $auto_updated_plugins === false ) {
+		if ( $auto_updated_plugins === false || ! \is_array( $auto_updated_plugins ) ) {
 			return false;
 		}
+
 		return \in_array( $plugin_id, $auto_updated_plugins, true );
 	}
 }

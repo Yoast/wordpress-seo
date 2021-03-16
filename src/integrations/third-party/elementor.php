@@ -2,6 +2,8 @@
 
 namespace Yoast\WP\SEO\Integrations\Third_Party;
 
+use Elementor\Controls_Manager;
+use Elementor\Core\DocumentTypes\PageBase;
 use WP_Post;
 use WP_Screen;
 use WPSEO_Admin_Asset;
@@ -16,14 +18,12 @@ use WPSEO_Metabox_Analysis_SEO;
 use WPSEO_Metabox_Formatter;
 use WPSEO_Post_Metabox_Formatter;
 use WPSEO_Utils;
+use Yoast\WP\SEO\Conditionals\Admin\Estimated_Reading_Time_Conditional;
 use Yoast\WP\SEO\Conditionals\Third_Party\Elementor_Edit_Conditional;
 use Yoast\WP\SEO\Helpers\Capability_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Presenters\Admin\Meta_Fields_Presenter;
-use Elementor\Controls_Manager;
-use Elementor\Core\DocumentTypes\PageBase;
-use Yoast\WP\SEO\Conditionals\Admin\Estimated_Reading_Time_Conditional;
 
 /**
  * Integrates the Yoast SEO metabox in the Elementor editor.
@@ -113,7 +113,8 @@ class Elementor implements Integration_Interface {
 	 * @param WPSEO_Admin_Asset_Manager          $asset_manager                      The asset manager.
 	 * @param Options_Helper                     $options                            The options helper.
 	 * @param Capability_Helper                  $capability                         The capability helper.
-	 * @param Estimated_Reading_Time_Conditional $estimated_reading_time_conditional The Estimated Reading Time conditional.
+	 * @param Estimated_Reading_Time_Conditional $estimated_reading_time_conditional The Estimated Reading Time
+	 *                                                                               conditional.
 	 */
 	public function __construct(
 		WPSEO_Admin_Asset_Manager $asset_manager,
@@ -142,6 +143,14 @@ class Elementor implements Integration_Interface {
 	public function register_hooks() {
 		\add_action( 'wp_ajax_wpseo_elementor_save', [ $this, 'save_postdata' ] );
 
+		// We need to delay the post type lookup to give other plugins a chance to register custom post types.
+		\add_action( 'init', [ $this, 'register_elementor_hooks' ], \PHP_INT_MAX );
+	}
+
+	/**
+	 * Registers our Elementor hooks.
+	 */
+	public function register_elementor_hooks() {
 		if ( ! $this->display_metabox( $this->get_metabox_post()->post_type ) ) {
 			return;
 		}
@@ -408,6 +417,9 @@ class Elementor implements Integration_Interface {
 			'enabled_features'        => WPSEO_Utils::retrieve_enabled_features(),
 		];
 
+		$alert_dismissal_action = YoastSEO()->classes->get( \Yoast\WP\SEO\Actions\Alert_Dismissal_Action::class );
+		$dismissed_alerts       = $alert_dismissal_action->all_dismissed();
+
 		$script_data = [
 			'media'             => [ 'choose_image' => __( 'Use Image', 'wordpress-seo' ) ],
 			'metabox'           => $this->get_metabox_script_data(),
@@ -420,6 +432,7 @@ class Elementor implements Integration_Interface {
 				'worker'                      => $worker_script_data,
 				'estimatedReadingTimeEnabled' => $this->estimated_reading_time_conditional->is_met(),
 			],
+			'dismissedAlerts'   => $dismissed_alerts,
 		];
 
 		if ( \post_type_supports( $this->get_metabox_post()->post_type, 'thumbnail' ) ) {
