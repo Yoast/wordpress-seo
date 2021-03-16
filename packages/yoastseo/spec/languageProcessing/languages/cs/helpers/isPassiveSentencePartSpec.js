@@ -1,4 +1,4 @@
-import isPassiveSentencePart from "../../../../../src/languageProcessing/languages/cz/helpers/isPassiveSentencePart";
+import isPassiveSentencePart from "../../../../../src/languageProcessing/languages/cs/helpers/isPassiveSentencePart";
 
 describe( "determines whether sentence part is passive", function() {
 	it( "returns true if the sentence is passive", function() {

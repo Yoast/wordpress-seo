@@ -1,4 +1,4 @@
-import getSentenceParts from "../../../../../src/languageProcessing/languages/cz/helpers/getSentenceParts.js";
+import getSentenceParts from "../../../../../src/languageProcessing/languages/cs/helpers/getSentenceParts.js";
 
 describe( "splits Czech sentences into parts", function() {
 	it( "returns the whole sentence when there is no stopword", function() {

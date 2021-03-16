@@ -1,4 +1,4 @@
-import getParticiples from "../../../../../../src/languageProcessing/languages/cz/helpers/internal/getParticiples.js";
+import getParticiples from "../../../../../../src/languageProcessing/languages/cs/helpers/internal/getParticiples.js";
 import SentencePart from "../../../../../../src/values/SentencePart.js";
 
 describe( "Test for matching Czech participles", function() {

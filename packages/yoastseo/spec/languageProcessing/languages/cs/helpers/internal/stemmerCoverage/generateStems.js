@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import stem from "../../../../../../../src/languageProcessing/languages/cz/helpers/internal/stem";
+import stem from "../../../../../../../src/languageProcessing/languages/cs/helpers/internal/stem";
 import getMorphologyData from "../../../../../../specHelpers/getMorphologyData";
 import sampleVocabulary from "./sampleVocabulary.json";
 

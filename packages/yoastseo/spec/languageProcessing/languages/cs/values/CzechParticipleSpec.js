@@ -1,4 +1,4 @@
-import CzechParticiple from "../../../../../src/languageProcessing/languages/cz/values/CzechParticiple";
+import CzechParticiple from "../../../../../src/languageProcessing/languages/cs/values/CzechParticiple";
 
 describe( "A test for checking the Czech participle", function() {
 	it( "checks the properties of the Czech participle object with a passive", function() {

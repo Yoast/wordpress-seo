@@ -14,7 +14,7 @@ import hu from "../../premium-configuration/data/morphologyData-hu-v1.json";
 import he from "../../premium-configuration/data/morphologyData-he-v1.json";
 import nb from "../../premium-configuration/data/morphologyData-nb-v1.json";
 import tr from "../../premium-configuration/data/morphologyData-tr-v1.json";
-import cz from "../../premium-configuration/data/morphologyData-cz-v1.json";
+import cs from "../../premium-configuration/data/morphologyData-cs-v1.json";
 
 const morphologyData = {
 	en,
@@ -33,7 +33,7 @@ const morphologyData = {
 	he,
 	nb,
 	tr,
-	cz,
+	cs,
 };
 
 /**
