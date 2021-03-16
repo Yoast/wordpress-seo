@@ -20,14 +20,14 @@ export default function PostPublish( { permalink } ) {
 			<li>
 				<a href={ "https://www.facebook.com/sharer/sharer.php?u=" + encodedUrl } target="_blank" rel="noopener noreferrer">
 					<FacebookIcon />
-					Facebook
+					{ __( "Facebook", "wordpress-seo" ) }
 					<span className="screen-reader-text">{ __( "(Opens in a new browser tab)", "yoast-components" ) }</span>
 				</a>
 			</li>
 			<li>
 				<a href={ "https://twitter.com/share?url=" + encodedUrl } target="_blank" rel="noopener noreferrer">
 					<TwitterIcon />
-					Twitter
+					{ __( "Twitter", "wordpress-seo" ) }
 					<span className="screen-reader-text">{ __( "(Opens in a new browser tab)", "yoast-components" ) }</span>
 				</a>
 			</li>
