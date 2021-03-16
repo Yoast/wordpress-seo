@@ -108,6 +108,7 @@ class Addon_Update_Watcher_Test extends TestCase {
 			'wpseo-local/local-seo.php',
 			'wpseo-woocommerce/wpseo-woocommerce.php',
 			'wpseo-news/wpseo-news.php',
+			'acf-content-analysis-for-yoast-seo/yoast-acf-analysis.php',
 		];
 
 		Monkey\Functions\expect( 'update_option' )
