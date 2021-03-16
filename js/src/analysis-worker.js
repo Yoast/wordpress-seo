@@ -12,6 +12,7 @@ self.onmessage = ( event ) => {
 	const originalUrl = self.yoastOriginalUrl || self.location.href;
 	// We only know the URL of the worker script, so base all other files names on that.
 	self.importScripts( event.data.lodashURL );
+	// eslint-disable-next-line no-undef
 	self.lodash = _.noConflict();
 
 	self.importScripts( originalUrl.replace( "analysis-worker", "commons" ) );
@@ -19,6 +20,7 @@ self.onmessage = ( event ) => {
 	self.importScripts( originalUrl.replace( "analysis-worker", "analysis" ) );
 	self.importScripts( originalUrl.replace( "analysis-worker", "languages/" + event.data.language ) );
 
+	// eslint-disable-next-line new-cap
 	const worker = new self.yoast.analysis.AnalysisWebWorker( self, new self.yoast.Researcher.default() );
 	worker.register();
 };
