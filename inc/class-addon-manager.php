@@ -72,11 +72,11 @@ class WPSEO_Addon_Manager {
 	 * @var array
 	 */
 	protected static $addons = [
-		'wp-seo-premium.php'     => self::PREMIUM_SLUG,
-		'wpseo-news.php'         => self::NEWS_SLUG,
-		'video-seo.php'          => self::VIDEO_SLUG,
-		'wpseo-woocommerce.php'  => self::WOOCOMMERCE_SLUG,
-		'local-seo.php'          => self::LOCAL_SLUG,
+		'wp-seo-premium.php'    => self::PREMIUM_SLUG,
+		'wpseo-news.php'        => self::NEWS_SLUG,
+		'video-seo.php'         => self::VIDEO_SLUG,
+		'wpseo-woocommerce.php' => self::WOOCOMMERCE_SLUG,
+		'local-seo.php'         => self::LOCAL_SLUG,
 	];
 
 	/**
