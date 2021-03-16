@@ -238,6 +238,7 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 Release Date: March 16th, 2021
 
 Bugfixes:
+
 * Fixes a bug where in rare cases incorrect usage of `WP_Query` could lead to incorrect SEO data.
 
 = 16.0 =
