@@ -154,7 +154,7 @@ const wordsToStem = [
 	// Input a word ending in diminutive suffix -éček.
 	[ "cédéček", "céd" ],
 	// Input a word ending in diminutive suffix -iček.
-	//[ "kočiček", "koč" ],
+	// [ "kočiček", "koč" ],
 	// Input a word ending in diminutive suffix -íček.
 	[ "pešíček", "peš" ],
 	// Input a word ending in diminutive suffix -enek.
