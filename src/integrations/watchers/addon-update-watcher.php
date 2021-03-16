@@ -27,10 +27,10 @@ class Addon_Update_Watcher implements Integration_Interface {
 	const ADD_ON_PLUGIN_FILES = [
 		'wordpress-seo-premium/wp-seo-premium.php',
 		'wpseo-video/video-seo.php',
-		'wpseo-local/local-seo.php',
+		'wpseo-local/local-seo.php', // When installing Local through a released zip, the path is different from the path on a dev environment.
 		'wpseo-woocommerce/wpseo-woocommerce.php',
 		'wpseo-news/wpseo-news.php',
-		'yoast-acf-analysis/yoast-acf-analysis.php',
+		'acf-content-analysis-for-yoast-seo/yoast-acf-analysis.php', // When installing ACF for Yoast through a released zip, the path is different from the path on a dev environment.
 	];
 
 	/**
