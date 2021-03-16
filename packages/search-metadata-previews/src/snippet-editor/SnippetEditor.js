@@ -518,6 +518,7 @@ class SnippetEditor extends React.Component {
 			faviconSrc,
 			mobileImageSrc,
 			idSuffix,
+			shoppingData,
 		} = this.props;
 
 		const {
@@ -556,6 +557,7 @@ class SnippetEditor extends React.Component {
 						locale={ locale }
 						faviconSrc={ faviconSrc }
 						mobileImageSrc={ mobileImageSrc }
+						shoppingData={ shoppingData }
 						{ ...mappedData }
 					/>
 
@@ -601,6 +603,7 @@ SnippetEditor.propTypes = {
 	faviconSrc: PropTypes.string,
 	mobileImageSrc: PropTypes.string,
 	idSuffix: PropTypes.string,
+	shoppingData: PropTypes.object.isRequired,
 };
 
 SnippetEditor.defaultProps = {
