@@ -18,13 +18,17 @@ export default function PostPublish( { permalink } ) {
 		</div>
 		<ul className="yoast-seo-social-share-buttons">
 			<li>
-				<a href={ "https://www.facebook.com/sharer/sharer.php?u=" + encodedUrl } target="_blank" rel="noopener noreferrer">
+				<a href={ "https://www.facebook.com/sharer/sharer.php?u=" + encodedUrl } rel="noopener noreferrer">
 					<FacebookIcon />
+					Facebook
+					<span className="screen-reader-text">{ __( "(Opens in a new browser tab)", "yoast-components" ) }</span>
 				</a>
 			</li>
 			<li>
-				<a href={ "https://twitter.com/share?url=" + encodedUrl } target="_blank" rel="noopener noreferrer">
+				<a href={ "https://twitter.com/share?url=" + encodedUrl } rel="noopener noreferrer">
 					<TwitterIcon />
+					Twitter
+					<span className="screen-reader-text">{ __( "(Opens in a new browser tab)", "yoast-components" ) }</span>
 				</a>
 			</li>
 		</ul>

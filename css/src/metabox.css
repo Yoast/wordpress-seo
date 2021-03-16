@@ -700,8 +700,6 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 ul.yoast-seo-social-share-buttons li {
 	display: inline-block;
 	margin-right: 8px;
-	width: 32px;
-	height: 32px;
 }
 
 ul.yoast-seo-social-share-buttons svg {
@@ -710,9 +708,9 @@ ul.yoast-seo-social-share-buttons svg {
 }
 
 ul.yoast-seo-social-share-buttons a {
-	width: 32px;
-	height: 32px;
-	display: inline-block;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 }
 
 div.interface-pinned-items button.components-button[aria-label="Yoast SEO"] > svg,
