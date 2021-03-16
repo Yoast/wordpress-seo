@@ -38,7 +38,7 @@ const researchers = {
 	ru: RussianResearcher,
 	sv: SwedishResearcher,
 	tr: TurkishResearcher,
-	cz: CzechResearcher,
+	cs: CzechResearcher,
 };
 
 /**
