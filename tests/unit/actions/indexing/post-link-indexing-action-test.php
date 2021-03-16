@@ -119,7 +119,7 @@ class Post_Link_Indexing_Action_Test extends TestCase {
 			LEFT JOIN wp_yoast_indexable AS I
 				ON p.ID = I.object_id
 				AND link_count IS NOT NULL
-				AND object_type = 'post
+				AND object_type = 'post'
 			LEFT JOIN wp_yoast_seo_links AS L
 				ON L.post_id = P.ID
 				AND L.target_indexable_id IS NULL
@@ -181,7 +181,7 @@ class Post_Link_Indexing_Action_Test extends TestCase {
 			LEFT JOIN wp_yoast_indexable AS I
 				ON p.ID = I.object_id
 				AND link_count IS NOT NULL
-				AND object_type = 'post
+				AND object_type = 'post'
 			LEFT JOIN wp_yoast_seo_links AS L
 				ON L.post_id = P.ID
 				AND L.target_indexable_id IS NULL
@@ -241,7 +241,7 @@ class Post_Link_Indexing_Action_Test extends TestCase {
 			LEFT JOIN wp_yoast_indexable AS I
 				ON p.ID = I.object_id
 				AND link_count IS NOT NULL
-				AND object_type = 'post
+				AND object_type = 'post'
 			LEFT JOIN wp_yoast_seo_links AS L
 				ON L.post_id = P.ID
 				AND L.target_indexable_id IS NULL
