@@ -3,6 +3,11 @@
 All notable changes to this project will be documented in this file.
 We follow [Semantic Versioning](http://semver.org/).
 
+## 1.15.0 April 5th, 2021
+### Enhancements
+* Removes the keyphrase highlighting in the mobile meta description to reflect new Google behavior.
+* Improves the URL in the SnippetEditor.
+
 ## 1.0.0 July 20th, 2020
 ### Enhancements
 * Adds a new Facebook and Twitter preview written in React.
