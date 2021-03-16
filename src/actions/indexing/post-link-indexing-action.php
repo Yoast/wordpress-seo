@@ -90,7 +90,7 @@ class Post_Link_Indexing_Action extends Abstract_Link_Indexing_Action {
 			LEFT JOIN $indexable_table AS I
 				ON p.ID = I.object_id
 				AND link_count IS NOT NULL
-				AND object_type = 'post
+				AND object_type = 'post'
 			LEFT JOIN $links_table AS L
 				ON L.post_id = P.ID
 				AND L.target_indexable_id IS NULL
