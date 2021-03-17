@@ -76,7 +76,7 @@ class Post_Link_Indexing_Action extends Abstract_Link_Indexing_Action {
 
 		$select = 'ID, post_content';
 		if ( $count ) {
-			$select = 'COUNT(ID)';
+			$select = 'COUNT(P.ID)';
 		}
 		$limit_query = '';
 		if ( ! $count ) {
@@ -88,7 +88,7 @@ class Post_Link_Indexing_Action extends Abstract_Link_Indexing_Action {
 			"SELECT $select
 			FROM {$this->wpdb->posts} AS P
 			LEFT JOIN $indexable_table AS I
-				ON p.ID = I.object_id
+				ON P.ID = I.object_id
 				AND link_count IS NOT NULL
 				AND object_type = 'post'
 			LEFT JOIN $links_table AS L
@@ -98,7 +98,7 @@ class Post_Link_Indexing_Action extends Abstract_Link_Indexing_Action {
 				AND L.target_post_id IS NOT NULL
 				AND L.target_post_id != 0
 			WHERE ( I.object_id IS NULL OR L.post_id IS NOT NULL )
-				AND post_status = 'publish'
+				AND P.post_status = 'publish'
 				AND post_type IN ($placeholders)
 			$limit_query
 			",
