@@ -272,6 +272,7 @@ class Front_End_Integration implements Integration_Interface {
 
 		\do_action( 'wpseo_head' );
 
+		// phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- Reason: we have to restore the query.
 		$GLOBALS['wp_query'] = $old_wp_query;
 	}
 
