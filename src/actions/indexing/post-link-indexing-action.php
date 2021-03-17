@@ -74,9 +74,9 @@ class Post_Link_Indexing_Action extends Abstract_Link_Indexing_Action {
 		$links_table       = Model::get_table_name( 'SEO_Links' );
 		$replacements      = $public_post_types;
 
-		$select = 'ID, post_content';
+		$select = 'P.ID, P.post_content';
 		if ( $count ) {
-			$select = 'COUNT(ID)';
+			$select = 'COUNT(P.ID)';
 		}
 		$limit_query = '';
 		if ( ! $count ) {
@@ -88,9 +88,9 @@ class Post_Link_Indexing_Action extends Abstract_Link_Indexing_Action {
 			"SELECT $select
 			FROM {$this->wpdb->posts} AS P
 			LEFT JOIN $indexable_table AS I
-				ON p.ID = I.object_id
-				AND link_count IS NOT NULL
-				AND object_type = 'post
+				ON P.ID = I.object_id
+				AND I.link_count IS NOT NULL
+				AND I.object_type = 'post'
 			LEFT JOIN $links_table AS L
 				ON L.post_id = P.ID
 				AND L.target_indexable_id IS NULL
@@ -98,8 +98,8 @@ class Post_Link_Indexing_Action extends Abstract_Link_Indexing_Action {
 				AND L.target_post_id IS NOT NULL
 				AND L.target_post_id != 0
 			WHERE ( I.object_id IS NULL OR L.post_id IS NOT NULL )
-				AND post_status = 'publish'
-				AND post_type IN ($placeholders)
+				AND P.post_status = 'publish'
+				AND P.post_type IN ($placeholders)
 			$limit_query
 			",
 			$replacements
