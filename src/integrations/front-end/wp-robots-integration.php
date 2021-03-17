@@ -68,9 +68,10 @@ class WP_Robots_Integration implements Integration_Interface {
 
 		$merged_robots   = array_merge( $robots, $this->get_robots_value() );
 		$filtered_robots = $this->filter_robots_no_index( $merged_robots );
+		$sorted_robots   = $this->sort_robots( $filtered_robots );
 
 		// Filter all falsy-null robot values.
-		return array_filter( $filtered_robots );
+		return array_filter( $sorted_robots );
 	}
 
 	/**
@@ -79,7 +80,16 @@ class WP_Robots_Integration implements Integration_Interface {
 	 * @returns array The robots key-value pairs.
 	 */
 	protected function get_robots_value() {
+		global $wp_query;
+
+		$old_wp_query = $wp_query;
+		// phpcs:ignore WordPress.WP.DiscouragedFunctions.wp_reset_query_wp_reset_query -- Reason: The recommended function, wp_reset_postdata, doesn't reset wp_query.
+		\wp_reset_query();
+
 		$context = $this->context_memoizer->for_current_page();
+
+		// phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- Reason: we have to restore the query.
+		$GLOBALS['wp_query'] = $old_wp_query;
 
 		$robots_presenter               = new Robots_Presenter();
 		$robots_presenter->presentation = $context->presentation;
@@ -148,6 +158,33 @@ class WP_Robots_Integration implements Integration_Interface {
 		$robots['max-snippet']       = null;
 		$robots['max-image-preview'] = null;
 		$robots['max-video-preview'] = null;
+
+		return $robots;
+	}
+
+	/**
+	 * Sorts the robots array.
+	 *
+	 * @param array $robots The robots array.
+	 *
+	 * @return array The sorted robots array.
+	 */
+	protected function sort_robots( $robots ) {
+		\uksort(
+			$robots,
+			function ( $a, $b ) {
+				$order = [
+					'index'             => 0,
+					'noindex'           => 1,
+					'follow'            => 2,
+					'nofollow'          => 3,
+				];
+				$ai    = isset( $order[ $a ] ) ? $order[ $a ] : 4;
+				$bi    = isset( $order[ $b ] ) ? $order[ $b ] : 4;
+
+				return ( $ai - $bi );
+			}
+		);
 
 		return $robots;
 	}

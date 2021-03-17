@@ -114,11 +114,14 @@ class Term_Link_Indexing_Action_Test extends TestCase {
 			->andReturn( [ 'category', 'tag' ] );
 
 		$empty_string   = '';
-		$expected_query = "SELECT COUNT(term_id)
-			FROM wp_term_taxonomy
-			WHERE term_id NOT IN (
-				SELECT object_id FROM wp_yoast_indexable WHERE link_count IS NOT NULL AND object_type = 'term'
-			) AND taxonomy IN (%s, %s)
+		$expected_query = "SELECT COUNT(T.term_id)
+			FROM wp_term_taxonomy AS T
+			LEFT JOIN wp_yoast_indexable AS I
+				ON T.term_id = I.object_id
+				AND I.object_type = 'term'
+				AND I.link_count IS NOT NULL
+			WHERE I.object_id IS NULL
+				AND T.taxonomy IN (%s, %s)
 			$empty_string
 			";
 
@@ -175,11 +178,14 @@ class Term_Link_Indexing_Action_Test extends TestCase {
 			->andReturn( [ 'category', 'tag' ] );
 
 		$empty_string   = '';
-		$expected_query = "SELECT COUNT(term_id)
-			FROM wp_term_taxonomy
-			WHERE term_id NOT IN (
-				SELECT object_id FROM wp_yoast_indexable WHERE link_count IS NOT NULL AND object_type = 'term'
-			) AND taxonomy IN (%s, %s)
+		$expected_query = "SELECT COUNT(T.term_id)
+			FROM wp_term_taxonomy AS T
+			LEFT JOIN wp_yoast_indexable AS I
+				ON T.term_id = I.object_id
+				AND I.object_type = 'term'
+				AND I.link_count IS NOT NULL
+			WHERE I.object_id IS NULL
+				AND T.taxonomy IN (%s, %s)
 			$empty_string
 			";
 
@@ -228,11 +234,14 @@ class Term_Link_Indexing_Action_Test extends TestCase {
 			->once()
 			->andReturn( [ 'category', 'tag' ] );
 
-		$expected_query = "SELECT term_id, description
-			FROM wp_term_taxonomy
-			WHERE term_id NOT IN (
-				SELECT object_id FROM wp_yoast_indexable WHERE link_count IS NOT NULL AND object_type = 'term'
-			) AND taxonomy IN (%s, %s)
+		$expected_query = "SELECT T.term_id, T.description
+			FROM wp_term_taxonomy AS T
+			LEFT JOIN wp_yoast_indexable AS I
+				ON T.term_id = I.object_id
+				AND I.object_type = 'term'
+				AND I.link_count IS NOT NULL
+			WHERE I.object_id IS NULL
+				AND T.taxonomy IN (%s, %s)
 			LIMIT %d
 			";
 
@@ -278,11 +287,14 @@ class Term_Link_Indexing_Action_Test extends TestCase {
 			->once()
 			->andReturn( [ 'category', 'tag' ] );
 
-		$expected_query = "SELECT term_id, description
-			FROM wp_term_taxonomy
-			WHERE term_id NOT IN (
-				SELECT object_id FROM wp_yoast_indexable WHERE link_count IS NOT NULL AND object_type = 'term'
-			) AND taxonomy IN (%s, %s)
+		$expected_query = "SELECT T.term_id, T.description
+			FROM wp_term_taxonomy AS T
+			LEFT JOIN wp_yoast_indexable AS I
+				ON T.term_id = I.object_id
+				AND I.object_type = 'term'
+				AND I.link_count IS NOT NULL
+			WHERE I.object_id IS NULL
+				AND T.taxonomy IN (%s, %s)
 			LIMIT %d
 			";
 

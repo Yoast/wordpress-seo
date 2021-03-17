@@ -28,7 +28,11 @@ class Main_Image extends Abstract_Schema_Piece {
 	public function generate() {
 		$image_id = $this->context->canonical . Schema_IDs::PRIMARY_IMAGE_HASH;
 
-		$image_schema = $this->get_featured_image( $this->context->id, $image_id );
+		$image_schema = $this->get_social_image( $image_id );
+
+		if ( $image_schema === null ) {
+			$image_schema = $this->get_featured_image( $this->context->id, $image_id );
+		}
 
 		if ( $image_schema === null ) {
 			$image_schema = $this->get_first_content_image( $this->context->id, $image_id );
@@ -75,5 +79,24 @@ class Main_Image extends Abstract_Schema_Piece {
 		}
 
 		return $this->helpers->schema->image->generate_from_url( $image_id, $image_url );
+	}
+
+	/**
+	 * Generates the image schema based on the OpenGraph or Twitter image when it's set by the user.
+	 *
+	 * @param string $image_id The image schema ID.
+	 *
+	 * @return array|null The image schema object or null if there is no image in the content.
+	 */
+	private function get_social_image( $image_id ) {
+		if ( isset( $this->context->indexable->open_graph_image_id ) && $this->context->indexable->open_graph_image_source === 'set-by-user' ) {
+			return $this->helpers->schema->image->generate_from_attachment_id( $image_id, $this->context->indexable->open_graph_image_id );
+		}
+
+		if ( isset( $this->context->indexable->twitter_image_id ) && $this->context->indexable->twitter_image_source === 'set-by-user' ) {
+			return $this->helpers->schema->image->generate_from_attachment_id( $image_id, $this->context->indexable->twitter_image_id );
+		}
+
+		return null;
 	}
 }

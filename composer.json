@@ -32,6 +32,7 @@
 		"php-parallel-lint/php-console-highlighter": "^0.5",
 		"php-parallel-lint/php-parallel-lint": "^1.2.0",
 		"phpunit/phpunit": "^5.7",
+		"psr/container": "1.0.0",
 		"psr/log": "^1.0",
 		"symfony/config": "^3.4",
 		"symfony/dependency-injection": "^3.4",
@@ -80,7 +81,7 @@
 		],
 		"check-cs-thresholds": [
 			"@putenv YOASTCS_THRESHOLD_ERRORS=340",
-			"@putenv YOASTCS_THRESHOLD_WARNINGS=225",
+			"@putenv YOASTCS_THRESHOLD_WARNINGS=227",
 			"Yoast\\WP\\SEO\\Composer\\Actions::check_cs_thresholds"
 		],
 		"check-cs-summary": [

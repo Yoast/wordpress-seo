@@ -81,6 +81,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 		'company_logo'                     => '',
 		'company_logo_id'                  => 0,
 		'company_logo_meta'                => false,
+		'person_logo_meta'                 => false,
 		'company_name'                     => '',
 		'company_or_person'                => 'company',
 		'company_or_person_user_id'        => false,
@@ -363,7 +364,9 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 				// Only ever set programmatically, so no reason for intense validation.
 				case 'company_logo_meta':
 				case 'person_logo_meta':
-					$clean[ $key ] = $dirty[ $key ];
+					if ( isset( $dirty[ $key ] ) ) {
+						$clean[ $key ] = $dirty[ $key ];
+					}
 					break;
 
 				/* Breadcrumbs text fields. */
