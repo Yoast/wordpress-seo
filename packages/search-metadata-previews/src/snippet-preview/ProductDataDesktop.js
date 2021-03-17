@@ -2,6 +2,7 @@ import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 import { StarRating } from "@yoast/components";
 import "./product-data.css";
+import { __ } from "@wordpress/i18n";
 
 /**
  * Renders ProductData component.
@@ -16,8 +17,8 @@ function ProductDataDesktop( props ) {
 	return (
 		<Fragment>
 			<StarRating rating={ shoppingData.rating } />
-			<span>Rating: { shoppingData.rating * 2 }/10</span> · ‎
-			<span>{ shoppingData.reviewCount } reviews</span> · ‎
+			<span>{ __( "Rating: ", "yoast-components" ) + shoppingData.rating * 2 }/10</span> · ‎
+			<span>{ shoppingData.reviewCount + __( "Rating: ", "yoast-components" ) } reviews</span> · ‎
 			<span dangerouslySetInnerHTML={ { __html: shoppingData.price } } /> · ‎
 			<span>{ shoppingData.availability }</span>
 		</Fragment>
