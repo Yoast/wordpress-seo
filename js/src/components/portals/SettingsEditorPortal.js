@@ -35,6 +35,8 @@ export default function SettingsEditorPortal( {
 				titleTarget={ titleTarget }
 				descriptionTarget={ descriptionTarget }
 				hasPaperStyle={ hasPaperStyle }
+				labels={ labels }
+				descriptionPlaceholder={ descriptionPlaceholder }
 			/>
 		</Portal>
 	);
@@ -47,4 +49,9 @@ SettingsEditorPortal.propTypes = {
 	titleTarget: PropTypes.string.isRequired,
 	descriptionTarget: PropTypes.string.isRequired,
 	hasPaperStyle: PropTypes.bool,
+	labels: PropTypes.shape( {
+		title: PropTypes.string,
+		description: PropTypes.string,
+	} ),
+	descriptionPlaceholder: PropTypes.string,
 };

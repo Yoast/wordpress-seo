@@ -29,6 +29,7 @@ class SettingsReplacementVariableEditor extends Component {
 			recommendedReplacementVariables,
 			titleTarget,
 			descriptionTarget,
+			descriptionPlaceholder,
 		} = this.props;
 
 		return (
@@ -36,7 +37,7 @@ class SettingsReplacementVariableEditor extends Component {
 				hasPaperStyle={ this.props.hasPaperStyle }
 			>
 				<SettingsSnippetEditor
-					descriptionEditorFieldPlaceholder={ __( "Modify your meta description by editing it right here", "wordpress-seo" ) }
+					descriptionEditorFieldPlaceholder={ descriptionPlaceholder }
 					onChange={ ( field, value ) => {
 						switch ( field ) {
 							case "title":
@@ -58,6 +59,7 @@ class SettingsReplacementVariableEditor extends Component {
 						title: titleTarget + "-snippet-editor",
 						description: descriptionTarget + "-snippet-editor",
 					} }
+					labels={ labels }
 				/>
 			</SnippetPreviewSection>
 		);
@@ -73,10 +75,20 @@ SettingsReplacementVariableEditor.propTypes = {
 	hasPaperStyle: PropTypes.bool,
 	titleTarget: PropTypes.string.isRequired,
 	descriptionTarget: PropTypes.string.isRequired,
+	labels: PropTypes.shape( {
+		title: PropTypes.string,
+		description: PropTypes.string,
+	} ),
+	descriptionPlaceholder: PropTypes.string,
 };
 
 SettingsReplacementVariableEditor.defaultProps = {
 	hasPaperStyle: true,
+	labels: {
+		title: "",
+		description: "",
+	},
+	descriptionPlaceholder: __( "Modify your meta description by editing it right here", "wordpress-seo" ),
 };
 
 export default linkHiddenFields( props => {
