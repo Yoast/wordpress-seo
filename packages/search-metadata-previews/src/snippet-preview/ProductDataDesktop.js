@@ -1,7 +1,6 @@
 import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 import { StarRating } from "@yoast/components";
-import "./product-data.css";
 import { __ } from "@wordpress/i18n";
 
 /**
