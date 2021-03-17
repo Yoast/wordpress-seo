@@ -1,40 +1,60 @@
 import { withSelect, withDispatch } from "@wordpress/data";
 import { compose } from "@wordpress/compose";
+
 import PrePublish from "../components/PrePublish";
-import getIndicatorForScore from "../analysis/getIndicatorForScore";
+import {
+	maybeAddReadabilityCheck,
+	maybeAddFocusKeyphraseCheck,
+	maybeAddSchemaBlocksValidationCheck,
+	maybeAddSEOCheck,
+} from "../helpers/addCheckToChecklist";
+
+/**
+ * Maps the select function to props for the checklist.
+ *
+ * @param {function} select The WordPress select function.
+ *
+ * @returns {{checklist: []}} The props for the checklist.
+ */
+export function mapSelectToProps( select ) {
+	const yoastStore = select( "yoast-seo/editor" );
+	const wpEditorStore = select( "core/editor" );
+
+	const checklist = [];
+
+	maybeAddFocusKeyphraseCheck( checklist, yoastStore );
+	maybeAddReadabilityCheck( checklist, yoastStore );
+	maybeAddSEOCheck( checklist, yoastStore );
+	maybeAddSchemaBlocksValidationCheck( checklist, yoastStore, wpEditorStore );
+
+	return { checklist };
+}
+
+/**
+ * Maps the dispatch function to props for the checklist.
+ *
+ * @param {function} dispatch The dispatch function.
+ *
+ * @returns {{onClick: onClick}} The properties to use.
+ */
+export function mapDispatchToProps( dispatch ) {
+	const { closePublishSidebar, openGeneralSidebar } = dispatch(
+		"core/edit-post"
+	);
+	/**
+	 * Closes the publish sidebar and opens the Yoast sidebar.
+	 *
+	 * @returns {void}
+	 */
+	const onClick = () => {
+		closePublishSidebar();
+		openGeneralSidebar( "yoast-seo/seo-sidebar" );
+	};
+
+	return { onClick };
+}
 
 export default compose( [
-	withSelect( ( select ) => {
-		const data = select( "yoast-seo/editor" );
-		const focusKeyphrase = data.getFocusKeyphrase();
-		const seoScoreIndicator = getIndicatorForScore( data.getResultsForFocusKeyword().overallScore );
-		const readabilityScoreIndicator = getIndicatorForScore( data.getReadabilityResults().overallScore );
-		const { isKeywordAnalysisActive, isContentAnalysisActive } = data.getPreferences();
-
-		return {
-			focusKeyphrase,
-			isKeywordAnalysisActive,
-			isContentAnalysisActive,
-			seoScore: seoScoreIndicator.className,
-			seoScoreLabel: seoScoreIndicator.screenReaderReadabilityText,
-			readabilityScore: readabilityScoreIndicator.className,
-			readabilityScoreLabel: readabilityScoreIndicator.screenReaderReadabilityText,
-		};
-	} ),
-	withDispatch( ( dispatch ) => {
-		const { closePublishSidebar, openGeneralSidebar } = dispatch(
-			"core/edit-post"
-		);
-		/**
-		 * Closes the publish sidebar and opens the Yoast sidebar.
-		 *
-		 * @returns {void}
-		 */
-		const onClick = () => {
-			closePublishSidebar();
-			openGeneralSidebar( "yoast-seo/seo-sidebar" );
-		};
-
-		return { onClick };
-	} ),
+	withSelect( mapSelectToProps ),
+	withDispatch( mapDispatchToProps ),
 ] )( PrePublish );

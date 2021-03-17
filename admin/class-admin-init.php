@@ -253,7 +253,7 @@ class WPSEO_Admin_Init {
 	 * @return void
 	 */
 	private function register_premium_upsell_admin_block() {
-		if ( ! WPSEO_Utils::is_yoast_seo_premium() ) {
+		if ( ! YoastSEO()->helpers->product->is_premium() ) {
 			$upsell_block = new WPSEO_Premium_Upsell_Admin_Block( 'wpseo_admin_promo_footer' );
 			$upsell_block->register_hooks();
 		}
@@ -484,64 +484,6 @@ class WPSEO_Admin_Init {
 	}
 
 	/* ********************* DEPRECATED METHODS ********************* */
-
-	/**
-	 * Add an alert if outdated versions of Yoast SEO plugins are running.
-	 *
-	 * @deprecated 12.3
-	 * @codeCoverageIgnore
-	 */
-	public function yoast_plugin_compatibility_notification() {
-		_deprecated_function( __METHOD__, 'WPSEO 12.3' );
-	}
-
-	/**
-	 * Creates a WordPress upgrade notification in the notification center.
-	 *
-	 * @deprecated 12.5
-	 * @codeCoverageIgnore
-	 *
-	 * @return void
-	 */
-	public function wordpress_upgrade_notice() {
-		_deprecated_function( __METHOD__, 'WPSEO 12.5' );
-	}
-
-	/**
-	 * Shows a notice to the user if they have Google Analytics for WordPress 5.4.3 installed because it causes an error
-	 * on the google search console page.
-	 *
-	 * @deprecated 12.5
-	 *
-	 * @codeCoverageIgnore
-	 */
-	public function ga_compatibility_notice() {
-		_deprecated_function( __METHOD__, 'WPSEO 12.5' );
-	}
-
-	/**
-	 * Display notice to disable comment pagination.
-	 *
-	 * @deprecated 12.8
-	 * @codeCoverageIgnore
-	 */
-	public function page_comments_notice() {
-		_deprecated_function( __METHOD__, 'WPSEO 12.8' );
-	}
-
-	/**
-	 * Are page comments enabled.
-	 *
-	 * @deprecated 12.8
-	 * @codeCoverageIgnore
-	 *
-	 * @return bool
-	 */
-	public function has_page_comments() {
-		_deprecated_function( __METHOD__, 'WPSEO 12.8' );
-
-		return get_option( 'page_comments' ) === '1';
-	}
 
 	/**
 	 * Notify about the default tagline if the user hasn't changed it.

@@ -964,7 +964,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 			"
 				 	SELECT *
 				 	FROM {$wpdb->postmeta}
-				 	WHERE post_id IN({$post_ids}) && meta_key = '" . WPSEO_Meta::$meta_prefix . $this->target_db_field . "'
+				 	WHERE post_id IN({$post_ids}) AND meta_key = '" . WPSEO_Meta::$meta_prefix . $this->target_db_field . "'
 				"
 		);
 

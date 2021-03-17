@@ -79,6 +79,7 @@ module.exports = function( grunt ) {
 				yoastJsConfigurationWizard: "<%= paths.languages %>yoast-js-configuration-wizard.pot",
 				yoastJsHelpers: "<%= paths.languages %>yoast-js-helpers.pot",
 				yoastJsSearchMetadataPreviews: "<%= paths.languages %>yoast-js-search-metadata-previews.pot",
+				yoastSchemaBocks: "<%= paths.languages %>yoast-schema-blocks.pot",
 
 				yoastseojs: "<%= paths.languages %>yoast-seo-js.pot",
 				yoastComponents: "<%= paths.languages %>yoast-components.pot",
