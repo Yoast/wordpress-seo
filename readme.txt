@@ -257,7 +257,7 @@ Bugfixes:
 
 * Fixes a bug where the analysis highlight button would be visible in our Elementor integration even though we don't support it.
 * Fixes a bug where a warning was shown on the Features settings page when running the plugin on PHP 8.0.
-* Fixes a bug where a warning was shown on the Integrations settings page when running the plugin on PHP 8.0.
+* Fixes a warning when running the plugin on PHP 8.0
 
 = 16.0.1 =
 Release Date: March 16th, 2021
