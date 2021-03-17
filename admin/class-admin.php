@@ -240,7 +240,7 @@ class WPSEO_Admin {
 			unset( $links['deactivate'] );
 			$no_deactivation_explanation = '<span style="color: #32373c">' . sprintf(
 				/* translators: %s expands to Yoast SEO Premium. */
-				__( 'Deactivate %s first', 'wordpress-seo' ),
+				__( 'Required by %s', 'wordpress-seo' ),
 				'Yoast SEO Premium'
 			) . '</span>';
 
