@@ -818,7 +818,39 @@
   resolved "https://registry.yarnpkg.com/@yoast/feature-flag/-/feature-flag-0.5.2.tgz#ef4cd8ddb959c5857c5d68639ab09ab75c381508"
   integrity sha512-erHel5POEyPpt1B2fToLm8caZPruiOxBRZvn7X9nWqwb0lIbxbOkDp/XQnm168bcvVEL95Dg9JMaPgQwO3rA9w==
 
-"@yoast/grunt-plugin-tasks@ssh://git@github.com:Yoast/plugin-grunt-tasks#2.1-RC1", "@yoast/grunt-plugin-tasks@ssh://git@github.com:Yoast/plugin-grunt-tasks#changelog_automation_task":
+"@yoast/grunt-plugin-tasks@ssh://git@github.com:Yoast/plugin-grunt-tasks#2.1-RC2":
+  version "2.0.0"
+  resolved "ssh://git@github.com:Yoast/plugin-grunt-tasks#e19f3575f6d2093d45b9f43c640fbedfeb1322af"
+  dependencies:
+    "@yoast/browserslist-config" "^1.0.0"
+    autoprefixer "^9.7.2"
+    babel-eslint "^10.0.1"
+    browserslist "^4.7.3"
+    cssnano "^4.1.10"
+    eslint-config-yoast "^5.0.16"
+    eslint-plugin-jsx-a11y "^6.1.1"
+    eslint-plugin-react "^7.11.1"
+    eslint-plugin-yoast "^1.0.1"
+    grunt "^1.1"
+    grunt-checktextdomain "^1.0.1"
+    grunt-contrib-clean "~1.0.0"
+    grunt-contrib-compress "^1.6.0"
+    grunt-contrib-copy "^1.0.0"
+    grunt-contrib-imagemin "^3.1.0"
+    grunt-contrib-uglify "^4.0.1"
+    grunt-contrib-watch "^1.0.0"
+    grunt-eslint "^21.0.0"
+    grunt-glotpress "https://github.com/Yoast/grunt-glotpress.git#master"
+    grunt-postcss "^0.9.0"
+    grunt-replace "^1.0.1"
+    grunt-rtlcss "^2.0.2"
+    grunt-shell "^1.1.2"
+    grunt-wp-deploy "^2.0.0"
+    grunt-wp-i18n "^1.0.3"
+    load-grunt-config "^1.0.1"
+    time-grunt "^1.0.0"
+
+"@yoast/grunt-plugin-tasks@ssh://git@github.com:Yoast/plugin-grunt-tasks#changelog_automation_task":
   version "2.0.0"
   resolved "ssh://git@github.com:Yoast/plugin-grunt-tasks#ca87d9d5c66aa0c85d365301b37d4f6b1a3b903f"
   dependencies:
