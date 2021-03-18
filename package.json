@@ -126,7 +126,6 @@
     "draft-js": "^0.10.5",
     "draft-js-mention-plugin": "^3.0.4",
     "find-with-regex": "~1.0.2",
-    "htmlparser2": "^6.0.1",
     "interpolate-components": "^1.1.0",
     "jed": "^1.1.1",
     "marked": "^0.7.0",
