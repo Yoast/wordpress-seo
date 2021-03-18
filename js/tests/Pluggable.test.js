@@ -1,5 +1,5 @@
 import { Assessor } from "yoastseo";
-import Researcher from "yoastseo/src/languageProcessing/languages/_default/Researcher"
+import Researcher from "yoastseo/src/languageProcessing/languages/_default/Researcher";
 
 import Pluggable from "../src/lib/Pluggable";
 import Factory from "./helpers/factory";

@@ -1,6 +1,6 @@
 import { isFunction } from "lodash";
 import { colors } from "@yoast/style-guide";
-import { AssessmentResult, helpers } from "yoastseo";
+import { AssessmentResult, interpreters } from "yoastseo";
 import mapResults, { getIconForScore } from "../../../src/components/contentAnalysis/mapResults";
 
 
@@ -78,7 +78,7 @@ describe( "mapResults", () => {
 		const expectedResult = analysisResults[ 4 ];
 
 		expect( result.score ).toBe( expectedResult.score );
-		expect( result.rating ).toBe( helpers.scoreToRating( expectedResult.score ) );
+		expect( result.rating ).toBe( interpreters.scoreToRating( expectedResult.score ) );
 		expect( result.hasMarks ).toBe( false );
 		expect( isFunction( result.marker ) ).toBe( true );
 		expect( result.marker() ).toEqual( [] );
@@ -93,7 +93,7 @@ describe( "mapResults", () => {
 		const expectedResult = analysisResults[ 4 ];
 
 		expect( result.score ).toBe( expectedResult.score );
-		expect( result.rating ).toBe( helpers.scoreToRating( expectedResult.score ) );
+		expect( result.rating ).toBe( interpreters.scoreToRating( expectedResult.score ) );
 		expect( result.hasMarks ).toBe( false );
 		expect( isFunction( result.marker ) ).toBe( true );
 		expect( result.marker() ).toEqual( [] );
