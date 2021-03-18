@@ -205,11 +205,6 @@ class Article extends Abstract_Schema_Piece {
 		// Strips all other tags.
 		$post_content = \wp_strip_all_tags( $post_content );
 
-		// Strip spaces.
-		$post_content = \preg_replace( '/\s{2,}/', ' ', $post_content );
-		$post_content = \preg_replace( '/\s\./', '.', $post_content );
-		$post_content = \trim( $post_content );
-
 		return \str_word_count( $post_content, 0 );
 	}
 }
