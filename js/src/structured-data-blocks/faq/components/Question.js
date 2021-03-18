@@ -3,9 +3,9 @@ import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
 import { isShallowEqualObjects } from "@wordpress/is-shallow-equal";
 
-const { Component } = window.wp.element;
-const { IconButton } = window.wp.components;
-const { RichText, MediaUpload } = window.wp.editor;
+import { Component } from "@wordpress/element";
+import { IconButton } from "@wordpress/components";
+import { RichText, MediaUpload } from "@wordpress/editor";
 
 /* Internal dependencies */
 import appendSpace from "../../../components/higherorder/appendSpace";

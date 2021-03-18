@@ -10,9 +10,9 @@ import HowToStep from "./HowToStep";
 import buildDurationString from "../utils/buildDurationString";
 import appendSpace from "../../../components/higherorder/appendSpace";
 
-const { RichText, InspectorControls } = window.wp.editor;
-const { IconButton, PanelBody, TextControl, ToggleControl } = window.wp.components;
-const { Component, renderToString, createRef } = window.wp.element;
+import { RichText, InspectorControls } from "@wordpress/block-editor";
+import { IconButton, PanelBody, TextControl, ToggleControl } from "@wordpress/components";
+import { Component, renderToString, createRef } from "@wordpress/element";
 
 const RichTextWithAppendedSpace = appendSpace( RichText.Content );
 

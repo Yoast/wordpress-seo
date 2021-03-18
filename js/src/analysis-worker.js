@@ -1,26 +1,25 @@
 // Ensure the global window is set, our dependencies use it.
 self.window = self;
 
-import "babel-polyfill";
-
-self.onmessage = ( event ) => {
-	// Only construct a new web worker if a data object with a language entry is sent.
-	if ( ! event.data.language ) {
+self.onmessage = ( { data } ) => {
+	if ( ! data || ! data.dependencies ) {
 		return;
 	}
 
-	const originalUrl = self.yoastOriginalUrl || self.location.href;
-	// We only know the URL of the worker script, so base all other files names on that.
-	self.importScripts( event.data.lodashURL );
-	// eslint-disable-next-line no-undef
-	self.lodash = _.noConflict();
+	for ( const dependency in data.dependencies ) {
+		if ( ! Object.prototype.hasOwnProperty.call( data.dependencies, dependency ) ) {
+			continue;
+		}
 
-	self.importScripts( originalUrl.replace( "analysis-worker", "commons" ) );
-	self.importScripts( originalUrl.replace( "analysis-worker", "yoast/feature-flag" ) );
-	self.importScripts( originalUrl.replace( "analysis-worker", "analysis" ) );
-	self.importScripts( originalUrl.replace( "analysis-worker", "languages/" + event.data.language ) );
+		self.importScripts( data.dependencies[ dependency ] );
 
-	// eslint-disable-next-line new-cap
-	const worker = new self.yoast.analysis.AnalysisWebWorker( self, new self.yoast.Researcher.default() );
+		if ( dependency === "lodash" ) {
+			// eslint-disable-next-line no-undef
+	        self.lodash = _.noConflict();
+		}
+	}
+
+	const Researcher = self.yoast.Researcher.default;
+	const worker = new self.yoast.analysis.AnalysisWebWorker( self, new Researcher() );
 	worker.register();
 };

@@ -3,6 +3,7 @@
 /* global YoastSEO */
 /* jshint -W097 */
 /* jshint -W003 */
+import { select, subscribe } from "@wordpress/data";
 import a11ySpeak from "a11y-speak";
 import isBlockEditor from "../helpers/isBlockEditor";
 
@@ -185,14 +186,14 @@ export default function initFeaturedImageIntegration( $ ) {
 
 	let imageData;
 	let previousImageData;
-	wp.data.subscribe( () => {
-		const featuredImageId = wp.data.select( "core/editor" ).getEditedPostAttribute( "featured_media" );
+	subscribe( () => {
+		const featuredImageId = select( "core/editor" ).getEditedPostAttribute( "featured_media" );
 
 		if ( ! isValidMediaId( featuredImageId ) ) {
 			return;
 		}
 
-		imageData = wp.data.select( "core" ).getMedia( featuredImageId );
+		imageData = select( "core" ).getMedia( featuredImageId );
 
 		if ( typeof imageData === "undefined" ) {
 			return;

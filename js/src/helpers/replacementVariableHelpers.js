@@ -8,6 +8,9 @@ import {
 	identity,
 } from "lodash-es";
 
+// @wordpress/sanitize loads directly from the wp-sanitize script handle.
+import { stripTags } from "@wordpress/sanitize";
+
 /* Internal dependencies */
 import { updateReplacementVariable } from "../redux/actions/snippetEditor";
 import { firstToUpperCase } from "./stringHelpers";
@@ -218,7 +221,7 @@ export function mapCustomFields( replaceVars, store ) {
  * @returns {string} The generated excerpt.
  */
 export function excerptFromContent( content, limit = 156 ) {
-	content = wp.sanitize.stripTags( content );
+	content = stripTags( content );
 	content = content.trim();
 
 	// When the content is shorter than 156 characters, use the entire content.

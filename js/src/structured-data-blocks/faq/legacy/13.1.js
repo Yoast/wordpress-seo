@@ -1,7 +1,7 @@
 /* External dependencies */
 import PropTypes from "prop-types";
 
-const { RichText } = window.wp.editor;
+import { RichText } from "@wordpress/block-editor";
 
 /* Internal dependencies */
 import appendSpace from "../../../components/higherorder/appendSpace";
