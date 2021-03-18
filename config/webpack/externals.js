@@ -19,7 +19,7 @@ const externals = {
 	"styled-components": "window.yoast.styledComponents",
 	"draft-js": "window.yoast.draftJs",
 	buffer: "window.yoast.buffer",
-	//htmlparser2: "window.yoast.htmlparser2/lib",
+	htmlparser2: "window.yoast.htmlparser2",
 };
 
 /**
