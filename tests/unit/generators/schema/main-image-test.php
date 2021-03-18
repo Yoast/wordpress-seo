@@ -27,35 +27,35 @@ class Main_Image_Test extends TestCase {
 	 *
 	 * @var Main_Image
 	 */
-	private $instance;
+	protected $instance;
 
 	/**
 	 * The schema image helper.
 	 *
 	 * @var Schema\Image_Helper|Mockery\MockInterface
 	 */
-	private $schema_image;
+	protected $schema_image;
 
 	/**
 	 * The image helper.
 	 *
 	 * @var Image_Helper|Mockery\MockInterface
 	 */
-	private $image;
+	protected $image;
 
 	/**
 	 * The schema id helper.
 	 *
 	 * @var Schema\ID_Helper
 	 */
-	private $schema_id;
+	protected $schema_id;
 
 	/**
 	 * The schema context.
 	 *
 	 * @var Meta_Tags_Context_Mock
 	 */
-	private $meta_tags_context;
+	protected $meta_tags_context;
 
 	/**
 	 * Setup the test.
