@@ -234,6 +234,13 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 16.0.2 =
+Release Date: March 18th, 2021
+
+Enhancements:
+
+* Clarifies the text shown for Yoast SEO on the Plugins page if Yoast SEO Premium is installed as well to indicate that Yoast SEO is required by Yoast SEO Premium.
+
 = 16.0.1 =
 Release Date: March 16th, 2021
 
