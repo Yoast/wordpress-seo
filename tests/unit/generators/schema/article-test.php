@@ -594,7 +594,7 @@ class Article_Test extends TestCase {
 	}
 
 	/**
-	 * Provides data to the generate test.
+	 * Provides data to the generate_with_invalid_terms test.
 	 *
 	 * @return array The data to use.
 	 */
