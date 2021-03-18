@@ -44,10 +44,10 @@ class WPSEO_Metabox_Formatter_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Metabox_Formatter::get_translations
 	 */
 	public function test_with_fake_language_file() {
-		$file_name = plugin_dir_path( WPSEO_FILE ) . 'languages/wordpress-seo-' . \get_user_locale() . '.json';
+		$file_name = WPSEO_PATH . 'languages/wordpress-seo-' . \get_user_locale() . '.json';
 
 		// Make sure the folder exists.
-		wp_mkdir_p( plugin_dir_path( WPSEO_FILE ) . 'languages' );
+		wp_mkdir_p( WPSEO_PATH . 'languages' );
 		file_put_contents(
 			$file_name,
 			WPSEO_Utils::format_json_encode( [ 'key' => 'value' ] )

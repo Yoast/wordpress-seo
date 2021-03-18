@@ -21,16 +21,30 @@ class Main_Image extends Abstract_Schema_Piece {
 	/**
 	 * Adds a main image for the current URL to the schema if there is one.
 	 *
-	 * This can be either the featured image, or fall back to the first image in the content of the page.
+	 * This can be either a social image (Open Graph or Twitter), the featured image,
+	 * or fall back to the first image in the content of the page.
 	 *
 	 * @return false|array $data Image Schema.
 	 */
 	public function generate() {
 		$image_id = $this->context->canonical . Schema_IDs::PRIMARY_IMAGE_HASH;
 
+		// The Open Graph image.
+		if ( isset( $this->context->indexable->open_graph_image_id ) && $this->context->indexable->open_graph_image_source === 'set-by-user' ) {
+			return $this->helpers->schema->image->generate_from_attachment_id( $image_id, $this->context->indexable->open_graph_image_id );
+		}
+
+		// The Twitter image.
+		if ( isset( $this->context->indexable->twitter_image_id ) && $this->context->indexable->twitter_image_source === 'set-by-user' ) {
+			return $this->helpers->schema->image->generate_from_attachment_id( $image_id, $this->context->indexable->twitter_image_id );
+		}
+
+		// The featured image.
 		if ( $this->context->main_image_id ) {
 			return $this->helpers->schema->image->generate_from_attachment_id( $image_id, $this->context->main_image_id );
 		}
+
+		// The first image in the content.
 		if ( $this->context->main_image_url ) {
 			return $this->helpers->schema->image->generate_from_url( $image_id, $this->context->main_image_url );
 		}

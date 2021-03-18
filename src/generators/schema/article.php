@@ -140,7 +140,7 @@ class Article extends Abstract_Schema_Piece {
 			return $data;
 		}
 
-		$data[ $key ] = \implode( ',', \wp_list_pluck( $terms, 'name' ) );
+		$data[ $key ] = \wp_list_pluck( $terms, 'name' );
 
 		return $data;
 	}

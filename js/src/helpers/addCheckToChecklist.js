@@ -73,7 +73,7 @@ export function maybeAddSEOCheck( checklist, store ) {
  * @returns {boolean} If the list of blocks contains schema blocks.
  */
 function includesSchemaBlocks( blocks ) {
-	return blocks.some( block => Object.keys( block.attributes ).includes( "yoast-schema" ) );
+	return blocks.some( block => block.attributes[ "is-yoast-schema-block" ] === true );
 }
 
 /**

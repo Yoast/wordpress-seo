@@ -6,6 +6,7 @@ use Brain\Monkey;
 use Mockery;
 use stdClass;
 use WPSEO_Utils;
+use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Inc\Addon_Manager_Double;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
@@ -46,8 +47,8 @@ class Addon_Manager_Test extends TestCase {
 		parent::set_up();
 
 		$this->instance = Mockery::mock( Addon_Manager_Double::class )
-				->shouldAllowMockingProtectedMethods()
-					->makePartial();
+			->shouldAllowMockingProtectedMethods()
+			->makePartial();
 	}
 
 	/**
@@ -252,6 +253,12 @@ class Addon_Manager_Test extends TestCase {
 			->once()
 			->andReturn( $this->get_subscriptions() );
 
+		$product_helper_mock = Mockery::mock( Product_Helper::class );
+		$product_helper_mock->expects( 'is_premium' )->once()->andReturn( false );
+
+		$helpers_mock = (object) [ 'product' => $product_helper_mock ];
+		Monkey\Functions\expect( 'YoastSEO' )->once()->andReturn( (object) [ 'helpers' => $helpers_mock ] );
+
 		$this->assertEquals(
 			[
 				'yoast-seo-wordpress-premium' => (object) [
@@ -287,6 +294,12 @@ class Addon_Manager_Test extends TestCase {
 					],
 				]
 			);
+
+		$product_helper_mock = Mockery::mock( Product_Helper::class );
+		$product_helper_mock->expects( 'is_premium' )->once()->andReturn( false );
+
+		$helpers_mock = (object) [ 'product' => $product_helper_mock ];
+		Monkey\Functions\expect( 'YoastSEO' )->once()->andReturn( (object) [ 'helpers' => $helpers_mock ] );
 
 		$this->assertEquals(
 			[
@@ -413,6 +426,13 @@ class Addon_Manager_Test extends TestCase {
 			->shouldReceive( 'get_subscriptions' )
 			->andReturn( $this->get_subscriptions() );
 
+		if ( ! empty( $addons ) ) {
+			$product_helper_mock = Mockery::mock( Product_Helper::class );
+			$product_helper_mock->expects( 'is_premium' )->once()->andReturn( false );
+			$helpers_mock = (object) [ 'product' => $product_helper_mock ];
+			Monkey\Functions\expect( 'YoastSEO' )->once()->andReturn( (object) [ 'helpers' => $helpers_mock ] );
+		}
+
 		Monkey\Functions\expect( 'get_plugin_updates' )
 			->andReturn(
 				[
@@ -434,6 +454,11 @@ class Addon_Manager_Test extends TestCase {
 	 * @covers ::is_yoast_addon
 	 */
 	public function test_is_yoast_addon() {
+		$product_helper_mock = Mockery::mock( Product_Helper::class );
+		$product_helper_mock->expects( 'is_premium' )->twice()->andReturn( false );
+		$helpers_mock = (object) [ 'product' => $product_helper_mock ];
+		Monkey\Functions\expect( 'YoastSEO' )->twice()->andReturn( (object) [ 'helpers' => $helpers_mock ] );
+
 		$this->assertTrue( $this->instance->is_yoast_addon( 'wp-seo-premium.php' ) );
 		$this->assertFalse( $this->instance->is_yoast_addon( 'non-wp-seo-addon.php' ) );
 	}
@@ -444,6 +469,10 @@ class Addon_Manager_Test extends TestCase {
 	 * @covers ::get_slug_by_plugin_file
 	 */
 	public function test_get_slug_by_plugin_file() {
+		$product_helper_mock = Mockery::mock( Product_Helper::class );
+		$product_helper_mock->expects( 'is_premium' )->twice()->andReturn( false );
+		$helpers_mock = (object) [ 'product' => $product_helper_mock ];
+		Monkey\Functions\expect( 'YoastSEO' )->twice()->andReturn( (object) [ 'helpers' => $helpers_mock ] );
 
 		$this->assertEquals( 'yoast-seo-wordpress-premium', $this->instance->get_slug_by_plugin_file( 'wp-seo-premium.php' ) );
 		$this->assertEquals( '', $this->instance->get_slug_by_plugin_file( 'non-wp-seo-addon.php' ) );
@@ -459,28 +488,29 @@ class Addon_Manager_Test extends TestCase {
 
 		$this->assertEquals(
 			(object) [
-				'new_version'   => '10.0',
-				'name'          => 'Extension',
-				'slug'          => 'yoast-seo-wordpress-premium',
-				'url'           => 'https://example.org/store',
-				'last_update'   => 'yesterday',
-				'homepage'      => 'https://example.org/store',
-				'download_link' => 'https://example.org/extension.zip',
-				'package'       => 'https://example.org/extension.zip',
-				'sections'      => [
+				'new_version'      => '10.0',
+				'name'             => 'Extension',
+				'slug'             => 'yoast-seo-wordpress-premium',
+				'url'              => 'https://example.org/store',
+				'last_update'      => 'yesterday',
+				'homepage'         => 'https://example.org/store',
+				'download_link'    => 'https://example.org/extension.zip',
+				'package'          => 'https://example.org/extension.zip',
+				'sections'         => [
 					'changelog' => 'changelog',
 					'support'   => '<h4>Need support?</h4><p>You can probably find an answer to your question in our <a href="https://yoast.com/help/">help center</a>. If you still need support and have an active subscription for this product, please email <a href="mailto:support@yoast.com">support@yoast.com</a>.</p>',
 				],
-				'icons'         => [
+				'icons'            => [
 					'2x' => 'https://yoa.st/yoast-seo-icon',
 				],
-				'banners'       => [
+				'update_supported' => true,
+				'banners'          => [
 					'high' => 'https://yoa.st/yoast-seo-banner-premium',
 					'low'  => 'https://yoa.st/yoast-seo-banner-low-premium',
 				],
-				'tested'        => \YOAST_SEO_WP_TESTED,
-				'requires_php'  => \YOAST_SEO_PHP_REQUIRED,
-				'requires'      => \YOAST_SEO_WP_REQUIRED,
+				'tested'           => \YOAST_SEO_WP_TESTED,
+				'requires_php'     => \YOAST_SEO_PHP_REQUIRED,
+				'requires'         => \YOAST_SEO_WP_REQUIRED,
 			],
 			$this->instance->convert_subscription_to_plugin(
 				(object) [
@@ -514,6 +544,11 @@ class Addon_Manager_Test extends TestCase {
 					],
 				]
 			);
+
+		$product_helper_mock = Mockery::mock( Product_Helper::class );
+		$product_helper_mock->expects( 'is_premium' )->once()->andReturn( false );
+		$helpers_mock = (object) [ 'product' => $product_helper_mock ];
+		Monkey\Functions\expect( 'YoastSEO' )->once()->andReturn( (object) [ 'helpers' => $helpers_mock ] );
 
 		$this->assertEquals(
 			[],
@@ -558,6 +593,11 @@ class Addon_Manager_Test extends TestCase {
 				]
 			);
 
+		$product_helper_mock = Mockery::mock( Product_Helper::class );
+		$product_helper_mock->expects( 'is_premium' )->once()->andReturn( false );
+		$helpers_mock = (object) [ 'product' => $product_helper_mock ];
+		Monkey\Functions\expect( 'YoastSEO' )->once()->andReturn( (object) [ 'helpers' => $helpers_mock ] );
+
 		$this->assertEquals(
 			[
 				'wp-seo-premium.php' => [
@@ -589,6 +629,11 @@ class Addon_Manager_Test extends TestCase {
 			->expects( 'is_plugin_active' )
 			->times( 2 )
 			->andReturn( true, false );
+
+		$product_helper_mock = Mockery::mock( Product_Helper::class );
+		$product_helper_mock->expects( 'is_premium' )->times( 3 )->andReturn( false );
+		$helpers_mock = (object) [ 'product' => $product_helper_mock ];
+		Monkey\Functions\expect( 'YoastSEO' )->times( 3 )->andReturn( (object) [ 'helpers' => $helpers_mock ] );
 
 		$this->assertEquals(
 			[
@@ -666,28 +711,29 @@ class Addon_Manager_Test extends TestCase {
 				'expected' => (object) [
 					'response' => [
 						'wp-seo-premium.php' => (object) [
-							'new_version'   => '10.0',
-							'name'          => 'Extension',
-							'slug'          => 'yoast-seo-wordpress-premium',
-							'url'           => 'https://example.org/store',
-							'last_update'   => 'yesterday',
-							'homepage'      => 'https://example.org/store',
-							'download_link' => 'https://example.org/extension.zip',
-							'package'       => 'https://example.org/extension.zip',
-							'sections'      => [
+							'new_version'      => '10.0',
+							'name'             => 'Extension',
+							'slug'             => 'yoast-seo-wordpress-premium',
+							'url'              => 'https://example.org/store',
+							'last_update'      => 'yesterday',
+							'homepage'         => 'https://example.org/store',
+							'download_link'    => 'https://example.org/extension.zip',
+							'package'          => 'https://example.org/extension.zip',
+							'sections'         => [
 								'changelog' => 'changelog',
 								'support'   => '<h4>Need support?</h4><p>You can probably find an answer to your question in our <a href="https://yoast.com/help/">help center</a>. If you still need support and have an active subscription for this product, please email <a href="mailto:support@yoast.com">support@yoast.com</a>.</p>',
 							],
-							'icons'         => [
+							'icons'            => [
 								'2x' => 'https://yoa.st/yoast-seo-icon',
 							],
-							'banners'       => [
+							'update_supported' => true,
+							'banners'          => [
 								'high' => 'https://yoa.st/yoast-seo-banner-premium',
 								'low'  => 'https://yoa.st/yoast-seo-banner-low-premium',
 							],
-							'tested'        => \YOAST_SEO_WP_TESTED,
-							'requires_php'  => \YOAST_SEO_PHP_REQUIRED,
-							'requires'      => \YOAST_SEO_WP_REQUIRED,
+							'tested'           => \YOAST_SEO_WP_TESTED,
+							'requires_php'     => \YOAST_SEO_PHP_REQUIRED,
+							'requires'         => \YOAST_SEO_WP_REQUIRED,
 						],
 					],
 				],
@@ -725,28 +771,29 @@ class Addon_Manager_Test extends TestCase {
 				'action'   => 'plugin_information',
 				'args'     => [ 'slug' => 'yoast-seo-wordpress-premium' ],
 				'expected' => (object) [
-					'new_version'   => '10.0',
-					'name'          => 'Extension',
-					'slug'          => 'yoast-seo-wordpress-premium',
-					'url'           => 'https://example.org/store',
-					'last_update'   => 'yesterday',
-					'homepage'      => 'https://example.org/store',
-					'download_link' => 'https://example.org/extension.zip',
-					'package'       => 'https://example.org/extension.zip',
-					'sections'      => [
+					'new_version'      => '10.0',
+					'name'             => 'Extension',
+					'slug'             => 'yoast-seo-wordpress-premium',
+					'url'              => 'https://example.org/store',
+					'last_update'      => 'yesterday',
+					'homepage'         => 'https://example.org/store',
+					'download_link'    => 'https://example.org/extension.zip',
+					'package'          => 'https://example.org/extension.zip',
+					'sections'         => [
 						'changelog' => 'changelog',
 						'support'   => '<h4>Need support?</h4><p>You can probably find an answer to your question in our <a href="https://yoast.com/help/">help center</a>. If you still need support and have an active subscription for this product, please email <a href="mailto:support@yoast.com">support@yoast.com</a>.</p>',
 					],
-					'icons'         => [
+					'icons'            => [
 						'2x' => 'https://yoa.st/yoast-seo-icon',
 					],
-					'banners'       => [
+					'update_supported' => true,
+					'banners'          => [
 						'high' => 'https://yoa.st/yoast-seo-banner-premium',
 						'low'  => 'https://yoa.st/yoast-seo-banner-low-premium',
 					],
-					'tested'        => \YOAST_SEO_WP_TESTED,
-					'requires_php'  => \YOAST_SEO_PHP_REQUIRED,
-					'requires'      => \YOAST_SEO_WP_REQUIRED,
+					'tested'           => \YOAST_SEO_WP_TESTED,
+					'requires_php'     => \YOAST_SEO_PHP_REQUIRED,
+					'requires'         => \YOAST_SEO_WP_REQUIRED,
 				],
 				'message'  => 'Tests with a Yoast addon slug given as argument.',
 			],
