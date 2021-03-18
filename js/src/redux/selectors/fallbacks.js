@@ -44,13 +44,13 @@ export const getContentImage = state => {
  * @returns {string} The sidewide image url.
  */
 export const getImageFallback = state => {
-	let fallbacks = [
+	const fallbacks = [
 		{ featuredImage: get( state, "snippetEditor.data.snippetPreviewImageURL", "" ) },
 		{ contentImage: get( state, "settings.socialPreviews.contentImage", "" ) },
 		{ siteWideImage: get( window.wpseoScriptData, "metabox.showSocial.facebook" ) && get( state, "settings.socialPreviews.sitewideImage", "" ) },
 	];
 
-	applyFilters( "yoast.socials.imageFallback", fallbacks )
+	applyFilters( "yoast.socials.imageFallback", fallbacks );
 
 	let fallbackImage = "";
 
