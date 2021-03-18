@@ -470,6 +470,7 @@ exports[`SnippetEditor activates a field on onMouseUp() and opens the editor 1`]
       }
       descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
       descriptionInputId="yoast-google-preview-description"
+      descriptionLabel="Meta description"
       descriptionLengthProgress={
         Object {
           "actual": 42,
@@ -485,6 +486,7 @@ exports[`SnippetEditor activates a field on onMouseUp() and opens the editor 1`]
       replacementVariables={Array []}
       slugInputId="yoast-google-preview-slug"
       titleInputId="yoast-google-preview-title"
+      titleLabel="SEO title"
       titleLengthProgress={
         Object {
           "actual": 0,
@@ -2339,6 +2341,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
         }
         descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
         descriptionInputId="yoast-google-preview-description"
+        descriptionLabel="Meta description"
         descriptionLengthProgress={
           Object {
             "actual": 42,
@@ -2354,6 +2357,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
         replacementVariables={Array []}
         slugInputId="yoast-google-preview-slug"
         titleInputId="yoast-google-preview-title"
+        titleLabel="SEO title"
         titleLengthProgress={
           Object {
             "actual": 0,
@@ -6317,6 +6321,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
         }
         descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
         descriptionInputId="yoast-google-preview-description"
+        descriptionLabel="Meta description"
         descriptionLengthProgress={
           Object {
             "actual": 42,
@@ -6332,6 +6337,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
         replacementVariables={Array []}
         slugInputId="yoast-google-preview-slug"
         titleInputId="yoast-google-preview-title"
+        titleLabel="SEO title"
         titleLengthProgress={
           Object {
             "actual": 0,
@@ -8683,6 +8689,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
         }
         descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
         descriptionInputId="yoast-google-preview-description"
+        descriptionLabel="Meta description"
         descriptionLengthProgress={
           Object {
             "actual": 42,
@@ -8698,6 +8705,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
         replacementVariables={Array []}
         slugInputId="yoast-google-preview-slug"
         titleInputId="yoast-google-preview-title"
+        titleLabel="SEO title"
         titleLengthProgress={
           Object {
             "actual": 0,
@@ -11893,6 +11901,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
         }
         descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
         descriptionInputId="yoast-google-preview-description"
+        descriptionLabel="Meta description"
         descriptionLengthProgress={
           Object {
             "actual": 42,
@@ -11908,6 +11917,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
         replacementVariables={Array []}
         slugInputId="yoast-google-preview-slug"
         titleInputId="yoast-google-preview-title"
+        titleLabel="SEO title"
         titleLengthProgress={
           Object {
             "actual": 0,
@@ -14297,6 +14307,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
         }
         descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
         descriptionInputId="yoast-google-preview-description"
+        descriptionLabel="Meta description"
         descriptionLengthProgress={
           Object {
             "actual": 42,
@@ -14312,6 +14323,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
         replacementVariables={Array []}
         slugInputId="yoast-google-preview-slug"
         titleInputId="yoast-google-preview-title"
+        titleLabel="SEO title"
         titleLengthProgress={
           Object {
             "actual": 0,
@@ -16663,6 +16675,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
         }
         descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
         descriptionInputId="yoast-google-preview-description"
+        descriptionLabel="Meta description"
         descriptionLengthProgress={
           Object {
             "actual": 42,
@@ -16678,6 +16691,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
         replacementVariables={Array []}
         slugInputId="yoast-google-preview-slug"
         titleInputId="yoast-google-preview-title"
+        titleLabel="SEO title"
         titleLengthProgress={
           Object {
             "actual": 0,
@@ -19044,6 +19058,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
         }
         descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
         descriptionInputId="yoast-google-preview-description"
+        descriptionLabel="Meta description"
         descriptionLengthProgress={
           Object {
             "actual": 42,
@@ -19074,6 +19089,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
         }
         slugInputId="yoast-google-preview-slug"
         titleInputId="yoast-google-preview-title"
+        titleLabel="SEO title"
         titleLengthProgress={
           Object {
             "actual": 0,
@@ -20113,6 +20129,7 @@ exports[`SnippetEditor removes the highlight from the hovered field on calling o
       }
       descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
       descriptionInputId="yoast-google-preview-description"
+      descriptionLabel="Meta description"
       descriptionLengthProgress={
         Object {
           "actual": 42,
@@ -20128,6 +20145,7 @@ exports[`SnippetEditor removes the highlight from the hovered field on calling o
       replacementVariables={Array []}
       slugInputId="yoast-google-preview-slug"
       titleInputId="yoast-google-preview-title"
+      titleLabel="SEO title"
       titleLengthProgress={
         Object {
           "actual": 0,
@@ -21982,6 +22000,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
         }
         descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
         descriptionInputId="yoast-google-preview-description"
+        descriptionLabel="Meta description"
         descriptionLengthProgress={
           Object {
             "actual": 42,
@@ -21997,6 +22016,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
         replacementVariables={Array []}
         slugInputId="yoast-google-preview-slug"
         titleInputId="yoast-google-preview-title"
+        titleLabel="SEO title"
         titleLengthProgress={
           Object {
             "actual": 0,
