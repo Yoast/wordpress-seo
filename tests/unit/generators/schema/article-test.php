@@ -374,6 +374,7 @@ class Article_Test extends TestCase {
 						'dateModified'     => '2345-12-12 23:23:23',
 						'commentCount'     => 7,
 						'mainEntityOfPage' => [ '@id' => 'https://permalink#webpage' ],
+						'wordCount'        => 6
 					],
 					'data_for_add_sections'         => [
 						'@type'            => 'Article',
@@ -387,6 +388,7 @@ class Article_Test extends TestCase {
 						'commentCount'     => 7,
 						'mainEntityOfPage' => [ '@id' => 'https://permalink#webpage' ],
 						'keywords'         => 'Tag1,Tag2',
+						'wordCount'        => 6
 					],
 				],
 				'expected_value' => [
@@ -412,6 +414,7 @@ class Article_Test extends TestCase {
 							],
 						],
 					],
+					'wordCount'        => 6
 				],
 				'message'        => 'The site is not set to represent a company/person.',
 			],
@@ -433,6 +436,7 @@ class Article_Test extends TestCase {
 						'commentCount'     => 7,
 						'mainEntityOfPage' => [ '@id' => 'https://permalink#webpage' ],
 						'publisher'        => true,
+						'wordCount'        => 6
 					],
 					'data_for_add_sections'         => [
 						'@type'            => 'Article',
@@ -447,6 +451,7 @@ class Article_Test extends TestCase {
 						'mainEntityOfPage' => [ '@id' => 'https://permalink#webpage' ],
 						'publisher'        => true,
 						'keywords'         => 'Tag1,Tag2',
+						'wordCount'        => 6
 					],
 				],
 				'expected_value' => [
@@ -473,6 +478,7 @@ class Article_Test extends TestCase {
 						],
 					],
 					'publisher'        => true,
+					'wordCount'        => 6
 				],
 				'message'        => 'The site is set to represent a company/person.',
 			],
@@ -493,6 +499,7 @@ class Article_Test extends TestCase {
 						'dateModified'     => '2345-12-12 23:23:23',
 						'commentCount'     => 7,
 						'mainEntityOfPage' => [ '@id' => 'https://permalink#webpage' ],
+						'wordCount'        => 6
 					],
 					'data_for_add_sections'         => [
 						'@type'            => 'Article',
@@ -506,6 +513,7 @@ class Article_Test extends TestCase {
 						'commentCount'     => 7,
 						'mainEntityOfPage' => [ '@id' => 'https://permalink#webpage' ],
 						'keywords'         => 'Tag1,Tag2',
+						'wordCount'        => 6
 					],
 				],
 				'expected_value' => [
@@ -522,6 +530,7 @@ class Article_Test extends TestCase {
 					'keywords'         => 'Tag1,Tag2',
 					'articleSection'   => 'Category1',
 					'inLanguage'       => 'language',
+					'wordCount'        => 6
 				],
 				'message'        => 'The post type does not support comments.',
 			],
@@ -542,6 +551,7 @@ class Article_Test extends TestCase {
 						'dateModified'     => '2345-12-12 23:23:23',
 						'commentCount'     => 7,
 						'mainEntityOfPage' => [ '@id' => 'https://permalink#webpage' ],
+						'wordCount'        => 6
 					],
 					'data_for_add_sections'         => [
 						'@type'            => 'Article',
@@ -555,6 +565,7 @@ class Article_Test extends TestCase {
 						'commentCount'     => 7,
 						'mainEntityOfPage' => [ '@id' => 'https://permalink#webpage' ],
 						'keywords'         => 'Tag1,Tag2',
+						'wordCount'        => 6
 					],
 				],
 				'expected_value' => [
@@ -571,6 +582,7 @@ class Article_Test extends TestCase {
 					'keywords'         => 'Tag1,Tag2',
 					'articleSection'   => 'Category1',
 					'inLanguage'       => 'language',
+					'wordCount'        => 6
 				],
 				'message'        => 'The comment status for the post is set to closed.',
 			],
@@ -590,6 +602,7 @@ class Article_Test extends TestCase {
 						'datePublished'    => '2345-12-12 12:12:12',
 						'dateModified'     => '2345-12-12 23:23:23',
 						'mainEntityOfPage' => [ '@id' => 'https://permalink#webpage' ],
+						'wordCount'        => 6
 					],
 					'data_for_add_sections'         => [
 						'@type'            => 'Article',
@@ -602,6 +615,7 @@ class Article_Test extends TestCase {
 						'dateModified'     => '2345-12-12 23:23:23',
 						'mainEntityOfPage' => [ '@id' => 'https://permalink#webpage' ],
 						'keywords'         => 'Tag1,Tag2',
+						'wordCount'        => 6
 					],
 				],
 				'expected_value' => [
@@ -617,6 +631,7 @@ class Article_Test extends TestCase {
 					'keywords'         => 'Tag1,Tag2',
 					'articleSection'   => 'Category1',
 					'inLanguage'       => 'language',
+					'wordCount'        => 6
 				],
 				'message'        => 'The comment status for the post is set to closed.',
 			],
