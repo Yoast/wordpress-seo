@@ -19,7 +19,7 @@ exports[`MultiStepProgress the MultiStepProgress matches the snapshot 1`] = `
       </span>
       <svg
         aria-hidden={true}
-        className="yoast-svg-icon yoast-svg-icon-check createSvgIconComponent__StyledSvg-sc-1h4gl3a-0 cPnaHk"
+        className="cPnaHk yoast-svg-icon yoast-svg-icon-check"
         fill="#64a60a"
         focusable="false"
         role="img"
@@ -40,7 +40,7 @@ exports[`MultiStepProgress the MultiStepProgress matches the snapshot 1`] = `
       </span>
       <svg
         aria-hidden={true}
-        className="yoast-svg-icon yoast-svg-icon-times createSvgIconComponent__StyledSvg-sc-1h4gl3a-0 cPnaHk"
+        className="cPnaHk yoast-svg-icon yoast-svg-icon-times"
         fill="#dc3232"
         focusable="false"
         role="img"

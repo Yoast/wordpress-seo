@@ -8,7 +8,7 @@
   "jest": {
     "setupTestFrameworkScriptFile": "<rootDir>/tests/setupTests.js",
     "transformIgnorePatterns": [
-      "[/\\\\]node_modules[/\\\\](?!yoast-components|yoastseo|lodash-es|@yoast).+\\.js$"
+      "[/\\\\]node_modules[/\\\\](?!yoast-components|yoastseo|lodash-es|lodash|@yoast).+\\.js$"
     ],
     "testPathIgnorePatterns": [
       "/tests/edit.test.js"
@@ -60,19 +60,14 @@
     "redux": "^3.7.2",
     "redux-thunk": "^2.2.0",
     "select2": "^4.0.5",
-    "styled-components": "^4.2.0",
+    "styled-components": "^4.4.1",
     "tokenizr": "^1.5.7",
     "yoast-components": "^5.20.0",
     "yoastseo": "^1.90.0"
   },
   "devDependencies": {
     "@wordpress/dependency-extraction-webpack-plugin": "^2.8.0",
-    "case-sensitive-paths-webpack-plugin": "^2.1.2",
-    "enzyme": "^3.3.0",
-    "enzyme-adapter-react-16": "^1.5.0",
-    "enzyme-to-json": "^3.3.3",
-    "jest": "^23.3.0",
-    "jest-styled-components": "^6.3.4"
+    "case-sensitive-paths-webpack-plugin": "^2.1.2"
   },
   "peerDependencies": {
     "react": "16.8.6",

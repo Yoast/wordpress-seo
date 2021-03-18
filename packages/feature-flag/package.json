@@ -15,9 +15,7 @@
     "lint": "eslint ./src ./tests --max-warnings=0",
     "prepublishOnly": "rm -rf dist && cp -R src dist && cp package.json dist/package.json && json -I -f dist/package.json -e \"this.main='index.js'\""
   },
-  "devDependencies": {
-    "jest": "^22.4.3"
-  },
+  "devDependencies": {},
   "jest": {
     "testURL": "http://localhost",
     "testRegex": ".*Test.js$",

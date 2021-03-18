@@ -1,60 +1,12 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`the AnalysisResult component matches the snapshot 1`] = `
-.c3 {
-  box-sizing: border-box;
-  min-width: 32px;
-  display: inline-block;
-  border: 1px solid #ccc;
-  background-color: #a4286a;
-  box-shadow: inset 0 2px 0 rgba( 93,35,122,0.7 );
-  border-radius: 3px;
-  cursor: pointer;
-  padding: 0;
-  height: 23px;
-}
-
-.c3:hover {
-  border-color: #fff;
-}
-
-.c3:disabled {
-  background-color: #f7f7f7;
-  box-shadow: none;
-  border: none;
-  cursor: default;
-}
-
-.c0 {
-  min-height: 24px;
-  padding: 0;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-align-items: flex-start;
-  -webkit-box-align: flex-start;
-  -ms-flex-align: flex-start;
-  align-items: flex-start;
-}
-
-.c1 {
-  margin: 3px 11px 0 0;
-}
-
-.c2 {
-  margin: 0 16px 0 0;
-  -webkit-flex: 1 1 auto;
-  -ms-flex: 1 1 auto;
-  flex: 1 1 auto;
-}
-
 <li
-  className="c0"
+  className="bFjFfr"
 >
   <svg
     aria-hidden={true}
-    className="yoast-svg-icon yoast-svg-icon-circle c1 createSvgIconComponent__StyledSvg-sc-1h4gl3a-0 jXxqhK"
+    className="jXxqhK yoast-svg-icon yoast-svg-icon-circle fJLoCd"
     fill="blue"
     focusable="false"
     role="img"
@@ -67,7 +19,7 @@ exports[`the AnalysisResult component matches the snapshot 1`] = `
     />
   </svg>
   <p
-    className="c2"
+    className="dYfseL"
     dangerouslySetInnerHTML={
       Object {
         "__html": "You're doing great!",
@@ -77,7 +29,7 @@ exports[`the AnalysisResult component matches the snapshot 1`] = `
   <button
     aria-label="SEOResult"
     aria-pressed={true}
-    className="c3"
+    className="bcezWQ"
     disabled={false}
     id="Result button"
     onClick={[Function]}
@@ -85,7 +37,7 @@ exports[`the AnalysisResult component matches the snapshot 1`] = `
   >
     <svg
       aria-hidden={true}
-      className="yoast-svg-icon yoast-svg-icon-eye createSvgIconComponent__StyledSvg-sc-1h4gl3a-0 dqTDIA"
+      className="dqTDIA yoast-svg-icon yoast-svg-icon-eye"
       fill="#fff"
       focusable="false"
       role="img"
@@ -102,60 +54,12 @@ exports[`the AnalysisResult component matches the snapshot 1`] = `
 `;
 
 exports[`the AnalysisResult component with disabled buttons matches the snapshot 1`] = `
-.c3 {
-  box-sizing: border-box;
-  min-width: 32px;
-  display: inline-block;
-  border: 1px solid #ccc;
-  background-color: #a4286a;
-  box-shadow: inset 0 2px 0 rgba( 93,35,122,0.7 );
-  border-radius: 3px;
-  cursor: pointer;
-  padding: 0;
-  height: 23px;
-}
-
-.c3:hover {
-  border-color: #fff;
-}
-
-.c3:disabled {
-  background-color: #f7f7f7;
-  box-shadow: none;
-  border: none;
-  cursor: default;
-}
-
-.c0 {
-  min-height: 24px;
-  padding: 0;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-align-items: flex-start;
-  -webkit-box-align: flex-start;
-  -ms-flex-align: flex-start;
-  align-items: flex-start;
-}
-
-.c1 {
-  margin: 3px 11px 0 0;
-}
-
-.c2 {
-  margin: 0 16px 0 0;
-  -webkit-flex: 1 1 auto;
-  -ms-flex: 1 1 auto;
-  flex: 1 1 auto;
-}
-
 <li
-  className="c0"
+  className="bFjFfr"
 >
   <svg
     aria-hidden={true}
-    className="yoast-svg-icon yoast-svg-icon-circle c1 createSvgIconComponent__StyledSvg-sc-1h4gl3a-0 jXxqhK"
+    className="jXxqhK yoast-svg-icon yoast-svg-icon-circle fJLoCd"
     fill="blue"
     focusable="false"
     role="img"
@@ -168,7 +72,7 @@ exports[`the AnalysisResult component with disabled buttons matches the snapshot
     />
   </svg>
   <p
-    className="c2"
+    className="dYfseL"
     dangerouslySetInnerHTML={
       Object {
         "__html": "You're doing great!",
@@ -178,7 +82,7 @@ exports[`the AnalysisResult component with disabled buttons matches the snapshot
   <button
     aria-label="SEOResult"
     aria-pressed={true}
-    className="c3"
+    className="bcezWQ"
     disabled={true}
     id="Result button"
     onClick={[Function]}
@@ -186,7 +90,7 @@ exports[`the AnalysisResult component with disabled buttons matches the snapshot
   >
     <svg
       aria-hidden={true}
-      className="yoast-svg-icon yoast-svg-icon-eye createSvgIconComponent__StyledSvg-sc-1h4gl3a-0 dqTDIA"
+      className="dqTDIA yoast-svg-icon yoast-svg-icon-eye"
       fill="#ddd"
       focusable="false"
       role="img"
@@ -203,36 +107,12 @@ exports[`the AnalysisResult component with disabled buttons matches the snapshot
 `;
 
 exports[`the AnalysisResult component with hidden buttons matches the snapshot 1`] = `
-.c0 {
-  min-height: 24px;
-  padding: 0;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-align-items: flex-start;
-  -webkit-box-align: flex-start;
-  -ms-flex-align: flex-start;
-  align-items: flex-start;
-}
-
-.c1 {
-  margin: 3px 11px 0 0;
-}
-
-.c2 {
-  margin: 0 16px 0 0;
-  -webkit-flex: 1 1 auto;
-  -ms-flex: 1 1 auto;
-  flex: 1 1 auto;
-}
-
 <li
-  className="c0"
+  className="bFjFfr"
 >
   <svg
     aria-hidden={true}
-    className="yoast-svg-icon yoast-svg-icon-circle c1 createSvgIconComponent__StyledSvg-sc-1h4gl3a-0 jXxqhK"
+    className="jXxqhK yoast-svg-icon yoast-svg-icon-circle fJLoCd"
     fill="blue"
     focusable="false"
     role="img"
@@ -245,7 +125,7 @@ exports[`the AnalysisResult component with hidden buttons matches the snapshot 1
     />
   </svg>
   <p
-    className="c2"
+    className="dYfseL"
     dangerouslySetInnerHTML={
       Object {
         "__html": "You're doing great!",
@@ -256,60 +136,12 @@ exports[`the AnalysisResult component with hidden buttons matches the snapshot 1
 `;
 
 exports[`the AnalysisResult component with html in the text matches the snapshot 1`] = `
-.c3 {
-  box-sizing: border-box;
-  min-width: 32px;
-  display: inline-block;
-  border: 1px solid #ccc;
-  background-color: #a4286a;
-  box-shadow: inset 0 2px 0 rgba( 93,35,122,0.7 );
-  border-radius: 3px;
-  cursor: pointer;
-  padding: 0;
-  height: 23px;
-}
-
-.c3:hover {
-  border-color: #fff;
-}
-
-.c3:disabled {
-  background-color: #f7f7f7;
-  box-shadow: none;
-  border: none;
-  cursor: default;
-}
-
-.c0 {
-  min-height: 24px;
-  padding: 0;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-align-items: flex-start;
-  -webkit-box-align: flex-start;
-  -ms-flex-align: flex-start;
-  align-items: flex-start;
-}
-
-.c1 {
-  margin: 3px 11px 0 0;
-}
-
-.c2 {
-  margin: 0 16px 0 0;
-  -webkit-flex: 1 1 auto;
-  -ms-flex: 1 1 auto;
-  flex: 1 1 auto;
-}
-
 <li
-  className="c0"
+  className="bFjFfr"
 >
   <svg
     aria-hidden={true}
-    className="yoast-svg-icon yoast-svg-icon-circle c1 createSvgIconComponent__StyledSvg-sc-1h4gl3a-0 jXxqhK"
+    className="jXxqhK yoast-svg-icon yoast-svg-icon-circle fJLoCd"
     fill="blue"
     focusable="false"
     role="img"
@@ -322,7 +154,7 @@ exports[`the AnalysisResult component with html in the text matches the snapshot
     />
   </svg>
   <p
-    className="c2"
+    className="dYfseL"
     dangerouslySetInnerHTML={
       Object {
         "__html": "You're doing <b>great!</b>",
@@ -332,7 +164,7 @@ exports[`the AnalysisResult component with html in the text matches the snapshot
   <button
     aria-label="SEOResult"
     aria-pressed={true}
-    className="c3"
+    className="bcezWQ"
     disabled={false}
     id="Result button"
     onClick={[Function]}
@@ -340,7 +172,7 @@ exports[`the AnalysisResult component with html in the text matches the snapshot
   >
     <svg
       aria-hidden={true}
-      className="yoast-svg-icon yoast-svg-icon-eye createSvgIconComponent__StyledSvg-sc-1h4gl3a-0 dqTDIA"
+      className="dqTDIA yoast-svg-icon yoast-svg-icon-eye"
       fill="#fff"
       focusable="false"
       role="img"

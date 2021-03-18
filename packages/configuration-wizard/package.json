@@ -35,13 +35,7 @@
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-react": "^6.24.1",
     "browserslist": "^4.7.3",
-    "enzyme": "3.9.0",
-    "enzyme-adapter-react-16": "1.10.0",
-    "enzyme-to-json": "3.3.5",
-    "jest": "^22.4.3",
-    "jest-styled-components": "^5.0.1",
-    "material-ui": "^0.18.6",
-    "react-test-renderer": "^16.8.4"
+    "material-ui": "^0.18.6"
   },
   "peerDependencies": {
     "material-ui": "^0.18.6",

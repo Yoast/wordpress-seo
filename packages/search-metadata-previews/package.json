@@ -30,16 +30,12 @@
     "lodash": "^4.17.11",
     "prop-types": "^15.6.0",
     "react-transition-group": "^2.7.1",
-    "styled-components": "^4.2.0",
+    "styled-components": "^4.4.1",
     "yoastseo": "^1.90.0"
   },
   "devDependencies": {
     "@yoast/browserslist-config": "^1.2.2",
-    "browserslist": "^4.7.3",
-    "enzyme": "^3.3.0",
-    "enzyme-adapter-react-16": "^1.1.1",
-    "jest-styled-components": "^6.3.1",
-    "react-test-renderer": "^16.8.4"
+    "browserslist": "^4.7.3"
   },
   "jest": {
     "testURL": "http://localhost",

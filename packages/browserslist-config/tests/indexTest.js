@@ -1,12 +1,5 @@
-/**
- * External dependencies
- */
-import browserslist from "browserslist";
-
-/**
- * Internal dependencies
- */
-import config from "../";
+const browserslist = require( "browserslist" );
+const config = require( "../src" );
 
 it( "should export an array", () => {
 	expect( Array.isArray( config ) ).toBe( true );

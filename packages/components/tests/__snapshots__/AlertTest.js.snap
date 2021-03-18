@@ -6,7 +6,7 @@ exports[`Alert passing onDismissed makes the alert dismissable 1`] = `
 >
   <svg
     aria-hidden={true}
-    className="yoast-svg-icon yoast-svg-icon-alert-info camkTq createSvgIconComponent__StyledSvg-sc-1h4gl3a-0 cPnaHk"
+    className="cPnaHk yoast-svg-icon yoast-svg-icon-alert-info camkTq"
     fill="#00468f"
     focusable="false"
     role="img"
@@ -46,7 +46,7 @@ exports[`Alert the Alert types match the snapshot 1`] = `
 >
   <svg
     aria-hidden={true}
-    className="yoast-svg-icon yoast-svg-icon-alert-error camkTq createSvgIconComponent__StyledSvg-sc-1h4gl3a-0 cPnaHk"
+    className="cPnaHk yoast-svg-icon yoast-svg-icon-alert-error camkTq"
     fill="#8f1919"
     focusable="false"
     role="img"
@@ -72,7 +72,7 @@ exports[`Alert the Alert types match the snapshot 2`] = `
 >
   <svg
     aria-hidden={true}
-    className="yoast-svg-icon yoast-svg-icon-alert-info camkTq createSvgIconComponent__StyledSvg-sc-1h4gl3a-0 cPnaHk"
+    className="cPnaHk yoast-svg-icon yoast-svg-icon-alert-info camkTq"
     fill="#00468f"
     focusable="false"
     role="img"
@@ -98,7 +98,7 @@ exports[`Alert the Alert types match the snapshot 3`] = `
 >
   <svg
     aria-hidden={true}
-    className="yoast-svg-icon yoast-svg-icon-alert-success camkTq createSvgIconComponent__StyledSvg-sc-1h4gl3a-0 cPnaHk"
+    className="cPnaHk yoast-svg-icon yoast-svg-icon-alert-success camkTq"
     fill="#395315"
     focusable="false"
     role="img"
@@ -124,7 +124,7 @@ exports[`Alert the Alert types match the snapshot 4`] = `
 >
   <svg
     aria-hidden={true}
-    className="yoast-svg-icon yoast-svg-icon-alert-warning camkTq createSvgIconComponent__StyledSvg-sc-1h4gl3a-0 cPnaHk"
+    className="cPnaHk yoast-svg-icon yoast-svg-icon-alert-warning camkTq"
     fill="#674e00"
     focusable="false"
     role="img"
