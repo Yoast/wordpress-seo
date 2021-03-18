@@ -230,6 +230,10 @@ class WPSEO_Admin_Asset_Manager {
 
 		$flat_version = $this->flatten_version( WPSEO_VERSION );
 
+		// We need to register scripts for all possible languages, including default.
+		$supported_languages = Researcher_Languages::SUPPORTED_LANGUAGES;
+		$supported_languages[] = 'default';
+
 		$language_scripts = array_map(
 			function( $language ) {
 				$flat_version = $this->flatten_version( WPSEO_VERSION );
@@ -238,7 +242,7 @@ class WPSEO_Admin_Asset_Manager {
 					'src'  => 'languages/' . $language . '-' . $flat_version,
 				];
 			},
-			Researcher_Languages::SUPPORTED_LANGUAGES
+			$supported_languages
 		);
 		return array_merge(
 			$language_scripts,
