@@ -234,6 +234,13 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 16.0.2 =
+Release Date: March 18th, 2021
+
+Enhancements:
+
+* Changes the deactivation prevention text on the Plugins page from ‘Deactivate Yoast SEO Premium first’ to ‘Required by Yoast SEO Premium’ to avoid confusion.
+
 = 16.0.1 =
 Release Date: March 16th, 2021
 
