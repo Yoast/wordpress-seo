@@ -29,6 +29,7 @@ class SettingsReplacementVariableEditor extends Component {
 			recommendedReplacementVariables,
 			titleTarget,
 			descriptionTarget,
+			labels,
 			descriptionPlaceholder,
 		} = this.props;
 
@@ -37,7 +38,7 @@ class SettingsReplacementVariableEditor extends Component {
 				hasPaperStyle={ this.props.hasPaperStyle }
 			>
 				<SettingsSnippetEditor
-					descriptionEditorFieldPlaceholder={ descriptionPlaceholder }
+					descriptionEditorFieldPlaceholder={ descriptionPlaceholder || __( "Modify your meta description by editing it right here", "wordpress-seo" ) }
 					onChange={ ( field, value ) => {
 						switch ( field ) {
 							case "title":
@@ -84,11 +85,6 @@ SettingsReplacementVariableEditor.propTypes = {
 
 SettingsReplacementVariableEditor.defaultProps = {
 	hasPaperStyle: true,
-	labels: {
-		title: "",
-		description: "",
-	},
-	descriptionPlaceholder: __( "Modify your meta description by editing it right here", "wordpress-seo" ),
 };
 
 export default linkHiddenFields( props => {

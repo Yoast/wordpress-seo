@@ -26,6 +26,8 @@ export default function SettingsEditorPortal( {
 	titleTarget,
 	descriptionTarget,
 	hasPaperStyle,
+	labels,
+	descriptionPlaceholder,
 } ) {
 	return (
 		<Portal target={ target }>
