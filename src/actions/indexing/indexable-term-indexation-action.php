@@ -141,14 +141,13 @@ class Indexable_Term_Indexation_Action implements Indexation_Action_Interface {
 		return $this->wpdb->prepare(
 			"
 			SELECT $select
-			FROM {$this->wpdb->term_taxonomy}
-			WHERE term_id NOT IN (
-				SELECT object_id
-				FROM $indexable_table
-				WHERE object_type = 'term'
-				AND permalink_hash IS NOT NULL
-			)
-			AND taxonomy IN (" . \implode( ', ', \array_fill( 0, \count( $public_taxonomies ), '%s' ) ) . ")
+			FROM {$this->wpdb->term_taxonomy} AS T
+			LEFT JOIN $indexable_table AS I
+				ON T.term_id = I.object_id
+				AND I.object_type = 'term'
+				AND I.permalink_hash IS NOT NULL
+			WHERE I.object_id IS NULL
+				AND taxonomy IN (" . \implode( ', ', \array_fill( 0, \count( $public_taxonomies ), '%s' ) ) . ")
 			$limit_query",
 			$replacements
 		);

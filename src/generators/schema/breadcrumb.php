@@ -19,11 +19,7 @@ class Breadcrumb extends Abstract_Schema_Piece {
 			return false;
 		}
 
-		if ( $this->context->breadcrumbs_enabled ) {
-			return true;
-		}
-
-		return false;
+		return true;
 	}
 
 	/**
@@ -102,16 +98,23 @@ class Breadcrumb extends Abstract_Schema_Piece {
 	 * @return array A breadcrumb listItem.
 	 */
 	private function create_breadcrumb( $index, $breadcrumb ) {
-		return [
+		$crumb = [
 			'@type'    => 'ListItem',
 			'position' => ( $index + 1 ),
-			'item'     => [
-				'@type' => 'WebPage',
-				'@id'   => $breadcrumb['url'],
-				'url'   => $breadcrumb['url'], // For future proofing, we're trying to change the standard for this.
-				'name'  => $this->helpers->schema->html->smart_strip_tags( $breadcrumb['text'] ),
-			],
+			'item'     => []
 		];
+
+		if ( ! isset( $breadcrumb['url'] ) && isset( $breadcrumb['@id'] ) ) {
+			$crumb['item']['@id'] = $breadcrumb['@id'];
+			return $crumb;
+		}
+
+		$crumb['item']['@type'] = 'WebPage';
+		$crumb['item']['@id']   = $breadcrumb['url'];
+		$crumb['item']['url']   = $breadcrumb['url'];
+		$crumb['item']['name']  = $this->helpers->schema->html->smart_strip_tags( $breadcrumb['text'] );
+
+		return $crumb;
 	}
 
 	/**
@@ -125,26 +128,34 @@ class Breadcrumb extends Abstract_Schema_Piece {
 	 * @return array The last of the breadcrumbs.
 	 */
 	private function format_last_breadcrumb( $breadcrumb ) {
-		if ( empty( $breadcrumb['url'] ) ) {
-			$breadcrumb['url'] = $this->context->canonical;
-		}
-		if ( empty( $breadcrumb['text'] ) ) {
-			$breadcrumb['text'] = $this->helpers->schema->html->smart_strip_tags( $this->context->title );
-		}
+		unset( $breadcrumb['url'], $breadcrumb['text'], $breadcrumb['@type'] );
+		$breadcrumb['@id'] = $this->context->canonical . Schema_IDs::WEBPAGE_HASH;
 
 		return $breadcrumb;
 	}
 
 	/**
 	 * Tests if the breadcrumb is broken.
-	 * A breadcrumb is considered broken when it has no URL or text.
+	 * A breadcrumb is considered broken:
+	 * - when it is not an array.
+	 * - when it has no URL or text.
 	 *
 	 * @param array $breadcrumb The breadcrumb to test.
 	 *
 	 * @return bool `true` if the breadcrumb is broken.
 	 */
 	private function is_broken( $breadcrumb ) {
-		return ! \array_key_exists( 'url', $breadcrumb ) || ! \array_key_exists( 'text', $breadcrumb );
+		// A breadcrumb is broken if it is not an array.
+		if ( ! is_array( $breadcrumb ) ) {
+			return true;
+		}
+
+		// A breadcrumb is broken if it does not contain a URL or text.
+		if ( ! \array_key_exists( 'url', $breadcrumb ) || ! \array_key_exists( 'text', $breadcrumb ) ) {
+			return true;
+		}
+
+		return false;
 	}
 
 	/**

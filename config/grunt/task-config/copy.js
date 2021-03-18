@@ -79,6 +79,10 @@ module.exports = {
 		src: "gettext.pot",
 		dest: "<%= files.pot.yoastJsSearchMetadataPreviews %>",
 	},
+	"makepot-yoast-js-schema-blocks": {
+		src: "gettext.pot",
+		dest: "<%= files.pot.yoastSchemaBocks %>",
+	},
 
 	// The default de_CH is formal on WordPress.org, but that one is not translated enough for wordpress-seo.
 	// So we need to copy the `-informal` so we have a good translation.
@@ -132,29 +136,5 @@ module.exports = {
 				dest: "<%= files.artifact %>",
 			},
 		],
-	},
-	"composer-artifact": {
-		files: [ {
-			expand: true,
-			cwd: "<%= files.artifact %>",
-			src: [
-				"**/*",
-				"!vendor_prefixed/**",
-			],
-			dest: "<%= files.artifactComposer %>",
-		} ],
-	},
-	"composer-files": {
-		files: [ {
-			expand: true,
-			cwd: ".",
-			src: [
-				"composer.lock",
-				"composer.json",
-			],
-			dest: "<%= files.artifactComposer %>",
-		} ],
-		"composer.lock": [ "<%= files.artifact %>/composer.lock" ],
-		"composer.json": [ "<%= files.artifact %>/composer.json" ],
 	},
 };

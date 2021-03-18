@@ -4,8 +4,8 @@ Donate link: https://yoa.st/1up
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
-Tested up to: 5.6
-Stable tag: 15.7
+Tested up to: 5.7
+Stable tag: 16.0.2
 Requires PHP: 5.6.20
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -44,7 +44,7 @@ We know content is king, that's why Yoast SEO is famous for its **state-of-the-a
 * **Readability analysis**: ensures that humans and search engines can read and understand your content.
 * **Full language support** for: English, German, French, Dutch, Spanish, Italian, Russian, Indonesian, Polish, Portuguese, Arabic, Swedish, Hebrew, Hungarian and Turkish.
 * **A Google preview**, which shows what your listings will look like in the search results. Even on mobile devices!
-* **Innovative Schema blocks** for the WordPress block editor, so that your FAQ and HowTo content can be shown directly in the search results.
+* **Innovative Schema blocks** for the WordPress block editor, so that your FAQ and HowTo content can be shown directly in the search results. Plus a breadcrumbs block to guide your users.
 * **[Premium] Internal linking blocks** to easily improve the structure of your content. Easily add a **table of contents block**, a **related links block**, a **subpages** block, or **siblings block**! Plus, we’ll keep adding these easy-to-add blocks to improve your site structure.
 * **[Premium]** Social previews to show you how your content will be shown on Twitter and Facebook.
 * **[Premium]** The Insights tool that shows you what your text focuses on. This way you can keep your article in line with your keyphrases.
@@ -234,42 +234,54 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
-= 15.8 =
-Release Date: February 9th, 2021
+= 16.1 =
+Release Date: April 6th, 2021
 
 Enhancements:
 
-* Improves loading time of the posts overview page in the WordPress backend. Props to [Rahe](https://github.com/Rahe).
+* Optimizes the queries used for fetching unindexed objects.
+* Adds your OpenGraph or Twitter image as the main image in Schema when they're set.
+* Adds `contentUrl` to the schema image output to more precisely say what the URL _is_.
+* Improves the performance of the post indexing. Props to [Ovidiu Liuta](https://github.com/ovidiul).
+* Improves the URL in the Google preview when in the desktop mode.
+* Performance optimization for loading the person & organization logo in Schema.
+* Optimizes several calls to WP path and basename functions by using already defined and calculated constants.
+* Removes the keyphrase highlighting in the mobile meta description to reflect new Google behavior.
 
 Bugfixes:
 
-* Fixes a bug where the target indexable for relative links was not properly detected.
-* Fixes a bug where scheme relative links were not parsed correctly.
-* Fixes a bug where custom capabilities could malfunction due to a race condition. Props to [Jerome Charaoui](https://github.com/jcharaoui).
+* Fixes a bug where the analysis highlight button would be visible in our Elementor integration even though we don't support it.
+* Fixes a bug where a warning was shown on the Features settings page when running the plugin on PHP 8.0.
+* Fixes a bug where a warning was shown on the Integrations settings page when running the plugin on PHP 8.0.
 
-= 15.7 =
-Release Date: January 26th, 2021
-
-Meet Yoast SEO 15.7! For this release, we thought we’d remind you of the powerful content analysis in Yoast SEO - it helps you write awesome content that ranks! Read more about what’s new in Yoast SEO 15.7 in [our release post](https://yoa.st/release-15-7)!
+= 16.0.2 =
+Release Date: March 18th, 2021
 
 Enhancements:
 
-* Expands the readability analysis for Turkish:
-    * Adds the transition words assessment.
-    * Adds the consecutive sentences beginnings assessment.
-    * Adds the sentence length assessment.
-    * Adds the passive voice assessment.
-* Improves keyphrase recognition in Turkish by filtering out function words such as `birinci`, `i̇kinci`, `üçüncü`.
-* Adds the advanced snippet variables to the Social previews of our Elementor integration.
+* Changes the deactivation prevention text on the Plugins page from ‘Deactivate Yoast SEO Premium first’ to ‘Required by Yoast SEO Premium’ to avoid confusion.
+
+= 16.0.1 =
+Release Date: March 16th, 2021
 
 Bugfixes:
 
-* Fixes a bug where empty author archive pages would be indexed when the author had published a custom post-type that was not shown on his/her author archive page. Props to [stodorovic](https://github.com/stodorovic).
+* Fixes a bug where in rare cases incorrect usage of `WP_Query` could lead to incorrect SEO data.
+
+= 16.0 =
+Release Date: March 16th, 2021
+
+Yoast SEO 16.0: The Sweet Sixteen release is out! It comes with several fixes and improvements. Happy updating and thank you for using Yoast SEO! Read more about what’s new in Yoast SEO 16.0 in [our release post](https://yoa.st/release-16-0)!
+
+Bugfixes:
+
+* Fixes a bug where invalid breadcrumbs would show PHP warnings.
+* Fixes a bug where a fatal error would be thrown when a post ancestor was not an indexable.
+* Fixes a bug where a fatal error would be thrown when both Yoast SEO and Polylang for WooCommerce were installed, and the site contained WooCommerce variable products. Props to [manooweb](https://github.com/manooweb).
 
 Other:
 
-* Changes the wording on the `my.yoast.com` connect error shown in Health Check when a Yoast premium plugin is enabled, to lead with what the user's problem is.
-* Removes the release notification as the added benefit of having it is minimal.
+* Sets the WordPress tested up to version to 5.7 and minimum supported WordPress version to 5.6.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).

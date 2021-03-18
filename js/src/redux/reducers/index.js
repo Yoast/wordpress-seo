@@ -2,8 +2,10 @@ import activeMarker from "./activeMarker";
 import advancedSettings from "./advancedSettings";
 import { analysis } from "yoast-components";
 import analysisData from "./analysisData";
+import dismissedAlerts from "./dismissedAlerts";
 import editorContext from "./editorContext";
 import editorData from "./editorData";
+import editorModals from "./editorModals";
 import estimatedReadingTime from "./estimatedReadingTime";
 import facebookEditor from "./facebookEditor";
 import focusKeyword from "./focusKeyword";
@@ -26,8 +28,10 @@ export default {
 	advancedSettings,
 	analysis,
 	analysisData,
+	dismissedAlerts,
 	editorContext,
 	editorData,
+	editorModals,
 	estimatedReadingTime,
 	facebookEditor,
 	focusKeyword,

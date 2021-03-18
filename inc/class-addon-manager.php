@@ -222,6 +222,10 @@ class WPSEO_Addon_Manager {
 			if ( version_compare( $installed_plugin['Version'], $subscription->product->version, '<' ) ) {
 				$data->response[ $plugin_file ] = $this->convert_subscription_to_plugin( $subscription );
 			}
+			else {
+				// Still convert subscription when no updates is available.
+				$data->no_update[ $plugin_file ] = $this->convert_subscription_to_plugin( $subscription );
+			}
 		}
 
 		return $data;
@@ -342,25 +346,26 @@ class WPSEO_Addon_Manager {
 		$changelog = str_replace( '</h3', '</h4', str_replace( '<h3', '<h4', $changelog ) );
 
 		return (object) [
-			'new_version'   => $subscription->product->version,
-			'name'          => $subscription->product->name,
-			'slug'          => $subscription->product->slug,
-			'url'           => $subscription->product->store_url,
-			'last_update'   => $subscription->product->last_updated,
-			'homepage'      => $subscription->product->store_url,
-			'download_link' => $subscription->product->download,
-			'package'       => $subscription->product->download,
-			'sections'      => [
+			'new_version'      => $subscription->product->version,
+			'name'             => $subscription->product->name,
+			'slug'             => $subscription->product->slug,
+			'url'              => $subscription->product->store_url,
+			'last_update'      => $subscription->product->last_updated,
+			'homepage'         => $subscription->product->store_url,
+			'download_link'    => $subscription->product->download,
+			'package'          => $subscription->product->download,
+			'sections'         => [
 				'changelog' => $changelog,
 				'support'   => $this->get_support_section(),
 			],
-			'icons'         => [
+			'icons'            => [
 				'2x' => $this->get_icon( $subscription->product->slug ),
 			],
-			'banners'       => $this->get_banners( $subscription->product->slug ),
-			'tested'        => YOAST_SEO_WP_TESTED,
-			'requires'      => YOAST_SEO_WP_REQUIRED,
-			'requires_php'  => YOAST_SEO_PHP_REQUIRED,
+			'update_supported' => true,
+			'banners'          => $this->get_banners( $subscription->product->slug ),
+			'tested'           => YOAST_SEO_WP_TESTED,
+			'requires'         => YOAST_SEO_WP_REQUIRED,
+			'requires_php'     => YOAST_SEO_PHP_REQUIRED,
 		];
 	}
 
@@ -445,7 +450,7 @@ class WPSEO_Addon_Manager {
 		$addons = self::$addons;
 
 		// Yoast SEO Free isn't an addon, but we needed it in Premium to fetch translations.
-		if ( WPSEO_Utils::is_yoast_seo_premium() ) {
+		if ( YoastSEO()->helpers->product->is_premium() ) {
 			$addons['wp-seo.php'] = self::FREE_SLUG;
 		}
 

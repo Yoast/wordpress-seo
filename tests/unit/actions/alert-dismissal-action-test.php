@@ -3,6 +3,7 @@
 namespace Yoast\WP\SEO\Tests\Unit\Actions;
 
 use Mockery;
+use Brain\Monkey;
 use Yoast\WP\SEO\Actions\Alert_Dismissal_Action;
 use Yoast\WP\SEO\Helpers\User_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
@@ -11,6 +12,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * Class Alert_Dismissal_Action_Test.
  *
  * @group actions
+ * @group dismissable-alerts
  *
  * @coversDefaultClass \Yoast\WP\SEO\Actions\Alert_Dismissal_Action
  */
@@ -57,12 +59,19 @@ class Alert_Dismissal_Action_Test extends TestCase {
 	 *
 	 * @covers ::dismiss
 	 * @covers ::get_dismissed_alerts
+	 * @covers ::is_allowed
+	 * @covers ::get_allowed_dismissable_alerts
 	 */
 	public function test_dismiss_alert() {
 		$this->user
 			->expects( 'get_current_user_id' )
 			->once()
 			->andReturn( 1 );
+
+		Monkey\Filters\expectApplied( 'wpseo_allowed_dismissable_alerts' )
+			->with( [] )
+			->once()
+			->andReturn( [ 'test' ] );
 
 		$this->user
 			->expects( 'get_meta' )
@@ -85,10 +94,42 @@ class Alert_Dismissal_Action_Test extends TestCase {
 	}
 
 	/**
+	 * Tests dismissing an alert that is not allowed.
+	 *
+	 * @covers ::dismiss
+	 * @covers ::get_dismissed_alerts
+	 * @covers ::is_allowed
+	 * @covers ::get_allowed_dismissable_alerts
+	 */
+	public function test_dismiss_alert_not_allowed() {
+		$this->user
+			->expects( 'get_current_user_id' )
+			->once()
+			->andReturn( 1 );
+
+		Monkey\Filters\expectApplied( 'wpseo_allowed_dismissable_alerts' )
+			->with( [] )
+			->once()
+			->andReturn( [ 'allowed_alert' ] );
+
+		$this->user
+			->expects( 'get_meta' )
+			->never();
+
+		$this->user
+			->expects( 'update_meta' )
+			->never();
+
+		$this->assertFalse( $this->instance->dismiss( 'test' ) );
+	}
+
+	/**
 	 * Tests dismissing an alert that is already dismissed.
 	 *
 	 * @covers ::dismiss
 	 * @covers ::get_dismissed_alerts
+	 * @covers ::is_allowed
+	 * @covers ::get_allowed_dismissable_alerts
 	 */
 	public function test_dismiss_alert_already_dismissed() {
 		$this->user
@@ -96,17 +137,22 @@ class Alert_Dismissal_Action_Test extends TestCase {
 			->once()
 			->andReturn( 1 );
 
+		Monkey\Filters\expectApplied( 'wpseo_allowed_dismissable_alerts' )
+			->with( [] )
+			->once()
+			->andReturn( [ 'already_dismissed' ] );
+
 		$this->user
 			->expects( 'get_meta' )
 			->with( 1, Alert_Dismissal_Action::USER_META_KEY, true )
 			->once()
-			->andReturn( [ 'already dismissed' => true ] );
+			->andReturn( [ 'already_dismissed' => true ] );
 
 		$this->user
 			->expects( 'update_meta' )
 			->never();
 
-		$this->assertTrue( $this->instance->dismiss( 'already dismissed' ) );
+		$this->assertTrue( $this->instance->dismiss( 'already_dismissed' ) );
 	}
 
 	/**
@@ -114,12 +160,19 @@ class Alert_Dismissal_Action_Test extends TestCase {
 	 *
 	 * @covers ::dismiss
 	 * @covers ::get_dismissed_alerts
+	 * @covers ::is_allowed
+	 * @covers ::get_allowed_dismissable_alerts
 	 */
 	public function test_dismiss_alert_wrong_dismissed_alerts() {
 		$this->user
 			->expects( 'get_current_user_id' )
 			->once()
 			->andReturn( 1 );
+
+		Monkey\Filters\expectApplied( 'wpseo_allowed_dismissable_alerts' )
+			->with( [] )
+			->once()
+			->andReturn( [ 'test' ] );
 
 		$this->user
 			->expects( 'get_meta' )
@@ -161,12 +214,19 @@ class Alert_Dismissal_Action_Test extends TestCase {
 	 *
 	 * @covers ::dismiss
 	 * @covers ::get_dismissed_alerts
+	 * @covers ::is_allowed
+	 * @covers ::get_allowed_dismissable_alerts
 	 */
 	public function test_dismiss_alert_update_failure() {
 		$this->user
 			->expects( 'get_current_user_id' )
 			->once()
 			->andReturn( 1 );
+
+		Monkey\Filters\expectApplied( 'wpseo_allowed_dismissable_alerts' )
+			->with( [] )
+			->once()
+			->andReturn( [ 'test' ] );
 
 		$this->user
 			->expects( 'get_meta' )
@@ -188,12 +248,19 @@ class Alert_Dismissal_Action_Test extends TestCase {
 	 *
 	 * @covers ::reset
 	 * @covers ::get_dismissed_alerts
+	 * @covers ::is_allowed
+	 * @covers ::get_allowed_dismissable_alerts
 	 */
 	public function test_reset_alert() {
 		$this->user
 			->expects( 'get_current_user_id' )
 			->once()
 			->andReturn( 1 );
+
+		Monkey\Filters\expectApplied( 'wpseo_allowed_dismissable_alerts' )
+			->with( [] )
+			->once()
+			->andReturn( [ 'test' ] );
 
 		$this->user
 			->expects( 'get_meta' )
@@ -233,16 +300,57 @@ class Alert_Dismissal_Action_Test extends TestCase {
 	}
 
 	/**
+	 * Tests resetting an alert - that is not allowed.
+	 *
+	 * @covers ::reset
+	 * @covers ::get_dismissed_alerts
+	 * @covers ::is_allowed
+	 * @covers ::get_allowed_dismissable_alerts
+	 */
+	public function test_reset_alert_not_allowed() {
+		$this->user
+			->expects( 'get_current_user_id' )
+			->once()
+			->andReturn( 1 );
+
+		Monkey\Filters\expectApplied( 'wpseo_allowed_dismissable_alerts' )
+			->with( [] )
+			->once()
+			->andReturn( [ 'allowed_alert' ] );
+
+		$this->user
+			->expects( 'get_meta' )
+			->never();
+
+		$this->user
+			->expects( 'delete_meta' )
+			->never();
+
+		$this->user
+			->expects( 'update_meta' )
+			->never();
+
+		$this->assertFalse( $this->instance->reset( 'test' ) );
+	}
+
+	/**
 	 * Tests resetting the only dismissed alert.
 	 *
 	 * @covers ::reset
 	 * @covers ::get_dismissed_alerts
+	 * @covers ::is_allowed
+	 * @covers ::get_allowed_dismissable_alerts
 	 */
 	public function test_reset_alert_last_remaining() {
 		$this->user
 			->expects( 'get_current_user_id' )
 			->once()
 			->andReturn( 1 );
+
+		Monkey\Filters\expectApplied( 'wpseo_allowed_dismissable_alerts' )
+			->with( [] )
+			->once()
+			->andReturn( [ 'test' ] );
 
 		$this->user
 			->expects( 'get_meta' )
@@ -267,12 +375,19 @@ class Alert_Dismissal_Action_Test extends TestCase {
 	 *
 	 * @covers ::reset
 	 * @covers ::get_dismissed_alerts
+	 * @covers ::is_allowed
+	 * @covers ::get_allowed_dismissable_alerts
 	 */
 	public function test_reset_alert_last_remaining_delete_failure() {
 		$this->user
 			->expects( 'get_current_user_id' )
 			->once()
 			->andReturn( 1 );
+
+		Monkey\Filters\expectApplied( 'wpseo_allowed_dismissable_alerts' )
+			->with( [] )
+			->once()
+			->andReturn( [ 'test' ] );
 
 		$this->user
 			->expects( 'get_meta' )
@@ -297,12 +412,19 @@ class Alert_Dismissal_Action_Test extends TestCase {
 	 *
 	 * @covers ::reset
 	 * @covers ::get_dismissed_alerts
+	 * @covers ::is_allowed
+	 * @covers ::get_allowed_dismissable_alerts
 	 */
 	public function test_reset_alert_non_dismissed_alert() {
 		$this->user
 			->expects( 'get_current_user_id' )
 			->once()
 			->andReturn( 1 );
+
+		Monkey\Filters\expectApplied( 'wpseo_allowed_dismissable_alerts' )
+			->with( [] )
+			->once()
+			->andReturn( [ 'test' ] );
 
 		$this->user
 			->expects( 'get_meta' )
@@ -326,12 +448,19 @@ class Alert_Dismissal_Action_Test extends TestCase {
 	 *
 	 * @covers ::reset
 	 * @covers ::get_dismissed_alerts
+	 * @covers ::is_allowed
+	 * @covers ::get_allowed_dismissable_alerts
 	 */
 	public function test_reset_alert_no_dismissed_alerts() {
 		$this->user
 			->expects( 'get_current_user_id' )
 			->once()
 			->andReturn( 1 );
+
+		Monkey\Filters\expectApplied( 'wpseo_allowed_dismissable_alerts' )
+			->with( [] )
+			->once()
+			->andReturn( [ 'test' ] );
 
 		$this->user
 			->expects( 'get_meta' )
@@ -355,12 +484,19 @@ class Alert_Dismissal_Action_Test extends TestCase {
 	 *
 	 * @covers ::reset
 	 * @covers ::get_dismissed_alerts
+	 * @covers ::is_allowed
+	 * @covers ::get_allowed_dismissable_alerts
 	 */
 	public function test_reset_alert_wrong_dismissed_alerts() {
 		$this->user
 			->expects( 'get_current_user_id' )
 			->once()
 			->andReturn( 1 );
+
+		Monkey\Filters\expectApplied( 'wpseo_allowed_dismissable_alerts' )
+			->with( [] )
+			->once()
+			->andReturn( [ 'test' ] );
 
 		$this->user
 			->expects( 'get_meta' )
@@ -410,12 +546,19 @@ class Alert_Dismissal_Action_Test extends TestCase {
 	 *
 	 * @covers ::reset
 	 * @covers ::get_dismissed_alerts
+	 * @covers ::is_allowed
+	 * @covers ::get_allowed_dismissable_alerts
 	 */
 	public function test_reset_alert_update_failure() {
 		$this->user
 			->expects( 'get_current_user_id' )
 			->once()
 			->andReturn( 1 );
+
+		Monkey\Filters\expectApplied( 'wpseo_allowed_dismissable_alerts' )
+			->with( [] )
+			->once()
+			->andReturn( [ 'test' ] );
 
 		$this->user
 			->expects( 'get_meta' )
@@ -454,12 +597,19 @@ class Alert_Dismissal_Action_Test extends TestCase {
 	 *
 	 * @covers ::is_dismissed
 	 * @covers ::get_dismissed_alerts
+	 * @covers ::is_allowed
+	 * @covers ::get_allowed_dismissable_alerts
 	 */
 	public function test_is_dismissed_true() {
 		$this->user
 			->expects( 'get_current_user_id' )
 			->once()
 			->andReturn( 1 );
+
+		Monkey\Filters\expectApplied( 'wpseo_allowed_dismissable_alerts' )
+			->with( [] )
+			->once()
+			->andReturn( [ 'test' ] );
 
 		$this->user
 			->expects( 'get_meta' )
@@ -475,12 +625,19 @@ class Alert_Dismissal_Action_Test extends TestCase {
 	 *
 	 * @covers ::is_dismissed
 	 * @covers ::get_dismissed_alerts
+	 * @covers ::is_allowed
+	 * @covers ::get_allowed_dismissable_alerts
 	 */
 	public function test_is_dismissed_false() {
 		$this->user
 			->expects( 'get_current_user_id' )
 			->once()
 			->andReturn( 1 );
+
+		Monkey\Filters\expectApplied( 'wpseo_allowed_dismissable_alerts' )
+			->with( [] )
+			->once()
+			->andReturn( [ 'test' ] );
 
 		$this->user
 			->expects( 'get_meta' )
@@ -492,16 +649,49 @@ class Alert_Dismissal_Action_Test extends TestCase {
 	}
 
 	/**
+	 * Tests that the alert is not dismissed when it is not allowed.
+	 *
+	 * @covers ::is_dismissed
+	 * @covers ::get_dismissed_alerts
+	 * @covers ::is_allowed
+	 * @covers ::get_allowed_dismissable_alerts
+	 */
+	public function test_is_dismissed_not_allowed() {
+		$this->user
+			->expects( 'get_current_user_id' )
+			->once()
+			->andReturn( 1 );
+
+		Monkey\Filters\expectApplied( 'wpseo_allowed_dismissable_alerts' )
+			->with( [] )
+			->once()
+			->andReturn( [ 'allowed_alert' ] );
+
+		$this->user
+			->expects( 'get_meta' )
+			->never();
+
+		$this->assertFalse( $this->instance->is_dismissed( 'test' ) );
+	}
+
+	/**
 	 * Tests that the alert is not dismissed - retrieving the dismissed alerts goes wrong.
 	 *
 	 * @covers ::is_dismissed
 	 * @covers ::get_dismissed_alerts
+	 * @covers ::is_allowed
+	 * @covers ::get_allowed_dismissable_alerts
 	 */
 	public function test_is_dismissed_wrong_dismissed_alerts() {
 		$this->user
 			->expects( 'get_current_user_id' )
 			->once()
 			->andReturn( 1 );
+
+		Monkey\Filters\expectApplied( 'wpseo_allowed_dismissable_alerts' )
+			->with( [] )
+			->once()
+			->andReturn( [ 'test' ] );
 
 		$this->user
 			->expects( 'get_meta' )
@@ -535,8 +725,36 @@ class Alert_Dismissal_Action_Test extends TestCase {
 	 * Tests that get dismissed alerts returns an empty array when get_meta returns an empty string.
 	 *
 	 * @covers ::get_dismissed_alerts
+	 * @covers ::is_allowed
+	 * @covers ::get_allowed_dismissable_alerts
 	 */
 	public function test_get_dismissed_alerts_empty_array() {
+		$this->user
+			->expects( 'get_current_user_id' )
+			->once()
+			->andReturn( 1 );
+
+		Monkey\Filters\expectApplied( 'wpseo_allowed_dismissable_alerts' )
+			->with( [] )
+			->once()
+			->andReturn( [ 'test' ] );
+
+		$this->user
+			->expects( 'get_meta' )
+			->with( 1, Alert_Dismissal_Action::USER_META_KEY, true )
+			->once()
+			->andReturn( '' );
+
+		$this->assertFalse( $this->instance->is_dismissed( 'test' ) );
+	}
+
+	/**
+	 * Tests that all dismissed returns an array with the alertkey(s) begin true for the (valid) user_id.
+	 *
+	 * @covers ::all_dismissed
+	 * @covers ::get_dismissed_alerts
+	 */
+	public function test_all_dismissed() {
 		$this->user
 			->expects( 'get_current_user_id' )
 			->once()
@@ -546,8 +764,98 @@ class Alert_Dismissal_Action_Test extends TestCase {
 			->expects( 'get_meta' )
 			->with( 1, Alert_Dismissal_Action::USER_META_KEY, true )
 			->once()
-			->andReturn( '' );
+			->andReturn( [ 'testalert1' => true ] );
 
-		$this->assertFalse( $this->instance->is_dismissed( 'test' ) );
+		$this->assertEquals( [ 'testalert1' => true ], $this->instance->all_dismissed() );
+	}
+
+	/**
+	 * Tests that all dismissed returns false when there is no current user.
+	 *
+	 * @covers ::all_dismissed
+	 */
+	public function test_all_dismissed_no_current_user() {
+		$this->user
+			->expects( 'get_current_user_id' )
+			->once()
+			->andReturn( 0 );
+
+		$this->user
+			->expects( 'get_meta' )
+			->never();
+
+		$this->assertFalse( $this->instance->all_dismissed() );
+	}
+
+	/**
+	 * Tests that all dismissed returns false when get_dismissed_alerts returns false.
+	 *
+	 * @covers ::all_dismissed
+	 * @covers ::get_dismissed_alerts
+	 */
+	public function test_all_dismissed_get_dismissed_false() {
+		$this->user
+			->expects( 'get_current_user_id' )
+			->once()
+			->andReturn( 1 );
+
+		$this->user
+			->expects( 'get_meta' )
+			->with( 1, Alert_Dismissal_Action::USER_META_KEY, true )
+			->once()
+			->andReturn( false );
+
+		$this->assertFalse( $this->instance->all_dismissed() );
+	}
+
+	/**
+	 * Tests that all dismissed returns an empty array when get_dismissed_alerts returns an empty array.
+	 *
+	 * @covers ::all_dismissed
+	 * @covers ::get_dismissed_alerts
+	 */
+	public function test_all_dismissed_no_dismissed_alerts() {
+		$this->user
+			->expects( 'get_current_user_id' )
+			->once()
+			->andReturn( 1 );
+
+		$this->user
+			->expects( 'get_meta' )
+			->with( 1, Alert_Dismissal_Action::USER_META_KEY, true )
+			->once()
+			->andReturn( [] );
+
+		$this->assertEquals( [], $this->instance->all_dismissed() );
+	}
+
+	/**
+	 * Tests that get allowed dismissable alerts requires an array back.
+	 *
+	 * @covers ::is_allowed
+	 * @covers ::get_allowed_dismissable_alerts
+	 */
+	public function test_get_allowed_array_check() {
+		Monkey\Filters\expectApplied( 'wpseo_allowed_dismissable_alerts' )
+			->with( [] )
+			->once()
+			->andReturn( 'not an array' );
+
+		$this->assertFalse( $this->instance->is_allowed( 'test' ) );
+	}
+
+	/**
+	 * Tests that get allowed dismissable alerts requires an array with only strings.
+	 *
+	 * @covers ::is_allowed
+	 * @covers ::get_allowed_dismissable_alerts
+	 */
+	public function test_get_allowed_string_check() {
+		Monkey\Filters\expectApplied( 'wpseo_allowed_dismissable_alerts' )
+			->with( [] )
+			->once()
+			->andReturn( [ 1 ] );
+
+		$this->assertFalse( $this->instance->is_allowed( 1 ) );
 	}
 }

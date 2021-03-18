@@ -99,19 +99,18 @@ class WebPage_Test extends TestCase {
 		];
 
 		// Set some values that are used in multiple tests.
-		$this->meta_tags_context->schema_page_type    = [ 'WebPage' ];
-		$this->meta_tags_context->canonical           = 'https://example.com/the-post/';
-		$this->meta_tags_context->title               = 'the-title';
-		$this->meta_tags_context->description         = '';
-		$this->meta_tags_context->site_url            = 'https://example.com/';
-		$this->meta_tags_context->has_image           = false;
-		$this->meta_tags_context->breadcrumbs_enabled = false;
-		$this->meta_tags_context->post                = (object) [
+		$this->meta_tags_context->schema_page_type = [ 'WebPage' ];
+		$this->meta_tags_context->canonical        = 'https://example.com/the-post/';
+		$this->meta_tags_context->title            = 'the-title';
+		$this->meta_tags_context->description      = '';
+		$this->meta_tags_context->site_url         = 'https://example.com/';
+		$this->meta_tags_context->has_image        = false;
+		$this->meta_tags_context->post             = (object) [
 			'post_date_gmt'     => '2345-12-12 12:12:12',
 			'post_modified_gmt' => '2345-12-12 23:23:23',
 			'post_author'       => 'the_author',
 		];
-		$this->meta_tags_context->indexable           = (object) [
+		$this->meta_tags_context->indexable        = (object) [
 			'object_type'     => 'post',
 			'object_sub_type' => 'page',
 		];
@@ -129,7 +128,6 @@ class WebPage_Test extends TestCase {
 	 *                                                       'post_date_gmt' as argument.
 	 * @param int    $calls_to_format_with_post_modified_gmt The number of function calls to 'format' with
 	 *                                                       'post_modified_gmt' as argument.
-	 * @param int    $calls_to_is_home_static_page           The number of function calls to 'is_home_static_page'.
 	 * @param int    $calls_to_filter                        The number of calls to the
 	 *                                                       'wpseo_schema_webpage_potential_action_target' filter.
 	 */
@@ -138,7 +136,6 @@ class WebPage_Test extends TestCase {
 		$schema_page_type,
 		$calls_to_format_with_post_date_gmt,
 		$calls_to_format_with_post_modified_gmt,
-		$calls_to_is_home_static_page,
 		$calls_to_filter
 	) {
 		$this->html
@@ -164,12 +161,6 @@ class WebPage_Test extends TestCase {
 			->with( $this->meta_tags_context->post->post_modified_gmt )
 			->times( $calls_to_format_with_post_modified_gmt )
 			->andReturn( $this->meta_tags_context->post->post_modified_gmt );
-
-		$this->current_page
-			->expects( 'is_home_static_page' )
-			->times( $calls_to_is_home_static_page )
-			->withNoArgs()
-			->andReturnFalse();
 
 		$this->language->expects( 'add_piece_language' )
 			->once()
@@ -202,8 +193,7 @@ class WebPage_Test extends TestCase {
 	 * @dataProvider provider_for_generate
 	 */
 	public function test_generate_with_provider( $values_to_test, $expected, $message ) {
-		$this->meta_tags_context->has_image           = $values_to_test['has_image'];
-		$this->meta_tags_context->breadcrumbs_enabled = $values_to_test['breadcrumbs_enabled'];
+		$this->meta_tags_context->has_image = $values_to_test['has_image'];
 
 		$this->id->primary_image_hash = '#primaryimage';
 		$this->id->breadcrumb_hash    = '#breadcrumb';
@@ -211,7 +201,6 @@ class WebPage_Test extends TestCase {
 		$this->setup_generate_test(
 			false,
 			[ 'WebPage' ],
-			1,
 			1,
 			1,
 			1
@@ -233,7 +222,6 @@ class WebPage_Test extends TestCase {
 			[ 'WebPage' ],
 			1,
 			1,
-			1,
 			1
 		);
 
@@ -247,6 +235,7 @@ class WebPage_Test extends TestCase {
 			],
 			'datePublished'   => '2345-12-12 12:12:12',
 			'dateModified'    => '2345-12-12 23:23:23',
+			'breadcrumb'      => [ '@id' => 'https://example.com/the-post/#breadcrumb' ],
 			'inLanguage'      => 'the-language',
 			'potentialAction' => [
 				[
@@ -274,7 +263,6 @@ class WebPage_Test extends TestCase {
 			[ 'WebPage' ],
 			1,
 			1,
-			1,
 			1
 		);
 
@@ -288,6 +276,7 @@ class WebPage_Test extends TestCase {
 			],
 			'datePublished'   => '2345-12-12 12:12:12',
 			'dateModified'    => '2345-12-12 23:23:23',
+			'breadcrumb'      => [ '@id' => 'https://example.com/the-post/#breadcrumb' ],
 			'about'           => [ '@id' => 'https://example.com/#organization' ],
 			'inLanguage'      => 'the-language',
 			'potentialAction' => [
@@ -322,7 +311,6 @@ class WebPage_Test extends TestCase {
 			[ 'WebPage' ],
 			1,
 			1,
-			1,
 			1
 		);
 
@@ -336,6 +324,7 @@ class WebPage_Test extends TestCase {
 			],
 			'datePublished'   => '2345-12-12 12:12:12',
 			'dateModified'    => '2345-12-12 23:23:23',
+			'breadcrumb'      => [ '@id' => 'https://example.com/the-post/#breadcrumb' ],
 			'inLanguage'      => 'the-language',
 			'potentialAction' => [
 				[
@@ -369,7 +358,6 @@ class WebPage_Test extends TestCase {
 			[ 'WebPage' ],
 			1,
 			1,
-			1,
 			1
 		);
 
@@ -389,6 +377,7 @@ class WebPage_Test extends TestCase {
 			],
 			'datePublished'   => '2345-12-12 12:12:12',
 			'dateModified'    => '2345-12-12 23:23:23',
+			'breadcrumb'      => [ '@id' => 'https://example.com/the-post/#breadcrumb' ],
 			'author'          => [ '@id' => 'the-user-schema-id' ],
 			'inLanguage'      => 'the-language',
 			'potentialAction' => [
@@ -417,7 +406,6 @@ class WebPage_Test extends TestCase {
 			[ 'WebPage' ],
 			1,
 			1,
-			1,
 			1
 		);
 
@@ -437,6 +425,7 @@ class WebPage_Test extends TestCase {
 			],
 			'datePublished'   => '2345-12-12 12:12:12',
 			'dateModified'    => '2345-12-12 23:23:23',
+			'breadcrumb'      => [ '@id' => 'https://example.com/the-post/#breadcrumb' ],
 			'description'     => 'the-description',
 			'inLanguage'      => 'the-language',
 			'potentialAction' => [
@@ -468,7 +457,6 @@ class WebPage_Test extends TestCase {
 			'CollectionPage',
 			0,
 			0,
-			0,
 			1
 		);
 
@@ -489,6 +477,7 @@ class WebPage_Test extends TestCase {
 					],
 				],
 			],
+			'breadcrumb'      => [ '@id' => 'https://example.com/the-post/#breadcrumb' ],
 		];
 
 		$this->assertEquals( $expected, $this->instance->generate() );
@@ -509,7 +498,6 @@ class WebPage_Test extends TestCase {
 			'CollectionPage',
 			1,
 			1,
-			1,
 			1
 		);
 
@@ -520,6 +508,7 @@ class WebPage_Test extends TestCase {
 			'name'            => 'the-title',
 			'datePublished'   => '2345-12-12 12:12:12',
 			'dateModified'    => '2345-12-12 23:23:23',
+			'breadcrumb'      => [ '@id' => 'https://example.com/the-post/#breadcrumb' ],
 			'isPartOf'        => [
 				'@id' => 'https://example.com/#website',
 			],
@@ -567,7 +556,6 @@ class WebPage_Test extends TestCase {
 			[
 				'values_to_test' => [
 					'has_image'           => false,
-					'breadcrumbs_enabled' => false,
 				],
 				'expected'       => [
 					'@type'           => [ 'WebPage' ],
@@ -579,6 +567,7 @@ class WebPage_Test extends TestCase {
 					],
 					'datePublished'   => '2345-12-12 12:12:12',
 					'dateModified'    => '2345-12-12 23:23:23',
+					'breadcrumb'      => [ '@id' => 'https://example.com/the-post/#breadcrumb' ],
 					'inLanguage'      => 'the-language',
 					'potentialAction' => [
 						[
@@ -587,12 +576,11 @@ class WebPage_Test extends TestCase {
 						],
 					],
 				],
-				'message'        => 'There is no image, and breadcrumbs are not enabled.',
+				'message'        => 'There is no image, and breadcrumbs are enabled.',
 			],
 			[
 				'values_to_test' => [
 					'has_image'           => true,
-					'breadcrumbs_enabled' => false,
 				],
 				'expected'       => [
 					'@type'              => [ 'WebPage' ],
@@ -604,6 +592,7 @@ class WebPage_Test extends TestCase {
 					],
 					'datePublished'      => '2345-12-12 12:12:12',
 					'dateModified'       => '2345-12-12 23:23:23',
+					'breadcrumb'         => [ '@id' => 'https://example.com/the-post/#breadcrumb' ],
 					'primaryImageOfPage' => [ '@id' => 'https://example.com/the-post/#primaryimage' ],
 					'inLanguage'         => 'the-language',
 					'potentialAction'    => [
@@ -613,12 +602,11 @@ class WebPage_Test extends TestCase {
 						],
 					],
 				],
-				'message'        => 'There is an image, but breadcrumbs are not enabled.',
+				'message'        => 'There is an image, but breadcrumbs are enabled.',
 			],
 			[
 				'values_to_test' => [
 					'has_image'           => false,
-					'breadcrumbs_enabled' => true,
 				],
 				'expected'       => [
 					'@type'           => [ 'WebPage' ],

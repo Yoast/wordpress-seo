@@ -78,8 +78,12 @@ class WPSEO_Admin_Pages {
 		wp_enqueue_script( 'dashboard' );
 		wp_enqueue_script( 'thickbox' );
 
+		$alert_dismissal_action = YoastSEO()->classes->get( \Yoast\WP\SEO\Actions\Alert_Dismissal_Action::class );
+		$dismissed_alerts       = $alert_dismissal_action->all_dismissed();
+
 		$script_data = [
 			'userLanguageCode' => WPSEO_Language_Utils::get_language( \get_user_locale() ),
+			'dismissedAlerts'  => $dismissed_alerts,
 		];
 
 		$page = filter_input( INPUT_GET, 'page' );
@@ -163,9 +167,7 @@ class WPSEO_Admin_Pages {
 	 * @return bool Whether the Local SEO upsell should be shown.
 	 */
 	private function should_show_local_seo_upsell() {
-		$addon_manager = new WPSEO_Addon_Manager();
-
-		return ! WPSEO_Utils::is_yoast_seo_premium()
+		return ! YoastSEO()->helpers->product->is_premium()
 			&& ! ( defined( 'WPSEO_LOCAL_FILE' ) );
 	}
 

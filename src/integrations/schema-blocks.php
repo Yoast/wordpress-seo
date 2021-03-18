@@ -25,6 +25,13 @@ class Schema_Blocks implements Integration_Interface {
 	protected $asset_manager;
 
 	/**
+	 * Represents the schema blocks conditional.
+	 *
+	 * @var Schema_Blocks_Conditional
+	 */
+	protected $blocks_conditional;
+
+	/**
 	 * Returns the conditionals based in which this loadable should be active.
 	 *
 	 * @return array
@@ -38,12 +45,15 @@ class Schema_Blocks implements Integration_Interface {
 	/**
 	 * Schema_Blocks constructor.
 	 *
-	 * @param WPSEO_Admin_Asset_Manager $asset_manager The asset manager.
+	 * @param WPSEO_Admin_Asset_Manager $asset_manager      The asset manager.
+	 * @param Schema_Blocks_Conditional $blocks_conditional The schema blocks conditional.
 	 */
 	public function __construct(
-		WPSEO_Admin_Asset_Manager $asset_manager
+		WPSEO_Admin_Asset_Manager $asset_manager,
+		Schema_Blocks_Conditional $blocks_conditional
 	) {
-		$this->asset_manager = $asset_manager;
+		$this->asset_manager      = $asset_manager;
+		$this->blocks_conditional = $blocks_conditional;
 	}
 
 	/**
@@ -93,12 +103,19 @@ class Schema_Blocks implements Integration_Interface {
 			return;
 		}
 
+		$templates = [];
+
+		// When the schema blocks feature flag is enabled, use the registered templates.
+		if ( $this->blocks_conditional->is_met() ) {
+			$templates = $this->templates;
+		}
+
 		/**
-		 * Filter: 'wpseo_schema_templates' - Allow adding additional schema templates.
+		 * Filter: 'wpseo_load_schema_templates' - Allow adding additional schema templates.
 		 *
 		 * @param array $templates The templates to filter.
 		 */
-		$templates = \apply_filters( 'wpseo_load_schema_templates', $this->templates );
+		$templates = \apply_filters( 'wpseo_load_schema_templates', $templates );
 		if ( ! is_array( $templates ) || empty( $templates ) ) {
 			return;
 		}

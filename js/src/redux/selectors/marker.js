@@ -30,3 +30,14 @@ export function getMarkerPauseStatus( state ) {
 export function isMarkingAvailable( state ) {
 	return state.marksButtonStatus === "enabled";
 }
+
+/**
+ * Gets the marks button status.
+ *
+ * @param {Object} state The state.
+ *
+ * @returns {string} The marks button status.
+ */
+export function getMarksButtonStatus( state ) {
+	return state.marksButtonStatus;
+}
