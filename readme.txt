@@ -239,7 +239,7 @@ Release Date: March 18th, 2021
 
 Enhancements:
 
-* Clarifies the text shown for Yoast SEO on the Plugins page if Yoast SEO Premium is installed as well to indicate that Yoast SEO is required by Yoast SEO Premium.
+* Changes the deactivation prevention text on the Plugins page from ‘Deactivate Yoast SEO Premium first’ to ‘Required by Yoast SEO Premium’ to avoid confusion.
 
 = 16.0.1 =
 Release Date: March 16th, 2021
