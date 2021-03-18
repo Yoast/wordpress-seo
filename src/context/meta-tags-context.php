@@ -529,7 +529,7 @@ class Meta_Tags_Context extends Abstract_Presentation {
 	/**
 	 * Retrieves the main image URL. This is the featured image by default.
 	 *
-	 * @return string|null
+	 * @return string|null The main image URL.
 	 */
 	public function generate_main_image_url() {
 		if ( $this->main_image_id !== null ) {
@@ -545,9 +545,9 @@ class Meta_Tags_Context extends Abstract_Presentation {
 	}
 
 	/**
-	 * Gets the image schema for the web page based on the featured image.
+	 * Gets the main image ID.
 	 *
-	 * @return int|null
+	 * @return int|null|false The main image ID.
 	 */
 	public function generate_main_image_id() {
 		if ( ! \has_post_thumbnail( $this->id ) ) {
@@ -560,7 +560,7 @@ class Meta_Tags_Context extends Abstract_Presentation {
 	/**
 	 * Determines whether the current indexable has an image.
 	 *
-	 * @return bool
+	 * @return bool Whether the current indexable has an image.
 	 */
 	public function generate_has_image() {
 		return $this->main_image_url !== null;
