@@ -44,17 +44,20 @@ export const getContentImage = state => {
  * @returns {string} The sidewide image url.
  */
 export const getImageFallback = state => {
-	let fallbacks = applyFilters( "wpseo_image_fallback", [
+	let fallbacks = [
 		{ featuredImage: get( state, "snippetEditor.data.snippetPreviewImageURL", "" ) },
 		{ contentImage: get( state, "settings.socialPreviews.contentImage", "" ) },
 		{ siteWideImage: get( window.wpseoScriptData, "metabox.showSocial.facebook" ) && get( state, "settings.socialPreviews.sitewideImage", "" ) },
-	] );
+	];
+
+	applyFilters( "yoast.socials.imageFallback", fallbacks )
 
 	let fallbackImage = "";
 
-	fallbacks.forEach( fallback => {
+	// Reversing the order because the forEach will output the last fallback as fallbackImage when there are multiple.
+	fallbacks.reverse().forEach( fallback => {
 		const image = Object.values( fallback )[ 0 ];
-		if ( image !== "" ) {
+		if ( image ) {
 			fallbackImage = image;
 		}
 	} );
