@@ -511,11 +511,7 @@ class Meta_Tags_Context extends Abstract_Presentation {
 	 * @return bool
 	 */
 	public function generate_has_image() {
-		if ( $this->main_image_url !== null ) {
-			return true;
-		}
-
-		return false;
+		return $this->main_image_url !== null;
 	}
 
 	/**
@@ -548,7 +544,7 @@ class Meta_Tags_Context extends Abstract_Presentation {
 			$breadcrumbs_enabled = $this->options->get( 'breadcrumbs-enable', false );
 		}
 
-		if ( ! empty( $this->blocks['yoast-seo/breadcrumbs'] ) ) {
+		if ( ! empty( $this->blocks[ 'yoast-seo/breadcrumbs' ] ) ) {
 			$breadcrumbs_enabled = true;
 		}
 
