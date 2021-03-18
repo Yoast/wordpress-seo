@@ -1,11 +1,10 @@
 import { BlockEditProps, BlockConfiguration } from "@wordpress/blocks";
 import { createElement } from "@wordpress/element";
 import { SelectControl } from "@wordpress/components";
-
-import BlockInstruction from "../../core/blocks/BlockInstruction";
+import { BlockInstruction } from "../../core/blocks/BlockInstruction";
 import { RenderEditProps, RenderSaveProps } from "../../core/blocks/BlockDefinition";
 import { arrayOrObjectToOptions } from "../../functions/select";
-import SidebarBase, { SidebarBaseOptions } from "./abstract/SidebarBase";
+import { SidebarBase, SidebarBaseOptions } from "./abstract/SidebarBase";
 
 /**
  * SidebarSelect instruction.
@@ -31,11 +30,8 @@ class SidebarSelect extends SidebarBase {
 			options: arrayOrObjectToOptions( this.options.options ),
 			onChange: value => props.setAttributes( { [ this.options.name ]: value } ),
 			key: i,
+			multiple: this.options.multiple || false,
 		};
-
-		if ( this.options.multiple === true ) {
-			( attributes as SelectControl.Props<string[]> ).multiple = true;
-		}
 
 		return createElement( SelectControl, attributes );
 	}
