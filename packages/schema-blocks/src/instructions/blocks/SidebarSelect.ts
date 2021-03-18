@@ -1,10 +1,10 @@
 import { BlockEditProps, BlockConfiguration } from "@wordpress/blocks";
 import { createElement } from "@wordpress/element";
 import { SelectControl } from "@wordpress/components";
-import { BlockInstruction } from "../../core/blocks/BlockInstruction";
+import BlockInstruction from "../../core/blocks/BlockInstruction";
 import { RenderEditProps, RenderSaveProps } from "../../core/blocks/BlockDefinition";
 import { arrayOrObjectToOptions } from "../../functions/select";
-import { SidebarBase, SidebarBaseOptions } from "./abstract/SidebarBase";
+import SidebarBase, { SidebarBaseOptions } from "./abstract/SidebarBase";
 
 /**
  * SidebarSelect instruction.
