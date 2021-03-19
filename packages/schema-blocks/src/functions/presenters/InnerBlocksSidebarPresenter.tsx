@@ -11,7 +11,7 @@ import { SvgIcon } from "@yoast/components";
  * Renders warnings and appenders for any block's InnerBlocks.
  *
  * @param currentBlock The innerblocks instance.
- * @param options The InnerBlocksInstructionOptions of the innerblock.
+ * @param options      The InnerBlocksInstructionOptions of the innerblock.
  *
  * @returns {ReactElement[]} React Elements representing the sidebar elements for these innerblocks.
  */

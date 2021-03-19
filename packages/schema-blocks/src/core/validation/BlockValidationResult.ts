@@ -16,7 +16,7 @@ export class BlockValidationResult {
 	public clientId: string;
 
 	/**
-	 * The validation result;
+	 * The validation result.
 	 */
 	public result: BlockValidation;
 
