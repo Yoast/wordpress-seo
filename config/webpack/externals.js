@@ -18,6 +18,8 @@ const externals = {
 	"react-redux": "window.yoast.reactRedux",
 	"styled-components": "window.yoast.styledComponents",
 	"draft-js": "window.yoast.draftJs",
+	buffer: "window.yoast.buffer",
+	htmlparser2: "window.yoast.htmlparser2",
 };
 
 /**
