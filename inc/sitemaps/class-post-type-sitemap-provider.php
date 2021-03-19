@@ -124,6 +124,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 				    ORDER BY post_modified_gmt ASC
 				";
 
+				$wpdb->query('SET @rownum = 0');
 				$all_dates = $wpdb->get_col( $wpdb->prepare( $sql, $post_type, $max_entries ) );
 			}
 
