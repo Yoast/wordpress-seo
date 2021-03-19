@@ -7,6 +7,7 @@ import { getBlockDefinition } from "../../core/blocks/BlockDefinitionRepository"
 import { BlockValidation, BlockValidationResult } from "../../core/validation";
 import storeBlockValidation from "./storeBlockValidation";
 import logger from "../logger";
+import {BlockType} from "../../core/validation/BlockValidationResult";
 
 let updatingSchema = false;
 let previousRootBlocks: BlockInstance[];
@@ -104,7 +105,7 @@ export function validateBlocks( blocks: BlockInstance[] ): BlockValidationResult
 			validations.push( definition.validate( block ) );
 		} else {
 			logger.warning( "Unable to validate block of type [" + block.name + "] " + block.clientId );
-			validations.push( new BlockValidationResult( block.clientId, block.name, BlockValidation.Unknown ) );
+			validations.push( new BlockValidationResult( block.clientId, block.name, BlockValidation.Unknown, BlockType.Unknown ) );
 
 			// Recursively validate all blocks' innerblocks.
 			if ( block.innerBlocks && block.innerBlocks.length > 0 ) {

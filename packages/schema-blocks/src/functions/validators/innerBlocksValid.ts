@@ -12,6 +12,7 @@ import recurseOverBlocks from "../blocks/recurseOverBlocks";
 import { getInnerblocksByName } from "../innerBlocksHelper";
 import logger from "../logger";
 import isValidResult from "./isValidResult";
+import { BlockType } from "../../core/validation/BlockValidationResult";
 
 /**
  * Finds all blocks that should be in the inner blocks, but aren't.
@@ -29,7 +30,7 @@ function findMissingBlocks( existingRequiredBlocks: BlockInstance[], requiredBlo
 
 	// These blocks should've existed, but they don't.
 	return missingRequiredBlocks.map( missingBlock =>
-		new BlockValidationResult( null, missingBlock.name, BlockValidation.MissingBlock ) );
+		new BlockValidationResult( null, missingBlock.name, BlockValidation.MissingBlock, BlockType.Unknown ) );
 }
 
 /**
@@ -56,7 +57,7 @@ function findRedundantBlocks( existingRequiredBlocks: BlockInstance[], requiredB
 
 			existingSingletons.forEach( ( block: BlockInstance ) => {
 				if ( block.name === blockName ) {
-					validationResults.push( new BlockValidationResult( block.clientId, blockName, BlockValidation.TooMany ) );
+					validationResults.push( new BlockValidationResult( block.clientId, blockName, BlockValidation.TooMany, BlockType.Unknown ) );
 				}
 			} );
 		}
@@ -82,7 +83,7 @@ function validateInnerblockTree( blockInstance: BlockInstance ): BlockValidation
 			validations.push( definition.validate( block ) );
 		} else {
 			logger.warning( "Block definition for '" + block.name + "' is not registered." );
-			validations.push( new BlockValidationResult( block.clientId, block.name, BlockValidation.Unknown ) );
+			validations.push( new BlockValidationResult( block.clientId, block.name, BlockValidation.Unknown, BlockType.Unknown ) );
 		}
 	} );
 	return validations;

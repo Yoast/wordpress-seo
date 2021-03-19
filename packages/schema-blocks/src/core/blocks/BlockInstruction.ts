@@ -7,6 +7,7 @@ import Instruction, { InstructionOptions } from "../Instruction";
 import { attributeExists, attributeNotEmpty } from "../../functions/validators";
 import validateMany from "../../functions/validators/validateMany";
 import logger from "../../functions/logger";
+import { BlockType } from "../validation/BlockValidationResult";
 
 export type BlockInstructionClass = {
 	new( id: number, options: InstructionOptions ): BlockInstruction;
@@ -78,16 +79,16 @@ export default abstract class BlockInstruction extends Instruction {
 	 * @returns {BlockValidationResult} The validation result.
 	 */
 	validate( blockInstance: BlockInstance ): BlockValidationResult {
-		const validation = new BlockValidationResult( blockInstance.clientId, blockInstance.name, BlockValidation.Skipped );
+		const validation = new BlockValidationResult( blockInstance.clientId, blockInstance.name, BlockValidation.Skipped, BlockType.Unknown );
 
 		if ( this.options && this.options.required === true ) {
 			const attributeValid = attributeExists( blockInstance, this.options.name as string ) &&
 						           attributeNotEmpty( blockInstance, this.options.name as string );
 			if ( attributeValid ) {
-				validation.issues.push( new BlockValidationResult( blockInstance.clientId, this.options.name, BlockValidation.Valid ) );
+				validation.issues.push( new BlockValidationResult( blockInstance.clientId, this.options.name, BlockValidation.Valid, BlockType.Unknown ) );
 			} else {
 				logger.warning( "block " + blockInstance.name + " has a required attributes " + this.options.name + " but it is missing or empty" );
-				validation.issues.push( new BlockValidationResult( blockInstance.clientId, this.options.name, BlockValidation.MissingAttribute ) );
+				validation.issues.push( new BlockValidationResult( blockInstance.clientId, this.options.name, BlockValidation.MissingAttribute, BlockType.Unknown ) );
 				validation.result = BlockValidation.Invalid;
 			}
 		} else {
