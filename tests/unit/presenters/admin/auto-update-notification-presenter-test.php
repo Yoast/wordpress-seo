@@ -69,7 +69,7 @@ class Auto_Update_Notification_Presenter_Test extends TestCase {
 			]
 		);
 
-		$expected = '<p>We see that you enabled automatic updates for Wordpress. We recommend that you do this for Yoast SEO as well. This way we can guarantee that Wordpress and Yoast SEO will continue to run smoothly together. Please contact your network admin to enable auto-updates for Yoast SEO.</p>';
+		$expected = '<p>We see that you enabled automatic updates for WordPress. We recommend that you do this for Yoast SEO as well. This way we can guarantee that WordPress and Yoast SEO will continue to run smoothly together. Please contact your network admin to enable auto-updates for Yoast SEO.</p>';
 
 		self::assertSame( $expected, $this->instance->present() );
 	}
