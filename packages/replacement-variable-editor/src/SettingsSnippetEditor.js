@@ -162,6 +162,10 @@ SettingsSnippetEditor.propTypes = {
 		title: PropTypes.string.isRequired,
 		description: PropTypes.string.isRequired,
 	} ).isRequired,
+	labels: PropTypes.shape( {
+		title: PropTypes.string,
+		description: PropTypes.string,
+	} ),
 };
 
 SettingsSnippetEditor.defaultProps = {
