@@ -19,10 +19,11 @@ import { BlockType } from "../../core/validation/BlockValidationResult";
  *
  * @param existingBlocks The actual array of all inner blocks.
  * @param possibleBlocks All of the blocks that should occur (required), or could occur (recommended) in the inner blocks.
+ * @param blockType      The block type.
  *
  * @returns {BlockValidationResult[]} The names of blocks that should/could occur but don't, with reason 'MissingBlock'.
  */
-function findMissingBlocks( existingBlocks: BlockInstance[], possibleBlocks: RequiredBlock[] ): BlockValidationResult[] {
+function findMissingBlocks( existingBlocks: BlockInstance[], possibleBlocks: RequiredBlock[], blockType: BlockType ): BlockValidationResult[] {
 	const missingBlocks = possibleBlocks.filter( possibleBlock => {
 		// If there are not any blocks with the name of a possible block, that possible block is missing.
 		return ! existingBlocks.some( block => block.name === possibleBlock.name );
@@ -30,7 +31,7 @@ function findMissingBlocks( existingBlocks: BlockInstance[], possibleBlocks: Req
 
 	// These blocks should've existed, but they don't.
 	return missingBlocks.map( missingBlock =>
-		new BlockValidationResult( null, missingBlock.name, BlockValidation.MissingBlock, BlockType.Unknown ) );
+		new BlockValidationResult( null, missingBlock.name, BlockValidation.MissingBlock, blockType ) );
 }
 
 /**
@@ -108,7 +109,7 @@ function validateInnerBlocks( blockInstance: BlockInstance, requiredBlocks: Requ
 	const existingRequiredBlocks = getInnerblocksByName( blockInstance, requiredBlockKeys );
 
 	// Find all required block types that do not occur in existingBlocks.
-	validationResults.push( ...findMissingBlocks( existingRequiredBlocks, requiredBlocks ) );
+	validationResults.push( ...findMissingBlocks( existingRequiredBlocks, requiredBlocks, BlockType.Required ) );
 
 	// Find all required block types that allow only one occurrence.
 	validationResults.push( ...findRedundantBlocks( existingRequiredBlocks, requiredBlocks ) );
@@ -117,7 +118,7 @@ function validateInnerBlocks( blockInstance: BlockInstance, requiredBlocks: Requ
 	const existingRecommendedBlocks = getInnerblocksByName( blockInstance, recommendedBlockKeys );
 
 	// Find all required block types that do not occur in existingBlocks.
-	validationResults.push( ...findMissingBlocks( existingRecommendedBlocks, recommendedBlocks ) );
+	validationResults.push( ...findMissingBlocks( existingRecommendedBlocks, recommendedBlocks, BlockType.Recommended ) );
 
 	// Let all innerblocks validate themselves.
 	// We differentiate between blocks that are internally valid but are not valid in the context of the innerblock.
