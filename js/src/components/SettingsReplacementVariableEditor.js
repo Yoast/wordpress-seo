@@ -33,12 +33,14 @@ class SettingsReplacementVariableEditor extends Component {
 			descriptionPlaceholder,
 		} = this.props;
 
+		const placeholder = descriptionPlaceholder || __( "Modify your meta description by editing it right here", "wordpress-seo" );
+
 		return (
 			<SnippetPreviewSection
 				hasPaperStyle={ this.props.hasPaperStyle }
 			>
 				<SettingsSnippetEditor
-					descriptionEditorFieldPlaceholder={ descriptionPlaceholder || __( "Modify your meta description by editing it right here", "wordpress-seo" ) }
+					descriptionEditorFieldPlaceholder={ placeholder }
 					onChange={ ( field, value ) => {
 						switch ( field ) {
 							case "title":
