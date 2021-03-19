@@ -15,21 +15,21 @@ import isValidResult from "./isValidResult";
 import { BlockType } from "../../core/validation/BlockValidationResult";
 
 /**
- * Finds all blocks that should be in the inner blocks, but aren't.
+ * Finds all blocks that should/could be in the inner blocks, but aren't.
  *
- * @param existingRequiredBlocks The actual array of all inner blocks.
- * @param requiredBlocks         All of the blocks that should occur in the inner blocks.
+ * @param existingBlocks The actual array of all inner blocks.
+ * @param possibleBlocks All of the blocks that should occur (required), or could occur (recommended) in the inner blocks.
  *
- * @returns {BlockValidationResult[]} The names of blocks that should occur but don't, with reason 'MissingBlock'.
+ * @returns {BlockValidationResult[]} The names of blocks that should/could occur but don't, with reason 'MissingBlock'.
  */
-function findMissingBlocks( existingRequiredBlocks: BlockInstance[], requiredBlocks: RequiredBlock[] ): BlockValidationResult[] {
-	const missingRequiredBlocks = requiredBlocks.filter( requiredBlock => {
-		// If there are not any blocks with the name of a required block, that required block is missing.
-		return ! existingRequiredBlocks.some( block => block.name === requiredBlock.name );
+function findMissingBlocks( existingBlocks: BlockInstance[], possibleBlocks: RequiredBlock[] ): BlockValidationResult[] {
+	const missingBlocks = possibleBlocks.filter( possibleBlock => {
+		// If there are not any blocks with the name of a possible block, that possible block is missing.
+		return ! existingBlocks.some( block => block.name === possibleBlock.name );
 	} );
 
 	// These blocks should've existed, but they don't.
-	return missingRequiredBlocks.map( missingBlock =>
+	return missingBlocks.map( missingBlock =>
 		new BlockValidationResult( null, missingBlock.name, BlockValidation.MissingBlock, BlockType.Unknown ) );
 }
 
