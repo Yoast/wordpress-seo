@@ -116,11 +116,11 @@ class Addon_Update_Watcher implements Integration_Interface {
 			return;
 		}
 
-		if ( !\is_array( $old_value ) || !\is_array( $new_value )) {
+		if ( ! \is_array( $old_value ) || ! \is_array( $new_value ) ) {
 			return;
 		}
 
-		$auto_updates_are_enabled = $this->are_auto_updates_enabled( self::WPSEO_FREE_PLUGIN_ID, $new_value );
+		$auto_updates_are_enabled  = $this->are_auto_updates_enabled( self::WPSEO_FREE_PLUGIN_ID, $new_value );
 		$auto_updates_were_enabled = $this->are_auto_updates_enabled( self::WPSEO_FREE_PLUGIN_ID, $old_value );
 
 		if ( $auto_updates_are_enabled === $auto_updates_were_enabled ) {
@@ -128,11 +128,12 @@ class Addon_Update_Watcher implements Integration_Interface {
 			return;
 		}
 
-		$auto_updates_have_been_enabled = $auto_updates_are_enabled && !$auto_updates_were_enabled;
+		$auto_updates_have_been_enabled = $auto_updates_are_enabled && ! $auto_updates_were_enabled;
 
 		if ( $auto_updates_have_been_enabled ) {
 			$this->enable_auto_updates_for_addons( $new_value );
-		} else {
+		}
+		else {
 			$this->disable_auto_updates_for_addons( $new_value );
 		}
 	}
