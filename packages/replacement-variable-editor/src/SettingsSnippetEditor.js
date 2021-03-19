@@ -172,6 +172,8 @@ SettingsSnippetEditor.defaultProps = {
 	replacementVariables: [],
 	recommendedReplacementVariables: [],
 	hasPaperStyle: true,
+	descriptionEditorFieldPlaceholder: null,
+	labels: {},
 };
 
 export default SettingsSnippetEditor;

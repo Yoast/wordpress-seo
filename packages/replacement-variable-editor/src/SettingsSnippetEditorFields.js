@@ -194,6 +194,8 @@ SettingsSnippetEditorFields.defaultProps = {
 	onFocus: () => {},
 	onBlur: () => {},
 	containerPadding: "0 20px",
+	descriptionEditorFieldPlaceholder: null,
+	labels: {},
 };
 
 export default SettingsSnippetEditorFields;
