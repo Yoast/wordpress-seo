@@ -1,5 +1,6 @@
 import { InstructionOptions } from "../Instruction";
 import { SuggestedBlockProperties } from "./SuggestedBlockProperties";
+import { RequiredBlockOption } from "./RequiredBlockOption";
 
 /**
  * Defines a recommended innerblock.
@@ -7,4 +8,5 @@ import { SuggestedBlockProperties } from "./SuggestedBlockProperties";
 export type RecommendedBlock = InstructionOptions & SuggestedBlockProperties & {
 	name: string;
 	warning?: string;
+	option: RequiredBlockOption;
 }
