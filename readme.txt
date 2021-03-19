@@ -5,7 +5,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
 Tested up to: 5.7
-Stable tag: 16.0.1
+Stable tag: 16.0.2
 Requires PHP: 5.6.20
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -253,6 +253,13 @@ Bugfixes:
 * Fixes a bug where the analysis highlight button would be visible in our Elementor integration even though we don't support it.
 * Fixes a bug where a warning was shown on the Features settings page when running the plugin on PHP 8.0.
 * Fixes a bug where a warning was shown on the Integrations settings page when running the plugin on PHP 8.0.
+
+= 16.0.2 =
+Release Date: March 18th, 2021
+
+Enhancements:
+
+* Changes the deactivation prevention text on the Plugins page from ‘Deactivate Yoast SEO Premium first’ to ‘Required by Yoast SEO Premium’ to avoid confusion.
 
 = 16.0.1 =
 Release Date: March 16th, 2021
