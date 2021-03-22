@@ -1,6 +1,7 @@
 .yoast-star-rating {
 	width: 65px;
-	height: 13px;
+	height: 12px;
+	display: inline-block;
 }
 
 .yoast-star-rating span {
