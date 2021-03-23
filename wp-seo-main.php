@@ -182,7 +182,7 @@ function _wpseo_activate() {
 	if ( is_multisite() && ms_is_switched() ) {
 		delete_option( 'rewrite_rules' );
 	}
-	elseif ( WPSEO_Options::get( 'stripcategorybase' ) === true ) { {
+	elseif ( WPSEO_Options::get( 'stripcategorybase' ) === true ) {
 		$wpseo_rewrite = new WPSEO_Rewrite();
 		$wpseo_rewrite->schedule_flush();
 	}
