@@ -1,6 +1,6 @@
 import { InstructionOptions } from "../Instruction";
-import { SuggestedBlockProperties } from "./SuggestedBlockProperties";
 import { RequiredBlockOption } from "./RequiredBlockOption";
+import { SuggestedBlockProperties } from "./SuggestedBlockProperties";
 
 /**
  * Defines a recommended innerblock.

@@ -1,4 +1,4 @@
-import { SchemaValue, SchemaDefinitionConfiguration } from "./SchemaDefinition";
+import { SchemaDefinitionConfiguration, SchemaValue } from "./SchemaDefinition";
 import Instruction, { InstructionOptions } from "../Instruction";
 import { BlockInstance } from "@wordpress/blocks";
 import { BlockValidation, BlockValidationResult } from "../validation";

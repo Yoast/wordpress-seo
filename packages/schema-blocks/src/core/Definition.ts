@@ -1,6 +1,6 @@
-import { BlockValidation, BlockValidationResult } from "./validation";
-import { BlockInstance } from "@wordpress/blocks";
-import { isArray, mergeWith } from "lodash";
+import {BlockValidation, BlockValidationResult} from "./validation";
+import {BlockInstance} from "@wordpress/blocks";
+import {isArray, mergeWith} from "lodash";
 import Instruction from "./Instruction";
 import Leaf from "./Leaf";
 import logger from "../functions/logger";
