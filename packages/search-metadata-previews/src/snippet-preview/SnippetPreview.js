@@ -884,7 +884,7 @@ SnippetPreview.propTypes = {
 	isAmp: PropTypes.bool,
 	faviconSrc: PropTypes.string,
 	mobileImageSrc: PropTypes.string,
-	shoppingData: PropTypes.object.isRequired,
+	shoppingData: PropTypes.object,
 
 	onMouseUp: PropTypes.func.isRequired,
 	onHover: PropTypes.func,
@@ -904,6 +904,7 @@ SnippetPreview.defaultProps = {
 	isAmp: false,
 	faviconSrc: "",
 	mobileImageSrc: "",
+	shoppingData: {},
 
 	onHover: () => {},
 	onMouseEnter: () => {},

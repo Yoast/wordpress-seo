@@ -603,7 +603,7 @@ SnippetEditor.propTypes = {
 	faviconSrc: PropTypes.string,
 	mobileImageSrc: PropTypes.string,
 	idSuffix: PropTypes.string,
-	shoppingData: PropTypes.object.isRequired,
+	shoppingData: PropTypes.object,
 };
 
 SnippetEditor.defaultProps = {
@@ -632,6 +632,7 @@ SnippetEditor.defaultProps = {
 	faviconSrc: "",
 	mobileImageSrc: "",
 	idSuffix: "",
+	shoppingData: {},
 };
 
 export default SnippetEditor;
