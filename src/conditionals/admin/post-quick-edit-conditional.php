@@ -19,7 +19,7 @@ class Post_Quick_Edit_Conditional implements Conditional {
 			return false;
 		}
 
-		if ( ! wp_verify_nonce( 'inlineeditnonce', '_inline_edit' ) ) {
+		if ( ! \wp_verify_nonce( 'inlineeditnonce', '_inline_edit' ) ) {
 			return false;
 		}
 

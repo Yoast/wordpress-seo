@@ -51,7 +51,7 @@ class Primary_Category_Quick_Edit_Watcher implements Integration_Interface {
 	 * @return void
 	 */
 	public function register_hooks() {
-		\add_filter( 'set_object_terms', [ $this, 'validate_primary_category' ], 10, 4 );
+		\add_action( 'set_object_terms', [ $this, 'validate_primary_category' ], 10, 4 );
 	}
 
 	/**

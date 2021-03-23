@@ -9,6 +9,7 @@ use Yoast\WP\SEO\Builders\Indexable_Hierarchy_Builder;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
 use Yoast\WP\SEO\Helpers\Permalink_Helper;
 use Yoast\WP\SEO\Integrations\Watchers\Indexable_Ancestor_Watcher;
+use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Repositories\Indexable_Hierarchy_Repository;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
@@ -166,7 +167,8 @@ class Indexable_Ancestor_Watcher_Test extends TestCase {
 	public function test_register_hooks() {
 		$this->instance->register_hooks();
 
-		$this->assertNotFalse( \has_action( 'wpseo_save_indexable', [ $this->instance, 'reset_children' ] ) );
+		self::assertNotFalse( \has_action( 'wpseo_save_indexable', [ $this->instance, 'reset_children' ] ) );
+		self::assertNotFalse( \has_action( 'set_object_terms', [ $this->instance, 'build_post_hierarchy' ] ) );
 	}
 
 	/**
@@ -368,6 +370,30 @@ class Indexable_Ancestor_Watcher_Test extends TestCase {
 		$actual = $this->instance->get_children_for_term( 1, [ $indexable_1, $indexable_2, $indexable_3, $indexable_4 ] );
 
 		$this->assertSame( [ $indexable_term_1, $indexable_term_2, $additional_indexable_2 ], $actual );
+	}
+
+
+
+	/**
+	 * Tests building the post hierarchy.
+	 *
+	 * @covers ::build_post_hierarchy
+	 */
+	public function test_build_post_hierarchy() {
+		$indexable = Mockery::mock( Indexable::class );
+
+		$this->indexable_repository
+			->expects( 'find_by_id_and_type' )
+			->once()
+			->with( 123, 'post' )
+			->andReturn( $indexable );
+
+		$this->indexable_hierarchy_builder
+			->expects( 'build' )
+			->once()
+			->with( $indexable );
+
+		$this->instance->build_post_hierarchy( 123 );
 	}
 
 	/**
