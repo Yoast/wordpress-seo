@@ -45,22 +45,6 @@ class Doing_Post_Quick_Edit_Save_Conditional_Test extends TestCase {
 	}
 
 	/**
-	 * Tests calling the method where the nonce is wrong.
-	 *
-	 * @covers ::is_met
-	 */
-	public function test_is_met_wrong_nonce() {
-		Monkey\Functions\expect( 'wp_doing_ajax' )
-			->andReturn( true );
-
-		Monkey\Functions\expect( 'wp_verify_nonce' )
-			->with( 'inlineeditnonce', '_inline_edit' )
-			->andReturn( false );
-
-		self::assertFalse( $this->instance->is_met() );
-	}
-
-	/**
 	 * Tests calling the method where the post doesn't have an action value.
 	 *
 	 * @covers ::is_met
@@ -69,9 +53,8 @@ class Doing_Post_Quick_Edit_Save_Conditional_Test extends TestCase {
 		Monkey\Functions\expect( 'wp_doing_ajax' )
 			->andReturn( true );
 
-		Monkey\Functions\expect( 'wp_verify_nonce' )
-			->with( 'inlineeditnonce', '_inline_edit' )
-			->andReturn( true );
+		Monkey\Functions\expect( 'check_ajax_referer' )
+			->with( 'inlineeditnonce', '_inline_edit' );
 
 		self::assertFalse( $this->instance->is_met() );
 	}
@@ -85,9 +68,8 @@ class Doing_Post_Quick_Edit_Save_Conditional_Test extends TestCase {
 		Monkey\Functions\expect( 'wp_doing_ajax' )
 			->andReturn( true );
 
-		Monkey\Functions\expect( 'wp_verify_nonce' )
-			->with( 'inlineeditnonce', '_inline_edit' )
-			->andReturn( true );
+		Monkey\Functions\expect( 'check_ajax_referer' )
+			->with( 'inlineeditnonce', '_inline_edit' );
 
 		$_POST['action'] = 'wrong-action';
 
@@ -103,9 +85,8 @@ class Doing_Post_Quick_Edit_Save_Conditional_Test extends TestCase {
 		Monkey\Functions\expect( 'wp_doing_ajax' )
 			->andReturn( true );
 
-		Monkey\Functions\expect( 'wp_verify_nonce' )
-			->with( 'inlineeditnonce', '_inline_edit' )
-			->andReturn( true );
+		Monkey\Functions\expect( 'check_ajax_referer' )
+			->with( 'inlineeditnonce', '_inline_edit' );
 
 		$_POST['action'] = 'inline-save';
 
