@@ -13,6 +13,12 @@ exports[`SnippetPreview changes the colors of the description if it was generate
   width: 600px;
 }
 
+.c10 {
+  display: inline;
+  margin-left: 0.3em;
+  color: #70757a;
+}
+
 .c1 {
   background-color: #fff;
   font-family: arial,sans-serif;
@@ -78,7 +84,7 @@ exports[`SnippetPreview changes the colors of the description if it was generate
   color: #006621;
 }
 
-.c10 {
+.c11 {
   color: #545454;
   cursor: pointer;
   position: relative;
@@ -174,6 +180,32 @@ exports[`SnippetPreview changes the colors of the description if it was generate
         />
       </div>
       <div
+        className="yoast-shopping-data-preview--desktop"
+      >
+        <span
+          className="screen-reader-text"
+          style={
+            Object {
+              "clip": "rect(1px, 1px, 1px, 1px)",
+              "height": "1px",
+              "overflow": "hidden",
+              "position": "absolute",
+              "width": "1px",
+            }
+          }
+        >
+          Shopping data preview:
+        </span>
+        
+        <p
+          className="c10"
+        >
+          
+          
+          
+        </p>
+      </div>
+      <div
         className=""
       >
         <span
@@ -191,7 +223,7 @@ exports[`SnippetPreview changes the colors of the description if it was generate
           Meta description preview:
         </span>
         <div
-          className="c10"
+          className="c11"
           onMouseEnter={[Function]}
           onMouseLeave={[Function]}
           onMouseUp={[Function]}
@@ -199,6 +231,24 @@ exports[`SnippetPreview changes the colors of the description if it was generate
           
           Description
         </div>
+      </div>
+      <div
+        className="yoast-shopping-data-preview--mobile"
+      >
+        <span
+          className="screen-reader-text"
+          style={
+            Object {
+              "clip": "rect(1px, 1px, 1px, 1px)",
+              "height": "1px",
+              "overflow": "hidden",
+              "position": "absolute",
+              "width": "1px",
+            }
+          }
+        >
+          Shopping data preview:
+        </span>
       </div>
     </div>
   </div>
@@ -218,6 +268,12 @@ exports[`SnippetPreview highlights a keyword in different morphological forms 1`
   width: 600px;
 }
 
+.c10 {
+  display: inline;
+  margin-left: 0.3em;
+  color: #70757a;
+}
+
 .c1 {
   background-color: #fff;
   font-family: arial,sans-serif;
@@ -283,7 +339,7 @@ exports[`SnippetPreview highlights a keyword in different morphological forms 1`
   color: #006621;
 }
 
-.c10 {
+.c11 {
   color: #545454;
   cursor: pointer;
   position: relative;
@@ -379,6 +435,32 @@ exports[`SnippetPreview highlights a keyword in different morphological forms 1`
         />
       </div>
       <div
+        className="yoast-shopping-data-preview--desktop"
+      >
+        <span
+          className="screen-reader-text"
+          style={
+            Object {
+              "clip": "rect(1px, 1px, 1px, 1px)",
+              "height": "1px",
+              "overflow": "hidden",
+              "position": "absolute",
+              "width": "1px",
+            }
+          }
+        >
+          Shopping data preview:
+        </span>
+        
+        <p
+          className="c10"
+        >
+          
+          
+          
+        </p>
+      </div>
+      <div
         className=""
       >
         <span
@@ -396,7 +478,7 @@ exports[`SnippetPreview highlights a keyword in different morphological forms 1`
           Meta description preview:
         </span>
         <div
-          className="c10"
+          className="c11"
           onMouseEnter={[Function]}
           onMouseLeave={[Function]}
           onMouseUp={[Function]}
@@ -417,6 +499,24 @@ exports[`SnippetPreview highlights a keyword in different morphological forms 1`
            makes her happy.
         </div>
       </div>
+      <div
+        className="yoast-shopping-data-preview--mobile"
+      >
+        <span
+          className="screen-reader-text"
+          style={
+            Object {
+              "clip": "rect(1px, 1px, 1px, 1px)",
+              "height": "1px",
+              "overflow": "hidden",
+              "position": "absolute",
+              "width": "1px",
+            }
+          }
+        >
+          Shopping data preview:
+        </span>
+      </div>
     </div>
   </div>
 </section>
@@ -433,6 +533,12 @@ exports[`SnippetPreview highlights keywords even if they are transliterated 1`] 
 
 .c2 {
   width: 600px;
+}
+
+.c10 {
+  display: inline;
+  margin-left: 0.3em;
+  color: #70757a;
 }
 
 .c1 {
@@ -500,7 +606,7 @@ exports[`SnippetPreview highlights keywords even if they are transliterated 1`] 
   color: #006621;
 }
 
-.c10 {
+.c11 {
   color: #545454;
   cursor: pointer;
   position: relative;
@@ -596,6 +702,32 @@ exports[`SnippetPreview highlights keywords even if they are transliterated 1`] 
         />
       </div>
       <div
+        className="yoast-shopping-data-preview--desktop"
+      >
+        <span
+          className="screen-reader-text"
+          style={
+            Object {
+              "clip": "rect(1px, 1px, 1px, 1px)",
+              "height": "1px",
+              "overflow": "hidden",
+              "position": "absolute",
+              "width": "1px",
+            }
+          }
+        >
+          Shopping data preview:
+        </span>
+        
+        <p
+          className="c10"
+        >
+          
+          
+          
+        </p>
+      </div>
+      <div
         className=""
       >
         <span
@@ -613,7 +745,7 @@ exports[`SnippetPreview highlights keywords even if they are transliterated 1`] 
           Meta description preview:
         </span>
         <div
-          className="c10"
+          className="c11"
           onMouseEnter={[Function]}
           onMouseLeave={[Function]}
           onMouseUp={[Function]}
@@ -624,6 +756,24 @@ exports[`SnippetPreview highlights keywords even if they are transliterated 1`] 
              kaayword
           </strong>
         </div>
+      </div>
+      <div
+        className="yoast-shopping-data-preview--mobile"
+      >
+        <span
+          className="screen-reader-text"
+          style={
+            Object {
+              "clip": "rect(1px, 1px, 1px, 1px)",
+              "height": "1px",
+              "overflow": "hidden",
+              "position": "absolute",
+              "width": "1px",
+            }
+          }
+        >
+          Shopping data preview:
+        </span>
       </div>
     </div>
   </div>
@@ -641,6 +791,12 @@ exports[`SnippetPreview highlights keywords inside the description and url 1`] =
 
 .c2 {
   width: 600px;
+}
+
+.c10 {
+  display: inline;
+  margin-left: 0.3em;
+  color: #70757a;
 }
 
 .c1 {
@@ -708,7 +864,7 @@ exports[`SnippetPreview highlights keywords inside the description and url 1`] =
   color: #006621;
 }
 
-.c10 {
+.c11 {
   color: #545454;
   cursor: pointer;
   position: relative;
@@ -804,6 +960,32 @@ exports[`SnippetPreview highlights keywords inside the description and url 1`] =
         />
       </div>
       <div
+        className="yoast-shopping-data-preview--desktop"
+      >
+        <span
+          className="screen-reader-text"
+          style={
+            Object {
+              "clip": "rect(1px, 1px, 1px, 1px)",
+              "height": "1px",
+              "overflow": "hidden",
+              "position": "absolute",
+              "width": "1px",
+            }
+          }
+        >
+          Shopping data preview:
+        </span>
+        
+        <p
+          className="c10"
+        >
+          
+          
+          
+        </p>
+      </div>
+      <div
         className=""
       >
         <span
@@ -821,7 +1003,7 @@ exports[`SnippetPreview highlights keywords inside the description and url 1`] =
           Meta description preview:
         </span>
         <div
-          className="c10"
+          className="c11"
           onMouseEnter={[Function]}
           onMouseLeave={[Function]}
           onMouseUp={[Function]}
@@ -832,6 +1014,24 @@ exports[`SnippetPreview highlights keywords inside the description and url 1`] =
              keyword
           </strong>
         </div>
+      </div>
+      <div
+        className="yoast-shopping-data-preview--mobile"
+      >
+        <span
+          className="screen-reader-text"
+          style={
+            Object {
+              "clip": "rect(1px, 1px, 1px, 1px)",
+              "height": "1px",
+              "overflow": "hidden",
+              "position": "absolute",
+              "width": "1px",
+            }
+          }
+        >
+          Shopping data preview:
+        </span>
       </div>
     </div>
   </div>
@@ -849,6 +1049,12 @@ exports[`SnippetPreview highlights separate words from the keyphrase 1`] = `
 
 .c2 {
   width: 600px;
+}
+
+.c10 {
+  display: inline;
+  margin-left: 0.3em;
+  color: #70757a;
 }
 
 .c1 {
@@ -916,7 +1122,7 @@ exports[`SnippetPreview highlights separate words from the keyphrase 1`] = `
   color: #006621;
 }
 
-.c10 {
+.c11 {
   color: #545454;
   cursor: pointer;
   position: relative;
@@ -1012,6 +1218,32 @@ exports[`SnippetPreview highlights separate words from the keyphrase 1`] = `
         />
       </div>
       <div
+        className="yoast-shopping-data-preview--desktop"
+      >
+        <span
+          className="screen-reader-text"
+          style={
+            Object {
+              "clip": "rect(1px, 1px, 1px, 1px)",
+              "height": "1px",
+              "overflow": "hidden",
+              "position": "absolute",
+              "width": "1px",
+            }
+          }
+        >
+          Shopping data preview:
+        </span>
+        
+        <p
+          className="c10"
+        >
+          
+          
+          
+        </p>
+      </div>
+      <div
         className=""
       >
         <span
@@ -1029,7 +1261,7 @@ exports[`SnippetPreview highlights separate words from the keyphrase 1`] = `
           Meta description preview:
         </span>
         <div
-          className="c10"
+          className="c11"
           onMouseEnter={[Function]}
           onMouseLeave={[Function]}
           onMouseUp={[Function]}
@@ -1056,12 +1288,37 @@ exports[`SnippetPreview highlights separate words from the keyphrase 1`] = `
            makes her happy.
         </div>
       </div>
+      <div
+        className="yoast-shopping-data-preview--mobile"
+      >
+        <span
+          className="screen-reader-text"
+          style={
+            Object {
+              "clip": "rect(1px, 1px, 1px, 1px)",
+              "height": "1px",
+              "overflow": "hidden",
+              "position": "absolute",
+              "width": "1px",
+            }
+          }
+        >
+          Shopping data preview:
+        </span>
+      </div>
     </div>
   </div>
 </section>
 `;
 
 exports[`SnippetPreview mobile mode renders an AMP logo when isAmp is true 1`] = `
+.c11 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+
 .c0 {
   border-bottom: 1px hidden #fff;
   border-radius: 8px;
@@ -1257,6 +1514,24 @@ exports[`SnippetPreview mobile mode renders an AMP logo when isAmp is true 1`] =
       />
     </div>
     <div
+      className="c1 yoast-shopping-data-preview--desktop"
+    >
+      <span
+        className="screen-reader-text"
+        style={
+          Object {
+            "clip": "rect(1px, 1px, 1px, 1px)",
+            "height": "1px",
+            "overflow": "hidden",
+            "position": "absolute",
+            "width": "1px",
+          }
+        }
+      >
+        Shopping data preview:
+      </span>
+    </div>
+    <div
       className="c1"
     >
       <span
@@ -1288,11 +1563,43 @@ exports[`SnippetPreview mobile mode renders an AMP logo when isAmp is true 1`] =
         </div>
       </div>
     </div>
+    <div
+      className="c1 yoast-shopping-data-preview--mobile"
+    >
+      <span
+        className="screen-reader-text"
+        style={
+          Object {
+            "clip": "rect(1px, 1px, 1px, 1px)",
+            "height": "1px",
+            "overflow": "hidden",
+            "position": "absolute",
+            "width": "1px",
+          }
+        }
+      >
+        Shopping data preview:
+      </span>
+      <div
+        className="c11"
+      >
+        
+        
+        
+      </div>
+    </div>
   </div>
 </section>
 `;
 
 exports[`SnippetPreview mobile mode renders differently than desktop 1`] = `
+.c10 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+
 .c0 {
   border-bottom: 1px hidden #fff;
   border-radius: 8px;
@@ -1474,6 +1781,24 @@ exports[`SnippetPreview mobile mode renders differently than desktop 1`] = `
       </div>
     </div>
     <div
+      className="c1 yoast-shopping-data-preview--desktop"
+    >
+      <span
+        className="screen-reader-text"
+        style={
+          Object {
+            "clip": "rect(1px, 1px, 1px, 1px)",
+            "height": "1px",
+            "overflow": "hidden",
+            "position": "absolute",
+            "width": "1px",
+          }
+        }
+      >
+        Shopping data preview:
+      </span>
+    </div>
+    <div
       className="c1"
     >
       <span
@@ -1503,6 +1828,31 @@ exports[`SnippetPreview mobile mode renders differently than desktop 1`] = `
           
           Description
         </div>
+      </div>
+    </div>
+    <div
+      className="c1 yoast-shopping-data-preview--mobile"
+    >
+      <span
+        className="screen-reader-text"
+        style={
+          Object {
+            "clip": "rect(1px, 1px, 1px, 1px)",
+            "height": "1px",
+            "overflow": "hidden",
+            "position": "absolute",
+            "width": "1px",
+          }
+        }
+      >
+        Shopping data preview:
+      </span>
+      <div
+        className="c10"
+      >
+        
+        
+        
       </div>
     </div>
   </div>
@@ -1510,6 +1860,13 @@ exports[`SnippetPreview mobile mode renders differently than desktop 1`] = `
 `;
 
 exports[`SnippetPreview renders a SnippetPreview in the default mode 1`] = `
+.c10 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+
 .c0 {
   border-bottom: 1px hidden #fff;
   border-radius: 8px;
@@ -1691,6 +2048,24 @@ exports[`SnippetPreview renders a SnippetPreview in the default mode 1`] = `
       </div>
     </div>
     <div
+      className="c1 yoast-shopping-data-preview--desktop"
+    >
+      <span
+        className="screen-reader-text"
+        style={
+          Object {
+            "clip": "rect(1px, 1px, 1px, 1px)",
+            "height": "1px",
+            "overflow": "hidden",
+            "position": "absolute",
+            "width": "1px",
+          }
+        }
+      >
+        Shopping data preview:
+      </span>
+    </div>
+    <div
       className="c1"
     >
       <span
@@ -1720,6 +2095,31 @@ exports[`SnippetPreview renders a SnippetPreview in the default mode 1`] = `
           
           Description
         </div>
+      </div>
+    </div>
+    <div
+      className="c1 yoast-shopping-data-preview--mobile"
+    >
+      <span
+        className="screen-reader-text"
+        style={
+          Object {
+            "clip": "rect(1px, 1px, 1px, 1px)",
+            "height": "1px",
+            "overflow": "hidden",
+            "position": "absolute",
+            "width": "1px",
+          }
+        }
+      >
+        Shopping data preview:
+      </span>
+      <div
+        className="c10"
+      >
+        
+        
+        
       </div>
     </div>
   </div>
@@ -1739,6 +2139,12 @@ exports[`SnippetPreview renders a SnippetPreview that looks like Google 1`] = `
   width: 600px;
 }
 
+.c10 {
+  display: inline;
+  margin-left: 0.3em;
+  color: #70757a;
+}
+
 .c1 {
   background-color: #fff;
   font-family: arial,sans-serif;
@@ -1804,7 +2210,7 @@ exports[`SnippetPreview renders a SnippetPreview that looks like Google 1`] = `
   color: #006621;
 }
 
-.c10 {
+.c11 {
   color: #545454;
   cursor: pointer;
   position: relative;
@@ -1900,6 +2306,32 @@ exports[`SnippetPreview renders a SnippetPreview that looks like Google 1`] = `
         />
       </div>
       <div
+        className="yoast-shopping-data-preview--desktop"
+      >
+        <span
+          className="screen-reader-text"
+          style={
+            Object {
+              "clip": "rect(1px, 1px, 1px, 1px)",
+              "height": "1px",
+              "overflow": "hidden",
+              "position": "absolute",
+              "width": "1px",
+            }
+          }
+        >
+          Shopping data preview:
+        </span>
+        
+        <p
+          className="c10"
+        >
+          
+          
+          
+        </p>
+      </div>
+      <div
         className=""
       >
         <span
@@ -1917,7 +2349,7 @@ exports[`SnippetPreview renders a SnippetPreview that looks like Google 1`] = `
           Meta description preview:
         </span>
         <div
-          className="c10"
+          className="c11"
           onMouseEnter={[Function]}
           onMouseLeave={[Function]}
           onMouseUp={[Function]}
@@ -1925,6 +2357,24 @@ exports[`SnippetPreview renders a SnippetPreview that looks like Google 1`] = `
           
           Description
         </div>
+      </div>
+      <div
+        className="yoast-shopping-data-preview--mobile"
+      >
+        <span
+          className="screen-reader-text"
+          style={
+            Object {
+              "clip": "rect(1px, 1px, 1px, 1px)",
+              "height": "1px",
+              "overflow": "hidden",
+              "position": "absolute",
+              "width": "1px",
+            }
+          }
+        >
+          Shopping data preview:
+        </span>
       </div>
     </div>
   </div>
@@ -1944,6 +2394,12 @@ exports[`SnippetPreview renders a caret on activation 1`] = `
   width: 600px;
 }
 
+.c10 {
+  display: inline;
+  margin-left: 0.3em;
+  color: #70757a;
+}
+
 .c1 {
   background-color: #fff;
   font-family: arial,sans-serif;
@@ -2004,7 +2460,7 @@ exports[`SnippetPreview renders a caret on activation 1`] = `
   color: #006621;
 }
 
-.c10 {
+.c11 {
   color: #545454;
   cursor: pointer;
   position: relative;
@@ -2119,6 +2575,32 @@ exports[`SnippetPreview renders a caret on activation 1`] = `
         />
       </div>
       <div
+        className="yoast-shopping-data-preview--desktop"
+      >
+        <span
+          className="screen-reader-text"
+          style={
+            Object {
+              "clip": "rect(1px, 1px, 1px, 1px)",
+              "height": "1px",
+              "overflow": "hidden",
+              "position": "absolute",
+              "width": "1px",
+            }
+          }
+        >
+          Shopping data preview:
+        </span>
+        
+        <p
+          className="c10"
+        >
+          
+          
+          
+        </p>
+      </div>
+      <div
         className=""
       >
         <span
@@ -2136,7 +2618,7 @@ exports[`SnippetPreview renders a caret on activation 1`] = `
           Meta description preview:
         </span>
         <div
-          className="c10"
+          className="c11"
           onMouseEnter={[Function]}
           onMouseLeave={[Function]}
           onMouseUp={[Function]}
@@ -2144,6 +2626,24 @@ exports[`SnippetPreview renders a caret on activation 1`] = `
           
           Description
         </div>
+      </div>
+      <div
+        className="yoast-shopping-data-preview--mobile"
+      >
+        <span
+          className="screen-reader-text"
+          style={
+            Object {
+              "clip": "rect(1px, 1px, 1px, 1px)",
+              "height": "1px",
+              "overflow": "hidden",
+              "position": "absolute",
+              "width": "1px",
+            }
+          }
+        >
+          Shopping data preview:
+        </span>
       </div>
     </div>
   </div>
@@ -2163,6 +2663,12 @@ exports[`SnippetPreview renders a caret on activation 2`] = `
   width: 600px;
 }
 
+.c10 {
+  display: inline;
+  margin-left: 0.3em;
+  color: #70757a;
+}
+
 .c1 {
   background-color: #fff;
   font-family: arial,sans-serif;
@@ -2238,7 +2744,7 @@ exports[`SnippetPreview renders a caret on activation 2`] = `
   vertical-align: top;
 }
 
-.c10 {
+.c11 {
   color: #545454;
   cursor: pointer;
   position: relative;
@@ -2248,7 +2754,7 @@ exports[`SnippetPreview renders a caret on activation 2`] = `
   line-height: 1.57;
 }
 
-.c10::before {
+.c11::before {
   display: block;
   position: absolute;
   top: 0;
@@ -2338,6 +2844,32 @@ exports[`SnippetPreview renders a caret on activation 2`] = `
         />
       </div>
       <div
+        className="yoast-shopping-data-preview--desktop"
+      >
+        <span
+          className="screen-reader-text"
+          style={
+            Object {
+              "clip": "rect(1px, 1px, 1px, 1px)",
+              "height": "1px",
+              "overflow": "hidden",
+              "position": "absolute",
+              "width": "1px",
+            }
+          }
+        >
+          Shopping data preview:
+        </span>
+        
+        <p
+          className="c10"
+        >
+          
+          
+          
+        </p>
+      </div>
+      <div
         className=""
       >
         <span
@@ -2355,7 +2887,7 @@ exports[`SnippetPreview renders a caret on activation 2`] = `
           Meta description preview:
         </span>
         <div
-          className="c10"
+          className="c11"
           onMouseEnter={[Function]}
           onMouseLeave={[Function]}
           onMouseUp={[Function]}
@@ -2363,6 +2895,24 @@ exports[`SnippetPreview renders a caret on activation 2`] = `
           
           Description
         </div>
+      </div>
+      <div
+        className="yoast-shopping-data-preview--mobile"
+      >
+        <span
+          className="screen-reader-text"
+          style={
+            Object {
+              "clip": "rect(1px, 1px, 1px, 1px)",
+              "height": "1px",
+              "overflow": "hidden",
+              "position": "absolute",
+              "width": "1px",
+            }
+          }
+        >
+          Shopping data preview:
+        </span>
       </div>
     </div>
   </div>
@@ -2380,6 +2930,12 @@ exports[`SnippetPreview renders a caret on activation 3`] = `
 
 .c2 {
   width: 600px;
+}
+
+.c10 {
+  display: inline;
+  margin-left: 0.3em;
+  color: #70757a;
 }
 
 .c1 {
@@ -2437,7 +2993,7 @@ exports[`SnippetPreview renders a caret on activation 3`] = `
   color: #006621;
 }
 
-.c10 {
+.c11 {
   color: #545454;
   cursor: pointer;
   position: relative;
@@ -2557,6 +3113,32 @@ exports[`SnippetPreview renders a caret on activation 3`] = `
         />
       </div>
       <div
+        className="yoast-shopping-data-preview--desktop"
+      >
+        <span
+          className="screen-reader-text"
+          style={
+            Object {
+              "clip": "rect(1px, 1px, 1px, 1px)",
+              "height": "1px",
+              "overflow": "hidden",
+              "position": "absolute",
+              "width": "1px",
+            }
+          }
+        >
+          Shopping data preview:
+        </span>
+        
+        <p
+          className="c10"
+        >
+          
+          
+          
+        </p>
+      </div>
+      <div
         className=""
       >
         <span
@@ -2574,7 +3156,7 @@ exports[`SnippetPreview renders a caret on activation 3`] = `
           Meta description preview:
         </span>
         <div
-          className="c10"
+          className="c11"
           onMouseEnter={[Function]}
           onMouseLeave={[Function]}
           onMouseUp={[Function]}
@@ -2582,6 +3164,24 @@ exports[`SnippetPreview renders a caret on activation 3`] = `
           
           Description
         </div>
+      </div>
+      <div
+        className="yoast-shopping-data-preview--mobile"
+      >
+        <span
+          className="screen-reader-text"
+          style={
+            Object {
+              "clip": "rect(1px, 1px, 1px, 1px)",
+              "height": "1px",
+              "overflow": "hidden",
+              "position": "absolute",
+              "width": "1px",
+            }
+          }
+        >
+          Shopping data preview:
+        </span>
       </div>
     </div>
   </div>
@@ -2599,6 +3199,12 @@ exports[`SnippetPreview renders a caret on hover 1`] = `
 
 .c2 {
   width: 600px;
+}
+
+.c10 {
+  display: inline;
+  margin-left: 0.3em;
+  color: #70757a;
 }
 
 .c1 {
@@ -2661,7 +3267,7 @@ exports[`SnippetPreview renders a caret on hover 1`] = `
   color: #006621;
 }
 
-.c10 {
+.c11 {
   color: #545454;
   cursor: pointer;
   position: relative;
@@ -2776,6 +3382,32 @@ exports[`SnippetPreview renders a caret on hover 1`] = `
         />
       </div>
       <div
+        className="yoast-shopping-data-preview--desktop"
+      >
+        <span
+          className="screen-reader-text"
+          style={
+            Object {
+              "clip": "rect(1px, 1px, 1px, 1px)",
+              "height": "1px",
+              "overflow": "hidden",
+              "position": "absolute",
+              "width": "1px",
+            }
+          }
+        >
+          Shopping data preview:
+        </span>
+        
+        <p
+          className="c10"
+        >
+          
+          
+          
+        </p>
+      </div>
+      <div
         className=""
       >
         <span
@@ -2793,7 +3425,7 @@ exports[`SnippetPreview renders a caret on hover 1`] = `
           Meta description preview:
         </span>
         <div
-          className="c10"
+          className="c11"
           onMouseEnter={[Function]}
           onMouseLeave={[Function]}
           onMouseUp={[Function]}
@@ -2801,6 +3433,24 @@ exports[`SnippetPreview renders a caret on hover 1`] = `
           
           Description
         </div>
+      </div>
+      <div
+        className="yoast-shopping-data-preview--mobile"
+      >
+        <span
+          className="screen-reader-text"
+          style={
+            Object {
+              "clip": "rect(1px, 1px, 1px, 1px)",
+              "height": "1px",
+              "overflow": "hidden",
+              "position": "absolute",
+              "width": "1px",
+            }
+          }
+        >
+          Shopping data preview:
+        </span>
       </div>
     </div>
   </div>
@@ -2818,6 +3468,12 @@ exports[`SnippetPreview renders a caret on hover 2`] = `
 
 .c2 {
   width: 600px;
+}
+
+.c10 {
+  display: inline;
+  margin-left: 0.3em;
+  color: #70757a;
 }
 
 .c1 {
@@ -2895,7 +3551,7 @@ exports[`SnippetPreview renders a caret on hover 2`] = `
   vertical-align: top;
 }
 
-.c10 {
+.c11 {
   color: #545454;
   cursor: pointer;
   position: relative;
@@ -2905,7 +3561,7 @@ exports[`SnippetPreview renders a caret on hover 2`] = `
   line-height: 1.57;
 }
 
-.c10::before {
+.c11::before {
   display: block;
   position: absolute;
   top: 0;
@@ -2995,6 +3651,32 @@ exports[`SnippetPreview renders a caret on hover 2`] = `
         />
       </div>
       <div
+        className="yoast-shopping-data-preview--desktop"
+      >
+        <span
+          className="screen-reader-text"
+          style={
+            Object {
+              "clip": "rect(1px, 1px, 1px, 1px)",
+              "height": "1px",
+              "overflow": "hidden",
+              "position": "absolute",
+              "width": "1px",
+            }
+          }
+        >
+          Shopping data preview:
+        </span>
+        
+        <p
+          className="c10"
+        >
+          
+          
+          
+        </p>
+      </div>
+      <div
         className=""
       >
         <span
@@ -3012,7 +3694,7 @@ exports[`SnippetPreview renders a caret on hover 2`] = `
           Meta description preview:
         </span>
         <div
-          className="c10"
+          className="c11"
           onMouseEnter={[Function]}
           onMouseLeave={[Function]}
           onMouseUp={[Function]}
@@ -3020,6 +3702,24 @@ exports[`SnippetPreview renders a caret on hover 2`] = `
           
           Description
         </div>
+      </div>
+      <div
+        className="yoast-shopping-data-preview--mobile"
+      >
+        <span
+          className="screen-reader-text"
+          style={
+            Object {
+              "clip": "rect(1px, 1px, 1px, 1px)",
+              "height": "1px",
+              "overflow": "hidden",
+              "position": "absolute",
+              "width": "1px",
+            }
+          }
+        >
+          Shopping data preview:
+        </span>
       </div>
     </div>
   </div>
@@ -3037,6 +3737,12 @@ exports[`SnippetPreview renders a caret on hover 3`] = `
 
 .c2 {
   width: 600px;
+}
+
+.c10 {
+  display: inline;
+  margin-left: 0.3em;
+  color: #70757a;
 }
 
 .c1 {
@@ -3094,7 +3800,7 @@ exports[`SnippetPreview renders a caret on hover 3`] = `
   color: #006621;
 }
 
-.c10 {
+.c11 {
   color: #545454;
   cursor: pointer;
   position: relative;
@@ -3214,6 +3920,32 @@ exports[`SnippetPreview renders a caret on hover 3`] = `
         />
       </div>
       <div
+        className="yoast-shopping-data-preview--desktop"
+      >
+        <span
+          className="screen-reader-text"
+          style={
+            Object {
+              "clip": "rect(1px, 1px, 1px, 1px)",
+              "height": "1px",
+              "overflow": "hidden",
+              "position": "absolute",
+              "width": "1px",
+            }
+          }
+        >
+          Shopping data preview:
+        </span>
+        
+        <p
+          className="c10"
+        >
+          
+          
+          
+        </p>
+      </div>
+      <div
         className=""
       >
         <span
@@ -3231,7 +3963,7 @@ exports[`SnippetPreview renders a caret on hover 3`] = `
           Meta description preview:
         </span>
         <div
-          className="c10"
+          className="c11"
           onMouseEnter={[Function]}
           onMouseLeave={[Function]}
           onMouseUp={[Function]}
@@ -3239,6 +3971,24 @@ exports[`SnippetPreview renders a caret on hover 3`] = `
           
           Description
         </div>
+      </div>
+      <div
+        className="yoast-shopping-data-preview--mobile"
+      >
+        <span
+          className="screen-reader-text"
+          style={
+            Object {
+              "clip": "rect(1px, 1px, 1px, 1px)",
+              "height": "1px",
+              "overflow": "hidden",
+              "position": "absolute",
+              "width": "1px",
+            }
+          }
+        >
+          Shopping data preview:
+        </span>
       </div>
     </div>
   </div>
@@ -3256,6 +4006,12 @@ exports[`SnippetPreview shows the date if a date is passed 1`] = `
 
 .c2 {
   width: 600px;
+}
+
+.c10 {
+  display: inline;
+  margin-left: 0.3em;
+  color: #70757a;
 }
 
 .c1 {
@@ -3323,7 +4079,7 @@ exports[`SnippetPreview shows the date if a date is passed 1`] = `
   color: #006621;
 }
 
-.c10 {
+.c11 {
   color: #545454;
   cursor: pointer;
   position: relative;
@@ -3343,7 +4099,7 @@ exports[`SnippetPreview shows the date if a date is passed 1`] = `
   vertical-align: top;
 }
 
-.c11 {
+.c12 {
   color: #777;
 }
 
@@ -3423,6 +4179,32 @@ exports[`SnippetPreview shows the date if a date is passed 1`] = `
         />
       </div>
       <div
+        className="yoast-shopping-data-preview--desktop"
+      >
+        <span
+          className="screen-reader-text"
+          style={
+            Object {
+              "clip": "rect(1px, 1px, 1px, 1px)",
+              "height": "1px",
+              "overflow": "hidden",
+              "position": "absolute",
+              "width": "1px",
+            }
+          }
+        >
+          Shopping data preview:
+        </span>
+        
+        <p
+          className="c10"
+        >
+          
+          
+          
+        </p>
+      </div>
+      <div
         className=""
       >
         <span
@@ -3440,13 +4222,13 @@ exports[`SnippetPreview shows the date if a date is passed 1`] = `
           Meta description preview:
         </span>
         <div
-          className="c10"
+          className="c11"
           onMouseEnter={[Function]}
           onMouseLeave={[Function]}
           onMouseUp={[Function]}
         >
           <span
-            className="c11"
+            className="c12"
           >
             Today
              
@@ -3455,6 +4237,24 @@ exports[`SnippetPreview shows the date if a date is passed 1`] = `
           </span>
           Description
         </div>
+      </div>
+      <div
+        className="yoast-shopping-data-preview--mobile"
+      >
+        <span
+          className="screen-reader-text"
+          style={
+            Object {
+              "clip": "rect(1px, 1px, 1px, 1px)",
+              "height": "1px",
+              "overflow": "hidden",
+              "position": "absolute",
+              "width": "1px",
+            }
+          }
+        >
+          Shopping data preview:
+        </span>
       </div>
     </div>
   </div>
