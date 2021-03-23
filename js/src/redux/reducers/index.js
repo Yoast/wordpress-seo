@@ -40,7 +40,6 @@ export default {
 	marksButtonStatus,
 	preferences,
 	primaryTaxonomies,
-	schemaBlocks,
 	schemaTab,
 	SEMrushModal,
 	SEMrushRequest,
