@@ -16,7 +16,7 @@ class Doing_Post_Quick_Edit_Save_Conditional implements Conditional {
 	 * @return bool True when the quick edit action is executed.
 	 */
 	public function is_met() {
-		if ( ! \ wp_doing_ajax() ) {
+		if ( ! \wp_doing_ajax() ) {
 			return false;
 		}
 
