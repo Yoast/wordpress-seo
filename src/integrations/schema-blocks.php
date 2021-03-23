@@ -109,8 +109,8 @@ class Schema_Blocks implements Integration_Interface {
 			'schema-blocks',
 			'yoastSchemaBlocks',
 			[
-				'requiredLink'    => $this->short_link_helper->build( 'yoa.st/required-fields' ),
-				'recommendedLink' => $this->short_link_helper->build( 'yoa.st/recommended-fields' ),
+				'requiredLink'    => $this->short_link_helper->build( 'https://yoa.st/required-fields' ),
+				'recommendedLink' => $this->short_link_helper->build( 'https://yoa.st/recommended-fields' ),
 			]
 		);
 	}
