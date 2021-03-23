@@ -1,24 +1,25 @@
 <?php
 
-namespace Yoast\WP\SEO\Tests\Unit\Admin\Conditionals;
+namespace Yoast\WP\SEO\Tests\Unit\Conditionals\Admin;
 
 use Brain\Monkey;
-use Yoast\WP\SEO\Conditionals\Admin\Post_Quick_Edit_Conditional;
+use Yoast\WP\SEO\Conditionals\Admin\Doing_Post_Quick_Edit_Save_Conditional;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
+// phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded -- Base class can't be written shorter without abbreviating.
 /**
- * Class Get_Request_Conditional_Test
+ * Class Doing_Post_Quick_Edit_Save_Conditional
  *
  * @group conditionals
  *
- * @coversDefaultClass \Yoast\WP\SEO\Conditionals\Admin\Post_Quick_Edit_Conditional
+ * @coversDefaultClass \Yoast\WP\SEO\Conditionals\Admin\Doing_Post_Quick_Edit_Save_Conditional
  */
-class Post_Quick_Edit_Conditional_Test extends TestCase {
+class Doing_Post_Quick_Edit_Save_Conditional_Test extends TestCase {
 
 	/**
 	 * Represents the instance to test.
 	 *
-	 * @var Post_Quick_Edit_Conditional
+	 * @var Doing_Post_Quick_Edit_Save_Conditional
 	 */
 	protected $instance;
 
@@ -28,7 +29,7 @@ class Post_Quick_Edit_Conditional_Test extends TestCase {
 	protected function set_up() {
 		parent::set_up();
 
-		$this->instance = new Post_Quick_Edit_Conditional();
+		$this->instance = new Doing_Post_Quick_Edit_Save_Conditional();
 	}
 
 	/**
@@ -111,3 +112,4 @@ class Post_Quick_Edit_Conditional_Test extends TestCase {
 		self::assertTrue( $this->instance->is_met() );
 	}
 }
+// phpcs:enable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded -- Base class can't be written shorter without abbreviating.

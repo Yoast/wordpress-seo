@@ -1,17 +1,18 @@
 <?php
 
-namespace Yoast\WP\SEO\Tests\Unit\Integrations\Admin;
+namespace Yoast\WP\SEO\Tests\Unit\Integrations\Watchers;
 
 use Brain\Monkey;
 use Mockery;
 use WPSEO_Meta;
-use Yoast\WP\SEO\Conditionals\Admin\Post_Quick_Edit_Conditional;
+use Yoast\WP\SEO\Conditionals\Admin\Doing_Post_Quick_Edit_Save_Conditional;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Integrations\Watchers\Primary_Category_Quick_Edit_Watcher;
 use Yoast\WP\SEO\Repositories\Primary_Term_Repository;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
+// phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded -- Base class can't be written shorter without abbreviating.
 /**
  * Class Admin_Columns_Cache_Integration_Test.
  *
@@ -87,7 +88,7 @@ class Primary_Category_Quick_Edit_Watcher_Test extends TestCase {
 		self::assertSame(
 			[
 				Migrations_Conditional::class,
-				Post_Quick_Edit_Conditional::class
+				Doing_Post_Quick_Edit_Save_Conditional::class,
 			],
 			Primary_Category_Quick_Edit_Watcher::get_conditionals()
 		);
@@ -113,13 +114,15 @@ class Primary_Category_Quick_Edit_Watcher_Test extends TestCase {
 	 * @covers ::validate_primary_category
 	 */
 	public function test_validate_primary_category_no_main_taxonomy_set() {
+		$post = (object) [
+			'post_type' => 'post',
+			'ID'        => 1337,
+		];
+
 		Monkey\Functions\expect( 'get_post' )
 			->once()
 			->with( 1337 )
-			->andReturn( (object) [
-				'post_type' => 'post',
-				'ID'        => 1337,
-			] );
+			->andReturn( $post );
 
 		$this->options_helper
 			->expects( 'get' )
@@ -136,13 +139,15 @@ class Primary_Category_Quick_Edit_Watcher_Test extends TestCase {
 	 * @covers ::validate_primary_category
 	 */
 	public function test_validate_primary_category_and_main_taxonomy_set_to_zero() {
+		$post = (object) [
+			'post_type' => 'post',
+			'ID'        => 1337,
+		];
+
 		Monkey\Functions\expect( 'get_post' )
 			->once()
 			->with( 1337 )
-			->andReturn( (object) [
-				'post_type' => 'post',
-				'ID'        => 1337,
-			] );
+			->andReturn( $post );
 
 		$this->options_helper
 			->expects( 'get' )
@@ -159,13 +164,15 @@ class Primary_Category_Quick_Edit_Watcher_Test extends TestCase {
 	 * @covers ::validate_primary_category
 	 */
 	public function test_validate_primary_category_and_main_taxonomy_is_not_the_saved_taxonomy() {
+		$post = (object) [
+			'post_type' => 'post',
+			'ID'        => 1337,
+		];
+
 		Monkey\Functions\expect( 'get_post' )
 			->once()
 			->with( 1337 )
-			->andReturn( (object) [
-				'post_type' => 'post',
-				'ID'        => 1337,
-			] );
+			->andReturn( $post );
 
 		$this->options_helper
 			->expects( 'get' )
@@ -183,13 +190,15 @@ class Primary_Category_Quick_Edit_Watcher_Test extends TestCase {
 	 * @covers ::get_primary_term_id
 	 */
 	public function test_validate_primary_category_and_primary_not_set() {
+		$post = (object) [
+			'post_type' => 'post',
+			'ID'        => 1337,
+		];
+
 		Monkey\Functions\expect( 'get_post' )
 			->once()
 			->with( 1337 )
-			->andReturn( (object) [
-				'post_type' => 'post',
-				'ID'        => 1337,
-			] );
+			->andReturn( $post );
 
 		$this->options_helper
 			->expects( 'get' )
@@ -217,13 +226,15 @@ class Primary_Category_Quick_Edit_Watcher_Test extends TestCase {
 	 * @covers ::get_primary_term_id
 	 */
 	public function test_validate_primary_category_and_primary_set_in_post_meta() {
+		$post = (object) [
+			'post_type' => 'post',
+			'ID'        => 1337,
+		];
+
 		Monkey\Functions\expect( 'get_post' )
 			->once()
 			->with( 1337 )
-			->andReturn( (object) [
-				'post_type' => 'post',
-				'ID'        => 1337,
-			] );
+			->andReturn( $post );
 
 		$this->options_helper
 			->expects( 'get' )
@@ -251,13 +262,15 @@ class Primary_Category_Quick_Edit_Watcher_Test extends TestCase {
 	 * @covers ::get_primary_term_id
 	 */
 	public function test_validate_primary_category_and_primary_set_in_repository() {
+		$post = (object) [
+			'post_type' => 'post',
+			'ID'        => 1337,
+		];
+
 		Monkey\Functions\expect( 'get_post' )
 			->once()
 			->with( 1337 )
-			->andReturn( (object) [
-				'post_type' => 'post',
-				'ID'        => 1337,
-			] );
+			->andReturn( $post );
 
 		$this->options_helper
 			->expects( 'get' )
@@ -269,12 +282,13 @@ class Primary_Category_Quick_Edit_Watcher_Test extends TestCase {
 			->never()
 			->with( 1337, WPSEO_Meta::$meta_prefix . 'primary_category', true );
 
+		$primary_term          = Mockery::mock();
+		$primary_term->term_id = 2;
+
 		$this->primary_term_repository
 			->expects( 'find_by_post_id_and_taxonomy' )
 			->with( 1337, 'category', false )
-			->andReturn( (object) [
-				'term_id' => 2
-			] );
+			->andReturn( $primary_term );
 
 		$this->instance->validate_primary_category( 1337, [], [ '1', '2' ], 'category' );
 	}
@@ -286,13 +300,15 @@ class Primary_Category_Quick_Edit_Watcher_Test extends TestCase {
 	 * @covers ::remove_primary_term
 	 */
 	public function test_validate_primary_category_and_primary_removed_as_category() {
+		$post = (object) [
+			'post_type' => 'post',
+			'ID'        => 1337,
+		];
+
 		Monkey\Functions\expect( 'get_post' )
 			->once()
 			->with( 1337 )
-			->andReturn( (object) [
-				'post_type' => 'post',
-				'ID'        => 1337,
-			] );
+			->andReturn( $post );
 
 		$this->options_helper
 			->expects( 'get' )
@@ -322,3 +338,4 @@ class Primary_Category_Quick_Edit_Watcher_Test extends TestCase {
 		$this->instance->validate_primary_category( 1337, [], [ '1', '2' ], 'category' );
 	}
 }
+// phpcs:enable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded -- Base class can't be written shorter without abbreviating.

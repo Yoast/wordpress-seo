@@ -372,8 +372,6 @@ class Indexable_Ancestor_Watcher_Test extends TestCase {
 		$this->assertSame( [ $indexable_term_1, $indexable_term_2, $additional_indexable_2 ], $actual );
 	}
 
-
-
 	/**
 	 * Tests building the post hierarchy.
 	 *

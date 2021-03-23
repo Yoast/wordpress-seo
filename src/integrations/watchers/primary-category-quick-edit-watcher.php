@@ -3,7 +3,7 @@
 namespace Yoast\WP\SEO\Integrations\Watchers;
 
 use WPSEO_Meta;
-use Yoast\WP\SEO\Conditionals\Admin\Post_Quick_Edit_Conditional;
+use Yoast\WP\SEO\Conditionals\Admin\Doing_Post_Quick_Edit_Save_Conditional;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
@@ -60,7 +60,7 @@ class Primary_Category_Quick_Edit_Watcher implements Integration_Interface {
 	 * @return array The conditionals.
 	 */
 	public static function get_conditionals() {
-		return [ Migrations_Conditional::class, Post_Quick_Edit_Conditional::class ];
+		return [ Migrations_Conditional::class, Doing_Post_Quick_Edit_Save_Conditional::class ];
 	}
 
 	/**
