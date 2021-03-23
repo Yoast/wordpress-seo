@@ -1,4 +1,4 @@
-import { createElement, Fragment } from "@wordpress/element";
+import { createElement, Fragment, ReactElement } from "@wordpress/element";
 import { registerBlockType, BlockConfiguration, BlockEditProps, BlockSaveProps } from "@wordpress/blocks";
 import { InspectorControls } from "@wordpress/block-editor";
 import BlockInstruction from "./BlockInstruction";
@@ -8,6 +8,7 @@ import parse from "../../functions/blocks/parse";
 import { registerBlockDefinition } from "./BlockDefinitionRepository";
 import { PanelBody } from "@wordpress/components";
 import logger from "../../functions/logger";
+import { openGeneralSidebar } from "../../functions/gutenberg/sidebar";
 
 export interface RenderEditProps extends BlockEditProps<Record<string, unknown>> {
 	clientId: string;
@@ -26,7 +27,7 @@ export type MutableBlockConfiguration = {
  * BlockDefinition class.
  */
 export default class BlockDefinition extends Definition {
-	public static separatorCharacters = [ "@", "#", "$", "%", "^", "&", "*", "(", ")", "{", "}", "[", "]" ];
+	public static separatorCharacters = [ "b", "c", "d", "f", "g", "h", "k", "m", "z" ];
 	public static parser = parse;
 
 	public instructions: Record<string, BlockInstruction>;
@@ -39,13 +40,15 @@ export default class BlockDefinition extends Definition {
 	 *
 	 * @returns The rendered block.
 	 */
-	edit( props: RenderEditProps ): JSX.Element {
+	edit( props: RenderEditProps ): ReactElement {
+		// Force the sidebar open.
+		openGeneralSidebar( "edit-post/block", true );
+
+		const sidebarElements = this.sidebarElements( props );
+
 		// Take the children directly to avoid creating too many Fragments.
 		const elements = this.tree.children.map( ( leaf, i ) => leaf.edit( props, i ) ).filter( e => e !== null );
 
-		const sidebarElements = Object.values( this.instructions )
-			.map( ( instruction, i ) => instruction.sidebar( props, i ) )
-			.filter( e => e !== null );
 		if ( sidebarElements.length > 0 ) {
 			// Need to add `children` on the `props` as well, because of the type definition of `InspectorControls.Props`.
 			const sidebar = createElement( PanelBody, { key: "sidebarPanelBody", children: sidebarElements }, sidebarElements );
@@ -54,7 +57,7 @@ export default class BlockDefinition extends Definition {
 		}
 
 		if ( elements.length === 1 ) {
-			return elements[ 0 ] as JSX.Element;
+			return elements[ 0 ] as ReactElement;
 		}
 
 		return createElement( Fragment, { key: props.clientId }, elements );
@@ -65,9 +68,9 @@ export default class BlockDefinition extends Definition {
 	 *
 	 * @param props The props.
 	 *
-	 * @returns The rendered block.
+	 * @returns {ReactElement} The rendered block.
 	 */
-	save( props: RenderSaveProps ): JSX.Element {
+	save( props: RenderSaveProps ): ReactElement {
 		return this.tree.save( props );
 	}
 
@@ -88,5 +91,18 @@ export default class BlockDefinition extends Definition {
 		registerBlockType( name, configuration );
 		// Register the block with our own code.
 		registerBlockDefinition( name, this );
+	}
+
+	/**
+	 * Creates the sidebar elements.
+	 *
+	 * @param props The properties of the block to create a sidebar for.
+	 *
+	 * @returns {ReactElement[]} The sidebar element to render.
+	 */
+	sidebarElements( props: RenderEditProps ): ReactElement[] {
+		return Object.values( this.instructions )
+			.map( ( instruction, index ) => instruction.sidebar( props, index ) )
+			.filter( e => e !== null );
 	}
 }

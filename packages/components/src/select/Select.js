@@ -6,6 +6,8 @@ import { default as ReactSelect } from "react-select";
 // Import required CSS.
 import "./select.css";
 
+const noop = () => {};
+
 /**
  * Defines how a select option should look.
  */
@@ -250,6 +252,7 @@ export class Select extends React.Component {
 					value={ this.state.selected }
 					onBlur={ this.onBlurHandler }
 					onInput={ this.onInputHandler }
+					onChange={ noop }
 				>
 					{ options.map( Option ) }
 				</select>

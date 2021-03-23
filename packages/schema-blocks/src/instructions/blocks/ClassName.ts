@@ -4,7 +4,7 @@ import { RenderEditProps } from "../../core/blocks/BlockDefinition";
 /**
  * ClassName instruction.
  */
-class ClassName extends BlockInstruction {
+export default class ClassName extends BlockInstruction {
 	/**
 	 * Renders the class name.
 	 *
@@ -14,6 +14,17 @@ class ClassName extends BlockInstruction {
 	 */
 	edit( props: RenderEditProps ): string {
 		return props.className;
+	}
+
+	/**
+	 * Always add the "yoast-inner-container" class
+	 * on the frontend, so the Twenty Twenty One
+	 * theme works correctly.
+	 *
+	 * @returns "yoast-inner-container"
+	 */
+	save(): string {
+		return "yoast-inner-container";
 	}
 }
 

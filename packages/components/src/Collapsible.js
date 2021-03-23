@@ -1,14 +1,11 @@
+import { getDirectionalStyle } from "@yoast/helpers";
+import { colors } from "@yoast/style-guide";
+import { omit } from "lodash";
 import PropTypes from "prop-types";
 import React from "react";
 import styled from "styled-components";
-import omit from "lodash/omit";
-// Yoast dependencies.
-import { colors } from "@yoast/style-guide";
-import { getDirectionalStyle } from "@yoast/helpers";
-
-import { SectionTitle } from "./SectionTitle";
 import IconsButton from "./buttons/IconsButton";
-
+import { SectionTitle } from "./SectionTitle";
 
 const Content = styled.div`
 	padding: 0 16px;
@@ -107,7 +104,7 @@ const StyledHeading = wrapInHeading( StyledIconsButton, { level: 2, fontSize: "1
  *
  * @returns {ReactElement} A collapsible panel.
  */
-export const CollapsibleStateless = ( props ) => {
+export function CollapsibleStateless( props ) {
 	let children = null;
 	if ( props.isOpen ) {
 		children = ( props.hasPadding ) ? <Content className="collapsible_content">{ props.children }</Content> : props.children;
@@ -136,7 +133,7 @@ export const CollapsibleStateless = ( props ) => {
 			{ children }
 		</Container>
 	);
-};
+}
 
 CollapsibleStateless.propTypes = {
 	children: PropTypes.oneOfType( [
@@ -190,7 +187,6 @@ CollapsibleStateless.defaultProps = {
 	prefixIconCollapsed: null,
 	suffixIcon: null,
 	suffixIconCollapsed: null,
-	headingProps: null,
 };
 
 /**
@@ -218,30 +214,40 @@ export class Collapsible extends React.Component {
 
 		this.state = {
 			isOpen: props.initialIsOpen,
+			// Keep to compare incoming change.
+			headingProps: props.headingProps,
+			/*
+			 * Evaluate if the button should be wrapped in a heading in this constructor
+			 * instead of doing it in the render function to avoid a full re-render of the button,
+			 * which is bad for accessibility.
+			 */
+			Heading: wrapInHeading( StyledIconsButton, props.headingProps ),
 		};
 
-		/*
-		 * Evaluate if the button should be wrapped in a heading in this constructor
-		 * instead of doing it in the render function to avoid a full re-render of the button,
-		 * which is bad for accessibility.
-		 */
-		this.Heading = Collapsible.getHeading( props );
 		this.toggleCollapse = this.toggleCollapse.bind( this );
 	}
 
 	/**
 	 * Makes sure the heading element is correctly set.
 	 *
-	 * @param {Object} nextProps The upcoming props.
+	 * @param {Object} props The upcoming props.
+	 * @param {Object} state The current state.
 	 *
-	 * @returns {void}
+	 * @returns {Object|null} The new state or null if unchanged.
 	 */
-	componentWillReceiveProps( nextProps ) {
-		const { level } = this.props.headingProps;
-
-		if ( nextProps.headingProps.level !== level ) {
-			this.Heading = Collapsible.getHeading( nextProps );
+	static getDerivedStateFromProps( props, state ) {
+		if (
+			props.headingProps.level !== state.headingProps.level ||
+			props.headingProps.fontSize !== state.headingProps.fontSize ||
+			props.headingProps.fontWeight !== state.headingProps.fontWeight
+		) {
+			return {
+				...state,
+				headingProps: props.headingProps,
+				Heading: wrapInHeading( StyledIconsButton, props.headingProps ),
+			};
 		}
+		return null;
 	}
 
 	/**
@@ -258,17 +264,6 @@ export class Collapsible extends React.Component {
 	}
 
 	/**
-	 * Creates the header by wrapping the IconsButton with a header.
-	 *
-	 * @param {Object} props The properties for the component.
-	 *
-	 * @returns {ReactElement} The header to render.
-	 */
-	static getHeading( props ) {
-		return wrapInHeading( StyledIconsButton, props.headingProps );
-	}
-
-	/**
 	 * Returns the rendered collapsible panel.
 	 *
 	 * @returns {ReactElement} The rendered collapsible panel.
@@ -281,7 +276,7 @@ export class Collapsible extends React.Component {
 
 		return (
 			<CollapsibleStateless
-				Heading={ this.Heading }
+				Heading={ this.state.Heading }
 				isOpen={ isOpen }
 				onToggle={ this.toggleCollapse }
 				{ ...newProps }

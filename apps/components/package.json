@@ -1,6 +1,6 @@
 {
   "name": "@yoast/example-component-app",
-  "version": "1.5.0-rc.0",
+  "version": "1.7.0-rc.1",
   "description": "This app demonstrates the possibilites of our components",
   "main": "index.js",
   "author": "Yoast",
@@ -12,11 +12,11 @@
   },
   "dependencies": {
     "@wordpress/i18n": "1.2.3",
-    "@yoast/analysis-report": "^1.17.0-rc.0",
-    "@yoast/components": "^2.15.0-rc.0",
-    "@yoast/configuration-wizard": "^2.18.0-rc.0",
-    "@yoast/helpers": "^0.15.0",
-    "@yoast/search-metadata-previews": "^2.20.0-rc.0",
+    "@yoast/analysis-report": "^1.19.0-rc.1",
+    "@yoast/components": "^2.17.0-rc.1",
+    "@yoast/configuration-wizard": "^2.20.0-rc.1",
+    "@yoast/helpers": "^0.16.0",
+    "@yoast/search-metadata-previews": "^2.22.0-rc.1",
     "@yoast/style-guide": "^0.13.0",
     "babel-polyfill": "^6.23.0",
     "lodash": "4.17.11",
@@ -27,7 +27,7 @@
     "redux-devtools-dock-monitor": "^1.1.3",
     "redux-devtools-log-monitor": "^1.4.0",
     "styled-components": "^4.3.2",
-    "yoastseo": "^1.90.0"
+    "yoastseo": "^1.91.0-rc.0"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.3.4",
@@ -48,7 +48,7 @@
     "webpack": "4.19.1",
     "webpack-cli": "^2.1.3",
     "webpack-dev-server": "3.1.14",
-    "yoast-components": "^5.20.0-rc.0"
+    "yoast-components": "^5.22.0-rc.1"
   },
   "peerDependencies": {
     "material-ui": "^0.18.6",
