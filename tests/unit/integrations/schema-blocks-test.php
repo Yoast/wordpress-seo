@@ -160,13 +160,13 @@ class Schema_Blocks_Test extends TestCase {
 		$this->short_links_helper
 			->expects( 'build' )
 			->once()
-			->with( 'yoa.st/required-fields' )
+			->with( 'https://yoa.st/required-fields' )
 			->andReturnArg( 0 );
 
 		$this->short_links_helper
 			->expects( 'build' )
 			->once()
-			->with( 'yoa.st/recommended-fields' )
+			->with( 'https://yoa.st/recommended-fields' )
 			->andReturnArg( 0 );
 
 		$this->asset_manager
@@ -176,8 +176,8 @@ class Schema_Blocks_Test extends TestCase {
 				'schema-blocks',
 				'schemaBlocks',
 				[
-					'requiredLink'    => 'yoa.st/required-fields',
-					'recommendedLink' => 'yoa.st/recommended-fields',
+					'requiredLink'    => 'https://yoa.st/required-fields',
+					'recommendedLink' => 'https://yoa.st/recommended-fields',
 				]
 			);
 
