@@ -68,7 +68,7 @@ function getAnalysisConclusion( validation: BlockValidation, issues: analysisIss
 	if ( issues.some( issue => issue.result === BlockValidation.MissingBlock && issue.status === BlockType.Required ||
 		issue.result === BlockValidation.MissingAttribute ) ) {
 		return {
-			text: __( "Not all required blocks are completed! No " + issues[ 0 ].parent +
+			text: __( "Not all required blocks have been completed! No " + issues[ 0 ].parent +
 				" schema will be generated for your page.", "wpseo-schema-blocks" ),
 			color: "red",
 		} as sidebarWarning;
@@ -83,7 +83,7 @@ function getAnalysisConclusion( validation: BlockValidation, issues: analysisIss
 		requiredIssues.every( issue => issue.result !== BlockValidation.MissingAttribute &&
 			issue.result !== BlockValidation.MissingBlock ) ) {
 		return {
-			text: __( "Good job! All required blocks are completed.", "wpseo-schema-blocks" ),
+			text: __( "Good job! All required blocks have been completed.", "wpseo-schema-blocks" ),
 			color: "green",
 		} as sidebarWarning;
 	}
