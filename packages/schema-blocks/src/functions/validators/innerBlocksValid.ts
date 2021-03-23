@@ -23,7 +23,7 @@ import { BlockType } from "../../core/validation/BlockValidationResult";
  *
  * @returns {BlockValidationResult[]} The names of blocks that should/could occur but don't, with reason 'MissingBlock'.
  */
-function findMissingBlocks( existingBlocksOfType: BlockInstance[], allBlocksOfType: RequiredBlock[], blockType: BlockType ): BlockValidationResult[] {
+function findMissingBlocks( existingBlocksOfType: BlockInstance[], allBlocksOfType: RequiredBlock[] | RecommendedBlock[], blockType: BlockType ): BlockValidationResult[] {
 	const missingBlocks = allBlocksOfType.filter( blockOfType => {
 		// If, in the existing blocks, there are not any blocks with the name of blockOfType, that block is missing.
 		return ! existingBlocksOfType.some( block => block.name === blockOfType.name );
