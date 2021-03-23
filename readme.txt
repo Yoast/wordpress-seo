@@ -254,6 +254,7 @@ Bugfixes:
 * Fixes a bug where a warning was shown on the Features settings page when running the plugin on PHP 8.0.
 * Fixes a bug where a warning was shown on the Integrations settings page when running the plugin on PHP 8.0.
 * Fixes a bug where, on a multisite installation, enabling/disabling auto-updates for Yoast SEO would not automatically enable/disable auto-updates for Yoast SEO Premium and the other Yoast add-ons.
+Fixes a bug where the breadcrumbs aren't updated properly when editing a post via the quick edit.
 
 = 16.0.2 =
 Release Date: March 18th, 2021
