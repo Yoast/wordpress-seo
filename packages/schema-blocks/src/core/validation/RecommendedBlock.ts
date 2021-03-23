@@ -1,5 +1,4 @@
 import { InstructionOptions } from "../Instruction";
-import { RequiredBlockOption } from "./RequiredBlockOption";
 import { SuggestedBlockProperties } from "./SuggestedBlockProperties";
 
 /**
@@ -8,5 +7,4 @@ import { SuggestedBlockProperties } from "./SuggestedBlockProperties";
 export type RecommendedBlock = InstructionOptions & SuggestedBlockProperties & {
 	name: string;
 	warning?: string;
-	option: RequiredBlockOption;
 }
