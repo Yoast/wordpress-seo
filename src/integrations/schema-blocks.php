@@ -107,7 +107,7 @@ class Schema_Blocks implements Integration_Interface {
 
 		$this->asset_manager->localize_script(
 			'schema-blocks',
-			'schemaBlocks',
+			'yoastSchemaBlocks',
 			[
 				'requiredLink'    => $this->short_link_helper->build( 'yoa.st/required-fields' ),
 				'recommendedLink' => $this->short_link_helper->build( 'yoa.st/recommended-fields' ),
