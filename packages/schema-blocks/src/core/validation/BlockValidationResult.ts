@@ -2,10 +2,10 @@ import { BlockValidation } from ".";
 import { BlockInstance } from "@wordpress/blocks";
 
 export enum BlockType {
-	Required = "REQUIRED",
-	Recommended = "RECOMMENDED",
-	Optional = "OPTIONAL",
-	Unknown = "UNKNOWN"
+	Required = "required",
+	Recommended = "recommended",
+	Optional = "optional",
+	Unknown = "unknown"
 }
 
 /**
