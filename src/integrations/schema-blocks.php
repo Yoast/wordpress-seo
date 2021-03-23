@@ -37,7 +37,9 @@ class Schema_Blocks implements Integration_Interface {
 	 * @return array
 	 */
 	public static function get_conditionals() {
-		return [];
+		return [
+			Schema_Blocks_Conditional::class,
+		];
 	}
 
 	/**

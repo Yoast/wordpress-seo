@@ -137,28 +137,4 @@ module.exports = {
 			},
 		],
 	},
-	"composer-artifact": {
-		files: [ {
-			expand: true,
-			cwd: "<%= files.artifact %>",
-			src: [
-				"**/*",
-				"!vendor_prefixed/**",
-			],
-			dest: "<%= files.artifactComposer %>",
-		} ],
-	},
-	"composer-files": {
-		files: [ {
-			expand: true,
-			cwd: ".",
-			src: [
-				"composer.lock",
-				"composer.json",
-			],
-			dest: "<%= files.artifactComposer %>",
-		} ],
-		"composer.lock": [ "<%= files.artifact %>/composer.lock" ],
-		"composer.json": [ "<%= files.artifact %>/composer.json" ],
-	},
 };

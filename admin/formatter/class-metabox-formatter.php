@@ -76,7 +76,7 @@ class WPSEO_Metabox_Formatter {
 			'semrushIntegrationActive'    => WPSEO_Options::get( 'semrush_integration_active', true ) ? 1 : 0,
 			'intl'                        => $this->get_content_analysis_component_translations(),
 			'isRtl'                       => is_rtl(),
-			'isPremium'                   => WPSEO_Utils::is_yoast_seo_premium(),
+			'isPremium'                   => YoastSEO()->helpers->product->is_premium(),
 			'wordFormRecognitionActive'   => YoastSEO()->helpers->language->is_word_form_recognition_active( WPSEO_Language_Utils::get_language( get_locale() ) ),
 			'siteIconUrl'                 => get_site_icon_url(),
 			'countryCode'                 => WPSEO_Options::get( 'semrush_country_code', false ),
@@ -205,7 +205,7 @@ class WPSEO_Metabox_Formatter {
 	private function get_translations() {
 		$locale = \get_user_locale();
 
-		$file = plugin_dir_path( WPSEO_FILE ) . 'languages/wordpress-seo-' . $locale . '.json';
+		$file = WPSEO_PATH . 'languages/wordpress-seo-' . $locale . '.json';
 		if ( file_exists( $file ) ) {
 			// phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- Retrieving a local file.
 			$file = file_get_contents( $file );

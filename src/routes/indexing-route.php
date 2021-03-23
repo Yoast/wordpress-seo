@@ -187,7 +187,7 @@ class Indexing_Route extends Abstract_Indexation_Route {
 	 *
 	 * @var Indexing_Prepare_Action
 	 */
-	protected $prepare_indexation_action;
+	protected $prepare_indexing_action;
 
 	/**
 	 * The indexable indexing complete action.
@@ -240,7 +240,7 @@ class Indexing_Route extends Abstract_Indexation_Route {
 	 * @param Indexable_General_Indexation_Action           $general_indexation_action           The general indexing action.
 	 * @param Indexable_Indexing_Complete_Action            $indexable_indexing_complete_action  The complete indexing action.
 	 * @param Indexing_Complete_Action                      $indexing_complete_action            The complete indexing action.
-	 * @param Indexing_Prepare_Action                       $prepare_indexation_action           The prepare indexing action.
+	 * @param Indexing_Prepare_Action                       $prepare_indexing_action             The prepare indexing action.
 	 * @param Post_Link_Indexing_Action                     $post_link_indexing_action           The post link indexing action.
 	 * @param Term_Link_Indexing_Action                     $term_link_indexing_action           The term link indexing action.
 	 * @param Options_Helper                                $options_helper                      The options helper.
@@ -253,7 +253,7 @@ class Indexing_Route extends Abstract_Indexation_Route {
 		Indexable_General_Indexation_Action $general_indexation_action,
 		Indexable_Indexing_Complete_Action $indexable_indexing_complete_action,
 		Indexing_Complete_Action $indexing_complete_action,
-		Indexing_Prepare_Action $prepare_indexation_action,
+		Indexing_Prepare_Action $prepare_indexing_action,
 		Post_Link_Indexing_Action $post_link_indexing_action,
 		Term_Link_Indexing_Action $term_link_indexing_action,
 		Options_Helper $options_helper,
@@ -265,7 +265,7 @@ class Indexing_Route extends Abstract_Indexation_Route {
 		$this->general_indexation_action           = $general_indexation_action;
 		$this->indexable_indexing_complete_action  = $indexable_indexing_complete_action;
 		$this->indexing_complete_action            = $indexing_complete_action;
-		$this->prepare_indexation_action           = $prepare_indexation_action;
+		$this->prepare_indexing_action             = $prepare_indexing_action;
 		$this->post_link_indexing_action           = $post_link_indexing_action;
 		$this->term_link_indexing_action           = $term_link_indexing_action;
 		$this->options_helper                      = $options_helper;
@@ -370,7 +370,7 @@ class Indexing_Route extends Abstract_Indexation_Route {
 	 * @return WP_REST_Response The response.
 	 */
 	public function prepare() {
-		$this->prepare_indexation_action->prepare();
+		$this->prepare_indexing_action->prepare();
 
 		return $this->respond_with( [], false );
 	}

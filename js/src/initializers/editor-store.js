@@ -3,7 +3,7 @@ import { combineReducers, registerStore } from "@wordpress/data";
 import reducers from "../redux/reducers";
 import * as selectors from "../redux/selectors";
 import * as actions from "../redux/actions";
-
+import * as controls from "../redux/controls";
 /**
  * Populates the store.
  *
@@ -44,6 +44,7 @@ export default function initEditorStore() {
 		reducer: combineReducers( reducers ),
 		selectors,
 		actions: pickBy( actions, x => typeof x === "function" ),
+		controls,
 	} );
 
 	populateStore( store );
