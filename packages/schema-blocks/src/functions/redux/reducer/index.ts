@@ -1,1 +1,1 @@
-export * from "./schemaBlocks";
+export { schemaBlocksReducer } from "./schemaBlocks";

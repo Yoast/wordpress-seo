@@ -1,10 +1,11 @@
-import "./instructions";
+import { registerBlockType } from "@wordpress/blocks";
 import { processSchema, processBlock } from "./functions/process";
 import watch from "./functions/gutenberg/watch";
 import filter from "./functions/gutenberg/filter";
-import { registerBlockType } from "@wordpress/blocks";
-import { WarningBlock } from "./blocks/warning-block/configuration";
 import logger, { LogLevel } from "./functions/logger";
+import { initializeSchemaBlocksStore } from "./functions/redux";
+import { WarningBlock } from "./blocks/warning-block/configuration";
+import "./instructions";
 
 export { LogLevel };
 
@@ -26,6 +27,8 @@ function removeWhitespace( text: string ): string {
  */
 export default function initialize( logLevel: LogLevel = LogLevel.ERROR ) {
 	logger.setLogLevel( logLevel );
+
+	initializeSchemaBlocksStore();
 
 	registerBlockType( "yoast/warning-block", WarningBlock );
 

@@ -1,6 +1,5 @@
-import { SchemaBlocksStoreActions } from "../actions/schemaBlocks";
 import { SchemaBlocksState, SchemaBlocksDefaultState } from "../SchemaBlocksState";
-import { SchemaBlocksAction } from "../schemaBlocksAction";
+import { SchemaBlocksStoreAction, SchemaBlocksStoreActions } from "../SchemaBlocksAction";
 
 /**
  * A reducer for the Schema blocks.
@@ -10,7 +9,7 @@ import { SchemaBlocksAction } from "../schemaBlocksAction";
  *
  * @returns {Object} The state.
  */
-export default function schemaBlocksReducer( state: SchemaBlocksState = SchemaBlocksDefaultState, action: SchemaBlocksAction ): SchemaBlocksState {
+export function schemaBlocksReducer( state: SchemaBlocksState = SchemaBlocksDefaultState, action: SchemaBlocksStoreAction ): SchemaBlocksState {
 	switch ( action.type ) {
 		case SchemaBlocksStoreActions.RESET_BLOCK_VALIDATIONS: {
 			return SchemaBlocksDefaultState;

@@ -1,20 +1,14 @@
 import { BlockValidationResult } from "../../../core/validation";
-
-const PREFIX = "WPSEO_";
-
-export const SchemaBlocksStoreActions = {
-	ADD_BLOCK_VALIDATION: `${ PREFIX }ADD_BLOCK_VALIDATION`,
-	RESET_BLOCK_VALIDATIONS: `${ PREFIX }CLEAR_BLOCK_VALIDATIONS`,
-};
+import { SchemaBlocksStoreAction, SchemaBlocksStoreActions } from "../SchemaBlocksAction";
 
 /**
  * Updates whether a block is valid.
  *
  * @param {blockValidationResult} blockValidationResult The block validation to store.
  *
- * @returns {Object} An action for redux.
+ * @returns {SchemaBlocksStoreAction} An action for redux.
  */
-export function addBlockValidation( blockValidationResult: BlockValidationResult ): object {
+export function addBlockValidation( blockValidationResult: BlockValidationResult ): SchemaBlocksStoreAction {
 	return {
 		type: SchemaBlocksStoreActions.ADD_BLOCK_VALIDATION,
 		validation: blockValidationResult,
@@ -23,10 +17,11 @@ export function addBlockValidation( blockValidationResult: BlockValidationResult
 
 /**
  * Commands the store to reset the block validation store to initial state.
- * @returns {object} The command to set the initial state for the block validation store.
+ * @returns {SchemaBlocksStoreAction} The command to set the initial state for the block validation store.
  */
-export function resetBlockValidation(): object {
+export function resetBlockValidation(): SchemaBlocksStoreAction {
 	return {
 		type: SchemaBlocksStoreActions.RESET_BLOCK_VALIDATIONS,
+		validation: null,
 	};
 }

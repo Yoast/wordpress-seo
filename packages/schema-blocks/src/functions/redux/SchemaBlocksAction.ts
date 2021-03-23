@@ -1,6 +1,13 @@
 import { BlockValidationResult } from "../../core/validation";
 
-export type SchemaBlocksAction = {
+const PREFIX = "WPSEO_";
+
+export const SchemaBlocksStoreActions = {
+	ADD_BLOCK_VALIDATION: `${ PREFIX }ADD_BLOCK_VALIDATION`,
+	RESET_BLOCK_VALIDATIONS: `${ PREFIX }CLEAR_BLOCK_VALIDATIONS`,
+};
+
+export type SchemaBlocksStoreAction = {
 	type: string;
 	validation: BlockValidationResult;
 }
