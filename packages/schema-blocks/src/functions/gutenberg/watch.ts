@@ -7,7 +7,7 @@ import { getBlockDefinition } from "../../core/blocks/BlockDefinitionRepository"
 import { BlockValidation, BlockValidationResult } from "../../core/validation";
 import storeBlockValidation from "./storeBlockValidation";
 import logger from "../logger";
-import {BlockType} from "../../core/validation/BlockValidationResult";
+import { BlockType } from "../../core/validation/BlockValidationResult";
 
 let updatingSchema = false;
 let previousRootBlocks: BlockInstance[];
