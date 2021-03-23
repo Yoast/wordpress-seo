@@ -1,10 +1,10 @@
-import {BlockValidation, BlockValidationResult} from "./validation";
-import {BlockInstance} from "@wordpress/blocks";
-import {isArray, mergeWith} from "lodash";
+import { BlockValidation, BlockValidationResult } from "./validation";
+import { BlockInstance } from "@wordpress/blocks";
+import { isArray, mergeWith } from "lodash";
 import Instruction from "./Instruction";
 import Leaf from "./Leaf";
 import logger from "../functions/logger";
-import {BlockType} from "./validation/BlockValidationResult";
+import { BlockType } from "./validation/BlockValidationResult";
 
 export type DefinitionClass<T extends Definition> = {
 	new( separator: string, template?: string, instructions?: Record<string, Instruction>, tree?: Leaf ): T;
