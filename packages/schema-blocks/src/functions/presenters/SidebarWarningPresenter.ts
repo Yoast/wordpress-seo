@@ -64,7 +64,8 @@ export function replaceVariables( issue: analysisIssue ): string {
  * @returns {sidebarWarning} Any analysis conclusions that should be in the footer.
  */
 function getAnalysisConclusion( validation: BlockValidation, issues: analysisIssue[] ): sidebarWarning {
-	if ( issues.some( issue => issue.result === BlockValidation.MissingBlock ||
+	// Show a red bullet when not all required blocks have been completed.
+	if ( issues.some( issue => issue.result === BlockValidation.MissingBlock && issue.status === BlockType.Required ||
 		issue.result === BlockValidation.MissingAttribute ) ) {
 		return {
 			text: __( "Not all required blocks are completed! No " + issues[ 0 ].parent +
@@ -73,8 +74,13 @@ function getAnalysisConclusion( validation: BlockValidation, issues: analysisIss
 		} as sidebarWarning;
 	}
 
+	// Show a green bullet when all required blocks have been completed.
+	const requiredIssues = issues.filter( issue => {
+		return issue.status === BlockType.Required;
+	} );
+
 	if ( validation === BlockValidation.Valid ||
-		issues.every( issue => issue.result !== BlockValidation.MissingAttribute &&
+		requiredIssues.every( issue => issue.result !== BlockValidation.MissingAttribute &&
 			issue.result !== BlockValidation.MissingBlock ) ) {
 		return {
 			text: __( "Good job! All required blocks are completed.", "wpseo-schema-blocks" ),
