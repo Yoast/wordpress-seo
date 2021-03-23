@@ -93,9 +93,9 @@ function validateInnerblockTree( blockInstance: BlockInstance ): BlockValidation
 /**
  * Validates all inner blocks recursively and returns all invalid blocks.
  *
- * @param blockInstance  The block whose inner blocks need to be validated.
- * @param requiredBlocks Requirements of the blocks that should occur in the inner blocks.
- * @param recommendedBlocks
+ * @param blockInstance     The block whose inner blocks need to be validated.
+ * @param requiredBlocks    The inner blocks that are required.
+ * @param recommendedBlocks The inner blocks that are recommended.
  *
  * @returns {BlockValidationResult[]} The names and reasons of the inner blocks that are invalid.
  */

@@ -38,10 +38,10 @@ export class BlockValidationResult {
 	public issues: BlockValidationResult[]
 
 	/**
-	 * @param clientId The clientId of the validated block.
-	 * @param name     The name of the validated block.
-	 * @param result   The validation result.
-	 * @param blockType
+	 * @param clientId  The clientId of the validated block.
+	 * @param name      The name of the validated block.
+	 * @param result    The validation result.
+	 * @param blockType The block type.
 	 */
 	constructor( clientId: string, name: string, result: BlockValidation, blockType: BlockType ) {
 		this.clientId = clientId;
