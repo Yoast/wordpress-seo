@@ -4,6 +4,7 @@ import { __ } from "@wordpress/i18n";
 import { get } from "lodash";
 import { BlockValidationResult } from "../../core/validation";
 import { BlockValidation } from "../../core/validation";
+import { BlockType } from "../../core/validation/BlockValidationResult";
 
 const analysisMessageTemplates: Record<number, string> = {
 	[ BlockValidation.MissingBlock ]: "The '{child}' block is {status} but missing.",
@@ -114,10 +115,11 @@ export function createAnalysisMessages( validation: BlockValidationResult ): sid
 			name: sanitizeBlockName( issue.name ),
 			parent: sanitizeParentName( parent ),
 			result: issue.result,
-			status: "required",
+			status: issue.blockType,
 		} ) );
+
 	const messages = messageData.map( msg => {
-		return { text: replaceVariables( msg ), color: "red" } as sidebarWarning;
+		return { text: replaceVariables( msg ), color: ( msg.status === BlockType.Recommended ? "orange" : "red" ) } as sidebarWarning;
 	} );
 
 	const conclusion = getAnalysisConclusion( validation.result, messageData );
