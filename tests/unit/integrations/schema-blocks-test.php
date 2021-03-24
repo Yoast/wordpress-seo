@@ -174,7 +174,7 @@ class Schema_Blocks_Test extends TestCase {
 			->once()
 			->with(
 				'schema-blocks',
-				'schemaBlocks',
+				'yoastSchemaBlocks',
 				[
 					'requiredLink'    => 'https://yoa.st/required-fields',
 					'recommendedLink' => 'https://yoa.st/recommended-fields',
