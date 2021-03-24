@@ -52,17 +52,13 @@ export const getImageFallback = state => {
 
 	applyFilters( "yoast.socials.imageFallback", fallbacks );
 
-	let fallbackImage = "";
-
-	// Reversing the order because the forEach will output the last fallback as fallbackImage when there are multiple.
-	fallbacks.reverse().forEach( fallback => {
-		const image = Object.values( fallback )[ 0 ];
-		if ( image ) {
-			fallbackImage = image;
+	for ( const fallback of fallbacks ) {
+		if ( Object.values( fallback )[ 0 ] ) {
+			return Object.values( fallback )[ 0 ];
 		}
-	} );
+	}
 
-	return fallbackImage;
+	return "";
 };
 
 /**
