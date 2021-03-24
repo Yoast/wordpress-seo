@@ -21,7 +21,7 @@ describe( "ScreenReaderText", () => {
 	} );
 
 	it( "generates a warning when props.children is not a string.", () => {
-		console.error = jest.genMockFn();
+		console.error = jest.fn();
 		renderer.render( <ScreenReaderText><div /></ScreenReaderText> );
 
 		expect( console.error ).toBeCalled();
@@ -30,7 +30,7 @@ describe( "ScreenReaderText", () => {
 	} );
 
 	it( "generates a warning when no children are passed in.", () => {
-		console.error = jest.genMockFn();
+		console.error = jest.fn();
 		renderer.render( <ScreenReaderText /> );
 
 		expect( console.error ).toBeCalled();

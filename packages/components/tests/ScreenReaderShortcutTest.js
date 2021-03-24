@@ -32,7 +32,7 @@ describe( "ScreenReaderShortcut", () => {
 	} );
 
 	it( "generates a warning when props.children is not a string.", () => {
-		console.error = jest.genMockFn();
+		console.error = jest.fn();
 		renderer.render( <ScreenReaderShortcut anchor="example"><div /></ScreenReaderShortcut> );
 
 		expect( console.error ).toBeCalled();
@@ -42,7 +42,7 @@ describe( "ScreenReaderShortcut", () => {
 	} );
 
 	it( "generates a warning when props.anchor is not a string.", () => {
-		console.error = jest.genMockFn();
+		console.error = jest.fn();
 		renderer.render( <ScreenReaderShortcut anchor={ 1 }>example text</ScreenReaderShortcut> );
 
 		expect( console.error ).toBeCalled();
@@ -51,7 +51,7 @@ describe( "ScreenReaderShortcut", () => {
 	} );
 
 	it( "generates a warning when no children are passed in.", () => {
-		console.error = jest.genMockFn();
+		console.error = jest.fn();
 		renderer.render( <ScreenReaderShortcut anchor="example" /> );
 
 		expect( console.error ).toBeCalled();
@@ -60,7 +60,7 @@ describe( "ScreenReaderShortcut", () => {
 	} );
 
 	it( "generates a warning when no anchor prop is passed in.", () => {
-		console.error = jest.genMockFn();
+		console.error = jest.fn();
 		renderer.render( <ScreenReaderShortcut>example text</ScreenReaderShortcut> );
 
 		expect( console.error ).toBeCalled();

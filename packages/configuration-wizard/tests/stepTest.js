@@ -34,7 +34,7 @@ describe( "a step component", () => {
 	} );
 
 	it( "throws an error when required property title is missing", () => {
-		console.error = jest.genMockFn();
+		console.error = jest.fn();
 
 		renderer.render( <Step /> );
 		renderer.getRenderOutput();
@@ -45,7 +45,7 @@ describe( "a step component", () => {
 	} );
 
 	it( "throws an error when property fields is not an object ", () => {
-		console.error = jest.genMockFn();
+		console.error = jest.fn();
 
 		inputProps = {
 			fields: "",
@@ -62,7 +62,7 @@ describe( "a step component", () => {
 	} );
 
 	it( "throws an error when property title is not a string", () => {
-		console.error = jest.genMockFn();
+		console.error = jest.fn();
 
 		inputProps = {
 			title: 1,
@@ -77,7 +77,7 @@ describe( "a step component", () => {
 	} );
 
 	it( "throws an error when property currentStep is not a string", () => {
-		console.error = jest.genMockFn();
+		console.error = jest.fn();
 
 		inputProps = {
 			title: "Title",
